@@ -1,0 +1,296 @@
+scope,book,chapter,id,dimension,source,served,status,severity,evidence
+chapter,book1,1,,sections,14,14,EXACT,P3,prose shard holds 14 of 14 served sections
+chapter,book1,1,,figures,11,11,EXACT,P3,"book1-figures.json[""1""] vs public/books/book1/fig1.json"
+chapter,book1,2,,sections,8,8,EXACT,P3,prose shard holds 8 of 8 served sections
+chapter,book1,2,,figures,25,25,EXACT,P3,"book1-figures.json[""2""] vs public/books/book1/fig2.json"
+chapter,book1,3,,sections,13,13,EXACT,P3,prose shard holds 13 of 13 served sections
+chapter,book1,3,,figures,44,44,EXACT,P3,"book1-figures.json[""3""] vs public/books/book1/fig3.json"
+chapter,book1,4,,sections,13,13,EXACT,P3,prose shard holds 13 of 13 served sections
+chapter,book1,4,,figures,74,74,EXACT,P3,"book1-figures.json[""4""] vs public/books/book1/fig4.json"
+chapter,book1,5,,sections,20,20,EXACT,P3,prose shard holds 20 of 20 served sections
+chapter,book1,5,,figures,129,129,EXACT,P3,"book1-figures.json[""5""] vs public/books/book1/fig5.json"
+chapter,book1,6,,sections,3,3,EXACT,P3,prose shard holds 3 of 3 served sections
+chapter,book1,6,,figures,10,10,EXACT,P3,"book1-figures.json[""6""] vs public/books/book1/fig6.json"
+chapter,book1,7,,sections,20,20,EXACT,P3,prose shard holds 20 of 20 served sections
+chapter,book1,7,,figures,131,131,EXACT,P3,"book1-figures.json[""7""] vs public/books/book1/fig7.json"
+chapter,book1,8,,sections,25,25,EXACT,P3,prose shard holds 25 of 25 served sections
+chapter,book1,8,,figures,45,45,EXACT,P3,"book1-figures.json[""8""] vs public/books/book1/fig8.json"
+chapter,book1,9,,sections,24,24,EXACT,P3,prose shard holds 24 of 24 served sections
+chapter,book1,9,,figures,52,52,EXACT,P3,"book1-figures.json[""9""] vs public/books/book1/fig9.json"
+book,book1,,,chapters,9,9,EXACT,P3,data/library/book1-full.json + book1/manifest.json + book1/raw/ vs data/books/book1.json
+book,book1,,,sections,140,140,EXACT,P3,0 source ids absent from served
+book,book1,,,figures,521,521,EXACT,P3,book1-figures.json vs public/books/book1/fig*.json; every referenced asset exists under public/assets/library/book1/figures/
+book,book1,,,bilingual,140,140,EXACT,P3,every source section with BOTH en and Hebrew he still serves both in public/books/book1/ch*.json
+chapter,book2,1,,sections,9,9,EXACT,P3,prose shard holds 9 of 9 served sections
+chapter,book2,2,,sections,13,13,EXACT,P3,prose shard holds 13 of 13 served sections
+chapter,book2,2,,figures,9,9,EXACT,P3,"book2-figures.json[""2""] vs public/books/book2/fig2.json"
+chapter,book2,3,,sections,47,47,EXACT,P3,prose shard holds 47 of 47 served sections
+chapter,book2,3,,figures,48,48,EXACT,P3,"book2-figures.json[""3""] vs public/books/book2/fig3.json"
+chapter,book2,4,,sections,31,31,EXACT,P3,prose shard holds 31 of 31 served sections
+chapter,book2,4,,figures,33,33,EXACT,P3,"book2-figures.json[""4""] vs public/books/book2/fig4.json"
+chapter,book2,5,,sections,27,27,EXACT,P3,prose shard holds 27 of 27 served sections
+chapter,book2,5,,figures,23,23,EXACT,P3,"book2-figures.json[""5""] vs public/books/book2/fig5.json"
+chapter,book2,6,,sections,45,45,EXACT,P3,prose shard holds 45 of 45 served sections
+chapter,book2,6,,figures,76,76,EXACT,P3,"book2-figures.json[""6""] vs public/books/book2/fig6.json"
+chapter,book2,7,,sections,34,34,EXACT,P3,prose shard holds 34 of 34 served sections
+chapter,book2,7,,figures,58,58,EXACT,P3,"book2-figures.json[""7""] vs public/books/book2/fig7.json"
+chapter,book2,8,,sections,42,42,EXACT,P3,prose shard holds 42 of 42 served sections
+chapter,book2,8,,figures,42,42,EXACT,P3,"book2-figures.json[""8""] vs public/books/book2/fig8.json"
+chapter,book2,9,,sections,33,33,EXACT,P3,prose shard holds 33 of 33 served sections
+chapter,book2,9,,figures,60,60,EXACT,P3,"book2-figures.json[""9""] vs public/books/book2/fig9.json"
+chapter,book2,10,,sections,46,46,EXACT,P3,prose shard holds 46 of 46 served sections
+chapter,book2,10,,figures,96,96,EXACT,P3,"book2-figures.json[""10""] vs public/books/book2/fig10.json"
+chapter,book2,11,,sections,39,39,EXACT,P3,prose shard holds 39 of 39 served sections
+chapter,book2,11,,figures,56,56,EXACT,P3,"book2-figures.json[""11""] vs public/books/book2/fig11.json"
+chapter,book2,12,,sections,36,36,EXACT,P3,prose shard holds 36 of 36 served sections
+chapter,book2,12,,figures,20,20,EXACT,P3,"book2-figures.json[""12""] vs public/books/book2/fig12.json"
+chapter,book2,13,,sections,70,70,EXACT,P3,prose shard holds 70 of 70 served sections
+chapter,book2,13,,figures,71,71,EXACT,P3,"book2-figures.json[""13""] vs public/books/book2/fig13.json"
+chapter,book2,14,,sections,18,18,EXACT,P3,prose shard holds 18 of 18 served sections
+chapter,book2,14,,figures,36,36,EXACT,P3,"book2-figures.json[""14""] vs public/books/book2/fig14.json"
+chapter,book2,15,,sections,6,6,EXACT,P3,prose shard holds 6 of 6 served sections
+chapter,book2,15,,figures,233,233,EXACT,P3,"book2-figures.json[""15""] vs public/books/book2/fig15.json"
+book,book2,,,chapters,15,15,EXACT,P3,data/library/book2-full.json + book2/manifest.json + book2/raw/ vs data/books/book2.json
+book,book2,,,sections,496,496,EXACT,P3,0 source ids absent from served
+book,book2,,,figures,861,861,EXACT,P3,book2-figures.json vs public/books/book2/fig*.json; every referenced asset exists under public/assets/library/book2/figures/
+book,book2,,,bilingual,496,496,EXACT,P3,every source section with BOTH en and Hebrew he still serves both in public/books/book2/ch*.json
+chapter,book3,1,,sections,14,14,EXACT,P3,prose shard holds 14 of 14 served sections
+chapter,book3,2,,sections,23,23,EXACT,P3,prose shard holds 23 of 23 served sections
+chapter,book3,2,,figures,1,1,EXACT,P3,"book3-figures.json[""2""] vs public/books/book3/fig2.json"
+chapter,book3,3,,sections,10,10,EXACT,P3,prose shard holds 10 of 10 served sections
+chapter,book3,3,,figures,15,15,EXACT,P3,"book3-figures.json[""3""] vs public/books/book3/fig3.json"
+chapter,book3,4,,sections,17,17,EXACT,P3,prose shard holds 17 of 17 served sections
+chapter,book3,4,,figures,23,23,EXACT,P3,"book3-figures.json[""4""] vs public/books/book3/fig4.json"
+chapter,book3,5,,sections,21,21,EXACT,P3,prose shard holds 21 of 21 served sections
+chapter,book3,5,,figures,30,30,EXACT,P3,"book3-figures.json[""5""] vs public/books/book3/fig5.json"
+chapter,book3,6,,sections,35,35,EXACT,P3,prose shard holds 35 of 35 served sections
+chapter,book3,6,,figures,37,37,EXACT,P3,"book3-figures.json[""6""] vs public/books/book3/fig6.json"
+chapter,book3,7,,sections,34,34,EXACT,P3,prose shard holds 34 of 34 served sections
+chapter,book3,7,,figures,85,85,EXACT,P3,"book3-figures.json[""7""] vs public/books/book3/fig7.json"
+chapter,book3,8,,sections,28,28,EXACT,P3,prose shard holds 28 of 28 served sections
+chapter,book3,8,,figures,34,34,EXACT,P3,"book3-figures.json[""8""] vs public/books/book3/fig8.json"
+chapter,book3,9,,sections,24,24,EXACT,P3,prose shard holds 24 of 24 served sections
+chapter,book3,9,,figures,24,24,EXACT,P3,"book3-figures.json[""9""] vs public/books/book3/fig9.json"
+chapter,book3,10,,sections,35,35,EXACT,P3,prose shard holds 35 of 35 served sections
+chapter,book3,10,,figures,24,24,EXACT,P3,"book3-figures.json[""10""] vs public/books/book3/fig10.json"
+chapter,book3,11,,sections,18,18,EXACT,P3,prose shard holds 18 of 18 served sections
+chapter,book3,11,,figures,31,31,EXACT,P3,"book3-figures.json[""11""] vs public/books/book3/fig11.json"
+chapter,book3,12,,sections,33,33,EXACT,P3,prose shard holds 33 of 33 served sections
+chapter,book3,12,,figures,72,72,EXACT,P3,"book3-figures.json[""12""] vs public/books/book3/fig12.json"
+chapter,book3,13,,sections,21,21,EXACT,P3,prose shard holds 21 of 21 served sections
+chapter,book3,13,,figures,23,23,EXACT,P3,"book3-figures.json[""13""] vs public/books/book3/fig13.json"
+chapter,book3,14,,sections,14,14,EXACT,P3,prose shard holds 14 of 14 served sections
+chapter,book3,14,,figures,25,25,EXACT,P3,"book3-figures.json[""14""] vs public/books/book3/fig14.json"
+chapter,book3,15,,sections,16,16,EXACT,P3,prose shard holds 16 of 16 served sections
+chapter,book3,15,,figures,16,16,EXACT,P3,"book3-figures.json[""15""] vs public/books/book3/fig15.json"
+chapter,book3,16,,sections,18,18,EXACT,P3,prose shard holds 18 of 18 served sections
+chapter,book3,16,,figures,35,35,EXACT,P3,"book3-figures.json[""16""] vs public/books/book3/fig16.json"
+chapter,book3,17,,sections,11,11,EXACT,P3,prose shard holds 11 of 11 served sections
+chapter,book3,17,,figures,20,20,EXACT,P3,"book3-figures.json[""17""] vs public/books/book3/fig17.json"
+chapter,book3,18,,sections,2,2,EXACT,P3,prose shard holds 2 of 2 served sections
+book,book3,,,chapters,18,18,EXACT,P3,data/library/book3-full.json + book3/manifest.json + book3/raw/ vs data/books/book3.json
+book,book3,,,sections,374,374,EXACT,P3,0 source ids absent from served
+book,book3,,,figures,495,495,EXACT,P3,book3-figures.json vs public/books/book3/fig*.json; every referenced asset exists under public/assets/library/book3/figures/
+book,book3,,,bilingual,374,374,EXACT,P3,every source section with BOTH en and Hebrew he still serves both in public/books/book3/ch*.json
+chapter,book4,1,,sections,9,9,EXACT,P3,prose shard holds 9 of 9 served sections
+chapter,book4,2,,sections,23,23,EXACT,P3,prose shard holds 23 of 23 served sections
+chapter,book4,2,,figures,63,63,EXACT,P3,"book4-figures.json[""2""] vs public/books/book4/fig2.json"
+chapter,book4,3,,sections,23,23,EXACT,P3,prose shard holds 23 of 23 served sections
+chapter,book4,3,,figures,58,58,EXACT,P3,"book4-figures.json[""3""] vs public/books/book4/fig3.json"
+chapter,book4,4,,sections,13,13,EXACT,P3,prose shard holds 13 of 13 served sections
+chapter,book4,4,,figures,35,35,EXACT,P3,"book4-figures.json[""4""] vs public/books/book4/fig4.json"
+chapter,book4,5,,sections,42,42,EXACT,P3,prose shard holds 42 of 42 served sections
+chapter,book4,5,,figures,100,100,EXACT,P3,"book4-figures.json[""5""] vs public/books/book4/fig5.json"
+chapter,book4,6,,sections,23,23,EXACT,P3,prose shard holds 23 of 23 served sections
+chapter,book4,6,,figures,92,92,EXACT,P3,"book4-figures.json[""6""] vs public/books/book4/fig6.json"
+chapter,book4,7,,sections,10,10,EXACT,P3,prose shard holds 10 of 10 served sections
+chapter,book4,7,,figures,21,21,EXACT,P3,"book4-figures.json[""7""] vs public/books/book4/fig7.json"
+chapter,book4,8,,sections,26,26,EXACT,P3,prose shard holds 26 of 26 served sections
+chapter,book4,8,,figures,83,83,EXACT,P3,"book4-figures.json[""8""] vs public/books/book4/fig8.json"
+chapter,book4,9,,sections,9,9,EXACT,P3,prose shard holds 9 of 9 served sections
+chapter,book4,9,,figures,11,11,EXACT,P3,"book4-figures.json[""9""] vs public/books/book4/fig9.json"
+chapter,book4,10,,sections,13,13,EXACT,P3,prose shard holds 13 of 13 served sections
+chapter,book4,10,,figures,23,23,EXACT,P3,"book4-figures.json[""10""] vs public/books/book4/fig10.json"
+chapter,book4,11,,sections,4,4,EXACT,P3,prose shard holds 4 of 4 served sections
+book,book4,,,chapters,11,11,EXACT,P3,data/library/book4-full.json + book4/manifest.json + book4/raw/ vs data/books/book4.json
+book,book4,,,sections,195,195,EXACT,P3,0 source ids absent from served
+book,book4,,,figures,486,486,EXACT,P3,book4-figures.json vs public/books/book4/fig*.json; every referenced asset exists under public/assets/library/book4/figures/
+book,book4,,,bilingual,195,195,EXACT,P3,every source section with BOTH en and Hebrew he still serves both in public/books/book4/ch*.json
+chapter,book5,1,,sections,20,20,EXACT,P3,prose shard holds 20 of 20 served sections
+chapter,book5,2,,sections,32,32,EXACT,P3,prose shard holds 32 of 32 served sections
+chapter,book5,2,,figures,30,30,EXACT,P3,"book5-figures.json[""2""] vs public/books/book5/fig2.json"
+chapter,book5,3,,sections,32,32,EXACT,P3,prose shard holds 32 of 32 served sections
+chapter,book5,3,,figures,114,114,EXACT,P3,"book5-figures.json[""3""] vs public/books/book5/fig3.json"
+chapter,book5,4,,sections,26,26,EXACT,P3,prose shard holds 26 of 26 served sections
+chapter,book5,4,,figures,44,44,EXACT,P3,"book5-figures.json[""4""] vs public/books/book5/fig4.json"
+chapter,book5,5,,sections,12,12,EXACT,P3,prose shard holds 12 of 12 served sections
+chapter,book5,5,,figures,22,22,EXACT,P3,"book5-figures.json[""5""] vs public/books/book5/fig5.json"
+chapter,book5,6,,sections,8,8,EXACT,P3,prose shard holds 8 of 8 served sections
+chapter,book5,6,,figures,10,10,EXACT,P3,"book5-figures.json[""6""] vs public/books/book5/fig6.json"
+chapter,book5,7,,sections,32,32,EXACT,P3,prose shard holds 32 of 32 served sections
+chapter,book5,7,,figures,37,37,EXACT,P3,"book5-figures.json[""7""] vs public/books/book5/fig7.json"
+chapter,book5,8,,sections,18,18,EXACT,P3,prose shard holds 18 of 18 served sections
+chapter,book5,8,,figures,29,29,EXACT,P3,"book5-figures.json[""8""] vs public/books/book5/fig8.json"
+chapter,book5,9,,sections,46,46,EXACT,P3,prose shard holds 46 of 46 served sections
+chapter,book5,9,,figures,95,95,EXACT,P3,"book5-figures.json[""9""] vs public/books/book5/fig9.json"
+chapter,book5,10,,sections,23,23,EXACT,P3,prose shard holds 23 of 23 served sections
+chapter,book5,10,,figures,24,24,EXACT,P3,"book5-figures.json[""10""] vs public/books/book5/fig10.json"
+chapter,book5,11,,sections,13,13,EXACT,P3,prose shard holds 13 of 13 served sections
+chapter,book5,11,,figures,21,21,EXACT,P3,"book5-figures.json[""11""] vs public/books/book5/fig11.json"
+chapter,book5,12,,sections,36,36,EXACT,P3,prose shard holds 36 of 36 served sections
+chapter,book5,12,,figures,57,57,EXACT,P3,"book5-figures.json[""12""] vs public/books/book5/fig12.json"
+chapter,book5,13,,sections,13,13,EXACT,P3,prose shard holds 13 of 13 served sections
+chapter,book5,13,,figures,54,54,EXACT,P3,"book5-figures.json[""13""] vs public/books/book5/fig13.json"
+chapter,book5,14,,sections,23,23,EXACT,P3,prose shard holds 23 of 23 served sections
+chapter,book5,14,,figures,27,27,EXACT,P3,"book5-figures.json[""14""] vs public/books/book5/fig14.json"
+chapter,book5,15,,sections,31,31,EXACT,P3,prose shard holds 31 of 31 served sections
+chapter,book5,15,,figures,41,41,EXACT,P3,"book5-figures.json[""15""] vs public/books/book5/fig15.json"
+chapter,book5,16,,sections,38,38,EXACT,P3,prose shard holds 38 of 38 served sections
+chapter,book5,16,,figures,85,85,EXACT,P3,"book5-figures.json[""16""] vs public/books/book5/fig16.json"
+chapter,book5,17,,sections,9,9,EXACT,P3,prose shard holds 9 of 9 served sections
+chapter,book5,17,,figures,14,14,EXACT,P3,"book5-figures.json[""17""] vs public/books/book5/fig17.json"
+chapter,book5,18,,sections,44,44,EXACT,P3,prose shard holds 44 of 44 served sections
+chapter,book5,18,,figures,59,59,EXACT,P3,"book5-figures.json[""18""] vs public/books/book5/fig18.json"
+chapter,book5,19,,sections,17,17,EXACT,P3,prose shard holds 17 of 17 served sections
+chapter,book5,19,,figures,25,25,EXACT,P3,"book5-figures.json[""19""] vs public/books/book5/fig19.json"
+chapter,book5,20,,sections,29,29,EXACT,P3,prose shard holds 29 of 29 served sections
+chapter,book5,20,,figures,47,47,EXACT,P3,"book5-figures.json[""20""] vs public/books/book5/fig20.json"
+book,book5,,,chapters,20,20,EXACT,P3,data/library/book5-full.json + book5/manifest.json + book5/raw/ vs data/books/book5.json
+book,book5,,,sections,502,502,EXACT,P3,0 source ids absent from served
+book,book5,,,figures,835,835,EXACT,P3,book5-figures.json vs public/books/book5/fig*.json; every referenced asset exists under public/assets/library/book5/figures/
+book,book5,,,bilingual,502,502,EXACT,P3,every source section with BOTH en and Hebrew he still serves both in public/books/book5/ch*.json
+chapter,book6,1,,sections,15,15,EXACT,P3,prose shard holds 15 of 15 served sections
+chapter,book6,1,,figures,13,13,EXACT,P3,"book6-figures.json[""1""] vs public/books/book6/fig1.json"
+chapter,book6,2,,sections,16,16,EXACT,P3,prose shard holds 16 of 16 served sections
+chapter,book6,2,,figures,127,127,EXACT,P3,"book6-figures.json[""2""] vs public/books/book6/fig2.json"
+chapter,book6,3,,sections,10,10,EXACT,P3,prose shard holds 10 of 10 served sections
+chapter,book6,3,,figures,99,99,EXACT,P3,"book6-figures.json[""3""] vs public/books/book6/fig3.json"
+chapter,book6,4,,sections,12,12,EXACT,P3,prose shard holds 12 of 12 served sections
+chapter,book6,4,,figures,130,130,EXACT,P3,"book6-figures.json[""4""] vs public/books/book6/fig4.json"
+chapter,book6,5,,sections,5,5,EXACT,P3,prose shard holds 5 of 5 served sections
+chapter,book6,5,,figures,52,52,EXACT,P3,"book6-figures.json[""5""] vs public/books/book6/fig5.json"
+chapter,book6,6,,sections,10,10,EXACT,P3,prose shard holds 10 of 10 served sections
+chapter,book6,6,,figures,71,71,EXACT,P3,"book6-figures.json[""6""] vs public/books/book6/fig6.json"
+chapter,book6,7,,sections,5,5,EXACT,P3,prose shard holds 5 of 5 served sections
+chapter,book6,7,,figures,59,59,EXACT,P3,"book6-figures.json[""7""] vs public/books/book6/fig7.json"
+chapter,book6,8,,sections,5,5,EXACT,P3,prose shard holds 5 of 5 served sections
+chapter,book6,8,,figures,28,28,EXACT,P3,"book6-figures.json[""8""] vs public/books/book6/fig8.json"
+chapter,book6,9,,sections,5,5,EXACT,P3,prose shard holds 5 of 5 served sections
+chapter,book6,9,,figures,47,47,EXACT,P3,"book6-figures.json[""9""] vs public/books/book6/fig9.json"
+chapter,book6,10,,sections,5,5,EXACT,P3,prose shard holds 5 of 5 served sections
+chapter,book6,10,,figures,31,31,EXACT,P3,"book6-figures.json[""10""] vs public/books/book6/fig10.json"
+book,book6,,,chapters,10,10,EXACT,P3,data/library/book6-full.json + book6/manifest.json + book6/raw/ vs data/books/book6.json
+book,book6,,,sections,88,88,EXACT,P3,0 source ids absent from served
+book,book6,,,figures,657,657,EXACT,P3,book6-figures.json vs public/books/book6/fig*.json; every referenced asset exists under public/assets/library/book6/figures/
+book,book6,,,bilingual,88,88,EXACT,P3,every source section with BOTH en and Hebrew he still serves both in public/books/book6/ch*.json
+chapter,book7,1,,sections,593,593,EXACT,P3,prose shard holds 593 of 593 served sections
+chapter,book7,2,,sections,128,128,EXACT,P3,prose shard holds 128 of 128 served sections
+chapter,book7,3,,sections,290,290,EXACT,P3,prose shard holds 290 of 290 served sections
+chapter,book7,4,,sections,107,107,EXACT,P3,prose shard holds 107 of 107 served sections
+chapter,book7,5,,sections,132,132,EXACT,P3,prose shard holds 132 of 132 served sections
+chapter,book7,6,,sections,45,45,EXACT,P3,prose shard holds 45 of 45 served sections
+chapter,book7,7,,sections,235,235,EXACT,P3,prose shard holds 235 of 235 served sections
+chapter,book7,8,,sections,34,34,EXACT,P3,prose shard holds 34 of 34 served sections
+chapter,book7,9,,sections,25,25,EXACT,P3,prose shard holds 25 of 25 served sections
+chapter,book7,10,,sections,24,24,EXACT,P3,prose shard holds 24 of 24 served sections
+chapter,book7,11,,sections,76,76,EXACT,P3,prose shard holds 76 of 76 served sections
+chapter,book7,12,,sections,0,3,TRANSFORMED,P3,3 recovered/extra ids
+book,book7,,,chapters,12,12,EXACT,P3,data/library/book7-full.json + book7/manifest.json + book7/raw/ vs data/books/book7.json
+book,book7,,,sections,1689,1692,TRANSFORMED,P3,3 extra sections recovered from raw/ch*.json
+book,book7,,,figures,0,0,EXACT,P3,book7-figures.json vs public/books/book7/fig*.json; every referenced asset exists under public/assets/library/book7/figures/
+book,book7,,,bilingual,1689,1689,EXACT,P3,every source section with BOTH en and Hebrew he still serves both in public/books/book7/ch*.json
+chapter,book8,1,,sections,13,13,EXACT,P3,prose shard holds 13 of 13 served sections
+chapter,book8,2,,sections,7,7,EXACT,P3,prose shard holds 7 of 7 served sections
+chapter,book8,3,,sections,39,39,EXACT,P3,prose shard holds 39 of 39 served sections
+chapter,book8,4,,sections,57,57,EXACT,P3,prose shard holds 57 of 57 served sections
+chapter,book8,5,,sections,22,22,EXACT,P3,prose shard holds 22 of 22 served sections
+chapter,book8,6,,sections,48,48,EXACT,P3,prose shard holds 48 of 48 served sections
+chapter,book8,7,,sections,21,21,EXACT,P3,prose shard holds 21 of 21 served sections
+chapter,book8,8,,sections,14,14,EXACT,P3,prose shard holds 14 of 14 served sections
+chapter,book8,9,,sections,16,16,EXACT,P3,prose shard holds 16 of 16 served sections
+chapter,book8,10,,sections,34,34,EXACT,P3,prose shard holds 34 of 34 served sections
+book,book8,,,chapters,10,10,EXACT,P3,data/library/book8-full.json + book8/manifest.json + book8/raw/ vs data/books/book8.json
+book,book8,,,sections,271,271,EXACT,P3,0 source ids absent from served
+book,book8,,,figures,0,0,EXACT,P3,book8-figures.json vs public/books/book8/fig*.json; every referenced asset exists under public/assets/library/book8/figures/
+book,book8,,,bilingual,271 academy,271 academy,EXACT,P3,"book8 is format:""academy"" and carries no {en,he} pair by schema; 3708 facets + 886 ref blocks in source, 3708 + 886 served"
+chapter,book9,1,,sections,13,13,EXACT,P3,prose shard holds 13 of 13 served sections
+chapter,book9,2,,sections,7,7,EXACT,P3,prose shard holds 7 of 7 served sections
+chapter,book9,3,,sections,39,39,EXACT,P3,prose shard holds 39 of 39 served sections
+chapter,book9,4,,sections,57,57,EXACT,P3,prose shard holds 57 of 57 served sections
+chapter,book9,5,,sections,22,22,EXACT,P3,prose shard holds 22 of 22 served sections
+chapter,book9,6,,sections,48,48,EXACT,P3,prose shard holds 48 of 48 served sections
+chapter,book9,7,,sections,21,21,EXACT,P3,prose shard holds 21 of 21 served sections
+chapter,book9,8,,sections,14,14,EXACT,P3,prose shard holds 14 of 14 served sections
+chapter,book9,9,,sections,16,16,EXACT,P3,prose shard holds 16 of 16 served sections
+chapter,book9,10,,sections,34,34,EXACT,P3,prose shard holds 34 of 34 served sections
+book,book9,,,chapters,10,10,EXACT,P3,data/library/book9-full.json + book9/manifest.json + book9/raw/ vs data/books/book9.json
+book,book9,,,sections,271,271,EXACT,P3,0 source ids absent from served
+book,book9,,,figures,0,0,EXACT,P3,book9-figures.json vs public/books/book9/fig*.json; every referenced asset exists under public/assets/library/book9/figures/
+book,book9,,,bilingual,271,271,EXACT,P3,every source section with BOTH en and Hebrew he still serves both in public/books/book9/ch*.json
+chapter,book10,1,,sections,19,19,EXACT,P3,prose shard holds 19 of 19 served sections
+chapter,book10,2,,sections,15,15,EXACT,P3,prose shard holds 15 of 15 served sections
+chapter,book10,3,,sections,14,14,EXACT,P3,prose shard holds 14 of 14 served sections
+chapter,book10,4,,sections,43,43,EXACT,P3,prose shard holds 43 of 43 served sections
+chapter,book10,5,,sections,20,20,EXACT,P3,prose shard holds 20 of 20 served sections
+chapter,book10,6,,sections,15,15,EXACT,P3,prose shard holds 15 of 15 served sections
+chapter,book10,7,,sections,11,11,EXACT,P3,prose shard holds 11 of 11 served sections
+chapter,book10,8,,sections,15,15,EXACT,P3,prose shard holds 15 of 15 served sections
+chapter,book10,9,,sections,21,21,EXACT,P3,prose shard holds 21 of 21 served sections
+chapter,book10,10,,sections,21,21,EXACT,P3,prose shard holds 21 of 21 served sections
+chapter,book10,11,,sections,17,17,EXACT,P3,prose shard holds 17 of 17 served sections
+book,book10,,,chapters,11,11,EXACT,P3,data/library/book10-full.json + book10/manifest.json + book10/raw/ vs data/books/book10.json
+book,book10,,,sections,211,211,EXACT,P3,0 source ids absent from served
+book,book10,,,figures,0,0,EXACT,P3,book10-figures.json vs public/books/book10/fig*.json; every referenced asset exists under public/assets/library/book10/figures/
+book,book10,,,bilingual,211,211,EXACT,P3,every source section with BOTH en and Hebrew he still serves both in public/books/book10/ch*.json
+chapter,book11,1,,sections,13,13,EXACT,P3,prose shard holds 13 of 13 served sections
+chapter,book11,2,,sections,9,9,EXACT,P3,prose shard holds 9 of 9 served sections
+chapter,book11,3,,sections,7,7,EXACT,P3,prose shard holds 7 of 7 served sections
+chapter,book11,4,,sections,8,8,EXACT,P3,prose shard holds 8 of 8 served sections
+chapter,book11,5,,sections,7,7,EXACT,P3,prose shard holds 7 of 7 served sections
+chapter,book11,6,,sections,7,7,EXACT,P3,prose shard holds 7 of 7 served sections
+chapter,book11,7,,sections,8,8,EXACT,P3,prose shard holds 8 of 8 served sections
+chapter,book11,8,,sections,11,11,EXACT,P3,prose shard holds 11 of 11 served sections
+chapter,book11,9,,sections,7,7,EXACT,P3,prose shard holds 7 of 7 served sections
+book,book11,,,chapters,9,9,EXACT,P3,data/library/book11-full.json + book11/manifest.json + book11/raw/ vs data/books/book11.json
+book,book11,,,sections,77,77,EXACT,P3,0 source ids absent from served
+book,book11,,,figures,0,0,EXACT,P3,book11-figures.json vs public/books/book11/fig*.json; every referenced asset exists under public/assets/library/book11/figures/
+book,book11,,,bilingual,77,77,EXACT,P3,every source section with BOTH en and Hebrew he still serves both in public/books/book11/ch*.json
+section,book7,1+11,F2918,bilingual body,2 distinct variants (ch1 and ch11),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch1.json and ch11.json now carry the ch11 text. EN 2013->765 chars, HE 738->605 chars. Neither language dropped."
+section,book7,3+4,F0870A,bilingual body,2 distinct variants (ch3 and ch4),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch3.json and ch4.json now carry the ch4 text. EN 799->518 chars, HE 637->443 chars. Neither language dropped."
+section,book7,3+11,F3163,bilingual body,2 distinct variants (ch3 and ch11),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch3.json and ch11.json now carry the ch11 text. EN 924->729 chars, HE 804->640 chars. Neither language dropped."
+section,book7,3+4,F6022,bilingual body,2 distinct variants (ch3 and ch4),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch3.json and ch4.json now carry the ch4 text. EN 532->592 chars, HE 504->557 chars. Neither language dropped."
+section,book7,3+11,F5856,bilingual body,2 distinct variants (ch3 and ch11),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch3.json and ch11.json now carry the ch11 text. EN 734->846 chars, HE 701->935 chars. Neither language dropped."
+section,book7,4+7,F6185,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 1217->2075 chars, HE 1089->1633 chars. Neither language dropped."
+section,book7,4+7,F3197,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 709->1478 chars, HE 686->1192 chars. Neither language dropped."
+section,book7,4+6,F5147,bilingual body,2 distinct variants (ch4 and ch6),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch6.json now carry the ch6 text. EN 603->624 chars, HE 529->547 chars. Neither language dropped."
+section,book7,4+7,F2769,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 2250->2331 chars, HE 1710->1408 chars. Neither language dropped."
+section,book7,4+7,F2416,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 3006->2486 chars, HE 1848->1402 chars. Neither language dropped."
+section,book7,4+7,F2502,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 1511->1555 chars, HE 1335->1104 chars. Neither language dropped."
+section,book7,4+7,F6352,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 1009->965 chars, HE 898->901 chars. Neither language dropped."
+section,book7,4+7,F3110,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 977->974 chars, HE 913->916 chars. Neither language dropped."
+section,book7,4+7,F0843,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 1266->1295 chars, HE 1137->1124 chars. Neither language dropped."
+section,book7,4+7,F3244,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 1018->955 chars, HE 834->753 chars. Neither language dropped."
+section,book7,4+7,F1595,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 1500->1431 chars, HE 1191->975 chars. Neither language dropped."
+section,book7,4+7,F6266,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 706->701 chars, HE 613->547 chars. Neither language dropped."
+section,book7,4+7,F1076,bilingual body,2 distinct variants (ch4 and ch7),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch4.json and ch7.json now carry the ch7 text. EN 1226->1295 chars, HE 1127->1086 chars. Neither language dropped."
+section,book7,7+11,F2351,bilingual body,2 distinct variants (ch7 and ch11),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch7.json and ch11.json now carry the ch11 text. EN 988->1149 chars, HE 913->1025 chars. Neither language dropped."
+section,book7,7+11,F1602,bilingual body,2 distinct variants (ch7 and ch11),"1 variant, served to both chapters",PARTIAL,P2,"scripts/migrate-books.mjs keys its body Map by section id alone, so the second chapter's variant overwrites the first; both public/books/book7/ch7.json and ch11.json now carry the ch11 text. EN 2312->693 chars, HE 1563->618 chars. Neither language dropped."
+corpus,all 11,,,english paragraph breaks,"1,872 newlines / 51 blank-line breaks in book1/ch1.sections.json alone",0 newlines in the `en` field of all 11 -full.json files,TRANSFORMED,P2,"the English body was whitespace-collapsed BEFORE data/library/book{N}-full.json — no words lost (book1 ch1: 84,304 raw chars -> 84,221), but every paragraph boundary is gone. Hebrew keeps 29,618 newlines corpus-wide. Consequence: the reader's paragraph-facing-paragraph spread can only fire on 1,672 of 4,043 bilingual sections (all in book7); the other 2,371 fall back to whole-column spread. Pre-existing, affects the old reader identically."
+chapter,book1,1,,figures rendered in prose flow,11,11 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book1/?c=1: 11 figures spread over 7 of 14 subchapters, 8 of them with more subchapters below (genuinely mid-flow), 11/11 render after their subchapter's prose, 11/11 distinct src"
+chapter,book1,4,,figures rendered in prose flow,74,74 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book1/?c=4: 74 figures spread over 13 of 13 subchapters, 69 of them with more subchapters below (genuinely mid-flow), 74/74 render after their subchapter's prose, 74/74 distinct src"
+chapter,book1,8,,figures rendered in prose flow,45,45 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book1/?c=8: 45 figures spread over 20 of 25 subchapters, 43 of them with more subchapters below (genuinely mid-flow), 45/45 render after their subchapter's prose, 45/45 distinct src"
+chapter,book2,2,,figures rendered in prose flow,9,9 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book2/?c=2: 9 figures spread over 7 of 13 subchapters, 9 of them with more subchapters below (genuinely mid-flow), 9/9 render after their subchapter's prose, 9/9 distinct src"
+chapter,book2,7,,figures rendered in prose flow,58,58 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book2/?c=7: 58 figures spread over 30 of 34 subchapters, 56 of them with more subchapters below (genuinely mid-flow), 58/58 render after their subchapter's prose, 58/58 distinct src"
+chapter,book2,14,,figures rendered in prose flow,36,36 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book2/?c=14: 36 figures spread over 15 of 18 subchapters, 33 of them with more subchapters below (genuinely mid-flow), 36/36 render after their subchapter's prose, 36/36 distinct src"
+chapter,book3,3,,figures rendered in prose flow,15,15 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book3/?c=3: 15 figures spread over 10 of 10 subchapters, 14 of them with more subchapters below (genuinely mid-flow), 15/15 render after their subchapter's prose, 15/15 distinct src"
+chapter,book3,9,,figures rendered in prose flow,24,24 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book3/?c=9: 24 figures spread over 19 of 24 subchapters, 22 of them with more subchapters below (genuinely mid-flow), 24/24 render after their subchapter's prose, 24/24 distinct src"
+chapter,book3,16,,figures rendered in prose flow,35,35 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book3/?c=16: 35 figures spread over 10 of 18 subchapters, 34 of them with more subchapters below (genuinely mid-flow), 35/35 render after their subchapter's prose, 35/35 distinct src"
+chapter,book4,2,,figures rendered in prose flow,63,63 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book4/?c=2: 63 figures spread over 23 of 23 subchapters, 61 of them with more subchapters below (genuinely mid-flow), 63/63 render after their subchapter's prose, 63/63 distinct src"
+chapter,book4,6,,figures rendered in prose flow,92,92 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book4/?c=6: 92 figures spread over 22 of 23 subchapters, 87 of them with more subchapters below (genuinely mid-flow), 92/92 render after their subchapter's prose, 92/92 distinct src"
+chapter,book4,10,,figures rendered in prose flow,23,23 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book4/?c=10: 23 figures spread over 13 of 13 subchapters, 21 of them with more subchapters below (genuinely mid-flow), 23/23 render after their subchapter's prose, 23/23 distinct src"
+chapter,book5,4,,figures rendered in prose flow,44,44 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book5/?c=4: 44 figures spread over 24 of 26 subchapters, 41 of them with more subchapters below (genuinely mid-flow), 44/44 render after their subchapter's prose, 44/44 distinct src"
+chapter,book5,11,,figures rendered in prose flow,21,21 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book5/?c=11: 21 figures spread over 12 of 13 subchapters, 20 of them with more subchapters below (genuinely mid-flow), 21/21 render after their subchapter's prose, 21/21 distinct src"
+chapter,book5,18,,figures rendered in prose flow,59,59 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book5/?c=18: 59 figures spread over 40 of 44 subchapters, 58 of them with more subchapters below (genuinely mid-flow), 59/59 render after their subchapter's prose, 59/59 distinct src"
+chapter,book6,2,,figures rendered in prose flow,127,127 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book6/?c=2: 127 figures spread over 16 of 16 subchapters, 122 of them with more subchapters below (genuinely mid-flow), 127/127 render after their subchapter's prose, 127/127 distinct src"
+chapter,book6,5,,figures rendered in prose flow,52,52 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book6/?c=5: 52 figures spread over 5 of 5 subchapters, 39 of them with more subchapters below (genuinely mid-flow), 52/52 render after their subchapter's prose, 52/52 distinct src"
+chapter,book6,9,,figures rendered in prose flow,47,47 inline / 0 tail,EXACT,P3,"browser at localhost:3111/neo/read/book6/?c=9: 47 figures spread over 5 of 5 subchapters, 38 of them with more subchapters below (genuinely mid-flow), 47/47 render after their subchapter's prose, 47/47 distinct src"

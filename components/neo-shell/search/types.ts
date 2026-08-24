@@ -75,8 +75,15 @@ export interface CommandExtra {
   fn: Record<string, [string, string, string]>;
   /** transaction code -> [tables it appears on, modules, real destination]. */
   tx: Record<string, [string, string, string]>;
-  /** Fiori app id -> the slug its generated page is keyed by. */
+  /** Fiori app id -> its FULL resolved /neo/ destination, or "" when the build
+   *  generates no page for it. Resolved on the server against the very set the
+   *  route generates from, because this map used to carry a bare slug that the
+   *  client turned into a LEGACY `/fiori-apps/<slug>/` href — sending a reader
+   *  out of NEO from inside NEO's own command surface. */
   fiori: Record<string, string>;
+  /** CDS view -> its FULL resolved /neo/ destination, or "" when there is none.
+   *  Same reason: the client used to build `/cds/<view>/` by hand. */
+  cds: Record<string, string>;
   /** functional-zone id -> Hebrew label (lib/studio-graph's own ZONES). */
   zone: Record<string, string>;
   /** Result families the client asked for that have NO build-time index in this

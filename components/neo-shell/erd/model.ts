@@ -24,9 +24,11 @@ import { cdsForTable } from "@/data/cds-map";
 import { zoneOf, ZONES, type Zone } from "@/lib/studio-graph";
 import { moduleTables } from "@/lib/module-portal";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
+import { isFkKey, isPkKey } from "./key-role";
 import type { ModuleKey } from "../types";
 
 export type { Zone };
+export { isPkKey, isFkKey };
 
 /** Functional zone → object-class token. The SAME eight-zones-onto-seven-tokens
  *  mapping components/neo-shell/nav-data.ts and .../home/home-data.ts declare;
@@ -258,6 +260,47 @@ export function edges(): RelEdge[] {
   return _edges;
 }
 
+/** A relation whose parent and child are the SAME table — a hierarchy.
+ *
+ *  `edges()` skips these (`r.table === table.tableName`) and so does
+ *  `danglingFor()`, and both are right to: a self-loop cannot be laid out by
+ *  dagre, and it is not a dangling reference either. The consequence was that a
+ *  real, documented relation rendered on no surface at all. The PM blueprint
+ *  has exactly one — IFLOT.TPLMA → IFLOT.TPLNR, the superior functional
+ *  location, which is the entire hierarchy of a plant's structure — and it was
+ *  invisible on both the legacy site and NEO.
+ *
+ *  It is not made into a graph edge here. It is listed for what it is: a
+ *  statement that the table points at itself, shown on the object's own page. */
+export interface SelfRel extends RelStatement {
+  kind: RelKind;
+}
+
+/** Self-referencing relations the blueprint records for a table. */
+export function selfRelsFor(name: string): SelfRel[] {
+  const out: SelfRel[] = [];
+  const seen = new Set<string>();
+  for (const { table, mod } of occurrences().get(name) || []) {
+    for (const r of table.relations || []) {
+      if (r.table !== name) continue;
+      const join = clean(r.join || "");
+      const key = `${mod}|${join}|${clean(r.desc || "")}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push({
+        kind: kindOf(r.card || ""),
+        mod,
+        card: clean(r.card || ""),
+        join,
+        desc: clean(r.desc || ""),
+        pk: clean(r.pkField || ""),
+        fk: clean(r.fkField || ""),
+      });
+    }
+  }
+  return out;
+}
+
 export interface DanglingRel extends RelStatement {
   /** The counterpart table the blueprint names but the dictionary does not
    *  document. */
@@ -317,8 +360,8 @@ export function nodes(): Map<string, ErdNode> {
       zone,
       obj: zoneVar(zone),
       fields: fieldRows.length,
-      pk: fieldRows.filter((f) => f.key === "PK").map((f) => f.tech),
-      fk: fieldRows.filter((f) => f.key === "FK").map((f) => f.tech),
+      pk: fieldRows.filter(isPkKey).map((f) => f.tech),
+      fk: fieldRows.filter(isFkKey).map((f) => f.tech),
       deg: deg.get(name) || 0,
     });
   }

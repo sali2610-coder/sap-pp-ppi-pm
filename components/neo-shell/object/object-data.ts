@@ -16,6 +16,7 @@
 // prints the absence.
 
 import { INCIDENTS, type Incident } from "@/data/troubleshooting";
+import { getTableEnrichment, type TableEnrichment } from "@/data/table-enrichment";
 import { LIBRARY } from "@/data/library";
 import { processSteps } from "@/lib/module-portal";
 import { RISK_HE, TRUST_HE, s4For } from "@/lib/s4";
@@ -25,13 +26,13 @@ import type { SAPModuleData } from "@/lib/types";
 import type { ModuleKey } from "../types";
 import {
   cdsFor, danglingFor, edges, mergedFields, moduleRows, nodes, occurrences,
-  relVar, tableNames, ZONE_HE, zoneVar,
+  relVar, selfRelsFor, tableNames, ZONE_HE, zoneVar,
   type DanglingRel, type ErdNode, type FieldRow, type ModuleRow, type RelEdge,
-  type RelKind, type Zone,
+  type RelKind, type SelfRel, type Zone,
 } from "../erd/model";
 
 export { tableNames, relVar, zoneVar, ZONE_HE };
-export type { DanglingRel, FieldRow, ModuleRow, RelKind };
+export type { DanglingRel, FieldRow, ModuleRow, RelKind, SelfRel };
 
 /* ------------------------------------------------------------------ types */
 
@@ -132,6 +133,11 @@ export interface ObjectView {
   fk: string[];
   neighbours: Neighbour[];
   dangling: DanglingRel[];
+  /** Relations where this table IS its own parent — a hierarchy. Neither the
+   *  ER graph nor the dangling list can hold one, so without this the PM
+   *  blueprint's functional-location hierarchy (IFLOT.TPLMA → IFLOT.TPLNR)
+   *  rendered on no surface at all. */
+  selfRels: SelfRel[];
   /** Distinct T-Codes per module, and the dictionary's verbatim string. */
   tcodes: { mod: ModuleKey; raw: string; codes: string[] }[];
   funcs: { name: string; he: string; mods: ModuleKey[] }[];
@@ -150,6 +156,18 @@ export interface ObjectView {
   rank: number;
   total: number;
   deg: number;
+  /** THE TECHNICAL DEPTH LAYER — data/table-enrichment, 94 of the 105 blueprint
+   *  tables. Deep functional purpose, the meaning of each key field, the foreign
+   *  keys as relationships, access-path / index guidance, MATDOC-ACDOCA impact,
+   *  performance notes and three worked examples (ABAP, SQL/CDS, debug), each
+   *  with its DDIC / SAP Help source cited.
+   *
+   *  It exists precisely BECAUSE the generated blueprint does not carry these
+   *  fields — data/sapData.* is produced by scripts/extract-xlsx.mjs and may
+   *  never be hand-edited, so the depth lives alongside it, keyed by table name.
+   *  null for the 11 blueprint tables with no entry, and the page states that
+   *  rather than rendering a section that looks broken. */
+  enrich: TableEnrichment | null;
 }
 
 /* ---------------------------------------------------------------- helpers */
@@ -330,6 +348,7 @@ export function objectView(raw: string): ObjectView | null {
     fk: node.fk,
     neighbours,
     dangling: danglingFor(name),
+    selfRels: selfRelsFor(name),
     tcodes: rows.map((r) => ({ mod: r.mod, raw: r.tcodesRaw, codes: r.tcodes })),
     funcs: [...funcMap.values()],
     progs: [...progMap.values()],
@@ -341,6 +360,7 @@ export function objectView(raw: string): ObjectView | null {
     rank: degreeRank().get(name) || 0,
     total: ns.size,
     deg: node.deg,
+    enrich: getTableEnrichment(name) ?? null,
   };
   cache.set(name, view);
   return view;

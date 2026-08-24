@@ -32,6 +32,7 @@ import { ALL_LESSONS } from "@/data/academy/lessons";
 import type { Lesson } from "@/lib/academy/lesson-types";
 import { ACADEMY, getLesson } from "@/lib/academy/model";
 import { neoLessonHref } from "./lesson-links";
+import { withNeoLinks } from "./lesson-neo-links";
 
 /** A neighbouring lesson, already resolved to a real generated NEO route. */
 export interface NeoLessonLink {
@@ -121,7 +122,11 @@ export function neoLessonData(courseId: string, slug: string): NeoLessonData | n
       globalIndex: place.globalIndex,
       globalTotal: place.globalTotal,
     },
-    lesson,
+    // The lesson BODY is handed on exactly as authored — except for its
+    // cross-reference hrefs, which are written against the legacy routes and
+    // are repointed into /neo/ here, gated. See lesson-neo-links.ts for why the
+    // translation lives in NEO's data layer and not in the content files.
+    lesson: withNeoLinks(lesson),
     prev: linkOf(place.prev, courseId, place.chapterIndex),
     next: linkOf(place.next, courseId, place.chapterIndex),
   };

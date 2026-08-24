@@ -27,7 +27,7 @@ import { CDS_VIEWS } from "@/data/cds-map";
 import { FIORI_APPS } from "@/data/fiori/apps";
 import { ENHANCEMENTS } from "@/data/enhancements";
 import { RISK_COLOR, RISK_HE, TRUST_HE, s4For } from "@/lib/s4";
-import { tableNames } from "../erd/model";
+import { objectNames } from "../object/object-names";
 import type { RefStatus, RefTableStanding } from "./types";
 
 /* ------------------------------------------------------------- the lists */
@@ -38,9 +38,11 @@ const memo = <T>(fn: () => T): (() => T) => {
   return () => { if (!done) { v = fn(); done = true; } return v as T; };
 };
 
-/** Tables with a generated /neo/object/<name>/ page — the dictionary's own list,
- *  i.e. exactly what app/neo/object/[name] generates from. */
-const objectSet = memo(() => new Set(tableNames()));
+/** Objects with a generated /neo/object/<name>/ page. Read from the SAME
+ *  registry app/neo/object/[name]/generateStaticParams builds from, so the two
+ *  cannot drift: blueprint + HR/BW + verified, 186 objects. Before this read the
+ *  union, 81 real pages existed in the legacy route and were unlinkable here. */
+const objectSet = memo(() => new Set(objectNames()));
 /** T-Codes with a generated /neo/transactions/<CODE>/ page. */
 const txSet = memo(() => new Set(registryCodes().map((c) => c.toUpperCase())));
 /** Function objects with a generated /neo/bapi/<id>/ page. The IDoc message

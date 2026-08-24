@@ -204,6 +204,24 @@ export const PPPI_DATA = {
               "card": "",
               "join": "FROM MAST JOIN MARA ON MAST.MATNR = MARA.MATNR",
               "desc": "קישור חומר לעץ מוצר"
+            },
+            {
+              "role": "child",
+              "table": "T134",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM MARA JOIN T134 ON MARA.MTART = T134.MTART",
+              "desc": "סוגי חומר (Customizing)"
+            },
+            {
+              "role": "child",
+              "table": "T023",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM MARA JOIN T023 ON MARA.MATKL = T023.MATKL",
+              "desc": "קבוצות חומר (Customizing)"
             }
           ],
           "id": "PP-PI:MARA",
@@ -443,6 +461,15 @@ export const PPPI_DATA = {
               "card": "",
               "join": "FROM MKAL JOIN MARC ON MKAL.MATNR = MARC.MATNR AND MKAL.WERKS = MARC.WERKS",
               "desc": "גרסאות ייצור לחומר"
+            },
+            {
+              "role": "child",
+              "table": "T438M",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM MARC JOIN T438M ON MARC.DISMM = T438M.DISMM",
+              "desc": "פרמטרי MRP לחומר/מפעל"
             }
           ],
           "id": "PP-PI:MARC",
@@ -629,6 +656,15 @@ export const PPPI_DATA = {
               "card": "",
               "join": "FROM MARM JOIN MARA ON MARM.MATNR = MARA.MATNR",
               "desc": "המרות יחידות מידה חלופיות"
+            },
+            {
+              "role": "child",
+              "table": "T006",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM MARM JOIN T006 ON MARM.MEINH = T006.MSEHI",
+              "desc": "יחידות מידה (Customizing)"
             }
           ],
           "id": "PP-PI:MARM",
@@ -1571,8 +1607,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "T006",
+              "role": "parent",
+              "table": "MARM",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -2433,6 +2469,15 @@ export const PPPI_DATA = {
               "card": "",
               "join": "FROM PLZU JOIN PLKO ON PLZU.PLNNR = PLKO.PLNNR",
               "desc": "קישור היסטוריית רשימת פעולות"
+            },
+            {
+              "role": "child",
+              "table": "TCA01",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM PLKO JOIN TCA01 ON PLKO.PROFIDNETZ = TCA01.PROFIDNETZ",
+              "desc": "פרופיל רשימת פעולות (Customizing)"
             }
           ],
           "id": "PP-PI:PLKO",
@@ -2577,6 +2622,24 @@ export const PPPI_DATA = {
               "card": "",
               "join": "FROM FHMI JOIN PLPO ON FHMI.PLNKN = PLPO.PLNKN",
               "desc": "שיוך כלי עזר ייצור (PRT) לפעולה"
+            },
+            {
+              "role": "child",
+              "table": "TC60",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM PLPO JOIN TC60 ON PLPO.STEUS = TC60.STEUS",
+              "desc": "מאפייני הוראות תהליך (PI)"
+            },
+            {
+              "role": "child",
+              "table": "TC22",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM PLPO JOIN TC22 ON PLPO.STEUS = TC22.STEUS",
+              "desc": "מפתחות בקרת תהליך/פעולה (PI Control)"
             }
           ],
           "id": "PP-PI:PLPO",
@@ -3105,6 +3168,15 @@ export const PPPI_DATA = {
               "card": "",
               "join": "FROM FHMI JOIN PLPO ON FHMI.PLNKN = PLPO.PLNKN",
               "desc": "שיוך כלי עזר ייצור (PRT) לפעולה"
+            },
+            {
+              "role": "child",
+              "table": "CRFH",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM FHMI JOIN CRFH ON FHMI.FHMNR = CRFH.FHMNR",
+              "desc": "אב כלי עזר ייצור (PRT)"
             }
           ],
           "id": "PP-PI:FHMI",
@@ -3236,8 +3308,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "TC60",
+              "role": "parent",
+              "table": "PLPO",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -3305,8 +3377,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "TCA01",
+              "role": "parent",
+              "table": "PLKO",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -4072,8 +4144,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "CRFH",
+              "role": "parent",
+              "table": "FHMI",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -4434,6 +4506,24 @@ export const PPPI_DATA = {
               "card": "",
               "join": "FROM AFKO JOIN AUFK ON AFKO.AUFNR = AUFK.AUFNR",
               "desc": "כותרת פקודת ייצור"
+            },
+            {
+              "role": "child",
+              "table": "T399X",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM AUFK JOIN T399X ON AUFK.WERKS = T399X.WERKS AND AUFK.AUART = T399X.AUART",
+              "desc": "פרמטרי בקרת ייצור למפעל"
+            },
+            {
+              "role": "child",
+              "table": "T003O",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM AUFK JOIN T003O ON AUFK.AUART = T003O.AUART",
+              "desc": "סוגי פקודת ייצור (Process Order Types)"
             },
             {
               "role": "parent",
@@ -5182,8 +5272,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "T134",
+              "role": "parent",
+              "table": "MARA",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -5321,8 +5411,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "T023",
+              "role": "parent",
+              "table": "MARA",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -5476,13 +5566,22 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "T399X",
+              "role": "parent",
+              "table": "AUFK",
               "fkField": "",
               "pkField": "",
               "card": "",
               "join": "FROM AUFK JOIN T399X ON AUFK.WERKS = T399X.WERKS AND AUFK.AUART = T399X.AUART",
               "desc": "פרמטרי בקרת ייצור למפעל"
+            },
+            {
+              "role": "child",
+              "table": "TCK03",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM T399X JOIN TCK03 ON T399X.KLVARP = TCK03.KLVAR",
+              "desc": "וריאנט תמחיר (Costing Variant)"
             }
           ],
           "id": "PP-PI:T399X",
@@ -5545,8 +5644,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "TCK03",
+              "role": "parent",
+              "table": "T399X",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -5606,8 +5705,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "T438M",
+              "role": "parent",
+              "table": "MARC",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -5679,8 +5778,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "T003O",
+              "role": "parent",
+              "table": "AUFK",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -5842,8 +5941,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "TJ30",
+              "role": "parent",
+              "table": "JEST",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -6025,8 +6124,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "BUT000",
+              "role": "parent",
+              "table": "EKKO",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -6102,8 +6201,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "TC22",
+              "role": "parent",
+              "table": "PLPO",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -6184,12 +6283,30 @@ export const PPPI_DATA = {
           "relations": [
             {
               "role": "child",
+              "table": "TJ30",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM JEST JOIN TJ30 ON JEST.STAT = TJ30.ESTAT",
+              "desc": "סטטוסי משתמש בפרופיל (User Status)"
+            },
+            {
+              "role": "child",
               "table": "AUFK",
               "fkField": "",
               "pkField": "",
               "card": "",
               "join": "FROM JEST JOIN AUFK ON JEST.OBJNR = AUFK.OBJNR",
               "desc": "סטטוס אובייקט - מכונת מצבים של הפק\"ע"
+            },
+            {
+              "role": "child",
+              "table": "TJ02T",
+              "fkField": "",
+              "pkField": "",
+              "card": "",
+              "join": "FROM JEST JOIN TJ02T ON JEST.STAT = TJ02T.ISTAT",
+              "desc": "טקסטים של סטטוסי מערכת (CRTE/REL/CNF/TECO)"
             }
           ],
           "id": "PP-PI:JEST",
@@ -6333,8 +6450,8 @@ export const PPPI_DATA = {
           ],
           "relations": [
             {
-              "role": "child",
-              "table": "TJ02T",
+              "role": "parent",
+              "table": "JEST",
               "fkField": "",
               "pkField": "",
               "card": "",
@@ -7014,7 +7131,7 @@ export const PPPI_DATA = {
       "he": "אצוות חומר ברמת מפעל"
     },
     {
-      "table": "T006",
+      "table": "MARM",
       "join": "FROM MARM JOIN T006 ON MARM.MEINH = T006.MSEHI",
       "he": "יחידות מידה (Customizing)"
     },
@@ -7099,12 +7216,12 @@ export const PPPI_DATA = {
       "he": "קישור היסטוריית רשימת פעולות"
     },
     {
-      "table": "TC60",
+      "table": "PLPO",
       "join": "FROM PLPO JOIN TC60 ON PLPO.STEUS = TC60.STEUS",
       "he": "מאפייני הוראות תהליך (PI)"
     },
     {
-      "table": "TCA01",
+      "table": "PLKO",
       "join": "FROM PLKO JOIN TCA01 ON PLKO.PROFIDNETZ = TCA01.PROFIDNETZ",
       "he": "פרופיל רשימת פעולות (Customizing)"
     },
@@ -7134,7 +7251,7 @@ export const PPPI_DATA = {
       "he": "כותרת קיבולת"
     },
     {
-      "table": "CRFH",
+      "table": "FHMI",
       "join": "FROM FHMI JOIN CRFH ON FHMI.FHMNR = CRFH.FHMNR",
       "he": "אב כלי עזר ייצור (PRT)"
     },
@@ -7189,7 +7306,7 @@ export const PPPI_DATA = {
       "he": "רצפי פעולות בפק\"ע"
     },
     {
-      "table": "T134",
+      "table": "MARA",
       "join": "FROM MARA JOIN T134 ON MARA.MTART = T134.MTART",
       "he": "סוגי חומר (Customizing)"
     },
@@ -7199,7 +7316,7 @@ export const PPPI_DATA = {
       "he": "טקסטים לסוגי חומר"
     },
     {
-      "table": "T023",
+      "table": "MARA",
       "join": "FROM MARA JOIN T023 ON MARA.MATKL = T023.MATKL",
       "he": "קבוצות חומר (Customizing)"
     },
@@ -7209,22 +7326,22 @@ export const PPPI_DATA = {
       "he": "טקסטים לקבוצות חומר"
     },
     {
-      "table": "T399X",
+      "table": "AUFK",
       "join": "FROM AUFK JOIN T399X ON AUFK.WERKS = T399X.WERKS AND AUFK.AUART = T399X.AUART",
       "he": "פרמטרי בקרת ייצור למפעל"
     },
     {
-      "table": "TCK03",
+      "table": "T399X",
       "join": "FROM T399X JOIN TCK03 ON T399X.KLVARP = TCK03.KLVAR",
       "he": "וריאנט תמחיר (Costing Variant)"
     },
     {
-      "table": "T438M",
+      "table": "MARC",
       "join": "FROM MARC JOIN T438M ON MARC.DISMM = T438M.DISMM",
       "he": "פרמטרי MRP לחומר/מפעל"
     },
     {
-      "table": "T003O",
+      "table": "AUFK",
       "join": "FROM AUFK JOIN T003O ON AUFK.AUART = T003O.AUART",
       "he": "סוגי פקודת ייצור (Process Order Types)"
     },
@@ -7234,7 +7351,7 @@ export const PPPI_DATA = {
       "he": "פרמטרים תלויי סוג פק\"ע (Order Profile)"
     },
     {
-      "table": "TJ30",
+      "table": "JEST",
       "join": "FROM JEST JOIN TJ30 ON JEST.STAT = TJ30.ESTAT",
       "he": "סטטוסי משתמש בפרופיל (User Status)"
     },
@@ -7244,12 +7361,12 @@ export const PPPI_DATA = {
       "he": "טקסטים לסטטוסי משתמש"
     },
     {
-      "table": "BUT000",
+      "table": "EKKO",
       "join": "FROM EKKO JOIN BUT000 ON EKKO.LIFNR = BUT000.PARTNER",
       "he": "שותף עסקי (BP - השפעת מעבר S/4)"
     },
     {
-      "table": "TC22",
+      "table": "PLPO",
       "join": "FROM PLPO JOIN TC22 ON PLPO.STEUS = TC22.STEUS",
       "he": "מפתחות בקרת תהליך/פעולה (PI Control)"
     },
@@ -7264,7 +7381,7 @@ export const PPPI_DATA = {
       "he": "כותרת אובייקט סטטוס + פרופיל"
     },
     {
-      "table": "TJ02T",
+      "table": "JEST",
       "join": "FROM JEST JOIN TJ02T ON JEST.STAT = TJ02T.ISTAT",
       "he": "טקסטים של סטטוסי מערכת (CRTE/REL/CNF/TECO)"
     }

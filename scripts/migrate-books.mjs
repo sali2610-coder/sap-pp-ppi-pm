@@ -137,7 +137,26 @@ for (let i = 1; i <= 11; i++) {
   const chapterSections = new Map();
   // The reader holds the prose. For ten of the eleven books this is where the
   // Hebrew actually is — a translated body under a still-English heading.
+  //
+  // KEYED BY CHAPTER **AND** SECTION ID, NOT BY SECTION ID ALONE.
+  //
+  //   A section id is unique within a chapter, not within a book. book7 is
+  //   "SAP Fiori Apps for S/4HANA — Quick Reference" and its sections are keyed
+  //   by Fiori app ID, so the same app legitimately appears under two
+  //   categories: F2918 in ch1 and ch11, F0870A in ch3 and ch4, and 18 more.
+  //   With an id-only Map the second write overwrote the first, both index rows
+  //   then read back the SAME body, and one whole section's prose — 20 of them,
+  //   7,289 Hebrew and 30,035 Latin characters — became unreachable in the
+  //   reader. Nothing was deleted; it was overwritten in the migration.
+  //
+  //   The two occurrences are DIFFERENT sections with the same id, so they are
+  //   kept as two. `uniqueBody` below is the fallback for the case where the
+  //   index and the source disagree about which chapter a section is in, and it
+  //   deliberately holds only ids that occur exactly once — a fallback must
+  //   never be able to hand back the wrong body.
   const body = new Map();
+  const bodyCount = new Map();
+  const uniqueBody = new Map();
   for (const c of full?.chapters ?? []) {
     const n = Number(c.n);
     if (!Number.isFinite(n)) continue;
@@ -151,10 +170,17 @@ for (let i = 1; i <= 11; i++) {
     chapterSections.set(n, c.sections ?? []);
     for (const s of c.sections ?? []) {
       if (!s?.id) continue;
+      const sid = String(s.id);
       const b = sectionBody(s);
-      if (b) body.set(String(s.id), b);
+      if (!b) continue;
+      body.set(`${n} ${sid}`, b);
+      bodyCount.set(sid, (bodyCount.get(sid) ?? 0) + 1);
+      uniqueBody.set(sid, b);
     }
   }
+  // Drop every id that occurred more than once, so the fallback can only ever
+  // answer for a section whose identity is unambiguous.
+  for (const [sid, n] of bodyCount) if (n > 1) uniqueBody.delete(sid);
 
   const snippets = new Map();
   for (const e of idx) if (e.snippet) snippets.set(String(e.id), String(e.snippet));
@@ -163,7 +189,8 @@ for (let i = 1; i <= 11; i++) {
   for (const e of idx) {
     const n = Number(e.ch);
     if (!byChapter.has(n)) byChapter.set(n, []);
-    const b = body.get(String(e.id));
+    const sid = String(e.id);
+    const b = body.get(`${n} ${sid}`) ?? uniqueBody.get(sid);
     byChapter.get(n).push({
       id: String(e.id),
       title: { en: en(e), he: he(e) },

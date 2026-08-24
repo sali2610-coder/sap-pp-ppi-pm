@@ -808,7 +808,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           <Missing what="ספרים" />
         )}
         <p className="nxb-links">
-          <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
+          <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
             <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
             הספרייה הדיגיטלית
           </Link>

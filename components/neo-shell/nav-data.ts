@@ -33,6 +33,10 @@ import { centerTotals } from "@/components/neo-shell/centers/centers-data";
 import { BOOKS } from "@/data/library/academy-index";
 import { CONCEPTS } from "@/data/concepts";
 import { DOMAINS } from "@/data/domains";
+import { MIG_OBJECTS } from "@/data/migration-cockpit";
+import { S4_OBJECTS } from "@/data/s4-objects";
+import { ECC_S4_TOPICS } from "@/data/ecc-s4";
+import { modelStats } from "./erd/model";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
 import type {
   HubContent,
@@ -96,7 +100,21 @@ const booksFor = (mod: ModuleKey) =>
 
 type Seed = {
   id: string;
-  /** Optional route override. Only `domain-model` uses it — see navGroups(). */
+  /** THE ONE DISCRIMINATOR IN THIS FILE.
+   *
+   *  `href` present  ⇒ the item OWNS a route file of its own, and it is
+   *                    excluded from NEO_HUBS so `app/neo/[hub]` does not also
+   *                    generate a page at the same path (a duplicate path fails
+   *                    the static export) or, worse, generate a Stage-1 stub at
+   *                    `/neo/<id>/` that nothing links to.
+   *  `href` absent   ⇒ `app/neo/[hub]` generates the destination.
+   *
+   *  Before this rule existed, an `href` override still left the id in
+   *  NEO_HUBS. That produced two real defects the pre-production audit caught:
+   *  `/neo/library/` was built as a placeholder shelf reporting 10 books while
+   *  the real shelf at `/neo/books/` had 11, and `/neo/domain-model/` was built
+   *  as the only NEO route in the product with no inbound link at all. Both
+   *  were one missing filter, not two content problems. */
   href?: string;
   label: string;
   icon: string;
@@ -119,7 +137,24 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       items: [
         { id: "pm", label: "אחזקה · PM", icon: "Wrench", count: pm.tables, countLabel: "טבלאות", mod: "PM" },
         { id: "pp-pi", label: "ייצור · PP-PI", icon: "FlaskConical", count: pp.tables, countLabel: "טבלאות", mod: "PP-PI" },
-        { id: "domain-model", href: "/neo/erd/", label: "מודל נתונים", icon: "GitBranch", count: DOMAINS.length, countLabel: "תחומים" },
+        /* THE COUNT AND THE DESTINATION NOW AGREE.
+           This item has always counted DOMAINS — 39 business domains — while
+           pointing at /neo/erd/, which lists tables. A reader who clicked
+           "39 תחומים" arrived at a table graph and never reached a single one
+           of the 39. The domains have their own hub now, and the ER model keeps
+           its own entry below, where a data model belongs. */
+        { id: "domain-model", href: "/neo/domain-model/", label: "תחומים עסקיים", icon: "Boxes", count: DOMAINS.length, countLabel: "תחומים" },
+      ],
+    },
+    {
+      /* THE MIGRATION GROUP. Project NEO is an ECC→S/4HANA platform, and until
+         now its three S/4 surfaces were reachable from nothing at all. */
+      id: "s4",
+      label: "מעבר ל-S/4HANA",
+      items: [
+        { id: "s4hana", href: "/neo/s4hana/", label: "מרכז S/4HANA", icon: "Rocket", count: S4_OBJECTS.length, countLabel: "אובייקטים" },
+        { id: "s4-readiness", href: "/neo/s4-readiness/", label: "מוכנות למעבר", icon: "Gauge", count: ECC_S4_TOPICS.length, countLabel: "נושאי שינוי" },
+        { id: "migration-cockpit", href: "/neo/migration-cockpit/", label: "קוקפיט מיגרציה", icon: "Truck", count: MIG_OBJECTS.length, countLabel: "אובייקטי מיגרציה" },
       ],
     },
     {
@@ -127,6 +162,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       label: "עיון · Reference",
       items: [
         { id: "tables", label: "טבלאות", icon: "Table", count: ALL_TABLES.length, countLabel: "טבלאות" },
+        { id: "erd", href: "/neo/erd/", label: "מודל נתונים · ERD", icon: "GitBranch", count: modelStats().edges, countLabel: "קשרים" },
         { id: "transactions", label: "טרנזקציות", icon: "Terminal", count: registryStats().total, countLabel: "טרנזקציות" },
         { id: "bapi", label: "BAPIs / FMs", icon: "Plug", count: funcRegistry().length, countLabel: "אובייקטי פונקציה" },
         { id: "idoc", label: "IDocs", icon: "Cable", count: idocMessageTypes().length, countLabel: "סוגי הודעה" },
@@ -178,10 +214,17 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
   ];
 }
 
-/** Every navigation destination in the namespace, in rail order. Consumed by
- *  app/neo/[hub]/generateStaticParams so a link can never outrun a page —
- *  scripts/crawl-dead-links.mjs fails the build on the first one that does. */
-export const NEO_HUBS: string[] = seeds().flatMap((g) => g.items.map((i) => i.id));
+/** Every navigation destination `app/neo/[hub]` is responsible for, in rail
+ *  order. Items that own a route file are filtered out by the `href` rule
+ *  documented on Seed — generating them here would either collide with the real
+ *  page or ship an unlinked stub beside it.
+ *
+ *  A link still cannot outrun a page: `navGroups()` derives every href from
+ *  this same list, and scripts/crawl-dead-links.mjs fails the build on the
+ *  first internal href in out/ with nothing behind it. */
+export const NEO_HUBS: string[] = seeds().flatMap((g) =>
+  g.items.filter((i) => !i.href).map((i) => i.id),
+);
 
 export const HUB_META = (): Record<string, { label: string; group: string; icon: string; mod?: ModuleKey }> => {
   const out: Record<string, { label: string; group: string; icon: string; mod?: ModuleKey }> = {};
@@ -356,7 +399,7 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
 
   for (const v of CDS_VIEWS) out.push({ k: "cds", t: v.view, s: v.he, m: true, href: "/neo/cds/" });
   for (const a of FIORI_APPS) out.push({ k: "fiori", t: a.id, s: a.he || a.name, m: true, href: "/neo/fiori-apps/" });
-  for (const b of LIBRARY) out.push({ k: "book", t: b.titleHe || b.title, s: b.title, m: false, href: "/neo/library/" });
+  for (const b of LIBRARY) out.push({ k: "book", t: b.titleHe || b.title, s: b.title, m: false, href: "/neo/books/" });
   for (const i of INCIDENTS) out.push({ k: "incident", t: i.he, s: i.symptom.slice(0, 90), m: false, href: "/neo/incidents/" });
 
   return out;

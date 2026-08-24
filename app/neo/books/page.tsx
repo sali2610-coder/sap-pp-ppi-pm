@@ -118,7 +118,7 @@ export default function NeoBooks() {
       {d.twinNote && <p className="nb-note nb-note--wide nm-fade">{d.twinNote}</p>}
 
       <footer className="nb-foot nm-fade">
-        <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
+        <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
           <Library size={15} strokeWidth={1.75} aria-hidden="true" />
           הספרייה הדיגיטלית
         </Link>

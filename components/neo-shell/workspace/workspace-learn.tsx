@@ -38,7 +38,7 @@ export function WorkspaceLearn({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         </>
       }
       lead={
-        <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
+        <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
           <Library size={15} strokeWidth={1.75} aria-hidden="true" />
           הספרייה הדיגיטלית
         </Link>

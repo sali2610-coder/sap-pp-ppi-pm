@@ -33,7 +33,49 @@ const PK_FIX = {
   AFPO: ["AUFNR", "POSNR"], AFVC: ["AUFPL", "APLZL"], PLPO: ["PLNTY", "PLNNR", "PLNKN"], MAPL: ["MATNR", "PLNTY", "PLNNR", "PLNAL"],
 };
 
-const S = (v) => (v == null ? "" : String(v).trim());
+// ---------- brand neutralisation ----------
+//
+// Commit ea212c0b ("purge all CBC/company branding from the production website")
+// removed every customer/company reference from everything that ships, and
+// replaced it with neutral manufacturing vocabulary. The SAP teaching content
+// was preserved word for word; only the company name changed.
+//
+// That edit was made DIRECTLY IN THE GENERATED FILE, because the workbooks in
+// docs/ still say "CBC". So the purge survived only until the next
+// `node scripts/extract-xlsx.mjs`, which silently reinstated the branding —
+// exactly what happened during this repair pass, and it is why the rules live
+// here now instead of in a commit. Regeneration is idempotent again.
+//
+// Order matters: the specific phrases must run before the generic particles,
+// or "CBC (Coca-Cola)" would be half-replaced by the "ב-CBC" rule.
+const BRAND = [
+  [/CBC\s*\(Coca-Cola\)/g, "הארגון (Example Product)"],
+  [/הערת CBC/g, "הערת יישום"],
+  [/במפעל CBC הספציפי/g, "במפעל לדוגמה הספציפי"],
+  [/ב-CBC/g, "בארגון"],
+  [/ל-CBC/g, "לארגון"],
+  [/של CBC/g, "של הארגון"],
+  [/מוצר CBC/g, "מוצר הארגון"],
+  [/לתהליכי CBC/g, "לתהליכי הארגון"],
+  [/CBC:/g, "הארגון:"],
+];
+// Anything the rules above did not catch must stop the build rather than ship.
+// A new workbook phrasing is a content decision, not something a regex should
+// guess at.
+const BRAND_GUARD = /CBC|Coca[- ]?Cola|Central Bottling/i;
+
+function neutralise(s) {
+  let out = s;
+  for (const [re, to] of BRAND) out = out.replace(re, to);
+  if (BRAND_GUARD.test(out)) {
+    throw new Error(
+      `Brand reference survived neutralisation — add a rule to BRAND in scripts/extract-xlsx.mjs:\n  ${out.slice(0, 240)}`,
+    );
+  }
+  return out;
+}
+
+const S = (v) => (v == null ? "" : neutralise(String(v).trim()));
 const TYPE_RE = /^(CHAR|NUMC|DEC|QUAN|UNIT|DATS|TIMS|LANG|CURR|CUKY|INT[1248]|RAW|RAWSTRING|CLNT|FLTP|STRG|SSTR|D16R|DF16|DF34|NUMC)$/i;
 const KEY_SET = new Set(["PK", "FK", "PK/FK", "-"]);
 
@@ -228,16 +270,62 @@ function parsePMRelations(wb) {
   }
   return rels;
 }
+// The PP-PI workbook has no child/parent COLUMNS — it has one column headed
+// "טבלה (Child)" and one holding the whole JOIN statement.
+//
+// THE BUG THIS REPLACES, AND WHY IT WAS INVISIBLE
+//
+//   The old parser took the child from column 1 and the parent from the first
+//   `JOIN <table>` token. That is correct for 51 of the 65 rows. In the other
+//   14 the workbook author put the OTHER table in column 1 — every one of them
+//   a customizing / check table (T006 TC60 TCA01 CRFH T134 T023 T399X TCK03
+//   T438M T003O TJ30 BUT000 TC22 TJ02T), i.e. the row is ABOUT the check table
+//   and the JOIN names the table that references it. For those rows column 1
+//   and the JOIN token are the same string, so the parser produced
+//   parent === child, `attachRelations` then dropped the parent-side view, and
+//   14 real, documented relationships rendered nowhere in either site.
+//
+//   It was invisible because a self-referencing relation is LEGITIMATE — the PM
+//   workbook has a real one (IFLOT.TPLMA → IFLOT.TPLNR, the functional-location
+//   hierarchy) — so nothing downstream could tell a true self-loop from this.
+//
+// THE FIX: read BOTH sides from the JOIN statement, which is unambiguous SQL.
+//   FROM <A> JOIN <B> ON <A>.f = <B>.g   ⇒   A references B   ⇒   A is the
+//   child, B is the parent. That is exactly the convention the 51 correct rows
+//   already follow, so applying it uniformly changes none of them and repairs
+//   all 14. Verified against the workbook: 65/65 rows match the pattern, 51 have
+//   column 1 == FROM and 14 have column 1 == JOIN, and none is "neither".
+//
+// Column 1 is kept only as a CROSS-CHECK. If a row ever stops matching the
+// pattern the extraction fails loudly rather than silently emitting a self-loop.
+const FROM_JOIN_RE = /\bFROM\s+([A-Z0-9_/]+)\s+JOIN\s+([A-Z0-9_/]+)/i;
+
 function parsePPPIRelations(wb) {
   const rows = rowsOf(wb.Sheets["ER - Join Map"]).slice(2);
   const rels = [];
+  const unparsed = [];
   for (const r of rows) {
-    const child = S(r[1]);
+    const labelled = S(r[1]);
     const join = S(r[2]);
-    if (!child) continue;
-    // parent = the OTHER table in "FROM child JOIN parent ON ..."
-    const m = join.match(/JOIN\s+([A-Z0-9_/]+)/i);
-    rels.push({ child, fkField: "", parent: m ? m[1] : "", pkField: "", card: "", join, desc: S(r[3]) });
+    if (!labelled) continue;
+
+    const m = join.match(FROM_JOIN_RE);
+    if (!m) { unparsed.push(`${labelled} :: ${join}`); continue; }
+
+    const child = m[1].toUpperCase();
+    const parent = m[2].toUpperCase();
+    // The row must be about one of the two tables it joins. Anything else means
+    // the sheet changed shape and the assumption above no longer holds.
+    const up = labelled.toUpperCase();
+    if (up !== child && up !== parent) unparsed.push(`${labelled} :: ${join}`);
+
+    rels.push({ child, fkField: "", parent, pkField: "", card: "", join, desc: S(r[3]) });
+  }
+  if (unparsed.length) {
+    throw new Error(
+      `PP-PI "ER - Join Map": ${unparsed.length} row(s) do not match "FROM <A> JOIN <B>" or name a third table.\n` +
+      `Parent/child direction cannot be derived safely — fix the workbook or this parser.\n  ${unparsed.join("\n  ")}`,
+    );
   }
   return rels;
 }
@@ -252,6 +340,12 @@ function attachRelations(topics, rels) {
     const parentT = byName.get(rel.parent);
     if (childT)
       childT.relations.push({ role: "child", table: rel.parent || rel.child, fkField: rel.fkField, pkField: rel.pkField, card: rel.card, join: rel.join, desc: rel.desc });
+    // A GENUINE self-relation keeps exactly one entry. The PM workbook has one
+    // — IFLOT.TPLMA → IFLOT.TPLNR, the functional-location hierarchy — and
+    // pushing a second, "parent"-role copy onto the same table would render the
+    // same edge twice. The `!== rel.child` guard is therefore deliberate and
+    // stays; what changed is that PP-PI no longer produces FALSE self-relations
+    // for it to swallow (see parsePPPIRelations).
     if (parentT && rel.parent && rel.parent !== rel.child)
       parentT.relations.push({ role: "parent", table: rel.child, fkField: rel.fkField, pkField: rel.pkField, card: rel.card, join: rel.join, desc: rel.desc });
   }

@@ -30,6 +30,7 @@
 
 import { useMemo, useState } from "react";
 import { KeyRound, Link2 } from "lucide-react";
+import { isFkKey, isPkKey } from "../erd/key-role";
 import type { FieldRow } from "./object-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -38,8 +39,14 @@ const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--m
 
 type Scope = "all" | "keys" | "pk" | "fk";
 
-const isPk = (f: FieldRow) => f.key === "PK";
-const isFk = (f: FieldRow) => f.key === "FK";
+/* Shared with the ER model, so the key band, the scope filter, the badge and
+   the ERD inspector all answer "is this a key?" the same way. 83 fields are
+   written "PK/FK" — both roles at once, which is the normal shape of a text or
+   dependent table in SAP — and an exact comparison dropped every one of them
+   from both lists. See ../erd/key-role, which is import-free
+   precisely so a client component can share it with the server model. */
+const isPk = (f: FieldRow) => isPkKey(f);
+const isFk = (f: FieldRow) => isFkKey(f);
 
 export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: string }) {
   const [scope, setScope] = useState<Scope>("all");

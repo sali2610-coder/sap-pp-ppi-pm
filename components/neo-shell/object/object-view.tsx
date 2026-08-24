@@ -19,12 +19,13 @@
 import Link from "next/link";
 import {
   AlertTriangle, ArrowLeft, ArrowUpLeft, BadgeCheck, BookOpen, Boxes, Cable,
-  Columns3, GitBranch, Layers, Library, Route, Sigma, Table2, Terminal,
+  Code2, Columns3, GitBranch, Layers, Library, Route, Sigma, Table2, Terminal,
   TriangleAlert, Workflow,
 } from "lucide-react";
 import { RISK_COLOR } from "@/lib/s4";
 import { OriginLink } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { ObjectDepth } from "./object-depth";
 import { ObjectFields } from "./object-fields";
 import { ObjectReturn } from "./object-return";
 import { ObjectLanes } from "./object-lanes";
@@ -118,6 +119,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
     ["no-map", "מפת קשרים"],
     ["no-rel", "קשרים ו־JOIN"],
     ["no-fields", "שדות"],
+    ["no-deep", "עומק טכני"],
     ["no-tx", "טרנזקציות"],
     ["no-flow", "בשרשרת התהליך"],
     ["no-s4", "המעבר ל-S/4HANA"],
@@ -407,6 +409,37 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           <Silent what="קשרי ER ממודלים" />
         )}
 
+        {/* SELF-REFERENCE — a hierarchy.
+            Not a graph edge and not a dangling reference, so neither edges()
+            nor danglingFor() can hold one, and until this block existed a real
+            documented relation rendered nowhere: IFLOT.TPLMA → IFLOT.TPLNR, the
+            superior functional location, which IS the plant's structure. */}
+        {v.selfRels.length ? (
+          <div className="no-dangle no-self">
+            <h3 className="no-h3">
+              <GitBranch size={14} strokeWidth={1.75} aria-hidden="true" />
+              היררכיה — הטבלה מצביעה על עצמה
+            </h3>
+            <p className="no-note">
+              רשומה בטבלה הזאת מפנה לרשומה אחרת באותה טבלה. זה קשר אמיתי שהתכנון מתעד,
+              אך הוא אינו קשת במפה: מפה מציירת שתי טבלאות, וכאן יש אחת.
+            </p>
+            <ul className="no-dangle-l">
+              {v.selfRels.map((r, i) => (
+                <li key={i} style={{ "--r": relVar(r.kind) } as React.CSSProperties}>
+                  <b className="nx-sap">{v.name}</b>
+                  <span className="no-rel-card">
+                    <i aria-hidden="true" />
+                    {r.card || REL_HE[r.kind]}
+                  </span>
+                  {r.join ? <code className="no-join">{r.join}</code> : null}
+                  {r.desc ? <em>{r.desc}</em> : null}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
         {v.dangling.length ? (
           <div className="no-dangle">
             <h3 className="no-h3">
@@ -447,6 +480,29 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         lede="המפתחות נקראים ראשונים, כי הם מה שהאובייקט הוא. הטבלה שמתחתיהם מציגה את איחוד השדות שכל תכנון מתעד, בסדר שנכתב, וניתן לצמצם אותה לשדות המפתח בלבד."
       >
         {v.fields.length ? <ObjectFields fields={v.fields} name={v.name} /> : <Silent what="שדות" />}
+      </Sec>
+
+      {/* ======================================================== DEPTH
+          data/table-enrichment — the layer the GENERATED blueprint cannot
+          carry. It sits here, straight after the fields, because everything in
+          it is about how this table is actually read and written: what each key
+          field means, which foreign keys are really relationships, which access
+          path to take, what MATDOC/ACDOCA does to it in S/4, and three worked
+          examples. Every entry cites its own DDIC / SAP Help source and those
+          sources are printed — the claim and its provenance travel together. */}
+      <Sec
+        id="no-deep"
+        n={num["no-deep"]}
+        icon={<Code2 size={16} strokeWidth={1.75} />}
+        eyebrow="עומק טכני"
+        title="איך קוראים וכותבים את הטבלה הזאת"
+        lede={
+          v.enrich
+            ? "שכבת ההעשרה של הפרויקט: משמעות שדות המפתח, מפתחות זרים כקשרים, נתיב הגישה המומלץ, שיקולי ביצועים ושלוש דוגמאות עבודה. המקורות מודפסים בסוף הקטע."
+            : undefined
+        }
+      >
+        {v.enrich ? <ObjectDepth e={v.enrich} /> : <Silent what="שכבת עומק טכני" />}
       </Sec>
 
       {/* ================================================== TRANSACTIONS */}
@@ -809,7 +865,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           <Silent what="ספרים" />
         )}
         <p className="no-links">
-          <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
+          <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
             <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
             הספרייה הדיגיטלית
           </Link>

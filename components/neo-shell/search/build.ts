@@ -178,19 +178,25 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         title: r.t,
         mono: true,
         sub: r.s,
-        href: `/cds/${encodeURIComponent(r.t)}/`,
+        // THE DESTINATION IS RESOLVED ON THE SERVER, not assembled here.
+        // This line used to read `/cds/${r.t}/` — a LEGACY route — so every one
+        // of the 39 CDS views in the command surface walked the reader out of
+        // NEO. The map arrives already gated by ref-links; "" means no page.
+        href: extra.cds[r.t] || null,
       });
       continue;
     }
     if (r.k === "fiori") {
-      const slug = extra.fiori[r.t];
       push({
         id: `fiori:${r.t}`,
         k: "fiori",
         title: r.t,
         mono: true,
         sub: r.s,
-        href: slug ? `/fiori-apps/${slug}/` : r.href,
+        // Same fix as CDS above: this built `/fiori-apps/<slug>/` from a bare
+        // slug and sent all 20 apps to the legacy site. `extra.fiori` now holds
+        // the resolved /neo/ destination, or "" when no page exists.
+        href: extra.fiori[r.t] || r.href,
       });
       continue;
     }

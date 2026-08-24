@@ -41,9 +41,16 @@ const PARENTS: [prefix: string, parent: ParentRef][] = [
   ["/neo/idoc/", { href: "/neo/idoc/", label: "מרשם ה-IDoc" }],
   ["/neo/fiori-apps/", { href: "/neo/fiori-apps/", label: "אפליקציות Fiori" }],
   ["/neo/enhancements/", { href: "/neo/enhancements/", label: "Enhancements" }],
+  // --- business domains and the S/4 migration surfaces ---------------------
+  ["/neo/domain/", { href: "/neo/domain-model/", label: "תחומים עסקיים" }],
+  ["/neo/domain-model/", { href: "/neo/domain-model/", label: "תחומים עסקיים" }],
+  ["/neo/s4hana/", { href: "/neo/s4hana/", label: "מרכז S/4HANA" }],
+  ["/neo/s4-readiness/", { href: "/neo/s4-readiness/", label: "מוכנות למעבר" }],
+  ["/neo/migration-cockpit/", { href: "/neo/migration-cockpit/", label: "קוקפיט מיגרציה" }],
   // --- library and learning -----------------------------------------------
+  // `/neo/library/` is deliberately absent: the Stage-1 placeholder that used to
+  // answer it is no longer generated, and the real shelf is /neo/books/.
   ["/neo/books/", { href: "/neo/books/", label: "מדף הספרים" }],
-  ["/neo/library/", { href: "/neo/library/", label: "ספרייה דיגיטלית" }],
   ["/neo/academy/", { href: "/neo/academy/", label: "SAP Academy" }],
   ["/neo/knowledge/", { href: "/neo/knowledge/", label: "מרכז הידע" }],
   ["/neo/incidents/", { href: "/neo/incidents/", label: "תקלות" }],

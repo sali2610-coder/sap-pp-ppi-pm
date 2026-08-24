@@ -774,7 +774,7 @@ export default function NeoHome() {
                 <Table size={15} strokeWidth={1.75} aria-hidden="true" />
                 טבלאות SAP
               </Link>
-              <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
+              <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
                 <LayoutGrid size={15} strokeWidth={1.75} aria-hidden="true" />
                 ספרייה · {nf.format(d.books)} ספרים
               </Link>
@@ -816,7 +816,7 @@ export default function NeoHome() {
               /neo/library/, and it was reachable from the sidebar and from
               nowhere else. Two destinations, two labels. */}
           <div className="nh-cta nm-rise">
-            <Link className="nu-btn" href="/neo/library/" prefetch={false}>
+            <Link className="nu-btn" href="/neo/books/" prefetch={false}>
               <LayoutGrid size={15} strokeWidth={1.75} aria-hidden="true" />
               אל הספרייה הדיגיטלית
             </Link>

@@ -16,12 +16,19 @@
 //   relationship and a real route.
 //
 // DESTINATIONS ARE RESOLVED HERE, AGAINST THE ROUTES THAT ARE REALLY GENERATED.
-//   `/tcode/[code]` builds its params from registryCodes() ∪ listTcodes();
-//   `/bapi/[name]` from the function registry's ids; `/idoc/[name]` from
-//   listFuncs("IDoc"); `/fiori-apps/[slug]` from FIORI_APPS[].slug. Each map
-//   below is checked against the SAME expression the route uses, so a search
-//   result can never offer a link to a page the build did not produce. A record
-//   with no page carries "" and the surface states that plainly.
+//   Every destination below is resolved by components/neo-shell/reference/
+//   ref-links, which is the ONE gate the whole /neo namespace uses: it answers
+//   with a route only when the name is in the very list that route's
+//   generateStaticParams builds from, and with null otherwise. A record with no
+//   page carries "" and the surface states that plainly.
+//
+//   This file used to resolve its own destinations, and it resolved them to the
+//   LEGACY routes: `/tcode/<code>/`, `/bapi/<name>/`, `/fiori-apps/<slug>/`.
+//   The command surface is the fastest way to move around NEO, and it was the
+//   fastest way OUT of it — 1,817 transaction codes, 145 BAPIs, 39 CDS views
+//   and 20 Fiori apps all pointed at the old site. Verified before the change:
+//   the five ref-links gates and the five /neo routes agree on every single
+//   name, 0 misses in 2,023 records, so nothing was downgraded to plain text.
 //
 // HONESTY RULE (the same one nav-data.ts is built on): nothing below is
 // authored. Every title, every subtitle and every relationship is read straight
@@ -31,13 +38,13 @@
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import { moduleTables, overviewStats } from "@/lib/module-portal";
 import { ZONES } from "@/lib/studio-graph";
-import { classifyFunc, cleanFunc, funcHref, listFuncs, listTcodes } from "@/lib/object-intel";
-import { registry as funcRegistry } from "@/lib/bapi-registry";
-import { registryCodes } from "@/lib/tx-registry";
+import { classifyFunc, cleanFunc } from "@/lib/object-intel";
+import { CDS_VIEWS } from "@/data/cds-map";
 import { FIORI_APPS } from "@/data/fiori/apps";
 import { LIBRARY } from "@/data/library";
 import { DOMAINS } from "@/data/domains";
 import { CONCEPTS } from "@/data/concepts";
+import { bapiHref, cdsHref, fioriHref, idocHref, txHref } from "../reference/ref-links";
 import { MOD_HE } from "../mod-var";
 import type { SAPModuleData } from "@/lib/types";
 import type {
@@ -61,23 +68,14 @@ const clip = (s: string, n: number) => {
 
 /* ------------------------------------------------------------ destinations */
 
-/** Every transaction code that really has a generated page. Built from the very
- *  expression app/tcode/[code]/generateStaticParams uses. */
-function tcodePages(): Set<string> {
-  const s = new Set<string>();
-  for (const c of registryCodes()) s.add(c.toUpperCase());
-  for (const c of listTcodes()) s.add(c.toUpperCase());
-  return s;
-}
-
-/** The destination of a function object, or "" when neither /bapi nor /idoc
- *  generates a page for it. */
-function funcDest(raw: string, bapiIds: Set<string>, idocNames: Set<string>): string {
+/** The NEO destination of a function object, or "" when neither /neo/bapi nor
+ *  /neo/idoc generates a page for it. The IDoc / BAPI split is the identifier's
+ *  own classification, not a guess — and each side is gated by the registry the
+ *  corresponding route generates from. */
+function funcDest(raw: string): string {
   const c = cleanFunc(raw);
   if (!c) return "";
-  const isIdoc = classifyFunc(c) === "IDoc";
-  if (isIdoc ? !idocNames.has(c) : !bapiIds.has(c)) return "";
-  return `${funcHref(c)}/`;
+  return (classifyFunc(c) === "IDoc" ? idocHref(c) : bapiHref(c)) || "";
 }
 
 /* ------------------------------------------------------------- ownership */
@@ -92,17 +90,13 @@ function ownership(): { fn: CommandExtra["fn"]; tx: CommandExtra["tx"] } {
   const txTables = new Map<string, Set<string>>();
   const txMods = new Map<string, Set<string>>();
 
-  const bapiIds = new Set(funcRegistry().map((o) => o.id));
-  const idocNames = new Set(listFuncs("IDoc"));
-  const txPages = tcodePages();
-
   for (const m of [PM_DATA, PPPI_DATA] as SAPModuleData[]) {
     const mod = m.module;
     for (const t of moduleTables(m)) {
       for (const [raw] of t.funcs || []) {
         const nm = (raw || "").trim();
         if (!nm || fn[nm]) continue;
-        fn[nm] = [t.tableName, mod, funcDest(nm, bapiIds, idocNames)];
+        fn[nm] = [t.tableName, mod, funcDest(nm)];
       }
       for (const code of splitTcodes(t.tcodes)) {
         if (!txTables.has(code)) { txTables.set(code, new Set()); txMods.set(code, new Set()); }
@@ -120,7 +114,7 @@ function ownership(): { fn: CommandExtra["fn"]; tx: CommandExtra["tx"] } {
     tx[code] = [
       list.length > 3 ? `${head} +${list.length - 3}` : head,
       [...(txMods.get(code) || [])].join(" · "),
-      txPages.has(code) ? `/tcode/${encodeURIComponent(code)}/` : "",
+      txHref(code) || "",
     ];
   }
   return { fn, tx };
@@ -180,7 +174,7 @@ function chapters(): CmdExtraRecord[] {
         k: "chapter",
         t: c.he || c.en,
         s: clip(c.bodyHe || c.en, 96),
-        href: "/neo/library/",
+        href: "/neo/books/",
         mod: b.module,
         rel: c.page ? `${title} · פרק ${c.n} · עמ׳ ${c.page}` : `${title} · פרק ${c.n}`,
       });
@@ -220,8 +214,13 @@ export function commandIndex(): CommandExtra {
   const zone: Record<string, string> = {};
   for (const z of ZONES) zone[z.id] = z.he;
 
+  // id -> RESOLVED destination. The client no longer builds an href from a
+  // slug, because that is where the legacy path was being reconstructed.
   const fiori: Record<string, string> = {};
-  for (const a of FIORI_APPS) fiori[a.id] = a.slug;
+  for (const a of FIORI_APPS) fiori[a.id] = fioriHref(a.slug) || "";
+
+  const cds: Record<string, string> = {};
+  for (const v of CDS_VIEWS) cds[v.view] = cdsHref(v.view) || "";
 
   cached = {
     recs: [...chapters(), ...flows(), ...guides()],
@@ -230,6 +229,7 @@ export function commandIndex(): CommandExtra {
     fn,
     tx,
     fiori,
+    cds,
     zone,
     // The one family the brief names that has no separate record of its own in
     // this project. Printed in the surface footer so its absence is a stated

@@ -1261,3 +1261,247 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
   .nol-flow { animation: none; }
   .nol-n, .nol-e, .nol-n rect:first-of-type { transition: none; }
 }
+
+/* ==========================================================================
+   THE SUPPLEMENTAL OBJECT PAGE (.nox)
+   --------------------------------------------------------------------------
+   81 of the project's 186 objects come from the HR/BW and verified registries
+   rather than from the migration blueprint. They are object pages, so they wear
+   the object page's chrome — .no, .no-hero, .no-sec, .no-stat all apply
+   unchanged. These rules cover only the parts a registry record has and a
+   blueprint record does not.
+
+   THE ONE VISUAL IDEA HERE: a chip that is a LINK and a chip that is only a
+   VALUE must be distinguishable without hovering. `data-live` carries that. The
+   information is never withheld to avoid a dead link — the link is.
+   ========================================================================== */
+
+.nox-chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+
+.nox-chip {
+  display: inline-flex; align-items: baseline; gap: var(--sp-2);
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: var(--t-xs);
+  text-decoration: none;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  color: var(--ink-2);
+  transition: border-color .16s ease, transform .16s ease, background .16s ease;
+}
+.nox-chip b { font-family: var(--font-mono); color: var(--ink-1); unicode-bidi: isolate; }
+.nox-chip em { font-style: normal; color: var(--ink-3); font-size: var(--t-micro); }
+
+/* A destination: the object hue as an edge, and it lifts. */
+.nox-chip[data-live="1"] {
+  border-inline-start: 2px solid var(--o, var(--brand));
+  cursor: pointer;
+}
+.nox-chip[data-live="1"]:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--o, var(--brand)) 45%, var(--hairline));
+  background: var(--surface);
+}
+/* A value with no page. Dashed edge, no lift, no pointer — it reads as data. */
+.nox-chip[data-live="0"] { border-style: dashed; }
+
+/* ------------------------------------------------------------ field table */
+
+.nox-tbl {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-xs);
+}
+.nox-tbl th {
+  text-align: start;
+  padding: 0 var(--sp-3) var(--sp-2);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-block-end: 1px solid var(--hairline);
+}
+.nox-tbl td {
+  padding: var(--sp-2) var(--sp-3);
+  border-block-end: 1px solid var(--hairline);
+  color: var(--ink-2);
+  vertical-align: baseline;
+}
+.nox-tbl td b { color: var(--ink-1); unicode-bidi: isolate; }
+.nox-tbl tr[data-k="PK"] td { background: color-mix(in srgb, var(--o, var(--brand)) 5%, transparent); }
+
+.nox-k {
+  display: inline-flex; align-items: center; gap: 3px;
+  min-inline-size: 2.2rem; justify-content: center;
+  padding: 2px 6px; border-radius: 5px;
+  font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 700;
+  unicode-bidi: isolate;
+}
+/* PK is FILLED in the object hue — the object palette is the one palette this
+   product allows a solid form. FK is the same badge, outlined and dashed. */
+.nox-k[data-k="PK"] { background: var(--o, var(--brand)); color: #fff; }
+.nox-k[data-k="FK"] {
+  color: var(--o, var(--brand));
+  border: 1px dashed color-mix(in srgb, var(--o, var(--brand)) 55%, transparent);
+}
+.nox-k[data-k="-"] { color: var(--ink-3); opacity: .55; }
+
+/* --------------------------------------------------------------- relations */
+
+.nox-rel-desc { grid-column: 1 / -1; font-size: var(--t-xs); color: var(--ink-2); line-height: 1.6; }
+
+/* ------------------------------------------------------------- alias cloud */
+
+.nox-cloud { display: flex; flex-wrap: wrap; gap: 6px; }
+.nox-alias {
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+  background: color-mix(in srgb, var(--o, var(--brand)) 8%, var(--surface-2));
+  border: 1px solid color-mix(in srgb, var(--o, var(--brand)) 18%, var(--hairline));
+}
+.nox-cloud[data-tone="soft"] .nox-alias {
+  background: var(--surface-2);
+  border-color: var(--hairline);
+  color: var(--ink-3);
+}
+
+/* ------------------------------------------------------------- use / steps */
+
+.nox-pppi { margin-block-end: var(--sp-4); }
+.nox-steps { display: grid; gap: var(--sp-3); margin: 0; padding: 0; list-style: none; }
+.nox-steps li { display: flex; gap: var(--sp-3); font-size: var(--t-xs); line-height: 1.65; color: var(--ink-2); }
+.nox-step-n {
+  flex: none;
+  inline-size: 1.5rem; block-size: 1.5rem; border-radius: 7px;
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 700;
+  color: var(--o, var(--brand));
+  background: color-mix(in srgb, var(--o, var(--brand)) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--o, var(--brand)) 28%, transparent);
+}
+
+/* ------------------------------------------------------------ integrations */
+
+.nox-int { display: grid; gap: var(--sp-3); margin: 0; padding: 0; list-style: none; }
+.nox-int li {
+  display: grid; gap: 3px;
+  padding-inline-start: var(--sp-3);
+  border-inline-start: 2px solid color-mix(in srgb, var(--o, var(--brand)) 35%, transparent);
+}
+.nox-int li b { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-1); unicode-bidi: isolate; }
+.nox-int li span { font-size: var(--t-xs); line-height: 1.65; color: var(--ink-2); }
+
+@media (max-width: 720px) {
+  .nox-tbl th:nth-child(4), .nox-tbl td:nth-child(4) { display: none; }
+}
+
+/* ==========================================================================
+   THE TECHNICAL DEPTH LAYER (.nod) — data/table-enrichment
+   --------------------------------------------------------------------------
+   94 of the 105 blueprint tables carry a deep record. It renders inside the
+   object page's own section chrome, so this file adds only the parts that are
+   specific to it: the two key-flavoured lists, the S/4 data-model call-out, the
+   code blocks and the source line.
+
+   THE CODE BLOCK IS THE ONE THING THAT MUST NOT BE "STYLED".
+   It is LTR, monospaced, tabular, and it SCROLLS rather than wraps. A wrapped
+   ABAP statement is a different statement, and a consultant copying it out of
+   here has to get back exactly what was written.
+   ========================================================================== */
+
+.nod { display: grid; gap: var(--sp-4); }
+
+.nod-purpose {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: 10px;
+  font-size: var(--t-sm); line-height: 1.75; color: var(--ink-2);
+  background: color-mix(in srgb, var(--o, var(--brand)) 5%, var(--surface-2));
+  border-inline-start: 3px solid color-mix(in srgb, var(--o, var(--brand)) 50%, transparent);
+}
+
+.nod-b { display: grid; gap: var(--sp-2); }
+.nod-h {
+  display: flex; align-items: center; gap: var(--sp-2);
+  margin: 0;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.nod-h-i {
+  display: grid; place-items: center;
+  inline-size: 1.25rem; block-size: 1.25rem; border-radius: 6px;
+  color: var(--o, var(--brand));
+  background: color-mix(in srgb, var(--o, var(--brand)) 10%, transparent);
+}
+
+.nod-l { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.nod-l li {
+  position: relative; padding-inline-start: var(--sp-4);
+  font-size: var(--t-xs); line-height: 1.65; color: var(--ink-2);
+  unicode-bidi: plaintext;
+}
+.nod-l li::before {
+  content: ""; position: absolute; inset-inline-start: 0; inset-block-start: .6em;
+  inline-size: 5px; block-size: 5px; border-radius: 50%;
+  background: color-mix(in srgb, var(--o, var(--brand)) 65%, transparent);
+}
+/* PK is filled, FK is hollow — the same two-shape language the fields table
+   uses, so the key vocabulary is identical everywhere on the page. */
+.nod-l[data-tone="pk"] li::before { border-radius: 2px; background: var(--o, var(--brand)); }
+.nod-l[data-tone="fk"] li::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--o, var(--brand)) 70%, transparent);
+}
+
+.nod-p { margin: 0; font-size: var(--t-xs); line-height: 1.7; color: var(--ink-2); unicode-bidi: plaintext; }
+
+.nod-matdoc {
+  display: grid; gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--sec-transactions, #1d5fd0) 6%, var(--surface-2));
+  border: 1px solid color-mix(in srgb, var(--sec-transactions, #1d5fd0) 26%, var(--hairline));
+}
+.nod-matdoc .nod-h-i {
+  color: var(--sec-transactions, #1d5fd0);
+  background: color-mix(in srgb, var(--sec-transactions, #1d5fd0) 12%, transparent);
+}
+.nod-matdoc p { margin: 0; font-size: var(--t-xs); line-height: 1.7; color: var(--ink-2); }
+
+.nod-code {
+  margin: 0;
+  padding: var(--sp-3);
+  border-radius: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  line-height: 1.65;
+  color: var(--ink-1);
+  white-space: pre;
+  unicode-bidi: isolate;
+  tab-size: 2;
+}
+.nod-code:focus-visible { outline: 2px solid var(--o, var(--brand)); outline-offset: 2px; }
+
+.nod-src {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3);
+  padding-block-start: var(--sp-3);
+  border-block-start: 1px solid var(--hairline);
+  font-size: var(--t-micro); color: var(--ink-3);
+}
+.nod-vf { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; }
+.nod-vf[data-v="verified"] { color: var(--status-done); }
+.nod-vf[data-v="needs-verification"] { color: var(--status-in-analysis); }
+.nod-src-l { display: inline-flex; align-items: center; gap: 4px; unicode-bidi: plaintext; }
+
+/* A SELF-REFERENCE reuses the dangling block's shape — same "listed, not drawn"
+   idea — but it is not a warning. The dangling list flags an unverified edge;
+   a hierarchy is a fully verified relation that simply cannot be a line between
+   two boxes. Neutral hairline, no alert tint. */
+.no-self { border-color: var(--hairline); }
+.no-self .no-h3 svg { color: var(--o, var(--brand)); }

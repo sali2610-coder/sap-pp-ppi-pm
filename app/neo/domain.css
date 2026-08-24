@@ -1,0 +1,333 @@
+/* ============================================================================
+   PROJECT NEO · BUSINESS DOMAINS
+   ----------------------------------------------------------------------------
+   The hub for 39 functional domains and the page for each one.
+
+   The quality baseline is the Centers surface and the module workspace: a hero
+   that states the subject AND its coverage, a body that is reading rather than a
+   card wall, and the module hue spent on edges and markers — never as a fill.
+
+   THE ONE STRUCTURAL IDEA: `data-live` on a chip. A table or T-Code the project
+   documents is a destination; one it does not is the same chip, dashed, with no
+   pointer. The value is always shown. That is what lets the page carry the
+   dataset's real names without ever emitting a dead link.
+   ========================================================================== */
+
+.ndm {
+  --m: var(--brand);
+  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem) 5rem;
+  max-inline-size: 74rem;
+  margin-inline: auto;
+  color: var(--scene-ink, var(--ink-1));
+}
+
+/* ------------------------------------------------------------------- hero */
+
+.ndm-hero { margin-block-end: clamp(1.5rem, 3vw, 2.5rem); }
+.ndm-hero--item { padding-block-end: 1.1rem; border-block-end: 1px solid var(--hairline); }
+
+.ndm-eye {
+  display: flex; align-items: center; gap: .5rem;
+  margin: 0 0 .6rem;
+  font-size: .74rem; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.ndm-eye i { inline-size: 14px; block-size: 1px; background: currentColor; opacity: .5; flex: none; }
+.ndm-sap { unicode-bidi: isolate; color: var(--ink-2); }
+.ndm-back {
+  color: var(--m); font: inherit; text-decoration: none;
+  border-block-end: 1px solid color-mix(in srgb, var(--m) 40%, transparent);
+}
+.ndm-back:hover { border-block-end-color: var(--m); }
+
+.ndm-h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4.2vw, 3rem);
+  font-weight: 700; line-height: 1.08; letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.ndm-h1-en {
+  margin: .35rem 0 0;
+  font-size: clamp(.95rem, 1.6vw, 1.15rem); font-weight: 600;
+  color: var(--ink-3); unicode-bidi: isolate;
+}
+.ndm-lede { margin: .8rem 0 0; max-inline-size: 66ch; font-size: .97rem; line-height: 1.68; color: var(--ink-2); }
+.ndm-lede b { color: var(--ink-1); }
+
+.ndm-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  gap: 1.1rem;
+  margin-block-start: 1.4rem; padding-block-start: 1rem;
+  border-block-start: 1px solid var(--hairline);
+}
+.ndm-stat { display: grid; gap: 2px; }
+.ndm-stat b {
+  font-family: var(--font-mono); font-size: 1.45rem; direction: ltr;
+  font-variant-numeric: tabular-nums; color: var(--ink-1);
+}
+.ndm-stat em { font-size: .72rem; color: var(--ink-3); font-style: normal; }
+
+/* THE COVERAGE STATEMENT. Not a warning box — a quiet line in the reading
+   colour, because a stated gap is information, not an error. */
+.ndm-gap {
+  display: flex; align-items: flex-start; gap: .45rem;
+  margin: 1rem 0 0; max-inline-size: 66ch;
+  font-size: .85rem; line-height: 1.65; color: var(--ink-3);
+}
+.ndm-gap svg { flex: none; margin-block-start: .25em; }
+
+.ndm-hero-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-block-start: .9rem; }
+.ndm-tag {
+  font-size: .68rem; font-weight: 700; letter-spacing: .03em;
+  padding: .16rem .45rem; border-radius: 6px;
+  color: var(--ink-2); background: var(--surface-2);
+  border: 1px solid var(--hairline); white-space: nowrap; unicode-bidi: isolate;
+}
+.ndm-tag--mod { color: var(--m); border-color: color-mix(in srgb, var(--m) 34%, transparent); }
+
+/* DEPTH BADGE — the honest distinction between a full record and a base one. */
+.ndm-depth {
+  font-size: .66rem; font-weight: 700; letter-spacing: .04em;
+  padding: .14rem .42rem; border-radius: 999px; white-space: nowrap;
+}
+.ndm-depth[data-deep="1"] {
+  color: var(--status-done);
+  background: color-mix(in srgb, var(--status-done) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--status-done) 30%, transparent);
+}
+.ndm-depth[data-deep="0"] {
+  color: var(--ink-3);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+/* -------------------------------------------------------------- hub cards */
+
+.ndm-mod { margin-block-start: 2.2rem; }
+.ndm-mod-h {
+  display: flex; align-items: center; gap: .5rem;
+  margin: 0 0 .9rem;
+  font-size: 1rem; font-weight: 700;
+  color: var(--ink-1);
+}
+.ndm-mod-h svg { color: var(--m); }
+.ndm-mod-n {
+  margin-inline-start: auto;
+  font-size: .74rem; font-weight: 600; color: var(--ink-3);
+}
+
+.ndm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: .85rem;
+}
+
+.ndm-card {
+  display: flex; flex-direction: column; gap: .3rem;
+  padding: 1.05rem 1.1rem 1rem;
+  border-radius: 1rem;
+  text-decoration: none; color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-inline-start: 3px solid var(--m);
+  box-shadow: var(--elev-1);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.ndm-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--elev-3);
+  border-color: color-mix(in srgb, var(--m) 40%, var(--hairline));
+}
+.ndm-card:active { transform: translateY(0); }
+.ndm-card-top { display: flex; align-items: center; gap: .5rem; }
+.ndm-card-mod { font-size: .68rem; font-weight: 700; letter-spacing: .05em; color: var(--m); }
+.ndm-card-top .ndm-depth { margin-inline-start: auto; }
+.ndm-card-he { font-size: 1.02rem; font-weight: 700; line-height: 1.3; }
+.ndm-card-en { font-size: .76rem; font-weight: 600; color: var(--ink-3); unicode-bidi: isolate; }
+.ndm-card-sum {
+  margin-block-start: .3rem; font-size: .84rem; line-height: 1.6; color: var(--ink-2);
+  display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.ndm-card-nums { display: flex; flex-wrap: wrap; gap: .55rem; margin-block-start: .6rem; }
+.ndm-card-nums em { font-style: normal; font-size: .72rem; color: var(--ink-3); }
+.ndm-card-nums em b {
+  font-family: var(--font-mono); color: var(--ink-1); direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+.ndm-card-s4 {
+  font-size: .68rem !important; font-weight: 700;
+  color: var(--sec-transactions, #1d5fd0) !important;
+  padding: 0 .35rem; border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--sec-transactions, #1d5fd0) 34%, transparent);
+}
+.ndm-card-go {
+  display: inline-flex; align-items: center; gap: .35rem;
+  margin-block-start: .7rem; font-size: .79rem; font-weight: 600; color: var(--m);
+}
+
+/* ---------------------------------------------------------------- sections */
+
+.ndm-sec {
+  margin-block-start: 1.6rem;
+  padding: 1.15rem 1.25rem 1.25rem;
+  border-radius: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-1);
+}
+.ndm-sec-h { display: grid; gap: .3rem; margin-block-end: .9rem; position: relative; }
+.ndm-sec-n {
+  position: absolute; inset-block-start: 0; inset-inline-end: 0;
+  font-family: var(--font-mono); font-size: .78rem; direction: ltr;
+  color: color-mix(in srgb, var(--m) 45%, transparent);
+}
+.ndm-sec-k {
+  display: flex; align-items: center; gap: .45rem; margin: 0;
+  font-size: .68rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.ndm-sec-ico {
+  display: grid; place-items: center;
+  inline-size: 1.5rem; block-size: 1.5rem; border-radius: 8px;
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 24%, transparent);
+}
+.ndm-h2 { margin: 0; font-size: 1.18rem; font-weight: 700; letter-spacing: -.015em; }
+.ndm-sec-s { margin: .25rem 0 0; font-size: .84rem; line-height: 1.6; color: var(--ink-3); max-inline-size: 68ch; }
+.ndm-sec-b { display: grid; gap: .75rem; }
+
+.ndm-h3 {
+  display: flex; align-items: center; gap: .35rem;
+  margin: .5rem 0 0; font-size: .85rem; font-weight: 700; color: var(--ink-1);
+}
+.ndm-h3 svg { color: var(--m); }
+.ndm-p { margin: 0; font-size: .92rem; line-height: 1.72; color: var(--ink-2); }
+.ndm-quote {
+  margin: 0; padding: .9rem 1rem;
+  border-radius: .8rem;
+  font-size: .9rem; line-height: 1.72; color: var(--ink-2);
+  background: color-mix(in srgb, var(--m) 5%, var(--surface-2));
+  border-inline-start: 3px solid color-mix(in srgb, var(--m) 45%, transparent);
+}
+.ndm-silent { margin: 0; font-size: .88rem; line-height: 1.65; color: var(--ink-3); font-style: italic; }
+
+/* ------------------------------------------------------------------- flow */
+
+.ndm-flow { display: grid; gap: .5rem; margin: 0; padding: 0; list-style: none; }
+.ndm-flow li { display: flex; align-items: flex-start; gap: .65rem; }
+.ndm-flow-n {
+  flex: none; inline-size: 1.55rem; block-size: 1.55rem; border-radius: .55rem;
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: .72rem; font-weight: 700;
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 28%, transparent);
+}
+.ndm-flow-b { display: grid; gap: 1px; }
+.ndm-flow-b b { font-size: .82rem; color: var(--ink-1); unicode-bidi: isolate; }
+.ndm-flow-b em { font-style: normal; font-size: .87rem; line-height: 1.55; color: var(--ink-2); }
+
+.ndm-chain { margin: 0; padding: 0 0 0 0; list-style: none; display: flex; flex-wrap: wrap; gap: .4rem; }
+.ndm-chain li {
+  position: relative;
+  padding: .3rem .6rem;
+  border-radius: 7px;
+  font-size: .82rem; color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+}
+.ndm-chain li::after {
+  content: "←"; position: absolute; inset-inline-start: -.42rem; inset-block-start: 50%;
+  transform: translateY(-50%); color: var(--ink-3); font-size: .7rem; opacity: .55;
+}
+.ndm-chain li:first-child::after { content: none; }
+
+/* ------------------------------------------------------------------ chips */
+
+.ndm-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.ndm-chip {
+  display: inline-flex; align-items: center;
+  padding: .22rem .55rem; border-radius: 7px;
+  font-size: .78rem; text-decoration: none;
+  color: var(--ink-2); background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  transition: transform .14s ease, border-color .14s ease, background .14s ease;
+}
+.ndm-chip[data-live="1"] {
+  border-inline-start: 2px solid var(--m);
+  color: var(--ink-1);
+}
+.ndm-chip[data-live="1"]:hover {
+  transform: translateY(-1px);
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--m) 45%, var(--hairline));
+}
+.ndm-chip[data-live="0"] { border-style: dashed; color: var(--ink-3); }
+
+/* --------------------------------------------------------------- bullets */
+
+.ndm-bul { margin: 0; padding: 0; list-style: none; display: grid; gap: .4rem; }
+.ndm-bul li {
+  position: relative; padding-inline-start: 1.05rem;
+  font-size: .88rem; line-height: 1.65; color: var(--ink-2);
+}
+.ndm-bul li::before {
+  content: ""; position: absolute; inset-inline-start: 0; inset-block-start: .62em;
+  inline-size: 5px; block-size: 5px; border-radius: 50%;
+  background: color-mix(in srgb, var(--m) 70%, transparent);
+}
+
+/* --------------------------------------------------------------- trouble */
+
+.ndm-trb { margin: 0; padding: 0; list-style: none; display: grid; gap: .55rem; }
+.ndm-trb li {
+  display: grid; gap: 2px;
+  padding: .65rem .8rem;
+  border-radius: .7rem;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-inline-start: 3px solid color-mix(in srgb, var(--status-in-analysis) 60%, transparent);
+}
+.ndm-trb li b { font-size: .86rem; color: var(--ink-1); }
+.ndm-trb li span { font-size: .85rem; line-height: 1.6; color: var(--ink-2); }
+
+/* -------------------------------------------------------------------- s4 */
+
+.ndm-s4 { margin: 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
+.ndm-s4 li {
+  display: grid; gap: 2px;
+  padding-inline-start: .75rem;
+  border-inline-start: 3px solid var(--t, var(--ink-3));
+}
+.ndm-s4 li b { font-size: .78rem; font-weight: 700; color: var(--t, var(--ink-2)); }
+.ndm-s4 li span { font-size: .88rem; line-height: 1.68; color: var(--ink-2); }
+
+/* -------------------------------------------------------------- siblings */
+
+.ndm-sib { margin: 0; padding: 0; list-style: none; display: grid; gap: .35rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
+.ndm-sib a {
+  display: flex; align-items: baseline; gap: .5rem;
+  padding: .45rem .65rem; border-radius: .6rem;
+  text-decoration: none; color: inherit;
+  border: 1px solid var(--hairline);
+  transition: border-color .14s ease, background .14s ease;
+}
+.ndm-sib a:hover { background: var(--surface-2); border-color: color-mix(in srgb, var(--m) 40%, var(--hairline)); }
+.ndm-sib a b { font-size: .84rem; font-weight: 600; }
+.ndm-sib a em { margin-inline-start: auto; font-style: normal; font-size: .72rem; color: var(--ink-3); }
+
+.ndm-credit {
+  display: flex; align-items: center; gap: .4rem;
+  margin: 2rem 0 0; font-size: .78rem; color: var(--ink-3);
+}
+
+@media (max-width: 720px) {
+  .ndm { padding-inline: .9rem; }
+  .ndm-grid { grid-template-columns: 1fr; }
+  .ndm-sec { padding-inline: .95rem; }
+  .ndm-sec-n { position: static; }
+}
