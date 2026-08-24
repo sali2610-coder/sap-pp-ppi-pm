@@ -52,7 +52,11 @@ const PARENTS: [prefix: string, parent: ParentRef][] = [
   // answer it is no longer generated, and the real shelf is /neo/books/.
   ["/neo/books/", { href: "/neo/books/", label: "מדף הספרים" }],
   ["/neo/academy/", { href: "/neo/academy/", label: "SAP Academy" }],
-  ["/neo/knowledge/", { href: "/neo/knowledge/", label: "מרכז הידע" }],
+  ["/neo/knowledge/", { href: "/neo/knowledge/", label: "מרכז ידע" }],
+  // A centre topic belongs to the ONE Knowledge Center, which is where a reader
+  // with no session memory should land — not at a second, near-identically
+  // named surface that the rail no longer offers.
+  ["/neo/centers/", { href: "/neo/knowledge/", label: "מרכז ידע" }],
   ["/neo/incidents/", { href: "/neo/incidents/", label: "תקלות" }],
   ["/neo/certification/", { href: "/neo/certification/", label: "הסמכה" }],
   // --- modules --------------------------------------------------------------

@@ -6,7 +6,23 @@
    app/neo/layout.tsx hands over shellData() and /neo/tables hands over
    tablesData().
 
-   THE SOURCE, AND ONLY THE SOURCE
+   TWO SOURCES, ONE CENTRE — AND THEY ARE NOT DUPLICATES
+     The sidebar carried two "Knowledge Center" entries: "מרכז ידע" (33) under
+     ידע ולמידה, and "מרכזי ידע" (89) under כלים. Measured before consolidating:
+     ZERO overlap. Not one shared slug, not one shared Hebrew title, not one
+     shared English title. They answer different questions:
+
+       data/concepts.ts     33 TERMS   — what does this SAP concept mean?
+       data/centers/*       89 TOPICS  — how do I actually carry this out?
+                                         11 families, 569 sections.
+
+     So the second entry could not be deleted as a duplicate, and the two could
+     not be poured into one flat list either — a glossary term and a work topic
+     are not the same kind of record and must not be ranked against each other.
+     They arrive here as two named bodies of one centre, and the surface shows
+     one at a time. Nothing was merged away and nothing was dropped.
+
+   THE FIRST SOURCE
      data/concepts.ts — 33 hand-authored SAP concepts, each carrying a business
      explanation, a technical explanation, the ECC behaviour, the S/4HANA
      behaviour, worked examples and related concepts. Nothing here adds a
@@ -33,6 +49,7 @@
    ========================================================================== */
 
 import { CONCEPTS } from "@/data/concepts";
+import { CENTER_FAMILIES, centerTotals } from "@/components/neo-shell/centers/centers-data";
 import { tableNames } from "@/components/neo-shell/erd/model";
 import { registryCodes } from "@/lib/tx-registry";
 
@@ -73,9 +90,35 @@ export interface ConceptRow {
 
 export interface ConceptFacet { id: string; he: string; n: number }
 
+/** One work topic from data/centers/*, flattened for the unified centre.
+ *  `href` is family-scoped because a centre slug is unique only WITHIN its
+ *  family — `pm-preventive` exists in both `blueprints` and `playbooks` and they
+ *  are two different topics (9 sections vs 5). */
+export interface CenterRow {
+  slug: string;
+  famId: string;
+  famHe: string;
+  he: string;
+  title: string;
+  sub: string;
+  href: string;
+  accent: string;
+  module: string;
+  tag: string;
+  sections: number;
+  /** true when the topic carries a validated ECC→S/4HANA verdict. */
+  s4: boolean;
+  s4Text: string;
+  hay: string;
+}
+
 export interface KnowledgeData {
   rows: ConceptRow[];
   groups: ConceptFacet[];
+  /** The 89 work topics — the second body of the same centre. */
+  centers: CenterRow[];
+  /** The 11 families, as facets over `centers`. */
+  families: ConceptFacet[];
   totals: {
     concepts: number;
     s4Changed: number;
@@ -83,6 +126,14 @@ export interface KnowledgeData {
     examples: number;
     links: number;
     groups: number;
+    /** Work topics, their families and their sections. */
+    centers: number;
+    families: number;
+    sections: number;
+    centersS4: number;
+    /** THE NUMBER THE SIDEBAR SHOWS. Counted here from the two real arrays so
+     *  it can never be hardcoded and can never drift from what the page lists. */
+    all: number;
   };
 }
 
@@ -157,9 +208,37 @@ export function knowledgeData(): KnowledgeData {
     n: rows.filter((r) => r.group === g).length,
   }));
 
+  /* ---- the second body: 89 work topics across 11 families ---- */
+  const centers: CenterRow[] = CENTER_FAMILIES.flatMap((f) =>
+    f.items.map((i) => {
+      const s4Text = [i.eccS4?.changed, i.eccS4?.migration].filter(Boolean).join(" ").trim();
+      return {
+        slug: i.slug,
+        famId: f.id,
+        famHe: f.he,
+        he: i.he,
+        title: i.title,
+        sub: i.sub,
+        href: `/neo/centers/${f.id}/${i.slug}/`,
+        accent: i.accent,
+        module: i.module || "",
+        tag: i.tag || "",
+        sections: i.sections.length,
+        s4: !!i.eccS4,
+        s4Text,
+        hay: [i.he, i.title, i.sub, f.he, i.module, i.tag, s4Text]
+          .filter(Boolean).join(" ").toLowerCase(),
+      };
+    }),
+  );
+  const families: ConceptFacet[] = CENTER_FAMILIES.map((f) => ({ id: f.id, he: f.he, n: f.items.length }));
+  const ct = centerTotals();
+
   cached = {
     rows,
     groups,
+    centers,
+    families,
     totals: {
       concepts: rows.length,
       s4Changed: rows.filter((r) => r.s4Changed).length,
@@ -167,6 +246,11 @@ export function knowledgeData(): KnowledgeData {
       examples: rows.reduce((a, r) => a + r.examples.length, 0),
       links: rows.reduce((a, r) => a + r.examples.filter((x) => x.href).length + r.related.filter((x) => x.href).length, 0),
       groups: groups.length,
+      centers: centers.length,
+      families: families.length,
+      sections: ct.sections,
+      centersS4: centers.filter((c) => c.s4).length,
+      all: rows.length + centers.length,
     },
   };
   return cached;

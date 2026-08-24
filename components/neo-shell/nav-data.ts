@@ -29,7 +29,7 @@ import { ENHANCEMENTS } from "@/data/enhancements";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { LIBRARY, LIBRARY_STATS } from "@/data/library";
 import { allBookIds } from "@/lib/library/registry";
-import { centerTotals } from "@/components/neo-shell/centers/centers-data";
+import { knowledgeData } from "@/components/neo-shell/learn/knowledge-data";
 import { BOOKS } from "@/data/library/academy-index";
 import { CONCEPTS } from "@/data/concepts";
 import { DOMAINS } from "@/data/domains";
@@ -196,18 +196,25 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       id: "knowledge",
       label: "ידע ולמידה",
       items: [
-        { id: "knowledge", label: "מרכז ידע", icon: "BrainCircuit", count: CONCEPTS.length, countLabel: "מושגים" },
+        /* ONE Knowledge Center, and the count is the REAL unified total.
+           The rail used to carry two: "מרכז ידע" (33 concepts) here and
+           "מרכזי ידע" (89 work topics) under כלים. Measured before merging:
+           zero shared slugs and zero shared titles — they were never duplicates,
+           they answer different questions. Both bodies live at /neo/knowledge/
+           now, and this number is counted from the two real arrays rather than
+           written down, so it cannot drift from what the page lists. */
+        { id: "knowledge", label: "מרכז ידע", icon: "BrainCircuit", count: knowledgeData().totals.all, countLabel: "רשומות" },
         { id: "academy", label: "SAP Academy", icon: "GraduationCap", count: BOOKS.length, countLabel: "ספרי לימוד" },
         { id: "incidents", label: "תקלות", icon: "AlertTriangle", count: INCIDENTS.length, countLabel: "תקלות" },
         { id: "certification", label: "הסמכה", icon: "Award", count: null, countLabel: "" },
       ],
     },
     { id: "tools", label: "כלים", items: [
-      /* Eleven legacy routes (manufacturing, authorizations, toolkit, playbooks,
-         migration, integration, config, debugging, abap, blueprints, fiori) all
-         rendered the same two components over a different dataset. They are one
-         NEO surface now, and this is how it becomes reachable. */
-      { id: "centers", href: "/neo/centers/", label: "מרכזי ידע", icon: "Layers", count: centerTotals().items, countLabel: "נושאים" },
+      /* NO second Knowledge Center here. The eleven legacy centre routes are
+         still built and still reachable — /neo/centers/ and every family and
+         topic under it — they are simply reached from the one Knowledge Center
+         under ידע ולמידה instead of from a second rail entry that showed a
+         different number for a different dataset under a near-identical name. */
       { id: "studio", label: "Architecture Studio", icon: "Compass", count: null, countLabel: "" },
     ] },
     { id: "assistant", label: "עוזר SAP", items: [{ id: "chat", label: "צ'אט AI", icon: "MessageSquare", count: null, countLabel: "" }] },

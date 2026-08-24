@@ -1136,3 +1136,77 @@ html[data-theme="dark"] .nx-app .nxb-yes { background: color-mix(in srgb, var(--
   .nx-app .nxl-field { transition: none; }
   .nx-app .nxl-bar-f { transition: none; }
 }
+
+/* ==========================================================================
+   THE BODY SWITCH — /neo/knowledge
+   --------------------------------------------------------------------------
+   One Knowledge Center, two bodies of knowledge: 33 TERMS and 89 WORK TOPICS.
+   They are not duplicates of each other (zero shared slugs, zero shared
+   titles), so they are never mixed into one ranked list — the reader picks a
+   body, and every control below operates on that body alone.
+
+   IT IS DELIBERATELY THE STRONGEST CONTROL ON THE PAGE. Three levels of
+   selection now sit on this surface and they must not look alike:
+
+     body switch   FILLED segment      "which body am I reading"
+     view tabs     underline (.nu-tab) "which slice of it"
+     facets        chip   (.nu-filter) "narrow it"
+
+   A filled state also survives a glance on mobile, where the underline of a
+   tab is easy to miss.
+   ========================================================================== */
+
+.nx-app .nxl-bodies {
+  display: flex; align-items: stretch; gap: 4px;
+  padding: 4px;
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--c-hair);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nx-app .nxl-bodies::-webkit-scrollbar { display: none; }
+
+/* Reset the underline-tab shape: inside this control a tab is a segment. */
+.nx-app .nxl-bodies .nu-tab.nxl-bodytab {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  margin-inline-end: 0;
+  padding: 0.55rem 0.9rem;
+  border-radius: calc(var(--r-sm) - 3px);
+  white-space: nowrap;
+  color: var(--ink-3);
+  font-weight: 600;
+  transition: background var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.nx-app .nxl-bodies .nu-tab.nxl-bodytab::after { content: none; }
+.nx-app .nxl-bodies .nu-tab.nxl-bodytab:hover { color: var(--ink-1); background: var(--surface); }
+
+/* THE SELECTED STATE — filled, in the surface's own accent, with a real
+   elevation so it reads as raised rather than merely tinted. */
+.nx-app .nxl-bodies .nu-tab.nxl-bodytab[aria-selected="true"] {
+  color: #fff;
+  background: var(--sec-knowledge, var(--brand));
+  box-shadow: var(--elev-2);
+  font-weight: 750;
+}
+.nx-app .nxl-bodies .nxl-bodytab-i { display: grid; place-items: center; opacity: .9; }
+.nx-app .nxl-bodies .nu-tab.nxl-bodytab b {
+  font-family: var(--font-mono); font-size: 10px; direction: ltr;
+  font-variant-numeric: tabular-nums;
+  padding: 1px 5px; border-radius: 999px;
+  background: color-mix(in srgb, currentColor 16%, transparent);
+}
+.nx-app .nxl-bodies .nu-tab.nxl-bodytab[aria-selected="true"] b {
+  background: rgb(255 255 255 / .22); color: #fff;
+}
+
+/* The work-topic row carries the topic's own accent on its mark, exactly as a
+   concept row carries the object hue. One language, two bodies. */
+.nx-app .nxl-row[style*="--o"] .nxl-mark { background: var(--o); }
+
+@media (max-width: 720px) {
+  .nx-app .nxl-bodies { inline-size: 100%; }
+  .nx-app .nxl-bodies .nu-tab.nxl-bodytab { flex: 1 1 0; justify-content: center; }
+}
