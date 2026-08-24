@@ -69,7 +69,7 @@ export function ObjectDepth({ e }: { e: TableEnrichment }) {
       ) : null}
 
       {e.foreignKeys?.length ? (
-        <Block icon={<Link2 size={13} strokeWidth={2} />} title="מפתחות זרים — לאן הטבלה מצביעה">
+        <Block icon={<Link2 size={13} strokeWidth={2} />} title="מפתחות זרים: לאן הטבלה מצביעה">
           <List items={e.foreignKeys} tone="fk" />
         </Block>
       ) : null}

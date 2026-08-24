@@ -180,7 +180,7 @@ export function S4HanaCenter() {
         icon={<Database size={15} strokeWidth={1.75} />}
         eyebrow="קטלוג"
         title="אובייקט אחרי אובייקט"
-        lede="מסודר לפי חומרת השינוי — מה שבוטל קודם, מה שנשאר אחרון. הצבע הוא הצבע של המאגר עצמו."
+        lede="מסודר לפי חומרת השינוי: מה שבוטל קודם, מה שנשאר אחרון. הצבע הוא הצבע של המאגר עצמו."
       >
         {ORDER.map(({ k, he }) => {
           const list = objs.filter((o) => o.status === k);
@@ -433,7 +433,7 @@ export function S4ReadinessCenter() {
             : [[tt.total, "נושאי שינוי"], [tt.withSimplification, "עם פריט Simplification"]]
         }
         note={
-          <>הציון נגזר מהמאגר עצמו — Fiori, CDS, סטטוס S/4 ומספר הקשרים לכל טבלה. הוא מודד כיסוי תיעוד, לא בשלות מערכת חיה, ואינו מחליף SAP Readiness Check.</>
+          <>הציון נגזר מהמאגר עצמו: Fiori, CDS, סטטוס S/4 ומספר הקשרים לכל טבלה. הוא מודד כיסוי תיעוד, לא בשלות מערכת חיה, ואינו מחליף SAP Readiness Check.</>
         }
       />
 
@@ -545,7 +545,7 @@ export function MigrationCockpit() {
         lede={
           <>
             {t.objects} אובייקטי הגירה של ה-Migration Cockpit, עם {nf.format(t.eccRefs)} הפניות
-            ל-{nf.format(t.eccTables)} טבלאות ECC נבדלות. רצף הטעינה למטה אינו כתוב ביד — הוא מחושב
+            ל-{nf.format(t.eccTables)} טבלאות ECC נבדלות. רצף הטעינה למטה אינו כתוב ביד. הוא מחושב
             מהתלויות עצמן, ולכן אינו יכול לסתור אותן.
           </>
         }
@@ -624,7 +624,7 @@ export function MigrationCockpit() {
               <h4 className="ns4-h4">טבלאות המקור ב-ECC</h4>
               {o.eccLinks.length
                 ? <Chips items={o.eccLinks} />
-                : <p className="ns4-silent">האובייקט הזה אינו נטען מטבלת ECC — ראה ההערה למטה.</p>}
+                : <p className="ns4-silent">האובייקט הזה אינו נטען מטבלת ECC. ראו את ההערה למטה.</p>}
 
               {o.dependsHe.length ? (
                 <>
@@ -632,7 +632,7 @@ export function MigrationCockpit() {
                   <ul className="ns4-dep">{o.dependsHe.map((d) => <li key={d.id}>{d.he}</li>)}</ul>
                 </>
               ) : (
-                <p className="ns4-free"><CheckCircle2 size={12} strokeWidth={2} aria-hidden="true" /> ללא תלויות — נטען בגל הראשון.</p>
+                <p className="ns4-free"><CheckCircle2 size={12} strokeWidth={2} aria-hidden="true" /> ללא תלויות, נטען בגל הראשון.</p>
               )}
 
               {o.unlocks.length ? (

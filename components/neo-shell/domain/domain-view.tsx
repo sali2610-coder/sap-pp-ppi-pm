@@ -94,7 +94,7 @@ export function DomainsHub() {
         <p className="ndm-lede">
           {t.domains} תחומים פונקציונליים של PM ו-PP-PI. כל תחום הוא יחידת עבודה שלמה:
           הזרימה העסקית שלב אחר שלב, הטבלאות והטרנזקציות שמאחוריה, נקודות הלמידה והתקלות הנפוצות.
-          {" "}<b>{t.deep}</b> מהם נושאים גם רשומה עמוקה — נתוני אב, User Exits ו-BAdIs, תרחישי בדיקה,
+          {" "}<b>{t.deep}</b> מהם נושאים גם רשומה עמוקה: נתוני אב, User Exits ו-BAdIs, תרחישי בדיקה,
           תקלות מהשטח, דוגמה מהמפעל והכרעת מעבר ל-S/4HANA.
         </p>
         <div className="ndm-stats">
@@ -227,7 +227,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           <p className="ndm-gap">
             <ShieldQuestion size={14} strokeWidth={1.75} aria-hidden="true" />
             {" "}לתחום הזה המאגר מחזיק את רשומת הבסיס: זרימה, טבלאות, טרנזקציות, BAPIs, נקודות למידה ותקלות.
-            הרשומה העמוקה — נתוני אב, Exits ו-BAdIs, תרחישי בדיקה, דוגמה מהמפעל והכרעת מעבר — לא נכתבה עבורו,
+            הרשומה העמוקה, הכוללת נתוני אב, Exits ו-BAdIs, תרחישי בדיקה, דוגמה מהמפעל והכרעת מעבר, לא נכתבה עבורו,
             והיא לא הושלמה כאן.
           </p>
         ) : null}
@@ -350,7 +350,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           icon={<BadgeCheck size={15} strokeWidth={1.75} />}
           eyebrow="איכות"
           title="תרחישי בדיקה"
-          lede="Positive · Negative · Integration · Regression — כפי שנוסחו במאגר."
+          lede="Positive · Negative · Integration · Regression, כפי שנוסחו במאגר."
         >
           <Bullets items={v.qa} />
         </Sec>

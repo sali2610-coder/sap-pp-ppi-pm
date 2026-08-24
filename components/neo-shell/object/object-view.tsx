@@ -418,7 +418,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           <div className="no-dangle no-self">
             <h3 className="no-h3">
               <GitBranch size={14} strokeWidth={1.75} aria-hidden="true" />
-              היררכיה — הטבלה מצביעה על עצמה
+              היררכיה: הטבלה מצביעה על עצמה
             </h3>
             <p className="no-note">
               רשומה בטבלה הזאת מפנה לרשומה אחרת באותה טבלה. זה קשר אמיתי שהתכנון מתעד,
