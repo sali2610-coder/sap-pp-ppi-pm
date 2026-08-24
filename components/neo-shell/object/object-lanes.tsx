@@ -44,17 +44,23 @@ const MOD_VAR: Record<string, string> = {
 };
 const mc = (m: string) => MOD_VAR[m] || "var(--ink-3)";
 
-/* Geometry. The old Studio's proportions, taken up ~17% so the graph reads at
-   arm's length on a desktop canvas without becoming a slide again. */
+/* GEOMETRY — COMPACT.
+   The previous pass took the old Studio's node up ~17% to make three lines of
+   text fit. That was the wrong trade: a 176x54 card carrying name, module and a
+   clipped Hebrew description is a CARD, and eight of them stacked read as a
+   list of cards rather than as a graph. The brief is explicit — compact nodes,
+   relationships readable at a glance, no bulky cards.
+   So the third line comes OUT of the node (it already appears in full, unclipped,
+   in the explanation strip under the diagram the moment you point at a node) and
+   the box shrinks to what two lines actually need. Nine nodes now occupy roughly
+   half the vertical space they did, which is what lets the EDGES breathe — and
+   the edges are the subject. */
 const W = 760;
-const NW = 176;
-const NH = 54;
-const ROW_H = 74;
-const PAD_Y = 46;
+const NW = 148;
+const NH = 36;
+const ROW_H = 50;
+const PAD_Y = 38;
 const CAP = 8;
-
-/** Trim a validated description to what a 176px card can actually hold. */
-const clip = (s: string, n = 26) => (s.length > n ? s.slice(0, n - 1) + "…" : s);
 
 const descOf = (n: string) => {
   const t = tableByName(n);
@@ -102,9 +108,16 @@ export function ObjectLanes({ name }: { name: string }) {
   /** The node the interaction is about: the click wins over the pointer. */
   const focus = sel || hot;
   const isLive = (n: string) => focus === n;
-  /** Dim only during interaction, and never below .45 — an unrelated node must
-   *  stay legible context, not look disabled. */
-  const dim = (n: string) => (focus && focus !== n ? 0.45 : 1);
+  /** Dim only during interaction. .45 was not a fade — with everything sitting
+   *  at that level the emphasised path never separated from the rest. .3 reads
+   *  as a clear background layer while every label stays legible, which is the
+   *  line the brief draws: unrelated nodes FADE, they do not disappear. */
+  const dim = (n: string) => (focus && focus !== n ? 0.3 : 1);
+
+  /** The centre belongs to every relationship, so it never dims — but it takes
+   *  the focused node's hue as a halo. That is how a reader sees WHICH relation
+   *  is live without the centre having to move or grow. */
+  const focusCol = focus ? mc(tableByName(focus)?.module || "?") : null;
 
   const go = (n: string) => {
     if (tableByName(n)) router.push(`/neo/object/${encodeURIComponent(n)}/`);
@@ -136,25 +149,36 @@ export function ObjectLanes({ name }: { name: string }) {
         }}
         aria-label={center ? `${label}, האובייקט הנוכחי` : `${label}, מודול ${module}${d ? `, ${d}` : ""}`}
       >
+        {/* THE CENTRE DOMINATES WITHOUT BEING BIGGER.
+            Same box as every other node — the brief rules out size as the
+            hierarchy device. Dominance comes from three things instead: a
+            tinted FILL where the others are plain surface, a heavier ring, and
+            a soft halo that takes the colour of whichever relationship is
+            currently live. */}
+        {center ? (
+          <rect
+            x={-5} y={-5} width={NW + 10} height={NH + 10} rx={15}
+            fill="none"
+            stroke={focusCol || col}
+            strokeWidth={1.25}
+            strokeOpacity={0.3}
+            className="nol-halo"
+          />
+        ) : null}
         <rect
           className="nol-card"
-          width={NW} height={NH} rx={11}
-          fill="var(--surface)"
+          width={NW} height={NH} rx={9}
+          fill={center ? `color-mix(in srgb, ${col} 12%, var(--surface))` : "var(--surface)"}
           stroke={col}
-          strokeWidth={center ? 2.6 : on ? 2.2 : 1.4}
+          strokeWidth={center ? 2.4 : on ? 2 : 1.2}
         />
-        <rect width={4} height={NH} rx={2} fill={col} />
-        <text x={NW / 2 + 4} y={d ? 20 : 24} textAnchor="middle"
-          style={{ font: "800 15px ui-monospace, monospace", fill: "var(--ink-1)" }}>{label}</text>
-        <text x={NW / 2 + 4} y={d ? 33 : 38} textAnchor="middle"
-          style={{ font: "700 9px sans-serif", fill: col, letterSpacing: ".04em" }}>
+        <rect width={3} height={NH} rx={1.5} fill={col} />
+        <text x={NW / 2 + 3} y={16} textAnchor="middle"
+          style={{ font: `${center ? 800 : 700} 14px ui-monospace, monospace`, fill: "var(--ink-1)" }}>{label}</text>
+        <text x={NW / 2 + 3} y={28} textAnchor="middle"
+          style={{ font: "700 8.5px sans-serif", fill: col, letterSpacing: ".05em" }}>
           {center ? "האובייקט הנוכחי" : module}
         </text>
-        {/* Third line only where the dictionary actually holds a description. */}
-        {d ? (
-          <text x={NW / 2 + 4} y={45} textAnchor="middle"
-            style={{ font: "500 9px sans-serif", fill: "var(--ink-3)" }}>{clip(d)}</text>
-        ) : null}
       </g>
     );
   };
@@ -166,14 +190,23 @@ export function ObjectLanes({ name }: { name: string }) {
     return (
       <g className="nol-e" data-on={on ? "1" : "0"} style={{ opacity: dim(other) }}
         onMouseEnter={() => setHot(other)} onMouseLeave={() => setHot(null)}>
-        <path d={d} fill="none" stroke={col} strokeWidth={on ? 2.6 : 1.5}
-          strokeOpacity={on ? 1 : 0.55} strokeDasharray="6 5"
+        {/* A RESTING EDGE IS A LINE, A LIVE EDGE IS A FLOW.
+            At rest the dash is gone: fourteen dashed curves at once read as
+            noise, and a solid hairline is what lets the eye follow one
+            relationship across the canvas. The dash appears only on the path
+            being pointed at, which is the emphasis the brief asks for. */}
+        <path d={d} fill="none" stroke={col} strokeWidth={on ? 2.4 : 1.25}
+          strokeOpacity={on ? 1 : 0.4}
+          strokeDasharray={on ? "6 5" : undefined}
           className={on ? "nol-flow" : undefined} />
-        <path d={arrow} fill="none" stroke={col} strokeWidth={on ? 2.2 : 1.5} strokeOpacity={on ? 1 : 0.7} />
-        <rect x={mx - 16} y={my - 8} width={32} height={16} rx={5}
-          fill="var(--surface)" stroke={col} strokeOpacity={on ? 0.9 : 0.45} strokeWidth={on ? 1.4 : 1} />
+        <path d={arrow} fill="none" stroke={col} strokeWidth={on ? 2 : 1.25} strokeOpacity={on ? 1 : 0.55} />
+        {/* The cardinality FILLS when live. An outlined chip with 9px type on a
+            hairline was the least readable thing on the diagram. */}
+        <rect x={mx - 15} y={my - 8} width={30} height={16} rx={8}
+          fill={on ? col : "var(--surface)"}
+          stroke={col} strokeOpacity={on ? 1 : 0.4} strokeWidth={1} />
         <text x={mx} y={my + 4} textAnchor="middle"
-          style={{ font: "700 9px ui-monospace, monospace", fill: on ? col : "var(--ink-2)" }}>{card}</text>
+          style={{ font: "700 9.5px ui-monospace, monospace", fill: on ? "#fff" : "var(--ink-2)" }}>{card}</text>
       </g>
     );
   };

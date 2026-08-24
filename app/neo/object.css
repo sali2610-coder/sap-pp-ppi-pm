@@ -1505,3 +1505,29 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
    two boxes. Neutral hairline, no alert tint. */
 .no-self { border-color: var(--hairline); }
 .no-self .no-h3 svg { color: var(--o, var(--brand)); }
+
+/* THE CENTRE BREATHES — very slightly, and only the halo ring.
+   The brief asks for "subtle movement so the graph feels alive" while ruling
+   out cinematic animation. So nothing that carries meaning moves: not a node,
+   not an edge, not a label. One 1.25px ring around the centre changes opacity
+   over four seconds. It reads as presence, not as motion, and it is the only
+   thing on the diagram animating at rest.
+
+   Under prefers-reduced-motion it simply holds at its mid value — the ring is
+   still there, it just stops breathing. */
+@keyframes nol-breathe {
+  0%, 100% { opacity: .18; }
+  50%      { opacity: .42; }
+}
+.nol-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nol-breathe 4s var(--ease-in-out, ease-in-out) infinite;
+  transition: stroke 260ms var(--ease-out-expo);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nol-halo { animation: none; opacity: .3; }
+}
+
+/* A live cardinality chip is filled, so its label must not also be tinted. */
+.nol-e[data-on="1"] text { paint-order: stroke; }
