@@ -338,13 +338,28 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
    rhythm the page needs is dark, light, mint, violet, blue, rich blue,
    burgundy, dark, not six shades of night. 10.2:1 */
 [data-scene="data"] {
-  --scene-ground: #c8e6f7;
-  --scene-raised: #f2fafe;
+  /* DEEPENED, because the field was reading as a wash rather than as a block.
+     A colour block only works if the card standing on it is a different PLANE.
+     Measured on the old pair: ground #c8e6f7 against raised #f2fafe separated by
+     1.23:1 — below the ~1.35:1 where an edge becomes visible without a border,
+     so the near-white card dissolved into the pale field and the whole scene
+     read washed out. The field now carries real chroma (0.184 -> 0.314) and the
+     card reads as a card: separation 1.53:1.
+
+     The ink moved with it. Every tier was re-measured against the NEW ground,
+     not the old one:
+       ink   #06304d   8.54:1 on field · 13.06:1 on card
+       ink-2 #0d4a72   5.87:1 on field
+       ink-3 #255a80   4.61:1 on field ·  7.04:1 on card
+     ink-3 had to darken from #326c92, which measured 3.55:1 on the deeper field
+     — an AA failure at the exact tier the coverage rows use. */
+  --scene-ground: #9fd4ef;
+  --scene-raised: #f4fbfe;
   --scene-ink: #06304d;
   --scene-ink-2: #0d4a72;
-  --scene-ink-3: #326c92;
+  --scene-ink-3: #255a80;
   --scene-accent: #06304d;
-  --scene-hair: rgba(6, 48, 77, .20);
+  --scene-hair: rgba(6, 48, 77, .22);
 }
 
 /* SHARED CORE. The one scene that belongs to the brand rather than to a module.
@@ -406,11 +421,18 @@ html[data-theme="dark"] [data-scene="ai"] {
    ground. Cobalt and burnt orange carry the same meaning and actually pass.
    Ink #0a2342 on #dce9fb measures 13.4:1. */
 [data-scene="s4"] {
-  --scene-ground: #dce9fb;
-  --scene-raised: #f7fbff;
+  /* DEEPENED for the same reason as the data scene above: #dce9fb against the
+     near-white raised tone separated by only 1.18:1, so on the product's most
+     important subject the cards floated in a haze. Field chroma 0.122 -> 0.239,
+     separation 1.18 -> 1.47:1. It stays the BRIGHT scene — that role is the
+     whole point of the S/4 flip — it is simply now a confident blue rather than
+     a tint of white. */
+  --scene-ground: #b9d4f6;
+  --scene-raised: #f8fcff;
   --scene-ink: #0a2342;
   --scene-ink-2: #2f4e78;
-  --scene-ink-3: #4a6485;   /* 4.9:1 on the ground; #5c789e measured 3.57 */
+  /* Re-measured on the deeper field: #4a6485 fell to 4.00:1 there. */
+  --scene-ink-3: #42597a;   /* 4.70:1 on the field · 6.92:1 on the card */
   /* MEASURED AGAINST THE RAISED TONE, NOT THE GROUND.
      The first values were computed against #dce9fb and looked fine on paper.
      They do not render there: the verdict chips and the "ECC → S/4HANA" label
