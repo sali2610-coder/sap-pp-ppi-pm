@@ -24,13 +24,16 @@ import { ArrowLeft, ChevronDown } from "lucide-react";
 import { OriginLink } from "@/components/neo-shell/nav-context";
 import { pushRecentObject } from "../store";
 import type { S4Class, WsRow, WsTopic } from "./workspace-data";
+import { S4_HE, S4_UNDECIDED_HE, s4Dot } from "@/lib/s4-class";
 import { useWsOrigin } from "./workspace-origin";
 
 const nf = new Intl.NumberFormat("he-IL");
 
-/** S/4HANA verdict labels. The colour for these is a STATUS colour, so it may
- *  only ever appear as a small filled dot immediately followed by this word. */
-export const S4_HE: Record<S4Class, string> = { 0: "נשמר", 1: "הוחלף", 2: "הוסר" };
+/** S/4HANA verdict labels and status tokens live in lib/s4-class.ts — one
+ *  definition for the workspace, the ECC↔S/4 page and Home. Re-exported here
+ *  so existing imports keep working. The colour may only ever appear as a
+ *  small filled dot immediately followed by its own word. */
+export { S4_HE, s4Dot } from "@/lib/s4-class";
 
 export type SortKey = "f" | "n" | "tp" | "rel" | "tc" | "fn";
 
@@ -198,7 +201,7 @@ export function WorkspaceTable({
                     {/* STATUS colour: a small filled dot, immediately followed by its
                         word. It is never a surface, a ring, a line or text colour. */}
                     <span className="nu-status" style={{ "--s": s4Dot(r.s4) } as React.CSSProperties}>
-                      {S4_HE[r.s4]}
+                      {r.s4 === null ? S4_UNDECIDED_HE : S4_HE[r.s4]}
                     </span>
                   </td>
 
@@ -337,7 +340,4 @@ export function WorkspaceTable({
   );
 }
 
-/** The STATUS token for a verdict. Fed to .nu-status, which is the only shape
- *  a status colour is allowed to take: a small filled dot plus its word. */
-export const s4Dot = (k: S4Class) =>
-  k === 0 ? "var(--status-done)" : k === 1 ? "var(--status-in-conversion)" : "var(--status-not-started)";
+

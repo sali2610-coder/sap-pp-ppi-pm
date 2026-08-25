@@ -47,8 +47,12 @@ import type { ModuleKey } from "../types";
 
 /* ------------------------------------------------------------------ types */
 
-/** S/4HANA class, straight out of lib/module-portal's eccS4(). */
-export type S4Class = 0 | 1 | 2; // kept · replaced · removed
+/** S/4HANA verdict. Decided once, in lib/s4-class.ts, from the blueprint's own
+ *  S/4 column — so this workspace and the ECC↔S/4 page cannot disagree.
+ *  `null` on a row means the source states no verdict; it is shown as a gap. */
+export type { S4Class } from "@/lib/s4-class";
+import type { S4Class, S4Split } from "@/lib/s4-class";
+import { s4ClassOf } from "@/lib/s4-class";
 
 export interface WsField {
   tech: string;
@@ -113,7 +117,7 @@ export interface WsRow {
   cds: number;
   /** Fiori app as the blueprint names it, or "". */
   fiori: string;
-  s4: S4Class;
+  s4: S4Class | null;
   /** Verbatim S/4HANA note. Never paraphrased. */
   s4Note: string;
   /** Replacement table / transaction as stated, or "". */
@@ -187,7 +191,7 @@ export interface WsS4Row {
   href: string;
   obj: string;
   /** Verdict class, the same bucketing the working table shows. */
-  s4: S4Class;
+  s4: S4Class | null;
   risk: "high" | "medium" | "low" | "none";
   riskHe: string;
   trust: "verified" | "partial" | "needs";
@@ -272,7 +276,7 @@ export interface WsData {
   maxTopicTables: number;
 
   zones: { id: Zone; he: string; n: number; obj: string }[];
-  s4: { kept: number; replaced: number; removed: number };
+  s4: S4Split;
 
   /* --- S/4HANA, as the forward context of the whole page ------------------ */
   s4x: {
@@ -380,16 +384,9 @@ const dataOf = (k: ModuleKey): SAPModuleData => (k === "PM" ? PM_DATA : PPPI_DAT
  *  they are two different pieces of documentation. */
 const rowsOf = (m: SAPModuleData): SAPTable[] => m.topics.flatMap((tp) => tp.tables);
 
-function s4Of(t: SAPTable): S4Class {
-  // Identical to lib/module-portal's eccS4() bucketing, applied per row so the
-  // working table can show the same verdict the ECC ↔ S/4HANA page shows.
-  const alt = (t.s4AltTable || "").trim();
-  const base = alt.replace(/\s*\(.*?\)\s*/g, "").trim().toUpperCase();
-  const identical = !!alt && (/(זהה|identical|unchanged|ללא שינוי|\(=\))/i.test(alt) || base === t.tableName.toUpperCase());
-  if (/הוסר|בוטל|removed|deprecat/i.test(t.s4Note || "")) return 2;
-  if (alt && !identical) return 1;
-  return 0;
-}
+/** The blueprint's own S/4HANA verdict for one row. Shared with the ECC↔S/4
+ *  page and Home through lib/s4-class.ts, so the three cannot drift. */
+const s4Of = s4ClassOf;
 
 /** Books whose module is this module. PP-PI absorbs PP, exactly as the rail's
  *  booksFor() does — the two are one shelf in this product, not two. */
@@ -741,7 +738,13 @@ export function workspaceData(key: ModuleKey): WsData {
       obj: objVar(z.id),
     })),
 
-    s4: { kept: s4.kept.length, replaced: s4.replaced.length, removed: s4.removed.length },
+    s4: {
+      kept: s4.kept.length,
+      changed: s4.changed.length,
+      replaced: s4.replaced.length,
+      removed: s4.removed.length,
+      undecided: s4.undecided.length,
+    },
 
     s4x: { risk, trust, changed, notes: [...noteSet].sort(), has },
 

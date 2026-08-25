@@ -44,6 +44,9 @@
   --status-in-conversion: #3b82f6;
   --status-tested: #8b5cf6;
   --status-done: #10b981;
+  /* An object the blueprint marks as GONE in S/4HANA. Deliberately separate
+     from --status-not-started, which this product reads as "no verdict yet". */
+  --status-removed: #dc2626;
 
   --radius: 0.75rem;
 

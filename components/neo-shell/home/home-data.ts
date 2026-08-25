@@ -36,8 +36,10 @@ import type { ModuleKey } from "../types";
 /** Membership band. Drives the gravity formation: 0 = PM only, 1 = both
  *  (the real 19), 2 = PP-PI only. */
 export type Band = 0 | 1 | 2;
-/** S/4HANA class, straight out of lib/module-portal's eccS4(). */
-export type S4Class = 0 | 1 | 2; // kept · replaced · removed
+/** S/4HANA verdict. One definition, in lib/s4-class.ts, shared with the module
+ *  workspaces and the ECC↔S/4 page. */
+export type { S4Class } from "@/lib/s4-class";
+import type { S4Class } from "@/lib/s4-class";
 
 /** One real merged SAP table = one dot. Keys are short because 105 of these
  *  are serialised into the static HTML of every /neo build. */
@@ -250,10 +252,15 @@ function occurrences(): Map<string, Occ[]> {
  *  one module's blueprint is gone, even if the other blueprint kept it. */
 function s4ByTable(): Map<string, S4Class> {
   const out = new Map<string, S4Class>();
+  const worst = (code: string, k: S4Class) =>
+    out.set(code, Math.max(out.get(code) ?? 0, k) as S4Class);
   for (const m of [PM_DATA, PPPI_DATA] as SAPModuleData[]) {
-    const { replaced, removed } = eccS4(m);
-    for (const r of replaced) out.set(r.code, Math.max(out.get(r.code) ?? 0, 1) as S4Class);
-    for (const r of removed) out.set(r.code, 2);
+    const { changed, replaced, removed } = eccS4(m);
+    for (const r of changed) worst(r.code, 1);
+    for (const r of replaced) worst(r.code, 2);
+    for (const r of removed) worst(r.code, 3);
+    // `undecided` deliberately does NOT write: absence of a verdict must not
+    // outrank a verdict the other blueprint actually states.
   }
   return out;
 }

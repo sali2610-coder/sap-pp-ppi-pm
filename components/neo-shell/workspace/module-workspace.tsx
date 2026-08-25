@@ -64,7 +64,11 @@ import { WorkspaceLearn } from "./workspace-learn";
 import { WorkspaceMap, type MapView } from "./workspace-map";
 import { WorkspaceOps } from "./workspace-ops";
 import { WorkspaceS4 } from "./workspace-s4";
-import { WorkspaceTable, S4_HE, s4Dot, type SortKey } from "./workspace-table";
+import { WorkspaceTable, type SortKey } from "./workspace-table";
+import { s4He, s4Dot, s4CountOf, S4_ORDER } from "@/lib/s4-class";
+
+/** Every verdict the dataset can hold, plus the honest "no verdict" bucket. */
+const S4_FILTERS: (S4Class | null)[] = [...S4_ORDER, null];
 import { SectionNav } from "./section-nav";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -124,7 +128,8 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
   const [q, setQ] = useState("");
   const [topic, setTopic] = useState<number | null>(null);
   const [zone, setZone] = useState<Zone | null>(null);
-  const [s4, setS4] = useState<S4Class | null>(null);
+  // `undefined` = no filter. `null` = filter ON the undecided bucket.
+  const [s4, setS4] = useState<S4Class | null | undefined>(undefined);
   const [sharedOnly, setSharedOnly] = useState(false);
   const [sort, setSort] = useState<SortKey>("f");
   const [dir, setDir] = useState<1 | -1>(-1);
@@ -139,7 +144,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
     const out = data.rows.filter((r) => {
       if (topic !== null && r.tp !== topic) return false;
       if (zone && r.z !== zone) return false;
-      if (s4 !== null && r.s4 !== s4) return false;
+      if (s4 !== undefined && r.s4 !== s4) return false;
       if (sharedOnly && !r.shared) return false;
       if (!needle) return true;
       return (
@@ -191,7 +196,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
   const active: string[] = [
     topicTitle ? `נושא · ${topicTitle}` : null,
     zoneTitle ? `מחלקה · ${zoneTitle}` : null,
-    s4 !== null ? `S/4HANA · ${S4_HE[s4]}` : null,
+    s4 !== undefined ? `S/4HANA · ${s4He(s4)}` : null,
     sharedOnly ? `משותפות עם ${data.key === "PM" ? "PP-PI" : "PM"}` : null,
     q.trim() ? `חיפוש · ${q.trim()}` : null,
   ].filter((x): x is string => !!x);
@@ -211,7 +216,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
     setQ("");
     setTopic(null);
     setZone(null);
-    setS4(null);
+    setS4(undefined);
     setSharedOnly(false);
   };
 
@@ -441,8 +446,8 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
             <div className="nw-panel" id="nw-panel">
               <div className="nw-fgroup" role="group" aria-label="מצב ב-S/4HANA">
                 <span className="nw-fk">מצב ב-S/4HANA</span>
-                {([0, 1, 2] as S4Class[]).map((k) => {
-                  const n = k === 0 ? data.s4.kept : k === 1 ? data.s4.replaced : data.s4.removed;
+                {S4_FILTERS.map((k) => {
+                  const n = s4CountOf(data.s4, k);
                   return (
                     <button
                       key={k}
@@ -451,12 +456,12 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
                       data-on={s4 === k ? "1" : undefined}
                       aria-pressed={s4 === k}
                       disabled={n === 0}
-                      onClick={() => setS4((c) => (c === k ? null : k))}
+                      onClick={() => setS4((c) => (c === k ? undefined : k))}
                     >
                       {/* STATUS colour appears only as a small filled dot
                           immediately followed by its own word. */}
                       <span className="nu-status" style={{ "--s": s4Dot(k) } as React.CSSProperties}>
-                        {S4_HE[k]}
+                        {s4He(k)}
                       </span>
                       <em className="nw-sap">{nf.format(n)}</em>
                     </button>

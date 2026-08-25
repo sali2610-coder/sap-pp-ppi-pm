@@ -44,7 +44,7 @@ import type { S4Class, WsData, WsS4Row } from "./workspace-data";
 import { Chapter, Sub, type ChapterMeta } from "./workspace-chapter";
 import { useWsOrigin } from "./workspace-origin";
 import { WorkspaceSheet } from "./workspace-sheet";
-import { S4_HE, s4Dot } from "./workspace-table";
+import { s4He, s4Dot } from "@/lib/s4-class";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -62,11 +62,16 @@ const TRUST_WHY: Record<string, string> = {
 export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
   const [all, setAll] = useState(false);
 
-  const split: { k: S4Class; n: number }[] = [
+  // Five buckets, not three. "לא הוכרע במקור" is a real state in this dataset
+  // — 11 PP-PI rows carry an S/4 note with no leading verdict — and folding it
+  // into "ללא שינוי" is what made PP-PI read as 68 unchanged / 0 replaced.
+  const split = ([
     { k: 0, n: d.s4.kept },
-    { k: 1, n: d.s4.replaced },
-    { k: 2, n: d.s4.removed },
-  ];
+    { k: 1, n: d.s4.changed },
+    { k: 2, n: d.s4.replaced },
+    { k: 3, n: d.s4.removed },
+    { k: null, n: d.s4.undecided },
+  ] as { k: S4Class | null; n: number }[]).filter((x) => x.n > 0);
   const total = split.reduce((a, s) => a + s.n, 0) || 1;
 
   const changed = d.s4x.changed;
@@ -214,7 +219,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
           {split.map((s) => (
             <li key={s.k}>
               <span className="nu-status" style={{ "--s": s4Dot(s.k) } as React.CSSProperties}>
-                {S4_HE[s.k]}
+                {s4He(s.k)}
               </span>
               <span className="nw-bar nw-bar--ink nm-grow" aria-hidden="true">
                 <i style={{ "--p": s.n / total } as React.CSSProperties} />
@@ -279,7 +284,7 @@ function Move({ r }: { r: WsS4Row }) {
           <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
         </OriginLink>
         <span className="nu-status" style={{ "--s": s4Dot(r.s4) } as React.CSSProperties}>
-          {S4_HE[r.s4]}
+          {s4He(r.s4)}
         </span>
         {r.note ? <span className="nu-chip is-sap">{r.note}</span> : null}
       </div>
