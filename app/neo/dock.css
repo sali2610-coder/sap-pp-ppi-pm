@@ -1,0 +1,302 @@
+/* ============================================================================
+   PROJECT NEO · THE DOCK — font control + assistant entry (§22, §23)
+   ----------------------------------------------------------------------------
+   "לא גדולים. לא מסתירים תוכן." Two chip-sized controls pinned to the inline
+   start of the viewport bottom, above the safe area. The canvas reserves the
+   room they occupy, so they sit BESIDE the last line of content rather than on
+   top of it.
+   ========================================================================== */
+
+.nx-app {
+  /* The height the dock occupies, spent by the canvas as bottom padding. */
+  --nxk-h: 3.25rem;
+}
+
+/* --- the two buttons ------------------------------------------------------ */
+
+/* SIDE: the dock lives on the INLINE END.
+   It started on the inline start and moved here on request. The move also
+   resolves a collision that was already latent: .nr-unfocus (the reader's
+   "leave focus mode" button) is pinned to the inline start of the same bottom
+   edge, so in focus mode the two were stacking in one corner. */
+.nxk {
+  position: fixed;
+  inset-block-end: max(0.75rem, env(safe-area-inset-bottom));
+  inset-inline-end: 0.75rem;
+  z-index: 64;                /* under the rail overlay (70), over the canvas */
+  display: flex;
+  gap: 0.4rem;
+  transition: opacity var(--dur-base) var(--ease-out-expo);
+}
+.nxk[data-open="1"] { opacity: 0; pointer-events: none; }
+
+.nxk-b {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-block-size: 2.25rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--hairline);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--elev-2);
+  color: var(--ink-2);
+  font-size: 0.75rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out-expo),
+              border-color var(--dur-fast) linear, color var(--dur-fast) linear;
+}
+.nxk-b:hover { transform: translateY(-1px); color: var(--ink-1); border-color: color-mix(in srgb, var(--brand) 40%, var(--hairline)); }
+.nxk-b:active { transform: translateY(0) scale(.98); }
+.nxk-b:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand); }
+.nxk-b--ask { color: var(--ink-1); border-color: color-mix(in srgb, var(--brand) 34%, var(--hairline)); }
+.nxk-b--ask .ico { color: var(--brand); }
+
+@media (pointer: coarse) { .nxk-b { min-block-size: 2.75rem; padding-inline: 0.9rem; } }
+
+/* --- scrim + panel -------------------------------------------------------- */
+
+.nxk-scrim {
+  position: fixed; inset: 0; z-index: 65;
+  border: 0; padding: 0;
+  background: color-mix(in srgb, var(--ink-1) 26%, transparent);
+  backdrop-filter: blur(2px);
+  cursor: default;
+  animation: nxk-fade var(--dur-fast) var(--ease-out-expo) both;
+}
+html[data-theme="dark"] .nxk-scrim { background: color-mix(in srgb, var(--background) 72%, transparent); }
+
+.nxk-p {
+  position: fixed;
+  z-index: 66;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Desktop: a side panel on the inline start, as specified. */
+@media (min-width: 861px) {
+  .nxk-p {
+    inset-block: 0;
+    inset-inline-end: 0;
+    inline-size: min(26rem, 92vw);
+    padding: var(--sp-6);
+    border-block: 0;
+    /* The border is dropped on the edge that meets the viewport, which is now
+       the inline END, so the panel reads as attached rather than floating. */
+    border-inline-end: 0;
+    animation: nxk-slide var(--dur-panel) var(--ease-emphasis) both;
+  }
+}
+
+/* Phone: a bottom sheet, as specified. */
+@media (max-width: 860px) {
+  .nxk-p {
+    inset-inline: 0;
+    inset-block-end: 0;
+    max-block-size: 86dvh;
+    padding: var(--sp-5) var(--sp-4) calc(var(--sp-5) + env(safe-area-inset-bottom));
+    border-block-end: 0;
+    border-inline: 0;
+    border-start-start-radius: 1.5rem;
+    border-start-end-radius: 1.5rem;
+    animation: nxk-rise var(--dur-panel) var(--ease-emphasis) both;
+  }
+  /* The grab affordance a sheet is expected to have. */
+  .nxk-p::before {
+    content: ""; position: sticky; inset-block-start: 0;
+    inline-size: 2.25rem; block-size: 4px; border-radius: 999px;
+    background: var(--hairline); margin: 0 auto var(--sp-2);
+  }
+}
+
+@keyframes nxk-fade { from { opacity: 0 } to { opacity: 1 } }
+
+/* The panel must enter FROM the edge it is attached to, and that edge is
+   physically different per direction: the panel sits on the inline end, which
+   is the left of the screen in RTL and the right of it in LTR. translateX is a
+   physical axis with no logical twin, so the offset is carried in a variable
+   and flipped once, here, rather than by mirroring the whole animation. */
+.nxk-p { --nxk-in: -16px; }
+[dir="ltr"] .nxk-p { --nxk-in: 16px; }
+@keyframes nxk-slide { from { opacity: 0; transform: translateX(var(--nxk-in, -16px)) } to { opacity: 1; transform: none } }
+@keyframes nxk-rise  { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: none } }
+
+.nxk-p-h { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+.nxk-p-h h2 { font-size: var(--t-h1); font-weight: 800; letter-spacing: -.02em; }
+.nxk-x { min-inline-size: 2.25rem; min-block-size: 2.25rem; justify-content: center; }
+@media (pointer: coarse) { .nxk-x { min-inline-size: 2.75rem; min-block-size: 2.75rem; } }
+
+.nxk-note { color: var(--ink-3); font-size: var(--t-xs); line-height: 1.7; }
+
+/* --- font picker ---------------------------------------------------------- */
+
+.nxk-set { border: 0; padding: 0; margin: 0; display: grid; gap: var(--sp-3); }
+.nxk-grid { display: grid; gap: var(--sp-2); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.nxk-face {
+  position: relative;
+  display: grid; gap: 0.15rem;
+  padding: var(--sp-3);
+  min-inline-size: 0;
+  cursor: pointer;
+}
+.nxk-face-s { font-size: 1.4rem; line-height: 1.2; color: var(--ink-1); }
+.nxk-face-n { font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
+.nxk-face-d { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.5; }
+.nxk-face-v { position: absolute; inset-block-start: var(--sp-2); inset-inline-end: var(--sp-2); color: var(--brand); }
+.nxk-face[data-on="1"] { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+
+.nxk-sizes { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.nxk-reset { justify-content: center; }
+
+/* --- assistant panel ------------------------------------------------------ */
+
+/* NEO'S PANEL WEARS NEO'S GROUND.
+   It carries data-scene="ai" but deliberately NOT .nm-scene, because that
+   helper sets position:relative in order to paint its own ground and would
+   override this panel's position:fixed — which threw the drawer to the opposite
+   edge of the screen. The attribute still resolves every scene token, so the
+   painting is done here instead and the fixed positioning survives. */
+.nxk-p--ask {
+  background: var(--scene-ground);
+  color: var(--scene-ink);
+  --surface: var(--scene-raised);
+  --surface-2: color-mix(in oklab, var(--scene-raised) 68%, var(--scene-ground));
+  --ink-1: var(--scene-ink);
+  --ink-2: var(--scene-ink-2);
+  --ink-3: var(--scene-ink-3);
+  --hairline: var(--scene-hair);
+  border-color: var(--scene-hair);
+}
+
+.nxk-ctx {
+  display: grid; gap: 0.3rem;
+  padding: var(--sp-4);
+  border: 1px solid var(--hairline);
+  border-inline-start: 3px solid var(--brand);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+.nxk-ctx-l { font-size: var(--t-h2); font-weight: 750; color: var(--ink-1); line-height: 1.4; }
+.nxk-ctx-p { font-size: var(--t-micro); color: var(--ink-3); }
+
+.nxk-go { display: grid; gap: var(--sp-2); }
+.nxk-go-a { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem var(--sp-2); text-align: start; padding: var(--sp-3) var(--sp-4); block-size: auto; }
+.nxk-go-a .ico { grid-row: span 2; align-self: center; }
+.nxk-go-a em { grid-column: 2; font-style: normal; font-size: var(--t-micro); font-weight: 500; opacity: .8; }
+
+/* --- motion off ----------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .nxk, .nxk-b, .nxk-p, .nxk-scrim { transition: none; animation: none; }
+  .nxk-b:hover { transform: none; }
+}
+
+/* --- applying the choice -------------------------------------------------- */
+
+/* Face is inherited, so one declaration on the shell reaches every NEO surface.
+   Unset by default, which means the design system's own stack keeps winning. */
+.nx-app { font-family: var(--nx-face, inherit); }
+
+/* The dock is fixed, so the canvas has to reserve its height or the last line
+   of every page sits underneath it. */
+.nx-app .nx-canvas { padding-block-end: calc(var(--sp-8) + var(--nxk-h)); }
+
+/* ============================================================================
+   APPEARANCE CONTROL — יום / אוטומטי / לילה
+   ----------------------------------------------------------------------------
+   The requirement is that the ACTIVE mode is unmistakable without opening
+   anything, which rules out a toggle button and rules out a thin ring. The
+   selected segment gets a filled surface, a lifted shadow and full-strength
+   ink; the other two sit flat with muted ink. Read at a glance, in both themes.
+
+   Home now has deliberate DARK SCENES IN LIGHT MODE, so the page itself is no
+   longer evidence of which theme is on. That is exactly why this control has to
+   state its own answer rather than let the background imply one.
+   ========================================================================== */
+
+.nxk-theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+/* Before the stored value is read the control must not claim a mode. */
+.nxk-theme[data-ready="0"] { opacity: .55; }
+
+.nxk-theme-b {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  min-block-size: 30px;
+  padding: 0 .55rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  font-size: .76rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.nxk-theme-b:hover { color: var(--ink-1); }
+.nxk-theme-b .ico { flex: none; }
+
+/* THE SELECTED STATE. Filled, lifted, full-strength — not a border. */
+.nxk-theme-b[data-on="1"] {
+  color: var(--ink-1);
+  background: var(--surface);
+  box-shadow:
+    0 1px 2px -1px rgba(60, 42, 28, .18),
+    inset 0 0 0 1px color-mix(in srgb, var(--brand) 26%, var(--hairline));
+}
+.nxk-theme-b[data-on="1"] .ico { color: var(--brand); }
+html[data-theme="dark"] .nxk-theme-b[data-on="1"] {
+  background: color-mix(in oklab, var(--surface) 82%, #fff 18%);
+  box-shadow:
+    0 1px 0 0 rgba(255, 240, 220, .10),
+    inset 0 0 0 1px color-mix(in srgb, var(--brand) 34%, var(--hairline));
+}
+
+.nxk-theme-b:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
+
+/* What Auto currently resolves to. Auto that does not say where it landed is
+   only marginally better than no control. */
+.nxk-theme-now {
+  padding-inline: .4rem .1rem;
+  font-size: .68rem;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+.nxk-sep {
+  inline-size: 1px;
+  block-size: 20px;
+  margin-inline: .3rem;
+  background: var(--hairline);
+  flex: none;
+}
+
+/* On a phone the labels are the first thing to go — the icons plus the filled
+   state still answer the question, and the row has to fit one thumb's reach. */
+@media (max-width: 560px) {
+  .nxk-theme-t { display: none; }
+  .nxk-theme-now { display: none; }
+  .nxk-theme-b { padding-inline: .5rem; }
+}

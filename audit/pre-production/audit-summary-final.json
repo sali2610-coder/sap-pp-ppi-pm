@@ -1,0 +1,130 @@
+{
+ "verdict": "GO — every P0 closed, P1 technical items closed, P2 content-loss closed",
+ "scope": "repair pass following the pre-production zero-loss migration audit",
+ "merged": false,
+ "deployedToProduction": false,
+ "previewOnly": true,
+ "gates": {
+  "tsc": 0,
+  "eslintErrors": 0,
+  "buildPages": 7800,
+  "routeManifest": "in sync",
+  "deadLinks": 0,
+  "externalResourceLoads": 0
+ },
+ "before": {
+  "objects_neo_pages": 105,
+  "objects_total": 186,
+  "domains_neo_pages": 0,
+  "domain_hub": false,
+  "s4_neo_surfaces": 0,
+  "migration_cockpit_neo": false,
+  "enrichment_reachable": 0,
+  "erd_edges": 106,
+  "self_relations_rendered": 0,
+  "pkfk_dual_role": 0,
+  "book7_duplicate_sections_distinct": 0,
+  "neo_to_legacy_links": 562,
+  "neo_library_placeholder": true,
+  "neo_orphan_routes": 1,
+  "dead_links": 0
+ },
+ "after": {
+  "generated": "post-repair re-audit",
+  "gates": {
+   "tsc": 0,
+   "eslintErrors": 0,
+   "buildPages": 7800,
+   "routeManifest": "in sync",
+   "deadLinks": 0,
+   "externalResourceLoads": 0
+  },
+  "routes": {
+   "total": 7800,
+   "neo": 3170
+  },
+  "objects": {
+   "blueprint": 105,
+   "hrbw": 65,
+   "verified": 16,
+   "total": 186,
+   "neoObjectPages": 186,
+   "legacyObjectPages": 186
+  },
+  "tables": {
+   "blueprintRows": 126,
+   "distinct": 105,
+   "neoTablePages": 106
+  },
+  "fields": {
+   "rows": 512,
+   "pk": 222,
+   "fk": 178,
+   "dualRolePkFk": 77
+  },
+  "relationships": {
+   "tables": 105,
+   "rows": 126,
+   "shared": 19,
+   "edges": 118,
+   "stated": 59,
+   "unstated": 59,
+   "isolated": 3,
+   "contested": 2,
+   "pmStatements": 121,
+   "ppPiStatements": 129
+  },
+  "transactions": {
+   "registry": 1817,
+   "neoPages": 1818
+  },
+  "books": {
+   "count": 11,
+   "chapters": 135,
+   "sections": 4317,
+   "figures": 3855
+  },
+  "language": {
+   "hebrewSections": 4314,
+   "englishSections": 4317,
+   "bilingualPairs": 4314
+  },
+  "book7": {
+   "duplicateIds": 20,
+   "nowDistinct": 20
+  },
+  "domains": {
+   "dataset": 39,
+   "neoPages": 39,
+   "hub": true
+  },
+  "s4": {
+   "s4Objects": 29,
+   "architecture": 8,
+   "changeTopics": 18,
+   "neoS4Hana": true,
+   "neoReadiness": true
+  },
+  "migration": {
+   "objects": 24,
+   "eccRefs": 56,
+   "eccTables": 49,
+   "neoCockpit": true
+  },
+  "cds": {
+   "views": 39,
+   "neoPages": 40
+  },
+  "fiori": {
+   "apps": 20,
+   "neoPages": 21
+  },
+  "enrichment": {
+   "enrichedTables": 94,
+   "blueprintTables": 105
+  },
+  "neoLegacyLinks": 0,
+  "orphanNeoRouteLibraryPlaceholder": false
+ },
+ "one_item_flagged_for_human": "MB1A + 15 sibling codes — see audit/repair/SOURCE_CONFLICT_MB1A.md"
+}

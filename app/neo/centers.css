@@ -1,0 +1,236 @@
+/* ============================================================================
+   PROJECT NEO · CENTERS
+   ----------------------------------------------------------------------------
+   Eleven legacy routes rendered the same grid of cards on a white page with a
+   coloured header. That is the "generic beige enterprise list" the brief names
+   as a failure state, and it is what made the family read as unfinished next
+   to PM and PP-PI.
+
+   The quality baseline here is the module workspace: a hero that states the
+   subject and its weight, a body that is READING rather than a card wall, and
+   accent used as edge and marker rather than as fill.
+
+   Each ITEM keeps its own accent — that colour is carried in the dataset and
+   is part of the validated content, not a decoration this file invented. It is
+   spent on the item's edge bar and on the section markers, never on a large
+   fill, so eleven accents across a page never become eleven backgrounds.
+   ========================================================================== */
+
+.nct {
+  --ct: var(--sec-knowledge, var(--brand));
+  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem) 5rem;
+  max-inline-size: 74rem;
+  margin-inline: auto;
+  color: var(--scene-ink, var(--ink-1));
+}
+
+/* ------------------------------------------------------------------- hero */
+
+.nct-hero { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+
+.nct-eye {
+  display: flex; align-items: center; gap: .5rem;
+  margin: 0 0 .6rem;
+  font-size: .74rem; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nct-eye i { inline-size: 14px; block-size: 1px; background: currentColor; opacity: .5; flex: none; }
+.nct-sap { unicode-bidi: isolate; color: var(--ink-2); }
+.nct-back {
+  color: var(--ct); font: inherit; text-decoration: none;
+  border-block-end: 1px solid color-mix(in srgb, var(--ct) 40%, transparent);
+}
+.nct-back:hover { border-block-end-color: var(--ct); }
+
+.nct-h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4.2vw, 3rem);
+  font-weight: 700; line-height: 1.08; letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.nct-h1-en {
+  margin: .35rem 0 0;
+  font-size: clamp(.95rem, 1.6vw, 1.15rem); font-weight: 600;
+  color: var(--ink-3); unicode-bidi: isolate;
+}
+.nct-lede {
+  margin: .8rem 0 0; max-inline-size: 62ch;
+  font-size: .97rem; line-height: 1.68; color: var(--ink-2);
+}
+.nct-hero-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+
+/* ------------------------------------------------------- families (hub) */
+
+.nct-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: .85rem;
+}
+.nct-fam {
+  display: flex; flex-direction: column; gap: .3rem;
+  padding: 1.05rem 1.1rem 1rem;
+  border-radius: 1rem;
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  /* The accent enters as an EDGE. Eleven families on one screen, so a fill
+     would produce eleven colour blocks fighting each other. */
+  border-inline-start: 3px solid var(--ct);
+  box-shadow: var(--elev-1);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.nct-fam:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--elev-3);
+  border-color: color-mix(in srgb, var(--ct) 40%, var(--hairline));
+}
+.nct-fam:active { transform: translateY(0); }
+.nct-fam-top { display: flex; align-items: baseline; gap: .5rem; }
+.nct-fam-he { font-size: 1.05rem; font-weight: 700; }
+.nct-fam-n {
+  margin-inline-start: auto;
+  font-size: .78rem; font-weight: 700; color: var(--ct);
+  background: color-mix(in srgb, var(--ct) 12%, transparent);
+  padding: .1rem .45rem; border-radius: 999px;
+}
+.nct-fam-en { font-size: .78rem; font-weight: 600; color: var(--ink-3); unicode-bidi: isolate; }
+.nct-fam-lede { margin-top: .35rem; font-size: .85rem; line-height: 1.6; color: var(--ink-2); }
+.nct-fam-go {
+  display: inline-flex; align-items: center; gap: .35rem;
+  margin-top: .7rem; font-size: .8rem; font-weight: 600; color: var(--ct);
+}
+
+/* ------------------------------------------------------- items (family) */
+
+.nct-items { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.nct-item {
+  display: flex; align-items: stretch; gap: .85rem;
+  padding: .85rem 1rem .85rem 0;
+  border-radius: .9rem;
+  text-decoration: none; color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  overflow: hidden;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.nct-item:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--elev-2);
+  border-color: color-mix(in srgb, var(--ct) 34%, var(--hairline));
+}
+.nct-item-bar { inline-size: 3px; flex: none; border-radius: 3px; }
+.nct-item-body { display: flex; flex-direction: column; gap: .12rem; min-inline-size: 0; flex: 1 1 auto; }
+.nct-item-he { font-size: .95rem; font-weight: 700; }
+.nct-item-en { font-size: .78rem; font-weight: 600; color: var(--ink-3); unicode-bidi: isolate; }
+.nct-item-sub {
+  margin-top: .18rem; font-size: .83rem; line-height: 1.55; color: var(--ink-2);
+  /* Wraps to two lines rather than truncating: the sub IS the description. */
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.nct-item-meta {
+  display: flex; align-items: center; gap: .35rem; flex-wrap: wrap;
+  flex: none; align-self: center; padding-inline-end: .25rem;
+}
+.nct-item-n { font-size: .72rem; color: var(--ink-3); white-space: nowrap; }
+
+.nct-tag {
+  font-size: .68rem; font-weight: 700; letter-spacing: .03em;
+  padding: .16rem .45rem; border-radius: 6px;
+  color: var(--ink-2); background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  white-space: nowrap; unicode-bidi: isolate;
+}
+.nct-tag--mod { color: var(--ct); border-color: color-mix(in srgb, var(--ct) 34%, transparent); }
+.nct-tag--s4 {
+  color: var(--sec-transactions, #1d5fd0);
+  border-color: color-mix(in srgb, var(--sec-transactions, #1d5fd0) 38%, transparent);
+  background: color-mix(in srgb, var(--sec-transactions, #1d5fd0) 8%, transparent);
+}
+
+/* ----------------------------------------------------------- detail body */
+
+.nct-detail .nct-hero--item { padding-block-end: 1.1rem; border-block-end: 1px solid var(--hairline); }
+.nct-secs { display: grid; gap: .9rem; margin-top: 1.4rem; }
+
+.nct-sec {
+  --st: var(--ct);
+  padding: 1.05rem 1.15rem;
+  border-radius: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-1);
+}
+.nct-sec-h {
+  display: flex; align-items: center; gap: .5rem;
+  margin: 0 0 .65rem;
+  font-size: .95rem; font-weight: 700; letter-spacing: -.01em;
+}
+.nct-sec-h i {
+  inline-size: 8px; block-size: 8px; border-radius: 2px;
+  background: var(--st); flex: none;
+}
+
+.nct-p { margin: 0; font-size: .9rem; line-height: 1.72; color: var(--ink-2); }
+.nct-p + .nct-p { margin-top: .5rem; }
+
+.nct-bul { margin: 0; padding: 0; list-style: none; display: grid; gap: .45rem; }
+.nct-bul li {
+  position: relative; padding-inline-start: 1.05rem;
+  font-size: .89rem; line-height: 1.65; color: var(--ink-2);
+}
+.nct-bul li::before {
+  content: ""; position: absolute; inset-inline-start: 0; inset-block-start: .6em;
+  inline-size: 5px; block-size: 5px; border-radius: 50%; background: var(--st);
+}
+
+.nct-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: .55rem; counter-reset: s; }
+.nct-steps li { display: flex; gap: .65rem; font-size: .89rem; line-height: 1.65; color: var(--ink-2); }
+.nct-step-n {
+  flex: none; inline-size: 1.5rem; block-size: 1.5rem; border-radius: .5rem;
+  display: grid; place-items: center;
+  font-size: .72rem; font-weight: 700;
+  color: var(--st);
+  background: color-mix(in srgb, var(--st) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--st) 30%, transparent);
+}
+
+.nct-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.nct-chip {
+  font-size: .76rem; font-weight: 700;
+  padding: .22rem .55rem; border-radius: 7px;
+  color: var(--ink-2); background: var(--surface-2);
+  border: 1px dashed var(--hairline);
+  unicode-bidi: isolate;
+}
+
+/* The migration verdict is the loudest section on the page, because on this
+   platform it is the point. */
+.nct-s4 {
+  --st: var(--sec-transactions, #1d5fd0);
+  border-color: color-mix(in srgb, var(--st) 30%, var(--hairline));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--st) 5%, transparent), transparent 60%),
+    var(--surface);
+}
+.nct-s4-changed { margin: 0 0 .5rem; font-size: .95rem; font-weight: 600; line-height: 1.6; }
+.nct-s4--none { --st: var(--ink-3); }
+.nct-none { color: var(--ink-3); font-style: italic; }
+
+.nct-foot {
+  display: flex; align-items: center; gap: .4rem;
+  margin: 1.6rem 0 0; font-size: .78rem; color: var(--ink-3);
+}
+
+/* ---------------------------------------------------------------- mobile */
+
+@media (max-width: 720px) {
+  .nct { padding-inline: .9rem; }
+  .nct-item { flex-wrap: wrap; padding-block: .75rem; }
+  /* Meta drops under the text instead of squeezing the description to nothing. */
+  .nct-item-meta { align-self: flex-start; inline-size: 100%; padding-inline-start: .85rem; }
+  .nct-item-sub { -webkit-line-clamp: 3; line-clamp: 3; }
+  .nct-grid { grid-template-columns: 1fr; }
+}

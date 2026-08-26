@@ -1,0 +1,860 @@
+/* ============================================================================
+   PROJECT NEO · CONCEPT D — STAGE 2 FINISH FOR THE SIGNATURE RAIL + SEARCH
+   ----------------------------------------------------------------------------
+   app/globals.css owns the STRUCTURE of the rail (lines 1122-1934) and is frozen
+   for this change. This sheet owns the FINISH: depth, module identity, hover and
+   selection language, the travelling signal, the compact state and the command
+   surface. It is loaded by components/neo-shell/neo-shell.tsx.
+
+   RULES THIS FILE KEEPS
+     1. Every selector is anchored on `.nx-app`, which exists only inside
+        app/neo/layout.tsx, and carries at least (0,2,0) specificity so it beats
+        the (0,1,0) base rules regardless of which chunk the bundler emits first.
+        Load order is never allowed to decide the outcome.
+     2. Not one token is redeclared. Everything reads --mod-* / --obj-* /
+        --surface / --ink-* / --elev-* / --c-* from globals.
+     3. Only `transform` and `opacity` are ever transitioned or keyframed. Colour
+        and background transitions follow the existing house style; `box-shadow`
+        is set per state and never animated; width, height and insets never move.
+     4. Logical properties only. No `left`, no `right`, no physical margins.
+     5. Module hue = identity (navigation + chrome). Object hue = visualisation
+        (class dots only). Status hue never appears here. Brand red stays a
+        global accent — the wordmark and the focus ring — and is never a module.
+   ========================================================================== */
+
+.nx-app {
+  /* Depth ramp for the rail, expressed once. Light mode keeps shadows tight and
+     cool; the dark block below re-tunes both without touching a rule. */
+  --nxr-lift: 0 1px 2px -1px rgba(15, 23, 42, .10), 0 6px 18px -12px rgba(15, 23, 42, .22);
+  --nxr-plate: 0 0 0 1px color-mix(in srgb, var(--ink-3) 8%, transparent);
+  --nxr-inner: inset 0 1px 0 rgba(255, 255, 255, .7);
+  /* How hard module identity is allowed to push into a surface. */
+  --nxr-wash: 5%;
+  --nxr-chip: 11%;
+  --nxr-chip-on: 20%;
+  --nxr-ring: 24%;
+}
+
+/* SAP identifiers are LTR islands inside Hebrew prose. `direction` alone is not
+   enough — without isolation the bidi algorithm still lets neighbouring Hebrew
+   reorder around the identifier's edges. */
+.nx-app .nx-sap { unicode-bidi: isolate; }
+
+/* ------------------------------------------------------- 1. THE RAIL PLANE */
+
+/* Three stacked planes rather than one flat fill: a module-tinted head wash, the
+   surface itself, and a grounded foot that separates the rail from the canvas. */
+.nx-app .nx-rail-bg {
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--railtint) var(--nxr-wash), var(--surface)) 0,
+      var(--surface) 22rem,
+      color-mix(in srgb, var(--background) 55%, var(--surface)) 100%
+    );
+  box-shadow: var(--nxr-inner);
+}
+/* The tint wash from globals stays, and gains a soft bloom anchored to the head
+   of the rail — the one place a module is allowed to glow. */
+.nx-app .nx-rail-bg::after {
+  block-size: 18rem;
+  background:
+    radial-gradient(120% 60% at 50% 0%, color-mix(in srgb, var(--railtint) 16%, transparent), transparent 72%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--railtint) 9%, transparent), transparent);
+}
+/* The hairline edge becomes a real edge: module-lit at the top, hairline below,
+   with a single-pixel highlight so the plane has a lit side. */
+.nx-app .nx-rail-edge {
+  inline-size: 1px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--railtint) 55%, var(--c-hair)) 0,
+    color-mix(in srgb, var(--railtint) 26%, var(--c-hair)) 14rem,
+    var(--c-hair) 26rem
+  );
+}
+.nx-app .nx-rail { box-shadow: 0 0 38px -16px rgba(15, 23, 42, .18); }
+
+/* --------------------------------------------------------------- 2. HEAD */
+
+.nx-app .nx-rail-head { padding-block: var(--sp-3) var(--sp-2); }
+.nx-app .nx-glyph {
+  padding: 6px; border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--brand) 7%, transparent);
+  transition: transform 260ms var(--c-spring);
+}
+.nx-app .nx-glyph:hover { transform: translateY(-1px) scale(1.04); }
+.nx-app .nx-lock b { font-weight: 700; }
+.nx-app .nx-lock span { letter-spacing: .06em; text-transform: uppercase; }
+
+.nx-app .nx-iconbtn {
+  border: 1px solid transparent;
+  transition:
+    color var(--dur-fast),
+    background-color var(--dur-fast),
+    border-color var(--dur-fast),
+    transform 220ms var(--c-spring);
+}
+.nx-app .nx-iconbtn:hover {
+  color: var(--ink-1);
+  background: color-mix(in srgb, var(--railtint) 8%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--railtint) 18%, transparent);
+  transform: translateY(-1px);
+}
+.nx-app .nx-iconbtn:active { transform: translateY(0) scale(.96); }
+.nx-app .nx-iconbtn[aria-pressed="true"] {
+  color: var(--railtint);
+  background: color-mix(in srgb, var(--railtint) 12%, transparent);
+  border-color: color-mix(in srgb, var(--railtint) 26%, transparent);
+}
+
+/* ------------------------------------------- 3. THE QUICK ACTION + FIELD */
+
+.nx-app .nx-railq {
+  background: linear-gradient(to bottom, var(--surface), var(--surface-2));
+  box-shadow: var(--nxr-lift);
+  transition:
+    transform 220ms var(--c-spring),
+    opacity 180ms var(--ease-out-expo),
+    border-color var(--dur-fast),
+    color var(--dur-fast);
+}
+.nx-app .nx-railq:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--railtint) 45%, var(--c-hair));
+}
+.nx-app .nx-railq:active { transform: translateY(0) scale(.99); }
+.nx-app .nx-railq-i {
+  inline-size: 1.5rem; block-size: 1.5rem; border-radius: var(--r-xs);
+  display: inline-grid; place-items: center; flex: none;
+  background: color-mix(in srgb, var(--railtint) var(--nxr-chip), transparent);
+}
+.nx-app .nx-railq kbd {
+  background: var(--surface);
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+.nx-app .nx-srch-f {
+  border-width: 1px;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--railtint) 14%, transparent),
+    var(--nxr-lift);
+}
+.nx-app .nx-srch-f .nx-ico {
+  inline-size: 1.5rem; block-size: 1.5rem; border-radius: var(--r-xs);
+  display: inline-grid; place-items: center; flex: none;
+  background: color-mix(in srgb, var(--railtint) var(--nxr-chip), transparent);
+}
+.nx-app .nx-srch-input::placeholder { color: var(--ink-3); }
+.nx-app .nx-srch-meta { line-height: 1.6; }
+
+/* The search slot is an ABSOLUTE overlay on top of the quick action (globals
+   owns that), so anything taller than the action it replaces lands on the
+   navigation tree underneath. The readout therefore stays a screen-reader live
+   region here and is rendered for the eye in the command surface header. */
+.nx-app .nx-sr {
+  position: absolute; inline-size: 1px; block-size: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* --------------------------------------------------- 4. THE NAVIGATION */
+
+.nx-app .nx-navitem {
+  gap: var(--sp-2);
+  transition: opacity 240ms var(--ease-out-expo), color 160ms;
+}
+
+/* The hover plate: a layered, module-tinted surface instead of a flat grey. */
+.nx-app .nx-navitem::before {
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--m, var(--ink-3)) 10%, var(--surface-2)),
+      color-mix(in srgb, var(--m, var(--ink-3)) 4%, var(--surface-2))
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 12%, transparent),
+    var(--nxr-lift);
+}
+/* The hover marker: a module bar that grows on the inline-start edge. It stands
+   down for the active row, whose bar is drawn by the travelling indicator. */
+.nx-app .nx-navitem::after {
+  content: '';
+  position: absolute; inset-block: 24%; inset-inline-start: var(--sp-1);
+  inline-size: 3px; border-radius: var(--r-pill);
+  background: var(--m, var(--ink-3));
+  opacity: 0; transform: scaleY(.28); transform-origin: center;
+  transition: opacity 150ms var(--ease-out-expo), transform 300ms var(--c-spring);
+}
+.nx-app .nx-navitem:hover::after,
+.nx-app .nx-navitem:focus-visible::after { opacity: .85; transform: scaleY(1); }
+.nx-app .nx-navitem[aria-current]::after { opacity: 0; }
+
+/* The icon becomes a chip. This is the single biggest carrier of module
+   identity in the rail, and the reason the compact state still reads. */
+.nx-app .nx-navitem-i {
+  inline-size: 1.75rem; block-size: 1.75rem; border-radius: 9px;
+  display: inline-grid; place-items: center; position: relative;
+  color: var(--m, var(--ink-3));
+  transform: none;
+  transition: color 180ms;
+}
+.nx-app .nx-navitem-i::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit;
+  background: color-mix(in srgb, var(--m, var(--ink-3)) var(--nxr-chip), transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 14%, transparent);
+  opacity: .6; transform: scale(.9);
+  transition: opacity 200ms var(--ease-out-expo), transform 300ms var(--c-spring);
+}
+.nx-app .nx-navitem-i > svg {
+  position: relative;
+  transition: transform 280ms var(--c-spring);
+}
+.nx-app .nx-navitem:hover .nx-navitem-i { transform: none; }
+.nx-app .nx-navitem:hover .nx-navitem-i::before,
+.nx-app .nx-navitem:focus-visible .nx-navitem-i::before { opacity: 1; transform: scale(1); }
+.nx-app .nx-navitem:hover .nx-navitem-i > svg { transform: scale(1.08); }
+
+/* The count column reads as data, not as decoration. */
+.nx-app .nx-navitem-n {
+  padding: 1px 5px; border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--ink-3) 8%, transparent);
+  unicode-bidi: isolate;
+  transition: color 180ms, background-color 180ms;
+}
+
+/* ACTIVE — depth, not just weight. */
+.nx-app .nx-navitem[aria-current] { color: var(--ink-1); font-weight: 700; }
+.nx-app .nx-navitem[aria-current] .nx-navitem-i::before {
+  opacity: 1; transform: scale(1);
+  background: color-mix(in srgb, var(--railtint) var(--nxr-chip-on), transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--railtint) var(--nxr-ring), transparent);
+}
+.nx-app .nx-navitem[aria-current] .nx-navitem-n {
+  color: var(--railtint);
+  background: color-mix(in srgb, var(--railtint) 14%, transparent);
+}
+
+/* ----------------------------------------------- 5. THE TRAVELLING SIGNAL */
+
+/* THE ACTIVE PILL TAKES THE SECTION HUE, NOT BRAND RED.
+   `var(--m, var(--brand))` meant: the module colour if this is a module,
+   otherwise CBC red. So every non-module destination — Tables, Transactions,
+   BAPIs, IDocs, CDS, Fiori, Enhancements, Knowledge, Academy, Incidents,
+   Studio, the shelf — showed the SAME pink pill, which is why "selected" never
+   told you WHERE you were, only THAT something was selected. --railtint now
+   resolves a hue for every section, and equals the module hue on a module, so
+   one substitution gives the pill contextual meaning everywhere. Brand red
+   still appears here — on NEO AI, whose section hue IS the brand. */
+.nx-app .nx-ind {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--railtint) 20%, transparent),
+    color-mix(in srgb, var(--railtint) 9%, transparent)
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--railtint) 26%, transparent),
+    0 8px 20px -14px color-mix(in srgb, var(--railtint) 85%, transparent);
+}
+.nx-app .nx-ind::before {
+  inline-size: 3px; inset-block: 16%;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--railtint) 60%, transparent);
+}
+/* The trail. It is drawn on the side the pill travelled FROM, for the 130ms the
+   squash lasts, so a long trip reads as movement instead of as a blink. */
+.nx-app .nx-ind::after {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--m, var(--brand)) 14%, transparent), transparent 65%);
+  opacity: 0; transform: scaleY(.5);
+  transition: opacity 200ms var(--ease-out-expo), transform 340ms var(--c-spring);
+  pointer-events: none;
+}
+.nx-app .nx-ind[data-dir="down"]::after { opacity: 1; transform: translateY(-55%) scaleY(.8); }
+.nx-app .nx-ind[data-dir="up"]::after { opacity: 1; transform: translateY(55%) scaleY(.8) scaleX(1); }
+
+/* ---------------------------------------------------- 6. SECTION RHYTHM */
+
+.nx-app .nx-group { margin-block-end: 4px; }
+.nx-app .nx-group + .nx-group { margin-block-start: 6px; }
+.nx-app .nx-group-btn {
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--surface) 97%, transparent),
+      color-mix(in srgb, var(--surface) 78%, transparent)
+    );
+  backdrop-filter: blur(10px) saturate(1.25);
+  -webkit-backdrop-filter: blur(10px) saturate(1.25);
+  color: var(--ink-3);
+  transition: color 180ms;
+}
+.nx-app .nx-group-btn:hover { color: var(--ink-1); }
+.nx-app .nx-group-h { padding-block-end: 2px; }
+/* A hairline that fades out at both ends, so a sticky heading separates without
+   drawing a hard box across the rail. Symmetric, so it needs no direction. */
+.nx-app .nx-group-h::after {
+  content: '';
+  position: absolute; inset-inline: var(--sp-3); inset-block-end: 0;
+  block-size: 1px; pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--railtint) 26%, var(--c-hair)) 22%,
+    color-mix(in srgb, var(--railtint) 26%, var(--c-hair)) 78%,
+    transparent
+  );
+}
+.nx-app .nx-group-btn .nx-chev { color: var(--ink-3); }
+.nx-app .nx-group-btn .nx-n {
+  padding: 0 5px; border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--ink-3) 9%, transparent);
+  unicode-bidi: isolate; opacity: 1;
+}
+
+/* ---------------------------------- 7. THE SEARCH RESPONSE OF THE RAIL */
+
+/* When the query lands somewhere real, the modules it landed in brighten and
+   everything else steps back. Opacity only — nothing is hidden or unmounted. */
+.nx-app .nx-navitem[data-dim="1"] { opacity: .34; }
+.nx-app .nx-navitem[data-hit="1"] { color: var(--m, var(--ink-1)); font-weight: 650; }
+.nx-app .nx-navitem[data-hit="1"]::before {
+  opacity: 1; transform: scaleX(1);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m, var(--ink-3)) 15%, var(--surface-2)),
+    color-mix(in srgb, var(--m, var(--ink-3)) 6%, var(--surface-2))
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 26%, transparent);
+}
+/* The marker on a hit is the module bar, so a query reads as "here", not as a
+   second selection competing with the travelling indicator. */
+.nx-app .nx-navitem[data-hit="1"]:not([aria-current])::after { opacity: .9; transform: scaleY(1); }
+.nx-app .nx-navitem[data-hit="1"] .nx-navitem-i::before { opacity: 1; transform: scale(1); }
+.nx-app[data-nav="search"] .nx-rail-edge {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--railtint) 70%, var(--c-hair)) 0,
+    color-mix(in srgb, var(--railtint) 30%, var(--c-hair)) 18rem,
+    var(--c-hair) 30rem
+  );
+}
+.nx-app[data-nav="search"] .nx-cmdbar { opacity: .35; }
+.nx-app .nx-cmdbar { transition: opacity 220ms var(--ease-out-expo), border-color var(--dur-fast), color var(--dur-fast); }
+
+/* -------------------------------------------------------- 8. THE SHELF */
+
+.nx-app .nx-shelf {
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--background) 45%, transparent));
+}
+.nx-app .nx-shelf-tabs button {
+  min-inline-size: 0;
+  transition: color 180ms, background-color 180ms;
+}
+.nx-app .nx-shelf-tabs button:hover { color: var(--ink-1); background: color-mix(in srgb, var(--railtint) 8%, transparent); }
+.nx-app .nx-shelf-ind { box-shadow: 0 0 10px color-mix(in srgb, var(--railtint) 55%, transparent); }
+.nx-app .nx-striprow { padding-inline-start: 2px; transition: transform var(--dur-fast) var(--ease-out-expo), background-color var(--dur-fast); }
+.nx-app .nx-striprow:hover { background: color-mix(in srgb, var(--m) 8%, transparent); }
+.nx-app .nx-pin {
+  background: linear-gradient(to bottom, var(--surface), var(--surface-2));
+  box-shadow: var(--nxr-lift);
+}
+.nx-app .nx-pin:hover { border-color: color-mix(in srgb, var(--m) 50%, var(--c-hair)); }
+
+.nx-app .nx-rail-foot { border-block-start-color: var(--c-hair); }
+.nx-app .nx-avatar {
+  background: linear-gradient(140deg, color-mix(in srgb, var(--railtint) 22%, var(--surface-2)), var(--surface-2));
+  border-color: color-mix(in srgb, var(--railtint) 20%, var(--c-hair));
+  color: var(--ink-1); font-weight: 700;
+}
+
+/* ------------------------------------------------------ 9. COMPACT STATE */
+
+.nx-app[data-nav="compact"] .nx-navitem-i { inline-size: 2.25rem; block-size: 2.25rem; border-radius: 12px; }
+.nx-app[data-nav="compact"] .nx-navitem-i::before { opacity: .75; transform: scale(.96); }
+.nx-app[data-nav="compact"] .nx-navitem[aria-current] .nx-navitem-i::before {
+  background: color-mix(in srgb, var(--m, var(--ink-2)) 24%, transparent);
+}
+.nx-app[data-nav="compact"] .nx-navitem::after { inset-inline-start: 4px; inset-block: 28%; }
+.nx-app[data-nav="compact"] .nx-group {
+  border-block-start: 0;
+  padding-block-start: 8px;
+  margin-block-start: 8px;
+  position: relative;
+}
+/* A short centred tick separates the sections when there are no labels left. */
+.nx-app[data-nav="compact"] .nx-group::before {
+  content: '';
+  position: absolute; inset-block-start: 0; inset-inline: 34%;
+  block-size: 1px; background: var(--c-hair);
+}
+.nx-app[data-nav="compact"] .nx-group:first-of-type { margin-block-start: 0; padding-block-start: 4px; }
+.nx-app[data-nav="compact"] .nx-group:first-of-type::before { display: none; }
+.nx-app[data-nav="compact"] .nx-railq-i,
+.nx-app[data-nav="compact"] .nx-srch-f .nx-ico { inline-size: 1.75rem; block-size: 1.75rem; }
+.nx-app[data-nav="compact"] .nx-glyph { padding: 0; background: none; }
+
+/* ------------------------------------------------------- 10. PEEK STATE */
+
+.nx-app[data-nav="peek"] .nx-rail,
+.nx-app[data-nav="hidden"] .nx-rail { box-shadow: var(--elev-4); }
+.nx-app .nx-railedge i { background: color-mix(in srgb, var(--ink-3) 45%, transparent); }
+.nx-app .nx-railedge:hover i,
+.nx-app .nx-railedge:focus-visible i { background: var(--brand); }
+
+/* ------------------------------------------------- 11. THE HOVER PREVIEW */
+
+.nx-app .nx-pv {
+  box-shadow: var(--elev-4), var(--nxr-plate);
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--m, var(--ink-3)) 5%, var(--surface)), var(--surface) 6rem);
+}
+.nx-app .nx-pv header b { letter-spacing: -.012em; }
+.nx-app .nx-pv-nums b { letter-spacing: -.02em; unicode-bidi: isolate; }
+
+/* ============================================================================
+   12. THE COMMAND SURFACE
+   ----------------------------------------------------------------------------
+   It grows out of the rail's own search slot: anchored to the rail's inline
+   edge, scaled from that edge, and it dims the canvas behind it (that rule
+   already lives in globals as .nx-app[data-searching="1"] .nx-canvas).
+   ========================================================================== */
+
+.nx-app .nxc {
+  position: absolute; z-index: 45;
+  inset-block: calc(var(--c-top-h) + var(--sp-3)) var(--sp-4);
+  inset-inline-start: calc(var(--nx-rail-col) + var(--sp-3));
+  inset-inline-end: var(--sp-4);
+  display: flex; justify-content: flex-start;
+  pointer-events: none;
+}
+.nx-app .nxc-panel {
+  pointer-events: auto;
+  inline-size: 100%; max-inline-size: 64rem;
+  display: flex; flex-direction: column; min-block-size: 0;
+  background: var(--surface);
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-xl);
+  box-shadow: var(--elev-4), var(--nxr-plate);
+  overflow: hidden;
+  transform-origin: 100% 0;
+  animation: nxc-in 360ms var(--c-spring) both;
+}
+[dir="ltr"] .nx-app .nxc-panel { transform-origin: 0 0; animation-name: nxc-in-ltr; }
+@keyframes nxc-in {
+  from { opacity: 0; transform: translateX(16px) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes nxc-in-ltr {
+  from { opacity: 0; transform: translateX(-16px) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+
+/* --- header ------------------------------------------------------------- */
+.nx-app .nxc-head {
+  display: grid; gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-block-end: 1px solid var(--c-hair);
+  background: linear-gradient(to bottom, var(--surface-2), var(--surface));
+}
+.nx-app .nxc-head-t { font-size: var(--t-xs); color: var(--ink-3); }
+.nx-app .nxc-head-sep { padding-inline: 6px; opacity: .55; }
+.nx-app .nxc-head-t b {
+  font-family: var(--font-mono); font-size: var(--t-sm); color: var(--ink-1);
+  direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums;
+}
+.nx-app .nxc-q {
+  padding: 1px 6px; border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--brand) 9%, transparent);
+  color: var(--ink-1); unicode-bidi: isolate;
+}
+.nx-app .nxc-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.nx-app .nxc-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  min-block-size: 1.85rem; padding-inline: var(--sp-2);
+  border: 1px solid var(--c-hair); border-radius: var(--r-pill);
+  background: var(--surface); color: var(--ink-2); font-size: var(--t-micro);
+  transition: transform 200ms var(--c-spring), color var(--dur-fast), border-color var(--dur-fast), background-color var(--dur-fast);
+}
+.nx-app .nxc-chip b {
+  font-family: var(--font-mono); font-size: 10px; direction: ltr; unicode-bidi: isolate;
+  padding-inline-start: 4px; color: var(--ink-3);
+}
+.nx-app .nxc-chip:hover { transform: translateY(-1px); color: var(--ink-1); border-color: var(--ink-3); }
+.nx-app .nxc-chip[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--ink-1) 92%, transparent);
+  border-color: transparent; color: var(--surface);
+}
+.nx-app .nxc-chip[aria-pressed="true"] b { color: var(--surface); opacity: .75; }
+
+/* --- body --------------------------------------------------------------- */
+.nx-app .nxc-body { display: grid; grid-template-columns: minmax(0, 1fr); flex: 1 1 0; min-block-size: 0; }
+@media (min-width: 1180px) {
+  .nx-app .nxc-body { grid-template-columns: minmax(0, 1fr) 20rem; }
+}
+.nx-app .nxc-results {
+  position: relative; /* rows measure their offsetTop against THIS box */
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: var(--sp-2) var(--sp-3) var(--sp-3);
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ink-3) 34%, transparent) transparent;
+}
+.nx-app .nxc-results::-webkit-scrollbar { inline-size: 10px; }
+.nx-app .nxc-results::-webkit-scrollbar-track { background: transparent; }
+.nx-app .nxc-results::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--ink-3) 30%, transparent);
+  border: 3px solid transparent; background-clip: padding-box; border-radius: 99px;
+}
+
+.nx-app .nxc-sec { padding-block-end: var(--sp-2); }
+.nx-app .nxc-sec-h {
+  position: sticky; inset-block-start: 0; z-index: 2;
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px var(--sp-2); margin-block-end: 2px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  color: var(--ink-3);
+}
+.nx-app .nxc-sec-h em {
+  margin-inline-start: auto; font-style: normal; font-weight: 500;
+  color: var(--ink-3); opacity: .85;
+}
+
+/* --- one result --------------------------------------------------------- */
+.nx-app .nxc-row {
+  position: relative; isolation: isolate;
+  display: grid; align-items: center; gap: var(--sp-2);
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  min-block-size: var(--c-tap); padding: 6px var(--sp-2);
+  border-radius: var(--r-md); cursor: pointer;
+}
+.nx-app .nxc-row::before {
+  content: '';
+  position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m, var(--ink-3)) 13%, var(--surface-2)),
+    color-mix(in srgb, var(--m, var(--ink-3)) 5%, var(--surface-2))
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 22%, transparent),
+    var(--nxr-lift);
+  opacity: 0; transform: scale(.995);
+  transition: opacity 140ms var(--ease-out-expo), transform 220ms var(--c-spring);
+}
+.nx-app .nxc-row[data-active="1"]::before { opacity: 1; transform: none; }
+.nx-app .nxc-row::after {
+  content: '';
+  position: absolute; inset-block: 20%; inset-inline-start: 0;
+  inline-size: 3px; border-radius: var(--r-pill);
+  background: var(--m, var(--ink-3));
+  opacity: 0; transform: scaleY(.3);
+  transition: opacity 150ms, transform 300ms var(--c-spring);
+}
+.nx-app .nxc-row[data-active="1"]::after { opacity: 1; transform: scaleY(1); }
+
+.nx-app .nxc-row-k {
+  inline-size: 1.75rem; block-size: 1.75rem; border-radius: 9px;
+  display: inline-grid; place-items: center; flex: none;
+  color: var(--m, var(--ink-3));
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 14%, transparent);
+  transition: transform 260ms var(--c-spring);
+}
+.nx-app .nxc-row[data-active="1"] .nxc-row-k { transform: scale(1.06); }
+
+.nx-app .nxc-row-main { display: grid; gap: 1px; min-inline-size: 0; }
+.nx-app .nxc-row-t {
+  display: flex; align-items: baseline; gap: 6px; min-inline-size: 0;
+  font-size: var(--t-sm); color: var(--ink-1);
+}
+.nx-app .nxc-row-t > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nx-app .nxc-row-kind {
+  flex: none; font-size: 10px; color: var(--ink-3);
+  padding: 1px 5px; border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--ink-3) 9%, transparent);
+}
+.nx-app .nxc-row-s {
+  font-size: var(--t-micro); color: var(--ink-3);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nx-app .nxc-row-meta { display: flex; align-items: center; gap: 6px; flex: none; }
+.nx-app .nxc-mod {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px var(--sp-2); border-radius: var(--r-pill);
+  font-size: 10px; color: var(--m, var(--ink-3));
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 26%, transparent);
+  white-space: nowrap;
+}
+.nx-app .nxc-rel {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; color: var(--ink-3); max-inline-size: 15rem;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nx-app .nxc-rel > svg { flex: none; }
+/* OBJECT hue — the one visualisation encoding allowed in the result list. */
+.nx-app .nxc-cls {
+  display: inline-flex; align-items: center; gap: 4px; flex: none;
+  font-size: 10px; color: var(--ink-3);
+}
+.nx-app .nxc-cls i {
+  inline-size: 6px; block-size: 6px; border-radius: 50%;
+  background: var(--o, var(--ink-3)); flex: none;
+}
+.nx-app .nxc-act {
+  display: inline-flex; align-items: center; gap: 4px; flex: none;
+  min-block-size: 1.75rem; padding-inline: var(--sp-2);
+  border: 1px solid var(--c-hair); border-radius: var(--r-xs);
+  background: var(--surface); color: var(--ink-2); font-size: 10px;
+  opacity: 0; transform: translateY(2px);
+  transition: opacity 160ms, transform 200ms var(--ease-out-expo), border-color var(--dur-fast), color var(--dur-fast);
+}
+.nx-app .nxc-row:hover .nxc-act,
+.nx-app .nxc-row[data-active="1"] .nxc-act { opacity: 1; transform: none; }
+.nx-app .nxc-act:hover { color: var(--ink-1); border-color: var(--m, var(--ink-3)); }
+.nx-app .nxc-go {
+  display: inline-flex; flex: none; color: var(--ink-3);
+  opacity: 0; transform: scale(.8);
+  transition: opacity 160ms, transform 240ms var(--c-spring);
+}
+.nx-app .nxc-row[data-active="1"] .nxc-go { opacity: .9; transform: none; }
+
+.nx-app .nxc-more {
+  inline-size: 100%; text-align: start;
+  min-block-size: 2.25rem; padding-inline: var(--sp-2); margin-block-start: 2px;
+  border-radius: var(--r-xs); border: 1px dashed var(--c-hair);
+  font-size: var(--t-micro); color: var(--ink-3);
+  transition: color var(--dur-fast), border-color var(--dur-fast), transform 200ms var(--ease-out-expo);
+}
+.nx-app .nxc-more:hover { color: var(--ink-1); border-color: var(--ink-3); transform: translateY(-1px); }
+
+/* --- idle + empty ------------------------------------------------------- */
+.nx-app .nxc-idle { padding: var(--sp-2); display: grid; gap: var(--sp-3); }
+.nx-app .nxc-idle-h { font-size: var(--t-micro); font-weight: 700; letter-spacing: .06em; color: var(--ink-3); }
+.nx-app .nxc-idle-grid {
+  display: grid; gap: var(--sp-2);
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+}
+.nx-app .nxc-idle-c {
+  inline-size: 100%; display: grid; gap: 2px; justify-items: start;
+  padding: var(--sp-3); min-block-size: var(--c-tap);
+  border: 1px solid var(--c-hair); border-radius: var(--r-md);
+  background: linear-gradient(to bottom, var(--surface), var(--surface-2));
+  color: var(--ink-3); text-align: start;
+  transition: transform 220ms var(--c-spring), border-color var(--dur-fast), color var(--dur-fast);
+}
+.nx-app .nxc-idle-c:hover { transform: translateY(-2px); border-color: var(--ink-3); color: var(--ink-1); }
+.nx-app .nxc-idle-c > svg { color: var(--ink-3); }
+.nx-app .nxc-idle-c b {
+  font-family: var(--font-mono); font-size: var(--t-h2); color: var(--ink-1);
+  direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums; letter-spacing: -.02em;
+}
+.nx-app .nxc-idle-c span { font-size: var(--t-micro); }
+.nx-app .nxc-none {
+  padding: var(--sp-5) var(--sp-3); font-size: var(--t-xs); color: var(--ink-3);
+  line-height: var(--lh-he); max-inline-size: 42ch;
+}
+
+/* --- the detail pane ---------------------------------------------------- */
+.nx-app .nxc-detail {
+  display: none;
+  border-inline-start: 1px solid var(--c-hair);
+  background: linear-gradient(to bottom, var(--surface-2), var(--surface));
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: var(--sp-3);
+}
+@media (min-width: 1180px) { .nx-app .nxc-detail { display: block; } }
+.nx-app .nxc-detail-empty {
+  display: grid; gap: var(--sp-2); justify-items: center; align-content: center;
+  block-size: 100%; color: var(--ink-3); font-size: var(--t-micro); text-align: center;
+}
+.nx-app .nxc-detail-in { display: grid; gap: var(--sp-2); align-content: start; }
+.nx-app .nxc-d-kind {
+  display: inline-flex; align-items: center; gap: 5px; justify-self: start;
+  padding: 2px var(--sp-2); border-radius: var(--r-pill);
+  font-size: 10px; color: var(--m, var(--ink-3));
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 24%, transparent);
+}
+.nx-app .nxc-d-t { font-size: var(--t-h2); line-height: 1.3; letter-spacing: -.012em; color: var(--ink-1); }
+.nx-app .nxc-d-s { font-size: var(--t-micro); color: var(--ink-2); line-height: var(--lh-he); }
+.nx-app .nxc-d-facts { display: grid; gap: 6px; padding-block: var(--sp-2); border-block: 1px solid var(--c-hair); }
+.nx-app .nxc-d-fact { display: grid; gap: 2px; font-size: var(--t-micro); color: var(--ink-2); }
+.nx-app .nxc-d-fact em { font-style: normal; font-size: 10px; color: var(--ink-3); letter-spacing: .05em; }
+.nx-app .nxc-d-fact > .nxc-mod { justify-self: start; }
+.nx-app .nxc-d-sec { display: grid; gap: 5px; }
+.nx-app .nxc-d-sec h4 { font-size: 10px; font-weight: 700; letter-spacing: .06em; color: var(--ink-3); }
+.nx-app .nxc-d-codes { display: flex; flex-wrap: wrap; gap: 4px; }
+.nx-app .nxc-d-codes span {
+  padding: 2px var(--sp-2); border-radius: var(--r-xs);
+  border: 1px solid var(--c-hair); background: var(--surface);
+  font-size: 10px; color: var(--ink-2);
+}
+.nx-app .nxc-d-rels { display: grid; gap: 4px; }
+.nx-app .nxc-d-rels li {
+  display: flex; align-items: baseline; gap: 6px;
+  padding-inline-start: var(--sp-2);
+  border-inline-start: 2px solid color-mix(in srgb, var(--m, var(--ink-3)) 45%, transparent);
+  font-size: var(--t-micro); color: var(--ink-1);
+}
+.nx-app .nxc-d-rels em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nx-app .nxc-d-f { font-size: 10px; color: var(--ink-3); }
+
+/* --- footer ------------------------------------------------------------- */
+.nx-app .nxc-foot {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-2) var(--sp-4);
+  border-block-start: 1px solid var(--c-hair);
+  background: var(--surface-2);
+  font-size: 10px; color: var(--ink-3);
+}
+.nx-app .nxc-keys { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); }
+.nx-app .nxc-keys > span { display: inline-flex; align-items: center; gap: 4px; }
+.nx-app .nxc-foot kbd {
+  font-family: var(--font-mono); font-size: 10px; direction: ltr; unicode-bidi: isolate;
+  padding: 1px 5px; border: 1px solid var(--c-hair); border-radius: 4px;
+  background: var(--surface); color: var(--ink-2);
+}
+.nx-app .nxc-gap { display: inline-flex; align-items: center; gap: 4px; opacity: .9; }
+.nx-app .nxc-gap > svg { flex: none; }
+
+/* --- the phone field ---------------------------------------------------- */
+.nx-app .nxc-mfield {
+  align-items: center; gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-block-end: 1px solid var(--c-hair);
+  background: var(--surface);
+}
+html[data-device="tablet"] .nx-app .nxc-mfield,
+html[data-device="phone"] .nx-app .nxc-mfield { display: flex !important; }
+.nx-app .nxc-mfield-i {
+  inline-size: 2rem; block-size: 2rem; border-radius: var(--r-sm);
+  display: inline-grid; place-items: center; flex: none;
+  background: color-mix(in srgb, var(--brand) 8%, transparent); color: var(--brand);
+}
+.nx-app .nxc-minput {
+  flex: 1 1 auto; min-inline-size: 0; min-block-size: var(--c-tap);
+  font-size: var(--t-body); background: transparent; border: 0; outline: none; color: var(--ink-1);
+}
+.nx-app .nxc-minput::-webkit-search-cancel-button,
+.nx-app .nxc-minput::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
+
+/* --- narrow + phone ----------------------------------------------------- */
+@media (max-width: 900px) {
+  .nx-app .nxc-row { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .nx-app .nxc-row-meta { display: none; }
+}
+html[data-device="tablet"] .nx-app .nxc,
+html[data-device="phone"] .nx-app .nxc {
+  inset: 0; z-index: 60; padding: 0;
+}
+html[data-device="tablet"] .nx-app .nxc-panel,
+html[data-device="phone"] .nx-app .nxc-panel {
+  max-inline-size: none; border: 0; border-radius: 0;
+  animation-name: nxc-in-up;
+}
+@keyframes nxc-in-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+html[data-device="phone"] .nx-app .nxc-head { padding-inline: var(--sp-3); }
+html[data-device="phone"] .nx-app .nxc-foot { padding-inline: var(--sp-3); }
+html[data-device="phone"] .nx-app .nxc-row-meta { display: none; }
+/* A phone has no arrow keys — the legend is dead weight, the honesty note is not. */
+html[data-device="phone"] .nx-app .nxc-keys,
+html[data-device="tablet"] .nx-app .nxc-keys { display: none; }
+
+/* -------------------------------------------------------- 13. MOBILE TOP */
+
+.nx-app .nx-mtop-in { display: flex; align-items: center; gap: var(--sp-2); block-size: 100%; }
+.nx-app .nx-mtop-in b { font-size: var(--t-sm); }
+.nx-app .nx-mtabs { box-shadow: 0 -8px 24px -18px rgba(15, 23, 42, .35); }
+.nx-app .nx-msheet-g a > svg { color: var(--m, var(--ink-3)); }
+
+/* ============================================================================
+   14. DARK — a deeper plane, not an inversion.
+   Near-black ground, layered elevation, a module-tinted light that is allowed to
+   be brighter (the dark --mod-* tokens are already the light variants), and a
+   controlled glow instead of a shadow that cannot be seen.
+   ========================================================================== */
+
+html[data-theme="dark"] .nx-app {
+  --nxr-lift: 0 1px 0 rgba(255, 255, 255, .03), 0 10px 26px -18px rgba(0, 0, 0, .9);
+  --nxr-plate: 0 0 0 1px rgba(255, 255, 255, .04);
+  --nxr-inner: inset 0 1px 0 rgba(255, 255, 255, .045);
+  --nxr-wash: 8%;
+  --nxr-chip: 14%;
+  --nxr-chip-on: 26%;
+  --nxr-ring: 34%;
+}
+html[data-theme="dark"] .nx-app .nx-rail-bg {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--railtint) var(--nxr-wash), var(--surface)) 0,
+    var(--surface) 22rem,
+    color-mix(in srgb, var(--background) 80%, var(--surface)) 100%
+  );
+}
+html[data-theme="dark"] .nx-app .nx-rail-bg::after {
+  background:
+    radial-gradient(120% 60% at 50% 0%, color-mix(in srgb, var(--railtint) 20%, transparent), transparent 70%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--railtint) 11%, transparent), transparent);
+}
+html[data-theme="dark"] .nx-app .nx-rail { box-shadow: 0 0 42px -14px rgba(0, 0, 0, .85); }
+html[data-theme="dark"] .nx-app .nx-railq,
+html[data-theme="dark"] .nx-app .nx-pin,
+html[data-theme="dark"] .nx-app .nxc-idle-c {
+  background: linear-gradient(to bottom, var(--surface-2), var(--surface));
+}
+html[data-theme="dark"] .nx-app .nxc-panel {
+  background: var(--surface);
+  border-color: rgba(255, 255, 255, .07);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .95), var(--nxr-plate);
+}
+html[data-theme="dark"] .nx-app .nxc-head,
+html[data-theme="dark"] .nx-app .nxc-detail {
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--surface-2) 70%, var(--surface)), var(--surface));
+}
+html[data-theme="dark"] .nx-app .nxc-foot { background: color-mix(in srgb, var(--surface-2) 60%, var(--surface)); }
+html[data-theme="dark"] .nx-app .nxc-chip[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--ink-1) 88%, transparent);
+  color: var(--background);
+}
+html[data-theme="dark"] .nx-app .nxc-chip[aria-pressed="true"] b { color: var(--background); }
+html[data-theme="dark"] .nx-app .nx-ind {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--m, var(--brand)) 28%, transparent),
+    0 0 24px -6px color-mix(in srgb, var(--m, var(--brand)) 45%, transparent);
+}
+html[data-theme="dark"] .nx-app .nx-group-btn {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--surface) 96%, transparent),
+    color-mix(in srgb, var(--surface) 74%, transparent)
+  );
+}
+html[data-theme="dark"] .nx-app .nxc-sec-h { background: color-mix(in srgb, var(--surface) 90%, transparent); }
+html[data-theme="dark"] .nx-app .nxc-d-codes span,
+html[data-theme="dark"] .nx-app .nxc-act,
+html[data-theme="dark"] .nx-app .nxc-chip,
+html[data-theme="dark"] .nx-app .nxc-foot kbd { background: var(--surface-2); }
+html[data-theme="dark"] .nx-app .nx-mtabs { box-shadow: 0 -8px 24px -18px rgba(0, 0, 0, .9); }
+
+/* ============================================================================
+   15. MOTION POLICY
+   The global reduced-motion block in globals.css already neutralises every
+   transition and animation under .nx-app. What it cannot do is stop a transform
+   from being the RESTING state, so the two entrance animations are pinned to
+   their end state here rather than left mid-flight.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxc-panel { animation: none; opacity: 1; transform: none; }
+  .nx-app .nxc-act,
+  .nx-app .nxc-go { opacity: 1; transform: none; }
+}

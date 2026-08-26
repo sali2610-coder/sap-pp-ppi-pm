@@ -1,0 +1,1562 @@
+/* ============================================================================
+   PROJECT NEO — THE MODULE WORKSPACES (PM · PP-PI)
+   ----------------------------------------------------------------------------
+   Imported by app/neo/[hub]/page.tsx. Every selector is anchored on .nw, which
+   only exists on the two module routes, so nothing here can reach another page.
+   Not one token from app/globals.css is redeclared — this file only CONSUMES
+   them, exactly the way app/neo/home.css does, and the interaction system in
+   app/neo/ui.css (.nu-btn / .nu-btn2 / .nu-ghost / .nu-tab / .nu-link /
+   .nu-filter / .nu-chip / .nu-status / .nu-card) is USED, never re-invented.
+   Where a .nu-* class appears below it is only ever given a LAYOUT — its
+   states, its focus ring and its disabled language stay in ui.css.
+
+   THE COMPLAINT THIS FILE ANSWERS, verbatim: "Below the hero they are too
+   dense. Controls are too small. Rows are too tight. Hierarchy is weak. Too
+   many equal-weight elements. The page feels compressed. The user cannot
+   clearly understand the next action."
+
+   Four of those five are hierarchy, not spacing, so the answer is a TYPE RAMP
+   with real distance between its steps rather than a slightly airier grid:
+
+     page title    .nw-title    clamp(2rem → 4.25rem)   700
+     chapter no.   .nw-ch-n     clamp(2.5rem → 4rem)    700, module tint
+     chapter       .nw-ch-t     clamp(1.5rem → 2.5rem)  700   ← the level that
+                                                              was missing
+     sub-block     .nw-sub-h    1.0625rem               700
+     data label    .nw-fk / dt  var(--t-micro)          650, uppercase, ink-3
+     metadata      .nw-fine     var(--t-micro)          400, ink-3
+
+   Only .nw-ch-t and .nw-sub-h are bold at heading size. Everything that used to
+   be a small bold caption is now either a data label or plain text, which is
+   what makes the ramp readable instead of five near-identical bold things.
+
+   THE PAGE, in the same order in both modules:
+
+     .nw-hero .............. identity · lede · three routes · the counts
+     .nw-idx ............... the chapter index — every chapter, count, route
+     .nw-ch ................ ONE shape for every chapter below the hero
+     .nw-ch--wide .......... the working-table chapter, which takes the gutters
+
+   CONTROL SIZE. Every control on this page comes from app/neo/ui.css and is at
+   least --c-tap (44px) tall there; the rules below only ever give one a layout.
+   The two places this file sets a floor of its own (--nw-row on a row, and the
+   expander) use the same token, so nothing on the page is under 44px on touch.
+
+   THE SPACING SCALE HAS HOLES IN IT. app/globals.css defines --sp-1..6, 8, 10,
+   12 and 16 — there is no --sp-7, no --sp-9, no --sp-11. A var() that resolves
+   to nothing makes its whole shorthand invalid at computed-value time, so
+   `padding: var(--sp-7) var(--nw-gut) var(--sp-8)` on the chapter index was not
+   "slightly tight", it computed to padding: 0, and `gap: var(--sp-7)` on every
+   chapter body computed to gap: normal. Both were measured, not guessed. Every
+   reference to a step that does not exist has been moved to the nearest one
+   that does.
+
+   Rules of the house, kept:
+     · only tokens app/globals.css actually defines. A missing step is a
+       silently deleted declaration, not a rounding error.
+     · logical properties everywhere; not one physical inset in the layout
+     · only transform / opacity (and one filter on a decorative layer) animate
+     · nothing is required to be in motion for the page to be understood
+     · every breakpoint is a CONTAINER query on .nw — the rail can own 22rem of
+       the window, so a 1024px window can leave a 700px canvas. Sizing this
+       page on the window would lay out a desktop table inside a tablet column.
+
+   COLOUR FORM RULE (app/globals.css, above --mod-pm), obeyed literally:
+     MODULE (--mod-*, arriving as --m)  surface tint · ring · line · edge ·
+        section marker. Never a small standalone dot. Here it is the ambient
+        light, the hero edge, the outlined code mark, every block's top edge and
+        eyebrow rule, the section tint, the rank bars, the selected-row edge and
+        the sticky rail's edges.
+     STATUS (--status-*)  ONLY a small filled dot immediately followed by its
+        word — which is precisely what .nu-status is, so every status in this
+        workspace is rendered through that one class and nothing else.
+     OBJECT (--obj-*, arriving as --o)  the data itself: class dots, process
+        markers, hub bars, row edges.
+     BRAND red stays the single global accent and is never a module colour.
+   ========================================================================== */
+
+/* The shell canvas is a padded, gapped grid for ordinary pages. The workspace
+   supplies its own gutters so the ambient light can bleed to the edge, so it
+   takes the canvas over — over-qualified for the same reason home.css is: the
+   phone rule in globals.css is (0,2,1) and a bare :has() would lose to it. */
+html .nx-app .nx-canvas:has(> .nw) {
+  display: block;
+  padding: 0;
+  gap: 0;
+  overflow-x: clip;
+}
+
+.nw {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  --nw-gut: var(--sp-8);
+  /* Row height floor. 2.75rem = the 44px touch target globals.css already
+     defines as --c-tap; no row and no control goes under it, on any canvas. */
+  --nw-row: var(--c-tap);
+  container-type: inline-size;
+  container-name: nw;
+  padding-block-end: var(--sp-10);
+
+  /* THE GROUND CARRIES THE MODULE.
+     module-workspace.tsx puts data-scene="pm" / "pppi" on this node, and
+     app/neo/ground.css answers with a ground washed by that module's hue. This
+     is the Partake lesson taken literally: the SECTION owns the colour, so
+     entering PM is a different PLACE from entering PP-PI rather than the same
+     place wearing a different chip. The wash is 6% of the module hue — enough
+     to be recognisable beside its sibling, never enough to read as a status.
+
+     The paint is here and not on .nm-scene deliberately. .nm-scene rebinds
+     --surface to --scene-raised, and the pm/pppi scenes define --scene-raised
+     AS --surface, so wearing both on one element is a custom-property cycle:
+     both compute to guaranteed-invalid and every card under it loses its
+     surface. Measured in Chrome, not assumed. A scene that rebinds tokens must
+     therefore sit on a DIFFERENT element from its data-scene, which is exactly
+     what the S/4HANA band below does. Painting a ground needs neither.
+
+     Selection follows the ground. .nm-sel reads --scene-accent, and on a module
+     page the module hue is the real accent — the same decision, and the same
+     reason, as --nxs-on on the running section bar a few rules down. */
+  background-color: var(--scene-ground);
+  --scene-accent: var(--m);
+  transition: background-color 700ms var(--ease-out-expo);
+}
+
+.nw-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
+.nw-fine { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.7; max-inline-size: 76ch; }
+.nw-sr {
+  position: absolute; inline-size: 1px; block-size: 1px;
+  margin: -1px; padding: 0; overflow: hidden; white-space: nowrap;
+  clip-path: inset(50%); border: 0;
+}
+
+/* Object-class marker. Never the module hue — this is the data's own encoding. */
+.nw-cls {
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 50%;
+  background: var(--o, var(--ink-3));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--o, var(--ink-3)) 18%, transparent);
+  flex: none;
+}
+
+/* ==========================================================================
+   AMBIENT MODULE LIGHT — the largest, softest use of hue on the page, and the
+   reason entering PM does not look like entering PP-PI.
+   ========================================================================== */
+.nw-light {
+  position: absolute;
+  inset-block: 0 auto;
+  inset-inline: 0;
+  block-size: 52rem;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint style;
+}
+.nw-light i { position: absolute; display: block; border-radius: 50%; }
+.nw-light-a {
+  inline-size: 46rem;
+  block-size: 46rem;
+  inset-block-start: -20rem;
+  inset-inline-start: -12rem;
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in srgb, var(--m) 26%, transparent) 0%,
+    color-mix(in srgb, var(--m) 9%, transparent) 44%,
+    transparent 70%);
+}
+.nw-light-b {
+  inline-size: 34rem;
+  block-size: 34rem;
+  inset-block-start: 2rem;
+  inset-inline-end: -14rem;
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in srgb, var(--m) 15%, transparent) 0%,
+    transparent 66%);
+}
+/* A hairline lattice under the hero only. It admits the page is a grid, which
+   is the right admission for a data workspace. */
+.nw-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(to right, var(--hairline) 0 1px, transparent 1px 88px),
+    repeating-linear-gradient(to bottom, var(--hairline) 0 1px, transparent 1px 88px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+  opacity: .5;
+}
+
+/* ==========================================================================
+   1 · THE HERO — approved, and now full width. It lost the three-card context
+   column that used to squeeze it; the large titles the client liked get the
+   whole canvas instead of two thirds of it.
+   ========================================================================== */
+.nw-hero {
+  display: grid;
+  gap: var(--sp-4);
+  align-content: start;
+  padding: var(--sp-10) var(--nw-gut) var(--sp-8);
+  /* The module edge. A LINE of module colour — the sanctioned form. It sits on
+     the canvas edge rather than inside the gutter, so the hero's text baseline
+     lines up with every block below it instead of sitting a step in. */
+  border-inline-start: 3px solid var(--m);
+}
+.nw-hero > * { min-inline-size: 0; }
+
+.nw-eye {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--t-micro);
+  letter-spacing: .16em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.nw-eye i { inline-size: 20px; block-size: 1px; background: var(--m); opacity: .85; }
+
+.nw-id { display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap; }
+
+/* THE MODULE EMBLEM. A marker, not a dot — the form rule holds.
+
+   It used to be bare outlined text at a single font-size, which meant its
+   stature tracked the LENGTH OF THE CODE: measured 88px wide on PM against
+   220px on PP-PI. One component cannot give one module two and a half times
+   the presence of its sibling; that is not identity, it is an accident of
+   spelling.
+
+   So it is a plate. The plate is a fixed square carrying the module tint, its
+   ring and its ink, and the code is set at a size that fits the longest code in
+   the product, so every module gets an identical emblem footprint. The "large"
+   the brief asks for is the plate; the glyphs only have to be legible in it. */
+.nw-mark {
+  inline-size: clamp(4rem, 8.5cqi, 6.5rem);
+  block-size: clamp(4rem, 8.5cqi, 6.5rem);
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-lg);
+  border: 2px solid color-mix(in srgb, var(--m) 46%, transparent);
+  background: color-mix(in srgb, var(--m) 12%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
+  font-size: clamp(1rem, 2.2cqi, 1.65rem);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: color-mix(in srgb, var(--m) 78%, var(--ink-1));
+  -webkit-text-stroke: 0;
+  flex: none;
+}
+.nw-idtext { display: grid; gap: 2px; min-inline-size: 0; }
+.nw-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  font-size: clamp(2rem, 5.2cqi, 4.25rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+.nw-code {
+  font-size: .34em;
+  font-weight: 600;
+  color: var(--ink-1);
+  padding: 2px var(--sp-2);
+  border-radius: var(--r-pill);
+  /* MODULE as a tint + ring. */
+  background: color-mix(in srgb, var(--m) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 42%, transparent);
+}
+.nw-en { font-size: var(--t-xs); color: var(--ink-3); letter-spacing: .04em; }
+.nw-idicon {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border-radius: var(--r-md);
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  flex: none;
+}
+.nw-lede { font-size: 1.0625rem; color: var(--ink-2); line-height: 1.62; max-inline-size: 64ch; }
+
+/* --- where to start. Three routes, ranked by the shape of the control ----- */
+.nw-go { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.nw-go .nw-cls { box-shadow: 0 0 0 3px color-mix(in srgb, var(--surface) 45%, transparent); }
+.nw-go-why { font-size: var(--t-micro); color: var(--ink-3); flex: 1 1 14rem; }
+
+/* --- the counts. A rail of figures, not a grid of cards ------------------- */
+.nw-figs { display: flex; flex-wrap: wrap; gap: var(--sp-4) var(--sp-8); margin-block-start: var(--sp-2); }
+.nw-fig { display: grid; gap: 2px; }
+.nw-fig dt { font-size: var(--t-micro); color: var(--ink-3); order: 2; }
+.nw-fig dd { display: flex; align-items: baseline; gap: var(--sp-2); flex-wrap: wrap; }
+.nw-fig b {
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.375rem, 2.4cqi, 2rem);
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: var(--ink-1);
+}
+.nw-fig em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+
+/* ==========================================================================
+   THE CHAPTER INDEX — the first thing under the hero, and the page's answer to
+   "the user cannot clearly understand the next action". One tile per chapter,
+   each carrying that chapter's real count, each a route to it.
+   ========================================================================== */
+/* The running section bar (components/neo-shell/workspace/section-nav.css) takes
+   the page's own gutter, so its first chip lines up with every chapter title
+   beneath it. Its active mark is the MODULE hue and not brand red: on this page
+   the module colour is a real, saturated identity and the bar is part of the
+   module's own chrome. */
+.nw .nxs {
+  --nxs-gut: var(--nw-gut);
+  --nxs-on: var(--m);
+  /* The bar is translucent so the ambient light keeps travelling under it, so
+     what it is translucent OVER has to be this page's ground and not the shell's
+     — otherwise the strip reads a shade cooler than everything beneath it. */
+  background: color-mix(in srgb, var(--scene-ground) 84%, transparent);
+}
+
+.nw-idx {
+  display: grid;
+  gap: var(--sp-4);
+  padding: var(--sp-8) var(--nw-gut) var(--sp-8);
+  border-block-start: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
+}
+.nw-idx-h { display: grid; gap: var(--sp-2); max-inline-size: 72ch; }
+.nw-idx-k {
+  font-size: var(--t-micro);
+  font-weight: 650;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nw-idx-s { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; }
+.nw-idx-l {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  gap: var(--sp-3);
+  counter-reset: none;
+}
+.nw-idx-i {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px var(--sp-3);
+  min-block-size: 4.25rem;
+  padding: var(--sp-3) var(--sp-4);
+}
+.nw-idx-n {
+  grid-row: 1 / span 2;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.04em;
+  font-variant-numeric: tabular-nums;
+  /* MODULE as a tint on a numeral — a surface value, never a dot. */
+  color: color-mix(in srgb, var(--m) 78%, var(--ink-3));
+}
+.nw-idx-t { font-size: var(--t-sm); font-weight: 650; color: var(--ink-1); line-height: 1.35; }
+/* THE CHAPTER THIS PAGE IS FOR. The index is a flat list of eight equal tiles,
+   which is honest about the structure and silent about the priority — so the one
+   chapter the product exists to deliver takes a module EDGE, a tint and a
+   heavier title here, the same three signals the running bar draws. All three
+   are sanctioned module forms; none of them is a coloured dot. */
+.nw-idx-i[data-key="1"] {
+  border-inline-start-width: 3px;
+  border-inline-start-color: var(--m);
+  background: color-mix(in srgb, var(--m) 7%, var(--surface));
+}
+.nw-idx-i[data-key="1"] .nw-idx-t { font-weight: 750; }
+.nw-idx-i[data-key="1"] .nw-idx-n { color: var(--m); }
+.nw-idx-c { display: flex; align-items: baseline; gap: 5px; }
+.nw-idx-c b { font-size: var(--t-xs); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.nw-idx-c em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+
+/* ==========================================================================
+   THE CHAPTER — the single container the whole page below the hero is built
+   from. One shape, eight instances, and inside it exactly two heading levels.
+   Nothing inside a chapter gets its own card frame unless it is genuinely
+   selectable, in which case it is a .nu-card and says so.
+   ========================================================================== */
+.nw-ch {
+  position: relative;
+  display: grid;
+  gap: var(--sp-6);
+  align-content: start;
+  padding: var(--sp-10) var(--nw-gut) var(--sp-12);
+  border-block-start: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
+  /* Both indexes jump here, and the running one is a sticky bar sitting at the
+     top of the canvas. --nxs-h is its MEASURED height, published to .nw by
+     section-nav.tsx, because the bar wraps to a different size at every canvas
+     width — a per-breakpoint guess would leave the chapter number under it at
+     most of them. Falls back to 0 if the bar is not on the page. */
+  scroll-margin-block-start: calc(var(--nxs-h, 0px) + var(--sp-4));
+}
+.nw-ch > * { min-inline-size: 0; }
+
+/* SECTION LIGHTING. Alternate chapters carry a whisper of module tint, so the
+   page has a beat instead of one flat sheet. The working table deliberately
+   sits on the plain ground: it is the brightest surface on the page. */
+.nw > section.nw-ch:nth-of-type(odd)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--m) 4.5%, transparent),
+    color-mix(in srgb, var(--m) 1.5%, transparent) 60%,
+    transparent);
+  pointer-events: none;
+}
+.nw > section.nw-ch--wide::before { display: none; }
+
+/* --- the chapter head. The number is the visual anchor -------------------- */
+.nw-ch-h {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--sp-2) var(--sp-5);
+  max-inline-size: 82ch;
+}
+.nw-ch-n {
+  grid-row: 1 / span 4;
+  align-self: start;
+  font-size: clamp(2.5rem, 5cqi, 4rem);
+  font-weight: 700;
+  line-height: .8;
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+  /* MODULE as a tint. A numeral is a surface, not a dot. */
+  color: color-mix(in srgb, var(--m) 26%, transparent);
+  padding-block-start: .1em;
+}
+.nw-ch-k {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--t-micro);
+  font-weight: 650;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nw-ch-ico {
+  display: grid;
+  place-items: center;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  border-radius: var(--r-sm);
+  color: var(--m);
+  /* MODULE as a surface tint + ring. */
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 24%, var(--hairline));
+  flex: none;
+}
+.nw-ch-k::after {
+  content: '';
+  flex: 0 0 2.5rem;
+  block-size: 2px;
+  border-radius: var(--r-pill);
+  /* MODULE as a section marker. */
+  background: color-mix(in srgb, var(--m) 55%, transparent);
+}
+.nw-ch-t {
+  font-size: clamp(1.5rem, 3cqi, 2.5rem);
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -.025em;
+  color: var(--ink-1);
+  text-wrap: balance;
+}
+.nw-ch-s {
+  font-size: 1rem;
+  color: var(--ink-2);
+  line-height: 1.72;
+  max-inline-size: 68ch;
+}
+.nw-ch-s b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-ch-go { display: flex; gap: var(--sp-4); flex-wrap: wrap; margin-block-start: var(--sp-2); }
+.nw-ch-body { display: grid; gap: var(--sp-8); align-content: start; }
+.nw-ch-body > * { min-inline-size: 0; }
+
+/* --- the view switch. .nu-tab owns every state; this only places it -------- */
+.nw-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  border-block-end: 1px solid color-mix(in srgb, var(--m) 20%, var(--hairline));
+}
+.nw-tabs .nu-tab { font-size: var(--t-sm); padding-block: .8rem; }
+.nw-tabs .nu-tab em {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-inline-start: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.nw-view { display: grid; gap: var(--sp-4); }
+
+/* --- two columns inside one chapter, never two chapters ------------------- */
+.nw-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-8); }
+.nw-sub { display: grid; gap: var(--sp-3); align-content: start; min-inline-size: 0; }
+/* The SUB-BLOCK heading. Deliberately sentence case at a real size: the old
+   micro uppercase caption read as a data label and was the reason the page had
+   no level between "chapter" and "row". */
+.nw-sub-h {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -.012em;
+  color: var(--ink-1);
+  padding-block-end: var(--sp-3);
+  border-block-end: 1px solid color-mix(in srgb, var(--m) 18%, var(--hairline));
+}
+.nw-sub-ico { display: inline-grid; place-items: center; color: var(--m); flex: none; }
+.nw-sub-h--2 { margin-block-start: var(--sp-5); }
+.nw-sub-s { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; max-inline-size: 78ch; }
+.nw-links { display: flex; gap: var(--sp-5); flex-wrap: wrap; align-items: center; }
+
+/* ==========================================================================
+   THE RANK LIST — one shape for every "N things, ordered, with a proportion".
+   Topics, object classes, transactions, hubs, courses and recents all use it.
+   That is the merge: six different little widgets became one legible row.
+   ========================================================================== */
+.nw-rank { display: grid; gap: var(--sp-2); }
+.nw-rank--tight { gap: 1px; }
+
+/* .nu-card supplies the frame, the hover, the selected ring and the focus
+   language. Everything below is layout only. */
+.nw-rank .nu-card {
+  display: grid;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  inline-size: 100%;
+  min-block-size: var(--nw-row);
+  padding: var(--sp-2) var(--sp-3);
+}
+.nw-rank--tight .nu-card {
+  border-color: transparent;
+  background: transparent;
+  border-radius: var(--r-sm);
+}
+.nw-rank--tight .nu-card:hover { background: color-mix(in srgb, var(--m) 6%, transparent); }
+
+.nw-rankrow { grid-template-columns: 2rem minmax(0, 1fr) minmax(3rem, 9rem) auto; }
+.nw-rankrow--obj { grid-template-columns: auto minmax(0, 1fr) minmax(3rem, 9rem) auto; }
+.nw-rank-i { font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nw-rank-t {
+  font-size: var(--t-sm);
+  color: var(--ink-1);
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.nw-rank-n {
+  display: grid;
+  justify-items: end;
+  gap: 1px;
+  font-size: var(--t-sm);
+  color: var(--ink-1);
+  font-variant-numeric: tabular-nums;
+}
+.nw-rank-n em { font-style: normal; font-size: 10px; color: var(--ink-3); white-space: nowrap; }
+
+/* The proportion bar. MODULE hue as a LINE — the sanctioned form. It scales
+   on transform, so the only thing that ever animates is a transform. */
+.nw-bar {
+  display: block;
+  block-size: 6px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--ink-3) 14%, transparent);
+  overflow: hidden;
+}
+.nw-bar > i {
+  display: block;
+  block-size: 100%;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--m) 78%, transparent);
+  transform: scaleX(var(--p, 0));
+  transform-origin: 100% 50%;
+  transition: transform 620ms var(--ease-emphasis);
+}
+[dir="ltr"] .nw-bar > i { transform-origin: 0 50%; }
+
+/* THE BAR DRAWS ITSELF IN. .nm-grow (app/neo/motion.css) scrubs the TRACK from
+   scaleX(0) against its own passage through the scrollport, so the fill inside
+   keeps its measured proportion and the whole metric arrives with the scroll
+   instead of being there before the reader is. Only a transform animates.
+   The origin is restated because transform-origin takes no logical keyword —
+   `inline-start` is not a value it accepts, so it has to be spelled per
+   direction or the bar would grow outward from its middle. */
+.nw-bar.nm-grow { transform-origin: 100% 50%; }
+[dir="ltr"] .nw-bar.nm-grow { transform-origin: 0 50%; }
+
+/* The selected row's leading edge, pulled inside the card's own 1rem radius so
+   it reads as an edge of the card rather than a mark beside it. */
+.nw-rank .nu-card.nm-sel[data-on="1"]::before,
+.nw-frow.nm-sel[data-on="1"]::before { inset-inline-start: 2px; inset-block: 22%; }
+/* Object-class proportion: the data's own hue, not the module's. */
+.nw-bar--obj > i { background: color-mix(in srgb, var(--o, var(--ink-3)) 74%, transparent); }
+/* A verdict proportion is NEVER a status hue — a bar is a surface, and status
+   may only ever be a dot next to its word. Neutral ink instead. */
+.nw-bar--ink > i { background: color-mix(in srgb, var(--ink-2) 55%, transparent); }
+
+/* ==========================================================================
+   2 · THE MAP — process chain and object classes
+   ========================================================================== */
+.nw-chain { display: grid; gap: var(--sp-2); counter-reset: nw-step; }
+.nw-chain > li { position: relative; }
+/* The connector. A line, and it stops at the last node — an arrow into nothing
+   is exactly the invented edge this project refuses to draw. */
+.nw-chain > li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  inset-block-end: calc(-1 * var(--sp-2));
+  inset-inline-start: calc(var(--sp-3) + 4px);
+  inline-size: 1px;
+  block-size: var(--sp-2);
+  background: var(--rel-n-1);
+}
+.nw-steprow {
+  display: grid;
+  grid-template-columns: auto 6.5rem minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  inline-size: 100%;
+  min-block-size: var(--nw-row);
+  padding: var(--sp-2) var(--sp-3);
+}
+.nw-steprow b { font-size: var(--t-sm); color: var(--ink-1); }
+.nw-step-he { font-size: var(--t-xs); color: var(--ink-2); }
+.nw-steprow em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
+.nw-steparw { color: var(--m); opacity: 0; transition: opacity var(--dur-fast) linear; }
+.nw-rank .nu-card:hover .nw-steparw,
+.nw-chain .nu-card:hover .nw-steparw,
+.nu-card:focus-visible .nw-steparw { opacity: 1; }
+/* A step the module's dictionary does not document. Dashed, not a link, and it
+   says why in words rather than showing a zero. */
+.nw-steprow--gap {
+  border: 1px dashed color-mix(in srgb, var(--ink-3) 40%, transparent);
+  border-radius: 1rem;
+  background: transparent;
+  opacity: .78;
+}
+
+/* ==========================================================================
+   3 · THE WORKING TABLE — the centre of gravity.
+   ========================================================================== */
+/* Block flow, not grid, and deliberately so: a sticky element inside a grid
+   container is clamped to its own GRID AREA, which for the rail is exactly its
+   own height — i.e. zero travel. On a block container the rail's containing
+   block is the whole section, so it can ride the full length of the table. */
+.nw-ch--wide { display: block; padding-inline: 0; }
+.nw-ch--wide > .nw-ch-h { padding-inline: var(--nw-gut); margin-block-end: var(--sp-8); }
+.nw-ch--wide > .nw-ch-body { display: block; }
+.nw-ch--wide .nw-rail { margin-block-end: var(--sp-4); }
+
+/* --- the rail. THREE controls, not twenty ---------------------------------
+   Sticky, so the scope of what is on screen is never more than a glance away.
+   Search, one filter disclosure and one clear. Topic and object class are
+   chosen up in the map block, against their own numbers. */
+.nw-rail {
+  position: sticky;
+  /* UNDER the running section bar, which owns the top of the canvas on this
+     page. Its measured height arrives as --nxs-h. */
+  inset-block-start: var(--nxs-h, 0px);
+  z-index: 3;
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--nw-gut);
+  /* Deliberately not opaque: the ambient module light has to keep travelling
+     under the rail, so the blur has something to do. */
+  background: color-mix(in srgb, var(--m) 5%, color-mix(in srgb, var(--scene-ground) 88%, transparent));
+  border-block: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  backdrop-filter: blur(10px);
+}
+.nw-railtop { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+
+.nw-find {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: 1 1 20rem;
+  min-inline-size: 12rem;
+  min-block-size: var(--nw-row);
+  padding-inline: var(--sp-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  color: var(--ink-3);
+  transition: border-color var(--dur-fast) linear, box-shadow var(--dur-fast) linear;
+}
+.nw-find:focus-within { border-color: var(--m); box-shadow: 0 0 0 3px color-mix(in srgb, var(--m) 16%, transparent); }
+.nw-find input {
+  flex: 1;
+  min-inline-size: 0;
+  border: 0;
+  background: transparent;
+  font-size: var(--t-xs);
+  color: var(--ink-1);
+}
+.nw-find input::placeholder { color: var(--ink-3); }
+.nw-find input:focus { outline: none; }
+
+.nw-scope { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; font-size: var(--t-xs); }
+.nw-scope > b { font-size: var(--t-h2); color: var(--ink-1); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.nw-scope > span { color: var(--ink-2); }
+.nw-scope b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-scope-all { font-size: var(--t-micro); color: var(--ink-3); }
+/* The active scopes are .nu-chip — VALUES, not controls. Each one is switched
+   off where it was switched on, which is the only place it can be understood. */
+.nw-scope .nu-chip { border-color: color-mix(in srgb, var(--m) 38%, var(--hairline)); }
+
+.nw-panel {
+  display: grid;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+}
+.nw-fgroup { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+.nw-fk {
+  font-size: var(--t-micro);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  flex: 0 0 auto;
+  min-inline-size: 7rem;
+}
+/* A verdict filter is a whole selectable region, so it is a .nu-card. That
+   keeps the STATUS colour inside .nu-status (dot + word) and lets the MODULE
+   colour do the selected state as a ring — both forms exactly as the rule
+   allows, and no second dot competing with the first. */
+.nw-frow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: var(--nw-row);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-pill);
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+}
+.nw-frow em { font-style: normal; font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+/* .nu-status is deliberately not interactive and carries cursor:default. Inside
+   a control it is the control that owns the cursor, not its label. */
+.nw-frow .nu-status { cursor: inherit; }
+.nw-frow[disabled] { opacity: .42; cursor: not-allowed; }
+.nw-frow[data-on="1"] { color: var(--ink-1); background: color-mix(in srgb, var(--m) 9%, var(--surface)); }
+/* The sort keys have a home in the column headers on a wide canvas; a second
+   sort surface next to a sortable header is the duplicated control the client
+   objected to. It comes back only where there are no headers. */
+.nw-fgroup--sort { display: none; }
+
+/* --- the table itself ----------------------------------------------------- */
+.nw-tblwrap { padding-inline: var(--nw-gut); }
+.nw-tbl { inline-size: 100%; border-collapse: collapse; table-layout: fixed; }
+
+.nw-tbl thead th {
+  position: sticky;
+  /* UNDER the rail, not under the window: the rail is this page's own chrome
+     and the shell already owns the top bar above it. The offset is the rail's
+     MEASURED height (module-workspace.tsx publishes it), because the rail wraps
+     to a different number of lines at every canvas width and grows when the
+     filter panel opens — a per-breakpoint guess would leave a gap or an
+     overlap at most of them. */
+  inset-block-start: calc(var(--nxs-h, 0px) + var(--nw-railh, 0px));
+  z-index: 2;
+  padding: var(--sp-2);
+  text-align: start;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  /* Opaque, and opaque in the PAGE's ground: rows scroll under this head, so it
+     has to hide them completely and still be the same colour as the page. */
+  background: var(--scene-ground);
+  /* TABLE IDENTITY: the head is underlined in the module's own colour, so the
+     working table of PM never reads as the working table of PP-PI. */
+  border-block-end: 2px solid color-mix(in srgb, var(--m) 42%, var(--hairline));
+  white-space: nowrap;
+}
+/* .nu-ghost owns the states; the header only needs it to sit on one line. */
+.nw-sortbtn {
+  min-block-size: 1.75rem;
+  padding-inline: 0.35rem;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+.nw-sortbtn[data-on="1"] { color: var(--ink-1); }
+.nw-sortbtn em { font-style: normal; opacity: .6; }
+
+.nw-row > td {
+  padding: var(--sp-2);
+  border-block-end: 1px solid var(--hairline);
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+  vertical-align: middle;
+}
+.nw-row { transition: background-color var(--dur-fast) linear; }
+.nw-row:hover > td { background: color-mix(in srgb, var(--m) 5%, transparent); }
+/* The open row carries a module EDGE and a module tint — both sanctioned. */
+.nw-row[data-open="1"] > td {
+  background: color-mix(in srgb, var(--m) 8%, transparent);
+  border-block-end-color: transparent;
+}
+.nw-row[data-open="1"] > td:first-child { box-shadow: inset 2px 0 0 0 var(--m); }
+[dir="ltr"] .nw-row[data-open="1"] > td:first-child { box-shadow: inset -2px 0 0 0 var(--m); }
+
+.nw-c-n { inline-size: 12.5rem; }
+.nw-c-he { inline-size: auto; }
+.nw-c-tp { inline-size: 9rem; }
+.nw-c-f { inline-size: 6rem; }
+.nw-c-tc { inline-size: 10rem; }
+.nw-c-fn { inline-size: 5rem; }
+.nw-c-rel { inline-size: 5rem; }
+.nw-c-cv { inline-size: 6rem; }
+.nw-c-s4 { inline-size: 6.5rem; }
+.nw-c-x { inline-size: 2.75rem; }
+
+/* The one thing in the row that leaves for a route. .nu-link supplies the
+   colour, the arrow and the hover; this only adds the class dot and the floor. */
+.nw-name { min-block-size: var(--nw-row); max-inline-size: 100%; gap: var(--sp-2); }
+.nw-name b { font-size: var(--t-sm); }
+.nw-name .nu-arw { opacity: 0; transition: opacity var(--dur-fast) linear, transform var(--dur-fast) var(--ease-out-expo); }
+.nw-row:hover .nw-name .nu-arw,
+.nw-name:focus-visible .nu-arw { opacity: 1; }
+
+.nw-c-n .nu-chip { margin-inline-start: var(--sp-2); }
+.nw-c-he span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nw-c-tp { color: var(--ink-3); }
+.nw-c-tp .nw-sap { font-size: 10px; }
+.nw-tp-t {
+  display: inline-block;
+  max-inline-size: 6.5rem;
+  margin-inline-start: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+  font-size: 10px;
+}
+.nw-c-f b, .nw-c-fn b, .nw-c-rel b { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-c-f em { font-style: normal; font-size: 10px; color: var(--ink-3); margin-inline-start: 5px; }
+.nw-c-tc .nu-chip { margin-inline-end: 3px; }
+.nw-c-tc em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nw-c-cv .nw-sap { font-variant-numeric: tabular-nums; color: var(--ink-1); }
+.nw-c-cv em { font-style: normal; font-size: 10px; color: var(--ink-3); margin-inline-start: 5px; }
+.nw-none { color: var(--ink-3); }
+
+.nw-x {
+  inline-size: var(--nw-row);
+  min-inline-size: var(--nw-row);
+  block-size: var(--nw-row);
+  padding: 0;
+}
+.nw-x[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+/* --- the expanded row ----------------------------------------------------- */
+.nw-detrow > td { padding: 0; border-block-end: 1px solid var(--hairline); }
+.nw-det {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+  gap: var(--sp-5);
+  padding: var(--sp-4) var(--sp-3) var(--sp-5);
+  background: color-mix(in srgb, var(--m) 4%, transparent);
+  border-inline-start: 2px solid var(--m);
+}
+.nw-det > section { display: grid; gap: var(--sp-2); align-content: start; justify-items: start; min-inline-size: 0; }
+.nw-det h3 {
+  inline-size: 100%;
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-block-end: 4px;
+  border-block-end: 1px solid var(--hairline);
+}
+.nw-keys, .nw-joins, .nw-fns { display: grid; gap: var(--sp-2); inline-size: 100%; }
+.nw-keys li {
+  display: grid;
+  grid-template-columns: 2rem 6.5rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--sp-2);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+}
+.nw-kb {
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+  padding: 1px 0;
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  color: var(--ink-3);
+}
+.nw-kb[data-k="pk"] { color: var(--ink-1); }
+.nw-keys b { color: var(--ink-1); font-size: var(--t-xs); }
+.nw-keys em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+
+.nw-joins li { display: grid; gap: 2px; font-size: var(--t-micro); color: var(--ink-2); justify-items: start; }
+.nw-joins b { font-size: var(--t-xs); color: var(--ink-1); }
+.nw-joins .nu-link { padding-block: 0; }
+.nw-out { font-size: 10px; color: var(--ink-3); }
+.nw-join-d { color: var(--ink-2); }
+.nw-joins code { font-size: 10px; color: var(--ink-3); overflow-wrap: anywhere; }
+
+.nw-fns li {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 2px var(--sp-2);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+}
+.nw-kind {
+  font-size: 9px;
+  color: var(--ink-3);
+  padding: 1px 4px;
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  text-align: center;
+  grid-row: span 2;
+  align-self: start;
+}
+.nw-fns b { color: var(--ink-1); font-size: var(--t-xs); }
+.nw-alltc { font-size: var(--t-micro); color: var(--ink-3); margin-block-start: var(--sp-2); }
+.nw-s4note { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.7; }
+.nw-detgo { margin-block-start: var(--sp-2); }
+
+.nw-empty {
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-3);
+  margin: var(--sp-6) var(--nw-gut);
+  padding: var(--sp-6);
+  border-radius: var(--r-md);
+  border: 1px dashed color-mix(in srgb, var(--m) 34%, var(--hairline));
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+/* ==========================================================================
+   4 · CONTEXT — transactions · relationships · the data model
+   ========================================================================== */
+/* "Rows are too tight" — every row on the page now clears --nw-row (44px),
+   whether or not it is interactive, so the rhythm does not change when a list
+   happens to be a record rather than a control. */
+.nw-tcrow {
+  display: grid;
+  grid-template-columns: 6rem minmax(3rem, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-3);
+  min-block-size: var(--nw-row);
+  padding-inline: var(--sp-3);
+  font-size: var(--t-sm);
+}
+.nw-tcrow b { color: var(--ink-1); }
+.nw-tcrow em { font-style: normal; font-size: var(--t-xs); color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-tcrow em span { font-size: 10px; color: var(--ink-3); margin-inline-start: 4px; }
+
+.nw-hubrow { grid-template-columns: auto 6rem minmax(3rem, 1fr) auto auto; }
+.nw-hubrow b { color: var(--ink-1); font-size: var(--t-sm); }
+.nw-hubrow em { font-style: normal; font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-hubrow em span { font-size: 10px; color: var(--ink-3); margin-inline-start: 4px; }
+
+.nw-relline { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.75; }
+.nw-relline b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================
+   ECC → S/4HANA — the forward context, and the loudest chapter on the page
+   after the hero.
+
+   COLOUR: a risk level is a STATE, so RISK_COLOR may only ever be the dot of a
+   .nu-status followed by its word. It never becomes a border, a fill or text
+   colour here. The callout gets its weight from SIZE, TYPE and a MODULE edge —
+   all three sanctioned forms — which is why a high-risk table reads as loud
+   without a red rectangle anywhere on the page.
+   ========================================================================== */
+/* THE STAGE — the one ground change on a module page.
+   app/neo/ground.css keeps the `deep` scene for "a moment that is meant to feel
+   like a held breath", and this is the sentence the whole product is written to
+   deliver: how much of the module actually moves. It is a FULL-BLEED band, out
+   past the chapter's gutters to the canvas edge, because a colour block that
+   stops at a margin is a card and a card is not a change of place.
+
+   It is the band and not the chapter. Everything below it is reference material
+   somebody has to sit and read, and a study surface does not belong inside a
+   dark tunnel — which is also the level-3 instruction for these two routes.
+
+   .nm-scene and data-scene are on the SAME element here, and that is safe only
+   because `deep` states its raised tone as a literal colour. The pm/pppi scenes
+   state theirs as var(--surface), which is the property .nm-scene rebinds, and
+   pairing those two on one node is a custom-property cycle. See the note on .nw. */
+.nw-s4stage {
+  margin-inline: calc(-1 * var(--nw-gut));
+  padding: var(--sp-10) var(--nw-gut);
+}
+/* The scene's own seam feather is a 5rem gradient hung ABOVE the element, and a
+   positioned pseudo-element paints over in-flow text — here, the chapter lede
+   sitting right above the band. The band is colour blocking rather than a scene
+   transition, so it takes a crisp edge instead, which is what Partake actually
+   does: sections meet, they do not dissolve. */
+.nw-s4stage::before { display: none; }
+
+.nw-s4top {
+  display: grid;
+  gap: var(--sp-5);
+  padding: var(--sp-6);
+  border-radius: var(--r-lg);
+  /* MODULE as a surface tint + ring. */
+  background: color-mix(in srgb, var(--m) 6%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+}
+/* On the stage the ground IS the card, so the panel gives its frame back. */
+.nw-s4stage .nw-s4top {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+/* Priority as SIZE. On the stage the headline number is the largest figure below
+   the hero — larger than any chapter numeral — so the count of what moves is the
+   first thing read on the page after the module's own name. */
+.nw-s4stage .nw-s4big b { font-size: clamp(3rem, 7.5cqi, 5.5rem); }
+.nw-s4stage .nw-s4big span { font-size: 1.25rem; }
+.nw-s4stage .nw-s4mix { max-inline-size: none; }
+/* The trust line is the band's footer: it says where every number above it came
+   from, so it sits under both columns and is separated by the scene's own
+   hairline rather than by a module one. */
+.nw-s4stage .nw-s4trust { border-block-start-color: var(--hairline); }
+.nw-s4big { display: grid; gap: 2px; justify-items: start; }
+/* The figure is .nw-sap, i.e. an LTR-isolated run, and a blockified grid item
+   with direction:ltr aligns its text to the LEFT — which in this RTL page threw
+   the loudest number on the screen to the far side of the band, away from the
+   words it belongs to. justify-self is resolved in the CONTAINER's direction, so
+   this is the one property that puts it back at the inline start. */
+.nw-s4big b {
+  font-size: clamp(2.75rem, 6cqi, 4.5rem);
+  font-weight: 700;
+  line-height: .95;
+  letter-spacing: -.045em;
+  color: var(--ink-1);
+  font-variant-numeric: tabular-nums;
+}
+.nw-s4big span { font-size: 1.0625rem; font-weight: 650; color: var(--ink-1); }
+.nw-s4big em { font-style: normal; font-size: var(--t-sm); color: var(--ink-2); }
+
+.nw-s4mix { display: grid; gap: var(--sp-3); max-inline-size: 40rem; }
+.nw-s4mix li {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(3rem, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-3);
+  min-block-size: 1.75rem;
+}
+.nw-s4mix .nu-status { font-size: var(--t-xs); }
+.nw-s4mix b { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
+
+.nw-s4trust {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+  padding-block-start: var(--sp-3);
+  border-block-start: 1px solid color-mix(in srgb, var(--m) 20%, var(--hairline));
+}
+.nw-s4trust svg { color: var(--m); flex: none; }
+.nw-s4trust b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+
+/* --- one table that materially moves. A callout, not a cell ---------------- */
+.nw-moves { display: grid; gap: var(--sp-5); }
+.nw-move {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-5) var(--sp-5) var(--sp-5);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  /* MODULE as the leading edge. Thicker for a high-risk row: WEIGHT carries the
+     severity, because the hue may not. */
+  border-inline-start: 3px solid color-mix(in srgb, var(--m) 45%, var(--hairline));
+}
+.nw-move[data-risk="high"] {
+  border-inline-start-width: 6px;
+  border-inline-start-color: var(--m);
+  background: color-mix(in srgb, var(--m) 4%, var(--surface));
+  box-shadow: var(--elev-2);
+}
+.nw-move[data-risk="medium"] { border-inline-start-width: 4px; }
+.nw-move-h { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.nw-move-h .nu-status { font-size: var(--t-xs); font-weight: 700; }
+.nw-move-n { padding-block: 0; }
+.nw-move-n b { font-size: 1.125rem; letter-spacing: -.01em; }
+.nw-move-he { font-size: var(--t-sm); color: var(--ink-2); }
+/* The one sentence the chapter exists for. */
+.nw-move-w {
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  color: var(--ink-1);
+  font-weight: 600;
+  max-inline-size: 74ch;
+}
+.nw-move-y { font-size: var(--t-sm); line-height: 1.7; color: var(--ink-2); max-inline-size: 76ch; }
+.nw-move-kv { display: grid; gap: var(--sp-2); }
+.nw-move-kv > div {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  gap: var(--sp-2) var(--sp-3);
+  align-items: baseline;
+}
+.nw-move-kv dt {
+  font-size: var(--t-micro);
+  font-weight: 650;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+/* SAP identifiers carry no natural break opportunity — an underscore is not
+   one — so every cell that can hold a long one gets an explicit last resort.
+   Without it a 40-character view name becomes a horizontal scrollbar at 390px. */
+.nw-move-kv dd { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.65; overflow-wrap: anywhere; }
+.nw-move-kv dd .nu-chip { margin-inline-end: 4px; }
+.nw-move-t {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  padding-block-start: var(--sp-2);
+  border-block-start: 1px solid var(--hairline);
+}
+.nw-move-t svg { flex: none; }
+
+.nw-notes { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+
+.nw-verdicts { display: grid; gap: var(--sp-3); max-inline-size: 46rem; }
+.nw-verdicts li {
+  display: grid;
+  grid-template-columns: 6rem minmax(4rem, 1fr) auto auto;
+  align-items: center;
+  gap: var(--sp-3);
+  min-block-size: 2rem;
+}
+.nw-verdicts .nu-status { font-size: var(--t-xs); }
+.nw-verdicts b { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-verdicts em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================
+   THE VERBATIM SHEET — the blueprint's own aux worksheets, kept as records.
+   ========================================================================== */
+.nw-sheet { display: grid; gap: var(--sp-4); justify-items: start; }
+.nw-sheet-l { display: grid; gap: var(--sp-3); inline-size: 100%; }
+.nw-sheet-r {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  /* MODULE as an edge — the record is of this module's blueprint. */
+  border-inline-start: 3px solid color-mix(in srgb, var(--m) 38%, var(--hairline));
+}
+.nw-sheet-h {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.45;
+  color: var(--ink-1);
+  overflow-wrap: anywhere;
+}
+.nw-sheet-i { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; flex: none; }
+.nw-sheet-kv { display: grid; gap: var(--sp-2); }
+.nw-sheet-kv > div {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: var(--sp-2) var(--sp-3);
+  align-items: baseline;
+}
+.nw-sheet-kv dt {
+  font-size: var(--t-micro);
+  font-weight: 650;
+  letter-spacing: .05em;
+  color: var(--ink-3);
+}
+.nw-sheet-kv dd {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  line-height: 1.72;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================================================
+   INTERFACES · CDS · FIORI
+   ========================================================================== */
+.nw-fnlist, .nw-cdslist, .nw-applist { display: grid; gap: var(--sp-2); }
+.nw-fnlist li {
+  display: grid;
+  grid-template-columns: 3rem 14rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-3);
+  min-block-size: var(--nw-row);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.nw-fnlist b, .nw-cdslist b, .nw-applist b { font-size: var(--t-sm); color: var(--ink-1); overflow-wrap: anywhere; }
+.nw-fn-he { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.6; }
+.nw-fnlist em, .nw-cdslist em { font-style: normal; font-size: var(--t-xs); color: var(--ink-1); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nw-fnlist em span { font-size: 10px; color: var(--ink-3); margin-inline-start: 4px; }
+
+.nw-cdslist li, .nw-applist li {
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-3);
+  min-block-size: var(--nw-row);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.nw-applist li { grid-template-columns: minmax(0, 1fr) auto; }
+.nw-cds-t { display: flex; flex-wrap: wrap; gap: 4px; }
+.nw-cdslist li .nw-fn-he { grid-column: 2; }
+.nw-cdslist li .nw-cds-t { grid-column: 2; }
+
+/* ==========================================================================
+   6 · BOOKS / ACADEMY · RECENT ACTIVITY
+   ========================================================================== */
+/* A book row. A .nu-card when the spine exists and the row is a route; the same
+   layout without the frame when it does not, so a record never looks clickable. */
+.nw-bookrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px var(--sp-3);
+  inline-size: 100%;
+  min-block-size: var(--nw-row);
+  padding: var(--sp-2) var(--sp-3);
+}
+.nw-bookrow b { font-size: var(--t-sm); color: var(--ink-1); line-height: 1.45; }
+.nw-bookrow > span { grid-column: 1; font-size: var(--t-micro); color: var(--ink-3); }
+.nw-bookrow em { grid-column: 1; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+.nw-bookrow--flat {
+  border-inline-start: 2px solid color-mix(in srgb, var(--m) 40%, transparent);
+  border-radius: 0;
+}
+.nw-bookrow .nw-steparw { grid-column: 2; grid-row: 1; align-self: center; }
+
+.nw-courserow { grid-template-columns: minmax(0, 1fr) auto auto; }
+.nw-courserow b { font-size: var(--t-xs); color: var(--ink-1); line-height: 1.5; }
+.nw-courserow em { font-style: normal; font-size: 10px; color: var(--ink-3); white-space: nowrap; }
+
+.nw-rcrow { grid-template-columns: auto auto minmax(0, 1fr) auto auto; }
+.nw-rcrow b { font-size: var(--t-sm); color: var(--ink-1); }
+.nw-rc-he { font-size: var(--t-xs); color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nw-rcrow em { font-style: normal; font-size: 10px; color: var(--ink-3); white-space: nowrap; }
+
+.nw-credit {
+  margin: var(--sp-8) var(--nw-gut) 0;
+  padding-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--hairline);
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+}
+
+/* ==========================================================================
+   DARK — layered, not inverted.
+   ========================================================================== */
+html[data-theme="dark"] .nw-light::after { opacity: .28; }
+html[data-theme="dark"] .nw-light-a {
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in srgb, var(--m) 16%, transparent) 0%,
+    color-mix(in srgb, var(--m) 6%, transparent) 44%,
+    transparent 70%);
+}
+html[data-theme="dark"] .nw-light-b {
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--m) 10%, transparent) 0%, transparent 66%);
+}
+html[data-theme="dark"] :is(.nw-find, .nw-panel) {
+  background: color-mix(in srgb, var(--surface-2) 74%, transparent);
+  border-color: color-mix(in srgb, var(--ink-3) 24%, transparent);
+}
+html[data-theme="dark"] .nw-rail { background: color-mix(in srgb, var(--m) 8%, var(--scene-ground)); }
+html[data-theme="dark"] .nw-tbl thead th { background: var(--scene-ground); }
+html[data-theme="dark"] .nw-det { background: color-mix(in srgb, var(--m) 8%, transparent); }
+html[data-theme="dark"] :is(.nw-kb, .nw-kind) { background: color-mix(in srgb, var(--ink-3) 16%, transparent); }
+html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--m) 8%, transparent),
+    color-mix(in srgb, var(--m) 3%, transparent) 60%,
+    transparent);
+}
+
+/* ==========================================================================
+   RESPONSIVE — every step RECOMPOSES. All widths are CANVAS widths.
+   ========================================================================== */
+
+/* --- touch canvas: its OWN composition, not a squeezed desktop ------------ */
+@container nw (max-width: 899px) {
+  .nw { --nw-gut: var(--sp-4); }
+
+  .nw-hero { padding: var(--sp-6) var(--nw-gut); }
+  .nw-mark { inline-size: 3.5rem; block-size: 3.5rem; font-size: .95rem; }
+  .nw-lede { font-size: var(--t-body); }
+  .nw-figs { gap: var(--sp-3) var(--sp-5); }
+  /* On a phone the primary route is a full-width target, not a pill in a row. */
+  .nw-go { gap: var(--sp-2); }
+  .nw-go > .nu-btn, .nw-go > .nu-btn2 { flex: 1 1 100%; }
+  .nw-go-why { flex: 1 1 100%; }
+
+  /* A phone still gets the chapter hierarchy — it is the thing that makes the
+     page navigable at this width — but the number moves above the kicker
+     instead of beside it, so the title keeps the whole column. */
+  .nw-ch { padding-block: var(--sp-8) var(--sp-8); gap: var(--sp-5); }
+  .nw-ch-body { gap: var(--sp-6); }
+  .nw-ch-h { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
+  .nw-ch-n { grid-row: auto; font-size: 2rem; }
+  .nw-ch-s { font-size: var(--t-body); }
+  .nw-ch-go { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
+  .nw-ch-go > .nu-btn, .nw-ch-go > .nu-btn2 { inline-size: 100%; }
+
+  .nw-idx { padding-block: var(--sp-6); }
+  .nw-idx-l { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
+  .nw-idx-i { min-block-size: var(--c-tap); }
+
+  .nw-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
+  .nw-tabs .nu-tab { flex: none; }
+
+  /* Every key/value grid collapses to stacked pairs: a 10rem label column on a
+     390px canvas leaves nothing for the value. */
+  .nw-move-kv > div, .nw-sheet-kv > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .nw-move { padding: var(--sp-4); }
+  .nw-move-w { font-size: 1rem; }
+  .nw-s4top { padding: var(--sp-4); }
+  .nw-s4stage { padding-block: var(--sp-6); }
+  .nw-s4stage .nw-s4big span { font-size: 1.0625rem; }
+  .nw-s4mix li { grid-template-columns: minmax(0, 1fr) auto; }
+  .nw-s4mix .nw-bar { display: none; }
+  .nw-sheet-r { padding: var(--sp-3); }
+
+  .nw-fnlist li { grid-template-columns: 3rem minmax(0, 1fr); }
+  .nw-fnlist .nw-fn-he, .nw-fnlist em { grid-column: 2; }
+  .nw-cdslist li, .nw-applist li { grid-template-columns: minmax(0, 1fr); }
+  .nw-cdslist li .nw-fn-he, .nw-cdslist li .nw-cds-t { grid-column: 1; }
+  .nw-bookrow { grid-template-columns: minmax(0, 1fr); }
+  .nw-bookrow .nw-steparw { display: none; }
+
+  /* Rank rows drop the proportion bar: at this width it is four pixels of
+     nothing. The number it encoded is already spelled out beside it. */
+  .nw-rankrow { grid-template-columns: 2rem minmax(0, 1fr) auto; }
+  .nw-rankrow--obj, .nw-hubrow { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .nw-rankrow .nw-bar, .nw-hubrow .nw-bar, .nw-tcrow .nw-bar { display: none; }
+  .nw-hubrow .nw-steparw, .nw-courserow .nw-steparw, .nw-rcrow .nw-steparw { display: none; }
+  .nw-tcrow { grid-template-columns: 6rem auto; }
+  .nw-steprow { grid-template-columns: auto 6rem minmax(0, 1fr); }
+  .nw-steprow em { grid-column: 2 / -1; }
+  .nw-steprow .nw-steparw { display: none; }
+  .nw-rcrow { grid-template-columns: auto auto minmax(0, 1fr); }
+  .nw-rcrow em { grid-column: 2 / -1; }
+  .nw-courserow { grid-template-columns: minmax(0, 1fr); }
+  .nw-verdicts li { grid-template-columns: 6rem minmax(2rem, 1fr) auto auto; }
+
+  .nw-rail { padding-block: var(--sp-3); gap: var(--sp-2); }
+  .nw-railtop { gap: var(--sp-2); }
+  .nw-find { flex: 1 1 100%; }
+  .nw-fk { min-inline-size: 100%; }
+  .nw-fgroup--sort { display: flex; }
+
+  /* The table becomes cards, not a smaller table. */
+  .nw-tbl, .nw-tbl tbody, .nw-tbl tr, .nw-tbl td { display: block; }
+  .nw-tbl thead { display: none; }
+  .nw-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 2px var(--sp-2);
+    padding: var(--sp-3);
+    margin-block-end: var(--sp-2);
+    border-radius: var(--r-md);
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    box-shadow: var(--elev-1);
+  }
+  /* The card carries the state now, so the cells give their surfaces back.
+     Stated at matching specificity rather than with !important. */
+  .nw-row > td { border: 0; padding: 0; }
+  .nw-row:hover > td,
+  .nw-row[data-open="1"] > td { background: none; }
+  .nw-row[data-open="1"] { border-color: var(--m); box-shadow: 0 0 0 1px var(--m) inset, var(--elev-2); }
+  .nw-row[data-open="1"] > td:first-child { box-shadow: none; }
+  .nw-c-n { grid-column: 1; }
+  .nw-c-x { grid-column: 2; grid-row: 1 / span 2; justify-self: end; }
+  .nw-c-he { grid-column: 1; }
+  /* The remaining cells become a labelled meta row: the column head travels in
+     data-l, so the card never drops the meaning of a number. */
+  .nw-tbl .nw-row > :is(.nw-c-tp, .nw-c-f, .nw-c-tc, .nw-c-fn, .nw-c-rel, .nw-c-cv, .nw-c-s4) {
+    grid-column: 1 / -1;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    inline-size: auto;
+    margin-inline-end: var(--sp-3);
+    margin-block-start: var(--sp-2);
+  }
+  .nw-tbl .nw-row > :is(.nw-c-tp, .nw-c-f, .nw-c-tc, .nw-c-fn, .nw-c-rel, .nw-c-cv, .nw-c-s4)::before {
+    content: attr(data-l);
+    font-size: 9px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .nw-tp-t { display: none; }
+  .nw-c-he span { white-space: normal; }
+  /* Touch has no hover, so the affordance cannot be hidden behind one. */
+  .nw-name .nu-arw { opacity: 1; }
+  .nw-detrow > td { border: 0; }
+  .nw-det { grid-template-columns: minmax(0, 1fr); padding-inline: var(--sp-3); }
+}
+
+/* --- laptop: the block splits get their second column --------------------- */
+@container nw (min-width: 900px) {
+  .nw-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-10); }
+  .nw-ch .nw-cols > .nw-sub:first-child {
+    padding-inline-end: var(--sp-10);
+    margin-inline-end: calc(-1 * var(--sp-10));
+    border-inline-end: 1px solid var(--hairline);
+  }
+  /* The topic list gets two columns of rows before it gets a longer scroll. */
+  .nw-view .nw-rank { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .nw-view .nw-chain { grid-template-columns: minmax(0, 1fr); }
+
+  /* THE STAGE, COMPOSED. A full-bleed band whose content huddles in one column
+     is a wide empty rectangle with a paragraph in it. The verdict figure and the
+     risk mix are the same statement read two ways, so on a laptop canvas they
+     stand side by side and the band is filled by what it is about. */
+  .nw-s4stage .nw-s4top {
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--sp-12);
+  }
+  .nw-s4stage .nw-s4trust { grid-column: 1 / -1; }
+}
+
+/* --- desktop: more gutter ------------------------------------------------- */
+@container nw (min-width: 1200px) {
+  .nw { --nw-gut: var(--sp-10); }
+  .nw-ch { padding-block: var(--sp-12) var(--sp-16); }
+}
+
+/* --- wide: the extra width becomes information, not margin ---------------- */
+@container nw (min-width: 1600px) {
+  .nw { --nw-gut: 4rem; }
+  .nw-lede { font-size: 1.125rem; }
+  .nw-c-n { inline-size: 14rem; }
+  .nw-c-tp { inline-size: 12rem; }
+  .nw-c-tc { inline-size: 12rem; }
+  .nw-tp-t { max-inline-size: 9rem; }
+  .nw-view .nw-rank { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .nw-view .nw-chain { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  /* Two columns of steps means the vertical connector would join the wrong
+     pair, so it goes: the list is still numbered and still ordered. */
+  .nw-chain > li:not(:last-child)::after { display: none; }
+}
+
+/* --- ultrawide ------------------------------------------------------------ */
+@container nw (min-width: 2200px) {
+  .nw { --nw-gut: 6rem; }
+  .nw-mark { -webkit-text-stroke-width: 2.5px; }
+  .nw-hero { padding-block: var(--sp-10) var(--sp-10); }
+  .nw-ch .nw-cols { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+}
+
+@container nw (min-width: 3000px) {
+  .nw { --nw-gut: 9rem; }
+  .nw-tbl { font-size: var(--t-sm); }
+  .nw-row > td { padding-block: var(--sp-3); }
+  .nw-view .nw-rank { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ==========================================================================
+   REDUCED MOTION — the workspace has to be fully readable with zero moving
+   pixels. globals.css already zeroes durations inside .nx-app; these rules
+   remove the one thing a zero duration cannot: a bar that scales from nothing.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .nw-bar > i { transition: none; }
+  .nw-steparw, .nw-name .nu-arw { transition: none; }
+  /* The ground still CHANGES between PM, PP-PI and the S/4HANA band — colour is
+     information here, not movement — it simply stops drifting into place. */
+  .nw { transition: none; }
+}
+
+/* Forced colours: the ambient light and the section lighting are decoration and
+   must not fight the user's palette. Everything else is plain semantic markup
+   and survives. */
+@media (forced-colors: active) {
+  .nw-light { display: none; }
+  .nw-rail { backdrop-filter: none; }
+  .nw > section.nw-ch:nth-of-type(odd)::before { display: none; }
+  .nw-bar > i { forced-color-adjust: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Phone: two problems, both invisible to a document-level overflow check
+   because they only pushed .nx-canvas.
+
+   1. .nw-light-a / -b are ambient module glows sized in the hundreds of pixels.
+      They are decoration and must never extend the scrollable area, so their
+      host clips them rather than shrinking them.
+   2. .nw-sheet held its desktop min-content (447px) inside a 390px canvas,
+      because a grid/flex item does not shrink past its content until its
+      automatic minimum is released.
+   --------------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  .nx-app .nw-hero,
+  .nx-app .nw-block,
+  .nx-app .nw-chapter { overflow: clip; }
+  /* Capping the width was not enough: these are absolutely positioned with a
+     negative inline offset, so a 390px-wide glow still began 224px outside the
+     canvas. On a phone they are pinned to the box instead of sized to it. */
+  .nx-app .nw-light-a,
+  .nx-app .nw-light-b {
+    inset-inline: 0;
+    inline-size: auto;
+    max-inline-size: 100%;
+    transform: none;
+  }
+  /* The last 12px came from a descendant whose box never reports outside its
+     parent (a negative margin or a translate inside a positioned ancestor), so
+     no bounding-box scan finds it. Clipping the workspace root ends the class
+     of bug rather than the instance: nothing in a module page is meant to be
+     horizontally scrollable at phone width, and the tables that ARE scrollable
+     own their own scroll container. */
+  .nx-app .nw { overflow-x: clip; }
+
+  .nx-app .nw-sheet,
+  .nx-app .nw-sheet > *,
+  .nx-app .nw-sub-h,
+  .nx-app .nw-sub-s { min-inline-size: 0; max-inline-size: 100%; overflow-wrap: anywhere; }
+}

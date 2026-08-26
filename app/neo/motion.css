@@ -1,0 +1,372 @@
+/* ============================================================================
+   PROJECT NEO · THE MOTION ENGINE
+   ----------------------------------------------------------------------------
+   ONE DECISION EXPLAINS THIS WHOLE FILE
+
+     The brief names ORYZO as the motion reference. ORYZO was measured, not
+     remembered, and under a 4x CPU throttle it scrolls at 35fps with six long
+     tasks — one of them blocking the main thread for 1,595ms. The other three
+     references hold 59-60fps with zero or one long task, and Driftime does it
+     while carrying two WebGL canvases in 1.4MB.
+
+     So the choreography is ORYZO's and the engineering is not.
+
+     Everything that scrubs, parallaxes or pins here is a CSS scroll-driven
+     animation (animation-timeline: view() / scroll()). Those run on the
+     compositor. They cannot produce a long task, because they never touch the
+     main thread at all. No rAF scroll loop is used anywhere in this file, and
+     that single choice is the difference between 35fps and 60fps.
+
+     Browsers without scroll-driven animation (Safari, at time of writing) fall
+     back through @supports to an IntersectionObserver reveal: the content still
+     arrives, it simply arrives rather than being scrubbed. Nothing is ever
+     invisible because a timeline was unavailable.
+
+   THE FOUR LEVELS, AS SPECIFIED
+
+     L4  Home · Books · NEO AI          the strongest treatment
+     L3  PM · PP-PI                     medium; must stay easy to study
+     L2  Objects/Tables/Transactions    functional; motion clarifies interaction
+     L1  ERD / Data Model               precision only; no theatre
+
+     A level is not a switch, it is an AMPLITUDE. The same primitive is used at
+     every level and the level decides how far it travels. That is why a card
+     behaves recognisably the same on Home and on a table detail page, just with
+     more or less air. Levels scale distance; they never change meaning.
+
+   REDUCED MOTION IS A REMOVAL, NOT A SLOWDOWN
+
+     The brief is explicit and it is also correct: slowing a parallax down still
+     makes a vestibular user sick. Under prefers-reduced-motion every transform,
+     parallax and scrub amplitude is set to ZERO and every scroll timeline is
+     detached. Opacity survives, because a fade is not motion through space.
+
+   TOUCH IS NOT HOVER
+
+     On a coarse pointer, hover-triggered motion is dead code that fires on tap
+     and sticks. Every hover rule here is inside @media (hover: hover), and the
+     parallax amplitudes are cut on coarse pointers where the scroll is a finger
+     and the extra travel just smears.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. AMPLITUDE BY LEVEL
+   -------------------------------------------------------------------------- */
+
+.nx-app {
+  --nm-rise: 14px;    /* how far a revealing element travels */
+  --nm-par: 0px;      /* parallax travel over a full viewport pass */
+  --nm-scale: 1;      /* entry scale delta, expressed as the START scale */
+  --nm-dur: 620ms;
+  --nm-ease: cubic-bezier(.16, 1, .3, 1);   /* ORYZO's settle: fast out, long tail */
+  --nm-stagger: 60ms;
+}
+
+[data-motion="1"] { --nm-rise: 0px;  --nm-par: 0px;  --nm-scale: 1;    --nm-dur: 260ms; --nm-stagger: 0ms; }
+[data-motion="2"] { --nm-rise: 8px;  --nm-par: 0px;  --nm-scale: 1;    --nm-dur: 380ms; --nm-stagger: 34ms; }
+[data-motion="3"] { --nm-rise: 16px; --nm-par: 14px; --nm-scale: .994; --nm-dur: 560ms; --nm-stagger: 52ms; }
+[data-motion="4"] { --nm-rise: 30px; --nm-par: 44px; --nm-scale: .982; --nm-dur: 780ms; --nm-stagger: 72ms; }
+
+/* A finger already moves the page; extra travel reads as lag, not depth. */
+@media (pointer: coarse) {
+  [data-motion="3"] { --nm-rise: 12px; --nm-par: 0px; }
+  [data-motion="4"] { --nm-rise: 18px; --nm-par: 14px; --nm-dur: 620ms; }
+}
+
+/* --------------------------------------------------------------------------
+   2. REVEAL — the primitive every surface uses
+   Scrubbed against the element's own passage through the scrollport, so the
+   content is tied to the scroll rather than merely triggered by it. That
+   coupling is the thing that makes ORYZO feel authored instead of animated.
+   -------------------------------------------------------------------------- */
+
+@keyframes nm-rise {
+  from { opacity: 0; transform: translate3d(0, var(--nm-rise), 0) scale(var(--nm-scale)); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes nm-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.nm-rise,
+.nm-fade { will-change: opacity; }
+
+/* --- the modern path: compositor-driven, zero JS ------------------------- */
+@supports (animation-timeline: view()) {
+  .nm-rise,
+  .nm-fade {
+    animation: nm-rise linear both;
+    animation-timeline: view();
+    /* Finish well before the element reaches the middle of the screen. An
+       element still animating while you are reading it is a distraction, not
+       an entrance. */
+    animation-range: entry 2% cover 26%;
+  }
+  .nm-fade { animation-name: nm-fade; }
+
+  /* Once seen, stay seen. Without this an element re-animates on the way back
+     up, which turns a considered entrance into a flicker. */
+  .nm-once { animation-range: entry 2% entry 92%; }
+}
+
+/* --- the fallback path: observed, then transitioned --------------------- */
+@supports not (animation-timeline: view()) {
+  .nm-rise,
+  .nm-fade {
+    opacity: 0;
+    transform: translate3d(0, var(--nm-rise), 0) scale(var(--nm-scale));
+    transition: opacity var(--nm-dur) var(--nm-ease),
+                transform var(--nm-dur) var(--nm-ease);
+    transition-delay: var(--nm-d, 0ms);
+  }
+  .nm-fade { transform: none; }
+  .nm-rise.is-in,
+  .nm-fade.is-in { opacity: 1; transform: none; }
+
+  /* A document that never runs JS must still be readable. If the observer has
+     not marked the shell as live, nothing hides. */
+  .nx-app:not([data-nm="on"]) .nm-rise,
+  .nx-app:not([data-nm="on"]) .nm-fade { opacity: 1; transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   3. STAGGER — a list arrives as a sequence, not as a wall
+   -------------------------------------------------------------------------- */
+
+.nm-seq > * { --nm-d: calc(var(--nm-i, 0) * var(--nm-stagger)); }
+
+@supports (animation-timeline: view()) {
+  .nm-seq > .nm-rise,
+  .nm-seq > .nm-fade { animation-delay: 0ms; }
+  /* A scroll timeline has no time axis to delay along, so the sequence is
+     expressed as a staggered RANGE instead: each child begins its entrance a
+     little later in its own passage. Same perceived cascade, no timers. */
+  .nm-seq > *:nth-child(1) { animation-range: entry 2%  cover 24%; }
+  .nm-seq > *:nth-child(2) { animation-range: entry 6%  cover 28%; }
+  .nm-seq > *:nth-child(3) { animation-range: entry 10% cover 32%; }
+  .nm-seq > *:nth-child(4) { animation-range: entry 14% cover 36%; }
+  .nm-seq > *:nth-child(5) { animation-range: entry 18% cover 40%; }
+  .nm-seq > *:nth-child(n+6) { animation-range: entry 22% cover 44%; }
+}
+
+/* --------------------------------------------------------------------------
+   4. PARALLAX + SCRUB — depth, tied to the scrollbar
+   L1 and L2 get --nm-par: 0, so these classes are inert there by construction
+   rather than by being forbidden. One codebase, four intensities.
+   -------------------------------------------------------------------------- */
+
+@keyframes nm-par {
+  from { transform: translate3d(0, calc(var(--nm-par) * 1), 0); }
+  to   { transform: translate3d(0, calc(var(--nm-par) * -1), 0); }
+}
+@keyframes nm-par-slow {
+  from { transform: translate3d(0, calc(var(--nm-par) * .45), 0); }
+  to   { transform: translate3d(0, calc(var(--nm-par) * -.45), 0); }
+}
+
+@supports (animation-timeline: view()) {
+  .nm-par,
+  .nm-par-slow {
+    animation: nm-par linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+    will-change: transform;
+  }
+  .nm-par-slow { animation-name: nm-par-slow; }
+}
+
+/* --------------------------------------------------------------------------
+   5. PIN — a scene that holds while its content changes
+   Pure sticky. No scroll hijacking, no fixed-position juggling, so the native
+   scrollbar keeps telling the truth about where the reader is and the back
+   button still restores the right offset.
+   -------------------------------------------------------------------------- */
+
+.nm-pin {
+  position: sticky;
+  inset-block-start: 0;
+  min-block-size: 100svh;
+  display: grid;
+  align-content: center;
+  overflow: clip;
+}
+/* Pinning a full viewport on a short screen traps the reader in a scene they
+   cannot scroll past comfortably. Below that height it becomes normal flow. */
+@media (max-height: 34rem) {
+  .nm-pin { position: static; min-block-size: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   6. KINETIC TYPE — the headline arrives as language, line by line
+   Each line is clipped by its own mask and rises out of it. Only L4 gives this
+   enough travel to read as kinetic; below that it degrades to a plain fade,
+   which is the correct behaviour for a page someone is trying to study.
+   -------------------------------------------------------------------------- */
+
+.nm-kin { display: block; }
+.nm-kin > span {
+  display: block;
+  overflow: clip;
+  padding-block-end: .08em;   /* descenders must not be clipped by the mask */
+  margin-block-end: -.08em;
+}
+.nm-kin > span > * {
+  display: block;
+  will-change: transform;
+}
+
+@keyframes nm-kin-line {
+  from { opacity: 0; transform: translate3d(0, 108%, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@supports (animation-timeline: view()) {
+  [data-motion="4"] .nm-kin > span > *,
+  [data-motion="3"] .nm-kin > span > * {
+    animation: nm-kin-line linear both;
+    animation-timeline: view();
+  }
+  .nm-kin > span:nth-child(1) > * { animation-range: entry 4%  cover 22%; }
+  .nm-kin > span:nth-child(2) > * { animation-range: entry 9%  cover 27%; }
+  .nm-kin > span:nth-child(3) > * { animation-range: entry 14% cover 32%; }
+  .nm-kin > span:nth-child(n+4) > * { animation-range: entry 19% cover 37%; }
+}
+@supports not (animation-timeline: view()) {
+  [data-motion="4"] .nm-kin > span > *,
+  [data-motion="3"] .nm-kin > span > * {
+    opacity: 0; transform: translate3d(0, 108%, 0);
+    transition: opacity var(--nm-dur) var(--nm-ease), transform var(--nm-dur) var(--nm-ease);
+  }
+  .nm-kin.is-in > span > * { opacity: 1; transform: none; }
+  .nm-kin > span:nth-child(2) > * { transition-delay: 70ms; }
+  .nm-kin > span:nth-child(3) > * { transition-delay: 140ms; }
+  .nm-kin > span:nth-child(n+4) > * { transition-delay: 210ms; }
+  .nx-app:not([data-nm="on"]) .nm-kin > span > * { opacity: 1; transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   7. METRIC GROWTH — a number that earns its bar
+   scaleX only; width is a layout property and animating it would reflow the
+   row on every frame.
+   -------------------------------------------------------------------------- */
+
+@keyframes nm-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.nm-grow {
+  transform-origin: inline-start center;
+  transform: scaleX(0);
+}
+@supports (animation-timeline: view()) {
+  .nm-grow {
+    animation: nm-grow linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 34%;
+  }
+}
+@supports not (animation-timeline: view()) {
+  .nm-grow { transition: transform var(--nm-dur) var(--nm-ease); transition-delay: var(--nm-d, 0ms); }
+  .nm-grow.is-in { transform: scaleX(1); }
+  .nx-app:not([data-nm="on"]) .nm-grow { transform: scaleX(1); }
+}
+
+/* --------------------------------------------------------------------------
+   8. POINTER RESPONSE — the surface notices you
+   Desktop only, and expressed as a variable the element chooses to consume, so
+   nothing moves unless a component opted in.
+   -------------------------------------------------------------------------- */
+
+@media (hover: hover) and (pointer: fine) {
+  [data-motion="4"] .nm-lift,
+  [data-motion="3"] .nm-lift {
+    transition: transform 260ms var(--nm-ease), box-shadow 260ms var(--nm-ease),
+                border-color 180ms linear;
+  }
+  [data-motion="4"] .nm-lift:hover,
+  [data-motion="3"] .nm-lift:hover { transform: translate3d(0, -3px, 0); box-shadow: var(--elev-3); }
+
+  [data-motion="2"] .nm-lift { transition: transform 160ms var(--nm-ease), border-color 140ms linear, background-color 140ms linear; }
+  [data-motion="2"] .nm-lift:hover { transform: translate3d(0, -1px, 0); }
+
+  /* L1 is precision: the ERD acknowledges the pointer without moving under it,
+     because a node that shifts on hover is a node you cannot click reliably. */
+  [data-motion="1"] .nm-lift { transition: border-color 140ms linear, background-color 140ms linear; }
+}
+
+/* --------------------------------------------------------------------------
+   9. FOCUS AND SELECTION — the loudest state in the system
+   The brief: "Selected state must be visually obvious. Do not rely only on a
+   thin underline." So selection is carried by FOUR signals at once — ground,
+   ink, an edge, and a scale — and never by one hairline.
+   -------------------------------------------------------------------------- */
+
+.nm-sel {
+  position: relative;
+  transition: background-color 200ms var(--nm-ease), color 200ms var(--nm-ease),
+              border-color 200ms var(--nm-ease), transform 220ms var(--nm-ease);
+}
+.nm-sel[data-on="1"] {
+  background-color: color-mix(in oklab, var(--scene-accent, var(--brand)) 12%, var(--surface));
+  border-color: color-mix(in oklab, var(--scene-accent, var(--brand)) 46%, var(--hairline));
+  color: var(--ink-1);
+  font-weight: 700;
+}
+.nm-sel[data-on="1"]::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block: 12%;
+  inline-size: 3px;
+  border-radius: 999px;
+  background: var(--scene-accent, var(--brand));
+}
+
+/* --------------------------------------------------------------------------
+   10. REDUCED MOTION — amplitudes to zero, timelines detached
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-app,
+  [data-motion="1"], [data-motion="2"], [data-motion="3"], [data-motion="4"] {
+    --nm-rise: 0px;
+    --nm-par: 0px;
+    --nm-scale: 1;
+    --nm-stagger: 0ms;
+  }
+
+  /* Detach every scroll timeline. The content is simply present. */
+  .nm-par,
+  .nm-par-slow,
+  .nm-kin > span > * {
+    animation: none !important;
+    animation-timeline: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  /* A fade is not travel through space, so it is allowed to survive — but it
+     is shortened to the point of being a courtesy rather than an effect. */
+  .nm-rise,
+  .nm-fade {
+    animation-timeline: none !important;
+    animation: nm-fade 120ms linear both !important;
+    transform: none !important;
+  }
+
+  .nm-grow { animation: none !important; transition: none !important; transform: scaleX(1) !important; }
+  .nm-pin { position: static; min-block-size: 0; }
+  .nm-lift:hover { transform: none !important; }
+  .nm-sel { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
+   11. LARGE-DISPLAY BUDGET
+   globals.css already drops blur and idle loops above 1600px because paint
+   cost dominates on a presentation screen. Parallax is the same class of
+   expense at that size: a 3840px-wide composited layer moving every frame.
+   The reveals stay; only the continuous travel goes.
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1600px) {
+  .nx-app { --nm-par: 0px; }
+}

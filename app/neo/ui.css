@@ -1,0 +1,303 @@
+/* ============================================================================
+   PROJECT NEO — INTERACTION SYSTEM
+   ----------------------------------------------------------------------------
+   The client's complaint, verbatim: "The user cannot always tell: is this
+   clickable? is this selected? is this information? is this navigation?"
+
+   The fix is not prettier pills. It is that a control's SHAPE tells you what it
+   does, before you read it and before you hover:
+
+     .nu-btn      solid fill        an action that changes something
+     .nu-btn2     outlined          a secondary action
+     .nu-ghost    no chrome         a tertiary action, lives inside dense rows
+     .nu-tab      underline         switches the view, does not navigate away
+     .nu-link     text + arrow      leaves for another route
+     .nu-filter   pill, toggleable  narrows what is on screen
+     .nu-chip     pill, static      a value. NOT clickable. no hover, no cursor
+     .nu-status   dot + word        a state. never a surface, never a ring
+     .nu-card     raised panel      a whole selectable region
+
+   Two rules keep this honest:
+     1. Anything that is not interactive must NOT have hover or a pointer
+        cursor. .nu-chip and .nu-status therefore have neither.
+     2. Anything interactive gets all four states — hover, active, focus-visible
+        and disabled — from here, so no screen invents its own.
+
+   Module identity arrives through --m, set by the surface. Brand red is the
+   global accent and is never a module colour.
+   ========================================================================== */
+
+.nu-btn, .nu-btn2, .nu-ghost, .nu-tab, .nu-link, .nu-filter {
+  --_m: var(--m, var(--brand));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font: inherit;
+  font-weight: 650;
+  font-size: 0.8125rem;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 0.625rem;
+  padding: 0.625rem 0.95rem;
+  min-block-size: 2.5rem;
+  text-decoration: none;
+  transition:
+    transform var(--dur-fast) var(--ease-out-expo),
+    background-color var(--dur-fast) linear,
+    border-color var(--dur-fast) linear,
+    box-shadow var(--dur-fast) linear,
+    opacity var(--dur-fast) linear;
+}
+
+/* Coarse pointers get the 44px target the spec requires. */
+@media (pointer: coarse) {
+  .nu-btn, .nu-btn2, .nu-ghost, .nu-tab, .nu-link, .nu-filter { min-block-size: 2.75rem; }
+}
+
+/* --- primary: the one action that matters on this surface ----------------- */
+.nu-btn {
+  background: var(--_m);
+  color: var(--surface);
+  border-color: transparent;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--_m) 30%, transparent);
+}
+.nu-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--_m) 55%, transparent); }
+.nu-btn:active { transform: translateY(0) scale(0.985); box-shadow: none; }
+html[data-theme="dark"] .nu-btn { color: #0b0e11; }
+
+/* --- secondary: outlined, carries module identity on its edge -------------- */
+.nu-btn2 {
+  background: var(--surface);
+  color: var(--ink-1);
+  border-color: color-mix(in srgb, var(--_m) 38%, var(--hairline));
+}
+.nu-btn2:hover {
+  transform: translateY(-1px);
+  border-color: var(--_m);
+  background: color-mix(in srgb, var(--_m) 7%, var(--surface));
+}
+.nu-btn2:active { transform: translateY(0) scale(0.985); }
+
+/* --- ghost: for dense rows where a border would add noise ------------------ */
+.nu-ghost { background: transparent; color: var(--ink-2); padding-inline: 0.6rem; }
+.nu-ghost:hover { background: color-mix(in srgb, var(--_m) 10%, transparent); color: var(--ink-1); }
+.nu-ghost:active { transform: scale(0.97); }
+
+/* --- tab: switches the view in place. underline, never a pill ------------- */
+.nu-tab {
+  background: transparent;
+  color: var(--ink-3);
+  border: 0;
+  border-radius: 0;
+  /* Inline padding carries the selected FILL below. The 1.3rem gap between two
+     tabs' text is unchanged: it just moved from margin into padding
+     (0.2 + 1.1 before, 0.55 + 0.75 now), so the rhythm is identical. */
+  padding: 0.7rem 0.55rem;
+  margin-inline-end: 0.75rem;
+  position: relative;
+  font-weight: 600;
+  transition: background var(--dur-fast) linear, color var(--dur-fast) linear;
+}
+.nu-tab::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -1px;
+  block-size: 2px;
+  background: var(--_m);
+  transform: scaleX(0);
+  transform-origin: var(--nu-origin, right);
+  transition: transform var(--dur-base) var(--ease-emphasis);
+}
+.nu-tab:hover { color: var(--ink-1); background: color-mix(in srgb, var(--_m) 5%, transparent); }
+/* SELECTED = fill + weight + a thicker bar, not a 2px line on its own.
+   The corners stay SQUARE on purpose. In this system a pill means "toggles
+   what is on screen" and an underline means "switches the view in place", so a
+   selected tab may gain a fill for contrast but must never become a pill. */
+.nu-tab[aria-selected="true"], .nu-tab[data-on="1"] {
+  color: var(--ink-1);
+  font-weight: 750;
+  background: color-mix(in srgb, var(--_m) 12%, transparent);
+}
+.nu-tab[aria-selected="true"]::after, .nu-tab[data-on="1"]::after { transform: scaleX(1); block-size: 3px; }
+
+/* --- link: leaves for another route. the arrow is the signal -------------- */
+.nu-link {
+  background: transparent;
+  color: var(--_m);
+  border: 0;
+  padding: 0.35rem 0;
+  border-radius: 0.25rem;
+  font-weight: 650;
+}
+.nu-link .nu-arw { transition: transform var(--dur-fast) var(--ease-out-expo); }
+/* RTL: forward is toward the inline start, i.e. visually left. */
+.nu-link:hover .nu-arw { transform: translateX(-3px); }
+.nu-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* --- filter: a toggle that narrows what is on screen ---------------------- */
+.nu-filter {
+  background: var(--surface-2);
+  color: var(--ink-2);
+  border-color: var(--hairline);
+  border-radius: 999px;
+  padding: 0.5rem 0.85rem;
+  min-block-size: 2.25rem;
+  font-weight: 600;
+}
+.nu-filter:hover { border-color: color-mix(in srgb, var(--_m) 45%, var(--hairline)); color: var(--ink-1); }
+.nu-filter[aria-pressed="true"], .nu-filter[data-on="1"] {
+  background: color-mix(in srgb, var(--_m) 12%, var(--surface));
+  border-color: var(--_m);
+  color: var(--ink-1);
+  font-weight: 700;
+}
+/* This used to be a 6px module-coloured circle, which broke the form rule three
+   declarations above: module identity must never take small-standalone-dot form,
+   because that is the shape reserved for status. A pressed filter now carries a
+   short module BAR — a line, which module identity is allowed to be, and which
+   cannot be mistaken for a status dot. */
+.nu-filter[aria-pressed="true"]::before, .nu-filter[data-on="1"]::before {
+  content: "";
+  inline-size: 2px;
+  block-size: 0.85em;
+  border-radius: 1px;
+  background: var(--_m);
+}
+
+/* --- chip: a VALUE. deliberately not interactive -------------------------- */
+.nu-chip {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 0.4rem;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  color: var(--ink-2);
+  font-size: 0.6875rem;
+  font-weight: 650;
+  line-height: 1.4;
+  cursor: default;          /* not a pointer: it does nothing */
+}
+.nu-chip.is-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
+
+/* --- status: a STATE. dot + word, per the form rule ----------------------- */
+.nu-status {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.6875rem; font-weight: 650; color: var(--ink-2);
+  cursor: default;
+}
+.nu-status::before {
+  content: "";
+  inline-size: 7px; block-size: 7px; border-radius: 50%;
+  background: var(--s, var(--status-not-started));
+  flex: none;
+}
+
+/* --- card: a whole selectable region -------------------------------------- */
+.nu-card {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 1rem;
+  text-align: start;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform var(--dur-base) var(--ease-out-expo),
+    border-color var(--dur-fast) linear,
+    box-shadow var(--dur-base) var(--ease-out-expo);
+}
+a.nu-card, button.nu-card { cursor: pointer; }
+a.nu-card:hover, button.nu-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--_m, var(--brand)) 42%, var(--hairline));
+  box-shadow: var(--elev-3);
+}
+a.nu-card:active, button.nu-card:active { transform: translateY(0); box-shadow: var(--elev-1); }
+.nu-card[aria-current="true"], .nu-card[data-on="1"] {
+  border-color: var(--m, var(--brand));
+  box-shadow: inset 0 0 0 1px var(--m, var(--brand));
+}
+
+/* --- one focus language for every control -------------------------------- */
+.nu-btn:focus-visible, .nu-btn2:focus-visible, .nu-ghost:focus-visible,
+.nu-tab:focus-visible, .nu-link:focus-visible, .nu-filter:focus-visible,
+.nu-card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand);
+}
+
+/* --- one disabled language ------------------------------------------------ */
+.nu-btn[disabled], .nu-btn2[disabled], .nu-ghost[disabled],
+.nu-filter[disabled], .nu-tab[disabled] {
+  opacity: 0.42;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* --- loading: the label stays, so the button never changes width ---------- */
+.nu-btn[data-busy="1"], .nu-btn2[data-busy="1"] { pointer-events: none; opacity: 0.75; }
+.nu-btn[data-busy="1"] .nu-arw, .nu-btn2[data-busy="1"] .nu-arw { animation: nu-spin 0.7s linear infinite; }
+@keyframes nu-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .nu-btn, .nu-btn2, .nu-ghost, .nu-tab, .nu-link, .nu-filter, .nu-card { transition: none; }
+  .nu-btn:hover, .nu-btn2:hover, a.nu-card:hover, button.nu-card:hover { transform: none; }
+  .nu-btn[data-busy="1"] .nu-arw { animation: none; }
+}
+
+/* THE ERD EYEBROW.
+   --------------------------------------------------------------------------
+   Only the ERD needed one. PM/PP-PI and table-detail already carried their own
+   eyebrow a level above the h1 — a probe that read h1.previousElementSibling
+   and never walked up reported them as missing, and adding a second label to
+   each was the actual bug. `.nw-eye` in particular is a PRE-EXISTING class, so
+   naming it in this selector silently restyled a control this pass had no
+   business touching. Scoped to the one genuinely new class. */
+.ne-eye {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 0 0 .35rem;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.ne-eye i {
+  width: 14px; height: 1px; flex: none;
+  background: currentColor; opacity: .5;
+}
+.ne-eye .nx-sap {
+  color: var(--ink-2);
+  unicode-bidi: isolate;   /* "ECC → S/4HANA" is LTR inside RTL chrome */
+}
+
+/* THE PRIMARY BUTTON ON A DARK SCENE.
+   --------------------------------------------------------------------------
+   `.nu-btn { color: var(--surface) }` is right on a light ground and wrong on a
+   dark one. .nm-scene rebinds --surface to the SCENE's raised tone, so on the
+   deep / books / ai grounds the primary CTA was painting the scene's near-black
+   (#1c1610) onto CBC red: measured 3.47:1 on the Home hero's own call to
+   action, the loudest control on the first screen.
+
+   A filled button's label has to contrast with its FILL, not with the room it
+   is standing in. White on #d62027 measures 5.13:1 and is the same answer in
+   both themes, which is why this is keyed on the scene rather than the theme. */
+[data-scene="deep"] .nu-btn,
+[data-scene="books"] .nu-btn,
+[data-scene="ai"] .nu-btn,
+#nh-5[data-scene="pppi-full"] .nu-btn { color: #fff; }
+
+/* DARK THEME IS ALREADY CORRECT AND MUST NOT BE INCLUDED.
+   The first version of this rule also listed html[data-theme="dark"] variants
+   and made things worse: in dark theme --brand is the LIFTED brand, a light
+   red, so the pre-existing `html[data-theme="dark"] .nu-btn { color: #0b0e11 }`
+   is the right answer there (6.9:1) and forcing white dropped it to 3.05:1.
+   Same control, opposite correction — which is exactly why this is measured per
+   theme instead of reasoned about once. */

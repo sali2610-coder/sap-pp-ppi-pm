@@ -1,0 +1,601 @@
+/* ============================================================================
+   PROJECT NEO · THE GROUND — warm surfaces + the scene colour system
+   ----------------------------------------------------------------------------
+   WHY THIS FILE EXISTS AND WHY IT IS SCOPED TO .nx-app
+
+     app/globals.css grounds the product on a NEUTRAL canvas (#fcfcfd light,
+     #0b0e11 dark). That canvas is also the frozen production Library's canvas.
+     Re-grounding at :root would silently restyle a surface this pass is not
+     allowed to touch, so every declaration below is scoped to .nx-app — the
+     NEO shell — and the Library keeps the exact palette it validated on.
+
+   WHAT MEASUREMENT SAID, AND WHAT WE TOOK FROM IT
+
+     Four reference sites were instrumented rather than remembered.
+
+     ORYZO   ground is a CONSTANT rgb(16,9,4) — a very dark WARM brown that
+             never changes. The drama is carried by motion and light, not by
+             colour cycling. Lesson taken: dark must be warm and rich, never
+             generic neutral black. Lesson refused: 21.2MB and a 1,595ms main
+             thread block.
+     PARTAKE constant warm cream rgb(255,247,236); the "colour blocking" is
+             PER SECTION, not a global shift. Lesson taken: a section may own
+             its own ground and its own energy.
+     LANDO   genuinely cycles dark olive → light → dark through the scroll.
+             Lesson taken: the ground itself can carry progress.
+     DRIFT.  dark → light at ~75%, and it costs 1.4MB. Lesson taken: ground
+             transitions are cheap if you transition a COLOUR, not a texture.
+
+   THE RULE THAT KEEPS THIS FROM BECOMING A RAINBOW
+
+     There are exactly FIVE scenes. Each one means something; none is chosen
+     for variety. A surface may not invent a sixth.
+
+       base   the working ground. Most of the product lives here.
+       deep   warm dark. Reserved for a moment that is meant to feel like a
+              held breath — a hero, an opening, a statement.
+       cream  warm raised calm. Reading and long prose.
+       pm     ground tinted by the PM module hue.
+       pppi   ground tinted by the PP-PI module hue.
+
+     pm/pppi are the ONLY module-coloured scenes, and they are identity, not
+     decoration — the form rule in globals.css still holds: module colour is
+     surface tint / ring / line / edge / marker, and is never a status dot.
+
+   CONTRAST IS NOT ASSUMED, IT WAS COMPUTED
+
+     Every ink is WCAG-checked against every ground it can legally sit on, in
+     both themes. Lowest measured pair is ink-3 on surface-2 at 4.91:1 (light)
+     and 5.71:1 (dark); brand on the warm light ground is 4.71:1. All ≥ 4.5:1.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. THE WARM RE-GROUND
+   Same token NAMES as globals.css, so every existing component inherits the
+   warmth without a single component edit. Only the values move.
+   -------------------------------------------------------------------------- */
+
+.nx-app {
+  /* Warm light. #F7F5F2 is paper in daylight, not a white screen. */
+  --background: #f7f5f2;
+  --background-2: #f1ece5;
+  --surface: #fffdfa;      /* raised, slightly warmer than pure white */
+  --surface-2: #f1ece5;    /* warm cream, the recessed tone */
+  --hairline: #dacebf;     /* warm hairline — 1.42:1 on the ground, visible */
+
+  /* Warm ink. #171310 reads as ink on paper; #0b0c0e reads as a screen. */
+  --ink-1: #171310;
+  --ink-2: #463e38;
+  --ink-3: #6e645b;
+  --foreground: #171310;
+  --card: #fffdfa;
+  --card-foreground: #171310;
+  --muted: #f1ece5;
+  --muted-foreground: #6e645b;
+  --border: #dacebf;
+  --input: #dacebf;
+
+  /* Brand is untouched. CBC red stays CBC red — measured 4.71:1 on the warm
+     ground, so it clears AA as text without being redefined. */
+  --brand-soft: #fdf0ee;
+
+  /* Elevation re-tinted to the ground. A neutral grey shadow on a warm ground
+     reads as dirt; the shadow has to be a darker version of the surface it
+     falls on. */
+  --elev-1: 0 1px 2px -1px rgba(60, 42, 28, .10), 0 1px 1px rgba(60, 42, 28, .05);
+  --elev-2: 0 2px 4px -2px rgba(60, 42, 28, .12), 0 4px 12px -4px rgba(60, 42, 28, .07);
+  --elev-3: 0 6px 16px -6px rgba(60, 42, 28, .16), 0 12px 28px -10px rgba(60, 42, 28, .11);
+  --elev-4: 0 12px 32px -8px rgba(60, 42, 28, .20), 0 24px 56px -16px rgba(60, 42, 28, .15);
+
+  --glass-bg: rgba(255, 253, 250, .68);
+  --glass-border: rgba(255, 255, 255, .58);
+}
+
+html[data-theme="dark"] .nx-app {
+  /* ORYZO's lesson, applied with restraint. ORYZO sits at rgb(16,9,4); this is
+     a tool people read in for hours, so the ground is lifted just enough to
+     stop the text vibrating, and keeps the warmth. */
+  --background: #0f0b08;
+  --background-2: #17120d;
+  --surface: #17120d;
+  --surface-2: #201911;
+  --hairline: #3a3027;
+
+  --ink-1: #f6f1ea;   /* warm cream, ORYZO's rgb(255,237,215) pulled back */
+  --ink-2: #cfc5b8;
+  --ink-3: #9e9285;
+  --foreground: #f6f1ea;
+  --card: #17120d;
+  --card-foreground: #f6f1ea;
+  --muted: #201911;
+  --muted-foreground: #9e9285;
+  --border: #3a3027;
+  --input: #3a3027;
+  --brand-soft: #2b1512;
+
+  /* On a dark ground a shadow cannot be seen, so elevation becomes LIGHT: a
+     hairline of warm light on the top edge. Same token, different physics. */
+  --elev-1: 0 1px 0 0 rgba(255, 240, 220, .04);
+  --elev-2: 0 1px 0 0 rgba(255, 240, 220, .05), 0 4px 14px -6px rgba(0, 0, 0, .55);
+  --elev-3: 0 1px 0 0 rgba(255, 240, 220, .06), 0 12px 28px -12px rgba(0, 0, 0, .65);
+  --elev-4: 0 1px 0 0 rgba(255, 240, 220, .07), 0 24px 56px -18px rgba(0, 0, 0, .75);
+
+  --glass-bg: rgba(23, 18, 13, .72);
+  --glass-border: rgba(255, 240, 220, .08);
+}
+
+/* --------------------------------------------------------------------------
+   2. THE FIVE SCENES
+   A scene is a ground + the ink that survives on it + the hairline that shows
+   on it. Declared as a set so a section can never take a ground without also
+   taking the ink that is legible against it.
+   -------------------------------------------------------------------------- */
+
+/* THE IMMUTABLE GROUND ALIASES, AND WHY THEY HAVE TO EXIST
+   ---------------------------------------------------------------------------
+   A scene needs to say "my raised tone is the ordinary raised tone", and
+   .nm-scene needs to say "--surface is now my scene's raised tone". Written
+   naively those two are:
+
+       [data-scene="base"] { --scene-raised: var(--surface); }
+       .nm-scene           { --surface: var(--scene-raised); }
+
+   which is fine on two different elements and a CYCLE on one. Per spec, every
+   property in a custom-property cycle computes to guaranteed-invalid, so
+   --surface, --hairline and all three inks fall out at once and every card in
+   that scene renders transparent. Measured in Chrome, twice, independently.
+
+   The fix is a set of aliases that .nm-scene never rebinds. Scenes derive from
+   --g-*, .nm-scene rebinds only the product tokens, and the loop cannot close
+   no matter which element wears which class. */
+.nx-app {
+  --g-ground: #f7f5f2;
+  --g-raised: #fffdfa;
+  --g-ink-1: #171310;
+  --g-ink-2: #463e38;
+  --g-ink-3: #6e645b;
+  --g-hair: #dacebf;
+
+  --scene-ground: var(--g-ground);
+  --scene-raised: var(--g-raised);
+  --scene-ink: var(--g-ink-1);
+  --scene-ink-2: var(--g-ink-2);
+  --scene-ink-3: var(--g-ink-3);
+  --scene-hair: var(--g-hair);
+  --scene-accent: var(--brand);
+}
+
+html[data-theme="dark"] .nx-app {
+  --g-ground: #0f0b08;
+  --g-raised: #17120d;
+  --g-ink-1: #f6f1ea;
+  --g-ink-2: #cfc5b8;
+  --g-ink-3: #9e9285;
+  --g-hair: #3a3027;
+}
+
+/* base — the working ground, stated explicitly so a section can return to it */
+[data-scene="base"] {
+  --scene-ground: var(--g-ground);
+  --scene-raised: var(--g-raised);
+  --scene-ink: var(--g-ink-1);
+  --scene-ink-2: var(--g-ink-2);
+  --scene-ink-3: var(--g-ink-3);
+  --scene-hair: var(--g-hair);
+}
+
+/* deep — the opening. TWO ART DIRECTIONS, NOT ONE.
+   ---------------------------------------------------------------------------
+   This scene used to be warm dark in BOTH themes, on the argument that the
+   cinematic moment should feel the same whichever theme the reader chose. Seen
+   on the real page that argument is wrong: in Day Mode it produced a near-black
+   full viewport under light chrome, and with books/ai/pppi doing the same the
+   page read as "Dark Mode with a white navigation bar".
+
+   Day and Night are now two designed versions of the same scene. Light is warm
+   paper with very dark type and CBC red as the one emphasis — dramatic through
+   contrast and scale rather than through darkness. Night keeps the exact values
+   it had.
+   -------------------------------------------------------------------------- */
+[data-scene="deep"] {
+  --scene-ground: #efe7da;
+  --scene-raised: #fffdf9;
+  --scene-ink: #171310;
+  --scene-ink-2: #463e38;
+  --scene-ink-3: #554b41;   /* #665c52 measured 4.09:1 at 12px on the Day ground */
+  --scene-hair: #d8cbba;
+  --scene-accent: var(--brand);
+}
+
+/* Night keeps every value this scene had before it gained a Day palette. */
+html[data-theme="dark"] [data-scene="deep"] {
+  --scene-ground: #0f0b08;
+  --scene-raised: #1c1610;
+  --scene-ink: #f6f1ea;
+  --scene-ink-2: #cfc5b8;
+  /* The hero's stat LABELS sit on this tier at 12px and measured 4.23:1 —
+     an AA miss on the first thing anyone reads. Lifted until they clear. */
+  --scene-ink-3: #b0a496;
+  --scene-hair: #3a3027;
+  --scene-accent: #ff6b63;   /* brand lifted for AA on the dark ground */
+}
+
+/* cream — calm. Reading, prose, anything that wants to be paper. */
+[data-scene="cream"] {
+  --scene-ground: #f1ece5;
+  --scene-raised: #fffdfa;
+  --scene-ink: #171310;
+  --scene-ink-2: #463e38;
+  --scene-ink-3: #6e645b;
+  --scene-hair: #dacebf;
+}
+html[data-theme="dark"] [data-scene="cream"] {
+  --scene-ground: #17120d;
+  --scene-raised: #201911;
+  --scene-ink: #f6f1ea;
+  --scene-ink-2: #cfc5b8;
+  --scene-ink-3: #9e9285;
+  --scene-hair: #3a3027;
+}
+
+/* pm / pppi — module identity as a ground wash. The tint is deliberately weak
+   (6%/5%): it must be recognisable beside its sibling and never so strong that
+   it competes with the brand accent or reads as a status. */
+[data-scene="pm"],
+[data-scene="pppi"] {
+  --scene-raised: var(--g-raised);
+  --scene-ink: var(--g-ink-1);
+  --scene-ink-2: var(--g-ink-2);
+  --scene-ink-3: var(--g-ink-3);
+}
+[data-scene="pm"]   { --scene-ground: color-mix(in oklab, var(--mod-pm) 6%, var(--g-ground)); }
+[data-scene="pppi"] { --scene-ground: color-mix(in oklab, var(--mod-pppi) 6%, var(--g-ground)); }
+[data-scene="pm"]   { --scene-hair: color-mix(in oklab, var(--mod-pm) 22%, var(--g-hair)); }
+[data-scene="pppi"] { --scene-hair: color-mix(in oklab, var(--mod-pppi) 22%, var(--g-hair)); }
+html[data-theme="dark"] [data-scene="pm"]   { --scene-ground: color-mix(in oklab, var(--mod-pm) 5%, var(--g-ground)); }
+html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab, var(--mod-pppi) 5%, var(--g-ground)); }
+
+/* --------------------------------------------------------------------------
+   2b. THE STATEMENT SCENES
+   ----------------------------------------------------------------------------
+   WHY THESE EXIST SEPARATELY FROM pm / pppi
+
+     The soft 6% module tints above are correct for the STUDY pages: PM and
+     PP-PI are read for a long time, and a saturated ground there would fight
+     the content. But on Home that restraint read as "beige and almost
+     colourless", which is the opposite of the Partake lesson. Partake lets a
+     large share of the viewport commit to one colour; the confidence IS the
+     design.
+
+     So the statement scenes are separate, deliberately saturated, and used only
+     where a surface is making a statement rather than being worked in.
+
+   WHY LITERAL COLOURS RATHER THAN color-mix
+
+     A mix against the ground changes with the theme, and these have to be
+     identical in light and dark — a statement that softens when you flip the
+     theme is only half-designed. The literals are also what makes the contrast
+     deterministic: every ink below was WCAG-checked against its own ground and
+     the weakest pair measures 8.35:1.
+
+     Each hue still answers a question, per the colour rule: which module am I
+     in, is this the S/4HANA story, am I in the library, am I talking to NEO.
+     None of them is decoration.
+   -------------------------------------------------------------------------- */
+
+/* THE MUDDY MIDDLE IS THE BUG.
+
+   The previous pass answered "too saturated" by desaturating, and landed on
+   #1e3b39 grey-green, #302a47 grey-violet and #1b3444 blue-grey — three
+   surfaces that read as neither light nor dark, just dim. Saturation was never
+   the problem; COMMITMENT was. Every scene below is now deliberately a LIGHT
+   world or a DARK world, and each carries its hue at full strength.
+
+   The rhythm across Home is the composition:
+     hero DARK · s4 DARK-electric · shared LIGHT-cream ·
+     PM LIGHT-mint · PP-PI LIGHT-periwinkle · books DARK · ai DARK
+   so a reader crossing the page moves through real changes of light rather
+   than through six variations of dim. */
+
+/* ---- LIGHT WORLDS. Saturated fields, module hue as the TYPE. -------------- */
+
+[data-scene="pm-full"],
+[data-scene="pppi-full"],
+[data-scene="shared"],
+[data-scene="data"] {
+  --scene-hair: rgba(6, 32, 30, .16);
+}
+
+/* PM. A real mint FIELD carrying petrol type, not a tinted cream. The field is
+   the subject: it should occupy the whole scene the way Partake's colour does,
+   and the headline should sit ON it rather than beside it. 11.4:1 */
+[data-scene="pm-full"] {
+  --scene-ground: #b6ecd9;
+  /* Raised moves toward WHITE. A deeper mint read as the same surface and the
+     card vanished into the field. */
+  --scene-raised: #f3fdf9;
+  --scene-ink: #05322e;
+  --scene-ink-2: #0c4f47;
+  --scene-ink-3: #235a52;   /* #2b6d63 measured 3.89:1 at 11px on the mint field */
+  --scene-accent: #05322e;
+  --scene-hair: rgba(5, 50, 46, .22);
+}
+
+/* PP-PI. Periwinkle field, deep indigo type. Unmistakably a different world
+   from PM at a glance, which is the whole job of module colour. 10.9:1 */
+[data-scene="pppi-full"] {
+  --scene-ground: #ccd3fb;
+  --scene-raised: #f4f6ff;
+  --scene-ink: #1b1c5e;
+  --scene-ink-2: #2f3186;
+  --scene-ink-3: #4b4ea8;
+  --scene-accent: #1b1c5e;
+  --scene-hair: rgba(27, 28, 94, .20);
+}
+
+/* DATA. A bright cyan-blue field — the coverage story, and the scene that
+   stops Home opening with two dark rooms in a row. Light on purpose: the
+   rhythm the page needs is dark, light, mint, violet, blue, rich blue,
+   burgundy, dark, not six shades of night. 10.2:1 */
+[data-scene="data"] {
+  /* DEEPENED, because the field was reading as a wash rather than as a block.
+     A colour block only works if the card standing on it is a different PLANE.
+     Measured on the old pair: ground #c8e6f7 against raised #f2fafe separated by
+     1.23:1 — below the ~1.35:1 where an edge becomes visible without a border,
+     so the near-white card dissolved into the pale field and the whole scene
+     read washed out. The field now carries real chroma (0.184 -> 0.314) and the
+     card reads as a card: separation 1.53:1.
+
+     The ink moved with it. Every tier was re-measured against the NEW ground,
+     not the old one:
+       ink   #06304d   8.54:1 on field · 13.06:1 on card
+       ink-2 #0d4a72   5.87:1 on field
+       ink-3 #255a80   4.61:1 on field ·  7.04:1 on card
+     ink-3 had to darken from #326c92, which measured 3.55:1 on the deeper field
+     — an AA failure at the exact tier the coverage rows use. */
+  --scene-ground: #9fd4ef;
+  --scene-raised: #f4fbfe;
+  --scene-ink: #06304d;
+  --scene-ink-2: #0d4a72;
+  --scene-ink-3: #255a80;
+  --scene-accent: #06304d;
+  --scene-hair: rgba(6, 48, 77, .22);
+}
+
+/* SHARED CORE. The one scene that belongs to the brand rather than to a module.
+   ---------------------------------------------------------------------------
+   WAS #fbf3e4 at luminance 0.902 — paper, not a colour. It sat between the pale
+   cyan (0.756) and the mint (0.749), so nh-2/3/4 read as one continuous wash
+   and the page went "beautiful dark hero, then a long stretch of pale beige".
+   That is the opposite of the Partake lesson: colour BLOCKING means a section
+   owns a colour, not that it declines to.
+
+   Warm sand at 0.603 is still a light world — the shared-tables content is
+   dense reading and wants one — but it is unmistakably a block, and the dip
+   against both neighbours is what makes the scene change legible while
+   scrolling. Ink re-derived: #241a12 on #e5c99a measures 11.4:1.
+
+   `data-scene="shared"` is used in exactly one place, the Home's nh-3, so this
+   cannot leak into a module or a workspace. */
+[data-scene="shared"] {
+  --scene-ground: #e5c99a;
+  --scene-raised: #fbf1e0;
+  --scene-ink: #241a12;
+  --scene-ink-2: #43321f;
+  /* Tuned for the SAND ground, not the old cream one. #6b543c measured 3.83:1
+     at 11px once the ground dropped from 0.902 to 0.608 — the ink tiers have to
+     move with the ground they sit on. */
+  --scene-ink-3: #55412a;
+  --scene-accent: #a50d26;   /* CBC red deepened to hold on a warmer ground */
+  --scene-hair: rgba(36, 26, 18, .18);
+}
+
+/* ---- THE NIGHT WORLDS. Real depth, not a darkened light palette.
+   These inks are for DARK MODE ONLY. Applied unconditionally they painted
+   near-white type onto the Day palettes further down and made both scenes
+   unreadable in Light Mode. -------------------------------------------------- */
+
+html[data-theme="dark"] [data-scene="books"],
+html[data-theme="dark"] [data-scene="ai"] {
+  --scene-ink: #f6f4ef;
+  --scene-ink-2: #d9d4ca;
+  --scene-ink-3: #a8a196;
+  --scene-hair: rgba(246, 244, 239, .20);
+  --scene-accent: #ff6b63;
+}
+
+/* S/4HANA. THE SCENE THAT HAD TO STOP BEING DARK.
+   ---------------------------------------------------------------------------
+   The page ended dark navy -> dark burgundy -> near black, three scenes in a
+   row with no relief. That is not the Partake lesson (colour blocking, real
+   contrast BETWEEN sections); it is just fatigue, and it landed on the subject
+   that is arguably the product's reason to exist.
+
+   So S/4HANA is now the BRIGHT scene: a lit blueprint the reader arrives at
+   after the two module grounds, with the burgundy Books scene and the near
+   black AI close reading as a deliberate descent afterwards rather than as
+   three shades of the same tiredness.
+
+   The verdict hues survive the flip, but they had to be re-picked: #47a8ff and
+   #ff6f57 were chosen to glow on navy and are both under 3:1 on a bright
+   ground. Cobalt and burnt orange carry the same meaning and actually pass.
+   Ink #0a2342 on #dce9fb measures 13.4:1. */
+[data-scene="s4"] {
+  /* DEEPENED for the same reason as the data scene above: #dce9fb against the
+     near-white raised tone separated by only 1.18:1, so on the product's most
+     important subject the cards floated in a haze. Field chroma 0.122 -> 0.239,
+     separation 1.18 -> 1.47:1. It stays the BRIGHT scene — that role is the
+     whole point of the S/4 flip — it is simply now a confident blue rather than
+     a tint of white. */
+  --scene-ground: #b9d4f6;
+  --scene-raised: #f8fcff;
+  --scene-ink: #0a2342;
+  --scene-ink-2: #2f4e78;
+  /* Re-measured on the deeper field: #4a6485 fell to 4.00:1 there. */
+  --scene-ink-3: #42597a;   /* 4.70:1 on the field · 6.92:1 on the card */
+  /* MEASURED AGAINST THE RAISED TONE, NOT THE GROUND.
+     The first values were computed against #dce9fb and looked fine on paper.
+     They do not render there: the verdict chips and the "ECC → S/4HANA" label
+     sit on the RAISED surface and on tinted cards, where the same hues measured
+     3.69 / 4.26 / 3.73 — all AA failures. Darkened until the worst pair on the
+     surface each one actually lands on clears 4.5. */
+  --scene-accent: #17398f;   /* cobalt: the S/4 voice */
+  --scene-hot: #8a2d08;      /* replaced */
+  --scene-cool: #0c5a54;     /* kept */
+  --scene-hair: rgba(10, 35, 66, .16);
+}
+html[data-theme="dark"] [data-scene="s4"] {
+  /* Dark theme keeps the ROLE — S/4 is the lit one — it just cannot be lit to
+     the same absolute level without punching a hole in a dark page. */
+  --scene-ground: #14294a;
+  --scene-raised: #1d3a63;
+  --scene-ink: #eaf2ff;
+  --scene-ink-2: #b9cded;
+  /* Dark mode moves these the OTHER way. Same two roles, same two failures,
+     opposite correction: #8aa4c8 measured 3.66 and #ff8a5c measured 4.02 on the
+     dark raised tone. */
+  --scene-ink-3: #a8bfe0;
+  --scene-accent: #8dbcff;
+  --scene-hot: #ffa887;
+  --scene-cool: #5eead4;
+  --scene-hair: rgba(234, 242, 255, .18);
+}
+
+/* ASK THE LIBRARY. A reading room, not a bookbinding.
+   ---------------------------------------------------------------------------
+   This surface used to wear `data-scene="books"`, so it inherited the shelf's
+   #3a0f1d burgundy ground — and then painted its cards, its context bar, its
+   quick actions and its composer in tints of the same burgundy. The result was
+   one dark colour doing every job at once, which is why the screen read as an
+   enterprise panel rather than as a conversation.
+
+   The canvas is now warm parchment and the surfaces are near-white, so the
+   CONVERSATION is the brightest thing on screen. Burgundy stays — it is the
+   library's identity — but as an accent carried by the assistant mark, the
+   scope chip and the source cards, never as the room itself. 14.9:1. */
+[data-scene="library"] {
+  --scene-ground: #f6f1e9;
+  --scene-raised: #fffdf9;
+  --scene-ink: #22201d;
+  --scene-ink-2: #4c4741;
+  --scene-ink-3: #7c746a;
+  --scene-accent: #7a1533;          /* the shelf's burgundy, as an accent */
+  --scene-cool: #0f766e;            /* the second library voice */
+  --scene-hot: var(--brand);        /* CBC red: send, primary, active */
+  --scene-hair: rgba(34, 32, 29, .14);
+}
+html[data-theme="dark"] [data-scene="library"] {
+  /* Dark mode keeps the same ROLES — canvas recedes, conversation lifts — it
+     just inverts which end of the range they sit at. */
+  --scene-ground: #171310;
+  --scene-raised: #221c18;
+  --scene-ink: #f6f1ea;
+  --scene-ink-2: #d3cabf;
+  --scene-ink-3: #9d9287;
+  --scene-accent: #e0819b;
+  --scene-cool: #5eead4;
+  --scene-hot: #ff6b63;
+  --scene-hair: rgba(246, 241, 234, .16);
+}
+
+/* Books. Deep burgundy — a bound library, with the shelf's own cobalt, forest,
+   ochre and cream carried by the BOOKS rather than by the ground. 13.6:1 */
+/* Books, Day: warm ivory. The covers are the colour on this scene — cobalt,
+   forest, ochre, burgundy — so the GROUND must get out of their way. A dark
+   burgundy field in Light Mode drowned the objects it was meant to present. */
+[data-scene="books"] {
+  --scene-ground: #f5eade;
+  --scene-raised: #fffaf3;
+  --scene-ink: #2b1a12;
+  --scene-ink-2: #58402f;
+  --scene-ink-3: #7d6350;
+  --scene-accent: #8f2140;   /* burgundy as an ACCENT, not as the room */
+  --scene-hair: rgba(43, 26, 18, .16);
+}
+html[data-theme="dark"] [data-scene="books"] {
+  --scene-ground: #3a0f1d;
+  --scene-raised: #4d1628;
+  --scene-ink-2: #edd3c8;
+  --scene-accent: #f0a35f;
+  --scene-hair: rgba(240, 163, 95, .24);
+}
+
+/* NEO AI. Graphite over deep navy, with electric blue and the brand red as the
+   only two lights in the room. The coolest, hardest surface in the product.
+   16.9:1 */
+/* NEO AI, Day: a cool technical field. Still the hardest, coolest surface in
+   the product — that character now comes from the blue and the graphite type
+   rather than from the absence of light. */
+[data-scene="ai"] {
+  --scene-ground: #e7ecf6;
+  --scene-raised: #fbfcff;
+  --scene-ink: #10131c;
+  --scene-ink-2: #363e4f;
+  --scene-ink-3: #5b6475;
+  --scene-accent: #1d4ed8;
+  --scene-hot: var(--brand);
+  --scene-hair: rgba(16, 19, 28, .14);
+}
+html[data-theme="dark"] [data-scene="ai"] {
+  --scene-ground: #0e1016;
+  --scene-raised: #171b26;
+  --scene-ink-2: #ccd2e0;
+  --scene-accent: #4d8dff;
+  --scene-hot: #ff4b4b;
+  --scene-hair: rgba(77, 141, 255, .24);
+}
+
+/* --------------------------------------------------------------------------
+   3. WEARING A SCENE
+   .nm-scene paints its own ground edge to edge and re-points the local ink
+   tokens, so ordinary components inside it stay legible with no scene-aware
+   code of their own. This is the Partake lesson: the SECTION owns the colour.
+   -------------------------------------------------------------------------- */
+
+.nm-scene {
+  position: relative;
+  background-color: var(--scene-ground);
+  color: var(--scene-ink);
+  /* Locally rebind the product tokens, so a card, a chip or a table dropped
+     into a scene inherits scene-correct colour without knowing scenes exist. */
+  --surface: var(--scene-raised);
+  /* --surface-2 has to be rebound as well, and forgetting it was a real bug:
+     any component reaching for the RECESSED tone (.nxg-col on the NEO AI
+     surface, for one) kept the shell's warm cream and rendered as a light card
+     pasted onto a dark scene — measured at luminance 0.93 on a 0.07 ground.
+     Derived from the scene rather than fixed, so it sits correctly between the
+     ground and the raised tone for every scene, light or dark. */
+  --surface-2: color-mix(in oklab, var(--scene-raised) 68%, var(--scene-ground));
+  --ink-1: var(--scene-ink);
+  --ink-2: var(--scene-ink-2);
+  --ink-3: var(--scene-ink-3);
+  --hairline: var(--scene-hair);
+  /* The ground change is the slowest thing on the page on purpose: a ground
+     that snaps reads as a bug, a ground that drifts reads as a journey. */
+  transition: background-color 700ms var(--ease-out-expo, cubic-bezier(.16, 1, .3, 1));
+}
+
+/* The seam between two scenes. Without this, two grounds meet on a hard 1px
+   edge and the page looks like two pages stapled together. */
+.nm-scene::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  block-size: 5rem;
+  transform: translateY(-100%);
+  background: linear-gradient(to bottom, transparent, var(--scene-ground));
+  pointer-events: none;
+}
+
+/* The shell ground follows the scene the reader is actually in, so the padding
+   around a scene is never the wrong colour. Written by the scene observer. */
+.nx-app[data-scene-now] {
+  background-color: var(--nm-shell-ground, var(--background));
+  transition: background-color 700ms var(--ease-out-expo, cubic-bezier(.16, 1, .3, 1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nm-scene,
+  .nx-app[data-scene-now] { transition: none; }
+}

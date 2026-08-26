@@ -11,7 +11,7 @@ const mk = (slug: string, module: string, he: string, title: string, sub: string
     { title: "CDS Views חדשים", type: "linkchips", tone: "#0891b2", items: cds },
     { title: "APIs חדשים", type: "chips", tone: "#0d9488", items: apis },
     { title: "סיכוני מיגרציה (Risks)", type: "bullets", tone: "#dc2626", items: risks },
-    { title: "QA — Validation Checklist", type: "bullets", tone: "#be185d", items: qa },
+    { title: "QA: Validation Checklist", type: "bullets", tone: "#be185d", items: qa },
   ],
   eccS4: { unchanged: stays[0], changed: changes[0], deprecated: deprecated[0], fiori: fiori[0], cds: cds[0], migration: qa[0] },
 });
@@ -31,7 +31,7 @@ export const MIGRATIONS: CenterItem[] = [
     ["Settlement apps", "Production Cost Analysis"], ["—"], ["—"],
     ["דוחות CO ישנים → התאמה ל-ACDOCA", "Material Ledger נדרש", "תהליכי סגירה משתנים"],
     ["ודא עלות/סטיות פקודה ב-ACDOCA", "השווה דוחות עלות", "בדוק התחשבנות KO88/CO88", "Material Ledger פעיל"]),
-  mk("mrp-live", "PP", "תכנון דרישות", "Classic MRP → MRP Live", "מנוע MRP על HANA — מהיר, ברמת חומר; חלק מהפרמטרים לא נתמכים.",
+  mk("mrp-live", "PP", "תכנון דרישות", "Classic MRP → MRP Live", "מנוע MRP על HANA: מהיר, ברמת חומר; חלק מהפרמטרים לא נתמכים.",
     ["תוצרי תכנון (הזמנות מתוכננות/PR)", "סוגי MRP בסיסיים", "MD04"],
     ["MD01 → MD01N (HANA push-down)", "תכנון ברמת חומר", "מהירות"],
     ["MD05 (MRP List) פחות מרכזי", "חלק מ-User Exits של MRP", "פרמטרים קלאסיים מסוימים"],

@@ -1,0 +1,1667 @@
+/* ============================================================================
+   PROJECT NEO — THE ERD / DATA-MODEL WORKSPACE
+   ----------------------------------------------------------------------------
+   Imported by app/neo/erd/page.tsx only. Every selector is anchored on .ne,
+   which exists on that one route, so nothing here can reach another page and
+   not one token in app/globals.css is redeclared — this file only CONSUMES
+   them.
+
+   NO PARALLEL BUTTON STYLES. Every control on this route is a class from
+   app/neo/ui.css (.nu-btn, .nu-btn2, .nu-ghost, .nu-filter, .nu-chip,
+   .nu-card). What this file adds to them is LAYOUT — a grid for a list row, a
+   square for an icon button — and the one state ui.css has no opinion about
+   (a pressed ghost row). It never redefines their fill, border or focus ring.
+
+   THE FORM RULE (app/globals.css, above --mod-pm) IS THE LAW HERE:
+     · MODULE   --mod-*    node ring, node surface tint, EDGE stroke, list
+                           marker, filter line. NEVER a standalone dot — which
+                           is why .nu-filter's pressed dot is suppressed inside
+                           the module group and replaced by a line.
+     · STATUS   --status-* does not appear on this page at all.
+     · OBJECT   --obj-*    the class marker bar on a node.
+     · BRAND    --brand    focus ring, minimap viewport, search affordance.
+                           Never a data category.
+
+   RELATION STRENGTH IS SHAPE, NOT HUE. The edge already carries the module hue,
+   so cardinality is drawn the way a data modeller draws it: a filled dot plus a
+   key bar on the primary-key end, a crow's foot on an N side, two bars on a 1
+   side, a dashed line where the blueprint recorded no strength at all. That is
+   why --rel-* no longer paints the lines.
+
+   MOTION: transform and opacity only. The one looping animation is the flow
+   pulse on the emphasised edges — a translate between two endpoints handed in
+   as custom properties. Everything stops under reduced motion.
+   ========================================================================== */
+
+/* The shell canvas is a padded, gapped, scrolling grid for ordinary pages. The
+   workspace is a full-bleed instrument, so it — and only it — takes the canvas
+   over. Deliberately over-qualified for the same reason home.css is: the phone
+   rule in globals is (0,2,1) and a bare :has() would lose to it. */
+html .nx-app .nx-canvas:has(> .ne) {
+  display: block;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
+.ne {
+  block-size: 100%;
+  min-block-size: 0;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  /* minmax(0, 1fr), never a bare implicit column. The module strip is a
+     nowrap flex row of 14 chips; an `auto` grid column takes its min-content
+     and the whole workspace inherits ~1400px of intrinsic width, which is
+     exactly how an instrument like this blows a 390px screen apart. */
+  grid-template-columns: minmax(0, 1fr);
+  container-type: inline-size;
+  container-name: ne;
+  background: var(--background);
+
+  /* --- THE EIGHT MISSING MODULE TOKENS ------------------------------------
+     app/globals.css declares ten --mod-* values, five of which this route uses
+     (pm · pppi · pp · mm · qm). The real data model has thirteen business
+     modules, so the remaining eight are declared HERE, scoped to .ne, and
+     globals is not touched. Same discipline as the tokens above them: a module
+     hue is never brand red, never a status hue's form, and every value clears
+     4.5:1 against --surface in this theme. Hues are spread around the wheel so
+     that no two modules that share a picture sit within 15 degrees. */
+  --mod-sd: #c2410c;      /* orange 21°  */
+  --mod-batch: #a16207;   /* yellow 41°  */
+  --mod-cs: #15803d;      /* green 142°  */
+  --mod-class: #0369a1;   /* sky 202°    */
+  --mod-pipo: #4338ca;    /* indigo 244° */
+  --mod-fi: #6d28d9;      /* violet 263° */
+  --mod-co: #86198f;      /* fuchsia 295°*/
+  /* Neutral — the integration layer carries no hue. It was zinc-600 (#52525b),
+     a BLUE-leaning grey picked against the old neutral canvas; beside twelve
+     saturated hues on the warm #F7F5F2 ground that grey is the one value that
+     reads as cold, which makes IDoc look like a different product. Stone-600 is
+     the same value on the warm axis — computed 7.51:1 on --surface against the
+     7.60:1 it replaces — so it is still the quietest hue in the ramp, still
+     clears AA by a wide margin, and is now the same temperature as the ground
+     under it. Its dark twin below moves zinc-300 to stone-300 for the same
+     reason and measures 12.5:1, which keeps the >= 10:1 the ramp promises. */
+  --mod-idoc: #57534e;
+
+  /* --- KEY ROLE ------------------------------------------------------------
+     The brief asks in as many words for the primary and the foreign key to be
+     CLEARLY COLOURED on an opened table. That is a third vocabulary beside
+     module and object class, so it gets exactly two tokens, it appears on
+     nothing but a key marker, and it is declared here rather than borrowed
+     from a status hue — a key is a role, not a state. Both clear 4.5:1 on
+     --surface. */
+  --ne-pk: #a16207;
+  --ne-fk: #1d4ed8;
+
+  /* --- S/4 RISK ------------------------------------------------------------
+     The project's own three grades, on the open card's bottom strip and
+     nowhere else. A table with no standing gets no colour at all — it gets a
+     sentence. */
+  --ne-r-high: #b91c1c;
+  --ne-r-medium: #b45309;
+  --ne-r-low: #15803d;
+
+  /* --- THE STAGE ------------------------------------------------------------
+     The canvas the graph is drawn ON, named once so the three things that have
+     to agree about it cannot drift: the stage fill, the grid ruling, and the
+     halo the edge labels are painted over to stay readable where a line crosses
+     them. Before this they were --surface-2, --hairline and --surface-2 written
+     out separately, and the halo silently stopped matching the moment the stage
+     moved.
+
+     WHY THE TWO THEMES TAKE DIFFERENT TOKENS, MEASURED.
+     A node fill is `--ms 7% + --surface`, so on the warm ground it computes to
+     rgb(243,244,234) in light and rgb(35,34,19) in dark. Against --surface-2
+     that is +14 in light (a card, correctly raised off its board) but only +3
+     in dark — the node and the board were the same colour and the whole graph
+     was being held up by its 1.6px ring alone. Dark therefore drops the stage
+     to --background (15,11,8), which puts the node ~20 above its board again
+     and restores the raised reading in both themes. */
+  --ne-stage: var(--surface-2);
+  /* The ruling is a measurement aid and must stay under the data. The warm
+     hairline is a much stronger value against its own ground than the neutral
+     one it replaced (#dacebf on #f1ece5, against #eaecef on #fcfcfd before), so
+     drawn at full strength every 68px in both axes it became the loudest thing
+     on an empty canvas. Held back to just over half. */
+  --ne-grid: color-mix(in oklab, var(--hairline) 52%, var(--ne-stage));
+}
+
+/* ==========================================================================
+   FULLSCREEN
+   --------------------------------------------------------------------------
+   `.ne` itself is the promoted element, so the toolbar, the diagram and the
+   detail panel all come with it — a fullscreen diagram you cannot filter is a
+   screenshot. Two things have to be restated inside :fullscreen:
+
+   1. The narrow rule at the bottom of this file relaxes `.ne` to `block-size:
+      auto` with four `auto` rows, because below 1100px the workspace is a
+      SCROLLING PAGE. A fullscreen element is a viewport-sized box and must go
+      back to being an instrument, whatever the viewport measures.
+   2. A fullscreen element gets a UA background of its own (usually black).
+      The workspace paints its own warm ground, in both themes.
+
+   :fullscreen and :-webkit-full-screen are written as SEPARATE rules on
+   purpose: one unrecognised selector invalidates a whole selector list, and a
+   browser that knows only the prefixed form would drop both.
+   ========================================================================== */
+html .ne:fullscreen {
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  background: var(--background);
+}
+html .ne:-webkit-full-screen {
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  background: var(--background);
+}
+/* Narrow: the workspace is a scrolling page, and a fullscreen element has no
+   ancestor left to do its scrolling for it. It scrolls itself. */
+@media (max-width: 1100px) {
+  html .ne:fullscreen { block-size: 100%; overflow-y: auto; grid-template-rows: auto auto auto auto; }
+  html .ne:-webkit-full-screen { block-size: 100%; overflow-y: auto; grid-template-rows: auto auto auto auto; }
+}
+
+/* Dark is not the light ramp lightened: on a near-black ground a mid-tone hue
+   goes muddy, so each rises to its bright end. All >= 10:1 against --surface,
+   and none collides with the dark values globals gives pm/pppi/pp/mm/qm. */
+html[data-theme="dark"] .ne {
+  --mod-sd: #fdba74;
+  --mod-batch: #fcd34d;
+  --mod-cs: #86efac;
+  --mod-class: #38bdf8;
+  --mod-pipo: #a5b4fc;
+  --mod-fi: #d8b4fe;
+  --mod-co: #f5d0fe;
+  --mod-idoc: #d6d3d1;   /* stone-300 — the warm twin of zinc-300 above */
+  --ne-pk: #fcd34d;
+  --ne-fk: #93c5fd;
+  --ne-r-high: #fca5a5;
+  --ne-r-medium: #fcd34d;
+  --ne-r-low: #86efac;
+  --ne-stage: var(--background);
+}
+
+/* ==========================================================================
+   TOOLBAR
+   ========================================================================== */
+
+.ne-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-2) var(--sp-5);
+  border-block-end: 1px solid var(--hairline);
+  background: var(--surface);
+}
+/* IDENTITY IN TWO ROWS, NOT FOUR.
+   Return + ladder answer "where am I"; title + count answer "what am I looking
+   at". Stacked as four separate rows this block measured 129.8px at 1500x940 —
+   more than a fifth of the screen spent on saying where you are. Paired, it is
+   about 52px and says exactly the same four things. */
+.ne-bar-id { display: grid; gap: 2px; margin-inline-end: auto; flex: 1 1 15rem; min-inline-size: 0; }
+.ne-bar-nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+/* LAYOUT ONLY, in the spirit of .ne-crumb below it: the return link keeps every
+   colour, hover, focus ring and underline ui.css gives it and simply stops
+   reserving a 40px tap row inside a 2-line identity block on a mouse-driven
+   screen. Coarse pointers are untouched — ui.css's own 2.75rem rule is scoped
+   to (pointer: coarse) and still wins there. */
+.ne-bar-nav .nxr-link { min-block-size: 1.75rem; }
+/* nowrap on purpose: the count is the line that has to give, and .ne-sub
+   ellipsises. Wrapping put the title block on three rows at 1440. */
+.ne-bar-t { display: flex; flex-wrap: nowrap; align-items: baseline; gap: var(--sp-2); min-inline-size: 0; }
+.ne-h1 {
+  font-size: var(--t-h2);
+  font-weight: 700;
+  letter-spacing: var(--t-h2-tr);
+  color: var(--ink-1);
+  /* One line. The title wrapping inside a 346px identity block was the last
+     row of chrome left, and a heading that reflows as the panel resizes is
+     also the thing that makes a toolbar feel unstable. */
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The count gives way first — it is the one line whose content is also printed
+   in the module control and in the panel. */
+.ne-sub {
+  flex: 1 1 0;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- search + suggestions ------------------------------------------------- */
+.ne-find-top { position: relative; inline-size: min(17rem, 100%); flex: 0 1 auto; }
+.ne-search {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: 2.5rem;
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  color: var(--ink-3);
+}
+.ne-search:focus-within { box-shadow: var(--focus-ring); border-color: var(--brand); }
+.ne-search input {
+  flex: 1;
+  min-inline-size: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  font-size: var(--t-xs);
+  color: var(--ink-1);
+}
+.ne-search input::-webkit-search-cancel-button { display: none; }
+.ne-x { min-block-size: 1.75rem !important; inline-size: 1.75rem; padding-inline: 0 !important; }
+
+.ne-sugg {
+  position: absolute;
+  z-index: 20;
+  inset-inline: 0;
+  inset-block-start: calc(100% + 4px);
+  display: grid;
+  gap: 1px;
+  padding: 4px;
+  max-block-size: 19rem;
+  overflow-y: auto;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  box-shadow: var(--elev-3);
+}
+
+/* --- view controls -------------------------------------------------------- */
+.ne-view { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.ne-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+}
+/* Layout only: ui.css owns the colour, hover, focus and disabled language.
+   2.25rem square rather than 2.5x2.25: eleven view controls now share this bar
+   with the identity block and the search, and 0.25rem each is the difference
+   between one toolbar row and two. Coarse pointers still get the full 44px
+   below. */
+.ne-group .nu-ghost {
+  inline-size: 2.25rem;
+  min-block-size: 2.25rem;
+  padding-inline: 0;
+  border-radius: var(--r-xs);
+}
+.ne-pct {
+  inline-size: 3.25rem !important;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro) !important;
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+}
+@media (pointer: coarse) {
+  .ne-group .nu-ghost { inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); }
+  .ne-pct { inline-size: 4rem !important; }
+}
+
+/* ==========================================================================
+   FILTER BAR
+   ========================================================================== */
+
+.ne-filters {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-2) var(--sp-5);
+  border-block-end: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.ne-fgrp { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.ne-flabel {
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  margin-inline-end: 2px;
+}
+/* MODULE identity on a filter is a LINE, never a dot — so ui.css's pressed dot
+   is suppressed here and an explicit marker takes its place. */
+.ne-fgrp .nu-filter[aria-pressed="true"]::before { display: none; }
+.ne-fgrp .nu-filter > i {
+  inline-size: 3px;
+  block-size: 13px;
+  border-radius: 2px;
+  background: var(--m, var(--ink-3));
+  flex: none;
+}
+.ne-rel > i {
+  flex: none;
+  inline-size: 18px !important;
+  block-size: 2px !important;
+  border-radius: 2px;
+  background: var(--ink-3);
+}
+.ne-rel[data-kind="unstated"] > i {
+  background: repeating-linear-gradient(to right, var(--ink-3) 0 4px, transparent 4px 8px);
+}
+
+/* --- the ladder ----------------------------------------------------------
+   סקירה › מודול › נושא/אובייקט › טבלה. The crumb is the only place the level
+   is named, so the reader always knows which of the four pictures they are in
+   and can step back to any of them in one click. */
+.ne-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: var(--t-micro); color: var(--ink-3); }
+.ne-crumbs > span { display: inline-flex; align-items: center; gap: 4px; }
+.ne-crumbs svg { color: var(--ink-3); flex: none; }
+.ne-crumb {
+  min-block-size: 1.5rem !important;
+  padding-inline: 5px !important;
+  font-size: var(--t-micro);
+  border-radius: var(--r-xs);
+}
+.ne-crumbs b { font-weight: 600; color: var(--ink-2); }
+.ne-crumbs .ne-crumb-now { color: var(--ink-1); font-weight: 700; }
+
+.ne-ftopic { max-inline-size: 15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ne-fhint { font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he); }
+
+/* ==========================================================================
+   THE DISCLOSURES — how 51 chips became reachable
+   --------------------------------------------------------------------------
+   The module group and the topic group used to be `flex-wrap: nowrap;
+   overflow-x: auto` strips. Measured at 1500x940 that hid 965px and 2,930px of
+   chips respectively, with no scrollbar visible and no other affordance — the
+   filters were not merely cramped, they were unreachable. Both are now panels
+   behind a trigger that states what it holds, and the trigger for the filter
+   panel also states HOW MANY narrowings are in force so the bar can never lie
+   about the picture.
+
+   No new control language: the trigger is a .nu-filter (a toggle that narrows
+   what is on screen, which is exactly what it is) and every row inside is a
+   .nu-ghost or a .nu-filter from ui.css.
+   ========================================================================== */
+
+/* THE PANEL IS ANCHORED TO THE BAR, NOT TO ITS TRIGGER. A panel positioned on
+   the trigger is free to run past the edge of a workspace whose canvas is
+   `overflow: hidden` — which would clip a filter panel, the precise defect this
+   whole section exists to remove. Anchored to .ne-filters and capped at the
+   container's own inline size, it cannot leave the workspace at any width. */
+.ne-pop { position: static; display: inline-flex; }
+.ne-pop-t {
+  max-inline-size: 15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ne-pop-c { flex: none; opacity: .6; transition: transform var(--dur-fast) var(--ease-out-expo); }
+.ne-pop[data-open="1"] .ne-pop-c { transform: rotate(180deg); }
+/* The count of what is behind the trigger. Not a status dot — a number in a
+   pill, which is what it is. */
+.ne-pop-n {
+  flex: none;
+  min-inline-size: 1.15rem;
+  padding-inline: 4px;
+  border-radius: var(--r-pill);
+  background: var(--ink-1);
+  color: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  direction: ltr;
+}
+
+.ne-pop-p {
+  position: absolute;
+  z-index: 40;
+  inset-block-start: calc(100% - 4px);
+  inset-inline-start: var(--sp-5);
+  inline-size: min(23rem, calc(100cqi - 2 * var(--sp-5)));
+  max-block-size: min(30rem, 62svh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  gap: var(--sp-2);
+  align-content: start;
+  padding: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--elev-3);
+  animation: ne-unfold var(--dur-fast) var(--ease-out-expo) both;
+}
+/* The filter panel is the wide one and its trigger sits further along the bar,
+   so it hangs from the bar's inline-END instead. Same guarantee, other side. */
+.ne-pop-p[data-wide="1"] {
+  inline-size: min(34rem, calc(100cqi - 2 * var(--sp-5)));
+  inset-inline-start: auto;
+  inset-inline-end: var(--sp-5);
+}
+
+.ne-pop-h {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-3);
+}
+.ne-pop-l { display: grid; gap: 1px; }
+.ne-pop-sc { display: grid; gap: var(--sp-2); padding-block-end: var(--sp-3); border-block-end: 1px solid var(--hairline); }
+.ne-pop-s { display: grid; gap: var(--sp-4); }
+.ne-pop-s > section { display: grid; gap: var(--sp-2); }
+.ne-pop-w { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.ne-pop-say { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); font-style: italic; }
+.ne-pop-f {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding-block-start: var(--sp-2);
+  border-block-start: 1px solid var(--hairline);
+}
+.ne-pop-f > .nu-btn2 { flex: 1 1 auto; justify-content: center; }
+
+/* The narrowings in force, said out loud on the bar itself. Each one switches
+   itself off, so the disclosure never becomes a place things go missing. */
+.ne-fnow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+.ne-fnow-x { max-inline-size: 16rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ne-fnow-x svg { flex: none; opacity: .7; }
+.ne-fnow-x:hover svg { opacity: 1; }
+
+/* ==========================================================================
+   BODY · STAGE + INSPECTOR
+   ========================================================================== */
+
+.ne-body {
+  display: grid;
+  /* 26rem, not 23. A selected table's panel carries verbatim SAP prose, a field
+     table and a JOIN clause; at 23rem those were being shrunk to fit, which is
+     exactly what the brief forbids. */
+  grid-template-columns: minmax(0, 1fr) 26rem;
+  min-block-size: 0;
+}
+.ne[data-insp="0"] .ne-body { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 2000px) { .ne-body { grid-template-columns: minmax(0, 1fr) 30rem; } }
+@media (min-width: 2560px) { .ne-body { grid-template-columns: minmax(0, 1fr) 34rem; } }
+
+.ne-stage {
+  position: relative;
+  overflow: hidden;
+  min-inline-size: 0;
+  min-block-size: 0;
+  cursor: grab;
+  /* A declared gesture region, not a hijacked scroll: the stage is a bounded
+     box and the page scrolls everywhere around it. Wheel without Ctrl/Cmd is
+     never intercepted at all — see the listener in erd-workspace.tsx. */
+  touch-action: none;
+  background-color: var(--ne-stage);
+  background-image:
+    repeating-linear-gradient(to right, var(--ne-grid) 0 1px, transparent 1px 68px),
+    repeating-linear-gradient(to bottom, var(--ne-grid) 0 1px, transparent 1px 68px);
+}
+.ne-stage[data-drag="1"] { cursor: grabbing; }
+.ne-stage:focus-visible { outline: none; box-shadow: inset var(--focus-ring); }
+/* While a layout tween runs, the graph is not a hit target: a hover mid-flight
+   would re-render React underneath the animation. */
+.ne-stage[data-moving] .ne-nodes { pointer-events: none; }
+.ne-stage[data-moving] .ne-cap,
+.ne-stage[data-moving] .ne-edge-t,
+.ne-stage[data-moving] .ne-pulse { opacity: 0; }
+
+.ne-canvas { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; display: block; }
+
+/* ==========================================================================
+   EDGES — module hue, cardinality as shape
+   ========================================================================== */
+
+.ne-edge-p {
+  fill: none;
+  stroke: var(--e);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: .62;
+  transition: opacity var(--dur-base) var(--ease-out-expo), stroke-width var(--dur-base) var(--ease-out-expo);
+}
+.ne-edge[data-kind="unstated"] .ne-edge-p { opacity: .42; }
+
+/* THE DASH MARCH — the production ERD's signature, restored.
+   The old graph gives every relationship `stroke-dasharray: 7 6` and marches
+   the offset to -200 over three seconds. That single detail is most of why the
+   old diagram feels like live connections rather than printed strokes, and NEO
+   had replaced it with a travelling dot, which reads as one particle rather
+   than as flow.
+
+   Every edge marches, as it does in production, but slowly and at low contrast
+   so it stays precision motion rather than decoration. A focused edge switches
+   to the old graph's `fast` variant, which is what makes the relationship you
+   are actually asking about pull ahead of the rest. */
+.ne-edge-p {
+  stroke-dasharray: 7 6;
+  animation: ne-march 3s linear infinite;
+}
+.ne-edge[data-lvl="1"] .ne-edge-p,
+.ne-edge[data-lvl="2"] .ne-edge-p { animation-duration: 1s; }
+/* Dimmed and off-focus edges hold still: motion is for what is in play. */
+.ne-edge[data-lvl="x"] .ne-edge-p,
+.ne-edge[data-off="1"] .ne-edge-p { animation: none; }
+
+@keyframes ne-march { to { stroke-dashoffset: -200; } }
+
+/* A moving dash on every edge is exactly what a vestibular user cannot have,
+   and the graph loses nothing by being still. */
+@media (prefers-reduced-motion: reduce) {
+  .ne-edge-p { animation: none !important; }
+}
+/* Above the presentation breakpoint the same rule as everywhere else applies:
+   a 4K canvas repainting dozens of dashed strokes every frame costs more than
+   the effect is worth. */
+@media (min-width: 1600px) {
+  .ne-edge-p { animation-duration: 5s; }
+  .ne-edge[data-lvl="x"] .ne-edge-p { animation: none; }
+}
+
+.ne-cap { transition: opacity var(--dur-base) var(--ease-out-expo); opacity: .8; }
+.ne-cap-d { fill: var(--e); }
+.ne-cap-l { fill: none; stroke: var(--e); stroke-width: 1.6; stroke-linecap: round; }
+
+.ne-edge-t {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--ink-1);
+  direction: ltr;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out-expo);
+  pointer-events: none;
+  paint-order: stroke;
+  /* The halo has to BE the stage, or a JOIN label crossing an edge is legible
+     against a colour that is nowhere else on the canvas. It follows --ne-stage
+     so the two can never disagree again. */
+  stroke: var(--ne-stage);
+  stroke-width: 3.5;
+  stroke-linejoin: round;
+}
+
+/* Emphasis ladder. Level 1 = touches the active table. Level 2 = one hop
+   further, drawn only when the reader asked for that depth. */
+.ne-edge[data-lvl="1"] .ne-edge-p { opacity: 1; stroke-width: 3.2; }
+.ne-edge[data-lvl="1"] .ne-edge-t { opacity: 1; }
+.ne-edge[data-lvl="1"] .ne-cap { opacity: 1; }
+.ne-edge[data-lvl="2"] .ne-edge-p { opacity: .8; stroke-width: 2.2; }
+.ne-edge[data-lvl="2"] .ne-cap { opacity: .9; }
+/* Unrelated: quiet, but still there. The map never goes blank around a
+   selection unless focus mode is on. Raised with the node floors below — .05 is
+   not a dim line, it is an absent one. */
+.ne-edge[data-lvl="x"] { opacity: .26; }
+.ne-edge[data-off="1"] { opacity: .12; pointer-events: none; }
+/* THE GRAPH NEVER GOES BLANK. Focus mode used to take the unrelated edges to
+   opacity 0, which is the one thing the brief rules out: the rest of the model
+   DIMS, it does not vanish, so the reader can always see what they stepped out
+   of. Same for the nodes further down. */
+.ne[data-focus="1"] .ne-edge[data-off="1"] { opacity: .1; }
+.ne[data-focus="1"] .ne-edge[data-lvl="x"] { opacity: .16; }
+
+.ne-pulse { fill: var(--e); }
+@keyframes ne-flow {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  14%  { opacity: 1; }
+  86%  { opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
+}
+.ne-pulse { animation: ne-flow 2100ms var(--ease-out-expo) infinite; }
+/* A lens that reads a CHAIN wants the travel to feel like travel: the same
+   pulse, slower and steadier, so a long dependency run scans as one movement
+   rather than a row of blinking dots. */
+.ne[data-mode="dep"] .ne-pulse,
+.ne[data-mode="lineage"] .ne-pulse,
+.ne[data-mode="impact"] .ne-pulse,
+.ne[data-mode="flow"] .ne-pulse { animation-duration: 2800ms; animation-timing-function: linear; }
+
+/* ---- THE CARDINALITY BADGE ------------------------------------------------
+   Verbatim, from the dataset: 1:1 · 1:N · N:1 · N:N. A dash on a dashed
+   outline is the fourth case and it means the dataset wrote no strength — it
+   is a gap drawn as a gap. Hidden until the edge matters, so 300 relations do
+   not become 300 labels. */
+.ne-badge {
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out-expo);
+  pointer-events: none;
+}
+.ne-badge rect {
+  fill: var(--surface);
+  stroke: var(--e);
+  stroke-width: 1.2;
+}
+.ne-badge text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  direction: ltr;
+  fill: var(--ink-1);
+}
+.ne-badge[data-blank="1"] rect { stroke: var(--ink-3); stroke-dasharray: 3 3; }
+.ne-badge[data-blank="1"] text { fill: var(--ink-3); }
+.ne-edge[data-lvl="1"] .ne-badge,
+.ne-edge[data-lvl="2"] .ne-badge { opacity: 1; }
+.ne-edge:hover .ne-badge { opacity: 1; }
+/* On the module map the number on the link is a measurement and is always on. */
+.ne-edge[data-kind="map"] .ne-badge { opacity: .9; }
+
+/* ==========================================================================
+   NODES — module tint + module ring, object class as the marker bar
+   ========================================================================== */
+
+.ne-node { transition: opacity var(--dur-base) var(--ease-out-expo); cursor: pointer; }
+
+/* The dominance halo. Invisible until the table is the selected one, then it
+   is the largest, softest shape on the canvas — the eye lands on it first. */
+.ne-node-h {
+  fill: color-mix(in srgb, var(--ms) 22%, transparent);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out-expo);
+}
+
+.ne-node-r {
+  /* Module identity twice over: a tinted surface and the ring. A table both
+     blueprints document takes a two-stop gradient ring rather than being
+     assigned to one of them. */
+  fill: color-mix(in srgb, var(--ms) 7%, var(--surface));
+  stroke: var(--m);
+  stroke-width: 1.6;
+  transition:
+    stroke-width var(--dur-base) var(--ease-out-expo),
+    fill var(--dur-base) var(--ease-out-expo);
+}
+/* OBJECT class marker. MODULE line on the inline-start edge — a line, per the
+   form rule, never a dot. */
+.ne-node-cls { fill: var(--o); }
+.ne-node-mb { fill: var(--m); }
+.ne-node-n {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  fill: var(--ink-1);
+  direction: ltr;
+  dominant-baseline: middle;
+}
+.ne-node-he {
+  font-size: 11.5px;
+  fill: var(--ink-2);
+  dominant-baseline: middle;
+}
+.ne-node-mod {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  fill: color-mix(in srgb, var(--m) 72%, var(--ink-2));
+  direction: ltr;
+  dominant-baseline: middle;
+}
+.ne-node-z {
+  font-size: 10px;
+  fill: var(--ink-3);
+  dominant-baseline: middle;
+}
+.ne-node-k, .ne-node-fk {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  fill: var(--ink-3);
+  direction: ltr;
+  dominant-baseline: middle;
+}
+.ne-node-k { fill: color-mix(in srgb, var(--ms) 62%, var(--ink-3)); font-weight: 600; }
+/* Documented by more than one module's ERD. A small marker, and it is NOT a
+   status: it sits on the card's own object-class colour, not a status hue. */
+.ne-node-sh { fill: var(--o); opacity: .8; }
+
+/* --- the module map node -------------------------------------------------- */
+.ne-mod-c {
+  font-family: var(--font-mono);
+  /* Sized for the ~65% the module map fits at, not for 100%: at 0.65 this is
+     21px on screen, which is where a module code stops being a rectangle. */
+  font-size: 32px;
+  font-weight: 700;
+  fill: var(--ink-1);
+  direction: ltr;
+  dominant-baseline: middle;
+}
+.ne-mod-he { font-size: 16px; font-weight: 600; fill: var(--ink-1); dominant-baseline: middle; }
+.ne-mod-en { font-size: 12px; fill: var(--ink-3); direction: ltr; dominant-baseline: middle; }
+.ne-mod-n {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  fill: color-mix(in srgb, var(--m) 70%, var(--ink-1));
+  direction: ltr;
+  dominant-baseline: middle;
+}
+.ne-mod-l { font-size: 11.5px; fill: var(--ink-3); dominant-baseline: middle; }
+.ne-mod .ne-node-r { stroke-width: 2; }
+.ne-mod:hover .ne-node-r { stroke-width: 3.4; }
+.ne-mod:hover .ne-node-h { opacity: 1; }
+
+/* Open the real object page. Present only on the table you are looking at, so
+   the map stays a map. */
+.ne-node-go { opacity: 0; transition: opacity var(--dur-fast) linear; cursor: pointer; }
+.ne-node-go rect { fill: color-mix(in srgb, var(--ms) 16%, var(--surface)); stroke: var(--ms); stroke-width: 1; }
+.ne-node-go path { fill: none; stroke: var(--ms); stroke-width: 1.6; stroke-linecap: round; }
+.ne-node:hover .ne-node-go,
+.ne-node[data-lvl="0"] .ne-node-go { opacity: 1; }
+.ne-node-go:focus-visible { outline: none; }
+.ne-node-go:focus-visible rect { stroke: var(--brand); stroke-width: 2.5; }
+
+/* --- the emphasis ladder -------------------------------------------------- */
+.ne-node:hover .ne-node-r { stroke-width: 2.6; }
+.ne-node[data-hit="1"] .ne-node-r { stroke-width: 3; }
+
+/* THE SELECTED TABLE, LOUD. Four signals at once and none of them is hue
+   alone: the largest shape on the canvas (the halo), a ring around that halo so
+   it reads as a deliberate mark rather than a blur, the heaviest border in the
+   picture, and the only 18px name. */
+.ne-node[data-lvl="0"] .ne-node-h {
+  opacity: 1;
+  stroke: color-mix(in srgb, var(--ms) 62%, transparent);
+  stroke-width: 1.5;
+}
+.ne-node[data-lvl="0"] .ne-node-r {
+  fill: color-mix(in srgb, var(--ms) 17%, var(--surface));
+  stroke-width: 3.6;
+}
+/* The selected table reads LARGER, not smaller. This rule was written when
+   the base name was 13px; the card now sets 16px, so it rises to 18. */
+.ne-node[data-lvl="0"] .ne-node-n { font-size: 18px; }
+.ne-node[data-lvl="1"] .ne-node-r { fill: color-mix(in srgb, var(--ms) 12%, var(--surface)); stroke-width: 2.8; }
+.ne-node[data-lvl="2"] { opacity: .82; }
+.ne-node[data-lvl="2"] .ne-node-r { stroke-width: 2; }
+/* DIMMED, NEVER ERASED — and the floor is measured, not felt.
+   The brief is explicit: unrelated tables may fade SLIGHTLY and must stay
+   visible. The old floors were .12 for a filtered-out node and .08 in focus
+   mode, which on a warm near-black ground is a table you cannot read, cannot
+   point at and cannot get back to. Every floor is now at or above .22, and the
+   emphasis ladder does its work through ring weight and surface tint on top of
+   opacity rather than through opacity alone. */
+.ne-node[data-lvl="x"] { opacity: .42; }
+.ne-node[data-off="1"] { opacity: .22; pointer-events: none; }
+.ne[data-q="1"] .ne-node[data-hit="0"][data-lvl=""] { opacity: .34; }
+.ne[data-focus="1"] .ne-node[data-off="1"] { opacity: .22; pointer-events: none; }
+.ne[data-focus="1"] .ne-node[data-lvl="x"] { opacity: .26; pointer-events: none; }
+/* A dimmed table is still a table you may want to read. Hovering restores it
+   almost fully, so exploring away from the selection is never blocked. Opacity
+   only — a node that MOVES under the pointer cannot be clicked reliably, which
+   is why .nm-lift does not translate at motion level 1 either. */
+.ne-node[data-lvl="x"]:hover { opacity: .95; }
+
+/* Outside the chosen topic or business object. Quieter than a filter, louder
+   than gone: it stays clickable, so narrowing never traps the reader. */
+.ne[data-group="1"] .ne-node[data-out="1"] { opacity: .26; }
+.ne[data-group="1"] .ne-edge[data-out="1"] { opacity: .12; }
+
+/* ==========================================================================
+   THE OPEN CARD — one click unfolds the node
+   --------------------------------------------------------------------------
+   The production Architecture Explorer's collapsed-then-revealed node, rebuilt
+   as a real node on the canvas: the relations stay attached to it while it is
+   being read, which is the whole reason it is not a floating panel. Only
+   opacity is animated — the geometry itself is tweened in JS because the edge
+   routing has to agree with it frame by frame.
+   ========================================================================== */
+
+.ne-node[data-card="open"] { cursor: zoom-out; }
+/* The open card's shadow is re-tinted to the ground, for the same reason the
+   --elev-* ramp in app/neo/ground.css is: a neutral-black shadow on a warm
+   paper reads as dirt rather than as less light. */
+.ne-node[data-card="open"] .ne-node-r {
+  fill: var(--surface);
+  stroke: var(--ms);
+  stroke-width: 2.6;
+  filter: drop-shadow(0 10px 24px rgba(60, 42, 28, .22));
+}
+/* Dark inverts the physics: a shadow cannot be seen on a near-black stage, so
+   the card is lifted by a warm light rim instead — the same move ground.css
+   makes for --elev-*, expressed as a filter because an SVG shape has no
+   box-shadow. */
+html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
+  filter:
+    drop-shadow(0 -1px 0 rgba(255, 240, 220, .18))
+    drop-shadow(0 12px 28px rgba(0, 0, 0, .6));
+}
+.ne-node[data-card="open"] .ne-node-h { opacity: 1; }
+
+@keyframes ne-unfold { from { opacity: 0; } to { opacity: 1; } }
+.ne-open { animation: ne-unfold var(--dur-base) var(--ease-out-expo) both; }
+
+.ne-open-rule { stroke: var(--hairline); stroke-width: 1; }
+.ne-open-cap { font-size: 10.5px; fill: var(--ink-3); dominant-baseline: middle; }
+.ne-open-cap.nx-sap { font-family: var(--font-mono); direction: ltr; }
+
+.ne-open-f {
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 12.5px;
+  font-weight: 650;
+  fill: var(--ink-1);
+  dominant-baseline: middle;
+}
+.ne-open-t {
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 10.5px;
+  fill: var(--ink-3);
+  dominant-baseline: middle;
+}
+.ne-open-chip { fill: var(--surface-2); stroke: var(--hairline); stroke-width: 1; }
+.ne-open-chip-t {
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 8.5px;
+  font-weight: 800;
+  fill: var(--ink-3);
+  dominant-baseline: middle;
+}
+/* PK and FK, clearly coloured — the one place --ne-pk / --ne-fk are used. */
+.ne-open-row[data-k="PK"] .ne-open-chip {
+  fill: color-mix(in srgb, var(--ne-pk) 20%, var(--surface));
+  stroke: var(--ne-pk);
+}
+.ne-open-row[data-k="PK"] .ne-open-chip-t { fill: var(--ne-pk); }
+.ne-open-row[data-k="PK"] .ne-open-f { fill: var(--ne-pk); font-weight: 750; }
+.ne-open-row[data-k="FK"] .ne-open-chip {
+  fill: color-mix(in srgb, var(--ne-fk) 18%, var(--surface));
+  stroke: var(--ne-fk);
+  stroke-dasharray: 3 2;
+}
+.ne-open-row[data-k="FK"] .ne-open-chip-t { fill: var(--ne-fk); }
+.ne-open-row[data-k="FK"] .ne-open-f { fill: var(--ne-fk); font-weight: 700; }
+
+.ne-open-none {
+  font-size: 10.5px;
+  fill: var(--ink-3);
+  font-style: italic;
+  dominant-baseline: middle;
+}
+
+.ne-open-s4-d { fill: var(--ink-3); }
+.ne-open-s4[data-risk="high"] .ne-open-s4-d { fill: var(--ne-r-high); }
+.ne-open-s4[data-risk="medium"] .ne-open-s4-d { fill: var(--ne-r-medium); }
+.ne-open-s4[data-risk="low"] .ne-open-s4-d { fill: var(--ne-r-low); }
+.ne-open-s4-h { font-size: 10.5px; font-weight: 700; fill: var(--ink-2); dominant-baseline: middle; }
+.ne-open-s4-b { font-size: 10.5px; fill: var(--ink-3); dominant-baseline: middle; }
+/* A derived standing is not a verified one, and it does not get to look like
+   one. Dotted underline, same words, visibly softer. */
+.ne-open-s4[data-trust="partial"] .ne-open-s4-h,
+.ne-open-s4[data-trust="needs"] .ne-open-s4-h {
+  fill: var(--ink-3);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+/* ==========================================================================
+   THE OPEN BAR — the always-reachable way back
+   ========================================================================== */
+
+.ne-openbar {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: var(--sp-3);
+  inset-inline: var(--sp-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--elev-2);
+  animation: ne-unfold var(--dur-base) var(--ease-out-expo) both;
+}
+.ne-openbar-id { display: inline-flex; align-items: baseline; gap: var(--sp-2); min-inline-size: 0; }
+.ne-openbar-id b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
+.ne-openbar-id em {
+  font-style: normal;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-inline-size: 18rem;
+}
+.ne-openbar-lens {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-2);
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+}
+.ne-openbar .nu-ghost { inline-size: 2.25rem; min-block-size: 2.25rem; padding-inline: 0 !important; }
+.ne-openbar-back { margin-inline-start: auto; }
+@media (pointer: coarse) {
+  .ne-openbar .nu-ghost { inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); }
+  .ne-openbar-back { min-block-size: var(--c-tap, 2.75rem); }
+}
+
+/* ==========================================================================
+   THE LENS STRIP + ITS ONE-LINE EXPLAINER
+   ========================================================================== */
+
+/* The lens strip used to be `nowrap` over a scrollbar-free `overflow-x: auto`,
+   which is the same trick that hid the module and topic chips: at 390px it
+   simply swallowed the last lenses. It wraps now. Six controls on two rows are
+   six controls; six controls on one row with two of them past the edge are
+   four. */
+.ne-flens { flex-wrap: wrap; max-inline-size: 100%; }
+
+.ne-lens-say {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+  line-height: var(--lh-he);
+  animation: ne-unfold var(--dur-fast) var(--ease-out-expo) both;
+}
+.ne-lens-say > i {
+  flex: none;
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+.ne-lens-say > span { min-inline-size: 0; }
+.ne-lens-say > b {
+  flex: none;
+  font-size: var(--t-micro);
+  font-weight: 700;
+  color: var(--ink-1);
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.ne-lens-say > .ne-x { margin-inline-start: auto; flex: none; }
+
+/* A change of PICTURE — a module opened, the scope widened — is a different set
+   of nodes, so it crossfades rather than pretending to be a move. */
+@keyframes ne-enter { from { opacity: 0; } to { opacity: 1; } }
+.ne-world { animation: ne-enter var(--dur-panel) var(--ease-out-expo) both; }
+
+/* ==========================================================================
+   MINIMAP + HINT
+   ========================================================================== */
+
+.ne-mini {
+  position: absolute;
+  inset-block-end: var(--sp-3);
+  inset-inline-end: var(--sp-3);
+  inline-size: 13rem;
+  aspect-ratio: 4 / 3;
+  padding: 5px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: var(--elev-2);
+  touch-action: none;
+}
+.ne-mini svg { inline-size: 100%; block-size: 100%; display: block; cursor: crosshair; }
+.ne-mini-e { stroke: var(--ink-3); stroke-width: 3; opacity: .18; }
+.ne-mini-n { fill: var(--ms); opacity: .55; }
+.ne-mini-n[data-off="1"] { opacity: .1; }
+.ne-mini-n[data-on="1"] { opacity: 1; }
+.ne-mini-v { fill: color-mix(in srgb, var(--brand) 12%, transparent); stroke: var(--brand); stroke-width: 8; }
+
+.ne-hint {
+  position: absolute;
+  inset-block-end: var(--sp-3);
+  inset-inline-start: var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px var(--sp-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  pointer-events: none;
+}
+.ne-hint kbd {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: var(--r-xs);
+  border: 1px solid var(--hairline);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  direction: ltr;
+}
+
+/* ==========================================================================
+   INSPECTOR
+   ========================================================================== */
+
+.ne-insp {
+  display: grid;
+  grid-template-rows: minmax(0, 17rem) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
+  min-block-size: 0;
+  border-inline-start: 1px solid var(--hairline);
+  background: var(--surface);
+}
+
+.ne-find { display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); padding: var(--sp-3); min-inline-size: 0; min-block-size: 0; }
+.ne-find-n { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); font-size: var(--t-micro); color: var(--ink-3); }
+.ne-find-n .nu-ghost { min-block-size: 1.75rem; font-size: var(--t-micro); }
+
+.ne-list { overflow-y: auto; overscroll-behavior: contain; display: grid; gap: 1px; align-content: start; }
+
+/* LAYOUT for a .nu-ghost that happens to be a dense row. ui.css keeps the
+   colour, hover, focus and disabled language; this only reshapes the box. */
+.ne-row {
+  display: grid !important;
+  grid-template-columns: 3px minmax(4.25rem, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-2);
+  inline-size: 100%;
+  min-block-size: 2.25rem;
+  padding-inline: var(--sp-2) !important;
+  border-radius: var(--r-xs);
+  text-align: start;
+}
+.ne-row[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--ms, var(--brand)) 10%, var(--surface-2));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ms, var(--brand)) 34%, var(--hairline));
+}
+/* MODULE identity in a list — a line, never a dot. */
+.ne-row-bar { inline-size: 3px; block-size: 1.1rem; border-radius: 2px; background: var(--ms); }
+.ne-row b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-xs); color: var(--ink-1); }
+.ne-row em {
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ne-row > span { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); direction: ltr; }
+@media (pointer: coarse) { .ne-row { min-block-size: var(--c-tap, 2.75rem); } }
+
+.ne-detail {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
+  align-content: start;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border-block-start: 1px solid var(--hairline);
+}
+
+.ne-det-h { display: grid; grid-template-columns: 10px auto 1fr; align-items: center; gap: var(--sp-2); }
+.ne-det-h > i { inline-size: 10px; block-size: 10px; border-radius: 2px; background: var(--o); }
+.ne-det-h b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-h2); font-weight: 700; color: var(--ink-1); }
+.ne-det-h p { grid-column: 1 / -1; font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); }
+
+.ne-det-act { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.ne-det-act > * { flex: 1 1 auto; }
+
+.ne-det-n { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); }
+.ne-det-n > div {
+  display: grid;
+  gap: 2px;
+  padding: var(--sp-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  text-align: center;
+}
+.ne-det-n dt { font-size: 10px; color: var(--ink-3); }
+.ne-det-n dd { font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); font-variant-numeric: tabular-nums; }
+
+.ne-det-mods { display: grid; gap: var(--sp-2); }
+.ne-det-mods li {
+  display: grid;
+  grid-template-columns: 3px 1fr;
+  align-items: center;
+  column-gap: var(--sp-2);
+  padding: var(--sp-2);
+  border: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
+  border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--m) 5%, transparent);
+}
+.ne-det-mods li i { grid-row: 1 / span 2; inline-size: 3px; block-size: 100%; min-block-size: 1.6rem; border-radius: 2px; background: var(--m); }
+.ne-det-mods li b { font-size: var(--t-xs); color: var(--ink-1); }
+.ne-det-mods li em { grid-column: 2; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+.ne-det-cls {
+  grid-template-columns: auto 1fr !important;
+  border-color: var(--hairline) !important;
+  background: var(--surface-2) !important;
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+}
+.ne-det-cls span { inline-size: 8px; block-size: 8px; border-radius: 2px; background: var(--o); }
+
+.ne-keys { display: grid; gap: var(--sp-3); grid-template-columns: 1fr 1fr; }
+.ne-keys h3, .ne-blk h3 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  margin-block-end: 5px;
+  font-weight: 600;
+}
+.ne-blk { display: grid; }
+.ne-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+/* PK and FK are told apart by WEIGHT and BORDER, not by a second hue: solid
+   ring + object-class tint for the primary key, dashed ring for a foreign one.
+   That reads at a glance and survives both themes. */
+.ne-chips .nu-chip[data-k="PK"] {
+  border-color: var(--o);
+  background: color-mix(in srgb, var(--o) 14%, var(--surface-2));
+  color: var(--ink-1);
+  font-weight: 750;
+}
+.ne-chips .nu-chip[data-k="FK"] { border-style: dashed; }
+
+.ne-none { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); font-style: italic; }
+
+.ne-joins { display: grid; gap: var(--sp-3); }
+.ne-joins > li { display: grid; gap: 5px; padding-inline-start: var(--sp-3); border-inline-start: 3px solid var(--hairline); }
+.ne-joins > li[data-kind="unstated"] { border-inline-start-style: dashed; }
+.ne-join-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.ne-join-go {
+  min-block-size: 1.75rem !important;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: var(--t-xs);
+  font-weight: 700;
+  color: var(--ink-1) !important;
+}
+.ne-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  color: var(--ink-1);
+}
+/* A direction the two blueprints disagree about. Dashed and uncoloured — a
+   disagreement is a caveat, not a data category. */
+.ne-ct {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  border: 1px dashed var(--ink-3);
+  color: var(--ink-3);
+}
+.ne-join-s { display: grid; gap: 3px; padding-inline-start: var(--sp-2); border-inline-start: 2px solid color-mix(in srgb, var(--m) 45%, transparent); }
+.ne-join-m { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; color: var(--ink-3); direction: ltr; }
+.ne-join-m i { inline-size: 10px; block-size: 2px; border-radius: 2px; background: var(--m); }
+.ne-join-s code {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  direction: ltr;
+  text-align: start;
+  unicode-bidi: isolate;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-xs);
+  padding: 3px 5px;
+  overflow-x: auto;
+  white-space: pre;
+}
+.ne-join-k { display: inline-flex; gap: var(--sp-3); font-size: 10px; color: var(--ink-3); }
+.ne-join-k em { font-style: normal; }
+.ne-join-k b { font-family: var(--font-mono); direction: ltr; color: var(--ink-2); }
+.ne-join-d { font-size: 10px; color: var(--ink-3); line-height: 1.6; }
+
+.ne-idle { display: grid; gap: var(--sp-3); align-content: start; }
+.ne-idle h2 { display: flex; align-items: center; gap: 6px; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
+.ne-idle h2 svg { color: var(--ink-3); }
+.ne-idle > p { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); }
+.ne-facts { display: grid; gap: 4px; }
+.ne-facts > div { display: grid; grid-template-columns: 1fr auto; gap: var(--sp-2); font-size: var(--t-xs); padding-block: 3px; border-block-end: 1px solid var(--hairline); }
+.ne-facts dt { color: var(--ink-3); }
+.ne-facts dd { font-family: var(--font-mono); direction: ltr; font-variant-numeric: tabular-nums; color: var(--ink-1); }
+.ne-note { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); padding-block-start: var(--sp-2); border-block-start: 1px solid var(--hairline); }
+
+.ne-credit {
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  text-align: center;
+  padding: var(--sp-2);
+  border-block-start: 1px solid var(--hairline);
+  background: var(--surface);
+}
+
+/* ==========================================================================
+   KEYBOARD + LEGEND SHEET
+   ========================================================================== */
+
+.ne-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-4);
+  background: color-mix(in srgb, var(--ink-1) 42%, transparent);
+}
+.ne-sheet .ne-sheet-b {
+  inline-size: min(30rem, 100%);
+  max-block-size: 86svh;
+  overflow-y: auto;
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  box-shadow: var(--elev-3);
+}
+.ne-sheet-b header { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+.ne-sheet-b h2 { font-size: var(--t-h2); font-weight: 700; color: var(--ink-1); }
+.ne-sheet-k { display: grid; gap: 3px; }
+.ne-sheet-k > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 5px var(--sp-2);
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+}
+.ne-sheet-k dt { font-size: var(--t-xs); color: var(--ink-2); }
+.ne-sheet-k kbd {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: var(--r-xs);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  color: var(--ink-2);
+  direction: ltr;
+}
+
+.ne-legend { display: grid; gap: 6px; }
+.ne-legend li { display: flex; align-items: center; gap: 7px; font-size: var(--t-micro); color: var(--ink-3); }
+.ne-legend li i { inline-size: 22px; block-size: 2.5px; border-radius: 2px; background: var(--e); flex: none; }
+.ne-legend li[data-kind="unstated"] i { background: repeating-linear-gradient(to right, var(--e) 0 5px, transparent 5px 10px); }
+.ne-legend li.ne-lg-both i { background: linear-gradient(to left, var(--mod-pm), var(--mod-pppi)); }
+.ne-lg-pk, .ne-lg-fk { inline-size: 22px; block-size: 9px; flex: none; }
+.ne-lg-card {
+  flex: none;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  color: var(--ink-1);
+}
+.ne-legend li.ne-legend-k { align-items: flex-start; line-height: var(--lh-he); }
+.ne-lg-pk { background: var(--ink-3); border-radius: 2px; }
+.ne-lg-fk { border-inline-end: 2px solid var(--ink-3); border-block-end: 2px solid var(--ink-3); }
+
+/* ==========================================================================
+   PANEL DEPTH — the parts the 13-module model added
+   ========================================================================== */
+
+.ne-det-h small { grid-column: 1 / -1; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
+.ne-det-modgo {
+  min-block-size: 1.6rem !important;
+  padding-inline: 4px !important;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: var(--t-xs);
+  font-weight: 700;
+  color: var(--ink-1) !important;
+  justify-self: start;
+}
+
+/* A field list is reference material: it is set at --t-xs and never smaller,
+   and the moment it needs more room it hands off to the full card. */
+.ne-fields { inline-size: 100%; border-collapse: collapse; font-size: var(--t-xs); }
+.ne-fields th {
+  text-align: start;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-3);
+  padding: 4px var(--sp-2);
+  border-block-end: 1px solid var(--hairline);
+}
+.ne-fields td {
+  padding: 5px var(--sp-2);
+  border-block-end: 1px solid var(--hairline);
+  color: var(--ink-2);
+  vertical-align: top;
+}
+.ne-fields tr:last-child td { border-block-end: 0; }
+.ne-fields td:first-child {
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  color: var(--ink-1);
+  font-weight: 650;
+  white-space: nowrap;
+}
+.ne-fields td:last-child { inline-size: 1%; white-space: nowrap; }
+.ne-fields tr[data-k="PK"] td:first-child { color: var(--ink-1); }
+.ne-fields em { display: block; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
+.ne-fields .nu-chip[data-k="PK"] {
+  border-color: var(--o);
+  background: color-mix(in srgb, var(--o) 14%, var(--surface-2));
+  font-weight: 750;
+}
+.ne-fields .nu-chip[data-k="FK"] { border-style: dashed; }
+.ne-more { min-block-size: 2rem !important; font-size: var(--t-micro); justify-self: start; }
+
+.ne-s4 { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); }
+.ne-s4-alt { font-size: var(--t-micro); color: var(--ink-3); margin-block-start: 4px; }
+.ne-s4-alt b { font-family: var(--font-mono); direction: ltr; color: var(--ink-2); }
+
+.ne-flow { display: grid; gap: 4px; counter-reset: nef; }
+.ne-flow li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: var(--sp-2);
+  padding: 5px var(--sp-2);
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  font-size: var(--t-xs);
+}
+.ne-flow li b { color: var(--ink-1); font-weight: 650; }
+.ne-flow li em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
+
+.ne-modlist { display: grid; gap: 1px; }
+
+/* ==========================================================================
+   THE FULL TABLE CARD — "הרחב לקריאה", and the destination for a table with
+   no generated object page. Body-size type, three columns, one scroll.
+   ========================================================================== */
+
+.ne-card2 {
+  inline-size: min(72rem, 100%);
+  max-block-size: 88svh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: 0;
+  overflow: hidden;
+  box-shadow: var(--elev-4);
+}
+.ne-c2-h { position: relative; display: grid; gap: 6px; padding: var(--sp-5) var(--sp-6); border-block-end: 1px solid var(--hairline); }
+.ne-c2-bar {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 4px;
+  background: var(--m);
+}
+.ne-c2-id { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.ne-c2-id b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-h1); font-weight: 700; color: var(--ink-1); }
+.ne-c2-h > p { font-size: var(--t-body); line-height: var(--lh-he); color: var(--ink-2); }
+.ne-c2-h > small { font-size: var(--t-xs); color: var(--ink-3); direction: ltr; }
+.ne-c2-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin-block-start: var(--sp-2); }
+.ne-c2-nopage { font-size: var(--t-xs); color: var(--ink-3); }
+.ne-c2-x { margin-inline-start: auto; inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); padding-inline: 0 !important; }
+
+.ne-c2-body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-5) var(--sp-6);
+  padding: var(--sp-5) var(--sp-6);
+  align-content: start;
+}
+.ne-c2-body > section { display: grid; gap: var(--sp-2); align-content: start; min-inline-size: 0; }
+.ne-c2-body h3 {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-3);
+  margin-block-start: var(--sp-2);
+}
+.ne-c2-body > section > h3:first-child { margin-block-start: 0; }
+.ne-fields-big { font-size: var(--t-sm); }
+.ne-fields-big td { padding: 6px var(--sp-2); }
+
+@container ne (max-width: 900px) {
+  .ne-c2-body { grid-template-columns: 1fr; }
+  .ne-card2 { inline-size: 100%; max-block-size: 92svh; }
+}
+@media (max-width: 900px) {
+  .ne-c2-body { grid-template-columns: 1fr; }
+  .ne-card2 { inline-size: 100%; max-block-size: 92svh; }
+}
+
+/* ==========================================================================
+   NARROW · the workspace becomes a scrolling page with a bounded stage
+   ========================================================================== */
+
+@container ne (max-width: 900px) {
+  /* NOTE: a container query cannot style its own container, so the .ne rules
+     that used to sit here never applied. They are in the viewport media query
+     below instead, which is the only place that can reach .ne itself. */
+  .ne-body { grid-template-columns: minmax(0, 1fr); }
+  .ne-stage { block-size: 58svh; min-block-size: 20rem; }
+  .ne-insp {
+    grid-template-rows: auto auto;
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--hairline);
+  }
+  .ne-list { max-block-size: 16rem; }
+  .ne-detail { overflow: visible; }
+  .ne-mini { inline-size: 9rem; }
+  .ne-keys, .ne-det-n { grid-template-columns: 1fr; }
+  .ne-det-n { grid-template-columns: repeat(3, 1fr); }
+  .ne-bar, .ne-filters { padding-inline: var(--sp-3); }
+  .ne-bar-id { flex-basis: 100%; margin-inline-end: 0; }
+  .ne-find-top { inline-size: 100%; }
+  .ne-hint { display: none; }
+  .ne-filters { gap: var(--sp-2) var(--sp-3); }
+  /* The disclosure panels take the whole bar width once the bar is narrower
+     than a comfortable panel. */
+  .ne-pop-p, .ne-pop-p[data-wide="1"] {
+    inline-size: calc(100cqi - 2 * var(--sp-3));
+    inset-inline: var(--sp-3) auto;
+  }
+  /* 44px stays 44px whether or not the browser reports a coarse pointer. */
+  .ne-group .nu-ghost { inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); }
+  .ne-flens { flex-basis: 100%; }
+}
+
+/* ==========================================================================
+   PHONE · the open card is the surface, and getting back out is one tap
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  /* The stage grows: an opened table is a card with a field list in it, and it
+     has to be read without pinching. */
+  .ne-stage { block-size: 66svh; min-block-size: 24rem; }
+  /* The minimap and the open bar cannot share the same corner on a 390px
+     screen, and the open card is the thing being read. */
+  .ne[data-opencard="1"] .ne-mini { display: none; }
+  .ne-mini { inline-size: 7.5rem; }
+  .ne-openbar {
+    inset-inline: 6px;
+    padding: 6px 8px;
+    border-radius: var(--r-md);
+    gap: 6px;
+  }
+  .ne-openbar-id em { max-inline-size: 8rem; }
+  .ne-openbar-lens { display: none; }
+  .ne-openbar-back {
+    inline-size: 100%;
+    margin-inline-start: 0;
+    justify-content: center;
+    /* 44px, unconditionally. The pointer:coarse query is not reliable in every
+       emulation and this is the one control that has to be hittable. */
+    min-block-size: var(--c-tap, 2.75rem);
+  }
+  .ne-openbar .nu-ghost { inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); }
+  .ne-hint { display: none; }
+  /* The control block is a stack of eight groups on a 390px screen and it was
+     pushing the canvas below the fold. Tighter rhythm, same controls, nothing
+     removed. */
+  .ne-filters { gap: 6px 8px; padding-block: 8px; }
+  .ne-bar { padding-block: 8px; }
+  .ne-fgrp { gap: 6px; }
+}
+
+/* The canvas must scroll again once the workspace is a page rather than an
+   instrument. Mirrors the container query above at its viewport equivalent —
+   a container query cannot style an ancestor. */
+@media (max-width: 1100px) {
+  html .nx-app .nx-canvas:has(> .ne) { overflow: auto; }
+  /* The container query above cannot reach .ne itself — these two declarations
+     are the ones it was trying to make, at the viewport equivalent of its
+     900px breakpoint plus the shell's rail. */
+  .ne { grid-template-rows: auto auto auto auto; block-size: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ne *,
+  .ne *::before,
+  .ne *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .ne-pulse { display: none; }
+}
+
+/* ==========================================================================
+   MODULE PALETTE — THE OLD ERD'S, VERBATIM
+   --------------------------------------------------------------------------
+   Read out of public/sap-infrastructure/dataset.json, which is the palette the
+   production Architecture Studio itself consumes. Not guessed, not re-derived,
+   not "inspired by". A reader who knows the old graph recognises PM as orange
+   and PP-PI as violet, and that recognition is the entire purpose of module
+   colour on a technical graph.
+
+   Scoped to the ERD. Home and the module workspaces keep the art-directed
+   --mod-* palette; only this surface reverts to production identity.
+   ========================================================================== */
+.ne {
+  --erd-mod-mm:    #2f81f7;
+  --erd-mod-pp:    #9b5de5;
+  --erd-mod-pppi:  #6d28d9;
+  --erd-mod-pm:    #f97316;
+  --erd-mod-cs:    #14b8a6;
+  --erd-mod-sd:    #22c55e;
+  --erd-mod-fi:    #ef4444;
+  --erd-mod-co:    #991b1b;
+  --erd-mod-qm:    #eab308;
+  --erd-mod-idoc:  #94a3b8;
+  --erd-mod-batch: #a16207;
+  --erd-mod-class: #0891b2;
+  --erd-mod-pipo:  #7dd3fc;
+  --erd-mod-hr:    #0d9488;
+  --erd-mod-bw:    #4f46e5;
+  /* The cross-module join, verbatim from the production graph. */
+  --erd-cross:     #7c3aed;
+}
+/* On the warm dark ground the production hues are tuned for white; lift the
+   darkest two so CO and FI keep their identity instead of going to mud. */
+html[data-theme="dark"] .ne {
+  --erd-mod-co: #dc4c4c;
+  --erd-mod-fi: #f87171;
+  --erd-mod-batch: #d09a3c;
+}
+
+/* THE TOP ACCENT — the production ERD's module band.
+   Module identity used to be a 4px line on one edge of the card, which
+   disappears at the zoom levels this graph is actually read at. The old graph
+   runs the module colour across the whole head of the node, and that is what
+   lets a reader name the module before reading its label. */
+.ne-node-top { fill: var(--ms); }
+.ne-node[data-off="1"] .ne-node-top,
+.ne-node[data-lvl="x"] .ne-node-top { fill-opacity: .55; }
+
+/* S/4HANA badge. Only drawn where the dataset holds a statement. */
+/* Risk carries the colour, matching RISK_COLOR in lib/s4.ts. A badge that is
+   one flat amber whether the table is high or medium risk is a badge that has
+   stopped saying anything. */
+.ne-node-s4 rect { fill: #d97706; }
+.ne-node-s4[data-risk="high"] rect { fill: #dc2626; }
+.ne-node-s4 text {
+  font-family: var(--font-mono);
+  font-size: 8px; font-weight: 800;
+  fill: #451a03;
+}
+
+/* The click affordance, quiet until the pointer is on the node. */
+.ne-node-hint {
+  font-size: 9px; font-weight: 700;
+  fill: var(--ink-3);
+  opacity: 0;
+  transition: opacity 160ms var(--ease-out-expo);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ne-node:hover .ne-node-hint { opacity: .85; }
+}
+@media (prefers-reduced-motion: reduce) { .ne-node-hint { transition: none; } }
+
+/* ------------------------------------------- comparing several modules
+
+   ADD-TO-COMPARISON. A module row already has one unambiguous act — open this
+   module — so comparison is a second, quieter target beside it rather than a
+   different click on the same row. */
+.ne-pop-l li { display: flex; align-items: center; gap: var(--sp-1); }
+.ne-pop-l li > .ne-row { flex: 1 1 auto; min-inline-size: 0; }
+.ne-row-add {
+  flex: 0 0 auto;
+  inline-size: 2rem;
+  block-size: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.ne-row-add[aria-pressed="true"] {
+  color: color-mix(in srgb, var(--ms, var(--brand)) 88%, var(--ink-1));
+  background: color-mix(in srgb, var(--ms, var(--brand)) 14%, var(--surface-2));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ms, var(--brand)) 44%, var(--hairline));
+}
+
+/* THE JOIN BETWEEN LANES. With two modules on screen the edges worth finding
+   are the ones that cross between them, which is exactly what the production
+   graph says with its violet. Written on the PATH, not on the group: the group
+   carries `--e` as an inline style and an inline custom property would win
+   over a stylesheet rule. */
+.ne-edge[data-cross="1"] .ne-edge-p {
+  stroke: var(--erd-cross);
+  opacity: .78;
+}
+.ne-edge[data-cross="1"] .ne-edge-cap { fill: var(--erd-cross); stroke: var(--erd-cross); }

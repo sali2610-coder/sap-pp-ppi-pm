@@ -1,0 +1,410 @@
+// Project NEO · NEO ERD — graph geometry + neighbourhood maths.
+//
+// PURE. No React, no DOM, no data import. Everything here takes the build-time
+// payload (components/neo-shell/erd/erd-data.ts) and answers geometry questions
+// about it, so the workspace component owns interaction and nothing else.
+//
+// WHERE THIS COMES FROM
+//   The border-intersection helper and the alternating bow are the SAME maths
+//   components/neo-shell/erd/model.ts runs at build time (dagre coordinates ->
+//   chord + quadratic control point). They are restated here because the focus
+//   layout below produces NEW positions in the browser and its edges have to be
+//   drawn by the identical rule — two different curve rules on one canvas would
+//   read as two different diagrams.
+//
+// DETERMINISM IS THE POINT (§15)
+//   Every list is sorted before it is placed. The focus layout is a pure
+//   function of (selected table, depth, the payload) — the same selection always
+//   produces the same picture, so nothing re-shuffles when you hover, filter or
+//   pan. There is no physics, no randomness, no simulation tick.
+
+/** The only shapes this file needs. Declared structurally rather than imported
+ *  from ./erd-types so the geometry layer stays free of the payload: it answers
+ *  questions about ids and points, and nothing about SAP. */
+export interface GEdge {
+  i: string;
+  p: string;
+  c: string;
+}
+export interface GPos {
+  n: string;
+  x: number;
+  y: number;
+}
+
+export interface Pt {
+  x: number;
+  y: number;
+}
+
+/** A quadratic chord between two node borders. */
+export interface EdgeGeom {
+  x1: number;
+  y1: number;
+  cx: number;
+  cy: number;
+  x2: number;
+  y2: number;
+}
+
+export type PosMap = Map<string, Pt>;
+export type GeomMap = Map<string, EdgeGeom>;
+
+/* ------------------------------------------------------------ neighbourhood */
+
+/** Undirected adjacency over the modelled relation set. */
+export function adjacency(edges: GEdge[]): Map<string, Set<string>> {
+  const adj = new Map<string, Set<string>>();
+  const add = (a: string, b: string) => {
+    const s = adj.get(a) || new Set<string>();
+    s.add(b);
+    adj.set(a, s);
+  };
+  for (const e of edges) {
+    add(e.p, e.c);
+    add(e.c, e.p);
+  }
+  return adj;
+}
+
+export interface Levels {
+  /** Directly linked tables. */
+  l1: Set<string>;
+  /** Linked to a directly linked table, and not already closer. */
+  l2: Set<string>;
+}
+
+export function neighbourLevels(sel: string | null, adj: Map<string, Set<string>>): Levels {
+  const l1 = new Set<string>();
+  const l2 = new Set<string>();
+  if (!sel) return { l1, l2 };
+  for (const a of adj.get(sel) || []) l1.add(a);
+  for (const a of l1) {
+    for (const b of adj.get(a) || []) {
+      if (b === sel || l1.has(b)) continue;
+      l2.add(b);
+    }
+  }
+  return { l1, l2 };
+}
+
+/* ------------------------------------------------------ directed reachability
+
+   PORTED from the production Architecture Explorer's `trace` helper
+   (app/sap-infrastructure/page.tsx, read-only), which is the engine behind its
+   Dependency / Lineage / Impact modes.
+
+   The direction is NOT an inference. Every edge is already stored as
+   parent → child because the dataset wrote the relation with a `role`, so
+   "upstream" is that same arrow followed backwards and "downstream" is it
+   followed forwards. Iterative rather than recursive: a dictionary with a
+   relation cycle in it must not blow the stack, and this graph has cycles. */
+
+export type Dir = "up" | "down" | "both";
+
+export function reach(sel: string, edges: GEdge[], dir: Dir): Set<string> {
+  const up = new Map<string, string[]>();
+  const down = new Map<string, string[]>();
+  for (const e of edges) {
+    (down.get(e.p) ?? down.set(e.p, []).get(e.p)!).push(e.c);
+    (up.get(e.c) ?? up.set(e.c, []).get(e.c)!).push(e.p);
+  }
+  const out = new Set<string>([sel]);
+  const walk = (m: Map<string, string[]>) => {
+    const stack = [sel];
+    const seen = new Set<string>([sel]);
+    while (stack.length) {
+      const n = stack.pop()!;
+      for (const nx of m.get(n) || []) {
+        if (seen.has(nx)) continue;
+        seen.add(nx);
+        out.add(nx);
+        stack.push(nx);
+      }
+    }
+  };
+  if (dir !== "down") walk(up);
+  if (dir !== "up") walk(down);
+  return out;
+}
+
+/* ---------------------------------------------------------------- geometry */
+
+/** Intersection of the A->B segment with the axis-aligned box centred on A.
+ *  Identical to model.ts `border` — a line always ends on a border, never under
+ *  a card. */
+export function border(ax: number, ay: number, bx: number, by: number, w: number, h: number): Pt {
+  const dx = bx - ax;
+  const dy = by - ay;
+  if (dx === 0 && dy === 0) return { x: ax, y: ay };
+  const sx = dx === 0 ? Infinity : w / 2 / Math.abs(dx);
+  const sy = dy === 0 ? Infinity : h / 2 / Math.abs(dy);
+  const s = Math.min(sx, sy);
+  return { x: ax + dx * s, y: ay + dy * s };
+}
+
+/** SQUEEZE A FILTERED LAYOUT BACK TOGETHER.
+ *
+ *  The union solve places every table in scope, so a picture that keeps only
+ *  two modules' worth of it inherits the whole canvas — roughly eleven thousand
+ *  pixels of mostly empty space, which fits to about 14% and is unreadable.
+ *
+ *  So the filtered set is re-packed. Both axes are rewritten by ORDER, not by
+ *  distance: the distinct x values become successive ranks and the distinct y
+ *  values successive rows. That throws away the empty gaps while keeping the
+ *  only two things the layout was actually asserting — which table is
+ *  downstream of which (left to right, from dagre's ranking) and the vertical
+ *  order inside a rank. Deterministic, no layout engine, same answer every
+ *  render.
+ *
+ *  In rankdir "LR" dagre gives every node on one rank the SAME x, so the x
+ *  buckets are real ranks rather than an artefact of rounding. */
+export function compact(
+  pts: { n: string; x: number; y: number }[],
+  nw: number,
+  nh: number,
+  gapX: number,
+  gapY: number,
+): { pos: { n: string; x: number; y: number }[]; w: number; h: number } {
+  if (!pts.length) return { pos: [], w: 1200, h: 720 };
+  const M = 70;
+  const stepX = nw + gapX;
+  const stepY = nh + gapY;
+  const xs = [...new Set(pts.map((p) => p.x))].sort((a, b) => a - b);
+  const xi = new Map(xs.map((v, i) => [v, i]));
+
+  // The row index is counted WITHIN a rank, not across the whole picture.
+  // Counting globally gives every table its own row — 26 tables become a
+  // 26-row ribbon that fits to about 21% on a wide screen. Counted per rank,
+  // the height is the busiest column instead of the total, which is the shape
+  // dagre itself produces and what makes the picture land near 16:9.
+  const byRank = new Map<number, { n: string; y: number }[]>();
+  for (const p of pts) {
+    const k = xi.get(p.x) ?? 0;
+    (byRank.get(k) ?? byRank.set(k, []).get(k)!).push({ n: p.n, y: p.y });
+  }
+  const row = new Map<string, number>();
+  let tallest = 1;
+  for (const [, list] of byRank) {
+    // Sorted by the solved y, so the crossing-minimised order dagre found
+    // inside the rank survives the squeeze. Name breaks ties so the result is
+    // identical on the server and the client.
+    list.sort((a, b) => a.y - b.y || a.n.localeCompare(b.n));
+    list.forEach((it, i) => row.set(it.n, i));
+    tallest = Math.max(tallest, list.length);
+  }
+  return {
+    pos: pts.map((p) => ({
+      n: p.n,
+      x: M + (xi.get(p.x) ?? 0) * stepX,
+      y: M + (row.get(p.n) ?? 0) * stepY,
+    })),
+    w: M * 2 + Math.max(0, xs.length - 1) * stepX + nw,
+    h: M * 2 + Math.max(0, tallest - 1) * stepY + nh,
+  };
+}
+
+/** The canonical build-time positions, as a map. */
+export function mapPositions(nodes: GPos[]): PosMap {
+  return new Map(nodes.map((n) => [n.n, { x: n.x, y: n.y }]));
+}
+
+/** Chord + gentle bow for one pair of positions. `bow` separates edges that
+ *  would otherwise overprint; it alternates side and grows in steps, exactly as
+ *  the build-time layout does. */
+export function chord(a: Pt, b: Pt, aw: number, ah: number, bw: number, bh: number, bow: number): EdgeGeom {
+  // Manhattan routing, ported from the production Architecture Studio. The
+  // layout is rankdir "LR", so an edge leaves the SIDE of its parent and
+  // arrives at the SIDE of its child, and the vertical travel happens in the
+  // gap between two ranks where no node column sits.
+  //
+  // Leaving from the side rather than from the chord's intersection with the
+  // rectangle is the whole reason the old graph reads as a schematic: every
+  // line starts and ends horizontally, so the eye follows a rail instead of a
+  // spray of diagonals leaving a box at arbitrary angles.
+  const fwd = a.x <= b.x;
+  const x1 = fwd ? a.x + aw / 2 : a.x - aw / 2;
+  const x2 = fwd ? b.x - bw / 2 : b.x + bw / 2;
+  // `bow` keeps its old job — separating edges that would otherwise print on
+  // top of each other — but it now displaces the VERTICAL RUN sideways instead
+  // of bending a curve, which is what keeps parallel rails apart.
+  return {
+    x1: Math.round(x1),
+    y1: Math.round(a.y),
+    x2: Math.round(x2),
+    y2: Math.round(b.y),
+    cx: Math.round((x1 + x2) / 2 + bow),
+    cy: Math.round((a.y + b.y) / 2),
+  };
+}
+
+/** The elbow. `cx` is the x of the vertical run, `cy` the midpoint the
+ *  cardinality chip hangs on. Corner radius follows production's 12, clamped to
+ *  the space actually available: without the clamp a short vertical hop, or a
+ *  vertical run sitting close to a node, makes the two arcs overshoot each
+ *  other and the elbow renders as a kink. */
+export const pathD = (g: EdgeGeom) => {
+  if (Math.abs(g.y1 - g.y2) < 2) return `M${g.x1} ${g.y1} L${g.x2} ${g.y2}`;
+  const r = Math.max(
+    0,
+    Math.min(12, Math.abs(g.y2 - g.y1) / 2, Math.abs(g.cx - g.x1), Math.abs(g.x2 - g.cx)),
+  );
+  const hOut = g.cx > g.x1 ? 1 : -1;
+  const hIn = g.x2 > g.cx ? 1 : -1;
+  const vd = g.y2 > g.y1 ? 1 : -1;
+  return (
+    `M${g.x1} ${g.y1} L${g.cx - r * hOut} ${g.y1}` +
+    ` Q${g.cx} ${g.y1} ${g.cx} ${g.y1 + r * vd}` +
+    ` L${g.cx} ${g.y2 - r * vd}` +
+    ` Q${g.cx} ${g.y2} ${g.cx + r * hIn} ${g.y2}` +
+    ` L${g.x2} ${g.y2}`
+  );
+};
+
+/** Placement for the crow's-foot / key marker at one end of an edge. Local +x
+ *  points from the node border INTO the edge, so a marker drawn once in local
+ *  space is correct at both ends of every edge.
+ *
+ *  With Manhattan routing both ends are horizontal, so the marker is flat: it
+ *  faces the vertical run and never an arbitrary diagonal. */
+export function capTransform(g: EdgeGeom, end: "p" | "c"): string {
+  const x = end === "p" ? g.x1 : g.x2;
+  const y = end === "p" ? g.y1 : g.y2;
+  return `translate(${x} ${y}) rotate(${g.cx > x ? 0 : 180})`;
+}
+
+/* ------------------------------------------------------------ focus layout */
+
+/** The ego view: the selected table at the centre of its own neighbourhood,
+ *  direct links on the inner ring, second-level links on the outer one.
+ *
+ *  Centred on the selected table's OWN map position rather than on the middle of
+ *  the canvas — the picture reorganises around where you already were, so the
+ *  camera barely has to move and the change stays legible (§15: alive, but
+ *  predictable). Tables outside the neighbourhood keep their map position and
+ *  are faded out by the workspace; they never get thrown somewhere new. */
+export function egoPositions(
+  sel: string,
+  l1: Set<string>,
+  l2: Set<string>,
+  depth: 1 | 2,
+  base: PosMap,
+  /** Extra clearance for a centre that is currently OPEN and therefore much
+   *  taller than a collapsed card. Without it the first ring would be drawn
+   *  underneath the card the reader just opened. */
+  gap = 0,
+): PosMap {
+  const out = new Map(base);
+  const centre = base.get(sel);
+  if (!centre) return out;
+  out.set(sel, { ...centre });
+
+  const ring1 = [...l1].sort((a, b) => a.localeCompare(b));
+  const r1 = Math.min(430, Math.max(210, 150 + ring1.length * 13)) + gap;
+  ring1.forEach((n, i) => {
+    const a = (-Math.PI / 2) + (i * 2 * Math.PI) / Math.max(1, ring1.length);
+    out.set(n, { x: Math.round(centre.x + Math.cos(a) * r1 * 1.35), y: Math.round(centre.y + Math.sin(a) * r1) });
+  });
+
+  if (depth === 2 && l2.size) {
+    // Second ring, ordered by the inner-ring table it hangs off, so the two
+    // rings line up instead of crossing.
+    const ring2 = [...l2].sort((a, b) => a.localeCompare(b));
+    const r2 = r1 + Math.min(420, Math.max(190, 130 + ring2.length * 5));
+    ring2.forEach((n, i) => {
+      const a = (-Math.PI / 2) + (i * 2 * Math.PI) / Math.max(1, ring2.length);
+      out.set(n, { x: Math.round(centre.x + Math.cos(a) * r2 * 1.35), y: Math.round(centre.y + Math.sin(a) * r2) });
+    });
+  }
+  return out;
+}
+
+/** Edge geometry for an arbitrary position map. Parallel edges between the same
+ *  neighbourhood get the alternating bow so they stay individually readable. */
+export function computeGeom(pos: PosMap, size: Map<string, { w: number; h: number }>, edges: GEdge[]): GeomMap {
+  const seen = new Map<string, number>();
+  const out: GeomMap = new Map();
+  for (const e of edges) {
+    const a = pos.get(e.p);
+    const b = pos.get(e.c);
+    const sa = size.get(e.p);
+    const sb = size.get(e.c);
+    if (!a || !b || !sa || !sb) continue;
+    const key = `${Math.round((a.y + b.y) / 40)}:${Math.round((a.x + b.x) / 40)}`;
+    const i = seen.get(key) ?? 0;
+    seen.set(key, i + 1);
+    const len = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+    const bow = (i % 2 === 0 ? 1 : -1) * Math.min(26, len * 0.07) * (1 + Math.floor(i / 2) * 0.6);
+    out.set(e.i, chord(a, b, sa.w, sa.h, sb.w, sb.h, bow));
+  }
+  return out;
+}
+
+/* ------------------------------------------------------------------ camera */
+
+export interface View {
+  x: number;
+  y: number;
+  k: number;
+}
+
+export const MIN_K = 0.14;
+export const MAX_K = 2.6;
+export const clampK = (k: number) => Math.min(MAX_K, Math.max(MIN_K, Number.isFinite(k) && k > 0 ? k : 1));
+
+/** Tight bounding box of the node region for a position map. */
+export function bboxOf(pos: PosMap, size: Map<string, { w: number; h: number }>, only?: Set<string>) {
+  let a = Infinity;
+  let b = Infinity;
+  let c = -Infinity;
+  let d = -Infinity;
+  for (const [n, p] of pos) {
+    if (only && !only.has(n)) continue;
+    const s = size.get(n) || { w: 152, h: 54 };
+    a = Math.min(a, p.x - s.w / 2);
+    b = Math.min(b, p.y - s.h / 2);
+    c = Math.max(c, p.x + s.w / 2);
+    d = Math.max(d, p.y + s.h / 2);
+  }
+  if (!Number.isFinite(a)) return { x: 0, y: 0, w: 1, h: 1 };
+  return { x: a, y: b, w: Math.max(1, c - a), h: Math.max(1, d - b) };
+}
+
+/** Bounds guard, ported verbatim in spirit from the Architecture Studio's
+ *  `clampTr`: at least a margin of the NODE region stays inside the viewport on
+ *  both axes, so no pan, zoom, minimap jump or focus move can ever leave the
+ *  user staring at an empty canvas. */
+export function clampView(
+  v: View,
+  bbox: { x: number; y: number; w: number; h: number },
+  W: number,
+  H: number,
+): View {
+  const k = clampK(v.k);
+  const left = bbox.x * k;
+  const right = (bbox.x + bbox.w) * k;
+  const top = bbox.y * k;
+  const bot = (bbox.y + bbox.h) * k;
+  const mx = Math.min(160, (right - left) * 0.6 + 1, W * 0.5);
+  const my = Math.min(160, (bot - top) * 0.6 + 1, H * 0.5);
+  const x = Math.min(W - mx - left, Math.max(mx - right, v.x));
+  const y = Math.min(H - my - top, Math.max(my - bot, v.y));
+  return { k, x: Number.isFinite(x) ? x : 0, y: Number.isFinite(y) ? y : 0 };
+}
+
+/** Cubic ease-out. One easing for every camera move and every layout tween.
+ *
+ *  The clamp is not decoration. A requestAnimationFrame callback is handed the
+ *  timestamp of the frame it belongs to, and that frame can have STARTED before
+ *  the performance.now() the tween recorded a moment earlier — so the first
+ *  step routinely arrives with a slightly negative progress. Cubed, a small
+ *  negative p becomes a large negative multiplier, the interpolated zoom goes
+ *  negative for one frame, and the browser logs "attribute width: A negative
+ *  value is not valid" from the minimap. Clamping p at the source fixes every
+ *  caller at once. */
+export const ease = (p: number) => {
+  const t = p < 0 ? 0 : p > 1 ? 1 : p;
+  return 1 - Math.pow(1 - t, 3);
+};
+
+export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;

@@ -10,6 +10,7 @@ import { CONSULTANT_NOTES } from "@/data/consultant-notes";
 import { DOMAINS } from "@/data/domains";
 import { DOMAIN_DETAIL } from "@/data/domain-detail";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
+import { s4ClassOf } from "@/lib/s4-class";
 
 // Bridge the stranded rich content: every domain with a hand-authored deep guide
 // (what/why/when/CBC-example/common-mistakes in data/domain-detail.ts) is mapped
@@ -159,20 +160,40 @@ export function bestPractices(m: SAPModuleData): { code: string; he: string; not
 }
 
 export type S4Row = { code: string; he: string; alt?: string; note?: string };
-export function eccS4(m: SAPModuleData): { kept: S4Row[]; replaced: S4Row[]; removed: S4Row[] } {
-  const kept: S4Row[] = [], replaced: S4Row[] = [], removed: S4Row[] = [];
+
+/**
+ * The module's tables bucketed by the blueprint's own S/4HANA verdict.
+ *
+ * The verdict comes from lib/s4-class.ts and NOT from `s4AltTable`. Deriving it
+ * from s4AltTable was a real defect: the PM sheet fills that column on 58/58
+ * rows and the PP-PI sheet on 0/68, so PP-PI reported "68 kept · 0 replaced"
+ * while its own S/4 column marks BUT000 as replaced by the mandatory Business
+ * Partner conversion. `alt` is still carried on the row — it is a useful
+ * successor hint — it simply no longer decides the verdict.
+ *
+ * `undecided` holds the rows whose note states no verdict. They are surfaced as
+ * a gap, never folded into `kept`.
+ */
+export function eccS4(m: SAPModuleData): {
+  kept: S4Row[]; changed: S4Row[]; replaced: S4Row[]; removed: S4Row[]; undecided: S4Row[];
+} {
+  const kept: S4Row[] = [], changed: S4Row[] = [], replaced: S4Row[] = [],
+    removed: S4Row[] = [], undecided: S4Row[] = [];
   for (const t of moduleTables(m)) {
     const alt = (t.s4AltTable || "").trim();
-    // "TABLE (זהה)" / "identical" / same-name means the table is UNCHANGED in
-    // S/4HANA, not replaced — bucket it as kept and drop the misleading arrow.
+    // "TABLE (זהה)" / "identical" / same-name is not a successor — drop the
+    // misleading arrow rather than render TABLE → TABLE.
     const base = alt.replace(/\s*\(.*?\)\s*/g, "").trim().toUpperCase();
     const identical = !!alt && (/(זהה|identical|unchanged|ללא שינוי|\(=\))/i.test(alt) || base === t.tableName.toUpperCase());
     const row: S4Row = { code: t.tableName, he: t.descriptionHe || "", alt: identical ? undefined : (alt || undefined), note: t.s4Note };
-    if (/הוסר|בוטל|removed|deprecat/i.test(t.s4Note || "")) removed.push(row);
-    else if (alt && !identical) replaced.push(row);
-    else kept.push(row);
+    const k = s4ClassOf(t);
+    if (k === null) undecided.push(row);
+    else if (k === 0) kept.push(row);
+    else if (k === 1) changed.push(row);
+    else if (k === 2) replaced.push(row);
+    else removed.push(row);
   }
-  return { kept, replaced, removed };
+  return { kept, changed, replaced, removed, undecided };
 }
 
 export function overviewStats(m: SAPModuleData) {

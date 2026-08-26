@@ -4,10 +4,22 @@ import { ArrowRight, ArrowLeft, GitBranch, TrendingUp, Terminal, Boxes, FileCode
 import { impactReport } from "@/lib/impact";
 import { RISK_HE, RISK_COLOR, TRUST_HE } from "@/lib/s4";
 import { pillInk } from "@/lib/pill-ink";
+import { objectHasPage } from "@/lib/route-exists";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const TIER = { high: { he: "השפעה גבוהה", c: "#dc2626" }, medium: { he: "השפעה בינונית", c: "#d97706" }, low: { he: "השפעה נמוכה", c: "#16a34a" } } as const;
-const objHref = (n: string) => `/object/${encodeURIComponent(n)}/`;
+/** GATED. `Chips link` renders whatever table name the impact report names, and
+ *  the report reads the blueprint's own relations — which include tables the
+ *  dictionary REFERENCES but does not DOCUMENT. EKKO is one: the PP-PI ER map
+ *  states `FROM EKKO JOIN BUT000 ON EKKO.LIFNR = BUT000.PARTNER`, so BUT000's
+ *  page names EKKO, and `/object/EKKO/` is not generated.
+ *
+ *  This surfaced the moment the 14 mis-parsed PP-PI relations were repaired: the
+ *  edge used to collapse into a self-loop and was dropped, so the link was never
+ *  emitted. The relation is real and stays; only the LINK is withheld.
+ *  `objectHasPage` reads lib/route-manifest.generated — the same string mirror
+ *  scripts/crawl-dead-links.mjs checks the built output against. */
+const objHref = (n: string) => (objectHasPage(n) ? `/object/${encodeURIComponent(n)}/` : null);
 
 function Sec({ icon, title, count, accent, children }: { icon: React.ReactNode; title: string; count?: number; accent: string; children: React.ReactNode }) {
   return (
@@ -20,9 +32,15 @@ function Sec({ icon, title, count, accent, children }: { icon: React.ReactNode; 
 function Chips({ items, link }: { items: string[]; link?: boolean }) {
   const uniq = [...new Set(items)];
   if (!uniq.length) return <span className="text-[11px] italic text-ink-3">—</span>;
-  return <div className="flex flex-wrap gap-1.5">{uniq.map((x) => link
-    ? <Link key={x} href={objHref(x)} className="tech rounded-md border border-hairline bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-brand transition hover:border-brand/40" dir="ltr">{x}</Link>
-    : <span key={x} className="tech rounded-md border border-hairline bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-2" dir="ltr">{x}</span>)}</div>;
+  return <div className="flex flex-wrap gap-1.5">{uniq.map((x) => {
+    const href = link ? objHref(x) : null;
+    // A table with no page is still SHOWN — it is real dictionary content. Only
+    // the destination is withheld, which keeps the dead-link gate green without
+    // dropping information.
+    return href
+      ? <Link key={x} href={href} className="tech rounded-md border border-hairline bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-brand transition hover:border-brand/40" dir="ltr">{x}</Link>
+      : <span key={x} className="tech rounded-md border border-hairline bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-2" dir="ltr">{x}</span>;
+  })}</div>;
 }
 
 export function ImpactCenter({ name }: { name: string }) {

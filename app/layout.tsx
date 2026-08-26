@@ -121,7 +121,17 @@ const JSON_LD = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" className="h-full antialiased">
+    // suppressHydrationWarning is scoped to THIS element's attributes and
+    // nothing else. The two scripts below deliberately write data-device and
+    // data-theme onto <html> before first paint, so the markup React hydrates
+    // against always carries attributes React did not render — a mismatch by
+    // design, and the price of not flashing the wrong shell or the wrong theme.
+    // React's own guidance for pre-paint attribute injection is to suppress it
+    // here rather than to move the decision after hydration, which would
+    // reintroduce the flash. The device logic itself is untouched: it stays
+    // desktop-first on purpose, because an 85-inch presentation display reports
+    // a small logical width and was being served the tablet shell.
+    <html lang="he" dir="rtl" className="h-full antialiased" suppressHydrationWarning>
       <head>
         {/* Device class, decided BEFORE first paint so the shell never flashes the
             wrong layout. Desktop-first: a desktop OS always gets the desktop UI,

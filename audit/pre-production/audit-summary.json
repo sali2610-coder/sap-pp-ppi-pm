@@ -1,0 +1,81 @@
+{
+ "verdict": "NO-GO",
+ "audit_only": true,
+ "app_modified": false,
+ "structural_fact": "one repo, one dataset; loss can only occur at the surfacing layer",
+ "checked": {
+  "routes": 153,
+  "tables": 105,
+  "fields": 517,
+  "relations": 126,
+  "objects": 186,
+  "transactions": 1849,
+  "books": 11,
+  "chapters": 135,
+  "sections": 4314,
+  "figures": 3855,
+  "bilingual_sections": 4043,
+  "orphan_data_modules": 32
+ },
+ "preserved": {
+  "bilingual_sections_both_langs": "4043/4043",
+  "english_lost": 0,
+  "chapters": "135/135",
+  "figures": "3855/3855",
+  "tables_with_neo_page": "105/105",
+  "erd_edges_rendered": "106/106",
+  "sections_net": "+3 (book7 ch12 recovered)"
+ },
+ "findings": {
+  "P0": 5,
+  "P1": 39,
+  "P2": 20,
+  "P3": 28
+ },
+ "p0": [
+  {
+   "id": "P0-1",
+   "area": "objects",
+   "detail": "81 of 186 object pages have no NEO page; 6 on no NEO surface at all (LAGP LQUA LTAK LTAP VEKP VEPO)"
+  },
+  {
+   "id": "P0-2",
+   "area": "domains",
+   "detail": "/domain/[slug] 39 pages have no NEO route"
+  },
+  {
+   "id": "P0-3",
+   "area": "s4",
+   "detail": "/migration-cockpit unreachable (24 objects, 56 ECC tables)"
+  },
+  {
+   "id": "P0-4",
+   "area": "s4",
+   "detail": "/s4hana and /s4-readiness unreachable (s4-objects 29, s4-architecture 8, s4-transformation 9+13+6)"
+  },
+  {
+   "id": "P0-5",
+   "area": "tables",
+   "detail": "data/table-enrichment.ts 125KB unreachable (ABAP/SQL/index/perf/debug for 94 tables)"
+  }
+ ],
+ "route_matrix": {
+  "MISSING": 58,
+  "TRANSFORMED": 28,
+  "MIGRATED": 21,
+  "INTENTIONALLY_REPLACED": 17,
+  "PARTIAL": 15,
+  "EXACT": 14
+ },
+ "orphan_neo_routes": [
+  "/neo/domain-model/"
+ ],
+ "false_positives_recorded": [
+  "book*-full.json / book*-figures.json (21.7MB) are the prebuild SOURCE for data/books/** and public/books/**; content verified identical"
+ ],
+ "escalate_to_human": [
+  "scripts/extract-xlsx.mjs corrupts 14 PP-PI relations (parent==child) - generator bug, predates NEO",
+  "MB1A: data/lifecycle.ts says removed in S/4HANA, NEO renders available/legacy - two datasets disagree on a validated SAP fact"
+ ],
+ "next": "awaiting authorisation to remediate; no merge, no production deploy"
+}

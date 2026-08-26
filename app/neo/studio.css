@@ -1,0 +1,203 @@
+/* ============================================================================
+   PROJECT NEO · ARCHITECTURE STUDIO
+   ----------------------------------------------------------------------------
+   A technical workstation, not a scene. The canvas takes the space; the chrome
+   is quiet and stays out of it. Motion is camera and dim only — the brief puts
+   this surface at the precision end of the hierarchy, so there is no scroll
+   choreography and no decoration here.
+
+   Node colour comes from lib/studio-graph (kind or S/4 verdict) and is applied
+   as an EDGE and a marker, never as a fill. Eight zones and seven object kinds
+   on one canvas would otherwise become a colour riot.
+   ========================================================================== */
+
+.nst {
+  --side: 13.5rem;
+  --ctx: 17rem;
+  display: flex; flex-direction: column;
+  block-size: calc(100dvh - 3.5rem);
+  min-block-size: 34rem;
+  background: var(--background);
+  color: var(--ink-1);
+}
+.nst[data-full="1"] { block-size: 100dvh; background: var(--background); }
+
+/* ------------------------------------------------------------------- top */
+
+.nst-top {
+  display: flex; align-items: center; gap: .8rem;
+  padding: .6rem clamp(.7rem, 2vw, 1.1rem);
+  border-block-end: 1px solid var(--hairline);
+  background: var(--surface);
+  flex: none;
+}
+.nst-h1 { margin: 0; font-size: 1rem; font-weight: 700; letter-spacing: -.015em; }
+.nst-sub { margin: 0; font-size: .72rem; color: var(--ink-3); }
+.nst-brand { flex: none; }
+
+.nst-search { position: relative; flex: 1 1 22rem; max-inline-size: 30rem; display: flex; align-items: center; gap: .45rem;
+  padding: .35rem .6rem; border-radius: .7rem; background: var(--surface-2); border: 1px solid var(--hairline); }
+.nst-search svg { color: var(--ink-3); flex: none; }
+.nst-search input { flex: 1 1 auto; min-inline-size: 0; border: 0; background: transparent; outline: none;
+  font: inherit; font-size: .85rem; color: var(--ink-1); }
+.nst-res { position: absolute; inset-inline: 0; inset-block-start: calc(100% + .3rem); z-index: 20;
+  list-style: none; margin: 0; padding: .25rem; border-radius: .7rem;
+  background: var(--surface); border: 1px solid var(--hairline); box-shadow: var(--elev-3); }
+.nst-res button { inline-size: 100%; display: flex; align-items: center; gap: .5rem; padding: .4rem .5rem;
+  border: 0; border-radius: .5rem; background: transparent; cursor: pointer; font: inherit; text-align: start; color: inherit; }
+.nst-res button:hover { background: var(--surface-2); }
+.nst-res b { font-size: .8rem; unicode-bidi: isolate; }
+.nst-res span { font-size: .75rem; color: var(--ink-3); flex: 1 1 auto; }
+.nst-res i { inline-size: 8px; block-size: 8px; border-radius: 2px; flex: none; }
+
+.nst-tools { display: flex; align-items: center; gap: .45rem; flex: none; margin-inline-start: auto; }
+/* Grouped, not one long row of identical buttons. */
+.nst-grp { display: inline-flex; align-items: center; gap: 1px; padding: 2px;
+  border-radius: .6rem; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); }
+.nst-grp button { inline-size: 32px; block-size: 30px; display: grid; place-items: center;
+  border: 0; border-radius: .45rem; background: transparent; color: var(--ink-2); cursor: pointer;
+  transition: background .15s ease, color .15s ease; }
+.nst-grp button:hover:not(:disabled) { background: var(--surface); color: var(--ink-1); }
+.nst-grp button:disabled { opacity: .38; cursor: default; }
+.nst-grp button:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
+.nst-k { min-inline-size: 3rem; text-align: center; font-size: .74rem; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+.nst-x { border: 0; background: transparent; color: var(--ink-3); cursor: pointer; display: grid; place-items: center; }
+
+/* ------------------------------------------------------------------ body */
+
+.nst-body { flex: 1 1 auto; display: grid; grid-template-columns: var(--side) minmax(0, 1fr) auto; min-block-size: 0; }
+
+.nst-side { overflow-y: auto; padding: .8rem .7rem; border-inline-end: 1px solid var(--hairline);
+  background: var(--surface); display: flex; flex-direction: column; gap: .5rem; }
+.nst-side-h { display: flex; align-items: center; gap: .3rem; margin: .6rem 0 .1rem;
+  font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+
+.nst-mods { display: flex; gap: .3rem; }
+.nst-mod { flex: 1 1 0; min-block-size: 32px; border-radius: .55rem; border: 1px solid var(--hairline);
+  background: var(--surface-2); color: var(--ink-2); font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer;
+  transition: background .16s ease, color .16s ease, border-color .16s ease; }
+.nst-mod[data-on="1"] { background: var(--brand); border-color: transparent; color: #fff; }
+
+.nst-modes, .nst-zones { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.nst-mode, .nst-zone {
+  inline-size: 100%; display: flex; align-items: center; gap: .4rem;
+  min-block-size: 32px; padding: .3rem .5rem; border: 0; border-radius: .5rem;
+  background: transparent; color: var(--ink-2); font: inherit; font-size: .82rem; text-align: start; cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.nst-mode:hover, .nst-zone:hover { background: var(--surface-2); color: var(--ink-1); }
+/* Selected is a fill. */
+.nst-mode[data-on="1"] { background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand); font-weight: 700;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand) 30%, transparent); }
+.nst-zone i { inline-size: 9px; block-size: 9px; border-radius: 2px; flex: none; opacity: .45; transition: opacity .15s ease; }
+.nst-zone[data-on="1"] { background: var(--surface-2); color: var(--ink-1); font-weight: 600; }
+.nst-zone[data-on="1"] i { opacity: 1; box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 18%, transparent); }
+
+/* ---------------------------------------------------------------- canvas */
+
+.nst-canvas {
+  position: relative; overflow: hidden; cursor: grab;
+  background:
+    radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--ink-3) 22%, transparent) 1px, transparent 0)
+    0 0 / 22px 22px,
+    var(--background);
+  touch-action: none;
+}
+.nst-canvas:active { cursor: grabbing; }
+/* THE CANVAS IS A COORDINATE SPACE, NOT TEXT, SO IT MUST NOT MIRROR.
+   The stage was anchored with `inset-inline-start`, which flips to the right
+   edge under RTL, while nodes are placed with the physical `left` that
+   layoutZoned/layoutSubset compute. The two disagreed and the graph rendered
+   partly outside its own canvas — measured: the first node landed at x=1033
+   with the canvas ending at 956, so it was clipped away and unclickable.
+   `direction: ltr` pins the space; the Hebrew label inside a node gets its
+   direction back below. */
+.nst-stage { position: absolute; top: 0; left: 0; direction: ltr; transform-origin: 0 0; will-change: transform; }
+@media (prefers-reduced-motion: no-preference) {
+  .nst-stage { transition: transform .42s cubic-bezier(.16, 1, .3, 1); }
+}
+.nst-edges { position: absolute; top: 0; left: 0; overflow: visible; pointer-events: none; }
+.nst-edge { fill: none; stroke: var(--ink-3); stroke-width: 1.4; stroke-opacity: .38; transition: stroke-opacity .22s ease, stroke .22s ease; }
+.nst-edge[data-lit="0"] { stroke-opacity: .08; }
+.nst-edge[data-lit="1"] { stroke: var(--brand); stroke-opacity: .8; stroke-width: 1.9; }
+
+.nst-node {
+  position: absolute; display: flex; flex-direction: column; justify-content: center; gap: 1px;
+  padding: .3rem .5rem; border-radius: .55rem; text-align: start; cursor: pointer;
+  background: var(--surface); color: var(--ink-1);
+  border: 1px solid var(--hairline);
+  /* Kind / verdict colour as an EDGE and a marker. Never a fill: seven kinds
+     and eight zones on one canvas would otherwise be a colour riot. */
+  border-inline-start: 3px solid var(--c);
+  box-shadow: var(--elev-1);
+  font: inherit; overflow: hidden;
+  transition: opacity .22s ease, box-shadow .18s ease, border-color .18s ease, transform .18s ease;
+}
+.nst-node b { font-size: .74rem; font-weight: 700; unicode-bidi: isolate; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nst-node span { direction: rtl; font-size: .64rem; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nst-node[data-tier="core"] b { font-size: .8rem; }
+.nst-node:hover { box-shadow: var(--elev-3); transform: translateY(-1px); }
+.nst-node:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+/* Selected: ring + lift. Neighbours stay full strength. */
+.nst-node[data-on="1"] {
+  box-shadow: var(--elev-3), 0 0 0 2px var(--c), 0 0 0 6px color-mix(in srgb, var(--c) 20%, transparent);
+  z-index: 3;
+}
+/* Unrelated DIM but remain visible — losing them destroys the reader's map. */
+.nst-node[data-dim="1"] { opacity: .26; }
+.nst-s4 { position: absolute; top: 4px; right: 4px; inline-size: 6px; block-size: 6px; border-radius: 50%; }
+
+.nst-empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--ink-3); font-size: .88rem; }
+
+/* --------------------------------------------------------------- context */
+
+.nst-ctx { inline-size: var(--ctx); overflow-y: auto; padding: .8rem .8rem 1.4rem;
+  border-inline-start: 1px solid var(--hairline); background: var(--surface); }
+.nst-ctx header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .5rem; }
+.nst-kind { font-size: .66rem; font-weight: 700; color: #fff; padding: .12rem .45rem; border-radius: 5px; }
+.nst-ctx-id { margin: 0; font-size: 1.15rem; font-weight: 700; unicode-bidi: isolate; letter-spacing: -.01em; }
+.nst-ctx-he { margin: .1rem 0 .7rem; font-size: .84rem; color: var(--ink-2); line-height: 1.5; }
+.nst-ctx-s4 { display: flex; align-items: center; gap: .4rem; margin: 0 0 .8rem; padding: .4rem .55rem;
+  border-radius: .5rem; font-size: .78rem; color: var(--ink-2);
+  background: color-mix(in srgb, var(--s4) 9%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--s4) 30%, transparent); }
+.nst-ctx-s4 i { inline-size: 7px; block-size: 7px; border-radius: 50%; background: var(--s4); flex: none; }
+.nst-ctx-s4 b { color: var(--ink-1); }
+.nst-ctx-none { margin: 0 0 .8rem; font-size: .76rem; color: var(--ink-3); font-style: italic; }
+.nst-ctx-h { margin: .6rem 0 .35rem; font-size: .7rem; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--ink-3); }
+.nst-rel { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.nst-rel button { inline-size: 100%; display: flex; align-items: center; gap: .4rem; padding: .32rem .4rem;
+  border: 0; border-radius: .45rem; background: transparent; cursor: pointer; font: inherit; text-align: start; color: inherit; }
+.nst-rel button:hover { background: var(--surface-2); }
+.nst-rel i { inline-size: 7px; block-size: 7px; border-radius: 2px; flex: none; }
+.nst-rel b { font-size: .75rem; unicode-bidi: isolate; }
+.nst-rel span { font-size: .7rem; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------------------------------------------------------------- legend */
+
+.nst-legend { display: flex; flex-wrap: wrap; gap: .7rem; flex: none;
+  padding: .45rem clamp(.7rem, 2vw, 1.1rem); border-block-start: 1px solid var(--hairline);
+  background: var(--surface); font-size: .7rem; color: var(--ink-3); }
+.nst-legend span { display: inline-flex; align-items: center; gap: .3rem; }
+.nst-legend i { inline-size: 8px; block-size: 8px; border-radius: 2px; }
+
+/* ---------------------------------------------------------------- mobile */
+
+@media (max-width: 900px) {
+  .nst { --side: 100%; block-size: auto; }
+  /* The canvas keeps a real height instead of collapsing; the side rail
+     becomes a horizontal strip above it and the context panel goes full width
+     underneath, so nothing overlaps the graph on a phone. */
+  .nst-body { grid-template-columns: 1fr; grid-template-rows: auto 62dvh auto; }
+  .nst-side { flex-direction: row; flex-wrap: wrap; gap: .35rem; border-inline-end: 0;
+    border-block-end: 1px solid var(--hairline); padding: .55rem .6rem; }
+  .nst-side-h { inline-size: 100%; margin: .2rem 0 0; }
+  .nst-modes, .nst-zones { display: flex; flex-wrap: wrap; gap: .3rem; }
+  .nst-mode, .nst-zone { inline-size: auto; padding-inline: .55rem; }
+  .nst-mods { inline-size: 100%; }
+  .nst-ctx { inline-size: 100%; border-inline-start: 0; border-block-start: 1px solid var(--hairline); }
+  .nst-top { flex-wrap: wrap; }
+  .nst-search { flex-basis: 100%; order: 3; }
+  .nst-tools { order: 2; }
+}

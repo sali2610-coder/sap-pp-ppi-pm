@@ -1,0 +1,1746 @@
+/* ============================================================================
+   PROJECT NEO · THE SIGNATURE HOME
+   ----------------------------------------------------------------------------
+   Imported by app/neo/page.tsx only. Every selector is anchored on .nh, which
+   exists on that one page, so nothing here can reach another route and not one
+   token in app/globals.css is redeclared: this file only CONSUMES them.
+
+   WHAT CHANGED, AND WHY
+
+     The previous Home made an animated 105-dot field the meaning of its hero
+     and drove it from a scroll listener plus two rAF loops. Both are gone.
+
+     The hero's meaning is now TYPE ON A GROUND. Behind the headline stands the
+     dictionary itself: all 105 real merged SAP table names, set in mono, in
+     three columns drifting at two different parallax depths. It is not readable
+     as prose and it is completely legible as a claim.
+
+     The page's progress is carried by the GROUND, not by a colour that walks a
+     variable. Six chapters, five scenes, declared in app/neo/ground.css:
+
+       01  deep    the gate. Warm dark in both themes, the one cinematic moment.
+       02  base    the working ground. Coverage, measured honestly.
+       03  cream   paper. A pinned map holds while three panels pass it.
+       04  pm      PM identity, carried by the ground.
+       05  pppi    PP-PI identity, carried by the ground.
+       06  deep    the close, bookending the gate.
+
+   THE ENGINEERING RULE THIS FILE OBEYS
+
+     Nothing here reads the scroll position. Every scrub, parallax, pin, stagger
+     and bar growth on this page is a class from app/neo/motion.css, i.e. a CSS
+     scroll-driven animation on the compositor:
+
+       .nm-rise .nm-fade     scrubbed reveal, tied to the element's own passage
+       .nm-seq               a list arrives as a cascade
+       .nm-par .nm-par-slow  two parallax depths
+       .nm-pin               the sticky map in 03
+       .nm-kin               kinetic headlines
+       .nm-grow              every metric bar
+       .nm-lift              pointer response, desktop only
+
+     This file adds ONE thing the engine cannot provide: a TIME-based entrance
+     for the gate. A scroll timeline has nothing to scrub at scroll position 0,
+     so an above-the-fold headline tied to view() is simply already finished.
+     The gate therefore runs its own load cascade, which is a page entrance
+     rather than a scroll animation and costs one compositor pass.
+
+   COLOUR FORM, per app/globals.css, unchanged:
+     MODULE  surface tint · ring · line · edge · section marker.  Never a dot.
+     STATUS  a small filled dot immediately followed by its word.  Nothing else.
+     OBJECT  the data itself — lattice dots, class markers, chain nodes.
+     BRAND   one global accent. Never a module, never a data category.
+   ========================================================================== */
+
+/* The shell's canvas is a padded, gapped grid for ordinary pages. Home is a
+   full-bleed environment, so it — and only it — takes the canvas over.
+   The selector is deliberately over-qualified: globals.css already sets canvas
+   padding at (0,2,1) for the phone shell, and a bare `.nx-canvas:has(> .nh)`
+   is (0,2,0) — it would lose on phones only, which is exactly the case a
+   full-bleed page must not get wrong. */
+html .nx-app .nx-canvas:has(> .nh) {
+  display: block;
+  padding: 0;
+  gap: 0;
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nx-canvas:has(> .nh) { scroll-behavior: auto; }
+}
+
+/* --------------------------------------------------------------------------
+   1. THE PAGE
+   Every breakpoint below is a CONTAINER query on this element, not a viewport
+   media query. The rail owns up to 22rem of the window, so a 768px window can
+   leave a 488px canvas: sizing the composition on the window would lay out a
+   desktop page inside a tablet-width column. The container is the truth.
+   -------------------------------------------------------------------------- */
+
+.nh {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  container-type: inline-size;
+  container-name: nh;
+  --nh-gut: clamp(1.25rem, 5cqi, 5rem);
+  --nh-max: 74rem;
+}
+
+/* --------------------------------------------------------------------------
+   2. SCROLL PROGRESS
+   `scroll()` resolves against the nearest scrollport, which on this shell is
+   .nx-canvas and never the window. Zero JS: this rail is the only thing on the
+   page that knows how far down you are, and it learns it from the compositor.
+   -------------------------------------------------------------------------- */
+
+.nh-prog {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 8;
+  block-size: 2px;
+  margin-block-end: -2px;
+  background: color-mix(in oklab, var(--ink-1) 8%, transparent);
+  pointer-events: none;
+}
+.nh-prog > i {
+  display: block;
+  block-size: 100%;
+  background: linear-gradient(to left, var(--mod-pm), var(--mod-pppi));
+  transform: scaleX(0);
+  transform-origin: inline-start center;
+}
+@keyframes nh-prog { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) {
+  .nh-prog > i {
+    animation: nh-prog linear both;
+    animation-timeline: scroll(nearest block);
+  }
+}
+@supports not (animation-timeline: scroll()) {
+  /* No timeline means no honest progress, and a rail frozen at 0 is a lie. It
+     becomes a static seam instead. */
+  .nh-prog > i { transform: scaleX(1); opacity: .35; }
+}
+
+/* --------------------------------------------------------------------------
+   3. THE CHAPTER INDEX
+   A sticky layer declared before the sections, because a sticky element sticks
+   from its own place in the flow. Selection is loud on purpose — ground, ink
+   and edge together — and never a hairline.
+   -------------------------------------------------------------------------- */
+
+.nh-index {
+  /* WAS A VERTICAL NUMBERED RAIL pinned to the side at 50svh. It read as a
+     developer's section list, ate horizontal space beside the content, and
+     made the reader decode "03" to find the map.
+
+     It is now a sticky horizontal navigator directly under the app header:
+     names first, section colour as the active state, the number kept only as
+     a quiet secondary mark. Sticky rather than fixed, so it never covers the
+     content it is navigating. */
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 7;
+  pointer-events: none;
+  container-type: inline-size;
+}
+.nh-index > div {
+  pointer-events: auto;
+  display: flex;
+  gap: var(--sp-1);
+  align-items: center;
+  padding: var(--sp-2) clamp(.5rem, 2cqi, 1.25rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  /* The bar belongs to the scene it is sitting over, so it tints with the
+     scene's own ground instead of staying one grey strip across eight
+     different colour worlds. */
+  background: color-mix(in oklab, var(--scene-ground, var(--background)) 82%, transparent);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border-block-end: 1px solid color-mix(in oklab, var(--scene-ink, var(--ink-1)) 12%, transparent);
+  transition: background var(--dur-slow) var(--ease-out-expo);
+}
+.nh-index > div::-webkit-scrollbar { display: none; }
+
+.nh-index a {
+  --sc: var(--brand);
+  display: inline-grid;
+  grid-auto-flow: column;
+  align-items: baseline;
+  gap: var(--sp-2);
+  flex: 0 0 auto;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--scene-ink-2, var(--ink-2));
+  font-size: var(--t-micro);
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background var(--dur-base) var(--ease-out-expo),
+    color var(--dur-base) var(--ease-out-expo),
+    box-shadow var(--dur-base) var(--ease-out-expo);
+}
+.nh-index-l { font-weight: 700; }
+/* The number is secondary now, and it says so. */
+.nh-index-n { opacity: .5; font-size: .72em; font-variant-numeric: tabular-nums; }
+/* The subject line only has room on a wide bar. */
+.nh-index-f { display: none; }
+@container (min-width: 62rem) {
+  .nh-index-f {
+    display: inline;
+    opacity: .62;
+    font-weight: 500;
+    font-size: .82em;
+  }
+}
+
+.nh-index a:hover { background: color-mix(in oklab, var(--sc) 14%, transparent); color: var(--scene-ink, var(--ink-1)); }
+.nh-index a:focus-visible { outline: 2px solid var(--sc); outline-offset: 2px; }
+
+/* ACTIVE. A filled surface in the section's own colour, not a hairline —
+   §2 of the brief: the current section has to be unmistakable. */
+.nh-index a[aria-current="true"] {
+  background: color-mix(in oklab, var(--sc) 88%, var(--scene-ground, #000));
+  color: #fff;
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--sc) 40%, transparent);
+}
+.nh-index a[aria-current="true"] .nh-index-n,
+.nh-index a[aria-current="true"] .nh-index-f { opacity: .78; color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nh-index a, .nh-index > div { transition: none; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nh-index a:hover { color: var(--scene-ink, var(--ink-1)); }
+}
+.nh-index a[aria-current="true"] {
+  color: var(--scene-ink, var(--ink-1));
+  background: color-mix(in oklab, var(--scene-ink, var(--ink-1)) 9%, transparent);
+  border-color: color-mix(in oklab, var(--scene-ink, var(--ink-1)) 18%, transparent);
+  font-weight: 750;
+}
+.nh-index > div:hover a[aria-current="true"] .nh-index-f,
+.nh-index > div:focus-within a[aria-current="true"] .nh-index-f { opacity: .7; block-size: auto; }
+.nh-index a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+/* --------------------------------------------------------------------------
+   4. SECTION SHELL
+   -------------------------------------------------------------------------- */
+
+/* A chapter is TWO elements, and it has to be.
+   ground.css declares base/pm/pppi as `--scene-raised: var(--surface)` while
+   .nm-scene declares `--surface: var(--scene-raised)`. On one element those two
+   custom properties reference each other; the cycle makes both invalid at
+   computed-value time and every raised surface and hairline inside that scene
+   silently loses its colour. So the SECTION names the scene (and is what the
+   scene observer in motion-provider.tsx watches) and its only child WEARS it.
+   The section resolves --scene-* against the shell tokens, the child rebinds
+   the product tokens from those, and the cycle cannot form. */
+.nh-sec { position: relative; }
+.nh-body {
+  position: relative;
+  padding-block: clamp(3.5rem, 7cqi, 6.5rem);
+  padding-inline: var(--nh-gut);
+}
+.nh-in {
+  position: relative;
+  z-index: 1;
+  inline-size: min(100%, var(--nh-max));
+  margin-inline: auto;
+}
+.nh-head { margin-block-end: clamp(2rem, 4cqi, 3.25rem); }
+
+/* --------------------------------------------------------------------------
+   5. TYPOGRAPHY AND SMALL PARTS
+   -------------------------------------------------------------------------- */
+
+/* A SAP identifier is Latin inside a Hebrew sentence and must never be
+   reordered by the bidi algorithm. */
+.nh-sap {
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+}
+
+.nh-eye {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  margin: 0 0 1rem;
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-eye > i {
+  inline-size: 1.75rem;
+  block-size: 1px;
+  background: currentColor;
+  opacity: .5;
+  flex: none;
+}
+.nh-eye--gate { color: color-mix(in oklab, var(--scene-accent) 62%, var(--scene-ink-2)); }
+
+.nh-mega {
+  margin: 0 0 1.5rem;
+  font-size: clamp(2.5rem, 8cqi, 6rem);
+  line-height: 1.02;
+  letter-spacing: -.025em;
+  font-weight: 800;
+  color: var(--scene-ink, var(--ink-1));
+  text-wrap: balance;
+}
+.nh-mega .nh-sap { font-size: .86em; letter-spacing: -.01em; }
+
+.nh-h2 {
+  margin: 0 0 1.1rem;
+  font-size: clamp(1.75rem, 4.4cqi, 3.1rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  font-weight: 780;
+  color: var(--scene-ink, var(--ink-1));
+  text-wrap: balance;
+}
+.nh-h3 {
+  display: grid;
+  gap: .3rem;
+  margin: 0 0 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 750;
+  color: var(--scene-ink, var(--ink-1));
+}
+.nh-h3 > em {
+  font-style: normal;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-dim { color: var(--scene-ink-3, var(--ink-3)); }
+.nh-accent { color: var(--scene-accent, var(--brand)); }
+
+.nh-lede {
+  margin: 0;
+  max-inline-size: 46rem;
+  font-size: clamp(.95rem, 1.5cqi, 1.15rem);
+  line-height: 1.72;
+  color: var(--scene-ink-2, var(--ink-2));
+}
+.nh-lede--gate { font-size: clamp(1rem, 1.7cqi, 1.25rem); }
+
+.nh-note {
+  margin: 1.4rem 0 0;
+  max-inline-size: 46rem;
+  font-size: .82rem;
+  line-height: 1.75;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+
+/* The metric bar. Width states the value; .nm-grow scrubs it open with scaleX
+   only, because width is a layout property and animating it would reflow. */
+.nh-bar {
+  display: block;
+  block-size: 6px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--scene-ink, var(--ink-1)) 9%, transparent);
+  overflow: clip;
+}
+/* The fill takes the MODULE hue wherever a module owns the row (--m is set on
+   the two module chapters) and stays neutral ink everywhere else. Brand red is
+   the single global accent and is spent on exactly one thing on this page: the
+   two coverage axes the dataset does badly on. */
+.nh-bar > i {
+  display: block;
+  block-size: 100%;
+  inline-size: calc(var(--p, 0) * 100%);
+  min-inline-size: 2px;
+  border-radius: inherit;
+  background: var(--m, color-mix(in oklab, var(--scene-ink, var(--ink-1)) 52%, transparent));
+}
+
+/* The object-class marker. Object hue is the DATA, so it appears as a solid
+   marker on the thing it classifies and never as a status. */
+.nh-cls {
+  inline-size: .5rem;
+  block-size: .5rem;
+  border-radius: 2px;
+  background: var(--o, var(--ink-3));
+  flex: none;
+}
+
+/* The chapter ledge — what the ground is about to do, in real counts. */
+.nh-next {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: .5rem .7rem;
+  margin: clamp(2.5rem, 5cqi, 4.5rem) auto 0;
+  inline-size: min(100%, var(--nh-max));
+  padding-block-start: 1.1rem;
+  border-block-start: 1px solid var(--scene-hair, var(--hairline));
+  font-size: .82rem;
+  line-height: 1.65;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-next > svg { color: var(--scene-accent, var(--brand)); flex: none; }
+.nh-next-to {
+  font-size: .7rem;
+  font-weight: 750;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--scene-ink-2, var(--ink-2));
+}
+.nh-next-t { min-inline-size: 0; }
+
+/* --------------------------------------------------------------------------
+   6. CHAPTER 01 · THE GATE
+   -------------------------------------------------------------------------- */
+
+.nh-gate {
+  display: grid;
+  align-content: center;
+  min-block-size: min(92svh, 58rem);
+  overflow: clip;
+  padding-block: clamp(4.5rem, 10cqi, 9rem);
+}
+
+/* THE WALL. 105 real merged table names, in three columns at two parallax
+   depths. This is the dictionary used as texture, which is the only kind of
+   texture this product is allowed to have. */
+.nh-wall {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 3cqi, 3rem);
+  padding-inline: var(--nh-gut);
+  align-items: start;
+  pointer-events: none;
+  overflow: clip;
+  /* The wall must never compete with the headline: it fades out toward the
+     reading edge and toward both block edges, so the type sits in clear air. */
+  mask-image:
+    linear-gradient(to bottom, transparent, #000 18%, #000 76%, transparent),
+    linear-gradient(to left, transparent, #000 42%);
+  mask-composite: intersect;
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent, #000 18%, #000 76%, transparent),
+    linear-gradient(to left, transparent, #000 42%);
+  -webkit-mask-composite: source-in;
+}
+.nh-wall-c {
+  display: grid;
+  gap: .28rem;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: clamp(.58rem, 1.05cqi, .82rem);
+  line-height: 1.5;
+  letter-spacing: .04em;
+  color: var(--scene-ink, var(--ink-1));
+  opacity: .12;
+  white-space: nowrap;
+  overflow: clip;
+}
+.nh-wall-c[data-c="1"] { opacity: .085; margin-block-start: -2.5rem; }
+.nh-wall-c[data-c="2"] { opacity: .06; margin-block-start: 1.5rem; }
+.nh-wall-c > i { font-style: normal; }
+
+/* One warm pool of light. Cheap — two radial gradients, no blur filter — and it
+   is what stops the deep scene reading as a flat black rectangle. */
+.nh-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(80% 60% at 82% 8%, color-mix(in srgb, var(--mod-pm) 16%, transparent), transparent 62%),
+    radial-gradient(72% 58% at 8% 96%, color-mix(in srgb, var(--mod-pppi) 14%, transparent), transparent 62%);
+}
+
+.nh-gate-in { max-inline-size: min(100%, var(--nh-max)); }
+
+.nh-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 1px;
+  margin-block: clamp(2rem, 4cqi, 3rem) clamp(1.75rem, 3cqi, 2.5rem);
+  background: var(--scene-hair, var(--hairline));
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .75rem;
+  overflow: clip;
+}
+.nh-stat {
+  display: grid;
+  gap: .25rem;
+  padding: .9rem 1rem;
+  background: color-mix(in oklab, var(--scene-raised) 62%, transparent);
+  min-inline-size: 0;
+}
+.nh-stat > b {
+  font-size: clamp(1.15rem, 2.4cqi, 1.7rem);
+  font-weight: 780;
+  color: var(--scene-ink, var(--ink-1));
+  line-height: 1.1;
+}
+.nh-stat > em {
+  font-style: normal;
+  font-size: .72rem;
+  color: var(--scene-ink-3, var(--ink-3));
+  overflow-wrap: anywhere;
+}
+
+.nh-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-block-end: 1.6rem;
+}
+
+.nh-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem .95rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: .74rem;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-legend > li { display: flex; align-items: center; gap: .38rem; }
+.nh-legend > li > i {
+  inline-size: .5rem;
+  block-size: .5rem;
+  border-radius: 2px;
+  background: var(--o);
+  flex: none;
+}
+.nh-legend em { font-style: normal; opacity: .72; }
+
+/* THE GATE'S OWN ENTRANCE.
+   A view() timeline has nothing to scrub at scroll 0, so an above-the-fold
+   headline tied to one is simply already finished. The gate therefore runs a
+   TIME-based cascade: a page entrance, not a scroll animation. The selectors
+   are deliberately more specific than motion.css's so they win the cascade
+   regardless of stylesheet order, and reduced motion still wins over both
+   because motion.css declares its zeroing with !important. */
+@keyframes nh-gate-line { from { opacity: 0; transform: translate3d(0, 108%, 0); } to { opacity: 1; transform: none; } }
+@keyframes nh-gate-up   { from { opacity: 0; transform: translate3d(0, 16px, 0); } to { opacity: 1; transform: none; } }
+
+.nh-gate h1.nm-kin > span > span {
+  animation: nh-gate-line 900ms cubic-bezier(.16, 1, .3, 1) both;
+  animation-timeline: auto;
+}
+.nh-gate h1.nm-kin > span:nth-child(1) > span { animation-delay: 90ms; }
+.nh-gate h1.nm-kin > span:nth-child(2) > span { animation-delay: 210ms; }
+
+.nh-gate .nh-eye,
+.nh-gate .nh-lede,
+.nh-gate .nh-cta,
+.nh-gate .nh-legend,
+.nh-gate .nh-stats > .nm-rise {
+  animation: nh-gate-up 700ms cubic-bezier(.16, 1, .3, 1) both;
+  animation-timeline: auto;
+}
+.nh-gate .nh-eye { animation-delay: 40ms; }
+.nh-gate .nh-lede { animation-delay: 360ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(1) { animation-delay: 430ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(2) { animation-delay: 470ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(3) { animation-delay: 510ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(4) { animation-delay: 550ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(5) { animation-delay: 590ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(6) { animation-delay: 630ms; }
+.nh-gate .nh-cta { animation-delay: 690ms; }
+.nh-gate .nh-legend { animation-delay: 780ms; }
+
+/* --------------------------------------------------------------------------
+   7. CHAPTER 02 · COVERAGE
+   -------------------------------------------------------------------------- */
+
+.nh-cov {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--scene-hair, var(--hairline));
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .85rem;
+  overflow: clip;
+}
+.nh-cov > li {
+  display: grid;
+  grid-template-columns: minmax(7rem, 12rem) minmax(4rem, 1fr) auto;
+  align-items: center;
+  gap: .5rem 1rem;
+  padding: .95rem 1.1rem;
+  background: var(--scene-raised, var(--surface));
+  min-inline-size: 0;
+}
+.nh-cov-l { font-weight: 650; color: var(--scene-ink, var(--ink-1)); font-size: .92rem; }
+.nh-cov-n { font-size: .92rem; font-weight: 750; color: var(--scene-ink, var(--ink-1)); white-space: nowrap; }
+.nh-cov-n > em { font-style: normal; font-weight: 500; opacity: .55; }
+.nh-cov-s {
+  grid-column: 1 / -1;
+  font-size: .76rem;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+/* An axis the dataset does badly on is not hidden and not coloured as an error.
+   It is stated in the accent, so the eye finds it first. */
+.nh-cov > li[data-low="1"] .nh-bar > i { background: var(--scene-accent, var(--brand)); }
+.nh-cov > li[data-low="1"] .nh-cov-s { color: var(--scene-accent, var(--brand)); }
+
+/* --------------------------------------------------------------------------
+   8. CHAPTER 03 · THE PINNED MAP
+   The lattice holds still while three panels pass it, so the reader studies one
+   object through three claims instead of three drawings.
+   -------------------------------------------------------------------------- */
+
+.nh-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4cqi, 4rem);
+  inline-size: min(100%, var(--nh-max));
+  margin-inline: auto;
+  margin-block: clamp(1.5rem, 4cqi, 3rem);
+}
+
+/* .nm-pin supplies the sticky; this only says where in the grid row it holds.
+   Without align-self the item would stretch to the full 3-panel height and a
+   sticky element as tall as its container never moves. */
+.nh-stage .nh-hold {
+  align-self: start;
+  gap: 1rem;
+  padding-block: 2rem;
+}
+
+/* ------------------------------------------------------- THE MEMBERSHIP AXIS
+   105 merged tables drawn as ONE partition rather than 105 circles. Segment
+   width is flex-grow: the real count, so the picture cannot disagree with the
+   number printed on it — the geometry IS the data.
+
+   Deliberately not a Venn: a Venn would claim an intersection AREA the dataset
+   never measures. A partitioned axis claims only 37 + 19 + 49 = 105.
+
+   Module colour stays surface tint and edge, per the form rule, and the shared
+   segment carries a real mix of the two hues because that is what it means. */
+.nh-mem { display: grid; gap: var(--sp-4); }
+
+.nh-mem-axis {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  inline-size: 100%;
+  min-block-size: clamp(4.5rem, 9cqi, 7rem);
+  border-radius: .85rem;
+  overflow: hidden;
+}
+.nh-mem-seg {
+  position: relative;
+  flex: 1 1 0;
+  min-inline-size: 0;
+  display: grid;
+  place-items: center;
+  border-radius: .6rem;
+  background: color-mix(in oklab, var(--bm) 16%, transparent);
+  border: 1px solid color-mix(in oklab, var(--bm) 40%, var(--scene-hair, var(--hairline)));
+  transition: background-color 260ms var(--ease-out-expo);
+}
+.nh-mem-seg[data-b="0"] { --bm: var(--mod-pm); }
+.nh-mem-seg[data-b="1"] { --bm: color-mix(in oklab, var(--mod-pm), var(--mod-pppi)); }
+.nh-mem-seg[data-b="2"] { --bm: var(--mod-pppi); }
+
+/* The shared core reads as a BRIDGE: denser than its neighbours and ruled on
+   both sides, so the eye sees a span between the two modules rather than a
+   third unrelated block. */
+.nh-mem-seg[data-b="1"] {
+  background: color-mix(in oklab, var(--bm) 28%, transparent);
+  border-inline-width: 3px;
+  border-inline-color: color-mix(in oklab, var(--bm) 66%, transparent);
+}
+
+/* Grows from the leading edge as the axis arrives — the partition assembling
+   itself. transform only, and the engine zeroes it under reduced motion. */
+.nh-mem-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in oklab, var(--bm) 14%, transparent);
+  transform-origin: inline-start center;
+}
+.nh-mem-n {
+  position: relative;
+  font-size: clamp(1.1rem, 3.1cqi, 2rem);
+  font-weight: 800;
+  color: var(--scene-ink, var(--ink-1));
+  letter-spacing: -.02em;
+}
+
+.nh-mem-key { display: grid; gap: var(--sp-2); list-style: none; padding: 0; margin: 0; }
+.nh-mem-k {
+  display: grid;
+  grid-template-columns: 10px auto 1fr;
+  align-items: baseline;
+  column-gap: var(--sp-3);
+  row-gap: 2px;
+}
+.nh-mem-k > i {
+  inline-size: 10px; block-size: 10px; border-radius: 3px;
+  background: color-mix(in oklab, var(--bm) 62%, transparent);
+  border: 1px solid color-mix(in oklab, var(--bm) 80%, transparent);
+  align-self: center;
+}
+.nh-mem-k[data-b="0"] { --bm: var(--mod-pm); }
+.nh-mem-k[data-b="1"] { --bm: color-mix(in oklab, var(--mod-pm), var(--mod-pppi)); }
+.nh-mem-k[data-b="2"] { --bm: var(--mod-pppi); }
+.nh-mem-k > b { font-size: var(--t-body); font-weight: 800; color: var(--scene-ink, var(--ink-1)); }
+.nh-mem-k > span { font-size: var(--t-sm); font-weight: 650; color: var(--scene-ink, var(--ink-1)); }
+.nh-mem-k > em {
+  grid-column: 3; font-style: normal; font-size: var(--t-xs);
+  color: var(--scene-ink-3, var(--ink-3)); line-height: 1.5;
+}
+@media (max-width: 640px) {
+  .nh-mem-axis { min-block-size: 3.5rem; }
+  .nh-mem-k { grid-template-columns: 10px auto 1fr; }
+}
+
+.nh-lat { display: grid; gap: .6rem; }
+.nh-lat-b {
+  position: relative;
+  display: grid;
+  gap: .55rem;
+  padding: .85rem .95rem;
+  border-radius: .8rem;
+  /* Module colour as SURFACE TINT and EDGE, never as a dot. The shared band
+     takes a real mix of the two hues, which is exactly what it means. */
+  background: color-mix(in oklab, var(--bm) 7%, transparent);
+  border: 1px solid color-mix(in oklab, var(--bm) 26%, var(--scene-hair, var(--hairline)));
+}
+.nh-lat-b[data-b="0"] { --bm: var(--mod-pm); }
+.nh-lat-b[data-b="1"] { --bm: color-mix(in oklab, var(--mod-pm), var(--mod-pppi)); }
+.nh-lat-b[data-b="2"] { --bm: var(--mod-pppi); }
+
+.nh-lat-d {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  min-inline-size: 0;
+}
+.nh-lat-d > i {
+  inline-size: calc(5px + var(--z, .5) * 9px);
+  block-size: calc(5px + var(--z, .5) * 9px);
+  border-radius: 50%;
+  background: var(--o, var(--ink-3));
+  opacity: .9;
+  flex: none;
+}
+.nh-lat-t {
+  display: flex;
+  align-items: baseline;
+  gap: .45rem;
+  font-size: .76rem;
+  color: var(--scene-ink-2, var(--ink-2));
+}
+.nh-lat-t > b { font-size: 1.05rem; font-weight: 780; color: var(--scene-ink, var(--ink-1)); }
+.nh-lat-k {
+  margin: 0;
+  font-size: .76rem;
+  line-height: 1.7;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+
+/* The band the reader's panel is currently about lights up. A pure CSS
+   cross-element timeline: the panel names a view-timeline, the stage scopes it,
+   and the band's highlight overlay animates along it. Where scroll-driven
+   animation is unavailable the overlay stays at opacity 0 and the map is a
+   static, complete diagram — nothing is ever hidden behind this. */
+.nh-lat-hi {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  background: color-mix(in oklab, var(--bm) 12%, transparent);
+  box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--bm) 55%, transparent);
+}
+@keyframes nh-hi { 0% { opacity: 0; } 34% { opacity: 1; } 66% { opacity: 1; } 100% { opacity: 0; } }
+
+@supports (animation-timeline: view()) and (timeline-scope: --nh-p0) {
+  .nh-stage { timeline-scope: --nh-p0, --nh-p1, --nh-p2; }
+  .nh-panel:nth-child(1) { view-timeline-name: --nh-p0; }
+  .nh-panel:nth-child(2) { view-timeline-name: --nh-p1; }
+  .nh-panel:nth-child(3) { view-timeline-name: --nh-p2; }
+  .nh-lat-b .nh-lat-hi { animation: nh-hi linear both; animation-range: cover 0% cover 100%; }
+  .nh-lat-b[data-b="0"] .nh-lat-hi { animation-timeline: --nh-p0; }
+  .nh-lat-b[data-b="1"] .nh-lat-hi { animation-timeline: --nh-p1; }
+  .nh-lat-b[data-b="2"] .nh-lat-hi { animation-timeline: --nh-p2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nh-lat-hi { animation: none !important; opacity: 0 !important; }
+}
+
+.nh-panels { display: grid; }
+.nh-panel {
+  display: grid;
+  align-content: center;
+  min-block-size: 82svh;
+  padding-block: 2rem;
+}
+.nh-panel-n {
+  display: block;
+  font-size: clamp(2.4rem, 6cqi, 4.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: var(--scene-ink, var(--ink-1));
+}
+.nh-panel-t {
+  margin: .5rem 0 .4rem;
+  font-size: 1.15rem;
+  font-weight: 750;
+  color: var(--scene-ink, var(--ink-1));
+}
+.nh-panel-s { margin: 0 0 .8rem; font-size: .92rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-panel-x {
+  margin: 0;
+  padding-inline-start: .8rem;
+  border-inline-start: 2px solid var(--scene-hair, var(--hairline));
+  font-size: .82rem;
+  line-height: 1.75;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+
+/* The 19, as cards. */
+.nh-shared {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: .7rem;
+  margin-block-end: 1rem;
+}
+.nh-scard {
+  display: grid;
+  gap: .5rem;
+  padding: .85rem .95rem;
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .75rem;
+  background: var(--scene-raised, var(--surface));
+  min-inline-size: 0;
+}
+.nh-scard > header { display: flex; align-items: center; gap: .45rem; min-inline-size: 0; }
+.nh-scard > header > b {
+  font-size: .95rem;
+  font-weight: 750;
+  color: var(--scene-ink, var(--ink-1));
+  overflow-wrap: anywhere;
+}
+.nh-scard-f {
+  margin-inline-start: auto;
+  font-size: .72rem;
+  color: var(--scene-ink-3, var(--ink-3));
+  flex: none;
+}
+.nh-scard-he {
+  margin: 0;
+  font-size: .8rem;
+  line-height: 1.55;
+  color: var(--scene-ink-2, var(--ink-2));
+  overflow-wrap: anywhere;
+}
+.nh-scard-ctx { display: grid; gap: .3rem; margin: 0; }
+.nh-scard-ctx > div {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  gap: .45rem;
+  align-items: baseline;
+  padding-inline-start: .45rem;
+  border-inline-start: 2px solid var(--m);
+  font-size: .72rem;
+}
+.nh-scard-ctx dt { color: var(--scene-ink-3, var(--ink-3)); font-weight: 700; }
+.nh-scard-ctx dd { margin: 0; color: var(--scene-ink-2, var(--ink-2)); overflow-wrap: anywhere; }
+
+/* --------------------------------------------------------------------------
+   9. CHAPTERS 04 / 05 · THE TWO MODULES
+   The ONLY difference between them is the ground and the data. That is what
+   "module identity is carried by the ground" has to mean to be true.
+   -------------------------------------------------------------------------- */
+
+.nh-mod {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 2.4cqi, 1.6rem);
+  border: 1px solid color-mix(in oklab, var(--m) 34%, var(--scene-hair, var(--hairline)));
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--m) 6%, var(--scene-raised, var(--surface)));
+  color: inherit;
+  text-decoration: none;
+  margin-block-end: clamp(1.5rem, 3cqi, 2.5rem);
+}
+.nh-mod:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.nh-mod-top { display: flex; align-items: center; gap: .65rem; }
+.nh-mod-top > b {
+  font-size: clamp(1.5rem, 3.4cqi, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--scene-ink, var(--ink-1));
+}
+.nh-mod-he { font-size: .95rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-mod-top > svg { margin-inline-start: auto; color: var(--m); flex: none; }
+.nh-mod-nums {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: .75rem 1rem;
+}
+.nh-mod-nums > span { display: grid; gap: .1rem; min-inline-size: 0; }
+.nh-mod-nums b { font-size: 1.15rem; font-weight: 780; color: var(--scene-ink, var(--ink-1)); }
+.nh-mod-nums em {
+  font-style: normal;
+  font-size: .72rem;
+  color: var(--scene-ink-3, var(--ink-3));
+  overflow-wrap: anywhere;
+}
+.nh-mod-share {
+  display: grid;
+  grid-template-columns: minmax(4rem, 1fr) auto auto;
+  align-items: center;
+  gap: .6rem;
+  font-size: .76rem;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-mod-share > em { font-style: normal; font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+
+.nh-two {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: clamp(1.5rem, 3.5cqi, 3rem);
+  align-items: start;
+}
+.nh-blk { min-inline-size: 0; }
+
+.nh-topics {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--scene-hair, var(--hairline));
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .75rem;
+  overflow: clip;
+}
+.nh-topics > li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(3rem, 6rem) auto;
+  align-items: center;
+  gap: .6rem;
+  padding: .6rem .8rem;
+  background: var(--scene-raised, var(--surface));
+  font-size: .82rem;
+}
+.nh-topics-i { color: var(--scene-ink-3, var(--ink-3)); font-size: .72rem; }
+.nh-topics-t {
+  color: var(--scene-ink, var(--ink-1));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nh-topics-n { font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+.nh-topics .nh-bar { block-size: 5px; }
+
+.nh-chain { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.nh-node {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: .5rem;
+  padding: .6rem .8rem;
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .6rem;
+  background: var(--scene-raised, var(--surface));
+}
+.nh-node > b { font-size: .88rem; font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+.nh-node-he { font-size: .8rem; color: var(--scene-ink-2, var(--ink-2)); overflow-wrap: anywhere; }
+.nh-node-n {
+  grid-column: 1 / -1;
+  font-size: .7rem;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-node[data-missing="1"] { border-style: dashed; background: transparent; }
+.nh-node[data-missing="1"] > b,
+.nh-node[data-missing="1"] .nh-node-he { color: var(--scene-ink-3, var(--ink-3)); }
+
+.nh-link {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: .45rem;
+  padding-block: .35rem;
+  margin-inline-start: 1.1rem;
+  font-size: .7rem;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-link-line {
+  inline-size: 2px;
+  block-size: 1.5rem;
+  border-radius: 999px;
+  background: var(--scene-hair, var(--hairline));
+}
+.nh-link[data-kind="direct"] .nh-link-line { background: var(--m); }
+.nh-link[data-kind="via"] .nh-link-line {
+  background: repeating-linear-gradient(to bottom, var(--m) 0 3px, transparent 3px 6px);
+}
+.nh-link[data-kind="gap"] .nh-link-line {
+  background: repeating-linear-gradient(to bottom, var(--scene-ink-3, var(--ink-3)) 0 2px, transparent 2px 6px);
+  opacity: .6;
+}
+.nh-link[data-kind="gap"] .nh-link-t { color: var(--scene-accent, var(--brand)); }
+.nh-link > code {
+  font-size: .66rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: .8;
+}
+
+/* --------------------------------------------------------------------------
+   10. CHAPTER 06 · THE CLOSE
+   -------------------------------------------------------------------------- */
+
+.nh-close { overflow: clip; }
+
+.nh-imp {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: .75rem;
+  margin-block: clamp(1.5rem, 3cqi, 2.5rem);
+}
+.nh-impcol {
+  display: grid;
+  gap: .45rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .85rem;
+  background: color-mix(in oklab, var(--scene-raised) 70%, transparent);
+}
+.nh-impcol[data-empty="1"] { opacity: .62; }
+/* STATUS colour, in the one form the design system allows: a small filled dot
+   immediately followed by its word. The card, its edge and its bar stay
+   neutral. */
+.nh-impcol-k { display: flex; align-items: center; gap: .4rem; font-size: .82rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-impcol-k > i { inline-size: .5rem; block-size: .5rem; border-radius: 50%; flex: none; }
+.nh-impcol[data-k="kept"] .nh-impcol-k > i { background: var(--status-done); }
+.nh-impcol[data-k="replaced"] .nh-impcol-k > i { background: var(--status-in-conversion); }
+.nh-impcol[data-k="removed"] .nh-impcol-k > i { background: var(--status-not-started); }
+.nh-impcol > b { font-size: clamp(1.6rem, 3.2cqi, 2.4rem); font-weight: 800; line-height: 1; color: var(--scene-ink, var(--ink-1)); }
+.nh-impcol-p { font-size: .76rem; color: var(--scene-ink-3, var(--ink-3)); }
+
+.nh-hot { display: grid; gap: .5rem; margin: 0 0 1.4rem; padding: 0; list-style: none; }
+.nh-hot > li {
+  display: grid;
+  grid-template-columns: auto auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .45rem .6rem;
+  padding: .75rem .9rem;
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .7rem;
+  background: color-mix(in oklab, var(--scene-raised) 70%, transparent);
+  font-size: .82rem;
+}
+.nh-hot > li > b { font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+.nh-hot-k { display: flex; align-items: center; gap: .35rem; font-size: .7rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-hot-k > i { inline-size: .45rem; block-size: .45rem; border-radius: 50%; flex: none; }
+.nh-hot-k[data-k="replaced"] > i { background: var(--status-in-conversion); }
+.nh-hot-k[data-k="removed"] > i { background: var(--status-not-started); }
+.nh-hot-he { color: var(--scene-ink-2, var(--ink-2)); overflow-wrap: anywhere; }
+.nh-hot-note {
+  grid-column: 1 / -1;
+  font-size: .76rem;
+  line-height: 1.6;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-hot-alt { grid-column: 1 / -1; font-size: .74rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-hot-alt > em { font-style: normal; color: var(--scene-ink-3, var(--ink-3)); }
+.nh-hot-mods { display: flex; gap: .3rem; }
+.nh-hot-mods > em {
+  font-style: normal;
+  font-size: .66rem;
+  padding: .1rem .4rem;
+  border-radius: .3rem;
+  border: 1px solid color-mix(in oklab, var(--m) 45%, transparent);
+  background: color-mix(in oklab, var(--m) 12%, transparent);
+  color: var(--scene-ink-2, var(--ink-2));
+}
+
+.nh-out {
+  display: grid;
+  gap: 1.1rem;
+  padding: clamp(1.1rem, 2.6cqi, 1.8rem);
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--scene-raised) 62%, transparent);
+  margin-block-start: 1.5rem;
+}
+.nh-out-t { margin: 0; font-size: 1rem; line-height: 1.7; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-out .nh-cta { margin-block-end: 0; }
+
+.nh-credit {
+  margin: clamp(2rem, 4cqi, 3rem) 0 0;
+  padding-block-start: 1.2rem;
+  border-block-start: 1px solid var(--scene-hair, var(--hairline));
+  font-size: .76rem;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+
+/* --------------------------------------------------------------------------
+   11. NARROW CANVASES
+   The container, not the window: the rail can take 22rem off a 768px screen,
+   and a composition sized on the window would lay out a desktop page inside a
+   tablet-width column.
+   -------------------------------------------------------------------------- */
+
+/* Wherever the index is on screen it is a COLUMN of the page, not an overlay
+   floating on top of the reading. The chapters give it its width back on the
+   inline end, so no headline, bar or card can ever pass underneath it. */
+@container nh (min-width: 62.01rem) {
+  .nh-body { padding-inline-end: max(var(--nh-gut), 10.5rem); }
+}
+
+@container nh (max-width: 62rem) {
+  /* The index becomes noise long before it becomes useless; the progress rail
+     keeps answering "how far in am I" on its own. */
+  .nh-index { display: none; }
+
+  .nh-stage { grid-template-columns: minmax(0, 1fr); }
+  /* A pinned scene on a narrow screen traps the reader in something they cannot
+     scroll past comfortably. Below this width the map is simply the first thing
+     in the chapter and the panels follow it. */
+  .nh-stage .nh-hold { position: static; min-block-size: 0; }
+  .nh-panel { min-block-size: 0; padding-block: 1.5rem; }
+  .nh-panel + .nh-panel { border-block-start: 1px solid var(--scene-hair, var(--hairline)); }
+}
+
+@container nh (max-width: 42rem) {
+  .nh-wall { grid-template-columns: repeat(2, 1fr); }
+  .nh-wall-c[data-c="2"] { display: none; }
+  .nh-gate { min-block-size: 0; }
+  .nh-cov > li { grid-template-columns: minmax(0, 1fr) auto; }
+  .nh-cov > li .nh-bar { grid-column: 1 / -1; }
+  .nh-topics > li { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .nh-topics > li .nh-bar { grid-column: 1 / -1; }
+  .nh-hot > li { grid-template-columns: auto auto minmax(0, 1fr); }
+  .nh-hot-mods { grid-column: 1 / -1; }
+  .nh-mod-share { grid-template-columns: minmax(0, 1fr) auto; }
+  .nh-mod-share > span:last-child { grid-column: 1 / -1; }
+  .nh-scard-ctx > div { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* --------------------------------------------------------------------------
+   12. REDUCED MOTION
+   motion.css already zeroes every amplitude and detaches every timeline. The
+   only thing left for this file is its own gate cascade, which is a load
+   animation the engine cannot see.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .nh-gate h1.nm-kin > span > span,
+  .nh-gate .nh-eye,
+  .nh-gate .nh-lede,
+  .nh-gate .nh-cta,
+  .nh-gate .nh-legend,
+  .nh-gate .nh-stats > .nm-rise {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   THE ARCHITECTURE FIELD
+   --------------------------------------------------------------------------
+   Two fields of real tables with a shared core between them, and the real ER
+   relationships running through it. Replaces the three proportional bars: the
+   counts were honest but a bar chart is not architecture, and this is the most
+   important visual on the product's most important page.
+
+   Every mark is a fact — node = one table, radius = its documented field count,
+   colour = its band, line = one modelled ER pair. Nothing is decorative.
+   ========================================================================== */
+
+.nhn {
+  inline-size: 100%;
+  /* A 1200x640 viewBox squeezed into a wide column renders barely 240px tall,
+     which turns a field into a stripe. A min height gives it back its air. */
+  block-size: auto;
+  min-block-size: clamp(20rem, 34cqi, 30rem);
+  display: block;
+  overflow: visible;
+}
+
+/* RELATIONSHIPS. Quiet by default: at 126 edges a loud line weight turns the
+   field into a hatch. The pairs that CROSS between modules are the interesting
+   ones, so those alone are allowed to be seen. */
+.nhn-e {
+  fill: none;
+  stroke: var(--scene-ink-3, var(--ink-3));
+  stroke-width: .6;
+  stroke-opacity: .16;
+}
+.nhn-e[data-cross="1"] {
+  stroke: var(--nh-shared, var(--brand));
+  stroke-width: .8;
+  stroke-opacity: .24;
+}
+/* A 1:1 pair is the strongest statement the dictionary makes about two tables,
+   so it is the only relation drawn solid. */
+.nhn-e[data-k="0"] { stroke-opacity: .34; }
+
+.nhn-dot {
+  fill: var(--c);
+  fill-opacity: .82;
+  stroke: var(--scene-ground, var(--background));
+  stroke-width: 1.1;
+}
+.nhn-n[data-b="1"] .nhn-dot { fill-opacity: 1; stroke-width: 1.6; }
+
+.nhn-t {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  fill: var(--scene-ink-2, var(--ink-2));
+  paint-order: stroke;
+  stroke: var(--scene-ground, var(--background));
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* BACKGROUND MODE. The same field, pushed behind the typography as a depth
+   layer: this is the ORYZO lesson that the ground stays constant and the DEPTH
+   comes from content sitting at different distances. */
+.nhn[data-faint="1"] { opacity: .3; }
+.nhn[data-faint="1"] .nhn-e { stroke-opacity: .1; }
+.nhn[data-faint="1"] .nhn-e[data-cross="1"] { stroke-opacity: .2; }
+.nhn[data-faint="1"] .nhn-dot { fill-opacity: .5; stroke-width: 0; }
+
+/* The field draws itself in as it arrives: relationships fade up, then the
+   tables settle. Scrubbed on the scroller's own view timeline, so it costs no
+   main thread and it plays once. */
+@supports (animation-timeline: view()) {
+  .nhn-edges { animation: nhn-lines linear both; animation-timeline: view(); animation-range: entry 6% cover 34%; }
+  .nhn-nodes { animation: nhn-dots  linear both; animation-timeline: view(); animation-range: entry 12% cover 42%; }
+}
+@keyframes nhn-lines { from { opacity: 0 } to { opacity: 1 } }
+@keyframes nhn-dots  { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+
+@media (prefers-reduced-motion: reduce) {
+  .nhn-edges, .nhn-nodes { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+/* THE FIELD'S LEGEND. Three counts, stated as facts under the drawing rather
+   than as the drawing itself. */
+.nhn-key {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--sp-5);
+  margin-block-start: var(--sp-6);
+  list-style: none; padding: 0;
+}
+/* Each entry is a plain block under its own rule. The earlier two-column grid
+   forced the Hebrew label into a narrow track and wrapped "PP-PI בלבד" onto
+   three lines. A count is a headline; it does not need a column. */
+.nhn-key li {
+  display: block;
+  padding-block-start: var(--sp-3);
+  border-block-start: 2px solid var(--c);
+}
+.nhn-key li > i {
+  display: inline-block; vertical-align: middle;
+  inline-size: 10px; block-size: 10px; border-radius: 50%;
+  background: var(--c);
+  margin-inline-end: .5rem;
+}
+.nhn-key b {
+  display: inline-block; vertical-align: middle;
+  font-size: clamp(1.6rem, 3.4cqi, 2.4rem); font-weight: 800;
+  color: var(--scene-ink, var(--ink-1)); letter-spacing: -.03em; line-height: 1;
+}
+.nhn-key span {
+  display: block; margin-block-start: .35rem;
+  font-size: var(--t-sm); font-weight: 700; color: var(--scene-ink, var(--ink-1));
+}
+.nhn-key em {
+  display: block; margin-block-start: .2rem; font-style: normal;
+  font-size: var(--t-xs); color: var(--scene-ink-3, var(--ink-3)); line-height: 1.55;
+}
+
+/* THE GATE'S MIDDLE PLANE.
+   Between the name wall and the headline. It is the same architecture field the
+   map scene draws, at the same coordinates, so the two are literally the same
+   picture seen at two distances — which is what makes the page feel like one
+   space rather than a stack of screens. */
+.nh-mid {
+  position: absolute;
+  inset-block: 8%;
+  inset-inline: -6%;
+  z-index: 1;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  /* Sits behind the type but in front of the names, and is masked at the
+     reading edge so it never competes with the headline it stands behind. */
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 50%, #000 38%, transparent 88%);
+          mask-image: radial-gradient(120% 90% at 50% 50%, #000 38%, transparent 88%);
+}
+.nh-mid .nhn { min-block-size: 0; }
+@media (max-width: 640px) { .nh-mid { display: none; } }
+
+/* A module scene lights its OWN bands and lets the rest of the dictionary
+   recede without vanishing. The tables it does not document are still context:
+   that is the difference between "PM has 56 tables" and seeing where those 56
+   sit inside the 105. */
+.nhn-n[data-off="1"] .nhn-dot { fill-opacity: .13; }
+.nhn-e[data-off="1"] { stroke-opacity: .05; }
+.nhn-e[data-cross="1"][data-off="1"] { stroke-opacity: .07; }
+
+/* THE SPLIT MODULE SCENE.
+   Two columns on a wide container, stacked below it. A container query, not a
+   media query: the rail can take 22rem of the window, so a 1024px window may
+   only leave a 780px canvas and the composition has to answer to the CANVAS. */
+.nh-split { display: grid; gap: var(--sp-6); align-items: start; }
+@container nh (min-width: 60rem) {
+  .nh-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--sp-8); align-items: center; }
+}
+.nh-split-t { min-inline-size: 0; }
+.nh-split-v { min-inline-size: 0; display: grid; gap: var(--sp-3); }
+.nh-split-v .nhn { min-block-size: clamp(15rem, 26cqi, 24rem); }
+.nh-split-cap {
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  color: var(--scene-ink-3, var(--ink-3));
+  max-inline-size: 44ch;
+}
+
+/* THE SHELF, AS SPINES.
+   One spine per real book, coloured by the cloth it is bound in on the shelf,
+   so the Home scene and /neo/books/ are recognisably the same library. It is a
+   count made physical rather than a number in a box. */
+.nh-spines {
+  display: flex; align-items: flex-end; gap: clamp(4px, 1cqi, 10px);
+  block-size: clamp(9rem, 20cqi, 15rem);
+  list-style: none; padding: 0; margin: 0;
+  perspective: 700px;
+}
+.nh-spines li {
+  --h: calc(74% + (var(--i) % 4) * 7%);
+  flex: 1 1 0; min-inline-size: 0;
+  block-size: var(--h);
+  border-radius: 3px 3px 1px 1px;
+  background:
+    linear-gradient(100deg, rgba(255,246,232,.16), transparent 26%),
+    var(--sp-c, #4c2d20);
+  box-shadow: inset -1px 0 0 rgba(0,0,0,.34), 0 6px 14px -8px rgba(0,0,0,.5);
+  transform-origin: bottom center;
+  transition: transform 240ms var(--ease-out-expo);
+}
+/* The eleven cloths from the shelf, in shelf order. */
+.nh-spines li:nth-child(1)  { --sp-c: #7c2230; }
+.nh-spines li:nth-child(2)  { --sp-c: #1f3a5f; }
+.nh-spines li:nth-child(3)  { --sp-c: #2f5d4e; }
+.nh-spines li:nth-child(4)  { --sp-c: #6b4a23; }
+.nh-spines li:nth-child(5)  { --sp-c: #3d3b56; }
+.nh-spines li:nth-child(6)  { --sp-c: #14524f; }
+.nh-spines li:nth-child(7)  { --sp-c: #7a4a12; }
+.nh-spines li:nth-child(8)  { --sp-c: #4a2c5a; }
+.nh-spines li:nth-child(9)  { --sp-c: #24384a; }
+.nh-spines li:nth-child(10) { --sp-c: #5a2030; }
+.nh-spines li:nth-child(11) { --sp-c: #2d4a2c; }
+@media (hover: hover) and (pointer: fine) {
+  .nh-spines li:hover { transform: translateY(-8px) rotateX(4deg); }
+}
+@media (prefers-reduced-motion: reduce) { .nh-spines li { transition: none; } }
+
+/* Motion off: the rail states everything at once rather than animating into it. */
+@media (prefers-reduced-motion: reduce) {
+  .nh-index-l { max-inline-size: 12rem; opacity: 1; transition: none; }
+  .nh-index a::after { transition: none; }
+  .nh-index a { transition: none; }
+}
+
+/* ==========================================================================
+   THE THREE POPULATIONS, AS TABLES  (components/neo-shell/home/home-zones)
+
+   Replaces the 105-circle field. The rule taken from Partake is that colour
+   and object must occupy real screen area: a card here is a solid surface with
+   its own edge sitting ON the scene's field, never a tinted rectangle a few
+   percent away from the ground it stands on. That "faded card on a faded
+   background" is exactly what made the previous pass read as washed out.
+   ========================================================================== */
+
+.nz {
+  display: grid;
+  gap: var(--sp-4);
+  /* Three populations, three columns, one row. auto-fit dropped PP-PI onto a
+     second line, which broke the only comparison the scene exists to make. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  inline-size: 100%;
+}
+@media (max-width: 900px) { .nz { grid-template-columns: 1fr; } }
+
+.nz-zone {
+  display: grid;
+  align-content: start;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  border-radius: 1.25rem;
+  /* THE ZONE IS A FIELD. Each population gets its OWN hue, so "PM / shared /
+     PP-PI" is answered by colour before a single word is read — module teal,
+     brand red for the core that belongs to both, module indigo. A neutral tint
+     here is what made the previous attempt read as cream on cream. */
+  background: color-mix(in oklab, var(--zc) 14%, var(--scene-ground));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--zc) 34%, transparent);
+}
+.nz-zone[data-band="0"] { --zc: var(--mod-pm, #0d7a6b); }
+.nz-zone[data-band="1"] { --zc: var(--brand, #c8102e); }
+.nz-zone[data-band="2"] { --zc: var(--mod-pppi, #3b3fb6); }
+/* The count wears its zone's hue, so the three numbers are three colours. */
+/* The zone total takes SCENE INK, not the zone hue. A 72% mix of --zc measured
+   1.75:1 at 58px in dark; the hue keeps the card edge, which is where the
+   reader already reads it. See the note further down this file. */
+.nz-zone .nz-head { border-block-end-color: color-mix(in oklab, var(--zc) 30%, transparent); }
+
+.nz-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-block-end: var(--sp-3);
+  border-block-end: 1px solid color-mix(in oklab, var(--scene-ink) 18%, transparent);
+}
+/* The count is the headline of its own zone. A reader learns "37" by READING
+   it, which is the whole point of the redraw. */
+.nz-count {
+  font-size: clamp(2.4rem, 4.4vw, 3.6rem);
+  font-weight: 800;
+  line-height: .9;
+  letter-spacing: -.03em;
+  color: var(--scene-ink);
+  font-variant-numeric: tabular-nums;
+}
+.nz-lbl { display: grid; gap: 2px; min-inline-size: 0; }
+.nz-lbl b { font-size: var(--t-body); font-weight: 700; color: var(--scene-ink); line-height: 1.2; }
+.nz-lbl em { font-size: var(--t-micro); font-style: normal; color: var(--scene-ink-3); }
+
+.nz-list { display: grid; gap: var(--sp-2); }
+
+.nz-card {
+  display: grid;
+  grid-template-columns: 3px minmax(0, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: .6rem;
+  /* A real surface. On a light field it lifts toward white, on a dark field it
+     lifts toward light — either way it is a distinct object, not a tint. */
+  background: color-mix(in oklab, var(--scene-ground) 22%, #fff 78%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--scene-ink) 12%, transparent),
+    0 1px 2px color-mix(in oklab, var(--scene-ink) 10%, transparent);
+  transition: transform var(--dur-base) var(--ease-out-expo),
+              box-shadow var(--dur-base) var(--ease-out-expo);
+}
+/* Keyed on the SCENE, never on the theme.
+   `html[data-theme="dark"] .nz-card` was wrong: pm-full, pppi-full and shared
+   are LIGHT worlds in both themes, so in dark mode a card standing on the mint
+   field was being given the dark-scene treatment and washed out. Only the
+   genuinely dark scenes get it. Found by looking at dark mode; the automated
+   sweep passed it clean because nothing errored or overflowed.
+
+   UPDATED WITH THE S/4 FLIP. `[data-scene="s4"]` used to belong here and no
+   longer does: s4 is now the BRIGHT scene, so listing it was asking for the
+   dark-card treatment on a light ground. It survived only by luck — s4's raised
+   tone is near-white, so the color-mix landed near-white anyway — but the rule
+   was stating something untrue and would have bitten the next person to change
+   that scene. #nh-5 joins for the same reason in reverse: the Home's PP-PI beat
+   is genuinely dark even though the pppi-full scene is light everywhere else. */
+[data-scene="deep"] .nz-card,
+[data-scene="books"] .nz-card,
+[data-scene="ai"] .nz-card {
+  background: color-mix(in oklab, var(--scene-raised) 78%, #fff 22%);
+}
+/* The deep beat takes the raised tone STRAIGHT. Mixing 22% white in lifted the
+   card to luminance 0.104 and dropped the description tier to 2.28:1 — the
+   white that makes a card read on the near-black scenes is the same white that
+   destroys it on a mid-dark violet one. */
+#nh-5[data-scene="pppi-full"] .nz-card { background: var(--scene-raised); }
+.nz-card:hover { transform: translateY(-1px); }
+.nz-card[data-dim="1"] { opacity: .5; }
+
+/* The object class, as a colour — the same five-zone vocabulary the ERD uses. */
+.nz-card-z { inline-size: 3px; block-size: 1.05rem; border-radius: 2px; background: var(--z, var(--scene-accent)); }
+.nz-card-n { font-size: var(--t-micro); font-weight: 700; color: var(--scene-ink); letter-spacing: .02em; }
+.nz-card-he {
+  font-size: var(--t-micro);
+  font-style: normal;
+  color: var(--scene-ink-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-inline-size: 0;
+}
+.nz-card-f {
+  font-size: var(--t-micro);
+  font-weight: 700;
+  color: var(--scene-ink-2);
+  font-variant-numeric: tabular-nums;
+  opacity: .8;
+}
+
+/* What is NOT shown, said out loud. */
+.nz-rest { font-size: var(--t-micro); color: var(--scene-ink-3); margin: 0; }
+.nz-rest .nx-sap { font-weight: 700; color: var(--scene-ink-2); }
+
+@media (max-width: 640px) {
+  .nz { gap: var(--sp-4); }
+  .nz-zone { padding: var(--sp-4); }
+  .nz-card-he { display: none; }
+}
+
+/* The membership scene's subject is the three zones, so they take the stage's
+   full width. Constraining them to a column left half the scene as empty
+   cream, which is exactly the "mostly empty beige with some data" the scene
+   test rejects. */
+.nh-mem { inline-size: 100%; max-inline-size: none; }
+.nh-lat-wide { max-inline-size: 62ch; }
+/* The stage is a two-column grid because most scenes put a visual beside a
+   panel. The membership scene no longer has that panel — its subject IS the
+   three zones — so the stage collapses to one column and the zones get the
+   whole width instead of 522px of a 1071px stage. */
+[data-scene="shared"] .nh-stage { grid-template-columns: minmax(0, 1fr); }
+
+/* ==========================================================================
+   THE MIGRATION VERDICT, AS COLOUR
+
+   §14: colour is structure, not decoration. "Is this table safe, does it
+   change, is it gone" is the single question this scene answers, so the answer
+   is the surface — not a dot beside a neutral card. Coral is reserved for the
+   tables that actually move, which is what makes five of them findable among a
+   hundred and five.
+   ========================================================================== */
+
+[data-scene="s4"] .nh-impcol {
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--vc) 18%, var(--scene-ground));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--vc) 42%, transparent);
+}
+[data-scene="s4"] .nh-impcol[data-k="kept"]     { --vc: var(--scene-cool, #22d3ee); }
+[data-scene="s4"] .nh-impcol[data-k="replaced"] { --vc: var(--scene-hot, #ff6f57); }
+[data-scene="s4"] .nh-impcol[data-k="removed"]  { --vc: var(--scene-ink-3); }
+/* A zero band is drawn as a real zero rather than hidden — the dictionary
+   marks nothing as removed, and that is a finding, not a gap. */
+[data-scene="s4"] .nh-impcol[data-empty="1"] { opacity: .55; }
+[data-scene="s4"] .nh-impcol .nh-sap {
+  color: color-mix(in oklab, var(--vc) 62%, var(--scene-ink));
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1;
+}
+[data-scene="s4"] .nh-impcol-k i { background: var(--vc); }
+[data-scene="s4"] .nh-bar i { background: var(--vc); }
+
+/* The five that move. Each row is a findable object, not another dark bar. */
+[data-scene="s4"] .nh-hot > li {
+  background: color-mix(in oklab, var(--scene-hot, #ff6f57) 12%, var(--scene-raised));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--scene-hot, #ff6f57) 34%, transparent);
+  border-radius: .8rem;
+}
+[data-scene="s4"] .nh-hot-k[data-k="replaced"] { color: var(--scene-hot, #ff6f57); }
+[data-scene="s4"] .nh-hot-k[data-k="replaced"] i { background: var(--scene-hot, #ff6f57); }
+[data-scene="s4"] .nh-hot .nh-sap { color: var(--scene-ink); }
+
+/* ------------------------------------------------------ the library on Home
+   A shelf, not a swatch. The books are the subject of this scene, so they get
+   real size and real depth against the burgundy rather than sitting as small
+   chips in a corner. */
+.nhb-shelf {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  align-items: end;
+  gap: var(--sp-3);
+  padding: var(--sp-4) 0;
+  margin: 0;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.nhb-book { min-inline-size: 5.5rem; }
+.nhb-link {
+  display: grid;
+  gap: var(--sp-2);
+  justify-items: center;
+  text-decoration: none;
+  color: inherit;
+  border-radius: .5rem;
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+/* The shelf lifts one book at a time. Motion stays on transform, and the
+   existing reduced-motion rules zero it with everything else. */
+.nhb-link:hover { transform: translateY(-6px); }
+.nhb-link:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: 3px; }
+.nhb-meta { display: grid; gap: 1px; justify-items: center; text-align: center; }
+.nhb-meta b {
+  font-size: var(--t-micro);
+  font-weight: 700;
+  color: color-mix(in oklab, var(--m, var(--scene-accent)) 55%, var(--scene-ink));
+}
+.nhb-meta em { font-style: normal; font-size: var(--t-micro); color: var(--scene-ink-3); }
+
+@media (max-width: 900px) {
+  .nhb-shelf { grid-auto-columns: 6rem; }
+}
+
+/* The Books scene stacks instead of splitting. Ten bound books squeezed into a
+   40% column render at thumbnail size, which is how the scene ended up looking
+   like a swatch of a library rather than a library. Text above, shelf across
+   the full width, books at a size where a spine can actually be read. */
+@container nh (min-width: 60rem) {
+  [data-scene="books"] .nh-split { grid-template-columns: minmax(0, 1fr); align-items: start; }
+}
+[data-scene="books"] .nhb-shelf { grid-auto-columns: minmax(7rem, 1fr); gap: var(--sp-4); }
+[data-scene="books"] .nhb-book { min-inline-size: 7rem; }
+/* The cover slab itself scales with the scene rather than with the shelf page. */
+[data-scene="books"] .nb-cov { --cov-w: clamp(6.5rem, 8.5cqi, 10rem); }
+
+/* ------------------------------------------------------- the corpus, on AI
+   Five bodies NEO reads, each a real count. Electric blue and the brand red
+   are the only two lights in this room, so the row carries them alternately
+   rather than tinting every card the same. */
+.nh-corpus {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--sp-3);
+  margin: var(--sp-6) 0 var(--sp-5);
+  padding: 0;
+  list-style: none;
+}
+.nh-corpus-i {
+  display: grid;
+  gap: 2px;
+  padding: var(--sp-4);
+  border-radius: .9rem;
+  background: color-mix(in oklab, var(--cc) 14%, var(--scene-raised));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--cc) 38%, transparent);
+}
+.nh-corpus-i[data-k="b"] { --cc: var(--scene-hot, #ff4b4b); }
+.nh-corpus-i[data-k="t"] { --cc: var(--scene-accent, #4d8dff); }
+.nh-corpus-i[data-k="x"] { --cc: var(--scene-accent, #4d8dff); }
+.nh-corpus-i[data-k="f"] { --cc: var(--scene-hot, #ff4b4b); }
+.nh-corpus-i[data-k="r"] { --cc: var(--scene-accent, #4d8dff); }
+.nh-corpus-i b {
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: color-mix(in oklab, var(--cc) 58%, var(--scene-ink));
+  font-variant-numeric: tabular-nums;
+}
+.nh-corpus-i span { font-size: var(--t-micro); font-weight: 600; color: var(--scene-ink-2); }
+.nh-corpus-i em { font-style: normal; font-size: var(--t-micro); color: var(--scene-ink-3); letter-spacing: .04em; }
+
+/* THE IDENTITY ON THE FRONT DOOR.
+   --------------------------------------------------------------------------
+   The lockup is shipped by components/site-logo and is already correct; all
+   this does is seat it in the hero's rhythm. Deliberately NOT oversized — the
+   brief asked for the identity of a platform, not a splash screen, so it sits
+   at lg above the eyebrow and lets the headline stay the loudest thing. */
+.nh-brand {
+  display: inline-flex;
+  margin-bottom: clamp(.9rem, 2.2vw, 1.5rem);
+}
+@media (max-width: 720px) { .nh-brand { margin-bottom: .8rem; } }
+
+/* ============================================================================
+   THE MID-PAGE DEEP BEAT
+   ----------------------------------------------------------------------------
+   Flipping S/4HANA to bright fixed the ending (dark run 3 -> 2) and created the
+   mirror problem: nh-2 through nh-6 measured 0.756 / 0.902 / 0.749 / 0.664 /
+   0.805 — five light scenes in a row. The hues differ, which IS the Partake
+   lesson, but the luminance band is flat, and flat is what fatigue feels like
+   whichever end of the range it sits at.
+
+   The requested rhythm puts a DEEP scene immediately before the bright S/4HANA,
+   and nh-5 is where it lands. PP-PI's identity is violet, so this is not a new
+   colour: it is the module's own hue taken to full depth, which reads as the
+   same module with the lights turned down.
+
+   SCOPED TO #nh-5, DELIBERATELY.
+   [data-scene="pppi-full"] is also worn by /neo/pp-pi/, which is a WORKSPACE —
+   long field tables, long reading, where the light ground is the correct
+   choice. Re-grounding the scene globally would have paid for eight seconds of
+   scroll rhythm with every minute somebody spends working in that module. The
+   Home section is a narrative beat and gets narrative treatment; the workspace
+   keeps what workspaces need.
+
+   Ink is re-derived, not inherited: #ede9ff on #241a4d measures 12.6:1. */
+/* DAY: soft lavender with deep indigo type. Night keeps the violet field.
+   The deep beat was added to break a run of pale scenes, and it did — but it
+   applied in BOTH themes, so in Day Mode it became one of four dark full
+   viewports. A mid-page beat can be a COLOUR change rather than a darkness
+   change: that is the Partake lesson rather than the ORYZO one. */
+#nh-5[data-scene="pppi-full"] {
+  --scene-ground: #e5e2f7;
+  --scene-raised: #fbfaff;
+  --scene-ink: #1e1a44;
+  --scene-ink-2: #3d3672;
+  --scene-ink-3: #4a4380;   /* #5d5596 measured 4.27:1 at 11px on the lavender */
+  --scene-accent: #4c31c4;
+  --scene-hair: rgba(30, 26, 68, .16);
+}
+
+/* Night keeps every value the beat had, elevation inversion included. */
+html[data-theme="dark"] #nh-5[data-scene="pppi-full"] {
+  --scene-ground: #241a4d;
+  --scene-raised: #322659;
+  --scene-ink: #ede9ff;
+  --scene-ink-2: #d5cdf5;
+  /* ink-3 measured 2.28:1 on the card and 4.29:1 on the ground at #948ac2.
+     Both are AA failures for 11-12px text, and they are exactly the tier the
+     zone cards use for their Hebrew descriptions — the densest text in the
+     section. Lightened until the WORST pair clears 4.5, not the best one. */
+  --scene-ink-3: #b3a9de;
+  --scene-accent: #b79dff;
+  --scene-hair: rgba(237, 233, 255, .22);
+  /* Elevation inverts with the ground: on a dark scene a shadow cannot be seen,
+     so lift becomes a hairline of light on the top edge. */
+  --elev-1: 0 1px 0 0 rgba(237, 233, 255, .06);
+  --elev-2: 0 1px 0 0 rgba(237, 233, 255, .07), 0 6px 18px -8px rgba(0, 0, 0, .6);
+  --elev-3: 0 1px 0 0 rgba(237, 233, 255, .08), 0 14px 30px -12px rgba(0, 0, 0, .7);
+}
+
+/* THE ZONE COUNT IS A NUMBER, NOT A MODULE MARKER.
+   --------------------------------------------------------------------------
+   .nz-count paints the 58px zone totals (37 / 19 / 49) in the module hue. On
+   the shared scene that measured 2.47:1 in dark on the old cream ground and
+   1.75:1 on the sand one — a pre-existing failure that the warmer ground made
+   more visible rather than caused.
+
+   The fix is the form rule this product already follows everywhere else:
+   module colour is a surface tint, a ring, a line, an edge or a marker, and is
+   never the value itself. The hue stays on .nz-zone's edge, which is where the
+   reader is already reading it; the number takes scene ink and becomes legible.
+   Applied to every scene, not just the shared one. The first cut scoped it to
+   `shared` on the reasoning that a module scene's hue IS its subject — but the
+   module scenes fail it too (1.94:1 on the mint field in dark), and a 58px
+   number nobody can read is not carrying identity anywhere. The hue keeps the
+   card edge on every scene; only the value changes. */
+.nz-count { color: var(--scene-ink); }

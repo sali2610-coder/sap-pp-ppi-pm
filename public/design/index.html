@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Concept D · SAP by Sali — PROJECT NEO</title>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/reset.css">
+<style>
+  body{background:var(--background-2)}
+  .wrap{max-width:1000px;margin-inline:auto;padding:var(--sp-12) var(--sp-6) var(--sp-16)}
+  .lock{display:flex;align-items:baseline;gap:var(--sp-2)}
+  .lock b{font-weight:800;letter-spacing:-.02em}
+  .lock span{font-size:var(--t-micro);font-weight:700;letter-spacing:.14em;color:var(--ink-3)}
+  h1{font-size:var(--t-display);line-height:1.1;letter-spacing:-.025em;font-weight:800;margin-top:var(--sp-4)}
+  h1 em{font-style:normal;color:var(--brand)}
+  .lede{color:var(--ink-2);max-width:70ch;margin-top:var(--sp-3)}
+  .warn{margin-top:var(--sp-6);padding:var(--sp-4) var(--sp-5);border:1px solid var(--hairline);
+        border-inline-start:3px solid var(--brand);border-radius:var(--r-lg);background:var(--surface)}
+  .warn b{display:block;margin-bottom:var(--sp-2)}
+  .warn p{color:var(--ink-2);font-size:var(--t-sm)}
+  .grid{display:grid;gap:var(--sp-4);grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:var(--sp-8)}
+  a.card{display:block;padding:var(--sp-5);border:1px solid var(--hairline);border-radius:var(--r-lg);
+         background:var(--surface);box-shadow:var(--elev-1);
+         transition:transform var(--dur-base) var(--ease-out-expo),box-shadow var(--dur-base),border-color var(--dur-fast)}
+  a.card:hover{transform:translateY(-3px);box-shadow:var(--elev-3);border-color:var(--brand)}
+  a.card b{display:block;font-size:var(--t-h2);font-weight:800;letter-spacing:-.015em}
+  a.card span{display:block;color:var(--ink-3);font-size:var(--t-xs);margin-top:var(--sp-2);line-height:1.6}
+  a.card .tag{display:inline-block;margin-bottom:var(--sp-2);font-size:var(--t-micro);font-weight:800;
+              letter-spacing:.1em;color:var(--brand)}
+  footer{border-top:1px solid var(--hairline);padding-top:var(--sp-6);margin-top:var(--sp-12);
+         display:flex;justify-content:space-between;color:var(--ink-3);font-size:var(--t-xs);flex-wrap:wrap;gap:var(--sp-3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="lock"><b>SAP by Sali</b><span>PROJECT NEO</span></div>
+  <h1>Concept D · <em>אב־טיפוס עיצוב</em></h1>
+  <p class="lede">
+    הכיוון המאושר, כאב־טיפוס אינטראקטיבי עצמאי. זה <b>לא</b> האפליקציה — זה הקובץ שממנו נבנה העיצוב.
+    כל מחרוזת SAP כאן אמיתית ונשלפת ממאגר הנתונים של הפרויקט.
+  </p>
+
+  <div class="warn">
+    <b>מה חי באפליקציה ומה עדיין אב־טיפוס</b>
+    <p>
+      <b>מיושם באפליקציה האמיתית:</b> מעטפת האפליקציה והניווט בלבד — בכתובת <code class="sap">/neo/</code>.
+      <br>
+      <b>אב־טיפוס בלבד (בעמוד הזה):</b> הבית עם שדה 105 הנקודות, יקום SAP, מסע הגילוי של IW31,
+      עמוד האובייקט ומרחב ה-ERD. אלה טרם מומשו באפליקציה — הם ממתינים לאישור שלב 2.
+    </p>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="concept-d/index.html">
+      <span class="tag">אב־טיפוס · אינטראקטיבי</span>
+      <b>Concept D</b>
+      <span>16 מסכים · הבית בגלילה · יקום SAP · מסע גילוי · ERD · ניווט · מובייל · בהיר וכהה. בורר המסכים נמצא למעלה.</span>
+    </a>
+    <a class="card" href="concept-d-spec/index.html">
+      <span class="tag">מפרט</span>
+      <b>מערכת העיצוב</b>
+      <span>טוקנים עם ניגודיות מחושבת · סטוריבורד תנועה עם הדגמות חיות · רכיבים · שלבי מימוש · תקציב ביצועים · נגישות.</span>
+    </a>
+    <a class="card" href="matrix/index.html">
+      <span class="tag">מחקר</span>
+      <b>מטריצת הרפרנסים</b>
+      <span>מדידות אמיתיות מהאתרים שנבדקו — FPS תחת throttling, משקל, טכניקות, ומה נדחה ולמה.</span>
+    </a>
+    <a class="card" href="system/index.html">
+      <span class="tag">מפרט</span>
+      <b>גיליון מערכת</b>
+      <span>הגרסה המוקדמת של מערכת העיצוב — תנועה, רכיבים, RTL ונגישות.</span>
+    </a>
+  </div>
+
+  <footer>
+    <span>Built by Sali Halif</span>
+    <span>אב־טיפוס עיצוב · לא קוד ייצור · noindex</span>
+    <span><b>SAP by Sali</b> · PROJECT NEO</span>
+  </footer>
+</div>
+</body>
+</html>

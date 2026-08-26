@@ -1,0 +1,155 @@
+/* ============================================================================
+   SAP by Sali — PROJECT NEO · Design Tokens
+   Base layer is copied VERBATIM from the shipping app (app/globals.css) so any
+   approved concept is implementable without re-theming the product.
+   Concept skins may only ADD tokens (prefixed --c-), never redefine the base.
+   100% offline: system font stack only, no @import, no CDN, no webfont.
+   ========================================================================== */
+
+:root {
+  /* ---- surfaces (verbatim) ---- */
+  --background: #fcfcfd;
+  --background-2: #f4f5f7;
+  --foreground: #0b0c0e;
+  --card: #ffffff;
+  --card-foreground: #0b0c0e;
+  --muted: #f4f5f7;
+  --muted-foreground: #686f79;
+  --border: #eaecef;
+  --input: #eaecef;
+  --ring: #d62027;
+
+  --surface: #ffffff;
+  --surface-2: #f4f5f7;
+  --hairline: #eaecef;
+  --ink-1: #0b0c0e;
+  --ink-2: #3a3f47;
+  --ink-3: #686f79;
+  --sidebar-w: 17rem;
+
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.18), 0 2px 8px -2px rgba(15, 23, 42, 0.08);
+
+  /* ---- brand (verbatim) — ACCENT ONLY ---- */
+  --brand: #d62027;
+  --brand-foreground: #ffffff;
+  --brand-dark: #a3171c;
+  --brand-soft: #fef2f2;
+
+  /* ---- SAP migration status palette (verbatim) ---- */
+  --status-not-started: #94a3b8;
+  --status-in-analysis: #f59e0b;
+  --status-in-conversion: #3b82f6;
+  --status-tested: #8b5cf6;
+  --status-done: #10b981;
+
+  --radius: 0.75rem;
+  --font-scale: 1;
+
+  /* ---- elevation (verbatim) ---- */
+  --elev-1: 0 1px 2px -1px rgba(15,23,42,.08), 0 1px 1px rgba(15,23,42,.04);
+  --elev-2: 0 2px 4px -2px rgba(15,23,42,.10), 0 4px 12px -4px rgba(15,23,42,.06);
+  --elev-3: 0 6px 16px -6px rgba(15,23,42,.14), 0 12px 28px -10px rgba(15,23,42,.10);
+  --elev-4: 0 12px 32px -8px rgba(15,23,42,.18), 0 24px 56px -16px rgba(15,23,42,.14);
+
+  /* ---- motion (verbatim) ---- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 360ms;
+
+  /* ================= NEO design-phase ADDITIONS ================= */
+
+  /* Radius system — one ramp, no ad-hoc values */
+  --r-xs: 0.375rem;
+  --r-sm: 0.5rem;
+  --r-md: 0.75rem;
+  --r-lg: 1rem;
+  --r-xl: 1.25rem;
+  --r-2xl: 1.5rem;
+  --r-pill: 999px;
+
+  /* Spacing rhythm — 4px base, named so density rules are explicit */
+  --sp-1: 0.25rem; --sp-2: 0.5rem;  --sp-3: 0.75rem; --sp-4: 1rem;
+  --sp-5: 1.25rem; --sp-6: 1.5rem;  --sp-8: 2rem;    --sp-10: 2.5rem;
+  --sp-12: 3rem;   --sp-16: 4rem;
+
+  /* Type scale — system stack, hierarchy carried by weight + tracking, not webfonts */
+  --font-ui: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Segoe UI Mono', Menlo, Consolas, monospace;
+  --t-display: 2.125rem; --t-display-lh: 1.1;  --t-display-tr: -0.025em;
+  --t-h1: 1.5rem;        --t-h1-lh: 1.2;       --t-h1-tr: -0.02em;
+  --t-h2: 1.125rem;      --t-h2-lh: 1.3;       --t-h2-tr: -0.012em;
+  --t-body: 0.875rem;    --t-body-lh: 1.6;
+  --t-sm: 0.8125rem;     --t-xs: 0.75rem;      --t-micro: 0.6875rem;
+  /* Hebrew needs more leading than Latin at the same size */
+  --lh-he: 1.75;
+
+  /* Motion additions — spring is the product's signature */
+  --ease-emphasis: cubic-bezier(0.2, 0.9, 0.1, 1);
+  --dur-micro: 90ms;
+  --dur-panel: 280ms;
+  --dur-route: 420ms;
+
+  /* Focus language — one ring everywhere, brand-owned */
+  --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand);
+
+  /* Selection language */
+  --sel-bg: var(--brand-soft);
+  --sel-bar: var(--brand);
+
+  /* Nav geometry */
+  --rail-compact: 4.5rem;
+  --rail-expanded: 17rem;
+  --topbar-h: 3.5rem;
+}
+
+html[data-theme="dark"] {
+  --background: #0b0e11;
+  --background-2: #0f1216;
+  --foreground: #f3f5f8;
+  --surface: #0f1216;
+  --surface-2: #171b21;
+  --hairline: #262b33;
+  --ink-1: #f3f5f8;
+  --ink-2: #c6ccd5;
+  --ink-3: #949ca7;
+  --card: #0f1216;
+  --card-foreground: #f3f5f8;
+  --muted: #171b21;
+  --muted-foreground: #949ca7;
+  --border: #262b33;
+  --input: #262b33;
+  --brand: #ff5a5f;
+  --brand-foreground: #1a0b0c;
+  --brand-dark: #c01c22;
+  --brand-soft: #2a1416;
+  --glass-bg: rgba(20, 24, 29, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), 0 2px 8px -2px rgba(0, 0, 0, 0.4);
+
+  /* Dark is tuned independently, not inverted: shadows do almost nothing on a
+     dark ground, so elevation is carried by surface lightness + hairline. */
+  --elev-1: 0 1px 2px rgba(0,0,0,.5);
+  --elev-2: 0 2px 8px rgba(0,0,0,.55);
+  --elev-3: 0 8px 24px rgba(0,0,0,.6);
+  --elev-4: 0 16px 48px rgba(0,0,0,.7);
+  --focus-ring: 0 0 0 2px var(--background), 0 0 0 4px var(--brand);
+  --sel-bg: rgba(255, 90, 95, 0.14);
+}
+
+/* Presentation ramp — the deck is shown on a large screen. */
+@media (min-width: 2560px) { :root { --font-scale: 1.09; } }
+@media (min-width: 3200px) { :root { --font-scale: 1.22; } }
+@media (min-width: 3840px) { :root { --font-scale: 1.34; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

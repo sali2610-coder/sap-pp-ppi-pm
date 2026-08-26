@@ -1,0 +1,393 @@
+/* ============================================================================
+   PROJECT NEO · THE S/4HANA SURFACES
+   ----------------------------------------------------------------------------
+   Shared by /neo/s4hana/, /neo/s4-readiness/ and /neo/migration-cockpit/.
+
+   COLOUR. The `s4` scene supplies the ground and the ink (app/neo/ground.css).
+   Everything else is STATUS, and status colour comes from the datasets
+   themselves — data/s4-objects, data/s4-architecture, data/ecc-s4 and
+   data/migration-cockpit each carry a status→hex map that the legacy pages
+   already rendered. Those hexes arrive here through inline `--s`, which is why
+   this file names almost no colours of its own: re-mapping them onto product
+   tokens would make "removed" a different colour in NEO than in the legacy site
+   for no reader benefit.
+
+   The card, the section and the hero are the same shapes the Domains and
+   Centers surfaces use, so a reader moving between them is not learning a third
+   layout.
+   ========================================================================== */
+
+.ns4 {
+  --s: var(--ink-3);
+  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem) 5rem;
+  max-inline-size: 78rem;
+  margin-inline: auto;
+  color: var(--scene-ink, var(--ink-1));
+}
+
+/* ------------------------------------------------------------------- hero */
+
+.ns4-hero { margin-block-end: clamp(1.25rem, 3vw, 2rem); }
+.ns4-eye {
+  display: flex; align-items: center; gap: .5rem; margin: 0 0 .6rem;
+  font-size: .74rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.ns4-h1 {
+  margin: 0; font-size: clamp(1.8rem, 4.2vw, 3rem);
+  font-weight: 700; line-height: 1.08; letter-spacing: -.025em; text-wrap: balance;
+}
+.ns4-lede { margin: .8rem 0 0; max-inline-size: 68ch; font-size: .97rem; line-height: 1.68; color: var(--ink-2); }
+.ns4-narr {
+  margin: 1.2rem 0 0; max-inline-size: 72ch;
+  padding: 1rem 1.1rem; border-radius: .9rem;
+  font-size: .92rem; line-height: 1.75; color: var(--ink-2);
+  background: var(--surface); border: 1px solid var(--hairline);
+}
+
+.ns4-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: 1.1rem;
+  margin-block-start: 1.4rem; padding-block-start: 1rem; border-block-start: 1px solid var(--hairline);
+}
+.ns4-stat { display: grid; gap: 2px; }
+.ns4-stat b {
+  font-family: var(--font-mono); font-size: 1.45rem; direction: ltr;
+  font-variant-numeric: tabular-nums; color: var(--ink-1);
+}
+.ns4-stat em { font-size: .72rem; color: var(--ink-3); font-style: normal; }
+
+.ns4-gap {
+  display: flex; align-items: flex-start; gap: .45rem;
+  margin: 1rem 0 0; max-inline-size: 70ch; font-size: .85rem; line-height: 1.65; color: var(--ink-3);
+}
+.ns4-gap svg { flex: none; margin-block-start: .25em; }
+
+/* --------------------------------------------------------------- sections */
+
+.ns4-sec {
+  margin-block-start: 1.6rem; padding: 1.15rem 1.25rem 1.25rem;
+  border-radius: 1rem; background: var(--surface);
+  border: 1px solid var(--hairline); box-shadow: var(--elev-1);
+}
+.ns4-sec-h { display: grid; gap: .3rem; margin-block-end: 1rem; position: relative; }
+.ns4-sec-n {
+  position: absolute; inset-block-start: 0; inset-inline-end: 0;
+  font-family: var(--font-mono); font-size: .78rem; direction: ltr; color: var(--ink-3); opacity: .6;
+}
+.ns4-sec-k {
+  display: flex; align-items: center; gap: .45rem; margin: 0;
+  font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3);
+}
+.ns4-sec-ico {
+  display: grid; place-items: center; inline-size: 1.5rem; block-size: 1.5rem; border-radius: 8px;
+  color: var(--sec-transactions, #1d5fd0);
+  background: color-mix(in srgb, var(--sec-transactions, #1d5fd0) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sec-transactions, #1d5fd0) 24%, transparent);
+}
+.ns4-h2 { margin: 0; font-size: 1.18rem; font-weight: 700; letter-spacing: -.015em; }
+.ns4-sec-s { margin: .25rem 0 0; font-size: .84rem; line-height: 1.6; color: var(--ink-3); max-inline-size: 72ch; }
+.ns4-sec-b { display: grid; gap: 1rem; }
+
+.ns4-h3 {
+  display: flex; align-items: center; gap: .45rem; margin: 0 0 .6rem;
+  font-size: .9rem; font-weight: 700; color: var(--ink-1);
+}
+.ns4-h3 i { inline-size: 9px; block-size: 9px; border-radius: 3px; flex: none; }
+.ns4-h3-n {
+  margin-inline-start: auto; font-family: var(--font-mono); font-size: .74rem;
+  direction: ltr; color: var(--ink-3);
+}
+.ns4-h4 {
+  display: flex; align-items: center; gap: .3rem;
+  margin: .7rem 0 .3rem; font-size: .74rem; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3);
+}
+.ns4-silent { margin: 0; font-size: .87rem; line-height: 1.6; color: var(--ink-3); font-style: italic; }
+.ns4-group + .ns4-group { margin-block-start: 1.4rem; }
+
+/* ------------------------------------------------------------ status bits */
+
+.ns4-kind, .ns4-rel, .ns4-cat, .ns4-band, .ns4-topic-area, .ns4-wave-b {
+  font-size: .66rem; font-weight: 700; letter-spacing: .03em;
+  padding: .12rem .4rem; border-radius: 5px; white-space: nowrap;
+  color: var(--ink-3); background: var(--surface-2); border: 1px solid var(--hairline);
+}
+.ns4-rel, .ns4-wave-b { unicode-bidi: isolate; }
+
+.ns4-risk {
+  font-size: .66rem; font-weight: 700; white-space: nowrap;
+  padding: .12rem .4rem; border-radius: 5px;
+  color: var(--r, var(--ink-3));
+  background: color-mix(in srgb, var(--r, var(--ink-3)) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r, var(--ink-3)) 30%, transparent);
+}
+/* TRUST. `needs-verification` is dashed, never red — it is not an error, it is
+   a stated limit of the project's own knowledge. */
+.ns4-trust {
+  margin-inline-start: auto;
+  font-size: .64rem; font-weight: 600; white-space: nowrap;
+  padding: .12rem .4rem; border-radius: 5px; color: var(--ink-3);
+  border: 1px solid var(--hairline);
+}
+.ns4-trust[data-t="needs-verification"] { border-style: dashed; color: var(--status-in-analysis, #d97706); }
+
+.ns4-lbl {
+  display: inline-block; min-inline-size: 4.6rem;
+  font-size: .66rem; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--ink-3); unicode-bidi: isolate;
+}
+
+/* ------------------------------------------------------------- ECC vs S/4 */
+
+.ns4-ba { display: grid; gap: .45rem; margin: .5rem 0 0; }
+.ns4-ba > div {
+  display: grid; grid-template-columns: 4.6rem 1fr; gap: .5rem; align-items: baseline;
+}
+.ns4-ba dt {
+  font-size: .66rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--ink-3); unicode-bidi: isolate;
+}
+.ns4-ba dd { margin: 0; font-size: .88rem; line-height: 1.65; color: var(--ink-2); }
+
+/* ---------------------------------------------------------- object cards */
+
+.ns4-objs {
+  display: grid; gap: .8rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+}
+.ns4-obj {
+  display: flex; flex-direction: column;
+  padding: .95rem 1.05rem 1rem;
+  border-radius: .9rem;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-inline-start: 3px solid var(--s);
+}
+.ns4-obj-h { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+.ns4-obj-n { font-size: .98rem; font-weight: 700; color: var(--ink-1); unicode-bidi: isolate; text-decoration: none; }
+a.ns4-obj-n { border-block-end: 1px solid color-mix(in srgb, var(--s) 45%, transparent); }
+a.ns4-obj-n:hover { border-block-end-color: var(--s); }
+.ns4-obj-en { font-size: .74rem; color: var(--ink-3); unicode-bidi: isolate; }
+.ns4-obj-he { margin: .4rem 0 0; font-size: .88rem; line-height: 1.6; color: var(--ink-2); }
+.ns4-why {
+  margin: .55rem 0 0; padding: .5rem .65rem; border-radius: .6rem;
+  font-size: .85rem; line-height: 1.6; color: var(--ink-2);
+  background: color-mix(in srgb, var(--s) 6%, var(--surface));
+}
+.ns4-why b { color: var(--ink-1); }
+.ns4-obj-f {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+  margin-block-start: .7rem; padding-block-start: .6rem; border-block-start: 1px solid var(--hairline);
+}
+.ns4-mods { font-size: .7rem; color: var(--ink-3); unicode-bidi: isolate; }
+
+/* ------------------------------------------------------------------ abap */
+
+.ns4-abap { margin: 0; padding: 0; list-style: none; display: grid; gap: .45rem; }
+.ns4-abap li { display: grid; grid-template-columns: auto 1fr; gap: .5rem; align-items: baseline; }
+.ns4-abap-k {
+  font-size: .66rem; font-weight: 700; padding: .1rem .35rem; border-radius: 4px;
+  color: var(--s); background: color-mix(in srgb, var(--s) 12%, transparent); white-space: nowrap;
+}
+.ns4-abap-b { display: grid; gap: .3rem; font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
+.ns4-code {
+  display: block; padding: .4rem .55rem; border-radius: .45rem;
+  font-family: var(--font-mono); font-size: .74rem; line-height: 1.5;
+  color: var(--ink-1); background: var(--surface);
+  border: 1px solid var(--hairline);
+  overflow-x: auto; white-space: pre; unicode-bidi: isolate;
+}
+
+.ns4-check { margin: 0; padding: 0; list-style: none; display: grid; gap: .3rem; }
+.ns4-check li {
+  position: relative; padding-inline-start: 1.05rem;
+  font-size: .84rem; line-height: 1.6; color: var(--ink-2);
+}
+.ns4-check li::before {
+  content: ""; position: absolute; inset-inline-start: 0; inset-block-start: .55em;
+  inline-size: 5px; block-size: 5px; border-radius: 1px;
+  background: color-mix(in srgb, var(--s) 70%, transparent);
+}
+
+/* ------------------------------------------------------------ chips */
+
+.ns4-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
+.ns4-chip {
+  display: inline-flex; align-items: center; padding: .18rem .5rem;
+  border-radius: 6px; font-size: .74rem; text-decoration: none;
+  color: var(--ink-2); background: var(--surface); border: 1px solid var(--hairline);
+  transition: transform .14s ease, border-color .14s ease;
+}
+.ns4-chip[data-live="1"] { border-inline-start: 2px solid var(--s); color: var(--ink-1); }
+.ns4-chip[data-live="1"]:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--s) 45%, var(--hairline)); }
+.ns4-chip[data-live="0"] { border-style: dashed; color: var(--ink-3); }
+
+/* ------------------------------------------------------------ generic rows */
+
+.ns4-rows, .ns4-errs, .ns4-topics, .ns4-mods-list { margin: 0; padding: 0; list-style: none; display: grid; gap: .65rem; }
+.ns4-rows > li, .ns4-errs > li, .ns4-topics > li {
+  padding: .8rem .95rem; border-radius: .8rem;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+  border-inline-start: 3px solid var(--r, var(--s));
+}
+.ns4-rows > li header, .ns4-errs > li header, .ns4-topics > li header {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-block-end: .4rem;
+}
+.ns4-rows > li header b, .ns4-errs > li header b, .ns4-topics > li header b {
+  font-size: .9rem; color: var(--ink-1);
+}
+.ns4-rows > li p, .ns4-errs > li p {
+  margin: 0 0 .25rem; font-size: .86rem; line-height: 1.62; color: var(--ink-2);
+}
+.ns4-note-x { color: var(--ink-3) !important; font-style: italic; }
+
+/* ---------------------------------------------------------------- topics */
+
+.ns4-topics > li { border-inline-start-color: var(--s); }
+.ns4-topic-en { font-size: .74rem; color: var(--ink-3); unicode-bidi: isolate; }
+.ns4-topic-st {
+  font-size: .66rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px; white-space: nowrap;
+  color: var(--s); background: color-mix(in srgb, var(--s) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--s) 30%, transparent);
+}
+.ns4-topic-area { margin-inline-start: auto; }
+.ns4-note { margin: .4rem 0 0; font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
+.ns4-impact {
+  margin: .5rem 0 0; padding: .5rem .65rem; border-radius: .55rem;
+  font-size: .85rem; line-height: 1.62; color: var(--ink-2);
+  background: color-mix(in srgb, var(--s) 6%, var(--surface));
+}
+.ns4-impact b { color: var(--ink-1); }
+
+/* ---------------------------------------------------------- architecture */
+
+.ns4-arch { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
+.ns4-arch-c {
+  padding: .95rem 1.05rem; border-radius: .9rem;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+  border-block-start: 3px solid var(--s);
+}
+.ns4-arch-h { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+.ns4-arch-layer { font-size: .74rem; font-weight: 700; color: var(--ink-3); }
+.ns4-arch-st {
+  font-size: .66rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px;
+  color: var(--s); background: color-mix(in srgb, var(--s) 12%, transparent);
+}
+.ns4-arch-pair {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem;
+  margin: .5rem 0 0; font-size: .88rem;
+}
+.ns4-arch-pair b { color: var(--ink-1); unicode-bidi: isolate; }
+.ns4-arch-pair svg { color: var(--s); flex: none; }
+.ns4-sg { margin: .6rem 0 0; padding: 0; list-style: none; display: grid; gap: .35rem; }
+.ns4-sg li { display: grid; grid-template-columns: 3.4rem 1fr; gap: .5rem; align-items: baseline; }
+.ns4-sg li b { font-size: .68rem; font-weight: 700; letter-spacing: .03em; }
+.ns4-sg li[data-k="stay"] b { color: var(--status-done, #16a34a); }
+.ns4-sg li[data-k="gone"] b { color: var(--status-blocked, #dc2626); }
+.ns4-sg li span { font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
+
+/* ------------------------------------------------------------- readiness */
+
+.ns4-mods { margin: 0; padding: 0; list-style: none; display: grid; gap: .7rem; }
+.ns4-mods > li {
+  padding: .85rem 1rem; border-radius: .85rem;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+  border-inline-start: 3px solid var(--s);
+}
+.ns4-mods > li header { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
+.ns4-mods > li header b { font-size: .95rem; color: var(--ink-1); }
+.ns4-mod-code { font-size: .72rem; color: var(--ink-3); unicode-bidi: isolate; }
+.ns4-band { unicode-bidi: isolate; }
+.ns4-score {
+  margin-inline-start: auto;
+  font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700;
+  color: var(--s); font-variant-numeric: tabular-nums;
+}
+.ns4-bar {
+  margin-block-start: .5rem; block-size: 6px; border-radius: 999px;
+  background: var(--hairline); overflow: hidden;
+}
+.ns4-bar span { display: block; block-size: 100%; background: var(--s); border-radius: 999px; }
+.ns4-mod-kv {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  gap: .5rem; margin: .7rem 0 0;
+}
+.ns4-mod-kv > div { display: grid; gap: 1px; }
+.ns4-mod-kv dt { font-size: .66rem; color: var(--ink-3); }
+.ns4-mod-kv dd {
+  margin: 0; font-size: .84rem; font-weight: 600; color: var(--ink-1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------- cockpit */
+
+.ns4-waves { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+.ns4-wave {
+  padding: .8rem .9rem; border-radius: .85rem;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+}
+.ns4-wave-l { margin: 0; padding: 0; list-style: none; display: grid; gap: .4rem; }
+.ns4-wave-l li {
+  display: grid; gap: 1px;
+  padding-inline-start: .6rem;
+  border-inline-start: 3px solid var(--s);
+}
+.ns4-wave-l li b { font-size: .84rem; color: var(--ink-1); }
+.ns4-wave-l li em { font-style: normal; font-size: .7rem; color: var(--ink-3); unicode-bidi: isolate; }
+.ns4-wave-l li .ns4-cat { justify-self: start; margin-block-start: 2px; }
+
+.ns4-dep { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .3rem; }
+.ns4-dep li {
+  font-size: .74rem; padding: .14rem .45rem; border-radius: 6px;
+  color: var(--ink-2); background: var(--surface); border: 1px solid var(--hairline);
+}
+.ns4-dep[data-tone="fwd"] li { color: var(--ink-3); border-style: dashed; }
+.ns4-free {
+  display: flex; align-items: center; gap: .3rem;
+  margin: .5rem 0 0; font-size: .8rem; color: var(--status-done, #16a34a);
+}
+
+/* ------------------------------------------------------------- steps */
+
+.ns4-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
+.ns4-steps li { display: flex; gap: .6rem; align-items: flex-start; }
+.ns4-steps li > span:last-child { display: grid; gap: 1px; }
+.ns4-steps li b { font-size: .87rem; color: var(--ink-1); font-weight: 600; }
+.ns4-steps li em { font-style: normal; font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
+.ns4-step-n {
+  flex: none; inline-size: 1.5rem; block-size: 1.5rem; border-radius: .55rem;
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: .72rem; font-weight: 700;
+  color: var(--sec-transactions, #1d5fd0);
+  background: color-mix(in srgb, var(--sec-transactions, #1d5fd0) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sec-transactions, #1d5fd0) 28%, transparent);
+}
+
+.ns4-cut { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+.ns4-cut-p {
+  padding: .85rem .95rem; border-radius: .85rem;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+}
+
+/* ------------------------------------------------------------- weights */
+
+.ns4-weights { margin: 0; padding: 0; list-style: none; display: grid; gap: .45rem; }
+.ns4-weights li { display: grid; grid-template-columns: 1fr 7rem 2rem; gap: .6rem; align-items: center; }
+.ns4-w-he { font-size: .85rem; color: var(--ink-2); }
+.ns4-w-bar { block-size: 6px; border-radius: 999px; background: var(--hairline); overflow: hidden; }
+.ns4-w-bar i { display: block; block-size: 100%; background: var(--sec-transactions, #1d5fd0); }
+.ns4-w-n { font-size: .78rem; color: var(--ink-3); text-align: end; font-variant-numeric: tabular-nums; }
+
+.ns4-credit {
+  display: flex; align-items: center; gap: .4rem;
+  margin: 2rem 0 0; font-size: .78rem; color: var(--ink-3);
+}
+
+@media (max-width: 720px) {
+  .ns4 { padding-inline: .9rem; }
+  .ns4-sec { padding-inline: .95rem; }
+  .ns4-sec-n { position: static; }
+  .ns4-objs, .ns4-arch, .ns4-cut, .ns4-waves { grid-template-columns: 1fr; }
+  .ns4-ba > div { grid-template-columns: 1fr; gap: .1rem; }
+  .ns4-weights li { grid-template-columns: 1fr 4rem 2rem; }
+}

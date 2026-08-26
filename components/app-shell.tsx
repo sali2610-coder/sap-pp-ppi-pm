@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { GlobalBack } from "@/components/global-back";
 import { WorkspaceInspector } from "@/components/workspace-inspector";
@@ -71,11 +72,23 @@ function Header() {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   mark("shell-render");
+  const path = usePathname() || "/";
+  // /neo renders its own chrome (Project NEO shell) — no global header, rail,
+  // tab bar or footer. Two-armed on purpose: a bare startsWith("/neo") would
+  // also swallow a future /neon… or /neo-lab route.
+  const bare = path === "/neo" || path.startsWith("/neo/");
 
   // Clears the API key the old chat page left in localStorage. Deleting that
   // page removed the code but not the stored credential, which stays readable
   // by any script on the origin until something removes it.
   useEffect(() => { purgeLegacyStorage(); }, []);
+
+  // Early return AFTER every hook, so the hook count is identical on both
+  // branches and a client-side navigation into /neo cannot reorder them.
+  // I18nProvider stays the outermost element in both arms: it owns
+  // documentElement.lang/.dir, and keeping its tree position preserves the
+  // language choice across the boundary.
+  if (bare) return <I18nProvider>{children}</I18nProvider>;
   return (
     <I18nProvider>
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-3 focus:z-[90] focus:rounded-lg focus:bg-surface focus:px-3 focus:py-2 focus:text-sm focus:font-bold focus:text-brand focus:shadow-lg">דלג לתוכן</a>

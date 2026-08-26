@@ -8,7 +8,7 @@
 //
 // Output: data/books/<bookId>.json — the shape defined in docs/LIBRARY-PLATFORM.md.
 // Additive and non-destructive: nothing reads these yet.
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -137,7 +137,26 @@ for (let i = 1; i <= 11; i++) {
   const chapterSections = new Map();
   // The reader holds the prose. For ten of the eleven books this is where the
   // Hebrew actually is — a translated body under a still-English heading.
+  //
+  // KEYED BY CHAPTER **AND** SECTION ID, NOT BY SECTION ID ALONE.
+  //
+  //   A section id is unique within a chapter, not within a book. book7 is
+  //   "SAP Fiori Apps for S/4HANA — Quick Reference" and its sections are keyed
+  //   by Fiori app ID, so the same app legitimately appears under two
+  //   categories: F2918 in ch1 and ch11, F0870A in ch3 and ch4, and 18 more.
+  //   With an id-only Map the second write overwrote the first, both index rows
+  //   then read back the SAME body, and one whole section's prose — 20 of them,
+  //   7,289 Hebrew and 30,035 Latin characters — became unreachable in the
+  //   reader. Nothing was deleted; it was overwritten in the migration.
+  //
+  //   The two occurrences are DIFFERENT sections with the same id, so they are
+  //   kept as two. `uniqueBody` below is the fallback for the case where the
+  //   index and the source disagree about which chapter a section is in, and it
+  //   deliberately holds only ids that occur exactly once — a fallback must
+  //   never be able to hand back the wrong body.
   const body = new Map();
+  const bodyCount = new Map();
+  const uniqueBody = new Map();
   for (const c of full?.chapters ?? []) {
     const n = Number(c.n);
     if (!Number.isFinite(n)) continue;
@@ -151,10 +170,17 @@ for (let i = 1; i <= 11; i++) {
     chapterSections.set(n, c.sections ?? []);
     for (const s of c.sections ?? []) {
       if (!s?.id) continue;
+      const sid = String(s.id);
       const b = sectionBody(s);
-      if (b) body.set(String(s.id), b);
+      if (!b) continue;
+      body.set(`${n} ${sid}`, b);
+      bodyCount.set(sid, (bodyCount.get(sid) ?? 0) + 1);
+      uniqueBody.set(sid, b);
     }
   }
+  // Drop every id that occurred more than once, so the fallback can only ever
+  // answer for a section whose identity is unambiguous.
+  for (const [sid, n] of bodyCount) if (n > 1) uniqueBody.delete(sid);
 
   const snippets = new Map();
   for (const e of idx) if (e.snippet) snippets.set(String(e.id), String(e.snippet));
@@ -163,7 +189,8 @@ for (let i = 1; i <= 11; i++) {
   for (const e of idx) {
     const n = Number(e.ch);
     if (!byChapter.has(n)) byChapter.set(n, []);
-    const b = body.get(String(e.id));
+    const sid = String(e.id);
+    const b = body.get(`${n} ${sid}`) ?? uniqueBody.get(sid);
     byChapter.get(n).push({
       id: String(e.id),
       title: { en: en(e), he: he(e) },
@@ -172,11 +199,133 @@ for (let i = 1; i <= 11; i++) {
     });
   }
 
+  // RECOVER CHAPTERS THE SECTION EXTRACTOR DROPPED.
+  //
+  // byChapter is built from {id}-index.json, and the index only ever lists
+  // SECTIONS. A chapter whose sections failed to extract therefore has no index
+  // rows, so it vanishes from the spine, from the shards and from the reader —
+  // silently, because nothing downstream knows it should have been there.
+  //
+  // That happened exactly once across the 11 books: book7 chapter 12,
+  // "Additional Resources" (pp. 605-608). Its sections.json is empty and its
+  // entry in book7-full.json is empty, but data/library/book7/raw/ch12.json
+  // holds 8,936 characters of real text carrying three numbered headings.
+  //
+  // So: any chapter that has raw text but produced no index rows is re-split
+  // here, from its own headings. Nothing is summarised, reworded or invented —
+  // the body between two headings is carried verbatim, page furniture and all,
+  // exactly as the working extractor leaves it everywhere else.
+  //
+  // By construction this cannot touch a chapter that already has sections.
+  const rawDir = path.join(LIB, id, "raw");
+  if (existsSync(rawDir)) {
+    for (const f of readdirSync(rawDir).filter((x) => /^ch\d+\.json$/.test(x))) {
+      const rc = JSON.parse(readFileSync(path.join(rawDir, f), "utf8"));
+      const n = Number(rc.n);
+      if (!Number.isFinite(n) || byChapter.has(n)) continue;
+      const text = String(rc.text ?? "");
+      if (!text.trim()) continue;
+
+      // Headings look like "12.1 SAP Resources" on their own line. One of them
+      // may be a running page header — it sits right after a page number or a
+      // "©" mark — and the first NON-furniture occurrence of each id wins.
+      const heads = [];
+      for (const m2 of text.matchAll(/^[ \t]*(\d+\.\d+(?:\.\d+)?)[ \t]+(.+?)[ \t]*$/gm)) {
+        const before = text.slice(Math.max(0, m2.index - 12), m2.index);
+        if (/(?:©\s*|\b\d{3})\s*\n\s*$/.test(before)) continue;
+        if (heads.some((h) => h.id === m2[1])) continue;
+        heads.push({ id: m2[1], title: m2[2].trim(), at: m2.index });
+      }
+      if (!heads.length) {
+        report.push([id, "RAW-KEPT", `ch${n} has text but no headings — left out`]);
+        continue;
+      }
+
+      const recovered = heads.map((h, k) => {
+        const end = k + 1 < heads.length ? heads[k + 1].at : text.length;
+        const t = text.slice(h.at, end).replace(/\s+$/, "");
+        return {
+          id: h.id,
+          title: { en: h.title, he: "" },
+          // Same normalisation the working sections get: whitespace collapsed,
+          // every other character preserved.
+          body: { format: "prose", en: t.split(/\s+/).filter(Boolean).join(" "), he: "" },
+        };
+      });
+      byChapter.set(n, recovered);
+      if (!chapterTitle.has(n)) chapterTitle.set(n, { en: String(rc.title ?? ""), he: "" });
+      report.push([id, "RECOVERED", `ch${n} "${rc.title}" -> ${recovered.length} sections from raw`]);
+    }
+  }
+
+  /* ---- CHAPTER INTRODUCTIONS -------------------------------------------
+     Every SAP PRESS chapter opens with the author telling you what it covers,
+     before the first numbered section. The extractor starts AT that first
+     heading, and everything downstream is keyed by section id, so this passage
+     had no id and never reached the reader — 185,233 characters across 100
+     chapters in 9 books.
+
+     It is carried as a CHAPTER-LEVEL field, never as a section. Inventing an
+     id like "9.0" would add 100 headings the books do not have and would move
+     every section count, progress percentage and parity number in the product.
+
+     THE BOUNDARY IS NOT A GUESS. The intro is the text before the FIRST
+     line-start occurrence of the first section's id. Later occurrences are
+     running page headers and cross-references, and they all sit AFTER the
+     intro has ended, so they cannot move it.
+
+     The one real risk is a chapter that opens with its own inline contents
+     list — then the first occurrence is a list entry, not the heading. That is
+     detected (almost no prose between the first two occurrences) and those
+     chapters are SKIPPED rather than guessed. Same for book7's catalogue and
+     book11, whose first section ids never appear at line start.
+
+     Nothing is summarised, reworded or translated. Page furniture is stripped
+     the way it is stripped nowhere else in this file — only bare page numbers,
+     "Chapter N" lines and the chapter title line, which are the three things
+     that are provably not prose. */
+  const readRaw = (bid, n) => {
+    const f = path.join(LIB, bid, "raw", `ch${n}.json`);
+    return existsSync(f) ? JSON.parse(readFileSync(f, "utf8")) : null;
+  };
+  const introOf = (n) => {
+    const raw = readRaw(id, n);
+    const text = String(raw?.text ?? "");
+    const secs = byChapter.get(n) ?? [];
+    if (!text.trim() || !secs.length) return null;
+    const sid = String(secs[0].id);
+    const re = new RegExp(`^\\s*${sid.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s|$)`, "gm");
+    const hits = [...text.matchAll(re)];
+    if (!hits.length) return null;
+    if (hits.length > 1) {
+      const between = text.slice(hits[0].index + hits[0][0].length, hits[1].index).split(/\s+/).filter(Boolean).join(" ");
+      if (between.length < 400) return null;      // inline contents list — skip
+    }
+    const title = String(raw.title ?? "").trim();
+    const prose = text
+      .slice(0, hits[0].index)
+      .split("\n")
+      .filter((l) => l.trim())
+      .filter((l) => !/^\s*\d{1,4}\s*$/.test(l))
+      .filter((l) => !/^\s*Chapter \d+\s*$/.test(l))
+      .filter((l) => l.trim() !== title)
+      .join(" ")
+      .split(/\s+/).filter(Boolean).join(" ");
+    if (prose.length < 80) return null;
+    // rule 7: never duplicate something the chapter body already contains.
+    const body = secs.map((x) => String(x.body?.en ?? "")).join(" ");
+    if (prose.slice(0, 120) && body.includes(prose.slice(0, 120))) return null;
+    return prose;
+  };
+
   const chapterList = [...byChapter.entries()]
     .sort((a, b) => a[0] - b[0])
     .map(([n, secs]) => ({
       n,
       title: { en: chapterTitle.get(n)?.en || "", he: chapterTitle.get(n)?.he || "" },
+      // English-only: none of the 100 has a Hebrew translation in the source,
+      // and none is invented here.
+      ...(introOf(n) ? { intro: { en: introOf(n), he: "" } } : {}),
       ...(chapterSections.get(n)?.[0]?.page != null ? { startPage: Number(chapterSections.get(n)[0].page) } : {}),
       sections: secs,
     }));
@@ -208,7 +357,12 @@ for (let i = 1; i <= 11; i++) {
   for (const c of chapterList) {
     const prose = {};
     for (const sec of c.sections) {
-      const snip = snippets.get(sec.id);
+      // A recovered chapter has no index row, so it has no snippet either.
+      // Derive one from its own body using the same rule the index used —
+      // the first 260 characters, hard cut — so a recovered section previews
+      // exactly like every other section instead of previewing as nothing.
+      const snip = snippets.get(sec.id)
+        ?? (sec.body?.en ? String(sec.body.en).slice(0, 260) : undefined);
       if (sec.body || snip) {
         // The snippet is content, not structure: it is a preview of the section,
         // and for a catalogue entry it may be the only text there is. Keeping it

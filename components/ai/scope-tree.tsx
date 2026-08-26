@@ -174,7 +174,7 @@ export function ScopeTree({ scope, onScope, onNavigate }: {
             !scope.bookId ? "bg-brand-soft text-brand" : "text-ink-2 hover:bg-surface-2"}`}>
           <BookOpen className="size-3.5" />
           כל הספרייה
-          <span className="ms-auto text-[10.5px] font-normal text-ink-3">11 ספרים</span>
+          <span className="ms-auto text-[10.5px] font-normal text-ink-3">{BOOKS.length} ספרים</span>
         </button>
 
         {books.map((b) => {

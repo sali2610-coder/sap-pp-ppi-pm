@@ -26,6 +26,63 @@ Next.js 16 (App Router, `output: 'export'`) · React 19 · TypeScript · Tailwin
 - `node scripts/extract-data.mjs` — rebuild dataset from source HTML
 - `npm run build` — produce `out/` (static)
 
+## Working mode — autonomous by default
+
+Work to the finish. A request is a request for the finished, verified result, not
+for the first step of it.
+
+**Do not stop to ask** when the answer is already available in the repository,
+the existing code, the project docs, a screenshot, the tests, or an earlier
+instruction in this conversation. Read it and decide. A question whose answer is
+in the repo is a question that should not have been asked.
+
+**Do not stop between normal steps.** Plan → implement → typecheck → lint →
+build → verify in a browser → screenshot → commit → push → preview deploy is one
+continuous task, not seven checkpoints. In particular do not stop after
+planning, after writing the code, or after the first green build — a build that
+compiles is not a feature that works.
+
+**When something fails, investigate and fix it.** Read the actual error, find the
+cause, fix the cause. Retry a different way rather than reporting the first
+failure back. If three attempts fail on the same thing, stop and say what you
+tried and what you observed.
+
+**Verify before claiming.** "Done" means measured: exit codes, page counts,
+console errors, overflow, real screenshots. Never report a check that was not
+run, and never describe a live check that did not happen. If something is
+unverified, say which part and why.
+
+**Use what is already here.** Existing conventions, existing components,
+existing data, existing tooling. Do not rebuild a working tool because a newer
+shell exists. Prefer the smallest change that satisfies the requirement.
+
+**Never invent SAP data.** No invented table, field, T-code, BAPI, relation,
+count, SAP Note or KBA number. Every number must be derived from the dataset and
+traceable to it. Where the dataset is silent, say so in the UI and in the report.
+A visible gap is correct; a plausible fabrication is not.
+
+### Stop and ask only for these
+
+1. A destructive, irreversible action.
+2. Deploying to production.
+3. Merging to `main`.
+4. Deleting data that matters — datasets, book content, history.
+5. Anything touching secrets or credentials.
+6. A genuine product decision that the existing context cannot settle.
+
+Everything else proceeds without confirmation. Preview deployments on a design
+or feature branch are normal work and need no approval; production and `main` do.
+
+### Frozen surfaces
+The canonical Library reader and its data are not to be modified as a side
+effect of other work: `components/book-reader.tsx`, `components/chapter-reader.tsx`,
+`components/library/**`, `components/neo/**` (a shared kit the Library imports),
+`app/library/**`, `data/books/**`, `data/ai-tree/**`. If a task appears to
+require changing one of these, stop and explain rather than doing it.
+
+Note: `npm run build` regenerates `data/ai-tree/*.json` through its `prebuild`
+step. That drift is a build artefact — revert it, do not commit it.
+
 ## SAP HQ — Project Intelligence Entry Point
 `/hq` is the **single entry point** for every SAP request in this repo (incidents, learning, architecture, SAP Notes,
 migration, PP/PP-PI/PM/interfaces). It is project-local under `.claude/skills/{hq,sherlock,oracle,memory,flagship}/`

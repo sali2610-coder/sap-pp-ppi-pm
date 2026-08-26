@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="he" dir="rtl" data-theme="light" data-motion="full">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>כיוון D · גיליון מפרט — SAP by Sali · PROJECT NEO</title>
+<meta name="description" content="גיליון המפרט ההנדסי של כיוון D — אסימונים, תנועה, ארכיטקטורת רכיבים, שלבי יישום, תקציב ביצועים ונגישות. 100% אופליין.">
+<meta name="color-scheme" content="light dark">
+<!-- 100% offline: no CDN, no webfont, no remote asset. -->
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/module-tokens.css">
+<link rel="stylesheet" href="../shared/reset.css">
+<link rel="stylesheet" href="spec.css">
+</head>
+<body>
+
+<a class="skiplink" href="#s1">דלג לתוכן המפרט</a>
+
+<!-- ══════════════════════════════════════════════════════ sticky top bar -->
+<header class="topbar" id="topbar">
+  <div class="topbar__in">
+    <div class="lockup">
+      <span class="lockup__mark" aria-hidden="true">D</span>
+      <span class="lockup__txt">
+        <b>SAP by Sali</b>
+        <span>PROJECT NEO · גיליון מפרט</span>
+      </span>
+    </div>
+
+    <nav class="secnav" id="secnav" aria-label="ניווט בין פרקי המפרט"></nav>
+
+    <div class="topbar__tools">
+      <button class="tool" type="button" id="motionBtn" aria-pressed="false">
+        <span class="tool__ico" data-ico="activity"></span>
+        <span class="tool__lbl">תנועה מופחתת</span>
+      </button>
+      <button class="tool" type="button" id="themeBtn" aria-pressed="false">
+        <span class="tool__ico" data-ico="moon"></span>
+        <span class="tool__lbl">מצב כהה</span>
+      </button>
+    </div>
+  </div>
+  <div class="topbar__rail" id="progressRail" aria-hidden="true"><i></i></div>
+</header>
+
+<main class="wrap">
+
+  <!-- ═══════════════════════════════════════════════════════════ masthead -->
+  <section class="mast">
+    <p class="eyebrow">Concept D · Engineering specification sheet</p>
+    <h1>כיוון D — <em>המפרט</em>, לא ההצעה</h1>
+    <p class="mast__lede">
+      המסמך הזה הוא הצד ההנדסי של אב־הטיפוס של כיוון D. הוא לא מציג רעיונות — הוא מגדיר מה נבנה:
+      אילו אסימונים קיימים ומה הניגודיות המחושבת שלהם, אילו תנועות מותרות באיזה משטח ובאיזה תקציב,
+      אילו רכיבים קיימים ומאילו אסימונים הם ניזונים, באיזה סדר זה נכנס לאפליקציה, ומה הגבול
+      שמעבר לו הבנייה נחשבת כשלון.
+    </p>
+    <p class="mast__lede">
+      שלושת הכיוונים הקודמים (A · Precision Workspace, B · Spatial NEO, C · Intelligent Command Center)
+      חקרו שלוש אישיויות מעל אותה ארכיטקטורת מידע. כיוון D לא מוסיף אישיות רביעית — הוא מכריע ביניהן
+      ומקבע. כל מקום שבו השלושה סותרים זה את זה מסומן כאן במפורש כ<b>הכרעה</b>.
+    </p>
+
+    <div class="mast__facts" id="mastFacts"></div>
+
+    <div class="rules">
+      <span class="rules__t">חוקי־ברזל שחלים על כל סעיף במסמך</span>
+      <ul>
+        <li>אין המצאה של נתוני SAP. כל מחרוזת SAP במסמך נשלפת מ־<span class="sap">shared/content.js</span>.</li>
+        <li>‏100% אופליין — אין CDN, אין גופן מרוחק, אין נכס מרוחק.</li>
+        <li>אייקונים רק דרך <span class="sap">icon()</span> מ־<span class="sap">shared/icons.js</span>. אפס אימוג׳י.</li>
+        <li>אדום המותג הוא נגיעה בלבד — מיקום, מיקוד, בחירה. לעולם לא משטח ולא צבע של גוף טקסט.</li>
+        <li>‏RTL מלידה — תכונות לוגיות בלבד, <span class="sap">dir="rtl"</span> ברמת המסמך.</li>
+        <li>הנפשה על <span class="sap">transform</span> ו־<span class="sap">opacity</span> בלבד.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════ 01 · DESIGN TOKENS -->
+  <section class="sec" id="s1">
+    <header class="sec__h">
+      <span class="sec__n">01</span>
+      <div>
+        <h2>אסימוני העיצוב הסופיים</h2>
+        <p class="sec__sub">
+          כל דגימה בסעיף הזה נצבעת מהמשתנים החיים של <span class="sap">tokens.css</span> ו־<span class="sap">module-tokens.css</span>.
+          יחסי הניגודיות מחושבים ב־JavaScript בזמן ריצה לפי נוסחת הבהירות היחסית של WCAG 2.1 —
+          המספרים כאן נמדדים, לא מוקלדים.
+        </p>
+      </div>
+    </header>
+
+    <article class="block">
+      <h3 class="block__h">1.1 · מישורי משטח</h3>
+      <p class="block__d">
+        ארבעה מישורים בלבד: <span class="sap">--background</span> · <span class="sap">--surface</span> ·
+        <span class="sap">--surface-2</span> · <span class="sap">--hairline</span>.
+        עומק נבנה מהעלאת בהירות המשטח ומקו־שיער, לא מהצללה. במצב כהה זה קריטי — צל כמעט לא נראה על רקע כהה,
+        ולכן ההרמה מכוילת בנפרד ולא כהיפוך של הבהיר.
+      </p>
+      <div class="mount" id="planes"></div>
+    </article>
+
+    <article class="block">
+      <h3 class="block__h">1.2 · היררכיית דיו וניגודיות מחושבת</h3>
+      <p class="block__d">
+        שלוש דרגות דיו. הסף לגוף טקסט הוא 4.5:1 (AA), לטקסט גדול 3:1, ו־7:1 ל־AAA.
+        <span class="sap">--ink-3</span> הוא צבע מטא — מספרים, תוויות מִשנה, חותמות זמן — ולא צבע של גוף טקסט;
+        המספר המחושב מראה למה.
+      </p>
+      <div class="mount" id="inks"></div>
+    </article>
+
+    <article class="block">
+      <h3 class="block__h">1.3 · שלישיית המותג — חוק הנגיעה</h3>
+      <p class="block__d">
+        <span class="sap">--brand</span> · <span class="sap">--brand-dark</span> · <span class="sap">--brand-soft</span>.
+        האדום מסמן שלושה דברים ורק אותם: <b>איפה אני</b> (סמן פריט פעיל), <b>מה במיקוד</b> (טבעת מיקוד),
+        ו<b>מה נבחר</b> (שורת תוצאה). המבחן המעשי: הרחק את המסך שני מטרים — אם רואים כתם אדום לפני שרואים את התוכן, נחצה הגבול.
+      </p>
+      <div class="mount" id="brand"></div>
+    </article>
+
+    <article class="block">
+      <h3 class="block__h">1.4 · פלטת הסטטוס — רוויה מקודדת איתות</h3>
+      <p class="block__d">
+        חמישה מצבי הגירה של אובייקט SAP. אלה צבעים <b>רוויים</b> במכוון: תפקידם לצעוק. הם שייכים לסטטוס ולו בלבד.
+        שים לב לניגודיות המחושבת במצב בהיר — רובם נכשלים כטקסט, ולכן החוק הוא שהם מופיעים כנקודה או כמילוי
+        לצד תווית טקסטואלית ב־<span class="sap">--ink-2</span>, לעולם לא כצבע האות עצמה.
+      </p>
+      <div class="mount" id="status"></div>
+    </article>
+
+    <article class="block block--major">
+      <h3 class="block__h">1.5 · אסימוני זהות מודול <span class="tagnew">חדש</span></h3>
+      <p class="block__d">
+        עשרה גוונים — אחד לכל מודול ביקום SAP של המוצר. כל ערך מוצג עם הניגודיות המחושבת שלו מול
+        <span class="sap">--surface</span> ומול <span class="sap">--surface-2</span>, בשתי הערכות, ועם ה<b>כרומה</b> שלו.
+      </p>
+      <div class="mount" id="modsLight"></div>
+      <div class="mount" id="modsDark"></div>
+    </article>
+
+    <article class="block block--law">
+      <h3 class="block__h">1.6 · חוק ההפרדה: רוויה = איתות · גוון = זהות</h3>
+      <p class="block__d law__lede">
+        <b>רוויה מקודדת איתות. גוון מקודד זהות.</b>
+        פלטת <span class="sap">--status-*</span> רוויה מפני שסטטוס הוא איתות שדורש תשומת לב.
+        אסימוני <span class="sap">--mod-*</span> הם נמוכי־כרומה במכוון, כדי שלעולם לא ייקראו כאיתות.
+        אלה שתי מערכות נפרדות שחיות על אותו מסך בלי להתנגש, מפני שהן נבדלות בממד אחר: לא בגוון, אלא ברוויה.
+      </p>
+      <div class="mount" id="chroma"></div>
+      <div class="defect">
+        <h4>הפגם שזה מתקן</h4>
+        <p>
+          בכיוון A זהות המודול הוגדרה כ־<span class="sap">--ca-mod-pm: #3b82f6</span> ו־<span class="sap">--ca-mod-pp: #8b5cf6</span> —
+          שני ערכים שהם בדיוק <span class="sap">--status-in-conversion</span> ו־<span class="sap">--status-tested</span>.
+          בכיוון B זה מפורש עוד יותר: <span class="sap">--cb-pm: var(--status-in-conversion)</span> ו־<span class="sap">--cb-pp: var(--status-done)</span>.
+          התוצאה על מסך אחד: כחול אומר גם «בהמרה» וגם «אחזקה · PM». המשתמש לא יכול לדעת אם צבע הוא עובדה על אובייקט או שיוך שלו.
+          כיוון C נמנע מהתנגשות רק מפני שוויתר לגמרי על זהות צבעונית למודול — פתרון שעובד עד שצריך להציג שני מודולים באותה רשימה.
+          <b>כיוון D מכריע:</b> פלטת סטטוס אסורה לחלוטין כזהות מודול; <span class="sap">module-tokens.css</span> הוא המקור היחיד לגוון מודול;
+          אדום המותג אינו גוון של אף מודול.
+        </p>
+      </div>
+    </article>
+
+    <article class="block">
+      <h3 class="block__h">1.7 · רדיוס · מרווח · הרמה · טיפוגרפיה</h3>
+      <p class="block__d">
+        סולם אחד לכל ממד, בלי ערכים אד־הוק. כל ערך שלא נמצא בסולמות האלה נחשב באג.
+      </p>
+      <div class="mount" id="ramps"></div>
+    </article>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ 02 · MOTION STORYBOARD -->
+  <section class="sec" id="s2">
+    <header class="sec__h">
+      <span class="sec__n">02</span>
+      <div>
+        <h2>סטוריבורד תנועה — שלושה דרגים</h2>
+        <p class="sec__sub">
+          התנועה ב־NEO אינה קישוט אחיד. היא מדורגת לפי מה שהמשתמש עושה במשטח: ככל שהמשטח הוא יותר «כלי»,
+          התנועה נסוגה; ככל שהוא יותר «חוויה», היא מתחזקת. הדירוג הזה מקביל בדיוק לשתי סקאלות הטיפוגרפיה
+          שנמדדו במטריצת הרפרנסים.
+        </p>
+      </div>
+    </header>
+
+    <div class="tiers">
+      <div class="tier" data-t="1">
+        <div class="tier__k">L1</div>
+        <h3>פונקציונלי</h3>
+        <p>תנועה שמסבירה מצב ותו לא: מיקוד, בחירה, שינוי מצב. 90–160ms.</p>
+        <dl>
+          <dt>איפה</dt><dd>טבלת נתונים, דף אובייקט, תצוגה מקדימה, תוצאות פקודה, טפסים, כל מצב עבודה.</dd>
+          <dt>אסור</dt><dd>שום דבר שנע בגלל גלילה. שום שינוי קנה־מידה מעל 1.02.</dd>
+        </dl>
+      </div>
+      <div class="tier" data-t="2">
+        <div class="tier__k">L2</div>
+        <h3>ניווט</h3>
+        <p>תנועה שמסבירה מרחב: מאיפה הגיע משטח, לאן נעלם, מה מכיל מה. 200–320ms.</p>
+        <dl>
+          <dt>איפה</dt><dd>סרגל ניווט, הצצה, קבוצות, סמן פריט פעיל, משטח פקודה, גיליון מובייל.</dd>
+          <dt>אסור</dt><dd>מעברי מסלול מלאים. אנימציה על יותר משתי שכבות במקביל.</dd>
+        </dl>
+      </div>
+      <div class="tier" data-t="3">
+        <div class="tier__k">L3</div>
+        <h3>חוויה</h3>
+        <p>תנועה שנושאת נרטיב: כניסה למודול, גילוי, מיקוד ביקום או ב־ERD. 360–480ms.</p>
+        <dl>
+          <dt>איפה</dt><dd>בית (סיפור גלילה), יקום SAP, כניסה למודול, ERD, משטח ECC→S/4HANA.</dd>
+          <dt>אסור</dt><dd>לחדור לסביבת עבודה. משטח עבודה מקבל L1 בלבד, גם אם הגיע ממסך L3.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="tiermap">
+      <h4>הקצאת דרגים למשטחים — מחייבת</h4>
+      <div class="mount" id="tierMap"></div>
+      <p class="note">
+        <b>הכרעה.</b> שלושת הכיוונים לא הסכימו על הקצאת הדרגים: כיוון A סימן את משטח החיפוש כ־L1 ואת הניווט כ־L2,
+        כיוון B סימן את החיפוש כ־L2, וכיוון C סימן את הניווט כ־L3 ואת דף האובייקט כ־L1 בעוד A סימן אותו L2.
+        הטבלה למעלה היא ההקצאה הקובעת: <b>ניווט הוא תמיד L2</b> (הוא מסביר מרחב, לא נרטיב),
+        <b>משטח הפקודה הוא L2 בפתיחה ו־L1 בתוך התוצאות</b>, ו<b>דף אובייקט הוא L1</b> — הוא מקום עבודה.
+      </p>
+    </div>
+
+    <div class="rmbar">
+      <div>
+        <b>מתג תנועה מופחתת</b>
+        <span>מדמה <span class="sap">prefers-reduced-motion: reduce</span> על כל ההדגמות בעמוד בו־זמנית.</span>
+      </div>
+      <button class="tool tool--strong" type="button" id="motionBtn2" aria-pressed="false">
+        <span class="tool__ico" data-ico="activity"></span>
+        <span class="tool__lbl">הפעל תנועה מופחתת</span>
+      </button>
+    </div>
+
+    <div class="mount" id="motion"></div>
+
+    <div class="trap">
+      <h4>מלכודת מימוש שחייבת להיכנס לקוד</h4>
+      <p>
+        הכלל הגלובלי ב־<span class="sap">tokens.css</span> מקצר כל מעבר ל־<span class="sap">0.01ms</span> עבור משתמשי תנועה מופחתת.
+        כל קוד שמחכה ל־<span class="sap">transitionend</span> כדי לנקות אלמנט־רפאים (למשל ה־FLIP של הכניסה למודול)
+        חייב גם נתיב־בטיחות מבוסס <span class="sap">setTimeout</span>, אחרת האלמנט נתקע על המסך אצל אותם משתמשים.
+        זה לא ליטוש — זה באג חוסם.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════ 03 · COMPONENT ARCHITECTURE -->
+  <section class="sec" id="s3">
+    <header class="sec__h">
+      <span class="sec__n">03</span>
+      <div>
+        <h2>ארכיטקטורת הרכיבים</h2>
+        <p class="sec__sub">
+          לא גלריה ויזואלית. לכל רכיב מוגדרים: תפקיד, מצבים, האסימונים שהוא צורך, דרג התנועה שלו,
+          והחלטות ה־RTL והנגישות שלו. רכיב שאין לו רשומה כאן — לא קיים במערכת.
+        </p>
+      </div>
+    </header>
+
+    <article class="block">
+      <h3 class="block__h">3.1 · עץ ההרכבה</h3>
+      <p class="block__d">
+        כך הקליפה מקוננת. עומק הקינון הוא גם סדר המיקוד במקלדת וגם סדר הטעינה בשלבי היישום שבסעיף 04.
+      </p>
+      <div class="mount" id="tree"></div>
+    </article>
+
+    <article class="block">
+      <h3 class="block__h">3.2 · מערכת הפעולות</h3>
+      <p class="block__d">
+        שבעה סוגי לחצן על כל המצבים. הראשי הוא היחיד עם מילוי מותג, ויש בדיוק אחד כזה במסך.
+        המצבים כאן מאולצים בכיתות עזר שמשקפות אחת לאחת את כללי <span class="sap">:hover</span> /
+        <span class="sap">:active</span> / <span class="sap">:focus-visible</span> / <span class="sap">[disabled]</span>,
+        כדי שאפשר יהיה לראות מצב בלי לרחף מעליו.
+      </p>
+      <div class="mount" id="buttons"></div>
+    </article>
+
+    <article class="block">
+      <h3 class="block__h">3.3 · דגימות חיות</h3>
+      <p class="block__d">
+        הרכיבים שקשה לתאר במילים, בנויים מנתוני SAP אמיתיים של המוצר.
+      </p>
+      <div class="mount" id="specimens"></div>
+    </article>
+
+    <article class="block">
+      <h3 class="block__h">3.4 · רישום הרכיבים</h3>
+      <p class="block__d">
+        כל רכיב בקליפה, עם החוזה המלא שלו. עמודת «אסימונים» היא רשימה סגורה — רכיב שצורך אסימון שאינו ברשימה שלו
+        נכשל בבדיקת הקוד.
+      </p>
+      <div class="mount" id="registry"></div>
+    </article>
+  </section>
+
+  <!-- ══════════════════════════════════════════ 04 · IMPLEMENTATION PHASES -->
+  <section class="sec" id="s4">
+    <header class="sec__h">
+      <span class="sec__n">04</span>
+      <div>
+        <h2>שלבי היישום</h2>
+        <p class="sec__sub">
+          תוכנית סדורה להכנסת כיוון D לאפליקציית Next.js 16 המשוגרת. הסדר נבחר לפי ערך גבוה מול סיכון נמוך:
+          קודם מה שמשפר את כל המסכים בבת אחת ואפשר לגלגל אחורה בקומיט אחד, ורק בסוף מה שנוגע בציור.
+        </p>
+      </div>
+    </header>
+
+    <div class="guard">
+      <h4>אילוצים שאסור להפר — בכל שלב</h4>
+      <ul>
+        <li><b>הספרייה קפואה.</b> מסכי הספרייה הדיגיטלית והקורא לא נוגעים בשלב אף אחד. אין שינוי CSS, אין שינוי DOM, אין שינוי מצב. השכבה היחידה שנוגעת בה היא <span class="sap">tokens.css</span> — ולכן שלב 0 חייב לצאת עם צילומי מסך משווים של הספרייה.</li>
+        <li><b>תוכן SAP, נתוני ספרים ומנועי Books/Chat לא משתנים.</b> אין נגיעה ב־<span class="sap">data/sapData.ts</span>, אין הרצה מחדש של סקריפט החילוץ במסגרת העיצוב.</li>
+        <li><b>ניתוב, כתובות URL ולוגיקה עסקית לא משתנים.</b> אין <span class="sap">redirect</span>, אין שינוי שם של מסלול, אין שינוי במבנה השאילתות.</li>
+        <li><b>ייצוא סטטי.</b> <span class="sap">output: 'export'</span> עם כ־4,600 עמודים. כל רכיב חדש חייב לעבוד בלי זמן ריצה של Node ובלי בקשת רשת.</li>
+        <li><b>Tailwind v4 עם קונפיג בתוך CSS</b> (<span class="sap">app/globals.css</span>). אסימון חדש נכנס שם ולא בקובץ קונפיג נפרד.</li>
+        <li><b>RTL עברית · 100% אופליין.</b> אין <span class="sap">next/font/google</span>, אין נכס מרוחק, גם לא בשלב פיתוח.</li>
+      </ul>
+    </div>
+
+    <div class="mount" id="phases"></div>
+
+    <div class="ship">
+      <h4>מה יכול לצאת לבד</h4>
+      <p>
+        שלבים <b>P0</b>, <b>P1</b>, <b>P2</b> ו־<b>P6</b> הם עצמאיים לחלוטין — כל אחד מהם הוא ערך מלא למשתמש גם אם הבא אחריו לא ייבנה לעולם.
+        <b>P3</b> תלוי ב־P1 (הוא צריך את כותרת סביבת העבודה החדשה כיעד של המעבר).
+        <b>P4</b> תלוי ב־P3 רק ויזואלית ואפשר לשגר אותו לפניו במחיר של מעבר חתוך במקום מעבר רציף.
+        <b>P5</b> תלוי ב־P0 בלבד. אם הזמן נגמר — <b>עוצרים אחרי P2</b>. הקליפה, הניווט ומשטח הפקודה לבדם הם השדרוג המורגש ביותר,
+        והם גם החלק היחיד שכל מסך במוצר נוגע בו.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ 05 · PERFORMANCE BUDGET -->
+  <section class="sec" id="s5">
+    <header class="sec__h">
+      <span class="sec__n">05</span>
+      <div>
+        <h2>תקציב הביצועים</h2>
+        <p class="sec__sub">
+          מספרים אכיפים, לא שאיפות. הבסיס הוא המדידה שבוצעה בפועל על הרפרנסים: הם החזיקו 60fps תחת CPU throttle ×4
+          עם <b>אפס</b> long tasks, והמחיר האמיתי שלהם היה רוחב פס — 26 עד 40 מגה־בייט.
+          המסקנה שהמדידה כפתה: <b>לא דוחים טכניקות תנועה מטעמי מעבד, דוחים נכסים כבדים.</b>
+        </p>
+      </div>
+    </header>
+
+    <div class="mount" id="budget"></div>
+
+    <div class="reject">
+      <h4>‏WebGL / Three.js — נדחה במפורש</h4>
+      <p>
+        ‏Linear, Vercel, Cursor ו־Dropbox Brand משתמשים ב<b>אפס</b> הקשרי WebGL. הרפרנס היחיד במדגם שכן משתמש —
+        Lusion v2 — משלם <b>14.7MB</b> ותלות בגודל Three.js, עבור אתר בגובה מסך אחד.
+        ל־NEO יש 15 צמתי יקום, 62 ישויות ERD ו־146 קשרים. זו גיאומטריה שנצבעת ב־SVG בכמה קילובייטים
+        ונשארת נגישה ל־DOM, לחיפוש בדפדפן ולקורא מסך. הקשר GPU היה קונה כאן אפס יכולת ומוכר שלושה דברים:
+        משקל, נגישות, ותאימות למחשב תאגידי בינוני. <b>אין WebGL, אין Three.js, אין React Three Fiber, בשום שלב.</b>
+      </p>
+    </div>
+
+    <div class="reject reject--vp">
+      <h4>כלל הרוחב — מסך גדול לעולם לא מקבל פריסת מובייל</h4>
+      <p>
+        אסור שיהיה במוצר ולו כלל <span class="sap">@media</span> אחד שמחליף לפריסת מובייל או טאבלט לפי רוחב חלון בלבד.
+        NEO מוצגת גם על מסך 85 אינץ׳ ועל צגי 2560 ו־3840. פריסה קומפקטית נבחרת לפי
+        <span class="sap">(pointer: coarse)</span> יחד עם <span class="sap">(max-width)</span>, או לפי בחירה מפורשת של המשתמש —
+        לעולם לא לפי רוחב לבדו. חלון דפדפן צר על שולחן עבודה מקבל את הפריסה השולחנית בגלילה, לא ניווט מובייל.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════ 06 · ACCESSIBILITY CHECKLIST -->
+  <section class="sec" id="s6">
+    <header class="sec__h">
+      <span class="sec__n">06</span>
+      <div>
+        <h2>רשימת בדיקת נגישות</h2>
+        <p class="sec__sub">
+          רשימה שאפשר להריץ מול בילד אמיתי. כל שורה היא בדיקה בינארית עם דרך בדיקה מוגדרת —
+          לא הצהרת כוונות. סמן פריטים כדי לעקוב אחרי מעבר על בילד.
+        </p>
+      </div>
+    </header>
+
+    <div class="a11ybar">
+      <div class="a11ybar__count"><b id="a11yDone">0</b><span> / <span id="a11yTotal">0</span> נבדק</span></div>
+      <div class="a11ybar__track" aria-hidden="true"><i id="a11yFill"></i></div>
+      <button class="tool" type="button" id="a11yReset">
+        <span class="tool__ico" data-ico="history"></span>
+        <span class="tool__lbl">איפוס</span>
+      </button>
+    </div>
+
+    <div class="mount" id="a11y"></div>
+
+    <div class="law">
+      <h4>החוק שגובר על כל השאר</h4>
+      <p>
+        <b>תנועה לעולם אינה תנאי להבנת הממשק.</b> כל מידע שתנועה מעבירה חייב להיות קריא גם כשהתנועה מכובה:
+        מיקום נוכחי מסומן ב־<span class="sap">aria-current</span> ובסמן סטטי, לא רק בסמן נוסע.
+        קשר בין מקור ליעד במעבר משותף מוסבר גם בפירורי הלחם וגם בכותרת המשטח, לא רק ב־FLIP.
+        גילוי תלוי־גלילה מגיע במצב סופי גלוי כשההנפשה מכובה — אף פריט לא נשאר ב־<span class="sap">opacity: 0</span>.
+        אם כיבוי התנועה מסתיר מידע — זה באג ברמת חוסם שחרור.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__in">
+    <span class="lockup lockup--sm">
+      <span class="lockup__mark" aria-hidden="true">D</span>
+      <span class="lockup__txt"><b>SAP by Sali</b><span>PROJECT NEO</span></span>
+    </span>
+    <span class="foot__credit" id="footCredit"></span>
+    <span class="foot__note">גיליון מפרט · כיוון D · 100% אופליין · אין נתוני SAP מומצאים</span>
+  </div>
+</footer>
+
+<noscript>
+  <p class="nojs">
+    הגיליון דורש JavaScript כדי לצייר את הדגימות ולחשב את יחסי הניגודיות בזמן ריצה.
+    כל הקבצים מקומיים — אין טעינה מהרשת.
+  </p>
+</noscript>
+
+<script type="module" src="spec.js"></script>
+</body>
+</html>

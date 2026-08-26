@@ -1,0 +1,2079 @@
+/* ============================================================================
+   PROJECT NEO · THE BOOKS AREA
+   ----------------------------------------------------------------------------
+   Imported by app/neo/books/page.tsx and app/neo/books/[bookId]/page.tsx only.
+   Every selector is anchored on .nb, which exists on those routes alone, so
+   nothing here can reach another page, and not one token in app/globals.css is
+   redeclared — this file only CONSUMES.
+
+   Controls come from app/neo/ui.css (.nu-btn, .nu-btn2, .nu-ghost, .nu-link,
+   .nu-filter, .nu-chip, .nu-status, .nu-card). This sheet does not define a
+   second button language; where a control needs a different footprint it adds a
+   modifier class ALONGSIDE the .nu- class rather than replacing it.
+
+   Rules of the house, kept from app/neo/home.css:
+     · logical properties throughout; the handful of places where a physical
+       value is unavoidable (transform-origin, a directional shadow) carry an
+       explicit [dir="ltr"] twin
+     · only transform / opacity are animated
+     · MODULE hue appears here as binding colour, surface tint, ring, edge and
+       shelf marker — never as a small standalone dot, which is the form the
+       design system reserves for --status-*
+     · brand red is the single global accent and is never a module colour
+     · no image, no remote asset, no webfont. A cover is DRAWN from the book's
+       own metadata, because the project ships offline and no artwork exists
+   ========================================================================== */
+
+/* The shell canvas is a padded, gapped grid for ordinary pages. The books area
+   is a full-bleed environment and takes the canvas over, exactly the way Home
+   does. The selector is over-qualified on purpose: globals.css sets phone
+   padding at specificity (0,2,1), so a bare `.nx-canvas:has(> .nb)` would lose
+   on phones only — the one case a full-bleed page must not get wrong. */
+html .nx-app .nx-canvas:has(> .nb) {
+  display: block;
+  padding: 0;
+  gap: 0;
+  overflow-x: clip;
+}
+
+/* Deliberately NOT `isolation: isolate`. The quick view is a fixed overlay at
+   z-index 70 and has to out-stack the shell's rail (20) and preview (35); an
+   isolated root here would trap it below both. */
+.nb {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--sp-8);
+  padding: var(--sp-16) var(--nb-gut) var(--sp-12);
+  --nb-gut: var(--sp-8);
+  /* Ambient light. Two module hues, very low percentage over a large area —
+     the difference between "white page" and "inside Project NEO". */
+  background:
+    radial-gradient(80rem 40rem at 100% -10%, color-mix(in srgb, var(--mod-pm) 8%, transparent), transparent 68%),
+    radial-gradient(70rem 38rem at 0% 6%, color-mix(in srgb, var(--mod-pppi) 6%, transparent), transparent 66%);
+  /* Every breakpoint in this file is a CONTAINER query on this element. The
+     rail owns up to 22rem of the window, so a 768px window can leave a 488px
+     canvas: sizing on the window would lay out a desktop page in a tablet
+     column. The container is the truth. */
+  container-type: inline-size;
+  container-name: nb;
+}
+.nb > * { min-inline-size: 0; }
+
+.nb-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
+
+/* ==========================================================================
+   THE TWO GROUNDS THIS PAGE STANDS ON
+   --------------------------------------------------------------------------
+   app/neo/ground.css defines exactly five scenes and forbids a sixth. Two of
+   them are what a bookshelf is:
+
+     deep    the opening. "Reserved for a moment that is meant to feel like a
+             held breath — a hero, an opening, a statement." Arriving at eleven
+             books is that moment, and it is the same warm dark in both themes,
+             so the arrival is designed once rather than twice.
+     cream   the run of shelves. "Warm raised calm. Reading and long prose." A
+             library is read in, and the books have to stand on paper rather
+             than float on the working canvas.
+
+   A scene has to be FULL BLEED or it is a card with a coloured background, so
+   both pull back through `.nb`'s own gutter and re-pad themselves. The gutter is
+   a variable that changes at five container widths, so this is written against
+   the variable and not against any one of its values.
+
+   The seam between the two is feathered by `.nm-scene::before` from ground.css;
+   nothing here has to draw it. */
+.nb-scene {
+  position: relative;
+  margin-inline: calc(var(--nb-gut) * -1);
+  padding-inline: var(--nb-gut);
+}
+.nb-open {
+  display: grid;
+  gap: var(--sp-8);
+  padding-block: var(--sp-16) var(--sp-12);
+}
+/* The opening has to start at the very top of the canvas or it is a dark band
+   with a light strip above it. `.nb`'s own top padding is handed to the scene,
+   which then owns the whole distance. Written at two-class specificity on
+   purpose: `.nb`'s padding is re-set at five container widths, and this has to
+   out-rank every one of them. */
+.nb:has(> .nb-open) { padding-block-start: 0; }
+/* The shelves keep the vertical rhythm they had as loose children of `.nb`,
+   because wrapping them in a scene must change the ground and nothing else. */
+.nb-run {
+  display: grid;
+  gap: var(--sp-8);
+  align-content: start;
+  padding-block: var(--sp-10) var(--sp-12);
+}
+.nb-run > * { min-inline-size: 0; }
+
+/* On the deep ground the masthead's own ambient wash is redundant — the scene
+   IS the light — and doubling them turned the two module hues into a smear. */
+.nb-open .nb-dictbar { background: color-mix(in srgb, var(--surface) 62%, transparent); }
+
+/* ==========================================================================
+   MASTHEAD
+   ========================================================================== */
+.nb-mast { display: grid; gap: var(--sp-4); max-inline-size: 62rem; }
+
+/* The headline arrives as language, line by line — motion.css's `.nm-kin`. Its
+   default mask leaves .08em under the baseline, which is tuned for ordinary
+   copy; this headline runs at line-height .96 and carries Hebrew descenders
+   (ק, ך, ן) at up to 7cqi, so the mask is opened up to match. Without this the
+   tails of the letters are shaved off by the very clip that makes the effect. */
+.nb-mega.nm-kin > span { padding-block-end: .18em; margin-block-end: -.18em; }
+
+.nb-eye {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--t-micro);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nb-eye i { inline-size: 20px; block-size: 1px; background: var(--m, var(--mod-pm)); opacity: .85; }
+
+.nb-mega {
+  font-size: clamp(2.25rem, 7cqi, 7rem);
+  font-weight: 700;
+  line-height: .96;
+  letter-spacing: -.03em;
+  display: grid;
+  text-wrap: balance;
+}
+.nb-mega-2 { font-size: .5em; color: var(--ink-2); letter-spacing: -.028em; }
+.nb-lede { font-size: 1.0625rem; line-height: 1.62; color: var(--ink-2); max-inline-size: 64ch; }
+.nb-note { font-size: var(--t-xs); line-height: 1.7; color: var(--ink-3); max-inline-size: 78ch; }
+.nb-note--wide { max-inline-size: none; }
+
+.nb-stats { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); }
+.nb-stat { display: grid; gap: 2px; }
+.nb-stat b {
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.5rem, 2.6cqi, 2.25rem);
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+.nb-stat em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+
+/* ==========================================================================
+   DICTIONARY BAR — the honest coverage statement
+   ========================================================================== */
+.nb-dictbar {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  max-inline-size: 62rem;
+}
+.nb-dictbar-t {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-sm); font-weight: 600; color: var(--ink-1);
+}
+.nb-dictbar-t svg { color: var(--ink-3); flex: none; }
+.nb-dictbar-l { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nb-dictbar-a {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  min-block-size: var(--c-tap);
+  padding-inline: var(--sp-4);
+  border-radius: var(--r-pill);
+  /* MODULE as surface tint + ring. Never a dot. */
+  border: 1px solid color-mix(in srgb, var(--m) 40%, var(--hairline));
+  background: color-mix(in srgb, var(--m) 8%, transparent);
+  color: var(--ink-1);
+  font-size: var(--t-xs);
+  transition: transform 200ms var(--ease-out-expo), background-color 200ms;
+}
+.nb-dictbar-a:hover { background: color-mix(in srgb, var(--m) 15%, transparent); transform: translateY(-1px); }
+.nb-dictbar-a em { font-style: normal; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================
+   CONTINUE READING — the head of the shelf.
+   Rendered only when a stored location resolves against a book that is really
+   on disk, so this block is either true or absent.
+   ========================================================================== */
+.nb-cont {
+  display: grid;
+  gap: var(--sp-2);
+  justify-items: start;
+  padding: var(--sp-5) var(--sp-6);
+  border: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(30rem 12rem at 100% 0%, color-mix(in srgb, var(--m) 10%, transparent), transparent 70%),
+    color-mix(in srgb, var(--surface) 86%, transparent);
+  max-inline-size: 62rem;
+}
+[dir="ltr"] .nb-cont {
+  background:
+    radial-gradient(30rem 12rem at 0% 0%, color-mix(in srgb, var(--m) 10%, transparent), transparent 70%),
+    color-mix(in srgb, var(--surface) 86%, transparent);
+}
+.nb-cont-e {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-micro); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nb-cont-e svg { color: var(--m); flex: none; }
+.nb-cont-t { font-size: var(--t-h3, 1.125rem); font-weight: 700; letter-spacing: -.015em; line-height: 1.3; }
+.nb-cont-l { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.6; }
+.nb-cont-a { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin-block-start: var(--sp-2); }
+
+/* ==========================================================================
+   FILTER — module toggles, in the system's own .nu-filter form
+   ========================================================================== */
+.nb-filter { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nb-f-he { color: var(--ink-3); font-weight: 500; }
+.nb-f-n { font-style: normal; font-weight: 500; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nu-filter[aria-pressed="true"] .nb-f-he { color: var(--ink-2); }
+.nb-count { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.6; max-inline-size: 70ch; }
+
+/* ==========================================================================
+   THE SHELVES — one continuous editorial run
+   --------------------------------------------------------------------------
+   The fault this replaces: a full-width module heading over a grid holding a
+   single book leaves a module-sized hole beside that book, and eight of the
+   nine modules here have exactly one book. So the module identity moves into a
+   COLUMN beside the books. A one-book module is then one shelf tall, and the
+   next module begins on the next line rather than a screen later.
+
+   Each shelf carries its own quiet identity — an inline-start edge in the
+   module hue, a low corner light, and a hairline that separates it from the
+   next. Never a filled coloured rectangle.
+   ========================================================================== */
+.nb-shelves { display: grid; }
+
+.nb-shelf {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 12.5rem) minmax(0, 1fr);
+  gap: var(--sp-4) var(--sp-8);
+  align-items: start;
+  padding-block: var(--sp-7);
+  padding-inline-start: var(--sp-5);
+  border-block-start: 1px solid var(--hairline);
+  /* Module lighting: a single soft corner wash at the bound edge of the shelf,
+     under 6% so it reads as air rather than as a panel. */
+  background: radial-gradient(34rem 16rem at 100% 0%, color-mix(in srgb, var(--m) 6%, transparent), transparent 72%);
+}
+[dir="ltr"] .nb-shelf {
+  background: radial-gradient(34rem 16rem at 0% 0%, color-mix(in srgb, var(--m) 6%, transparent), transparent 72%);
+}
+.nb-shelf:first-child { border-block-start: 0; }
+.nb-shelf:last-child { border-block-end: 1px solid var(--hairline); }
+
+/* THE BOARD.
+   --------------------------------------------------------------------------
+   The hairline between two shelves was a divider. A run of shelves in a real
+   library is not divided by lines, it is BUILT out of boards, and the whole run
+   reads as one piece of furniture because each board has a top face, a front
+   edge and a thickness. That is three colour stops and one pseudo-element, and
+   it is what turns nine sections into a bookcase.
+
+   It is drawn per SHELF rather than per grid row on purpose: `.nb-grid` wraps,
+   and CSS gives a wrapping grid no row box to hang a board on. Per shelf is the
+   version that survives a book moving from the end of one line to the next.
+
+   The board carries the module hue at 10% so a shelf is identifiably ITS
+   shelf — module identity as an edge, which the design system allows, and never
+   as a filled panel or a dot. */
+.nb-shelf::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: 6px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m) 10%, color-mix(in srgb, var(--ink-1) 15%, var(--background))) 0 1px,
+    color-mix(in srgb, var(--ink-1) 5%, var(--background)) 1px 55%,
+    color-mix(in srgb, var(--ink-1) 17%, var(--background)) 55% 100%);
+  /* The lit lip along the front edge. It is the cue that gives the board a
+     THICKNESS instead of leaving it a printed stripe. */
+  box-shadow: 0 1px 0 color-mix(in srgb, #fffaf2 70%, var(--background));
+}
+html[data-theme="dark"] .nb-shelf::after {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m) 26%, color-mix(in srgb, #ffefd8 12%, var(--background))) 0 1px,
+    color-mix(in srgb, #ffefd8 4%, var(--background)) 1px 55%,
+    color-mix(in srgb, #000 42%, var(--background)) 55% 100%);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .55);
+}
+/* The last shelf already carries a closing hairline; the board replaces it, or
+   the run ends on a board with a stray line under it. */
+.nb-shelf:last-child { border-block-end: 0; }
+
+/* The shelf's spine colour: a hairline-thin module edge that fades at both
+   ends, so the run of shelves reads as one object with coloured joints. */
+.nb-shelf-edge {
+  position: absolute;
+  inset-block: var(--sp-5);
+  inset-inline-start: 0;
+  inline-size: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, transparent, var(--m) 16%, var(--m) 84%, transparent);
+  opacity: .55;
+}
+
+.nb-shelf-h { display: grid; align-content: start; gap: 4px; }
+.nb-shelf-t { display: grid; gap: 1px; }
+.nb-shelf-code {
+  font-size: clamp(1.125rem, 1.6cqi, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--m);
+  line-height: 1.1;
+}
+.nb-shelf-he { font-size: var(--t-sm); font-weight: 600; color: var(--ink-1); }
+.nb-shelf-n { font-size: var(--t-micro); color: var(--ink-3); }
+.nb-shelf-n2 { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+/* A separator rule, deliberately a LINE and not a dot: a small filled dot is
+   reserved for --status-* and must never appear as decoration. */
+.nb-shelf-n2 i { inline-size: 1px; block-size: 9px; background: var(--hairline); flex: none; }
+
+/* ==========================================================================
+   THE BOOKS
+   ========================================================================== */
+.nb-grid, .nb-toc-l, .nb-sec-l { list-style: none; margin: 0; padding: 0; }
+.nb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(13rem, 100%), 1fr));
+  gap: var(--sp-6) var(--sp-5);
+  align-items: start;
+}
+.nb-card {
+  position: relative;
+  display: grid;
+  /* A step wider than it was: the book is now a solid with a head and a
+     contact shadow, and both stand slightly proud of the flat rect. */
+  gap: var(--sp-4);
+  align-content: start;
+  min-inline-size: 0;
+  transition: translate 380ms var(--ease-out-expo);
+}
+/* §2 — THE NEIGHBOURS MAKE ROOM.
+   Deliberately the IMMEDIATE siblings only. A grid that wraps has no notion of
+   a row in CSS, so a `~` rule would also nudge books on the line below; `+` and
+   `:has(+ …)` touch at most one book on each side, which is the amount of
+   movement the effect actually needs and the amount a wrapping grid can afford.
+   The shift is physical, so the LTR twin is explicit — in RTL the earlier
+   sibling sits to the RIGHT and therefore makes room by moving further right.
+
+   WHY `translate` AND NOT `transform`. The card also carries `.nm-rise`, whose
+   scroll-driven keyframes animate `transform` and hold it with `fill: both`.
+   An animated property beats every ordinary declaration in the cascade, so a
+   `transform: translateX(7px)` written here would be silently discarded the
+   moment the reveal finished and the shelf would stop breathing. `translate` is
+   an INDEPENDENT transform property: it composes with the animated `transform`
+   instead of competing with it, so both effects survive each other. */
+.nb-card:has(+ .nb-card:hover) { translate: 7px; }
+.nb-card:hover + .nb-card { translate: -7px; }
+[dir="ltr"] .nb-card:has(+ .nb-card:hover) { translate: -7px; }
+[dir="ltr"] .nb-card:hover + .nb-card { translate: 7px; }
+
+/* §2 — the contextual line. Real metadata that the resting, turned cover
+   foreshortens: how the book is built, and its shelf plate. It appears only
+   where a pointer can hover, because on touch the same facts are already
+   printed under the cover and a line that needs a hover is a line nobody on a
+   phone will ever read. */
+.nb-peek {
+  /* Floats BELOW the cover rather than over it. The foot of a cover carries the
+     publisher and the page count, and those are precisely what straightening
+     the book on hover is supposed to make readable — covering them with a chip
+     would undo the gesture. Same floating pattern as the bookmark label, so the
+     surface has one vocabulary for "a label that opens on hover". */
+  position: absolute;
+  inset-inline: 0;
+  /* Clear of the ledge, which now occupies the strip immediately under the
+     book. A label that opens on top of the shelf board reads as a label stuck
+     to the shelf rather than as a card floating over it. */
+  inset-block-start: calc(100% + 12px);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  box-shadow: var(--elev-3);
+  font-size: var(--t-micro);
+  line-height: 1.4;
+  color: var(--ink-2);
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 260ms var(--ease-out-expo), transform 260ms var(--ease-out-expo);
+}
+.nb-peek b { font-weight: 650; color: var(--ink-1); }
+.nb-peek i { font-style: normal; font-family: var(--font-mono); direction: ltr; color: var(--ink-3); }
+@media (hover: hover) and (pointer: fine) {
+  .nb-slab:hover ~ .nb-peek { opacity: 1; transform: none; }
+}
+.nb-slab:focus-visible ~ .nb-peek { opacity: 1; transform: none; }
+/* The book the surface is currently "on" keeps a quiet module ring, so a return
+   from the reader lands on a shelf where the book you left is still identifiable
+   without scrolling the page for you. */
+.nb-card[data-sel="1"] .nb-cov-board { box-shadow: var(--elev-3), 0 0 0 2px color-mix(in srgb, var(--m) 70%, transparent); }
+/* While a bookmark label is open it must sit above its neighbours. */
+.nb-card:has(.nb-mark:hover), .nb-card:has(.nb-mark:focus-visible) { z-index: 4; }
+
+/* THE SLOT IS THE COVER'S SIZE CONTAINER.
+   `.nb-slot` is exactly as wide as the book standing in it, and both the block's
+   thickness and the lens have to be proportional to that width — a 46px spine
+   and a 900px lens are right for a 13rem cover and badly wrong for the 28rem
+   one a 4K canvas hands out. It cannot be `.nb-cov` itself: an element is never
+   its own query container, so a `cqi` written there silently resolves against
+   `.nb`, the whole page. Declaring it here is what makes `1cqi` mean "one
+   percent of this book". */
+.nb-slot {
+  position: relative;
+  container-type: inline-size;
+  container-name: nbslot;
+}
+
+/* THE AMBIENT POOL — the second half of a grounding shadow.
+   --------------------------------------------------------------------------
+   `.nb-cov-cast` is the CONTACT: tight, dark, and directly under the foot of
+   the block. On its own it is not enough, because a real object interrupts the
+   ambient light of the whole room around it, not only where it touches. That
+   second, much wider and much weaker pool is what tells the eye an object has
+   VOLUME rather than merely an outline — and it is the single cheapest thing
+   that separates "a rectangle with a drop shadow" from "a solid standing there".
+
+   It is drawn on the slot rather than on the cover because it belongs to the
+   shelf, not to the book: it must not turn when the book turns. `container-type`
+   on `.nb-slot` already applies layout containment, which makes the slot a
+   stacking context, so the negative index is trapped here and cannot slide out
+   behind the shelf's own ground. */
+.nb-slot::after {
+  content: "";
+  position: absolute;
+  /* Flush with the slot, not wider than it. An overhang would read better on a
+     single book and it cost 8px of horizontal overflow on a 390px canvas:
+     `container-type` applies LAYOUT containment, which does not clip paint, so
+     the pool on the last column in each row escaped the scroller. The spread is
+     carried by the gradient's own falloff instead, which paints inside the box
+     and cannot overflow anything. */
+  inset-inline: 0;
+  inset-block-start: 58%;
+  block-size: 66%;
+  z-index: -1;
+  background: radial-gradient(72% 62% at 50% 62%,
+    color-mix(in srgb, var(--ink-1) 22%, transparent),
+    transparent 74%);
+  pointer-events: none;
+  opacity: .7;
+  transition: opacity 420ms var(--ease-out-expo);
+}
+/* Lifting the book off the shelf spreads and weakens the pool, exactly as it
+   does the contact shadow above it — the two have to move together or the
+   lighting contradicts itself mid-gesture. */
+.nb-slot:has(.nb-slab:hover)::after,
+.nb-slot:has(.nb-slab:focus-visible)::after { opacity: .42; }
+/* In a dark room there is no ambient light left to interrupt, so the pool is
+   nearly nothing and the object is carried by the lit edges instead (see the
+   DARK section at the end of this file). */
+html[data-theme="dark"] .nb-slot::after {
+  background: radial-gradient(58% 62% at 50% 62%, rgba(0, 0, 0, .55), transparent 72%);
+  opacity: .5;
+}
+
+/* The slab is only the hit target and the hover source. It deliberately carries
+   NO perspective: `perspective` applies to an element's DIRECT children alone,
+   and the 3D stage is `.nb-cov-3d`, a grandchild of this button. Declaring the
+   lens here would silently project nothing, the rotations would render
+   orthographically, and the book would look exactly like the flat rectangle
+   this whole system replaced. The lens lives on `.nb-cov`, one level down. */
+.nb-slab {
+  display: block;
+  inline-size: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--r-md);
+}
+/* No focus style is declared here on purpose: globals.css already gives every
+   focusable element inside .nx-app a brand outline, and a second, different
+   ring on the one surface would be a fork of the focus language. What IS added
+   below is the same LIFT the pointer gets, so keyboard and mouse see the same
+   object move. */
+
+/* --- THE BOOKMARK -------------------------------------------------------- */
+/* Present only when a real stored location resolved. Icon-sized so it never
+   covers the cover, with the sentence revealed on hover or keyboard focus —
+   and printed under the cover as well (.nb-card-res), because on a touch
+   screen there is no hover and a bookmark you cannot read is decoration. */
+.nb-mark {
+  position: absolute;
+  inset-block-start: -8px;
+  inset-inline-end: 6px;
+  z-index: 3;
+  inline-size: var(--c-tap);
+  block-size: var(--c-tap);
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-pill);
+  border: 1px solid color-mix(in srgb, var(--m) 48%, var(--hairline));
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+  color: var(--m);
+  transition: transform 200ms var(--ease-out-expo), box-shadow 200ms var(--ease-out-expo);
+}
+.nb-mark:hover, .nb-mark:focus-visible { transform: translateY(-2px); box-shadow: var(--elev-3); }
+.nb-mark-t {
+  position: absolute;
+  inset-inline-end: calc(100% + 8px);
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  inline-size: max-content;
+  max-inline-size: 17rem;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  box-shadow: var(--elev-3);
+  color: var(--ink-1);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: start;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 180ms var(--ease-out-expo), transform 180ms var(--ease-out-expo);
+}
+.nb-mark:hover .nb-mark-t, .nb-mark:focus-visible .nb-mark-t { opacity: 1; transform: none; }
+
+/* ==========================================================================
+   THE BOOK — a real object in CSS 3D
+   --------------------------------------------------------------------------
+   Six faces on a `preserve-3d` stage. No WebGL, no canvas, no image sequence,
+   no asset of any kind: every surface below is a gradient, and the browser
+   composites the whole thing on the GPU from transforms alone.
+
+   THE ONE INVARIANT: `.nb-cov` itself is never transformed. It is the layout
+   rect, and the shared-element flight in quick-view.tsx measures it on both
+   ends — so a book that is turned 15° on the shelf still hands the FLIP an
+   honest, axis-aligned rectangle and the flight cannot distort. Every
+   transform lives on `.nb-cov-3d` inside it.
+
+   THE AXIS CONVENTION: the BACK BOARD sits at z = 0 and the block is built
+   FORWARD from it, so the front cover ends up at z = --d.
+
+   That direction is not arbitrary and it is the whole reason the spine is
+   visible. Each side face is hinged on its OUTER edge and swung a quarter turn
+   into the block; swinging it forward leaves its normal pointing outward, away
+   from the book, which is the only orientation a viewer can see. Swinging the
+   same face backward puts the normal on the inside, and `backface-visibility:
+   hidden` then culls the spine entirely — the object silently flattens back
+   into the painted rectangle this replaced.
+
+   DIRECTION: 3D rotation is physical, binding is logical. `--side` (-1 in RTL,
+   +1 in LTR) and the hinge origins `--org-s` / `--org-e` carry that difference,
+   so a Hebrew book binds on the right and a Latin one on the left out of one
+   set of rules rather than two mirrored sheets.
+   ========================================================================== */
+.nb-cov {
+  position: relative;
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: 41 / 58;
+
+  /* ---- the object's own degrees of freedom, all animated on transform ---- */
+  --turn: 21deg;   /* resting yaw: enough that the spine is a readable face  */
+  --pitch: 2deg;   /* a hair of nose-down, so the head of the block shows    */
+  --out: 0px;      /* toward the viewer                                      */
+  --lift: 0px;     /* off the shelf                                          */
+  --open: 0deg;    /* the front cover, hinged on the binding edge            */
+
+  /* ---- binding side. RTL is the default; LTR is overridden once, below. -- */
+  --side: 1;
+  --org-s: 100%;   /* the binding edge   — spine hinge + cover hinge */
+  --org-e: 0%;     /* the fore-edge side — page block hinge          */
+
+  /* ---- thickness. `--thick` (0..1) is the book's real page count normalised
+     across the shelf, set inline by book-cover.tsx. Expressed against the SLOT
+     container (see `.nb-slot`), so it is a true percentage of this book's own
+     width and stays in proportion from a 9.5rem phone cover to a 4K one. ---- */
+  --d: clamp(9px, calc((6 + 8 * var(--thick, 0.5)) * 1cqi), 54px);
+  /* ---- board thickness. One value, two consumers, and they MUST agree: it is
+     both the depth of the front board's visible edge face (.nb-cov-edge) and
+     the distance the page block is set back behind that board (.nb-f-leaf).
+     A board cannot be 5px thick on its edge and 1px thick in its setback.
+
+     The 1px setback this replaces is why every cover read as a blank cream
+     rectangle: at 1px the page block and the cover board are effectively
+     coplanar, the two planes z-fight, and the paper won across the whole face —
+     leaving only a thin rim of cloth visible at the boards' overhang. The
+     jacket underneath was always rendering. ---- */
+  --bdt: clamp(2px, 1.15cqi, 6px);
+  /* The cover sizes its own print. A cover is 9.5rem wide on a phone and 19rem
+     on a 4K canvas, so every type size below is in cqi against THIS box — the
+     same component is then legible at both ends without a second sheet.
+     `container-type: inline-size` implies `contain: layout style inline-size`
+     and NOT paint containment, which is why it does not flatten the
+     `preserve-3d` stage nested inside it. */
+  container-type: inline-size;
+  container-name: nbcov;
+
+  /* THE LENS. It has to sit here, on the direct parent of the 3D stage, and
+     nowhere else — see the note on `.nb-slab`. `.nb-cov` still declares no
+     transform of its own, so it stays the honest rect the FLIP measures.
+     3.6x the cover's OWN width, via the slot container: short enough that a
+     turned board visibly tapers, long enough that the block never reads as a
+     wedge — and, because it tracks the object, a book on a 4K shelf is the
+     same book rather than a wide-angle caricature of one. */
+  perspective: calc(360 * 1cqi);
+  perspective-origin: 50% 40%;
+
+  /* Room under the object for the part of it that is NOT in the flat rect: a
+     solid standing nearer the lens projects past its own box, and the contact
+     shadow lives below it. Scaled by the book's own thickness, so a thin book
+     does not reserve a thick book's clearance. The margin moves the slot, never
+     `.nb-cov`'s own rect, so the FLIP measurement is untouched. */
+  margin-block-end: calc(var(--d) * 0.5);
+
+  /* THE BINDING RAMP, AND THE ONE DISTINCTION THIS SURFACE TURNS ON.
+     `--cloth` is what the BOOK is bound in and is set per book by
+     book-cover.tsx from books-data.ts's CLOTH scheme; `--m` is the MODULE and is
+     inherited from the card. Boards, spine and blocks are cloth — that is the
+     object. Everything PRINTED on it (the module code, the foil rule, the spine
+     band, the selection ring, the endpaper tint) stays module, because those are
+     the marks that carry meaning. A shelf of eleven books therefore reads as
+     eleven bindings that all still say which module they belong to.
+     Mixed toward ink rather than pure black, so a cloth that is already dark
+     does not collapse into a black rectangle. */
+  --cloth: var(--m);
+  --m-deep: color-mix(in srgb, var(--cloth) 86%, #0d1117);
+  --m-mid: color-mix(in srgb, var(--cloth) 62%, #0d1117);
+  --m-lift: color-mix(in srgb, var(--m) 96%, #ffffff);
+  --paper: #efe9dd;
+  --paper-2: #cfc6b6;
+  --paper-3: #dcd4c5;
+
+  /* WHERE THE LAMP IS. One light for the whole shelf, standing above the
+     BINDING edge — the edge the resting turn brings toward the reader, and
+     therefore the only edge a raking highlight can honestly sit on. The gloss
+     reads it, the contact shadow is offset away from it, and the pointer
+     overwrites it while the pointer is actually on the book (book-shelf.tsx).
+     A percentage across the cover is physical, so RTL binds right and LTR
+     binds left; the LTR twin is one line below. */
+  --gx: 72%;
+  --gy: 8%;
+}
+[dir="ltr"] .nb-cov { --side: -1; --org-s: 0%; --org-e: 100%; --gx: 28%; }
+
+/* THE STAGE. Everything the object does, it does here — so `.nb-cov` above
+   stays a clean rect for the FLIP to measure. `--ry` / `--rx` are the pointer's
+   own contribution, written by book-shelf.tsx and composed ON TOP of the
+   resting turn rather than replacing it. */
+.nb-cov-3d {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* The turn brings the BINDING edge toward the reader, which is the side the
+     spine is on — turn it the other way and the book shows its fore-edge and
+     reads backwards. */
+  /* The `--d / -2` pushes the block back by half its own thickness so it
+     STRADDLES the layout plane instead of standing entirely in front of it.
+     Without it the front cover sits a full thickness nearer the lens, is
+     magnified by that much, and grows past the bottom of its own box — where
+     it lands on the title printed underneath. Straddling halves the
+     magnification and keeps the object inside the rect the grid gave it. */
+  transform:
+    translateY(var(--lift))
+    translateZ(calc(var(--out) - var(--d) / 2))
+    rotateY(calc(var(--turn) * var(--side) * -1 + var(--ry, 0deg)))
+    rotateX(calc(var(--pitch) + var(--rx, 0deg)));
+  transition: transform 420ms var(--ease-out-expo);
+}
+/* While the pointer is actually on the book the turn tracks it, so the shorter
+   duration is a follow, not an ease-in. */
+.nb-slab[data-tilt="1"]:hover .nb-cov-3d { transition-duration: 140ms; }
+
+/* ---- the six faces -------------------------------------------------------
+   Shared plumbing. Each face is an absolutely positioned plane; only the
+   transform below decides which plane of the block it is. */
+.nb-f {
+  position: absolute;
+  inset: 0;
+  border-radius: 1px;
+  backface-visibility: hidden;
+}
+
+/* FRONT — the full thickness forward of the back board, hinged on the binding
+   edge so it can open. The translate is written OUTSIDE the rotation so the
+   hinge axis travels with the cover and stays on the binding. */
+.nb-f-front {
+  transform-style: preserve-3d;
+  transform-origin: var(--org-s) 50%;
+  transform: translateZ(var(--d)) rotateY(calc(var(--open) * var(--side)));
+  transition: transform 560ms var(--ease-out-expo);
+  border-start-start-radius: 2px;
+  border-end-start-radius: 2px;
+  border-start-end-radius: var(--r-md);
+  border-end-end-radius: var(--r-md);
+}
+
+/* BACK BOARD — the plane the whole block is built forward from, so z = 0. */
+.nb-f-back {
+  background: linear-gradient(152deg, var(--m-deep), color-mix(in srgb, var(--m-deep) 70%, #000));
+  border-start-end-radius: var(--r-md);
+  border-end-end-radius: var(--r-md);
+}
+
+/* THE FIRST PAGE — sits just behind the cover. It is what you see through the
+   gap the moment the cover starts to open, and it is the reason an opening
+   cover reads as paper underneath rather than as a hole. */
+.nb-f-leaf {
+  /* Inset, because a case-bound book's BOARDS OVERHANG ITS PAGES — the square
+     of the binding. Without it the page block peeks out past the cover on the
+     far side, which is the one detail that instantly reads as wrong. The
+     binding edge is left flush: the pages meet the spine there. */
+  inset-block: 1.4%;
+  inset-inline-end: 1.8%;
+  transform: translateZ(calc(var(--d) - var(--bdt)));
+  background:
+    linear-gradient(to var(--leaf-dir, left),
+      color-mix(in srgb, var(--paper) 82%, #8a8272) 0%,
+      var(--paper) 7%,
+      var(--paper) 100%);
+  border-start-end-radius: calc(var(--r-md) - 2px);
+  border-end-end-radius: calc(var(--r-md) - 2px);
+}
+[dir="ltr"] .nb-cov { --leaf-dir: right; }
+
+/* THE FORE-EDGE. The outer edge of the page block, on the side opposite the
+   binding. Hinged on its own outer edge and laid back into the block, so it is
+   a genuine side face — the stripes are the leaves. */
+.nb-f-fore {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  inline-size: var(--d);
+  inset-block: 1.5%;
+  transform-origin: var(--org-e) 50%;
+  transform: rotateY(calc(-90deg * var(--side)));   /* outward normal, swung forward */
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.22), transparent 12%, transparent 88%, rgba(0,0,0,.26)),
+    repeating-linear-gradient(90deg,
+      var(--paper) 0 1px,
+      var(--paper-3) 1px 2px,
+      var(--paper-2) 2px 3px);
+  border-radius: 0;
+}
+
+/* THE HEAD. Same paper, seen from above — so the stripes run the other way. */
+.nb-f-top {
+  inset-block-end: auto;
+  block-size: var(--d);
+  /* Flush at the binding, inset at the fore-edge: the same board overhang. */
+  inset-inline-start: 0;
+  inset-inline-end: 1.8%;
+  transform-origin: 50% 0;
+  /* +90°, not -90°: CSS's +Y is DOWN, so this is the rotation that leaves the
+     head's normal pointing visually UP and the face swung forward. */
+  transform: rotateX(90deg);
+  background:
+    linear-gradient(to var(--leaf-dir, left), rgba(0,0,0,.2), transparent 10%, transparent 90%, rgba(0,0,0,.24)),
+    repeating-linear-gradient(0deg,
+      var(--paper) 0 1px,
+      var(--paper-3) 1px 2px,
+      var(--paper-2) 2px 3px);
+  border-radius: 0;
+}
+
+/* THE SPINE. A real face on the binding edge — this is the whole point of the
+   geometry: on the shelf you are looking at a cover AND a spine, not at a
+   rectangle with a dark stripe painted down one side. */
+.nb-f-spine {
+  inset-inline-end: auto;
+  inline-size: var(--d);
+  transform-origin: var(--org-s) 50%;
+  transform: rotateY(calc(90deg * var(--side)));   /* outward normal, swung forward */
+  /* MATERIALLY DARKER THAN THE BOARD. This is the single cue that decides
+     whether the object reads as a book or as a rectangle: a binding is a
+     different plane catching different light, and if it tones the same as the
+     cover the geometry is wasted. The first gradient is the fold shading, the
+     second is the ramp along the height of the spine. */
+  /* THE ROUND BACK. A case-bound spine is not a flat plane, it is a cylinder,
+     and the eye reads that entirely from where the highlight sits. So the fold
+     shading is no longer a simple dark-to-dark ramp: it carries a warm specular
+     ridge just off centre — the light in this room comes from the upper
+     inline-start — with the two shoulders falling into the joints on either
+     side. That single band is the difference between "a dark stripe" and "the
+     rounded back of a bound book". */
+  background:
+    linear-gradient(to var(--leaf-dir, left),
+      rgba(0,0,0,.66) 0%,
+      rgba(0,0,0,.20) 20%,
+      rgba(255,244,228,.16) 40%,
+      rgba(0,0,0,.16) 58%,
+      rgba(0,0,0,.44) 82%,
+      rgba(0,0,0,.70) 100%),
+    linear-gradient(180deg, var(--m-mid), var(--m-deep) 55%, color-mix(in srgb, var(--m-deep) 62%, #000));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-block: clamp(6px, 2.4cqi, 12px);
+  overflow: hidden;
+  border-radius: 0;
+  color: #fff;
+}
+/* THE HEADBAND AND THE TAIL. The strip of woven cloth at the head and foot of a
+   sewn spine. It is a two-pixel detail and it is the single most bookbinding
+   thing on the object: nothing that is not a bound book has one. Drawn as two
+   inset bands rather than as elements, so the spine keeps its three real
+   children and the flex column is untouched. */
+.nb-f-spine::before,
+.nb-f-spine::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  block-size: clamp(2px, 1.4cqi, 4px);
+  background: linear-gradient(to var(--leaf-dir, left),
+    rgba(0,0,0,.5), color-mix(in srgb, var(--m-lift) 62%, #fff) 45%, rgba(0,0,0,.55));
+  opacity: .72;
+  pointer-events: none;
+}
+.nb-f-spine::before { inset-block-start: 0; }
+.nb-f-spine::after { inset-block-end: 0; }
+.nb-sp-head { flex: none; }
+.nb-sp-mod {
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-size: clamp(5px, 1.9cqi, 9px);
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: color-mix(in srgb, var(--m-lift) 68%, #fff);   /* 86% measured 4.26:1 at 9px */
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+/* The title, running down the spine the way it does on a real one. It is
+   allowed to clip: a spine holds what a spine holds, and the full title is
+   printed on the face beside it. */
+.nb-sp-t {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: clamp(5px, 1.9cqi, 9px);
+  font-weight: 650;
+  letter-spacing: .01em;
+  color: rgba(255,255,255,.82);
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: start;
+}
+.nb-sp-band {
+  flex: none;
+  inline-size: 100%;
+  block-size: 2px;
+  background: color-mix(in srgb, var(--m-lift) 55%, transparent);
+  opacity: .8;
+}
+.nb-sp-n {
+  flex: none;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: clamp(5px, 1.8cqi, 9px);
+  color: rgba(255,255,255,.6);
+}
+
+/* ---- the front cover's own surfaces -------------------------------------- */
+.nb-cov-board {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-start-start-radius: 2px;
+  border-end-start-radius: 2px;
+  border-start-end-radius: var(--r-md);
+  border-end-end-radius: var(--r-md);
+  background: linear-gradient(152deg, var(--m-deep) 0%, var(--m-mid) 58%, var(--m-deep) 100%);
+  /* THE BEVEL. A case-bound board is cut and its edge catches light all the way
+     round; without that the board is a filled rectangle with a shadow under it.
+     Three inset rings, weakest to strongest: the warm room light on the outer
+     millimetre, the cloth's own colour just inside it, and the seat of the
+     board in the shadow it casts. The outer light is WARM (#fff6ea, not #fff)
+     because the product is grounded on warm paper and a neutral white edge on a
+     warm ground reads as a printing error. */
+  box-shadow:
+    var(--elev-3),
+    0 0 0 1px color-mix(in srgb, var(--m) 30%, transparent) inset,
+    0 1px 0 rgba(255, 246, 234, .17) inset,
+    0 -1px 0 rgba(0, 0, 0, .3) inset;
+  transition: box-shadow 340ms var(--ease-out-expo);
+}
+/* THE JOINT. One lit hairline where the cover board folds onto the binding —
+   the crease a case-bound book has, and the detail that makes the two planes
+   read as one object rather than as two shapes that happen to touch. Physical
+   inset, so the LTR twin is explicit. */
+.nb-cov-board::after {
+  content: "";
+  position: absolute;
+  inset-block: 3%;
+  inset-inline-start: 5%;
+  inline-size: 2px;
+  border-radius: 1px;
+  background: linear-gradient(to bottom,
+    transparent, rgba(255,255,255,.16) 14%, rgba(255,255,255,.16) 86%, transparent);
+  box-shadow: -1px 0 0 rgba(0,0,0,.28);
+}
+[dir="ltr"] .nb-cov-board::after { box-shadow: 1px 0 0 rgba(0,0,0,.28); }
+.nb-slab:hover .nb-cov-board,
+.nb-slab:focus-visible .nb-cov-board {
+  box-shadow:
+    var(--elev-4),
+    0 0 0 1px color-mix(in srgb, var(--m) 62%, transparent) inset,
+    0 22px 44px -24px color-mix(in srgb, var(--m) 70%, transparent);
+}
+/* The book whose quick view is open keeps a module-coloured ring, so the slot
+   the cover flew out of is still identifiable behind the scrim. A RING, not a
+   dot: module colour never takes the dot form. */
+.nb-slab[data-open="1"] .nb-cov-board {
+  box-shadow: var(--elev-2), 0 0 0 2px var(--m);
+}
+
+/* Cloth weave. Two hairline gratings at low alpha — the whole texture costs one
+   painted gradient and no asset. */
+.nb-cov-cloth {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-start-start-radius: 2px;
+  border-end-start-radius: 2px;
+  border-start-end-radius: var(--r-md);
+  border-end-end-radius: var(--r-md);
+  overflow: hidden;
+  /* BOOK CLOTH IS A WEAVE, AND A WEAVE HAS TWO THREADS.
+     Warp and weft, at right angles, each one a lit thread and a shadowed gap.
+     The highlight thread is warm (255,247,236) rather than pure white for the
+     same reason the board's bevel is: the whole product sits on warm paper now,
+     and a neutral white grating over a coloured cloth greys it out. A third,
+     much coarser grating runs across both at a low angle — that is the SLUB,
+     the irregularity that stops a woven surface reading as graph paper. Three
+     gradients, no asset, one composited layer. */
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255,247,236,.045) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(118deg, rgba(255,247,236,.03) 0 1px, transparent 1px 11px);
+  opacity: .95;
+  pointer-events: none;
+}
+
+/* The inside of the front board. Only ever seen once the cover opens, and only
+   from behind — so it is the one surface that is deliberately NOT backface
+   hidden, and it carries endpaper rather than cloth. */
+.nb-cov-inner {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(-0.4px) rotateY(180deg);
+  /* THE BUG THAT MADE EVERY COVER READ AS A BLANK RECTANGLE.
+     This face is turned to point AWAY from the reader, so it must only be
+     visible from behind — but it was the one face in the whole book that never
+     opted out of drawing its backface. Every book on the shelf is turned ~21deg
+     toward the viewer, and at that angle the cream pastedown painted straight
+     through the front board and covered the jacket: the cloth, the stamped
+     monogram and the title were all rendering correctly and all sitting behind
+     it. Hiding the backface is the entire fix; the artwork was never missing. */
+  backface-visibility: hidden;
+  border-radius: inherit;
+  background:
+    linear-gradient(140deg, color-mix(in srgb, var(--m) 16%, var(--paper)), var(--paper) 62%),
+    var(--paper);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+}
+
+.nb-cov-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  padding-block: clamp(var(--sp-4), 7cqi, var(--sp-6));
+  padding-inline-start: clamp(var(--sp-3), 6cqi, var(--sp-6));
+  padding-inline-end: clamp(var(--sp-3), 5cqi, var(--sp-5));
+  /* Flex, not grid: the foot of the cover is pushed down by an auto margin on
+     the rule, which needs a free-space axis that `align-content: start` on a
+     grid does not give. */
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 2.4cqi, 12px);
+  color: #fff;
+}
+.nb-cov-top { display: flex; align-items: center; gap: var(--sp-2); }
+.nb-cov-mod {
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-size: clamp(9px, 4cqi, 13px);
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: color-mix(in srgb, var(--m-lift) 70%, #fff);   /* 88% measured 4.09:1 at 9px */
+}
+.nb-cov-foil { flex: 1; block-size: 2px; background: linear-gradient(to left, color-mix(in srgb, var(--m-lift) 70%, #fff), transparent); border-radius: 1px; }
+[dir="ltr"] .nb-cov-foil { background: linear-gradient(to right, color-mix(in srgb, var(--m-lift) 70%, #fff), transparent); }
+
+/* ---------------------------------------------------------------- THE JACKET
+   The cover used to print the whole title in one weight, so a five-word title
+   arrived as five equal lines and the board's lower half stayed empty. That is
+   the difference between a jacket and a placeholder, and it is fixed here in
+   three moves: RANK the type, give the empty field a real graphic, and seat the
+   type block low so the space reads as margin.
+   -------------------------------------------------------------------------- */
+
+/* The volume numeral, opposite the module plate at the head. */
+.nb-cov-vol {
+  margin-inline-start: auto;
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-size: clamp(8px, 3.4cqi, 12px);
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+/* A blind-ruled frame. Debossed, not drawn: a light hairline on the lit edges
+   and a dark one opposite, which is what an impressed rule looks like on cloth.
+   Inset generously so it frames the composition rather than outlining the card. */
+.nb-cov-frame {
+  position: absolute;
+  inset: clamp(5px, 4.2cqi, 16px);
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 244, 226, .16),
+    inset 1px 0 0 rgba(255, 244, 226, .10),
+    inset 0 -1px 0 rgba(0, 0, 0, .30),
+    inset -1px 0 0 rgba(0, 0, 0, .22);
+}
+
+/* THE FIELD GRAPHIC — the module code, blind-stamped into the cloth.
+   It is huge because it is the cover's image, and it is legitimate because it is
+   real metadata rather than decoration. Debossed with a warm highlight below and
+   a shadow above, so it reads pressed IN rather than printed on. The fill is
+   nearly the cloth itself; only the relief makes it visible. */
+.nb-cov-stamp {
+  position: absolute;
+  inset-inline-start: clamp(var(--sp-3), 6cqi, var(--sp-6));
+  inset-block-start: clamp(18%, 20cqi, 34%);
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  /* Sized by code length: see the note in book-cover.tsx. A seven-glyph code
+     at the two-glyph size spans the whole board and fights the title. */
+  font-size: clamp(30px, 30cqi, 108px);
+  font-weight: 800;
+  line-height: .82;
+  letter-spacing: -.04em;
+  pointer-events: none;
+  color: rgba(255, 255, 255, .045);
+  text-shadow:
+    0 1px 0 rgba(255, 246, 232, .12),
+    0 -1px 1px rgba(0, 0, 0, .34);
+}
+
+.nb-cov-stamp[data-len="mid"]   { font-size: clamp(22px, 21cqi, 74px); }
+.nb-cov-stamp[data-len="long"]  { font-size: clamp(16px, 14.5cqi, 52px); letter-spacing: -.05em; }
+
+/* THE TYPE BLOCK, seated low. margin-block-start:auto pushes it to the foot of
+   the free space, which is the whole compositional move. */
+.nb-cov-type {
+  margin-block-start: auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2px, 1.2cqi, 6px);
+  position: relative;
+}
+
+.nb-cov-kick {
+  font-size: clamp(8px, 3.4cqi, 12px);
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--m-lift) 70%, #fff);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* THE SUBJECT — the one large thing on the cover. Sized from the subject alone,
+   which is what buys the scale: "PP/DS" is two syllables and gets to be huge,
+   where the old rule sized it against the full 44-character title. */
+.nb-cov-subj {
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+  /* NOT `anywhere`. A title is a name, and `anywhere` breaks eagerly inside a
+     word, which printed "Plant Maintenan / ce" on the shelf. `break-word` only
+     splits a word that cannot fit a line on its own, and subjectTier() sizes
+     against the longest word precisely so that case does not arise. */
+  overflow-wrap: break-word;
+  hyphens: none;
+  /* Sharpens as the book turns to face the reader: a surface at an angle really
+     is softer, so straightening on hover reads as focus, not a colour change. */
+  opacity: .95;
+  transition: opacity 300ms var(--ease-out-expo);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .34);
+}
+.nb-slab:hover .nb-cov-subj,
+.nb-slab:focus-visible .nb-cov-subj { opacity: 1; }
+
+.nb-cov-face[data-tier="xl"] .nb-cov-subj { font-size: clamp(17px, 17cqi, 54px); }
+.nb-cov-face[data-tier="lg"] .nb-cov-subj { font-size: clamp(15px, 13cqi, 40px); }
+.nb-cov-face[data-tier="md"] .nb-cov-subj { font-size: clamp(13px, 10.5cqi, 31px); }
+.nb-cov-face[data-tier="sm"] .nb-cov-subj { font-size: clamp(12px, 8.4cqi, 24px); }
+
+/* The platform line. Quiet on purpose: every book on this shelf says S/4HANA,
+   so it identifies nothing and must not compete with the subject. */
+.nb-cov-plat {
+  font-size: clamp(8px, 3.7cqi, 13px);
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: rgba(255, 255, 255, .78);
+}
+
+.nb-cov-sub {
+  font-size: clamp(8px, 3.4cqi, 12px);
+  line-height: 1.35;
+  color: rgba(255, 255, 255, .62);
+}
+
+/* The English title beneath a Hebrew one. A second real title, kept. */
+.nb-cov-alt {
+  margin-block-start: clamp(2px, 1.4cqi, 5px);
+  font-size: clamp(7px, 3cqi, 11px);
+  line-height: 1.3;
+  color: rgba(255, 255, 255, .5);
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.nb-cov-rule { block-size: 1px; background: rgba(255,255,255,.24); }
+.nb-cov-pub {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px var(--sp-2);
+  font-size: clamp(8px, 3.2cqi, 11px);
+  color: rgba(255,255,255,.74);
+}
+.nb-cov-pg { font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------- THE BOARD'S OWN THICKNESS
+   The brief asked for "cover thickness" and the front board did not have any:
+   it was a zero-depth plane at z = --d, so the one thing that says a cover is
+   a physical board was the one thing missing.
+
+   This is a real face on the fore-edge of the front board. It is a CHILD of
+   .nb-f-front, so it inherits the cover's hinge and the thickness swings as the
+   book opens instead of sitting there as a painted line.
+
+   .nb-f-fore swings its outward normal FORWARD with rotateY(90deg * --side).
+   This face hangs off a board that is already forward at z = --d, so it has to
+   swing the other way — hence the negated angle. --org-e is the fore edge in
+   both directions (100% LTR / 0% RTL), which is why no [dir] twin is needed. */
+.nb-cov-edge {
+  --bd: var(--bdt);
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: var(--bd);
+  transform-origin: var(--org-e) 50%;
+  transform: rotateY(calc(-90deg * var(--side)));
+  backface-visibility: hidden;
+  pointer-events: none;
+  /* Lit on the head, shadowed at the tail: a board seen edge-on is a bright
+     line of cloth over a dark core, never a flat swatch. */
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--cloth) 76%, #fff) 0%,
+    var(--cloth) 26%,
+    color-mix(in srgb, var(--cloth) 62%, #000) 100%
+  );
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .22);
+}
+
+/* A single raking highlight. It is the only thing that says "this is a surface
+   catching light", and it follows the pointer through --gx/--gy when a tilt is
+   armed; without a pointer it stays where it is and the cover still reads. */
+.nb-cov-gloss {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-start-start-radius: 2px;
+  border-end-start-radius: 2px;
+  border-start-end-radius: var(--r-md);
+  border-end-end-radius: var(--r-md);
+  /* The room's light is WARM now, so the specular is warm. A pure #fff highlight
+     on a warm ground reads as a blown-out photograph; #fff6e8 reads as a lamp.
+     The second stop is the falloff, and the third is where the cloth stops
+     catching anything at all — a real raking highlight ends, it does not fade
+     to the edge of the board. */
+  background: radial-gradient(120% 90% at var(--gx, 22%) var(--gy, 6%),
+    rgba(255,246,232,.26) 0%,
+    rgba(255,246,232,.08) 32%,
+    transparent 62%);
+  pointer-events: none;
+  transition: opacity 300ms var(--ease-out-expo);
+  opacity: .85;
+}
+.nb-slab:hover .nb-cov-gloss { opacity: 1; }
+
+/* ---- the contact shadow -------------------------------------------------
+   Outside the 3D stage on purpose: the shadow belongs to the shelf the book
+   stands on, not to the book, so it must not turn with it. It only softens and
+   spreads as the object lifts, which is what a real one does. */
+.nb-cov-cast {
+  position: absolute;
+  /* Off centre, and deliberately so. ONE LAMP LIGHTS THIS WHOLE SURFACE and it
+     stands above the BINDING edge — the near edge, the one the resting turn
+     brings toward the reader, which is the only edge a raking highlight can
+     honestly sit on. A shadow cast by that lamp falls away from it, toward the
+     fore-edge, so it is offset and its densest point is off centre too. A
+     symmetric ellipse under a book lit from one side is the tell that the
+     lighting was never thought about.
+     The offset is physical, so the LTR twin is explicit — see the house rule at
+     the top of this file. */
+  inset-inline-start: 8%;
+  inset-inline-end: 0%;
+  /* PAST THE FOOT, NOT UNDER THE BOX. `.nb-cov` is the flat layout rect, but the
+     object inside it is turned and pitched and its silhouette runs BELOW that
+     rect by roughly half its own thickness. A shadow anchored at 100% therefore
+     landed partway up the book's own bottom board and was invisible on every
+     book thick enough to matter. Offsetting by the same fraction of `--d` that
+     the cover already reserves as clearance puts the shadow where the object
+     actually meets the shelf, at every thickness on the shelf. */
+  inset-block-start: calc(100% + var(--d) * .38);
+  block-size: 13px;
+  margin-block-start: 2px;
+  border-radius: 50%;
+  /* Warm-brown, not grey. --ink-1 is #171310 on the new ground, so the shadow
+     is already a darker version of the paper it falls on rather than soot. */
+  background: radial-gradient(62% 100% at 40% 0%, color-mix(in srgb, var(--ink-1) 52%, transparent), transparent 78%);
+  opacity: .62;
+  /* The blur is STATIC. Softening it on hover would read well but `filter` is a
+     paint property, and this sheet animates transform and opacity only — the
+     shadow spreads and fades instead, which is what the eye reads anyway. */
+  filter: blur(2px);
+  transform: scaleX(1);
+  transform-origin: 50% 0;
+  pointer-events: none;
+  transition: opacity 420ms var(--ease-out-expo), transform 420ms var(--ease-out-expo);
+}
+[dir="ltr"] .nb-cov-cast {
+  background: radial-gradient(62% 100% at 60% 0%, color-mix(in srgb, var(--ink-1) 52%, transparent), transparent 78%);
+}
+/* A LIFTED BOOK STILL CASTS. The shadow spreads and softens as the object comes
+   off the shelf, which is what a real one does — but it does not disappear, and
+   at the old .3 it effectively did: the one moment the reader is looking hardest
+   at a single book was the one moment it stopped being grounded. */
+.nb-slab:hover .nb-cov-cast,
+.nb-slab:focus-visible .nb-cov-cast { opacity: .44; transform: scaleX(1.16) scaleY(1.4); }
+
+/* ---- the states the object can be in ------------------------------------ */
+
+/* §2 — pointer focus. The book eases OUT of the shelf toward the reader and
+   straightens as it comes, which is the movement that makes a cover readable.
+   Only pointers that can actually hover get it; a touch screen keeps the press
+   state and the always-visible controls underneath instead. */
+@media (hover: hover) and (pointer: fine) {
+  .nb-slab:hover .nb-cov { --turn: 4deg; --pitch: 0deg; --out: 30px; --lift: -6px; }
+}
+.nb-slab:focus-visible .nb-cov { --turn: 4deg; --pitch: 0deg; --out: 30px; --lift: -6px; }
+/* Touch has no hover to lean on, so the press itself is the affordance. */
+.nb-slab:active .nb-cov { --out: 8px; --lift: -1px; }
+/* The open book keeps its cover ajar behind the scrim, so the slot it flew out
+   of still reads as the book that is open. */
+.nb-slab[data-open="1"] .nb-cov { --turn: 2deg; --open: 16deg; }
+
+/* ENTRY / HUB SIZE. The book is square to the reader and its cover is hinged
+   back: an opened book, not a closed one. This is §3's landing state — the
+   thing the shelf book turns into. */
+.nb-cov[data-size="entry"] {
+  --turn: 0deg;
+  --pitch: 0deg;
+  --out: 0px;
+  --lift: 0px;
+  /* A longer lens on the hero: it is square to the reader and its cover is
+     hinged, and an open cover through a short lens skews badly. */
+  perspective: calc(460 * 1cqi);
+  perspective-origin: 50% 44%;
+}
+.nb-cov[data-size="entry"][data-open="1"] { --open: 24deg; }
+
+/* ==========================================================================
+   THE OPENING MOMENT — arriving at a book's hub
+   --------------------------------------------------------------------------
+   The quick view already had one: the cover flies out of its slot on a measured
+   FLIP and the board hinges once the flight has landed (quick-view.tsx). The
+   HUB had none. You pressed a book and the next screen simply existed, with an
+   already-open book sitting on it, and the single best moment this surface owns
+   — a book being opened — was thrown away on every navigation.
+
+   So the hub plays that moment on arrival, in the same two beats and the same
+   order as the panel, because they are the same event seen from two routes:
+
+     beat 1   the book ARRIVES. Turned, closed, a little below and a little
+              away, and it settles square to the reader.
+     beat 2   once it has settled, the front board HINGES OPEN. Never during the
+              travel: a cover that opens while the object is still moving reads
+              as a glitch, one that opens after it has stopped reads as a book.
+
+   TWO THINGS MAKE THIS SAFE TO RUN ON EVERY PAINT.
+
+   It animates `transform` and `opacity` and nothing else, so it stays on the
+   compositor and never touches layout.
+
+   And the fill mode is `backwards`, not `both` — which is load-bearing rather
+   than tidy. `both` would freeze the final keyframe onto the element forever,
+   and `.nb-cov-3d`'s transform is composed live from --turn/--pitch/--out/
+   --lift; a frozen transform would out-rank every one of them and the object
+   could never be moved again. `backwards` supplies the from-state during the
+   delay and then hands the property back, and the last keyframe is written to
+   equal the resting transform exactly, so the handover is invisible. */
+
+@keyframes nb-arrive {
+  from {
+    opacity: 0;
+    transform:
+      translateY(18px)
+      translateZ(calc(0px - var(--d) * 1.4))
+      rotateY(calc(15deg * var(--side) * -1))
+      rotateX(5deg);
+  }
+  to {
+    opacity: 1;
+    /* Identical to the resting transform on .nb-cov-3d. */
+    transform:
+      translateY(var(--lift))
+      translateZ(calc(var(--out) - var(--d) / 2))
+      rotateY(calc(var(--turn) * var(--side) * -1 + var(--ry, 0deg)))
+      rotateX(calc(var(--pitch) + var(--rx, 0deg)));
+  }
+}
+@keyframes nb-hinge {
+  /* The board starts SHUT — 0deg — and swings to whatever --open resolves to on
+     this element, so one keyframe serves the 24° hub and any future value. */
+  from { transform: translateZ(var(--d)) rotateY(0deg); }
+  to   { transform: translateZ(var(--d)) rotateY(calc(var(--open) * var(--side))); }
+}
+
+.nb-cov[data-size="entry"] .nb-cov-3d {
+  animation: nb-arrive 760ms var(--ease-out-expo) backwards;
+}
+.nb-cov[data-size="entry"][data-open="1"] .nb-f-front {
+  /* The delay is the first beat's length minus its long settle tail: the board
+     starts to move as the object stops rather than after a visible pause. */
+  animation: nb-hinge 620ms var(--ease-out-expo) 520ms backwards;
+}
+
+/* The quick view runs its OWN flight, timed in JavaScript against a measured
+   FLIP, and it sets `data-open` only once that flight has landed. Playing this
+   arrival there as well would be two openings on top of each other. */
+.nb-sheet-cov .nb-cov[data-size="entry"] .nb-cov-3d,
+.nb-sheet-cov .nb-cov[data-size="entry"] .nb-f-front { animation: none; }
+
+/* ==========================================================================
+   CARD META + THE DIRECT LINK INTO THE READER
+   ========================================================================== */
+.nb-card-meta { display: grid; gap: 3px; }
+.nb-card-t { font-size: var(--t-sm); font-weight: 700; line-height: 1.35; letter-spacing: -.01em; }
+.nb-card-t2 { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.4; }
+.nb-card-n {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-micro); color: var(--ink-2); font-variant-numeric: tabular-nums;
+  margin-block-start: 2px;
+}
+.nb-card-n i { inline-size: 1px; block-size: 9px; background: var(--hairline); flex: none; }
+.nb-card-k { font-size: var(--t-micro); color: var(--ink-3); }
+/* The touch-visible half of the bookmark: the same sentence the hover label
+   carries, printed where no pointer is needed to read it. */
+.nb-card-res {
+  display: flex; align-items: start; gap: 5px;
+  font-size: var(--t-micro); line-height: 1.5; color: var(--ink-2);
+  margin-block-start: 2px;
+}
+.nb-card-res svg { flex: none; color: var(--m); margin-block-start: 2px; }
+
+/* Modifiers, not replacements. Written at two-class specificity so the sheet
+   order between ui.css and this file can never decide the outcome. */
+.nb-card .nb-go { border-radius: var(--r-pill); }
+
+/* ==========================================================================
+   QUICK VIEW — where the cover flies to
+   ========================================================================== */
+.nb-entry {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-6);
+}
+.nb-scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--background) 72%, transparent);
+  backdrop-filter: blur(7px);
+  animation: nb-fade 240ms var(--ease-out-expo) both;
+}
+@keyframes nb-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* The panel itself never scrolls. That is not a style choice: the cover inside
+   it is the FLIP element, and on open it starts translated all the way back to
+   its slot on the shelf — an `overflow: auto` here would clip the whole flight.
+   The scroll lives on the body column instead, which also keeps the cover
+   pinned while a 1,689-row table of contents is scrolled past it. */
+.nb-sheet {
+  position: relative;
+  inline-size: min(70rem, 100%);
+  max-block-size: min(52rem, 92dvh);
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: var(--sp-8);
+  padding: var(--sp-8);
+  border-radius: var(--r-2xl);
+  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  background: var(--surface);
+  box-shadow: var(--elev-4);
+  /* Module light on the panel itself, strongest at the bound edge. */
+  background-image: radial-gradient(70% 55% at 100% 0%, color-mix(in srgb, var(--m) 11%, transparent), transparent 66%);
+}
+[dir="ltr"] .nb-sheet { background-image: radial-gradient(70% 55% at 0% 0%, color-mix(in srgb, var(--m) 11%, transparent), transparent 66%); }
+.nb-sheet > * { min-inline-size: 0; }
+.nb-sheet-side { align-self: start; display: grid; gap: var(--sp-3); }
+/* The panel's cover and the hub's cover are the same `.nb-cov` object, so they
+   bring their own lens with them; the wrapper only has to reserve the space and
+   not clip the block, which now stands proud of the flat rect by its own
+   thickness. */
+.nb-sheet-cov, .nb-hub-cov {
+  position: relative;
+  /* Same job as `.nb-slot` on the shelf: be the thing the book's thickness and
+     lens are a percentage OF. */
+  container-type: inline-size;
+  container-name: nbslot;
+}
+.nb-sheet-state { line-height: 1.5; }
+.nb-sheet-body {
+  display: grid;
+  align-content: start;
+  gap: var(--sp-4);
+  min-block-size: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  /* Room for the scrollbar so the content never sits under it. */
+  padding-inline-end: 2px;
+}
+.nb-sheet-body > * { min-inline-size: 0; }
+
+.nb-sheet-head { flex-wrap: wrap; padding-inline-end: 3rem; }
+.nb-sheet-head i { inline-size: 14px; }
+.nb-x {
+  position: absolute;
+  inset-block-start: var(--sp-4);
+  inset-inline-end: var(--sp-4);
+  z-index: 2;
+  inline-size: var(--c-tap);
+  block-size: var(--c-tap);
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: transform 180ms var(--ease-out-expo), color 180ms;
+}
+.nb-x:hover { color: var(--ink-1); transform: scale(1.04); }
+
+.nb-sheet-t { font-size: clamp(1.375rem, 3.4cqi, 2.25rem); font-weight: 700; line-height: 1.12; letter-spacing: -.025em; text-wrap: balance; }
+.nb-sheet-t2 { font-size: var(--t-xs); color: var(--ink-3); }
+.nb-sheet-k { font-size: var(--t-xs); color: var(--ink-3); }
+
+.nb-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr));
+  gap: var(--sp-3) var(--sp-5);
+  padding-block: var(--sp-3);
+  border-block: 1px solid var(--hairline);
+}
+.nb-facts > div { display: grid; gap: 2px; min-inline-size: 0; }
+.nb-facts dt { font-size: var(--t-micro); color: var(--ink-3); }
+.nb-facts dd { font-size: 1.25rem; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.nb-facts dd:not(.nb-sap) { font-size: var(--t-sm); font-weight: 600; letter-spacing: 0; }
+.nb-none { color: var(--ink-3); font-weight: 500; }
+
+/* Reading progress. A bar in the module hue — never a dot. */
+.nb-prog { display: block; block-size: 4px; border-radius: 2px; background: var(--hairline); overflow: hidden; }
+.nb-prog i {
+  display: block;
+  block-size: 100%;
+  border-radius: inherit;
+  background: var(--m);
+  transform: scaleX(var(--p, 0));
+  /* transform-origin has no logical keyword; the physical value carries an
+     explicit LTR twin so the bar always grows from the inline start. */
+  transform-origin: 100% 50%;
+  transition: transform 520ms var(--ease-emphasis);
+}
+[dir="ltr"] .nb-prog i { transform-origin: 0 50%; }
+
+/* --- resume block -------------------------------------------------------- */
+.nb-resume {
+  display: grid;
+  gap: var(--sp-2);
+  justify-items: start;
+  padding: var(--sp-4);
+  border: 1px solid color-mix(in srgb, var(--m) 32%, var(--hairline));
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--m) 6%, transparent);
+}
+.nb-resume-h {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-micro); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);
+}
+.nb-resume-h svg { color: var(--m); flex: none; }
+.nb-resume-l { font-size: var(--t-sm); font-weight: 650; line-height: 1.5; color: var(--ink-1); }
+.nb-resume-none { padding-block: var(--sp-2); }
+
+.nb-h3 {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2) var(--sp-3);
+  font-size: var(--t-sm); font-weight: 700; letter-spacing: -.01em;
+}
+.nb-h3 span { font-size: var(--t-micro); font-weight: 500; color: var(--ink-3); }
+
+/* ==========================================================================
+   THE TABLE OF CONTENTS — real chapters, real subchapters
+   ========================================================================== */
+.nb-toc { display: grid; gap: var(--sp-3); }
+.nb-toc-h { display: grid; gap: var(--sp-3); }
+
+.nb-find {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: var(--c-tap);
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  transition: border-color var(--dur-fast) linear;
+}
+.nb-find:focus-within { border-color: color-mix(in srgb, var(--m) 55%, var(--hairline)); }
+.nb-find > svg { color: var(--ink-3); flex: none; }
+.nb-find-i {
+  flex: 1;
+  min-inline-size: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-1);
+  font: inherit;
+  font-size: var(--t-xs);
+  outline: none;
+}
+.nb-find-i::placeholder { color: var(--ink-3); }
+.nb-find-i::-webkit-search-cancel-button { display: none; }
+.nb-find .nb-find-x { min-block-size: 2rem; padding-inline: 0.4rem; }
+
+.nb-toc-l { display: grid; gap: 2px; }
+.nb-ch { border-radius: var(--r-sm); }
+.nb-ch[data-open="1"] { background: color-mix(in srgb, var(--m) 5%, transparent); }
+
+.nb-ch-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: var(--c-tap);
+  padding-inline: var(--sp-2);
+}
+.nb-ch-row:hover { background: color-mix(in srgb, var(--m) 7%, transparent); border-radius: var(--r-sm); }
+
+.nb-ch-btn {
+  display: grid;
+  grid-template-columns: 1rem 2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-2);
+  min-inline-size: 0;
+  min-block-size: var(--c-tap);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.nb-ch-btn[disabled] { cursor: default; }
+.nb-ch-chev {
+  color: var(--ink-3);
+  transition: transform 200ms var(--ease-out-expo);
+}
+[dir="ltr"] .nb-ch-chev { transform: rotate(180deg); }
+.nb-ch[data-open="1"] .nb-ch-chev { transform: rotate(-90deg); }
+[dir="ltr"] .nb-ch[data-open="1"] .nb-ch-chev { transform: rotate(90deg); }
+.nb-ch-num { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+/* THE CHAPTER NAME IS CONTENT, NOT A LAYOUT PROBLEM.
+   This was `white-space: nowrap` + `text-overflow: ellipsis` inside an RTL
+   container. An English chapter title is LTR, so the ellipsis landed on the
+   WRONG END and the tile read "...anizational Structures" — the part a reader
+   needs to recognise the chapter was the exact part being thrown away.
+
+   It wraps now, to at most two lines, and the full title is always on the
+   element for hover and assistive tech. If two lines still cannot hold it the
+   clamp trims the TAIL, because the isolate below fixes the direction. */
+.nb-ch-name {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--ink-1);
+  line-height: 1.35;
+  /* unicode-bidi isolation: the title is its own directional run, so it can no
+     longer be reordered or clipped by the RTL paragraph around it. */
+  unicode-bidi: isolate;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+.nb-ch-count { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nb-ch-state { white-space: nowrap; }
+.nb-ch-row .nb-ch-open { font-size: var(--t-micro); color: var(--ink-3); }
+.nb-ch-open-t { display: none; }
+
+.nb-ch-body {
+  padding-inline-start: calc(1rem + var(--sp-2) + var(--sp-2));
+  padding-inline-end: var(--sp-2);
+  padding-block-end: var(--sp-3);
+  animation: nb-rise 220ms var(--ease-out-expo) both;
+}
+@keyframes nb-rise {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.nb-sec-l { display: grid; gap: 1px; }
+.nb-sec {
+  display: grid;
+  grid-template-columns: minmax(3.25rem, auto) minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--sp-3);
+  min-block-size: var(--c-tap);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  /* The module hue as an inline-start marker, off until the row is engaged. */
+  box-shadow: inset 0 0 0 0 transparent;
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: background-color 160ms linear, color 160ms linear;
+}
+.nb-sec:hover { background: color-mix(in srgb, var(--m) 10%, transparent); color: var(--ink-1); }
+.nb-sec[aria-current="true"] {
+  background: color-mix(in srgb, var(--m) 12%, transparent);
+  color: var(--ink-1);
+  font-weight: 650;
+}
+.nb-sec-id { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nb-sec-t { font-size: var(--t-xs); line-height: 1.5; }
+
+/* A subchapter carrying a bookmark placed in NEO's reader. A third column is
+   added only for the rows that have one, so the two-column grid above is
+   untouched for the thousands of rows that do not. */
+.nb-sec[data-mark="1"] { grid-template-columns: minmax(3.25rem, auto) minmax(0, 1fr) auto; }
+.nb-sec-bm { display: inline-grid; place-items: center; color: var(--m); }
+.nb-sr {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.nb-toc-note { margin-block-start: var(--sp-2); }
+
+/* ==========================================================================
+   NEO LINKS + NOTES
+   ========================================================================== */
+.nb-link { display: grid; gap: var(--sp-2); }
+.nb-dict {
+  display: flex; align-items: center; gap: var(--sp-3);
+  min-block-size: var(--c-tap);
+  padding: var(--sp-2) var(--sp-4);
+  border: 1px solid color-mix(in srgb, var(--m) 34%, var(--hairline));
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--m) 7%, transparent);
+  color: var(--ink-1);
+  font-size: var(--t-xs);
+  transition: transform 200ms var(--ease-out-expo), background-color 200ms;
+}
+.nb-dict:hover { transform: translateY(-1px); background: color-mix(in srgb, var(--m) 14%, transparent); }
+.nb-dict svg { flex: none; color: var(--ink-3); }
+.nb-dict-t { font-weight: 600; }
+.nb-dict-n { color: var(--ink-3); margin-inline-start: auto; font-variant-numeric: tabular-nums; }
+
+.nb-warn {
+  font-size: var(--t-xs);
+  line-height: 1.65;
+  color: var(--ink-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  border: 1px dashed color-mix(in srgb, var(--ink-3) 34%, transparent);
+  background: color-mix(in srgb, var(--ink-3) 5%, transparent);
+}
+.nb-warn[data-empty="1"] { color: var(--ink-2); }
+
+.nb-sheet-cta { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-block-start: var(--sp-2); }
+.nb-fine { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.6; }
+
+.nb-foot {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-4);
+  padding-block-start: var(--sp-8);
+  border-block-start: 1px solid var(--hairline);
+}
+.nb-credit { font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: auto; }
+
+/* ==========================================================================
+   THE BOOK HUB — one book, one control surface
+   ========================================================================== */
+.nb-hub { gap: var(--sp-6); padding-block-start: var(--sp-10); }
+.nb-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+
+/* The contextual return leads the crumb. It is a .nu-link with its own arrow
+   (components/neo-shell/nav-context), so nothing about the control is styled
+   here — only how much of the row it is allowed to take before it truncates,
+   which is what keeps the module chips beside it on a narrow canvas. */
+.nb-crumb-back { max-inline-size: min(28rem, 100%); }
+@media (max-width: 720px) { .nb-crumb-back { max-inline-size: 100%; } }
+
+.nb-hub-top {
+  display: grid;
+  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  gap: var(--sp-8);
+  align-items: start;
+  padding-block-end: var(--sp-6);
+  border-block-end: 1px solid var(--hairline);
+}
+.nb-hub-cov { position: relative; }
+.nb-hub-id { display: grid; gap: var(--sp-3); align-content: start; justify-items: start; }
+.nb-hub-t {
+  font-size: clamp(1.5rem, 3.6cqi, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.028em;
+  text-wrap: balance;
+}
+.nb-hub-chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nb-hub-id .nb-prog { inline-size: min(24rem, 100%); }
+.nb-hub-src { max-inline-size: 72ch; }
+
+/* §4 — THE INSIDE COVER.
+   The hub is the book, opened: the cover is hinged back beside it and this
+   column is the endpaper it opens onto. Paper, not a card — a very low warm
+   wash, a module tint bleeding from the binding edge, and one hairline down the
+   bound side standing in for the gutter. It is all colour and one gradient, so
+   it costs nothing and survives a theme switch. */
+.nb-hub-id {
+  position: relative;
+  padding: var(--sp-6) var(--sp-6) var(--sp-6) var(--sp-5);
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(60% 80% at 100% 0%, color-mix(in srgb, var(--m) 10%, transparent), transparent 68%),
+    linear-gradient(to left, color-mix(in srgb, var(--m) 4%, var(--surface)), var(--surface) 42%);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+[dir="ltr"] .nb-hub-id {
+  background:
+    radial-gradient(60% 80% at 0% 0%, color-mix(in srgb, var(--m) 10%, transparent), transparent 68%),
+    linear-gradient(to right, color-mix(in srgb, var(--m) 4%, var(--surface)), var(--surface) 42%);
+}
+/* The gutter. A hairline of module colour on the bound edge — module identity
+   as an EDGE, which is a form the system allows. */
+.nb-hub-id::before {
+  content: "";
+  position: absolute;
+  inset-block: var(--sp-4);
+  inset-inline-start: 0;
+  inline-size: 2px;
+  border-radius: 1px;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--m) 60%, transparent) 18%, color-mix(in srgb, var(--m) 60%, transparent) 82%, transparent);
+}
+html[data-theme="dark"] .nb-hub-id {
+  background:
+    radial-gradient(60% 80% at 100% 0%, color-mix(in srgb, var(--m) 12%, transparent), transparent 68%),
+    var(--surface-2);
+}
+[dir="ltr"] html[data-theme="dark"] .nb-hub-id,
+html[data-theme="dark"] [dir="ltr"] .nb-hub-id {
+  background:
+    radial-gradient(60% 80% at 0% 0%, color-mix(in srgb, var(--m) 12%, transparent), transparent 68%),
+    var(--surface-2);
+}
+
+/* §7 — the two entry modes, side by side and labelled. */
+.nb-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-6);
+  align-items: start;
+  inline-size: 100%;
+}
+.nb-mode { display: grid; justify-items: start; gap: var(--sp-2); max-inline-size: 30rem; }
+.nb-mode-k {
+  font-size: var(--t-micro);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nb-mode .nb-fine, .nb-mode .nb-hub-res { max-inline-size: 34ch; }
+.nb-hub-res {
+  display: flex; align-items: start; gap: 6px;
+  font-size: var(--t-xs); line-height: 1.55; color: var(--ink-2);
+}
+.nb-hub-res svg { flex: none; color: var(--m); margin-block-start: 3px; }
+
+/* The canonical reader, named as itself under the two NEO entries. It is a
+   sentence and not a third button on purpose: it goes somewhere else, and a
+   control that looks like the other two would say it goes to the same place. */
+.nb-hub-alt { max-inline-size: 72ch; }
+.nb-hub-alt .nu-link { display: inline-flex; }
+
+.nb-hub-sib { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr)); gap: var(--sp-2); }
+.nb-sib {
+  display: grid;
+  gap: 2px;
+  padding: var(--sp-3) var(--sp-4);
+  min-block-size: var(--c-tap);
+  align-content: center;
+}
+.nb-sib-id { font-size: var(--t-micro); color: var(--ink-3); }
+.nb-sib-t { font-size: var(--t-xs); font-weight: 600; line-height: 1.4; }
+
+/* ==========================================================================
+   DARK — §10. A deep library, not an inverted page.
+   --------------------------------------------------------------------------
+   The boards go darker and the paper dimmer, because a bright fore-edge on a
+   near-black ground reads as a light leak rather than as paper. What replaces
+   the missing page-light is EDGE LIGHTING: a lit top edge and a lit binding,
+   which is exactly how a book reads on a shelf in a dark room, and which is
+   what keeps the object legible as an object once the ambient light is gone.
+   ========================================================================== */
+html[data-theme="dark"] .nb-cov {
+  /* The BOOK's own cloth, dimmed for the room — not the module's hue, which is
+     what this used to be and which made three books on one shelf into three
+     identical objects in the dark. Held higher than a naive dim (58/40 rather
+     than 42/26) because at 42% of a near-black ground eleven different bindings
+     converge on the same charcoal and the whole scheme is lost after sunset. */
+  --m-deep: color-mix(in srgb, var(--cloth) 58%, #090d12);
+  --m-mid: color-mix(in srgb, var(--cloth) 40%, #090d12);
+  --m-lift: color-mix(in srgb, var(--m) 92%, #ffffff);
+  --paper: #b9b2a4;
+  --paper-2: #8c8577;
+  --paper-3: #a49d90;
+}
+/* The lit edges. A hairline of module light along the head and the binding —
+   module identity as an EDGE, which is a form the design system allows. */
+html[data-theme="dark"] .nb-f-top {
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--m) 55%, transparent);
+}
+html[data-theme="dark"] .nb-f-spine {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--m) 46%, transparent),
+    inset 0 -1px 0 rgba(0,0,0,.5);
+}
+html[data-theme="dark"] .nb-cov-board {
+  box-shadow:
+    0 18px 38px -20px rgba(0,0,0,.9),
+    0 0 0 1px color-mix(in srgb, var(--m) 26%, transparent) inset;
+}
+html[data-theme="dark"] .nb-slab:hover .nb-cov-board,
+html[data-theme="dark"] .nb-slab:focus-visible .nb-cov-board {
+  box-shadow:
+    0 26px 52px -22px rgba(0,0,0,.95),
+    0 0 0 1px color-mix(in srgb, var(--m) 66%, transparent) inset,
+    0 0 30px -12px color-mix(in srgb, var(--m) 52%, transparent);
+}
+/* The raking highlight is dimmer in the dark: a library lamp, not a flash. */
+html[data-theme="dark"] .nb-cov-gloss {
+  background: radial-gradient(120% 90% at var(--gx, 22%) var(--gy, 6%),
+    rgba(255,255,255,.13) 0%,
+    rgba(255,255,255,.04) 34%,
+    transparent 62%);
+}
+html[data-theme="dark"] :is(.nb-x, .nb-dictbar, .nb-find, .nb-mark, .nb-mark-t, .nb-peek) {
+  background: var(--surface-2);
+  border-color: color-mix(in srgb, var(--ink-3) 26%, transparent);
+}
+html[data-theme="dark"] .nb-sheet { background: var(--surface-2); }
+html[data-theme="dark"] .nb-cov-cast {
+  background: radial-gradient(58% 100% at 50% 0%, rgba(0,0,0,.72), transparent 74%);
+  opacity: .62;
+}
+
+/* ==========================================================================
+   RESPONSIVE — every step RECOMPOSES. All widths are CANVAS widths.
+   ========================================================================== */
+
+/* Phone-width canvas: the shelf identity moves back on top of its books,
+   because a 12.5rem identity column beside a 9.5rem book is not a shelf, it is
+   two columns of nothing. The vertical rhythm stays tight — that is the whole
+   point of the shelf system and it must survive the narrowest canvas. */
+@container nb (max-width: 699px) {
+  .nb { --nb-gut: var(--sp-4); padding-block: var(--sp-10) var(--sp-8); gap: var(--sp-6); }
+  .nb-shelf {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-4);
+    padding-block: var(--sp-6);
+    padding-inline-start: var(--sp-4);
+  }
+  .nb-shelf-h {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: var(--sp-3);
+  }
+  .nb-shelf-t { grid-column: 1; }
+  .nb-shelf-n { grid-column: 2; text-align: end; }
+  .nb-shelf-n2 { grid-column: 1 / -1; }
+  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(9.5rem, 100%), 1fr)); gap: var(--sp-6) var(--sp-4); }
+  /* No hover on a phone, so neither floating label can ever open. The sentences
+     under the cover are the affordance; the pill stays as the resume tap
+     target. */
+  .nb-mark-t, .nb-peek { display: none; }
+  /* Books stand squarer on a phone: at 9.5rem a full 21° turn spends too much
+     of the cover on foreshortening, and the title is what has to survive. */
+  .nb-cov { --turn: 14deg; --pitch: 1.5deg; }
+  .nb-entry { padding: 0; place-items: end stretch; }
+  .nb-sheet {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--sp-5);
+    padding: var(--sp-5);
+    max-block-size: 92dvh;
+    border-start-start-radius: var(--r-2xl);
+    border-start-end-radius: var(--r-2xl);
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .nb-sheet-side { grid-template-columns: 8.5rem minmax(0, 1fr); align-items: center; }
+  .nb-sheet-side .nb-sheet-cov { grid-row: 1 / span 2; }
+  .nb-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nb-ch-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .nb-ch-state { display: none; }
+  .nb-hub-top { grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); }
+  .nb-hub-cov { inline-size: 9.5rem; }
+}
+
+/* Mid canvas. */
+@container nb (min-width: 700px) and (max-width: 1049px) {
+  .nb-shelf { grid-template-columns: minmax(0, 10.5rem) minmax(0, 1fr); gap: var(--sp-4) var(--sp-6); }
+  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(11rem, 100%), 1fr)); }
+  .nb-sheet { grid-template-columns: minmax(0, 12rem) minmax(0, 1fr); gap: var(--sp-6); padding: var(--sp-6); }
+  .nb-hub-top { grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: var(--sp-6); }
+}
+
+/* Full desktop: the gutter opens and the books get room to be objects. */
+@container nb (min-width: 1050px) {
+  .nb { --nb-gut: var(--sp-12); }
+  .nb-ch-open-t { display: inline; }
+}
+
+/* Wide: extra width becomes more books per row, not more margin. */
+@container nb (min-width: 1500px) {
+  .nb { --nb-gut: 5rem; gap: var(--sp-10); padding-block: 6rem var(--sp-16); }
+  .nb-shelf { grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); padding-block: var(--sp-8); }
+  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr)); gap: var(--sp-8) var(--sp-6); }
+}
+
+/* Ultrawide: the masthead stops growing, the shelf keeps going. */
+@container nb (min-width: 2000px) {
+  .nb { --nb-gut: 8rem; padding-block: 8rem var(--sp-16); }
+  .nb-mast, .nb-dictbar, .nb-cont { max-inline-size: 74rem; }
+  .nb-shelf { grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); }
+  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr)); }
+  .nb-lede { font-size: 1.1875rem; }
+}
+@container nb (min-width: 2800px) {
+  .nb { --nb-gut: 12rem; }
+  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr)); }
+}
+
+/* ==========================================================================
+   REDUCED MOTION — the turn and the open are DISABLED, not slowed.
+   --------------------------------------------------------------------------
+   book-shelf.tsx never attaches the pointer listener, so --rx/--ry are never
+   written and the FLIP is skipped outright. What CSS still has to do is take
+   the object back to a flat plate: the resting turn goes to zero, the cover
+   stops hinging, and the whole 3D stage stops transforming. The book is then a
+   drawn cover with a title on it — which is the honest fallback, because every
+   piece of information on it was already text.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .nb-cov {
+    --turn: 0deg !important;
+    --pitch: 0deg !important;
+    --out: 0px !important;
+    --lift: 0px !important;
+    --open: 0deg !important;
+    --rx: 0deg !important;
+    --ry: 0deg !important;
+  }
+  .nb-cov-3d { transform: none !important; transition: none; }
+  .nb-f-front { transform: none !important; transition: none; }
+  /* The arrival is a REMOVAL, not a slowdown: the book is simply already there,
+     square and open, which is the state it was travelling to anyway. */
+  .nb-cov[data-size="entry"] .nb-cov-3d,
+  .nb-cov[data-size="entry"] .nb-f-front { animation: none !important; }
+  .nb-cov-cast, .nb-cov-board, .nb-cov-gloss, .nb-cov-t { transition: none; }
+  .nb-slab:hover .nb-cov-cast, .nb-slab:focus-visible .nb-cov-cast { transform: none; }
+  /* Neighbours stop making room, because nothing is moving toward them. */
+  .nb-card, .nb-card:has(+ .nb-card:hover), .nb-card:hover + .nb-card { transform: none !important; transition: none; }
+  .nb-scrim { animation: none; }
+  .nb-prog i { transition: none; }
+  .nb-ch-body { animation: none; }
+  .nb-ch-chev { transition: none; }
+  .nb-mark, .nb-mark-t { transition: none; }
+  .nb-mark:hover, .nb-mark:focus-visible { transform: none; }
+  .nb-dict:hover, .nb-dictbar-a:hover { transform: none; }
+  .nb-x:hover { transform: none; }
+}
+
+/* Forced colours: the drawn book is built from colour alone, so the geometry is
+   removed and one framed plate is left. The title, counts and links underneath
+   are ordinary semantic markup and survive untouched. */
+@media (forced-colors: active) {
+  .nb-cov-3d { transform: none; }
+  .nb-f-back, .nb-f-leaf, .nb-f-top, .nb-f-fore, .nb-f-spine,
+  .nb-cov-board, .nb-cov-cloth, .nb-cov-gloss, .nb-cov-inner,
+  .nb-cov-cast, .nb-shelf-edge { display: none; }
+  /* The ledge is a drawn surface like the rest of them, and forced colours
+     leave one framed plate rather than a book on a board. */
+  .nb-slot::after { display: none; }
+  /* A scene is a painted ground; forced colours substitute the system's own. */
+  .nb-scene { background: Canvas; }
+  .nb-f-front { transform: none; }
+  .nb-cov { border: 1px solid CanvasText; }
+  .nb-cov-face { color: CanvasText; }
+  .nb-scrim { backdrop-filter: none; background: Canvas; }
+  .nb-mark, .nb-mark-t { border: 1px solid CanvasText; }
+}
