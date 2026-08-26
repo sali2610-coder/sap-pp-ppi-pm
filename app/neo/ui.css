@@ -92,10 +92,14 @@ html[data-theme="dark"] .nu-btn { color: #0b0e11; }
   color: var(--ink-3);
   border: 0;
   border-radius: 0;
-  padding: 0.7rem 0.2rem;
-  margin-inline-end: 1.1rem;
+  /* Inline padding carries the selected FILL below. The 1.3rem gap between two
+     tabs' text is unchanged: it just moved from margin into padding
+     (0.2 + 1.1 before, 0.55 + 0.75 now), so the rhythm is identical. */
+  padding: 0.7rem 0.55rem;
+  margin-inline-end: 0.75rem;
   position: relative;
   font-weight: 600;
+  transition: background var(--dur-fast) linear, color var(--dur-fast) linear;
 }
 .nu-tab::after {
   content: "";
@@ -108,9 +112,17 @@ html[data-theme="dark"] .nu-btn { color: #0b0e11; }
   transform-origin: var(--nu-origin, right);
   transition: transform var(--dur-base) var(--ease-emphasis);
 }
-.nu-tab:hover { color: var(--ink-1); }
-.nu-tab[aria-selected="true"], .nu-tab[data-on="1"] { color: var(--ink-1); font-weight: 750; }
-.nu-tab[aria-selected="true"]::after, .nu-tab[data-on="1"]::after { transform: scaleX(1); }
+.nu-tab:hover { color: var(--ink-1); background: color-mix(in srgb, var(--_m) 5%, transparent); }
+/* SELECTED = fill + weight + a thicker bar, not a 2px line on its own.
+   The corners stay SQUARE on purpose. In this system a pill means "toggles
+   what is on screen" and an underline means "switches the view in place", so a
+   selected tab may gain a fill for contrast but must never become a pill. */
+.nu-tab[aria-selected="true"], .nu-tab[data-on="1"] {
+  color: var(--ink-1);
+  font-weight: 750;
+  background: color-mix(in srgb, var(--_m) 12%, transparent);
+}
+.nu-tab[aria-selected="true"]::after, .nu-tab[data-on="1"]::after { transform: scaleX(1); block-size: 3px; }
 
 /* --- link: leaves for another route. the arrow is the signal -------------- */
 .nu-link {

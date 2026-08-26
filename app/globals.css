@@ -1585,7 +1585,14 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   font-size: var(--t-micro); color: var(--ink-3); border-radius: var(--r-xs);
   transition: color 180ms;
 }
-.nx-shelf-tabs button[aria-selected="true"] { color: var(--ink-1); }
+/* SELECTED = fill + ink, not ink alone. The travelling .nx-shelf-ind bar below
+   stays as the motion cue, but on its own a 2px line was the ONLY difference
+   between the selected and unselected shelf tab. */
+.nx-shelf-tabs button[aria-selected="true"] {
+  color: var(--ink-1);
+  background: color-mix(in srgb, var(--railtint) 14%, transparent);
+  font-weight: 650;
+}
 /* Travelling tab underline. --x is a DIRECTION-AGNOSTIC inline-start offset
    measured with getBoundingClientRect, not offsetLeft: offsetLeft is always
    measured from the container's physical left edge, which put this underline in

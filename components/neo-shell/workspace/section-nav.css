@@ -163,7 +163,11 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   padding-inline-start: calc(var(--sp-3) + 4px);
   color: var(--ink-1);
   font-weight: 700;
-  background-color: color-mix(in oklab, var(--nxs-on) 12%, var(--surface));
+  /* 12% read as a real fill against the dark ground but sat below the
+     perceptual floor against the light one, which left a 1px border colour as
+     the only carrier of "you are here". 20% clears it in both. Module hue as a
+     surface tint is what the form rule allows a chip to take. */
+  background-color: color-mix(in oklab, var(--nxs-on) 20%, var(--surface));
   border-color: color-mix(in oklab, var(--nxs-on) 46%, var(--hairline));
 }
 
