@@ -9,6 +9,11 @@
       "has": [{ "type": "host", "value": "www.sapbysali.app" }],
       "destination": "https://sapbysali.app/$1",
       "permanent": true
+    },
+    {
+      "source": "/",
+      "destination": "/neo/",
+      "permanent": false
     }
   ],
   "headers": [
