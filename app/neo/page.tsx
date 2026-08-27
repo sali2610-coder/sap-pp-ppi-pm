@@ -19,9 +19,19 @@ import { booksData } from "@/components/neo-shell/books/books-data";
 import { HomeZones } from "@/components/neo-shell/home/home-zones";
 import { HomeNet } from "@/components/neo-shell/home/home-net";
 
+// ROOT CUTOVER. `/` now 307s here, so this page is the site's public landing
+// page and MUST be indexable. It was noindex while NEO was a secondary surface;
+// inheriting that from app/neo/layout.tsx would have pointed the homepage at a
+// noindex target and dropped the site out of search entirely.
+//
+// Deliberately scoped to this page only. The other 41 noindex declarations
+// under app/neo/ stay exactly as they are, so the 3,169 deep NEO pages remain
+// out of the index. scripts/gen-sitemap.mjs reads the built HTML's robots meta,
+// so /neo/ enters the sitemap automatically and scripts/check-sitemap.mjs
+// enforces it in CI — no second place to keep in sync.
 export const metadata = {
   title: "Project NEO · מפת הידע של SAP",
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
 };
 
 const nf = new Intl.NumberFormat("he-IL");
