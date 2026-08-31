@@ -51,6 +51,8 @@ const PARENTS: [prefix: string, parent: ParentRef][] = [
   // `/neo/library/` is deliberately absent: the Stage-1 placeholder that used to
   // answer it is no longer generated, and the real shelf is /neo/books/.
   ["/neo/books/", { href: "/neo/books/", label: "מדף הספרים" }],
+  // A cold entry to a reader URL belongs to the shelf, not to Home.
+  ["/neo/read/", { href: "/neo/books/", label: "מדף הספרים" }],
   ["/neo/academy/", { href: "/neo/academy/", label: "SAP Academy" }],
   ["/neo/knowledge/", { href: "/neo/knowledge/", label: "מרכז ידע" }],
   // A centre topic belongs to the ONE Knowledge Center, which is where a reader

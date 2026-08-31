@@ -89,7 +89,7 @@ export default function NeoBooks() {
       <section className="nb-dictbar nm-rise nm-once" aria-label="כיסוי המילון הטכני">
         <p className="nb-dictbar-t">
           <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
-          המילון הטכני של NEO מתעד שני מודולים מתוך {d.totals.modules}
+          המילון הטכני של NEO מתעד {d.dictModules.length} מודולים מתוך {d.totals.modules}
         </p>
         <div className="nb-dictbar-l">
           {d.dictModules.map((m) => (
@@ -118,7 +118,9 @@ export default function NeoBooks() {
       {d.twinNote && <p className="nb-note nb-note--wide nm-fade">{d.twinNote}</p>}
 
       <footer className="nb-foot nm-fade">
-        <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
+        {/* The button names the DIGITAL LIBRARY — the canonical /library/ site,
+            not this shelf. It used to link back to the page it sits on. */}
+        <Link className="nu-btn2" href="/library/" prefetch={false}>
           <Library size={15} strokeWidth={1.75} aria-hidden="true" />
           הספרייה הדיגיטלית
         </Link>

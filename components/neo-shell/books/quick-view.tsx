@@ -18,7 +18,7 @@
 // control comes back here rather than to a computed parent. This file renders
 // no prose, fetches nothing, and wraps no reader.
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpLeft, BookOpen, Bookmark, Layers, LayoutList, PlayCircle, Table2, X } from "lucide-react";
 import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
@@ -180,6 +180,9 @@ export function BookQuickView({
   }, []);
 
   const t = b.titleHe || b.titleEn;
+  /* Component-scoped id, like every other id in this family — a hardcoded
+     document id inside a component is one render away from a duplicate. */
+  const entryTitleId = useId();
   const r = resolveResume(b, reading);
   const line = resumeLine(r);
   const done = r.read >= b.chapters && b.chapters > 0;
@@ -194,7 +197,7 @@ export function BookQuickView({
         className="nb-sheet"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="nb-entry-t"
+        aria-labelledby={entryTitleId}
         ref={sheetRef}
       >
         {/* Outside the scrolling body on purpose: on a phone the panel is a
@@ -242,7 +245,7 @@ export function BookQuickView({
             {b.kindLabel && <><i aria-hidden="true" />{b.kindLabel}</>}
           </p>
 
-          <h2 className="nb-sheet-t" id="nb-entry-t">{t}</h2>
+          <h2 className="nb-sheet-t" id={entryTitleId}>{t}</h2>
           {b.titleHe && <p className="nb-sheet-t2 nb-sap">{b.titleEn}</p>}
 
           <dl className="nb-facts">

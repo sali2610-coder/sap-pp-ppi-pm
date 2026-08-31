@@ -64,7 +64,23 @@ export function ReaderPanel({
 
   useEffect(() => {
     ref.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") { e.stopPropagation(); onClose(); } };
+    /* Same dialog contract as the shelf's quick-view: Escape closes and Tab is
+       wrapped inside the panel — a modal that lets Tab walk out into the reader
+       behind the scrim is a modal in name only. */
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { e.stopPropagation(); onClose(); return; }
+      if (e.key !== "Tab") return;
+      const root = ref.current;
+      if (!root) return;
+      const items = [...root.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), input:not([disabled])")]
+        .filter((el) => el.tabIndex !== -1 && el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const at = document.activeElement;
+      if (!e.shiftKey && at === last) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && (at === first || !root.contains(at))) { e.preventDefault(); last.focus(); }
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);

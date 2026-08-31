@@ -164,7 +164,10 @@ export function BookToc({
                 <button
                   type="button"
                   className="nb-ch-btn"
-                  aria-expanded={isOpen}
+                  /* While a search is active the rows are inert (the list is
+                     already flattened to matches), so the disabled control must
+                     not keep claiming an expand/collapse it cannot perform. */
+                  aria-expanded={query ? undefined : isOpen}
                   aria-controls={`${uid}-c${m.n}`}
                   onClick={() => toggle(m.n)}
                   disabled={Boolean(query)}

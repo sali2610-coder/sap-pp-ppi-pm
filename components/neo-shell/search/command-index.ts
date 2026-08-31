@@ -174,7 +174,10 @@ function chapters(): CmdExtraRecord[] {
         k: "chapter",
         t: c.he || c.en,
         s: clip(c.bodyHe || c.en, 96),
-        href: "/neo/books/",
+        // Record-level destination: the reader itself, opened on this chapter —
+        // the same `?c=` contract the book hub uses. A chapter hit that landed
+        // on the shelf made the reader re-find what the palette already knew.
+        href: `/neo/read/${b.id}/?c=${c.n}`,
         mod: b.module,
         rel: c.page ? `${title} · פרק ${c.n} · עמ׳ ${c.page}` : `${title} · פרק ${c.n}`,
       });
@@ -184,22 +187,27 @@ function chapters(): CmdExtraRecord[] {
 }
 
 function flows(): CmdExtraRecord[] {
+  // Every DOMAINS slug is exactly what /neo/domain/[slug]/generateStaticParams
+  // builds from (domainSlugs maps the same array), so each hit lands on its own
+  // domain page instead of the generic ERD.
   return DOMAINS.map((d) => ({
     k: "flow" as const,
     t: d.he,
     s: clip(d.summary, 96),
-    href: "/neo/erd/",
+    href: `/neo/domain/${d.slug}/`,
     mod: d.module,
     rel: `${d.flow.length} שלבים · ${d.tables.length} טבלאות · ${d.tcodes.length} טרנזקציות`,
   }));
 }
 
 function guides(): CmdExtraRecord[] {
+  // Same contract as flows(): /neo/knowledge/[slug]/ generates from these very
+  // slugs (conceptSlugs), so a concept hit opens the concept, not the index.
   return CONCEPTS.map((c) => ({
     k: "guide" as const,
     t: c.he,
     s: clip(c.biz, 96),
-    href: "/neo/knowledge/",
+    href: `/neo/knowledge/${c.slug}/`,
     rel: `${c.title} · ${c.group}`,
   }));
 }
