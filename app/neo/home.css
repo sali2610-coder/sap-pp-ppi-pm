@@ -1038,8 +1038,9 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-impcol-k { display: flex; align-items: center; gap: .4rem; font-size: .82rem; color: var(--scene-ink-2, var(--ink-2)); }
 .nh-impcol-k > i { inline-size: .5rem; block-size: .5rem; border-radius: 50%; flex: none; }
 .nh-impcol[data-k="kept"] .nh-impcol-k > i { background: var(--status-done); }
+.nh-impcol[data-k="adapted"] .nh-impcol-k > i { background: var(--status-in-analysis); }
 .nh-impcol[data-k="replaced"] .nh-impcol-k > i { background: var(--status-in-conversion); }
-.nh-impcol[data-k="removed"] .nh-impcol-k > i { background: var(--status-not-started); }
+.nh-impcol[data-k="removed"] .nh-impcol-k > i { background: var(--status-removed); }
 .nh-impcol > b { font-size: clamp(1.6rem, 3.2cqi, 2.4rem); font-weight: 800; line-height: 1; color: var(--scene-ink, var(--ink-1)); }
 .nh-impcol-p { font-size: .76rem; color: var(--scene-ink-3, var(--ink-3)); }
 
@@ -1059,7 +1060,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-hot-k { display: flex; align-items: center; gap: .35rem; font-size: .7rem; color: var(--scene-ink-2, var(--ink-2)); }
 .nh-hot-k > i { inline-size: .45rem; block-size: .45rem; border-radius: 50%; flex: none; }
 .nh-hot-k[data-k="replaced"] > i { background: var(--status-in-conversion); }
-.nh-hot-k[data-k="removed"] > i { background: var(--status-not-started); }
+.nh-hot-k[data-k="removed"] > i { background: var(--status-removed); }
 .nh-hot-he { color: var(--scene-ink-2, var(--ink-2)); overflow-wrap: anywhere; }
 .nh-hot-note {
   grid-column: 1 / -1;
@@ -1543,6 +1544,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--vc) 42%, transparent);
 }
 [data-scene="s4"] .nh-impcol[data-k="kept"]     { --vc: var(--scene-cool, #22d3ee); }
+[data-scene="s4"] .nh-impcol[data-k="adapted"]  { --vc: var(--scene-cool, #22d3ee); }
 [data-scene="s4"] .nh-impcol[data-k="replaced"] { --vc: var(--scene-hot, #ff6f57); }
 [data-scene="s4"] .nh-impcol[data-k="removed"]  { --vc: var(--scene-ink-3); }
 /* A zero band is drawn as a real zero rather than hidden — the dictionary
@@ -1744,3 +1746,17 @@ html[data-theme="dark"] #nh-5[data-scene="pppi-full"] {
    number nobody can read is not carrying identity anywhere. The hue keeps the
    card edge on every scene; only the value changes. */
 .nz-count { color: var(--scene-ink); }
+
+/* THE WORK-PATH GRID (content pass, 2026-08).
+   Three primary entries — PM, PP-PI, S/4HANA readiness — as one row of the
+   existing .nh-mod cards. Layout only; the card itself is untouched. */
+.nh-paths {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-4);
+  align-items: stretch;
+}
+.nh-paths .nh-mod { height: 100%; }
+@media (max-width: 1080px) {
+  .nh-paths { grid-template-columns: 1fr; }
+}

@@ -198,7 +198,11 @@ export interface HomeData {
   /** Largest table count over all topics — the density scale reference. */
   maxTopicTables: number;
   flows: FlowChain[];
-  migration: { kept: number; replaced: number; removed: number };
+  /** Counts of the MARKED verdicts only, labelled by lib/s4-class S4_HE:
+   *  1 = מותאם, 2 = הוחלף, 3 = הוסר. The 0 bucket is deliberately absent — it
+   *  mixes "ללא שינוי" with tables whose note states no verdict, and a count
+   *  that cannot tell those apart must not be labelled "kept". */
+  migration: { adapted: number; replaced: number; removed: number };
   migrationRows: MigrationRow[];
   zones: { id: Zone; he: string; n: number }[];
 }
@@ -464,10 +468,13 @@ export function homeData(): HomeData {
     axis("אפליקציית Fiori", (d) => rowsOf(d.n).some((o) => !!(o.table.fioriApp || "").trim())),
   ];
 
+  // The buckets follow s4ByTable above: 1 = changed/מותאם, 2 = replaced/הוחלף,
+  // 3 = removed/הוסר. The previous shape counted s===1 as "replaced" and
+  // s===2 as "removed" — one class off the source's own vocabulary.
   const migration = {
-    kept: dots.filter((d) => d.s === 0).length,
-    replaced: dots.filter((d) => d.s === 1).length,
-    removed: dots.filter((d) => d.s === 2).length,
+    adapted: dots.filter((d) => d.s === 1).length,
+    replaced: dots.filter((d) => d.s === 2).length,
+    removed: dots.filter((d) => d.s === 3).length,
   };
 
   const migrationRows: MigrationRow[] = dots
