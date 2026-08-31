@@ -29,7 +29,7 @@ import { ObjectDepth } from "./object-depth";
 import { ObjectFields } from "./object-fields";
 import { ObjectReturn } from "./object-return";
 import { ObjectLanes } from "./object-lanes";
-import { objectSummary, relVar, type ObjectView } from "./object-data";
+import { objectSummary, relVar, sharedTableCount, type ObjectView } from "./object-data";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -175,7 +175,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           {v.shared ? (
             <p className="no-shared">
               <Layers size={14} strokeWidth={1.75} aria-hidden="true" />
-              אחת מ־19 הטבלאות ששני התכנונים מתעדים; לכל מודול נושא, טרנזקציות ושדות משלו.
+              אחת מ־{sharedTableCount()} הטבלאות ששני התכנונים מתעדים; לכל מודול נושא, טרנזקציות ושדות משלו.
               שני הפרצופים מוצגים כאן זה לצד זה, בלי לאחד אותם לאחד.
             </p>
           ) : null}
@@ -260,7 +260,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
 
       </header>
 
-      {/* The same eleven destinations that used to sit inside the hero, kept on
+      {/* The same twelve destinations that used to sit inside the hero, kept on
           screen instead of scrolling away with it, and marking which section the
           reader is currently in. Built from the SAME `nav` array as the section
           numbers below, so the two can never disagree. */}
@@ -672,7 +672,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             )}
           </div>
         ) : (
-          <Silent what="הערת מעבר ל־S/4HANA" />
+          <Silent what="הערת מעבר ל-S/4HANA" />
         )}
       </Sec>
 

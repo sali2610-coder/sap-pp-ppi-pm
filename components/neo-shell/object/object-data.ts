@@ -376,3 +376,9 @@ export const objectSummary = (v: ObjectView) => ({
   /** Distinct tables the two blueprints disagree about the direction of. */
   contested: uniq(v.neighbours.filter((n) => n.contested).map((n) => n.name)).length,
 });
+
+/** How many tables BOTH blueprints document — the number the "shared" note on
+ *  the object page states. Derived from the same `mods` the `shared` flag
+ *  reads, so the sentence can never drift from the data. */
+export const sharedTableCount = () =>
+  [...nodes().values()].filter((n) => n.mods.length > 1).length;

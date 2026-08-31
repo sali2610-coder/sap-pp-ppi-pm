@@ -1201,8 +1201,10 @@ html[data-theme="dark"] .no-core-r {
 }
 
 .nol-lane {
-  font: 700 10px sans-serif;
-  letter-spacing: 1.5px;
+  /* Hebrew captions since the correction pass: 11px floor, and the wide Latin
+     tracking came down — 1.5px between Hebrew glyphs reads as broken words. */
+  font: 700 var(--t-micro) sans-serif;
+  letter-spacing: 0.4px;
   fill: var(--ink-3);
 }
 

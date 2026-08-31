@@ -31,6 +31,17 @@
         is descriptionHe/descriptionEn, and the explanation strip reads the
         edge's own .desc. Both come from the dictionary; where it is silent the
         line is simply absent. Nothing here is generated.
+
+   CORRECTION PASS (design/neo-correction-pass)
+
+     - A cardinality the dictionary does not record is DRAWN AS ABSENT: a dashed
+       chip holding "–", never a fabricated "1:N". The context strip already
+       said "לא מצוין בתיעוד"; the diagram now agrees with it.
+     - LaneNode/LaneEdge live at module scope. Defined inside the render body
+       they were a new component type every render, so React remounted every
+       node and edge subtree on each hover.
+     - Lane captions are Hebrew; the centre hub wears its module colour, not
+       brand red (globals.css: brand is never a module colour).
    ========================================================================== */
 
 import { useMemo, useState } from "react";
@@ -67,6 +78,108 @@ const descOf = (n: string) => {
   return (t?.descriptionHe || t?.descriptionEn || "").trim();
 };
 
+/* The node and the edge are MODULE-SCOPE components on purpose: everything they
+   need arrives as a prop, so their identity is stable across renders and a
+   hover changes attributes instead of remounting subtrees (which restarted the
+   CSS transitions and dropped keyboard focus). */
+
+function LaneNode({
+  x, y, label, module, exists, center, col, haloCol, on, dimVal, desc, setHot, toggleSel, open,
+}: {
+  x: number; y: number; label: string; module: string; exists: boolean; center?: boolean;
+  col: string; haloCol?: string | null; on: boolean; dimVal: number; desc: string;
+  setHot: (n: string | null) => void; toggleSel: (n: string) => void; open: (n: string) => void;
+}) {
+  return (
+    <g
+      transform={`translate(${x - NW / 2},${y - NH / 2})`}
+      className="nol-n"
+      data-on={on ? "1" : "0"}
+      style={{ opacity: center ? 1 : dimVal, cursor: exists && !center ? "pointer" : "default" }}
+      onMouseEnter={() => !center && setHot(label)}
+      onMouseLeave={() => setHot(null)}
+      onClick={() => { if (!center && exists) toggleSel(label); }}
+      onDoubleClick={() => !center && exists && open(label)}
+      tabIndex={exists && !center ? 0 : -1}
+      role={exists && !center ? "button" : undefined}
+      onKeyDown={(e) => {
+        if (center || !exists) return;
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSel(label); }
+      }}
+      aria-label={center ? `${label}, האובייקט הנוכחי` : `${label}, מודול ${module}${desc ? `, ${desc}` : ""}`}
+    >
+      {/* THE CENTRE DOMINATES WITHOUT BEING BIGGER.
+          Same box as every other node — the brief rules out size as the
+          hierarchy device. Dominance comes from three things instead: a
+          tinted FILL where the others are plain surface, a heavier ring, and
+          a soft halo that takes the colour of whichever relationship is
+          currently live. */}
+      {center ? (
+        <rect
+          x={-5} y={-5} width={NW + 10} height={NH + 10} rx={15}
+          fill="none"
+          stroke={haloCol || col}
+          strokeWidth={1.25}
+          strokeOpacity={0.3}
+          className="nol-halo"
+        />
+      ) : null}
+      <rect
+        className="nol-card"
+        width={NW} height={NH} rx={9}
+        fill={center ? `color-mix(in srgb, ${col} 12%, var(--surface))` : "var(--surface)"}
+        stroke={col}
+        strokeWidth={center ? 2.4 : on ? 2 : 1.2}
+      />
+      <rect width={3} height={NH} rx={1.5} fill={col} />
+      <text x={NW / 2 + 3} y={15} textAnchor="middle"
+        style={{ font: `${center ? 800 : 700} 14px ui-monospace, monospace`, fill: "var(--ink-1)" }}>{label}</text>
+      <text x={NW / 2 + 3} y={29} textAnchor="middle"
+        style={{ font: "700 10px sans-serif", fill: col, letterSpacing: ".05em" }}>
+        {center ? "האובייקט הנוכחי" : module}
+      </text>
+    </g>
+  );
+}
+
+function LaneEdge({
+  d, mx, my, col, card, other, arrow, on, dimVal, setHot,
+}: {
+  d: string; mx: number; my: number; col: string; card: string | undefined; other: string;
+  arrow: string; on: boolean; dimVal: number; setHot: (n: string | null) => void;
+}) {
+  return (
+    <g className="nol-e" data-on={on ? "1" : "0"} data-card={card ? "stated" : "unstated"}
+      style={{ opacity: dimVal }}
+      onMouseEnter={() => setHot(other)} onMouseLeave={() => setHot(null)}>
+      {/* A RESTING EDGE IS A LINE, A LIVE EDGE IS A FLOW.
+          At rest the dash is gone: fourteen dashed curves at once read as
+          noise, and a solid hairline is what lets the eye follow one
+          relationship across the canvas. The dash appears only on the path
+          being pointed at, which is the emphasis the brief asks for. */}
+      <path d={d} fill="none" stroke={col} strokeWidth={on ? 2.4 : 1.25}
+        strokeOpacity={on ? 1 : 0.4}
+        strokeDasharray={on ? "6 5" : undefined}
+        className={on ? "nol-flow" : undefined} />
+      <path d={arrow} fill="none" stroke={col} strokeWidth={on ? 2 : 1.25} strokeOpacity={on ? 1 : 0.55} />
+      {/* The cardinality FILLS when live. An outlined chip with 9px type on a
+          hairline was the least readable thing on the diagram.
+          WHERE THE DICTIONARY RECORDS NO CARDINALITY THE CHIP SAYS SO: dashed
+          outline, "–", and it never fills — an absence is drawn as an absence,
+          not defaulted to 1:N. The context strip spells it out in words. */}
+      <rect x={mx - 17} y={my - 9} width={34} height={18} rx={9}
+        fill={on && card ? col : "var(--surface)"}
+        stroke={col} strokeOpacity={card ? (on ? 1 : 0.4) : 0.55} strokeWidth={1}
+        strokeDasharray={card ? undefined : "3 3"} />
+      <text x={mx} y={my + 4} textAnchor="middle"
+        style={{
+          font: "700 11px ui-monospace, monospace",
+          fill: card ? (on ? "var(--surface)" : "var(--ink-2)") : "var(--ink-3)",
+        }}>{card ?? "–"}</text>
+    </g>
+  );
+}
+
 export function ObjectLanes({ name }: { name: string }) {
   const router = useRouter();
   const g = useMemo(() => kgraph(name), [name]);
@@ -83,10 +196,12 @@ export function ObjectLanes({ name }: { name: string }) {
   const upMore = g.upstream.length - up.length;
   const downMore = g.downstream.length - down.length;
 
+  /** The recorded cardinality, or undefined where the dictionary is silent —
+   *  never a fabricated default. */
   const cardUp = (n: string) =>
-    g.edges.find((e) => e.from === n && e.to === g.center.tableName)?.card || "1:N";
+    g.edges.find((e) => e.from === n && e.to === g.center.tableName)?.card;
   const cardDown = (n: string) =>
-    g.edges.find((e) => e.from === g.center.tableName && e.to === n)?.card || "1:N";
+    g.edges.find((e) => e.from === g.center.tableName && e.to === n)?.card;
 
   const H = Math.max(up.length, down.length, 1) * ROW_H + PAD_Y * 2;
 
@@ -122,94 +237,11 @@ export function ObjectLanes({ name }: { name: string }) {
   const go = (n: string) => {
     if (tableByName(n)) router.push(`/neo/object/${encodeURIComponent(n)}/`);
   };
+  const toggleSel = (n: string) => setSel((v) => (v === n ? null : n));
 
-  const centreCol = "var(--brand)";
-
-  const Node = ({
-    x, y, label, module, exists, center,
-  }: { x: number; y: number; label: string; module: string; exists: boolean; center?: boolean }) => {
-    const col = center ? centreCol : mc(module);
-    const on = isLive(label);
-    const d = center ? (g.center.descriptionHe || g.center.descriptionEn || "") : descOf(label);
-    return (
-      <g
-        transform={`translate(${x - NW / 2},${y - NH / 2})`}
-        className="nol-n"
-        data-on={on ? "1" : "0"}
-        style={{ opacity: center ? 1 : dim(label), cursor: exists && !center ? "pointer" : "default" }}
-        onMouseEnter={() => !center && setHot(label)}
-        onMouseLeave={() => setHot(null)}
-        onClick={() => { if (!center && exists) setSel((v) => (v === label ? null : label)); }}
-        onDoubleClick={() => !center && exists && go(label)}
-        tabIndex={exists && !center ? 0 : -1}
-        role={exists && !center ? "button" : undefined}
-        onKeyDown={(e) => {
-          if (center || !exists) return;
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSel((v) => (v === label ? null : label)); }
-        }}
-        aria-label={center ? `${label}, האובייקט הנוכחי` : `${label}, מודול ${module}${d ? `, ${d}` : ""}`}
-      >
-        {/* THE CENTRE DOMINATES WITHOUT BEING BIGGER.
-            Same box as every other node — the brief rules out size as the
-            hierarchy device. Dominance comes from three things instead: a
-            tinted FILL where the others are plain surface, a heavier ring, and
-            a soft halo that takes the colour of whichever relationship is
-            currently live. */}
-        {center ? (
-          <rect
-            x={-5} y={-5} width={NW + 10} height={NH + 10} rx={15}
-            fill="none"
-            stroke={focusCol || col}
-            strokeWidth={1.25}
-            strokeOpacity={0.3}
-            className="nol-halo"
-          />
-        ) : null}
-        <rect
-          className="nol-card"
-          width={NW} height={NH} rx={9}
-          fill={center ? `color-mix(in srgb, ${col} 12%, var(--surface))` : "var(--surface)"}
-          stroke={col}
-          strokeWidth={center ? 2.4 : on ? 2 : 1.2}
-        />
-        <rect width={3} height={NH} rx={1.5} fill={col} />
-        <text x={NW / 2 + 3} y={16} textAnchor="middle"
-          style={{ font: `${center ? 800 : 700} 14px ui-monospace, monospace`, fill: "var(--ink-1)" }}>{label}</text>
-        <text x={NW / 2 + 3} y={28} textAnchor="middle"
-          style={{ font: "700 8.5px sans-serif", fill: col, letterSpacing: ".05em" }}>
-          {center ? "האובייקט הנוכחי" : module}
-        </text>
-      </g>
-    );
-  };
-
-  const Edge = ({
-    d, mx, my, col, card, other, arrow,
-  }: { d: string; mx: number; my: number; col: string; card: string; other: string; arrow: string }) => {
-    const on = isLive(other);
-    return (
-      <g className="nol-e" data-on={on ? "1" : "0"} style={{ opacity: dim(other) }}
-        onMouseEnter={() => setHot(other)} onMouseLeave={() => setHot(null)}>
-        {/* A RESTING EDGE IS A LINE, A LIVE EDGE IS A FLOW.
-            At rest the dash is gone: fourteen dashed curves at once read as
-            noise, and a solid hairline is what lets the eye follow one
-            relationship across the canvas. The dash appears only on the path
-            being pointed at, which is the emphasis the brief asks for. */}
-        <path d={d} fill="none" stroke={col} strokeWidth={on ? 2.4 : 1.25}
-          strokeOpacity={on ? 1 : 0.4}
-          strokeDasharray={on ? "6 5" : undefined}
-          className={on ? "nol-flow" : undefined} />
-        <path d={arrow} fill="none" stroke={col} strokeWidth={on ? 2 : 1.25} strokeOpacity={on ? 1 : 0.55} />
-        {/* The cardinality FILLS when live. An outlined chip with 9px type on a
-            hairline was the least readable thing on the diagram. */}
-        <rect x={mx - 15} y={my - 8} width={30} height={16} rx={8}
-          fill={on ? col : "var(--surface)"}
-          stroke={col} strokeOpacity={on ? 1 : 0.4} strokeWidth={1} />
-        <text x={mx} y={my + 4} textAnchor="middle"
-          style={{ font: "700 9.5px ui-monospace, monospace", fill: on ? "#fff" : "var(--ink-2)" }}>{card}</text>
-      </g>
-    );
-  };
+  /* The hub wears its own module colour. Brand red stays the global accent —
+     it is never a module colour nor a data category (globals.css). */
+  const centreCol = mc(g.center.module);
 
   /* The explanation strip. Reports only what the dictionary holds: the two
      endpoints, the cardinality, the module, and the edge's own description
@@ -227,12 +259,12 @@ export function ObjectLanes({ name }: { name: string }) {
           width="100%"
           role="img"
           aria-label={`תרשים קשרי ${g.center.tableName}: ${g.upstream.length} טבלאות במעלה הזרם, ${g.downstream.length} במורד הזרם`}
-          style={{ minWidth: 620, maxHeight: 520 }}
+          style={{ minWidth: 620 }}
           onMouseLeave={() => setHot(null)}
         >
-          {hasUp ? <text x={colX.up} y={20} textAnchor="middle" className="nol-lane">UPSTREAM ←</text> : null}
-          <text x={cx} y={20} textAnchor="middle" className="nol-lane">OBJECT</text>
-          {hasDown ? <text x={colX.down} y={20} textAnchor="middle" className="nol-lane">→ DOWNSTREAM</text> : null}
+          {hasUp ? <text x={colX.up} y={20} textAnchor="middle" className="nol-lane">מעלה הזרם</text> : null}
+          <text x={cx} y={20} textAnchor="middle" className="nol-lane">האובייקט</text>
+          {hasDown ? <text x={colX.down} y={20} textAnchor="middle" className="nol-lane">מורד הזרם</text> : null}
 
           {up.map((n, i) => {
             const y = yFor(i, up.length);
@@ -240,7 +272,8 @@ export function ObjectLanes({ name }: { name: string }) {
             const mx = (x1 + x2) / 2, my = (y + cy(H)) / 2;
             const col = mc(tableByName(n)?.module || "?");
             return (
-              <Edge key={"u" + n} other={n} col={col} card={cardUp(n)} mx={mx} my={my}
+              <LaneEdge key={"u" + n} other={n} col={col} card={cardUp(n)} mx={mx} my={my}
+                on={isLive(n)} dimVal={dim(n)} setHot={setHot}
                 d={`M${x1},${y} C${mx},${y} ${mx},${cy(H)} ${x2},${cy(H)}`}
                 arrow={`M${x2 - 9},${cy(H) - 5} L${x2},${cy(H)} L${x2 - 9},${cy(H) + 5}`} />
             );
@@ -252,21 +285,29 @@ export function ObjectLanes({ name }: { name: string }) {
             const mx = (x1 + x2) / 2, my = (y + cy(H)) / 2;
             const col = mc(tableByName(n)?.module || "?");
             return (
-              <Edge key={"d" + n} other={n} col={col} card={cardDown(n)} mx={mx} my={my}
+              <LaneEdge key={"d" + n} other={n} col={col} card={cardDown(n)} mx={mx} my={my}
+                on={isLive(n)} dimVal={dim(n)} setHot={setHot}
                 d={`M${x1},${cy(H)} C${mx},${cy(H)} ${mx},${y} ${x2},${y}`}
                 arrow={`M${x2 - 9},${y - 5} L${x2},${y} L${x2 - 9},${y + 5}`} />
             );
           })}
 
           {up.map((n, i) => (
-            <Node key={n} x={colX.up} y={yFor(i, up.length)} label={n}
-              module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} />
+            <LaneNode key={n} x={colX.up} y={yFor(i, up.length)} label={n}
+              module={tableByName(n)?.module || "?"} exists={!!tableByName(n)}
+              col={mc(tableByName(n)?.module || "?")} on={isLive(n)} dimVal={dim(n)}
+              desc={descOf(n)} setHot={setHot} toggleSel={toggleSel} open={go} />
           ))}
           {down.map((n, i) => (
-            <Node key={n} x={colX.down} y={yFor(i, down.length)} label={n}
-              module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} />
+            <LaneNode key={n} x={colX.down} y={yFor(i, down.length)} label={n}
+              module={tableByName(n)?.module || "?"} exists={!!tableByName(n)}
+              col={mc(tableByName(n)?.module || "?")} on={isLive(n)} dimVal={dim(n)}
+              desc={descOf(n)} setHot={setHot} toggleSel={toggleSel} open={go} />
           ))}
-          <Node x={cx} y={cy(H)} label={g.center.tableName} module={g.center.module} exists center />
+          <LaneNode x={cx} y={cy(H)} label={g.center.tableName} module={g.center.module} exists center
+            col={centreCol} haloCol={focusCol} on={false} dimVal={1}
+            desc={(g.center.descriptionHe || g.center.descriptionEn || "").trim()}
+            setHot={setHot} toggleSel={toggleSel} open={go} />
         </svg>
       </div>
 
@@ -274,8 +315,11 @@ export function ObjectLanes({ name }: { name: string }) {
       <div className="nol-ctx" data-on={focus ? "1" : "0"} aria-live="polite">
         {focus ? (
           <>
-            <span className="nol-ctx-path nx-sap">
-              {fUp ? `${focus} ← ${g.center.tableName}` : `${g.center.tableName} → ${focus}`}
+            {/* Two LTR table names around an arrow inside an RTL page reorder
+                unless the run is pinned: dir="ltr" states the data-flow order
+                explicitly, always source → target. */}
+            <span className="nol-ctx-path nx-sap" dir="ltr">
+              {fUp ? `${focus} → ${g.center.tableName}` : `${g.center.tableName} → ${focus}`}
             </span>
             <span className="nol-ctx-f"><em>יחס</em><b className="nx-sap">{fEdge?.card || "לא מצוין בתיעוד"}</b></span>
             <span className="nol-ctx-f"><em>מודול</em><b>{tableByName(focus)?.module || "לא ידוע"}</b></span>
