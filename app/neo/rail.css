@@ -846,6 +846,26 @@ html[data-theme="dark"] .nx-app .nxc-chip,
 html[data-theme="dark"] .nx-app .nxc-foot kbd { background: var(--surface-2); }
 html[data-theme="dark"] .nx-app .nx-mtabs { box-shadow: 0 -8px 24px -18px rgba(0, 0, 0, .9); }
 
+/* --- the mobile footer credit -------------------------------------------
+   On desktop the credit lives in the rail foot. The mobile shell never draws
+   the rail, and 12 of 21 surfaces ended with no visible credit — the open
+   item recorded in the release record. This line closes it: it renders above
+   the tab bar on every mobile page, and steps aside (the :has() below) on the
+   surfaces whose page already ends with its own credit line. */
+.nx-app .nx-mcredit {
+  margin: 0;
+  padding: var(--sp-2) var(--sp-3);
+  text-align: center;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  background: var(--surface);
+  border-block-start: 1px solid var(--c-hair);
+}
+html[data-device="phone"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-credit, .ne-credit, .ndm-credit, .nh-credit) .nx-mcredit,
+html[data-device="tablet"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-credit, .ne-credit, .ndm-credit, .nh-credit) .nx-mcredit {
+  display: none !important;
+}
+
 /* ============================================================================
    15. MOTION POLICY
    The global reduced-motion block in globals.css already neutralises every

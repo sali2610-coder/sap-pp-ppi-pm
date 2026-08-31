@@ -919,6 +919,15 @@ export function NeoShellClient({
 
         <main id="main" className="nx-canvas">{children}</main>
 
+        {/* The mandatory footer credit, on the MOBILE shell. On desktop it
+            lives in the rail foot; on a phone the rail never renders, and 12
+            of 21 surfaces had no visible credit at all (the deferred open item
+            from the release record). Surfaces that already end with their own
+            credit line suppress this one via :has() in rail.css. */}
+        <p className="nx-mcredit" data-shell="mobile-only">
+          Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding
+        </p>
+
         <MobileTabs
           navOpen={sheet}
           searchOpen={searching}
