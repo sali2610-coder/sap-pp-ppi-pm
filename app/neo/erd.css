@@ -753,7 +753,7 @@ html[data-theme="dark"] .ne {
 
 /* Open the real object page. Present only on the table you are looking at, so
    the map stays a map. */
-   While hidden the affordance is also NOT hit-testable: on touch there is no
+/* While hidden the affordance is also NOT hit-testable: on touch there is no
    hover, and an invisible corner that navigates away on tap is a trap, not an
    affordance. pointer-events comes back exactly when the reveal does — and a
    keyboard focus reveals it too, so focus never lands on an invisible control. */
