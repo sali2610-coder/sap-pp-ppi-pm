@@ -6,12 +6,14 @@
 import "@/app/neo/ui.css";
 import "@/app/neo/erd.css";
 import { erdCatalog } from "@/components/neo-shell/erd/erd-catalog";
+import { MODULE_ORDER } from "@/components/neo-shell/erd/erd-types";
 import { ErdWorkspace } from "@/components/neo-shell/erd/erd-workspace";
 
 export const metadata = {
   title: "מודל הנתונים · Project NEO",
-  description:
-    "תרשים ER אינטראקטיבי של מודל הנתונים הארגוני: 13 מודולי SAP, קשרים אמיתיים, עוצמות מקוריות וניסוחי JOIN מהמילון.",
+  // The module count is derived, never authored: the page once said "13" while
+  // the catalog rendered 15.
+  description: `תרשים ER אינטראקטיבי של מודל הנתונים הארגוני: ${MODULE_ORDER.length} מודולי SAP, קשרים אמיתיים, עוצמות מקוריות וניסוחי JOIN מהמילון.`,
   robots: { index: false, follow: false },
 };
 

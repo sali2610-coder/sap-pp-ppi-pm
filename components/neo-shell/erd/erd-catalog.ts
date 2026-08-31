@@ -212,8 +212,8 @@ interface Catalog {
   /** Module memberships per table: its own module plus every module whose
    *  ERD_MODULES list names it. */
   mods: Map<string, ModCode[]>;
-  /** Every table in scope — the union of the 13 ERD_MODULES lists and every
-   *  dataset table whose own module is one of the 13. */
+  /** Every table in scope — the union of the ERD_MODULES lists and every
+   *  dataset table whose own module is one of MODULE_ORDER. */
   scope: Set<string>;
 }
 
@@ -235,7 +235,7 @@ function catalog(): Catalog {
     mods.set(name, list);
   };
 
-  // Every table the dataset assigns to one of the 13 modules.
+  // Every table the dataset assigns to one of the MODULE_ORDER modules.
   for (const t of d.tables) {
     if (!inOrder.has(t.mod)) continue;
     scope.add(t.name);

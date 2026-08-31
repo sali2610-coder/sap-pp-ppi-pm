@@ -938,12 +938,20 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const openTable = useCallback(
     (name: string) => {
       const t = tByName.get(name);
-      if (t?.pg === 1) {
+      /* On the module map the hit-test hands over a MODULE code, not a table.
+         Without this guard a double-click there fell through to setSheet with
+         a name no table matches — an invisible dialog that ate the next
+         Escape. A module double-click now does what a click does: enter it. */
+      if (!t) {
+        if (isMap && mByCode.has(name as ModCode)) openModule(name as ModCode);
+        return;
+      }
+      if (t.pg === 1) {
         rememberOrigin(makeOrigin(name));
         router.push(`/neo/object/${name}/`);
       } else setSheet(name);
     },
-    [tByName, router, makeOrigin],
+    [tByName, router, makeOrigin, isMap, mByCode, openModule],
   );
 
   /* ------------------------------------------------------- narrowing, counted
@@ -1120,6 +1128,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         /* noop */
       }
     }, 450);
+    // The pending write dies with the workspace: without this cleanup a 450ms
+    // timer could fire after navigation and write against an unmounted tree.
+    return () => {
+      if (saveT.current) clearTimeout(saveT.current);
+    };
   }, [mod, showAll, rel, strong, sharedOnly, iso, depth, insp, mini, sel, mode]);
 
   /* ------------------------------------------------------- initial framing */
@@ -1510,8 +1523,15 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     const svg = e.currentTarget;
     if (!st) return;
     const r = svg.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width) * picture.w;
-    const y = ((e.clientY - r.top) / r.height) * picture.h;
+    /* The minimap renders with preserveAspectRatio="meet" inside a fixed 4:3
+       box, so the picture is letterboxed whenever its aspect ratio differs.
+       A linear clientX->picture.w mapping ignored the bars and sent the camera
+       to the wrong place; map through the real scale and centring offsets. */
+    const s = Math.min(r.width / picture.w, r.height / picture.h);
+    const offX = (r.width - picture.w * s) / 2;
+    const offY = (r.height - picture.h * s) / 2;
+    const x = Math.min(Math.max((e.clientX - r.left - offX) / s, 0), picture.w);
+    const y = Math.min(Math.max((e.clientY - r.top - offY) / s, 0), picture.h);
     const k = view.current.k;
     cancelAnimationFrame(anim.current);
     view.current = clamp({ k, x: st.clientWidth / 2 - x * k, y: st.clientHeight / 2 - y * k });
@@ -1683,7 +1703,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     >
                       <i className="ne-row-bar" aria-hidden="true" />
                       <b className="nx-sap">{n.n}</b>
-                      <em>{n.he || n.en || "—"}</em>
+                      <em>{n.he || n.en || "–"}</em>
                       <span className="nx-sap">{degOf(n.n)}</span>
                     </button>
                   </li>
@@ -1964,7 +1984,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                   title={
                     a.id === "flow" && !flowReady
                       ? "לא קיים מידע מאומת בפרויקט. המודול הזה אינו מחזיק שרשרת אובייקטים עסקיים."
-                      : `${a.en} — ${a.d}`
+                      : `${a.en} · ${a.d}`
                   }
                   onClick={() => {
                     setMode(a.id);
@@ -2077,7 +2097,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                       className="nu-filter"
                       aria-pressed={strong}
                       onClick={() => setStrong((v) => !v)}
-                      title="רק קשרים שמילון ה-PM/PP-PI מתעד להם ניסוח JOIN מלא"
+                      title="רק קשרים שהמילון מתעד להם ניסוח JOIN מלא"
                     >
                       <Filter size={12} strokeWidth={1.9} aria-hidden="true" />
                       קשרים חזקים
@@ -2204,7 +2224,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             <div className="ne-openbar" role="group" aria-label="הטבלה הפתוחה">
               <span className="ne-openbar-id">
                 <b className="nx-sap">{openT.n}</b>
-                <em>{openT.he || openT.en || "—"}</em>
+                <em>{openT.he || openT.en || "–"}</em>
               </span>
               <span className="ne-openbar-lens">{lens.he}</span>
               <button
@@ -2273,7 +2293,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                       <title>
                         {isMap
                           ? `${e.p} ↔ ${e.c}: ${e.n} קשרי טבלאות`
-                          : `${e.p} → ${e.c} · ${rec?.cd || REL_HE[(rec?.k ?? "unstated") as RelKind]}${rec?.ds ? ` — ${rec.ds}` : ""}`}
+                          : `${e.p} → ${e.c} · ${rec?.cd || REL_HE[(rec?.k ?? "unstated") as RelKind]}${rec?.ds ? ` · ${rec.ds}` : ""}`}
                       </title>
                       <path className="ne-edge-p" data-edge={e.i} d={pathD(g)} />
                       {!isMap ? (
@@ -2339,7 +2359,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           onDoubleClick={() => openModule(m.code)}
                           style={{ "--m": modVar(m.code), "--ms": modVar(m.code), "--o": "var(--obj-master)" } as React.CSSProperties}
                         >
-                          <title>{`${m.code} — ${m.he}${m.purpose ? `. ${m.purpose}` : ""}`}</title>
+                          <title>{`${m.code} · ${m.he}${m.purpose ? `. ${m.purpose}` : ""}`}</title>
                           <rect className="ne-node-h" x={-W / 2 - 5} y={-H / 2 - 5} width={W + 10} height={H + 10} rx={16} />
                           <rect className="ne-node-r" x={-W / 2} y={-H / 2} width={W} height={H} rx={12} />
                           <rect className="ne-node-mb" x={W / 2 - 11} y={-H / 2 + 10} width={5} height={H - 20} rx={2.5} />
@@ -2451,7 +2471,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                             {t.n}
                           </text>
                           <text className="ne-node-he" x={px} y={oy + 65} textAnchor="start">
-                            {cut(t.he || t.en || "—", isOpen ? 30 : 25)}
+                            {cut(t.he || t.en || "–", isOpen ? 30 : 25)}
                           </text>
                           {!isOpen ? (
                             <>
@@ -2514,7 +2534,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                         {cut(f[0], 18)}
                                       </text>
                                       <text className="ne-open-t nx-sap" x={-ow / 2 + 18} y={yr} textAnchor="start">
-                                        {cut(f[1] || "—", 12)}
+                                        {cut(f[1] || "–", 12)}
                                       </text>
                                     </g>
                                   );

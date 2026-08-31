@@ -13,6 +13,7 @@
 // Everything below is verbatim dataset content. Where the dataset is silent the
 // card says "לא קיים מידע מאומת" rather than filling the gap.
 
+import { useEffect, useRef } from "react";
 import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
 import { ArrowUpLeft, X } from "lucide-react";
 import {
@@ -41,11 +42,45 @@ export function ErdSheet({
   const parents = edges.filter((e) => e.c === t.n);
   const children = edges.filter((e) => e.p === t.n);
 
+  /* Dialog contract, same as the books quick-view: focus moves INTO the card
+     when it opens and Tab wraps inside it. Escape stays with the workspace's
+     own ladder, which already closes the sheet — a second handler here would
+     double-step it. */
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    cardRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const root = cardRef.current;
+      if (!root) return;
+      const items = [...root.querySelectorAll<HTMLElement>("a[href], button:not([disabled])")]
+        .filter((el) => el.tabIndex !== -1 && el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const at = document.activeElement;
+      if (!e.shiftKey && at === last) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && (at === first || !root.contains(at))) { e.preventDefault(); last.focus(); }
+    };
+    document.addEventListener("keydown", onKey, true);
+    return () => document.removeEventListener("keydown", onKey, true);
+  }, []);
+
   return (
-    <div className="ne-sheet" role="dialog" aria-modal="true" aria-label={`כרטיס הטבלה ${t.n}`} onClick={onClose}>
+    /* The scrim closes on the PRESS that starts on it — a text selection that
+       begins inside the card and ends over the scrim used to fire a click on
+       the wrapper and dismiss the sheet mid-read. */
+    <div
+      className="ne-sheet"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`כרטיס הטבלה ${t.n}`}
+      onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
       <div
         className="ne-card2 nu-card"
-        onClick={(e) => e.stopPropagation()}
+        ref={cardRef}
+        tabIndex={-1}
         style={{ "--m": modVar(t.m), "--o": t.o } as React.CSSProperties}
       >
         <header className="ne-c2-h">
@@ -90,7 +125,7 @@ export function ErdSheet({
                     <tr key={f[0]} data-k={f[3]}>
                       <td className="nx-sap">{f[0]}</td>
                       <td>
-                        {f[2] || "—"}
+                        {f[2] || "–"}
                         {f[1] ? <em>{f[1]}</em> : null}
                       </td>
                       <td>{f[3] !== "-" ? <span className="nu-chip" data-k={f[3]}>{f[3]}</span> : null}</td>

@@ -753,11 +753,16 @@ html[data-theme="dark"] .ne {
 
 /* Open the real object page. Present only on the table you are looking at, so
    the map stays a map. */
-.ne-node-go { opacity: 0; transition: opacity var(--dur-fast) linear; cursor: pointer; }
+   While hidden the affordance is also NOT hit-testable: on touch there is no
+   hover, and an invisible corner that navigates away on tap is a trap, not an
+   affordance. pointer-events comes back exactly when the reveal does — and a
+   keyboard focus reveals it too, so focus never lands on an invisible control. */
+.ne-node-go { opacity: 0; pointer-events: none; transition: opacity var(--dur-fast) linear; cursor: pointer; }
 .ne-node-go rect { fill: color-mix(in srgb, var(--ms) 16%, var(--surface)); stroke: var(--ms); stroke-width: 1; }
 .ne-node-go path { fill: none; stroke: var(--ms); stroke-width: 1.6; stroke-linecap: round; }
 .ne-node:hover .ne-node-go,
-.ne-node[data-lvl="0"] .ne-node-go { opacity: 1; }
+.ne-node[data-lvl="0"] .ne-node-go,
+.ne-node-go:focus-visible { opacity: 1; pointer-events: auto; }
 .ne-node-go:focus-visible { outline: none; }
 .ne-node-go:focus-visible rect { stroke: var(--brand); stroke-width: 2.5; }
 
@@ -1614,13 +1619,16 @@ html[data-theme="dark"] .ne {
 .ne-node-s4[data-risk="high"] rect { fill: #dc2626; }
 .ne-node-s4 text {
   font-family: var(--font-mono);
-  font-size: 8px; font-weight: 800;
+  font-size: 10px; font-weight: 800;
   fill: #451a03;
 }
+/* Dark brown on the red high-risk fill was near-invisible; the badge keeps its
+   risk colours in both themes, so the text contrast is fixed per-fill. */
+.ne-node-s4[data-risk="high"] text { fill: #fef2f2; }
 
 /* The click affordance, quiet until the pointer is on the node. */
 .ne-node-hint {
-  font-size: 9px; font-weight: 700;
+  font-size: 10px; font-weight: 700;
   fill: var(--ink-3);
   opacity: 0;
   transition: opacity 160ms var(--ease-out-expo);

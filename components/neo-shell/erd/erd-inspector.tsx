@@ -64,7 +64,7 @@ export function ErdInspector({
             {nf.format(hits.length)} טבלאות ברשימה
             {q ? (
               <button type="button" className="nu-ghost" onClick={onClearQ}>
-                מסונן לפי “{q}” · נקה
+                מסונן לפי &quot;{q}&quot; · נקה
               </button>
             ) : null}
           </p>
@@ -80,7 +80,7 @@ export function ErdInspector({
                 >
                   <i className="ne-row-bar" aria-hidden="true" />
                   <b className="nx-sap">{n.n}</b>
-                  <em>{n.he || n.en || "—"}</em>
+                  <em>{n.he || n.en || "–"}</em>
                   <span className="nx-sap">{degOf(n.n)}</span>
                 </button>
               </li>
@@ -89,7 +89,9 @@ export function ErdInspector({
         </div>
       ) : null}
 
-      <div className="ne-detail" aria-live="polite">
+      {/* No aria-live here: the panel is driven by HOVER, and a live region on
+          it re-announced the whole panel on every mouse pass over the canvas. */}
+      <div className="ne-detail">
         {active ? (
           <>
             <header className="ne-det-h" style={{ "--o": active.o, "--m": modVar(active.m) } as React.CSSProperties}>
@@ -210,15 +212,18 @@ export function ErdInspector({
                     {active.f.slice(0, 8).map((f) => (
                       <tr key={f[0]} data-k={f[3]}>
                         <td className="nx-sap">{f[0]}</td>
-                        <td>{f[2] || f[1] || "—"}</td>
+                        <td>{f[2] || f[1] || "–"}</td>
                         <td>{f[3] !== "-" ? <span className="nu-chip" data-k={f[3]}>{f[3]}</span> : null}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                {active.fn > 8 ? (
+                {/* "More" counts against the rows actually shown, not against a
+                    fixed 8 — the payload may hold fewer than 8 rows while the
+                    documented total (fn) is far larger. */}
+                {active.fn > Math.min(8, active.f.length) ? (
                   <button type="button" className="nu-ghost ne-more" onClick={() => onExpand(active.n)}>
-                    עוד {nf.format(active.fn - 8)} שדות: פתח את הכרטיס המלא
+                    עוד {nf.format(active.fn - Math.min(8, active.f.length))} שדות: פתח את הכרטיס המלא
                   </button>
                 ) : null}
               </div>

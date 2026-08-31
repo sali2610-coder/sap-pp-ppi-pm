@@ -105,9 +105,10 @@ export const ZONE_HE: Record<string, string> = {
   Integration: "שכבת אינטגרציה",
 };
 
-/** The progressive ladder. Nothing dumps every node at once: the overview is 13
- *  module nodes, a module is its curated ERD, a group narrows to one topic or
- *  one business object, and a table is the ego view plus the detail panel. */
+/** The progressive ladder. Nothing dumps every node at once: the overview is
+ *  the MODULE_ORDER module nodes, a module is its curated ERD, a group narrows
+ *  to one topic or one business object, and a table is the ego view plus the
+ *  detail panel. */
 export type Level = "overview" | "module" | "group" | "table";
 
 export const LEVEL_HE: Record<Level, string> = {
