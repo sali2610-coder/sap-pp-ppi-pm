@@ -6,8 +6,8 @@ import "@/app/neo/data.css";
 import { TransactionsSurface } from "@/components/neo-shell/data/transactions-surface";
 
 export const metadata = {
-  title: "טרנזקציות · Project NEO",
-  description: "הרישום הקנוני של טרנזקציות SAP במעטפת NEO: מודול, נושא, אובייקט עסקי, יורש Fiori ועומק תיעוד.",
+  title: "טרנזקציות SAP · Project NEO",
+  description: "קטלוג הטרנזקציות של Project NEO: מודול, נושא, אובייקט עסקי, יישום Fiori עוקב ועומק התיעוד.",
   robots: { index: false, follow: false },
 };
 

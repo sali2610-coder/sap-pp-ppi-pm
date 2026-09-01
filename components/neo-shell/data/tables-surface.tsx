@@ -79,9 +79,9 @@ const SORTS: { s: Sort; he: string }[] = [
 ];
 
 const CAPS: { id: Cap; he: string }[] = [
-  { id: "s4", he: "מוחלפת ב-S/4" },
-  { id: "cds", he: "יש CDS" },
-  { id: "fiori", he: "יש Fiori" },
+  { id: "s4", he: "מוחלפת ב-S/4HANA" },
+  { id: "cds", he: "עם תצוגת CDS" },
+  { id: "fiori", he: "עם יישום Fiori" },
   { id: "hub", he: "צומת קשרים (6+)" },
   { id: "shared", he: "משותפת לשני המודולים" },
 ];
@@ -131,7 +131,7 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
         </span>
 
         <span className="nxd-body">
-          <span className="nxd-he">{r.he || "אין תיאור עסקי בקובץ המקור"}</span>
+          <span className="nxd-he">{r.he || "לא קיים תיאור מאומת בתיעוד המקור"}</span>
           <span className="nxd-sub">
             <span className="nxd-zone"><i aria-hidden="true" />{r.zoneHe}</span>
             <span className="nxd-dot" aria-hidden="true">·</span>
@@ -156,7 +156,7 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
           <span className="nu-status" style={{ "--s": st.s } as React.CSSProperties}>{st.he}</span>
           <span className="nxd-s4-t">
             {r.s4Alt ? <b className="nx-sap">{r.s4Alt}</b> : null}
-            {r.s4 || (r.s4Alt ? "" : "קובץ המקור אינו מציין הערת S/4 לטבלה זו")}
+            {r.s4 || (r.s4Alt ? "" : "תיעוד המקור אינו מציין הערת S/4HANA לטבלה זו")}
           </span>
         </span>
 
@@ -198,7 +198,7 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
         // order. This is the shape that keeps the dead-link crawler green.
         <div className="nu-card nxd-row is-flat">
           {body}
-          <span className="nxd-s4-t nxd-noent">אין עמוד פרטים לטבלה הזאת במאגר</span>
+          <span className="nxd-s4-t nxd-noent">לטבלה זו אין עמוד פרטים במאגר</span>
         </div>
       )}
 
@@ -206,7 +206,7 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
         type="button"
         className="nu-ghost nxd-ctx"
         onClick={() => openContext(r.name)}
-        aria-label={`טען את ההקשר של ${r.name} למדף הניווט`}
+        aria-label={`טעינת ההקשר של ${r.name} למדף הניווט`}
       >
         <Layers size={13} strokeWidth={1.75} />
         <span>הקשר</span>
@@ -290,12 +290,12 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
       mods.join(" · "),
       zones.map((z) => data.zones.find((x) => x.id === z)?.he || "").filter(Boolean).join(" · "),
       caps.map((c) => CAPS.find((x) => x.id === c)?.he || "").filter(Boolean).join(" · "),
-      q.trim() ? `חיפוש «${q.trim()}»` : "",
+      q.trim() ? `חיפוש "${q.trim()}"` : "",
       view === "list" ? "" : VIEWS.find((v) => v.v === view)?.he || "",
     ].filter(Boolean);
     return {
       href: "/neo/tables/",
-      label: "טבלאות",
+      label: "טבלאות SAP",
       detail: parts.join(" · "),
       surface: SURFACE,
       state: {
@@ -368,19 +368,19 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
           is a filter you miss, and this surface is a tool before it is a page. */}
       <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
-        <span className="nx-eyebrow">מילון נתונים · Data Dictionary</span>
+        <span className="nx-eyebrow">תיעוד טכני · Data Dictionary</span>
         {/* "טבלאות SAP" named a category rather than this surface — every SAP
             screen in the product is about SAP tables. The eyebrow above already
             says מילון נתונים and the route's own metadata calls it the table
             dictionary, so the title now agrees with both. */}
-        <h1 className="nx-h1">מילון הטבלאות</h1>
+        <h1 className="nx-h1">טבלאות SAP</h1>
         <p className="nx-lede">
-          {nf.format(t.tables)} טבלאות משני קובצי המקור, PM ו-PP-PI, עם {nf.format(t.fields)} שדות מתועדים,
+          {nf.format(t.tables)} טבלאות SAP מתיעוד המקור של PM ו-PP-PI, עם {nf.format(t.fields)} שדות מתועדים,
           {" "}{nf.format(t.rels)} קשרי ER ו-{nf.format(t.tcodes)} טרנזקציות.
           {" "}
           {t.linked === t.tables
-            ? <>לכל אחת מ-{nf.format(t.linked)} השורות יש עמוד טבלה משלה: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, CDS והמעבר ל-S/4HANA.</>
-            : <>ל-{nf.format(t.linked)} מהן יש עמוד טבלה משלהן: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, CDS והמעבר ל-S/4HANA. השאר מוצגות כרשומה בלבד.</>}
+            ? <>לכל אחת מ-{nf.format(t.linked)} הטבלאות עמוד פרטים משלה: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, תצוגות CDS והמעבר ל-S/4HANA.</>
+            : <>ל-{nf.format(t.linked)} מהן עמוד פרטים משלהן: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, תצוגות CDS והמעבר ל-S/4HANA. השאר מוצגות כרשומה בלבד.</>}
         </p>
       </header>
 
@@ -392,7 +392,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
           { v: t.rels, l: "קשרי ER", i: <GitBranch size={14} strokeWidth={1.75} /> },
           { v: t.tcodes, l: "טרנזקציות", i: <Terminal size={14} strokeWidth={1.75} /> },
           { v: t.shared, l: "משותפות לשני המודולים", i: <Boxes size={14} strokeWidth={1.75} /> },
-          { v: t.s4, l: "עם טבלה חלופית ב-S/4", i: <ArrowLeft size={14} strokeWidth={1.75} /> },
+          { v: t.s4, l: "עם טבלה חלופית ב-S/4HANA", i: <ArrowLeft size={14} strokeWidth={1.75} /> },
           { v: t.cds, l: "עם תצוגת CDS", i: <Sigma size={14} strokeWidth={1.75} /> },
         ].map((s) => (
           <div key={s.l} className="nxd-stat">
@@ -414,7 +414,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
             aria-label="חיפוש בטבלאות SAP"
           />
           {q ? (
-            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="נקה חיפוש">
+            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
               <X size={13} strokeWidth={2} />
             </button>
           ) : null}
@@ -506,19 +506,18 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
 
       <p className="nxd-count nm-fade nm-once" aria-live="polite">
         <b>{nf.format(rows.length)}</b> מתוך {nf.format(t.tables)} טבלאות
-        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>נקה סינון</button></> : null}
+        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 
       {rows.length === 0 ? (
         <div className="nx-card nxd-none nm-rise nm-once">
-          <p><b>אין טבלת SAP שעונה על הסינון הזה.</b></p>
+          <p><b>לא נמצאו טבלאות SAP התואמות לסינון שנבחר.</b></p>
           <p className="nx-muted">
-            החיפוש עובר על {nf.format(t.tables)} טבלאות אמיתיות מקובצי המקור: שם, תיאור, נושא, טרנזקציה ו-CDS.
-            הוא אינו מנחש ואינו משלים טקסט חופשי.
+            החיפוש מכסה {nf.format(t.tables)} טבלאות SAP מתיעוד המקור: שם, תיאור, נושא, טרנזקציה ותצוגת CDS.
           </p>
           <div className="nxd-none-a">
-            <button type="button" className="nu-btn" onClick={reset}>הצג את כל הטבלאות</button>
-            {q ? <button type="button" className="nu-btn2" onClick={() => setQ("")}>נקה רק את החיפוש</button> : null}
+            <button type="button" className="nu-btn" onClick={reset}>הצגת כל הטבלאות</button>
+            {q ? <button type="button" className="nu-btn2" onClick={() => setQ("")}>ניקוי החיפוש בלבד</button> : null}
           </div>
         </div>
       ) : groups ? (
@@ -543,7 +542,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
       )}
 
       <p className="nxd-foot nm-fade nm-once">
-        המקור הוא שני קובצי המקור של הפרויקט. שדה שקובץ המקור שותק לגביו מוצג כ«לא צוין» ולא מולא בערך סביר.
+        המקור: שני קובצי תיעוד המקור של הפרויקט, PM ו-PP-PI. שדה שאינו מתועד מוצג כ&quot;לא צוין&quot;.
       </p>
     </div>
   );

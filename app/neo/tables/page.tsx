@@ -11,8 +11,8 @@ import { TablesSurface } from "@/components/neo-shell/data/tables-surface";
 // declaring content="noindex" itself, and scripts/check-sitemap.mjs then
 // hard-fails on any indexable page missing from the sitemap.
 export const metadata = {
-  title: "טבלאות המילון · Project NEO",
-  description: "מילון הטבלאות של PM ו-PP-PI במעטפת NEO: שדות, מפתחות, קשרי ER, טרנזקציות ומעבר ECC↔S/4.",
+  title: "טבלאות SAP · Project NEO",
+  description: "קטלוג טבלאות SAP של PM ו-PP-PI: שדות, מפתחות, קשרי ER, טרנזקציות והמעבר מ-ECC ל-S/4HANA.",
   robots: { index: false, follow: false },
 };
 

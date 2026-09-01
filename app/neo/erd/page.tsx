@@ -13,7 +13,7 @@ export const metadata = {
   title: "מודל הנתונים · Project NEO",
   // The module count is derived, never authored: the page once said "13" while
   // the catalog rendered 15.
-  description: `תרשים ER אינטראקטיבי של מודל הנתונים הארגוני: ${MODULE_ORDER.length} מודולי SAP, קשרים אמיתיים, עוצמות מקוריות וניסוחי JOIN מהמילון.`,
+  description: `תרשים ERD אינטראקטיבי של מודל הנתונים: ${MODULE_ORDER.length} מודולי SAP, קשרי טבלאות, קרדינליות וניסוחי JOIN כפי שנרשמו בתיעוד.`,
   robots: { index: false, follow: false },
 };
 

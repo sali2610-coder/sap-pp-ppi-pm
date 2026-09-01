@@ -39,7 +39,7 @@ import { TxActions } from "./tx-actions";
 
 const nf = new Intl.NumberFormat("he-IL");
 
-const NONE = "לא קיים מידע מאומת";
+const NONE = "לא קיים תיעוד מאומת במאגר";
 
 /* ------------------------------------------------------------ primitives */
 
@@ -119,18 +119,18 @@ export function TxDetailView({ t }: { t: TxDetail }) {
   };
   const nav: { id: string; label: string }[] = [
     { id: "nxt-s4", label: "המעבר ל-S/4HANA" },
-    ...(has.what ? [{ id: "sec-what", label: "מה הטרנזקציה עושה" }] : []),
+    ...(has.what ? [{ id: "sec-what", label: "תפקיד הטרנזקציה" }] : []),
     ...(has.flow ? [{ id: "sec-flow", label: "מסך והרצה" }] : []),
     { id: "sec-obj", label: "אובייקטים וטבלאות" },
     ...(has.int ? [{ id: "sec-int", label: "ממשקים והרחבות" }] : []),
-    { id: "sec-near", label: "טרנזקציות שכנות" },
+    { id: "sec-near", label: "טרנזקציות קשורות" },
     { id: "sec-iss", label: "תקלות ידועות" },
   ];
 
   return (
     <article className="nxt" data-surface="transaction" style={{ "--m": m } as React.CSSProperties}>
       <SmartReturn
-        fallback={{ href: "/neo/transactions/", label: "טרנזקציות" }}
+        fallback={{ href: "/neo/transactions/", label: "טרנזקציות SAP" }}
         hint="לא נשמר מסלול הגעה בביקור הזה"
       />
 
@@ -188,7 +188,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
         aria-labelledby="s4-h"
       >
         <div className="nxt-s4-top">
-          <p className="nx-eyebrow">מעבר ל-S/4HANA</p>
+          <p className="nx-eyebrow">המעבר ל-S/4HANA</p>
           <h2 className="nxt-s4-h" id="s4-h">{t.s4.he}</h2>
           <div className="nxt-s4-st">
             <Status color={RISK_COLOR[t.s4.risk]}>{RISK_HE[t.s4.risk]}</Status>
@@ -200,7 +200,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
 
         {t.s4.supersededBy.length ? (
           <div className="nxt-s4-succ">
-            <p className="nxt-l">היורש לפי המאגר</p>
+            <p className="nxt-l">הטרנזקציה העוקבת לפי המאגר</p>
             <ul className="nxt-succ-list">
               {t.s4.supersededBy.map((c) => (
                 <li key={c}>
@@ -211,27 +211,27 @@ export function TxDetailView({ t }: { t: TxDetail }) {
               ))}
             </ul>
             <p className="nxt-s4-why">
-              רשומת היורש מצהירה על <span className="nx-sap">{t.code}</span> כטרנזקציה שהוחלפה. זהו קשר מוצהר במאגר, לא פרשנות.
+              רשומת הטרנזקציה העוקבת מצהירה על <span className="nx-sap">{t.code}</span> כטרנזקציה שהוחלפה. הקשר מוצהר במאגר.
             </p>
           </div>
         ) : null}
 
         <dl className="nxt-s4-facts">
-          <Fact label="מה כתוב במאגר">{t.s4.note || NONE}</Fact>
-          {t.s4.delta ? <Fact label="ECC6 → S/4HANA · מה השתנה">{t.s4.delta}</Fact> : null}
+          <Fact label="הערת המאגר">{t.s4.note || NONE}</Fact>
+          {t.s4.delta ? <Fact label="ECC → S/4HANA · מה השתנה">{t.s4.delta}</Fact> : null}
           {t.s4.unchanged ? <Fact label="מה לא השתנה">{t.s4.unchanged}</Fact> : null}
-          <Fact label="חלופת Fiori">
+          <Fact label="יישום Fiori עוקב">
             {t.s4.fiori ? <span className="nxt-fiori"><AppWindow size={13} strokeWidth={1.75} aria-hidden="true" />{t.s4.fiori}</span> : NONE}
           </Fact>
           {t.s4.replaces.length ? (
-            <Fact label="טרנזקציות שהיא החליפה">
+            <Fact label="טרנזקציות שהוחלפו על ידה">
               <ul className="nxt-codes">
                 {t.s4.replaces.map((c) => <li key={c} className="nu-chip is-sap">{c}</li>)}
               </ul>
             </Fact>
           ) : null}
           {t.cds.length ? (
-            <Fact label="תצוגות CDS">
+            <Fact label="CDS Views">
               <ul className="nxt-codes">{t.cds.map((c) => <li key={c} className="nu-chip is-sap">{c}</li>)}</ul>
             </Fact>
           ) : null}
@@ -239,21 +239,21 @@ export function TxDetailView({ t }: { t: TxDetail }) {
 
         {t.s4.disposition === "unknown" ? (
           <p className="nxt-s4-warn">
-            למאגר אין אמירה על מצב הטרנזקציה ב-S/4HANA. הפריט דורש אימות במערכת SAP לפני החלטת מיגרציה, ולא הושלם כאן בהשערה.
+            לא קיים במאגר תיעוד על מצב הטרנזקציה ב-S/4HANA. נדרש אימות במערכת SAP לפני החלטת המעבר.
           </p>
         ) : null}
       </section>
 
       {/* --------------------------------------------------- 3. WHAT IT DOES */}
       {has.what ? (
-        <Section id="sec-what" icon={<Terminal size={15} strokeWidth={1.75} />} title="מה הטרנזקציה עושה">
+        <Section id="sec-what" icon={<Terminal size={15} strokeWidth={1.75} />} title="תפקיד הטרנזקציה">
           <dl className="nxt-grid">
             {t.purpose ? <Fact label="מטרה עסקית">{t.purpose}</Fact> : null}
             {t.process ? <Fact label="מיקום בתהליך">{t.process}</Fact> : null}
             {t.whenUse ? <Fact label="מתי להשתמש">{t.whenUse}</Fact> : null}
-            {t.whenNot ? <Fact label="מתי לא">{t.whenNot}</Fact> : null}
-            {t.tech ? <Fact label="מה קורה טכנית">{t.tech}</Fact> : null}
-            {t.users.length ? <Fact label="מי משתמש">{t.users.join(" · ")}</Fact> : null}
+            {t.whenNot ? <Fact label="מתי לא להשתמש">{t.whenNot}</Fact> : null}
+            {t.tech ? <Fact label="תיאור טכני">{t.tech}</Fact> : null}
+            {t.users.length ? <Fact label="משתמשים">{t.users.join(" · ")}</Fact> : null}
             {t.prereq.length ? <Fact label="תנאים מקדימים"><Bullets items={t.prereq} /></Fact> : null}
           </dl>
         </Section>
@@ -308,9 +308,9 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           <p className="nxt-absent">{NONE} על טבלאות שהטרנזקציה נוגעת בהן.</p>
         ) : (
           <>
-            {authored.length ? <h3 className="nxt-sub">טבלאות שהרשומה מצהירה עליהן</h3> : null}
+            {authored.length ? <h3 className="nxt-sub">טבלאות לפי רשומת הטרנזקציה</h3> : null}
             {authored.length ? <TableList rows={authored} origin={origin} /> : null}
-            {blueprint.length ? <h3 className="nxt-sub">טבלאות שקובץ התכנון מקשר לקוד הזה</h3> : null}
+            {blueprint.length ? <h3 className="nxt-sub">טבלאות לפי תיעוד המקור של PM ו-PP-PI</h3> : null}
             {blueprint.length ? <TableList rows={blueprint} origin={origin} /> : null}
           </>
         )}
@@ -320,10 +320,10 @@ export function TxDetailView({ t }: { t: TxDetail }) {
       {has.int ? (
         <Section id="sec-int" icon={<Plug size={15} strokeWidth={1.75} />} title="ממשקים והרחבות">
           <dl className="nxt-grid">
-            {t.bapis.length ? <Fact label="BAPI / FM"><Codes items={t.bapis} label="BAPI ו-FM" /></Fact> : null}
+            {t.bapis.length ? <Fact label="BAPI ו-FM"><Codes items={t.bapis} label="BAPI ו-FM" /></Fact> : null}
             {t.exits.length ? <Fact label="User Exits"><Codes items={t.exits} label="User Exits" /></Fact> : null}
             {t.badis.length ? <Fact label="BAdIs"><Codes items={t.badis} label="BAdIs" /></Fact> : null}
-            {t.enhancements.length ? <Fact label="Enhancements"><Codes items={t.enhancements} label="Enhancements" /></Fact> : null}
+            {t.enhancements.length ? <Fact label="הרחבות (Enhancements)"><Codes items={t.enhancements} label="הרחבות" /></Fact> : null}
             {t.auth.length ? (
               <Fact label="אובייקטי הרשאה">
                 <span className="nxt-inline-i" aria-hidden="true"><KeyRound size={12} strokeWidth={1.75} /></span>
@@ -338,11 +338,11 @@ export function TxDetailView({ t }: { t: TxDetail }) {
       <Section
         id="sec-near"
         icon={<GitBranch size={15} strokeWidth={1.75} />}
-        title="טרנזקציות שכנות"
+        title="טרנזקציות קשורות"
         note={t.neighbours.length ? `${nf.format(t.neighbours.length)} קודים` : undefined}
       >
         {t.neighbours.length === 0 ? (
-          <p className="nxt-absent">{NONE} על טרנזקציות סמוכות לקוד הזה.</p>
+          <p className="nxt-absent">{NONE} על טרנזקציות קשורות לקוד זה.</p>
         ) : (
           <ul className="nxt-near">
             {t.neighbours.map((n) => (
@@ -377,7 +377,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
         note={t.issues.length ? `${nf.format(t.issues.length)} רשומות` : undefined}
       >
         {t.issues.length === 0 ? (
-          <p className="nxt-absent">{NONE} על תקלות לקוד הזה.</p>
+          <p className="nxt-absent">{NONE} על תקלות לקוד זה.</p>
         ) : (
           <ul className="nxt-iss">
             {t.issues.map((x, i) => (
@@ -402,8 +402,8 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           </p>
         ) : null}
         <p>
-          כל שדה בעמוד הזה נלקח מהמאגר המאומת של הפרויקט. שדה שהמאגר שותק לגביו אינו מוצג, או מסומן במפורש
-          {" "}«{NONE}», ולא הושלם מזיכרון. מספר ה-SAP Note לא נכתב כאן אלא אם הוא קיים ברשומה עצמה.
+          כל שדה בעמוד זה נלקח מהמאגר המאומת של הפרויקט. שדה שאינו מתועד אינו מוצג, או מסומן במפורש
+          {" "}&quot;{NONE}&quot;. מספר SAP Note מוצג רק כאשר הוא קיים ברשומה עצמה.
         </p>
       </footer>
     </article>
@@ -426,7 +426,7 @@ function TableList({ rows, origin }: {
         const inner = (
           <>
             <span className="nxt-tbl-n nx-sap">{r.name}</span>
-            <span className="nxt-tbl-he">{r.he || "אין תיאור בתיעוד"}</span>
+            <span className="nxt-tbl-he">{r.he || "לא קיים תיאור בתיעוד"}</span>
             <span className="nxt-tbl-s">
               <span className="nu-status" style={{ "--s": RISK_COLOR[r.risk] } as React.CSSProperties}>
                 {r.trust === "needs" ? TRUST_HE.needs : RISK_HE[r.risk]}

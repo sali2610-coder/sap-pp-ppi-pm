@@ -64,7 +64,7 @@ export function ErdInspector({
             {nf.format(hits.length)} טבלאות ברשימה
             {q ? (
               <button type="button" className="nu-ghost" onClick={onClearQ}>
-                מסונן לפי &quot;{q}&quot; · נקה
+                מסונן לפי &quot;{q}&quot; · ניקוי
               </button>
             ) : null}
           </p>
@@ -98,7 +98,7 @@ export function ErdInspector({
               <i aria-hidden="true" />
               <b className="nx-sap">{active.n}</b>
               {peek ? <span className="nu-chip">תצוגה מקדימה</span> : null}
-              <p>{active.he || active.en || "המערך אינו מחזיק תיאור לטבלה הזו."}</p>
+              <p>{active.he || active.en || "לא קיים תיאור מאומת לטבלה זו במאגר."}</p>
               {active.he && active.en ? <small>{active.en}</small> : null}
             </header>
 
@@ -110,7 +110,7 @@ export function ErdInspector({
                   origin={() => origin(active.n)}
                   style={{ "--m": modVar(active.m) } as React.CSSProperties}
                 >
-                  עמוד האובייקט
+                  פתיחת עמוד האובייקט
                   <ArrowUpLeft size={14} strokeWidth={1.9} aria-hidden="true" className="nu-arw" />
                 </OriginLink>
               ) : (
@@ -120,17 +120,17 @@ export function ErdInspector({
                   style={{ "--m": modVar(active.m) } as React.CSSProperties}
                   onClick={() => onOpen(active.n)}
                 >
-                  כרטיס הטבלה
+                  פתיחת כרטיס הטבלה
                   <Expand size={14} strokeWidth={1.9} aria-hidden="true" className="nu-arw" />
                 </button>
               )}
               <button type="button" className="nu-btn2" onClick={() => onExpand(active.n)}>
                 <Expand size={14} strokeWidth={1.8} aria-hidden="true" />
-                הרחב לקריאה
+                הרחבה לקריאה
               </button>
               <button type="button" className="nu-btn2" onClick={() => onCentre(active.n)}>
                 <Crosshair size={14} strokeWidth={1.8} aria-hidden="true" />
-                מרכז בתרשים
+                מרכוז בתרשים
               </button>
             </div>
 
@@ -155,7 +155,7 @@ export function ErdInspector({
                   <i aria-hidden="true" />
                   <button type="button" className="nu-ghost ne-det-modgo" onClick={() => onModule(m)}>
                     {m}
-                    {m === active.m ? " · מודול הבית" : ""}
+                    {m === active.m ? " · המודול הראשי" : ""}
                   </button>
                   <em>{data.modules.find((x) => x.code === m)?.he || ""}</em>
                 </li>
@@ -182,7 +182,7 @@ export function ErdInspector({
                     ))}
                   </ul>
                 ) : (
-                  <p className="ne-none">המערך אינו מסמן מפתח ראשי לטבלה הזו.</p>
+                  <p className="ne-none">לא סומן מפתח ראשי לטבלה זו במאגר.</p>
                 )}
               </div>
               <div>
@@ -199,7 +199,7 @@ export function ErdInspector({
                     ))}
                   </ul>
                 ) : (
-                  <p className="ne-none">המערך אינו מסמן מפתח זר לטבלה הזו.</p>
+                  <p className="ne-none">לא סומן מפתח זר לטבלה זו במאגר.</p>
                 )}
               </div>
             </div>
@@ -223,7 +223,7 @@ export function ErdInspector({
                     documented total (fn) is far larger. */}
                 {active.fn > Math.min(8, active.f.length) ? (
                   <button type="button" className="nu-ghost ne-more" onClick={() => onExpand(active.n)}>
-                    עוד {nf.format(active.fn - Math.min(8, active.f.length))} שדות: פתח את הכרטיס המלא
+                    עוד {nf.format(active.fn - Math.min(8, active.f.length))} שדות: פתיחת הכרטיס המלא
                   </button>
                 ) : null}
               </div>
@@ -257,7 +257,7 @@ export function ErdInspector({
                   ) : null}
                 </>
               ) : (
-                <p className="ne-none">לא קיים מידע מאומת · דורש אימות במערכת SAP</p>
+                <p className="ne-none">לא קיים תיעוד מאומת במאגר · נדרש אימות במערכת SAP</p>
               )}
             </div>
 
@@ -311,7 +311,7 @@ export function ErdInspector({
                 </ul>
               ) : (
                 <p className="ne-none">
-                  אין לטבלה הזו קשר ממודל בתחום התצוגה הנוכחי. היא מתועדת, אך היא עומדת לבדה בתרשים.
+                  לטבלה זו אין קשר ממודל בתחום התצוגה הנוכחי.
                 </p>
               )}
             </div>
@@ -322,7 +322,7 @@ export function ErdInspector({
               <Focus size={15} strokeWidth={1.75} aria-hidden="true" />
               {M.code} · {M.he}
             </h2>
-            {M.purpose ? <p>{M.purpose}</p> : <p className="ne-none">לא קיים מידע מאומת על מטרת המודול.</p>}
+            {M.purpose ? <p>{M.purpose}</p> : <p className="ne-none">לא קיים תיעוד מאומת במאגר על ייעוד המודול.</p>}
             {M.flow.length ? (
               <div className="ne-blk">
                 <h3>הזרימה העסקית</h3>
@@ -354,7 +354,7 @@ export function ErdInspector({
                 <dd className="nx-sap">{nf.format(M.core.length)}</dd>
               </div>
               <div>
-                <dt>טבלאות נוספות במילון</dt>
+                <dt>טבלאות נוספות בתיעוד</dt>
                 <dd className="nx-sap">{nf.format(M.more.length)}</dd>
               </div>
               <div>
@@ -370,13 +370,13 @@ export function ErdInspector({
                 <dd className="nx-sap">{nf.format(M.objects.length)}</dd>
               </div>
               <div>
-                <dt>נושאים במילון</dt>
+                <dt>נושאים בתיעוד</dt>
                 <dd className="nx-sap">{nf.format(M.topics.length)}</dd>
               </div>
             </dl>
             <p className="ne-note">
-              רחף כדי להציץ, לחץ כדי לבחור. הטבלה הנבחרת נשארת גלויה ודומיננטית, הקשרים הישירים שלה
-              מתחזקים, והשאר נשאר גלוי אך עמום.
+              ריחוף מציג תצוגה מקדימה, לחיצה בוחרת. הטבלה שנבחרה מודגשת יחד עם קשריה הישירים,
+              ושאר התרשים מעומעם.
             </p>
           </div>
         ) : (
@@ -386,9 +386,9 @@ export function ErdInspector({
               מפת המודולים
             </h2>
             <p>
-              {nf.format(data.stats.modules)} מודולים עסקיים, {nf.format(data.stats.memberships)} שיוכי
-              טבלה ל-ERD ו-{nf.format(data.stats.tables)} טבלאות מובחנות. בחר מודול כדי לפתוח את מודל
-              הנתונים שלו: ומשם נושא, אובייקט וטבלה.
+              {nf.format(data.stats.modules)} מודולי SAP, {nf.format(data.stats.memberships)} שיוכי
+              טבלה ל-ERD ו-{nf.format(data.stats.tables)} טבלאות. בחירת מודול פותחת את מודל הנתונים
+              שלו, ומשם נושא, אובייקט עסקי וטבלה.
             </p>
             <ul className="ne-modlist">
               {MODULE_ORDER.map((code) => {
@@ -412,11 +412,11 @@ export function ErdInspector({
                 <dd className="nx-sap">{nf.format(data.stats.edges)}</dd>
               </div>
               <div>
-                <dt>עוצמה מצוינת</dt>
+                <dt>עם קרדינליות</dt>
                 <dd className="nx-sap">{nf.format(data.stats.stated)}</dd>
               </div>
               <div>
-                <dt>ללא עוצמה</dt>
+                <dt>ללא קרדינליות</dt>
                 <dd className="nx-sap">{nf.format(data.stats.unstated)}</dd>
               </div>
               <div>
@@ -437,8 +437,8 @@ export function ErdInspector({
               </div>
             </dl>
             <p className="ne-note">
-              {nf.format(data.stats.unstated)} מתוך {nf.format(data.stats.edges)} הקשרים נרשמו במערך
-              בלי עוצמה. הם מצוירים מקווקו ומסומנים ככאלה: לא הושלמה להם עוצמה שלא נכתבה.
+              {nf.format(data.stats.unstated)} מתוך {nf.format(data.stats.edges)} הקשרים נרשמו במאגר
+              ללא קרדינליות. הם מצוירים בקו מקווקו ומסומנים ככאלה.
             </p>
           </div>
         )}

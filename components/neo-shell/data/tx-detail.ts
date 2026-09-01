@@ -157,9 +157,9 @@ export interface TxDetail {
 /* ------------------------------------------------------------- small maps */
 
 const MODULE_HE: Record<string, string> = {
-  PM: "אחזקה",
-  PP: "ייצור",
-  "PP-PI": "ייצור תהליכי",
+  PM: "תחזוקת מפעל",
+  PP: "תכנון ייצור",
+  "PP-PI": "תעשיות תהליכיות",
   QM: "איכות",
   MM: "חומרים",
   SD: "מכירות",
@@ -247,10 +247,10 @@ function buildS4(code: string, intel: (typeof TX_INTEL)[string] | undefined, aut
   }
 
   const HE: Record<S4Disposition, string> = {
-    superseded: "יש יורש ב-S/4HANA",
+    superseded: "קיימת טרנזקציה עוקבת ב-S/4HANA",
     changed: "משתנה ב-S/4HANA",
     available: "זמינה ב-S/4HANA",
-    unknown: "לא קיים מידע מאומת",
+    unknown: "לא קיים תיעוד מאומת במאגר",
   };
 
   return { disposition, he: HE[disposition], note, delta, replaces, supersededBy, fiori, unchanged, migration: clean(authored?.eccS4?.migration), cds, risk, trust };
@@ -320,7 +320,7 @@ function neighboursFor(code: string, reg: RegistryTx): TxRef[] {
   // 1. the authored relationship graph, in the order the engine ranks it
   for (const r of txRecommend(code, 8)) push(r.code, r.reason);
   // 2. what the graph says leads INTO this code
-  for (const c of txLeadingInto(code).slice(0, 4)) push(c, "מוביל לכאן");
+  for (const c of txLeadingInto(code).slice(0, 4)) push(c, "מובילה לכאן");
   // 3. only if the graph is silent: the registry's own grouping. Labelled as
   //    grouping, not as a process relation, because that is all it is.
   if (out.length < 4) {

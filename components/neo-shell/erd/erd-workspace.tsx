@@ -970,9 +970,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (rel.size < REL_ORDER.length) {
       out.push({ id: "rel", he: `סוגי קשר · ${rel.size} מתוך ${REL_ORDER.length}`, off: () => setRel(new Set(REL_ORDER)) });
     }
-    if (strong) out.push({ id: "strong", he: "קשרים חזקים", off: () => setStrong(false) });
+    if (strong) out.push({ id: "strong", he: "קשרים עם JOIN", off: () => setStrong(false) });
     if (sharedOnly) out.push({ id: "shared", he: "טבלאות משותפות", off: () => setSharedOnly(false) });
-    if (!iso) out.push({ id: "iso", he: "בלי טבלאות ללא קשר", off: () => setIso(true) });
+    if (!iso) out.push({ id: "iso", he: "הסתרת טבלאות ללא קשרים", off: () => setIso(true) });
     return out;
   }, [group, rel, strong, sharedOnly, iso]);
 
@@ -1657,7 +1657,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
           </div>
           <div className="ne-bar-t">
             <p className="ne-eye">
-              מודל נתונים
+              מודל הנתונים
               <i aria-hidden="true" />
               <span className="nx-sap">ENTITY RELATIONSHIP</span>
             </p>
@@ -1678,12 +1678,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 type="search"
                 value={q}
                 onChange={(ev) => setQ(ev.target.value)}
-                placeholder="חפש טבלה · תיאור · טרנזקציה"
+                placeholder="שם טבלה · תיאור · טרנזקציה"
                 aria-label="חיפוש טבלה בתרשים"
                 dir="auto"
               />
               {q ? (
-                <button type="button" className="nu-ghost ne-x" onClick={() => setQ("")} aria-label="נקה חיפוש">
+                <button type="button" className="nu-ghost ne-x" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
                   <X size={13} strokeWidth={2.2} aria-hidden="true" />
                 </button>
               ) : null}
@@ -1715,7 +1715,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
         <div className="ne-view" role="group" aria-label="תצוגה">
           <div className="ne-group">
-            <button type="button" className="nu-ghost" onClick={() => zoomAt(1 / 1.22)} aria-label="התרחק">
+            <button type="button" className="nu-ghost" onClick={() => zoomAt(1 / 1.22)} aria-label="הקטנת התצוגה">
               <Minus size={16} strokeWidth={2} aria-hidden="true" />
             </button>
             <button
@@ -1726,12 +1726,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             >
               {zoomPct}%
             </button>
-            <button type="button" className="nu-ghost" onClick={() => zoomAt(1.22)} aria-label="התקרב">
+            <button type="button" className="nu-ghost" onClick={() => zoomAt(1.22)} aria-label="הגדלת התצוגה">
               <Plus size={16} strokeWidth={2} aria-hidden="true" />
             </button>
           </div>
           <div className="ne-group">
-            <button type="button" className="nu-ghost" onClick={fit} aria-label="התאם הכול למסך">
+            <button type="button" className="nu-ghost" onClick={fit} aria-label="התאמת התרשים למסך">
               <Maximize2 size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
             <button
@@ -1739,7 +1739,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               className="nu-ghost"
               onClick={fitSelection}
               disabled={!sel}
-              aria-label="התאם לבחירה ולשכניה"
+              aria-label="התאמה לטבלה שנבחרה ולשכנותיה"
             >
               <Crosshair size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
@@ -1748,11 +1748,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               className="nu-ghost"
               onClick={() => sel && zoomInto(sel)}
               disabled={!sel}
-              aria-label="זום אל הטבלה הנבחרת"
+              aria-label="הגדלה אל הטבלה שנבחרה"
             >
               <Scan size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
-            <button type="button" className="nu-ghost" onClick={reset} aria-label="אפס תצוגה ומסננים">
+            <button type="button" className="nu-ghost" onClick={reset} aria-label="איפוס התצוגה והמסננים">
               <RotateCcw size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
           </div>
@@ -1767,8 +1767,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 data-fs={full ? "1" : "0"}
                 onClick={toggleFull}
                 aria-pressed={full}
-                aria-label={full ? "צא ממסך מלא" : "מסך מלא"}
-                title={full ? "צא ממסך מלא · Esc" : "מסך מלא"}
+                aria-label={full ? "יציאה ממסך מלא" : "מסך מלא"}
+                title={full ? "יציאה ממסך מלא · Esc" : "מסך מלא"}
               >
                 {full ? (
                   <Minimize size={15} strokeWidth={1.8} aria-hidden="true" />
@@ -1782,8 +1782,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               className="nu-ghost"
               onClick={() => setMini((v) => !v)}
               aria-pressed={mini}
-              aria-label={mini ? "הסתר את המפה המוקטנת" : "הצג את המפה המוקטנת"}
-              title={mini ? "הסתר את המפה המוקטנת" : "הצג את המפה המוקטנת"}
+              aria-label={mini ? "הסתרת המפה המוקטנת" : "הצגת המפה המוקטנת"}
+              title={mini ? "הסתרת המפה המוקטנת" : "הצגת המפה המוקטנת"}
             >
               <MapIcon size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
@@ -1792,7 +1792,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               className="nu-ghost"
               onClick={() => setInsp((v) => !v)}
               aria-pressed={insp}
-              aria-label={insp ? "סגור את פאנל הפרטים" : "פתח את פאנל הפרטים"}
+              aria-label={insp ? "סגירת חלונית הפרטים" : "פתיחת חלונית הפרטים"}
             >
               {insp ? (
                 <PanelRightClose size={15} strokeWidth={1.8} aria-hidden="true" />
@@ -1866,8 +1866,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             <section className="ne-pop-sc">
               <p className="ne-pop-h">היקף התרשים</p>
               <p className="ne-pop-say">
-                בהשוואה בין מודולים ההיקף נקבע לפי ה-ERD המרכזי של כל מודול. כדי לבחור היקף,
-                חזרו למודול אחד.
+                בהשוואה בין מודולים ההיקף נקבע לפי ה-ERD המרכזי של כל מודול. בחירת היקף אחר
+                אפשרית במודול יחיד בלבד.
               </p>
               <div className="ne-pop-w">
                 <button type="button" className="nu-filter" onClick={() => setExtra(new Set())}>
@@ -1888,7 +1888,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                   aria-pressed={showAll}
                   disabled={!M.more.length}
                   onClick={() => setShowAll(true)}
-                  title={M.more.length ? "כל טבלאות המודול במילון" : "אין למודול טבלאות נוספות במילון"}
+                  title={M.more.length ? "כל טבלאות המודול בתיעוד" : "אין למודול טבלאות נוספות בתיעוד"}
                 >
                   כל המודול · {M.core.length + M.more.length}
                 </button>
@@ -1943,8 +1943,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     aria-pressed={extra.has(m.code)}
                     aria-label={
                       extra.has(m.code)
-                        ? `הסר את ${m.code} מההשוואה`
-                        : `הוסף את ${m.code} להשוואה עם ${mod}`
+                        ? `הסרת ${m.code} מההשוואה`
+                        : `הוספת ${m.code} להשוואה עם ${mod}`
                     }
                     onClick={() =>
                       setExtra((prev) => {
@@ -1983,7 +1983,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                   disabled={a.id === "flow" && !flowReady}
                   title={
                     a.id === "flow" && !flowReady
-                      ? "לא קיים מידע מאומת בפרויקט. המודול הזה אינו מחזיק שרשרת אובייקטים עסקיים."
+                      ? "לא קיים תיעוד מאומת במאגר: למודול זה אין שרשרת אובייקטים עסקיים."
                       : `${a.en} · ${a.d}`
                   }
                   onClick={() => {
@@ -1999,7 +1999,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 className="nu-filter"
                 aria-pressed={focus}
                 disabled={!sel}
-                title="מסדר את השכנות סביב הטבלה הנבחרת. שאר המודל נשאר על המפה, מעומעם."
+                title="סידור השכנות סביב הטבלה שנבחרה. שאר המודל נשאר בתרשים, מעומעם."
                 onClick={() => setFocus((v) => !v)}
               >
                 <Target size={12} strokeWidth={2} aria-hidden="true" />
@@ -2097,10 +2097,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                       className="nu-filter"
                       aria-pressed={strong}
                       onClick={() => setStrong((v) => !v)}
-                      title="רק קשרים שהמילון מתעד להם ניסוח JOIN מלא"
+                      title="רק קשרים שבתיעוד נרשם להם ניסוח JOIN"
                     >
                       <Filter size={12} strokeWidth={1.9} aria-hidden="true" />
-                      קשרים חזקים
+                      קשרים עם JOIN
                     </button>
                   </div>
                 </section>
@@ -2113,13 +2113,13 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                       className="nu-filter"
                       aria-pressed={sharedOnly}
                       onClick={() => setSharedOnly((v) => !v)}
-                      title="טבלאות שיותר ממודול אחד מחזיק ב-ERD שלו"
+                      title="טבלאות הנכללות ב-ERD של יותר ממודול אחד"
                     >
                       <Share2 size={12} strokeWidth={1.9} aria-hidden="true" />
                       משותפות
                     </button>
                     <button type="button" className="nu-filter" aria-pressed={iso} onClick={() => setIso((v) => !v)}>
-                      ללא קשר
+                      הצגת טבלאות ללא קשרים
                     </button>
                   </div>
                 </section>
@@ -2147,16 +2147,16 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     </button>
                   </div>
                   {mode !== "focus" ? (
-                    <p className="ne-pop-say">עומק ההדגשה שייך לעדשת המיקוד. שאר העדשות קובעות את ההיקף שלהן מהקשרים עצמם.</p>
+                    <p className="ne-pop-say">עומק ההדגשה חל על עדשת המיקוד בלבד. שאר העדשות קובעות את היקפן לפי הקשרים עצמם.</p>
                   ) : null}
                 </section>
 
                 <footer className="ne-pop-f">
                   <button type="button" className="nu-btn2" onClick={clearFilters} disabled={!narrowings.length}>
-                    נקה מסננים
+                    ניקוי המסננים
                   </button>
                   <button type="button" className="nu-ghost" onClick={() => setPop(null)}>
-                    סגור
+                    סגירה
                   </button>
                 </footer>
               </div>
@@ -2173,7 +2173,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     type="button"
                     className="nu-filter ne-fnow-x"
                     aria-pressed
-                    title={`בטל · ${n.he}`}
+                    title={`ביטול · ${n.he}`}
                     onClick={n.off}
                   >
                     {n.he}
@@ -2185,8 +2185,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
           </>
         ) : (
           <p className="ne-fhint">
-            בחר מודול כדי לפתוח את מודל הנתונים שלו. כל קו במפה הוא מספר קשרי הטבלאות שנמדדו בין
-            שני המודולים: לא דירוג.
+            בחירת מודול פותחת את מודל הנתונים שלו. כל קו במפה מציין את מספר קשרי הטבלאות בין
+            שני המודולים.
           </p>
         )}
 
@@ -2197,9 +2197,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             <i aria-hidden="true" />
             <span>{(ANALYSIS.find((a) => a.id === modeInfo) ?? lens).d}</span>
             {(ANALYSIS.find((a) => a.id === modeInfo) ?? lens).needsSel && !sel ? (
-              <b>בחר טבלה כדי להפעיל את העדשה</b>
+              <b>בחירת טבלה מפעילה את העדשה</b>
             ) : null}
-            <button type="button" className="nu-ghost ne-x" onClick={() => setModeInfo(null)} aria-label="סגור הסבר">
+            <button type="button" className="nu-ghost ne-x" onClick={() => setModeInfo(null)} aria-label="סגירת ההסבר">
               <X size={13} strokeWidth={2.2} aria-hidden="true" />
             </button>
           </p>
@@ -2231,8 +2231,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 type="button"
                 className="nu-ghost"
                 onClick={fitSelection}
-                aria-label="התאם לטבלה ולשכניה"
-                title="התאם לטבלה ולשכניה"
+                aria-label="התאמה לטבלה ולשכנותיה"
+                title="התאמה לטבלה ולשכנותיה"
               >
                 <Crosshair size={15} strokeWidth={1.8} aria-hidden="true" />
               </button>
@@ -2508,7 +2508,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                               ) : null}
                               {/* The affordance the old node shows on hover. */}
                               <text className="ne-node-hint" x={px} y={oh + oy - 10} textAnchor="start">
-                                לחץ ↡
+                                לחיצה ↡
                               </text>
                             </>
                           ) : (
@@ -2541,7 +2541,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                 })
                               ) : (
                                 <text className="ne-open-none" x={px} y={rowTop} textAnchor="start">
-                                  לא קיים מידע מאומת בפרויקט על שדות הטבלה
+                                  לא קיים תיעוד מאומת במאגר על שדות הטבלה
                                 </text>
                               )}
                               <line className="ne-open-rule" x1={-ow / 2 + 12} x2={ow / 2 - 12} y1={ruleY} y2={ruleY} />
@@ -2560,7 +2560,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                 </g>
                               ) : (
                                 <text className="ne-open-none" x={px} y={ruleY + 20} textAnchor="start">
-                                  S/4HANA · לא קיים מידע מאומת בפרויקט
+                                  S/4HANA · לא קיים תיעוד מאומת במאגר
                                 </text>
                               )}
                             </g>
@@ -2580,7 +2580,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                             data-open="1"
                             role="button"
                             tabIndex={0}
-                            aria-label={t.pg ? `פתח את עמוד האובייקט ${t.n}` : `פתח את כרטיס הטבלה ${t.n}`}
+                            aria-label={t.pg ? `פתיחת עמוד האובייקט ${t.n}` : `פתיחת כרטיס הטבלה ${t.n}`}
                           >
                             <rect x={-ow / 2 + 8} y={oy + 32} width={30} height={22} rx={6} />
                             <path d="M0 0 L-6 -6 M0 0 L0 -5 M0 0 L-5 0" transform={`translate(${-ow / 2 + 26} ${oy + 46})`} />
@@ -2642,8 +2642,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             {isMap
               ? " לחיצה על מודול פותחת את מודל הנתונים שלו"
               : open
-                ? " לחיצה נוספת על הכרטיס מחזירה בדיוק לתצוגה הקודמת"
-                : " לחיצה על טבלה פותחת אותה בגרף"}
+                ? " לחיצה נוספת על הכרטיס מחזירה לתצוגה הקודמת"
+                : " לחיצה על טבלה פותחת אותה בתרשים"}
           </p>
         </div>
 
@@ -2704,23 +2704,23 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
           <div className="ne-sheet-b nu-card" onClick={(e) => e.stopPropagation()}>
             <header>
               <h2>קיצורי מקלדת ומקרא</h2>
-              <button type="button" className="nu-ghost" onClick={() => setKeys(false)} aria-label="סגור">
+              <button type="button" className="nu-ghost" onClick={() => setKeys(false)} aria-label="סגירה">
                 <X size={16} strokeWidth={2} aria-hidden="true" />
               </button>
             </header>
             <dl className="ne-sheet-k">
               {[
-                ["לחיצה", "פתיחת הטבלה בגרף: שדות מפתח, PK/FK והכרעת S/4 · במפה: פתיחת המודול"],
-                ["לחיצה שנייה", "סגירת הכרטיס וחזרה בדיוק לתצוגה הקודמת"],
+                ["לחיצה", "פתיחת הטבלה בתרשים: שדות מפתח, PK/FK והכרעת S/4HANA · במפה: פתיחת המודול"],
+                ["לחיצה שנייה", "סגירת הכרטיס וחזרה לתצוגה הקודמת"],
                 ["לחיצה כפולה", "מעבר לעמוד האובייקט המלא"],
                 ["רווח", "מרכוז הפריט הנבחר"],
                 ["Enter", "פתיחת עמוד האובייקט הנבחר"],
-                ["Esc", "סגירת הכרטיס · חזרה לתצוגה קודמת · שלב אחורה בסולם"],
-                ["F / D / L / I / B", "עדשות: מיקוד · תלויות · שושלת · השפעה · זרימה עסקית"],
-                ["+ / −", "זום פנימה / החוצה"],
-                ["0", "התאמת הכול למסך"],
-                ["חצים", "הזזת הקנבס"],
-                ["Ctrl + גלגלת", "זום אל הסמן · גלילה רגילה תמיד נשארת של העמוד"],
+                ["Esc", "סגירת הכרטיס · חזרה לתצוגה הקודמת · חזרה רמה אחת בתרשים"],
+                ["F / D / L / I / B", "עדשות: מיקוד · תלויות · מקור הנתונים · השפעה · זרימה עסקית"],
+                ["+ / −", "הגדלה / הקטנה"],
+                ["0", "התאמת התרשים למסך"],
+                ["חצים", "הזזת התרשים"],
+                ["Ctrl + גלגלת", "הגדלה סביב הסמן · גלילה רגילה גוללת את העמוד"],
               ].map(([k, v]) => (
                 <div key={k}>
                   <dt>{v}</dt>
@@ -2739,7 +2739,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               ))}
               <li data-kind="unstated" style={{ "--e": "var(--ink-3)" } as React.CSSProperties}>
                 <i aria-hidden="true" />
-                קשר שהמילון רשם בלי עוצמה: מקווקו
+                קשר שנרשם בתיעוד ללא קרדינליות: קו מקווקו
               </li>
               <li className="ne-legend-k">
                 <span className="ne-lg-pk" aria-hidden="true" />
@@ -2753,16 +2753,16 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 <span className="ne-lg-card" aria-hidden="true">
                   N:1
                 </span>
-                תג העוצמה על הקו הוא הניסוח המילולי של מערך הנתונים: 1:1 · 1:N · N:1 · N:N. מקף על
-                מסגרת מקווקוות פירושו שהמערך לא רשם עוצמה, ולא הושלמה כזאת.
+                תג הקרדינליות על הקו מוצג כלשונו מהמאגר: 1:1 · 1:N · N:1 · N:N. מקף על
+                מסגרת מקווקוות מציין שלא נרשמה קרדינליות.
               </li>
             </ul>
             <p className="ne-note">
-              כל מודול, טבלה, קשר, עוצמה והצהרת S/4 בתרשים נקראים מילה במילה מתוך מערך הנתונים של
-              הארגון. איפה שהמערך שותק, המסך אומר זאת במפורש ולא משלים ניחוש.
+              כל מודול, טבלה, קשר, קרדינליות והצהרת S/4HANA בתרשים נקראים כלשונם מהמאגר. היכן שאין
+              תיעוד, הדבר מצוין במפורש.
             </p>
             <button type="button" className="nu-btn2" onClick={() => setKeys(false)}>
-              סגור
+              סגירה
             </button>
           </div>
         </div>

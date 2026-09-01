@@ -31,11 +31,11 @@ export function TxActions({ code }: { code: string }) {
       type="button"
       className="nu-btn2 nxt-fav"
       aria-pressed={fav}
-      aria-label={fav ? `הסר את ${code} מהמועדפים` : `הוסף את ${code} למועדפים`}
+      aria-label={fav ? `הסרת ${code} מהמועדפים` : `הוספת ${code} למועדפים`}
       onClick={() => toggleTxFavorite(code)}
     >
       <Star size={14} strokeWidth={1.75} aria-hidden="true" />
-      {fav ? "במועדפים" : "הוסף למועדפים"}
+      {fav ? "במועדפים" : "הוספה למועדפים"}
     </button>
   );
 }

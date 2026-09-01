@@ -91,18 +91,18 @@ export function ErdSheet({
             <span className="nu-chip">{ZONE_HE[t.z] || t.z}</span>
             {t.ms.length > 1 ? <span className="nu-chip">משותפת · {t.ms.join(" · ")}</span> : null}
           </div>
-          <p>{t.he || t.en || "לא קיים מידע מאומת"}</p>
+          <p>{t.he || t.en || "לא קיים תיעוד מאומת במאגר"}</p>
           {t.he && t.en ? <small>{t.en}</small> : null}
           <div className="ne-c2-act">
             {t.pg ? (
               <OriginLink className="nu-btn" href={`/neo/object/${t.n}/`} origin={() => origin(t.n)}>
-                עמוד האובייקט המלא
+                פתיחת עמוד האובייקט
                 <ArrowUpLeft size={14} strokeWidth={1.9} aria-hidden="true" className="nu-arw" />
               </OriginLink>
             ) : (
-              <span className="ne-c2-nopage">אין לטבלה הזו עמוד אובייקט: הכרטיס הזה הוא הרשומה המלאה</span>
+              <span className="ne-c2-nopage">לטבלה זו אין עמוד אובייקט. כרטיס זה מציג את הרשומה המלאה.</span>
             )}
-            <button type="button" className="nu-ghost ne-c2-x" onClick={onClose} aria-label="סגור">
+            <button type="button" className="nu-ghost ne-c2-x" onClick={onClose} aria-label="סגירה">
               <X size={17} strokeWidth={2} aria-hidden="true" />
             </button>
           </div>
@@ -134,11 +134,11 @@ export function ErdSheet({
                 </tbody>
               </table>
             ) : (
-              <p className="ne-none">לא קיים מידע מאומת על שדות הטבלה.</p>
+              <p className="ne-none">לא קיים תיעוד מאומת במאגר על שדות הטבלה.</p>
             )}
             {t.fn > t.f.length ? (
               <p className="ne-note">
-                מוצגים {nf.format(t.f.length)} מתוך {nf.format(t.fn)} השדות שהמערך מתעד.
+                מוצגים {nf.format(t.f.length)} מתוך {nf.format(t.fn)} השדות המתועדים.
               </p>
             ) : null}
           </section>
@@ -155,7 +155,7 @@ export function ErdSheet({
                 ) : null}
               </>
             ) : (
-              <p className="ne-none">לא קיים מידע מאומת · דורש אימות במערכת SAP</p>
+              <p className="ne-none">לא קיים תיעוד מאומת במאגר · נדרש אימות במערכת SAP</p>
             )}
 
             <h3>טרנזקציות</h3>
@@ -168,10 +168,10 @@ export function ErdSheet({
                 ))}
               </ul>
             ) : (
-              <p className="ne-none">לא קיים מידע מאומת</p>
+              <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>
             )}
 
-            <h3>BAPIs / מודולי פונקציה</h3>
+            <h3>BAPI ו-FM</h3>
             {t.fu.length ? (
               <ul className="ne-chips">
                 {t.fu.map((f) => (
@@ -181,7 +181,7 @@ export function ErdSheet({
                 ))}
               </ul>
             ) : (
-              <p className="ne-none">לא קיים מידע מאומת</p>
+              <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>
             )}
 
             <h3>CDS Views</h3>
@@ -194,11 +194,11 @@ export function ErdSheet({
                 ))}
               </ul>
             ) : (
-              <p className="ne-none">לא קיים מידע מאומת</p>
+              <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>
             )}
 
-            <h3>Fiori</h3>
-            {t.fi ? <p className="ne-s4">{t.fi}</p> : <p className="ne-none">לא קיים מידע מאומת</p>}
+            <h3>יישומי Fiori</h3>
+            {t.fi ? <p className="ne-s4">{t.fi}</p> : <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>}
 
             {t.g ? (
               <>
@@ -211,7 +211,7 @@ export function ErdSheet({
           <section>
             <h3>טבלאות אב · {nf.format(parents.length)}</h3>
             <RelList list={parents} self={t.n} tByName={tByName} onGo={onGo} />
-            <h3>טבלאות צאצא · {nf.format(children.length)}</h3>
+            <h3>טבלאות בן · {nf.format(children.length)}</h3>
             <RelList list={children} self={t.n} tByName={tByName} onGo={onGo} />
           </section>
         </div>
@@ -231,7 +231,7 @@ function RelList({
   tByName: Map<string, ErdTable>;
   onGo: (n: string) => void;
 }) {
-  if (!list.length) return <p className="ne-none">לא קיים מידע מאומת</p>;
+  if (!list.length) return <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>;
   return (
     <ul className="ne-joins">
       {list.map((e) => {
