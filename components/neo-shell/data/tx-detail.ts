@@ -47,6 +47,8 @@ import { txLeadingInto, txPopularity, txRecommend } from "@/lib/tx-intel";
 import { facetsOf } from "@/lib/tx-facets";
 import { tcodeIntel } from "@/lib/object-intel";
 import { s4For } from "@/lib/s4";
+import { evidenceBlock, fromTxDisposition } from "@/lib/evidence";
+import type { CanonicalId, EvidenceBlockData } from "@/lib/evidence/types";
 import { tableNames } from "@/components/neo-shell/object/object-data";
 
 /** The exact set app/neo/object/[name] generates. Built once per module load. */
@@ -146,6 +148,8 @@ export interface TxDetail {
   cds: string[];
 
   s4: TxS4;
+  /** The unified evidence block: status, verification tier, sources, depth. */
+  evidence: EvidenceBlockData;
   neighbours: TxRef[];
   issues: TxIssue[];
   /** How many of the 14 named facts the dataset actually answers. Honest
@@ -361,6 +365,7 @@ export function txDetail(rawCode: string): TxDetail | null {
   const authoredTables = uniq([...list(intel?.tables), ...list(authored?.tables)]);
   const tables = tablesFor(code, authoredTables);
   const s4 = buildS4(code, intel, authored);
+  const bapis = uniq([...list(intel?.bapis), ...list(authored?.funcs)]);
 
   // Exits: the transaction's own list, plus the enhancement catalog's reverse
   // claim (an Exit record that names this T-Code). Both are dataset facts.
@@ -400,7 +405,7 @@ export function txDetail(rawCode: string): TxDetail | null {
     topics: facets.topics,
     objects: uniq([...facets.objects, ...list(authored?.objects)]),
     tables,
-    bapis: uniq([...list(intel?.bapis), ...list(authored?.funcs)]),
+    bapis,
     exits,
     badis: list(intel?.badis),
     enhancements: list(intel?.enhancements),
@@ -408,6 +413,23 @@ export function txDetail(rawCode: string): TxDetail | null {
     cds: uniq([...list(intel?.cds), ...(s4.cds ? [s4.cds] : [])]),
 
     s4,
+    // The unified evidence block. The derived claim is the same disposition the
+    // S/4 plate shows; the successor is the declared supersededBy relation,
+    // already the code of a generated transaction page. Structural depth counts
+    // the authored facts: purpose, process, tables, BAPIs.
+    evidence: evidenceBlock(
+      `tx:${code}`,
+      fromTxDisposition(
+        s4.disposition,
+        s4.trust,
+        s4.supersededBy[0] ? (`tx:${s4.supersededBy[0]}` as CanonicalId) : undefined,
+      ),
+      {
+        hasHe: !!clean(reg.he),
+        structural: [purpose, process, tables.length > 0, bapis.length > 0].filter(Boolean).length,
+      },
+      "transactions",
+    ),
     neighbours: neighboursFor(code, reg),
     issues: issuesFor(code, intel, authored),
     known: 0,

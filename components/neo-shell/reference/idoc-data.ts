@@ -17,6 +17,7 @@
 
 import { FUNCTION_INTEL, type FunctionIntel } from "@/data/function-intel";
 import { IDOC, IDOC_RECORDS, IDOC_STATUSES, idocMessageTypes } from "@/lib/idoc-intel";
+import { evidenceBlock, fromEccS4Block } from "@/lib/evidence";
 import { funcIntel } from "@/lib/object-intel";
 import { MOD_HE } from "../mod-var";
 import {
@@ -337,6 +338,19 @@ export function idocDetail(name: string): RefDetail | null {
         ? "לא קיים תיעוד מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA. נדרש אימות נוסף במערכת SAP (WE30, WE20 או תיעוד ALE) לפני החלטת מעבר."
         : undefined,
     },
+    // The unified evidence block: the derived claim reads the intel record's
+    // authored ECC and S/4HANA pair; a version-dependent record (inferred)
+    // drops the tier to verification_required. Structural depth counts the
+    // presence of the deep intel record.
+    evidence: evidenceBlock(
+      `idoc:msg:${r.name}`,
+      fromEccS4Block(
+        { changed: clean(intel?.s4), unchanged: clean(intel?.ecc) },
+        { inferred: !!intel?.inferred },
+      ),
+      { hasHe: !!(clean(intel?.what) || r.he), structural: intel ? 1 : 0 },
+      "idocs",
+    ),
     sections,
     sources: [],
     foot:

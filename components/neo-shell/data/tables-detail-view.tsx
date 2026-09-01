@@ -44,6 +44,7 @@ import {
 import { RISK_COLOR } from "@/lib/s4";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { EvidenceBlock } from "../evidence/evidence-block";
 import { MOD_HE, REL_HE, relVar, tableSummary, type TableDetail } from "./tables-detail";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -338,6 +339,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             {t.s4.trustHe} · {TRUST_WHY[t.s4.trust]}
           </p>
         </div>
+
+        <EvidenceBlock e={t.evidence} />
 
         <h3 className="nxb-h3">
           <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />

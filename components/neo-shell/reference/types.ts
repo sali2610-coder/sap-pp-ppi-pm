@@ -23,6 +23,8 @@
    can look complete: the surface prints `לא קיים מידע מאומת במאגר` instead.
    ========================================================================== */
 
+import type { EvidenceBlockData } from "@/lib/evidence/types";
+
 /** The lucide glyphs the directories are allowed to use. A string key rather
  *  than a component so the server-side builders stay plain `.ts` modules with no
  *  React import, and the client surface owns the one icon map. */
@@ -161,6 +163,9 @@ export interface RefDetail {
   /** "12/18 עובדות מאומתות" — computed from the record, never a target. */
   completeness: string;
   s4: RefS4;
+  /** The unified evidence block: status, verification tier, sources, depth.
+   *  A type-only import, so this file stays structural. */
+  evidence?: EvidenceBlockData;
   sections: RefSection[];
   /** Where the record came from. Empty when the dataset stores no source. */
   sources: string[];

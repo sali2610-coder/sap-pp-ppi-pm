@@ -20,6 +20,9 @@ import { getTableEnrichment, type TableEnrichment } from "@/data/table-enrichmen
 import { LIBRARY } from "@/data/library";
 import { processSteps } from "@/lib/module-portal";
 import { RISK_HE, TRUST_HE, s4For } from "@/lib/s4";
+import { s4ClassOf } from "@/lib/s4-class";
+import { evidenceBlock, fromBlueprintClass } from "@/lib/evidence";
+import type { EvidenceBlockData } from "@/lib/evidence/types";
 import { BOOK_IDENTITY } from "@/lib/book-identity";
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import type { SAPModuleData } from "@/lib/types";
@@ -151,6 +154,8 @@ export interface ObjectView {
   /** S/4HANA standing. Never null: when the project holds nothing the object
    *  comes back with trust "needs", which the page prints as a stated gap. */
   s4: S4Standing;
+  /** The unified evidence block: status, verification tier, sources, depth. */
+  evidence: EvidenceBlockData;
   /** Rank of this table by modelled degree, and the total, so the page can say
    *  how central it actually is instead of asserting importance. */
   rank: number;
@@ -357,6 +362,18 @@ export function objectView(raw: string): ObjectView | null {
     incidents: INCIDENTS.filter((i) => (i.tables || []).some((t) => t.toUpperCase() === name)).map(incRef),
     books: booksFor(node.mods),
     s4: standingOf(rows, name),
+    // Same physical table as /neo/tables/<NAME>/, so the same `table:` id: the
+    // derived claim is the blueprint's own S/4 verdict, and structural depth
+    // counts the fields documented with a data type and a length.
+    evidence: evidenceBlock(
+      `table:${name}`,
+      fromBlueprintClass(
+        s4ClassOf({ s4Note: rows.map((r) => (r.s4Note || "").trim()).find(Boolean) || "" }),
+        rows.map((r) => (r.s4AltTable || "").trim()).find(Boolean) || "",
+      ),
+      { hasHe: !!node.he, structural: fields.filter((f) => f.dt && f.len).length },
+      "tables",
+    ),
     rank: degreeRank().get(name) || 0,
     total: ns.size,
     deg: node.deg,

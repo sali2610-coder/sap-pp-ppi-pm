@@ -35,6 +35,7 @@
 import Link from "next/link";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
+import { EvidenceBlock } from "../evidence/evidence-block";
 import { MOD_HE, modVar } from "../mod-var";
 import { Glyph } from "./icons";
 import type { RefDetail, RefFact, RefSection, RefStatus } from "./types";
@@ -253,6 +254,8 @@ export function RefDetailView({ d }: { d: RefDetail }) {
         ) : null}
 
         {d.s4.warn ? <p className="nxt-s4-warn">{d.s4.warn}</p> : null}
+
+        {d.evidence ? <EvidenceBlock e={d.evidence} /> : null}
       </section>
 
       {/* -------------------------------------------------- 3..n THE ANSWERS */}

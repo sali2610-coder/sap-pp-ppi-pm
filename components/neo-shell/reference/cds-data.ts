@@ -20,6 +20,7 @@
 
 import { CDS_VIEWS, type CdsView } from "@/data/cds-map";
 import { CDS_ENRICHMENT, type CdsEnrichment } from "@/data/cds-enrichment";
+import { evidenceBlock, fromCdsEnrichment } from "@/lib/evidence";
 import { FIORI_APPS } from "@/data/fiori/apps";
 import { registry } from "@/lib/bapi-registry";
 import { zoneOf } from "@/lib/studio-graph";
@@ -286,6 +287,18 @@ export function cdsDetail(name: string): RefDetail | null {
       facts: s4Facts,
       tables: s4.tables,
     },
+    // The unified evidence block: the derived claim reads the enrichment
+    // record's own verified flag; structural depth counts the mapped classic
+    // tables and the enrichment's view type and representative key.
+    evidence: evidenceBlock(
+      `cds:${v.view}`,
+      fromCdsEnrichment(e).status,
+      {
+        hasHe: !!v.he,
+        structural: (v.tables.length ? 1 : 0) + (e?.viewType ? 1 : 0) + (e?.keyField ? 1 : 0),
+      },
+      "cds",
+    ),
     sections,
     sources: uniq(e?.sources || []),
     foot:

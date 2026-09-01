@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { OriginLink, SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { EvidenceBlock } from "../evidence/evidence-block";
 import { RISK_COLOR, RISK_HE, TRUST_HE } from "@/lib/s4";
 import { MOD_HE, modVar } from "../mod-var";
 import type { TxDetail } from "./tx-detail";
@@ -242,6 +243,8 @@ export function TxDetailView({ t }: { t: TxDetail }) {
             לא קיים במאגר תיעוד על מצב הטרנזקציה ב-S/4HANA. נדרש אימות במערכת SAP לפני החלטת המעבר.
           </p>
         ) : null}
+
+        <EvidenceBlock e={t.evidence} />
       </section>
 
       {/* --------------------------------------------------- 3. WHAT IT DOES */}

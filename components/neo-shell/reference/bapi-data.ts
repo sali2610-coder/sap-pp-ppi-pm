@@ -19,6 +19,7 @@
 import { FUNCTION_INTEL, type FunctionIntel } from "@/data/function-intel";
 import { registry, type SapFuncObject } from "@/lib/bapi-registry";
 import { commitInfo } from "@/lib/bapi-complexity";
+import { evidenceBlock, fromFuncRegistry } from "@/lib/evidence";
 import { MOD_HE } from "../mod-var";
 import {
   bapiHref, cdsHref, clean, completeness, enhHref, idocHref, nf, standings,
@@ -495,6 +496,20 @@ export function bapiDetail(id: string): RefDetail | null {
         ? "לא קיים תיעוד מאומת במאגר על מעמד האובייקט ב-S/4HANA. נדרש אימות נוסף מול SE37, BAPI Explorer או תיעוד SAP לפני החלטת מעבר."
         : undefined,
     },
+    // The unified evidence block: the derived claim maps the registry's own
+    // verification and support fields; structural depth counts the linked
+    // tables and transactions plus the documented parameters.
+    evidence: evidenceBlock(
+      `fm:${o.id}`,
+      fromFuncRegistry(o).status,
+      {
+        hasHe: !!(clean(o.shortDescriptionHe) || clean(intel?.what)),
+        structural:
+          o.tables.length + o.transactions.length +
+          (intel ? intel.inputs.length + intel.outputs.length : 0),
+      },
+      "functions",
+    ),
     sections,
     sources: uniq([o.verificationSource, o.lastVerified ? `נבדק לאחרונה ${o.lastVerified}` : ""]),
     foot:

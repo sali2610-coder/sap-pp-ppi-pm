@@ -17,6 +17,7 @@
 
 import { FIORI_APPS } from "@/data/fiori/apps";
 import type { FioriApp } from "@/lib/fiori/types";
+import { S4_NATIVE_DERIVED, evidenceBlock } from "@/lib/evidence";
 import { MOD_HE } from "../mod-var";
 import {
   bapiHref, cdsHref, clean, completeness, fioriHref, nf, standings, txHref, uniq,
@@ -295,6 +296,19 @@ export function fioriDetail(slug: string): RefDetail | null {
       facts: s4Facts,
       tables: s4.tables.length ? s4.tables : undefined,
     },
+    // The unified evidence block. A Fiori app is an S/4HANA-native record by
+    // the definition of this catalog; a needs-review trust drops the tier to
+    // verification_required. Structural depth counts role, catalog, OData
+    // service and the replaced GUI transactions.
+    evidence: evidenceBlock(
+      `fiori:${a.id}`,
+      S4_NATIVE_DERIVED("fiori-apps", a.trust === "needs-review"),
+      {
+        hasHe: !!a.he,
+        structural: [a.role, a.catalog, a.odata, a.guiTx.length > 0].filter(Boolean).length,
+      },
+      "fiori",
+    ),
     sections,
     sources: uniq([a.source, ...(a.notes || []).map((n) => n.label)]),
     foot:

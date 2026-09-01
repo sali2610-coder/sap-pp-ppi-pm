@@ -1,0 +1,122 @@
+/* ============================================================================
+   PROJECT NEO · THE EVIDENCE BLOCK — layout only.
+   ----------------------------------------------------------------------------
+   Every colour on this block is an existing token: --status-* arrives through
+   the inline --s custom property on .nu-status (ui.css), module identity
+   through --m, surfaces and ink through the globals.css scale. No new colour
+   is defined here; the file is spacing, size and alignment.
+   ========================================================================== */
+
+.nev {
+  margin-block-start: 1rem;
+  padding: 0.9rem 1rem 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  display: grid;
+  gap: 0.6rem;
+}
+
+/* the block's own small label, same voice as the surfaces' eyebrows */
+.nev-eyebrow {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+}
+
+.nev-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.85rem;
+}
+
+.nev-exp {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.nev-act {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--ink-1);
+}
+.nev-act b { font-weight: 700; }
+
+.nev-succ {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  font-size: 0.8125rem;
+}
+
+/* micro label: metadata, never content */
+.nev-l {
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  color: var(--ink-3);
+}
+
+.nev-srcwrap { display: grid; gap: 0.35rem; }
+
+.nev-src {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+.nev-src li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.65rem;
+  padding-inline-start: 0.6rem;
+  border-inline-start: 2px solid var(--hairline);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.nev-t { color: var(--ink-1); font-weight: 600; }
+.nev-a {
+  color: var(--m, var(--brand));
+  font-weight: 650;
+  text-decoration: none;
+}
+.nev-a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.nev-meta { font-size: 0.6875rem; color: var(--ink-3); }
+
+/* technical values (dates, releases, level marks) stay LTR inside RTL text */
+.nev-num {
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.nev-more { margin: 0; font-size: 0.75rem; color: var(--ink-3); }
+
+.nev-warn {
+  margin: 0;
+  padding-inline-start: 0.6rem;
+  border-inline-start: 3px solid var(--status-not-started);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--ink-1);
+}
+
+.nev-foot {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1rem;
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}

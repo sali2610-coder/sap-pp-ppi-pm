@@ -25,6 +25,7 @@ import {
 import { RISK_COLOR } from "@/lib/s4";
 import { OriginLink } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { EvidenceBlock } from "../evidence/evidence-block";
 import { ObjectDepth } from "./object-depth";
 import { ObjectFields } from "./object-fields";
 import { ObjectReturn } from "./object-return";
@@ -631,6 +632,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             {v.s4.trustHe} · {TRUST_WHY[v.s4.trust]}
           </p>
         </div>
+
+        <EvidenceBlock e={v.evidence} />
 
         <h3 className="no-h3">
           <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />

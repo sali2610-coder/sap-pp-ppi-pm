@@ -17,6 +17,7 @@
 
 import { ENHANCEMENTS, type Enhancement } from "@/data/enhancements";
 import { EXITS, type Exit, type ExitKind } from "@/data/exits";
+import { evidenceBlock, fromEccS4Block } from "@/lib/evidence";
 import { completeness, enhHref, nf, txHref, uniq } from "./ref-links";
 import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus } from "./types";
 
@@ -262,6 +263,18 @@ export function enhDetail(slug: string): RefDetail | null {
       ],
       facts: s4Facts,
     },
+    // The unified evidence block: the derived claim reads the technique's own
+    // authored ECC and S/4HANA pair through the structured EccS4 mapper;
+    // structural depth counts how, scenario and the implementation T-Codes.
+    evidence: evidenceBlock(
+      `enh:technique:${e.slug}`,
+      fromEccS4Block({ changed: e.s4, unchanged: e.ecc }),
+      {
+        hasHe: !!e.def,
+        structural: [e.how, e.scenario, e.tcodes.length > 0].filter(Boolean).length,
+      },
+      "enhancements",
+    ),
     sections,
     sources: [],
     foot:
