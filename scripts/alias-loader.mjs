@@ -17,25 +17,40 @@
  * Usage: node --experimental-strip-types --loader ./scripts/alias-loader.mjs script.mjs
  */
 import { pathToFileURL, fileURLToPath } from "node:url";
-import { existsSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
 
 const ROOT = process.cwd();
 const CANDIDATES = [".ts", ".tsx", ".mjs", ".js", "/index.ts", "/index.tsx"];
 
+const isFile = (p) => existsSync(p) && statSync(p).isFile();
+
 function withExtension(href) {
-  if (existsSync(fileURLToPath(href))) return href;
+  // Only an existing FILE is taken as-is. `data/library.ts` sits next to the
+  // `data/library/` directory, so `@/data/library` must fall through to the
+  // candidates instead of being handed to Node as a directory import.
+  if (isFile(fileURLToPath(href))) return href;
   for (const ext of CANDIDATES) {
-    if (existsSync(fileURLToPath(href + ext))) return href + ext;
+    if (isFile(fileURLToPath(href + ext))) return href + ext;
   }
   return href;
 }
 
+/** TypeScript's `resolveJsonModule` lets app code write `import x from "./x.json"`;
+ *  Node ESM requires `with { type: "json" }`. Supplying the attribute from the
+ *  resolver keeps the two in step without touching application code. */
+function resolved(href, context, next) {
+  const r = next(href, context);
+  if (!href.endsWith(".json")) return r;
+  const attach = (x) => ({ ...x, importAttributes: { ...(x.importAttributes || {}), type: "json" } });
+  return typeof r?.then === "function" ? r.then(attach) : attach(r);
+}
+
 export function resolve(specifier, context, next) {
   if (specifier.startsWith("@/")) {
-    return next(withExtension(pathToFileURL(`${ROOT}/${specifier.slice(2)}`).href), context);
+    return resolved(withExtension(pathToFileURL(`${ROOT}/${specifier.slice(2)}`).href), context, next);
   }
   if ((specifier.startsWith("./") || specifier.startsWith("../")) && context.parentURL?.startsWith("file:")) {
-    return next(withExtension(new URL(specifier, context.parentURL).href), context);
+    return resolved(withExtension(new URL(specifier, context.parentURL).href), context, next);
   }
   return next(specifier, context);
 }

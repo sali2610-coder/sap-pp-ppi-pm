@@ -27,6 +27,8 @@
     "verify:reader": "node --experimental-strip-types scripts/verify-reader.mjs",
     "check:reader": "node scripts/check-reader-coverage.mjs",
     "gen:tx-index": "node --experimental-strip-types --no-warnings --loader ./scripts/alias-loader.mjs scripts/gen-tx-search-index.mjs",
+    "report:coverage": "node --experimental-strip-types --no-warnings --loader ./scripts/alias-loader.mjs scripts/report-coverage.mjs",
+    "check:evidence": "node --experimental-strip-types --test test/evidence-schema.test.ts test/evidence-xref.test.ts test/s4-status.test.ts",
     "verify:separation": "node scripts/verify-separation.mjs"
   },
   "dependencies": {
