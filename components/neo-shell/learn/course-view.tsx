@@ -92,11 +92,11 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
       data-surface="course"
       style={{ "--m": learnModVar(c.module) } as React.CSSProperties}
     >
-      <SmartReturn fallback={{ href: "/neo/academy/", label: "האקדמיה" }} />
+      <SmartReturn fallback={{ href: "/neo/academy/", label: "SAP Academy" }} />
 
       <header className="nxv-head">
         <span className="nx-modbar" aria-hidden="true" />
-        <span className="nx-eyebrow">האקדמיה · {LEARN_MOD_HE[c.module] || c.module}</span>
+        <span className="nx-eyebrow">SAP Academy · {LEARN_MOD_HE[c.module] || c.module}</span>
         <div className="nxv-title">
           <h1 className="nxv-h1">{c.title}</h1>
           {c.titleEn ? <p className="nxv-en">{c.titleEn}</p> : null}
@@ -119,20 +119,20 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
       {/* --------------------------------------------------- WHERE YOU ARE */}
       <section className="nxv-s4" aria-labelledby="co-p">
         <div className="nxv-s4-top">
-          <span className="nx-eyebrow">ההתקדמות שלך</span>
+          <span className="nx-eyebrow">התקדמות</span>
           <h2 className="nxv-s4-h" id="co-p">
             {finished
-              ? "סיימת את כל השיעורים הכתובים בקורס"
+              ? "כל השיעורים בקורס הושלמו"
               : started
                 ? `${nf.format(p.completedLessons)} מתוך ${nf.format(p.totalLessons)} שיעורים הושלמו`
-                : "עוד לא נרשמה התקדמות בקורס הזה במכשיר הזה"}
+                : "לא נרשמה התקדמות בקורס במכשיר הזה"}
           </h2>
         </div>
 
         {started ? (
           <div className="nxl-bar">
             <div className="nxl-bar-h">
-              <span>{nf.format(p.blocksDone)} יחידות תוכן נצפו</span>
+              <span>{nf.format(p.blocksDone)} יחידות תוכן נקראו</span>
               <b>{p.pct}%</b>
             </div>
             <div className="nxl-bar-t">
@@ -141,8 +141,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
           </div>
         ) : (
           <p className="nx-muted">
-            התקדמות נרשמת רק כשקוראים שיעור בפועל, ונשמרת מקומית במכשיר. עד אז אין מה להציג,
-            {" "}ולכן לא מוצג סרגל ריק שמתחזה למדידה.
+            ההתקדמות נרשמת בעת קריאת שיעור ונשמרת במכשיר בלבד.
           </p>
         )}
 
@@ -150,7 +149,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
           <div className="nxl-course-a">
             <OriginLink href={neoLessonHref(c.id, next.slug)} className="nu-btn" origin={leaving}>
               <Play size={14} strokeWidth={2} aria-hidden="true" />
-              {started ? "המשך מהשיעור הבא" : "התחל מהשיעור הראשון"} · {next.title}
+              {started ? "המשך לשיעור הבא" : "התחלה מהשיעור הראשון"} · {next.title}
             </OriginLink>
           </div>
         ) : null}
@@ -200,7 +199,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
                           {l.level ? <span className="nu-chip">{l.level}</span> : null}
                           {l.minutes ? <span className="nu-chip">{nf.format(l.minutes)} דק׳</span> : null}
                           {/* An unauthored lesson says so where its status would be. */}
-                          {!l.hasLesson ? <span className="nu-chip">לא קיים מידע מאומת במאגר</span> : null}
+                          {!l.hasLesson ? <span className="nu-chip">השיעור טרם נכתב</span> : null}
                           {done ? (
                             <span className="nu-status" style={{ "--s": "var(--status-done)" } as React.CSSProperties}>
                               הושלם
@@ -239,21 +238,21 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            מקור המבנה: מסלולי הלמידה הכתובים של האקדמיה (<span className="nx-sap">lib/academy/model.ts</span>).
-            {" "}אורך ורמה הם שדות שהמסלול עצמו כותב לכל שיעור.
+            מקור המבנה: מסלולי הלמידה של SAP Academy (<span className="nx-sap">lib/academy/model.ts</span>).
+            {" "}אורך ורמה הם שדות שהמסלול מגדיר לכל שיעור.
           </span>
         </p>
         <p>
-          שיעור נחשב מושלם כשמספר יחידות התוכן שנצפו בו מגיע למספר שהשיעור דורש: אותה מדידה שהקורא רואה
-          {" "}בתוך השיעור עצמו. ההתקדמות נשמרת ב-<span className="nx-sap">neo:academy:v2</span> על המכשיר, ואינה מסונכרנת.
+          שיעור נחשב מושלם כשכל יחידות התוכן שהוא דורש נקראו.
+          {" "}ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
         </p>
         <p>
-          שיעור נפתח כאן בתוך Project NEO (<span className="nx-sap">/neo/academy/{c.id}/…</span>),
-          {" "}אותו שיעור, אותו מנוע בלוקים ואותה מדידה. מסך האקדמיה הקיים,{" "}
+          השיעורים נפתחים בתוך Project NEO (<span className="nx-sap">/neo/academy/{c.id}/</span>).
+          {" "}אותו שיעור זמין גם במסך הלמידה הקודם,{" "}
           <Link className="nu-link" href="/academy/" prefetch={false}>
             <span className="nx-sap">/academy/</span>
           </Link>
-          , ממשיך לפעול ללא שינוי וקורא את אותה התקדמות.
+          , וההתקדמות משותפת לשני המסכים.
         </p>
       </div>
     </div>

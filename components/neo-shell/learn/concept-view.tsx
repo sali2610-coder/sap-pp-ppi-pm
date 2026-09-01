@@ -26,7 +26,7 @@ import { ArrowLeft, BookOpen, Info, Lightbulb, Link2, Sparkles, Terminal, Table 
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import type { ConceptRef, ConceptRow } from "./knowledge-data";
 
-const ABSENT = "לא קיים מידע מאומת במאגר";
+const ABSENT = "לא קיים תיעוד מאומת במאגר";
 
 function Absent({ what }: { what: string }) {
   return (
@@ -70,10 +70,10 @@ export function ConceptView({ c }: { c: ConceptRow }) {
 
   return (
     <div className="nxv" data-surface="concept">
-      <SmartReturn fallback={{ href: "/neo/knowledge/", label: "מרכז המושגים" }} />
+      <SmartReturn fallback={{ href: "/neo/knowledge/", label: "מרכז הידע" }} />
 
       <header className="nxv-head">
-        <span className="nx-eyebrow">מרכז המושגים · {c.groupHe}</span>
+        <span className="nx-eyebrow">מרכז הידע · {c.groupHe}</span>
         <div className="nxv-title">
           <h1 className="nxv-h1">{c.he}</h1>
           <p className="nxv-en">{c.title}</p>
@@ -85,7 +85,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
             className="nu-status"
             style={{ "--s": c.s4Changed ? "var(--status-in-conversion)" : "var(--status-done)" } as React.CSSProperties}
           >
-            {c.s4Changed ? "המקור מתאר שינוי ב-S/4HANA" : "המקור כותב «ללא שינוי מהותי»"}
+            {c.s4Changed ? "שינוי מתועד ב-S/4HANA" : "ללא שינוי לפי התיעוד"}
           </span>
         </div>
       </header>
@@ -95,7 +95,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
         <div className="nxv-s4-top">
           <span className="nx-eyebrow">S/4HANA</span>
           <h2 className="nxv-s4-h" id="c-s4">
-            {c.s4Changed ? "המושג הזה משתנה במעבר ל-S/4HANA" : "המושג הזה נשאר כפי שהוא ב-S/4HANA"}
+            {c.s4Changed ? "המושג משתנה במעבר ל-S/4HANA" : "המושג ללא שינוי ב-S/4HANA לפי התיעוד"}
           </h2>
         </div>
         <div className="nxv-s4-two">
@@ -114,7 +114,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       <section className="nxv-sec" aria-labelledby="c-biz">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="c-biz">מה זה, במונחים עסקיים</h2>
+          <h2 className="nx-h2" id="c-biz">הסבר עסקי</h2>
           <em className="nxv-sec-n">01</em>
         </div>
         {c.biz ? <p className="nxv-v">{c.biz}</p> : <Absent what="הסבר עסקי" />}
@@ -123,7 +123,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       <section className="nxv-sec" aria-labelledby="c-tech">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Wrench size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="c-tech">איך זה בנוי, טכנית</h2>
+          <h2 className="nx-h2" id="c-tech">הסבר טכני</h2>
           <em className="nxv-sec-n">02</em>
         </div>
         {c.tech ? <p className="nxv-v">{c.tech}</p> : <Absent what="הסבר טכני" />}
@@ -133,14 +133,14 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       <section className="nxv-sec" aria-labelledby="c-ex">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Lightbulb size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="c-ex">דוגמאות מהמאגר</h2>
+          <h2 className="nx-h2" id="c-ex">דוגמאות</h2>
           <em className="nxv-sec-n">03</em>
         </div>
         {c.examples.length ? (
           <>
             <p className="nx-muted">
-              דוגמה שמזוהה כטבלה במילון או כטרנזקציה במרשם נפתחת לעמוד שלה. דוגמה שאינה אחת מהשתיים,
-              {" "}אלמנט נתונים, שם מודול פונקציה, תבנית: מוצגת כערך ולא כקישור.
+              דוגמה שמזוהה כטבלת SAP או כטרנזקציה בקטלוג נפתחת לעמוד שלה. דוגמה אחרת
+              {" "}(אלמנט נתונים, מודול פונקציה, תבנית) מוצגת כערך ללא קישור.
             </p>
             <div className="nxv-refs">
               {c.examples.map((r) => <Ref key={`${r.kind}-${r.label}`} r={r} />)}
@@ -171,13 +171,13 @@ export function ConceptView({ c }: { c: ConceptRow }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            מקור: <span className="nx-sap">data/concepts.ts</span>: ידע SAP כתוב. אינו נגזר ממערכת חיה
-            {" "}ואינו תחליף לאימות מול המערכת לפני יישום.
+            מקור: <span className="nx-sap">data/concepts.ts</span>: תיעוד SAP מאומת, שאינו נקרא ממערכת חיה.
+            {" "}נדרש אימות במערכת לפני יישום.
           </span>
         </p>
         <p>
-          {linked} מתוך {c.examples.length + c.related.length} ההפניות של המושג נפתרו לעמוד קיים בפרויקט;
-          {" "}השאר מוצגות כערך, כי אין להן עמוד ולא הומצא להן אחד.
+          {linked} מתוך {c.examples.length + c.related.length} ההפניות של המושג מקושרות לעמוד בפרויקט;
+          {" "}השאר מוצגות כערך.
         </p>
       </div>
     </div>

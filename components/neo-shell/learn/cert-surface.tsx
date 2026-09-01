@@ -73,47 +73,47 @@ export function CertSurface({ data }: { data: CertData }) {
         <span className="nx-eyebrow">ידע ולמידה</span>
         <h1 className="nx-h1">הסמכה</h1>
         <p className="nx-lede">
-          לפרויקט אין תוכנית הסמכה רשמית של SAP, ולכן העמוד הזה אינו מציג אחת. מה שכן קיים כאן הוא מנגנון
-          {" "}הערכה עצמית שנבנה מהנתונים המאומתים של הפרויקט: {nf.format(totals.questions)} שאלות שנגזרות
-          {" "}מ-{nf.format(totals.tables)} טבלאות במילון, מקשרי ה-ER שלהן, ממפת ההשפעה של S/4HANA ומקטלוג התקלות.
+          הערכת ידע עצמית על בסיס התיעוד המאומת של הפרויקט: {nf.format(totals.questions)} שאלות שנגזרות
+          {" "}מ-{nf.format(totals.tables)} טבלאות SAP מתועדות, מקשרי ה-ER שלהן, ממפת השפעת המעבר ל-S/4HANA ומקטלוג התקלות.
+          {" "}זו אינה תוכנית הסמכה רשמית של SAP.
         </p>
       </header>
 
       {/* ---------------------------------------------- WHAT IS AND IS NOT HERE */}
       <section className="nxb-claim" aria-labelledby="ce-claim">
-        <span className="nx-eyebrow">ההצהרה</span>
-        <h2 id="ce-claim">מה נמדד כאן, ומה לא</h2>
+        <span className="nx-eyebrow">היקף ההערכה</span>
+        <h2 id="ce-claim">מה נמדד ומה אינו נמדד</h2>
         <p>
-          ההבחנה הזו חשובה יותר מכל ציון: מנגנון פנימי שבודק שליטה במילון הנתונים של הפרויקט אינו הסמכה,
-          {" "}ולא נכון להציג אותו כאילו הוא כזו.
+          ההערכה בודקת שליטה במודל הנתונים המתועד של הפרויקט. היא אינה הסמכה רשמית של SAP
+          {" "}ואינה תחליף לה.
         </p>
         <div className="nxb-two">
           <div className="nxb-yes">
-            <h3>קיים בפרויקט, ונמדד</h3>
+            <h3>נמדד בהערכה</h3>
             <ul>
-              <li>{nf.format(totals.banks)} מאגרי שאלות שנבנים מהמילון המאומת: מטרת הטבלה, מפתח ראשי, מפתח זר, JOIN, זרימת נתונים.</li>
-              <li>שאלות S/4HANA שנגזרות ממפת ההשפעה של הפרויקט, ולא מנוסח מבחן.</li>
-              <li>שאלות פתרון תקלות ותרחישים שנגזרות מקטלוג התקלות עצמו.</li>
-              <li>{nf.format(totals.types)} סוגי שאלה ו-{nf.format(totals.levels)} רמות קושי, מצטברות.</li>
-              <li>תיעוד מלא לכל תשובה: למה היא נכונה ולמה האחרות לא.</li>
+              <li>{nf.format(totals.banks)} מאגרי שאלות שנבנים מהתיעוד הטכני המאומת: ייעוד הטבלה, מפתח ראשי, מפתח זר, JOIN, זרימת נתונים.</li>
+              <li>שאלות S/4HANA שנגזרות ממפת השפעת המעבר המתועדת בפרויקט.</li>
+              <li>שאלות פתרון בעיות ותרחישים שנגזרות מקטלוג התקלות.</li>
+              <li>{nf.format(totals.types)} סוגי שאלה ו-{nf.format(totals.levels)} רמות קושי מצטברות.</li>
+              <li>הסבר לכל תשובה נכונה, ובחלק מהשאלות גם הסבר לתשובות השגויות.</li>
             </ul>
           </div>
           <div className="nxb-no">
-            <h3>אינו קיים, ולכן אינו מוצג</h3>
+            <h3>אינו כלול בהערכה</h3>
             <ul>
-              <li>אין קוד בחינה רשמי של SAP ואין נושאי בחינה רשמיים.</li>
-              <li>אין משקלות נושאים, אין מספר שאלות רשמי ואין ציון עובר של SAP.</li>
-              <li>אין רישום לבחינה, אין תעודה ואין תוקף מול SAP.</li>
-              <li>הרף של {passPct}% הוא כלל פנימי של הפרויקט בלבד.</li>
-              <li>אין מסלול הכנה מומלץ: לא הומצא אחד.</li>
+              <li>קוד בחינה ונושאי בחינה רשמיים של SAP.</li>
+              <li>משקלות נושאים, מספר שאלות רשמי וציון עובר של SAP.</li>
+              <li>רישום לבחינה, תעודה או תוקף מול SAP.</li>
+              <li>רף המעבר של {passPct}% הוא כלל פנימי של הפרויקט, לא ציון עובר של SAP.</li>
+              <li>מסלול הכנה מומלץ לבחינת SAP.</li>
             </ul>
           </div>
         </div>
       </section>
 
-      <section className="nx-card nxl-stats" aria-label="מספרי מנגנון ההערכה">
+      <section className="nx-card nxl-stats" aria-label="סיכום ההערכה">
         {[
-          { v: totals.questions, l: "שאלות שנוצרות", i: <ListChecks size={14} strokeWidth={1.75} /> },
+          { v: totals.questions, l: "שאלות במאגרים", i: <ListChecks size={14} strokeWidth={1.75} /> },
           { v: totals.banks, l: "מאגרים", i: <Layers size={14} strokeWidth={1.75} /> },
           { v: totals.tables, l: "טבלאות עוגן", i: <Database size={14} strokeWidth={1.75} /> },
           { v: totals.types, l: "סוגי שאלה", i: <Target size={14} strokeWidth={1.75} /> },
@@ -132,7 +132,7 @@ export function CertSurface({ data }: { data: CertData }) {
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Award size={16} strokeWidth={1.75} /></span>
           <h2 className="nx-h2" id="ce-rec">התוצאות שלך</h2>
-          <em className="nxv-sec-n">{mounted ? nf.format(records.length) : "—"}</em>
+          <em className="nxv-sec-n">{mounted ? nf.format(records.length) : ""}</em>
         </div>
 
         {records.length ? (
@@ -146,15 +146,15 @@ export function CertSurface({ data }: { data: CertData }) {
                   </div>
                   <div className="nxb-kv">
                     <div><span>ניסיונות</span><b>{nf.format(s!.attempts)}</b></div>
-                    <div><span>הציון הגבוה שלך</span><b>{nf.format(s!.best)}%</b></div>
-                    <div><span>שליטה מתגלגלת</span><b>{nf.format(masteryPct(s))}%</b></div>
+                    <div><span>הציון הגבוה ביותר</span><b>{nf.format(s!.best)}%</b></div>
+                    <div><span>תשובות נכונות (מצטבר)</span><b>{nf.format(masteryPct(s))}%</b></div>
                     <div><span>שאלות שנענו</span><b>{nf.format(s!.seen)}</b></div>
                   </div>
                   <span
                     className="nu-status"
                     style={{ "--s": s!.passed ? "var(--status-done)" : "var(--status-in-analysis)" } as React.CSSProperties}
                   >
-                    {s!.passed ? `עברת את הרף הפנימי (${passPct}%)` : `טרם עברת את הרף הפנימי (${passPct}%)`}
+                    {s!.passed ? `הרף הפנימי הושג (${passPct}%)` : `הרף הפנימי טרם הושג (${passPct}%)`}
                   </span>
                 </div>
               </li>
@@ -162,14 +162,13 @@ export function CertSurface({ data }: { data: CertData }) {
           </ul>
         ) : (
           <div className="nx-card nxl-none">
-            <p><b>עוד לא נרשמה אף בחינה במכשיר הזה</b></p>
+            <p><b>לא נרשם מבחן במכשיר הזה</b></p>
             <p className="nx-muted">
-              אין כאן ציון התחלתי, אין דירוג ואין אחוז שליטה: כי אין מה למדוד עדיין. ברגע שתסיים מבחן
-              {" "}במרכז ההערכה, התוצאה תופיע כאן. הנתונים נשמרים על המכשיר בלבד ואינם נשלחים לשום מקום.
+              התוצאה של כל מבחן שיושלם תופיע כאן. התוצאות נשמרות במכשיר בלבד.
             </p>
             <div className="nxl-none-a">
               <Link href={examHref} className="nu-btn nxl-primary" prefetch={false}>
-                פתח את מרכז ההערכה
+                פתיחת המבחן
                 <ArrowLeft size={14} strokeWidth={2} className="nu-arw" aria-hidden="true" />
               </Link>
             </div>
@@ -181,7 +180,7 @@ export function CertSurface({ data }: { data: CertData }) {
       <section className="nxv-sec" aria-labelledby="ce-banks">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><ListChecks size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="ce-banks">מה בדיוק יש בכל מאגר</h2>
+          <h2 className="nx-h2" id="ce-banks">הרכב המאגרים</h2>
           <em className="nxv-sec-n">{nf.format(totals.banks)}</em>
         </div>
 
@@ -218,7 +217,7 @@ export function CertSurface({ data }: { data: CertData }) {
                   </div>
 
                   <div>
-                    <span className="nxv-l">כמה שאלות זמינות בכל רמה (מצטבר)</span>
+                    <span className="nxv-l">שאלות זמינות לפי רמה (מצטבר)</span>
                     <div className="nxv-chips">
                       {b.levels.map((l) => (
                         <span key={l.level} className="nu-chip">
@@ -238,12 +237,12 @@ export function CertSurface({ data }: { data: CertData }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            המאגרים נבנים בזמן ריצה מ-<span className="nx-sap">lib/cert/generate.ts</span> על גבי המילון המאומת;
-            {" "}התוצאות נשמרות ב-<span className="nx-sap">neo:cert</span> על המכשיר. שום נתון אינו מגיע ממערכת SAP חיה.
+            המאגרים נבנים מהתיעוד הטכני המאומת של הפרויקט (<span className="nx-sap">lib/cert/generate.ts</span>);
+            {" "}התוצאות נשמרות במכשיר (<span className="nx-sap">neo:cert</span>). הנתונים אינם נקראים ממערכת SAP חיה.
           </span>
         </p>
         <p>
-          המספרים כאן הם גודל המאגר, לא גודל מבחן: מבחן בודד דוגם ממנו קבוצת שאלות ומפזר אותה בין סוגי השאלה
+          המספרים מציינים את גודל המאגר. מבחן בודד דוגם ממנו קבוצת שאלות ומפזר אותה בין סוגי השאלה
           {" "}ובין טבלאות עוגן שונות.
         </p>
       </div>

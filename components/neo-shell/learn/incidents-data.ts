@@ -93,10 +93,10 @@ export interface IncidentsData {
 }
 
 const MODULE_HE: Record<string, string> = {
-  PM: "אחזקה",
-  PP: "ייצור",
-  "PP-PI": "ייצור תהליכי",
-  QM: "איכות",
+  PM: "תחזוקת מפעל",
+  PP: "תכנון ייצור",
+  "PP-PI": "תעשיות תהליכיות",
+  QM: "ניהול איכות",
   Cross: "חוצה-מודולים",
 };
 
@@ -212,7 +212,7 @@ export function incidentsData(): IncidentsData {
     .map((k) => ({ id: k, he: IMPACT_HE[k] || k, n: rows.filter((r) => r.impactKind === k).length }));
 
   const untagged = rows.filter((r) => !r.impactKind).length;
-  if (untagged) impacts.push({ id: UNTAGGED, he: "לא תויג במקור", n: untagged });
+  if (untagged) impacts.push({ id: UNTAGGED, he: "ללא תג השפעה", n: untagged });
 
   const uniq = (a: string[]) => new Set(a.filter(Boolean)).size;
 

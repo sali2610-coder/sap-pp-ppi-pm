@@ -13,8 +13,8 @@ import { academyData } from "@/components/neo-shell/learn/academy-data";
 import { AcademySurface } from "@/components/neo-shell/learn/academy-surface";
 
 export const metadata = {
-  title: "האקדמיה · Project NEO",
-  description: "מסלולי הלמידה הכתובים של האקדמיה: פרקים, שיעורים, רמה ואורך מוצהר.",
+  title: "SAP Academy · Project NEO",
+  description: "מסלולי הלמידה של SAP Academy: קורסים, פרקים ושיעורים לפי מודול, עם רמה ואורך מוצהרים.",
   robots: { index: false, follow: false },
 };
 

@@ -49,9 +49,9 @@ import {
 import { recordExam } from "@/lib/cert/store";
 
 const MODULES: { id: CertModule; he: string }[] = [
-  { id: "PM", he: "אחזקת מפעל" },
-  { id: "PP-PI", he: "ייצור תהליכי" },
-  { id: "PP", he: "ליבת הייצור" },
+  { id: "PM", he: "תחזוקת מפעל" },
+  { id: "PP-PI", he: "תעשיות תהליכיות" },
+  { id: "PP", he: "תכנון ייצור" },
 ];
 const LEVELS: Level[] = [1, 2, 3, 4];
 const LENGTHS = [10, 20, 30];
@@ -132,10 +132,10 @@ export function CertExam() {
       <div className="nce" data-phase="setup">
         <header className="nce-hero">
           <p className="nce-eye"><Target size={13} strokeWidth={2} aria-hidden="true" />הערכת ידע</p>
-          <h1 className="nce-h1">בחר מאגר ורמה</h1>
+          <h1 className="nce-h1">הגדרת המבחן</h1>
           <p className="nce-lede">
-            השאלות נבנות מהתיעוד המאומת של הפרויקט: ייעודי טבלאות, מפתחות, קשרי ER,
-            זרימת נתונים, מפת ההשפעה של S/4HANA וקטלוג התקלות. אין כאן סילבוס הסמכה רשמי של SAP.
+            השאלות נבנות מהתיעוד המאומת של הפרויקט: ייעוד טבלאות, מפתחות, קשרי ER,
+            זרימת נתונים, מפת השפעת המעבר ל-S/4HANA וקטלוג התקלות. המבחן אינו מבוסס על תוכנית הסמכה רשמית של SAP.
           </p>
         </header>
 
@@ -163,10 +163,10 @@ export function CertExam() {
 
         <div className="nce-go">
           <button type="button" className="nu-btn nce-start" onClick={start}>
-            התחל הערכה
+            התחלת המבחן
             <ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
           </button>
-          <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה למרכז ההסמכה</Link>
+          <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לעמוד ההסמכה</Link>
         </div>
       </div>
     );
@@ -198,10 +198,10 @@ export function CertExam() {
           </div>
           <p className="nce-score-a11y">ציון {score} אחוז, {correct} נכונות מתוך {qs.length}.</p>
           <p className="nce-verdict">
-            {pass ? "עברת את סף הפרויקט" : "מתחת לסף הפרויקט"}
+            {pass ? "הציון עובר את הרף הפנימי" : "הציון מתחת לרף הפנימי"}
           </p>
           <p className="nce-note">
-            הסף הוא {PASS}% והוא כלל של הפרויקט הזה. SAP אינה מפרסמת סף שהפרויקט מחזיק.
+            הרף הוא {PASS}%, כלל פנימי של הפרויקט ולא ציון עובר של SAP. התוצאה נשמרה במכשיר זה בלבד.
           </p>
           <div className="nce-tally">
             <span className="nce-t nce-t--ok"><Check size={13} aria-hidden="true" />{correct} נכונות</span>
@@ -209,7 +209,7 @@ export function CertExam() {
           </div>
         </section>
 
-        <section className="nce-topics" aria-label="ביצועים לפי סוג שאלה">
+        <section className="nce-topics" aria-label="תוצאות לפי סוג שאלה">
           <h2 className="nce-h2">לפי סוג שאלה</h2>
           <ul>
             {[...byType.entries()].map(([k, v]) => (
@@ -230,13 +230,13 @@ export function CertExam() {
           </button>
           {wrong.length ? (
             <button type="button" className="nu-btn2" onClick={() => { setPhase("run"); setAt(wrong[0]); setReviewWrongOnly(true); }}>
-              סקירת {wrong.length} השגויות
+              סקירת {wrong.length} התשובות השגויות
             </button>
           ) : null}
           <button type="button" className="nu-btn2" onClick={() => { setPhase("setup"); }}>
-            <RotateCcw size={14} strokeWidth={2} aria-hidden="true" />הערכה חדשה
+            <RotateCcw size={14} strokeWidth={2} aria-hidden="true" />התחלת מבחן חדש
           </button>
-          <Link href="/neo/certification/" prefetch={false} className="nu-ghost">מרכז ההסמכה</Link>
+          <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לעמוד ההסמכה</Link>
         </div>
       </div>
     );
@@ -269,7 +269,7 @@ export function CertExam() {
           {q.context ? <p className="nce-ctx">{q.context}</p> : null}
           {q.code ? <pre className="nce-code" dir="ltr">{q.code}</pre> : null}
 
-          <ul className="nce-choices" role="listbox" aria-label="אפשרויות">
+          <ul className="nce-choices" role="listbox" aria-label="אפשרויות התשובה">
             {q.choices.map((c, i) => {
               const isPicked = given?.picked === i;
               const isAnswer = i === q.answer;
@@ -299,7 +299,7 @@ export function CertExam() {
 
           {given ? (
             <div className="nce-why" data-ok={given.correct ? "1" : "0"}>
-              <b>{given.correct ? "נכון" : "התשובה הנכונה"}</b>
+              <b>{given.correct ? "תשובה נכונה" : "תשובה שגויה · ההסבר לתשובה הנכונה"}</b>
               <p>{q.why}</p>
               {/* Silence when the record has no note. Nothing is authored here. */}
               {q.wrongNote ? <p className="nce-why-2">{q.wrongNote}</p> : null}
@@ -313,19 +313,19 @@ export function CertExam() {
         </article>
       ) : null}
 
-      <nav className="nce-nav" aria-label="ניווט בשאלות">
+      <nav className="nce-nav" aria-label="מעבר בין השאלות">
         <button type="button" className="nu-ghost" disabled={at === 0}
           onClick={() => setAt((v) => Math.max(0, v - 1))}>
-          <ArrowRight size={15} strokeWidth={2} aria-hidden="true" />הקודמת
+          <ArrowRight size={15} strokeWidth={2} aria-hidden="true" />השאלה הקודמת
         </button>
         {at < qs.length - 1 ? (
           <button type="button" className="nu-btn2"
             onClick={() => setAt((v) => Math.min(qs.length - 1, v + 1))}>
-            הבאה<ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
+            השאלה הבאה<ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
           </button>
         ) : (
           <button type="button" className="nu-btn" onClick={finish}>
-            {answered === qs.length ? "סיים והצג תוצאה" : `סיים (${answered}/${qs.length} נענו)`}
+            {answered === qs.length ? "סיום המבחן והצגת התוצאה" : `סיום המבחן (${answered}/${qs.length} נענו)`}
           </button>
         )}
         {reviewWrongOnly ? (

@@ -60,27 +60,27 @@ const nf = new Intl.NumberFormat("he-IL");
  *  lucide glyph and the word is repeated rather than the emoji stripped. */
 const KIND_HE: Record<BlockKind, string> = {
   objective: "מטרת השיעור",
-  why: "למה זה חשוב",
+  why: "מדוע זה חשוב",
   "business-value": "ערך עסקי",
   "where-used": "היכן בשימוש",
   "key-concepts": "מושגי מפתח",
   "cbc-example": "דוגמה מ-CBC",
   flow: "התהליך",
   diagram: "תרשים",
-  tables: "טבלאות",
+  tables: "טבלאות SAP",
   tcodes: "טרנזקציות",
-  fiori: "אפליקציות Fiori",
+  fiori: "יישומי Fiori",
   spro: "קונפיגורציה · SPRO",
-  objects: "אובייקטים · BAPI / FM / CDS",
+  objects: "BAPI, FM ו-CDS",
   odata: "שירותי OData",
   authorizations: "הרשאות",
-  notes: "הערות",
+  notes: "SAP Notes",
   "common-mistakes": "טעויות נפוצות",
-  troubleshooting: "פתרון תקלות",
+  troubleshooting: "פתרון בעיות",
   "best-practices": "שיטות עבודה מומלצות",
-  tips: "טיפים",
+  tips: "טיפים ליישום",
   related: "נושאים קשורים",
-  quiz: "בחן את עצמך",
+  quiz: "שאלות חזרה",
   summary: "סיכום",
 };
 
@@ -99,8 +99,8 @@ const KIND_ICON: Record<BlockKind, LucideIcon> = {
 const TRUST: Record<string, { he: string; s: string }> = {
   "verified-docs": { he: "מאומת מול תיעוד", s: "var(--status-done)" },
   "verified-system": { he: "מאומת במערכת", s: "var(--status-done)" },
-  curated: { he: "ידע אצור", s: "var(--status-tested)" },
-  "needs-review": { he: "דורש בדיקה", s: "var(--status-in-conversion)" },
+  curated: { he: "תוכן ערוך", s: "var(--status-tested)" },
+  "needs-review": { he: "נדרש אימות נוסף", s: "var(--status-in-conversion)" },
 };
 
 /* --------------------------------------------------------------- inline md */
@@ -192,7 +192,7 @@ function Body({ b }: { b: LessonBlock }) {
         <div className="nxs-tbl-w">
           <table className="nxs-tbl">
             <thead>
-              <tr><th scope="col">טבלה</th><th scope="col">תיאור</th></tr>
+              <tr><th scope="col">טבלת SAP</th><th scope="col">תיאור</th></tr>
             </thead>
             <tbody>
               {b.rows.map((r) => (
@@ -276,7 +276,7 @@ function Section({ b, done, onRead }: { b: LessonBlock; done: boolean; onRead: (
           <span
             className="nu-status nxs-trust"
             style={{ "--s": trust.s } as React.CSSProperties}
-            title={[b.source, b.lastReviewed && `נבדק ${b.lastReviewed}`].filter(Boolean).join(" · ") || undefined}
+            title={[b.source, b.lastReviewed && `נבדק לאחרונה ${b.lastReviewed}`].filter(Boolean).join(" · ") || undefined}
           >
             {trust.he}
           </span>
@@ -300,7 +300,7 @@ function Step({ l, dir, origin }: { l: NeoLessonLink; dir: "prev" | "next"; orig
       {dir === "prev" ? <ArrowRight size={16} strokeWidth={2} aria-hidden="true" /> : null}
       <span className="nxs-step-t">
         <span className="nx-eyebrow">
-          {l.newChapter ? `${dir === "prev" ? "פרק קודם" : "הפרק הבא"} · ${l.chapterTitle}` : dir === "prev" ? "השיעור הקודם" : "השיעור הבא"}
+          {l.newChapter ? `${dir === "prev" ? "הפרק הקודם" : "הפרק הבא"} · ${l.chapterTitle}` : dir === "prev" ? "השיעור הקודם" : "השיעור הבא"}
         </span>
         <b>{l.title}</b>
       </span>
@@ -353,7 +353,7 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
       <header className="nxv-head">
         <span className="nx-modbar" aria-hidden="true" />
         <span className="nx-eyebrow">
-          האקדמיה · {LEARN_MOD_HE[course.module] || course.module}
+          SAP Academy · {LEARN_MOD_HE[course.module] || course.module}
           {" · "}
           פרק {nf.format(place.chapterIndex)} · {place.chapterTitle}
         </span>
@@ -364,7 +364,7 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         <div className="nxv-meta">
           <span className="nu-chip nxv-mod"><i aria-hidden="true" />{course.module}</span>
           <span className="nu-chip">{lesson.level}</span>
-          <span className="nu-chip"><Clock size={11} strokeWidth={1.75} />{nf.format(lesson.minutes)} דק׳ מוצהרות</span>
+          <span className="nu-chip"><Clock size={11} strokeWidth={1.75} />{nf.format(lesson.minutes)} דק׳ (אורך מוצהר)</span>
           <span className="nu-chip"><Blocks size={11} strokeWidth={1.75} />{nf.format(kinds.length)} יחידות תוכן</span>
           {trust ? (
             <span className="nu-status" style={{ "--s": trust.s } as React.CSSProperties} title={lesson.source}>
@@ -383,7 +383,7 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
               ? "כל יחידות התוכן בשיעור נקראו"
               : started
                 ? `${nf.format(doneSet.size)} מתוך ${nf.format(kinds.length)} יחידות תוכן נקראו`
-                : "השיעור עוד לא נקרא במכשיר הזה"}
+                : "לא נרשמה קריאה של השיעור במכשיר הזה"}
           </h2>
         </div>
         {started ? (
@@ -398,8 +398,8 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
           </div>
         ) : (
           <p className="nx-muted">
-            יחידת תוכן נספרת כשהיא באמת עוברת מול העין. עד אז אין מה למדוד: ולכן לא מוצג סרגל ריק במקומה.
-            {" "}המדידה נשמרת מקומית ב-<span className="nx-sap">neo:academy:v2</span>, אותו מפתח שהאקדמיה עצמה כותבת אליו.
+            יחידת תוכן נספרת כשהיא מוצגת במסך.
+            {" "}ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>).
           </p>
         )}
       </section>
@@ -407,7 +407,7 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
       {/* ------------------------------------------------------- THE LESSON */}
       {blocks.length === 0 ? (
         <p className="nx-muted nxs-none">
-          לשיעור הזה אין יחידות תוכן בנתוני האקדמיה. זהו מצב אמיתי במאגר ולא תקלה, ולכן לא הומצא כאן תוכן.
+          לשיעור זה אין יחידות תוכן במאגר השיעורים.
         </p>
       ) : (
         <div className="nxs-flow-doc">
@@ -422,7 +422,7 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         {prev ? <Step l={prev} dir="prev" origin={origin} /> : <span className="nxs-step is-none">זהו השיעור הראשון בקורס.</span>}
         <Link className="nu-btn2 nxs-up" href={course.href} prefetch={false}>
           <GraduationCap size={15} strokeWidth={1.75} aria-hidden="true" />
-          כל הקורס · שיעור {nf.format(place.globalIndex)} מתוך {nf.format(place.globalTotal)}
+          חזרה לקורס · שיעור {nf.format(place.globalIndex)} מתוך {nf.format(place.globalTotal)}
         </Link>
         {next ? <Step l={next} dir="next" origin={origin} /> : <span className="nxs-step is-none">זהו השיעור האחרון בקורס.</span>}
       </nav>
@@ -431,17 +431,17 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         <p className="nxv-src">
           <ShieldCheck size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            גוף השיעור נקרא ממאגר השיעורים של האקדמיה (<span className="nx-sap">data/academy/lessons</span>)
-            {" "}ומוצג כאן ללא שינוי. סדר היחידות הוא הסדר של מנוע הבלוקים עצמו.
+            מקור: מאגר השיעורים של SAP Academy (<span className="nx-sap">data/academy/lessons</span>).
+            {" "}התוכן מוצג כפי שנכתב.
           </span>
         </p>
         <p>
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
-          {" "}אותו שיעור מוגש גם במסך האקדמיה הקיים של הפרויקט,{" "}
+          {" "}אותו שיעור זמין גם במסך הלמידה הקודם,{" "}
           <Link className="nu-link" href={academyLessonHref(lesson.slug)} prefetch={false}>
             <span className="nx-sap">{academyLessonHref(lesson.slug)}</span>
           </Link>
-          , שלא שונה. ההתקדמות משותפת לשני המסכים כי היא נשמרת באותו מפתח.
+          , וההתקדמות משותפת לשני המסכים.
         </p>
       </div>
     </div>

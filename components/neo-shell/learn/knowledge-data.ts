@@ -139,10 +139,10 @@ export interface KnowledgeData {
 
 /** Group labels, in the source's own four buckets. */
 const GROUP_HE: Record<string, string> = {
-  Data: "נתונים ומילון",
+  Data: "ABAP Dictionary",
   Code: "קוד וממשקים",
   Enhancement: "הרחבות",
-  "PM/PP": "אחזקה וייצור",
+  "PM/PP": "תחזוקת מפעל ותכנון ייצור",
 };
 
 /** The exact wording rule the surface prints next to the filter. */

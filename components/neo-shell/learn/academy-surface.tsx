@@ -87,7 +87,7 @@ function CourseCard({ c, onOpen }: { c: AcademyCourseRow; onOpen: (id: string) =
         {started ? (
           <span className="nxl-bar">
             <span className="nxl-bar-h">
-              <span>התקדמות שלך</span>
+              <span>התקדמות</span>
               <b>{nf.format(p.completedLessons)} / {nf.format(p.totalLessons)} · {p.pct}%</b>
             </span>
             <span className="nxl-bar-t">
@@ -96,14 +96,14 @@ function CourseCard({ c, onOpen }: { c: AcademyCourseRow; onOpen: (id: string) =
           </span>
         ) : (
           <span className="nxl-course-idle">
-            עדיין לא נפתח במכשיר הזה: אין התקדמות להציג, ולא מוצג סרגל ריק במקומה.
+            לא נרשמה התקדמות במכשיר הזה.
           </span>
         )}
 
         {/* The whole card is the link, so this is a signpost and not a second
             control: no button chrome, no nested interactive element. */}
         <span className="nxl-course-a nxl-course-go">
-          פתח את הקורס
+          פתיחת הקורס
           <ArrowLeft size={14} strokeWidth={2} aria-hidden="true" />
         </span>
       </Link>
@@ -140,7 +140,7 @@ export function AcademySurface({ data }: { data: AcademyData }) {
     rememberOrigin({
       to: `/neo/academy/${id}/`,
       href: "/neo/academy/",
-      label: "האקדמיה",
+      label: "SAP Academy",
       detail: parts.join(" · "),
     });
   };
@@ -151,10 +151,10 @@ export function AcademySurface({ data }: { data: AcademyData }) {
 
       <header className="nxl-head">
         <span className="nx-eyebrow">ידע ולמידה</span>
-        <h1 className="nx-h1">האקדמיה</h1>
+        <h1 className="nx-h1">SAP Academy</h1>
         <p className="nx-lede">
-          {nf.format(totals.courses)} קורסים כתובים, {nf.format(totals.chapters)} פרקים ו-{nf.format(totals.lessons)} שיעורים.
-          {" "}כל מספר כאן נספר מתוך התוכן עצמו; ההתקדמות שמוצגת היא ההתקדמות שנרשמה במכשיר הזה בלבד.
+          מסלולי הלמידה של הפרויקט: {nf.format(totals.courses)} קורסים, {nf.format(totals.chapters)} פרקים ו-{nf.format(totals.lessons)} שיעורים.
+          {" "}ההתקדמות המוצגת היא זו שנרשמה במכשיר הזה.
         </p>
       </header>
 
@@ -163,11 +163,11 @@ export function AcademySurface({ data }: { data: AcademyData }) {
       {cont ? (
         <section
           className="nx-card nxl-course"
-          aria-label="המשך מהמקום שעצרת"
+          aria-label="המשך מהנקודה האחרונה"
           style={{ "--m": learnModVar(cont.module) } as React.CSSProperties}
         >
           <div className="nxl-course-h">
-            <span className="nx-eyebrow">המשך מהמקום שעצרת</span>
+            <span className="nx-eyebrow">המשך מהנקודה האחרונה</span>
             <h2 className="nxl-course-t">{cont.lessonTitle}</h2>
             <span className="nxl-course-en">
               {cont.chapterTitle} · שיעור {nf.format(cont.lessonNum)} מתוך {nf.format(cont.chapterSize)} בפרק
@@ -189,24 +189,24 @@ export function AcademySurface({ data }: { data: AcademyData }) {
             <OriginLink
               href={neoLessonHref(cont.moduleId, cont.resumeSlug)}
               className="nu-btn"
-              origin={() => ({ href: "/neo/academy/", label: "האקדמיה" })}
+              origin={() => ({ href: "/neo/academy/", label: "SAP Academy" })}
             >
               <Play size={14} strokeWidth={2} aria-hidden="true" />
-              המשך את השיעור
+              המשך השיעור
             </OriginLink>
             <Link href={`/neo/academy/${cont.moduleId}/`} className="nu-btn2" prefetch={false}>
-              כל הקורס
+              הצגת הקורס
               <ArrowLeft size={14} strokeWidth={2} className="nu-arw" aria-hidden="true" />
             </Link>
           </div>
         </section>
       ) : null}
 
-      <section className="nx-card nxl-stats" aria-label="מספרי האקדמיה">
+      <section className="nx-card nxl-stats" aria-label="סיכום SAP Academy">
         {[
           { v: nf.format(totals.courses), l: "קורסים", t: false, i: <GraduationCap size={14} strokeWidth={1.75} /> },
           { v: nf.format(totals.chapters), l: "פרקים", t: false, i: <Layers size={14} strokeWidth={1.75} /> },
-          { v: nf.format(totals.lessons), l: "שיעורים כתובים", t: false, i: <BookOpen size={14} strokeWidth={1.75} /> },
+          { v: nf.format(totals.lessons), l: "שיעורים", t: false, i: <BookOpen size={14} strokeWidth={1.75} /> },
           { v: nf.format(totals.blocks), l: "יחידות תוכן", t: false, i: <Blocks size={14} strokeWidth={1.75} /> },
           { v: hoursHe(totals.minutes), l: "אורך מוצהר", t: true, i: <Clock size={14} strokeWidth={1.75} /> },
           { v: nf.format(totals.levels), l: "רמות", t: false, i: <Layers size={14} strokeWidth={1.75} /> },
@@ -232,7 +232,7 @@ export function AcademySurface({ data }: { data: AcademyData }) {
             aria-label="חיפוש בקורסים"
           />
           {q ? (
-            <button type="button" className="nu-ghost nxl-clear" onClick={() => setQ("")} aria-label="נקה חיפוש">
+            <button type="button" className="nu-ghost nxl-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
               <X size={13} strokeWidth={2} />
             </button>
           ) : null}
@@ -259,17 +259,17 @@ export function AcademySurface({ data }: { data: AcademyData }) {
       <p className="nxl-count" aria-live="polite">
         <b>{nf.format(list.length)}</b> קורסים
         {!dirty ? <> מתוך {nf.format(totals.courses)}</> : null}
-        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>נקה סינון</button></> : null}
+        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 
       {list.length === 0 ? (
         <div className="nx-card nxl-none">
-          <p><b>אין קורס שעונה על הסינון</b></p>
+          <p><b>לא נמצאו תוצאות התואמות לסינון שנבחר</b></p>
           <p className="nx-muted">
-            החיפוש עובר על שמות הקורסים, הפרקים והשיעורים בלבד: הוא אינו מחפש בתוך גוף השיעור.
+            החיפוש מכסה את שמות הקורסים, הפרקים והשיעורים, ולא את תוכן השיעורים.
           </p>
           <div className="nxl-none-a">
-            <button type="button" className="nu-btn" onClick={reset}>נקה את הסינון</button>
+            <button type="button" className="nu-btn" onClick={reset}>ניקוי הסינון</button>
           </div>
         </div>
       ) : (
@@ -280,11 +280,11 @@ export function AcademySurface({ data }: { data: AcademyData }) {
 
       <div className="nxl-foot">
         <p>
-          «אורך מוצהר» ו«רמה» הם השדות שהקורס עצמו כותב לכל שיעור, לא הערכה שנעשתה כאן.
-          {" "}«יחידות תוכן» היא ספירת הבלוקים שהשיעור דורש להשלמה: אותה ספירה שלפיה נקבע ששיעור הושלם.
+          «אורך מוצהר» ו«רמה» הם השדות שהקורס מגדיר לכל שיעור.
+          {" "}«יחידות תוכן» הוא מספר יחידות התוכן שהשיעור דורש להשלמה.
         </p>
         <p>
-          התקדמות נשמרת מקומית במכשיר (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת לשום שרת.
+          ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
         </p>
       </div>
     </div>

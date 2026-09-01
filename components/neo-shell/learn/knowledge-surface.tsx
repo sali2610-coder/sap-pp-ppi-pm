@@ -62,8 +62,8 @@ type View = "all" | "s4" | "same";
 
 const VIEWS: { v: View; he: string }[] = [
   { v: "all", he: "כל המושגים" },
-  { v: "s4", he: "משתנים ב-S/4HANA" },
-  { v: "same", he: "ללא שינוי מהותי" },
+  { v: "s4", he: "שינוי מתועד ב-S/4HANA" },
+  { v: "same", he: "ללא שינוי מתועד" },
 ];
 
 /** A WORK TOPIC, in the same row language as a concept: mark, body, S/4HANA
@@ -100,10 +100,10 @@ function CenterCard({ c, onOpen }: { c: CenterRow; onOpen: (slug: string) => voi
         <span className="nxl-side" data-s4={c.s4 ? "1" : "0"}>
           <span className="nxl-side-l">S/4HANA</span>
           <span className="nxl-side-v">
-            {c.s4Text || "לא תועדה הכרעת מעבר לנושא הזה במאגר"}
+            {c.s4Text || "לא קיים תיעוד מאומת במאגר"}
           </span>
           <span className="nu-status" data-tone={c.s4 ? "done" : "idle"}>
-            {c.s4 ? "הכרעת מעבר מתועדת" : "לא תועדה הכרעה"}
+            {c.s4 ? "השפעת מעבר מתועדת" : "ללא תיעוד מעבר"}
           </span>
         </span>
         <span className="nxl-go" aria-hidden="true"><ArrowLeft size={15} strokeWidth={2} /></span>
@@ -123,7 +123,7 @@ function Row({ c, onOpen }: { c: ConceptRow; onOpen: (slug: string) => void }) {
             <b>{c.he}</b>
             <em>{c.title}</em>
           </span>
-          <span className="nxl-desc">{c.biz || "לא קיים מידע מאומת במאגר"}</span>
+          <span className="nxl-desc">{c.biz || "לא קיים תיעוד מאומת במאגר"}</span>
           <span className="nxl-meta">
             <span className="nu-chip">{c.groupHe}</span>
             {c.examples.length ? (
@@ -145,12 +145,12 @@ function Row({ c, onOpen }: { c: ConceptRow; onOpen: (slug: string) => void }) {
 
         <span className="nxl-side" data-s4={c.s4Changed ? "1" : "0"}>
           <span className="nxl-side-l">S/4HANA</span>
-          <span className="nxl-side-v">{c.s4 || "לא קיים מידע מאומת במאגר"}</span>
+          <span className="nxl-side-v">{c.s4 || "לא קיים תיעוד מאומת במאגר"}</span>
           <span
             className="nu-status"
             style={{ "--s": c.s4Changed ? "var(--status-in-conversion)" : "var(--status-done)" } as React.CSSProperties}
           >
-            {c.s4Changed ? "המקור מתאר שינוי" : "המקור כותב «ללא שינוי»"}
+            {c.s4Changed ? "שינוי לפי התיעוד" : "ללא שינוי לפי התיעוד"}
           </span>
         </span>
 
@@ -224,7 +224,7 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
         ? (centers.find((c) => c.slug === slug)?.href ?? `/neo/knowledge/${slug}/`)
         : `/neo/knowledge/${slug}/`,
       href: "/neo/knowledge/",
-      label: "מרכז ידע",
+      label: "מרכז הידע",
       detail: [isWork ? "מרכזי עבודה" : "מושגים", ...parts].filter(Boolean).join(" · "),
       surface: SURFACE,
       state,
@@ -269,30 +269,30 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
 
       <header className="nxl-head">
         <span className="nx-eyebrow">ידע ולמידה</span>
-        <h1 className="nx-h1">מרכז ידע</h1>
+        <h1 className="nx-h1">מרכז הידע</h1>
         <p className="nx-lede">
-          {nf.format(totals.all)} רשומות בשני גופי ידע. {nf.format(totals.concepts)} מושגי SAP כתובים,
-          לכל אחד הסבר עסקי, הסבר טכני, ההתנהגות ב-ECC וההתנהגות ב-S/4HANA; ולצידם
-          {" "}{nf.format(totals.centers)} נושאי עבודה ב-{nf.format(totals.families)} מרכזים,
-          {" "}{nf.format(totals.sections)} מקטעי תוכן. אין כאן רשומה שלא נכתבה במאגר, ואין שדה שהושלם בניחוש.
+          {nf.format(totals.all)} רשומות בשני גופי ידע: {nf.format(totals.concepts)} מושגי SAP,
+          לכל אחד הסבר עסקי, הסבר טכני והשוואה בין ECC ל-S/4HANA, ולצידם
+          {" "}{nf.format(totals.centers)} נושאי עבודה ב-{nf.format(totals.families)} מרכזים
+          {" "}({nf.format(totals.sections)} מקטעי תוכן).
         </p>
       </header>
 
-      <section className="nx-card nxl-stats" aria-label="מספרי המאגר">
+      <section className="nx-card nxl-stats" aria-label="סיכום מרכז הידע">
         {(isWork
           ? [
               { v: totals.centers, l: "נושאי עבודה", i: <ListTree size={14} strokeWidth={1.75} /> },
               { v: totals.families, l: "מרכזים", i: <Layers size={14} strokeWidth={1.75} /> },
               { v: totals.sections, l: "מקטעי תוכן", i: <Lightbulb size={14} strokeWidth={1.75} /> },
-              { v: totals.centersS4, l: "עם הכרעת מעבר", i: <Sparkles size={14} strokeWidth={1.75} /> },
+              { v: totals.centersS4, l: "עם השפעת מעבר מתועדת", i: <Sparkles size={14} strokeWidth={1.75} /> },
             ]
           : [
               { v: totals.concepts, l: "מושגים", i: <BrainCircuit size={14} strokeWidth={1.75} /> },
               { v: totals.groups, l: "קבוצות", i: <Layers size={14} strokeWidth={1.75} /> },
-              { v: totals.s4Changed, l: "מתארים שינוי ב-S/4", i: <Sparkles size={14} strokeWidth={1.75} /> },
-              { v: totals.s4Same, l: "כתוב «ללא שינוי»", i: <Layers size={14} strokeWidth={1.75} /> },
-              { v: totals.examples, l: "דוגמאות מהמאגר", i: <Lightbulb size={14} strokeWidth={1.75} /> },
-              { v: totals.links, l: "הפניות שנפתרו לעמוד", i: <Link2 size={14} strokeWidth={1.75} /> },
+              { v: totals.s4Changed, l: "שינוי מתועד ב-S/4HANA", i: <Sparkles size={14} strokeWidth={1.75} /> },
+              { v: totals.s4Same, l: "ללא שינוי לפי התיעוד", i: <Layers size={14} strokeWidth={1.75} /> },
+              { v: totals.examples, l: "דוגמאות", i: <Lightbulb size={14} strokeWidth={1.75} /> },
+              { v: totals.links, l: "הפניות מקושרות לעמוד", i: <Link2 size={14} strokeWidth={1.75} /> },
             ]
         ).map((s) => (
           <div key={s.l} className="nxl-stat">
@@ -306,7 +306,7 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
       {/* THE BODY SWITCH. Two bodies of one centre, never mixed into one list.
           It uses .nu-tab, the same control the view switch below uses, so the
           selected state is the strong filled one this surface already had. */}
-      <div className="nxl-bodies" role="tablist" aria-label="גוף ידע">
+      <div className="nxl-bodies" role="tablist" aria-label="גוף הידע">
         {([
           { b: "terms" as Body, he: "מושגים", n: totals.concepts, i: <BrainCircuit size={14} strokeWidth={1.75} /> },
           { b: "work" as Body, he: "מרכזי עבודה", n: totals.centers, i: <ListTree size={14} strokeWidth={1.75} /> },
@@ -333,11 +333,11 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder={isWork ? "נושא · מרכז · מודול · הכרעת מעבר" : "שם עברי · מונח אנגלי · הסבר · דוגמה"}
+            placeholder={isWork ? "נושא · מרכז · מודול · השפעת מעבר" : "שם עברי · מונח אנגלי · הסבר · דוגמה"}
             aria-label={isWork ? "חיפוש נושאי עבודה" : "חיפוש מושגים"}
           />
           {q ? (
-            <button type="button" className="nu-ghost nxl-clear" onClick={() => setQ("")} aria-label="נקה חיפוש">
+            <button type="button" className="nu-ghost nxl-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
               <X size={13} strokeWidth={2} />
             </button>
           ) : null}
@@ -384,22 +384,22 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
       <p className="nxl-count" aria-live="polite">
         <b>{nf.format(shown)}</b> {isWork ? "נושאי עבודה" : "מושגים"}
         {view === "all" && !dirty ? <> מתוך {nf.format(bodyTotal)}</> : null}
-        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>נקה סינון</button></> : null}
+        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 
       {shown === 0 ? (
         <div className="nx-card nxl-none">
-          <p><b>{isWork ? "אין נושא במאגר שעונה על הסינון" : "אין מושג במאגר שעונה על הסינון"}</b></p>
+          <p><b>לא נמצאו תוצאות התואמות לסינון שנבחר</b></p>
           <p className="nx-muted">
             {isWork
-              ? "החיפוש עובר על שם הנושא, המונח האנגלי, התקציר, שם המרכז, המודול והכרעת המעבר: ולא על טקסט חופשי."
-              : "החיפוש עובר על השם העברי, המונח האנגלי, ההסבר העסקי והטכני, שורות ה-ECC וה-S/4 והדוגמאות: ולא על טקסט חופשי."}
+              ? "החיפוש מכסה את שם הנושא, המונח האנגלי, התקציר, שם המרכז, המודול והשפעת המעבר."
+              : "החיפוש מכסה את השם העברי, המונח האנגלי, ההסבר העסקי והטכני, שורות ה-ECC וה-S/4HANA והדוגמאות."}
           </p>
           <div className="nxl-none-a">
-            {dirty ? <button type="button" className="nu-btn" onClick={reset}>נקה את הסינון</button> : null}
+            {dirty ? <button type="button" className="nu-btn" onClick={reset}>ניקוי הסינון</button> : null}
             {view !== "all" ? (
               <button type="button" className="nu-btn2" onClick={() => setView("all")}>
-                {isWork ? "הצג את כל הנושאים" : "הצג את כל המושגים"}
+                {isWork ? "הצגת כל הנושאים" : "הצגת כל המושגים"}
               </button>
             ) : null}
           </div>
@@ -415,22 +415,22 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
       <div className="nxl-foot">
         {isWork ? (
           <p>
-            החלוקה בין «משתנים ב-S/4HANA» ל«ללא שינוי מהותי» נקבעת לפי קיומה של הכרעת מעבר מתועדת בנושא עצמו.
-            {" "}נושא בלי הכרעה מוצג ככזה, ואין בכך קביעה שדבר לא השתנה.
+            «שינוי מתועד ב-S/4HANA» כולל נושאים שמתועדת בהם השפעת מעבר.
+            {" "}נושא ללא תיעוד כזה מוצג תחת «ללא שינוי מתועד»; נדרש אימות נוסף לפני הסקה שהנושא לא השתנה.
           </p>
         ) : (
           <p>
-            החלוקה בין «משתנים ב-S/4HANA» ל«ללא שינוי מהותי» נגזרת מהניסוח של המושג עצמו: מושג ששורת ה-S/4 שלו
-            {" "}נפתחת במילים «ללא שינוי» נספר כלא-משתנה, וכל השאר מוצגים כפי שנכתבו: בלי לקבוע עבורם מה בדיוק השתנה.
+            החלוקה נגזרת מניסוח המושג: מושג ששורת ה-S/4HANA שלו נפתחת במילים «ללא שינוי» נספר תחת «ללא שינוי מתועד»,
+            {" "}וכל מושג אחר תחת «שינוי מתועד ב-S/4HANA».
           </p>
         )}
         <p>
-          מקור: <span className="nx-sap">{isWork ? "data/centers/*" : "data/concepts.ts"}</span>: ידע SAP כתוב,
-          {" "}לא נגזר ממערכת חיה. נדרש אימות מול המערכת לפני יישום.
+          מקור: <span className="nx-sap">{isWork ? "data/centers/*" : "data/concepts.ts"}</span>: תיעוד SAP מאומת,
+          {" "}שאינו נקרא ממערכת חיה. נדרש אימות במערכת לפני יישום.
         </p>
         {isWork ? (
           <p>
-            אפשר לעיין גם לפי מרכז:{" "}
+            עיון לפי מרכז:{" "}
             <Link className="nu-link" href="/neo/centers/" prefetch={false}>כל {nf.format(totals.families)} המרכזים</Link>
           </p>
         ) : null}

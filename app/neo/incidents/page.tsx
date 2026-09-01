@@ -14,8 +14,8 @@ import { incidentsData } from "@/components/neo-shell/learn/incidents-data";
 import { IncidentsSurface } from "@/components/neo-shell/learn/incidents-surface";
 
 export const metadata = {
-  title: "קטלוג התקלות · Project NEO",
-  description: "תקלות SAP מתועדות ב-PM / PP / PP-PI / QM: סימפטום, סיבות שורש, אבחון, תיקון ומניעה.",
+  title: "תקלות ופתרון בעיות · Project NEO",
+  description: "קטלוג תקלות SAP מתועדות ב-PM, PP, PP-PI ו-QM: סימפטום, סיבות שורש, אבחון, צעדי תיקון ומניעה.",
   robots: { index: false, follow: false },
 };
 

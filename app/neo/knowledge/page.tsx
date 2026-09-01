@@ -20,8 +20,8 @@ import { KnowledgeSurface } from "@/components/neo-shell/learn/knowledge-surface
 // declaring content="noindex" itself, and scripts/check-sitemap.mjs then
 // hard-fails on any indexable page missing from the sitemap.
 export const metadata = {
-  title: "מרכז המושגים · Project NEO",
-  description: "מושגי SAP כתובים: הסבר עסקי, הסבר טכני, ההתנהגות ב-ECC וההתנהגות ב-S/4HANA.",
+  title: "מרכז הידע · Project NEO",
+  description: "מרכז הידע של Project NEO: מושגי SAP עם הסבר עסקי, הסבר טכני והשוואה בין ECC ל-S/4HANA, ונושאי עבודה לפי מרכז.",
   robots: { index: false, follow: false },
 };
 
