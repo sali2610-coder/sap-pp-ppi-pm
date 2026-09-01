@@ -32,9 +32,9 @@ import type { HomeDot } from "./home-data";
 import { ZONE_HE, zoneVar } from "./home-data";
 
 const BAND_LABEL: Record<0 | 1 | 2, { he: string; sub: string }> = {
-  0: { he: "PM בלבד", sub: "אחזקת מפעל" },
+  0: { he: "PM בלבד", sub: "תחזוקת מפעל" },
   1: { he: "ליבה משותפת", sub: "שני המודולים" },
-  2: { he: "PP-PI בלבד", sub: "ייצור תהליכי" },
+  2: { he: "PP-PI בלבד", sub: "תעשיות תהליכיות" },
 };
 
 /** One table, as an object a consultant recognises.

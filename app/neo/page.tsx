@@ -63,14 +63,14 @@ function ModuleCard({ d, i }: { d: HomeData; i: 0 | 1 }) {
         <span><b className="nh-sap">{nf.format(mo.tcodes)}</b><em>טרנזקציות</em></span>
         <span><b className="nh-sap">{nf.format(mo.funcs)}</b><em>BAPI · FM · IDoc</em></span>
         <span><b className="nh-sap">{nf.format(mo.cds)}</b><em>CDS Views</em></span>
-        <span><b className="nh-sap">{nf.format(mo.fiori)}</b><em>אפליקציות Fiori</em></span>
+        <span><b className="nh-sap">{nf.format(mo.fiori)}</b><em>יישומי Fiori</em></span>
       </span>
       <span className="nh-mod-share">
         <span className="nh-bar" aria-hidden="true">
           <i className="nm-grow" style={{ "--p": mo.share } as React.CSSProperties} />
         </span>
         <em className="nh-sap">{pct(mo.tables, d.tables)}%</em>
-        <span>מתוך {nf.format(d.tables)} הטבלאות במילון</span>
+        <span>מתוך {nf.format(d.tables)} טבלאות SAP מתועדות</span>
       </span>
     </Link>
   );
@@ -146,11 +146,11 @@ export default function NeoHome() {
 
           <h1 className="nh-mega nm-kin" id="nh-1-h">
             <span><span>מפת הידע</span></span>
-            <span><span>ל־<span className="nh-sap">SAP S/4HANA</span></span></span>
+            <span><span>ל-<span className="nh-sap">SAP S/4HANA</span></span></span>
           </h1>
           <p className="nh-lede nh-lede--gate">
-            פלטפורמת ידע מקצועית למודולי <span className="nh-sap">PM</span> ו־<span className="nh-sap">PP-PI</span>:
-            אובייקטים עסקיים, טבלאות, טרנזקציות, קשרי נתונים והמעבר מ־<span className="nh-sap">ECC</span> ל־
+            פלטפורמת ידע מקצועית למודולי <span className="nh-sap">PM</span> ו-<span className="nh-sap">PP-PI</span>:
+            אובייקטים עסקיים, טבלאות, טרנזקציות, קשרי נתונים והמעבר מ-<span className="nh-sap">ECC</span> ל-
             <span className="nh-sap">S/4HANA</span>. זמינה במלואה גם ללא חיבור לרשת.
           </p>
           <div className="nh-stats nm-seq">
@@ -249,11 +249,11 @@ export default function NeoHome() {
               <span className="nh-sap">ECC → S/4HANA</span><i aria-hidden="true" />תמונת המעבר
             </p>
             <h2 className="nh-h2 nm-kin" id="nh-3-h">
-              <span><span>{nf.format(d.tables)} טבלאות במילון,</span></span>
+              <span><span>{nf.format(d.tables)} טבלאות SAP מתועדות,</span></span>
               <span><span className="nh-accent">{nf.format(marked)} מסומנות לשינוי במעבר</span></span>
             </h2>
             <p className="nh-lede nm-rise">
-              לכל טבלה מוצמדת הערת ה־<span className="nh-sap">S/4HANA</span> מתיעוד הפרויקט, כולל
+              לכל טבלה מוצמדת הערת ה-<span className="nh-sap">S/4HANA</span> מתיעוד הפרויקט, כולל
               טבלה או טרנזקציה חלופית במקום שבו התיעוד מציין אחת. טבלה ללא סיווג בתיעוד
               נשארת ללא תווית.
             </p>
@@ -279,12 +279,12 @@ export default function NeoHome() {
 
           <div className="nh-out nm-rise">
             <p className="nh-out-t">
-              הסיווג המלא עם החלופות המתועדות: בקוקפיט המיגרציה.
+              הסיווג המלא עם החלופות המתועדות: בקוקפיט המעבר.
             </p>
             <div className="nh-cta">
               <Link className="nu-btn" href="/neo/migration-cockpit/" prefetch={false}>
                 <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
-                קוקפיט המיגרציה
+                קוקפיט המעבר
               </Link>
             </div>
           </div>

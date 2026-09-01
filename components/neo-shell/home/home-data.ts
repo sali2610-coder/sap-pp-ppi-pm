@@ -274,7 +274,7 @@ function moduleOf(m: SAPModuleData, key: ModuleKey, mergedTotal: number): HomeMo
   return {
     key,
     code: key,
-    he: key === "PM" ? "אחזקת מפעל" : "ייצור תהליכי",
+    he: key === "PM" ? "תחזוקת מפעל" : "תעשיות תהליכיות",
     en: key === "PM" ? "Plant Maintenance" : "Production Planning · Process Industries",
     href: key === "PM" ? "/neo/pm/" : "/neo/pp-pi/",
     m: MOD_VAR[key],
@@ -337,7 +337,7 @@ function chainOf(m: SAPModuleData, key: ModuleKey): FlowChain {
   });
   return {
     key,
-    he: key === "PM" ? "אחזקת מפעל" : "ייצור תהליכי",
+    he: key === "PM" ? "תחזוקת מפעל" : "תעשיות תהליכיות",
     m: MOD_VAR[key],
     steps: out,
     direct: out.filter((s) => s.link && !s.link.via).length,
@@ -465,7 +465,7 @@ export function homeData(): HomeData {
     axis("טרנזקציה ממופה", (d) => d.t > 0),
     axis("קשר ER ממודל", (d) => d.r > 0),
     axis("תצוגת CDS", (d) => cdsForTable(d.n).length > 0),
-    axis("אפליקציית Fiori", (d) => rowsOf(d.n).some((o) => !!(o.table.fioriApp || "").trim())),
+    axis("יישום Fiori", (d) => rowsOf(d.n).some((o) => !!(o.table.fioriApp || "").trim())),
   ];
 
   // The buckets follow s4ByTable above: 1 = changed/מותאם, 2 = replaced/הוחלף,
