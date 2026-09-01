@@ -8,9 +8,9 @@ const NOCHANGE = /ללא שינוי|תואם|no change|unchanged/i;
 export function s4Impact(name: string, s4note?: string, s4alt?: string): S4Impact | null {
   const cur = S4_IMPACT[name];
   if (cur) return cur;
-  if (S4_STABLE.has(name)) return { changed: "ללא שינוי מהותי ב-S/4HANA — הטבלה נשמרת (תואם).", why: "תאימות גבוהה; רוב הקוד והממשקים ממשיכים לעבוד.", risk: "low", trust: "verified" };
+  if (S4_STABLE.has(name)) return { changed: "ללא שינוי מהותי ב-S/4HANA: הטבלה נשמרת (תואם).", why: "תאימות גבוהה; רוב הקוד והממשקים ממשיכים לעבוד.", risk: "low", trust: "verified" };
   const note = (s4note || "").trim();
-  if (note && !NOCHANGE.test(note)) return { changed: note + (s4alt ? ` · חלופה: ${s4alt}` : ""), why: "נגזר מהערת ה-S/4 של מילון הנתונים — מומלץ אימות מול SAP.", risk: "medium", trust: "partial" };
+  if (note && !NOCHANGE.test(note)) return { changed: note + (s4alt ? ` · חלופה: ${s4alt}` : ""), why: "נגזר מהערת ה-S/4HANA שבתיעוד המקור; מומלץ אימות מול SAP.", risk: "medium", trust: "partial" };
   if (note) return { changed: note, why: "", risk: "low", trust: "partial" };
   return null;
 }
