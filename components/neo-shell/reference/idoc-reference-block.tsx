@@ -24,7 +24,7 @@ export function IdocReferenceBlock({ r }: { r: IdocReference }) {
       <section className="nxt-sec" aria-labelledby="idoc-anat">
         <h2 className="nx-h2 nxt-sec-h" id="idoc-anat">
           <span className="nxt-sec-i" aria-hidden="true"><Glyph i="database" size={15} /></span>
-          האנטומיה של IDoc
+          מבנה ה-IDoc
           <em className="nxt-sec-n">{r.records.length} רשומות פיזיות</em>
         </h2>
 
@@ -53,7 +53,7 @@ export function IdocReferenceBlock({ r }: { r: IdocReference }) {
                 {rec.href ? (
                   <Link href={rec.href} prefetch={false} className="nu-card nxt-tbl-r">{inner}</Link>
                 ) : (
-                  <div className="nxt-tbl-r is-flat" aria-label={`${rec.table}: אין עמוד אובייקט בתיעוד`}>{inner}</div>
+                  <div className="nxt-tbl-r is-flat" aria-label={`${rec.table}: ללא עמוד ייעודי בתיעוד`}>{inner}</div>
                 )}
               </li>
             );
@@ -65,7 +65,7 @@ export function IdocReferenceBlock({ r }: { r: IdocReference }) {
       <section className="nxt-sec" aria-labelledby="idoc-status">
         <h2 className="nx-h2 nxt-sec-h" id="idoc-status">
           <span className="nxt-sec-i" aria-hidden="true"><Glyph i="shieldCheck" size={15} /></span>
-          מדריך סטטוסים
+          קודי סטטוס של IDoc
           <em className="nxt-sec-n">{r.statuses.length} קודים מתועדים</em>
         </h2>
 

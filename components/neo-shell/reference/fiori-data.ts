@@ -24,15 +24,15 @@ import {
 import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus } from "./types";
 
 const TYPE_HE: Record<string, string> = {
-  Transactional: "טרנזקציונלית",
-  Analytical: "אנליטית",
+  Transactional: "טרנזקציוני",
+  Analytical: "אנליטי",
   "Fact Sheet": "Fact Sheet",
 };
 
 const TRUST: Record<string, RefStatus> = {
   "verified-docs": { he: "אומת מול תיעוד SAP", color: "var(--status-done)" },
   curated: { he: "רשומה מתוחזקת ידנית", color: "var(--status-in-analysis)" },
-  "needs-review": { he: "דורש סקירה", color: "var(--status-not-started)" },
+  "needs-review": { he: "נדרשת סקירה", color: "var(--status-not-started)" },
 };
 
 const TRI_HE: Record<string, string> = { yes: "כן", no: "לא", unknown: "לא צוין במאגר" };
@@ -51,10 +51,10 @@ function s4Of(a: FioriApp) {
   const critical = tables.filter((t) => t.critical);
   const tone: RefRow["s4"]["tone"] = critical.length ? "changed" : "replacement";
   const headline = critical.length
-    ? `האפליקציה יושבת מעל ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
+    ? `היישום נשען על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
     : a.guiTx.length
-      ? `החוויה של S/4HANA במקום ${a.guiTx.join(" · ")} ב-SAP GUI.`
-      : "אפליקציית S/4HANA. המאגר אינו מציין טרנזקציית GUI מקבילה.";
+      ? `יישום S/4HANA המחליף את ${a.guiTx.join(" · ")} ב-SAP GUI.`
+      : "יישום S/4HANA. לא צוינה בתיעוד טרנזקציית SAP GUI מקבילה.";
   return { tables, critical, tone, headline };
 }
 
@@ -79,7 +79,7 @@ function rowOf(a: FioriApp): RefRow {
     en: a.name,
     mods: [a.module],
     kind: TYPE_HE[a.type] || a.type,
-    group: a.role || "ללא תפקיד במאגר",
+    group: a.role || "ללא תפקיד עסקי במאגר",
     nums: [
       { i: "terminal", sr: "טרנזקציות GUI ", v: nf.format(a.guiTx.length) },
       { i: "table", sr: "טבלאות ", v: nf.format((a.relatedTables || []).length) },
@@ -88,8 +88,8 @@ function rowOf(a: FioriApp): RefRow {
     s4: {
       tone: s4.tone,
       status: s4.critical.length
-        ? { he: "מעל טבלה שמשתנה", color: "var(--status-in-conversion)" }
-        : { he: "מחליפה מסך GUI", color: "var(--status-done)" },
+        ? { he: "נשען על טבלה שמשתנה", color: "var(--status-in-conversion)" }
+        : { he: "מחליף מסך SAP GUI", color: "var(--status-done)" },
       text: s4.headline,
     },
     caps,
@@ -113,33 +113,33 @@ export function fioriDir(): RefDir {
   return {
     id: "fiori-apps",
     surface: "neo:fiori-apps",
-    eyebrow: "עיון · Reference",
-    title: "אפליקציות Fiori",
+    eyebrow: "קטלוג יישומי Fiori · Fiori Catalog",
+    title: "יישומי SAP Fiori",
     icon: "layoutGrid",
     lede:
-      `${nf.format(FIORI_APPS.length)} אפליקציות Fiori שהפרויקט תיעד במלואן: מזהה אמיתי, תפקיד עסקי, קטלוג, ` +
-      `שירות OData ותצוגת CDS, ובעיקר: איזו טרנזקציית SAP GUI כל אחת מהן מחליפה. זהו הצד של S/4HANA מול ` +
-      `מסכי ה-ECC שהמילון מתעד.`,
+      `${nf.format(FIORI_APPS.length)} יישומי SAP Fiori המתועדים בפרויקט: מזהה יישום, תפקיד עסקי, קטלוג, ` +
+      `שירות OData, תצוגת CDS והטרנזקציות ב-SAP GUI שכל יישום מחליף. זהו הצד של S/4HANA מול ` +
+      `מסכי ה-ECC שבתיעוד הטכני.`,
     stats: [
-      { v: FIORI_APPS.length, l: "אפליקציות", i: "layoutGrid" },
+      { v: FIORI_APPS.length, l: "יישומים", i: "layoutGrid" },
       { v: uniq(FIORI_APPS.flatMap((a) => a.guiTx)).length, l: "טרנזקציות GUI מוחלפות", i: "terminal" },
       { v: uniq(FIORI_APPS.map((a) => a.role)).length, l: "תפקידים עסקיים", i: "users" },
       { v: uniq(FIORI_APPS.map((a) => a.catalog)).length, l: "קטלוגים", i: "keyRound" },
       { v: count((r) => r.caps.includes("odata")), l: "עם שירות OData", i: "plug" },
       { v: count((r) => r.caps.includes("cds")), l: "עם תצוגת CDS", i: "sigma" },
-      { v: count((r) => r.caps.includes("cloud")), l: "זמינות ב-Cloud", i: "appWindow" },
-      { v: count((r) => r.s4.tone === "changed"), l: "מעל טבלה שמשתנה", i: "arrowLeft" },
+      { v: count((r) => r.caps.includes("cloud")), l: "זמינים ב-S/4HANA Cloud", i: "appWindow" },
+      { v: count((r) => r.s4.tone === "changed"), l: "נשענים על טבלה שמשתנה", i: "arrowLeft" },
     ],
     rows,
     mods: [...byMod.entries()].sort((a, b) => b[1] - a[1])
       .map(([id, n]) => ({ id, he: MOD_HE[id] ? `${id} · ${MOD_HE[id]}` : id, n })),
     kinds: [...byKind.entries()].sort((a, b) => b[1] - a[1]).map(([id, n]) => ({ id, he: id, n })),
-    kindsLabel: "סוג אפליקציה",
+    kindsLabel: "סוג יישום",
     caps: [
       { id: "onprem", he: "On-Premise", n: count((r) => r.caps.includes("onprem")) },
       { id: "cloud", he: "Public Cloud", n: count((r) => r.caps.includes("cloud")) },
-      { id: "odata", he: "יש OData", n: count((r) => r.caps.includes("odata")) },
-      { id: "cds", he: "יש CDS", n: count((r) => r.caps.includes("cds")) },
+      { id: "odata", he: "עם שירות OData", n: count((r) => r.caps.includes("odata")) },
+      { id: "cds", he: "עם תצוגת CDS", n: count((r) => r.caps.includes("cds")) },
       { id: "errors", he: "תקלות מתועדות", n: count((r) => r.caps.includes("errors")) },
       { id: "cbc", he: "דוגמת יישום ב-CBC", n: count((r) => r.caps.includes("cbc")) },
     ].filter((c) => c.n > 0),
@@ -147,11 +147,10 @@ export function fioriDir(): RefDir {
     rankLabel: "היקף הכיסוי",
     searchPlaceholder: "מזהה F · שם · תפקיד · קטלוג · OData · טרנזקציית GUI",
     foot:
-      "מזהי האפליקציות, התפקידים והקטלוגים נלקחו מקובץ ה-Fiori המתוחזק של הפרויקט, שמציין לכל רשומה את מקורה " +
-      "ואת תאריך הסקירה האחרון. לא נכתב כאן מספר SAP Note שאינו קיים ברשומה.",
+      "מזהי היישומים, התפקידים והקטלוגים נלקחו מקובץ ה-Fiori של הפרויקט, המציין לכל רשומה את מקורה " +
+      "ואת מועד הסקירה האחרון. מספרי SAP Note מופיעים רק כאשר הם קיימים ברשומה.",
     emptyNote:
-      "החיפוש עובר על המזהה, השם בעברית ובאנגלית, התפקיד, הקטלוג, שירות ה-OData והטרנזקציות המוחלפות: כולם " +
-      "ערכים אמיתיים מהקובץ.",
+      "החיפוש מתבצע על המזהה, השם בעברית ובאנגלית, התפקיד, הקטלוג, שירות ה-OData והטרנזקציות המוחלפות שבתיעוד.",
   };
 }
 
@@ -165,17 +164,17 @@ export function fioriDetail(slug: string): RefDetail | null {
   /* --- S/4 plate ------------------------------------------------------- */
   const s4Facts: RefFact[] = [
     {
-      label: "טרנזקציות SAP GUI שהאפליקציה מחליפה",
+      label: "טרנזקציות SAP GUI שהיישום מחליף",
       codes: a.guiTx.length ? a.guiTx.map((c) => ({ t: c, href: txHref(c) })) : undefined,
-      absent: "המאגר אינו מציין טרנזקציית GUI מקבילה לאפליקציה הזו.",
+      absent: "לא צוינה בתיעוד טרנזקציית SAP GUI מקבילה ליישום זה.",
     },
-    { label: "מה היה ב-ECC", text: clean(a.ecc), absent: "המאגר אינו מציין מצב ECC לאפליקציה הזו." },
+    { label: "המצב ב-ECC", text: clean(a.ecc), absent: "לא צוין בתיעוד מצב ECC ליישום זה." },
     {
       label: "זמינות",
       bullets: [
-        `S/4HANA On-Premise — ${TRI_HE[a.s4OnPrem]}`,
-        `S/4HANA Cloud — ${TRI_HE[a.cloud]}`,
-        a.releaseInfo ? `גרסה, ${a.releaseInfo}` : "גרסה, לא צוין במאגר",
+        `S/4HANA On-Premise: ${TRI_HE[a.s4OnPrem]}`,
+        `S/4HANA Cloud: ${TRI_HE[a.cloud]}`,
+        a.releaseInfo ? `גרסה: ${a.releaseInfo}` : "גרסה: לא צוין במאגר",
       ],
     },
   ];
@@ -193,23 +192,23 @@ export function fioriDetail(slug: string): RefDetail | null {
   sections.push({
     id: "what",
     icon: "layoutGrid",
-    title: "מה האפליקציה עושה",
+    title: "תפקיד היישום",
     facts: [
       { label: "מטרה", text: a.purpose },
-      { label: "איזו בעיה היא פותרת", text: a.problem },
-      { label: "מיקום בתהליך", text: clean(a.process), absent: "המאגר אינו מציין מיקום בתהליך." },
-      { label: "סוג אפליקציה", text: TYPE_HE[a.type] || a.type },
+      { label: "הבעיה העסקית שהיישום פותר", text: a.problem },
+      { label: "מיקום בתהליך", text: clean(a.process), absent: "לא צוין מיקום בתהליך ברשומה." },
+      { label: "סוג יישום", text: TYPE_HE[a.type] || a.type },
     ],
   });
 
   sections.push({
     id: "explain",
     icon: "bookOpen",
-    title: "אותה אפליקציה, בשלוש רמות",
+    title: "הסבר בשלוש רמות",
     subs: [
-      { title: "למשתמש", facts: [{ label: "בשפה פשוטה", text: a.explain.beginner }] },
-      { title: "ליועץ", facts: [{ label: "מה חשוב לדעת", text: a.explain.consultant }] },
-      { title: "לטכני", facts: [{ label: "איך זה בנוי", text: a.explain.technical }] },
+      { title: "למשתמש העסקי", facts: [{ label: "הסבר בסיסי", text: a.explain.beginner }] },
+      { title: "ליועץ", facts: [{ label: "נקודות מרכזיות", text: a.explain.consultant }] },
+      { title: "למפתח", facts: [{ label: "מבנה טכני", text: a.explain.technical }] },
     ],
   });
 
@@ -227,23 +226,23 @@ export function fioriDetail(slug: string): RefDetail | null {
 
   const tech: RefFact[] = [
     {
-      label: "טבלאות שמאחורי האפליקציה",
+      label: "טבלאות SAP שמאחורי היישום",
       codes: s4.tables.length ? s4.tables.map((t) => ({ t: t.name, href: t.href })) : undefined,
       absent: "לא צוינו טבלאות ברשומה.",
     },
   ];
   if (a.relatedObjects?.length) {
     tech.push({
-      label: "ממשקי פונקציה קשורים",
+      label: "אובייקטי פונקציה קשורים",
       codes: a.relatedObjects.map((o) => ({ t: o, href: bapiHref(o) })),
     });
   }
-  sections.push({ id: "tech", icon: "plug", title: "מאחורי הקלעים", facts: tech });
+  sections.push({ id: "tech", icon: "plug", title: "טבלאות ואובייקטי פונקציה", facts: tech });
 
   const ops: RefFact[] = [];
   if (a.commonErrors?.length) ops.push({ label: "תקלות נפוצות", bullets: a.commonErrors });
-  if (a.troubleshooting) ops.push({ label: "איך לאבחן", text: a.troubleshooting });
-  if (a.cbc) ops.push({ label: "כך זה נראה ב-CBC", text: a.cbc });
+  if (a.troubleshooting) ops.push({ label: "אבחון", text: a.troubleshooting });
+  if (a.cbc) ops.push({ label: "יישום ב-CBC", text: a.cbc });
   if (ops.length) sections.push({ id: "ops", icon: "alertTriangle", title: "תפעול ותקלות", facts: ops });
 
   const cards: RefCard[] = (a.similar || []).map((s) => {
@@ -253,16 +252,16 @@ export function fioriDetail(slug: string): RefDetail | null {
       code: other?.id || s,
       he: other?.he || "",
       mod: other?.module,
-      reason: "אפליקציה קרובה לפי הרשומה",
+      reason: "יישום קרוב לפי הרשומה",
     };
   });
   sections.push({
     id: "similar",
     icon: "gitBranch",
-    title: "אפליקציות קרובות",
+    title: "יישומים קרובים",
     note: cards.length ? `${nf.format(cards.length)} רשומות` : undefined,
     cards,
-    empty: "הרשומה אינה מציינת אפליקציות קרובות.",
+    empty: "לא צוינו יישומים קרובים ברשומה.",
   });
 
   const checks = [
@@ -275,7 +274,7 @@ export function fioriDetail(slug: string): RefDetail | null {
 
   return {
     kind: "fiori-apps",
-    eyebrow: `Fiori App · ${a.module}${MOD_HE[a.module] ? ` · ${MOD_HE[a.module]}` : ""}`,
+    eyebrow: `יישום Fiori · ${a.module}${MOD_HE[a.module] ? ` · ${MOD_HE[a.module]}` : ""}`,
     code: a.id,
     he: a.he,
     en: a.name,
@@ -290,8 +289,8 @@ export function fioriDetail(slug: string): RefDetail | null {
       statuses: [
         ...statuses,
         s4.critical.length
-          ? { he: "מעל טבלה שמשתנה מהותית", color: "var(--status-in-conversion)" }
-          : { he: "חלופת S/4HANA למסך GUI", color: "var(--status-done)" },
+          ? { he: "נשען על טבלה שמשתנה מהותית", color: "var(--status-in-conversion)" }
+          : { he: "חלופת S/4HANA למסך SAP GUI", color: "var(--status-done)" },
       ],
       facts: s4Facts,
       tables: s4.tables.length ? s4.tables : undefined,
@@ -299,7 +298,7 @@ export function fioriDetail(slug: string): RefDetail | null {
     sections,
     sources: uniq([a.source, ...(a.notes || []).map((n) => n.label)]),
     foot:
-      "כל שדה כאן נלקח מרשומת האפליקציה בקובץ ה-Fiori של הפרויקט, כולל רמת האמון והמקור שלה. שדה שהרשומה " +
-      "שותקת לגביו מסומן במפורש ולא הושלם מזיכרון.",
+      "כל שדה בעמוד זה נלקח מרשומת היישום בקובץ ה-Fiori של הפרויקט, כולל רמת האמון והמקור שלה. " +
+      "שדה ללא תיעוד מסומן במפורש.",
   };
 }

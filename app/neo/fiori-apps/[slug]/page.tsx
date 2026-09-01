@@ -15,9 +15,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const d = fioriDetail(decodeURIComponent(slug));
-  if (!d) return { title: "אפליקציית Fiori · Project NEO", robots: { index: false, follow: false } };
+  if (!d) return { title: "יישום Fiori · Project NEO", robots: { index: false, follow: false } };
   return {
-    title: `${d.code} · ${d.he || "אפליקציית Fiori"} · Project NEO`,
+    title: `${d.code} · ${d.he || "יישום Fiori"} · Project NEO`,
     description: [d.code, d.he, d.en, d.mod, d.s4.headline].filter(Boolean).join(" · "),
     robots: { index: false, follow: false },
   };

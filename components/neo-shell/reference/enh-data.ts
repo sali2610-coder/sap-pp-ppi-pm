@@ -73,8 +73,8 @@ function rowOf(e: Enhancement): RefRow {
     s4: {
       tone: "compare",
       status: e.note
-        ? { he: "יש הסתייגות ברשומה", color: "var(--status-in-analysis)" }
-        : { he: "יש אמירת ECC ו-S/4", color: "var(--status-done)" },
+        ? { he: "קיימת הסתייגות ברשומה", color: "var(--status-in-analysis)" }
+        : { he: "קיימות הערות ECC ו-S/4HANA", color: "var(--status-done)" },
       text: e.s4,
     },
     caps,
@@ -95,14 +95,13 @@ export function enhDir(): RefDir {
   return {
     id: "enhancements",
     surface: "neo:enhancements",
-    eyebrow: "עיון · Reference",
+    eyebrow: "קטלוג הרחבות · Enhancement Catalog",
     title: "טכניקות הרחבה",
     icon: "puzzle",
     lede:
-      `${nf.format(ENHANCEMENTS.length)} טכניקות הרחבה של SAP: מ-User Exit ועד הרחבת Key-User ב-S/4HANA. ` +
-      `לכל טכניקה כתובים במאגר גם מה היא הייתה ב-ECC וגם מה מעמדה ב-S/4HANA, ולכן כל רשומה כאן נפתחת ` +
-      `בהשוואה הזו ולא בהגדרה. ${nf.format(EXITS.length)} הרחבות בשם מקטלוג ה-PM/PP-PI משויכות לטכניקות ` +
-      `שנושאות את אותו שם מנגנון.`,
+      `${nf.format(ENHANCEMENTS.length)} טכניקות הרחבה של SAP, מ-User Exit ועד הרחבת Key-User ב-S/4HANA. ` +
+      `לכל טכניקה מתועדים מעמדה ב-ECC ומעמדה ב-S/4HANA, ו-${nf.format(EXITS.length)} הרחבות בשם מקטלוג ` +
+      `PM ו-PP-PI משויכות לטכניקות בעלות אותו שם מנגנון.`,
     stats: [
       { v: ENHANCEMENTS.length, l: "טכניקות", i: "puzzle" },
       { v: byKind.get(KIND_HE.Exit) || 0, l: "Exits קלאסיים", i: "fileCode" },
@@ -118,19 +117,19 @@ export function enhDir(): RefDir {
     kinds: [...byKind.entries()].sort((a, b) => b[1] - a[1]).map(([id, n]) => ({ id, he: id, n })),
     kindsLabel: "סוג מנגנון",
     caps: [
-      { id: "named", he: "יש הרחבות בשם", n: count((r) => r.caps.includes("named")) },
+      { id: "named", he: "עם הרחבות בשם", n: count((r) => r.caps.includes("named")) },
       { id: "pm", he: "דוגמת PM", n: count((r) => r.caps.includes("pm")) },
-      { id: "pp", he: "דוגמת PP / PP-PI", n: count((r) => r.caps.includes("pp")) },
-      { id: "caveat", he: "יש הסתייגות", n: count((r) => r.caps.includes("caveat")) },
+      { id: "pp", he: "דוגמת PP או PP-PI", n: count((r) => r.caps.includes("pp")) },
+      { id: "caveat", he: "עם הסתייגות", n: count((r) => r.caps.includes("caveat")) },
     ].filter((c) => c.n > 0),
     groupLabel: "",
     rankLabel: "מספר הרחבות בשם",
     searchPlaceholder: "שם טכניקה · הגדרה · טרנזקציה · תרחיש",
     foot:
-      "טכניקות ההרחבה נכתבו ידנית בקובץ הפרויקט וכוללות לכל אחת אמירת ECC ואמירת S/4HANA. שמות Exit ספציפיים " +
-      "תלויי-גרסה, ולכן רשומה שמסייגת זאת מציגה את ההסתייגות שלה במפורש ולא מוסתרת.",
+      "טכניקות ההרחבה מתועדות בקובץ הפרויקט, ולכל אחת הערת ECC והערת S/4HANA. שמות Exit ספציפיים " +
+      "תלויים בגרסה, והסתייגות שקיימת ברשומה מוצגת במפורש.",
     emptyNote:
-      "החיפוש עובר על שם הטכניקה, ההגדרה, אופן המימוש, טרנזקציות המימוש והתרחיש: כולם טקסטים אמיתיים מהקובץ.",
+      "החיפוש מתבצע על שם הטכניקה, ההגדרה, אופן המימוש, טרנזקציות המימוש והתרחיש שבתיעוד.",
   };
 }
 
@@ -146,7 +145,7 @@ export function enhDetail(slug: string): RefDetail | null {
     { label: "ב-ECC", text: e.ecc },
     { label: "ב-S/4HANA", text: e.s4 },
   ];
-  if (e.note) s4Facts.push({ label: "הסתייגות שהרשומה מציינת", text: e.note });
+  if (e.note) s4Facts.push({ label: "הסתייגות ברשומה", text: e.note });
 
   /* --- sections -------------------------------------------------------- */
   const sections: RefSection[] = [];
@@ -154,7 +153,7 @@ export function enhDetail(slug: string): RefDetail | null {
   sections.push({
     id: "what",
     icon: "puzzle",
-    title: "מה הטכניקה",
+    title: "הגדרת הטכניקה",
     facts: [
       { label: "הגדרה", text: e.def },
       { label: "סוג מנגנון", text: KIND_HE[e.kind] || e.kind },
@@ -165,13 +164,13 @@ export function enhDetail(slug: string): RefDetail | null {
   sections.push({
     id: "how",
     icon: "workflow",
-    title: "איך מממשים",
+    title: "אופן המימוש",
     facts: [
       { label: "שלבי המימוש", text: e.how },
       {
         label: "טרנזקציות",
         codes: e.tcodes.length ? e.tcodes.map((t) => ({ t, href: txHref(t) })) : undefined,
-        absent: "הרשומה אינה מציינת טרנזקציית מימוש.",
+        absent: "לא צוינה טרנזקציית מימוש ברשומה.",
       },
     ],
   });
@@ -181,8 +180,8 @@ export function enhDetail(slug: string): RefDetail | null {
     icon: "boxes",
     title: "דוגמאות מהמודולים",
     facts: [
-      { label: "אחזקה · PM", text: e.pmExample === "—" ? "" : e.pmExample, absent: "הרשומה אינה מציינת דוגמת PM לטכניקה הזו." },
-      { label: "ייצור · PP / PP-PI", text: e.ppExample === "—" ? "" : e.ppExample, absent: "הרשומה אינה מציינת דוגמת PP לטכניקה הזו." },
+      { label: "PM · תחזוקת מפעל", text: e.pmExample === "—" ? "" : e.pmExample, absent: "לא צוינה דוגמת PM ברשומה." },
+      { label: "PP / PP-PI · תכנון ייצור ותעשיות תהליכיות", text: e.ppExample === "—" ? "" : e.ppExample, absent: "לא צוינה דוגמת PP או PP-PI ברשומה." },
       { label: "תרחיש עסקי", text: e.scenario },
     ],
   });
@@ -205,8 +204,8 @@ export function enhDetail(slug: string): RefDetail | null {
     cards,
     empty:
       EXIT_KIND_OF[e.slug]
-        ? "אין במאגר הרחבה בשם מהסוג הזה."
-        : "קטלוג ההרחבות של הפרויקט אינו משתמש בשם המנגנון הזה, ולכן לא בוצע כאן שיוך: שיוך רופף היה ניחוש.",
+        ? "לא קיימת בקטלוג הפרויקט הרחבה בשם מסוג זה."
+        : "קטלוג ההרחבות של הפרויקט אינו מסווג הרחבות בשם תחת מנגנון זה.",
   });
 
   /* neighbouring techniques of the same mechanism */
@@ -233,7 +232,7 @@ export function enhDetail(slug: string): RefDetail | null {
   const statuses: RefStatus[] = [
     { he: "רשומה מתוחזקת ידנית", color: "var(--status-in-analysis)" },
   ];
-  if (e.note) statuses.push({ he: "יש הסתייגות", color: "var(--status-not-started)" });
+  if (e.note) statuses.push({ he: "קיימת הסתייגות", color: "var(--status-not-started)" });
 
   return {
     kind: "enhancements",
@@ -258,15 +257,15 @@ export function enhDetail(slug: string): RefDetail | null {
       tone: "compare",
       headline: e.s4,
       statuses: [
-        { he: "ECC ו-S/4 שניהם כתובים ברשומה", color: "var(--status-done)" },
-        ...(e.note ? [{ he: "יש הסתייגות", color: "var(--status-in-analysis)" }] : []),
+        { he: "הערות ECC ו-S/4HANA קיימות ברשומה", color: "var(--status-done)" },
+        ...(e.note ? [{ he: "קיימת הסתייגות", color: "var(--status-in-analysis)" }] : []),
       ],
       facts: s4Facts,
     },
     sections,
     sources: [],
     foot:
-      "הרשומה נכתבה ידנית בקובץ טכניקות ההרחבה של הפרויקט. שמות Exit ו-BAdI ספציפיים תלויים בגרסה ובחבילת " +
-      "התמיכה, ולכן יש לאמת אותם ב-SMOD / SE18 / SE19 במערכת עצמה לפני מימוש.",
+      "הרשומה נלקחה מקובץ טכניקות ההרחבה של הפרויקט. שמות Exit ו-BAdI ספציפיים תלויים בגרסה ובחבילת " +
+      "התמיכה, ונדרש אימות שלהם ב-SMOD, SE18 או SE19 במערכת לפני המימוש.",
   };
 }

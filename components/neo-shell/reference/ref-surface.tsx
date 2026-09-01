@@ -122,7 +122,7 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
         </span>
 
         <span className="nxd-body">
-          <span className="nxd-he">{r.he || "לא קיים מידע מאומת במאגר"}</span>
+          <span className="nxd-he">{r.he || "לא קיים תיעוד מאומת במאגר"}</span>
           <span className="nxd-sub">
             {r.en ? <span className="nxd-en" dir="ltr">{r.en}</span> : null}
             {r.en && r.group ? <span className="nxd-dot" aria-hidden="true">·</span> : null}
@@ -146,7 +146,7 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
           <span className="nu-status" style={{ "--s": r.s4.status.color } as React.CSSProperties}>
             {r.s4.status.he}
           </span>
-          <span className="nxd-s4-t">{r.s4.text || "המאגר אינו מציין הערת S/4 לרשומה זו"}</span>
+          <span className="nxd-s4-t">{r.s4.text || "לא קיים תיעוד S/4HANA מאומת לרשומה זו"}</span>
         </span>
 
         <span className="nxd-go" aria-hidden="true"><ArrowLeft size={15} strokeWidth={2} /></span>
@@ -180,7 +180,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
   const sorts = useMemo(() => {
     const out: { s: Sort; he: string }[] = [{ s: "name", he: "שם טכני" }];
     if (dir.rankLabel) out.push({ s: "rank", he: dir.rankLabel });
-    out.push({ s: "s4", he: "משתנה ב-S/4 קודם" });
+    out.push({ s: "s4", he: "משתנה ב-S/4HANA תחילה" });
     return out;
   }, [dir.rankLabel]);
 
@@ -314,7 +314,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
         <p className="nx-lede">{dir.lede}</p>
       </header>
 
-      <section className="nx-card nxd-stats" aria-label="מספרי המאגר">
+      <section className="nx-card nxd-stats" aria-label="מספרי הקטלוג">
         {dir.stats.map((s) => (
           <div key={s.l} className="nxd-stat">
             <span className="nxd-stat-i" aria-hidden="true"><Glyph i={s.i} /></span>
@@ -335,7 +335,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
             aria-label={`חיפוש · ${dir.title}`}
           />
           {q ? (
-            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="נקה חיפוש">
+            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
               <X size={13} strokeWidth={2} />
             </button>
           ) : null}
@@ -435,16 +435,16 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
 
       <p className="nxd-count" aria-live="polite">
         <b>{nf.format(rows.length)}</b> מתוך {nf.format(dir.rows.length)} רשומות
-        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>נקה סינון</button></> : null}
+        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 
       {rows.length === 0 ? (
         <div className="nx-card nxd-none">
-          <p><b>אין רשומה במאגר שעונה על הסינון הזה.</b></p>
+          <p><b>לא נמצאו רשומות התואמות לסינון שנבחר.</b></p>
           <p className="nx-muted">{dir.emptyNote}</p>
           <div className="nxd-none-a">
-            <button type="button" className="nu-btn" onClick={reset}>הצג את כל הרשומות</button>
-            {q ? <button type="button" className="nu-btn2" onClick={() => setQ("")}>נקה רק את החיפוש</button> : null}
+            <button type="button" className="nu-btn" onClick={reset}>הצגת כל הרשומות</button>
+            {q ? <button type="button" className="nu-btn2" onClick={() => setQ("")}>ניקוי החיפוש בלבד</button> : null}
           </div>
         </div>
       ) : groups ? (
@@ -470,7 +470,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
           {hidden > 0 ? (
             <p className="nxd-page">
               <button type="button" className="nu-btn2" onClick={() => setLimit((n) => n + PAGE)}>
-                הצג עוד
+                הצגת רשומות נוספות
                 <span className="nxd-page-n">{nf.format(hidden)}</span>
               </button>
             </p>

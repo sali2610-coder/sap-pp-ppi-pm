@@ -9,9 +9,9 @@ import { RefSurface } from "@/components/neo-shell/reference/ref-surface";
 import { fioriDir } from "@/components/neo-shell/reference/fiori-data";
 
 export const metadata = {
-  title: "אפליקציות Fiori · Project NEO",
+  title: "יישומי SAP Fiori · Project NEO",
   description:
-    "האפליקציות שהפרויקט תיעד במלואן: מזהה, תפקיד עסקי, קטלוג, OData ו-CDS, ואיזו טרנזקציית SAP GUI כל אחת מחליפה.",
+    "יישומי SAP Fiori המתועדים בפרויקט: מזהה יישום, תפקיד עסקי, קטלוג, שירות OData, תצוגת CDS והטרנזקציות ב-SAP GUI שכל יישום מחליף.",
   robots: { index: false, follow: false },
 };
 

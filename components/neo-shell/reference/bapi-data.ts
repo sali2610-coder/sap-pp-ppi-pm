@@ -36,8 +36,8 @@ const CATEGORY_HE: Record<string, string> = {
   Planning: "תכנון",
   Execution: "ביצוע והזמנות",
   Notification: "הודעות",
-  Equipment: "ציוד ומיקומים",
-  Reservation: "שמורות",
+  Equipment: "ציוד ומיקומים פונקציונליים",
+  Reservation: "שריונים (Reservation)",
   Confirmation: "אישורי ביצוע",
   GoodsMovement: "תנועות סחורה",
   Batch: "אצוות",
@@ -58,19 +58,19 @@ const DIFF_HE: Record<string, string> = {
 };
 
 const STABILITY_HE: Record<string, string> = {
-  Released: "Released: ממשק משוחרר",
-  "SAP-Recommended": "מומלץ ע\"י SAP",
-  Internal: "פנימי",
-  "Use-With-Caution": "לשימוש בזהירות",
-  Obsolete: "הוצא משימוש",
+  Released: "ממשק משוחרר (Released)",
+  "SAP-Recommended": "מומלץ על ידי SAP",
+  Internal: "פנימי (Internal)",
+  "Use-With-Caution": "לשימוש בזהירות (Use with caution)",
+  Obsolete: "הוצא משימוש (Obsolete)",
 };
 
 const VERIF: Record<string, RefStatus> = {
   "verified-system": { he: "אומת במערכת SAP", color: "var(--status-done)" },
   "verified-docs": { he: "אומת מול תיעוד SAP", color: "var(--status-done)" },
-  "requires-verification": { he: "דורש אימות במערכת SAP", color: "var(--status-not-started)" },
+  "requires-verification": { he: "נדרש אימות במערכת SAP", color: "var(--status-not-started)" },
   "version-dependent": { he: "תלוי גרסה", color: "var(--status-in-analysis)" },
-  "internal-unsupported": { he: "FM פנימי: לא ממשק נתמך", color: "var(--status-in-analysis)" },
+  "internal-unsupported": { he: "מודול פונקציה פנימי: אינו ממשק נתמך", color: "var(--status-in-analysis)" },
   "invalid-name": { he: "השם אינו אובייקט SAP תקני", color: "var(--status-in-conversion)" },
   deprecated: { he: "הוצא משימוש", color: "var(--status-in-conversion)" },
 };
@@ -128,12 +128,12 @@ function s4Of(o: SapFuncObject) {
   const headline =
     clean(intel?.s4) ||
     (structuralChange
-      ? "הרשומה מסמנת את האובייקט כלא-נתמך או כמוצא משימוש ב-S/4HANA."
+      ? "לפי הרשומה, האובייקט אינו נתמך ב-S/4HANA או הוצא משימוש."
       : critical.length
-        ? `אחת מטבלאות הליבה שהאובייקט קורא, ${critical.map((t) => t.name).join(", ")}, משתנה מהותית ב-S/4HANA.`
+        ? `האובייקט נשען על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
         : o.s4OnPremSupport === "yes"
-          ? "לפי הרשומה במאגר האובייקט זמין ב-S/4HANA On-Premise."
-          : "לא קיים מידע מאומת במאגר על מעמד האובייקט ב-S/4HANA.");
+          ? "לפי הרשומה, האובייקט זמין ב-S/4HANA On-Premise."
+          : "לא קיים תיעוד מאומת במאגר על מעמד האובייקט ב-S/4HANA.");
 
   return { tone, headline, tables, critical, intel };
 }
@@ -154,12 +154,12 @@ function rowOf(o: SapFuncObject): RefRow {
 
   const status: RefStatus =
     s4.tone === "changed"
-      ? { he: "משתנה ב-S/4", color: "var(--status-in-conversion)" }
+      ? { he: "משתנה ב-S/4HANA", color: "var(--status-in-conversion)" }
       : s4.tone === "stable"
-        ? { he: "זמין ב-S/4", color: "var(--status-done)" }
+        ? { he: "זמין ב-S/4HANA", color: "var(--status-done)" }
         : s4.tone === "compare"
-          ? { he: "יש אמירת S/4", color: "var(--status-in-analysis)" }
-          : { he: "לא צוין", color: "var(--status-not-started)" };
+          ? { he: "קיימת הערת S/4HANA", color: "var(--status-in-analysis)" }
+          : { he: "נדרש אימות נוסף", color: "var(--status-not-started)" };
 
   return {
     id: o.id,
@@ -201,17 +201,17 @@ export function bapiDir(): RefDir {
   return {
     id: "bapi",
     surface: "neo:bapi",
-    eyebrow: "עיון · Reference",
-    title: "BAPIs ו-Function Modules",
+    eyebrow: "קטלוג BAPI ו-FM · Function Catalog",
+    title: "BAPIs ומודולי פונקציה",
     icon: "plug",
     lede:
-      `${nf.format(all.length)} אובייקטי פונקציה מהרישום הקנוני של הפרויקט: כל אחד מהם מוזכר בפועל על טבלה ` +
-      `מתועדת ב-PM או ב-PP-PI, או נוסף כרשומה מאומתת. הרשימה מציגה את מה שהמאגר יודע: מודול, משמעות, ` +
-      `הטבלאות והטרנזקציות שהאובייקט נוגע בהן, ומה נאמר עליו לגבי S/4HANA.`,
+      `${nf.format(all.length)} אובייקטי פונקציה (BAPI ו-FM) מקטלוג הפרויקט: כל אחד מהם מתועד על טבלת SAP ` +
+      `בתחזוקת מפעל (PM) או בתעשיות תהליכיות (PP-PI), או נוסף כרשומה מאומתת. לכל אובייקט מוצגים המודול, ` +
+      `המשמעות, הטבלאות והטרנזקציות המקושרות ומעמדו ב-S/4HANA לפי התיעוד.`,
     stats: [
       { v: all.length, l: "אובייקטי פונקציה", i: "plug" },
       { v: byKind.get("BAPI") || 0, l: "BAPIs", i: "shieldCheck" },
-      { v: byKind.get("FM") || 0, l: "Function Modules", i: "fileCode" },
+      { v: byKind.get("FM") || 0, l: "מודולי פונקציה (FM)", i: "fileCode" },
       { v: count((r) => r.caps.includes("deep")), l: "מתועדים לעומק", i: "bookOpen" },
       { v: count((r) => r.caps.includes("verified")), l: "רשומות מאומתות", i: "shieldCheck" },
       { v: count((r) => r.caps.includes("cross")), l: "חוצי מודולים", i: "gitBranch" },
@@ -231,17 +231,16 @@ export function bapiDir(): RefDir {
       { id: "verified", he: "רשומה מאומתת", n: count((r) => r.caps.includes("verified")) },
       { id: "cross", he: "חוצה מודולים", n: count((r) => r.caps.includes("cross")) },
       { id: "commit", he: "דורש COMMIT", n: count((r) => r.caps.includes("commit")) },
-      { id: "cds", he: "יש CDS מקביל", n: count((r) => r.caps.includes("cds")) },
+      { id: "cds", he: "עם תצוגת CDS מקבילה", n: count((r) => r.caps.includes("cds")) },
     ].filter((c) => c.n > 0),
     groupLabel: "לפי תחום עסקי",
     rankLabel: "מספר טבלאות מקושרות",
     searchPlaceholder: "שם טכני · משמעות · טבלה · טרנזקציה · מודול",
     foot:
-      "הרישום נגזר מהטבלאות המתועדות של PM ו-PP-PI ומשכבות ההעשרה המאומתות של הפרויקט. אובייקט שלא אומת מול " +
-      "SE37 / BAPI Explorer מסומן ככזה במפורש, ולא הושלם בהשערה.",
+      "הקטלוג נגזר מטבלאות SAP המתועדות של PM ו-PP-PI ומשכבות ההעשרה המאומתות של הפרויקט. אובייקט שלא אומת מול " +
+      "SE37 או BAPI Explorer מסומן ככזה במפורש.",
     emptyNote:
-      "החיפוש עובר על השם הטכני, המשמעות, המודול, הטבלאות והטרנזקציות של רשומות אמיתיות בלבד. הוא אינו מנחש " +
-      "שמות אובייקטים ואינו משלים טקסט חופשי.",
+      "החיפוש מתבצע על השם הטכני, המשמעות, המודול, הטבלאות והטרנזקציות של הרשומות בקטלוג.",
   };
 }
 
@@ -258,14 +257,14 @@ export function bapiDetail(id: string): RefDetail | null {
 
   /* --- S/4 plate ------------------------------------------------------- */
   const s4Facts: RefFact[] = [];
-  if (intel?.s4) s4Facts.push({ label: "מה כתוב במאגר על S/4HANA", text: intel.s4 });
-  if (intel?.ecc) s4Facts.push({ label: "מה כתוב על ECC", text: intel.ecc });
+  if (intel?.s4) s4Facts.push({ label: "הערת S/4HANA ברשומה", text: intel.s4 });
+  if (intel?.ecc) s4Facts.push({ label: "הערת ECC ברשומה", text: intel.ecc });
   s4Facts.push({
     label: "זמינות לפי הרשומה",
     bullets: [
-      `ECC — ${TRI_HE[o.eccSupport]}`,
-      `S/4HANA On-Premise — ${TRI_HE[o.s4OnPremSupport]}`,
-      `S/4HANA Cloud — ${TRI_HE[o.cloudSupport]}`,
+      `ECC: ${TRI_HE[o.eccSupport]}`,
+      `S/4HANA On-Premise: ${TRI_HE[o.s4OnPremSupport]}`,
+      `S/4HANA Cloud: ${TRI_HE[o.cloudSupport]}`,
     ],
   });
   s4Facts.push({ label: "יציבות הממשק", text: STABILITY_HE[o.stability] || o.stability });
@@ -285,9 +284,9 @@ export function bapiDetail(id: string): RefDetail | null {
   const sections: RefSection[] = [];
 
   const what: RefFact[] = [];
-  if (intel?.what) what.push({ label: "מה האובייקט עושה", text: intel.what });
-  else if (o.shortDescriptionHe) what.push({ label: "מה האובייקט עושה", text: o.shortDescriptionHe });
-  if (intel?.why) what.push({ label: "מתי משתמשים בו", text: intel.why });
+  if (intel?.what) what.push({ label: "תפקיד האובייקט", text: intel.what });
+  else if (o.shortDescriptionHe) what.push({ label: "תפקיד האובייקט", text: o.shortDescriptionHe });
+  if (intel?.why) what.push({ label: "מקרי שימוש", text: intel.why });
   if (o.businessScenario) what.push({ label: "תרחיש עסקי", text: o.businessScenario });
   if (intel?.flow || o.processChain?.length) {
     what.push({ label: "מיקום בתהליך", text: clean(intel?.flow), bullets: o.processChain });
@@ -297,7 +296,7 @@ export function bapiDetail(id: string): RefDetail | null {
     what.push({ label: "תחום תהליכי", text: clean(intel?.processArea) || clean(o.businessProcess) });
   }
   if (o.usageContexts?.length) what.push({ label: "הקשרי שימוש", bullets: o.usageContexts });
-  sections.push({ id: "what", icon: "plug", title: "מה זה ומתי", facts: what });
+  sections.push({ id: "what", icon: "plug", title: "תפקיד ושימוש", facts: what });
 
   /* parameters + call contract */
   const contract: RefFact[] = [];
@@ -310,7 +309,7 @@ export function bapiDetail(id: string): RefDetail | null {
   if (intel?.outputs.length) {
     contract.push({
       label: "פרמטרים יוצאים",
-      bullets: intel.outputs.map((p) => `${p.name} — ${p.he}`),
+      bullets: intel.outputs.map((p) => `${p.name}: ${p.he}`),
     });
   }
   if (o.parameterSummary) contract.push({ label: "תקציר פרמטרים", text: o.parameterSummary });
@@ -318,7 +317,7 @@ export function bapiDetail(id: string): RefDetail | null {
     label: "COMMIT",
     text: ci.value === "unknown"
       ? "לא צוין במאגר"
-      : `${TRI_HE[ci.value]}${ci.derived ? ": נגזר מסוג הפעולה, לא מרשומה מפורשת" : ""}`,
+      : `${TRI_HE[ci.value]}${ci.derived ? " (נגזר מסוג הפעולה, ללא רשומה מפורשת)" : ""}`,
   });
   if (o.requiresSave && o.requiresSave !== "unknown") {
     contract.push({ label: "נדרשת קריאת SAVE", text: TRI_HE[o.requiresSave] });
@@ -329,25 +328,25 @@ export function bapiDetail(id: string): RefDetail | null {
   if (o.sequence?.length) contract.push({ label: "רצף קריאה", steps: o.sequence });
   if (o.codeAbap) contract.push({ label: "שלד ABAP", pre: o.codeAbap });
   if (contract.length) {
-    sections.push({ id: "contract", icon: "fileCode", title: "חוזה הקריאה", facts: contract });
+    sections.push({ id: "contract", icon: "fileCode", title: "ממשק הקריאה והפרמטרים", facts: contract });
   }
 
   /* objects and tables */
   const objFacts: RefFact[] = [];
   if (o.businessObject) objFacts.push({ label: "אובייקט עסקי (BOR)", codes: [{ t: o.businessObject }] });
   objFacts.push({
-    label: "טבלאות שהאובייקט נוגע בהן",
+    label: "טבלאות SAP מקושרות",
     codes: o.tables.length
       ? standings(o.tables).map((t) => ({ t: t.name, href: t.href }))
       : undefined,
-    absent: "אין במאגר טבלה שמקשרת את האובייקט הזה.",
+    absent: "לא קיימת בתיעוד טבלת SAP המקושרת לאובייקט זה.",
   });
   objFacts.push({
     label: "טרנזקציות",
     codes: o.transactions.length
       ? o.transactions.map((c) => ({ t: c, href: txHref(c) }))
       : undefined,
-    absent: "אין במאגר טרנזקציה שמקשרת את האובייקט הזה.",
+    absent: "לא קיימת בתיעוד טרנזקציה המקושרת לאובייקט זה.",
   });
   if (o.authObjects?.length) {
     objFacts.push({ label: "אובייקטי הרשאה", codes: o.authObjects.map((a) => ({ t: a })) });
@@ -362,9 +361,9 @@ export function bapiDetail(id: string): RefDetail | null {
 
   /* operating it */
   const ops: RefFact[] = [];
-  if (o.checklist?.length) ops.push({ label: "לפני שמשתמשים", bullets: o.checklist });
+  if (o.checklist?.length) ops.push({ label: "בדיקות מקדימות", bullets: o.checklist });
   if (intel?.qa.deps.length) ops.push({ label: "תלויות", bullets: intel.qa.deps });
-  if (intel?.qa.test.length) ops.push({ label: "מה לבדוק", bullets: intel.qa.test });
+  if (intel?.qa.test.length) ops.push({ label: "נקודות לבדיקה", bullets: intel.qa.test });
   if (intel?.qa.scenario) ops.push({ label: "תרחיש בדיקה", text: intel.qa.scenario });
   if (ops.length) sections.push({ id: "ops", icon: "workflow", title: "הפעלה ובדיקה", facts: ops });
 
@@ -374,7 +373,7 @@ export function bapiDetail(id: string): RefDetail | null {
   if (errs.length) trouble.push({ label: "שגיאות נפוצות", bullets: errs });
   if (o.commonMistakes?.length) trouble.push({ label: "טעויות מימוש", bullets: o.commonMistakes });
   if (o.troubleshooting?.causes?.length) trouble.push({ label: "סיבות שורש", bullets: o.troubleshooting.causes });
-  if (o.troubleshooting?.debug) trouble.push({ label: "איך לאבחן", text: o.troubleshooting.debug });
+  if (o.troubleshooting?.debug) trouble.push({ label: "אבחון", text: o.troubleshooting.debug });
   if (o.troubleshooting?.tables?.length) {
     trouble.push({
       label: "טבלאות לאבחון",
@@ -394,10 +393,10 @@ export function bapiDetail(id: string): RefDetail | null {
       note: DIFF_HE[o.complexity.difficulty] || o.complexity.difficulty,
       facts: [
         { label: "רמה", text: DIFF_HE[o.complexity.difficulty] || o.complexity.difficulty },
-        { label: "מדוע", bullets: o.complexity.reasons },
+        { label: "נימוקים", bullets: o.complexity.reasons },
         {
           label: "זמן לימוד מוערך",
-          text: `${o.complexity.learnMinutes[0]}–${o.complexity.learnMinutes[1]} דקות: נגזר ממודל המורכבות המתועד של הפרויקט, לא ממדידה.`,
+          text: `${o.complexity.learnMinutes[0]}-${o.complexity.learnMinutes[1]} דקות (לפי מודל המורכבות של הפרויקט).`,
         },
       ],
     });
@@ -425,7 +424,7 @@ export function bapiDetail(id: string): RefDetail | null {
     title: "אובייקטים קשורים",
     note: cards.length ? `${nf.format(cards.length)} רשומות` : undefined,
     cards,
-    empty: "לא קיים מידע מאומת במאגר על אובייקטים קשורים לרשומה הזו.",
+    empty: "לא קיים תיעוד מאומת במאגר על אובייקטים קשורים לרשומה זו.",
   });
 
   /* reading */
@@ -433,7 +432,7 @@ export function bapiDetail(id: string): RefDetail | null {
     sections.push({
       id: "reading",
       icon: "bookOpen",
-      title: "להמשך קריאה",
+      title: "קריאה נוספת",
       facts: [{ label: "מקורות שהרשומה מפנה אליהם", bullets: o.recommendedReading }],
     });
   }
@@ -463,7 +462,7 @@ export function bapiDetail(id: string): RefDetail | null {
     code: o.technicalName,
     he: clean(o.shortDescriptionHe) || clean(intel?.what) || "",
     en: clean(o.shortDescriptionEn),
-    enAbsent: "אין תיאור אנגלי ברשומה",
+    enAbsent: "לא קיים תיאור באנגלית ברשומה",
     mod: o.primaryModule,
     modHe: MOD_HE[o.primaryModule] || "",
     chips: uniq([
@@ -482,8 +481,8 @@ export function bapiDetail(id: string): RefDetail | null {
         {
           he: s4.tone === "changed" ? "משתנה ב-S/4HANA"
             : s4.tone === "stable" ? "זמין ב-S/4HANA"
-              : s4.tone === "compare" ? "קיימת אמירת S/4 ברשומה"
-                : "אין אמירת S/4 במאגר",
+              : s4.tone === "compare" ? "קיימת הערת S/4HANA ברשומה"
+                : "לא קיימת הערת S/4HANA במאגר",
           color: s4.tone === "changed" ? "var(--status-in-conversion)"
             : s4.tone === "stable" ? "var(--status-done)"
               : s4.tone === "compare" ? "var(--status-in-analysis)"
@@ -493,13 +492,13 @@ export function bapiDetail(id: string): RefDetail | null {
       facts: s4Facts,
       tables: s4.tables.length ? s4.tables : undefined,
       warn: s4.tone === "unknown"
-        ? "למאגר אין אמירה על מעמד האובייקט ב-S/4HANA. הפריט דורש אימות מול SE37 / BAPI Explorer או מול תיעוד SAP לפני החלטת מיגרציה: ולא הושלם כאן בהשערה."
+        ? "לא קיים תיעוד מאומת במאגר על מעמד האובייקט ב-S/4HANA. נדרש אימות נוסף מול SE37, BAPI Explorer או תיעוד SAP לפני החלטת מעבר."
         : undefined,
     },
     sections,
     sources: uniq([o.verificationSource, o.lastVerified ? `נבדק לאחרונה ${o.lastVerified}` : ""]),
     foot:
-      "כל שדה בעמוד הזה נלקח מהרישום הקנוני של הפרויקט ומשכבת ההעשרה המאומתת שלו. שדה שהמאגר שותק לגביו אינו " +
-      "מוצג, או מסומן במפורש «לא קיים מידע מאומת במאגר». מספר SAP Note אינו נכתב כאן אלא אם הוא קיים ברשומה עצמה.",
+      "כל שדה בעמוד זה נלקח מקטלוג הפרויקט ומשכבת ההעשרה המאומתת שלו. שדה ללא תיעוד אינו מוצג, או מסומן " +
+      "«לא קיים תיעוד מאומת במאגר». מספרי SAP Note מופיעים רק כאשר הם קיימים ברשומה עצמה.",
   };
 }

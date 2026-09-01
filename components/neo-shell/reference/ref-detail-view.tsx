@@ -39,14 +39,14 @@ import { MOD_HE, modVar } from "../mod-var";
 import { Glyph } from "./icons";
 import type { RefDetail, RefFact, RefSection, RefStatus } from "./types";
 
-const NONE = "לא קיים מידע מאומת במאגר";
+const NONE = "לא קיים תיעוד מאומת במאגר";
 
 const DIR_HE: Record<string, string> = {
-  bapi: "BAPIs / FMs",
-  cds: "CDS Views",
-  idoc: "IDocs",
-  "fiori-apps": "Fiori Apps",
-  enhancements: "Enhancements",
+  bapi: "קטלוג BAPI ו-FM",
+  cds: "קטלוג CDS Views",
+  idoc: "קטלוג IDoc",
+  "fiori-apps": "קטלוג יישומי Fiori",
+  enhancements: "קטלוג הרחבות",
 };
 
 /* ------------------------------------------------------------ primitives */
@@ -147,7 +147,7 @@ function Section({ s }: { s: RefSection }) {
                 {c.href ? (
                   <Link href={c.href} prefetch={false} className="nu-card nxt-near-c" style={style}>{inner}</Link>
                 ) : (
-                  <div className="nxt-near-c nxr-flat" style={style} aria-label={`${c.code}: אין עמוד ייעודי במאגר`}>{inner}</div>
+                  <div className="nxt-near-c nxr-flat" style={style} aria-label={`${c.code}: ללא עמוד ייעודי בתיעוד`}>{inner}</div>
                 )}
               </li>
             );
@@ -168,7 +168,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
   return (
     <article className="nxt nxr-rec" data-surface={d.kind} style={{ "--m": m } as React.CSSProperties}>
       <SmartReturn
-        fallback={{ href: `/neo/${d.kind}/`, label: DIR_HE[d.kind] || "עיון" }}
+        fallback={{ href: `/neo/${d.kind}/`, label: DIR_HE[d.kind] || "קטלוג" }}
         hint="לא נשמר מסלול הגעה בביקור הזה"
       />
 
@@ -227,13 +227,13 @@ export function RefDetailView({ d }: { d: RefDetail }) {
 
         {d.s4.tables?.length ? (
           <div className="nxr-stand">
-            <p className="nxt-l">מעמד הטבלאות הקלאסיות שהרשומה נשענת עליהן</p>
+            <p className="nxt-l">מעמד הטבלאות הקלאסיות שהרשומה נשענת עליהן במעבר ל-S/4HANA</p>
             <ul className="nxt-tbl">
               {d.s4.tables.map((t) => {
                 const inner = (
                   <>
                     <span className="nxt-tbl-n nx-sap">{t.name}</span>
-                    <span className="nxt-tbl-he">{t.he || "אין תיאור בתיעוד"}</span>
+                    <span className="nxt-tbl-he">{t.he || "לא קיים תיאור בתיעוד"}</span>
                     <span className="nxt-tbl-s"><Status s={t.status} /></span>
                     {t.note ? <span className="nxt-tbl-note">{t.note}</span> : null}
                   </>
@@ -243,7 +243,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
                     {t.href ? (
                       <Link href={t.href} prefetch={false} className="nu-card nxt-tbl-r">{inner}</Link>
                     ) : (
-                      <div className="nxt-tbl-r is-flat" aria-label={`${t.name}: אין עמוד אובייקט בתיעוד`}>{inner}</div>
+                      <div className="nxt-tbl-r is-flat" aria-label={`${t.name}: ללא עמוד ייעודי בתיעוד`}>{inner}</div>
                     )}
                   </li>
                 );

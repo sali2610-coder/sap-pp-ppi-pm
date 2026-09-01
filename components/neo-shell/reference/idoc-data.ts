@@ -61,7 +61,7 @@ function rowOf(r: IdocRecordData): RefRow {
     : r.intel?.s4 && r.intel?.ecc ? "compare" : "unknown";
   const text = critical.length
     ? `סוג ההודעה נשען על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
-    : clean(r.intel?.s4) || "לא קיים מידע מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
+    : clean(r.intel?.s4) || "לא קיים תיעוד מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
 
   const caps: string[] = [];
   if (r.intel) caps.push("deep");
@@ -76,7 +76,7 @@ function rowOf(r: IdocRecordData): RefRow {
     en: "",
     mods: r.module ? [r.module] : [],
     kind: "Message Type",
-    group: clean(r.intel?.processArea) || "ללא תחום במאגר",
+    group: clean(r.intel?.processArea) || "ללא תחום תהליכי במאגר",
     nums: [
       { i: "table", sr: "טבלאות מקושרות ", v: nf.format(r.tables.length) },
       { i: "terminal", sr: "טרנזקציות ", v: nf.format(r.tcodes.length) },
@@ -86,8 +86,8 @@ function rowOf(r: IdocRecordData): RefRow {
       status: critical.length
         ? { he: "נשען על טבלה שמשתנה", color: "var(--status-in-conversion)" }
         : r.intel?.s4
-          ? { he: "יש אמירת S/4", color: "var(--status-in-analysis)" }
-          : { he: "לא צוין", color: "var(--status-not-started)" },
+          ? { he: "קיימת הערת S/4HANA", color: "var(--status-in-analysis)" }
+          : { he: "נדרש אימות נוסף", color: "var(--status-not-started)" },
       text,
     },
     caps,
@@ -109,13 +109,13 @@ export function idocDir(): RefDir {
   return {
     id: "idoc",
     surface: "neo:idoc",
-    eyebrow: "עיון · Reference",
+    eyebrow: "קטלוג IDoc · IDoc Catalog",
     title: "IDocs",
     icon: "cable",
     lede:
-      `הפרויקט מתעד ${nf.format(rows.length)} סוגי הודעת IDoc: בדיוק אלה שמופיעים בפועל על טבלה מתועדת ` +
-      `ב-PM או ב-PP-PI. הרשימה קצרה בכוונה: סוג הודעה שאינו מופיע במאגר אינו נוסף כאן כדי להאריך אותה. ` +
-      `מתחת לרשימה נמצא מה שהמאגר כן יודע לעומק על IDoc: האנטומיה של ההודעה ומדריך הסטטוסים.`,
+      `${nf.format(rows.length)} סוגי הודעת IDoc המתועדים על טבלאות SAP בתחזוקת מפעל (PM) ובתעשיות ` +
+      `תהליכיות (PP-PI). מתחת לרשימה מוצג התיעוד המשותף לכל סוגי ההודעה: מבנה ה-IDoc, קודי הסטטוס ` +
+      `וטרנזקציות הניטור.`,
     stats: [
       { v: rows.length, l: "סוגי הודעה במאגר", i: "cable" },
       { v: IDOC_RECORDS.length, l: "רשומות פיזיות", i: "database" },
@@ -130,18 +130,16 @@ export function idocDir(): RefDir {
     kindsLabel: "סוג רשומה",
     caps: [
       { id: "deep", he: "מתועד לעומק", n: count((r) => r.caps.includes("deep")) },
-      { id: "cds", he: "יש CDS מקביל", n: count((r) => r.caps.includes("cds")) },
+      { id: "cds", he: "עם תצוגת CDS מקבילה", n: count((r) => r.caps.includes("cds")) },
       { id: "impact", he: "נשען על טבלה מושפעת", n: count((r) => r.caps.includes("impact")) },
     ].filter((c) => c.n > 0),
     groupLabel: "לפי תחום תהליכי",
     rankLabel: "מספר טבלאות מקושרות",
     searchPlaceholder: "סוג הודעה · משמעות · טבלה · טרנזקציה",
     foot:
-      "רשומות ה-IDoc, קודי הסטטוס וטרנזקציות הניטור נלקחו מילולית מרשומת האינטגרציה המאומתת של הפרויקט. " +
-      "לא נוספו כאן סטטוסים, סגמנטים או סוגי הודעה שאינם מופיעים בה.",
+      "הרשומות הפיזיות, קודי הסטטוס וטרנזקציות הניטור נלקחו כלשונם מרשומת האינטגרציה המאומתת של הפרויקט.",
     emptyNote:
-      "המאגר מתעד מספר קטן של סוגי הודעה, ולכן גם חיפוש קצר עלול לא להחזיר דבר. זהו מצב אמיתי של הנתונים ולא " +
-      "כשל בחיפוש.",
+      "המאגר מתעד מספר קטן של סוגי הודעה, ולכן ייתכן שחיפוש לא יחזיר תוצאות.",
   };
 }
 
@@ -190,11 +188,11 @@ export function idocDetail(name: string): RefDetail | null {
 
   const headline = critical.length
     ? `סוג ההודעה נשען על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
-    : clean(intel?.s4) || "לא קיים מידע מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
+    : clean(intel?.s4) || "לא קיים תיעוד מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
 
   const s4Facts: RefFact[] = [
-    { label: "מה כתוב על S/4HANA", text: clean(intel?.s4), absent: "המאגר אינו מציין אמירת S/4 לסוג ההודעה הזה." },
-    { label: "מה כתוב על ECC", text: clean(intel?.ecc), absent: "המאגר אינו מציין אמירת ECC לסוג ההודעה הזה." },
+    { label: "הערת S/4HANA ברשומה", text: clean(intel?.s4), absent: "לא קיימת הערת S/4HANA ברשומה לסוג הודעה זה." },
+    { label: "הערת ECC ברשומה", text: clean(intel?.ecc), absent: "לא קיימת הערת ECC ברשומה לסוג הודעה זה." },
   ];
   if (intel?.related.cds?.length) {
     s4Facts.push({
@@ -208,10 +206,10 @@ export function idocDetail(name: string): RefDetail | null {
   sections.push({
     id: "what",
     icon: "cable",
-    title: "מה סוג ההודעה עושה",
+    title: "תפקיד סוג ההודעה",
     facts: [
       { label: "תיאור", text: clean(intel?.what) || r.he },
-      { label: "למה זה חשוב", text: clean(intel?.why), absent: "לא צוין הקשר עסקי ברשומה." },
+      { label: "הקשר עסקי", text: clean(intel?.why), absent: "לא צוין הקשר עסקי ברשומה." },
       { label: "תחום תהליכי", text: clean(intel?.processArea), absent: "לא צוין תחום ברשומה." },
       { label: "זרימה", text: clean(intel?.flow), absent: "לא צוינה זרימה ברשומה." },
     ],
@@ -225,11 +223,11 @@ export function idocDetail(name: string): RefDetail | null {
       facts: [
         ...(intel.inputs.length ? [{
           label: "סגמנטים / קלט",
-          bullets: intel.inputs.map((p) => `${p.name} — ${p.he}`),
+          bullets: intel.inputs.map((p) => `${p.name}: ${p.he}`),
         }] : []),
         ...(intel.outputs.length ? [{
           label: "פלט וסטטוס",
-          bullets: intel.outputs.map((p) => `${p.name} — ${p.he}`),
+          bullets: intel.outputs.map((p) => `${p.name}: ${p.he}`),
         }] : []),
       ],
     });
@@ -241,14 +239,14 @@ export function idocDetail(name: string): RefDetail | null {
     title: "טבלאות וטרנזקציות",
     facts: [
       {
-        label: "טבלאות שההודעה נוגעת בהן",
+        label: "טבלאות SAP מקושרות",
         codes: tables.length ? tables.map((t) => ({ t: t.name, href: t.href })) : undefined,
-        absent: "אין במאגר טבלה שמקשרת את סוג ההודעה הזה.",
+        absent: "לא קיימת בתיעוד טבלת SAP המקושרת לסוג הודעה זה.",
       },
       {
         label: "טרנזקציות",
         codes: r.tcodes.length ? r.tcodes.map((c) => ({ t: c, href: txHref(c) })) : undefined,
-        absent: "אין במאגר טרנזקציה שמקשרת את סוג ההודעה הזה.",
+        absent: "לא קיימת בתיעוד טרנזקציה המקושרת לסוג הודעה זה.",
       },
     ],
   });
@@ -259,7 +257,7 @@ export function idocDetail(name: string): RefDetail | null {
       icon: "workflow",
       title: "הפעלה ובדיקה",
       facts: [
-        { label: "מה לבדוק", bullets: intel.qa.test },
+        { label: "נקודות לבדיקה", bullets: intel.qa.test },
         { label: "תלויות", bullets: intel.qa.deps },
         { label: "תרחיש בדיקה", text: intel.qa.scenario },
       ],
@@ -268,7 +266,7 @@ export function idocDetail(name: string): RefDetail | null {
       id: "trouble",
       icon: "alertTriangle",
       title: "כשלים נפוצים",
-      facts: [{ label: "מה נכשל בפועל", bullets: intel.qa.failures }],
+      facts: [{ label: "כשלים מתועדים", bullets: intel.qa.failures }],
     });
   }
 
@@ -292,9 +290,9 @@ export function idocDetail(name: string): RefDetail | null {
     // BAPI counterparts, only where the project really generates a page.
     const fnCards: RefCard[] = uniq(Object.keys(FUNCTION_INTEL))
       .filter((k) => (FUNCTION_INTEL[k].related.idocs || []).includes(r.name))
-      .map((k) => ({ href: bapiHref(k), code: k, he: FUNCTION_INTEL[k].what, reason: "ממשק פונקציה שהרשומה שלו מזכירה את סוג ההודעה" }));
+      .map((k) => ({ href: bapiHref(k), code: k, he: FUNCTION_INTEL[k].what, reason: "אובייקט פונקציה שרשומתו מפנה לסוג ההודעה" }));
     if (fnCards.length) {
-      sections.push({ id: "funcs", icon: "plug", title: "ממשקי פונקציה קשורים", cards: fnCards });
+      sections.push({ id: "funcs", icon: "plug", title: "אובייקטי פונקציה קשורים", cards: fnCards });
     }
   }
 
@@ -309,7 +307,7 @@ export function idocDetail(name: string): RefDetail | null {
       ? { he: "מתועד לעומק", color: "var(--status-done)" }
       : { he: "רשומת קישור בלבד", color: "var(--status-not-started)" },
   ];
-  if (intel?.inferred) statuses.push({ he: "תלוי גרסה: נדרש אימות", color: "var(--status-in-analysis)" });
+  if (intel?.inferred) statuses.push({ he: "תלוי גרסה: נדרש אימות נוסף", color: "var(--status-in-analysis)" });
 
   return {
     kind: "idoc",
@@ -330,19 +328,19 @@ export function idocDetail(name: string): RefDetail | null {
         critical.length
           ? { he: "נשען על טבלה שמשתנה", color: "var(--status-in-conversion)" }
           : intel?.s4
-            ? { he: "קיימת אמירת S/4 ברשומה", color: "var(--status-in-analysis)" }
-            : { he: "אין אמירת S/4 במאגר", color: "var(--status-not-started)" },
+            ? { he: "קיימת הערת S/4HANA ברשומה", color: "var(--status-in-analysis)" }
+            : { he: "לא קיימת הערת S/4HANA במאגר", color: "var(--status-not-started)" },
       ],
       facts: s4Facts,
       tables: tables.length ? tables : undefined,
       warn: tone === "unknown"
-        ? "למאגר אין אמירה על מעמד סוג ההודעה ב-S/4HANA. הפריט דורש אימות במערכת SAP (WE30 / WE20 / תיעוד ALE) לפני החלטת מיגרציה."
+        ? "לא קיים תיעוד מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA. נדרש אימות נוסף במערכת SAP (WE30, WE20 או תיעוד ALE) לפני החלטת מעבר."
         : undefined,
     },
     sections,
     sources: [],
     foot:
-      "הרשומה נבנתה מתוך המידע המאומת של הפרויקט על ממשקי פונקציה ו-IDoc. מדריך הסטטוסים והאנטומיה של ההודעה " +
-      "אינם משוכפלים לכאן: הם משותפים לכל סוגי ההודעה ומוצגים פעם אחת, בעמוד הרשימה.",
+      "הרשומה נבנתה מהתיעוד המאומת של הפרויקט על אובייקטי פונקציה ו-IDoc. מבנה ה-IDoc וקודי הסטטוס " +
+      "משותפים לכל סוגי ההודעה ומוצגים בעמוד קטלוג IDoc.",
   };
 }
