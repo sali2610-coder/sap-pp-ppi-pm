@@ -28,7 +28,7 @@ import { domainCards, domainTotals, type DomainCard, type DomLink, type DomainVi
 const nf = new Intl.NumberFormat("he-IL");
 
 const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--mod-pppi)" };
-const MOD_HE: Record<string, string> = { PM: "אחזקה · PM", "PP-PI": "ייצור · PP-PI" };
+const MOD_HE: Record<string, string> = { PM: "תחזוקת מפעל · PM", "PP-PI": "תעשיות תהליכיות · PP-PI" };
 
 /** The four semantic tones of the ECC↔S/4 verdict, mapped onto the status
  *  tokens the product already owns. No new colour is introduced. */
@@ -71,7 +71,7 @@ function Card({ c, i }: { c: DomainCard; i: number }) {
       </span>
       <span className="ndm-card-go">
         <ArrowLeft size={14} strokeWidth={2} aria-hidden="true" />
-        פתח את התחום
+        פתיחת התחום
       </span>
     </Link>
   );
@@ -90,18 +90,18 @@ export function DomainsHub() {
           <Boxes size={13} strokeWidth={2} aria-hidden="true" />
           תחומים עסקיים · BUSINESS DOMAINS
         </p>
-        <h1 className="ndm-h1">איך העבודה באמת מתנהלת</h1>
+        <h1 className="ndm-h1">התחומים העסקיים של PM ו-PP-PI</h1>
         <p className="ndm-lede">
-          {t.domains} תחומים פונקציונליים של PM ו-PP-PI. כל תחום הוא יחידת עבודה שלמה:
-          הזרימה העסקית שלב אחר שלב, הטבלאות והטרנזקציות שמאחוריה, נקודות הלמידה והתקלות הנפוצות.
-          {" "}<b>{t.deep}</b> מהם נושאים גם רשומה עמוקה: נתוני אב, User Exits ו-BAdIs, תרחישי בדיקה,
-          תקלות מהשטח, דוגמה מהמפעל והכרעת מעבר ל-S/4HANA.
+          {t.domains} תחומים פונקציונליים של PM ו-PP-PI. לכל תחום: הזרימה העסקית שלב אחר שלב,
+          טבלאות SAP והטרנזקציות התומכות בה, נקודות למידה ותקלות נפוצות.
+          {" "}<b>{t.deep}</b> מהם כוללים גם רשומה מלאה: נתוני אב, User Exits ו-BAdIs, תרחישי בדיקה,
+          תקלות מהשטח, תרחיש מהמפעל והכרעת מעבר ל-S/4HANA.
         </p>
         <div className="ndm-stats">
           {([
             [t.domains, "תחומים"],
             [t.steps, "שלבי תהליך"],
-            [t.tables, "טבלאות מוזכרות"],
+            [t.tables, "טבלאות SAP"],
             [t.tcodes, "טרנזקציות"],
             [t.bapis, "BAPIs"],
             [t.trouble, "תקלות מתועדות"],
@@ -117,8 +117,8 @@ export function DomainsHub() {
         {t.domains > t.deep ? (
           <p className="ndm-gap">
             <ShieldQuestion size={14} strokeWidth={1.75} aria-hidden="true" />
-            {" "}{t.domains - t.deep} תחומים נושאים כרגע רשומת בסיס בלבד. הם מסומנים ככאלה בכרטיס ובעמוד,
-            ולא הושלמו כאן בתוכן שלא נכתב במאגר.
+            {" "}{t.domains - t.deep} תחומים כוללים רשומת בסיס בלבד, והם מסומנים כך בכרטיס ובעמוד.
+            לרשומה המלאה שלהם לא קיים תיעוד מאומת במאגר.
           </p>
         ) : null}
       </header>
@@ -189,14 +189,14 @@ export function DomainDetailView({ v }: { v: DomainView }) {
   const push = (id: string, he: string) => { nav.push([id, he]); return nav.length; };
 
   const nFlow = push("ndm-flow", "הזרימה העסקית");
-  const nPurpose = v.purpose || v.masterData.length ? push("ndm-purpose", "מה זה ולמה") : 0;
+  const nPurpose = v.purpose || v.masterData.length ? push("ndm-purpose", "הגדרה ומטרה") : 0;
   const nData = push("ndm-data", "טבלאות וטרנזקציות");
   const nApi = v.bapis.length || v.funcs.length ? push("ndm-api", "BAPIs ומודולי פונקציה") : 0;
   const nExt = v.exits.length || v.badis.length ? push("ndm-ext", "הרחבות") : 0;
   const nLearn = push("ndm-learn", "נקודות למידה");
   const nQa = v.qa.length ? push("ndm-qa", "תרחישי בדיקה") : 0;
   const nTrb = push("ndm-trb", "תקלות ופתרונות");
-  const nScen = v.scenario ? push("ndm-scen", "מהמפעל") : 0;
+  const nScen = v.scenario ? push("ndm-scen", "תרחיש מהמפעל") : 0;
   const nS4 = push("ndm-s4", "המעבר ל-S/4HANA");
   const nSib = v.siblings.length ? push("ndm-sib", "תחומים נוספים") : 0;
 
@@ -226,9 +226,9 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         {!v.deep ? (
           <p className="ndm-gap">
             <ShieldQuestion size={14} strokeWidth={1.75} aria-hidden="true" />
-            {" "}לתחום הזה המאגר מחזיק את רשומת הבסיס: זרימה, טבלאות, טרנזקציות, BAPIs, נקודות למידה ותקלות.
-            הרשומה העמוקה, הכוללת נתוני אב, Exits ו-BAdIs, תרחישי בדיקה, דוגמה מהמפעל והכרעת מעבר, לא נכתבה עבורו,
-            והיא לא הושלמה כאן.
+            {" "}לתחום זה קיימת במאגר רשומת בסיס: זרימה, טבלאות, טרנזקציות, BAPIs, נקודות למידה ותקלות.
+            לרשומה המלאה (נתוני אב, User Exits ו-BAdIs, תרחישי בדיקה, תרחיש מהמפעל והכרעת מעבר)
+            לא קיים תיעוד מאומת במאגר.
           </p>
         ) : null}
       </header>
@@ -240,7 +240,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         icon={<Route size={15} strokeWidth={1.75} />}
         eyebrow="תהליך"
         title="הזרימה העסקית"
-        lede={`${nf.format(v.flow.length)} שלבים, כפי שהם כתובים במאגר.`}
+        lede={`${nf.format(v.flow.length)} שלבים, כפי שתועדו במאגר.`}
       >
         <ol className="ndm-flow">
           {v.flow.map((s, i) => (
@@ -268,12 +268,12 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           id="ndm-purpose" n={nPurpose}
           icon={<Lightbulb size={15} strokeWidth={1.75} />}
           eyebrow="הגדרה"
-          title="מה זה, ולמה זה קיים"
+          title="הגדרה ומטרה"
         >
           {v.purpose ? <p className="ndm-p">{v.purpose}</p> : null}
           {v.masterData.length ? (
             <>
-              <h3 className="ndm-h3">נתוני אב שהתחום נשען עליהם</h3>
+              <h3 className="ndm-h3">נתוני אב נדרשים</h3>
               <Bullets items={v.masterData} />
             </>
           ) : null}
@@ -289,9 +289,9 @@ export function DomainDetailView({ v }: { v: DomainView }) {
       <Sec
         id="ndm-data" n={nData}
         icon={<Table2 size={15} strokeWidth={1.75} />}
-        eyebrow="מאחורי הקלעים"
+        eyebrow="נתונים"
         title="טבלאות וטרנזקציות"
-        lede={`${nf.format(v.tables.filter((x) => x.href).length)} מתוך ${nf.format(v.tables.length)} הטבלאות ו-${nf.format(v.tcodes.filter((x) => x.href).length)} מתוך ${nf.format(v.tcodes.length)} הטרנזקציות נושאות דף בפרויקט. השאר מוצגות כערך, לא כקישור מת.`}
+        lede={`${nf.format(v.tables.filter((x) => x.href).length)} מתוך ${nf.format(v.tables.length)} הטבלאות ו-${nf.format(v.tcodes.filter((x) => x.href).length)} מתוך ${nf.format(v.tcodes.length)} הטרנזקציות מקושרות לדף בפרויקט.`}
       >
         <h3 className="ndm-h3"><Table2 size={13} strokeWidth={2} aria-hidden="true" /> טבלאות</h3>
         <Chips items={v.tables} />
@@ -299,7 +299,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         <Chips items={v.tcodes} />
         {v.fiori.length ? (
           <>
-            <h3 className="ndm-h3"><LayoutGrid size={13} strokeWidth={2} aria-hidden="true" /> אפליקציות Fiori</h3>
+            <h3 className="ndm-h3"><LayoutGrid size={13} strokeWidth={2} aria-hidden="true" /> יישומי Fiori</h3>
             <Chips items={v.fiori.map((t) => ({ t, href: null }))} mono={false} />
           </>
         ) : null}
@@ -315,7 +315,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           {v.bapis.length ? <Chips items={v.bapis} /> : null}
           {v.funcs.length ? (
             <>
-              <h3 className="ndm-h3">מהרשומה העמוקה</h3>
+              <h3 className="ndm-h3">מודולי פונקציה מהרשומה המלאה</h3>
               <Chips items={v.funcs} />
             </>
           ) : null}
@@ -328,7 +328,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           icon={<Puzzle size={15} strokeWidth={1.75} />}
           eyebrow="פיתוח"
           title="נקודות הרחבה"
-          lede="User Exits ו-BAdIs כפי שנרשמו במאגר. הסוגריים הם ההסבר שנכתב שם, לא תוספת שלנו."
+          lede="User Exits ו-BAdIs כפי שתועדו במאגר."
         >
           {v.exits.length ? (<><h3 className="ndm-h3">User Exits</h3><Bullets items={v.exits} /></>) : null}
           {v.badis.length ? (<><h3 className="ndm-h3">BAdIs</h3><Bullets items={v.badis} /></>) : null}
@@ -339,7 +339,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         id="ndm-learn" n={nLearn}
         icon={<GraduationCap size={15} strokeWidth={1.75} />}
         eyebrow="למידה"
-        title="מה חשוב לזכור"
+        title="נקודות למידה"
       >
         <Bullets items={v.learning} />
       </Sec>
@@ -360,7 +360,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         id="ndm-trb" n={nTrb}
         icon={<AlertTriangle size={15} strokeWidth={1.75} />}
         eyebrow="תקלות"
-        title="מה נשבר, ומה עושים"
+        title="תקלות ופתרונות"
       >
         <ul className="ndm-trb">
           {v.trouble.map((t, i) => (
@@ -383,7 +383,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           id="ndm-scen" n={nScen}
           icon={<FlaskConical size={15} strokeWidth={1.75} />}
           eyebrow="בשטח"
-          title="איך זה נראה במפעל"
+          title="תרחיש מהמפעל"
         >
           <p className="ndm-quote">{v.scenario}</p>
         </Sec>
@@ -393,8 +393,8 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         id="ndm-s4" n={nS4}
         icon={<GitBranch size={15} strokeWidth={1.75} />}
         eyebrow="מעבר"
-        title="ECC ← S/4HANA"
-        lede={v.s4.length ? "ההכרעה כפי שנכתבה במאגר, שורה לכל היבט." : undefined}
+        title="המעבר ל-S/4HANA"
+        lede={v.s4.length ? "הכרעת המעבר כפי שתועדה במאגר, שורה לכל היבט." : undefined}
       >
         {v.s4.length ? (
           <ul className="ndm-s4">
@@ -407,12 +407,12 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           </ul>
         ) : (
           <p className="ndm-silent">
-            למאגר אין הכרעת מעבר מתועדת לתחום הזה. הריק מכוון, ואינו אומר שאין שינוי ב-S/4HANA.
+            לתחום זה לא קיימת הכרעת מעבר מתועדת במאגר. נדרש אימות נוסף בהתאם לגרסת המערכת.
           </p>
         )}
         {v.migration ? (
           <>
-            <h3 className="ndm-h3">מה לבדוק אחרי ההמרה</h3>
+            <h3 className="ndm-h3">נקודות לבדיקה לאחר המעבר</h3>
             <p className="ndm-p">{v.migration}</p>
           </>
         ) : null}
@@ -440,7 +440,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
 
       <p className="ndm-credit">
         <Cable size={13} strokeWidth={1.75} aria-hidden="true" />
-        {" "}התוכן מוצג כפי שנכתב במאגר הפרויקט. לא נוסחו כאן עובדות SAP חדשות.
+        {" "}התוכן מוצג כפי שנכתב בתיעוד הפרויקט.
       </p>
     </article>
   );

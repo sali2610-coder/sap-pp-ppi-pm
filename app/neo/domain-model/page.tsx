@@ -15,7 +15,7 @@ export function generateMetadata() {
   const t = domainTotals();
   return {
     title: "תחומים עסקיים · Project NEO",
-    description: `${t.domains} תחומים פונקציונליים של PM ו-PP-PI: זרימה עסקית, טבלאות, טרנזקציות, נקודות למידה, תקלות והכרעת מעבר ל-S/4HANA.`,
+    description: `${t.domains} תחומים פונקציונליים של PM ו-PP-PI: זרימה עסקית, טבלאות SAP, טרנזקציות, נקודות למידה, תקלות והכרעת מעבר ל-S/4HANA.`,
     robots: { index: false, follow: false },
   };
 }

@@ -21,7 +21,7 @@ export interface ModuleReadiness {
 }
 
 export const MOD_HE: Record<string, string> = {
-  PM: "תחזוקת מפעל", PP: "תכנון ייצור", "PP-PI": "ייצור תהליכי", MM: "ניהול חומרים", SD: "מכירות והפצה",
+  PM: "תחזוקת מפעל", PP: "תכנון ייצור", "PP-PI": "תעשיות תהליכיות", MM: "ניהול חומרים", SD: "מכירות והפצה",
   FI: "הנהלת חשבונות", CO: "בקרת עלויות", QM: "ניהול איכות", CS: "שירות לקוחות", BW: "Business Warehouse",
   HR: "משאבי אנוש", IDOC: "IDOC / ALE", PIPO: "ממשקי PI/PO", CLASS: "מערכת סיווג", BATCH: "ניהול אצוות",
 };
@@ -60,7 +60,7 @@ function moduleScore(tables: RTbl[], mod: string): ModuleReadiness {
   const risk: ModuleReadiness["risk"] = deprecatedPct >= 30 || customCodeImpact >= 5 ? "high" : deprecatedPct >= 10 || customCodeImpact >= 2 ? "medium" : "low";
   const weight = n + tables.reduce((a, t) => a + (t.rel?.length || 0), 0) + deprecated * 3;
   const complexity: ModuleReadiness["complexity"] = weight >= 220 ? "XL" : weight >= 120 ? "L" : weight >= 50 ? "M" : "S";
-  const effort = { XL: "12+ שבועות", L: "6–12 שבועות", M: "3–6 שבועות", S: "1–3 שבועות" }[complexity];
+  const effort = { XL: "12+ שבועות", L: "6-12 שבועות", M: "3-6 שבועות", S: "1-3 שבועות" }[complexity];
 
   return { mod, he: MOD_HE[mod] || mod, tables: n, fioriPct, cdsPct, s4Pct, deprecatedPct, migrationObjs, simplification, score, band, color: bandColor(score), risk, complexity, effort, customCodeImpact, dataModelImpact };
 }
@@ -73,7 +73,7 @@ export function computeReadiness(allTables: RTbl[]): ModuleReadiness[] {
     const tables = byMod[mod] || [];
     if (tables.length === 0) {
       // module with no tables in the dataset (e.g. PI/PO) — derive from architecture intent
-      if (mod === "PIPO") { out.push({ mod, he: MOD_HE[mod], tables: 0, fioriPct: 0, cdsPct: 0, s4Pct: 0, deprecatedPct: 0, migrationObjs: 0, simplification: 1, score: 45, band: "Hybrid", color: bandColor(45), risk: "medium", complexity: "M", effort: "3–6 שבועות", customCodeImpact: 0, dataModelImpact: 0 }); }
+      if (mod === "PIPO") { out.push({ mod, he: MOD_HE[mod], tables: 0, fioriPct: 0, cdsPct: 0, s4Pct: 0, deprecatedPct: 0, migrationObjs: 0, simplification: 1, score: 45, band: "Hybrid", color: bandColor(45), risk: "medium", complexity: "M", effort: "3-6 שבועות", customCodeImpact: 0, dataModelImpact: 0 }); }
       continue;
     }
     out.push(moduleScore(tables, mod));

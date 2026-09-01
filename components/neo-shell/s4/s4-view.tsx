@@ -41,7 +41,7 @@ const RISK_C: Record<string, string> = {
   medium: "var(--status-in-analysis, #d97706)",
   low: "var(--status-done, #16a34a)",
 };
-const TRUST_HE: Record<string, string> = { curated: "ידע מתוחזק", "needs-verification": "דורש אימות מול SAP" };
+const TRUST_HE: Record<string, string> = { curated: "תיעוד מאומת", "needs-verification": "נדרש אימות נוסף" };
 
 /* ------------------------------------------------------------- primitives */
 
@@ -110,7 +110,7 @@ function Chips({ items }: { items: S4Link[] }) {
 const Credit = () => (
   <p className="ns4-credit">
     <Cable size={13} strokeWidth={1.75} aria-hidden="true" />
-    {" "}התוכן מוצג כפי שנכתב במאגר הפרויקט. לא נוסחו כאן עובדות SAP חדשות.
+    {" "}התוכן מוצג כפי שנכתב בתיעוד הפרויקט.
   </p>
 );
 
@@ -133,7 +133,7 @@ export function S4HanaCenter() {
 
   const nav: [string, string][] = [
     ["ns4-cat", "קטלוג האובייקטים"],
-    ["ns4-arch", "נוף המערכות"],
+    ["ns4-arch", "ארכיטקטורת המערכת"],
     ["ns4-code", "קוד מותאם"],
     ["ns4-int", "אינטגרציה"],
     ["ns4-test", "בדיקות"],
@@ -146,11 +146,11 @@ export function S4HanaCenter() {
       <Hero
         eyebrow="מרכז S/4HANA · TRANSFORMATION"
         icon={<Rocket size={13} strokeWidth={2} aria-hidden="true" />}
-        title="מה בדיוק משתנה במעבר"
+        title="השינויים במעבר מ-ECC ל-S/4HANA"
         lede={
           <>
-            {t.total} אובייקטים שהפרויקט תיעד אחד-אחד: מה היה ב-ECC, מה קיים ב-S/4HANA,
-            למה זה השתנה, ומה זה עושה לקוד. לצדם {tr.arch} רכיבי נוף מערכות, {tr.customCode} דפוסי קוד מותאם,
+            {t.total} אובייקטים מתועדים: המצב ב-ECC, המצב ב-S/4HANA, סיבת השינוי וההשפעה על הקוד המותאם.
+            בנוסף: {tr.arch} רכיבי ארכיטקטורה, {tr.customCode} דפוסי קוד מותאם,
             {" "}{tr.testing} שכבות בדיקה ו-{tr.cutoverSteps} צעדי Cutover.
           </>
         }
@@ -164,8 +164,8 @@ export function S4HanaCenter() {
         ]}
         note={
           <>
-            {t.curated} מתוך {t.total} האובייקטים מסומנים כידע מתוחזק; היתר מסומנים כדורשים אימות מול גרסת היעד,
-            והסימון מוצג על כל כרטיס. {t.linked} מהם נושאים גם דף אובייקט מלא בפרויקט.
+            {t.curated} מתוך {t.total} האובייקטים מסומנים כתיעוד מאומת; ליתר נדרש אימות נוסף בהתאם לגרסת המערכת,
+            והסימון מוצג על כל כרטיס. {t.linked} מהם מקושרים לדף אובייקט מלא בפרויקט.
           </>
         }
       />
@@ -179,8 +179,8 @@ export function S4HanaCenter() {
         id="ns4-cat" n={1}
         icon={<Database size={15} strokeWidth={1.75} />}
         eyebrow="קטלוג"
-        title="אובייקט אחרי אובייקט"
-        lede="מסודר לפי חומרת השינוי: מה שבוטל קודם, מה שנשאר אחרון. הצבע הוא הצבע של המאגר עצמו."
+        title="קטלוג האובייקטים"
+        lede="מסודר לפי חומרת השינוי: תחילה מה שבוטל, בסוף מה שנשאר."
       >
         {ORDER.map(({ k, he }) => {
           const list = objs.filter((o) => o.status === k);
@@ -211,18 +211,18 @@ export function S4HanaCenter() {
                       <div><dt>S/4HANA</dt><dd>{o.s4}</dd></div>
                     </dl>
 
-                    {o.why ? <p className="ns4-why"><b>למה: </b>{o.why}</p> : null}
+                    {o.why ? <p className="ns4-why"><b>סיבת השינוי: </b>{o.why}</p> : null}
 
                     {o.replacesLinks.length ? (
                       <>
-                        <h4 className="ns4-h4">מאחד אליו</h4>
+                        <h4 className="ns4-h4">מחליף את</h4>
                         <Chips items={o.replacesLinks} />
                       </>
                     ) : null}
 
                     {(o.abap || []).length ? (
                       <>
-                        <h4 className="ns4-h4"><Code2 size={12} strokeWidth={2} aria-hidden="true" /> מה זה עושה לקוד</h4>
+                        <h4 className="ns4-h4"><Code2 size={12} strokeWidth={2} aria-hidden="true" /> השפעה על קוד ABAP</h4>
                         <ul className="ns4-abap">
                           {(o.abap || []).map((a, i) => (
                             <li key={i}>
@@ -239,7 +239,7 @@ export function S4HanaCenter() {
 
                     {(o.checklist || []).length ? (
                       <>
-                        <h4 className="ns4-h4"><ClipboardList size={12} strokeWidth={2} aria-hidden="true" /> מה לבדוק אצלנו</h4>
+                        <h4 className="ns4-h4"><ClipboardList size={12} strokeWidth={2} aria-hidden="true" /> נקודות לבדיקה בפרויקט</h4>
                         <ul className="ns4-check">
                           {(o.checklist || []).map((c, i) => <li key={i}>{c}</li>)}
                         </ul>
@@ -262,9 +262,9 @@ export function S4HanaCenter() {
       <Sec
         id="ns4-arch" n={2}
         icon={<Network size={15} strokeWidth={1.75} />}
-        eyebrow="נוף מערכות"
-        title="מה מחליף מה בשכבות"
-        lede={`${tr.arch} רכיבים, כל אחד עם מה שנשאר ומה שנעלם.`}
+        eyebrow="ארכיטקטורה"
+        title="רכיבי הארכיטקטורה לפי שכבה"
+        lede={`${tr.arch} רכיבים, ECC מול S/4HANA, ולכל אחד מה שנשאר ומה שהוסר.`}
       >
         <div className="ns4-arch">
           {ARCH.map((c) => {
@@ -287,7 +287,7 @@ export function S4HanaCenter() {
                 </dl>
                 <ul className="ns4-sg">
                   <li data-k="stay"><b>נשאר</b><span>{c.stays}</span></li>
-                  <li data-k="gone"><b>נעלם</b><span>{c.gone}</span></li>
+                  <li data-k="gone"><b>הוסר</b><span>{c.gone}</span></li>
                 </ul>
               </article>
             );
@@ -300,7 +300,7 @@ export function S4HanaCenter() {
         id="ns4-code" n={3}
         icon={<Code2 size={15} strokeWidth={1.75} />}
         eyebrow="ABAP"
-        title="מה קורה לקוד המותאם"
+        title="השפעה על הקוד המותאם"
         lede={CUSTOM_CODE_NOTE}
       >
         <ul className="ns4-rows">
@@ -308,11 +308,11 @@ export function S4HanaCenter() {
             <li key={i} style={{ "--r": RISK_C[r.risk || "low"] } as React.CSSProperties}>
               <header><b>{r.he}</b><Risk r={r.risk} /></header>
               {r.ecc ? <p><span className="ns4-lbl">ECC</span>{r.ecc}</p> : null}
-              {r.s4 ? <p><span className="ns4-lbl">S/4</span>{r.s4}</p> : null}
+              {r.s4 ? <p><span className="ns4-lbl">S/4HANA</span>{r.s4}</p> : null}
             </li>
           ))}
         </ul>
-        <h3 className="ns4-h3">כלי הבדיקה</h3>
+        <h3 className="ns4-h3">כלי בדיקה וניטור</h3>
         <Chips items={mon} />
       </Sec>
 
@@ -321,7 +321,7 @@ export function S4HanaCenter() {
         id="ns4-int" n={4}
         icon={<Waypoints size={15} strokeWidth={1.75} />}
         eyebrow="ממשקים"
-        title="איך המערכת מדברת החוצה"
+        title="שכבות האינטגרציה"
         lede={`${tr.integration} שכבות אינטגרציה, ECC מול S/4HANA.`}
       >
         <ul className="ns4-rows">
@@ -329,7 +329,7 @@ export function S4HanaCenter() {
             <li key={i}>
               <header><b>{r.he}</b><Trust t={r.trust} /></header>
               <p><span className="ns4-lbl">ECC</span>{r.ecc}</p>
-              <p><span className="ns4-lbl">S/4</span>{r.s4}</p>
+              <p><span className="ns4-lbl">S/4HANA</span>{r.s4}</p>
             </li>
           ))}
         </ul>
@@ -341,7 +341,7 @@ export function S4HanaCenter() {
         icon={<BadgeCheck size={15} strokeWidth={1.75} />}
         eyebrow="איכות"
         title="שכבות הבדיקה"
-        lede={`${tr.testing} שכבות, מ-ABAP Unit ועד Reconciliation אחרי ההגירה.`}
+        lede={`${tr.testing} שכבות, מ-ABAP Unit ועד Reconciliation לאחר המעבר.`}
       >
         <ol className="ns4-steps">
           {TESTING.map((r, i) => (
@@ -373,8 +373,8 @@ export function S4HanaCenter() {
         id="ns4-les" n={7}
         icon={<Sparkles size={15} strokeWidth={1.75} />}
         eyebrow="ניסיון"
-        title="הלקחים שכבר שילמנו עליהם"
-        lede={`${tr.lessons} מלכודות שחוזרות בפרויקטי המרה.`}
+        title="לקחים מפרויקטי מעבר"
+        lede={`${tr.lessons} לקחים חוזרים בפרויקטי מעבר ל-S/4HANA.`}
       >
         <ul className="ns4-rows">
           {LESSONS.map((l, i) => (
@@ -401,31 +401,31 @@ export function S4ReadinessCenter() {
   const tt = s4TopicTotals();
 
   const AREA_HE: Record<string, string> = {
-    Data: "מודל נתונים", PP: "ייצור", PM: "אחזקה", Platform: "פלטפורמה",
+    Data: "מודל הנתונים", PP: "תכנון ייצור (PP)", PM: "תחזוקת מפעל (PM)", Platform: "פלטפורמה",
   };
 
   const nav: [string, string][] = [
     ["ns4-score", "מוכנות לפי מודול"],
-    ["ns4-topics", "מה משתנה, נושא אחרי נושא"],
+    ["ns4-topics", "נושאי השינוי"],
   ];
 
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
       <Hero
-        eyebrow="מוכנות למעבר · READINESS"
+        eyebrow="מוכנות ל-S/4HANA · READINESS"
         icon={<Gauge size={13} strokeWidth={2} aria-hidden="true" />}
-        title="איפה כל מודול עומד"
+        title="מוכנות ל-S/4HANA לפי מודול"
         lede={
           r.available
-            ? <>ציון מוכנות לכל מודול, מחושב מ-{nf.format(r.tables)} טבלאות הפרויקט: כמה מהן כבר עם Fiori, עם CDS, מה מסומן כמוחלף, וכמה עבודת קוד מותאם צפויה. לצדו {tt.total} נושאי שינוי ECC→S/4HANA, כל אחד עם סטטוס והשפעת מיגרציה.</>
-            : <>מערך הטבלאות של הפרויקט לא נטען בזמן הבנייה, ולכן אין כאן ציון. {tt.total} נושאי השינוי מוצגים במלואם למטה.</>
+            ? <>ציון מוכנות לכל מודול, מחושב מ-{nf.format(r.tables)} טבלאות SAP מתועדות: כיסוי Fiori, כיסוי CDS, שיעור הטבלאות המסומנות כמוחלפות ואומדן עבודת הקוד המותאם. בנוסף {tt.total} נושאי שינוי ECC → S/4HANA, כל אחד עם סטטוס והשפעת מעבר.</>
+            : <>ציון המוכנות אינו זמין, מכיוון שקטלוג טבלאות SAP לא נטען. {tt.total} נושאי השינוי מוצגים במלואם.</>
         }
         stats={
           r.available
             ? [
                 [`${r.overall}%`, "מוכנות כוללת"],
                 [r.mods.length, "מודולים"],
-                [r.tables, "טבלאות שנספרו"],
+                [r.tables, "טבלאות SAP"],
                 [r.highRisk, "מודולים בסיכון גבוה"],
                 [tt.total, "נושאי שינוי"],
                 [tt.withFioriCds, "עם Fiori או CDS"],
@@ -433,7 +433,7 @@ export function S4ReadinessCenter() {
             : [[tt.total, "נושאי שינוי"], [tt.withSimplification, "עם פריט Simplification"]]
         }
         note={
-          <>הציון נגזר מהמאגר עצמו: Fiori, CDS, סטטוס S/4 ומספר הקשרים לכל טבלה. הוא מודד כיסוי תיעוד, לא בשלות מערכת חיה, ואינו מחליף SAP Readiness Check.</>
+          <>הציון נגזר מהתיעוד: Fiori, CDS, סטטוס S/4HANA ומספר הקשרים לכל טבלה. הוא מודד כיסוי תיעוד בלבד ואינו מחליף SAP Readiness Check.</>
         }
       />
 
@@ -444,7 +444,7 @@ export function S4ReadinessCenter() {
         icon={<Gauge size={15} strokeWidth={1.75} />}
         eyebrow="ציון"
         title="מוכנות לפי מודול"
-        lede={r.available ? "מסודר מהמוכן ביותר לפחות מוכן." : undefined}
+        lede={r.available ? "מסודר לפי ציון, מהגבוה לנמוך." : undefined}
       >
         {r.available ? (
           <ul className="ns4-mods">
@@ -464,7 +464,7 @@ export function S4ReadinessCenter() {
                   <div><dt>טבלאות</dt><dd className="nx-sap">{nf.format(m.tables)}</dd></div>
                   <div><dt>Fiori</dt><dd className="nx-sap">{m.fioriPct}%</dd></div>
                   <div><dt>CDS</dt><dd className="nx-sap">{m.cdsPct}%</dd></div>
-                  <div><dt>מסומן S/4</dt><dd className="nx-sap">{m.s4Pct}%</dd></div>
+                  <div><dt>מסומן S/4HANA</dt><dd className="nx-sap">{m.s4Pct}%</dd></div>
                   <div><dt>מוחלף/הוסר</dt><dd className="nx-sap">{m.deprecatedPct}%</dd></div>
                   <div><dt>מורכבות</dt><dd className="nx-sap">{m.complexity}</dd></div>
                   <div><dt>אומדן</dt><dd>{m.effort}</dd></div>
@@ -475,8 +475,7 @@ export function S4ReadinessCenter() {
           </ul>
         ) : (
           <p className="ns4-silent">
-            הקובץ public/sap-infrastructure/dataset.json לא נקרא בזמן הבנייה, ולכן לא מוצג כאן ציון.
-            לא הוצג במקומו מספר משוער.
+            ציון המוכנות אינו זמין: קטלוג טבלאות SAP לא נטען.
           </p>
         )}
       </Sec>
@@ -485,7 +484,7 @@ export function S4ReadinessCenter() {
         id="ns4-topics" n={2}
         icon={<GitBranch size={15} strokeWidth={1.75} />}
         eyebrow="שינויים"
-        title="מה משתנה, נושא אחרי נושא"
+        title="נושאי השינוי במעבר ל-S/4HANA"
         lede={`${tt.total} נושאים. ${Object.entries(tt.byArea).map(([a, n]) => `${AREA_HE[a] || a} ${n}`).join(" · ")}.`}
       >
         <ul className="ns4-topics">
@@ -503,7 +502,7 @@ export function S4ReadinessCenter() {
               </dl>
               {t.fioriCds ? <p className="ns4-note"><span className="ns4-lbl">Fiori · CDS</span>{t.fioriCds}</p> : null}
               {t.simplification ? <p className="ns4-note"><span className="ns4-lbl">Simplification</span>{t.simplification}</p> : null}
-              <p className="ns4-impact"><b>השפעת מיגרציה: </b>{t.impact}</p>
+              <p className="ns4-impact"><b>השפעת המעבר: </b>{t.impact}</p>
               {t.note ? <p className="ns4-note-x">{t.note}</p> : null}
             </li>
           ))}
@@ -528,8 +527,8 @@ export function MigrationCockpit() {
 
   const nav: [string, string][] = [
     ["ns4-seq", "רצף הטעינה"],
-    ["ns4-objs", "אובייקטי ההגירה"],
-    ["ns4-appr", "גישות העברה"],
+    ["ns4-objs", "אובייקטי המעבר"],
+    ["ns4-appr", "גישות העברת נתונים"],
     ["ns4-err", "שגיאות נפוצות"],
     ["ns4-qual", "איכות נתונים"],
     ["ns4-ready", "קריטריוני מוכנות"],
@@ -539,14 +538,13 @@ export function MigrationCockpit() {
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
       <Hero
-        eyebrow="קוקפיט מיגרציה · MIGRATION COCKPIT"
+        eyebrow="קוקפיט המעבר · MIGRATION COCKPIT"
         icon={<Truck size={13} strokeWidth={2} aria-hidden="true" />}
-        title="מה עובר, ובאיזה סדר"
+        title="אובייקטי המעבר ורצף הטעינה"
         lede={
           <>
-            {t.objects} אובייקטי הגירה של ה-Migration Cockpit, עם {nf.format(t.eccRefs)} הפניות
-            ל-{nf.format(t.eccTables)} טבלאות ECC נבדלות. רצף הטעינה למטה אינו כתוב ביד. הוא מחושב
-            מהתלויות עצמן, ולכן אינו יכול לסתור אותן.
+            {t.objects} אובייקטי מעבר ב-Migration Cockpit, עם {nf.format(t.eccRefs)} הפניות
+            ל-{nf.format(t.eccTables)} טבלאות מקור נבדלות ב-ECC. רצף הטעינה מחושב מהתלויות בין האובייקטים.
           </>
         }
         stats={[
@@ -559,8 +557,8 @@ export function MigrationCockpit() {
         ]}
         note={
           <>
-            {t.curated} אובייקטים מסומנים כידע מתוחזק ו-{t.needsVerification} כדורשים אימות מול גרסת המקור והיעד.
-            הסימון מופיע על כל אובייקט. {t.eccLinked} מטבלאות ה-ECC נושאות דף מלא בפרויקט.
+            {t.curated} אובייקטים מסומנים כתיעוד מאומת ו-{t.needsVerification} כנדרש אימות נוסף בהתאם לגרסת המערכת.
+            הסימון מופיע על כל אובייקט. {t.eccLinked} מטבלאות ה-ECC מקושרות לדף טבלה מלא בפרויקט.
           </>
         }
       />
@@ -573,7 +571,7 @@ export function MigrationCockpit() {
         icon={<Layers size={15} strokeWidth={1.75} />}
         eyebrow="סדר"
         title="רצף הטעינה"
-        lede="כל גל מכיל אובייקטים שכל התלויות שלהם כבר נטענו. אובייקט לא יכול להופיע לפני מה שהוא צריך."
+        lede="כל גל מכיל אובייקטים שכל התלויות שלהם נטענו בגלים הקודמים."
       >
         <div className="ns4-waves">
           {waves.map((w) => {
@@ -600,8 +598,8 @@ export function MigrationCockpit() {
       <Sec
         id="ns4-objs" n={2}
         icon={<Boxes size={15} strokeWidth={1.75} />}
-        eyebrow="ספרייה"
-        title="אובייקטי ההגירה"
+        eyebrow="קטלוג"
+        title="אובייקטי המעבר"
         lede={`${t.objects} אובייקטים. ${MIG_LOAD_LAYERS.map((l) => `${l.he.replace(/^\d+ · /, "")} ${t.byCat[l.cat] || 0}`).join(" · ")}.`}
       >
         <div className="ns4-objs">
@@ -624,11 +622,11 @@ export function MigrationCockpit() {
               <h4 className="ns4-h4">טבלאות המקור ב-ECC</h4>
               {o.eccLinks.length
                 ? <Chips items={o.eccLinks} />
-                : <p className="ns4-silent">האובייקט הזה אינו נטען מטבלת ECC. ראו את ההערה למטה.</p>}
+                : <p className="ns4-silent">לאובייקט זה לא מתועדת טבלת מקור ב-ECC.</p>}
 
               {o.dependsHe.length ? (
                 <>
-                  <h4 className="ns4-h4">חייב להיטען אחרי</h4>
+                  <h4 className="ns4-h4">נטען לאחר</h4>
                   <ul className="ns4-dep">{o.dependsHe.map((d) => <li key={d.id}>{d.he}</li>)}</ul>
                 </>
               ) : (
@@ -637,7 +635,7 @@ export function MigrationCockpit() {
 
               {o.unlocks.length ? (
                 <>
-                  <h4 className="ns4-h4">פותח את הדרך ל</h4>
+                  <h4 className="ns4-h4">תנאי מקדים ל</h4>
                   <ul className="ns4-dep" data-tone="fwd">{o.unlocks.map((d) => <li key={d.id}>{d.he}</li>)}</ul>
                 </>
               ) : null}
@@ -653,7 +651,7 @@ export function MigrationCockpit() {
         id="ns4-appr" n={3}
         icon={<Route size={15} strokeWidth={1.75} />}
         eyebrow="שיטה"
-        title="גישות העברה"
+        title="גישות העברת נתונים"
         lede={`${t.approaches} גישות, ומתי כל אחת מתאימה.`}
       >
         <ul className="ns4-rows">
@@ -677,8 +675,8 @@ export function MigrationCockpit() {
         id="ns4-err" n={4}
         icon={<AlertTriangle size={15} strokeWidth={1.75} />}
         eyebrow="תקלות"
-        title="מה נשבר בטעינה"
-        lede={`${t.errors} דפוסי שגיאה אמיתיים של LTMC: הסימפטום, הסיבה והתיקון.`}
+        title="שגיאות טעינה נפוצות"
+        lede={`${t.errors} דפוסי שגיאה ב-LTMC: סימפטום, סיבה ותיקון.`}
       >
         <ul className="ns4-errs">
           {MIG_ERRORS.map((e, i) => (
@@ -697,8 +695,8 @@ export function MigrationCockpit() {
         id="ns4-qual" n={5}
         icon={<BadgeCheck size={15} strokeWidth={1.75} />}
         eyebrow="נתונים"
-        title="ממדי איכות"
-        lede={`${t.quality} ממדים שנבדקים לפני שנטענים.`}
+        title="ממדי איכות הנתונים"
+        lede={`${t.quality} ממדים לבדיקה לפני הטעינה.`}
       >
         <ul className="ns4-rows">
           {QUALITY_DIMS.map((q) => (
@@ -713,7 +711,7 @@ export function MigrationCockpit() {
         icon={<Gauge size={15} strokeWidth={1.75} />}
         eyebrow="מוכנות"
         title="קריטריוני מוכנות"
-        lede={`${t.readiness} קריטריונים, ${t.readinessWeight} נקודות משקל בסך הכול. המשקל הוא של המאגר, לא הערכה שלנו.`}
+        lede={`${t.readiness} קריטריונים, ${t.readinessWeight} נקודות משקל בסך הכול, כפי שנקבעו בתיעוד הפרויקט.`}
       >
         <ul className="ns4-weights">
           {READINESS.map((r) => (

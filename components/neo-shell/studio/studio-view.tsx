@@ -50,7 +50,7 @@ import {
 type Mod = "PM" | "PP-PI";
 const MODULES: Mod[] = ["PM", "PP-PI"];
 
-const S4_HE: Record<string, string> = { kept: "ללא שינוי", replaced: "מוחלפת", removed: "הוסרה" };
+const S4_HE: Record<string, string> = { kept: "ללא החלפה מתועדת", replaced: "הוחלפה", removed: "הוסרה" };
 
 export function StudioView() {
   const [mod, setMod] = useState<Mod>("PM");
@@ -247,10 +247,10 @@ export function StudioView() {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="חפש טבלה, טרנזקציה או אובייקט"
+            placeholder="חיפוש טבלה, טרנזקציה או אובייקט"
             aria-label="חיפוש בגרף"
           />
-          {q ? <button type="button" className="nst-x" aria-label="נקה חיפוש" onClick={() => setQ("")}><X size={13} /></button> : null}
+          {q ? <button type="button" className="nst-x" aria-label="ניקוי החיפוש" onClick={() => setQ("")}><X size={13} /></button> : null}
           {results.length ? (
             <ul className="nst-res" role="listbox">
               {results.map((r) => (
@@ -270,17 +270,17 @@ export function StudioView() {
             buttons — the specific complaint about the old screens. */}
         <div className="nst-tools">
           <span className="nst-grp" role="group" aria-label="תצוגה">
-            <button type="button" onClick={fit} title="התאם למסך"><Expand size={15} /></button>
-            <button type="button" onClick={() => { setCam({ x: 0, y: 0, k: 1 }); setSel(null); setZones(new Set()); }} title="אפס"><RotateCcw size={15} /></button>
-            <button type="button" onClick={toggleFull} title={full ? "צא ממסך מלא" : "מסך מלא"}><Maximize2 size={15} /></button>
+            <button type="button" onClick={fit} title="התאמה למסך"><Expand size={15} /></button>
+            <button type="button" onClick={() => { setCam({ x: 0, y: 0, k: 1 }); setSel(null); setZones(new Set()); }} title="איפוס"><RotateCcw size={15} /></button>
+            <button type="button" onClick={toggleFull} title={full ? "יציאה ממסך מלא" : "מסך מלא"}><Maximize2 size={15} /></button>
           </span>
           <span className="nst-grp" role="group" aria-label="זום">
-            <button type="button" onClick={() => zoom(1 / 1.25)} title="התרחק"><Minus size={15} /></button>
+            <button type="button" onClick={() => zoom(1 / 1.25)} title="הקטנה"><Minus size={15} /></button>
             <b className="nst-k">{Math.round(cam.k * 100)}%</b>
-            <button type="button" onClick={() => zoom(1.25)} title="התקרב"><Plus size={15} /></button>
+            <button type="button" onClick={() => zoom(1.25)} title="הגדלה"><Plus size={15} /></button>
           </span>
           <span className="nst-grp" role="group" aria-label="ניווט">
-            <button type="button" onClick={() => sel && centerOn(sel)} disabled={!sel} title="מרכז את הנבחר"><Crosshair size={15} /></button>
+            <button type="button" onClick={() => sel && centerOn(sel)} disabled={!sel} title="מיקוד באובייקט הנבחר"><Crosshair size={15} /></button>
           </span>
         </div>
       </header>
@@ -387,7 +387,7 @@ export function StudioView() {
           </div>
 
           {!laid.nodes.length ? (
-            <p className="nst-empty">אין אובייקטים בתצוגה הזאת עם המסננים שנבחרו.</p>
+            <p className="nst-empty">לא נמצאו תוצאות התואמות לסינון שנבחר.</p>
           ) : null}
         </div>
 
@@ -396,7 +396,7 @@ export function StudioView() {
           <aside className="nst-ctx" aria-label="פרטי האובייקט הנבחר">
             <header>
               <span className="nst-kind" style={{ background: KIND_META[selNode.kind].c }}>{KIND_META[selNode.kind].he}</span>
-              <button type="button" className="nst-x" aria-label="סגור" onClick={() => setSel(null)}><X size={14} /></button>
+              <button type="button" className="nst-x" aria-label="סגירה" onClick={() => setSel(null)}><X size={14} /></button>
             </header>
             <h2 className="nst-ctx-id nx-sap" dir="ltr">{selNode.id}</h2>
             <p className="nst-ctx-he">{selNode.he}</p>
@@ -407,7 +407,7 @@ export function StudioView() {
                 <b>S/4HANA</b> {S4_HE[selNode.s4]}
               </p>
             ) : (
-              <p className="nst-ctx-none">לא תועדה הכרעת מעבר לאובייקט הזה.</p>
+              <p className="nst-ctx-none">לאובייקט זה לא קיימת הכרעת מעבר מתועדת.</p>
             )}
 
             <h3 className="nst-ctx-h">קשרים · {selNeighbours.length}</h3>
@@ -421,7 +421,7 @@ export function StudioView() {
                   </button>
                 </li>
               ))}
-              {!selNeighbours.length ? <li className="nst-ctx-none">אין קשרים בתצוגה הזאת.</li> : null}
+              {!selNeighbours.length ? <li className="nst-ctx-none">אין קשרים בתצוגה זו.</li> : null}
             </ul>
           </aside>
         ) : null}
