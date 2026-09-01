@@ -45,13 +45,13 @@ const MOD_VAR: Record<string, string> = {
 const MOD_HE: Record<string, string> = {
   "PM": "תחזוקת מפעל",
   "PP": "תכנון ייצור",
-  "PP-PI": "ייצור תהליכי",
+  "PP-PI": "תעשיות תהליכיות",
   "PP/DS": "תכנון מתקדם",
   "MM": "רכש ואספקה",
   "QM": "ניהול איכות",
   "EWM": "ניהול מחסן",
   "S&OP": "תכנון מכירות ותפעול",
-  "Fiori": "אפליקציות Fiori",
+  "Fiori": "יישומי Fiori",
   "S/4HANA": "יסודות S/4HANA",
 };
 
@@ -103,7 +103,7 @@ const CLOTH = [
  *  the book metadata and is what explains book7's 1,689 sections. */
 const STRUCTURE_HE: Record<string, string> = {
   narrative: "ספר קריאה: פרקים רציפים",
-  catalogue: "קטלוג: ערך לכל אפליקציה",
+  catalogue: "קטלוג: ערך לכל יישום",
   reference: "מדריך עיון",
 };
 
@@ -234,14 +234,14 @@ export function booksData(): BooksData {
           he: MOD_HE["PP-PI"],
           tables: pp.tables,
           fields: pp.fields,
-          caveat: module === "PP" ? "הספר מתויג PP; המילון מתעד ייצור תהליכי (PP-PI). הכיסוי חופף אך אינו זהה." : null,
+          caveat: module === "PP" ? "הספר מתויג PP; התיעוד הטכני מכסה תעשיות תהליכיות (PP-PI). הכיסוי חופף אך אינו זהה." : null,
         },
         note: null,
       };
     }
     return {
       dict: null,
-      note: `אין מילון טכני ל-${module} ב-Project NEO. המילון מתעד היום את PM ואת PP-PI בלבד, והספר הזה נשען על עצמו.`,
+      note: `לא קיים תיעוד טכני ל-${module} במאגר. התיעוד הטכני מכסה כיום את PM ואת PP-PI בלבד.`,
     };
   };
 
@@ -290,13 +290,13 @@ export function booksData(): BooksData {
       exact,
       exactNote: exact
         ? null
-        : "מזהי הערכים בספר הזה הם מזהי אפליקציות Fiori ולא מספרי סעיף, והקישור העמוק של הקורא מקבל מספרי סעיף בלבד. לחיצה על ערך פותחת את הפרק שלו בקורא, לא את הערך עצמו.",
+        : "מזהי הערכים בספר זה הם מזהי יישומי Fiori ולא מספרי סעיף, ולכן קורא הספרייה הדיגיטלית פותח את הפרק ולא את הערך עצמו.",
       chapterRows: rows,
       dict,
       dictNote: note,
       near:
         b.meta.module === "Fiori"
-          ? { href: "/neo/fiori-apps/", label: "מרשם ה-Fiori של NEO", n: FIORI_APPS.length }
+          ? { href: "/neo/fiori-apps/", label: "קטלוג יישומי Fiori של Project NEO", n: FIORI_APPS.length }
           : null,
       fit: shown.length <= 34 ? "s" : shown.length <= 54 ? "m" : "l",
       // Both filled by the passes below, which need the whole shelf first: the
@@ -374,7 +374,7 @@ export function booksData(): BooksData {
     ],
     twinNote:
       twins.length === 2
-        ? `${twins[0]} ו-${twins[1]} הם אותו מדריך משתמש עסקי בשתי סכימות שדה שונות. שניהם מוצגים כאן כפי שהם קיימים במאגר, ולא מאוחדים לכרטיס אחד.`
+        ? `${twins[0]} ו-${twins[1]} הם אותו מדריך משתמש עסקי בשני מבני נתונים שונים, ולכן מוצגים כשני ספרים נפרדים.`
         : null,
   };
 }

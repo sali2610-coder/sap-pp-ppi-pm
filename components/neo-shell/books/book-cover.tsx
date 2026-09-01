@@ -177,7 +177,7 @@ export function BookCover({
 
             <span className="nb-cov-rule" />
             <span className="nb-cov-pub">
-              <span>{b.publisher ?? "ללא מוציא לאור במטא-דאטה"}</span>
+              <span>{b.publisher ?? "מוציא לאור לא מתועד"}</span>
               <span className="nb-cov-pg">
                 {b.pages === null ? "עמודים לא מתועדים" : `${nf.format(b.pages)} עמ׳`}
               </span>

@@ -270,7 +270,7 @@ export function BookQuickView({
             <div className="nb-resume">
               <p className="nb-resume-h">
                 <Bookmark size={14} strokeWidth={1.75} aria-hidden="true" />
-                המשך מהמקום האחרון
+                המשך מהמיקום האחרון
               </p>
               <p className="nb-resume-l">{line}</p>
               <OriginLink
@@ -280,22 +280,22 @@ export function BookQuickView({
                 onClick={() => noteHandoff(b.id, r.chapter, r.section)}
               >
                 <PlayCircle size={15} strokeWidth={1.75} aria-hidden="true" />
-                {r.neoExact ? "חזרה לתת-הפרק" : "חזרה לפרק"}
+                {r.neoExact ? "המשך קריאה בתת-הפרק" : "המשך קריאה בפרק"}
               </OriginLink>
               <p className="nb-fine">
                 {r.section
-                  ? "המיקום נשמר עד רמת תת-הפרק, והקורא של NEO נוחת עליו."
-                  : "נשמר פרק בלבד. תת-פרק נשמר רק כשהקריאה בפועל הגיעה לאחד."}
+                  ? "המיקום נשמר ברמת תת-הפרק, והקורא נפתח בו."
+                  : "נשמר פרק בלבד; תת-פרק נשמר במהלך הקריאה."}
                 {/* §6 — the offset is REPORTED and never resumed from: the
                     locations a reader can be sent to are a chapter and a
                     subchapter, so the landing is at that grain and the sentence
                     says so rather than implying a pixel. */}
-                {resumeScrollLine(r) && <> {resumeScrollLine(r)} הנחיתה עצמה היא ברמת תת-הפרק.</>}
+                {resumeScrollLine(r) && <> {resumeScrollLine(r)} הפתיחה היא ברמת תת-הפרק.</>}
               </p>
             </div>
           ) : (
             <p className="nb-fine nb-resume-none">
-              אין מיקום קריאה שמור לספר הזה. אחרי פתיחה ראשונה בקורא, המקום האחרון יופיע כאן.
+              לספר זה אין מיקום קריאה שמור. המיקום נשמר במהלך הקריאה ויוצג כאן.
             </p>
           )}
 
@@ -306,14 +306,14 @@ export function BookQuickView({
             origin={() => origin(t)}
           />
 
-          <section className="nb-link" aria-label="החיבור למילון NEO">
-            <h3 className="nb-h3">החיבור ל-Project NEO</h3>
+          <section className="nb-link" aria-label="הקישור לתיעוד הטכני">
+            <h3 className="nb-h3">התיעוד הטכני ב-Project NEO</h3>
             {b.dict ? (
               <>
                 <Link className="nb-dict" href={b.dict.href} prefetch={false}>
                   <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
                   <span className="nb-dict-t">
-                    מילון <span className="nb-sap">{b.dict.code}</span> · {b.dict.he}
+                    תיעוד טכני <span className="nb-sap">{b.dict.code}</span> · {b.dict.he}
                   </span>
                   <span className="nb-dict-n nb-sap">
                     {nf.format(b.dict.tables)} טבלאות · {nf.format(b.dict.fields)} שדות
@@ -329,7 +329,7 @@ export function BookQuickView({
               <Link className="nb-dict" href={b.near.href} prefetch={false}>
                 <Layers size={15} strokeWidth={1.75} aria-hidden="true" />
                 <span className="nb-dict-t">{b.near.label}</span>
-                <span className="nb-dict-n nb-sap">{nf.format(b.near.n)} אפליקציות מלאות</span>
+                <span className="nb-dict-n nb-sap">{nf.format(b.near.n)} יישומי Fiori</span>
                 <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
               </Link>
             )}
@@ -343,7 +343,7 @@ export function BookQuickView({
               onClick={() => noteHandoff(b.id, null, null)}
             >
               <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
-              פתח את הספר בקורא
+              פתיחת הספר בקורא
             </OriginLink>
             <OriginLink className="nu-btn2" href={b.hubHref} origin={() => origin(t)}>
               <LayoutList size={15} strokeWidth={1.75} aria-hidden="true" />
@@ -352,11 +352,11 @@ export function BookQuickView({
           </div>
           <p className="nb-fine">
             הקריאה נפתחת בקורא של Project NEO בכתובת <span className="nb-sap">{neoReadHref(b.id)}</span>.
-            הקורא הקנוני של הפרויקט,{" "}
+            הספר זמין גם בקורא של הספרייה הדיגיטלית:{" "}
             <Link className="nu-link" href={b.href} prefetch={false}>
               <span className="nb-sap">{b.href}</span>
             </Link>
-            , ממשיך לפעול ללא שינוי: העמוד הזה אינו עוטף אף אחד מהשניים.
+            .
           </p>
         </div>
       </div>

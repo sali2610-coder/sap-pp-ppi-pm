@@ -8,8 +8,8 @@ import { booksData } from "@/components/neo-shell/books/books-data";
 import { BookShelf } from "@/components/neo-shell/books/book-shelf";
 
 export const metadata = {
-  title: "ספרים · Project NEO",
-  description: "מדף הספרים של Project NEO: אחד עשר ספרי SAP כאובייקטים, והדרך מהם אל המילון הטכני.",
+  title: "ספריית SAP · Project NEO",
+  description: "ספריית SAP של Project NEO: ספרי SAP לפי מודול, תוכן העניינים של כל ספר והקישור לתיעוד הטכני.",
   robots: { index: false, follow: false },
 };
 
@@ -50,16 +50,13 @@ export default function NeoBooks() {
             span is what rises out of it. The structure is the primitive's
             contract and cannot be flattened. */}
         <h1 className="nb-mega nm-kin">
-          <span><span>{d.totals.books} ספרי SAP</span></span>
-          <span><span className="nb-mega-2">מקצועיים.</span></span>
+          <span><span>ספריית SAP</span></span>
+          <span><span className="nb-mega-2">{d.totals.books} ספרים</span></span>
         </h1>
         <p className="nb-lede">
-          {nf.format(d.totals.chapters)} פרקים ו־{nf.format(d.totals.sections)} תת-פרקים,
-          פרושים על {d.totals.modules} מודולים של SAP. כל כריכה כאן משורטטת מהמטא-דאטה של
-          הספר עצמו: המודול הוא צבע הכריכה, הכותרת היא הכותרת האמיתית, ומספר העמודים הוא
-          זה שמופיע במאגר. אין תמונות עטיפה בפרויקט, ולכן גם לא הומצאה אחת.
-          כרטיס הספר פותח את תוכן העניינים האמיתי עד רמת תת-הפרק, וכל שורה בו נכנסת
-          לקורא הקיים של Project NEO.
+          {nf.format(d.totals.chapters)} פרקים ו-{nf.format(d.totals.sections)} תת-פרקים
+          ב-{d.totals.modules} מודולים של SAP. כרטיס הספר מציג את תוכן העניינים עד רמת
+          תת-הפרק, וכל שורה בו נפתחת בקורא של Project NEO.
         </p>
 
         <div className="nb-stats nm-seq">
@@ -80,16 +77,16 @@ export default function NeoBooks() {
         {d.totals.pagesMissing > 0 && (
           <p className="nb-note">
             {d.totals.pagesMissing === 1
-              ? "לספר אחד אין ספירת עמודים במטא-דאטה, והוא אינו נספר בסכום העמודים. הכרטיס שלו אומר זאת במפורש במקום להציג אפס."
-              : `ל-${d.totals.pagesMissing} ספרים אין ספירת עמודים במטא-דאטה, והם אינם נספרים בסכום העמודים.`}
+              ? "לספר אחד אין ספירת עמודים במטא-דאטה, והוא אינו נכלל בסכום העמודים."
+              : `ל-${d.totals.pagesMissing} ספרים אין ספירת עמודים במטא-דאטה, והם אינם נכללים בסכום העמודים.`}
           </p>
         )}
       </header>
 
-      <section className="nb-dictbar nm-rise nm-once" aria-label="כיסוי המילון הטכני">
+      <section className="nb-dictbar nm-rise nm-once" aria-label="כיסוי התיעוד הטכני">
         <p className="nb-dictbar-t">
           <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
-          המילון הטכני של NEO מתעד {d.dictModules.length} מודולים מתוך {d.totals.modules}
+          התיעוד הטכני של Project NEO מכסה {d.dictModules.length} מודולים מתוך {d.totals.modules}
         </p>
         <div className="nb-dictbar-l">
           {d.dictModules.map((m) => (
@@ -107,8 +104,8 @@ export default function NeoBooks() {
           ))}
         </div>
         <p className="nb-note">
-          {d.totals.withDict} מתוך {d.totals.books} הספרים נשענים על מודול שיש לו מילון טכני.
-          בכרטיס של כל ספר אחר כתוב במפורש שאין לו כיסוי במילון, במקום קישור שרומז אחרת.
+          {d.totals.withDict} מתוך {d.totals.books} הספרים שייכים למודול שיש לו תיעוד טכני במאגר.
+          בכרטיס של שאר הספרים מצוין שלמודול שלהם לא קיים תיעוד טכני.
         </p>
       </section>
       </div>

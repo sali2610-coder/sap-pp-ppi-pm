@@ -121,7 +121,7 @@ export function ReaderPanel({
 
   return (
     <div className="nr-panel-wrap">
-      <button type="button" className="nr-scrim" aria-label="סגור" onClick={onClose} />
+      <button type="button" className="nr-scrim" aria-label="סגירת החלונית" onClick={onClose} />
       <div
         className="nr-panel"
         ref={ref}
@@ -133,12 +133,12 @@ export function ReaderPanel({
         <div className="nr-panel-top">
           <span className="nr-grab" aria-hidden="true" />
           <h2 className="nr-panel-t" id={titleId}>{book.titleHe || book.titleEn}</h2>
-          <button type="button" className="nu-ghost nr-x" onClick={onClose} aria-label="סגור">
+          <button type="button" className="nu-ghost nr-x" onClick={onClose} aria-label="סגירת החלונית">
             <X size={16} strokeWidth={1.9} aria-hidden="true" />
           </button>
         </div>
 
-        <div className="nr-panel-tabs" role="tablist" aria-label="מצב הפאנל">
+        <div className="nr-panel-tabs" role="tablist" aria-label="תצוגות החלונית">
           <button
             type="button"
             role="tab"
@@ -168,20 +168,20 @@ export function ReaderPanel({
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="חפש פרק, תת-פרק או מזהה"
+                placeholder="חיפוש פרק, תת-פרק או מזהה"
                 aria-label="חיפוש בתוכן העניינים"
                 type="search"
               />
             </label>
             <p className="nr-note">
-              החיפוש עובר על כותרות ומזהים בלבד: גוף הטקסט נטען פרק-פרק ואינו נמצא כאן.
+              החיפוש פועל על כותרות ומזהים בלבד, לא על גוף הטקסט.
             </p>
 
             {hits ? (
               <>
                 <p className="nr-note nr-note-hits">
                   {hits.length === 0
-                    ? "אין התאמה בכותרות של הספר הזה."
+                    ? "לא נמצאו כותרות התואמות לחיפוש."
                     : `${n(hits.length)} התאמות${hits.length > MAX_ROWS ? ` · מוצגות ${n(MAX_ROWS)} הראשונות` : ""}`}
                 </p>
                 <ul className="nr-toc">
@@ -222,12 +222,12 @@ export function ReaderPanel({
                         <span className="nr-toc-id">{c.n}</span>
                         <span className="nr-toc-t">{c.title}</span>
                         {marked.has(c.n) && (
-                          <span className="nr-toc-mark" title="בפרק הזה מונחת סימנייה">
+                          <span className="nr-toc-mark" title="בפרק זה יש סימנייה">
                             <Bookmark size={12} strokeWidth={2.4} aria-hidden="true" />
                           </span>
                         )}
                         {read.includes(c.n) && (
-                          <span className="nr-toc-read" title="סומן כנקרא בקורא של הפרויקט">
+                          <span className="nr-toc-read" title="סומן כנקרא בקורא של הספרייה הדיגיטלית">
                             <Check size={12} strokeWidth={2.4} aria-hidden="true" />
                           </span>
                         )}
@@ -253,7 +253,7 @@ export function ReaderPanel({
                             ))}
                           </ul>
                         ) : (
-                          <p className="nr-note nr-note-sub">לפרק זה אין תת-פרקים בנתוני הספר.</p>
+                          <p className="nr-note nr-note-sub">לפרק זה אין תת-פרקים במאגר.</p>
                         )
                       )}
                     </li>
@@ -272,7 +272,7 @@ export function ReaderPanel({
                   <span>
                     {book.totalSections
                       ? `תת-פרק ${n(progress.ordinal)} מתוך ${n(book.totalSections)}`
-                      : "הספר אינו מחזיק תת-פרקים"}
+                      : "לספר זה אין תת-פרקים במאגר"}
                   </span>
                 </dd>
               </div>
@@ -296,8 +296,8 @@ export function ReaderPanel({
                   <b>{n(marks.length)}</b>
                   <span className="nu-status" style={{ "--s": marks.length ? "var(--status-tested)" : "var(--status-not-started)" } as React.CSSProperties}>
                     {marks.length
-                      ? `${n(marks.length)} מיקומים מסומנים בקורא של NEO`
-                      : "לא הונחה סימנייה בספר הזה"}
+                      ? `${n(marks.length)} מיקומים מסומנים בקורא של Project NEO`
+                      : "אין סימניות בספר זה"}
                   </span>
                 </dd>
               </div>
@@ -307,7 +307,7 @@ export function ReaderPanel({
                   <b>{n(read.length)}</b>
                   <span className="nu-status" style={{ "--s": read.length ? "var(--status-done)" : "var(--status-not-started)" } as React.CSSProperties}>
                     {read.length
-                      ? `${n(read.length)} מתוך ${n(book.chapters.length)} פרקים: נרשם בקורא הקנוני`
+                      ? `${n(read.length)} מתוך ${n(book.chapters.length)} פרקים, לפי הקורא של הספרייה הדיגיטלית`
                       : "עדיין לא סומן פרק כנקרא"}
                   </span>
                 </dd>
@@ -315,7 +315,7 @@ export function ReaderPanel({
             </dl>
             {marks.length > 0 && (
               <>
-                <h3 className="nr-panel-h">הסימניות שלי בספר הזה</h3>
+                <h3 className="nr-panel-h">סימניות בספר זה</h3>
                 <ul className="nr-bml">
                   {marks.map((m) => (
                     <li key={`${m.mark.chapter}|${m.mark.section ?? ""}`}>
@@ -333,8 +333,8 @@ export function ReaderPanel({
                         type="button"
                         className="nu-ghost nr-bm-x"
                         onClick={() => onUnmark(m.mark.chapter, m.mark.section)}
-                        aria-label={`הסר את הסימנייה מ${m.title}`}
-                        title="הסר סימנייה"
+                        aria-label={`הסרת הסימנייה מ${m.title}`}
+                        title="הסרת סימנייה"
                       >
                         <BookmarkX size={14} strokeWidth={1.9} aria-hidden="true" />
                       </button>
@@ -346,8 +346,7 @@ export function ReaderPanel({
 
             <p className="nr-note">{positionLine(book, progress, chapter)}</p>
             <p className="nr-note">
-              המדידה נשענת על ספירת תת-הפרקים האמיתית של הספר. אין בנתונים זמן קריאה משוער או ספירת מילים,
-              ולכן אין כאן הערכת זמן.
+              ההתקדמות נמדדת לפי מספר תת-הפרקים בספר.
             </p>
 
             <ul className="nr-chmap">

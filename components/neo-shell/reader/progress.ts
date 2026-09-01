@@ -168,7 +168,7 @@ export function positionLine(book: NRBook, p: NRProgress, ch: NRChapter): string
   if (ch.sections.length) {
     parts.push(`תת-פרק ${n(p.ordinal)} מתוך ${n(book.totalSections)}`);
   } else {
-    parts.push("לפרק זה אין תת-פרקים בנתוני הספר");
+    parts.push("לפרק זה אין תת-פרקים במאגר");
   }
   return parts.join(" · ");
 }

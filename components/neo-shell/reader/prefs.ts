@@ -84,17 +84,17 @@ export const SIZE_HE: Record<NRSize, string> = {
   md: "רגיל",
   lg: "גדול",
   xl: "גדול מאוד",
-  xxl: "מוגדל",
+  xxl: "מרבי",
 };
-export const LEAD_HE: Record<NRLead, string> = { snug: "צפוף", normal: "נוח", air: "מרווח" };
-export const MEASURE_HE: Record<NRMeasure, string> = { narrow: "צר", normal: "נוח", wide: "רחב" };
+export const LEAD_HE: Record<NRLead, string> = { snug: "צפוף", normal: "רגיל", air: "מרווח" };
+export const MEASURE_HE: Record<NRMeasure, string> = { narrow: "צר", normal: "רגיל", wide: "רחב" };
 /** The control's own words. Short, because they sit inside a segmented button. */
 export const LANG_HE: Record<NRLang, string> = { he: "עברית", both: "דו-לשוני", en: "English" };
 /** The longer sentence, for the control's tooltip and accessible name. */
 export const LANG_NOTE: Record<NRLang, string> = {
-  he: "עברית בלבד. המקור באנגלית נשאר בעמוד ונפתח בלחיצה בתוך כל תת-פרק.",
-  both: "שתי השפות יחד. במסך רחב זו לצד זו, במסך צר זו מתחת לזו, פסקה מול פסקה.",
-  en: "המקור באנגלית בלבד. התרגום העברי נשאר בעמוד ונפתח בלחיצה בתוך כל תת-פרק.",
+  he: "עברית בלבד. המקור באנגלית זמין בלחיצה בכל תת-פרק.",
+  both: "שתי השפות יחד, פסקה מול פסקה.",
+  en: "המקור באנגלית בלבד. התרגום לעברית זמין בלחיצה בכל תת-פרק.",
 };
 
 function sane(raw: unknown): NRPrefs {

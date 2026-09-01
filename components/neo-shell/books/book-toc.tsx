@@ -122,7 +122,7 @@ export function BookToc({
         <h3 className="nb-h3">
           תוכן העניינים
           <span>
-            {b.chapters} פרקים · {nf.format(b.sections)} תת-פרקים, כפי שהם במאגר
+            {b.chapters} פרקים · {nf.format(b.sections)} תת-פרקים
           </span>
         </h3>
 
@@ -135,7 +135,7 @@ export function BookToc({
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="חיפוש בתוכן העניינים"
-            aria-label="חיפוש בכותרות הפרקים ותתי-הפרקים של הספר הזה"
+            aria-label="חיפוש בכותרות הפרקים ותת-הפרקים של הספר"
             autoComplete="off"
           />
           {q && (
@@ -149,7 +149,7 @@ export function BookToc({
       {query && (
         <p className="nb-count" aria-live="polite">
           {found === 0
-            ? "אין התאמה בכותרות של הספר הזה. החיפוש כאן הוא על תוכן העניינים בלבד ואינו קורא את גוף הטקסט."
+            ? "לא נמצאו כותרות התואמות לחיפוש. החיפוש פועל על תוכן העניינים בלבד, לא על גוף הטקסט."
             : `${nf.format(found)} תת-פרקים ב-${matches.length} פרקים`}
         </p>
       )}
@@ -194,14 +194,14 @@ export function BookToc({
                   aria-label={`פתיחת פרק ${m.n}, ${m.title}, בקורא`}
                 >
                   <BookOpen size={14} strokeWidth={1.75} aria-hidden="true" />
-                  <span className="nb-ch-open-t">פרק בקורא</span>
+                  <span className="nb-ch-open-t">פתיחת הפרק</span>
                 </OriginLink>
               </div>
 
               {isOpen && (
                 <div className="nb-ch-body" id={`${uid}-c${m.n}`}>
                   {m.rows.length === 0 ? (
-                    <p className="nb-fine">לפרק הזה אין תת-פרקים במאגר.</p>
+                    <p className="nb-fine">לפרק זה אין תת-פרקים במאגר.</p>
                   ) : (
                     <ul className="nb-sec-l">
                       {m.rows.map(([id, title]) => (
@@ -217,7 +217,7 @@ export function BookToc({
                             <span className="nb-sec-id nb-sap">{id}</span>
                             <span className="nb-sec-t">{title}</span>
                             {bmSections.has(id) && (
-                              <span className="nb-sec-bm" title="סימנייה שהונחה בקורא של NEO">
+                              <span className="nb-sec-bm" title="סימנייה מהקורא של Project NEO">
                                 <Bookmark size={12} strokeWidth={2.2} aria-hidden="true" />
                                 <span className="nb-sr">סימנייה</span>
                               </span>
@@ -242,7 +242,7 @@ export function BookToc({
           `b.exactNote` still describes /library/ accurately and is still
           printed there, by the hub, beside the canonical reader's own link. */}
       <p className="nb-fine nb-toc-note">
-        כל שורה כאן נפתחת בקורא של Project NEO במיקום עצמו: פרק על הפרק, תת-פרק על תת-הפרק.
+        כל שורה נפתחת בקורא של Project NEO, בפרק או בתת-הפרק שנבחר.
       </p>
     </section>
   );

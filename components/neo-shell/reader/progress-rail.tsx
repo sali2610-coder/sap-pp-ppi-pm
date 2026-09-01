@@ -124,14 +124,14 @@ function RailTree({
                   type="button"
                   className="nr-rtoc-fold"
                   aria-expanded={open}
-                  aria-label={`${open ? "קפל" : "פרוש"} את תת-הפרקים של פרק ${c.n}`}
+                  aria-label={`${open ? "קיפול" : "פרישת"} תת-הפרקים של פרק ${c.n}`}
                   onClick={() =>
                     here
                       ? setFolded((s) => ({ ...s, [c.n]: !s[c.n] }))
                       : setPeeked((s) => ({ ...s, [c.n]: !s[c.n] }))
                   }
                   disabled={c.sections.length === 0}
-                  title={c.sections.length === 0 ? "לפרק זה אין תת-פרקים בנתוני הספר" : undefined}
+                  title={c.sections.length === 0 ? "לפרק זה אין תת-פרקים במאגר" : undefined}
                 >
                   <ChevronDown size={13} strokeWidth={2.2} aria-hidden="true" />
                 </button>
@@ -186,7 +186,7 @@ function RailTree({
                     })}
                   </ol>
                 ) : (
-                  <p className="nr-rtoc-none">אין תת-פרקים בנתוני הספר לפרק הזה.</p>
+                  <p className="nr-rtoc-none">לפרק זה אין תת-פרקים במאגר.</p>
                 )
               )}
             </li>
@@ -325,7 +325,7 @@ export function ProgressRail({
           icon={<Layers size={13} strokeWidth={1.9} aria-hidden="true" />}
           label="בפרק"
           value={progress.chapter}
-          note={chapter.sections.length ? `${n(Math.min(progress.ordinal - chapter.before, chapter.sections.length))}/${n(chapter.sections.length)}` : "—"}
+          note={chapter.sections.length ? `${n(Math.min(progress.ordinal - chapter.before, chapter.sections.length))}/${n(chapter.sections.length)}` : "-"}
         />
         <Meter
           icon={<Rows3 size={13} strokeWidth={1.9} aria-hidden="true" />}
@@ -337,7 +337,7 @@ export function ProgressRail({
           icon={<BookOpen size={13} strokeWidth={1.9} aria-hidden="true" />}
           label="בספר"
           value={progress.book}
-          note={book.totalSections ? `${n(progress.ordinal)}/${n(book.totalSections)}` : "—"}
+          note={book.totalSections ? `${n(progress.ordinal)}/${n(book.totalSections)}` : "-"}
         />
       </div>
 
@@ -382,7 +382,7 @@ function Meter({ icon, label, value, note }: { icon: React.ReactNode; label: str
 export function ProgressStrip({ chapter, progress }: Pick<RailProps, "chapter" | "progress">) {
   const inChapter = chapter.sections.length
     ? `${n(Math.min(progress.ordinal - chapter.before, chapter.sections.length))}/${n(chapter.sections.length)}`
-    : "—";
+    : "-";
   return (
     <div className="nr-strip" aria-label="התקדמות בקריאה">
       <span className="nr-strip-seg" title="התקדמות בספר">
