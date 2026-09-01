@@ -44,6 +44,7 @@ import { FIORI_APPS } from "@/data/fiori/apps";
 import { LIBRARY } from "@/data/library";
 import { DOMAINS } from "@/data/domains";
 import { CONCEPTS } from "@/data/concepts";
+import { BEST_PRACTICES } from "@/data/best-practices";
 import { bapiHref, cdsHref, fioriHref, idocHref, txHref } from "../reference/ref-links";
 import { MOD_HE } from "../mod-var";
 import type { SAPModuleData } from "@/lib/types";
@@ -212,6 +213,19 @@ function guides(): CmdExtraRecord[] {
   }));
 }
 
+function bestPractices(): CmdExtraRecord[] {
+  // Same contract again: /neo/best-practices/[slug]/ generates from bpSlugs(),
+  // which maps this very array, so a hit opens the practice itself.
+  return BEST_PRACTICES.map((b) => ({
+    k: "bp" as const,
+    t: b.he,
+    s: clip(b.summary, 96),
+    href: `/neo/best-practices/${encodeURIComponent(b.slug)}/`,
+    mod: b.module === "Cross" ? undefined : b.module,
+    rel: `${b.steps.length} צעדים · ${b.evidence.length} מקורות`,
+  }));
+}
+
 /* ------------------------------------------------------------------ build */
 
 let cached: CommandExtra | null = null;
@@ -231,7 +245,7 @@ export function commandIndex(): CommandExtra {
   for (const v of CDS_VIEWS) cds[v.view] = cdsHref(v.view) || "";
 
   cached = {
-    recs: [...chapters(), ...flows(), ...guides()],
+    recs: [...chapters(), ...flows(), ...guides(), ...bestPractices()],
     mods: modules(),
     fields: fields(),
     fn,

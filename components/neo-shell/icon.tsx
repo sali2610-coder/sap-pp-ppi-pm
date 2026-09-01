@@ -20,7 +20,7 @@
 
 import {
   AlertTriangle, Award, BookMarked, BookOpen, BrainCircuit, Cable, ChevronDown,
-  ChevronLeft, CircleHelp, Command, Compass, CornerDownLeft, Database,
+  ChevronLeft, CircleHelp, ClipboardCheck, Command, Compass, CornerDownLeft, Database,
   FlaskConical, GitBranch, GraduationCap, History, Home, Layers, LayoutGrid,
   Library, MessageSquare, PanelLeft, Pin, Plug, Puzzle, ScrollText, Search,
   Settings, Sigma, Sparkles, SquareFunction, Table, Terminal, Waypoints,
@@ -30,7 +30,7 @@ import {
 
 const MAP: Record<string, LucideIcon> = {
   AlertTriangle, Award, BookMarked, BookOpen, BrainCircuit, Cable, ChevronDown,
-  ChevronLeft, CircleHelp, Command, Compass, CornerDownLeft, Database,
+  ChevronLeft, CircleHelp, ClipboardCheck, Command, Compass, CornerDownLeft, Database,
   FlaskConical, GitBranch, GraduationCap, History, Home, Layers, LayoutGrid,
   Library, MessageSquare, PanelLeft, Pin, Plug, Puzzle, ScrollText, Search,
   Settings, Sigma, Sparkles, SquareFunction, Table, Terminal, Waypoints,

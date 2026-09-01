@@ -31,6 +31,7 @@ export const KINDS: { k: CmdKind; he: string; icon: string }[] = [
   { k: "chapter", he: "פרק", icon: "BookMarked" },
   { k: "book", he: "ספר", icon: "BookOpen" },
   { k: "guide", he: "מושג", icon: "ScrollText" },
+  { k: "bp", he: "שיטת עבודה", icon: "ClipboardCheck" },
   { k: "incident", he: "תקלה", icon: "AlertTriangle" },
 ];
 
@@ -57,6 +58,7 @@ export const KIND_SHAPE: Record<CmdKind, CmdShape> = {
   chapter: "doc",
   book: "doc",
   guide: "doc",
+  bp: "doc",
   incident: "doc",
 };
 

@@ -1,0 +1,158 @@
+/* ============================================================================
+   PROJECT NEO · /neo/best-practices — placement only.
+   ----------------------------------------------------------------------------
+   The section rides the .nxt record family (app/neo/data.css) and the
+   reference extras (app/neo/reference.css). This sheet adds ONLY what those
+   two do not own: a Hebrew display heading (the .nxt family's display slot,
+   .nxt-code, is monospace + LTR), the catalog row, the per-step reference
+   strip and the per-source claim card.
+
+   Same contract data.css signs: no new tokens, .nu-* states never restyled,
+   logical properties only, colours through --m / --status-* / --ink-*.
+   ========================================================================== */
+
+/* The display heading, in Hebrew. Same size slot as .nxt-code, without the
+   monospace and without the LTR isolation. */
+.nx-app .nbp-h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 1.15rem + 1.6vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  color: var(--ink-1);
+}
+
+.nx-app .nbp-lede {
+  margin: 0;
+  max-inline-size: 78ch;
+  font-size: var(--t-body);
+  line-height: var(--lh-he);
+  color: var(--ink-2);
+}
+
+/* ------------------------------------------------------------ the catalog */
+
+.nx-app .nbp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.nx-app .nbp-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+}
+
+/* MODULE = edge. A line, never a dot. */
+.nx-app .nbp-mark {
+  inline-size: 3px;
+  block-size: 2.6rem;
+  border-radius: 2px;
+  background: var(--m);
+  align-self: center;
+}
+
+.nx-app .nbp-body { display: grid; gap: 4px; min-inline-size: 0; }
+.nx-app .nbp-t {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-1) var(--sp-3);
+}
+.nx-app .nbp-t > b {
+  font-size: var(--t-body);
+  font-weight: 750;
+  color: var(--ink-1);
+  line-height: var(--lh-he);
+}
+.nx-app .nbp-en {
+  font-style: normal;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.nx-app .nbp-sum {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  line-height: var(--lh-he);
+  max-inline-size: 70ch;
+}
+.nx-app .nbp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-1) var(--sp-2);
+  padding-block-start: 2px;
+}
+
+.nx-app .nbp-side {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+}
+.nx-app .nbp-go { color: var(--ink-3); display: inline-flex; }
+
+/* ------------------------------------------------------------- the record */
+
+.nx-app .nbp-sumline {
+  font-weight: 650;
+  color: var(--ink-1);
+  max-inline-size: 78ch;
+}
+.nx-app .nbp-fact { display: grid; gap: 4px; }
+.nx-app .nbp-fact .nxr-text { max-inline-size: 78ch; margin: 0; }
+
+.nx-app .nbp-steps > li + li { margin-block-start: var(--sp-3); }
+.nx-app .nbp-refs { padding-block-start: var(--sp-1); }
+
+/* The kind word inside a reference chip or link: metadata, never content. */
+.nx-app .nbp-kind {
+  font-style: normal;
+  font-family: inherit;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  margin-inline-start: 4px;
+}
+
+/* One card per source: the exact claim it supports, its tier, its repoRef. */
+.nx-app .nbp-claims {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--sp-3);
+}
+.nx-app .nbp-claims > li {
+  display: grid;
+  gap: 4px;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+}
+html[data-theme="dark"] .nx-app .nbp-claims > li {
+  background: color-mix(in srgb, var(--ink-1) 5%, var(--surface));
+}
+.nx-app .nbp-claim-t { font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); line-height: var(--lh-he); }
+.nx-app .nbp-claim-m { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); }
+.nx-app .nbp-claim-c { font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 78ch; }
+.nx-app .nbp-claim-ref { font-size: var(--t-micro); color: var(--ink-3); }
+
+/* ------------------------------------------------------ responsive 390 → */
+
+@media (max-width: 900px) {
+  .nx-app .nbp-row { grid-template-columns: auto minmax(0, 1fr); }
+  .nx-app .nbp-side {
+    grid-column: 2;
+    grid-auto-flow: column;
+    justify-content: start;
+    align-items: center;
+  }
+  .nx-app .nbp-go { display: none; }
+}

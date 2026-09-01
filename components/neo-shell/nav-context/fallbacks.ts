@@ -59,6 +59,7 @@ const PARENTS: [prefix: string, parent: ParentRef][] = [
   // with no session memory should land — not at a second, near-identically
   // named surface that the rail no longer offers.
   ["/neo/centers/", { href: "/neo/knowledge/", label: "מרכז הידע" }],
+  ["/neo/best-practices/", { href: "/neo/best-practices/", label: "שיטות עבודה מומלצות" }],
   ["/neo/incidents/", { href: "/neo/incidents/", label: "תקלות" }],
   ["/neo/certification/", { href: "/neo/certification/", label: "הסמכה" }],
   // --- modules --------------------------------------------------------------

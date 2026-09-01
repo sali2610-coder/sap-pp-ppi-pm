@@ -36,6 +36,7 @@ import { DOMAINS } from "@/data/domains";
 import { MIG_OBJECTS } from "@/data/migration-cockpit";
 import { S4_OBJECTS } from "@/data/s4-objects";
 import { ECC_S4_TOPICS } from "@/data/ecc-s4";
+import { BEST_PRACTICES } from "@/data/best-practices";
 import { modelStats } from "./erd/model";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
 import type {
@@ -204,6 +205,9 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
            now, and this number is counted from the two real arrays rather than
            written down, so it cannot drift from what the page lists. */
         { id: "knowledge", label: "מרכז הידע", icon: "BrainCircuit", count: knowledgeData().totals.all, countLabel: "רשומות" },
+        /* Owns its route (href ⇒ excluded from NEO_HUBS), like /neo/erd/ and
+           /neo/books/. The count is the registry's real length. */
+        { id: "best-practices", href: "/neo/best-practices/", label: "שיטות עבודה מומלצות", icon: "ClipboardCheck", count: BEST_PRACTICES.length, countLabel: "שיטות" },
         { id: "academy", label: "SAP Academy", icon: "GraduationCap", count: BOOKS.length, countLabel: "ספרי לימוד" },
         { id: "incidents", label: "תקלות", icon: "AlertTriangle", count: INCIDENTS.length, countLabel: "תקלות" },
         { id: "certification", label: "הסמכה", icon: "Award", count: null, countLabel: "" },
@@ -308,6 +312,7 @@ function previews(): Record<string, Preview> {
       case "knowledge": return CONCEPTS.slice(0, 5).map((c) => c.he);
       case "academy": return BOOKS.slice(0, 4).map((b) => b.titleHe);
       case "incidents": return INCIDENTS.slice(0, 4).map((i) => i.he);
+      case "best-practices": return BEST_PRACTICES.slice(0, 5).map((b) => b.he);
       default: return [];
     }
   };
