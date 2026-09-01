@@ -641,7 +641,7 @@ export function NeoShellClient({
       data-live={searching && live ? "1" : "0"}
       style={searching && searchMod ? ({ "--sm": modVar(searchMod) } as React.CSSProperties) : undefined}
     >
-      <a href="#main" className="nx-skip">דלג לתוכן</a>
+      <a href="#main" className="nx-skip">מעבר לתוכן הראשי</a>
 
       {/* ------------------------------------------------------- the rail */}
       <aside
@@ -655,7 +655,7 @@ export function NeoShellClient({
         <span className="nx-rail-edge" ref={edgeRef} aria-hidden="true" />
 
         <div className="nx-rail-head" ref={headRef}>
-          <Link prefetch={false} href="/neo/" className="nx-glyph" aria-label="SAP by Sali · Project NEO">
+          <Link prefetch={false} href="/neo/" className="nx-glyph" aria-label="Project NEO: מעבר למסך הבית">
             <i /><i /><i />
           </Link>
           <span className="nx-lock">
@@ -665,7 +665,7 @@ export function NeoShellClient({
           <button
             type="button"
             className="nx-iconbtn nx-collapse"
-            aria-label={mode === "compact" ? "הרחב ניווט" : "כווץ ניווט"}
+            aria-label={mode === "compact" ? "הרחבת הניווט" : "כיווץ הניווט"}
             aria-pressed={mode === "compact"}
             onClick={() => changeMode(mode === "compact" ? "expanded" : "compact")}
           >
@@ -678,7 +678,7 @@ export function NeoShellClient({
         <div className="nx-rail-cmd" ref={cmdRef}>
           <button type="button" className="nx-railq" onClick={() => changeMode("search")}>
             <span className="nx-railq-i"><Ico name="Search" size={15} /></span>
-            <span className="nx-railq-l">חפש בניווט ובתיעוד</span>
+            <span className="nx-railq-l">חיפוש בניווט ובתיעוד</span>
             <kbd>⌘K</kbd>
           </button>
           <div className="nx-railsrch" aria-hidden={!searching}>
@@ -691,8 +691,8 @@ export function NeoShellClient({
                 value={query}
                 onChange={(e) => applyQuery(e.target.value)}
                 onKeyDown={onFieldKey}
-                placeholder="טבלה · טרנזקציה · BAPI · ספר"
-                aria-label="חיפוש בניווט ובמילון"
+                placeholder="טבלה, שדה, טרנזקציה, BAPI או ספר"
+                aria-label="חיפוש בניווט ובתיעוד הטכני"
                 role="combobox"
                 aria-expanded={searching}
                 aria-controls="nxc-list"
@@ -703,7 +703,7 @@ export function NeoShellClient({
               <button
                 type="button"
                 className="nx-iconbtn nx-iconbtn--xs"
-                aria-label="סגור חיפוש"
+                aria-label="סגירת החיפוש"
                 tabIndex={searching ? 0 : -1}
                 onClick={closeSearch}
               >
@@ -717,7 +717,7 @@ export function NeoShellClient({
             <p className="nx-srch-meta nx-sr" aria-live="polite">
               {q
                 ? `${nf.format(result.total)} רשומות · ${hits} מתוך ${data.navItemCount} יעדי ניווט`
-                : `${data.navItemCount} יעדי ניווט · האינדקס המלא בלוח הפקודות`}
+                : `${data.navItemCount} יעדי ניווט · האינדקס המלא זמין בחלון החיפוש`}
             </p>
           </div>
         </div>
@@ -767,7 +767,7 @@ export function NeoShellClient({
                     data-group={g.id}
                     aria-expanded={isOpen}
                     aria-controls={`nx-grp-${g.id}`}
-                    aria-label={`${isOpen ? "כווץ" : "הרחב"} ${g.label}`}
+                    aria-label={`${isOpen ? "כיווץ" : "הרחבת"} הקבוצה ${g.label}`}
                     onClick={() => toggleGroup(g.id)}
                   >
                     <span className="nx-chev"><Ico name="ChevronDown" size={12} /></span>
@@ -845,7 +845,7 @@ export function NeoShellClient({
           <button
             type="button"
             className="nx-iconbtn"
-            aria-label={mode === "context" ? "חזור לעץ הניווט" : "עבור למצב הקשר"}
+            aria-label={mode === "context" ? "חזרה לעץ הניווט" : "מעבר למצב הקשר"}
             aria-pressed={mode === "context"}
             onClick={() => changeMode(mode === "context" ? "expanded" : "context")}
           >
@@ -859,7 +859,7 @@ export function NeoShellClient({
       <button
         type="button"
         className="nx-railedge"
-        aria-label="הצג ניווט"
+        aria-label="הצגת הניווט"
         tabIndex={mode === "peek" ? 0 : -1}
         onClick={() => changeMode("expanded")}
       >
@@ -872,7 +872,7 @@ export function NeoShellClient({
           <button
             type="button"
             className="nx-iconbtn"
-            aria-label="הצג או הסתר ניווט"
+            aria-label="הצגה או הסתרה של הניווט"
             onClick={() => changeMode(mode === "hidden" || mode === "peek" ? "expanded" : "hidden")}
           >
             <Ico name="PanelLeft" size={16} />
@@ -894,14 +894,14 @@ export function NeoShellClient({
           </nav>
           <button type="button" className="nx-cmdbar" onClick={() => changeMode("search")}>
             <Ico name="Search" size={15} />
-            <span className="nx-ph">חפש טבלה, טרנזקציה, BAPI, ספר…</span>
+            <span className="nx-ph">חיפוש: טבלה, שדה, טרנזקציה, BAPI או ספר</span>
             <kbd>⌘K</kbd>
           </button>
           <div className="nx-topbar-tools">
             <button
               type="button"
               className="nx-iconbtn"
-              aria-label="מצב הצצה לניווט"
+              aria-label="מעבר למצב הצצה: הניווט נפתח בריחוף בלבד"
               aria-pressed={mode === "peek"}
               onClick={() => changeMode(mode === "peek" ? "expanded" : "peek")}
             >

@@ -117,13 +117,13 @@ export function NeoDock() {
         </button>
       </div>
 
-      {open && <button type="button" className="nxk-scrim" aria-label="סגור" onClick={() => setPanel("none")} />}
+      {open && <button type="button" className="nxk-scrim" aria-label="סגירת החלונית" onClick={() => setPanel("none")} />}
 
       {panel === "type" && (
         <section className="nxk-p nxk-p--type" role="dialog" aria-modal="false" aria-label="גופן וגודל טקסט">
           <header className="nxk-p-h">
-            <h2>גופן וגודל</h2>
-            <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגור" onClick={() => setPanel("none")}>
+            <h2>גופן וגודל טקסט</h2>
+            <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגירת חלונית הגופן" onClick={() => setPanel("none")}>
               <X className="ico" size={16} aria-hidden="true" />
             </button>
           </header>
@@ -173,7 +173,7 @@ export function NeoDock() {
           </fieldset>
 
           <button type="button" className="nu-btn2 nxk-reset" onClick={() => set({ face: "system", size: "md" })}>
-            חזרה לברירת המחדל של NEO
+            איפוס לברירת המחדל של NEO
           </button>
         </section>
       )}
@@ -198,7 +198,7 @@ export function NeoDock() {
         >
           <header className="nxk-p-h">
             <h2>שאל את NEO</h2>
-            <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגור" onClick={() => setPanel("none")}>
+            <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגירת חלונית שאל את NEO" onClick={() => setPanel("none")}>
               <X className="ico" size={16} aria-hidden="true" />
             </button>
           </header>
@@ -210,9 +210,8 @@ export function NeoDock() {
           </div>
 
           <p className="nxk-note">
-            העוזר הכללי של NEO עדיין לא מחובר למנוע מענה. כדי לא להציג תשובה שאין מאחוריה
-            מקור מאומת, הוא אינו עונה כאן. שתי הסביבות שכן עונות פתוחות למטה, ושתיהן יקבלו
-            את ההקשר שמוצג למעלה.
+            חלונית זו מציגה את ההקשר הנוכחי בלבד ואינה עונה על שאלות. שאלות נענות באחת
+            משתי הסביבות שלמטה.
           </p>
 
           <div className="nxk-go">
@@ -223,7 +222,7 @@ export function NeoDock() {
             </Link>
             <Link className="nu-btn2 nxk-go-a" href="/neo/chat/" prefetch={false} onClick={() => setPanel("none")}>
               <MessageSquare className="ico" size={16} aria-hidden="true" />
-              צ׳אט NEO כללי
+              NEO AI
               <em>שאלות SAP כלליות, ללא מקורות מהפרויקט</em>
             </Link>
           </div>

@@ -26,9 +26,9 @@ const MOD_VAR: Record<string, string> = {
 export const modVar = (m?: string): string => (m && MOD_VAR[m]) || "var(--ink-3)";
 
 export const MOD_HE: Record<string, string> = {
-  PM: "אחזקה",
-  "PP-PI": "ייצור תהליכי",
-  PP: "ייצור",
+  PM: "תחזוקת מפעל",
+  "PP-PI": "תעשיות תהליכיות",
+  PP: "תכנון ייצור",
 };
 
 /* SECTION HUE — the same idea as modVar, widened past modules.

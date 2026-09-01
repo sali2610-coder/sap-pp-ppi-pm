@@ -63,8 +63,7 @@ export function RecentPane({
   if (!rows.length) {
     return (
       <p className="nx-empty">
-        עדיין לא נפתח אובייקט. פתיחת טבלה מהעמוד או מהחיפוש תוסיף אותה לכאן,
-        זו אותה רשימה שהמוצר כבר שומר, לא רשימה נפרדת.
+        עדיין לא נפתח אובייקט. פתיחת טבלה מהעמוד או מהחיפוש תוסיף אותה לרשימה זו.
       </p>
     );
   }
@@ -100,7 +99,7 @@ export function PinnedPane({
   const favs = useFavorites();
   const rows = favs.map((n) => objects[n]).filter(Boolean);
   if (!rows.length) {
-    return <p className="nx-empty">אין אובייקטים מוצמדים. הצמדה נעשית מעמוד האובייקט ומשותפת לכל המוצר.</p>;
+    return <p className="nx-empty">אין אובייקטים מוצמדים. הצמדה נעשית מעמוד האובייקט וחלה בכל Project NEO.</p>;
   }
   return (
     <>
@@ -119,7 +118,7 @@ export function PinnedPane({
           </li>
         ))}
       </ul>
-      <p className="nx-shelf-note">{rows.length} אובייקטים מוצמדים · לחיצה טוענת את ההקשר המלא</p>
+      <p className="nx-shelf-note">{rows.length} אובייקטים מוצמדים · בחירה טוענת את ההקשר המלא</p>
     </>
   );
 }
@@ -143,7 +142,7 @@ export function ContextPane({ ctx, onOpen }: { ctx: ObjectContext | null; onOpen
       {ctx.shared ? (
         <p className="nx-ctx-shared">
           <Ico name="GitBranch" size={12} />
-          טבלה משותפת ל-PM ול-PP-PI, ולכן שני ההקשרים מוצגים: אין כאן בחירה שרירותית של מודול.
+          טבלה משותפת ל-PM ול-PP-PI: שני ההקשרים מוצגים.
         </p>
       ) : null}
 

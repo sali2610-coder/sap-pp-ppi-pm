@@ -124,7 +124,7 @@ function Row({
              aria-activedescendant, and Enter on the row already performs the
              same action (goResult loads the context before it navigates). */
           tabIndex={-1}
-          aria-label={`טען את ההקשר של ${r.ctx} למדף`}
+          aria-label={`טעינת ההקשר של ${r.ctx} למדף ההקשר`}
           onClick={(e) => { e.stopPropagation(); onContext(r.ctx!); }}
         >
           <Ico name="Layers" size={12} />
@@ -149,7 +149,7 @@ function Detail({
     return (
       <div className="nxc-detail-empty">
         <span className="nxc-detail-mark" aria-hidden="true"><Ico name="Command" size={18} /></span>
-        <p>בחר תוצאה כדי לראות את ההקשר המלא שלה.</p>
+        <p>בחירת תוצאה תציג את ההקשר המלא שלה.</p>
       </div>
     );
   }
@@ -192,7 +192,7 @@ function Detail({
           <em>יעד</em>
           {rec.dest
             ? <span className="nx-sap nxc-d-dest">{rec.dest}</span>
-            : <span className="nxc-d-dest" data-none="1">אין עמוד ייעודי לרשומה הזו</span>}
+            : <span className="nxc-d-dest" data-none="1">לרשומה זו אין עמוד ייעודי</span>}
         </span>
       </div>
 
@@ -223,7 +223,7 @@ function Detail({
       ) : null}
 
       <p className="nxc-d-f">
-        {rec.href ? "Enter פותח את היעד" : "לרשומה הזו אין עדיין עמוד ייעודי במרחב /neo"}
+        {rec.href ? "Enter פותח את היעד" : "לרשומה זו אין עמוד ייעודי"}
       </p>
     </div>
   );
@@ -307,15 +307,15 @@ export function CommandSurface({
             value={query}
             onChange={(e) => onQuery(e.target.value)}
             onKeyDown={onKey}
-            placeholder="טבלה · שדה · טרנזקציה · BAPI · ספר"
-            aria-label="חיפוש בפרויקט"
+            placeholder="טבלה, שדה, טרנזקציה, BAPI או ספר"
+            aria-label="חיפוש בניווט ובתיעוד הטכני"
             role="combobox"
             aria-expanded
             aria-controls="nxc-list"
             aria-autocomplete="list"
             aria-activedescendant={rec ? `nxc-o-${active}` : undefined}
           />
-          <button type="button" className="nx-iconbtn nx-iconbtn--xs" aria-label="סגור חיפוש" onClick={onClose}>
+          <button type="button" className="nx-iconbtn nx-iconbtn--xs" aria-label="סגירת החיפוש" onClick={onClose}>
             <Ico name="X" size={14} />
           </button>
         </div>
@@ -333,11 +333,11 @@ export function CommandSurface({
               </>
             ) : result.browse && onlyMeta ? (
               <>
-                <b>{nf.format(result.total)}</b> רשומות ב{onlyMeta.he} · הקלד כדי לצמצם
+                <b>{nf.format(result.total)}</b> רשומות מסוג {onlyMeta.he} · הקלדה מצמצמת את הרשימה
               </>
             ) : (
               <>
-                <b>{nf.format(indexTotal)}</b> רשומות באינדקס · <b>{nf.format(navTotal)}</b> יעדי ניווט · הקלד כדי לסנן
+                <b>{nf.format(indexTotal)}</b> רשומות באינדקס · <b>{nf.format(navTotal)}</b> יעדי ניווט · הקלדה מסננת את הרשימה
               </>
             )}
           </p>
@@ -373,7 +373,7 @@ export function CommandSurface({
               </div>
             ) : (
               <p className="nxc-scope-hint">
-                כל התוצאות נקראות מנתוני הפרויקט: טבלאות, טרנזקציות, אובייקטי פונקציה, ספרים ותהליכים.
+                התוצאות נקראות מנתוני הפרויקט: טבלאות, שדות, טרנזקציות, אובייקטי פונקציה, ספרים ותהליכים.
               </p>
             )}
 
@@ -417,7 +417,7 @@ export function CommandSurface({
           >
             {!live ? (
               <div className="nxc-idle">
-                <p className="nxc-idle-h">מה יש באינדקס: בחר משפחה כדי לעיין בה</p>
+                <p className="nxc-idle-h">תוכן האינדקס: בחירת משפחה מציגה את כל הרשומות שלה</p>
                 <ul className="nxc-idle-grid">
                   {idle.map((x) => (
                     <li key={x.k}>
@@ -436,14 +436,14 @@ export function CommandSurface({
                   ))}
                 </ul>
                 <p className="nxc-idle-f">
-                  {nf.format(indexTotal)} רשומות: כולן מנתוני הפרויקט. אין כאן טקסט חופשי ואין השלמות שהומצאו.
+                  {nf.format(indexTotal)} רשומות, כולן מנתוני הפרויקט.
                 </p>
               </div>
             ) : result.sections.length === 0 ? (
               <p className="nxc-none">
-                אין רשומה בנתוני הפרויקט עבור «{q}»
+                לא נמצאו תוצאות עבור «{q}»
                 {modOnly ? ` במודול ${modLabel(modOnly)}` : ""}. החיפוש עובר על כל האינדקס,{" "}
-                {nf.format(indexTotal)} רשומות אמיתיות, ולא על טקסט חופשי.
+                {nf.format(indexTotal)} רשומות מנתוני הפרויקט.
               </p>
             ) : (
               result.sections.map((sec, si) => {
@@ -481,7 +481,7 @@ export function CommandSurface({
                       ))}
                       {sec.total > sec.rows.length && only !== sec.k ? (
                         <button type="button" className="nxc-more" onClick={() => onOnly(sec.k)}>
-                          הצג את כל {nf.format(sec.total)} התוצאות ב{sec.he}
+                          הצגת כל {nf.format(sec.total)} התוצאות מסוג {sec.he}
                         </button>
                       ) : null}
                     </div>

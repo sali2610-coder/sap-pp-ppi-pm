@@ -24,13 +24,13 @@ export const KINDS: { k: CmdKind; he: string; icon: string }[] = [
   { k: "field", he: "שדה", icon: "Database" },
   { k: "tcode", he: "טרנזקציה", icon: "Terminal" },
   { k: "bapi", he: "BAPI", icon: "Plug" },
-  { k: "func", he: "Function Module", icon: "SquareFunction" },
+  { k: "func", he: "מודול פונקציה", icon: "SquareFunction" },
   { k: "cds", he: "CDS View", icon: "Sigma" },
-  { k: "fiori", he: "Fiori App", icon: "LayoutGrid" },
+  { k: "fiori", he: "יישום Fiori", icon: "LayoutGrid" },
   { k: "flow", he: "תהליך", icon: "Workflow" },
   { k: "chapter", he: "פרק", icon: "BookMarked" },
   { k: "book", he: "ספר", icon: "BookOpen" },
-  { k: "guide", he: "מדריך", icon: "ScrollText" },
+  { k: "guide", he: "מושג", icon: "ScrollText" },
   { k: "incident", he: "תקלה", icon: "AlertTriangle" },
 ];
 

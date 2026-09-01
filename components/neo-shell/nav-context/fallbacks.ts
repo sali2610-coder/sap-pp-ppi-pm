@@ -30,43 +30,43 @@ export interface ParentRef { href: string; label: string }
 const PARENTS: [prefix: string, parent: ParentRef][] = [
   // --- reference directories and the detail pages that hang off them -------
   ["/neo/transactions/", { href: "/neo/transactions/", label: "טרנזקציות" }],
-  ["/neo/tables/", { href: "/neo/tables/", label: "טבלאות" }],
+  ["/neo/tables/", { href: "/neo/tables/", label: "טבלאות SAP" }],
   // An object page is the deep face of a dictionary table, so its parent is the
   // table's own detail page family — /neo/tables/ is the honest landing when the
   // session has no memory of which one.
-  ["/neo/object/", { href: "/neo/tables/", label: "טבלאות" }],
+  ["/neo/object/", { href: "/neo/tables/", label: "טבלאות SAP" }],
   ["/neo/erd/", { href: "/neo/erd/", label: "מודל הנתונים" }],
   ["/neo/cds/", { href: "/neo/cds/", label: "תצוגות CDS" }],
-  ["/neo/bapi/", { href: "/neo/bapi/", label: "מרשם BAPI ו-FM" }],
-  ["/neo/idoc/", { href: "/neo/idoc/", label: "מרשם ה-IDoc" }],
-  ["/neo/fiori-apps/", { href: "/neo/fiori-apps/", label: "אפליקציות Fiori" }],
-  ["/neo/enhancements/", { href: "/neo/enhancements/", label: "Enhancements" }],
+  ["/neo/bapi/", { href: "/neo/bapi/", label: "קטלוג BAPI ו-FM" }],
+  ["/neo/idoc/", { href: "/neo/idoc/", label: "קטלוג IDoc" }],
+  ["/neo/fiori-apps/", { href: "/neo/fiori-apps/", label: "יישומי Fiori" }],
+  ["/neo/enhancements/", { href: "/neo/enhancements/", label: "הרחבות" }],
   // --- business domains and the S/4 migration surfaces ---------------------
   ["/neo/domain/", { href: "/neo/domain-model/", label: "תחומים עסקיים" }],
   ["/neo/domain-model/", { href: "/neo/domain-model/", label: "תחומים עסקיים" }],
   ["/neo/s4hana/", { href: "/neo/s4hana/", label: "מרכז S/4HANA" }],
-  ["/neo/s4-readiness/", { href: "/neo/s4-readiness/", label: "מוכנות למעבר" }],
-  ["/neo/migration-cockpit/", { href: "/neo/migration-cockpit/", label: "קוקפיט מיגרציה" }],
+  ["/neo/s4-readiness/", { href: "/neo/s4-readiness/", label: "מוכנות ל-S/4HANA" }],
+  ["/neo/migration-cockpit/", { href: "/neo/migration-cockpit/", label: "קוקפיט המעבר" }],
   // --- library and learning -----------------------------------------------
   // `/neo/library/` is deliberately absent: the Stage-1 placeholder that used to
   // answer it is no longer generated, and the real shelf is /neo/books/.
-  ["/neo/books/", { href: "/neo/books/", label: "מדף הספרים" }],
+  ["/neo/books/", { href: "/neo/books/", label: "ספריית SAP" }],
   // A cold entry to a reader URL belongs to the shelf, not to Home.
-  ["/neo/read/", { href: "/neo/books/", label: "מדף הספרים" }],
+  ["/neo/read/", { href: "/neo/books/", label: "ספריית SAP" }],
   ["/neo/academy/", { href: "/neo/academy/", label: "SAP Academy" }],
-  ["/neo/knowledge/", { href: "/neo/knowledge/", label: "מרכז ידע" }],
+  ["/neo/knowledge/", { href: "/neo/knowledge/", label: "מרכז הידע" }],
   // A centre topic belongs to the ONE Knowledge Center, which is where a reader
   // with no session memory should land — not at a second, near-identically
   // named surface that the rail no longer offers.
-  ["/neo/centers/", { href: "/neo/knowledge/", label: "מרכז ידע" }],
+  ["/neo/centers/", { href: "/neo/knowledge/", label: "מרכז הידע" }],
   ["/neo/incidents/", { href: "/neo/incidents/", label: "תקלות" }],
   ["/neo/certification/", { href: "/neo/certification/", label: "הסמכה" }],
   // --- modules --------------------------------------------------------------
-  ["/neo/pm/", { href: "/neo/pm/", label: "אחזקה · PM" }],
-  ["/neo/pp-pi/", { href: "/neo/pp-pi/", label: "ייצור · PP-PI" }],
+  ["/neo/pm/", { href: "/neo/pm/", label: "PM · תחזוקת מפעל" }],
+  ["/neo/pp-pi/", { href: "/neo/pp-pi/", label: "PP-PI · תעשיות תהליכיות" }],
   // --- tools and assistant ---------------------------------------------------
   ["/neo/studio/", { href: "/neo/studio/", label: "Architecture Studio" }],
-  ["/neo/chat/", { href: "/neo/chat/", label: "צ׳אט AI" }],
+  ["/neo/chat/", { href: "/neo/chat/", label: "NEO AI" }],
   ["/neo/ai/", { href: "/neo/ai/", label: "שאל את הספרייה" }],
   ["/neo/", { href: "/neo/", label: "מסך הבית" }],
 ];

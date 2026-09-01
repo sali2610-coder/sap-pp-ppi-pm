@@ -127,8 +127,8 @@ function ownership(): { fn: CommandExtra["fn"]; tx: CommandExtra["tx"] } {
  *  module result is the module's real size. */
 function modules(): CmdModuleRecord[] {
   return ([
-    ["PM", "אחזקה · PM", PM_DATA, "/neo/pm/"],
-    ["PP-PI", "ייצור · PP-PI", PPPI_DATA, "/neo/pp-pi/"],
+    ["PM", "PM · תחזוקת מפעל", PM_DATA, "/neo/pm/"],
+    ["PP-PI", "PP-PI · תעשיות תהליכיות", PPPI_DATA, "/neo/pp-pi/"],
   ] as [string, string, SAPModuleData, string][]).map(([key, label, data, href]) => {
     const st = overviewStats(data);
     return {
@@ -245,7 +245,7 @@ export function commandIndex(): CommandExtra {
     gaps: [
       {
         he: "אובייקט",
-        why: "אין ישות «אובייקט» נפרדת בנתוני הפרויקט: אובייקט מילון הוא הטבלה עצמה, ולכן תוצאות «טבלה» נפתחות לעמוד האובייקט המלא ב-/neo/object.",
+        why: "אין רשומת «אובייקט» נפרדת בנתוני הפרויקט: האובייקט הוא טבלת SAP עצמה, ולכן תוצאה מסוג «טבלה» נפתחת בעמוד האובייקט המלא.",
       },
     ],
   };

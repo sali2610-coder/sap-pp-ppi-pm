@@ -62,7 +62,7 @@ export const MOD_VAR: Record<string, string> = {
 export const modVar = (m?: string) => (m && MOD_VAR[m]) || "var(--ink-3)";
 
 /** Hebrew module names, as they are already written across the product. */
-export const MOD_HE: Record<string, string> = { PM: "אחזקה", "PP-PI": "ייצור תהליכי", PP: "ייצור" };
+export const MOD_HE: Record<string, string> = { PM: "תחזוקת מפעל", "PP-PI": "תעשיות תהליכיות", PP: "תכנון ייצור" };
 
 // Object-class hue. Visualisation surfaces ONLY (the preview class dots, the
 // table lists) — it is a second encoding and must never compete with the module
@@ -135,8 +135,8 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       id: "modules",
       label: "מודולים",
       items: [
-        { id: "pm", label: "אחזקה · PM", icon: "Wrench", count: pm.tables, countLabel: "טבלאות", mod: "PM" },
-        { id: "pp-pi", label: "ייצור · PP-PI", icon: "FlaskConical", count: pp.tables, countLabel: "טבלאות", mod: "PP-PI" },
+        { id: "pm", label: "PM · תחזוקת מפעל", icon: "Wrench", count: pm.tables, countLabel: "טבלאות", mod: "PM" },
+        { id: "pp-pi", label: "PP-PI · תעשיות תהליכיות", icon: "FlaskConical", count: pp.tables, countLabel: "טבלאות", mod: "PP-PI" },
         /* THE COUNT AND THE DESTINATION NOW AGREE.
            This item has always counted DOMAINS — 39 business domains — while
            pointing at /neo/erd/, which lists tables. A reader who clicked
@@ -150,25 +150,25 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       /* THE MIGRATION GROUP. Project NEO is an ECC→S/4HANA platform, and until
          now its three S/4 surfaces were reachable from nothing at all. */
       id: "s4",
-      label: "מעבר ל-S/4HANA",
+      label: "המעבר ל-S/4HANA",
       items: [
         { id: "s4hana", href: "/neo/s4hana/", label: "מרכז S/4HANA", icon: "Rocket", count: S4_OBJECTS.length, countLabel: "אובייקטים" },
-        { id: "s4-readiness", href: "/neo/s4-readiness/", label: "מוכנות למעבר", icon: "Gauge", count: ECC_S4_TOPICS.length, countLabel: "נושאי שינוי" },
-        { id: "migration-cockpit", href: "/neo/migration-cockpit/", label: "קוקפיט מיגרציה", icon: "Truck", count: MIG_OBJECTS.length, countLabel: "אובייקטי מיגרציה" },
+        { id: "s4-readiness", href: "/neo/s4-readiness/", label: "מוכנות ל-S/4HANA", icon: "Gauge", count: ECC_S4_TOPICS.length, countLabel: "נושאי שינוי" },
+        { id: "migration-cockpit", href: "/neo/migration-cockpit/", label: "קוקפיט המעבר", icon: "Truck", count: MIG_OBJECTS.length, countLabel: "אובייקטי מיגרציה" },
       ],
     },
     {
       id: "reference",
       label: "עיון · Reference",
       items: [
-        { id: "tables", label: "טבלאות", icon: "Table", count: ALL_TABLES.length, countLabel: "טבלאות" },
-        { id: "erd", href: "/neo/erd/", label: "מודל נתונים · ERD", icon: "GitBranch", count: modelStats().edges, countLabel: "קשרים" },
+        { id: "tables", label: "טבלאות SAP", icon: "Table", count: ALL_TABLES.length, countLabel: "טבלאות" },
+        { id: "erd", href: "/neo/erd/", label: "מודל הנתונים · ERD", icon: "GitBranch", count: modelStats().edges, countLabel: "קשרים" },
         { id: "transactions", label: "טרנזקציות", icon: "Terminal", count: registryStats().total, countLabel: "טרנזקציות" },
-        { id: "bapi", label: "BAPIs / FMs", icon: "Plug", count: funcRegistry().length, countLabel: "אובייקטי פונקציה" },
+        { id: "bapi", label: "BAPI ו-FM", icon: "Plug", count: funcRegistry().length, countLabel: "אובייקטי פונקציה" },
         { id: "idoc", label: "IDocs", icon: "Cable", count: idocMessageTypes().length, countLabel: "סוגי הודעה" },
-        { id: "cds", label: "CDS Views", icon: "Sigma", count: CDS_VIEWS.length, countLabel: "תצוגות" },
-        { id: "fiori-apps", label: "Fiori Apps", icon: "LayoutGrid", count: FIORI_APPS.length, countLabel: "אפליקציות מלאות" },
-        { id: "enhancements", label: "Enhancements", icon: "Puzzle", count: ENHANCEMENTS.length, countLabel: "טכניקות" },
+        { id: "cds", label: "CDS Views", icon: "Sigma", count: CDS_VIEWS.length, countLabel: "תצוגות CDS" },
+        { id: "fiori-apps", label: "יישומי Fiori", icon: "LayoutGrid", count: FIORI_APPS.length, countLabel: "יישומים" },
+        { id: "enhancements", label: "הרחבות", icon: "Puzzle", count: ENHANCEMENTS.length, countLabel: "טכניקות" },
       ],
     },
     {
@@ -188,7 +188,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
            the Stage-1 hub placeholder — so the sidebar's library link bypassed
            the built shelf, and on /neo/books/ NOTHING in the nav matched, which
            left the surface with no active state and no section hue. */
-        { id: "library", href: "/neo/books/", label: "ספרייה דיגיטלית", icon: "Library", count: allBookIds().length, countLabel: "ספרים" },
+        { id: "library", href: "/neo/books/", label: "ספריית SAP", icon: "Library", count: allBookIds().length, countLabel: "ספרים" },
         { id: "ai", label: "שאל את הספרייה", icon: "Sparkles", count: null, countLabel: "" },
       ],
     },
@@ -203,7 +203,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
            they answer different questions. Both bodies live at /neo/knowledge/
            now, and this number is counted from the two real arrays rather than
            written down, so it cannot drift from what the page lists. */
-        { id: "knowledge", label: "מרכז ידע", icon: "BrainCircuit", count: knowledgeData().totals.all, countLabel: "רשומות" },
+        { id: "knowledge", label: "מרכז הידע", icon: "BrainCircuit", count: knowledgeData().totals.all, countLabel: "רשומות" },
         { id: "academy", label: "SAP Academy", icon: "GraduationCap", count: BOOKS.length, countLabel: "ספרי לימוד" },
         { id: "incidents", label: "תקלות", icon: "AlertTriangle", count: INCIDENTS.length, countLabel: "תקלות" },
         { id: "certification", label: "הסמכה", icon: "Award", count: null, countLabel: "" },
@@ -217,7 +217,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
          different number for a different dataset under a near-identical name. */
       { id: "studio", label: "Architecture Studio", icon: "Compass", count: null, countLabel: "" },
     ] },
-    { id: "assistant", label: "עוזר SAP", items: [{ id: "chat", label: "צ'אט AI", icon: "MessageSquare", count: null, countLabel: "" }] },
+    { id: "assistant", label: "עוזר SAP", items: [{ id: "chat", label: "NEO AI", icon: "MessageSquare", count: null, countLabel: "" }] },
   ];
 }
 
@@ -270,7 +270,7 @@ function modulePreview(mod: ModuleKey): Preview {
   const bk = booksFor(mod);
   return {
     kind: "module",
-    label: mod === "PM" ? "אחזקה · PM" : "ייצור · PP-PI",
+    label: mod === "PM" ? "PM · תחזוקת מפעל" : "PP-PI · תעשיות תהליכיות",
     he: MOD_HE[mod],
     mod,
     nums: [
@@ -390,7 +390,7 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
   }
 
   const moduleCodes = uniq([...transactions(PM_DATA), ...transactions(PPPI_DATA)].map((t) => t.code));
-  for (const code of moduleCodes) out.push({ k: "tcode", t: code, s: "טרנזקציה במודולים PM / PP-PI", m: true, href: "/neo/transactions/" });
+  for (const code of moduleCodes) out.push({ k: "tcode", t: code, s: "טרנזקציית SAP בתיעוד הפרויקט", m: true, href: "/neo/transactions/" });
 
   const seenFn = new Set<string>();
   for (const m of [PM_DATA, PPPI_DATA] as SAPModuleData[]) {
@@ -399,7 +399,7 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
         const nm = (raw || "").trim();
         if (!nm || seenFn.has(nm)) continue;
         seenFn.add(nm);
-        out.push({ k: "func", t: nm, s: he || "ממשק פונקציה", m: true, href: "/neo/bapi/" });
+        out.push({ k: "func", t: nm, s: he || "אובייקט פונקציה", m: true, href: "/neo/bapi/" });
       }
     }
   }
@@ -457,15 +457,15 @@ export function hubContent(id: string): HubContent {
       ...base,
       lede:
         meta.mod === "PM"
-          ? "אחזקת מפעל: ציוד, מיקומים פונקציונליים, הודעות ופקודות אחזקה. כל מספר בעמוד נגזר ממילון הנתונים של הפרויקט."
-          : "ייצור תהליכי: מתכונים, משאבים, פקודות תהליך ואישורים. כל מספר בעמוד נגזר ממילון הנתונים של הפרויקט.",
+          ? "תחזוקת מפעל: ציוד, מיקומים פונקציונליים, הודעות תחזוקה והזמנות תחזוקה. כל מספר בעמוד נגזר מהתיעוד הטכני של הפרויקט."
+          : "תעשיות תהליכיות: מתכוני אב, משאבים, הזמנות תהליך ואישורים. כל מספר בעמוד נגזר מהתיעוד הטכני של הפרויקט.",
       stats: [
         { value: st.tables, label: "טבלאות ייחודיות" },
         { value: st.fields, label: "שדות מתועדים" },
         { value: st.transactions, label: "טרנזקציות" },
-        { value: st.bapis, label: "BAPIs / FMs" },
+        { value: st.bapis, label: "BAPI ו-FM" },
         { value: st.cds, label: "CDS Views" },
-        { value: st.fiori, label: "Fiori Apps" },
+        { value: st.fiori, label: "יישומי Fiori" },
       ],
       tables: hubTables(m, 12),
       listTitle: "נושאים במודול",
@@ -478,7 +478,7 @@ export function hubContent(id: string): HubContent {
       const all = [...ALL_TABLES].sort((a, b) => b.fields.length - a.fields.length);
       return {
         ...base,
-        lede: "מילון הטבלאות המלא של הפרויקט, מסודר לפי עומק התיעוד. לחיצה על שורה טוענת את ההקשר המלא שלה במדף שברכיב הניווט.",
+        lede: "קטלוג טבלאות SAP המלא של הפרויקט, מסודר לפי עומק התיעוד. בחירת שורה טוענת את ההקשר המלא שלה למדף ההקשר שבניווט.",
         stats: [
           { value: ALL_TABLES.length, label: "טבלאות" },
           { value: ALL_TABLES.reduce((a, t) => a + t.fields.length, 0), label: "שדות" },
@@ -500,11 +500,11 @@ export function hubContent(id: string): HubContent {
       const s = registryStats();
       return {
         ...base,
-        lede: "מרשם הטרנזקציות של הפרויקט. הפירוט לעומק קיים לחלק מהן; השאר נשמרות כרשומות קלות: ההבחנה מוצגת ולא מטושטשת.",
+        lede: "קטלוג הטרנזקציות של הפרויקט. לחלק מהטרנזקציות קיים תיעוד מלא; השאר רשומות כרשומות בסיסיות, וההבחנה מסומנת בכל רשומה.",
         stats: [
           { value: s.total, label: "סה״כ" },
           { value: s.deep, label: "מתועדות לעומק" },
-          { value: s.light, label: "רשומות קלות" },
+          { value: s.light, label: "רשומות בסיסיות" },
         ],
         tables: [],
         listTitle: "לפי מודול",
@@ -517,10 +517,10 @@ export function hubContent(id: string): HubContent {
       const r = funcRegistry();
       return {
         ...base,
-        lede: "אובייקטי פונקציה, BAPIs ו-Function Modules, כפי שהם רשומים במרשם הפרויקט.",
+        lede: "אובייקטי פונקציה, BAPI ו-FM, כפי שהם רשומים בקטלוג הפרויקט.",
         stats: [{ value: r.length, label: "אובייקטים" }],
         tables: [],
-        listTitle: "מדגם מהמרשם",
+        listTitle: "מדגם מהקטלוג",
         list: r.slice(0, 24).map((f) => ({ t: f.technicalName, s: f.shortDescriptionHe || f.shortDescriptionEn || "", m: true })),
       };
     }
@@ -528,7 +528,7 @@ export function hubContent(id: string): HubContent {
       const types = idocMessageTypes();
       return {
         ...base,
-        lede: "סוגי ההודעה של IDoc שקיימים בפועל בנתוני PM / PP-PI. שניים בלבד: המספר מוצג כפי שהוא ולא מנופח.",
+        lede: "סוגי הודעת IDoc המתועדים בנתוני PM ו-PP-PI. המספר נספר מהנתונים כפי שהם.",
         stats: [{ value: types.length, label: "סוגי הודעה" }],
         tables: [],
         listTitle: "סוגי הודעה",
@@ -538,19 +538,19 @@ export function hubContent(id: string): HubContent {
     case "cds":
       return {
         ...base,
-        lede: "מיפוי טבלה קלאסית → תצוגת CDS ב-S/4HANA, מאומת ידנית.",
-        stats: [{ value: CDS_VIEWS.length, label: "תצוגות" }],
+        lede: "מיפוי טבלה קלאסית → תצוגת CDS ב-S/4HANA, לפי תיעוד הפרויקט.",
+        stats: [{ value: CDS_VIEWS.length, label: "תצוגות CDS" }],
         tables: [],
-        listTitle: "תצוגות",
+        listTitle: "תצוגות CDS",
         list: CDS_VIEWS.slice(0, 24).map((v) => ({ t: v.view, s: `${v.he} · ${v.tables.join(", ")}`, m: true })),
       };
     case "fiori-apps":
       return {
         ...base,
-        lede: "אפליקציות Fiori עם עמוד מלא בפרויקט. קיים בנוסף אינדקס מטא-דאטה רחב בהרבה, והשניים אינם מוצגים כמספר אחד.",
+        lede: "יישומי Fiori עם עמוד מלא בפרויקט. אינדקס המטא-דאטה הרחב יותר של יישומי Fiori נספר בנפרד.",
         stats: [{ value: FIORI_APPS.length, label: "עמודים מלאים" }],
         tables: [],
-        listTitle: "אפליקציות",
+        listTitle: "יישומים",
         list: FIORI_APPS.map((a) => ({ t: a.id, s: `${a.he} · ${a.module}`, m: true })),
       };
     case "enhancements":
@@ -565,7 +565,7 @@ export function hubContent(id: string): HubContent {
     case "library":
       return {
         ...base,
-        lede: "הספרייה הדיגיטלית: אינדקס מבני של המדריכים הרשמיים.",
+        lede: "ספריית SAP: אינדקס מבני של המדריכים הרשמיים.",
         stats: [
           { value: LIBRARY_STATS.books, label: "ספרים" },
           { value: LIBRARY_STATS.chapters, label: "פרקים" },
@@ -578,7 +578,7 @@ export function hubContent(id: string): HubContent {
     case "knowledge":
       return {
         ...base,
-        lede: "מרכז המושגים: הסבר עסקי וטכני לכל מונח, כולל ההבדל בין ECC ל-S/4HANA.",
+        lede: "מרכז הידע: הסבר עסקי וטכני לכל מונח, כולל ההבדל בין SAP ECC ל-S/4HANA.",
         stats: [{ value: CONCEPTS.length, label: "מושגים" }],
         tables: [],
         listTitle: "מושגים",
@@ -596,7 +596,7 @@ export function hubContent(id: string): HubContent {
     case "incidents":
       return {
         ...base,
-        lede: "קטלוג התקלות: סימפטום, שורש, טרנזקציות אבחון וצעדי תיקון.",
+        lede: "קטלוג התקלות: תסמין, סיבת שורש, טרנזקציות אבחון וצעדי תיקון.",
         stats: [{ value: INCIDENTS.length, label: "תקלות" }],
         tables: [],
         listTitle: "תקלות",
@@ -620,7 +620,7 @@ export function hubContent(id: string): HubContent {
       // with no dataset-backed count. Stage 1 says so instead of inventing one.
       return {
         ...base,
-        lede: "היעד קיים במוצר, ואין לו ספירה מגובה בנתוני הפרויקט. שלב 1 של העיצוב מציג את מסגרת הניווט בלבד: התוכן המלא נבנה בשלב הבא.",
+        lede: "ליעד זה אין ספירה מגובה בנתוני הפרויקט.",
         stats: [],
         tables: [],
         listTitle: "",
@@ -675,32 +675,32 @@ export function landingContent(): LandingContent {
 
   return {
     stats: [
-      { value: ALL_TABLES.length, label: "טבלאות במילון" },
+      { value: ALL_TABLES.length, label: "טבלאות SAP" },
       { value: pm.fields + pp.fields, label: "שדות מתועדים" },
-      { value: registryStats().total, label: "טרנזקציות במרשם" },
+      { value: registryStats().total, label: "טרנזקציות בקטלוג" },
       { value: LIBRARY_STATS.books, label: "ספרים בספרייה" },
     ],
     modules: [
       {
         mod: "PM",
-        label: "אחזקה · PM",
+        label: "PM · תחזוקת מפעל",
         he: MOD_HE.PM,
         href: "/neo/pm/",
         stats: [
           { value: pm.tables, label: "טבלאות" },
           { value: pm.transactions, label: "טרנזקציות" },
-          { value: pm.bapis, label: "BAPIs / FMs" },
+          { value: pm.bapis, label: "BAPI ו-FM" },
         ],
       },
       {
         mod: "PP-PI",
-        label: "ייצור · PP-PI",
+        label: "PP-PI · תעשיות תהליכיות",
         he: MOD_HE["PP-PI"],
         href: "/neo/pp-pi/",
         stats: [
           { value: pp.tables, label: "טבלאות" },
           { value: pp.transactions, label: "טרנזקציות" },
-          { value: pp.bapis, label: "BAPIs / FMs" },
+          { value: pp.bapis, label: "BAPI ו-FM" },
         ],
       },
     ],

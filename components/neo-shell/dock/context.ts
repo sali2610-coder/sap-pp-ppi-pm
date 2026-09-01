@@ -46,7 +46,7 @@ const KIND_HE: Record<NeoContextKind, string> = {
   reader: "קריאה",
   lesson: "שיעור",
   course: "קורס",
-  reference: "מדריך עיון",
+  reference: "קטלוג",
   graph: "מודל הנתונים",
   knowledge: "מושג",
   incident: "תקלה",
@@ -72,10 +72,10 @@ export function contextFromPath(path: string): NeoContext {
     case "tables":      return at(2) ? mk("table", at(2)) : mk("reference", "טבלאות SAP");
     case "transactions":return at(2) ? mk("transaction", at(2)) : mk("reference", "טרנזקציות");
     case "erd":         return mk("graph");
-    case "books":       return at(2) ? mk("book", at(2)) : mk("reference", "מדף הספרים");
+    case "books":       return at(2) ? mk("book", at(2)) : mk("reference", "ספריית SAP");
     case "read":        return mk("reader", at(2));
-    case "academy":     return at(3) ? mk("lesson", at(3)) : at(2) ? mk("course", at(2)) : mk("reference", "האקדמיה");
-    case "knowledge":   return at(2) ? mk("knowledge", at(2)) : mk("reference", "מרכז ידע");
+    case "academy":     return at(3) ? mk("lesson", at(3)) : at(2) ? mk("course", at(2)) : mk("reference", "SAP Academy");
+    case "knowledge":   return at(2) ? mk("knowledge", at(2)) : mk("reference", "מרכז הידע");
     case "incidents":   return at(2) ? mk("incident", at(2)) : mk("reference", "תקלות");
     case "bapi": case "cds": case "idoc":
     case "fiori-apps": case "enhancements":

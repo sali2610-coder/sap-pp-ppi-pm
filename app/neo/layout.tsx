@@ -20,8 +20,8 @@ import "./motion.css";
 // scripts/check-sitemap.mjs then hard-fails on any indexable page missing from
 // the sitemap, so the two have to agree.
 export const metadata: Metadata = {
-  title: "Project NEO · שלב עיצוב",
-  description: "מעטפת האפליקציה והניווט של Project NEO: שלב 1.",
+  title: "Project NEO",
+  description: "Project NEO: קוקפיט המעבר מ-SAP ECC ל-S/4HANA ותיעוד טכני למודולי PM ו-PP-PI.",
   robots: { index: false, follow: false },
 };
 
