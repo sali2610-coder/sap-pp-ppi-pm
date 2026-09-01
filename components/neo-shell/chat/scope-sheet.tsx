@@ -72,7 +72,7 @@ export function ScopeSheet({ scope, onScope, onClose }: {
           <h2 id="nxq-sheet-h" className="nxq-sheet-t">
             {openCh ? `פרק ${openCh.n} · ${openCh.t}` : book ? book.title : "היקף התשובה"}
           </h2>
-          <button type="button" className="nu-ghost nxq-sheet-x" onClick={onClose} aria-label="סגור">
+          <button type="button" className="nu-ghost nxq-sheet-x" onClick={onClose} aria-label="סגירה">
             <X size={16} strokeWidth={2} aria-hidden="true" />
           </button>
         </header>

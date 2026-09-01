@@ -19,8 +19,8 @@ import "@/app/neo/chat.css";
 import { GeneralChat } from "@/components/neo-shell/chat/general-chat";
 
 export const metadata = {
-  title: "צ'אט NEO · Project NEO",
-  description: "עוזר SAP כללי בשיחה: ארכיטקטורה, יישום, אינטגרציה ואבחון, עם אמירה מפורשת מה דורש אימות מול המערכת.",
+  title: "NEO AI · Project NEO",
+  description: "עוזר SAP כללי: ארכיטקטורה, יישום, אינטגרציה ואבחון תקלות. כל תשובה מציינת את רמת הביסוס שלה ומה דורש אימות מול מערכת SAP.",
   robots: { index: false, follow: false },
 };
 

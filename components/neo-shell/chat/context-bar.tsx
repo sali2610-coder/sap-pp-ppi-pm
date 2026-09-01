@@ -53,7 +53,7 @@ export function ContextBar({ scope, mode, onOpenScope }: {
         </span>
         <p className="nxq-ctx-line">
           <b>ידע כללי על SAP</b>
-          <span>לא נבחרים כאן ספר, פרק או סעיף. רמת הביסוס מצוינת בכל תשובה בנפרד.</span>
+          <span>במסך זה אין בחירת ספר, פרק או סעיף. רמת הביסוס מצוינת בכל תשובה.</span>
         </p>
       </div>
     );
@@ -68,7 +68,7 @@ export function ContextBar({ scope, mode, onOpenScope }: {
       </span>
 
       <div className="nxq-ctx-main">
-        <span className="nxq-ctx-l">התשובה תיענה מתוך</span>
+        <span className="nxq-ctx-l">מקור התשובה</span>
 
         {ctx.whole ? (
           <p className="nxq-ctx-line">
@@ -115,7 +115,7 @@ export function ContextBar({ scope, mode, onOpenScope }: {
 
       {onOpenScope ? (
         <button type="button" className="nu-btn2 nxq-ctx-x" onClick={onOpenScope}>
-          {ctx.whole ? "בחר ספר או פרק" : "שנה היקף"}
+          {ctx.whole ? "בחירת ספר או פרק" : "שינוי היקף"}
         </button>
       ) : null}
     </div>

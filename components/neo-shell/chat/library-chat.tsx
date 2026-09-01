@@ -127,11 +127,11 @@ export function LibraryChat() {
         <div className="nxq-hero-text nm-rise nm-once">
           <span className="nxq-eyebrow">
             <BookOpen size={13} strokeWidth={2} aria-hidden="true" />
-            ספרייה · תשובות מבוססות מקור
+            ספריית SAP · תשובות מבוססות מקור
           </span>
           <h1 className="nxq-h1">{M.title}</h1>
           <p className="nxq-lede">
-            מומחה SAP שקרא את ספרי הפרויקט ועונה רק מתוכם, עם הפניה לספר, לפרק ולסעיף.
+            תשובות מתוך ספרי SAP שבספריית הפרויקט בלבד, עם הפניה לספר, לפרק ולסעיף.
           </p>
           <p className="nxq-corpus">
             {CORPUS.books > 0 ? (
@@ -140,10 +140,10 @@ export function LibraryChat() {
                 {" · "}
                 <b>{CORPUS.chapters.toLocaleString("he-IL")}</b> פרקים
                 {" · "}
-                <b>{CORPUS.sections.toLocaleString("he-IL")}</b> סעיפים באינדקס
+                <b>{CORPUS.sections.toLocaleString("he-IL")}</b> סעיפים במאגר
               </>
             ) : (
-              "לא קיים מידע מאומת בפרויקט"
+              "לא קיים תיעוד מאומת במאגר"
             )}
           </p>
         </div>
@@ -225,7 +225,7 @@ export function LibraryChat() {
         busy={busy}
         scope={scope}
         onOpenScope={() => setSheet(true)}
-        placeholder="שאל שאלה על החומר בספרייה…"
+        placeholder="שאלה על תהליך, טרנזקציה או אובייקט SAP מתוך ספרי הספרייה"
         hint={`${HINT} · ${scopeLabel(scope)}`}
         autoFocusKey={focusKey}
       />
@@ -263,20 +263,20 @@ function Welcome({ scope, onPick, onAction, onOpenScope }: {
   const scoped = Boolean(scope.bookId);
 
   return (
-    <section className="nxq-welcome" aria-label="פתיחה">
+    <section className="nxq-welcome" aria-label="מבוא">
       {/* --------------------------------------------------- the greeting */}
       <div className="nxq-w-top">
         <NeoLibrarian size={138} className="nxq-w-neo nm-rise nm-once" />
         <div className="nxq-w-say">
           <span className="nxq-eyebrow">
             <BookOpen size={13} strokeWidth={2} aria-hidden="true" />
-            ספריית SAP המקצועית
+            ספריית SAP
           </span>
-          <h2 className="nxq-w-h">שאל את NEO על הספרייה</h2>
+          <h2 className="nxq-w-h">שאלות על ספרי SAP שבספרייה</h2>
           <p className="nxq-w-p">
             {CORPUS.books > 0
-              ? "אני קורא את ספרי ה-SAP שבספרייה ויכול להסביר, לסכם, להשוות, לבנות תרשים ולכוון אותך למקור."
-              : "לא קיים מידע מאומת בפרויקט. עד שהאינדקס ייטען אין ממה לענות."}
+              ? "התשובות נכתבות מתוך ספרי SAP שבספרייה: הסבר, סיכום, השוואה, תרשים והפניה למקור המדויק."
+              : "לא קיים תיעוד מאומת במאגר. ללא ספרים במאגר אין מקור לתשובה."}
           </p>
           <ul className="nxq-caps">
             {M.capabilities.map((cap) => (
@@ -290,22 +290,22 @@ function Welcome({ scope, onPick, onAction, onOpenScope }: {
       <button type="button" className="nxq-w-scope" onClick={onOpenScope}>
         <span className="nxq-w-scope-l">
           <Layers size={14} strokeWidth={2} aria-hidden="true" />
-          שואל מתוך
+          היקף השאלה
         </span>
         <b className="nxq-w-scope-v">{scopeLabel(scope)}</b>
         <span className="nxq-w-scope-m">
           {scoped
-            ? "לחיצה תחליף ספר, פרק או סעיף"
+            ? "בחירת ספר, פרק או סעיף אחר"
             : CORPUS.books > 0
               ? `${CORPUS.books} ספרים · ${CORPUS.chapters.toLocaleString("he-IL")} פרקים · ${CORPUS.sections.toLocaleString("he-IL")} סעיפים`
-              : "האינדקס ריק"}
+              : "אין ספרים במאגר"}
         </span>
         <ChevronDown size={16} strokeWidth={2} aria-hidden="true" className="nxq-w-scope-c" />
       </button>
 
       {/* --------------------------------------------------- quick actions */}
       <div className="nxq-qa">
-        <span className="nxq-qa-t">מה לעשות עם החומר</span>
+        <span className="nxq-qa-t">פעולות על החומר שנבחר</span>
         <div className="nxq-qa-row">
           {PRIMARY.map((a, i) => (
             <button
@@ -350,7 +350,7 @@ function Welcome({ scope, onPick, onAction, onOpenScope }: {
       <div className="nxq-starters">
         <span className="nxq-starters-t">
           <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
-          אפשר להתחיל מ
+          שאלות לדוגמה
         </span>
         <div className="nxq-starters-row nm-seq">
           {M.starters.map((s, i) => (

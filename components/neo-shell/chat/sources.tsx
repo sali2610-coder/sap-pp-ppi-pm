@@ -53,20 +53,20 @@ function SourceCard({ c, n }: { c: Citation; n: number }) {
           className="nu-status nxq-src-state"
           style={{ "--s": c.cited === false ? "var(--ink-3)" : "var(--brand)" } as React.CSSProperties}
         >
-          {c.cited === false ? "הוגש" : "צוטט"}
+          {c.cited === false ? "לא צוטט" : "צוטט"}
         </span>
       </div>
 
       <div className="nxq-src-facts">
         {c.page ? (
           <span className="nu-chip">
-            {c.page.from === c.page.to ? `עמוד ${c.page.from}` : `עמודים ${c.page.from}–${c.page.to}`}
+            {c.page.from === c.page.to ? `עמוד ${c.page.from}` : `עמודים ${c.page.from}-${c.page.to}`}
             {c.pageEstimated ? " (משוער)" : ""}
           </span>
         ) : null}
         {role ? <span className="nu-chip">אחזור {role}</span> : null}
         {typeof c.confidence === "number" ? (
-          <span className="nu-chip" title="ציון האחזור של הקטע, כפי שהמנוע החזיר">
+          <span className="nu-chip" title="ציון האחזור של הקטע כפי שהתקבל מהמנוע">
             ציון אחזור {Math.round(c.confidence * 100)}%
           </span>
         ) : null}
@@ -81,7 +81,7 @@ function SourceCard({ c, n }: { c: Citation; n: number }) {
             className="nu-link nxq-src-open"
           >
             <BookOpen size={14} strokeWidth={2} aria-hidden="true" />
-            פתח את הפרק
+            פתיחת הפרק
             <ExternalLink size={12} strokeWidth={2} aria-hidden="true" />
           </Link>
         ) : null}
@@ -93,7 +93,7 @@ function SourceCard({ c, n }: { c: Citation; n: number }) {
             onClick={() => setOpen((v) => !v)}
           >
             <Quote size={14} strokeWidth={2} aria-hidden="true" />
-            {open ? "הסתר ציטוט" : "הצג ציטוט"}
+            {open ? "הסתרת הציטוט" : "הצגת הציטוט"}
             <ChevronDown size={14} strokeWidth={2} aria-hidden="true" className="nxq-caret" data-on={open ? "1" : "0"} />
           </button>
         ) : null}

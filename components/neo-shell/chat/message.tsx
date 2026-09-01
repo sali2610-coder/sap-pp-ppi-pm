@@ -104,12 +104,12 @@ export function Message({
             <>
               <div className="nxq-note nxq-note-plain" role="status">
                 <CircleSlash size={15} strokeWidth={2} aria-hidden="true" />
-                <span>עצרת את התשובה. לא התקבלה תשובה מלאה ולא נשמר טקסט חלקי.</span>
+                <span>התשובה נעצרה. לא התקבלה תשובה ולא נשמר טקסט חלקי; שאר השיחה נשמרה. אפשר לשלוח את השאלה שוב.</span>
               </div>
               <div className="nxq-acts">
                 <button type="button" className="nu-btn2" onClick={onRetry} disabled={busy}>
                   <RotateCcw size={14} strokeWidth={2} aria-hidden="true" />
-                  שאל שוב
+                  שליחת השאלה שוב
                 </button>
               </div>
             </>
@@ -128,7 +128,7 @@ export function Message({
                   <span className="nxq-fail-m">{a.error}</span>
                   {typeof passages === "number" ? (
                     <span className="nxq-fail-s">
-                      השלב שהושלם: אחזור הקטעים ({passages} קטעים). הכשל אירע בשלב כתיבת התשובה.
+                      אחזור הקטעים הושלם ({passages} קטעים); הכשל אירע בשלב כתיבת התשובה. שאר השיחה לא נפגעה.
                     </span>
                   ) : null}
                 </div>
@@ -136,7 +136,7 @@ export function Message({
               <div className="nxq-acts">
                 <button type="button" className="nu-btn" onClick={onRetry} disabled={busy}>
                   <RotateCcw size={14} strokeWidth={2} aria-hidden="true" />
-                  נסה שוב
+                  ניסיון חוזר
                 </button>
               </div>
             </>
@@ -149,7 +149,7 @@ export function Message({
 
                 {a.policy === "REFUSE" && !a.text ? (
                   <p className="nxq-empty">
-                    המנוע לא החזיר תשובה עבור השאלה הזו. אפשר לנסח מחדש או להרחיב את ההיקף.
+                    לא נמצא מקור מאומת בספרייה לשאלה זו, ולכן לא נכתבה תשובה. שאר השיחה נשמרה. אפשר לנסח את השאלה מחדש או לשאול על נושא ממוקד יותר.
                   </p>
                 ) : (
                   <AnswerBody text={a.text} citations={citeProps} />
@@ -168,7 +168,7 @@ export function Message({
                 {a.diagram?.explicit && !a.diagram.drawn ? (
                   <div className="nxq-note nxq-note-warn">
                     <AlertTriangle size={15} strokeWidth={2} aria-hidden="true" />
-                    <span>ביקשת תרשים, והתשובה חזרה בלי תרשים שניתן לצייר.</span>
+                    <span>התבקש תרשים, אך התשובה התקבלה ללא תרשים שניתן להציג. אפשר לבקש שוב בניסוח ממוקד יותר.</span>
                   </div>
                 ) : null}
 
@@ -197,7 +197,7 @@ export function Message({
                     })}
                     <button type="button" className="nu-ghost nxq-act" onClick={onRetry}>
                       <RotateCcw size={13} strokeWidth={2} aria-hidden="true" />
-                      שאל שוב
+                      שליחת השאלה שוב
                     </button>
                   </div>
 
@@ -269,7 +269,7 @@ function Grounding({ a, mode }: { a: Answer; mode: AiMode }) {
   if (a.policy === "REFUSE") {
     return (
       <span className="nu-status nxq-ground" style={{ "--s": "var(--ink-3)" } as React.CSSProperties}>
-        לא נמצאה תשובה במקורות
+        לא נמצא מקור מאומת
       </span>
     );
   }
@@ -303,7 +303,7 @@ function Meta({ firstTokenMs, passages }: {
   firstTokenMs?: number | null; passages?: number | null;
 }) {
   const bits: string[] = [];
-  if (typeof firstTokenMs === "number" && firstTokenMs > 0) bits.push(`מילה ראשונה ${secs(firstTokenMs)}`);
+  if (typeof firstTokenMs === "number" && firstTokenMs > 0) bits.push(`תחילת התשובה ${secs(firstTokenMs)}`);
   if (typeof passages === "number") bits.push(`${passages} קטעים נקראו`);
   if (!bits.length) return null;
   return <p className="nxq-meta">{bits.join(" · ")}</p>;

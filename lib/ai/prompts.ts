@@ -26,22 +26,22 @@ export interface AnswerAction {
 }
 
 export const ANSWER_ACTIONS: AnswerAction[] = [
-  { id: "simple",   label: "הסבר בפשטות",       task: "STUDENT_SUMMARY",  prompt: "הסבר את זה במילים פשוטות, למי שחדש ב-SAP.", primary: true },
-  { id: "expand",   label: "הרחב מקצועית",       task: "LONGFORM",         prompt: "הרחב את ההסבר לעומק, ברמה של יועץ מנוסה.",   primary: true },
+  { id: "simple",   label: "הסבר פשוט",         task: "STUDENT_SUMMARY",  prompt: "הסבר את זה במילים פשוטות, למי שחדש ב-SAP.", primary: true },
+  { id: "expand",   label: "הרחבה מקצועית",      task: "LONGFORM",         prompt: "הרחב את ההסבר לעומק, ברמה של יועץ מנוסה.",   primary: true },
   { id: "example",  label: "דוגמה מעשית",        task: "SAP_QA",           prompt: "תן דוגמה מעשית מהשטח לנושא הזה.",            primary: true },
-  { id: "ecc",      label: "השווה ל-S/4HANA",    task: "COMPARE_ECC_S4",   prompt: "השווה בין ECC ל-S/4HANA בנושא הזה.",         primary: true },
+  { id: "ecc",      label: "השוואה ל-S/4HANA",   task: "COMPARE_ECC_S4",   prompt: "השווה בין ECC ל-S/4HANA בנושא הזה.",         primary: true },
   { id: "review",   label: "שאלות חזרה",         task: "QUIZ",             prompt: "נסח שאלות חזרה על החומר: הבנה, מונחים, תהליך ותרחיש. הצג קודם את כל השאלות, ואחריהן את התשובות בנפרד." },
-  { id: "checklist",label: "צור צ׳ק ליסט",       task: "STUDY_GUIDE",      prompt: "בנה צ׳ק ליסט מעשי ליישום הנושא. כל שורה חייבת להתחיל בתיבת סימון בפורמט \"- [ ] \", פעולה אחת שניתן לאמת בכל שורה." },
-  { id: "summary",  label: "סכם",                task: "CHAPTER_SUMMARY",  prompt: "סכם את החומר שנבחר: רעיון מרכזי, מושגי מפתח, אובייקטי SAP, שלבי התהליך ומסקנה קצרה." },
-  { id: "diagram",  label: "צור תרשים",          task: "DIAGRAM",          prompt: "תאר את התהליך כתרשים זרימה שלב אחר שלב." },
-  { id: "deck",     label: "בנה מצגת",           task: "PROCESS_FLOW",     prompt: "הצג את הנושא כתרשים זרימה שאפשר להציג מולו: שלבים ברורים, תוויות קצרות, החלטות מסומנות." },
+  { id: "checklist",label: "רשימת בדיקה",        task: "STUDY_GUIDE",      prompt: "בנה צ׳ק ליסט מעשי ליישום הנושא. כל שורה חייבת להתחיל בתיבת סימון בפורמט \"- [ ] \", פעולה אחת שניתן לאמת בכל שורה." },
+  { id: "summary",  label: "סיכום",              task: "CHAPTER_SUMMARY",  prompt: "סכם את החומר שנבחר: רעיון מרכזי, מושגי מפתח, אובייקטי SAP, שלבי התהליך ומסקנה קצרה." },
+  { id: "diagram",  label: "תרשים זרימה",        task: "DIAGRAM",          prompt: "תאר את התהליך כתרשים זרימה שלב אחר שלב." },
+  { id: "deck",     label: "תרשים להצגה",        task: "PROCESS_FLOW",     prompt: "הצג את הנושא כתרשים זרימה שאפשר להציג מולו: שלבים ברורים, תוויות קצרות, החלטות מסומנות." },
   { id: "onepage",  label: "סיכום עמוד אחד",     task: "ONEPAGE",          prompt: "סכם את הנושא לעמוד אחד." },
-  { id: "source",   label: "פתח מקור",            task: "",                 prompt: "", navigates: true },
+  { id: "source",   label: "פתיחת המקור",         task: "",                 prompt: "", navigates: true },
 ];
 
 
 export const QUICK_ACTIONS: QuickAction[] = [
-  { id: "summarize", label: "סכם את הפרק", prompt: "סכם את הפרק הנוכחי בנקודות מרכזיות.", icon: "list", needsScope: true },
+  { id: "summarize", label: "סיכום הפרק", prompt: "סכם את הפרק הנוכחי בנקודות מרכזיות.", icon: "list", needsScope: true },
   { id: "simple", label: "הסבר בפשטות", prompt: "הסבר את הנושא במילים פשוטות, כאילו אני חדש ב-SAP.", icon: "sparkles" },
   { id: "flow", label: "תרשים זרימה", prompt: "תאר את התהליך כתרשים זרימה שלב אחר שלב.", icon: "workflow" },
   { id: "ecc", label: "השוואה ל-ECC", prompt: "מה השתנה בין SAP ECC לבין S/4HANA בנושא הזה?", icon: "git-compare" },
