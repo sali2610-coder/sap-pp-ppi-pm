@@ -54,16 +54,16 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       icon={<Cable size={17} strokeWidth={1.75} />}
       lede={
         <>
-          <b className="nw-sap">{nf.format(d.counts.funcEntries)}</b> רשומות ממשק במילון, שמצטמצמות
-          ל-<b className="nw-sap">{nf.format(d.counts.funcObjects)}</b> אובייקטים אחרי נרמול השמות.
+          <b className="nw-sap">{nf.format(d.counts.funcEntries)}</b> רשומות ממשק בתיעוד, המצטמצמות
+          ל-<b className="nw-sap">{nf.format(d.counts.funcObjects)}</b> אובייקטים לאחר נרמול השמות.
           לצידן <b className="nw-sap">{nf.format(d.counts.cds)}</b> תצוגות CDS ו-
-          <b className="nw-sap">{nf.format(d.counts.fiori)}</b> אפליקציות Fiori שהתכנון מציין בשם.
+          <b className="nw-sap">{nf.format(d.counts.fiori)}</b> יישומי Fiori שהתיעוד מציין בשם.
         </>
       }
       lead={
         <Link className="nu-btn2" href="/neo/bapi/" prefetch={false}>
           <Cable size={15} strokeWidth={1.75} aria-hidden="true" />
-          מרשם ה-BAPI וה-FM של הפרויקט
+          קטלוג BAPI ו-FM של הפרויקט
         </Link>
       }
     >
@@ -72,7 +72,7 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         id={`${meta.id}-fn`}
         icon={<Cable size={13} strokeWidth={1.75} />}
         title="BAPI · FM · IDoc"
-        note={`מדורג לפי כמה מטבלאות המודול רושמות את האובייקט. הפילוח לסוגים: ${nf.format(d.counts.bapis)} BAPI · ${nf.format(d.counts.fms)} FM · ${nf.format(d.counts.idocs)} IDoc. הסיווג נגזר משם האובייקט ולא נכתב במקור.`}
+        note={`מדורג לפי מספר טבלאות המודול שמתעדות את האובייקט. פילוח לפי סוג: ${nf.format(d.counts.bapis)} BAPI · ${nf.format(d.counts.fms)} FM · ${nf.format(d.counts.idocs)} IDoc. הסיווג לסוג נגזר משם האובייקט ואינו חלק מהתיעוד המקורי.`}
       >
         {d.ifaces.length ? (
           <>
@@ -81,7 +81,7 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
                 <li key={f.n}>
                   <span className="nw-kind nw-sap">{f.k}</span>
                   <b className="nw-sap">{f.n}</b>
-                  <span className="nw-fn-he">{f.he || "המילון אינו מחזיק תיאור לרשומה הזאת."}</span>
+                  <span className="nw-fn-he">{f.he || "לא קיים תיאור בתיעוד לרשומה זו."}</span>
                   <em className="nw-sap">
                     {nf.format(f.tables)}
                     <span>טבלאות</span>
@@ -91,24 +91,24 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
             </ul>
             {d.ifaces.length > FIRST ? (
               <button type="button" className="nu-btn2" aria-expanded={allFn} onClick={() => setAllFn((v) => !v)}>
-                {allFn ? "הצג רק את הראשונים" : `הצג את כל ${nf.format(d.ifaces.length)} אובייקטי הממשק`}
+                {allFn ? "הצגת הראשונים בלבד" : `הצגת כל ${nf.format(d.ifaces.length)} אובייקטי הממשק`}
               </button>
             ) : null}
             <p className="nw-links">
               <Link className="nu-link" href={KIND_ROUTE.BAPI} prefetch={false}>
-                מרשם BAPI / FM
+                קטלוג BAPI ו-FM
                 <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
               </Link>
               {d.counts.idocs ? (
                 <Link className="nu-link" href={KIND_ROUTE.IDoc} prefetch={false}>
-                  מרשם ה-IDoc
+                  קטלוג IDoc
                   <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
                 </Link>
               ) : null}
             </p>
           </>
         ) : (
-          <p className="nw-fine">המילון של המודול אינו מחזיק אובייקטי ממשק.</p>
+          <p className="nw-fine">לא קיים תיעוד מאומת במאגר לאובייקטי ממשק במודול זה.</p>
         )}
       </Sub>
 
@@ -136,11 +136,11 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
             </ul>
             {d.cds.length > FIRST ? (
               <button type="button" className="nu-btn2" aria-expanded={allCds} onClick={() => setAllCds((v) => !v)}>
-                {allCds ? "הצג רק את הראשונות" : `הצג את כל ${nf.format(d.cds.length)} התצוגות`}
+                {allCds ? "הצגת הראשונות בלבד" : `הצגת כל ${nf.format(d.cds.length)} התצוגות`}
               </button>
             ) : null}
             <Link className="nu-link" href="/neo/cds/" prefetch={false}>
-              מרשם ה-CDS המלא
+              קטלוג CDS Views המלא
               <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
             </Link>
           </>
@@ -153,8 +153,8 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       <Sub
         id={`${meta.id}-fiori`}
         icon={<LayoutGrid size={13} strokeWidth={1.75} />}
-        title="אפליקציות Fiori שהתכנון מציין"
-        note="השם מוצג כפי שנכתב בגיליון, כולל הסתייגות «אמת ID» היכן שהמקור עצמו רשם אותה. ההסתייגות היא נתון ולא רעש, ולכן אינה מנוקה."
+        title="יישומי Fiori שהתיעוד מציין"
+        note="השם מוצג כפי שנכתב בגיליון, כולל ההסתייגות «אמת ID» במקומות שבהם המקור רשם אותה."
       >
         {d.fiori.length ? (
           <>
@@ -172,16 +172,16 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
             </ul>
             {d.fiori.length > FIRST ? (
               <button type="button" className="nu-btn2" aria-expanded={allApp} onClick={() => setAllApp((v) => !v)}>
-                {allApp ? "הצג רק את הראשונות" : `הצג את כל ${nf.format(d.fiori.length)} האפליקציות`}
+                {allApp ? "הצגת הראשונות בלבד" : `הצגת כל ${nf.format(d.fiori.length)} היישומים`}
               </button>
             ) : null}
             <Link className="nu-link" href="/neo/fiori-apps/" prefetch={false}>
-              מרשם ה-Fiori של הפרויקט
+              קטלוג יישומי Fiori של הפרויקט
               <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
             </Link>
           </>
         ) : (
-          <p className="nw-fine">התכנון של המודול הזה אינו מציין אפליקציית Fiori לאף טבלה.</p>
+          <p className="nw-fine">תיעוד המודול אינו מציין יישום Fiori לאף טבלה.</p>
         )}
       </Sub>
     </Chapter>

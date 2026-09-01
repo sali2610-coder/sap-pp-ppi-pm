@@ -23,10 +23,9 @@ export function WorkspaceIndex({ chapters }: { chapters: ChapterMeta[] }) {
   return (
     <nav className="nw-idx" aria-label="פרקי המודול">
       <p className="nw-idx-h">
-        <span className="nw-idx-k">מה יש בעמוד הזה</span>
+        <span className="nw-idx-k">תוכן העמוד</span>
         <span className="nw-idx-s">
-          {nf.format(chapters.length)} פרקים. כל אחד מהם נבנה מהמילון של המודול. מה שהמילון אינו מחזיק,
-          לא מופיע כאן.
+          {nf.format(chapters.length)} פרקים, כולם נבנים מתיעוד המודול. פרק ללא נתונים בתיעוד אינו מוצג.
         </span>
       </p>
       <ol className="nw-idx-l nm-seq">

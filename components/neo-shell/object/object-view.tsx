@@ -34,19 +34,19 @@ import { objectSummary, relVar, sharedTableCount, type ObjectView } from "./obje
 const nf = new Intl.NumberFormat("he-IL");
 
 const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--mod-pppi)" };
-const MOD_HE: Record<string, string> = { PM: "אחזקת מפעל · PM", "PP-PI": "ייצור תהליכי · PP-PI" };
+const MOD_HE: Record<string, string> = { PM: "תחזוקת מפעל · PM", "PP-PI": "תעשיות תהליכיות · PP-PI" };
 const REL_HE: Record<string, string> = { "1-1": "1:1", "n-1": "N:1", unstated: "לא מצוין" };
 
 const TRUST_WHY: Record<string, string> = {
-  verified: "ידע Simplification List מתוחזק בפרויקט",
-  partial: "נגזר מעמודת ה-S/4 של התיעוד. מומלץ אימות מול SAP",
-  needs: "הפרויקט אינו מחזיק הכרעה לטבלה הזאת",
+  verified: "מבוסס על Simplification List המתוחזק בפרויקט",
+  partial: "נגזר מעמודת S/4HANA בתיעוד; נדרש אימות נוסף מול SAP",
+  needs: "לא קיימת הכרעה בתיעוד לטבלה זו",
 };
 
 /** The one empty state on the page. It names the dataset that is silent instead
  *  of apologising, so the absence is auditable. */
 function Silent({ what }: { what: string }) {
-  return <p className="no-silent">התיעוד של Project NEO אינו מחזיק {what} עבור האובייקט הזה.</p>;
+  return <p className="no-silent">לא קיים תיעוד מאומת במאגר עבור {what} של אובייקט זה.</p>;
 }
 
 /** A SECTION of the object page.
@@ -117,11 +117,11 @@ export function ObjectPage({ v }: { v: ObjectView }) {
   const nav: [string, string][] = [
     ["no-rows", v.rows.length > 1 ? "רשומות התיעוד" : "רשומת התיעוד"],
     ["no-map", "מפת קשרים"],
-    ["no-rel", "קשרים ו־JOIN"],
+    ["no-rel", "קשרים ו-JOIN"],
     ["no-fields", "שדות"],
     ["no-deep", "עומק טכני"],
     ["no-tx", "טרנזקציות"],
-    ["no-flow", "בשרשרת התהליך"],
+    ["no-flow", "שרשרת התהליך"],
     ["no-s4", "המעבר ל-S/4HANA"],
     ["no-cds", "תצוגות CDS"],
     ["no-if", "BAPI · FM · IDoc"],
@@ -153,7 +153,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             <span className="nx-sap">{v.name}</span>
           </h1>
 
-          <p className="no-lede">{v.he || "התיעוד אינו מחזיק תיאור עברי לטבלה הזו."}</p>
+          <p className="no-lede">{v.he || "לא קיים תיאור בעברית בתיעוד לטבלה זו."}</p>
           {v.en ? <p className="no-en nx-sap">{v.en}</p> : null}
 
           <ul className="no-mods" aria-label="שיוך למודול">
@@ -175,8 +175,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           {v.shared ? (
             <p className="no-shared">
               <Layers size={14} strokeWidth={1.75} aria-hidden="true" />
-              אחת מ־{sharedTableCount()} הטבלאות ששני התכנונים מתעדים; לכל מודול נושא, טרנזקציות ושדות משלו.
-              שני הפרצופים מוצגים כאן זה לצד זה, בלי לאחד אותם לאחד.
+              אחת מ-{sharedTableCount()} הטבלאות המתועדות בשני המודולים; לכל מודול נושא, טרנזקציות ושדות
+              משלו. שתי הרשומות מוצגות זו לצד זו.
             </p>
           ) : null}
 
@@ -219,7 +219,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
               <b>הטבלה משתנה מהותית ב-S/4HANA</b>
               <span>{v.s4.changed}</span>
               <a className="nu-link" href="#no-s4">
-                מה בדיוק משתנה
+                פירוט השינוי
                 <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
               </a>
             </p>
@@ -237,7 +237,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           <div className="no-cta">
             <OriginLink className="nu-btn" href={`/neo/erd/#${v.name}`} origin={from}>
               <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />
-              הצג במודל הנתונים המלא
+              הצגה במודל הנתונים המלא
               <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
             </OriginLink>
             <OriginLink className="nu-btn2" href="/neo/tables/" origin={from}>
@@ -271,12 +271,12 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         id="no-rows"
         n={num["no-rows"]}
         icon={<Boxes size={16} strokeWidth={1.75} />}
-        eyebrow={v.rows.length > 1 ? "זהות כפולה" : "רשומת התיעוד"}
+        eyebrow={v.rows.length > 1 ? "תיעוד כפול" : "רשומת התיעוד"}
         title={v.rows.length > 1 ? `${v.rows.length} רשומות תיעוד לאותה טבלה` : "ההקשר העסקי"}
         lede={
           v.rows.length > 1
-            ? "אותה טבלה פיזית, מתועדת יותר מפעם אחת. כל כרטיס הוא שורה אחת בתכנון המקורי, עם הנושא, הטרנזקציות וההערות שלה, כפי שנכתבו, בלי מיזוג."
-            : "השורה שהתכנון של המודול כתב על הטבלה הזאת: הנושא שאליו היא משויכת, הטרנזקציות שנרשמו לה וההערות שנלוו אליה."
+            ? "אותה טבלה פיזית מתועדת יותר מפעם אחת. כל כרטיס הוא רשומה אחת בתיעוד המקורי, עם הנושא, הטרנזקציות וההערות שלה, כלשונן."
+            : "הרשומה שתיעוד המודול כולל עבור הטבלה: הנושא שאליו היא משויכת, הטרנזקציות שנרשמו לה וההערות הנלוות."
         }
       >
         <div className="no-rows">
@@ -298,7 +298,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                 </div>
                 {r.fiori ? (
                   <div>
-                    <dt>אפליקציית Fiori</dt>
+                    <dt>יישום Fiori</dt>
                     <dd className="nx-sap">{r.fiori}</dd>
                   </div>
                 ) : null}
@@ -321,12 +321,12 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         n={num["no-map"]}
         icon={<Workflow size={16} strokeWidth={1.75} />}
         eyebrow="מפת קשרים"
-        title="האובייקט במרכז, והקשרים שסביבו"
+        title="מפת הקשרים של האובייקט"
         lede={
           v.neighbours.length ? (
             <>
               {v.name} מדורגת <b>{nf.format(v.rank)}</b> מתוך {nf.format(v.total)} טבלאות לפי מספר
-              הקשרים הממודלים. בחירה במפה מציגה את ניסוח ה-JOIN המדויק כפי שהתיעוד מחזיק אותו.
+              הקשרים הממודלים. בחירת טבלה במפה מציגה את פרטי הקשר כפי שנרשמו בתיעוד.
             </>
           ) : undefined
         }
@@ -347,13 +347,13 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         id="no-rel"
         n={num["no-rel"]}
         icon={<GitBranch size={16} strokeWidth={1.75} />}
-        eyebrow="קשרים ו־JOIN"
+        eyebrow="קשרים ו-JOIN"
         title={`${s.neighbours} קשרים ממודלים · ${s.joins} ניסוחי JOIN`}
         lede={
           v.neighbours.length ? (
             <>
-              כיוון הקשר נקרא מתוך התיעוד: <b>בן</b> הוא טבלה שנושאת מפתח זר אל {v.name}, ו<b>אב</b> הוא
-              טבלה ש־{v.name} מפנה אליה. עוצמת הקשר מוצגת כפי שנכתבה, וכאשר לא נכתבה, כתוב שלא נכתבה.
+              כיוון הקשר נקרא מהתיעוד: <b>בן</b> הוא טבלה הנושאת מפתח זר אל {v.name}, ו<b>אב</b> הוא
+              טבלה ש-{v.name} מפנה אליה. הקרדינליות מוצגת כפי שנרשמה; קשר ללא קרדינליות מסומן ככזה.
             </>
           ) : undefined
         }
@@ -364,8 +364,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
               <p className="no-warn">
                 <TriangleAlert size={14} strokeWidth={1.75} aria-hidden="true" />
                 {s.contested === 1 ? "טבלה אחת מופיעה" : `${s.contested} טבלאות מופיעות`} כאן פעמיים,
-                כבן וכאב. זו אינה כפילות: שני התכנונים רושמים את אותו קשר בכיוונים הפוכים, וכל אחד
-                מציב צד אחר כבעל המפתח הראשי. שתי הרשומות נשמרות; הכרעה ביניהן תהיה המצאה.
+                כבן וכאב: תיעוד PM ותיעוד PP-PI רושמים את אותו קשר בכיוונים הפוכים, וכל אחד מציב צד
+                אחר כבעל המפתח הראשי. שתי הרשומות מוצגות ללא הכרעה.
               </p>
             ) : null}
             <ul className="no-rels">
@@ -421,8 +421,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
               היררכיה: הטבלה מצביעה על עצמה
             </h3>
             <p className="no-note">
-              רשומה בטבלה הזאת מפנה לרשומה אחרת באותה טבלה. זה קשר אמיתי שהתכנון מתעד,
-              אך הוא אינו קשת במפה: מפה מציירת שתי טבלאות, וכאן יש אחת.
+              רשומה בטבלה זו מפנה לרשומה אחרת באותה טבלה. הקשר מתועד, אך אינו מוצג במפת הקשרים,
+              שמציירת קשרים בין שתי טבלאות שונות.
             </p>
             <ul className="no-dangle-l">
               {v.selfRels.map((r, i) => (
@@ -447,8 +447,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
               {v.dangling.length} קשרים אל טבלאות שאינן בתיעוד
             </h3>
             <p className="no-note">
-              התכנון המקורי רושם את הקשרים האלה, אך את הטבלה שבצד השני הוא אינו מתעד.
-              הם מופיעים כאן כרשומה, ולא מצוירים במפה. קצה שלא נבדק לא יצויר כאילו נבדק.
+              התיעוד המקורי רושם קשרים אלה, אך אינו מתעד את הטבלה שבצד השני.
+              הם מוצגים כאן כרשומה ואינם מצוירים במפה.
             </p>
             <ul className="no-dangle-l">
               {v.dangling.map((d, i) => (
@@ -477,7 +477,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
            noun. PK/FK is this page's own vocabulary and is spelled out in the
            legend directly below, so it stays correct at every count. */
         title={`${v.fields.length} שדות · ${v.pk.length} שדות PK · ${v.fk.length} שדות FK`}
-        lede="המפתחות נקראים ראשונים, כי הם מה שהאובייקט הוא. הטבלה שמתחתיהם מציגה את איחוד השדות שכל תכנון מתעד, בסדר שנכתב, וניתן לצמצם אותה לשדות המפתח בלבד."
+        lede="שדות המפתח מוצגים תחילה. הטבלה שמתחתיהם מציגה את איחוד השדות שכל מודול מתעד, בסדר המקורי, וניתן לסנן אותה לשדות המפתח בלבד."
       >
         {v.fields.length ? <ObjectFields fields={v.fields} name={v.name} /> : <Silent what="שדות" />}
       </Sec>
@@ -495,10 +495,10 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         n={num["no-deep"]}
         icon={<Code2 size={16} strokeWidth={1.75} />}
         eyebrow="עומק טכני"
-        title="איך קוראים וכותבים את הטבלה הזאת"
+        title="קריאה וכתיבה של הטבלה: מפתחות, נתיב גישה ודוגמאות"
         lede={
           v.enrich
-            ? "שכבת ההעשרה של הפרויקט: משמעות שדות המפתח, מפתחות זרים כקשרים, נתיב הגישה המומלץ, שיקולי ביצועים ושלוש דוגמאות עבודה. המקורות מודפסים בסוף הקטע."
+            ? "שכבת התיעוד הטכני של הפרויקט: משמעות שדות המפתח, מפתחות זרים כקשרים, נתיב הגישה המומלץ, שיקולי ביצועים ודוגמאות עבודה. המקורות מצוינים בסוף הקטע."
             : undefined
         }
       >
@@ -512,7 +512,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         icon={<Terminal size={16} strokeWidth={1.75} />}
         eyebrow="טרנזקציות"
         title="הטרנזקציות שהתיעוד קושר לטבלה"
-        lede="הקודים מוצגים לפי הרשומה שכתבה אותם, ולצידם המחרוזת המקורית מילה במילה, כדי שניתן יהיה לראות מה פוצל ומה נכתב במקור."
+        lede="הקודים מוצגים לפי הרשומה שבה נרשמו, ולצידם המחרוזת המקורית כלשונה."
       >
         {v.tcodes.some((t) => t.codes.length) ? (
           <div className="no-tx">
@@ -544,8 +544,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         n={num["no-flow"]}
         icon={<Route size={16} strokeWidth={1.75} />}
         eyebrow="תהליך עסקי"
-        title="היכן האובייקט יושב בשרשרת"
-        lede="שרשרת התהליך מגיעה ממפת התהליכים של הפרויקט, אותה שרשרת שסביבת העבודה של המודול מציירת. שלב שאין לו טבלה בתיעוד מסומן ככזה ולא מושלם."
+        title="מיקום האובייקט בשרשרת התהליך"
+        lede="שרשרת התהליך מגיעה ממפת התהליכים של הפרויקט, זו המוצגת גם בסביבת העבודה של המודול. צעד ללא טבלה בתיעוד מסומן ככזה."
       >
         {v.flow.some((f) => f.idx >= 0) ? (
           v.flow.map((f) => (
@@ -554,9 +554,9 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                 <span className="no-row-bar" aria-hidden="true" />
                 <b>{MOD_HE[f.mod]}</b>
                 {f.idx >= 0 ? (
-                  <em>שלב {f.idx + 1} מתוך {f.steps.length}</em>
+                  <em>צעד {f.idx + 1} מתוך {f.steps.length}</em>
                 ) : (
-                  <em>אינו שלב בשרשרת של המודול הזה</em>
+                  <em>אינו צעד בשרשרת של מודול זה</em>
                 )}
               </header>
               <ol className="no-chain">
@@ -586,9 +586,9 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         id="no-s4"
         n={num["no-s4"]}
         icon={<TriangleAlert size={16} strokeWidth={1.75} />}
-        eyebrow="ECC ➔ S/4HANA"
-        title="מה התכנון אומר על המעבר"
-        lede="קודם ההכרעה של הפרויקט על הטבלה הזאת ומאיפה היא מגיעה, ואחריה מה שכל תכנון כתב בעצמו, מילה במילה."
+        eyebrow="ECC → S/4HANA"
+        title="השפעת המעבר ל-S/4HANA לפי התיעוד"
+        lede="תחילה הכרעת הפרויקט על הטבלה ומקורה, ואחריה מה שנכתב בתיעוד כל מודול, כלשונו."
       >
         <div className="no-stand" data-risk={v.s4.risk} data-impact={v.s4.impacted ? "1" : "0"}>
           <p className="no-stand-h">
@@ -599,7 +599,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           </p>
           <p className="no-stand-w">
             {v.s4.changed ||
-              "הפרויקט אינו מחזיק ניסוח מפורש למה שמשתנה בטבלה הזאת ב-S/4HANA. מה שהתכנון כתב מופיע מתחת, כלשונו."}
+              "לא קיים בתיעוד ניסוח מפורש של השינוי בטבלה זו ב-S/4HANA. הערות המקור מופיעות מתחת, כלשונן."}
           </p>
           {v.s4.why ? <p className="no-stand-y">{v.s4.why}</p> : null}
           {v.s4.tcodes.length || v.s4.cds.length ? (
@@ -634,7 +634,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
 
         <h3 className="no-h3">
           <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />
-          מה שהתכנון כתב, מילה במילה
+          הערות התיעוד המקורי, כלשונן
         </h3>
         {v.rows.some((r) => r.s4Note || r.s4AltTable || r.s4AltTcode || r.sumNote) ? (
           <div className="no-s4">
@@ -682,7 +682,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         n={num["no-cds"]}
         icon={<Sigma size={16} strokeWidth={1.75} />}
         eyebrow="תצוגות CDS"
-        title="מה קורא את הטבלה ב-S/4HANA"
+        title="תצוגות CDS מעל הטבלה ב-S/4HANA"
         lede="מיפוי מתוחזק של טבלה קלאסית לתצוגת CDS משוחררת. תצוגה מופיעה כאן רק כשהטבלה הזאת נמצאת בה, ולצידה שאר הטבלאות שהיא קוראת."
       >
         {v.cds.length ? (
@@ -699,7 +699,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           <Silent what="תצוגות CDS" />
         )}
         <OriginLink className="nu-link" href="/neo/cds/" origin={from}>
-          מרשם ה-CDS של הפרויקט
+          קטלוג CDS Views של הפרויקט
           <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
         </OriginLink>
       </Sec>
@@ -711,7 +711,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         icon={<Cable size={16} strokeWidth={1.75} />}
         eyebrow="ממשקים"
         title={`${v.funcs.length} BAPI · FM · IDoc · ${v.progs.length} תוכניות`}
-        lede="השם והתיאור הם של התיעוד, כולל ממשקי Zetes ו-Daymax שהתכנון רשם. עמודת המודול מראה איזה תכנון רשם את האובייקט."
+        lede="השם והתיאור מובאים מהתיעוד, כולל ממשקי Zetes ו-Daymax. תג המודול מציין באיזה מודול תועד האובייקט."
       >
         {v.funcs.length ? (
           <ul className="no-funcs">
@@ -754,11 +754,11 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         )}
         <p className="no-links">
           <OriginLink className="nu-link" href="/neo/bapi/" origin={from}>
-            מרשם ה-BAPI וה-FM
+            קטלוג BAPI ו-FM
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </OriginLink>
           <OriginLink className="nu-link" href="/neo/idoc/" origin={from}>
-            מרשם ה-IDoc
+            קטלוג IDoc
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </OriginLink>
         </p>
@@ -773,9 +773,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         title={`${v.incidents.length} תקלות שמפנות לטבלה הזו`}
         lede={
           <>
-            מתוך קטלוג התקלות של הפרויקט. נכללות רק תקלות שרושמות במפורש את{" "}
-            <span className="nx-sap">{v.name}</span> ברשימת הטבלאות לבדיקה. זו אינה תור תמיכה ואינה
-            מערכת חיה.
+            מתוך קטלוג התקלות של הפרויקט: רק תקלות שמציינות במפורש את{" "}
+            <span className="nx-sap">{v.name}</span> ברשימת הטבלאות לבדיקה.
           </>
         }
       >
@@ -829,8 +828,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         title="ספרים המכסים את המודול"
         lede={
           <>
-            הקישור כאן הוא <b>ברמת המודול</b>. אינדקס הספרייה בפרויקט הוא ברמת פרק, ואין בו מיפוי של
-            טבלה לפרק, ולכן לא נטען שספר מסוים מכסה את <span className="nx-sap">{v.name}</span> עצמה.
+            השיוך הוא <b>ברמת המודול</b>: אינדקס הספרייה אינו ממפה טבלאות לפרקים, ולכן אין כאן טענה
+            שספר מסוים מכסה את <span className="nx-sap">{v.name}</span>.
           </>
         }
       >
@@ -867,10 +866,10 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         <p className="no-links">
           <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
             <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
-            הספרייה הדיגיטלית
+            ספריית SAP
           </Link>
           <Link className="nu-link" href="/neo/books/" prefetch={false}>
-            מדף הספרים של NEO
+            כל ספרי SAP
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
         </p>

@@ -285,19 +285,19 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       .reduce((a, s) => a + s.rows.length, 0);
 
     const plan: (Omit<ChapterMeta, "n"> & { key: string })[] = [
-      { key: "map", id: "nw-map", kicker: "מפת המודול", title: "שלוש דרכים להיכנס לאותו מילון", count: data.counts.topics, countLabel: "נושאים" },
+      { key: "map", id: "nw-map", kicker: "מפת המודול", title: "מפת המודול: נושאים, תהליך עסקי ומחלקות אובייקט", count: data.counts.topics, countLabel: "נושאים" },
       // The one chapter the page is really for. It is marked here, once, and the
       // running bar reads the flag — nothing about S/4HANA is hard-coded into a
       // component that five other screens also use.
       { key: "s4", id: "nw-s4", kicker: "המעבר ל-S/4HANA", title: "מה משתנה במודול במעבר ל-S/4HANA", count: data.s4x.changed.length, countLabel: "טבלאות משתנות", feature: true },
-      { key: "tbl", id: "nw-tbl", kicker: "מילון הנתונים", title: "מילון הטבלאות של המודול", count: data.counts.rows, countLabel: "שורות מילון" },
-      { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "איך עובדים במודול בפועל", count: data.counts.tcodes, countLabel: "טרנזקציות" },
-      { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "איפה המודול נוגע בשאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים" },
-      { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "מה מדבר עם המודול", count: data.counts.funcEntries, countLabel: "רשומות ממשק" },
+      { key: "tbl", id: "nw-tbl", kicker: "קטלוג טבלאות SAP", title: "טבלאות SAP של המודול", count: data.counts.rows, countLabel: "רשומות תיעוד" },
+      { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "הטרנזקציות שהתיעוד קושר למודול", count: data.counts.tcodes, countLabel: "טרנזקציות" },
+      { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "קשרי הנתונים של המודול עם שאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים" },
+      { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "ממשקים, תצוגות CDS ויישומי Fiori של המודול", count: data.counts.funcEntries, countLabel: "רשומות ממשק" },
       ...(buildRows
-        ? [{ key: "build", id: "nw-build", kicker: "קונפיגורציה וכלים", title: "מה המיישם נוגע בו", count: buildRows, countLabel: "רשומות בגיליונות" }]
+        ? [{ key: "build", id: "nw-build", kicker: "קונפיגורציה וכלים", title: "קונפיגורציה, קוד מותאם וכלי יישום", count: buildRows, countLabel: "רשומות בגיליונות" }]
         : []),
-      { key: "learn", id: "nw-learn", kicker: "ידע ופעילות", title: "מה ללמוד הלאה, ואיפה הייתם", count: data.books.length + data.courses.length, countLabel: "ספרים וקורסים" },
+      { key: "learn", id: "nw-learn", kicker: "ידע ופעילות", title: "ספרים, קורסים ופעילות אחרונה", count: data.books.length + data.courses.length, countLabel: "ספרים וקורסים" },
     ];
 
     // Every chapter stands on the module's own scene. It costs nothing visually
@@ -360,7 +360,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
           built from `chapters`, so neither can drift from what is rendered. */}
       <SectionNav
         label="פרקי המודול"
-        topLabel="חזרה לראש המודול"
+        topLabel="חזרה לראש העמוד"
         sections={chapters.map((c) => ({ id: c.id, label: c.kicker, feature: c.feature }))}
       />
 
@@ -384,9 +384,9 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
         icon={<Table2 size={17} strokeWidth={1.75} />}
         lede={
           <>
-            {nf.format(data.counts.rows)} שורות מילון על {nf.format(data.counts.tables)} טבלאות ייחודיות,{" "}
-            {nf.format(data.counts.fields)} שדות מתועדים. שם של טבלה פותח את עמוד האובייקט המלא שלה; החץ
-            בסוף השורה פותח את התיעוד שלה כאן, בלי לעזוב את העמוד.
+            {nf.format(data.counts.rows)} רשומות תיעוד על {nf.format(data.counts.tables)} טבלאות ייחודיות,{" "}
+            {nf.format(data.counts.fields)} שדות מתועדים. שם הטבלה פותח את עמוד האובייקט המלא; החץ בסוף
+            השורה פותח את פירוט הרשומה כאן, באותו עמוד.
           </>
         }
       >
@@ -419,7 +419,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
             {active.length ? (
               <button type="button" className="nu-btn2" onClick={clear}>
                 <X size={14} strokeWidth={1.75} aria-hidden="true" />
-                נקה הכול
+                איפוס הסינון
               </button>
             ) : null}
           </div>
@@ -427,7 +427,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
           <p className="nw-scope">
             <b className="nw-sap">{nf.format(scope.rows)}</b>
             <span>
-              שורות מילון · <b className="nw-sap">{nf.format(scope.tables)}</b> טבלאות ·{" "}
+              רשומות תיעוד · <b className="nw-sap">{nf.format(scope.tables)}</b> טבלאות ·{" "}
               <b className="nw-sap">{nf.format(scope.fields)}</b> שדות ·{" "}
               <b className="nw-sap">{nf.format(scope.topics)}</b> נושאים
             </span>
@@ -438,7 +438,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
                 </span>
               ))
             ) : (
-              <span className="nw-scope-all">ללא סינון: כל המילון של המודול</span>
+              <span className="nw-scope-all">ללא סינון: כל טבלאות המודול</span>
             )}
           </p>
 
@@ -501,8 +501,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
               </div>
 
               <p className="nw-fine">
-                נושא ומחלקת אובייקט נבחרים במפת המודול שמעל, כדי שהבחירה תיעשה מול המספרים ולא מול רשימת
-                תוויות.
+                סינון לפי נושא או לפי מחלקת אובייקט נעשה במפת המודול שלמעלה.
               </p>
             </div>
           ) : null}

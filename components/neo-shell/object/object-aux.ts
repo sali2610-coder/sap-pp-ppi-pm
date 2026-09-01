@@ -116,7 +116,7 @@ const link = (t: string, he?: string): AuxLink => ({
  *  translation of the flag, not a judgement added on top of it. */
 const STATUS_HE: Record<string, string> = {
   verified: "מאומת",
-  "needs-review": "דורש בדיקה",
+  "needs-review": "נדרש אימות נוסף",
   "cross-module": "חוצה מודולים",
   "s4-only": "S/4HANA בלבד",
   "ecc-only": "ECC בלבד",

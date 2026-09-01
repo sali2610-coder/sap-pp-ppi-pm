@@ -326,25 +326,25 @@ export function ObjectLanes({ name }: { name: string }) {
             {fEdge?.desc ? <span className="nol-ctx-d">{fEdge.desc}</span> : null}
             {sel ? (
               <button type="button" className="nu-btn2 nol-open" onClick={() => go(sel)}>
-                פתח את {sel}
+                פתיחת {sel}
               </button>
             ) : null}
           </>
         ) : (
           <span className="nol-ctx-idle">
-            בחרו טבלה בתרשים כדי לראות את הקשר שלה אל {g.center.tableName} כפי שהתיעוד מתעד אותו.
+            בחירת טבלה בתרשים מציגה את הקשר שלה אל {g.center.tableName} כפי שנרשם בתיעוד.
           </span>
         )}
       </div>
 
       <div className="nol-foot">
         <span className="nol-blast">
-          רדיוס השפעה (Blast radius): <b className="nx-sap">{g.upstream.length}</b> מעלה
-          {" · "}<b className="nx-sap">{g.downstream.length}</b> מטה
+          רדיוס השפעה (Blast radius): <b className="nx-sap">{g.upstream.length}</b> במעלה הזרם
+          {" · "}<b className="nx-sap">{g.downstream.length}</b> במורד הזרם
         </span>
         {(upMore > 0 || downMore > 0 || exp) && (
           <button type="button" className="nu-btn2 nol-more" onClick={() => setExp((v) => !v)}>
-            {exp ? "הצג פחות" : `הצג הכל (+${upMore + downMore})`}
+            {exp ? "צמצום התצוגה" : `הצגת הכול (+${upMore + downMore})`}
           </button>
         )}
       </div>

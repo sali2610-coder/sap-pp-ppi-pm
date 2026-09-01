@@ -32,15 +32,15 @@ export function WorkspaceLearn({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       lede={
         <>
           <b className="nw-sap">{nf.format(d.books.length)}</b> ספרים ו-
-          <b className="nw-sap">{nf.format(d.courses.length)}</b> ספרי לימוד שהספרייה משייכת למודול הזה
-          {pages ? <>, יחד {nf.format(pages)} עמודים</> : null}. השיוך הוא ברמת המודול. לפרויקט אין
-          מיפוי של טבלה לפרק, ולכן לא נטען שספר מסוים מכסה טבלה מסוימת.
+          <b className="nw-sap">{nf.format(d.courses.length)}</b> קורסים שהספרייה משייכת למודול זה
+          {pages ? <>, יחד {nf.format(pages)} עמודים</> : null}. השיוך הוא ברמת המודול; אין בפרויקט
+          מיפוי של טבלה לפרק.
         </>
       }
       lead={
         <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
           <Library size={15} strokeWidth={1.75} aria-hidden="true" />
-          הספרייה הדיגיטלית
+          ספריית SAP
         </Link>
       }
     >
@@ -76,7 +76,7 @@ export function WorkspaceLearn({ d, meta }: { d: WsData; meta: ChapterMeta }) {
               )}
             </ul>
           ) : (
-            <p className="nw-fine">אין ספר בספרייה המשויך למודול הזה.</p>
+            <p className="nw-fine">לא קיים ספר בספרייה המשויך למודול זה.</p>
           )}
 
           {d.courses.length ? (
@@ -85,7 +85,7 @@ export function WorkspaceLearn({ d, meta }: { d: WsData; meta: ChapterMeta }) {
                 <span className="nw-sub-ico" aria-hidden="true">
                   <GraduationCap size={13} strokeWidth={1.75} />
                 </span>
-                ספרי לימוד באקדמיה
+                קורסים ב-SAP Academy
               </h3>
               <ul className="nw-rank nw-rank--tight" aria-labelledby="nw-cs-h">
                 {d.courses.map((c) => (

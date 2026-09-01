@@ -92,14 +92,14 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
      is the single most important thing a consultant needs to know before they
      read anything below it. */
   const provenance = v.source === "hrbw"
-    ? "הרשומה מגיעה ממרשם ה-HR/BW של הפרויקט: טבלת מילון אמיתית שאינה חלק מתכנון ההגירה של PM ו-PP-PI. היא נושאת מפתח, שדות, קשרים וטרנזקציות משלה, ואינה מופיעה במודל ה-ER. למודל הזה יש גבול מוגדר, ולא הוספנו לו צמתים."
-    : "הרשומה מגיעה ממרשם האובייקטים המאומתים: אובייקט SAP סטנדרטי חוצה-מודולים שנשמר כדי שחיפוש אמיתי לא יחזיר “לא נמצא”. במכוון הוא אינו נושא רשימת שדות: הפרויקט לא אימת אחת, ולכן לא נכתבה כאן.";
+    ? "הרשומה מגיעה מקטלוג HR/BW של הפרויקט: טבלת SAP שאינה חלק מתיעוד המעבר של PM ו-PP-PI. היא נושאת מפתח, שדות, קשרים וטרנזקציות משלה, ואינה מופיעה במודל ה-ERD."
+    : "הרשומה מגיעה מקטלוג האובייקטים המאומתים: אובייקט SAP סטנדרטי חוצה מודולים. הקטלוג אינו כולל רשימת שדות לאובייקט זה, ולכן לא קיים תיעוד שדות מאומת במאגר.";
 
   const stats: [string, string][] = v.source === "hrbw"
     ? [
         [nf.format(s.fields), "שדות מתועדים"],
         [nf.format(s.keys), "שדות מפתח"],
-        [nf.format(s.relations), "קשרים מוצהרים"],
+        [nf.format(s.relations), "קשרים מתועדים"],
         [nf.format(s.tcodes), "טרנזקציות"],
       ]
     : [
@@ -112,15 +112,15 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
   const nav: [string, string][] = [];
   const push = (id: string, he: string) => { nav.push([id, he]); return nav.length; };
 
-  const nIdent = push("nox-what", "מה האובייקט הזה");
+  const nIdent = push("nox-what", "זהות ומקור");
   const nFields = v.fields.length ? push("nox-fields", "שדות ומפתח") : 0;
   const nRel = v.relations.length ? push("nox-rel", "קשרים") : 0;
   const nAlias = v.aliases.length ? push("nox-alias", "שמות וחיפוש") : 0;
   const nUse = v.useCases.length || v.ppPi ? push("nox-use", "שימוש בפועל") : 0;
   const nTx = push("nox-tx", "טרנזקציות ואובייקטים");
   const nS4 = push("nox-s4", "ECC ו-S/4HANA");
-  const nDomain = v.domain ? push("nox-domain", "התחום הלוגיסטי") : 0;
-  const nSib = v.siblings.length ? push("nox-sib", "באותו אזור") : 0;
+  const nDomain = v.domain ? push("nox-domain", "תחום נתונים") : 0;
+  const nSib = v.siblings.length ? push("nox-sib", "אובייקטים באותו אזור") : 0;
 
   return (
     <div className="no nox" style={{ "--o": obj } as React.CSSProperties}>
@@ -130,7 +130,7 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
       <header className="no-hero nm-rise nm-once">
         <div className="no-hero-copy">
           <p className="no-eye">
-            <OriginLink href="/neo/tables/" origin={from}>עיון</OriginLink>
+            <OriginLink href="/neo/tables/" origin={from}>טבלאות SAP</OriginLink>
             <i aria-hidden="true" />
             {v.familyHe}
             <i aria-hidden="true" />
@@ -142,7 +142,7 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
             <span className="nx-sap">{v.name}</span>
           </h1>
 
-          <p className="no-lede">{v.he || "המרשם אינו מחזיק תיאור עברי לאובייקט הזה."}</p>
+          <p className="no-lede">{v.he || "לא קיים תיאור בעברית בקטלוג לאובייקט זה."}</p>
           {v.en ? <p className="no-en nx-sap">{v.en}</p> : null}
 
           <ul className="no-mods" aria-label="שיוך">
@@ -192,15 +192,15 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
         id="nox-what" n={nIdent}
         icon={<Info size={15} strokeWidth={1.75} />}
         eyebrow="מקור הרשומה"
-        title="מה האובייקט הזה, ומאיפה הידע"
-        lede="לפני כל שדה: מאיזה מרשם הדף הזה נבנה, ומה המרשם הזה מכיל."
+        title="זהות האובייקט ומקור הרשומה"
+        lede="הקטלוג שממנו נבנה העמוד, ומה הוא כולל."
       >
         <p className="no-quote">{provenance}</p>
         {v.guide ? <p className="no-guide">{v.guide}</p> : null}
         {v.modules.length > 1 ? (
           <p className="no-note">
             <Layers size={14} strokeWidth={1.75} aria-hidden="true" />
-            {" "}מודולים שמשתמשים באובייקט לפי המרשם: {v.modules.join(" · ")}.
+            {" "}מודולים שמשתמשים באובייקט לפי הקטלוג: {v.modules.join(" · ")}.
           </p>
         ) : null}
       </Sec>
@@ -210,16 +210,16 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
         <Sec
           id="nox-fields" n={nFields}
           icon={<Columns3 size={15} strokeWidth={1.75} />}
-          eyebrow="מילון"
+          eyebrow="תיעוד טכני"
           title="שדות ומפתח"
-          lede={`${nf.format(v.fields.length)} שדות כפי שהמרשם רשם אותם. אורך ריק נשאר ריק.`}
+          lede={`${nf.format(v.fields.length)} שדות כפי שנרשמו בקטלוג. אורך שלא נרשם מוצג כריק.`}
         >
           <table className="nox-tbl">
             <thead>
               <tr>
                 <th scope="col">מפתח</th>
                 <th scope="col">שדה</th>
-                <th scope="col">משמעות</th>
+                <th scope="col">תיאור</th>
                 <th scope="col">אורך</th>
               </tr>
             </thead>
@@ -236,8 +236,8 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
                     )}
                   </td>
                   <td><b className="nx-sap" dir="ltr">{f.tech}</b></td>
-                  <td>{f.en || <span className="no-none">—</span>}</td>
-                  <td className="nx-sap" dir="ltr">{f.len || <span className="no-none">—</span>}</td>
+                  <td>{f.en || <span className="no-none">–</span>}</td>
+                  <td className="nx-sap" dir="ltr">{f.len || <span className="no-none">–</span>}</td>
                 </tr>
               ))}
             </tbody>
@@ -251,8 +251,8 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
           id="nox-rel" n={nRel}
           icon={<GitBranch size={15} strokeWidth={1.75} />}
           eyebrow="קשרים"
-          title="מה תלוי במה"
-          lede="הקשרים כפי שהמרשם מצהיר עליהם. אין כאן JOIN: המרשם אינו מנסח אחד, ולא נוסח כאן."
+          title="קשרים מתועדים"
+          lede="הקשרים כפי שנרשמו בקטלוג. הקטלוג אינו כולל ניסוחי JOIN."
         >
           <ul className="no-rels">
             {v.relations.map((r) => (
@@ -264,7 +264,7 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
                     : <b className="nx-sap" dir="ltr">{r.table}</b>}
                   {r.card ? <em className="nx-sap" dir="ltr">{r.card}</em> : null}
                 </span>
-                <span className="nox-rel-desc">{r.desc || <span className="no-none">המרשם לא ניסח את הקשר במילים.</span>}</span>
+                <span className="nox-rel-desc">{r.desc || <span className="no-none">לא קיים תיאור לקשר בקטלוג.</span>}</span>
               </li>
             ))}
           </ul>
@@ -277,8 +277,8 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
           id="nox-alias" n={nAlias}
           icon={<Search size={15} strokeWidth={1.75} />}
           eyebrow="חיפוש"
-          title="באילו שמות מחפשים את זה"
-          lede="השמות הנרדפים והמונחים שהמרשם רושם, בעברית ובאנגלית. הם קיימים כדי שחיפוש אמיתי יגיע לכאן."
+          title="שמות נרדפים ומונחי חיפוש"
+          lede="השמות הנרדפים והמונחים שנרשמו בקטלוג, בעברית ובאנגלית."
         >
           <div className="nox-cloud">
             {v.aliases.map((a) => <span key={a} className="nox-alias">{a}</span>)}
@@ -299,13 +299,13 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
         <Sec
           id="nox-use" n={nUse}
           icon={<Route size={15} strokeWidth={1.75} />}
-          eyebrow="בשטח"
+          eyebrow="תרחישי שימוש"
           title="שימוש בפועל"
-          lede="מקרי השימוש כפי שנכתבו במרשם. לא נוסחו כאן מקרים חדשים."
+          lede="תרחישי השימוש כפי שנכתבו בקטלוג."
         >
           {v.ppPi ? (
             <div className="nox-pppi">
-              <h3 className="no-h3">בזרימת PP-PI</h3>
+              <h3 className="no-h3">בתהליך PP-PI</h3>
               <p className="no-quote">{v.ppPi}</p>
             </div>
           ) : null}
@@ -323,21 +323,21 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
       <Sec
         id="nox-tx" n={nTx}
         icon={<Terminal size={15} strokeWidth={1.75} />}
-        eyebrow="הפעלה"
+        eyebrow="טרנזקציות"
         title="טרנזקציות ואובייקטים קשורים"
         lede={
           s.tcodes
-            ? `${nf.format(s.tcodes)} טרנזקציות במרשם, ${nf.format(s.linkedTcodes)} מהן עם דף במרשם הטרנזקציות של הפרויקט.`
-            : "המרשם אינו רושם טרנזקציה לאובייקט הזה."
+            ? `${nf.format(s.tcodes)} טרנזקציות בקטלוג, ${nf.format(s.linkedTcodes)} מהן עם עמוד בקטלוג הטרנזקציות של הפרויקט.`
+            : "לא קיימת טרנזקציה בקטלוג לאובייקט זה."
         }
       >
         <h3 className="no-h3">טרנזקציות</h3>
-        <Chips items={v.tcodes} empty="המרשם אינו רושם טרנזקציה לאובייקט הזה." />
+        <Chips items={v.tcodes} empty="לא קיימת טרנזקציה בקטלוג לאובייקט זה." />
 
         {v.related.length || v.source === "verified" ? (
           <>
             <h3 className="no-h3">אובייקטים קשורים</h3>
-            <Chips items={v.related} empty="המרשם אינו רושם אובייקטים קשורים." />
+            <Chips items={v.related} empty="לא קיימים אובייקטים קשורים בקטלוג." />
           </>
         ) : null}
 
@@ -357,7 +357,7 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
 
         {v.fiori ? (
           <>
-            <h3 className="no-h3">אפליקציית Fiori</h3>
+            <h3 className="no-h3">יישום Fiori</h3>
             <p className="no-raw nx-sap" dir="ltr">{v.fiori.t}</p>
           </>
         ) : null}
@@ -367,9 +367,9 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
       <Sec
         id="nox-s4" n={nS4}
         icon={<BadgeCheck size={15} strokeWidth={1.75} />}
-        eyebrow="מעבר"
+        eyebrow="המעבר ל-S/4HANA"
         title="ECC ו-S/4HANA"
-        lede="מה שהמרשם כותב על זמינות האובייקט, מילה במילה. לא הופעל כאן פותר ה-S/4 של תכנון ההגירה. הוא ממופה על טבלאות התכנון, ותשובה שלו על אובייקט שאינו שם הייתה נשמעת כמו ידע ואינה כזאת."
+        lede="זמינות האובייקט ב-ECC וב-S/4HANA כפי שנרשמה בקטלוג, כלשונה. אובייקט זה אינו חלק מתיעוד המעבר של PM ו-PP-PI, ולכן אין לו הכרעת מעבר מהפרויקט."
       >
         <dl className="no-kv">
           {v.ecc ? (<><dt>ECC</dt><dd>{v.ecc}</dd></>) : null}
@@ -379,7 +379,7 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
         {!v.ecc && !v.s4 ? (
           <p className="no-silent">
             <ShieldQuestion size={14} strokeWidth={1.75} aria-hidden="true" />
-            {" "}המרשם אינו מחזיק הצהרת זמינות ל-ECC או ל-S/4HANA עבור האובייקט הזה. הריק מכוון, ואינו אומר שאין שינוי.
+            {" "}לא קיים תיעוד מאומת במאגר לזמינות האובייקט ב-ECC או ב-S/4HANA. נדרש אימות נוסף.
           </p>
         ) : null}
       </Sec>
@@ -419,9 +419,9 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
         <Sec
           id="nox-sib" n={nSib}
           icon={<Table2 size={15} strokeWidth={1.75} />}
-          eyebrow="הקשר"
+          eyebrow="אזור"
           title={`אובייקטים נוספים באזור ${v.area}`}
-          lede="לא קשר מודלי, פשוט מה שהמרשם ממקם באותו אזור."
+          lede="אובייקטים שהקטלוג ממקם באותו אזור, ללא קשר ממודל ביניהם."
         >
           <Chips items={v.siblings} empty="" />
         </Sec>

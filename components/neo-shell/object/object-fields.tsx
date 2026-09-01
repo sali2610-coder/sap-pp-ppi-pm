@@ -103,7 +103,7 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
             </ol>
           ) : (
             <p className="no-none">
-              התיעוד אינו מסמן שדה מפתח ראשי ל־{name}. זה מצב של המקור, ולא נגזר משם השדה.
+              התיעוד אינו מסמן שדה מפתח ראשי ל-{name}.
             </p>
           )}
         </section>
@@ -153,8 +153,8 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
       <div className="no-tw">
         <table className="no-table">
           <caption className="no-cap">
-            איחוד השדות שכל תכנון מתעד לטבלה, בסדר שנכתב. עמודת המודול מראה מי תיעד את השדה. שדה שתועד
-            במודול אחד בלבד נשמר ומסומן ככזה. מוצגים {nf.format(rows.length)} מתוך {nf.format(fields.length)}.
+            איחוד השדות שכל מודול מתעד לטבלה, בסדר המקורי. עמודת המודול מציינת באיזה מודול תועד השדה.
+            מוצגים {nf.format(rows.length)} מתוך {nf.format(fields.length)}.
           </caption>
           <thead>
             <tr>

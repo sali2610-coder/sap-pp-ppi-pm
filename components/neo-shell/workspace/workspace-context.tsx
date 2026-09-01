@@ -36,9 +36,9 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
       icon={<Share2 size={17} strokeWidth={1.75} />}
       lede={
         <>
-          <b className="nw-sap">{nf.format(d.rel.edges)}</b> קשרים ממודלים במילון של המודול,{" "}
-          <b className="nw-sap">{nf.format(d.rel.inside)}</b> מהם אל טבלה שהמודול עצמו מתעד. השאר יוצאים
-          החוצה, וזה בדיוק המקום שבו המודול נוגע בשאר המערכת.
+          <b className="nw-sap">{nf.format(d.rel.edges)}</b> קשרים ממודלים בתיעוד המודול,{" "}
+          <b className="nw-sap">{nf.format(d.rel.inside)}</b> מהם אל טבלאות שהמודול עצמו מתעד. היתר מקשרים
+          את המודול לטבלאות מחוץ לו.
         </>
       }
       lead={
@@ -51,7 +51,7 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
       <Sub
         id="nw-rl-card"
         icon={<Network size={13} strokeWidth={1.75} />}
-        title="עוצמת הקשרים כפי שנרשמה"
+        title="קרדינליות הקשרים כפי שנרשמה"
       >
         <p className="nw-relline">
           {d.rel.cards.length ? (
@@ -67,8 +67,8 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
             </>
           ) : (
             <>
-              המילון של המודול אינו מציין קרדינליות לאף אחד מ-{nf.format(d.rel.edges)} הקשרים. הקשר נרשם,
-              העוצמה שלו לא, וכך זה מוצג כאן, בלי להשלים בניחוש.
+              תיעוד המודול אינו מציין קרדינליות לאף אחד מ-{nf.format(d.rel.edges)} הקשרים. הקשר נרשם ללא
+              קרדינליות, וכך הוא מוצג.
             </>
           )}
         </p>
@@ -77,8 +77,8 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
       <Sub
         id="nw-rl-hubs"
         icon={<Share2 size={13} strokeWidth={1.75} />}
-        title="הצמתים העמוסים ביותר"
-        note="מספר השכנים הישירים שהמילון מחזיק לכל טבלה. שם של טבלה פותח את עמוד האובייקט המלא שלה."
+        title="הטבלאות המקושרות ביותר"
+        note="מספר הטבלאות המקושרות ישירות לכל טבלה לפי התיעוד. שם הטבלה פותח את עמוד האובייקט המלא."
       >
         <ul className="nw-rank nw-rank--tight">
           {d.rel.hubs.map((h) => (
@@ -96,7 +96,7 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
                 </span>
                 <em className="nw-sap">
                   {nf.format(h.deg)}
-                  <span>שכנים</span>
+                  <span>טבלאות</span>
                 </em>
                 <ArrowLeft className="nu-arw nw-steparw" size={13} strokeWidth={2} aria-hidden="true" />
               </OriginLink>
