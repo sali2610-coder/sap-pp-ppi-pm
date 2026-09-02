@@ -13,7 +13,7 @@ States: NOT STARTED · INVENTORIED · RESEARCH QUEUED · SOURCED · ENRICHED · 
 | 6 | Data Model / ERD | INVENTORIED | 129 PP-PI relation statements carry no cardinality (source gap; never invented) |
 | 7 | Business Objects | INVENTORIED | obj: registry seeded (1); canonical object records per family as they enrich |
 | 8 | Object Detail | INVENTORIED | evidence block lands with commit 3 |
-| 9-10 | SAP Tables + Table Detail | RESEARCH QUEUED | queue-tables.json: 11 undecided + 19 shared + PM/PP-PI core |
+| 9-10 | SAP Tables + Table Detail | BROWSER VERIFIED (batch 1) | 13 Tier-1 records committed (46574add): 10/11 undecided verdicts resolved officially, MARA refuted→queue, T438M honestly verification_required; coverage verified 94→104, L5 0→7; evidence block confirmed in the export (AUFK) |
 | 11-12 | Transactions + Detail | RESEARCH QUEUED | queue-transactions.json: 12 lifecycle conflicts (P1) + 40 PM/PP-PI core |
 | 13 | BAPIs / FM / APIs | INVENTORIED | 48 requires-verification + 18 invalid-name first; released-API links via api.sap.com URLs |
 | 14 | IDocs | INVENTORIED | 2 message types; basic-type registry seeded (MATMAS05) |
@@ -23,6 +23,6 @@ States: NOT STARTED · INVENTORIED · RESEARCH QUEUED · SOURCED · ENRICHED · 
 | 18-21 | Knowledge / Incidents / Academy | INVENTORIED | incidents 156 (125 with notes); reader session-limited during baseline — measured by hand |
 | 22 | Books cross-references | NOT STARTED | citations by book id only, frozen surfaces untouched |
 | 23 | Ask the Library / NEO AI integration | NOT STARTED | knowledge integration only; no backend change |
-| 24 | Best Practices section | ENRICHED (foundation) | 2 seed practices; grows per family |
+| 24 | Best Practices section | BROWSER VERIFIED (foundation) | /neo/best-practices/ live in the export (catalog + 2 details + 404 path, rail + ⌘K family); grows per family (01f5268d) |
 | 25 | Search + cross-links | NOT STARTED | bp search family with commit 4; xref gates active |
 | 26 | Final regression + coverage | NOT STARTED | report-coverage before/after per family |
