@@ -21,6 +21,7 @@
 | "not authorized", SU53, PFCG, S_TCODE/S_RFC/org level | `authorization-missing.md` | Security |
 | "אינך מורשה להשתמש בטרנזקציה Z" שעובדת באתר אחר, הרשאה לפי מפעל, ZPPPI_C223, Role לא הורחב לאתר | `authorization-missing-ztcode-plant.md` | Security/PP-PI |
 | איטי, TIME_OUT, dump, נעילה, job ארוך, ST22/ST05/SM50 | `performance-slow.md` | Performance |
+| הדפסות מיותרות מ-JobUser, ספול מול פלט, SP01/SM37/TBTCP, תור מאובטח, LOCL | `jobuser-unnecessary-spool-prints.md` | Cross/Basis |
 | "עבד ב-ECC נכשל ב-S/4", simplification, obsolete tcode | `migration-ecc-to-s4.md` | Migration |
 
 ## כיסוי ידוע (שקיפות)
