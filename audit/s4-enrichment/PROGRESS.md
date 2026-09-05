@@ -14,8 +14,8 @@ States: NOT STARTED · INVENTORIED · RESEARCH QUEUED · SOURCED · ENRICHED · 
 | 7 | Business Objects | INVENTORIED | obj: registry seeded (1); canonical object records per family as they enrich |
 | 8 | Object Detail | INVENTORIED | evidence block lands with commit 3 |
 | 9-10 | SAP Tables + Table Detail | BROWSER VERIFIED (batch 1) | 13 Tier-1 records committed (46574add): 10/11 undecided verdicts resolved officially, MARA refuted→queue, T438M honestly verification_required; coverage verified 94→104, L5 0→7; evidence block confirmed in the export (AUFK) |
-| 11-12 | Transactions + Detail | RESEARCH QUEUED | queue-transactions.json: 12 lifecycle conflicts (P1) + 40 PM/PP-PI core |
-| 13 | BAPIs / FM / APIs | INVENTORIED | 48 requires-verification + 18 invalid-name first; released-API links via api.sap.com URLs |
+| 11-12 | Transactions + Detail | SCHEMA VERIFIED (batch 1) | 16 records committed (f5d00773): all 12 lifecycle conflicts (MB*/ME*) resolved officially with successors, 1 honest conflicting_sources, IW31/IW41/COR1/COR6N verified in 2025.001; L5 0→12 |
+| 13 | BAPIs / FM / APIs | SCHEMA VERIFIED (batch 1) | 12 records committed (9a8d390e): BAPI_ALM_ORDER_MAINTAIN → released_api_available with official API pages; 10 requires-verification FMs stated honestly; verified 97→107 |
 | 14 | IDocs | INVENTORIED | 2 message types; basic-type registry seeded (MATMAS05) |
 | 15 | CDS Views | INVENTORIED | 39 views; templated "verified" downgraded to repository_verified at data commit; Help "APIs for Maintenance Management" deliverable found as official channel |
 | 16 | Fiori | INVENTORIED | 20 curated apps; F2731-vs-F5241 conflict recorded as first conflicting_sources case |
