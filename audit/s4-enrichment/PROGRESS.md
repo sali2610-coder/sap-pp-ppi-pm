@@ -19,7 +19,7 @@ States: NOT STARTED · INVENTORIED · RESEARCH QUEUED · SOURCED · ENRICHED · 
 | 14 | IDocs | SCHEMA VERIFIED | 4 records committed (954ed503): MATMAS/LOIPRO + basic types MATMAS05/LOIPRO01 (new registry entry), 15 official URLs live-checked; L5 0→2 |
 | 15 | CDS Views | SCHEMA VERIFIED (batch 1) | 13 records committed (c7733e15): 9 released statuses (L5), I_MaterialDocumentItem deprecated 2021, I_MaintenancePlan → I_MaintenancePlanBasic (queued), 3 honest verification_required; 26 views remain |
 | 16 | Fiori | INVENTORIED | 20 curated apps; F2731-vs-F5241 conflict recorded as first conflicting_sources case |
-| 17 | Enhancements | INVENTORIED | 13 techniques + 29 named exits/BAdIs, zero sources today |
+| 17 | Enhancements | SCHEMA VERIFIED (batch 1) | 14 records committed: 10 PM customer exits + 4 BAdIs cited to SAP Library / S/4 2025 pages; 4 honest verification_required, 5 conflicts recorded (CONFPM01, IEQM0001 repository descriptions disagree with SAP); L5 0→2 |
 | 18-21 | Knowledge / Incidents / Academy | INVENTORIED | incidents 156 (125 with notes); reader session-limited during baseline — measured by hand |
 | 22 | Books cross-references | NOT STARTED | citations by book id only, frozen surfaces untouched |
 | 23 | Ask the Library / NEO AI integration | NOT STARTED | knowledge integration only; no backend change |

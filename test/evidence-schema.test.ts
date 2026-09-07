@@ -56,25 +56,42 @@ test("every schema rule holds over the overlays, the registries and the best pra
   }
 });
 
-test("the honest fiori path: a curated id with no library URL stays verification_required", () => {
-  // The worked example must exercise the needsVerification state, not fake a
-  // verified one — this is the F2731/F5241 lesson applied before it repeats.
+// The fiori catalog graduated on 2026-09-02. The F2731/F5241 lesson now lives
+// in the data: an app id that no official record names stays
+// verification_required (F2731, F3364), and every level above that must be
+// carried by an official library/help URL, never by the curated apps.ts entry.
+const OFFICIAL_HOSTS = ["help.sap.com", "api.sap.com", "fioriappslibrary.hana.ondemand.com", "fal.cloud.sap"];
+const hostOf = (u: string | undefined): string | null => { try { return u ? new URL(u).hostname : null; } catch { return null; } };
+
+test("the honest fiori path: a level above verification_required needs an official library/help URL", () => {
   for (const r of FIORI_VERIFICATION) {
     assert.ok(r.evidence.length > 0, `${r.id} has no evidence`);
-    for (const e of r.evidence) assert.equal(e.verificationLevel, "verification_required", r.id);
+    const aboveFloor = r.evidence.some((e) => e.verificationLevel !== "verification_required");
+    if (aboveFloor) {
+      const official = r.evidence.some(
+        (e) => (e.sourceType === "fiori_library" || e.sourceType === "sap_help") && OFFICIAL_HOSTS.includes(hostOf(e.url) ?? ""),
+      );
+      assert.ok(official, `${r.id}: no official library/help url behind its verified evidence`);
+    }
+    for (const e of r.evidence) {
+      if (e.verificationLevel === "sap_official_verified") {
+        assert.ok(OFFICIAL_HOSTS.includes(hostOf(e.url) ?? ""), `${r.id}: sap_official_verified without an official url (${e.sourceTitle})`);
+      }
+    }
   }
 });
 
 // The tables catalog graduated to Tier-1 on 2026-09-01; the functions,
-// transactions, idocs, cds and enhancements catalogs on 2026-09-02 (their
-// per-catalog data commits carry sap_official_verified claims and authored
-// statuses, all checked by validateRecords above). The remaining two catalogs
-// are still foundation-state and stay under the strict repository-only guard.
+// transactions, idocs, cds, enhancements and fiori catalogs on 2026-09-02
+// (their per-catalog data commits carry sap_official_verified claims and
+// authored statuses, all checked by validateRecords above). The objects
+// catalog is still foundation-state and stays under the strict
+// repository-only guard.
 const FOUNDATION_RECORDS = [
-  ...FIORI_VERIFICATION, ...OBJECT_VERIFICATION,
+  ...OBJECT_VERIFICATION,
 ];
 
-test("foundation catalogs are repository-verified only (tables + functions + transactions + idocs + cds + enhancements graduated)", () => {
+test("foundation catalog (objects) is repository-verified only (tables + functions + transactions + idocs + cds + enhancements + fiori graduated)", () => {
   for (const r of FOUNDATION_RECORDS) {
     for (const e of r.evidence) {
       assert.equal(e.sourceType, "repository", `${r.id}: foundation evidence must be repository`);
@@ -85,8 +102,8 @@ test("foundation catalogs are repository-verified only (tables + functions + tra
   }
 });
 
-test("graduated records (tables + functions + transactions + idocs + cds + enhancements): every repository claim still carries a repoRef", () => {
-  for (const r of [...TABLE_VERIFICATION, ...FM_VERIFICATION, ...TX_VERIFICATION, ...IDOC_VERIFICATION, ...CDS_VERIFICATION, ...ENH_VERIFICATION]) {
+test("graduated records (tables + functions + transactions + idocs + cds + enhancements + fiori): every repository claim still carries a repoRef", () => {
+  for (const r of [...TABLE_VERIFICATION, ...FM_VERIFICATION, ...TX_VERIFICATION, ...IDOC_VERIFICATION, ...CDS_VERIFICATION, ...ENH_VERIFICATION, ...FIORI_VERIFICATION]) {
     for (const e of r.evidence) {
       if (e.sourceType === "repository") assert.ok(e.repoRef, `${r.id}: repository evidence without repoRef`);
     }
