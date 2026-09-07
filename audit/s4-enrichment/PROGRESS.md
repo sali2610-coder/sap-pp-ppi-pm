@@ -18,7 +18,7 @@ States: NOT STARTED · INVENTORIED · RESEARCH QUEUED · SOURCED · ENRICHED · 
 | 13 | BAPIs / FM / APIs | SCHEMA VERIFIED (batch 1) | 12 records committed (9a8d390e): BAPI_ALM_ORDER_MAINTAIN → released_api_available with official API pages; 10 requires-verification FMs stated honestly; verified 97→107 |
 | 14 | IDocs | SCHEMA VERIFIED | 4 records committed (954ed503): MATMAS/LOIPRO + basic types MATMAS05/LOIPRO01 (new registry entry), 15 official URLs live-checked; L5 0→2 |
 | 15 | CDS Views | SCHEMA VERIFIED (batch 1) | 13 records committed (c7733e15): 9 released statuses (L5), I_MaterialDocumentItem deprecated 2021, I_MaintenancePlan → I_MaintenancePlanBasic (queued), 3 honest verification_required; 26 views remain |
-| 16 | Fiori | INVENTORIED | 20 curated apps; F2731-vs-F5241 conflict recorded as first conflicting_sources case |
+| 16 | Fiori | SCHEMA VERIFIED (batch 1) | 19/20 records committed (84339019): 8 curated id/title bindings recorded as conflicting_sources (F2731, F2730, F2730A, F4072, F3577, F3364, F1576, F0843), Confirm Jobs W0020 deprecated 2022 / deleted 2023 officially, F3289 refuted→queue; L5 0→11 |
 | 17 | Enhancements | SCHEMA VERIFIED (batch 1) | 14 records committed: 10 PM customer exits + 4 BAdIs cited to SAP Library / S/4 2025 pages; 4 honest verification_required, 5 conflicts recorded (CONFPM01, IEQM0001 repository descriptions disagree with SAP); L5 0→2 |
 | 18-21 | Knowledge / Incidents / Academy | INVENTORIED | incidents 156 (125 with notes); reader session-limited during baseline — measured by hand |
 | 22 | Books cross-references | NOT STARTED | citations by book id only, frozen surfaces untouched |
