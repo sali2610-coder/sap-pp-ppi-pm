@@ -66,15 +66,15 @@ test("the honest fiori path: a curated id with no library URL stays verification
 });
 
 // The tables catalog graduated to Tier-1 on 2026-09-01; the functions,
-// transactions, idocs and cds catalogs on 2026-09-02 (their per-catalog data
-// commits carry sap_official_verified claims and authored statuses, all
-// checked by validateRecords above). The remaining three catalogs are still
-// foundation-state and stay under the strict repository-only guard.
+// transactions, idocs, cds and enhancements catalogs on 2026-09-02 (their
+// per-catalog data commits carry sap_official_verified claims and authored
+// statuses, all checked by validateRecords above). The remaining two catalogs
+// are still foundation-state and stay under the strict repository-only guard.
 const FOUNDATION_RECORDS = [
-  ...FIORI_VERIFICATION, ...ENH_VERIFICATION, ...OBJECT_VERIFICATION,
+  ...FIORI_VERIFICATION, ...OBJECT_VERIFICATION,
 ];
 
-test("foundation catalogs are repository-verified only (tables + functions + transactions + idocs + cds graduated)", () => {
+test("foundation catalogs are repository-verified only (tables + functions + transactions + idocs + cds + enhancements graduated)", () => {
   for (const r of FOUNDATION_RECORDS) {
     for (const e of r.evidence) {
       assert.equal(e.sourceType, "repository", `${r.id}: foundation evidence must be repository`);
@@ -85,8 +85,8 @@ test("foundation catalogs are repository-verified only (tables + functions + tra
   }
 });
 
-test("graduated records (tables + functions + transactions + idocs + cds): every repository claim still carries a repoRef", () => {
-  for (const r of [...TABLE_VERIFICATION, ...FM_VERIFICATION, ...TX_VERIFICATION, ...IDOC_VERIFICATION, ...CDS_VERIFICATION]) {
+test("graduated records (tables + functions + transactions + idocs + cds + enhancements): every repository claim still carries a repoRef", () => {
+  for (const r of [...TABLE_VERIFICATION, ...FM_VERIFICATION, ...TX_VERIFICATION, ...IDOC_VERIFICATION, ...CDS_VERIFICATION, ...ENH_VERIFICATION]) {
     for (const e of r.evidence) {
       if (e.sourceType === "repository") assert.ok(e.repoRef, `${r.id}: repository evidence without repoRef`);
     }
