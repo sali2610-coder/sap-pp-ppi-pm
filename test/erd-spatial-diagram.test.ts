@@ -39,3 +39,27 @@ test("an impact picture contains second-hop and cross-module targets with no unr
   assert.deepEqual([...d.points.keys()].sort(),["B","C","E"]);
   assert.deepEqual(d.edges.map((e)=>e.i).sort(),["bc","cb","ce"]);
 });
+
+test("click focus isolates direct neighbours and explains their direction without duplicating reciprocal cards",()=>{
+  const d=diagram(data,{module:null,selected:"B",focus:true,motion:true,orbit:false,links:true,preset:"perspective",analysis:"map"});
+  assert.deepEqual([...d.points.keys()].sort(),["A","B","C"]);
+  assert.deepEqual(d.direct,{sources:["A","C"],dependents:["C"],mutual:["C"]});
+  assert.deepEqual(d.edges.map((e)=>e.i).sort(),["ab","bc","cb"]);
+  assert.ok(d.points.get("A")!.x>d.points.get("B")!.x,"sources sit on the right in the RTL diagram");
+  assert.ok(d.points.get("C")!.x>d.points.get("B")!.x,"reciprocal source keeps one card");
+  assert.equal(d.points.get("A")!.x,d.points.get("C")!.x);
+  assert.ok(Math.abs(d.points.get("A")!.y-d.points.get("C")!.y)>=CARD.h);
+  const next=diagram(data,{module:"PP",selected:"C",focus:true,motion:true,orbit:false,links:true,preset:"perspective",analysis:"map"});
+  assert.deepEqual([...next.points.keys()].sort(),["B","C","E"]);
+  assert.ok(next.points.get("B")!.x>next.points.get("C")!.x);
+  assert.ok(next.points.get("E")!.x<next.points.get("C")!.x,"dependent sits on the left, even across modules");
+});
+test("focus shows only incident relationships, excluding joins between neighbours",()=>{
+  const linked={...data,edges:[...data.edges,{i:"ac",p:"A",c:"C"}]} as ErdCatalog;
+  const d=diagram(linked,{module:"PP",selected:"B",focus:true,motion:false,orbit:false,links:true,preset:"top",analysis:"map"});
+  assert.ok(!d.edges.some((e)=>e.i==="ac"));
+  const lone=diagram(data,{module:null,selected:"UNLISTED",focus:true,motion:false,orbit:false,links:true,preset:"top",analysis:"map"});
+  assert.equal(lone.points.size,1);
+  assert.deepEqual(lone.direct,{sources:[],dependents:[],mutual:[]});
+  assert.deepEqual(lone.edges,[]);
+});

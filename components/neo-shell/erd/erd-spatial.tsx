@@ -18,6 +18,7 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
   const search = useRef<HTMLInputElement>(null);
   const [module, setModule] = useState<ModCode | null>(() => data.modules.some((m) => m.code === "PP-PI") ? "PP-PI" : data.modules[0]?.code ?? null);
   const [selected, setSelected] = useState<string | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [focus, setFocus] = useState(false);
   const [motion, setMotion] = useState(true);
@@ -44,7 +45,7 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
   const currentStep = stages.find((s) => s.index === step);
   const selectedRelation = data.edges.find((e) => e.i === relation);
   const chooseAnalysis = (mode: NonNullable<SpatialView["analysis"]>) => {
-    setAnalysis(mode); setFocus(false); setRelation(null); setPlaying(false);
+    setAnalysis(mode); setFocus(false); setRelation(null); setPlaying(false); setDetailsOpen(false);
     if (mode === "flow") { setStep(stages[0]?.index ?? null); setSelected(null); }
     else setStep(null);
   };
@@ -56,8 +57,11 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
     }), 4500);
     return () => window.clearInterval(timer);
   }, [playing, motion, analysis, stages]);
+  useEffect(() => {
+    root.current?.querySelector<HTMLElement>('.e3-story-steps button[aria-pressed="true"]')?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: motion ? "smooth" : "instant" });
+  }, [step, motion]);
   const visibleNames = useMemo(() => new Set(layout.points.keys()), [layout]);
-  const visibleEdges = useMemo(() => data.edges.filter((e) => visibleNames.has(e.p) && visibleNames.has(e.c)), [data, visibleNames]);
+  const visibleEdges = layout.edges;
   const activeEdges = useMemo(() => data.edges.filter((e) => e.p === selected || e.c === selected), [data, selected]);
   const hits = useMemo(() => {
     const q = query.trim().toLocaleLowerCase();
@@ -67,13 +71,14 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
   const pick = useCallback((name: string) => {
     if (!tableMap.has(name)) return;
     setSelected(name); setQuery(""); setTableList(false); setRelation(null); setPlaying(false);
+    setAnalysis("map"); setFocus(true); setStep(null); setDetailsOpen(false);
     const current = currentView.current.module;
-    if (current && !data.modules.find((m) => m.code === current)?.core.includes(name)) { setModule(null); setAnalysis("map"); setStep(null); }
+    if (current && !data.modules.find((m) => m.code === current)?.core.includes(name)) setModule(null);
   }, [data, tableMap]);
   const pickModule = useCallback((code: string | null) => {
     const nextStages = stagesFor(data, code as ModCode | null);
     setAnalysis(nextStages.length > 1 ? "flow" : "map"); setStep(nextStages[0]?.index ?? null); setPlaying(false); setRelation(null);
-    setModule(code as ModCode | null); setSelected(null); setFocus(false); setQuery(""); setTableList(false); setModulePanel(false);
+    setModule(code as ModCode | null); setSelected(null); setFocus(false); setQuery(""); setTableList(false); setModulePanel(false); setDetailsOpen(false);
   }, [data]);
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -113,15 +118,16 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
       await root.current.requestFullscreen();
     } catch { setPortal(true); }
   };
-  const closeDetail = () => { setSelected(null); setRelation(null); setFocus(false); if (analysis !== "flow") { setAnalysis("map"); scene.current?.reset(); } };
+  const clearSelection = () => { setSelected(null); setRelation(null); setFocus(false); setDetailsOpen(false); if (analysis !== "flow") setAnalysis("map"); };
+  const closeDetail = () => setDetailsOpen(false);
   const content = (
-    <div ref={root} className={`e3 ${analysis === "flow" ? "e3-flow-mode" : ""} ${active ? "e3-has-detail" : ""} ${portal ? "e3-full" : ""}`} dir="rtl"
+    <div ref={root} className={`e3 ${analysis === "flow" ? "e3-flow-mode" : ""} ${layout.direct ? "e3-focus-mode" : ""} ${active && detailsOpen ? "e3-has-detail" : ""} ${portal ? "e3-full" : ""}`} dir="rtl"
       onKeyDown={(e) => {
         if ((e.target as HTMLElement).matches("input, textarea, select")) {
           if (e.key === "Escape") { setQuery(""); search.current?.blur(); }
           return;
         }
-        if (e.key === "Escape") { if (portal) setPortal(false); else closeDetail(); }
+        if (e.key === "Escape") { if (relation) setRelation(null); else if (detailsOpen) closeDetail(); else if (portal) setPortal(false); else clearSelection(); }
         if (e.key === "+" || e.key === "=") scene.current?.zoom(.84);
         if (e.key === "-") scene.current?.zoom(1.18);
         if (e.key === "0") scene.current?.reset();
@@ -145,7 +151,18 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
         <div className="e3-story-steps">{stages.map((s, i) => <button key={s.index} aria-pressed={step === s.index} onClick={() => { setStep(s.index); setSelected(null); setPlaying(false); }}><span>{i + 1}</span>{s.he}<small>{s.names.length} טבלאות</small></button>)}</div>
         <p>{currentStep ? currentStep.names.join(" · ") : "בחר שלב להצגת הטבלאות שלו"} · סדר האובייקטים לפי הקטלוג; החצים מציגים קשרי טבלאות מתועדים.</p>
       </section>}
-      {analysis !== "map" && analysis !== "flow" && <div className="e3-analysis-note" role="status"><b>{analysis === "impact" ? "מה תלוי בטבלה הזאת?" : analysis === "lineage" ? "מאילו טבלאות היא מקבלת נתונים?" : "שרשרת התלויות"}</b><span>{selected} · {Math.max(0, visibleNames.size - 1)} טבלאות קשורות לפי המודל, גם מעבר למודול הנבחר.</span></div>}
+      {layout.direct && active && <section className="e3-focus-story" aria-label={`הקשרים הישירים של ${active.n}`}>
+        <div className="e3-focus-heading"><strong>הקשרים של <bdi>{active.n}</bdi></strong><button className="e3-button" onClick={() => setDetailsOpen(!detailsOpen)} aria-expanded={detailsOpen}><List size={15} />כל השדות</button><button className="e3-focus-back" onClick={clearSelection}>חזרה למפה</button></div>
+        <div className="e3-dependency-strip">
+          <div><span>מקורות <b>{layout.direct.sources.length}</b></span><div>{layout.direct.sources.length ? layout.direct.sources.map((n) => <button key={n} dir="ltr" title={tableMap.get(n)?.he} onClick={() => pick(n)}>{n}{layout.direct?.mutual.includes(n) && <small aria-label="קשר בשני הכיוונים"> ↔</small>}</button>) : <small>אין קשר נכנס מתועד</small>}</div></div>
+          <span className="e3-direction" aria-hidden="true">←</span>
+          <div className="is-current"><span>הטבלה שנבחרה</span><button dir="ltr" onClick={() => setDetailsOpen(!detailsOpen)} aria-label={`כל השדות של ${active.n}`}>{active.n}</button></div>
+          <span className="e3-direction" aria-hidden="true">←</span>
+          <div><span>תלויות ישירות <b>{layout.direct.dependents.length}</b></span><div>{layout.direct.dependents.length ? layout.direct.dependents.map((n) => <button key={n} dir="ltr" title={tableMap.get(n)?.he} onClick={() => pick(n)}>{n}{layout.direct?.mutual.includes(n) && <small aria-label="קשר בשני הכיוונים"> ↔</small>}</button>) : <small>אין קשר יוצא מתועד</small>}</div></div>
+        </div>
+        <p>חץ ממקור לטבלה תלויה · בחר טבלה קשורה כדי לעבור אליה{layout.direct.mutual.length > 0 ? " · ↔ קשרים מתועדים בשני הכיוונים" : ""}</p>
+      </section>}
+      {analysis !== "map" && analysis !== "flow" && <div className="e3-analysis-note" role="status"><b>{analysis === "impact" ? "מה תלוי בטבלה הזאת?" : analysis === "lineage" ? "מהם המקורות של הטבלה?" : "שרשרת התלויות"}</b><span>{selected} · {Math.max(0, visibleNames.size - 1)} טבלאות קשורות לפי המודל, גם מעבר למודול הנבחר.</span><button onClick={() => setDetailsOpen(!detailsOpen)} aria-expanded={detailsOpen}>כל השדות</button></div>}
       <div className="e3-stage" ref={stage} tabIndex={0} role="region" aria-label="תצוגת ERD בתלת ממד" />
       {!module && !focus && !active && <p className="e3-map-note">בחר מודול לפתיחת תרשים עם טבלאות, שדות וקשרים</p>}
       {!ready && !failed && <div className="e3-loading-overlay" role="status"><Box size={36} /><p>מכין את מפת הנתונים…</p></div>}
@@ -158,7 +175,7 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
         <div className="e3-module-footer"><Database size={14} /> הספירות כוללות טבלאות משותפות</div>
       </aside>
 
-      {active && <aside className="e3-detail e3-panel" aria-label={`פרטי טבלה ${active.n}`} style={tint(active.m)} key={active.n}>
+      {active && detailsOpen && <aside className="e3-detail e3-panel" aria-label={`פרטי טבלה ${active.n}`} style={tint(active.m)} key={active.n}>
         <div className="e3-detail-head"><span className="e3-module-tag">{active.m}</span><span>{ZONE_HE[active.z] || active.z}</span><button className="e3-icon" onClick={closeDetail} aria-label="סגירת פרטי הטבלה"><X size={18} /></button></div>
         <h2 dir="ltr">{active.n}</h2><p className="e3-detail-name">{active.he || active.en}</p>
         <div className="e3-detail-actions"><button className="e3-button" onClick={() => { setFocus(!focus); setAnalysis("map"); setStep(null); setPlaying(false); }} aria-pressed={focus}><Crosshair size={16} />{focus ? "חזרה למפה" : "מיקוד בקשרים"}</button>{active.pg === 1 && <Link className="e3-button" href={`/neo/object/${encodeURIComponent(active.n)}/`}>עמוד הטבלה <ArrowUpLeft size={16} /></Link>}</div>
@@ -169,7 +186,7 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
           </section>
           <section><div className="e3-section-title"><h3>קשרים מתועדים</h3><span>{activeEdges.length}</span></div>{activeEdges.length ? activeEdges.map((edge) => {
             const other = edge.p === active.n ? edge.c : edge.p;
-            return <div className="e3-relation" key={edge.i}><button onClick={() => pick(other)}><Link2 size={14} /><b dir="ltr">{other}</b><span dir="ltr">{edge.cd || "לא צוין"}</span><ChevronRight size={14} /></button>{edge.ds && <p>{edge.ds}</p>}{edge.j.filter((j) => j.j).map((join, i) => <details key={i}><summary>ניסוח JOIN מתועד</summary><pre dir="ltr">{join.j}</pre>{join.d && <p>{join.d}</p>}</details>)}</div>;
+            return <div className="e3-relation" key={edge.i}><small className="e3-relation-role">{edge.p === active.n ? "תלויה בטבלה הזאת" : "מקור לטבלה הזאת"}</small><button onClick={() => pick(other)}><Link2 size={14} /><b dir="ltr">{other}</b><span dir="ltr">{edge.cd || "לא צוין"}</span><ChevronRight size={14} /></button>{edge.ds && <p>{edge.ds}</p>}{edge.j.filter((j) => j.j).map((join, i) => <details key={i}><summary>ניסוח JOIN מתועד</summary><pre dir="ltr">{join.j}</pre>{join.d && <p>{join.d}</p>}</details>)}</div>;
           }) : <p className="e3-note">לא תועדו קשרים לטבלה זו.</p>}</section>
           <section><div className="e3-section-title"><h3>S/4HANA</h3></div>{active.s4v ? <><span className="e3-trust">{S4_TRUST_HE[active.s4v.t]}</span><p>{active.s4v.ch}</p>{active.s4v.nt && <p className="e3-note">{active.s4v.nt}</p>}</> : <p className="e3-note">לא קיים מידע מאומת בפרויקט.</p>}</section>
           {active.ms.length > 1 && <section><h3>מופיעה גם במודולים</h3><div className="e3-memberships">{active.ms.map((m) => <button key={m} style={tint(m)} onClick={() => pickModule(m)}>{m}</button>)}</div></section>}

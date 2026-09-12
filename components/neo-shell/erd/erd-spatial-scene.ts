@@ -10,6 +10,7 @@ function svg<K extends keyof SVGElementTagNameMap>(tag:K,attrs:Record<string,str
 // gives each card shallow depth without rotating the schematic away from view.
 export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:DiagramView,onPick:(n:string)=>void,onModule:(n:string)=>void,_onLost:()=>void,onRelation?:(id:string)=>void):SpatialScene {
   let view=initial,picture=diagram(data,view),overview=false,scale=1,tx=0,ty=0,dragged=false;
+  let drawn=picture.points,animation=0;
   const byName=new Map(data.tables.map((t)=>[t.n,t]));
   const viewport=el("div","e3-diagram");viewport.dataset.renderer="css-3d";
   const world=el("div","e3-world"),plane=el("div","e3-plane"),note=el("p","e3-camera-note");
@@ -29,7 +30,10 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     world.classList.add("is-flying");
     let pts=names.map((n)=>picture.points.get(n)).filter((p):p is {x:number;y:number}=>!!p);
     const w=Math.max(1,host.clientWidth),h=Math.max(1,host.clientHeight);
-    if(w<600&&pts.length>1&&!all)pts=pts.slice(0,1);
+    if(w<600&&!all) {
+      if(picture.direct&&view.selected)pts=[picture.points.get(view.selected)!];
+      else if(pts.length>1)pts=pts.slice(0,1);
+    }
     let x=0,y=0,bw=picture.width,bh=picture.height;
     if(pts.length) {x=Math.min(...pts.map((p)=>p.x))-24;y=Math.min(...pts.map((p)=>p.y))-24;bw=Math.max(...pts.map((p)=>p.x))-x+CARD.w+24;bh=Math.max(...pts.map((p)=>p.y))-y+CARD.h+24;}
     scale=Math.max(all?.12:w<600?.78:.55,Math.min((w-32)/bw,(h-42)/bh,1.2));
@@ -57,7 +61,7 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     const body=el("div","e3-card-fields");
     cardFields(t).forEach((f)=>{const row=el("div","e3-card-row");row.dataset.field=f[0];const code=el("code","",f[0]);code.dir="ltr";const desc=el("span","e3-card-field-description",f[2]||f[1]||"לא תועד");desc.title=desc.textContent||"";const key=el("span",/PK/.test(f[3])?"e3-card-key is-pk":"e3-card-key",f[3]==="-"?"":f[3]);key.dir="ltr";row.append(code,desc,key);body.append(row);});
     if(!t.f.length)body.append(el("p","e3-card-empty","לא תועדו שדות בקטלוג"));
-    const foot=el("div","e3-card-foot");foot.append(el("span","",`${Math.min(5,t.f.length)} מוצגים · ${t.f.length} שדות בקטלוג`),el("b","","פתח פרטים ↗"));
+    const foot=el("div","e3-card-foot");foot.append(el("span","",`${Math.min(5,t.f.length)} מוצגים · ${t.f.length} שדות בקטלוג`),el("b","","מקד קשרים ←"));
     b.append(header,title,subtitle,body,foot);
     b.addEventListener("click",(e)=>{if(!dragged||e.detail===0)onPick(t.n);});
     b.addEventListener("focus",()=>{if(!dragged&&!b.matches(":hover"))frame([t.n]);});
@@ -68,17 +72,35 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     const i=cardFields(t).findIndex((f)=>keys.includes(f[0])||keys.includes(`${t.n}.${f[0]}`));
     return i>=0?137+i*32:82;
   }
-  function makeEdges() {
-    const layer=svg("svg",{class:"e3-edge-layer",width:String(picture.width),height:String(picture.height),"aria-label":"קשרים מתועדים בין הטבלאות"}),defs=svg("defs",{});layer.append(defs);
-    picture.edges.forEach((e,index)=>{
-      const a=picture.points.get(e.p)!,b=picture.points.get(e.c)!,color=SPATIAL_COLORS[byName.get(e.p)!.m],id=`${sceneId}-${index}`;
-      const marker=svg("marker",{id,viewBox:"0 0 12 12",refX:"10",refY:"6",markerWidth:"11",markerHeight:"11",orient:"auto",markerUnits:"userSpaceOnUse"});marker.append(svg("path",{d:"M2 1 L10 6 L2 11",fill:"none",stroke:color,"stroke-width":"2.4","stroke-linecap":"round","stroke-linejoin":"round"}));defs.append(marker);
+  function edgeRoute(e:ErdEdgeOut,index:number) {
+    const a=drawn.get(e.p)!,b=drawn.get(e.c)!;
       const right=b.x>a.x,same=a.x===b.x,x1=a.x+(right||same?CARD.w:0),x2=b.x+(right?0:CARD.w),y1=a.y+port(byName.get(e.p)!,e,true),y2=b.y+port(byName.get(e.c)!,e,false);
       const mid=same?x1+38+(index%4)*16:(x1+x2)/2+((index%5)-2)*10;
       let d:string;
-      if(!same&&Math.abs(a.x-b.x)>CARD.w+CARD.gapX+1){const rail=25+(index%5)*13,sign=right?1:-1,exit=x1+sign*34,enter=x2-sign*34;d=`M${x1} ${y1} H${exit-sign*12} Q${exit} ${y1} ${exit} ${y1-12} V${rail+12} Q${exit} ${rail} ${exit+sign*12} ${rail} H${enter-sign*12} Q${enter} ${rail} ${enter} ${rail+12} V${y2-12} Q${enter} ${y2} ${enter+sign*12} ${y2} H${x2}`;}
+      if(e.p===e.c) {
+        const rail=x1+50,lower=y1+45;
+        d=`M${x1} ${y1} H${rail-12} Q${rail} ${y1} ${rail} ${y1+12} V${lower-12} Q${rail} ${lower} ${rail-12} ${lower} H${x1}`;
+      } else if(!same&&Math.abs(a.x-b.x)>CARD.w+CARD.gapX+1){const rail=25+(index%5)*13,sign=right?1:-1,exit=x1+sign*34,enter=x2-sign*34;d=`M${x1} ${y1} H${exit-sign*12} Q${exit} ${y1} ${exit} ${y1-12} V${rail+12} Q${exit} ${rail} ${exit+sign*12} ${rail} H${enter-sign*12} Q${enter} ${rail} ${enter} ${rail+12} V${y2-12} Q${enter} ${y2} ${enter+sign*12} ${y2} H${x2}`;}
       else {const v=y2>=y1?1:-1,h1=mid>x1?1:-1,h2=x2>mid?1:-1,r=Math.min(16,Math.abs(y2-y1)/2,Math.abs(mid-x1),Math.abs(x2-mid));d=`M${x1} ${y1} H${mid-r*h1} Q${mid} ${y1} ${mid} ${y1+r*v} V${y2-r*v} Q${mid} ${y2} ${mid+r*h2} ${y2} H${x2}`;}
-      const g=svg("g",{class:"e3-edge",role:"button",tabindex:"0","aria-label":`${e.p} אל ${e.c} · ${e.cd||"עוצמה לא צוינה"} · ${e.ds||"קשר מתועד"}`});g.dataset.edge=e.i;g.style.setProperty("--edge-color",color);
+    return {d,x1,y1,right,same};
+  }
+  function positionElements() {
+    for(const [n,p] of drawn){const card=cards.get(n);if(card){card.style.left=`${p.x}px`;card.style.top=`${p.y}px`;}}
+    picture.edges.forEach((e,index)=>{
+      const g=edgeElements.get(e.i);if(!g)return;
+      const r=edgeRoute(e,index);
+      g.querySelectorAll("path").forEach((p)=>p.setAttribute("d",r.d));
+      const circle=g.querySelector("circle");circle?.setAttribute("cx",String(r.x1));circle?.setAttribute("cy",String(r.y1));
+      const label=g.querySelector("text");if(label){label.setAttribute("x",String(r.x1+(r.right||r.same?18:-18)));label.setAttribute("y",String(r.y1-11));label.setAttribute("text-anchor",r.right||r.same?"start":"end");}
+    });
+  }
+  function makeEdges() {
+    const layer=svg("svg",{class:"e3-edge-layer",width:String(picture.width),height:String(picture.height),"aria-label":"קשרים מתועדים בין הטבלאות"}),defs=svg("defs",{});layer.append(defs);
+    picture.edges.forEach((e,index)=>{
+      const color=SPATIAL_COLORS[byName.get(e.p)!.m],id=`${sceneId}-${index}`;
+      const marker=svg("marker",{id,viewBox:"0 0 12 12",refX:"10",refY:"6",markerWidth:"11",markerHeight:"11",orient:"auto",markerUnits:"userSpaceOnUse"});marker.append(svg("path",{d:"M2 1 L10 6 L2 11",fill:"none",stroke:color,"stroke-width":"2.4","stroke-linecap":"round","stroke-linejoin":"round"}));defs.append(marker);
+      const {d,x1,y1,right,same}=edgeRoute(e,index);
+      const g=svg("g",{class:"e3-edge",role:"button",tabindex:"0","aria-label":`${e.p} אל ${e.c} · ${e.cd||"עוצמה לא צוינה"} · ${e.ds||"קשר מתועד"}`});g.dataset.edge=e.i;g.dataset.source=e.p;g.dataset.target=e.c;g.style.setProperty("--edge-color",color);
       const title=svg("title",{});title.textContent=`${e.p} → ${e.c}\n${e.ds}\n${e.j.map((j)=>j.j).filter(Boolean).join("\n")}`;
       g.append(title,svg("path",{d,class:"e3-edge-hit"}),svg("path",{d,class:"e3-edge-track","marker-end":`url(#${id})`}),svg("path",{d,class:"e3-edge-pulse"}),svg("circle",{cx:String(x1),cy:String(y1),r:"4",fill:color}));
       if(e.cd){const label=svg("text",{x:String(x1+(right||same?18:-18)),y:String(y1-11),class:"e3-edge-cardinality","text-anchor":right||same?"start":"end"});label.textContent=e.cd;g.append(label);}
@@ -88,20 +110,43 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     });plane.append(layer);
   }
   function rebuild() {
+    cancelAnimationFrame(animation);
+    const previous=new Map(drawn),previousCards=new Map(cards);
     plane.replaceChildren();cards.clear();edgeElements.clear();picture=diagram(data,view);overview=!view.module&&!view.selected;
+    const animate=view.motion&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches&&previousCards.size>0&&!overview;
+    drawn=new Map([...picture.points].map(([n,p])=>[n,animate?previous.get(n)||p:p]));
     if(overview){const cols=host.clientWidth<600?1:3,list=el("div","e3-module-gallery");list.style.gridTemplateColumns=`repeat(${cols},340px)`;
       for(const m of data.modules){const card=el("button","e3-module-tile");card.dir="rtl";card.style.setProperty("--card-color",SPATIAL_COLORS[m.code]);card.setAttribute("aria-label",`${m.code} · ${m.he} · פתיחת טבלאות`);const code=el("strong","",m.code);code.dir="ltr";card.append(code,el("h2","",m.he),el("p","",`${m.core.length} טבלאות · ${m.objects.length} אובייקטים`),el("span","","טבלאות, שדות וקשרים ↗"));card.addEventListener("click",(e)=>{if(!dragged||e.detail===0)onModule(m.code);});list.append(card);}
       picture.width=cols*372+60;picture.height=Math.ceil(data.modules.length/cols)*202+60;plane.append(list);
     } else {
       makeEdges();
-      if(view.analysis==="flow")for(const s of picture.stages){const p=picture.points.get(s.names[0]);if(!p)continue;const label=el("div","e3-lane-label",`${picture.stages.indexOf(s)+1} · ${s.he}`);label.dir="rtl";label.style.left=`${p.x}px`;label.style.top="82px";plane.append(label);}
-      for(const [n,p] of picture.points){const card=makeCard(byName.get(n)!);card.style.left=`${p.x}px`;card.style.top=`${p.y}px`;cards.set(n,card);plane.append(card);}
+      if(view.analysis==="flow") {
+        const placed = new Set(picture.stages.flatMap((s)=>s.names));
+        const labels = [...picture.stages.map((s,i)=>({name:s.names[0],text:`${i+1} · ${s.he}`}))];
+        const unplaced = [...picture.points.keys()].find((n)=>!placed.has(n));
+        if(unplaced) labels.push({name:unplaced,text:"ללא שלב מתועד בשרשרת"});
+        for(const item of labels){const p=picture.points.get(item.name);if(!p)continue;const label=el("div","e3-lane-label",item.text);label.dir="rtl";label.style.left=`${p.x}px`;label.style.top="82px";plane.append(label);}
+      }
+      for(const lane of picture.lanes){const p=picture.points.get(lane.names[0])!;const label=el("div","e3-lane-label",lane.label);label.dir="rtl";label.style.left=`${p.x}px`;label.style.top="65px";plane.append(label);}
+      for(const [n,p] of drawn){const card=previousCards.get(n)||makeCard(byName.get(n)!);card.style.opacity="";card.style.left=`${p.x}px`;card.style.top=`${p.y}px`;cards.set(n,card);plane.append(card);}
     }
     plane.style.width=`${picture.width}px`;plane.style.height=`${picture.height}px`;highlight(view.selected);
+    if(animate){
+      const start=performance.now(),from=new Map(drawn);
+      const tick=(time:number)=>{
+        const progress=Math.min(1,(time-start)/650),eased=1-Math.pow(1-progress,3);
+        drawn=new Map([...picture.points].map(([n,p])=>{const a=from.get(n)||p;return [n,{x:a.x+(p.x-a.x)*eased,y:a.y+(p.y-a.y)*eased}];}));
+        positionElements();
+        for(const [n,card] of cards)if(!previousCards.has(n))card.style.opacity=progress<1?String(eased):"";
+        if(progress<1)animation=requestAnimationFrame(tick);else animation=0;
+      };
+      animation=requestAnimationFrame(tick);
+    }
   }
   function update(next:DiagramView) {
     const changed=next.module!==view.module||next.focus!==view.focus||next.analysis!==view.analysis||(next.selected!==view.selected&&(next.focus||["impact","lineage","dep"].includes(next.analysis||"")||!next.module)),picked=next.selected!==view.selected,stepChanged=next.step!==view.step;
     view=next;if(changed)rebuild();else highlight(view.selected);
+    if(!view.motion&&animation){cancelAnimationFrame(animation);animation=0;drawn=picture.points;for(const card of cards.values())card.style.opacity="";positionElements();}
     for(const g of edgeElements.values())g.style.display=view.links?"":"none";
     const stage=view.analysis==="flow"?picture.stages.find((s)=>s.index===view.step):undefined;
     if(stage&&(changed||stepChanged||(picked&&!view.selected)))frame(stage.names);
@@ -120,6 +165,6 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
   let lastW=host.clientWidth,lastH=host.clientHeight;
   const observer=new ResizeObserver(()=>{const w=host.clientWidth,h=host.clientHeight;if(Math.abs(w-lastW)<2&&Math.abs(h-lastH)<2)return;if(overview&&(w<600)!==(lastW<600))rebuild();const dx=w-lastW,dy=h-lastH;lastW=w;lastH=h;
     const s=view.analysis==="flow"?picture.stages.find((s)=>s.index===view.step):undefined;
-    if(view.selected&&!view.focus&&["map","flow"].includes(view.analysis||""))frame([view.selected]);else if(s)frame(s.names);else{tx+=dx/2;ty+=dy/2;paint();}});observer.observe(host);
-  return {update,zoom(factor){const r=host.getBoundingClientRect();zoomAt(factor,r.left+r.width/2,r.top+r.height/2);},reset(){frame([],true);},dispose(){observer.disconnect();host.removeEventListener("pointerdown",down);host.removeEventListener("pointermove",move);host.removeEventListener("pointerup",up);host.removeEventListener("pointercancel",up);host.removeEventListener("wheel",wheel);host.removeEventListener("keydown",key);viewport.remove();note.remove();}};
+    if(picture.direct)frame();else if(view.selected&&!view.focus&&["map","flow"].includes(view.analysis||""))frame([view.selected]);else if(s)frame(s.names);else{tx+=dx/2;ty+=dy/2;paint();}});observer.observe(host);
+  return {update,zoom(factor){const r=host.getBoundingClientRect();zoomAt(factor,r.left+r.width/2,r.top+r.height/2);},reset(){frame([],true);},dispose(){cancelAnimationFrame(animation);observer.disconnect();host.removeEventListener("pointerdown",down);host.removeEventListener("pointermove",move);host.removeEventListener("pointerup",up);host.removeEventListener("pointercancel",up);host.removeEventListener("wheel",wheel);host.removeEventListener("keydown",key);viewport.remove();note.remove();}};
 }

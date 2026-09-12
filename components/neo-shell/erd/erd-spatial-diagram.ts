@@ -35,11 +35,31 @@ export function stagesFor(data: ErdCatalog, code: ModCode | null) {
 }
 export function diagram(data: ErdCatalog, view: DiagramView) {
   const m = data.modules.find((m) => m.code === view.module);
+  const stages = stagesFor(data,view.module);
   let names = new Set(m?.core || data.tables.map((t) => t.n));
   const tracing = view.analysis && ["impact","lineage","dep"].includes(view.analysis);
   if (tracing && view.selected) names = trace(data,view.selected,view.analysis as "impact"|"lineage"|"dep");
-  else if (view.focus && view.selected) names = new Set([view.selected,...data.edges.flatMap((e) => e.p === view.selected ? [e.c] : e.c === view.selected ? [e.p] : [])]);
-  const stages = stagesFor(data,view.module);
+  else if (view.focus && view.selected) {
+    const known = new Set(data.tables.map((t) => t.n));
+    const edges = data.edges.filter((e) => (e.p === view.selected || e.c === view.selected) && known.has(e.p) && known.has(e.c));
+    const sources = [...new Set(edges.filter((e) => e.c === view.selected && e.p !== view.selected).map((e) => e.p))].sort();
+    const dependents = [...new Set(edges.filter((e) => e.p === view.selected && e.c !== view.selected).map((e) => e.c))].sort();
+    // A reciprocal relation gets one card, with both directed edges preserved.
+    const mutual = sources.filter((n) => dependents.includes(n));
+    const children = dependents.filter((n) => !sources.includes(n));
+    const lanes = [
+      ...(sources.length ? [{ label: "מקורות", names: sources }] : []),
+      { label: "הטבלה שנבחרה", names: [view.selected] },
+      ...(children.length ? [{ label: "טבלאות תלויות", names: children }] : []),
+    ];
+    const rows = Math.max(1, sources.length, children.length);
+    const points = new Map<string, { x: number; y: number }>();
+    lanes.forEach((lane, col) => lane.names.forEach((n, row) => points.set(n, {
+      x: 80 + (lanes.length - 1 - col) * (CARD.w + CARD.gapX),
+      y: 120 + ((rows - lane.names.length) / 2 + row) * (CARD.h + CARD.gapY),
+    })));
+    return { points, stages, edges, lanes, direct: { sources, dependents, mutual }, width: 160 + lanes.length * CARD.w + (lanes.length - 1) * CARD.gapX, height: 200 + rows * (CARD.h + CARD.gapY) - CARD.gapY };
+  }
   const stageOf = new Map(stages.flatMap((s,i) => s.names.map((n) => [n,i] as const)));
   const solved = ((m && !view.focus && !tracing ? m.pos : data.union.pos) || []).filter((p) => names.has(p.n));
   const ranks = new Map([...new Set(solved.map((p) => p.x))].sort((a,b)=>a-b).map((x,i)=>[x,i]));
@@ -60,5 +80,5 @@ export function diagram(data: ErdCatalog, view: DiagramView) {
     row.forEach((n,i)=>points.set(n,{x:80+total-offset-CARD.w-(i%columns)*(CARD.w+90),y:120+Math.floor(i/columns)*(CARD.h+CARD.gapY)}));
     offset+=widths[col]+CARD.gapX;
   });
-  return {points,stages,edges:data.edges.filter((e)=>points.has(e.p)&&points.has(e.c)),width:160+Math.max(CARD.w,total),height:200+rows*(CARD.h+CARD.gapY)-CARD.gapY};
+  return {points,stages,edges:data.edges.filter((e)=>points.has(e.p)&&points.has(e.c)),lanes:[],direct:null,width:160+Math.max(CARD.w,total),height:200+rows*(CARD.h+CARD.gapY)-CARD.gapY};
 }
