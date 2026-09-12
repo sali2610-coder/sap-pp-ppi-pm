@@ -6,12 +6,12 @@
 import "@/app/neo/ui.css";
 import "@/app/neo/erd.css";
 import { erdCatalog } from "@/components/neo-shell/erd/erd-catalog";
-import { ErdWorkspace } from "@/components/neo-shell/erd/erd-workspace";
+import { ErdExperience } from "@/components/neo-shell/erd/erd-experience";
 
 export const metadata = {
   title: "מודל הנתונים · Project NEO",
   description:
-    "תרשים ER אינטראקטיבי של מודל הנתונים הארגוני: 13 מודולי SAP, קשרים אמיתיים, עוצמות מקוריות וניסוחי JOIN מהמילון.",
+    "תרשים ER אינטראקטיבי בתלת ממד ובדו ממד: מודולי SAP, טבלאות, שדות וקשרים מתוך קטלוג האתר.",
   robots: { index: false, follow: false },
 };
 
@@ -21,5 +21,5 @@ export const metadata = {
 // coordinates and owns interaction only. Static export — no server runtime, no
 // client layout engine.
 export default function NeoErd() {
-  return <ErdWorkspace data={erdCatalog()} />;
+  return <ErdExperience data={erdCatalog()} />;
 }
