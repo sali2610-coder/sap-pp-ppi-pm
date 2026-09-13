@@ -322,7 +322,7 @@ html .nx-app:has(.e3) .nxk { display:none; }
 /* The available workspace, including the surrounding app navigation, owns
    the layout. The diagram gets the remaining grid area and fits that area. */
 .e3 { container-type:inline-size; --e3-module-width:clamp(184px,16cqw,270px); --e3-detail-width:clamp(310px,27cqw,470px); display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto auto auto minmax(0,1fr) auto; min-height:0; }
-.e3 .e3-header { grid-area:1/1; height:auto; min-height:76px; padding:14px 20px; gap:16px; }
+.e3 .e3-header { grid-area:1/1; height:auto; min-height:76px; padding:14px 20px; gap:16px; z-index:20; }
 .e3 .e3-context { grid-area:2/1; position:relative; inset:auto; height:auto; min-height:52px; margin:0; padding:7px 20px; flex-wrap:wrap; z-index:13; }
 .e3 .e3-context button { display:inline-flex; }
 .e3 .e3-context>div { flex-wrap:wrap; }
