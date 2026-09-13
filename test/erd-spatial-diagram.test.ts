@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { trace, stagesFor, groupsFor, s4Changed, s4FieldChanged, diagram, CARD } from "../components/neo-shell/erd/erd-spatial-diagram.ts";
+import { reach } from "../components/neo-shell/erd/graph.ts";
 import type { ErdCatalog, ErdTable } from "../components/neo-shell/erd/erd-types.ts";
 const data = {
   tables: ["A","B","C","D","E","UNLISTED"].map((n)=>({n,m:n==="E"?"PM":"PP",ms:["PP"]})),
@@ -18,13 +19,13 @@ test("impact follows children through cycles and across modules, excluding sibli
   assert.deepEqual([...trace(data,"B","lineage")].sort(),["A","B","C"]);
   assert.deepEqual([...trace(data,"B","dep")].sort(),["A","B","C","E"]);
 });
-test("business stages preserve catalogue order without inventing missing or duplicate assignments",()=>{
-  assert.deepEqual(stagesFor(data,"PP").map((s)=>s.names),[["A","B"],["C"],["D"]]);
+test("business stages preserve overlapping catalogue membership and exclude unknown tables",()=>{
+  assert.deepEqual(stagesFor(data,"PP").map((s)=>s.names),[["A","B"],["B","C"],["D"]]);
   assert.deepEqual(stagesFor(data,null),[]);
 });
 test("flow keeps unassigned tables visible, fields clear of overlap, and only actual joins",()=>{
   const before=JSON.stringify(data);
-  const d=diagram(data,{module:"PP",selected:null,focus:false,motion:true,orbit:false,links:true,preset:"perspective",analysis:"flow",step:0});
+  const d=diagram(data,{module:"PP",selected:null,focus:false,motion:true,orbit:false,links:true,preset:"perspective",analysis:"flow",step:null});
   assert.equal(d.points.size,5);
   assert.deepEqual(d.edges.map((e)=>e.i).sort(),["ab","ad","bc","cb"]);
   const entries=[...d.points];
@@ -35,7 +36,7 @@ test("flow keeps unassigned tables visible, fields clear of overlap, and only ac
   assert.equal(JSON.stringify(data),before);
 });
 test("an impact picture contains second-hop and cross-module targets with no unrelated table",()=>{
-  const d=diagram(data,{module:"PP",selected:"B",focus:false,motion:false,orbit:false,links:true,preset:"perspective",analysis:"impact"});
+  const d=diagram(data,{module:"PP",selected:"B",focus:false,motion:false,orbit:false,links:true,preset:"perspective",analysis:"impact",crossModule:true});
   assert.deepEqual([...d.points.keys()].sort(),["B","C","E"]);
   assert.deepEqual(d.edges.map((e)=>e.i).sort(),["bc","cb","ce"]);
 });
@@ -83,7 +84,7 @@ test("object filters retain overlapping membership and include only direct in-mo
   assert.ok(!filtered.points.has("D"),"a sibling of a direct neighbour is not part of the process");
   assert.ok(!filtered.points.has("E"),"object filters stay within the selected module");
   const impact=diagram(data,{...moduleView,group:"object:1",selected:"B",analysis:"impact"});
-  assert.deepEqual([...impact.points.keys()].sort(),["B","C","E"]);
+  assert.deepEqual([...impact.points.keys()].sort(),["B","C"]);
   assert.equal(impact.seeds,null);
   assert.equal(diagram(data,moduleView).points.size,5,"All restores the full module");
 });
@@ -106,4 +107,42 @@ test("S4 badges and field highlights follow documented changes, including qualif
   assert.ok(!s4Changed({...t,s4v:{...t.s4v!,r:"low"}}));
   assert.ok(!s4FieldChanged({...t,s4v:{...t.s4v!,r:"low"}},"MATNR"));
   assert.ok(!s4Changed({...t,s4v:null}));
+});
+
+
+test("each analysis matches the 2D directed reach within the module, with a compact anchor",()=>{
+  const edges=data.edges.filter((e)=>data.modules[0].core.includes(e.p)&&data.modules[0].core.includes(e.c));
+  for(const [mode,direction] of [["impact","down"],["lineage","up"],["dep","both"]] as const) {
+    const d=diagram(data,{...moduleView,analysis:mode,selected:"B",expanded:false});
+    assert.deepEqual([...d.points.keys()].sort(),[...reach("B",edges,direction)].sort());
+    assert.equal(d.sizes.get("B"),CARD.h);
+    assert.ok(!d.points.has("E"),"cross-module expansion is explicit");
+  }
+});
+test("choosing analysis before a table leaves the module available for a pick",()=>{
+  const full=diagram(data,moduleView);
+  for(const analysis of ["impact","lineage","dep"] as const) {
+    const d=diagram(data,{...moduleView,analysis,expanded:false});
+    assert.deepEqual(d.points,full.points);
+    assert.deepEqual(d.edges,full.edges);
+  }
+});
+test("flow overview preserves the module layout and a step compacts only its direct context",()=>{
+  const full=diagram(data,moduleView),all=diagram(data,{...moduleView,analysis:"flow",step:null});
+  assert.deepEqual(all.points,full.points);
+  assert.deepEqual(all.edges,full.edges);
+  const step=diagram(data,{...moduleView,analysis:"flow",step:1});
+  assert.deepEqual([...step.seeds!],["B","C"]);
+  assert.deepEqual([...step.points.keys()].sort(),["A","B","C"]);
+  assert.deepEqual(step.edges.map((e)=>e.i).sort(),["ab","bc","cb"]);
+  assert.ok(step.width<all.width,"unrelated business stages no longer make a wide strip");
+  assert.ok(step.points.get("A")!.x>step.points.get("B")!.x);
+  assert.ok(step.points.get("B")!.x>step.points.get("C")!.x,"rank direction stays the same");
+  assert.deepEqual(diagram(data,{...moduleView,analysis:"flow",step:null}).points,full.points);
+});
+test("analysis of a filtered process uses the same visible relationships as the process map",()=>{
+  const filtered=diagram(data,{...moduleView,group:"object:2"});
+  const analyzed=diagram(data,{...moduleView,group:"object:2",analysis:"impact",selected:"A",expanded:false});
+  assert.deepEqual([...analyzed.points.keys()].sort(),[...reach("A",filtered.edges,"down")].sort());
+  assert.deepEqual(analyzed.edges.map((e)=>e.i),["ad"]);
 });

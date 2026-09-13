@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowUpLeft, Box, ChevronRight, CirclePause, CirclePlay, Crosshair, Database, Expand, Layers3, Link2, List, Maximize2, Minimize2, Minus, Orbit, Plus, RotateCcw, Search, X } from "lucide-react";
 import { SPATIAL_COLORS } from "./erd-spatial-model";
 import { diagram, groupsFor, s4Changed, s4FieldChanged, stagesFor, type DiagramView as SpatialView } from "./erd-spatial-diagram";
+import { isSpatialAnalysis, returnSpatialSelection, selectSpatialTable } from "./erd-spatial-navigation";
 import type { SpatialScene } from "./erd-spatial-scene";
 import { S4_RISK_HE, S4_TRUST_HE, ZONE_HE, type ErdCatalog, type ModCode } from "./erd-types";
 
@@ -18,6 +19,8 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
   const search = useRef<HTMLInputElement>(null);
   const [module, setModule] = useState<ModCode | null>(() => initialModule !== undefined ? initialModule : data.modules.some((m) => m.code === "PP-PI") ? "PP-PI" : data.modules[0]?.code ?? null);
   const [selected, setSelected] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [crossModule, setCrossModule] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [focus, setFocus] = useState(false);
@@ -39,8 +42,8 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
   const [portal, setPortal] = useState(false);
   const [modulePanel, setModulePanel] = useState(false);
   const [tableList, setTableList] = useState(false);
-  const view = useMemo(() => ({ module, selected, focus, motion, orbit, links, preset, analysis, step, group }), [module, selected, focus, motion, orbit, links, preset, analysis, step, group]);
-  const currentView = useRef(view);
+  const view = useMemo(() => ({ module, selected, expanded, crossModule, focus, motion, orbit, links, preset, analysis, step, group }), [module, selected, expanded, crossModule, focus, motion, orbit, links, preset, analysis, step, group]);
+  const currentView = useRef<SpatialView>(view);
   const tableMap = useMemo(() => new Map(data.tables.map((t) => [t.n, t])), [data]);
   const active = selected ? tableMap.get(selected) : undefined;
   const activeModule = data.modules.find((m) => m.code === module);
@@ -52,14 +55,19 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
   const selectedRelation = data.edges.find((e) => e.i === relation);
   const chooseAnalysis = (mode: NonNullable<SpatialView["analysis"]>) => {
     returnContext.current = null;
-    if (mode !== "map") setGroup(null);
+    if (!isSpatialAnalysis(mode)) setGroup(null);
     setAnalysis(mode); setFocus(false); setRelation(null); setPlaying(false); setDetailsOpen(false);
-    if (mode === "flow") { setStep(stages[0]?.index ?? null); setSelected(null); }
-    else setStep(null);
+    setExpanded(false); setCrossModule(false); setLinks(true); setStep(null);
+    if (!isSpatialAnalysis(mode)) setSelected(null);
   };
   const chooseGroup = (id: string | null) => {
     returnContext.current = null;
+    setExpanded(false); setCrossModule(false); setLinks(true);
     setGroup(id); setAnalysis("map"); setSelected(null); setFocus(false); setStep(null); setPlaying(false); setRelation(null); setDetailsOpen(false); setFilterPanel(false); setTableList(false); setQuery("");
+  };
+  const chooseStep = (index: number | null) => {
+    returnContext.current = null;
+    setStep(index); setSelected(null); setExpanded(false); setDetailsOpen(false); setRelation(null); setPlaying(false); setLinks(true);
   };
   useEffect(() => { onModuleChange?.(module); }, [module, onModuleChange]);
   useEffect(() => {
@@ -88,18 +96,26 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
     return data.tables.filter((t) => q ? [t.n, t.he, t.en, ...t.f.flat()].join(" ").toLocaleLowerCase().includes(q) : visibleNames.has(t.n));
   }, [data, query, visibleNames]);
 
+  const applyView = useCallback((next: SpatialView) => {
+    setModule(next.module); setSelected(next.selected); setExpanded(next.expanded ?? false); setCrossModule(next.crossModule ?? false);
+    setAnalysis(next.analysis ?? "map"); setStep(next.step ?? null); setGroup(next.group ?? null); setFocus(next.focus); setLinks(next.links);
+  }, []);
+  const clearSelection = useCallback(() => {
+    applyView(returnSpatialSelection(currentView.current, returnContext.current));
+    returnContext.current = null;
+    setRelation(null); setDetailsOpen(false); setPlaying(false);
+  }, [applyView]);
   const pick = useCallback((name: string) => {
-    if (!tableMap.has(name)) return;
     const current = currentView.current;
-    if (!current.selected) returnContext.current = current;
-    setSelected(name); setQuery(""); setTableList(false); setRelation(null); setPlaying(false);
-    setAnalysis("map"); setFocus(false); setStep(null); setDetailsOpen(true); setFilterPanel(false);
-    if (!current.module || !data.modules.find((m) => m.code === current.module)?.core.includes(name)) {
-      setModule(data.modules.find((m) => m.core.includes(name))?.code ?? null); setGroup(null);
-    } else if (current.group && !diagram(data,current).points.has(name)) setGroup(null);
-  }, [data, tableMap]);
+    const next = selectSpatialTable(data, current, returnContext.current, name, new Set(diagram(data, current).points.keys()));
+    if (!next) return;
+    returnContext.current = next.previous;
+    applyView(next.view); setDetailsOpen(next.detailsOpen);
+    setQuery(""); setTableList(false); setRelation(null); setPlaying(false); setFilterPanel(false);
+  }, [data, applyView]);
   const pickModule = useCallback((code: string | null) => {
     returnContext.current = null;
+    setExpanded(false); setCrossModule(false); setLinks(true);
     setAnalysis("map"); setStep(null); setGroup(null); setFilterPanel(false); setPlaying(false); setRelation(null);
     setModule(code as ModCode | null); setSelected(null); setFocus(false); setQuery(""); setTableList(false); setModulePanel(false); setDetailsOpen(false);
   }, []);
@@ -141,12 +157,6 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
       await root.current.requestFullscreen();
     } catch { setPortal(true); }
   };
-  const clearSelection = () => {
-    const previous = returnContext.current; returnContext.current = null;
-    setSelected(null); setRelation(null); setFocus(false); setDetailsOpen(false); setPlaying(false);
-    setAnalysis(previous?.analysis ?? "map"); setStep(previous?.step ?? null);
-    if (previous) { setModule(previous.module); setGroup(previous.group ?? null); }
-  };
   const closeDetail = () => setDetailsOpen(false);
   const content = (
     <div ref={root} className={`e3 ${analysis === "flow" ? "e3-flow-mode" : ""} ${layout.direct ? "e3-focus-mode" : ""} ${active && detailsOpen ? "e3-has-detail" : ""} ${portal ? "e3-full" : ""}`} dir="rtl" data-module={module ?? "all"} data-analysis={analysis} data-group={group ?? "all"} data-selected={selected ?? ""}
@@ -158,7 +168,7 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
         if (e.key === "Escape") { if (filterPanel) setFilterPanel(false); else if (relation) setRelation(null); else if (selected) clearSelection(); else if (portal) setPortal(false); }
         if (e.key === "+" || e.key === "=") scene.current?.zoom(.84);
         if (e.key === "-") { if (selected) clearSelection(); else scene.current?.zoom(1.18); }
-        if (e.key === "0") { if (selected) clearSelection(); else scene.current?.reset(); }
+        if (e.key === "0") scene.current?.reset();
         if (e.key === "/") { e.preventDefault(); search.current?.focus(); }
       }}>
       <header className="e3-header">
@@ -182,9 +192,9 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
       </section>}
 
       {analysis === "flow" && <section className="e3-story" aria-label="שלבי הזרימה העסקית">
-        <div className="e3-story-heading"><span>שרשרת האובייקטים</span><strong>{currentStep ? `${stages.indexOf(currentStep) + 1} / ${stages.length} · ${currentStep.he}` : "כל השלבים"}</strong><button className="e3-button" aria-pressed={playing} onClick={() => { setPlaying(!playing); if (!playing) setMotion(true); }}>{playing ? <CirclePause size={16} /> : <CirclePlay size={16} />}{playing ? "עצור סיור" : "נגן שלבים"}</button></div>
-        <div className="e3-story-steps">{stages.map((s, i) => <button key={s.index} aria-pressed={step === s.index} onClick={() => { setStep(s.index); setSelected(null); setPlaying(false); }}><span>{i + 1}</span>{s.he}<small>{s.names.length} טבלאות</small></button>)}</div>
-        <p>{currentStep ? currentStep.names.join(" · ") : "בחר שלב להצגת הטבלאות שלו"} · סדר האובייקטים לפי הקטלוג; החצים מציגים קשרי טבלאות מתועדים.</p>
+        <div className="e3-story-heading"><span>שרשרת האובייקטים</span><strong>{currentStep ? `${stages.indexOf(currentStep) + 1} / ${stages.length} · ${currentStep.he}` : "כל השלבים"}</strong><button className="e3-button" aria-pressed={playing} onClick={() => { setPlaying(!playing); if (!playing) { setMotion(true); setLinks(true); if (step === null) setStep(stages[0]?.index ?? null); } }}>{playing ? <CirclePause size={16} /> : <CirclePlay size={16} />}{playing ? "עצור סיור" : "נגן שלבים"}</button></div>
+        <div className="e3-story-steps"><button aria-pressed={step === null} onClick={() => chooseStep(null)}>כל השלבים</button>{stages.map((s, i) => <button key={s.index} aria-pressed={step === s.index} onClick={() => chooseStep(s.index)}><span>{i + 1}</span>{s.he}<small>{s.names.length} טבלאות</small></button>)}</div>
+        <p>{currentStep ? `${currentStep.names.join(" · ")} · הטבלאות המוארות משתתפות בשלב, ולצדן הקשרים הישירים` : "בחר שלב כדי לרכז את הטבלאות שלו ואת הקשרים הישירים יחד"} · חץ ממקור לטבלה תלויה.</p>
       </section>}
       {layout.direct && active && <section className="e3-focus-story" aria-label={`הקשרים הישירים של ${active.n}`}>
         <div className="e3-focus-heading"><strong>הקשרים של <bdi>{active.n}</bdi></strong><button className="e3-button" onClick={() => setDetailsOpen(!detailsOpen)} aria-expanded={detailsOpen}><List size={15} />כל השדות</button><button className="e3-focus-back" onClick={clearSelection}>חזרה למפה</button></div>
@@ -197,7 +207,7 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
         </div>
         <p>חץ ממקור לטבלה תלויה · בחר טבלה קשורה כדי לעבור אליה{layout.direct.mutual.length > 0 ? " · ↔ קשרים מתועדים בשני הכיוונים" : ""}</p>
       </section>}
-      {analysis !== "map" && analysis !== "flow" && <div className="e3-analysis-note" role="status"><b>{analysis === "impact" ? "מה תלוי בטבלה הזאת?" : analysis === "lineage" ? "מהם המקורות של הטבלה?" : "שרשרת התלויות"}</b><span>{selected} · {Math.max(0, visibleNames.size - 1)} טבלאות קשורות לפי המודל, גם מעבר למודול הנבחר.</span><button onClick={() => setDetailsOpen(!detailsOpen)} aria-expanded={detailsOpen}>כל השדות</button></div>}
+      {isSpatialAnalysis(analysis) && <div className="e3-analysis-note" role="status"><b>{analysis === "impact" ? "מה תלוי בטבלה הזאת?" : analysis === "lineage" ? "מהם המקורות של הטבלה?" : "שרשרת התלויות"}</b>{selected ? <><span><bdi>{selected}</bdi> · {Math.max(0, visibleNames.size - 1)} טבלאות קשורות {crossModule ? "בכל המודולים" : `במודול ${module}`} · חץ ממקור לטבלה תלויה</span><button onClick={clearSelection}>בחירת טבלה אחרת</button><button aria-pressed={crossModule} onClick={() => { returnContext.current = null; setCrossModule(!crossModule); setLinks(true); }}>{crossModule ? "חזרה למודול" : "הרחבה לכל המודולים"}</button><button onClick={() => setDetailsOpen(!detailsOpen)} aria-expanded={detailsOpen}>כל השדות</button></> : <span>בחר טבלה בתרשים כדי להציג {analysis === "impact" ? "את הטבלאות שתלויות בה" : analysis === "lineage" ? "את המקורות שהיא תלויה בהם" : "את המקורות ואת הטבלאות שתלויות בה"}, כולל קשרים עקיפים.</span>}</div>}
       <div className="e3-stage" ref={stage} tabIndex={0} role="region" aria-label="תצוגת ERD בתלת ממד" />
       {!module && !focus && !active && <p className="e3-map-note">בחר מודול לפתיחת תרשים עם טבלאות, שדות וקשרים</p>}
       {!ready && !failed && <div className="e3-loading-overlay" role="status"><Box size={36} /><p>מכין את מפת הנתונים…</p></div>}
@@ -213,7 +223,7 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
       {active && detailsOpen && <aside className="e3-detail e3-panel" aria-label={`פרטי טבלה ${active.n}`} style={tint(active.m)} key={active.n}>
         <div className="e3-detail-head"><span className="e3-module-tag">{active.m}</span><span>{ZONE_HE[active.z] || active.z}</span><button className="e3-icon" onClick={closeDetail} aria-label="סגירת פרטי הטבלה"><X size={18} /></button></div>
         <h2 dir="ltr">{active.n}</h2><p className="e3-detail-name">{active.he || active.en}</p>
-        <div className="e3-detail-actions"><button className="e3-button" onClick={() => { setFocus(!focus); setAnalysis("map"); setStep(null); setPlaying(false); }} aria-pressed={focus}><Crosshair size={16} />{focus ? "חזרה למפה" : "מיקוד בקשרים"}</button>{active.pg === 1 && <Link className="e3-button" href={`/neo/object/${encodeURIComponent(active.n)}/`}>עמוד הטבלה <ArrowUpLeft size={16} /></Link>}</div>
+        <div className="e3-detail-actions"><button className="e3-button" onClick={() => { setFocus(!focus); setExpanded(false); setAnalysis("map"); setStep(null); setPlaying(false); setLinks(true); }} aria-pressed={focus}><Crosshair size={16} />{focus ? "חזרה למפה" : "מיקוד בקשרים"}</button>{active.pg === 1 && <Link className="e3-button" href={`/neo/object/${encodeURIComponent(active.n)}/`}>עמוד הטבלה <ArrowUpLeft size={16} /></Link>}</div>
         <div className="e3-detail-body">
           <section className={`e3-s4-detail ${s4Changed(active) ? "has-changes" : ""}`} aria-label="שינויים ב־S/4HANA">
             <div className="e3-section-title"><h3>S/4HANA{ s4Changed(active) ? " · מה השתנה" : ""}</h3>{active.s4v && <span>{S4_RISK_HE[active.s4v.r]}</span>}</div>
@@ -236,14 +246,13 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
 
       {selectedRelation && <aside className="e3-relation-popover e3-panel" aria-label="הסבר הקשר" role="region"><button className="e3-icon" onClick={() => setRelation(null)} aria-label="סגירת הסבר הקשר"><X size={18} /></button><span>קשר מתועד · {selectedRelation.cd || "עוצמה לא צוינה"}</span><h3 dir="ltr">{selectedRelation.p} → {selectedRelation.c}</h3><p>{selectedRelation.ds || "לא תועד תיאור נוסף לקשר הזה."}</p>{selectedRelation.j.filter((j) => j.j).map((j, i) => <pre dir="ltr" key={i}>{j.j}</pre>)}<div><button className="e3-button" onClick={() => pick(selectedRelation.p)}>פתח {selectedRelation.p}</button><button className="e3-button" onClick={() => pick(selectedRelation.c)}>פתח {selectedRelation.c}</button></div></aside>}
       <footer className="e3-footer"><div className="e3-lenses" role="group" aria-label="שאלות על התרשים">{([
-          ["map", "טבלאות ושדות"], ["flow", "זרימה עסקית"], ["impact", "השפעה"], ["lineage", "מקורות"], ["dep", "תלויות"]
-        ] as const).map(([id, label]) => <button key={id} aria-pressed={analysis === id} disabled={id === "flow" ? stages.length < 2 : id !== "map" && !selected} title={id === "flow" && stages.length < 2 ? "בחר מודול עם שרשרת אובייקטים מתועדת" : id !== "map" && id !== "flow" && !selected ? "בחר טבלה תחילה" : label} onClick={() => chooseAnalysis(id)}>{label}</button>)}</div><div className="e3-controls" role="toolbar" aria-label="שליטה במפה">
+          ["map", "מפת המודול"], ["flow", "זרימה עסקית"], ["impact", "השפעה"], ["lineage", "מקורות"], ["dep", "תלויות"]
+        ] as const).map(([id, label]) => <button key={id} aria-pressed={analysis === id} disabled={id === "flow" ? stages.length === 0 : id !== "map" && !module && !selected} title={id === "flow" && stages.length === 0 ? "בחר מודול עם שרשרת אובייקטים מתועדת" : id !== "map" && !module && !selected ? "בחר מודול תחילה" : label} onClick={() => chooseAnalysis(id)}>{label}</button>)}</div><div className="e3-controls" role="toolbar" aria-label="שליטה במפה">
         <button className={preset === "perspective" ? "is-active" : ""} onClick={() => setPreset("perspective")} aria-label="מבט מרחבי" aria-pressed={preset === "perspective"}><Box size={18} /><span>מרחבי</span></button>
         <button className={preset === "top" ? "is-active" : ""} onClick={() => setPreset("top")} aria-label="מבט ישר" aria-pressed={preset === "top"}><Expand size={18} /><span>מבט ישר</span></button><i />
-        <button onClick={() => scene.current?.zoom(.82)} aria-label="התקרבות"><Plus size={18} /></button><button onClick={() => selected ? clearSelection() : scene.current?.zoom(1.22)} aria-label={selected ? "התרחקות וחזרה לתרשים" : "התרחקות"}><Minus size={18} />{selected && <span>חזרה</span>}</button><button onClick={() => selected ? clearSelection() : scene.current?.reset()} aria-label="איפוס המבט"><RotateCcw size={17} /></button><i />
-        <button className={links ? "is-active" : ""} onClick={() => setLinks(!links)} aria-label={links ? "הסתרת קשרים" : "הצגת קשרים"} aria-pressed={links}><Link2 size={18} /></button>
-        <button className={orbit ? "is-active" : ""} onClick={() => { setOrbit(!orbit); if (!orbit) { setMotion(true); setPreset("perspective"); } }} aria-label="תנועת עומק עדינה" aria-pressed={orbit}><Orbit size={19} /></button>
-        <button className="e3-motion-control" onClick={() => setMotion(!motion)} aria-label={motion ? "השהיית התנועה" : "הפעלת התנועה"}>{motion ? <CirclePause size={19} /> : <CirclePlay size={19} />}<span>{motion ? "השהה" : "הפעל"}</span></button>
+        <button onClick={() => scene.current?.zoom(.82)} aria-label="התקרבות"><Plus size={18} /></button><button onClick={() => selected ? clearSelection() : scene.current?.zoom(1.22)} aria-label={selected ? "התרחקות וחזרה לתרשים" : "התרחקות"}><Minus size={18} />{selected && <span>חזרה</span>}</button><button onClick={() => scene.current?.reset()} aria-label="התאמת התרשים למסך" title="התאמת התרשים למסך"><RotateCcw size={17} /><span>התאמה למסך</span></button><i />
+        <button className={links ? "is-active" : ""} onClick={() => setLinks(!links)} aria-label={links ? "הסתרת קשרים" : "הצגת קשרים"} aria-pressed={links}><Link2 size={18} /><span>{links ? "קשרים מוצגים" : "קשרים מוסתרים"}</span></button>
+        <button className="e3-motion-control" onClick={() => setMotion(!motion)} aria-label={motion ? "השהיית תנועת החצים" : "הפעלת תנועת החצים"} aria-pressed={motion}>{motion ? <CirclePause size={19} /> : <CirclePlay size={19} />}<span>{motion ? "השהה חצים" : "הנפש חצים"}</span></button>
       </div><div className="e3-s4-legend"><b>S/4 Δ</b><span>{changedCount} טבלאות עם שינוי מתועד</span><small>תג ״חלקי״ מציין מידע שדורש אימות</small></div></footer>
     </div>
   );

@@ -13,7 +13,7 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
   let view=initial,picture=diagram(data,view),overview=false,scale=1,tx=0,ty=0,dragged=false;
   let drawn=picture.points,drawnSizes=picture.sizes,animation=0;
   let lastW=host.clientWidth,lastH=host.clientHeight;
-  const cameraContext=(v:DiagramView)=>JSON.stringify([v.module,v.group??null,v.analysis??"map",v.step??null,v.focus]);
+  const cameraContext=(v:DiagramView)=>JSON.stringify([v.module,v.group??null,v.analysis??"map",v.step??null,v.focus,v.crossModule??false]);
   let returnCamera:(SpatialCamera & {width:number;height:number;context:string})|null=null;
   const byName=new Map(data.tables.map((t)=>[t.n,t]));
   const viewport=el("div","e3-diagram");viewport.dataset.renderer="css-3d";
@@ -25,6 +25,7 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     tx=Math.min(host.clientWidth-50,Math.max(50-picture.width*scale,tx));
     ty=Math.min(host.clientHeight-50,Math.max(50-picture.height*scale,ty));
     world.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;
+    plane.style.setProperty("--edge-unit", String(1 / scale));
     viewport.classList.toggle("is-flat",view.preset==="top");
     viewport.classList.toggle("is-moving",view.motion);
     viewport.classList.toggle("is-orbiting",view.motion&&view.orbit&&!view.selected);
@@ -38,7 +39,8 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     if(!overview&&entries.length) {
       x=Math.min(...entries.map(([,p])=>p.x))-24;
       y=Math.min(...entries.map(([,p])=>p.y))-24;
-      if(!names.length||view.analysis==="flow"||view.focus)y=Math.min(y,24);
+      if(view.focus)y=Math.min(y,24);
+      else if((!names.length||all)&&picture.edges.some((e)=>Math.abs(picture.points.get(e.p)!.x-picture.points.get(e.c)!.x)>CARD.w+CARD.gapX+1))y=12;
       // Same-rank connectors bend around the right side of the cards.
       const sideRail=(!names.length||all)&&picture.edges.some((e)=>picture.points.get(e.p)?.x===picture.points.get(e.c)?.x);
       bw=Math.max(...entries.map(([,p])=>p.x+CARD.w))+(sideRail?104:24)-x;
@@ -50,14 +52,23 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
   }
   function highlight(name:string|null) {
     if(overview)return;
-    const stage=view.analysis==="flow"?picture.stages.find((s)=>s.index===view.step):undefined;
-    const traced=name===view.selected&&["impact","lineage","dep"].includes(view.analysis||"");
-    const relevant=traced?new Set(picture.points.keys()):stage?new Set(stage.names):name?new Set([name,...picture.edges.flatMap((e)=>e.p===name?[e.c]:e.c===name?[e.p]:[])]):picture.seeds?new Set(picture.points.keys()):null;
-    for(const [n,card] of cards) {card.classList.toggle("is-selected",n===view.selected);card.setAttribute("aria-pressed",String(n===view.selected));card.setAttribute("aria-expanded",String(n===view.selected));card.classList.toggle("is-dimmed",!!relevant&&!relevant.has(n));card.classList.toggle("is-related",!!relevant&&relevant.has(n)&&n!==view.selected);card.classList.toggle("is-process",!!picture.seeds?.has(n));}
+    // An analysis keeps its chosen anchor while the pointer moves over results.
+    if(view.selected)name=view.selected;
+    const traced=!!name&&["impact","lineage","dep"].includes(view.analysis||"");
+    const relevant=traced||picture.seeds?new Set(picture.points.keys()):name?new Set([name,...picture.edges.flatMap((e)=>e.p===name?[e.c]:e.c===name?[e.p]:[])]):null;
+    for(const [n,card] of cards) {
+      const selected=n===view.selected,expanded=selected&&(view.expanded??true);
+      card.classList.toggle("is-selected",expanded);card.classList.toggle("is-anchor",selected);
+      card.setAttribute("aria-pressed",String(selected));card.setAttribute("aria-expanded",String(expanded));
+      card.setAttribute("aria-label",`${selected ? "חזרה לתרשים" : traced ? "ניתוח הקשרים של" : "הצג שדות וקשרים"} ${n} · ${byName.get(n)?.he||byName.get(n)?.en||""}`);
+      card.classList.toggle("is-dimmed",!!relevant&&!relevant.has(n));card.classList.toggle("is-related",!!relevant&&relevant.has(n)&&!selected);card.classList.toggle("is-process",!!picture.seeds?.has(n));
+    }
+    let animated=0;
     for(const e of picture.edges) {
       const g=edgeElements.get(e.i)!;
-      const active=traced||(stage?stage.names.includes(e.p)||stage.names.includes(e.c):name?e.p===name||e.c===name:!!picture.seeds||view.analysis!=="map");
+      const active=traced||!!picture.seeds||!name||e.p===name||e.c===name;
       g.classList.toggle("is-active",active);g.classList.toggle("is-muted",!!relevant&&!active);
+      g.classList.toggle("is-animated",active&&animated++<40);
     }
   }
   function makeCard(t:ErdTable) {
@@ -108,16 +119,16 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     const layer=svg("svg",{class:"e3-edge-layer",width:String(picture.width),height:String(picture.height),"aria-label":"קשרים מתועדים בין הטבלאות"}),defs=svg("defs",{});layer.append(defs);
     picture.edges.forEach((e,index)=>{
       const color=SPATIAL_COLORS[byName.get(e.p)!.m],id=`${sceneId}-${index}`;
-      const marker=svg("marker",{id,viewBox:"0 0 12 12",refX:"10",refY:"6",markerWidth:"11",markerHeight:"11",orient:"auto",markerUnits:"userSpaceOnUse"});marker.append(svg("path",{d:"M2 1 L10 6 L2 11",fill:"none",stroke:color,"stroke-width":"2.4","stroke-linecap":"round","stroke-linejoin":"round"}));defs.append(marker);
+      const marker=svg("marker",{id,viewBox:"0 0 12 12",refX:"10",refY:"6",markerWidth:"4.5",markerHeight:"4.5",orient:"auto",markerUnits:"strokeWidth"});marker.append(svg("path",{d:"M2 1 L10 6 L2 11",fill:"none",stroke:color,"stroke-width":"2.4","stroke-linecap":"round","stroke-linejoin":"round"}));defs.append(marker);
       const {d,x1,y1,right,same}=edgeRoute(e,index);
       const g=svg("g",{class:"e3-edge",role:"button",tabindex:"0","aria-label":`${e.p} אל ${e.c} · ${e.cd||"עוצמה לא צוינה"} · ${e.ds||"קשר מתועד"}`});g.dataset.edge=e.i;g.dataset.source=e.p;g.dataset.target=e.c;g.style.setProperty("--edge-color",color);
       const title=svg("title",{});title.textContent=`${e.p} → ${e.c}\n${e.ds}\n${e.j.map((j)=>j.j).filter(Boolean).join("\n")}`;
-      g.append(title,svg("path",{d,class:"e3-edge-hit"}),svg("path",{d,class:"e3-edge-track","marker-end":`url(#${id})`}),svg("path",{d,class:"e3-edge-pulse"}),svg("circle",{cx:String(x1),cy:String(y1),r:"4",fill:color}));
+      g.append(title,svg("path",{d,class:"e3-edge-hit"}),svg("path",{d,class:"e3-edge-track","marker-end":`url(#${id})`}),svg("path",{d,class:"e3-edge-pulse"}),svg("circle",{cx:String(x1),cy:String(y1),r:"4",class:"e3-edge-dot",fill:color}));
       if(e.cd){const label=svg("text",{x:String(x1+(right||same?18:-18)),y:String(y1-11),class:"e3-edge-cardinality","text-anchor":right||same?"start":"end"});label.textContent=e.cd;g.append(label);}
       const click=(keyboard=false)=>{if(!dragged||keyboard){if(onRelation)onRelation(e.i);else onPick(e.p);}};
       g.addEventListener("click",()=>click());g.addEventListener("keydown",(event)=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();click(true);}});
       g.addEventListener("pointerenter",()=>{highlight(e.p);g.classList.add("is-active");});g.addEventListener("pointerleave",()=>highlight(view.selected));edgeElements.set(e.i,g);layer.append(g);
-    });plane.append(layer);
+    });layer.style.width=`${picture.width}px`;layer.style.height=`${picture.height}px`;plane.append(layer);
   }
   function rebuild() {
     cancelAnimationFrame(animation);
@@ -131,17 +142,11 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
       picture.width=cols*372+60;picture.height=Math.ceil(data.modules.length/cols)*202+60;plane.append(list);
     } else {
       makeEdges();
-      if(view.analysis==="flow") {
-        const placed = new Set(picture.stages.flatMap((s)=>s.names));
-        const labels = [...picture.stages.map((s,i)=>({name:s.names[0],text:`${i+1} · ${s.he}`}))];
-        const unplaced = [...picture.points.keys()].find((n)=>!placed.has(n));
-        if(unplaced) labels.push({name:unplaced,text:"ללא שלב מתועד בשרשרת"});
-        for(const item of labels){const p=picture.points.get(item.name);if(!p)continue;const label=el("div","e3-lane-label",item.text);label.dir="rtl";label.style.left=`${p.x}px`;label.style.top="82px";plane.append(label);}
-      }
       for(const lane of picture.lanes){const p=picture.points.get(lane.names[0])!;const label=el("div","e3-lane-label",lane.label);label.dir="rtl";label.style.left=`${p.x}px`;label.style.top="65px";plane.append(label);}
       for(const [n,p] of drawn){const card=previousCards.get(n)||makeCard(byName.get(n)!);card.style.opacity="";card.style.left=`${p.x}px`;card.style.top=`${p.y}px`;cards.set(n,card);plane.append(card);}
     }
     plane.style.width=`${picture.width}px`;plane.style.height=`${picture.height}px`;highlight(view.selected);positionElements();
+    for(const g of edgeElements.values())g.style.display=view.links?"":"none";
     if(animate){
       const start=performance.now(),from=new Map(drawn),fromSizes=new Map(drawnSizes);
       const tick=(time:number)=>{
@@ -157,7 +162,7 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
   }
   function update(next:DiagramView) {
     const scopeChanged=next.module!==view.module||next.group!==view.group;
-    const picked=next.selected!==view.selected,changed=scopeChanged||next.focus!==view.focus||next.analysis!==view.analysis||picked,stepChanged=next.step!==view.step;
+    const picked=next.selected!==view.selected,changed=scopeChanged||next.focus!==view.focus||next.analysis!==view.analysis||picked||next.step!==view.step||next.expanded!==view.expanded||next.crossModule!==view.crossModule;
     if(scopeChanged)returnCamera=null;
     if(picked&&next.selected&&!view.selected&&!scopeChanged)returnCamera={scale,x:tx,y:ty,width:lastW,height:lastH,context:cameraContext(view)};
     const restore=picked&&!next.selected&&returnCamera?.context===cameraContext(next)?returnCamera:null;
@@ -165,10 +170,8 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     view=next;if(changed)rebuild();else highlight(view.selected);
     if(!view.motion&&animation){cancelAnimationFrame(animation);animation=0;drawn=picture.points;drawnSizes=picture.sizes;for(const card of cards.values())card.style.opacity="";positionElements();}
     for(const g of edgeElements.values())g.style.display=view.links?"":"none";
-    const stage=view.analysis==="flow"?picture.stages.find((s)=>s.index===view.step):undefined;
     if(restore&&Math.abs(restore.width-host.clientWidth)<2&&Math.abs(restore.height-host.clientHeight)<2){world.classList.add("is-flying");scale=restore.scale;tx=restore.x;ty=restore.y;lastW=host.clientWidth;lastH=host.clientHeight;}
-    else if(stage&&(changed||stepChanged||(picked&&!view.selected)))frame(stage.names);
-    else if(picked&&view.selected&&!view.focus&&["map","flow",undefined].includes(view.analysis))frame([view.selected]);
+    else if(changed&&view.selected&&(view.expanded??true)&&!view.focus)frame([view.selected]);
     else if(changed)frame();paint();
   }
   const pointers=new Map<number,{x:number;y:number}>();let last={x:0,y:0},origin={x:0,y:0},pinch=0;
@@ -179,9 +182,8 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
   const wheel=(e:WheelEvent)=>{e.preventDefault();zoomAt(Math.exp(Math.max(-100,Math.min(100,e.deltaY))*.002),e.clientX,e.clientY);};
   const key=(e:KeyboardEvent)=>{const offsets:Record<string,[number,number]>={ArrowLeft:[80,0],ArrowRight:[-80,0],ArrowUp:[0,80],ArrowDown:[0,-80]};if(offsets[e.key]){e.preventDefault();world.classList.remove("is-flying");tx+=offsets[e.key][0];ty+=offsets[e.key][1];paint();}};
   host.addEventListener("pointerdown",down);host.addEventListener("pointermove",move);host.addEventListener("pointerup",up);host.addEventListener("pointercancel",up);host.addEventListener("wheel",wheel,{passive:false});host.addEventListener("keydown",key);
-  rebuild();frame(view.analysis==="flow"?picture.stages.find((s)=>s.index===view.step)?.names:[]);
+  rebuild();frame();
   const observer=new ResizeObserver(()=>{const w=host.clientWidth,h=host.clientHeight;if(Math.abs(w-lastW)<2&&Math.abs(h-lastH)<2)return;if(overview&&(w<600)!==(lastW<600))rebuild();lastW=w;lastH=h;
-    const s=view.analysis==="flow"?picture.stages.find((s)=>s.index===view.step):undefined;
-    if(picture.direct)frame();else if(view.selected&&!view.focus&&["map","flow"].includes(view.analysis||""))frame([view.selected]);else if(s)frame(s.names);else frame();});observer.observe(host);
+    if(view.selected&&(view.expanded??true)&&!view.focus)frame([view.selected]);else frame();});observer.observe(host);
   return {update,zoom(factor){const r=host.getBoundingClientRect();zoomAt(factor,r.left+r.width/2,r.top+r.height/2);},reset(){returnCamera=null;frame([],true);},dispose(){cancelAnimationFrame(animation);observer.disconnect();host.removeEventListener("pointerdown",down);host.removeEventListener("pointermove",move);host.removeEventListener("pointerup",up);host.removeEventListener("pointercancel",up);host.removeEventListener("wheel",wheel);host.removeEventListener("keydown",key);viewport.remove();note.remove();}};
 }
