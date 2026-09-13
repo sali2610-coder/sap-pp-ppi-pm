@@ -1,9 +1,23 @@
 import type { ErdCatalog, ErdTable, ModCode } from "./erd-types";
 import type { SpatialView } from "./erd-spatial-model";
 
-export const CARD = { w: 320, h: 342, gapX: 140, gapY: 86 };
-export type DiagramView = SpatialView & { analysis?: "map" | "flow" | "impact" | "lineage" | "dep"; step?: number | null };
+export const CARD = { w: 320, h: 112, openH: 342, gapX: 116, gapY: 32 };
+export type DiagramView = SpatialView & { analysis?: "map" | "flow" | "impact" | "lineage" | "dep"; step?: number | null; group?: string | null };
 export const cardFields = (t: ErdTable) => [...t.f].sort((a,b) => Number(/PK/.test(b[3])) - Number(/PK/.test(a[3]))).slice(0,5);
+export const s4Changed = (t: ErdTable) => t.s4v?.r === "high" || t.s4v?.r === "medium";
+export const s4FieldChanged = (t: ErdTable, field: string) => s4Changed(t) && !!t.s4v?.fl.some((f) => f.toUpperCase().replace(`${t.n.toUpperCase()}.`, "") === field.toUpperCase());
+
+// Object and topic membership is shared with 2D. A table can belong to more
+// than one filter; only ordered playback assigns it to a single stage.
+export function groupsFor(data: ErdCatalog, code: ModCode | null) {
+  const m = data.modules.find((m) => m.code === code);
+  const known = new Set(data.tables.map((t) => t.n));
+  const names = (items: string[]) => [...new Set(items.filter((n) => known.has(n) && m?.core.includes(n)))];
+  return [
+    ...(m?.objects || []).map((o,i) => ({id:`object:${i}`,he:o.he,names:names(o.t),kind:"object" as const})),
+    ...(m?.topics || []).map((o,i) => ({id:`topic:${i}`,he:o.t,names:names(o.ta),kind:"topic" as const})),
+  ].filter((g) => g.names.length);
+}
 
 // Same parent→child interpretation as graph.ts. Walk each direction separately:
 // "both" must not silently turn into an undirected walk through sibling branches.
@@ -37,6 +51,8 @@ export function diagram(data: ErdCatalog, view: DiagramView) {
   const m = data.modules.find((m) => m.code === view.module);
   const stages = stagesFor(data,view.module);
   let names = new Set(m?.core || data.tables.map((t) => t.n));
+  const group = groupsFor(data,view.module).find((g) => g.id === view.group) ?? null;
+  let seeds: Set<string> | null = null;
   const tracing = view.analysis && ["impact","lineage","dep"].includes(view.analysis);
   if (tracing && view.selected) names = trace(data,view.selected,view.analysis as "impact"|"lineage"|"dep");
   else if (view.focus && view.selected) {
@@ -52,13 +68,23 @@ export function diagram(data: ErdCatalog, view: DiagramView) {
       { label: "הטבלה שנבחרה", names: [view.selected] },
       ...(children.length ? [{ label: "טבלאות תלויות", names: children }] : []),
     ];
-    const rows = Math.max(1, sources.length, children.length);
+    const sizes = new Map(lanes.flatMap((lane) => lane.names.map((n) => [n,n === view.selected ? CARD.openH : CARD.h] as const)));
+    const heights = lanes.map((lane) => lane.names.reduce((h,n) => h + sizes.get(n)! + CARD.gapY, -CARD.gapY));
+    const height = Math.max(...heights);
     const points = new Map<string, { x: number; y: number }>();
-    lanes.forEach((lane, col) => lane.names.forEach((n, row) => points.set(n, {
-      x: 80 + (lanes.length - 1 - col) * (CARD.w + CARD.gapX),
-      y: 120 + ((rows - lane.names.length) / 2 + row) * (CARD.h + CARD.gapY),
-    })));
-    return { points, stages, edges, lanes, direct: { sources, dependents, mutual }, width: 160 + lanes.length * CARD.w + (lanes.length - 1) * CARD.gapX, height: 200 + rows * (CARD.h + CARD.gapY) - CARD.gapY };
+    lanes.forEach((lane, col) => {
+      let y = 120 + (height - heights[col]) / 2;
+      lane.names.forEach((n) => { points.set(n,{x:80+(lanes.length-1-col)*(CARD.w+CARD.gapX),y}); y += sizes.get(n)! + CARD.gapY; });
+    });
+    return { points, sizes, stages, edges, lanes, direct: { sources, dependents, mutual }, group:null, seeds:null, width: 160 + lanes.length * CARD.w + (lanes.length - 1) * CARD.gapX, height: 200 + height };
+  } else if (group) {
+    seeds = new Set(group.names);
+    const related = new Set(seeds);
+    for (const e of data.edges) {
+      if (seeds.has(e.p) && names.has(e.c)) related.add(e.c);
+      if (seeds.has(e.c) && names.has(e.p)) related.add(e.p);
+    }
+    names = related;
   }
   const stageOf = new Map(stages.flatMap((s,i) => s.names.map((n) => [n,i] as const)));
   const solved = ((m && !view.focus && !tracing ? m.pos : data.union.pos) || []).filter((p) => names.has(p.n));
@@ -71,14 +97,21 @@ export function diagram(data: ErdCatalog, view: DiagramView) {
   const ordered = [...buckets.keys()].sort((a,b)=>a-b);
   const widths = ordered.map((rank) => view.analysis === "flow" ? Math.min(2,buckets.get(rank)!.length)*(CARD.w+90)-90 : CARD.w);
   const total = widths.reduce((s,w)=>s+w,0)+Math.max(0,ordered.length-1)*CARD.gapX;
-  const points = new Map<string,{x:number;y:number}>(); let offset=0, rows=1;
+  const points = new Map<string,{x:number;y:number}>();
+  const sizes = new Map([...names].map((n) => [n,n === view.selected ? CARD.openH : CARD.h]));
+  let offset=0, height=CARD.h;
   ordered.forEach((rank,col) => {
     const row = buckets.get(rank)!;
     row.sort((a,b)=>(source.get(a)?.y??0)-(source.get(b)?.y??0)||a.localeCompare(b));
     const columns = view.analysis === "flow" ? Math.min(2,row.length) : 1;
-    rows=Math.max(rows,Math.ceil(row.length/columns));
-    row.forEach((n,i)=>points.set(n,{x:80+total-offset-CARD.w-(i%columns)*(CARD.w+90),y:120+Math.floor(i/columns)*(CARD.h+CARD.gapY)}));
+    let y=120;
+    for(let i=0;i<row.length;i+=columns) {
+      const line=row.slice(i,i+columns);
+      line.forEach((n,j)=>points.set(n,{x:80+total-offset-CARD.w-j*(CARD.w+90),y}));
+      y+=Math.max(...line.map((n)=>sizes.get(n)!))+CARD.gapY;
+    }
+    height=Math.max(height,y-120-CARD.gapY);
     offset+=widths[col]+CARD.gapX;
   });
-  return {points,stages,edges:data.edges.filter((e)=>points.has(e.p)&&points.has(e.c)),lanes:[],direct:null,width:160+Math.max(CARD.w,total),height:200+rows*(CARD.h+CARD.gapY)-CARD.gapY};
+  return {points,sizes,stages,edges:data.edges.filter((e)=>points.has(e.p)&&points.has(e.c)&&(!seeds||seeds.has(e.p)||seeds.has(e.c))),lanes:[],direct:null,group:seeds?group:null,seeds,width:160+Math.max(CARD.w,total),height:200+height};
 }

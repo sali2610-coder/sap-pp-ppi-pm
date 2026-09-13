@@ -1,6 +1,7 @@
 import { SPATIAL_COLORS } from "./erd-spatial-model";
-import { CARD, cardFields, diagram, type DiagramView } from "./erd-spatial-diagram";
-import { ZONE_HE, type ErdCatalog, type ErdTable, type ErdEdgeOut } from "./erd-types";
+import { CARD, cardFields, diagram, s4Changed, s4FieldChanged, type DiagramView } from "./erd-spatial-diagram";
+import { fitSpatial, type SpatialCamera } from "./erd-spatial-viewport";
+import { S4_TRUST_HE, ZONE_HE, type ErdCatalog, type ErdTable, type ErdEdgeOut } from "./erd-types";
 export interface SpatialScene { update:(view:DiagramView)=>void; zoom:(factor:number)=>void; reset:()=>void; dispose:()=>void }
 const NS="http://www.w3.org/2000/svg";
 function el<K extends keyof HTMLElementTagNameMap>(tag:K,cls:string,text?:string) { const n=document.createElement(tag);n.className=cls;if(text!==undefined)n.textContent=text;return n; }
@@ -10,7 +11,9 @@ function svg<K extends keyof SVGElementTagNameMap>(tag:K,attrs:Record<string,str
 // gives each card shallow depth without rotating the schematic away from view.
 export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:DiagramView,onPick:(n:string)=>void,onModule:(n:string)=>void,_onLost:()=>void,onRelation?:(id:string)=>void):SpatialScene {
   let view=initial,picture=diagram(data,view),overview=false,scale=1,tx=0,ty=0,dragged=false;
-  let drawn=picture.points,animation=0;
+  let drawn=picture.points,drawnSizes=picture.sizes,animation=0;
+  let lastW=host.clientWidth,lastH=host.clientHeight;
+  let returnCamera:(SpatialCamera & {width:number;height:number})|null=null;
   const byName=new Map(data.tables.map((t)=>[t.n,t]));
   const viewport=el("div","e3-diagram");viewport.dataset.renderer="css-3d";
   const world=el("div","e3-world"),plane=el("div","e3-plane"),note=el("p","e3-camera-note");
@@ -28,41 +31,44 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
   }
   function frame(names:string[]=[],all=false) {
     world.classList.add("is-flying");
-    let pts=names.map((n)=>picture.points.get(n)).filter((p):p is {x:number;y:number}=>!!p);
     const w=Math.max(1,host.clientWidth),h=Math.max(1,host.clientHeight);
-    if(w<600&&!all) {
-      if(picture.direct&&view.selected)pts=[picture.points.get(view.selected)!];
-      else if(pts.length>1)pts=pts.slice(0,1);
-    }
+    const entries=[...picture.points].filter(([n])=>!names.length||all||names.includes(n));
     let x=0,y=0,bw=picture.width,bh=picture.height;
-    if(pts.length) {x=Math.min(...pts.map((p)=>p.x))-24;y=Math.min(...pts.map((p)=>p.y))-24;bw=Math.max(...pts.map((p)=>p.x))-x+CARD.w+24;bh=Math.max(...pts.map((p)=>p.y))-y+CARD.h+24;}
-    scale=Math.max(all?.12:w<600?.78:.55,Math.min((w-32)/bw,(h-42)/bh,1.2));
-    tx=(w-bw*scale)/2-x*scale;ty=(h-bh*scale)/2-y*scale;
-    if(!all&&!pts.length&&w<600){tx=w-picture.width*scale-16;ty=20-90*scale;}
+    if(!overview&&entries.length) {
+      x=Math.min(...entries.map(([,p])=>p.x))-24;
+      y=Math.min(...entries.map(([,p])=>p.y))-24;
+      if(!names.length||view.analysis==="flow"||view.focus)y=Math.min(y,24);
+      bw=Math.max(...entries.map(([,p])=>p.x+CARD.w))+24-x;
+      bh=Math.max(...entries.map(([n,p])=>p.y+picture.sizes.get(n)!))+32-y;
+    }
+    const camera=fitSpatial({x,y,w:bw,h:bh},w,h);
+    scale=camera.scale;tx=camera.x;ty=camera.y;lastW=w;lastH=h;
     paint();
   }
   function highlight(name:string|null) {
     if(overview)return;
     const stage=view.analysis==="flow"?picture.stages.find((s)=>s.index===view.step):undefined;
     const traced=name===view.selected&&["impact","lineage","dep"].includes(view.analysis||"");
-    const relevant=traced?new Set(picture.points.keys()):stage?new Set(stage.names):name?new Set([name,...picture.edges.flatMap((e)=>e.p===name?[e.c]:e.c===name?[e.p]:[])]):null;
-    for(const [n,card] of cards) {card.classList.toggle("is-selected",n===view.selected);card.setAttribute("aria-pressed",String(n===view.selected));card.classList.toggle("is-dimmed",!!relevant&&!relevant.has(n));card.classList.toggle("is-related",!!relevant&&relevant.has(n)&&n!==view.selected);}
+    const relevant=traced?new Set(picture.points.keys()):stage?new Set(stage.names):name?new Set([name,...picture.edges.flatMap((e)=>e.p===name?[e.c]:e.c===name?[e.p]:[])]):picture.seeds?new Set(picture.points.keys()):null;
+    for(const [n,card] of cards) {card.classList.toggle("is-selected",n===view.selected);card.setAttribute("aria-pressed",String(n===view.selected));card.setAttribute("aria-expanded",String(n===view.selected));card.classList.toggle("is-dimmed",!!relevant&&!relevant.has(n));card.classList.toggle("is-related",!!relevant&&relevant.has(n)&&n!==view.selected);card.classList.toggle("is-process",!!picture.seeds?.has(n));}
     for(const e of picture.edges) {
       const g=edgeElements.get(e.i)!;
-      const active=traced||(stage?stage.names.includes(e.p)||stage.names.includes(e.c):name?e.p===name||e.c===name:view.analysis!=="map");
+      const active=traced||(stage?stage.names.includes(e.p)||stage.names.includes(e.c):name?e.p===name||e.c===name:!!picture.seeds||view.analysis!=="map");
       g.classList.toggle("is-active",active);g.classList.toggle("is-muted",!!relevant&&!active);
     }
   }
   function makeCard(t:ErdTable) {
     const b=el("button","e3-table-card");b.type="button";b.dir="rtl";b.dataset.table=t.n;b.style.setProperty("--card-color",SPATIAL_COLORS[t.m]);b.setAttribute("aria-label",`הצג שדות וקשרים ${t.n} · ${t.he||t.en}`);
     const header=el("div","e3-card-header"),badge=el("span","e3-card-module",t.m);badge.dir="ltr";header.append(badge,el("span","e3-card-zone",ZONE_HE[t.z]||t.z));
+    if(s4Changed(t)&&t.s4v){const s4=el("span","e3-card-s4",t.s4v.t==="verified"?"S/4 Δ":"S/4 · חלקי");s4.dataset.risk=t.s4v.r;s4.title=`${t.s4v.ch} · ${S4_TRUST_HE[t.s4v.t]}`;header.append(s4);}
     const title=el("strong","e3-card-title",t.n);title.dir="ltr";
     const subtitle=el("span","e3-card-subtitle",t.he||t.en);subtitle.title=t.he||t.en;
+    const summary=el("div","e3-card-summary"),keys=el("code","",t.pk.length?`PK ${t.pk.slice(0,2).join(" · ")}${t.pk.length>2?` +${t.pk.length-2}`:""}`:"ללא PK מתועד");keys.dir="ltr";summary.append(keys,el("span","",`${t.f.length} שדות ↗`));
     const body=el("div","e3-card-fields");
-    cardFields(t).forEach((f)=>{const row=el("div","e3-card-row");row.dataset.field=f[0];const code=el("code","",f[0]);code.dir="ltr";const desc=el("span","e3-card-field-description",f[2]||f[1]||"לא תועד");desc.title=desc.textContent||"";const key=el("span",/PK/.test(f[3])?"e3-card-key is-pk":"e3-card-key",f[3]==="-"?"":f[3]);key.dir="ltr";row.append(code,desc,key);body.append(row);});
+    cardFields(t).forEach((f)=>{const row=el("div","e3-card-row");row.dataset.field=f[0];row.classList.toggle("is-s4-changed",s4FieldChanged(t,f[0]));if(s4FieldChanged(t,f[0]))row.title="שדה שהשתנה ב־S/4HANA לפי הקטלוג";const code=el("code","",f[0]);code.dir="ltr";const desc=el("span","e3-card-field-description",f[2]||f[1]||"לא תועד");desc.title=desc.textContent||"";const key=el("span",/PK/.test(f[3])?"e3-card-key is-pk":"e3-card-key",f[3]==="-"?"":f[3]);key.dir="ltr";row.append(code,desc,key);body.append(row);});
     if(!t.f.length)body.append(el("p","e3-card-empty","לא תועדו שדות בקטלוג"));
-    const foot=el("div","e3-card-foot");foot.append(el("span","",`${Math.min(5,t.f.length)} מוצגים · ${t.f.length} שדות בקטלוג`),el("b","","מקד קשרים ←"));
-    b.append(header,title,subtitle,body,foot);
+    const foot=el("div","e3-card-foot");foot.append(el("span","",`${Math.min(5,t.f.length)} מוצגים · ${t.f.length} שדות בקטלוג`),el("b","","כל הנתונים בחלון הפרטים"));
+    b.append(header,title,subtitle,summary,body,foot);
     b.addEventListener("click",(e)=>{if(!dragged||e.detail===0)onPick(t.n);});
     b.addEventListener("focus",()=>{if(!dragged&&!b.matches(":hover"))frame([t.n]);});
     b.addEventListener("pointerenter",()=>highlight(t.n));b.addEventListener("pointerleave",()=>highlight(view.selected));return b;
@@ -70,7 +76,8 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
   function port(t:ErdTable,e:ErdEdgeOut,parent:boolean) {
     const keys=e.j.map((j)=>parent?j.pk:j.fk).filter(Boolean);
     const i=cardFields(t).findIndex((f)=>keys.includes(f[0])||keys.includes(`${t.n}.${f[0]}`));
-    return i>=0?137+i*32:82;
+    const expanded=Math.max(0,Math.min(1,((drawnSizes.get(t.n)||CARD.h)-CARD.h)/(CARD.openH-CARD.h)));
+    return 86+((i>=0?130+i*32:86)-86)*expanded;
   }
   function edgeRoute(e:ErdEdgeOut,index:number) {
     const a=drawn.get(e.p)!,b=drawn.get(e.c)!;
@@ -85,7 +92,7 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     return {d,x1,y1,right,same};
   }
   function positionElements() {
-    for(const [n,p] of drawn){const card=cards.get(n);if(card){card.style.left=`${p.x}px`;card.style.top=`${p.y}px`;}}
+    for(const [n,p] of drawn){const card=cards.get(n);if(card){card.style.left=`${p.x}px`;card.style.top=`${p.y}px`;card.style.height=`${drawnSizes.get(n)}px`;}}
     picture.edges.forEach((e,index)=>{
       const g=edgeElements.get(e.i);if(!g)return;
       const r=edgeRoute(e,index);
@@ -111,10 +118,11 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
   }
   function rebuild() {
     cancelAnimationFrame(animation);
-    const previous=new Map(drawn),previousCards=new Map(cards);
+    const previous=new Map(drawn),previousSizes=new Map(drawnSizes),previousCards=new Map(cards);
     plane.replaceChildren();cards.clear();edgeElements.clear();picture=diagram(data,view);overview=!view.module&&!view.selected;
     const animate=view.motion&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches&&previousCards.size>0&&!overview;
     drawn=new Map([...picture.points].map(([n,p])=>[n,animate?previous.get(n)||p:p]));
+    drawnSizes=new Map([...picture.sizes].map(([n,h])=>[n,animate?previousSizes.get(n)||h:h]));
     if(overview){const cols=host.clientWidth<600?1:3,list=el("div","e3-module-gallery");list.style.gridTemplateColumns=`repeat(${cols},340px)`;
       for(const m of data.modules){const card=el("button","e3-module-tile");card.dir="rtl";card.style.setProperty("--card-color",SPATIAL_COLORS[m.code]);card.setAttribute("aria-label",`${m.code} · ${m.he} · פתיחת טבלאות`);const code=el("strong","",m.code);code.dir="ltr";card.append(code,el("h2","",m.he),el("p","",`${m.core.length} טבלאות · ${m.objects.length} אובייקטים`),el("span","","טבלאות, שדות וקשרים ↗"));card.addEventListener("click",(e)=>{if(!dragged||e.detail===0)onModule(m.code);});list.append(card);}
       picture.width=cols*372+60;picture.height=Math.ceil(data.modules.length/cols)*202+60;plane.append(list);
@@ -130,12 +138,13 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
       for(const lane of picture.lanes){const p=picture.points.get(lane.names[0])!;const label=el("div","e3-lane-label",lane.label);label.dir="rtl";label.style.left=`${p.x}px`;label.style.top="65px";plane.append(label);}
       for(const [n,p] of drawn){const card=previousCards.get(n)||makeCard(byName.get(n)!);card.style.opacity="";card.style.left=`${p.x}px`;card.style.top=`${p.y}px`;cards.set(n,card);plane.append(card);}
     }
-    plane.style.width=`${picture.width}px`;plane.style.height=`${picture.height}px`;highlight(view.selected);
+    plane.style.width=`${picture.width}px`;plane.style.height=`${picture.height}px`;highlight(view.selected);positionElements();
     if(animate){
-      const start=performance.now(),from=new Map(drawn);
+      const start=performance.now(),from=new Map(drawn),fromSizes=new Map(drawnSizes);
       const tick=(time:number)=>{
-        const progress=Math.min(1,(time-start)/650),eased=1-Math.pow(1-progress,3);
+        const progress=Math.max(0,Math.min(1,(time-start)/650)),eased=1-Math.pow(1-progress,3);
         drawn=new Map([...picture.points].map(([n,p])=>{const a=from.get(n)||p;return [n,{x:a.x+(p.x-a.x)*eased,y:a.y+(p.y-a.y)*eased}];}));
+        drawnSizes=new Map([...picture.sizes].map(([n,h])=>[n,(fromSizes.get(n)||h)+(h-(fromSizes.get(n)||h))*eased]));
         positionElements();
         for(const [n,card] of cards)if(!previousCards.has(n))card.style.opacity=progress<1?String(eased):"";
         if(progress<1)animation=requestAnimationFrame(tick);else animation=0;
@@ -144,17 +153,23 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     }
   }
   function update(next:DiagramView) {
-    const changed=next.module!==view.module||next.focus!==view.focus||next.analysis!==view.analysis||(next.selected!==view.selected&&(next.focus||["impact","lineage","dep"].includes(next.analysis||"")||!next.module)),picked=next.selected!==view.selected,stepChanged=next.step!==view.step;
+    const scopeChanged=next.module!==view.module||next.group!==view.group;
+    const picked=next.selected!==view.selected,changed=scopeChanged||next.focus!==view.focus||next.analysis!==view.analysis||picked,stepChanged=next.step!==view.step;
+    if(scopeChanged)returnCamera=null;
+    if(picked&&next.selected&&!view.selected&&!scopeChanged)returnCamera={scale,x:tx,y:ty,width:lastW,height:lastH};
+    const restore=picked&&!next.selected?returnCamera:null;
+    if(picked&&!next.selected)returnCamera=null;
     view=next;if(changed)rebuild();else highlight(view.selected);
-    if(!view.motion&&animation){cancelAnimationFrame(animation);animation=0;drawn=picture.points;for(const card of cards.values())card.style.opacity="";positionElements();}
+    if(!view.motion&&animation){cancelAnimationFrame(animation);animation=0;drawn=picture.points;drawnSizes=picture.sizes;for(const card of cards.values())card.style.opacity="";positionElements();}
     for(const g of edgeElements.values())g.style.display=view.links?"":"none";
     const stage=view.analysis==="flow"?picture.stages.find((s)=>s.index===view.step):undefined;
-    if(stage&&(changed||stepChanged||(picked&&!view.selected)))frame(stage.names);
+    if(restore&&Math.abs(restore.width-host.clientWidth)<2&&Math.abs(restore.height-host.clientHeight)<2){world.classList.add("is-flying");scale=restore.scale;tx=restore.x;ty=restore.y;lastW=host.clientWidth;lastH=host.clientHeight;}
+    else if(stage&&(changed||stepChanged||(picked&&!view.selected)))frame(stage.names);
     else if(picked&&view.selected&&!view.focus&&["map","flow",undefined].includes(view.analysis))frame([view.selected]);
     else if(changed)frame();paint();
   }
   const pointers=new Map<number,{x:number;y:number}>();let last={x:0,y:0},origin={x:0,y:0},pinch=0;
-  function zoomAt(factor:number,x:number,y:number){world.classList.remove("is-flying");const r=host.getBoundingClientRect(),px=x-r.left,py=y-r.top,next=Math.min(1.8,Math.max(.12,scale/factor));tx=px-(px-tx)*next/scale;ty=py-(py-ty)*next/scale;scale=next;paint();}
+  function zoomAt(factor:number,x:number,y:number){world.classList.remove("is-flying");const r=host.getBoundingClientRect(),px=x-r.left,py=y-r.top,next=Math.min(3.5,Math.max(.02,scale/factor));tx=px-(px-tx)*next/scale;ty=py-(py-ty)*next/scale;scale=next;paint();}
   function down(e:PointerEvent){if(e.button!==0)return;world.classList.remove("is-flying");pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});dragged=false;last=origin={x:e.clientX,y:e.clientY};pinch=0;}
   function move(e:PointerEvent){if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===2){const [a,b]=[...pointers.values()],distance=Math.hypot(a.x-b.x,a.y-b.y);if(pinch&&distance)zoomAt(pinch/distance,(a.x+b.x)/2,(a.y+b.y)/2);pinch=distance;dragged=true;return;}if(Math.hypot(e.clientX-origin.x,e.clientY-origin.y)>5){dragged=true;if(!host.hasPointerCapture(e.pointerId))host.setPointerCapture(e.pointerId);tx+=e.clientX-last.x;ty+=e.clientY-last.y;paint();}last={x:e.clientX,y:e.clientY};}
   function up(e:PointerEvent){pointers.delete(e.pointerId);pinch=0;if(host.hasPointerCapture(e.pointerId))host.releasePointerCapture(e.pointerId);const remain=[...pointers.values()][0];if(remain)last=origin=remain;}
@@ -162,9 +177,8 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
   const key=(e:KeyboardEvent)=>{const offsets:Record<string,[number,number]>={ArrowLeft:[80,0],ArrowRight:[-80,0],ArrowUp:[0,80],ArrowDown:[0,-80]};if(offsets[e.key]){e.preventDefault();world.classList.remove("is-flying");tx+=offsets[e.key][0];ty+=offsets[e.key][1];paint();}};
   host.addEventListener("pointerdown",down);host.addEventListener("pointermove",move);host.addEventListener("pointerup",up);host.addEventListener("pointercancel",up);host.addEventListener("wheel",wheel,{passive:false});host.addEventListener("keydown",key);
   rebuild();frame(view.analysis==="flow"?picture.stages.find((s)=>s.index===view.step)?.names:[]);
-  let lastW=host.clientWidth,lastH=host.clientHeight;
-  const observer=new ResizeObserver(()=>{const w=host.clientWidth,h=host.clientHeight;if(Math.abs(w-lastW)<2&&Math.abs(h-lastH)<2)return;if(overview&&(w<600)!==(lastW<600))rebuild();const dx=w-lastW,dy=h-lastH;lastW=w;lastH=h;
+  const observer=new ResizeObserver(()=>{const w=host.clientWidth,h=host.clientHeight;if(Math.abs(w-lastW)<2&&Math.abs(h-lastH)<2)return;if(overview&&(w<600)!==(lastW<600))rebuild();lastW=w;lastH=h;
     const s=view.analysis==="flow"?picture.stages.find((s)=>s.index===view.step):undefined;
-    if(picture.direct)frame();else if(view.selected&&!view.focus&&["map","flow"].includes(view.analysis||""))frame([view.selected]);else if(s)frame(s.names);else{tx+=dx/2;ty+=dy/2;paint();}});observer.observe(host);
-  return {update,zoom(factor){const r=host.getBoundingClientRect();zoomAt(factor,r.left+r.width/2,r.top+r.height/2);},reset(){frame([],true);},dispose(){cancelAnimationFrame(animation);observer.disconnect();host.removeEventListener("pointerdown",down);host.removeEventListener("pointermove",move);host.removeEventListener("pointerup",up);host.removeEventListener("pointercancel",up);host.removeEventListener("wheel",wheel);host.removeEventListener("keydown",key);viewport.remove();note.remove();}};
+    if(picture.direct)frame();else if(view.selected&&!view.focus&&["map","flow"].includes(view.analysis||""))frame([view.selected]);else if(s)frame(s.names);else frame();});observer.observe(host);
+  return {update,zoom(factor){const r=host.getBoundingClientRect();zoomAt(factor,r.left+r.width/2,r.top+r.height/2);},reset(){returnCamera=null;frame([],true);},dispose(){cancelAnimationFrame(animation);observer.disconnect();host.removeEventListener("pointerdown",down);host.removeEventListener("pointermove",move);host.removeEventListener("pointerup",up);host.removeEventListener("pointercancel",up);host.removeEventListener("wheel",wheel);host.removeEventListener("keydown",key);viewport.remove();note.remove();}};
 }

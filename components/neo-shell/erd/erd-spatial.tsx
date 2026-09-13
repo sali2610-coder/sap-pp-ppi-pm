@@ -1,30 +1,34 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { ArrowUpLeft, Box, ChevronRight, CirclePause, CirclePlay, Crosshair, Database, Expand, Layers3, Link2, List, Maximize2, Minimize2, Minus, Orbit, Plus, RotateCcw, Search, X } from "lucide-react";
 import { SPATIAL_COLORS } from "./erd-spatial-model";
-import { diagram, stagesFor, type DiagramView as SpatialView } from "./erd-spatial-diagram";
+import { diagram, groupsFor, s4Changed, s4FieldChanged, stagesFor, type DiagramView as SpatialView } from "./erd-spatial-diagram";
 import type { SpatialScene } from "./erd-spatial-scene";
-import { S4_TRUST_HE, ZONE_HE, type ErdCatalog, type ModCode } from "./erd-types";
+import { S4_RISK_HE, S4_TRUST_HE, ZONE_HE, type ErdCatalog, type ModCode } from "./erd-types";
 
 const tint = (m: ModCode) => ({ "--module": SPATIAL_COLORS[m] } as CSSProperties);
 
-export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: () => void }) {
+export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: { data: ErdCatalog; onClassic: () => void; initialModule?: ModCode | null; onModuleChange?: (module: ModCode | null) => void }) {
   const root = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const scene = useRef<SpatialScene | null>(null);
   const search = useRef<HTMLInputElement>(null);
-  const [module, setModule] = useState<ModCode | null>(() => data.modules.some((m) => m.code === "PP-PI") ? "PP-PI" : data.modules[0]?.code ?? null);
+  const [module, setModule] = useState<ModCode | null>(() => initialModule !== undefined ? initialModule : data.modules.some((m) => m.code === "PP-PI") ? "PP-PI" : data.modules[0]?.code ?? null);
   const [selected, setSelected] = useState<string | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [focus, setFocus] = useState(false);
   const [motion, setMotion] = useState(true);
   const [orbit, setOrbit] = useState(false);
-  const [analysis, setAnalysis] = useState<NonNullable<SpatialView["analysis"]>>(() => stagesFor(data, data.modules.some((m) => m.code === "PP-PI") ? "PP-PI" : data.modules[0]?.code ?? null).length > 1 ? "flow" : "map");
-  const [step, setStep] = useState<number | null>(0);
+  const [analysis, setAnalysis] = useState<NonNullable<SpatialView["analysis"]>>("map");
+  const [step, setStep] = useState<number | null>(null);
+  const [group, setGroup] = useState<string | null>(null);
+  const [filterPanel, setFilterPanel] = useState(false);
+  const filterContainer = useRef<HTMLDivElement>(null);
+  const returnContext = useRef<SpatialView | null>(null);
   const [playing, setPlaying] = useState(false);
   const [relation, setRelation] = useState<string | null>(null);
   const [links, setLinks] = useState(true);
@@ -35,20 +39,35 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
   const [portal, setPortal] = useState(false);
   const [modulePanel, setModulePanel] = useState(false);
   const [tableList, setTableList] = useState(false);
-  const view = useMemo(() => ({ module, selected, focus, motion, orbit, links, preset, analysis, step }), [module, selected, focus, motion, orbit, links, preset, analysis, step]);
+  const view = useMemo(() => ({ module, selected, focus, motion, orbit, links, preset, analysis, step, group }), [module, selected, focus, motion, orbit, links, preset, analysis, step, group]);
   const currentView = useRef(view);
   const tableMap = useMemo(() => new Map(data.tables.map((t) => [t.n, t])), [data]);
   const active = selected ? tableMap.get(selected) : undefined;
   const activeModule = data.modules.find((m) => m.code === module);
   const layout = useMemo(() => diagram(data, view), [data, view]);
   const stages = useMemo(() => stagesFor(data, module), [data, module]);
+  const groups = useMemo(() => groupsFor(data, module), [data, module]);
+  const currentGroup = groups.find((g) => g.id === group);
   const currentStep = stages.find((s) => s.index === step);
   const selectedRelation = data.edges.find((e) => e.i === relation);
   const chooseAnalysis = (mode: NonNullable<SpatialView["analysis"]>) => {
+    returnContext.current = null;
+    if (mode !== "map") setGroup(null);
     setAnalysis(mode); setFocus(false); setRelation(null); setPlaying(false); setDetailsOpen(false);
     if (mode === "flow") { setStep(stages[0]?.index ?? null); setSelected(null); }
     else setStep(null);
   };
+  const chooseGroup = (id: string | null) => {
+    returnContext.current = null;
+    setGroup(id); setAnalysis("map"); setSelected(null); setFocus(false); setStep(null); setPlaying(false); setRelation(null); setDetailsOpen(false); setFilterPanel(false); setTableList(false); setQuery("");
+  };
+  useEffect(() => { onModuleChange?.(module); }, [module, onModuleChange]);
+  useEffect(() => {
+    if (!filterPanel) return;
+    const close = (event: PointerEvent) => { if (!filterContainer.current?.contains(event.target as Node)) setFilterPanel(false); };
+    document.addEventListener("pointerdown", close);
+    return () => document.removeEventListener("pointerdown", close);
+  }, [filterPanel]);
   useEffect(() => {
     if (!playing || !motion || analysis !== "flow" || stages.length < 2) return;
     const timer = window.setInterval(() => setStep((s) => {
@@ -62,6 +81,7 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
   }, [step, motion]);
   const visibleNames = useMemo(() => new Set(layout.points.keys()), [layout]);
   const visibleEdges = layout.edges;
+  const changedCount = data.tables.filter((t) => visibleNames.has(t.n) && s4Changed(t)).length;
   const activeEdges = useMemo(() => data.edges.filter((e) => e.p === selected || e.c === selected), [data, selected]);
   const hits = useMemo(() => {
     const q = query.trim().toLocaleLowerCase();
@@ -70,22 +90,25 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
 
   const pick = useCallback((name: string) => {
     if (!tableMap.has(name)) return;
+    const current = currentView.current;
+    if (!current.selected) returnContext.current = current;
     setSelected(name); setQuery(""); setTableList(false); setRelation(null); setPlaying(false);
-    setAnalysis("map"); setFocus(true); setStep(null); setDetailsOpen(false);
-    const current = currentView.current.module;
-    if (current && !data.modules.find((m) => m.code === current)?.core.includes(name)) setModule(null);
+    setAnalysis("map"); setFocus(false); setStep(null); setDetailsOpen(true); setFilterPanel(false);
+    if (!current.module || !data.modules.find((m) => m.code === current.module)?.core.includes(name)) {
+      setModule(data.modules.find((m) => m.core.includes(name))?.code ?? null); setGroup(null);
+    } else if (current.group && !diagram(data,current).points.has(name)) setGroup(null);
   }, [data, tableMap]);
   const pickModule = useCallback((code: string | null) => {
-    const nextStages = stagesFor(data, code as ModCode | null);
-    setAnalysis(nextStages.length > 1 ? "flow" : "map"); setStep(nextStages[0]?.index ?? null); setPlaying(false); setRelation(null);
+    returnContext.current = null;
+    setAnalysis("map"); setStep(null); setGroup(null); setFilterPanel(false); setPlaying(false); setRelation(null);
     setModule(code as ModCode | null); setSelected(null); setFocus(false); setQuery(""); setTableList(false); setModulePanel(false); setDetailsOpen(false);
-  }, [data]);
+  }, []);
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => { if (media.matches) { setMotion(false); setOrbit(false); } };
     sync(); media.addEventListener("change", sync); return () => media.removeEventListener("change", sync);
   }, []);
-  useEffect(() => { currentView.current = view; scene.current?.update(view); }, [view]);
+  useLayoutEffect(() => { currentView.current = view; scene.current?.update(view); }, [view]);
   useEffect(() => {
     const host = stage.current;
     if (!host) return;
@@ -118,19 +141,24 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
       await root.current.requestFullscreen();
     } catch { setPortal(true); }
   };
-  const clearSelection = () => { setSelected(null); setRelation(null); setFocus(false); setDetailsOpen(false); if (analysis !== "flow") setAnalysis("map"); };
+  const clearSelection = () => {
+    const previous = returnContext.current; returnContext.current = null;
+    setSelected(null); setRelation(null); setFocus(false); setDetailsOpen(false); setPlaying(false);
+    setAnalysis(previous?.analysis ?? "map"); setStep(previous?.step ?? null);
+    if (previous) { setModule(previous.module); setGroup(previous.group ?? null); }
+  };
   const closeDetail = () => setDetailsOpen(false);
   const content = (
-    <div ref={root} className={`e3 ${analysis === "flow" ? "e3-flow-mode" : ""} ${layout.direct ? "e3-focus-mode" : ""} ${active && detailsOpen ? "e3-has-detail" : ""} ${portal ? "e3-full" : ""}`} dir="rtl"
+    <div ref={root} className={`e3 ${analysis === "flow" ? "e3-flow-mode" : ""} ${layout.direct ? "e3-focus-mode" : ""} ${active && detailsOpen ? "e3-has-detail" : ""} ${portal ? "e3-full" : ""}`} dir="rtl" data-module={module ?? "all"} data-analysis={analysis} data-group={group ?? "all"} data-selected={selected ?? ""}
       onKeyDown={(e) => {
         if ((e.target as HTMLElement).matches("input, textarea, select")) {
           if (e.key === "Escape") { setQuery(""); search.current?.blur(); }
           return;
         }
-        if (e.key === "Escape") { if (relation) setRelation(null); else if (detailsOpen) closeDetail(); else if (portal) setPortal(false); else clearSelection(); }
+        if (e.key === "Escape") { if (filterPanel) setFilterPanel(false); else if (relation) setRelation(null); else if (selected) clearSelection(); else if (portal) setPortal(false); }
         if (e.key === "+" || e.key === "=") scene.current?.zoom(.84);
-        if (e.key === "-") scene.current?.zoom(1.18);
-        if (e.key === "0") scene.current?.reset();
+        if (e.key === "-") { if (selected) clearSelection(); else scene.current?.zoom(1.18); }
+        if (e.key === "0") { if (selected) clearSelection(); else scene.current?.reset(); }
         if (e.key === "/") { e.preventDefault(); search.current?.focus(); }
       }}>
       <header className="e3-header">
@@ -144,7 +172,14 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
         <div className="e3-header-actions"><button onClick={onClassic} className="e3-button"><Layers3 size={16} /> <span>תרשים 2D</span></button><button className="e3-button e3-present" onClick={fullscreen} aria-label={full || portal ? "יציאה ממסך מלא" : "מסך מלא"}>{full || portal ? <Minimize2 size={19} /> : <Maximize2 size={19} />}<span>{full || portal ? "יציאה" : "מסך מלא"}</span></button></div>
       </header>
 
-      <div className="e3-context"><div><button className="e3-mobile-modules" onClick={() => setModulePanel(!modulePanel)} aria-expanded={modulePanel}><Layers3 size={16} /> מודולים</button><button onClick={() => pickModule(null)}>כל המודולים</button>{activeModule && <><ChevronRight size={14} /><span style={tint(activeModule.code)} className="e3-context-module">{activeModule.code} · {activeModule.he}</span></>}{active && <><ChevronRight size={14} /><b dir="ltr">{active.n}</b></>}</div><span className="e3-count"><b>{visibleNames.size}</b> טבלאות <i /> <b>{visibleEdges.length}</b> קשרים</span></div>
+      <div className="e3-context"><div><button className="e3-mobile-modules" onClick={() => setModulePanel(!modulePanel)} aria-expanded={modulePanel}><Layers3 size={16} /> מודולים</button><button className="e3-all-modules" onClick={() => pickModule(null)}>כל המודולים</button>{activeModule && <><ChevronRight size={14} /><span style={tint(activeModule.code)} className="e3-context-module">{activeModule.code} · {activeModule.he}</span></>}{active && <><ChevronRight size={14} /><b dir="ltr">{active.n}</b></>}</div>
+        <div className="e3-filter-container" ref={filterContainer}>{activeModule && <button className="e3-button e3-filter-toggle" aria-expanded={filterPanel} aria-controls="e3-object-filters" onClick={() => setFilterPanel(!filterPanel)}>מסננים · {currentGroup?.he ?? "הכל"}<ChevronRight size={14} /></button>}
+          {filterPanel && <section className="e3-filter-panel e3-panel" id="e3-object-filters" aria-label="סינון לפי נושא או אובייקט עסקי"><div><h2>נושא או אובייקט עסקי</h2><button className="e3-icon" aria-label="סגירת מסננים" onClick={() => setFilterPanel(false)}><X size={16} /></button></div><button className="e3-filter-chip" aria-pressed={!group} onClick={() => chooseGroup(null)}>הכל <small>{activeModule?.core.length}</small></button>{(["object", "topic"] as const).map((kind) => <div className="e3-filter-group" key={kind}><h3>{kind === "object" ? "אובייקטים עסקיים" : "נושאים ותהליכים"}</h3><div>{groups.filter((g) => g.kind === kind).map((g) => <button key={g.id} className="e3-filter-chip" aria-pressed={g.id === group} onClick={() => chooseGroup(g.id)}>{g.he}<small>{g.names.length}</small></button>)}</div></div>)}</section>}
+        </div><span className="e3-count"><b>{visibleNames.size}</b> טבלאות <i /> <b>{visibleEdges.length}</b> קשרים</span></div>
+
+      {analysis === "map" && !layout.direct && <section className="e3-selection-note" aria-label="מצב התרשים">
+        {active ? <><button className="e3-button" onClick={clearSelection}><Minus size={16} />חזרה לתרשים</button><strong dir="ltr">{active.n}</strong><span>השדות והקשרים של הטבלה</span>{!detailsOpen && <button className="e3-button" onClick={() => setDetailsOpen(true)}>כל הנתונים</button>}</> : currentGroup ? <><strong>{currentGroup.he}</strong><span>{layout.seeds?.size} טבלאות בתהליך · {visibleNames.size - (layout.seeds?.size ?? 0)} קשורות ישירות</span><button onClick={() => chooseGroup(null)}>הצגת הכל</button></> : <><strong>{activeModule ? `כל טבלאות ${activeModule.code}` : "מודולי SAP"}</strong><span>בחר טבלה לזום ולכל השדות · סנן לפי התהליך שמעניין אותך</span></>}
+      </section>}
 
       {analysis === "flow" && <section className="e3-story" aria-label="שלבי הזרימה העסקית">
         <div className="e3-story-heading"><span>שרשרת האובייקטים</span><strong>{currentStep ? `${stages.indexOf(currentStep) + 1} / ${stages.length} · ${currentStep.he}` : "כל השלבים"}</strong><button className="e3-button" aria-pressed={playing} onClick={() => { setPlaying(!playing); if (!playing) setMotion(true); }}>{playing ? <CirclePause size={16} /> : <CirclePlay size={16} />}{playing ? "עצור סיור" : "נגן שלבים"}</button></div>
@@ -180,15 +215,19 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
         <h2 dir="ltr">{active.n}</h2><p className="e3-detail-name">{active.he || active.en}</p>
         <div className="e3-detail-actions"><button className="e3-button" onClick={() => { setFocus(!focus); setAnalysis("map"); setStep(null); setPlaying(false); }} aria-pressed={focus}><Crosshair size={16} />{focus ? "חזרה למפה" : "מיקוד בקשרים"}</button>{active.pg === 1 && <Link className="e3-button" href={`/neo/object/${encodeURIComponent(active.n)}/`}>עמוד הטבלה <ArrowUpLeft size={16} /></Link>}</div>
         <div className="e3-detail-body">
+          <section className={`e3-s4-detail ${s4Changed(active) ? "has-changes" : ""}`} aria-label="שינויים ב־S/4HANA">
+            <div className="e3-section-title"><h3>S/4HANA{ s4Changed(active) ? " · מה השתנה" : ""}</h3>{active.s4v && <span>{S4_RISK_HE[active.s4v.r]}</span>}</div>
+            {active.s4v ? <><span className="e3-trust">{S4_TRUST_HE[active.s4v.t]}</span><p>{active.s4v.ch}</p>{active.s4v.wy && <p>{active.s4v.wy}</p>}{active.s4v.fl.length > 0 && <div className="e3-s4-field-tags" aria-label="שדות שהושפעו">{active.s4v.fl.map((field) => <code key={field}>{field}</code>)}</div>}{active.s4a && <p><b>חלופה: </b>{active.s4a}</p>}{active.s4v.nt && <p className="e3-note">{active.s4v.nt}</p>}</> : <p className="e3-note">לא קיים מידע מאומת בפרויקט.</p>}
+          </section>
           <section><div className="e3-section-title"><h3>שדות הטבלה</h3><span>{active.f.length} מתוך {active.fn}</span></div>
-            {active.f.length ? <table className="e3-fields"><thead><tr><th>שדה</th><th>תיאור / סוג</th><th>מפתח</th></tr></thead><tbody>{active.f.map((f) => <tr key={f[0]}><td><code>{f[0]}</code></td><td>{f[2] || f[1] || "לא תועד"}{f[2] && f[1] && <small dir="ltr">{f[1]}</small>}</td><td>{f[3] !== "-" && f[3] ? <span className={`e3-key ${/PK/.test(f[3]) ? "is-pk" : "is-fk"}`}>{f[3]}</span> : <span className="e3-key-none">·</span>}</td></tr>)}</tbody></table> : <p className="e3-note">לא תועדו שדות בקטלוג לתצוגה זו.</p>}
+            {active.f.length ? <table className="e3-fields"><thead><tr><th>שדה</th><th>תיאור / סוג</th><th>מפתח</th></tr></thead><tbody>{active.f.map((f) => <tr key={f[0]} className={s4FieldChanged(active,f[0]) ? "is-s4-changed" : ""}><td><code>{f[0]}</code>{s4FieldChanged(active,f[0]) && <small className="e3-s4-field-label">S/4 · שינוי</small>}</td><td>{f[2] || f[1] || "לא תועד"}{f[2] && f[1] && <small dir="ltr">{f[1]}</small>}</td><td>{f[3] !== "-" && f[3] ? <span className={`e3-key ${/PK/.test(f[3]) ? "is-pk" : "is-fk"}`}>{f[3]}</span> : <span className="e3-key-none">·</span>}</td></tr>)}</tbody></table> : <p className="e3-note">לא תועדו שדות בקטלוג לתצוגה זו.</p>}
             {active.fn > active.f.length && <p className="e3-note">מוצגים {active.f.length} השדות הכלולים בנתוני ה־ERD. {active.pg ? "המשך בעמוד הטבלה לפרטים נוספים." : "יתר השדות אינם כלולים בנתוני התצוגה."}</p>}
           </section>
           <section><div className="e3-section-title"><h3>קשרים מתועדים</h3><span>{activeEdges.length}</span></div>{activeEdges.length ? activeEdges.map((edge) => {
             const other = edge.p === active.n ? edge.c : edge.p;
             return <div className="e3-relation" key={edge.i}><small className="e3-relation-role">{edge.p === active.n ? "תלויה בטבלה הזאת" : "מקור לטבלה הזאת"}</small><button onClick={() => pick(other)}><Link2 size={14} /><b dir="ltr">{other}</b><span dir="ltr">{edge.cd || "לא צוין"}</span><ChevronRight size={14} /></button>{edge.ds && <p>{edge.ds}</p>}{edge.j.filter((j) => j.j).map((join, i) => <details key={i}><summary>ניסוח JOIN מתועד</summary><pre dir="ltr">{join.j}</pre>{join.d && <p>{join.d}</p>}</details>)}</div>;
           }) : <p className="e3-note">לא תועדו קשרים לטבלה זו.</p>}</section>
-          <section><div className="e3-section-title"><h3>S/4HANA</h3></div>{active.s4v ? <><span className="e3-trust">{S4_TRUST_HE[active.s4v.t]}</span><p>{active.s4v.ch}</p>{active.s4v.nt && <p className="e3-note">{active.s4v.nt}</p>}</> : <p className="e3-note">לא קיים מידע מאומת בפרויקט.</p>}</section>
+          {(active.tc.length > 0 || active.cds.length > 0) && <section><h3>גישה לנתונים</h3>{active.tc.length > 0 && <p>טרנזקציות: <bdi>{active.tc.join(" · ")}</bdi></p>}{active.cds.length > 0 && <p>תצוגות CDS: <bdi>{active.cds.join(" · ")}</bdi></p>}</section>}
           {active.ms.length > 1 && <section><h3>מופיעה גם במודולים</h3><div className="e3-memberships">{active.ms.map((m) => <button key={m} style={tint(m)} onClick={() => pickModule(m)}>{m}</button>)}</div></section>}
         </div>
       </aside>}
@@ -201,11 +240,11 @@ export function ErdSpatial({ data, onClassic }: { data: ErdCatalog; onClassic: (
         ] as const).map(([id, label]) => <button key={id} aria-pressed={analysis === id} disabled={id === "flow" ? stages.length < 2 : id !== "map" && !selected} title={id === "flow" && stages.length < 2 ? "בחר מודול עם שרשרת אובייקטים מתועדת" : id !== "map" && id !== "flow" && !selected ? "בחר טבלה תחילה" : label} onClick={() => chooseAnalysis(id)}>{label}</button>)}</div><div className="e3-controls" role="toolbar" aria-label="שליטה במפה">
         <button className={preset === "perspective" ? "is-active" : ""} onClick={() => setPreset("perspective")} aria-label="מבט מרחבי" aria-pressed={preset === "perspective"}><Box size={18} /><span>מרחבי</span></button>
         <button className={preset === "top" ? "is-active" : ""} onClick={() => setPreset("top")} aria-label="מבט ישר" aria-pressed={preset === "top"}><Expand size={18} /><span>מבט ישר</span></button><i />
-        <button onClick={() => scene.current?.zoom(.82)} aria-label="התקרבות"><Plus size={18} /></button><button onClick={() => scene.current?.zoom(1.22)} aria-label="התרחקות"><Minus size={18} /></button><button onClick={() => scene.current?.reset()} aria-label="איפוס המבט"><RotateCcw size={17} /></button><i />
+        <button onClick={() => scene.current?.zoom(.82)} aria-label="התקרבות"><Plus size={18} /></button><button onClick={() => selected ? clearSelection() : scene.current?.zoom(1.22)} aria-label={selected ? "התרחקות וחזרה לתרשים" : "התרחקות"}><Minus size={18} />{selected && <span>חזרה</span>}</button><button onClick={() => selected ? clearSelection() : scene.current?.reset()} aria-label="איפוס המבט"><RotateCcw size={17} /></button><i />
         <button className={links ? "is-active" : ""} onClick={() => setLinks(!links)} aria-label={links ? "הסתרת קשרים" : "הצגת קשרים"} aria-pressed={links}><Link2 size={18} /></button>
         <button className={orbit ? "is-active" : ""} onClick={() => { setOrbit(!orbit); if (!orbit) { setMotion(true); setPreset("perspective"); } }} aria-label="תנועת עומק עדינה" aria-pressed={orbit}><Orbit size={19} /></button>
         <button className="e3-motion-control" onClick={() => setMotion(!motion)} aria-label={motion ? "השהיית התנועה" : "הפעלת התנועה"}>{motion ? <CirclePause size={19} /> : <CirclePlay size={19} />}<span>{motion ? "השהה" : "הפעל"}</span></button>
-      </div><div className="e3-footer-status"><span>{motion ? "תנועה פעילה" : "תנועה מושהית"}</span><small>הנפשת קשרים · ללא חיבור חי ל־SAP</small></div></footer>
+      </div><div className="e3-s4-legend"><b>S/4 Δ</b><span>{changedCount} טבלאות עם שינוי מתועד</span><small>תג ״חלקי״ מציין מידע שדורש אימות</small></div></footer>
     </div>
   );
   return portal ? createPortal(content, document.body) : content;

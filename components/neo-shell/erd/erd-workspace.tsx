@@ -166,7 +166,7 @@ interface Saved {
   mode?: Analysis;
 }
 
-export function ErdWorkspace({ data }: { data: ErdCatalog }) {
+export function ErdWorkspace({ data, initialModule, onModuleChange }: { data: ErdCatalog; initialModule?: ModCode | null; onModuleChange?: (module: ModCode | null) => void }) {
   const router = useRouter();
 
   /** The workspace root. It is what goes fullscreen — toolbar, stage and panel
@@ -196,7 +196,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const openCam = useRef<View | null>(null);
 
   const [zoomPct, setZoomPct] = useState(100);
-  const [mod, setMod] = useState<ModCode | null>(null);
+  const [mod, setMod] = useState<ModCode | null>(initialModule ?? null);
+  useEffect(() => { onModuleChange?.(mod); }, [mod, onModuleChange]);
   /** Modules added ALONGSIDE `mod`. Kept as a separate set rather than folding
    *  `mod` into one selection so the single-module path — every picture, camera
    *  and act already verified against the production graph — is byte-for-byte
@@ -1080,6 +1081,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   /* ------------------------------------------------- restore + persist state */
 
   useEffect(() => {
+    // A 2D/3D switch carries the current module and opens its complete map.
+    if (initialModule !== undefined) return;
     const id = requestAnimationFrame(() => {
       // A return already said where the reader was. The last SESSION's view is
       // the older answer to the same question and must not overwrite it.
@@ -1105,7 +1108,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       }
     });
     return () => cancelAnimationFrame(id);
-  }, []);
+  }, [initialModule]);
 
   const saveT = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {

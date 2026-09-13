@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { trace, stagesFor, diagram, CARD } from "../components/neo-shell/erd/erd-spatial-diagram.ts";
-import type { ErdCatalog } from "../components/neo-shell/erd/erd-types.ts";
+import { trace, stagesFor, groupsFor, s4Changed, s4FieldChanged, diagram, CARD } from "../components/neo-shell/erd/erd-spatial-diagram.ts";
+import type { ErdCatalog, ErdTable } from "../components/neo-shell/erd/erd-types.ts";
 const data = {
   tables: ["A","B","C","D","E","UNLISTED"].map((n)=>({n,m:n==="E"?"PM":"PP",ms:["PP"]})),
   modules: [{code:"PP",core:["A","B","C","D","UNLISTED"],objects:[
@@ -62,4 +62,48 @@ test("focus shows only incident relationships, excluding joins between neighbour
   assert.equal(lone.points.size,1);
   assert.deepEqual(lone.direct,{sources:[],dependents:[],mutual:[]});
   assert.deepEqual(lone.edges,[]);
+});
+
+const moduleView = {module:"PP",selected:null,focus:false,motion:true,orbit:false,links:true,preset:"perspective",analysis:"map",group:null} as const;
+test("module entry shows the complete 2D membership and opening a table preserves that map",()=>{
+  const overview=diagram(data,moduleView),selected=diagram(data,{...moduleView,selected:"B"});
+  assert.deepEqual([...overview.points.keys()].sort(),[...data.modules[0].core].sort());
+  assert.deepEqual([...selected.points.keys()], [...overview.points.keys()]);
+  assert.equal(overview.sizes.get("B"),CARD.h);
+  assert.equal(selected.sizes.get("B"),CARD.openH);
+  assert.equal(selected.direct,null);
+});
+test("object filters retain overlapping membership and include only direct in-module relations",()=>{
+  const groups=groupsFor(data,"PP");
+  assert.deepEqual(groups.map((g)=>g.names),[["A","B"],["B","C"],["D"]]);
+  const filtered=diagram(data,{...moduleView,group:"object:1"});
+  assert.deepEqual([...filtered.seeds!],["B","C"]);
+  assert.deepEqual([...filtered.points.keys()].sort(),["A","B","C"]);
+  assert.deepEqual(filtered.edges.map((e)=>e.i).sort(),["ab","bc","cb"]);
+  assert.ok(!filtered.points.has("D"),"a sibling of a direct neighbour is not part of the process");
+  assert.ok(!filtered.points.has("E"),"object filters stay within the selected module");
+  const impact=diagram(data,{...moduleView,group:"object:1",selected:"B",analysis:"impact"});
+  assert.deepEqual([...impact.points.keys()].sort(),["B","C","E"]);
+  assert.equal(impact.seeds,null);
+  assert.equal(diagram(data,moduleView).points.size,5,"All restores the full module");
+});
+test("expanding a card leaves space for all cards in its rank",()=>{
+  const stacked={...data,modules:[{...data.modules[0],pos:data.modules[0].pos.map((p,i)=>({...p,x:100,y:i*100}))}]};
+  const d=diagram(stacked,{...moduleView,selected:"B"});
+  const entries=[...d.points];
+  for(let i=0;i<entries.length;i++)for(let j=i+1;j<entries.length;j++){
+    const [an,a]=entries[i],[bn,b]=entries[j];
+    assert.ok(a.x+CARD.w<=b.x||b.x+CARD.w<=a.x||a.y+d.sizes.get(an)!<=b.y||b.y+d.sizes.get(bn)!<=a.y,`${an} overlaps ${bn}`);
+  }
+});
+test("S4 badges and field highlights follow documented changes, including qualified field names",()=>{
+  const t={n:"MARA",s4v:{r:"medium",t:"verified",fl:["MARA.MATNR","mtart"]}} as ErdTable;
+  assert.ok(s4Changed(t));
+  assert.ok(s4FieldChanged(t,"MATNR"));
+  assert.ok(s4FieldChanged(t,"MTART"));
+  assert.ok(!s4FieldChanged(t,"MANDT"));
+  assert.ok(s4Changed({...t,s4v:{...t.s4v!,t:"partial"}}));
+  assert.ok(!s4Changed({...t,s4v:{...t.s4v!,r:"low"}}));
+  assert.ok(!s4FieldChanged({...t,s4v:{...t.s4v!,r:"low"}},"MATNR"));
+  assert.ok(!s4Changed({...t,s4v:null}));
 });
