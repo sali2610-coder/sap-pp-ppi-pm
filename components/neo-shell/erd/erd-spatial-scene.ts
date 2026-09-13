@@ -13,7 +13,8 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
   let view=initial,picture=diagram(data,view),overview=false,scale=1,tx=0,ty=0,dragged=false;
   let drawn=picture.points,drawnSizes=picture.sizes,animation=0;
   let lastW=host.clientWidth,lastH=host.clientHeight;
-  let returnCamera:(SpatialCamera & {width:number;height:number})|null=null;
+  const cameraContext=(v:DiagramView)=>JSON.stringify([v.module,v.group??null,v.analysis??"map",v.step??null,v.focus]);
+  let returnCamera:(SpatialCamera & {width:number;height:number;context:string})|null=null;
   const byName=new Map(data.tables.map((t)=>[t.n,t]));
   const viewport=el("div","e3-diagram");viewport.dataset.renderer="css-3d";
   const world=el("div","e3-world"),plane=el("div","e3-plane"),note=el("p","e3-camera-note");
@@ -38,7 +39,9 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
       x=Math.min(...entries.map(([,p])=>p.x))-24;
       y=Math.min(...entries.map(([,p])=>p.y))-24;
       if(!names.length||view.analysis==="flow"||view.focus)y=Math.min(y,24);
-      bw=Math.max(...entries.map(([,p])=>p.x+CARD.w))+24-x;
+      // Same-rank connectors bend around the right side of the cards.
+      const sideRail=(!names.length||all)&&picture.edges.some((e)=>picture.points.get(e.p)?.x===picture.points.get(e.c)?.x);
+      bw=Math.max(...entries.map(([,p])=>p.x+CARD.w))+(sideRail?104:24)-x;
       bh=Math.max(...entries.map(([n,p])=>p.y+picture.sizes.get(n)!))+32-y;
     }
     const camera=fitSpatial({x,y,w:bw,h:bh},w,h);
@@ -156,8 +159,8 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     const scopeChanged=next.module!==view.module||next.group!==view.group;
     const picked=next.selected!==view.selected,changed=scopeChanged||next.focus!==view.focus||next.analysis!==view.analysis||picked,stepChanged=next.step!==view.step;
     if(scopeChanged)returnCamera=null;
-    if(picked&&next.selected&&!view.selected&&!scopeChanged)returnCamera={scale,x:tx,y:ty,width:lastW,height:lastH};
-    const restore=picked&&!next.selected?returnCamera:null;
+    if(picked&&next.selected&&!view.selected&&!scopeChanged)returnCamera={scale,x:tx,y:ty,width:lastW,height:lastH,context:cameraContext(view)};
+    const restore=picked&&!next.selected&&returnCamera?.context===cameraContext(next)?returnCamera:null;
     if(picked&&!next.selected)returnCamera=null;
     view=next;if(changed)rebuild();else highlight(view.selected);
     if(!view.motion&&animation){cancelAnimationFrame(animation);animation=0;drawn=picture.points;drawnSizes=picture.sizes;for(const card of cards.values())card.style.opacity="";positionElements();}
