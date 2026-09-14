@@ -17,10 +17,15 @@ const IPHONE = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebK
 
 const ROUTES = [
   ["table-marc", "/neo/tables/MARC/"],
+  ["table-mara", "/neo/tables/MARA/"],
+  ["table-but000", "/neo/tables/BUT000/"],
   ["table-mseg", "/neo/tables/MSEG/"],
   ["object-aufk", "/neo/object/AUFK/"],
   ["tx-mb01", "/neo/transactions/MB01/"],
   ["tx-iw31", "/neo/transactions/IW31/"],
+  ["tx-md01", "/neo/transactions/MD01/"],
+  ["tx-migo", "/neo/transactions/MIGO/"],
+  ["tx-cor2", "/neo/transactions/COR2/"],
   ["fm-alm-order", "/neo/bapi/BAPI_ALM_ORDER_MAINTAIN/"],
   ["idoc-matmas", "/neo/idoc/MATMAS/"],
   ["cds-matdocitem", "/neo/cds/I_MaterialDocumentItem/"],
