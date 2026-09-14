@@ -1,17 +1,22 @@
 /* Project NEO · verification overlay — function objects (`fm:` ids).
    TYPE-ONLY IMPORTS. Loaded by node --test with no loader.
    Catalog data commit (2026-09-02): 12 audited records alongside the worked
-   example. Tier-1 evidence comes from help.sap.com search records
-   (scripts/sap-help-search.mjs; loio + versionId re-verified live) and from
-   two fully-read SAP Library/NetWeaver pages; Tier-2 is the named repository
-   record. Every claim is bounded by the snippet, the fully-read page or the
-   named repository record; negative findings are search-bounded, never
-   absolute. Open conflicts and deferred ids live in
+   example. Functions batch 2 (2026-09-14): 14 more audited records (PM
+   notification/confirmation BAPIs, BAPI_GOODSMVT_CREATE, and eight classic
+   FMs that stay verification_required). Tier-1 evidence comes from
+   help.sap.com search records (scripts/sap-help-search.mjs; loio + versionId
+   re-verified live), from the fully-read Simplification List PDF and from
+   two fully-read SAP Library/NetWeaver pages; api.sap.com is cited only by
+   the title a domain-restricted search returned; Tier-2 is the named
+   repository record. Every claim is bounded by the snippet, the fully-read
+   page or the named repository record; negative findings are search-bounded,
+   never absolute. Open conflicts and deferred ids live in
    audit/s4-enrichment/research-queue-functions.md. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
 const DATE2 = "2026-09-02";
+const DATE14 = "2026-09-14";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -41,6 +46,30 @@ const ALM_V2_OPS: Evidence = {
   claim:
     "‏Maintenance Order (Version 2) OData API מתועד ל-On-Premise תחת נתיב השירות " +
     "‎/sap/opu/odata/sap/API_MAINTENANCEORDER;v=2, כולל פעולות ברמת הישות.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_GOODSMVT_CREATE — the official OData service documented beside the BAPI (also its status source). */
+const GOODSMVT_ODATA_API: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Material Documents - Read, Create | APIs for Inventory",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: 
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/eb2a39dd0c124fed8252f684002d55e1/d4c919581bc30a02e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE14,
+  claim: 
+    "שירות ה-OData‏ Material Documents - Read, Create מתועד למהדורת On-Premise 2025 FPS01 במדריך APIs for " +
+    "Inventory: 'Technical name: API_MATERIAL_DOCUMENT ... This service enables the following operations for " +
+    "material documents: Retrieve material documents, Create material documents, Cancel material documents at " +
+    "header level, Cancel material documents at [item level]'. רשומת 'Operations for Material Document API' " +
+    "באותו מדריך (loio 1aef4e402acd4c8b8ec2ea2bfda7715b, 2025.001) מציגה את נתיב היצירה POST " +
+    "‎<host>/sap/opu/odata/sap/API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentHeader ואת פעולות הביטול ברמת כותרת " +
+    "ופריט. רשומות What's New מתעדות הרחבות שוטפות של השירות: 2023 ‏(loio 71c0f9113d2a47cca1de911185cb89af, " +
+    "'enhanced with additional properties', רכיב MM-IM-GF) ו-2025 FPS01 ‏(loio " +
+    "bfe185a3e1ea4fe0a39b12d0683853ff, 'enhanced with Warehouse Handling Unit field'). אף אחת מהרשומות אינה " +
+    "מציגה את ה-API כמחליף של BAPI_GOODSMVT_CREATE; הן מתעדות אותו כשירות OData לרישום מסמכי חומר לצד ה-BAPI.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -1363,5 +1392,1885 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "בלבד. ‏fm:BAPI_PROCORD_CREATE_FROM_PLORD אינו ב-xrefs כי אינו ביקום המזהים של הדאטהסט (נשאר בטקסט בלבד); " +
       "מזהה הווריאנט OP_API_PROCESS_ORDER_2_SRV_0001 שנכלל בטיוטה הוסר — אינו בר-אימות ללא מפתח Hub. תאריכי " +
       "הגישה לרשומות ה-Help הם 2026-09-02 לפי כותרת סקריפט החיפוש.",
+  },
+
+  /* ------------------------------------ fm:BAPI_ALM_NOTIF_CREATE */
+  {
+    id: "fm:BAPI_ALM_NOTIF_CREATE",
+    aliases: ["BAPI_ALM_NOTIF_CREATE"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance notification | Data Migration",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/c03f981dd76f4fc7a241f17adc80758b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "אובייקט ההגירה 'PM - Maintenance notification' בתיעוד Data Migration לגרסת 2025 FPS01 נוקב " +
+          "ב-BAPI_ALM_NOTIF_CREATE וב-BAPI_ALM_NOTIF_SAVE תחת 'APIs/BAPIs', לצד מודול הפונקציה " +
+          "CNV_PE_S4_PM_NOTIF_CREATE (כלשון הסניפט). הסניפט מונה את השמות בלבד ואינו מתאר את אופן השימוש בהם.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "OData API: Maintenance Notification | What's New in SAP S/4HANA 2021",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/2fb95f8272f343e68f4bf384f1d2bfcb.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת What's New לגרסת S/4HANA 2021 מתעדת את ה-API כחדש (‏'API New', ‏'SAP S/4HANA 2021'): 'The " +
+          "Maintenance Notification API enables you to create, read, and update data related to maintenance " +
+          "notifications', בזיקה לפריטי היקף 4HH, 4HI, BH1, BH2 ו-BJ2 (כלשון הסניפט).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "בחוברת 'APIs for Maintenance Management' לגרסת 2025 FPS01: 'The API_MAINTNOTIFICATION API offers these " +
+          "operations', ובהן Read Maintenance Notification (GET) ו-Create Maintenance Notification, תחת נתיב השירות " +
+          "‎/sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintenanceNotification (כלשון הסניפט). עמוד נפרד באותה חוברת, " +
+          "'Create Maintenance Notification' (loio 3ee214cf240f495cb767765d1a7f773e, 2025.001), מדגים בסניפט POST " +
+          "לאותה ישות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_api_hub",
+        sourceTitle: "Maintenance Notification | SAP Business Accelerator Hub",
+        url: "https://api.sap.com/api/API_MAINTNOTIFICATION/resource",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "‏API_MAINTNOTIFICATION ‏(Maintenance Notification) רשום ב-SAP Business Accelerator Hub; חיפוש " +
+          "מוגבל-דומיין החזיר את עמוד ה-API בכותרת 'Maintenance Notification'. הרישום תומך בקיומו של ה-API הרשמי; " +
+          "רשימת הישויות והפרמטרים לא נקראה (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: 
+        "ה-BAPI ליצירת הודעת תחזוקת מפעל נקוב ב-S/4HANA On-Premise 2025 FPS01 תחת 'APIs/BAPIs' של אובייקט ההגירה " +
+        "'PM - Maintenance notification', יחד עם BAPI_ALM_NOTIF_SAVE. קיימת חלופת API רשמית משוחררת: OData " +
+        "Maintenance Notification ‏(API_MAINTNOTIFICATION), חדשה מגרסת S/4HANA 2021, עם פעולות יצירה, קריאה " +
+        "ועדכון, הרשומה ב-SAP Business Accelerator Hub. לא נמצא תיעוד רשמי על הוצאה משימוש של ה-BAPI.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "בחוברת 'APIs for Maintenance Management' לגרסת 2025 FPS01: 'The API_MAINTNOTIFICATION API offers these " +
+          "operations', ובהן Read Maintenance Notification (GET) ו-Create Maintenance Notification, תחת נתיב השירות " +
+          "‎/sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintenanceNotification (כלשון הסניפט). עמוד נפרד באותה חוברת, " +
+          "'Create Maintenance Notification' (loio 3ee214cf240f495cb767765d1a7f773e, 2025.001), מדגים בסניפט POST " +
+          "לאותה ישות.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: 
+        "להמשיך להשתמש ב-BAPI בתרחישי אינטגרציה וטעינה קיימים, ברצף BAPI_ALM_NOTIF_CREATE ואז BAPI_ALM_NOTIF_SAVE " +
+        "ואז BAPI_TRANSACTION_COMMIT על אותו חיבור RFC. לאינטגרציות חדשות (מובייל, IoT, middleware) להעדיף את " +
+        "ה-OData API הרשמי API_MAINTNOTIFICATION, ולאמת ישויות ופרמטרים מול ה-Business Accelerator Hub (דורש מפתח " +
+        "API) או מול מערכת חיה. לתקן את שם השירות ברשומת F1511 במאגר (API_MAINTENANCENOTIFICATION) לשם המתועד " +
+        "API_MAINTNOTIFICATION.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_NOTIF_SAVE",
+      "fm:BAPI_ALM_NOTIF_DATA_ADD",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "tx:IW21",
+      "tx:IW22",
+      "table:QMEL",
+      "table:QMFE",
+      "cds:I_MaintenanceNotification",
+      "fiori:F1511",
+      "fiori:F4604",
+      "enh:badi:NOTIF_EVENT_SAVE",
+      "enh:exit:QQMA0001",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "מה שאומת: שם ה-BAPI בעמוד רשמי אחד בלבד בשירות החיפוש של help.sap.com (Data Migration, אובייקט 'PM - " +
+      "Maintenance notification', 2025 FPS01); שם ה-OData API‏ API_MAINTNOTIFICATION, גרסת השחרור (S/4HANA 2021) " +
+      "והמשכיות התיעוד עד 2025 FPS01 (רשומות What's New לגרסאות 2022, 2023, 2023 FPS02, 2025 ו-2025 FPS01 מתעדות " +
+      "הרחבות לאותו API); הרישום ב-api.sap.com. מה שלא אומת: גוף העמודים ב-help.sap.com וב-api.sap.com לא נקרא " +
+      "(מעטפת JavaScript), ולכן פרמטרי ה-BAPI (NOTIF_TYPE, NOTIFHEADER, NOTIFHEADER_EXPORT), סטטוס ה-Released, " +
+      "קבוצת הפונקציות והרישום ב-BOR (BUS2038) נשארים ברובד המאגר בלבד (data/bapi-enrichment.pm.ts, " +
+      "data/function-intel.ts, data/sapData.pm.ts) ולא נבדקו במערכת חיה; חיבור sc4sap MCP נכשל בסשן. לא נמצא " +
+      "עמוד רשמי הנושא כותרת 'Maintenance Notification BAPIs' או עמוד ALE הנוקב בשם ה-BAPI; העמודים 'Maintenance " +
+      "Notification' (Maintenance Management, 2025 FPS01) ו-What's New EHP7/EHP8 ל-ERP 6.0 נוקבים רק ב-BAdI‏ " +
+      "IWON_NOTIFICATION ‏('Modification of Data in Notification BAPIs') באופן כללי. ה-API אינו מתועד כיורש " +
+      "המחליף את ה-BAPI אלא כחלופה מודרנית, ולכן הסטטוס הוא 'קיים API משוחרר' ולא 'הוחלף'. חיפוש מוגבל-דומיין " +
+      "החזיר כותרות של SAP KBA על התנהגות שדות ב-BAPI (למשל 2525235, 2482578, 1619709, לפי הכותרות בלבד; גוף " +
+      "ה-KBA לא נקרא ודורש כניסת S-user), ולכן הן נרשמות כאן כהפניה ולא כראיה. שם השירות ברשומת ה-Fiori F1511 " +
+      "במאגר (API_MAINTENANCENOTIFICATION; רשומת F4604 נוקבת ב-API_MaintenanceOrder ואינה חלק מהפער) אינו תואם " +
+      "לשם המתועד API_MAINTNOTIFICATION; הפער כבר נרשם ברשומות cds:I_MaintenanceNotification ו-tx:IW21 ומצריך " +
+      "תיקון בקטלוג ה-Fiori. המודול נעדר מ-lib/bapi-registry.ts; הרישום שלו במאגר מגיע " +
+      "מ-data/bapi-enrichment.pm.ts (verified-docs, Released, RFC, BUS2038) ומ-data/function-intel.ts.",
+  },
+
+  /* ------------------------------------- fm:BAPI_ALM_CONF_CREATE */
+  {
+    id: "fm:BAPI_ALM_CONF_CREATE",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Order Operation Confirmation | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/7d6c7de7b9234747978552d4ca44466b.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת החיפוש מתעדת שירות OData נכנס סינכרוני לאישורי פקודות תחזוקה: 'Technical name: " +
+          "API_MAINTORDERCONFIRMATION. This synchronous inbound service enables you to create new maintenance order " +
+          "confirmations and cancel confirmations'; הישות LongText 'Allows you to create long text for a given " +
+          "confirmation'. שם ה-BAPI‏ BAPI_ALM_CONF_CREATE אינו מופיע בכותרת או בסניפט; הזיקה היא זהות המטרה העסקית " +
+          "(יצירת אישור לפעולת פקודת תחזוקה), לא הצהרת החלפה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create a Single Order Operation Confirmation | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/25fae824604447bb9a2dddc6363ce51b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "ב-S/4HANA On-Premise 2025 FPS01 מתועדת פעולת יצירה של אישור פעולה בודד בפקודת תחזוקה דרך שירות ה-OData: " +
+          "'Create a single order operation confirmation ... POST: " +
+          "<host>/sap/opu/odata/sap/API_MAINTORDERCONFIRMATION/MaintOrderConfirmation' (כלשון הסניפט). ערוץ היצירה " +
+          "של אישורי תחזוקת מפעל ב-API הרשמי מתועד אפוא גם בגרסה העדכנית; ה-BAPI עצמו אינו מוזכר ברשומה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_api_hub",
+        sourceTitle: "Overview | Maintenance Order Operation Confirmation",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        url: "https://api.sap.com/api/OP_API_MAINTORDERCONFIRMATION_0001/overview",
+        accessedAt: DATE14,
+        claim: 
+          "‏OP_API_MAINTORDERCONFIRMATION_0001 ‏(Maintenance Order Operation Confirmation) רשום ב-SAP Business " +
+          "Accelerator Hub; הרישום (כותרת וכתובת בלבד) תומך בקיומו של ה-API הרשמי. ישויות, פרמטרים ומצב השחרור בעמוד " +
+          "ה-Hub לא נקראו: העמוד מחזיר 401 ל-HEAD ומפנה להתחברות OAuth ב-GET, ולכן תוכנו לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (PM) לצד רישום ה-BAPI המועשר",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "המאגר מתאר את ה-BAPI כאישור ביצוע פקודת אחזקה (שעות, כמויות, מרכז עבודה) בזיקה ל-IW41/IW42 ולטבלאות " +
+          "AFRU/AFKO, וקובע 'זמין ב-ECC' ו-'זמין ב-S/4HANA; חלופה: Fiori Confirm Maintenance Order'. רישום ה-BAPI " +
+          "המועשר (data/bapi-enrichment.pm.ts) מוסיף פרמטרים TIMETICKETS (BAPI_ALM_TIMECONFIRMATION), DETAIL_RETURN " +
+          "ו-RETURN, ומיקום בשרשרת ORDER_CHAIN בין שחרור הפקודה להשלמה טכנית. רשומת function-intel נוקבת בטבלת קלט " +
+          "CONFIRMATIONS (ORDERID, OPERATION, WORK, FIN_CONF) ואילו bapi-enrichment.pm.ts נוקב ב-TIMETICKETS; שני " +
+          "מקורות הפרויקט אינם מסכימים על שם הפרמטר ואף אחד מהם לא אומת רשמית. שם החלופה 'Confirm Maintenance Order' " +
+          "אינו מזהה Fiori (F-ID) בקטלוג האפליקציות של הפרויקט, וזמינות ה-BAPI ב-S/4HANA נשענת על נתוני הפרויקט " +
+          "בלבד.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_ALM_CONF_CREATE",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: 
+        "ל-BAPI_ALM_CONF_CREATE (יצירת אישור פעולה בפקודת תחזוקת מפעל: שעות עבודה, אישור סופי) קיימת חלופת API " +
+        "רשמית: שירות ה-OData‏ API_MAINTORDERCONFIRMATION ‏(Maintenance Order Operation Confirmation; רישום Hub‏ " +
+        "OP_API_MAINTORDERCONFIRMATION_0001), המתועד ב-S/4HANA On-Premise ליצירה ולביטול של אישורים, כולל פעולת " +
+        "POST ליצירת אישור בודד ב-2025 FPS01. זמינות ה-BAPI עצמו ב-S/4HANA נשענת על נתוני הפרויקט: אף רשומת חיפוש " +
+        "רשמית שנמצאה אינה נוקבת בשמו, ולא נמצא תיעוד רשמי על הוצאתו משימוש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Create a Single Order Operation Confirmation | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/25fae824604447bb9a2dddc6363ce51b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "ב-S/4HANA On-Premise 2025 FPS01 מתועדת פעולת יצירה של אישור פעולה בודד בפקודת תחזוקה דרך שירות ה-OData: " +
+          "'Create a single order operation confirmation ... POST: " +
+          "<host>/sap/opu/odata/sap/API_MAINTORDERCONFIRMATION/MaintOrderConfirmation' (כלשון הסניפט). ערוץ היצירה " +
+          "של אישורי תחזוקת מפעל ב-API הרשמי מתועד אפוא גם בגרסה העדכנית; ה-BAPI עצמו אינו מוזכר ברשומה.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: 
+        "להמשיך להשתמש ב-BAPI בממשקי דיווח שעות קיימים (IW41/IW42, AFRU) ולוודא ב-SE37 במערכת היעד את קיומו ואת " +
+        "הפרמטרים שברשומת המאגר לפני הסתמכות; לאינטגרציות חדשות (דיווח מנייד, IoT) להעדיף את ה-OData API הרשמי " +
+        "API_MAINTORDERCONFIRMATION, ולאמת ישויות, פרמטרים ומצב שחרור מול ה-Business Accelerator Hub (דורש מפתח " +
+        "API) או מול מערכת חיה.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_ORDER_MAINTAIN",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "tx:IW41",
+      "tx:IW42",
+      "table:AFRU",
+      "fiori:F5104A",
+      "enh:exit:CONFPM01",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "ממצא שלילי תחום בחיפוש: שש שאילתות בשירות החיפוש של help.sap.com (מוצר SAP_S4HANA_ON-PREMISE) ושאילתה אחת " +
+      "במוצר SAP_ERP לא החזירו רשומה שכותרתה או הסניפט שלה נוקבים ב-BAPI_ALM_CONF_CREATE; גם חיפוש מוגבל " +
+      "ל-help.sap.com ו-api.sap.com לא החזיר עמוד כזה. לכן קיום ה-BAPI ותכולת הפרמטרים שלו נשארים ברמת נתוני " +
+      "הפרויקט (data/function-intel.ts, data/bapi-enrichment.pm.ts) ודורשים אימות ב-SE37. הסטטוס 'קיים API " +
+      "משוחרר' נסמך על רשומות APIs for Maintenance Management (2023 Latest ו-2025 FPS01) ועל רישום api.sap.com; " +
+      "זו חלופה משוחררת לאותה מטרה עסקית, לא הצהרת החלפה רשמית, ולכן אין יורש. ערך edition ברשומת ה-Hub נשען על " +
+      "מוסכמת השמות OP_ ועל שיוך החוברת ל-S/4HANA On-Premise, לא על טקסט רישום בר-ציטוט. רשומת What's New 2021 " +
+      "'Maintenance Order Operation Confirmation Events' (אירועי Created/Canceled של אובייקט האישור) אותרה ולא " +
+      "צורפה כראיה, כי אינה נוגעת ל-BAPI. ניואנס מאגר: החלופה 'Fiori Confirm Maintenance Order' שברשומת " +
+      "function-intel אינה תואמת שם אפליקציה בקטלוג; רשומת fiori:F2730 בשכבת האימות מפנה טכנאים ל-Perform " +
+      "Maintenance Jobs (F5104A) או ל-IW41/IW42, ולכן F5104A נרשם כהפניה צולבת ולא כטענת החלפה. השם הטכני של " +
+      "השירות הוא API_MAINTORDERCONFIRMATION (לא API_MAINTENANCEORDERCONF). ערכי verified-docs, s4OnPremSupport " +
+      "yes ו-Released · RFC ברישום bapi-enrichment.pm.ts הם ברירות מחדל של התבנית g() המוחלות על כל רשומת PM, לא " +
+      "נתון ייעודי ל-BAPI זה.",
+  },
+
+  /* -------------------------------- fm:BAPI_ALM_NOTIF_GET_DETAIL */
+  {
+    id: "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: 
+          "help.sap.com search: \"BAPI_ALM_NOTIF_GET_DETAIL\", \"BAPI_ALM_NOTIF\", \"BAPI_ALM_NOTIF_SAVE\", \"BAPI " +
+          "maintenance notification read PM notification BAPI\" (SAP_S4HANA_ON-PREMISE)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "ממצא שלילי: בארבע שאילתות לשירות החיפוש של SAP Help אף רשומה אינה נוקבת בשם BAPI_ALM_NOTIF_GET_DETAIL " +
+          "בכותרת או בתקציר. ארבע התוצאות לשם המדויק שייכות לחוברות שאינן קשורות (Brazil, Treasury and Risk " +
+          "Management, APIs for Warehousing, What's New 1709 FPS02) ותקציריהן ריקים. לא אותר תיעוד SAP Help רשמי " +
+          "הנוקב ב-BAPI הקריאה של הודעת האחזקה (תחזוקת מפעל); הממצא תחום לחיפוש ואינו הוכחה להיעדר תיעוד.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "העמוד מתעד את הפעולות של API_MAINTNOTIFICATION ל-S/4HANA On-Premise 2025 FPS01, ובהן 'Read Maintenance " +
+          "Notification' בשיטת GET תחת הנתיב /sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintenanceNotification, כלשון " +
+          "התקציר. התקציר מוסיף שכותרת If-Match חובה בכל פעולות השינוי של השירות; פירוט פעולות השינוי עצמן אינו " +
+          "מופיע בתקציר.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "OData API: Maintenance Notification | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/2fb95f8272f343e68f4bf384f1d2bfcb.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת What's New לגרסת S/4HANA 2021 מציגה את Maintenance Notification API כשירות המאפשר ליצור, לקרוא " +
+          "ולעדכן נתוני הודעות אחזקה ('enables you to create, read, and update data related to maintenance " +
+          "notifications', כלשון התקציר).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance notification | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/c03f981dd76f4fc7a241f17adc80758b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "עמוד אובייקט המיגרציה של הודעת אחזקה ב-2025 FPS01 נוקב תחת 'APIs/BAPIs' ב-BAPI_ALM_NOTIF_CREATE " +
+          "וב-BAPI_ALM_NOTIF_SAVE (ובמודול הפונקציה CNV_PE_S4_PM_NOTIF_CREATE), ומשייך אותו ל-Business Object‏ " +
+          "Maintenance Notification. שני אחים ממשפחת ה-BAPI של הודעת האחזקה מתועדים אפוא ב-S/4HANA 2025 FPS01; " +
+          "ה-BAPI הקורא BAPI_ALM_NOTIF_GET_DETAIL עצמו אינו נזכר בתקציר.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_api_hub",
+        sourceTitle: "Overview | Maintenance Notification",
+        url: "https://api.sap.com/api/OP_API_MAINTNOTIFICATION/overview",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "‏OP_API_MAINTNOTIFICATION ‏(Maintenance Notification) רשום ב-SAP Business Accelerator Hub; הרישום תומך " +
+          "בקיומו של ה-API הרשמי. פרטי ישויות ופרמטרים לא נקראו (העמוד הוא מעטפת JavaScript ודורש מפתח API).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של הפרויקט (PM enrichment) והקטלוג הפונקציונלי",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת ההעשרה מתארת BAPI מסוג Read (קריאה בלבד, ללא SAVE/COMMIT) על אובייקט BOR‏ BUS2038, בזיקה " +
+          "ל-IW21/IW22/IW23/IW28/IW29 ולטבלאות QMEL/QMFE/QMUR/QMMA/QMSM, עם סיכום פרמטרים 'IMP NUMBER · EXP " +
+          "NOTIFHEADER_EXPORT · NOTIFHDTEXT · TAB NOTLONGTXT · NOTITEM · NOTIFCAUS · NOTIFACTV · NOTIFTASK · " +
+          "NOTIFPARTNR · RETURN', סטטוס 'Released · RFC · created 4.6 (110)', verificationStatus verified-docs, " +
+          "תמיכת S/4HANA On-Premise 'yes' ותמיכת Cloud 'unknown'. רשומת הקטלוג (data/function-intel.ts) מציינת " +
+          "כחלופה OData בשם API_MAINTENANCENOTIFICATION, שם שאינו תואם לשם הטכני המתועד API_MAINTNOTIFICATION.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_ALM_NOTIF_GET_DETAIL",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: 
+        "לקריאת הודעות אחזקה (תחזוקת מפעל) קיים ב-S/4HANA On-Premise ממשק OData רשמי: API_MAINTNOTIFICATION עם " +
+        "פעולת Read Maintenance Notification (GET), מתועד ב-APIs for Maintenance Management לגרסת 2025 FPS01, מוצג " +
+        "כחדש ב-What's New 2021 ורשום ב-Business Accelerator Hub כ-OP_API_MAINTNOTIFICATION. ה-BAPI עצמו, " +
+        "BAPI_ALM_NOTIF_GET_DETAIL, אינו נזכר באף רשומת SAP Help שנסרקה; זמינותו ב-S/4HANA נשענת על רשומת המאגר " +
+        "(verified-docs, Released RFC) ועל כך שאחיו למשפחה BAPI_ALM_NOTIF_CREATE ו-BAPI_ALM_NOTIF_SAVE נקובים " +
+        "בתיעוד המיגרציה של 2025 FPS01. לא נמצא תיעוד רשמי על הוצאתו משימוש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "העמוד מתעד את הפעולות של API_MAINTNOTIFICATION ל-S/4HANA On-Premise 2025 FPS01, ובהן 'Read Maintenance " +
+          "Notification' בשיטת GET תחת הנתיב /sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintenanceNotification, כלשון " +
+          "התקציר. התקציר מוסיף שכותרת If-Match חובה בכל פעולות השינוי של השירות; פירוט פעולות השינוי עצמן אינו " +
+          "מופיע בתקציר.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: 
+        "בממשקי RFC קיימים אפשר להמשיך להשתמש ב-BAPI לקריאת כותרת, פריטים, סיבות, פעילויות, משימות ושותפים של " +
+        "ההודעה, לאחר אימות קיומו וסטטוס השחרור שלו במערכת היעד (SE37 או BAPI Explorer). לאינטגרציות חדשות, " +
+        "ובמיוחד לתרחישי OData/REST, להעדיף את API_MAINTNOTIFICATION (Read Maintenance Notification) ולאמת את " +
+        "רשימת הישויות והשדות מול ה-Business Accelerator Hub (דורש מפתח API) או מול מערכת חיה.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_NOTIF_CREATE",
+      "fm:BAPI_ALM_NOTIF_SAVE",
+      "fm:BAPI_ALM_ORDER_GET_DETAIL",
+      "fm:NOTIF_ITEM_READ",
+      "table:QMEL",
+      "table:QMFE",
+      "table:QMUR",
+      "table:QMMA",
+      "table:QMSM",
+      "tx:IW23",
+      "tx:IW53",
+      "cds:I_MaintenanceNotification",
+      "cds:I_MaintNotificationItem",
+      "fiori:F4604",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "(1) הסטטוס 'קיים API משוחרר' נסמך על עמוד Operations for Maintenance Notifications (2025.001), על רשומת " +
+      "What's New 2021 (loio 2fb95f8272f343e68f4bf384f1d2bfcb) ועל רישום OP_API_MAINTNOTIFICATION ב-api.sap.com; " +
+      "זו חלופה משוחררת ולא טענת החלפה רשמית, ולכן אין יורש. (2) שם ה-BAPI עצמו לא נמצא באף רשומת help.sap.com; " +
+      "קיומו, סטטוס השחרור שלו ורשימת הפרמטרים (NOTIFHEADER_EXPORT, NOTITEM, NOTIFCAUS, NOTIFACTV, NOTIFTASK, " +
+      "NOTIFPARTNR) נשענים על רשומת המאגר בלבד ודורשים אימות ב-SE37 במערכת היעד. (3) גופי עמודי ה-Help לא נקראו; " +
+      "כל טענה תחומה בכותרת ובתקציר של רשומת החיפוש; ספירות התוצאות של שירות החיפוש אינן יציבות בין הרצות ולכן " +
+      "אינן נרשמות. (4) רישום api.sap.com אותר בכותרתו בלבד ('Overview | Maintenance Notification'); ערך edition " +
+      "נשען על מוסכמת השמות OP_, כמו ברשומת BAPI_ALM_ORDER_MAINTAIN. (5) סטייה בשם במאגר: data/function-intel.ts " +
+      "כותב API_MAINTENANCENOTIFICATION בעוד השם הטכני המתועד הוא API_MAINTNOTIFICATION; אין סתירה בסטטוס, רק " +
+      "בשם. (6) BAPI_ALM_NOTIF_LIST_FILTER לא נכלל ב-xrefs: המאגר (data/bapi-enrichment.pm.ts) מסמן אותו כשם לא " +
+      "תקני; NOTIF_ITEM_READ נשמר כ-xref משום שרשומת הסריקה שלו מפנה ל-BAPI זה כחלופה, אך שמו מסומן במאגר כלא " +
+      "מאומת. (7) מהדורות Cloud לא נבדקו ברשומה זו.",
+  },
+
+  /* ------------------------------------- fm:BAPI_ALM_NOTIF_CLOSE */
+  {
+    id: "fm:BAPI_ALM_NOTIF_CLOSE",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Notification Function Import | APIs for Maintenance Management",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/7bd31588632341a59ea17bcc32812498.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE14,
+        claim: 
+          "בשירות ה-OData של הודעת האחזקה (תחזוקת מפעל) קיימת פעולת Function Import להשלמת הודעה (הסניפט מציג את שם " +
+          "הפעולה חלקית: \"...Maintenance Notification\") המציבה את סטטוס המערכת NOCO (Notification completed) יחד עם " +
+          "תאריך ושעת ייחוס; לצידה קיימת הפעולה Set Maintenance Notification To In Process המציבה NOPR. הסניפט אינו " +
+          "מזכיר את BAPI_ALM_NOTIF_CLOSE; גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "ה-API‏ API_MAINTNOTIFICATION מתועד ל-S/4HANA On-Premise 2025 FPS01 עם הפעולות קריאה (GET), יצירה (POST) " +
+          "ועדכון (PATCH) של הודעת אחזקה תחת נתיב השירות " +
+          "‎/sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintenanceNotification; כותרת If-Match נדרשת לכל פעולות " +
+          "השינוי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_api_hub",
+        sourceTitle: "Maintenance Notification",
+        url: "https://api.sap.com/api/API_MAINTNOTIFICATION/resource",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "חיפוש רשת מוגבל ל-api.sap.com מחזיר את הכותרת \"Maintenance Notification\" לכתובת " +
+          "/api/API_MAINTNOTIFICATION/resource, ומכאן שה-API‏ API_MAINTNOTIFICATION רשום ב-SAP Business Accelerator " +
+          "Hub. עמוד ה-Hub עצמו הוא מעטפת JavaScript עם הפניה להתחברות (666 בתים ב-curl, זהה לעמוד של שם API לא " +
+          "קיים), ולכן הישויות והפרמטרים לא נקראו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של הפרויקט (PM enrichment) והקטלוג הפונקציונלי",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת המאגר מתארת את BAPI_ALM_NOTIF_CLOSE כהשלמה/סגירה של הודעת אחזקה הקובעת סטטוס מערכת NOCO, אובייקט " +
+          "BOR‏ BUS2038, קבוצת פונקציות IWOPM, פרמטרים IMP NUMBER / SYSTSTAT / TESTRUN, EXP SYSTEMSTATUS / " +
+          "USERSTATUS, TAB RETURN, וסטטוס 'Released · RFC · created 4.6 (110)'; שדות ה-ECC וה-S/4HANA On-Premise " +
+          "מסומנים 'yes' במקור המאגר (verified-docs), ללא עמוד SAP Help בר-ציטוט הנוקב בשם ה-BAPI.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_ALM_NOTIF_CLOSE",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: 
+        "‏BAPI להשלמת הודעת אחזקה (תחזוקת מפעל): קביעת סטטוס המערכת NOCO להודעה שמורה. זמינות ה-BAPI ב-S/4HANA " +
+        "On-Premise, חתימת הממשק וסטטוס השחרור נשענים על נתוני המאגר בלבד; חיפוש ישיר של שם ה-BAPI בשירות החיפוש " +
+        "של SAP Help (On-Premise ו-SAP ERP) לא העלה סניפט רשמי הנוקב בו, ותוצאת חיפוש רשת אחת (עמוד Data " +
+        "Migration) אינה ניתנת לאימות ללא גוף העמוד. מה שמתועד רשמית: מושג ההשלמה (NOCO) וה-API הרשמי מסוג OData‏ " +
+        "API_MAINTNOTIFICATION, הכולל Function Import להשלמת הודעה (הצבת NOCO עם תאריך ושעת ייחוס) המבצע את אותה " +
+        "פעולה עסקית; שם הפעולה המלא לא נראה בסניפט. אף מקור רשמי אינו מכריז על הוצאה משימוש או על החלפה של " +
+        "ה-BAPI.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: 
+        "דורש אימות במערכת SAP חיה (SE37 / BAPI Explorer): קיום ה-BAPI, פרמטרי הממשק (SYSTSTAT, TESTRUN, " +
+        "SYSTEMSTATUS, USERSTATUS) וסטטוס השחרור. באינטגרציות קיימות לשמור על רצף הקריאות: CLOSE ואחריו " +
+        "BAPI_ALM_NOTIF_SAVE ו-BAPI_TRANSACTION_COMMIT על אותו חיבור RFC, ולבדוק את טבלת RETURN. לאינטגרציות חדשות " +
+        "לבחון את ה-Function Import להשלמת הודעה של API_MAINTNOTIFICATION (שמו המלא דורש אימות מול ה-Hub או מערכת " +
+        "חיה), ולאמת את פרטי הפעולה מול ה-Business Accelerator Hub (דורש מפתח API) או מול מערכת חיה.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_NOTIF_CREATE",
+      "fm:BAPI_ALM_NOTIF_SAVE",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:BAPI_ALM_NOTIF_CHANGEUSRSTAT",
+      "fm:BAPI_ALM_NOTIF_PUTINPROGRESS",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "tx:IW22",
+      "table:QMEL",
+      "table:JEST",
+      "cds:I_MaintenanceNotification",
+      "fiori:F4604",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "עובדות ברמת ה-BAPI נשארות 'נדרש אימות': חיפוש ישיר של \"BAPI_ALM_NOTIF_CLOSE\" בשירות החיפוש של SAP Help " +
+      "ב-2026-09-14 (מוצר On-Premise וגם SAP ERP) החזיר רק תוצאות לא קשורות ללא סניפט. חיפוש רשת מוגבל " +
+      "ל-help.sap.com עם השם המדויק החזיר את עמוד ה-Data Migration‏ 'PM - Maintenance notification' ‏(2025.001) " +
+      "כתוצאה, אך הסניפט הרשמי של העמוד מציג רק את השמות BAPI_ALM_NOTIF_CREATE ו-BAPI_ALM_NOTIF_SAVE (הסניפט " +
+      "קטוע) ואינו מציג את CLOSE, ולכן העמוד לא צוטט כראיה; הוא מעיד שמשפחת ה-BAPI פעילה ב-S/4HANA 2025 FPS01 " +
+      "ותו לא. גופי העמודים של help.sap.com הם מעטפת JavaScript (1160 בתים ב-curl) ולא נקראו; כל טענה תחומה " +
+      "בכותרת ובסניפט. עמוד ה-Function Import נמצא בגרסה 2023.latest בלבד (גם בחיפוש עם version=2025.001); עמוד " +
+      "הפעולות של אותו שירות נמצא ב-2025.001. שם ה-Function Import המלא אינו נראה בסניפט (מוצג '...Maintenance " +
+      "Notification' לפני תיאור הצבת NOCO). ה-OData API אינו מוצג באף מקור רשמי כיורש של ה-BAPI, ולכן לא נטענת " +
+      "החלפה והיורש נשאר ריק. ראיית api.sap.com נשענת על כותרת תוצאת חיפוש ('Maintenance Notification' בכתובת " +
+      "/resource) ולא על טקסט עמוד; ערך edition ברשומה זו נשען על תיעוד אותו שם שירות בעמוד On-Premise 2025.001. " +
+      "חיבור sc4sap (מערכת חיה) נכשל בסשן זה. הסטטוס הנגזר במאגר (unchanged, מאומת מול נתוני הפרויקט) אינו סותר " +
+      "את הממצאים; הרשומה המפורשת מורידה את רמת הביטחון בלבד. עמוד 'Configuring Events to Adapt the Maintenance " +
+      "Process' ‏(2025.001) מאשש בסניפט שהודעות מוצבות ל-Notification Completed (NOCO), ועמוד ההודעות " +
+      "הכלל-יישומי 'Process Notification' ‏(2025.001, מסווג תחת Internal Service Request / CO) מאשש בסניפט את " +
+      "הכלל שאין להשלים הודעה עם משימות פתוחות, בהתאמה לרשימת הכשלים ברשומת המאגר.",
+  },
+
+  /* ----------------------------- fm:BAPI_ALM_NOTIF_CHANGEUSRSTAT */
+  {
+    id: "fm:BAPI_ALM_NOTIF_CHANGEUSRSTAT",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: 
+          "help.sap.com search: \"BAPI_ALM_NOTIF_CHANGEUSRSTAT\", \"BAPI_ALM_NOTIF\", \"BAPI_ALM_NOTIF change user status " +
+          "maintenance notification\", \"maintenance notification user status API\", \"BUS2038 maintenance notification " +
+          "BAPI\", \"BAPIs maintenance notification PM-WOC-MN\" ועוד (SAP_S4HANA_ON-PREMISE)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "ממצא שלילי: 12 שאילתות בשירות החיפוש של SAP Help (242 רשומות, כולל חוברות Maintenance Management, APIs " +
+          "for Maintenance Management, What's New 2021 עד 2025 FPS01 ו-Notifications CS-CM-SN/PM-WOC-MN) וחיפוש " +
+          "מוגבל לדומיינים help.sap.com / api.sap.com / fioriappslibrary / fal.cloud.sap לא העלו אף רשומה שנוקבת בשם " +
+          "BAPI_ALM_NOTIF_CHANGEUSRSTAT בכותרת או בתקציר; שאילתת השם חזרה על עצמה גם בסקופ SAP_ERP ובסקופ " +
+          "SAP_S4HANA_CLOUD ללא רשומה הנוקבת בשם. לא אותר תיעוד SAP רשמי ציבורי למודול, לפרמטרים שלו או לסטטוס " +
+          "השחרור שלו ב-S/4HANA.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת ה-BAPI של הפרויקט (PM_ADDITIONS, משפחת הודעות תחזוקה BUS2038)",
+        product: "SAP ECC 6.0 / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת המאגר מתארת שינוי סטטוס משתמש (User Status) של הודעת תחזוקה, להבדיל מסטטוס מערכת, עם פרמטרים IMP " +
+          "NUMBER, USR_STATUS, SET_INACTIVE, TESTRUN, EXP SYSTEMSTATUS, USERSTATUS, TAB RETURN; טרנזקציות " +
+          "IW21/IW22/IW23/IW28/IW29; טבלאות QMEL, QMFE, QMUR, QMMA, QMSM; רצף חובה SAVE ואז BAPI_TRANSACTION_COMMIT " +
+          "על אותו חיבור RFC. הרשומה מסומנת verified-docs עם מקור 'SAP Help (BUS2038) + SE37 metadata (fn group " +
+          "IWOPM) + KBA 1923267' מ-2026-07-14, ללא URL. רשומת SWEEP מקבילה (data/bapi-enrichment.sweep.ts) נוקבת " +
+          "בשמות פרמטרים אחרים (USER_STATUS / USER_ST_CODE), אך לפי audit/s4-enrichment/baseline-inventories.json " +
+          "היא 'dead patch' שאינה מגיעה לרישום; שמות הפרמטרים לא אומתו ב-SE37 במסגרת בדיקה זו.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_ALM_NOTIF_CHANGEUSRSTAT",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Changing the User Status in the Notification | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/a6d17e55b6b5d572e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "הקשר פונקציונלי בלבד (לא טענה על ה-BAPI): לפי התקציר, סטטוסי משתמש מוגדרים בפרופיל סטטוס ב-Customizing של " +
+          "תחזוקת מפעל ושירות לקוחות (נתיב Maintenance and Service Processing, Maintenance and Service " +
+          "Notifications, Notification Processing, User Status for Notifications), ובעל ההרשאות המתאימות יכול " +
+          "להגדיר, לשנות ולמחוק סטטוסי משתמש ברמת כותרת וברמת משימה בהודעות תחזוקה ב-S/4HANA 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Carry Out a Mass Change | Notifications (CS-CM-SN/PM-WOC-MN)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7f05ca069f8744759f48892c6d307fab/69cab65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "הקשר בלבד: תיעוד S/4HANA 2025 FPS01 של שינוי המוני בהודעות (IW28) עדיין מפנה למשפחת ה-BAPI של הודעות דרך " +
+          "ה-BAdI 'Modification of Data in Notification BAPIs (IWON_NOTIFICATION)' לשיוך ולתקפות של שדות לקוח. " +
+          "התקציר אינו נוקב בשם BAPI_ALM_NOTIF_CHANGEUSRSTAT ואינו קובע דבר על סטטוס השחרור שלו.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: 
+        "BAPI לשינוי סטטוס משתמש (User Status) של הודעת תחזוקה (BUS2038) בתחזוקת מפעל, לפי רשומת המאגר. לא נמצא לו " +
+        "תיעוד SAP רשמי ציבורי ב-SAP Help או ב-SAP Business Accelerator Hub, ואף מקור רשמי לא נוקב בסטטוס השחרור " +
+        "שלו או בשינוי שלו ב-S/4HANA. ה-OData API המתועד להודעות תחזוקה (API_MAINTNOTIFICATION) אינו נזכר בתקצירי " +
+        "SAP Help כמחליף של BAPI זה ולא נמצאה בו פעולה מתועדת לסטטוס משתמש. נדרש אימות קיום, סטטוס שחרור (SE37, " +
+        "Release Information) ושמות הפרמטרים במערכת SAP.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: 
+        "לאמת ב-SE37 במערכת S/4HANA את קיום המודול, את סטטוס השחרור (Released / Not Released) ואת שמות הפרמטרים " +
+        "(USR_STATUS / SET_INACTIVE לעומת USER_STATUS / USER_ST_CODE), ולתעד את הממצא ברשומה. עד אז לתכנן ממשקי " +
+        "סטטוס משתמש בהנחה שהמודול קיים אך לא מתועד רשמית, לשמור על רצף SAVE ואז BAPI_TRANSACTION_COMMIT, ולבדוק " +
+        "אם ה-OData API להודעות תחזוקה מכסה את הצורך לפני כתיבת RFC חדש.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_NOTIF_SAVE",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "fm:BAPI_ALM_NOTIF_PUTINPROGRESS",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "tx:IW22",
+      "tx:IW28",
+      "table:QMEL",
+      "table:JEST",
+      "table:TJ30",
+      "cds:I_MaintenanceNotification",
+      "fiori:F4604",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "הסטטוס הנגזר כיום באפליקציה (מרישום הפונקציות: verified-docs, תמיכת S/4HANA On-Premise 'כן', 'Released · " +
+      "RFC · created 4.6 (110)') מציג 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט'; רשומה זו מורידה אותו " +
+      "ל'נדרש אימות נוסף' משום שמקור ה-verified-docs של המאגר אינו נושא URL ולא אותר בשירות החיפוש הרשמי. שתי " +
+      "הראיות הרשמיות כאן הן הקשר בלבד (ניהול סטטוס משתמש בהודעות, ומשפחת 'Notification BAPIs' דרך " +
+      "IWON_NOTIFICATION) ואינן מאמתות את המודול עצמו. ה-OData API להודעות תחזוקה מתועד רשמית (Operations for " +
+      "Maintenance Notifications, APIs for Maintenance Management, 2025.001, loio " +
+      "061b31b90a88432fad5e710aa9cd175c) אך התקצירים שנבדקו מציגים קריאה, יצירה ועדכון של ההודעה ולא פעולה " +
+      "לסטטוס משתמש; פעולות UpdateUserStatus שעלו בחיפוש הרשמי שייכות ל-API_CHANGE_RECORD (PLM, APIs for Product " +
+      "Lifecycle Management 2025.001) ולישות Maintenance Planning Bucket (What's New 2025 FPS01), לא להודעות " +
+      "תחזוקה. KBA 1923267 מופיע רק ברשומת המאגר ולא אומת. סוגי הודעה 01/02/03 שברשומת המאגר לא נבדקו מול מקור " +
+      "רשמי.",
+  },
+
+  /* ---------------------------------- fm:BAPI_ALM_NOTIF_DATA_ADD */
+  {
+    id: "fm:BAPI_ALM_NOTIF_DATA_ADD",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Notification Item | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/abf44d7da8114c3a9b958cf9f8366fce.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "תיעוד ה-API הרשמי ל-S/4HANA On-Premise 2025 FPS01 מתעד פעולת OData ליצירת פריט להודעת תחזוקה קיימת: 'With " +
+          "this operation, you can create item for existing notification using POST requests', תחת נתיב השירות " +
+          "‎/sap/opu/odata/sap/API_MAINTNOTIFICATION (כלשון הסניפט). זו חלופת OData רשמית לתרחיש הוספת פריט להודעה " +
+          "קיימת; המיפוי לפעולת הפריטים של ה-BAPI הוא של הפרויקט, העמוד אינו נוקב בשם ה-BAPI.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "טבלת הפעולות של API_MAINTNOTIFICATION ‏(2025.001) מונה 'Create Notification Item Activity POST' על הישות " +
+          "MaintNotificationItemActivity ו-'Create Notification Partner POST' על הישות " +
+          "MaintenanceNotificationPartner, לצד Read/Update להודעה; כלומר הוספת פעילויות ושותפים להודעה מכוסה ב-OData " +
+          "API הרשמי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Notification | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/78c09d53839cca11e10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "עמוד הודעת התחזוקה ב-Maintenance Management‏ 2025 FPS01 מפנה ל-BAdI‏ 'Modification of Data in " +
+          "Notification BAPIs (IWON_NOTIFICATION)' לבדיקת נתונים; כלומר BAdI למשפחת ה-Notification BAPIs מתועד בגרסה " +
+          "זו. הסניפט אינו נוקב בשם BAPI_ALM_NOTIF_DATA_ADD.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: 
+          "help.sap.com search: \"BAPI_ALM_NOTIF_DATA_ADD\", \"BAPI_ALM_NOTIF\", \"Notification BAPIs maintenance " +
+          "notification\" (SAP_S4HANA_ON-PREMISE)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "ממצא שלילי תחום-חיפוש: הרצות חוזרות של שאילתת השם הטכני ב-2026-09-14 החזירו בין רשומה אחת לארבע רשומות " +
+          "מתחומים שאינם תחזוקת מפעל (Social Media Integration, Defense & Security, Brazil, PP, ובהרצה אחת גם " +
+          "Insurance), אף אחת מהן אינה נוקבת ב-BAPI_ALM_NOTIF_DATA_ADD בכותרתה והסניפט שלהן ריק; שאילתת " +
+          "BAPI_ALM_NOTIF (12 רשומות, סניפטים ריקים) ושאילתת Notification BAPIs maintenance notification (21 רשומות) " +
+          "לא החזירו עמוד המתעד את ה-BAPI בשמו. סטטוס השחרור (Released) ורשימת הפרמטרים של ה-BAPI לא אומתו מול מקור " +
+          "רשמי.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של הפרויקט (PM enrichment) ורשומת קטלוג הפונקציות",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "המאגר מתעד את ה-BAPI כחלק ממשפחת BUS2038: הוספת פריטים, סיבות, פעילויות, משימות ושותפים להודעה (טבלאות " +
+          "NOTITEM, NOTIFCAUS, NOTIFACTV, NOTIFTASK, NOTIFPARTNR לפי parameterSummary), verified-docs, תמיכה " +
+          "ב-S/4HANA On-Premise: כן, Public Cloud: לא צוין; רצף כתיבה CREATE ← DATA_ADD ← SAVE ← " +
+          "BAPI_TRANSACTION_COMMIT. רשומת הקטלוג משייכת אותו ל-IW22, לטבלאות QMFE/QMUR ולתהליך PM-6, וה-BAPI רשום גם " +
+          "תחת QMEL ו-QMFE בדאטהסט הבלופרינט (data/sapData.pm.ts).",
+        verificationLevel: "repository_verified",
+        repoRef: 
+          "data/bapi-enrichment.pm.ts#BAPI_ALM_NOTIF_DATA_ADD; data/function-intel.ts#BAPI_ALM_NOTIF_DATA_ADD; " +
+          "data/sapData.pm.ts#QMEL,QMFE",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: 
+        "קיימת חלופת API רשמית לפעולות ה-BAPI: OData‏ API_MAINTNOTIFICATION ב-S/4HANA On-Premise 2025 FPS01 מתעד " +
+        "יצירת פריט להודעה קיימת, יצירת פעילות פריט ויצירת שותף להודעה. ה-BAPI עצמו אינו נזכר בשמו באף רשומת " +
+        "help.sap.com שאותרה; זמינותו ב-S/4HANA נשענת על נתוני הפרויקט ועל כך שמשפחת Notification BAPIs מתועדת " +
+        "ב-2025 FPS01 דרך ה-BAdI IWON_NOTIFICATION. לא אותר תיעוד רשמי על הוצאה משימוש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Create Notification Item | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/abf44d7da8114c3a9b958cf9f8366fce.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "תיעוד ה-API הרשמי ל-S/4HANA On-Premise 2025 FPS01 מתעד פעולת OData ליצירת פריט להודעת תחזוקה קיימת: 'With " +
+          "this operation, you can create item for existing notification using POST requests', תחת נתיב השירות " +
+          "‎/sap/opu/odata/sap/API_MAINTNOTIFICATION (כלשון הסניפט). זו חלופת OData רשמית לתרחיש הוספת פריט להודעה " +
+          "קיימת; המיפוי לפעולת הפריטים של ה-BAPI הוא של הפרויקט, העמוד אינו נוקב בשם ה-BAPI.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: 
+        "בתרחישי RFC קיימים להמשיך ברצף CREATE ← DATA_ADD ← SAVE ← COMMIT על אותו חיבור, ולאמת ב-SE37 במערכת היעד " +
+        "את סטטוס השחרור ואת טבלאות הפרמטרים (NOTITEM, NOTIFCAUS, NOTIFACTV, NOTIFTASK, NOTIFPARTNR). לאינטגרציות " +
+        "חדשות להעדיף את OData‏ API_MAINTNOTIFICATION (פריט, פעילות, שותף) ולאמת את כיסוי הסיבות (Causes) והמשימות " +
+        "(Tasks) מול תיעוד ה-API בגרסת היעד.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_NOTIF_CREATE",
+      "fm:BAPI_ALM_NOTIF_SAVE",
+      "fm:BAPI_ALM_NOTIF_DATA_MODIFY",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "table:QMEL",
+      "table:QMFE",
+      "table:QMUR",
+      "table:QMMA",
+      "table:QMSM",
+      "tx:IW22",
+      "cds:I_MaintNotificationItem",
+      "cds:I_MaintNotifActivity",
+      "fiori:F4604",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "הסטטוס 'קיים API משוחרר' נסמך על עמודי APIs for Maintenance Management‏ 2025.001 (Create Notification " +
+      "Item; Operations for Maintenance Notifications) המתעדים יצירת פריט, פעילות פריט ושותף להודעה קיימת " +
+      "ב-API_MAINTNOTIFICATION; זו חלופה רשמית, לא טענת החלפה, ולכן אין יורש. עמוד Create Notification Item " +
+      "Cause אותר בחיפוש רק בגרסת 2023 latest ולא צורף כראיה, ולכן כיסוי הסיבות ב-OData נשאר לאימות. אף רשומת " +
+      "help.sap.com שאותרה אינה נוקבת ב-BAPI_ALM_NOTIF_DATA_ADD בשמו: המסמך היחיד ברמת BAPI הוא עמוד Maintenance " +
+      "Notification‏ 2025.001 המפנה ל-BAdI IWON_NOTIFICATION למשפחת ה-Notification BAPIs; ה-BAdI אינו קיים ביקום " +
+      "ה-xrefs של הפרויקט ולכן נשאר בפרוזה. סטטוס Released, קבוצת הפונקציות וטבלאות הפרמטרים מגיעים מנתוני " +
+      "הפרויקט בלבד (verified-docs מ-2026-07-14) ולא אומתו מול מקור רשמי. ניואנס מאגר (לא סתירה): " +
+      "data/function-intel.ts מתאר הוספה 'להודעה שטרם נשמרה' בעוד data/bapi-enrichment.pm.ts מתאר 'הודעה קיימת'; " +
+      "שני השימושים אפשריים לפי הרצף המתועד במאגר, אך ההתנהגות מול הודעה שמורה לא אומתה רשמית. כיסוי משימות " +
+      "(NOTIFTASK) ב-OData: רשומת What's New 2021 FPS01 מדברת על 'task list' ב-Maintenance Notification API, " +
+      "וניסוח זה לא הוצלב מול עמוד פעולות 2025.001, לכן נשאר לאימות. עמוד api.sap.com/api/API_MAINTNOTIFICATION " +
+      "אותר ב-WebSearch אך גופו הוא מעטפת JS ולא נקרא; לא נרשם כראיה. Public Cloud לא נבדק.",
+  },
+
+  /* ------------------------------------- fm:BAPI_GOODSMVT_CREATE */
+  {
+    id: "fm:BAPI_GOODSMVT_CREATE",
+    aliases: ["BAPI_GOODSMVT_CREATE (אם נדרש)", "BAPI_GOODSMVT_CREATE - פליטת חומר לפק\"ע (261)"],
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle: 
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 27.6 S4TWL - AVAILABILITY OF " +
+          "TRANSACTIONS IN MM-IM (MM-IM-GF)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE14,
+        claim: 
+          "פריט 27.6 (עמ' 644-645) קובע שטרנזקציות ה-MB לרישום ולהצגה של תנועות סחורה (MB01, MB02, MB03, MB04, MB05, " +
+          "MB0A, MB11, MB1A, MB1B, MB1C, MB31, MBNL, MBRL, MBSF, MBSL, MBST, MBSU, MBBM) 'have been replaced by the " +
+          "single-screen generalized transaction MIGO or the BAPI's BAPI_GOODSMVT_CREATE and BAPI_GOODSMVT_CANCEL'. " +
+          "מ-S/4HANA OP1610 ומעלה הוכנס מנגנון נעילה חדש ומשופר ל-MIGO ול-BAPI_GOODSMVT_CREATE ('a new enhanced and " +
+          "improved lock concept has been introduced for transaction MIGO and the BAPI BAPI_GOODSMVT_CREATE'), בעוד " +
+          "הטרנזקציות הישנות עדיין משתמשות במנגנון הישן (note 2319579), ולכן רישום מקבילי דרכן ודרך MIGO או ה-BAPI " +
+          "עלול ליצור אי-עקביות מלאי. בסעיף הפתרון: להחליף קוד לקוח הקורא ל-MB01, MB04, MB05, MB0A, MB11, MB1A, " +
+          "MB1B, MB1C, MB31, MBNL, MBRL, MBSF, MBSL ו-MBSU (למשל CALL TRANSACTION MBxy) בשימוש במודול הפונקציה " +
+          "BAPI_GOODSMVT_CREATE; את MBST ב-BAPI_GOODSMVT_CANCEL; את MB02/MB03 ב-MIGO_DIALOG. באותו מסמך, פריט 27.9 " +
+          "(Performance optimizations within Material Document) מונה את BAPI_GOODSMVT_CREATE ב-Other Terms, ופריט " +
+          "27.12 (CWM in SAP S/4HANA) מציג בטבלת ה-BOR את הצמד BUS2017 / CREATEFROMDATA / BAPI_GOODSMVT_CREATE " +
+          "כ-BAPI סטנדרטי מורחב-CWM. ‏SAP Notes 2210569 ו-2319579 מופיעים כלשונם בגוף הפריט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: 
+          "Communication of Goods Movements from Inventory Management to EWM | Extended Warehouse Management (EWM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/8a532e4e6aaf4f4b97fd2f014f9837e0.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "הסניפט לגרסת On-Premise 2025 FPS01 קובע: 'You can also post and cancel goods movements using the " +
+          "following Inventory Management BAPIs: BAPI_GOODSMVT_CREATE BAPI_GOODSMVT_CANCEL'. כלומר ה-BAPI מתועד " +
+          "כממשק פעיל לרישום תנועות סחורה בניהול מלאי בגרסה 2025 FPS01. רשומות נוספות מאותו חיפוש ואותה גרסה: " +
+          "'Extensibility for Goods Movements' ב-What's New 2025 FPS01 ‏(loio d4538b721f6d47d9a1fa076b82c1bf77): " +
+          "'The default implementation of the BAdI calls Business Application Programming Interface (BAPI) " +
+          "BAPI_GOODSMVT_CREATE'; 'Integration of a Decentralized WMS' ‏(loio b7706754e90d8c4ce10000000a4450e5): " +
+          "ה-WMS המבוזר משכפל שינויים למערכת S/4HANA דרך BAPI_GOODSMVT_CREATE; ורשומת 'BAPIs and APIs used in " +
+          "Synchronous Goods Movements' ב-What's New 2020 ‏(loio 73cf65e8275d4b279973c9a368890896, 2020.000) מונה " +
+          "תחת Inventory Management BAPIs את BAPI_GOODSMVT_CREATE ו-BAPI_GOODSMVT_CANCEL עם התהליכים הנתמכים 'Goods " +
+          "receipt and goods issue, Stock transfer postings, Goods receipt for orders'.",
+        verificationLevel: "sap_official_verified",
+      },
+      GOODSMVT_ODATA_API,
+      {
+        sourceType: "repository",
+        sourceTitle: 
+          "רשומת קטלוג הפונקציות של הפרויקט, רישום ה-BAPI המועשר (PP-PI, sweep) ומצב האובייקטים ב-S/4 - " +
+          "BAPI_GOODSMVT_CREATE",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "המאגר מתעד: 'זמין ב-S/4HANA. חלופה: OData API_MATERIAL_DOCUMENT' ‏(data/function-intel.ts), סטטוס stays " +
+          "עם 'נשמר ועובד מול MATDOC; ה-API היציב לכתיבת מלאי' ‏(data/s4-objects.ts, trust: curated), ורישום מועשר: " +
+          "אובייקט BOR‏ BUS2017, ללא COMMIT פנימי, פרמטרים IMP GOODSMVT_HEADER, GOODSMVT_CODE · TAB GOODSMVT_ITEM, " +
+          "RETURN · EXP MATERIALDOCUMENT, MATDOCUMENTYEAR, טרנזקציות MIGO/MB1A/MB31, טבלאות MSEG/MKPF/MATDOC " +
+          "‏(data/bapi-enrichment.pppi.ts; data/bapi-enrichment.sweep.ts: verified-docs, s4OnPremSupport yes, " +
+          "requiresCommit yes). הזמינות ב-S/4HANA, החלופה OData API_MATERIAL_DOCUMENT ואובייקט ה-BOR‏ BUS2017 עקביים " +
+          "עם המקורות הרשמיים ברשומה זו; שמות הפרמטרים והכתיבה ל-MATDOC נשענים על המאגר בלבד, כי אף סניפט רשמי שנקרא " +
+          "אינו מונה אותם.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_GOODSMVT_CREATE",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: 
+        "‏BAPI_GOODSMVT_CREATE הוא ה-BAPI לרישום תנועות סחורה (יצירת מסמך חומר) והוא מתועד כממשק פעיל ב-S/4HANA " +
+        "On-Premise 2025 FPS01 (ניהול מלאי, אינטגרציית EWM, WMS מבוזר, מימוש ברירת המחדל של BAdI לתנועות סחורה). " +
+        "לפי פריט הפישוט S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM הוא היעד המומלץ לקוד לקוח במקום טרנזקציות " +
+        "ה-MB הישנות, ומ-OP1610 הוא חולק עם MIGO מנגנון נעילה חדש. לצדו קיים שירות OData מתועד לקריאה, יצירה " +
+        "וביטול של מסמכי חומר: Material Documents - Read, Create ‏(API_MATERIAL_DOCUMENT, נתיב " +
+        "API_MATERIAL_DOCUMENT_SRV), המורחב בגרסאות 2020 עד 2025 FPS01. לא נמצא תיעוד רשמי המוציא את ה-BAPI משימוש " +
+        "או מכריז על מחליף.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: GOODSMVT_ODATA_API,
+      recommendedAction: 
+        "להשאיר את BAPI_GOODSMVT_CREATE כממשק הכתיבה לתנועות סחורה בממשקים קיימים (אישורי ייצור בתעשיות תהליכיות, " +
+        "ניפוק חלפים לפקודות תחזוקת מפעל, קבלות טובין), ולנתב אליו כל קוד לקוח שעדיין קורא " +
+        "ל-MB01/MB11/MB1A/MB1B/MB1C/MB31 ודומיהן דרך CALL TRANSACTION, כנדרש בפריט הפישוט; ביטולים דרך " +
+        "BAPI_GOODSMVT_CANCEL (אינו רשומה בדאטהסט). לכל קריאה: בדיקת טבלת RETURN וקריאה ל-BAPI_TRANSACTION_COMMIT, " +
+        "ואימות המסמך ב-MB51 או דרך I_MaterialDocumentItem. לאינטגרציות חדשות מבוססות HTTP להעדיף את שירות " +
+        "ה-OData‏ Material Documents - Read, Create ‏(API_MATERIAL_DOCUMENT_SRV) ולאמת ישויות, שדות ופעולות מול " +
+        "המדריך APIs for Inventory ומול מערכת חיה; אין להתייחס ל-API כמחליף חובה של ה-BAPI. בבדיקות המרה: רישום " +
+        "261 לפקודה, 101 לקבלה וביטול, במקביל ולא בערבוב עם טרנזקציות MB ישנות בגלל מנגנון הנעילה הנפרד.",
+    },
+    xrefs: [
+      "tx:MIGO",
+      "tx:MB11",
+      "tx:MB1A",
+      "tx:MB1B",
+      "tx:MB1C",
+      "tx:MB31",
+      "tx:MB51",
+      "table:MSEG",
+      "table:MKPF",
+      "table:RESB",
+      "cds:I_MaterialDocumentItem",
+      "fiori:F0843",
+      "obj:material-document",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "fm:BAPI_GOODSMVT_GETDETAIL",
+      "fm:BAPI_GOODSMVT_GETITEMS",
+      "fm:BAPI_PROCORDCONF_CREATE_TT",
+      "fm:BAPI_RESERVATION_CREATE1",
+      "enh:badi:MB_MIGO_BADI",
+      "enh:exit:MBCF0002",
+      "bp:matdoc-read-through-compatibility",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "מה שאומת: (א) רשימת הפישוט ל-S/4HANA 2023 FPS3 ‏(SIMPL_OP2023.pdf) חולצה לטקסט ופריט 27.6 נקרא במלואו, " +
+      "כולל הסעיפים Symptom ו-Solution; הציטוטים נבדקו מילה במילה. אותו פריט מופיע ללא שינוי מהותי ברשימת הפישוט " +
+      "ל-2025 FPS1 ‏(SIMPL_OP2025.pdf, פריט 15.3.9, עמ' 1486, " +
+      "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf) שנקרא אף " +
+      "הוא; לא נוסף כראיה נפרדת כדי להישאר בגבול ארבע ראיות. (ב) רשומות help.sap.com למהדורת On-Premise 2025.001 " +
+      "המונות את ה-BAPI כממשק פעיל (EWM, WMS מבוזר, BAdI לתנועות סחורה, Retail‏ 'BAPI_GOODSMVT_CREATE is used to " +
+      "create goods movement documents', ואובייקט ההגירה 'MM - Material inventory balance' במדריך Data " +
+      "Migration, loio c1af02cdf5344d7ab71306ef1fed3e5d, המזכיר גם את היישום Material Document עם המזהה F1807). " +
+      "(ג) המדריך APIs for Inventory ורשומות What's New 2020/2021/2022/2023/2025/2025 FPS01 לשירות " +
+      "API_MATERIAL_DOCUMENT. מה שלא אומת: גופי עמודי help.sap.com הם מעטפות JavaScript ולא נקראו; רק כותרת, " +
+      "מדריך, גרסה ו-snippet של כל רשומה. רשימת הפרמטרים (GOODSMVT_HEADER, GOODSMVT_CODE, GOODSMVT_ITEM, " +
+      "MATERIALDOCUMENT, MATDOCUMENTYEAR) והכתיבה לטבלת MATDOC נשענות על המאגר בלבד ונשארות ברמת 'מאומת מול " +
+      "נתוני הפרויקט'. רישום ה-Business Accelerator Hub‏ 'Material Documents - Read, Create' " +
+      "‏(https://api.sap.com/api/API_MATERIAL_DOCUMENT_SRV/resource) הוחזר בחיפוש מוגבל-דומיין, אך לא נכלל כראיה " +
+      "כי החבילה והמהדורה שלו לא נקראו (הדף מעטפת JavaScript ובתוצאות מופיעה גם חבילת Public Edition); מקור " +
+      "הסטטוס הוא עמוד help.sap.com למהדורת On-Premise. 'קיים API משוחרר' מתאר חלופה מתועדת, לא החלפה: אף מקור " +
+      "רשמי שנמצא אינו מוציא את ה-BAPI משימוש, ולכן אין שדה successor. BAPI_GOODSMVT_CANCEL, MIGO_DIALOG " +
+      "ו-MB_CREATE_GOODS_MOVEMENT הנזכרים בפריטי הפישוט אינם מזהים בדאטהסט ואינם ב-xrefs; טבלת MATDOC מיוצגת דרך " +
+      "obj:material-document; F1807 אינו בקטלוג ה-Fiori של הפרויקט. מספרי SAP Note ‏(2210569, 2319579) מצוטטים " +
+      "מגוף הפריט בלבד ולא הוזנו בשדה sapNote, כמוסכמת הקטלוג. ממצא על המצב המוצג כיום: ללא סטטוס מחובר, דף " +
+      "הפונקציה גוזר 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט' מתוך רישום האובייקטים (verified-docs + " +
+      "s4OnPremSupport yes), בעוד מסמך ה-BASELINE מתעד לאותו דף טון S/4 'changed' שנגזר מהצמדת טבלת MSEG; הסטטוס " +
+      "המחובר כאן מציג את התמונה הרשמית: BAPI פעיל עם שירות OData מתועד לצדו.",
+  },
+
+  /* ------------------------------- fm:CKMVFM_MATERIAL_PRICE_READ */
+  {
+    id: "fm:CKMVFM_MATERIAL_PRICE_READ",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Installation: Actual Costing/Material Ledger | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/97f1d353ca9f4408e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "תיעוד רשמי של 2025 FPS01 קובע: 'the material ledger is mandatory as of Release SAP S/4HANA. Actual " +
+          "costing is still optional'. הסניפט מפנה כלשונו ל-'SAP Note 2577551 - Material Ledger Production " +
+          "Installation in SAP S/4HANA (Greenfield Approach)'. הקשר דומייני בלבד; הכותרת והסניפט אינם נוקבים בשם " +
+          "מודול הפונקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Price Control and Material Price Determination | Logistics — General (LO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/481dfb55cdbc7b43e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "הסניפט הרשמי מונה בטבלת Material Valuation ‏(MBEW) את השדות MLAST ‏(Material Price Determination: " +
+          "Control) ו-MLMAA ‏(Material Ledger Activated at Material Level), בהקשר תחזוקת בקרת מחיר וקביעת מחיר חומר. " +
+          "הקשר דומייני לטבלת המקור שהרשומה במאגר מייחסת לפונקציה; הסניפט אינו נוקב בשם מודול הפונקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Monitor for Price Difference Account Balances | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/bb5cdfce59c443d3bcbcca4fdcf80f04.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "רשומה רשמית שהסניפט שלה מכיל כלשונו את המחרוזת CKMVFM: הדוח Monitor for Price Difference Account Balances " +
+          "קורא רשומות Universal Journal Entry Line Items ו'can take over some of the tasks previously handled by " +
+          "the value flow monitor, transaction CKMVFM'. הסניפט מתייחס לטרנזקציה CKMVFM ‏(Value Flow Monitor) בלבד, " +
+          "לא למודול פונקציה בשם זה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Product Valuation active core entity | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/8714b71e39c74e5282995db629c8749c.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE14,
+        claim: 
+          "הסניפט הרשמי (VDM, 2023 Latest) נוקב: 'CDS View Name I_ProductValuation Status Released' ומתאר תצוגה " +
+          "בסיסית 'for maintaining multiple Valuation Areas for a Product'. חלופת קריאה מתועדת לנתוני הערכת חומר; " +
+          "הסניפט אינו מונה שדות מחיר ואינו נוקב בשם מודול הפונקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (PP-PI, תמחיר)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת המאגר מתארת קריאת מחיר חומר (מחיר תקן / ממוצע נע) מטבלת MBEW לפי חומר ותחום הערכה (MATNR/BWKEY), " +
+          "בזיקה ל-MM03 ו-CK13N ולתהליך PP-PI-6; שדה ה-ECC נוקב 'זמין ב-ECC' ושדה ה-S/4 נוקב 'זמין ב-S/4 (Material " +
+          "Ledger חובה)'. הרשומה אינה מסומנת inferred, אך אינה נושאת מקור רשמי או אימות SE37.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#CKMVFM_MATERIAL_PRICE_READ",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: 
+        "לפי נתוני הפרויקט: מודול פונקציה לקריאת מחיר חומר (מחיר תקן / ממוצע נע) מטבלת MBEW, בהקשר תמחיר ייצור " +
+        "בתעשיות תהליכיות. קיום הפונקציה, הממשק שלה וסטטוס השחרור לא אותרו באף מקור SAP רשמי ציבורי שנבדק; המקורות " +
+        "הרשמיים מאששים רק את הדומיין (Material Ledger חובה ב-S/4HANA, שדות בקרת המחיר ב-MBEW, תצוגת CDS‏ " +
+        "I_ProductValuation). נדרש אימות במערכת SAP ‏(SE37) לפני כל שימוש בנתון.",
+      edition: "on-premise",
+      release: null,
+      source: {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (PP-PI, תמחיר)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת המאגר מתארת קריאת מחיר חומר (מחיר תקן / ממוצע נע) מטבלת MBEW לפי חומר ותחום הערכה (MATNR/BWKEY), " +
+          "בזיקה ל-MM03 ו-CK13N ולתהליך PP-PI-6; שדה ה-ECC נוקב 'זמין ב-ECC' ושדה ה-S/4 נוקב 'זמין ב-S/4 (Material " +
+          "Ledger חובה)'. הרשומה אינה מסומנת inferred, אך אינה נושאת מקור רשמי או אימות SE37.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#CKMVFM_MATERIAL_PRICE_READ",
+      },
+      recommendedAction: 
+        "אימות ב-SE37 במערכת חיה: האם מודול פונקציה בשם זה קיים כלל (הקידומת CKMVFM שייכת לטרנזקציה Value Flow " +
+        "Monitor, וייתכן בלבול שם), קבוצת הפונקציות, סטטוס השחרור (Released) והפרמטרים (MATNR/BWKEY וערכי המחיר " +
+        "המוחזרים). עד אז אין להציג זמינות ב-S/4HANA כעובדה מאומתת ואין לתאר את הפונקציה כמשוחררת. לקריאת נתוני " +
+        "הערכת חומר בתשתית מתועדת יש להסתמך על תצוגת ה-CDS‏ I_ProductValuation ועל תיעוד Material Ledger " +
+        "ו-Material Price Analysis ב-help.sap.com.",
+    },
+    xrefs: [
+      "table:MBEW",
+      "table:ACDOCA",
+      "tx:MM03",
+      "tx:CK11N",
+      "tx:CK13N",
+      "tx:CKM3N",
+      "fm:BAPI_MATERIAL_SAVEDATA",
+      "cds:I_ProductValuation",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "אף מקור רשמי אינו נוקב בשם ה-FM. נבדק 2026-09-14: (1) שירות החיפוש של help.sap.com עם השם המדויק (5 " +
+      "תוצאות בסך הכול: עמודי What's New 1709 ו-1709 FPS01 ועמוד APIs for Quality Management, כולן ללא סניפט), " +
+      "'CKMVFM material price read function module' (התאמות בתמחיר ומחירי מכירה, ללא השם), 'material price read " +
+      "Material Ledger function module', 'Material Ledger mandatory S/4HANA simplification', 'material valuation " +
+      "price MBEW Material Ledger S/4HANA' ו-'Product Valuation Price CDS view Virtual Data Model'. אף כותרת או " +
+      "סניפט אינם מזכירים את ה-FM. (2) חיפוש רשת מוגבל ל-help.sap.com / api.sap.com / fioriappslibrary / fal, " +
+      "רגיל ובמירכאות: אף עמוד רשמי אינו נוקב בשם; חיפוש רשת בלתי מוגבל החזיר רק תוכן על הטרנזקציה CKMVFM " +
+      "‏(Value Flow Monitor), ולכן ייתכן שהשם במאגר הוא הרכבה של קידומת הטרנזקציה עם תיאור פונקציונלי; הדבר לא " +
+      "הוכרע וניתן לאישוש רק ב-SE37, וחיבור ה-MCP‏ sc4sap נכשל בסשן זה (לפי כללי ה-fallback של MANIFEST עובדות " +
+      "ממשק כאלה נשארות 'נדרש אימות'). (3) הראיות הרשמיות שצורפו (loio ו-versionId הועתקו כלשונם מפלט " +
+      "scripts/sap-help-search.mjs --json) מכסות את הדומיין בלבד: Material Ledger חובה ב-S/4HANA, שדות " +
+      "MLAST/MLMAA ב-MBEW, הדוח שמחליף חלק ממשימות CKMVFM, ותצוגת ה-CDS‏ I_ProductValuation; גופי העמודים לא " +
+      "נקראו (מעטפת JavaScript). SAP Note 2577551 מוזכר רק כי הוא מופיע כלשונו בסניפט הרשמי; לא אומת מול " +
+      "me.sap.com ולכן לא נרשם בשדה sapNote. (4) רובד Tier-2 עקבי בשלושה קבצים: function-intel (ללא סימון " +
+      "inferred, ללא מקור), בלופרינט PP-PI:MBEW ב-data/sapData.pppi.ts (מונה את ה-FM כ'קריאת מחיר חומר' לצד " +
+      "BAPI_MATERIAL_SAVEDATA, עם הערת S/4 'Material Ledger חובה; הערכה ב-ACDOCA/ACDOCC'), " +
+      "ו-data/transactions.ts#CK11N (מונה את ה-FM ברשימת הפונקציות של חישוב עלות תקן). (5) לא נטענת החלפה או " +
+      "הוצאה משימוש ולכן אין יורש. השירות הרשמי Material Price - Update ‏(API_MATERIAL_VALUATION_SRV, APIs for " +
+      "Financial Planning and Analysis, 2025.001, loio 9318a0fe2606406dbaa49246c3d93bde) אינו יורש: לפי הסניפט " +
+      "הוא שירות לשינוי מחירי חומרים ('enables you to change the prices of your materials'); הסניפט אינו מתאר " +
+      "קריאה, ואין לו מזהה ביקום הרשומות. תצוגת ה-CDS‏ I_ProductValuation קיימת ביקום הרשומות ומתועדת רשמית " +
+      "(VDM, 2023 Latest, Status Released לפי הסניפט) ולכן צורפה כ-xref וכראיה; שדות המחיר שלה " +
+      "(StandardPrice/MovingAveragePrice) מופיעים רק ב-data/cds-enrichment.ts (Tier-2) ולא בסניפט הרשמי. המזהים " +
+      "I_MaterialPrice / I_ProductValuationBasic אינם קיימים ביקום. (6) הערת המאגר 'ACDOCA/ACDOCC' בבלופרינט לא " +
+      "אוששה מול מקור רשמי בסשן זה; xref ל-ACDOCA נשמר בזכות הבלופרינט בלבד.",
+  },
+
+  /* ---------------------------------- fm:CO_ZF_ORDER_HEADER_READ */
+  {
+    id: "fm:CO_ZF_ORDER_HEADER_READ",
+    aliases: ["CO_ZF_ORDER_HEADER_READ"],
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "בלופרינט ההגירה של PM (דאטהסט מחולל) - רשומת AFKO",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "חוברת המיגרציה של תחזוקת מפעל (נושא 7, פקודות עבודה) מונה את CO_ZF_ORDER_HEADER_READ ברשומת הטבלה AFKO " +
+          "בתיאור 'קריאת כותרת הפקודה', לצד הטרנזקציות IW32 ו-IW37N והדוח RIAUFK20. הערת ה-S/4 של הרשומה היא 'מותאם " +
+          "(תואם עם פישוטי תזמון)', הטבלה החליפית 'AFKO (זהה)', והערת ה-SUM דורשת Regression Test ובדיקת User Exits " +
+          "ודוחות מותאמים; הרשומה אינה נוקבת בסטטוס S/4 של ה-FM עצמו.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#AFKO",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (מסומנת inferred)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת המודיעין בפרויקט מתארת את ה-FM כקריאת כותרת פקודה (AFKO/AUFK) לפי AUFNR, במודול PM ובזיקה ל-IW33. " +
+          "שדה ה-ECC שלה מציין שהשם תלוי גרסה, מפנה לאימות ב-SE37 ומפנה ל-BAPI_ALM_ORDER_GET_DETAIL; שדה ה-S/4 מפנה " +
+          "לאימות ב-S/4 ול-CDS I_MaintenanceOrder, והרשומה כולה מסומנת inferred: true; אינה אישור רשמי ואינה מאשרת " +
+          "פרמטרי ממשק.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#CO_ZF_ORDER_HEADER_READ",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "SAP Help search: \"CO_ZF_ORDER_HEADER_READ\" - no matching document",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        url: "https://help.sap.com",
+        accessedAt: DATE14,
+        claim: 
+          "ממצא שלילי תחום לחיפוש: שאילתות SAP Help בסקופ SAP_S4HANA_ON-PREMISE ('CO_ZF_ORDER_HEADER_READ' - 5 " +
+          "תוצאות, 'CO_ZF_ORDER_HEADER_READ function module' - 21 תוצאות, 'maintenance order header read function " +
+          "module') וחיפוש רשת מוגבל לדומיינים help.sap.com / api.sap.com / fioriappslibrary / fal.cloud.sap (10 " +
+          "תוצאות) לא החזירו אף מסמך שכותרתו או הקטע שלו מזכיר את שם ה-FM.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Order (Version 2) | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/c1457e0e539740a29932fbdcf36fea3c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "הקשר בלבד (הדף אינו מזכיר את CO_ZF_ORDER_HEADER_READ): המדריך הרשמי APIs for Maintenance Management " +
+          "ל-On-Premise 2025 FPS01 מתעד את הישות Maintenance Order (MaintenanceOrder) של ה-API Maintenance Order " +
+          "(Version 2) בתיאור 'Allows to read the maintenance order header data', ואת הישות Maintenance Order " +
+          "Operation (MaintenanceOrderOperation) בתיאור 'Allows to read the maintenance order operation data'. זהו " +
+          "הערוץ המתועד לקריאת כותרת פקודת אחזקה ב-S/4HANA; הוא אינו מוצג כמחליף של ה-FM.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    xrefs: [
+      "table:AFKO",
+      "table:AUFK",
+      "tx:IW33",
+      "tx:IW32",
+      "fm:CO_ZF_OPERATIONS_READ",
+      "fm:BAPI_ALM_ORDER_GET_DETAIL",
+      "fm:BAPI_ALM_ORDER_MAINTAIN",
+      "cds:I_MaintenanceOrder",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "אין תיעוד רשמי ציבורי ל-FM זה: חיפוש SAP Help (SAP_S4HANA_ON-PREMISE, שלוש וריאציות שאילתה) וחיפוש רשת " +
+      "מוגבל לדומיינים הרשמיים לא העלו אף מסמך ששמו או הקטע שלו כולל את CO_ZF_ORDER_HEADER_READ. ה-MCP למערכת " +
+      "SAP חיה (sc4sap) לא התחבר בסשן זה, ולכן לא בוצעה בדיקת SE37 בפועל. שם ה-FM קיים רק בנתוני הפרויקט: בחוברת " +
+      "המיגרציה של תחזוקת מפעל (רשומת AFKO), ברשומת function-intel המסומנת inferred, וכן ברשימות ההקשר של " +
+      "domain-detail (פקודות אחזקה ופקודות תהליך), centers/debugging ושיעור האקדמיה של PP; כל אלה נגזרים מאותו " +
+      "מקור ואינם אימות עצמאי. שיעור האקדמיה (data/academy/lessons/pp-generated.ts) מתייג את ההפניה trust " +
+      "verified-docs עם המקור SAP Help Portal, אך כותרת הקובץ מתעדת שהשיעור חולל מנתוני domain-detail " +
+      "ו-function-finder של הפרויקט, וחיפושי help.sap.com לא שחזרו את השם; התיוג אינו נחשב אימות רשמי. חסר " +
+      "לאימות: קיום ה-FM ב-SE37, קבוצת הפונקציות, פרמטרי הממשק (AUFNR והמבנה המוחזר, שברשומת המאגר מופיע רק " +
+      "כ'Header' ללא שם מבנה), וזמינותו ב-S/4HANA. אין לקבוע סטטוס הוצאה משימוש, החלפה או אי-זמינות ללא מקור " +
+      "רשמי הנוקב במחליף, ולכן לא נכתב סטטוס והרמה verification_required ברמת ה-FM; הסטטוס הנגזר במפה נשאר 'נדרש " +
+      "אימות נוסף' (bapi-registry, requires-verification). דף ה-API הרשמי Maintenance Order (Version 2) מובא " +
+      "כהקשר לקריאת כותרת פקודת אחזקה ב-S/4HANA ולא כיורש של ה-FM; הרשומה cds:I_MaintenanceOrder בפרויקט מתעדת " +
+      "בעצמה שהשם I_MaintenanceOrder לא נמצא בתיעוד ה-VDM הרשמי, ולכן ההפניה אליו מרשומת function-intel אינה " +
+      "מחזקת את האימות. ערך edition בראיות המאגר נגזר מהקשר ההמרה ECC6 ל-S/4 של הבלופרינט (מבוסס SUM); המקורות " +
+      "עצמם אינם נוקבים במהדורה. מבוסס על קובץ / דורש אימות במערכת SAP.",
+  },
+
+  /* ------------------------------------ fm:CO_ZF_ORDER_ITEM_READ */
+  {
+    id: "fm:CO_ZF_ORDER_ITEM_READ",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: 
+          "help.sap.com search: \"CO_ZF_ORDER_ITEM_READ\", \"CO_ZF_ORDER_ITEM_READ function module\", \"read order item " +
+          "AFPO function module\" (SAP_S4HANA_ON-PREMISE)",
+        url: "https://help.sap.com",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "ממצא שלילי תחום לחיפוש: שלוש וריאציות שאילתה בשירות החיפוש של SAP Help (סקופ On-Premise, 21 תוצאות לכל " +
+          "שאילתה) לא העלו אף רשומה שכותרתה או תקצירה נוקבים בשם CO_ZF_ORDER_ITEM_READ; חיפוש רשת מוגבל לדומיינים " +
+          "help.sap.com / api.sap.com / fioriappslibrary / fal / me.sap.com / support.sap.com החזיר רק עמודים כלליים " +
+          "של פריטי הזמנה (מכירות, רכש) שאינם מזכירים את השם. לא אותר תיעוד SAP Help רשמי למודול פונקציה זה.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "בלופרינט ההגירה של תחזוקת מפעל (דאטהסט מחולל): רשומת AFPO, נושא 7 פקודות עבודה",
+        product: "SAP ECC 6.0 / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "חוברת המיגרציה של תחזוקת מפעל מקשרת את CO_ZF_ORDER_ITEM_READ לטבלת AFPO (פריטי פקודה, Order item) בתיאור " +
+          "'קריאת פריט הפקודה', לצד הדוח RIAFPO00 'ניתוח פריטי פקודה'; לטבלה עצמה נרשם s4Note 'מותאם (תואם)' " +
+          "ו-s4AltTable 'AFPO (זהה)', בהקשר IW32/IW33. הרשומה אינה נוקבת בסטטוס שחרור, בקבוצת פונקציות או בפרמטרים " +
+          "של ה-FM.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#AFPO",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (מסומנת inferred)",
+        product: "SAP ECC 6.0 / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת הקטלוג מתארת קריאת פריט פקודה (AFPO) לפי AUFNR עם פלט 'פריט (AFPO)', מודול PM, תחום 'פקודות אחזקה', " +
+          "אובייקטים קשורים IW33, CO03, AFPO ותהליך PM-7; שדה ה-ECC נושא הסתייגות 'אמת ב-SE37', שדה ה-S/4 מורה 'אמת " +
+          "ב-S/4', והרשומה כולה מסומנת inferred: true. כלומר המאגר עצמו אינו טוען לקיום מאומת, לממשק מאומת או לסטטוס " +
+          "שחרור.",
+        verificationLevel: "verification_required",
+        repoRef: "data/function-intel.ts#CO_ZF_ORDER_ITEM_READ",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: 
+          "Archiving Maintenance and Service Orders (PM-SMA-SC/PM-WOC-MO) | Data Archiving in Plant Maintenance and " +
+          "Customer Service (PM/CS)",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/15e1b6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "הקשר לטבלת היעד בלבד (לא טענה על ה-FM): תיעוד הארכוב של פקודות תחזוקה ושירות ב-S/4HANA 2025 FPS01 מונה את " +
+          "AFPO כ-'Order item' בין טבלאות הפקודה, וקובע: 'Table AFPO is only available for refurbishment orders and " +
+          "is therefore only archived for these orders'. כלומר, בפקודת תחזוקה רגילה אין רשומת פריט AFPO; פריט הפקודה " +
+          "קיים בפקודות שיפוץ (refurbishment) בלבד.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: 
+        "מודול פונקציה לקריאת פריט פקודה (AFPO) לפי מספר פקודה, הרשום בבלופרינט תחזוקת מפעל תחת טבלת AFPO ובקטלוג " +
+        "הפונקציות של הפרויקט. לא נמצא לו תיעוד רשמי ב-SAP Help, ב-SAP Business Accelerator Hub או בספריית " +
+        "אפליקציות Fiori, ולכן אין לראות בו ממשק משוחרר או מתועד. לפי התיעוד הרשמי, טבלת AFPO קיימת בפקודות תחזוקה " +
+        "רק עבור פקודות שיפוץ, כך שקריאת פריט רלוונטית לפקודות שיפוץ ולפקודות ייצור (ראה רשומת table:AFPO) ולא " +
+        "לפקודת תחזוקה רגילה. נדרש אימות קיום, קבוצת פונקציות, פרמטרים וסטטוס שחרור ב-SE37 במערכת SAP.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: 
+        "אמת ב-SE37 (קיום, קבוצת פונקציות, פרמטרי הממשק, סטטוס Released) במערכת ECC 6.0 וב-S/4HANA היעד לפני כל " +
+        "שימוש בקוד מותאם. לקריאת נתוני פקודת תחזוקה בתצורה מתועדת העדף את BAPI_ALM_ORDER_GET_DETAIL (קיים " +
+        "בדאטהסט) או את ה-OData API המתועד רשמית Maintenance Order (Version 2), המצוטט ברשומת " +
+        "fm:BAPI_ALM_ORDER_MAINTAIN; לפריטי פקודת ייצור ראה את תצוגת ה-CDS ‏I_ProductionOrderItem ואת ישות " +
+        "A_ProductionOrderItem המתועדות ברשומת cds:I_ProductionOrderItem. אל תציג את המודול הזה כממשק משוחרר.",
+    },
+    xrefs: [
+      "table:AFPO",
+      "table:AUFK",
+      "tx:IW32",
+      "tx:IW33",
+      "tx:CO03",
+      "fm:CO_ZF_ORDER_HEADER_READ",
+      "fm:CO_ZF_OPERATIONS_READ",
+      "fm:BAPI_ALM_ORDER_GET_DETAIL",
+      "fm:BAPI_ALM_ORDER_MAINTAIN",
+      "cds:I_ProductionOrderItem",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "לא קיים תיעוד רשמי ציבורי ל-CO_ZF_ORDER_ITEM_READ: שלוש וריאציות שאילתה בשירות החיפוש של help.sap.com " +
+      "(סקופ On-Premise, 2026-09-14, 21 תוצאות לכל שאילתה, כולן נסקרו) וחיפוש רשת מוגבל לדומיינים הרשמיים לא " +
+      "העלו אף כותרת או תקציר הנוקבים בשם; לא נמצאה רשומת api.sap.com ולכן אין לצטטו כ-API משוחרר. חיבור ה-MCP " +
+      "למערכת SAP חיה (sc4sap) נכשל בסשן זה, ולכן לא בוצעה בדיקת SE37 בפועל. שם ה-FM קיים רק בנתוני הפרויקט: " +
+      "בחוברת המיגרציה של תחזוקת מפעל (טבלת AFPO) וברשומת function-intel המסומנת inferred; המודול נעדר " +
+      "מ-lib/bapi-registry.ts ומ-data/domain-detail.ts (שם מופיע רק CO_ZF_ORDER_HEADER_READ), " +
+      "ו-lib/route-manifest.generated.ts המחולל רק מהדהד את הדאטהסט. מה חסר לשדרוג: עמוד רשמי ב-help.sap.com או " +
+      "api.sap.com הנוקב בשם, או בדיקת SE37 חיה (קיום, קבוצת פונקציות, פרמטרים, סטטוס Released) ב-ECC 6.0 " +
+      "וב-S/4HANA היעד. סטטוס replaced/deprecated/not_available אינו בר-טענה כי אף מקור רשמי אינו נוקב ביורש; " +
+      "ציטוט ה-OData וה-CDS הוא הקשר לאותם נתונים עסקיים, לא הצהרת יורש. הערת הקשר עסקי (מבוסס על מקור רשמי): " +
+      "עמוד הארכוב קובע שטבלת AFPO קיימת בפקודות PM/CS רק עבור פקודות שיפוץ, ולכן תרחיש ה-QA ברשומת " +
+      "function-intel ('פקודה ללא פריט') צפוי להיות המקרה הרגיל בפקודת תחזוקה שאינה פקודת שיפוץ; שיוך המודול " +
+      "ל'פקודות אחזקה' בקטלוג ראוי לסייג זה. אפליקציית Fiori 'Find Maintenance Order (F2393)' הרשומה בבלופרינט " +
+      "של AFPO אינה ביקום מזהי ה-Fiori של הפרויקט (data/fiori/apps.ts) ולכן לא נוספה ל-xrefs. ערך edition בראיות " +
+      "המאגר נגזר מהקשר ההמרה ECC6 ל-S/4 של הבלופרינט; המקורות עצמם אינם נוקבים במהדורה. מבוסס על קובץ / דורש " +
+      "אימות במערכת SAP.",
+  },
+
+  /* ------------------------------------- fm:CP_DI_OPERATION_READ */
+  {
+    id: "fm:CP_DI_OPERATION_READ",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Recipe | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/4d9ed891a8c547c493e70dbfdcbea7bb.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "העמוד מתעד את שירות ה-OData‏ API_MASTER_RECIPE‏ ל-S/4HANA On-Premise 2025 FPS01: 'Technical name: " +
+          "API_MASTER_RECIPE This synchronous inbound service enables you to view, create and update all details of " +
+          "a master recipe and its relationships', עם הישויות Operation‏ (MasterRecipeOperation) 'Specifies the list " +
+          "of operations of a master recipe' ו-Phase‏ (MasterRecipePhase) 'list of all phases of a master recipe'. " +
+          "הראיה מאמתת קיום API משוחרר לקריאת פעולות ופאזות של מתכון אב בתעשיות תהליכיות; היא אינה מזכירה את מודול " +
+          "הפונקציה CP_DI_OPERATION_READ ואינה מאמתת אותו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "OData API: Master Recipe | What's New in SAP S/4HANA 2020",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/9dccec3170974ece83918a3f2d001b29.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת What's New לגרסת SAP S/4HANA 2020 מציגה את OData API: Master Recipe כתכונה חדשה: 'you can view, " +
+          "create, and update specific properties of master recipe header, material assignment, operation, phase, " +
+          "secondary resource, component allocation'. הרשומה תוחמת את הגרסה שבה ה-API הופיע לפי What's New (2020). " +
+          "רשומת What's New המקבילה לגרסת 2025 FPS01 (loio 0c7a514cff8e461ba20b964ee2054557, versionId 2025.001) " +
+          "מוסיפה לפי תקצירה: 'The OData API has been enhanced to support assignment of inspection characteristics " +
+          "to an operation or phase'. אף אחת מהרשומות אינה מזכירה מודולי פונקציה קלאסיים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום הפונקציות המועשר של הפרויקט (function-intel)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת המאגר מתארת את CP_DI_OPERATION_READ כקריאת פעולות של רשימת פעולות או מתכון (PLPO) עם קלט " +
+          "PLNNR/PLNAL ופלט טבלת Operations, משויכת למודול PM (אחזקה מונעת, תהליך PM-11) ולטבלאות PLPO/PLKO. שדה " +
+          "ה-ECC נושא הסתייגות מפורשת 'קיים ב-ECC (אמת ב-SE37)', שדה ה-S/4 אומר 'אמת ב-S/4', והרשומה כולה מסומנת " +
+          "inferred: true. רישום אובייקטי הפונקציה (lib/bapi-registry) גוזר ממנה verificationStatus " +
+          "'requires-verification' עם תמיכה 'unknown' ב-ECC וב-S/4HANA.",
+        verificationLevel: "verification_required",
+        repoRef: "data/function-intel.ts#CP_DI_OPERATION_READ",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מאגר הנתונים שנוצר מחוברות ההגירה (PP-PI ו-PM), רשומות הטבלה PLPO",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "שתי חוברות ההגירה מציינות את המודול על רשומת PLPO: חוברת PP-PI בשם 'CP_DI_OPERATION_READ - קריאת " +
+          "פעולות/פאזות' (טרנזקציות C201, C202, C203, CA02; Fiori‏ Manage Master Recipes; הערת S/4 'ללא שינוי; ביצוע " +
+          "דרך Control Recipe / PI sheet'), וחוברת PM (data/sapData.pm.ts#PLPO) בשם 'קריאת פעולות הרשימה' (טרנזקציות " +
+          "IA01/IA05; IA06; הערת S/4 'ללא שינוי (תואם)'). כלומר המאגר משייך את אותו מודול לשני הקשרים: פעולות ופאזות " +
+          "של מתכון אב בתעשיות תהליכיות, ופעולות רשימות פעולות של תחזוקת מפעל.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pppi.ts#PLPO",
+      },
+    ],
+    xrefs: [
+      "fm:CP_RECIPE_READ",
+      "fm:BAPI_ROUTING_GETDETAIL",
+      "tx:C201",
+      "tx:C202",
+      "tx:C203",
+      "tx:IA05",
+      "tx:IA06",
+      "table:PLPO",
+      "table:PLKO",
+      "table:PLAS",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "שם מודול הפונקציה CP_DI_OPERATION_READ לא נמצא באף מקור רשמי: שאילתת השם בשירות החיפוש של SAP Help " +
+      "(SAP_S4HANA_ON-PREMISE, 2026-09-14) החזירה 7 רשומות לא קשורות עם תקצירים ריקים (What's New 1709, " +
+      "Malaysia, Transactional Banking), וחיפוש מוגבל דומיינים על help.sap.com, api.sap.com, fioriappslibrary " +
+      "ו-fal.cloud.sap לא החזיר דף שנוקב בשם. לכן קיום המודול, הממשק שלו (PLNNR/PLNAL וטבלת הפעולות שמתאר " +
+      "המאגר), מצב השחרור והזמינות ב-S/4HANA נשארים ברמת verification_required, ולא נכתב סטטוס מחברי. מה שחסר " +
+      "בדיוק: אימות SE37 במערכת חיה (ECC ו-S/4HANA) או דף רשמי שנוקב בשם. הראיות הרשמיות מאמתות רק את ההקשר של " +
+      "PP-PI: קיים OData API משוחרר, API_MASTER_RECIPE, עם ישויות MasterRecipeOperation ו-MasterRecipePhase " +
+      "לקריאת פעולות ופאזות של מתכון אב (מופיע ב-What's New של S/4HANA 2020, מתועד ב-APIs for Manufacturing " +
+      "2025.001). זו חלופה משוחררת לקריאה חיצונית, לא טענת החלפה רשמית של המודול, ולכן אין יורש. הסתייגות הקשר: " +
+      "המאגר משייך את המודול גם לרשימות פעולות של תחזוקת מפעל (PLPO, IA05/IA06), ו-API_MASTER_RECIPE אינו מכסה " +
+      "רשימות פעולות של PM; לכן לא נכתב סטטוס released_api_available ברמת הרשומה, והממצא נשאר בראיות ובהערה. " +
+      "ראיות המאגר (function-intel, sapData.pppi, sapData.pm) הן Tier-2 בלבד ואין לסמנן כרשמיות; ההבחנה מתכון אב " +
+      "(PP-PI, Task List Type 2) מול Routing ורשימת פעולות PM נשמרת בכל ניסוח.",
+  },
+
+  /* --------------------------------------- fm:CR_WORKCENTER_READ */
+  {
+    id: "fm:CR_WORKCENTER_READ",
+    aliases: ["CR_WORKCENTER_READ"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: 
+          "help.sap.com search: \"CR_WORKCENTER_READ\", \"CR_WORKCENTER_READ function module\", \"work center read " +
+          "function module RFC\" (SAP_S4HANA_ON-PREMISE)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "ממצא שלילי: שלוש וריאציות שאילתה בשירות החיפוש של SAP Help (סקופ On-Premise, 3 + 21 + 21 רשומות שנסקרו) " +
+          "לא העלו אף כותרת או תקציר הנוקבים בשם CR_WORKCENTER_READ; שלוש הרשומות שהוחזרו לשם המדויק (Work Center " +
+          "Groups - Replicate, Read Standard Work Formula Parameter Group, Create Project Network Activity Milestone " +
+          "Details) הן עמודי API ללא תקציר ואינן מזכירות את המודול. חיפוש רשת מוגבל לדומיינים הרשמיים החזיר רק עמודי " +
+          "מרכז עבודה כלליים ו-KBAs שאינם נוקבים בשם. לא אותר תיעוד SAP רשמי למודול פונקציה זה.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Read Work Center | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/1e5f218e776d4dbebc7955a12e35c86f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "קריאת נתוני מרכז עבודה ב-S/4HANA On-Premise 2025 FPS01 מתועדת רשמית דרך ה-OData API‏ API_WORK_CENTERS: " +
+          "הסניפט מציג GET על הישות A_WorkCenters לפי WorkCenterInternalID ו-WorkCenterTypeCode, ניווט " +
+          "to_WorkCenterDescription לתיאור, שליפת שיוכי מרכז עלות ('Fetch details of cost center assignments to a " +
+          "work center') ושליפה עמוקה של ישויות המרכז ('Fetch deep entities of a work center').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "OData API: Work Center | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/abb8f6a759924372b850ebdd0a7c4a11.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת What's New של SAP S/4HANA 2021 (סוג הרשומה לפי הסניפט: API, Changed, פריט היקף BJ5, רכיב PP-BD-WKC) " +
+          "מתעדת OData API בשם Work Center‏ (API_WORK_CENTERS) לקריאה, יצירה ועדכון של כל פרטי מרכז העבודה ('you can " +
+          "read, create, and update all details of a work center', כלשון הסניפט); מצב Batch נתמך ליצירה ולעדכון של " +
+          "ישויות מסוימות במרכז העבודה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work Center | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/4e366afdf7604bc9b25f39b4aff05cb2.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "בתיעוד Maintenance Management לגרסת 2025 FPS01 מוגדר מרכז עבודה ראשי (Main work center) כמרכז העבודה " +
+          "המשויך להזמנת האחזקה ברמת הכותרת, ומרכז עבודה מתחזק (Maintenance work center) כמרכז האחראי לביצוע משימת " +
+          "האחזקה, שיכול להיות המרכז הראשי או המרכז המבצע; המרכז הראשי של ההזמנה יכול להיות שונה מהמרכז המבצע של " +
+          "פעולת ההזמנה. הסניפט אינו נוקב בשם טבלה או מודול פונקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הדאטהסט המחולל של בלופרינט PM, רשומת CRHD (נושא 1: מבנה ארגוני ותשתית)",
+        product: "SAP ECC 6.0 / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "חוברת המיגרציה של PM מייחסת ל-CR_WORKCENTER_READ את התיאור 'קריאת נתוני מרכז עבודה' בטבלת CRHD (כותרת " +
+          "מרכז עבודה / משאב, קודי טרנזקציה IR01/IR02/IR03, CR05, CR06), לצד CRAP_WORKCENTER_GET_DETAIL; פסק " +
+          "הבלופרינט לטבלה: 'ללא שינוי (תואם)'. הבלופרינט של PP-PI נוקב לאותה טבלה בשם מודול שונה, " +
+          "CR_WORK_CENTER_READ.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#CRHD",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (PM, מרכזי עבודה)",
+        product: "SAP ECC 6.0 / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת הקטלוג מתארת קריאת נתוני מרכז עבודה (קיבולת, נוסחאות, שיוך עלות) לפי ARBPL/WERKS בזיקה ל-IR03/CR03 " +
+          "ולטבלאות CRHD/CRCA (תהליך PM-1), וכותבת 'זמין ב-ECC' / 'זמין ב-S/4HANA' ללא דגל inferred וללא מקור; טענת " +
+          "הזמינות היא רשומת מאגר שלא אומתה מול תיעוד רשמי או מערכת חיה.",
+        verificationLevel: "verification_required",
+        repoRef: "data/function-intel.ts#CR_WORKCENTER_READ",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: 
+        "מודול פונקציה קלאסי לקריאת נתוני אב של מרכז עבודה (CRHD) בתחזוקת מפעל ובייצור. לא נמצא לו תיעוד רשמי " +
+        "ב-SAP Help, ולכן אין לראות בו ממשק משוחרר או מתועד; קיומו וסטטוס השחרור שלו ב-S/4HANA לא אומתו. לאותם " +
+        "נתונים עסקיים SAP מתעדת רשמית את ה-OData API‏ Work Center‏ (API_WORK_CENTERS, פעולת Read Work Center) ואת " +
+        "תצוגת ה-CDS המשוחררת I_WorkCenter; הציטוט הוא הקשר, לא הצהרת יורש.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: 
+        "אמת ב-SE37 (קיום, קבוצת פונקציות, סטטוס Released) במערכת ECC וב-S/4HANA היעד לפני כל שימוש בממשק, ובדוק " +
+        "היכן קוד מותאם קורא לו (SE37 where-used). לקריאת מרכז עבודה באינטגרציות חדשות העדף את ה-OData API המתועד " +
+        "רשמית Work Center‏ (API_WORK_CENTERS, ישות A_WorkCenters עם ניווט לתיאור, לשיוך מרכז עלות ולקיבולת) או את " +
+        "תצוגות ה-CDS המשוחררות I_WorkCenter‏, I_WorkCenterText‏, I_WorkCenterCostCenter ו-I_WorkCenterCapacity; " +
+        "אל תציג את המודול הזה כממשק משוחרר.",
+    },
+    xrefs: [
+      "table:CRHD",
+      "table:CRTX",
+      "table:CRCA",
+      "table:CRCO",
+      "table:KAKO",
+      "tx:IR01",
+      "tx:IR02",
+      "tx:IR03",
+      "tx:CR03",
+      "tx:CRC3",
+      "fm:CRAP_WORKCENTER_GET_DETAIL",
+      "fm:CR_WORK_CENTER_READ",
+      "fm:CR_TEXT_READ",
+      "fm:CY_CAPACITY_LOAD",
+      "cds:I_WorkCenter",
+      "cds:I_WorkCenterText",
+      "cds:I_WorkCenterCostCenter",
+      "cds:I_WorkCenterCapacity",
+      "fiori:F3289",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "לא קיים תיעוד רשמי ל-CR_WORKCENTER_READ: שלוש וריאציות חיפוש בשירות החיפוש של help.sap.com (סקופ " +
+      "On-Premise, 2026-09-14, 45 רשומות שנסקרו) לא העלו כותרת או תקציר הנוקבים בשם, וחיפוש רשת מוגבל לדומיינים " +
+      "הרשמיים (help.sap.com / api.sap.com / fioriappslibrary / fal.cloud.sap / me.sap.com / support.sap.com) " +
+      "החזיר רק עמודי מרכז עבודה כלליים ו-KBAs על נושאים אחרים. חיבור ה-MCP למערכת SAP חיה נכשל בסשן, ולכן " +
+      "הקיום, קבוצת הפונקציות, הפרמטרים (ARBPL/WERKS ברשומת המאגר) וסטטוס השחרור לא אומתו ב-SE37. מה חסר לשדרוג: " +
+      "עמוד רשמי ב-help.sap.com או api.sap.com הנוקב בשם, או בדיקת SE37 חיה ב-ECC 6.0 וב-S/4HANA היעד. סטטוס " +
+      "replaced/deprecated/not_available אינו בר-טענה כי אף מקור רשמי אינו נוקב ביורש למודול; " +
+      "released_api_available לא נכתב כי ה-API הרשמי מתעד את האובייקט העסקי (מרכז עבודה) ולא את המודול, וסטטוס " +
+      "המודול עצמו ב-S/4HANA לא הוכרע. ראיות רשמיות (loio + versionId הועתקו כלשונם מרשומות החיפוש): Read Work " +
+      "Center (APIs for Manufacturing, 2025.001, loio 1e5f218e), OData API: Work Center (What's New 2021, loio " +
+      "abb8f6a7) ועמוד Work Center בתיעוד Maintenance Management (2025.001, loio 4e366afd). רשומת What's New " +
+      "מקבילה קיימת גם לגרסת 2020 (loio a6318cd9, 2020.000), ולכן ה-API קדם ל-2021; רשומת ה-New של 2021 (loio " +
+      "f7e7144c) היא שירות ה-OData V4. גוף דפי ה-Help הוא מעטפת JavaScript ולכן כל טענה תחומה בכותרת ובסניפט. " +
+      "הקשר נוסף שלא צוטט כראיה: עמוד ה-VDM של I_WorkCenter (Virtual Data Model and CDS Views, 2023 Latest, loio " +
+      "c90e05a792674f7d8bbae247c5200999: Technical Name I_WorkCenter, Basic/Dimension, Release Status Released) " +
+      "ועמוד What's New 2025 CDS Views for Basic Work Center Data (loio 21cd2fa6d9dd4855a02f7edc83dcfe22) המונה " +
+      "את I_WorkCenter, I_WorkCenterCostCenter ו-I_WorkCenterText בטבלת ה-CDS Views שהשתנו; עמוד Work Center " +
+      "בתיעוד APIs for Manufacturing (2025.001, loio d01ff746f7934178ac5c84b15778b05d) נוקב בשם השירות " +
+      "API_WORK_CENTER (OData V4, SRVD_A2X) לצד נתיב ה-V2‏ API_WORK_CENTERS; רשימת הישויות והפרמטרים המלאה לא " +
+      "אומתה. חיפושי Simplification / deprecation ברכיב PP-BD-WKC החזירו רשומות What's New על ממשקי API ויישומי " +
+      "Fiori של מרכז עבודה (בהן OData API: Work Center 2020 ו-2021, SOAP API: Work Center - Replicate 2020, " +
+      "Manage Work Center Groups 2020 ו-2021, Workcenter Groups - Replicate 2023) ועמודי ארכוב PP-BD-WKC, ללא " +
+      "פריט פישוט או הודעת הוצאה משימוש למרכז העבודה. אי-התאמות במאגר: data/academy/lessons/pm-generated.ts:171 " +
+      "מסמן את המודול בדרגת אמון verified-docs עם מקור 'SAP Help Portal - Plant Maintenance (S/4HANA)', סימון " +
+      "שהחיפושים הרשמיים של הסשן אינם משחזרים; data/function-intel.ts כותב 'זמין ב-S/4HANA' ללא הסתייגות וללא " +
+      "דגל inferred; data/domains.ts (pm-work-centers) מונה את המודול תחת bapis אף שאינו BAPI. הבלופרינט של " +
+      "PP-PI נוקב לאותה טבלה בשם CR_WORK_CENTER_READ; שני השמות קיימים כמזהים בדאטהסט ואף אחד מהם לא אומת. F6175 " +
+      "(Manage Work Centers) נוקב בעמוד רשמי אך אינו ב-data/fiori/apps.ts ולכן אינו ב-xrefs; fiori:F3289 (Manage " +
+      "Work Center Capacity) קיים בדאטהסט. tx:IR02 ו-tx:IR03 קיימים במניפסט הטרנזקציות ויש להם דף באפליקציה; הם " +
+      "נוספו ל-xrefs לצד tx:IR01.",
+  },
+
+  /* ------------------------------- fm:CRAP_WORKCENTER_GET_DETAIL */
+  {
+    id: "fm:CRAP_WORKCENTER_GET_DETAIL",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work Center | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/62ec4758c3f90a02e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "תיעוד APIs for Manufacturing לגרסת 2025 FPS01 מתעד שירות OData לקריאת פרטי מרכז עבודה: 'Work Center " +
+          "Technical name: API_WORK_CENTERS This service enables you to read, create and update all details of a " +
+          "work center' (כלשון הסניפט), כולל ישויות קיבולת כגון Capacity Shift Version 2 " +
+          "(A_WorkCenterCapacityShift_2). הקשר דומייני בלבד; הסניפט אינו נוקב בשם CRAP_WORKCENTER_GET_DETAIL ואינו " +
+          "קושר את השירות למודול פונקציה קלאסי כלשהו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Read Work Center | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/1e5f218e776d4dbebc7955a12e35c86f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "דף הפעולה Read Work Center (2025 FPS01) קובע: 'To retrieve the work centers, use the GET HTTP method' על " +
+          "הישות A_WorkCenters בנתיב /sap/opu/odata/sap/API_WORK_CENTERS (מפתח WorkCenterInternalID " +
+          "ו-WorkCenterTypeCode לפי הסניפט), עם ניווט to_WorkCenterDescription ושליפת 'details of cost center " +
+          "assignments to a work center'. זהו ערוץ הקריאה המתועד רשמית לפרטי מרכז עבודה ב-S/4HANA; הסניפט אינו מזכיר " +
+          "את ה-FM.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work Center | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/4e366afdf7604bc9b25f39b4aff05cb2.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "עמוד Work Center בתיעוד Maintenance Management לגרסת 2025 FPS01 מגדיר את מושגי מרכז העבודה בתחזוקת מפעל: " +
+          "'Main work center The work center that is assigned to a maintenance order at the header level' " +
+          "ו-'Maintenance work center The work center that is in charge when a maintenance task is performed', שיכול " +
+          "להיות מרכז העבודה הראשי או המבצע. הקשר דומייני בלבד; הסניפט אינו נוקב בשם מודול הפונקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP - Work center | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/fbb00ccf1fde4610b35b39caac89dc0c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "עמוד אובייקט ההגירה PP - Work center (Data Migration, 2025 FPS01, מקור ERP) קובע לפי הסניפט: 'This " +
+          "migration object automatically selects all work centers from the CRHD table for the derived plants', " +
+          "ומונה תחת 'APIs/BAPIs Used in Migration-Specific Function Modules' את 'Function Module: " +
+          "CNV_PE_S4_PM_CREATE_WORKCENTER APIs/BAPI CRAP_WORKCENTER_CREATE', לצד האפליקציה Display Work Center (app " +
+          "ID CR03). זהו אזכור רשמי לבן משפחה של CRAP_WORKCENTER_ ב-S/4HANA 2025 (יצירה בלבד); הסניפט אינו נוקב בשם " +
+          "CRAP_WORKCENTER_GET_DETAIL ואינו אומר דבר על סטטוס השחרור של אף אחד מהם.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (PM, מסומנת inferred)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת המאגר מתארת שליפת פרטי מרכז עבודה (קיבולת, נוסחאות תזמון, שיוך מרכז עלות) לפי מזהה OBJID/ARBPL, " +
+          "בהקשר IR03/CR03 וטבלאות CRHD/CRCA ו-CDS I_WorkCenter; שדה ה-ECC נושא הסתייגות מפורשת 'שם תלוי גרסה, אמת " +
+          "ב-SE37; ראה גם CR_WORK_CENTER_READ', שדה ה-S/4 אומר 'אמת ב-S/4', והרשומה כולה מסומנת inferred: true. שני " +
+          "ה-blueprints מונים את ה-FM תחת CRHD (PM: 'שליפת פרטי מרכז עבודה', PP-PI: 'שליפת פרטי משאב').",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#CRAP_WORKCENTER_GET_DETAIL",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: 
+        "לפי נתוני הפרויקט (רשומה המסומנת inferred): מודול פונקציה לשליפת פרטי מרכז עבודה או משאב (כותרת CRHD, " +
+        "קיבולת CRCA/KAKO, שיוך מרכז עלות CRCO), בשימוש תחזוקת מפעל (IR01/IR03) ותעשיות תהליכיות (CRC1/CRC3). קיום " +
+        "הפונקציה, סטטוס השחרור שלה והממשק שלה לא אותרו באף מקור SAP רשמי ציבורי שנבדק, ולכן נדרש אימות במערכת SAP " +
+        "(SE37) לפני כל שימוש בנתון. מקור רשמי נוקב רק בבן המשפחה CRAP_WORKCENTER_CREATE (עמוד ההגירה PP - Work " +
+        "center, 2025 FPS01). ערוץ הקריאה המתועד רשמית לפרטי מרכז עבודה ב-S/4HANA הוא שירות ה-OData Work Center " +
+        "(API_WORK_CENTERS, APIs for Manufacturing 2025 FPS01), שאינו מוצג כאן כיורש כי אין מקור רשמי הקושר אותו " +
+        "ל-FM זה.",
+      edition: "on-premise",
+      release: null,
+      source: {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (PM, מסומנת inferred)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת המאגר מתארת שליפת פרטי מרכז עבודה (קיבולת, נוסחאות תזמון, שיוך מרכז עלות) לפי מזהה OBJID/ARBPL, " +
+          "בהקשר IR03/CR03 וטבלאות CRHD/CRCA ו-CDS I_WorkCenter; שדה ה-ECC נושא הסתייגות מפורשת 'שם תלוי גרסה, אמת " +
+          "ב-SE37; ראה גם CR_WORK_CENTER_READ', שדה ה-S/4 אומר 'אמת ב-S/4', והרשומה כולה מסומנת inferred: true. שני " +
+          "ה-blueprints מונים את ה-FM תחת CRHD (PM: 'שליפת פרטי מרכז עבודה', PP-PI: 'שליפת פרטי משאב').",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#CRAP_WORKCENTER_GET_DETAIL",
+      },
+      recommendedAction: 
+        "אימות ב-SE37 במערכת S/4HANA היעד: קיום הפונקציה, קבוצת הפונקציות, סטטוס השחרור (Released / Not released) " +
+        "והפרמטרים, ובדיקת Where-Used בהתאמות אישיות שקוראות אותה. עד אז אין להציג זמינות ב-S/4HANA כעובדה מאומתת. " +
+        "לפיתוח חדש ולממשקים להעדיף את הערוצים המתועדים רשמית: לקריאת נתוני אב של מרכז עבודה את תצוגת ה-CDS " +
+        "המשוחררת I_WorkCenter (עם I_WorkCenterText ו-I_WorkCenterCostCenter), ולקריאה ועדכון בממשקים את שירות " +
+        "ה-OData Work Center (API_WORK_CENTERS, דף Read Work Center) בתיעוד APIs for Manufacturing. ב-Clean Core " +
+        "יש להניח שמודול פונקציה מסדרת CRAP_ אינו משוחרר עד להוכחה הפוכה מהמערכת.",
+    },
+    xrefs: [
+      "table:CRHD",
+      "table:CRCA",
+      "table:CRCO",
+      "table:CRTX",
+      "table:KAKO",
+      "cds:I_WorkCenter",
+      "cds:I_WorkCenterCapacity",
+      "cds:I_WorkCenterCostCenter",
+      "cds:I_WorkCenterText",
+      "tx:IR01",
+      "tx:IR03",
+      "tx:CR03",
+      "tx:CRC3",
+      "fm:CR_WORKCENTER_READ",
+      "fm:CR_WORK_CENTER_READ",
+      "fm:CR_TEXT_READ",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "אף מקור רשמי אינו נוקב בשם ה-FM. נבדק 2026-09-14: (1) שירות החיפוש של help.sap.com " +
+      "(scripts/sap-help-search.mjs, סקופ On-Premise) בשם המדויק (10 תוצאות: עמודי APIs for Sourcing / Project " +
+      "System / Manufacturing ו-What's New 1709, אף כותרת או סניפט אינם מזכירים את ה-FM), 'work center BAPI " +
+      "GetDetail' (21), 'Work Center API Manufacturing OData' (21), 'work center CRHD read function module', " +
+      "'Work Center Virtual Data Model I_WorkCenter', 'BAPI_WORKCENTER work center BAPI', 'Manage Work Centers " +
+      "app' ו-'work center function module released API alternative clean core' (8 שאילתות); (2) חיפוש רשת מוגבל " +
+      "לדומיינים הרשמיים, בשם במירכאות, החזיר רק עמודי מרכז עבודה כלליים (Work Center, Creating Changing and " +
+      "Displaying Work Centers, Manage Work Center Capacity F3289) ואף אחד לא נוקב בשם. בחיפושי הסשן לא אותר " +
+      "ב-SAP Help תיעוד פר-מודול ל-FM קלאסי זה; הדבר ניתן לאישוש רק ב-SE37 / מערכת חיה, וחיבור ה-MCP sc4sap נכשל " +
+      "בסשן (לפי כללי ה-fallback של MANIFEST עובדות ממשק כאלה נשארות 'נדרש אימות'). חיפוש רשת פתוח העלה שרשור " +
+      "SAP Community (Tier 3, גילוי בלבד) על חלופה משוחררת ל-FM האח CRAP_WORKCENTER_CREATE ב-S/4HANA 2023; " +
+      "ה-WebFetch החזיר HTTP 403 ולכן תוכנו לא נקרא ואינו מצוטט; אתרי צד-שלישי המונים CRAP_WORKCENTER_CREATE / " +
+      "CRAP_WORKCENTER_CHANGE אינם ברשימת הדומיינים המותרים ואף אחד מהם לא הראה את GET_DETAIL. ארבע הראיות " +
+      "הרשמיות (loio 62ec4758, 1e5f218e, 4e366afd, fbb00ccf; כולן 2025.001, URL ו-loio הועתקו כלשונם מרשומות " +
+      "החיפוש) מכסות את הדומיין ואת המשפחה בלבד: שירות ה-OData Work Center (API_WORK_CENTERS; קיים גם שירות בשם " +
+      "API_WORK_CENTER, loio d01ff746, נתיב /sap/opu/odata4/ לפי הרשומה Operations for Work Center loio " +
+      "befc0d2c, לא צוטט), מושגי מרכז העבודה בתחזוקת מפעל, ועמוד ההגירה PP - Work center. גוף דפי ה-Help הוא " +
+      "מעטפת JavaScript ולכן כל טענה תחומה בכותרת ובסניפט. שני עמודי ההגירה PP - Work center (Data Migration, " +
+      "2025.001; loio fbb00ccf למקור ERP, loio 70a186f1 למקור AFS) קובעים שאובייקט ההגירה 'automatically selects " +
+      "all work centers from the CRHD table' ונוקבים, לפי הסניפט, במודול ההגירה הייעודי " +
+      "(CNV_PE_S4_PM_CREATE_WORKCENTER בגרסת ERP, CNV_PE_S4_AFS_CREAT_WORKCENTER בגרסת AFS) וב-API/BAPI שבו הוא " +
+      "משתמש: CRAP_WORKCENTER_CREATE. זהו אזכור רשמי לבן משפחה של CRAP_WORKCENTER_ ב-S/4HANA 2025, אך לא " +
+      "ל-GET_DETAIL ולא לסטטוס שחרור; fm:CRAP_WORKCENTER_CREATE אינו ביקום ולכן אין xref. רובד Tier-2 עקבי בשישה " +
+      "קבצים (function-intel, מסומן inferred: true; sapData.pm#CRHD; sapData.pppi#CRHD; domains#pm-work-centers; " +
+      "domain-detail#pm-work-centers; transactions#IR01): ה-FM שולף פרטי מרכז עבודה או משאב. סתירות פנימיות: " +
+      "academy/lessons/pm-generated.ts:171 מסמן את ההפניה trust 'verified-docs' ממקור 'SAP Help Portal - Plant " +
+      "Maintenance (S/4HANA)', תווית שחיפושי הסשן לא שחזרו; lib/verification.ts מסווג את התבנית ^CRAP_ כחשודה " +
+      "בעוד domains / transactions מציגים את ה-FM כשמיש; שם ה-FM האח לקריאה כתוב CR_WORKCENTER_READ ב-PM " +
+      "ו-CR_WORK_CENTER_READ ב-PP-PI (שני המזהים ביקום, שניהם ב-xrefs, אף אחד לא אומת), " +
+      "ו-data/bapi-enrichment.sweep.ts:85 מסמן את CR_WORK_CENTER_READ כלא מאומת בשם זה (invalid) ומפנה " +
+      "ל-CR_WORKSTATION_READ / CR_RFC_WORKCENTER_LIST, שאינם ביקום; ה-xref fm:CR_WORK_CENTER_READ נשמר רק כמזהה " +
+      "קיים ביקום, לא כשם מאומת. לא נטענת החלפה או הוצאה משימוש ולכן אין יורש; API_WORK_CENTERS ו-I_WorkCenter " +
+      "מוזכרים בהמלצה כערוצים מתועדים, לא כיורשים. אין xref ל-Fiori: Manage Work Centers (F6175, נקוב בעמוד " +
+      "ההגירה Work center/Resource loio d1c46c79) אינו ב-data/fiori/apps.ts, ו-F3289 (Manage Work Center " +
+      "Capacity) לא אומת כקשור ל-FM. api.sap.com לא צוטט (מעטפת יישום ללא מפתח API).",
+  },
+
+  /* -------------------------------------- fm:CS_BOM_EXPL_EQU_RC1 */
+  {
+    id: "fm:CS_BOM_EXPL_EQU_RC1",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: 
+          "help.sap.com search: \"CS_BOM_EXPL_EQU_RC1\", \"CS_BOM_EXPL_EQU_V2\", \"CS_BOM_EXPL\", \"equipment BOM " +
+          "explosion\", \"BOM explosion function module equipment\" (SAP_S4HANA_ON-PREMISE)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "ממצא שלילי: בחמש וריאציות שאילתה בשירות החיפוש של SAP Help (סקופ On-Premise, 2026-09-14) אף כותרת או " +
+          "תקציר אינם נוקבים בשם CS_BOM_EXPL_EQU_RC1 או בשם מודול פונקציה אחר לפיצוץ עץ מוצר של ציוד; חיפוש רשת העלה " +
+          "רק כותרות KBA (מארח userapps.support.sap.com, שאינו ברשימת ההיתר, לא צוטט) הנוקבות ב-CS_BOM_EXPL_MAT_V2 " +
+          "לעץ מוצר של חומר; לא אותר שם וריאנט לציוד.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: 
+          "רשומת קטלוג הפונקציות של הפרויקט (PM, אובייקטים טכניים) והדאטהסט המחולל של בלופרינט PM (EQST, נושא 3: עצי " +
+          "מוצר של אחזקה)",
+        product: "SAP ECC 6.0 / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE14,
+        claim: 
+          "רשומת המאגר מתארת פיצוץ עץ מוצר של ציוד (Equipment BOM) רב-שלבי או חד-שלבי לפי ציוד, מפעל ותאריך, עם טבלת " +
+          "פלט STB, בזיקה ל-IB03/IB13 ולטבלאות EQST ו-STPO (תהליך PM-2); חוברת המיגרציה מייחסת את המודול לטבלת EQST " +
+          "(קישור ציוד לעץ מוצר) לצד התוכנית RCSBI010. שדות ה-ecc/s4 ברשומה ('זמין') אינם נושאים מקור, ורישום " +
+          "אובייקטי הפונקציה גוזר לה requires-verification / confidence: derived. לשם המקביל CS_BOM_EXPL_MAT_RC1 (עץ " +
+          "מוצר של חומר) סריקת האימות של המאגר קבעה invalid-name והפנתה ל-CS_BOM_EXPL_MAT_V2; לווריאנט הציוד אין " +
+          "רשומת סריקה.",
+        verificationLevel: "repository_verified",
+        repoRef: 
+          "data/function-intel.ts#CS_BOM_EXPL_EQU_RC1; data/sapData.pm.ts#EQST (funcs/progs, נושא 3); " +
+          "data/bapi-enrichment.sweep.ts#CS_BOM_EXPL_MAT_RC1; lib/bapi-registry.ts#deriveRegistry",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Equipment BOM | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/71ffeafd52694ddeab9b1397362c3e9e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "הקשר בלבד (לא טענת יורש): אובייקט המיגרציה הרשמי לעץ מוצר של ציוד מתועד ל-On-Premise 2025 FPS01 עם מודול " +
+          "פונקציה ייעודי למיגרציה CNV_PE_S4_PM_EQUIPMENT_BOM, וה-API הנקוב בתקציר תחת 'APIs/BAPIs' הוא " +
+          "CSAI_BOM_MAINTAIN; הטרנזקציות הנקובות הן IB02 (שינוי) ו-IB03 (תצוגה, 'Display Equipment BOM'). התקציר " +
+          "אינו נוקב ב-CS_BOM_EXPL_EQU_RC1.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Bill of Material (BOM) Categories in Plant Maintenance | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: 
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/a071b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE14,
+        claim: 
+          "תיעוד תחזוקת מפעל ל-2025 FPS01 קובע: 'The following types of BOM are found in Plant Maintenance: Material " +
+          "BOMs, Equipment BOMs, Functional location BOMs', וסוג ה-BOM נקבע לפי סוג רשומת האב שאליה משויך העץ; כלומר " +
+          "עץ מוצר של ציוד הוא סוג נפרד מעץ מוצר של חומר.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: 
+        "מודול פונקציה לפיצוץ עץ מוצר של ציוד (Equipment BOM, קטגוריית BOM נפרדת מעץ מוצר של חומר) בתחזוקת מפעל. " +
+        "לא נמצא לו תיעוד רשמי ב-SAP Help, ואף מקור רשמי אינו נוקב בשם עם הסיומת _RC1; לשם המקביל לחומר " +
+        "(CS_BOM_EXPL_MAT_RC1) המאגר כבר קבע invalid-name. הרישום מקורו בחוברת המיגרציה ובקטלוג הפונקציות של " +
+        "הפרויקט בלבד, ונדרש אימות קיום, קבוצת פונקציות וסטטוס שחרור ב-SE37.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: 
+        "אמת ב-SE37 במערכת ECC וב-S/4HANA אם השם CS_BOM_EXPL_EQU_RC1 קיים כלל, ואם הווריאנט התקני לפיצוץ עץ מוצר " +
+        "של ציוד נושא שם אחר (בדוק את קבוצת הפונקציות של CS_BOM_EXPL_MAT_V2 באותו מסך). אל תשתמש במודול לפיצוץ עץ " +
+        "מוצר של חומר ואל תציג אותו כממשק משוחרר. לאימות תפקודי השתמש ב-IB03 (תצוגת עץ מוצר של ציוד) מול טבלאות " +
+        "EQST/STKO/STPO; למיגרציה השתמש באובייקט המיגרציה הרשמי PM - Equipment BOM.",
+    },
+    xrefs: [
+      "table:EQST",
+      "table:STKO",
+      "table:STPO",
+      "table:EQUI",
+      "tx:IB01",
+      "tx:IB03",
+      "tx:IB13",
+      "fm:CS_BOM_EXPL_MAT_RC1",
+      "fm:CS_BOM_EXPL_FLO_RC1",
+      "cds:I_BillOfMaterial",
+      "cds:I_Equipment",
+    ],
+    lastVerifiedAt: DATE14,
+    notes: 
+      "לא קיים תיעוד רשמי ל-CS_BOM_EXPL_EQU_RC1 (בדיקה מ-2026-09-14). שתי רשומות חיפוש נוספות רלוונטיות להמשך " +
+      "אימות ולא נכללו כראיה: 'BOM Explosion Level by Level' (LO-MD-BOM, 2025.001, loio " +
+      "ebb1b853ff98b44ce10000000a174cb4) שתקצירו מונה את סוגי ה-BOM הנתמכים בדיווח הפיצוץ 'Material BOMs, Order " +
+      "BOMs, Work breakdown structure BOMs' בלי לנקוב בעצי מוצר של ציוד; ו-'Equipment Link for Bill of Material' " +
+      "(Virtual Data Model, 2023.latest, loio e3ab68f03b744658b9e4beeeda8afe42) שתקצירו נוקב ב-CDS View בסיסי " +
+      "I_EQUIPMENTBOMLINK בסטטוס Released עם מאפייני Equipment Number, Plant, BOM Variant, BOM Variant Usage; " +
+      "ה-View אינו קיים בקטלוג ה-CDS של הפרויקט ולכן אינו מצוין כ-xref או כיורש. פרמטרי הממשק (EQUNR/PLANT/DATE, " +
+      "STB) הם תיאור המאגר בלבד ולא אומתו. ההבחנה בין עץ מוצר של ציוד לעץ מוצר של חומר נשמרת: ה-xref " +
+      "ל-CS_BOM_EXPL_MAT_RC1 הוא הפניה לשם המקביל בלבד ואינו טענת חלופה.",
   },
 ];
