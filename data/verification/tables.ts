@@ -17,7 +17,11 @@
    MCH1, MEAN, MVKE, MLAN, MAPL, PLAS, PLFL, PLMZ, PLZU), each merged from its
    adversarial verdict; none refuted. table:PLZU is written
    verification_required on purpose - no official page names that table - and a
-   correction for tx:IP30 (transactions catalog) is queued, not applied here. */
+   correction for tx:IP30 (transactions catalog) is queued, not applied here.
+   Batch 5 (2026-09-15): 7 more records (QMEL, QMFE, QMMA, QMSM, COBRB, EBKN,
+   KDST) - the notification family plus the settlement, requisition-account and
+   sales-order-BOM assignment tables - each merged from its adversarial verdict
+   (fixedRecord); table:COBRA refuted and queued. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -855,6 +859,124 @@ const PLMZ_PI_PLAN_ARCHIVING: Evidence = {
     + "resources/tools'. הסניפט מוסיף כי אובייקט הארכוב PI_PLAN מכיל למתכון אב את הנתונים 'Material-recipe "
     + "assignment Operations and phases Relationships Material components'. כלומר הטבלה קיימת ומתועדת בגרסה זו, "
     + "ותפקידה הרשמי הוא שיוכי רכיבי חומר במתכון האב.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QMEL_PM_NOTIF_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle:
+    "Archiving Maintenance Notifications (PM-WOC-MN) | Data Archiving in Plant Maintenance and Customer Service "
+    + "(PM/CS)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/60adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "עמוד הארכוב של הודעות האחזקה בגרסת 2025 FPS01 קובע: 'Archiving object PM_QMEL with which you can archive "
+    + "maintenance notifications in the Plant Maintenance component', ומפרט את מבנה האובייקט: 'The archiving object "
+    + "PM_QMEL for maintenance notifications is composed of the following tables: Table Name Contents QMEL "
+    + "Notification header data QMFE Items QMMA Activities QMSM [...] Tasks QMUR Causes QMIH Maintenance data ILOA "
+    + "Location Data IHPA Partner PMLP Print log' (הסוגריים המרובעים מסמנים קטיעה בין קטעי הסניפט; המשך אותה שורה "
+    + "בסניפט מונה גם את MCIPMIS לעדכון ה-PMIS, את CDHDR ו-CDPOS למסמכי השינוי ואת KSSK לסיווג). כלומר QMEL היא "
+    + "טבלת כותרת ההודעה, והרשומה המלאה של ההודעה מורכבת ממנה ומטבלאות הפריטים, הפעילויות, המשימות והסיבות. אותו "
+    + "עמוד מוסיף: 'The following fields are defined for PM_QMEL in the ILM set of rules and are visible when "
+    + "processing ILM sets of rules (transaction IRMPOL)', ובין השדות הנקובים שם 'Maintenance Planning Plant "
+    + "(IWERK) Notification Type (QMART)'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QMFE_PM_QMEL_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle:
+    "Archiving Maintenance Notifications (PM-WOC-MN) | Data Archiving in Plant Maintenance and Customer Service "
+    + "(PM/CS)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/60adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "נושא הארכוב הרשמי לגרסת 2025 FPS01 קובע לפי הסניפט: 'Archiving object PM_QMEL with which you can archive "
+    + "maintenance notifications in the Plant Maintenance component', ובסעיף המבנה: 'The archiving object PM_QMEL "
+    + "for maintenance notifications is composed of the following tables: Table Name Contents QMEL Notification "
+    + "header data QMFE Items QMMA Activities QMSM Tasks QMUR Causes QMIH Maintenance data ILOA Location Data IHPA "
+    + "Partner PMLP Print log MCIPMIS PMIS update, Before Image table, object data CDHDR, CDPOS Change Documents "
+    + "KSSK'. כלומר QMFE נזכרת בשמה כטבלה קיימת ב-S/4HANA On-Premise 2025 FPS01, ותוכנה לפי המקור הוא פריטי ההודעה "
+    + "(Items), לצד QMEL ככותרת ההודעה, QMMA לפעילויות, QMSM למשימות ו-QMUR לסיבות. רשימת הטבלאות בסניפט נקטעת אחרי "
+    + "KSSK ולכן המניין כאן חלקי.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QMMA_PM_QMEL_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle:
+    "Archiving Maintenance Notifications (PM-WOC-MN) | Data Archiving in Plant Maintenance and Customer Service "
+    + "(PM/CS)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/60adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "עמוד הארכוב הרשמי לגרסת 2025 FPS01 קובע: 'The archiving object PM_QMEL for maintenance notifications is "
+    + "composed of the following tables: Table Name Contents QMEL Notification header data QMFE Items QMMA "
+    + "Activities QMSM [...] Tasks QMUR Causes QMIH Maintenance data ILOA Location Data IHPA Partner PMLP Print "
+    + "log' (הסוגריים המרובעים מסמנים קטיעה בין קטעי הסניפט). כלומר ב-S/4HANA On-Premise 2025 FPS01 הטבלה QMMA "
+    + "קיימת בשם הזה, תוכנה הוא Activities, היא נמנית עם טבלאות אובייקט הארכוב PM_QMEL של הודעות אחזקה, והיא נבדלת "
+    + "מ-QMSM שתוכנה Tasks ומ-QMUR שתוכנה Causes.",
+  verificationLevel: "sap_official_verified",
+};
+
+const COBRB_CO_ARCHIVING_RUNTIMES: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Run Times for Internal Orders (CO-OM-OPA) | Data Archiving in Controlling (CO)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a87b965528884868b4404902123c6004/f358d7531a4d424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "דף זמני הריצה של הארכוב ב-CO לגרסת 2025 FPS01 מדווח שבבדיקה אורכבו 1,000 הזמנות באמצעות אובייקט הארכוב "
+    + "CO_ORDER מהטבלאות 'AUFK, CDHDR, CDPOS, COBRA, COBRB, COSP, COSPD, COSS, COEP, COBK'; COBRB נקובה שם בשמה "
+    + "ברשימת הטבלאות שמהן מארכב CO_ORDER הזמנות פנימיות בגרסה זו; הסניפט אינו מתאר את תוכן הטבלה ואינו מייחד אותה "
+    + "להזמנות פנימיות.",
+  verificationLevel: "sap_official_verified",
+};
+
+const EBKN_FIN_EXTENSIBILITY: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Extensibility Options for Finance | General Ledger Accounting (FI-GL)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/266cb949a0414d1bb30c4a6550d55835.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "עמוד אפשרויות ההרחבה של הפיננסים בגרסת 2025 FPS01 מציין שהוספת שדה מותאם בהקשר Accounting: Coding Block אינה "
+    + "נוגעת רק ל-ACDOCA: 'Consider that not only the ACDOCA table is extended. Many additional tables are also "
+    + "extended, including BSEG, MSEG, EBKN, and EKKN, which may be unnecessary for some use cases', ובאותו עמוד: "
+    + "'Custom fields using the Custom Fields app As a key user, you can use the Accounting: Journal Entry Item and "
+    + "Accounting: Coding Block business context to add your custom fields'. כלומר EBKN נמנית בגרסת 2025 FPS01 בין "
+    + "הטבלאות שמורחבות לצד ACDOCA כאשר מוסיפים שדה מותאם לבלוק החיוב.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KDST_BOM_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Archiving PP-BOMs (PP-BD-BOM) | Data Archiving in Production Planning and Control (PP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/0570bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "עמוד אובייקט הארכוב CS_BOM לגרסת 2025 FPS01 קובע 'If you use the archiving object CS_BOM, data from the "
+    + "following tables is archived', ובטבלת Table/Description שלו מופיע הרצף 'MAST Material BOM assignment DOST "
+    + "Document BOM assignment EQST Equipment BOM assignment TPST Functional location BOM assignment KDST Sales "
+    + "order' (תיאור KDST נקטע בסניפט אחרי המילים 'Sales order'), ולצדם 'STZU Time-independent BOM data', 'STST "
+    + "Standard object BOM assignment' ו-'PRST Project BOM assignment'. הרשימה ממקמת את KDST במשפחת טבלאות שיוך עץ "
+    + "המוצר, לצד MAST, EQST ו-TPST.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -8794,5 +8916,1076 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       + "שנצפו ואין להם ייצוג ביקום הדאטהסט ולכן אין להם xref: הטבלאות PLFH, PLKZ, AENR, AEOI ו-AEDT (השלוש האחרונות "
       + "מתוך 'ECM - Change master', loio 375c134383134d7faf15aa7677091aab), אפליקציית Manage Change Masters (F2212) "
       + "והטרנזקציות CA60D, CA60P ו-CC03. לא צוטט מספר SAP Note, ולא נבדק פריט בקטלוג הפישוט (נדרשת הזדהות S-user).",
+  },
+
+  /* -------------------------------------------------------- table:QMEL */
+  {
+    id: "table:QMEL",
+    aliases: [
+      "qmel",
+    ],
+    evidence: [
+      QMEL_PM_NOTIF_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving of Service Notifications (PM-SMA-SC) | Data Archiving in Plant Maintenance and Customer Service "
+          + "(PM/CS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/63adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "העמוד המקביל להודעות השירות, באותו מדריך ובאותה גרסה, קובע: 'Archiving object with which you can archive "
+          + "service notifications in the application component Customer Service', ומפרט: 'The archiving object for "
+          + "service notifications SM_QMEL consists of the following tables: Table Name Contents QMEL Notification header "
+          + "data QMFE Items QMMA Activities QMSM Tasks [...] QMUR Causes QMIH Maintenance data ILOA Location Data IHPA "
+          + "Partner PMLP Print log'. כלומר אותה טבלה QMEL נושאת גם את כותרות הודעות השירות של רכיב Customer Service, ולא "
+          + "רק את הודעות תחזוקת המפעל: מבנה שתי רשומות הארכוב זהה בשמות הטבלאות ובתוכן שלהן.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Dependencies (QM-QN) | Quality Management (QM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/4d194322d4ea4b2da9c3962e4ab805b4/4c0ab753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE4,
+        claim:
+          "בסט התיעוד של SAP ERP 6.18 קובע עמוד התלויות של הודעות האיכות: 'The Archiving object QM_QMEL consists of the "
+          + "following data to be archived: Table Brief description QMEL Notification header data QMFE Items QMMA "
+          + "Activities [...] QMSM Tasks QMUR Causes [...] JEST, JSTO Status SWW_CONTOB Workflow, work item THEAD Long "
+          + "text'. זו הראיה הרשמית שנמצאה לכך שגם הודעת האיכות (רכיב QM-QN) יושבת על אותה טבלת כותרת QMEL ועל אותן "
+          + "טבלאות פריטים, פעילויות, משימות וסיבות. בסט התיעוד של S/4HANA 2025 FPS01 העמוד המקביל, 'Archiving Quality "
+          + "Notifications (QM-QN)', מסתפק ב-'You can use archiving object QM_QMEL to archive quality notifications. "
+          + "Tables QM_QMEL archives data from several tables' ומפנה לטרנזקציה SARA כדי לראות אילו טבלאות הן, בלי למנות "
+          + "אותן בשמן.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "בלופרינט ההגירה של הפרויקט, שתי רשומות QMEL, ושכבת ההשפעה S4_STABLE",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "רשומת הבלופרינט בנושא 6 (הודעות אחזקה): 'כותרת הודעת אחזקה' / 'Notification header'; טרנזקציות "
+          + "'IW21/IW22/IW23; IW24, IW28/IW29'; עמודת S/4: 'ללא שינוי במודל הנתונים (תואם)', טבלה חליפית 'QMEL (זהה)', "
+          + "טרנזקציה חליפית 'IW21-23 נתמכים; אסטרטגי: Fiori'; הערת SUM: 'ללא פעולת המרה ייעודית ב-SUM (טבלה תואמת). "
+          + "מומלץ Regression Test ואימות התאמות אישיות לאחר ההמרה.'. שדות רשומים: QMNUM (PK, מספר הודעה), QMART (FK, סוג "
+          + "הודעה M1/M2/M3), QMTXT (תיאור קצר), EQUNR (FK, ציוד מתייחס), TPLNR (FK, מיקום מתייחס), OBJNR (FK, מפתח "
+          + "אובייקט לסטטוס); פונקציות BAPI_ALM_NOTIF_CREATE, BAPI_ALM_NOTIF_DATA_ADD, BAPI_ALM_NOTIF_SAVE, "
+          + "BAPI_ALM_NOTIF_CLOSE ו-BAPI_ALM_NOTIF_GET_DETAIL; תוכניות RIQMEL20 ו-RIQMEL00. רשומה שנייה, נושא 12 "
+          + "(היסטוריה וארכיון, המזהה PM:QMEL#12), מוסיפה את AUSVN, AUSBS ו-AUSZT (נתוני השבתה), את "
+          + "BAPI_ALM_NOTIF_LIST_FILTER ואת הקשרים QMFE.QMNUM = QMEL.QMNUM, QMMA.QMNUM = QMEL.QMNUM, QMSM.QMNUM = "
+          + "QMEL.QMNUM, QMEL.EQUNR = EQUI.EQUNR, QMEL.TPLNR = IFLOT.TPLNR, QMEL.OBJNR = JSTO.OBJNR ו-QMEL.QMART = "
+          + "TQ80.QMART. בנוסף QMEL נמנית בסט S4_STABLE ב-data/s4-impact.ts לצד QMFE, AUFK, JEST ו-JSTO, ולכן שתי שכבות "
+          + "המאגר מסכימות ביניהן והסטטוס הנגזר שהאפליקציה מציגה כיום תואם את הסטטוס שנרשם כאן.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:QMEL",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת QMEL, כותרת ההודעה ('Notification header data' בלשון התיעוד), פעילה ב-SAP S/4HANA On-Premise ועדכנית "
+        + "לגרסת 2025 FPS01, ללא טבלה חליפית. היא נקובה בשמה ובתפקידה בשני עמודי ארכוב רשמיים של אותה גרסה: אובייקט "
+        + "הארכוב PM_QMEL של הודעות האחזקה ברכיב תחזוקת מפעל (PM-WOC-MN) ואובייקט הארכוב SM_QMEL של הודעות השירות ברכיב "
+        + "Customer Service (PM-SMA-SC). בשניהם השורה הראשונה במבנה היא QMEL ככותרת, ואחריה QMFE (פריטים), QMMA "
+        + "(פעילויות), QMSM (משימות), QMUR (סיבות), QMIH (נתוני אחזקה), ILOA (נתוני מיקום), IHPA (שותפים) ו-PMLP (יומן "
+        + "הדפסה). לכן מדובר בטבלה משותפת ליותר מרכיב אחד: הודעות אחזקה והודעות שירות לפי תיעוד 2025 FPS01, והודעות "
+        + "איכות לפי עמוד התלויות של QM-QN בסט התיעוד של SAP ERP 6.18. שני מסמכי ה-Simplification List שנקראו במלואם, "
+        + "של 2023 FPS03 ושל 2025 FPS01, אינם נוקבים ב-QMEL ולו פעם אחת, ואף מקור רשמי שנבדק במעבר זה אינו נוקב ביורשת, "
+        + "בהוצאה משימוש או בפריט פישוט לטבלה עצמה. פריט הפישוט היחיד שנוגע להודעות הוא 'S4TWL - Changes In List "
+        + "Reports For Order and Notification', והוא עוסק בדוחות הרשימה ובהכנה שלפני ההמרה ולא במודל הנתונים.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QMEL_PM_NOTIF_ARCHIVING,
+      recommendedAction:
+        "להמשיך להשתמש ב-QMEL ככותרת ההודעה, ולקרוא את הפירוט ב-JOIN לפי QMNUM אל QMFE (פריטים), QMMA (פעילויות), "
+        + "QMSM (משימות) ו-QMUR (סיבות), את נתוני המיקום מ-ILOA ('Location Data' בלשון עמודי הארכוב) ואת הסטטוסים דרך "
+        + "OBJNR אל JEST ו-JSTO. מפני שהטבלה משרתת סוגי הודעה של יותר מרכיב אחד, כל דוח, ממשק או שאילתת Z שקוראים "
+        + "מ-QMEL חייבים לסנן לפי סוג ההודעה (QMART); בלי הסינון הזה התוצאה מערבבת הודעות אחזקה, הודעות שירות והודעות "
+        + "איכות. לפיתוח חדש, לאינטגרציה ולדיווח להעדיף את שכבת ה-OData הרשמית API_MAINTNOTIFICATION (ראו הערות) ואת "
+        + "תצוגות ה-CDS של ההודעה על פני SELECT ישיר מהטבלה. בפרויקט המרה: פריט הפישוט 'S4TWL - Changes In List Reports "
+        + "For Order and Notification' (הערת Business Impact שמספרה 0002270108; רכיב PM-WOC-MO במהדורת 2025 FPS01, "
+        + "ורכיבים PM-WOC-MN, PM-WOC-MO ו-PM במהדורת 2023 FPS03) מורה להריץ לפני השדרוג את הדוחות QM_PHASE_FILL "
+        + "ו-RIAFVC_IPHAS_FILL, ליישם במידת הצורך את ההערות שמספריהן 393393 ו-551133, ולעבור מ-IW37 ומ-IW49 אל IW37n "
+        + "ו-IW49n. אין פעולת המרה ייעודית לטבלה עצמה לפי הבלופרינט, ולכן לאחר ההמרה להריץ בדיקות רגרסיה לדוחות, "
+        + "לממשקים ול-User Exits של ההודעה (למשל QQMA0001), ובקוד חדש להעדיף את ה-BAdI NOTIF_EVENT_SAVE. לניהול מחזור "
+        + "חיי הנתונים להשתמש באובייקט הארכוב המתאים לסוג ההודעה: PM_QMEL להודעות אחזקה, SM_QMEL להודעות שירות "
+        + "ו-QM_QMEL להודעות איכות, ולשמור על סדר התלויות שהתיעוד קובע: PM_QMEL נמנה בין האובייקטים שיש לארכב לפני "
+        + "מסמכי מדידה (PM_IMRG), לפני ציוד (PM_EQUI) ולפני מיקומים פונקציונליים (PM_IFLOT).",
+    },
+    xrefs: [
+      "table:QMFE", "table:QMMA", "table:QMSM", "table:QMUR", "table:ILOA", "table:JEST", "table:JSTO",
+      "table:EQUI", "table:IFLOT", "table:TQ80", "tx:IW21", "tx:IW22", "tx:IW23", "tx:IW28", "tx:IW29",
+      "tx:IW64", "fm:BAPI_ALM_NOTIF_CREATE", "fm:BAPI_ALM_NOTIF_DATA_ADD", "fm:BAPI_ALM_NOTIF_SAVE",
+      "fm:BAPI_ALM_NOTIF_CLOSE", "fm:BAPI_ALM_NOTIF_GET_DETAIL", "fm:BAPI_ALM_NOTIF_LIST_FILTER",
+      "cds:I_MaintenanceNotification", "fiori:F1511", "fiori:F4604", "enh:exit:QQMA0001",
+      "enh:badi:NOTIF_EVENT_SAVE",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: עשר ריצות של scripts/sap-help-search.mjs ב-2026-09-15 ('archiving object PM_QMEL maintenance "
+      + "notifications QMEL notification header data', 'QMEL quality notification table', 'QM_QMEL archiving quality "
+      + "notifications tables QMEL QMFE', 'Maintenance Notification simplification item S4TWL notification', 'Quality "
+      + "Notification I_QltyNotification CDS view QMEL database table', 'Maintenance Notification Data "
+      + "I_MaintenanceNotification CDS view VDM', 'PM Maintenance notification data migration object QMEL', 'PM_QMEL "
+      + "composed of the following tables ... PMLP Print log', 'PM_QMEL ILM object ... HERKZ IWERK QMART', 'QMNUM "
+      + "notification number field QMEL QMART notification type AUSVN breakdown'), בסקופ SAP_S4HANA_ON-PREMISE ובסקופ "
+      + "SAP_ERP, בתוספת שני מסמכי Simplification List רשמיים שהורדו ונקראו במלואם ורובד Tier-2 מהמאגר. גוף עמודי "
+      + "ה-Help אינו נשלף: משיכת שלושת ה-URL המצוטטים החזירה HTTP 200 במשקל 1,160 בתים כל אחד, מעטפת JavaScript ללא "
+      + "טקסט תוכן, ולכן כל טענה תחומה לכותרת, לדליברבל ולסניפט של רשומת החיפוש. הבדיקה השלילית מול ה-Simplification "
+      + "List בוצעה על שני מסמכים שנקראו במלואם: 'Simplification List for SAP S/4HANA 2025 FPS01, Feature Pack Stack "
+      + "1-3 and SAP S/4HANA Cloud Private Edition 2025 FPS01, Feature Pack Stack 1-3' (עמוד השער: 'Document Version: "
+      + "1.36'), ו-'Simplification List for SAP S/4HANA 2023 initial shipment, Feature Pack Stack 1-3 and SAP S/4HANA "
+      + "Cloud Private Edition 2023 initial shipment, Feature Pack Stack 1-3' (עמוד השער: 'Document Version: 1.35', "
+      + "2025-02-25). כל מסמך חולץ בשתי צורות (pdftotext ו-pdftotext -layout): 85,712 ו-70,529 שורות ל-2025, 74,223 "
+      + "ו-76,533 שורות ל-2023; חיפוש טקסט מלא בארבעת הקבצים אינו מחזיר ולו מופע אחד של המחרוזת QMEL. פריט הפישוט "
+      + "היחיד שנוגע להודעות הוא 4.1.7 במהדורת 2025 ו-29.9 במהדורת 2023, 'S4TWL - Changes In List Reports For Order "
+      + "and Notification', וגופו זהה בשתי המהדורות: 'Prerequisite for executing the list reports for orders and "
+      + "notifications in SAP S/4HANA are the performance improvements described in notes 393393 and 551133', 'Within "
+      + "Enterprise Asset Management we plan to discontinue IW37, IW49 in a future release', 'Implement the notes if "
+      + "needed and run the reports QM_PHASE_FILL and RIAFVC_IPHAS_FILL before the ugrade to SAP S/4HANA if not done "
+      + "yet' (שמות הדוחות מופיעים במקור בין גרשיים בודדים, והשגיאה 'ugrade' היא כלשון המקור), ו-'No influence on "
+      + "business processes expected'. הבדל בין המהדורות: מהדורת 2023 רושמת 'Application Components:PM-WOC-MN, "
+      + "PM-WOC-MO, PM' ואילו מהדורת 2025 רושמת 'Application Component: PM-WOC-MO' בלבד. מספרי ההערות (0002270108, "
+      + "393393, 551133) מופיעים כלשונם במסמכים ולא הוזנו בשדה sapNote, כי הכלל דורש קישור me.sap.com/notes נגיש או "
+      + "repoRef ואין כאן לא זה ולא זה; תוכן ההערות עצמן לא נקרא. שדות הטבלה לא אומתו רשמית: ששת השדות שברשומה ושלושת "
+      + "שדות ההשבתה מקורם בבלופרינט בלבד. אזכורי השדות הרשמיים היחידים שנמצאו הם עקיפים ואינם הגדרת DDIC: (א) עמוד "
+      + "PM_QMEL נוקב ב-QMART וב-IWERK כשדות של מערך כללי ה-ILM (transaction IRMPOL) ולא כעמודות של הטבלה; (ב) עמוד "
+      + "ה-API 'Set Maintenance Notification To In Process' (2025.001, loio 3930778dc0644abbb826d1fa8f43827e) מציג "
+      + "'Name Type MaintenanceNotification QMNUM', כלומר טיפוס הפרמטר בשירות ולא עמודת טבלה; (ג) 'Configuration "
+      + "Guide | Maintenance Management' (2025.001, loio 7db16f5864a8a007e10000000a441470) מציג בסניפט 'Notification "
+      + "EAMS_QMNUM QMNUM Notification Date NOTIF_DATE_UI_TEXT ERDAT', שורת מיפוי UI שקטעיה מחוברים בסניפט. השדות "
+      + "AUSVN, AUSBS ו-AUSZT לא נמצאו באף רשומה רשמית במעבר זה. הגדרת ה-DDIC (SE11: רשימת שדות, טיפוסים, אורכים "
+      + "ואינדקסים) לא נקראה ממערכת חיה כי חיבור ה-MCP של sc4sap נכשל בסשן, ולכן לא בוצעה בדיקה במערכת. סייג על רכיב "
+      + "ה-QM: העמוד הרשמי של S/4HANA 2025 FPS01 לארכוב הודעות איכות (loio 130ab753128eb44ce10000000a174cb4) אינו "
+      + "מונה את טבלאותיו, ולכן הטענה שהודעת האיכות יושבת על QMEL נשענת על עמוד ה-SAP ERP 6.18 בלבד. שתי רשומות "
+      + "רשמיות נוספות נצפו ולא שימשו כראיה: 'Data Archiving of Notifications (CA-NO)' (SAP ERP 6.18, loio "
+      + "f79bac567a5a8c6ce10000000a4450e5) הממפה סוגי הודעה לאובייקטי ארכוב ('Notification types Archiving object "
+      + "Component Quality notifications QM_QMEL QM-QN Claims CM_QMEL PS-CLM'), ו-'Archiving Claims (PS-CLM)' "
+      + "(2025.001, loio 217ab6535fe6b74ce10000000a174cb4) הקובע 'The archiving object CM_QMEL archives and deletes "
+      + "data from several tables' בלי לנקוב בהן; לכן לא נטען כאן ששמות התביעות (PS-CLM) או ההודעות הכלליות (NM_QMEL) "
+      + "יושבים על QMEL, למרות שמות אובייקטי הארכוב. פגם תיעוד שנצפה ולא נעשה בו שימוש: עמוד ה-SAP ERP 'Service and "
+      + "Maintenance Notifications in the DRB (PM/CS)' (loio 0e78bb53707db44ce10000000a174cb4) כותב 'You can archive "
+      + "service notifications using archiving object PM_QMEL, and maintenance notifications with SM_QMEL', היפוך של "
+      + "מה שכל שאר העמודים קובעים. שינויים שנרשמו לאובייקט הארכוב ולא לטבלה: רשומת What's New 'Archiving Maintenance "
+      + "Notification Output Data' (2021 FPS01, loio 23e967d69d90469d966ce4892039c407) קובעת 'The following tables "
+      + "have been added to the archiving object PM_QMEL: Table Name Contents APOC_D_OR_ROOT Output request root "
+      + "data', ועמוד 'Pool Asset Management' (Customer Service, 2025.001, loio 0b5ad2c9e2f249abad4df1479243a001) "
+      + "קובע 'the following two tables have been added to the archiving object for maintenance notifications "
+      + "(PM_QMEL): Requirements (Objects to be Scheduled) (technical name: PAMS_NEED) and Splits (technical name: "
+      + "PAMS_SPLIT)'. שתיהן מרחיבות את אובייקט הארכוב, לא את הטבלה. האזכור הרשמי היחיד שנמצא למחרוזת 'QMEL Table' "
+      + "בסט S/4HANA הוא רשומת What's New 'Quality Management: Small Enhancements as Part of Customer Connection "
+      + "Program 2019', המתפרסמת בארבעה סטים (1610 SPS08, 1709 SPS06, 1809 SPS04, 1909 FPS02) עם השורה 'Display "
+      + "Change Documents of Fields in QMEL Table in Action Log'; המספרים הסמוכים לה בסניפט (223416, 2795403) שייכים "
+      + "לטבלה שיישור עמודותיה אינו נראה בסניפט, ולכן לא יוחס כאן מספר הערה לפיצ'ר הזה. הנמקת ה-xrefs: QMFE, QMMA, "
+      + "QMSM, QMUR ו-ILOA מגיעים משני עמודי הארכוב הרשמיים של PM_QMEL ושל SM_QMEL; JSTO מגיע מקשר הבלופרינט "
+      + "QMEL.OBJNR = JSTO.OBJNR, ו-JEST מגיע מעמוד ה-SAP ERP של QM_QMEL שמונה 'JEST, JSTO Status' (שני עמודי הארכוב "
+      + "של 2025 FPS01 אינם מונים את JEST ואת JSTO); EQUI, IFLOT ו-TQ80 מגיעים מקשרי הבלופרינט; table:AUFK "
+      + "ו-table:AFIH לא נכללו: אין להם קשר במפורש לא בעמודי הארכוב ולא בקשרי הבלופרינט של QMEL, ו-AUFK מופיעה במאגר "
+      + "רק כחברה נוספת בסט S4_STABLE, שאינה קשר נתונים; הטרנזקציות וה-BAPIs מגיעים משורות הבלופרינט; "
+      + "cds:I_MaintenanceNotification הוא מזהה המאגר (data/cds-map.ts) ואין עמוד רשמי הנוקב בתצוגה בשם הזה מעל QMEL "
+      + "(ראו רשומת cds:I_MaintenanceNotification); fiori:F1511 ו-fiori:F4604 הם מזהי המאגר מ-data/fiori/apps.ts, "
+      + "בעוד שהבלופרינט עצמו נוקב ב-'Report Malfunction (F2215)' שאינו קיים ב-data/fiori/apps.ts ולא נמצא ברשומה "
+      + "רשמית, ולכן אינו xref. table:QMIH אינו ביקום המזהים של הפרויקט (אין לו נתיב), ולכן לא נוסף כ-xref אף שהוא "
+      + "מופיע בשני עמודי הארכוב. הרשומה השנייה בבלופרינט (נושא 12) נוקבת באפליקציית Fiori 'Maintenance Backlog (אמת "
+      + "ID)', כלומר המקור עצמו מבקש אימות של המזהה, ולא אומת כאן מזהה כזה. אובייקט ההגירה 'PM - Maintenance "
+      + "notification' (Data Migration, 2025.001, loio 71b5125d83124e369aea0167e539af4f) נוקב ב-'Object Alias "
+      + "EAM_NOTIF', ברכיב PM ובטרנזקציות האימות IW21/IW22/IW23, אך אינו נוקב בטבלה QMEL ולכן לא נרשם כראיה; עמוד "
+      + "אובייקט ההגירה 'PM - Maintenance order' (loio edf9651b00514f4082e8aa81f83827aa) נוקב באובייקט ההרשאה 'I_QMEL "
+      + "(PM/QM: Notification Types)', שהוא אובייקט הרשאה ולא טבלה, ומובא כאן רק משום ששמו הרשמי נושא בעצמו את ההיקף "
+      + "PM/QM. לא נטען שום מספר SAP Note בשדה sapNote ולא הומצא שום מזהה. שני מזהים שבשדה recommendedAction נשענים "
+      + "על עמודים רשמיים שלא נרשמו כראיה מפני שאינם נוקבים בטבלה QMEL: שם שירות ה-OData API_MAINTNOTIFICATION מגיע "
+      + "מהעמוד 'Operations for Maintenance Notifications' (דליברבל 'APIs for Maintenance Management', 2025.001, loio "
+      + "061b31b90a88432fad5e710aa9cd175c), שסניפטו קובע 'The API_MAINTNOTIFICATION API offers these operations'; "
+      + "וסדר תלויות הארכוב מגיע משלושה עמודי Dependencies באותו מדריך ארכוב של PM/CS בגרסת 2025 FPS01, שכל אחד מהם "
+      + "מונה את PM_QMEL ברשימת האובייקטים שיש לארכב תחילה: לפני מסמכי מדידה (loio 669fce5314894208e10000000a174cb4), "
+      + "לפני ציוד (loio ae9fce5314894208e10000000a174cb4) ולפני מיקומים פונקציונליים (loio "
+      + "d79fce5314894208e10000000a174cb4).",
+  },
+
+  /* -------------------------------------------------------- table:QMFE */
+  {
+    id: "table:QMFE",
+    aliases: [
+      "qmfe",
+    ],
+    evidence: [
+      QMFE_PM_QMEL_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Object classification - General template | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/ffae53fcdb8f44eeb64d94d4cf9b835c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד אובייקט ההגירה הרשמי לגרסת 2025 FPS01 מציג טבלת המרה בין סוג מחלקה (KLART) לטבלת האובייקט (OBTAB): "
+          + "'KLART OBTAB 001 MARA 002 EQUI 003 IFLOT 005 QPMK 006 QMTB 007 QPGR 008 QPAM 010 LFA1 011 KNA1 015 QMFE 017 "
+          + "DRAW 019 CRHD 022 MARA 023 MARA 025 AENR', ובטבלת שדות המפתח: 'KLART OBTAB Key1 Key2 Key3 Key4 005 QPMK "
+          + "ZAEHLER MKMNR 006 QMTB WERKS PMTNR 007 QPGR KATALOGART CODEGRUPPE 008 QPAM WERKS KATALOGART AUSWAHLMGE 015 "
+          + "QMFE QMNUM'. מכאן שני דברים בגבולות המקור: QMFE נוקבת בשמה כטבלת אובייקט תקפה בתיעוד 2025 FPS01, ושדה המפתח "
+          + "הראשון שלה בהקשר הסיווג (סוג מחלקה 015) הוא QMNUM. הסניפט נקטע מיד אחרי QMNUM, ולכן שאר שדות המפתח אינם "
+          + "נראים במקור הזה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Notification | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/f430cbb1950c4880810e27a8308db301.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "מדריך ה-API הרשמי לניהול אחזקה (גרסת 2023 Latest) מונה לפי הסניפט את ישויות פריט ההודעה: 'Maintenance "
+          + "Notification Item (A_MaintNotificationItem) Allows you to create, read, and update a notification item', "
+          + "'Maintenance Notification Item Activity (A_MaintNotifItemActivity) Allows you to create, read, and update a "
+          + "notification item activity' ו-'Maintenance Notification Item Cause Data (A_MaintNotifItemCause) Allows you "
+          + "to create, read, and update notification item cause'. זו שכבת הקריאה והכתיבה הרשמית לפריט הודעת התחזוקה. "
+          + "הסניפט אינו נוקב בשם הטבלה QMFE ואינו קובע שהישות נשענת עליה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ה-blueprint של PM (חוברת ההגירה) : רשומת הטבלה QMFE",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "רשומת ה-blueprint (נושא 6, הודעות אחזקה): 'פריטי הודעת איכות (נזק / גורם)' / 'Quality Notification Item'; "
+          + "טרנזקציות IW22 ו-IW66; עמודת S/4: 'ללא שינוי (תואם)', טבלה חליפית 'QMFE (זהה)', 'IW22; Fiori'; SUM: 'ללא "
+          + "פעולת המרה ייעודית ב-SUM (טבלה תואמת). מומלץ Regression Test ואימות התאמות אישיות לאחר ההמרה'. שדות מתועדים: "
+          + "QMNUM (PK/FK), FENUM (PK), FEGRP (קבוצת קוד ליקוי), FECOD (קוד ליקוי), OTGRP ו-OTEIL (קבוצה וקוד של חלק "
+          + "האובייקט); פונקציות BAPI_ALM_NOTIF_DATA_ADD ו-NOTIF_ITEM_READ; תוכנית RIQMEL00; קשרים: QMFE.QMNUM = "
+          + "QMEL.QMNUM בקרדינליות N:1 ('פריטי הליקוי תחת ההודעה') ו-QMUR.QMNUM = QMFE.QMNUM ('סיבות תחת פריט ההודעה (דרך "
+          + "QMNUM+FENUM)'). בנוסף QMFE נמנית בסט S4_STABLE ב-data/s4-impact.ts, לצד QMEL, AUFK, JEST ו-OBJK. ה-blueprint "
+          + "נוקב באפליקציית Fiori 'Find Maintenance Notification' ומוסיף במפורש 'אמת ID', כלומר המזהה אינו מאומת במקור "
+          + "עצמו.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:QMFE",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת QMFE, טבלת פריטי ההודעה שמתחת לכותרת ההודעה (לפי נתוני הפרויקט: קוד ליקוי וחלק אובייקט, בהודעת תחזוקה "
+        + "ובהודעת איכות), קיימת ב-S/4HANA On-Premise (עדכני ל-2025 FPS01) וללא טבלה חליפית: נושא הארכוב הרשמי של "
+        + "אובייקט הארכוב PM_QMEL מונה אותה ברשימת הטבלאות המרכיבות אותו עם התוכן 'Items', לצד QMEL ככותרת ההודעה, QMMA "
+        + "לפעילויות, QMSM למשימות ו-QMUR לסיבות, ועמוד אובייקט ההגירה 'Object classification' לאותה גרסה נוקב בה כטבלת "
+        + "האובייקט של סוג מחלקה 015 עם שדה המפתח QMNUM. אף רשומה רשמית שנמצאה במעבר הזה אינה נוקבת ביורשת, בפריט פישוט "
+        + "או בהוצאה משימוש של הטבלה. חשוב להפריד בין שתי השכבות: המקורות הרשמיים מוכיחים נוכחות של הטבלה ב-2025 FPS01 "
+        + "ואי-אזכור של יורשת, ואילו הקביעה 'ללא שינוי' עצמה נשענת על שכבת המאגר, שבה ה-blueprint רושם 'ללא שינוי "
+        + "(תואם)' ו-QMFE נמנית בסט S4_STABLE ב-data/s4-impact.ts. זהות מלאה של מבנה הטבלה ושל רשימת השדות מול ECC לא "
+        + "אומתה מול מקור רשמי.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QMFE_PM_QMEL_ARCHIVING,
+      recommendedAction:
+        "להמשיך להשתמש ב-QMFE כטבלת פריטי ההודעה. לפי ה-blueprint אין לטבלה פעולת המרה ייעודית ב-SUM, ולכן העבודה "
+        + "הנדרשת היא בדיקות רגרסיה לקוד מותאם, לדוחות ולממשקים הקוראים או כותבים ישירות ל-QMFE יחד עם QMEL, QMUR, QMMA "
+        + "ו-QMSM. לפיתוח חדש ולאינטגרציה להעדיף את שכבת ה-API הרשמית של הודעת התחזוקה, שבה הישות "
+        + "A_MaintNotificationItem מאפשרת יצירה, קריאה ועדכון של פריט הודעה, במקום SELECT ישיר מהטבלה. לפני ההמרה לוודא "
+        + "שקודי הליקוי וקבוצות הקודים מתוחזקים בקטלוגים (QPGR, QPCD) ושפרופיל הקטלוג מוקצה לסוגי ההודעה ולאובייקטים "
+        + "הטכניים, מפני שפריט ההודעה נשען על הקודים האלה ובלעדיהם ניתוח התקלות מאבד ערך. בניהול מחזור חיי הנתונים "
+        + "לתכנן את QMFE דרך אובייקט הארכוב PM_QMEL להודעות תחזוקה ודרך SM_QMEL להודעות שירות, ולקחת בחשבון שארכוב "
+        + "ההודעה גורר גם את פריטיה. העבודה השוטפת ממשיכה לפי ה-blueprint ב-IW22 וב-IW66, לצד IW21 ו-IW23 ליצירה "
+        + "ולתצוגה של ההודעה עצמה.",
+    },
+    xrefs: [
+      "table:QMEL", "table:QMUR", "table:QMMA", "table:QMSM", "table:QPGR", "table:QPCD", "table:ILOA",
+      "tx:IW21", "tx:IW22", "tx:IW23", "tx:IW28", "tx:IW66", "tx:QM01", "tx:CL30N",
+      "fm:BAPI_ALM_NOTIF_DATA_ADD", "fm:NOTIF_ITEM_READ", "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:NOTIF_CAUSE_READ", "fm:QPK1_CATALOG_READ", "cds:I_MaintNotificationItem",
+      "cds:I_MaintenanceNotification", "fiori:F4604",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs (מוצר SAP_S4HANA_ON-PREMISE, 2026-09-15) "
+      + "בשאילתות 'Archiving of Maintenance Notifications PM_QMEL QMFE notification item', 'QMFE', 'archiving object "
+      + "PM_QMEL composed of the following tables QMEL QMFE QMMA QMSM QMUR notification', 'PM_QMEL maintenance "
+      + "notification archiving tables QMUR causes QMSM tasks', 'Virtual Data Model Maintenance Notification Item "
+      + "I_MaintNotificationItem', 'Quality Notification Item CDS view Virtual Data Model', 'A_MaintNotificationItem "
+      + "create read update notification item API', 'notification item damage code object part catalog maintenance "
+      + "notification', 'Archiving Quality Notifications QM_QMEL tables QMFE QMEL items' ו-'Simplification List "
+      + "notification item QMFE S4TWL quality notification'. גוף עמודי ה-Help אינו נשלף (מעטפת JavaScript), ולכן כל "
+      + "טענה כאן מוגבלת לכותרת ולסניפט של רשומת החיפוש. הערה על השם: הפרויקט מכנה את QMFE 'פריטי הודעת איכות' "
+      + "וה-blueprint רושם 'Quality Notification Item', אך המקורות הרשמיים שנמצאו מציגים אותה כטבלת הפריטים של הודעת "
+      + "תחזוקה (PM_QMEL) ושל הודעת שירות (SM_QMEL). עמוד הארכוב של הודעות האיכות 'Archiving Quality Notifications "
+      + "(QM-QN)' (loio 130ab753128eb44ce10000000a174cb4, 2025.001) קובע 'You can use archiving object QM_QMEL to "
+      + "archive quality notifications. Tables QM_QMEL archives data from several tables' ומפנה לטרנזקציה SARA כדי "
+      + "לראות אילו טבלאות, בלי להדפיס את הרשימה, ולכן שיוך QMFE ל-QM_QMEL לא אומת רשמית במעבר הזה. תיעוד רשמי נוסף "
+      + "שנמצא ומחזק את הרשומה ולא נפתח כרשומת ראיה נפרדת: 'Archiving of Service Notifications (PM-SMA-SC)' (loio "
+      + "63adb6531de6b64ce10000000a174cb4, 2025.001) הקובע 'The archiving object for service notifications SM_QMEL "
+      + "consists of the following tables: Table Name Contents QMEL Notification header data QMFE Items QMMA "
+      + "Activities QMSM Tasks QMUR Causes QMIH Maintenance data ILOA Location Data'; 'Data Archiving in Plant "
+      + "Maintenance and Customer Service (PM/CS)' (loio a0cfba538c95b54ce10000000a174cb4) המונה את PM_QMEL ואת "
+      + "SM_QMEL ברשימת אובייקטי הארכוב של התחום; 'Operations for Maintenance Notifications' (APIs for Maintenance "
+      + "Management, 2025.001, loio 061b31b90a88432fad5e710aa9cd175c) הקובע 'The API_MAINTNOTIFICATION API offers "
+      + "these operations' ומונה פעולות POST ו-PATCH על MaintNotificationItemCause; ועמוד ה-API 'Maintenance "
+      + "Notification Item' (2023.latest, loio 851eae6018e1454ba197f63a81c4f90d) המונה שדות של הישות כמו "
+      + "MaintNotifObjPrtCode, MaintNotifObjPrtCodeName ו-MaintNotifObjPrtCodeGroup, ואלה שמות שדות של ישות ה-OData "
+      + "ולא שמות שדות DDIC של QMFE. מה שלא אומת: רשימת השדות של QMFE (FENUM, FEGRP, FECOD, OTGRP, OTEIL) לא נמצאה "
+      + "באף מקור רשמי במעבר הזה והיא מגיעה מה-blueprint ומ-data/table-enrichment.ts בלבד; רק QMNUM אומת מול מקור "
+      + "רשמי, וגם הוא בהקשר טבלת הסיווג ולא כהגדרת DDIC. טיפוסי השדות, האורכים והאינדקסים לא נבדקו: חיבור ה-MCP של "
+      + "sc4sap (SE11 חי) נכשל בסשן הזה ולא נעשתה שום בדיקה במערכת חיה. תצוגות CDS: הפרויקט רושם "
+      + "ב-data/cds-enrichment.ts את I_MaintNotificationItem כתצוגת Interface מעל QMFE, אך אף רשומה רשמית שנמצאה אינה "
+      + "נוקבת בשם התצוגה הזה. מה שנמצא רשמית הוא 'Objects Released for Developer Extensibility in Maintenance "
+      + "Management' (What's New ל-2025, versionId 2025.000, loio e666a33610e6491f9d800882be108d02) הקובע 'CDS view "
+      + "Maintenance Notification Item - TP I_MaintNotificationItemTP_3 New This view retrieves the details of a "
+      + "mainteance notification item' (שגיאת הכתיב mainteance היא במקור), לצד I_MaintNotifItemActivityTP_3 "
+      + "ו-I_MaintNotifItemCauseTP_3; רשומה רשמית נוספת בשכבת ה-VDM היא 'Maintenance Notification Item Data' (Virtual "
+      + "Data Model and CDS Views, 2023.latest, loio 783484db9722497c9b6488640dd31544) הקובעת 'Maintenance "
+      + "Notification Item Data CDS View Name I_MaintNotificationItemData Data Category Fact Status Released', וגם "
+      + "היא אינה נוקבת בטבלה QMFE; ובצד ה-QM רשומת VDM 'Quality Notification Item' (2023.latest, loio "
+      + "79518500be834c58a25b59693998e849) הקובעת 'Quality Notification Item CDS View Name I_QualityNotificationItem "
+      + "Data Category Transactional Status Released'. אף אחד משמות התצוגה האלה אינו קיים ביקום המזהים של הפרויקט "
+      + "ולכן אינו מופיע ב-xrefs, ואף סניפט אינו קושר אותם במפורש לטבלה QMFE; ה-xref cds:I_MaintNotificationItem נשמר "
+      + "כעוגן ניווט ברמת המאגר בלבד. פריט פישוט: לא נמצא פריט פישוט (Simplification Item) הנוגע ל-QMFE. הפריט הקרוב "
+      + "ביותר שכבר מתועד בקובץ הזה הוא 'S4TWL - Changes In List Reports For Order and Notification' מרשימת הפישוט של "
+      + "2025 FPS01, והוא עוסק בדוחות רשימה ובטרנזקציות IW37 ו-IW49 ולא בטבלת פריטי ההודעה. קטלוג ה-Simplification "
+      + "Item ב-launchpad.support.sap.com דורש התחברות S-user ולא נבדק, ולא נטען כאן שום מספר SAP Note או KBA. Fiori: "
+      + "ה-blueprint רושם עבור QMFE את 'Find Maintenance Notification' ומוסיף 'אמת ID', ומזהה מאומת לאפליקציה הזו לא "
+      + "נמצא במעבר הזה; לכן ב-xrefs נכלל רק fiori:F4604 (Manage Maintenance Notifications and Orders), שקיים "
+      + "ב-data/fiori/apps.ts ושעמוד רשמי בשם הזה קיים במדריך Maintenance Management לגרסת 2025 FPS01 (loio "
+      + "d8a94ddd0c514780a9836aa04524f96f), כאשר הסניפט של אותו עמוד אינו מדפיס את מזהה האפליקציה ואינו נוקב ב-QMFE. "
+      + "סטטוס נגזר קודם: לפני הרשומה הזו האפליקציה הציגה עבור QMFE סטטוס 'ללא שינוי' שנגזר מעמודת ה-S/4 של "
+      + "ה-blueprint (derivedFrom: blueprint) ברמת אימות של נתוני הפרויקט בלבד; הרשומה הזו מוסיפה מתחתיו שלוש ראיות "
+      + "רשמיות לנוכחות הטבלה ב-2025 FPS01.",
+  },
+
+  /* -------------------------------------------------------- table:QMMA */
+  {
+    id: "table:QMMA",
+    aliases: [
+      "qmma",
+    ],
+    evidence: [
+      QMMA_PM_QMEL_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving of Service Notifications (PM-SMA-SC) | Data Archiving in Plant Maintenance and Customer Service "
+          + "(PM/CS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/63adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד הארכוב של הודעות השירות לאותה גרסה קובע: 'The archiving object for service notifications SM_QMEL "
+          + "consists of the following tables: Table Name Contents QMEL Notification header data QMFE Items QMMA "
+          + "Activities QMSM Tasks [...] QMUR Causes QMIH Maintenance data ILOA Location Data IHPA Partner PMLP Print "
+          + "log' (הסוגריים המרובעים מסמנים קטיעה בין קטעי הסניפט). כלומר אותה רשימת טבלאות בדיוק חלה גם על הודעת שירות, "
+          + "ו-QMMA היא טבלה משותפת למסגרת ההודעות של תחזוקת מפעל ושירות לקוחות ולא טבלה ייחודית לסוג הודעה אחד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance notification | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/71b5125d83124e369aea0167e539af4f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד אובייקט המיגרציה של SAP S/4HANA Migration Cockpit לגרסת 2025 FPS01 קובע 'Migration Approach Staging "
+          + "Table Custom Field Support Yes' ומונה בין מבני ה-staging של האובייקט את 'Notification Item Activity "
+          + "(S_NOTIF_ITM_ACTIVITY)', 'Notification Item Task (S_NOTIF_ITM_TASK)', 'Notification Activity "
+          + "(S_NOTIF_ACTIVITY)' ו-'Notification Task (S_NOTIF_TASK)'. כלומר בהעברת הודעות אחזקה ל-S/4HANA הפעולות "
+          + "(Activities) מועברות כחלק מאובייקט ההודעה ובשני מפלסים, ברמת ההודעה וברמת הפריט, ובנפרד מהמשימות (Tasks). "
+          + "העמוד אינו נוקב בשם הטבלה QMMA ואינו קובע איזה מבנה staging נטען לאיזו טבלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Quality Notification | APIs for Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a08e12a754cf4891b41a01a285d065bb/454808498fc344a8a08b912503d90ac0.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד השירות הרשמי לגרסת 2025 FPS01 קובע 'Quality Notification Service name: QualityNotification This service "
+          + "enables you to read and create quality notifications' ומפרט 'Constraints With this service, it is not "
+          + "possible to: Update quality notifications Delete quality notifications Read, create and update quality "
+          + "notification activities Read, create and update [...]' (הסניפט נקטע שם). כלומר שירות ה-OData "
+          + "API_QUALITYNOTIFICATION אינו מאפשר קריאה, יצירה או עדכון של פעולות הודעת איכות, שהן תוכן QMMA בהקשר הודעת "
+          + "האיכות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 initial shipment, Feature Pack Stack 1-3 and SAP S/4HANA Cloud "
+          + "Private Edition 2023 initial shipment, Feature Pack Stack 1-3 (White Paper, Document Version 1.35, "
+          + "2025-02-25)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE4,
+        claim:
+          "מסמך רשימת הפישוט הרשמי הורד ונקרא מקומית (1,482 עמודים, Document Version 1.35 מ-2025-02-25): המחרוזות QMMA, "
+          + "QMEL, QMFE, QMSM, QMUR ו-PM_QMEL אינן מופיעות בו כלל, גם לא שמות השדות MANUM, MNGRP ו-MNCOD, וגם לא "
+          + "הטרנזקציות IW22, IW65, IW66 ו-IW67. שני פריטי ה-S4TWL היחידים במסמך הנוגעים להודעות אחזקה עוסקים בנושאים "
+          + "אחרים: '29.9 S4TWL - Changes In List Reports For Order and Notification' (SAP Note 2270108, כפי שמודפס בגוף "
+          + "המסמך) שעניינו דוחות רשימה וההמלצה 'In case you use the transaction IW37, IW49, please use IW37n or IW49n "
+          + "instead', ו-'29.3 S4TWL - Obsolete POWL Applications in Maintenance Management' (SAP Note 3372889, כפי "
+          + "שמודפס בגוף המסמך) שעניינו אפליקציות Web Dynpro שהוצאו משימוש, ובהן 'W0004 EAMS_WDA_ONL_OIF Manage "
+          + "Notification List' שהיורשת שלה היא 'Find Maintenance Notification (F2071)'. ממצא שלילי: אין במסמך פריט פישוט "
+          + "(Simplification Item) המסמן את QMMA או את פעולות ההודעה כמוחלפות, מוגבלות או מוסרות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הבלופרינט PM:QMMA",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט (data/sapData.pm.ts, רשומה PM:QMMA) כותב descriptionHe 'פעולות / אמצעים בהודעת איכות', "
+          + "descriptionEn 'Notification Activity', s4Note 'ללא שינוי (תואם)', s4AltTable 'QMMA (זהה)', s4AltTcode 'IW22; "
+          + "Fiori' ו-sumNote 'ללא פעולת המרה ייעודית ב-SUM (טבלה תואמת). מומלץ Regression Test ואימות התאמות אישיות לאחר "
+          + "ההמרה'. הוא רושם ארבעה שדות (QMNUM כ-PK/FK, MANUM כ-PK, MNGRP ו-MNCOD), קשר בן אל QMEL ביחס N:1 על "
+          + "QMMA.QMNUM = QMEL.QMNUM, טרנזקציות 'IW22; IW67', מודול פונקציה NOTIF_ACTIVITY_READ, דוח RIQMEL00 ואפליקציית "
+          + "Fiori 'Report Malfunction (F2215)'. הרשומה משויכת למודול PM ולנושא '6. הודעות אחזקה (Notifications)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:QMMA",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת QMMA, טבלת הפעולות (Activities) של ההודעה, פעילה ב-S/4HANA On-Premise ועדכנית לתיעוד 2025 FPS01 וללא "
+        + "טבלה חליפית: היא נקובה בשמה ובתוכנה 'QMMA Activities' ברשימת הטבלאות של אובייקט הארכוב PM_QMEL להודעות "
+        + "אחזקה, ובאותה רשימה בדיוק גם באובייקט SM_QMEL להודעות שירות. באותה גרסה אובייקט המיגרציה 'PM - Maintenance "
+        + "notification' ב-Migration Cockpit מעביר את הפעולות כחלק מאובייקט ההודעה, דרך מבני ה-staging S_NOTIF_ACTIVITY "
+        + "ברמת ההודעה ו-S_NOTIF_ITM_ACTIVITY ברמת הפריט. סריקה מלאה של מסמך רשימת הפישוט ל-2023 FPS03 לא העלתה פריט "
+        + "פישוט לטבלה, ואף מקור רשמי שנמצא אינו נוקב ביורשת ואינו מסמן הוצאה משימוש. מבנה השדות, טיפוסי הנתונים והמפתח "
+        + "של הטבלה לא אומתו מול ה-DDIC, ולכן 'ללא שינוי' כאן הוא ברמת קיום הטבלה ותפקידה ולא ברמת השדה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QMMA_PM_QMEL_ARCHIVING,
+      recommendedAction:
+        "להמשיך להשתמש ב-QMMA כטבלת הפעולות שבוצעו בהודעה, ולהקפיד על ההבחנה מול QMSM (משימות) ו-QMUR (סיבות) בקוד, "
+        + "בדוחות ובמסמכי האפיון. אין פעולת המרה ייעודית לטבלה ב-SUM לפי רובד הבלופרינט, ולכן המיקוד בהמרה הוא "
+        + "Regression Test לדוחות ולקוד Z הקוראים ישירות מ-QMMA ואימות קודי הקטלוג (קבוצת קוד וקוד פעולה) ושדות Z לאחר "
+        + "ההמרה. בהעברת נתוני הודעות להעדיף את אובייקט ה-Migration Cockpit 'PM - Maintenance notification' על פני "
+        + "טעינה ישירה לטבלה, ולמפות פעולות ברמת ההודעה ל-S_NOTIF_ACTIVITY ופעולות ברמת הפריט ל-S_NOTIF_ITM_ACTIVITY. "
+        + "לאינטגרציות חדשות בצד האחזקה להעדיף את שירות ה-OData המתועד API_MAINTNOTIFICATION על פני SELECT ישיר. בצד "
+        + "האיכות אין להסתמך על API_QUALITYNOTIFICATION לפעולות ההודעה: עמוד השירות הרשמי קובע 'Constraints With this "
+        + "service, it is not possible to: Update quality notifications Delete quality notifications Read, create and "
+        + "update quality notification activities', כלומר תוכן QMMA בהקשר הודעת איכות אינו נגיש דרך אותו שירות ונדרש "
+        + "אימות של ממשק חלופי במערכת. לפני הסתמכות על רשימת השדות שבמאגר לאמת אותה ב-SE11 מול ה-DDIC, בשל הפער בין "
+        + "ארבעת השדות שברשומת הבלופרינט לבין המפתח ברובד ההעשרה.",
+    },
+    xrefs: [
+      "table:QMEL", "table:QMFE", "table:QMSM", "table:QMUR", "tx:IW22", "tx:IW23", "tx:IW65", "tx:IW67",
+      "tx:QM02", "tx:QM03", "cds:I_MaintNotifActivity", "fm:NOTIF_ACTIVITY_READ",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL", "fm:BAPI_ALM_NOTIF_DATA_ADD", "fiori:F4604",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: ריצות של scripts/sap-help-search.mjs ב-2026-09-15 מול המוצר SAP_S4HANA_ON-PREMISE ('QMMA notification "
+      + "activities table', 'QMMA', 'archiving object PM_QMEL maintenance notifications tables QMUR Causes QMIH ILOA "
+      + "IHPA PMLP', 'Quality Notification Activity CDS View Name Virtual Data Model', 'QMMA simplification item "
+      + "S/4HANA notification', 'Table Notification Fields notification activity fields QMMA MANUM MNGRP MNCOD', 'PM "
+      + "Maintenance notification migration object Notification Item Activity S_NOTIF_ITM_ACTIVITY staging table', "
+      + "'Quality Notification service constraints not possible read create update quality notification activities'), "
+      + "חיפוש רשת מוגבל לדומיינים הרשמיים, וסריקה מקומית של מסמך רשימת הפישוט. גופי עמודי help.sap.com אינם נשלפים "
+      + "(מעטפת JavaScript), ולכן כל טענה תחומה לכותרת, ל-deliverable ולסניפט של רשומת החיפוש; ה-loio, ה-deliverable "
+      + "וה-versionId הועתקו כלשונם מפלט הכלי. הערה מתודית: curl על help.sap.com מחזיר HTTP 200 לכל נתיב משום שמדובר "
+      + "במעטפת SPA, ולכן קוד 200 אינו מאמת זיווג deliverable/loio - האימות הוא התאמה מלאה לפלט הכלי. (1) מבין רשומות "
+      + "החיפוש שנשלפו בסבב הזה, QMMA נקובה בשמה בשני עמודים רשמיים בלבד, ושניהם עמודי ארכוב; שירות החיפוש מחזיר "
+      + "התאמות מטושטשות (שאילתת 'QMMA' החזירה גם עמודי EMMA ו-IS-U-TO-MMA) ולכן אי אפשר להסיק ממנו מיצוי של האינדקס. "
+      + "שני העמודים נרשמו כראיות נפרדות: PM_QMEL להודעות אחזקה ו-SM_QMEL להודעות שירות, עם אותה רשימת טבלאות בדיוק. "
+      + "מכאן ש-QMMA היא טבלה משותפת למסגרת ההודעות ולא טבלה ייחודית לסוג הודעה אחד. (2) שם הרשומה במאגר אינו תואם את "
+      + "הראיות שנמצאו: הבלופרינט כותב 'פעולות / אמצעים בהודעת איכות' אך משייך את הטבלה למודול PM ולנושא ההודעות של "
+      + "תחזוקת מפעל, וכל עמוד רשמי שנמצא הנוקב ב-QMMA שייך ל-PM/CS. הצד של הודעת האיכות לא אושש ברמת הטבלה: עמוד "
+      + "'Archiving Quality Notifications (QM-QN)' (loio 130ab753128eb44ce10000000a174cb4, 2025.001) אינו מפרט טבלאות "
+      + "בסניפט אלא כותב 'QM_QMEL archives data from several tables' ו-'To check which tables these are, call up "
+      + "transaction SARA, enter the archiving object, and choose Database Tables'. מה שכן מתועד בצד האיכות הוא רובד "
+      + "ה-CDS: הנושא 'Quality Notification Activity' (מדריך Virtual Data Model and CDS Views, loio "
+      + "ecccdfdb17304c338eef9bc27f400039, 2023.latest, "
+      + "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/ecccdfdb17304c338eef9bc27f400039.html?locale=en-US&state=PRODUCTION&version=2023.latest) "
+      + "קובע 'Quality Notification Activity CDS View Name I_QltyNotificationActivity Data Category Transactional "
+      + "Status Released Purpose This CDS view provides access to the data of a quality notification', ומונה בין "
+      + "המדדים והמאפיינים 'QualityNotification Internal identifier of the quality notification', "
+      + "'NotificationActivity Internal counter of a activity in a quality notification' [כך במקור] "
+      + "ו-'NotificationItem'; רשומת What's New 'CDS Views for Quality Notifications' (loio "
+      + "1baa18a8ccd64607b765b53954a7ab24, 2020.001) מונה את התצוגה הזו כחדשה תחת רכיב היישום QM-QN. שני העמודים האלה "
+      + "לא נכללו כראיה נפרדת כי הם עוסקים בתצוגת CDS ולא בטבלה, ו-I_QltyNotificationActivity אינה קיימת באינדקס "
+      + "ה-CDS של הדאטהסט (lib/route-manifest.generated.ts) ולכן גם אינה xref. (3) עמודים רשמיים נוספים שנצפו ולא "
+      + "נכללו כראיה נפרדת: הגרסה השנייה של אובייקט המיגרציה 'PM - Maintenance notification' (loio "
+      + "c03f981dd76f4fc7a241f17adc80758b, 2025.001), הכותבת 'In Scope The following data is set for migration: "
+      + "Notifications header data Items Items/causes Items/tasks Items/activities Tasks Activities Classification "
+      + "Long texts for notifications'; 'Operations for Maintenance Notifications' (loio "
+      + "061b31b90a88432fad5e710aa9cd175c, 2025.001) הנוקב בנתיב "
+      + "/sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintenanceNotification; רשומת What's New 'OData API: Maintenance "
+      + "Notification' (loio e76f7a15faca43499a80f9ad4afd7328, 2025.000) הנוקבת ב-'Technical Object Name API: "
+      + "API_MAINTNOTIFICATION Application Component PM-WOC-MN'; ו-'Operations for Quality Notifications' (loio "
+      + "9d9f91a2b3954ec48d1a12d54a0909a7, 2025.001) הנוקב בנתיב "
+      + "/sap/opu/odata4/sap/api_qualitynotification/srvd_a2x/sap/qualitynotification/0001/QualityNotification. עמוד "
+      + "השירות 'Quality Notification' נרשם כראיה נפרדת: הוא אינו נוקב בישות של פעולת הודעה אלא קובע במפורש שקריאה, "
+      + "יצירה ועדכון של פעולות הודעת איכות אינן אפשריות בשירות. ישות הפעולה המתועדת בצד האחזקה, "
+      + "A_MaintNotifItemActivity, רשומה ב-data/verification/cds.ts (רשומת cds:I_MaintNotifActivity) ולא אומתה מחדש "
+      + "בסבב הזה. (4) סתירות פנימיות במאגר שלא הוכרעו כאן. מבנה המפתח: הבלופרינט רושם ארבעה שדות בלבד (QMNUM, MANUM, "
+      + "MNGRP, MNCOD) ובלי FENUM, בעוד data/table-enrichment.ts#QMMA רושם מפתח MANDT + QMNUM + FENUM + MANUM וקשר "
+      + "QMNUM+FENUM אל QMFE; אף מקור רשמי לא אימת את מבנה המפתח, וההופעה של NotificationItem בין מאפייני התצוגה "
+      + "הרשמית בצד האיכות היא רמז בלבד ואינה הוכחה למפתח ה-DDIC. שיוך פונקציה: "
+      + "data/function-intel.ts#NOTIF_TASK_READ מתאר 'משימות הודעה (Tasks) - QMMA/QMSM', בעוד העמוד הרשמי מפריד "
+      + "QMMA=Activities מ-QMSM=Tasks; תיקון לקטלוג הפונקציות נרשם כתור ולא בוצע ברשומה הזו. תצוגת CDS: "
+      + "data/cds-enrichment.ts ממקמת את I_MaintNotifActivity מעל QMSM ואילו data/cds-map.ts ממפה אותה "
+      + "ל-QMMA+QMSM+QMUR; הפער כבר תועד ברשומת cds:I_MaintNotifActivity שנשארה verification_required, והרשומה הזו "
+      + "אינה מכריעה אותו ונשארת עקבית איתה. שכבת היציבות: data/s4-impact.ts#S4_STABLE מכילה את QMEL ואת QMFE אך לא "
+      + "את QMMA, QMSM או QMUR, ולכן ה'ללא שינוי' שהאפליקציה גזרה עד כה ל-QMMA נשען על עמודת s4Note של הבלופרינט "
+      + "בלבד; הרשומה הזו מחליפה את הגזירה הזו בסטטוס מחובר למקור רשמי. (5) אפליקציית Fiori: הבלופרינט נוקב ב-'Report "
+      + "Malfunction (F2215)', אך המזהה F2215 אינו קיים ב-data/fiori/apps.ts ולכן אינו xref; במקומו נרשם fiori:F4604 "
+      + "(Manage Maintenance Notifications and Orders) מתוך data/fiori/apps.ts, בעקביות עם רשומת "
+      + "cds:I_MaintNotifActivity. (6) מקור ה-xrefs: table:QMEL מהקשר הבלופרינט ומרשימת הטבלאות הרשמית; table:QMFE, "
+      + "table:QMSM ו-table:QMUR מרשימת הטבלאות הרשמית של PM_QMEL ו-SM_QMEL; tx:IW22 ו-tx:IW67 מהבלופרינט; tx:IW23 "
+      + "ו-tx:IW65 מעמוד ה-VDM של I_MaintNotificationActyData כפי שצוטט ב-data/verification/cds.ts (תנאי הרשאה להצגת "
+      + "פעולות הודעת אחזקה) ולא מעמוד שנשלף מחדש כאן; tx:QM02 ו-tx:QM03 מ-data/knowledge/object-intel.ts, כלומר רובד "
+      + "המאגר ובקריאת הודעת האיכות; fm:NOTIF_ACTIVITY_READ מהבלופרינט; fm:BAPI_ALM_NOTIF_GET_DETAIL "
+      + "ו-fm:BAPI_ALM_NOTIF_DATA_ADD מ-data/bapi-enrichment.pm.ts. אין xref ל-QPGR ול-QPCD: רשומת ההעשרה כותבת "
+      + "'MNGRP/MNCOD -> קטלוג פעילויות' בלי לנקוב בשמות טבלאות הקטלוג. (7) מה לא נבדק: חיבור ה-MCP למערכת SAP חיה "
+      + "(sc4sap) לא זמין לפי audit/s4-enrichment/MANIFEST.md, ולכן לא בוצעה בדיקת SE11 או ADT ולא נבדקו טיפוסי "
+      + "השדות, אורכיהם ונוכחות MANDT. הממצא השלילי לגבי פישוט נבדק על מסמך רשימת הפישוט של 2023 FPS03 בלבד ולא על "
+      + "מסמך מלא של 2025. לא נטען שום מספר SAP Note מהזיכרון: שני המספרים שברשומה, 2270108 ו-3372889, מצוטטים מגוף "
+      + "המסמך הרשמי שנקרא מקומית. לא נטען שינוי ברמת השדה בין ECC ל-S/4HANA, ולא נטענה השתייכות של QMMA לאובייקט "
+      + "הארכוב QM_QMEL.",
+  },
+
+  /* -------------------------------------------------------- table:QMSM */
+  {
+    id: "table:QMSM",
+    aliases: [
+      "qmsm",
+    ],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Maintenance Notifications (PM-WOC-MN) | Data Archiving in Plant Maintenance and Customer Service "
+          + "(PM/CS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/60adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מסמך הארכוב של הודעות אחזקה בגרסת 2025 FPS01 פותח בהגדרה 'Archiving object PM_QMEL with which you can "
+          + "archive maintenance notifications in the Plant Maintenance component' ומפרט את מבנה האובייקט: 'The archiving "
+          + "object PM_QMEL for maintenance notifications is composed of the following tables: Table Name Contents QMEL "
+          + "Notification header data QMFE Items QMMA Activities QMSM [...] Tasks QMUR Causes QMIH Maintenance data ILOA "
+          + "Location Data IHPA Partner PMLP Print log MCIPMIS PMIS update, 'Before Image' table, object data CDHDR, "
+          + "CDPOS Change Documents KSSK'. הסוגריים המרובעים מסמנים קטיעה בין קטעי הסניפט. כלומר בתיעוד תחזוקת המפעל של "
+          + "גרסה זו QMSM היא טבלת המשימות של ההודעה, נפרדת מטבלת הפעילויות QMMA ומטבלת הסיבות QMUR, והיא נכללת באובייקט "
+          + "הארכוב של הודעות האחזקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Quality Notification Task | APIs for Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a08e12a754cf4891b41a01a285d065bb/471cda8852a04d75bfe1ddb2ebed81af.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד הישות Quality Notification Task במדריך APIs for Quality Management בגרסת 2025 FPS01 נוקב בטבלה בשמה: "
+          + "'Note The tasks for item causes are not displayed on the UI of the standard QM-transactions for processing "
+          + "quality notifications. You can check the tasks with transaction SE16 for table QMSM'. באותו עמוד מוגדרת "
+          + "הישות 'Quality Notification Task Technical name: QualityNotificationTask' ובין תכונותיה 'QualityNotification "
+          + "Quality notification Read-only' ו-'NotificationTask', ונקבע ש-'when adding a new task to a quality "
+          + "notification item or item cause, the navigation property _QltyNotificationTask of entity type "
+          + "QualityNotification_Type has to be used'. זהו העמוד היחיד שעלה בסבב החיפוש ומפנה במפורש לקריאה ישירה מהטבלה "
+          + "QMSM דרך SE16 בגרסה הנוכחית; עמודי הארכוב מונים אותה ברשימת טבלאות ואינם מפנים לקריאה ממנה. העמוד גם מראה "
+          + "שמשימות לסיבת פריט אינן מוצגות במסכי ה-QM הסטנדרטיים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Notification Task Data | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/161e8aa6a3d14a1aba33a9e8f490b29b.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "רשומת ה-VDM הרשמית מגדירה: 'Maintenance Notification Task Data CDS View Name I_MaintNotificationTaskData "
+          + "Data Category Fact Status Released Data Extraction Type Delta-enabled, the extraction is based on field "
+          + "LastChangeDateTime', ומונה בין המידות והתכונות 'Maintenance notification or service notification task data "
+          + "Functional location number Equipment number Damage data Location'. כלומר קיימת תצוגת CDS ייעודית במעמד "
+          + "Released לנתוני משימות של הודעת אחזקה ושל הודעת שירות, עם חילוץ דלתא. רשומת החיפוש הוחזרה במהדורת "
+          + "2023.latest של מדריך ה-Virtual Data Model, והסניפט אינו נוקב בטבלת הבסיס של התצוגה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הבלופרינט PM:QMSM ושכבת ההעשרה של הפרויקט",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט (data/sapData.pm.ts, רשומה PM:QMSM בנושא 6, הודעות אחזקה) רושם descriptionHe 'משימות בהודעת "
+          + "איכות', descriptionEn 'Notification Task', טרנזקציות IW22 ו-IW66, s4Note 'ללא שינוי (תואם)', s4AltTable "
+          + "'QMSM (זהה)', הערת SUM 'ללא פעולת המרה ייעודית ב-SUM (טבלה תואמת). מומלץ Regression Test ואימות התאמות "
+          + "אישיות לאחר ההמרה.', מודולי הפונקציה NOTIF_TASK_READ ו-BAPI_ALM_NOTIF_TASK_ADD, תוכנית RIQMEL20, קשר בן אל "
+          + "QMEL ביחס N:1 על QMSM.QMNUM = QMEL.QMNUM, וחמישה שדות: QMNUM (PK/FK), MANUM (PK), MNGRP, MNCOD ו-PSTER. שכבת "
+          + "ההעשרה (data/table-enrichment.ts, רשומת QMSM) חולקת על כך במפתח ובקודים: היא רושמת MANDT + QMNUM + MSNUM "
+          + "כמפתח הראשי, MGRP/MCOD ככניסות קטלוג, ומוסיפה שסטטוס המשימה נקרא דרך OBJNR אל JEST ושהיא מבדילה בין המתוכנן "
+          + "(QMSM) לבין המבוצע (QMMA). שני התיאורים לא אומתו מול DDIC ברשומה זו.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:QMSM, data/table-enrichment.ts#QMSM",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "QMSM, טבלת המשימות של ההודעה בתחזוקת מפעל, בשירות ובניהול איכות, מתועדת כטבלה פעילה ב-SAP S/4HANA On-Premise "
+        + "בגרסת 2025 FPS01 ואין לה טבלה חליפית לפי המקורות שנבדקו: היא נקובה בשמה ובתוכנה (Tasks) ברשימת הטבלאות של "
+        + "אובייקט הארכוב PM_QMEL להודעות אחזקה ושל SM_QMEL להודעות שירות, ועמוד ה-API של ניהול האיכות באותה גרסה מפנה "
+        + "לבדוק את המשימות בטרנזקציה SE16 על הטבלה QMSM. סריקה מלאה של מסמך רשימת הפישוט של 2023 FPS03 (פירוט בהערות) "
+        + "לא העלתה אף אזכור של QMSM או של שאר טבלאות ההודעה, כלומר לא אותר פריט פישוט המסמן את הטבלה כמוחלפת, מוגבלת "
+        + "או מוסרת. מה שלא אומת מול מקור רשמי: מבנה השדות, המפתח הראשי ושמות שדות הקטלוג.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Maintenance Notifications (PM-WOC-MN) | Data Archiving in Plant Maintenance and Customer Service "
+          + "(PM/CS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/60adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מסמך הארכוב של הודעות אחזקה בגרסת 2025 FPS01 קובע שאובייקט הארכוב PM_QMEL מורכב מרשימת טבלאות שבה נקובות "
+          + "'QMEL Notification header data QMFE Items QMMA Activities QMSM [...] Tasks QMUR Causes QMIH Maintenance data "
+          + "ILOA Location Data IHPA Partner PMLP Print log'. QMSM נמנית שם כטבלת המשימות של ההודעה בגרסה הנוכחית של "
+          + "תחזוקת מפעל.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction:
+        "להמשיך להסתמך על QMSM כטבלת המשימות של ההודעה בהסבה ל-S/4HANA; לפי הבלופרינט אין לה פעולת המרה ייעודית "
+        + "ב-SUM, ולכן נדרש Regression Test לדוחות, לממשקים ולהתאמות אישיות שקוראות ממנה ישירות. לפני ההסבה יש לאמת "
+        + "ב-SE11 או ב-ADT את מפתח הטבלה ואת שמות שדות הקטלוג, משום שהבלופרינט ושכבת ההעשרה של הפרויקט סותרים זה את זה "
+        + "בנקודה זו (MANUM מול MSNUM, MNGRP/MNCOD מול MGRP/MCOD). לפיתוח חדש ולצריכה אנליטית עדיף לשקול את תצוגת ה-CDS "
+        + "I_MaintNotificationTaskData, הרשומה במדריך ה-VDM של מהדורת 2023.latest כ-Fact במעמד Released עם חילוץ דלתא "
+        + "לפי LastChangeDateTime, במקום SELECT ישיר מהטבלה; שאילתה במהדורת 2025.001 לא החזירה רשומה לאותה תצוגה, "
+        + "ותיעוד ה-VDM אינו נוקב בטבלת הבסיס שלה, ולכן יש לאמת במערכת שהתצוגה קיימת בגרסת היעד ושהיא מכסה את נתוני "
+        + "QMSM לפני שמסתמכים עליה; בזרימות איכות קיימת הישות QualityNotificationTask בשירות ה-OData של הודעות האיכות. "
+        + "לניקוי נתונים יש לעבוד דרך אובייקטי הארכוב PM_QMEL (הודעות אחזקה) ו-SM_QMEL (הודעות שירות) ולא למחוק רשומות "
+        + "ישירות, ולזכור שמשימות המשויכות לסיבת פריט אינן מוצגות במסכי ה-QM הסטנדרטיים לפי עמוד ה-API של ניהול האיכות.",
+    },
+    xrefs: [
+      "table:QMEL", "table:QMFE", "table:QMMA", "table:QMUR", "table:JEST", "tx:IW21", "tx:IW22",
+      "tx:IW23", "tx:IW28", "tx:IW66", "fm:NOTIF_TASK_READ", "fm:BAPI_ALM_NOTIF_TASK_ADD",
+      "cds:I_MaintenanceNotification", "cds:I_MaintNotificationItem",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: שש ריצות של scripts/sap-help-search.mjs ב-2026-09-15 מול המוצרים SAP_S4HANA_ON-PREMISE "
+      + "ו-SAP_S4HANA_CLOUD, וכן הורדה וקריאה מקומית של מסמך רשימת הפישוט. גוף עמודי help.sap.com אינו נשלף (מעטפת "
+      + "JavaScript), ולכן כל טענה מוגבלת לכותרת, ל-deliverable ולסניפט של רשומת החיפוש; שלוש הכתובות שברשומה נבדקו "
+      + "ב-2026-09-15 והחזירו HTTP 200, וה-loio וה-versionId הועתקו מרשומות ה-JSON. חיבור ה-MCP של מערכת SAP חיה נכשל "
+      + "בסשן, ולכן לא בוצעה בדיקה במערכת. עמודים רשמיים נוספים שנצפו ולא נכללו כרשומות ראיה: (1) 'Archiving of "
+      + "Service Notifications (PM-SMA-SC)' (loio 63adb6531de6b64ce10000000a174cb4, 2025.001), שבו רשימת SM_QMEL "
+      + "מדפיסה ברצף 'QMMA Activities QMSM Tasks' ואחריה 'QMUR Causes QMIH Maintenance data ILOA Location Data IHPA "
+      + "Partner PMLP Print log'; (2) 'Entering Responsibilities (Workflow Connection)' במדריך Notifications "
+      + "(CS-CM-SN/PM-WOC-MN) (loio 2a85c1536ca9b54ce10000000a174cb4, 2025.001), הקובע 'BUS2038 refers to "
+      + "notifications while QMSM refers to tasks' ומוסיף 'When all tasks are completed, the notification is assigned "
+      + "the status all tasks completed. The event all tasks completed is then created. This event starts the "
+      + "workflow complete notification'; (3) עמודי תרחישי ה-Workflow: 'Technical Realization (PM-WOC-MN / Completing "
+      + "a Task)' (loio 8266b6531de6b64ce10000000a174cb4, TS00008318, קבוצת משימות TG20000015), המקביל לשירות (loio "
+      + "3967b6531de6b64ce10000000a174cb4, TS00008340, TG20000016) ולאיכות (loio 17d0b65334e6b54ce10000000a174cb4 "
+      + "ו-41d0b65334e6b54ce10000000a174cb4; הסניפט של 41d0b6 הוא הנוקב ב-TS00008323 ובתפקיד הסטנדרטי AC00000172, "
+      + "בעוד הסניפט של 17d0b6 נוקב רק בסוג האובייקט QMSM), כולם קובעים 'A task corresponds to object type QMSM' או "
+      + "'A task is an object of type QMSM'; תבניות ה-Workflow WS00200063 ו-WS00400064 (loio "
+      + "20d0b65334e6b54ce10000000a174cb4 ו-4ad0b65334e6b54ce10000000a174cb4) נוקבות באירועים המפעילים CREATED "
+      + "ו-RESPONSIBLEISCHANGED על סוג האובייקט QMSM; (4) 'Quality Notification Task | Virtual Data Model and CDS "
+      + "Views' (loio f5198a9e2ecc454d917be28bcade801a, 2023.latest): 'CDS View Name I_QltyNotificationTask Data "
+      + "Category Transactional Status Released'; (5) 'Operations for Quality Notifications' (loio "
+      + "9d9f91a2b3954ec48d1a12d54a0909a7, 2025.001), המפרט קריאה ויצירה בנתיב "
+      + "/sap/opu/odata4/sap/api_qualitynotification/srvd_a2x/sap/qualitynotification/0001/QualityNotification('{QualityNotification}')/_QltyNotificationTask; "
+      + "(6) אותו עמוד Quality Notification Task מתפרסם באותו loio גם למהדורת SAP S/4HANA Cloud Public Edition 2608 "
+      + "(versionId 2608.500) עם אותה הערת SE16 על QMSM. בדיקת פישוט: הקובץ "
+      + "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf (White Paper, Document "
+      + "Version 1.35 מ-2025-02-25, 1,482 עמודים) הורד והומר לטקסט מקומית; המחרוזות QMSM, QMEL, QMFE, QMMA, QMUR, "
+      + "PM_QMEL ו-notification task אינן מופיעות בו כלל. הפריט היחיד במסמך הנוגע להודעות אחזקה הוא סעיף 29.9, 'S4TWL "
+      + "- Changes In List Reports For Order and Notification' (Application Components PM-WOC-MN, PM-WOC-MO, PM; מספר "
+      + "הערה 2270108 כפי שהוא מודפס במסמך), העוסק בדוחות רשימה וקובע 'Within Enterprise Asset Management we plan to "
+      + "discontinue IW37, IW49 in a future release. It is recommend to use transaction IW37n, IW49n instead' ומבקש "
+      + "להריץ את הדוחות QM_PHASE_FILL ו-RIAFVC_IPHAS_FILL לפני השדרוג; הוא אינו נוקב ב-QMSM. סתירות פנימיות במאגר "
+      + "שיש להכריע: (א) המפתח והשדות, MANUM מול MSNUM ו-MNGRP/MNCOD מול MGRP/MCOD, כמפורט ברשומת הראיה של המאגר; (ב) "
+      + "הכותרת בעברית ב-data/table-titles.json היא 'משימות בהודעת איכות', בעוד התיעוד הרשמי מציב את אותה טבלה גם "
+      + "בהודעות אחזקה ובהודעות שירות (PM_QMEL ו-SM_QMEL), כך שהכותרת צרה מהיקף הטבלה בפועל; (ג) data/cds-map.ts "
+      + "מאחדת פעילויות, משימות וסיבות לתצוגה אחת, בעוד SAP מתעדת שלוש תצוגות נפרדות, סתירה שכבר תועדה ברשומת "
+      + "cds:I_MaintNotifActivity ובתור המחקר של CDS. ה-xref אל table:JEST ואל tx:IW21, tx:IW23 ו-tx:IW28 הוא עוגן "
+      + "ניווט משכבת המאגר (data/table-enrichment.ts, data/qa-center.ts, data/consultant-notes.ts) ולא מעמוד רשמי; "
+      + "IW22 ו-IW66 מגיעים משורת הבלופרינט. תצוגת I_MaintNotificationTaskData אינה נמנית ביקום המזהים של הדאטהסט "
+      + "(lib/route-manifest.generated.ts), ולכן לא נוספה כ-xref. מה חסר לשדרוג הרשומה: בדיקת SE11/ADT חיה למפתח "
+      + "ולשדות; עמוד רשמי הנוקב בטבלת הבסיס של I_MaintNotificationTaskData; זיהוי אפליקציית Fiori עם מזהה מאומת "
+      + "להצגת משימות ההודעה (העמודים 'Find Maintenance Notification', loio e994a057b4010322e10000000a44147b, "
+      + "ו-'Display Maintenance Notifications', loio 3d4f87b564134a4c8f42b66bd75beb97, בגרסת 2025.001 אומרים "
+      + "שהאפליקציה מציגה את הפריטים, המשימות והפעילויות של ההודעה, אך הסניפטים אינם מדפיסים App ID); בדיקה בקטלוג "
+      + "פריטי הפישוט (דורשת הזדהות S-user). ברשומות החיפוש של API_MAINTNOTIFICATION שנצפו (ישויות פריט, סיבת פריט, "
+      + "פעילות פריט, שותף, Failure Effect ו-Linear Asset Management Data) לא הופיעה ישות משימות; זו תצפית "
+      + "תחומת-חיפוש ולא קביעה שאין ישות כזו. לא צוטט מספר SAP Note מהזיכרון: 2270108 נקרא במסמך ה-PDF הרשמי שהורד. "
+      + "ביקורת נגדית ב-2026-09-15 אימתה מחדש באופן עצמאי את שלוש הכתובות (HTTP 200), את ה-loio וה-versionId מול "
+      + "רשומות החיפוש החיות, את כל המחרוזות המצוטטות מול סניפטים, את רשומות המאגר מול הקבצים, ואת מסמך הפישוט (md5 "
+      + "זהה לעותק שנשמר, 1,482 עמודים, אפס אזכורים לטבלאות ההודעה).",
+  },
+
+  /* -------------------------------------------------------- table:COBRB */
+  {
+    id: "table:COBRB",
+    aliases: [
+      "cobrb",
+    ],
+    evidence: [
+      COBRB_CO_ARCHIVING_RUNTIMES,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settlement Rule | Orders (CS-SE/PM-WOC-MO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/efc7922405fd4d56b7571930c5eaa798/99c8b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד הזמנות התחזוקה והשירות לגרסת 2025 FPS01 קובע תחת 'Structure' שחוק ההתחשבנות מורכב מ-'Distribution "
+          + "rules' ומ-'Settlement parameters for a sender object', ושלכל שולח התחשבנות מוקצים 'one or more distribution "
+          + "rules'; העמוד מפנה ל-Customizing 'Define Settlement Rule, Time and Distribution Rule' תחת Maintenance and "
+          + "Service Orders, Functions and Settings for Order Types. הסניפט אינו נוקב בשם הטבלה COBRB.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Distribution Rule | Controlling (CO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/3a87d0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד ה-CO לגרסת 2025 FPS01 מגדיר: 'The distribution rule is part of a settlement rule that specifies the "
+          + "following for a settlement sender: The settlement receiver to which you settle / Which part of the costs you "
+          + "settle', ומוסיף תחת 'Structure' ש-'You can settle costs to one or more receiving objects. You need to define "
+          + "a distribution rule for each settlement receiver', וכן ש-'The system creates automatic distribution rules "
+          + "for some sender objects, such as networks'. הסניפט אינו נוקב בשם הטבלה COBRB.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "blueprint ההגירה של הפרויקט (PM), רשומת COBRB",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "ה-blueprint של תחזוקת מפעל מתעד את COBRB תחת הנושא 'עלויות והתחשבנות (PM-CO)' עם חמישה שדות ללא טיפוס ואורך: "
+          + "OBJNR (PK/FK, 'אובייקט מקור'), BUREG (PK, 'חוק התחשבנות'), KONTY ('סוג מקבל'), EMPGE (FK, 'המקבל בפועל') "
+          + "ו-PROZS ('אחוז התחשבנות'); מסמן s4Note 'ללא שינוי (תואם)', s4AltTable 'COBRB (זהה)', s4AltTcode 'KO02/IW32 "
+          + "(זהה)' ו-sumNote 'ללא פעולת המרה ייעודית ב-SUM (טבלה תואמת)', טרנזקציות KO02 ו-IW32, פונקציה "
+          + "K_SETTLEMENT_RULE_READ, תוכנית RKACOR40 וקשר COBRB.OBJNR = COBRA.OBJNR (N:1, COBRA כאב).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:COBRB",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת COBRB, שורות חוקי החלוקה של חוק ההתחשבנות (לכל שורה מקבל התחשבנות וחלקו בעלות), מופיעה בשמה בתיעוד SAP "
+        + "S/4HANA On-Premise 2025 FPS01: דף זמני הריצה של הארכוב ב-CO מונה אותה ברשימת הטבלאות שאובייקט הארכוב "
+        + "CO_ORDER מארכב, לצד AUFK, COBRA, COSP, COSS ו-COEP. תיעוד הזמנות התחזוקה והשירות של אותה גרסה קובע שחוק "
+        + "ההתחשבנות של ההזמנה מורכב מחוקי חלוקה, ותיעוד ה-CO מגדיר את חוק החלוקה כמקבל ההתחשבנות והחלק בעלות. לא נמצא "
+        + "מקור רשמי הנוקב ביורשת לטבלה, בפריט פישוט או בהוצאתה משימוש, וה-blueprint של הפרויקט מסמן 'ללא שינוי "
+        + "(תואם)'. המעמד מתייחס להמשך קיומה של הטבלה בזרימת ההתחשבנות; מבנה השדות שלה לא נבדק מול DDIC.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: COBRB_CO_ARCHIVING_RUNTIMES,
+      recommendedAction:
+        "להמשיך לקרוא את מקבלי ההתחשבנות דרך COBRB לפי OBJNR של ההזמנה יחד עם כותרת החוק ב-COBRA; לפי ה-blueprint אין "
+        + "פעולת המרה ייעודית ב-SUM לטבלה. בהסבה לוודא שחוקי ההתחשבנות ופרופיל ההתחשבנות של סוגי ההזמנה הועברו "
+        + "כ-Customizing, ולהריץ בדיקת רגרסיה על התחשבנות הזמנות תחזוקה ופקודות תהליך (KO88 / CO88) לפני סגירת תקופה. "
+        + "לפיתוח חדש ולממשקים להעדיף את ישות חוק ההתחשבנות של API_MAINTENANCEORDER על פני קריאה ישירה לטבלה, ולאמת "
+        + "בתיעוד ה-API איזו גרסת ישות פעילה בגרסת ה-S/4HANA שבשימוש (ראו ההערות).",
+    },
+    xrefs: [
+      "table:COBRA", "table:AUFK", "table:AFIH", "table:COSP", "table:COSS", "table:ACDOCA", "tx:KO02",
+      "tx:IW32", "tx:KO88", "tx:CO88", "fm:K_SETTLEMENT_RULE_READ", "fm:K_ORDER_SETTLEMENT",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "אזהרת שם: חיפוש 'COBRA'/'COBRB' ב-help.sap.com מחזיר ברובו עמודי HCM של הגרסה המקומית לארה\"ב על חוק "
+      + "Consolidated Omnibus Budget Reconciliation Act (אינפוטייפים 0211, 0212, 0270, 0671 והטבלאות T5UDB ו-T74AB); "
+      + "עמודים אלה אינם קשורים לחוק ההתחשבנות ב-CO ולא שימשו כראיה. הראיה היחידה שנמצאה הנוקבת בטבלה COBRB בשמה המלא "
+      + "היא דף זמני הריצה של הארכוב ב-CO; עמוד ההגירה 'CO - Internal order (restricted)' (loio "
+      + "ec1ce62638a742288bc4f96810b37639, 2025.001) נוקב במבנה ההגירה 'Settlement Rule (S_COBRB)' ולא בטבלה עצמה. דף "
+      + "'Information Sheet for the Transfer of Internal Orders' (loio 1c42de531ed3424de10000000a174cb4, 2025.001) "
+      + "מונה תחת 'Relevant tables' את AUFK, ONR0, JSTO, JEST, COBRA ו-COBRD, ודווקא אינו מונה את COBRB; שם הטבלה "
+      + "COBRD מופיע שם ולא נבדק ברשומה זו. דף הארכוב של הזמנות תחזוקה ושירות (PM_ORDER, loio "
+      + "15e1b6531de6b64ce10000000a174cb4, 2025.001) מציין שמחלקות הארכוב P_ORDER ו-TEXT מאפשרות לארכב גם 'Settlement "
+      + "rule', אך אינו נוקב בשם טבלה. עקבות ה-API שנאספו ולא נכנסו כראיה: הישות 'Maintenance Order Settlement Rule "
+      + "(Version 2)' (loio 59ae5b7d2177445e9b3ac208111d238a, 2023.latest) בשם הטכני MaintOrderSettlmtDistrRule_2; "
+      + "הישות 'Maintenance Order Settlement Rule (Deprecated)' (loio e88bddfad77342cb8f37cd43b484f26f, 2025.001) בשם "
+      + "הטכני MaintOrderSettlmtDistRule; ועמודי התפעול של אותו deliverable הקובעים 'The Maintenance Order Settlement "
+      + "Rule entity will be deprecated with SAP S/4HANA 2022 FPS01 and will be replaced with a successor entity'. "
+      + "זהו שינוי ברמת ה-API בלבד, ואף עמוד רשמי שנמצא אינו קושר אותו לשינוי בטבלה COBRB עצמה. באותו הקשר, What's "
+      + "New לגרסת 2021 'Maintenance Order: Settlement Profile and History' (loio 7ae347ae20bc493781722e3a3bc3b81d, "
+      + "2021.000) מוסיף תצוגת 'Settlement History per Ledger' באזור חוקי ההתחשבנות, ומפתחות הישות בגרסה 2 כוללים "
+      + "Ledger ו-SettlementDistributionRuleGrp; האם COBRB עצמה נושאת מפתחות תלויי ledger לא אומת, מפני שגופי עמודי "
+      + "ה-Help אינם נקראים ללא דפדפן ולא הייתה גישה ל-DDIC (ה-MCP של sc4sap לא התחבר בסשן זה). סתירה פנימית במאגר "
+      + "שלא הוכרעה: data/table-enrichment.ts#COBRB רושם מפתח ראשי MANDT + OBJNR + BUREG + LFDNR ומפתחות זרים KOSTL "
+      + "אל CSKS, PS_PSP_PNR אל PRPS ו-SAKNR אל SKA1, בעוד ה-blueprint מונה חמישה שדות (OBJNR, BUREG, KONTY, EMPGE, "
+      + "PROZS) ואינו כולל LFDNR; אף אחת מהרשימות לא אומתה מול מקור רשמי. עומק הרשומה נשאר L1 מפני שחמשת השדות "
+      + "שב-blueprint רשומים ללא טיפוס ואורך מול סף של חמישה שדות מוטפסים לקטלוג הטבלאות, וזה פער בבלופרינט ולא "
+      + "ברשומת האימות. COBRB קיימת בבלופרינט של PM בלבד; הבלופרינט של תעשיות תהליכיות אינו כולל אותה, אף שזרימת "
+      + "התהליך של PP-PI במאגר (data/pppi-process-flow.ts) מפנה אליה בשלב התחשבנות פקודת התהליך. ערך fioriApp "
+      + "שב-blueprint הוא 'Manage Settlement Rules (אמת ID)' ונושא סימון אימות משל עצמו. תיעוד ה-CO לגרסת 2025 FPS01 "
+      + "אכן נוקב במזהה: העמוד 'Manage Settlement Rules - Internal Orders' (loio a5c0cb745d8e42bfba04c5e2015c571f) "
+      + "קובע 'App ID: F5695', ודף What's New לגרסת 2023 באותו שם (loio 29cfd6e473024196a89816024f6c8b18, 2023.000) "
+      + "מתאר עריכת חוקי התחשבנות וחוקי חלוקה להזמנות פנימיות. F5695 היא אפליקציה להזמנות פנימיות, אינה רשומה "
+      + "ב-data/fiori/apps.ts (ולכן xref אליה היה נותר תלוי), ולא נמצא מזהה אפליקציה רשמי לחוקי ההתחשבנות של הזמנת "
+      + "תחזוקה; לכן לא נטען מזהה Fiori ברשומה ואין xref מסוג fiori. לא צוטט מספר SAP Note, ולא נבדק פריט בקטלוג "
+      + "הפישוט (נדרשת הזדהות S-user).",
+  },
+
+  /* -------------------------------------------------------- table:EBKN */
+  {
+    id: "table:EBKN",
+    aliases: [
+      "ebkn",
+    ],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Report: Follow-On Documents for Purchase Requisition | Defense Forces & Public Security",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/b4e911a8e3504d24876c4bfcb42c4704/d0c0cc5340487214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד הדוח 'מסמכי המשך לדרישת רכש' בגרסת 2025 FPS01 קובע מהיכן נשלפים הנתונים: 'Origin of Displayed Data When "
+          + "retrieving data, the system uses the tables EBAN and EBKN for the purchase requisition, tables EKKO, EKPO, "
+          + "EKET, EKBE, EKPV, and EKKN for the purchase order', ומוסיף 'Due to the amount of data, the system restricts "
+          + "the details displayed for purchase requisitions, purchase orders, and deliveries'. כלומר בגרסת S/4HANA "
+          + "On-Premise 2025 FPS01 המערכת קוראת את EBKN לצד EBAN עבור דרישת הרכש. העמוד שייך ל-deliverable של פתרון "
+          + "Defense Forces & Public Security ומתאר את הדוח /ISDFPS/FOLLOW_ON_PURDOCS, ולכן הוא מעיד על קיום הטבלה ועל "
+          + "תפקידה ולא מהווה הצהרת סטטוס ליבה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "MM - Purchase requisition (only open PR) | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/978944291b0444bc90503f90fe51e1f0.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד אובייקט ההגירה של דרישות רכש פתוחות בגרסת 2025 FPS01 קובע: 'This migration object automatically selects "
+          + "relevant purchase requisitions from the EBAN table for the derived plants and purchasing organizations', "
+          + "ובחלק ה-Technical Information שלו: 'Name of this migration object: S4_MM_PURCHASE_REQUISITION Virtual Tables "
+          + "ART_EBAN: To handle item data ART_EBKN: To handle account assignment data ART_PRPS: To handle account' "
+          + "(הסניפט נקטע). כלומר בהגירת דרישות רכש אל S/4HANA נתוני החיוב מטופלים בנפרד מנתוני השורה, דרך טבלה וירטואלית "
+          + "בשם ART_EBKN שהעמוד מייעד ל-account assignment data. העמוד מוסיף 'Note that virtual tables do not exist in "
+          + "the database', ולכן אין כאן טענה על מבנה EBKN עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      EBKN_FIN_EXTENSIBILITY,
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט: רשומת EBKN",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "העשרת המאגר (מאומתת): EBKN מחזיקה את נתוני החיוב של שורת דרישת רכש (מרכז עלות, אלמנט WBS, פקודה, חשבון ראשי) "
+          + "עם מפתח MANDT/BANFN/BNFPO/ZEKKN. היא רלוונטית כאשר שורת הדרישה מוקצית חשבון (KNTTP אינו ריק), וחיוב מפוצל "
+          + "(multiple account assignment) מיוצג בכמה שורות ZEKKN. מפתחות זרים: BANFN+BNFPO אל EBAN, KOSTL אל CSKS, AUFNR "
+          + "אל AUFK ו-PS_PSP_PNR אל PRPS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#EBKN",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "חיוב (הקצאת חשבון) של שורת דרישת רכש. EBKN נקובה בשמה בתיעוד הרשמי של S/4HANA On-Premise בגרסת 2025 FPS01: "
+        + "עמוד אפשרויות ההרחבה של הפיננסים מונה אותה בין הטבלאות שמורחבות לצד ACDOCA, BSEG, MSEG ו-EKKN בהוספת שדה "
+        + "מותאם בהקשר Accounting: Coding Block, ועמוד דוח מסמכי ההמשך לדרישת רכש (deliverable של Defense Forces & "
+        + "Public Security) קובע שהמערכת קוראת את EBAN ואת EBKN עבור דרישת הרכש. באובייקט ההגירה של דרישות רכש פתוחות "
+        + "נתוני החיוב מטופלים בטבלה וירטואלית בשם ART_EBKN. לא נמצא מקור רשמי המכריז על החלפה, פישוט, הגבלה או טבלה "
+        + "יורשת עבורה. הערת ה-blueprint (מותאם, חיוב ל-ACDOCA) נוגעת לשכבת החשבונאות שקוראת את החיוב, לא למבנה EBKN "
+        + "עצמו.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: EBKN_FIN_EXTENSIBILITY,
+      recommendedAction:
+        "להמשיך לעבוד מול EBKN ללא טבלה חליפית, ולקרוא את חיוב שורת הדרישה לפי BANFN+BNFPO+ZEKKN. בפרויקט מעבר: (1) "
+        + "לבדוק דוחות וקוד מותאם שמניחים שורת חיוב אחת לשורת דרישה, כי חיוב מפוצל מיוצג בכמה שורות ZEKKN; (2) לפני "
+        + "הוספת שדה מותאם בהקשר Accounting: Coding Block לשקול שההרחבה חלה גם על EBKN לצד ACDOCA, BSEG, MSEG ו-EKKN; "
+        + "(3) בתחזוקת מפעל לוודא שחלף לא-מלאי בצו אחזקה מייצר שורת חיוב שבה הפקודה (AUFNR) היא האובייקט המחויב, "
+        + "ולהשוות את התוצאה מול דוחות העלות וההתחייבות של הפקודה לאחר המעבר.",
+    },
+    xrefs: [
+      "table:EBAN", "table:AUFK", "table:ACDOCA", "table:COSP", "table:COSS", "table:RESB", "tx:ME51N",
+      "tx:ME52N", "tx:ME53N", "tx:ME5A", "tx:ME57", "tx:ME59N", "tx:IW32", "tx:KOB2",
+      "fm:ACCOUNT_ASSIGNMENT_READ", "fm:BAPI_PR_CREATE",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "הסטטוס 'ללא שינוי' נקבע ברמת הטבלה: שני עמודים רשמיים של 2025 FPS01 נוקבים ב-EBKN בשמה (אפשרויות ההרחבה של "
+      + "הפיננסים, ודוח מסמכי ההמשך לדרישת רכש), ולא נמצא מקור רשמי המכריז על החלפה, פישוט, הגבלה או יורשת. פערים "
+      + "ומועמדים שנבדקו ולא נוספו: (1) עמודת ה-S/4 בבלוטפרינט (data/sapData.pm.ts#EBKN) גורסת 'מותאם (חיוב "
+      + "ל-ACDOCA)' והערת SUM על המרת עלויות ל-Universal Journal ועל הפיכת COSP/COSS ל-Views, אך אף עמוד רשמי אינו "
+      + "נוקב ב-EBKN בהקשר הזה; ההצהרה הרשמית הקרובה ביותר היא 'Predictive Commitments Management' (What's New in SAP "
+      + "S/4HANA 2022, 2022.000, loio 26a70798c3d1444eabf7d09d3622a35d): 'With this release, the functions of "
+      + "commitments management have been redesigned: All information for commitments based on purchase requisitions "
+      + "and purchase orders is stored in one place, only in the Universal' (הסניפט נקטע), ולצידה 'Commitments by "
+      + "Cost Center' (Controlling, 2025.001, loio 90d3445c84e94bddba8660fda05f93fb) הקובע 'the commitments data is "
+      + "based on the extension ledger in the universal journal' מול הגרסה הקלאסית (loio "
+      + "74acf26899d049c1b8db2df37bcb50d7) הקובעת 'the commitments data is based on commitments management line items "
+      + "(COOI table)'. שני העמודים אינם נוקבים ב-EBKN, ולכן היבט ה-ACDOCA נשאר ברמת נתוני הפרויקט בלבד; (2) עמוד "
+      + "Funds Management 'Reassignment' (2023.latest, loio 0beccc53a8b77214e10000000a174cb4) מתאר את EBKN כ-'EBKN "
+      + "(assigned purchase requisitions)' ואת EBAN כ-'non-assigned purchase requisitions', אך הוא בגרסת 2023.latest "
+      + "והרשומה מעוגנת ב-2025.001; (3) העמוד 'Enhancements to Functionality and Usability in Sales' (What's New in "
+      + "SAP S/4HANA 1909, loio b3c6855d43074336aad237ded4b420b5) מכנה את EBAN ו-EBKN 'the two central purchase "
+      + "requisition tables' ומפנה ל-SAP Note 2753355 ול-Consulting Note 2772842; המספרים מובאים כאן כציטוט מהסניפט "
+      + "בלבד ולא נרשמו בשדה sapNote מובנה, כי אין כתובת me.sap.com/notes ואין repoRef שמגבים אותם, וגרסת 1909 אינה "
+      + "גרסת היעד; (4) נבדק בפועל מול רשימת הפישוט הרשמית: בטקסט המלא של Simplification List for SAP S/4HANA 2025 "
+      + "FPS01 (Document Version 1.36) ושל גרסת 2023 השם EBKN אינו מופיע כלל (גם EKKN אינו מופיע), ולכן לא אותר פריט "
+      + "Simplification Item הנוגע לטבלה; me.sap.com/notes עדיין דורש כניסת S-user ולא נבדק, ולכן אין ציטוט של פריט "
+      + "פישוט או SAP Note כראיה מובנית; (5) טיפוסי השדות ואורכיהם (SE11) לא אומתו מול מערכת חיה (חיבור ה-MCP של "
+      + "sc4sap נכשל בסשן), ושדות EBKN בבלוטפרינט (BANFN, BNFPO, AUFNR, KOSTL, SAKTO) חסרים dt/len, כך שעומק המבנה "
+      + "בעמוד נותר 0; (6) הבלוטפרינט רושם אפליקציית Fiori 'Manage Purchase Requisitions' ללא מזהה, ואין אפליקציית "
+      + "דרישות רכש ב-data/fiori/apps.ts, ולכן לא נוסף xref מסוג fiori; (7) EBKN אינה מופיעה ב-data/s4-impact.ts, "
+      + "ב-data/s4-objects.ts או ב-data/lifecycle.ts, ולכן הסטטוס הנגזר שהעמוד הציג עד כה הגיע מעמודת ה-blueprint "
+      + "בלבד ('מותאם' = changed, בלי מקור ובלי גרסה), והרשומה הזו מחליפה אותו בסטטוס מעוגן; (8) סמנטיקת ZEKKN (חיוב "
+      + "מפוצל) נשענת על העשרת המאגר; העמוד הרשמי 'Entering Account Assignments' (Sourcing and Procurement, 2025.001, "
+      + "loio b47db65334e6b54ce10000000a174cb4) מתאר את העיקרון ('you distribute the costs for a document item to, "
+      + "for example, several cost centers, thereby creating several account assignment items for a document item') "
+      + "בלי לנקוב בשם הטבלה או בשם השדה.",
+  },
+
+  /* -------------------------------------------------------- table:KDST */
+  {
+    id: "table:KDST",
+    evidence: [
+      KDST_BOM_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP - Sales order BOM | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/d47370fea0c344688281c838f2f4adc0.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "אובייקט ההגירה 'PP - Sales order BOM' לגרסת 2025 FPS01 קובע במפורש: 'This migration object automatically "
+          + "selects bills of material from the KDST table for the derived plants'. אותו עמוד מונה את שדות האובייקט "
+          + "'Material Number, Alternative BOM, BOM Usage, BOM Category, Sales Order, Sales Order Item, Plant', מציין "
+          + "'Related Business Object: Bill of Materials', מפנה לאפליקציה 'Display Sales Order BOM (app ID F4339)', ונוקב "
+          + "במודול CNV_PE_S4_PP_SALESORDER_BOM תחת 'APIs/BAPIs Used in Migration-Specific Function Modules', כלשון "
+          + "הסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Sales Order Link for Bill of Material | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/5ef69939e27b4b1ab027128d83aa4c87.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "תצוגת ה-CDS I_SALESORDERBOMLINK נושאת את הכותרת 'Sales Order Link for Bill of Material', מסווגת 'View Type "
+          + "Basic, Status Released', ועונה לפי הסניפט על השאלות 'What is the plant assigned to the sales order BOM? What "
+          + "is the BOM alternative, BOM usage, and BOM category for the sales order BOM? What is the sales order item "
+          + "for a sales order BOM?'. הסניפט אינו נוקב בשם הטבלה KDST.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "חוברת ההגירה של הפרויקט - רשומת KDST בתעשיות תהליכיות",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט של תעשיות תהליכיות (PP-PI:KDST) נושא descriptionHe 'מסמך מכירה' ו-descriptionEn 'Sales document', "
+          + "פוסק 'ללא שינוי.' בעמודת S/4HANA, ומסמן את VBELN (Sales document) ו-POSNR (Sales document item) כמפתח ואת "
+          + "MATNR ו-STLNR (BOM number) כמפתחות זרים, עם קישור KDST.MATNR אל MAST.MATNR תחת התיאור 'שימוש עץ מוצר בהזמנת "
+          + "לקוח'. באותה שורה ה-guideHe כבר מתאר את הטבלה נכון ('מקשר עצי מוצר ספציפיים להזמנת לקוח (Make-to-Order)') "
+          + "וה-helpLbl הוא 'SAP Help - Sales Order BOM', ואילו רשימות ה-funcs וה-progs שייכות לרשומת אב החומר "
+          + "(BAPI_MATERIAL_SAVEDATA, BAPI_MATERIAL_GET_DETAIL, RMMG2000, MM60).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pppi.ts#KDST",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת KDST (שיוך עץ מוצר להזמנת לקוח, Sales order BOM) קיימת ומתועדת ב-S/4HANA On-Premise עד גרסת 2025 FPS01: "
+        + "אובייקט הארכוב CS_BOM מונה אותה ברשימת טבלאות שיוך ה-BOM לצד MAST, DOST, EQST ו-TPST, ואובייקט ההגירה 'PP - "
+        + "Sales order BOM' בוחר ממנה עצי מוצר. אף מקור רשמי שנבדק אינו מסמן אותה כמוחלפת, מיושנת או מוסרת, ולא נמצאה "
+        + "טבלה יורשת. הערה: התיאור שהמאגר מציג לטבלה ('מסמך מכירה' / 'Sales document') אינו תואם את מה ש-SAP מתעדת, "
+        + "והוא תיאור שדה המפתח VBELN ולא תיאור הטבלה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: KDST_BOM_ARCHIVING,
+      recommendedAction:
+        "להמשיך לעבוד מול KDST כטבלת הקישור בין פריט הזמנת הלקוח (VBELN + POSNR) לעץ המוצר הייעודי (STLNR), ולא כטבלת "
+        + "מסמכי מכירה; לצורך נתוני ההזמנה עצמה לפנות ל-VBAK/VBAP. לתקן את תיאור הטבלה בחוברת ההגירה של הפרויקט ואת "
+        + "רשימת ה-BAPI והתוכניות שהועתקו אליה מרשומת אב החומר. לצריכה חדשה להעדיף את תצוגת ה-CDS I_SALESORDERBOMLINK "
+        + "ואת ה-API הרשמי Order Bills of Material על פני SELECT ישיר, ולאמת את מבנה המפתח המלא ואת אורך שדה MATNR מול "
+        + "SE11 במערכת היעד לפני ההסבה.",
+    },
+    xrefs: [
+      "table:MAST", "table:STKO", "table:STPO", "table:STAS", "table:EQST", "table:TPST", "table:VBAK",
+      "table:VBAP", "table:MARA", "tx:CS20", "tx:VA01", "tx:VA03", "cds:I_BillOfMaterial",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "סתירה מתועדת: המאגר מתאר את KDST כ'מסמך מכירה' / 'Sales document', בעוד כל המקורות הרשמיים שנבדקו "
+      + "ב-2026-09-15 מתארים אותה כטבלת שיוך עץ מוצר להזמנת לקוח. מקור הסתירה נראה העתקה של תיאור שדה המפתח הראשון "
+      + "(VBELN Sales document) אל שורת הטבלה, ובאותה שורה הועתקו גם BAPI ותוכניות של אב החומר. הבלופרינט עצמו סותר "
+      + "את עצמו: ה-guideHe וה-helpLbl באותה שורה מדברים על Sales Order BOM. הסטטוס 'ללא שינוי' תואם את פסק "
+      + "הבלופרינט, כך שתיקון התיאור אינו משנה את מחלקת ההסבה. מגבלות הראיות: (1) הסניפט של עמוד הארכוב נקטע אחרי "
+      + "'KDST Sales order' ולכן התיאור הרשמי המלא של הטבלה לא נראה במלואו; גוף העמוד ב-help.sap.com הוא מעטפת "
+      + "JavaScript ולא נקרא. (2) עמוד ההגירה מתאר בחירה מטבלת KDST בהקשר של מערכת המקור, ולכן הוא מוכיח את זהות "
+      + "האובייקט העסקי של הטבלה אך אינו לבדו הוכחה לקיומה במערכת היעד; ההוכחה לקיום בגרסה 2025 FPS01 היא עמוד "
+      + "הארכוב, שהוא תיעוד S/4HANA. (3) הקישור בין I_SALESORDERBOMLINK ל-KDST הוא סינתזה של הרשומה: הסניפט הרשמי "
+      + "אינו נוקב בשם הטבלה, והתצוגה אינה ביקום הפרויקט ולכן אינה ב-xrefs. רשומות רשמיות נוספות שנראו ולא צורפו "
+      + "(מגבלת ארבע ראיות): 'Data Extraction for Sales Order BOM Link' (I_SALESORDERBOMLINKDEX, loio 2c9b597b, "
+      + "2023.latest) המונה Bill of Material, Material, Plant, Sales Order ו-Sales Order Item; 'Sales Order BOM "
+      + "Header Extraction' (I_SalesOrderBOMHeaderDEX, loio 8fc2e699, 2025.001) המייצג את אובייקט "
+      + "SalesBillOfMaterial; 'Sales Order BOM' (A_SALESORDERBOM_1, Composite, Released, loio ecae79c1, 2023.latest); "
+      + "'Manage Order Bill of Material' ב-LO-MD-BOM 2025.001 (loio 9bc19d5c) המאפשר חיפוש עצי מוצר להזמנה לפי sales "
+      + "document ו-sales document item; 'Order BOM Maintenance' ב-PFCG 2025.001 (loio 2576b653) המונה "
+      + "CS61/CS62/CS63, CS20 ו-CSAB; 'New App: Manage Order Bill of Material' ו-'OData API: Order Bills of Material' "
+      + "ב-What's New 2020 (loio ff96f4f4 ו-8b94708a, רכיב LO-MD-BOM-OBM, scope item BJE). פערים: CS61, CS62, CS63 "
+      + "ו-CSAB אינם ביקום הפרויקט ולכן נזכרים בטקסט בלבד; F4339 אינה ב-data/fiori/apps.ts ולכן אין xref ל-Fiori, "
+      + "ובנוסף עמוד ההגירה קורא לה 'Display Sales Order BOM' בעוד עמוד ההשוואה הרשמי 'Feature Comparison for Bills "
+      + "of Material Apps (Continued)' (LO-MD-BOM, 2025.001, loio 965b2904) מצמיד בסניפטו את F4339 לשם 'Manage Order "
+      + "Bill of Material' ואת CS61/CS62/CS63 ל-Create/Change/Display Order BOM. data/table-enrichment.ts משאיר את "
+      + "KDST ללא העשרה במפורש, תחת ההערה שכותרתה 'NOTE (never-guess)' (שורות 1114-1118), הקובעת על אחת-עשרה "
+      + "טבלאות בלופרינט ובהן KDST כי 'their key structure / semantics could not be confirmed from a trusted "
+      + "source. They are deliberately left un-enriched rather than described speculatively'; "
+      + "data/knowledge/pppi-objects-ext.ts מתאר אותה נכון אך בסימון trust "
+      + "'needs-verification', ו-data/knowledge/object-intel.ts משייך אותה ל-Variant Configuration ול-CU41/CU42; שיוך "
+      + "זה לא אומת מול אף מקור רשמי ולכן אינו נטען כאן. מבנה המפתח המלא של KDST (MANDT ומספר ה-BOM) לא אומת מול "
+      + "DDIC: החיבור למערכת חיה אינו זמין, ואין עמוד רשמי שנקרא ברמת השדה. לא צוטט מספר SAP Note כי אף אחד לא הופיע "
+      + "בסניפטים הרשמיים.",
   },
 ];

@@ -7,6 +7,8 @@ upgraded `table:MSEG` worked example; 1 refuted). Updated 2026-09-07 for batch 2
 15 written incl. the `table:MARA` rewrite; 1 refuted, `table:AFVC`). Updated 2026-09-15 for batch 3
 (15 audited, 15 written, 0 refuted; `table:AFVC` resolved), and again 2026-09-15 for batch 4
 (15 audited, 15 written, 0 refuted; one correction queued for `tx:IP30` in the transactions catalog).
+Updated 2026-09-15 for batch 5 (8 audited, 7 written, 1 refuted, `table:COBRA`; one correction queued
+for `fm:NOTIF_TASK_READ` in the functions catalog).
 
 ## refuted / needs new evidence
 
@@ -199,3 +201,128 @@ Records written: `table:IMRG`, `table:IMPTT`, `table:OBJK`, `table:MHIS`, `table
   `dt`/`len` empty on all six), MLAN 3, PLZU 3, MVKE 4, PLFL 4. Only MCH1 (7), PLAS (6), MEAN (5), MAPL (5) and
   PLMZ (5) cleared the L2 structural gate and therefore reached L5. Raising the other ten needs SE11 or an
   official field list, not more evidence.
+
+## batch 5 (2026-09-15) — 8 audited, 7 written, 1 refuted
+
+Records written: `table:QMEL`, `table:QMFE`, `table:QMMA`, `table:QMSM`, `table:COBRB`, `table:EBKN`,
+`table:KDST`. All seven carry the token `unchanged` at edition on-premise / release 2025.001 with an
+authored `status.source`. Only `table:EBKN` changes what the app shows: its derived claim was `changed`
+(from the blueprint cell 'מותאם (חיוב ל-ACDOCA)', no source, no release); the written record replaces it
+with a sourced `unchanged`. The other six already derived `unchanged` from the blueprint and now carry
+official evidence underneath.
+
+### refuted / needs new evidence (batch 5)
+
+- `table:COBRA` — refuted at the adversarial gate, not written. Four problems to fix before a rewrite:
+  1. **Fabricated UI detail.** The draft attributes to 'Settle the Maintenance Order'
+     (loio `b1cc9b3e5fbe43a7b01d212586f805c9`) the sentence about the *Create Default Settlement Rule*
+     pushbutton "בלשונית Costs". That loio's snippet carries only "Settle the Maintenance Order Use You use
+     a settlement rule to define how the costs incurred by the execution of maintenance work are cleared on
+     a pro rata basis. … In Customizing for Maintenance and Service Orders, you can define distribution
+     rules…". The pushbutton sentence belongs to a different page, 'Analyzing Costs and Settling the Order'
+     (loio `2d32b8ac5466449285b667cf8a02e0d5`, 2025.001), and it reads "choose the pushbutton Create Default
+     Settlement Rule in the header area of the individual maintenance order" — the **header area**, not a
+     Costs tab. The string "בלשונית Costs" appears in no snippet at all. Both the attribution and the
+     location must be corrected, or the sentence dropped.
+  2. **Release over-claim.** The draft puts both API loios in "APIs for Maintenance Management לגרסת 2025
+     FPS01". Only loio `e88bddfad77342cb8f37cd43b484f26f` ('Maintenance Order Settlement Rule (Deprecated)',
+     technical name `MaintOrderSettlmtDistRule`) returns versionId 2025.001. Loio
+     `59ae5b7d2177445e9b3ac208111d238a` ('Maintenance Order Settlement Rule (Version 2)',
+     `MaintOrderSettlmtDistrRule_2`) returns **2023.latest** on every run and must not carry a 2025 FPS01
+     label. A Version 2 entity at 2025 is separately supportable from loio
+     `c1457e0e539740a29932fbdcf36fea3c` ('Maintenance Order (Version 2)', 2025.001), whose snippet lists it.
+  3. **Load-bearing claims with no evidence row.** `status.he` asserts COBRA appears in the 'Relevant
+     tables' list of the internal-orders transfer information sheet, and `status.recommendedAction` asserts
+     the API entity is marked Deprecated. Neither source is in `evidence[]`, so the rendered source list
+     shows nothing behind either claim. The draft justified this as "כדי לא לחרוג מארבע"; there is **no
+     four-evidence house rule** — 39 of the then-58 records in `data/verification/tables.ts` carry five or
+     more evidence entries (AFVC, AFFL, IFLOS and RESB carry eight). Both sources are official and
+     resolvable and belong in `evidence[]`.
+  4. **Over-read of the FI-AA table label.** The snippet reads "… ANLE Proof of origin COBRA Settlement rule
+     header &hellip; (for AuC) CORB Settlement rules (for AuC)". The elision falls between "Settlement rule
+     header" and "(for AuC)", and the next row's pattern is `<TABLE> <description> (for AuC)`, so the full
+     label in that FI-AA archiving list is plausibly "Settlement rule header (for AuC)". The draft
+     nonetheless concludes "מכאן מאומת השם האנגלי הרשמי של COBRA בתיעוד 2025 - Settlement rule header",
+     dropping a qualifier the snippet may carry and using an AuC-scoped archiving list to certify the
+     blueprint's general `descriptionEn`. A rewrite needs either an uncut snippet or a non-AuC page.
+
+  Note for the rewrite: `table:COBRB` (written this batch) already carries the two API loios, their
+  technical names and the deprecation sentence in its `notes`, correctly scoped as an API-level change that
+  no official page ties to the COBRA/COBRB tables themselves.
+
+### batch 5 (2026-09-15) open conflicts, recorded in the written records' notes
+
+- `table:QMEL`, `table:QMFE`, `table:QMMA`, `table:QMSM` — the four notification tables share one
+  documentation asymmetry. The 2025 FPS01 archiving pages for PM_QMEL and SM_QMEL print the full table
+  list (QMEL header, QMFE items, QMMA activities, QMSM tasks, QMUR causes, QMIH, ILOA, IHPA, PMLP), while
+  the 2025 FPS01 page for **QM_QMEL** (loio `130ab753128eb44ce10000000a174cb4`) refuses to list its tables
+  and redirects to transaction SARA. The quality-notification side of the family therefore rests on the
+  **SAP ERP 6.18** dependencies page (loio `4c0ab753128eb44ce10000000a174cb4`) for QMEL, and is simply not
+  asserted for QMFE, QMMA or QMSM. A 2025-scoped source for the QM archiving table list is the missing
+  evidence.
+- `table:QMEL` — documentation defect observed and deliberately not used: the SAP ERP page 'Service and
+  Maintenance Notifications in the DRB (PM/CS)' (loio `0e78bb53707db44ce10000000a174cb4`) writes "You can
+  archive service notifications using archiving object PM_QMEL, and maintenance notifications with
+  SM_QMEL" — the inverse of what every other page states. Also: `table:QMIH` is named in both archiving
+  lists but is absent from the id universe, so it could not be an xref; and the blueprint's Fiori cell
+  'Report Malfunction (F2215)' resolves to no entry in `data/fiori/apps.ts` and to no official record.
+- `table:QMMA` vs `data/function-intel.ts#NOTIF_TASK_READ` — **queued correction, functions catalog.** The
+  repository record describes NOTIF_TASK_READ as "משימות הודעה (Tasks) - QMMA/QMSM", conflating the two
+  tables, while the official archiving pages separate QMMA = Activities from QMSM = Tasks. Not fixed here
+  as a side effect of the tables batch; it needs its own audited rewrite of the functions record.
+- `table:QMMA` — the official service page 'Quality Notification' (loio
+  `454808498fc344a8a08b912503d90ac0`, 2025.001) states under Constraints that API_QUALITYNOTIFICATION
+  cannot "Read, create and update quality notification activities". That is exactly QMMA content on the
+  quality side, so **no official documented interface was found for QMMA in a quality-notification
+  context**; the record says so instead of recommending that service. The maintenance-side entity
+  `A_MaintNotifItemActivity` is recorded in `data/verification/cds.ts` and was not re-verified this round.
+- `table:QMMA`, `table:QMSM` — key structure contested and undecided: the blueprint gives QMMA
+  QMNUM+MANUM (no FENUM) while `data/table-enrichment.ts#QMMA` gives MANDT+QMNUM+FENUM+MANUM; the
+  blueprint gives QMSM MANUM/MNGRP/MNCOD while `data/table-enrichment.ts#QMSM` gives MSNUM/MGRP/MCOD. No
+  official source decides either. Needs SE11 or ADT.
+- `table:QMSM` — `I_MaintNotificationTaskData` is Released in the **2023.latest** VDM guide only; a query
+  scoped to 2025.001 returned no record for that view, and the VDM snippet never names its base table. The
+  record's recommendedAction says so rather than presenting the view as a verified 2025 successor path.
+  The view is also absent from `lib/route-manifest.generated.ts`, so it is not an xref.
+- `table:QMSM` vs `table:MHIO` precedent — two official 2025 FPS01 pages disagree about which archiving
+  object covers which notification type (see the QMEL documentation-defect item above). As with the
+  MHIO/IP10 case in batch 4, the existing records that quote their own source faithfully must **not** be
+  edited on the strength of this record.
+- `table:COBRB` — `data/table-enrichment.ts#COBRB` gives the key as MANDT+OBJNR+BUREG+LFDNR with foreign
+  keys KOSTL→CSKS, PS_PSP_PNR→PRPS and SAKNR→SKA1, while the blueprint lists five untyped fields (OBJNR,
+  BUREG, KONTY, EMPGE, PROZS) and no LFDNR. Neither list is officially verified. Also: 'Information Sheet
+  for the Transfer of Internal Orders' (loio `1c42de531ed3424de10000000a174cb4`, 2025.001) lists AUFK,
+  ONR0, JSTO, JEST, COBRA and **COBRD** under 'Relevant tables' and pointedly does not list COBRB; COBRD
+  was not investigated. COBRB exists in the PM blueprint only, although `data/pppi-process-flow.ts`
+  references it at the process-order settlement step.
+- `table:COBRB` — official Fiori id found but **not** writable as an xref: 'Manage Settlement Rules -
+  Internal Orders' (CO, 2025.001, loio `a5c0cb745d8e42bfba04c5e2015c571f`) prints "App ID: F5695", but
+  F5695 is an internal-orders app, it is absent from `data/fiori/apps.ts`, and no official app id was found
+  for **maintenance-order** settlement rules. Belongs to the Fiori research queue.
+- `table:EBKN` — the blueprint's S/4 cell 'מותאם (חיוב ל-ACDOCA)' and its SUM note about COSP/COSS becoming
+  views are supported by no official page naming EBKN; the closest official statements (Predictive
+  Commitments Management, loio `26a70798c3d1444eabf7d09d3622a35d`; Commitments by Cost Center, loio
+  `90d3445c84e94bddba8660fda05f93fb` vs the classic `74acf26899d049c1b8db2df37bcb50d7`) never name EBKN.
+  That aspect stays repository-only, and the written status supersedes the derived `changed`.
+  Positive negative check recorded: EBKN and EKKN occur **zero** times in the full text of the
+  Simplification List for 2025 FPS01 (Document Version 1.36) and of the 2023 list.
+- `table:EBKN` — the status anchor was deliberately moved off the industry-solution page. The DFPS report
+  page (loio `d0c0cc5340487214e10000000a174cb4`, describing `/ISDFPS/FOLLOW_ON_PURDOCS`) stays as evidence
+  but `status.source` is the core FI-GL extensibility page (loio `266cb949a0414d1bb30c4a6550d55835`). The
+  migration page names the **virtual** table `ART_EBKN` and adds "Note that virtual tables do not exist in
+  the database", so it carries no structural claim about EBKN itself.
+- `table:KDST` — workbook defect: `descriptionHe`/`descriptionEn` read 'מסמך מכירה' / 'Sales document',
+  which is the label of the first key field (VBELN), not the table; the same row also carries the material
+  master's funcs and progs (BAPI_MATERIAL_SAVEDATA, BAPI_MATERIAL_GET_DETAIL, RMMG2000, MM60). The row's
+  own `guideHe` and `helpLbl` already say Sales Order BOM. The fix belongs to the source workbook and
+  `scripts/extract-xlsx.mjs`, not to a hand edit of `data/sapData.ts`. `data/knowledge/object-intel.ts`
+  additionally ties KDST to Variant Configuration and CU41/CU42, which no official source confirms.
+- `table:KDST` — F4339 is named officially twice, under two different names ('Display Sales Order BOM' on
+  the migration page, 'Manage Order Bill of Material' on the feature-comparison page loio `965b2904`), and
+  is absent from `data/fiori/apps.ts`; CS61, CS62, CS63 and CSAB are likewise outside the id universe. No
+  fiori xref was written.
+- Depth ceiling, measured 2026-09-15 after the merge: **all seven** new records stay at **L1**.
+  `components/neo-shell/data/tables-detail.ts` counts only fields carrying BOTH `dt` and `len`, and the
+  threshold for tables is 5. Measured counts: QMEL 0, QMFE 0, QMMA 0, QMSM 0, COBRB 0, EBKN 0, KDST 4.
+  Raising them needs SE11 or an official field list, not more evidence. The tables coverage row is
+  therefore unchanged by this batch (105 total, L1 75 / L3 5 / L5 25, verified 105).
