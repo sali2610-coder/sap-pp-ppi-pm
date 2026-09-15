@@ -8,12 +8,17 @@
    Batch 2 (2026-09-07): 15 more records (MARA rewrite + CRHD, CRTX, STKO, STPO,
    MAST, AFKO, AFPO, JEST, JSTO, PLKO, PLPO, BUT000, EQUI, IFLOT), each merged
    from its adversarial verdict (fixedRecord or listed downgrades); AFVC refuted
-   and queued. */
+   and queued.
+   Batch 3 (2026-09-15): 15 more records (MKPF, AFVC (the batch-2 refusal, now
+   resolved), COSP, COSS, AFRU, AFIH, EBAN, EQUZ, ILOA, MPLA, MPOS, MCHA, MARM,
+   MAKT, AFFL), each merged from its adversarial verdict; no record carries a
+   reviewer field (house convention across data/verification/**). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
 const DATE2 = "2026-09-02";
 const DATE3 = "2026-09-07";
+const DATE4 = "2026-09-15";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -466,6 +471,254 @@ const IFLOT_PM_ARCHIVING: Evidence = {
 };
 
 /* ---------------------------------------------------------------- records */
+
+const MKPF_SIMPL2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+    "2025 - Feature Pack Stack 1 · item 15.3.1 S4TWL - Data Model in Inventory Management (MM-IM), p. 1459",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE4,
+  claim: "פריט 15.3.1 ברשימת הפישוט של 2025 FPS1 (גרסת מסמך 1.36, עמ' 1459 ואילך, נקרא כטקסט מלא מקובץ ה-PDF) " +
+    "חוזר על אותו נוסח: מודל SAP ERP 6.0 מורכב מ-'MKPF for document header information and MSEG for " +
+    "document item data', וב-S/4HANA 'Material document data will be stored in MATDOC only and not anymore " +
+    "in MKPF and MSEG'. הטבלאות 'do still exist in S/4HANA as DDIC definition as well as database object', " +
+    "ובשורת MKPF שבטבלת הפריט רשומים NSDM_DDL_MKPF ו-NSDM_MIG_MKPF ועמודת תצוגת נתוני האב ריקה. הערת " +
+    "ה-Business Impact היא אותה הערה, 0002206980 בכותרת 'Material Inventory Managment: change of data " +
+    "model in S/4HANA'. רכיב היישום עודכן ל-MM-IM-GF-MIG לעומת MM-IM-GF ברשימת 2023 FPS3.",
+  verificationLevel: "sap_official_verified",
+};
+
+const AFVC_JVA_NETWORK: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Joint Venture Information on Networks | Joint Venture Accounting (JVA)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f049a59301a94f1c9bb60ca8394db217/d6328a535af43d58e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim: "עמוד ה-JVA הרשמי לגרסת 2025 FPS01 קובע על מבנה החילוץ: 'The view is BIW_JV_AFVC and the base table is " +
+    "AFVC'. תחת הכותרת 'Fields of Origin for the Extract Structure' הוא מונה שדות שמקורם ב-AFVC, ובהם " +
+    "MANDT ('Client'), AUFPL ('Routing number of operations in the order'), APLZL ('General counter for " +
+    "order'), VNAME, RECID ו-ETYPE. זוהי רשימת שדות המקור של מבנה החילוץ ולא רשימת שדות המפתח של הטבלה; " +
+    "הסניפט אינו מגדיר מפתח.",
+  verificationLevel: "sap_official_verified",
+};
+
+const COSP_SIMPL2025_CO: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.5.1 S4TWL - TECHNICAL " +
+    "CHANGES IN CONTROLLING (CO-OM), p. 319, 320",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE4,
+  claim: "פריט הפישוט 6.5.1 S4TWL - TECHNICAL CHANGES IN CONTROLLING (Application Component: CO-OM), שנקרא " +
+    "ישירות מקובץ ה-PDF, קובע בעמ' 319: 'In SAP S/4 HANA the totals records for primary and secondary " +
+    "costs have been removed and the universal journal includes all actual cost postings, both primary and " +
+    "secondary', ובעמ' 320: 'The former tables COEP, COSP, and COSS are replaced by views of the same " +
+    "name, so-called compatibility views, that aggregate the data in the universal journal on the fly in " +
+    "accordance with the old table structures'. בפירוט הפריט: 'Actual data needed for long-term " +
+    "orders/projects from COSP_BAK, COSS_BAK is stored in table ACDOCA', 'Value types other than 04 and 11 " +
+    "are still stored in COEP, COSP_BAK, COSS_BAK', ו-'From a business point of view, all classic " +
+    "transactions are still running - based on compatibility views or using direct acces to ACDOCA'. " +
+    "הפעולה הנדרשת בפריט: 'Please check your customer-specific programs using CO tables. Customer coding " +
+    "should be adapted by replacing the access via compatibility views with direct access to ACDOCA for " +
+    "value types 04 and 11', לצד האזהרה 'Using these views may have a performance impact on existing " +
+    "reports and you are recommended to investigate whether the new Fiori reports meet your business " +
+    "needs'. הפריט מפנה ל-Business Impact note 0002270404 ול-note 2185026 'Compatibility views COSP, COSS, " +
+    "COEP, COVP: How do you optimize their use'; המספרים מצוטטים כלשונם מהמסמך הציבורי ולא נקראו בפועל.",
+  verificationLevel: "sap_official_verified",
+};
+
+const COSS_UNIV_JOURNAL_FAQ: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Universal Journal: FAQ | General Ledger Accounting (FI-GL)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/8b8e5695c4dc4749a706f9fa2f6bda92.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim: "עמוד ה-FAQ הרשמי של ה-Universal Journal פותח את הרשימה במילים 'The entries of the following tables " +
+    "are now completely contained in table ACDOCA', וברשימה עצמה מופיע הפריט 'The actual data of the " +
+    "Controlling tables: COEP, COSS, COSP'. מיד לאחריו נכתב במפורש: 'The data for statistical postings and " +
+    "target data remain in the tables COEP, COSS, and COSP'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const AFRU_PP_CUSTOM_FIELDS: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Insertion of Customer-Specific Fields | Production Planning and Control",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/3a00b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim: "תיעוד Production Planning and Control לגרסת 2025 FPS01 מנחה להרחיב את AFRU עצמה בשדות לקוח: 'Extend " +
+    "database table AFRU You must add the customer include CI_AFRU to the database' ולצדו 'Table AFRU " +
+    "already contains an entry for the include. You create the customer include by double-clicking on the " +
+    "entry CI_AFRU in the table AFRU in transaction SE11'. הסניפט מונה גם את 'Confirmation " +
+    "production/process order (order header) CO15 and CORK'. לפי הסניפט AFRU היא טבלת בסיס נתונים פעילה " +
+    "וברת-הרחבה בגרסה הנוכחית.",
+  verificationLevel: "sap_official_verified",
+};
+
+const AFIH_PM_ORDER_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Archiving Maintenance and Service Orders (PM-SMA-SC/PM-WOC-MO) | Data Archiving in Plant Maintenance " +
+    "and Customer Service (PM/CS)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/15e1b6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim: "מסמך הארכוב של תחזוקת מפעל ושירות לגרסת 2025 FPS01 מגדיר: 'Archiving object PM_ORDER, with which you " +
+    "can archive maintenance orders and service orders in the Plant Maintenance component', ובחלק " +
+    "ה-Structure שלו ('Structure Tables The archiving object PM_ORDER contains all of the data relating to " +
+    "the order') מונה תחת 'Table / Contents' את 'AFIH Order header' כשורה הראשונה, ואחריה 'AFAB Network - " +
+    "Relationships', 'IHPA Partner', 'IHSG, IHGNS Permits', 'ILOA Location and account assignment for the " +
+    "maintenance object' ו-'OPROL Operation link to object list entry'. כלומר AFIH קיימת ב-S/4HANA " +
+    "On-Premise 2025 FPS01 בתפקיד כותרת ההזמנה של פקודת האחזקה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const EBAN_MRP_LIVE: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "MRP Live: Incompatible Changes | Material Requirements Planning (PP-MRP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/fe39e10a9a864a8f8dc9537704f0fa13/1d4ee5514ec5c90ae10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim: "עמוד השינויים הלא תואמים של MRP Live בגרסת 2025 FPS01 קובע שמחוון היצירה של דרישות רכש אינו זמין " +
+    "ב-MRP Live: 'The creation indicator for purchase requisitions is not available in MRP Live. MRP Live " +
+    "always creates purchase requisitions for external procurement', ושהריצה מוחקת דרישות רכש שנוצרו בריצת " +
+    "תכנון קודמת ויוצרת חדשות במקומן: 'MRP Live deletes planned orders or purchase requisitions created by " +
+    "an earlier planning run and creates new ones', בתנאי שלא קובעו (if they were not firmed).",
+  verificationLevel: "sap_official_verified",
+};
+
+const EQUZ_PM_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Archiving of Equipment (CS-BD/PM-EQM-EQ) | Data Archiving in Plant Maintenance and Customer Service " +
+    "(PM/CS)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/7b06bd53d34ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim: "מסמך הארכוב הרשמי לגרסת 2025 FPS01 קובע: 'The archiving object for equipment PM_EQUI consists of the " +
+    "following tables: Table Short Text EQUI Equipment master data EQKT Multilingual equipment short " +
+    "texts, long texts, and internal remarks EQUZ Equipment time segments ILOA Location and account " +
+    "assignment data for the maintenance object IHSG Table of permits for Plant Maintenance with long " +
+    "texts IHPA Partner FLEET' (הסניפט נקטע אחרי FLEET). כלומר הטבלה EQUZ קיימת ב-SAP S/4HANA On-Premise " +
+    "2025 FPS01 בשם זה, תיאורה הרשמי הוא 'Equipment time segments' (פלחי זמן של ציוד), והיא אחת מטבלאות " +
+    "אובייקט הארכוב PM_EQUI לצד EQUI, EQKT ו-ILOA.",
+  verificationLevel: "sap_official_verified",
+};
+
+const ILOA_PM_MPLAN_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Archiving of Maintenance Plans (CS-AG/PM-PRM-MP) | Data Archiving in Plant Maintenance and Customer " +
+    "Service (PM/CS)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/96a0ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim: "עמוד הארכוב הרשמי לגרסת 2025 FPS01 פותח ב-'You can use the archiving object PM_MPLAN to a' (הסניפט " +
+    "נקטע) ומונה רשימת טבלאות: 'It comprises the following tables: Table Short Text MPOS Maintenance item " +
+    "ILOA Location and account assignment for maintenance object (PM object) OBJK Object list for Plant " +
+    "Maintenance'. כלומר הטבלה ILOA קיימת ב-SAP S/4HANA On-Premise 2025 FPS01 בתיאור הרשמי 'Location and " +
+    "account assignment for maintenance object (PM object)', לצד MPOS ו-OBJK.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MPOS_PM_MPLAN_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Archiving of Maintenance Plans (CS-AG/PM-PRM-MP) | Data Archiving in Plant Maintenance and Customer " +
+    "Service (PM/CS)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/96a0ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim: "עמוד הארכוב הרשמי לגרסת 2025 FPS01 קובע: 'You can use the archiving object PM_MPLAN to archive " +
+    "maintenance plans in the Plant Maintenance application component'. הסניפט מציג שתי רשימות טבלאות תחת " +
+    "'It comprises the following tables: Table Short Text': באחת 'MPOS Maintenance item', 'ILOA Location " +
+    "and account assignment for maintenance object (PM object)' ו-'OBJK Object list for Plant " +
+    "Maintenance'; בשנייה 'MPLA Maintenance plan', 'MMPT Cycle definitions and measuring points for the " +
+    "maintenance plan' ו-'MHIS Maintenance plan calls'. מהסניפט לבדו לא ניתן לקבוע איזו רשימה שייכת לאיזה " +
+    "מבנה. הטענה המוגבלת: MPOS קיימת ב-S/4HANA 2025 FPS01 עם הטקסט הקצר 'Maintenance item' והיא בהיקף " +
+    "אובייקט הארכוב PM_MPLAN.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MCHA_BATCH_INTEGRITY: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Integrity Check for Batch Classification | Batch Management (LO-BM)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4eb099dbc8a6435c9b36a854a7e05522/95fdb753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim: "עמוד ניהול האצוות (LO-BM) בסט התיעוד של S/4HANA 2025 FPS01 מכנה את MCHA בשמה המלא: 'the batch master " +
+    "record table MCHA', וקובע שכאשר חומרים מוערכים בנפרד ברמת מפעל המערכת יוצרת בה רשומה ('Dummy Batch " +
+    "with MCHA - Entry ... When materials are valuated separately at plant level, the system creates an " +
+    "entry in the batch master record table MCHA'). באותו עמוד, בחירת אצוות לבדיקת שלמות לפי מפעל אפשרית " +
+    "רק אם רמת האצווה הוגדרה ברמת מפעל במערכת ('You can select batches by plant only if the batch level " +
+    "has been set to plant level in your system').",
+  verificationLevel: "sap_official_verified",
+};
+
+const MARM_PRODUCT_CHECKS: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Types of Checks Performed | Product Master",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/bc6b9325fedd4344a84412b2195064fa/1bc030a8228d405fbea7016562fa85f1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim: "עמוד בדיקות אב המוצר לגרסת 2025 FPS01 נוקב בשם שהתיעוד צמיד לטבלה, 'Units of Measure for Material " +
+    "(MARM)', ומונה אותה ברשימת הטבלאות ששדותיהן ניתנים להגדרה לאיתור כפילויות: 'The fields in the tables " +
+    "listed below can be configured for matching potential duplicates', לצד 'General Material Data " +
+    "(MARA)', 'Plant Data for Material (MARC)', 'Storage Location Data for Material (MARD)', 'Material " +
+    "Descriptions (MAKT)', 'Material Valuation (MBEW)', 'MRP Area for Material (MDMA)' ו-'International " +
+    "Article Numbers (EANs) for Material (MEAN)'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MATNR_FIELD_LENGTH_SIMPL_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.5 S4TWL - Material Number " +
+    "Field Length Extension (CA-FLE-MAT), pp. 95-102",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE4,
+  claim: "פריט 5.1.5 ברשימת הפישוט הרשמית (Document Version 1.36, קובץ ה-PDF נקרא בפועל; Business Impact note " +
+    "0002267140) קובע: 'In SAP S/4HANA, the material number field length has been extended from 18 to 40 " +
+    "characters. This change was first implemented in SAP S/4HANA, on-premise edition 1511 and affects " +
+    "this release and higher releases'. בעמ' 98, תחת 'Storage of the Material Number on the Database': " +
+    "'the field length of the MATNR field on the database has been extended from 18 to 40 characters. This " +
+    "has been done in all tables (and all fields within the tables) in which a material number can be " +
+    "stored', ומיד אחריו: 'the way how the material number content is stored in the database field has not " +
+    "been changed compared to SAP Business Suite. This means that for such fields usually no data " +
+    "conversion is needed when converting from SAP Business Suite to SAP S/4HANA'. בעמ' 99, לגבי ממשקים " +
+    "משוחררים: 'The already existing field keeps its original length and a new field has been added at the " +
+    "end of the structure (or as new parameter) that allows transmitting material numbers with 40 " +
+    "characters', 'The changes described have been done for BAPIs, IDocs, and released remote-enabled " +
+    "function modules', וכן 'the extended material number functionality must be switched on explicitly' " +
+    "ו-'the extended material number functionality will by default be switched off' לאחר המרה או התקנה " +
+    "חדשה. ממצא שלילי תחום: המחרוזת MAKT אינה מופיעה בטקסט שחולץ מהמסמך (0 מופעים), וכך גם בטקסט שחולץ " +
+    "מרשימת הפישוט של 2023 (SIMPL_OP2023.pdf, Document Version 1.35). הממצא תחום לטקסט הניתן לחילוץ: חלק " +
+    "מהטבלאות במסמך זה מודפסות כטקסט מסובב שאינו נחלץ (ראו data/verification/enhancements.ts).",
+  verificationLevel: "sap_official_verified",
+};
 
 export const TABLE_VERIFICATION: VerificationRecord[] = [
   /* ---------------------------------------------------------- table:MSEG */
@@ -3905,5 +4158,2108 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       "רשומות החיפוש הרשמיות (loio 7e06bd53, e0c077f8, b6a1e644, e666a336) וכן loio b6207b9f אומתו מחדש מול " +
       "השירות (כותרת, versionId, סניפט) וכל כתובת החזירה HTTP 200; כל 13 ה-xrefs נפתרים ביקום; 14 כללי " +
       "lib/evidence/validate.ts ללא ממצא.",
+  },
+
+  /* -------------------------------------------------------- table:MKPF */
+  {
+    id: "table:MKPF",
+    evidence: [
+      MKPF_SIMPL2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 initial shipment, Feature Pack Stack 1-3 and SAP " +
+          "S/4HANA Cloud Private Edition 2023 initial shipment, Feature Pack Stack 1-3 · item 27.5 S4TWL - " +
+          "Data Model in Inventory Management (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE4,
+        claim: "פריט הפישוט 27.5 (פרק 27 Logistics - MM-IM, עמ' 634 ואילך, גרסת מסמך 1.35 מ-2025-02-25) קובע " +
+          "שמודל הנתונים של SAP ERP 6.0 מורכב משתי טבלאות המסמך 'MKPF for document header information and " +
+          "MSEG for document item data', ושב-S/4HANA 'Material document data will be stored in MATDOC only " +
+          "and not anymore in MKPF and MSEG'. הפריט מציין כהערת Business Impact את SAP Note 2206980 בכותרת " +
+          "'Material Inventory Managment: change of data model in S/4HANA', ורכיב היישום הוא MM-IM-GF.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 · item 27.5 S4TWL - Data Model in Inventory Management " +
+          "(MM-IM), טבלת הטבלאות המושפעות ופרק התאמות הקוד",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE4,
+        claim: "אותו פריט מתאר את מנגנון התאימות: הטבלאות המנויות בו 'do still exist in S/4HANA as DDIC " +
+          "definition as well as database object', ולכל אחת מהן מוקצית תצוגת CDS כ-proxy object כך ש'each " +
+          "read access to one of the tables will get redirected in the database interface layer of " +
+          "NetWeaver to the assigned CDS view. Write accesses to those tables have to be adjusted'. בשורת " +
+          "MKPF (Material document header) שבטבלת הפריט רשומים DDL Source לתצוגת ההפניה NSDM_DDL_MKPF " +
+          "ותצוגה לקריאת תוכן הטבלה ללא ניתוב NSDM_MIG_MKPF, ועמודת תצוגת נתוני האב ריקה. הפריט מוסיף " +
+          "ש'the table MKPF and MSEG will not contain data anymore (except legacy data from migration)', " +
+          "שכתיבה לטבלה עדיין אפשרית טכנית אך 'such write operations are without any effect' ולכן יש " +
+          "להסירה מקוד הלקוח, ש'Write operations on table MATDOC and your moved customer append fields are " +
+          "done by class CL_NSDM_STOCK', ושיש להוסיף שדות מ-APPEND או INCLUDE של MKPF למבנה המשנה " +
+          "NSDM_S_HEADER בטבלת MATDOC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Material Documents (MM-IM) | Supply Chain",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/677f0a4e71d7487ebb70683014761789/75bcb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "הקביעה נשארת בתוקף גם בתיעוד 2025 FPS01: סניפט העמוד קובע 'There is a new single table MATDOC " +
+          "instead of the existing tables MKPF and MSEG', ובפרק Structure Tables 'You use the archiving " +
+          "object MM_MATBEL to archive data from the following table: MATDOC (material documents)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רובד ההשפעה וההעשרה של הפרויקט עבור MKPF ושורת הפישוט MM-IM בדאטהסט",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        sapNote: "2206980",
+        accessedAt: DATE4,
+        claim: "המאגר מתאר את MKPF ככותרת מסמך החומר עם המפתח MBLNR ו-MJAHR ועם השדות BLDAT, BUDAT ו-USNAM " +
+          "(השדה XBLNR מופיע רק בתיאור המילולי שב-data/table-enrichment.ts ולא ברשימת השדות של הדאטהסט), " +
+          "מסמן אותה כמוחלפת (s4AltTable 'MATDOC (MKPF=View תאימות)'), מייחס לה את תצוגת התאימות " +
+          "NSDM_V_MKPF, וקושר אותה לשורת הפישוט 'Material Inventory Management - מודל נתונים חדש (MATDOC)' " +
+          "עם SAP Note 2206980 בקטגוריה 'הוחלף (Replaced)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/s4-impact.ts#MKPF (+ data/table-enrichment.ts#MKPF, data/sapData.pm.ts#MKPF ושורת הפישוט MM-IM/MATDOC)",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he: "כותרת מסמך החומר של מודל ECC. פריט הפישוט S4TWL - Data Model in Inventory Management (MM-IM) - " +
+        "פריט 15.3.1 ברשימת הפישוט של 2025 FPS1 ופריט 27.5 ברשימת 2023 FPS3 - קובע שנתוני מסמך החומר " +
+        "נשמרים ב-S/4HANA בטבלת MATDOC בלבד ולא עוד ב-MKPF וב-MSEG. הטבלה עצמה נשארת קיימת כהגדרת DDIC " +
+        "וכאובייקט בבסיס הנתונים, קריאה ממנה מנותבת לתצוגת CDS proxy, וכתיבה אליה חסרת השפעה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MKPF_SIMPL2025,
+      successor: "obj:material-document",
+      recommendedAction: "לקרוא את פריט הפישוט (15.3.1 ב-2025 FPS1, 27.5 ב-2023 FPS3) לפני ההמרה ולהפריד בין קריאה לכתיבה. " +
+        "קריאה: SELECT מ-MKPF ממשיך להחזיר נתונים דרך ניתוב ה-proxy בשכבת ממשק בסיס הנתונים של NetWeaver, " +
+        "ולכן קוד דיווח אינו נשבר; הפריט קובע ירידת ביצועים בקריאות מכלל הטבלאות המנויות בו בשל האגרגציה " +
+        "בזמן ריצה ופעולת ה-JOIN, ולכן קוד קריטי לביצועים דורש בחינה. כתיבה: הפריט קובע שפעולות כתיבה " +
+        "ל-MKPF עדיין אפשריות טכנית אך חסרות השפעה ויש להסירן מקוד הלקוח, ושכתיבה לטבלת MATDOC ולשדות " +
+        "ה-append שהועברו אליה מתבצעת דרך המחלקה CL_NSDM_STOCK. Views של לקוח שהוגדרו מעל MKPF לא יחזירו " +
+        "רשומות ויש להגדירם מחדש מול MATDOC. שדות מ-APPEND או INCLUDE על MKPF יש להוסיף למבנה המשנה " +
+        "NSDM_S_HEADER בטבלת MATDOC בשלב ACT_UPG (SPDD), לפני שתוכנית ההמרה של MM-IM מעבירה את הנתונים, " +
+        "אחרת הנתונים בשדות הלקוח אובדים.",
+    },
+    xrefs: [
+      "table:MSEG", "obj:material-document", "tx:MIGO", "tx:MB03", "tx:MB51", "fm:BAPI_GOODSMVT_GETDETAIL",
+      "fm:BAPI_GOODSMVT_CREATE", "cds:I_MaterialDocumentItem",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "הראיה הרשמית נשענת על שתי רשימות פישוט שנקראו כטקסט מלא מקובצי ה-PDF: 2023 FPS3 (פריט 27.5, עמ' 634 " +
+      "ואילך, גרסת מסמך 1.35) ו-2025 FPS1 (פריט 15.3.1, עמ' 1459 ואילך, גרסת מסמך 1.36). נוסח הפריט זהה " +
+      "בשתיהן לרבות שורת MKPF בטבלת הטבלאות המושפעות; ההבדל היחיד שנמצא הוא רכיב היישום, MM-IM-GF ב-2023 " +
+      "לעומת MM-IM-GF-MIG ב-2025. שם תצוגת התאימות שבמאגר, NSDM_V_MKPF, אינו מופיע בשום נוסח רשמי שנקרא: " +
+      "פריט הפישוט נוקב ב-NSDM_DDL_MKPF כמקור ה-DDL של תצוגת ההפניה וב-NSDM_MIG_MKPF כתצוגה לקריאת תוכן " +
+      "הטבלה ללא ניתוב, והקשר בין מקור ה-DDL לבין שם תצוגה מסוג NSDM_V_MKPF נשאר פתוח. מספר SAP Note " +
+      "2206980 צוטט מתוך מסמכי רשימת הפישוט עצמם; גוף ההערה לא נקרא כי me.sap.com דורש התחברות S-user. " +
+      "היורש נרשם כ-obj:material-document, כמו ברשומת MSEG, מפני ש-table:MATDOC אינו מזהה ביקום המאגר. " +
+      "הערת זהירות: עמוד Technical Data MM_MATBEL באותו deliverable עדיין נושא נוסח מתקופת ECC ('1000 MKPF " +
+      "records, 1700 MSEG records') כדוגמת ריצת בדיקה, וזה שריד תיעוד ולא עדות לכך שהטבלה מאחסנת נתונים " +
+      "ב-S/4HANA. גופי עמודי ה-Help לא נקראו (מעטפת JavaScript); כל טענה על עמוד Help תחומה בכותרת ובסניפט " +
+      "של רשומת החיפוש.",
+  },
+
+  /* -------------------------------------------------------- table:AFVC */
+  {
+    id: "table:AFVC",
+    evidence: [
+      AFVC_JVA_NETWORK,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Order Operation | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/60ade555aa3742b58cf83828022b6eac.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim: "עמוד ה-VDM 'Production Order Operation' (סט התיעוד 2023 Latest) קובע: 'This CDS view retrieves " +
+          "production order operation data by internal key (tables AFVC, AFVV, AFVU)'. הסניפט נוקב בשם " +
+          "הטכני 'CDS View Name I_ProductionOrderOperation_2' ומונה בין השדות המרכזיים של התצוגה את " +
+          "OrderInternalID ('Order Internal ID') ואת OrderOperationInternalID ('Operation Internal ID'). " +
+          "הוא נוקב בהזמנות ייצור בלבד; הזמנות תהליך אינן מוזכרות בו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "GPD Archiving ADK-Independent Deletion Phase (RGPDARCHPOST) | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/d3f4c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "מסמך המחיקה הרשמי של GPD לגרסת 2025 FPS01 מציג טבלה בשם 'Mechanism for Checking if Core Object " +
+          "Exists' ובה השורה 'Network activity (NV)' עם 'Table to Check' = AFVC ו-'Fields to Check' = " +
+          "'AUFPL & APLZL', לצד 'Production order (OR)' עם AFKO ו-AUFNR. כלומר AFVC היא טבלה נקראת ופעילה " +
+          "בגרסה הנוכחית, והזיהוי של שורה בה נעשה בצמד AUFPL ו-APLZL.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "App Extensibility: Manage Maintenance Orders (Key User) | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/0b67655d18b7494baa813f1fa6caffb2.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד ההרחבה הרשמי של אפליקציית Manage Maintenance Orders לגרסת 2025 FPS01 מונה את ההקשר העסקי " +
+          "'Asset Management: Maintenance Order Operation (EAMS_AFVC)' עבור לשונית Operation Details ועבור " +
+          "לשונית Operations and Resources של הפקודה. הסניפט נוקב בשם הטכני של ההקשר העסקי בלבד ואינו קובע " +
+          "שטבלת AFVC היא מקור הנתונים שלו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "S4TWL - Changes In List Reports For Order and Notification | Simplification List for SAP " +
+          "S/4HANA 2025 Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 Feature Pack Stack " +
+          "1",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE4,
+        claim: "רשימת הפישוט הרשמית של S/4HANA 2025 FPS01 (מסמך PDF ציבורי שהורד ונקרא ישירות), סעיף 4.1.7 " +
+          "'S4TWL - Changes In List Reports For Order and Notification', רכיב יישום PM-WOC-MO, קובעת " +
+          "בפעולות הנדרשות: 'Implement the notes if needed and run the reports QM_PHASE_FILL and " +
+          "RIAFVC_IPHAS_FILL before the ugrade to SAP S/4HANA if not done yet' (שגיאת הכתיב ugrade היא " +
+          "במקור), ומוסיפה: 'Within Enterprise Asset Management we plan to discontinue IW37, IW49 in a " +
+          "future release. It is recommend to use transaction IW37n, IW49n instead'. הסעיף מציין 'No " +
+          "influence on business processes expected' ומפנה להערה 0002270108. שם הדוח נושא את הקידומת " +
+          "RIAFVC, אך המסמך אינו נוקב בטבלת AFVC ואינו מתאר אילו נתונים הדוח כותב.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט, רשומת AFVC",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "רשומת מאגר מאומתת: AFVC היא פעולת ההזמנה (Operation within order) עבור הזמנות ייצור, תהליך " +
+          "ואחזקה, עם מפתח MANDT/AUFPL/APLZL; AUFPL מקשר ל-AFKO, ARBID למרכז העבודה או למשאב (CRHD) " +
+          "ו-STEUS למפתח הבקרה (T430); VORNR הוא מספר הפעולה המוצג למשתמש, והערכים והזמנים בפועל נשמרים " +
+          "ב-AFVV הצמודה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#AFVC",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "שכבת ההשפעה של הפרויקט (S4_IMPACT), הסט S4_STABLE",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "AFVC נמנית בסט S4_STABLE של המאגר: טבלאות ליבה של PM ו-PP-PI המסומנות במפורש יציבות ב-S/4HANA " +
+          "(verified, low risk, ללא שינוי מודל).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/s4-impact.ts#S4_STABLE",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "blueprint ההגירה של PM, רשומת AFVC",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "חוברת ההגירה של PM מתארת את AFVC כ'פעולות הפקודה' / 'Order Operation', מסמנת s4Note 'מותאם " +
+          "(תואם)', s4AltTable 'AFVC (זהה)', s4AltTcode 'IW32; Fiori Operations' והערת SUM: 'אין המרת טבלה " +
+          "הרסנית, אך מודל הנתונים מותאם - הרץ Regression Test ובדוק User Exits/דוחות מותאמים.'; " +
+          "הטרנזקציות הן IW31/IW32/IW33, IW37N ו-CM01, והממשקים BAPI_ALM_ORDER_MAINTAIN " +
+          "(METHOD=OPERATION), CO_ZF_OPERATIONS_READ והדוח RIAFVC00. הטבלה החליפית שהחוברת נוקבת בה היא " +
+          "AFVC עצמה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#AFVC",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "blueprint ההגירה של PP-PI, רשומת AFVC",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "חוברת ההגירה של PP-PI מתארת את AFVC כ'פעולות הפקודה', מסמנת s4Note 'מותאם (תואם).' וסטטוס הגירה " +
+          "'Not started', עם הטרנזקציות COR2, COR3 ו-CA02 וההסבר 'פעולות/פאזות הפק\"ע (מועתקות מהמתכון). " +
+          "מפתח בקרה קובע דיווח/הוראות תהליך. בסיס לדיווח ביצוע (CORK) ולתמחיר.'. רשומה זו אינה נוקבת " +
+          "בטבלה חליפית ואינה נושאת הערת SUM.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pppi.ts#AFVC",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "טבלת AFVC (פעולות הפקודה) פעילה ב-SAP S/4HANA On-Premise עד 2025 FPS01 ואין לה טבלה חליפית. תיעוד " +
+        "ה-JVA לגרסת 2025 FPS01 מגדיר אותה כטבלת הבסיס של תצוגת החילוץ BIW_JV_AFVC, מסמך מחיקת ה-GPD " +
+        "ב-Project System מונה אותה כ'Table to Check' לפעילות רשת עם 'Fields to Check' AUFPL ו-APLZL, " +
+        "ותצוגת ה-VDM 'Production Order Operation' (סט התיעוד 2023 Latest, שם טכני " +
+        "I_ProductionOrderOperation_2) קוראת ממנה נתוני פעולה של הזמנת ייצור יחד עם AFVV ו-AFVU. בצד " +
+        "תחזוקת מפעל, המקור הרשמי היחיד שנמצא הוא ההקשר העסקי להרחבת מפתח-על 'Asset Management: " +
+        "Maintenance Order Operation (EAMS_AFVC)' באפליקציית Manage Maintenance Orders, והוא אינו קובע " +
+        "במפורש שהטבלה היא מקור הנתונים. השימוש בפעולות ובפאזות של הזמנות תהליך (תעשיות תהליכיות) מתועד " +
+        "ברובד המאגר בלבד (חוברת ההגירה של PP-PI); אף סניפט רשמי שנבדק אינו מקשר את AFVC להזמנות תהליך. אף " +
+        "מקור רשמי אינו נוקב ביורשת, בהוצאה משימוש או בשינוי מבני של הטבלה. רשימת הפישוט של 2025 FPS01 " +
+        "אינה כוללת פריט פישוט על הטבלה עצמה; הפריט היחיד שנמצא בהקשר הזה הוא S4TWL על דוחות הרשימה של " +
+        "פקודות והודעות (PM-WOC-MO), שדורש הרצת QM_PHASE_FILL ו-RIAFVC_IPHAS_FILL לפני ההסבה ומכריז על " +
+        "כוונה להפסיק את IW37 ו-IW49 לטובת IW37N ו-IW49N.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: AFVC_JVA_NETWORK,
+      recommendedAction: "להמשיך לעבוד מול AFVC כטבלת הפעולות של הזמנות ייצור, תהליך ואחזקה, בצירוף AFVV לערכים ולזמנים; " +
+        "אין פעולת הסבה לטבלה עצמה. לצריכה אנליטית ולפיתוח חדש להעדיף את תצוגת ה-CDS הרשמית Production " +
+        "Order Operation (שם טכני I_ProductionOrderOperation_2 לפי עמוד ה-VDM) על פני SELECT ישיר, ולקוד " +
+        "שרץ על פעולות של הזמנות אחזקה או תהליך לאמת במערכת (SE11 ו-Where-Used) איזו תצוגה או API רשמיים " +
+        "מכסים את התרחיש לפני שמסירים גישה ישירה. בהתאם להערת ה-SUM של חוברת PM, להריץ Regression Test על " +
+        "קוד מותאם, User Exits ודוחות (למשל RIAFVC00) הקוראים AFVC ישירות. להרחבת שדות באפליקציות Fiori של " +
+        "הזמנות אחזקה לבדוק את ההקשר העסקי EAMS_AFVC במקום להוסיף שדה Z ישירות לטבלה. לפני ההסבה לבצע את " +
+        "הפעולה שרשימת הפישוט מחייבת בסעיף 4.1.7: הרצת הדוחות QM_PHASE_FILL ו-RIAFVC_IPHAS_FILL, ומעבר " +
+        "מ-IW37 ו-IW49 ל-IW37N ו-IW49N.",
+    },
+    xrefs: [
+      "table:AFKO", "table:AFPO", "table:AFFL", "table:AUFK", "table:CRHD", "table:AFIH", "table:RESB",
+      "tx:IW31", "tx:IW32", "tx:IW37N", "tx:IW49N", "tx:COR2", "tx:CA02", "tx:CM01",
+      "cds:I_ProductionOrderOperation", "fm:BAPI_ALM_ORDER_MAINTAIN", "fm:CO_ZF_OPERATIONS_READ",
+      "fiori:F2731", "fiori:F2336", "fiori:F3577",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "ארבע רשומות חיפוש רשמיות (scripts/sap-help-search.mjs, מוצר SAP_S4HANA_ON-PREMISE) הוחזרו מחדש " +
+      "ב-2026-09-15 עם אותם loio ו-versionId: JVA d6328a535af43d58e10000000a174cb4 (2025.001), GPD/PS " +
+      "d3f4c353b677b44ce10000000a174cb4 (2025.001), הרחבת Manage Maintenance Orders " +
+      "0b67655d18b7494baa813f1fa6caffb2 (2025.001) ו-VDM של Production Order Operation " +
+      "60ade555aa3742b58cf83828022b6eac (2023.latest). הרצת החיפוש החוזרת היא האימות; קוד תשובה HTTP על " +
+      "הכתובת אינו הוכחה, משום שמעטפת ה-deliverable מחזירה 200 גם ל-loio שאינו קיים. לא נטען שום מספר SAP " +
+      "Note או KBA בשדה ייעודי; מספרי ההערות שבסעיף רשימת הפישוט (0002270108, 393393, 551133) מצוטטים בתוך " +
+      "טקסט הראיה כלשונם במסמך הרשמי בלבד. מסמך רשימת הפישוט SIMPL_OP2025.pdf הורד מ-help.sap.com " +
+      "ב-2026-09-15 (1,514 עמודים, Document Version 1.36) וטקסט הסעיף חולץ ונקרא; הקישור בין הדוח " +
+      "RIAFVC_IPHAS_FILL לטבלת AFVC נשען על שם הדוח בלבד, המסמך אינו נוקב בטבלה, ומה שהדוח כותב בפועל דורש " +
+      "בדיקה ב-SE38 או את גוף הערה 0002270108. האימות שרשימת הפישוט אינה נושאת פריט על הטבלה עצמה נעשה " +
+      "בחיפוש טקסט מלא במסמך שהורד: המחרוזת AFVC מופיעה בו פעם אחת בלבד, בתוך שם הדוח RIAFVC_IPHAS_FILL. " +
+      "הבדל שם: קטלוג ה-CDS של המאגר נוקב ב-I_ProductionOrderOperation, ואילו עמוד ה-VDM הרשמי שצוטט נוקב " +
+      "ב-'CDS View Name I_ProductionOrderOperation_2'; ה-xref נשאר cds:I_ProductionOrderOperation משום " +
+      "שזהו המזהה הקיים באוניברסום (I_ProductionOrderOperation_2 אינו קיים בו), והטקסט נוקב בשם שהעמוד " +
+      "הרשמי נושא. עמוד ה-VDM של Manufacturing Order Operation (loio afa5a1dc1d81424784b89e079cec0b48) " +
+      "מפנה ל-'Deprecated and Decommissioned CDS Views' ולכן לא צוטט. סתירה פנימית במאגר: שתי חוברות " +
+      "ההגירה פותחות ב'מותאם', ולכן המפה של האפליקציה גוזרת כיום 'משתנה ב-S/4HANA' (class 1, derivedFrom " +
+      "blueprint), בעוד S4_STABLE מסמן יציבות; נבחר 'ללא שינוי' משום שאף מקור רשמי אינו נוקב בשינוי מבני, " +
+      "באותו שיקול שנרשם ל-AFKO ול-AFPO, והסתייגות ה-SUM נשמרת בפעולה המומלצת. הבדל בין החוברות: רק חוברת " +
+      "PM נושאת s4AltTable 'AFVC (זהה)' והערת SUM, בעוד רשומת PP-PI נושאת s4Note 'מותאם (תואם).' וסטטוס " +
+      "הגירה בלבד. פערים: AFVV ו-AFVU נקובות בסניפטים הרשמיים לצד AFVC אך אינן קיימות באוניברסום " +
+      "האובייקטים של המאגר, ולכן אינן מקושרות; עמודי ה-VDM של פעולת ההזמנה מאונדקסים בשירות החיפוש רק " +
+      "בגרסת 2023 Latest (שאילתה מפורשת ב-version 2025.001 החזירה את Production Order Header בלבד), ולכן " +
+      "הראיה נושאת release 2023.latest; עמוד הארכוב PM_ORDER (15e1b6531de6b64ce10000000a174cb4) מונה " +
+      "'Operations' בין הנתונים המאורכבים אך הסניפט שלו אינו נוקב ב-AFVC ולכן לא צוטט; עמוד הארכוב של " +
+      "Project System PS-ST-OPR (87d0b6531de6b64ce10000000a174cb4, 2025.001) כן נוקב ב-AFVC לצד AFVU " +
+      "ו-AFVV במחלקת הארכוב PS_ORDER, אך הוא Project System ולא תחזוקת מפעל ולכן לא צוטט; EAMS_AFVC הוא שם " +
+      "טכני של הקשר עסקי ולא הצהרה על טבלה; טיפוסי DDIC ואורכים לא אומתו מול מערכת חיה (חיבור sc4sap נכשל " +
+      "בשלב זה) וקיים פער בין החוברות: PP-PI נוקבת בטיפוסים ובאורכים (AUFPL NUMC 10, APLZL NUMC 8, VORNR " +
+      "CHAR 4, ARBID NUMC 8, STEUS CHAR 4, LTXA1 CHAR 40) ומסמנת STEUS כ-FK, בעוד PM משאירה את שדות הטיפוס " +
+      "והאורך ריקים ומסמנת STEUS כלא-מפתח; המיפוי STEUS אל T430 קיים ברובד המאגר בלבד ו-T430 אינה טבלה " +
+      "במאגר; חוברת PM נוקבת ב-'Find Maintenance Order (F2393)', מזהה שאין לו רשומה רשמית ואין לו ערך " +
+      "ב-data/fiori/apps.ts, ולכן לא הוצג; הקישור ל-F2731, F2336 ו-F3577 הוא ברמת המאגר " +
+      "(data/fiori/apps.ts, curated) והעמוד הרשמי נוקב בשם האפליקציה ולא במזהה; מהדורת S/4HANA Cloud " +
+      "Public Edition לא נבדקה.",
+  },
+
+  /* -------------------------------------------------------- table:COSP */
+  {
+    id: "table:COSP",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.1.4 S4TWL - DATA MODEL " +
+          "CHANGES IN FIN (FI-GL), p. 159, 160, 163",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE4,
+        claim: "פריט הפישוט 6.1.4 S4TWL - DATA MODEL CHANGES IN FIN (Application Component: FI-GL), שנקרא " +
+          "ישירות מקובץ ה-PDF, קובע בעמ' 160: 'With the installation of SAP Simple Finance, on-premise " +
+          "edition totals and application index tables were removed and replaced by identically-named DDL " +
+          "SQL views, called compatibility views'. בטבלת המיפוי שבאותו עמוד, תחת הכותרות Original Table, " +
+          "Compatibility View (identically-named view in DDIC), DDL Source (for the identically-named DDIC " +
+          "View) ו-Backup Table (for original table content), מופיעה השורה: COSP, COSP, V_COSP_DDL, " +
+          "COSP_BAK. אותו פריט מוסיף: 'The compatibility views ensure database SELECTs work as before. " +
+          "However, write access (INSERT, UPDATE, DELETE, MODIFY) was removed from SAP standard, or has to " +
+          "be removed from custom code'. בעמ' 163, בטבלת תצוגות ה-DDIC הישנות שהוחלפו, מופיעה השורה " +
+          "Original DDIC database view: V_COSP_A, Obsolete database table used: COSP, As of release: sFIN " +
+          "1.0, Replaced by: Code. הפריט מפנה ל-Business Impact note 0002270333 'Data Model Changes in " +
+          "FIN' ול-SAP note 1976487; שני המספרים מצוטטים כלשונם מהמסמך הציבורי ולא נקראו בפועל.",
+        verificationLevel: "sap_official_verified",
+      },
+      COSP_SIMPL2025_CO,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Validation Phase 3: Fully Distributed Rule | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/c1f4c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "רשומת החיפוש הרשמית (loio c1f4c353b677b44ce10000000a174cb4, גרסה 2025 FPS01) נוקבת בשם הרשמי של " +
+          "הטבלה ובאופן הקריאה ממנה: 'Production order cost balance is be checked based on tables COSP (CO " +
+          "Object: Cost Totals for External Postings) and COSS (CO Object: Cost Totals for Internal ...)', " +
+          "וכן 'The process adds up costs in controlling area currency (fields WKG*) for all periods and " +
+          "all years for both COSP and COSS'. הסניפט מקוצר במקור, ולכן מאומתים ממנו רק השם הרשמי, שיוך " +
+          "משפחת השדות WKG* למטבע אזור הבקרה, והעובדה שתיעוד 2025 עדיין מורה לקרוא את מאזן העלויות של " +
+          "הזמנת ייצור מ-COSP ו-COSS.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Universal Journal: FAQ | General Ledger Accounting (FI-GL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/8b8e5695c4dc4749a706f9fa2f6bda92.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "רשומת החיפוש הרשמית (loio 8b8e5695c4dc4749a706f9fa2f6bda92, גרסה 2025 FPS01) מכילה, בתוך רשימה " +
+          "קטועה, את הפרגמנט 'The actual data of the Controlling tables: COEP, COSS, COSP', ומוסיפה: 'The " +
+          "data for statistical postings and target data remain in the tables COEP, COSS, and COSP'. רשימת " +
+          "הטבלאות בסניפט קטועה במקור (הפרגמנט נפתח באמצע רצף המסתיים ב-FMGLFLEXA ו-FMGLFLEXT), ולכן " +
+          "הציטוט מוגבל לשתי האמירות האלה בלבד.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he: "רשימת הפישוט הרשמית של SAP S/4HANA 2025 FPS01 קובעת בפריט 6.5.1 (CO-OM): 'The former tables COEP, " +
+        "COSP, and COSS are replaced by views of the same name, so-called compatibility views, that " +
+        "aggregate the data in the universal journal on the fly'. כלומר השם COSP שורד ב-S/4HANA כתצוגת " +
+        "תאימות מעל ACDOCA ולא כטבלה פיזית: תוכן הטבלה המקורית הועבר ל-COSP_BAK, נתוני הבפועל הדרושים " +
+        "להזמנות ולפרויקטים ארוכי טווח נשמרים ב-ACDOCA, וגישת כתיבה (INSERT, UPDATE, DELETE, MODIFY) הוסרה " +
+        "מהסטנדרט. סוגי ערך שאינם 04 ו-11 עדיין נשמרים ב-COSP_BAK, ולפי עמוד ה-FAQ של היומן האוניברסלי " +
+        "רישומים סטטיסטיים ונתוני יעד נותרים בטבלאות COEP, COSS ו-COSP. טרנזקציות הבקרה הקלאסיות ממשיכות " +
+        "לפעול, חלקן דרך תצוגות התאימות וחלקן בגישה ישירה ל-ACDOCA.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: COSP_SIMPL2025_CO,
+      successor: "table:ACDOCA",
+      recommendedAction: "להתייחס ל-ACDOCA כמקור האמת לעלויות בפועל של אובייקטי CO - ובכללם פקודות אחזקה ופקודות תהליך, " +
+        "שאינן נקובות במפורש בפריט, שנוסח ברמת רכיב CO-OM - ולבצע את הפעולה שרשימת הפישוט מגדירה מילולית: " +
+        "לסרוק את התוכניות המותאמות שקוראות טבלאות CO ולהחליף גישה דרך תצוגות התאימות בגישה ישירה ל-ACDOCA " +
+        "עבור סוגי ערך 04 ו-11. כל כתיבה ל-COSP בקוד Z (INSERT, UPDATE, DELETE, MODIFY) חייבת לרדת, שכן " +
+        "היא הוסרה מהסטנדרט. דוחות מותאמים שנשענים על SELECT ישיר מ-COSP ימשיכו לעבוד דרך תצוגת התאימות אך " +
+        "עלולים להיפגע בביצועים, ולכן כדאי לבחון מולם את דוחות ה-Fiori החדשים. עבור סוגי ערך שאינם 04 " +
+        "ו-11, וכן עבור רישומים סטטיסטיים ונתוני יעד, נדרשת בדיקה נפרדת לפני שמניחים שהנתון נמצא ב-ACDOCA.",
+    },
+    xrefs: [
+      "table:ACDOCA", "table:COSS", "table:AUFK", "tx:KO88", "tx:KOB1",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "שתי ראיות הפישוט נקראו בפועל מקובץ ה-PDF הרשמי SIMPL_OP2025.pdf שהורד מ-help.sap.com (1,514 עמודים, " +
+      "Document Version 1.36), ולא מעמוד נושא מבוסס JavaScript; מספרי העמודים בציטוטים נגזרו מכותרות " +
+      "התחתית של המסמך עצמו. קטלוג פריטי הפישוט (launchpad.support.sap.com/#/sic) ומספרי ה-SAP Note " +
+      "שהפריטים מפנים אליהם (0002270333, 0002270404, 2185026, 1976487) דורשים משתמש S; המספרים מצוטטים " +
+      "כלשונם מהמסמך הציבורי, גופי ההערות לא נקראו, ואף קביעה ברשומה אינה נשענת עליהם. המספר 2270404 מופיע " +
+      "גם בסניפט הרשמי של העמוד Table COEP (Data Archiving in Controlling, loio " +
+      "0705d65223141842e10000000a44176d, גרסה 2025 FPS01) בנוסח 'For more information, see SAP Note " +
+      "2270404', ולכן קיומו כמספר הערה ציבורי נתמך במקור רשמי נוסף; תוכנו עדיין לא נקרא. קיים מתח ניסוח " +
+      "בין המקורות הרשמיים עצמם: עמודי ה-Help של 2025 (פרויקטים, תחזוקת מפעל, ארכוב CO) ממשיכים לכנות את " +
+      "COSP 'table' ולהורות לקרוא ממנה, בעוד רשימת הפישוט מגדירה אותה כתצוגת תאימות מעל היומן האוניברסלי; " +
+      "שני הניסוחים הובאו כלשונם ולא אוחדו. מתח דומה קיים סביב מקום השמירה של השאריות: עמוד ה-FAQ כותב " +
+      "שרישומים סטטיסטיים ונתוני יעד נשארים ב-COEP, COSS ו-COSP, ואילו פריט 6.5.1 כותב שסוגי ערך שאינם 04 " +
+      "ו-11 נשמרים ב-COEP, COSP_BAK ו-COSS_BAK. רובד המאגר עולה בקנה אחד עם הראיות הרשמיות ואינו סותר " +
+      "אותן: data/table-enrichment.ts#COSP כבר קובע 'COSP/COSS הן תצוגות תאימות (compatibility views) מעל " +
+      "Universal Journal - ACDOCA', ושורת ה-blueprint ב-data/sapData.pm.ts רושמת s4Note 'הוחלף - עלויות " +
+      "ב-Universal Journal' ו-s4AltTable 'ACDOCA (COSP=View תאימות)'. הסטטוס הנגזר של האפליקציה היום הוא " +
+      "'הוחלף' ללא יורש, כי lib/s4-class נוטל את היורש רק מתא s4AltTable שהוא שם טבלה נקי והתא הזה מכיל " +
+      "פרוזה; הרשומה המחוברת כאן מוסיפה את היורש המאומת table:ACDOCA. בריצות החיפוש אותר גם עמוד רשמי " +
+      "בתחום תחזוקת מפעל, 'Example: Cost Distribution on Time Axis and in PMIS/SMIS' (Maintenance " +
+      "Management, 2025.001, loio 5673b6535fe6b74ce10000000a174cb4), הקושר את רשומות הסכום ב-COSP ו-COSS " +
+      "לטבלת PMCO; הוא לא נכלל ברשימת הראיות משום שאינו מוסיף קביעה מעבר לארבע הראיות שנבחרו, ומופיע כאן " +
+      "כהפניה בלבד. אפליקציית ה-Fiori שרשומה ב-blueprint ('Maintenance Order Actuals') נותרה ללא אימות ולא " +
+      "נוסף xref מסוג fiori.",
+  },
+
+  /* -------------------------------------------------------- table:COSS */
+  {
+    id: "table:COSS",
+    evidence: [
+      COSS_UNIV_JOURNAL_FAQ,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technical Background Information | Time Data Recording and Administration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7c1ef52f3fea49d1944b266772379e52/85e0e353a53d424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "התיעוד הרשמי נוקב בשם המלא של הטבלה, 'COSS ( CO Object: Cost Totals for Internal Postings )', " +
+          "וקובע 'Tables COSS and COSL contain the period totals of all the actual postings to a CO " +
+          "object'. באותה רשימה מופיעות גם COEP ('CO Object: Line Items (by Period)') ו-COSL ('CO Object: " +
+          "Activity Type Totals').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Validation Phase 3: Fully Distributed Rule | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/c1f4c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד Validation Phase 3: Fully Distributed Rule בדליברבל Project System, גרסת 2025 FPS01, מתאר " +
+          "בדיקת יתרת עלות של הזמנת ייצור 'based on tables COSP (CO Object: Cost Totals for External " +
+          "Postings) and COSS (CO Object: Cost Totals for Internal ...)', ומציין שהתהליך מסכם עלויות במטבע " +
+          "אזור הבקרה 'fields WKG*' לכל התקופות וכל השנים 'for both COSP and COSS'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Example: Cost Distribution on Time Axis and in PMIS/SMIS | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/5673b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "דליברבל תחזוקת מפעל (Maintenance Management) לגרסת 2025 FPS01 קובע לגבי הזמנת אחזקה ושירות: 'In " +
+          "cost accounting (totals records in the tables COSP or COSS) and in Plant Maintenance/Customer " +
+          "Service (table PMCO), the costs are posted in the value fields intended for the relevant " +
+          "periods', ומדגים ש'The costs of the posting period 01 are posted to the cost accounting tables " +
+          "named above (COSS and COSP) and to the table PMCO'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט, רשומת COSS",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "רשומת מאגר מאומתת: COSS היא סך העלויות לרישומים פנימיים ב-CO (הקצאות פנימיות, אישורי פעילות " +
+          "והעברות פנימיות, כלשון הרשומה), המפתח הוא MANDT, LEDNR, OBJNR, GJAHR, WRTTP, VERSN, KSTAR, השדה " +
+          "OBJNR מקשר אל אובייקט ה-CO (AUFK או CSKS) ו-KSTAR אל סוג עלות משני (CSKB). המבנה התקופתי זהה " +
+          "ל-COSP, ואישור ייצור או אחזקה (CO11N, IW41) מזין את COSS דרך הקצאת פעילות.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#COSS",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "בלופרינט ההגירה של תחזוקת מפעל (PM), שורת COSS",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "שורת הבלופרינט נושאת descriptionEn 'CO object cost totals - internal postings', עמודת S/4 " +
+          "'הוחלף - עלויות ב-Universal Journal', טבלה חלופית 'ACDOCA (COSS=View תאימות)', הערת SUM לפיה " +
+          "'COSP/COSS הופכים ל-Views', טרנזקציות KO88 ו-KOB1, הפונקציה K_COSTS_READ וקשר ילד אל AUFK דרך " +
+          "OBJNR. תא ה-Fiori בשורה נותר 'Maintenance Order Actuals (אמת ID)', כלומר המקור עצמו מבקש לאמת " +
+          "את המזהה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#COSS",
+      },
+    ],
+    status: {
+      status: "changed",
+      he: "טבלת COSS, סך העלויות לרישומים פנימיים של אובייקט CO, קיימת ב-SAP S/4HANA On-Premise נכון ל-2025 " +
+        "FPS01 ומופיעה בתיעוד הרשמי של תחזוקת מפעל (Maintenance Management), של Project System ושל General " +
+        "Ledger Accounting, אך מודל הנתונים סביבה השתנה: לפי עמוד ה-FAQ הרשמי של ה-Universal Journal, " +
+        "נתוני הבפועל של טבלאות ה-CO COEP, COSS ו-COSP מוכלים כעת במלואם ב-ACDOCA, בעוד שרישומים סטטיסטיים " +
+        "ונתוני יעד (target data) נותרים בטבלאות COEP, COSS ו-COSP. אין מקור רשמי שמכריז על הסרת הטבלה או " +
+        "על טבלה יורשת יחידה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: COSS_UNIV_JOURNAL_FAQ,
+      recommendedAction: "לקרוא עלויות בפועל של הזמנות אחזקה וייצור מ-ACDOCA או מתצוגות CDS אנליטיות, ולא בגישה ישירה " +
+        "ל-COSS. במיפוי הקוד המותאם והממשקים יש לאתר כל SELECT ישיר מ-COSS, לקבוע אם הוא שולף בפועל או " +
+        "נתונים סטטיסטיים ונתוני יעד (שלפי התיעוד הרשמי נותרים בטבלה), ולתעדף המרה לפי ההבחנה הזו. את " +
+        "הטענה שבנתוני הפרויקט לפיה COSS הפכה לתצוגת תאימות מעל ACDOCA יש לאמת ב-SE11 או מול נוסח פריט " +
+        "הפישוט לפני שמסתמכים עליה בתכנון ההסבה.",
+    },
+    xrefs: [
+      "table:COSP", "table:ACDOCA", "table:AUFK", "tx:KO88", "tx:KOB1", "fm:K_COSTS_READ",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "הסטטוס הנגזר מהבלופרינט הוא 'הוחלף' ללא טבלה יורשת (עמודת s4AltTable נושאת פרוזה, 'ACDOCA " +
+      "(COSS=View תאימות)', ולכן ה-mapper אינו מייצר successor). הרשומה נכתבת כ'משתנה' ולא כ'הוחלף' משום " +
+      "שעמוד ה-FAQ הרשמי קובע שרישומים סטטיסטיים ונתוני יעד נותרים ב-COSS, כלומר הטבלה אינה מרוקנת. הטענה " +
+      "שבמאגר לפיה COSS היא תצוגת תאימות מעל ACDOCA לא אומתה: חיפוש בדליברבל Data Archiving in Controlling " +
+      "(CO) מחזיר עמוד 'Table COEP' (loio 0705d65223141842e10000000a44176d, 2025.001) שקובע 'Table COEP " +
+      "was replaced by views of the same name, so-called compatibility views that aggregate the data in " +
+      "the universal journal on the fly', אך לא נמצא עמוד מקביל ל-COSS, ולכן הניסוח הזה לא הועבר אליה. " +
+      "קיים מתח בין שני עמודים רשמיים באותה גרסה: 'Technical Background Information' בדליברבל Time Data " +
+      "Recording and Administration קובע ש-COSS ו-COSL מחזיקות את סכומי התקופה של כל הרישומים בפועל, בעוד " +
+      "ה-FAQ מייחס את נתוני הבפועל ל-ACDOCA; שני העמודים צוטטו כלשונם ולא אוחדו לפרשנות אחת. עמוד תחזוקת " +
+      "מפעל שצוטט הוא תוכן קלאסי שהועבר לגרסה הנוכחית (הדוגמה שבו מתוארכת ל-2005), והוא מאשר את זרימת " +
+      "העלויות אל COSS ואל PMCO ולא את מודל האחסון ב-S/4HANA. מבנה המפתח והשדות של COSS מגיע מנתוני " +
+      "הפרויקט בלבד; אף סניפט רשמי אינו מונה את שדות המפתח, פרט לשדות WKG* שנזכרים בעמוד ה-PS. לא נטען " +
+      "מספר SAP Note עבור COSS (מספר ההערה שמופיע בעמוד ה-COEP שייך ל-COEP). לא נטען מזהה Fiori: התא " +
+      "בבלופרינט מבקש אימות, ואין רשומה תואמת ב-data/fiori/apps.ts. table:ACDOCA ו-table:COSP נמצאים " +
+      "ב-xrefs; COSL, COEP ו-PMCO נזכרים בראיות אך אינם ב-xrefs כי אין להם מזהה בר-פענוח בדאטהסט.",
+  },
+
+  /* -------------------------------------------------------- table:AFRU */
+  {
+    id: "table:AFRU",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manufacturing Order Confirmation | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/9b73f9c31a964ffebc5aa07aa0ec69fa.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim: "עמוד ה-VDM של I_MfgOrderConfirmation (סט התיעוד 2023 Latest) קובע: 'With this CDS view, you can " +
+          "retrieve manufacturing order confirmation data (table AFRU)', והאובייקטים הקשורים הנקובים " +
+          "בסניפט הם 'Process Order Confirmation (Business Object)' ו-'Production Order Confirmation " +
+          "(Business Object)'. כלומר AFRU היא טבלת המקור לאישורי הזמנות ייצור ולאישורי הזמנות תהליך " +
+          "(תעשיות תהליכיות) ב-S/4HANA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technical Background Information | Time Data Recording and Administration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7c1ef52f3fea49d1944b266772379e52/85e0e353a53d424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "תיעוד Time Data Recording and Administration (גיליון הזמן) לגרסת 2025 FPS01 נוקב ב-AFRU כטבלת " +
+          "היעד של האישורים בשני רכיבים: 'Plant Maintenance/Customer Service AFRU (Order Completion " +
+          "Confirmations)' ו-'Project System AFRU (Order Completion Confirmations)'. הסניפט מוסיף כי " +
+          "נתונים שגויים בהעברה נשמרים בטבלאות 'Confirmations with errors AFRH, AFRV'. זהו כיסוי רשמי של " +
+          "AFRU לאישורי תחזוקת מפעל ושירות בגרסה הנוכחית.",
+        verificationLevel: "sap_official_verified",
+      },
+      AFRU_PP_CUSTOM_FIELDS,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 initial shipment, Feature Pack Stack 1-3 (White Paper, " +
+          "Document Version 1.35, 2025-02-25)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE4,
+        claim: "מסמך רשימת הפישוט הרשמי (1,482 עמודים) הורד ונקרא מקומית: המחרוזת 'AFRU' אינה מופיעה בו כלל, " +
+          "בעוד 'AFKO' מופיעה בו ארבע פעמים בהקשר מיפוי שדות. ממצא שלילי: לא נמצא במסמך פריט פישוט " +
+          "(Simplification Item) הנוגע לטבלת AFRU עבור S/4HANA 2023 ו-S/4HANA Cloud Private Edition 2023.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "טבלת AFRU (אישורי פקודה, Order Completion Confirmations) פעילה ב-S/4HANA On-Premise נכון לגרסת " +
+        "2025 FPS01, ולא אותרה עבורה טבלה חליפית במקורות שנבדקו. תיעוד PP לגרסה זו מנחה להרחיב את AFRU " +
+        "עצמה דרך ה-include CI_AFRU ב-SE11, תיעוד Time Data Recording and Administration נוקב בה כטבלת " +
+        "האישורים של תחזוקת מפעל ושירות ושל Project System, ותצוגת ה-VDM I_MfgOrderConfirmation קוראת ממנה " +
+        "אישורי הזמנות ייצור והזמנות תהליך. רשימת הפישוט הרשמית ל-2023 אינה מזכירה את AFRU, ולא נמצא מקור " +
+        "רשמי הנוקב ביורשת, בהוצאה משימוש או בשינוי מבני של הטבלה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: AFRU_PP_CUSTOM_FIELDS,
+      recommendedAction: "להמשיך לעבוד מול AFRU כטבלת האישורים של הזמנות ייצור, הזמנות תהליך והזמנות תחזוקת מפעל; אין פעולת " +
+        "הסבה לטבלה עצמה. לצריכה אנליטית ולפיתוח חדש להעדיף את תצוגות ה-CDS הרשמיות " +
+        "(I_ProductionOrderConfirmation לאישורי הזמנת ייצור, I_MfgOrderConfirmation לאישורי ייצור ותהליך) " +
+        "על פני SELECT ישיר מ-AFRU. לפני ההסבה לבדוק ב-SE11 אילו שדות לקוח קיימים ב-CI_AFRU ולוודא שהם " +
+        "נשמרים, ולהריץ Regression Test על תוכניות Z, User Exits ו-BAdI של אישורים הקוראים או כותבים AFRU " +
+        "ישירות, כולל זרימת ה-Backflush ורשומות השגיאה (AFRH/AFRV, COGI). הערת הבלופרינט של הפרויקט לטבלה " +
+        "היא שעלויות בפועל נרשמות ב-ACDOCA; המקורות הרשמיים שנבדקו כאן אינם עוסקים בכך, ולכן דוחות עלות " +
+        "שמצליבים AFRU עם טבלאות CO מסכמות דורשים בדיקה נפרדת.",
+    },
+    xrefs: [
+      "table:AFKO", "table:AUFK", "table:AFVC", "table:AFWI", "tx:CO11N", "tx:COR6N", "tx:CO15", "tx:CORK",
+      "tx:CO13", "tx:COGI", "tx:IW41", "tx:IW44", "cds:I_ProductionOrderConfirmation",
+      "fm:BAPI_PROCORDCONF_CREATE_TT", "fm:BAPI_ALM_CONF_CREATE", "fiori:F3364", "fiori:F2730",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "ארבע ראיות רשמיות, כולן נגישות ב-2026-09-15 ומחזירות HTTP 200: שלוש רשומות חיפוש של help.sap.com " +
+      "(scripts/sap-help-search.mjs, SAP_S4HANA_ON-PREMISE) ומסמך PDF רשמי שהורד ונקרא מקומית. רק סניפטים " +
+      "רשמיים ומה שנקרא במסמך שימשו לניסוח; לא נטען שום מספר SAP Note או KBA. מקורות רשמיים נוספים שנמצאו " +
+      "ולא נכללו כראיה: 'Production Order Confirmation | Virtual Data Model and CDS Views' (loio " +
+      "5e053c432869473e9cdea33d7e0118c0, 2023.latest) הקובע 'This CDS view retrieves production order " +
+      "confirmation data (table AFRU)'; 'PS/PM/CS: Creating an Index for Table AFRU' (loio " +
+      "9e1bdd5321e8424de10000000a174cb4, 2025.001) שסניפטו קובע 'The index in table AFRU is not active in " +
+      "the standard system' ו-'confirmations from the Production Planning and Control (PP) component are " +
+      "also saved in table AFRU'; ו-'Archiving Confirmation Documents (PP-REM)' (loio " +
+      "d0a4b9537cceb44ce10000000a174cb4, 2025.001) המונה 'AFRU Pool of confirmations' באובייקט הארכוב " +
+      "PP_BKFLUSH. רקע מאגר: הבלופרינט של PP-PI מסמן את AFRU 'ללא שינוי; עלויות ב-ACDOCA' עם הטרנזקציות " +
+      "CORK/COR6N/CO11N/CO15 (data/sapData.pppi.ts#AFRU), AFRU נמנית בסט S4_STABLE " +
+      "(data/s4-impact.ts#S4_STABLE), ורשומת ההעשרה מתארת מפתח MANDT/RUECK/RMZHL " +
+      "(data/table-enrichment.ts#AFRU); לכן המפה של האפליקציה גוזרת כבר היום 'ללא שינוי' (derivedFrom " +
+      "blueprint) והרשומה הזו מעלה את דרגת האימות למקור רשמי בלי לשנות את הפסיקה. בלופרינט ה-PM אינו מכיל " +
+      "את AFRU כטבלה עצמאית (רק AFWI ותוכנית RIAFRU00), ולכן הכיסוי לתחזוקת מפעל נשען כאן על התיעוד הרשמי. " +
+      "פערים: פירוט שדות ה-DDIC של AFRU (LMNGA, XMNGA, ISMNW, STOKZ ועוד) לא אומת מול מערכת חיה (חיבור " +
+      "sc4sap נכשל) ונשאר ברמת אימות המאגר; רשימות הפישוט של 2025 ושל S/4HANA Cloud Public Edition לא " +
+      "נבדקו, ולכן ההיעדר נבדק מול מסמך 2023 בלבד (ניסיון על תבנית הכתובת של אותו doc id לגרסת 2025 החזיר " +
+      "HTTP 403); קטלוג פריטי הפישוט (SIC) דורש חשבון S-user ולא נפתח; מזהי ה-Fiori ב-xrefs (F3364, F2730) " +
+      "מגיעים מ-data/fiori/apps.ts ברמת המאגר ולא אומתו מול Fiori Apps Reference Library. התצוגה " +
+      "I_MfgOrderConfirmation מגובה בראיה רשמית אך אינה ב-xrefs משום שאינה קיימת באוניברסום המזהים של " +
+      "המאגר.",
+  },
+
+  /* -------------------------------------------------------- table:AFIH */
+  {
+    id: "table:AFIH",
+    evidence: [
+      AFIH_PM_ORDER_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Operative Project Structures (PS-ST-OPR) | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/87d0b6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "תיעוד הארכוב של Project System לגרסת 2025 FPS01 קובע: 'You can use archiving object PS_PROJECT " +
+          "to archive data from the following database tables', ובטבלה שעמודותיה 'Object / Archiving Class " +
+          "/ Segment' מופיעה השורה 'Order for information system' עם מחלקת הארכוב PS_ORDER והטבלאות AFFL, " +
+          "AFIH, AFKO, AFPO, AFVC, AFVU, AFVV, AUFK, PAF, VBAK ו-VBAP. הסניפט מאשר שהטבלה AFIH קיימת בגרסת " +
+          "2025 FPS01 גם מחוץ להקשר ה-PM, ואינו מפרט את שדותיה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ה-blueprint של PM (חוברת ההגירה): רשומת הטבלה AFIH",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "רשומת ה-blueprint (נושא 7, פקודות עבודה): 'כותרת פקודת אחזקה (PM)' / 'Maintenance Order " +
+          "Header'; טרנזקציות IW32, IW33; עמודת S/4: 'מותאם (תואם)', טבלה חליפית 'AFIH (זהה)', טרנזקציה " +
+          "חליפית 'IW32; Fiori'; הערת SUM: 'אין המרת טבלה הרסנית, אך מודל הנתונים מותאם - הרץ Regression " +
+          "Test ובדוק User Exits/דוחות מותאמים'. שדות מתועדים: AUFNR (PK/FK, מספר פקודה), EQUNR (FK, ציוד " +
+          "מתייחס), TPLNR (FK, מיקום מתייחס), ILART (סוג פעילות אחזקה), PRIOK (עדיפות), GEWRK (FK, מרכז " +
+          "עבודה ראשי); פונקציה BAPI_ALM_ORDER_GET_DETAIL; תוכנית RIAUFK20; קשרים: AFIH.AUFNR = " +
+          "AUFK.AUFNR, AFIH.EQUNR = EQUI.EQUNR, AFIH.TPLNR = IFLOT.TPLNR. ה-blueprint נוקב באפליקציית " +
+          "Fiori 'Find Maintenance Order (F2393)'; מזהה זה לא אומת (ראו הערות).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#AFIH",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "שכבת ההשפעה של הפרויקט (S4_IMPACT): הסט S4_STABLE",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "AFIH נמנית בסט S4_STABLE של המאגר, טבלאות ליבה PM/PP-PI המסומנות במפורש יציבות ב-S/4HANA " +
+          "(verified, low risk, ללא שינוי מודל), יחד עם AUFK, AFKO, AFPO, AFVC, AFRU, EQUI, IFLOT ו-ILOA. " +
+          "הסט הזה סותר את עמודת ה-S/4 של ה-blueprint לאותה טבלה ('מותאם (תואם)'), והסתירה מתועדת " +
+          "ב-audit/s4-enrichment/BASELINE.md.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/s4-impact.ts#S4_STABLE",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "טבלת AFIH, כותרת נתוני האחזקה של ההזמנה (Maintenance Order Header) בתחזוקת מפעל, פעילה ב-S/4HANA " +
+        "On-Premise ועדכנית לגרסת 2025 FPS01, וללא טבלה חליפית: מסמך הארכוב הרשמי של PM/CS מונה את 'AFIH " +
+        "Order header' כשורה הראשונה בחלק ה-Structure של אובייקט הארכוב PM_ORDER, ותיעוד הארכוב של Project " +
+        "System מונה את AFIH בין הטבלאות של האובייקט 'Order for information system' במחלקת הארכוב " +
+        "PS_ORDER. אף מקור רשמי שנמצא בסבב חיפוש זה אינו נוקב ביורשת, בפריט פישוט או בהוצאה משימוש של " +
+        "הטבלה, ואף מקור רשמי גם אינו קובע במפורש 'ללא שינוי': הסטטוס נשען על נוכחות הטבלה בגרסת 2025 " +
+        "FPS01 ועל היעדר יורשת בחיפושים שבוצעו. AFIH נשארת ההרחבה של AUFK לנתוני האחזקה של הפקודה ומוצמדת " +
+        "אליה לפי AUFNR. לשקיפות: עמודת ה-S/4 של ה-blueprint מסמנת את AFIH 'מותאם (תואם)', אך נוקבת באותה " +
+        "טבלה עצמה כטבלה החליפית ('AFIH (זהה)'), כלומר התאמה ולא החלפה; אף רשומה רשמית לא אישרה ולא הפריכה " +
+        "את ההתאמה הזו.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: AFIH_PM_ORDER_ARCHIVING,
+      recommendedAction: "להמשיך להשתמש ב-AFIH כהרחבת נתוני האחזקה של כותרת ההזמנה, בקריאה ב-JOIN ל-AUFK לפי AUFNR; אין " +
+        "פעולת הסבה ייעודית לטבלה עצמה לפי ה-blueprint ('אין המרת טבלה הרסנית, אך מודל הנתונים מותאם'). " +
+        "לאחר ההמרה להריץ בדיקות רגרסיה לקוד מותאם, ל-User Exits של פקודת האחזקה (למשל IWO10009) ולדוחות " +
+        "שקוראים ישירות מ-AFIH, כפי שדורשת הערת ה-SUM של ה-blueprint. לפיתוח חדש, לדיווח ולאינטגרציה " +
+        "להעדיף את שכבת ה-OData הרשמית של פקודות האחזקה (API_MAINTENANCEORDER, ראו הערות) ואת " +
+        "BAPI_ALM_ORDER_MAINTAIN ליצירה ולשינוי (מזהה מהדאטהסט של הפרויקט; לא נמצא בסניפט רשמי במעבר זה), " +
+        "במקום SELECT ישיר לטבלה. לניהול מחזור חיי הנתונים להשתמש באובייקט הארכוב PM_ORDER, שמכסה את AFIH " +
+        "יחד עם ILOA ו-OPROL.",
+    },
+    xrefs: [
+      "table:AUFK", "table:AFKO", "table:AFVC", "table:ILOA", "table:EQUI", "table:IFLOT", "tx:IW31",
+      "tx:IW32", "tx:IW33", "tx:IW38", "tx:IW39", "fm:BAPI_ALM_ORDER_MAINTAIN",
+      "fm:BAPI_ALM_ORDER_GET_DETAIL", "fm:BAPI_ALM_ORDERHEAD_GET_LIST", "cds:I_MaintenanceOrder",
+      "fiori:F2731", "enh:exit:IWO10009", "enh:exit:IWO10018",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "שיטה: שבע ריצות של scripts/sap-help-search.mjs תחת SAP_S4HANA_ON-PREMISE, בתוספת חיפוש רשת " +
+      "מוגבל-דומיין (help.sap.com, api.sap.com, fioriappslibrary, fal) ורובד Tier-2 מהמאגר. גוף עמודי " +
+      "ה-Help אינו נשלף: משיכה ישירה של שני עמודי הארכוב (loio 15e1b653 ו-87d0b653) החזירה HTTP 200 במשקל " +
+      "1,160 בתים כל אחד, מעטפת JavaScript ללא טקסט תוכן וללא המחרוזת AFIH, ולכן כל טענה מוגבלת לכותרת " +
+      "ולסניפט של רשומת החיפוש. אף רשומה רשמית שנמצאה אינה מפרטת את שדות AFIH: ששת השדות שברשומה מקורם " +
+      "ב-blueprint בלבד, ורשומת data/table-enrichment.ts#AFIH (trust verified) מוסיפה מפתח ראשי MANDT + " +
+      "AUFNR ומפתח זר ILOAN אל ILOA, שלא אומתו מול מקור רשמי במעבר זה. לא נמצא פריט פישוט (Simplification " +
+      "Item) או רשומת What's New שמשנה את הטבלה; רשומות What's New שנמצאו עוסקות בשדות מסך של כותרת הפקודה " +
+      "('Maintenance Order: New Fields in Mass Change', 1809 FPS01; 'Customizing Field Selection and Basic " +
+      "Order View Profiles for Billable Maintenance Orders', 2023 FPS01) ובתצוגות CDS של פקודות ופעולות " +
+      "('CDS Views for Maintenance Orders and Operations', 2022 FPS02), לא בטבלה. הופעה רשמית שלישית של " +
+      "AFIH לא נרשמה כראיה: העמוד 'Settlement of an Order' בדליברבל 'Orders (CS-SE/PM-WOC-MO)' (2025.001, " +
+      "loio ccc9b65334e6b54ce10000000a174cb4) מכיל בסניפט את הרסיס 'the table AFIH using the report " +
+      "ZIPHAS00', אך המשפט המלא אינו נראה ולכן לא נוסחה ממנו טענה; חלון סניפט אחר של אותו עמוד מצטט 'Take " +
+      "note of the information in SAP Note 838264' כלשונו, והמספר לא נרשם בשדה sapNote כי הכלל דורש קישור " +
+      "me.sap.com/notes או repoRef. שכבת ה-API: העמוד 'Operations for Maintenance Order (Version 2)' " +
+      "בדליברבל 'APIs for Maintenance Management' (2023.latest, loio c5a499aa5b614e53acc235c361aac098) " +
+      "מציג בסניפט את הפעולה 'Read Maintenance Order Header (Version 2)' ואת הנתיב GET " +
+      "/sap/opu/odata/sap/API_MAINTENANCEORDER;v=2/MaintenanceOrder('4012109'); העמוד לא נרשם כראיה כי " +
+      "אינו נוקב ב-AFIH, וההמלצה מפנה אליו כשכבת קריאה מודרנית בלבד. סטייה במזהה Fiori: ה-blueprint נוקב " +
+      "'Find Maintenance Order (F2393)'; חיפוש מוגבל-דומיין בספריית Fiori הרשמית מחזיר את 'Find " +
+      "Maintenance Order' תחת appId F2175 (וכן F4604, W0017, W0033), כפי שמתועד גם " +
+      "ב-audit/s4-enrichment/MANIFEST.md, ואילו 'Find Maintenance Orders and Operations' (F2173) מגיע " +
+      "מהספר המורשה שבמאגר (knowledge/books/sap-pm/chapters/chapter-008.md ו-chapter-009.md, רובד Tier-2). " +
+      "data/fiori/apps.ts מחזיק F2731 'Manage Maintenance Orders' כאפליקציית פקודות האחזקה של הפרויקט. רק " +
+      "fiori:F2731 נכלל ב-xrefs כי הוא היחיד שנפתר בדאטהסט; F2393 לא נמצא בדומיינים הרשמיים במעבר זה. " +
+      "סתירה פנימית פעילה: עמודת ה-S/4 של ה-blueprint ('מותאם (תואם)', מחלקה 1) מייצרת בבלוק הראיות סטטוס " +
+      "נגזר 'משתנה ב-S/4HANA', בעוד lib/s4.ts בודק קודם את S4_STABLE ומציג באותו עמוד 'ללא שינוי מהותי'; " +
+      "הסתירה מתועדת ב-audit/s4-enrichment/BASELINE.md לצד AFKO, AFPO, AFVC, AUFK ו-MARC, והטיפול כאן זהה " +
+      "לזה שנבחר ברשומת table:AFKO באותו קובץ. ה-xref cds:I_MaintenanceOrder הוא מזהה המאגר בלבד: נושאי " +
+      "ה-VDM שנמצאו הם 'Maintenance Order Data' (I_MaintenanceOrderDEX) ו-'Maintenance Order (Value Help)' " +
+      "(I_MaintenanceOrderStdVH), אף אחד מהם אינו נוקב ב-AFIH כטבלת מקור, ולא נמצא נושא רשמי בשם " +
+      "I_MaintenanceOrder בלבד. גם BAPI_ALM_ORDER_MAINTAIN שבהמלצה הוא מזהה מהדאטהסט של הפרויקט ולא מסניפט " +
+      "רשמי. חיבור sc4sap MCP (SE11 חי) נכשל בסשן זה, ולכן סוגי נתונים, אורכים ורשימת שדות מלאה נשארים לא " +
+      "מאומתים מול מערכת. לא נטען שום מספר SAP Note ולא הומצא שום מזהה.",
+  },
+
+  /* -------------------------------------------------------- table:EBAN */
+  {
+    id: "table:EBAN",
+    aliases: [
+      "eban",
+    ],
+    evidence: [
+      EBAN_MRP_LIVE,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Information Retrieval for Purchase Requisitions Using MM_EBAN | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/0463b60fdba2475f805e655a02efca10.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד ה-Information Retrieval של אובייקט הארכוב MM_EBAN בגרסת 2025 FPS01 נוקב בשדות EBAN עצמם: " +
+          "'Ensure that for archiving object MM_EBAN, there is at least one active archive information " +
+          "structure that contains the following selectable fields: BANFN (EBAN-BANFN) BNFPO (EBAN-BNFPO) " +
+          "LIFNR (EBAN-LIFNR) EMLIF (EBAN-EMLIF) FLIEF (EBAN-FLIEF) MFRNR (EBAN-MFRNR) KUNNR (EBAN-KUNNR) " +
+          "VPTNR (EBAN-VPTNR)', ו-'These fields are used by the IRF to determine which data should be " +
+          "fetched from the archive'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Subcontract Purchase Requisitions and Purchase Orders | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/b9f59902a6c647e19960e4b05b522b0a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "תיעוד ניהול האחזקה (Maintenance Management) בגרסת 2025 FPS01 קובע שבשמירה או בשחרור של צו אחזקה " +
+          "המערכת יוצרת אוטומטית דרישת רכש של קבלנות משנה: 'When you save or release a maintenance order, " +
+          "the system automatically creates a subcontract purchase requisition', ושינויים בצו האחזקה ברמת " +
+          "הרכיב לאחר יצירת הדרישה משתקפים באותה דרישה: 'If you make changes to the maintenance order at " +
+          "component level after creation of the purchase requisition, the changes are reflected in that " +
+          "purchase requisition'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט: רשומת EBAN",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "העשרת המאגר (מאומתת): EBAN מחזיקה את שורות דרישת הרכש (חומר, כמות, מפעל, תאריך אספקה, סוג רכש " +
+          "ומקור אספקה) עם מפתח MANDT/BANFN/BNFPO; דרישה שנוצרה מ-MRP מסומנת ב-ESTKZ='B', וההמרה להזמנת " +
+          "רכש מעדכנת EBELN/EBELP. שדה KNTTP (קטגוריית הקצאת חשבון) מסמן ששורת הדרישה מוקצית חשבון, ונתוני " +
+          "ההקצאה עצמם יושבים ב-EBKN לפי BANFN+BNFPO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#EBAN",
+      },
+    ],
+    status: {
+      status: "changed",
+      he: "EBAN ממשיכה להתקיים ולשמש ב-S/4HANA On-Premise בגרסת 2025 FPS01 (הטבלה ושדותיה נקובים בתיעוד ILM " +
+        "MM_EBAN הרשמי), ואין יורשת מתועדת. מה שמשתנה הוא אופן היצירה של דרישות הרכש מתוך תכנון החומרים: " +
+        "ב-MRP Live אין מחוון יצירה לדרישות רכש, הריצה יוצרת דרישות רכש לרכש חיצוני, ודרישות מריצת תכנון " +
+        "קודמת שלא קובעו נמחקות ונוצרות מחדש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: EBAN_MRP_LIVE,
+      recommendedAction: "להמשיך לעבוד מול EBAN ללא טבלה חליפית, ולבדוק דוחות וקוד מותאם שנשענים על מחוון היצירה של דרישות " +
+        "רכש או על יציבות מספרי דרישה בין ריצות MRP; דרישה שחייבת לשרוד ריצה נוספת צריכה להיקבע (firmed). " +
+        "בתרחיש תחזוקת מפעל יש לאמת את זרימת הרכיבים מצו האחזקה אל דרישת הרכש לאחר המעבר.",
+    },
+    xrefs: [
+      "table:EBKN", "table:BUT000", "table:RESB", "table:AUFK", "tx:ME51N", "tx:ME52N", "tx:ME53N",
+      "tx:ME57", "tx:ME59N", "tx:MD01N", "tx:IW32", "fm:BAPI_PR_CREATE", "fm:BAPI_REQUISITION_GETDETAIL",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "הסטטוס 'משתנה' מעוגן בעמוד MRP Live: Incompatible Changes (PP-MRP, 2025.001), לא בהערת ה-blueprint. " +
+      "הטבלה עצמה לא נמצאה באף מקור רשמי כמוחלפת, מוסרת או בהיקף תאימות; להפך, עמוד ה-IRF של אובייקט " +
+      "הארכוב MM_EBAN לגרסת 2025 FPS01 נוקב בשדותיה. פערים: (1) עמודת ה-S/4 בבלוטפרינט של הפרויקט " +
+      "(data/sapData.pm.ts#EBAN) גורסת 'מותאם (Business Partner לספקים)' והערת SUM על CVI, אך לא נמצא עמוד " +
+      "רשמי שנוקב ב-EBAN בהקשר המרת ספקים ל-Business Partner, ולכן ההיבט הזה נשאר ברמת אימות המאגר בלבד; " +
+      "(2) הבלוטפרינט רושם אפליקציית Fiori 'Manage Purchase Requisitions (אמת ID)' ללא מזהה, ואין " +
+      "אפליקציית דרישות רכש ב-data/fiori/apps.ts, ולכן לא נוסף xref מסוג fiori והמזהה נשאר לא מאומת; (3) " +
+      "טיפוסי השדות ואורכיהם (SE11) לא אומתו מול מערכת חיה (חיבור ה-MCP של sc4sap נכשל) ובבלוטפרינט שדות " +
+      "EBAN חסרים dt/len, כך שעומק המבנה בעמוד נותר 0; (4) לא נרשם מספר SAP Note בשדה מובנה: הסניפט הרשמי " +
+      "של MM_EBAN מפנה ל-SAP Note 2689265 עבור מודלי הנתונים של IRF, אך ללא כתובת me.sap.com/notes או " +
+      "repoRef אי אפשר לרשום אותו כראיה; (5) EBAN אינה מופיעה ב-data/s4-impact.ts, ב-data/s4-objects.ts או " +
+      "ב-data/lifecycle.ts, ולכן הסטטוס הנגזר שהעמוד הציג עד כה הגיע מעמודת ה-blueprint בלבד ('מותאם' = " +
+      "changed, בלי מקור ובלי גרסה). מועמדת רשמית נוספת שנבדקה ולא נוספה: 'Document Assignments in " +
+      "Maintenance Orders' (Maintenance Management, 2025.001, loio cf157d54e52ee630e10000000a44538d) " +
+      "הנוקבת במפורש באובייקט EBAN בהקשר העתקת מסמכים מצו אחזקה לשורת דרישת רכש.",
+  },
+
+  /* -------------------------------------------------------- table:EQUZ */
+  {
+    id: "table:EQUZ",
+    evidence: [
+      EQUZ_PM_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Equipment | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/08c1d29f1acc4d459ecc198dc18ee6ce.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "אובייקט ההגירה PM - Equipment (מדריך Data Migration, 2025 FPS01) נוקב ב-EQUZ בשמה כטבלה במערכת " +
+          "היעד S/4HANA: 'The CurCustomer (EQUI-KUNDE) field will not automatically populate fields in the " +
+          "EQUI or EQUZ tables according to your customizing'. אותו עמוד מגדיר לפי הסניפט 'Migration " +
+          "Approach Staging Table', 'Custom Field Support Yes' ובהיקף 'Equipment Master Data', 'Equipment " +
+          "Manufacturer Data', ומזהיר: 'You have to check time dependencies before you create or migrate " +
+          "your objects. This prevents error messages and inconsistent data in your database.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Equipment | Technical Objects (CS-BD/PM-EQM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e98c7c41bbe8439e90daa5c114a7573b/c1d5b853dcfcb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "נושא 'Equipment' בחוברת Technical Objects (CS-BD/PM-EQM) לגרסת 2025 FPS01 מתאר את מנגנון פלח " +
+          "הזמן עצמו: 'The equipment master record contains several types of data'; 'Plant Maintenance " +
+          "data, location data and sales data This is time-dependent data. It can change repeatedly in the " +
+          "course of time'; ו-'If your system is set up accordingly with the help of the Customizing " +
+          "functions, it automatically creates a new time segment for specific master record changes that " +
+          "describes the equipment usage period'. זהו התיאור הרשמי של יצירת פלח זמן (time segment) חדש " +
+          "לתיאור תקופת השימוש (equipment usage period) של הציוד, והוא תלוי בהגדרות Customizing. הסניפט " +
+          "אינו נוקב בשם הטבלה EQUZ.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Equipment | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/75e9ecd8ebcb4ab582c365beddbb2c76.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד ה-Entity הרשמי 'Equipment' במדריך APIs for Maintenance Management לגרסת 2025 FPS01 קובע " +
+          "לפי הסניפט: 'Equipment Technical name: A_Equipment', ומונה בין שדות ה-Entity את " +
+          "'ValidityEndDate Defines the date till which the entry is valid', 'ValidityStartDate Indicates " +
+          "the date from which the entry is valid', 'ValidityEndTime Defines the time till which the " +
+          "equipment usage is valid', 'EquipUsagePeriodSequenceNumber Indicates the consecutive numbering " +
+          "of the equipment usage periods on the same day' ו-'NextEquipUsagePeriodSqncNmbr Indicates the " +
+          "number of the next equipment usage period on same day'. הסניפט אינו ממפה שדות אלה לעמודות הטבלה " +
+          "EQUZ.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ה-blueprint של PM (חוברת ההגירה): רשומת הטבלה EQUZ",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "רשומת ה-blueprint (נושא 2, ציוד ונתוני מאסטר): 'פלח זמן של ציוד (התקנות/שיוך)' / 'Equipment " +
+          "time segment'; טרנזקציות 'IE02; IE4N (התקנה/פירוק)'; עמודת S/4: 'ללא שינוי (תואם)', טבלה חליפית " +
+          "'EQUZ (זהה)', 'IE4N נתמך; Fiori'; SUM: 'ללא פעולת המרה ייעודית ב-SUM (טבלה תואמת). מומלץ " +
+          "Regression Test ואימות התאמות אישיות לאחר ההמרה.' שדות מתועדים: EQUNR (PK/FK), DATBI (PK), " +
+          "EQLFN (PK), HEQUI (FK), ILOAN (FK); מודולי פונקציה EQUI_TIMESEGMENT_READ ו-EQUIPMENT_DISMANTLE; " +
+          "תוכנית RIEQUI00; קשרים: EQUI דרך EQUNR (פלחי זמן של הציוד), EQUI דרך HEQUI (ציוד עליון) ו-ILOA " +
+          "דרך ILOAN (נתוני מיקום וחיוב בפלח). ה-blueprint נוקב באפליקציית Fiori 'Manage Technical Objects " +
+          "(F2079)'; מזהה זה לא אומת (ראו הערות).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#EQUZ",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "טבלת EQUZ, פלחי הזמן של הציוד (Equipment time segments) בתחזוקת מפעל, פעילה ב-S/4HANA On-Premise " +
+        "(עדכני ל-2025 FPS01) וללא טבלה חליפית: מסמך הארכוב הרשמי של 2025 FPS01 מונה אותה בשם ובתיאור " +
+        "'Equipment time segments' בין טבלאות אובייקט הארכוב PM_EQUI, ותיעוד ה-Migration Cockpit של אותה " +
+        "גרסה נוקב ב-'the EQUI or EQUZ tables' במערכת היעד. מנגנון פלח הזמן עצמו מתועד רשמית באותה גרסה: " +
+        "המערכת יוצרת פלח זמן חדש עבור שינויים מוגדרים ברשומת האב, המתאר את תקופת השימוש של הציוד, בהתאם " +
+        "להגדרות Customizing. לא אותרה רשומה רשמית הנוקבת ביורשת, בפריט פישוט (Simplification Item) או " +
+        "בהוצאה משימוש של הטבלה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: EQUZ_PM_ARCHIVING,
+      recommendedAction: "להמשיך להשתמש ב-EQUZ כטבלת פלחי הזמן של הציוד; אין פעולת הסבה ייעודית ב-SUM לטבלה עצמה לפי " +
+        "ה-blueprint, ומומלץ Regression Test לקוד מותאם ולממשקים הקוראים ממנה. בקריאה יש לזכור שהמפתח לפי " +
+        "ה-blueprint הוא EQUNR יחד עם DATBI ו-EQLFN, ולכן כל שאילתה על המצב הנוכחי חייבת לבודד את הפלח " +
+        "הפעיל ולא למשוך את כל השורות. לתחקור היסטוריית התקנה ופירוק להשתמש ברשימת השימוש (usage list) " +
+        "שבמסך הציוד ובטרנזקציה IE4N. לאינטגרציות ולפיתוח חדש להעדיף את שירות ה-OData API_EQUIPMENT על פני " +
+        "SELECT ישיר: עמוד ה-Entity הרשמי שלו (APIs for Maintenance Management, 2025 FPS01, loio " +
+        "75e9ecd8ebcb4ab582c365beddbb2c76) מונה את שדות תקופת השימוש ValidityStartDate, ValidityEndDate, " +
+        "ValidityEndTime, EquipUsagePeriodSequenceNumber ו-NextEquipUsagePeriodSqncNmbr. בתכנון ארכוב לטפל " +
+        "ב-EQUZ יחד עם EQUI, EQKT ו-ILOA תחת אובייקט הארכוב PM_EQUI.",
+    },
+    xrefs: [
+      "table:EQUI", "table:EQKT", "table:ILOA", "table:IFLOT", "tx:IE02", "tx:IE03", "tx:IE4N",
+      "fm:EQUI_TIMESEGMENT_READ", "fm:EQUIPMENT_DISMANTLE", "fm:BAPI_EQMT_INSTALL",
+      "cds:I_EquipmentTimeSegment", "cds:I_Equipment",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "שיטה (2026-09-15): חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs במוצר " +
+      "SAP_S4HANA_ON-PREMISE בשמונה שאילתות ('EQUZ equipment time segment', 'EQUZ', 'EQUZ table " +
+      "equipment', 'equipment usage period time segment usage list', 'equipment usage period customizing " +
+      "create new usage period history', 'Equipment time-dependent data new time segment master record " +
+      "changes', 'Install dismantle equipment IE4N usage period installation history', 'Simplification " +
+      "technical objects plant maintenance equipment S/4HANA'), חיפוש רשת מוגבל-דומיין (help.sap.com, " +
+      "api.sap.com, fioriappslibrary, fal) ורובד Tier-2 מהמאגר. גוף עמודי ה-Help אינו נשלף (מעטפת " +
+      "JavaScript), ולכן כל טענה מוגבלת לכותרת ולסניפט של רשומת החיפוש; ארבע הכתובות הרשמיות שברשומה " +
+      "החזירו HTTP 200. אישורים רשמיים נוספים שנבדקו ולא נכללו כראיה נפרדת, כולם 2025.001 אלא אם צוין " +
+      "אחרת: 'Displaying Usage Times' (loio ec78bb53707db44ce10000000a174cb4): 'Usage times are created by " +
+      "the system for every piece of equipment', 'Using the Customizing function, you can specify the " +
+      "conditions under which the system should create new equipment usage periods', 'If you change " +
+      "certain fields defined in the system, the system completes the existing equipment usage period and " +
+      "creates a new one which contains the changed data'; 'Installing/Dismantling from the Equipment " +
+      "Master Record' (loio 0d79bb53707db44ce10000000a174cb4): 'When the piece of equipment is dismantled, " +
+      "the system automatically closes the current entry in the equipment usage list and enters the date " +
+      "and time of dismantling'; 'Change Documents' (loio 5a7abb53707db44ce10000000a174cb4): 'The " +
+      "equipment usage period is the time span during which the location data, maintenance data, or " +
+      "business data of the piece of equipment has not changed', 'One equipment usage period corresponds " +
+      "to one event'; 'Event' (loio 577abb53707db44ce10000000a174cb4): 'History-relevant change to the " +
+      "master record of a piece of equipment. The change affects the usage data', סוגי אירוע 'Installation " +
+      "Dismantling Replacement'; 'The Usage History' (Work Management, loio " +
+      "616cb6535fe6b74ce10000000a174cb4): 'In Customizing, you can define when the system should create a " +
+      "new equipment usage period'; 'Checks (CS-BD/PM-EQM-EQ)' (loio ab9fce5314894208e10000000a174cb4), " +
+      "שבו 'Equipment time segment' מופיע בקריטריוני הבדיקה לפני סימון למחיקה; ו-'Equipment Data | Virtual " +
+      "Data Model and CDS Views' (2023.latest, loio c03993b6d4a24f8e8731aed4cdb313a4): 'As there is time " +
+      "dependency in this CDS view and the system creates time segments, different versions may exist for " +
+      "the equipment'. פערים ומגבלות: אף סניפט רשמי אינו נוקב בשם שדה של EQUZ, ולכן רשימת השדות (EQUNR, " +
+      "DATBI, EQLFN, HEQUI, ILOAN), סוגי הנתונים והאורכים נשארים ברובד המאגר בלבד; גם הכלל 'הפלח הפעיל הוא " +
+      "DATBI=99991231' מקורו ב-data/table-enrichment.ts#EQUZ ולא במקור רשמי. שמות שדות ה-OData בעמוד " +
+      "ה-Entity אינם ממופים בתיעוד הרשמי לעמודות EQUZ; הקישור ביניהם הוא סינתזה של הרשומה. שכבת ה-CDS מעל " +
+      "EQUZ נותרת פתוחה: רשומת cds:I_EquipmentTimeSegment במאגר נושאת סטטוס 'נדרש אימות נוסף' בשל פער שם " +
+      "מול הנושא הרשמי בחוברת ה-VDM של Cloud Public Edition, שנוקב ב-I_EQUIPMENTTIMESEG, ולא אותר נושא VDM " +
+      "מקביל ב-On-Premise (ראו audit/s4-enrichment/research-queue-cds.md); לכן אין ברשומה טענה על תצוגת " +
+      "CDS רשמית מעל הטבלה. תצוגת 'Equipment Install/Dismantle History' (2023.latest, loio " +
+      "a18e976c8a244478a79e3b4177d525dc, 'CDS View Name I_EquipInstallationHistoryC', 'Data Category " +
+      "Cube', 'Status Released') לא נוספה כ-xref כי אין לה דף בדאטהסט. סטייה פנימית במאגר לגבי אפליקציית " +
+      "Fiori: ה-blueprint נוקב 'Manage Technical Objects (F2079)' ו-data/fiori/apps.ts נוקב F2730A; אף " +
+      "מזהה לא אומת מול ספריית ה-Fiori בסבב זה, ולכן אין xref לאפליקציה. שני מודולי הפונקציה שב-xrefs " +
+      "(EQUI_TIMESEGMENT_READ, EQUIPMENT_DISMANTLE) מקורם ב-blueprint ולא בסניפט רשמי; tx:IE03 " +
+      "ו-fm:BAPI_EQMT_INSTALL נוספו כקישורים תפקודיים ואינם ברשומת ה-blueprint של EQUZ, שנוקבת ב-IE02 " +
+      "וב-IE4N בלבד (התקנה סוגרת את הפלח הנוכחי ופותחת פלח חדש, לפי עמוד Installing/Dismantling). רובד " +
+      "המאגר תואם לראיות הרשמיות ואינו סותר אותן: data/table-enrichment.ts#EQUZ ('מקטע זמן של ציוד ... כל " +
+      "שינוי מהותי יוצר מקטע זמן חדש עם ILOAN משלו') ו-data/s4-impact.ts#S4_STABLE, שבו EQUZ נמנית עם " +
+      "טבלאות הליבה היציבות של PM. הממצא השלילי לגבי פריט פישוט מוגבל לרשומות החיפוש שנשלפו ואינו בדיקה " +
+      "ממצה: קטלוג ה-Simplification Item דורש התחברות S-user לפי audit/s4-enrichment/MANIFEST.md. לא נטען " +
+      "שום מספר SAP Note או KBA. בדיקה במערכת SAP חיה לא התאפשרה (חיבור ה-MCP sc4sap נכשל בסשן זה), ולכן " +
+      "פירוט ה-DDIC ב-SE11 לא אומת. לפני מעבר זה הציגה האפליקציה סטטוס נגזר 'ללא שינוי ב-S/4HANA' " +
+      "מה-blueprint ברמת אימות 'מאומת מול נתוני הפרויקט', ללא מקורות וללא תאריך, בעומק L1.",
+  },
+
+  /* -------------------------------------------------------- table:ILOA */
+  {
+    id: "table:ILOA",
+    evidence: [
+      ILOA_PM_MPLAN_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Function Module FUNC_LOCATION_RFC_002 | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/7070b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד ה-RFC הרשמי של FUNC_LOCATION_RFC_002 ('RFC to functional location: Individual processing, " +
+          "Change/Display/Read') בגרסת 2025 FPS01 נוקב בטבלה ILOA בשמה ומנחה: 'In this case use the " +
+          "parameter SECONDARY_INDEX and create an index with the following fields for the table ILOA: " +
+          "EQFNR OWNER', בהקשר 'If alternative labeling of functional locations is active in your' (הסניפט " +
+          "נקטע). באותו עמוד מופיע ברשימת השדות 'ILOAN CHAR 12 Location and account assignment for the " +
+          "maintenance object', לצד 'INGRP CHAR 3 Maintenance planner group' ו-'IWERK CHAR 4 Maintenance " +
+          "planning plant'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 initial shipment, Feature Pack Stack 1-3 and SAP " +
+          "S/4HANA Cloud Private Edition 2023 initial shipment, Feature Pack Stack 1-3 (White Paper, " +
+          "Document Version 1.35, 2025-02-25)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE4,
+        claim: "מסמך ה-Simplification List של 2023 (גרסת מסמך 1.35 מ-2025-02-25) הורד ונקרא במלואו: חיפוש טקסט " +
+          "מלא על הטקסט המחולץ (pdftotext -layout, 76,533 שורות; pdftotext רגיל, 74,223 שורות) אינו מחזיר " +
+          "ולו מופע אחד של ILOA או ILOAN כמילה עצמאית. פרק 29 של המסמך, 'Logistics - PM', מונה שנים-עשר " +
+          "פריטי פישוט, ובהם '29.3 S4TWL - Obsolete POWL Applications in Maintenance Management', '29.4 " +
+          "S4TWL - LIS in EAM', '29.6 S4TWL - Scheduling of Maintenance Plan' ו-'29.8 S4TWL - Batch Input " +
+          "for Enterprise Asset Management (EAM)', ואף אחד מהם אינו נוקב בטבלה ILOA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 FPS01, Feature Pack Stack 1-3 and SAP S/4HANA Cloud " +
+          "Private Edition 2025 FPS01, Feature Pack Stack 1-3 (White Paper, Document Version 1.36, " +
+          "2026-02-18)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE4,
+        claim: "מסמך ה-Simplification List של 2025 FPS01 הורד (10.6MB) ונקרא במלואו: גם בו חיפוש טקסט מלא על " +
+          "הטקסט המחולץ (pdftotext, 85,712 שורות; pdftotext -layout, 70,529 שורות) אינו מחזיר ולו מופע אחד " +
+          "של ILOA או ILOAN כמילה עצמאית. כלומר אין פריט פישוט הנוקב בטבלה ILOA גם במהדורה התואמת את גרסת " +
+          "הסטטוס שנרשמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "בלופרינט ההגירה של הפרויקט, רשומת PM:ILOA",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "רשומת מאגר מאומתת: ILOA היא טבלת נתוני המיקום והחיוב המשותפת לאובייקטים של תחזוקת מפעל, עם מפתח " +
+          "ILOAN ועם השדות KOSTL (מרכז עלות), SWERK (מפעל אחזקה), INGRP (קבוצת תכנון), GEWRK (מרכז עבודה " +
+          "ראשי) ו-TPLNR (מיקום פונקציונלי). הקשרים הרשומים: ILOA.TPLNR = IFLOT.TPLNR, ILOA.GEWRK = " +
+          "CRHD.OBJID ו-EQUZ.ILOAN = ILOA.ILOAN. הבלופרינט רושם s4Note 'ללא שינוי (תואם)', s4AltTable " +
+          "'ILOA (זהה)', s4AltTcode 'ללא; מנוהל דרך אובייקט טכני', טרנזקציות 'IL02; IE02 (ירושה)' " +
+          "ו-sumNote 'ללא פעולת המרה ייעודית ב-SUM (טבלה תואמת). מומלץ Regression Test ואימות התאמות " +
+          "אישיות לאחר ההמרה.'. בנוסף ILOA נמנית בסט S4_STABLE (data/s4-impact.ts) לצד EQUI, IFLOT ו-IFLOS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:ILOA",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "טבלת ILOA, נתוני המיקום והחיוב המשותפים לאובייקטי תחזוקת מפעל (התיאור הרשמי: 'Location and " +
+        "account assignment for maintenance object (PM object)'), פעילה ב-SAP S/4HANA On-Premise ועדכנית " +
+        "לגרסת 2025 FPS01, ללא טבלה חליפית: היא נקובה בשמה ברשימת הטבלאות של אובייקט הארכוב PM_MPLAN, " +
+        "בעמוד ה-RFC של FUNC_LOCATION_RFC_002 (עם הנחיה ליצירת אינדקס משני על EQFNR ו-OWNER) ובעמודי " +
+        "ארכוב, ILM והגירה נוספים שאומתו מול שירות החיפוש הרשמי ומפורטים בהערות. שני מסמכי " +
+        "ה-Simplification List שנקראו במלואם, של 2023 FPS03 ושל 2025 FPS01, אינם נוקבים ב-ILOA כלל, ואף " +
+        "מקור רשמי שנבדק אינו נוקב ביורשת, בהוצאה משימוש או בפריט פישוט עבורה. לפי הבלופרינט של הפרויקט " +
+        "נתוני הטבלה מתוחזקים דרך האובייקט הטכני ולא בטבלה ישירות.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: ILOA_PM_MPLAN_ARCHIVING,
+      recommendedAction: "להמשיך להשתמש ב-ILOA כטבלת נתוני המיקום והחיוב של האובייקטים הטכניים, של הודעות התחזוקה ושל " +
+        "פקודות התחזוקה. אין פעולת המרה ייעודית לטבלה ב-SUM, ומומלץ Regression Test להתאמות אישיות, " +
+        "לממשקים ולדוחות הקוראים ממנה ישירות. לתחזוקה שוטפת לעבוד דרך האובייקט הטכני: IL02 למיקום " +
+        "פונקציונלי ו-IE02 לציוד, כאשר הציוד המותקן יורש את נתוני המיקום והחיוב מהמיקום הפונקציונלי. " +
+        "לפיתוח חדש ולצריכה אנליטית להעדיף את תצוגות ה-CDS של המיקום הפונקציונלי והציוד " +
+        "(I_FunctionalLocation, I_Equipment) על פני SELECT ישיר מ-ILOA. בפרויקט הגירה לשים לב שאובייקטי " +
+        "ההגירה 'PM - Functional location' ו-'PM - Measuring point' בוחרים נתונים מטבלת ILOA לפי המפעלים " +
+        "הנגזרים (ראו הערות). לפני שינוי מרכז עלות (KOSTL) או מפעל אחזקה (SWERK) ב-ILOA לבדוק את ההשפעה על " +
+        "חיוב פקודות פתוחות ועל הציוד היורש את הנתונים.",
+    },
+    xrefs: [
+      "table:IFLOT", "table:EQUI", "table:EQUZ", "table:CRHD", "table:MPOS", "table:AFIH", "table:OBJK",
+      "tx:IL02", "tx:IL03", "tx:IE02", "tx:IE03", "cds:I_FunctionalLocation", "cds:I_Equipment",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "הסטטוס נגזר מרשומות חיפוש רשמיות (scripts/sap-help-search.mjs, מוצר SAP_S4HANA_ON-PREMISE, " +
+      "2026-09-15) ומשני מסמכי Simplification List רשמיים שנקראו בפועל. שישה עמודי ארכוב ב-2025 FPS01 " +
+      "נוקבים ב-ILOA ולא נכללו כולם כראיות: PM_MPLAN (loio 96a0ce5314894208e10000000a174cb4, הראיה " +
+      "שנבחרה), PM_IFLOT (loio 7e06bd53d34ab64ce10000000a174cb4, 'ILOA Location and account assignment " +
+      "data for the maintenance object'), PM_EQUI (loio 7b06bd53d34ab64ce10000000a174cb4, אותו ניסוח), " +
+      "PM_ORDER (loio 15e1b6531de6b64ce10000000a174cb4, 'ILOA Location and account assignment for the " +
+      "maintenance object'), PM_QMEL (loio 60adb6531de6b64ce10000000a174cb4, 'ILOA Location Data') " +
+      "ו-SM_QMEL, עמוד 'Archiving of Service Notifications (PM-SMA-SC)' (loio " +
+      "63adb6531de6b64ce10000000a174cb4, 'QMIH Maintenance data ILOA Location Data'). השם האנגלי הרשמי " +
+      "המלא של הטבלה, 'PM Object Location and Account Assignment', מופיע בשתי רשומות רשמיות נוספות שלא " +
+      "נכללו כראיות: עמוד ה-ILM 'Destroying Historical PM Orders with PM_WOC_MH' (Maintenance Management, " +
+      "2025.001, loio 9703695887671f60e10000000a44147b) ועמוד ה-VDM 'Maintenance Item Data' (Virtual Data " +
+      "Model and CDS Views, 2023.latest, loio dc7dc1581f4042c5a38c217e78934ea4) הקובע 'Field Work " +
+      "Breakdown Structure Element (WBS Element) comes from the PM Object Location and Account Assignment " +
+      "database table (ILOA), not from the Maintenance item database table (MPOS)'. אזהרה: אותו משפט מופיע " +
+      "גם בעמוד ששמו 'Maintenance Item Data (Deprecated)' (loio e28a09047bcd4d3cb9c939cc7b19747e); תווית " +
+      "ה-Deprecated שם חלה על תצוגת ה-CDS של אותו עמוד ולא על הטבלה ILOA. נקודת ההגירה בהמלצה נשענת על שתי " +
+      "רשומות רשמיות נוספות: 'PM - Functional location' (Data Migration, 2025.001, loio " +
+      "7c5578ab53e0457f905145bc535839cf) הקובעת 'This migration object automatically selects functional " +
+      "locations from the ILOA table for the derived plants', ו-'PM - Measuring point' (Data Migration, " +
+      "2025.001, loio 5385d17be2c74424bbcd6300e602e595) הקובעת 'The PE_S4_OBJNR migration filter retrieves " +
+      "equipment or function location data from the ILOA table for the derived plants'. פערים: הגדרת " +
+      "ה-DDIC של ILOA (SE11: רשימת שדות מלאה, טיפוסים, אורכים ואינדקסים) לא נקראה ממערכת חיה כי חיבור " +
+      "ה-MCP sc4sap נכשל, ולכן רשימת השדות של הרשומה נשארת ברמת אימות המאגר; היחיד שאומת רשמית הוא ILOAN " +
+      "באורך CHAR 12, והוא מופיע ברשימת שדות של עמוד ה-RFC ולא כהגדרת DDIC של הטבלה. הבדיקה השלילית מול " +
+      "ה-Simplification List בוצעה על שני מסמכים שנקראו במלואם: 2023 FPS03 ו-2025 FPS01. מהדורת 2024 לא " +
+      "נבדקה, וקטלוג ה-Simplification Item ב-launchpad.support.sap.com דורש התחברות S-user ולא נבדק. לא " +
+      "נמצא שירות OData רשמי או תצוגת CDS שנוקבים בטבלה ILOA בשמה, ולכן הקישור בין I_FunctionalLocation " +
+      "ו-I_Equipment לבין הטבלה נשאר ברמת המאגר ולא נטען כעובדה רשמית. אפליקציית Fiori לא נכללה ב-xrefs: " +
+      "הבלופרינט רושם 'Manage Technical Objects (F2079)' בעוד data/fiori/apps.ts רושם מזהה אחר, והסתירה " +
+      "הזו כבר תועדה ברשומת IFLOT. לא נטען שום מספר SAP Note או KBA.",
+  },
+
+  /* -------------------------------------------------------- table:MPLA */
+  {
+    id: "table:MPLA",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving of Maintenance Plans (CS-AG/PM-PRM-MP) | Data Archiving in Plant Maintenance and " +
+          "Customer Service (PM/CS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/96a0ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "מסמך הארכוב הרשמי לגרסת 2025 FPS01 קובע: 'You can use the archiving object PM_MPLAN to archive " +
+          "maintenance plans in the Plant Maintenance application component' ו-'The system archives the " +
+          "maintenance plans using the archiving class PM_MPLAN'. רשימת הטבלאות של המחלקה הזו כלשון " +
+          "הסניפט: 'It comprises the following tables: Table Short Text MPLA Maintenance plan MMPT Cycle " +
+          "definitions and measuring points for the maintenance plan MHIS Maintenance plan calls'. הסניפט " +
+          "מבדיל בין מחלקות הארכוב: לפריטי התוכנית הוא קובע 'The system archives the maintenance item(s) " +
+          "for a maintenance plan using the archiving class PM_MPOS' ומונה בבלוק נפרד 'It comprises the " +
+          "following tables: Table Short Text MPOS Maintenance item ILOA Location and account assignment " +
+          "for maintenance object (PM object) OBJK Object list for Plant Maintenance', ובבלוק נוסף 'MHIO " +
+          "Call objects, call object history ONR00 Object number'. כלומר MPLA היא הטבלה הראשונה ברשימת " +
+          "מחלקת הארכוב PM_MPLAN, וטבלת תוכנית האחזקה (Maintenance plan) בתיעוד SAP S/4HANA On-Premise " +
+          "2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Change Documents for Maintenance Plans and Maintenance Items | Product Lifecycle Management " +
+          "(PLM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/36802406aebb4b96b1598246e1d316ee/f3eec353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד מסמכי השינוי לתוכניות אחזקה ולפריטי אחזקה (2025 FPS01) מגדיר את הטבלה כלשונו: 'Maintenance " +
+          "plan: Table MPLA The table contains the maintenance plan data including schedule parameter, " +
+          "additional data and administrative data', ומפרש את מבנה המפתח: 'You can interpret the key for " +
+          "the various tables as follows: Table Key Interpretation MPLA 800000000000196 First three digits " +
+          "= Client, Remaining digits = Maintenance' (הסניפט נקטע כאן). הסניפט מונה שמות שדות וטקסטים " +
+          "קצרים בהקשר הזה, בהם 'ABRHO Maintenance plan scheduling period in days', 'HORIZ Call horizon " +
+          "for maintenance plan calls', 'HUNIT Unit in scheduling interval', 'VSNEG Shift factor in the " +
+          "case of early confirmation', 'VSPOS Shift factor in the case of late confirmation', 'ANDOR " +
+          "Indicator for AND/OR link' ו-'WARPL Maintenance plan', ומציג לצידה את 'Call object from " +
+          "maintenance plan: Table MHIO'. הסניפט אכן מתחם לפי כותרות טבלה (Maintenance plan: Table MPLA, " +
+          "Table MMPT, Maintenance call history: Table MHIS, Call object from maintenance plan: Table " +
+          "MHIO), אך רצף השדות מוגש עם השמטות, ולכן שיוך שדה בודד לטבלה לא נטען מעבר לטקסט הקצר שלו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance plan | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/60a36b24c79d4629b04fa59c409154f5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "אובייקט ההגירה PM - Maintenance plan (מדריך Data Migration, 2025 FPS01) קובע: 'This migration " +
+          "object automatically selects relevant maintenance plans from the MPLA table for the derived " +
+          "maintenance planning plants', ו-'Technical Information Name of this migration object: " +
+          "S4_PM_MAINTENANCE_PLAN Virtual Table MPLA_TEXT: To store long texts for maintenance plans Note " +
+          "that virtual table do not exist in the database'. הסניפט נוקב גם ב-'Related Business Object: " +
+          "Maintenance Plan'. כלומר הטבלה MPLA נקובה בשמה בתיעוד ההגירה של SAP S/4HANA 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance plan | Data Migration (loio b97c1785)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/b97c17855d78480ead0cebb32c4a346f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד אובייקט ההגירה השני באותו מדריך (2025 FPS01) מגדיר: 'Object Alias MAINT_PLAN_3', 'Business " +
+          "Object Component PM', 'Business Object Type Master data', 'Migration Approach Staging Table', " +
+          "ו-'There are three types of maintenance plan: Single cycle plans (time- or performance-based) " +
+          "Strategy plans (time- or performance-based) Multiple counter plans'. על שדות התוכנית הסניפט " +
+          "קובע: 'Call Horizon HORIZ Call Horizon in % HORIZ_DAYS Call Horizon in Days HORIZ_QUALIFIER " +
+          "Calculation Type of Call Horizon', 'Note HORIZ - Defines the call horizon value', ו-'The " +
+          "difference between a single cycle plan and a strategy plan is made via the STRAT field (blank " +
+          "or filled)'. זהו המקור הרשמי היחיד שנמצא במעבר זה לשמות השדות HORIZ ו-STRAT.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ה-blueprint של PM (חוברת ההגירה): רשומת הטבלה MPLA",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "רשומת ה-blueprint (נושא 11, אחזקה מונעת ותוכניות): 'כותרת תכנית אחזקה ונתוני תזמון' / " +
+          "'Maintenance plan header'; טרנזקציות IP01/IP02/IP03 וכן IP41, IP42; עמודת S/4: 'ללא שינוי " +
+          "(תואם)', טבלה חליפית 'MPLA (זהה)', טרנזקציה חליפית 'IP01-03; Fiori'; SUM: 'ללא פעולת המרה " +
+          "ייעודית ב-SUM (טבלה תואמת). מומלץ Regression Test ואימות התאמות אישיות לאחר ההמרה'. שדות " +
+          "מתועדים: WARPL (PK), MPTYP, STRAT (FK), HORIZ, ABRHO; פונקציות BAPI_MAINTENANCEPLAN_CREATE " +
+          "ו-MAINTENANCE_PLAN_SCHEDULE; תוכנית RIMPLA00; קשרים אל MPOS, MHIO ו-MHIS דרך WARPL. שדה ה-Fiori " +
+          "ברשומה: 'Manage Maintenance Plans (אמת ID)', כלומר הבלופרינט עצמו מסמן שהמזהה לא נקבע.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#MPLA",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט: רשומת MPLA",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "רשומת מאגר מאומתת: MPLA היא כותרת תוכנית האחזקה, מפתח MANDT + WARPL, אסטרטגיה דרך STRAT אל " +
+          "T351, פריטי התוכנית ב-MPOS דרך WARPL והיסטוריית התזמון ב-MHIS; התוכנית יכולה להיות " +
+          "single-cycle, מבוססת אסטרטגיה או multiple-counter, והתזמון (IP10/IP30) יוצר את קריאות האחזקה. " +
+          "המקורות ברשומה טקסטואליים (SE11, SAP Help) ללא קישור.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#MPLA",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "טבלת MPLA, כותרת תוכנית האחזקה ונתוני התזמון בתחזוקת מפעל, פעילה ב-S/4HANA On-Premise (עדכני " +
+        "ל-2025 FPS01) וללא טבלה חליפית: היא הטבלה הראשונה ברשימת מחלקת הארכוב PM_MPLAN של אובייקט הארכוב " +
+        "PM_MPLAN, התיעוד קובע עליה 'The table contains the maintenance plan data including schedule " +
+        "parameter, additional data and administrative data', והיא נקובה בשמה בתיעוד ה-Migration Cockpit " +
+        "של 2025 FPS01. אף רשומה רשמית שנמצאה במעבר זה אינה נוקבת ביורשת, בפריט פישוט או בהוצאה משימוש של " +
+        "הטבלה. לפי רשומת האימות של הפרויקט cds:I_MaintenancePlan (data/verification/cds.ts), שנשענת על " +
+        "What's New ב-S/4HANA 2021 FPS01, התצוגה I_MaintenancePlan הוצאה משימוש והיורשת היא " +
+        "I_MaintenancePlanBasic. ההוצאה משימוש הזו נוגעת לשכבת ה-CDS בלבד ואינה נוגעת לטבלה, ורשומה זו " +
+        "אינה מביאה לה ראיה משלה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving of Maintenance Plans (CS-AG/PM-PRM-MP) | Data Archiving in Plant Maintenance and " +
+          "Customer Service (PM/CS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/96a0ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "מסמך הארכוב הרשמי לגרסת 2025 FPS01 קובע: 'You can use the archiving object PM_MPLAN to archive " +
+          "maintenance plans in the Plant Maintenance application component' ו-'The system archives the " +
+          "maintenance plans using the archiving class PM_MPLAN'. רשימת הטבלאות של המחלקה הזו כלשון " +
+          "הסניפט: 'It comprises the following tables: Table Short Text MPLA Maintenance plan MMPT Cycle " +
+          "definitions and measuring points for the maintenance plan MHIS Maintenance plan calls'. הסניפט " +
+          "מבדיל בין מחלקות הארכוב: לפריטי התוכנית הוא קובע 'The system archives the maintenance item(s) " +
+          "for a maintenance plan using the archiving class PM_MPOS' ומונה בבלוק נפרד 'MPOS Maintenance " +
+          "item ILOA Location and account assignment for maintenance object (PM object) OBJK Object list " +
+          "for Plant Maintenance', ובבלוק נוסף 'MHIO Call objects, call object history ONR00 Object " +
+          "number'. כלומר MPLA היא הטבלה הראשונה ברשימת מחלקת הארכוב PM_MPLAN, וטבלת תוכנית האחזקה " +
+          "(Maintenance plan) בתיעוד SAP S/4HANA On-Premise 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: "להמשיך להשתמש ב-MPLA ככותרת תוכנית האחזקה; לפי הבלופרינט אין פעולת המרה ייעודית לטבלה ב-SUM, " +
+        "ולאחר ההמרה לבצע בדיקות רגרסיה לקוד מותאם ולממשקים הקוראים או כותבים ל-MPLA, MPOS, MHIS ו-MHIO. " +
+        "לקריאה ולדיווח להעדיף את שכבת ה-CDS על פני SELECT ישיר, ולשים לב שהתצוגה I_MaintenancePlan " +
+        "שבמיפוי הפרויקט מסומנת כמוצאת משימוש מאז S/4HANA 2021 לפי רשומת cds:I_MaintenancePlan של הפרויקט, " +
+        "עם היורשת I_MaintenancePlanBasic (התצוגה היורשת אינה רשומה עדיין במיפוי הפרויקט). לאינטגרציות " +
+        "לבחון את שירות ה-OData API_MAINTENANCEPLAN עם הישות A_MaintenancePlan, המתועד במדריך APIs for " +
+        "Maintenance Management (ראו הערות). להעברת נתונים להשתמש באובייקט ההגירה PM - Maintenance plan " +
+        "(Object Alias MAINT_PLAN_3, גישת Staging Table), ולניהול מחזור חיים של הנתונים באובייקט הארכוב " +
+        "PM_MPLAN, שלפי הסניפט מפעיל את מחלקת הארכוב PM_MPLAN (MPLA, MMPT, MHIS) לצד מחלקת PM_MPOS (MPOS, " +
+        "ILOA, OBJK) ובלוק נוסף של MHIO ו-ONR00.",
+    },
+    xrefs: [
+      "table:MPOS", "table:MHIS", "table:MHIO", "table:ILOA", "table:OBJK", "table:EQUI", "table:IFLOT",
+      "tx:IP01", "tx:IP02", "tx:IP03", "tx:IP10", "tx:IP11", "tx:IP19", "tx:IP24", "tx:IP30", "tx:IP41",
+      "tx:IP42", "tx:IP43", "fm:MAINTENANCE_PLAN_SCHEDULE", "fm:MAINTENANCE_ITEM_READ",
+      "fm:ISCHED_CALL_GENERATE", "cds:I_MaintenancePlan", "fiori:F4072", "fiori:F2828", "enh:exit:IPRM0001",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs (מוצר SAP_S4HANA_ON-PREMISE, " +
+      "2026-09-15) בשאילתות 'MPLA maintenance plan table', 'Archiving of Maintenance Plans PM_MPLAN " +
+      "archiving object', 'Maintenance Plan Virtual Data Model CDS view I_MaintenancePlanBasic', " +
+      "'simplification maintenance plan MPLA conversion', 'What's New maintenance plan scheduling " +
+      "S/4HANA', 'API_MAINTENANCEPLAN OData service maintenance plan', 'MPLA WARPL scheduling period " +
+      "change documents maintenance plan table', 'MPTYP maintenance plan category field', בתוספת חיפוש רשת " +
+      "מוגבל-דומיין ורובד Tier-2 מהמאגר. גוף עמודי help.sap.com אינו נשלף (מעטפת JavaScript), ולכן כל טענה " +
+      "מוגבלת לכותרת ולסניפט של רשומת החיפוש; ארבע הכתובות הרשמיות החזירו HTTP 200 ו-loio/versionId אומתו " +
+      "מחדש מול שירות החיפוש. הבחנה שכדאי לשמור: באותו מדריך ארכוב, עמוד הסקירה (loio " +
+      "a0cfba538c95b54ce10000000a174cb4, לא נכלל כראיה) מבדיל בין 'Task Lists PM_PLAN' לבין 'Maintenance " +
+      "plans PM_MPLAN'; אובייקט הארכוב של תוכניות האחזקה הוא PM_MPLAN. עוד הבחנה: עמוד הארכוב מפעיל שלוש " +
+      "מחלקות ארכוב נפרדות (PM_MPLAN לתוכנית, PM_MPOS לפריטים, ובלוק נוסף לאובייקטי הקריאה), ורשימות " +
+      "הטבלאות אינן ניתנות לאיחוד לרשימה אחת. מה שלא אומת: לא נמצאה רשומת What's New או פריט פישוט " +
+      "(Simplification Item) רשמי שנוגע לטבלה MPLA עצמה, ולכן 'ללא שינוי' נסמך על נוכחות הטבלה בתיעוד 2025 " +
+      "FPS01 ועל היעדר רשומת שינוי, לא על אמירה רשמית מפורשת 'unchanged'. השדה MPTYP שבבלופרינט לא אושר " +
+      "באף סניפט רשמי (מושג 'Maintenance Plan Category' מתועד בעמוד loio 5d30ba538c95b54ce10000000a174cb4 " +
+      "בלי לנקוב בשם השדה); השדות WARPL, HORIZ, ABRHO ו-STRAT כן מופיעים בסניפטים רשמיים. רשימת השדות " +
+      "המלאה של MPLA ומבנה ה-DDIC לא אומתו מול מערכת חיה (חיבור sc4sap MCP נכשל בסשן זה). שירות ה-OData " +
+      "הנזכר בהמלצה מגובה ברשומות חיפוש רשמיות שלא נכללו כראיות נפרדות: 'Operations for Maintenance Plan' " +
+      "(loio e9e26138959d4c028145900daf0e1dde, 2023 Latest, 'The Maintenance Plan API offers these " +
+      "operations ... /sap/opu/odata/sap/API_MAINTENANCEPLAN/A_MaintenancePlan'), 'Read All Maintenance " +
+      "Plans' (loio 6ea78f4e7c9a449885712969090ce1fe, 2025.001) ו-'OData API: Maintenance Plan' ב-What's " +
+      "New 2025 FPS01 (loio 880c79762567475fa24fdd9a0c41f500). טבלת MMPT (Cycle definitions and measuring " +
+      "points) ו-ONR00 נקובות בסניפט הארכוב הרשמי אך אינן ב-xrefs כי אין להן דף בדאטהסט, וכך גם " +
+      "cds:I_MaintenancePlanBasic שאינה רשומה ב-data/cds-map.ts. ה-xref cds:I_MaintenancePlan נשמר כעוגן " +
+      "ניווט בלבד: לפי רשומת האימות של הפרויקט התצוגה הזו מוצאת משימוש, וההתאמה בין הרשומות מתוארת " +
+      "ב-data/verification/cds.ts. אפליקציית Fiori: הבלופרינט כותב 'Manage Maintenance Plans (אמת ID)'; " +
+      "help.sap.com עצמו נוקב במזהה F5325 בעמוד loio 0082dd0f5dd64b8b90cfa87ce1fd3c52, 'App Extensibility: " +
+      "Manage Maintenance Plans App (Key User)', 2025.001, כלשון הסניפט: 'you can extend the Manage " +
+      "Maintenance Plans (F5325) app according to your business needs'. מזהה זה אינו קיים " +
+      "ב-data/fiori/apps.ts ולכן לא נוסף כ-xref; ה-xrefs fiori:F4072 (Schedule Maintenance Plans) " +
+      "ו-fiori:F2828 (Maintenance Planning Overview) הם מזהי המאגר לניווט ולא מיפוי רשמי לטבלה. הפונקציה " +
+      "BAPI_MAINTENANCEPLAN_CREATE שבבלופרינט לא נוספה ל-xrefs: data/bapi-enrichment.pm.ts קובע שהיא אינה " +
+      "קיימת ומפנה ל-MPLAN_CREATE / MPLAN_CHANGE, וזו סתירה פנימית במאגר שטרם הוכרעה מול מקור רשמי. לא " +
+      "נטען שום מספר SAP Note או KBA. מהדורת S/4HANA Cloud Public Edition לא נבדקה.",
+  },
+
+  /* -------------------------------------------------------- table:MPOS */
+  {
+    id: "table:MPOS",
+    evidence: [
+      MPOS_PM_MPLAN_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Change Documents | Maintenance Planning (CS-AG/PM-PRM-MP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f7d969cde600466b96094e772632c3f3/f1a8ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד 'Change Documents' של Maintenance Planning (CS-AG/PM-PRM-MP) בגרסת 2025 FPS01 קובע: " +
+          "'Changes that you make to the maintenance plans or maintenance items are logged in the system " +
+          "in change documents', ומכיל את המשפט 'Maintenance Item: Table MPOS The table contains the " +
+          "maintenance item data'. כלומר תיעוד S/4HANA 2025 FPS01 מגדיר את MPOS כטבלה המחזיקה את נתוני " +
+          "פריט תכנית האחזקה. הסניפט מונה גם שמות שדות בהקשר תיעוד השינויים, בהם WARPL 'Maintenance plan', " +
+          "IWERK 'Maintenance planning plant', ILOAN 'Location and account assignment for technical " +
+          "object' ו-ZYKL1 'Maintenance package cycle/offset', אך אינו מאפשר לשייך כל שדה לטבלה שלו, ולכן " +
+          "לא נגזרה ממנו רשימת שדות של MPOS.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance item | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/dda63730335744e38a4d2ec0129428cc.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "אובייקט ההגירה 'PM - Maintenance item' (מדריך Data Migration, 2025 FPS01) קובע לפי הסניפט: " +
+          "'This migration object enables you to migrate the maintenance item data from the source ERP " +
+          "system to the target system based on the default selection criteria', ומוסיף: 'Note Maintenance " +
+          "items assigned to the maintenance plan are migrated with the Maintenance plan migration " +
+          "object'. הסיווג בסניפט: 'Component: PM', 'Business Object Type Master data', וגישת ההגירה " +
+          "'Migration Approach Direct Transfer - ERP' עם שם טכני 'S4_PM_MAINT_PLAN_ITEM'. כלומר קיים " +
+          "ב-S/4HANA 2025 FPS01 נתיב הגירה רשמי ייעודי לפריטי תכנית אחזקה, ופריטים שכבר משויכים לתכנית " +
+          "מועברים יחד עם אובייקט ההגירה של תכנית האחזקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Item | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/314f4099993e40d7b8ae0f90174015ea.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "מדריך ה-APIs הרשמי של ניהול תחזוקה בגרסת 2025 FPS01 קובע: 'Maintenance Item Technical name: " +
+          "API_MAINTENANCEITEM This API allows you to read, create, and update maintenance items'. הסניפט " +
+          "נוקב גם בישויות 'Maintenance Plan Call Object' ו-'Linear Asset Management Data " +
+          "(A_LinearAssetManagementData) Allows you to read linear asset management data'. רשימת הישויות " +
+          "והמאפיינים המלאה לא אומתה, מפני שגוף העמוד אינו נשלף; הטענה מוגבלת לקיום השירות ולפעולות " +
+          "הקריאה, היצירה והעדכון שהוא מציע לפריט תכנית אחזקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Item Data | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/dc7dc1581f4042c5a38c217e78934ea4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim: "נושא ה-VDM הרשמי 'Maintenance Item Data' (On-Premise 2023 Latest) קובע: 'CDS View Name " +
+          "C_MaintenanceItemDEX', 'Analytical Data Category Dimension', 'Status Released', 'Data " +
+          "Extraction Type Delta-enabled, the extraction is based on field LastChangeDateTime'. אותו עמוד " +
+          "מבחין ברמת השדה: 'Field Work Breakdown Structure Element (WBS Element) comes from the PM Object " +
+          "Location and Account Assignment database table (ILOA), not from the Maintenance item database " +
+          "table (MPOS)', כלומר תיעוד ה-VDM של S/4HANA מכנה את MPOS 'the Maintenance item database table' " +
+          "ומייחס את שדה ה-WBS ל-ILOA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ה-blueprint של PM (חוברת ההגירה): רשומת הטבלה MPOS",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "רשומת ה-blueprint (נושא 11, אחזקה מונעת ותוכניות): 'פריט תכנית אחזקה' / 'Maintenance item'; " +
+          "טרנזקציות 'IP04; IP02'; עמודת S/4: 'ללא שינוי (תואם)', טבלה חליפית 'MPOS (זהה)', 'IP04; Fiori'; " +
+          "SUM: ללא פעולת המרה ייעודית בטבלה תואמת, מומלץ Regression Test ואימות התאמות אישיות. שדות " +
+          "מתועדים: WAPOS (PK), WARPL (FK), EQUNR (FK), TPLNR (FK), AUART, PLNNR (FK); פונקציה " +
+          "MAINTENANCE_ITEM_READ; תוכנית RIMPLA00; קשרים: MPLA דרך WARPL, EQUI דרך EQUNR, PLKO דרך PLNNR. " +
+          "ה-blueprint נוקב באפליקציית Fiori 'Manage Maintenance Plans' ומסמן בעצמו 'אמת ID'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#MPOS",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "טבלת MPOS, פריט תכנית אחזקה (Maintenance item) בתחזוקת מפעל, פעילה ב-S/4HANA On-Premise (עדכני " +
+        "ל-2025 FPS01) וללא טבלה חליפית: מסמך הארכוב של 2025 FPS01 מונה אותה עם הטקסט הקצר 'Maintenance " +
+        "item' בהיקף אובייקט הארכוב PM_MPLAN, עמוד מסמכי השינוי של Maintenance Planning באותה גרסה קובע " +
+        "'Maintenance Item: Table MPOS The table contains the maintenance item data', ולמעבר הנתונים קיים " +
+        "אובייקט הגירה ייעודי 'PM - Maintenance item' ב-Migration Cockpit של 2025 FPS01. שכבת הגישה הרשמית " +
+        "לנתוני פריט תכנית האחזקה כוללת את שירות ה-OData API_MAINTENANCEITEM (מדריך APIs for Maintenance " +
+        "Management, 2025 FPS01) לקריאה, ליצירה ולעדכון, ולצריכה אנליטית את תצוגת ה-CDS " +
+        "C_MaintenanceItemDEX (Analytical Data Category Dimension, Status Released) לפי תיעוד ה-VDM של " +
+        "2023 Latest, שמייחס בה את שדה ה-WBS ל-ILOA ולא ל-MPOS. לא נמצאה רשומה רשמית הנוקבת ביורשת לטבלה, " +
+        "בפריט פישוט או בהוצאתה משימוש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MPOS_PM_MPLAN_ARCHIVING,
+      recommendedAction: "להמשיך להשתמש ב-MPOS כטבלת פריטי תכנית האחזקה; לפי ה-blueprint אין פעולת המרה ייעודית לטבלה " +
+        "ב-SUM, ולאחר ההמרה לבצע בדיקות רגרסיה לקוד מותאם ולממשקים הקוראים ממנה או כותבים אליה, לצד MPLA, " +
+        "MHIS, MHIO ו-ILOA. לאינטגרציות חדשות להעדיף את שירות ה-OData API_MAINTENANCEITEM (2025 FPS01, " +
+        "ראיה נפרדת ברשומה) על פני MAINTENANCE_ITEM_READ. לדיווח ולאנליטיקה לשקול את C_MaintenanceItemDEX " +
+        "על פני SELECT ישיר מהטבלה, בשים לב שרשומת ה-VDM שנבדקה היא 2023 Latest ולא 2025 FPS01, ושהיא " +
+        "מייחסת את שדה ה-WBS ל-ILOA ולא ל-MPOS. בהגירה להשתמש באובייקט 'PM - Maintenance item' של " +
+        "ה-Migration Cockpit (גישת Direct Transfer - ERP), בשים לב שפריטים המשויכים לתכנית מועברים עם " +
+        "אובייקט ההגירה של תכנית האחזקה. לניהול מחזור חיים של הנתונים לתכנן את הארכוב דרך PM_MPLAN, שמכסה " +
+        "גם ILOA ו-OBJK.",
+    },
+    xrefs: [
+      "table:MPLA", "table:MHIS", "table:MHIO", "table:ILOA", "table:OBJK", "table:EQUI", "table:IFLOT",
+      "table:PLKO", "tx:IP01", "tx:IP02", "tx:IP03", "tx:IP04", "tx:IP10", "tx:IP30",
+      "fm:MAINTENANCE_ITEM_READ", "cds:I_MaintenancePlan", "fiori:F4072",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs (מוצר SAP_S4HANA_ON-PREMISE), " +
+      "חיפוש רשת מוגבל-דומיין (help.sap.com, api.sap.com, fioriappslibrary, fal) ורובד Tier-2 מהמאגר. גוף " +
+      "עמודי ה-Help אינו נשלף (מעטפת JavaScript), ולכן כל טענה מוגבלת לכותרת ולסניפט של רשומת החיפוש. " +
+      "ביקורת עוינת 2026-09-15: חמש רשומות החיפוש (loio 96a0ce53, f1a8ce53, dda63730, 314f4099, dc7dc158) " +
+      "אומתו מחדש מול השירות (כותרת, deliverable, versionId וסניפט) וכל חמש הכתובות החזירו HTTP 200; כל 17 " +
+      "ה-xrefs נפתרים ביקום המזהים; 14 כללי lib/evidence/validate.ts נבדקו ידנית ללא ממצא. פערים ואזהרות: " +
+      "(1) רשימת השדות של MPOS (WAPOS, WARPL, EQUNR, TPLNR, AUART, PLNNR) מקורה ב-blueprint ובהעשרת המאגר " +
+      "(data/table-enrichment.ts#MPOS, מפתח MANDT+WAPOS) ולא אומתה מול מקור רשמי; הסניפטים הרשמיים אינם " +
+      "משייכים שדות לטבלה, וחיבור sc4sap MCP (SE11 חי) לא היה זמין בסשן זה. (2) ראיית ה-VDM (loio " +
+      "dc7dc158) נושאת versionId 2023.latest ולא 2025.001, כפי שהוחזר מהשירות; ארבע הראיות האחרות הן " +
+      "2025.001. רשימת הישויות והמאפיינים של API_MAINTENANCEITEM לא אומתה; נושא נוסף התומך בשירות הוא " +
+      "'Operations for Maintenance Item - Read' (2023 Latest, loio b9f5e86611524e14bc0ff48ffb1d8570), " +
+      "ורשומת What's New של 2025 FPS01 'New Linear Asset Management Data Entity for OData APIs' (loio " +
+      "22604a4f79934eb3bc2222fbf94b4248) מונה אותו בין השירותים שהורחבו. (3) קיים נושא VDM נוסף באותו שם, " +
+      "'Maintenance Item Data (Deprecated)' (2023 Latest, loio e28a09047bcd4d3cb9c939cc7b19747e), שסניפטו " +
+      "קובע 'CDS View Name I_MaintenanceItemData ... Status Deprecated'. אף סניפט שנקרא אינו קובע " +
+      "ש-C_MaintenanceItemDEX היא היורשת של I_MaintenanceItemData, ולכן הקשר ביניהן נותר לא מאומת. (4) " +
+      "Fiori: ה-blueprint רושם 'Manage Maintenance Plans (אמת ID)'. רשומות רשמיות שנמצאו: 'Situation " +
+      "Templates in Maintenance Management' (2023 Latest, loio 922cb176a6ee4de58f2bbba0db7f4ad2) נוקב " +
+      "'Maintenance Item EAM_MAINTENANCE_ITEM ... Manage Maintenance Items F5356', ו-'Use Cases for " +
+      "Situation Handling' (2023 Latest, loio fdbf5eabf0e84621a15c6965b3e01649) נוקב 'Manage Maintenance " +
+      "Plans F5325'. שני המזהים אינם קיימים ב-data/fiori/apps.ts ולכן אינם xrefs; ה-xref fiori:F4072 הוא " +
+      "רשומת מאגר בלבד (Schedule Maintenance Plans, trust 'curated', relatedTables MPLA ו-MPOS) ולא אומת " +
+      "מול מקור רשמי במעבר זה. (5) במדריך ה-Data Migration קיימים שני נושאים באותו שם 'PM - Maintenance " +
+      "item': loio dda63730335744e38a4d2ec0129428cc (הראיה שנרשמה, שסניפטה נוקב 'Migration Approach Direct " +
+      "Transfer - ERP' ו-'Name of this migration object: S4_PM_MAINT_PLAN_ITEM') ו-loio " +
+      "24afe9fb29024e58807a73397a74a128 שסניפטו נוקב 'Object Alias MAINT_ITEM', כלומר הווריאנט של טבלאות " +
+      "ה-Staging. (6) רשומה מחזקת שלא נכללה כראיה: 'Maintenance Plan | Enterprise Services in Logistics' " +
+      "(2023 Latest, loio 25c0d7d42fa54cda84685ea341e31fc3) קובעת 'The service operations for this " +
+      "business object use the following tables: MPLA MPOS MMPT MHIO MHIS'. (7) לא נמצא פריט פישוט " +
+      "(Simplification Item) הנוקב ב-MPOS; חיפושי הפישוט והדפרקציה החזירו תצוגות CDS ואפליקציות (למשל " +
+      "'Deprecation of Manage Maintenance Plan and Item List App', 2022.000, loio " +
+      "9fe2ab1a1d5f4f1482ebebdfb9a875d2), ולא פריט פישוט לטבלה. קטלוג ה-SIC ו-me.sap.com/notes דורשים " +
+      "התחברות S-user ולא נבדקו. לא נטען שום מספר SAP Note או KBA. (8) table:MMPT " +
+      "ו-cds:C_MaintenanceItemDEX אינם קיימים ביקום המזהים של הפרויקט ולכן אינם xrefs, אף שהם קשרים " +
+      "אמיתיים של הטבלה. (9) הסטטוס הנגזר שהאפליקציה מציגה כיום ל-MPOS הוא 'ללא שינוי' מה-blueprint " +
+      "(s4Note 'ללא שינוי (תואם)' מסווג 0 ב-lib/s4-class), בלי גרסה ובלי מקור; רשומה זו מוסיפה לו גרסה " +
+      "2025.001 וחמש ראיות, ולא נמצאה סתירה בין רובד המאגר לראיות הרשמיות.",
+  },
+
+  /* -------------------------------------------------------- table:MCHA */
+  {
+    id: "table:MCHA",
+    evidence: [
+      MCHA_BATCH_INTEGRITY,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Batch unique at plant level | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/dea580c3b7a84692bf12297175279e3d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "אובייקט ההגירה 'Batch unique at plant level' בתיעוד ה-Data Migration של 2025 FPS01 שולף את " +
+          "נתוני האצווה מהטבלה MCHA: 'This migration object automatically selects all unique batch data at " +
+          "the plant level from the MCHA table for the derived plants'. תכליתו העברת נתוני אצווה ייחודיים " +
+          "ברמת מפעל ממערכת ה-ERP המקורית למערכת היעד, והוא כולל את הצעד 'Create Batch at Plant Level'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Batch Level | Batch Management (LO-BM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4eb099dbc8a6435c9b36a854a7e05522/b6fdb753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד 'Batch Level' של LO-BM ב-2025 FPS01 קובע שרמת האצווה נבחרת בהגדרות תחת 'Specify Batch " +
+          "Level and Activate Status Management', ושמעבר לרמה אחרת מחייב שינוי בהגדרות והרצת תוכנית המרה: " +
+          "'If you want to use a different level in your company, you have to change it in Customizing and " +
+          "carry out a conversion program'. בזמן ריצת ההמרה אפשר לרשום אצוות ברמה הישנה בלבד, ורק לאחר " +
+          "סיומה ברמה החדשה ('While the conversion program is running, you can only post batches at the " +
+          "old level').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.8 S4TWL - Logistics " +
+          "Batch Management (LO-BM-MD, pp. 104-105)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE4,
+        claim: "פריט הפישוט של ניהול האצוות הלוגיסטי ברשימת הפישוט של 2025 FPS1 עוסק בטרנזקציות בלבד: לפי לשון " +
+          "המסמך MSC1, MSC2, MSC3 ו-MSC4 אינן זמינות ב-SAP S/4HANA, on-premise edition 1511, והמקבילות " +
+          "הפונקציונליות הן MSC1N (Create Batch), MSC2N (Change Batch), MSC3N (Display Batch) ו-MSC4N " +
+          "(Display Change Documents for Batch), ללא השפעה על התהליך העסקי ('No influence on the business " +
+          "process'). הפריט אינו נוקב בטבלאות אב האצווה ואינו מכריז על החלפתן. מספר ההערה הנקוב במסמך: " +
+          "0002267298.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.3 S4TWL - Logistics " +
+          "Batch Management (LO-BM-MD, pp. 127-128)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE4,
+        claim: "אותו פריט פישוט מופיע גם ברשימת הפישוט של 2023 FPS3, בפריט 3.3 תחת רכיב היישום LO-BM-MD, בנוסח " +
+          "כמעט זהה: MSC1, MSC2, MSC3 ו-MSC4 אינן זמינות ב-SAP S/4HANA, on-premise edition 1511, המקבילות " +
+          "הפונקציונליות הן MSC1N עד MSC4N, ו-'No influence on the business process'. מספר ההערה הנקוב שם " +
+          "הוא 2267298. גם בפריט זה אין אזכור של טבלת MCHA או של החלפת טבלאות אב האצווה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "טבלת MCHA, אב האצווה ברמת מפעל, פעילה ב-S/4HANA On-Premise נכון לסט התיעוד 2025 FPS01, ולא נמצאה " +
+        "לה טבלה חליפית או יורשת במקורות הרשמיים שנבדקו. תיעוד ניהול האצוות (LO-BM) של 2025 עדיין מכנה " +
+        "אותה 'the batch master record table MCHA', ואובייקט ההגירה הרשמי 'Batch unique at plant level' " +
+        "שולף ממנה את נתוני האצווה בהסבה ל-S/4HANA. התפוסה של הטבלה תלוית הגדרה: היא מתמלאת כאשר רמת " +
+        "האצווה מוגדרת ברמת מפעל, וגם כרשומת Dummy Batch כאשר החומר מוערך בנפרד ברמת מפעל. פריט הפישוט של " +
+        "ניהול האצוות הלוגיסטי נוגע לטרנזקציות MSC1 עד MSC4 ולא לטבלה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MCHA_BATCH_INTEGRITY,
+      recommendedAction: "להמשיך להשתמש ב-MCHA כאב האצווה ברמת מפעל; אין פעולת הסבה לטבלה עצמה. לפני ההסבה לוודא בהגדרות " +
+        "('Specify Batch Level and Activate Status Management') מהי רמת האצווה בפועל, כי היא קובעת אם " +
+        "נתוני האצווה יושבים ב-MCHA או ב-MCH1, ואיזה סוג מחלקת סיווג משמש; שינוי הרמה מחייב הרצת תוכנית " +
+        "המרה ייעודית לפי התיעוד הרשמי. להחליף כל שימוש ב-MSC1/MSC2/MSC3 ב-MSC1N/MSC2N/MSC3N לפי פריט " +
+        "הפישוט. בקוד מותאם ובממשקים כדאי להעדיף קריאה דרך תצוגת ה-CDS I_Batch או דרך API_BATCH_SRV על פני " +
+        "SELECT ישיר לטבלה; זו המלצת הנדסה ברמת הפרויקט, ולא אמירה של מקור רשמי על MCHA.",
+    },
+    xrefs: [
+      "table:MCH1", "table:MARA", "cds:I_Batch", "fiori:F1576", "tx:MSC1N", "tx:MSC2N", "tx:MSC3N",
+      "tx:MSC4N", "fm:VB_BATCH_VERIFY",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "שיטה: שש שאילתות ב-scripts/sap-help-search.mjs (מוצר SAP_S4HANA_ON-PREMISE: 'MCHA batch plant level " +
+      "table', 'batch level plant material batch management', 'Specify Batch Level and Activate Status " +
+      "Management conversion', 'batch master record MCHA MCHB material level client level', 'Batch Virtual " +
+      "Data Model CDS view I_Batch', 'Batch Classification class type 022 plant level 023 material " +
+      "level'), שאילתה נוספת במוצר SAP_S4HANA_CLOUD, וחיפוש רשת מוגבל ל-help.sap.com / api.sap.com / " +
+      "fioriappslibrary / fal. שדות loio, versionId וה-URL הועתקו מרשומות ה-JSON; חמש הכתובות שברשומה " +
+      "החזירו HTTP 200 ב-2026-09-15. גוף עמודי ה-Help לא נקרא (מעטפת JavaScript), ולכן כל ציטוט תחום " +
+      "לכותרת ולסניפט של רשומת החיפוש; היוצא מן הכלל הוא שתי רשימות הפישוט (2025 FPS1 ו-2023 FPS3), " +
+      "שהורדו, חולצו לטקסט מלא ונקראו בפועל. ממצא שלילי משני המסמכים שנקראו: חיפוש טקסט מלא ב-SIMPL_OP2025 " +
+      "וב-SIMPL_OP2023 מעלה את המחרוזת MCHA בשלוש שורות בכל מסמך, ובאף אחת מהן לא מדובר בטבלת האצווה: פעם " +
+      "כחלק משם טבלת ה-IS-Oil MCHABO1 בפריט מודל הנתונים של Oil & Gas Inventory Management, פעם ברשימת " +
+      "קודי טרנזקציה של Retail Information System (MCH+, MCH0, MCH1 ... MCHA, MCHB), ופעם כחלק משם הדוח " +
+      "MMCHANGEVAR. כלומר אין באף אחת משתי רשימות הפישוט פריט הנוגע לטבלה MCHA. זו ראיה שלילית ברמת שני " +
+      "מסמכים רשמיים, ולא בדיקה במערכת. רובד המאגר (Tier-2) עקבי עם המסקנה ולא שימש כראיה ברשומה: " +
+      "data/table-enrichment.ts#MCHA מגדיר מפתח MANDT+MATNR+WERKS+CHARG ומסביר שהטבלה רלוונטית כשרמת ניהול " +
+      "האצווה היא מפעל; data/sapData.pppi.ts (PP-PI:MCHA) רושם s4Note 'ללא שינוי.', טרנזקציות " +
+      "MSC1N/MSC2N/MSC3N, אפליקציית Fiori 'Manage Batches', מודול VB_BATCH_VERIFY ושדות " +
+      "MATNR/WERKS/CHARG/ZUSCH; data/table-titles.json רושם 'נתוני אצווה ברמת מפעל'. MCHA אינה נמנית בסט " +
+      "S4_STABLE של data/s4-impact.ts (שם קיימת שורה ל-MCH1 בלבד), ולכן המעמד שהאפליקציה מציגה היום נגזר " +
+      "מעמודת ה-S/4 של הבלופרינט בלבד. שתי סתירות אותרו ברובד המאגר ונרשמו " +
+      "ל-audit/s4-enrichment/research-queue-tables.md: (א) סוג מחלקת הסיווג לאצווה ברמת מפעל, 022 לפי " +
+      "העמודים הרשמיים 'Batch Classification' (MM-IM, 2025.001, loio 7e40bd53e3acb64ce10000000a174cb4, " +
+      "'022 for batches at plant level' מול '023 for batches at material level/client level') " +
+      "ו-'Classifying an Item' (LO-MD-BOM, 2025.001, loio 7806c453f57eb44ce10000000a174cb4, '022 - Batch " +
+      "with plant' מול '023 - Batch without plant'), מול 023 ב-data/workbenches-ext.ts ו-data/tx-intel.ts; " +
+      "(ב) זמינות MSC1/MSC2/MSC3 ב-S/4HANA לפי data/tx-intel.ts ('זמינה ב-S/4HANA') מול פריט הפישוט הרשמי. " +
+      "שתיהן לא סומנו כ-conflictingEvidence ברשומה כדי שלא להוריד את כל הרשומה ל'מקורות סותרים'; שתיהן " +
+      "דורשות תיקון נוסח בקובצי המאגר. פערים: פירוט שדות ה-DDIC של MCHA לא אומת מול מערכת חיה (חיבור " +
+      "sc4sap נכשל בסשן) ונשאר ברמת המאגר; השדה ZUSCH שבבלופרינט לא הופיע באף רשומה רשמית שנקראה. שמות " +
+      "שדות של MCHA כן הופיעו בסניפטים רשמיים שלא צוטטו כראיה: MCHA-HERKL ו-MCHA-HERKR בעמוד Batches in " +
+      "Delivery Management (LE-SHP, loio 47a0b8535c39b44ce10000000a174cb4), MCHA-SGT_SCAT בעמוד Master " +
+      "Data for Segmentation (EWM, loio 56b8b08408dc4b438d506cfc0b58b0e3), ו-MCHA-LWEDT ו-MCHA-BWTAR בעמוד " +
+      "Cost of Inventory (Thailand, loio 9184d0531d8b4208e10000000a174cb4); איש מהעמודים לא נקרא במלואו " +
+      "ולא נטענה רשימת שדות. טבלת מלאי האצווה MCHB אינה קיימת ביקום המזהים של הדאטהסט ולכן אינה ב-xrefs, " +
+      "אף שהיא מופיעה ברובד המאגר כטבלת המלאי המשלימה. ה-xref ל-cds:I_Batch נשען על עמוד ה-VDM הרשמי (loio " +
+      "ef1cd6cd9fb6418bb311b2b8e37b6b1e, 2023.latest) הקובע 'Use CDS view Batch Distinct (I_BatchDistinct) " +
+      "if you are looking for a view that only returns one row per batch regardless of batch-level " +
+      "configuration', כלומר התצוגה מודעת לרמת האצווה; אף עמוד רשמי שנקרא אינו נוקב ב-MCHA כטבלת המקור " +
+      "שלה, ולכן גם ההמלצה לקרוא דרך I_Batch היא המלצת הנדסה ברמת הפרויקט. ה-xref ל-fiori:F1576 מגיע " +
+      "מ-data/fiori/apps.ts (trust 'curated', relatedTables MCH1/MCHA) ולא אומת מול ספריית היישומים של " +
+      "Fiori בסשן זה. לא נטען שום מספר SAP Note בשדה sapNote: המספר 0002267298 מופיע כלשונו בשני המסמכים " +
+      "שנקראו ומצוטט בגוף הטענות בלבד, כי me.sap.com דורש S-user ואין repoRef. חיפוש במוצר SAP S/4HANA " +
+      "Cloud Public Edition לא החזיר אף רשומה הנוקבת ב-MCHA או ברמת האצווה, ולכן לא נרשמה טענה על המהדורה " +
+      "הציבורית; הרשומה כולה היא On-Premise. פריט פישוט נוסף שנקרא ולא נכלל: 'S4TWL - Batch History' " +
+      "(LO-BM, פריט 30.27 ברשימת 2023 FPS3, note 2270242 כלשונו במסמך), הקובע שהיסטוריית האצווה אינה חלק " +
+      "מארכיטקטורת היעד של S/4HANA; הוא נוגע ליומן השינויים של רשומת אב האצווה ולא לטבלה MCHA עצמה, ואינו " +
+      "משנה את המעמד כאן.",
+  },
+
+  /* -------------------------------------------------------- table:MARM */
+  {
+    id: "table:MARM",
+    evidence: [
+      MARM_PRODUCT_CHECKS,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Table and Field Extensibility | SAP S/4HANA and SAP S/4HANA Cloud Private Edition",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8308e6d301d54584a33cd04a9861bc52/dacf081f31af4c93ab97da957c71feee.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד הרחבת הטבלאות והשדות לגרסת 2025 FPS01 מציג עבור אובייקט Product טבלה בעמודות Table " +
+          "ו-Description, ובה השורה 'MARM Dimensions' לצד 'MARA Basic Data', 'MARC Plant Data', 'MARD " +
+          "Storage Location' ו-'MBEW Accounting'. הסניפט מגדיר את היקף העמוד: 'You can extend several " +
+          "tables of the Consolidation and Mass Processing data model and Mass Maintenance data model with " +
+          "new fields', ולכן MARM נמנית בתיעוד הרשמי בין הטבלאות הניתנות להרחבה בשדות חדשים במודלים האלה, " +
+          "והתיאור שהעמוד מצמיד לה הוא Dimensions.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Product | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/289644d401a844878ce84670517dfa98.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "אובייקט ההעברה Product במדריך Data Migration לגרסת 2025 FPS01 כולל תצוגה ייעודית ליחידות המידה: " +
+          "'Units of measure data In this view, you can enter Alternative Units of Measure (provide only " +
+          "the Base Unit of Measure in the Basic Data sheet)'. ברשימת מבני התבנית של האובייקט מופיע המבנה " +
+          "'Alternative Units of Measure (S_MARM)', לצד 'Basic Data (S_MARA), mandatory', 'Additional " +
+          "Descriptions (S_MAKT)', 'Seasons (S_FSH_SEASONS_MAT)' ו-'Distribution Chains (S_MVKE)'. מספרי " +
+          "הרמה בטבלת ההיררכיה נחתכים בסניפט ולא נטענים כאן.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נתוני הפרויקט: העשרת הטבלאות ובלופרינט ההגירה של תעשיות תהליכיות, רשומת MARM",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "רובד המאגר: רשומת ההעשרה של MARM מגדירה מפתח ראשי MANDT+MATNR+MEINH, מפתחות זרים MATNR ל-MARA " +
+          "ו-MEINH ל-T006, ומקדם המרה UMREZ (מונה) חלקי UMREN (מכנה) מול יחידת הבסיס MARA-MEINS, בסימון " +
+          "trust verified ובמקורות טקסטואליים ללא קישור ('SAP DDIC (SE11) - MARM', 'SAP Help Portal - " +
+          "Units of Measure'). בלופרינט תעשיות תהליכיות (רשומה PP-PI:MARM) רושם טרנזקציות MM01, MM02, " +
+          "MM03, אפליקציית Fiori בשם Manage Product Master Data, את השדות MATNR, MEINH, UMREZ, UMREN, " +
+          "EAN11 ו-MESUB, קשרי אב-בן ל-MARA ול-T006, מודולי פונקציה BAPI_MATERIAL_SAVEDATA, " +
+          "MATERIAL_UNIT_CONVERSION ו-MD_CONVERT_MATERIAL_UNIT, ואת הערת ה-S/4 'ללא שינוי מבני; אמת מקדמי " +
+          "עיגול (rounding) למניעת סטיות מלאי'. MARM אינה נכללת בסט S4_STABLE ואין לה רשומה בשכבת ההשפעה " +
+          "data/s4-impact.ts.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#MARM; data/sapData.pppi.ts#MARM",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "טבלת MARM (יחידות מידה לחומר) ממשיכה להיות מתועדת ב-SAP S/4HANA On-Premise גרסת 2025 FPS01 כטבלת " +
+        "יחידות המידה של אב המוצר: התיעוד נוקב בשמה 'Units of Measure for Material (MARM)' ומונה אותה עם " +
+        "טבלאות אב המוצר בבדיקות איתור הכפילויות, עמוד הרחבת הטבלאות מציג אותה בשורת אובייקט Product " +
+        "בתיאור Dimensions, ומבנה הביניים S_MARM הוא חלק מתבנית אובייקט ההעברה Product ב-Data Migration. " +
+        "אף רשומה רשמית שנשלפה אינה מסמנת את הטבלה כמוחלפת, כמוסרת או כפריט פישוט, ואף אחת אינה נוקבת " +
+        "ביורשת. הניסוח 'ללא שינוי מבני' עצמו הוא של רובד המאגר (בלופרינט תעשיות תהליכיות); מבנה השדות, " +
+        "אורכיהם והמפתח לא אומתו מול תיעוד רשמי.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MARM_PRODUCT_CHECKS,
+      recommendedAction: "אין צורך בהחלפת הטבלה או במיפוי מחדש: יחידות המידה החלופיות של החומר נשארות ב-MARM, והזנתן נעשית " +
+        "ב-MM01/MM02/MM03 או באפליקציית אב המוצר. לקריאה, לדיווח ולאנליטיקה לפתח מול תצוגת ה-CDS של יחידות " +
+        "המידה (במאגר I_ProductUnitOfMeasure; התיעוד הרשמי נוקב בצורת הרבים I_ProductUnitsOfMeasure, ראו " +
+        "רשומת ה-CDS בפרויקט) במקום SELECT ישיר מהטבלה, ולעדכון מתוכנת להשתמש ב-BAPI_MATERIAL_SAVEDATA או " +
+        "בשירות ה-OData של אב המוצר API_PRODUCT_SRV (מתועד ב-'Product Master (A2X)', APIs for Product " +
+        "Master, 2025.001, loio 74aa2b58a333a107e10000000a441470, ונרשם כראיה ברשומת " +
+        "data/verification/cds.ts; אינו ראיה ברשומה זו). לשדות מותאמים על שכבת יחידות המידה קיים הקשר עסקי " +
+        "ייעודי בהרחבת Key User, 'PRODUCT_UOM - Master Data: Product Dimensions', בעמוד App Extensibility: " +
+        "Manage Product Master (Product Master, 2025.001, loio ecb59556027ed75fe10000000a441470), שבשורת " +
+        "ההרחבה שלו נקובה הטבלה MARM ושאינו ראיה ברשומה זו; עמוד Table and Field Extensibility שנרשם כאן " +
+        "מונה את MARM בין הטבלאות הניתנות להרחבה בשדות חדשים במודלי Consolidation and Mass Processing " +
+        "ו-Mass Maintenance. בשני המסלולים ההרחבה נעשית דרך מנגנוני ההרחבה הרשמיים ולא בהוספת שדה ישירות " +
+        "לטבלה. לפני ההסבה לבדוק קוד Z וממשקים הקוראים מ-MARM ומניחים מספר חומר באורך 18 תווים (MATNR הוא " +
+        "חלק ממפתח הטבלה לפי רובד המאגר, וקביעת CHAR 18 מול CHAR 40 היא של רובד המאגר בלבד), לבדוק את " +
+        "סגמנט E1MARMM ב-IDoc MATMAS מול ממשקי Zetes ו-Daymax, ולאמת מקדמי המרה ועיגול לאחר ההעברה מול " +
+        "מבנה הביניים S_MARM של אובייקט Product.",
+    },
+    xrefs: [
+      "table:MARA", "table:T006", "table:MEAN", "table:MARC", "table:MARD", "tx:MM01", "tx:MM02", "tx:MM03",
+      "fm:BAPI_MATERIAL_SAVEDATA", "fm:MATERIAL_UNIT_CONVERSION", "fm:MD_CONVERT_MATERIAL_UNIT",
+      "idoc:msg:MATMAS", "idoc:basic:MATMAS05", "cds:I_ProductUnitOfMeasure", "cds:I_Product",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "שיטה: שבע ריצות של scripts/sap-help-search.mjs ב-2026-09-15 ('MARM Units of Measure for Material " +
+      "table', 'Alternative unit of measure conversion factor material master UMREZ UMREN', 'Units of " +
+      "Measure Product Master base unit alternative unit conversion', 'Alternative Units of Measure S_MARM " +
+      "migration product data migration', 'simplification item material master units of measure MARM " +
+      "removed replaced', \"What's New units of measure product master MARM conversion\", 'App " +
+      "Extensibility Manage Product Master UOM_INCL_EEW_PS MARM business context PRODUCT_UOM'), ריצה " +
+      "מקבילה בסקופ SAP_ERP ('Units of Measure material master MARM') וריצה בסקופ SAP_S4HANA_CLOUD, וחיפוש " +
+      "רשת מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal.cloud.sap. שלושת ה-URL הרשמיים הועתקו " +
+      "כלשונם מפלט ה-JSON (loio ו-versionId 2025.001) וכולם מוחזרים מאינדקס החיפוש באותו יום; ארבעה URL " +
+      "נבדקו גם ב-curl והחזירו HTTP 200, אך HTTP 200 אינו ראיה לקיום עמוד (האתר מחזיר 200 גם ל-loio שאינו " +
+      "קיים), ולכן הראיה בפועל היא רשומת האינדקס. גופי עמודי ה-Help לא נקראו (מעטפת JavaScript), וכל טענה " +
+      "תחומה לכותרת ולסניפט של רשומת החיפוש. היקף עמוד Table and Field Extensibility תחום בסניפט " +
+      "ל-'several tables of the Consolidation and Mass Processing data model and Mass Maintenance data " +
+      "model'; הקשר הרחבת ה-Key User לאב המוצר הוא בעמוד נפרד, App Extensibility: Manage Product Master, " +
+      "שלא נרשם כראיה ברשומה זו אלא ברשומת ה-CDS. מצב קודם באפליקציה: אין רשומת אימות ל-MARM, ולכן " +
+      "components/neo-shell/object/object-data.ts גוזרת את הפסיקה מ-s4ClassOf על הערת הבלופרינט 'ללא שינוי " +
+      "מבני...' ומציגה 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט' ובלי מקורות; הרשומה הזו משאירה " +
+      "את אותו טוקן ומוסיפה לו שלוש ראיות רשמיות, גרסה ומהדורה. סתירות מול נתוני המאגר: (1) descriptionEn " +
+      "בבלופרינט תעשיות תהליכיות הוא 'Material number' (תוצר העתקה, כמו ב-MLGT, MDMA ו-MARA) בעוד השם " +
+      "שהתיעוד הרשמי מצמיד לטבלה הוא 'Units of Measure for Material'; (2) מפת ה-CDS וההעשרה בפרויקט נוקבות " +
+      "בשם I_ProductUnitOfMeasure ביחיד, בעוד נושא ה-VDM הרשמי נוקב ב-I_ProductUnitsOfMeasure ברבים, כפי " +
+      "שכבר הוכרע ברשומת data/verification/cds.ts (המזהה בפרויקט לא שונה, השם הרשמי נרשם שם כ-alias) ולכן " +
+      "ה-xref כאן הוא למזהה הקיים ביחיד; (3) אף רשומה רשמית שנשלפה אינה קובעת שתצוגת ה-CDS הזו נבנית מעל " +
+      "MARM: הקשר הרשמי הקרוב ביותר הוא שורת ההרחבה 'UOM_INCL_EEW_PS MARM NA' בעמוד App Extensibility: " +
+      "Manage Product Master (Product Master, 2025.001, loio ecb59556027ed75fe10000000a441470, המגדיר את " +
+      "ההקשר העסקי 'PRODUCT_UOM - Master Data: Product Dimensions'), שכבר רשום כראיה ברשומת ה-CDS, ולצדו " +
+      "שורת 'MARM Dimensions' בעמוד הרחבת הטבלאות שנרשם כאן. לא אומת מול תיעוד רשמי: רשימת השדות של MARM, " +
+      "טיפוסיהם ואורכיהם, המפתח MANDT+MATNR+MEINH, שמות שדות ההמרה UMREZ ו-UMREN וקיומו של השדה EAN11 בתוך " +
+      "MARM. התיעוד הרשמי שנשלף מתאר את סמנטיקת ההמרה ברמת ישות ה-OData בלבד: 'Units of Measure' במדריך " +
+      "APIs for Product Master (2025.001, loio 93695a80beb84077af159271ff1ae3f3) נוקב ב-'QuantityNumerator " +
+      "Numerator for Conversion to Base Units of Measure' וב-'QuantityDenominator', ובאותו מדריך 'Product " +
+      "Units Of Measure' (loio 4985a85d4468478896508e71beecbfe4 ו-2a8025c4ef00489381f29f5c8d30d227) מגדיר " +
+      "'AlternativeUnit ... Unit of measure in which quantities can be entered alternatively to the base " +
+      "unit of measure/stock keeping unit'; אלה שמות ישות ולא שמות שדות DDIC, ולכן לא נרשמו כראיה לשדות " +
+      "הטבלה. את ריבוי מספרי ה-EAN/GTIN ליחידת מידה חלופית מתעד SAP בעמוד בדיקות אב המוצר תחת טבלה נפרדת, " +
+      "'International Article Numbers (EANs) for Material (MEAN)', ולכן שדה EAN11 שברשימת הבלופרינט נשאר " +
+      "ברובד המאגר בלבד. ממצאים שליליים תחומים לחיפושים שבוצעו: לא אותרה רשומה רשמית המסמנת את MARM כפריט " +
+      "פישוט, כמיושנת או כמוחלפת, לא אותר פריט What's New ייעודי לטבלה, ולא אותר מספר SAP Note רשמי עבורה " +
+      "(מספר Note 44410 הופיע בסניפט של 'Information Sheet on Transferring Article Master Data (Retail)' " +
+      "בהקשר שדות מותאמים באב החומר ולא בהקשר MARM, ולכן לא נרשם). קטלוג פריטי הפישוט וה-SAP Notes דורשים " +
+      "S-user לפי MANIFEST. הקשר ECC לא נרשם כראיה: חיפוש בסקופ SAP_ERP החזיר עמודי Information Sheet של " +
+      "אב החומר בלי טענה על מבנה MARM. הקשר ענן: אותו נושא 'Types of Checks Performed' מוחזר גם בסקופ " +
+      "SAP_S4HANA_CLOUD (Master Data, 2608.500, אותו loio) עם אותה שורה 'Units of Measure for Material " +
+      "(MARM)', וכן 'MATMAS IDoc' (APIs for Master Data Maintenance, 2608.500) עם 'E1MARMM Master material " +
+      "units of measure (MARM)'; הרשומה עצמה נשארת On-Premise לפי MANIFEST. רשומות רשמיות נוספות שנראו ולא " +
+      "נכללו כדי לשמור על רשומה תחומה: 'Segment E1MARMM: Master material units of measure (MARM)' " +
+      "(Logistics - General (LO), 2025.001, loio f1bfd0e6b28049449935943eeb88fea9, נושא ייעודי שכותרתו היא " +
+      "כל הסניפט) ו-'MATMAS IDoc' (APIs for Product Master, 2025.001, loio " +
+      "5f1d9c221c1841e0b202c5536fc1fa87, 'E1MARMM Master material units of measure (MARM)'), שכבר רשומות " +
+      "כראיה ברשומת idoc:msg:MATMAS ותומכות ב-xref ל-IDoc; 'Alternative Units of Measure in Production' " +
+      "(Production Orders (PP-SFC), 2025.001, loio 10cec353b677b44ce10000000a174cb4) לא נכלל כי הסניפט " +
+      "מגדיר אותו כפונקציה שפותחה בעיקר לתעשיית הכבלים ('This is primarily developed for cable industry') " +
+      "ואינו נוקב ב-MARM; 'Material Master Unit of Measure Setup' (Oil & Gas, 2025.001, loio " +
+      "9c69e50c986844b292ffc962ce65fb6f) הוא הקשר ענפי ואינו נוקב ב-MARM. אין xref מסוג Fiori: המזהה F1602 " +
+      "של Manage Product Master Data כן מתועד רשמית ונרשם כבר ב-data/verification/cds.ts מתוך 'Change " +
+      "Documents' (Product Master, 2025.001, loio 4715c453f57eb44ce10000000a174cb4: 'MM01(F1602): Created " +
+      "a product in the Manage Product Master Data app'), אך אינו קיים ברישום data/fiori/apps.ts ולכן אין " +
+      "xref. אין xref ל-T006D ול-CUNI: שניהם אינם ביקום המזהים של הפרויקט. לא בוצעה בדיקה חיה במערכת SAP: " +
+      "חיבור ה-MCP של sc4sap נכשל, ולכן מבנה ה-DDIC, אורכי השדות, קיום אינדקסים והתנהגות ההמרה בגרסה " +
+      "המותקנת נשארים לאימות ב-SE11 או ב-ADT.",
+  },
+
+  /* -------------------------------------------------------- table:MAKT */
+  {
+    id: "table:MAKT",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Types of Checks Performed | Product Master",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/bc6b9325fedd4344a84412b2195064fa/1bc030a8228d405fbea7016562fa85f1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד בדיקות ה-Product Master לגרסת 2025 FPS01 מונה את 'Material Descriptions (MAKT)' בין טבלאות " +
+          "נתוני אב המוצר ששדותיהן ניתנים להגדרה לבדיקות ההתאמה, לצד 'Units of Measure for Material " +
+          "(MARM)', 'Material Valuation (MBEW)', 'MRP Area for Material (MDMA)' ו-'International Article " +
+          "Numbers (EANs) for Material (MEAN)'. הסניפט נוקב בשני שדות של הטבלה בשמם: 'This rule checks for " +
+          "potential duplicates based on the MAKT-MAKTX (Description) and MAKT-SPRAS (Language) fields'. " +
+          "הטבלה קיימת אפוא בתיאור זה ב-S/4HANA 2025 FPS01. גוף העמוד לא נקרא (מעטפת JavaScript) ולכן " +
+          "הטענה תחומה בכותרת ובסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "MATMAS IDoc | APIs for Product Master",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/18fe3fab96864826bfa0be0de4f65b85/5f1d9c221c1841e0b202c5536fc1fa87.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "טבלת סגמנטי רשומת הנתונים של IDoc MATMAS לגרסת 2025 FPS01 כוללת את השורה 'E1MAKTM Master " +
+          "material short texts (MAKT)', לצד 'E1MARAM Master material general data (MARA)', 'E1MARA1 " +
+          "Additional Fields for E1MARAM' ו-'E1MARMM Master material units of measure (MARM)'. כלומר " +
+          "הטקסטים הקצרים של החומר, המאוחסנים ב-MAKT, מועברים בהפצת נתוני אב החומר דרך הסגמנט E1MAKTM.",
+        verificationLevel: "sap_official_verified",
+      },
+      MATNR_FIELD_LENGTH_SIMPL_2025,
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות ובלופרינט ההגירה של הפרויקט, רשומת MAKT",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "רובד המאגר: MAKT מחזיקה את תיאור החומר התלוי-שפה, מפתח MANDT + MATNR + SPRAS, מפתח זר MATNR " +
+          "ל-MARA, ושדה MAKTX באורך 40 תווים; הנחיית הביצועים שברשומה היא לסנן SPRAS לפי שפת המשתמש כדי לא " +
+          "לשלוף את כל השפות. בלופרינט ההגירה PP-PI (רשומה PP-PI:MAKT ב-data/sapData.pppi.ts) מונה את " +
+          "השדות MATNR (CHAR, '18->40', מפתח), SPRAS (LANG 1, מפתח), MAKTX (CHAR 40) ו-MAKTG (CHAR 40, " +
+          "תיאור באותיות גדולות), קובע ב-s4Note 'ללא שינוי; MATNR מורחב משפיע על המפתח', ומקשר לטרנזקציות " +
+          "MM01/MM02/MM03, ל-BAPI_MATERIAL_SAVEDATA ול-MAKT_SINGLE_READ.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#MAKT",
+      },
+    ],
+    status: {
+      status: "changed",
+      he: "טבלת MAKT (תיאורי חומר) קיימת ב-SAP S/4HANA On-Premise ומתועדת בשימוש בגרסת 2025 FPS01: עמוד " +
+        "בדיקות ה-Product Master מונה 'Material Descriptions (MAKT)' ונוקב בשדות MAKT-MAKTX ו-MAKT-SPRAS, " +
+        "והפצת נתוני אב החומר ב-IDoc MATMAS מעבירה את הטקסטים הקצרים בסגמנט 'E1MAKTM Master material short " +
+        "texts (MAKT)'. השינוי אינו במבנה הלוגי של הטבלה אלא בשדה המפתח MATNR: פריט הפישוט S4TWL - " +
+        "Material Number Field Length Extension (note 0002267140) קובע שאורך שדה MATNR במסד הנתונים הורחב " +
+        "מ-18 ל-40 תווים 'in all tables (and all fields within the tables) in which a material number can " +
+        "be stored', החל מ-S/4HANA on-premise edition 1511. אופן אחסון התוכן לא השתנה מול SAP Business " +
+        "Suite, ולכן לפי אותו פריט לרוב אין צורך בהמרת נתונים. MAKT עצמה אינה נקובה בשם בטקסט שחולץ " +
+        "מרשימות הפישוט הרשמיות ל-2023 ול-2025, ולא אותר לה יורש.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MATNR_FIELD_LENGTH_SIMPL_2025,
+      recommendedAction: "להמשיך לקרוא תיאורי חומר מ-MAKT, ובפיתוח חדש להעדיף את תצוגת ה-VDM I_ProductDescription, תוך " +
+        "סינון לפי שפה בכל שליפה. בבדיקת הקוד המותאם לפני ההסבה לאתר SELECT ו-JOIN מול MAKT שמניחים MATNR " +
+        "באורך 18 תווים, ובכלל זה שדות משורשרים שהחומר הוא חלק מהם, ולהתאים אותם לאורך 40 תווים לפי פריט " +
+        "הפישוט 5.1.5 S4TWL - Material Number Field Length Extension (SAP Note 0002267140 כפי שמודפס " +
+        "במסמך). בממשקים החוצים מערכת (MATMAS דרך הסגמנט E1MAKTM, BAPI_MATERIAL_SAVEDATA, וממשקי Zetes " +
+        "ו-Daymax בתעשיות התהליכיות) לקחת בחשבון ששדה החומר הקצר נשאר במבנה ושדה ארוך נוסף לסופו, ושהפעלת " +
+        "מספר החומר המורחב היא החלטה מפורשת שכבויה כברירת מחדל לאחר ההסבה. את אורכי ה-DDIC בפועל של MATNR " +
+        "ו-MAKTX בטבלת MAKT ואת קיום השדה MAKTG בגרסת היעד לאמת ב-SE11 במערכת, כי אף מקור רשמי שנשלף אינו " +
+        "נוקב בהם.",
+    },
+    xrefs: [
+      "table:MARA", "table:MARM", "table:MBEW", "table:MDMA", "table:MEAN", "cds:I_ProductDescription",
+      "cds:I_Product", "tx:MM01", "tx:MM02", "tx:MM03", "tx:MM17", "tx:MM60", "fm:MAKT_SINGLE_READ",
+      "fm:BAPI_MATERIAL_SAVEDATA", "fm:BAPI_MATERIAL_GET_DETAIL", "idoc:msg:MATMAS", "idoc:basic:MATMAS05",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "שיטה: חיפוש ה-JSON הרשמי של help.sap.com דרך scripts/sap-help-search.mjs ב-2026-09-15 ('MAKT " +
+      "material description table', 'material description MAKTX 40 characters product', 'MATMAS E1MAKTM " +
+      "material description segment IDoc', 'I_ProductDescription', 'Table and Field Extensibility Master " +
+      "Data Governance MAKT material descriptions', 'Mass Maintenance material MM17 MAKT descriptions', " +
+      "'Simplification List material master MAKT table S4TWL', \"What's New material description table " +
+      "MAKT S/4HANA\"), וחיפוש רשת מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal. שני ה-URL של " +
+      "עמודי ה-HTML הועתקו כלשונם מפלט ה-JSON, וכל אחד אומת מול אינדקס help.sap.com ב-2026-09-15 (כותרת, " +
+      "deliverable, loio ו-versionId 2025.001); קוד HTTP 200 מ-help.sap.com אינו ראיה לקיום עמוד, כי האתר " +
+      "מחזיר 200 גם ל-loio שאינו קיים. גופי העמודים לא נקראו (מעטפת JavaScript), ולכן כל טענה עליהם תחומה " +
+      "בכותרת ובסניפט. שני מסמכי רשימת הפישוט (SIMPL_OP2025.pdf, Document Version 1.36, " +
+      "ו-SIMPL_OP2023.pdf, Document Version 1.35) הורדו בפועל ונקראו כטקסט, ולכן הציטוטים מהם הם ציטוטי " +
+      "גוף מסמך ולא סניפטים; הממצאים השליליים מהם תחומים לטקסט הניתן לחילוץ. מול הפסיקה הנגזרת: הרובד " +
+      "הנגזר בפרויקט מציג היום 'ללא שינוי' (lib/s4-class קורא את אסימון הפתיחה של ה-s4Note בבלופרינט " +
+      "PP-PI, ו-lib/s4 מחזיר risk low / trust partial כי אין ל-MAKT רשומה ב-S4_IMPACT והיא אינה " +
+      "ב-S4_STABLE). הפסיקה שנכתבה כאן היא 'משתנה', והיא נשענת על פריט הפישוט של אורך מספר החומר בלבד, לא " +
+      "על שינוי בטבלה עצמה; ה-s4Note של הבלופרינט אומר בעצמו 'MATNR מורחב משפיע על המפתח', ולכן מדובר " +
+      "בחידוד ולא בסתירה. רשומת MARA באותה שכבה נפסקה 'משתנה' על אותו בסיס, וכאן הבסיס חזק יותר: משפט 'in " +
+      "all tables' נקרא מגוף רשימת הפישוט. SAP Note 0002267140 מובא בגוף הטענה בלבד, כפי שהודפס במסמך " +
+      "הרשמי, ולא נרשם בשדה sapNote (אין קישור me.sap.com/notes נגיש ואין לו רשומת מאגר ייעודית ל-MAKT). " +
+      "tx:MM17 ו-tx:MM60 נרשמו כהקשר בלבד: אף ראיה שנטענה ברשומה אינה נוקבת בהם. לא אומת: אורכי ה-DDIC " +
+      "בפועל של MATNR ושל MAKTX בטבלת MAKT, קיומו של השדה MAKTG (מופיע בבלופרינט ובהעשרת המאגר בלבד, אף " +
+      "רשומה רשמית שנשלפה אינה נוקבת בו), ומבנה המפתח המלא של הטבלה; כל אלה דורשים SE11 או מערכת חיה, " +
+      "וחיבור ה-MCP sc4sap נכשל לפי MANIFEST. רשומות רשמיות נוספות שנוקבות ב-MAKT ולא נטענו כראיה: 'Making " +
+      "Mass Changes' (loio c367cf536db84408e10000000a174cb4, 2025 FPS01), שהסניפט שלה קובע 'For example, " +
+      "in the case of the Material Master application, you can select the table MAKT (material " +
+      "descriptions)' - אותו loio הוחזר בשני חיפושים תחת שני deliverables שונים (Profit Center Accounting " +
+      "(EC-PCA) ו-General Ledger Accounting (FI-GL)) ולכן שיוך הספר אינו יציב; ושני נושאי 'Example " +
+      "Implementation' בתרחיש Responsible Design and Production (loio 7c10a572d205450fb9593489eff869f9 " +
+      "ו-loio cef6f2d7731f4e458661f2e643120a20, 2025 FPS01), הממפים 'Packaging Element description MAKT " +
+      "MAKTX Material Description' ו-'Packaging Composition description MAKT MAKTX Material description'. " +
+      "פערים ידועים במאגר: descriptionEn של MAKT בבלופרינט PP-PI הוא 'Material number' (ככל הנראה נגרר " +
+      "משורת MARA) בעוד descriptionHe הוא 'טקסטים לתיאור חומר'; התיקון שייך לחוברת המקור ולסקריפט החילוץ, " +
+      "לא לעריכה ידנית. הקישור בין MAKT לתצוגת I_ProductDescription מקורו במיפוי הפרויקט " +
+      "(data/cds-map.ts#I_ProductDescription) ובהעשרת ה-CDS, ולא באף סניפט רשמי שנשלף; אותה הסתייגות כבר " +
+      "רשומה ברשומת cds:I_ProductDescription. אין xref ל-Fiori: ערך fioriApp של MAKT בבלופרינט הוא 'Manage " +
+      "Product Master Data', ואפליקציה זו אינה רשומה ב-data/fiori/apps.ts. לא בוצעה בדיקה חיה במערכת SAP.",
+  },
+
+  /* -------------------------------------------------------- table:AFFL */
+  {
+    id: "table:AFFL",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Order Sequence | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/7b47cbb4384c497b993c670138aec9c7.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim: "עמוד ה-VDM הרשמי 'Production Order Sequence' (סט התיעוד On-Premise 2023 Latest) קובע: 'This CDS " +
+          "view retrieves production order sequence data by semantic key (table AFFL)', ונוקב ב-'CDS View " +
+          "Name I_ProductionOrderSequence' ובקטגוריה 'Analytical Data Category Fact'. הסניפט מוסיף: " +
+          "'Represented Objects This view represents the SAP object type ProductionOrder " +
+          "(BusinessObject).' ומונה את השאלות העסקיות 'Which sequences exist for a production order?', " +
+          "'Which are the branch and return operations of a parallel sequence?' ו-'Which reference bill of " +
+          "operation (routing) data belong to a production order sequence?'. טור השדות מופיע בסניפט כצמדי " +
+          "שם ותיאור, כשראש הרצף קטוע: 'SequenceCategory Sequence Category', 'ProductionOrderType " +
+          "Production Order Type', 'ProductionOrderSequenceText Sequence Description', " +
+          "'SequenceBranchOperation Branch'. הסניפט אינו מפרט את שדות ה-DDIC של AFFL עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manufacturing Order Sequence | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/41a3b1b463ab4d3fb50e5004c2c23aa6.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim: "עמוד ה-VDM 'Manufacturing Order Sequence' נוקב ב-'CDS View Name I_MfgOrderSequence' ובקטגוריה " +
+          "'Analytical Data Category Dimension', וקובע: 'With this CDS view, you can retrieve " +
+          "manufacturing order sequence data (table AFFL)', ובהמשך 'by semantic key'. השאלות העסקיות לפי " +
+          "הסניפט: 'Which sequences exist for a manufacturing order?', 'Which are the branch and return " +
+          "operations of a parallel sequence?' ו-'Which reference bill of operation (routing) data belong " +
+          "to a manufacturing order sequence?'. צמדי שם ותיאור בסניפט: 'ManufacturingOrderSequence " +
+          "Sequence', 'MfgOrderSequenceText Sequence Text', 'MfgOrderSqncBranchOperation_2 Branch " +
+          "Operation', 'MfgOrderSqncReturnOperation_2 Return Operation', 'ManufacturingOrderCategory Order " +
+          "Category', 'ManufacturingOrderType Order Type', 'MfgOrderSequenceCategory Sequence Category', " +
+          "'ProductionPlant Production Plant', 'BillOfOperationsType BOO Type'. אותו עמוד נושא הודעת הוצאה " +
+          "משימוש ברמת אלמנט: 'We recommend that you switch to the following successor element(s) as soon " +
+          "as possible: MfgOrderSequenceBrnchOperation -> MfgOrderSqncBranchOperation_2 " +
+          "MfgOrderSequenceRetOperation -> MfgOrderSqncReturnOperation' וכן 'SAP may make the deprecated " +
+          "elements unusable, usually no earlier than one year after the deprecation. For more " +
+          "information, see Deprecated and Decommissioned CDS Views'. ההוצאה משימוש חלה על אלמנטים בתוך " +
+          "התצוגה, והסניפט אינו אומר דבר על הוצאה משימוש של הטבלה AFFL.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Sequences | Production Orders (PP-SFC)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/34de0103497c4b80a7c7fbf6952ff971/ac01b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד 'Sequences' בתיעוד Production Orders (PP-SFC) לגרסת 2025 FPS01 קובע: 'Features The " +
+          "following types of sequence exist in the SAP System: Standard sequence A standard sequence is " +
+          "the first sequence of operations that is created in the routing or production order', ומוסיף: " +
+          "'If certain operations are to be executed as alternatives to or parallel to part of the " +
+          "standard sequence then they must be grouped together as alternative or parallel sequences', " +
+          "'Alternative sequence Alternative sequences contain operations that replace the operations in " +
+          "the standard sequence', 'Parallel sequence A parallel sequence runs parallel to the operations " +
+          "of the standard se' (כאן הסניפט נקטע), 'If parallel sequences exist in the routing selected " +
+          "then they are automatically copied to the order when the routing is exploded' ו-'Note " +
+          "Alternative sequences cannot be changed or added to the production order'. הסניפט אינו נוקב בשם " +
+          "טבלה, ולכן הוא תומך בקיום מושג הרצפים (סטנדרטי, מקבילי, חלופי) בפקודת הייצור ב-2025 FPS01 ולא " +
+          "בקישור ישיר ל-AFFL.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Operative Project Structures (PS-ST-OPR) | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/87d0b6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד הארכוב הרשמי לגרסת 2025 FPS01 קובע: 'You can use archiving object PS_PROJECT to archive " +
+          "data from the following database tables', ובטבלת העמוד מופיעה השורה 'Order for information " +
+          "system' עם מחלקת הארכוב PS_ORDER והטבלאות 'AFFL AFIH AFKO AFPO AFVC AFVU AFVV AUFK PAF VBAK " +
+          "VBAP'. כלומר AFFL עדיין מופיעה כטבלת בסיס נתונים בתיעוד הרשמי של 2025 FPS01. הסניפט אינו מתאר " +
+          "את מבנה הטבלה ואינו עוסק בהשוואה בין ECC ל-S/4HANA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ה-blueprint של ההגירה (PP-PI), רשומת AFFL",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "ה-blueprint של PP-PI מתאר את AFFL כ'רצף פעולות בפקודה' עם הטרנזקציות COR2 ו-COR3, ומסמן s4Note " +
+          "'מותאם (תואם).'. רשימת השדות שבמאגר: AUFPL (NUMC 10, מסומן PK/FK), APLFL (CHAR 6, מסומן PK), " +
+          "PLNFL (CHAR 6, לא מפתח) ו-FLGAT (CHAR 1, לא מפתח). ה-join שבמאגר הוא 'FROM AFFL JOIN AFKO ON " +
+          "AFFL.AUFPL = AFKO.AUFPL'. שדה descriptionEn של הטבלה הוא 'Routing number of operations', שהוא " +
+          "הטקסט שאותו blueprint נותן לשדה AUFPL ולא שם הטבלה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pppi.ts#AFFL",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט, רשומת AFFL",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "העשרת המאגר רושמת ל-AFFL מפתח ראשי MANDT, AUFPL ו-APLZL, מפתחות זרים 'AUFPL -> AFKO' " +
+          "ו-'AUFPL+APLZL -> AFVC', ומסמנת את הרשומה verified. מפתח זה סותר את רשימת השדות של ה-blueprint, " +
+          "שמסמנת APLFL כמפתח ואינה מונה APLZL כלל.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#AFFL",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "שכבת ההשפעה של הפרויקט (S4_IMPACT), הסט S4_STABLE",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim: "AFFL אינה נמנית בסט S4_STABLE של המאגר, בעוד אחיותיה במבנה הפקודה AFKO, AFPO, AFVC ו-AUFK כן " +
+          "נמנות בו. שכבת היציבות של המאגר שותקת לגבי AFFL.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/s4-impact.ts#S4_STABLE",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "טבלת AFFL (רצף פעולות בפקודה) פעילה ב-S/4HANA On-Premise, מופיעה בתיעוד הרשמי עד 2025 FPS01, ואין " +
+        "לה טבלה חליפית באף אחד מהמקורות שנבדקו. שתי תצוגות VDM רשמיות קוראות ממנה את רצפי הפעולות: " +
+        "I_ProductionOrderSequence ('production order sequence data by semantic key (table AFFL)') " +
+        "ו-I_MfgOrderSequence ('manufacturing order sequence data (table AFFL)'), ותיעוד PP-SFC של 2025 " +
+        "FPS01 עדיין מתאר את סוגי הרצפים בפקודה (רצף סטנדרטי, רצפים מקבילים ורצפים חלופיים). אף מקור רשמי " +
+        "שנבדק אינו נוקב ביורשת, בהוצאה משימוש או בשינוי מבנה של הטבלה. הודעת ההוצאה משימוש שבעמוד " +
+        "I_MfgOrderSequence חלה על אלמנטים בתוך התצוגה ולא על הטבלה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Operative Project Structures (PS-ST-OPR) | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/87d0b6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim: "עמוד הארכוב הרשמי לגרסת 2025 FPS01 קובע: 'You can use archiving object PS_PROJECT to archive " +
+          "data from the following database tables', ובטבלת העמוד מופיעה השורה 'Order for information " +
+          "system' עם מחלקת הארכוב PS_ORDER והטבלאות 'AFFL AFIH AFKO AFPO AFVC AFVU AFVV AUFK PAF VBAK " +
+          "VBAP'. כלומר AFFL עדיין מופיעה כטבלת בסיס נתונים בתיעוד הרשמי של 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: "להמשיך לקרוא את רצפי הפעולות מ-AFFL דרך AUFPL של AFKO, לפי ה-join שבמאגר 'FROM AFFL JOIN AFKO ON " +
+        "AFFL.AUFPL = AFKO.AUFPL'; לפי המקורות שנבדקו אין פעולת הסבה לטבלה עצמה. לפיתוח חדש ולצריכה " +
+        "אנליטית להעדיף את תצוגות ה-CDS הרשמיות I_ProductionOrderSequence ו-I_MfgOrderSequence על פני " +
+        "SELECT ישיר, ובתוך I_MfgOrderSequence לצרוך את אלמנטי היורש MfgOrderSqncBranchOperation_2 " +
+        "ו-MfgOrderSqncReturnOperation_2, מאחר שהעמוד הרשמי מסמן את קודמיהם כמוצאים משימוש ומזהיר ש-SAP " +
+        "עשויה להפוך אלמנטים מוצאים משימוש לבלתי שמישים. מכיוון שה-blueprint של PP-PI פותח ב'מותאם " +
+        "(תואם)', להריץ Regression Test על קוד מותאם, User Exits ודוחות שקוראים AFFL ישירות, ולאמת ב-SE11 " +
+        "במערכת היעד את מפתח הטבלה ואת רשימת השדות לפני שמסתמכים על תיעוד המאגר.",
+    },
+    xrefs: [
+      "table:AFKO", "table:AFVC", "table:AFPO", "table:AUFK", "table:PLFL", "tx:CO02", "tx:CO03", "tx:COR2",
+      "tx:COR3",
+    ],
+    lastVerifiedAt: DATE4,
+    notes: "ארבע רשומות חיפוש רשמיות (scripts/sap-help-search.mjs, מוצר SAP_S4HANA_ON-PREMISE, נגישות " +
+      "ב-2026-09-15) מציגות את AFFL כטבלה חיה: שני עמודי VDM שנוקבים בה במפורש ('table AFFL') בסט התיעוד " +
+      "2023 Latest, עמוד ארכוב PS של 2025 FPS01 שמונה אותה ברשימת טבלאות הבסיס של אובייקט הארכוב " +
+      "PS_PROJECT, ועמוד PP-SFC של 2025 FPS01 שמתאר את סוגי הרצפים בלי לנקוב בטבלה. רק סניפטים רשמיים " +
+      "שימשו לניסוח; גופי העמודים ב-help.sap.com הם מעטפת JavaScript ולא נקראו, ולא נטען שום מספר SAP Note " +
+      "או KBA. שני עמודי ה-VDM מאונדקסים בשירות החיפוש תחת 2023 Latest בלבד, וכותרתם, ה-deliverable, " +
+      "ה-versionId וה-loio שלהם אומתו מחדש בשאילתה חיה ב-2026-09-15; כתובת ה-URL עונה גם עם " +
+      "version=2025.001 (HTTP 200) אך התוכן לא נקרא, ולכן ה-release של אותן ראיות נשאר 2023.latest כלשון " +
+      "רשומת החיפוש. עמוד I_MfgOrderSequence נושא הודעת הוצאה משימוש ברמת אלמנט " +
+      "(MfgOrderSequenceBrnchOperation ו-MfgOrderSequenceRetOperation מוחלפים בגרסאות _2); זו אמירה על " +
+      "התצוגה ולא על הטבלה, והיא שוקפה בפעולה המומלצת. סתירה פנימית במאגר: ה-blueprint של PP-PI פותח " +
+      "ב'מותאם (תואם)', ולכן המפה של האפליקציה גוזרת כיום 'משתנה ב-S/4HANA' (class 1, derivedFrom " +
+      "blueprint), בעוד AFFL אינה נמנית בסט S4_STABLE (בניגוד ל-AFKO, AFVC ו-AFPO), כלומר שכבת היציבות של " +
+      "המאגר שותקת לגביה. אף מקור רשמי אינו נוקב בשינוי מבני, ולכן נבחר 'ללא שינוי', והסתייגות ה-blueprint " +
+      "נשמרה בפעולה המומלצת. שתי רשומות המאגר חלוקות על מפתח הטבלה: data/table-enrichment.ts#AFFL נוקב " +
+      "ב-MANDT, AUFPL ו-APLZL, ואילו data/sapData.pppi.ts#AFFL מסמן את AUFPL כ-PK/FK ואת APLFL כ-PK. אף " +
+      "סניפט רשמי בסבב הזה אינו נוקב במפתח, והחיבור ל-sc4sap (מערכת ABAP חיה) אינו זמין, ולכן מפתח ה-DDIC " +
+      "נשאר לא מאומת. בנוסף, descriptionEn של AFFL ב-blueprint הוא 'Routing number of operations', שהוא " +
+      "הטקסט שאותו blueprint נותן לשדה AUFPL ולא לטבלה; שם הטבלה באנגלית לא אומת בסבב הזה. התצוגות " +
+      "I_ProductionOrderSequence ו-I_MfgOrderSequence מגובות בראיות רשמיות אך אינן ב-xrefs כי אין להן מזהה " +
+      "בר-פענוח בדאטהסט (ROUTE_MANIFEST.cds). data/cds-map.ts ו-data/cds-enrichment.ts מקשרים את " +
+      "I_ProductionOrderOperation ל-AFVC ול-AFFL, בעוד עמוד ה-VDM הרשמי של אותה תצוגה (בשם " +
+      "I_ProductionOrderOperation_2, כפי שכבר תועד ברשומת cds:I_ProductionOrderOperation) נוקב בטבלאות " +
+      "AFVC, AFVV ו-AFVU בלבד; לכן התצוגה הזו לא נכללה ב-xrefs. אמירת SAP שלפיה manufacturing order כולל " +
+      "הזמנות תהליך נתמכת ברשומה רשמית נוספת שלא נכללה כראיה: 'SOAP API: Manufacturing Order - Send' " +
+      "(What's New in SAP S/4HANA 2020, versionId 2020.000, loio df3f710673d84463b94b3ad5c04ba395), " +
+      "שסניפטה קובע 'you can send manufacturing orders (production orders or process orders) from an SAP " +
+      "S/4HANA system'. הטרנזקציות ב-xrefs: COR2/COR3 מגיעות מ-data/table-tcodes.json לרשומת AFFL, " +
+      "ו-CO02/CO03 מהקשר פקודת הייצור של אותם עמודי PP-SFC; שיוך הטרנזקציה לטבלה אינו מגובה בסניפט רשמי.",
   },
 ];
