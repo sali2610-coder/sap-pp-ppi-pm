@@ -13,7 +13,10 @@ for `fm:NOTIF_TASK_READ` in the functions catalog). Updated 2026-09-15 for batch
 `data/table-tcodes.json`). Updated 2026-09-15 for batch 7 (8 audited, 8 written, 0 refuted; the production
 resource/tool family and the work-center capacity family; four of the eight written `verification_required`). Updated 2026-09-15 for batch 8
 (8 audited, 6 written, 2 refuted: `table:TJ02T` and `table:TJ30`; the equipment-text and maintenance-BOM
-assignment tables plus the status-text, notification-type and order-type Customizing tables).
+assignment tables plus the status-text, notification-type and order-type Customizing tables). Updated 2026-09-15 for batch 9
+(7 audited, 5 written, 2 refuted: `table:T134T` and `table:T023T`; the material-type, material-group and
+unit-of-measure Customizing tables plus the catalog-profile header and the task-list inspection
+characteristics).
 
 ## refuted / needs new evidence
 
@@ -835,3 +838,174 @@ at the same document: `EQKT_PM_ARCHIVING` (the PM_EQUI archiving list, next to t
   The xrefs were **not** dropped to raise the depth number: they are correct links from the blueprint, and
   trimming them to move a metric would be exactly the kind of gaming this layer exists to prevent. Raising
   any of the six needs SE11 or an official field list, plus transaction pages for BS02/BS03/BS22/BS23.
+
+## batch 9 (2026-09-15) — 7 audited, 5 written, 2 refuted
+
+Records written: `table:T134`, `table:T023`, `table:T006`, `table:T352`, `table:PLMK` — the material-type,
+material-group and unit-of-measure Customizing tables plus the catalog-profile header and the task-list
+inspection characteristics. All five were merged from the verdict's `fixedRecord`, with the writer corrections
+listed below. Four carry **`unchanged`** at edition on-premise, release 2025.001, with an authored
+`status.source`; `table:T352` carries **`verification_required`** with `release: null` and `source: null`, on the
+`table:T003O` / `table:PLZU` / `table:FHMI` / `table:KAZT` precedent: no official page in the index prints the
+string `T352`, and the whole 2025 FPS01 Simplification List (read in full) prints neither `T352`, nor
+`catalog profile`, nor `RBNR`.
+
+Four shared evidence objects were hoisted to module constants so each record and its `status.source` point at the
+same document: `T134_RETAIL_IDOC`, `T023_MATERIAL_GROUPS`, `T006_OIL_GAS_UOM`, `PLMK_PM_PLAN_ARCHIVING`.
+
+`table:PLMK` is the first record in this catalog to carry a **public-cloud** evidence entry alongside an
+on-premise status: the verdict ordered the 2608.500 archiving page (`a9a67111d5734c5ea80b3b19c7892c16`,
+Production Planning and Control) out of the on-premise evidence entry it was riding on and into its own, which is
+why `npm run report:coverage -- --catalog tables` now reports one edition-specific row where it reported zero.
+
+### refuted / needs new evidence (batch 9)
+
+- `table:T134T` — refuted at audit, not written. **Blocking: a negative finding contradicted by a public
+  document, declared over a channel the record never opened.** `status.he` and `gaps[5]` assert that no
+  Simplification Item, What's New record or successor was found for the table, and `notes` excuse the gap with
+  "קטלוג ה-Simplification Item דורש התחברות S-user לפי audit/s4-enrichment/MANIFEST.md ולא נבדק". `MANIFEST.md`
+  line 27 gates the Simplification Item **Catalog** (`launchpad.support.sap.com/#/sic`), not the Simplification
+  **List** white paper, which is public on help.sap.com and is already cited in this very overlay file as
+  `MATNR_FIELD_LENGTH_SIMPL_2025`. Re-measured by the writer on 2026-09-15 from `SIMPL_OP2025.pdf`
+  (10,585,218 bytes, md5 `c1ccf8ebcd92d51fdc80e4b4873f3b73`, 70,529 extracted lines, last page marker
+  `Page | 1514`, Document Version 1.36): item **12.1.1 `S4TWL - Material Type SERV`** (Application Component
+  LO-MD-MM, Business Impact note 0002267247, heading on page 1023, the T134 line on page 1025) prints
+  `Material type SERV(Table T134, delivery class: G)` and, next to it,
+  `Screen sequence control(SPRO transaction: OMT3E / Table T133K "Influencing Factors: Screen Sequence No." /
+  Delivery Class: G / Tables T133S and T133T are also part of SET content`. The string `T134` occurs exactly once
+  in the whole extracted text; `T134T` occurs zero times. So the negative is wrong for the parent table and only
+  *bounded-true* for the text table, and the record must say which. Six further problems to clear before a
+  rewrite: (1) `status.he` claims official verification for "התוכן שהפרויקט מייחס לטבלה ... חי ב-S/4HANA
+  כאובייקט מתועד בשם ProductTypeText" while `notes` concede the same link is "סינתזה של הרשומה ואינו מופיע
+  בתיעוד הרשמי שנשלף" — the UI renders `status.he`, so the synthesis would display as officially verified;
+  (2) `evidence[0].claim` (level `sap_official_verified`) extends past its snippet with "הנושא את אותו תוכן
+  שהפרויקט מייחס ל-T134T", while the snippet for loio `97a9653e32654d51b56e53d7b2ecd594` never mentions T134T;
+  (3) `evidence[1].claim` turns "This service enables you to read the product types and their description" into
+  exclusivity, "קריאת סוגי החומר ותיאוריהם ... **מתבצעת** דרך שירות ה-OData API_PRODUCTTYPE"; (4)
+  `evidence[2].claim`'s transparency note is not reproducible — one run of the query
+  `Product Type Description ProductTypeText` returns the Prerequisites sentence, the
+  `CDS View Name I_Producttype Related Text View I_ProducttypeText` sentence and the opening of the object-types
+  list in a **single** snippet; (5) `notes` attribute `tx:SPRO` and `tx:MM02` to the repository layer, but
+  `data/knowledge/object-intel.ts` line 116 (T134T) names only MM01/MM03 plus OMS2 and SE63, and the blueprint
+  record's `tcodes` field is empty; (6) three official pages are quoted and loio-cited inside
+  `status.recommendedAction` (`fb17bf53d25ab64ce10000000a174cb4` Retail, `8973eb63ebfc46cab4fd3ff77ad55e5d`,
+  `6082eb1627e44234a14ecf3db86c566f`) without appearing in `evidence[]`, so the rendered source list understates
+  what the recommendation rests on. Note also that the OMS2 authority is a **Retail** article-master information
+  sheet being used for a PP-PI material type; the draft does label it, which is the minimum disclosure.
+  Useful for the rewrite: the sibling `table:T134` written in this batch now carries the Simplification List
+  finding as its fifth evidence entry, so the text table's record can cite the same measurement rather than
+  repeating the search.
+- `table:T023T` — refuted at audit, not written. **Blocking: an invented release status.** `evidence[2].claim`,
+  `status.he` and `status.recommendedAction` all call `A_ProductGroupText` a "ישות שירות משוחררת" (a *released*
+  service entity). The cited snippet (loio `0f0f4d1bc5214ea2b531d66e6ae21257`) reads
+  `Product Group Text Technical name: A_ProductGroupText Node that contains product group text fields. …
+  Parameters Parameter Description Necessity MaterialGroup Material Group key Mandatory Language Language Key
+  Mandatory MaterialGroupName Name of Material Group Optional MaterialGroupText …` and carries **no** release,
+  lifecycle or status field; two further searches return only "inbound service" (`API_PRODUCTGROUP_SRV`). The
+  contrast is decisive inside the same search family: the VDM page *Product Group Value Help* does surface a
+  status field in its snippet (`Status Deprecated`), which is why the house may write "תצוגת CDS משוחררת"
+  elsewhere in `data/verification/tables.ts`. Here there is no such field, so `משוחררת` is a release status
+  typed from memory. Five further problems: (1) `status.he` carries the whole ECC-to-S/4 half of the verdict —
+  "אותו נושא הפצה מתפרסם תחת אותו loio גם בגרסת SAP ERP 6.0 EHP8 עם אותה רשימת טבלאות" — with **no** matching
+  `evidence[]` entry; the fact itself reproduces (`--product SAP_ERP` returns title *Merchandise Category:
+  Distribution*, deliverable *Master Data*, versionId `6.18.latest`, same loio `18a8c7536e8e2a4be10000000a174cb4`,
+  snippet `T023T Merchandise category texts T023S …`), so this is a citation gap, not a fabrication;
+  (2) self-contradiction: `notes` file *Creating Material Groups* under "רשומות רשמיות נוספות שנצפו ולא נטענו
+  כראיה" while `recommendedAction` then leans on it verbatim — the fix is to promote it, and this batch's
+  `table:T023` does exactly that (same loio `b48150ad8616416b91c6c216846e5448`, deliverable *Contract Billing*,
+  versionId 2025.001, now `T023_MATERIAL_GROUPS`); (3) a factually inaccurate negative in `notes` — the draft
+  states the two simplification-list texts "אינם מכילים את המחרוזות T023T או T023"; re-measured by the writer,
+  `SIMPL_OP2025.txt` contains `T023T` zero times (correct) but does contain one T023-family hit the draft did not
+  disclose, `T023W` at line 61564, inside the value-only-article relevancy check
+  (`Value-only article: Enter table T023W and check whether there are entries with field WWGPA (Material group
+  material) not equal blank`); the conclusion survives, the wording does not; (4) `evidence[2].claim`, a Tier-1
+  claim, embeds the cross-source inference "בדיוק צירוף המפתח שמתארת רשומת T023T בנתוני הפרויקט", which belongs
+  in `status.he` or `notes`; (5) `recommendedAction` name-drops "ממשקי Zetes ו-Daymax" although the blueprint
+  record for T023T (`data/sapData.pppi.ts`, id `PP-PI:T023T`) lists no BAPIs and no IDocs at all — its funcs are
+  `VIEW_MAINTENANCE_CALL` and `RFC_READ_TABLE`, its progs `SE16N`. Not a defect, recorded for the rewrite: the
+  `unchanged` token itself survives, and `lib/evidence/s4-status.ts:79` does derive
+  `claim('unchanged','blueprint',…)`, so the authored status matches what the app shows today.
+
+### writer deviations from the verdicts (batch 9)
+
+- **`table:PLMK` evidence[1], the PI_PLAN preamble — the verdict was wrong and was not followed.** The verdict's
+  PROBLEM 2 and downgrade 3 ordered the words *When you implement* removed from the quoted opening, on the
+  ground that "no retrievable snippet contains" them. They do. Measured by the writer on 2026-09-15,
+  `node scripts/sap-help-search.mjs "Archiving Master Recipes PI_PLAN data from the following tables is archived
+  PLKO Recipe header"` returns, for loio `c36fbd534f22b44ce10000000a174cb4`:
+  `… Texts Structure When you implement archiving object PI_PLAN , data from the following tables is archived:
+  Table … Description`. The record therefore quotes that sentence verbatim, including the index's space before
+  the comma, and says so. The rest of the verdict's PI_PLAN downgrades were applied.
+- **`table:PLMK` evidence[0] and evidence[1], truncation markers — reframed rather than re-placed.** The verdict
+  moved `[...]` markers around on the assumption that a snippet is a fixed property of the page. It is not: the
+  same search record returns a different cut per query. Measured: `PLMK Inspection plan characteristics PLMW
+  Inspection plan characteristic values PLAB Task list relationships PLTX PMS texts PLPH Phases and partial
+  operations for CAP PLFT Process instructions` is contiguous in one run, and `Process instructions PLFV Process
+  instruction characteristics and partial operation parameters MLST Milestones EINA Purchasing info record
+  (general data) EINE …` is contiguous in another. The claims keep the verdict's marker positions but now state
+  that the markers belong to the run the fragment was copied from, and evidence[1] lists the PI_PLAN table chain
+  as the three fragments actually measured rather than as one sentence.
+- **`table:T134` — the "no simplification item" negative was replaced by a measurement, and a fifth evidence
+  entry was added.** The verdict left the draft's blanket sentence "אף מקור רשמי ... אינו נוקב ... בפריט פישוט"
+  and the excuse "קטלוג פריטי הפישוט דורש הזדהות S-user ולא נקרא" untouched. That is the same defect that got
+  the sibling `table:T134T` refuted in the same round, and it is wrong on the facts: the public Simplification
+  List names T134 (item 12.1.1, quoted above). The writer read the PDF, added a `simplification_item` evidence
+  entry with the measured quotes and the bounded negative (T134 once, T134T and T134M zero, MATDOC 84 as the
+  control), rewrote the `status.he` sentence, and added one clause to `recommendedAction` about the SERV row
+  being delivered as SET content. `notes` now describe the list read and keep the true statement that the
+  Simplification Item **Catalog** is a separate S-user channel that was not opened. The SET configuration text is a
+  bulleted list in the PDF, not a sentence, so the claim quotes it line by line (heading, bullet, sub-bullet)
+  instead of stitching it into one string, and it records that the quotation marks around *Influencing
+  Factors: Screen Sequence No.* are curly in the source.
+- **`table:T134` evidence[0], the ARTIKANZ quote — a stitch was split.** The verdict's `fixedRecord` quotes
+  `ARTIKANZ Display article T134-ARANZ with MTART = MARA-MTART C` as one sequence. Measured, the index returns
+  the label at the end of one rendering (`… PRDRUCK Choose price T134-PRDRU with MTART = MARA-MTART C ARTIKANZ`)
+  and the description at the start of another (`Display article T134-ARANZ with MTART = MARA-MTART C MHDRZ
+  Minimum remaining shelf life MARA-MHDRZ P, D0`). The claim now quotes both fragments and states the mapping
+  (the IDoc field ARTIKANZ is fed from T134-ARANZ) as a reading, not as a quote. The verdict's substance — three
+  occurrences of T134, the WMAKG field, the POS outbound context, no misleading parenthetical — is unchanged.
+- **`table:T023` and `table:T006` notes — the same list was read and the result recorded.** Both records
+  declared their simplification negative over searches only. The writer read `SIMPL_OP2025.pdf` and added the
+  measurement: `T023T` zero, the only T023-family hit `T023W` (value-only article check, line 61564), `T006`
+  zero, `MATDOC` 84 as the control. Neither record's status token or evidence array changed.
+
+### batch 9 (2026-09-15) open conflicts, recorded in the written records' notes
+
+- `table:T134` — **blueprint `funcs` are another record's functions.** The PP-PI topic-7 row for T134 lists
+  `LOIPRO`, `BAPI_BUPA_CREATE_FROM_DATA`, `CVI_VENDOR_TO_BP_CONVERT` and `STATUS_CHANGE_INTERN` — the BUT000 and
+  JEST functions from the same topic — while every other Customizing table in that topic carries
+  `VIEW_MAINTENANCE_CALL` + `RFC_READ_TABLE`. No `fm:` xref was written for any of the four. Separately,
+  `descriptionEn` is `Material type` (a field label copied as the table name; the same artifact hits T134T,
+  and T023/T023T carry `Material group`), and the three fields the blueprint attributes to the table (MTART,
+  MBRSH, KKREF) are unverified while the three names an official page does print (PRDRU, ARANZ, WMAKG) are not
+  in that list. `T134M`, `T130F`, `T001K` and `BAPI_MATERIAL_GETLIST` have no id in the universe, so the
+  MLAST/MLMAA chain and the quantity/value-update table cannot be cross-linked.
+- `table:T023` — **the same table is the Retail merchandise category.** Official 2025.001 pages
+  (`18a8c7536e8e2a4be10000000a174cb4`, `9f1e5176c80e488aa7783e5d623e4762`) describe T023/T023T as merchandise
+  category master data and texts, and map `Merchandise Category (T023)` to Material Group / Product Group. The
+  terminology nuance is out of CBC scope but should not be read as a second table. `BKLAS` and `MATKL CHAR 9`
+  come from the blueprint alone and need SE11. `tx:OMSF` and `tx:OBSOLETECUST` are genuinely absent from
+  `lib/route-manifest.generated.ts`, so both stay in prose.
+- `table:T006` — **three unresolved repository defects.** (1) The blueprint's five-field list omits `ISOCODE`,
+  which the official *Create Supplier Invoice* page prints as a column of T006. (2) The enrichment layer
+  contradicts itself: the field list says `DECAN`, its own ABAP example reads
+  `SELECT SINGLE dimid, andec FROM t006`; neither name is officially verified. (3) The ER role is inconsistent —
+  the blueprint marks MARM as *parent* of T006 while the MARM side marks the same edge *child*, and the join runs
+  `MARM.MEINH = T006.MSEHI`. `T006A`, `T006D`, `CUNI` and `OMW2` have no id in the universe;
+  `cds:I_ProductUnitOfMeasure` is written as navigation only — no official record says that view reads T006.
+- `table:T352` — **three project layers disagree on what the table is.** The PM blueprint calls it the catalog
+  profile header (RBNR / HERKZ / RBNRX), `data/knowledge/object-intel.ts` calls it the planner-group table, and
+  `data/knowledge/pm-objects-ext.ts` calls it "קונפיגורציה - מבנה ארגון אחזקה" at trust `needs-verification`.
+  `data/table-enrichment.ts` deliberately leaves T352 un-enriched under the never-guess rule. No official page
+  prints the string, so nothing is decidable without DDIC. Related and pending on the sibling record: every
+  official page found that prints a `T352…` technical name prints **T352R** (*Revision Archive Object*, PLM,
+  2025.001, `f9d6c353b677b44ce10000000a174cb4`: `DIWPS_RV_CR Revision cross-reference notification T352R
+  Maintenance revisions`), while `data/table-enrichment.ts#T352B` attributes maintenance revisions to T352B and
+  the blueprint attributes catalog-profile selection sets to it. That conflict belongs to `table:T352B`.
+- `table:PLMK` — **two different key lists, and a spelling the sources do not share.** The blueprint records six
+  fields (PLNTY, PLNNR, MERKNR, PLNKN, VERWMERKM, SOLLWERT); `data/table-enrichment.ts#PLMK` records a six-part
+  key (MANDT, PLNTY, PLNNR, PLNKN, MERKNR, ZAEHL) plus a foreign key to QPMK. Neither list is officially
+  corroborated. The two QM information sheets write `PLNFL` where the archiving pages write `PLFL`; recorded as
+  observed, not resolved. `descriptionEn` is `Task list type` (the PLNTY label copied as the table name; the
+  same artifact hits PLPO, PLFL and PLAS). `PLMW`, `QPMK` and the Fiori app `F3788` are absent from the
+  universe, so the values table, the master characteristic and *Manage Inspection Plans* get no xref.
