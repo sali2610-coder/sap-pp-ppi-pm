@@ -8,7 +8,9 @@ upgraded `table:MSEG` worked example; 1 refuted). Updated 2026-09-07 for batch 2
 (15 audited, 15 written, 0 refuted; `table:AFVC` resolved), and again 2026-09-15 for batch 4
 (15 audited, 15 written, 0 refuted; one correction queued for `tx:IP30` in the transactions catalog).
 Updated 2026-09-15 for batch 5 (8 audited, 7 written, 1 refuted, `table:COBRA`; one correction queued
-for `fm:NOTIF_TASK_READ` in the functions catalog).
+for `fm:NOTIF_TASK_READ` in the functions catalog). Updated 2026-09-15 for batch 6 (8 audited, 7 written,
+1 refuted, `table:QPGR`; `table:COBRA` resolved; one correction queued for `table:QMAT` in
+`data/table-tcodes.json`).
 
 ## refuted / needs new evidence
 
@@ -213,7 +215,16 @@ official evidence underneath.
 
 ### refuted / needs new evidence (batch 5)
 
-- `table:COBRA` — refuted at the adversarial gate, not written. Four problems to fix before a rewrite:
+- `table:COBRA` — RESOLVED 2026-09-15 (batch 6): rewritten, audited and written as `unchanged` /
+  on-premise / 2025.001 with `status.source` = the CO archiving run-times page. All four batch-5 problems
+  were fixed: the UI sentence is now attributed to the loio whose snippet actually carries it and the
+  competing `2d32b8ac` wording is recorded in `notes` as a trace, not as evidence; each API entity now
+  carries the versionId its own loio returns (`e88bddfa` = 2025.001, `59ae5b7d` = 2023.latest, with
+  `c1457e0e` 2025.001 as the Version-2 anchor); the internal-orders information sheet and the Change
+  Settlement Rule API page are both in `evidence[]` (six entries, no four-evidence rule); and the FI-AA
+  label is quoted with its `(for AuC)` qualifier, scoped to assets under construction, so the blueprint's
+  unqualified `descriptionEn` stays repository-only. Original refusal kept below for the trail.
+  - (2026-09-15 batch-5 refusal) refuted at the adversarial gate, not written. Four problems to fix before a rewrite:
   1. **Fabricated UI detail.** The draft attributes to 'Settle the Maintenance Order'
      (loio `b1cc9b3e5fbe43a7b01d212586f805c9`) the sentence about the *Create Default Settlement Rule*
      pushbutton "בלשונית Costs". That loio's snippet carries only "Settle the Maintenance Order Use You use
@@ -326,3 +337,201 @@ official evidence underneath.
   threshold for tables is 5. Measured counts: QMEL 0, QMFE 0, QMMA 0, QMSM 0, COBRB 0, EBKN 0, KDST 4.
   Raising them needs SE11 or an official field list, not more evidence. The tables coverage row is
   therefore unchanged by this batch (105 total, L1 75 / L3 5 / L5 25, verified 105).
+
+## batch 6 (2026-09-15) — 8 audited, 7 written, 1 refuted
+
+Records written: `table:COBRA` (the batch-5 refusal, now resolved), `table:QMUR`, `table:STAS`,
+`table:STPU`, `table:STZU`, `table:QPCD`, `table:QMAT`. All seven carry the token `unchanged` at edition
+on-premise / release 2025.001 with an authored `status.source`. None of them changes the status the app
+shows — all seven already derived `unchanged` from the blueprint — but every one of them now carries
+official 2025 FPS01 evidence underneath instead of a derived, source-less claim, and `table:STAS` rises
+from depth L3 to L5 (it is the only one of the seven whose blueprint row carries five typed fields).
+
+### refuted / needs new evidence (batch 6)
+
+- `table:QPGR` — refuted at the adversarial gate, not written. Seven problems to fix before a rewrite:
+  1. **Refuted negative claim (blocking).** The draft's gap states that no Simplification Item concerning
+     QPGR or the catalogs was found *and* that the Simplification Item Catalog "requires an S-user and was
+     not checked". The Simplification List channel was in fact available and unchecked: the 2023 list
+     (`Simplification List for SAP S/4HANA 2023 initial shipment, Feature Pack Stack 1-3 and SAP S/4HANA
+     Cloud Private Edition 2023 initial shipment, Feature Pack Stack 1-3`, cover line
+     `Document Version: 1.35– 2025-02-25`, 74,223 extracted lines) carries item **34.4 S4TWL -
+     Authorization Objects in QM** (Application Components: QM), whose Business Impact note names SAP Note
+     `2505099` "Worklist for transition to SAP S/4HANA authorization objects in quality management" and
+     whose replacement table contains the row `Q_CGRP_ACT | Q_CAT_GRP and Q_TCODE | Authorization to edit
+     code groups and codes`. That is an official S/4 simplification item touching QPGR's own maintenance
+     path. The table-level token `unchanged` survives — the item changes authorization objects, not the
+     data model — but the record must not assert the absolute negative, and `recommendedAction` must carry
+     the authorization-object conversion action. The **narrow** negative is confirmed and may stay: the
+     string `QPGR` occurs **zero** times in that extraction, and the only `code group` hit in the whole
+     document is that authorization row.
+     Re-measured by the writer on the **current** release before filing, so the rewrite can anchor on
+     2025 rather than 2023: `SIMPL_OP2025.txt` (85,712 extracted lines, md5 of the PDF
+     `c1ccf8ebcd92d51fdc80e4b4873f3b73`) carries the same item as **9.6.7. S4TWL - Authorization Objects
+     in QM**, Application Component: QM, Note Number `0002505099`, with the same replacement row
+     (`Q_CGRP_ACT` ... "Authorization to edit code groups and codes", alongside `Q_CSSET_ACT`,
+     `Q_MINSPCHR`, `Q_INSPMETH`). The string `QPGR` occurs **zero** times in the 2025 extraction as well,
+     so the table-level negative holds in both releases and only the authorization-object claim has to
+     change.
+  2. **Internal contradiction (blocking).** `notes` state "לכן ב-xrefs נכללות tx:QS41 ו-tx:QS42 בלבד", but
+     `xrefs` actually carries five transactions: `tx:QS41`, `tx:QS42`, `tx:IW21`, `tx:IW22`, `tx:QM01`. The
+     sentence is false as written, and `tx:IW21`, `tx:IW22` and `tx:QM01` have no basis anywhere in the
+     record: the verified blueprint row `data/sapData.pm.ts#PM:QPGR` lists only `QS51; QS61`, and no cited
+     official snippet names IW21/IW22/QM01 in connection with QPGR.
+  3. **Unsupported xrefs.** `fm:QPK1_CATALOG_READ` and `fm:CATALOG_PROFILE_READ` appear in `xrefs` with no
+     justification in evidence, notes, gaps or conflicts. The verified blueprint row records exactly one
+     function for QPGR: `QPK1_CODEGROUP_READ` ('קריאת קבוצת קוד'). Both names do resolve in the universe
+     (`lib/route-manifest.generated.ts` bapiFm carries CATALOG_PROFILE_READ, QPK1_CATALOG_READ,
+     QPK1_CODEGROUP_READ, QPK1_CODE_TEXT_READ, QPK1_INSPCHAR_READ), so this is not a dangling xref and not
+     a fabrication — but it is an unsourced addition under Never-Guess.
+  4. **Unattributed technical assertion.** `status.recommendedAction` states "פריטי ההודעה (QMFE, QMUR,
+     QMMA, QMSM) נשענים על הקודים האלה". Nothing in the record's evidence supports it. It *is* supported by
+     the repository (`data/table-enrichment.ts`, QPCD.foreignKeys: `CODE ← QMFE-FECOD / QMUR-URCOD /
+     QMMA-MNCOD`), but that line is not carried in the repository evidence claim, so the record asserts
+     more than it cites.
+  5. **Quote precision, evidence[2].** The record quotes `Supported catalog types for QM are: 1, 2, 5, 8,
+     9, D, E Supported catalog types for PM are: 0, 2, 5, A, B, C, D`. The retrieved snippet for loio
+     `cf3f01390d8049dc8b0373b0cb743e3a` begins mid-phrase at `… for QM are: 1, 2, 5, 8, 9, D, E Supported
+     catalog types for PM are: 0, 2, 5, A, B, C, D …`; the leading words "Supported catalog types" on the
+     QM half are reconstructed from the parallel PM half, not seen. The PM half and both type lists are
+     exact.
+  6. **Quote precision, conflicts[0].** The record attributes the identical string `Transactions: Edit
+     Selected Sets (QS51) Display selected set index (QS52)` to BOTH loio
+     `21096d9e9fb34042a7d40d8ab4a6d737` ('QM - Selected set') and loio
+     `b4ceac118ebf4e6ab4ae1a1703a1aa90` ('Object classification - Selected set (QPAM)'). Verified: the
+     first reads `Transactions:` (plural), the second reads `Transaction:` (singular). The substance of
+     the conflict is confirmed and stands.
+  7. **Self-support gap.** The gap names the CDS view `I_SrvcMgmtCodeCatalog`, but the notes quote only the
+     page title 'Catalog of Codes in Service Management' for loio `18d7d3aab44b416682289ca26c5730ff` and
+     never the view name. The verifier confirmed it independently ('Catalog of Codes in Service Management
+     CDS View Name I_SrvcMgmtCodeCatalog Related Text View I_SrvcMgmtCodeCatalogText'), so this is a
+     completeness nit, not a fabrication — but as written the record asserts a technical name it does not
+     cite.
+
+  Note for the rewrite: `table:QPCD` (written this batch) already carries the QM_CATALOG migration object,
+  the `S_QPGR` / `S_QPCD` staging structures, the catalog-type lists and the QS41/QS42 app names in its
+  evidence and notes, and `table:QPCD` xrefs `table:QPGR`, so the two records will read as a pair.
+
+### batch 6 (2026-09-15) open conflicts, recorded in the written records' notes
+
+- `table:COBRA` — key structure contested and undecided: `data/table-enrichment.ts#COBRA` gives
+  MANDT + OBJNR with foreign keys 'OBJNR מ-AUFK-OBJNR' and 'OBJNR אל COBRB', while the blueprint lists
+  four untyped fields (OBJNR, BUREG, PERBZ, ERLKZ) and marks only OBJNR as key. No official source decides
+  it; needs SE11 or ADT. Also: the FI-AA archiving snippet prints the row after COBRA as **`CORB`**, not
+  COBRB — recorded verbatim, deliberately not normalised, and explicitly *not* vouched for as a table
+  name (CORB is absent from the id universe and was not verified). `ONR0` and `COBRD`, named alongside
+  COBRA in the internal-orders information sheet, are outside the id universe, so neither is an xref and
+  COBRD was not investigated. `F5695` ('Manage Settlement Rules - Internal Orders') is an internal-orders
+  app absent from `data/fiori/apps.ts`, and no official app id was found for maintenance-order settlement
+  rules, so no fiori xref was written (same finding as `table:COBRB`, batch 5).
+- `table:COBRA` — two official 2025.001 pages in the same deliverable put the *Create Default Settlement
+  Rule* pushbutton in two different places: `b1cc9b3e5fbe43a7b01d212586f805c9` writes "on the Costs tab
+  page, in the Settlement Rules area", `2d32b8ac5466449285b667cf8a02e0d5` writes "in the header area of the
+  individual maintenance order". Most likely two different UIs, but the documentation does not say so. The
+  record cites the first and records the second as a trace.
+- `table:COBRA` — reproducibility caveat, recorded in the record's notes: the un-elided FI-AA run
+  ('… COBRA Settlement rule header (for AuC) CORB Settlement rules (for AuC) …') was obtained by **one of
+  four** query phrasings; the other three return the same passage elided exactly between "Settlement rule
+  header" and "(for AuC)". Do not re-audit this record on the assumption that any query reproduces it.
+- `table:QMUR` — transaction attribution contested: the blueprint records `IW22; IW67`,
+  `data/table-tcodes.json` records `IW22, IW23`, and `data/tx-intel.ts` describes IW67 as a task list over
+  QMSM and IW69 as an item-and-cause report over QMFE and QMUR. The official documentation supports the
+  tx-intel reading (the VDM cause-data record names IW69 and IW23 as the display authorizations; 'Linear
+  Data in Reports' places IW68/IW69 as notification-item reports). `tx:IW67` is kept as a blueprint
+  navigation anchor only.
+- `table:QMUR` — `data/table-titles.json` carries no entry for QMUR **and none for QMEL**; QMFE, QMMA and
+  QMSM are present (64 keys in the file). The batch-6 draft originally claimed QMUR was the only one
+  missing; the measured fact is corrected in the written record.
+- `table:QMUR` — `data/knowledge/object-intel.ts` frames QMUR almost entirely in a QM context (QM01, QM02,
+  QM03, CAPA) and attributes `BAPI_QUALNOT_GETDETAIL` / `BAPI_QUALNOT_ADD_DATA` to it; neither name exists
+  in the id universe, and no official page names QMUR in a quality-notification context (five targeted QM
+  queries returned nothing). The QM sources name only the OData entity `QualityNotificationItemCause` and
+  the view `I_QltyNotificationCause`. The QM half of the table's description is therefore repository-only,
+  and the written `status.he` says so.
+- `table:QMUR` — `data/cds-map.ts` merges QMMA, QMSM and QMUR onto a single view (`I_MaintNotifActivity`)
+  while the official documentation describes separate views for activities, tasks and causes. Already
+  filed against `cds:I_MaintNotifActivity`; the xref is kept as a repository-level navigation anchor.
+  `I_MaintNotificationCauseData` and `I_MaintNotifItemCauseTP_3` are outside the id universe, and no
+  snippet ties either to QMUR.
+- `table:STAS`, `table:STPU`, `table:STZU` — the same three blueprint defects recur across the BOM family
+  and belong to the source workbook + `scripts/extract-xlsx.mjs`, not to a hand edit of `data/sapData.ts`:
+  (a) `descriptionEn` carries a field label instead of the table name (STAS 'BOM category' = the STLTY
+  label; STPU 'Item node number' = the STLKN label; STZU 'BOM category'); (b) the rows carry the material
+  master's funcs and progs (BAPI_MATERIAL_SAVEDATA, BAPI_MATERIAL_GET_DETAIL, RMMG2000, MM60), the same
+  artifact already filed for CSLA, KDST, CRHD, CRTX, STKO, STPO, MLGT and MDMA; (c) key structure is
+  contested between `data/table-enrichment.ts` and the blueprint — STAS: enrichment MANDT/STLTY/STLNR/
+  STLAL/STLKN with no STASZ vs blueprint STLKN as FK and STASZ as PK with no MANDT; STPU: enrichment
+  MANDT/STLTY/STLNR/STLKN + subitem counter vs blueprint's three fields STLKN/SUMNR/MENGE; STZU:
+  enrichment MANDT/STLTY/STLNR vs blueprint STLTY/STLNR/STLAN/AENNR. No official page reads down to field
+  level; all three need SE11 or ADT.
+- `table:STPU` — the STPU↔STPO relation row in the blueprint carries, in both directions, the description
+  'טקסטים ארוכים לפריט עץ מוצר', which does not describe a subitem table; no official source links STPU to
+  long texts. Separately, `data/knowledge/pppi-objects-ext.ts` marks STPU `trust: 'needs-verification'`, a
+  marking the official 2025.001 documentation now supports removing — not done here as a side effect.
+- `table:STZU` — description layer: the official name is `Time-independent BOM data`, while
+  `data/table-titles.json` and `data/knowledge/pppi-objects-ext.ts` present the table as BOM
+  *history*/admin. `data/table-enrichment.ts#STZU` sits on both sides at once — its `purposeDeep` reads
+  'נתוני קבע של עץ מוצר (BOM - permanent/history data)' and goes on to list 'היסטוריית ניהול שינויים
+  (change master), דגלי היסטוריה'. So the repository is internally consistent in attributing both, and the
+  gap is against the official layer, which supports only the time-independent reading. Recommendation:
+  adopt the official description as primary and demote the history claim to repository level.
+- `table:STZU` — the blueprint's ER edge (STZU as a child of STKO through STLNR) and the transactions CC01
+  and CC02 are unconfirmed by any official page read this round; the archiving page merely lists both
+  tables under the same archiving object, which is not a foreign-key statement.
+- `table:STAS` — cross-record observation, deliberately **not** acted on: the existing worked example
+  `table:KDST` (batch 5) attributes the column header 'Table/Description' to the 2025.001 rendering of loio
+  `0570bd534f22b44ce10000000a174cb4`. The batch-6 STAS audit found that header only in the **SAP ERP
+  6.18.latest** rendering of the same loio; the 2025.001 snippets do not print it. The KDST record quotes
+  its own retrieval faithfully and, per the MHIO/IP10 and QMSM precedents, is not edited on the strength of
+  another record. A future KDST re-audit should narrow that phrase.
+- `table:STAS` — source-tier caveat carried in the record: the second official source, 'BOM Tables'
+  (SUPPORT_CONTENT/ldm, loio `3363506418`), is Support Content, not release-bound product documentation;
+  its `versionId` is 1.0 and it carries no S/4HANA release stamp. Its `edition: on-premise` is the phase
+  default from `audit/s4-enrichment/MANIFEST.md`, not a statement of the page. The 2025 FPS01 half of
+  `status.he` rests on the archiving page alone, which is where `status.source` points.
+- `table:QPCD` — transaction attribution contested and undecided: the blueprint's tcodes column reads
+  `QS51; QS61` while its own alternative column reads `QS41/QS51`; `data/tx-intel.ts` describes QS41 as
+  catalog/code-group/code maintenance and QS51 as selected-set maintenance; and the official migration page
+  prints `App: Edit Code Groups (QS41) Display Code Groups (QS42)`. All of these tx ids are in the xrefs and
+  the record does not decide the point. Fixing the blueprint's tcodes column is a separate task.
+- `table:QPCD` — the text tables `QPCT` and `QPGT` appear in `data/tx-intel.ts` (QS41's table list) but are
+  outside the id universe and were not officially verified, so neither is an xref. No official VDM record
+  was found for a CDS view over catalog codes, and `data/fiori/apps.ts` has no catalog/code-group app, so
+  the record carries neither a `cds:` nor a `fiori:` xref. Also unresolved at the official layer: the only
+  page naming QPCD names it as the **DMS object-link object**, not as a transparent table, so the record's
+  `status.he` deliberately separates "the identifier and the catalog functionality are official" from "the
+  table itself is repository-level".
+- `table:QMAT` vs `data/table-tcodes.json` — **queued correction, tables catalog data.** The catalog
+  records `QM01, MM02` for QMAT, but QM01 creates a quality notification and has nothing to do with
+  inspection-setup maintenance; the official path is the Quality Management view of the material master
+  (MM01/MM02/MM03) and the mass transaction QA08. Not fixed here as a side effect of this batch.
+- `table:QMAT` — open contradiction **inside** the official documentation, quoted and left unreconciled:
+  'Material inspection setup (deprecated)' (Migration Objects for SAP S/4HANA, versionId 2021.002, loio
+  `5f7348366b564e98adf31919c52a10b8`) carries "Caution This migration object is deprecated", while
+  'Control Parameter Tasks' at 2025.001 (loio `c96e2251b685400faff99a8d2637d294`) still uses "the migration
+  object Material Inspection Setup" as its worked example. The record recommends migrating inspection setup
+  as part of the `Product` object and verifying the target release's migration-object list.
+- `table:QMAT` — IDoc gap: the only official 2025.001 page that names a message type for ALE distribution
+  of the inspection setup is 'Master Data Synchronization' (EWM, loio
+  `4259ef399b5f40d2a39b2d0cc39d1d92`), and it names **MATQM**, not MATMAS. MATQM is absent from the id
+  universe (`lib/route-manifest.generated.ts` idocs = LOIPRO, MATMAS), so the record carries **no** idoc
+  xref; the draft's `idoc:msg:MATMAS` xref was removed rather than kept as context, because no official
+  source ties inspection-setup segments to MATMAS.
+- `table:QMAT` — repository attribution corrected before writing: the string
+  'סוג בדיקה 04 = ייצור, 01 = קבלת סחורה (תלוי הגדרה)' lives in `data/table-enrichment.ts#QMAT`
+  (`perfNotes`) only, **not** in `data/consultant-notes.ts#QMAT`. The numbering itself *is* corroborated
+  officially — 'EWM-QM Integration Without Inspection Rules' (What's New in SAP S/4HANA 1909, versionId
+  1909.000, loio `d43aa8aceaa042988ea35ace50de0335`): "In EWM the inspection types 01 (Goods receipt insp.
+  for purchase order), 04 (Goods receipt inspection from production), 08 (Stock transfer inspection) and
+  09 (Recurring inspection of batches) are supported" — but that is an EWM-context statement, not a
+  statement about field ART of QMAT. The open gap is narrowed accordingly, not closed.
+- `table:QMAT`, `table:QMUR` — the cover date of the 2025 FPS01 Simplification List is **not** established.
+  The PDF text layer prints two conflicting strings (`Document Version: 1.36– 2026-20-02` and
+  `2026-18-02`); Document Version 1.36, 1,514 pages and md5 `c1ccf8ebcd92d51fdc80e4b4873f3b73` are all
+  measured and confirmed. No date is asserted in either record.
+- Depth ceiling, measured 2026-09-15 after the merge: six of the seven records stay at **L1** and one rises
+  to **L5**. `components/neo-shell/data/tables-detail.ts` counts only fields carrying BOTH `dt` and `len`,
+  and the threshold for tables is 5. Measured typed-field counts: COBRA 0, QMUR 0, QPCD 0, STPU 3, STZU 4,
+  QMAT 4, **STAS 5**. Raising the other six needs SE11 or an official field list, not more evidence. The
+  tables coverage row therefore moves only on STAS: L3 5 → 4 and L5 25 → 26 (total 105, L1 75, verified
+  105, all measured with `npm run report:coverage -- --catalog tables`).

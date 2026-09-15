@@ -21,7 +21,11 @@
    Batch 5 (2026-09-15): 7 more records (QMEL, QMFE, QMMA, QMSM, COBRB, EBKN,
    KDST) - the notification family plus the settlement, requisition-account and
    sales-order-BOM assignment tables - each merged from its adversarial verdict
-   (fixedRecord); table:COBRA refuted and queued. */
+   (fixedRecord); table:COBRA refuted and queued.
+   Batch 6 (2026-09-15): 7 more records (COBRA (the batch-5 refusal, now resolved),
+   QMUR, STAS, STPU, STZU, QPCD, QMAT) - the BOM selection/sub-item/admin tables plus
+   the notification-cause, catalog-code and inspection-setup tables - each merged from
+   its adversarial verdict (fixedRecord); table:QPGR refuted and queued. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -977,6 +981,142 @@ const KDST_BOM_ARCHIVING: Evidence = {
     + "order' (תיאור KDST נקטע בסניפט אחרי המילים 'Sales order'), ולצדם 'STZU Time-independent BOM data', 'STST "
     + "Standard object BOM assignment' ו-'PRST Project BOM assignment'. הרשימה ממקמת את KDST במשפחת טבלאות שיוך עץ "
     + "המוצר, לצד MAST, EQST ו-TPST.",
+  verificationLevel: "sap_official_verified",
+};
+
+const COBRA_CO_ARCHIVING_RUNTIMES: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Run Times for Internal Orders (CO-OM-OPA) | Data Archiving in Controlling (CO)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a87b965528884868b4404902123c6004/f358d7531a4d424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "דף זמני הריצה של הארכוב ב-CO לגרסת 2025 FPS01 מדווח שבבדיקה אורכבו 1,000 הזמנות באמצעות אובייקט הארכוב "
+    + "CO_ORDER מהטבלאות 'AUFK, CDHDR, CDPOS, COBRA, COBRB, COSP, COSPD, COSS, COEP, COBK'; COBRA נקובה שם בשמה "
+    + "ברשימת הטבלאות שמהן מארכב CO_ORDER הזמנות פנימיות בגרסה זו. הסניפט אינו מתאר את תוכן הטבלה, את שדותיה או את "
+    + "מפתחה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QMUR_PM_QMEL_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle:
+    "Archiving Maintenance Notifications (PM-WOC-MN) | Data Archiving in Plant Maintenance and Customer Service "
+    + "(PM/CS)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/60adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "עמוד הארכוב הרשמי של הודעות האחזקה בגרסת 2025 FPS01 קובע לפי הסניפט: 'Archiving Maintenance Notifications "
+    + "(PM-WOC-MN) Definition Archiving object PM_QMEL with which you can archive maintenance notifications in the "
+    + "Plant Maintenance component', ובסעיף המבנה: 'Structure The archiving object PM_QMEL for maintenance "
+    + "notifications is composed of the following tables: Table Name Contents QMEL Notification header data QMFE "
+    + "Items QMMA Activities QMSM [...] Tasks QMUR Causes QMIH Maintenance data ILOA Location Data IHPA Partner "
+    + "PMLP Print log MCIPMIS PMIS update, 'Before Image' table, object data CDHDR, CDPOS Change Documents KSSK' "
+    + "(הסוגריים המרובעים מסמנים קטיעה בין קטעי הסניפט). כלומר QMUR נקובה בשמה כטבלה קיימת ב-SAP S/4HANA "
+    + "On-Premise בגרסת 2025 FPS01, תוכנה לפי המקור הוא Causes, כלומר סיבות, והיא נמנית עם טבלאות אובייקט הארכוב "
+    + "PM_QMEL לצד QMEL ככותרת ההודעה, QMFE לפריטים, QMMA לפעילויות ו-QMSM למשימות.",
+  verificationLevel: "sap_official_verified",
+};
+
+const STAS_BOM_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Archiving PP-BOMs (PP-BD-BOM) | Data Archiving in Production Planning and Control (PP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/0570bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "עמוד אובייקט הארכוב CS_BOM לגרסת 2025 FPS01 מגדיר תחת Definition 'Archiving object CS_BOM for archiving of "
+    + "BOMs for the component Production Planning and Control (PP)' וקובע תחת Structure 'If you use the archiving "
+    + "object CS_BOM, data from the following tables is archived' (המשפט המלא הוחזר בשאילתה ממוקדת על אותה רשומת "
+    + "2025.001; השאילתה הכללית נקטעת ב-400 תווים על 'data from the following t'). ברשימת הטבלאות שלו מופיע רצף "
+    + "רציף אחד: 'BOM assignment STAS BOMs - choice of items STKO BOM header STPN BOM data - controlling follow-up "
+    + "parts STOP BOM items STSZ Link standard BOM STPU BOM subitem' (המקור מדפיס en dash בין 'BOMs' ל-'choice', "
+    + "ו-'STOP BOM items' הוא ככל הנראה שיבוש כתיב של STPO בעמוד המקורי). כלומר STAS קיימת בשם זה בגרסה הנוכחית, "
+    + "תיאורה הרשמי הוא 'BOMs - choice of items', והיא נמנית עם טבלאות עץ המוצר שאובייקט הארכוב מוחק.",
+  verificationLevel: "sap_official_verified",
+};
+
+const STPU_BOM_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Archiving PP-BOMs (PP-BD-BOM) | Data Archiving in Production Planning and Control (PP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/0570bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "מסמך הארכוב הרשמי של עצי מוצר (PP-BD-BOM) לגרסת 2025 FPS01 מונה את STPU בתיאורה 'BOM subitem', בתוך רשימת "
+    + "טבלאות עץ המוצר הנארכבות: STAS ('BOMs - choice of items'), STKO ('BOM header'), STPN ('BOM data - "
+    + "controlling follow-up parts'), STSZ ('Link standard BOM'), STZU ('Time-independent BOM data'), STST "
+    + "('Standard object BOM assignment') ו-PRST ('Project BOM assignment'); שורת פריטי ה-BOM מופיעה בסניפט בכתיב "
+    + "'STOP BOM items'. כלומר הטבלה קיימת ומתועדת ב-S/4HANA On-Premise בגרסה הנוכחית, ותיאורה במסמך הרשמי הוא "
+    + "תת-פריט של עץ מוצר.",
+  verificationLevel: "sap_official_verified",
+};
+
+const STZU_BOM_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Archiving PP-BOMs (PP-BD-BOM) | Data Archiving in Production Planning and Control (PP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/0570bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "אובייקט הארכוב של עצי מוצר (PP-BD-BOM) בגרסת 2025 FPS01 מונה את STZU ברשימת הטבלאות שלו ומתאר אותה במילים "
+    + "'STZU Time-independent BOM data'. באותה רשימה מופיעות גם STKO ('BOM header'), STAS ('BOMs - choice of "
+    + "items'), STPU ('BOM subitem'), STPN ('BOM data - controlling follow-up parts'), STSZ ('Link standard BOM'), "
+    + "STST ('Standard object BOM assignment'), PRST ('Project BOM assignment') ו-KDST ('Sales order BOM "
+    + "assignment'). העמוד מוסיף שעצי המוצר מזוהים לפי קטגוריית BOM (למשל material BOM), שימוש (למשל production) "
+    + "ומפעל, ושקבוצת BOM מאגדת כמה עצי מוצר תחת מספר BOM פנימי אחד.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QPCD_QM_CODES: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Creating and Editing Codes | Quality Management",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/d07cbb53707db44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "עמוד ה-QM הרשמי לגרסת 2025 FPS01 על יצירה ועריכה של קודים קובע לפי הסניפט: 'Creating and Editing Codes "
+    + "Prerequisites You have already created code groups for the required catalog type', ולעניין קישור מסמך לקוד: "
+    + "'To do this, the following prerequisites must be fulfilled: In Customizing for Document Management under "
+    + "Control Data Define Document Types, at least one document type was defined that allows the assignment of "
+    + "codes (object QPCD for object link)' ו-'For the object link, the screen number 500 must be specified'. "
+    + "כלומר המזהה QPCD נקוב בתיעוד הרשמי של 2025 FPS01 כאובייקט הקישור (object link) של קוד הקטלוג, ויצירת קוד "
+    + "מחייבת קבוצת קוד קיימת בסוג הקטלוג. הסניפט אינו מגדיר את QPCD כטבלה שקופה ואינו מונה את שדותיה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QMAT_INSPECTION_SETUP: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Editing the Inspection Setup | Quality Management",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/fa55b853dcfcb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "העמוד הרשמי לגרסת 2025 FPS01 קובע 'Editing the Inspection Setup Use You must edit the inspection setup to "
+    + "be able to create inspection lots for a material. Inspection lots are created for all goods movements that "
+    + "are relevant to QM' ו-'In the material master, you define which goods movements are relevant to QM'. "
+    + "שאילתות נוספות על אותה רשומה בדיוק (אותו loio ואותו versionId) החזירו מאותו עמוד גם 'Procedure In the "
+    + "Quality Management view of the material master, choose Inspection Setup', 'To check the consistency of your "
+    + "data, choose Check again. If the entries are consistent, choose Continue. The Quality Management view of "
+    + "the material master is displayed again', 'Stock indicator When a goods movement takes place, the quantity "
+    + "of the material to be posted is posted to inspection stock' ו-'If you do not set this indicator, the "
+    + "material quantity is posted to unrestricted-use stock'. כלומר הגדרת הבדיקה לחומר היא תנאי ליצירת מנת בדיקה, "
+    + "היא נערכת בתצוגת ניהול האיכות של רשומת אב החומר, והיא מתועדת ככזו בגרסת 2025 FPS01 של S/4HANA On-Premise.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -9987,5 +10127,1177 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       + "זה לא אומת מול אף מקור רשמי ולכן אינו נטען כאן. מבנה המפתח המלא של KDST (MANDT ומספר ה-BOM) לא אומת מול "
       + "DDIC: החיבור למערכת חיה אינו זמין, ואין עמוד רשמי שנקרא ברמת השדה. לא צוטט מספר SAP Note כי אף אחד לא הופיע "
       + "בסניפטים הרשמיים.",
+  },
+
+  /* -------------------------------------------------------- table:COBRA */
+  {
+    id: "table:COBRA",
+    aliases: [
+      "cobra",
+    ],
+    evidence: [
+      COBRA_CO_ARCHIVING_RUNTIMES,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Information Sheet for the Transfer of Internal Orders | Controlling (CO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/1c42de531ed3424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "דף המידע להעברת הזמנות פנימיות לגרסת 2025 FPS01 מונה תחת Tables/Databases: 'Relevant tables AUFK, ONR0, "
+          + "JSTO, JEST, COBRA, COBRD', ולצדם 'Logical databases OKD' ו-'Table space 1 KB'. COBRA נקובה שם בשמה כטבלה "
+          + "רלוונטית להעברת נתוני האב של הזמנות פנימיות בגרסה זו; הרשימה אינה כוללת את COBRB, והסניפט אינו מתאר את מבנה "
+          + "הטבלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Asset Data (FI-AA) | Financial Operations",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/d255d7531a4d424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "דף הארכוב של נתוני נכסים לגרסת 2025 FPS01 קובע ש-'The archiving object AM_ASSET is used for archiving asset "
+          + "data in Asset Accounting (FI-AA)', וברשימת הטבלאות שלו מופיע הרצף '... ANLI Assignment CO-Object/AuC for "
+          + "investment measures ANLE Proof of origin COBRA Settlement rule header (for AuC) CORB Settlement rules (for "
+          + "AuC)' (שליפה שהחזירה את הקטע ללא השמטה). התיאור הנקוב שם ל-COBRA הוא 'Settlement rule header (for AuC)', "
+          + "והסיפא מגבילה אותו לרשומות של נכסים בהקמה שאובייקט הארכוב AM_ASSET מארכב; הסניפט אינו מציג תיאור כללי לטבלה "
+          + "מחוץ להקשר זה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settle the Maintenance Order | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/b1cc9b3e5fbe43a7b01d212586f805c9.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד 'Settle the Maintenance Order' לגרסת 2025 FPS01 קובע תחת Use: 'You use a settlement rule to define how "
+          + "the costs incurred by the execution of maintenance work are cleared on a pro rata basis', ותחת Features "
+          + "בסעיף 'Creating a Default Settlement Rule': 'To create a default settlement rule for the maintenance order, "
+          + "on the Costs tab page, in the Settlement Rules area, choose the pushbutton Create Default Settlement ...' "
+          + "(הסניפט נקטע בנקודה זו ואינו מציג את סוף שם הלחצן). הסניפט אינו נוקב בשם הטבלה COBRA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Change Settlement Rule | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/8bb9bde3cf4a43b1af3f4fc78cb8b933.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד הפעולה 'Change Settlement Rule' בתיעוד 'APIs for Maintenance Management' לגרסת 2025 FPS01 מתאר: 'With "
+          + "this operation, you use the HTTP method PATCH to change a settlement rule', ונושא את ההערה: 'The "
+          + "Maintenance Order Settlement Rule entity will be deprecated with SAP S/4HANA 2022 FPS01 and will be "
+          + "replaced with a successor entity'. ההצהרה היא ברמת ישות ה-OData של חוק ההתחשבנות של הזמנת התחזוקה; הסניפט "
+          + "אינו נוקב בשם טבלה ואינו קובע דבר על COBRA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "blueprint ההגירה של הפרויקט (PM), רשומת COBRA",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "ה-blueprint של תחזוקת מפעל מתעד את COBRA תחת הנושא 'עלויות והתחשבנות (PM-CO)' עם descriptionHe 'כותרת חוק "
+          + "התחשבנות' ו-descriptionEn 'Settlement rule header', וארבעה שדות ללא טיפוס ואורך: OBJNR (PK/FK, 'אובייקט "
+          + "מקור'), BUREG ('חוק התחשבנות'), PERBZ ('סוג תקופה') ו-ERLKZ ('מחוון השלמה'); מסמן s4Note 'ללא שינוי "
+          + "(תואם)', s4AltTable 'COBRA (זהה)', s4AltTcode 'KO02/IW32 (זהה)' ו-sumNote 'ללא פעולת המרה ייעודית ב-SUM "
+          + "(טבלה תואמת)', טרנזקציות KO02 ו-IW32, פונקציה K_SETTLEMENT_RULE_READ, תוכנית RKACOR40 'איתור חוקי התחשבנות "
+          + "חסרים', וקשרים COBRA.OBJNR = AUFK.OBJNR (1:1, COBRA כילד) ו-COBRB.OBJNR = COBRA.OBJNR (N:1, COBRA כאב).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:COBRA",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת COBRA, שה-blueprint של הפרויקט מתעד ככותרת חוק ההתחשבנות של אובייקט המקור (OBJNR של ההזמנה) ושתיאורה "
+        + "הרשמי היחיד שנמצא מסויג להקשר נכסים בהקמה, מופיעה בשמה בשלושה עמודים רשמיים של SAP S/4HANA On-Premise 2025 "
+        + "FPS01: דף זמני הריצה של הארכוב ב-CO מונה אותה ברשימת הטבלאות שאובייקט הארכוב CO_ORDER מארכב, לצד AUFK, "
+        + "COBRB, COSP, COSPD, COSS, COEP ו-COBK; דף המידע להעברת הזמנות פנימיות מונה אותה תחת 'Relevant tables' לצד "
+        + "AUFK, ONR0, JSTO, JEST ו-COBRD; ודף הארכוב של נתוני נכסים מונה אותה ברשימת הטבלאות של אובייקט הארכוב "
+        + "AM_ASSET עם התיאור 'Settlement rule header (for AuC)', תיאור המוגבל שם להקשר של נכסים בהקמה. לא נמצא מקור "
+        + "רשמי הנוקב ביורשת לטבלה, בפריט פישוט או בהוצאתה משימוש, וה-blueprint של הפרויקט מסמן 'ללא שינוי (תואם)'. "
+        + "המעמד מתייחס להמשך קיומה של הטבלה בזרימת ההתחשבנות בגרסה זו; מבנה השדות והמפתח שלה לא נבדק מול DDIC.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: COBRA_CO_ARCHIVING_RUNTIMES,
+      recommendedAction:
+        "להמשיך לקרוא את כותרת חוק ההתחשבנות דרך COBRA לפי OBJNR של ההזמנה, ואת מקבלי ההתחשבנות דרך COBRB לפי אותו "
+        + "OBJNR; לפי ה-blueprint אין פעולת המרה ייעודית ב-SUM לטבלה. בהסבה לוודא שפרופילי ההתחשבנות וחוקי ההתחשבנות "
+        + "של סוגי ההזמנה הועברו כ-Customizing, ולהריץ בדיקת רגרסיה על KO88 / KO8G / CO88 ועל דוחות מותאמים הקוראים "
+        + "ישירות מ-COBRA לפני סגירת תקופה. ליצירת חוק ברירת מחדל להזמנת תחזוקה מתאר התיעוד לגרסת 2025 FPS01 פעולה "
+        + "בלשונית Costs באזור Settlement Rules של ההזמנה. לפיתוח חדש ולממשקים: תיעוד ה-API לאותה גרסה קובע שישות חוק "
+        + "ההתחשבנות של הזמנת התחזוקה תוצא משימוש ותוחלף בישות עוקבת, ולכן לאמת בתיעוד ה-API איזו ישות פעילה בגרסת "
+        + "ה-S/4HANA שבשימוש לפני בניית ממשק (שמות הישויות והגרסאות מפורטים בהערות).",
+    },
+    xrefs: [
+      "table:COBRB", "table:AUFK", "table:AFIH", "table:JEST", "table:JSTO", "table:COSP", "table:COSS",
+      "table:ACDOCA", "tx:KO02", "tx:IW32", "tx:KO88", "tx:KO8G", "tx:CO88", "fm:K_SETTLEMENT_RULE_READ",
+      "fm:K_ORDER_SETTLEMENT",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "אזהרת שם: חיפוש 'COBRA' ב-help.sap.com מחזיר ברובו עמודי HCM של הגרסה המקומית לארה\"ב על חוק Consolidated "
+      + "Omnibus Budget Reconciliation Act (אינפוטייפים 0211, 0212, 0270, 0671 והטבלאות T5UDB ו-T74AB); עמודים אלה "
+      + "אינם קשורים לחוק ההתחשבנות ב-CO ולא שימשו כראיה. היקף התיאור האנגלי: התיאור הרשמי היחיד שנמצא לטבלה נמצא "
+      + "ברשימת הטבלאות של אובייקט הארכוב AM_ASSET ונושא שם את הסיפא '(for AuC)'; שליפה נוספת החזירה את הקטע ללא "
+      + "השמטה ואישרה שהסיפא צמודה לשורת COBRA ושהשורה הבאה בנויה באותו דפוס. השליפה ללא ההשמטה הושגה בניסוח שאילתה "
+      + "אחד מתוך ארבעה; שלושה ניסוחים אחרים החזירו את אותו קטע עם השמטה בדיוק בין 'Settlement rule header' לבין "
+      + "'(for AuC)', ולכן אין להניח שכל שאילתה משחזרת אותו. לכן הערך descriptionEn שב-blueprint, 'Settlement rule "
+      + "header' ללא סיוג, נשאר מאומת מול נתוני הפרויקט בלבד, ולא נמצא עמוד רשמי מחוץ להקשר נכסים בהקמה הנוקב בתיאור "
+      + "לטבלה. אותו loio (d255d7531a4d424de10000000a174cb4) מוחזר תחת שני deliverables, 'Financial Operations' "
+      + "ו-'Accounting and Financial Close', עם אותו versionId 2025.001. המחרוזת שמחזיר הסניפט לשורה שאחרי COBRA היא "
+      + "'CORB' ולא 'COBRB'; היא נרשמה כאן כלשונה ולא תוקנה, אך CORB אינו מזהה קיים ביקום המזהים של הפרויקט ולא אומת "
+      + "כשם טבלה, ולכן אינו xref ואין להסתמך עליו כשם טבלה. מיקום פעולת ברירת המחדל בממשק - שני עמודים רשמיים של "
+      + "אותה גרסה (2025.001) באותו deliverable 'Maintenance Management' מתארים אותה בשני מקומות שונים: 'Settle the "
+      + "Maintenance Order' (loio b1cc9b3e5fbe43a7b01d212586f805c9) כותב 'on the Costs tab page, in the Settlement "
+      + "Rules area, choose the pushbutton Create Default Settlement ...', ואילו 'Analyzing Costs and Settling the "
+      + "Order' (loio 2d32b8ac5466449285b667cf8a02e0d5) כותב 'To create a default settlement rule for the "
+      + "maintenance order, choose the pushbutton Create Default Settlement Rule in the header area of the "
+      + "individual maintenance order' ומוסיף 'If, in the settlement profile for maintenance tasks, you have "
+      + "specified that two or more distribution rules should be created, the system creates a distribution rule "
+      + "with settlement type Full Settlement'. סביר ששני העמודים מתארים שני ממשקי משתמש שונים, אך התיעוד אינו אומר "
+      + "זאת; הרשומה מצטטת את הראשון בלבד, והשני נרשם כאן כעקבה ולא כראיה. עקבות ה-API, עם תוויות הגרסה שכל loio "
+      + "מחזיר בפועל: הישות 'Maintenance Order Settlement Rule (Deprecated)' (loio e88bddfad77342cb8f37cd43b484f26f) "
+      + "מוחזרת בגרסה 2025.001 בשם הטכני MaintOrderSettlmtDistRule; הישות 'Maintenance Order Settlement Rule "
+      + "(Version 2)' (loio 59ae5b7d2177445e9b3ac208111d238a) מוחזרת בגרסה 2023.latest בלבד בשם הטכני "
+      + "MaintOrderSettlmtDistrRule_2, ואין לרשום אותה תחת 2025 FPS01; עמוד השירות 'Maintenance Order (Version 2)' "
+      + "(loio c1457e0e539740a29932fbdcf36fea3c, 2025.001) מונה ברשימת הישויות שלו את 'Maintenance Order Settlement "
+      + "Rule (MaintOrderSettlmtDistRule)' עם התיאור 'Allows to read, update and delete the settlement rules "
+      + "assigned to a maintenance ...' ואת 'Maintenance Order Settlement Rule (Version 2)' כאופציונלית; ודף What's "
+      + "New לגרסת 2023 'OData API: Maintenance Order' (loio abbd23f555bb482f9d2b3a838fa8ab6b, 2023.000) קובע 'The "
+      + "functionality of this entity has been included in the Maintenance Order Settlement Rule (Version 2) entity "
+      + "instead'. שמותיהן הטכניים של שתי הישויות הם שמות של חוקי חלוקה (Distribution Rule), כלומר תוכן COBRB, ואף "
+      + "עמוד רשמי שנמצא אינו קושר ישות כלשהי לכותרת החוק ב-COBRA; לכן ההמלצה לממשקים מנוסחת ברמת ישות ה-API ולא "
+      + "כיורשת לטבלה. עקבות נוספות שלא נכנסו כראיה: עמוד ההגירה 'CO - Internal order (restricted)' (loio "
+      + "ec1ce62638a742288bc4f96810b37639, 2025.001) קובע 'The use of this migration object is restricted. The "
+      + "underlying API can only create new settlement rules. You can't reuse existing rules', והגרסה המקבילה "
+      + "2021.002 (loio 3779e18da1624f8b841f8133d9a6f0af) מונה במבנה המיפוי רמה 2 'Settlement rule data'; שני "
+      + "העמודים אינם נוקבים בשם טבלה. דף הארכוב של הזמנות תחזוקה ושירות (PM_ORDER, loio "
+      + "15e1b6531de6b64ce10000000a174cb4, 2025.001) מציין שמחלקות הארכוב P_ORDER ו-TEXT מאפשרות לארכב גם "
+      + "'Settlement rule'; הסניפט נוקב בטבלאות AUFK ו-AFKO עבור כותרת ההזמנה בלבד, ואינו נוקב בשם טבלה עבור חוק "
+      + "ההתחשבנות. סתירה פנימית במאגר שלא הוכרעה: data/table-enrichment.ts#COBRA רושם מפתח ראשי MANDT + OBJNR "
+      + "ומפתחות זרים 'OBJNR מ-AUFK-OBJNR' ו-'OBJNR אל COBRB', בעוד ה-blueprint מונה ארבעה שדות (OBJNR, BUREG, "
+      + "PERBZ, ERLKZ) ומסמן רק את OBJNR כמפתח; אף אחת מהרשימות לא אומתה מול מקור רשמי, ונדרשת SE11 או ADT (ה-MCP של "
+      + "sc4sap לא התחבר בסשן זה). הטבלאות ONR0 ו-COBRD, הנקובות לצד COBRA בדף המידע להעברת הזמנות פנימיות, אינן "
+      + "קיימות ביקום המזהים של הפרויקט ולכן אינן xref, ו-COBRD לא נבדקה. ערך fioriApp שב-blueprint הוא 'Manage "
+      + "Settlement Rules (אמת ID)'; המזהה F5695 שמופיע בתיעוד ה-CO שייך לאפליקציית חוקי התחשבנות של הזמנות פנימיות, "
+      + "אינו רשום ב-data/fiori/apps.ts, ולא נמצא מזהה אפליקציה רשמי לחוקי ההתחשבנות של הזמנת תחזוקה; לכן אין ברשומה "
+      + "xref מסוג fiori. עומק הרשומה נשאר L1 מפני שארבעת השדות שב-blueprint רשומים ללא טיפוס ואורך מול סף של חמישה "
+      + "שדות מוטפסים לקטלוג הטבלאות, וזה פער בבלופרינט ולא ברשומת האימות. COBRA קיימת בבלופרינט של PM בלבד ואינה "
+      + "מופיעה בבלופרינט של תעשיות תהליכיות. לא צוטט מספר SAP Note או KBA, ולא נבדק פריט בקטלוג הפישוט (נדרשת "
+      + "הזדהות S-user); גופי עמודי ה-Help אינם נקראים ללא דפדפן, וכל הציטוטים כאן נשענים על כותרות ועל סניפטים של "
+      + "רשומות החיפוש הרשמיות.",
+  },
+
+  /* -------------------------------------------------------- table:QMUR */
+  {
+    id: "table:QMUR",
+    aliases: [
+      "qmur",
+    ],
+    evidence: [
+      QMUR_PM_QMEL_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving of Service Notifications (PM-SMA-SC) | Data Archiving in Plant Maintenance and Customer Service "
+          + "(PM/CS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/63adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד הארכוב של הודעות השירות בגרסת 2025 FPS01 קובע לפי הסניפט: 'Structure The archiving object for service "
+          + "notifications SM_QMEL consists of the following tables: Table Name Contents QMEL Notification header data "
+          + "QMFE Items QMMA Activities QMSM Tasks [...] QMUR Causes QMIH Maintenance data ILOA Location Data IHPA "
+          + "Partner PMLP Print log MCIPMIS PMIS update, 'Before Image' table, object data CDHDR, CDPOS Change Documents "
+          + "KSSK Classification' (הסוגריים המרובעים מסמנים קטיעה בין קטעי הסניפט). כלומר אותה טבלה QMUR, ובאותו תוכן "
+          + "Causes, נמנית גם עם טבלאות אובייקט הארכוב SM_QMEL של הודעות השירות בגרסה הנוכחית.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Notification Item Cause | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/6be9a042055c49949201f92bfe1594c8.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד הישות Maintenance Notification Item Cause במדריך APIs for Maintenance Management לגרסת 2025 FPS01 קובע "
+          + "לפי שני סניפטים של אותה רשומה: 'Supported Operations The following operations are supported: Read "
+          + "Notification Item Cause Create Notification Item Cause Update Notification Item Cause', 'Maintenance "
+          + "Notification Item Cause Technical name:A_MaintNotifItem' (שם הישות נקטע בסניפט), 'Mandatory "
+          + "MaintenanceNotificationItem Indicates the unique key that identifies maintenance notification item number' "
+          + "ו-'Mandatory MaintenanceNotificationCause Indicates the unique key which identifies maintenance "
+          + "notification item cause number'. כלומר בגרסה הנוכחית קיימת שכבת API רשמית לקריאה, ליצירה ולעדכון של סיבת "
+          + "פריט ההודעה, ומזהי המפתח שלה הם פריט ההודעה ומספר הסיבה. הסניפט אינו נוקב בטבלה QMUR ואינו קובע שהישות "
+          + "נשענת עליה, ושמות התכונות הם שמות תכונה של ישות OData ולא שמות שדות DDIC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Notification Cause Data | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/18187fc0a1814c4caef9bbcb0a10dcb1.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "רשומת ה-VDM הרשמית מגדירה: 'Maintenance Notification Cause Data CDS View Name I_MaintNotificationCauseData "
+          + "Data Category Fact Status Released Data Extraction Type Delta-enabled, the extraction is based on field "
+          + "LastChangeDateTime', ובסעיף המבנה: 'Structure Business Objects This view is built on the following business "
+          + "objects: Maintenance notification cause Maintenance notification item Maintenance notification'. באותה "
+          + "רשומה מופיעות גם דרישת ההרשאה 'Prerequisites You have authorizations to display the relevant maintenance "
+          + "notification activities in transactions IW69 and IW23' והשאלה העסקית 'notification or service notification "
+          + "causes?'. כלומר קיימת תצוגת CDS ייעודית במעמד Released לנתוני סיבות של הודעת אחזקה ושל הודעת שירות, עם "
+          + "חילוץ דלתא לפי LastChangeDateTime. רשומת החיפוש הוחזרה במהדורת 2023.latest של מדריך ה-Virtual Data Model, "
+          + "והסניפט אינו נוקב בטבלת הבסיס של התצוגה ואינו מזכיר את QMUR.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הבלופרינט PM:QMUR ושכבת ההעשרה של הפרויקט",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט (data/sapData.pm.ts, רשומה PM:QMUR בנושא 6, הודעות אחזקה) רושם descriptionHe 'סיבות לליקוי', "
+          + "descriptionEn 'Notification causes', טרנזקציות 'IW22; IW67', אפליקציית Fiori 'Find Maintenance Notification "
+          + "(אמת ID)', עמודת S/4 'ללא שינוי (תואם)', טבלה חליפית 'QMUR (זהה)', 'IW22; Fiori' והערת SUM 'ללא פעולת המרה "
+          + "ייעודית ב-SUM (טבלה תואמת). מומלץ Regression Test ואימות התאמות אישיות לאחר ההמרה.'; בנוסף מודול הפונקציה "
+          + "NOTIF_CAUSE_READ, התוכנית RIQMUR00, הקשר QMUR.QMNUM = QMFE.QMNUM בקרדינליות N:1 ('סיבות תחת פריט ההודעה "
+          + "(דרך QMNUM+FENUM)') וחמישה שדות: QMNUM (PK/FK), FENUM (PK/FK), URNUM (PK), URGRP (קבוצת קוד סיבה) ו-URCOD "
+          + "(קוד סיבה). שכבת ההעשרה (data/table-enrichment.ts, רשומת QMUR) מוסיפה MANDT כאיבר הראשון במפתח, מגדירה "
+          + "URGRP ו-URCOD ככניסות קטלוג ומתארת את הטבלה כשכבת סיבת השורש לצד QMFE, QMMA ו-QMSM. שתי השכבות לא אומתו מול "
+          + "DDIC ברשומה זו, ו-data/table-tcodes.json רושם עבור QMUR צמד טרנזקציות אחר מזה של הבלופרינט: 'IW22, IW23'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:QMUR, data/table-enrichment.ts#QMUR",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "QMUR, טבלת סיבות הליקוי של ההודעה בתחזוקת מפעל ובשירות, מתועדת כטבלה קיימת ב-SAP S/4HANA On-Premise בגרסת "
+        + "2025 FPS01 ואין לה טבלה חליפית לפי המקורות שנבדקו: עמוד הארכוב של אובייקט PM_QMEL נוקב בה בשמה ובתוכנה "
+        + "(Causes) ברשימת הטבלאות המרכיבות את אובייקט הארכוב של הודעות האחזקה, והעמוד המקביל של SM_QMEL עושה את אותו "
+        + "הדבר להודעות שירות. סריקה מלאה של מסמך רשימת הפישוט הרשמי לגרסת 2025 FPS01 (פירוט בהערות) לא העלתה אף אזכור "
+        + "של QMUR או של שאר טבלאות משפחת ההודעה, ולכן לא אותר פריט פישוט המסמן את הטבלה כמוחלפת, מוגבלת או מוסרת. יש "
+        + "להפריד בין שתי השכבות: המקורות הרשמיים מוכיחים נוכחות של הטבלה בגרסה הנוכחית ואי-אזכור של יורשת, ואילו "
+        + "הקביעה 'ללא שינוי' עצמה נשענת על שכבת המאגר, שבה הבלופרינט רושם 'ללא שינוי (תואם)' וטבלה חליפית 'QMUR "
+        + "(זהה)'. בצד ניהול האיכות המקורות הרשמיים שנמצאו נוקבים בישות QualityNotificationItemCause ובתצוגה "
+        + "I_QltyNotificationCause ואינם נוקבים בטבלה QMUR, ולכן שיוך הטבלה לזרימת הודעות האיכות נשען על שכבת המאגר "
+        + "בלבד. מבנה הטבלה, המפתח הראשי ורשימת השדות לא אומתו מול מקור רשמי.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QMUR_PM_QMEL_ARCHIVING,
+      recommendedAction:
+        "להמשיך להסתמך על QMUR כטבלת סיבות הליקוי של ההודעה בהסבה ל-S/4HANA. לפי הבלופרינט אין לטבלה פעולת המרה "
+        + "ייעודית ב-SUM, ולכן העבודה הנדרשת היא בדיקות רגרסיה לקוד מותאם, לדוחות ולממשקים שקוראים או כותבים ישירות "
+        + "ל-QMUR יחד עם QMEL, QMFE, QMMA ו-QMSM. לפני ההסבה לאמת ב-SE11 או ב-ADT את המפתח ואת שמות השדות, משום "
+        + "שהבלופרינט ושכבת ההעשרה של הפרויקט אינם זהים בנקודת ה-MANDT, והשדות URNUM, URGRP ו-URCOD לא אומתו מול מקור "
+        + "רשמי. לפיתוח חדש ולאינטגרציה להעדיף את שכבת ה-API הרשמית: הישות A_MaintNotifItemCause במדריך ה-API של ניהול "
+        + "אחזקה מאפשרת קריאה, יצירה ועדכון של סיבת פריט ההודעה, ובצד האנליטי מתועדת תצוגת ה-CDS "
+        + "I_MaintNotificationCauseData במעמד Released עם חילוץ דלתא. יש לאמת שהתצוגה קיימת בגרסת היעד ושהיא מכסה את "
+        + "נתוני QMUR לפני שמסתמכים עליה, משום שתיעוד ה-VDM אינו נוקב בטבלת הבסיס שלה והרשומה הוחזרה במהדורת "
+        + "2023.latest. באפיון התהליך לוודא שקבוצות הקודים וקודי הסיבה מתוחזקים בקטלוג ושפרופיל הקטלוג מוקצה לסוגי "
+        + "ההודעה ולאובייקטים הטכניים, מפני שללא קודים מתוחזקים ניתוח שורש התקלה מאבד את ערכו; לפי עמוד What's New "
+        + "רשמי הנזכר בהערות, סוג הקטלוג 5 הוא Cause והוא משמש בהודעת אחזקה לתיעוד סיבת הכשל. בניהול מחזור חיי הנתונים "
+        + "לתכנן את QMUR דרך אובייקט הארכוב PM_QMEL להודעות אחזקה ודרך SM_QMEL להודעות שירות ולא למחוק רשומות ישירות, "
+        + "ולקחת בחשבון שארכוב ההודעה גורר גם את סיבותיה.",
+    },
+    xrefs: [
+      "table:QMEL", "table:QMFE", "table:QMMA", "table:QMSM", "table:QPGR", "table:QPCD", "table:ILOA",
+      "tx:IW21", "tx:IW22", "tx:IW23", "tx:IW28", "tx:IW66", "tx:IW67", "tx:IW69", "fm:NOTIF_CAUSE_READ",
+      "fm:NOTIF_ITEM_READ", "fm:BAPI_ALM_NOTIF_DATA_ADD", "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:QPK1_CATALOG_READ", "cds:I_MaintenanceNotification", "cds:I_MaintNotificationItem",
+      "cds:I_MaintNotifActivity", "fiori:F4604",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: שתים עשרה ריצות של scripts/sap-help-search.mjs מול המוצר SAP_S4HANA_ON-PREMISE ב-2026-09-15, בשאילתות "
+      + "'Archiving Maintenance Notifications PM_QMEL composed of the following tables QMUR Causes', 'QMUR', "
+      + "'Deletion of Personal Data where-used check QMSM QMUR QMEL IHPA Project System', 'Maintenance Notification "
+      + "Item Cause A_MaintNotifItemCause API operations', 'Maintenance Notification Item Cause supported operations "
+      + "Read Create Update Notification Item Cause', 'Maintenance Notification Item Cause NotificationCauseGroup "
+      + "NotificationCause key fields entity', 'Maintenance Notification Item Cause Data Virtual Data Model CDS View "
+      + "Name released', 'Maintenance Notification Cause Data I_MaintNotificationCauseData business objects "
+      + "maintenance notification cause', 'Objects Released for Developer Extensibility in Maintenance Management "
+      + "I_MaintNotifItemCauseTP_3', 'OData API Catalog Type Cause Read maintenance notification record the cause of "
+      + "a failure in an asset', 'IW67 notification causes transaction maintenance', 'Quality Notification Item "
+      + "Cause entity API for Quality Management' ו-'Failure Data maintenance notification Failure Mode Failure "
+      + "Effect Cause record failure data'. גוף עמודי help.sap.com אינו נשלף (מעטפת JavaScript), ולכן כל טענה כאן "
+      + "מוגבלת לכותרת, ל-deliverable ולסניפט של רשומת החיפוש; ארבע הכתובות הרשמיות שברשומה נבדקו ב-2026-09-15 "
+      + "והחזירו HTTP 200, וה-loio וה-versionId הועתקו מרשומות ה-JSON (60adb6531de6b64ce10000000a174cb4 לעמוד הארכוב "
+      + "של PM_QMEL, 63adb6531de6b64ce10000000a174cb4 לעמוד הארכוב של SM_QMEL, 6be9a042055c49949201f92bfe1594c8 "
+      + "לעמוד ה-API ו-18187fc0a1814c4caef9bbcb0a10dcb1 לרשומת ה-VDM). חיבור ה-MCP של מערכת SAP חיה נכשל בסשן, ולכן "
+      + "לא בוצעה שום בדיקה במערכת. עמוד הארכוב של הודעות השירות SM_QMEL (loio 63adb6531de6b64ce10000000a174cb4, "
+      + "2025.001, נבדק ב-2026-09-15 והחזיר HTTP 200) נשמר כרשומת ראיה שנייה ברשומה זו, משום שהסניפט שלו מדפיס את "
+      + "ההמשך המלא של רשימת הטבלאות. עמודים רשמיים נוספים שנצפו ולא נפתחו כרשומות ראיה נפרדות: (1) 'Data Archiving "
+      + "in Plant Maintenance and Customer Service (PM/CS)' (loio a0cfba538c95b54ce10000000a174cb4, 2025.001), המונה "
+      + "את PM_QMEL ואת SM_QMEL ברשימת אובייקטי הארכוב של התחום; (2) 'Objects Released for Developer Extensibility "
+      + "in Maintenance Management' (What's New לגרסת 2025, versionId 2025.000, loio "
+      + "e666a33610e6491f9d800882be108d02, נבדק והחזיר HTTP 200) הקובע 'CDS view Maintenance Notification Item Cause "
+      + "- TP I_MaintNotifItemCauseTP_3 New This view retrieves the details of a mainteance notification cause' "
+      + "(שגיאת הכתיב mainteance היא במקור), ולצדו 'CDS view Maintenance Notification Item Cause - TP "
+      + "I_MaintNotifItemCauseTP_2 Deprecated This CDS view of the business object interface "
+      + "I_MaintNotifItemCauseTP_2 has been deprecated and replaced'; ההחלפה הזו היא בין גרסאות תצוגה בשכבת ה-TP "
+      + "ואינה נוגעת לטבלה QMUR; (3) 'Maintenance Notification | APIs for Maintenance Management' (2023.latest, loio "
+      + "f430cbb1950c4880810e27a8308db301) הקובע 'Maintenance Notification Item Cause Data (A_MaintNotifItemCause) "
+      + "Allows you to create, read, and update notification item cause'; (4) 'Operations for Maintenance "
+      + "Notifications' (2025.001, loio 061b31b90a88432fad5e710aa9cd175c) המפרט 'Item Cause POST POST - "
+      + "<host>/sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintNotificationItemCause Update Notification Item Cause "
+      + "PATCH'; (5) 'OData API: Catalog Type Cause - Read' (What's New לגרסת 2021 FPS01, versionId 2021.001, loio "
+      + "fc9d70efa9cf41449fee1520280b9e1b) הקובע 'The Catalog Type Cause - Read API contains catalog groups and "
+      + "codes that belong to catalog type 5 which is Cause' ו-'The catalog type Cause is used in maintenance "
+      + "notification to record the cause of a failure in an asset'; זהו המקור לאזכור סוג קטלוג 5 בהמלצת הפעולה; (6) "
+      + "בצד ניהול האיכות: 'Quality Notification | APIs for Quality Management' (2025.001, loio "
+      + "454808498fc344a8a08b912503d90ac0) המונה 'Quality Notification Item Cause (QualityNotificationItemCause) "
+      + "Cause assigned to a quality notification item Optional', 'Operations for Quality Notifications' (2025.001, "
+      + "loio 9d9f91a2b3954ec48d1a12d54a0909a7) עם הנתיב _QltyNotificationItemCause, ו-'Quality Notification Item "
+      + "Cause' בשכבת ה-VDM (2023.latest, loio 916bac471cd14652b7f99c1bb784f0e7) הקובע 'Quality Notification Item "
+      + "Cause CDS View Name I_QltyNotificationCause Data Category Transactional'; (7) 'Deletion of Personal Data' "
+      + "(Security Guide for SAP S/4HANA 1709, versionId 1709.latest, loio 94215653d11a41e0884606b0c3c8b079), שבו "
+      + "QMUR נקובה בשמה בבדיקות ה-WUC: 'A certain customer in RSADD, VSRSADD_CN, COFP, COER, QMSM, QMUR, QMEL, "
+      + "IHPA', 'A certain vendor in RSADD, VSRSADD_CN, AFVC, VSAFVC_CN, RESB, VS_RESB_CN, COFP, QMSM, QMUR, QMEL, "
+      + "IHPA' ו-'A certain contact person in QMSM, QMUR, IHPA'; זו רשומה למהדורת 1709 ולא לגרסה הנוכחית, ולכן היא "
+      + "נשארת בהערות ולא בשכבת הראיות; (8) 'Linear Data in Reports' (Maintenance Management, 2025.001, loio "
+      + "2807244d6b50403682bfb72dce26e428) הקובע 'Notification Item IW68, IW69' ומוסיף 'Note If you have entered "
+      + "tasks and activities in the notifications, you can enter and display linear data as selection criteria in "
+      + "the respective reports (transactions IW64, IW65, IW66, and IW67)'. בדיקת פישוט: הקובץ SIMPL_OP2025.pdf, "
+      + "'Simplification List for SAP S/4HANA 2025 FPS01, Feature Pack Stack 1-3 and SAP S/4HANA Cloud Private "
+      + "Edition 2025 FPS01' (White Paper, Document Version 1.36 (שורת התאריך בעמוד השער נחלצה משובשת ומדפיסה גם "
+      + "'2026-20-02' וגם '2026-18-02', ולכן התאריך אינו נקבע כאן), 1,514 עמודים, md5 "
+      + "c1ccf8ebcd92d51fdc80e4b4873f3b73), שהורד בסשן הזה והומר לטקסט מקומית, אינו מכיל את המחרוזות QMUR, QMEL, "
+      + "QMFE, QMMA, QMSM או PM_QMEL ולו פעם אחת. שתי ההופעות היחידות של 'Maintenance Notification' במסמך הן בהקשר "
+      + "EHS: סוג האובייקט 'Plant Maintenance Notification (PMN)' ואפליקציית 'Manage Maintenance Notification "
+      + "(F3359)' ברשימת אפליקציות של Transition Worklist לניהול משימות EHS. גם מסמך רשימת הפישוט לגרסת 2023 שנשמר "
+      + "בסשן הזה אינו מכיל את QMUR. קטלוג פריטי הפישוט ב-launchpad.support.sap.com דורש הזדהות S-user ולא נבדק, ולא "
+      + "נטען כאן שום מספר SAP Note או KBA. סתירות פנימיות במאגר שיש להכריע: (א) הטרנזקציות. הבלופרינט רושם עבור "
+      + "QMUR 'IW22; IW67', data/table-tcodes.json רושם 'IW22, IW23', ואילו data/tx-intel.ts מתאר את IW67 כרשימת "
+      + "משימות מעל QMSM ואת IW69 כדוח פריטים וסיבות מעל QMFE ו-QMUR. התיעוד הרשמי תומך בכיוון של tx-intel: רשומת "
+      + "ה-VDM של נתוני הסיבות נוקבת ב-IW69 וב-IW23 כטרנזקציות שנדרשת הרשאה להצגה בהן, ועמוד 'Linear Data in "
+      + "Reports' ממקם את IW68 ואת IW69 כדוחות פריט הודעה. הקישור tx:IW67 נשמר ב-xrefs כעוגן ניווט מהבלופרינט בלבד "
+      + "ואינו נתמך על ידי המקורות הרשמיים שנמצאו. (ב) התיאור. הבלופרינט ו-data/knowledge/pm-objects-ext.ts מציגים "
+      + "את QMUR כטבלת גורמי התקלה בהודעת אחזקה או איכות, ואילו data/knowledge/object-intel.ts מתאר אותה כמעט כולה "
+      + "בהקשר QM (QM01, QM02, QM03, CAPA) ומייחס לה את BAPI_QUALNOT_GETDETAIL ו-BAPI_QUALNOT_ADD_DATA, שאינם קיימים "
+      + "ביקום המזהים של הפרויקט ולכן אינם מופיעים ב-xrefs. המקורות הרשמיים שנמצאו ממקמים את QMUR קודם כול בהודעות "
+      + "אחזקה (PM_QMEL) ובהודעות שירות (SM_QMEL), ולצדן בהודעות איכות דרך ישות ה-API של QM. (ג) "
+      + "data/table-titles.json אינו כולל ערך ל-QMUR, וגם לא ל-QMEL; QMFE, QMMA ו-QMSM כן מופיעות בו (64 מפתחות "
+      + "בקובץ). (ד) data/cds-map.ts מאחדת את QMMA, QMSM ו-QMUR לתצוגה אחת (I_MaintNotifActivity), בעוד התיעוד הרשמי "
+      + "מתאר תצוגות נפרדות לפעילויות, למשימות ולסיבות; הסתירה כבר תועדה ברשומת cds:I_MaintNotifActivity ובתור המחקר "
+      + "של CDS, וה-xref cds:I_MaintNotifActivity נשמר כאן כעוגן ניווט ברמת המאגר בלבד. מה לא אומת: רשימת השדות של "
+      + "QMUR (URNUM, URGRP, URCOD) ומיקומו של MANDT במפתח לא נמצאו באף מקור רשמי במעבר הזה והם מגיעים מהבלופרינט "
+      + "ומ-data/table-enrichment.ts בלבד; טיפוסי השדות, האורכים והאינדקסים לא נבדקו. שמות התצוגות "
+      + "I_MaintNotificationCauseData ו-I_MaintNotifItemCauseTP_3 אינם נמנים ביקום המזהים של הדאטהסט "
+      + "(lib/route-manifest.generated.ts) ולכן לא נוספו כ-xrefs, ואף סניפט אינו קושר אותם במפורש לטבלה QMUR. "
+      + "אפליקציית Fiori ייעודית להצגת סיבות ההודעה לא אותרה עם מזהה מאומת: הבלופרינט רושם 'Find Maintenance "
+      + "Notification' ומוסיף 'אמת ID', ולכן ב-xrefs נכלל רק fiori:F4604 (Manage Maintenance Notifications and "
+      + "Orders), שקיים ב-data/fiori/apps.ts. מה חסר לשדרוג הרשומה: בדיקת SE11 או ADT חיה במערכת היעד למפתח ולשדות; "
+      + "עמוד רשמי הנוקב בטבלת הבסיס של I_MaintNotificationCauseData; בדיקה בקטלוג פריטי הפישוט (דורשת הזדהות "
+      + "S-user). סטטוס נגזר קודם: לפני הרשומה הזו האפליקציה הציגה עבור QMUR סטטוס 'ללא שינוי' שנגזר מעמודת ה-S/4 של "
+      + "הבלופרינט (derivedFrom: blueprint) ברמת אימות של נתוני הפרויקט בלבד, ו-QMUR אינה נמנית בסט S4_STABLE "
+      + "ב-data/s4-impact.ts בשונה מ-QMEL ומ-QMFE. הרשומה הזו מוסיפה מתחת לסטטוס ארבע ראיות רשמיות לנוכחות הטבלה "
+      + "בגרסת 2025 FPS01 ולשכבות ה-API וה-CDS שמעליה.",
+  },
+
+  /* -------------------------------------------------------- table:STAS */
+  {
+    id: "table:STAS",
+    evidence: [
+      STAS_BOM_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "BOM Tables | Logistics Data Management (Support Content)",
+        product: "Support Content (Logistics Data Management)",
+        edition: "on-premise",
+        release: "1.0",
+        url: "https://help.sap.com/docs/SUPPORT_CONTENT/ldm/3363506418.html?locale=en-US&state=PRODUCTION&version=1.0",
+        accessedAt: DATE4,
+        claim:
+          "עמוד תוכן התמיכה הרשמי 'BOM Tables' (deliverable Logistics Data Management, versionId 1.0, עודכן "
+          + "2026-03-09) פותח ב-'Purpose: This document gives an overview of the tables that are related to BOMs'. תחת "
+          + "'List of BOM Tables: Table Description' מופיע רצף רציף: 'STKO BOM header STZU Permanent BOM data STPO BOM "
+          + "item STAS BOMs - Item Selection STPU BOM Subitems STPF Structure tree of the exploded BOM', כלומר התיאור "
+          + "הרשמי של STAS בעמוד זה הוא 'BOMs - Item Selection'. בריצה נפרדת על אותו loio הוחזר המשך העמוד, רשימה שנייה "
+          + "ונפרדת 'Link Tables: Table Description', ובה 'MAST Material to BOM Link (components) DOST Document to BOM "
+          + "Link PRST Project (WBS) - BOM link KDST Sales Order (item) to BOM Link EQST Equipment to BOM Link TPST Link "
+          + "Between Functional Location and BOM STST Standard BOM Link'. השיוך של STAS הוא אפוא לרשימת טבלאות ה-BOM ולא "
+          + "לרשימת טבלאות הקישור.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט, רשומת STAS",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "רשומת מאגר המסומנת verified (שדה sources: 'SAP DDIC (SE11) - STAS' ו-'SAP Help Portal - Bill of Material "
+          + "Structure'): STAS היא 'בחירת פריטי עץ מוצר (BOM item selection) - טבלת הקישור בין ראש ה-BOM (STKO) לפריטים "
+          + "(STPO), הקובעת אילו פריטים שייכים לחלופה (alternative) ולטווח תוקף נתון'. המפתח שנרשם הוא MANDT, STLTY, "
+          + "STLNR, STLAL ו-STLKN; המפתחות הזרים הם STLNR אל STKO ו-STLNR+STLKN אל STPO; הגישה המומלצת היא לפי "
+          + "STLNR+STLAL, וההערות מציינות 'הגשר בין STKO ל-STPO; קובע שייכות פריט לחלופה+תוקף' "
+          + "ו-'date-effectivity/change-number דרך STAS'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#STAS",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הדאטהסט המחולל מבלופרינט תעשיות תהליכיות, רשומת PP-PI:STAS",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "רשומת PP-PI:STAS בבלופרינט של תעשיות תהליכיות (נושא '2. עץ מוצר (BOM)') נושאת descriptionHe 'שיוך פריטי עץ "
+          + "מוצר' ו-descriptionEn 'BOM category', פוסקת 'ללא שינוי.' בעמודת S/4HANA, ומציינת טרנזקציות CS01, CS02 "
+          + "ו-CS03 ללא אפליקציית Fiori. ה-guideHe שלה הוא 'מקשר בין פריטי STPO לחלופה/שינוי ההנדסי (ECM). שולט אילו "
+          + "רכיבים תקפים לתאריך נתון', וה-sqlJoinSnippet הוא 'FROM STAS JOIN STKO ON STAS.STLNR = STKO.STLNR'. חמשת "
+          + "השדות הרשומים הם STLTY (BOM category, CHAR 1, PK/FK), STLNR (Bill of material number, CHAR 8, PK/FK), STLAL "
+          + "(Alternative BOM, CHAR 2, PK), STLKN (Item node number, NUMC 8, FK) ו-STASZ (Internal counter, NUMC 8, PK), "
+          + "וה-relations מונות קשר יחיד אל STKO. רשימות ה-funcs וה-progs באותה שורה (BAPI_MATERIAL_SAVEDATA, "
+          + "BAPI_MATERIAL_GET_DETAIL, RMMG2000, MM60) הן של רשומת אב החומר.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pppi.ts#STAS",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת STAS (בחירת פריטי עץ מוצר) קיימת ומתועדת ב-S/4HANA On-Premise עד גרסת 2025 FPS01 וללא טבלה חליפית: "
+        + "עמוד אובייקט הארכוב CS_BOM לגרסת 2025 FPS01 מונה אותה בשם STAS ובתיאור 'BOMs - choice of items' ברשימת "
+        + "הטבלאות שהאובייקט מארכב, לצד STKO, STPU ושאר טבלאות עץ המוצר, ועמוד תוכן התמיכה הרשמי 'BOM Tables' נוקב "
+        + "בתיאור 'BOMs - Item Selection' ומציב אותה ברשימת טבלאות ה-BOM לצד STKO, STZU ו-STPO. אף מקור רשמי שנבדק "
+        + "ב-2026-09-15 אינו מסמן את הטבלה כמוחלפת, כמוצאת משימוש או כפריט פישוט, ולא נמצאה טבלה יורשת. פסק הבלופרינט "
+        + "של תעשיות תהליכיות ('ללא שינוי.') עולה בקנה אחד עם הממצא הרשמי.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: STAS_BOM_ARCHIVING,
+      recommendedAction:
+        "להמשיך לעבוד מול STAS כשכבת בחירת פריטי עץ המוצר בייצור, בתעשיות תהליכיות ובתחזוקת מפעל, ולא לתחזק אותה "
+        + "ישירות: הכתיבה אליה נעשית דרך תחזוקת ה-BOM (CS01/CS02, IB01/IB02) ודרך מודולי התחזוקה שהמאגר מונה. בקריאה "
+        + "להעדיף את ממשקי קריאת ה-BOM ואת תצוגות ה-CDS של עץ המוצר על פני SELECT ישיר מהטבלה. לפני ההסבה לאמת ב-SE11 "
+        + "במערכת היעד את מבנה המפתח המלא, ובכלל זה מקומם של STLKN ושל STASZ שבהם שתי שכבות המאגר סותרות זו את זו, "
+        + "ולתקן בבלופרינט את descriptionEn ואת רשימות ה-BAPI והתוכניות שהועתקו אליו מרשומת אב החומר.",
+    },
+    xrefs: [
+      "table:MAST", "table:STKO", "table:STPO", "table:STPU", "table:STZU", "table:EQST", "table:TPST",
+      "table:KDST", "tx:CS01", "tx:CS02", "tx:CS03", "tx:CS11", "tx:CS12", "tx:CC01", "tx:IB01",
+      "fm:CSAP_MAT_BOM_READ", "fm:CSAP_MAT_BOM_MAINTAIN", "fm:CSAP_BOM_ITEM_MAINTAIN", "fm:CS_BOM_EXPL_MAT_RC1",
+      "cds:I_BillOfMaterial", "cds:I_BillOfMaterialItem",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: שלוש-עשרה ריצות של scripts/sap-help-search.mjs ב-2026-09-15 (הסקופים SAP_S4HANA_ON-PREMISE, SAP_ERP, "
+      + "SAP_S4HANA_CLOUD ו-SUPPORT_CONTENT; השאילתות 'STAS BOM item selection table', 'Archiving PP-BOMs CS_BOM "
+      + "tables STAS BOMs choice of items', 'Structure If you use the archiving object CS_BOM data from the "
+      + "following tables is archived', 'STAS', 'STAS table BOM', 'BOM item selection alternative determination "
+      + "validity items belong alternative', 'Bill of Material Item Assignment Virtual Data Model CDS view', 'BOM "
+      + "Tables', 'BOM Tables Link Tables MAST KDST EQST TPST DOST material BOM assignment', 'MAST Material BOM "
+      + "assignment DOST Document BOM assignment EQST Equipment BOM assignment TPST STAS BOMs choice of items STZU "
+      + "Time-independent', 'STAS deprecated successor replaced BOM table S/4HANA', 'Simplification bill of material "
+      + "BOM tables S/4HANA conversion', \"What's New bill of material BOM management 2025 new enhanced\") וחיפוש רשת "
+      + "אחד מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap. שני ה-URL "
+      + "הרשמיים שברשומה הועתקו כלשונם מפלט הכלי (loio + versionId) ונבדקו ב-curl והחזירו HTTP 200. גופי עמודי "
+      + "help.sap.com אינם נשלפים (מעטפת JavaScript): קריאת ה-curl לעמוד 'BOM Tables' החזירה 200 עם 1,160 בתים של "
+      + "מעטפת אפליקציה בלבד, ולכן כל טענה כאן תחומה לכותרת ולסניפט של רשומת החיפוש. מקור הציטוטים במפורש: שירות "
+      + "החיפוש קוטע כל סניפט ב-400 תווים ומחבר מקטעי הדגשה בשלוש נקודות; כל מקטע המצוטט כאן נלקח שלם ממקטע רציף "
+      + "יחיד, אך לא כל המקטעים מאותה ריצה. ברשומת הארכוב 2025.001: רצף הטבלאות ('BOM assignment STAS BOMs - choice "
+      + "of items ... STPU BOM subitem') הוחזר בשאילתה 'Archiving PP-BOMs CS_BOM tables STAS BOMs choice of items', "
+      + "ומשפט ה-Structure המלא הוחזר בשאילתה הממוקדת 'Structure If you use the archiving object CS_BOM data from "
+      + "the following tables is archived' על אותו loio ואותו versionId. ברשומת 'BOM Tables': רצף 'List of BOM "
+      + "Tables' הוחזר בשאילתה 'BOM Tables' (הסניפט שלה נקטע על 'Link Tables: Table Descri'), ורצף 'Link Tables' "
+      + "הוחזר בשאילתה 'BOM Tables Link Tables MAST KDST EQST TPST DOST material BOM assignment' על אותו loio. כותרת "
+      + "העמודות 'Table Description' בעמוד הארכוב נראתה רק ברנדור ה-SAP ERP של אותו loio ולא בסניפט ה-2025.001, ולכן "
+      + "היא אינה נטענת כאן כמבנה של עמוד ה-S/4HANA. מגבלת העמוד 'BOM Tables': זהו תוכן תמיכה (Support Content) ולא "
+      + "מדריך מוצר כבול-מהדורה, versionId שלו הוא 1.0 ואין בו חותמת גרסה של S/4HANA; ערך edition שנרשם לו הוא הקשר "
+      + "ברירת המחדל של השלב לפי audit/s4-enrichment/MANIFEST.md ולא אמירה של העמוד. ההוכחה לקיום הטבלה דווקא ב-2025 "
+      + "FPS01 היא עמוד הארכוב, שהוא תיעוד S/4HANA כבול-מהדורה, והוא source הסטטוס. רציפות ECC מול S/4HANA: אותו "
+      + "loio 0570bd534f22b44ce10000000a174cb4 מתפרסם גם תחת SAP ERP 6.0 EHP8 Latest (versionId 6.18.latest, "
+      + "https://help.sap.com/docs/SAP_ERP/1b3849a12adb4f1e9f2f409dbe175c8e/0570bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest, "
+      + "HTTP 200) עם אותה שורה בדיוק, 'STAS BOMs - choice of items', ובאותה רשימה גם 'MAST Material BOM assignment "
+      + "DOST Document BOM assignment EQST Equipment BOM assignment TPST Functional location BOM assignment KDST "
+      + "Sales order' ו-'STZU Time-independent BOM data STST Standard object BOM'. הרשומה הזו לא נוספה כראיה נפרדת "
+      + "בשל מגבלת ארבע הראיות, והיא הבסיס לכך שאין כאן טענה על שינוי בין ECC ל-S/4HANA. ממצאים שליליים תחומים "
+      + "לחיפוש: (1) אף רשומת What's New, פישוט (Simplification) או הוצאה משימוש שהוחזרה אינה נוקבת ב-STAS; (2) "
+      + "שאילתה על המחרוזת 'STAS' לבדה בסקופ On-Premise מחזירה תוצאות זרות בלבד (עמודי NF-e של ברזיל עם העמודה 'DOC "
+      + "STA', מונחון אוקראינה, ArchiveLink), משום שהאסימון קצר מכדי להיות שימושי בשירות החיפוש, ולכן החיפושים הופנו "
+      + "לשם הטבלה בהקשר BOM; (3) בסקופ SAP_S4HANA_CLOUD הוחזר העמוד 'Archiving Bills of Material Using CS_BOM' "
+      + "(Public Cloud 2608.500, loio cf52f96a396e4da9be8b5c52cd973e3f) אך הסניפט שלו אינו מונה טבלאות, ולכן מצב "
+      + "STAS במהדורת הענן הציבורי לא אומת ואינו נטען. אין קישור רשמי בין STAS לאובייקט CDS או OData: העמוד הקרוב "
+      + "ביותר שנמצא הוא 'Bill of Material Group Link' (Virtual Data Model and CDS Views, 2023.latest, loio "
+      + "77d0c0b4b2ed49f18281307648dd0a4d), ששם התצוגה בו הוא I_BOMGroupLinks והסניפט עונה על 'What is BOM item "
+      + "group link?' ומונה 'UUID Link UUID Bill of material category Bill of material Bill of material variant Bill "
+      + "of material version Bill of material item node number Inherited node number for BOM item'; הסניפט אינו נוקב "
+      + "ב-STAS, והתצוגה אינה ביקום הפרויקט, ולכן היא אינה ב-xrefs ואינה מצוטטת. עמודים פונקציונליים רשמיים שנראו "
+      + "ולא צוטטו, משום שאינם נוקבים בשם הטבלה: 'Changing BOM Groups' (LO-MD-BOM, 2025.001, loio "
+      + "7808c453f57eb44ce10000000a174cb4, HTTP 200) הקובע 'This screen contains all the items in the BOM group, "
+      + "which are valid in the validity period you entered. The system assigns each item to the alternative in "
+      + "which it is used'; 'Example: Selection of Date Effectivity (PP-BD-BOM)' (2025.001, loio "
+      + "d56fbd534f22b44ce10000000a174cb4) הקובע 'If you have processed a BOM with reference to a change number, "
+      + "several header records or item records exist for the changes'; ו-'Settings for Archiving (PP-BD-BOM)' "
+      + "(2025.001, loio 0e70bd534f22b44ce10000000a174cb4) עם 'Selection according to Date Effectivity'. שלושתם "
+      + "מתארים בדיוק את הפונקציה שהמאגר מייחס ל-STAS (שיוך פריט לחלופה ולטווח תוקף, כולל מספר שינוי), אך הקשר בין "
+      + "הפונקציה לטבלה נותר סינתזה ברובד המאגר. סתירה פנימית פתוחה במבנה המפתח: data/table-enrichment.ts#STAS רושם "
+      + "מפתח MANDT, STLTY, STLNR, STLAL, STLKN ואינו מזכיר את STASZ, בעוד data/sapData.pppi.ts#STAS מסמן את STLKN "
+      + "כ-FK ואת STASZ כ-PK ואינו מונה את MANDT. אף מקור רשמי שנקרא אינו יורד לרמת השדה, חיבור ה-MCP למערכת SAP חיה "
+      + "נכשל בסשן, ולכן ההכרעה דורשת SE11 במערכת היעד. פגמי בלופרינט לתיקון: descriptionEn של השורה הוא 'BOM "
+      + "category', שהוא התיאור של שדה המפתח STLTY ולא של הטבלה (התיאורים הרשמיים הם 'BOMs - choice of items' "
+      + "ו-'BOMs - Item Selection'); רשימות ה-funcs וה-progs הועתקו משורת אב החומר, אותו פגם שכבר תועד ברשומת "
+      + "table:KDST; ה-helpLbl הוא 'SAP Help - BOM Variants'. פסק ההסבה 'ללא שינוי.' עצמו תואם את הממצא הרשמי, כך "
+      + "שתיקון התיאור אינו משנה את מחלקת ההסבה. מצב האפליקציה לפני הרשומה הזו: STAS אינה ב-S4_IMPACT ואינה בסט "
+      + "S4_STABLE שב-data/s4-impact.ts, ולכן lib/s4.ts גוזר עבורה את הערת הבלופרינט ברמת אמון 'partial', "
+      + "ו-lib/evidence/s4-status.ts גוזר unchanged עם derivedFrom 'blueprint', release null ו-source null; הרשומה "
+      + "הזו מחליפה גזירה זו בטענה רשמית כבולת-מהדורה. שכבות מאגר נוספות שאינן ראיה כאן ואינן סותרות: "
+      + "data/table-titles.json מכנה את הטבלה 'שיוך פריטי עץ מוצר'; data/knowledge/pppi-objects-ext.ts (trust "
+      + "'curated', ברירת המחדל של הבנאי K בקובץ) מתאר 'בחירת פריטים בעץ מוצר (BOM item selection). מקשרת פריטים "
+      + "(STPO) לכותרת/חלופה הנכונה של עץ המוצר'; data/knowledge/object-intel.ts מציב אותה במסלול CS01 > STKO > STAS "
+      + "> STPO ומדגיש שאין לערוך אותה ידנית; data/consultant-notes.ts כותב בשורת MAST 'CS03/CS12 לעץ; STAS לבחירה'. "
+      + "STAS מופיעה בבלופרינט של תעשיות תהליכיות בלבד ולא בבלופרינט של תחזוקת מפעל, אף שעמוד הארכוב מונה באותה "
+      + "רשימה גם EQST ו-TPST; מכאן נגזר רק שאובייקט הארכוב CS_BOM מכסה גם עצי מוצר של ציוד ושל מיקום פונקציונלי, "
+      + "ולא טענה על תוכן STAS בתחזוקת מפעל. טבלאות שהעמודים הרשמיים מונים ואינן ביקום הפרויקט (DOST, PRST, STST, "
+      + "STPN, STSZ, STPF, STVB) נזכרות בטקסט בלבד ואינן ב-xrefs. לא צוטט מספר SAP Note או KBA כי אף אחד לא הופיע "
+      + "בסניפטים הרשמיים. אין xref מסוג Fiori: אף עמוד רשמי שנקרא אינו מצמיד מזהה אפליקציה ל-STAS, ו-F1813 ו-F4339 "
+      + "אינם ב-data/fiori/apps.ts.",
+  },
+
+  /* -------------------------------------------------------- table:STPU */
+  {
+    id: "table:STPU",
+    evidence: [
+      STPU_BOM_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Sub-items | Bill of Material (LO-MD-BOM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/18ee18df146f46e9a7738186eebceaa7/6805c453f57eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד Sub-items בתיעוד עצי המוצר (LO-MD-BOM) לגרסת 2025 FPS01 מגדיר: 'Partial quantities of a BOM item may "
+          + "be installed at different points. Sub-items are used to describe the different installation points of these "
+          + "partial quantities', ומוסיף באותו סניפט 'You can maintain the sub-item quantity and a description for each "
+          + "sub-item' ואת ההסתייגות 'Note Sub-items have no operational function in the BOM. They are not copied to the "
+          + "production order'. בריצה חוזרת של אותו loio עם שאילתה ממוקדת מחזיר הסניפט גם את המשך העמוד: 'Information on "
+          + "the installation point, precise coordinates, installation method, and instructions for the automatic "
+          + "assembly machines is stored as independent programs', והדוגמה 'In the production of printed circuit boards, "
+          + "the resistors of a printed circuit are installed in different positions'. זהו התוכן העסקי שהטבלה מחזיקה: "
+          + "תתי-פריטים ונקודות התקנה, ולא מספר צומת של פריט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Bill of Material Subitem | APIs for Product Lifecycle Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9f047b05da4545ca8f9ebfc22acefd06/a4dd42ded7d54ce9b5d2afaa6a0de3aa.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד ה-API הרשמי לגרסת 2025 FPS01 מתעד ישות בשם Bill of Material Subitem, שמה הטכני MaterialBOMSubItem, "
+          + "וקובע: 'With this entity, you can read, create, delete, and update BOM subitem'. המאפיינים שהסניפטים מונים "
+          + "כוללים את BILLOFMATERIAL (חובה), BILLOFMATERIALCATEGORY (חובה), BILLOFMATERIALVARIANT (חובה), "
+          + "BILLOFMATERIALVERSION (חובה), MATERIAL (חובה), BOMITEMINTERNALCHANGECOUNT ('Internal counter', חובה), "
+          + "BOMSUBITEMNUMBERVALUE ('BOM subitem number', חובה), BILLOFMATERIALSUBITEMQUANTITY ('Subitem quantity', "
+          + "אופציונלי), BOMSUBITEMINSTALLATIONPOINT ('Subitem installation point', אופציונלי) "
+          + "ו-BILLOFMATERIALSUBITEMTEXT ('Subitem text', אופציונלי). שורת המפעל מופיעה בסניפט בכתיב 'Plant Mandatory' "
+          + "כששם המאפיין עצמו נקטע בקצה הסניפט; המפתח Plant מופיע במפורש בכתובות ה-URI הרשמיות של Read/Update/Delete "
+          + "Subitem. כלומר קיים ב-S/4HANA נתיב שירות רשמי לתת-הפריט, ומאפייני הישות כוללים נקודת התקנה, כמות וטקסט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Equipment BOM | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/9ea80486301848778dc010926564634d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מסמך אובייקט ההעברה הרשמי 'PM - Equipment BOM' לגרסת 2025 FPS01 (Object Alias EQUI_BOM, רכיב PM, סוג "
+          + "אובייקט עסקי Master data) במסלול Migration Approach 'Staging Table' קובע: 'The following structures or "
+          + "features are supported in SAP S/4HANA: BOM Header BOM Item', ומונה תחת Out of Scope את Sub-items, Document "
+          + "assignment ו-Long text; קטגוריות הפריט הנתמכות הן L-Stock item, N-Non-stock item ו-T-Text item. כלומר "
+          + "בהעברת עצי מוצר של ציוד דרך טבלאות Staging תתי-הפריטים אינם בהיקף אובייקט ההעברה הסטנדרטי.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת STPU (תת-פריט של עץ מוצר, BOM subitem) פעילה ומתועדת ב-SAP S/4HANA On-Premise עד 2025 FPS01, ואין לה "
+        + "טבלה חליפית או יורשת באף מקור רשמי שנמצא: מסמך הארכוב של PP-BD-BOM מונה אותה בשמה ובתיאורה 'BOM subitem' "
+        + "לצד שאר משפחת טבלאות ה-BOM, תיעוד LO-MD-BOM מגדיר את תתי-הפריטים כמתארי נקודות ההתקנה של כמויות חלקיות של "
+        + "פריט BOM, וקיימת ישות OData רשמית MaterialBOMSubItem לקריאה, יצירה, עדכון ומחיקה של תת-פריט. הפונקציונליות "
+        + "משותפת לעצי מוצר של חומר, של ציוד ושל מיקום פונקציונלי, כלומר לייצור, לתעשיות תהליכיות ולתחזוקת מפעל.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: STPU_BOM_ARCHIVING,
+      recommendedAction:
+        "להמשיך לעבוד מול STPU כטבלת תתי-הפריטים של עץ המוצר; אין פעולת הסבה נדרשת לטבלה עצמה. את התחזוקה לבצע דרך "
+        + "מסך ה-Subitems של תחזוקת עץ המוצר (CS01/CS02/CS03 ואפליקציות ה-BOM) ולא בכתיבה ישירה לטבלה, ולאינטגרציות "
+        + "חדשות להעדיף את ישות MaterialBOMSubItem של שירות ה-OData של עצי המוצר על פני SELECT ישיר. לשים לב שהתיעוד "
+        + "הרשמי מציין כי לתתי-הפריטים אין תפקיד תפעולי בעץ המוצר והם אינם מועתקים להזמנת הייצור, ולכן אין לבנות עליהם "
+        + "לוגיקת צריכה. בפרויקט הסבה יש לבדוק בנפרד את היקף תתי-הפריטים לכל אובייקט העברה: במסלול Staging Table של PM "
+        + "- Equipment BOM הם מוגדרים Out of Scope, ולכן נדרש תכנון ייעודי להעברתם או מעבר למסלול Direct Transfer שבו "
+        + "הם מופיעים In Scope. בבדיקות המעבר לוודא שסכום כמויות תתי-הפריטים תואם את כמות הפריט ב-STPO, ושנקודות "
+        + "ההתקנה נשמרו.",
+    },
+    xrefs: [
+      "table:STPO", "table:STKO", "table:MAST", "table:STAS", "table:STZU", "table:EQST", "table:TPST",
+      "tx:CS01", "tx:CS02", "tx:CS03", "tx:IB01", "tx:IB11", "fm:CSAP_MAT_BOM_READ", "fm:CSAP_MAT_BOM_MAINTAIN",
+      "cds:I_BillOfMaterial", "cds:I_BillOfMaterialItem",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "עד הרשומה הזו האפליקציה הציגה ל-STPU מעמד נגזר בלבד (fromBlueprintClass מעל s4Note 'ללא שינוי.' בבלופרינט "
+      + "PP-PI) ברמת 'מאומת מול נתוני הפרויקט', ללא מקורות. STPU אינה נמנית בסט S4_STABLE של data/s4-impact.ts (מתוך "
+      + "משפחת ה-BOM נמנים שם STKO, STPO, MAST ו-EQST בלבד), ולכן המעמד הקודם נשען על עמודת ה-S/4 של הבלופרינט בלבד. "
+      + "שלוש סתירות מול נתוני המאגר, כולן בקובץ מחולל שאינו נערך ידנית, נרשמות כאן "
+      + "וב-audit/s4-enrichment/research-queue-tables.md: (א) data/sapData.pppi.ts (PP-PI:STPU) רושם descriptionEn "
+      + "'Item node number' ו-descriptionHe 'מספר צומת פריט', שהם בדיוק תווית השדה STLKN המופיע ברשומה עצמה, כלומר "
+      + "תווית שדה שהועתקה לשם הטבלה; התיאור הרשמי הוא 'BOM subitem'. זהו אותו סוג ארטיפקט שכבר נרשם בתור לטבלאות "
+      + "CRHD, CRTX, STKO, STPO, MLGT ו-MDMA. (ב) שורת הקשר בין STPU ל-STPO נושאת בשני הכיוונים desc 'טקסטים ארוכים "
+      + "לפריט עץ מוצר', שאינו מתאר טבלת תתי-פריטים; אין מקור רשמי הקושר את STPU לטקסטים ארוכים. (ג) שורת ה-STPU "
+      + "בבלופרינט נושאת funcs ו-progs של נתוני אב חומר (BAPI_MATERIAL_SAVEDATA, BAPI_MATERIAL_GET_DETAIL, RMMG2000, "
+      + "MM60) שאינם ממשקים של תת-פריט BOM, אותו ארטיפקט שנרשם ל-table:CSLA; אין להציג אותם כממשקי STPU. לעומת זאת "
+      + "data/table-enrichment.ts#STPU עקבי עם התיעוד הרשמי ('תת-פריט של עץ מוצר (BOM sub-item) ... נקודות ההתקנה של "
+      + "רכיב בתוך פריט BOM') ולא שימש כראיה ברשומה; data/knowledge/pppi-objects-ext.ts מסמן את STPU ב-trust "
+      + "'needs-verification', סימון שהתיעוד הרשמי כאן תומך בהסרתו, אך הקבצים האלה לא נגעו ברשומה זו. STPU היא שורת "
+      + "בלופרינט של PP-PI בלבד ואינה קיימת ב-data/sapData.pm.ts; הרלוונטיות לתחזוקת מפעל נשענת על התיעוד הרשמי (עצי "
+      + "מוצר של ציוד ושל מיקום פונקציונלי) ולא על בלופרינט ה-PM. גוף עמודי ה-Help לא נקרא (מעטפת JavaScript), ולכן "
+      + "כל טענה תחומה לכותרת ולסניפט של רשומת החיפוש; שתי ראיות הורכבו משני קטעי סניפט של אותה רשומת חיפוש (אותו "
+      + "loio ואותה כתובת) שהוחזרו בשתי שאילתות שונות: רשימת מאפייני MaterialBOMSubItem (loio "
+      + "a4dd42ded7d54ce9b5d2afaa6a0de3aa) והמשך עמוד Sub-items - נקודת ההתקנה, הקואורדינטות ודוגמת לוחות המעגלים "
+      + "המודפסים (loio 6805c453f57eb44ce10000000a174cb4). כל ה-loio וה-versionId הועתקו כלשונם מפלט "
+      + "scripts/sap-help-search.mjs (מוצר SAP_S4HANA_ON-PREMISE); ארבע כתובות הראיות נבדקו חי ב-2026-09-15, החזירו "
+      + "HTTP 200 והן זהות תו-בתו לכתובת שמחזירה רשומת החיפוש, אך ההוכחה בפועל היא החזרת ה-loio מאינדקס החיפוש ולא "
+      + "קוד ה-200 (loio שגוי על אותה חוברת מחזיר גם הוא 200); שאר העמודים בהערה זו נקובים ב-loio בלבד ולא נבדקו "
+      + "כ-URL. רשומות רשמיות נוספות שנמצאו ולא צורפו (מגבלת ארבע ראיות): 'Entering Sub-Items' (LO-MD-BOM, 2025.001, "
+      + "loio 6906c453f57eb44ce10000000a174cb4) הקובע 'The system compares the item quantity to the sum of all "
+      + "sub-item quantities' ו-'If the item quantity is different from the sum of the sub-item quantities, the "
+      + "system changes the item quantity', ומונה כנתונים הנקלטים 'Installation points' ו-'Sub-item quantities'; "
+      + "'BOM item' (Maintenance Management, 2025.001, loio 9771b65334e6b54ce10000000a174cb4) שהוא העיגון של תחזוקת "
+      + "מפעל: 'Sub-items can be used, for example, to divide an item if partial quantities of an item have "
+      + "different installation points' ו-'You can maintain a short text and a quantity for each sub-item in "
+      + "addition to the installation point'; 'Manage Subitems in BOM Management' (What's New in SAP S/4HANA 2022, "
+      + "2022.000, loio 14d20d3d55a44f3787f21fed98f585f9): 'With this feature, you're able to specify subitems so "
+      + "that you can specify different installation points, quantity required, and subitem text'; 'Create Subitem' "
+      + "(APIs for Product Lifecycle Management, 2025.001, loio 9f784168129e47f6905a085a9619407a) הנוקב בנתיב POST "
+      + "/sap/opu/odata/SAP/API_BILL_OF_MATERIAL_SRV;v=2/MaterialBOMSubItem; 'Settings for a BOM Comparison' "
+      + "(LO-MD-BOM, 2025.001, loio 5d08c453f57eb44ce10000000a174cb4): השוואת תתי-פריטים לפי מספר תת-פריט או לפי "
+      + "נקודת התקנה. בנושא היקף ההסבה, התמונה הרשמית המלאה היא שתי גישות העברה נפרדות ולא סתירה: במסלול Staging "
+      + "Table תתי-הפריטים מחוץ להיקף גם ב-'PM - Equipment BOM' (loio 9ea80486301848778dc010926564634d, הראיה "
+      + "הרביעית) וגם ב-'PM - Functional location BOM' (loio acdd915e95e743518f808f8751e5a7e0, שהסניפט שלו מציין "
+      + "במפורש 'Migration Approach Staging Table'), ואילו במסלול Direct Transfer הם בהיקף: הסניפט של 'PM - "
+      + "Equipment BOM' (loio 71ffeafd52694ddeab9b1397362c3e9e) מציין 'Migration Approach Direct Transfer - ERP' "
+      + "ומונה In Scope את 'BOM subitems', והסניפט של 'PP - Sales order BOM' (loio d47370fea0c344688281c838f2f4adc0) "
+      + "מציין אף הוא 'Migration Approach Direct Transfer - ERP' ומונה In Scope את 'Sub-items'; ב-'PM - Functional "
+      + "location BOM' (loio 3843de345dbb48fd98984480ea6179f6) הסניפט מונה In Scope את 'Sub-items' אך שורת "
+      + "ה-Migration Approach אינה נראית בו, והשיוך למסלול Direct Transfer נגזר מהעמודים המקבילים ולא מהסניפט עצמו. "
+      + "פערים ומגבלות: רשימת שדות ה-DDIC של STPU לא אומתה מול מערכת חיה (חיבור sc4sap נכשל בסשן) ונשארת ברמת המאגר, "
+      + "והבלופרינט מתעד שלושה שדות בלבד (STLKN NUMC 8, SUMNR NUMC 4, MENGE QUAN 13) בעוד "
+      + "data/table-enrichment.ts#STPU נוקב במפתח רחב יותר (MANDT, STLTY, STLNR, STLKN ומונה תת-פריט); הסתירה בין "
+      + "השניים לא הוכרעה. מכיוון שספירת השדות עם סוג ואורך היא 3 והסף לקטלוג הטבלאות הוא 5, עומק הרשומה באפליקציה "
+      + "נשאר L1 גם אחרי האימות הרשמי, ותיקון העומק מחייב העשרה של מבנה הטבלה במקור המחולל. לא נמצא בחיפוש הציבורי "
+      + "SAP Note, KBA או פריט פישוט הנוקב ב-STPU, ולא הוקלד אף מספר. לא נמצא עמוד VDM רשמי לתצוגת CDS של תת-פריט "
+      + "BOM (חיפוש ייעודי החזיר תצוגות איחוד ומכירות שאינן קשורות), ולכן שני ה-xrefs ל-CDS הם תצוגות הכותרת והפריט "
+      + "מהמפה של הפרויקט ולא תצוגות של תת-פריט. עמוד 'Feature Comparison for Bills of Material Apps' (LO-MD-BOM, "
+      + "2025.001, loio 5e641f76c48f43aea26fa0a1f698d689) מציג בסניפט שורת App Name שבראשה Maintain Bill of Material "
+      + "ושורת App ID התואמת לה: F1813, CS01, CS02, CS03, CS07, CS08, CS15, F2214, F5238, F7802. אף אחד ממזהי "
+      + "ה-Fiori האלה אינו קיים ב-data/fiori/apps.ts ולכן אין xref ל-Fiori. תוכן טבלת ההשוואה עצמה (שמות היכולות "
+      + "המושוות ותאי ה-Yes/No) אינו נראה בסניפט ולא נטען עליו דבר; אזכור 'Maintain subitems' מופיע בעמודים אחרים - "
+      + "'Manage Order Bill of Material' (loio 9bc19d5c73c748bbbcffbf680949d880) ו-'Usability Features in Manage "
+      + "Multilevel Bill of Material' (loio e12c3b08df3245c995b87884b541aea7) - ולא בעמוד ההשוואה. ה-xrefs "
+      + "ל-tx:CS01, tx:CS02, tx:CS03, tx:IB01 ו-tx:IB11 הם קישורי ניווט לטרנזקציות הקיימות ביקום המזהים של הדאטהסט; "
+      + "שורת ה-STPU בבלופרינט אינה נוקבת בטרנזקציות כלל.",
+  },
+
+  /* -------------------------------------------------------- table:STZU */
+  {
+    id: "table:STZU",
+    aliases: [
+      "stzu",
+    ],
+    evidence: [
+      STZU_BOM_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Trouble Shooting During MBOM Assignment | Production Engineering and Operations for Complex Assembly",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/f250a27a1b5a472b81f3e11a54ae616f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד Production Engineering and Operations בגרסת 2025 FPS01 משתמש בשדה של STZU כקריטריון בדיקה בשיוך MBOM: "
+          + "רשומות החיפוש של אותו נושא (loio f250a27a1b5a472b81f3e11a54ae616f) מציגות את התנאי '(STZU-VERSIND = X)' לצד "
+          + "התנאים '(STKO-LKENZ empty) Is an MBOM version' ו-'(STKO-BOM_VERSN filled) Is a versioned MBOM', ומונות "
+          + "קריטריוני סינון נוספים לפי קלט המשתמש: 'BOM, material, plant, BOM version status, BOM variant usage, BOM "
+          + "variant'. זו עדות רשמית לכך שהטבלה STZU ולשדה VERSIND שבה יש שימוש פעיל בגרסת S/4HANA 2025 FPS01. הסניפטים "
+          + "אינם מפרשים את משמעות השדה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving PP-BOMs (PP-BD-BOM) | Data Archiving in Production Planning and Control (PP)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/1b3849a12adb4f1e9f2f409dbe175c8e/0570bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE4,
+        claim:
+          "אותו נושא ארכוב (loio 0570bd534f22b44ce10000000a174cb4) מתפרסם גם תחת המוצר SAP ERP בגרסת 6.18, והסניפט שם "
+          + "פותח באותן מילים בדיוק כמו בגרסת S/4HANA וכולל את 'STZU Time-independent BOM data'. כלומר אותו תיאור טבלה "
+          + "מופיע בתיעוד ECC ובתיעוד S/4HANA 2025 FPS01. הסניפט קטוע ואינו מאפשר להשוות את רשימת הטבלאות במלואה, "
+          + "ורשומות החיפוש שנבדקו אינן מצביעות על שינוי, על יורשת או על הוצאה משימוש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נתוני הפרויקט על STZU: הבלופרינט של PP-PI, שכבת ההעשרה וקובצי הכותרות",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט של PP-PI (נושא 2, עץ מוצר) מתאר את STZU בעברית כ'ניהול והיסטוריית עץ מוצר', מציין טרנזקציות CC01, "
+          + "CC02 ו-CS03, הערת S/4 'ללא שינוי', קשר ER אל STKO דרך STLNR וארבעה שדות: STLTY, STLNR, STLAN ו-AENNR. שכבת "
+          + "ההעשרה מתארת את הטבלה כנתוני קבע ברמת עץ המוצר עם מפתח MANDT, STLTY ו-STLNR ומפתח זר AENNR אל AENR. שני "
+          + "התיאורים הם נתוני מאגר ואינם נתמכים באף עמוד SAP רשמי שנבדק בסבב זה, והתיאור האנגלי שבבלופרינט, 'BOM "
+          + "category', הוא תיאור של השדה STLTY ולא של הטבלה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pppi.ts#PP-PI:STZU, data/table-enrichment.ts#STZU, data/table-titles.json#STZU",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "הטבלה STZU קיימת ומתועדת ב-SAP S/4HANA On-Premise עד 2025 FPS01, ואף מקור רשמי שנבדק אינו נוקב ביורשת, "
+        + "בהוצאה משימוש או בפריט פישוט עבורה. אובייקט הארכוב PP-BD-BOM מונה אותה בתיאור 'Time-independent BOM data' "
+        + "לצד STKO, STAS, STPU ו-KDST, ואותו תיאור מופיע גם בסניפט של אותו נושא תחת SAP ERP 6.18, כלומר תיאור הטבלה "
+        + "זהה בשני הדורות. בנוסף, תיעוד Production Engineering and Operations בגרסת 2025 FPS01 מפעיל את התנאי "
+        + "'STZU-VERSIND = X' בשיוך MBOM, מה שמעיד על שימוש חי בטבלה ב-S/4HANA.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: STZU_BOM_ARCHIVING,
+      recommendedAction:
+        "אפשר להמשיך לעבוד מול STZU כטבלת נתוני הקבע של עץ המוצר; אין פעולת הסבה נדרשת לטבלה עצמה. לקריאה אנליטית "
+        + "ולפיתוח חדש עדיף לצרוך את נתוני ה-BOM דרך תצוגות ה-CDS I_BillOfMaterial ו-I_BillOfMaterialItem ולא בגישה "
+        + "ישירה לטבלה. בתכנון ארכוב יש לזכור ש-STZU נכללת בהיקף אובייקט הארכוב CS_BOM (PP-BD-BOM) לצד שאר טבלאות עץ "
+        + "המוצר, ולכן דוח מותאם שנשען עליה עלול לאבד נתונים לאחר ריצת ארכוב. לפני הסתמכות על מבנה השדות בקוד מותאם או "
+        + "בשאילתת הסבה יש לאמת את המפתח ואת רשימת השדות ב-SE11 או ב-ADT במערכת היעד, כי מלבד VERSIND אף שדה של הטבלה "
+        + "לא אומת מול מקור רשמי.",
+    },
+    xrefs: [
+      "table:STKO", "table:STPO", "table:STAS", "table:STPU", "table:MAST", "table:KDST", "table:EQST",
+      "table:TPST", "tx:CS01", "tx:CS02", "tx:CS03", "tx:CC01", "tx:CC02", "fm:CSAP_MAT_BOM_READ",
+      "fm:CSAP_MAT_BOM_MAINTAIN", "cds:I_BillOfMaterial", "cds:I_BillOfMaterialItem",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שמונה ריצות של scripts/sap-help-search.mjs (SAP_S4HANA_ON-PREMISE, SAP_ERP ו-SAP_S4HANA_CLOUD) וחיפוש רשת "
+      + "מוגבל לדומיינים הרשמיים העלו בדיוק שני נושאים ב-help.sap.com הנוקבים בשם STZU: 'Archiving PP-BOMs "
+      + "(PP-BD-BOM)' ו-'Trouble Shooting During MBOM Assignment'. שלושת ה-URL של הראיות הרשמיות, וכן הכתובת של "
+      + "'History Requirement for BOMs' (LO-MD-BOM, loio 5b07c453f57eb44ce10000000a174cb4), נבדקו חי ב-2026-09-15 "
+      + "והחזירו HTTP 200. ה-loio, ה-versionId וה-URL הועתקו כלשונם מרשומות החיפוש. פערים ואזהרות: (1) התיאור הרשמי "
+      + "היחיד של הטבלה הוא 'Time-independent BOM data'; הכותרת העברית שבמאגר, 'ניהול והיסטוריית עץ מוצר', והתיאור "
+      + "ב-data/knowledge/pppi-objects-ext.ts ('BOM history/admin', רשומות ניהול ושינוי של עצי המוצר) הם ניסוח מאגר "
+      + "שאין לו כיסוי רשמי, ולכן הקישור בין STZU לבין היסטוריית שינויים הנדסיים נשאר ברמת אימות המאגר. (2) מבנה "
+      + "השדות לא אומת: מלבד VERSIND, שמופיע בעמוד ה-PEO כ-STZU-VERSIND, אף שדה מהרשימה שבבלופרינט (STLTY, STLNR, "
+      + "STLAN, AENNR) ואף מפתח מהרשימה שבשכבת ההעשרה (MANDT, STLTY, STLNR) לא נראו במקור רשמי; חיבור ה-MCP של "
+      + "sc4sap נכשל בסשן זה ולכן לא בוצעה בדיקת SE11 או ADT חיה. (3) הבלופרינט משייך ל-STZU את מודולי הפונקציה "
+      + "BAPI_MATERIAL_SAVEDATA ו-BAPI_MATERIAL_GET_DETAIL ואת התוכניות RMMG2000 ו-MM60. אלה אובייקטים של רשומת האב "
+      + "של החומר ולא של עץ מוצר, ואף מקור רשמי אינו מקשר ביניהם לבין STZU, ולכן הם לא נכללו ב-xrefs. שני מודולי "
+      + "הפונקציה שכן נרשמו, CSAP_MAT_BOM_READ ו-CSAP_MAT_BOM_MAINTAIN, מגיעים מ-data/knowledge/object-intel.ts ולא "
+      + "ממקור רשמי. (4) קשר ה-ER שבבלופרינט, STZU כילד של STKO דרך STLNR, אינו מאושר במקור רשמי; עמוד הארכוב מונה "
+      + "את שתי הטבלאות באותו אובייקט ארכוב, וזו אינה קביעה על מפתח זר. (5) הטרנזקציות CC01 ו-CC02 מגיעות "
+      + "מ-data/table-tcodes.json ומהבלופרינט, ולא נבדק בסבב זה עמוד רשמי הקושר אותן לטבלה. (6) חיפוש במוצר "
+      + "SAP_S4HANA_CLOUD לא החזיר ולו נושא אחד הנוקב ב-STZU, כצפוי מכך שתיעוד ברמת טבלה אינו מתפרסם ל-Public Cloud; "
+      + "לכן הרשומה מוגבלת ל-On-Premise ואינה קובעת דבר על Public Cloud. (7) לא צוטט מספר SAP Note ולא נבדק פריט "
+      + "בקטלוג הפישוט, משום שהגישה לשני אלה דורשת הזדהות S-user. (8) לא אותרה תצוגת CDS או אפליקציית Fiori שמקור "
+      + "רשמי מקשר ל-STZU; השיוך ל-I_BillOfMaterial ול-I_BillOfMaterialItem הוא ברמת משפחת ה-BOM בלבד, ולכן לא נטען "
+      + "סטטוס משני של חלופת Fiori או של API משוחרר. (9) פריטים שנצפו במקורות הרשמיים ואין להם ייצוג ביקום הדאטהסט, "
+      + "ולכן אין להם xref: הטבלאות STPN, STSZ, STST, PRST ו-AENR. (10) סניפט הארכוב כותב גם 'STOP BOM items'; זו "
+      + "ככל הנראה שגיאת כתיב של STPO בעמוד המקורי, ולכן החלק הזה לא צוטט בראיה, כפי שכבר נרשם ברשומות STKO ו-STPO "
+      + "של הפרויקט. (11) הציטוטים '(STKO-LKENZ empty) Is an MBOM version' ו-'(STKO-BOM_VERSN filled) Is a versioned "
+      + "MBOM' התקבלו מריצת חיפוש שנייה על אותו loio (f250a27a1b5a472b81f3e11a54ae616f) ולא מרשומת החיפוש של 'STZU'; "
+      + "שני הסניפטים שייכים לאותו נושא רשמי.",
+  },
+
+  /* -------------------------------------------------------- table:QPCD */
+  {
+    id: "table:QPCD",
+    aliases: [
+      "qpcd",
+    ],
+    evidence: [
+      QPCD_QM_CODES,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "QM/PM - Catalog code group/code | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/cf3f01390d8049dc8b0373b0cb743e3a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד אובייקט המיגרציה של SAP S/4HANA Migration Cockpit לאותה גרסה קובע 'Object Alias QM_CATALOG Business "
+          + "Object Component QM Business Object Type Master data', 'Each code is assigned to a code group in the "
+          + "catalog' ו-'Supported catalog types for QM are: 1, 2, 5, 8, 9, D, E Supported catalog types for PM are: 0, "
+          + "2, 5, A, B, C, D', ומונה בהיררכיית מבני התבנית את 'Catalog Code Group (S_QPGR), mandatory', 'Catalog Code "
+          + "Group Text (S_QPGR_SHORTTEXT), mandatory', 'Code Group Long Text (S_QPGR_LONGTEXT)', 'Catalog Code "
+          + "(S_QPCD), mandatory' ו-'Catalog Code Short Text (S_QPCD_SHORTTEXT), mandatory'. כלומר קבוצת הקוד והקוד הם "
+          + "אובייקט מאסטר שניתן להעביר ל-S/4HANA, הקוד יושב מתחת לקבוצת הקוד, ומבנה ה-staging של הקוד נקרא S_QPCD. "
+          + "השמות האלה הם מבני staging של תבנית ההגירה ולא שמות טבלאות DDIC, והסניפט קטוע ולכן רמות ההיררכיה המדויקות "
+          + "אינן נראות בו במלואן.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Catalogs (QM-PT-BD-CAT) | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/bb7cbb53707db44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד תחום הקטלוגים הרשמי לגרסת 2025 FPS01 קובע 'Catalogs (QM-PT-BD-CAT) Purpose You use catalogs to manage, "
+          + "uniformly define, and standardize information (for example, defect types, follow-up actions, tasks, or "
+          + "characteristic attributes) on a client-wide [...]' (הסניפט נקטע שם), מונה בין סוגי הקטלוג '8 Activities "
+          + "(QM) 9 Defect types A Activities (PM) B Object parts C Overview of damage D Coding E Defect locations', "
+          + "ומונה את היכולות 'Create and change code groups in a catalog type', 'Group several [...] codes together "
+          + "into code groups' ו-'Create selected sets at plant level that contain codes from different catalogs'. כלומר "
+          + "המבנה סוג קטלוג ← קבוצת קוד ← קוד ותחזוקתו קיימים ב-S/4HANA 2025 FPS01, וקבוצות הבחירה נבנות מעל הקודים "
+          + "ברמת מפעל.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ה-blueprint של PM (חוברת ההגירה): רשומת הטבלה QPCD",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "רשומת ה-blueprint (נושא 5, קטלוגים, קודים ופרופילים): 'קודים בתוך קבוצת קוד' / 'Codes within a code group'; "
+          + "טרנזקציות 'QS51; QS61'; Fiori: 'אין Fiori ייעודי (Customizing)'; עמודת S/4: 'ללא שינוי (Customizing/Master "
+          + "תואם)', טבלה חליפית 'QPCD (זהה)', טרנזקציה חליפית 'QS41/QS51 (זהה)'; SUM: 'ללא פעולת המרה ייעודית ב-SUM "
+          + "(טבלה תואמת). מומלץ Regression Test ואימות התאמות אישיות לאחר ההמרה'. שדות מתועדים: KATALOGART (PK, סוג "
+          + "קטלוג), CODEGRUPPE (PK, קבוצת קוד), CODE (PK) ו-VERSION (PK, גרסת קוד); פונקציות QPK1_CODE_TEXT_READ "
+          + "ו-QPK1_CATALOG_READ; תוכנית RQEEAW01; קשר: QPCD.CODEGRUPPE = QPGR.CODEGRUPPE בקרדינליות N:1 ('קודים בתוך "
+          + "קבוצת הקוד'). data/table-enrichment.ts מוסיף מפתח ראשי MANDT + KATALOGART + CODEGRUPPE + CODE, מפתחות זרים "
+          + "'KATALOGART+CODEGRUPPE → QPGR (Code group)' ו-'CODE ← QMFE-FECOD / QMUR-URCOD / QMMA-MNCOD', ומציין "
+          + "שהטקסטים יושבים בטבלת טקסט נלווית לפי שפה. QPCD אינה נמנית ב-data/s4-impact.ts.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:QPCD, data/table-enrichment.ts#QPCD",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת QPCD, טבלת הקודים שמתחת לקבוצת הקוד בקטלוג (לפי נתוני הפרויקט KATALOGART + CODEGRUPPE + CODE + "
+        + "VERSION), רשומה בשכבת המאגר כטבלה פעילה וללא טבלה חליפית, ובשכבה הרשמית של S/4HANA On-Premise 2025 FPS01 "
+        + "מאושרות נוכחות המזהה QPCD ופונקציונליות הקטלוגים בלבד: עמוד ה-QM הרשמי 'Creating and Editing Codes' לאותה "
+        + "גרסה נוקב במזהה QPCD כאובייקט הקישור (object link) של קוד הקטלוג, עמוד אובייקט המיגרציה 'QM/PM - Catalog "
+        + "code group/code' מגדיר את QM_CATALOG כאובייקט מאסטר שניתן להעביר ועם מבני התבנית S_QPGR ו-S_QPCD, ועמוד "
+        + "'Catalogs (QM-PT-BD-CAT)' מתאר את המבנה סוג קטלוג ← קבוצת קוד ← קוד ואת תחזוקתו. אף רשומה רשמית שנמצאה "
+        + "במעבר הזה אינה נוקבת ביורשת, בפריט פישוט או בהוצאה משימוש, ולא נמצא עמוד רשמי המגדיר את QPCD כטבלת DDIC. "
+        + "הקביעה 'ללא שינוי' עצמה נשענת על שכבת המאגר, שבה ה-blueprint רושם 'ללא שינוי (Customizing/Master תואם)' "
+        + "ו-'QPCD (זהה)'. זהות מלאה של מבנה הטבלה ושל רשימת השדות מול ECC לא אומתה מול מקור רשמי.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QPCD_QM_CODES,
+      recommendedAction:
+        "להמשיך לתחזק את קודי הקטלוג ב-QPCD תחת קבוצות הקוד ב-QPGR. לפי ה-blueprint אין לטבלה פעולת המרה ייעודית "
+        + "ב-SUM, ולכן העבודה הנדרשת היא בדיקות רגרסיה לקוד מותאם, לדוחות ולממשקים הקוראים ישירות מ-QPCD יחד עם QPGR "
+        + "ועם טבלאות ההודעה QMFE, QMUR, QMMA ו-QMSM. בהקמת מערכת חדשה או בהעברת נתונים ממערכת מקור, להשתמש באובייקט "
+        + "המיגרציה הרשמי QM_CATALOG ('QM/PM - Catalog code group/code'), ולשים לב שהמקור הרשמי מונה סוגי קטלוג נתמכים "
+        + "לפי תחום, 1, 2, 5, 8, 9, D, E ל-QM ו-0, 2, 5, A, B, C, D ל-PM, כך שסוג קטלוג מחוץ לרשימה הזו דורש תכנון "
+        + "נפרד. לפני ההמרה לוודא שפרופיל הקטלוג מקצה את קבוצות הקוד הנכונות לסוגי ההודעה (TQ80) ולאובייקטים הטכניים, "
+        + "אחרת הקודים לא יוצעו בהודעה וניתוח התקלות מאבד את ערכו. לפיתוח חדש ולאינטגרציה להעדיף את שכבת ה-API הרשמית "
+        + "לקריאת קטלוגים בתחזוקת מפעל, למשל API_OBJECTPART לסוג קטלוג B ו-API_CODING לסוג קטלוג D כמתועד במדריך APIs "
+        + "for Maintenance Management לגרסת 2025 FPS01, במקום SELECT ישיר מהטבלה. התחזוקה השוטפת של קבוצות הקוד "
+        + "והקודים נעשית ב-QS41: עמוד אובייקט המיגרציה הרשמי נוקב ב-'App: Edit Code Groups (QS41) Display Code Groups "
+        + "(QS42)', כלומר QS42 היא תצוגה, וכך גם QS43 לפי נתוני הפרויקט. קבוצות הבחירה נבנות מעל הקודים ב-QS51; לתשומת "
+        + "לב, עמודת הטרנזקציות של ה-blueprint עבור QPCD רושמת דווקא 'QS51; QS61', ונקודה זו מסומנת בהערות כפער פנימי "
+        + "שלא הוכרע ברשומה הזו.",
+    },
+    xrefs: [
+      "table:QPGR", "table:TQ80", "table:T352", "table:T352B", "table:QMFE", "table:QMUR", "table:QMMA",
+      "table:QMSM", "table:QMEL", "tx:QS41", "tx:QS42", "tx:QS43", "tx:QS51", "tx:QS61", "tx:IW21", "tx:IW22",
+      "tx:IW66", "tx:QM01", "fm:QPK1_CODE_TEXT_READ", "fm:QPK1_CATALOG_READ", "fm:QPK1_CODEGROUP_READ",
+      "fm:CATALOG_PROFILE_READ",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs (מוצר SAP_S4HANA_ON-PREMISE, 2026-09-15) "
+      + "בשאילתות 'QPCD', 'QPCD catalog code table', 'Creating and Editing Codes code group catalog QPCD object "
+      + "link', 'Define Document Types document type allows the assignment of codes object QPCD for object link "
+      + "screen number 500', 'Creating and Editing Code Groups catalog type QM', 'QM/PM - Catalog code group/code "
+      + "QM_CATALOG supported catalog types', 'Catalog Code Group S_QPGR mandatory Catalog Code S_QPCD staging "
+      + "structure migration', 'Catalogs QM-PT-BD-CAT purpose catalog types code groups selected sets', 'Catalog "
+      + "Type Damage code group codes API maintenance notification', 'archiving object catalogs code groups codes "
+      + "QPGR QPCD tables', 'EAM/QM Deactivation of Codes catalog code' ו-'S4TWL catalog code group Simplification "
+      + "quality management codes'. גוף עמודי ה-Help אינו נשלף (מעטפת JavaScript), ולכן כל טענה כאן מוגבלת לכותרת "
+      + "ולסניפט של רשומת החיפוש. מה שלא אומת: השם QPCD מופיע בדיוק במקור רשמי אחד שנמצא במעבר הזה ('Creating and "
+      + "Editing Codes'), ושם הוא נקוב כאובייקט הקישור (object link) של הקוד לצורכי ניהול מסמכים ולא כהגדרת טבלה "
+      + "שקופה. רשימת השדות (KATALOGART, CODEGRUPPE, CODE, VERSION), הטיפוסים, האורכים והאינדקסים מגיעים "
+      + "מה-blueprint ומ-data/table-enrichment.ts בלבד ולא אומתו מול מקור רשמי; חיבור ה-MCP של sc4sap (SE11 חי) נכשל "
+      + "בסשן הזה ולא נעשתה שום בדיקה במערכת חיה. טבלאות הטקסט QPCT ו-QPGT מופיעות ב-data/tx-intel.ts (רשימת הטבלאות "
+      + "של QS41) אך אינן קיימות ביקום המזהים של הפרויקט ולא אומתו רשמית, ולכן אינן ב-xrefs. תיעוד רשמי נוסף שנמצא "
+      + "ומחזק את הרשומה ולא נפתח כרשומת ראיה נפרדת: 'Catalog code group and code' (Data Migration, 2025.001, loio "
+      + "062c0e9fd0c946a8ba3edcd728b6b0b6) הקובע 'A code group is key for summarizing codes and structuring a "
+      + "catalog according to various criteria. The assignment of codes to code groups takes place at client level' "
+      + "ומונה את הפעולה 'Create Catalog Code Group Creates the catalog code group in the target system', כלומר "
+      + "אובייקט הגירה שני לצד QM_CATALOG; 'Catalog Profile' (Notifications (CS-CM-SN/PM-WOC-MN), 2025.001, loio "
+      + "6c11bf532e64b44ce10000000a174cb4) הקובע 'Note The catalog functionality originates from the Quality "
+      + "Management (QM) application component' ומתאר קיבוץ של קבוצות קוד לפי סוג קטלוג בתוך הפרופיל; 'Working with "
+      + "Notification Codes' (Maintenance Management, 2025.001, loio 7d20ec545f356474e10000000a44538d, ובגרסת CS/PM "
+      + "loio 2523f554499fb56ce10000000a44176d) הקובע 'If you wish to retrospectively deactivate codes that have "
+      + "already been used, you have to activate the business function EAM/QM, Deactivation of Codes "
+      + "(LOG_EAM_QM_CODE_DEACT)' ו-'even after deactivation, the codes and their long texts and assigned documents "
+      + "are still available as selection criteria in reports'; 'EAM/QM, Deactivation of Codes' (Logistics, "
+      + "2025.001, loio 2966d4548489cc38e10000000a441470) הקובע 'Technical Name of Business Function "
+      + "LOG_EAM_QM_CODE_DEACT Type of Business Function Enterprise Business Function Availability SAP S/4HANA, "
+      + "on-premise [...] edition 1511'; 'Catalog Type Object Parts – Read' (APIs for Maintenance Management, "
+      + "2025.001, loio ed6fe185ade647078c9a0c00b576e047) הקובע 'Service name: API_OBJECTPART This service contains "
+      + "catalog groups and codes that belong to catalog type B which is Object Parts' ו-'Catalog Type Coding - "
+      + "Read' (2025.001, loio b0ecb19d4b3f459f84644a54eb28d693) הקובע 'Service name: API_CODING This service "
+      + "contains catalog groups and codes that belong to catalog type D which is Coding'; ו-'Object classification "
+      + "- Code group (QPGR)' (Data Migration, 2025.001, loio 5efde0cc76c64feaa18bfc503bb8a9ce) הקובע 'Object Alias "
+      + "CLF_QPGR' ו-'In Scope Class type Code Group (007) is supported', עמוד שנוקב ב-QPGR ולא ב-QPCD. פריט פישוט: "
+      + "לא נמצא פריט פישוט (Simplification Item) הנוגע ל-QPCD, ל-QPGR או לקטלוגי הקודים. קטלוג ה-Simplification "
+      + "Item ב-launchpad.support.sap.com דורש התחברות S-user ולא נבדק, ולא נטען כאן שום מספר SAP Note או KBA. "
+      + "Fiori: ה-blueprint רושם 'אין Fiori ייעודי (Customizing)'. עמוד רשמי לגרסת 2025 FPS01, 'How to Create Reason "
+      + "Code Groups' (Production Engineering and Operations for Complex Assembly, loio "
+      + "293251c4df914dfa8baecffb0e13d386), מורה 'Open the Edit Code Groups app (transaction QS41)', אך אינו מדפיס "
+      + "מזהה אפליקציה, ואין ב-data/fiori/apps.ts אפליקציה לקטלוגים או לקבוצות קוד; לכן אין xref ל-Fiori. CDS: לא "
+      + "נמצאה רשומת VDM רשמית לתצוגה מעל קודי קטלוג, ואין בפרויקט תצוגת CDS המשויכת ל-QPCD; לכן אין xref ל-CDS. פער "
+      + "פנימי שלא הוכרע: עמודת הטרנזקציות של ה-blueprint עבור QPCD רושמת 'QS51; QS61', בעוד עמודת החלופה שלו רושמת "
+      + "'QS41/QS51', data/tx-intel.ts מתאר את QS41 כתחזוקת קטלוגים, קבוצות קוד וקודים ואת QS51 כתחזוקת קבוצות "
+      + "בחירה, והמקור הרשמי שלעיל נוקב ב-QS41 כאפליקציית Edit Code Groups; ה-xrefs כוללים את כל הטרנזקציות האלה "
+      + "והרשומה אינה מכריעה את הנקודה, ותיקון עמודת הטרנזקציות ב-blueprint הוא משימה נפרדת. סטטוס נגזר קודם: לפני "
+      + "הרשומה הזו האפליקציה הציגה עבור QPCD סטטוס 'ללא שינוי' שנגזר מעמודת ה-S/4 של ה-blueprint (derivedFrom: "
+      + "blueprint) ברמת אימות של נתוני הפרויקט בלבד, ול-QPCD אין רשומה ב-data/s4-impact.ts; הרשומה הזו מוסיפה "
+      + "מתחתיו שלוש ראיות רשמיות לנוכחות המזהה ולפונקציונליות הקטלוגים בגרסת 2025 FPS01.",
+  },
+
+  /* -------------------------------------------------------- table:QMAT */
+  {
+    id: "table:QMAT",
+    aliases: [
+      "qmat",
+    ],
+    evidence: [
+      QMAT_INSPECTION_SETUP,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Tables in QM | Quality Management (Support Content)",
+        product: "Support Content (SAP Quality Management)",
+        edition: "on-premise",
+        release: "1.0",
+        url: "https://help.sap.com/docs/SUPPORT_CONTENT/qualman/3363506584.html?locale=en-US&state=PRODUCTION&version=1.0",
+        accessedAt: DATE4,
+        claim:
+          "רשומת החיפוש הרשמית של העמוד (deliverable 'Quality Management', product 'Support Content', versionId 1.0, "
+          + "תאריך 2025-04-01) מציגה רשימת טבלאות QM ובה השורה 'QMAT Inspection type - material parameters' (במקור מודפס "
+          + "קו מפריד בין 'type' לבין 'material'), לצד 'QAKL Single value results in value classes', 'QALS Inspection "
+          + "lot record (batch)', 'QAMB Link Between Inspection Lot and Material Document', 'QAMR Characteristic results "
+          + "during inspect[...]', 'QDQL Quality level', 'QINF QM-info record for material and vendor', 'QMEL Quality "
+          + "notification' ו-'QMFE Quality notification [...]' (הסוגריים המרובעים מסמנים קטיעה בסניפט). כלומר השם הטכני "
+          + "QMAT מזוהה בעמוד כטבלת פרמטרי סוג הבדיקה ברמת החומר. העמוד שייך למאגר תוכן התמיכה ולא לתיעוד המוצר, אינו "
+          + "נושא גרסת S/4HANA, ולכן אינו קובע דבר על מעמד הטבלה בגרסה מסוימת.",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 FPS01, Feature Pack Stack 1-3 and SAP S/4HANA Cloud Private "
+          + "Edition 2025 FPS01, Feature Pack Stack 1-3 (White Paper, Document Version 1.36)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE4,
+        claim:
+          "מסמך רשימת הפישוט הרשמי הורד ונקרא מקומית כטקסט מלא (1,514 עמודים): המחרוזת QMAT מופיעה בו פעמיים בלבד "
+          + "ובשני המקרים כחלק משדה ההרשאה QMATMODUS בפריט העוסק באובייקטי הרשאה ב-QM ('Q_MATERIAL with the following "
+          + "values for QMATMODUS' ו-'Q_MATERIAL with QMATMODUS = E and Q_TCODE'), ולא כשם טבלה. המחרוזות 'inspection "
+          + "setup', 'inspection type', 'Quality Management view', 'QM-PT-BD-MM' ו-'QA08' אינן מופיעות במסמך כלל. פריטי "
+          + "ה-S4TWL בתחום האיכות שכן מופיעים בו הם 'S4TWL - QM Interface', 'S4TWL - Removed Navigation to Transactions "
+          + "for Evaluations in QM', 'S4TWL - Redundant Transactions in QM', 'S4TWL - QM WEB Workplace (MiniApps) based "
+          + "on ITS Services', 'S4TWL - Results Recording', 'S4TWL - ITS services in QM', 'S4TWL - Authorization Objects "
+          + "in QM' ו-'S4TWL - Quality Management Information System (QMIS)'. פריט הטרנזקציות המיותרות קובע 'The "
+          + "following transactions will not be provided anymore in SAP S/4HANA' ומונה שם, בטבלה שעמודותיה משתלבות זו "
+          + "בזו בחילוץ הטקסט, את QE51, QS45, QS42, QCYF ו-QCYT. ממצא שלילי: אין במסמך פריט פישוט (Simplification Item) "
+          + "המסמן את QMAT או את הגדרת הבדיקה לחומר כמוחלפת, מוגבלת או מוסרת, ואין בו הסרה של טרנזקציות תחזוקת הגדרת "
+          + "הבדיקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הבלופרינט PP-PI:QMAT",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט (data/sapData.pppi.ts, רשומה PP-PI:QMAT) כותב tableName 'QMAT', descriptionHe 'הגדרת בדיקת איכות "
+          + "לחומר', descriptionEn 'Material number', tcodes 'QM01, MM02', fioriApp ריק, s4Note 'ללא שינוי מבני.', "
+          + "guideHe 'הפעלת סוגי בדיקה (קליטה/ייצור/שחרור) לחומר - מחבר את הייצור ל-QM. קריטי לשחרור אצווה לפני משלוח.', "
+          + "helpLbl 'SAP Help - Quality Inspection' ו-sqlJoinSnippet 'FROM QMAT JOIN MARC ON QMAT.MATNR = MARC.MATNR "
+          + "AND QMAT.WERKS = MARC.WERKS'. הוא רושם ארבעה שדות: MATNR (PK/FK, CHAR, אורך '18->40'), WERKS (PK/FK, CHAR "
+          + "4), ART ('Inspection type', PK, CHAR 8) ו-AKTIV ('Active indicator', CHAR 1); קשר יחיד בתפקיד child אל MARC "
+          + "על אותו צירוף MATNR ו-WERKS; מודולי הפונקציה BAPI_MATERIAL_SAVEDATA ו-BAPI_MATERIAL_GET_DETAIL; התוכניות "
+          + "RMMG2000 ו-MM60. הרשומה משויכת למודול PP-PI ולנושא '1. נתוני אב חומר ויחידות מידה'. הערך descriptionEn "
+          + "'Material number' אינו שם הטבלה אלא תיאור השדה הראשון, ונגרר לעמודה בשגגה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pppi.ts#PP-PI:QMAT",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "הגדרת בדיקת האיכות לחומר, שהטבלה QMAT מחזיקה, פעילה ב-S/4HANA On-Premise ומתועדת בגרסת 2025 FPS01 בלי טבלה "
+        + "חליפית ובלי יורש. העמוד הרשמי 'Editing the Inspection Setup' לאותה גרסה קובע שחובה לערוך את הגדרת הבדיקה "
+        + "כדי שייווצרו מנות בדיקה לחומר, ושהעריכה נעשית בתצוגת ניהול האיכות של רשומת אב החומר. סריקה מלאה של מסמך "
+        + "רשימת הפישוט ל-2025 FPS01 לא העלתה פריט פישוט הנוגע לטבלה או להגדרת הבדיקה, והטרנזקציות לתחזוקת ההגדרה אינן "
+        + "נמנות עם הטרנזקציות שהוסרו. השם הטכני QMAT עצמו נקוב בעמוד תוכן תמיכה בדומיין help.sap.com ולא בתיעוד "
+        + "המוצר, ולכן 'ללא שינוי' כאן הוא ברמת קיום האובייקט העסקי ותפקידו ולא ברמת השדה: מבנה השדות, טיפוסיהם, "
+        + "אורכיהם, נוכחות MANDT וסדר המפתח לא אומתו מול ה-DDIC, וגם הרחבת אורך מספר החומר שרובד הבלופרינט רושם בשדה "
+        + "MATNR לא אוששה במקור רשמי עבור הטבלה הזו.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QMAT_INSPECTION_SETUP,
+      recommendedAction:
+        "להמשיך לתחזק את הגדרת הבדיקה בתצוגת ניהול האיכות של אב החומר (MM01, MM02, MM03) ואת השינוי המרוכז ב-QA08; "
+        + "עמוד 'Inspection Setup' בגרסת 2025 FPS01 קובע 'You can use the inspection setup transaction QA08 to create "
+        + "or edit segmentation details for segment-relevant materials or articles in the inspection setup "
+        + "individually or make [...]', ורשומת What's New לגרסת 2020 FPS01 נוקבת ב-'Mass Change of QM Inspection Setup "
+        + "Data in Materials (transaction QA08)'. בהמרה לא להסתמך על אובייקט מיגרציה ייעודי לטבלה: עמוד 'Material "
+        + "inspection setup (deprecated)' בגרסת התיעוד 2021 FPS02 נושא את האזהרה 'Caution This migration object is "
+        + "deprecated', בעוד עמוד אובייקט המיגרציה 'Product' לגרסת 2025 FPS01 מונה בסניפטו 'Planning data Inspection "
+        + "setup Internal numbers Materials set for deletion' לפני הכותרת 'Out of Scope', כלומר הגדרת הבדיקה נמנית עם "
+        + "הנתונים המועברים, וקובע 'Inspection Setup Data During migration, you can use the control parameter to "
+        + "choose whether the inspection setup data is taken from the source Staging Table or from the default that is "
+        + "defined in the [...]'. לכן להעביר את הגדרת הבדיקה כחלק מאובייקט ה-Product, לקבוע במפורש את פרמטר הבקרה, "
+        + "ולאמת ברשימת אובייקטי המיגרציה של גרסת היעד איזה אובייקט עדיין מסופק (עמוד 'Control Parameter Tasks' לגרסת "
+        + "2025 FPS01 עדיין מביא את 'the migration object Material Inspection Setup' כדוגמה, וזו סתירה פתוחה מול עמוד "
+        + "ההוצאה משימוש). לאינטגרציות חדשות להעדיף את השירות המתועד על פני SELECT ישיר מהטבלה: עמוד 'Product (Version "
+        + "2)' במדריך APIs for Product Master לגרסת 2025 FPS01 מונה ישות 'Inspection Type Setting "
+        + "(ProductPlantInspTypeSetting) Inspection type setting information of product plant' תחת 'API_PRODUCT "
+        + "srvd_a2x PRODUCT 0002'; רשימת השדות של הישות לא נקראה, ולכן ההתאמה שדה מול שדה ל-QMAT דורשת אימות. בנוף EWM "
+        + "מבוזר לבדוק את השפעת השינויים בהגדרה לפני העלייה לאוויר: עמוד 'Master Data Synchronization' במדריך Extended "
+        + "Warehouse Management (EWM) לגרסת 2025 FPS01 (loio 4259ef399b5f40d2a39b2d0cc39d1d92) קובע 'You can use the "
+        + "distribution of inspection setup data using ALE and the IDoc MATQM to create corresponding inspection rules "
+        + "in dec[...]' ומוסיף 'Transfer the inspection setup data to the decentralized EWM using the Send Inspection "
+        + "Setup app'; עמוד תוכן התמיכה 'IDoc in EWM-QM' קובע 'In decentral landscape, inspection rules can be "
+        + "communicated from ERP to EWM' ומזכיר את הטבלה בסניפט קטוע, 'from the material master (QMAT table)) that "
+        + "triggers an Idoc to delete the inspection rule in EWM', אך מה שקדם למחרוזת הזו בגוף העמוד לא נראה בסניפט "
+        + "ולכן לא נטען כאן איזו פעולה בדיוק מפעילה את ה-IDoc. לפני הסתמכות על רשימת השדות שבמאגר לאמת אותה ב-SE11 מול "
+        + "ה-DDIC, בשל הפער בין ארבעת השדות שברשומת הבלופרינט לבין המפתח שרובד ההעשרה רושם, ולתקן את עמודת הטרנזקציות "
+        + "במאגר, שכותבת QM01 (יצירת הודעת איכות) במקום טרנזקציות תחזוקת אב החומר והגדרת הבדיקה.",
+    },
+    xrefs: [
+      "table:MARA", "table:MARC", "table:MAPL", "table:PLKO", "table:PLMK", "tx:MM01", "tx:MM02", "tx:MM03",
+      "tx:QA08", "tx:QA32", "fm:BAPI_MATERIAL_SAVEDATA", "fm:BAPI_MATERIAL_GET_DETAIL",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: ריצות של scripts/sap-help-search.mjs ב-2026-09-15 מול המוצרים SAP_S4HANA_ON-PREMISE "
+      + "ו-SUPPORT_CONTENT, חיפוש רשת מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com "
+      + "ו-fal.cloud.sap, וסריקה מקומית של מסמך רשימת הפישוט ל-2025 FPS01. גופי עמודי help.sap.com אינם נשלפים "
+      + "(מעטפת JavaScript), ולכן כל טענה תחומה לכותרת, ל-deliverable ולסניפט של רשומת החיפוש או למסמך ה-PDF שנקרא "
+      + "מקומית; ה-loio, ה-deliverable וה-versionId הועתקו כלשונם מפלט הכלי. (1) ממצא מרכזי: בשום רשומת חיפוש של "
+      + "תיעוד המוצר SAP S/4HANA On-Premise שנשלפה בסבב הזה השם הטכני QMAT אינו נקוב. שתי הרשומות היחידות שנוקבות בו "
+      + "שייכות למאגר תוכן התמיכה שבדומיין help.sap.com: 'Tables in QM' (deliverable Quality Management, loio "
+      + "3363506584), שנרשמה כראיה ברמת 'נתמך במקור משני' ולא כתיעוד מוצר רשמי, ו-'IDoc in EWM-QM' (deliverable SAP "
+      + "Extended Warehouse Management (EWM), loio 4248185359, "
+      + "https://help.sap.com/docs/SUPPORT_CONTENT/sewm/4248185359.html?locale=en-US&state=PRODUCTION&version=1.0) "
+      + "שסניפטו קובע 'In decentral landscape, inspection rules can be communicated from ERP to EWM' ו-'from the "
+      + "material master (QMAT table)) that triggers an Idoc to delete the inspection rule in EWM', ומוסיף 'In "
+      + "decentral EWM, when the inspection rules are transferred from ERP material master, the inspection type is "
+      + "provided for the inspection rule creation'. תיעוד המוצר מדבר על האובייקט העסקי בשמו התפקודי (inspection "
+      + "setup בתצוגת ניהול האיכות של אב החומר) ולא בשם הטבלה, ולכן הקישור בין השם התפקודי לשם הטכני נשען כאן על "
+      + "עמוד תוכן התמיכה ועל רובד המאגר. (2) עמודים רשמיים נוספים שנצפו ולא נכללו כראיה נפרדת, כולם לגרסת 2025 "
+      + "FPS01 אלא אם צוין אחרת: 'QM-Specific Data in the Material Master (QM-PT-BD-MM)' (loio "
+      + "ac22bd534f22b44ce10000000a174cb4), הקובע 'The Quality Management view of the material master primarily "
+      + "contains the control parameters you need to process quality inspections throughout [...]', 'You use the "
+      + "QM-specific data in the material master to control the quality inspection process and to define whether a "
+      + "material is to be posted to inspection stock' ו-'You can use mass-processing transactions to change the "
+      + "inspection setup for materials, activate and deactivate inspection types, as well as to distribute the "
+      + "inspection setup in several systems'; 'Activating or Deactivating Inspection Types' (loio "
+      + "e722bd534f22b44ce10000000a174cb4); 'Editing Inspection Setup Data Individually' (loio "
+      + "e422bd534f22b44ce10000000a174cb4); 'Making Mass Changes to the Inspection Setup' (loio "
+      + "e122bd534f22b44ce10000000a174cb4); 'Inspection Setup' במדריך Logistics - General (LO) (loio "
+      + "f35e650eb0bb478cb4f3a4c38728c5c7); 'Distribution of Inspection Setup Using ALE' במדריך Library of ALE "
+      + "Business Processes (loio 0823bd534f22b44ce10000000a174cb4), הקובע 'The distribution function for the "
+      + "inspection setup is integrated in the general functions for ALE processing of material master data in the "
+      + "SAP system'; 'Product' במדריך Data Migration (loio af1dcca546554e659cde2332547fd860 ו-loio "
+      + "289644d401a844878ce84670517dfa98 עם פסקת 'Inspection Setup Data'); 'Control Parameter Tasks' (loio "
+      + "c96e2251b685400faff99a8d2637d294); 'Product (Version 2)' ו-'Product Master (A2X)' במדריך APIs for Product "
+      + "Master (loio 3a1c6785160b4a818bf125933891c008 ו-loio 74aa2b58a333a107e10000000a441470); 'Quality Management "
+      + "Data Technical name: A_ProductPlantQualityMgmt' (loio bdc70fc9b2d44713b7c31d4ef520adcd); 'Quality "
+      + "Certificates in Goods Receipt with Inbound Delivery' (loio 81071b0a95d24f039bafce4566c190b7), הקובע 'In the "
+      + "material master, you have made the following settings in the Quality Management view: You have activated an "
+      + "inspection type 01 (for embedded EWM) or 1701 (for decentralized EWM) in the inspection [...]'; ורשומת "
+      + "What's New 'Mass Changes to the Inspection Setup-Generic Article' (2020.001, loio "
+      + "8fe0413ec37e4d37b282e663916974f0). עמוד 'Material inspection setup (deprecated)' (deliverable Migration "
+      + "Objects for SAP S/4HANA, versionId 2021.002, loio 5f7348366b564e98adf31919c52a10b8) נצפה אף הוא ונוסחו "
+      + "מצוטט בהמלצה לפעולה; הוא לא נרשם כראיה נפרדת משום שהוא עוסק באובייקט מיגרציה ולא בטבלה, ומשום שגרסת התיעוד "
+      + "שלו אינה 2025. (3) סתירה פתוחה בתיעוד הרשמי עצמו: עמוד ההוצאה משימוש (2021 FPS02) מסמן את אובייקט המיגרציה "
+      + "Material inspection setup כמיושן, ואילו עמוד 'Control Parameter Tasks' לגרסת 2025 FPS01 עדיין מביא אותו "
+      + "כדוגמה ('Example When using the migration object Material Inspection Setup to migrate data to SAP S/4HANA, "
+      + "you need to process the control parameter mapping task Take default values for inspection type'). הסתירה לא "
+      + "הוכרעה כאן, ולכן ההמלצה היא לאמת ברשימת אובייקטי המיגרציה של גרסת היעד. (4) רובד המאגר: מבנה המפתח - "
+      + "הבלופרינט רושם ארבעה שדות (MATNR, WERKS, ART, AKTIV) בלי MANDT, בעוד data/table-enrichment.ts#QMAT רושם "
+      + "primaryKey 'MANDT - client, ART - Inspection Type, MATNR - Material, WERKS - Plant' ו-foreignKeys 'MATNR -> "
+      + "MARA', 'WERKS -> T001W', 'ART -> TQ30 (Inspection type)'; אף מקור רשמי לא אימת מפתח, טיפוסים ואורכים, "
+      + "והטבלאות T001W ו-TQ30 אינן ביקום המזהים של הדאטהסט ולכן אינן xrefs. סוגי הבדיקה - המחרוזת 'סוג בדיקה 04 = "
+      + "ייצור, 01 = קבלת סחורה (תלוי הגדרה)' מופיעה בשדה perfNotes של data/table-enrichment.ts#QMAT בלבד, לצד 'בלי "
+      + "QMAT פעיל - לא תיווצר מנת בדיקה בקבלה/ייצור'; היא אינה מופיעה ב-data/consultant-notes.ts#QMAT, שרשומתו "
+      + "כוללת mistakes 'סוג בדיקה לא מופעל לחומר → אין Lot' ו'תצוגת QM חסרה ב-MM02', debug 'QA32 ל-Lots; MM03 תצוגת "
+      + "QM', fnNotes 'מקשר חומר↔סוגי בדיקה (Inspection types)' ו-integration 'GR מפעיל Inspection Lot; →Batch'. "
+      + "משמעות המספרים כן נתמכת במקור רשמי: רשומת What's New 'EWM-QM Integration Without Inspection Rules' "
+      + "(deliverable What's New in SAP S/4HANA 1909, versionId 1909.000, loio d43aa8aceaa042988ea35ace50de0335) "
+      + "קובעת בסניפטה 'In EWM the inspection types 01 (Goods receipt insp. for purchase order), 04 (Goods receipt "
+      + "inspection from production), 08 (Stock transfer inspection) and 09 (Recurring inspection of batches) are "
+      + "supported'. הטענה נאמרת בהקשר EWM ללא כללי בדיקה ואינה טענה על שדה ART בטבלה QMAT, ולכן היא תומכת במשמעות "
+      + "המספרים ולא במבנה הטבלה. הטרנזקציות - data/table-tcodes.json כותב ל-QMAT 'QM01, MM02', אך QM01 היא יצירת "
+      + "הודעת איכות ולא תחזוקת הגדרת הבדיקה; תיקון לקטלוג נרשם כתור ולא בוצע ברשומה הזו. שם באנגלית - descriptionEn "
+      + "של הבלופרינט הוא 'Material number', תיאור השדה הראשון ולא הטבלה. שכבת היציבות - data/s4-impact.ts#S4_STABLE "
+      + "אינה מכילה את QMAT, ולכן הסטטוס 'ללא שינוי' שהאפליקציה גזרה עד כה נשען על עמודת s4Note של הבלופרינט בלבד "
+      + "דרך lib/s4-class; הרשומה הזו מחליפה את הגזירה בסטטוס מחובר למקור רשמי. (5) אפליקציית Fiori: "
+      + "data/fiori/apps.ts אינו מכיל אפליקציה לתחזוקת הגדרת בדיקה או לאב חומר בהיבט QM, ולכן אין xref מסוג fiori "
+      + "ולא נרשם מזהה אפליקציה. (6) תצוגת CDS: אין באינדקס ה-CDS של הדאטהסט (lib/route-manifest.generated.ts) תצוגה "
+      + "להגדרת הבדיקה; הישות ProductPlantInspTypeSetting היא ישות OData בשירות API_PRODUCT ולא מזהה CDS בדאטהסט, "
+      + "ולכן אין xref מסוג cds. (7) ה-IDoc של הפצת הגדרת הבדיקה: עמוד 'Distribution of Inspection Setup Using ALE' "
+      + "קובע שהפונקציה משולבת בפונקציות ה-ALE הכלליות של נתוני אב החומר, אך אינו נוקב בסוג ההודעה. עמוד 'Master "
+      + "Data Synchronization' (deliverable Extended Warehouse Management (EWM), versionId 2025.001, loio "
+      + "4259ef399b5f40d2a39b2d0cc39d1d92) כן נוקב: 'You can use the distribution of inspection setup data using ALE "
+      + "and the IDoc MATQM to create corresponding inspection rules in dec[...]'. סוג ההודעה MATQM אינו קיים ביקום "
+      + "המזהים של הדאטהסט (idocs = LOIPRO, MATMAS ב-lib/route-manifest.generated.ts), ולכן לא נרשם xref מסוג idoc; "
+      + "xref ל-idoc:msg:MATMAS לא נרשם, משום שאף מקור רשמי אינו קושר את מקטעי הגדרת הבדיקה ל-MATMAS, והמקור הרשמי "
+      + "היחיד שנוקב בסוג הודעה נוקב ב-MATQM. (8) מה שלא נבדק: חיבור MCP למערכת SAP חיה (sc4sap) אינו זמין לפי "
+      + "audit/s4-enrichment/MANIFEST.md, ולכן לא בוצעה בדיקת SE11 או ADT, לא נבדקו טיפוסי השדות, אורכיהם ונוכחות "
+      + "MANDT, ולא נבדק אילו סוגי בדיקה מוגדרים בפועל. הממצא השלילי לגבי פישוט נבדק על מסמך רשימת הפישוט של 2025 "
+      + "FPS01 בלבד. לא נטען שום מספר SAP Note או KBA: רשומת What's New 'Quality Management: Small Enhancements as "
+      + "Part of Customer Connection Program 2022' (loio f148db8e70034fd6a7b78ae28a030252, 1909.007) מדפיסה בסניפט "
+      + "מספרים לצד רכיב היישום 'QM-PT-BD-MM ( Quality Related Material Master Settings)' ולצד השיפור 'Additional "
+      + "Search Fields for Material Selection in Transaction QA08', אך פריסת הטבלה בסניפט משובשת ואי אפשר לקבוע "
+      + "מתוכה איזה מספר הוא SAP Note ואיזה מזהה שיפור, ולכן לא נרשם מספר. כן נלמד ממנה שרכיב היישום של הגדרות אב "
+      + "החומר בתחום האיכות הוא QM-PT-BD-MM ושהטרנזקציה QA08 עדיין מקבלת שיפורים ב-S/4HANA.",
   },
 ];
