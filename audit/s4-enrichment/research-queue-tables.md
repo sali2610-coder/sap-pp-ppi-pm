@@ -5,7 +5,8 @@ refuted or deferred at the adversarial-verification gate, with the evidence stil
 Written 2026-09-02 during the tables data commit (13 drafts audited: 12 written + the
 upgraded `table:MSEG` worked example; 1 refuted). Updated 2026-09-07 for batch 2 (16 audited:
 15 written incl. the `table:MARA` rewrite; 1 refuted, `table:AFVC`). Updated 2026-09-15 for batch 3
-(15 audited, 15 written, 0 refuted; `table:AFVC` resolved).
+(15 audited, 15 written, 0 refuted; `table:AFVC` resolved), and again 2026-09-15 for batch 4
+(15 audited, 15 written, 0 refuted; one correction queued for `tx:IP30` in the transactions catalog).
 
 ## refuted / needs new evidence
 
@@ -96,3 +97,105 @@ upgraded `table:MSEG` worked example; 1 refuted). Updated 2026-09-07 for batch 2
   MAKT and AFFL are typed but carry only 4 fields, below the threshold of 5). Only AFVC, AFRU and MARM cleared the
   L2 structural gate and therefore reached L5. Raising the other twelve needs SE11 or an official field list, not
   more evidence.
+
+## batch 4 (2026-09-15) — 15 audited, 15 written, 0 refuted
+
+Records written: `table:IMRG`, `table:IMPTT`, `table:OBJK`, `table:MHIS`, `table:MHIO`, `table:IFLOS`,
+`table:MCH1`, `table:MEAN`, `table:MVKE`, `table:MLAN`, `table:MAPL`, `table:PLAS`, `table:PLFL`,
+`table:PLMZ`, `table:PLZU`. Fourteen carry the token `unchanged`; `table:PLZU` is the one honest
+`verification_required` — no official source names that table at all.
+
+### refuted / needs new evidence (batch 4)
+
+- (none refuted this batch)
+- **Queued correction, another catalog — `tx:IP30` in `data/verification/transactions.ts`.** The `table:IMRG`
+  verdict refutes two statements in that existing record: "לא נמצאה רשומת Simplification Item הנוקבת ב-IP30" and
+  "שם התוכנית RISTRA20 ... לא נמצא במקור רשמי". Both are contradicted by the official Simplification List for
+  2025 FPS01 (SIMPL_OP2025.pdf, document version 1.36), item 4.1.2 "S4TWL - Scheduling of Maintenance Plan",
+  p. 76, application component PM-PRM, Business Impact note 0002270078, which reads "Transaction IP30 is doing
+  scheduling for Maintenance Plans. Within this scheduling outdated technology (Batch Input) is used" and
+  "Review your background Jobs which you most probably have scheduled periodically for transaction IP30 (Reports
+  RISTRA20) and create new background jobs for IP30H (Report RISTRA20H)". Not fixed here as a side effect of the
+  tables batch; it needs its own audited rewrite of the transactions record. `IP30H` and `RISTRA20H` are not in
+  the id universe.
+
+### batch 4 (2026-09-15) open conflicts, recorded in the written records' notes
+
+- `table:MHIO` vs `tx:IP10` — NOT a repository defect: two official 2025 FPS01 pages disagree on the MHIO time
+  field. The PLM page (loio `f3eec353b677b44ce10000000a174cb4`) names ADDAT, ADTIME and GSTRP; the Maintenance
+  Planning page (loio `f1a8ce5314894208e10000000a174cb4`) marks `ADDAT(MHIO), ADUHR(MHIO)`. The existing
+  `tx:IP10` record quotes ADUHR faithfully from its own source and must **not** be edited on the strength of this
+  record. ADTIME vs ADUHR needs SE11.
+- `table:MHIS` vs `table:MPLA` — framing discrepancy inside the same archiving page (loio
+  `96a0ce5314894208e10000000a174cb4`): the MPLA record treats MHIO + ONR00 as a separate block, this record folds
+  them into the PM_MPLAN list. Both agree MHIS belongs to the maintenance-plan archiving. Three query shapes
+  failed to return a single contiguous fragment tying the `PM_MPLAN` archiving-class sentence to the MPLA / MMPT /
+  MHIS list, and `http.svc/pagecontent` returns HTTP 500, so the class assignment stays an inference.
+- `table:MCH1` — Fiori id conflict carried forward: `data/fiori/apps.ts` records F1576 as "Manage Batches" with
+  relatedTables MCH1/MCHA, while two official LO-BM 2025.001 pages (loio `34b021588aee0a02e10000000a44147b`,
+  `006de05317e74e5399d82fb88f21810d`) and `data/library/book7-full.json` say **F2462**. F2462 is not in the id
+  universe, so MCH1 writes no fiori xref; the conflict also touches the existing `fiori:F1576` xref on
+  `table:MCHA`. Belongs to the Fiori research queue.
+- `table:OBJK`, `table:IMPTT`, `table:IFLOS` — the technical-objects Fiori id conflict (blueprint F2079 vs
+  `data/fiori/apps.ts` F2730A) persists. New official ids seen and **not** writable as xrefs because they are
+  absent from `data/fiori/apps.ts`: **F7617** "Manage Material Serial Numbers" (loio
+  `03afe500cc8e48ceaae016a216143e52`, cited as evidence on OBJK), **W0030** "Display Measuring Point" (named in
+  the PM - Measuring point migration page) and **W0031** "Process Measuring Point" (Fiori Apps Library search
+  title).
+- `table:IMPTT` — the official PM/CS archiving overview (loio `a0cfba538c95b54ce10000000a174cb4`) lists PM_EQUI,
+  PM_IFLOT, PM_OBJLIST, PM_IMRG and PM_QMEL but no archiving object naming IMPTT; archiving of measuring-point
+  master records is therefore unverified. The migration page's snippet cites SAP Note 2917243 for measuring-point
+  and measurement-document corrections; the note body needs an S-user and is recorded as a snippet quotation only.
+- `table:IMRG` — positive negative check added: the official Simplification List for 2025 FPS01 was read as full
+  text and contains **zero** occurrences of `IMRG` and `IMPTT`, while other table names extract normally (MKPF 45,
+  EQUI 10). Field-level gap unchanged: only MDOCM (as the SE16N selection field, not as a key), RECDV and CNTRR
+  are officially named; READG and CDIFF appear only via their indicators READGI / CDIFFI, and POINT only in the
+  repository layer.
+- `table:MEAN`, `table:MVKE`, `table:MLAN` — the `descriptionEn` 'Material number' copy artifact repeats on all
+  three PP-PI rows (official names: 'International Article Numbers (EANs) for Material', 'Sales Data for
+  Material', tax classification for MLAN); the fix belongs to the source workbook and `scripts/extract-xlsx.mjs`.
+  MEAN: `data/table-enrichment.ts` keys MANDT+MATNR+MEINH+LFNUM (EAN11 outside the key) while the blueprint marks
+  MATNR+MEINH+EAN11 as the key — no official source decides it; `data/knowledge/object-intel.ts` names
+  MEAN_SINGLE_READ and EAN_GET_INTERNAL, neither in the id universe nor in any official record. MVKE: the
+  blueprint s4Note suffix 'לקוחות דרך Business Partner' belongs to the CVI customer-master conversion, not to a
+  table with no customer key, and the blueprint's VK11 (pricing condition records) is tied to MVKE by nothing
+  official, so it is not an xref. MLAN: the enrichment key adds TATYP, the blueprint lists only MATNR+ALAND —
+  undecided.
+- `table:MLAN` — the pre-existing base-table contradiction stands: `data/cds-map.ts` maps I_ProductPlantIntlTrd to
+  MLAN while `data/cds-enrichment.ts` places it over MARC (one of the two real conflicts flagged in
+  `audit/s4-enrichment/baseline-inventories.json`). No official page ties MLAN to that view — nor to
+  I_ProductSalesTax, whose VDM record names no base table and is cited for name + Released status only.
+- `table:PLZU` — internal repository contradiction to decide: `data/table-titles.json` and
+  `data/knowledge/pppi-objects-ext.ts` (line 38) describe PLZU as task-list change management (ECN), while
+  `data/knowledge/object-intel.ts` (line 103) describes it as PRT-to-operation assignment. The official archiving
+  pages attribute PRT assignment to **PLFH**, so the PRT chapter in object-intel is unsupported. The blueprint's
+  C298 is officially 'Deletion of Task List without Archiving' (loio `586237731eda49d0b9d2d6940feac5a0`), not
+  change management. PLZU itself is named by no help.sap.com topic in three product scopes; it needs SE11/ADT.
+- `table:MAPL`, `table:PLAS`, `table:PLFL`, `table:PLMZ` — three shared workbook defects. (1) `descriptionEn` is
+  'Task list type' (the PLNTY field label) on PLAS, PLFL, PLMZ and 'Material number' on MAPL. (2) The PP-PI topic-3
+  rows default their funcs column to BAPI_PROCORD_CREATE / BAPI_PROCORD_GET_DETAIL in 8 of 11 rows — process-order
+  interfaces, not task-list interfaces; PLAS therefore xrefs CP_DI_OPERATION_READ and BAPI_ROUTING_GETDETAIL
+  instead. (3) The blueprint SQL joins PLKO on PLNNR (MAPL: PLNTY+PLNNR) while `data/table-enrichment.ts` joins on
+  PLNTY+PLNNR+PLNAL; the written records adopt the full group key and say so. MAPL is absent from the PM blueprint
+  although the official PM/CS task-list archiving page names it; PLAS and PLFL are likewise PP-PI-only and are not
+  in `S4_STABLE`.
+- `table:PLMZ`, `table:PLAS` — `cds:I_RoutingOperationComponent` is a repository-only mapping (`data/cds-map.ts`,
+  over PLMZ + PLAS) with no official page under that name; it stays an xref for navigation while the sibling CDS
+  record remains `verification_required`. The officially-named views over these tables
+  (I_MfgBOOOpBOMItemChangeState, I_MfgBillOfOperationsOperation, I_MfgBillOfOperationsSequence,
+  I_MfgBOOMaterialAssignment, I_MfgBOOSubOperationChgSt) are all absent from `lib/route-manifest.generated.ts`.
+- `table:PLMZ` — two open caveats: the cited VDM page carries 'One or more elements of this CDS view were
+  deprecated with SAP S/4HANA Cloud' (element scope not read), and API_PRODUCTION_ROUTING is marked Deprecated in
+  the public-cloud scope (2608.500, What's New 2402.500) while the On-Premise 2025.001 page carries no such mark.
+- `table:IFLOS` — the negative simplification finding was run on the 2023 FPS03 white paper only (IFLOS 0, IFLOT 0,
+  'alternative label' 0, labeling/labelling 20 in four unrelated S4TWL contexts); the 2025 list was not scanned as
+  a full document for this record. Key structure is contested three ways (blueprint TPLNR PK/FK + TPLKZ FK;
+  `data/table-enrichment.ts` MANDT+TPLKZ+label; `exports/sap-table-inventory.json` empty pk). The operational
+  activation path for alternative labeling (transaction, conversion report, Customizing switch) was not found in
+  core documentation.
+- Depth ceiling, measured 2026-09-15 after the merge: 10 of the 15 new records stay at **L1** because
+  `components/neo-shell/data/tables-detail.ts` counts only fields carrying BOTH `dt` and `len`, and the threshold
+  for tables is 5. Measured counts: IMRG 0, IMPTT 0, OBJK 0, MHIS 0, MHIO 0, IFLOS 0 (the PM workbook rows leave
+  `dt`/`len` empty on all six), MLAN 3, PLZU 3, MVKE 4, PLFL 4. Only MCH1 (7), PLAS (6), MEAN (5), MAPL (5) and
+  PLMZ (5) cleared the L2 structural gate and therefore reached L5. Raising the other ten needs SE11 or an
+  official field list, not more evidence.
