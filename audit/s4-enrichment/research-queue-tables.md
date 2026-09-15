@@ -11,7 +11,9 @@ Updated 2026-09-15 for batch 5 (8 audited, 7 written, 1 refuted, `table:COBRA`; 
 for `fm:NOTIF_TASK_READ` in the functions catalog). Updated 2026-09-15 for batch 6 (8 audited, 7 written,
 1 refuted, `table:QPGR`; `table:COBRA` resolved; one correction queued for `table:QMAT` in
 `data/table-tcodes.json`). Updated 2026-09-15 for batch 7 (8 audited, 8 written, 0 refuted; the production
-resource/tool family and the work-center capacity family; four of the eight written `verification_required`).
+resource/tool family and the work-center capacity family; four of the eight written `verification_required`). Updated 2026-09-15 for batch 8
+(8 audited, 6 written, 2 refuted: `table:TJ02T` and `table:TJ30`; the equipment-text and maintenance-BOM
+assignment tables plus the status-text, notification-type and order-type Customizing tables).
 
 ## refuted / needs new evidence
 
@@ -682,3 +684,154 @@ postprocessed backflush record, KAZY + KAPA for capacity intervals and shift val
   L3 4 → 3, L5 26 unchanged, verified 105 unchanged, **s4-applicable 103 → 99** (the four new
   `verification_required` statuses leave the s4-applicable set), all measured with
   `npm run report:coverage -- --catalog tables`.
+
+## batch 8 (2026-09-15) — 8 audited, 6 written, 2 refuted
+
+Records written: `table:EQKT`, `table:EQST`, `table:TPST`, `table:TJ30T`, `table:TQ80`, `table:T003O` — the
+equipment-text and maintenance-BOM assignment tables (EQKT, EQST, TPST) plus the status-text,
+notification-type and order-type Customizing tables (TJ30T, TQ80, T003O). All six were merged from the
+verdict's `fixedRecord`. Four carry **`unchanged`** at edition on-premise with an authored `status.source`
+(EQKT, EQST and TPST at release 2025.001; TJ30T at 2023.latest — the only release in which a page states
+where S/4HANA stores status information). `table:TQ80` carries **`changed`** at release 2023.002: the
+2023 FPS02 What's New adds a field to the notification-type Customizing ("Profile for Notification Type and
+Overview of Notification Type has been enhanced with an additional field that allows assigning a catalog
+type for failure effects"), so the Customizing content that survives a conversion is not the content the
+target release expects. `table:T003O` carries **`verification_required`** with `release: null` and
+`source: null`, on the `table:PLZU` / `table:FHMI` precedent: no S/4HANA page names that table, and the only
+page in the whole index that prints the string `T003O` is an R/3 4.6C user-exit example, itself scoped
+"only valid for internal orders".
+
+Three shared evidence objects were hoisted to module constants so the record and its `status.source` point
+at the same document: `EQKT_PM_ARCHIVING` (the PM_EQUI archiving list, next to the existing
+`EQUI_PM_ARCHIVING` / `EQUZ_PM_ARCHIVING`), `EQST_BOM_MIGRATION`, `TPST_CS_BOM_ARCHIVING` and
+`TJ30T_STATUS_TABLES`.
+
+### refuted / needs new evidence (batch 8)
+
+- `table:TJ02T` — refuted at audit, not written. **Blocking: a false repository claim.** `conflicts[2]` and
+  the matching sentence in `notes` asserted that the JEST↔TJ02T ER edge does not render because
+  `scripts/extract-xlsx.mjs` mis-parses the JOIN row. That bug was fixed and the fix is in the data. Verified
+  by the writer on 2026-09-15: `scripts/extract-xlsx.mjs` carries `FROM_JOIN_RE` with the comment "THE FIX:
+  read BOTH sides from the JOIN statement, which is unambiguous SQL"; `data/sapData.pppi.ts` holds
+  `PP-PI:JEST → {role:"child", table:"TJ02T"}` (line ~6303) **and** `PP-PI:TJ02T → {role:"parent",
+  table:"JEST"}` (line ~6452); and `components/neo-shell/erd/model.ts:230` skips only
+  `r.table === table.tableName`, so with `r.table = "JEST"` the edge `TJ02T>JEST` is produced. The draft
+  cited an August parity CSV — a pre-fix snapshot shipped in the same commit as the fixed data — as current
+  state. Five further problems to clear before a rewrite: (1) `notes` says "three official records naming
+  TJ02T" and then lists six (three DataSource pages 34c68853 / 37c68853 / 3ac68853 plus three Enterprise
+  Services pages 8a2c66d0 / 8a2c66d5 / 8a2c66d3); (2) `evidence[0].claim` is assembled from two different
+  query snippets of the same record without saying so — the technical name `0DPR_STSYS1_TEXT` and the string
+  "Type of DataSource Texts (master data)" only come back from the `0DPR_STSYS1_TEXT` query; (3) the same
+  claim presents `LANGU → SPRAS` as one row when the snippet breaks at an ellipsis between them; (4)
+  `status.he` calls TXT04 "תיאור קצר" and TXT30 "תיאור בינוני", but "Short/Medium Description" describe the
+  *extraction-structure* fields TXTSH/TXTMD, and the PM blueprint independently labels TXT30 "Status long
+  text" — an unrecorded source disagreement; (5) `evidence[1].claim` turns "are stored in the tables" into
+  "שמהן נקרא ה-StatusObject", a direction drift on a Tier-1 quote.
+- `table:TJ30` — refuted at audit, not written. **Blocking: a fabricated URL.** `evidence[2].url` placed loio
+  `9704b753128eb44ce10000000a174cb4` under deliverable `34de0103497c4b80a7c7fbf6952ff971`. The loio is real,
+  but its canonical URL is under deliverable `21aead0c98bd4755abdacd91c99e3393`. Re-verified by the writer on
+  2026-09-15 with `scripts/sap-help-search.mjs "What is a Status Profile"`: the record returns
+  deliverable **Production Planning and Control**, versionId 2025.001, URL
+  `…/21aead0c98bd4755abdacd91c99e3393/9704b753128eb44ce10000000a174cb4.html…`. `curl` cannot refute an
+  assembled URL — a wholly invented deliverable+loio pair also returns HTTP 200 — so the search record is the
+  only proof. Six further problems: (1) the same evidence calls the deliverable "Production Orders (PP-SFC)",
+  propagated into `evidence[2].claim`, `status.he` and the summary (see the deviation note below: the
+  batch-8 **TJ30T** verdict asserted the opposite and was itself wrong); (2) `evidence[0].claim` widens the
+  snippet — "settings for Plant Maintenance (PM), Customer Service (CS) and Maintenance Notifications
+  (PM-WOC-MN) components" is a Customizing prerequisite, not the page's component assignment; (3) the notes
+  list five Service Execution Request pages carrying the TJ30 sentence when a sixth exists
+  (`54bc2411ac8b11dc2b8d000f20fcb6a9`, "Check Service Execution Request Change_V1", 2023 Latest); (4)
+  `gaps[6]` claims zero occurrences of the string `reviewer` in `data/verification/**`, while `grep` returns
+  two (both header comments — the substantive claim, that no record carries the field, holds); (5) the
+  summary presents "zero violations of all fourteen rules" as if it validated the sources, but
+  `lib/evidence/validate.ts` only checks the URL **hostname**, never that a help.sap.com deliverable segment
+  matches the topic's loio; (6) house-style: three repository files merged into one evidence entry with a
+  compound `repoRef`, where `table:JSTO` splits them one file per entry.
+
+### writer deviations from the verdicts (batch 8)
+
+- **`table:TJ30T` notes, deliverable attribution — the verdict was wrong and was not followed.** The TJ30T
+  verdict's downgrade list ordered the deliverable of "What is a Status Profile?" changed *from* "Production
+  Planning and Control" *to* "Production Orders (PP-SFC)". The `table:TJ30` verdict, from the same round,
+  states the opposite. The writer re-ran the search on 2026-09-15: the record returns **Production Planning
+  and Control**. The record was written with the measured deliverable, i.e. the original draft's value, and
+  the TJ30T verdict's PROBLEM 1 is recorded here as incorrect. Nothing else in that verdict was affected: the
+  promoted evidence pages `3c78ba53422bb54ce10000000a174cb4` (Technical Objects, Status Management),
+  `6c87bf53f106b44ce10000000a174cb4` (Production Planning and Control, System/User Statuses) and
+  `1c64bf95155d493ca581784fad35a71a` (Technical Objects, Defining User Statuses) were each re-verified live
+  — title, deliverable, versionId 2025.001 and every quoted English sentence reproduce verbatim.
+- **`table:TPST` notes, the "four-evidence limit" wording was removed.** The draft justified leaving four
+  official pages out of `evidence[]` with "מגבלת ארבע ראיות". There is no four-evidence house rule — this
+  queue already adjudicated exactly that on the refuted COBRA draft (see `## conflicts` above, batch 5), and
+  the batch-8 `table:EQST` verdict re-adjudicated it. The TPST verdict did not flag the phrase, but writing a
+  known-false statement about the project's own conventions into the dataset is not acceptable, so the
+  clause was replaced with the true reason those four pages stay in prose: none of them names the table
+  TPST, and each supports process context only. No evidence entry was added or removed.
+- **`table:EQST` notes, paragraph breaks flattened.** The verdict's `fixedRecord` carried `\n` separators in
+  `notes`. No overlay file in `data/verification/**` contains a literal `\n` (measured: zero), so the
+  paragraphs were joined with spaces. Whitespace only; no wording changed.
+
+### batch 8 (2026-09-15) open conflicts, recorded in the written records' notes
+
+- `table:EQKT` — **Fiori id, two repository values and no official tie-breaker.** The blueprint names
+  "Manage Technical Objects (F2079)"; `data/fiori/apps.ts` files that same app name under **F2730A**. The
+  official `PM - Equipment` page (2025.001, loio `08c1d29f1acc4d459ecc198dc18ee6ce`) names a *differently
+  named* app, "Find Technical Object (F2072)", so it does not settle the two. No `fiori:` xref is written.
+  Same unresolved pair as `table:EQUZ` and `table:IFLOS`.
+- `table:EQKT` — **no official page names a column of EQKT.** The string `EQKTX` appears once officially, in
+  the Maintenance Management Configuration Guide (loio `7db16f5864a8a007e10000000a441470`) as a field name in
+  a mapping table, never attributed to the table EQKT. The field list, types and lengths stay
+  repository-only; the `MANDT` key component comes from the repository's SE11 convention. The
+  `I_EquipmentText` ↔ EQKT link is a project mapping (`data/cds-map.ts`, which maps `I_Equipment`, not
+  `I_EquipmentText`) and the record's `recommendedAction` now says so on the page, not only in the gaps.
+- `table:EQST` / `table:TPST` — **key structure disagrees inside the repository, for both tables.** For EQST,
+  `data/table-enrichment.ts` writes MANDT / EQUNR / WERKS / STLAN / STLNR and never mentions STLAL, while
+  `data/sapData.pm.ts` marks EQUNR PK/FK, **STLAL** PK, STLNR FK and STLAN unmarked, and lists neither MANDT
+  nor WERKS. TPST carries the identical split. No official page descends to field level for either table;
+  SE11 in the target system is the only resolution.
+- `table:EQST` / `table:TPST` — **`data/knowledge/pm-objects-ext.ts` describes both tables wrongly**, at
+  trust `needs-verification`: EQST as "קישור סטטוס/מבנה לציוד" and TPST as "שיוך רשימת פעולות למיקום
+  פונקציונלי" (TAPL semantics). The official descriptions are "Equipment BOM assignment" / "Equipment to BOM
+  Link" and "Functional location BOM assignment". A repository fix, deliberately not patched from the
+  verification layer.
+- `table:EQST` — **the blueprint's two relation descriptions look swapped**: the relation to STKO is
+  described "קישור ציוד לעץ המוצר" and the relation to EQUI "עץ המוצר של הציוד". Recorded, not patched.
+- `table:TPST` — **two official pages for the same migration object, different scope.** Both are 2025.001 and
+  both are titled "PM - Functional location BOM": loio `3843de345dbb48fd98984480ea6179f6` lists **Sub-items**
+  under In Scope, loio `acdd915e95e743518f808f8751e5a7e0` (Object Alias FUNC_BOM) lists "Out of Scope
+  Sub-items Document assignment Long Text". The project must decide which path applies before relying on
+  sub-item migration.
+- `table:TJ30T` — **four repository defects recorded, none patched.** (1) `data/sapData.pppi.ts`
+  `descriptionEn` reads "Status profile", which describes TJ20, not TJ30T (the PM blueprint has it right:
+  "User status texts"). (2) The PP-PI `relations` column is role-inconsistent: the TJ30 row marks TJ30T
+  `parent` while the TJ30T row marks TJ30 `child`, with the same join and the same description; the text
+  table is the dependent side. (3) `data/function-intel.ts#USER_STATUS_TEXT_READ` is `inferred: true` and
+  carries "אמת ב-S/4", so the one function the blueprint ties to TJ30T is itself unverified; the xref is kept
+  but the record does not present it as verified. (4) BS02/BS03 come from the PM blueprint and BS22/BS23 from
+  `data/function-intel.ts`; no official page names any of the four in a TJ30T context, and the record says so.
+- `table:TQ80` — **transaction for maintaining notification types is undecided inside the repository.** The
+  blueprint writes "OIAL (פריסת מסך); SPRO, QCC0"; `data/table-enrichment.ts` writes "סוגי הודעה
+  (OIM11/SPRO)". No official page names either code in this context and `OIM11` is not in the id universe,
+  so the xrefs carry OIAL, SPRO and QCC0 without deciding.
+- `table:TQ80` / `table:T003O` — **relation roles inverted in the blueprint.** For TQ80 the rows mark QMEL
+  `parent` and T352 / T003O `child`, although the foreign keys RBNR and AUART leave TQ80 for those two
+  tables, i.e. TQ80 is the dependent side. Recorded in both records' notes.
+- `table:T003O` — **two field-name variants and two status-profile targets, all repository-only.** The PM
+  blueprint names the number-range field **NUMKR**, the PP-PI blueprint names **NUMKI**; the blueprint sends
+  `STSMA` to **TJ30** while `data/table-enrichment.ts` sends it to **TJ20**. `table:TJ20` does not exist in
+  the id universe, so only `table:TJ30` could be written as an xref. Nothing here is decidable without DDIC.
+- **Depth ceiling, measured 2026-09-15 after the merge** with `npm run report:coverage -- --catalog tables`
+  and a per-id run of `evidenceBlock`. The tables row is unchanged except **s4-applicable 99 → 98** (the new
+  `verification_required` on T003O leaves that set): total 105, L1 75, L2 1, L3 3, L5 26, verified 105,
+  verification-required 0, conflicting 0. Five of the six sit at **L1** because
+  `components/neo-shell/data/tables-detail.ts` counts only fields carrying BOTH `dt` and `len` and the tables
+  threshold is 5 — measured typed-field counts: EQKT 0, EQST 0, TPST 0, TQ80 0, T003O 4, **TJ30T 5**. TJ30T
+  therefore reaches L2/L3 but stops at **L3**, and the cause is worth recording: `depthOf` needs
+  `xrefsResolved === xrefsTotal`, and `resolvesInApp` in `lib/evidence/resolve.ts` is stricter than the
+  schema universe — it requires the id to have a real page. Four of TJ30T's xrefs (`tx:BS02`, `tx:BS03`,
+  `tx:BS22`, `tx:BS23`) resolve in `ROUTE_MANIFEST.tcodes` but have no detail page, the same finding the
+  refuted `table:TJ30` draft recorded. `table:TQ80` (`tx:SPRO`, `tx:OIAL`) and `table:T003O` (`tx:SPRO`,
+  `tx:OIOA`, `tx:KOT2_OPA`) carry page-less xrefs too, but are capped at L1 by the structural count anyway.
+  The xrefs were **not** dropped to raise the depth number: they are correct links from the blueprint, and
+  trimming them to move a metric would be exactly the kind of gaming this layer exists to prevent. Raising
+  any of the six needs SE11 or an official field list, plus transaction pages for BS02/BS03/BS22/BS23.

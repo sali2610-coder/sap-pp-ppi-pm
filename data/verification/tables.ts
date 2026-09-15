@@ -31,7 +31,13 @@
    (fixedRecord where one was supplied, otherwise the listed downgrades applied to the draft); none refuted.
    Four of the eight are written verification_required on purpose (FHMI, AFWI, KAZT, CRVD_A): no official page
    names those tables, and the official documentation attributes the same content to other technical names
-   (PLFH, AFWIS, KAZY/KAPA). */
+   (PLFH, AFWIS, KAZY/KAPA).
+   Batch 8 (2026-09-15): 6 more records (EQKT, EQST, TPST, TJ30T, TQ80, T003O) - the equipment-text and
+   maintenance-BOM assignment tables plus the status-text, notification-type and order-type Customizing
+   tables - each merged from its adversarial verdict (fixedRecord). table:TQ80 is written `changed` because
+   the 2023 FPS02 What's New adds a field to the notification-type Customizing, and table:T003O is written
+   verification_required on purpose: no S/4HANA page names that table, only an R/3 4.6C example does.
+   table:TJ02T and table:TJ30 were refuted and queued. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -1123,6 +1129,84 @@ const QMAT_INSPECTION_SETUP: Evidence = {
     + "of the material to be posted is posted to inspection stock' ו-'If you do not set this indicator, the "
     + "material quantity is posted to unrestricted-use stock'. כלומר הגדרת הבדיקה לחומר היא תנאי ליצירת מנת בדיקה, "
     + "היא נערכת בתצוגת ניהול האיכות של רשומת אב החומר, והיא מתועדת ככזו בגרסת 2025 FPS01 של S/4HANA On-Premise.",
+  verificationLevel: "sap_official_verified",
+};
+
+const EQKT_PM_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle:
+    "Archiving of Equipment (CS-BD/PM-EQM-EQ) | Data Archiving in Plant Maintenance and Customer Service (PM/CS)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/7b06bd53d34ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "מסמך הארכוב הרשמי לגרסת 2025 FPS01 מגדיר את PM_EQUI כ-'Archiving object with which you can archive equipment "
+    + "in the Plant Maintenance component', וקובע: 'The archiving object for equipment PM_EQUI consists of the "
+    + "following tables: Table Short Text EQUI Equipment master data EQKT Multilingual equipment short texts, long "
+    + "texts, and internal remarks EQUZ Equipment time segments ILOA Location and account assignment data for the "
+    + "maintenance object IHSG Table of permits for Plant Maintenance with long texts IHPA Partner FLEET' (הסניפט "
+    + "נקטע אחרי FLEET). כלומר הטבלה EQKT קיימת ב-SAP S/4HANA On-Premise 2025 FPS01 בשם זה, תיאורה הרשמי הוא "
+    + "'Multilingual equipment short texts, long texts, and internal remarks' (טקסטים קצרים רב-לשוניים של ציוד, "
+    + "טקסטים ארוכים והערות פנימיות), והיא אחת מטבלאות אובייקט הארכוב PM_EQUI לצד EQUI, EQUZ ו-ILOA.",
+  verificationLevel: "sap_official_verified",
+};
+
+const EQST_BOM_MIGRATION: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "PM - Equipment BOM | Data Migration",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/71ffeafd52694ddeab9b1397362c3e9e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "עמוד אובייקט ההעברה 'PM - Equipment BOM' בתיעוד ה-Data Migration לגרסת 2025 FPS01 נוקב בטבלה בשמה: 'This "
+    + "migration object automatically selects all equipment numbers from the EQST table for the derived plants'. "
+    + "באותו עמוד: 'PM - Equipment BOM Purpose This migration object enables you to migrate equipment BOM data from "
+    + "the source ERP system to the target system based on the default selection criteria set for the migration' "
+    + "(הסניפט נקטע), הרצף 'Equipment Number Plant Alternative BOM', צעד ההעברה 'Create Equipment BOM Creates the "
+    + "equipment BOM in the target system', נתיב התפריט 'User Menu Path: Logistics Plant Maintenance Management of "
+    + "Technical Objects Bill of Material Equipment BOM' ואובייקטי ההרשאה 'C_STUE_BER: CS BOM Authorizations "
+    + "C_STUE_WRK: CS BOM Plant (Plant Assignments) C_STUE_NOH: CS Authorization to process'. כלומר EQST היא הטבלה "
+    + "שממנה קורא אובייקט ההעברה של עצי מוצר לציוד את מספרי הציוד בגרסה הנוכחית של S/4HANA. הסניפט אינו מפרט את "
+    + "שדות הטבלה, אינו מגדיר את מפתחה ואינו מתייג את הרצף 'Equipment Number Plant Alternative BOM' כשדות בחירה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const TPST_CS_BOM_ARCHIVING: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Archiving PP-BOMs (PP-BD-BOM) | Data Archiving in Production Planning and Control (PP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/0570bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE4,
+  claim:
+    "עמוד אובייקט הארכוב CS_BOM לגרסת 2025 FPS01 מונה בטבלת Table/Description שלו את הרצף 'MAST Material BOM "
+    + "assignment DOST Document BOM assignment EQST Equipment BOM assignment TPST Functional location BOM "
+    + "assignment KDST Sales order' (תיאור KDST נקטע בסניפט), ולצדו 'STZU Time-independent BOM data', 'STST "
+    + "Standard object BOM assignment' ו-'PRST Project BOM assignment'. כלומר SAP מתעדת את TPST בתיאור הרשמי "
+    + "'Functional location BOM assignment', ומפרידה בינה לבין EQST שתיאורה 'Equipment BOM assignment'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const TJ30T_STATUS_TABLES: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Technically Close Production Order | Enterprise Services in Logistics",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2023.latest",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/1dad2180e6f34b75ac77afce5cb5eda1/8a2c66d388a511dd2b8d000f20fcb6a9.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+  accessedAt: DATE4,
+  claim:
+    "עמוד השירות הארגוני Technically Close Production Order בגרסת 2023 Latest קובע: 'In the SAP S/4HANA system, "
+    + "the information retrieved in the StatusObject are stored in the tables JEST, JSTO, TJ20T, TJ30T, TJ02, TJ02T "
+    + "and view CAUFV', ומוסיף 'The StatusObject contains the system and user statuses applicable to the produc' "
+    + "(הסניפט נקטע שם). כלומר תיעוד רשמי של S/4HANA מונה את TJ30T בין הטבלאות שבהן שמור מידע הסטטוס של הזמנת "
+    + "ייצור, לצד JEST, JSTO ו-TJ02T. הסניפט אינו מתאר את מבנה הטבלה, את מפתחה או את שדותיה, ואינו מייחס לה במפורש "
+    + "את טקסטי סטטוס המשתמש בלבד.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -12786,5 +12870,1059 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       + "הסטטוס הנגזר שהאפליקציה מציגה היום (unchanged לפי lib/s4-class ו-lib/evidence/s4-status.ts), ושאין מאחוריה "
       + "ראיה רשמית. מגבלה נוספת: קטלוג פריטי הפישוט ומאגר ה-SAP Notes נמצאים מאחורי התחברות S-user, ולכן לא נבדק "
       + "אם קיים פריט פישוט הנוגע לטבלה, ולא צוטט מספר Note כלשהו.",
+  },
+
+  /* ---------------------------------------------------------- table:EQKT */
+  {
+    id: "table:EQKT",
+    aliases: ["eqkt"],
+    evidence: [
+      EQKT_PM_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Creating Multilingual Texts for Technical Objects | Technical Objects (CS-BD/PM-EQM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e98c7c41bbe8439e90daa5c114a7573b/8b79bb53707db44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "נושא 'Creating Multilingual Texts for Technical Objects' בחוברת Technical Objects (CS-BD/PM-EQM) לגרסת 2025 "
+          + "FPS01 קובע לפי הסניפט: 'You can create multilingual short texts and long texts for each functional or "
+          + "reference functional location, as well as for pieces of equipment'; 'Technical objects have short texts by "
+          + "which the maintenance planner can identify them and long texts that contain manufacturer descriptions or "
+          + "technical data that should be available in all languages'; 'It is therefore logical to provide these "
+          + "technical objects with short and long texts in more than one language'; ומוסיף תנאי מוקדם: 'Prerequisites "
+          + "You can only maintain multilingual texts for pieces of equipment when the equipment category set in the "
+          + "system permits this', שמוגדר ב-Customizing: 'You define this in Customizing for Plant Maintenance under "
+          + "Equipment and Technical Objects Technical Objects Equipment Allow multilingual text maintenance by E' "
+          + "(הסניפט נקטע). זהו התיעוד הרשמי של תחזוקת הטקסטים הרב-לשוניים לציוד ולמיקום פונקציונלי; הסניפט אינו נוקב בשם "
+          + "הטבלה EQKT.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Text for Equipment | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/08a973e755a24019a150fd33690fd2ed.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "נושא ה-VDM הרשמי 'Text for Equipment' (2023 Latest) קובע לפי הסניפט: 'Text for Equipment CDS View Name "
+          + "I_EquipmentText Data Category Basic, Text Status Released Data Extraction Type Full (physical deletions are "
+          + "possible in source tables)', מונה כמדדים ומאפיינים חשובים 'Equipment short description Language Primary "
+          + "language indicator Long text availability Business Warehouse (BW) Extraction', ומציג את השאלות העסקיות "
+          + "'Which is the primary language text? Is there a long text available for the equipment?'. באותו סניפט מופיעים "
+          + "שני סייגים: 'Constraints This CDS view only supports the display of the short description, it does not "
+          + "contain the long text' ו-'This CDS view is modeled for usage as a DataSource in Business Warehouse'. הסניפט "
+          + "אינו נוקב בשם הטבלה EQKT כמקור הנתונים של התצוגה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ה-blueprint של PM (חוברת ההגירה): רשומת הטבלה EQKT",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "רשומת ה-blueprint (נושא 2, ציוד ונתוני מאסטר): 'טקסטים (תיאורים) של ציוד' / 'Equipment short texts'; "
+          + "טרנזקציות 'IE02; IE03'; עמודת S/4: 'ללא שינוי (תואם)', טבלה חליפית 'EQKT (זהה)', 'IE0*; Fiori'; SUM: 'ללא "
+          + "פעולת המרה ייעודית ב-SUM (טבלה תואמת). מומלץ Regression Test ואימות התאמות אישיות לאחר ההמרה.' שדות מתועדים: "
+          + "EQUNR (PK/FK), SPRAS (PK), EQKTX; מודול פונקציה EQUIPMENT_TEXT_READ; תוכנית RIEQUI20; קשר יחיד: EQKT.EQUNR = "
+          + "EQUI.EQUNR ‏(N:1, טקסטים של הציוד לפי שפה). ה-blueprint נוקב באפליקציית Fiori 'Manage Technical Objects "
+          + "(F2079)'; מזהה זה לא אומת (ראו הערות).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#EQKT",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת EQKT, הטקסטים הקצרים הרב-לשוניים של הציוד בתחזוקת מפעל, פעילה ב-S/4HANA On-Premise (עדכני ל-2025 FPS01) "
+        + "וללא טבלה חליפית: מסמך הארכוב הרשמי של אותה גרסה מונה אותה בשם ובתיאור 'Multilingual equipment short texts, "
+        + "long texts, and internal remarks' בין טבלאות אובייקט הארכוב PM_EQUI, לצד EQUI, EQUZ ו-ILOA. תחזוקת הטקסטים "
+        + "הרב-לשוניים עצמה מתועדת רשמית באותה גרסה כפונקציה של ציוד ושל מיקום פונקציונלי, ומותנית בהגדרה ב-Customizing "
+        + "תחת Equipment and Technical Objects. לא אותרה רשומה רשמית הנוקבת ביורשת, בפריט פישוט (Simplification Item) "
+        + "או בהוצאה משימוש של הטבלה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: EQKT_PM_ARCHIVING,
+      recommendedAction:
+        "להמשיך להשתמש ב-EQKT כטבלת הטקסטים של הציוד; אין פעולת הסבה ייעודית ב-SUM לטבלה עצמה לפי ה-blueprint, ומומלץ "
+        + "Regression Test לקוד מותאם ולממשקים הקוראים ממנה. בקריאה ישירה לסנן על SPRAS (לפי ה-blueprint המפתח הוא "
+        + "EQUNR יחד עם SPRAS) כדי לא למשוך את כל השפות, ולהיערך לכך שבשפה שאין לה שורה לא יוחזר תיאור. לדיווח "
+        + "ולאנליטיקה על תיאור הציוד להעדיף את תצוגת ה-CDS‏ I_EquipmentText (Data Category 'Basic, Text', Status "
+        + "'Released' לפי חוברת ה-VDM ל-2023 Latest) על פני SELECT ישיר, ולקחת בחשבון את הסייג הרשמי שהתצוגה מציגה את "
+        + "הטקסט הקצר בלבד ואינה מכילה את הטקסט הארוך; העמוד הרשמי של התצוגה אינו נוקב ב-EQKT כטבלת המקור שלה, והקישור "
+        + "בין השניים הוא מיפוי פרויקט (data/cds-map.ts). לטקסט הארוך של הציוד לעבוד מול ה-Entity‏ A_EquipmentLongText "
+        + "שבשירות ה-OData‏ API_EQUIPMENT (APIs for Maintenance Management, 2025 FPS01, loio "
+        + "13d40bd35fc74d289e81fc284a928448: 'Equipment Long Text (A_EquipmentLongText) Allows you to create equipment "
+        + "long text'). לתחזוקת טקסטים בשפות נוספות להשתמש במסך Multilingual Texts שבמסכי אב הציוד (IE02/IE03, דרך Goto "
+        + "ל-Multilingual texts) לאחר הפעלת ההגדרה המתאימה ב-Customizing. בתכנון ארכוב לטפל ב-EQKT יחד עם EQUI, EQUZ "
+        + "ו-ILOA תחת אובייקט הארכוב PM_EQUI.",
+    },
+    xrefs: [
+      "table:EQUI", "table:EQUZ", "table:ILOA", "table:IFLOT", "tx:IE01", "tx:IE02", "tx:IE03",
+      "fm:EQUIPMENT_TEXT_READ", "fm:BAPI_EQUI_CREATE", "fm:BAPI_EQUI_CHANGE", "fm:BAPI_EQUI_GETDETAIL",
+      "cds:I_Equipment",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה (2026-09-15): חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs במוצר SAP_S4HANA_ON-PREMISE "
+      + "בשש שאילתות ('EQKT equipment short text', 'EQKTX equipment description field', 'Creating Multilingual Texts "
+      + "for Technical Objects equipment', 'Text for Equipment CDS view technical name', 'I_EquipmentText primary "
+      + "language long text availability', 'PM_EQUI archiving object tables EQKT multilingual equipment short texts "
+      + "internal remarks'), בשתי שאילתות נוספות עם סינון גרסה (--version 2025.001), באחת במוצר SAP_S4HANA_CLOUD, "
+      + "ובחיפוש רשת מוגבל-דומיין (help.sap.com, api.sap.com, fioriappslibrary, fal) על 'EQKT table equipment short "
+      + "texts SAP S/4HANA'. גוף עמודי ה-Help אינו נשלף (מעטפת JavaScript), ולכן כל טענה מוגבלת לכותרת ולסניפט של "
+      + "רשומת החיפוש; שלוש הכתובות הרשמיות שברשומה החזירו HTTP 200 בבדיקת curl ב-2026-09-15. אישורים רשמיים נוספים "
+      + "שנבדקו ולא נכללו כראיה נפרדת, כולם 2025.001 אלא אם צוין אחרת: 'Configuration Guide' (Maintenance Management, "
+      + "loio 7db16f5864a8a007e10000000a441470), שבו טבלת מיפוי שדות מציגה 'Equipment Description DESCRIPT EQKTX "
+      + "Equipment Number EAMS_EQUNR EQUNR Long Text LONG_TEXT LONGTEXT' ובמיפוי אחר 'Equipment Description DESCRIPT "
+      + "EQUIPMENTNAME Equipment Number EAMS_EQUNR EQUIPMENT'; זהו החלון הרשמי היחיד שאותר הנוקב במחרוזת EQKTX, והוא "
+      + "אינו נוקב בשם הטבלה EQKT. 'PM - Equipment' (Data Migration, loio 08c1d29f1acc4d459ecc198dc18ee6ce), שבו "
+      + "המבנים שבהיקף כוללים 'Equipment Short and Long Text' ונקבע: 'Description (Short Text) If you add a "
+      + "description in the same language in the Master Data and Short and Long Text structures, the API ignores the "
+      + "data from the Master Data structure and uses only the data from the Short and Long Text structure', ובאותו "
+      + "עמוד 'App: Find Technical Object (F2072) Create Equipment (IE01) Change Equipment (IE02) Display Equipment "
+      + "(IE03)'. 'Entering Multilingual Short Texts' (loio 8e79bb53707db44ce10000000a174cb4): 'Select the master "
+      + "record of the technical object in the create or change mode. In one of the master record screens, choose "
+      + "Goto Multilingual texts', 'Assign a language key to each new entry' ו-'You can enter a long text for the "
+      + "short text'. 'Entering Multilingual Long Texts' (loio 9179bb53707db44ce10000000a174cb4): 'You go to the "
+      + "screen Multilingual Texts. Select the short text in the language you want to enter a long text'. 'Equipment' "
+      + "(Technical Objects, loio c1d5b853dcfcb44ce10000000a174cb4): 'The following functions are also available: "
+      + "Measuring points, counters, measurement documents Approval Multilingual Texts Classification'. 'APIs for "
+      + "Maintenance Management' (loio 13d40bd35fc74d289e81fc284a928448): 'Equipment Long Text (A_EquipmentLongText) "
+      + "Allows you to create equipment long text' ו-'A_Equipment A_EquipmentLongText to_LongText 1..1'; ועמוד "
+      + "ה-Entity 'Equipment' (loio 75e9ecd8ebcb4ab582c365beddbb2c76): 'EquipmentName Provides a short description of "
+      + "the technical object'. במערך Cloud Public Edition נושא 'Text for Equipment' מופיע באותו loio בגרסה 2608.500 "
+      + "עם 'CDS View Name I_EquipmentText Data Category Basic, Text' ועם השאלות 'What is the primary language for "
+      + "the equipment text? Is long text available for the equipment?'. פערים ומגבלות: אף סניפט רשמי אינו נוקב בשם "
+      + "עמודה של EQKT, ולכן רשימת השדות (EQUNR, SPRAS, EQKTX), סוגי הנתונים והאורכים נשארים ברובד המאגר בלבד; "
+      + "המחרוזת EQKTX אמנם מופיעה במדריך התצורה, אך כשם שדה בטבלת מיפוי ולא כעמודה המיוחסת לטבלה EQKT. הקישור בין "
+      + "I_EquipmentText, בין השדה EquipmentName שבשירות API_EQUIPMENT ובין עמודות EQKT הוא סינתזה של הרשומה ואינו "
+      + "מופיע בתיעוד הרשמי שנשלף. נושא ה-VDM 'Text for Equipment' מאונדקס ב-On-Premise רק תחת 2023 Latest; חיפוש עם "
+      + "סינון 2025.001 לא החזיר אותו, כפי שקרה גם ל-I_Equipment (ראו רשומת cds:I_Equipment). התצוגה I_EquipmentText "
+      + "אינה קיימת ביקום המזהים של הפרויקט (אין לה דף בדאטהסט ואינה מופיעה ב-lib/route-manifest.generated.ts), ולכן "
+      + "היא מצוטטת כראיה אך אינה xref. xrefs שנוספו מעבר לרשומת ה-blueprint של EQKT (הנוקבת ב-IE02, ‏IE03 ובמודול "
+      + "EQUIPMENT_TEXT_READ בלבד): tx:IE01 נסמך על העמוד הרשמי PM - Equipment, המונה 'Create Equipment (IE01) Change "
+      + "Equipment (IE02) Display Equipment (IE03)'; fm:BAPI_EQUI_CREATE, ‏fm:BAPI_EQUI_CHANGE, "
+      + "‏fm:BAPI_EQUI_GETDETAIL ו-table:IFLOT נוספו כקישורים תפקודיים מרובד המאגר; cds:I_Equipment נסמך על "
+      + "data/cds-map.ts. אף אחד מהם אינו טענה רשמית על EQKT. הממצא השלילי לגבי פריט פישוט או יורשת מוגבל לרשומות "
+      + "החיפוש שנשלפו ואינו בדיקה ממצה: קטלוג ה-Simplification Item דורש התחברות S-user לפי "
+      + "audit/s4-enrichment/MANIFEST.md. לא נטען שום מספר SAP Note או KBA. בדיקה במערכת SAP חיה לא התאפשרה (חיבור "
+      + "ה-MCP‏ sc4sap נכשל בסשן זה), ולכן אורך השדה EQKTX ומספר השורות בפועל לא נבדקו. סטייה פנימית במאגר לגבי "
+      + "אפליקציית Fiori: ה-blueprint נוקב 'Manage Technical Objects (F2079)' בעוד data/fiori/apps.ts רושם את אותו שם "
+      + "אפליקציה תחת F2730A; העמוד הרשמי PM - Equipment נוקב באפליקציה אחרת בשמה, 'Find Technical Object (F2072)', "
+      + "ולכן אינו מכריע בין השניים. אף מזהה לא אומת מול ספריית ה-Fiori בסבב זה, ולכן אין xref לאפליקציה. רובד המאגר "
+      + "תואם לראיות הרשמיות ואינו סותר אותן: data/table-enrichment.ts#EQKT (מפתח MANDT + EQUNR + SPRAS, מפתחות זרים "
+      + "EQUNR ל-EQUI ו-SPRAS ל-T002, והנחיה לסנן על SPRAS כדי לא למשוך את כל השפות), "
+      + "data/knowledge/pm-objects.ts#EQKT ('טקסטים (תיאורים) רב-לשוניים של ציוד', importance 'supporting') "
+      + "ו-data/s4-impact.ts#S4_STABLE, שבו EQKT נמנית עם טבלאות הליבה היציבות של PM. רכיב MANDT שבמפתח מקורו במוסכמת "
+      + "SE11 שבמאגר ולא בסניפט רשמי, ו-data/cds-map.ts מקשר את I_Equipment ל-EQUI ול-EQKT כמיפוי פרויקט ולא כקביעה "
+      + "רשמית. הסטטוס הנגזר שהעמוד הציג עד כה הגיע מעמודת ה-blueprint בלבד ('ללא שינוי (תואם)' = unchanged, בלי מקור "
+      + "ובלי גרסה). מה חסר לשדרוג: עמוד רשמי הנוקב במפורש בעמודות של EQKT, או בדיקה ב-SE11 במערכת היעד; ונושא VDM "
+      + "ב-On-Premise תחת 2025.001 שבו CDS View Name הוא I_EquipmentText.",
+  },
+
+  /* ---------------------------------------------------------- table:EQST */
+  {
+    id: "table:EQST",
+    aliases: ["eqst"],
+    evidence: [
+      EQST_BOM_MIGRATION,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Takeover/Handover of Technical Objects Improvements | Logistics",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/77c07c8d30664260a0b3ff864e6b5e78/a1adeaa81c5140e1b211805bdb87f4fc.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד השיפורים בהעברת אובייקטים טכניים לגרסת 2025 FPS01 מציב את EQST כטבלת מסד הנתונים של כותרת עץ המוצר של "
+          + "הציוד, לצד STKO: 'Previously, existing equipment for which equipment BOM header data was not entered in "
+          + "database tables EQST and STKO could not be converted into equipment BOM' (הסניפט נקטע), ובהמשכו 'Existing "
+          + "equipment which are not BOM headers can now be converted into equipment BOM headers by choosing Update "
+          + "during the takeover update process even if BOM items are assigned to the equipm' (נקטע). זהו אזכור של EQST "
+          + "בהקשר תחזוקת מפעל בגרסה הנוכחית, ולא הגדרה של מבנה הטבלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving PP-BOMs (PP-BD-BOM) | Data Archiving in Production Planning and Control (PP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/0570bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד אובייקט הארכוב CS_BOM לגרסת 2025 FPS01 קובע 'Structure If you use the archiving object CS_BOM, data "
+          + "from the following tables is archived', ובטבלת Table/Description שלו מופיע הרצף הרציף 'MAST Material BOM "
+          + "assignment DOST Document BOM assignment EQST Equipment BOM assignment TPST Functional location BOM "
+          + "assignment KDST Sales order', ולצדו 'STZU Time-independent BOM data STST Standard object BOM assignment PRST "
+          + "Project BOM assignment'. התיאור הרשמי של EQST בעמוד זה הוא 'Equipment BOM assignment', והוא ממקם אותה במשפחת "
+          + "טבלאות שיוך עץ המוצר לצד MAST, DOST, TPST ו-KDST ולא במשפחת טבלאות ה-BOM עצמן (STKO, STPO, STAS, STPU).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Equipment BOM | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/9ea80486301848778dc010926564634d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד אובייקט ההעברה השני באותו שם ובאותה גרסה (2025 FPS01) מגדיר את זהות האובייקט: 'PM - Equipment BOM "
+          + "Purpose Object Alias EQUI_BOM Business Object Component PM Business Object Type Master data Business Object "
+          + "Definition Plant Maintenance (PM): A list used to describe' (הסניפט נקטע). באותו עמוד: 'The following "
+          + "structures or features are supported in SAP S/4HANA: BOM Header BOM Item Out of Scope Sub-items Document "
+          + "assignment Long text', קטגוריות הפריט שאינן נתמכות 'Material) are not supported: R-Variable-size item "
+          + "K-Class item', והמשפט 'An equipment bill of material can be created for each piece of equipment or for a "
+          + "group of technical objects'. זהו המקור לשם האובייקט EQUI_BOM שעליו נשענת ההמלצה בהסבה. הסניפט אינו נוקב "
+          + "בטבלה EQST ואינו מפרט את שדותיה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "BOM Tables | Logistics Data Management",
+        product: "SAP Support Content",
+        edition: "on-premise",
+        release: "1.0",
+        url: "https://help.sap.com/docs/SUPPORT_CONTENT/ldm/3363506418.html?locale=en-US&state=PRODUCTION&version=1.0",
+        accessedAt: DATE4,
+        claim:
+          "עמוד תוכן התמיכה 'BOM Tables' (deliverable Logistics Data Management, versionId 1.0, עודכן 2026-03-09) מונה "
+          + "את EQST ברשימת טבלאות הקישור: 'Link Tables: Table Description MAST Material to BOM Link (components) DOST "
+          + "Document to BOM Link PRST Project (WBS) - BOM link KDST Sales Order (item) to BOM Link EQST Equipment to BOM "
+          + "Link TPST Link Between Functional Location and BOM STST Standard BOM Link'. מכאן שתיאור רשמי נוסף ל-EQST הוא "
+          + "'Equipment to BOM Link', והעמוד ממקם אותה ברשימת טבלאות הקישור ולא ברשימת טבלאות ה-BOM. זהו תוכן תמיכה שאינו "
+          + "נושא חותמת גרסה של S/4HANA, ולכן הוא תומך בתיאור ובשיוך המשפחתי בלבד; ההוכחה להימצאות הטבלה דווקא בגרסת 2025 "
+          + "FPS01 נשענת על שלושת עמודי ה-S/4HANA שברשומה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט, רשומת EQST",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "רשומת מאגר המסומנת verified (שדה sources: 'SAP DDIC (SE11) - EQST' ו-'SAP Help Portal - Equipment BOMs'): "
+          + "EQST היא 'שיוך עץ מוצר לציוד (Equipment BOM assignment), הגשר הקובע איזה עץ מוצר חל על פריט ציוד עבור שימוש "
+          + "נתון. המקבילה של MAST (חומר) לעולם ה-PM'. המפתח שנרשם הוא MANDT, EQUNR, WERKS, STLAN ו-STLNR; המפתחות הזרים "
+          + "הם EQUNR אל EQUI, STLNR אל STKO ו-WERKS אל T001W; דרכי הגישה הן לפי EQUNR (עץ המוצר של ציוד) או לפי STLNR "
+          + "(הציודים המשתמשים באותו עץ), וההערה על השימוש היא 'שימוש (STLAN) 4 = עץ מוצר לאחזקה (PM)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#EQST",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת EQST (קישור ציוד לעץ מוצר) קיימת ומתועדת ב-SAP S/4HANA On-Premise עד גרסת 2025 FPS01, ולא אותרה עבורה "
+        + "טבלה יורשת באף מקור רשמי שנבדק: עמוד אובייקט ההעברה 'PM - Equipment BOM' בגרסה זו קובע שהאובייקט בוחר את כל "
+        + "מספרי הציוד מטבלת EQST; עמוד השיפורים בהעברת אובייקטים טכניים באותה גרסה נוקב ב-EQST וב-STKO כטבלאות מסד "
+        + "הנתונים של כותרת עץ המוצר של הציוד; ועמוד אובייקט הארכוב CS_BOM מונה אותה בתיאור 'Equipment BOM assignment' "
+        + "לצד MAST, DOST, TPST ו-KDST. אף מקור רשמי שנבדק ב-2026-09-15 אינו מסמן את הטבלה כמוחלפת, כמוצאת משימוש או "
+        + "כפריט פישוט, ובטקסט שחולץ מרשימת הפישוט הרשמית של 2025 FPS1 לא נמצא אף מופע של המחרוזת EQST (ראו בהערות את "
+        + "מגבלת החילוץ). פסק הבלופרינט של תחזוקת מפעל ('ללא שינוי (תואם)') עולה בקנה אחד עם הממצא הרשמי.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: EQST_BOM_MIGRATION,
+      recommendedAction:
+        "להמשיך לעבוד מול EQST כשכבת השיוך בין פריט הציוד לעץ המוצר שלו, ולא לתחזק אותה ישירות: הכתיבה אליה נעשית דרך "
+        + "תחזוקת עץ המוצר של הציוד (IB01/IB02) ודרך העברת הנתונים, ובקריאה עדיף להשתמש בפיצוץ עץ המוצר של הציוד "
+        + "(CS_BOM_EXPL_EQU_RC1) ובשכבת ה-CDS של עץ המוצר על פני SELECT ישיר. בהסבה: לטעון עצי מוצר של ציוד דרך אובייקט "
+        + "ההעברה EQUI_BOM המתועד בגרסת 2025 FPS01 ולוודא את אובייקטי ההרשאה C_STUE_BER, C_STUE_WRK ו-C_STUE_NOH; לאמת "
+        + "ב-SE11 במערכת היעד את מבנה המפתח המלא, ובכלל זה WERKS ו-STLAN שאף עמוד רשמי שנקרא אינו נוקב בהם; ולבדוק קוד "
+        + "מותאם הקורא ישירות מ-EQST יחד עם STKO, STAS ו-STPO. כמו כן לתקן במאגר את תיאור EQST "
+        + "ב-data/knowledge/pm-objects-ext.ts, שכותב 'קישור סטטוס/מבנה לציוד' במקום שיוך עץ מוצר לציוד.",
+    },
+    xrefs: [
+      "table:EQUI", "table:STKO", "table:STPO", "table:STAS", "table:STPU", "table:STZU", "table:MAST", "table:TPST",
+      "table:KDST", "tx:IB01", "tx:IB02", "tx:IB03", "tx:IB11", "tx:IE01", "tx:IW31", "tx:SARA",
+      "fm:CS_BOM_EXPL_EQU_RC1", "cds:I_BillOfMaterial", "cds:I_Equipment",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: שתים-עשרה ריצות של scripts/sap-help-search.mjs ב-2026-09-15 בשלושה סקופים (SAP_S4HANA_ON-PREMISE, "
+      + "SUPPORT_CONTENT ו-SAP_ERP) וחיפוש רשת אחד מוגבל ל-help.sap.com, api.sap.com, "
+      + "fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap. חמשת ה-URL הרשמיים שברשומה הועתקו כלשונם מפלט הכלי (loio "
+      + "ו-versionId) ונבדקו ב-curl והחזירו HTTP 200. גופי עמודי help.sap.com אינם נשלפים: כל אחת מקריאות ה-curl "
+      + "החזירה 200 עם מעטפת JavaScript בלבד, ולכן כל טענה רשמית כאן תחומה לכותרת ולסניפט של רשומת החיפוש. שירות "
+      + "החיפוש קוטע כל סניפט ב-400 תווים ומחבר מקטעים בשלוש נקודות; כל מקטע המצוטט ברשומה נלקח שלם ממקטע רציף יחיד, "
+      + "ולא כל המקטעים הגיעו מאותה ריצה: משפט ה-EQST של אובייקט ההעברה, צעד ההעברה, נתיב התפריט ואובייקטי ההרשאה "
+      + "הוחזרו בארבע שאילתות שונות על אותו loio ואותו versionId. משפט ה-Purpose נקטע בכל ריצה אחרי המילים 'set for "
+      + "the migration', ולכן הוא מצוטט עד שם בלבד. רציפות ECC מול S/4HANA: אותו loio של עמוד הארכוב, "
+      + "0570bd534f22b44ce10000000a174cb4, מתפרסם גם תחת SAP ERP 6.0 EHP8 Latest (versionId 6.18.latest, "
+      + "https://help.sap.com/docs/SAP_ERP/1b3849a12adb4f1e9f2f409dbe175c8e/0570bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest, "
+      + "HTTP 200) עם אותה שורה בדיוק, 'EQST Equipment BOM assignment', באותה רשימת טבלאות. מכאן שאין כאן טענה על "
+      + "שינוי בין ECC ל-S/4HANA בשורת הטבלה הזו. מקור רשמי נוסף שנראה ולא נכנס כראיה משום שהוא חופף לעמוד 'BOM "
+      + "Tables': 'Bunch of Plant Maintanence Tables' (deliverable ABAP Development, Support Content, versionId 1.0, "
+      + "loio 3353523711, עודכן 2026-07-01, "
+      + "https://help.sap.com/docs/SUPPORT_CONTENT/abap/3353523711.html?locale=en-US&state=PRODUCTION&version=1.0, "
+      + "HTTP 200) עם הרצף 'EQST Equipment to BOM Link EQUI Equipment master data' ברשימת טבלאות תחזוקת המפעל. גם הוא "
+      + "תוכן תמיכה שאינו כבול-מהדורה. ממצאים שליליים תחומים: (א) אף רשומת What's New, פישוט או הוצאה משימוש שהוחזרה "
+      + "בשתים-עשרה הריצות אינה נוקבת ב-EQST; (ב) רשימת הפישוט הרשמית SIMPL_OP2025.pdf (Simplification List for SAP "
+      + "S/4HANA 2025 FPS01, גרסת מסמך 1.36, "
+      + "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf) הורדה ונקראה "
+      + "כטקסט שחולץ מהקובץ ואינה מכילה אף מופע של המחרוזת EQST, ואף לא של IB01, IB02, IB03 או IB11; המופע היחיד של "
+      + "'Equipment BOM' בה הוא ברשימת תבליטים על שילוב אובייקטי BOM ברשומות שינוי, שתבליטיה הם Equipment BOM, "
+      + "Standard BOM, Functional location BOM, Variant BOM, Order BOM ו-WBS BOM (הרשימה הוסבה כאן מתבליטים לרצף "
+      + "מופרד בפסיקים), ושבעת המופעים של 'CS_BOM' בה הם כולם התוכניות CS_BOM_PRODVER_MIGRATION "
+      + "ו-CS_BOM_PRODVER_MIGRATION02 ליצירת גרסאות ייצור לעצי מוצר של חומר, ולא אובייקט הארכוב. מגבלת הממצא: חילוץ "
+      + "הטקסט אינו מוציא טקסט מסובב בטבלאות, ולכן זהו ממצא שלילי על הטקסט הניתן לחילוץ בלבד; (ג) פרק 4.1 של רשימת "
+      + "הפישוט (EAM) מונה שלושה-עשר פריטים, בהם Scheduling of Maintenance Plan, Mobile Asset Management, Batch Input "
+      + "for EAM, WebDynpro Application for Maintenance Planner, Enterprise Search in EAM, SAP Graphics in EAM "
+      + "Transactions, Obsolete POWL Applications in Maintenance Management ו-LIS in EAM. אף אחד משלושה-עשר הפריטים "
+      + "אינו נוגע ב-EQST ולא בעצי מוצר של ציוד. CDS ו-API: עמוד VDM רשמי מתעד תצוגה בשם 'Equipment Link for Bill of "
+      + "Material', 'CDS View Name I_EQUIPMENTBOMLINK View Type Basic Status Released', שמאפייניה 'Equipment Number "
+      + "Plant BOM Variant BOM Variant Usage BOM Category Bill of Material' והיא עונה על השאלה 'What is the BOM "
+      + "number associated with the equipm' (הסניפט נקטע; 2023.latest, loio e3ab68f03b744658b9e4beeeda8afe42, "
+      + "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/e3ab68f03b744658b9e4beeeda8afe42.html?locale=en-US&state=PRODUCTION&version=2023.latest, "
+      + "HTTP 200). המאפיינים חופפים את רוב שדות המפתח שהמאגר רושם ל-EQST, ומוסיפים BOM Variant ו-BOM Category בעוד "
+      + "המאגר מוסיף MANDT. הסניפט אינו נוקב בשם הטבלה, התצוגה אינה ביקום המזהים של הפרויקט "
+      + "(lib/route-manifest.generated.ts ו-data/cds-enrichment.ts), ולכן היא אינה ראיה, אינה ב-xrefs ולא נטען שהיא "
+      + "קוראת מ-EQST. cds:I_BillOfMaterial ו-cds:I_Equipment נרשמו ב-xrefs כהקשר בלבד. לא אותר API רשמי "
+      + "ב-api.sap.com שנוקב ב-EQST. Fiori: אף עמוד רשמי שנקרא אינו מצמיד מזהה אפליקציית Fiori ל-EQST, "
+      + "ו-data/fiori/apps.ts מחזיק עשרים אפליקציות שאף אחת מהן אינה אפליקציית עץ מוצר, ולכן אין xref מסוג fiori. "
+      + "עמודת fioriApp בבלופרינט כותבת 'Manage Bills of Material (אמת ID)', כלומר המקור עצמו מסמן שהמזהה לא אומת, "
+      + "והשם אינו נטען כאן. מספרי SAP Note ו-KBA: לא צוטט אף מספר, משום שאף מספר לא הופיע בסניפטים הרשמיים שנוגעים "
+      + "ל-EQST. ה-KBA 2878950 שמופיע בעמוד 'PM - Equipment' שייך לאובייקט ההעברה של הציוד ולא לעץ המוצר שלו, ולכן "
+      + "אינו נרשם. מצב האפליקציה לפני הרשומה הזו: EQST נמצאת בסט S4_STABLE שב-data/s4-impact.ts, "
+      + "ו-components/neo-shell/data/tables-detail.ts גוזר את הטענה מעמודת s4Note של הבלופרינט דרך "
+      + "fromBlueprintClass: 'ללא שינוי (תואם)' ממופה למחלקה 0, כלומר unchanged עם derivedFrom 'blueprint', release "
+      + "null ו-source null; עמודת s4AltTable כותבת 'EQST (זהה)', שאינו שם טבלה נקי ולכן לא נגזר ממנו successor. מונה "
+      + "העומק הסטרוקטורלי סופר שדות שיש להם גם סוג נתונים וגם אורך, וארבעת שדות EQST בבלופרינט נושאים dt ו-len "
+      + "ריקים. הרשומה הזו מחליפה את הגזירה בטענה רשמית כבולת-מהדורה. שכבות מאגר נוספות: data/sapData.pm.ts#EQST "
+      + "(בלופרינט תחזוקת מפעל, נושא '3. עצי מוצר של אחזקה (BOM)') נושאת descriptionHe 'קישור ציוד לעץ מוצר', "
+      + "descriptionEn 'Equipment-to-BOM link', tcodes 'IB01; IB02/IB03', s4Note 'ללא שינוי (תואם)', s4AltTable 'EQST "
+      + "(זהה)', s4AltTcode 'IB01-03; Fiori', sumNote 'ללא פעולת המרה ייעודית ב-SUM (טבלה תואמת)', funcs "
+      + "CS_BOM_EXPL_EQU_RC1 ו-progs RCSBI010, ארבעה שדות (EQUNR, STLNR, STLAL, STLAN) ושני קשרים, אל STKO דרך STLNR "
+      + "ואל EQUI דרך EQUNR. שני פגמים בשורה זו: תיאורי שני הקשרים נראים מוחלפים (הקשר אל STKO מתואר 'קישור ציוד לעץ "
+      + "המוצר' והקשר אל EQUI מתואר 'עץ המוצר של הציוד'), וארבעת השדות חסרים סוג נתונים ואורך. סתירה פתוחה במבנה "
+      + "המפתח: data/table-enrichment.ts#EQST רושם מפתח MANDT, EQUNR, WERKS, STLAN ו-STLNR ואינו מזכיר את STLAL, בעוד "
+      + "data/sapData.pm.ts#EQST מסמן את EQUNR כ-PK/FK, את STLAL כ-PK, את STLNR כ-FK ואת STLAN ללא סימון, ואינו מונה "
+      + "את MANDT ולא את WERKS. אף מקור רשמי שנקרא אינו יורד לרמת השדה של EQST, וחיבור ה-MCP למערכת SAP חיה נכשל בסשן "
+      + "(MCP error -32000), ולכן ההכרעה דורשת SE11 במערכת היעד. סתירה פנימית נוספת לתיקון: "
+      + "data/knowledge/pm-objects-ext.ts#EQST, ברמת אמון 'needs-verification', מתאר את הטבלה כ'קישור סטטוס/מבנה "
+      + "לציוד' ו'מקשר ציוד למידע נלווה (סטטוס/מבנה)'. התיאורים הרשמיים שנקראו הם 'Equipment BOM assignment' "
+      + "ו-'Equipment to BOM Link', כלומר שיוך עץ מוצר, ולא סטטוס. זו סתירה בתוך המאגר ולא בין מקורות רשמיים. שמות "
+      + "שאינם ביקום המזהים ולכן אינם ב-xrefs ואינם נטענים: CSAP_EQUI_BOM_READ, CSAP_EQUI_BOM_CREATE, "
+      + "CSAP_EQUI_BOM_MAINTAIN ו-CS_BOM_EXPL_EQU_V1 (נמנים ב-data/knowledge/object-intel.ts#EQST), "
+      + "BAPI_EQUIPMENT_GETBOMLIST (נמנית ב-data/tx-intel.ts#IB01), והטבלאות DOST, PRST, STST ו-T001W שהעמודים "
+      + "הרשמיים או המאגר מונים. אף אחד מהשמות האלה לא הופיע בסניפט רשמי שנקרא. הסתייגות על חיפוש הרשת: החיפוש המוגבל "
+      + "לדומיינים הרשמיים החזיר את ה-URL הנכונים, אך תקציר התוצאות שהוא הפיק בעצמו קבע 'The EQST table is the "
+      + "equipment master table', בניגוד לכל רשומה רשמית שנקראה כאן, ולכן התקציר אינו משמש מקור. מסמך השותף שהחיפוש "
+      + "העלה, Operations Guide for EAM Solutions by Prometheus Group (MDG EAM 2024, PDF ב-help.sap.com), הורד ונקרא "
+      + "כטקסט (23,308 תווים שחולצו) ואינו מכיל אף מופע של EQST, ולכן גם הטענה של התקציר על מסנני שכפול BOM לפי EQST "
+      + "אינה נתמכת במסמך הזה. מהדורות שלא נבדקו: מצב EQST במהדורת הענן הציבורי לא אומת ואינו נטען; edition הרשומה "
+      + "הוא On-Premise, הקשר ברירת המחדל של השלב לפי audit/s4-enrichment/MANIFEST.md.",
+  },
+
+  /* ---------------------------------------------------------- table:TPST */
+  {
+    id: "table:TPST",
+    evidence: [
+      TPST_CS_BOM_ARCHIVING,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Functional location BOM | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/3843de345dbb48fd98984480ea6179f6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "אובייקט ההגירה 'PM - Functional location BOM' לגרסת 2025 FPS01 מגדיר בסעיף In Scope את הנתונים המועברים: "
+          + "'Bills of material of type “T”', 'Header data', 'Component item data' ו-'Sub-items'. אותו עמוד מונה את השדות "
+          + "'Functional Location', 'Alternative BOM' ו-'BOM Usage', נוקב במודול CNV_PE_S4_PM_FUNCTIONAL_BOM תחת "
+          + "'APIs/BAPIs Used in Migration-Specific Function Modules', מציין 'Related Business Object: Bill of Materials' "
+          + "ורכיב PM עם נתיב התפריט 'Logistics > Plant Maintenance > Management of Technical Objects > Bill of Materials "
+          + "> Functional Location BOM', ומפרט לאימות בגב המערכת 'Activity Transaction Code Change IB12 Display IB13'. "
+          + "העמוד אינו נוקב בשם הטבלה TPST.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Functional Location Link for Bill of Material | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/1415fe223a364973968fdf57d64bcbb9.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "תצוגת ה-CDS ‏I_FUNCTIONALLOCBOMLINK נושאת את הכותרת 'Functional Location Link for Bill of Material', מסווגת "
+          + "'View Type Basic, Status Released', ועונה לפי הסניפט על השאלות 'What is the BOM number associated with the "
+          + "functional location for a functional location BOM? What is the plant assigned to the functional location "
+          + "BOM? What is the BOM alternative, BOM usage, and BOM category for the functional location BOM?', כשהתכונות "
+          + "שהסניפט מונה הן 'Functional Location Plant BOM Variant BOM Variant Usage BOM Category Bill of Material'. "
+          + "הסניפט אינו נוקב בשם הטבלה TPST.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "חוברת ההגירה של הפרויקט - רשומת TPST בתחזוקת מפעל",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "בלופרינט תחזוקת מפעל (PM:TPST, נושא 3 'עצי מוצר של אחזקה (BOM)') נושא descriptionHe 'קישור מיקום פונקציונלי "
+          + "לעץ מוצר' ו-descriptionEn 'Functional location-to-BOM link', פוסק 'ללא שינוי (תואם)' בעמודת S/4HANA עם "
+          + "s4AltTable 'TPST (זהה)' ו-s4AltTcode 'IB11-13; Fiori', מונה tcodes 'IB11; IB12/IB13', מסמן TPLNR כ-PK/FK, "
+          + "STLAL כ-PK ו-STLNR כ-FK בעוד STLAN נותר ללא סימון מפתח, ומגדיר שני קשרי ER: TPST.STLNR = STKO.STLNR ('קישור "
+          + "מיקום לעץ המוצר') ו-TPST.TPLNR = IFLOT.TPLNR ('עץ המוצר של המיקום הפונקציונלי'). באותה שורה משויכים לטבלה "
+          + "מודול הפונקציה CS_BOM_EXPL_FLO_RC1 ('פיצוץ עץ מוצר של מיקום') והתוכנית RCSBI020, ושורת ה-SUM קובעת 'ללא "
+          + "פעולת המרה ייעודית ב-SUM (טבלה תואמת). מומלץ Regression Test ואימות התאמות אישיות לאחר ההמרה.'",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#TPST",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת TPST (שיוך עץ מוצר למיקום פונקציונלי) קיימת ומתועדת ב-S/4HANA On-Premise עד גרסת 2025 FPS01: עמוד "
+        + "אובייקט הארכוב CS_BOM מונה אותה בשמה ובתיאורה הרשמי 'Functional location BOM assignment' לצד MAST‏, DOST‏, "
+        + "EQST ו-KDST, ואובייקט ההגירה הרשמי 'PM - Functional location BOM' מעביר לאותה גרסה עצי מוצר מסוג T עם כותרת "
+        + "ופריטי רכיב, ומפנה לאימות בטרנזקציות IB12 ו-IB13. אף מקור רשמי שנבדק אינו מסמן את הטבלה כמוחלפת, כמוגבלת או "
+        + "כמוסרת, ולא נמצאו פריט פישוט או טבלה יורשת. הפסיקה תואמת את פסק הבלופרינט ('ללא שינוי (תואם)').",
+      edition: "on-premise",
+      release: "2025.001",
+      source: TPST_CS_BOM_ARCHIVING,
+      recommendedAction:
+        "להמשיך לתחזק את שיוך עץ המוצר למיקום הפונקציונלי דרך IB11/IB12/IB13 ולא בעדכון ישיר של הטבלה, ולזכור ש-TPST "
+        + "מחזיקה את השיוך בלבד: כותרת העץ יושבת ב-STKO והפריטים ב-STPO. להבחין בין TPST (מיקום פונקציונלי) לבין EQST "
+        + "(ציוד): התיעוד הרשמי מונה אותן כשתי טבלאות שיוך נפרדות, ולכל אחת אובייקט הגירה נפרד ('PM - Functional "
+        + "location BOM' מול 'PM - Equipment BOM'). לצריכה אנליטית או חיצונית להעדיף את תצוגת ה-CDS "
+        + "‏I_FUNCTIONALLOCBOMLINK על פני SELECT ישיר. לפני ההסבה לאמת מול SE11 במערכת היעד את מבנה המפתח המלא של TPST, "
+        + "כיוון שנתוני הפרויקט סותרים את עצמם בנקודה זו, ולתקן את התיאור ב-data/knowledge/pm-objects-ext.ts המייחס "
+        + "ל-TPST שיוך רשימת פעולות במקום שיוך עץ מוצר.",
+    },
+    xrefs: [
+      "table:STKO", "table:STPO", "table:STAS", "table:STPU", "table:STZU", "table:MAST", "table:EQST", "table:KDST",
+      "table:IFLOT", "tx:IB11", "tx:IB12", "tx:IB13", "tx:IW31", "fm:CS_BOM_EXPL_FLO_RC1", "cds:I_BillOfMaterial",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "מבנה המפתח של TPST לא אומת: נתוני הפרויקט סותרים את עצמם. הבלופרינט (data/sapData.pm.ts#TPST) מסמן TPLNR "
+      + "ו-STLAL כמפתח ו-STLNR כמפתח זר, ואילו data/table-enrichment.ts#TPST מצהיר על מפתח 'MANDT, TPLNR, WERKS, "
+      + "STLAN, STLNR' בלי STLAL. אף עמוד רשמי שנקרא אינו מפרט את שדות הטבלה ברמת DDIC, והחיבור למערכת SAP חיה אינו "
+      + "זמין בסשן, ולכן המפתח המלא נותר לאימות מול SE11 במערכת היעד. סתירה פנימית שנייה: "
+      + "data/knowledge/pm-objects-ext.ts מתאר את TPST כ'שיוך רשימת פעולות למיקום פונקציונלי' (סמנטיקה של TAPL) "
+      + "בסימון trust 'needs-verification', בעוד המקור הרשמי מתאר 'Functional location BOM assignment'; הרשומה מאמצת "
+      + "את התיאור הרשמי. data/knowledge/object-intel.ts מייחס ל-TPST את המודולים CSAP_FLOC_BOM_READ, "
+      + "CSAP_FLOC_BOM_CREATE, CSAP_FLOC_BOM_MAINTAIN ו-CS_BOM_EXPL_FLO_V1; אף אחד מהם לא אומת מול מקור רשמי ולכן "
+      + "אינו נטען כאן, והמודול היחיד שנזכר בראיות הוא CS_BOM_EXPL_FLO_RC1 מן הבלופרינט. שני עמודים רשמיים של אותו "
+      + "אובייקט הגירה נמצאו באותה גרסה 2025.001 בשני loio שונים והם אינם זהים בהיקף: loio "
+      + "3843de345dbb48fd98984480ea6179f6 מונה 'Sub-items' תחת In Scope, ואילו loio acdd915e95e743518f808f8751e5a7e0 "
+      + "(Object Alias FUNC_BOM, Business Object Component PM, Business Object Type Master data, 'A functional "
+      + "location BOM can be created for each functional location or for a group of technical objects') מונה 'Out of "
+      + "Scope Sub-items Document assignment Long Text'; מדובר ככל הנראה בשני מסלולי העברה שונים, והפרויקט נדרש לקבוע "
+      + "איזה מהם חל לפני שהוא מסתמך על העברת תת-פריטים. הערת Fiori: הבלופרינט רושם 'Manage Bills of Material (אמת "
+      + "ID)' ללא מזהה. לא אומת מזהה F לאפליקציית Fiori לעצי מוצר של מיקום פונקציונלי: עמוד ההגירה השני (loio "
+      + "acdd915e95e743518f808f8751e5a7e0) רושם 'App: Display Functional Location BOM (IB13)', בעוד העמוד המצוטט "
+      + "כראיה (loio 3843de345dbb48fd98984480ea6179f6) רושם רק 'Activity Transaction Code Change IB12 Display IB13'; "
+      + "חיפוש מוגבל-דומיין בספריית Fiori הרשמית מחזיר עמוד שכותרתו 'Display Functional Location BOM' תחת "
+      + "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/?appId=IB13, כלומר הטרנזקציה הקלאסית כאריח "
+      + "ולא מזהה F. אותו חיפוש החזיר גם 'Maintain Bill Of Material' (F1813), אך שום רשומה רשמית שנבדקה אינה קושרת "
+      + "אותה לעצי מוצר של מיקום פונקציונלי; שני המזהים אינם ב-data/fiori/apps.ts ולכן אין xref ל-Fiori. הקישור בין "
+      + "I_FUNCTIONALLOCBOMLINK ל-TPST הוא סינתזה של הרשומה: הסניפט הרשמי אינו נוקב בשם הטבלה, והתצוגה אינה ביקום "
+      + "הפרויקט ולכן אינה ב-xrefs; מאותה סיבה DOST, RCSBI020 ו-CNV_PE_S4_PM_FUNCTIONAL_BOM נזכרים בטקסט בלבד. רשומות "
+      + "רשמיות נוספות שנראו ולא צורפו כראיה נפרדת, משום שאף אחת מהן אינה נוקבת בשם הטבלה TPST והן תומכות בהקשר "
+      + "התהליכי בלבד: 'BOM Categories' ב-Bill of Material (LO-MD-BOM) 2025.001 (loio "
+      + "a309b953495bb44ce10000000a174cb4) הקובע 'Functional Location BOM: BOM with Reference to a Functional "
+      + "Location' ומפנה לרכיב 'PM - Maintenance Bill of Material'; 'Processing of Bill of Material' ב-Maintenance "
+      + "Management 2025.001 (loio b967b65334e6b54ce10000000a174cb4) המונה בתפקיד 'Creating/changing a functional "
+      + "location BOM' ו-'Creating/changing a plant assignment for a functional location BOM'; 'Maintenance Bill of "
+      + "Material' ב-APIs for Maintenance Management 2023.latest (loio 21317859a54d477b89e43e4501249157) עם השם הטכני "
+      + "EAM_MAINTENANCE_BOM ו-'create, read, update, and delete the bill of material header and item for material, "
+      + "equipment, and functional' כלשון הסניפט, לצד 'Operations for Maintenance Bill of Material' (loio "
+      + "ec31096ce7a14d36be3f4130b7637671) הנוקב ב-API_MAINTENANCEBOM; ו-'OData API: Maintenance Bill of Material' "
+      + "ב-What's New 2021 (loio 8dc12d0741f240eaaee2c675e29daa60). גופי העמודים ב-help.sap.com הם מעטפת JavaScript "
+      + "ולא נקראו, ולכן כל טענה כאן חסומה לכותרת ולסניפט של רשומת החיפוש. לא צוטט מספר SAP Note או KBA כי אף מספר לא "
+      + "הופיע בסניפטים הרשמיים שנבדקו.",
+  },
+
+  /* --------------------------------------------------------- table:TJ30T */
+  {
+    id: "table:TJ30T",
+    aliases: ["tj30t"],
+    evidence: [
+      TJ30T_STATUS_TABLES,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technically Close Production Order | Enterprise Services in Logistics",
+        product: "SAP ERP 6.0",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/1a781c11dd4f41829c798db4d8ff3a41/8a2c66d388a511dd2b8d000f20fcb6a9.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE4,
+        claim:
+          "אותו נושא עצמו (loio 8a2c66d388a511dd2b8d000f20fcb6a9) מתפרסם גם תחת SAP ERP 6.0 EHP8 Latest, ושם הסניפט "
+          + "קובע: 'In the SAP ERP system, the information retrieved in the StatusObject are stored in the tables JEST, "
+          + "JSTO, TJ20T, TJ30T, TJ02, TJ02T and view CAUFV'. רשימת הטבלאות זהה לרשימה שבגרסת S/4HANA של אותו נושא, ולכן "
+          + "בשני העמודים הרשמיים האלה שמות הטבלאות הנושאות את מידע הסטטוס אינם משתנים במעבר מ-ECC ל-S/4HANA. ההשוואה הזו "
+          + "נוגעת לשמות הטבלאות בלבד; אף אחד משני העמודים אינו עוסק במבנה הטבלה או ברשימת שדותיה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Texts for the System Status (Field 1) | SAP Portfolio and Project Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/db719753e69f4e8eb9902aaea0fd8471/34c68853630b3d58e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד ה-DataSource בגרסת 2025 FPS01 פותח טבלת מיפוי בכותרת 'Origin Fields in the Extraction Structure Field "
+          + "in Extraction Structure Description of Field in Extraction Structure Origin Table Field in Origin Table', "
+          + "ובסניפט נראים הרצפים 'LANGU Language Key TJ02T / TJ30T' ו-'SPRAS STATUS BW Status DPR_BW_SYSSTAT / "
+          + "DPR_BW_USERSTAT BWSTATUS TXTSH Short Description TJ02T / TJ30T TXT04 TXTMD Medium Description TJ02T / TJ30T "
+          + "TXT30 TXTLG Long Description'. כלומר בתיעוד הרשמי של 2025 FPS01 המזהה TJ30T עדיין נקוב, בצמד עם TJ02T, כטבלת "
+          + "מקור לטקסטים של סטטוס, ולצדו שמות השדות SPRAS (מפתח שפה), TXT04 (טקסט קצר) ו-TXT30 (טקסט בינוני), מול "
+          + "ה-DataSources DPR_BW_SYSSTAT ו-DPR_BW_USERSTAT. עמודת Origin Table מציגה את שתי הטבלאות כצמד ואינה מפרידה "
+          + "איזו מהן נושאת כל שדה, הסניפט קטוע, ואין בו מפתח טבלה, טיפוסים או אורכים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Status Management | Technical Objects (CS-BD/PM-EQM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e98c7c41bbe8439e90daa5c114a7573b/3c78ba53422bb54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד תחזוקת מפעל בגרסת 2025 FPS01 קובע: 'This function deals with general status management and its use for "
+          + "business objects in Plant Maintenance (technical objects, orders, notifications)', ומוסיף שסטטוסי המערכת "
+          + "INAC ו-DLFL אפשריים ושסטטוסי מערכת אחדים זמינים לציוד, להודעות ולהזמנות. העמוד מבסס את ההקשר התפקודי של "
+          + "ניהול הסטטוסים בתחזוקת מפעל; הסניפט אינו נוקב בשם הטבלה TJ30T.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "System/User Statuses | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/6c87bf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד תעשיות תהליכיות בגרסת 2025 FPS01 קובע: 'To define a user status, you need to have created a status "
+          + "profile, which is created per order type in Customizing', ומוסיף 'You can activate any number of statuses in "
+          + "a process order'. כלומר בהזמנת תהליך פרופיל הסטטוס נוצר ב-Customizing לפי סוג ההזמנה. הסניפט אינו נוקב בשם "
+          + "הטבלה TJ30T ואינו מתאר את מבנה הטבלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Defining User Statuses | Technical Objects (CS-BD/PM-EQM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e98c7c41bbe8439e90daa5c114a7573b/1c64bf95155d493ca581784fad35a71a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד הגדרת סטטוסי המשתמש בגרסת 2025 FPS01 מורה: 'position the cursor on the new status profile and choose "
+          + "Goto User Status. Enter a language-specific key with up to four digits and a descriptive short text to "
+          + "identify the status', ומציין שבפרופיל הסטטוס אפשר 'Define your own user statuses and document their function "
+          + "in a respective long text'. כלומר סטטוס משתמש נושא מפתח תלוי שפה באורך עד ארבעה תווים וטקסט קצר מתאר, מה "
+          + "שמתיישב עם השדות TXT04 ו-TXT30 שבנתוני הפרויקט. הסניפט אינו נוקב בשם הטבלה TJ30T ואינו מאשר את מבנה ה-DDIC "
+          + "שלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הבלופרינטים של PM ושל PP-PI ושכבת ההעשרה של הפרויקט - רשומת TJ30T",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "בלופרינט PM (נושא 8, ניהול סטטוסים): 'טקסטים לסטטוס משתמש' / 'User status texts'; טרנזקציות 'BS02; BS03'; "
+          + "Fiori 'מוטמע (אין ייעודי)'; עמודת S/4 'ללא שינוי (תואם)', טבלה חליפית 'TJ30T (זהה)', טרנזקציה חליפית "
+          + "'BS02/BS03 (זהה)'; SUM: 'ללא פעולת המרה ייעודית ב-SUM (טבלה תואמת). מומלץ Regression Test ואימות התאמות "
+          + "אישיות לאחר ההמרה'; פונקציה USER_STATUS_TEXT_READ; תוכנית RIBS0200; שדות STSMA, ESTAT ו-SPRAS כמפתח, ו-TXT04 "
+          + "(קוד מקוצר) ו-TXT30 (תיאור סטטוס משתמש) כשדות טקסט. בלופרינט PP-PI (נושא 7, קונפיגורציה) מוסיף לאותם שדות "
+          + "טיפוסים ואורכים (STSMA CHAR 8, ESTAT CHAR 5, SPRAS LANG 1, TXT04 CHAR 4, TXT30 CHAR 30), הערת S/4 'ללא "
+          + "שינוי.', וקשר לטבלת ההגדרה: 'FROM TJ30T JOIN TJ30 ON TJ30T.STSMA = TJ30.STSMA AND TJ30T.ESTAT = TJ30.ESTAT'. "
+          + "data/table-enrichment.ts רושם מפתח ראשי MANDT, SPRAS, STSMA ו-ESTAT, מפתחות זרים 'STSMA+ESTAT → TJ30' "
+          + "ו-'SPRAS → T002', ואת כלל ההפרדה 'סטטוס מערכת → TJ02T, לא TJ30T'. data/function-intel.ts רושם את BS22 ו-BS23 "
+          + "כטרנזקציות סטטוס המערכת ברשומות STATUS_READ ו-STATUS_CHANGE_EXTERN. TJ30T אינה נמנית ב-data/s4-impact.ts, "
+          + "ולכן הסטטוס שהוצג עד כה נגזר מעמודת ה-S/4 של הבלופרינט בלבד.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/sapData.pm.ts#PM:TJ30T, data/sapData.pppi.ts#PP-PI:TJ30T, data/table-enrichment.ts#TJ30T, "
+          + "data/function-intel.ts#STATUS_READ",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "TJ30T היא טבלת הטקסטים תלויי השפה של סטטוסי המשתמש, הנלווית לטבלת ההגדרה TJ30, ולפי נתוני הפרויקט היא נקראת "
+        + "לפי פרופיל הסטטוס, סטטוס המשתמש והשפה. בשכבה הרשמית אומתו שלושה דברים בלבד: עמוד השירות הארגוני של S/4HANA "
+        + "מונה את TJ30T בין הטבלאות שבהן שמור מידע הסטטוס של הזמנת ייצור ('the tables JEST, JSTO, TJ20T, TJ30T, TJ02, "
+        + "TJ02T and view CAUFV'); אותו נושא עצמו בגרסת SAP ERP 6.0 EHP8 מונה בדיוק את אותה רשימת טבלאות, כך שאין "
+        + "בתיעוד הזה שינוי בשמות במעבר מ-ECC ל-S/4HANA; ובגרסה הנוכחית 2025 FPS01 המזהה TJ30T עדיין נקוב בתיעוד רשמי "
+        + "כטבלת מקור לטקסטים של סטטוס לצד TJ02T, עם השדות SPRAS, TXT04 ו-TXT30. שלושה עמודים רשמיים נוספים בגרסת 2025 "
+        + "FPS01 מבססים את ההקשר התפקודי (ניהול סטטוסים בתחזוקת מפעל, פרופיל סטטוס לפי סוג הזמנה בתעשיות תהליכיות, "
+        + "ומפתח תלוי שפה באורך עד ארבעה תווים עם טקסט קצר), אך אף אחד מהם אינו נוקב בשם הטבלה. אף מקור רשמי שנבדק בסבב "
+        + "זה אינו נוקב ביורשת, בפריט פישוט, בהגבלה או בהוצאה משימוש של הטבלה. מה שלא אומת רשמית: מבנה ה-DDIC המלא, סדר "
+        + "המפתח, הטיפוסים והאורכים, וזהות מלאה של המבנה מול ECC. הפסיקה 'ללא שינוי (תואם)' עצמה מקורה בבלופרינטים של "
+        + "הפרויקט, והראיות הרשמיות תומכות בה ברמת נוכחות המזהה ורשימת הטבלאות.",
+      edition: "on-premise",
+      release: "2023.latest",
+      source: TJ30T_STATUS_TABLES,
+      recommendedAction:
+        "להמשיך לתחזק את טקסטי סטטוסי המשתמש דרך פרופיל הסטטוס. בתחזוקת מפעל, לפי עמוד Status Management הרשמי, ניהול "
+        + "הסטטוסים הכללי משמש את האובייקטים העסקיים של תחזוקת מפעל (אובייקטים טכניים, הזמנות והודעות), ולפי עמוד "
+        + "Defining User Statuses סטטוס משתמש מוגדר בתוך פרופיל הסטטוס עם מפתח תלוי שפה באורך עד ארבעה תווים וטקסט קצר. "
+        + "בתעשיות תהליכיות, לפי עמוד System/User Statuses הרשמי, פרופיל הסטטוס נוצר ב-Customizing לפי סוג ההזמנה. "
+        + "הטרנזקציות BS02 לפרופיל הסטטוס ו-BS22/BS23 לסטטוסי המערכת מגיעות מנתוני הפרויקט (הבלופרינט של PM "
+        + "ו-data/function-intel.ts) ולא מעמוד רשמי שנבדק בסבב זה. אין לכתוב לטבלה ישירות: היא טבלת טקסט של Customizing "
+        + "המתוחזקת דרך מסך פרופיל הסטטוס, ואופן ההעברה שלה בין מערכות לא נבדק בסבב זה. בהסבה ל-S/4HANA לפי הבלופרינט "
+        + "אין לטבלה פעולת המרה ייעודית ב-SUM, ולכן העבודה היא בדיקות רגרסיה: לוודא שכל פרופיל סטטוס בשימוש מכיל שורת "
+        + "טקסט בכל שפת התחברות פעילה, ולבדוק קוד מותאם, דוחות וממשקים שקוראים מהטבלה בצירוף JEST ו-TJ30. ההתנהגות "
+        + "הצפויה בהיעדר שורה בשפה (הצגת קוד במקום תיאור במסכי IW21, IW32, CO02 ו-COR2 ובדוחות) לא אומתה במערכת בסבב זה "
+        + "ויש לבדוק אותה במערכת היעד. בקריאה מתוכנית יש להבדיל בין סטטוס מערכת לסטטוס משתמש: לפי נתוני הפרויקט סטטוס "
+        + "המערכת (I) נקרא מ-TJ02T וסטטוס המשתמש (E) מ-TJ30T לפי פרופיל הסטטוס של האובייקט. לפיתוח חדש ולאינטגרציה עדיף "
+        + "לעבוד דרך שכבת הפונקציות והשירותים על פני SELECT ישיר, ולאמת במערכת היעד שהפונקציה הנבחרת קיימת ומחזירה את "
+        + "הטקסט בשפה המבוקשת.",
+    },
+    xrefs: [
+      "table:TJ30", "table:TJ02T", "table:JEST", "table:JSTO", "table:AUFK", "table:QMEL", "tx:BS02", "tx:BS03",
+      "tx:BS22", "tx:BS23", "tx:IW21", "tx:IW32", "tx:CO02", "tx:COR2", "fm:USER_STATUS_TEXT_READ",
+      "fm:STATUS_TEXT_READ", "fm:USER_STATUS_CHECK", "fm:STATUS_USER_CHANGE", "fm:STATUS_PROFILE_READ",
+      "fm:BAPI_ALM_NOTIF_CHANGEUSRSTAT", "cds:I_ObjectStatus",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: ריצות חוזרות של scripts/sap-help-search.mjs (2026-09-15) במוצרים SAP_S4HANA_ON-PREMISE, SAP_ERP "
+      + "ו-SAP_S4HANA_CLOUD, בשאילתות 'TJ30T', 'user status texts status profile', 'Release Production Order "
+      + "StatusObject tables JEST JSTO TJ20T TJ30T', 'Defining User Statuses status profile language-specific key "
+      + "four digits short text', 'TJ30 user status internal format E number customizing table', 'Virtual Data Model "
+      + "user status text CDS view object status', 'S4TWL status management general simplification user status' "
+      + "ו-'status profile BS02 transaction user status maintenance order'. גוף עמודי ה-Help אינו נשלף (מעטפת "
+      + "JavaScript), ולכן כל טענה כאן מוגבלת לכותרת ולסניפט של רשומת החיפוש. מה שלא אומת: לא נמצא עמוד רשמי המגדיר "
+      + "את TJ30T כטבלת DDIC, ולכן מפתח הטבלה (סדר MANDT, SPRAS, STSMA, ESTAT), הטיפוסים והאורכים מגיעים מהבלופרינטים "
+      + "ומ-data/table-enrichment.ts בלבד; אופן התחזוקה וההעברה של הטבלה בין מערכות לא אומת באף מקור; חיבור ה-MCP של "
+      + "sc4sap (SE11 חי) נכשל בסשן הזה ולא נעשתה שום בדיקה במערכת חיה; קטלוג ה-Simplification Item דורש הזדהות "
+      + "S-user ולא נבדק, ולא נטען כאן שום מספר SAP Note או KBA. תיעוד רשמי נוסף שנמצא ומחזק את ההקשר התפקודי ולא "
+      + "נפתח כרשומת ראיה נפרדת: 'Changing the User Status in the Order' (Maintenance Management, 2025.001, loio "
+      + "93277455afe50c30e10000000a441470); 'Setting a User Status' (Orders (CS-SE/PM-WOC-MO), 2025.001, loio "
+      + "abcab65334e6b54ce10000000a174cb4) הקובע 'Your system administration must also have maintained status "
+      + "profiles for each order type in the Customizing for User Status for Maintenance Orders'; 'User Status' "
+      + "(Technical Objects, 2025.001, loio 06edba538c95b54ce10000000a174cb4); 'What is a Status Profile?' "
+      + "(Production Planning and Control, 2025.001, loio 9704b753128eb44ce10000000a174cb4) הקובע 'A status "
+      + "profile is "
+      + "created in customizing per order type'; 'General SAP Status Management' (Controlling (CO), 2025.001, loio "
+      + "0ed49753858ced23e10000000a174cb4) הקובע 'You define status profiles in Customizing for each order type in "
+      + "the step Define Status Profiles'; ו-'Change Service Execution Request_V1' (Enterprise Services in Logistics, "
+      + "2023.latest, loio 54bc240bac8b11dc2b8d000f20fcb6a9) הקובע 'You have set the user status values in "
+      + "Customizing table TJ30', עמוד רשמי הנוקב בטבלת ההגדרה TJ30 בהקשר S/4HANA. מגבלת גרסה: העמוד היחיד שנמצא "
+      + "ומצהיר במפורש על אחסון מידע הסטטוס ב-S/4HANA (ראיות 1 ו-2) מתפרסם תחת 2023 Latest ולא תחת 2025 FPS01, ולכן "
+      + "release של הפסיקה נרשם 2023.latest; האזכור הרשמי העדכני ביותר של המזהה TJ30T שנמצא בסבב זה הוא ראיה 3 בגרסת "
+      + "2025 FPS01, והוא מגיע ממדריך SAP Portfolio and Project Management ולא ממדריך תחזוקת מפעל או ייצור. חיפוש "
+      + "במוצר SAP_S4HANA_CLOUD לא החזיר ולו רשומה אחת הנוקבת ב-TJ30T, ולכן הרשומה הזו נוגעת ל-On-Premise בלבד. "
+      + "סתירות פנימיות במאגר שיש לתקן בנפרד: descriptionEn של הרשומה בבלופרינט PP-PI הוא 'Status profile', שהוא "
+      + "תיאורה של TJ20 ולא של TJ30T (בבלופרינט PM אותו שדה נכון, 'User status texts'); עמודת ה-relations בבלופרינט "
+      + "PP-PI מסמנת את TJ30T פעם כ-parent ברשומת TJ30 ופעם כ-child ברשומת TJ30T עם אותו תיאור, כלומר תפקיד הצומת "
+      + "אינו עקבי; ורשומת USER_STATUS_TEXT_READ ב-data/function-intel.ts מסומנת inferred: true ונושאת את הטקסט 'אמת "
+      + "ב-S/4', כלומר היא עצמה טעונה אימות ואין להציגה כפונקציה מאומתת. פערים ביקום המזהים: הטבלאות TJ20, TJ20T, "
+      + "TJ02 ו-T002 והתוכנית RIBS0200 מופיעות במקורות שנצפו אך אינן קיימות ביקום המזהים של הפרויקט, ולכן אין להן "
+      + "xref. Fiori: הבלופרינט רושם 'מוטמע (אין ייעודי)', ולא נמצאה אפליקציית Fiori רשמית לתחזוקת פרופילי סטטוס, "
+      + "ולכן אין xref ל-Fiori. CDS: לא נמצאה תצוגת VDM רשמית לטקסטים של סטטוס משתמש; ה-xref ל-cds:I_ObjectStatus "
+      + "נשען על רשומת הפרויקט ב-data/cds-enrichment.ts, המתארת את התצוגה כמקבילת סטטוס האובייקט ומפנה ל-JEST "
+      + "ול-TJ02T, ואין עמוד רשמי הקושר בין התצוגה לבין TJ30T. סטטוס נגזר קודם: לפני הרשומה הזו האפליקציה הציגה עבור "
+      + "TJ30T 'ללא שינוי' שנגזר מעמודת ה-S/4 של הבלופרינט (derivedFrom: blueprint) ברמת אימות של נתוני הפרויקט בלבד; "
+      + "הרשומה הזו משאירה את אותה פסיקה ומוסיפה מתחתיה ראיות רשמיות, כולל השוואת ECC מול S/4HANA על אותו נושא.",
+  },
+
+  /* ---------------------------------------------------------- table:TQ80 */
+  {
+    id: "table:TQ80",
+    aliases: ["tq80"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Function Module MEASUREM_DOCUM_RFC_SINGLE_001 | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/6770b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "בסט התיעוד של S/4HANA On-Premise זו הרשומה היחידה שנמצאה במעבר הזה שבה מופיעה המחרוזת TQ80; חיפוש הביטוי "
+          + "TQ80 בסקופ הזה לא החזיר ולו סניפט אחד הנוקב בה. עמוד התיעוד של מודול הפונקציה, בדליברבל Maintenance "
+          + "Management של גרסת 2025 FPS01 (loio 6770b65334e6b54ce10000000a174cb4, תאריך 2026-02-24), קובע לגבי קוד "
+          + "ההערכה: 'Valuation code, as long as its catalog type is the same as the catalog type defined in Customizing "
+          + "for Problems (V_TQ80_C-FEKAT) of the respective [...] notification type', ומונה בפרמטרים 'CODE_GROUP CHAR 8 "
+          + "Code group of valuation code VALUATION_CODE CHAR 4 Valuation code CODE_VERSION CHAR 6 Version number of "
+          + "valuation code'. כלומר בתיעוד הנוכחי של תחזוקת מפעל, סוג הקטלוג לפגמים של סוג ההודעה מוגדר באובייקט "
+          + "הקסטומיזציה ששמו V_TQ80_C ובשדה FEKAT שבתוכו. הסניפט נוקב בשם התצוגה V_TQ80_C בלבד, אינו נוקב בשם טבלה ואינו "
+          + "קובע שהטבלה TQ80 היא הטבלה שמאחורי אותה תצוגה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Function Module MEASUREM_DOCUM_RFC_SINGLE_001 | Plant Maintenance (PM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/61f8c51bfee94fa78c8835db685249eb/6770b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE4,
+        claim:
+          "אותו נושא בדיוק (loio 6770b65334e6b54ce10000000a174cb4) קיים גם בסט התיעוד של SAP ERP 6.0 EHP8, שם תחת "
+          + "הדליברבל Plant Maintenance (PM), ובאותה לשון מילה במילה: 'the catalog type defined in Customizing for "
+          + "Problems (V_TQ80_C-FEKAT) of the respective [...] notification type'. כלומר שם אובייקט הקסטומיזציה של סוג "
+          + "ההודעה שאליו מפנה התיעוד זהה בשני סטי התיעוד, של ECC 6.0 EHP8 ושל S/4HANA 2025 FPS01, ולא אותרה בהם החלפת שם "
+          + "או הפניה לאובייקט אחר. זו ראיה לשם האובייקט בלבד ולא למבנה הטבלה או לרשימת שדותיה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Maintenance Request: Recording Failure Effects | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private "
+          + "Edition 2023 FPS02",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.002",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/d22beac9e1194a17a4f59ac478df0eb5.html?locale=en-US&state=PRODUCTION&version=2023.002",
+        accessedAt: DATE4,
+        claim:
+          "רשומת ה-What's New של מהדורת 2023 FPS02, החלה על On-Premise ועל Cloud Private Edition כאחד לפי כותרת "
+          + "הדליברבל, קובעת שהקסטומיזציה של סוגי ההודעה הורחבה: 'Profile for Notification Type and Overview of "
+          + "Notification Type has been enhanced with an additional field that allows assigning a catalog type for "
+          + "failure effects to maintenance notification types', ולצדה 'The Create Maintenance Request app and the Screen "
+          + "Maintenance Requests app have been enhanced with a new field that allows you to specify a failure effect for "
+          + "a maintenance reques[t]' וכן 'Change Catalogs and Catalog Profile for Notification Type Assign the catalog "
+          + "type as catalog for Failure Effects to the relevant maintenance notification types'. מדובר בשדה נוסף בהגדרת "
+          + "סוג ההודעה שלא היה קיים לפני המהדורה הזו. הסניפט נוקב בשמות פעילויות הקסטומיזציה, ואינו נוקב בשם הטבלה או "
+          + "בשם השדה הטכני שבו נשמר הערך.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "בלופרינט ההגירה של PM, שכבת ההעשרה של הטבלאות ומרכז הקונפיגורציה של הפרויקט - רשומת TQ80",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "רשומת הבלופרינט (נושא 6, הודעות אחזקה, המזהה PM:TQ80): 'סוגי הודעה (הגדרה)' / 'Notification Type "
+          + "(Customizing)'; טרנזקציות 'OIAL (פריסת מסך); SPRO, QCC0'; Fiori: 'אין Fiori ייעודי (Customizing)'; עמודת "
+          + "S/4: 'ללא שינוי (Customizing תואם)', טבלה חליפית 'TQ80 (זהה)', טרנזקציה חליפית 'SPRO/OIAL (זהה)'; הערת SUM: "
+          + "'ללא פעולת המרה ייעודית ב-SUM (טבלה תואמת). מומלץ Regression Test ואימות התאמות אישיות לאחר ההמרה.'. ארבעה "
+          + "שדות רשומים, כולם בלי טיפוס ובלי אורך: QMART (PK, 'Notification type (M1/M2/M3)'), QMTYP ('Notification "
+          + "category'), RBNR (FK, 'Catalog profile') ו-AUART (FK, 'Default order type'); פונקציות "
+          + "PM_NOTIFICATION_TYPE_READ ו-PRIORITY_DETERMINE; תוכנית RIQMEL20; שלושה קשרים: QMEL.QMART = TQ80.QMART "
+          + "בקרדינליות N:1 ('סוג ההודעה מגדיר פריסת מסך ופרופיל קטלוג'), TQ80.RBNR = T352.RBNR ('סוג ההודעה מפנה לפרופיל "
+          + "הקטלוג (קודים מותרים)') ו-TQ80.AUART = T003O.AUART ('סוג ההודעה מגדיר סוג פק\"ע ברירת מחדל'). "
+          + "data/table-enrichment.ts מוסיף מפתח ראשי MANDT + QMART, מפתחות זרים 'QMART ← QMEL-QMART', 'STSMA → TJ20 "
+          + "(Status profile)' ו'פרופיל קטלוג → QPGR/QPCD', ומציין טבלת קסטומיזציה קטנה המוחזקת ב-buffer ושסוג ההודעה "
+          + "קובע קטלוגים זמינים, טווח מספרים וזרימה לפקודה. data/centers/config.ts (הנושא pm-notification-types) מונה "
+          + "לאותו נושא את הטבלאות TQ80, TQ80_T, T356 ו-QPGR ורושם את מסלול ה-IMG 'SPRO → Plant Maintenance and Customer "
+          + "Service → Maintenance and Service Processing → Maintenance and Service Notifications → Notification Creation "
+          + "→ Notification Types', מסלול שזהה למסלול שהתיעוד הרשמי של 2025 FPS01 נוקב בו. TQ80 אינה נמנית "
+          + "ב-data/s4-impact.ts, לא ב-S4_IMPACT ולא ב-S4_STABLE, ולכן הסטטוס שהאפליקציה מציגה כיום נגזר מעמודת ה-S/4 של "
+          + "הבלופרינט בלבד.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/sapData.pm.ts#PM:TQ80, data/table-enrichment.ts#TQ80, data/centers/config.ts#pm-notification-types",
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "TQ80 היא לפי נתוני הפרויקט טבלת ההגדרה של סוגי ההודעה (M1, M2 ו-M3 בתחזוקת מפעל), וכל הודעה ב-QMEL מפנה אליה "
+        + "דרך השדה QMART. בשכבה הרשמית של S/4HANA נמצאו שלוש עובדות. ראשית, התוכן הזה חי ומתועד בגרסת 2025 FPS01: עמוד "
+        + "'Changing the Notification Type' בדליברבל Maintenance Management נוקב במסלול הקסטומיזציה 'Plant Maintenance "
+        + "and Customer Service > Maintenance and Service Processing > Maintenance and Service Notifications > "
+        + "Notification Creation > Notification Types > Define [...]', ובצד ה-QM נוקב עמוד 'Charge Scrap to Supplier' "
+        + "באותה גרסה במסלול 'Quality Management > Quality Notifications > Notification Creation > Notification Type > "
+        + "Define Notification Types'. שנית, אובייקט הקסטומיזציה שהתיעוד נוקב בשמו עבור סוג הקטלוג לפגמים של סוג ההודעה "
+        + "הוא V_TQ80_C על שדהו FEKAT, ואותו נוסח מופיע מילה במילה גם בסט התיעוד של SAP ERP 6.0 EHP8 וגם בסט של S/4HANA "
+        + "2025 FPS01, כלומר שם האובייקט לא הוחלף במעבר. שלישית, בגרסת 2023 FPS02 הורחבה הגדרת סוג ההודעה בשדה נוסף: "
+        + "'Profile for Notification Type and Overview of Notification Type has been enhanced with an additional field "
+        + "that allows assigning a catalog type for failure effects to maintenance notification types'. מכאן הפסיקה "
+        + "'משתנה' במקום 'ללא שינוי' שרשומה בבלופרינט, והיא פסיקה על תוכן הקסטומיזציה של סוג ההודעה ולא על מבנה טבלת "
+        + "DDIC שאומת: הטבלה עצמה אינה מוחלפת, לא אותרה לה יורשת ולא אותר פריט פישוט הנוגע לה (קריאה מלאה של רשימת "
+        + "הפישוט הרשמית ל-2025 FPS01 לא העלתה ולו אזכור אחד של TQ80), אבל תוכן הקסטומיזציה של סוג ההודעה ב-S/4HANA גדל "
+        + "מול ECC, ולכן ההגדרה שעוברת בהמרה אינה ההגדרה השלמה שהמערכת החדשה מצפה לה. מה שלא אומת: אף מקור רשמי שנבדק "
+        + "אינו קובע שהטבלה ששמה TQ80 היא הטבלה שמאחורי אובייקט הקסטומיזציה V_TQ80_C, אינו מונה את שדותיה ואינו קובע "
+        + "באיזו טבלה נשמר השדה שנוסף ב-2023 FPS02.",
+      edition: "on-premise",
+      release: "2023.002",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Maintenance Request: Recording Failure Effects | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private "
+          + "Edition 2023 FPS02",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.002",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/d22beac9e1194a17a4f59ac478df0eb5.html?locale=en-US&state=PRODUCTION&version=2023.002",
+        accessedAt: DATE4,
+        claim:
+          "רשומת ה-What's New של מהדורת 2023 FPS02, החלה על On-Premise ועל Cloud Private Edition כאחד לפי כותרת "
+          + "הדליברבל, קובעת שהקסטומיזציה של סוגי ההודעה הורחבה: 'Profile for Notification Type and Overview of "
+          + "Notification Type has been enhanced with an additional field that allows assigning a catalog type for "
+          + "failure effects to maintenance notification types'. הסניפט נוקב בשמות פעילויות הקסטומיזציה, ואינו נוקב בשם "
+          + "הטבלה או בשם השדה הטכני שבו נשמר הערך.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction:
+        "בהמרה עצמה אין פעולת המרה ייעודית ב-SUM לטבלת סוגי ההודעה לפי הבלופרינט, ורשומות הקסטומיזציה עוברות עם "
+        + "המערכת; העבודה הנדרשת היא אחרי ההמרה. ראשית, לעבור על הגדרת סוגי ההודעה במסלול Plant Maintenance and "
+        + "Customer Service > Maintenance and Service Processing > Maintenance and Service Notifications > Notification "
+        + "Creation > Notification Types (ובצד האיכות Quality Management > Quality Notifications > Notification "
+        + "Creation > Notification Type > Define Notification Types) ולוודא שלכל סוג פעיל יש טווח מספרים, פרופיל קטלוג, "
+        + "פריסת מסך ושיוך סוג פקודה כמתוכנן. שנית, לבדוק את ההגדרות שהתיעוד הרשמי מתאר ב-S/4HANA ושאין להן מקבילה "
+        + "בהגדרה שעברה מ-ECC: שיוך סוג קטלוג ל-Failure Effects לסוג ההודעה (2023 FPS02), שיוך פרופיל שיטת גילוי "
+        + "(detection method profile) לסוג ההודעה, וקישור פרופילי סטטוס כולל לסוגי הודעה ולסוגי פקודה במודל הפאזות. לפי "
+        + "עמוד ה-FAQ הרשמי של Maintenance Request בגרסת 2025 FPS01, כאשר פרופיל הקטלוג של האובייקט הטכני או של סוג "
+        + "ההודעה אינו מתוחזק כראוי או שסוגי הקטלוג אינם משויכים לסוג ההודעה בקסטומיזציה, המשתמש אינו יכול לבחור "
+        + "Failure Mode או Failure Effect, ולכן זו בדיקה תפעולית ולא קוסמטית. שלישית, לבדוק קוד מותאם, דוחות וממשקים "
+        + "שקוראים ישירות מטבלת סוגי ההודעה או מניחים את רשימת שדותיה, ולהריץ בדיקות רגרסיה לפתיחת הודעה בכל סוג פעיל, "
+        + "כולל ההמרה האוטומטית לפקודה. לקריאת ההגדרה בקוד להעדיף את מודול הפונקציה PM_NOTIFICATION_TYPE_READ (שם "
+        + "המודול מגיע מהבלופרינט בלבד; חיפוש רשמי ב-help.sap.com לא העלה עמוד הנוקב בו, ולכן יש לאמתו ב-SE37 במערכת "
+        + "היעד), ולדיווח ולערכי בחירה את שכבת ה-CDS של ההודעה, על פני SELECT ישיר מהטבלה. לפני שמסתמכים על מבנה הטבלה "
+        + "בהסבה או בפיתוח, לאמת ב-SE11 או ב-ADT במערכת היעד את שם הטבלה, את מפתחה ואת רשימת שדותיה, כי המקורות הרשמיים "
+        + "שנבדקו אינם נוקבים בהם.",
+    },
+    xrefs: [
+      "table:QMEL", "table:QMFE", "table:QMMA", "table:QMSM", "table:QMUR", "table:T352", "table:T352B",
+      "table:T003O", "table:QPGR", "table:QPCD", "tx:SPRO", "tx:OIAL", "tx:QCC0", "tx:IW21", "tx:IW22", "tx:IW51",
+      "tx:QM01", "tx:IQS21", "tx:QS41", "fm:PM_NOTIFICATION_TYPE_READ", "fm:PRIORITY_DETERMINE",
+      "fm:CATALOG_PROFILE_READ", "cds:I_MaintenanceNotification", "enh:exit:QQMA0001", "enh:exit:QQMA0014",
+      "enh:badi:NOTIF_EVENT_SAVE",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: אחת עשרה ריצות של scripts/sap-help-search.mjs ב-2026-09-15, בסקופ SAP_S4HANA_ON-PREMISE ובסקופ SAP_ERP "
+      + "('TQ80', 'TQ80 notification type table', 'notification type Customizing maintenance notification catalog "
+      + "profile', 'Overview of Notification Type failure effects catalog type assign', 'notification type CDS view "
+      + "Virtual Data Model maintenance notification type', 'Notification Type value help I_PMNotificationTypeStdVH', "
+      + "'Define Notification Types Customizing number range notification origin', 'Plant Maintenance and Customer "
+      + "Service Notification Creation Notification Types Define Notification Types', 'Customizing Structure for "
+      + "Quality Notifications', 'V_TQ80_C FEKAT catalog type problems notification type', "
+      + "'MEASUREM_DOCUM_RFC_SINGLE_001 valuation code catalog type Customizing Problems notification type'), בתוספת "
+      + "חיפוש רשת מוגבל לדומיינים הרשמיים, קריאה מלאה של רשימת הפישוט הרשמית, ורובד Tier-2 מהמאגר. גוף עמודי ה-Help "
+      + "אינו נשלף: משיכת עמוד תוכן ב-help.sap.com החזירה HTTP 200 במשקל 1,160 בתים, מעטפת JavaScript ללא טקסט תוכן, "
+      + "ולכן כל טענה כאן תחומה לכותרת, לדליברבל ולסניפט של רשומת החיפוש. בדיקה שלילית: הקובץ SIMPL_OP2025.pdf "
+      + "(https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf, 10,585,218 "
+      + "בתים, md5 c1ccf8ebcd92d51fdc80e4b4873f3b73, עמוד השער 'Simplification List for SAP S/4HANA 2025 - Feature "
+      + "Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 - Feature Pack Stack 1', 'Document Version: 1.36') "
+      + "הורד ונקרא במלואו, 70,529 שורות טקסט מחולץ: אפס מופעים של TQ80, וגם אפס מופעים של QMEL, TQ85, T352 ו-QPCD. "
+      + "פריט הפישוט היחיד שנוגע להודעות הוא 4.1.7 'S4TWL - Changes In List Reports For Order and Notification' (רכיב "
+      + "PM-WOC-MO, הערת Business Impact שמספרה 0002270108), והוא עוסק בדוחות רשימה ובהכנה שלפניהם (הרצת "
+      + "QM_PHASE_FILL ו-RIAFVC_IPHAS_FILL, ההערות 393393 ו-551133, ומעבר מ-IW37 ומ-IW49 אל IW37n ו-IW49n) ולא בהגדרת "
+      + "סוג ההודעה. עמודים רשמיים נוספים שנצפו ולא נפתחו כרשומות ראיה נפרדות: 'Changing the Notification Type' "
+      + "(Maintenance Management, 2025.001, loio 586aec54823f713be10000000a44176d) הנוקב במסלול הקסטומיזציה של סוגי "
+      + "ההודעה בצד PM; 'Charge Scrap to Supplier' (Quality Management, 2025.001, loio "
+      + "ce8a2a1ddb2d4be8a030a116c4cd12b9) הנוקב במסלול 'Quality Management > Quality Notifications > Notification "
+      + "Creation > Notification Type > Define Notification Types'; 'Detection Methods' (Maintenance Management, "
+      + "2025.001, loio a000c1e811264f94bdba0d82a487e2c1) הקובע 'The detection method groups can be assigned to "
+      + "detection method profiles which can then be assigned to notification types' ו'If notification type has not "
+      + "been configured for a notification, then the detection method profile cannot be assigned to a notification'; "
+      + "'Configuring Events to Adapt the Maintenance Process' (Maintenance Management, 2025.001, loio "
+      + "d3534f0d36934ae392368e032b9b5f88) הקובע 'By linking the overall status profiles to specified notification "
+      + "types and order types, the conditions and sequence of the subphases that you have defined in the overall "
+      + "status profiles take effect'; 'FAQs - Maintenance Request' (Maintenance Management, 2025.001, loio "
+      + "27db6e8b4a9a49789c4b412c00b3bc97) הקובע 'If the catalog profile for the technical object or the notification "
+      + "type is not maintained correctly or if the relevant catalog types are not assigned to the notification type "
+      + "in Customizing, you cannot [...] select a failure mode or a failu[re effect]'; 'Failure Data' (Maintenance "
+      + "Management, 2025.001, loio 0aef5bdf2f514e1a83f50b7e3dc52315) הממליץ על השיוכים 'Coding D (Coding) Recording "
+      + "failure modes Failure Effects 6 (Effects) Recording failure effects' בפעילות 'Change Catalogs and Catalog "
+      + "Profile for Notification Type'; \"Settings for Notification Type 'PM Notification'\" (Production Planning and "
+      + "Control, 2025.001, loio 44d3b65334e6b54ce10000000a174cb4) המדגים הקמת סוג הודעה חדש עם 'Notification Origin: "
+      + "General PM Notification Catalog Profile: 000000001 General Catalog Profile'; ושתי רשומות What's New על מבנה "
+      + "ה-IMG של הודעות האיכות, 2021 (loio 079f0740dd0741a6b89c8e8dd82a39fd, 'The Customizing structure for quality "
+      + "notifications in the SAP Reference IMG has changed' ו'the activity Define Number Ranges was renamed to "
+      + "Define Number Ranges for Notification Type') ו-2022 (loio 5bbc3fed07c94561835b552a63fbf1f6). מה שלא אומת "
+      + "ודורש בדיקה במערכת: הקשר בין אובייקט הקסטומיזציה V_TQ80_C לבין טבלת DDIC בשם TQ80, רשימת השדות (QMART, "
+      + "QMTYP, RBNR, AUART), הטיפוסים והאורכים, והטבלה שבה נשמר השדה שנוסף ב-2023 FPS02. חיבור ה-MCP של sc4sap (SE11 "
+      + "חי) נכשל בסשן הזה ולא נעשתה שום בדיקה במערכת חיה; קטלוג פריטי הפישוט ב-launchpad.support.sap.com דורש הזדהות "
+      + "S-user ולא נבדק; לא נטען כאן שום מספר SAP Note או KBA מעבר למספרים שמודפסים בגוף ה-PDF שנקרא. סתירה פנימית "
+      + "במאגר שלא הוכרעה: הבלופרינט רושם 'OIAL (פריסת מסך)' כטרנזקציה של סוג ההודעה, בעוד data/table-enrichment.ts "
+      + "רושם 'סוגי הודעה (OIM11/SPRO)'; חיפוש רשמי על שני הקודים לא העלה עמוד הנוקב באף אחד מהם בהקשר הזה, ו-OIM11 "
+      + "אינו קיים ביקום המזהים של הפרויקט, ולכן ה-xrefs כוללים את OIAL, SPRO ו-QCC0 בלי להכריע מי מהם התחזוקה בפועל. "
+      + "אי-דיוק נוסף בבלופרינט: שלושת הקשרים מסומנים כך ש-QMEL היא 'parent' ואילו T352 ו-T003O הן 'child', בעוד "
+      + "המפתחות הזרים RBNR ו-AUART יוצאים מ-TQ80 אל שתי הטבלאות האלה, כלומר TQ80 היא הצד התלוי. פריטים שנצפו ואין "
+      + "להם ייצוג ביקום הדאטהסט ולכן אין להם xref: הטבלאות TQ80_T, T356, TQ85 ו-TJ20, תצוגות ה-CDS "
+      + "I_PMNotificationTypeStdVH ו-I_PMNotificationTypeText ('Notification Type (Value Help)', Virtual Data Model "
+      + "and CDS Views, 2023.latest, loio 08fd319a580c464e95d9600adb415fb2, 'This view provides value help for "
+      + "NotificationType'), וה-BAdI EAM_NOTIFICATION_FIELD_CONTROL. הטרנזקציות IQS21 ו-IW37n כן קיימות ביקום המזהים; "
+      + "IQS21 נוספה ל-xrefs (התיעוד הרשמי של QM נוקב בה כטרנזקציית שינוי סוג ההודעה הלא-QM-ספציפית), ו-IW37n נותרה "
+      + "מחוץ לרשימה משום שהיא שייכת לפריט הפישוט של דוחות הרשימה ולא להגדרת סוג ההודעה. סטטוס נגזר קודם: לפני הרשומה "
+      + "הזו הציגה האפליקציה עבור TQ80 סטטוס 'ללא שינוי' שנגזר מעמודת ה-S/4 של הבלופרינט (fromBlueprintClass, "
+      + "derivedFrom: blueprint) בלי release ובלי מקור; הרשומה הזו מחליפה אותו בפסיקת 'משתנה' הנשענת על רשומת "
+      + "ה-What's New של 2023 FPS02. עקביות מול רשומות אחרות: table:QMEL נכתבה בבאץ' 5 כ'ללא שינוי' והיא מפנה "
+      + "ל-table:TQ80; אין בכך סתירה, משום ש-QMEL היא טבלת כותרת ההודעה ואילו הרשומה הזו עוסקת בתוכן הקסטומיזציה של "
+      + "סוג ההודעה, ורשימת הפישוט שנקראה במלואה אינה נוקבת באף אחת מהשתיים.",
+  },
+
+  /* --------------------------------------------------------- table:T003O */
+  {
+    id: "table:T003O",
+    aliases: ["t003o"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Application Customizing (PM-SMA-SC/PM-WOC-MO) | Data Archiving in Plant Maintenance and Customer Service "
+          + "(PM/CS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/52a0ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מסמך הארכוב הרשמי של תחזוקת מפעל ושירות (PM/CS) בגרסת 2025 FPS01 קובע בסניפט: 'You can configure residence "
+          + "times in Customizing under Plant Maintenance and Customer Service Maintenance and Service Processing "
+          + "Maintenance and Service Orders Functions and Settings for Order Types', ובאותו סניפט 'Configure Order Types' "
+          + "וכן 'One of the checks concerns the residence times. Residence times are part of the order type'. כלומר "
+          + "בגרסה זו צומת ה-Customizing 'Functions and Settings for Order Types' ופעילות 'Configure Order Types' של סוגי "
+          + "פקודות אחזקה ושירות קיימים ופעילים, וזמני השהייה (residence times) לארכוב הם חלק מהגדרת סוג הפקודה. הסניפט "
+          + "אינו נוקב בשם הטכני של טבלת האחסון.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Prerequisites (PP-PI) | Data Archiving in Production Planning and Control (PP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/9770bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "נושא Archiving Prerequisites (PP-PI) במדריך הארכוב של תכנון וייצור בגרסת 2025 FPS01 קובע בסניפט: 'Residence "
+          + "times are part of the order type', ומפנה לפעילות ה-Customizing של תעשיות תהליכיות: 'To set residence times "
+          + "in Customizing for Process Orders, choose Master data Order Define order types' (בסניפט המילה מופיעה מפוצלת, "
+          + "'P rocess Orders', בשל תגיות העיצוב). כלומר בגרסה זו פעילות ה-Customizing 'Define order types' של צווים "
+          + "תהליכיים קיימת תחת Master data / Order, וזמני השהייה נשמרים ברמת סוג הצו. הסניפט אינו נוקב בשם הטכני של טבלת "
+          + "האחסון.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Functional Area in Internal Orders | General Ledger Accounting (FI-GL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/3884cd53d7667514e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "נושא Functional Area in Internal Orders בחשבונאות ראשית (FI-GL) בגרסת 2025 FPS01 קובע בסניפט: 'You can enter "
+          + "the functional area in the master data of internal orders', וממשיך 'You can use this to check whether the "
+          + "functional area in the master data matches the functional area in the order type. You can also define your "
+          + "own checks in this user exit'. כלומר ההשוואה בין התחום התפקודי שבנתוני האב לבין התחום התפקודי שבסוג הפקודה, "
+          + "ואפשרות הרחבתה ב-User Exit, עודן מתועדות רשמית בגרסה הנוכחית, ולא רק בתיעוד R/3 4.6C. הסניפט אינו נוקב בשם "
+          + "טבלה כלשהו, ובכלל זה אינו מזכיר את T003O.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "How to validate the functional area in a user exit | SAP Library, SAP R/3 4.6C (saphelp_46c)",
+        product: "SAP R/3 4.6C (SAP Library)",
+        edition: "ecc",
+        release: "4.6C",
+        url: "https://help.sap.com/saphelp_46c/helpdata/en/63/03d33e7a16d311ae620060b03c9bbe/content.htm?no_cache=true",
+        accessedAt: DATE4,
+        claim:
+          "העמוד היחיד ב-help.sap.com שנמצא בסבב זה ונוקב בשם הטכני T003O הוא עמוד דוגמה בספריית R/3 4.6C (עמוד סטטי "
+          + "ללא loio/versionId, נפתח דרך הפניה ל-?no_cache=true; productID 'SAP R3', version '4.6C', topicID "
+          + "6303d33e7a16d311ae620060b03c9bbe), וגוף הטקסט שלו נקרא במלואו ולא רק כסניפט. הוא מציג קוד ABAP להרחבת SAP‏ "
+          + "COOPA_01 (פונקציה EXIT_SAPLRKIO_001, אינקלוד ZXAUFU01) ובו, כלשונו: 'TABLES: T003O.', ההערה '* read order "
+          + "type from database:' ואחריה 'SELECT SINGLE * FROM T003O WHERE AUART = I_AUFK-AUART.', וכן 'IF ( "
+          + "T003O-FUNC_AREA <> SPACE ).'. מכאן שבגרסת R/3 4.6C T003O היא הטבלה שממנה נקרא סוג הפקודה לפי השדה AUART "
+          + "בהתאמה ל-AUFK-AUART, ויש בה שדה FUNC_AREA. העמוד מגביל את עצמו במפורש: 'SAP enhancement COOPA_01 is only "
+          + "valid for internal orders.', ולכן ההקשר הוא הזמנות פנימיות ולא פקודות אחזקה או צווים תהליכיים. הערה לשקיפות: "
+          + "פסקת הפרוזה באותו עמוד כותבת 'the order type (table T0030)' ו-'(LS_T0030-FUNC_AREA)' עם הספרה אפס, בעוד הקוד "
+          + "באותו עמוד כותב T003O עם האות O. זהו מקור מגרסת R/3 4.6C בלבד, ואין בו אמירה על S/4HANA.",
+        verificationLevel: "legacy_context_only",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הבלופרינטים של PM ושל PP-PI ושכבת ההעשרה של הפרויקט, רשומת T003O",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט של PM (נושא 7, פקודות עבודה) מתאר את T003O כ'סוגי פקודה (הגדרה)' / 'Order Types (Customizing)', "
+          + "מציין טרנזקציות 'SPRO; OIOA, KOT2_OPA', 'אין Fiori ייעודי (Customizing)', הערת S/4 'ללא שינוי (Customizing "
+          + "תואם)', טבלה חליפית 'T003O (זהה)', טרנזקציה חליפית 'SPRO/OIOA (זהה)' והערת SUM 'ללא פעולת המרה ייעודית ב-SUM "
+          + "(טבלה תואמת). מומלץ Regression Test ואימות התאמות אישיות לאחר ההמרה'. השדות שם: AUART (PK, סוג פקודה), AUTYP "
+          + "(קטגוריית פקודה, 30=PM), STSMA (FK, פרופיל סטטוס), NUMKR (טווח מספרים); הקשרים: AUFK.AUART = T003O.AUART, "
+          + "TQ80.AUART = T003O.AUART, T003O.STSMA = TJ30.STSMA; הפונקציות ORDER_TYPE_READ ו-CO_BT_ORDER_TYPE_CHECK "
+          + "והתוכנית RIAUFK20. הבלופרינט של PP-PI (נושא 7, קונפיגורציה) מוסיף הערת S/4 'ללא שינוי (Customizing).', "
+          + "קטגוריה 40 לצו תהליכי, את השדה NUMKI (טווח מספרים פנימי, CHAR 2), טיפוסים AUART CHAR 4, AUTYP NUMC 2, STSMA "
+          + "CHAR 8, ואת הקשר TCO01.AUART = T003O.AUART. שכבת ההעשרה (trust‏ verified) מוסיפה מפתח ראשי MANDT + AUART, "
+          + "טקסטים בטבלה T003P ותחזוקה ב-SPRO / OIOA (PM) / OPJH (PP), אך מונה שם 'STSMA → TJ20 (Status profile)' ולא "
+          + "TJ30. כל הפרטים האלה הם רובד המאגר בלבד ולא אומתו מול מקור SAP רשמי בסבב זה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:T003O, data/sapData.pppi.ts#PP-PI:T003O, data/table-enrichment.ts#T003O",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "אף מקור SAP רשמי בגרסת S/4HANA שנבדק בסבב זה אינו נוקב בשם הטכני T003O, ולכן מצב הטבלה ב-S/4HANA לא הוכרע "
+        + "כאן. מה שכן אומת רשמית לגרסת 2025 FPS01: אובייקט סוג הפקודה ופעילויות ה-Customizing שלו חיים בשני המודולים, "
+        + "'Functions and Settings for Order Types' ו'Configure Order Types' בתחזוקת מפעל ושירות, ו'Define order types' "
+        + "תחת Master data / Order בצווים תהליכיים, זמני השהייה לארכוב נשמרים ברמת סוג הפקודה, וההשוואה בין התחום "
+        + "התפקודי שבנתוני האב לבין זה שבסוג הפקודה עדיין מתועדת ב-FI-GL וניתנת להרחבה ב-User Exit. השם הטכני T003O "
+        + "עצמו מאומת רק מתיעוד R/3 4.6C, ושם בהקשר הזמנות פנימיות בלבד, שבו נקרא סוג הפקודה בפקודת SELECT לפי AUART "
+        + "מול AUFK-AUART. קיומה של פעילות ה-Customizing אינו מוכיח שטבלת האחסון נותרה T003O, ולכן פסיקת ה'ללא שינוי' "
+        + "שבשני הבלופרינטים היא פסיקת מקור שלא נתמכה בראיה רשמית. לא נמצאו בסבב זה פריט פישוט (Simplification Item), "
+        + "רשומת What's New או יורשת הנוגעים לטבלה.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE11 או ב-ADT במערכת היעד שהטבלה T003O קיימת, מהו מפתחה (לפי המאגר MANDT + AUART) ומהי רשימת שדותיה, "
+        + "לפני הסתמכות עליה בהסבה, בקוד מותאם או בדוח. עד לאימות אין להציג את הערת 'ללא שינוי' שבבלופרינט כפסיקה "
+        + "מאומתת. לתחזוקת סוגי הפקודה יש לעבוד דרך פעילויות ה-Customizing המתועדות ולא בעדכון ישיר של הטבלה: בתחזוקת "
+        + "מפעל ושירות דרך Plant Maintenance and Customer Service / Maintenance and Service Processing / Maintenance "
+        + "and Service Orders / Functions and Settings for Order Types / Configure Order Types (הבלופרינט נוקב ב-SPRO "
+        + "ו-OIOA, ו-KOT2_OPA להזמנות פנימיות), ובתעשיות תהליכיות דרך Master data / Order / Define order types. לאחר "
+        + "ההמרה להריץ בדיקות רגרסיה לכל קוד מותאם שקורא ישירות מ-T003O ולהרחבות ול-User Exits שקוראים את סוג הפקודה, "
+        + "ולוודא שזמני השהייה שהוגדרו בסוג הפקודה עדיין תקפים לפני הרצת ארכוב.",
+    },
+    xrefs: [
+      "table:AUFK", "table:AFIH", "table:AFKO", "table:TCO01", "table:T399X", "table:TJ30", "table:TQ80", "tx:SPRO",
+      "tx:OIOA", "tx:KOT2_OPA", "tx:IW31", "tx:COR1", "fm:ORDER_TYPE_READ", "fm:CO_BT_ORDER_TYPE_CHECK",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: ריצות חוזרות של scripts/sap-help-search.mjs בשלושה סקופים (SAP_S4HANA_ON-PREMISE, SAP_ERP, "
+      + "SAP_S4HANA_CLOUD) וחיפושי רשת מוגבלי דומיין (help.sap.com, api.sap.com, fioriappslibrary, fal). מגבלת ערוץ "
+      + "שיש להכיר: מנוע החיפוש של help.sap.com מפרק את המחרוזת T003O ומחזיר התאמות ל-T003/T003T (סוגי מסמך ב-FI) "
+      + "ולתוכן FI/GRC לא קשור, ולכן היעדר תוצאה אינו הוכחה שהשם אינו מופיע באיזשהו עמוד. גופי עמודי /docs אינם "
+      + "נשלפים: שלוש כתובות הראיה הרשמיות מחזירות מעטפת JavaScript של 1,160 בתים (HTTP 200, נבדק בפועל), ולכן שלוש "
+      + "הטענות בדרג 1 חסומות לכותרת ולסניפט של רשומת החיפוש. לעומת זאת עמוד ה-R/3 4.6C הוא HTML סטטי: הכתובת הבסיסית "
+      + "מחזירה HTTP 302 והצורה ?no_cache=true מחזירה HTTP 200 ו-10,295 בתים, גופו נקרא, והציטוטים שברשומה הם מהטקסט "
+      + "שנקרא. אזהרה על כלי ביניים: סיכום אוטומטי של אותו עמוד החזיר את פסקת הפרוזה כ'table T003O', בעוד ה-HTML כותב "
+      + "שם 'table T0030' ו-'LS_T0030-FUNC_AREA'; רק הקריאה הישירה מהקובץ שימשה לניסוח. רשומות רשמיות נוספות שנצפו "
+      + "ולא נרשמו כראיה מפני שאינן נוגעות לטבלה: 'Phase-Based Maintenance Order Types' (Maintenance Management, "
+      + "2025.001, loio cbe10f2bb58442dea9b1ddf2a58ee54e), שלפי הסניפט 'Maintenance orders are classified by their "
+      + "order type' ו'The phase-based maintenance process supports the business processes Reactive Maintenance and "
+      + "Proactive Maintenance'; המשפט 'The order type determines the process phases that the maintenance order runs "
+      + "through' שייך לנושא אחר, 'Phase-Based Maintenance Process' (Maintenance Management, 2025.001, loio "
+      + "cb2e1f231724477bbbab7a1a71a1fe64), ונרשם כאן בייחוס הנכון; 'Maintenance Order Types' (Maintenance "
+      + "Management, 2025.001, loio 5fbd47786341411992fc9915284da2b2); 'Customizing for Procurement' (What's New in "
+      + "SAP S/4HANA 2021, loio e9ec8679f2764234a9e5ecaa978adb8b), שלפי הסניפט צומת 'Functions and Settings for Order "
+      + "Types' מקבץ כמה פעילויות Customizing של רכש חיצוני בפקודות אחזקה; ו'Functional Area in Master Data' (General "
+      + "Ledger Accounting (FI-GL), 2025.001, loio 4350d7531a4d424de10000000a174cb4), שמונה 'Order type' בין אובייקטי "
+      + "נתוני האב שניתן להוסיף להם תחום תפקודי. פריטים שנצפו ואין להם מזהה בר-פענוח בדאטהסט ולכן אין להם xref: "
+      + "הטרנזקציה OPJH (הגדרת סוגי צו ייצור ותהליך לפי data/pppi-config-tree.ts ו-data/table-enrichment.ts), טבלת "
+      + "הטקסטים T003P, הטבלה TJ20, ההרחבה COOPA_01 והפונקציה EXIT_SAPLRKIO_001 (שתיהן מעמוד 4.6C ורק בהקשר הזמנות "
+      + "פנימיות), והתוכנית RIAUFK20 שבבלופרינט. tx:COR4 לא נכלל ב-xrefs כי data/tx-intel.ts מייחס אותו לפרמטרים "
+      + "תלויי סוג צו (T399X, TCO41, TCO43) ולא לטבלת סוגי הצו עצמה. עוד לתשומת לב: הבלופרינט של PM נוקב בשדה NUMKR "
+      + "ואילו הבלופרינט של PP-PI נוקב ב-NUMKI לאותה טבלה; שכבת ההעשרה מפנה את STSMA ל-TJ20 ואילו הבלופרינט מפנה אותו "
+      + "ל-TJ30; ואף אחת מהסתירות לא הוכרעה מול DDIC. טיפוסי הנתונים והאורכים קיימים רק ברשומת PP-PI. חיבור ה-MCP של "
+      + "sc4sap (SE11 חי) נכשל בסשן זה, ולכן רשימת השדות, המפתח והקיום בגרסת היעד נשארים לא מאומתים מול מערכת. לא "
+      + "נטען שום מספר SAP Note, לא נבדק פריט בקטלוג הפישוט (נדרשת הזדהות S-user) ולא הומצא שום מזהה.",
   },
 ];
