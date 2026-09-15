@@ -25,7 +25,13 @@
    Batch 6 (2026-09-15): 7 more records (COBRA (the batch-5 refusal, now resolved),
    QMUR, STAS, STPU, STZU, QPCD, QMAT) - the BOM selection/sub-item/admin tables plus
    the notification-cause, catalog-code and inspection-setup tables - each merged from
-   its adversarial verdict (fixedRecord); table:QPGR refuted and queued. */
+   its adversarial verdict (fixedRecord); table:QPGR refuted and queued.
+   Batch 7 (2026-09-15): 8 more records (CRFH, FHMI, AFFH, AFWI, CRCA, KAKO, KAZT, CRVD_A) - the production
+   resource/tool family plus the work-center capacity family - each merged from its adversarial verdict
+   (fixedRecord where one was supplied, otherwise the listed downgrades applied to the draft); none refuted.
+   Four of the eight are written verification_required on purpose (FHMI, AFWI, KAZT, CRVD_A): no official page
+   names those tables, and the official documentation attributes the same content to other technical names
+   (PLFH, AFWIS, KAZY/KAPA). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -11299,5 +11305,1486 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       + "Search Fields for Material Selection in Transaction QA08', אך פריסת הטבלה בסניפט משובשת ואי אפשר לקבוע "
       + "מתוכה איזה מספר הוא SAP Note ואיזה מזהה שיפור, ולכן לא נרשם מספר. כן נלמד ממנה שרכיב היישום של הגדרות אב "
       + "החומר בתחום האיכות הוא QM-PT-BD-MM ושהטרנזקציה QA08 עדיין מקבלת שיפורים ב-S/4HANA.",
+  },
+  {
+    id: "table:CRFH",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Types of Checks Performed | Product Master",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/bc6b9325fedd4344a84412b2195064fa/1bc030a8228d405fbea7016562fa85f1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד בדיקות אב המוצר לגרסת S/4HANA On-Premise 2025 FPS01 נוקב בטבלה CRFH בשמה הטכני ומצמיד לה את "
+          + "התיאור שהתיעוד מייחס לה, 'CIM production resource/tool master data (CRFH)', ברשימת טבלאות אב הנתונים "
+          + "ששדותיהן ניתנים להגדרה לאיתור כפילויות: 'The fields in the tables listed below can be configured for "
+          + "matching potential duplicates: General Material Data (MARA) Plant Data for Material (MARC) Storage "
+          + "Location Data for Material (MARD) ... of Material (MKAL) Sales Data for Material (MVKE) CIM production "
+          + "resource/tool master data (CRFH)'. כלומר הטבלה קיימת בשם הזה ובתפקיד של נתוני אב אמצעי ייצור עזר בגרסה "
+          + "הזו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP - Production resource/tool | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/1ecc9ebe2b7b437a849922867c0dc5d2.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "ל-S/4HANA On-Premise 2025 FPS01 קיים אובייקט הגירה ייעודי לאמצעי ייצור עזר, PP - Production "
+          + "resource/tool, בנפרד מאובייקט ההגירה של מרכז העבודה: 'This migration object enables you to migrate "
+          + "production resource/tool (PRT) data from the source ERP system to the target system based on the "
+          + "default selection'. הרכיב לפי הסניפט הוא 'Component: PP-BD-PRT', האובייקט העסקי הקשור הוא 'Related "
+          + "Business Object: Production Resource/Tool', ונתיב תפריט המשתמש נפתח ב-'User Menu Path: Logistics "
+          + "Production - Process Master Data Production Resources/Tools Production Resources/Tools' (הסניפט נקטע "
+          + "בנקודה זו). לאימות הנתונים לאחר ההגירה מונה העמוד 'Activity Transaction Code Change CF02 Display CF03' "
+          + "וכן 'Production Resource/Tool Display PRT (app ID CF03)'. האסימון CNV_PE_S4_PP_MISC_PRT מופיע בסניפט "
+          + "תחת התווית 'Function Module: CNV_PE_S4_PP_MISC_PRT' ולצד המשפט 'A migration-specific function module "
+          + "is used in this migration', כלומר מודול פונקציה ייעודי להגירה ולא השם הטכני של אובייקט ההגירה. הטענה "
+          + "מאחדת שלושה חלונות סניפט של אותו loio שהוחזרו בשלוש ריצות חיפוש שונות באותו יום.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Resource Tool Master Data | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/33ac5cbec3134f29879423354dfe27b4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד ה-Virtual Data Model (‏2023 Latest) מציג תצוגת CDS ייעודית לנתוני אב אמצעי הייצור העזר: "
+          + "'Production Resource Tool Master Data CDS View Name I_ProdnRsceToolMasterData Data Category Basic, "
+          + "Dimension Status Released'. בין המאפיינים הראשיים לפי הסניפט: 'Production Resource Tool Internal ID', "
+          + "'Production Resource Tool Category (Material, Equipment, Miscellaneous and Document)', 'Production "
+          + "Resource Tool Group 1 and 2' ו-'Production Resource Tool Usage'. בדרישות המוקדמות נוקב הסניפט באובייקט "
+          + "ההרשאה 'Production Resource Tool Master Data (C_CRFH_BRG)'. הסניפט אינו נוקב בשם טבלת הבסיס. הטענה "
+          + "מאחדת שני חלונות סניפט של אותו loio: שם התצוגה, קטגוריית הנתונים, הסטטוס ואובייקט ההרשאה בחלון אחד, "
+          + "ורשימת המאפיינים הראשיים בחלון שני.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PRT Assignments to Operations/Phases | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/f984bf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד תעשיות תהליכיות לגרסת 2025 FPS01 קובע שהקצאת אמצעי ייצור עזר נעשית במתכון האב: 'You use this "
+          + "function in master recipes to determine which production resources/tools (PRT) are required to carry "
+          + "out an operation or phase', ומיד לצדה רושם סייג פונקציונלי: 'As PRTs cannot be used in process orders "
+          + "in Release 4.0, this data does not have any functional significance in PP-PI' וכן 'As PRTs cannot be "
+          + "used in process orders at the moment, they do not affect capaci' (הסניפט נקטע). באותו עמוד, בחלון "
+          + "סניפט שני של אותו loio, נקבע גם ש-PRT 'with a PRT master record (miscellaneous) must be released for "
+          + "resource planning in their status'. כלומר רשומת האב של קטגוריית ה-miscellaneous נתחזקת ומוקצית במתכון, "
+          + "אך לפי התיעוד השימוש בה בפקודת התהליך מוגבל.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט, רשומת CRFH",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "העשרה מאומתת במאגר: CRFH היא רשומת האב של אמצעי ייצור עזר (PRT master data) עם מפתח "
+          + "MANDT/OBJTY/OBJID, כלומר אובייקט CIM בעל אותו מבנה מפתח שהמאגר רושם למרכז העבודה CRHD "
+          + "(data/table-enrichment.ts#CRHD: MANDT/OBJTY/OBJID); ההקצאה לפעולה נשמרת ב-AFFH דרך OBJTY+OBJID, ו-PRT "
+          + "יכול להיות מנוהל גם כחומר (MARA), כציוד (EQUI) או כמסמך, ולא רק כרשומת CRFH עצמאית. סטטוס ה-PRT חוסם "
+          + "שימוש בפעולה. אותה רשומת העשרה רושמת גם את קודי הטרנזקציה CF01/CF02/CF03 לתחזוקת אמצעי העזר.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#CRFH",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת CRFH, נתוני אב אמצעי הייצור העזר (PRT) מקטגוריית miscellaneous, פעילה ב-S/4HANA On-Premise נכון "
+        + "ל-2025 FPS01, ולא נמצאה לה בחיפושים שבוצעו טבלה חליפית, פריט פישוט או הודעת ביטול: עמוד בדיקות אב המוצר "
+        + "של אותה גרסה נוקב בה בשמה הטכני ובתיאור 'CIM production resource/tool master data (CRFH)', לגרסה הזו "
+        + "קיים אובייקט הגירה ייעודי PP - Production resource/tool, ותצוגת ה-CDS ‏I_ProdnRsceToolMasterData בסטטוס "
+        + "Released מפרסמת את נתוני אב ה-PRT. התשובה לשאלת ההפרדה ממרכז העבודה: התיעוד הרשמי מטפל ב-PRT כאובייקט "
+        + "עסקי נפרד, עם רשומת אב משלו לקטגוריית ה-miscellaneous, לצד קטגוריות PRT של חומר, ציוד ומסמך, בעוד CRHD "
+        + "היא כותרת מרכז העבודה והמשאב; המשותף הוא מבנה מפתח CIM מסוג OBJTY/OBJID, שהוא ממצא ברמת נתוני הפרויקט "
+        + "ולא ציטוט מעמוד רשמי. סייג ענפי שנרשם כראיה 4: תיעוד תעשיות תהליכיות לאותה גרסה קובע ש-PRT אינו שמיש "
+        + "בפקודת התהליך ושלנתונים שהוקצו במתכון האב אין משמעות פונקציונלית ב-PP-PI. לכן האסימון 'ללא שינוי' מתייחס "
+        + "לקיום הטבלה, לשמה ולמבנה שלה, ולא לרוחב השימוש בה בתהליכי PP-PI.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Types of Checks Performed | Product Master",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/bc6b9325fedd4344a84412b2195064fa/1bc030a8228d405fbea7016562fa85f1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד בדיקות אב המוצר לגרסת S/4HANA On-Premise 2025 FPS01 נוקב בטבלה CRFH בשמה הטכני ומצמיד לה את "
+          + "התיאור שהתיעוד מייחס לה, 'CIM production resource/tool master data (CRFH)', ברשימת טבלאות אב הנתונים "
+          + "ששדותיהן ניתנים להגדרה לאיתור כפילויות: 'The fields in the tables listed below can be configured for "
+          + "matching potential duplicates: General Material Data (MARA) Plant Data for Material (MARC) Storage "
+          + "Location Data for Material (MARD) ... of Material (MKAL) Sales Data for Material (MVKE) CIM production "
+          + "resource/tool master data (CRFH)'. כלומר הטבלה קיימת בשם הזה ובתפקיד של נתוני אב אמצעי ייצור עזר בגרסה "
+          + "הזו.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction:
+        "להמשיך להשתמש ב-CRFH כרשומת האב של אמצעי ייצור עזר מקטגוריית miscellaneous; אין פעולת הסבה "
+        + "נדרשת לטבלה עצמה, ומומלץ Regression Test להתאמות אישיות הקוראות אותה יחד עם AFFH דרך OBJTY+OBJID. לפני "
+        + "תכנון שימוש ב-PRT בתהליכי PP-PI לקרוא את הסייג שנרשם בראיה 4: לפי תיעוד 2025 FPS01 אמצעי ייצור עזר אינם "
+        + "שמישים בפקודת התהליך, וההקצאה במתכון האב אינה בעלת משמעות פונקציונלית ב-PP-PI; מי שמצפה לתכנון קיבולת או "
+        + "לעדכון מונה שימוש דרך פקודת תהליך צריך לאמת את ההתנהגות במערכת לפני שמסתמך עליה. בהסבה לעבוד עם אובייקט "
+        + "ההגירה הייעודי PP - Production resource/tool ב-Migration Cockpit, בנפרד מאובייקט ההגירה של מרכז העבודה; "
+        + "האסימון CNV_PE_S4_PP_MISC_PRT הוא מודול פונקציה ייעודי להגירה לפי הסניפט ולא שם אובייקט ההגירה, ואין "
+        + "להזין אותו כשם אובייקט. לצריכה אנליטית ולפיתוח חדש להעדיף את תצוגת ה-CDS המשוחררת "
+        + "I_ProdnRsceToolMasterData על פני SELECT ישיר מהטבלה, ולהביא בחשבון את אובייקט ההרשאה C_CRFH_BRG. קודי "
+        + "טרנזקציה: עמוד ההגירה מונה CF02 לשינוי ו-CF03 להצגה, ונתוני ההעשרה של הפרויקט "
+        + "(data/table-enrichment.ts#CRFH) רושמים CF01/CF02/CF03 באותו כיוון; לעומתם הבלופרינט של תעשיות תהליכיות "
+        + "רושם CFC1/CFC2/CFC3, שלא אומתו באף מקור רשמי שנבדק כאן, ולכן יש לאשר אותם במערכת לפני שמסתמכים עליהם. "
+        + "לפני תכנון ארכוב של PRT לראות את ההערה המצוטטת בשדה ההערות מתוך עמוד Deletion of Production "
+        + "Resources/Tools.",
+    },
+    xrefs: ["table:AFFH", "table:CRHD", "table:FHMI", "table:MARA", "table:EQUI", "table:CRVD_A"],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: אחת עשרה ריצות של scripts/sap-help-search.mjs ב-2026-09-15, בהן 'CRFH', 'CIM production "
+      + "resource/tool master data CRFH table', 'fields in the tables listed below can be configured for matching "
+      + "potential duplicates CIM production resource tool master data CRFH', 'PP - Production resource/tool "
+      + "migration object CNV_PE_S4_PP_MISC_PRT', 'CNV_PE_S4_PP_MISC_PRT', 'Production resource tool migration "
+      + "object Activity Transaction Code Change CF02 Display CF03', 'Production Resource Tool Master Data "
+      + "I_ProdnRsceToolMasterData CDS view', 'Production Resource Tool Internal ID Category Group Usage main "
+      + "attributes', 'PRT Assignments to Operations/Phases PRTs cannot be used in process orders functional "
+      + "significance PP-PI', 'CFC1 CFC2 CFC3 production resources tools transaction' ו-'simplification item "
+      + "production resources tools PRT S/4HANA not available restricted'. ארבעת ה-URL הרשמיים הועתקו כלשונם מפלט "
+      + "ה-JSON (loio ו-versionId) וכולם נבדקו ב-curl והחזירו HTTP 200; HTTP 200 אינו ראיה לתוכן, והראיה בפועל היא "
+      + "רשומת האינדקס. גופי דפי ה-Help הם מעטפת JavaScript ולכן כל טענה תחומה לכותרת ולסניפט. שתי ראיות מאחדות "
+      + "חלונות סניפט של אותו loio ומצהירות על כך בגוף הטענה: ראיה 2 מאחדת שלושה חלונות של loio "
+      + "‏1ecc9ebe2b7b437a849922867c0dc5d2, וראיה 3 שני חלונות של loio ‏33ac5cbec3134f29879423354dfe27b4. חיבור "
+      + "ה-MCP למערכת SAP חיה אינו זמין לפי audit/s4-enrichment/MANIFEST.md, ולכן רשימת השדות של CRFH, טיפוסיהם "
+      + "ואורכיהם לא אומתה מול SE11 או ADT. מצב קודם באפליקציה: לא היתה רשומת אימות ל-CRFH, ולכן "
+      + "components/neo-shell/object/object-data.ts גוזרת את הפסיקה מ-s4ClassOf על הערת הבלופרינט 'ללא שינוי.' "
+      + "ומציגה 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט' ובלי מקורות; הרשומה הזו משאירה את אותו טוקן "
+      + "ומוסיפה לו ארבע ראיות רשמיות, מהדורה וגרסה. סתירות ופערים מול נתוני המאגר: (1) קודי טרנזקציה - הסתירה "
+      + "מצומצמת לגיליון הבלופרינט בלבד: data/sapData.pppi.ts רושם ל-CRFH 'CFC1, CFC2, CFC3', ואילו "
+      + "data/table-enrichment.ts#CRFH רושם 'אמצעי עזר (CF01/CF02/CF03) = CRFH' ו-data/knowledge/object-intel.ts "
+      + "משתמש ב-CF01 וב-CF02; העמוד הרשמי מונה CF02 ו-CF03, כלומר שכבת ההעשרה של המאגר תואמת למקור הרשמי "
+      + "והבלופרינט חורג. אף רשומת חיפוש שהוחזרה אינה קושרת את CFC1 עד CFC3 לתחזוקת אמצעי ייצור עזר, והרשומות "
+      + "היחידות בתבנית CFC שהוחזרו נוגעות ל-CFC9 בהקשר CIF של PP/DS. CF01, CF02 ו-CF03 אינם קיימים ביקום המזהים של "
+      + "הדאטהסט (lib/route-manifest.generated.ts מכיל CFC1-CFC3 ו-CFV1-CFV3 בלבד), ולכן לא נרשם עבורם xref מסוג "
+      + "tx. (2) קשר FHMI - הבלופרינט מגדיר את FHMI כאב של CRFH עם הצירוף 'FROM FHMI JOIN CRFH ON FHMI.FHMNR = "
+      + "CRFH.FHMNR', בעוד עמוד Production Resources/Tools בתיעוד אב המוצר (Product Master, 2025.001, loio "
+      + "8915c453f57eb44ce10000000a174cb4) קובע 'The standard system contains the special material type FHMI for "
+      + "production resources/tools', כלומר מציג את FHMI כסוג חומר ולא כטבלה; הצירוף הזה לא אומת ונשאר פתוח. ה-xref "
+      + "ל-table:FHMI נרשם משום שהמזהה קיים ביקום הדאטהסט ומתאר את אותו תחום, ולא כאישור לצירוף. (3) descriptionEn "
+      + "של CRFH בבלופרינט הוא 'Object type (F=PRT)', תווית שדה ולא תיאור טבלה; התיאור שהתיעוד הרשמי מצמיד לטבלה "
+      + "הוא 'CIM production resource/tool master data'. (4) שכבת היציבות - data/s4-impact.ts אינה מכילה את CRFH, "
+      + "ולכן הפסיקה הקודמת נשענה על עמודת s4Note של הבלופרינט בלבד. (5) CRVD_A - שני מקורות הפרויקט אינם מסכימים: "
+      + "data/knowledge/object-intel.ts מציג את CRVD_A כנתוני גרסה של רשומת PRT (CF01/CF02), ואילו "
+      + "data/sapData.pppi.ts מתאר אותו כ'קשרי ברירת מחדל למרכז עבודה' עם קודי CR02 ו-CR03. ה-xref ל-table:CRVD_A "
+      + "נרשם על בסיס הקריאה של object-intel ועל קיום המזהה בדאטהסט בלבד, ואין לו כיסוי במקור רשמי שנבדק כאן. "
+      + "עמודים רשמיים שנראו ולא נרשמו כראיה כדי לשמור על רשומה תחומה: 'Deletion of Production Resources/Tools' "
+      + "(Production Orders (PP-SFC), 2025.001, loio 9002b753128eb44ce10000000a174cb4), שסניפטו קובע 'At present, "
+      + "there is no archiving or deletion program for production resources/tools with a PRT master record' "
+      + "ו-'Immediate deletion You can only use this function for production resources/tools with a PRT master "
+      + "record (miscellaneous)'; 'Production Resources/Tools (PRT)' (Production Planning and Control, 2025.001, "
+      + "loio 4881bd534f22b44ce10000000a174cb4) ו-'Production Resources/Tools' (אותו deliverable, loio "
+      + "71dbbd534f22b44ce10000000a174cb4), שמגדירים 'The business object production resources/tools (PRT) is a "
+      + "moveable operating resource that is used in production or plant maintenance' ומונים את הקטגוריה "
+      + "'Miscellaneous production resources/tools (with a PRT master record), that require less maintenance in the "
+      + "system'; 'Assignment of Production Resources/Tools to Operations' (Production Orders (PP-SFC), 2025.001, "
+      + "loio 9902b753128eb44ce10000000a174cb4); 'Maintenance Planning for Production Resources/Tools' (Production "
+      + "Planning and Control, 2025.001, loio e184bf53f106b44ce10000000a174cb4), שקובע 'As PRTs cannot be used in "
+      + "process orders and process order confirmation at the moment, the usage value and formula do not have any "
+      + "functional significance in PP-PI'; 'Releasing/Locking Production Resources/Tools' (אותו deliverable, loio "
+      + "de84bf53f106b44ce10000000a174cb4); 'Creating PRTs with PRT Master Records (Miscellaneous)' (אותו "
+      + "deliverable, loio d584bf53f106b44ce10000000a174cb4); 'Production Resources and Tools' (Single and "
+      + "Composite Roles (PFCG), 2025.001, loio 0b25bf53d25ab64ce10000000a174cb4, 'Technical name: "
+      + "SAP_PP_SFC_PRT'); 'Production Resource Tool Master Data by Internal Key' (VDM, 2023.latest, loio "
+      + "7abed736def34f499c17df339a685ffe); 'Production Resource Tool Text' (VDM, 2025.001, loio "
+      + "1e92bbccfaf04393a81cf5fb1af7cc42); ו-'PP - Routing' (Data Migration, 2025.001, loio "
+      + "00d3d72c226c418aa8798faf3c76b8f3). תצוגות ה-CDS האלה אינן ביקום ה-CDS של הדאטהסט (39 מזהים "
+      + "ב-lib/route-manifest.generated.ts), ולכן אין xref מסוג cds. אפליקציית Fiori: data/fiori/apps.ts אינו מכיל "
+      + "אפליקציה לאמצעי ייצור עזר, ורשומת What's New in SAP S/4HANA 2021 בשם 'Production Resources/Tools' (loio "
+      + "b943abafa1dc4f7f9c48e6301055ab64, רכיב PP-BD-PRT) מציינת 'These apps enable users to view, create, and "
+      + "update miscellaneous PRTs' ומונה 'App New BJ5 BJ8 PP-BD-PRT' בלי לנקוב במזהה אפליקציה מסוג F, ולכן לא נרשם "
+      + "xref מסוג fiori ולא מזהה F. ממשקים: api.sap.com לא נבדק, אך עמוד רשמי ב-help.sap.com בשם 'Create "
+      + "Miscellaneous PRT (Version 3)' (APIs for Manufacturing, 2025.001, loio 1f4573fd1bee4f6fadad8e2d6ba7c343) "
+      + "נוקב בישות 'MiscProductionResourceTool', ולכן אין לטעון שלא קיים שירות ל-PRT; העמוד לא נרשם כראיה כדי "
+      + "לשמור על רשומה תחומה. לא נרשם שום מספר SAP Note או KBA: me.sap.com דורש התחברות, ואף עמוד ציבורי שנבדק "
+      + "אינו נוקב במספר בהקשר CRFH. קטלוג פריטי הפישוט עצמו (launchpad.support.sap.com) לא נקרא, והממצא השלילי "
+      + "לגבי פישוט נשען על כך שחיפוש ייעודי בעמודי help.sap.com לא החזיר פריט פישוט ל-PRT.",
+  },
+  {
+    id: "table:FHMI",
+    aliases: ["fhmi"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Standard Material Types | Product Master",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/bc6b9325fedd4344a84412b2195064fa/9d7cbd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד סוגי החומר הסטנדרטיים במדריך Product Master לגרסת S/4HANA On-Premise 2025 FPS01 פותח ב'The "
+          + "standard system comes with the following material types' ומונה בהם את FHMI בניסוח 'Production "
+          + "resources/tools (FHMI) Production resources/tools are procured externally and used in production or "
+          + "plant maintenance'. כלומר במקור הרשמי המחרוזת FHMI מופיעה כקוד של סוג חומר (material type) באב המוצר. "
+          + "העמוד אינו נוקב ב-FHMI כשם של טבלה, וזהו העדר אזכור ולא הוכחה שלא קיימת טבלה בשם זה. גוף העמוד הוא "
+          + "מעטפת JavaScript ולא נקרא, ולכן הטענה תחומה לכותרת ולקטע החיפוש של הרשומה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Resources/Tools | Product Master",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/bc6b9325fedd4344a84412b2195064fa/8915c453f57eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד אמצעי הייצור העזר באותו מדריך ובאותה גרסה קובע בתנאים המוקדמים 'The standard system contains the "
+          + "special material type FHMI for production resources/tools', ומוסיף 'The standard system is configured "
+          + "such that the user department Production Resources/Tools appears only for materials of this material "
+          + "type'. הפתיח קובע 'Production resources/tools (PRTs) are mobile operating facilities used in "
+          + "production or plant maintenance', והעמוד מפנה לניהול PRT אל מדריך Routings (PP-BD-RTG). לפי הקטעים "
+          + "שנצפו, נתוני האב של אמצעי ייצור עזר מבוסס חומר נשמרים ברשומת אב המוצר, ומחלקת המשתמש (user department) "
+          + "Production Resources/Tools מוצגת לפי הסניפט רק לחומרים מסוג החומר FHMI.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Task Lists (CS-AG/PM-PRM-TL) | Data Archiving in Plant Maintenance and Customer "
+          + "Service (PM/CS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/617cbe532789b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד הארכוב של רשימות פעולות אחזקה (אובייקט ארכוב PM_PLAN) בגרסת 2025 FPS01 מונה ברשימת הטבלאות "
+          + "המאורכבות את 'PLFH Production resources/tool assignments', לצד 'PLPO Operations', 'PLAS Assignments of "
+          + "operations to sequences', 'PLMZ Material component assignments' ו-'PLWP Maintenance package "
+          + "assignments'. כלומר שיוך אמצעי ייצור עזר לפעולות של רשימת פעולות מתועד רשמית בטבלה PLFH. השם FHMI אינו "
+          + "מופיע ברשימה שנצפתה, וזהו העדר אזכור ולא הוכחה שלא קיימת טבלה בשם זה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הבלופרינט של PP-PI ושכבת ההעשרה של הפרויקט - רשומת FHMI",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט של PP-PI (נושא 3, מתכון ייצור ופעולות) רושם את FHMI כטבלה בשם 'אב אמצעי ייצור (PRT) - מבוסס "
+          + "חומר', עם descriptionEn 'Task list type', טרנזקציות CFV1, CFV2 ו-CFV3, הערת S/4 'ללא שינוי' וארבעה "
+          + "שדות: PLNTY, PLNNR, PLNKN ו-FHMNR. שכבת ההעשרה של הפרויקט מחריגה את FHMI במפורש: היא נמנית באחת עשרה "
+          + "הטבלאות שמבנה המפתח והסמנטיקה שלהן, כלשון ההערה בקובץ, could not be confirmed from a trusted source, "
+          + "ולכן הושארו בלי העשרה. FHMI גם אינה נמנית בסט S4_STABLE של data/s4-impact.ts, ולכן הפסיקה 'ללא שינוי' "
+          + "שהאפליקציה מציגה כיום נגזרת מעמודת ה-S/4 של הבלופרינט בלבד ואינה נתמכת בראיה רשמית.",
+        verificationLevel: "verification_required",
+        repoRef:
+          "data/sapData.pppi.ts#PP-PI:FHMI, data/table-enrichment.ts:1115 (never-guess note), "
+          + "data/s4-impact.ts#S4_STABLE",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "שם הטבלה FHMI לא אותר באף מקור SAP רשמי שנבדק בסבב זה. שתים עשרה ריצות של scripts/sap-help-search.mjs "
+        + "בשלושה סקופים (S/4HANA On-Premise 2025 FPS01, SAP ERP 6.0 EHP8 ו-S/4HANA Cloud Public Edition 2608.500) "
+        + "וחיפוש רשת מוגבל לדומיינים הרשמיים החזירו עבור המחרוזת FHMI אך ורק עמודים המתארים סוג חומר באב המוצר, "
+        + "ובראשם 'The standard system contains the special material type FHMI for production resources/tools'. "
+        + "התחום התפקודי שהמאגר מייחס לרשומה, אב של אמצעי ייצור עזר (PRT) מבוסס חומר, מתועד רשמית וחי בגרסת 2025 "
+        + "FPS01 (ראיות 1 ו-2), ושיוך ה-PRT לפעולות של רשימת פעולות מתועד בטבלה PLFH (ראיה 3). מה שטרם אומת הוא עצם "
+        + "קיומו של אובייקט DDIC בשם FHMI, ארבעת השדות שהבלופרינט מייחס לו והפסיקה 'ללא שינוי' שהאפליקציה מציגה.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE11 או ב-ADT במערכת היעד אם קיים אובייקט DDIC בשם FHMI ומהו הטקסט הקצר שלו, לפני "
+        + "הסתמכות עליו בהסבה, בקוד מותאם או בדוח. עד לאימות אין להציג את הערת 'ללא שינוי' שבבלופרינט כפסיקה "
+        + "מאומתת. לעבודה על אב של אמצעי ייצור עזר מבוסס חומר יש לעבוד דרך אב המוצר: סוג החומר FHMI ותצוגת "
+        + "Production Resources/Tools, ביצירה ובתצוגה של החומר (MM01 ו-MM03). לניתוח שיוך PRT לפעולות של רשימת "
+        + "פעולות או של מתכון אב יש לבדוק תחילה את PLFH; לאב של PRT מסוג 'שונות' יש לבדוק את CRFH, ששמה הרשמי 'CIM "
+        + "production resource/tool master data (CRFH)' כבר מצוטט מעמוד רשמי ברשומת MVKE של הפרויקט; ולשיוך PRT "
+        + "לפעולת הזמנת ייצור התיעוד נוקב בטבלה AFFH.",
+    },
+    xrefs: [
+      "table:CRFH", "table:MARA", "table:MARC", "table:PLPO", "table:AFFH", "table:EQUI", "tx:MM01", "tx:MM03",
+      "tx:CA02", "tx:C202", "tx:CFV1", "tx:CFV2", "tx:CFV3",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שתים עשרה ריצות של scripts/sap-help-search.mjs וריצת WebSearch אחת מוגבלת לדומיינים הרשמיים (2026-09-15) "
+      + "לא העלו ולו נושא אחד ב-help.sap.com הנוקב ב-FHMI כטבלה. כל אזכור רשמי של המחרוזת מתאר סוג חומר או קטגוריית "
+      + "מוצר. ראיות נוספות שנצפו ולא נכנסו למכסת הארבע: 'Tool Items in Service Transactions' ב-What's New של "
+      + "S/4HANA ו-Cloud Private Edition 2025 (loio 588bb2d7d13a45cc86a2036ec5294a3d, גרסה 2025.000) שרושם "
+      + "'Technical Object Name Material Type: FHMI', Type New ופריט היקף 41Z, ומנחה להפעיל את מחלקת המשתמש Sales "
+      + "לסוג החומר FHMI; ההמשך ב-FPS01, 'Tool Items Integration with Account Assignment Manager' (loio "
+      + "02ae9e6505da41b387a86848c83351df, Type Changed, 'Material type: FHMI'); ובמהדורת הענן הציבורית 'Production "
+      + "Resources and Tools (PRTs)' במדריך Master Data (loio bc8812ca98384759a4ba24fec972c71c, גרסה 2608.500) "
+      + "הקובע 'You can create or edit production resources/tools (PRT) master record for a product with the "
+      + "product category FHMI and maintenance status F'. כלומר סוג החומר FHMI חי גם ב-2025 וגם במהדורת הענן "
+      + "הציבורית, אך מהדורת הענן לא נחקרה מעבר לכך והרשומה מוגבלת ל-On-Premise / Private Edition. תיקון לרמז "
+      + "שליווה את המשימה: קריאה של FHMI כאב PRT מבוסס ציוד אינה נתמכת. התיעוד הרשמי מפריד בין הקטגוריות, "
+      + "ו'Availability Check for PRTs' במדריך Orders (CS-SE/PM-WOC-MO) בגרסת 2025 FPS01 (loio "
+      + "70c9b65334e6b54ce10000000a174cb4) בודק בנפרד 'production resources/tools of type Equipment' מול "
+      + "'production resources/tools of type Material'; ל-PRT מסוג ציוד נדרשת רשומת אב ציוד לפי 'Creating Equipment "
+      + "Production Resources/Tools' במדריך Task Lists (CS-AG/PM-PRM-TL), loio 2666bd534f22b44ce10000000a174cb4. "
+      + "הכותרת העברית שבבלופרינט, 'מבוסס חומר', היא אפוא הקריאה הקרובה למקור הרשמי. שלוש תקלות בבלופרינט שראוי "
+      + "לתקן בחוברת ולא בשכבת האימות: descriptionEn של הרשומה הוא 'Task list type', כותרת השדה PLNTY שהועתקה "
+      + "כתיאור טבלה (אותה תקלה קיימת ב-PLAS, PLPO, PLFL ו-PLZU); עמודת הפונקציות רושמת BAPI_PROCORD_CREATE "
+      + "ו-BAPI_PROCORD_GET_DETAIL, ממשקי הזמנת תהליך החוזרים כערך ברירת מחדל בשמונה מתוך אחת-עשרה שורות הנושא; "
+      + "ורשימת השדות (PLNTY, PLNNR, PLNKN, FHMNR) היא צורת מפתח של שיוך ברשימת פעולות ולא של רשומת אב, ולא אומתה "
+      + "מול DDIC. גם צמד הטרנזקציות אינו מאושש: אף עמוד רשמי שהוחזר אינו נוקב ב-CFV1, ב-CFV2 או ב-CFV3, ואילו עמוד "
+      + "אובייקט ההמרה 'PP - Production resource/tool' במדריך Data Migration (loio "
+      + "1ecc9ebe2b7b437a849922867c0dc5d2, גרסה 2025.001), שמטרתו להעביר נתוני PRT ממערכת ERP המקור אל מערכת היעד, "
+      + "נוקב דווקא ב-'Activity Transaction Code Change CF02 Display CF03'. CF01, CF02 ו-CF03 אינן קיימות ביקום "
+      + "הטרנזקציות של הדאטהסט (lib/route-manifest.generated.ts), ולכן ה-xrefs משאירים את CFV1 עד CFV3 כפי שהם "
+      + "מופיעים באפליקציה, עם הסתייגות זו. סתירה פנימית שיש להכריע: data/knowledge/pppi-objects-ext.ts (שורה 37) "
+      + "מתאר את FHMI כאב נתונים מבוסס-חומר של PRT, בהתאמה למקור הרשמי, ואילו data/knowledge/object-intel.ts (שורה "
+      + "102) מתאר אותו כאמצעי ייצור עזר מסוג ציוד שאינו מנוהל כחומר במלאי ומייחס לו את BAPI_PRT_FHM_CREATE, "
+      + "BAPI_PRT_FHM_GETDETAIL ו-BAPI_PRT_FHM_CHANGE ואת הטרנזקציות CR01 (יצירה) ו-CR02 (עדכון); שלוש הפונקציות "
+      + "האלה לא הוחזרו באף עמוד רשמי בסבב זה ואין להציגן כמאומתות. פריטים שנצפו ואין להם ייצוג ביקום הדאטהסט ולכן "
+      + "אין להם xref: הטבלה PLFH, הטרנזקציות CF01, CF02 ו-CF03, פריט ההיקף 41Z, ותצוגות ה-CDS Production Routing "
+      + "Material PRT Assignment (I_ProdnRtgMatlPRTAssgmtDEX, loio a11dde0599f2441a96a8ab13a6def80c), Production "
+      + "Routing Equipment PRT Assignment (I_ProdnRtgEquipPRTAssgmtDEX, loio 0963b0afddff40fd8245bef2086f9ad8), "
+      + "Production Routing Miscellaneous PRT Assignment (I_ProdnRtgMiscPRTAssgmtDEX, loio "
+      + "bfa131f1cc8f4482a8d90e9f568f39ee) ו-Production Resource Tool Master Data (loio "
+      + "33ac5cbec3134f29879423354dfe27b4); ה-xref אל AFFH נסמך על תצוגת 'Mfg Order Operation Production Resource "
+      + "Tool' (loio b4941dc927fd4621bf0374821f27d720) הקובעת 'you can retrieve manufacturing order operation "
+      + "production resource / tool data (table AFFH) by internal key'. FHMI אינה מופיעה כלל בבלופרינט של PM "
+      + "(data/sapData.pm.ts), אלא רק בבלופרינט של PP-PI. מה חסר לשדרוג הרשומה: בדיקת SE11 או ADT חיה במערכת היעד "
+      + "(חיבור ה-MCP של sc4sap נכשל בסשן זה), או נושא רשמי ב-help.sap.com הנוקב בשם FHMI כטבלה. לא צוטט מספר SAP "
+      + "Note ולא נבדק פריט בקטלוג הפישוט, ששניהם דורשים הזדהות S-user. גופי עמודי help.sap.com הם מעטפת JavaScript "
+      + "ולא נקראו; כל טענה כאן מוגבלת לכותרת ולקטע החיפוש של הרשומה.",
+  },
+  {
+    id: "table:AFFH",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PRT of a Production Order | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/04687fe01c3f48a8a20266c7a62c9590.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "עמוד מודל הנתונים הווירטואלי הרשמי PRT of a Production Order (סט התיעוד 2023 Latest) נוקב בשם הטכני "
+          + "'CDS View Name I_ProductionOrderPRT', בקטגוריה 'Analytical Data Category Fact' ובאובייקט המיוצג 'This "
+          + "view represents the SAP object type ProductionOrder (BusinessObject)'. סעיף המטרה קובע: 'This CDS view "
+          + "retrieves data for the production resource tool of a production order operation by internal key (table "
+          + "AFFH)'. בין השדות המרכזיים שהעמוד מונה: OrderInternalID ('Order Internal ID'), "
+          + "OrderProdnRsceToolInternalID ('PRT Item Counter'), CreationDate ו-ProductionOrderType, ובין שאלות העסק "
+          + "שהוא נותן להן מענה: אילו משתמשים יצרו או שינו את אמצעי העזר של פעולת פקודת ייצור, ולאילו קטגוריות PRT "
+          + "הם שייכים. הסניפט נוקב בפקודות ייצור בלבד ואינו מזכיר פקודות תהליך או פקודות אחזקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Mfg Order Operation Production Resource Tool | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/b4941dc927fd4621bf0374821f27d720.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "עמוד מודל הנתונים הווירטואלי הרשמי Mfg Order Operation Production Resource Tool (סט התיעוד 2023 "
+          + "Latest) נוקב בשם הטכני 'CDS View Name I_MfgOrderOperationPRT' ובסוג התצוגה 'View Type Composite, "
+          + "Dimension', ומקשר אותה לאובייקט העסקי 'Production Order (Business Object)'. סעיף המטרה קובע: 'With "
+          + "this CDS view, you can retrieve manufacturing order operation production resource / tool data (table "
+          + "AFFH) by internal key'. העמוד מונה בין המאפיינים שהתצוגה מספקת את מזהה ה-PRT הפנימי של הפעולה, מזהה "
+          + "הפעולה של הפקודה, סוג וקטגוריית הפקודה, מפעל הייצור, מזהה ה-PRT, קטגוריית ה-PRT, טקסט ה-PRT ופרופיל "
+          + "הבקרה של ה-PRT, ומציין 'This CDS view does not have any input parameters'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Resources/Tools (PRT) | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/4881bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מדריך Production Planning and Control בגרסת 2025 FPS01 מגדיר: 'The business object production "
+          + "resources/tools (PRT) is a moveable operating resource that is used in production or plant "
+          + "maintenance', וקובע שניתן לשייך PRT 'to the operations and phases in task lists (including standard "
+          + "networks and recipes), production and maintenance orders, and networks requiring them'. אותו עמוד קובע "
+          + "במפורש גם: 'At the moment, you cannot use production resources/tools in the process order', ומוסיף שאם "
+          + "נדרש אמצעי עזר לבדיקות במהלך הייצור ניתן לשייך אותו כציוד בדיקה. הסניפט אינו נוקב בשם טבלה כלשהי, "
+          + "ובכלל זה אינו מזכיר את AFFH.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 Feature Pack Stack 1 and SAP S/4HANA Cloud Private "
+          + "Edition 2025 Feature Pack Stack 1 · item 10.1.59 S4TWL - Production Resources and Tools functions for "
+          + "projects, p. 903 · item 13.12.3 S4TWL - Mill specific enhancements to scheduling PRTs, p. 1202",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE4,
+        claim:
+          "רשימת הפישוט הרשמית של S/4HANA 2025 FPS01 (מסמך PDF ציבורי, Document Version 1.36, שנקרא כטקסט מלא) "
+          + "אינה מכילה את המחרוזת AFFH ולו פעם אחת. שני הפריטים היחידים בה הנוגעים לאמצעי ייצור עזר אינם חלים על "
+          + "שיוך PRT לפעולת פקודת ייצור או פקודת אחזקה. סעיף 10.1.59, 'S4TWL - Production Resources and Tools "
+          + "functions for projects' (רכיב יישום PS, הערה 0002270262), קובע 'Production Resources and Tools "
+          + "functions for projects is part of the SAP S/4HANA compatibility scope', מפנה למזהה 463 במטריצת התאימות "
+          + "המצורפת להערה 2269324, ומגביל במפורש: 'This refers only to the assignment of production "
+          + "resources/tools to internal and external activities in networks or standard networks. The usage of "
+          + "PRTs in other scenarios is not affected by this compatibility scope item'. סעיף 13.12.3, 'S4TWL - Mill "
+          + "specific enhancements to scheduling PRTs' (רכיב יישום IS-MP-PP, הערה 0002270410), קובע 'The mill "
+          + "specific function that enhances the handling of production resources and tools (PRTs) in the context "
+          + "of production orders is not available in SAP S/4HANA', מונה כלא זמינות את הטרנזקציות "
+          + "/SAPMP/TOOL_POOL_CHK ו-/SAPMP/TOOL_REPLACE ואת פעילות ה-Customizing 'Permit Assignment of PRTs to Work "
+          + "Centers', ומסייג 'The PRT handling is reduced only by scope of these mill features'. הפריט מותנה "
+          + "בהפעלת פונקציית העסק DIMP_SDUD ומפנה להערת קוד מותאם 2226674.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "שכבת ההעשרה וידע האובייקטים של הפרויקט, רשומת AFFH",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "רשומת מאגר מסומנת verified: AFFH היא הקצאת אמצעי ייצור עזר לפעולה (PRT allocation to operation), "
+          + "המקשרת כלי, תבנית או מכשיר מדידה לפעולת פקודה או לרשימת פעולות, כולל כמות ותקופת שימוש. המפתח שנרשם "
+          + "הוא MANDT, AUFPL, APLZL ומונה הקצאה נוסף; הקישורים שנרשמו הם AUFPL ו-APLZL אל AFVC, מפתח ה-PRT אל "
+          + "CRFH, ו-EQUNR או MATNR כאשר ה-PRT הוא ציוד או חומר. ההערות מציינות שבפקודה נוצרת AFFH מרשימת הפעולות "
+          + "בעת יצירה או שחרור, ושאיתור ה-PRT בפקודה נעשה דרך CO03 או IW33. שכבת ידע האובייקטים מוסיפה שהיוצר הוא "
+          + "המערכת בעת שחרור הפקודה (CO01 או COR1) והמעדכן הוא מתכנן הייצור (CO02 או COR2).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#AFFH, data/knowledge/object-intel.ts#AFFH",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "blueprint ההגירה של PP-PI, רשומת AFFH",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "חוברת ההגירה של PP-PI (נושא 6, פקודת ייצור ומתכון בקרה) מתארת את AFFH כהקצאת PRT לפעולת פקודה, עם "
+          + "descriptionEn 'Routing number', טרנזקציות 'COR2, CFC2', s4Note 'ללא שינוי.', סטטוס הגירה 'Not "
+          + "started', צירוף 'FROM AFFH JOIN AFKO ON AFFH.AUFPL = AFKO.AUFPL', שלושה שדות (AUFPL NUMC 10 מסומן "
+          + "PK/FK, APLZL NUMC 8 מסומן PK, FHMNR CHAR 18 מסומן FK) והממשקים BAPI_PROCORD_CREATE "
+          + "ו-BAPI_PROCORD_GET_DETAIL לצד הדוחות COOIS ו-COHV. ההסבר שבחוברת מייחס את ה-PRT לפקודת התהליך, וייחוס "
+          + "זה אינו נתמך בתיעוד הרשמי של 2025 FPS01 הקובע שלא ניתן להשתמש ב-PRT בפקודת תהליך. בנוסף, descriptionEn "
+          + "'Routing number' הוא תיאור של שדה AUFPL שהועתק כתיאור הטבלה, והקישור בין CFC2 לבין אמצעי עזר או AFFH "
+          + "לא אותר באף עמוד רשמי שנבדק.",
+        verificationLevel: "verification_required",
+        repoRef: "data/sapData.pppi.ts#PP-PI:AFFH, data/table-tcodes.json#AFFH",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת AFFH (הקצאת אמצעי ייצור עזר לפעולת פקודה) נקובה בשמה בשני עמודי מודל הנתונים הווירטואלי הרשמיים של "
+        + "SAP S/4HANA On-Premise בסט התיעוד 2023 Latest: PRT of a Production Order (שם טכני I_ProductionOrderPRT), "
+        + "הקובע 'This CDS view retrieves data for the production resource tool of a production order operation by "
+        + "internal key (table AFFH)', ו-Mfg Order Operation Production Resource Tool (שם טכני "
+        + "I_MfgOrderOperationPRT), הקובע 'you can retrieve manufacturing order operation production resource / "
+        + "tool data (table AFFH) by internal key'. כלומר הטבלה נקראת על ידי תצוגות CDS של מודל הנתונים הווירטואלי "
+        + "ומשמשת את שכבת הדיווח של S/4HANA. בגרסת 2025 FPS01 התפקוד עצמו מתועד כפעיל: עמוד Production "
+        + "Resources/Tools (PRT) קובע שניתן לשייך PRT לפעולות ולפאזות ברשימות פעולות, בפקודות ייצור ובפקודות אחזקה "
+        + "וברשתות. אף מקור רשמי שנבדק אינו נוקב ביורשת לטבלה, בהוצאתה משימוש או בשינוי מבני שלה, והמחרוזת AFFH "
+        + "אינה מופיעה כלל ברשימת הפישוט של 2025 FPS01 ואף לא ברשימת 2023. שני פריטי הפישוט היחידים הנוגעים ל-PRT "
+        + "בגרסת 2025 FPS01 מוציאים את התרחיש הזה מתחולתם במפורש: סעיף 10.1.59 נוגע ל-Project System ומוגבל לשיוך "
+        + "PRT לפעילויות ברשתות או ברשתות תקן, וקובע שהשימוש ב-PRT בתרחישים אחרים אינו מושפע מפריט התאימות; סעיף "
+        + "13.12.3 מסיר פונקציות Mill ייעודיות בלבד וקובע שצמצום הטיפול ב-PRT מוגבל להיקף אותן פונקציות. סייג מהותי "
+        + "לתעשיות תהליכיות: אותו עמוד רשמי של 2025 FPS01 קובע 'At the moment, you cannot use production "
+        + "resources/tools in the process order', ולכן הייחוס שבחוברת ההגירה של PP-PI, שלפיו AFFH נושאת את אמצעי "
+        + "העזר של פקודת התהליך דרך COR2, אינו נתמך בתיעוד הרשמי. המעמד שהאפליקציה גוזרת כיום, ללא שינוי (class 0, "
+        + "derivedFrom blueprint), נשמר כאן כאסימון אך נשען מעתה על ראיה רשמית ולא על עמודת S/4 בחוברת.",
+      edition: "on-premise",
+      release: "2023.latest",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "PRT of a Production Order | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/04687fe01c3f48a8a20266c7a62c9590.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "עמוד מודל הנתונים הווירטואלי הרשמי PRT of a Production Order (סט התיעוד 2023 Latest) נוקב בשם הטכני "
+          + "'CDS View Name I_ProductionOrderPRT', בקטגוריה 'Analytical Data Category Fact' ובאובייקט המיוצג 'This "
+          + "view represents the SAP object type ProductionOrder (BusinessObject)'. סעיף המטרה קובע: 'This CDS view "
+          + "retrieves data for the production resource tool of a production order operation by internal key (table "
+          + "AFFH)'. בין השדות המרכזיים שהעמוד מונה: OrderInternalID ('Order Internal ID'), "
+          + "OrderProdnRsceToolInternalID ('PRT Item Counter'), CreationDate ו-ProductionOrderType, ובין שאלות העסק "
+          + "שהוא נותן להן מענה: אילו משתמשים יצרו או שינו את אמצעי העזר של פעולת פקודת ייצור, ולאילו קטגוריות PRT "
+          + "הם שייכים. הסניפט נוקב בפקודות ייצור בלבד ואינו מזכיר פקודות תהליך או פקודות אחזקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction:
+        "להמשיך לעבוד מול AFFH כטבלת שיוך אמצעי העזר לפעולת פקודת ייצור ולפעולת פקודת אחזקה, בצירוף "
+        + "AFVC לפעולה ו-AFKO לצורך AUFPL של הפקודה; אין פעולת הסבה לטבלה עצמה. לצריכה אנליטית ולפיתוח חדש להעדיף "
+        + "את תצוגות ה-CDS הרשמיות I_ProductionOrderPRT ו-I_MfgOrderOperationPRT על פני SELECT ישיר, ולאמת ב-View "
+        + "Browser או ב-SE11 במערכת היעד שהן קיימות ומשוחררות בגרסה המותקנת, משום שעמודי ה-VDM שנמצאו מאונדקסים בסט "
+        + "2023 Latest בלבד. בצד תעשיות תהליכיות אין לתכנן תהליך PRT ברמת פקודת התהליך: לפי התיעוד הרשמי של 2025 "
+        + "FPS01 לא ניתן להשתמש באמצעי עזר בפקודת תהליך, ולפי עמוד ה-API ‏Process Order Production Resources/Tools "
+        + "(loio da7919e9f4874f7bbdd56e8adac25f65, 2025.001) שיוך ה-PRT נעשה במתכון האב; יש לתקן בהתאם את שורת AFFH "
+        + "בחוברת ההגירה של PP-PI ולבדוק כל דוח, ממשק או קוד מותאם שנבנה על ההנחה הזו. אם פונקציית העסק DIMP_SDUD "
+        + "פעילה, לבדוק את מצבה ב-SFW_BROWSER ולאתר שימוש ב-/SAPMP/TOOL_REPLACE וב-/SAPMP/TOOL_POOL_CHK, שאינן "
+        + "זמינות ב-S/4HANA לפי סעיף 13.12.3 ברשימת הפישוט. אם קיים שימוש ב-PRT בפעילויות רשת של Project System, "
+        + "לטפל בו כפריט היקף תאימות נפרד (מזהה 463 במטריצת התאימות של הערה 2269324) ולא כחלק מהטבלה הזו. טיפוסי "
+        + "ה-DDIC, אורכי השדות ומבנה המפתח המלא של AFFH לא אומתו מול מערכת חיה, ויש לאמת אותם ב-SE11 לפני הסתמכות "
+        + "עליהם בקוד מותאם.",
+    },
+    xrefs: [
+      "table:AFVC", "table:AFKO", "table:AUFK", "table:CRFH", "table:EQUI", "table:MARA", "tx:CO01", "tx:CO02",
+      "tx:CO03", "tx:COR2", "tx:IW33", "cds:I_ProductionOrderOperation", "fiori:F2336", "fiori:F2731",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שלוש רשומות חיפוש רשמיות (scripts/sap-help-search.mjs, מוצר SAP_S4HANA_ON-PREMISE) הוחזרו שוב "
+      + "ב-2026-09-15 עם אותם loio ו-versionId, והרצת החיפוש החוזרת היא האימות: PRT of a Production Order (loio "
+      + "04687fe01c3f48a8a20266c7a62c9590, versionId 2023.latest, תאריך פרסום 2026-08-05), Mfg Order Operation "
+      + "Production Resource Tool (loio b4941dc927fd4621bf0374821f27d720, 2023.latest, 2026-08-05) ו-Production "
+      + "Resources/Tools (PRT) במדריך Production Planning and Control (loio 4881bd534f22b44ce10000000a174cb4, "
+      + "2025.001). קוד תשובה HTTP על הכתובת אינו הוכחה, משום שמעטפת ה-deliverable מחזירה 200 גם ל-loio שאינו קיים. "
+      + "גופי העמודים לא נקראו (מעטפת JavaScript) וכל טענה תחומה בכותרת ובסניפט שהחיפוש החזיר. מסמך רשימת הפישוט "
+      + "SIMPL_OP2025.pdf נקרא כטקסט מלא מתוך חילוץ שמור בסביבת העבודה (85,712 שורות, md5 של ה-PDF "
+      + "c1ccf8ebcd92d51fdc80e4b4873f3b73, Document Version 1.36), והמדידה שלפיה AFFH מופיעה בו אפס פעמים נעשתה "
+      + "בחיפוש מחרוזת מלא ואומתה גם בחילוץ המקביל של רשימת 2023 (SIMPL_OP2023.txt, אפס מופעים). סתירה מרכזית "
+      + "שנרשמה לתיקון: חוברת ההגירה של PP-PI מייחסת את AFFH לפקודת התהליך (טרנזקציה COR2), ואילו ארבעה עמודים "
+      + "רשמיים בגרסת 2025 FPS01 קובעים את ההפך: Production Resources/Tools (PRT) (loio "
+      + "4881bd534f22b44ce10000000a174cb4) קובע 'At the moment, you cannot use production resources/tools in the "
+      + "process order'; עמוד ה-API Process Order Production Resources/Tools (loio "
+      + "da7919e9f4874f7bbdd56e8adac25f65) קובע על הישות A_ProcessOrderProdnRsceTools_2: 'Caution Currently, "
+      + "production resources/tools for process manufacturing are assigned to the master recipe and not to the "
+      + "process order', ומוסיף 'Production resources/tools data is therefore not available on order level. Any "
+      + "operation you would perform on the A_ProcessOrderProdnRsceTools_2 entity will result in empty responses'; "
+      + "PRT Assignments to Operations/Phases (loio f984bf53f106b44ce10000000a174cb4) קובע 'As PRTs cannot be used "
+      + "in process orders at the moment'; ו-Releasing/Locking Production Resources/Tools (loio "
+      + "de84bf53f106b44ce10000000a174cb4) קובע שהשחרור אינו בעל משמעות תפקודית ב-PP-PI. שלושת האחרונים לא צוטטו "
+      + "כראיות נפרדות כדי לשמור על מספר ראיות מצומצם, והם זמינים לקידום בסבב הבא. הראיה מהמאגר לא סומנה "
+      + "conflictingEvidence כדי שלא להוריד את כל הרשומה לרמת מקורות סותרים, באותו שיקול שנרשם ברשומת MCHA; היא "
+      + "נושאת verification_required ונרשמת ל-audit/s4-enrichment/research-queue-tables.md. פער כיסוי במאגר: AFFH "
+      + "קיימת בחוברת ההגירה של PP-PI בלבד ואינה קיימת כלל בחוברת PM (data/sapData.pm.ts), אף שהתיעוד הרשמי ממקם את "
+      + "שיוך ה-PRT לפעולה דווקא בפקודת ייצור (PP-SFC) ובפקודת אחזקה (PM); data/s4-impact.ts אינו מכיל שורה ל-AFFH "
+      + "והיא אינה נמנית בסט S4_STABLE, ולכן המעמד שהאפליקציה מציגה היום נגזר מעמודת ה-S/4 של חוברת PP-PI בלבד. "
+      + "עמודים רשמיים נוספים שנצפו ולא צוטטו: Allocating Production Resources and Tools במדריך Maintenance "
+      + "Management (loio 49ee484a3c704e08a585a3506188bde9, 2025.001), הקובע 'For each operation, you can enter "
+      + "production resources and tools that are required for performing the maintenance work' ומפנה לנתיב "
+      + "ה-Customizing Maintenance and Service Orders, Production Resource/Tool Assignments, Define PRT Control "
+      + "Keys; Managing Resources in the Maintenance Order (loio 60c36d3942b54fe4b9d387bb6ffbcb11, 2025.001), הנוקב "
+      + "באפליקציה 'Manage Maintenance Orders app (F5241)' ובאזור Resources בלשונית Operations and Resources; "
+      + "Assignment of Production Resources/Tools to Operations (loio 9902b753128eb44ce10000000a174cb4, 2025.001); "
+      + "Deleting PRTs from an Operation ו-Availability Check for PRTs במדריך Orders (CS-SE/PM-WOC-MO) (loio "
+      + "67c9b65334e6b54ce10000000a174cb4 ו-70c9b65334e6b54ce10000000a174cb4, 2025.001); ו-Manage Production Orders "
+      + "(loio a45cd17e107c4948815794534be34920, 2025.001) הקובע 'Display information on whether production "
+      + "resources/tools (PRTs) are assigned to any operation of the order'. הבדלי מזהים: העמוד הרשמי נוקב ב-F5241 "
+      + "עבור Manage Maintenance Orders, ואילו ביקום הפרויקט (data/fiori/apps.ts) אותו שם אפליקציה נושא את המזהה "
+      + "F2731; F5241 אינו קיים ביקום ולכן ה-xref נותר F2731 ברמת המאגר בלבד, באותה הכרעה שנרשמה ברשומת AFVC. "
+      + "ה-xref ל-fiori:F2336 (Manage Production Orders) נשען אף הוא על data/fiori/apps.ts; העמודים הרשמיים נוקבים "
+      + "בשם האפליקציה ולא במזהה. שמות תצוגות ה-CDS שהעמודים הרשמיים נוקבים בהם, I_ProductionOrderPRT "
+      + "ו-I_MfgOrderOperationPRT, אינם קיימים ביקום ה-CDS של הדאטהסט (39 תצוגות), ולכן ה-xref ניתן "
+      + "ל-cds:I_ProductionOrderOperation, התצוגה הרשמית של הפעולה שממנה נגזר המפתח AUFPL ו-APLZL. הטבלה PLFH, שהיא "
+      + "מקבילת ה-AFFH ברשימת הפעולות לפי מסמכי הארכוב הרשמיים ('PLFH Production resources/tool assignments'), אינה "
+      + "קיימת ביקום האובייקטים ולכן אינה מקושרת; גם FHMI ו-CRVD_A לא קושרו משום שאף מקור רשמי שנבדק אינו מקשר אותן "
+      + "ל-AFFH. תקלות מאגר שיש לתקן ונרשמו: descriptionEn של AFFH בחוברת PP-PI הוא 'Routing number', שהוא תיאור של "
+      + "השדה AUFPL שהועתק כתיאור טבלה (תקלה מאותו סוג ברשומות PLZU ו-FHMI, ששם descriptionEn הוא 'Task list "
+      + "type'); צמד הטרנזקציות 'COR2, CFC2' הועתק כנראה משורת CRFH הסמוכה ('CFC1, CFC2, CFC3'), ובמאגר עצמו "
+      + "(data/academy/lessons/ppds-generated.ts) CFC2 מתועדת כהגדרות CIF של PP/DS (application log ו-queue) ולא "
+      + "ככלי PRT, וחיפוש רשמי על המחרוזת CFC2 לא החזיר ולו עמוד אחד המקשר אותה ל-PRT או ל-AFFH; לכן CFC2 לא נכללה "
+      + "ב-xrefs. הממשקים BAPI_PROCORD_CREATE ו-BAPI_PROCORD_GET_DETAIL שהחוברת רושמת ל-AFFH לא קושרו, משום שהם "
+      + "ממשקי פקודת תהליך והתיעוד הרשמי שולל נתוני PRT ברמת פקודת התהליך; BAPI_PRODORD_GET_DETAIL הנקוב "
+      + "ב-data/knowledge/object-intel.ts אינו קיים ביקום המזהים כלל. פערים שנותרו: טיפוסי DDIC, אורכי שדות ומבנה "
+      + "המפתח המלא של AFFH לא אומתו מול מערכת חיה (חיבור ה-MCP של sc4sap נכשל בסשן זה), וקיים הפרש בין שתי שכבות "
+      + "המאגר, שכבת ההעשרה רושמת מונה הקצאה נוסף מעבר ל-AUFPL ו-APLZL ואילו החוברת רושמת מפתח בן שני שדות בלבד; "
+      + "השדה FHMNR (CHAR 18) לא הופיע באף סניפט רשמי שנקרא, והשם הרשמי המקביל בתצוגות ה-CDS הוא ProdnRsceTool או "
+      + "OrderProdnRsceToolInternalID; לא נטען שום מספר SAP Note או KBA בשדה ייעודי, ומספרי ההערות המופיעים בטענות "
+      + "(0002270262, 2269324, 0002270410, 2226674) מצוטטים כלשונם במסמך הרשמי בלבד, משום ש-me.sap.com דורש הזדהות "
+      + "S-user; קטלוג פריטי הפישוט (Simplification Item Catalog) לא נבדק ישירות מאותה סיבה, והבדיקה נשענת על מסמך "
+      + "רשימת הפישוט הציבורי; מהדורת S/4HANA Cloud Public Edition לא נבדקה והרשומה כולה היא On-Premise; עמודי "
+      + "ה-VDM של אמצעי העזר מאונדקסים בשירות החיפוש בגרסת 2023 Latest בלבד (שאילתה מפורשת ב-version 2025.001 לא "
+      + "החזירה אף עמוד VDM הנוקב ב-AFFH; ההתאמות הקרובות ביותר הן AFFHD בעמוד Archiving Operative Project "
+      + "Structures (PS-ST-OPR) ו-AFFHB בעמוד Executing a Comparison, שתיהן מבני ארכוב והשוואה ולא הטבלה עצמה), "
+      + "ולכן שתי הראיות הנוקבות בשם הטבלה נושאות release 2023.latest וגם הסטטוס נרשם באותה גרסה.",
+  },
+  {
+    id: "table:AFWI",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Confirmation Documents (PP-REM) | Data Archiving in Production Planning and Control "
+          + "(PP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/d0a4b9537cceb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מסמך הארכוב של מסמכי דיווח ביצוע ב-Repetitive Manufacturing בגרסת 2025 FPS01 קובע: 'Archiving object "
+          + "PP_BKFLUSH for archiving confirmation documents', ומונה את הטבלאות שהאובייקט נוגע בהן: 'BLPK Document "
+          + "log header record', 'BLPP Document log item', 'MKPF Material document header', 'MSEG Material document "
+          + "segment', 'AFRU Pool of confirmations', 'CEZP Line item reporting point update', 'AFFW Single "
+          + "postprocessing record' ו-'AFWIS Postprocessed single postprocessing record'. הקישור בין דיווח ביצוע "
+          + "לבין מסמך החומר שנוצר ממנו מתועד כאן ברמת רשימת הטבלאות, אך השם הטכני המודפס בעמוד הוא AFWIS ולא AFWI, "
+          + "ולכן אין בעמוד זה אזכור של AFWI עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Entering Used Material in Inventory Management | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/e129bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד ניהול התחזוקה בגרסת 2025 FPS01 קובע: 'You can withdraw both reserved and unreserved material "
+          + "with reference to an order', ומוסיף 'For this, you use the functions in inventory management "
+          + "(application component MM-IM)' ו-'Call up the transaction for entering goods movements'. מסלול התפריט "
+          + "'Logistics > Plant maintenance > Maintenance processing > Completion confirmation > Goods movement > "
+          + "Goods movement' מופיע בעמוד כאחד מכמה מסלולים ('Depending on the application component in which you "
+          + "are working, choose one of the following menu paths'). כלומר תנועת המלאי הנלווית לדיווח הביצוע בתחזוקת "
+          + "מפעל היא תהליך מתועד וחי בגרסה הנוכחית, ומתבצעת בכלי ניהול המלאי; הסניפט אינו נוקב בשם טבלה כלשהי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private "
+          + "Edition 2025 - Feature Pack Stack 1 (White Paper, Document Version 1.36) · item 15.3.1 S4TWL - Data "
+          + "Model in Inventory Management (MM-IM), p. 1459",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01 (SIMPL_OP2025, גרסת מסמך 1.36)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE4,
+        claim:
+          "מסמך רשימת הפישוט הרשמי הורד ונקרא כטקסט מלא מקומית. ממצא שלילי: המחרוזות AFWI, AFWIS, AFFW ו-AFRU "
+          + "אינן מופיעות בו ולו פעם אחת, ולכן לא אותר פריט פישוט (Simplification Item) הנוגע לטבלת AFWI עבור "
+          + "S/4HANA 2025 FPS1 ו-S/4HANA Cloud Private Edition 2025 FPS1. לעומת זאת המחרוזת MATDOC מופיעה 84 פעמים, "
+          + "ופריט 15.3.1 בעמ' 1459 קובע לגבי מסמך החומר עצמו: 'The SAP ERP 6.0 stock inventory management data "
+          + "model consists of the two document tables MKPF for document header information and MSEG for document "
+          + "item data', וכן 'The new de-normalized table MATDOC has been introduced which contains the former "
+          + "header and item data of a material document... Material document data will be stored in MATDOC only "
+          + "and not anymore in MKPF and MSEG'. הקביעה הזאת נוגעת לטבלאות מסמך החומר, לא לטבלת הקישור שממנה מפנים "
+          + "אליו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הבלופרינט של תחזוקת מפעל ורובד ההעשרה של הפרויקט - רשומת AFWI",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט של תחזוקת מפעל (נושא 7, פקודות עבודה) מתאר את AFWI כ'תנועות מלאי המקושרות לדיווחי ביצוע' "
+          + "(Goods movements for confirmations), מציין את הטרנזקציות IW41 ו-IW42, את BAPI_ALM_CONF_CREATE ואת "
+          + "התוכנית RIAFRU00, ומונה ארבעה שדות: RUECK, RMZHL, MBLNR ו-MATNR. הערת ה-S/4 שלו היא 'מותאם (תנועת מלאי "
+          + "ב-MATDOC)', הטבלה החלופית הרשומה היא 'AFWI (זהה); מסמך חומר ב-MATDOC', והערת ה-SUM מדברת על המרה "
+          + "אוטומטית ל-MATDOC ועל MKPF/MSEG כ-Compatibility Views. רובד ההעשרה מתאר מפתח MANDT/RUECK/RMZHL וקישור "
+          + "MBLNR+MJAHR אל מסמך החומר, ורואה ב-AFWI את הגשר בין האישור לתנועת המלאי בפועל. שתי אי-התאמות פנימיות "
+          + "נרשמו ולא הוכרעו: תוויות האנגלית של RUECK ו-RMZHL בבלופרינט הפוכות ביחס לתוויות העברית שלו עצמו וביחס "
+          + "לרובד ההעשרה, ושכבת הידע (object-intel) מתארת את AFWI כטבלת תנועות שנכשלו וממתינות לעיבוד מחדש, בעוד "
+          + "רובד ההעשרה מתאר אותה כטבלת התנועות שנרשמו בפועל.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/sapData.pm.ts#PM:AFWI (+ data/table-enrichment.ts#AFWI, data/knowledge/object-intel.ts#AFWI, "
+          + "data/knowledge/pm-objects-ext.ts#AFWI)",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "שם הטבלה AFWI לא אותר באף מקור SAP רשמי שנבדק בסבב זה. שירות החיפוש של help.sap.com בשלושה סקופים (S/4HANA "
+        + "On-Premise 2025 FPS01, SAP ERP 6.18 ו-S/4HANA Cloud) לא החזיר ולו רשומה אחת שבה מופיע האסימון AFWI "
+        + "כשלעצמו, וההתאמה הקרובה ביותר היא השם הטכני האחר AFWIS בשני עמודי ארכוב של PP-REM. רשימת הפישוט של 2025 "
+        + "FPS1 נקראה כטקסט מלא ואינה מכילה את המחרוזת AFWI. התהליך העסקי שהמאגר מייחס לטבלה, הקישור בין דיווח "
+        + "ביצוע לתנועת מלאי ולמסמך החומר שנוצר ממנה, מתועד רשמית וחי בגרסת 2025 FPS01 (ראיות 1 ו-2), אך הקישור "
+        + "בינו לבין הטבלה AFWI, מבנה השדות שלה ומצבה ב-S/4HANA טרם אומתו. לכן ההערה 'מותאם' שבבלופרינט נשארת פסיקת "
+        + "מקור ואינה מוצגת כאן כפסיקה מאומתת.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE11 או ב-ADT במערכת היעד שהטבלה AFWI קיימת, מהו הטקסט הקצר שלה, מהו מפתחה ומה היחס "
+        + "בינה לבין AFWIS, לפני הסתמכות עליה בהסבה, בקוד מותאם או בדוח. לניתוח הקישור בין דיווח ביצוע לתנועת מלאי "
+        + "יש לעבוד דרך התהליך המתועד: דיווח ביצוע (IW41/IW42 בתחזוקת מפעל, CO11N ו-COR6N בייצור ובתעשיות "
+        + "תהליכיות), תנועת המלאי בכלי ניהול המלאי (MIGO), ומסמך החומר עצמו שנתוניו נשמרים ב-MATDOC לפי פריט 15.3.1 "
+        + "של רשימת הפישוט. לתנועות שנכשלו יש לבדוק תחילה את AFFW ואת COGI: תצוגת ה-VDM הרשמית "
+        + "I_FailedGoodsMovementItem מייחסת את התנועות שנכשלו לטבלה AFFW, ואין להניח ש-AFWI היא נושאת אותן.",
+    },
+    xrefs: [
+      "table:AFRU", "table:MKPF", "table:MSEG", "obj:material-document", "tx:IW41", "tx:IW42", "tx:COGI", "tx:CO11N",
+      "tx:COR6N", "tx:MIGO", "fm:BAPI_ALM_CONF_CREATE", "fm:BAPI_GOODSMVT_CREATE", "cds:I_MaterialDocumentItem",
+      "bp:matdoc-read-through-compatibility",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שלוש ראיות רשמיות ואחת מן המאגר. שלוש כתובות ה-Help נלקחו כלשונן מרשומות שירות החיפוש הרשמי "
+      + "(scripts/sap-help-search.mjs) ולא נבנו ידנית; קוד HTTP אינו ראיה לקיום עמוד בפורטל, מפני שנמדד שכתובת עם "
+      + "מזהה deliverable שגוי מחזירה את אותה מעטפת JavaScript בת 1160 בתים ואת אותו קוד 200. קובץ ה-PDF של רשימת "
+      + "הפישוט הורד ונקרא כטקסט מלא. הממצא המרכזי של הסבב הוא ממצא שלילי: בשירות החיפוש של help.sap.com, בשלושה "
+      + "סקופים של מוצר (S/4HANA On-Premise 2025 FPS01, SAP ERP 6.18 ו-S/4HANA Cloud), אין ולו רשומה אחת שבה מופיע "
+      + "האסימון AFWI כשלעצמו. ההתאמה היחידה הקרובה היא האסימון AFWIS בשני עמודי ארכוב של PP-REM: 'Archiving "
+      + "Confirmation Documents (PP-REM)' (loio d0a4b9537cceb44ce10000000a174cb4, הראיה הראשונה כאן), שם הוא מתואר "
+      + "'Postprocessed single postprocessing record', ו-'Archiving Backflush Documents' (Repetitive Manufacturing "
+      + "(PP-REM), loio c96bb6531de6b64ce10000000a174cb4), שם הוא מתואר 'postprocessed individual postprocessing "
+      + "record'. AFWIS הוא שם טכני אחר, ולא הונח כאן שהוא AFWI. רשימת הפישוט של 2025 FPS1 (גרסת מסמך 1.36) נקראה "
+      + "כטקסט מלא ואינה מכילה את המחרוזת AFWI כלל, בעוד MKPF מופיעה בה 48 פעמים ו-MATDOC 84 פעמים. הסטטוס נכתב "
+      + "verification_required לפי התקדים table:PLZU באותו קובץ: אין מקור רשמי הנוקב בטבלה, ולכן ההערה 'מותאם' "
+      + "שבעמודת ה-S/4 של הבלופרינט נשארת פסיקת מאגר. במכוון לא נעשתה ההסקה שמפריט הפישוט של MM-IM נובע שינוי "
+      + "ב-AFWI: הפריט עוסק ב-MKPF, ב-MSEG וב-MATDOC ואינו נוקב ב-AFWI, ובבלופרינט עצמו הטבלה החלופית ל-AFWI היא "
+      + "AFWI. גופי עמודי ה-Help לא נקראו (מעטפת JavaScript), וכל טענה על עמוד Help תחומה בכותרת ובסניפט של רשומת "
+      + "החיפוש; מסמך ה-PDF נקרא כטקסט מלא. לא נטען שום מספר SAP Note או KBA. מקורות רשמיים נוספים שנמצאו ולא נכללו "
+      + "כראיה, וכולם עוסקים בקישור שבין אישור לתנועת מלאי בלי לנקוב ב-AFWI: 'Read Material Document | APIs for "
+      + "Manufacturing' (loio cccc7c06f1584c7e8399c4fd99390e8c ו-faeb79eb10f0430295156ad6b7d702f2) הקובע 'To read a "
+      + "material document for goods movements, you use the http method GET on the ProdnOrdConfMatlDocItm entity' "
+      + "ובמקבילו ProcOrdConfMatlDocItm; 'Production Order Confirmation | APIs for Manufacturing' (loio "
+      + "e77b762e243b4045ad1f1f048f6aab87) המונה 'Create material documents for goods movements without creating a "
+      + "corresponding time ticket/time event confirmation'; 'Failed Goods Movement Item | Virtual Data Model and "
+      + "CDS Views' (I_FailedGoodsMovementItem, loio 80069c6f8e11412888f21997e933596a) הקובע 'With this CDS view "
+      + "you can retrieve failed goods movement items (table AFFW)'; ו-'Manufacturing Order Documented Goods "
+      + "Movement' (I_MfgOrderDocdGoodsMovement, loio dc42938dba8b460ba033defd384c9ee6) הקובע 'This CDS view helps "
+      + "to select documented goods movements that have been carried for manufacturing orders (table AUFM)'. שתי "
+      + "תצוגות ה-VDM האלה נוקבות ב-AFFW וב-AUFM כטבלאות המקור שלהן, לא ב-AFWI. הטבלאות AFFW, AUFM ו-MATDOC ותצוגות "
+      + "ה-CDS I_FailedGoodsMovementItem ו-I_MfgOrderDocdGoodsMovement אינן מזהים ביקום המאגר, ולכן הן נזכרות בטקסט "
+      + "בלבד ולא כ-xref. ל-AFWI אין ערך מתוחזק ב-data/s4-impact.ts.",
+  },
+  {
+    id: "table:CRCA",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Work Centers and Capacities (PP-BD-WKC) | Data Archiving in Production Planning and "
+          + "Control (PP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/1770bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מסמך הארכוב של רכיב PP-BD-WKC לגרסת 2025 FPS01 מגדיר את אובייקט הארכוב PP_WKC: 'Archiving object "
+          + "PP_WKC for the archiving of work centers and capacities in the Production Planning and Control (PP) "
+          + "component', ומונה בסניפט את הטבלאות בשמן בשתי קבוצות. בקבוצת הקיבולות: 'Capacities Assignment of "
+          + "capacity to work center (CRCA)', 'Capacity header (KAKO)', 'Descriptions of capacity (KAKT)'. בקבוצת "
+          + "מרכז העבודה: 'Short descriptions of the work center (CRTX)', 'Assignment of work center to cost center "
+          + "(CRCO)', 'Assignment of work center to grouping subsystem connection (T705R)'. כלומר טבלת CRCA קיימת "
+          + "בשם זה, בתפקיד שיוך הקיבולת למרכז העבודה, ב-SAP S/4HANA On-Premise 2025 FPS01. הסניפט מוסיף מגבלה על "
+          + "האובייקט: 'However, you cannot delete pooled capacities and reference capacities. There is currently "
+          + "no provision for displaying and reloading the archived data.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work Center Capacity | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/c2bbd25bd6964364883fa0503d18f07a.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "נושא ה-VDM הרשמי 'Work Center Capacity' (מדריך Virtual Data Model and CDS Views, On-Premise 2023 "
+          + "Latest, loio c2bbd25bd6964364883fa0503d18f07a) נוקב בטבלה בשמה בהגדרת המטרה של התצוגה: 'With this CDS "
+          + "view, you can retrieve the capacities that are assigned' ... 'to a work center (table CRCA) by "
+          + "internal key'. באותה רשומה: 'Technical Name I_WorkCenterCapacity', 'View Type Basic, Dimension', "
+          + "'Release Status Released', והתנאים המוקדמים 'You have the authorization to display work centers by "
+          + "plant (C_ARPL_WRK)' ו-'You have the authorization to display work centers by work center category "
+          + "(C_ARPL_ART)'. השאלות העסקיות לפי הסניפט: 'Which capacities are assigned to a work center?', 'What are "
+          + "the capacity requirement formulas for a work center?', 'What are the validity start and end dates of "
+          + "the capacity assignment?'; והמאפיינים הראשיים: Work center type, Work center internal ID, Capacity "
+          + "allocation ID, Work center, Work center category, Plant, Validity start and end dates, Capacity "
+          + "requirement formulas, Capacity internal ID, Capacity category code, Capacity, Capacity unit of "
+          + "measure. כלומר תצוגת CDS משוחררת של S/4HANA קוראת את CRCA ישירות, ושיוך הקיבולת נושא תוקף מתאריך עד "
+          + "תאריך ונוסחאות דרישת קיבולת.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Capacity Assignment Version 2 | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/adfb265249294ca1944bfb119c1212a3.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מדריך APIs for Manufacturing לגרסת 2025 FPS01 מציג ישות OData לשיוך הקיבולת למרכז העבודה: 'Capacity "
+          + "Assignment Version 2 Use This entity contains assignment details of a work center capacity'. המאפיינים "
+          + "שנקובים בסניפט: 'WorkCenterInternalID Object ID of the' ..., 'CapacityCategoryAllocation Capacity "
+          + "category allocation', 'Plant Plant', 'WorkCenterCategoryCode Work center category', 'WorkCenter Work "
+          + "Center', 'CapacityInternalID Capacity ID', וכן 'SetupCapRequirementFormula Formula for setup capacity "
+          + "requirements', 'ProcgCapRequirementFormula Formula for processing capacity requirements' "
+          + "ו-'TeardownCapRequirementFormula Formula for teardown'. כלומר קיים ממשק רשמי ומתועד לשיוך הקיבולת "
+          + "ב-S/4HANA 2025 FPS01, והמפתח הסמנטי שלו מורכב ממזהה מרכז העבודה, סוג מרכז העבודה והקצאת קטגוריית "
+          + "הקיבולת.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט, רשומת CRCA",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "העשרה מאומתת במאגר: CRCA היא טבלת הקישור בין כותרת מרכז העבודה (CRHD) לכותרות הקיבולת (KAKO), מרכז "
+          + "עבודה אחד יכול לשאת כמה קיבולות (למשל אדם ומכונה), המפתח לפי הרשומה MANDT/OBJTY/OBJID/CANUM, מפתחות "
+          + "זרים OBJTY+OBJID אל CRHD ו-KAPID אל KAKO, והגישה הטיפוסית היא לפי OBJTY+OBJID לשליפת הקיבולות של מרכז "
+          + "עבודה. לפי אותה רשומה, מרכז עבודה ללא שורת CRCA הוא מרכז ללא קיבולת, ותזמון הקיבולת לא יפעל עבורו.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#CRCA",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טבלת CRCA, שיוך הקיבולת למרכז העבודה או למשאב, פעילה ב-SAP S/4HANA On-Premise ומתועדת בגרסת 2025 FPS01: "
+        + "מסמך הארכוב של רכיב PP-BD-WKC מונה אותה בשמה בקבוצת הקיבולות של אובייקט הארכוב PP_WKC ('Assignment of "
+        + "capacity to work center (CRCA)'), ותצוגת ה-CDS המשוחררת I_WorkCenterCapacity נוקבת בה כמקור שממנו היא "
+        + "שולפת את הקיבולות המשויכות למרכז עבודה ('table CRCA'). לא נמצא מקור רשמי המכריז על שינוי מבנה, על החלפה "
+        + "או על הוצאה משימוש, ולכן אין טבלה יורשת. תאריכי תוקף השיוך ונוסחאות דרישת הקיבולת מופיעים כמאפיינים של "
+        + "התצוגה הקוראת את הטבלה ושל ישות ה-OData המקבילה, ולא כשמות שדות שאומתו ב-DDIC. ההקשר חוצה מודולים: אותו "
+        + "מודל קיבולת משמש ייצור בדיד, משאבים בתעשיות תהליכיות ומרכזי עבודה בתחזוקת מפעל, שכן מרכז העבודה משותף "
+        + "לשלושת התחומים לפי רשומת CRHD במאגר.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Work Centers and Capacities (PP-BD-WKC) | Data Archiving in Production Planning and "
+          + "Control (PP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/1770bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מסמך הארכוב של רכיב PP-BD-WKC לגרסת 2025 FPS01 מגדיר את אובייקט הארכוב PP_WKC: 'Archiving object "
+          + "PP_WKC for the archiving of work centers and capacities in the Production Planning and Control (PP) "
+          + "component', ומונה בסניפט את הטבלאות בשמן בשתי קבוצות. בקבוצת הקיבולות: 'Capacities Assignment of "
+          + "capacity to work center (CRCA)', 'Capacity header (KAKO)', 'Descriptions of capacity (KAKT)'. בקבוצת "
+          + "מרכז העבודה: 'Short descriptions of the work center (CRTX)', 'Assignment of work center to cost center "
+          + "(CRCO)', 'Assignment of work center to grouping subsystem connection (T705R)'. כלומר טבלת CRCA קיימת "
+          + "בשם זה, בתפקיד שיוך הקיבולת למרכז העבודה, ב-SAP S/4HANA On-Premise 2025 FPS01. הסניפט מוסיף מגבלה על "
+          + "האובייקט: 'However, you cannot delete pooled capacities and reference capacities. There is currently "
+          + "no provision for displaying and reloading the archived data.'",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction:
+        "להמשיך להשתמש ב-CRCA כטבלת השיוך בין מרכז העבודה או המשאב לקיבולת; אין פעולת הסבה נדרשת "
+        + "לטבלה עצמה, ומומלץ Regression Test להתאמות אישיות שקוראות אותה (JOIN מול CRHD לפי OBJTY ו-OBJID ומול "
+        + "KAKO לפי KAPID, לפי העשרת המאגר שלא אומתה מול SE11). לפיתוח חדש, לדוחות ולאנליטיקה להעדיף את תצוגת ה-CDS "
+        + "המשוחררת I_WorkCenterCapacity על פני SELECT ישיר, ולנתוני האב של הקיבולת עצמה את I_Capacity (עמוד VDM "
+        + "נפרד שאינו מצוטט כראיה ברשומה זו). לקריאה, יצירה ועדכון בממשקים קיימת במדריך APIs for Manufacturing "
+        + "לגרסת 2025 FPS01 הישות Capacity Assignment Version 2, ולפי עמוד Create Capacity Assignment שמה הטכני "
+        + "A_WorkCenterAllCapacity_2 תחת השירות API_WORK_CENTERS (עמוד שאינו מצוטט כראיה ברשומה זו). בתחזוקה ידנית: "
+        + "CR11/CR12/CR13 לקיבולת עצמה ו-CR01/CR02/CR03 למרכז העבודה (CRC1/CRC3 למשאב בתעשיות תהליכיות, IR01 "
+        + "בתחזוקת מפעל). בבדיקות לאחר הסבה לוודא שכל מרכז עבודה רלוונטי נושא שורת שיוך קיבולת, אחרת לא ייווצר עומס "
+        + "בתכנון הקיבולת. לגבי הכלים הגרפיים הקלאסיים ראו הערות: פריט הפישוט 30.35 (S4TWL - Graphical Planning "
+        + "Table, רכיב PP-CRP) קובע בגוף המסמך שהטרנזקציות CM21, CM22, CM23, CM25 ודומותיהן עדיין זמינות "
+        + "ב-On-Premise אך אינן ארכיטקטורת היעד, ושלוח התכנון הגרפי הוא חלק מ-Compatibility Scope; על MF50 נאמר "
+        + "שהטרנזקציה תמשיך להיות זמינה ורק לוח התכנון הגרפי שבתוכה כפוף להיקף התאימות. שורת מילות המפתח של אותו "
+        + "פריט מונה CM21, CM22, CM23, CM25, CM29, MF50. הטבלה עצמה אינה חלק מאותו פריט.",
+    },
+    xrefs: [
+      "table:CRHD", "table:KAKO", "table:KAZT", "table:CRCO", "table:CRTX", "cds:I_WorkCenterCapacity",
+      "cds:I_WorkCenter", "tx:CR01", "tx:CR02", "tx:CR03", "tx:CR11", "tx:CR12", "tx:CR13", "tx:CRC1", "tx:CRC3",
+      "tx:CM01", "fiori:F3289",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs בשש שאילתות ('Archiving Work Centers "
+      + "and Capacities PP-BD-WKC CRCA', 'CRCA capacity assignment work center table', 'Simplification work center "
+      + "capacity CRCA KAKO deprecated replaced', 'PP - Work center data migration capacities header', 'Capacity "
+      + "Assignment Version 2 A_WorkCenterAllCapacity_2 entity properties', 'Work Center Capacity Technical Name "
+      + "I_WorkCenterCapacity Release Status Released authorization C_ARPL_WRK'), וכן חיפוש מוגבל דומיין. ה-loio, "
+      + "הכותרות, שמות המדריכים והגרסאות הועתקו כלשונם מרשומות שירות החיפוש, ושלושת קישורי ה-Help שברשומה נבדקו "
+      + "ומחזירים HTTP 200 ב-2026-09-15. גוף עמודי ה-Help הוא מעטפת JavaScript, ולכן כל טענה כאן תחומה בכותרת "
+      + "ובסניפט של רשומת החיפוש; חיבור ה-MCP למערכת SAP חיה נכשל בסשן ולא בוצעה בדיקה ב-SE11. ציטוטי מסמך הארכוב "
+      + "לוקטו משלושה רינדורים שונים של הסניפט לאותו loio (1770bd534f22b44ce10000000a174cb4), וכך גם שני הרינדורים "
+      + "של עמוד ה-VDM ושני הרינדורים של עמוד ה-API. פישוט: מסמך רשימת הפישוט הרשמית לגרסת 2023 FPS03 "
+      + "(Simplification List for SAP S/4HANA 2023, "
+      + "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf) הורד ונקרא בפועל "
+      + "(76,533 שורות טקסט): המחרוזות CRCA, KAKO, KAKT, KAZT, CRHD, CRCO, CRTX ו-PP-BD-WKC אינן מופיעות בו כלל, "
+      + "ואין בו פריט פישוט בשם Capacity Evaluation. פריט הפישוט היחיד בתחום הקיבולת הוא 30.35 'S4TWL - Graphical "
+      + "Planning Table' (רכיב PP-CRP, Business Impact note 2268050), הקובע שהטרנזקציות CM21, CM22, CM23, CM25 "
+      + "עדיין זמינות ב-On-Premise אך אינן ארכיטקטורת היעד, שלוח התכנון הגרפי הוא חלק מ-Compatibility Scope עם "
+      + "זכויות שימוש מוגבלות (ID 451 במטריצת התאימות המצורפת ל-note 2269324), ושהמעבר המומלץ הוא ליישומים Manage "
+      + "Work Center Capacity, Capacity Scheduling Table ו-Capacity Scheduling Board. הגוף נוקב ב-CM21, CM22, CM23, "
+      + "CM25 ודומותיהן, ושורת מילות המפתח של אותו פריט מונה CM21, CM22, CM23, CM25, CM29, MF50; על MF50 נאמר "
+      + "במפורש שהטרנזקציה תמשיך להיות זמינה ורק לוח התכנון הגרפי שבה כפוף להיקף התאימות. מספרי ה-notes האלה נלקחו "
+      + "מהמסמך שנקרא ואינם נכתבים מהזיכרון; me.sap.com דורש כניסת S-user ולא נבדק. הפרדה מול רשומת ה-CDS: "
+      + "cds:I_WorkCenterCapacity נרשמה s4_native משום שתצוגת ה-VDM עצמה היא אובייקט של S/4HANA, בעוד table:CRCA "
+      + "נרשמת unchanged משום שהטבלה עוברת מ-ECC ל-S/4HANA בלי שינוי מתועד; שתי הפסיקות אינן סותרות, ורשומת ה-CDS "
+      + "אף מתקנת את data/cds-enrichment.ts שמתאר בטעות את התצוגה כשכבה מעל KAKO. סתירות במאגר: ה-blueprint של "
+      + "PP-PI (data/sapData.pppi.ts, הרשומה PP-PI:CRCA) רושם descriptionEn 'Object type', כלומר שם השדה הראשון "
+      + "הועתק לעמודת שם הטבלה (אותו פגם שתועד ב-CRHD), ומונה מפתח OBJTY/OBJID/CAPID עם KAPID כמפתח זר, בעוד "
+      + "data/table-enrichment.ts#CRCA מונה MANDT/OBJTY/OBJID/CANUM; שתי הרשומות חלוקות על שדה המפתח הרביעי (CAPID "
+      + "מול CANUM) ואף מקור רשמי שנמצא אינו נוקב בשם שדה DDIC כלשהו של הטבלה, ולכן רשימת השדות נשארת ברמת נדרש "
+      + "אימות. עוד ב-blueprint: מודולי הפונקציה שנרשמו ל-CRCA הם BAPI_MATERIAL_SAVEDATA ו-BAPI_MATERIAL_GET_DETAIL "
+      + "והתוכניות RMMG2000 ו-MM60, כולם שייכים לאב חומר ולא למרכז עבודה; מסיבה זו אין ברשומה זו xref למודול "
+      + "פונקציה כלשהו. הטרנזקציות שב-blueprint (CR11, CR12, CR13) נתמכות בעמוד התפקידים הרשמי Work Center "
+      + "Maintenance (SAP_LO_PP_WRKC_MAINTAIN, ‏2025.001, loio 5d25bf53d25ab64ce10000000a174cb4) המונה 'Capacity "
+      + "CR11 Create capacity CR12 Change capacity CR13 Display capacity'. הנמקת ה-xrefs: table:KAZT (מרווחי "
+      + "הקיבולת) ו-tx:CM01 נרשמו כקישורי ניווט בתחום הקיבולת מרובד המאגר בלבד, ואינם נקובים באף מקור רשמי המצוטט "
+      + "ברשומה זו; CRC1/CRC3 ו-IR01 נרשמים לפי אותה נוסחה שברשומת table:CRHD, שם הם נסמכים על ה-blueprint של PM "
+      + "ועל הדאטהסט ולא על עמוד רשמי. סמנטיקה עסקית שלא נקשרה לטבלה: עמוד Capacities בתיעוד Work Centers "
+      + "(PP-BD-WKC) (‏2025.001, loio c873b65334e6b54ce10000000a174cb4) מבחין בין Work center capacities, Pooled "
+      + "capacities, Reference capacities ו-Default capacities, וקובע 'A work center capacity is created in the "
+      + "work center and is directly assigned to the work center' ו-'A pooled capacity can be assigned to several "
+      + "work centers'; אילו מהסוגים האלה נרשמים בפועל ב-CRCA לא אומת. הקשר תחזוקת מפעל: העמודים Capacity Planning "
+      + "in Plant Maintenance (PM-WOC-CP) (‏2025.001, loio 4211110d460d73aee10000000a114b54), Processing of Work "
+      + "Centers (התפקיד SAP_PM_EQM_WORK_CENTERS_PROC, loio 0168b65334e6b54ce10000000a174cb4) המונה "
+      + "'Creating/changing capacity', ו-Work Center Utilization (loio 26e6725700780322e10000000a44147b) המגדיר את "
+      + "הניצולת כיחס בין הקיבולת הזמינה של מרכז העבודה לעומס הנובע מפעולות הזמנות האחזקה, מבססים את ההקשר בתחזוקת "
+      + "מפעל אך אינם נוקבים בשם הטבלה. הגירה: אובייקט ההגירה PP - Work center (‏2025.001, loio "
+      + "fbb00ccf1fde4610b35b39caac89dc0c, השם הטכני S4_PM_WORKCENTER) מונה 'Capacities' בהיקף ההגירה; עמוד נוסף "
+      + "באותה כותרת (loio 70a186f1310049bc837c9ec8c1b63db5) הוא הווריאנט של מערכת מקור AFS "
+      + "(S4_AFS_LO_WORK_CENTER). עמוד Create Capacity Assignment (2025.001, loio 027539bbfd124134a6d410030e5128fd) "
+      + "נוקב בסניפט ב-Request URL -POST <host>/sap/opu/odata/SAP/API_WORK_CENTERS/A_WorkCenterAllCapacity_2; העמוד "
+      + "לא צוטט כראיה נפרדת. התנגשות שם במאגר: data/tcode-catalog.ts מכיל גם טרנזקציה בשם CRCA ('Resource: "
+      + "Assignment to Resource Network') ו-tx:CRCA קיים במניפסט הנתיבים; המזהים נפרדים (table:CRCA מול tx:CRCA), "
+      + "ומשמעות הטרנזקציה לא אומתה כאן מול מקור רשמי. Fiori: fiori:F3289 (Manage Work Center Capacity) קיים "
+      + "בדאטהסט ונכלל ב-xrefs, אך טענת המאגר (data/fiori/apps.ts#F3289) שהיישום עובד רק למרכזי עבודה של PP ולא של "
+      + "תחזוקת מפעל לא אומתה מול מקור רשמי, ורשימת הטבלאות הקשורות שם מונה CRHD ו-KAKO בלבד. התימוכין הרשמי היחיד "
+      + "לקישור בין תחום הקיבולת ליישום הוא פריט הפישוט 30.35, הקובע שהטרנזקציות CM* יוחלפו ביישומים Manage Work "
+      + "Center Capacity, Capacity Scheduling Table ו-Capacity Scheduling Board; אין מקור רשמי הקושר את F3289 לטבלת "
+      + "CRCA, ורשימת הטבלאות ב-data/fiori/apps.ts#F3289 מונה CRHD ו-KAKO בלבד. Mass Maintenance of Work Center "
+      + "Capacities מופיע ב-What's New 2021 (loio 77c41f77bb4647ee80fcdd500c0faba6, פריט היקף 31L) בלי מזהה יישום "
+      + "בסניפט ולכן אינו ב-xrefs. cds:I_Capacity אינה קיימת ביקום המזהים של הפרויקט ולכן מוזכרת בטקסט בלבד; "
+      + "api.sap.com לא צוטט (מעטפת יישום ללא מפתח API). היקף בדאטהסט: CRCA מופיעה ב-blueprint של PP-PI בלבד (נושא "
+      + "5, משאבים ומרכזי עבודה) ואין לה שורה ב-blueprint של PM, ולכן ההקשר בתחזוקת מפעל ברשומה זו נסמך על רשומת "
+      + "table:CRHD ועל עמודי ה-Help של PM-WOC-CP שנמנו לעיל, ולא על פסיקת blueprint נפרדת.",
+  },
+  {
+    id: "table:KAKO",
+    aliases: ["kako"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Capacity | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/fe753c25e02d48a885bb20569b47bb40.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד ה-Virtual Data Model לגרסת 2025 FPS01 מציג את תצוגת ה-CDS בשם Capacity (שם טכני I_Capacity, סוג "
+          + "תצוגה Basic, Dimension, סטטוס שחרור Released) וקובע בסניפט 'With this CDS view you can retrieve the "
+          + "capacity master data (table KAKO) by internal key'. כלומר KAKO היא טבלת נתוני האב של הקיבולת ב-S/4HANA "
+          + "On-Premise בגרסה הזו, והגישה המשוחררת אליה היא לפי המפתח הפנימי. הסניפט מונה בין מאפייני התצוגה "
+          + "הראשיים: 'Capacity internal ID Capacity Capacity category Capacity active version Number of capacities "
+          + "Plant Factory calendar' וכן 'Responsible capacity planner Capacity start and end time Shift group "
+          + "Capacity unit of measure Capacity break time'. אלה שמות סמנטיים של מאפייני התצוגה ולא שמות שדות DDIC "
+          + "של הטבלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Work Centers and Capacities (PP-BD-WKC) | Data Archiving in Production Planning and "
+          + "Control (PP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/1770bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מסמך הארכוב הרשמי של אובייקט הארכוב PP_WKC לגרסת 2025 FPS01 מונה את KAKO בשמה בין נתוני הקיבולת "
+          + "המאורכבים: 'Assignment of capacity to work center (CRCA) Capacity header (KAKO) Descriptions of "
+          + "capacity (KAKT) Intervals of available capacity (KAZY) Capacity shift values (KAPA)', ובהמשך אותה "
+          + "רשימה גם 'Assignment of alternative units of measure to capacity (KAPE)', לצד 'Work center header data "
+          + "(CRHD)'. העמוד קובע 'You can archive and delete work center data and work center capacities with the "
+          + "archiving object PP_WKC' ו-'You can delete the capacities that are directly assigned to the work "
+          + "center', ומוסיף 'However, you cannot delete pooled capacities and reference capacities. There is "
+          + "currently no provision for displaying and reloading the archived data'. כלומר הטבלה קיימת בשם KAKO "
+          + "ובתפקיד כותרת הקיבולת ב-S/4HANA On-Premise 2025 FPS01, ומשפחת הטבלאות שסביבה לפי המסמך היא CRCA, KAKT, "
+          + "KAZY, KAPA ו-KAPE.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 FPS01, Feature Pack Stack 1-3 and SAP S/4HANA Cloud "
+          + "Private Edition 2025 FPS01, Feature Pack Stack 1-3 (White Paper, Document Version 1.36) · item 9.5.4 "
+          + "S4TWL - Graphical Planning Table, pp. 779-782",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE4,
+        claim:
+          "מסמך רשימת הפישוט הרשמי נקרא מקומית כטקסט מלא: המחרוזת KAKO אינה מופיעה בו כלל, וכך גם KAZY, KAZT, "
+          + "CRHD, CRCA, CR11, CR12 ו-CR13. ממצא שלילי: אין במסמך פריט פישוט (Simplification Item) המסמן את כותרת "
+          + "הקיבולת או את נתוני אב הקיבולת כמוחלפים, מוגבלים או מוסרים. הפריט היחיד שם בתחום תכנון הקיבולת הוא "
+          + "'9.5.4. S4TWL - Graphical Planning Table' (Application Component: PP-CRP; בטבלת ההערות שלו מודפסים "
+          + "Note Number 0002268050 ו-Note Description 'Graphical Planning Table'), והוא עוסק בממשק הגרפי ולא במודל "
+          + "הנתונים: 'Transactions CM21, CM22, CM23, CM25, etc with graphical planning table are part of the SAP "
+          + "S/4HANA compatibility scope', לצד החריגה 'The following CM* transactions do not use graphical planning "
+          + "boards. Therefore, they are not part of SAP S/4HANA compatibility scope' ובה 'CM01, CM02, CM03, CM04, "
+          + "CM05, CM07, CM26, CM28, CM34, CM35, CM37, CM38, CM50, CM53, CM56'. הפריט נוקב גם בחלופות: 'App Manage "
+          + "Work Center Capacity (F3289) shows if there are any capacity overloads created by infinite planning. "
+          + "In case of overloads (or underloads), app Manage Work Center Capacity can be used to change shifts and "
+          + "adapt capacity' ו-'This can be accomplished through app Capacity Planning Table (F3770) or app "
+          + "Capacity Planning Board (F3951)'. בטבלת התיעוד שבסוף הפריט מודפסות שלוש שורות: App 'Manage Work Center "
+          + "Capacity' מול Fiori-ID 'F3289', App 'Capacity Planning Table' מול Fiori-ID 'F3770' ועמודת SAP Help "
+          + "'Capacity Scheduling Table | SAP Help Portal', ו-App 'Capacity Planning Board' מול Fiori-ID 'F3951' "
+          + "ועמודת SAP Help 'Capacity Scheduling Board | SAP Help Portal'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הבלופרינט PP-PI:KAKO ורובד ההעשרה של הפרויקט",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט (data/sapData.pppi.ts, רשומה PP-PI:KAKO) כותב tableName 'KAKO', descriptionHe 'קטגוריית "
+          + "קיבולת (כותרת)', descriptionEn 'Capacity ID', tcodes 'CR11, CR12, CR13', fioriApp ריק, s4Note 'ללא "
+          + "שינוי.', guideHe 'מגדיר את הקיבולת עצמה: לוח משמרות, ניצולת (%), מספר יחידות. קובע את הזמינות בפועל של "
+          + "קו הייצור.' ו-sqlJoinSnippet 'FROM KAKO JOIN CRCA ON KAKO.KAPID = CRCA.KAPID'. הוא רושם ארבעה שדות - "
+          + "KAPID (PK, NUMC 8), KAPAR ('Capacity category', CHAR 3), AZNOR ('Number of individual capacities', DEC "
+          + "3) ו-NGRAD ('Capacity utilization (%)', DEC 3) - שני קשרים, child אל CRCA ו-parent אל KAZT ('מרווחי "
+          + "קיבולת זמינה'), ומודול פונקציה יחיד, CY_CAPACITY_HEADER_READ. רובד ההעשרה "
+          + "(data/table-enrichment.ts#KAKO) מוסיף primaryKey 'MANDT - client, KAPID - Capacity ID' ו-foreignKeys "
+          + "'KAPID ← CRCA', 'MOSID → shift/factory calendar', 'KALSM (grouping)', ומסמן את הרשומה verified. KAKO "
+          + "מופיעה בבלופרינט של PP-PI בלבד: החיפוש אחר השם ב-data/sapData.pm.ts אינו מחזיר דבר. שתי חולשות פנימיות "
+          + "ברשומת הבלופרינט: descriptionEn 'Capacity ID' הוא תיאור שדה המפתח ולא שם הטבלה, ורשימת התוכניות שלה "
+          + "(RMMG2000, MM60) שייכת לאב חומר ולא לקיבולת.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pppi.ts#PP-PI:KAKO; data/table-enrichment.ts#KAKO",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "כותרת הקיבולת, שהטבלה KAKO מחזיקה, פעילה ב-S/4HANA On-Premise ומתועדת בגרסת 2025 FPS01 בלי טבלה חליפית "
+        + "ובלי יורש: תיעוד ה-Virtual Data Model לאותה גרסה קובע שתצוגת ה-CDS המשוחררת I_Capacity שולפת את נתוני אב "
+        + "הקיבולת מטבלת KAKO לפי המפתח הפנימי, ומסמך הארכוב של PP_WKC מונה אותה בשמה, 'Capacity header (KAKO)', "
+        + "לצד CRCA, KAKT, KAZY ו-KAPA. קריאה מלאה של מסמך רשימת הפישוט ל-2025 FPS01 לא העלתה פריט פישוט הנוגע "
+        + "לטבלה או לנתוני אב הקיבולת, והפריט היחיד בתחום תכנון הקיבולת נוגע ללוח התכנון הגרפי בלבד. לכן 'ללא "
+        + "שינוי' כאן הוא ברמת קיום האובייקט ותפקידו: מבנה השדות, טיפוסיהם, אורכיהם וסדר המפתח לא אומתו מול ה-DDIC. "
+        + "מה שכן זז ב-S/4HANA הוא שכבת הצריכה - תצוגות CDS משוחררות מעל הטבלה ואפליקציות Fiori לתחזוקת הקיבולת "
+        + "ולאיזון העומס לצד CR11/CR12/CR13 - ולא מודל הנתונים. עמודי תחזוקת המפעל לגרסה הזו מתארים קיבולת של מרכזי "
+        + "עבודה מתחזקים ברמת כותרת הקיבולת בלי לנקוב בשם טכני, ולכן שיוך הטבלה גם לתחזוקת המפעל נשען על עמוד ה-VDM "
+        + "ועל מסמך הארכוב ולא על עמודי ה-PM. בדאטהסט של הפרויקט הטבלה מופיעה בבלופרינט של PP-PI בלבד, והוא פוסק "
+        + "'ללא שינוי'.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Capacity | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/fe753c25e02d48a885bb20569b47bb40.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד ה-Virtual Data Model לגרסת 2025 FPS01 מציג את תצוגת ה-CDS בשם Capacity (שם טכני I_Capacity, סוג "
+          + "תצוגה Basic, Dimension, סטטוס שחרור Released) וקובע בסניפט 'With this CDS view you can retrieve the "
+          + "capacity master data (table KAKO) by internal key'. כלומר KAKO היא טבלת נתוני האב של הקיבולת ב-S/4HANA "
+          + "On-Premise בגרסה הזו, והגישה המשוחררת אליה היא לפי המפתח הפנימי. הסניפט מונה בין מאפייני התצוגה "
+          + "הראשיים: 'Capacity internal ID Capacity Capacity category Capacity active version Number of capacities "
+          + "Plant Factory calendar' וכן 'Responsible capacity planner Capacity start and end time Shift group "
+          + "Capacity unit of measure Capacity break time'. אלה שמות סמנטיים של מאפייני התצוגה ולא שמות שדות DDIC "
+          + "של הטבלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction:
+        "להמשיך להשתמש ב-KAKO ככותרת הקיבולת; אין פעולת הסבה נדרשת לטבלה עצמה, ומומלץ Regression "
+        + "Test להתאמות אישיות שקוראות אותה, בעיקר דרך הגשר CRCA (JOIN על KAPID) אל מרכז העבודה ב-CRHD. לתחזוקת "
+        + "קיבולת בממשק המשתמש: עמוד 'Feature Comparison for Work Center Capacities' לגרסת 2025 FPS01 (loio "
+        + "95a31a7217f64a018138bc57a9c6a724) מעמיד בטבלת ההשוואה את שמות היישומים 'Create Capacity Change Capacity "
+        + "Display Capacity Mass Maintenance Of Work Center Capacities' מול 'App ID CR11/CR12/CR13 F5381'; הסניפט "
+        + "שטוח ולכן ההתאמה בין שם למזהה נלמדת מסדר העמודות וטעונה אימות בגוף העמוד. לתכנון ואיזון עומסים לא לבנות "
+        + "על הלוח הגרפי הישן: לפי פריט S4TWL - Graphical Planning Table הטרנזקציות CM21, CM22, CM23 ו-CM25 נמצאות "
+        + "ב-Compatibility Scope עם זכויות שימוש מוגבלות, בעוד CM01 ו-CM07 אינן נמנות עם ה-Compatibility Scope משום "
+        + "שאינן משתמשות בלוח הגרפי, כלומר הפריט אינו מגביל אותן ואף אינו מסיר אותן. החלופות שהמסמך נוקב בהן הן "
+        + "Manage Work Center Capacity (F3289) לשינוי משמרות והתאמת קיבולת, Capacity Planning Table (F3770) "
+        + "ו-Capacity Planning Board (F3951), או מעבר למודולים Capacity Planning and Scheduling (CPS) ו-PP/DS. "
+        + "לצריכה אנליטית ולפיתוח חדש להעדיף את תצוגות ה-CDS המשוחררות (I_Capacity ברמת הטבלה, I_WorkCenterCapacity "
+        + "לקיבולות המשויכות למרכז עבודה) על פני SELECT ישיר. בממשקים: המדריך APIs for Manufacturing לגרסת 2025 "
+        + "FPS01 מתאר את ה-OData API בשם Work Center ובו ישות WorkCenterCapacity; הפעולות שנקובות בכותרות ובסניפטים "
+        + "של אותו מדריך הן Read, Create ו-Update על ישות הקיבולת, בעוד פעולות Delete מופיעות שם על ישויות המשנה "
+        + "Capacity Interval ו-Capacity Shift בלבד. השירות אינו מצוטט כראיה ברשומה זו ורשימת השדות שלו לא נקראה. "
+        + "לפני הסתמכות על רשימת השדות שבמאגר לאמת ב-SE11 את KAPID, KAPAR, AZNOR ו-NGRAD, ולהוסיף את שדות המפתח "
+        + "הסמנטי NAME ו-WERKS, שעמוד עזרת הערכים הרשמי נוקב בהם.",
+    },
+    xrefs: [
+      "table:CRCA", "table:CRHD", "table:KAZT", "tx:CR11", "tx:CR12", "tx:CR13", "tx:CR03", "tx:CM01", "tx:CM07",
+      "cds:I_WorkCenterCapacity", "cds:I_WorkCenter", "fm:CY_CAPACITY_HEADER_READ", "fm:CY_CAPACITY_LOAD",
+      "fiori:F3289", "fiori:F3951",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: ריצות של scripts/sap-help-search.mjs ב-2026-09-15 מול המוצר SAP_S4HANA_ON-PREMISE (שש שאילתות: "
+      + "'KAKO capacity header', 'Archiving Work Centers and Capacities PP-BD-WKC', 'capacity master data table "
+      + "KAKO CDS view Capacity', 'Capacity data migration object work center capacity', 'Capacities work center "
+      + "available capacity operating time capacity category', 'KAZT available capacity intervals table', "
+      + "'Calculation of Available Capacity maintenance workers work center'), חיפוש רשת מוגבל ל-help.sap.com, "
+      + "api.sap.com, fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap, וקריאה מקומית של חילוץ הטקסט המלא של מסמך "
+      + "רשימת הפישוט ל-2025 FPS01. גופי עמודי help.sap.com הם מעטפת JavaScript ואינם נשלפים, ולכן כל טענה תחומה "
+      + "לכותרת, ל-deliverable ולסניפט של רשומת החיפוש או לטקסט המסמך שנקרא; ה-loio, ה-deliverable וה-versionId "
+      + "הועתקו כלשונם מפלט הכלי. (1) הפער המרכזי בין המאגר לתיעוד הרשמי - טבלת מרווחי הקיבולת: מסמך הארכוב של "
+      + "PP_WKC ותצוגת ה-VDM Available Capacity Interval (2023 Latest, loio d4d187afb3cd4edc88c1c1b9fc1316a3, "
+      + "'interval data (table KAZY)') נוקבים שניהם ב-KAZY עבור מרווחי הקיבולת הזמינה, וגם עמוד ההגירה 'Work "
+      + "center/Resource' נוקב במבנה 'Interval of Available Capacity (S_KAZY)', בעוד רשומת הבלופרינט של KAKO רושמת "
+      + "קשר parent אל KAZT ו-data/knowledge/object-intel.ts מחזיקה רשומה נפרדת ל-KAZT. בשום מקור רשמי שנשלף בסבב "
+      + "הזה השם KAZT אינו מופיע, וגם במסמך רשימת הפישוט הוא אינו מופיע. הפער לא הוכרע כאן: table:KAZT נשמר כ-xref "
+      + "משום שהוא מזהה קיים ביקום הדאטהסט, ונדרש אימות ב-SE11 אם KAZT הוא שם חלופי, שם היסטורי או שגיאה בדאטהסט. "
+      + "(2) שם הרשומה בעברית: הדאטהסט קורא ל-KAKO 'קטגוריית קיבולת (כותרת)', בעוד המקורות הרשמיים קוראים לה "
+      + "Capacity header ומתייחסים לקטגוריית הקיבולת כאל מאפיין ('Capacity category', שדה KAPAR ברובד הבלופרינט). "
+      + "תיקון התווית נרשם כתור ולא בוצע ברשומה הזו. כמו כן descriptionEn של הבלופרינט הוא 'Capacity ID', תיאור שדה "
+      + "המפתח ולא שם הטבלה, ורשימת התוכניות שלה (RMMG2000, MM60) שייכת לאב חומר. (3) עמודים רשמיים נוספים שנצפו "
+      + "ולא נרשמו כראיה נפרדת, כולם לגרסת 2025 FPS01 אלא אם צוין אחרת: 'Standard Value Help for Capacity by "
+      + "Semantic Key' (deliverable Virtual Data Model and CDS Views, versionId 2023.latest, loio "
+      + "6b1398a0a8304a5c93f14c7d22b155b0), הקובע 'This CDS view provides a standard value help for capacities "
+      + "using the semantic key (KAKO-NAME and KAKO-WERKS)' ו-'CDS View Name I_CapacityBySemanticKeyStdVH ... "
+      + "Status Released' - כלומר NAME ו-WERKS הם שדות KAKO אמיתיים שאינם ברשימת השדות של הבלופרינט; 'Work Center "
+      + "Capacity' (deliverable Virtual Data Model and CDS Views, versionId 2023.latest, loio "
+      + "c2bbd25bd6964364883fa0503d18f07a), הקובע 'Work Center Capacity Technical Name I_WorkCenterCapacity View "
+      + "Type Basic, Dimension Release Status Released'; 'Feature Comparison for Work Center Capacities' "
+      + "(deliverable Production Planning and Control, loio 95a31a7217f64a018138bc57a9c6a724) המצוטט בהמלצה לפעולה; "
+      + "'Capacities' במדריך Work Centers (PP-BD-WKC) (loio c873b65334e6b54ce10000000a174cb4), הקובע 'The following "
+      + "data is entered in a capacity: the operating time the available capacity Formulas for calculating capacity "
+      + "requirements' ומבחין בין Work Center Capacity, Reference Capacity, Default Capacity ו-pool capacities; "
+      + "'Available Capacities' (loio 4a73b65334e6b54ce10000000a174cb4), הקובע 'Operating time = (Working time - "
+      + "Break time) x Capacity utilization rate/100%' ו-'The available capacity is then: Available capacity = "
+      + "Operating time x n' (הסניפט קטוע, ולכן לא נטען כאן הנוסח המלא של הנוסחה); 'Maintaining Capacities' (loio "
+      + "fa73b65334e6b54ce10000000a174cb4); 'Work center/Resource' במדריך Data Migration (loio "
+      + "d1c46c79ab034062a3ded5bb8ab3e79f), שסניפטו מונה 'Work Center Capacities, Header Data Work Center "
+      + "Capacities, Description Work Center Capacities, Intervals of Available ...' בין המבנים הנתמכים באובייקט "
+      + "ההגירה WORK_CNTR; ובמדריך APIs for Manufacturing העמודים 'Work Center' (loio "
+      + "62ec4758c3f90a02e10000000a44147b), שסניפטו מונה בין הישויות 'Capacity Assignment, Capacity Header, "
+      + "Capacity ...', 'Create Work Center Capacity' (loio 9cb789b6a0b945d893e01ac0b90f8970), הקובע 'To create "
+      + "workcenter Capacity, you use the HTTP method POST on the WorkCenterCapacity entity', ו-'Operations for "
+      + "Work Center' (loio befc0d2c369c4d92a1ced6d6dc26a2e4), שסניפטיו מונים 'Read Work Center Capacity GET', "
+      + "'Create Work Center Capacity POST' ו-'Delete Work Center Capacity Shift DELETE'. (4) ההקשר של תחזוקת מפעל: "
+      + "עמודי Maintenance Management לגרסת 2025 FPS01 עוסקים בקיבולת של מרכזי עבודה מתחזקים בלי לנקוב בשם הטבלה - "
+      + "'Calculation of Available Capacity' (loio e45db16ec86a4c14a64c11b888ad2a38), הקובע 'The apps only show "
+      + "work centers for which capacities have been defined', 'Active capacity version defined at work center "
+      + "capacity header level' ו-'The available capacity is calculated based on the operating time in hours and "
+      + "the number of maintenance workers assigned to a work center'; 'Required Work Center Configuration' (loio "
+      + "428b6b7d1f4041ab84756d38665605d8); 'Changing the Available Work Center Capacity' (loio "
+      + "85507e46288047858210cfbbb116c86f); 'Work Center Utilization FAQ' (loio 066795a47bb24b819de8162f1eeb6ce2), "
+      + "הקובע 'The capacity utilization is defined as part of the standard available capacity specified at the "
+      + "header level of the work center capacity'; ו-'Capacity Requirements Planning in Plant Maintenance "
+      + "(PM-WOC-CP)' (loio 824db0d59d2f455bb5e6b91a79fd4b34) לצד 'Capacity Planning in Plant Maintenance "
+      + "(PM-WOC-CP)' (loio 4211110d460d73aee10000000a114b54). הקישור בין המונח capacity header בעמודי תחזוקת המפעל "
+      + "לבין השם הטכני KAKO נשען כאן על עמוד ה-VDM ועל מסמך הארכוב, לא על עמודי ה-PM עצמם. (5) אפליקציות Fiori: "
+      + "המזהה F3289 אומת במקור רשמי - מסמך רשימת הפישוט כותב 'App Manage Work Center Capacity (F3289)' ומוסיף טבלת "
+      + "תיעוד עם App 'Manage Work Center Capacity' ו-Fiori-ID 'F3289'. לגבי F3951 אין סתירה מול הדאטהסט: בגוף "
+      + "הפריט המסמך כותב 'Capacity Planning Board (F3951)', אך בטבלת התיעוד של אותו פריט עמודת SAP Help נוקבת "
+      + "ב-'Capacity Scheduling Board | SAP Help Portal', וזה בדיוק השם ש-data/fiori/apps.ts נותן ל-F3951; כלומר "
+      + "'Capacity Planning Board' הוא ניסוח פרוזה במסמך ו-'Capacity Scheduling Board' הוא שם עמוד העזרה. F3770 "
+      + "(Capacity Planning Table, ובטבלה 'Capacity Scheduling Table | SAP Help Portal') ו-F5381 (Mass Maintenance "
+      + "Of Work Center Capacities) אינם קיימים ב-data/fiori/apps.ts ולכן אינם xrefs. (6) תצוגות CDS: I_Capacity, "
+      + "I_CapacityText, I_CapacityBySemanticKeyStdVH ו-I_AvailableCapacityInterval אינן באינדקס ה-CDS של הדאטהסט "
+      + "(lib/route-manifest.generated.ts), ולכן אין להן xref; I_WorkCenterCapacity כן קיימת, ו-data/cds-map.ts "
+      + "ממפה אותה לטבלאות KAKO, KAZT ו-CRCA. (7) שכבת ההשפעה: data/s4-impact.ts#S4_STABLE אינה מכילה את KAKO, ולכן "
+      + "הסטטוס 'ללא שינוי' שהאפליקציה גזרה עד כה נשען על עמודת s4Note של הבלופרינט בלבד דרך lib/s4-class; הרשומה "
+      + "הזו מחליפה את הגזירה בסטטוס מחובר למקור רשמי. (8) מה שלא נבדק: חיבור MCP למערכת SAP חיה (sc4sap) אינו זמין "
+      + "לפי audit/s4-enrichment/MANIFEST.md, ולכן לא בוצעה בדיקת SE11 או ADT ולא אומתו טיפוסי השדות, אורכיהם, "
+      + "נוכחות MANDT וסדר המפתח; לא נטען מספר SAP Note בשדה sapNote - המספרים 0002268050 ו-2269324 מופיעים כלשונם "
+      + "בגוף מסמך רשימת הפישוט שנקרא, אך לא נפתח עבורם דף notes בדומיין מורשה; הממצא השלילי לגבי פישוט נבדק על "
+      + "מסמך 2025 FPS01 בלבד, והחיפוש בוצע על חילוץ הטקסט של ה-PDF, שעלול לפצל מחרוזת בין שורות. חיפוש הרשת המוגבל "
+      + "לדומיינים הרשמיים לא החזיר עמוד שכותרתו או תקצירו נוקב ב-KAKO, ולכן לא נוסף ממנו מקור.",
+  },
+  {
+    id: "table:KAZT",
+    aliases: ["kazt"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Available Capacity Interval | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/d4d187afb3cd4edc88c1c1b9fc1316a3.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE4,
+        claim:
+          "עמוד מודל הנתונים הווירטואלי לתצוגת Available Capacity Interval קובע 'Technical Name "
+          + "I_AvailableCapacityInterval View Type Basic, Dimension Release Status Released', ומגדיר את ייעודה: "
+          + "'With this CDS view you can retrieve the available capacity interval data (table KAZY)'. כלומר הטבלה "
+          + "שהתיעוד הרשמי מקשר למרווחי הקיבולת הזמינה היא KAZY. התכונות שמונה הסניפט הן validity end date, number "
+          + "of capacities, number of shifts, workday rule, interval duration in days ו-plan utilization in "
+          + "percent. הסניפט אינו נוקב בשם KAZT.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Work Centers and Capacities (PP-BD-WKC) | Data Archiving in Production Planning and "
+          + "Control (PP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/1770bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מסמך הארכוב של מרכזי עבודה וקיבולות בגרסת 2025 FPS01 מונה את טבלאות משפחת הקיבולת כלשונן: 'Assignment "
+          + "of capacity to work center (CRCA) Capacity header (KAKO) Descriptions of capacity (KAKT) Intervals of "
+          + "available capacity (KAZY) Capacity shift values (KAPA) Assignment of alternative units of measure to "
+          + "capacity (KAPE) Shift definition (daily work schedule) (T550A) Work break schedule (T550P)'. מרווחי "
+          + "הקיבולת מיוחסים כאן ל-KAZY וערכי המשמרות ל-KAPA. KAZT אינה מופיעה בקטעים שנצפו, והסניפטים קטועים, ולכן "
+          + "זהו העדר אזכור ולא הוכחה שהטבלה אינה קיימת.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Feature Comparison for Work Center Capacities | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/95a31a7217f64a018138bc57a9c6a724.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "עמוד השוואת היכולות לקיבולות מרכזי עבודה בגרסת 2025 FPS01 פותח ב'The following table compares the "
+          + "features offered by various apps in the area of Capacity Planning apps' ומעמיד זו מול זו את 'Create "
+          + "Capacity Change Capacity Display Capacity' שמזהה היישום שלהן הוא 'CR11/CR12/CR13' ואת 'Mass "
+          + "Maintenance Of Work Center Capacities' שמזהה היישום שלה הוא F5381. שתי הדרכים נושאות את השורה 'Create "
+          + "Intervals with shifts for single work center capacity Yes Yes', והסניפט מוסיף את השורה 'Batch Create "
+          + "of Intervals with shifts for multiple work center capacities No Yes', כלומר היצירה המרוכזת למספר "
+          + "קיבולות קיימת בערוץ F5381 בלבד. תחזוקת מרווחי קיבולת ומשמרות היא אפוא פונקציה חיה בגרסה זו, בשני "
+          + "ערוצים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הבלופרינט של תעשיות תהליכיות ושכבת ההעשרה של הפרויקט - רשומת KAZT",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט של תעשיות תהליכיות (נושא 5, משאבים ומרכזי עבודה) מתאר את KAZT כ'מרווחי זמן ומשמרות "
+          + "לקיבולת', רושם descriptionEn 'Capacity ID', טרנזקציות CR11, CR12 ו-CR13, הערת S/4 'ללא שינוי מבני.', "
+          + "צירוף 'FROM KAZT JOIN KAKO ON KAZT.KAPID = KAKO.KAPID' ושישה שדות: KAPID, VERSN, TPROG, BEGZT, ENDZT "
+          + "ו-KAPAZ. שכבת ההעשרה של הפרויקט מחריגה את KAZT במפורש: היא נמנית באחת עשרה הטבלאות שמבנה המפתח "
+          + "והסמנטיקה שלהן, כלשון ההערה בקובץ, could not be confirmed from a trusted source, ולכן הושארו בלי "
+          + "העשרה. בנוסף, רשימות ה-funcs וה-progs באותה שורה הן פריטי רשומת אב חומר (BAPI_MATERIAL_SAVEDATA, "
+          + "BAPI_MATERIAL_GET_DETAIL, RMMG2000, MM60) שאין להם זיקה לקיבולת, ולכן הן סימן לאיכות הנתונים של השורה "
+          + "ולא מקור לרשומה זו.",
+        verificationLevel: "verification_required",
+        repoRef: "data/sapData.pppi.ts#PP-PI:KAZT, data/table-enrichment.ts#KAZT, data/table-titles.json#KAZT",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "שם הטבלה KAZT לא אותר באף מקור SAP רשמי שנבדק בסבב זה, ואילו התוכן שהמאגר מייחס לה, מרווחי קיבולת זמינה "
+        + "ומשמרות, מיוחס בתיעוד הרשמי לטבלאות אחרות: KAZY למרווחי הקיבולת ו-KAPA לערכי המשמרות. הבדיקה נעשתה "
+        + "בשלושה סקופים של שירות החיפוש של help.sap.com (S/4HANA On-Premise 2025 FPS01, SAP ERP 6.18 ו-S/4HANA "
+        + "Cloud 2608) ובחיפוש רשת מוגבל לדומיינים הרשמיים; רשימת טבלאות הקיבולת שבמסמך הארכוב PP-BD-WKC נוקבת "
+        + "ב-KAZY בסקופ On-Premise 2025 FPS01 וגם בסקופ ERP 6.18, ועמוד ה-VDM של I_AvailableCapacityInterval נוקב "
+        + "ב-KAZY בסקופ On-Premise 2023.latest וגם בסקופ S/4HANA Cloud 2608; בשלושת הסקופים לא הוחזר ולו עמוד אחד "
+        + "הנוקב ב-KAZT. התחום התפקודי עצמו חי ומתועד בגרסת 2025 FPS01 (ראיה 3), אך זהות הטבלה KAZT, מבנה שדותיה "
+        + "ומעמדה ב-S/4HANA טרם אומתו, ולכן פסיקת הבלופרינט 'ללא שינוי מבני' אינה מוצגת כאן כפסיקה מאומתת.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE11 או ב-ADT במערכת היעד אם הטבלה KAZT קיימת, מהו הטקסט הקצר שלה ומהו מפתחה, ובאותה "
+        + "בדיקה להשוות אותה ל-KAZY ול-KAPA שהן הטבלאות שהתיעוד הרשמי נוקב בהן למרווחי קיבולת ולערכי משמרות. עד "
+        + "לאימות אין להסתמך על השורה הזו בהסבה, בפיתוח מותאם או בדוח, ואין להציג את הערת 'ללא שינוי מבני' "
+        + "שבבלופרינט כמעמד מאומת, ואין להעתיק לקוד את צירוף ה-SQL שבבלופרינט (KAZT JOIN KAKO). לקריאת מרווחי "
+        + "קיבולת ומשמרות ב-S/4HANA יש לעבוד דרך שכבת ה-CDS המשוחררת, ובכלל זה I_AvailableCapacityInterval לפי ראיה "
+        + "1, ולא דרך שאילתה ישירה לטבלה; לתחזוקה יש להשתמש ב-CR11, CR12 ו-CR13 או ביישום Mass Maintenance Of Work "
+        + "Center Capacities (F5381) לפי ראיה 3.",
+    },
+    xrefs: [
+      "table:KAKO", "table:CRCA", "table:CRHD", "table:CRTX", "tx:CR11", "tx:CR12", "tx:CR13", "tx:CM01",
+      "cds:I_WorkCenterCapacity",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שמונה ריצות של scripts/sap-help-search.mjs (בין השאר 'KAZT', 'intervals of available capacity', 'shift "
+      + "sequence available capacity work center', 'available capacity interval data table KAZT', 'capacity shift "
+      + "values KAPA intervals KAZY table', 'I_AvailableCapacityInterval', 'Feature Comparison for Work Center "
+      + "Capacities CR11 F5381') בשלושה מוצרים (SAP_S4HANA_ON-PREMISE, SAP_ERP, SAP_S4HANA_CLOUD) וחיפוש רשת מוגבל "
+      + "ל-help.sap.com / api.sap.com / fioriappslibrary / fal לא העלו ולו עמוד רשמי אחד הנוקב במחרוזת KAZT; שאילתת "
+      + "'KAZT' מחזירה התאמות מטושטשות בלבד מתחום קזחסטן (KZT, KAZP, KAZO). שדות loio, versionId וה-URL הועתקו "
+      + "מרשומות ה-JSON; שלוש הכתובות שברשומה החזירו HTTP 200 ב-2026-09-15. גוף עמודי ה-Help לא נקרא (מעטפת "
+      + "JavaScript), ולכן כל ציטוט תחום לכותרת ולסניפט של רשומת החיפוש. ראיה 1 נלקחה מגרסת 2023.latest משום שזו "
+      + "הגרסה שבה מדריך ה-VDM מפרסם את העמוד; אותו ניסוח, ובכלל זה 'table KAZY', חוזר גם בסקופ S/4HANA Cloud 2608, "
+      + "ורשימת הטבלאות של מסמך הארכוב חוזרת גם בסקופ ERP 6.18, ולכן הממצא אינו תלוי גרסה בודדת. הטבלאות KAZY, "
+      + "KAPA, KAKT, KAPE, T550A ו-T550P אינן קיימות ביקום המזהים של הדאטהסט ולכן אינן ב-xrefs, אף ששתי הראשונות הן "
+      + "לב הממצא. גם היישום F5381 אינו קיים ב-data/fiori/apps.ts ולכן אין xref מסוג fiori, אף ששמו ומזההו מופיעים "
+      + "בסניפט הרשמי של ראיה 3. ה-xrefs table:CRHD ו-table:CRTX אינם נקובים באף ראיה ברשומה זו; הם נוספו כהקשר "
+      + "מרכז העבודה שהקיבולת משויכת אליו לפי CRCA, ולא כעובדה רשמית. ה-xref ל-cds:I_WorkCenterCapacity מגיע "
+      + "מ-data/cds-map.ts, שם התצוגה ממופה לטבלאות KAKO, KAZT ו-CRCA; עמוד ה-VDM הרשמי של אותה תצוגה (loio "
+      + "c2bbd25bd6964364883fa0503d18f07a, 2023.latest) קובע לעומת זאת שהיא מאחזרת את הקיבולות המשויכות למרכז עבודה "
+      + "'table CRCA', ואינו נוקב ב-KAZT, ולכן המיפוי במאגר הוא קישור ברמת הפרויקט ולא עובדה מאומתת. ממצא נוסף שלא "
+      + "צוטט כראיה: בסקופ ECC (SAP_ERP 6.18.latest) עמוד LOIWCS02 של ממשקי תכנון שרשרת האספקה (LO-SCI, loio "
+      + "c41ebf53d25ab64ce10000000a174cb4) מתאר סגמנט IDoc של מרכז עבודה וקיבולת ובו שמות שדות החופפים לרשימת השדות "
+      + "שבבלופרינט (KAPID 'numc 8', AZNOR, BEGZT 'Start time (seconds)', ENDZT 'Finish time in seconds "
+      + "(internal)', FABTG); זהו מבנה IDoc ולא הגדרת טבלת DDIC, וטיפוסי השדות בו (int4 בשניות) שונים מ-TIMS 6 "
+      + "שבבלופרינט, ולכן הוא אינו מאמת את שדות KAZT. עוד ברובד המאגר: היחס שנרשם לשורה הוא role 'child' אל KAKO עם "
+      + "צירוף על KAPID, כלומר קריאה של מרווח כבן של כותרת הקיבולת, וכיוון זה לא אומת מול מקור רשמי. המעמד "
+      + "שהאפליקציה מציגה היום נגזר מעמודת ה-S/4 של הבלופרינט דרך lib/s4-class: ההערה 'ללא שינוי מבני.' נקראת כ'ללא "
+      + "שינוי' ומוצגת בירוק; רשומה זו מחליפה אותה ב'נדרש אימות נוסף'. פערים שנותרו: קיום הטבלה KAZT, הטקסט הקצר "
+      + "שלה, מפתחה ורשימת שדותיה, וכן מעמדה ב-S/4HANA, לא נבדקו במערכת חיה משום שחיבור ה-MCP של sc4sap נכשל בסשן "
+      + "זה; לא נבדקה רשימת פריטי הפישוט (Simplification Item Catalog) משום שהיא דורשת S-user, ולכן לא נטען דבר על "
+      + "פריט פישוט הנוגע למשפחת הקיבולת.",
+  },
+  {
+    id: "table:CRVD_A",
+    aliases: ["crvd_a"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Default values | Work Centers (PP-BD-WKC)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/d74941cf210b44768dc074ce2f243890/b973b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "תיעוד מרכזי העבודה (PP-BD-WKC) בגרסת 2025 FPS01 מגדיר את מנגנון ערכי ברירת המחדל: 'You can enter "
+          + "default values for operation and sub-operations in work centers. The default values are then copied "
+          + "when you assign the work center to the operation or sub-operation', ומונה אותם: 'Default values in "
+          + "work centers are for instance: Wage type and wage group Control key Standard text key Suitability "
+          + "Setup type key Activity type Units for the standard values'. מפתח הבקרה (Control key) וסוג הפעילות "
+          + "(Activity type) נמנים ברשימה הזו. הסניפט אינו נוקב בשם טבלה כלשהי, ובכלל זה אינו מזכיר את CRVD_A, "
+          + "ואינו מקשר בין ערכי ברירת המחדל לבין טבלת אחסון כלשהי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work center/Resource | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/d1c46c79ab034062a3ded5bb8ab3e79f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "אובייקט ההגירה 'Work center/Resource' (Object Alias WORK_CNTR, רכיב PP) בגרסת 2025 FPS01 מונה את "
+          + "מקטעי הנתונים של מרכז העבודה או המשאב ב-S/4HANA: 'in SAP S/4HANA: Work Center Basic Data Work Center "
+          + "Default Values Work Center Scheduling Work Center Description Work Center Formula Constants Work "
+          + "Center Capacities, Header Data Work Center Capacities, Description Work Center Capacities, Intervals "
+          + "of Available Capacity Work Center Capacities, Shift Values Work Center Assignment to Cost Center', "
+          + "ומפנה לאימות בעורף דרך 'Transaction: Display Work Center (CR03) Display Resource (CRC3)'. כלומר 'Work "
+          + "Center Default Values' הוא מקטע נתונים נפרד ופעיל בגרסה זו, והטרנזקציות CR03 ו-CRC3 הן נתיבי התצוגה "
+          + "הרשמיים. הסניפטים אינם נוקבים בשם טבלת בסיס, ובכלל זה אינם מזכירים את CRVD_A.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Work Centers and Capacities (PP-BD-WKC) | Data Archiving in Production Planning and "
+          + "Control (PP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/1770bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE4,
+        claim:
+          "מסמך הארכוב של מרכזי עבודה וקיבולות (אובייקט הארכוב PP_WKC) בגרסת 2025 FPS01 מונה את טבלאות משפחת "
+          + "מרכז העבודה: 'Structure The archiving object PP_WKC comprises the following data of the work center "
+          + "and the capacities, as well as the following Customizing settings: Work center Work center header data "
+          + "(CRHD', 'Short descriptions of the work center (CRTX) Assignment of work center to cost center (CRCO) "
+          + "Assignment of work center to grouping subsystem connection (T705R)', 'subsystem connection (T705X) "
+          + "Assignment of CAP procedure to work centers (VERTE) CAP procedure texts (VERFT) Classification "
+          + "(archiving class CLASSIFY)', וכן 'Links to PD (HRP1001) Capacities Assignment of capacity to work "
+          + "center (CRCA) Capacity header (KAKO) Descriptions of capacity (KAKT'. CRVD_A אינה מופיעה בקטעים שנצפו; "
+          + "הסניפטים קטועים, ולכן זהו העדר אזכור ולא הוכחה שהטבלה אינה שייכת למשפחה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הבלופרינט של PP-PI ושכבות הידע של הפרויקט - רשומת CRVD_A",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE4,
+        claim:
+          "הבלופרינט של PP-PI (נושא 5, משאבים ומרכזי עבודה) מתאר את CRVD_A כ'קשרי ברירת מחדל למרכז עבודה', רושם "
+          + "טרנזקציות CR02 ו-CR03, הערת S/4 'ללא שינוי', שלושה שדות (OBJTY - Object type, OBJID - Object ID, STEUS "
+          + "- Default control key) וקשר אל CRHD דרך OBJID. שורת ההדרכה באותה רשומה ממקדת את הקריאה במשאב של תעשיות "
+          + "תהליכיות: 'ערכי ברירת מחדל ספציפיים למשאב PI (מפתח בקרה, סוג פעילות)', ושורת CRHD בבלופרינט מונה את "
+          + "CRVD_A בין ילדיה בתיאור 'ברירות מחדל למשאב (PI)'. זהו המקור היחיד במאגר שמייחס ל-CRVD_A סוג פעילות - "
+          + "רשימת השדות עצמה מונה רק OBJTY, OBJID ו-STEUS. שתי חולשות בשורה עצמה: עמודת התיאור באנגלית היא 'Object "
+          + "type', כלומר תווית השדה הראשון ולא טקסט קצר של טבלה, ורשימת מודולי הפונקציה והתוכניות שבשורה שייכת לאב "
+          + "החומר (BAPI_MATERIAL_SAVEDATA, BAPI_MATERIAL_GET_DETAIL, RMMG2000, MM60) ולא למרכז עבודה או ל-PRT. "
+          + "בתוך המאגר קיימות שתי קריאות סותרות לאותה טבלה: data/table-titles.json "
+          + "ו-data/knowledge/pppi-objects-ext.ts חוזרים על נוסח הבלופרינט ומסמנים אותו trust: needs-verification, "
+          + "בעוד data/knowledge/object-intel.ts ושני פרקים בספר ה-QM שבמאגר מייחסים את CRVD_A לאמצעי ייצור (PRT) - "
+          + "רשומת אב ב-CRFH, קישור למסמך, טרנזקציות CF01/CF02/CF03 ולצדה CRVD_B. שכבת ההעשרה מחריגה את הטבלה "
+          + "במפורש: CRVD_A נמנית באחת עשרה הטבלאות שלגביהן נרשם בקובץ 'their key structure / semantics could not "
+          + "be confirmed from a trusted source'.",
+        verificationLevel: "verification_required",
+        repoRef:
+          "data/sapData.pppi.ts#PP-PI:CRVD_A, data/table-titles.json#CRVD_A, "
+          + "data/knowledge/pppi-objects-ext.ts#CRVD_A, data/knowledge/object-intel.ts#CRVD_A, "
+          + "data/table-enrichment.ts#CRVD_A",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "שם הטבלה CRVD_A לא אותר באף מקור SAP רשמי שנבדק בסבב זה. בשירות החיפוש של help.sap.com, בסקופ S/4HANA "
+        + "On-Premise 2025 FPS01, מחזירה המחרוזת CRVD_A התאמות מטושטשות בלבד (שדות /CPD/CRID ו-/CPD/CRAID בתוכן "
+        + "ה-BI של Commercial Project Management); בסקופ SAP ERP 6.18 חוזרים עמודי אמצעי ייצור כלליים, בלי אזכור "
+        + "הטבלה; וחיפוש רשת מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal לא החזיר ולו עמוד אחד הנוקב "
+        + "בטבלה. התחום התפקודי שהמאגר מייחס לטבלה, ערכי ברירת מחדל של מרכז עבודה או משאב, מתועד רשמית וחי בגרסת "
+        + "2025 FPS01 (ראיות 1 ו-2), אך הקישור בינו לבין הטבלה CRVD_A, מבנה המפתח שלה ומצבה ב-S/4HANA טרם אומתו. "
+        + "נוסף על כך המאגר סותר את עצמו: מול נוסח 'קשרי ברירת מחדל למרכז עבודה' שבבלופרינט עומדת קריאה שנייה, לפיה "
+        + "CRVD_A היא טבלת קישור של אמצעי ייצור (PRT) למסמך, לצד CRVD_B. רשימת הטבלאות של אובייקט הארכוב PP_WKC "
+        + "בקטעים שנצפו (CRHD, CRTX, CRCO, T705R, T705X, VERTE, VERFT, HRP1001, CRCA, KAKO, KAKT ומחלקות ארכוב "
+        + "CLASSIFY, CHANGEDOCU ו-TEXT) אינה כוללת את CRVD_A, וזו אינדיקציה נגד הקריאה של מרכז העבודה - אך לא "
+        + "הכרעה, משום שהסניפטים קטועים.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE11 או ב-ADT במערכת היעד שהטבלה CRVD_A קיימת, מהו הטקסט הקצר שלה, מהו מפתחה ומהו "
+        + "ערך OBJTY המאוחסן בה, לפני הסתמכות עליה בהסבה, בקוד מותאם או בדוח. ערך OBJTY הוא ההכרעה בין שתי הקריאות: "
+        + "'A' מצביע על מרכז עבודה או משאב, 'FH' על אמצעי ייצור. עד לאימות אין להציג את הערת 'ללא שינוי' שבבלופרינט "
+        + "כפסיקה מאומתת, ואין לצטט את התיאור 'קשרי ברירת מחדל למרכז עבודה' כשם SAP רשמי. לעבודה שוטפת עם ערכי "
+        + "ברירת המחדל יש לעבור דרך הנתיב המתועד: תחזוקה ותצוגה של מרכז עבודה ב-CR02/CR03 ושל משאב בתעשיות תהליכיות "
+        + "ב-CRC2/CRC3, כאשר עוגן הנתונים הוא CRHD; אם האימות במערכת יראה שמדובר בטבלת PRT, העוגנים הם CRFH ו-AFFH "
+        + "ונתיב התחזוקה הוא רשומת אב ה-PRT. בהסבה מומלץ להריץ Where-Used על CRVD_A בקוד המותאם: שתי הקריאות "
+        + "מובילות לשדות שונים, וקוד שנכתב נגד ההנחה השגויה ייכשל בהסבה.",
+    },
+    xrefs: [
+      "table:CRHD", "table:CRTX", "table:CRCA", "table:CRCO", "table:CRFH", "table:AFFH", "tx:CR02", "tx:CR03",
+      "tx:CRC2", "tx:CRC3", "cds:I_WorkCenter", "cds:I_WorkCenterText",
+    ],
+    lastVerifiedAt: DATE4,
+    notes:
+      "שיטה: תשע שאילתות ב-scripts/sap-help-search.mjs (מוצר SAP_S4HANA_ON-PREMISE: 'CRVD_A', 'CRVD_A CRVD_B "
+      + "production resource tool link document', 'work center default values table CRHD CRVD', 'Default Values "
+      + "work center control key operation standard value', 'Archiving Work Centers relevant tables CRHD CRCA CRCO "
+      + "CRTX', 'PP_WKC archiving object work center default values CRVD_A', 'Work center Resource migration "
+      + "object', 'Work center/Resource data migration in SAP S/4HANA Work Center Basic Data Work Center Default "
+      + "Values Work Center Scheduling', 'Archiving Work Centers and Capacities PP_WKC archiving object work center "
+      + "header data CRHD CRTX CRCO T705R HRP1001 CRCA KAKO KAKT'), שאילתה נוספת במוצר SAP_ERP ('CRVD_A table "
+      + "production resource tool'), וחיפוש רשת מוגבל ל-help.sap.com / api.sap.com / fioriappslibrary / fal עבור "
+      + "'CRVD_A table SAP'. שדות loio, versionId וה-URL הועתקו מרשומות ה-JSON; שלוש הכתובות שברשומה החזירו HTTP "
+      + "200 ב-2026-09-15. גוף עמודי ה-Help לא נקרא: ניסיון להוריד את עמוד הארכוב של PP_WKC החזיר מעטפת JavaScript "
+      + "בת 1160 בתים, ושני נתיבי שירות תוכן חלופיים החזירו את אותה מעטפת. שירות החיפוש מחזיר סניפט שונה לאותה "
+      + "רשומה לפי מילות השאילתה, ולכן שלושת הציטוטים נאספו מריצות שונות של אותם שלושה loio; כל ציטוט תחום לכותרת "
+      + "ולסניפט של רשומת החיפוש שהחזירה אותו, וגוף העמוד לא נקרא. הקריאה השנייה, שלפיה CRVD_A היא טבלת קישור של "
+      + "אמצעי ייצור (PRT) למסמך, נסמכת בתוך המאגר על data/knowledge/object-intel.ts ועל פרקים 2 ו-7 של ספר ה-QM, "
+      + "ולא על מקור רשמי: התהליך העסקי עצמו אכן מתועד רשמית בעמוד 'Linking PRTs to Documents' (Production Planning "
+      + "and Control, 2025.001, loio db84bf53f106b44ce10000000a174cb4, 'This procedure describes how you can link "
+      + "production resources/tools (PRT) with a PRT master record (miscellaneous) to a document'), אך גם עמוד זה "
+      + "אינו נוקב בשם טבלה, ולכן הוא לא נכלל כראיה ברשומה. שתי הסתירות שאותרו נרשמו להמשך טיפול ואינן מסומנות "
+      + "כ-conflictingEvidence כדי שלא להוריד את כל הרשומה ל'מקורות סותרים': (א) תיאור הטבלה עצמו, 'קשרי ברירת מחדל "
+      + "למרכז עבודה' בבלופרינט, ב-data/table-titles.json וב-data/knowledge/pppi-objects-ext.ts מול הקריאה של PRT "
+      + "ב-data/knowledge/object-intel.ts ובספר ה-QM; (ב) הפסיקה 'ללא שינוי' שבעמודת ה-S/4 של הבלופרינט, שהיא מקור "
+      + "הסטטוס הנגזר שהאפליקציה מציגה היום (unchanged לפי lib/s4-class ו-lib/evidence/s4-status.ts), ושאין מאחוריה "
+      + "ראיה רשמית. מגבלה נוספת: קטלוג פריטי הפישוט ומאגר ה-SAP Notes נמצאים מאחורי התחברות S-user, ולכן לא נבדק "
+      + "אם קיים פריט פישוט הנוגע לטבלה, ולא צוטט מספר Note כלשהו.",
   },
 ];

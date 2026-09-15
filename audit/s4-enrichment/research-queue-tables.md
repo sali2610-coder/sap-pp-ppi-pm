@@ -10,7 +10,8 @@ upgraded `table:MSEG` worked example; 1 refuted). Updated 2026-09-07 for batch 2
 Updated 2026-09-15 for batch 5 (8 audited, 7 written, 1 refuted, `table:COBRA`; one correction queued
 for `fm:NOTIF_TASK_READ` in the functions catalog). Updated 2026-09-15 for batch 6 (8 audited, 7 written,
 1 refuted, `table:QPGR`; `table:COBRA` resolved; one correction queued for `table:QMAT` in
-`data/table-tcodes.json`).
+`data/table-tcodes.json`). Updated 2026-09-15 for batch 7 (8 audited, 8 written, 0 refuted; the production
+resource/tool family and the work-center capacity family; four of the eight written `verification_required`).
 
 ## refuted / needs new evidence
 
@@ -535,3 +536,149 @@ from depth L3 to L5 (it is the only one of the seven whose blueprint row carries
   QMAT 4, **STAS 5**. Raising the other six needs SE11 or an official field list, not more evidence. The
   tables coverage row therefore moves only on STAS: L3 5 → 4 and L5 25 → 26 (total 105, L1 75, verified
   105, all measured with `npm run report:coverage -- --catalog tables`).
+
+## batch 7 (2026-09-15) — 8 audited, 8 written, 0 refuted
+
+Records written: `table:CRFH`, `table:FHMI`, `table:AFFH`, `table:AFWI`, `table:CRCA`, `table:KAKO`,
+`table:KAZT`, `table:CRVD_A` — the production resource/tool family (CRFH, FHMI, AFFH, AFWI, CRVD_A) plus the
+work-center capacity family (CRCA, KAKO, KAZT). Six were merged from the verdict's `fixedRecord`;
+`table:AFFH` and `table:CRCA` had no `fixedRecord` and were rebuilt from the draft with every listed
+downgrade applied (see below). Four of the eight carry the token **`unchanged`** at edition on-premise with
+an authored `status.source` (CRFH and KAKO and CRCA at release 2025.001, AFFH at 2023.latest — the only
+releases in which the search index publishes a page naming those tables). The other four carry
+**`verification_required`** with `release: null` and `source: null`, on the `table:PLZU` precedent: no
+official page names FHMI, AFWI, KAZT or CRVD_A, and for three of them the official documentation attributes
+the same content to a *different* technical name (PLFH for task-list PRT assignment, AFWIS for the
+postprocessed backflush record, KAZY + KAPA for capacity intervals and shift values).
+
+### refuted / needs new evidence (batch 7)
+
+- None. All eight drafts survived the adversarial gate.
+
+### downgrades applied by the writer where the verdict supplied no fixedRecord (batch 7)
+
+- `table:AFFH` — six writer-applied corrections, each from the verdict's downgrade list: (1) the
+  Simplification-List evidence `release` changed from `2025.001` (a search versionId, wrong for a PDF) to
+  **`2025 FPS01`**, matching every other citation of `SIMPL_OP2025.pdf` in `data/verification/*.ts`;
+  (2) its `sourceTitle` extended with the item + printed-page anchors the house style requires
+  (`· item 10.1.59 … p. 903 · item 13.12.3 … p. 1202`); (3) `status.recommendedAction` no longer asserts
+  "שיוך ה-PRT נעשה במתכון האב" bare — the assertion now carries its own pointer (`loio
+  da7919e9f4874f7bbdd56e8adac25f65`, 2025.001), because none of the four cited evidences says where PRTs
+  *are* assigned, only that they cannot be used in the process order; (4) the notes' claim that the
+  `descriptionEn` defect is "אותה תקלה בדיוק" as PLZU and FHMI is corrected to "תקלה מאותו סוג" (measured:
+  those two read `Task list type`, AFFH reads `Routing number`); (5) the near-match examples for the
+  version-filtered AFFH query are corrected from "AFFW / affa" to the two the query actually returns,
+  **AFFHD** (Archiving Operative Project Structures, PS-ST-OPR) and **AFFHB** (Executing a Comparison);
+  (6) `accessedAt` uses the file's `DATE4` constant instead of a literal, as batches 3-6 do.
+- `table:CRCA` — six writer-applied corrections: (1) `status.recommendedAction` no longer says the
+  Simplification List puts "CM21, CM22, CM23, CM25, CM29 ו-MF50" in the compatibility scope. The body of
+  item 30.35 names CM21/CM22/CM23/CM25 "etc"; the six-transaction list comes from the item's KEYWORDS line;
+  and on MF50 the document says the opposite — "The transaction MF50 will continue to be available, but the
+  graphical planning table can only be used as part of the SAP S/4HANA compatibility scope". Both facts are
+  now stated separately. (2) The same distinction added to `notes`, so notes and recommendedAction stop
+  disagreeing about what the document says. (3) `A_WorkCenterAllCapacity_2` / `API_WORK_CENTERS` now carries
+  the flag "(עמוד שאינו מצוטט כראיה ברשומה זו)", matching the flag already used for `I_Capacity` in the same
+  paragraph. (4) `notes` records the page behind it (`Create Capacity Assignment`, 2025.001, loio
+  `027539bbfd124134a6d410030e5128fd`, snippet `Request URL -POST <host>/sap/opu/odata/SAP/API_WORK_CENTERS/
+  A_WorkCenterAllCapacity_2`). (5) An xref-justification line added: `table:KAZT` and `tx:CM01` are
+  navigation links from the repository layer only, named in no official source cited here; `CRC1`/`CRC3` and
+  `IR01` follow the `table:CRHD` formula. (6) The Fiori sentence now carries the one official anchor that
+  exists — item 30.35 naming *Manage Work Center Capacity* as a replacement app — while still stating that
+  no official source ties **F3289 to table CRCA** and that `data/fiori/apps.ts#F3289` lists only CRHD and
+  KAKO.
+
+### batch 7 (2026-09-15) open conflicts, recorded in the written records' notes
+
+- `table:CRFH` / `table:AFFH` — **PP-PI functional restriction, documented and unresolved by the blueprint.**
+  Official 2025 FPS01 pages in the Production Planning and Control deliverable state repeatedly that PRTs
+  cannot be used in the process order: `f984bf53f106b44ce10000000a174cb4` ("As PRTs cannot be used in process
+  orders in Release 4.0, this data does not have any functional significance in PP-PI"),
+  `e184bf53f106b44ce10000000a174cb4` (usage value and formula), `de84bf53f106b44ce10000000a174cb4` (release
+  for production), and the API page `da7919e9f4874f7bbdd56e8adac25f65` ("production resources/tools for
+  process manufacturing are assigned to the master recipe and not to the process order … Any operation you
+  would perform on the A_ProcessOrderProdnRsceTools_2 entity will result in empty responses"). The PP-PI
+  blueprint nevertheless places CRFH and AFFH in the process-order topic and gives AFFH the transaction
+  `COR2`. The records quote the restriction; the blueprint rows are **not** corrected here.
+- `table:CRFH`, `table:AFFH` — **transaction-code conflict confined to the blueprint sheet.**
+  `data/sapData.pppi.ts` writes `CFC1, CFC2, CFC3` for CRFH and `COR2, CFC2` for AFFH. The official
+  migration-object page names `CF02` (change) and `CF03` (display), and the repository's own enrichment
+  layer already agrees: `data/table-enrichment.ts#CRFH` writes "אמצעי עזר (CF01/CF02/CF03) = CRFH" and
+  `data/knowledge/object-intel.ts` uses CF01/CF02. A dedicated CFC1/CFC2/CFC3 search returns nothing tying
+  them to PRT maintenance (the only CFC-pattern hits are CFC9 in the PP/DS CIF context). CF01/CF02/CF03 are
+  absent from `lib/route-manifest.generated.ts`, so they are text-only in the records and carry no `tx:`
+  xref. Correction belongs in the workbook, not in the verification layer.
+- `table:CRFH` — **`FHMI` join unverified.** The blueprint declares FHMI the parent of CRFH with
+  `FROM FHMI JOIN CRFH ON FHMI.FHMNR = CRFH.FHMNR`, but the official Product Master page
+  (`8915c453f57eb44ce10000000a174cb4`) presents FHMI as a *material type*, not a table. The `table:FHMI`
+  xref is kept because the id exists in the dataset and covers the same domain — explicitly **not** as
+  confirmation of the join.
+- `table:FHMI` — **the central open question: is there a DDIC object named FHMI at all?** Twelve search runs
+  across three product scopes (S/4HANA On-Premise 2025 FPS01, SAP ERP 6.0 EHP8, S/4HANA Cloud Public Edition
+  2608.500) plus a domain-restricted web search return the string only as a material type / product category.
+  Needs SE11 or ADT. A second, internal contradiction is also open:
+  `data/knowledge/pppi-objects-ext.ts:37` reads FHMI as *material-based* PRT master data (matching the
+  official pages), while `data/knowledge/object-intel.ts:102` reads it as *equipment* PRT and attributes
+  `BAPI_PRT_FHM_CREATE` / `_GETDETAIL` / `_CHANGE` and transactions CR01/CR02 to it — none of which any
+  official page returned in this round.
+- `table:AFWI` — **the table name is absent from every official channel checked.** 49 search records across
+  three product scopes carry no token `AFWI`; the nearest match is the *different* technical name **AFWIS**
+  ("Postprocessed single postprocessing record") in two PP-REM archiving pages
+  (`d0a4b9537cceb44ce10000000a174cb4`, `c96bb6531de6b64ce10000000a174cb4`). The 2025 FPS1 Simplification
+  List, read in full, contains AFWI/AFWIS/AFFW/AFRU zero times (MKPF 48, MATDOC 84). Deliberately **not**
+  inferred: that the MM-IM item 15.3.1 (MKPF/MSEG → MATDOC) implies a change to AFWI. Two repository
+  readings also disagree and are recorded unresolved — `object-intel` calls AFWI the failed-movement /
+  reprocessing table while `table-enrichment` calls it the posted-movement bridge; the official VDM view
+  `I_FailedGoodsMovementItem` (loio `80069c6f8e11412888f21997e933596a`) attributes failed goods-movement
+  items to **AFFW**, not AFWI. The blueprint's English labels for RUECK and RMZHL are also inverted relative
+  to its own Hebrew labels.
+- `table:KAKO`, `table:KAZT` — **KAZT vs KAZY, the batch's sharpest data-quality finding.** Three
+  independent official channels name **KAZY** for available-capacity intervals: the PP_WKC archiving list
+  ("Intervals of available capacity (KAZY)"), the VDM page `I_AvailableCapacityInterval`
+  (`d4d187afb3cd4edc88c1c1b9fc1316a3`, "interval data (table KAZY)"), and the migration page
+  `Work center/Resource` (`d1c46c79ab034062a3ded5bb8ab3e79f`, structure "Interval of Available Capacity
+  (S_KAZY)"). Shift values are attributed to **KAPA**. The string KAZT appears in no official page and in no
+  Simplification List read. `table:KAZT` is kept as an xref from KAKO and CRCA only because the id exists in
+  the dataset; whether KAZT is an alias, a historical name or a dataset error needs SE11. `data/cds-map.ts`
+  additionally maps `I_WorkCenterCapacity` to KAKO + KAZT + CRCA, while the official VDM page for that view
+  names only `table CRCA` — a project-level mapping, not a verified fact.
+- `table:CRCA`, `table:KAKO` — **key-field disagreement inside the repository.** For CRCA,
+  `data/sapData.pppi.ts` writes OBJTY/OBJID/**CAPID** (KAPID as FK) while `data/table-enrichment.ts#CRCA`
+  writes MANDT/OBJTY/OBJID/**CANUM**; no official source names a single DDIC field of the table. For KAKO,
+  the blueprint's four fields (KAPID, KAPAR, AZNOR, NGRAD) omit **NAME** and **WERKS**, which the official
+  value-help page `6b1398a0a8304a5c93f14c7d22b155b0` states explicitly as "the semantic key (KAKO-NAME and
+  KAKO-WERKS)". Field lists stay at verification level "needs SE11".
+- `table:CRVD_A` — **two incompatible repository readings, undecided.** `data/sapData.pppi.ts`,
+  `data/table-titles.json` and `data/knowledge/pppi-objects-ext.ts` read CRVD_A as work-center / PI-resource
+  default values (OBJTY, OBJID, STEUS; CR02/CR03); `data/knowledge/object-intel.ts` and two QM-book chapters
+  read it as a PRT-to-document link alongside CRVD_B (CF01/CF02/CF03). No official page names the table in
+  either scope searched. The record states the decisive test — the value of **OBJTY** stored in it ("A" =
+  work center/resource, "FH" = PRT) — and recommends a Where-Used before any conversion. The PP_WKC archiving
+  table list (CRHD, CRTX, CRCO, T705R, T705X, VERTE, VERFT, HRP1001, CRCA, KAKO, KAKT + archiving classes
+  CLASSIFY, CHANGEDOCU, TEXT) does **not** include CRVD_A: an indication against the work-center reading, not
+  a decision, because the snippets are truncated.
+- `table:CRFH` — **CRVD_A xref rests on one side of that same disagreement.** It is written from the
+  `object-intel` (PRT version data) reading plus the id's existence in the dataset; `data/sapData.pppi.ts`
+  reads CRVD_A as work-center defaults with CR02/CR03. Recorded in the CRFH notes.
+- Fiori id gaps carried, none invented: **F5241** is the id the official Maintenance Management page gives
+  *Manage Maintenance Orders*, while `data/fiori/apps.ts` gives that name **F2731** — AFFH keeps F2731 as a
+  repository-level xref, exactly as `table:AFVC` decided. **F5381** (Mass Maintenance Of Work Center
+  Capacities) and **F3770** (Capacity Planning Table) appear in official snippets but are absent from
+  `data/fiori/apps.ts`, so neither is an xref. Conversely the F3951 naming gap is **closed**, not left open:
+  the documentation table at the end of Simplification item 9.5.4 prints App "Capacity Planning Board" |
+  Fiori-ID "F3951" | SAP Help "Capacity Scheduling Board | SAP Help Portal" — and "Capacity Scheduling Board"
+  is exactly the name `data/fiori/apps.ts` carries. No Fiori app for PRTs exists in the dataset, and the
+  What's New 2021 record `b943abafa1dc4f7f9c48e6301055ab64` names no F-id, so CRFH carries no `fiori:` xref.
+- `descriptionEn` column defect, now seen in five more rows: CRFH ("Object type (F=PRT)"), FHMI and PLZU ("Task list
+  type"), AFFH ("Routing number"), CRCA and CRVD_A ("Object type"), KAKO and KAZT ("Capacity ID").
+  In every case the first field's label was copied into the table-description column of the workbook. A
+  workbook fix, deliberately not patched in the verification layer.
+- **Depth ceiling, measured 2026-09-15 after the merge.** Seven of the eight records sit at **L1** and one at
+  **L2**: `components/neo-shell/data/tables-detail.ts` counts only fields carrying BOTH `dt` and `len`, and
+  the tables threshold is 5. Measured typed-field counts: AFWI 0, AFFH 3, CRVD_A 3, CRFH 4, FHMI 4, CRCA 4,
+  KAKO 4, **KAZT 6**. KAZT therefore *moves down*, L3 → L2, and that is the honest consequence of the record:
+  it previously reached L3 on a blueprint-derived `unchanged` verdict, and `depthOf` caps an authored
+  `verification_required` at L2. Raising any of the eight to L3+ needs SE11 or an official field list, not
+  more citations. The tables coverage row after the merge: total 105 unchanged, L1 75 unchanged, L2 0 → 1,
+  L3 4 → 3, L5 26 unchanged, verified 105 unchanged, **s4-applicable 103 → 99** (the four new
+  `verification_required` statuses leave the s4-applicable set), all measured with
+  `npm run report:coverage -- --catalog tables`.
