@@ -3,9 +3,18 @@
    Catalog data commit (2026-09-02): 12 audited records alongside the worked
    example. Functions batch 2 (2026-09-14): 14 more audited records (PM
    notification/confirmation BAPIs, BAPI_GOODSMVT_CREATE, and eight classic
-   FMs that stay verification_required). Tier-1 evidence comes from
+   FMs that stay verification_required).
+   Functions batch 3 (2026-09-21): 7 more audited records - the technical-object
+   master-data family (BAPI_EQUI_CHANGE, BAPI_EQUI_GETDETAIL, BAPI_FUNCLOC_CREATE,
+   BAPI_FUNCLOC_CHANGE, BAPI_FUNCLOC_GETDETAIL), BAPI_ALM_ORDER_GET_DETAIL and
+   BAPI_MATERIAL_SAVEDATA - each merged from its adversarial verdict (fixedRecord
+   where one was supplied, otherwise the listed downgrades applied to the draft);
+   all seven carry released_api_available on a documented OData alternative, none
+   claims a successor. fm:BAPI_EQUI_CREATE was refuted and queued.
+   Tier-1 evidence comes from
    help.sap.com search records (scripts/sap-help-search.mjs; loio + versionId
-   re-verified live), from the fully-read Simplification List PDF and from
+   re-verified live), from the fully-read Simplification List PDF, from the
+   fully-read ECC 6.0 EHP3 Release Notes PDF and from
    two fully-read SAP Library/NetWeaver pages; api.sap.com is cited only by
    the title a domain-restricted search returned; Tier-2 is the named
    repository record. Every claim is bounded by the snippet, the fully-read
@@ -17,6 +26,7 @@ import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 const DATE = "2026-09-01";
 const DATE2 = "2026-09-02";
 const DATE14 = "2026-09-14";
+const DATE21 = "2026-09-21";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -70,6 +80,136 @@ const GOODSMVT_ODATA_API: Evidence = {
     "'enhanced with additional properties', רכיב MM-IM-GF) ו-2025 FPS01 ‏(loio " +
     "bfe185a3e1ea4fe0a39b12d0683853ff, 'enhanced with Warehouse Handling Unit field'). אף אחת מהרשומות אינה " +
     "מציגה את ה-API כמחליף של BAPI_GOODSMVT_CREATE; הן מתעדות אותו כשירות OData לרישום מסמכי חומר לצד ה-BAPI.",
+  verificationLevel: "sap_official_verified",
+};
+
+
+/** fm:BAPI_EQUI_CHANGE — the Equipment API operations page (also its status source). */
+const EQUI_OPS_WRITE: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Operations for Equipment | APIs for Maintenance Management",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/d1e3c797d3f44120b552d0e64680e445.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: "2026-09-21",
+  claim: "עמוד הפעולות של שירות ה-OData‏ Equipment למהדורת On-Premise‏ 2025 FPS01 פותח ב-'Operations for " +
+         "Equipment The Equipment API offers these operations' ומונה בטבלת הפעולות את 'Read Equipment " +
+         "GET', את יצירת הציוד בשיטת POST על ‎/sap/opu/odata/sap/API_EQUIPMENT/Equipment ואת 'Update " +
+         "Equipment PATCH' על אותו נתיב, לצד 'Create Equipment Classification Data POST' / 'Update " +
+         "Equipment Classification Data PATCH' על EquipmentClassification ו-'Create Equipment Text POST' " +
+         "על EquipmentLongText. התקציר קובע גם: 'For this service, the If-Match header must be set for " +
+         "all change operations'. זו חלופת OData מתועדת לתרחיש שינוי נתוני אב של ציוד; העמוד אינו נוקב " +
+         "בשם BAPI_EQUI_CHANGE.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_EQUI_GETDETAIL — the same operations page, bounded to its read operations (also its status source). */
+const EQUI_OPS_READ: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Operations for Equipment | APIs for Maintenance Management",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/d1e3c797d3f44120b552d0e64680e445.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: "2026-09-21",
+  claim: "‏העמוד מונה את פעולות שירות ה-OData‏ Equipment API למהדורת On-Premise 2025 FPS01. כלשון התקציר: " +
+         "'The Equipment API offers these operations: Operation HTTP Method Sample URL Read Equipment GET " +
+         "‎/sap/opu/odata/sap/API_EQUIPMENT/Equipment (Equipment='217100091')', ולצידה 'Batch Request " +
+         "BATCH ‎/sap/opu/odata/sap/API_EQUIPMENT/$batch' ו-'Read Equipment Text GET ... " +
+         "‎/sap/opu/odata/sap/API_EQUIPMENT/EquipmentLongText'. קיימת אפוא פעולת קריאה רשמית לנתוני ציוד " +
+         "בשיטת GET תחת השירות API_EQUIPMENT. רשימת הפעולות המלאה, הפרמטרים ומבנה התשובה אינם מופיעים " +
+         "בתקציר.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_FUNCLOC_CREATE — the Functional Location OData service topic (also its status source). */
+const FLOC_API_CREATE: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Functional Location | APIs for Maintenance Management",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/b6a1e644059f4d53b11201b9c0aaefd7.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: "2026-09-21",
+  claim: "מדריך APIs for Maintenance Management לגרסת On-Premise 2025 FPS01 מתעד את השירות: 'Functional " +
+         "Location Technical name: API_FUNCTIONALLOCATION', וקובע 'The service enables the following " +
+         "operations for the functional location: Read functional location master data Create functional " +
+         "location master data Update functional location master data Delete'. הנושא המשלים Operations " +
+         "for Functional Location ‏(loio f69f391c38104f75ae5792155a88ce05, גרסה 2023.latest) מציג בטבלת " +
+         "הפעולות 'Create Functional Location POST " +
+         "/sap/opu/odata/sap/API_FUNCTIONALLOCATION/FunctionalLocation' לצד Read ו-Update, והנושא " +
+         "Extensibility: Functional Location API ‏(loio 5e1d4eabc0b541c28c3888006d2ada6f, גרסה 2025.001) " +
+         "קובע 'you can extend the OData Service API_FUNCTIONALLOCATION according to your business needs' " +
+         "דרך היישום Custom Fields and Logic בהקשר העסקי Functional Location ובישות A_FUNCTIONALLOCATION. " +
+         "אף אחת מהרשומות האלה אינה מציגה את השירות כמחליף של BAPI_FUNCLOC_CREATE.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_FUNCLOC_GETDETAIL — the same service topic, bounded to its read operation (also its status source). */
+const FLOC_API_READ: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Functional Location | APIs for Maintenance Management",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/b6a1e644059f4d53b11201b9c0aaefd7.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: "2026-09-21",
+  claim: "‏המדריך APIs for Maintenance Management למהדורת On-Premise 2025 FPS01 מתעד שירות OData למיקום " +
+         "פונקציונלי (תחזוקת מפעל): 'Functional Location Technical name: API_FUNCTIONALLOCATION " +
+         "Functional location represents a place in which a maintenance task has to be performed', ומונה " +
+         "'The service enables the following operations for the functional location: Read functional " +
+         "location master data, Create functional location master data, Update functional location master " +
+         "data, Delete ...' (התקציר נקטע אחרי Delete). רשומת 'Operations for Functional Location' באותו " +
+         "מדריך (loio f69f391c38104f75ae5792155a88ce05, 2023.latest) מציגה בטבלת הפעולות את 'Read " +
+         "Functional Location' בשיטת GET תחת הנתיב ‎/sap/opu/odata/sap/API_FUNCTIONALLOCATION, ורשומת " +
+         "'Read Functional Location' (loio f4966d57034b436a907099bdfb374e2b, 2025.001) מנסחת את היקף " +
+         "הפעולה: 'Read all functional locations, Read a functional location'. אף רשומה מאלה אינה נוקבת " +
+         "ב-BAPI_FUNCLOC_GETDETAIL ואינה מציגה את השירות כמחליף שלו.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_ALM_ORDER_GET_DETAIL — the v2 operations page read in full detail (also its status source). */
+const ALM_ORDER_OPS_V2: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Operations for Maintenance Order (Entity) - Version 2 | APIs for Maintenance Management",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/a77ab811acd34f38a715f8093eb68ead.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: "2026-09-21",
+  claim: "העמוד מונה את פעולות ישות Maintenance Order בגרסה 2 עבור On-Premise 2025 FPS01, ובהן פעולות " +
+         "קריאה בשיטת GET: 'Read All Maintenance Orders (Version 2)' ו-'Read Maintenance Order Header " +
+         "(Version 2)' בנתיב " +
+         "<host>/sap/opu/odata/sap/API_MAINTENANCEORDER;v=2/MaintenanceOrder('4012109')‎, לצד 'Read " +
+         "Maintenance Order Operation Details of an Order (Version 2)' ופעולות על פריטי רשימת האובייקטים " +
+         "('Create Object List Item (Version 2)' ו-'Read Object L…', כפי שמופיע בתקציר לפני הקיטוע). " +
+         "באותו מדריך ובאותה מהדורה, רשומת 'Operations Supported for Maintenance Order (Entity)'‏ (loio " +
+         "34d39907b5644cdb8900ac69e1c71b2d) מציגה פעולות קריאה מקבילות בנתיב גרסה 1 " +
+         "‎/sap/opu/odata/sap/API_MAINTENANCEORDER/MaintenanceOrder, ובהן 'Read All Maintenance Orders' " +
+         "ו-'Read Maintenance Order Header'. רשומת 'Maintenance Order (Deprecated)'‏ (loio " +
+         "d3f02cfccf00407ab9776ea2ec2030d3) נושאת את השם הטכני API_MAINTENANCEORDER, מונה את ישויות גרסה " +
+         "1 כשהקישור לפרטים נושא את הסיומת '(Deprecated)' (למשל 'Maintenance Order Object List Item " +
+         "(Deprecated)'), ומתארת את ישות Maintenance Order כמאפשרת לקרוא את נתוני כותרת פקודת האחזקה " +
+         "('Allows to read the maintenance order header data', כלשון התקציר); תיאור ישות Maintenance " +
+         "Order Operation נקטע בתקציר ואינו נרשם.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_MATERIAL_SAVEDATA — the Product Master (A2X) OData service topic (also its status source). */
+const PRODUCT_A2X: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Product Master (A2X) | APIs for Product Master",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/18fe3fab96864826bfa0be0de4f65b85/74aa2b58a333a107e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: "2026-09-21",
+  claim: "עמוד Product Master (A2X) לגרסת 2025 FPS01 נוקב בסניפט: 'Product Master (A2X) Use Technical " +
+         "name: API_PRODUCT_SRV This synchronous inbound service enables you to create, read, update, and " +
+         "delete (CRUD operations) the master data for products by exposing the', ומדגים נתיבי שירות תחת " +
+         "‎/sap/opu/odata/SAP/API_PRODUCT_SRV/A_Product. זו חלופת OData רשמית ומתועדת לכתיבת נתוני אב " +
+         "מוצר; הסניפט אינו מזכיר את ה-BAPI ואינו מציג אותו כמוחלף.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -3272,5 +3412,1027 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "ה-View אינו קיים בקטלוג ה-CDS של הפרויקט ולכן אינו מצוין כ-xref או כיורש. פרמטרי הממשק (EQUNR/PLANT/DATE, " +
       "STB) הם תיאור המאגר בלבד ולא אומתו. ההבחנה בין עץ מוצר של ציוד לעץ מוצר של חומר נשמרת: ה-xref " +
       "ל-CS_BOM_EXPL_MAT_RC1 הוא הפניה לשם המקביל בלבד ואינו טענת חלופה.",
+  },
+
+
+  /* ==================== functions batch 3 (2026-09-21) ==================== */
+  /* ------------------------------------------- fm:BAPI_EQUI_CHANGE */
+  {
+    id: "fm:BAPI_EQUI_CHANGE",
+    evidence: [
+      EQUI_OPS_WRITE,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Release Notes · SAP enhancement package 3 for SAP ERP 6.0, קובץ " +
+                     "Chapter_03__Release_Notes_Corporate_ServicesE.PDF, סעיף 'LOG_EAM_CI_2: BAPIs for " +
+                     "Technical Objects (new and enhanced)' (PDF, נקרא במלואו)",
+        url: "https://help.sap.com/doc/e5af5c111fde4fa5bf3fc521b113a7cf/6.03.18/en-US/Chapter_03__Release_Notes_Corporate_ServicesE.PDF",
+        product: "SAP ERP 6.0 EHP3 (EA-PLM 603)",
+        edition: "ecc",
+        release: "6.03",
+        accessedAt: "2026-09-21",
+        claim: "מסמך Release Notes רשמי שהורד ונקרא במלואו קובע תחת הכותרת 'LOG_EAM_CI_2: BAPIs for " +
+               "Technical Objects (new and enhanced)': 'As of SAP ECC 6.0, Enterprise Extension PLM, " +
+               "Enhancement Package 3 (EA-PLM 603), business function Enterprise Asset Management " +
+               "(LOG_EAM_CI_2), the following BAPIs are available for functional locations: " +
+               "BAPI_FUNCLOC_INHERIT_CHANGE ... BAPI_FUNCLOC_STRUC_ASSIGN, BAPI_FUNCLOC_STRUC_UNASSIGN, " +
+               "BAPI_FUNCLOC_STRUC_REPLACE', ומיד לאחר מכן: 'The BAPI BAPI_EQUI_CHANGE has also been " +
+               "extended. You can use this BAPI to change the material/serial number of a piece of " +
+               "equipment.' זהו המקור הרשמי היחיד שאותר הנוקב בשם BAPI_EQUI_CHANGE. הוא מתעד הרחבה של " +
+               "ה-BAPI ב-ECC 6.0 EHP3 בהקשר פונקציית העסקים LOG_EAM_CI_2 בלבד, ואינו קובע דבר על סטטוס " +
+               "השחרור של ה-BAPI, על הפרמטרים שלו או על מצבו ב-S/4HANA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enterprise Asset Management Part 3 | Logistics",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/77c07c8d30664260a0b3ff864e6b5e78/b23236698f104768955c692e03d00b79.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: "2026-09-21",
+        claim: "עמוד Logistics של S/4HANA On-Premise‏ 2025 FPS01 מתעד את פונקציית העסקים LOG_EAM_CI_2 " +
+               "‏('Technical Name of Business Function LOG_EAM_CI_2 ... Availability SAP S/4HANA, " +
+               "on-premise') ומונה בין הפונקציות שהפעלתה מעמידה לרשות הלקוח את 'BAPIs for technical " +
+               "objects'. התקציר כולל את המשפטים 'for Technical Objects (new and enhanced) New BAPIs are " +
+               "available for functional locations' ו-'An existing BAPI was extended. You can use it to " +
+               "change material/serial numbers for a piece of equipment'. כלומר תוכן LOG_EAM_CI_2 שנוקב " +
+               "ב-ECC בשם BAPI_EQUI_CHANGE מתועד גם במהדורת S/4HANA 2025 FPS01, אך העמוד עצמו אינו נוקב " +
+               "בשם ה-BAPI.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישומי ה-BAPI של הפרויקט (PM enrichment, sweep, קטלוג הפונקציות) ודאטהסט הבלופרינט " +
+                     "של PM",
+        product: "SAP ECC 6.0 / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "המאגר מתאר שינוי רשומת אב של ציוד קיים כמקבילת ה-API לטרנזקציה IE02: העברת מספר הציוד " +
+               "בפרמטר EQUIPMENT יחד עם מבני הנתונים ודגלי העדכון שלהם ‏(DATA_GENERAL(+X)‎, " +
+               "DATA_SPECIFIC(+X)‎, ובקטלוג הפונקציות 'DATA_GENERAL + DATA_GENERALX'), טבלת RETURN, וחובת " +
+               "BAPI_TRANSACTION_COMMIT; טבלאות מושפעות EQUI, EQUZ ו-ILOA, תצוגת CDS‏ I_Equipment, תהליך " +
+               "PM-2, והטעות הנפוצה המתועדת היא עדכון שדה בלי הדלקת דגל ה-X. רישום ה-BAPI מסמן " +
+               "verificationStatus‏ verified-docs, eccSupport ‏'כן', s4OnPremSupport ‏'כן', cloudSupport " +
+               "‏'לא צוין' ו-releasedStatus ‏'Released · RFC'; שדה המקור של רשומת ה-sweep הוא התווית 'SAP " +
+               "Help Portal — verified 2026-07-15' ללא URL, ושל רשומת ה-PM enrichment ‏'SE37 metadata " +
+               "mirror (sapdatasheet.org) + SAP Community', שתיהן ללא קישור רשמי. ה-BAPI רשום גם בדאטהסט " +
+               "הבלופרינט תחת EQUI.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_EQUI_CHANGE; " +
+                 "data/bapi-enrichment.sweep.ts#BAPI_EQUI_CHANGE; " +
+                 "data/function-intel.ts#BAPI_EQUI_CHANGE; data/sapData.pm.ts#EQUI",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "לתרחיש של ה-BAPI, שינוי נתוני אב של ציוד קיים, קיימת חלופת OData מתועדת: שירות API_EQUIPMENT " +
+          "במהדורת On-Premise‏ 2025 FPS01 מציג את הפעולה 'Update Equipment' בשיטת PATCH על הישות " +
+          "Equipment, עם דרישת כותרת If-Match לכל פעולת שינוי, לצד עדכון סיווג וטקסט ארוך. ה-BAPI עצמו " +
+          "נוקב בשמו רק במסמך Release Notes של ECC 6.0 EHP3 ‏(LOG_EAM_CI_2), המתעד את הרחבתו לשינוי מספר " +
+          "חומר ומספר סידורי של ציוד; אותה פונקציית עסקים מתועדת גם בעמוד Logistics של S/4HANA 2025 FPS01 " +
+          "ללא נקיבת שם ה-BAPI. לא אותר תיעוד SAP רשמי הקובע הוצאה משימוש, החלפה או הגבלה של " +
+          "BAPI_EQUI_CHANGE ב-S/4HANA, ולא אותר מקור רשמי הקובע את סטטוס השחרור שלו או את רשימת הפרמטרים " +
+          "שלו; אלה מגיעים מנתוני הפרויקט בלבד.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: EQUI_OPS_WRITE,
+      recommendedAction:
+        "בממשקי RFC קיימים להמשיך בדפוס המתועד במאגר: EQUIPMENT יחד עם מבנה הנתונים ומבנה ה-X המקביל " +
+        "לשדות שמשתנים, בדיקת טבלת RETURN ‏(TYPE = E/A) ואז BAPI_TRANSACTION_COMMIT; לאמת ב-SE37 במערכת " +
+        "היעד את סטטוס השחרור ואת שמות מבני הפרמטרים לפני שמסתמכים על נתוני המאגר. לאינטגרציות חדשות, " +
+        "לעדכון המוני ולתרחישי ענן להעדיף את שירות ה-OData‏ API_EQUIPMENT ‏(Update Equipment בשיטת PATCH, " +
+        "עם כותרת If-Match). לשינוי מספר חומר או מספר סידורי של ציוד לבדוק תחילה אם פונקציית העסקים " +
+        "LOG_EAM_CI_2 פעילה במערכת, ולשים לב שלפי עמוד Material Serial Number ‏(APIs for Maintenance " +
+        "Management, 2025.001) שירות המספר הסידורי אינו מעדכן נתוני ציוד ‏('This API does not update the " +
+        "data related to an equipment') ועדכון נתוני הציוד נעשה דרך Equipment API.",
+    },
+    xrefs: [
+      "fm:BAPI_EQUI_CREATE",
+      "fm:BAPI_EQUI_GETDETAIL",
+      "fm:BAPI_EQUI_INSTALL",
+      "fm:BAPI_FUNCLOC_CHANGE",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "table:EQUI",
+      "table:EQKT",
+      "table:EQUZ",
+      "table:ILOA",
+      "tx:IE02",
+      "tx:IE05",
+      "tx:IE4N",
+      "cds:I_Equipment",
+      "fiori:F2730A",
+      "enh:badi:BADI_EAM_TOB",
+      "enh:exit:IEQM0001",
+      "enh:exit:ITOB0001",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "הסטטוס הנגזר כיום באפליקציה (מרישום הפונקציות: verified-docs, תמיכת S/4HANA On-Premise 'כן', " +
+      "'Released · RFC') מציג 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט'. רשומה זו מעלה את הרמה " +
+      "ל'מאומת מול תיעוד SAP רשמי' עבור החלופה הרשמית בלבד ומשנה את הסטטוס ל'קיים API משוחרר'; היא אינה " +
+      "מאמתת את סטטוס השחרור של ה-BAPI עצמו ואינה טוענת החלפה, ולכן אין יורש. היקף הרשומה הוא שינוי ציוד " +
+      "קיים בלבד: ראיית ה-Release Notes של ECC 6.0 EHP3 נוגעת להרחבת BAPI_EQUI_CHANGE למספר חומר/מספר " +
+      "סידורי, לא ליצירת ציוד, ופעולות ההתקנה והפירוק שבעמוד הסקירה של APIs for Maintenance Management " +
+      "‏('Install and dismantle equipment without data transfer') שייכות לתרחיש אחר. ממצא שלילי " +
+      "תחום-חיפוש: שבע-עשרה שאילתות בשירות החיפוש של help.sap.com ב-2026-09-21 (בהן 'BAPI_EQUI_CHANGE' " +
+      "בסקופ SAP_S4HANA_ON-PREMISE, שבו שירות החיפוש החזיר בהרצות חוזרות בין שבע לתשע רשומות, ואף אחת מהן " +
+      "אינה נוקבת בשם ה-BAPI בכותרת או בתקציר; 'BAPI_EQUI_CHANGE equipment BAPI BUS0028' בסקופ SAP_ERP; " +
+      "'Equipment API_EQUIPMENT OData service'; 'Update Equipment PATCH equipment master data'; " +
+      "'Operations for Equipment API_EQUIPMENT'; 'Simplification equipment technical objects plant " +
+      "maintenance S/4HANA'; 'BAdI Modification of Data in BAPIs for Technical Objects'; 'BAPIs for " +
+      "technical objects change material serial number equipment existing BAPI extended') וכן שתי הרצות " +
+      "WebSearch מוגבלות ל-help.sap.com / api.sap.com / fioriappslibrary / fal.cloud.sap לא העלו אף עמוד " +
+      "HTML של S/4HANA הנוקב בשם ה-BAPI; שלושה מסמכי PDF רשמיים נוספים שהורדו ונסרקו " +
+      "(IntegrationGuide_SAP_PdMS_OP_FP05, ACF_Integration_ExtensibilityGuide, SAP_ASPM_IntegrationGuide) " +
+      "אינם נוקבים בו, והראשון נוקב ב-BAPI_EQUI_GETDETAIL בלבד. עמוד הסקירה APIs for Maintenance " +
+      "Management ‏(loio 13d40bd35fc74d289e81fc284a928448, 2025.001) מונה 'Update equipment master data' " +
+      "ו-'Mass create, read, and update equipment master data' כפעולות השירות, ורשומת What's New‏ 'ODATA " +
+      "API: Equipment' ‏(loio 41934c850eff4b02955311bb1d3abf8f, גרסה 2020.000) מתארת אותו שירות " +
+      "כ-'synchronous inbound service' ליצירה, עדכון וקריאה של ציוד; שתיהן הקשר תומך ולא צורפו כראיה " +
+      "נפרדת. ההקשר הפונקציונלי לשינוי ציוד מתועד בעמוד Changing a Piece of Equipment ‏(Technical Objects " +
+      "CS-BD/PM-EQM, loio da78bb53707db44ce10000000a174cb4, 2025.001). כותרת השער של קובץ ה-PDF שנקרא היא " +
+      "'Release Notes · Reporting Financials · SAP enhancement package 3 for SAP ERP 6.0' בעוד שהקובץ " +
+      "עצמו הוא פרק Corporate Services שבתוכו סעיפי LOG_EAM_CI_2; הציטוט לקוח מגוף הפרק. שמות מבני " +
+      "הפרמטרים ודגלי ה-X, קבוצת הפונקציות וסטטוס Released לא אומתו מול מקור רשמי ולא מול SE37. זמינות " +
+      "ב-S/4HANA Cloud Public Edition לא נבדקה. הפניית enh:badi:BADI_EAM_TOB ושתי הפניות ה-Customer Exit " +
+      "הן קישורי הקשר מקטלוג ההרחבות של הפרויקט; ה-BAdI‏ 'Modification of Data in BAPIs for Technical " +
+      "Objects' שמופיע ברשומות What's New מ-1610 עד 2020 לא הוצלב לשם טכני ואינו נטען כאן.",
+  },
+
+  /* ------------------------------------------- fm:BAPI_EQUI_GETDETAIL */
+  {
+    id: "fm:BAPI_EQUI_GETDETAIL",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search: \"BAPI_EQUI_GETDETAIL\" (SAP_S4HANA_ON-PREMISE), " +
+                     "\"BAPI_EQUI_GETDETAIL equipment read BAPI\" (SAP_ERP), \"BAPI_EQUI_CREATE " +
+                     "BAPI_EQUI_CHANGE equipment master BAPI\", \"Simplification technical objects " +
+                     "equipment BAPI deprecated Plant Maintenance S/4HANA\"",
+        product: "SAP S/4HANA / SAP ERP 6.0",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "ממצא שלילי: בארבע שאילתות לשירות החיפוש של SAP Help, בשני מערכי המוצר " +
+               "SAP_S4HANA_ON-PREMISE ו-SAP_ERP, אף רשומה אינה נוקבת בשם BAPI_EQUI_GETDETAIL בכותרת או " +
+               "בתקציר. התוצאות לשם המדויק במערך S/4HANA שייכות לחוברות שאינן קשורות (Brazil, What's New " +
+               "in Transactional Banking, APIs for Sales) ותקציריהן ריקים, ובמערך SAP ERP הוחזרו נושאי " +
+               "Enterprise Asset Management ו-BAdI שאינם נוקבים בשמו. לא אותרה רשומת SAP Help הנוקבת " +
+               "ב-BAPI לקריאת ציוד (תחזוקת מפעל); הממצא תחום לשאילתות שהורצו ואינו הוכחה להיעדר תיעוד.",
+        verificationLevel: "verification_required",
+      },
+      EQUI_OPS_READ,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Equipment | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/2f60604160f141be904d23b23e69c3a6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: "2026-09-21",
+        claim: "‏עמוד אובייקט ההגירה PM - Equipment במהדורת 2025 FPS01 נוקב בתקציר ב-BAPI_EQUI_CREATE לצד " +
+               "אפליקציית Display Technical Object (app ID W0028), במודולי ההגירה CNV_PE_S4_PM_EQUI_USTAT " +
+               "ו-CNV_PE_S4_CA_DIR_OBJ_LINKS וב-BAPI_DOCUMENT_CHANGE2, ומציין את קודי הטרנזקציה IE02 " +
+               "לשינוי ו-IE03 להצגה. אח ממשפחת ה-BAPI של הציוד מתועד אפוא ב-S/4HANA 2025 FPS01; ה-BAPI " +
+               "הקורא BAPI_EQUI_GETDETAIL עצמו אינו נזכר בתקציר.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של הפרויקט (PM ו-sweep) והקטלוג הפונקציונלי",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "רשומת ההעשרה מתארת BAPI מסוג Read (קריאה בלבד, ללא COMMIT) על אובייקט BOR‏ EquipmentPM, " +
+               "בזיקה לטרנזקציה IE03 ולטבלאות EQUI ו-EQKT, עם סיכום פרמטרים 'IMP EQUIPMENT · EXP " +
+               "DATA_GENERAL_EXP, DATA_SPECIFIC_EXP · TAB RETURN'. רשומת הסריקה מסמנת אותו verified עם " +
+               "RFC וללא COMMIT ומתארת 'הצגת פרטי ציוד (כללי/ספציפי/מיקום)', ואילו רשומת הקטלוג " +
+               "(data/function-intel.ts) מונה כפלט את DATA_GENERAL_EXP בלבד וקובעת ל-S/4 'זמין ב-S/4HANA' " +
+               "בלי לנקוב בחלופת OData. ברובד המאגר הרשומה נושאת גם stability 'Released' " +
+               "ו-s4OnPremSupport 'yes'; אלה נתוני פרויקט ולא הצהרת שחרור רשמית של SAP. מקור האימות " +
+               "שברשומת הסריקה הוא מחרוזת תבניתית ללא קישור, המציינת אימות מול SAP Help Portal בתאריך " +
+               "2026-07-15, ואינו ראיה רשמית.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_EQUI_GETDETAIL",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "לקריאת נתוני אב של ציוד (תחזוקת מפעל) קיים ב-S/4HANA On-Premise ממשק OData רשמי: " +
+          "API_EQUIPMENT, שעמוד Operations for Equipment במדריך APIs for Maintenance Management למהדורת " +
+          "2025 FPS01 מציג בו את הפעולה Read Equipment בשיטת GET תחת הנתיב " +
+          "‎/sap/opu/odata/sap/API_EQUIPMENT/Equipment, לצד Read Equipment Text ובקשת Batch. ה-BAPI עצמו, " +
+          "BAPI_EQUI_GETDETAIL, אינו נזכר באף רשומת SAP Help שנסרקה, לא במערך S/4HANA On-Premise ולא " +
+          "במערך SAP ERP; זמינותו ב-S/4HANA נשענת על רשומות המאגר (verified-docs, RFC לקריאה בלבד) ועל כך " +
+          "שאחיו למשפחה BAPI_EQUI_CREATE נקוב בעמוד אובייקט ההגירה PM - Equipment של 2025 FPS01. לא אותר " +
+          "תיעוד רשמי המכריז עליו כמוחלף או כמוצא משימוש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: EQUI_OPS_READ,
+      recommendedAction:
+        "בממשקי RFC קיימים אפשר להמשיך לקרוא נתוני ציוד דרך ה-BAPI, לאחר אימות קיומו, סטטוס השחרור שלו " +
+        "ורשימת הפרמטרים בפועל במערכת היעד (SE37 או BAPI Explorer). לאינטגרציות חדשות ולתרחישי OData או " +
+        "REST להעדיף את API_EQUIPMENT (Read Equipment), ולדיווח, לאנליטיקה ולפיתוח ABAP חדש להעדיף את " +
+        "תצוגת ה-CDS‏ I_Equipment על פני SELECT ישיר מ-EQUI ומ-EQKT. את רשימת הישויות, השדות והמגבלות של " +
+        "השירות יש לאמת מול Business Accelerator Hub (דורש מפתח API) או מול מערכת חיה.",
+    },
+    xrefs: [
+      "fm:BAPI_EQUI_CREATE",
+      "fm:BAPI_EQUI_CHANGE",
+      "fm:BAPI_FUNCLOC_GETDETAIL",
+      "fm:BAPI_ALM_ORDER_GET_DETAIL",
+      "fm:EQUIPMENT_TEXT_READ",
+      "table:EQUI",
+      "table:EQKT",
+      "table:EQUZ",
+      "table:ILOA",
+      "table:IFLOT",
+      "tx:IE01",
+      "tx:IE02",
+      "tx:IE03",
+      "tx:IH08",
+      "cds:I_Equipment",
+      "cds:I_EquipmentTimeSegment",
+      "cds:I_FunctionalLocation",
+      "fiori:F2730A",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "(1) הסטטוס 'קיים API משוחרר' נסמך על עמוד Operations for Equipment ‏(loio " +
+      "d1e3c797d3f44120b552d0e64680e445, ‏2025.001). זו חלופה משוחררת ולא טענת החלפה רשמית של ה-BAPI, " +
+      "ולכן אין יורש ברשומה. (2) שם ה-BAPI עצמו לא נמצא באף רשומת help.sap.com, לא במערך " +
+      "SAP_S4HANA_ON-PREMISE ולא במערך SAP_ERP; קיומו, סטטוס השחרור שלו ורשימת הפרמטרים (EQUIPMENT, " +
+      "DATA_GENERAL_EXP, DATA_SPECIFIC_EXP, RETURN) נשענים על רשומות המאגר בלבד ודורשים אימות ב-SE37 " +
+      "במערכת היעד. (3) גופי עמודי ה-Help לא נקראו (מעטפת JavaScript), ולכן כל טענה תחומה בכותרת ובתקציר " +
+      "של רשומת החיפוש; ספירות התוצאות של שירות החיפוש אינן יציבות בין הרצות ולכן אינן נרשמות. (4) רשומות " +
+      "רשמיות נוספות אותרו באותם חיפושים ולא נשמרו כראיות נפרדות: 'Read Equipment' ‏(loio " +
+      "53d9e679e7834421b2a1ef3070d44890, ‏2025.001), 'APIs for Maintenance Management' ‏(loio " +
+      "13d40bd35fc74d289e81fc284a928448, ‏2025.001; התקציר מונה קריאה, יצירה ועדכון של נתוני אב ציוד " +
+      "ומחיקה של הקצאת סיווג בלבד, ומציין שהשדה UniqueItemIdentifier אינו נתמך עדיין), ורשומת What's New " +
+      "לגרסת 2025 ‏'OData API: Equipment' ‏(loio 7ceae65191e944648db4b3a4f76661ae, ‏2025.000). רישום " +
+      "ה-Hub ‏https://api.sap.com/api/OP_API_EQUIPMENT/overview אותר בחיפוש מוגבל-דומיין בכותרתו בלבד " +
+      "‏('Overview | Equipment | SAP Business Accelerator Hub'); בקשת curl לא מאומתת לעמוד זה מחזירה HTTP " +
+      "401, ולכן תוכנו לא נקרא. (5) סתירות פנימיות במאגר: data/bapi-enrichment.sweep.ts מתאר החזרת נתוני " +
+      "מיקום, בעוד data/bapi-enrichment.pm.ts מונה רק DATA_GENERAL_EXP ו-DATA_SPECIFIC_EXP, " +
+      "ו-data/function-intel.ts מונה רק DATA_GENERAL_EXP וקובע זמינות ב-S/4HANA בלי לנקוב בחלופת OData, " +
+      "אף שברשומת BAPI_EQUI_CHANGE הוא כן נוקב ב-API_EQUIPMENT. (6) מזהה האפליקציה W0028 ‏(Display " +
+      "Technical Object) שמופיע בעמוד ההגירה אינו קיים ביקום מזהי ה-Fiori של הפרויקט, ולכן ה-xref מפנה " +
+      "ל-fiori:F2730A ‏(Manage Technical Objects) שהוא מזהה מאגר ולא אומת מול ספריית האפליקציות במעבר זה. " +
+      "(7) מהדורות Cloud לא נבדקו ברשומה זו. (8) לא צוטט פריט פישוט, SAP Note או KBA: אף אחת מהשאילתות לא " +
+      "החזירה כזה הנוקב ב-BAPI.",
+  },
+
+  /* ------------------------------------------- fm:BAPI_FUNCLOC_CREATE */
+  {
+    id: "fm:BAPI_FUNCLOC_CREATE",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "BAdI: Functional Location Management | What's New in SAP S/4HANA and SAP S/4HANA " +
+                     "Cloud Private Edition 2025 FPS01",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/41a47f86d1d449318dee191474b5f64e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: "2026-09-21",
+        claim: "רשומת What's New לגרסת On-Premise 2025 FPS01 מציגה את ה-BAdI החדש 'BAdI for Functional " +
+               "Location (BADI_ASM_MD_FUNCLOC)' ש'allows you to add custom validations while creating or " +
+               "updating' מיקומים פונקציונליים, תחת Scope Item 4HH ‏(Reactive Maintenance) ו-4HI " +
+               "‏(Proactive Maintenance). הסניפט מונה את נקודות הכניסה שעליהן חלה הוולידציה, החל מאמצע " +
+               "הרשימה: IL02 ‏(Change Functional Location), יישום Web Dynpro‏ 'Process Technical Object " +
+               "(W0029) to create or change technical objects', 'API - Functional Location " +
+               "(API_FUNCTIONALLOCATION)' ו-'SAP Fiori app - Migrate Your Data (F3473)', ומוסיף: 'You can " +
+               "also add validations for the header details of functional locations by using the " +
+               "following business application programming interfaces (BAPIs): PM BAPI: Create Functional " +
+               "Location (BAPI_FUNCLOC_CREATE) PM BAPI: Change Functional Location " +
+               "(BAPI_FUNCLOC_CHANGE)'. כלומר BAPI_FUNCLOC_CREATE מתועד בגרסה 2025 FPS01 כערוץ יצירה פעיל " +
+               "של מיקום פונקציונלי, בשמו הרשמי 'PM BAPI: Create Functional Location', ומימוש ה-BAdI החדש " +
+               "חל גם על קריאות דרכו. ‏IL01 אינו נראה בסניפט עצמו (הקטע נפתח בסוגר סוגר שמעיד על פריט " +
+               "שקדם לו), והוא מאומת דרך המסמך הרשמי WN_OP2025_FPS01_EN.pdf סעיף 3.1.15 כמתועד " +
+               "ב-data/verification/enhancements.ts.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Functional location | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/7c5578ab53e0457f905145bc535839cf.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: "2026-09-21",
+        claim: "אובייקט ההגירה PM - Functional location ‏(מדריך Data Migration, 2025 FPS01) מתואר בסניפט " +
+               "כ-'This migration object enables you to migrate functional location data from the source " +
+               "ERP system to the target system based on the default selection criteria', ונכתב בו " +
+               "ש-'This migration object automatically selects functional locations from the ILOA table " +
+               "for the derived plants'. בין שלבי ההעברה מופיעים 'Create Functional Location Creates the " +
+               "functional location in the target system. All instances that qualify for this transfer " +
+               "option are relevant to the transfer step' ו-'Change Data Origin Changes the data origin " +
+               "data in the target system'. תחת הכותרת 'APIs/BAPIs Used in Migration-Specific Function " +
+               "Modules' נכתב 'A migration-specific function module is used in this migration object' " +
+               "ו-'This function module uses standard BAPIs or other function modules to complete the " +
+               "migration scope'. בסניפטים של אותו נושא מופיעים בשמם BAPI_FUNCLOC_CREATE, מודול ההגירה " +
+               "CNV_PE_S4_PM_FNLOC_USTAT והיישום 'Display Technical Object (app ID W0028)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      FLOC_API_CREATE,
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות הפרויקט ל-BAPI_FUNCLOC_CREATE: קטלוג הפונקציות, רישום ה-BAPI המועשר (PM + " +
+                     "sweep) והבלופרינט של IFLOT",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "המאגר מתעד: 'זמין ב-ECC' ו-'זמין ב-S/4HANA. חלופה: OData API_FUNCTIONALLOCATION / Fiori' " +
+               "‏(data/function-intel.ts), רישום sweep מסוג verified-docs עם s4OnPremSupport yes, RFC yes " +
+               "ו-requiresCommit yes ‏(data/bapi-enrichment.sweep.ts), ורישום PM מועשר: אובייקט BOR‏ " +
+               "FunctLocation, טרנזקציה IL01, טבלאות IFLOT/IFLOTX/ILOA, אובייקטי הרשאה I_ILOA ו-I_TL " +
+               "‏(data/bapi-enrichment.pm.ts). הבלופרינט מונה את ה-BAPI תחת טבלת IFLOT בתיאור 'יצירת " +
+               "מיקום פונקציונלי דרך ממשק תקני' ‏(data/sapData.pm.ts). הזמינות ב-S/4HANA והחלופה " +
+               "API_FUNCTIONALLOCATION עקביות עם המקורות הרשמיים ברשומה זו. לעומת זאת שמות הפרמטרים " +
+               "סותרים בתוך המאגר עצמו: data/function-intel.ts נוקב ב-FUNCTLOC ככניסה וב-FUNCTLOCATION " +
+               "כיציאה, data/bapi-enrichment.pm.ts נוקב ב-'IMP EXTERNAL_NUMBER, DATA_GENERAL, " +
+               "DATA_SPECIFIC · TAB RETURN', ו-data/bapi-enrichment.sweep.ts נוקב ב-'IN: FUNCTLOCATION, " +
+               "DATA_GENERAL, DATA_SPECIFIC · OUT: FUNCTLOCATION, RETURN'. אף סניפט רשמי שנקרא אינו נוקב " +
+               "בפרמטר כלשהו, ולכן הממשק נשאר בלתי מאומת ואינו נטען ברשומה זו.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_FUNCLOC_CREATE",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "‏BAPI_FUNCLOC_CREATE, בשמו הרשמי 'PM BAPI: Create Functional Location', הוא ה-BAPI ליצירת " +
+          "מיקום פונקציונלי בתחזוקת מפעל, והוא מתועד כערוץ יצירה פעיל ב-S/4HANA On-Premise 2025 FPS01: " +
+          "רשומת ה-What's New של ה-BAdI החדש BADI_ASM_MD_FUNCLOC מונה אותו יחד עם IL01, IL02, יישום ה-Web " +
+          "Dynpro‏ Process Technical Object ‏(W0029), שירות ה-OData‏ API_FUNCTIONALLOCATION והיישום " +
+          "Migrate Your Data ‏(F3473) כנקודות הכניסה שעליהן חלות הוולידציות החדשות, ואובייקט ההגירה PM - " +
+          "Functional location ב-Migration Cockpit מונה אותו בין ה-BAPIs שמודול ההגירה משתמש בהם. לצדו " +
+          "מתועד שירות OData לקריאה, יצירה, עדכון ומחיקה של אב-נתוני מיקום פונקציונלי, ‏Functional " +
+          "Location ‏(API_FUNCTIONALLOCATION), עם פעולת POST אל " +
+          "‎/sap/opu/odata/sap/API_FUNCTIONALLOCATION/FunctionalLocation. בחיפושים שבוצעו לא נמצא תיעוד " +
+          "רשמי המוציא את ה-BAPI משימוש, מסמן אותו כפריט פישוט או נוקב ביורש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: FLOC_API_CREATE,
+      recommendedAction:
+        "להשאיר את BAPI_FUNCLOC_CREATE כערוץ הכתיבה ליצירת מיקומים פונקציונליים בממשקי RFC/ALE קיימים " +
+        "ובטעינות הקמה של מבנה הנכסים, ולשמור על רצף הקריאה: בדיקת טבלת RETURN, ואם אין הודעת שגיאה קריאה " +
+        "ל-BAPI_TRANSACTION_COMMIT, ואז אימות המיקום ב-IL03 או מול IFLOT. לאינטגרציות HTTP חדשות להעדיף " +
+        "את שירות ה-OData‏ API_FUNCTIONALLOCATION ולאמת ישויות, שדות ופעולות מול המדריך APIs for " +
+        "Maintenance Management ומול מערכת חיה; אין להתייחס לשירות כמחליף חובה של ה-BAPI. בהגירת נתונים " +
+        "להשתמש באובייקט 'PM - Functional location' של ה-Migration Cockpit במקום בסקריפט קריאות BAPI " +
+        "עצמאי. מגרסה 2025 FPS01 ואילך, ולידציות לקוח על יצירה ועדכון של מיקום פונקציונלי צריכות לעבור " +
+        "למימוש ה-BAdI‏ BADI_ASM_MD_FUNCLOC, שחל על ה-BAPI כשם שהוא חל על IL01/IL02, על W0029 ועל השירות. " +
+        "לפני טעינה גדולה לאמת במערכת היעד את מחוון המבנה ואת מסכת העריכה של המיקום, את התנהגות התיוג " +
+        "החלופי ‏(IFLOS) ואת שמות הפרמטרים בפועל ב-SE37, כי אלה אינם מתועדים באף מקור רשמי שנקרא כאן.",
+    },
+    xrefs: [
+      "table:IFLOT",
+      "table:IFLOS",
+      "table:ILOA",
+      "table:EQUI",
+      "tx:IL01",
+      "tx:IL02",
+      "tx:IL03",
+      "tx:IH01",
+      "tx:IH06",
+      "cds:I_FunctionalLocation",
+      "fm:BAPI_FUNCLOC_CHANGE",
+      "fm:BAPI_FUNCLOC_GETDETAIL",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "fm:BAPI_EQUI_CREATE",
+      "fm:ILOA_INHERIT_FROM_FUNCLOC",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "מה שאומת: חמש רשומות חיפוש רשמיות אומתו מחדש מול שירות החיפוש של help.sap.com " +
+      "‏(scripts/sap-help-search.mjs, מוצר SAP_S4HANA_ON-PREMISE, 2026-09-21) לפי כותרת, מדריך, " +
+      "versionId, loio וסניפט: loio 41a47f86 ‏(What's New 2025 FPS01), loio 7c5578ab ‏(Data Migration " +
+      "2025.001), loio b6a1e644 ‏(APIs for Maintenance Management 2025.001), loio f69f391c ‏(Operations " +
+      "for Functional Location, 2023.latest) ו-loio 5e1d4eab ‏(Extensibility: Functional Location API, " +
+      "APIs for Maintenance Management, 2025.001). אימות הכתובות נשען על התאמת כותרת, מדריך, versionId " +
+      "ו-loio בפלט scripts/sap-help-search.mjs; קוד HTTP אינו ראיה, שכן help.sap.com מחזיר 200 גם ל-loio " +
+      "שאינו קיים. לגבי שאלת הפתיחה מתור המחקר של הטבלאות: שם השירות API_FUNCTIONALLOCATION מאומת כאן " +
+      "רשמית פעמיים, גם במדריך ה-API וגם ברשומת ה-What's New של ה-BAdI שמונה אותו לצד ה-BAPI; מה שנותר " +
+      "מיפוי מאגר בלבד הוא הקישור בין השירות ובין הטבלה IFLOT, כפי ש-research-queue-tables.md מתעד, ולכן " +
+      "הרשומה כאן אינה טוענת שהשירות קורא או כותב ל-IFLOT. מה שלא אומת: גופי עמודי help.sap.com הם מעטפות " +
+      "JavaScript ולא נקראו כאן, אלא רק כותרת, מדריך, גרסה וסניפט של כל רשומה. יוצא דופן: פריט ה-What's " +
+      "New לגרסת 2025 FPS01 נקרא במלואו במסמך הרשמי WN_OP2025_FPS01_EN.pdf ‏(סעיף 3.1.15) בפס ההרחבות, " +
+      "ורשומת data/verification/enhancements.ts מאשרת ממנו את רשימת נקודות הכניסה המלאה ‏(IL01/IL02, " +
+      "W0029, API_FUNCTIONALLOCATION, F3473), את שני ה-BAPIs, את רכיב היישום PM-EQM-FL ואת הזמינות 'SAP " +
+      "S/4HANA Cloud Private Edition and SAP S/4HANA'. ממשק ה-BAPI (שמות פרמטרים ומבנים) אינו מופיע גם " +
+      "באותו מסמך, והמאגר עצמו סותר את עצמו בשלוש גרסאות שונות של רשימת הפרמטרים (ראו הראיה מהמאגר), ולכן " +
+      "אין ברשומה זו שום טענה על הממשק; אימות ב-SE37 או ב-ADT נשאר פתוח (חיבור ה-MCP למערכת SAP חיה נכשל, " +
+      "ראו MANIFEST). ‏api.sap.com: חיפוש מוגבל-דומיין החזיר את הכתובת " +
+      "https://api.sap.com/api/API_FUNCTIONALLOCATION/overview בכותרת 'Overview | Functional Location', " +
+      "אך היא לא נוספה כראיה כי הדף מעטפת JavaScript והחבילה והמהדורה שלו לא נקראו; מקור הסטטוס הוא עמוד " +
+      "help.sap.com למהדורת On-Premise. ‏Fiori: הסניפטים הרשמיים נוקבים ב-W0029 ‏(Process Technical " +
+      "Object), ב-W0028 ‏(Display Technical Object) וב-F3473 ‏(Migrate Your Data), וחיפוש מוגבל-דומיין " +
+      "החזיר את דפי ספריית ה-Fiori של W0028 ו-W0029; אף אחד משלושת המזהים אינו קיים ב-data/fiori/apps.ts, " +
+      "ולכן לא נוסף xref מסוג fiori. מזהה יישום האובייקטים הטכניים סותר בתוך המאגר ‏(F2079 בבלופרינט, " +
+      "F2730A ב-data/fiori/apps.ts, F1827 ב-data/tx-intel.ts) ודורש אימות נפרד, כמתועד " +
+      "ב-research-queue-fiori.md וב-research-queue-tables.md. הרחבות: BADI_ASM_MD_FUNCLOC (חדש ב-2025 " +
+      "FPS01) וכן BAdI: Modification of Data in BAPIs for Technical Objects " +
+      "‏(BADI_EAM_ITOB_BAPI_CUST_FIELDS, נקוב בנושא Technical Objects on the Web User Interface (PM-EQM), " +
+      "loio 12573553b57be647e10000000a441470, גרסה 2025.001) מתועדים רשמית למשפחת ה-BAPIs הזו, אך אף אחד " +
+      "מהם אינו מזהה ביקום של הפרויקט ולכן אינו xref; enh:badi:BADI_EAM_TOB קיים ביקום אך מסומן לא מאומת " +
+      "ב-research-queue-enhancements.md ולא נוסף. ממצאים שליליים כאן תחומים לחיפוש: סריקה אחרי פריט פישוט " +
+      "או הצהרת deprecation למשפחת ה-BAPIs של אובייקטים טכניים לא החזירה רשומה כזו ב-help.sap.com, וחיפוש " +
+      "במוצר SAP_ERP לא החזיר נושא שנוקב ב-BAPI_FUNCLOC_CREATE, ולכן הזמינות ב-ECC נשענת על המאגר בלבד " +
+      "ואינה נטענת כראיה רשמית. לא נטען שום מספר SAP Note או KBA. הסטטוס 'קיים API משוחרר' מתאר חלופה " +
+      "מתועדת ולא החלפה, ולכן אין שדה successor. מה שהדף מציג היום בלי הרשומה הזו: סטטוס נגזר 'ללא שינוי " +
+      "ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', מתוך רישום אובייקטי הפונקציה ‏(verified-docs + " +
+      "s4OnPremSupport yes ב-data/bapi-enrichment.sweep.ts ו-data/bapi-enrichment.pm.ts); הרשומה כאן מעלה " +
+      "את הדרגה לאימות רשמי ומוסיפה את ערוץ ה-OData ואת ה-BAdI החדש.",
+  },
+
+  /* ------------------------------------------- fm:BAPI_FUNCLOC_CHANGE */
+  {
+    id: "fm:BAPI_FUNCLOC_CHANGE",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "BAdI: Functional Location Management | What's New in SAP S/4HANA and SAP S/4HANA " +
+                     "Cloud Private Edition 2025 FPS01",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/41a47f86d1d449318dee191474b5f64e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: "2026-09-21",
+        claim: "פריט What's New של 2025 FPS01 נוקב ב-BAPI בשמו המלא. לפי התקציר: 'The new Business Add-In " +
+               "(BAdI) BAdI for Functional Location (BADI_ASM_MD_FUNCLOC) allows you to add custom " +
+               "validations while creating or updating ... functional locations by using the following " +
+               "business application programming interfaces (BAPIs): PM BAPI: Create Functional Location " +
+               "(BAPI_FUNCLOC_CREATE) PM BAPI: Change Functional Location (BAPI_FUNCLOC_CHANGE ...)'. " +
+               "הציטוט מורכב משני קטעי הדגשה של אותה רשומת חיפוש. כלומר ‏BAPI_FUNCLOC_CHANGE מתועד " +
+               "ב-S/4HANA On-Premise‏ 2025 FPS01 תחת השם 'PM BAPI: Change Functional Location' כערוץ " +
+               "שינוי פעיל של מיקום פונקציונלי, ונכלל בהיקף ה-BAdI החדש. התקציר אינו נוקב בהוצאה משימוש, " +
+               "ביורש או בהגבלה של ה-BAPI.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Functional Location | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/b6a1e644059f4d53b11201b9c0aaefd7.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: "2026-09-21",
+        claim: "מדריך APIs for Maintenance Management במהדורת On-Premise‏ 2025 FPS01 מתעד שירות OData " +
+               "למיקום פונקציונלי: 'Functional Location Technical name: API_FUNCTIONALLOCATION ... The " +
+               "service enables the following operations for the functional location: Read functional " +
+               "location master data Create functional location master data Update functional location " +
+               "master data', הישות 'Functional Location (A_FunctionalLocation) Allows you to create, " +
+               "read, and update a functional location', ותמיכה ב-'This service also supports deep entity " +
+               "for POST operation and batch processing'. הרשומה מתעדת ערוץ עדכון רשמי למיקום פונקציונלי; " +
+               "היא אינה מציגה את השירות כמחליף של BAPI_FUNCLOC_CHANGE ואינה נוקבת ב-BAPI כלל.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Functional Location | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/f69f391c38104f75ae5792155a88ce05.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: "2026-09-21",
+        claim: "רשומת הפעולות של אותו שירות מפרטת את טבלת הפעולות: 'The Functional Location API offers " +
+               "these operations: Operation HTTP Method Sample URL Read Functional Location GET " +
+               "‎/sap/opu/odata/sap/API_FUNCTIONALLOCATION/FunctionalLocation(FunctionalLocation='1710') " +
+               "Create Functional Location POST " +
+               "‎/sap/opu/odata/sap/API_FUNCTIONALLOCATION/FunctionalLocation Update Functional Location " +
+               "PATCH ...'. מיפוי פעולת ה-Update‏ (PATCH) לפעולת השינוי של ה-BAPI הוא של הפרויקט; העמוד " +
+               "אינו נוקב בשם ה-BAPI. הרשומה מאונדקסת לגרסת 2023 Latest; באותו מדריך במהדורת 2025 FPS01 " +
+               "קיימות רשומות עדכון נפרדות לישויות המשנה, וכל אחת מהן נוקבת ב-PATCH בתקציר שלה: Update " +
+               "Functional Location Text ‏(loio b423d1418d714a198f9df673a6c0711c), Update Functional " +
+               "Location Partner ‏(loio 0ec960aec1db423d9f36f680cdf9f8cb), Update Functional Location " +
+               "Warranty ‏(loio e67788faefcb4943b34e5c408617c2a1) ו-Update Functional Location " +
+               "Characteristic Values ‏(loio 6f69362c9ba74cbe9c21a5d9e0c75ef2).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר, סריקת האימות ורשומת קטלוג הפונקציות של הפרויקט (PM)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "היקף הפעולה לפי נתוני הפרויקט: שינוי אב-נתונים של מיקום פונקציונלי קיים (תחזוקת מפעל), " +
+               "פעולה מסוג Change בעלת כתיבה, אובייקט BOR‏ FunctLocation, מקבילת API לטרנזקציה IL02, " +
+               "טבלאות IFLOT ו-ILOA. פרמטרים לפי data/bapi-enrichment.pm.ts " +
+               "ו-data/bapi-enrichment.sweep.ts: IMPORT‏ FUNCTLOCATION, DATA_GENERAL(+X), " +
+               "DATA_SPECIFIC(+X); TABLES‏ RETURN. נתוני הפרויקט מחייבים קריאת BAPI_TRANSACTION_COMMIT " +
+               "לאחר הקריאה, ו-data/function-intel.ts מציין ששכחת מבני ה-X היא כשל נפוץ. " +
+               "data/bapi-enrichment.sweep.ts מסמן את המודול verified-docs, RFC‏, דורש COMMIT, יציבות " +
+               "Released, תמיכה ב-ECC וב-S/4HANA On-Premise; data/function-intel.ts מוסיף קישור לתצוגת " +
+               "ה-CDS‏ I_FunctionalLocation ולטרנזקציה IL02, אך נוקב בחתימת פרמטרים שונה " +
+               "‏(DATA_FLOC_CHANGE + X). הסתירה נרשמה בקובץ התור ואינה מוכרעת כאן.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_FUNCLOC_CHANGE",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "‏BAPI_FUNCLOC_CHANGE ‏('PM BAPI: Change Functional Location') זמין ומתועד ב-SAP S/4HANA " +
+          "On-Premise עד 2025 FPS01 כערוץ שינוי של מיקום פונקציונלי בתחזוקת מפעל: פריט ה-What's New של " +
+          "2025 FPS01 נוקב בו בשמו ומכליל אותו בהיקף ה-BAdI החדש BADI_ASM_MD_FUNCLOC לוולידציות מותאמות " +
+          "ביצירה ובעדכון. לצדו מתעד מדריך APIs for Maintenance Management שירות OData רשמי, " +
+          "API_FUNCTIONALLOCATION, עם פעולת Update ‏(PATCH) על אותו אובייקט עסקי. אף מקור רשמי שנמצא " +
+          "בחיפושים אינו נוקב בהוצאה משימוש, ביורש או בפריט פישוט ל-BAPI עצמו, ולכן אין כאן טענת החלפה " +
+          "אלא קיום חלופה משוחררת לצד ה-BAPI.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Functional Location | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/b6a1e644059f4d53b11201b9c0aaefd7.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: "2026-09-21",
+        claim: "מדריך APIs for Maintenance Management במהדורת On-Premise‏ 2025 FPS01 מתעד שירות OData " +
+               "למיקום פונקציונלי: 'Functional Location Technical name: API_FUNCTIONALLOCATION ... The " +
+               "service enables the following operations for the functional location: Read functional " +
+               "location master data Create functional location master data Update functional location " +
+               "master data', והישות 'Functional Location (A_FunctionalLocation) Allows you to create, " +
+               "read, and update a functional location'. הרשומה אינה מציגה את השירות כמחליף של " +
+               "BAPI_FUNCLOC_CHANGE ואינה נוקבת ב-BAPI כלל.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction:
+        "להמשיך להשתמש ב-BAPI בממשקים, בהעמסות ובמיגרציות קיימות, עם BAPI_TRANSACTION_COMMIT אחרי כל " +
+        "קריאה ועם מבני ה-X מסומנים לכל שדה שמתעדכן. לאינטגרציות חדשות להעדיף את שירות ה-OData‏ " +
+        "API_FUNCTIONALLOCATION (פעולת Update בשיטת PATCH). בהמרה ל-S/4HANA: להריץ ATC‏ (Custom Code " +
+        "Migration) על קוד לקוח הקורא ל-BAPI, ומגרסת 2025 FPS01 לשקול העברת ולידציות לקוח אל ה-BAdI‏ " +
+        "BADI_ASM_MD_FUNCLOC לפי פריט ה-What's New. את רשימת הפרמטרים והשדות יש לאמת ב-SE37 או מול SAP " +
+        "Business Accelerator Hub לפני בנייה: התיעוד הרשמי הפתוח אינו מפרט את חתימת ה-BAPI, ונתוני " +
+        "הפרויקט חלוקים לגביה.",
+    },
+    xrefs: [
+      "fm:BAPI_FUNCLOC_CREATE",
+      "fm:BAPI_FUNCLOC_GETDETAIL",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "tx:IL02",
+      "table:IFLOT",
+      "table:ILOA",
+      "cds:I_FunctionalLocation",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "שיטה: שבע שאילתות ב-scripts/sap-help-search.mjs למוצר SAP_S4HANA_ON-PREMISE (השם הטכני, השם " +
+      "האנגלי, What's New, Simplification, APIs for Maintenance Management, הוצאה משימוש/יורש) ושאילתה " +
+      "אחת למוצר SAP_ERP, בתוספת WebSearch מוגבל-דומיין ל-api.sap.com. גופי הנושאים ב-help.sap.com הם " +
+      "יישומי JavaScript ולא ניתנים לשליפה, ולכן כל ציטוט כאן תחום לכותרת ולתקציר שהחזיר שירות החיפוש. מה " +
+      "לא אומת: חתימת ה-BAPI (שמות הפרמטרים, מבני ה-X והשדות) אינה מופיעה באף עמוד רשמי שנמצא, ונתוני " +
+      "הפרויקט עצמם חלוקים לגביה; אימותה דורש SE37 במערכת חיה או מסמך Hub עם מפתח API, וחיבור ה-MCP " +
+      "‏sc4sap לא היה זמין בסשן זה. חיפוש במוצר SAP_ERP לא החזיר אף רשומה הנוקבת ב-BAPI, ולכן בסיס ה-ECC " +
+      "נשען על המאגר ולא על תיעוד ECC רשמי. ממצאים שליליים תחומי-חיפוש: לא נמצא פריט פישוט, הוצאה משימוש " +
+      "או יורש ל-BAPI_FUNCLOC_CHANGE. הסתייגות על החלופה: רשומת What's New‏ 2023 'Deprecation of Property " +
+      "for Functional Location' ‏(loio 20b815a95ed74708a82851b999581685) מתעדת שב-API_FUNCTIONALLOCATION " +
+      "וב-API_FUNCNLLOC_STRUCLIST המאפיין FunctionalLocationIsActive מוצא משימוש ויימחק, עם מאפיין עוקב " +
+      "FunctionalLocationIsCreated; זו הסתייגות ברמת מאפיין בשירות ה-OData, לא ברמת ה-BAPI. הסתייגות על " +
+      "ניסוח: רשומת 'Enterprise Asset Management Part 3' ‏(loio b23236698f104768955c692e03d00b79, " +
+      "2025.001) כותבת 'New BAPIs are available for functional locations' בלי לנקוב בשמות, ולכן לא נלקח " +
+      "ממנה שם. הרשומה האחות enh:badi:BADI_EAM_TOB ב-data/verification/enhancements.ts כבר קראה את המסמך " +
+      "הרשמי WN_OP2025_FPS01_EN.pdf (סעיף 3.1.15) במלואו ומתעדת שם את אותם שני שמות BAPI, רכיב יישום " +
+      "PM-EQM-FL וזמינות 'SAP S/4HANA Cloud Private Edition and SAP S/4HANA'; כאן לא נקרא ה-PDF, והציטוט " +
+      "תחום לתקציר. הסטטוס הנגזר שהאפליקציה הציגה עד כה היה 'ללא שינוי' מ-lib/bapi-registry דרך " +
+      "data/bapi-enrichment.sweep.ts (verified-docs + תמיכה ב-On-Premise, רמה repository_verified); " +
+      "הרשומה מעלה אותו ל-'קיים API משוחרר' ברמה הרשמית בלי לסתור אותו ובלי לטעון להחלפה. api.sap.com: " +
+      "חיפוש מוגבל-דומיין החזיר את רישום ה-Hub‏ 'Functional Location' בכתובת " +
+      "https://api.sap.com/api/API_FUNCTIONALLOCATION/resource וגם 'Functional Location Hierarchy - Read' " +
+      "‏(OP_API_FUNCNLLOCSTRUCLIST); לא צוטט כראיה נפרדת מפני ששתי רשומות help.sap.com כבר מתעדות את " +
+      "השירות, ורשימות ישויות ומאפיינים ברמת ה-Hub נשארות 'נדרש אימות' לפי כללי ה-fallback של MANIFEST. " +
+      "W0029 ו-F3473 הנזכרים בפריט 2025 FPS01 אינם קיימים ב-data/fiori/apps.ts ולכן לא קושרו, כמו ברשומות " +
+      "tx:IL01 ו-enh:badi:BADI_EAM_TOB. ה-BAdI‏ BADI_ASM_MD_FUNCLOC אינו קיים ב-data/exits.ts או " +
+      "ב-data/enhancements.ts ולכן אין לו xref.",
+  },
+
+  /* ------------------------------------------- fm:BAPI_FUNCLOC_GETDETAIL */
+  {
+    id: "fm:BAPI_FUNCLOC_GETDETAIL",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search: \"BAPI_FUNCLOC_GETDETAIL\" ו-\"BAPI_FUNCLOC\" " +
+                     "(SAP_S4HANA_ON-PREMISE), \"BAPI_FUNCLOC_GETDETAIL functional location detail\" " +
+                     "(SAP_ERP), \"PM Functional location Data Migration migration object APIs BAPIs\", " +
+                     "\"Simplification functional location technical objects deprecated Plant " +
+                     "Maintenance\"",
+        product: "SAP S/4HANA / SAP ERP 6.0",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "ממצא שלילי תחום-חיפוש: בחמש שאילתות לשירות החיפוש של SAP Help, לקטלוג S/4HANA On-Premise " +
+               "ולקטלוג SAP ERP כאחד, אף רשומה אינה נוקבת בשם BAPI_FUNCLOC_GETDETAIL בכותרת או בתקציר. " +
+               "התוצאות לשם המדויק שייכות לחוברות שאינן קשורות ותקציריהן ריקים; בהרצת אימות חוזרת הוחזרו " +
+               "Production Planning and Control, Automotive, Public Sector, Public Sector Management, " +
+               "Retail ו-Logistics - General. רשימת החוברות משתנה בין הרצות ולכן אינה נרשמת כנתון קבוע. " +
+               "שתי רשומות סמוכות נוגעות ל-BAPIs של מיקום פונקציונלי בלי לנקוב ב-GETDETAIL: 'BAdI: " +
+               "Functional Location Management' ‏(loio 41a47f86d1d449318dee191474b5f64e, 2025.001) " +
+               "שתקצירה נקטע אחרי 'PM BAPI: Create Functional', ועמוד אובייקט המיגרציה 'PM - Functional " +
+               "location' ‏(loio 7c5578ab53e0457f905145bc535839cf, 2025.001) הנוקב תחת APIs/BAPIs במודול " +
+               "IBAPI_FUNCLOC_USERSTATUS_CHANG בלבד. כמו כן לא אותרה רשומה המציגה את ה-BAPI כמוצא משימוש " +
+               "או כפריט פישוט. הממצא תחום לשאילתות שהורצו ואינו הוכחה להיעדר תיעוד.",
+        verificationLevel: "verification_required",
+      },
+      FLOC_API_READ,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "ODATA API: Functional Location | What's New in SAP S/4HANA 2020",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/0c5d626cd4d54b1a843f8cc402df2a00.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        accessedAt: "2026-09-21",
+        claim: "רשומת What's New לגרסת S/4HANA 2020 מציגה את השירות כחדש: 'With this synchronous inbound " +
+               "service, you can create, update, and read functional location', מסווגת אותו Category API, " +
+               "Type New ומשייכת אותו לרכיב היישום PM-EQM-FL. השירות ממשיך להתפתח במהדורות הבאות לפי " +
+               "רשומות באותו ערוץ: תכונה חדשה ב-2021 FPS02 ‏(loio 00f01ed1c5fc48198c3654e103adcb34, " +
+               "המאפיין FuncnlLocPosInSuperiorTechObj), פעולות השבתה/הפעלה וסימון למחיקה ב-2023 ‏(loio " +
+               "302b25297d2c448db0d24ade7023f84a), ה-function import GetRootFunctionalLocation ב-2025 " +
+               "‏(loio 60f092bd26b444e1aaf19ff228e5e779) וישות Linear Asset Management ב-2025 FPS01 " +
+               "‏(loio 22604a4f79934eb3bc2222fbf94b4248), שתקצירה מונה את API_FUNCTIONALLOCATION בין " +
+               "השירותים המושפעים ואת PM-EQM-FL בין רכיבי היישום של הרשומה, בלי למפות שירות לרכיב. הרשומה " +
+               "'Deprecation of Property for Functional Location' ‏(2023, loio " +
+               "20b815a95ed74708a82851b999581685) מסמנת כמוצא משימוש את המאפיין " +
+               "FunctionalLocationIsActive בלבד, ולא את השירות עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של הפרויקט (PM enrichment), סריקת §6 והקטלוג הפונקציונלי",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "רשומת ההעשרה מתארת BAPI מסוג Read (קריאה בלבד, ללא SAVE/COMMIT) על אובייקט BOR‏ " +
+               "FunctLocation, בזיקה ל-IL03 ולטבלאות IFLOT ו-IFLOTX, עם סיכום פרמטרים 'IMP FUNCTLOCATION " +
+               "· EXP DATA_GENERAL_EXP · TAB RETURN'. הערכים verificationStatus verified-docs, " +
+               "releasedStatus 'Released · RFC', eccSupport yes, s4OnPremSupport yes ו-cloudSupport " +
+               "unknown מגיעים מברירות המחדל של תבנית g() בקובץ זה ואינם נתון ייחודי לרשומה, ומקור האימות " +
+               "הרשום הוא מראת מטא-נתוני SE37 בתוספת SAP Community, לא תיעוד SAP רשמי. סיכום הפרמטרים " +
+               "אינו עקבי בתוך המאגר: data/bapi-enrichment.sweep.ts גורס 'IN: FUNCTLOCATION · OUT: " +
+               "DATA_GENERAL_EXP, DATA_SPECIFIC_EXP, RETURN', ואילו data/function-intel.ts גורס פלט בשם " +
+               "DATA_FLOC_EXP. אף אחת משלוש הגרסאות לא אומתה מול מקור רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_FUNCLOC_GETDETAIL",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "לקריאת נתוני מיקום פונקציונלי (תחזוקת מפעל) קיים ב-S/4HANA On-Premise ממשק OData מתועד: " +
+          "API_FUNCTIONALLOCATION, שהמדריך APIs for Maintenance Management לגרסת 2025 FPS01 מונה בו פעולת " +
+          "קריאה של נתוני אב המיקום, ורשומת הפעולות שלו מציגה 'Read Functional Location' בשיטת GET. " +
+          "השירות מוצג כחדש ברשומת What's New לגרסת S/4HANA 2020 תחת רכיב היישום PM-EQM-FL וממשיך להתרחב " +
+          "עד 2025 FPS01. ה-BAPI עצמו, BAPI_FUNCLOC_GETDETAIL, אינו נזכר באף רשומת SAP Help שנסרקה, לא " +
+          "בקטלוג S/4HANA ולא בקטלוג SAP ERP; זמינותו ומעמדו נשענים על רשומות המאגר בלבד. לא נמצא תיעוד " +
+          "רשמי המציג אותו כמוצא משימוש או כמוחלף.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: FLOC_API_READ,
+      recommendedAction:
+        "בממשקי RFC קיימים אפשר להמשיך לקרוא נתוני מיקום פונקציונלי דרך ה-BAPI, לאחר אימות קיומו, מעמד " +
+        "השחרור ורשימת הפרמטרים שלו במערכת היעד (SE37 או BAPI Explorer), משום שרשומות המאגר חלוקות בשמות " +
+        "פרמטרי הפלט. לאינטגרציות חדשות, ובפרט לתרחישי OData/REST, להעדיף את API_FUNCTIONALLOCATION " +
+        "‏(Read Functional Location) ולאמת את רשימת הישויות והשדות מול SAP Business Accelerator Hub (דורש " +
+        "מפתח API) או מול מערכת חיה. לקריאה בתוך ABAP ב-S/4HANA להעדיף את תצוגת ה-CDS‏ " +
+        "I_FunctionalLocation על פני SELECT ישיר מ-IFLOT/ILOA.",
+    },
+    xrefs: [
+      "fm:BAPI_FUNCLOC_CREATE",
+      "fm:BAPI_FUNCLOC_CHANGE",
+      "fm:BAPI_EQUI_GETDETAIL",
+      "table:IFLOT",
+      "table:ILOA",
+      "table:IFLOS",
+      "tx:IL03",
+      "tx:IL01",
+      "tx:IL02",
+      "tx:IH01",
+      "cds:I_FunctionalLocation",
+      "fiori:F2730A",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "(1) הסטטוס 'קיים API משוחרר' נסמך על עמוד Functional Location במדריך APIs for Maintenance " +
+      "Management (2025.001) ועל רשומת What's New 2020; זו חלופה מתועדת ולא טענת החלפה רשמית, ולכן אין " +
+      "יורש. (2) שם ה-BAPI עצמו לא נמצא באף רשומת help.sap.com בחמש השאילתות שהורצו, גם לא בקטלוג SAP " +
+      "ERP; קיומו, מעמד השחרור שלו ורשימת הפרמטרים שלו נשענים על רשומות המאגר בלבד ודורשים אימות ב-SE37 " +
+      "במערכת היעד. (3) סתירה פנימית במאגר בשמות פרמטרי הפלט: data/bapi-enrichment.pm.ts גורס " +
+      "DATA_GENERAL_EXP, data/bapi-enrichment.sweep.ts גורס DATA_GENERAL_EXP יחד עם DATA_SPECIFIC_EXP, " +
+      "ו-data/function-intel.ts גורס DATA_FLOC_EXP; הסתירה נרשמת ואינה מוכרעת כאן. (4) הערכים " +
+      "verified-docs / Released · RFC / s4OnPremSupport yes ברשומת ההעשרה הם ברירות מחדל של תבנית g() " +
+      "המשותפת לכל רשומות המשפחה, ולא נתון שנבדק לרשומה זו; מקור האימות שלה הוא מראת SE37 ו-SAP " +
+      "Community, לא תיעוד רשמי. (5) גופי עמודי help.sap.com לא נקראו (מעטפת JavaScript); כל טענה תחומה " +
+      "בכותרת ובתקציר של רשומת החיפוש, וספירות התוצאות ורשימת החוברות אינן יציבות בין הרצות ולכן אינן " +
+      "נרשמות כנתון קבוע. (6) חיפוש מוגבל-דומיין החזיר רישום ב-SAP Business Accelerator Hub בנתיב " +
+      "/api/OP_API_FUNCTIONALLOCATION/resource, אך הכותרת שהוחזרה גנרית ('SAP Business Accelerator Hub') " +
+      "והעמוד הוא מעטפת JavaScript, ולכן הרישום אינו מצוטט כראיה. (7) table:IFLOTX אינה ב-xrefs משום " +
+      "שאינה קיימת ביקום המזהים של הפרויקט, אף שרשומת ההעשרה מונה אותה; cds:I_FunctionalLocationText " +
+      "ו-fiori:F3473 הושמטו מאותה סיבה. (8) מזהה fiori:F2730A ‏(Manage Technical Objects) הוא ערך מתוחזק " +
+      "בפרויקט שטרם אומת מול ספריית ה-Fiori, כמצוין גם ברשומת cds:I_FunctionalLocation. (9) מהדורות Cloud " +
+      "לא נבדקו ברשומה זו.",
+  },
+
+  /* ------------------------------------------- fm:BAPI_ALM_ORDER_GET_DETAIL */
+  {
+    id: "fm:BAPI_ALM_ORDER_GET_DETAIL",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enterprise Asset Management Part 4 | Logistics",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/77c07c8d30664260a0b3ff864e6b5e78/3346ac67364447a3ba2f4efa65b8c014.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: "2026-09-21",
+        claim: "תחת הכותרת 'Enhancements to Maintenance Order BAPIs' מתעד העמוד את " +
+               "BAPI_ALM_ORDER_GET_DETAIL כ-BAPI הקורא נתוני פקודות אחזקה ושירות ('BAPI " +
+               "BAPI_ALM_ORDER_GET_DETAIL, which reads maintenance and service order data', כלשון " +
+               "התקציר), ומציין שהורחב גם לקריאת נתונים ייעודיים של פקודות שיפוץ ('has also been enhanced " +
+               "to read refurbishment order specific data'). תחת אותה כותרת מופיע גם " +
+               "BAPI_ALM_ORDER_MAINTAIN. הרשומה שייכת לתיעוד S/4HANA On-Premise לגרסת 2025 FPS01, כלומר " +
+               "ה-BAPI מתועד כשמיש במהדורה זו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "OData API: Maintenance Order - Read | What's New in SAP S/4HANA 2021",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/be4e2d6267d844a89f99119c1d5215ef.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        accessedAt: "2026-09-21",
+        claim: "שירות ה-OData‏ API_MAINTENANCEORDER ‏(Maintenance Order - Read) מתועד כשירות נכנס " +
+               "סינכרוני המאפשר לקרוא נתוני כותרת, פעולה, רכיב, פריט רשימת אובייקטים וקשרי פעולות של " +
+               "פקודות אחזקה ('is a synchronous inbound service that allows you to read header, " +
+               "operation, component, object list item, and operation relationship data of maintenance " +
+               "orders', כלשון התקציר). הרשומה שייכת ל-What's New של S/4HANA 2021, רכיב Asset Management " +
+               "/ Maintenance Operations.",
+        verificationLevel: "sap_official_verified",
+      },
+      ALM_ORDER_OPS_V2,
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של הפרויקט (PM enrichment)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "רשומת ההעשרה מתארת BAPI מסוג Read (קריאה בלבד, ללא SAVE או COMMIT) על אובייקט BOR‏ " +
+               "BUS2007, בזיקה ל-IW33 ולטבלאות AUFK, AFIH ו-AFVC, עם סיכום פרמטרים 'IMP NUMBER · EXP " +
+               "ES_HEADER · TAB ET_OPERATIONS, ET_COMPONENTS, ET_COSTS, RETURN', סטטוס 'Released · RFC', " +
+               "‏verificationStatus‏ verified-docs, תמיכת ECC ותמיכת S/4HANA On-Premise 'yes' ותמיכת " +
+               "Cloud 'unknown'. מקור האימות הרשום למשפחה זו הוא 'SE37 metadata mirror (sapdatasheet.org) " +
+               "+ SAP Community'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_ALM_ORDER_GET_DETAIL",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת סריקת ה-BAPI של הפרויקט",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "רשומת הסריקה נוקבת באותו BAPI כקריאה בלבד (RFC) לפרטי פקודת אחזקה, עם סיכום פרמטרים " +
+               "מצומצם יותר: 'IN: NUMBER · OUT: ES_HEADER, ET_OPERATIONS, ET_COMPONENTS, RETURN.' ‏(ללא " +
+               "ET_COSTS), ומצהירה על מקור אימות 'SAP Help Portal — verified 2026-07-15'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.sweep.ts#BAPI_ALM_ORDER_GET_DETAIL",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הקטלוג הפונקציונלי של הפרויקט",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "רשומת הקטלוג מתארת קריאת פרטי פקודת אחזקה (כותרת, פעולות, רכיבים) בזיקה ל-IW33 ולטבלאות " +
+               "AUFK ו-AFVC, וכותבת בשדה ה-S/4‏ 'זמין ב-S/4HANA; חלופה: API_MAINTENANCEORDER'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_ALM_ORDER_GET_DETAIL",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "‏BAPI_ALM_ORDER_GET_DETAIL מתועד ב-help.sap.com למהדורת S/4HANA On-Premise 2025 FPS01 כ-BAPI " +
+          "הקורא נתוני פקודות אחזקה ושירות, והורחב בה לקריאת נתוני פקודות שיפוץ; אף רשומה רשמית שנסרקה " +
+          "אינה מוציאה אותו משימוש. במקביל קיים ממשק OData רשמי לקריאת אותם נתונים: ‏API_MAINTENANCEORDER " +
+          "‏(Maintenance Order - Read), המתועד ב-What's New 2021 כשירות נכנס סינכרוני לקריאת כותרת, " +
+          "פעולה, רכיב, פריט רשימת אובייקטים וקשרי פעולות, ושפעולות הקריאה שלו מפורטות במדריך APIs for " +
+          "Maintenance Management לגרסת 2025 FPS01, כולל גרסה 2 בנתיב ‎API_MAINTENANCEORDER;v=2. ישויות " +
+          "גרסה 1 של אותו שירות מופיעות באותו מדריך עם הסיומת '(Deprecated)'.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: ALM_ORDER_OPS_V2,
+      recommendedAction:
+        "להמשיך להשתמש ב-BAPI לקריאת כותרת, פעולות ורכיבים בממשקי RFC ובדוחות קיימים, לאחר אימות שמות " +
+        "הפרמטרים המדויקים ב-SE37 או ב-BAPI Explorer במערכת היעד. לאינטגרציות חדשות, ובמיוחד בתרחישי " +
+        "OData או REST, להעדיף את API_MAINTENANCEORDER בגרסה 2 ‏(‎;v=2), משום שישויות גרסה 1 מופיעות " +
+        "במדריך 2025 FPS01 עם הסיומת '(Deprecated)'; לאמת את רשימת הישויות והשדות מול SAP Business " +
+        "Accelerator Hub (דורש מפתח API) או מול מערכת חיה.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_ORDER_MAINTAIN",
+      "fm:BAPI_ALM_ORDERHEAD_GET_LIST",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:CO_ZF_ORDER_HEADER_READ",
+      "table:AUFK",
+      "table:AFIH",
+      "table:AFVC",
+      "table:AFKO",
+      "tx:IW33",
+      "tx:IW38",
+      "cds:I_MaintenanceOrder",
+      "fiori:F2731",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "(1) הסטטוס 'קיים API משוחרר' נשען על שלוש רשומות help.sap.com: Enterprise Asset Management Part 4 " +
+      "‏(loio 3346ac67364447a3ba2f4efa65b8c014, ‏2025.001) הנוקבת בשם ה-BAPI ובתפקידו, What's New 2021 " +
+      "‏(loio be4e2d6267d844a89f99119c1d5215ef) המתארת את שירות הקריאה, ועמוד פעולות גרסה 2 ‏(loio " +
+      "a77ab811acd34f38a715f8093eb68ead, ‏2025.001). זו חלופה משוחררת ולא טענת החלפה: אין מקור רשמי שנסרק " +
+      "המכריז על ה-BAPI כמוחלף, ולכן לא נרשם יורש. (2) הסיומת '(Deprecated)' במדריך APIs for Maintenance " +
+      "Management מתייחסת לישויות גרסה 1 של שירות ה-OData, לא ל-BAPI. (3) ממשק ה-BAPI עצמו (NUMBER, " +
+      "ES_HEADER, ET_OPERATIONS, ET_COMPONENTS, ET_COSTS, RETURN) מופיע ברשומות המאגר בלבד; אף עמוד רשמי " +
+      "שנסרק אינו מפרט את הפרמטרים, והם נשארים לאימות ב-SE37 או ב-BAPI Explorer. (4) סתירה פנימית במאגר: " +
+      "data/bapi-enrichment.pm.ts מונה ET_COSTS ו-data/bapi-enrichment.sweep.ts אינו מונה אותו; לפי מיזוג " +
+      "הרישומים ב-lib/bapi-registry.ts שורה 215 ‏(enrichAll = spread של שלושת הקבצים) ערך הסריקה מחליף את " +
+      "ערך קובץ ה-PM במלואו עבור מזהה זה, כך שהפירוט BUS2007‏/IW33‏/AUFK‏/AFIH‏/AFVC שבקובץ ה-PM אינו " +
+      "מגיע לטלאי הרישום. נרשם לקובץ התור. (5) מקור האימות של משפחת ה-PM בקובץ ההעשרה הוא 'SE37 metadata " +
+      "mirror (sapdatasheet.org) + SAP Community', ערוץ Tier-3 לפי MANIFEST, בעוד רשומת הסריקה מצהירה " +
+      "'SAP Help Portal'; קיום ה-BAPI ותפקידו מעוגנים מעתה בעמוד רשמי, הממשק אינו. (6) גופי עמודי ה-Help " +
+      "לא נקראו: כל טענה תחומה בכותרת ובתקציר של רשומת החיפוש. ספירות התוצאות של שירות החיפוש אינן יציבות " +
+      "בין הרצות ולכן אינן נרשמות. (7) בחיפוש לשם המדויק לא נמצאה רשומת Simplification Item הנוקבת ב-BAPI " +
+      "זה; הממצא תחום לחיפוש ואינו הוכחה להיעדר פריט. (8) רישומי api.sap.com ‏(API_MAINTENANCEORDER, " +
+      "‏OP_API_MAINTENANCEORDER_0001) כבר מצוטטים ברשומה האחות fm:BAPI_ALM_ORDER_MAINTAIN ואינם נכפלים " +
+      "כאן; פירוט ישויות ושדות ב-Hub דורש מפתח API. (9) ‏fiori:F2731 נשמר כהפניה ניווטית מדאטהסט הפרויקט " +
+      "בלבד. שיוך המזהה עצמו שנוי במחלוקת ונרשם כ-conflicting_sources ב-data/verification/fiori.ts: " +
+      "התיעוד הרשמי מייחס את השם Manage Maintenance Orders למזהה F5241, ו-F5241 אינו קיים " +
+      "ב-data/fiori/apps.ts. אין מקור רשמי הקושר את ה-BAPI לאפליקציה כלשהי. (10) מהדורות Cloud לא נבדקו " +
+      "ברשומה זו.",
+  },
+
+  /* ------------------------------------------- fm:BAPI_MATERIAL_SAVEDATA */
+  {
+    id: "fm:BAPI_MATERIAL_SAVEDATA",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Segmentation: Enhancements to Material Master | Retail",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/2f88245323a27b0ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: "2026-09-21",
+        claim: "רשומת חיפוש רשמית לגרסת 2025 FPS01 (חבילת Retail) נוקבת בשם המודול כלשונו: 'Note You can " +
+               "also perform flexible segmentation through BAPI (BAPI_MATERIAL_SAVEDATA), IDOC (MATMAS), " +
+               "MM17 and any other material master transactions'. מכאן שה-BAPI מתועד בגרסה זו כערוץ " +
+               "תחזוקה פעיל של אב החומר, לצד סוג ההודעה MATMAS והטרנזקציה MM17. הסניפט אינו מונה את " +
+               "פרמטרי המודול ואינו קובע את סטטוס השחרור שלו. שירות החיפוש מחזיר לאותו loio גם את שם " +
+               "החוברת 'Logistics - General (LO)', ולכן שם החבילה אינו נרשם כנתון יציב.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Application Programming Interface (BAPI) | Production Planning and " +
+                     "Detailed Scheduling (PP/DS)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/a6385057cf924c59827936db4affb72a.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: "2026-09-21",
+        claim: "עמוד ה-BAPI של PP/DS לגרסת 2023 Latest קובע בסניפט: 'The following Business Application " +
+               "Programming Interface (BAPI)s have been enhanced to respect the Scope Limitation and " +
+               "Scope Profile during the material master creation: BAPI_MATERIAL_SAVEDATA During material " +
+               "creation, user will be allowed to pass Scope Limitation and Scope Profile values to the " +
+               "BAPIs'; בסניפט עצמו שני הצירופים Scope Limitation ו-Scope Profile מופיעים במשפט השני בתוך " +
+               "מרכאות בודדות. שאילתה נוספת על אותו loio מחזירה מאותו עמוד גם את השם " +
+               "BAPI_MATERIAL_SAVEREPLICA. כלומר המודול קיים ב-S/4HANA והורחב בו לשדות התכנון המתקדם. " +
+               "הסניפט אינו מונה את שאר הפרמטרים ואינו קובע סטטוס שחרור.",
+        verificationLevel: "sap_official_verified",
+      },
+      PRODUCT_A2X,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "APIs for Product Master | APIs for Product Master",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/18fe3fab96864826bfa0be0de4f65b85/a8661dda13ef407abc16902e4da68361.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: "2026-09-21",
+        claim: "עמוד הסקירה APIs for Product Master לגרסת 2025 FPS01 נוקב בסניפט: 'The following APIs are " +
+               "available for replicating product master data: ODATA APIs API Technical Name Use " +
+               "Operations Entities Product Master (A2X) API_PRODUCT_SRV This synchronous inbound " +
+               "service', ומוסיף: 'Note SAP recommends that you use Product Master (A2X) API for the " +
+               "following entities: Sales Text Basic Text Purchase Text Plant Text For all other " +
+               "entities, use Product (Version 2) API'. זו ההמלצה הרשמית לחלוקה בין שני שירותי ה-OData " +
+               "לפי ישות. הסניפט אינו מזכיר את ה-BAPI ואינו מציג אותו כמוחלף.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (PP-PI, נתוני אב חומר)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: "2026-09-21",
+        claim: "רשומת המאגר מתארת יצירה ועדכון של אב חומר לפי תצוגות: HEADDATA עם MATERIAL, MATL_TYPE " +
+               "ו-IND_SECTOR ודגלי תצוגה, מבני CLIENTDATA ו-PLANTDATA עם דגלי ...X לעדכון שדה, החזרת " +
+               "BAPIRET2 בטבלת RETURN וחובת COMMIT. הרשומה משייכת את המודול ל-MM01, MM02 ו-MM03, לטבלאות " +
+               "MARA, MARC ו-MAKT, ל-IDoc‏ MATMAS ולתצוגת ה-CDS‏ I_Product. שדה ה-ECC נוקב 'זמין ב-ECC' " +
+               "ושדה ה-S/4 נוקב 'זמין ב-S/4HANA אך עם מגבלות (אורך MATNR 40, שדות חדשים)' ומפנה לחלופת " +
+               "OData‏ API_PRODUCT ולאפליקציית Fiori‏ Manage Product Master. הרשומה אינה מסומנת inferred " +
+               "ואינה נושאת URL רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_MATERIAL_SAVEDATA",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "מודול הפונקציה זמין ומתועד ב-S/4HANA On-Premise עד גרסת 2025 FPS01 כערוץ תחזוקה של אב חומר " +
+          "(Material Master): שמו נקוב כלשונו בעמוד Segmentation: Enhancements to Material Master של 2025 " +
+          "FPS01 לצד סוג ההודעה MATMAS והטרנזקציה MM17, והוא הורחב בגרסת 2023 כדי לקבל את שדות Scope " +
+          "Limitation ו-Scope Profile בעת יצירת אב חומר לתכנון מתקדם. במקביל קיימת חלופת API רשמית " +
+          "מתועדת: שירות ה-OData‏ Product Master (A2X), שם טכני API_PRODUCT_SRV, המתועד בפרק APIs for " +
+          "Product Master כשירות נכנס סינכרוני ליצירה, קריאה, עדכון ומחיקה של נתוני אב מוצר. בחיפושים " +
+          "שבוצעו לא אותר מקור SAP רשמי המוציא את ה-BAPI משימוש, מסמן אותו כמוחלף או מגביל אותו, ולכן אין " +
+          "יורש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: PRODUCT_A2X,
+      recommendedAction:
+        "להמשיך להשתמש ב-BAPI בטעינות המוניות ובממשקים קיימים של אב חומר, כולל בשלב ההסבה. לממשקים חדשים " +
+        "להעדיף את שירות ה-OData‏ Product Master (A2X)‏ (API_PRODUCT_SRV), ולשים לב לחלוקה שעמוד APIs for " +
+        "Product Master ממליץ עליה בין A2X לבין Product (Version 2) לפי הישות. לפני טעינה גדולה לאמת " +
+        "במערכת היעד (SE37 או BAPI Explorer) את מבנה הפרמטרים בגרסה בפועל, את דגלי ה-X לעדכון שדה ואת " +
+        "הצורך ב-BAPI_TRANSACTION_COMMIT, וכן את התנהגות המודול כאשר מספר החומר המורחב מופעל. שאלת אורך " +
+        "MATNR נשארת פתוחה ברשומת table:MARA ואין להכריע אותה מעמוד BAPI.",
+    },
+    xrefs: [
+      "table:MARA",
+      "table:MARC",
+      "table:MAKT",
+      "tx:MM01",
+      "tx:MM02",
+      "tx:MM03",
+      "tx:MM17",
+      "fm:BAPI_MATERIAL_GET_DETAIL",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "idoc:msg:MATMAS",
+      "idoc:basic:MATMAS05",
+      "cds:I_Product",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "ארבע הראיות הרשמיות נשלפו ב-2026-09-21 מ-scripts/sap-help-search.mjs --json, וה-url, ה-loio " +
+      "וה-versionId הועתקו כלשונם מפלט ה-JSON; גופי עמודי help.sap.com הם מעטפת JavaScript ולא נקראו, " +
+      "ולכן כל טענה תחומה בכותרת ובסניפט של רשומת החיפוש בלבד. תשע השאילתות שבוצעו: " +
+      "'BAPI_MATERIAL_SAVEDATA', 'Product APIs for Product Master OData service', 'Material Number Field " +
+      "Length Extension simplification BAPI interface', 'Material Master simplification MM01 MMH1 SAP " +
+      "S/4HANA', 'Business Application Programming Interface BAPI material master scope limitation', " +
+      "'BAPI_MATERIAL_SAVEREPLICA', 'Product Master (A2X)', 'MM - Material master migration object " +
+      "S4_MM_MATERIAL_MASTER' ו-'material master BAPI deprecated not available S/4HANA', בתוספת חיפוש רשת " +
+      "מוגבל ל-api.sap.com ול-help.sap.com. אף רשומה לא הציגה הוצאה משימוש, הגבלה או החלפה של ה-BAPI, " +
+      "ולכן הממצא השלילי תחום בשאילתות אלה ואינו טענה מוחלטת. (1) המשפט 'SAP recommends that you use " +
+      "Product Master (A2X) API…' מוחזר בהרצת אימות של 2026-09-21 בסניפט של שתי רשומות החיפוש כאחת, גם " +
+      "עמוד Product Master (A2X)‏ (loio 74aa2b58a333a107e10000000a441470) וגם עמוד הסקירה APIs for " +
+      "Product Master‏ (loio a8661dda13ef407abc16902e4da68361), שתיהן בגרסה 2025.001. שתי הרשומות נרשמות " +
+      "כאן בנפרד, וכל טענה תחומה בסניפט של הרשומה שלה. (2) אורך MATNR לא הוכרע כאן ואינו נושא הרשומה: הוא " +
+      "נשאר פתוח ברשומת table:MARA ובתור הטבלאות (האם MATNR עצמו הופך ל-CHAR 40 או שרק MATNR_EXTERNAL). " +
+      "נמצא עמוד רשמי רלוונטי שלא נכלל כראיה כדי לא לגרור הכרעה כזו מעמוד BAPI: 'Material Field Length " +
+      "Extension for IS-OIL Downstream'‏ (What's New in SAP S/4HANA, versionId 100, loio " +
+      "c7eddd705d5048aea51e5ddc48d7f28e, וכפילות ב-1610 000, loio 540a46dde33c4b5794b2b0095aebe907), " +
+      "שהסניפט שלו קובע 'With extended material number activation, in relevant external communication " +
+      "interfaces, such as BAPIs and IDocs, the system uses only the extended version of the field, for " +
+      "example MATERIAL_LONG'. הסניפט תחום בפונקציונליות IS-OIL Downstream, אינו נוקב בשם ה-BAPI הנדון " +
+      "ואינו קובע את אורך ה-DDIC של MATNR; לכן הוא נרשם כאן כהפניה בלבד. (3) אותרה רשומת Data Migration " +
+      "לגרסת 2025 FPS01 שהסניפט שלה נוקב 'Related Business Object: Material Master … Component: LO-MD-MM " +
+      "… Name of this migration object: S4_MM_MATERIAL_MASTER Name of the BAPI used in this migration " +
+      "object: BAPI_MATERIAL_SAVEREPLICA'‏ (loio b7c452a7d4494ffcb0c5d7c432a708cc). הרשומה לא נכללה כראיה " +
+      "משתי סיבות: הכותרת שהאינדקס מחזיר עבורה ('FI - Accounts payable open item (tax line) " +
+      "(Customer-specific) (AFS)') אינה תואמת את תוכן הסניפט, ו-BAPI_MATERIAL_SAVEREPLICA אינו מזהה קיים " +
+      "ביקום הרשומות של הפרויקט ולכן אינו xref ואינו יורש. (4) מזהה Fiori: הסניפטים הרשמיים נוקבים " +
+      "ב-'Manage Product Master (F1602)'‏ (Mass Change Documents, What's New 2020 FPS01, loio " +
+      "d9984d7a40a74991876a338a080dc61e) וב-'MM01(F1602): Created a product in the Manage Product Master " +
+      "Data app'‏ (Change Documents, Product Master, 2025.001, loio 4715c453f57eb44ce10000000a174cb4), אך " +
+      "F1602 אינו קיים ב-data/fiori/apps.ts ולכן אין xref ל-Fiori, בעקביות עם רשומת table:MARA. (5) חיפוש " +
+      "רשת מוגבל-דומיין החזיר את רישום ה-Hub‏ 'Product Master (A2X)' בכתובת " +
+      "https://api.sap.com/api/API_PRODUCT_SRV/resource; הוא לא נרשם כראיה כי עמודי api.sap.com הם מעטפת " +
+      "ללא מפתח API, לפי כללי ה-fallback של MANIFEST. לכן גם אין כאן טענה על סטטוס שחרור של השירות: אף " +
+      "סניפט שנשלף אינו נוקב במילה released. (6) הרשומה הרשמית 'Product (Version 1) (Deprecated)'‏ (APIs " +
+      "for Product Master, 2025.001, loio 1ecb2c0208184e18b0173847d8d1457f) עוסקת בשירות Product בגרסה 1 " +
+      "ולא ב-BAPI; היא אינה טענת הוצאה משימוש של המודול. (7) רובד Tier-2: data/function-intel.ts מפורט " +
+      "ועקבי עם המקורות הרשמיים, אך הערכים releasedStatus 'Released · RFC', verificationStatus " +
+      "'verified-docs', s4OnPremSupport 'yes' ו-stability 'Released' ב-data/bapi-enrichment.pppi.ts הם " +
+      "ברירות מחדל של פונקציית העזר def() ולא נתון ייחודי לרשומה; בנוסף SWEEP_ENRICHMENT " +
+      "ב-data/bapi-enrichment.sweep.ts דורס את התיאור, את מקור האימות ואת parameterSummary של אותה רשומה " +
+      "(שם הפרמטרים נרשמים 'IN: HEADDATA, CLIENTDATA(X), PLANTDATA(X), VALUATIONDATA(X) · OUT: RETURN'). " +
+      "אף אחד מפרטי הפרמטרים לא אומת מול מקור רשמי, ולכן לא נרשמו xrefs לטבלאות MARM ו-MBEW הנגזרות מהם. " +
+      "(8) ללא סטטוס מחובר, הרכיב components/neo-shell/reference/bapi-data.ts גוזר דרך fromFuncRegistry " +
+      "את הסטטוס 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', בעוד שדה ה-S/4 של function-intel " +
+      "כותב 'זמין ב-S/4HANA אך עם מגבלות'; הסטטוס המחובר כאן מיישר את התצוגה עם התמונה הרשמית, כפי שנעשה " +
+      "קודם ב-fm:BAPI_GOODSMVT_CREATE. (9) לא בוצעה בדיקה חיה במערכת SAP: חיבור ה-MCP‏ sc4sap נכשל בסשן " +
+      "זה, ולכן קיום הפרמטרים, קבוצת הפונקציות וסטטוס השחרור ברמת SE37 נשארים לא מאומתים. (10) המשפט על " +
+      "הסגמנטציה הגמישה מופיע באותו נוסח גם ברשומה מוקדמת יותר שכותרתה 'Flexible Segmentation'‏ (What's " +
+      "New in SAP S/4HANA 2021, 2021.000, loio b04cfd1f240741f693e2a1fd8d809445) ובשכפול תחת versionId " +
+      "100; נבחרה הרשומה של 2025 FPS01, שכותרתה 'Segmentation: Enhancements to Material Master', כי היא " +
+      "הגרסה העדכנית ביותר הנוקבת בשם המודול.",
   },
 ];
