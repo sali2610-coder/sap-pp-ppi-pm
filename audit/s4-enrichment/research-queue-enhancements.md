@@ -290,3 +290,120 @@ The catalog was already graduated out of the repository-only foundation guard in
   in any `data/verification/*.ts` file carries that field, and `resolve.ts` would render it. A
   second date constant `DATE14 = "2026-09-14"` was added beside the file's `DATE = "2026-09-02"`
   rather than restamping the batch-1 records, as the PPCO0007 and SAPLV01Z auditors instructed.
+
+# Batch 3 · written 2026-09-21 (access date stamped 2026-09-21)
+
+The 8 extension-technique records that close the `enh:technique` family: `customer-exit`,
+`classic-badi`, `new-badi`, `explicit-enhancement`, `implicit-enhancement`, `field-exit`, `bte`,
+`user-exit`. All 8 were audited and none was refuted, so all 8 were written from their auditor's
+`fixedRecord` with the listed downgrades applied.
+
+## refuted
+
+- None. Every audited draft in this batch survived its verdict (`refuted: false` on all eight), so
+  nothing from batch 3 is queued as refuted.
+
+## conflicts
+
+- `enh:technique:explicit-enhancement` — the repository row `data/enhancements.ts#explicit-enhancement`
+  states S/4HANA `"נתמך ומועדף על Implicit"`. The official page it contradicts is `Business Function`
+  (S/4HANA On-Premise 2025 FPS01, loio `979bddd4cebe423f9eb5767a275b2d78`), which recommends *not*
+  using the explicit enhancement options SAP defined with `ENHANCEMENT-POINT` / `ENHANCEMENT-SECTION`
+  and offers "Business Add-Ins (BAdIs) or implicit enhancement options instead". The repository row
+  is recorded as `conflicting_sources` in the record and was **not** edited; correcting it is a
+  separate change to `data/enhancements.ts`.
+- `enh:technique:implicit-enhancement` — three repository rows point the opposite way from the same
+  official page and from each other: `data/enhancements.ts#implicit-enhancement` ("נתמך; להעדיף
+  נקודות מפורשות/BAdI כשקיימות"), the `Implicit Enhancement` row in `data/exits.ts` ("שביר בשדרוג;
+  תעד; העדף נקודות מפורשות/BAdI") and `data/enhancements.ts#explicit-enhancement`. Only the
+  "prefer BAdI" half survives against the official source. Not edited here.
+- `enh:technique:user-exit` — the same objects are classified two ways inside the repository: the PM
+  workbook's Custom Code sheet types 27 rows as `User Exit`, and ten of those names
+  (ITOB0001, IEQM0001, PCSD0002, IMRC0001, QQMA0001, QQMA0014, IWO10009, IWO10012, IWO10018,
+  IPRM0001) are `Customer Exit` in `data/exits.ts`. The BC book separates the two mechanisms
+  explicitly (`Application-Specific User Exits` = `Modification`; customer exits "do not affect
+  software updates"). Recorded as `conflicting_sources`; the dataset itself was not changed.
+  Side effect worth knowing: `data/exits.ts` holds **zero** rows of kind `User Exit`, so the
+  technique page renders zero associated named enhancements even though `ExitKind` declares the value.
+- `enh:technique:field-exit` — the repository row's `"הוחלף ע\"י screen logic/BAdI"` has no official
+  support; nothing found names a sanctioned successor for a field exit, which is why the record
+  carries no `successor` and an authored `verification_required` status.
+- `enh:technique:customer-exit` — the derived status the app showed ("משתנה ב-S/4HANA") rests on the
+  repository line `"נתמך; מועדף BAdI."`, for which no official page was found. The record replaces it
+  with `verification_required` rather than inheriting an unsourced verdict.
+- Id-syntax defect, still open from batch 2: the `Implicit Enhancement` row in `data/exits.ts` would
+  canonicalise to `enh:badi:IMPLICIT ENHANCEMENT`, which cannot pass the id syntax rule because of the
+  space. The technique record `enh:technique:implicit-enhancement` is the home of that evidence; the
+  exits row has no overlay record.
+- Universe gaps found while writing: `FIBF` and `SPAU_ENH` are both quoted verbatim from official
+  pages but neither exists in `lib/route-manifest.generated.ts`, so neither could be added as an
+  xref (`tx:FIBF` on `bte`, `tx:SPAU_ENH` on `implicit-enhancement` and `user-exit`). Both are named
+  in prose in the relevant records instead.
+- House-string inconsistency: this batch stores the ABAP platform evidence `product` verbatim as the
+  search service returns it, `"ABAP platform"` (lowercase p). Two older rows in
+  `data/verification/tables.ts` (lines 16358, 16489) write `"ABAP Platform"`. Not reconciled here;
+  `tables.ts` is a closed catalog.
+
+## open verification (live system)
+
+- `CMOD` / `SMOD` component lists and `SPAU` / `SPAU_ENH` adjustment categories after a conversion —
+  the one check that would settle whether existing customer exits, classic BAdI implementations and
+  implicit enhancements survive in a concrete target system. The `sc4sap` MCP was unavailable.
+- `RZ11` value of `abap/fieldexit` and an `SE38` run of `RSMODPRF` in a real S/4HANA system: the only
+  way to decide `enh:technique:field-exit`, whose status is deliberately left `verification_required`.
+- `SE18` for a kernel-based BAdI: no official record found names `SE19` in a kernel-BAdI context (in
+  the retrieved snippets `SE19` appears with the *classic* BAdI), so the `tx:SE19` xrefs on
+  `new-badi` and `explicit-enhancement` are catalog context, not a sourced association.
+- The full `Exit Types` list (Function / Screen / Menu / Field / Documentation) lives only in the body
+  of loio `c81975e643b111d1896f0000e8322d00`, which help.sap.com serves as a JavaScript shell.
+- SAP S/4HANA Cloud Public Edition standing for every technique in this batch: the product-scoped
+  queries returned nothing naming these techniques. That is a search-bounded finding, never recorded
+  as unavailability.
+- Simplification Item Catalog (`launchpad.support.sap.com/#/sic`) needs an S-user; the only
+  simplification evidence in this batch is the public `SIMPL_OP2025.pdf`, read in full.
+
+### Writer deviations, batch 3 (all measured against the official search service on 2026-09-21)
+
+- `product` for the `ABAP_PLATFORM_NEW` evidence rows is written `"ABAP platform"` in all four
+  records that carry them, matching the search record verbatim. The `classic-badi`, `new-badi` and
+  `field-exit` `fixedRecord`s said `"ABAP Platform"`; the `explicit-enhancement` verdict required the
+  verbatim form. Verbatim wins, and the batch is internally consistent.
+- Three fragments the auditors marked truncated came back complete on a re-query and are quoted in
+  full: the `LOG_EAM_CI_4` BAdI name (`"BAdI: Filling of Customer Fields for Measuring Points and …
+  Documents"`, not `"Measuring Po"`) on `customer-exit`; `"Run transaction SE38, execute program
+  RSMODPRF Enter the data element of the field to be enhanced"` on `field-exit`; and
+  `"…or the user exit CNEX0027 to implement your own customer-specific logic"` on `user-exit`.
+- `user-exit` evidence 3: the `fixedRecord` said two further pages "repeat the same pairing". Only
+  loio `95139a0602af4c26a3e4a5a6a782356a` repeats `DI_WPS_PLANT_STORLOC`; loio
+  `9da79ba177fa4a25beb8fbd30005bcd9` pairs `CNEX0027` with a *different* BAdI, `CHANGE_PLANT_STORLOC`.
+  The claim now says so.
+- `bte` evidence 6: the simplification-list negative is stated as a standalone-token count. The
+  measured result over the full 1,514-page extraction is 0 occurrences of `Business Transaction
+  Event`, 0 of `FIBF`, and 0 of `BTE` as a word — the three raw `BTE` substrings found are inside
+  object names (`RSWUVWIZBTE`, `WBTE`, `get_stock_change_for_bte`), which the claim now names.
+- `accessedAt` / `lastVerifiedAt` are written through a new file-level constant
+  `DATE21 = "2026-09-21"`, beside `DATE` and `DATE14`, as the `classic-badi` auditor instructed.
+- No record carries `reviewer`, per the `data/verification/**` convention.
+
+### catalog-integrity finding (2026-09-21, measured during the batch-3 inventory)
+
+Two rows in `data/exits.ts` carry names that cannot form a canonical id, so neither can
+ever receive an overlay record:
+
+| row | `kind` | id it would need | why it fails |
+|---|---|---|---|
+| `CMOD/SMOD` | `Customer Exit` | `enh:exit:CMOD/SMOD` | the id syntax rule in `lib/evidence/validate.ts` rejects `/` |
+| `Implicit Enhancement` | `Enhancement Spot` | `enh:badi:IMPLICIT ENHANCEMENT` | the same rule rejects a space |
+
+Neither row is an enhancement in the first place. `CMOD/SMOD` is the pair of maintenance
+transactions that manage customer exits, and `Implicit Enhancement` is a technique. Both
+are already covered properly: the transactions belong in the transaction catalog, and
+the technique is covered by `enh:technique:implicit-enhancement`, written in this batch.
+
+Consequence: the enhancements catalog total (42) counts two rows that can never be
+verified, so the catalog can reach at most 40 records.
+
+Same defect class as the five non-function keys recorded in
+`research-queue-functions.md`. Not fixed inside an enrichment batch: removing or
+re-homing rows in `data/exits.ts` changes what the enhancement pages render, so it needs
+its own audited change with a before and after route check.

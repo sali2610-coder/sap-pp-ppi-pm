@@ -18,11 +18,24 @@
    because the official pages name a different function-module, purpose or transaction scope;
    two carry an authored verification_required status so a derived verdict the overlay cannot
    support stops rendering beside an official pill. Six audited drafts were refuted at the
-   gate and are queued, not written. */
+   gate and are queued, not written.
+   Batch 3 (written and access-stamped 2026-09-21, const DATE21): the 8 extension-technique
+   records that close the enh:technique family (customer-exit, classic-badi, new-badi,
+   explicit-enhancement, implicit-enhancement, field-exit, bte, user-exit), each written from
+   its auditor's fixedRecord with the listed downgrades applied. Two of them (customer-exit,
+   field-exit) carry an authored verification_required status because no official page states the
+   technique's S/4HANA standing; classic-badi is the only "replaced" status in the catalog and
+   names enh:technique:new-badi as its successor; explicit-enhancement and user-exit mark the
+   contradicting repository row conflicting_sources. Writer deviations from the fixedRecords, all
+   measured against the official search service on 2026-09-21, are recorded in each record's
+   notes: the ABAP platform product string is stored verbatim as "ABAP platform"; three snippet
+   fragments the auditors marked truncated came back complete and are quoted in full; and the
+   simplification-list negative for BTE is stated as a standalone-token count. */
 import type { VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
 const DATE14 = "2026-09-14";
+const DATE21 = "2026-09-21";
 
 export const ENH_VERIFICATION: VerificationRecord[] = [
   {
@@ -2026,5 +2039,1553 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
     ],
     lastVerifiedAt: DATE14,
     notes: "מה שאומת מול help.sap.com (שירות החיפוש הרשמי, scripts/sap-help-search.mjs, המוצר SAP_S4HANA_ON-PREMISE, 2026-09-14): הטכניקה מתועדת לגרסת 2025 FPS01 בעמוד SAP Fiori Overview כהרחבת שדות ולוגיקה ליישומי Fiori דרך היישום Custom Fields and Logic; יישומה בתחזוקת מפעל (EAMS_ORD ליישום Manage Maintenance Orders, וב-What's New 2025 שדות לקוח לפעולות ההזמנה) ובתעשיות תהליכיות (Manage Process Orders ו-Manage Process Order Operations, What's New 2022). רשומות רשמיות נוספות שנראו ולא צוטטו: 'What's New Viewer: Unified Category for Extensibility Changes' (2023 FPS01, loio 52e97019b1324f72a5c8ea3d52c6c22d) המונה 'developer extensibility, key user extensibility, or side-by-side extensibility' כשלוש קטגוריות; עמודי App Extensibility של Maintenance Management ל-Create Technical Object, Change Technical Object, Display Maintenance Item ו-Report Malfunction (2025.001) המפנים לתיעוד ה-BAdI בתוך היישום Custom Fields and Logic ('Custom Logic, your implementation, BAdI Documentation'); ו-'Creating Custom Fields and Custom Business Logic' (SAP Fiori Overview, loio 40d3a9b11e77438e865bdff21d9cff72). מה שלא אומת: שמות ה-BAdIs הזמינים ל-Custom Logic בכל יישום (מופיעים רק בגוף העמודים, שלא נקרא); Custom CDS Views ו-Custom Business Objects כחלק מהטכניקה וההגדרה 'Developer Extensibility = ABAP Cloud' שברשומת המאגר (data/enhancements.ts#key-user-extensibility) לא נתמכו בסניפט שנמצא; הסיווג 'Clean Core' ו-'הדרך המומלצת' שברשומת המאגר אינם מופיעים באף עמוד רשמי שנמצא, ולכן נשארו ברמת המאגר ולא נכתבו בסטטוס. ההיעדר ב-ECC ('לא קיים') הוא קביעת המאגר; העמודים הרשמיים אינם מתייחסים ל-ECC. סתירת מזהה ידועה: התיעוד הרשמי מצמיד את Manage Maintenance Orders למזהה F5241, בעוד קטלוג ה-Fiori של הפרויקט רושם F2731 (ראו רשומת fiori:F2731), ולכן ה-xref כאן מפנה ל-F2731. ה-xref ל-WORKORDER_UPDATE הוא הקשר של BAdI להזמנת תחזוקה בלבד; לא נמצא עמוד רשמי הקובע שהוא חשוף ב-Custom Logic. המעמד הנגזר שהאפליקציה הציגה לפני הרשומה: 'משתנה ב-S/4HANA' לפי בלוק ECC מול S/4HANA ברשומת הטכניקה.",
+  },
+  {
+    id: "enh:technique:customer-exit",
+    aliases: ["Customer Exits", "SMOD/CMOD", "Function Module Exit"],
+    status: {
+      status: "verification_required",
+      he: "הטכניקה מתועדת בתוך ערכת התיעוד של SAP S/4HANA On-Premise: הרשומות של 'Changing the SAP Standard "
+        + "(BC)' מגדירות את מושג ההרחבה ומונות את נושאי המשנה של הטכניקה, ובהם Exit Types, Searching for "
+        + "Applications with Exits, Creating Add-On Projects, Activating and Deactivating Projects "
+        + "ו-Transporting Add-On Projects, ובגרסת 2025 FPS01 תיעוד תחזוקת מפעל ותעשיות תהליכיות עדיין מפנה "
+        + "להרחבות לקוח ולטרנזקציה CMOD. עם זאת, אף עמוד רשמי שנמצא אינו קובע את מעמד הטכניקה ב-S/4HANA ביחס "
+        + "ל-ECC: לא נמצאו פריט פישוט, הערת הסרה או הכרזת יורש לטכניקה כולה, ומנגד עמוד ה-Customer Exits עצמו "
+        + "מציג הגירה ל-Business Add-Ins ככיוון. הסטטוס הנגזר שהאפליקציה מציגה כיום, 'משתנה ב-S/4HANA', נשען על "
+        + "שורת המאגר 'נתמך; מועדף BAdI.' (data/enhancements.ts#customer-exit) שאין לה מקור רשמי, ולכן נרשם כאן "
+        + "סטטוס לאימות במקומו.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: "בהיקף מיגרציה: לאתר את פרויקטי ה-CMOD הפעילים ואת מודולי ה-EXIT_ שהם מפעילים (CMOD לפרויקטים, SMOD "
+        + "לתיעוד ההרחבה) ולהריץ עליהם Custom Code Migration/ATC לפני ההמרה. לכל הרחבה קיימת לבדוק בתיעוד "
+        + "היישום הספציפי בגרסת היעד אם SAP מספקת BAdI מקביל, ולהעדיף אותו: בתחזוקת מפעל, עמוד פונקציית העסק "
+        + "LOG_EAM_CI_4 שברשומת הראיה החמישית קובע שהרחבות לקוח מסוימות הומרו ל-BAdIs, ומצמיד ל-IMRC0001 את "
+        + "'BAdI: Filling of Customer Fields for Measuring Points and ... Documents'. לפיתוח חדש להעדיף "
+        + "Business Add-Ins דרך SE18/SE19 ואת הרחבת ה-Key User; ראו ברשומות enh:technique:new-badi "
+        + "ו-enh:technique:key-user-extensibility בקטלוג זה, הנושאות ראיות משלהן. אין להסיק מרשומה זו שהרחבת "
+        + "לקוח קיימת הוסרה או נפסלה; מעמדה במערכת היעד נבדק בתיעוד ההרחבה ב-SMOD ובכלי התאמת השינויים שלאחר "
+        + "השדרוג (SPAU).",
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enhancements to the SAP Standard with Customer Exits | Changing the SAP Standard (BC)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2b28ffa716c24348903f8ffbfeb81df8/c81975d943b111d1896f0000e8322d00.html?locale=en-US&state=PRODUCTION&version=1709.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1709.latest",
+        accessedAt: DATE21,
+        claim: "רשומת שירות החיפוש של help.sap.com למוצר SAP S/4HANA On-Premise (deliverable 'Changing the SAP "
+          + "Standard (BC)', versionId 1709.latest, loio c81975d943b111d1896f0000e8322d00) מציגה את הגדרת "
+          + "הטכניקה: 'The enhancement concept allows you to add your own functionality to SAP's standard "
+          + "business applications without having to modify the original applications', ו-'These customer objects "
+          + "are linked to standard applications, but exist separately from SAP's standard software package'. "
+          + "הסניפט נקטע ב-'If you want to enhance the functionality of your'. גוף העמוד לא נקרא (מעטפת "
+          + "JavaScript), ואין בסניפט אמירה על S/4HANA לעומת ECC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Customer Exits | Changing the SAP Standard (BC)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2b28ffa716c24348903f8ffbfeb81df8/c81975cc43b111d1896f0000e8322d00.html?locale=en-US&state=PRODUCTION&version=1709.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1709.latest",
+        accessedAt: DATE21,
+        claim: "הרשומה 'Customer Exits' באותה ערכת תיעוד (loio c81975cc43b111d1896f0000e8322d00, versionId "
+          + "1709.latest) מונה בסניפט את נושאי המשנה של הטכניקה: 'Enhancements of the SAP Standard with Customer "
+          + "Exits Exit Types Searching for Applications with Exits Creating Add-On Projects Activating and "
+          + "Deactivating Projects Transporting Add-On Projects', ומציגה את כיוון ההגירה: 'To make enhancements "
+          + "of the SAP standard more uniform, you can migrate customer exits to Business Add-Ins'. סניפט שני של "
+          + "אותה רשומה, בשאילתה אחרת, מוסיף: 'Caution If you used transaction SMOD to migrate customer exits, "
+          + "the enhancement projects of the customer that belong to the customer exits must be migrated to "
+          + "implementations of business add-ins in order' (נקטע כאן). שמות סוגי ה-Exit עצמם אינם מופיעים בסניפט, "
+          + "אלא רק כותרת הנושא 'Exit Types'. הסניפטים אינם קובעים שהטכניקה הוסרה, הוגבלה או הוצאה משימוש "
+          + "ב-S/4HANA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Notes about the Function Modules | Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/6470b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת Maintenance Management לגרסת SAP S/4HANA On-Premise 2025 FPS01 (loio "
+          + "6470b65334e6b54ce10000000a174cb4, כותרת 'Notes about the Function Modules'): 'From Release 3.1I / "
+          + "4.0B, you can use the following Customer Exits for measuring points and measurement documents: "
+          + "IMRC0001 runs before the update and enables you to define particular field contents' (הסניפט נקטע "
+          + "כאן), וכן 'IMRC0002 and IMRC0003 make available menu exits in the online processing of measuring "
+          + "points and measurement documents, so that you can trigger customer-specific functions or call up "
+          + "customer-defined screens'. כלומר בתחזוקת מפעל הרחבות לקוח, ובהן סוג ה-Menu Exit, עדיין מתועדות "
+          + "בתיעוד 2025 FPS01. הסניפט אינו אומר דבר על מעמדן ביחס ל-ECC; גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Customizing for Process Management | Single and Composite Roles (PFCG)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/d124bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת תיעוד לגרסת SAP S/4HANA On-Premise 2025 FPS01 (loio d124bf53d25ab64ce10000000a174cb4, כותרת "
+          + "'Customizing for Process Management') מציגה טבלת 'Object Type Meaning Customizing Activity' ובה "
+          + "'FUGS SAP part of an enhancement Use Function Exit for Automatic Char.Value Assignment in section "
+          + "Process Messages -> Process Message Characteristics', 'FUGX ... Customer-specific part of an "
+          + "enhancement Use Function Exit for Automatic Char.Value Assignment in section Process Messages -> "
+          + "Process Message Characteristics' ו-'CMOD Project management for enhancements'. כלומר בניהול התהליך "
+          + "של תעשיות תהליכיות הטרנזקציה CMOD, קודי סוג האובייקט FUGS ו-FUGX ופעילות ה-Customizing להפעלת "
+          + "Function Exit עדיין מתועדים בגרסת 2025 FPS01. הסניפט אינו נוקב בשם ההרחבה עצמה, וגוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enterprise Asset Management Part 4 | Logistics",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/77c07c8d30664260a0b3ff864e6b5e78/3346ac67364447a3ba2f4efa65b8c014.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת Logistics לגרסת SAP S/4HANA On-Premise 2025 FPS01 (loio 3346ac67364447a3ba2f4efa65b8c014, "
+          + "כותרת 'Enterprise Asset Management Part 4') היא עמוד פונקציית עסק: 'Technical Name of Business "
+          + "Function LOG_EAM_CI_4', 'Type of Business Function Enterprise Business Function', 'Availability SAP "
+          + "S/4HANA, on-premise'. הסניפט כולל את הכותרת 'Customer enhancements converted to BAdIs' ואת המשפט 'To "
+          + "enable partners to extend the existing solution and pro' (נקטע כאן), וכן 'These BAdIs have the same "
+          + "functions as the existing customer enhancements: IMRC0001: MeasPoint/MeasDoc: Exit before update "
+          + "(after COMMIT WORK) = BAdI: Filling of Customer Fields for Measuring Points and ... Documents' (שלוש "
+          + "הנקודות הן קטיעה בתוך הסניפט עצמו) ו-'IMRC0002: MeasPoint: Menu exit for customer-specific function "
+          + "= BAdI: Additional Function Code in Measuring Point Transactions'. ההמרה שהעמוד מתאר חלה על הרחבות "
+          + "תחזוקת מפעל מסוימות במסגרת אותה פונקציית עסק; העמוד אינו קובע דבר על מעמד טכניקת הרחבת הלקוח ככלל "
+          + "ב-S/4HANA. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    xrefs: [
+      "enh:technique:user-exit",
+      "enh:technique:classic-badi",
+      "enh:technique:new-badi",
+      "enh:technique:key-user-extensibility",
+      "enh:exit:IMRC0001",
+      "enh:exit:IWO10009",
+      "enh:exit:PPCO0001",
+      "enh:exit:CONFPP05",
+      "tx:CMOD",
+      "tx:SMOD",
+      "tx:SE18",
+      "tx:SE19",
+      "tx:IK11",
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה: תשע שאילתות ב-scripts/sap-help-search.mjs תחת המוצר SAP_S4HANA_ON-PREMISE, וחיפוש רשת אחד "
+      + "מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap. מה שאומת: "
+      + "קיומה והגדרתה של הטכניקה בערכת התיעוד של S/4HANA On-Premise, שמות נושאי המשנה (ובהם 'Exit Types'), "
+      + "כיוון ההגירה ל-Business Add-Ins, הימצאות הרחבות לקוח פעילות בתיעוד 2025 FPS01 בתחזוקת מפעל ובתעשיות "
+      + "תהליכיות, והמרתן של הרחבות תחזוקת מפעל מסוימות ל-BAdIs במסגרת פונקציית העסק LOG_EAM_CI_4. רשומות "
+      + "רשמיות נוספות שנראו ולא צוטטו כראיה: 'Use of User Data' (Orders CS-SE/PM-WOC-MO, 2025.001, loio "
+      + "50c7b65334e6b54ce10000000a174cb4) שאומר 'You can use customer exit IWO10016 to run your own checks "
+      + "for the user data fields'; ההרחבה IWO10016 אינה קיימת בקטלוג ההרחבות של הפרויקט (data/exits.ts) ולכן "
+      + "לא נרשם אליה xref. 'Including Customer-Specific Screens on Tab Pages' (2025.001, loio "
+      + "b0d8c353b677b44ce10000000a174cb4) המורה להציג את רכיבי הרחבת הלקוח WTY00002 דרך SMOD ולהפעיל את "
+      + "הפרויקט. 'Customer Exit MILLOC01' (Production Orders PP-SFC, 2025.001, loio "
+      + "c5cec353b677b44ce10000000a174cb4): 'Before you can use the customer exit, you must create a customer "
+      + "project in transaction CMOD'. שתי רשומות Workflow בגרסת 2025.001 המצמידות מודולי Function Exit "
+      + "להרחבות PP המוכרות לפרויקט (EXIT_SAPLCORF_105 ל-CONFPP05, loio cc6cb6531de6b64ce10000000a174cb4; "
+      + "EXIT_SAPLCOBT_001 ל-PPCO0001, loio c66cb6531de6b64ce10000000a174cb4). 'Comparison of Classic BAdIs "
+      + "with Previous Techniques' (RE-FX, 2025.001, loio eb3e7ceb940e11d295df0000e82de14a) המונה את חסרונות "
+      + "SMOD/CMOD ('This enhancement technique assumes a two-tiered system infrastructure'), ו-'Classic "
+      + "BAdIs' (RE-FX, 2025.001, loio e6d54d3c596f0b26e10000000a11402f). מה שלא אומת: רשימת סוגי ה-Exit "
+      + "המלאה (Function, Screen, Menu, Field, Documentation) בגוף עמוד 'Exit Types', שלא נקרא; מעמד הטכניקה "
+      + "ב-SAP S/4HANA Cloud Public Edition (לא הורצה שאילתה תחת אותו מוצר); קיומו או היעדרו של פריט פישוט "
+      + "ייעודי (Simplification Item Catalog דורש התחברות S-user לפי MANIFEST); וכל בדיקה במערכת SAP חיה "
+      + "(חיבור ה-MCP ל-ABAP לא היה זמין בסשן זה, ולכן CMOD, SMOD ו-SPAU לא נבדקו). הסתייגות גרסה: ערכת "
+      + "התיעוד 'Changing the SAP Standard (BC)', שהיא המקור הרשמי היחיד שנמצא להגדרת הטכניקה עצמה, מופיעה "
+      + "בשירות החיפוש רק תחת versionId 1709.latest של המוצר SAP S/4HANA On-Premise; בשאילתות שהורצו לא "
+      + "הוחזרה גרסה חדשה יותר שלה, וזה ממצא תחום בשאילתות ולא קביעה שהעמוד הוסר מגרסאות מאוחרות. ליד שלא "
+      + "צוטט: חיפוש הרשת החזיר את עמוד ABAP Keyword Documentation 7.51 בהקשר CALL CUSTOMER-FUNCTION, ומנוע "
+      + "החיפוש סיכם ממנו שהפעלת הרחבות דרך CMOD 'obsolete'; העמוד עצמו לא נקרא, הוא תיעוד שפת ABAP ואינו "
+      + "מתפרסם תחת מוצר S/4HANA עם edition, ולכן אינו ראיה כאן. הערת כתיבה: בעת כתיבת הרשומה נבדק מחדש שם "
+      + "ה-BAdI שבראיה החמישית, והסניפט מחזיר אותו ארוך יותר מן הצורה שצוינה בביקורת ('Measuring Points and "
+      + "... Documents' ולא 'Measuring Po'), ולכן נכתבה כאן הצורה הארוכה שנמדדה בפועל. מוסכמה: הרשומה אינה "
+      + "נושאת שדה reviewer, כמו כל תשעת קבצי data/verification/**.",
+  },
+  {
+    id: "enh:technique:classic-badi",
+    aliases: ["Classic BAdIs", "Classic BAdI Concept"],
+    status: {
+      status: "replaced",
+      he: "מושג ה-BAdI הקלאסי הוחלף בתוך ה-Enhancement Framework: עמוד 'Classic BAdIs' בערכת התיעוד של SAP "
+        + "S/4HANA On-Premise 2025 FPS01 קובע 'The new BAdIs have completely replaced the classic BAdIs' ומוסיף "
+        + "כי 'A migration tool is available for converting the classic BAdIs into new BAdIs', ועמוד 'Business "
+        + "Add-Ins (BAdIs)' של ה-Enhancement Framework קובע שבתוך המסגרת המונח BAdI מתייחס ל-BAdIs "
+        + "מבוססי-Kernel, ושהמושג הקודם מכונה classic BAdI concept. ההחלפה היא ברמת המושג ושל פיתוח חדש: תיעוד "
+        + "המושג הקלאסי עדיין נכלל בערכת 2025 FPS01, והוראות רשמיות באותה גרסה עדיין עובדות מול מימוש שהומר "
+        + "(שדה 'Migrated from classic BAdI impl.'). לא נמצא מקור רשמי הקובע שמימושים קלאסיים קיימים חדלו לפעול "
+        + "ב-S/4HANA.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Classic BAdIs | Internal Service Request",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9e21827baabc46ee86355f6b3bae53b5/eea1d548892b11d295d60000e82de14a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש הרשמית לעמוד 'Classic BAdIs' תחת המוצר SAP S/4HANA On-Premise בגרסה 2025 FPS01 (loio "
+          + "eea1d548892b11d295d60000e82de14a) כוללת את המשפטים: 'Classic BAdIs Business Add-Ins (BAdIs) are "
+          + "enhancements to the standard version'; 'As of Release 7.0 of the Application Server ABAP (SAP "
+          + "NetWeaver 7.0), there is a new type of BAdI. Creation of these BAdIs is integrated into the "
+          + "Enhancement Framework'; 'Execution of these BAdIs is integrated, for performance reasons, into the "
+          + "ABAP language. The new BAdIs have completely replaced the classic BAdIs'; 'A migration tool is "
+          + "available for converting the classic BAdIs into new BAdIs'; 'In contrast to customer exits, Business "
+          + "Add-Ins no longer assume a two-level infrastructure (SAP and customer solutions), but instead allow "
+          + "for a multi-level system landscape (SAP, country-specific versions' (הסניפט נקטע כאן); 'You can "
+          + "create definitions and implementations of Business Add-Ins at any level of the system landscape. SAP "
+          + "guarantees the upward compatibility of all Business Add-In interfaces'; ו-'BAdIs that have replaced "
+          + "function modules exits since Release 4.6d'. הציטוטים נאספו מכמה שאילתות לאותה רשומה, שכן חלון הסניפט "
+          + "משתנה לפי השאילתה. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: "בפרויקט ההסבה: למפות את הגדרות ומימושי ה-BAdI הקלאסיים במערכת המקור (SE18 להגדרה, SE19 למימוש) "
+        + "ולכלול אותם בבדיקת הקוד המותאם יחד עם ה-Customer Exits. לפיתוח חדש בתחזוקת מפעל ובתעשיות תהליכיות "
+        + "להגדיר רק BAdIs מבוססי-Kernel תחת Enhancement Spot, בהתאם להמלצה שבעמוד Migrating Classic BAdIs. "
+        + "להמרת הגדרות קיימות קיים כלי המרה, אך התיעוד קובע שהמרה אוטומטית מלאה אינה אפשרית, ולכן יש לתכנן "
+        + "בדיקה ידנית של הקריאות, של ערכי הפילטר ושל מימושים מרובים. לאחר שדרוג או המרה לעבור ב-SPAU על "
+        + "הפריטים שבקטגוריית Migrations, לפי עמוד Object List and Adjustment Tabs (loio "
+        + "aa70160d221d48a5b214f7ca26379853) שנצפה ולא צורף כראיה. לשדות ולוגיקה חדשים ביישומי Fiori לשקול "
+        + "תחילה את נתיב ה-Key-User (Custom Fields and Logic) לפני הרחבה קלאסית.",
+      successor: "enh:technique:new-badi",
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Classic BAdIs | Internal Service Request",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9e21827baabc46ee86355f6b3bae53b5/eea1d548892b11d295d60000e82de14a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש הרשמית לעמוד 'Classic BAdIs' תחת המוצר SAP S/4HANA On-Premise בגרסה 2025 FPS01 (loio "
+          + "eea1d548892b11d295d60000e82de14a) כוללת את המשפטים: 'Classic BAdIs Business Add-Ins (BAdIs) are "
+          + "enhancements to the standard version'; 'As of Release 7.0 of the Application Server ABAP (SAP "
+          + "NetWeaver 7.0), there is a new type of BAdI. Creation of these BAdIs is integrated into the "
+          + "Enhancement Framework'; 'Execution of these BAdIs is integrated, for performance reasons, into the "
+          + "ABAP language. The new BAdIs have completely replaced the classic BAdIs'; 'A migration tool is "
+          + "available for converting the classic BAdIs into new BAdIs'; 'In contrast to customer exits, Business "
+          + "Add-Ins no longer assume a two-level infrastructure (SAP and customer solutions), but instead allow "
+          + "for a multi-level system landscape (SAP, country-specific versions' (הסניפט נקטע כאן); 'You can "
+          + "create definitions and implementations of Business Add-Ins at any level of the system landscape. SAP "
+          + "guarantees the upward compatibility of all Business Add-In interfaces'; ו-'BAdIs that have replaced "
+          + "function modules exits since Release 4.6d'. הציטוטים נאספו מכמה שאילתות לאותה רשומה, שכן חלון הסניפט "
+          + "משתנה לפי השאילתה. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Add-Ins (BAdIs) | Enhancement Framework",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/46a2cfc13d25463b8b9a3d2a3c3ba0d9/8ff2e540f8648431e10000000a1550b0.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE21,
+        claim: "עמוד 'Business Add-Ins (BAdIs)' של ה-Enhancement Framework בתיעוד ABAP platform, גרסה 202510.001 "
+          + "(loio 8ff2e540f8648431e10000000a1550b0), קובע את הבחנת המונחים: 'Note When the term BAdI is used "
+          + "within the Enhancement Framework, it always refers to kernel-based BAdIs. The previous (legacy) BAdI "
+          + "concept is referred to as classic BAdI concept'. סניפטים נוספים של אותה רשומה מוסיפים: 'The "
+          + "kernel-based BAdIs add some major improvements to the classic BAdIs such as better performance. The "
+          + "kernel-based BAdIs are integrated in the kernel and are switchable' ו-'Kernel-Based BAdI Technology "
+          + "The kernel-based BAdI concept takes advantage of SAP's extensive experience in offering customers "
+          + "different ways to enhance the standard SAP system'. גוף העמוד לא נקרא; הציטוטים לקוחים מרשומות שירות "
+          + "החיפוש הרשמי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Migrating Classic BAdIs | Enhancement Framework",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/46a2cfc13d25463b8b9a3d2a3c3ba0d9/0e4d3e42fc94aa04e10000000a1550b0.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE21,
+        claim: "עמוד 'Migrating Classic BAdIs' של ה-Enhancement Framework (ABAP platform 202510.001, loio "
+          + "0e4d3e42fc94aa04e10000000a1550b0) נושא את ההמלצה: 'Migrating Classic BAdIs Note Due to that fact "
+          + "that calling kernel-based BAdIs is significantly faster, we recommend that you define only "
+          + "kernel-based BAdIs and migrate all classic BAdIs and their calls ... to kernel-based BAdIs' (שלוש "
+          + "הנקודות הן קטיעה של הסניפט), ובנוסף: 'A completely automated migration of all existing classic BAdIs "
+          + "is impossible because of the existing differences between classic and kernel-based BAdIs' ו-'See "
+          + "also: Differences Between Classic and New BAdIs'. הפניה זו נוקבת בשם 'New BAdIs' בעוד כותרת העמוד "
+          + "המקושר בגרסה זו היא 'Differences Between Classic and Kernel-Based BAdIs'; שני הניסוחים מופיעים "
+          + "בשירות החיפוש הרשמי. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create BAdI Implementation to Activate PEO-ERP Goods Movements Integration | Production Engineering "
+          + "and Operations for Complex Assembly",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/4d5b50c278a645fc91f1fc4c4f9538ff.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "הוראה רשמית בגרסת S/4HANA On-Premise 2025 FPS01 (loio 4d5b50c278a645fc91f1fc4c4f9538ff) עדיין עובדת "
+          + "מול מימוש BAdI שהומר מן המושג הקלאסי: 'Create BAdI Implementation to Activate PEO-ERP Goods "
+          + "Movements Integration Activate the Business Add-In (BAdI) implementation CORU_INT_MB_ENH to the "
+          + "enable integration of goods movements between PEO and' (הסניפט נקטע כאן), 'In Customizing for "
+          + "Production, navigate to Materials Management Inventory Management and Physical Inventory Maintain "
+          + "Customer Exits and Business Add-Ins BAdI: Creation of Material Document', ו-'Display the BAdI "
+          + "implementation CORU_INT_MB_ENH. Double click on CORU_INT_MB_DOC_BADI in the Migrated from classic "
+          + "BAdI impl. field. On the subsequent screen that appears, switch to edit mode and Activate the "
+          + "implementation'. הרשומה שייכת ל-Production Engineering and Operations ואינה עוסקת בתחזוקת מפעל; היא "
+          + "מובאת כעדות לכך ששדה 'Migrated from classic BAdI impl.' ומימושים שמקורם במושג הקלאסי עדיין מופיעים "
+          + "בהוראות רשמיות של 2025 FPS01, ולא כעדות על תחולה בתחזוקת מפעל.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    xrefs: [
+      "enh:technique:new-badi",
+      "enh:technique:enhancement-spot",
+      "enh:technique:customer-exit",
+      "enh:technique:key-user-extensibility",
+      "enh:badi:WORKORDER_UPDATE",
+      "enh:badi:MB_MIGO_BADI",
+      "tx:SE18",
+      "tx:SE19",
+      "tx:SPAU",
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה: שאילתות ב-scripts/sap-help-search.mjs על ארבעה מוצרים (SAP_S4HANA_ON-PREMISE, "
+      + "ABAP_PLATFORM_NEW, SAP_ERP, SAP_S4HANA_CLOUD), חיפוש רשת אחד מוגבל ל-help.sap.com, ועמוד סטטי אחד של "
+      + "ספריית SAP שהורד ונקרא במלואו. ארבע הרשומות שצוטטו אומתו מחדש בשירות החיפוש הרשמי, והכותרת, "
+      + "ה-deliverable, ה-loio וה-versionId חזרו זהים בכל אחת. קוד HTTP 200 על עמוד /docs/ אינו ראיה בפני "
+      + "עצמו, שכן גם loio בדוי מחזיר 200, ולכן האימות נשען על רשומת החיפוש בלבד. מה שאומת רשמית: הבחנת "
+      + "המונחים בתוך ה-Enhancement Framework, הגדרת ה-BAdI הקלאסי, המשפט 'The new BAdIs have completely "
+      + "replaced the classic BAdIs', קיום כלי ההמרה, ההמלצה להגדיר רק BAdIs מבוססי-Kernel, והימצאות תיעוד "
+      + "המושג הקלאסי בערכת S/4HANA 2025 FPS01. אותו נושא 'Classic BAdIs' מוגש תחת כמה deliverables: בערכת "
+      + "S/4HANA 2025 FPS01 תחת 'Internal Service Request' (loio eea1d548892b11d295d60000e82de14a) ותחת "
+      + "'Flexible Real Estate Management (RE-FX)' (loio אחות e6d54d3c596f0b26e10000000a11402f), ותחת ABAP "
+      + "platform 202510.001 ב-'ABAP Workbench Tools' וב-'Changing the SAP Standard (BC)'; שם ה-deliverable "
+      + "אינו מעיד על תחום עסקי, זהו תיעוד ABAP Workbench כללי. העמוד הסטטי 'Business Add-Ins (BAdIs)' של "
+      + "ספריית NetWeaver 7.5 נקרא במלואו והוא אותו נושא בגרסת פלטפורמה ישנה יותר; שם הניסוח הוא 'Within the "
+      + "Enhancement Framework, a new BAdI is always meant when the term BAdI is used. If there is an "
+      + "explicit reference to the previous BAdI concept, such BAdIs are referred to as classic BAdIs', והוא "
+      + "גם מגדיר 'A BAdI is an object-oriented enhancement option, a hook for an object plug-in and thus the "
+      + "most sophisticated enhancement type'. הניסוח שצוטט ברשומה הוא של ABAP platform 202510.001. מה שלא "
+      + "אומת: אף עמוד שנמצא בערכת 2025 FPS01 של Maintenance Management או של תעשיות תהליכיות אינו מכנה BAdI "
+      + "ספציפי של תחזוקת מפעל 'classic BAdI', ולכן ה-xrefs ל-WORKORDER_UPDATE ול-MB_MIGO_BADI משקפים את "
+      + "סיווג המאגר (data/exits.ts, kind='BAdI') ולא הכרעה רשמית; בתיעוד הרשמי WORKORDER_UPDATE מכונה גם "
+      + "enhancement spot. הזוג SE18/SE19 נלקח מרשומת המאגר data/enhancements.ts#classic-badi; שני עמודים "
+      + "רשמיים שראיתי ולא צירפתי כראיה תומכים בשימוש ב-BAdI Builder: 'Changes to Definitions of Classic "
+      + "BAdIs' (2025.001, loio 4fa9f496099ce148bd064b82af19bae7) הכולל 'In the BAdI Builder, call up "
+      + "transaction SE19', ו-'Migrating BAdIs' (ABAP platform 202510.001, loio "
+      + "27703b42ea85b26be10000000a155106) הכולל 'Call the classical BAdI Builder (transaction SE18)', "
+      + "'Choose Utilities -> Migrate Classic BAdI' ו-'Delete the classic BAdI'. ה-xref ל-SPAU נשען על "
+      + "'Object List and Adjustment Tabs' (loio aa70160d221d48a5b214f7ca26379853) שמתעד קטגוריית Migrations "
+      + "הכוללת 'implementations of BAdIs that have been migrated by SAP from the classic to the kernel "
+      + "BAdI'; גם רשומה זו נראתה ולא צורפה כראיה. ה-xref ל-SE20 הוסר: רשומת המאגר "
+      + "data/enhancements.ts#classic-badi נוקבת ב-SE18 וב-SE19 בלבד, SE20 מופיע שם תחת new-badi "
+      + "ו-enhancement-spot, ואף מקור רשמי שצוטט אינו קושר אותו למושג הקלאסי. שדה product ברשומות ה-ABAP נרשם "
+      + "'ABAP platform', כפי ששירות החיפוש מחזיר אותו מילה במילה; שתי רשומות ישנות יותר "
+      + "ב-data/verification/tables.ts כתבו 'ABAP Platform', והפער נרשם כאן ולא תוקן שם. חיפוש תחת SAP "
+      + "S/4HANA Cloud Public Edition (2608.500) לא החזיר רשומה הנוקבת במושג classic BAdI, והרשומות שהוחזרו "
+      + "מתארות מימושי BAdI דרך ADT או דרך היישום Custom Logic; זהו ממצא תחום בחיפוש ולא טענת אי-זמינות. "
+      + "הסטטוס שהאפליקציה הציגה עד כה לרשומה זו נגזר מבלוק ECC מול S/4HANA של "
+      + "data/enhancements.ts#classic-badi דרך fromEccS4Block (components/neo-shell/reference/enh-data.ts) "
+      + "והוא 'משתנה ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט'; הסטטוס המחובר כאן חזק ממנו משום שהמקור הרשמי "
+      + "נוקב ב-'completely replaced' וממליץ להגדיר רק BAdIs מבוססי-Kernel. ניסוח המאגר 'נתמך; מומר בהדרגה "
+      + "ל-New BAdI / Enhancement Spot' רך מן הניסוח הרשמי ומומלץ לחדדו. גוף עמודי /docs/ של help.sap.com "
+      + "אינו נגיש (מעטפת JavaScript), ולכן כל טענה רשמית כאן תחומה בכותרת ובסניפט של שירות החיפוש, למעט "
+      + "העמוד הסטטי שנקרא במלואו. ה-MCP ל-ABAP לא היה זמין במושב זה; בדיקה חיה ב-SE18, SE19 או SPAU לא "
+      + "בוצעה. לא נבדקו SAP Notes ולא KBAs: me.sap.com דורש התחברות S-user, ולכן אין ברשומה מספר Note או "
+      + "KBA. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמת data/verification/**.",
+  },
+  {
+    id: "enh:technique:new-badi",
+    aliases: ["Kernel-Based BAdI", "Kernel BAdI", "New BAdI (Enhancement Spot)"],
+    status: {
+      status: "unchanged",
+      he: "BAdI מבוסס kernel (New BAdI) הוא מנגנון ה-BAdI של ה-Enhancement Framework: הגדרת BAdI definition "
+        + "בתוך Enhancement Spot, מימוש במחלקה המממשת את ממשק ה-BAdI, וסינון מימושים לפי filter. בתיעוד ABAP "
+        + "platform לגרסת 2025 FPS01 נכתב על ה-BAdIs מבוססי ה-kernel שהם 'integrated in the kernel and are "
+        + "switchable' ושהם מספקים 'considerably more flexibility ... through properties such as contexts and "
+        + "more filtering options than classic BAdIs'. בתיעוד SAP S/4HANA On-Premise לגרסת 2025 FPS01 הטכניקה "
+        + "היא הנתיב המונחה: העמוד Create BAdI Implementation to Restrict Authorization to Maintain BOMs (ERP) "
+        + "מנחה ליצור 'enhancement implementation for a new BAdI' על ה-Enhancement Spot ES_BOM_AUTH, והעמוד "
+        + "BAdI: Validate BOM Before Saving מתאר BAdI definition תחת Enhancement Spot ES_BOM_UPDATE. בצד ה-ECC, "
+        + "עמוד של תיעוד SAP ERP 6.0 EHP8 מתעד את בורר 'New BAdI' עם Enhancement Spot ES_EDOCUMENT, כלומר "
+        + "הטכניקה מתועדת בשני הצדדים. אף עמוד רשמי שנמצא אינו מתאר שינוי בטכניקה עצמה במעבר מ-ECC ל-S/4HANA, "
+        + "ולכן המעמד הוא זמינות ללא שינוי ברמת הטכניקה, ולא קביעה על BAdI ספציפי. הערה על מקור: העמוד Classic "
+        + "BAdIs (המצוטט בראיות) הוא נושא פלטפורמה משותף שתיעוד S/4HANA 2025 FPS01 מציג תחת ספרים שאינם קשורים "
+        + "לתחום, ומשפטיו על מקור הטכניקה ב-Application Server ABAP 7.0 אינם אמירה ייעודית ל-S/4HANA.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Create BAdI Implementation to Restrict Authorization to Maintain BOMs (ERP) | Production Engineering "
+          + "and Operations for Complex Assembly",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/afa0b5c5206f4dcdab4a8c7a39ef9a29.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת העמוד Create BAdI Implementation to Restrict Authorization to Maintain BOMs (ERP) בספר "
+          + "Production Engineering and Operations for Complex Assembly לגרסת S/4HANA 2025 FPS01 (loio "
+          + "afa0b5c5206f4dcdab4a8c7a39ef9a29) מדגימה את הטכניקה בתחום הייצור: 'Create an implementation of "
+          + "enhancement spot ES_BOM_AUTH if you want to restrict bill of material maintenance in your ERP "
+          + "system' ו-'Create an enhancement implementation for a new BAdI by entering enhancement spot "
+          + "ES_BOM_AUTH. Specify the name of your BAdI implementation for BAdI definition "
+          + "CS_MBOM_AUTH_MAINTAIN'. הסניפט אינו מונה את מתודות הממשק, אינו נוקב בשם מחלקת המימוש ואינו מתייחס "
+          + "להזמנת תחזוקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: "בהרחבות חדשות בתחזוקת מפעל ובתעשיות תהליכיות להגדיר את נקודת ההרחבה כ-BAdI definition בתוך "
+        + "Enhancement Spot ולממש אותה כמחלקה המממשת את ממשק ה-BAdI. את הגדרות התקן של ה-BAdI (filter, שימוש "
+        + "יחיד או מרובה) ניתן לראות בלשונית Enhancement Spot Element Definitions ב-BAdI Builder (טרנזקציה "
+        + "SE18), כפי שהעמוד BAdI: Validate BOM Before Saving של 2025 FPS01 מנחה. שאר הטרנזקציות בקטלוג (SE19, "
+        + "SE20, SE80, SPAU) הן הקשר הפרויקט: אף אחת מהראיות המצוטטות כאן אינה נוקבת בהן, ובסניפטים שנמצאו SE19 "
+        + "מופיעה בהקשר של מימוש BAdI קלאסי. בתכנון המרה מ-ECC ל-S/4HANA לבדוק לכל BAdI בשימוש אם הוא קלאסי או "
+        + "מבוסס kernel: עמוד Migrating Classic BAdIs של ABAP platform 2025 FPS01 ממליץ 'define only "
+        + "kernel-based BAdIs and migrate all classic BAdIs and their calls ... to kernel-based BAdIs' ומציין "
+        + "ש-'A completely automated migration of all existing classic BAdIs is impossible'. שמות ה-Enhancement "
+        + "Spot, ה-BAdI definition, הממשק והמתודות תלויים בגרסה ובחבילת התמיכה, ויש לאמת אותם ב-SE18 במערכת "
+        + "לפני המימוש.",
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Add-Ins (BAdIs) | Enhancement Framework",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/46a2cfc13d25463b8b9a3d2a3c3ba0d9/8ff2e540f8648431e10000000a1550b0.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE21,
+        claim: "רשומת העמוד Business Add-Ins (BAdIs) בספר Enhancement Framework של ABAP platform לגרסת 2025 FPS01 "
+          + "(loio 8ff2e540f8648431e10000000a1550b0) מגדירה את הטכניקה ואת הגבול מול ה-BAdI הקלאסי: הערה בעמוד "
+          + "קובעת שבמסגרת ה-Enhancement Framework המונח BAdI מתייחס ל-BAdIs מבוססי kernel, ומוסיפה 'The previous "
+          + "(legacy) BAdI concept is referred to as classic BAdI concept'. הסניפט ממשיך: 'The kernel-based BAdIs "
+          + "add some major improvements to the classic BAdIs such as better performance. The kernel-based BAdIs "
+          + "are integrated in the kernel and are switchable', ובשאילתה נוספת על אותה רשומה: 'The kernel-based "
+          + "BAdIs provide considerably more flexibility in the conversion of predefined enhancement options "
+          + "through properties such as contexts and more filtering options than classic BAdIs'. סניפט שלישי של "
+          + "אותה רשומה מוסיף: 'When defining a BAdI, you determine its interface - the methods offered by the "
+          + "BAdI. BAdI implementations are classes that implement the BAdI interface'. הסניפט אינו מונה "
+          + "טרנזקציות, שמות ממשק קונקרטיים או שלבי יצירה. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Migrating Classic BAdIs | Enhancement Framework",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/46a2cfc13d25463b8b9a3d2a3c3ba0d9/0e4d3e42fc94aa04e10000000a1550b0.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE21,
+        claim: "רשומת העמוד Migrating Classic BAdIs בספר Enhancement Framework של ABAP platform לגרסת 2025 FPS01 "
+          + "(loio 0e4d3e42fc94aa04e10000000a1550b0) נושאת את המלצת SAP ואת מגבלתה: 'Note Due to that fact that "
+          + "calling kernel-based BAdIs is significantly faster, we recommend that you define only kernel-based "
+          + "BAdIs and migrate all classic BAdIs and their calls ... to kernel-based BAdIs' וכן 'A completely "
+          + "automated migration of all existing classic BAdIs is impossible because of the existing differences "
+          + "between classic and kernel-based BAdIs'. הסניפט אינו מפרט את שלבי כלי ההמרה, אינו נוקב בשם טרנזקציה "
+          + "ואינו מגביל את ההמלצה למודול מסוים. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Classic BAdIs | Internal Service Request",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9e21827baabc46ee86355f6b3bae53b5/eea1d548892b11d295d60000e82de14a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש הרשמית לעמוד 'Classic BAdIs' תחת המוצר SAP S/4HANA On-Premise בגרסה 2025 FPS01 (loio "
+          + "eea1d548892b11d295d60000e82de14a) כוללת את המשפטים: 'Classic BAdIs Business Add-Ins (BAdIs) are "
+          + "enhancements to the standard version'; 'As of Release 7.0 of the Application Server ABAP (SAP "
+          + "NetWeaver 7.0), there is a new type of BAdI. Creation of these BAdIs is integrated into the "
+          + "Enhancement Framework'; 'Execution of these BAdIs is integrated, for performance reasons, into the "
+          + "ABAP language. The new BAdIs have completely replaced the classic BAdIs'; 'A migration tool is "
+          + "available for converting the classic BAdIs into new BAdIs'; 'In contrast to customer exits, Business "
+          + "Add-Ins no longer assume a two-level infrastructure (SAP and customer solutions), but instead allow "
+          + "for a multi-level system landscape (SAP, country-specific versions' (הסניפט נקטע כאן); 'You can "
+          + "create definitions and implementations of Business Add-Ins at any level of the system landscape. SAP "
+          + "guarantees the upward compatibility of all Business Add-In interfaces'; ו-'BAdIs that have replaced "
+          + "function modules exits since Release 4.6d'. הציטוטים נאספו מכמה שאילתות לאותה רשומה, שכן חלון הסניפט "
+          + "משתנה לפי השאילתה. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create BAdI Implementation to Restrict Authorization to Maintain BOMs (ERP) | Production Engineering "
+          + "and Operations for Complex Assembly",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/afa0b5c5206f4dcdab4a8c7a39ef9a29.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת העמוד Create BAdI Implementation to Restrict Authorization to Maintain BOMs (ERP) בספר "
+          + "Production Engineering and Operations for Complex Assembly לגרסת S/4HANA 2025 FPS01 (loio "
+          + "afa0b5c5206f4dcdab4a8c7a39ef9a29) מדגימה את הטכניקה בתחום הייצור: 'Create an implementation of "
+          + "enhancement spot ES_BOM_AUTH if you want to restrict bill of material maintenance in your ERP "
+          + "system' ו-'Create an enhancement implementation for a new BAdI by entering enhancement spot "
+          + "ES_BOM_AUTH. Specify the name of your BAdI implementation for BAdI definition "
+          + "CS_MBOM_AUTH_MAINTAIN'. הסניפט אינו מונה את מתודות הממשק, אינו נוקב בשם מחלקת המימוש ואינו מתייחס "
+          + "להזמנת תחזוקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Enhancement Implementation of BAdI EDOC_ADAPTOR | Greece",
+        url: "https://help.sap.com/docs/SAP_ERP/15191d60e46142ff9af8bfd3449e55d8/b34020bdbae9406182f0081d6410b4ad.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE21,
+        claim: "רשומת העמוד Create Enhancement Implementation of BAdI EDOC_ADAPTOR בספר Greece של תיעוד SAP ERP, "
+          + "תווית הגרסה '6.0 EHP8 Latest' (versionId 6.18.latest, loio b34020bdbae9406182f0081d6410b4ad), מראה "
+          + "שנתיב ה-New BAdI מתועד גם בצד ה-ECC: 'Create Enhancement Implementation of BAdI EDOC_ADAPTOR You use "
+          + "the BAdI: Enhancements for eDocument (EDOC_ADAPTOR) BAdI to make enhancements to the processing of "
+          + "eDocuments', 'Choose the New BAdI radio button in the Create Implementation group box and enter "
+          + "ES_EDOCUMENT as the Enhancement Spot. Choose Create' ו-'Choose EDOC_ADAPTOR in the BAdI Definition'. "
+          + "הרשומה שייכת לתחום לוקליזציה (eDocument יוון) ואינה מתייחסת לתחזוקת מפעל או לתעשיות תהליכיות; היא "
+          + "אינה נוקבת בשם טרנזקציה. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "BAdI: Validate BOM Before Saving | Bill of Material (LO-MD-BOM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/18ee18df146f46e9a7738186eebceaa7/aa6a8c61616b41009c448721163b891c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת העמוד BAdI: Validate BOM Before Saving בספר Bill of Material (LO-MD-BOM) לגרסת S/4HANA 2025 "
+          + "FPS01 (loio aa6a8c61616b41009c448721163b891c) מראה את מבנה הרשומה של BAdI מבוסס Enhancement Spot "
+          + "בגרסה זו: 'BAdI definition:BOM_BEFORE_SAVE. This BAdI is created under Enhancement Spot "
+          + "ES_BOM_UPDATE. This BAdI definition uses the standard interface IF_BOM_BEFORE_SAVE', 'For more "
+          + "information about the standard settings (filters, single or multiple uses), see the Enhancement Spot "
+          + "Element Definitions tab in the BAdI Builder (transaction SE18)' ו-'BAdI settings: Multi-Use BAdI Not "
+          + "filter-dependent'. הרשומה אינה נוקבת במתודות הממשק ואינה מזכירה את SE19.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    xrefs: [
+      "enh:technique:classic-badi",
+      "enh:technique:enhancement-spot",
+      "enh:technique:explicit-enhancement",
+      "enh:technique:customer-exit",
+      "enh:technique:key-user-extensibility",
+      "enh:badi:WORKORDER_UPDATE",
+      "enh:badi:WORKORDER_GOODSMVT",
+      "enh:badi:BADI_EAM_TOB",
+      "tx:SE18",
+      "tx:SE19",
+      "tx:SE20",
+      "tx:SE80",
+      "tx:SPAU",
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה: ריצות של scripts/sap-help-search.mjs ב-2026-09-21 על שלושה מערכי מוצר (SAP_S4HANA_ON-PREMISE, "
+      + "ABAP_PLATFORM_NEW, SAP_ERP), ובדיקת HTTP לכל כתובת. כל שש הכתובות מחזירות 200, וכל loio, versionId, "
+      + "כותרת וציטוט אומתו מול רשומת שירות החיפוש. גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript), ולכן "
+      + "כל טענה רשמית תחומה בכותרת ובסניפט של רשומת החיפוש. מה שאומת: המונח kernel-based BAdI ומעמדו כמנגנון "
+      + "ה-BAdI של ה-Enhancement Framework, לצד ההערה ש-'The previous (legacy) BAdI concept is referred to as "
+      + "classic BAdI concept'; השילוב בקרנל והיכולת לכבות אותם (switchable); contexts ואפשרויות סינון רחבות "
+      + "יותר מהקלאסי; הקביעה ש-'BAdI implementations are classes that implement the BAdI interface'; המלצת "
+      + "SAP להגדיר רק BAdIs מבוססי kernel ולהמיר את הקלאסיים, לצד הקביעה שהמרה אוטומטית מלאה אינה אפשרית; "
+      + "מקור הטכניקה ב-Application Server ABAP 7.0 והמשפט 'The new BAdIs have completely replaced the "
+      + "classic BAdIs' בתיעוד S/4HANA 2025 FPS01; יישום בתחום הייצור בגרסת 2025 FPS01 (Enhancement Spot "
+      + "ES_BOM_AUTH עם BAdI definition CS_MBOM_AUTH_MAINTAIN, וכן ES_BOM_UPDATE עם BOM_BEFORE_SAVE והממשק "
+      + "IF_BOM_BEFORE_SAVE, שם גם SE18 מוזכרת ללשונית Enhancement Spot Element Definitions); ובצד ה-ECC בורר "
+      + "'New BAdI' עם Enhancement Spot ES_EDOCUMENT בתיעוד SAP ERP 6.0 EHP8 (versionId 6.18.latest), בספר "
+      + "לוקליזציה יוונית. רשומות רשמיות נוספות שנראו ולא צוטטו כראיה: 'Differences Between Classic and "
+      + "Kernel-Based BAdIs' (Enhancement Framework, ABAP platform 2025 FPS01, loio "
+      + "ee6f3b42ea85b26be10000000a155106), הקובעת 'In the case of kernel-based BadIs, you create a BAdI "
+      + "object with the ABAP statement GET BADI as a handle for the calls of BAdI methods' (שגיאת הכתיב "
+      + "BadIs מופיעה כך בסניפט המקורי); 'BAdIs Embedded in the Enhancement Framework' (loio "
+      + "bd523842134bad04e10000000a1550b0): 'A simple enhancement spot for BAdIs can contain several BAdI "
+      + "definitions as enhancement spot element definitions'; 'Creating a BAdI' (loio "
+      + "32a83942424dac04e10000000a1550b0): 'Start the Object Navigator (SE80). Open an enhancement spot'; "
+      + "'Creating an Enhancement Implementation and BAdI Implementation' (ABAP Development Tools for "
+      + "Eclipse, loio 18ef8ab2bd604516bbe7c0d297ee2476): 'Run transaction SE20. The Enhancements: Initial "
+      + "Screen is opened'; 'Creating BAdI Enhancement Spots' (ADT, loio 2101737de99648dca92e692a2a4ec46e); "
+      + "'Adjustment Category: Migrations' (Changing the SAP Standard (BC), loio "
+      + "1157fd0875eb49b09b0aa814268465d7, זמין גם תחת S/4HANA 1709 Latest וגם תחת ABAP platform 202510.001): "
+      + "'A BAdI has been migrated by SAP from a classic to a kernel BAdI. In this case, the implementations "
+      + "need to be migrated to an implementation of the new kernel BAdI', ו-'Object List and Adjustment "
+      + "Tabs' (loio aa70160d221d48a5b214f7ca26379853) משייכת רשימה זו ל-SPAU, ולכן SPAU נכלל ב-xrefs; "
+      + "'Migration of Classic BAdIs to New BAdI Infrastructure' (What's New in SAP S/4HANA 1809, loio "
+      + "5a40e6a9cea94f24a53f0b28a7129fce) עוסקת ב-Policy Management (FS-PM) ולא ב-PM או ב-PP-PI. מה שלא "
+      + "אומת: אף עמוד רשמי שנמצא אינו קובע שהטכניקה השתנתה במעבר מ-ECC ל-S/4HANA, ולכן המעמד unchanged נשען "
+      + "על תיעוד הטכניקה בשני הצדדים ועל היעדר אמירת שינוי, ולא על אמירה מפורשת; הזמינות ב-ECC מתועדת רשמית "
+      + "רק בספר לוקליזציה (EDOC_ADAPTOR, יוון) ולא בתחום PM או PP-PI; SE19 אינה נזכרת באף רשומה רשמית שנמצאה "
+      + "בהקשר של BAdI מבוסס kernel, ובסניפטים שנמצאו היא מופיעה בהקשר של מימוש BAdI קלאסי, ולכן ה-xref אליה "
+      + "הוא הקשר קטלוגי בלבד; הניסוח ברשומת המאגר data/enhancements.ts#new-badi ('הדרך המומלצת להרחבה (Clean "
+      + "Core) לצד Extension Points', 'זמין מ-NW7.0; פחות נפוץ') לא נתמך כלשונו: המונח Clean Core וההערכה "
+      + "'פחות נפוץ' אינם מופיעים באף רשומה רשמית שנמצאה, ולכן נשארו ברמת המאגר ולא נכתבו במעמד; לא נמצא עמוד "
+      + "רשמי הנוקב בשם Enhancement Spot להזמנת תחזוקה (WORKORDER_GOODSMVT מתועד כ-enhancement spot רק בספר "
+      + "Production Engineering and Operations, loio 4f2fcd19248d43169325a397abc51cac), ולכן ה-xrefs "
+      + "ל-WORKORDER_UPDATE, WORKORDER_GOODSMVT ו-BADI_EAM_TOB הם הקשר הקטלוג של הפרויקט ולא קביעה רשמית על "
+      + "סיווגם כקלאסיים או כמבוססי kernel; רשימת המתודות, מצבי ה-instantiation ומהדורת Public Cloud לא "
+      + "נבדקו. סתירה מול הנגזר: המעמד שהאפליקציה מציגה היום לרשומה זו הוא 'משתנה ב-S/4HANA' ברמת 'מאומת מול "
+      + "נתוני הפרויקט', שנגזר ב-fromEccS4Block מבלוק ECC מול S/4HANA של data/enhancements.ts#new-badi (שדה "
+      + "s4 מלא ולכן נגזרת הערת שינוי); המעמד המחובר כאן מחליף אותו ב'ללא שינוי ב-S/4HANA' על בסיס התיעוד "
+      + "הרשמי, משום ששדה ה-s4 במאגר הוא המלצה ולא תיאור שינוי. הערת מקור: העמוד Classic BAdIs הוא נושא "
+      + "פלטפורמה משותף שתיעוד S/4HANA מציג תחת הספרים Internal Service Request ו-Flexible Real Estate "
+      + "Management (RE-FX) (loio e6d54d3c596f0b26e10000000a11402f באותו נוסח), ותחת ABAP platform 202510.001 "
+      + "אותו loio מופיע בספר ABAP Workbench Tools; הציטוט נלקח כפי שהוחזר, והמעמד עוגן בעמוד ה-PEO ולא בו. "
+      + "ה-MCP ל-ABAP לא היה זמין, ולא בוצע אימות ב-SE18, SE19, SE20 או SPAU במערכת חיה.",
+  },
+  {
+    id: "enh:technique:explicit-enhancement",
+    aliases: ["Explicit Enhancement", "ENHANCEMENT-POINT", "ENHANCEMENT-SECTION", "Explicit Enhancement Option"],
+    status: {
+      status: "restricted",
+      he: "נקודת ההרחבה המפורשת מתועדת כטכניקה פעילה במדריך Enhancement Framework של ABAP platform 2025 FPS01: "
+        + "הלקוח בוחר עמדה או קטע תוכנית בקוד ABAP כנקודת הרחבה מפורשת, ומחבר אליה Source Code Plug-In. יחד עם "
+        + "זאת, תיעוד S/4HANA On-Premise 2025 FPS01 מגביל את השימוש בנקודות שסיפקה SAP: לפי עמוד Business "
+        + "Function, SAP אינה מתחייבת שהממשקים וקיומן של נקודות ההרחבה המפורשות יישארו יציבים בקוד המקור, "
+        + "הרחבות לקוח שהוטמעו בנקודות שהגדירה SAP 'can be made ineffective', והתיעוד ממליץ בתוקף שלא להשתמש "
+        + "בנקודות ENHANCEMENT-POINT ו-ENHANCEMENT-SECTION שסיפקה SAP להרחבות לקוח, ומציע במקומן BAdI או נקודות "
+        + "הרחבה משתמעות. ההגבלה נוסחה בתיעוד לגבי נקודות שסיפקה SAP; הסניפטים אינם אומרים דבר על נקודות הרחבה "
+        + "מפורשות שהלקוח מגדיר בתוכניות שלו.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Business Function | Introduction: Enhancement Packages and Business Functions",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6534305c0e2c49ddb96177c90df13e28/979bddd4cebe423f9eb5767a275b2d78.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד Business Function במדריך Introduction: Enhancement Packages and Business Functions לגרסת "
+          + "S/4HANA On-Premise 2025 FPS01 (loio 979bddd4cebe423f9eb5767a275b2d78, תאריך פרסום 2026-02-25) קובע: "
+          + "'SAP does not guarantee that the interfaces and the existence of these explicit enhancement options "
+          + "will remain stable in the source code', ומוסיף: 'Caution If you implement your own customer "
+          + "enhancements at the explicit enhancement options that SAP defined with the statements "
+          + "ENHANCEMENT-POINT or ENHANCEMENT-SECTION, these can be made ineffective' (הסניפט נקטע כאן), "
+          + "'Therefore we strongly recommend that you not use the enhancement options provided by SAP and "
+          + "defined with ENHANCEMENT-POINT or ENHANCEMENT-SECTION for your own customer enhancements' ומפנה "
+          + "לחלופה: 'We recommend that you use , for example, Business Add-Ins (BAdIs) or implicit enhancement "
+          + "options instead. For more information, see Enhancement Framework' (הרווח לפני הפסיק כפי שהוחזר "
+          + "בסניפט). ארבעת הציטוטים הוחזרו בסניפטים שונים של אותה רשומת חיפוש; גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: "לפני הטמעת לוגיקה בנקודת הרחבה מפורשת שסיפקה SAP בתחזוקת מפעל או בתעשיות תהליכיות, לבחון תחילה את "
+        + "החלופות שהתיעוד עצמו מונה: BAdI או נקודת הרחבה משתמעת לאותו תהליך. עמוד Business Function של S/4HANA "
+        + "2025 FPS01 ממליץ שלא להשתמש בנקודות שסיפקה SAP להרחבות לקוח. הרחבות קיימות בנקודות כאלה יש לתעד "
+        + "ולבדוק מחדש אחרי כל שדרוג או Support Package, מכיוון שאותו תיעוד אינו מתחייב ליציבות הנקודות בקוד "
+        + "המקור ומציין שהרחבה כזו עלולה לאבד תוקף. איתור הנקודות הקיימות והמימושים שלהן (SE80, SE19) והשפעת "
+        + "מתגי Business Function על ההרחבה דורשים בדיקה במערכת S/4HANA.",
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Function | Introduction: Enhancement Packages and Business Functions",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6534305c0e2c49ddb96177c90df13e28/979bddd4cebe423f9eb5767a275b2d78.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד Business Function במדריך Introduction: Enhancement Packages and Business Functions לגרסת "
+          + "S/4HANA On-Premise 2025 FPS01 (loio 979bddd4cebe423f9eb5767a275b2d78, תאריך פרסום 2026-02-25) קובע: "
+          + "'SAP does not guarantee that the interfaces and the existence of these explicit enhancement options "
+          + "will remain stable in the source code', ומוסיף: 'Caution If you implement your own customer "
+          + "enhancements at the explicit enhancement options that SAP defined with the statements "
+          + "ENHANCEMENT-POINT or ENHANCEMENT-SECTION, these can be made ineffective' (הסניפט נקטע כאן), "
+          + "'Therefore we strongly recommend that you not use the enhancement options provided by SAP and "
+          + "defined with ENHANCEMENT-POINT or ENHANCEMENT-SECTION for your own customer enhancements' ומפנה "
+          + "לחלופה: 'We recommend that you use , for example, Business Add-Ins (BAdIs) or implicit enhancement "
+          + "options instead. For more information, see Enhancement Framework' (הרווח לפני הפסיק כפי שהוחזר "
+          + "בסניפט). ארבעת הציטוטים הוחזרו בסניפטים שונים של אותה רשומת חיפוש; גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Explicit Enhancement Options in ABAP Source Code | Enhancement Framework",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/46a2cfc13d25463b8b9a3d2a3c3ba0d9/56ee9441026aae5fe10000000a1550b0.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE21,
+        claim: "עמוד Explicit Enhancement Options in ABAP Source Code במדריך Enhancement Framework לגרסת ABAP "
+          + "platform 2025 FPS01 (loio 56ee9441026aae5fe10000000a1550b0) מגדיר: 'In ABAP programs, you can select "
+          + "either a position or a program section as an explicit enhancement option', ומתאר את יצירתה: 'To "
+          + "create an explicit enhancement option in the ABAP source code, proceed as follows: In the ABAP "
+          + "Editor, open the program you want to edit. Switch to change mode'. סניפטים נוספים של אותה רשומה "
+          + "מוסיפים: 'Source code plug-ins for an enhancement are either entered at such a position or they "
+          + "replace the selected section', את ההצהרה 'ENHANCEMENT-POINT <name> SPOTS <spot1> [<spot2>] "
+          + "[STATIC]', את ההבחנה בין 'Static enhancement statement - for example, additional data declaration' "
+          + "לבין 'Dynamic enhancement statement - for example, additional source code', את הסיומת "
+          + "'END-ENHANCEMENT-SECTION' ואת המגבלה 'Form routines, methods, and local classes cannot be part of "
+          + "dynamic enhancement points and sections'. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enhancement Technologies | Enhancement Framework",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/46a2cfc13d25463b8b9a3d2a3c3ba0d9/7063da4023a28631e10000000a1550b0.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE21,
+        claim: "עמוד Enhancement Technologies באותו מדריך (loio 7063da4023a28631e10000000a1550b0, ABAP platform 2025 "
+          + "FPS01) ממקם את הטכניקה מול BAdI: 'There are two types of explicit enhancement options: BAdIs and "
+          + "explicit enhancement points or sections, where you can insert source code plug-ins', ומבחין בין "
+          + "נקודה לקטע: 'While a source code plug-in at an enhancement point is processed in addition to the "
+          + "original code, the code of an enhancement section is substituted by the respective source code "
+          + "plug-in'. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enhancement Options | Enhancement Framework",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/46a2cfc13d25463b8b9a3d2a3c3ba0d9/fbe3d8403e37762ae10000000a155106.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE21,
+        claim: "עמוד Enhancement Options באותו מדריך (loio fbe3d8403e37762ae10000000a155106, ABAP platform 2025 "
+          + "FPS01) מבדיל בין שני סוגי נקודות ההרחבה: 'Explicit enhancement options can currently be defined by: "
+          + "Explicitly flagging source code points or sections in ABAP programs' ו-'Explicit Enhancement Options "
+          + "Explicit enhancement options are defined by a developer in a central initial system. Enhancements "
+          + "are made in follow-on systems', לעומת 'Implicit enhancement options are provided by the framework' "
+          + "ש-'do not require enhancement spots'. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג טכניקות ההרחבה של הפרויקט, רשומת explicit-enhancement (סותרת את ההמלצה הרשמית)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת המאגר מגדירה את הטכניקה כ'נקודות הרחבה ש-SAP הגדירה מראש בקוד (ENHANCEMENT-POINT / "
+          + "ENHANCEMENT-SECTION)', דרך מימוש 'מאתרים את ה-Point בקוד, יוצרים Enhancement Implementation, "
+          + "מוסיפים/מחליפים לוגיקה', טרנזקציות SE80 ו-SE19, ובלוק ECC מול S/4HANA: ECC 'Enhancement Framework', "
+          + "S/4HANA 'נתמך ומועדף על Implicit'. ההגדרה ודרך המימוש עולות בקנה אחד עם התיעוד הרשמי, אך קביעת "
+          + "ההעדפה סותרת ישירות את עמוד Business Function של S/4HANA 2025 FPS01, הממליץ שלא להשתמש בנקודות "
+          + "שסיפקה SAP להרחבות לקוח ומציע במקומן BAdI או נקודות הרחבה משתמעות. הדוגמאות שברשומה "
+          + "('ENHANCEMENT-POINT בעיבוד הזמנת אחזקה', 'ENHANCEMENT-SECTION בחישוב עלות פקודה') הן המחשה ואינן "
+          + "מגובות באף עמוד רשמי שנמצא.",
+        verificationLevel: "conflicting_sources",
+        repoRef: "data/enhancements.ts#explicit-enhancement",
+      },
+    ],
+    xrefs: [
+      "enh:technique:implicit-enhancement",
+      "enh:technique:enhancement-spot",
+      "enh:technique:new-badi",
+      "enh:technique:classic-badi",
+      "enh:technique:key-user-extensibility",
+      "tx:SE80",
+      "tx:SE19",
+      "tx:SE20",
+      "tx:SE18",
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "מה נבדק בפועל (2026-09-21): שאילתות בשירות החיפוש הרשמי של SAP Help דרך scripts/sap-help-search.mjs "
+      + "בשני המוצרים ABAP_PLATFORM_NEW ו-SAP_S4HANA_ON-PREMISE, וחיפוש רשת מוגבל לדומיינים המותרים. המוצר "
+      + "ABAP_PLATFORM_NEW הוא זה שמחזיק את מדריך Enhancement Framework; המוצר SAP_S4HANA_ON-PREMISE אינו "
+      + "מחזיק אותו, אך מחזיק את עמוד Business Function שממנו נלקחה ההגבלה. מה אומת מול המקור: השם, ההגדרה, "
+      + "שתי ההוראות ENHANCEMENT-POINT ו-ENHANCEMENT-SECTION, ההבחנה בין הוספה (point) להחלפה (section), "
+      + "ההבחנה Static מול Dynamic, המגבלה על Form routines, מתודות ומחלקות מקומיות בנקודות דינמיות, ההבחנה "
+      + "מול נקודות משתמעות, וההגבלה, ההמלצה והחלופה שבתיעוד S/4HANA 2025 FPS01. מה לא אומת: אף עמוד רשמי "
+      + "שנמצא אינו נוקב בנקודת הרחבה מפורשת בתוך עיבוד הזמנת תחזוקה או פקודת תהליך, ולכן שתי הדוגמאות "
+      + "שברשומת המאגר נותרות ללא גיבוי רשמי; טענת ההעדפה על פני Implicit ('מועדף על Implicit') לא נמצאה באף "
+      + "סניפט רשמי והיא סותרת את ההמלצה שבעמוד Business Function; לא נמצא סניפט רשמי הקובע אם ההוראה "
+      + "ENHANCEMENT-POINT מותרת או אסורה בגרסת השפה ABAP for Cloud Development (הממצא תחום בחיפוש ואינו "
+      + "קביעה על זמינות); ההתאמה בין ABAP platform 2025 FPS01 (versionId 202510.001) לבין S/4HANA 2025 FPS01 "
+      + "(versionId 2025.001) לא אומתה מסניפט רשמי, אך שתי רשומות החיפוש מחזירות את תווית הגרסה '2025 FPS01 "
+      + "(Feb 2026)', וכל versionId נרשם כפי שהוחזר. גוף עמודי help.sap.com לא נקרא: נבדק בפועל שכל הכתובות "
+      + "מחזירות HTTP 200 עם מעטפת JavaScript בת 1,160 בתים ללא טקסט תוכן, ושירות pagecontent החזיר HTTP 500, "
+      + "ולכן כל טענה כאן תחומה בכותרת ובסניפט של רשומת החיפוש. שדה product ברשומות ה-ABAP נרשם 'ABAP "
+      + "platform', מילה במילה כפי ששירות החיפוש מחזיר אותו. רשומות רשמיות שנראו ולא צוטטו: Switch States "
+      + "במדריך Switch Framework (loio 4e708441fd86030de10000000a1550b0, ABAP platform 2025 FPS01) המפנה "
+      + "ל-'See the ABAP statements ENHANCEMENT POINT and ENHANCEMENT - SECTION with the STATIC addition' "
+      + "וקובע ש-'STAND BY Switches on all declarative repository objects, that is, all switchable objects of "
+      + "the ABAP Dictionary and all static source code enhancements'; Source Code Plug-Ins במדריך "
+      + "Application Development on AS ABAP (loio e5dca35db39546569b2a35a359f816b4) הקובע 'Positions for "
+      + "source code plug-ins are defined by the commands ENHANCEMENT-POINT, ENHANCEMENT-SECTION, and "
+      + "ENDENHANCEMENT-SECTION'; Enhancement with Source Code Plug-ins במדריך ADT (loio "
+      + "4ec1abd36e391014adc9fffe4e204223); ו-Cases When ABAP Source Code Needs Adjustment (loio "
+      + "819a3942ec4ae22ce10000000a1550b0) הקובע 'A conflict has occurred between source code plug-ins for "
+      + "enhancements defined with ENHANCEMENT-SECTION'. הסטטוס הנגזר שהאפליקציה מציגה כיום לרשומה זו הוא "
+      + "'משתנה ב-S/4HANA' (fromEccS4Block על בלוק ECC מול S/4HANA ברשומת data/enhancements.ts, שדה S/4HANA "
+      + "אינו ריק) ברמת 'נדרש אימות נוסף'; הסטטוס המחובר כאן הוא 'מוגבל ב-S/4HANA', ורמת האימות של הרשומה "
+      + "תיקרא 'מקורות סותרים' בגלל שורת המאגר, לפי אותה מוסכמה שננקטה באצווה 2 של קטלוג זה. ה-MCP ל-ABAP לא "
+      + "היה זמין בהרצה זו ולא בוצעה בדיקה במערכת SAP חיה; איתור נקודות ההרחבה המפורשות הקיימות בתוכניות PM "
+      + "ו-PP-PI, מימושיהן ומצב המתגים שלהן דורש בדיקה ב-SE80 וב-SE19 במערכת.",
+  },
+  {
+    id: "enh:technique:implicit-enhancement",
+    aliases: ["Implicit Enhancement", "Implicit Enhancement Options", "Implicit Enhancement Points"],
+    status: {
+      status: "unchanged",
+      he: "נקודות הרחבה משתמעות נותרות חלק מ-Enhancement Framework גם בתיעוד SAP S/4HANA On-Premise 2025 FPS01. "
+        + "עמוד Business Function של אותה גרסה ממליץ להשתמש ב-BAdI או בנקודות הרחבה משתמעות במקום בנקודות "
+        + "ההרחבה המפורשות ש-SAP הגדירה בפקודות ENHANCEMENT-POINT ו-ENHANCEMENT-SECTION, ומוסיף ש-SAP אינה "
+        + "מתחייבת ליציבות הממשקים ולהמשך קיומן של הנקודות המפורשות בקוד המקור. במדריך Geographical Enablement "
+        + "Framework באותה גרסה מובאת דוגמה לשימוש: הרחבה משתמעת המוכנסת בתחילת המתודה SET_RESPONSE בתחביר "
+        + "ENHANCEMENT 1 ZENHANCE_CORS. מיקומי הנקודות עצמם נקראו במלואם בעמוד ספריית SAP של Enhancement "
+        + "Framework: תחילת וסוף FORM, FUNCTION ו-METHOD, סוף include, סוף חלקי PUBLIC, PROTECTED ו-PRIVATE "
+        + "SECTION של מחלקה לוקלית, לפני ENDCLASS של חלק המימוש, לפני ENDINTERFACE, סוף הגדרת מבנה ולפני "
+        + "ENDENHANCEMENT. בשאילתות שבוצעו לא נמצא עמוד רשמי הקובע שינוי במנגנון בין SAP ERP ל-S/4HANA, ולכן "
+        + "נרשם מעמד של היעדר שינוי ולא מעמד של שינוי; ממצא זה תחום בחיפוש ואינו הוכחת היעדר.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Business Function | Introduction: Enhancement Packages and Business Functions",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6534305c0e2c49ddb96177c90df13e28/979bddd4cebe423f9eb5767a275b2d78.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש הרשמית של help.sap.com לגרסת SAP S/4HANA On-Premise 2025 FPS01 (loio "
+          + "979bddd4cebe423f9eb5767a275b2d78, המדריך Introduction: Enhancement Packages and Business Functions) "
+          + "מחזירה בסניפטים של רשומת החיפוש ארבעה קטעים: 'Caution If you implement your own customer "
+          + "enhancements at the explicit enhancement options that SAP defined with the statements "
+          + "ENHANCEMENT-POINT or ENHANCEMENT-SECTION, these can be made ineffective' (הסניפט נקטע כאן), 'SAP "
+          + "does not guarantee that the interfaces and the existence of these explicit enhancement options will "
+          + "remain stable in the source code', 'Therefore we strongly recommend that you not use the enhancement "
+          + "options provided by SAP and defined with ENHANCEMENT-POINT or ENHANCEMENT-SECTION for your own "
+          + "customer enhancements' ו-'We recommend that you use , for example, Business Add-Ins (BAdIs) or "
+          + "implicit enhancement options instead. For more information, see Enhancement Framework' (הפיסוק "
+          + "המשובש הוא כפי שהוחזר). ארבעת הקטעים הוחזרו בשאילתות שונות על אותה רשומה; גוף העמוד עצמו לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: "בתחזוקת מפעל ובתעשיות תהליכיות להשתמש בהרחבה משתמעת רק כשאין BAdI או נקודת הרחבה ייעודית ליחידת הקוד "
+        + "הרלוונטית: לבדוק תחילה ב-SE18 ובעמוד ההרחבות של היישום אם קיים BAdI מתאים, ולהעדיף אותו. כשנבחרת "
+        + "הרחבה משתמעת, להציג את הנקודות ב-ABAP Editor דרך Edit -> Enhancement Operations -> Show Implicit "
+        + "Enhancement Options, למקם את הקוד באחת הנקודות שהתיעוד מונה (תחילת או סוף FORM, FUNCTION או METHOD) "
+        + "ולזכור שהתיעוד מציין הגבלות, למשל שאין נקודה בסוף include של מתודה. לתעד את יחידת הקוד המורחבת ואת "
+        + "סיבת הבחירה, ולכלול את ההרחבה ברשימת ההתאמות לשדרוג ולהמרה: התיעוד הרשמי מפנה ל-SPDD, ל-SPAU "
+        + "ול-SPAU_ENH להתאמת מודיפיקציות והרחבות, ומציין ששינוי באובייקט המורחב עלול לבטל את תוקף מימוש "
+        + "ההרחבה. לשדות ולוגיקה ביישומי Fiori של הזמנת תחזוקה ופקודת תהליך לבחון תחילה את נתיב Key User "
+        + "Extensibility, והמלצה זו היא של הפרויקט ולא קביעה של המקורות המצוטטים כאן.",
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Implicit Enhancement Options in ABAP Source Code (SAP Library - Enhancement Framework)",
+        url: "https://help.sap.com/doc/saphelp_nw75/7.5.5/en-US/29/e59441026aae5fe10000000a1550b0/content.htm?no_cache=true",
+        product: "SAP NetWeaver AS ABAP (Enhancement Framework)",
+        edition: "ecc",
+        release: "SAP NetWeaver 7.5 (SAP Library 7.5.5)",
+        accessedAt: DATE21,
+        claim: "עמוד ספריית SAP הסטטי 'Implicit Enhancement Options in ABAP Source Code' תחת Enhancement Framework "
+          + "(הורד ונקרא במלואו) קובע: 'Implicit enhancement options always exist and they are not assigned to an "
+          + "enhancement spot', ומונה את המקומות שבהם הן מוגדרות מראש בתוכניות ABAP: 'At the end of an include. "
+          + "There are some restrictions, for example, not at the end of a method include', סוף חלקי PUBLIC, "
+          + "PROTECTED ו-PRIVATE SECTION של מחלקה לוקלית, לפני ה-ENDCLASS של חלק המימוש, לפני ENDINTERFACE, סוף "
+          + "הגדרת מבנה (לפני TYPES END OF, DATA END OF, CONSTANTS END OF ו-STATICS END OF), 'At the beginning "
+          + "and at the end of a procedure (FORM, FUNCTION, METHOD). That is, after commands FORM, FUNCTION, and "
+          + "METHOD, and before statements ENDFORM, ENDFUNCTION, and ENDMETHOD', סוף רשימת פרמטרי CHANGING, "
+          + "IMPORTING ו-EXPORTING של מתודה במחלקה לוקלית, ולפני השורה הראשונה ואחרי השורה האחרונה של תוסף קוד "
+          + "מקור (אחרי ENHANCEMENT ולפני ENDENHANCEMENT). העמוד מוסיף: 'The implicit enhancement options can be "
+          + "displayed in the ABAP Editor by following the path: Edit -> Enhancement Operations -> Show Implicit "
+          + "Enhancement Options, and then enhanced using source code plug-ins'. העמוד שייך לתיעוד SAP NetWeaver "
+          + "7.5 ואינו אומר דבר על S/4HANA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Function | Introduction: Enhancement Packages and Business Functions",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6534305c0e2c49ddb96177c90df13e28/979bddd4cebe423f9eb5767a275b2d78.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש הרשמית של help.sap.com לגרסת SAP S/4HANA On-Premise 2025 FPS01 (loio "
+          + "979bddd4cebe423f9eb5767a275b2d78, המדריך Introduction: Enhancement Packages and Business Functions) "
+          + "מחזירה בסניפטים של רשומת החיפוש ארבעה קטעים: 'Caution If you implement your own customer "
+          + "enhancements at the explicit enhancement options that SAP defined with the statements "
+          + "ENHANCEMENT-POINT or ENHANCEMENT-SECTION, these can be made ineffective' (הסניפט נקטע כאן), 'SAP "
+          + "does not guarantee that the interfaces and the existence of these explicit enhancement options will "
+          + "remain stable in the source code', 'Therefore we strongly recommend that you not use the enhancement "
+          + "options provided by SAP and defined with ENHANCEMENT-POINT or ENHANCEMENT-SECTION for your own "
+          + "customer enhancements' ו-'We recommend that you use , for example, Business Add-Ins (BAdIs) or "
+          + "implicit enhancement options instead. For more information, see Enhancement Framework' (הפיסוק "
+          + "המשובש הוא כפי שהוחזר). ארבעת הקטעים הוחזרו בשאילתות שונות על אותה רשומה; גוף העמוד עצמו לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "ICF Service Enhancement | Geographical Enablement Framework",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/86dbe289f813483abd78de6a52458bff/963f4458eee22060e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש הרשמית לגרסת SAP S/4HANA On-Premise 2025 FPS01 (loio 963f4458eee22060e10000000a44147b, "
+          + "המדריך Geographical Enablement Framework) מצטטת: 'For example, with ABAP Source Code Enhancements, "
+          + "an implicit enhancement can be inserted at the start of method SET_RESPONSE: ENHANCEMENT 1 "
+          + "ZENHANCE_CORS'. רשומה מקבילה באותה גרסה ובאותו מדריך, 'Configure JSONP' (loio "
+          + "f8414458eee22060e10000000a44147b), מצטטת: 'The following is an example of an implicit enhancement "
+          + "made to the method SET_RESPONSE:Sample Code ENHANCEMENT 1 ZENHANCE_JSONP'. שתי הרשומות מראות "
+          + "שהטכניקה מתועדת בשימוש בגרסת 2025 FPS01 בתחביר ENHANCEMENT בתחילת מתודה. ההקשר הוא Geographical "
+          + "Enablement Framework ולא תחזוקת מפעל או תעשיות תהליכיות; גוף העמודים לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Flow | Changing the SAP Standard (BC)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2b28ffa716c24348903f8ffbfeb81df8/57f148a3c3eb4689aca27f2e4fb1aec3.html?locale=en-US&state=PRODUCTION&version=1709.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1709.latest",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש הרשמית של המדריך Changing the SAP Standard (BC) תחת מוצר SAP S/4HANA On-Premise, גרסה "
+          + "1709.latest (loio 57f148a3c3eb4689aca27f2e4fb1aec3), מצטטת: 'To adjust enhancement implementations, "
+          + "perform transaction SPAU_ENH in order to find out whether some of your enhancement implementations "
+          + "need to be adapted to changes of the enhanced object' ו-'Note Changes to enhanced objects can "
+          + "invalidate the corresponding enhancement implementations' (הסניפט הוחזר במלואו בשאילתה SPAU_ENH "
+          + "adjust enhancement implementations enhanced object). רשומה נוספת באותו מדריך ובאותה גרסה, 'Adjusting "
+          + "Remaining Objects with Transaction SPAU' (loio a4126b64e72d4402aac34acd01efea3c), מצטטת: 'To adjust "
+          + "enhancements of repository objects, open transaction SPAU_ENH'. רשומה שלישית, 'Custom Code "
+          + "Adaptation | Conversion Guide for SAP S/4HANA 1709' (loio 5e291b03aba1415abc57d302896b950a), מצטטת: "
+          + "'You need to adapt any modifications and enhancements using the standard transactions SPDD, SPAU and "
+          + "SPAU_ENH'. שלוש הרשומות עוסקות במימושי הרחבה בכלל ואינן מייחדות את הדיון להרחבה משתמעת. חיפוש מוגבל "
+          + "לגרסת 2025.001 לא החזיר את עמודי המדריך הזה; ממצא זה תחום בחיפוש ואינו קביעה על היעדרם.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    xrefs: [
+      "enh:technique:explicit-enhancement",
+      "enh:technique:enhancement-spot",
+      "enh:technique:classic-badi",
+      "enh:technique:new-badi",
+      "enh:technique:user-exit",
+      "enh:technique:customer-exit",
+      "enh:technique:key-user-extensibility",
+      "enh:badi:WORKORDER_UPDATE",
+      "enh:badi:WORKORDER_CONFIRM",
+      "tx:SE80",
+      "tx:SE38",
+      "tx:SE37",
+      "tx:SE24",
+      "tx:SE19",
+      "tx:SE18",
+      "tx:SPAU",
+      "tx:SPDD",
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה: שמונה שאילתות ב-scripts/sap-help-search.mjs (SAP_S4HANA_ON-PREMISE, SAP_ERP "
+      + "ו-SAP_S4HANA_CLOUD, בהן implicit enhancement options, implicit enhancement point, Enhancement "
+      + "Framework modification-free, enhancement options provided by SAP ENHANCEMENT-POINT "
+      + "ENHANCEMENT-SECTION recommend, Enhancements to source code Enhancement Framework implicit, SPAU_ENH "
+      + "adjust enhancement implementations after upgrade, maintenance order implicit enhancement function "
+      + "module, process order implicit enhancement ABAP source code), חיפוש רשת אחד מוגבל ל-help.sap.com, "
+      + "ועמוד ספריית SAP סטטי אחד שהורד ונקרא במלואו. מה שאומת מול המקור: ההגדרה המלאה של מיקומי נקודות "
+      + "ההרחבה המשתמעות (מהעמוד שנקרא במלואו, לא מסניפט); שימוש מתועד בטכניקה בשתי רשומות של S/4HANA "
+      + "On-Premise 2025 FPS01 באותו מדריך; והמלצת SAP באותה גרסה להשתמש ב-BAdI או בנקודות הרחבה משתמעות "
+      + "במקום בנקודות ההרחבה המפורשות. סתירה מול המאגר: רשומת data/enhancements.ts#implicit-enhancement "
+      + "קובעת בשדה s4 'נתמך; להעדיף נקודות מפורשות/BAdI כשקיימות', רשומת data/exits.ts בשם Implicit "
+      + "Enhancement קובעת 'שביר בשדרוג; תעד; העדף נקודות מפורשות/BAdI', ורשומת "
+      + "data/enhancements.ts#explicit-enhancement קובעת על ההרחבה המפורשת 'נתמך ומועדף על Implicit'. עמוד "
+      + "Business Function של 2025 FPS01 אומר את ההפך לגבי מחצית ההמלצה: הוא ממליץ שלא להשתמש בנקודות ההרחבה "
+      + "המפורשות ש-SAP הגדירה, ומציע BAdI או נקודות הרחבה משתמעות במקומן. מחצית ההמלצה שעניינה העדפת BAdI "
+      + "עולה בקנה אחד עם המקור הרשמי. שלוש רשומות המאגר האלה דורשות תיקון; הן לא שונו כאן, והסטטוס שנכתב "
+      + "עוקב אחר המקור הרשמי. החלק של המאגר שכן נתמך במקור הוא הסיכון בשדרוג, אך בניסוח רחב יותר: התיעוד "
+      + "קובע ששינוי באובייקט המורחב עלול לבטל את תוקף מימוש ההרחבה ושיש להתאים מודיפיקציות והרחבות ב-SPDD, "
+      + "ב-SPAU וב-SPAU_ENH, בלי לייחד את האמירה להרחבה משתמעת. מה שלא אומת: לא נמצא עמוד בתוך עץ המוצר SAP "
+      + "S/4HANA On-Premise שמגדיר את נקודות ההרחבה המשתמעות (ההגדרה חיה בספריית NetWeaver, ולכן נרשמה "
+      + "במהדורת ecc לפי התקדים ב-data/verification/functions.ts; המהדורה ecc מציינת כאן בסיס NetWeaver "
+      + "מתקופת ECC (SAP NetWeaver 7.5 הוא הבסיס של SAP ERP 6.0 EHP8), ולא תיעוד ECC עצמו); לא נמצא עמוד רשמי "
+      + "הקושר את הטכניקה לתחזוקת מפעל או לתעשיות תהליכיות, ולכן אין דוגמה רשמית ברמת מודול; חיפוש תחת SAP "
+      + "S/4HANA Cloud Public Edition לא החזיר אף רשומה הנוגעת לטכניקה, ולכן אין כאן קביעה על זמינותה או על "
+      + "הגבלתה במהדורת הענן הציבורית או במודל ABAP Cloud; שמות הפקודות ENHANCEMENT ו-ENDENHANCEMENT "
+      + "והדוגמאות ZENHANCE_CORS ו-ZENHANCE_JSONP מצוטטים כפי שהופיעו ולא הושלמו. הטרנזקציה SPAU_ENH מצוטטת "
+      + "מהמקור הרשמי אך אינה קיימת במדריך הטרנזקציות של הפרויקט (lib/route-manifest.generated.ts), ולכן היא "
+      + "נזכרת בטקסט בלי xref; SPAU ו-SPDD כן קיימות ומקושרות. הרשומה בשם Implicit Enhancement "
+      + "שב-data/exits.ts מייצרת מזהה enh:badi:IMPLICIT ENHANCEMENT שאינו יכול לעבור את כלל תחביר המזהים בשל "
+      + "הרווח, ולכן רשומת הטכניקה הזו היא הבית של הראיות ואותה שורה לא נכתבה. הרשומה אינה נושאת שדה "
+      + "reviewer: אף רשומה ב-data/verification/** אינה נושאת אותו. הסטטוס הנגזר שהאפליקציה הציגה לפני "
+      + "הרשומה: 'משתנה ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', לפי בלוק ECC מול S/4HANA של רשומת הטכניקה "
+      + "במאגר. ה-MCP ל-ABAP לא היה זמין; לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "enh:technique:field-exit",
+    aliases: ["Field Exit", "Field Exits", "Field Exit (Legacy)"],
+    status: {
+      status: "verification_required",
+      he: "טכניקת הרחבה ותיקה ברמת שדה קלט במסך dynpro. המקור הרשמי היחיד שנמצא ומתעד את הטכניקה עצמה הוא העמוד "
+        + "'Field exits' באוסף Support Content של help.sap.com, והוא קובע שהטכנולוגיה מושבתת כברירת מחדל מאז "
+        + "NetWeaver 6.10 ומיושנת מאז SAP Basis 4.6a. אותו עמוד אינו משויך למערך תיעוד של מוצר S/4HANA ואינו "
+        + "נושא גרסת S/4HANA. בשאילתות שנבדקו בשירות החיפוש הרשמי תחת המוצר SAP S/4HANA On-Premise, אף אחת "
+        + "מהרשומות שהוחזרו (עד 21 לשאילתה) אינה מזכירה field exit בכותרת או בסניפט, וזהו ממצא תחום של חיפוש "
+        + "ולא הוכחת היעדר. בתיעוד ABAP platform לגרסת 2025 FPS01 הטכניקה נזכרת בשני עמודי כלים בלבד (מגבלת מצב "
+        + "דיבוג בדיבאגר, ותכונת שדה בכלי Screen Analysis) ללא הגדרה, ללא אופן מימוש וללא קביעת מעמד. לכן מעמד "
+        + "הטכניקה ב-S/4HANA, כלומר זמינות, תמיכה והמלצה, אינו נקבע ברשומה זו ודורש אימות במערכת היעד ובמקור "
+        + "רשמי ייעודי.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: "לפני כל החלטה לאמת במערכת S/4HANA היעד שני דברים: את ערכו של פרמטר הפרופיל abap/fieldexit (RZ11 "
+        + "לצפייה, RZ10 לעריכת הפרופיל) ואת קיומם של field exits פעילים בפועל, באמצעות הרצת התוכנית RSMODPRF "
+        + "ב-SE38 כמתואר בעמוד הרשמי (השארת שדה אלמנט הנתונים ריקה מציגה את כל ה-field exits הקיימים). לכל "
+        + "field exit שנמצא בקוד הלקוח לתעד את אלמנט הנתונים, את מודול הפונקציה FIELD_EXIT_<data element> ואת "
+        + "המסכים המושפעים, ולהעריך מחדש את הלוגיקה: התיעוד הרשמי מגביל את הטכניקה ל-dynpro בלבד, ולכן היא אינה "
+        + "חלה על יישומי Fiori של תחזוקת מפעל ושל תעשיות תהליכיות. לבחינת חלופה לבדוק בתיעוד גרסת היעד אילו "
+        + "טכניקות הרחבה מתועדות שם, למשל Custom Fields and Logic בהקשר העסקי הרלוונטי, BAdI, או ולידציה "
+        + "בתהליך; רשומה זו אינה מביאה מקור רשמי לאף אחת מהן כחלופה ל-field exit, ואין לרשום כאן תחליף מוסמך: "
+        + "אף מקור רשמי שנמצא אינו קובע תחליף מוגדר ל-field exit. אין להציג את הטכניקה כנתמכת או כזמינה "
+        + "ב-S/4HANA לפני בדיקה במערכת.",
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Field exits | ABAP Development",
+        url: "https://help.sap.com/docs/SUPPORT_CONTENT/abap/3353525738.html?locale=en-US&state=PRODUCTION&version=1.0",
+        product: "Support Content",
+        edition: "on-premise",
+        release: "1.0 (אוסף Support Content, deliverable ABAP Development)",
+        accessedAt: DATE21,
+        claim: "העמוד 'Field exits' במדריך ABAP Development שבאוסף Support Content של help.sap.com (loio 3353525738, "
+          + "גרסה 1.0, תאריך 2026-07-01) הוא העמוד הרשמי היחיד שנמצא ומתעד את הטכניקה. ארבעה חלונות סניפט שהוחזרו "
+          + "בארבע שאילתות נפרדות: (1) 'Field exit technology is deactivated by default since NetWeaver 6.10 and "
+          + "is obsolete since SAP Basis 4.6a. More information can be found here: FAQs: field exits "
+          + "(restrictions, etc.)'; (2) 'Field exits Introduction A field exit is an old enhancement technology "
+          + "linked to a screen input field (only dynpro technology is supported) which executes custom ABAP "
+          + "code, that is allowed to: change' (הסניפט נקטע ומתחדש) 'the value of the field trigger an error "
+          + "message on that field A field exit applies to a given data element and a given dynpro or all "
+          + "dynpros, and is active for all clients'; (3) 'It calls a function module with a special name that "
+          + "needs to be registered via program RSMODPRF (see below how to implement)' וכן 'Note: if you just "
+          + "want to display all existing field exits, leave the data element field blank. It then displays a "
+          + "screen with function module FIELD_EXIT_<data_element>' ולאחר מכן 'Run transaction SE38, execute "
+          + "program RSMODPRF Enter the data element of the field to be enhanced'; (4) 'The field exits cannot be "
+          + "called in releases 6.10 (and after) if the \"abap/fieldexit\" profile parameter' (נקטע) "
+          + "ו-'Implementing a field exit In releases 6.10 and after, the \"abap/fieldexit\" profile parameter must "
+          + "be changed from 0 to 1 (transaction RZ10 or RZ11)', וכן 'Check box of your field exit, and select "
+          + "menu Fieldexit | Activate. Note: You have to enter a workbench transport request (object of type "
+          + "R3TR XDYN)' ו-'After transport of the field exit in a target system, you must call program RSMODFDG "
+          + "in the target system (any client) to activate the field exit'. העמוד אינו נוקב בגרסת S/4HANA כלשהי "
+          + "ואינו משויך למערך תיעוד של מוצר S/4HANA. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Layout of the User Interface | ABAP Test and Analysis Tools",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/ba879a6e2ea04d9bb94c7ccd7cdac446/4917c5f1a2e314d3e10000000a42189b.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001 (ABAP platform 2025 FPS01)",
+        accessedAt: DATE21,
+        claim: "בתיעוד ABAP platform לגרסת 2025 FPS01 (versionId 202510.001, loio 4917c5f1a2e314d3e10000000a42189b, "
+          + "תאריך 2026-07-27), נושא 'Layout of the User Interface' במדריך ABAP Test and Analysis Tools קובע "
+          + "בסניפט: 'Debugging mode is not possible for conversion or field exits'. זו ההתייחסות היחידה ל-field "
+          + "exits בסניפט: העמוד אינו מגדיר את הטכניקה, אינו מתאר כיצד לממש אותה ואינו קובע את מעמדה. המשמעות "
+          + "התחומה היא שהפלטפורמה שמתחת ל-S/4HANA בגרסת 2025 עדיין מכירה במושג field exit, וששינוי ערכים של "
+          + "field exit אינו ניתן לדיבוג בכלי. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Screen Analysis | ABAP Test and Analysis Tools",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/ba879a6e2ea04d9bb94c7ccd7cdac446/8dad1fbc3c094a77aeb0b1e46d44d1cd.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001 (ABAP platform 2025 FPS01)",
+        accessedAt: DATE21,
+        claim: "באותו מערך תיעוד ובאותה גרסה (loio 8dad1fbc3c094a77aeb0b1e46d44d1cd, תאריך 2026-07-27), נושא 'Screen "
+          + "Analysis' קובע בסניפט: 'You use the Screen Analysis tool to display the current runtime "
+          + "representation of screens' וכן 'Special Attr Special Attr. contains information about conversion "
+          + "exits, user field exits, foreign key checks and switches'. כלומר כלי ניתוח המסכים של הפלטפורמה בגרסת "
+          + "2025 FPS01 עדיין מציג מידע על user field exits ברמת שדה מסך. הסניפט אינו קובע שניתן ליצור field exit "
+          + "חדש, אינו מזכיר את CMOD ואינו מזכיר את S/4HANA. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קובץ טכניקות ההרחבה של הפרויקט, רשומת field-exit",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת הטכניקה במאגר מגדירה 'ולידציה ברמת שדה מסך (ישן מאוד) — כמעט לא בשימוש כיום', מתארת את המימוש "
+          + "כ-'הוגדר דרך CMOD/Field Exit; הוחלף ע\"י screen logic/BAdI', מסווגת ECC כ-'Legacy; נדיר' ו-S/4HANA "
+          + "כ-'מיושן — אל תשתמש; העדף BAdI/validation', רושמת את הטרנזקציה CMOD בלבד ונושאת את ההערה 'מיושן — "
+          + "נכלל לשלמות היסטורית בלבד'. כיוון הרשומה (טכנולוגיה מיושנת) תואם את העמוד הרשמי; ההיגד 'הוחלף ע\"י "
+          + "screen logic/BAdI' אינו נתמך באף מקור רשמי שנמצא ולכן נשאר ברמת המאגר.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/enhancements.ts#field-exit",
+      },
+    ],
+    xrefs: [
+      "enh:technique:customer-exit",
+      "enh:technique:classic-badi",
+      "enh:technique:new-badi",
+      "enh:technique:key-user-extensibility",
+      "enh:technique:transaction-variant",
+      "tx:CMOD",
+      "tx:SE38",
+      "tx:RZ10",
+      "tx:RZ11",
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה (2026-09-21): למעלה מעשרים שאילתות ב-scripts/sap-help-search.mjs על פני שישה מערכי מוצר "
+      + "(SAP_S4HANA_ON-PREMISE, SAP_S4HANA_CLOUD, SAP_ERP, ABAP_PLATFORM, ABAP_PLATFORM_NEW, "
+      + "SUPPORT_CONTENT) ושני חיפושי רשת מוגבלים ל-help.sap.com. מה שאומת מול המקור, כולו מעמוד אחד ('Field "
+      + "exits', אוסף Support Content, deliverable ABAP Development, גרסה 1.0, loio 3353525738): ההגדרה של "
+      + "הטכניקה, הקשירה שלה לאלמנט נתונים ולמסך dynpro, התוקף לכל הלקוחות (clients), מודול הפונקציה "
+      + "FIELD_EXIT_<data_element>, הרישום דרך התוכנית RSMODPRF ב-SE38, ההפעלה דרך התפריט Fieldexit | "
+      + "Activate ובקשת העברה מסוג R3TR XDYN, ההפעלה במערכת היעד דרך RSMODFDG, פרמטר הפרופיל abap/fieldexit "
+      + "(שינוי מ-0 ל-1 ב-RZ10 או RZ11) והמשפט 'deactivated by default since NetWeaver 6.10 and is obsolete "
+      + "since SAP Basis 4.6a'. ארבעת חלונות הסניפט צוטטו משאילתות שונות, כי חלון הסניפט משתנה לפי השאילתה. "
+      + "אותו עמוד אינו מערך תיעוד של מוצר S/4HANA ואינו נושא גרסת S/4HANA, ולכן הוא אינו יכול לשמש ראיה "
+      + "למעמד הטכניקה ב-S/4HANA. ממצא תחום של חיפוש, לא הוכחת היעדר: בשאילתה 'field exits' תחת המוצר "
+      + "SAP_S4HANA_ON-PREMISE עם size 21, אף אחת מ-21 הרשומות שהוחזרו אינה מכילה את הצירוף field exit בכותרת "
+      + "או בסניפט; אותו הדבר תחת המוצר SAP_S4HANA_CLOUD, וכן בשאילתות 'RSMODPRF', 'FIELD_EXIT function "
+      + "module data element' ו-'abap/fieldexit'. שים לב שהשדה total בפלט הסקריפט הוא מספר הרשומות שהוחזרו "
+      + "בעמוד ולא גודל הקורפוס. השאילתות 'field exit', 'field exits CMOD', 'field exit data element screen "
+      + "field validation', 'field exit simplification' ו-'field exits no longer supported' תחת "
+      + "SAP_S4HANA_ON-PREMISE החזירו רק עמודי user exit בתחומים אחרים (Special Purpose Ledgers, Incentive "
+      + "and Sales Force Management, Document Management, Maintenance Management עם WTY00001/WTY00002) ואת "
+      + "המדריך 'Changing the SAP Standard (BC)' בגרסה 1709.latest, שעמודיו ('Types of Exits', "
+      + "'Enhancements', 'Changing Field Texts', 'Creating Customer-Specific Subscreens') עוסקים ב-Customer "
+      + "Exits ובשינוי טקסטי שדה דרך SMOD/CMOD ולא ב-field exits. תחת המוצר SAP_ERP החזירה השאילתה 'field "
+      + "exit' רק עמודי User Exits for the Rollup ו-User Exit CACS2004. מה שלא אומת: מעמד ה-field exit "
+      + "ב-S/4HANA (אין עמוד רשמי שנמצא הקובע אותו), קיומו של תחליף מוסמך ולכן אין successor ברשומה, ערך "
+      + "ברירת המחדל של abap/fieldexit במערכת S/4HANA קונקרטית, וההיגד שברשומת המאגר 'הוחלף ע\"י screen "
+      + "logic/BAdI'. נתיב המימוש הרשמי היחיד שנמצא בסניפטים הוא SE38 עם RSMODPRF. עם זאת העמוד 'Ways to find "
+      + "a userexit' (אותו אוסף, loio 3353525969) מחזיר בסניפט את הצירוף 'FAQs: Field exits (CMOD)' לצד "
+      + "'Field Exit Report RSMODPRF' ו-'Customer Exits(SMOD/CMOD)', כלומר הקישור בין CMOD ל-field exits כן "
+      + "מופיע במקור רשמי, כהפניה ל-FAQ בלבד וללא תיאור הליך תחזוקה. לכן ה-xref ל-tx:CMOD נשען על סניפט רשמי "
+      + "ועל רשומת המאגר גם יחד, אך הליך התחזוקה דרך CMOD עצמו לא אומת. ה-xrefs האחרים הם הקשר בלבד: "
+      + "customer-exit, classic-badi, new-badi, key-user-extensibility ו-transaction-variant הן הטכניקות "
+      + "השכנות בקטלוג הפרויקט, ואף מקור רשמי אינו מציג אותן כחלופה מוסמכת ל-field exit. אזהרת בלבול מונחים: "
+      + "העמוד 'Processing Input/Output Fields' במדריך Classic Screen Programming (ABAP platform 2025 FPS01, "
+      + "loio 4a43fbfd5bc52baee10000000a421937) מכיל את הצירוף 'the dynpro field exit (value X)', אך שם מדובר "
+      + "ביציאה ממסך בתכנות dynpro קלאסי ולא בטכניקת ההרחבה שברשומה זו, ולכן העמוד לא נכלל כראיה. הסטטוס "
+      + "הנגזר שהאפליקציה הציגה לפני רשומה זו: 'משתנה ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', שכן "
+      + "components/neo-shell/reference/enh-data.ts מעביר את השדה s4 של הרשומה כ-changed ל-fromEccS4Block. "
+      + "הסטטוס המחובר כאן הוא verification_required כדי שלא תיטען המשכיות מ-ECC ל-S/4HANA שאין לה מקור. גוף "
+      + "עמודי help.sap.com לא נקרא באף שלב (מעטפת JavaScript; curl ל-loio 3353525738 החזיר 1,160 בתים ללא "
+      + "גוף, וכך גם עמוד abapdocu_latest_index_htm/abapcall_customer-function.htm), ה-MCP ל-ABAP לא היה זמין "
+      + "(Connection closed), ולא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "enh:technique:bte",
+    aliases: ["Business Transaction Events", "Open FI", "FIBF"],
+    status: {
+      status: "unchanged",
+      he: "התיעוד הרשמי של SAP S/4HANA On-Premise 2025 FPS01 ממשיך לתעד את טכניקת ההרחבה בשם Business "
+        + "Transaction Events ואת הטרנזקציה FIBF בשמה המלא 'SAP Business Framework: Business Transactions "
+        + "Events', באותם מזהי loio המוגשים גם בתיעוד SAP ERP 6.0 EHP8 Latest. רשימת הפישוט הציבורית לגרסת 2025 "
+        + "FPS01, שנקראה כטקסט מלא (1,514 עמודים), אינה נוקבת במונחים Business Transaction Event, BTE או FIBF "
+        + "באף מקום, ולכן הטכניקה עצמה אינה פריט פישוט. 'ללא שינוי' מתייחס כאן להמשכיות התיעוד, השם והטרנזקציה "
+        + "בלבד, ולא לרשימת האירועים עצמם: רשומת What's New לגרסת 2025 מוסיפה הפעלת BTEs עבור מסמכים שנוצרים "
+        + "בעיבוד ההמשך של MRP Live, ובמקביל רשומת What's New in Transactional Banking לאותה גרסה מוחקת אירועי "
+        + "BTE מסוימים ברכיב FS-AM, ופריט פישוט 6.7.5 מוציא משימוש שני מודולי Open FI של הלוקליזציה הרוסית. לא "
+        + "נבדק כל אירוע BTE בנפרד.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Business Transaction Events | Payments and Bank Communication",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e200555127f24878bed8d1481c9d5a0b/4defc5536a51204be10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד 'Business Transaction Events' מתוך המדריך Payments and Bank Communication לגרסת SAP S/4HANA "
+          + "On-Premise 2025 FPS01 (loio 4defc5536a51204be10000000a174cb4) מגדיר את הטכניקה: 'The business "
+          + "transaction event is an event for which an SAP program extends the system without modification, "
+          + "depending on the settings in Customizing'. הסניפט ממשיך: 'At this event you can call up a separately "
+          + "developed function module that determines the general ledger group (for example, an industry) from "
+          + "business partner data' ו-'You use events to add in' (הסניפט נקטע כאן). בסניפט המילים מופיעות "
+          + "כ-'eventis' בלי רווח, וצוטטו כאן עם רווח. אותו loio מוגש גם תחת SAP ERP עם תווית הגרסה '6.0 EHP8 "
+          + "Latest' (versionId 6.18.latest) במדריך Bank Customer Accounts (BCA), עם אותו נוסח סניפט. גוף העמוד "
+          + "לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: "לפני שימוש ב-BTE בפרויקט מיגרציה יש לאתר את האירוע הרלוונטי בטרנזקציה FIBF ולאשר במערכת S/4HANA "
+        + "המותקנת שהאירוע ומודול הפונקציה הרשום אליו קיימים. שתי ראיות מגרסת 2025 מראות שרשימת האירועים אינה "
+        + "יציבה: אירועי BTE נמחקו ברכיב FS-AM, ומודולי Open FI מקומיים הוצאו משימוש בפריט פישוט 6.7.5 עם הפניה "
+        + "ל-BAdI FIGLO_PMNT_FIELDS. התיעוד הרשמי ממקם את מקור הטכניקה ב-Financial Accounting (Open FI) ומתאר "
+        + "את ה-BAdI כהכללה שלה, ולכן בתרחיש הרחבה חדש בתחזוקת מפעל או בתעשיות תהליכיות כדאי לבחון תחילה BAdI "
+        + "קיים או הרחבת Key User, ולשמור את ה-BTE לאירועים ש-SAP עצמה מתעדת (למשל רשימות ה-BTE של עצי מוצר ושל "
+        + "נתוני אב חומר). לא נמצא עמוד רשמי הקובע את מעמד הטכניקה ביחס ל-ABAP Cloud או ל-Clean Core, ולכן "
+        + "בסביבה המיישרת קו עם Clean Core יש לברר זאת מול צוות הפלטפורמה לפני המימוש.",
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Transaction Events | Payments and Bank Communication",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e200555127f24878bed8d1481c9d5a0b/4defc5536a51204be10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד 'Business Transaction Events' מתוך המדריך Payments and Bank Communication לגרסת SAP S/4HANA "
+          + "On-Premise 2025 FPS01 (loio 4defc5536a51204be10000000a174cb4) מגדיר את הטכניקה: 'The business "
+          + "transaction event is an event for which an SAP program extends the system without modification, "
+          + "depending on the settings in Customizing'. הסניפט ממשיך: 'At this event you can call up a separately "
+          + "developed function module that determines the general ledger group (for example, an industry) from "
+          + "business partner data' ו-'You use events to add in' (הסניפט נקטע כאן). בסניפט המילים מופיעות "
+          + "כ-'eventis' בלי רווח, וצוטטו כאן עם רווח. אותו loio מוגש גם תחת SAP ERP עם תווית הגרסה '6.0 EHP8 "
+          + "Latest' (versionId 6.18.latest) במדריך Bank Customer Accounts (BCA), עם אותו נוסח סניפט. גוף העמוד "
+          + "לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Defining Business Transaction Event (BTE) for Electronic Documents | Israel",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8684a9474f284ef0a2207fc66d4d97f7/4ff96b93116b4199939841e4d72b1006.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד 'Defining Business Transaction Event (BTE) for Electronic Documents' מתוך המדריך Israel לגרסת "
+          + "S/4HANA On-Premise 2025 FPS01 (loio 4ff96b93116b4199939841e4d72b1006) נוקב בשם המלא של הטרנזקציה: "
+          + "'Go to the SAP Business Framework: Business Transactions Events (FIBF) transaction and choose More "
+          + "Settings Identification SAP Applications. Select New Entries'. בסניפט המקורי מופיעים רצפי nbsp בין "
+          + "פריטי התפריט, וצוטטו כאן כרווחים. המשך הסניפט: 'To enable the creation of electronic documents for "
+          + "accounting documents using the eDocument Cockpit (EDOC_COCKPIT) transa' (נקטע). לפי הכותרת, שם "
+          + "המדריך והסניפט העמוד עוסק בהגדרת מסמכים אלקטרוניים; גוף העמוד לא נקרא, ולכן לא נטען מה עוד הוא מכיל.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Comparison of Classic BAdIs with Previous Techniques | Flexible Real Estate Management (RE-FX)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3683a11901b74d8fa71f35d86abaaae1/eb3e7ceb940e11d295df0000e82de14a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד 'Comparison of Classic BAdIs with Previous Techniques' לגרסת S/4HANA On-Premise 2025 FPS01 "
+          + "(loio eb3e7ceb940e11d295df0000e82de14a, המדריך Flexible Real Estate Management) ממקם את הטכניקה מול "
+          + "טכניקות אחרות: 'Business Transaction Events (Open FI) The Open FI enhancement technique was "
+          + "developed in the Financial Accounting component', 'Business Add-Ins are to be seen as a type of "
+          + "generalization of business transaction events' ו-'The concepts behind the Business Add-Ins "
+          + "enhancement technique and Open FI are roughly the same with the following exceptions: Open FI can "
+          + "only be used to make program enhancements, that is, enhancements' (הסניפט נקטע כאן). שלושת הקטעים "
+          + "התקבלו משתי שאילתות נפרדות של אותה רשומה, שכן חלון הסניפט משתנה לפי השאילתה. העמוד אינו קובע שה-BTE "
+          + "הוצא משימוש. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Transaction Events in MRP Live | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private "
+          + "Edition 2025",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/2278cd20aacc4fa99aa4dcefc5be0a82.html?locale=en-US&state=PRODUCTION&version=2025.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.000",
+        accessedAt: DATE21,
+        claim: "רשומת What's New בשם 'Business Transaction Events in MRP Live' לגרסת S/4HANA 2025 (loio "
+          + "2278cd20aacc4fa99aa4dcefc5be0a82) נוקבת: 'With this feature, BTE events are now also generated "
+          + "during the MRP Live run'. משפט הפתיחה התקבל בשני חלונות סניפט נפרדים שחופפים זה לזה, ולכן הוא מורכב "
+          + "כאן משניהם ולא צוטט מחלון אחד: 'This feature enables materials relevant for SAP Integrated Business "
+          + "Planning (SAP IBP) or Production Planning and Detailed Scheduling (PP/DS) integration to be planned "
+          + "using MRP live, followed by triggering the Business Transaction Events (BTEs) for documents created "
+          + "during post-processing'. שורת הסיווג בסניפט היא 'Availability SAP S/4HANA Cloud Private Edition and "
+          + "SAP S/4HANA Valid as Of 2025', ובשורת הפריט מופיעים 'Changed n/a PP-MRP 2025'. הרשומה אינה נוקבת "
+          + "בקוד טרנזקציה, בשם אירוע BTE או במודול פונקציה. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Transaction Events | What's New in Transactional Banking",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6e60ffb0b059423eb2d5b1bbdccde6a0/f75b8739a00849f0a1f51b696011f140.html?locale=en-US&state=PRODUCTION&version=2025.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.000",
+        accessedAt: DATE21,
+        claim: "רשומת What's New in Transactional Banking לגרסת S/4HANA 2025 (loio f75b8739a00849f0a1f51b696011f140) "
+          + "מראה שרשימת אירועי ה-BTE כן משתנה: 'Business Transaction Events The following Process Business "
+          + "Transaction Events (BTEs) were deleted: 0BCA3055 Payment items: Add new positions 0BCA3090 Payment "
+          + "items: Bank network affiliation and reference' (הסניפט נקטע כאן). חלון סניפט אחר של אותה רשומה מוסיף "
+          + "את שורת הסיווג 'Technical Details Type Deleted Functional Localization Not applicable Application "
+          + "Component FS-AM (Account Management)', וכן 'Instead of the deleted BTE you need to use an active "
+          + "implementation of the corresponding multiple-use Business' (נקטע). המחיקה חלה על אירועים מסוימים "
+          + "ברכיב ניהול חשבונות, ולא על טכניקת ההרחבה או על הטרנזקציה FIBF. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private "
+          + "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 6.7.5 S4TWL - Russia Manage "
+          + "Additional Payment Attributes app, pp. 392-393",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE21,
+        claim: "רשימת הפישוט הציבורית לגרסת 2025 FPS01 (גרסת מסמך 1.36, 1,514 עמודים) חולצה כטקסט מלא ונסרקה: אין בה "
+          + "אף מופע של 'Business Transaction Event', אף מופע של 'FIBF' ואף מופע של המונח BTE כמילה עצמאית. שלושת "
+          + "רצפי האותיות BTE שנמצאו הם חלק ממזהי אובייקט ולא מן המונח (RSWUVWIZBTE ברשימת דוחות Workflow, WBTE "
+          + "ברשימת דוחות מיושנים, ו-get_stock_change_for_bte בקטע קוד של ניהול מלאי). הטכניקה עצמה אינה פריט "
+          + "פישוט ברשימה. המחרוזת 'Open FI' מופיעה אך ורק בפריט 6.7.5 S4TWL - Russia Manage Additional Payment "
+          + "Attributes app (עמ' 392 עד 393), שבו נכתב שמסך תכונות התשלום 'Open FI Functional Modules "
+          + "J_3RF_PDOCV_2218 and J_3RF_PDOC1430) is obsolete within these releases' מגרסת 1909 ואילך, וכן 'If "
+          + "you have made customer enhancements to the obsoleted Open FI function modules, check if you need to "
+          + "reimplement them in the new Fiori App. Custom logic can be implemented in the BAdI "
+          + "FIGLO_PMNT_FIELDS'. מדובר בשני מודולי Open FI של הלוקליזציה הרוסית, ולא בטכניקה כולה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    xrefs: [
+      "enh:technique:classic-badi",
+      "enh:technique:new-badi",
+      "enh:technique:enhancement-spot",
+      "enh:technique:customer-exit",
+      "enh:technique:key-user-extensibility",
+      "tx:SE18",
+      "tx:SE19",
+      "tx:SMOD",
+      "tx:CMOD",
+      "tx:MD01N",
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה: שאילתות ב-scripts/sap-help-search.mjs תחת SAP_S4HANA_ON-PREMISE, SAP_ERP ו-SAP_S4HANA_CLOUD, "
+      + "וקריאה מלאה של קובץ ה-PDF של רשימת הפישוט, כולן ב-2026-09-21. מה שאומת מול המקור: השם Business "
+      + "Transaction Events בתיעוד S/4HANA 2025 FPS01, ההגדרה כהרחבה ללא מודיפיקציה דרך Customizing, השם המלא "
+      + "של הטרנזקציה FIBF, מקור הטכניקה ב-Financial Accounting תחת השם Open FI, היחס בין BAdI ל-BTE "
+      + "('generalization'), הרחבת המנגנון ברשומת What's New לגרסת 2025 (MRP Live), ומחיקת אירועי BTE מסוימים "
+      + "ברכיב FS-AM באותה גרסה. ההמשכיות בין ECC ל-S/4HANA נמדדה כך: loio 4defc5536a51204be10000000a174cb4 "
+      + "(עמוד ההגדרה) ו-loio e204c453f57eb44ce10000000a174cb4 (עמוד ה-BOM) מוגשים גם תחת SAP_ERP עם תווית "
+      + "גרסה '6.0 EHP8 Latest' ו-versionId 6.18.latest, עם אותו נוסח סניפט. הנגטיב על פריט הפישוט נמדד ולא "
+      + "הוסק: קובץ SIMPL_OP2025.pdf בגרסת מסמך 1.36 (1,514 עמודים) חולץ כטקסט מלא, ובו אפס מופעים של "
+      + "'Business Transaction Event', אפס של 'FIBF' ואפס של BTE כמילה עצמאית; המחרוזת 'Open FI' מופיעה אך "
+      + "ורק בפריט 6.7.5. רשומות רשמיות נוספות שנראו ולא צוטטו כראיה: 'User Exits in Incentive and Commission "
+      + "Management' (2025.001, loio c678cb53f0f67314e10000000a174cb4) הנוקב 'There are two types of "
+      + "interface: Publish & Subscribe interfaces'; 'Registering Function Modules for Electronic Documents' "
+      + "(Spain, 2025.001, loio b8969066aa744296b4aa3ce8350fa832); 'Enhancements using Business Transaction "
+      + "Events (BOMs)' (Document Management, 2025.001, loio e204c453f57eb44ce10000000a174cb4); 'Enhancements "
+      + "Using Business Transaction Events (Material Master)' (Product Master, 2025.001, loio "
+      + "5914c453f57eb44ce10000000a174cb4); ו-'Enhancements in BOMs' (Bill of Material (LO-MD-BOM), 2025.001, "
+      + "loio c204c453f57eb44ce10000000a174cb4). מה שלא אומת: אף עמוד רשמי שנמצא אינו מקשר BTE להזמנת תחזוקה, "
+      + "לפקודת תהליך או לאישור ייצור, ולכן הדוגמה שברשומת המאגר (data/enhancements.ts#bte, 'אירוע בעיבוד "
+      + "מסמך חומר מפקודת ייצור') נשארת ברמת המאגר ולא נכתבה בסטטוס; מספרי אירועי ה-BTE, שמות מודולי הפונקציה "
+      + "ורשימות הפרמטרים מופיעים רק בגוף העמודים, שלא נקרא, שכן help.sap.com מגיש מעטפת JavaScript. גם בדיקת "
+      + "HTTP אינה מהווה אימות קיום בפורטל: loio מזויף תחת מדריך אמיתי מחזיר גם הוא קוד 200, ולכן קיומו של כל "
+      + "עמוד כאן נסמך על רשומת החיפוש ולא על תגובת ה-HTTP. מעמד הטכניקה ב-SAP S/4HANA Cloud Public Edition "
+      + "לא נקבע: חיפוש תחת SAP_S4HANA_CLOUD (הרשומות שהוחזרו נשאו versionId 2608.500 ו-2602.500) לא החזיר אף "
+      + "רשומה הנוקבת ב-Business Transaction Events כטכניקת הרחבה, וזהו ממצא תחום בחיפוש ולא קביעה של "
+      + "אי-זמינות. לא נרשם מספר הערת SAP או KBA כלשהו, משום שאף מקור שנקרא אינו נוקב במספר הנוגע לטכניקה. "
+      + "הטרנזקציה FIBF אינה קיימת ב-lib/route-manifest.generated.ts ולכן tx:FIBF אינו מופיע כ-xref, אף שהוא "
+      + "מצוטט מילה במילה בראיה השנייה; ה-xref ל-tx:MD01N נסמך על צירוף רשומת ה-What's New של MRP Live עם "
+      + "רשומת MD01N במאגר, בעוד רשומת ה-What's New עצמה נוקבת ב-MRP Live ולא בקוד הטרנזקציה. הסטטוס הנגזר "
+      + "שהאפליקציה הציגה לפני רשומה זו היה 'משתנה ב-S/4HANA', משום "
+      + "ש-components/neo-shell/reference/enh-data.ts קורא ל-fromEccS4Block עם השדה s4 כ-changed, "
+      + "ו-fromEccS4Block (lib/evidence/s4-status.ts) ממפה כל טקסט לא ריק בשדה s4 ל-changed; הסטטוס המחובר "
+      + "מחליף אותו על בסיס המקורות הרשמיים לעיל. אימות SE18, SE19 או FIBF במערכת חיה לא בוצע: ה-MCP ל-ABAP "
+      + "לא היה זמין. הרשומה אינה נושאת שדה reviewer, לפי המוסכמה בכל קבצי data/verification.",
+  },
+  {
+    id: "enh:technique:user-exit",
+    aliases: ["User Exit", "User Exits", "Application-Specific User Exits"],
+    status: {
+      status: "unchanged",
+      he: "הטכניקה ממשיכה להופיע בתיעוד SAP לגרסת S/4HANA On-Premise 2025 FPS01: נושא 'Enhancements Using User "
+        + "Exits (Document)' מתפרסם באותו loio גם תחת SAP ERP 6.0 EHP8 Latest וגם תחת S/4HANA 2025 FPS01 עם "
+        + "אותו ניסוח, ותיעוד תכנון התחזוקה של 2025 FPS01 מציע user exit (CNEX0027) כאפשרות מימוש לצד BAdI. "
+        + "הנושא הנושא את השם בגרסת 2025.001 הוא נושא של ניהול מסמכים (DMS) המתפרסם בשלושה ספרים (Document "
+        + "Management, Change Management (LO-ECH), Order BOMs (PP-BD-BOM)), ולכן 'ללא שינוי' נאמר על המשך פרסום "
+        + "התיעוד ולא על בדיקה בתחום תחזוקת מפעל או תעשיות תהליכיות. לא אותר עמוד SAP הקובע הסרה, הגבלה או "
+        + "החלפה של הטכניקה ב-S/4HANA. הסטטוס 'ללא שינוי' נכתב במובן הצר: נושא התיעוד של הטכניקה נשמר בין ECC "
+        + "ל-S/4HANA, ולא נבדקה כאן זמינותו של exit ספציפי בגרסה מותקנת. מה ש-SAP מתעדת תחת השם הזה שונה "
+        + "מ-Customer Exit: לפי ספר ה-BC סוג ה-Application-Specific User Exits הוא Modification, בעוד על "
+        + "Customer Exits נכתב באותו ספר 'They do not affect software updates'.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Enhancements Using User Exits (Document) | Order BOMs (PP-BD-BOM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af7b53c5551645ef806bdca5d990bac5/5fe6e4535dd4414de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "נושא התיעוד 'Enhancements Using User Exits (Document)' (loio 5fe6e4535dd4414de10000000a174cb4) מוחזר "
+          + "בשירות החיפוש תחת SAP S/4HANA On-Premise גרסה 2025 FPS01 בספר 'Order BOMs (PP-BD-BOM)', בספר 'Change "
+          + "Management (LO-ECH)' ובספר 'Document Management', וקובע: 'Unlike customer exits, you can use user "
+          + "exits to access program parts and data objects in the standard system', 'In Customizing for Document "
+          + "Management, you can use user exits to create enterprise-specific enhancements and extensions for "
+          + "editing documents' ו-'You can also use them to enhance the standard SAP system with "
+          + "enterprise-specific' (הסניפט נקטע כאן). אותו loio מוחזר גם תחת מוצר SAP ERP בתווית הגרסה '6.0 EHP8 "
+          + "Latest' (versionId 6.18.latest), בספר 'Bill of Material (PP-BD-BOM)', עם אותו נוסח סניפט. גוף העמוד "
+          + "לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction: "להתייחס ל-User Exit הקלאסי כמודיפיקציה: לפי ספר ה-BC סוג הטכניקה הוא Modification, ולכן קוד כזה נופל "
+        + "למסלול התאמת המודיפיקציות בהמרה (SPDD במהלך ההמרה, SPAU ו-SPAU_ENH אחריה), כפי שנושא Custom Code "
+        + "Adaptation שברשומת הראיה הרביעית קובע, ולא למסלול ההרחבות המנוהלות. את רשימת ה-User Exits של רכיב "
+        + "היישום יש לאתר ב-SAP Reference IMG כפי שמורה עמוד ה-BC (ב-SD: Sales and Distribution ואז System "
+        + "Modification ואז User exits). לפני שמייחסים הרחבה קיימת לטכניקה הזאת יש לאמת במערכת אם מדובר ב-User "
+        + "Exit או בהרחבת SMOD המנוהלת בפרויקט CMOD, שכן שני הסיווגים מעורבבים בנתוני הפרויקט. בתחזוקת מפעל "
+        + "ובתעשיות תהליכיות, כאשר התיעוד הנוכחי מציע לאותה הכרעה גם BAdI וגם user exit (למשל "
+        + "DI_WPS_PLANT_STORLOC מול CNEX0027), לבחור לפי עמוד התיעוד של אותו אובייקט ולאמת ב-SE18 או ב-SE80 "
+        + "לפני המימוש.",
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Application-Specific User Exits | Changing the SAP Standard (BC)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2b28ffa716c24348903f8ffbfeb81df8/bfec07a25db911d295ae0000e82de14a.html?locale=en-US&state=PRODUCTION&version=1709.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1709.latest",
+        accessedAt: DATE21,
+        claim: "עמוד ה-BC 'Application-Specific User Exits' בספר 'Changing the SAP Standard (BC)' תחת מוצר SAP "
+          + "S/4HANA On-Premise (גרסה 1709 Latest, loio bfec07a25db911d295ae0000e82de14a) מציג את הטכניקה בטבלת "
+          + "מאפיינים שבה השדה 'Type (Behavior at Upgrade, Transport)' נושא את הערך 'Modification', ומגדיר: "
+          + "'Description of Function User exits allow you to add additional functions to the SAP standard'. "
+          + "באותה רשומה מופיעים גם 'Range (Validity) Throughout the entire system', 'Access in the System SAP "
+          + "Reference IMG', 'User exits are primarily used in the sales and distribution component' וכן 'You can "
+          + "find an overview of user exits as well as a description of those user exits that exist in SD in the "
+          + "SAP Reference IMG under Sales and Distribution System Modification User exits'. גוף העמוד לא נקרא; "
+          + "הטענה תחומה בכותרת ובסניפטים של שירות החיפוש הרשמי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enhancements Using User Exits (Document) | Order BOMs (PP-BD-BOM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af7b53c5551645ef806bdca5d990bac5/5fe6e4535dd4414de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "נושא התיעוד 'Enhancements Using User Exits (Document)' (loio 5fe6e4535dd4414de10000000a174cb4) מוחזר "
+          + "בשירות החיפוש תחת SAP S/4HANA On-Premise גרסה 2025 FPS01 בספר 'Order BOMs (PP-BD-BOM)', בספר 'Change "
+          + "Management (LO-ECH)' ובספר 'Document Management', וקובע: 'Unlike customer exits, you can use user "
+          + "exits to access program parts and data objects in the standard system', 'In Customizing for Document "
+          + "Management, you can use user exits to create enterprise-specific enhancements and extensions for "
+          + "editing documents' ו-'You can also use them to enhance the standard SAP system with "
+          + "enterprise-specific' (הסניפט נקטע כאן). אותו loio מוחזר גם תחת מוצר SAP ERP בתווית הגרסה '6.0 EHP8 "
+          + "Latest' (versionId 6.18.latest), בספר 'Bill of Material (PP-BD-BOM)', עם אותו נוסח סניפט. גוף העמוד "
+          + "לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Creating a PM/CS Order Referencing a Central Task List | Maintenance Planning (CS-AG/PM-PRM-MP)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f7d969cde600466b96094e772632c3f3/f271ed1433b148248e4637d2fb7ee2aa.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד תכנון התחזוקה 'Creating a PM/CS Order Referencing a Central Task List' (ספר Maintenance "
+          + "Planning (CS-AG/PM-PRM-MP), SAP S/4HANA On-Premise 2025 FPS01, loio "
+          + "f271ed1433b148248e4637d2fb7ee2aa) מוחזר בשירות החיפוש עם הכותרת 'User Exit CNEX0027' ועם המשפטים "
+          + "'You can use the user exit CNEX0027 to perform a plant determination or a storage location "
+          + "determination for a component' ו-'Determination of Plant and Storage Location for Components in Task "
+          + "Lists You can use the Business Add-In (BAdI) DI_WPS_PLANT_STORLOC or the user exit CNEX0027 to "
+          + "implement your own customer-specific logic' (הסניפט ממשיך ב-'Note The BAdI DI_WPS_PLANT_STORLOC is' "
+          + "ונקטע שם). הטענה התחומה: בתיעוד תחזוקת המפעל של גרסת 2025 FPS01 מוצע user exit כאפשרות מימוש לצד "
+          + "BAdI. בסניפטים שהוחזרו לא הופיע סיווג של CNEX0027 כ-Modification ולא הפניה ל-SMOD או ל-CMOD, אך גוף "
+          + "העמוד לא נקרא ולכן אין כאן קביעה על תוכנו המלא. שני עמודים נוספים באותה גרסה ובאותו ספר מצמידים את "
+          + "אותו user exit ל-BAdI: 'Storage Location Determination for Components' (loio "
+          + "95139a0602af4c26a3e4a5a6a782356a) חוזר על הזיווג עם DI_WPS_PLANT_STORLOC ('You can implement the "
+          + "BAdI DI_WPS_PLANT_STORLOC or the user exit CNEX0027 to find a storage location according to your own "
+          + "logic'), ואילו 'Changing the Maintenance Location for an Existing PM/CS Order' (loio "
+          + "9da79ba177fa4a25beb8fbd30005bcd9) מצמיד אותו ל-BAdI אחר: 'You can use the Business Add-In (BAdI) "
+          + "CHANGE_PLANT_STORLOC or the user exit CNEX0027 to define how the system determines the valid plant "
+          + "and storage location for the components indicated in the task list'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Custom Code Adaptation | Conversion Guide for SAP S/4HANA 1709",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/1a8702ed544f46be9b339b44d4580b6b/5e291b03aba1415abc57d302896b950a.html?locale=en-US&state=PRODUCTION&version=1709.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1709.latest",
+        accessedAt: DATE21,
+        claim: "נושא 'Custom Code Adaptation' בספר 'Conversion Guide for SAP S/4HANA 1709' (loio "
+          + "5e291b03aba1415abc57d302896b950a) קובע: 'You need to adapt any modifications and enhancements using "
+          + "the standard transactions SPDD, SPAU and SPAU_ENH' ו-'Custom Code Adaptation After the Software "
+          + "Update Manager (SUM) has done the technical conversion, you can start adapting your custom code'. "
+          + "זהו המקור התחום להמלצת ההמרה שברשומה. שאילתה מסוננת לגרסה 2025.001 לא החזירה נושא מקביל, ולכן המקור "
+          + "נרשם בגרסה 1709 Latest כפי שהוא. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נתוני הפרויקט: גיליון Custom Code של חוברת PM מול קטלוג ההרחבות בשם ורשומות המושגים (סיווג סותר)",
+        product: "SAP ERP (ECC) / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "בתוך המאגר אותם אובייקטים מסווגים בשתי דרכים. גיליון ה-Custom Code שנגזר מחוברת ההגירה של תחזוקת "
+          + "מפעל מסווג 27 שורות כ-'User Exit'; עשרה מהשמות האלה מופיעים גם בקטלוג ההרחבות בשם, וכולם מסווגים שם "
+          + "'Customer Exit': ITOB0001, IEQM0001, PCSD0002, IMRC0001, QQMA0001, QQMA0014, IWO10009, IWO10012, "
+          + "IWO10018 ו-IPRM0001. בקטלוג עצמו יש 20 רשומות Customer Exit, 8 רשומות BAdI ורשומה אחת Enhancement "
+          + "Spot, ואפס רשומות מסוג 'User Exit', אף שהטיפוס ExitKind מגדיר את הערך וכותרת הקובץ היא 'User Exit / "
+          + "BAdI Center'. בנוסף, רשומת המושג user-exit מביאה 'EXIT_SAPL*' כדוגמה ל-User Exit, אף שמוסכמת השמות "
+          + "EXIT_ שייכת ל-Function Module Exits של Customer Exits לפי עמודי ה-BC, ורשומת הטכניקה מפנה לאימות "
+          + "ב-SMOD, שהיא טרנזקציית הרחבות ה-Customer Exit. המשפט 'נתמך אך לא מומלץ — Clean Core מעדיף "
+          + "BAdI/Extension Point' שברשומת הטכניקה לא נמצא באף עמוד SAP שאותר בסבב הזה.",
+        verificationLevel: "conflicting_sources",
+        repoRef: "data/sapData.pm.ts#customCode · data/exits.ts · data/concepts.ts#user-exit · data/enhancements.ts#user-exit",
+        conflictingEvidence: [
+          {
+            sourceType: "sap_help",
+            sourceTitle: "Enhancements to the SAP Standard with Customer Exits | Changing the SAP Standard (BC)",
+            url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2b28ffa716c24348903f8ffbfeb81df8/c81975d943b111d1896f0000e8322d00.html?locale=en-US&state=PRODUCTION&version=1709.latest",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "1709.latest",
+            accessedAt: DATE21,
+            claim: "באותו ספר BC, העמוד 'Enhancements to the SAP Standard with Customer Exits' (loio "
+              + "c81975d943b111d1896f0000e8322d00) מתאר מנגנון אחר: 'SAP creates customer exits for specific "
+              + "programs, screens, and menus within standard applications. These exits do not contain any "
+              + "functionality. Instead, the customer exits act as hooks', 'You can hang your own add-on "
+              + "functionality onto these hooks', 'Customer exits are not available for all programs and screens "
+              + "found in the SAP System. You can only use customer exits if they already exist in the SAP System' "
+              + "ו-'They do not affect software updates'. ההפרש מול רשומת ה-User Exit באותו ספר, שסוגה "
+              + "'Modification', הוא הבסיס לסתירה מול סיווגי המאגר. גוף העמוד לא נקרא.",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+    ],
+    xrefs: [
+      "enh:technique:customer-exit",
+      "enh:technique:classic-badi",
+      "enh:technique:key-user-extensibility",
+      "enh:technique:vofm",
+      "enh:exit:ITOB0001",
+      "enh:exit:IEQM0001",
+      "tx:SE38",
+      "tx:SE80",
+      "tx:SPDD",
+      "tx:SPAU",
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה (2026-09-21): שאילתות חוזרות ב-scripts/sap-help-search.mjs מול המוצרים SAP_S4HANA_ON-PREMISE "
+      + "ו-SAP_ERP, ובהן שאילתות מסוננות לגרסה 2025.001, חיפוש רשת אחד מוגבל ל-help.sap.com, ומסמך PDF רשמי "
+      + "אחד שהורד ונסרק: 'Custom Code Migration Guide for SAP S/4HANA 2025 Feature Package Stack 01' (How-to "
+      + "Guide, PUBLIC, 2026-02-25). הסעיף 'Running Transactions SPDD, SPAU, and SPAU_ENH' (עמוד 63 לפי תוכן "
+      + "העניינים) נקרא ככתבו: 'SAP provides the adjustment tools SPDD, SPAU, and SPAU_ENH, which enable you "
+      + "to reimplement any modifications related to ABAP Dictionary objects and development objects (such as "
+      + "programs, function modules, screens, interfaces, and documentation) in system upgrades', והוא מפנה "
+      + "את הקורא ל-Product Assistance של S/4HANA On-Premise בנתיב שמסתיים ב-'Changing the SAP Standard (BC)' "
+      + "וכן לפתק SAP שמספרו 2168190, כפי שהוא מופיע באותו סעיף של המדריך. הפתק עצמו לא נפתח (נדרשת הזדהות "
+      + "S-user), ולכן מספרו נרשם בהערות בלבד ולא כשדה sapNote. המדריך אינו מצוטט כרשומת ראיה משום שלא נרשמה "
+      + "לו כתובת קבועה מותרת; במקומו נוספה רשומת ראיה רביעית, נושא 'Custom Code Adaptation' מתוך Conversion "
+      + "Guide for SAP S/4HANA 1709, שנושא את אותו משפט על SPDD, SPAU ו-SPAU_ENH ושכתובתו ב-help.sap.com "
+      + "נבדקה. מה שאומת: השם ש-SAP משתמשת בו לטכניקה ('Application-Specific User Exits'), סיווגה "
+      + "כ-Modification, מקום הגישה (SAP Reference IMG), מוקד השימוש ב-SD, ההבחנה המפורשת מול Customer Exits "
+      + "בשתי גרסאות (1709 Latest ו-2025 FPS01), והמשך התיעוד של הטכניקה בגרסת 2025 FPS01 בתחום תחזוקת המפעל. "
+      + "מה שלא אומת: שמות של User Exits קלאסיים בתעשיות תהליכיות (אף שאילתה לא החזירה עמוד PP-PI הנוקב בשם "
+      + "user exit קלאסי, וממצא זה תחום בשאילתות שהורצו ואינו טענת אי-קיום); רשימת ה-includes מסוג MV או "
+      + "SAPMV שברשומת המאגר; הדרישה ל-Access Key; מעמדה של הטכניקה ב-S/4HANA Cloud Public Edition; ותוכנו של "
+      + "הפתק 2168190. הערת גרסה והיקף: ספר 'Changing the SAP Standard (BC)' מוחזר תחת מוצר S/4HANA "
+      + "On-Premise בגרסה 1709 Latest בלבד, ולא נמצאה לו גרסה 2025.001 בשאילתה המסוננת; מנגד מדריך Custom "
+      + "Code Migration של 2025 FPS01 עדיין מפנה אליו, ולכן צוטט כפי שהוא. הנושא היחיד הנושא את השם 'User "
+      + "Exits' שאותר בגרסת 2025.001 הוא נושא של ניהול מסמכים (DMS) המתפרסם בשלושה ספרים, ולכן הסטטוס 'ללא "
+      + "שינוי' מתייחס להמשך פרסום התיעוד של הטכניקה ולא לבדיקה בתחום תחזוקת מפעל או תעשיות תהליכיות. סתירה "
+      + "פתוחה: הסיווג הכפול של אותם אובייקטים בין גיליון ה-Custom Code של חוברת PM (27 שורות 'User Exit') "
+      + "לבין קטלוג ההרחבות בשם (עשרה שמות חופפים, כולם 'Customer Exit'), יחד עם הדוגמה 'EXIT_SAPL*' וההפניה "
+      + "ל-SMOD ברשומות המושג והטכניקה. הסתירה נרשמה כרשומת ראיה מסוג repository ברמת 'מקורות סותרים', והיא "
+      + "מושכת את רמת הרשומה כולה לשם. ראוי לציין ש-SAP עצמה משתמשת במונח 'user exit' באופן רחב בעמודי תחזוקת "
+      + "מפעל של 2025 FPS01 (CNEX0027), ולכן הערבוב במאגר משקף גם שימוש רופף במקור; ספר ה-BC, לעומת זאת, "
+      + "מבחין בין שני המנגנונים במפורש. הפער הנגזר: הסטטוס שהאפליקציה מציגה היום לרשומה זו הוא 'משתנה "
+      + "ב-S/4HANA', שנגזר על ידי fromEccS4Block מזוג המשפטים ecc/s4 ברשומת הטכניקה; המשפט 'נתמך אך לא מומלץ "
+      + "— Clean Core מעדיף BAdI/Extension Point' אינו נתמך במקור SAP שאותר, ולכן הסטטוס המחובר כאן שונה "
+      + "ממנו. הערת קטלוג נוספת: קטלוג ההרחבות בשם אינו מכיל אף רשומה מסוג 'User Exit', ולכן דף הטכניקה מציג "
+      + "אפס הרחבות בשם משויכות. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמה בכל קבצי data/verification/**. "
+      + "ה-MCP ל-ABAP לא היה זמין בסשן; בדיקת SMOD, SE38, SE18 או SPAU במערכת חיה לא בוצעה.",
   },
 ];
