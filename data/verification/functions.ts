@@ -30,10 +30,20 @@
    contradicts itself about whether the name exists at all (the measurement-id
    treatment). One KBA number is carried (3379615 on SAVE, read from its public
    preview, cited by its me.sap.com/notes url). None claims a successor. 0 refuted.
+   Functions batch 6 (2026-09-22): 4 more audited records - BAPI_BUPA_CREATE_FROM_DATA
+   (business partner creation, cross-module), BAPI_GOODSMVT_GETDETAIL (material
+   document read), BAPI_CENTRAL_CHARACT_CREATE and BAPI_EQMT_INSTALL. Two carry
+   released_api_available on a documented OData alternative (Business Partner (A2X)
+   for BUPA, Read Material Documents for GOODSMVT_GETDETAIL); the two contested
+   names stay verification_required at conflicting_sources because the repository
+   contradicts itself about whether the name exists at all (the measurement-id
+   treatment). One SAP Note number is carried (2265093 on BUPA, read from the
+   Simplification List text and the blueprints, on the repository claim with a
+   repoRef). None claims a successor. 0 refuted.
    Tier-1 evidence comes from
    help.sap.com search records (scripts/sap-help-search.mjs; loio + versionId
    re-verified live), from the fully-read Simplification List PDF, from the
-   fully-read ECC 6.0 EHP3 Release Notes PDF and from
+   fully-read ECC 6.0 EHP3 and EHP5 Release Notes PDFs and from
    three fully-read static NetWeaver documentation pages (help.sap.com/doc/saphelp_*); api.sap.com is cited only by
    the title a domain-restricted search returned; Tier-2 is the named
    repository record. Every claim is bounded by the snippet, the fully-read
@@ -46,6 +56,7 @@ const DATE = "2026-09-01";
 const DATE2 = "2026-09-02";
 const DATE14 = "2026-09-14";
 const DATE21 = "2026-09-21";
+const DATE22 = "2026-09-22";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -375,6 +386,61 @@ const ALM_ORDER_READ_ALL_V2: Evidence = {
          "recommend that you switch to the following successor API as soon as possible: Maintenance Order " +
          "(Version 2) (API_MaintenanceOrder_002)'; הצהרת יורש זו נוגעת לגרסה 1 מול גרסה 2 של שירות ה-OData, לא " +
          "ל-BAPI. אף אחת מהרשומות אינה נוקבת בשם BAPI_ALM_ORDERHEAD_GET_LIST.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_BUPA_CREATE_FROM_DATA: the Business Partner (A2X) OData service page (also its status source). */
+const BP_A2X_API: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Business Partner (A2X) | APIs for Business Partner",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/44e06f22436c43e582db6ccd5250e29b/85043858ea0f9244e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE22,
+  claim: "עמוד Business Partner (A2X) בחוברת APIs for Business Partner לגרסת 2025 FPS01 נוקב בסניפט: 'Business " +
+         "Partner (A2X) Use Technical name: API_BUSINESS_PARTNER This service enables you to create, display, " +
+         "update, and delete (CRUD) data related to Business Partner, Supplier, and Customer with', ובטבלת " +
+         "הישויות: 'Business partner Supported: CREATE, READ, UPDATE' ו-'Business partner address Supported: " +
+         "CREATE, READ, UPDATE, DELETE'. זו חלופת OData מתועדת ליצירת שותף עסקי, ספק ולקוח ב-S/4HANA " +
+         "On-Premise. הסניפט אינו מזכיר את ה-BAPI, אינו מציג אותו כמוחלף ואינו נוקב במילה released.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_GOODSMVT_GETDETAIL: the Read Material Documents operation page (also its status source). */
+const MATDOC_READ_API: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Read Material Documents | APIs for Inventory",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/eb2a39dd0c124fed8252f684002d55e1/78f5a8461d554cc38b3af2d07d6f9c8e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE22,
+  claim: "פעולת הקריאה של שירות ה-OData למסמכי חומר מתועדת למהדורת On-Premise 2025 FPS01 במדריך APIs for " +
+         "Inventory: 'To read material documents, you use the http method GET on the A_MaterialDocumentHeader " +
+         "or the A_MaterialDocumentItem entity ... With this operation, you can retrieve material documents as " +
+         "follows: Request material documents or items by using their keys Use system query options to filter " +
+         "a collection of material documents or items', עם הדוגמה 'GET " +
+         "<host>/sap/opu/odata/sap/API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentItem?' ו-'the GET request needs " +
+         "to be based on the material document item entity (A_MaterialDocumentItem)'. רשומות נוספות מאותו " +
+         "מדריך ואותה מהדורה: 'Material Documents - Read, Create' ‏(loio d4c919581bc30a02e10000000a44147b): " +
+         "'Technical name: API_MATERIAL_DOCUMENT ... This service enables the following operations for " +
+         "material documents: Retrieve material documents Create material documents Cancel material documents " +
+         "at header level Cancel material documents at [item level]' ו-'Depending on the operation, material " +
+         "document header and item detail data is sent in the response'; 'Operations for Material Document " +
+         "API' ‏(loio 1aef4e402acd4c8b8ec2ea2bfda7715b): 'Read Material Documents GET GET " +
+         "<host>/sap/opu/odata/sap/API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentHeader'; 'Cancel Material " +
+         "Documents at Item Level' ‏(loio 2b1124c6321a47559518f5b5bdc1db72): 'To cancel a material document at " +
+         "item level, you use the http method POST to call the CancelItem function import' ו-'The new material " +
+         "document includes the ReversedMaterialDocument, ReversedMaterialYear and ReversedMaterialItem " +
+         "properties to refer to the material document item that was canceled'; מפתח הכותרת " +
+         "MaterialDocumentYear ו-MaterialDocument מופיע בתקציר 'Cancel Material Documents at Header Level' " +
+         "‏(loio 3ffc5cb1a13a43928313477bf5bc98dd): " +
+         "'/A_MaterialDocumentHeader(MaterialDocumentYear='2017',MaterialDocument='5000021256')'. אף אחת " +
+         "מהרשומות אינה נוקבת ב-BAPI_GOODSMVT_GETDETAIL ואינה מציגה את השירות כמחליף שלו; הן מתעדות חלופת " +
+         "OData לקריאת מסמכי חומר לצד ה-BAPI.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -6686,5 +6752,868 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "שזהו תיעוד NetWeaver מתקופת Business Suite ולא תיעוד S/4HANA. (13) מהדורות Cloud לא נבדקו מעבר " +
       "לשאילתת השם המדויק תחת SAP_S4HANA_CLOUD, שהחזירה רשומה אחת זרה לנושא עם תקציר ריק; תמיכת Cloud " +
       "ברשומת המאגר נשארת 'unknown'.",
+  },
+
+  /* ----------------------------- fm:BAPI_BUPA_CREATE_FROM_DATA */
+  {
+    id: "fm:BAPI_BUPA_CREATE_FROM_DATA",
+    aliases: ["BAPI_BUPA_CREATE_FROM_DATA - יצירת שותף עסקי"],
+    evidence: [
+      BP_A2X_API,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Editing Business Partner Data | SAP Business Partner",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/74b0b157c81944ffaac6ebc07245b9dc/64af8d5377a0ec23e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד Editing Business Partner Data בחוברת SAP Business Partner לגרסת 2025 FPS01 קובע בסניפט: 'You " +
+               "can create, edit, and manage business partners, and integrate them with other functions' ו-'You can " +
+               "use the following channels: Dialog (SAP GUI) Business Application Programming Interfaces (BAPIs) " +
+               "Central API', וכן 'Creating business partners Depending on the settings made in Customizing and the " +
+               "role selected, different tab pages and data are available to edit business partners'. כלומר ערוץ " +
+               "ה-BAPI ליצירה ולעריכה של שותף עסקי מתועד בגרסה זו לצד הדיאלוג וה-Central API. הסניפט אינו נוקב בשם " +
+               "של BAPI מסוים ואינו מונה את המודולים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "User Exit CACS3000: Role Determinat.for New BP Through HR Compar. | Incentive and Sales Force " +
+                     "Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/71aa2fd6b79b47beac41cfc05182a54c/5571cb53f0f67314e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד User Exit CACS3000 בחוברת Incentive and Sales Force Management לגרסת 2025 FPS01 נוקב בסניפט: " +
+               "'You can create a business partner with the BAPI CreateFromData of the business object Business " +
+               "Partner', 'The additional roles are added to the newly created business partner with the BAPI " +
+               "AddRole' ו-'The HR data that is read is imported to the corresponding BAPI structures (basic data, " +
+               "personal data, address data, telephone of employee, e-mail and bank details)'. זהו התיעוד הרשמי " +
+               "הקרוב ביותר שנמצא למודול: שיטת ה-BOR‏ CreateFromData של אובייקט Business Partner מתועדת בגרסת 2025 " +
+               "FPS01 כדרך ליצירת שותף עסקי. הסניפט אינו מדפיס את השם הטכני BAPI_BUPA_CREATE_FROM_DATA; הזיהוי בין " +
+               "השיטה לבין מודול הפונקציה הוא ידע מקצועי ונשאר לאימות ב-BAPI Explorer במערכת היעד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+                     "Edition 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner Approach (LO-MD-BP, pp. " +
+                     "136-140)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE22,
+        claim: "מסמך רשימת הפישוט הרשמי SIMPL_OP2025.pdf (Document Version 1.36, 1,514 עמודים, 10,585,218 בתים; " +
+               "הכתובת נבדקה ב-2026-09-22 ומחזירה HTTP 200 עם content-length זהה לקובץ שנשמר) חולץ לטקסט מלא " +
+               "(pdftotext -layout, 70,529 שורות) ונסרק. המחרוזת BAPI_BUPA_CREATE_FROM_DATA אינה מופיעה בו ולו פעם " +
+               "אחת; ה-BAPI-ים היחידים ממשפחת BUPA שהמסמך נוקב בהם הם BAPI_BUPA_CREDIT_STANDING_GET/SET (עמ' 130, " +
+               "פריט של SAP Business Partner for Financial Services) ו-BAPI_BUPA_ROLE_ADD_2 (עמ' 1082, פריט 13.3.1 " +
+               "S4TWL - Business User integration of BPs with user name and personal number, רכיב FS-BP). פריט " +
+               "5.1.27 S4TWL - Business Partner Approach (רכיב יישום LO-MD-BP, Business Impact Note 0002265093, עמ' " +
+               "136 עד 140) קובע: 'In SAP S/4HANA, Business Partner is the leading object and single entry point to " +
+               "maintain Business Partner, Customer and Supplier (formerly known as Vendor) master data' ו-'Only SAP " +
+               "Business Suite customer with CVI in place can move to SAP S/4HANA (Conversion approach). It is " +
+               "recommended but not mandatory that BuPa ID and Customer-ID / Vendor ID are the same', וכן: 'The user " +
+               "interface for SAP S/4HANA is transaction BP. There is no specific user interface for customer/vendor " +
+               "like known from SAP Business Suite (the specific transactions like XD01, XD02, XD03 or VD01, VD02, " +
+               "VD03/XK01, XK02, XK03 or MK01, MK02, MK03, etc. are not available in SAP S/4HANA. These will be " +
+               "redirected to transaction BP.)', ומפנה לבדיקת העקביות CVI_MIGRATION_PRECHK, לסנכרון דרך " +
+               "Synchronization Cockpit‏ (MDS_LOAD_COCKPIT) ולעיבוד המשך דו-כיווני בין שותף עסקי ללקוח/ספק. הממצא " +
+               "השלילי תחום לטקסט המחולץ של מסמך זה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (PP-PI, שותף עסקי), שכבת הסריקה ושורות BUT000 בשתי החוברות",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        sapNote: "2265093",
+        claim: "רשומת המאגר data/function-intel.ts מתארת את המודול (מודול PP-PI, תחום תהליך 'שותף עסקי (BP)') כיצירת " +
+               "שותף עסקי מנתונים: קלט חובה PARTNERCATEGORY / CENTRALDATA / ADDRESSDATA, פלט BUSINESSPARTNER (מספר " +
+               "ה-BP שנוצר) ו-RETURN, שדה ECC 'BP קיים אך לקוח/ספק נוהלו בנפרד (XD01/XK01)', שדה S/4 'BP הוא הגישה " +
+               "היחידה (תהליך CVI חובה). חלופה: OData API_BUSINESS_PARTNER', כשלים אופייניים 'Number " +
+               "Range/Grouping', 'תפקיד חסר' ו-'ללא COMMIT', תלויות 'Grouping (BP)' ו-'CVI Customizing', וקישור ל-BP " +
+               "ול-BUT000; הרשומה אינה מסומנת inferred. שכבת הסריקה data/bapi-enrichment.sweep.ts רושמת 'יצירת שותף " +
+               "עסקי (SAP BP) מנתונים שסופקו. דורש COMMIT.' עם op Create, קטגוריה MasterData, RFC ו-COMMIT, אך " +
+               "הערכים verificationStatus 'verified-docs', eccSupport 'yes', s4OnPremSupport 'yes' ו-stability " +
+               "'Released' הם ברירות המחדל של פונקציית העזר verified() ולא נתון ייחודי לרשומה, ומחרוזת המקור שלה " +
+               "נוקבת ב-'SAP Help Portal + SE37 metadata (sapdatasheet.org)' עם תאריך 2026-07-14 וללא URL, כלומר " +
+               "מראה של צד שלישי לצד הפורטל. שתי החוברות נושאות את המודול בשורת BUT000: PP-PI נושא 7 " +
+               "('BAPI_BUPA_CREATE_FROM_DATA - יצירת שותף עסקי', s4Note 'הוחלף - Business Partner חובה (CVI); ראה " +
+               "SAP Note 2265093.', helpLbl 'SAP Note 2265093 (BP)') ו-PM נושא 9 ('יצירת שותף עסקי'); שורת T134 " +
+               "בחוברת PP-PI נושאת אותו בטעות (נרשם בתור הטבלאות, אצווה 9). data/pm-master-data-facets.ts מונה אותו " +
+               "לצד BAPI_BUPA_CENTRAL_CHANGE בפאסט השותפים של תחזוקת מפעל. אף שכבה במאגר אינה נושאת URL רשמי הנוקב " +
+               "בשם המודול, ורשימת הפרמטרים לא אומתה מול מקור רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_BUPA_CREATE_FROM_DATA; " +
+                 "data/bapi-enrichment.sweep.ts#BAPI_BUPA_CREATE_FROM_DATA; data/sapData.pppi.ts#BUT000 (SAP Note " +
+                 "2265093 in s4Note/helpLbl); data/sapData.pm.ts#BUT000; data/pm-master-data-facets.ts (partner facet)",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "ערוץ ה-BAPI לנתוני שותף עסקי מתועד ב-S/4HANA On-Premise 2025 FPS01: עמוד Editing Business Partner " +
+          "Data מונה 'Dialog (SAP GUI) Business Application Programming Interfaces (BAPIs) Central API' כערוצי " +
+          "היצירה והעריכה, ועמוד User Exit CACS3000 באותה גרסה מתאר יצירת שותף עסקי 'with the BAPI " +
+          "CreateFromData of the business object Business Partner'. רשימת הפישוט של 2025 FPS01, שנקראה במלואה, " +
+          "אינה נוקבת ב-BAPI_BUPA_CREATE_FROM_DATA ואינה מציגה אותו כמוחלף, כמוגבל או כלא זמין; פריט הפישוט " +
+          "הרלוונטי, 5.1.27 Business Partner Approach, עוסק במודל הנתונים: השותף העסקי הוא האובייקט המוביל " +
+          "ונקודת הכניסה היחידה ללקוח ולספק, ו-CVI פעיל הוא תנאי להמרה, והטרנזקציות XD01, XK01 ו-MK01 מנותבות " +
+          "בו לטרנזקציה BP. במקביל קיימת חלופת API מתועדת: שירות ה-OData‏ Business Partner (A2X), שם טכני " +
+          "API_BUSINESS_PARTNER, ליצירה, הצגה, עדכון ומחיקה של שותף עסקי, ספק ולקוח. אף מקור רשמי שנמצא אינו " +
+          "מדפיס את השם הטכני של המודול, ולכן קיומו בגרסה בפועל, הפרמטרים שלו וסטטוס השחרור ברמת SE37 נשארים " +
+          "ברובד המאגר ודורשים אימות במערכת SAP; לא נמצא מקור המוציא אותו משימוש, ולכן אין יורש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: BP_A2X_API,
+      recommendedAction: "בתחזוקת מפעל ובתעשיות תהליכיות ספקים, קבלנים ואנשי קשר מוקמים ב-S/4HANA כשותף עסקי בטרנזקציה BP, ולא " +
+                         "ב-XK01 או XD01, ולכן ממשק שיוצר שותף עסקי חייב לעבוד מול מודל ה-BP, קבוצת המספרים (Grouping) ותפקידי " +
+                         "ה-BP שהוגדרו ב-CVI. לממשקים חדשים להעדיף את שירות ה-OData‏ Business Partner (A2X)‏ " +
+                         "(API_BUSINESS_PARTNER), שמתועד ליצירה ב-POST גם עם payload עמוק; להגירה ראשונית להשתמש באובייקטי " +
+                         "ההגירה של Migrate Your Data‏ (Business partner, Supplier), המבוססים על CMD_MIG_BP_CVI_CREATE, ולא " +
+                         "בקריאה ישירה ל-BAPI. בממשקים קיימים שממשיכים לקרוא ל-BAPI: לאמת במערכת היעד (SE37 או BAPI Explorer) " +
+                         "את קיום המודול, את מבנה הפרמטרים ואת דגל השחרור בגרסה בפועל, לוודא הגדרות CVI ו-Customizing של שותף " +
+                         "עסקי (קטגוריות תפקיד, טווחי מספרים), לקרוא ל-BAPI_TRANSACTION_COMMIT אחרי היצירה, ולבדוק את הרשומה " +
+                         "ב-BUT000 ואת הסנכרון ללקוח/ספק ב-Synchronization Cockpit‏ (MDS_LOAD_COCKPIT) לפני טעינה גדולה.",
+    },
+    xrefs: [
+      "tx:BP",
+      "table:BUT000",
+      "table:KNA1",
+      "table:EBAN",
+      "tx:XK01",
+      "tx:XD01",
+      "tx:MK01",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "fm:CVI_VENDOR_TO_BP_CONVERT",
+    ],
+    lastVerifiedAt: DATE22,
+    notes:
+      "ארבע הראיות הרשמיות נשלפו ב-2026-09-22 מ-scripts/sap-help-search.mjs --json (שלוש רשומות חיפוש) " +
+      "ומקובץ PDF רשמי שנקרא במלואו (רשימת הפישוט); ה-url, ה-loio וה-versionId של רשומות החיפוש הועתקו " +
+      "כלשונם מפלט ה-JSON. גופי עמודי help.sap.com הם מעטפת JavaScript ולא נקראו, ולכן כל טענה על עמוד נושא " +
+      "תחומה בכותרת ובסניפט של רשומת החיפוש בלבד. (1) השאילתות שבוצעו על מוצר SAP_S4HANA_ON-PREMISE: " +
+      "'BAPI_BUPA_CREATE_FROM_DATA' (6 רשומות, כולן עם סניפט ריק, אף כותרת אינה נוקבת בשם), השאילתה המדויקת " +
+      "'\"BAPI_BUPA_CREATE_FROM_DATA\"' (בהרצת הכותב 2 רשומות עם סניפט ריק: 'BAPI Objects' בחוברת Logistics - " +
+      "General, loio 6b81c1536ca9b54ce10000000a174cb4, ו-'Data Extraction' בחוברת Poland; בהרצת האימות של " +
+      "2026-09-22 הוחזרה רשומת 'BAPI Objects' בלבד; תוכנן לא נראה ולכן אינן ראיה), 'BUPA_CREATE_FROM_DATA', " +
+      "'BusinessPartner CreateFromData BAPI', 'Business Partner BAPI create BUPA', 'APIs for Business " +
+      "Partner Business Partner (A2X)', 'Business Partner (A2X)', 'API_BUSINESS_PARTNER', 'SAP Business " +
+      "Partner BAPIs business partner interfaces function modules', 'BADI_ICL_BP_OUT " +
+      "BAPI_BUPA_CREATE_FROM_DATA', 'BAPI_BUPA_CREATE_FROM_DATA BAPI_BUPA_CENTRAL_CHANGE RFC function " +
+      "module', 'CMD_MIG_BP_CVI_CREATE BAPI_BUPA_CREATE_FROM_DATA', 'Business Partner Approach " +
+      "(Customer/Supplier Integration)', 'Editing Business Partner Data BAPIs Central API SAP Business " +
+      "Partner', 'CreateFromData business object Business Partner BAPI roles', 'BAPI Objects Logistics " +
+      "General business partner', 'BAPI Objects BusinessPartner BUS1006 methods' ו-'business partner BAPIs " +
+      "BUS1006 CreateFromData'; על מוצר SAP_ERP: השם הטכני, השאילתה המדויקת, 'Business Partner BAPI " +
+      "CreateFromData business object' ו-'Editing Business Partner Data BAPIs Central API'; ובנוסף חיפוש " +
+      "רשת מוגבל לדומיינים help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap. " +
+      "אף סניפט רשמי אינו מדפיס את המחרוזת BAPI_BUPA_CREATE_FROM_DATA; הממצא השלילי תחום לשאילתות אלה ואינו " +
+      "טענה מוחלטת. (2) העמודים הרשמיים הקרובים ביותר שלא נכללו כראיה: 'BAdI: Business Partner Interface " +
+      "(BADI_ICL_BP_OUT)' בחוברת Claim (2025.001, loio 28fa4389ed2f4d1aad5d523db00056e1), שטבלת מיפוי ה-RFC " +
+      "שלו נוקבת באחים ממשפחת BUPA‏ BAPI_BUPA_CENTRAL_CHANGE ו-BAPI_BUPA_CENTRAL_GETDETAIL ('This BAPI is " +
+      "not called by RFC and is therefore not entered in Customizing') אך הסניפט אינו מציג את המודול הנדון; " +
+      "'BAPIs for Central Business Partner (IS-U)' בחוברת Master Data (2025.001, loio " +
+      "3771ce53118d4308e10000000a174cb4) הנוקב ב-UtilBusinessPartner.CreateFromData, שהוא אובייקט עסקי אחר " +
+      "של IS-U; ו-'Transfer data from external systems and source systems' בחוברת Business Partner for " +
+      "Financial Services (2025.001, loio 4e96edaa3b564cc7e10000000a42189d): 'You use the existing Business " +
+      "Application Programming Interfaces (BAPIs) for the business partner, which can be called from the " +
+      "Data Transfer Workbench' ו-'choose Goto BAPIs to Display All in BAPI Explorer'. (3) עמוד סטטי " +
+      "ומסמכים שנקראו במלואם לצורך ממצא שלילי: הערת השחרור 'Time Dependency of Central Business Partner " +
+      "Data (New)' בספריית saphelp_snc70 " +
+      "(help.sap.com/saphelp_snc70/helpdata/EN/f4/bc1c420d9ede2ce10000000a1550b0/content.htm, ‏27,567 בתים) " +
+      "נוקבת בשישה BAPI-ים ממשפחת BUPA‏ (CENTRAL_CHANGE, CENTRAL_GETDETAIL, CENTRAL_GETLIST, " +
+      "CENTRAL_MAINT_PERIOD, SEARCH, SEARCH_2) ולא במודול הנדון; קובץ PDF ב-help.sap.com שחיפוש הרשת העלה " +
+      "(SAP Policy Management 5.3 Installation Guide, 2016, 44 עמודים) הורד וחולץ לטקסט ואינו מכיל אף " +
+      "מחרוזת BAPI_BUPA; גם What's New 2025 FPS01‏ (WN_OP2025_FPS01_EN.pdf, טקסט שמור של 38,829 שורות) אינו " +
+      "מכיל אותה, ומזכיר את API_BUSINESS_PARTNER בלבד. (4) What's New: 'OData Service for Business Partner' " +
+      "בחוברת What's New in SAP S/4HANA 1709 (versionId '1709 000', loio 92f95cd638914ceeb977978961f235aa; " +
+      "כפילות תחת versionId 100, loio ee6086bd3ac74807a4bb78eea15624dc, שסניפטה קובע 'With the OData " +
+      "service for Business Partner (API_BUSINESS_PARTNER), you can create, display, update, and delete " +
+      "(CRUD) data related to Business Partner, Supplier, and'), 'OData API: Business Partner (A2X)' " +
+      "ב-What's New 2025 FPS01‏ (loio 518aa2698ad647b78334a3db58c6bd40, שדות חדשים לישות Customer) " +
+      "ו-'Duplicate Check Operation for OData API: Business Partner (A2X)' (loio " +
+      "4b293e7a8f724faea5fc81d329db5621, 'Technical Object Name API_BUSINESS_PARTNER Application Component " +
+      "LO-MD-BP-ODT'). אף אחת מהן אינה מזכירה את ה-BAPI. (5) חוברת APIs for Business Partner: עמוד הסקירה " +
+      "(2025.001, loio 9fca825858239244e10000000a4450e5) מונה 'Business Partner (A2X) IDocs DEBMAS and " +
+      "CREMAS' ושירותי SOAP‏ 'Business Partner - Replicate from Client' ו-'Business Partner - Replicate to " +
+      "Client' וקובע 'You can replicate Business Partner, Customer and Supplier master data to and from an " +
+      "external system such as SAP ERP that is connected to SAP S/4 HANA system'; 'Create Business Partner " +
+      "Data' (loio cfb5c8a12cd44100a9ea939ce6a23118): 'Sample URL: " +
+      "/sap/opu/odata/SAP/API_BUSINESS_PARTNER/A_BusinessPartner You can create master data records using " +
+      "POST request also with deep payload'; 'Operations in Business Partner' (loio " +
+      "4bf0db9c8cac4fbfa6846b1ca79341da): 'POST /sap/opu/odata/SAP/API_BUSINESS_PARTNER/A_BusinessPartner'. " +
+      "אלה חלופות מתועדות, לא יורש: אף עמוד אינו מציג את ה-BAPI כמוחלף. (6) חיפוש רשת מוגבל-דומיין החזיר את " +
+      "רישומי ה-Hub‏ 'Business Partner (A2X) API' בכתובת https://api.sap.com/api/API_BUSINESS_PARTNER/ " +
+      "ו-'Overview | Business Partner (A2X)' בכתובת " +
+      "https://api.sap.com/api/OP_API_BUSINESS_PARTNER_SRV/overview; הם לא נרשמו כראיה כי עמודי api.sap.com " +
+      "הם מעטפת ללא מפתח API לפי כללי ה-fallback של MANIFEST, ולכן גם אין כאן טענה על סטטוס שחרור של " +
+      "השירות. (7) הגירה: אובייקט ההגירה 'Business partner' (Data Migration, 2025.001, loio " +
+      "61bca3e722954443b88eee2839e41610) מציג 'Manage Business Partner Master Data (app ID F3163) " +
+      "CMD_MIG_BP_CVI_CREATE' ואובייקט 'Supplier' (loio db7415b7245c42f9889b6f7bacca5606) מציג 'Manage " +
+      "Supplier Master Data (app ID F1053A) CMD_MIG_BP_CVI_CREATE'; המזהים F3163 ו-F1053A אינם קיימים " +
+      "ב-data/fiori/apps.ts ולכן אין xref ל-Fiori, בעקביות עם רשומת table:BUT000. תצוגת ה-CDS‏ " +
+      "I_BusinessPartner (עמוד 'Business Partner' בחוברת Virtual Data Model and CDS Views, 2023.latest, " +
+      "loio 35a5898d9b584438abfc178650d12d50: 'CDS View Name I_BUSINESSPARTNER', 'Status Released') וסוגי " +
+      "ההודעה DEBMAS ו-CREMAS אינם ביקום המזהים של הפרויקט, ולכן נשארים בטקסט בלבד. (8) עמוד Business " +
+      "Partner Approach (Customer/Supplier Integration)‏ (SAP Business Partner, 2025.001, loio " +
+      "25b46c8241fd4852bf7876d87bed8fd0), העוגן של רשומת table:BUT000, נשלף שוב היום: 'primarily relevant " +
+      "to customers who are migrating from SAP ERP to SAP S/4HANA' ו-'You can process both " +
+      "Customer/Supplier master records from business partner maintenance, as well as maintain data from " +
+      "customer/supplier processing to the business partner'; לא נוסף כראיה חמישית כדי לשמור על ארבע ראיות " +
+      "עם URL, ואותה קביעה נישאת כאן בפריט 5.1.27 של רשימת הפישוט. תאומי ה-ECC של שני עמודי S/4HANA (SAP " +
+      "ERP 6.18.latest: CACS3000 באותו loio 5571cb53f0f67314e10000000a174cb4 עם אותו משפט על BAPI " +
+      "CreateFromData; Editing Business Partner Data באותו loio 64af8d5377a0ec23e10000000a174cb4 תחת חוברת " +
+      "SAP Business Partner for Financial Services) מראים שערוץ ה-BAPI ושיטת ה-BOR קדמו ל-S/4HANA ונמשכים " +
+      "בו. (9) רובד Tier-2 והסטטוס הנגזר: ללא סטטוס מחובר, components/neo-shell/reference/bapi-data.ts גוזר " +
+      "דרך fromFuncRegistry את הסטטוס 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', משום ששכבת " +
+      "הסריקה מסמנת verified-docs עם s4OnPremSupport 'yes'; שני הערכים הם ברירות מחדל של verified() ומחרוזת " +
+      "המקור שלהם נשענת גם על מראה צד שלישי (sapdatasheet.org) ללא URL, ולכן הסטטוס המחובר כאן מיישר את " +
+      "התצוגה עם התמונה הרשמית, כפי שנעשה ב-fm:BAPI_MATERIAL_SAVEDATA. רשומת function-intel משייכת את " +
+      "המודול למודול PP-PI, בעוד העמודים הרשמיים משייכים את השותף העסקי לרכיב LO-MD-BP; הוא חוצה-מודולים " +
+      "ומשרת גם את תחזוקת מפעל (ספקים בדרישות רכש, EBAN.FLIEF = BUT000.PARTNER בחוברת PM). שיוך המודול " +
+      "לשורת T134 בחוברת PP-PI הוא שגיאת חוברת שכבר נרשמה בתור הטבלאות (אצווה 9). (10) SAP Note 2265093 " +
+      "נקרא מטקסט רשימת הפישוט ומהחוברות; שדה sapNote הוזן רק בראיית המאגר (repoRef), כי me.sap.com דורש " +
+      "S-user וגוף ההערה, כולל מסמך BP_Conversion Document.pdf המצורף לה, לא נקרא. (11) מה חסר בדיוק: עמוד " +
+      "רשמי (help.sap.com, api.sap.com או SAP Note נגיש) המדפיס את השם הטכני BAPI_BUPA_CREATE_FROM_DATA, או " +
+      "בדיקת SE37 / BAPI Explorer במערכת SAP חיה לקיום המודול, לקבוצת הפונקציות, לדגל השחרור ולמבנה " +
+      "הפרמטרים (PARTNERCATEGORY, CENTRALDATA, ADDRESSDATA, BUSINESSPARTNER, RETURN); חיבור ה-MCP‏ sc4sap " +
+      "נכשל בסשן זה (Connection closed), ולכן לא בוצעה בדיקה חיה. (12) שדה reviewer אינו נכתב לפי מוסכמת " +
+      "הבית (אף רשומה ב-data/verification/functions.ts אינה נושאת אותו).",
+  },
+
+  /* ----------------------------- fm:BAPI_CENTRAL_CHARACT_CREATE */
+  {
+    id: "fm:BAPI_CENTRAL_CHARACT_CREATE",
+    aliases: ["BAPI_CENTRAL_CHARACT_CREATE"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic | Data Migration",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/48425c3cee4e45e7a82373753b7182dc.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד אובייקט המיגרציה הרשמי 'Characteristic' במדריך Data Migration למהדורת On-Premise‏ 2025 FPS01 " +
+               "(loio 48425c3cee4e45e7a82373753b7182dc, תאריך פרסום 2026-02-24) רושם בתקצירו: 'Function Module: " +
+               "CNV_PE_S4_CA_CHAR_CUD APIs/BAPIs BAPI_CHARACT_CREATE BAPI_CHARACT_CHANGE CTMV_CHARACT_CHANGE_KNOWL " +
+               "CTMV_CHARACT_CHANGE_KNOWL_VAL Accessing SAP Fiori Apps from the Migrate', ובריצה נוספת של אותה " +
+               "רשומה: 'Characteristic Name Characteristics, Display Characteristic, Manage Characteristics (app ID " +
+               "CT04) CNV_PE_S4_CA_CHAR_CUD APIs/BAPIs Used in Migration-Specific Function Modules'. כלומר ה-BAPI " +
+               "שהתיעוד הרשמי קושר ליצירה ולשינוי של מאפיין סיווג הוא BAPI_CHARACT_CREATE לצד BAPI_CHARACT_CHANGE, " +
+               "ואפליקציית התחזוקה הנקובה היא Manage Characteristics עם מזהה האפליקציה CT04. השם " +
+               "BAPI_CENTRAL_CHARACT_CREATE אינו מופיע בתקציר. התקציר אינו מונה פרמטרים של מודול פונקציה ואינו נוקב " +
+               "במעמד השחרור של ה-BAPI.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Data for Classification | APIs for Product Lifecycle Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9f047b05da4545ca8f9ebfc22acefd06/5c3fb6b558b1482491fd786ec7fa0c26.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד השירות הרשמי למהדורת On-Premise‏ 2025 FPS01 (loio 5c3fb6b558b1482491fd786ec7fa0c26, תאריך פרסום " +
+               "2026-02-24) קובע בתקצירו: 'Characteristic Data for Classification Technical name: " +
+               "API_CLFN_CHARACTERISTIC Create, read, update, and delete characteristic data with this synchronous " +
+               "inbound service', מוסיף 'Characteristics describe attributes of the objects to be classified. Using " +
+               "the API you can maintain characteristic header data, descriptions, references, restrictions and " +
+               "values', ומונה בטבלת הישויות 'A_ClfnCharacteristicForKeyDate Characteristic Header Classification " +
+               "Characteristic Header Data A_ClfnCharcDescForKeyDate Characteristic Description Classification'. זהו " +
+               "ערוץ OData מתועד ליצירת מאפיין סיווג ב-S/4HANA On-Premise. התקציר אינו נוקב בשם BAPI כלשהו, אינו " +
+               "נוקב במילה released ואינו מציג את השירות כמחליף של מודול פונקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 10.4.9 S4TWL - Classification " +
+                     "(CA-CL, pp. 927-929)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE22,
+        claim: "רשימת הפישוט של SAP S/4HANA 2025 FPS1 הורדה ב-2026-09-22 מהכתובת הזו (HTTP 200, ‏10,585,218 בתים, " +
+               "1,514 עמודים), חולצה לטקסט מלא (pdftotext -layout, ‏70,529 שורות) ונסרקה. חיפוש טקסט מלא על המחרוזות " +
+               "'CENTRAL_CHARACT', 'BAPI_CHARACT', 'CHARACT_CREATE', 'CABN' ו-'API_CLFN' מחזיר אפס מופעים בכל המסמך. " +
+               "פריט הפישוט של הסיווג, 10.4.9 S4TWL - Classification תחת רכיב היישום CA-CL (הערת Business Impact " +
+               "הנקובה במסמך: 0002267878), קובע: 'With SAP S/4HANA, on-premise edition 1511 transactions of the " +
+               "Classification are renovated so that transactions may have changed functionality or may be " +
+               "completely removed within SAP Product Lifecycle Management (SAP PLM)', ומונה ארבעה שינויים: 'User " +
+               "Defined Data Type (031) for characteristics has been removed', 'Rename Characteristic functionality " +
+               "has been disabled', 'Parameter Effectivity has been hidden' ו-'Due to security reasons batch import " +
+               "has been limited and batch import is possible only from presentation server'. בטבלת הטרנזקציות שאינן " +
+               "זמינות מאז 1511 מופיעים CT01 Create Characteristic, CT02 Change Characteristic, CT03 Display " +
+               "Characteristic, CT05 Create Characteristic ו-CT06 Display Characteristic, והחלופה הרשומה לכולם היא " +
+               "'CT04 Characteristics'; CT11 מוחלפת ב-CT12, ו-CL20, CL22 ו-CL24 מוחלפות ב-CL20N, CL22N ו-CL24N. " +
+               "הפעולה הנדרשת: 'No special actions required', ובשורת הקוד המותאם: 'SAP note: 2213569'. הפריט עוסק " +
+               "בטרנזקציות ובפונקציונליות מסך ואינו מזכיר BAPI, טבלה או שירות OData.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "שלוש רשומות מאגר סותרות לאותו שם: סריקת האימות של קטלוג ה-BAPI, קטלוג הפונקציות והבלופרינט של PP-PI",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim: "‏data/bapi-enrichment.sweep.ts מסמן לשם זה verificationStatus‏ 'invalid-name' ב-confidence‏ 'high', " +
+               "בנוסח 'אינו קיים בשם זה. ליצירת מאפיין סיווג השתמש ב-BAPI_CHARACT_CREATE (RFC משוחרר)', עם " +
+               "relatedObjects‏ ['BAPI_CHARACT_CREATE'] ובהערת ה-QA של פונקציית העזר invalid(): 'אומת מול מקורות SAP " +
+               "רשמיים: שם זה אינו אובייקט סטנדרטי. ראה החלופה המומלצת'; מקור האימות הרשום לפריט הוא 'SAP Help " +
+               "Portal + SE37 metadata (sapdatasheet.org)' בתאריך 2026-07-14, כלומר מראת מטא-נתונים חיצונית שאינה " +
+               "ברשימת ההיתר של הפרויקט, ללא URL. מנגד data/function-intel.ts רושם לאותו שם תיאור מלא ('יצירת מאפיין " +
+               "מרכזי (Characteristic) למערכת הסיווג'), פרמטר קלט CHARACTDETAIL ('שם, סוג נתונים, אורך'), טבלת קלט " +
+               "'CHARVALUESNUM/CHAR' ('ערכים מותרים'), שיוך ל-CT04 ולטבלת AUSP, ושדות 'זמין ב-ECC' ו'זמין ב-S/4HANA' " +
+               "בלי מקור. הדאטהסט המחולל של בלופרינט PP-PI (data/sapData.pppi.ts) מונה את השם במערך funcs של שתי " +
+               "טבלאות בהקשר QM ולא בהקשר סיווג: PLKO ('יצירת מאפיין בדיקה ראשי (QM)') ו-PLMK " +
+               "('BAPI_CENTRAL_CHARACT_CREATE - יצירת מאפיין בדיקה'), וזה מקור הרישום ביקום הפרויקט. " +
+               "audit/s4-enrichment/BASELINE.md מונה את השם בין 13 מזהי invalid-name שקטלוג הפונקציות סותר. שלוש " +
+               "הרשומות סותרות זו את זו בשאלת עצם קיום השם ובשאלת התחום העסקי שלו (מאפיין סיווג CA-CL מול מאפיין " +
+               "בדיקה ראשי QM), ואף אחת מהן אינה נסמכת על עמוד SAP רשמי.",
+        verificationLevel: "conflicting_sources",
+        repoRef: "data/bapi-enrichment.sweep.ts#BAPI_CENTRAL_CHARACT_CREATE; " +
+                 "data/function-intel.ts#BAPI_CENTRAL_CHARACT_CREATE; data/sapData.pppi.ts#PLKO,PLMK (funcs); " +
+                 "audit/s4-enrichment/BASELINE.md",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: "מודול הפונקציה רשום בקטלוג הפרויקט כערוץ ליצירת מאפיין (Characteristic) למערכת הסיווג, בזיקה ל-CT04 " +
+          "ולטבלת AUSP, ובבלופרינט PP-PI כיצירת מאפיין בדיקה ראשי (QM) לצד PLKO ו-PLMK, אך שם האובייקט עצמו לא " +
+          "אושר באף מקור SAP רשמי שנבדק: שאילתות על השם המדויק בשירות החיפוש של SAP Help (סקופ On-Premise, ‏ERP " +
+          "ו-Cloud, ‏2026-09-22) לא החזירו כותרת או תקציר הנוקבים בו, חיפוש רשת מוגבל לדומיינים הרשמיים לא " +
+          "החזיר אף עמוד הנוקב בשם (בין תוצאותיו עמודים על BAPI_CHARACT_CREATE ועמודים כלליים על BOR ועל " +
+          "פרמטרים סטנדרטיים של BAPI), וברשימת הפישוט 2025 FPS01 שנסרקה במלואה המחרוזת CENTRAL_CHARACT אינה " +
+          "מופיעה. התיעוד הרשמי של 2025 FPS01 נוקב בשני ערוצים אחרים ליצירת מאפיין סיווג: ה-BAPI‏ " +
+          "BAPI_CHARACT_CREATE, שאובייקט המיגרציה 'Characteristic' רושם בשורת ה-APIs/BAPIs שלו, ושירות ה-OData‏ " +
+          "API_CLFN_CHARACTERISTIC, שעמודו מתאר אותו כשירות נכנס סינכרוני ליצירה, קריאה, עדכון ומחיקה של נתוני " +
+          "מאפיין. סריקת האימות של המאגר מסמנת את השם invalid-name ומפנה ל-BAPI_CHARACT_CREATE, בעוד קטלוג " +
+          "הפונקציות והבלופרינט מציגים אותו כקיים, בשני תחומים עסקיים שונים; לכן הסטטוס נשאר פתוח עד בדיקה " +
+          "ב-SE37 או ב-BAPI Explorer במערכת היעד. לא נרשם יורש: BAPI_CHARACT_CREATE אינו מזהה ביקום הפרויקט, " +
+          "ואף מקור רשמי שנקרא אינו מציג את שירות ה-OData כמחליף של מודול פונקציה.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: "לפני שימוש בשם זה בקוד Z, בממשק או במסמך אפיון: לבדוק ב-SE37 או ב-BAPI Explorer במערכת ECC " +
+                         "וב-S/4HANA אם BAPI_CENTRAL_CHARACT_CREATE קיים כאובייקט סטנדרטי, ואם אינו קיים לתקן את ההפניה בקטלוג " +
+                         "הפונקציות ובבלופרינט. להכריע תחילה מהו הצורך העסקי: מאפיין סיווג (CA-CL, מתוחזק ב-CT04; טבלאות CABN " +
+                         "ו-CAWN לפי רשומות המאגר) או מאפיין בדיקה ראשי (QM, נוצר ב-QS21; אובייקט BOR‏ QPMK לפי דף המידע הרשמי " +
+                         "על העברת מאפייני בדיקה ראשיים). ליצירת מאפיין סיווג בממשק חדש להעדיף את שירות ה-OData‏ " +
+                         "API_CLFN_CHARACTERISTIC (Characteristic Data for Classification), ובטעינת נתונים ראשונית את אובייקט " +
+                         "המיגרציה הרשמי 'Characteristic', שהתיעוד רושם לו את BAPI_CHARACT_CREATE ו-BAPI_CHARACT_CHANGE בשורת " +
+                         "ה-APIs/BAPIs. לזכור שכתיבה דרך מודול פונקציה מחייבת COMMIT מפורש (BAPI_TRANSACTION_COMMIT), ושפריט " +
+                         "הפישוט 10.4.9 מסיר ב-S/4HANA את CT01, CT02, CT03, CT05 ו-CT06 לטובת CT04, מסיר את סוג הנתונים המותאם " +
+                         "031 ומשבית שינוי שם של מאפיין, כך שבדיקות של מאפיינים קיימים ייעשו מול CT04. אין להציג את השם כממשק " +
+                         "משוחרר כל עוד לא נמצא לו מקור רשמי או בדיקה במערכת.",
+    },
+    xrefs: [
+      "table:PLMK",
+      "table:PLKO",
+      "tx:CT04",
+      "tx:QS21",
+      "fm:BAPI_OBJCL_CREATE",
+      "fm:QPK1_INSPCHAR_READ",
+      "fm:BAPI_TRANSACTION_COMMIT",
+    ],
+    lastVerifiedAt: DATE22,
+    notes:
+      "שיטה: שלוש הראיות הרשמיות נשלפו ב-2026-09-22 (שעון מקומי; שדה accessedAt של הכלי מדפיס 2026-09-21 " +
+      "לפי UTC) מ-scripts/sap-help-search.mjs --json, וה-url, ה-loio וה-versionId הועתקו כלשונם מפלט " +
+      "ה-JSON; גופי עמודי help.sap.com הם מעטפת JavaScript ולא נקראו, ולכן כל טענה תחומה בכותרת ובתקציר של " +
+      "רשומת החיפוש, פרט לרשימת הפישוט שהורדה ונקראה בטקסט מלא. (1) הממצא השלילי המרכזי, תחום לשאילתות " +
+      "שבוצעו ואינו טענה מוחלטת: השם המדויק 'BAPI_CENTRAL_CHARACT_CREATE' החזיר בסקופ On-Premise שתי רשומות " +
+      "זרות לנושא עם תקציר ריק (Public Sector), בסקופ SAP_ERP שבע רשומות שאף אחת מהן אינה נוקבת בשם, ובסקופ " +
+      "SAP_S4HANA_CLOUD שלוש רשומות זרות לנושא; חיפוש רשת מוגבל ל-help.sap.com, api.sap.com, " +
+      "fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap לא החזיר אף עמוד הנוקב בשם; בין תוצאותיו עמודי " +
+      "SUPPORT_CONTENT על ה-BAPI האח, 'BAPI_CHARACT_CREATE - Create Characteristic' (sapclass/3363507392), " +
+      "'BAPI_CHARACT_CHANGE - Change Characteristic' (3363507389), 'BAPI_CHARACT_GETDETAIL' (3363507394), " +
+      "'Characteristics and Characteristics Values' (3363506311) ו-'CT04 - Characteristic Maintenance' " +
+      "(3363506306), לצד עמודים כלליים על ה-Business Object Repository, על OTR ועל פרמטרים סטנדרטיים של " +
+      "BAPI. עמודי ה-SUPPORT_CONTENT נמשכו ב-curl והם מעטפת JavaScript של 1,160 בתים עם כותרת גנרית, וכיוון " +
+      "שמקורם בתוכן ויקי תמיכה שהועבר לדומיין, רק כותרותיהם מרשימת החיפוש נרשמות כאן והם לא צוטטו כראיה. " +
+      "(2) רשימת הפישוט: אפס מופעים למחרוזות שנסרקו; שני פריטי CA-CL בלבד במסמך, 10.4.9 (הראיה השלישית) " +
+      "ו-10.4.12 S4TWL - Classification - Data Cleanup before Migration (עמ' 931, הערת Business Impact " +
+      "הנקובה במסמך 0002949845), הקובע שבהמרה ל-1909 ומעלה לוגיקת ההמרה הממלאת את הטבלה CLF_HDR מחייבת " +
+      "שטבלת INOB לא תכיל כפילויות ומפנה ל-SAP Note 2948953 לטיפול באי-עקביות; הפריט אינו נוגע ל-BAPI ולכן " +
+      "נרשם כאן בלבד. (3) ההיבט של QM: דף המידע הרשמי 'Information Sheet on Transferring QM Master " +
+      "Inspection Characteristics' (Quality Management, loio 7767b65334e6b54ce10000000a174cb4, ‏2025.001) " +
+      "מציג בתקצירו 'Name of business object (BOR object) QPMK', 'Business object method SaveReplica " +
+      "Message type QPMK IDoc type QPMK01' ואת הטבלאות הראשיות 'QPMK (master inspection characteristic) " +
+      "QPMT (short texts for master inspection characteristic)'; עמוד אובייקט המיגרציה 'QM - Master " +
+      "inspection characteristic' (Data Migration, loio ecc1d803a3ed4b948b8d30e96e55e479, ‏2025.001) נוקב " +
+      "באפליקציות 'Display Master Inspection Characteristic (F2219)' ו-'Create Master Inspection " +
+      "Characteristic (QS21)'. אף אחד משני העמודים אינו נוקב בשם BAPI_CENTRAL_CHARACT_CREATE, ולכן קריאת " +
+      "הבלופרינט ('יצירת מאפיין בדיקה ראשי (QM)') נשארת ללא מקור רשמי כמו קריאת קטלוג הפונקציות (מאפיין " +
+      "סיווג). F2219 אינו קיים ב-data/fiori/apps.ts ולכן אינו xref. (4) שירות ה-OData מתועד גם תחת מדריך " +
+      "Classification (CA-CL) בכותרת 'Characteristic Data for Classification - Create, Read, Update, " +
+      "Delete' (loio 30c05f971088481d8d9cd9b4350d2403, ‏2025.001, תקציר: 'Technical name: " +
+      "API_CLFN_CHARACTERISTIC This service enables you to create, read, update and delete characteristic " +
+      "data that is ... valid on a given date'), ורשומת What's New באותה כותרת קיימת במדריך 'What's New in " +
+      "SAP S/4HANA 1809' (loio ff52d2071e1a41239f1daf05e0b3d28a, ‏versionId 1809.000), כך שלפי אותה רשומה " +
+      "השירות מתועד מאז 1809. חיפוש הרשת החזיר גם את כתובת ה-Hub‏ " +
+      "api.sap.com/api/API_CLFN_CHARACTERISTIC_SRV/overview בכותרת 'Overview | Characteristic Data for " +
+      "Classification'; עמוד ה-Hub הוא מעטפת של 664 בתים ללא מפתח API, ולכן שם השירות המלא " +
+      "API_CLFN_CHARACTERISTIC_SRV, תרחיש התקשורת ונתיב השירות שהופיעו בסיכום מנוע החיפוש לא נרשמו כעובדה. " +
+      "(5) עמודי הרשימות של מדריך Logistics General (LO) לגרסת 2025.001: 'List of Available Function " +
+      "Groups' (loio 5f81c1536ca9b54ce10000000a174cb4) קובע 'The BAPIs for variant configuration and " +
+      "classification are in package CL' ו-'Function group CACL (Classification)'; 'List of Available " +
+      "BAPIs' (loio 7481c1536ca9b54ce10000000a174cb4) מציג בתקציריו את הקבוצה 'CACTM Group: Maintain " +
+      "Characteristics Data' עם CAMA_CHARACT_MAINTAIN ו-CAMA_CHARACT_SAVE ואת 'CACTR Group: Read " +
+      "Characteristics Data' עם CARD_CHARACTERISTIC_READ. אף תקציר אינו נוקב בשם הנבדק; קבוצת הפונקציות של " +
+      "BAPI_CHARACT_CREATE לא נראתה באף תקציר ולא נרשמה. (6) הסטטוס הנגזר שהאפליקציה מציגה לפני רשומה זו, " +
+      "לפי קריאת הקוד ולא ממדידה חיה: deriveRegistry ב-lib/bapi-registry.ts בונה את הרשומה ממערכי funcs של " +
+      "הבלופרינט (verificationStatus requires-verification, s4OnPremSupport unknown), הסריקה דורסת " +
+      "ל-invalid-name ב-confidence high, deriveStability מסמן 'Obsolete', ו-fromFuncRegistry " +
+      "ב-lib/evidence/s4-status.ts ממפה invalid-name ל-not_applicable ('לא רלוונטי') ברמת 'מאומת מול נתוני " +
+      "הפרויקט' עם ההסבר 'השם אינו אובייקט SAP תקני; תמיכה ב-S/4HANA On-Premise: לא צוין'. הסטטוס המחובר " +
+      "כאן, verification_required, מחליף את הנגזרת (pickStatus מעדיף טענה מחוברת), בהתאם לטיפול במזהי " +
+      "המדידה וההודעות בקבצי 4 ו-5: המאגר חלוק בשאלת עצם קיום השם, וזה נכתב כ-conflictingEvidence ולא רק " +
+      "כהערה. (7) שדות ה-ECC וה-S/4 של קטלוג הפונקציות ('זמין ב-ECC', 'זמין ב-S/4HANA') הם ללא מקור; שאילתת " +
+      "BAPI_CHARACT_CREATE בסקופ SAP_ERP לא החזירה אף רשומה הנוקבת אפילו ב-BAPI האח, ולכן גם זמינות ב-ECC " +
+      "לא אומתה. (8) xrefs: table:PLMK ו-table:PLKO לפי מערכי funcs של הבלופרינט (רשומת table:PLMK כבר מפנה " +
+      "לכאן); tx:CT04 לפי קטלוג הפונקציות, התקציר הרשמי 'Manage Characteristics (app ID CT04)' ופריט " +
+      "הפישוט; tx:QS21 לפי עמוד המיגרציה של QM ורשומת tx-intel QS21 ('יצירת מאפיין בדיקה ראשי'); " +
+      "fm:BAPI_OBJCL_CREATE כ-BAPI האח של הסיווג ביקום; fm:QPK1_INSPCHAR_READ הרשום לצד השם ב-PLMK; " +
+      "fm:BAPI_TRANSACTION_COMMIT לדרישת ה-COMMIT. אינם מזהים ביקום ולכן לא נרשמו: fm:BAPI_CHARACT_CREATE, " +
+      "fm:BAPI_CHARACT_CHANGE, table:CABN, table:CAWN, table:AUSP, table:QPMK, tx:CT01, tx:CT05, fiori " +
+      "F2219 ותצוגת CDS כלשהי לסיווג (אין כזו ב-cds של המניפסט); מכאן שלא נרשם successor. (9) לא נרשם מספר " +
+      "SAP Note או KBA בשדות הרשומה; המספרים בטענת רשימת הפישוט מצוטטים מטקסט ה-PDF כלשונם. (10) לא בוצעה " +
+      "בדיקה חיה במערכת SAP: חיבור ה-MCP‏ sc4sap נכשל בסשן זה, ולכן קיום המודול, קבוצת הפונקציות, הפרמטרים " +
+      "ומעמד השחרור ברמת SE37 נשארים לא מאומתים. נבדק בפועל: חיפושי help.sap.com בשלושה סקופים, חיפוש רשת " +
+      "בדומיינים הרשמיים, משיכת עמודי SUPPORT_CONTENT וה-Hub ב-curl, ורשימת הפישוט שהורדה ונסרקה במלואה. " +
+      "מבוסס על קובץ: רובד המאגר (סריקה, קטלוג פונקציות, בלופרינט, BASELINE). דורש אימות במערכת SAP: קיום " +
+      "המודול ופרמטריו. מהדורות Cloud לא נבדקו מעבר לשאילתת השם המדויק; תמיכת Cloud ברשומת המאגר נשארת " +
+      "unknown.",
+  },
+
+  /* ----------------------------- fm:BAPI_EQMT_INSTALL */
+  {
+    id: "fm:BAPI_EQMT_INSTALL",
+    aliases: ["BAPI_EQMT_INSTALLFL"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "APIs for Maintenance Management | APIs for Maintenance Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/13d40bd35fc74d289e81fc284a928448.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד הסקירה הרשמי של מדריך APIs for Maintenance Management למהדורת On-Premise‏ 2025 FPS01 קובע " +
+               "בתקצירו: 'An equipment can be installed or dismantled at functional locations', מונה בין יכולות " +
+               "שירות הציוד 'Mass create, read, and update equipment master data Install and dismantle equipment " +
+               "without data transfer Attach documents', ומפנה לנושא הקשור 'Install or Dismantle Equipment'. בהרצה " +
+               "נוספת של אותה רשומה התקציר מוסיף 'Equipment Technical name: API_EQUIPMENT An equipment is an asset " +
+               "or an individual object that can be maintained independently'. כלומר לתרחיש התקנה ופירוק של ציוד " +
+               "קיימת ב-2025 FPS01 יכולת מתועדת בשירות ה-OData‏ API_EQUIPMENT. התקציר אינו נוקב בשם " +
+               "BAPI_EQMT_INSTALL ואינו נוקב בשם BAPI כלשהו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Install Equipment at Functional Location | APIs for Maintenance Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/923c8b020caf441c8abca41c416501fd.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד הפעולה הרשמי למהדורת On-Premise‏ 2025 FPS01 מתעד את ה-Function Import להתקנת ציוד במיקום " +
+               "פונקציונלי. כלשון התקציר: 'Install Equipment at Functional Location Request You can include the " +
+               "following properties in the request's URL: Property Necessity Comment Equipment ValidityEndDate " +
+               "SuperordinateEquipment', ובדוגמה: 'Request POST - " +
+               "<host>/sap/opu/odata/sap/API_EQUIPMENT/InstallEquipment?' עם הפרמטרים " +
+               "'Equipment=%2710084475%27&ValidityEndDate=datetime%279999-12-31T00%3A00%27&FunctionalLocation=' " +
+               "בכתובת (התקציר נקטע אחרי FunctionalLocation=). זו פעולת ה-OData המתועדת לתרחיש שהרשומה מתארת; " +
+               "המאפיין SuperordinateEquipment מופיע ברשימת המאפיינים, אך עמודת Necessity אינה נראית בתקציר ולכן " +
+               "חובת כל מאפיין אינה נקבעת ממנו. העמוד אינו נוקב בשם BAPI_EQMT_INSTALL ולא בשם BAPI_EQUI_INSTALL.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Release-Informationen für Corporate Services, SAP-Erweiterungspaket 5 für SAP ERP 6.0 (What's New? " +
+                     "Release Notes), Kapitel_07__Corporate_ServicesD.PDF (PDF בגרמנית, 97 עמודים, נקרא במלואו)",
+        url:
+          "https://help.sap.com/doc/e0fcbcc544ee4985ab885b2667b3a336/6.05.16/de-DE/Kapitel_07__Corporate_ServicesD.PDF",
+        product: "SAP ERP 6.0 EHP5 (EA-PLM 605)",
+        edition: "ecc",
+        release: "6.05",
+        accessedAt: DATE22,
+        claim: "מסמך Release Notes רשמי של ECC 6.0 EHP5 שהורד ב-2026-09-22 ‏(HTTP 200, ‏708,093 בתים, 97 עמודים) " +
+               "וחולץ לטקסט מלא קובע בעמוד 15 של הקובץ (לפי ספירת עמודי ה-PDF; הכותרת מופיעה גם בתוכן העניינים בעמוד " +
+               "3) תחת הכותרת 'LOG_EAM_CI_4: BAPIs für den Ein- und Ausbau nicht serialisierter " +
+               "Stücklistenpositionen (Neu)': 'Ab SAP Erweiterungspaket 5 für SAP ERP 6.0, Enterprise Extension PLM " +
+               "(EA-PLM 605), Business Function LOG_EAM_CI_4, stehen die BAPIs BAPI_IE4N_BOM_REMOVE und " +
+               "BAPI_IE4N_BOM_INSTALL zur Verfügung', לפירוק ולהתקנה של חומר לא סידורי בכותרת עץ המוצר של ציוד 'ohne " +
+               "dass dazu Benutzeraktionen in Transaktion IE4N erforderlich sind'. ממצא שלילי התחום לאותה קריאה: " +
+               "שמות ה-BAPI היחידים בטקסט המסמך הם BAPI_ALM_ORDER_GET_DETAIL, ‏BAPI_ALM_ORDER_MAINTAIN, " +
+               "‏BAPI_IE4N_BOM_INSTALL ו-BAPI_IE4N_BOM_REMOVE; המחרוזות BAPI_EQMT_INSTALL, ‏BAPI_EQUI_INSTALL " +
+               "ו-BAPI_EQUI_DISMANTLE אינן מופיעות בו. מנוע החיפוש המוגבל ל-help.sap.com החזיר את המסמך לשאילתה " +
+               "המדויקת \"BAPI_EQUI_INSTALL\", אך זהו שיוך של המנוע ולא אזכור בטקסט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ארבע שכבות מאגר סותרות לאותו שם: סריקת האימות של קטלוג ה-BAPI, קטלוג הפונקציות, הדאטהסט המחולל של " +
+                     "בלופרינט PM ותוכן האקדמיה",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim: "‏data/bapi-enrichment.pm.ts מסמן לשם זה verificationStatus‏ 'invalid-name' ב-confidence‏ 'high', " +
+               "בנוסח 'אינו קיים. להתקנת ציוד השתמש ב-BAPI_EQUI_INSTALL (זוג: BAPI_EQUI_DISMANTLE)' ובהערת ה-QA " +
+               "'אומת: אינו אובייקט SAP סטנדרטי (לא נמצא ב-SE37). אין לפרסם כשם תקין'; מקור האימות הרשום שם הוא מראת " +
+               "מטא-נתונים של SE37 באתר חיצוני יחד עם SAP Community, ושניהם אינם ברשימת ההיתר של הפרויקט. מנגד " +
+               "data/function-intel.ts רושם לאותו שם רשומה מלאה שאינה מסומנת inferred: 'התקנת ציוד במיקום פונקציונלי " +
+               "/ ציוד-על', קלט EQUIPMENT (חובה) ו-'FUNCTLOC/SUPEQUI' (יעד התקנה), פלט RETURN, השדות 'זמין ב-ECC' " +
+               "ו-'זמין ב-S/4HANA (IE4N)' ללא מקור, וזיקה ל-IE4N, IE02, EQUI, ILOA ולתהליך PM-2. הדאטהסט המחולל של " +
+               "בלופרינט PM מונה את השם במערך funcs של טבלת EQUI ('התקנת ציוד במיקום/ציוד אב'), וזה מקור הרישום; " +
+               "data/domain-detail.ts מונה אותו בין פונקציות תחום הציוד; ושיעור האקדמיה המחולל של PM נוקב באיות " +
+               "שלישי, BAPI_EQMT_INSTALLFL ('התקנת ציוד במיקום/ציוד-אב'), תחת trust‏ 'verified-docs' ומקור טקסטואלי " +
+               "SAP Help Portal, Plant Maintenance (S/4HANA), ללא URL. השם שהמאגר מציג כנכון, BAPI_EQUI_INSTALL, " +
+               "קיים רק כתוספת PM ‏(PM_ADDITIONS) עם eccSupport‏ 'yes', s4OnPremSupport‏ 'yes' ו-'Released · RFC' " +
+               "מאותו מקור מראה חיצוני; רשומת ה-sweep שלו (תווית SAP Help Portal עם ציון verified 2026-07-15, ללא " +
+               "URL) אינה מגיעה לרשומה, כפי שנמדד היום בהרצת registry(): השורה נושאת את מקור התוספת ואת התאריך " +
+               "2026-07-14. השכבות סותרות זו את זו בשאלת עצם קיום השם, ואף אחת אינה נסמכת על עמוד SAP רשמי.",
+        verificationLevel: "conflicting_sources",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_EQMT_INSTALL; data/function-intel.ts#BAPI_EQMT_INSTALL; " +
+                 "data/sapData.pm.ts#EQUI (funcs); data/domain-detail.ts#pm-equipment; " +
+                 "data/academy/lessons/pm-generated.ts (BAPI_EQMT_INSTALLFL); " +
+                 "data/bapi-enrichment.pm.ts#BAPI_EQUI_INSTALL (PM_ADDITIONS)",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: "השם BAPI_EQMT_INSTALL רשום בקטלוג הפרויקט כערוץ להתקנת ציוד במיקום פונקציונלי או בציוד-על (תחזוקת " +
+          "מפעל), בזיקה ל-IE02, ל-IE4N ולטבלאות EQUI, EQUZ ו-ILOA, אך שם האובייקט עצמו לא אושר באף מקור SAP " +
+          "רשמי שנבדק: 21 שאילתות בשירות החיפוש של SAP Help ב-2026-09-22 (סקופ On-Premise ו-SAP ERP) לא החזירו " +
+          "כותרת או תקציר הנוקבים בו, ושני מסמכי Release Notes רשמיים של ECC 6.0 (EHP3 באנגלית, EHP5 בגרמנית) " +
+          "שחולצו לטקסט מלא אינם מכילים אותו. אותו ממצא שלילי חל גם על השם שהמאגר מציג כנכון, " +
+          "BAPI_EQUI_INSTALL, ועל בן זוגו BAPI_EQUI_DISMANTLE. התיעוד הרשמי של 2025 FPS01 מתעד לתרחיש עצמו " +
+          "חלופת OData: ה-Function Import‏ InstallEquipment של שירות API_EQUIPMENT (עמוד 'Install Equipment at " +
+          "Functional Location', עם המאפיינים Equipment, ValidityEndDate, SuperordinateEquipment " +
+          "ו-FunctionalLocation), ועמוד הסקירה של המדריך קובע 'Install and dismantle equipment without data " +
+          "transfer'. בתוך המאגר ארבע שכבות סותרות זו את זו בשאלת קיום השם (invalid-name מול רשומת תיאור מלאה, " +
+          "רישום בבלופרינט EQUI ואיות שלישי BAPI_EQMT_INSTALLFL באקדמיה), ולכן הסטטוס נשאר פתוח עד בדיקה ב-SE37 " +
+          "או ב-BAPI Explorer במערכת היעד.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: "לפני שימוש בשם זה בקוד Z, בממשק או במסמך אפיון: לבדוק ב-SE37 או ב-BAPI Explorer במערכת ECC " +
+                         "וב-S/4HANA אם BAPI_EQMT_INSTALL קיים כאובייקט סטנדרטי, ובאותה בדיקה לאמת גם את השם שהמאגר מציע " +
+                         "במקומו, BAPI_EQUI_INSTALL, ואת בן זוגו BAPI_EQUI_DISMANTLE, שגם להם לא נמצא מקור רשמי; אם השם אינו " +
+                         "קיים לתקן את ההפניה בכל ארבע שכבות המאגר (קטלוג הפונקציות, בלופרינט EQUI, domain-detail ושיעור " +
+                         "האקדמיה). להתקנת ציוד בממשק חדש להעדיף את ה-Function Import‏ InstallEquipment של שירות ה-OData‏ " +
+                         "API_EQUIPMENT (POST, עם Equipment, ValidityEndDate ויעד ההתקנה FunctionalLocation או " +
+                         "SuperordinateEquipment), ולפירוק את DismantleEquipment, שהתיעוד מציג אותו בעמוד Function Imports for " +
+                         "Equipment בגרסה 2023 בלבד. בעבודה ידנית להשתמש בפונקציות ההתקנה והפירוק שברשומת המיקום הפונקציונלי " +
+                         "או ברשומת הציוד (עמודי Technical Objects; במאגר: IE02) או ב-IE4N כשנדרשת תנועת סחורה. לאימות תפקודי " +
+                         "לבדוק שנוצרה רשומה חדשה ברשימת השימוש של הציוד (התיעוד הרשמי: \"creates a new entry in the equipment " +
+                         "usage list\"), שלפי רשומות המאגר של EQUZ ו-ILOA היא פלח זמן ב-EQUZ המפנה דרך ILOAN אל ILOA, ולזכור " +
+                         "שכתיבה דרך מודול פונקציה מחייבת BAPI_TRANSACTION_COMMIT מפורש. אין להציג את השם כממשק משוחרר כל עוד " +
+                         "לא נמצא לו מקור רשמי או בדיקה במערכת.",
+    },
+    xrefs: [
+      "fm:BAPI_EQUI_INSTALL",
+      "fm:BAPI_EQUI_CREATE",
+      "fm:BAPI_EQUI_CHANGE",
+      "fm:BAPI_EQUI_GETDETAIL",
+      "fm:EQUIPMENT_DISMANTLE",
+      "fm:EQUI_TIMESEGMENT_READ",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "table:EQUI",
+      "table:EQUZ",
+      "table:ILOA",
+      "table:IFLOT",
+      "tx:IE01",
+      "tx:IE02",
+      "tx:IE03",
+      "tx:IE4N",
+      "cds:I_Equipment",
+      "cds:I_EquipmentTimeSegment",
+      "cds:I_FunctionalLocation",
+      "enh:exit:IEQM0001",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE22,
+    notes:
+      "שיטה (2026-09-22): 21 שאילתות ב-scripts/sap-help-search.mjs, רובן תחת המוצר SAP_S4HANA_ON-PREMISE " +
+      "ושלוש תחת SAP_ERP, סביב השם עצמו, סביב BAPI_EQUI_INSTALL ו-BAPI_EQUI_DISMANTLE, סביב הפעולות " +
+      "InstallEquipment ו-DismantleEquipment של שירות API_EQUIPMENT, סביב עמודי Technical Objects להתקנה " +
+      "ופירוק, סביב IE4N, סביב What's New, סביב אובייקט המיגרציה 'PM - Equipment' וסביב האובייקט העסקי " +
+      "EquipmentPM; בתוספת שתי הרצות WebSearch מוגבלות ל-help.sap.com, api.sap.com, fioriappslibrary " +
+      "ו-fal.cloud.sap. ה-url, ה-loio וה-versionId של הראיות הרשמיות הועתקו כלשונם מפלט ה-JSON. גופי עמודי " +
+      "help.sap.com הם מעטפת JavaScript ולא נקראו, ולכן כל טענה מהם תחומה בכותרת ובתקציר של רשומת החיפוש; " +
+      "היוצאים מן הכלל הם ארבעה מסמכי PDF שהורדו וחולצו לטקסט מלא. עמוד ה-SUPPORT_CONTENT 'List of BAPI's' " +
+      "שהחיפוש החזיר נטען כמעטפת ריקה ואינו מצוטט. (1) הממצא השלילי על השם תחום לשאילתות ולמסמכים שנקראו " +
+      "ואינו הוכחת היעדר: שירות החיפוש של SAP Help אינו מתעד כל מודול פונקציה בשמו, ובדיקת SE37 במערכת חיה " +
+      "לא בוצעה (חיבור ה-MCP‏ sc4sap נכשל בפתיחת ההפעלה). השאילתה על השם המדויק החזירה בסקופ On-Premise תשע " +
+      "רשומות ובסקופ SAP ERP תשע רשומות, כולן ממדריכים אחרים וללא תקציר, ואף אחת אינה נוקבת בשם; " +
+      "'BAPI_EQUI_INSTALL' החזירה שש ועשר רשומות בהתאמה, אף אחת אינה נוקבת בשם; 'BAPI_EQUI_DISMANTLE' " +
+      "החזירה רשומה אחת בלבד (API Extensibility Enablement, מדריך אחר). הרכב התוצאות משתנה בין הרצה להרצה " +
+      "ולכן אינו נרשם כרשימה סגורה. (2) הסטטוס הנגזר שהאפליקציה מציגה היום, כפי שנמדד בהרצת " +
+      "fromFuncRegistry דרך scripts/alias-loader.mjs ב-2026-09-22: 'לא רלוונטי' ברמת 'מאומת מול נתוני " +
+      "הפרויקט', עם הנימוק 'לפי רישום אובייקטי הפונקציה של הפרויקט: השם אינו אובייקט SAP תקני; תמיכה " +
+      "ב-S/4HANA On-Premise: לא צוין' וההמלצה 'השם אינו אובייקט SAP תקני; לתקן את ההפניה במאגר'. הערכים " +
+      "שנכנסים למיפוי הם verificationStatus‏ 'invalid-name' מ-PM_ENRICHMENT ו-s4OnPremSupport‏ 'unknown' " +
+      "מהרשומה הנגזרת, שכן פונקציית העזר inv() אינה קובעת שדות תמיכה; אותה שורה נושאת עדיין את הטרנזקציות " +
+      "IE01, IE02, IE03, IH08, IE05 ואת טבלת EQUI מרשומת הבלופרינט הנגזרת, ואת stability‏ 'Released' שנגזר " +
+      "לפני החלת התיקון, סטייה פנימית שנמדדה ואינה מתוקנת כאן. רשומה זו מחליפה את התצוגה ב'נדרש אימות נוסף' " +
+      "ברמת 'מקורות סותרים', באותו דפוס שבו נכתבו BAPI_MEASUREMENTPOINT_CREATE, ‏BAPI_ALM_NOTIF_LIST_FILTER " +
+      "ו-BAPI_ALM_NOTIF_TASK_ADD: 'לא רלוונטי' ברמת מאגר מאומת הוא פסק דין חזק מדי לשם שהמאגר עצמו סותר את " +
+      "עצמו לגביו ושאין עליו מקור רשמי. (3) מדוע conflicting_sources ולא 'מאומת מול תיעוד SAP רשמי': שלוש " +
+      "הראיות הרשמיות מאמתות את ערוץ ה-OData להתקנת ציוד ב-2025 FPS01 ואת ה-BAPIs של IE4N ב-ECC 6.0 EHP5, " +
+      "לא את נושא הרשומה עצמו. (4) אין successor: אף מקור רשמי אינו מציג אובייקט כיורש של השם השנוי " +
+      "במחלוקת; שירות API_EQUIPMENT ופעולת InstallEquipment אינם מזהים ביקום הרשומות של הפרויקט " +
+      "(cds:I_Equipment היא תצוגת VDM ולא השירות); BAPI_EQUI_INSTALL קיים ביקום ונרשם כ-xref בלבד, מפני שאף " +
+      "עמוד SAP רשמי שנבדק אינו נוקב בשמו; BAPI_EQUI_DISMANTLE, ‏BAPI_IE4N_BOM_INSTALL " +
+      "ו-BAPI_IE4N_BOM_REMOVE אינם מזהים ביקום ולכן אינם xref. הכינוי BAPI_EQMT_INSTALLFL נרשם כ-alias כדי " +
+      "שאיות האקדמיה יגיע לרשומה זו, לא כאישור לקיומו. (5) עמוד 'Function Imports for Equipment' ‏(loio " +
+      "4373216a4f874dc1aa4b40b742998066) עלה בשש שאילתות, בכל שש ההרצות ב-versionId‏ 2023.latest ולא פעם " +
+      "אחת ב-2025.001, גם בשאילתה שננעלה ל---version 2025.001; תקציריו מציגים 'Install equipment with " +
+      "functional location POST - <host>/sap/opu/odata/sap/API_EQUIPMENT/InstallEquipment?', 'Install " +
+      "equipment with superordinate equipment POST' על אותו נתיב ו-'Dismantle equipment for functional " +
+      "location or superordinate equipment POST - " +
+      "<host>/sap/opu/odata/sap/API_EQUIPMENT/DismantleEquipment'. רשומת 'Equipment Events' במדריך ה-API " +
+      "‏(2023.latest, loio 2316c15a8dba438e9e9d1fa73e139174) ורשומת What's New של 2023 FPS03 ‏(loio " +
+      "7b5769ebec5b4b0b8727dea03e1cf8e9) נוקבות באירועים Equipment.InstdAtFuncLoc, DsmtldFrmFuncLoc, " +
+      "InstdOnSuprEquip ו-DsmtldFrmSuprEquip. כל אלה הקשר תומך ולא צורפו כראיה בגלל אי-התאמת הגרסה. (6) " +
+      "עמודי ההקשר התפקודי במדריך Technical Objects (CS-BD/PM-EQM) לגרסת 2025.001 שנראו: 'Installing " +
+      "Equipment' ‏(loio 0479bb53707db44ce10000000a174cb4), 'Installing/Dismantling from the Equipment " +
+      "Master Record' ‏(0d79bb53707db44ce10000000a174cb4), 'Installing/Dismantling Equipment from the " +
+      "Functional Location Master Record' ‏(0179bb53707db44ce10000000a174cb4), 'Installing Equipment in a " +
+      "Superior Piece of Equipment' ‏(2579bb53707db44ce10000000a174cb4), 'Installing Equipment with " +
+      "Simultaneous Material Movement' ‏(a47abb53707db44ce10000000a174cb4) ו-'Dismantling Equipment' " +
+      "‏(0779bb53707db44ce10000000a174cb4); אף תקציר אינו נוקב בשם BAPI או בקוד טרנזקציה. המשפט המצוטט " +
+      "בהמלצה, 'creates a new entry in the equipment usage list', נמדד בכתיבה ב-2026-09-22 בתקצירי שני " +
+      "עמודי Installing/Dismantling (loio 0d79bb53 ו-0179bb53, 2025.001) בנוסח המלא 'When you install a " +
+      "piece of equipment, the system - if it is set up accordingly - creates a new entry in the equipment " +
+      "usage list. This contains the current data for the piece of equipment'; יצירת הרשומה מותנית אפוא " +
+      "בהגדרות המערכת, ואף תקציר אינו נוקב בשמות הטבלאות EQUZ או ILOA. תצוגת ה-VDM‏ 'Equipment " +
+      "Install/Dismantle History' ‏(I_EquipInstallationHistoryC, ‏2023.latest, loio " +
+      "a18e976c8a244478a79e3b4177d525dc) אינה xref כי אין לה דף בדאטהסט. (7) מסמך ה-Release Notes של ECC " +
+      "6.0 EHP3 ‏(Chapter_03__Release_Notes_Corporate_ServicesE.PDF, זה שנקרא במלואו ברשומת " +
+      "BAPI_EQUI_CHANGE) הורד וחולץ שוב היום (HTTP 200, ‏279,538 בתים): הוא נוקב ב-BAPI_EQUI_CHANGE ובמשפחת " +
+      "BAPI_FUNCLOC_* של LOG_EAM_CI_2, ובכללם 'BAPI_FUNCLOC_STRUC_ASSIGN, BAPI_FUNCLOC_STRUC_UNASSIGN, " +
+      "BAPI_FUNCLOC_STRUC_REPLACE You can use these BAPIs to install, dismantle, or exchange a functional " +
+      "location at a superior functional location', כלומר התקנת מיקום פונקציונלי ולא ציוד; המחרוזות EQMT " +
+      "ו-EQUI_INSTALL אינן מופיעות בו. כתובת המקבילה האנגלית של מסמך EHP5 שנוחשה לפי דפוס הכתובת החזירה " +
+      "מעטפת HTML ולא מסמך, ולכן רק הגרסה הגרמנית מצוטטת. מדריך היישום של PEO ‏(2021) ומדריך ACF " +
+      "Integration Extensibility ‏(2211), שני PDF שהחיפוש החזיר לשם המדויק, הורדו ונסרקו: אינם מכילים EQMT " +
+      "או EQUI_INSTALL, וה-ACF נוקב רק ב-BAPI_ITOB_SEL_OBJECTTYPE ו-BAPI_ITOB_T_SEL_OBJECTTYPE. (8) שמות " +
+      "פרמטר יעד ההתקנה נכתבים בשלושה איותים במאגר, אף אחד לא אומת ב-SE37: 'FUNCTLOC/SUPEQUI' בקטלוג " +
+      "הפונקציות, 'FUNCLOC / SUPEQUI' בתוספת PM ו-'FUNCLOC / SUPERIOR_EQUIPMENT, INSTALL_DATE' ברשומת " +
+      "ה-sweep של BAPI_EQUI_INSTALL; הרשומה מצטטת ואינה מכריעה. זמינות ב-S/4HANA Cloud Public Edition לא " +
+      "נבדקה. אין xref לאפליקציית Fiori: הבלופרינט נוקב 'Manage Technical Objects (F2079)' " +
+      "ו-data/fiori/apps.ts נוקב F2730A, ואף מזהה לא אומת מול ספריית ה-Fiori; עמוד 'Find Technical Object' " +
+      "‏(Maintenance Management, 2025.001, loio 4dd5a057b76f9f2de10000000a44147b) מתאר התקנה ופירוק של ציוד " +
+      "משני עם כללי תאריך באפליקציה שמזהה שלה אינו בתקציר. מספר ה-KBA‏ 2878950 שמופיע בתקציר אובייקט " +
+      "המיגרציה 'PM - Equipment' אינו נרשם, כי אין לו כתובת me.sap.com או repoRef.",
+  },
+
+  /* ----------------------------- fm:BAPI_GOODSMVT_GETDETAIL */
+  {
+    id: "fm:BAPI_GOODSMVT_GETDETAIL",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "BAPIs/IDocs in SAP S/4HANA Cloud Public Edition | Extend and Integrate Your SAP S/4HANA Cloud Public " +
+                     "Edition",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_CLOUD/0f69f8fb28ac4bf48d2b57b9637e81fa/2cf48091d5864284ac4541b86a8737fd.html?locale=en-US&state=PRODUCTION&version=2608.500",
+        product: "SAP S/4HANA Cloud Public Edition",
+        edition: "public-cloud",
+        release: "2608.500",
+        accessedAt: DATE22,
+        claim: "תקציר העמוד למהדורת Public Edition 2608 נוקב בשם BAPI_GOODSMVT_GETDETAIL כלשונו בטבלת ה-BAPIs של " +
+               "העמוד (עמודות 'Technical Name Description Communication Scenario'), מיד אחרי השורה " +
+               "'BAPI_GOODSMVT_CREATE Goods Movement ‒ Create SAP_COM_0156, SAP_COM_0108'; פרגמנט אחר של אותו תקציר " +
+               "מציג את השורה 'Goods Movement ‒ Read SAP_COM_0108' מיד לפני 'BAPI_GOODSMVT_GETITEMS Goods Movement ‒ " +
+               "Read Items SAP_COM_0108, SAP_COM_0156', ולצדן 'BAPI_GOODSMVT_CANCEL Goods Movement ‒ Cancel " +
+               "SAP_COM_0108' וה-IDocs‏ MBGMCA ('Goods Movement ‒ Cancel SAP_COM_0108') ו-MBGMCR (התקציר נקטע אחרי " +
+               "'MBGMCR Goods', ולכן תיאורו לא נטען). העמוד פותח: 'You can use BAPIs (Business Application " +
+               "Programming Interface) and IDocs to connect business ... processes across your system landscape or " +
+               "to integrate SAP S/4HANA Cloud Public Edition with external systems' וקובע: 'The BAPIs and IDocs are " +
+               "part of predefined communication scenarios'. שיוך השורה 'Goods Movement ‒ Read / SAP_COM_0108' " +
+               "ל-BAPI_GOODSMVT_GETDETAIL נובע מסדר הטבלה (בין CREATE ל-GETITEMS) ולא מטקסט רציף בפרגמנט אחד. הרשומה " +
+               "מתעדת את מהדורת הענן הציבורי בלבד ואינה קובעת דבר על On-Premise.",
+        verificationLevel: "sap_official_verified",
+      },
+      MATDOC_READ_API,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Material Documents (MM-IM) | Supply Chain",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/677f0a4e71d7487ebb70683014761789/75bcb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "מודל הנתונים של מסמכי החומר ב-S/4HANA On-Premise 2025 FPS01: 'in the MM-IM area: There is a new " +
+               "single table MATDOC instead of the existing tables MKPF and MSEG', 'You use the archiving object " +
+               "MM_MATBEL to archive data from the following table: MATDOC (material documents)' ו-'The delete " +
+               "program deletes the archived material documents from the database table MATDOC'. רשומה נוספת מאותו " +
+               "חיפוש ואותה מהדורה, 'Purging and Precompacting of Material Document Data: Lifecycle Management' " +
+               "(Supply Chain, loio 7a29ed568b0c41828a4e2c8da9ae1082): 'Material document posting data is written in " +
+               "the table MATDOC which combines header as well as item [information]' ו-'The data in table MATDOC " +
+               "with RecordTypes MDOC and MDOC_CP represents material documents and is used first to display " +
+               "material document postings, for example, via SAP Fiori app Material Document Overview'. אף אחד משני " +
+               "העמודים אינו נוקב ב-BAPI; הקביעה שה-BAPI קורא נתונים שמקורם ב-MATDOC היא טענת מאגר.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט, רישום ה-BAPI המועשר (sweep) והבלופרינט של תחזוקת מפעל - " +
+                     "BAPI_GOODSMVT_GETDETAIL",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim: "המאגר מתעד: שליפת פרטי מסמך חומר (תנועת מלאי), כותרת ופריטים לפי מספר מסמך ושנה; 'MM-IM, נלווה " +
+               "לתנועות פקודות ייצור/אחזקה (GI/GR). QA בודק תנועה שנרשמה מול פקודה'; ECC: 'זמין ב-ECC (MKPF/MSEG)'; " +
+               "S/4: 'זמין ב-S/4HANA; הנתונים מ-MATDOC (MKPF/MSEG כ-Compatibility Views)'; פרמטרי קלט " +
+               "MATERIALDOCUMENT / MATDOCUMENTYEAR (חובה), פלט GOODSMVT_HEADER / GOODSMVT_ITEMS ו-RETURN; טרנזקציות " +
+               "קשורות MB03 ו-MIGO, טבלאות MATDOC ו-MSEG, מודול PP-PI ‏(data/function-intel.ts). רישום ה-sweep: הצגת " +
+               "פרטי מסמך חומר, כותרת ופריטים, קריאה בלבד; verified-docs, s4OnPremSupport yes, cloudSupport unknown, " +
+               "operationType Read, קטגוריה GoodsMovement, RFC yes, requiresCommit no, stability Released, כאשר ערכי " +
+               "s4OnPremSupport ו-stability הם ברירות המחדל של תבנית ה-sweep ולא נתון ייעודי " +
+               "‏(data/bapi-enrichment.sweep.ts). הבלופרינט של תחזוקת מפעל מצמיד את הפונקציה לטבלת MKPF בנושא 9 " +
+               "(אינטגרציית מלאי ורכש PM-MM) בתווית 'שליפת פרטי מסמך חומר', כשלטבלה עצמה רשומה הערת S/4 'הוחלף - " +
+               "מאוחד ב-MATDOC' ו-'MATDOC (MKPF=View תאימות)' ‏(data/sapData.pm.ts). data/s4-objects.ts אינו נושא " +
+               "רשומה ל-GETDETAIL (רק ל-BAPI_GOODSMVT_CREATE), ו-BASELINE.md מתעד לדף הפונקציה טון S/4 'changed' " +
+               "שנגזר מהצמדת MKPF. שמות הפרמטרים, אובייקט ה-BOR והקריאה ללא COMMIT נשענים על המאגר בלבד, כי אף תקציר " +
+               "רשמי שנקרא אינו מונה אותם.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_GOODSMVT_GETDETAIL",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "‏BAPI_GOODSMVT_GETDETAIL הוא ה-BAPI לקריאת מסמך חומר בודד (כותרת ופריטים לפי מספר מסמך ושנה), הצד " +
+          "הקורא של BAPI_GOODSMVT_CREATE. במערך התיעוד של S/4HANA On-Premise לא נמצאה רשומת help.sap.com " +
+          "שתקצירה נוקב בשמו: ארבע הרשומות שהחיפוש המדויק החזיר חזרו ללא תקציר, ותקצירי עמודי ניהול המלאי, EWM " +
+          "ו-WMS מבוזר במהדורת 2025 FPS01 מונים רק את BAPI_GOODSMVT_CREATE ו-BAPI_GOODSMVT_CANCEL. השם כן מופיע " +
+          "כלשונו בתיעוד רשמי של SAP S/4HANA Cloud Public Edition 2608, בטבלת ה-BAPIs/IDocs לצד " +
+          "BAPI_GOODSMVT_CANCEL, BAPI_GOODSMVT_CREATE ו-BAPI_GOODSMVT_GETITEMS כחלק מתרחישי תקשורת מוגדרים " +
+          "מראש, ובנושא What's New של SAP ERP 6.0 EHP7 (מצוטט בהערות); זמינותו במהדורת On-Premise נשענת על רובד " +
+          "המאגר (verified-docs, s4OnPremSupport yes). ב-S/4HANA מסמכי החומר נשמרים בטבלה אחת, MATDOC, במקום " +
+          "MKPF ו-MSEG, ולכן קריאה דרך ה-BAPI מחזירה נתונים שמקורם ב-MATDOC כשהטבלאות הישנות משמשות תצוגות " +
+          "תאימות בלבד; שמות הפרמטרים (MATERIALDOCUMENT, MATDOCUMENTYEAR, GOODSMVT_HEADER, GOODSMVT_ITEMS, " +
+          "RETURN) נשענים על המאגר בלבד. לצד ה-BAPI קיים שירות OData מתועד לאותו תרחיש קריאה: Material " +
+          "Documents - Read, Create ‏(API_MATERIAL_DOCUMENT, נתיב API_MATERIAL_DOCUMENT_SRV), שעמוד Read " +
+          "Material Documents במדריך APIs for Inventory למהדורת 2025 FPS01 מתעד בו GET על הישויות " +
+          "A_MaterialDocumentHeader ו-A_MaterialDocumentItem, לפי מפתח או בסינון, עם החזרת נתוני כותרת ופריט " +
+          "בתגובה. זו טענת חלופה מתועדת ולא טענת החלפה: אף מקור רשמי שנסרק אינו מוציא את ה-BAPI משימוש או מכריז " +
+          "על יורש, ולכן אין שדה successor.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MATDOC_READ_API,
+      recommendedAction: "בממשקי RFC קיימים (בקרת ניפוק 261 לפקודת תחזוקת מפעל, בדיקת קבלה 101 לפקודת תהליך בתעשיות תהליכיות, " +
+                         "השוואת מסמך חומר מול הפקודה) אפשר להמשיך לקרוא מסמכי חומר דרך BAPI_GOODSMVT_GETDETAIL, לאחר אימות " +
+                         "קיומו, סטטוס השחרור שלו ורשימת הפרמטרים בפועל במערכת היעד ‏(SE37 או BAPI Explorer), כי אף תקציר " +
+                         "On-Premise אינו נוקב בשמו; הקריאה אינה דורשת BAPI_TRANSACTION_COMMIT לפי המאגר. לאינטגרציות חדשות " +
+                         "מבוססות HTTP להעדיף את שירות ה-OData‏ Material Documents - Read, Create " +
+                         "‏(API_MATERIAL_DOCUMENT_SRV): GET על A_MaterialDocumentHeader או A_MaterialDocumentItem לפי מפתח " +
+                         "הכותרת (MaterialDocumentYear, MaterialDocument, כמודגם בתקציר Cancel Material Documents at Header " +
+                         "Level) או בסינון; מפתח הפריט המלא לא הוחזר באף תקציר ויש לאמתו מול השירות, ולאמת ישויות, שדות " +
+                         "ומגבלות מול המדריך APIs for Inventory ומול מערכת חיה; אין להתייחס ל-API כמחליף חובה של ה-BAPI. " +
+                         "לדיווח ולפיתוח ABAP חדש להעדיף תצוגת CDS על SELECT ישיר מ-MKPF ומ-MSEG, ולשים לב שהתצוגה " +
+                         "I_MaterialDocumentItem הוצאה משימוש ב-2021 לטובת I_MaterialDocumentItem_2 (אינה מזהה בדאטהסט). " +
+                         "בבדיקות המרה: לקרוא דרך ה-BAPI מסמך שנרשם ב-MIGO או ב-BAPI_GOODSMVT_CREATE, להשוות מול MB03 ומול " +
+                         "MB51, ולזכור שקריאה ישירה מ-MKPF/MSEG בקוד לקוח מנותבת לתצוגות תאימות מעל MATDOC.",
+    },
+    xrefs: [
+      "fm:BAPI_GOODSMVT_CREATE",
+      "fm:BAPI_GOODSMVT_GETITEMS",
+      "table:MKPF",
+      "table:MSEG",
+      "obj:material-document",
+      "cds:I_MaterialDocumentItem",
+      "tx:MB03",
+      "tx:MIGO",
+      "tx:MB51",
+      "fiori:F0843",
+      "bp:matdoc-read-through-compatibility",
+    ],
+    lastVerifiedAt: DATE22,
+    notes:
+      "(1) הסטטוס 'קיים API משוחרר' נסמך על עמוד Read Material Documents ‏(loio " +
+      "78f5a8461d554cc38b3af2d07d6f9c8e, ‏2025.001) במדריך APIs for Inventory; זו חלופה מתועדת ולא טענת " +
+      "החלפה רשמית של ה-BAPI, ולכן אין יורש ברשומה. הראיה חופפת בחלקה לקבוע המשותף GOODSMVT_ODATA_API " +
+      "שברשומת fm:BAPI_GOODSMVT_CREATE ‏(Material Documents - Read, Create, loio " +
+      "d4c919581bc30a02e10000000a44147b); כאן נבחר עמוד פעולת הקריאה כמקור הסטטוס כי הוא זה שמתעד את GET. " +
+      "(2) חיפוש השם המדויק במערך S/4HANA On-Premise החזיר ארבע רשומות ללא תקציר ('BAPIs for the Log', " +
+      "Logistics General, 2025.001, loio 8081c1536ca9b54ce10000000a174cb4; 'Deep Create Characteristic " +
+      "Value Combination and Time Series', APIs for Availability Checks, 2023.latest; שני נושאי What's New " +
+      "1709), ולכן אף אחת מהן אינה מצוטטת: שאילתת המשך על 'BAPIs for the Log' החזירה תקציר על " +
+      "CALO_DB_LOG_ON_OFF בלבד. תקצירי העמודים On-Premise 2025 FPS01 שנוקבים ב-BAPIs של ניהול מלאי " +
+      "('Communication of Goods Movements from Inventory Management to EWM', loio " +
+      "8a532e4e6aaf4f4b97fd2f014f9837e0; 'Integration of a Decentralized WMS', loio " +
+      "b7706754e90d8c4ce10000000a4450e5) מונים רק את BAPI_GOODSMVT_CREATE ו-BAPI_GOODSMVT_CANCEL. ממצא תחום " +
+      "לחיפוש, לא שלילה. (3) מקור רשמי נוסף שנוקב בשם ולא נשמר כראיה נפרדת (גבול ארבע ראיות): 'Material " +
+      "Segmentation Across Logistics (New)' ב-What's New in SAP Enhancement Package 7 for ERP 6.0 ‏(SAP " +
+      "ERP, 6.17.latest, loio da262953587d2c3ee10000000a423f68, " +
+      "https://help.sap.com/docs/SAP_ERP/e8497383bec444069418aba9a1f578de/da262953587d2c3ee10000000a423f68.html?locale=en-US&state=PRODUCTION&version=6.17.latest), " +
+      "שתקצירו מונה 'BAPI_GOODSMVT_CREATE BAPI_GOODSMVT_GETDETAIL BAPI_GOODSMVT_GETITEMS " +
+      "BAPI_INCOMINGINVOICE_GETDETAIL BAPI_INCOMINGINVOICE_COMPLAIN BAPI_MATPHYSINV_GETDETAIL " +
+      "BAPI_MATPHYSINV_GETITEMS BAPI_RESERVATION_CREATE1' ובפרגמנט אחר 'BAPI_DELIVERY_GETLIST " +
+      "BAPI_GOODSMVT_CREATE BAPI_GOODSMVT_GETDETAIL'; המשפט המקדים לרשימה לא הוחזר באף תקציר, ולכן לא נטען " +
+      "מה הרשימה קובעת. זו ראיית ECC (מהדורת ecc), לא S/4HANA. (4) רשימות הפישוט נבדקו על הטקסט המלא " +
+      "המאוחסן: SIMPL_OP2023.pdf ‏(2023 FPS3, גרסת מסמך 1.35, 1482 עמודים) ו-SIMPL_OP2025.pdf ‏(2025 FPS1, " +
+      "1514 עמודים); המחרוזת BAPI_GOODSMVT_GETDETAIL אינה מופיעה באף אחת מהן. פריט 27.6 ‏(2023 FPS3) / " +
+      "15.3.9 ‏(2025 FPS1) S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM, כפי שנקרא ברשומת " +
+      "fm:BAPI_GOODSMVT_CREATE, מפנה את MB02/MB03 ל-MIGO_DIALOG ואת קוד הלקוח ל-BAPI_GOODSMVT_CREATE " +
+      "ול-BAPI_GOODSMVT_CANCEL בלבד; הוא אינו נוקב ב-BAPI לקריאה, ו-BUS2017 מופיע שם רק לצד CREATEFROMDATA " +
+      "/ BAPI_GOODSMVT_CREATE. (5) ראיית Public Edition: טבלת ה-BAPIs היא בעמודות Technical Name / " +
+      "Description / Communication Scenario; שיוך השורה 'Goods Movement ‒ Read / SAP_COM_0108' " +
+      "ל-BAPI_GOODSMVT_GETDETAIL נובע מסדר הטבלה (בין CREATE ל-GETITEMS) ולא מטקסט רציף בתקציר אחד; מזהה " +
+      "תרחיש התקשורת SAP_COM_0108 מופיע כלשונו בתקציר, אך שמו התיאורי של התרחיש לא הוחזר באף תקציר ולכן לא " +
+      "נטען. תיאור ה-IDoc‏ MBGMCR נקטע בתקציר אחרי 'MBGMCR Goods' ולכן לא נטען. הרשומה מתעדת זמינות בענן " +
+      "הציבורי בלבד; הזמינות ב-On-Premise נשארת מבוססת מאגר. (6) תצוגת ה-CDS: הנושא 'Deprecation of CDS " +
+      "Views' ב-What's New 2021 ‏(loio 6eac4f4b1c024fc5a0d48c51ca66e83c, ‏2021.000) קובע 'The following CDS " +
+      "views were deprecated in SAP S/4HANA 2021: Material Document Header (I_MaterialDocumentHeader) " +
+      "Material Document Item (I_MaterialDocumentItem)', ועמוד ה-VDM 'Material Document Item' " +
+      "‏(2023.latest, loio 14305f6e8cb842bbb1647ffd5a30ca31) קובע 'CDS View Name I_MaterialDocumentItem_2 " +
+      "... Status Released ... This view is the successor view for I_MaterialDocumentItem'. לכן הרמז 'CDS " +
+      "I_MaterialDocumentItem כיורש' לא אומץ: התצוגה עצמה הוצאה משימוש, יורשתה I_MaterialDocumentItem_2 " +
+      "אינה מזהה בדאטהסט, ואף מקור רשמי אינו מציג תצוגת CDS כמחליף של ה-BAPI. ה-xref " +
+      "ל-cds:I_MaterialDocumentItem נשמר כקשר לרשומת האימות שלה, שמתעדת את ההוצאה משימוש. (7) גופי עמודי " +
+      "help.sap.com הם מעטפות JavaScript ולא נקראו; רק כותרת, מדריך, גרסה ותקציר של כל רשומה. עמוד תוכן " +
+      "התמיכה 'Goods Movements with BAPI' " +
+      "‏(https://help.sap.com/docs/SUPPORT_CONTENT/erpscm/3362167803.html) שהוחזר בחיפוש מוגבל-דומיין נבדק " +
+      "ב-WebFetch והחזיר כותרת בלבד ללא גוף, ולכן אינו מצוטט. מדריך SAP Digital Manufacturing Integration " +
+      "Guide (מהדורת מסמך 2502, 582 עמודים), שהחיפוש קישר לשם, הורד ונסרק במלואו: המחרוזת GETDETAIL אינה " +
+      "מופיעה בו והוא נוקב ב-MB_MES_GOODSMVT_CREATE בלבד. רישום ה-Business Accelerator Hub לשירות " +
+      "API_MATERIAL_DOCUMENT_SRV לא נקרא (מעטפת JavaScript, דורש מפתח API). (8) מה שנשען על המאגר בלבד: " +
+      "שמות הפרמטרים (MATERIALDOCUMENT, MATDOCUMENTYEAR, GOODSMVT_HEADER, GOODSMVT_ITEMS, RETURN), אובייקט " +
+      "ה-BOR של ה-BAPI, הקריאה ללא COMMIT, וערכי stability 'Released' ו-s4OnPremSupport 'yes' שהם ברירות " +
+      "מחדל של תבנית ה-sweep. אימות ב-SE37 / BAPI Explorer במערכת היעד נדרש לפני הסתמכות. (9) xrefs: " +
+      "fiori:F0843 ‏(Post Goods Movement) הוא יישום הרישום ולא יישום הצגה; יישום Material Documents " +
+      "Overview ‏(F1077, הנזכר ברשומת tx:MB03, ובעמוד ה-Lifecycle כ-'Material Document Overview') אינו מזהה " +
+      "בקטלוג ה-Fiori של הפרויקט. BAPI_GOODSMVT_CANCEL, MIGO_DIALOG ו-I_MaterialDocumentItem_2 אינם מזהים " +
+      "בדאטהסט; טבלת MATDOC מיוצגת דרך obj:material-document. bp:matdoc-read-through-compatibility מקושר " +
+      "בגלל ניתוב הקריאה מ-MKPF/MSEG לתצוגות תאימות. (10) המצב שנמדד לפני הרשומה: fromFuncRegistry על שורת " +
+      "ה-sweep (verified-docs, s4OnPremSupport yes) מחזיר 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני " +
+      "הפרויקט' (נמדד בהרצת lib/evidence/s4-status.ts ב-Node 26), בעוד BASELINE.md:56 מתעד לאותו דף טון S/4 " +
+      "'changed' שנגזר מהצמדת טבלת MKPF ‏(GETDETAIL→MKPF). data/s4-objects.ts אינו נושא רשומה ל-GETDETAIL " +
+      "(רק ל-CREATE). עם הרשומה הזו הסטטוס המחובר מציג את התמונה הרשמית: BAPI שממשיך להישלח (Public Edition " +
+      "2608) עם שירות OData מתועד לקריאה לצדו. (11) לא צוטט SAP Note או KBA: אף שאילתה לא החזירה רשומה כזו " +
+      "הנוקבת ב-BAPI. ספירות התוצאות של שירות החיפוש אינן יציבות בין הרצות ולכן אינן נרשמות. תאריך הגישה " +
+      "המוטבע הוא 2026-09-22 (כלי החיפוש מדפיס 2026-09-21 לפי אזור זמן). (12) תיקוני ביקורת: ה-loio " +
+      "75bcb6531de6b64ce10000000a174cb4 ‏(Archiving Material Documents (MM-IM)) מוחזר מהאינדקס תחת המדריך " +
+      "Supply Chain (נתיב 677f0a4e71d7487ebb70683014761789) ולא תחת Sourcing and Procurement; ה-URL והכותרת " +
+      "תוקנו בהתאם. מפתח הפריט של פעולת הביטול ברמת פריט (MaterialDocumentYear, MaterialDocument, " +
+      "MaterialDocumentItem) לא הוחזר באף תקציר של loio 2b1124c6321a47559518f5b5bdc1db72 ולכן הוסר מהראיה " +
+      "ומההמלצה; נשמרו רק הפרגמנטים שהוחזרו (CancelItem function import, מאפייני Reversed*, ומפתח הכותרת " +
+      "מתקציר Cancel at Header Level).",
   },
 ];
