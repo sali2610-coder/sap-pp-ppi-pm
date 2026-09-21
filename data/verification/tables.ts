@@ -46,13 +46,25 @@
    on the day and recorded in the queue: the public Simplification List PDF was read in full and it DOES name
    T134 (item 12.1.1 S4TWL - Material Type SERV), so T134's blanket "no simplification item" negative was
    replaced by that measured finding and a fifth evidence entry; the PI_PLAN preamble "When you implement"
-   was restored on table:PLMK after the index returned it verbatim. */
+   was restored on table:PLMK after the index returned it verbatim.
+   Batch 10 (2026-09-16 access date, written 2026-09-21): 8 more records (TC22, TC60, TCA01, TCK03, TCO01,
+   T370T, T399X, ADMI_RUN) - the PP-PI Customizing family (control key, routing profile, costing variant,
+   order-type-dependent parameters), the PM functional-location category text table and the ADK archive
+   administration table - each merged from its adversarial verdict (fixedRecord where one was supplied;
+   table:ADMI_RUN had no fixedRecord, so the verdict's listed downgrades were applied to the draft). None
+   refuted. Six of the eight are written verification_required on purpose: no official page names TC22,
+   TC60, TCA01, TCK03, TCO01 or T370T, and for four of them the blueprint itself carries a duplicated field
+   label as the table description. table:T399X is the only `simplified` record of the batch - Simplification
+   Item 9.5.5 S4TWL - Simplified Sourcing names T399X-ARBPA verbatim - and table:ADMI_RUN is `unchanged` on
+   the ABAP Platform 2025 FPS01 archiving topic, whose release string is written
+   "202510.001 (ABAP Platform 2025 FPS01)" so the UI chip cannot be read as an S/4HANA release. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
 const DATE2 = "2026-09-02";
 const DATE3 = "2026-09-07";
 const DATE4 = "2026-09-15";
+const DATE5 = "2026-09-16";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -1303,6 +1315,32 @@ const PLMK_PM_PLAN_ARCHIVING: Evidence = {
     + "[...]'. הסניפטים תלויי שאילתה: אותה רשומת חיפוש מחזירה קטעים שונים בריצות שונות, וסימני הקטיעה שלמעלה הם של "
     + "הריצות שמהן הועתקו הקטעים ולא גבול קבוע של העמוד. כלומר בגרסה זו PLMK היא טבלת מאפייני הבדיקה ברשימת "
     + "הפעולות, וערכי המאפיינים יושבים ב-PLMW. גוף העמוד הוא מעטפת JavaScript ולא נקרא.",
+  verificationLevel: "sap_official_verified",
+};
+
+const T399X_SIMPL_SOURCING_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 FPS01, Feature Pack Stack 1-3 and SAP S/4HANA Cloud Private Edition "
+    + "2025 FPS01, Feature Pack Stack 1-3 (White Paper, Document Version 1.36) · item 9.5.5 S4TWL - Simplified "
+    + "Sourcing, pp. 783-790",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE5,
+  claim:
+    "פריט הפישוט 9.5.5 S4TWL - Simplified Sourcing (רכיב יישום PP-MRP, הערת Business Impact מספר 0002268069), "
+    + "שנקרא ישירות מקובץ ה-PDF, נוקב ב-T399X בשמה הטכני בטבלת ההשוואה שבין לוגיקת Business Suite ללוגיקת S/4HANA. "
+    + "בעמ' 786, בעמודת Business Suite: 'The order type attribute \"Routing selection\" T399X-ARBPA determines how a "
+    + "routing is determined during production order creation. The attribute can be defined in customizing "
+    + "transaction OPL8'; בעמודת S/4HANA מולה: 'Production versions are the only source of supply for in-house "
+    + "production. A production version references a routing. This routing is used to create production orders'; "
+    + "ובעמודת הנימוק: 'Simplification of the sourcing logic'. באותו פריט, בעמ' 788, מיוחס דגל GTERM לטבלאות אחרות: "
+    + "'set in customizing among the plant (T399D-GTERM) or MRP group parameters (T438M-GTERM)'. כלומר המסמך מייחס "
+    + "את T399X לתכונת סוג הפקודה ואת פרמטרי ה-MRP ברמת המפעל ל-T399D. המסמך אינו קובע ש-T399X או השדה ARBPA הוסרו: "
+    + "על MARC-ALTSL הוא כותב במפורש בעמ' 785 'The material master attribute MARC-ALTSL no longer exists', ואמירה "
+    + "מקבילה על T399X-ARBPA אינה מופיעה בו.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -14897,5 +14935,1582 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       + "אימות נוסף'; הרשומה הזו מחליפה אותו בקביעה מתוארכת לגרסת 2025 FPS01. (9) מהדורת הענן הציבורית נבדקה רק "
       + "לעניין עמוד הארכוב של PI_PLAN בגרסה 2608.500; היקף הפונקציונליות שם לא נחקר, והרשומה מכוונת ל-On-Premise "
       + "ול-Private Edition.",
+  },
+  /* ------------------------------------------------------------ table:TC22 */
+  {
+    id: "table:TC22",
+    aliases: ["tc22"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Work Centers and Capacities (PP-BD-WKC) | Data Archiving in Production Planning and Control "
+          + "(PP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e82623f79ddd475aa181ef4a17f0a5f2/1770bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "עמוד הארכוב של מרכזי עבודה וקיבולות בגרסת 2025 FPS01 מגדיר: 'The archiving object PP_WKC comprises the "
+          + "following data of the work center and the capacities, as well as the following Customizing settings: "
+          + "Work center Work center header data (CRHD', ומונה את הגדרות ה-Customizing לפי שמן הטכני: 'Settings for "
+          + "formulas: Formula parameters (TC20) Texts for formula parameters (TC20T) Standard value keys (TC21) "
+          + "Texts for standard value keys (TC21T) Work center formulas (TC25) Short descriptions for formulas "
+          + "(TC25T) General settings: Person responsible for work center (TC24) Task list use (TC23) Texts for "
+          + "task list use (TC23T)'. זהו העמוד הרשמי היחיד שנמצא בסבב זה המונה כמה טבלאות בטווח TC2x ברשימה אחת "
+          + "(שני עמודי CDS נוספים נוקבים ב-TC20 וב-TC25 בנפרד, ראו הערות), והוא מייחס אותן ל-Customizing של מרכז "
+          + "העבודה. הטבלה TC22 אינה נזכרת באף אחד מקטעי החיפוש שנצפו לעמוד זה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Control Key | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/9183bf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "עמוד 'Control Key' של תכנון ובקרת ייצור בגרסת 2025 FPS01, העמוד הרלוונטי לתעשיות תהליכיות, מגדיר מפתח "
+          + "בקרה כ-'A user-defined key that determines how an operation, phase, or secondary resource is handled "
+          + "in order processing and in product costing', קובע 'You define control keys in Customizing for Master "
+          + "Recipes or Process Orders' ומוסיף 'Whenever you create an operation, phase, or secondary resource in "
+          + "the master recipe or process order, you assign a control key to it'. הקטע מתאר את מפתח הבקרה כהגדרת "
+          + "Customizing ואינו נוקב בשם הטבלה שבה הוא נשמר.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition "
+          + "2025 - Feature Pack Stack 1 (SIMPL_OP2025.pdf, Document Version 1.36)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE5,
+        claim:
+          "רשימת פריטי הפישוט הרשמית לגרסת 2025 FPS01 (מסמך בגרסה 1.36) הורדה ונקראה כטקסט מלא שחולץ מה-PDF, "
+          + "70,529 שורות. המחרוזות TC22, TC60 וכל שם טבלה אחר בטווח TC20 עד TC29 אינם מופיעים בו כלל, וגם המחרוזת "
+          + "STEUS אינה מופיעה. כל 32 היקרויות הצירוף 'control key' במסמך מרוכזות בשורות 67418 עד 67580, בתוך פריט "
+          + "15.2.5 'S4TWL - Sales Order Scheduling Integration into S/4HANA TM', ועוסקות ב-TM Control Key של "
+          + "אינטגרציית מסמכים בניהול תובלה. כלומר במסמך שנקרא אין פריט פישוט הנוגע לטבלאות מפתח הבקרה של פעולות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הבלופרינט של PP-PI ושכבות הידע של הפרויקט - רשומת TC22",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE5,
+        claim:
+          "הבלופרינט של תעשיות תהליכיות (נושא 7, קונפיגורציה) רושם ל-TC22 תיאור 'מפתח בקרה' / 'Control key', הערת "
+          + "S/4 'ללא שינוי (Customizing).', ארבעה שדות (STEUS כמפתח, RUECK, BANFK, PROZESS) וקשר הורה אל PLPO "
+          + "בצירוף 'FROM PLPO JOIN TC22 ON PLPO.STEUS = TC22.STEUS'. אותה חוברת רושמת ל-TC60 (נושא 3) בדיוק את "
+          + "אותו תיאור בעברית ובאנגלית ואת אותו צירוף על STEUS, ואלה שתי השורות היחידות מתוך 68 הנושאות תיאור זה, "
+          + "בעוד רשימת השדות של TC60 בחוברת (STEUS, PVZNR, ATNAM) שונה מזו של TC22. בתוך המאגר קיימת קריאה שלישית "
+          + "ומנוגדת: data/knowledge/object-intel.ts מתאר את TC22 כטבלת קודי קטלוג ובקרת קודים להודעות PM ו-QM, "
+          + "ואילו data/knowledge/pppi-objects-ext.ts מסמן את הרשומה בדרגת אמון needs-verification. שכבת ההעשרה "
+          + "data/table-enrichment.ts מחריגה את TC22 במפורש מבין הטבלאות שהועשרו, בנימוק שמבנה המפתח והסמנטיקה שלהן "
+          + "לא אושרו ממקור אמין.",
+        verificationLevel: "verification_required",
+        repoRef:
+          "data/sapData.pppi.ts#PP-PI:TC22, data/knowledge/pppi-objects-ext.ts#TC22, "
+          + "data/knowledge/object-intel.ts#TC22, data/table-enrichment.ts#TC22",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "שם הטבלה TC22 לא אותר באף מקור SAP רשמי שנבדק בסבב זה: שירות החיפוש של help.sap.com בשלושה סקופים "
+        + "(S/4HANA On-Premise 2025 FPS01, SAP ERP 6.18 ו-S/4HANA Cloud 2608.500) אינו מחזיר עמוד הנוקב ב-TC22, "
+        + "ורשימת פריטי הפישוט של 2025 FPS01, שנקראה כטקסט מלא, אינה מזכירה אותה. התיעוד הרשמי של אותו טווח שמות "
+        + "מייחס אותו ל-Customizing של מרכז העבודה (TC20 פרמטרי נוסחה, TC21 מפתחות ערכי תקן, TC23 שימוש ברשימת "
+        + "פעולות, TC24 אחראי מרכז עבודה, TC25 נוסחאות מרכז עבודה), ומפתח הבקרה עצמו מתועד כהגדרת Customizing בלי "
+        + "ששם טבלה נזכר לצדו. מאחר שהבלופרינט מייחס את אותו תיאור בדיוק, 'מפתח בקרה / Control key', גם ל-TC22 וגם "
+        + "ל-TC60 ומצרף לשתיהן את אותו צירוף על PLPO.STEUS, זהות הטבלה ופסיקת 'ללא שינוי' הנגזרת ממנה אינן נשענות "
+        + "על ראיה, ולכן הרשומה נכתבת כנדרשת אימות.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE11 או ב-ADT במערכת היעד מהו הטקסט הקצר של TC22, מהו מפתחה ומהי טבלת הבדיקה של השדה STEUS "
+        + "בטבלאות הפעולה (PLPO ו-AFVC), לפני הסתמכות על הרשומה בהסבה, בקוד מותאם או בדוח; באותה בדיקה לברר גם מהי "
+        + "TC60, שכן שתי הרשומות בחוברת נושאות תיאור זהה. עד לאימות אין להציג את הערת 'ללא שינוי' שבחוברת כפסיקה "
+        + "מאומתת, ואין להציג לשתי הטבלאות את אותו תיאור בעמודי המוצר. לתחזוקת מפתחות בקרה יש לעבוד דרך פעילויות "
+        + "ה-Customizing המתועדות ולא בעריכה ישירה של הטבלה: 'Define Control Key' תחת Master Data ואז Routing Data "
+        + "בבקרת רצפת הייצור, הגדרת מפתחות הבקרה ב-Customizing של מתכוני אב ושל הזמנות תהליך, ו-'Maintain Control "
+        + "Keys' תחת Plant Maintenance and Customer Service לתחזוקת מפעל. לקריאה תוכניתית של מפתח הבקרה של פעולה "
+        + "עדיף לצרוך את ממשק ה-OData המשוחרר של מסלול הייצור ואת תצוגות ה-CDS של הפעולות, ולא SELECT ישיר מטבלת "
+        + "ה-Customizing.",
+    },
+    xrefs: [
+      "table:TC60", "table:PLPO", "table:AFVC", "table:PLKO", "table:CRHD", "tx:C201", "tx:C202", "tx:CA02",
+      "tx:IA05", "tx:SPRO", "cds:I_RoutingOperation",
+    ],
+    lastVerifiedAt: DATE5,
+    notes:
+      "שיטה: scripts/sap-help-search.mjs (שירות החיפוש הרשמי של SAP Help) בשאילתות 'TC22', 'Archiving Work "
+      + "Centers and Capacities TC22 TC21 TC23', 'standard value key parameters table TC22 work center', 'work "
+      + "center wage group suitability Customizing table TC22', 'control key operation table customizing TC30', "
+      + "'Maintain Control Keys Customizing maintenance order operation control key', 'Define Control Key "
+      + "Customizing view table routing operation PP-BD-RTG' ו-'process instruction characteristics control key PI "
+      + "sheet assignment Customizing', בשלושה סקופים: SAP_S4HANA_ON-PREMISE (2025 FPS01), SAP_ERP (6.18) "
+      + "ו-SAP_S4HANA_CLOUD (2608.500), וכן WebSearch מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal. אף "
+      + "רשומה שהוחזרה אינה נוקבת ב-TC22 בכותרת או בקטע החיפוש; ההתאמות היחידות למחרוזת הן טפסי ביטוח לאומי בספרד "
+      + "(TC1, TC2), מפתחות פחת (TC01 עד TC14), מרכזי רווח (PC22) וסכמות זמן ב-HR (TC00, TC20 בהקשר גמול שעות "
+      + "נוספות), כלומר התאמות מטושטשות מתחומים אחרים.\n\nראיות רשמיות נוספות שנצפו ולא נכללו במכסת הארבע, כולן מאותו "
+      + "סבב: (א) 'Standard Work Formula Parameter' במודל הנתונים הווירטואלי (I_StandardWorkFormulaParameter, "
+      + "Analytical Data Category Dimension, Status Released, loio fa1d7fcba5084b89b7c22ff4d79dd1aa) - 'With this "
+      + "CDS view you can select standard work formula parameters (table TC20)'; (ב) 'Work Center Quantity "
+      + "Calculation Formula' (I_WorkCenterQtyCalcFormula, loio dbddd0ed72e14d158df6a6dccdd438e3) - 'This CDS view "
+      + "helps you select work center calculation formula (table TC25)'. שתיהן מוחזרות גם בסקופ הענן הציבורי "
+      + "2608.500 ומחזקות את השיוך של טווח TC2x ל-Customizing של מרכז העבודה; לאף תצוגת CDS משוחררת שנצפתה אין טבלת "
+      + "מקור TC22. (ג) 'Control Key | Routings (PP-BD-RTG)' (loio 4281bd534f22b44ce10000000a174cb4, 2025.001) - "
+      + "'You define control keys in Customizing for either work centers, production orders or routings. You assign "
+      + "a control key to an operation or sub-operation in routings or production orders'; (ד) 'Settings for "
+      + "Scheduling | Production Orders (PP-SFC)' (loio ca00b753128eb44ce10000000a174cb4, 2025.001) - 'You maintain "
+      + "the control key for operations in Customizing for Shop Floor Control, by choosing Master Data Routing Data "
+      + "Define Control Key'; (ה) בצד תחזוקת המפעל: 'Control Key | Task Lists (CS-AG/PM-PRM-TL)' (loio "
+      + "90a1b8535c39b44ce10000000a174cb4, שקטעו מפנה אל 'Control Keys in Phase-Enabled Maintenance Orders'), "
+      + "'Control Keys in Phase-Enabled Maintenance Orders' (loio 78a9e181d9fa4e3eaab8e500dfb2f2b5) "
+      + "ו-'Configuration FAQ for Key Users | Maintenance Management' (loio 0877ef4daa634eb3913aa224038daa02), "
+      + "שקטעו מצביע על הנתיב 'Functions and Settings for Order Types, Control Key, Maintain Control Keys', "
+      + "ו-'Inclusion of External Operations in Scheduling' (loio 578db324232b4168827b88f19f6e2161) שמצביע על "
+      + "'Maintenance Plans, Work Centers, Task Lists and PRTs, Task Lists, Operation Data, Maintain Control Keys'; "
+      + "(ו) 'Default values | Work Centers (PP-BD-WKC)' (loio b973b65334e6b54ce10000000a174cb4) - 'Default values "
+      + "in work centers are for instance: Wage type and wage group Control key Standard text key Suitability Setup "
+      + "type key Activity type'; (ז) 'OData API: Production Routing' ב-What's New של 2023 (loio "
+      + "1d3a3cb38fc3466f841f3c3cf7903776) - 'The Production Routing API now includes codelist for Routing Usage, "
+      + "Routing Status and Operation control key', הבסיס להמלצה לצרוך את הממשק המשוחרר במקום קריאה ישירה מטבלת "
+      + "ה-Customizing. כל אלה מתעדים את מפתח הבקרה כמושג ואת פעילויות ה-Customizing שלו; אף אחד מהם אינו נוקב בשם "
+      + "הטבלה.\n\nהסתירה שנמדדה במאגר: מתוך 68 שורות הטבלאות בחוברת PP-PI, בדיוק שתיים נושאות descriptionHe 'מפתח "
+      + "בקרה' ו-descriptionEn 'Control key', TC22 ו-TC60, ולשתיהן אותו sqlJoinSnippet על PLPO.STEUS. אותה תקלה של "
+      + "העתקת תווית שדה או תיאור שכן לתוך תיאור הטבלה חוזרת בחוברת בהיקף רחב: 18 שורות נושאות descriptionEn "
+      + "'Material number', 7 נושאות 'Task list type', 4 נושאות 'BOM category' ו-4 נושאות 'Object type'. מאחר שאין "
+      + "ל-TC22 ול-TC60 ערך ב-data/table-titles.json וב-data/table-en.json, התיאור שהאפליקציה מציגה בעמוד הטבלה הוא "
+      + "בדיוק הטקסט המשוכפל הזה. שתי הסתירות נרשמות כאן ואינן מסומנות כ-conflictingEvidence כדי שלא להוריד את כל "
+      + "הרשומה ל'מקורות סותרים', באותו שיקול שנרשם ברשומות MCHA ו-CRVD_A: (א) התיאור הכפול של TC22 ו-TC60 מול "
+      + "הקריאה השלישית ב-data/knowledge/object-intel.ts, שם TC22 מתואר כטבלת קודי קטלוג ובקרת קודים; (ב) הפסיקה "
+      + "'ללא שינוי (Customizing).' בעמודת ה-S/4 של החוברת, שהיא מקור הסטטוס הנגזר שהאפליקציה מציגה היום (class 0 "
+      + "לפי lib/s4-class ומכאן unchanged לפי lib/evidence/s4-status.ts דרך "
+      + "components/neo-shell/data/tables-detail.ts), ושאין מאחוריה ראיה רשמית; רשומה זו דורסת אותה בסטטוס "
+      + "מפורש.\n\nעוד נמדד: שתי ה'פונקציות' שהחוברת רושמת ל-TC22, VIEW_MAINTENANCE_CALL (SM30) ו-RFC_READ_TABLE, "
+      + "מופיעות באותה צורה בתשע מתוך 68 שורות החוברת (T134T, T023, T023T, T399X, TCK03, T438M, TCO01, TJ30T "
+      + "ו-TC22), כלומר זהו דפוס גישה כללי לטבלאות Customizing ולא ממשק ייחודי לטבלה; לכן לא נרשם xref מסוג "
+      + "fm.\n\nהשערה שלא אומתה ואין להציגה כממצא: מאחר שטווח TC2x מתועד כ-Customizing של מרכז העבודה, ומאחר שמפתח "
+      + "הבקרה מתועד כאחד מערכי ברירת המחדל של מרכז העבודה ומוגדר ב-Customizing של מרכזי עבודה, מסלולי ניתוב "
+      + "והזמנות ייצור, ייתכן ש-TC22 היא אכן טבלת מפתחות הבקרה ושהתקלה בחוברת היא בתיאור של TC60 בלבד. לא נמצאה "
+      + "ראיה לכך באף מקור רשמי שנבדק, ולכן ההשערה נרשמת כיעד לבדיקת SE11 ולא כמסקנה.\n\nמגבלות: גוף עמודי "
+      + "help.sap.com הוא מעטפת JavaScript ולא נקרא, וכל טענה רשמית ברשומה תחומה לכותרת ולקטע החיפוש של רשומת "
+      + "החיפוש, למעט רשימת פריטי הפישוט שהורדה (HTTP 200, 10,585,218 בתים) ונקראה כטקסט מלא. שירות החיפוש מחזיר "
+      + "קטע שונה לאותה רשומה לפי מילות השאילתה, ולכן הציטוטים מעמוד הארכוב נאספו משתי ריצות של אותו loio. חיבור "
+      + "ה-MCP של sc4sap אינו זמין בסבב זה, ולכן לא בוצעה בדיקת SE11 או ADT במערכת חיה. לא צוטט מספר SAP Note או "
+      + "KBA: מאגר ה-Notes וקטלוג פריטי הפישוט האינטראקטיבי דורשים התחברות S-user. מהדורת הענן הציבורית נבדקה רק "
+      + "בשאילתת TC22 עצמה ולא נחקרה מעבר לכך. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמה בכל קבצי "
+      + "data/verification.\n\nה-xrefs: TC60 נרשם משום שהוא צד הסתירה; PLPO, AFVC ו-PLKO הם טבלאות הפעולה ורשימת "
+      + "הפעולות שנושאות את שדה STEUS לפי החוברת; CRHD נרשם משום שהתיעוד הרשמי מציב את טווח TC2x ואת ערכי ברירת "
+      + "המחדל של מפתח הבקרה בעולם מרכז העבודה; C201, C202, CA02 ו-IA05 הן טרנזקציות מתכון האב, מסלול הניתוב ורשימת "
+      + "פעולות האחזקה שבהן מוקצה מפתח הבקרה לפעולה, ו-SPRO הוא שער ה-Customizing. cds:I_RoutingOperation נרשם "
+      + "כהקשר בלבד: הקישור בינה לבין הטבלאות הוא מיפוי פנימי של המאגר (data/cds-map.ts) שלא נמצא לו עמוד רשמי בשם "
+      + "זה.",
+  },
+  /* ------------------------------------------------------------ table:TC60 */
+  {
+    id: "table:TC60",
+    aliases: ["tc60"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Control Key | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/9183bf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "עמוד 'Control Key' בדליברבל Production Planning and Control של גרסת 2025 FPS01 (loio "
+          + "9183bf53f106b44ce10000000a174cb4, תאריך 2026-02-24) קובע בסניפטים שהוחזרו בשתי ריצות חיפוש בסבב הזה: "
+          + "'Control Key Definition A user-defined key that determines how an operation, phase, or secondary "
+          + "resource is handled in order processing and in product costing', 'Use You define control keys in "
+          + "Customizing for Master Recipes or Process Orders', 'Whenever you create an operation, phase, or "
+          + "secondary resource in the master recipe or process order, you assign a control key to it', ובטבלת "
+          + "ההשפעות 'Control key: Objects affected by control key settings Settings for Operation Phase Secondary "
+          + "resource Scheduling X X Capacity requirements planning X X Costing'. כלומר בתעשיות תהליכיות מפתח הבקרה "
+          + "הוא אובייקט קסטומיזציה המוגדר בקסטומיזציה של מתכוני-על או של הזמנות תהליך, הוא מוצמד לפעולה, לשלב או "
+          + "למשאב משני בעת יצירתם, והוא קובע תזמון, תכנון קיבולת ותמחיר. העמוד אינו נוקב בשם טבלה טכנית כלשהי, "
+          + "ובכלל זה אינו מזכיר את TC60.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Instructions and Process Instruction Categories | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/0372b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "עמוד 'Process Instructions and Process Instruction Categories' באותו דליברבל ובאותה גרסה (loio "
+          + "0372b6535fe6b74ce10000000a174cb4, תאריך 2026-02-24) קובע בסניפט: 'Control recipes consist of process "
+          + "instructions', 'Every process instruction used in a control recipe refers to a process instruction "
+          + "category defined in Customizing', 'Process instruction categories are defined when the SAP System is "
+          + "set up' ו'Process instruction categories specify: The information contained in a process "
+          + "instruct[ion]'. כלומר תוכן הוראות התהליך, שהמדריך של רשומת TC60 בבלופרינט מייחס לטבלה הזו, נשען על "
+          + "קטגוריות הוראת תהליך המוגדרות בקסטומיזציה ומוצמדות לכל הוראה שבמתכון ההרצה. גם עמוד זה אינו נוקב בשם "
+          + "טבלה טכנית, ואינו מזכיר את TC60.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 FPS1 · 9.3.17 S4TWL - Control Recipes/Instructions "
+          + "(PP-PI-PMA-RCP, עמ' 633-636)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01 (SIMPL_OP2025)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE5,
+        claim:
+          "פריט 9.3.17 'S4TWL - Control Recipes/Instructions' (רכיב יישום PP-PI-PMA-RCP) ברשימת הפישוט הרשמית של "
+          + "2025 FPS1 קובע: 'The usage of control recipes (PP-PI) and control instructions (PP-SFC) in conjunction "
+          + "with browser-based PI Sheets/work instructions (PP-SFC) is part of the SAP S/4HANA compatibility "
+          + "scope', 'This usage comes with limited usage rights', 'It also applies to the maintenance of the "
+          + "corresponding process instruction content (characteristics-based process instructions and XStep-based "
+          + "process instructions)', 'You can find the respective scope item under item ID 444 in the attached "
+          + "document with Compatibility Scope matrix details', 'Control recipes/instructions in conjunction with "
+          + "browser-based PI sheets (PP-PI) and work instructions (PP-SFC) can be used until the expiry date of "
+          + "the compatibility pack license' ו'Immediate action is not required'. באותו פריט נכתב גם, בהקשר של "
+          + "חיבור מערכות בקרת תהליך או מערכות חיצוניות אחרות דרך Manufacturing Execution Connect (classic): 'It is "
+          + "not part of the compatibility scope' ו'The maintenance of the corresponding process instruction "
+          + "content is also not part of the compatibility scope', כלומר הפריט מבחין בין שימוש עם גיליונות PI "
+          + "מבוססי דפדפן, שהוא בהיקף התאימות, לבין שימוש מול מערכות חיצוניות, שאינו בהיקף התאימות. הפריט נוקב בגוף "
+          + "הטקסט במספרי SAP Note‏ 0002270233 (Business Impact, 'Control Recipes/Instructions'), 2269324 ו-3035649 "
+          + "כלשונם. הפריט עוסק בזכות השימוש בפונקציונליות ובתחזוקת תוכן הוראות התהליך, ואינו נוקב בשם טבלה. באותה "
+          + "קריאה נמדד במסמך כולו: אפס מופעים של המחרוזת TC60, אפס מופעים של STEUS, ו-36 מופעים של הצירוף control "
+          + "key, כולם בפריט 15.2.5 'S4TWL - Sales Order Scheduling Integration into S/4HANA TM' ובהקשר של TM "
+          + "control key, ולא בהקשר של פעולת ייצור.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "בלופרינט ההגירה של תעשיות תהליכיות (נושא 3, מתכון ייצור ופעולות) ושכבות הידע של הפרויקט, רשומת TC60",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE5,
+        claim:
+          "רשומת הבלופרינט PP-PI:TC60: descriptionHe 'מפתח בקרה', descriptionEn 'Control key', עמודות הטרנזקציות "
+          + "ואפליקציית ה-Fiori ריקות, עמודת S/4 'ללא שינוי (Customizing).', תווית העזרה 'SAP Help - Process "
+          + "Instructions', והמדריך 'מגדיר את מאפייני הוראות התהליך (Process Instructions) שנשלחים לבקר/PI sheet "
+          + "בעת שחרור פק\"ע - לב ה-PP-PI מול אוטומציית הקו.'. שלושה שדות רשומים: STEUS (PK, 'Control key', CHAR 4), "
+          + "PVZNR (PK, 'PI characteristic number', NUMC 4) ו-ATNAM (FK, 'Characteristic name', CHAR 30); קשר יחיד "
+          + "אל PLPO בצירוף 'FROM PLPO JOIN TC60 ON PLPO.STEUS = TC60.STEUS' עם התיאור 'מאפייני הוראות תהליך (PI)'; "
+          + "עמודת הפונקציות רושמת BAPI_PROCORD_CREATE ו-BAPI_PROCORD_GET_DETAIL, אותו זוג שחוזר בשמונה משורות "
+          + "הנושא ושכבר תועד ברשומת table:PLAS כערך ברירת מחדל של הגיליון; אין בשורה s4AltTable, אין s4AltTcode "
+          + "ואין הערת SUM. כפילות בתוך אותה חוברת: רשומת PP-PI:TC22 (נושא 7) נושאת descriptionHe ו-descriptionEn "
+          + "זהים ('מפתח בקרה' / 'Control key'), אותה עמודת S/4 ואותו צירוף על השדה STEUS ('FROM PLPO JOIN TC22 ON "
+          + "PLPO.STEUS = TC22.STEUS'), אך רשימת שדות אחרת (STEUS, RUECK, BANFK, PROZESS) ומדריך אחר, והיא עצמה "
+          + "נושאת הסתייגות בגוף הטקסט: '(אמת מול SE11 - מפתחות בקרה גם ב-TC30)'. סתירה נוספת בתוך המאגר: "
+          + "data/table-enrichment.ts#PLPO, המסומן verified, ממפה 'STEUS → T430 (Control Key)', ואותו מיפוי כבר "
+          + "מצוטט ברשומת האימות table:AFVC יחד עם הקביעה ש-T430 אינה טבלה ביקום המזהים של הדאטהסט. שכבות ידע "
+          + "נוספות מייחסות ל-TC60 תכנים שונים זה מזה: data/knowledge/object-intel.ts רושם 'הגדרת מפתחות בקרת פעולה "
+          + "(control key) הקובעים אם פעולה מתומחרת, מאושרת או מתוזמנת' ולצדו 'התאמת הגדרות מבנה ושדות עבור פרופילי "
+          + "פעולה'; data/knowledge/pppi-objects-ext.ts רושם את TC60 כמפתח בקרה (Control key) תחת הכותרת "
+          + "'קונפיגורציה', בדרגת אמון needs-verification; ספר ה-PP בספרייה מקשר TC60 גם לפרופיל מתכון-על (C2C) וגם "
+          + "לסוגי ולקטגוריות הוראת תהליך לצד CABN; וספר ה-PM מקשר TC60 להקשר אמצעי ייצור עזר לצד AFFH ו-CRVD_A. "
+          + "data/table-enrichment.ts משאיר את TC60 בלי העשרה במכוון ומנמק זאת בגוף הקוד: '11 further tables appear "
+          + "in the blueprint [...] but their key structure / semantics could not be confirmed from a trusted "
+          + "source'. TC60 אינה נמנית ב-data/s4-impact.ts, ולכן הסטטוס שהאפליקציה מציגה כיום נגזר מעמודת ה-S/4 של "
+          + "הבלופרינט בלבד: fromBlueprintClass(0) בתוך components/neo-shell/data/tables-detail.ts, כלומר 'ללא "
+          + "שינוי ב-S/4HANA' עם derivedFrom blueprint, בלי release, בלי מקור ובלי יורש.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/sapData.pppi.ts#PP-PI:TC60, data/sapData.pppi.ts#PP-PI:TC22, data/table-enrichment.ts (ההערה על "
+          + "הטבלאות שהושארו בלי העשרה), data/table-enrichment.ts#PLPO, data/knowledge/object-intel.ts#TC60, "
+          + "data/knowledge/pppi-objects-ext.ts#TC60, data/library/pp-textbook/ch04.ts, "
+          + "data/library/pmu-textbook/ch04.ts, components/neo-shell/data/tables-detail.ts",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "אף מקור SAP רשמי שנבדק בסבב הזה אינו נוקב בשם הטכני TC60, ולכן מעמד הטבלה ב-S/4HANA לא הוכרע כאן. מה שכן "
+        + "אומת רשמית לגרסת 2025 FPS01 נוגע לשני התכנים שרשומת הבלופרינט מדביקה זה לזה תחת השם TC60. ראשית, מפתח "
+        + "הבקרה של תעשיות תהליכיות חי ומתועד: הוא מוגדר בקסטומיזציה של מתכוני-על או של הזמנות תהליך, מוצמד לפעולה, "
+        + "לשלב או למשאב משני בעת יצירתם, וקובע תזמון, תכנון קיבולת ותמחיר. שנית, תוכן הוראות התהליך, שהמדריך של "
+        + "אותה שורה מייחס לטבלה, נשען לפי התיעוד על קטגוריות הוראת תהליך המוגדרות בקסטומיזציה, שכל הוראה במתכון "
+        + "הרצה מפנה אליהן. על התוכן השני קיימת הגבלה רשמית מפורשת: פריט הפישוט 9.3.17 קובע שהשימוש במתכוני הרצה "
+        + "ובהוראות בקרה יחד עם גיליונות PI מבוססי דפדפן הוא חלק מהיקף התאימות של S/4HANA, עם זכויות שימוש מוגבלות, "
+        + "ושהדבר חל גם על תחזוקת תוכן הוראות התהליך, מבוססות המאפיינים ומבוססות ה-XStep, תחת פריט היקף תאימות 444 "
+        + "ועד לפקיעת רישיון חבילת התאימות, כאשר הפריט עצמו מציין שאין צורך בפעולה מיידית. אותו פריט מבחין בין "
+        + "שימוש זה לבין חיבור למערכות בקרת תהליך חיצוניות דרך Manufacturing Execution Connect (classic), שאותו הוא "
+        + "מוציא מהיקף התאימות יחד עם תחזוקת תוכן ההוראות באותו הקשר. ההגבלה הזו מנוסחת על הפונקציונליות ועל תוכן "
+        + "ההוראות, ולא על טבלה נקובה, ולכן היא אינה נרשמת כאן כמעמד של הטבלה TC60. שלוש סיבות נוספות מחזיקות את "
+        + "הרשומה בדרישת אימות: השורה בבלופרינט סותרת את עצמה, שכן הכותרת היא מפתח בקרה בעוד המדריך והשדות PVZNR "
+        + "ו-ATNAM מתארים מאפייני הוראת תהליך; אותה חוברת רושמת שורה שנייה, TC22, עם אותו תיאור בדיוק ועם אותו "
+        + "צירוף על השדה STEUS, כך ששתי שורות מתחרות על אותו תפקיד; ושכבת ההעשרה של הפרויקט, המסומנת verified, ממפה "
+        + "את PLPO.STEUS דווקא אל T430. משום כך פסיקת 'ללא שינוי' שרשומה בעמודת ה-S/4 של הבלופרינט נשארת פסיקת מקור "
+        + "שלא נתמכה בראיה רשמית, ואינה מוצגת כאן כמאומתת. מה שלא נבדק כאן ואינו נטען: אילו שדות יש לטבלה ששמה "
+        + "TC60, מהו מפתחה, מה תוכנה בפועל, והאם היא קיימת בגרסת היעד.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לפתוח את TC60 ב-SE11 או ב-ADT במערכת היעד ולקבוע מה מפתחה ומהי רשימת שדותיה, ובאותה בדיקה גם את TC22 ואת "
+        + "T430, כדי להכריע איזו טבלה עומדת מאחורי השדה PLPO.STEUS ומה מחזיקה TC60 בפועל. עד להכרעה הזו אין להציג "
+        + "את הערת 'ללא שינוי' שבבלופרינט כפסיקה מאומתת, ואין להסתמך על שורת TC60 או על שורת TC22 בכתיבת שאילתות, "
+        + "דוחות או לוגיקת הסבה. את מפתחות הבקרה עצמם לתחזק דרך פעילויות הקסטומיזציה המתועדות ולא בעדכון ישיר של "
+        + "טבלה: התיעוד הרשמי של תעשיות תהליכיות מפנה לקסטומיזציה של מתכוני-על או של הזמנות תהליך, והתיעוד של "
+        + "הזמנות ייצור מפנה למסלול Shop Floor Control ואז Master Data ואז Routing Data ואז Define Control Key. "
+        + "לקריאה, לדיווח ולאינטגרציה להעדיף את השכבות הרשמיות של S/4HANA על פני SELECT ישיר: תצוגת ה-VDM המשוחררת "
+        + "I_OperationControlProfile ותצוגת הטקסט הנלווית I_OperationControlProfileText, והישות "
+        + "ProductionRoutingOpCtrlPrfl בשירות API_PRODUCTION_ROUTING, שהעמוד 'Codelist for Routing Operation "
+        + "Control Key' נוקב במאפייניה OperationControlProfile ו-OperationControlProfileName. ארגון המפעיל מתכוני "
+        + "הרצה וגיליונות PI מבוססי דפדפן צריך לטפל בפריט הפישוט 9.3.17 כחלק מתכנית ההסבה: לוודא את מצב זכויות "
+        + "השימוש של פריט היקף התאימות 444 מול ה-SAP Note שהפריט נוקב בהם, לבדוק קוד מותאם הנוגע לתוכן הוראות "
+        + "התהליך, ולתכנן מראש את המעבר לחלופה המיועדת. אחרי ההמרה לבצע בדיקות רגרסיה לכל מפתח בקרה פעיל: יצירת "
+        + "פעולה ושלב במתכון-על ובהזמנת תהליך, בדיקה שהתזמון, תכנון הקיבולת והתמחיר מתנהגים לפי ההגדרה, ובדיקה "
+        + "שגיליון ה-PI נוצר עם ההוראות הצפויות.",
+    },
+    xrefs: [
+      "table:PLPO", "table:TC22", "table:PLKO", "table:AFVC", "table:CRHD", "table:TCA01", "tx:C201", "tx:C202",
+      "tx:C203", "tx:COR1", "tx:SPRO", "fm:CP_DI_OPERATION_READ", "fm:CP_RECIPE_READ",
+      "cds:I_ProductionOrderOperation",
+    ],
+    lastVerifiedAt: DATE5,
+    notes:
+      "שיטה: תשע עשרה ריצות של scripts/sap-help-search.mjs בסבב הזה בשני סקופים, SAP_S4HANA_ON-PREMISE ו-SAP_ERP "
+      + "('TC60', 'table TC60 control key', 'Control key operation scheduling costing confirmation routing', "
+      + "'Control Key', 'Control Key routings definition user-defined key operation', 'Control Key user-defined key "
+      + "operation phase secondary resource master recipes process orders', 'Control Key CDS View Name Text View "
+      + "Released Virtual Data Model production', 'Operation Control Key CDS View Name I_OperationControlKey', "
+      + "'Operation Control Profile Text CDS view association', 'Operation Control Profile "
+      + "I_OperationControlProfile which operation control profiles are maintained', 'Codelist for Routing "
+      + "Operation Control Key ProductionRoutingOpCtrlPrfl', 'Process Instruction Category process management PP-PI "
+      + "define', 'Process Instructions and Process Instruction Categories', 'Process Instruction Characteristics "
+      + "characteristic overview control recipe', 'STEUS control key field', 'PVZNR process instruction "
+      + "characteristic', 'T430 control key table', 'What's New Define Control Key Customizing operation "
+      + "production', ו'Control Key master recipe process order' בסקופ SAP_ERP), בתוספת חיפוש רשת מוגבל לדומיינים "
+      + "הרשמיים על המחרוזת TC60 וקריאה של רשימת הפישוט הרשמית. אזהרת ערוץ: מנוע החיפוש של help.sap.com מפרק את "
+      + "המחרוזת TC60 ומחזיר התאמות ל-TC00, TC10, TC20 ול-TD60 בתוכן שכר וזמן עבודה, ולכן היעדר תוצאה אינו הוכחה "
+      + "שהשם אינו מופיע באיזשהו עמוד. חיפוש הרשת המוגבל על 'TC60' החזיר עמודי Control Key ועמודי ABAP Table "
+      + "Controls בלבד, ואף אחד מהם אינו נוקב בטבלה בשם TC60. גוף עמודי ה-Help אינו נשלף (מעטפת JavaScript), ולכן "
+      + "כל טענה רשמית כאן תחומה לכותרת, לדליברבל ולסניפט של רשומת החיפוש, למעט מסמך ה-PDF שנקרא בפועל. בדיקה "
+      + "שבוצעה בפועל על רשימת הפישוט: הקובץ SIMPL_OP2025.pdf הורד מחדש בסשן הזה מהכתובת שברשומת הראיה (10,585,218 "
+      + "בתים, md5 c1ccf8ebcd92d51fdc80e4b4873f3b73, זהה בייט-לבייט לעותק שנקרא באצוות קודמות של הפרויקט), והטקסט "
+      + "חולץ ב-pdftotext, 70,529 שורות. נמדד במסמך כולו: אפס מופעים של TC60, אפס מופעים של TC22, TC20 ו-TC50, אפס "
+      + "מופעים של STEUS, ו-36 מופעים של הצירוף control key, כולם בשורות 67418 עד 67580 של הטקסט המחולץ, כלומר בתוך "
+      + "פריט 15.2.5 'S4TWL - Sales Order Scheduling Integration into S/4HANA TM' שנפתח בשורה 67400 ונחתם לפני פריט "
+      + "15.2.6 בשורה 67583. פריט 9.3.17 עצמו נקרא עמוד אחר עמוד מהעותק שהורד בסשן הזה: הכותרת, רכיב היישום ומספר "
+      + "ה-Note בעמ' 633, ה-Description בעמ' 634, ה-Required and Recommended Actions בעמ' 635, וההמשך בעמ' 635 עד "
+      + "636. ממצא רציפות מול ECC: אותו loio של עמוד 'Control Key', 9183bf53f106b44ce10000000a174cb4, מוחזר גם "
+      + "בסקופ SAP_ERP בדליברבל 'Master Recipes (PP-PI-MD)' של 6.18.latest ובדליברבל 'Production Planning - Process "
+      + "Industries (PP-PI)' של 6.03 ו-6.04, עם אותו נוסח בסניפט, כלומר הגדרת מפתח הבקרה בתעשיות תהליכיות מנוסחת "
+      + "זהה בתיעוד ECC 6.0 EHP8 ובתיעוד S/4HANA 2025 FPS01. זו רציפות של המושג ושל הנוסח, ולא ראיה על טבלה. עמודים "
+      + "רשמיים נוספים שנצפו ולא נפתחו כרשומות ראיה נפרדות: 'Operation Control Profile' (Virtual Data Model and CDS "
+      + "Views, 2025.001, loio 28629ec7b5aa48938b293609bb4f2622) הקובע 'Technical Name I_OperationControlProfile "
+      + "View Type Basic, Dimension Release Status Released' ו'business questions: Which operation control profiles "
+      + "are maintained?'; 'Operation Control Profile Text' (2023.latest, loio f018985566d34c80935907016744fdc9) "
+      + "הקובע 'Technical Name I_OperationControlProfileText View Type Basic, Text Release Status Released'; "
+      + "'Codelist for Routing Operation Control Key' (APIs for Manufacturing, 2025.001, loio "
+      + "2579fc62263746e49fec4f3ca0b537d2) הקובע 'Technical name: ProductionRoutingOpCtrlPrfl Properties Property "
+      + "Description Necessity OperationControlProfile Operation Control Profile Read Only "
+      + "OperationControlProfileName'; 'Read Routing Operation Control Key' (אותו דליברבל, loio "
+      + "896652a0951948628c4590637be13280) המדגים 'GET "
+      + "<host>/sap/opu/odata/sap/API_PRODUCTION_ROUTING/ProductionRoutin'; 'Control Key' (Routings (PP-BD-RTG), "
+      + "2025.001, loio 4281bd534f22b44ce10000000a174cb4) הקובע 'You define control keys in Customizing for either "
+      + "work centers, production orders or routings'; 'Control Key for Operations' (Production Orders (PP-SFC), "
+      + "2025.001, loio fd01b753128eb44ce10000000a174cb4) הנוקב במסלול 'Customizing for Shop Floor Control , by "
+      + "choosing Master Data Routing Data Define Control Key'; 'Control Keys' (Work Centers (PP-BD-WKC), 2025.001, "
+      + "loio bf73b65334e6b54ce10000000a174cb4) הקובע 'The control key is defined in Customizing for the Work "
+      + "center or for the Routing'; 'Control Key' (Orders (CS-SE/PM-WOC-MO), 2025.001, loio "
+      + "90a1b8535c39b44ce10000000a174cb4) ו'Control Keys in Phase-Enabled Maintenance Orders' (Maintenance "
+      + "Management, 2025.001, loio 78a9e181d9fa4e3eaab8e500dfb2f2b5) בצד תחזוקת מפעל; 'Process Instruction "
+      + "Category' (2025.001, loio 5d88bf53f106b44ce10000000a174cb4) הקובע 'Process instruction categories are "
+      + "standard process instructions that have been predefined in Customizing for Process Management'; 'Assigning "
+      + "Values to Process Instruction Characteristics' (2025.001, loio 3c86bf53f106b44ce10000000a174cb4); "
+      + "ו'Download of all Control Recipes Initiated by SAP PP-PI' (2025.001, loio "
+      + "0c72b6535fe6b74ce10000000a174cb4), שמבנה ההורדה שלו נוקב ב'FTTYP CHAR 01 Process instruction type' "
+      + "וב'COSTR CHAR 08 Process instruction category to which the process instruction refers', ולא בשדות PVZNR או "
+      + "ATNAM שהבלופרינט מייחס ל-TC60. השדות האלה שייכים למבנה ההורדה של מתכון ההרצה ואינם עדות על שדות של טבלת "
+      + "קסטומיזציה. פריטים שנצפו ואין להם מזהה ביקום הדאטהסט ולכן אין להם xref: התצוגות I_OperationControlProfile "
+      + "ו-I_OperationControlProfileText, השירות API_PRODUCTION_ROUTING והישות ProductionRoutingOpCtrlPrfl, הטבלאות "
+      + "T430 ו-TC30, הטבלה CABN, והטרנזקציות CO9A ו-C2C שספרי הספרייה מקשרים ל-TC60. הטרנזקציה CT04, שאותם ספרים "
+      + "מקשרים לצד CO9A, קיימת ביקום המזהים (tx:CT04) אך לא נרשמה כ-xref, משום שהספרייה מקשרת אותה לתחזוקת "
+      + "מאפיינים (CABN) ולא לטבלה TC60. ה-xrefs שנרשמו מבטאים את ההקשר שהבלופרינט עצמו קובע (PLPO דרך השדה STEUS, "
+      + "TC22 ככפילות הישירה, PLKO כותרת המתכון, AFVC פעולת ההזמנה הנושאת STEUS, CRHD המשאב, ו-TCA01 פרופיל רשימת "
+      + "הפעולות שבאותו נושא) ואת מקומות ההקצאה והתחזוקה שהתיעוד הרשמי נוקב בהם (C201, C202, C203, COR1 ו-SPRO), "
+      + "ואינם טענה שהטרנזקציות האלה מתחזקות את TC60 עצמה. לא נעשתה שום בדיקה במערכת חיה: חיבור ה-MCP של sc4sap "
+      + "אינו זמין בסשן הזה, ולכן SE11, ADT ו-SE16N לא נבדקו. קטלוג פריטי הפישוט ב-launchpad.support.sap.com דורש "
+      + "הזדהות S-user ולא נבדק, ולא נשלף גוף של אף SAP Note. מספרי ה-Note שברשומת הראיה נלקחו כלשונם מגוף ה-PDF "
+      + "ולא נכתבו לשדה sapNote, משום שאין להם כתובת me.sap.com/notes ברשומה הזו. מהדורת S/4HANA Cloud Public "
+      + "Edition לא נחקרה, והרשומה מוגבלת ל-On-Premise ול-Private Edition. הרשומה אינה נושאת שדה reviewer, לפי "
+      + "מוסכמת הבית בכל data/verification/**. שירות החיפוש הדפיס בכותרת הפלט שלו את התאריך 2026-09-15 בעוד תאריך "
+      + "הסשן הוא 2026-09-16, ולכן כל שדות accessedAt נושאים 2026-09-16 כפי שנקבע לאצווה. פערים פתוחים לתור המחקר: "
+      + "(1) זהות הטבלה שמאחורי PLPO.STEUS לא הוכרעה בין TC60, TC22 ו-T430; (2) לא אומת מה מחזיקה TC60 בפועל, ואם "
+      + "השדות PVZNR ו-ATNAM קיימים בה; (3) רשומת TC22 זקוקה לתיקון מקביל, והכפילות עצמה היא ליקוי נתונים בחוברת "
+      + "המקור ולא בשכבת האימות; (4) object-intel, pppi-objects-ext ושני ספרי הספרייה מייחסים ל-TC60 תכנים שונים זה "
+      + "מזה, וגם זה נשאר פתוח.",
+  },
+  /* ------------------------------------------------------------ table:TCA01 */
+  {
+    id: "table:TCA01",
+    aliases: ["tca01"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Trouble Shooting During MBOM Assignment | Production Engineering and Operations for Complex Assembly",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/f250a27a1b5a472b81f3e11a54ae616f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "המחרוזת TCA01 אותרה בסבב זה בעמוד תיעוד אחד של S/4HANA On-Premise בגרסת 2025 FPS01, ושם היא תחילית של "
+          + "שם אחר: עמוד פתרון התקלות של שיוך MBOM במודול Production Engineering and Operations נוקב בפעילות "
+          + "Customizing בשם 'Define Version Profile (TCA01_SUBTYPE)' תחת Production → Manufacturing for Production "
+          + "Engineering and Operations → Production Engineering → Routings → Shop Floor Routing, וממשיך בכתיב "
+          + "טבלה-מקף-שדה: 'If you are using a routing version profile that allows multiple MBOMs (checkbox Single "
+          + "BOM is empty) (TCA01_SUBTYPE-SINGLE_MBOM empty) then you can only assign'. הסניפט עוסק בפרופיל גרסה של "
+          + "מסלול ניתוב ייצור ואינו מגדיר מה מכילה הטבלה TCA01 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Creating Routings Using Batch Input | Routings (PP-BD-RTG)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/000598f44016404fa82337e65a45264c/3c85b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "התיעוד של רשימות פעולות (PP-BD-RTG) בגרסת 2025 FPS01 מציג את PROFIDNETZ כשם שדה: 'If you want to work "
+          + "with batch input sessions, you have to activate the entry tool in the routing profile of the SAP "
+          + "system', ומיד אחריו 'Therefore, you have to choose a profile in which the entry tool is activated for "
+          + "field BIPKO-PROFIDNETZ (record type 3)'. כלומר PROFIDNETZ הוא שדה במבנה קלט הכותרת BIPKO של טעינת "
+          + "מסלולי ניתוב, והפרופיל הוא ערך שנבחר באותו שדה. הסניפט אינו נוקב בשם טבלה שבה נשמרים הפרופילים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition "
+          + "2025 - Feature Pack Stack 1 (Document Version 1.36) - סריקת טקסט מלאה אחר TCA01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE5,
+        claim:
+          "קובץ ה-PDF של רשימת הפישוט לגרסת 2025 FPS01 (גרסת מסמך 1.36) נקרא כטקסט מלא: 1,514 עמודים, כ-3.6 "
+          + "מיליון תווים. חיפוש מחרוזת חסר-רגישות-רישיות החזיר אפס מופעים של TCA01 ואפס מופעים של PROFIDNETZ. "
+          + "המסקנה מוגבלת לכך שאף פריט פישוט במסמך זה אינו נוקב בשם TCA01, וזהו העדר אזכור ולא קביעה בדבר מצב "
+          + "הטבלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "שכבות התיאור של הפרויקט לטבלה TCA01 - הבלופרינט של PP-PI מול שכבות ההעשרה",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE5,
+        claim:
+          "הבלופרינט של PP-PI (נושא 3, מתכון ייצור ופעולות) מתאר את TCA01 כ'מזהה פרופיל' / 'Profile ID', עם שלושה "
+          + "שדות - PROFIDNETZ ‏(CHAR 7, מסומן PK, טקסט אנגלי 'Profile ID'), PLNTY ‏(CHAR 1) ו-STEUS ‏(CHAR 4) - עם "
+          + "הצירוף 'FROM PLKO JOIN TCA01 ON PLKO.PROFIDNETZ = TCA01.PROFIDNETZ' והערת S/4 'ללא שינוי "
+          + "(Customizing).'. תיאור הטבלה זהה אפוא לתווית השדה PROFIDNETZ שבאותה רשומה, כלומר תווית שדה ששימשה "
+          + "כתיאור טבלה - אותה תקלה שכבר תועדה ברשומות האימות של PLAS, PLPO, PLFL ו-PLZU. עמודת הפונקציות שם רושמת "
+          + "BAPI_PROCORD_CREATE ו-BAPI_PROCORD_GET_DETAIL, שהן ממשקי הזמנת תהליך ולא ממשקי רשימת פעולות, והן ערך "
+          + "ברירת המחדל החוזר בשמונה מאחת-עשרה שורות הנושא. שתי שכבות אחרות במאגר מתארות את אותה טבלה אחרת לגמרי.",
+        verificationLevel: "conflicting_sources",
+        repoRef: "data/sapData.pppi.ts#PP-PI:TCA01",
+        conflictingEvidence: [
+          {
+            sourceType: "repository",
+            sourceTitle: "שכבת ההעשרה הטכנית של הפרויקט - רשומת TCA01",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            accessedAt: DATE5,
+            claim:
+              "שכבת ההעשרה הטכנית מתארת את TCA01 כ'סוגי רשימות פעולות (Task list types)' - טבלת קסטומיזציה "
+              + "המגדירה את סוגי רשימות הפעולות, עם מפתח MANDT ו-PLNTY, מפתח זר מ-PLKO/PLPO/PLAS/MAPL ודוגמת SELECT "
+              + "מ-TCA01 לפי PLNTY. הרשומה מסומנת שם verified, אך מקורותיה הם 'SAP DDIC (SE11)' ו'SAP Help Portal - "
+              + "Task List Types' בלי כתובת או מזהה נושא, ולכן אין בה ראיה שניתן לאמת מחדש. תיאור זה סותר את 'מזהה "
+              + "פרופיל' שבבלופרינט.",
+            verificationLevel: "verification_required",
+            repoRef: "data/table-enrichment.ts#TCA01",
+          },
+          {
+            sourceType: "repository",
+            sourceTitle: "שכבת התרחישים והתפקידים של הפרויקט - רשומת TCA01",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            accessedAt: DATE5,
+            claim:
+              "שכבת התרחישים והתפקידים מתארת את TCA01 כטבלת קטגוריות וסוגי מרכז עבודה: היא מייחסת לה 'הגדרת "
+              + "קטגוריות/סוגי מרכז עבודה (work center category)', 'קביעת שילובי שימוש (usage)' ו'תחזוקת בקרת מסך "
+              + "(field selection) לקטגוריות מרכז עבודה', עם תפקידים סביב CR01 ו-SPRO ומסלול למידה שעובר מ-TCA01 אל "
+              + "מרכז עבודה. הרשומה ממוקמת בקובץ מיד אחרי TC60 ולפני CRCO, CRCA ו-KAKO, כלומר על התפר שבין רשומות "
+              + "הקסטומיזציה של רשימות פעולות לרשומות מרכז העבודה והקיבולת. תיאור זה סותר גם את 'מזהה פרופיל' "
+              + "שבבלופרינט וגם את 'סוגי רשימות פעולות' שבשכבת ההעשרה הטכנית.",
+            verificationLevel: "verification_required",
+            repoRef: "data/knowledge/object-intel.ts#TCA01",
+          },
+        ],
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "אין ברשומה זו מקור SAP רשמי הקובע מה מכילה הטבלה TCA01 ומה מצבה ב-S/4HANA. תשע עשרה שאילתות בשירות "
+        + "החיפוש של help.sap.com בשלושה סקופים (S/4HANA On-Premise 2025 FPS01, SAP ERP 6.18 ו-S/4HANA Cloud "
+        + "2608.500) וחיפוש רשת מוגבל לדומיינים הרשמיים לא החזירו ולו נושא אחד הנוקב ב-TCA01 כשם טבלה; מנוע החיפוש "
+        + "משיב על המחרוזת הזאת התאמות מטושטשות של CA01 (טרנזקציות הניתוב, מפתחות פחת, אזור מס). המופע היחיד של "
+        + "המחרוזת עצמה הוא בשם אחר, TCA01_SUBTYPE, בהקשר פרופיל גרסה של מסלול ניתוב ייצור. התיאור שבבלופרינט, "
+        + "'מזהה פרופיל' / 'Profile ID', הוא תווית השדה PROFIDNETZ, ולפי התיעוד הרשמי PROFIDNETZ הוא שדה "
+        + "(BIPKO-PROFIDNETZ) ולא טבלה - ולכן התיאור שבמאגר אינו יכול לשמש כשם עסקי של הטבלה. בתוך המאגר עצמו "
+        + "קיימות שלוש גרסאות סותרות למה שהטבלה מכילה, ולכן גם הפסיקה 'ללא שינוי' שבבלופרינט, שממנה נגזר כיום "
+        + "הסטטוס שמוצג באפליקציה, אינה נשענת על בסיס מאומת.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לפני כל שימוש ב-TCA01 בהסבה, בקוד מותאם, בדוח או בהדרכה יש לאמת ב-SE11 או ב-ADT במערכת היעד שלוש נקודות: "
+        + "שהטבלה קיימת, מהו הטקסט הקצר שלה, ומהו מפתחה בפועל. עד לאימות אין להציג את התיאור 'מזהה פרופיל' כשם "
+        + "הטבלה ואין להציג את הערת 'ללא שינוי (Customizing)' שבבלופרינט כפסיקת S/4HANA מאומתת. במקביל יש להכריע "
+        + "בסתירה הפנימית בין שלוש שכבות המאגר ולתקן את השתיים השגויות. לעבודה השוטפת: סוגי רשימות הפעולות נקבעים "
+        + "בפעילות ה-Customizing 'Maintain Task List Types and Set SET/GET Parameters' תחת Production → Basic Data "
+        + "→ Routing → Control Data, פרופיל ערכי ברירת המחדל לרשימת פעולות אחזקה נקבע ב-'Define profiles with "
+        + "default values' תחת Plant Maintenance → Preventive Maintenance → Task Lists → Control Data, ופרופיל "
+        + "הגרסה למסלולי ניתוב רצפת ייצור נקבע ב-'Define Version Profile' של Production Engineering and Operations. "
+        + "שלוש הפעילויות מתועדות בגרסת 2025 FPS01, ואף אחת מהן אינה נוקבת בשם הטבלה שמאחוריה.",
+    },
+    xrefs: [
+      "table:PLKO", "table:PLPO", "table:PLAS", "table:PLFL", "table:MAPL", "table:TC60", "table:PLZU", "tx:CA01",
+      "tx:CA02", "tx:CA03", "tx:C201", "tx:C202", "tx:SPRO", "tx:SE11", "tx:IA05", "fm:BAPI_ROUTING_GETDETAIL",
+      "fm:CP_DI_OPERATION_READ", "cds:I_Routing",
+    ],
+    lastVerifiedAt: DATE5,
+    notes:
+      "מה נבדק בפועל ב-2026-09-16: תשע עשרה ריצות של scripts/sap-help-search.mjs ‏(TCA01 ב-SAP_S4HANA_ON-PREMISE, "
+      + "ב-SAP_ERP וב-SAP_S4HANA_CLOUD; PROFIDNETZ; TCA01_SUBTYPE; task list type PLNTY Customizing; Maintain Task "
+      + "List Types; V_TCA01; Virtual Data Model לטבלאות קסטומיזציה של רשימות פעולות) ו-WebSearch מוגבל לארבעת "
+      + "הדומיינים הרשמיים. אף רשומת חיפוש לא נקבה ב-TCA01 כשם טבלה. בנוסף נסרק כטקסט מלא קובץ רשימת הפישוט "
+      + "SIMPL_OP2025.pdf ‏(1,514 עמודים) בלי מופע של TCA01 או של PROFIDNETZ. הסתייגות על TCA01_SUBTYPE: דמיון שמות "
+      + "אינו ראיה. העמוד הרשמי נוקב ב-TCA01_SUBTYPE-SINGLE_MBOM בכתיב טבלה-מקף-שדה, ומכאן אפשר להעלות השערה בלבד "
+      + "שהתחילית TCA01 שייכת לעולם סוגי רשימות הפעולות ולא לעולם 'מזהה פרופיל'; ההשערה הזאת לא אומתה ואין להציגה "
+      + "כממצא. ראיות נוספות שנצפו ולא נכנסו למכסת הארבע, כולן S/4HANA On-Premise 2025 FPS01: 'Settings for "
+      + "Planning Routings' ‏(loio 84c5141e912d4f0dba060415925a076e) ו'Settings for Shop Floor Routings' ‏(loio "
+      + "9c5b38403c5844d6a309a5644e95639d), שתיהן נוקבות בפעילות 'Maintain Task List Types and Set SET/GET "
+      + "Parameters Production → Basic Data → Routing → Control Data'; 'Quantity Structure Control Through the "
+      + "Material Master Record' ‏(Controlling, loio f494d7531a4d414de10000000a174cb4) - 'Task list type Specifies "
+      + "whether, for example, routings, reference operation sets, or recipes are included. You define task list "
+      + "types in Customizing'; 'Creating a Profile for a Maintenance Task List and Assigning it to the User "
+      + "Profile' ‏(loio 06a8ce5314894208e10000000a174cb4) - 'In Customizing, choose Plant Maintenance → Preventive "
+      + "Maintenance → Task Lists → Control Data → Define profiles with default values'; ו'Creation of a Profile' "
+      + "‏(Task Lists CS-AG/PM-PRM-TL, loio 7b65bd534f22b44ce10000000a174cb4) - 'Often certain fields in different "
+      + "maintenance task lists contain the same values or data. To reduce the entry time required, you can create "
+      + "a profile'. כלומר התחום התפקודי שהבלופרינט מייחס לטבלה, פרופיל ערכי ברירת מחדל לרשימות פעולות ולמתכונים, "
+      + "מתועד וחי בגרסת 2025 FPS01, אך אף עמוד שנצפה אינו מקשר אותו לשם TCA01. הסטטוס שהאפליקציה מציגה כיום הוא "
+      + "'ללא שינוי ב-S/4HANA' בנגזרת מהבלופרינט: lib/s4-class.ts מזהה את הפתיח 'ללא שינוי' בהערת ה-S/4 ומחזיר "
+      + "מחלקה 0, ו-lib/evidence/s4-status.ts ממיר אותה ל-unchanged עם derivedFrom: blueprint. רשומה זו מחליפה את "
+      + "הפסיקה הזאת ב-verification_required עד לאימות. סתירה פנימית רביעית, קלה יותר: "
+      + "data/knowledge/pppi-objects-ext.ts מתאר את TCA01 כ'קונפיגורציה - פרופיל רשימת פעולות' ומסמן אותו trust: "
+      + "needs-verification, כלומר תואם לבלופרינט אך מודה שאינו מאומת; אותו קובץ מסמן כך גם את TC60 הסמוך. ה-xrefs "
+      + "מפנים לטבלאות רשימת הפעולות שהתיעוד הרשמי אכן נוקב בהן ‏(PLKO, PLPO, PLAS, PLFL, MAPL) ולטבלאות "
+      + "הקסטומיזציה הסמוכות באותו נושא בבלופרינט ‏(TC60, PLZU), ולפונקציות קריאת רשימות פעולות שקיימות ביקום "
+      + "הדאטהסט ‏(BAPI_ROUTING_GETDETAIL, CP_DI_OPERATION_READ) במקום לזוג ה-BAPI של הזמנת תהליך שבעמודת הפונקציות "
+      + "של הבלופרינט. מה חסר כדי לשדרג את הרשומה: בדיקת SE11 או ADT במערכת היעד ‏(חיבור ה-MCP של sc4sap נכשל בסשן "
+      + "זה ולא בוצעה בדיקה במערכת חיה), או נושא רשמי ב-help.sap.com הנוקב בשם TCA01. לא צוטט מספר SAP Note ולא "
+      + "נבדק פריט בקטלוג הפישוט האינטראקטיבי, ששניהם מאחורי הזדהות S-user. לא נמצאה אפליקציית Fiori ולא תצוגת CDS "
+      + "משוחררת מעל טבלת קסטומיזציה של סוגי רשימות פעולות, ולכן אין xref מסוג fiori. מהדורת הענן הציבורית לא "
+      + "נחקרה; הרשומה מוגבלת ל-On-Premise ול-Private Edition. הרשומה אינה נושאת שדה reviewer, לפי מוסכמת הקבצים "
+      + "שב-data/verification.",
+  },
+  /* ------------------------------------------------------------ table:TCK03 */
+  {
+    id: "table:TCK03",
+    aliases: ["tck03"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Costing Variant | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/ef58e774527a4a8ca7a7fbeb7f57555a.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE5,
+        claim:
+          "עמוד ה-VDM 'Costing Variant' בסט Virtual Data Model and CDS Views (loio "
+          + "ef58e774527a4a8ca7a7fbeb7f57555a, גרסת 2023 Latest, תאריך 2026-08-05) קובע בסניפטים שהוחזרו בשלוש "
+          + "ריצות החיפוש של הסבב הזה: 'Costing Variant CDS View Name I_CostingVariant Related Text View "
+          + "I_CostingVariantText Analytical Data Category DIMENSION Purpose This CDS view provides information "
+          + "about settings for Costing [...] Variants in Product Cost Planning', 'Structure Further Important "
+          + "Fields Important fields in I_CostingVariant include the following: Field Name Description Comment "
+          + "CostingVariant Costing variant', 'ValuationVariant Valuation variant in product costing Defines "
+          + "settings required for the valuation of a cost estimate' ו'CostingType Costing type in product costing "
+          + "Defines the purpose of a prod[...]'. כלומר במודל הנתונים הווירטואלי של S/4HANA וריאנט התמחיר מיוצג "
+          + "בתצוגת Dimension בשם I_CostingVariant, לצדה תצוגת טקסט I_CostingVariantText, תוכן התצוגה מתואר כהגדרות "
+          + "של וריאנטי תמחיר ב-Product Cost Planning, ושלושת השדות שהעמוד מונה כחשובים הם מפתח הווריאנט "
+          + "(CostingVariant), וריאנט ההערכה (ValuationVariant) וסוג התמחיר (CostingType). אלה שלושת הרכיבים שרשומת "
+          + "המאגר מייחסת לטבלה, אך העמוד אינו נוקב בשם טבלת DDIC כלשהי ואינו נוקב בשמות השדות KLVAR, BWVAR או "
+          + "KALAW.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "CDS Views for Financial Planning and Analysis | What's New in SAP S/4HANA 2022",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/75c7431a5bc0435d8656f90b9e34c479.html?locale=en-US&state=PRODUCTION&version=2022.000",
+        accessedAt: DATE5,
+        claim:
+          "רשומת ה-What's New של S/4HANA 2022 בשם 'CDS Views for Financial Planning and Analysis' (loio "
+          + "75c7431a5bc0435d8656f90b9e34c479, תאריך 2023-12-13) קובעת: 'New CDS views for usage objects have been "
+          + "released, and some views have been deprecated', ובטבלת התצוגות שבסניפט מופיעות השורות 'New CO-PC-PCP "
+          + "(Product Cost Planning) Costing Variant I_CostingVariant', 'New CO-PC-PCP (Product Cost Planning) "
+          + "Costing Version I_CostingVersion', 'New CO-PC-PCP (Product Cost Planning) Costing Type I_CostingType' "
+          + "ו'New CO-PC-PCP (Product Cost Planning) Costing Valuation Variant I_CostingValuationVariant'. כלומר "
+          + "בגרסת 2022 שוחררו תצוגות CDS חדשות ברכיב Product Cost Planning, ובהן תצוגות נפרדות לווריאנט התמחיר, "
+          + "לגרסת התמחיר, לסוג התמחיר ולווריאנט ההערכה. העמוד מדווח גם על תצוגות שהוצאו משימוש, אך אף אחת מהשורות "
+          + "שהוחזרו בסניפט אינה מסמנת כך את I_CostingVariant.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Overhead Costs | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/e686bf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "עמוד 'Overhead Costs' בדליברבל Production Planning and Control של גרסת 2025 FPS01 (loio "
+          + "e686bf53f106b44ce10000000a174cb4, תאריך 2026-02-24) קובע בסניפט שהוחזר: 'Process Flow A costing "
+          + "variant is defined in Customizing for each order type and plant', 'The costing variant refers to a "
+          + "valuation variant, which refers to a costing sheet. The costing sheet determines what overhead "
+          + "surcharges are assigned to the order' ו'They are updated in the order under the cost elements defined "
+          + "in the costing sheet'. כלומר בגרסה הנוכחית וריאנט התמחיר עודנו אובייקט קסטומיזציה חי בתחום תכנון ובקרת "
+          + "הייצור, הוא מוגדר לכל צירוף של סוג צו ומפעל, והוא מפנה לווריאנט הערכה שמפנה בתורו לגיליון תמחיר שקובע "
+          + "את תוספות התקורה הנזקפות לצו. העמוד אינו נוקב בשם טבלה טכנית כלשהי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "בלופרינט ההגירה של PP-PI ושכבות הידע של הפרויקט, רשומת TCK03",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE5,
+        claim:
+          "רשומת הבלופרינט (מודול PP-PI, נושא 7 'קונפיגורציה (Customizing)', המזהה PP-PI:TCK03): 'וריאנט תמחיר' / "
+          + "'Costing variant'; עמודת הטרנזקציות ועמודת ה-Fiori ריקות; עמודת S/4 'תואם; הערכה ב-Material "
+          + "Ledger/ACDOCA.' ללא טבלה חליפית. שלושה שדות רשומים עם טיפוס ואורך: KLVAR (PK, 'Costing variant', CHAR "
+          + "4), BWVAR ('Valuation variant', CHAR 3) ו-KALAW ('Costing type', CHAR 2); פונקציות "
+          + "'VIEW_MAINTENANCE_CALL (SM30) - תחזוקת טבלת קונפיגורציה' ו-'RFC_READ_TABLE - קריאת תוכן הטבלה'; תוכנית "
+          + "'SE16N / table display'; קשר יחיד אל ההורה T399X בנוסח 'FROM T399X JOIN TCK03 ON T399X.KLVARP = "
+          + "TCK03.KLVAR'; טקסט ההדרכה 'מגדיר את וריאנט התמחיר המתוכנן/בפועל של פק\"ע (אסטרטגיית מחיר, אזור). בסיס "
+          + "לחישוב עלות התקן של משקה.'. שכבות הידע האחרות של הפרויקט אינן מסכימות ביניהן על זהות הטבלה: "
+          + "data/knowledge/object-intel.ts#TCK03 מתאר אותה כווריאנט חישוב עלות המתוחזק ב-OKKN ונקרא בריצות "
+          + "CK11N/CK40N, ואילו data/table-enrichment.ts#TCK03 מתאר אותה כ'וריאנט הערכה בתמחור (Costing valuation "
+          + "variant)' שמפתחו 'MANDT - client, KLVAR/BWVAR - Valuation variant key' ושורת הדיבאג שלו היא 'וריאנט "
+          + "הערכה (OKK4 / הגדרות Costing Variant) = TCK03', כלומר וריאנט ההערכה ולא וריאנט התמחיר; "
+          + "data/table-enrichment.ts מסמן את הרשומה verified, ו-data/knowledge/object-intel.ts נושא בכותרת הקובץ "
+          + "את ההצהרה Curated, verified SAP knowledge, trust: curated. data/pppi-config-tree.ts (צומת n29) "
+          + "ו-data/library/pp-textbook/ch03.ts מצמידים את TCK03 ל-T399X בלשונית Cost Accounting של OPL8 (ייצור) "
+          + "ו-COR4 (תהליכי) ומייחסים את המקור לספר SAP PRESS, אך בטקסט הספרים שבמאגר (knowledge/books "
+          + "ו-data/books) אין ולו מופע אחד של המחרוזת TCK03. TCK03 אינה נמנית ב-data/s4-impact.ts ולא "
+          + "ב-data/s4-objects.ts, ולכן הסטטוס שהאפליקציה מציגה כיום נגזר מעמודת ה-S/4 של הבלופרינט בלבד: "
+          + "components/neo-shell/data/tables-detail.ts מעביר את ההערה 'תואם; ...' דרך lib/s4-class ומקבל 'ללא "
+          + "שינוי ב-S/4HANA'.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/sapData.pppi.ts#PP-PI:TCK03, data/sapData.pppi.ts#PP-PI:T399X, data/table-enrichment.ts#TCK03, "
+          + "data/knowledge/object-intel.ts#TCK03, data/pppi-config-tree.ts#n29, "
+          + "components/neo-shell/data/tables-detail.ts",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "אף מקור SAP רשמי שנבדק בסבב הזה אינו נוקב בשם הטכני TCK03, ולכן מצב הטבלה ב-S/4HANA לא הוכרע כאן. מה שכן "
+        + "אומת מול התיעוד הרשמי הוא האובייקט העסקי עצמו: בגרסת 2025 FPS01 וריאנט התמחיר הוא אובייקט קסטומיזציה חי "
+        + "בתחום תכנון ובקרת הייצור, הוא מוגדר לכל צירוף של סוג צו ומפעל, ומפנה לווריאנט הערכה שמפנה בתורו לגיליון "
+        + "תמחיר; במודל הנתונים הווירטואלי הוא מיוצג בתצוגת Dimension בשם I_CostingVariant לצד תצוגת הטקסט "
+        + "I_CostingVariantText, ושלושת השדות שהעמוד מונה כחשובים - CostingVariant, ValuationVariant ו-CostingType "
+        + "- הם בדיוק שלושת הרכיבים שרשומת הבלופרינט מייחסת לטבלה בשמות KLVAR, BWVAR ו-KALAW; רשומת ה-What's New של "
+        + "2022 קובעת ששוחררו תצוגות CDS חדשות ברכיב Product Cost Planning ובהן I_CostingVariant, I_CostingVersion, "
+        + "I_CostingType ו-I_CostingValuationVariant. בדיקה שלילית שבוצעה בפועל: רשימת הפישוט הרשמית של 2025 FPS01 "
+        + "נקראה במלואה ואין בה ולו מופע אחד של המחרוזת TCK03, של הרצף TCK, של הצירוף costing variant או של שם השדה "
+        + "KLVAR, כלומר לא אותר פריט פישוט, יורשת או הסרה הנוגעים לתוכן הזה. מה שלא אומת: שהטבלה ששמה TCK03 היא "
+        + "טבלת האחסון של וריאנט התמחיר, רשימת שדותיה, מפתחה, הטיפוסים והאורכים, והאם השם שבבלופרינט הוא שם טבלה או "
+        + "תווית שדה שהועתקה ככותרת. משום כך פסיקת 'תואם' שבעמודת ה-S/4 של הבלופרינט, שממנה גוזרת האפליקציה היום את "
+        + "הסטטוס 'ללא שינוי ב-S/4HANA', נשארת פסיקת מקור שלא נתמכה בראיה רשמית ואינה מוצגת כאן כמאומתת.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE11 או ב-ADT במערכת היעד שהטבלה TCK03 קיימת, מהו מפתחה ומהי רשימת שדותיה, לפני הסתמכות עליה "
+        + "בהסבה, בקוד מותאם או בדוח, ובאותה בדיקה להכריע את הסתירה הפנימית שבמאגר בין 'וריאנט תמחיר' לבין 'וריאנט "
+        + "הערכה'. את הווריאנטים עצמם לתחזק דרך פעילויות הקסטומיזציה של Product Cost Planning ושל Cost Object "
+        + "Controlling ולא בעדכון ישיר של הטבלה. לכל צירוף של מפעל וסוג צו תהליכי לוודא שקיים וריאנט תמחיר מתוכנן "
+        + "ובפועל בלשונית Cost Accounting, שכן לפי התיעוד הרשמי של 2025 FPS01 וריאנט התמחיר נבחר לפי צירוף סוג הצו "
+        + "והמפעל, ווריאנט התמחיר המתוכנן של צו תהליכי נגזר מסוג הצו ואינו מועבר ממאסף עלויות המוצר; חוסר בהגדרה "
+        + "הזו פוגע בתמחיר המוקדם של הצו ובחישוב הסטיות וה-WIP. לפיתוח, לדיווח ולאינטגרציה להעדיף את שכבת ה-CDS "
+        + "הרשמית, I_CostingVariant ו-I_CostingVariantText, על פני SELECT ישיר מטבלת הקסטומיזציה. בבדיקות הרגרסיה "
+        + "שאחרי ההמרה: פתיחת צו תהליכי בכל סוג צו פעיל ובדיקה שהתמחיר המוקדם נוצר, הרצת חישוב סטיות וסגירת תקופה, "
+        + "ומעבר על דוחות, ממשקים וקוד מותאם הקוראים את הגדרות התמחיר יחד עם T399X. את החלק השני של הערת הבלופרינט, "
+        + "זה שמפנה ל-Material Ledger ול-ACDOCA, לבדוק בנפרד מול צוות ה-CO: הוא נוגע להערכת חומרים ולנתוני העלות "
+        + "בפועל ולא לטבלת הקסטומיזציה הזו.",
+    },
+    xrefs: [
+      "table:T399X", "table:T003O", "table:AUFK", "table:AFKO", "table:ACDOCA", "table:COSP", "table:COSS",
+      "table:MBEW", "tx:OPL8", "tx:COR4", "tx:CK11N", "tx:CK40N", "tx:KKF6N", "tx:SPRO", "fm:VIEW_MAINTENANCE_CALL",
+      "fm:RFC_READ_TABLE", "cds:I_ProductionOrder",
+    ],
+    lastVerifiedAt: DATE5,
+    notes:
+      "שיטה: עשרים ואחת ריצות של scripts/sap-help-search.mjs ב-2026-09-16 בשני סקופים, SAP_S4HANA_ON-PREMISE "
+      + "ו-SAP_ERP, ובהן ריצה אחת נעוצה לגרסה 2025.001. בין השאילתות: 'TCK03' (בשני הסקופים), 'TCK03 costing "
+      + "variant table', 'costing variant', 'costing variant valuation variant costing type Customizing', 'Define "
+      + "Default Values for Order Types costing variant planned process order plant', 'costing variant CDS view "
+      + "virtual data model', 'Costing Variant CDS View Name I_CostingVariant Product Cost Planning', 'Costing "
+      + "Variant CostingVariant CostingType ValuationVariant CDS view dimension', 'Production Order Header CDS View "
+      + "Name I_ProductionOrder', 'I_CostingVariant deprecated CDS view Product Cost Planning What's New' ו'APIs "
+      + "costing variant OData service product cost planning'; בנוסף חיפוש רשת אחד מוגבל לדומיינים הרשמיים. גוף "
+      + "עמודי ה-Help אינו נשלף, ולכן כל טענה כאן תחומה לכותרת, לדליברבל ולסניפט של רשומת החיפוש. ממצא מרכזי: שתי "
+      + "ריצות על השם הטכני TCK03 עצמו, בסקופ S/4HANA ובסקופ SAP ERP, לא החזירו ולו רשומה אחת הנוקבת בו; מנוע "
+      + "החיפוש החזיר התאמות מקורבות בלבד (למשל TCKH3), כלומר השם TCK03 אינו מופיע באינדקס התיעוד הרשמי הציבורי. "
+      + "בדיקה שלילית שנייה שבוצעה בפועל: הקובץ SIMPL_OP2025.pdf "
+      + "(https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf, 10,585,218 "
+      + "בתים, md5 c1ccf8ebcd92d51fdc80e4b4873f3b73, 70,529 שורות טקסט מחולץ) נסרק במלואו: אפס מופעים של TCK03, אפס "
+      + "מופעים של הרצף TCK, אפס מופעים של הצירוף costing variant בכל צורות האותיות ואפס מופעים של KLVAR. עמודים "
+      + "רשמיים נוספים שנצפו בסבב ולא נפתחו כרשומות ראיה נפרדות: 'Control Parameters in Cost Object Controlling' "
+      + "(Controlling (CO), 2025 FPS01, loio ab01fd5299eccb20e10000000a441470) הקובע 'The costing variant is "
+      + "selected through the combination of order type and plant'; 'Process Orders in Cost Object Controlling' "
+      + "(Controlling (CO), 2025 FPS01, loio d2c73a5351c0e544e10000000a423f68) הקובע 'The Costing variant planned "
+      + "is not transferred from the product cost collector but is defaulted from the order type of the process "
+      + "order' ומגדיר את צו התהליך כ'Manufacturing order used in the process industries'; 'Preparation for "
+      + "Material Costing' (Controlling (CO), 2025 FPS01, loio 0a97d7531a4d414de10000000a174cb4) הנוקב ב'the "
+      + "following information from the costing variant (costing type and valuation variant): Cost component "
+      + "structure Activation of cross-company costing Activation of cost component split in controlling'; "
+      + "'Production Order Header' (Virtual Data Model and CDS Views, 2025 FPS01, loio "
+      + "c6c3a06854a44d9383b32946f008b1b8) הקובע 'Production Order Header CDS View Name I_ProductionOrder "
+      + "Analytical Data Category Dimension' ו'This CDS view retrieves production order header data (tables AUFK "
+      + "and AFKO)' ומונה בשדותיו 'Costing Variant PlannedCostsCostingVariant Plnd Costing Variant'; ו'Product Cost "
+      + "Estimate' (Virtual Data Model and CDS Views, 2025 FPS01, loio a34114738906473aa7a23d7773e53814) המונה את "
+      + "השדות CostingVariant ו-ValuationVariant בתצוגה I_ProductCostEstimate. מגבלת גרסה שנמדדה: עמוד ה-VDM "
+      + "'Costing Variant' הוחזר בגרסת 2023 Latest בלבד; ריצת חיפוש נעוצה ל-2025.001 לא החזירה עותק שלו לגרסה הזו, "
+      + "ולכן קיום התצוגה I_CostingVariant מתועד כאן לגרסת 2023 ולשחרור שבגרסת 2022, ולא לגרסת 2025 FPS01. בדיקה "
+      + "נוספת שבוצעה ואינה מאששת את הרשומה הזו אלא את חציה השני של הערת הבלופרינט: פריט הפישוט 15.3.2 'S4TWL - "
+      + "Material Ledger Obligatory for Material Valuation' (Application Component: MM-IM-GF-VAL, עמ' 1467, "
+      + "Business Impact note 0002267834) נקרא מקובץ ה-PDF וקובע 'This simplification makes it mandatory to use the "
+      + "Material Ledger (ML) in all SAP S/4HANA systems. After the technical SUM migration, the Material Ledger "
+      + "needs to be migrated', ופריט 6.5.8 'S4TWL - Conversion to S/4HANA Material Ledger and Actual Costing' "
+      + "(CO-PC-ACT, עמ' 333) קובע 'In SAP S/4HANA, the material ledger is mandatory'; שני הפריטים עוסקים בהערכת "
+      + "חומרים ואינם נוקבים ב-TCK03 ואינם עוסקים בווריאנט התמחיר. מספרי ההערות מצוטטים כלשונם מהמסמך הציבורי, גופי "
+      + "ההערות דורשים משתמש S ולא נקראו, ואף קביעה ברשומה אינה נשענת עליהם. סתירה פנימית פתוחה שמדווחת כאן ואינה "
+      + "מוכרעת: הבלופרינט ו-data/knowledge/object-intel.ts מתארים את TCK03 כטבלת וריאנט התמחיר, בעוד "
+      + "data/table-enrichment.ts#TCK03 מתאר אותה כטבלת וריאנט ההערכה עם מפתח 'KLVAR/BWVAR'; התיעוד הרשמי מבחין בין "
+      + "השניים ומייחס להם אפילו תצוגות CDS נפרדות (I_CostingVariant מול I_CostingValuationVariant), ולכן אחת משתי "
+      + "השכבות שגויה. הרשומה אינה נושאת שדה reviewer: אף רשומה ב-data/verification/** אינה נושאת אותו. ביקורת "
+      + "נגדית 2026-09-20: כתובת רשומת ה-What's New תוקנה לכתובת שמחזיר שירות החיפוש (דליברבל "
+      + "e296651f454c4284ade361292c633d69) ותאריך הרשומה תוקן ל-2023-12-13; שאר הציטוטים, ה-loio, הגרסאות, סריקת "
+      + "ה-PDF וכל 17 ההפניות אומתו מחדש.",
+  },
+  /* ------------------------------------------------------------ table:TCO01 */
+  {
+    id: "table:TCO01",
+    aliases: ["tco01"],
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition "
+          + "2025 - Feature Pack Stack 1 · item 9.5.5 S4TWL - Simplified Sourcing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE5,
+        claim:
+          "המסמך הרשמי נמשך בתאריך הגישה (HTTP 200, ‏10,585,218 בתים, 1,514 עמודים) ונקרא במלואו כטקסט. המחרוזת "
+          + "TCO01 אינה מופיעה בו ולו פעם אחת. הטבלה היחידה שהמסמך נוקב בה בהקשר של מאפיין תלוי סוג צו היא אחרת, "
+          + "בפריט 9.5.5 S4TWL - Simplified Sourcing (רכיב יישום PP-MRP, שורת Note מסוג Business Impact שמספרה "
+          + "0002268069 ותיאורה Simplified Sourcing). בטבלת ההשוואה שבפריט, בעמודת Business Suite Logic, נכתב "
+          + "כלשונו: 'The order type attribute \"Routing selection\" T399X-ARBPA determines how a routing is "
+          + "determined during production order creation. The attribute can be defined in customizing transaction "
+          + "OPL8.', ומולו בעמודת SAP S/4HANA Logic: 'Production versions are the only source of supply for "
+          + "in-house production. A production version references a routing. This routing is used to create "
+          + "production orders'. כלומר שם הטבלה שהמסמך מייחס למאפיין תלוי סוג צו הוא T399X, היא נתחזקת בטרנזקציה "
+          + "OPL8, ותפקידו של המאפיין ARBPA בבחירת רשימת הפעולות מוחלף בגרסאות ייצור. הערת שקיפות על החילוץ: טבלת "
+          + "ההשוואה נמצאת בעמוד שכותרתו התחתונה 'Page | 786' ומעומדת בשלוש עמודות, ובטקסט המחולץ שורותיהן משתלבות "
+          + "זו בזו; שני הציטוטים לעיל הורכבו משורות העמודה המתאימה בלבד ולא נוסחו מחדש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Order Type-Dependent Parameters | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/1ad54a02b0de40cfbdaa66470b9b75ff.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "נושא Maintain Order Type-Dependent Parameters בגרסת 2025 FPS01 קובע בסניפט את שני מסלולי ה-IMG של "
+          + "הפעילות: 'Access the activity using this IMG menu path for Process Orders: Production Planning for "
+          + "Process Industries Process Order Master data Order Define Order Type-Dependent Parameters for Process "
+          + "Orders', ולצדו 'Access the activity for Production Orders using this IMG menu path: Production Shop "
+          + "Floor Control Master data Order Define Order Type-Dependent Parameters for' (הסניפט נחתך שם). סניפט "
+          + "נוסף של אותה רשומה פותח ב-'Maintain Order Type-Dependent Parameters Specify that the long text for a "
+          + "planned order can be copied during the conversion of a planned order into a production order or a "
+          + "process order'. כלומר בגרסה זו פעילות ה-Customizing של פרמטרים תלויי סוג צו קיימת בשני העולמות, "
+          + "בתעשיות תהליכיות ובייצור דיסקרטי, והסניפט מייחס לה ערך ברירת מחדל אחד מפורש בלבד, העתקת הטקסט הארוך של "
+          + "צו מתוכנן בהמרתו לצו ייצור או לצו תהליכי; היקף יתר ערכי ברירת המחדל שבפעילות אינו נקוב בסניפט. הסניפט "
+          + "אינו נוקב בשם טכני של טבלה, ובכלל זה אינו מזכיר את TCO01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Checking the Availability of Material | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/a786bf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "נושא Checking the Availability of Material בגרסת 2025 FPS01 קובע בסניפט: 'In Customizing for Process "
+          + "Orders, you specify per order type and plant whether the availability is to be checked automatically', "
+          + "ובהמשך 'In Customizing for Process Orders ( Define Checking Control ), you specify against which "
+          + "quantity the material availability is to be checked'. כלומר הגדרת בדיקת הזמינות לצווים תהליכיים מוגדרת "
+          + "לפי צירוף סוג צו ומפעל, מה שתואם את צמד המפתח WERKS ו-AUART ואת שדה פרופיל בדיקת הזמינות שהבלופרינט "
+          + "מייחס לשורה. אותו נושא, באותו loio, מופיע גם בסקופ SAP ERP 6.18.latest תחת המדריך Production Planning "
+          + "- Process Industries (PP-PI), ולכן האמירה אינה חדשה ל-S/4HANA. הסניפט אינו נוקב בשם טכני של טבלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הבלופרינט של תעשיות תהליכיות ושכבות הידע של הפרויקט, רשומת TCO01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE5,
+        claim:
+          "בבלופרינט של תעשיות תהליכיות (נושא 7, קונפיגורציה) השורה TCO01 נושאת descriptionHe 'מפעל' "
+          + "ו-descriptionEn 'Plant', בלי טרנזקציות ובלי אפליקציית Fiori, עם הערת S/4 'ללא שינוי (Customizing).', "
+          + "תווית עזרה 'SAP Help - Order Parameters', צירוף 'FROM TCO01 JOIN T003O ON TCO01.AUART = T003O.AUART', "
+          + "יחס child אל T003O, הפונקציות VIEW_MAINTENANCE_CALL (SM30) ו-RFC_READ_TABLE, התוכנית SE16N, וארבעה "
+          + "שדות: WERKS (Plant, CHAR 4, PK), AUART (Order type, CHAR 4, PK/FK), KLVARP (Costing variant (plan), "
+          + "CHAR 4, FK) ו-APROF (Availability check profile, CHAR 4). ה-guideHe שם מתאר 'פרמטרי ברירת מחדל לפק\"ע "
+          + "לפי סוג/מפעל: וריאנט תמחיר, פרופיל זמינות, פרופיל שחרור Control Recipe ל-MES'. באותו נושא של אותו "
+          + "בלופרינט קיימת שורה שנייה, T399X, ובה אותה הערת S/4, אותו descriptionEn 'Plant', אותו מפתח WERKS + "
+          + "AUART ב-CHAR 4, שדה 'Availability check profile' בשם APROFIL, ו-guideHe שאף הוא מתאר פרמטרי בקרה לצו "
+          + "לפי מפעל וסוג צו ואת זרימת ה-Control Recipe ל-Zetes ול-Daymax; descriptionEn 'Plant' הוא תוויתו של "
+          + "השדה הראשון WERKS ולא שם טבלה, כפי שעולה גם מיתר השורות באותו נושא שנושאות תוויות שדה כתיאור (T003O "
+          + "'Order type', TCK03 'Costing variant', T438M 'MRP type'). שכבות אחרות של המאגר מתארות את TCO01 אחרת "
+          + "לגמרי: data/knowledge/pppi-objects-ext.ts מתאר אותה כקונפיגורציה של סוג פקודת CO, באמון "
+          + "needs-verification, data/knowledge/object-intel.ts מתאר בקרת שדות בפקודות פנימיות ובאובייקטי עלות, "
+          + "‏data/table-enrichment.ts מחריג את TCO01 במפורש כאחת מאחת עשרה טבלאות שמבנה המפתח והסמנטיקה שלהן, "
+          + "כלשון ההערה בקובץ, could not be confirmed from a trusted source. ‏data/tx-intel.ts מייחס לטרנזקציה "
+          + "COR4 את הטבלאות T399X, TCO41 ו-TCO43, ו-data/pppi-config-tree.ts מייחס גם ל-OPL8 (צומת n2) וגם ל-COR4 "
+          + "(צומת n3) את הטבלה T399X בלבד. כל הפרטים האלה הם רובד המאגר בלבד ולא אומתו מול מקור SAP רשמי בסבב זה.",
+        verificationLevel: "verification_required",
+        repoRef:
+          "data/sapData.pppi.ts#PP-PI:TCO01, data/sapData.pppi.ts#PP-PI:T399X, "
+          + "data/knowledge/pppi-objects-ext.ts#TCO01, data/knowledge/object-intel.ts#TCO01, "
+          + "data/table-enrichment.ts (הערת אחת עשרה הטבלאות הלא מועשרות), data/tx-intel.ts#COR4, "
+          + "data/pppi-config-tree.ts#n2, data/pppi-config-tree.ts#n3",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "אף מקור SAP רשמי שנבדק בסבב זה אינו נוקב בשם הטכני TCO01, ולכן זהות הטבלה ומעמדה ב-S/4HANA לא הוכרעו "
+        + "כאן. הרשימה הרשמית של פריטי הפישוט לגרסת 2025 FPS01 נקראה במלואה, 1,514 עמודים, והמחרוזת TCO01 אינה "
+        + "מופיעה בה אף לא פעם אחת; אותה בדיקה ברשימת 2023 נתנה אותה תוצאה; ושירות החיפוש של help.sap.com בארבעה "
+        + "סקופים לא החזיר ולו עמוד אחד הנוקב בשם. מה שכן אומת רשמית לגרסת 2025 FPS01: פעילות ה-Customizing "
+        + "לפרמטרים תלויי סוג צו קיימת וחיה בשני העולמות, ובתעשיות תהליכיות מסלולה הוא Production Planning for "
+        + "Process Industries / Process Order / Master data / Order / Define Order Type-Dependent Parameters for "
+        + "Process Orders (ראיה 2), והגדרת בדיקת הזמינות לצווים תהליכיים מוגדרת לפי צירוף סוג צו ומפעל (ראיה 3), "
+        + "בדיוק התוכן שהבלופרינט מייחס לשורה. אלא ששם הטבלה שמאחורי אותה פעילות לא אומת: המקור הרשמי היחיד שנמצא "
+        + "בסבב זה ונוקב בטבלה בהקשר של מאפיין תלוי סוג צו נוקב ב-T399X, הנתחזקת ב-OPL8 (ראיה 1), ו-T399X היא שורה "
+        + "נפרדת באותו נושא של אותו בלופרינט הנושאת אותו מפתח WERKS + AUART, אותו descriptionEn 'Plant' ואותו שדה "
+        + "פרופיל בדיקת זמינות (ראיה 4). במקביל שתי שכבות ידע בפרויקט קוראות את TCO01 כטבלת Customizing של CO לבקרת "
+        + "שדות בפקודות פנימיות, קריאה שאינה מתיישבת עם קריאת הבלופרינט, ואחת מהן מסומנת במאגר עצמו "
+        + "כ-needs-verification. שתי הקריאות מתארות פונקציות SAP אמיתיות שקיימות בגרסת 2025 FPS01, אך אף אחת מהן "
+        + "אינה קשורה בשם TCO01 במקור רשמי. לפיכך התיאור 'מפעל' שבמאגר הוא תווית השדה WERKS ולא שם הטבלה, ופסיקת "
+        + "'ללא שינוי (Customizing)' שבבלופרינט אינה מוצגת כאן כפסיקה מאומתת. לא נמצאו בסבב זה פריט פישוט, רשומת "
+        + "What's New או יורשת הנוגעים לשם הטבלה הזה.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE11 או ב-ADT במערכת היעד אם קיים אובייקט מילון בשם TCO01, מהו הטקסט הקצר שלו, מהו מפתחו ומהי "
+        + "רשימת שדותיו, ובאותה בדיקה להשוות אותו ל-T399X ולטבלאות שמאחורי COR4 (לפי data/tx-intel.ts גם TCO41 "
+        + "ו-TCO43) כדי להכריע אם השורה במאגר היא כפילות של אותו נושא תחת שם שגוי. עד לאימות אין להסתמך על השורה "
+        + "בהסבה, בפיתוח מותאם או בדוח, ואין להעתיק לקוד את צירוף ה-SQL שבבלופרינט: הוא מצרף את TCO01 ל-T003O לפי "
+        + "AUART בלבד ומשמיט את WERKS, אף שאותה שורה מסמנת את WERKS כמפתח. לתחזוקת פרמטרי ברירת המחדל של הצו יש "
+        + "לעבוד דרך פעילות ה-Customizing המתועדת ולא בעדכון ישיר של טבלה: בתעשיות תהליכיות דרך Production Planning "
+        + "for Process Industries / Process Order / Master data / Order / Define Order Type-Dependent Parameters "
+        + "for Process Orders (במאגר COR4), ובייצור דיסקרטי דרך Production / Shop Floor Control / Master data / "
+        + "Order / Define Order Type-Dependent Parameters (במאגר OPL8). בפרויקט הסבה יש לקרוא בנפרד את פריט הפישוט "
+        + "9.5.5 S4TWL - Simplified Sourcing: הוא מבטל את תפקידו של המאפיין T399X-ARBPA בבחירת רשימת הפעולות וקובע "
+        + "שגרסאות ייצור הן מקור האספקה היחיד לייצור עצמי, ולכן כל התאמה אישית שנשענת על בחירת Routing לפי סוג צו "
+        + "דורשת בדיקה מחודשת לפני ההמרה.",
+    },
+    xrefs: [
+      "table:T399X", "table:T003O", "table:AUFK", "table:AFKO", "tx:COR4", "tx:OPL8", "tx:COR1", "tx:SPRO",
+      "tx:SM30", "tx:SE16N", "fm:VIEW_MAINTENANCE_CALL", "fm:RFC_READ_TABLE",
+    ],
+    lastVerifiedAt: DATE5,
+    notes:
+      "שיטה: עשרים ושתיים ריצות של scripts/sap-help-search.mjs בארבעה סקופים (SAP_S4HANA_ON-PREMISE, SAP_ERP, "
+      + "SAP_S4HANA_CLOUD ו-SAP_ERP_SPV), ובהן השאילתות 'TCO01', '\"TCO01\"', 'TCO01 table', 'TCO41 order type "
+      + "dependent parameters', 'Order Type-Dependent Parameters process order', 'Maintain Order Type-Dependent "
+      + "Parameters', 'Define Order Type-Dependent Parameters process order', 'control recipe destination "
+      + "Customizing process order type plant', 'field selection cost object order layout TCO01 Customizing', "
+      + "'KLVARP costing variant planned', 'internal order Customizing table field selection order type TCO01' "
+      + "ו-'Define Order Layouts internal orders screen layout field selection', בתוספת חיפושי רשת מוגבלים "
+      + "ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal. מגבלת ערוץ שיש להכיר: מנוע החיפוש של help.sap.com "
+      + "מפרק את המחרוזת TCO01 ומחזיר התאמות ל-CO01 (טרנזקציית יצירת צו ייצור, וגם קוד חברה לדוגמה בתיעוד קולומביה) "
+      + "ול-TBO01, ולכן היעדר תוצאה אינו הוכחה שהשם אינו מופיע באיזשהו עמוד. גופי עמודי /docs אינם נשלפים: שתי "
+      + "כתובות הראיה הרשמיות מסוג /docs החזירו בתאריך הגישה HTTP 200 ו-1,160 בתים של מעטפת JavaScript (נמדד "
+      + "ב-curl), ולכן שתי הטענות האלה חסומות לכותרת ולסניפט של רשומת החיפוש, וה-loio וה-versionId הועתקו כלשונם "
+      + "מפלט scripts/sap-help-search.mjs --json. הראיה הראשונה היא מסמך PDF שנקרא בפועל: הקובץ הורד מחדש בתאריך "
+      + "הגישה (HTTP 200, ‏10,585,218 בתים), והוא זהה בית-בית לעותק שנשמר בסבבים קודמים (טביעת ה-md5 שלו, "
+      + "c1ccf8ebcd92d51fdc80e4b4873f3b73, זהה לזו הרשומה ב-audit/s4-enrichment/research-queue-tables.md); הטקסט "
+      + "חולץ ב-pdftotext -layout, ‏1,514 עמודים, וספירת המופעים של TCO01 בו היא אפס לעומת מופע אחד של T399X. גם "
+      + "רשימת הפישוט של 2023 "
+      + "(‏https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf) הורדה מחדש ואומתה "
+      + "באותה דרך: אפס מופעים של TCO01, מופע אחד של T399X. עמודים רשמיים נוספים שנצפו ולא נרשמו כראיה כדי לשמור על "
+      + "רשומה תחומה: 'Structuring Layouts' במדריך Controlling (CO) בגרסת 2025.001 (loio "
+      + "6f12d553088f4308e10000000a174cb4), שסניפטו קובע 'In customizing, you can use the field selection to "
+      + "specify (per order type) when and which field in the order master data is displayed or ready for input' "
+      + "ו-'Define the order layout in customizing for each order type, under Controlling Internal orders Order "
+      + "master data Screen layout Define Order Layouts' (אותו נושא ואותו loio קיימים גם בסקופ SAP ERP 6.18.latest "
+      + "תחת Internal Orders (CO-OM-OPA)); זהו העוגן הרשמי לקריאה החלופית שבשכבות הידע של הפרויקט, והוא אינו נוקב "
+      + "בשם טבלה. שתי רשומות מהדורת הענן הציבורי, שלא שימשו להכרעת רשומה של On-Premise: 'Mass Conversion of "
+      + "Planned Orders' (2608.500, loio 8b724998777f40f98ecedb006fa105cb), שסניפטו קובע 'Select Master Data for "
+      + "Process Manufacturing and click Configure for the Define Order-Type-Dependent Parameters for Process "
+      + "Orders step. Select a Plant and Order Type', ו-'Planned Cost (Preliminary Costing of Manufacturing "
+      + "Orders)' (2608.500, loio 71a41300c3034964bddb5c9cc34894b7), שסניפטו קובע 'the following default values "
+      + "should be defined on the Cost Accounting tab of the configuration activities Define Order-Type-Dependent "
+      + "Parameters for Production Orders (102431) or Define Order-Type-Dependent'. שתיהן מחזקות את הקריאה שהפעילות "
+      + "מזוהה בצירוף מפעל וסוג צו ושוריאנט התמחיר הוא ערך ברירת מחדל בה, אך הן ממהדורה אחרת ואינן נוקבות בשם טבלה. "
+      + "נצפו גם 'Settings for Scheduling' (Production Orders (PP-SFC), 2025.001, loio "
+      + "ca00b753128eb44ce10000000a174cb4), 'Operations/Components Not Relevant to MRP' (אותו מדריך, loio "
+      + "ac00b753128eb44ce10000000a174cb4) ו-'Preparation and Customizing' (Workflow, 2025.001, loio "
+      + "b76cb6531de6b64ce10000000a174cb4), שכולם מדברים על order type-dependent parameters ואף אחד מהם אינו נוקב "
+      + "בשם טבלה. אי-עקביות בנתוני המאגר שיש לתקן בנפרד: (1) שתי שורות באותו נושא של הבלופרינט, TCO01 ו-T399X, "
+      + "מתארות את אותו תוכן עם אותו מפתח ואותה הערת S/4, ורק השנייה מהן נקובה במקור רשמי. (2) descriptionEn של "
+      + "TCO01 הוא 'Plant', תווית השדה WERKS ולא שם טבלה, ו-descriptionHe שלה הוא 'מפעל' בעוד ש-T399X מתוארת שם "
+      + "'פרמטרי בקרת MRP למפעל'. (3) צירוף ה-SQL שבשורה משמיט את WERKS אף שהשדה מסומן כמפתח. (4) שכבות הידע של "
+      + "הפרויקט מייחסות ל-TCO01 תוכן CO של בקרת שדות בפקודות פנימיות, ולא פרמטרי צו תהליכי. (5) "
+      + "data/table-enrichment.ts מייחס ל-T399X 'פרמטרי MRP ברמת מפעל' עם מפתח MANDT + WERKS בלבד, בעוד שהבלופרינט "
+      + "וגם פריט הפישוט הרשמי מתארים אותה כטבלת מאפיינים תלויי סוג צו; הפער הזה נוגע לרשומת T399X ולא הוכרע כאן. "
+      + "פערים ביקום המזהים: TCO41 ו-TCO43 אינם קיימים ביקום המזהים של הפרויקט ולכן אין להם xref, אף שהם לב ההשוואה "
+      + "הנדרשת; גם הטרנזקציות OPJH ו-CORN אינן ביקום. ה-xrefs table:AUFK, ‏table:AFKO ו-tx:COR1 נוספו כהקשר כותרת "
+      + "הצו והצו התהליכי שהפרמטרים משפיעים על יצירתם, ו-tx:SPRO נוסף כהקשר עץ ה-IMG שבו יושבת הפעילות; אף אחד מהם "
+      + "אינו נקוב בראיה כלשהי ברשומה זו; ‏fm:VIEW_MAINTENANCE_CALL, ‏fm:RFC_READ_TABLE, ‏tx:SM30 ו-tx:SE16N מגיעים "
+      + "מעמודות funcs ו-progs של הבלופרינט ולא ממקור רשמי. Fiori: data/fiori/apps.ts אינו מכיל אפליקציה לפעילות "
+      + "פרמטרים תלויי סוג צו, ולא נמצא מזהה אפליקציה רשמי לפעילות, ולכן אין xref מסוג fiori; הבלופרינט עצמו רושם "
+      + "לשורה הזו fioriApp ריק. CDS: לא נמצא עמוד VDM רשמי הקושר תצוגה כלשהי ל-TCO01, ולכן אין xref מסוג cds. לא "
+      + "נטען שום מספר SAP Note או KBA בשדה ייעודי: המספר 0002268069 מצוטט בראיה 1 כלשונו מתוך גוף המסמך שנקרא, "
+      + "‏me.sap.com דורש התחברות ולא נבדק, וקטלוג פריטי הפישוט ב-launchpad.support.sap.com דורש הזדהות S-user ולא "
+      + "נבדק. הסטטוס שהאפליקציה הציגה עד לרשומה זו נגזר מעמודת ה-S/4 של הבלופרינט דרך lib/s4-class: ההערה 'ללא "
+      + "שינוי (Customizing).' נקראת כמחלקה 0 ומוצגת כ'ללא שינוי ב-S/4HANA' ברמת אימות של נתוני הפרויקט בלבד; רשומה "
+      + "זו מחליפה אותה ב'נדרש אימות נוסף'. חיבור ה-MCP של sc4sap (SE11 חי) נכשל בסשן זה, ולכן קיום הטבלה, מפתחה "
+      + "ורשימת שדותיה לא נבדקו במערכת SAP.",
+  },
+  /* ------------------------------------------------------------ table:T370T */
+  {
+    id: "table:T370T",
+    aliases: ["t370t"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Text for Functional Location Category | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/6b0e92a546214aecb323edfd3a494c3d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "עמוד 'Text for Functional Location Category' בסט Virtual Data Model and CDS Views של גרסת 2025 FPS01 "
+          + "(loio 6b0e92a546214aecb323edfd3a494c3d, תאריך 2026-02-24) קובע בסניפטים שהוחזרו בסבב הזה: 'Text for "
+          + "Functional Location Category CDS View Name I_FlocCategoryText Data Category Basic, Text Status "
+          + "Released Data Extraction Type Full (physical deletions are possible in source tables)', 'Prerequisites "
+          + "You have authorization to display functional location categories. This check is based on field "
+          + "Functional Location Category (I_FLTYP)' ו'location category (in all languages)?'. כלומר בגרסה הנוכחית "
+          + "תיאור קטגוריית המיקום הפונקציונלי נחשף במודל הנתונים הווירטואלי בתצוגת טקסט בשם I_FlocCategoryText "
+          + "בסטטוס Released, קטגוריית הנתונים היא Basic, Text, סוג החילוץ הוא Full ובו מחיקות פיזיות אפשריות "
+          + "בטבלאות המקור, בדיקת ההרשאה נסמכת על השדה Functional Location Category (I_FLTYP), והשאלה העסקית "
+          + "שהתצוגה עונה עליה נוגעת לקטגוריה בכל השפות. העמוד אינו נוקב בשם טבלת DDIC כלשהי ואינו מזכיר את T370T.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Linear Assets | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/4989d65903d54f75a1a21b2b98ab13a5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "עמוד 'Linear Assets' בדליברבל Maintenance Management של גרסת 2025 FPS01 (loio "
+          + "4989d65903d54f75a1a21b2b98ab13a5, תאריך 2026-02-24) קובע בסניפטים: 'To be able to create linear data "
+          + "for a functional location, you have set the Linear Asset indicator for the functional location "
+          + "category in Customizing for Plant Maintenance and Customer Service under', 'Master Data in Plant "
+          + "Maintenance and Customer Service Technical Objects Functional Locations Define Category of Functional "
+          + "Location' ו'To be able to create linear data for a measuring point, you have set the Linear Asset "
+          + "indicator for the measuring point category in Cus[tomizing]'. כלומר בגרסה הנוכחית פעילות הקסטומיזציה "
+          + "'Define Category of Functional Location' חיה תחת Plant Maintenance and Customer Service / Master Data "
+          + "in Plant Maintenance and Customer Service / Technical Objects / Functional Locations, ומאפייני "
+          + "קטגוריית המיקום הפונקציונלי נקבעים בה, לדוגמה מחוון Linear Asset. העמוד אינו נוקב בשם הטבלה שמאחורי "
+          + "הפעילות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Define Category of Functional Location | SAP Library, SAP R/3 4.6C (saphelp_46c), Master Data in Plant "
+          + "Maintenance and Customer Service",
+        product: "SAP R/3 4.6C (SAP Library)",
+        edition: "ecc",
+        release: "4.6C",
+        url: "https://help.sap.com/doc/saphelp_46c/4.6C/en-US/4c/69ec6eb435d1118b3f0060b03ca329/content.htm?no_cache=true",
+        accessedAt: DATE5,
+        claim:
+          "עמוד 'Define Category of Functional Location' בספריית R/3 4.6C (עמוד סטטי ללא loio וללא versionId, "
+          + "topicID 4c69ec6eb435d1118b3f0060b03ca329) נמשך בפועל ב-curl בסבב הזה, החזיר HTTP 200 ו-8,857 בתים, "
+          + "וגוף הטקסט שלו נקרא במלואו (1,125 תווים לאחר הסרת תגיות). הוא קובע כלשונו: 'You can create different "
+          + "functional location categories in this step. You can define the following for each functional location "
+          + "category: status profile partner determination procedure default value for categories field selection "
+          + "whether change documents are created a key defining the appearance of the dialog box for the object "
+          + "information', ולאחריו 'Activities Define your categories of functional locations'. כלומר כבר בגרסת R/3 "
+          + "4.6C זו פעילות הקסטומיזציה שיוצרת את קטגוריות המיקום הפונקציונלי ומגדירה לכל קטגוריה פרופיל סטטוס, "
+          + "תהליך קביעת שותפים, ערך ברירת מחדל לקטגוריות, בחירת שדות, יצירת מסמכי שינוי ומפתח לצורת תיבת הדו-שיח "
+          + "של מידע האובייקט. גוף העמוד אינו נוקב בשם טבלה כלשהו, ובכלל זה אינו מזכיר את T370T, ואין בו אמירה על "
+          + "S/4HANA.",
+        verificationLevel: "legacy_context_only",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "בלופרינט ההגירה של PM ושכבות הידע של הפרויקט, רשומת T370T",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE5,
+        claim:
+          "רשומת הבלופרינט (נושא 1, מבנה ארגוני ותשתית, המזהה PM:T370T): 'טבלת טקסט להגדרות מבנה/קטגוריות PM "
+          + "(Customizing)' / 'PM structure/category customizing text table'; טרנזקציות 'SPRO; OIA1, OIMR'; Fiori: "
+          + "'אין Fiori ייעודי (Customizing)'; עמודת S/4: 'ללא שינוי (Customizing תואם)', טבלה חליפית 'T370T "
+          + "(זהה)', טרנזקציה חליפית 'SPRO (זהה)'; הערת SUM: 'ללא פעולת המרה ייעודית ב-SUM (טבלה תואמת). מומלץ "
+          + "Regression Test ואימות התאמות אישיות לאחר ההמרה.'. שלושה שדות רשומים, כולם בלי טיפוס ובלי אורך: SPRAS "
+          + "(PK, 'Language key' / 'שפה'), FLTYP (PK, 'Functional location category' / 'קטגוריית מיקום') ו-FLTYPT "
+          + "('Category description' / 'תיאור קטגוריה'); פונקציה STRUCTURE_INDICATOR_READ ('קריאת מחוון מבנה "
+          + "והגדרותיו'); תוכנית RIFLET00 ('תחזוקת קטגוריות ומסיכות עריכה'); אין ולו קשר ER אחד ברשומה. "
+          + "data/table-enrichment.ts משאיר את T370T בלי העשרה במכוון ורושם על כך הערה מפורשת בקוד מכוח הכלל שאוסר "
+          + "לנחש: '11 further tables appear in the blueprint [...] but their key structure / semantics could not "
+          + "be confirmed from a trusted source'. T370T אינה נמנית ב-data/s4-impact.ts, ולכן הסטטוס שהאפליקציה "
+          + "מציגה כיום נגזר מעמודת ה-S/4 של הבלופרינט בלבד. שתי שכבות ידע אחרות בפרויקט סותרות את הבלופרינט "
+          + "וקוראות את הטבלה אחרת לגמרי: data/knowledge/pm-objects-ext.ts מתאר אותה כ'טקסטים לסוג אובייקט טכני "
+          + "(Object type)' בדרגת אמון needs-verification, ו-data/knowledge/object-intel.ts מתאר אותה כטקסט של "
+          + "קטגוריות ציוד ('אחסון הטקסט התיאורי של סוגי ציוד (Equipment Category) בשפות שונות', 'הצגת תיאור "
+          + "קטגוריית הציוד (M=מכונה, P=PRT וכו')') ומפנה לטבלת ההגדרות T370 ולטרנזקציה IE01. הסתירה הזו לא הוכרעה "
+          + "מול DDIC.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/sapData.pm.ts#PM:T370T, data/table-enrichment.ts (ההערה על הטבלאות שהושארו בלי העשרה), "
+          + "data/knowledge/object-intel.ts#T370T, data/knowledge/pm-objects-ext.ts#T370T",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "אף מקור SAP רשמי שנבדק בסבב הזה, לא בסקופ S/4HANA ולא בסקופ SAP ERP, אינו נוקב בשם הטכני T370T, ולכן מצב "
+        + "הטבלה ב-S/4HANA לא הוכרע כאן. מה שכן אומת רשמית לגרסת 2025 FPS01: קטגוריית המיקום הפונקציונלי היא "
+        + "אובייקט קסטומיזציה חי, פעילות הקסטומיזציה שלה היא 'Define Category of Functional Location' תחת Plant "
+        + "Maintenance and Customer Service / Master Data in Plant Maintenance and Customer Service / Technical "
+        + "Objects / Functional Locations, ובה נקבעים מאפייני הקטגוריה (לדוגמה מחוון Linear Asset). מעל אותו תוכן "
+        + "מתועדת שכבת צריכה רשמית במודל הנתונים הווירטואלי: תצוגת הטקסט I_FlocCategoryText בסטטוס Released, שבדיקת "
+        + "ההרשאה שלה נסמכת על השדה Functional Location Category (I_FLTYP) והשאלה העסקית שלה נוגעת לקטגוריה בכל "
+        + "השפות, כלומר בדיוק לתוכן שהבלופרינט מייחס ל-T370T. קיומה של פעילות הקסטומיזציה ושל תצוגת הטקסט אינו "
+        + "מוכיח שטבלת האחסון נותרה T370T, ולכן פסיקת 'ללא שינוי (Customizing תואם)' שבבלופרינט היא פסיקת מקור שלא "
+        + "נתמכה בראיה רשמית. נוסף על כך המאגר עצמו חלוק על תוכן הטבלה: הבלופרינט רושם מפתח SPRAS + FLTYP של "
+        + "קטגוריית מיקום פונקציונלי, ושכבות הידע object-intel ו-pm-objects-ext מתארות טקסטים של סוג אובייקט טכני "
+        + "ושל קטגוריות ציוד. בסבב הזה לא אותרו פריט פישוט, רשומת What's New או יורשת הנוגעים לטבלה, ומסמך רשימת "
+        + "הפישוט הציבורי של 2025 FPS01 נקרא במלואו ואין בו ולו מופע אחד של המחרוזת T370T.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE11 או ב-ADT במערכת היעד שהטבלה T370T קיימת, מהו מפתחה (לפי הבלופרינט SPRAS + FLTYP) ומהי רשימת "
+        + "שדותיה, ובעיקר להכריע אם זו טבלת הטקסט של קטגוריית המיקום הפונקציונלי או של סוג האובייקט הטכני, לפני "
+        + "הסתמכות עליה בהסבה, בקוד מותאם או בדוח. עד לאימות אין להציג את הערת 'ללא שינוי' שבבלופרינט כפסיקה "
+        + "מאומתת. לתחזוקת הקטגוריות ולתרגום התיאורים שלהן לעבוד דרך פעילות הקסטומיזציה המתועדת 'Define Category of "
+        + "Functional Location' ולא בעדכון ישיר של הטבלה. לקריאה תוכניתית של תיאור הקטגוריה להעדיף את תצוגת ה-CDS "
+        + "המשוחררת I_FlocCategoryText על פני SELECT ישיר מהטבלה, ולאחר ההמרה להריץ בדיקות רגרסיה לכל קוד מותאם "
+        + "שקורא את תיאור הקטגוריה ולכל דוח או מסך שמציג אותו.",
+    },
+    xrefs: [
+      "table:IFLOT", "table:IFLOS", "table:ILOA", "tx:SPRO", "tx:IL01", "fm:STRUCTURE_INDICATOR_READ",
+      "cds:I_FunctionalLocation",
+    ],
+    lastVerifiedAt: DATE5,
+    notes:
+      "שיטה: שתים עשרה ריצות של scripts/sap-help-search.mjs ב-2026-09-16 בסקופ SAP_S4HANA_ON-PREMISE ('T370T', "
+      + "'T370T functional location category text table', 'Functional Location Category Customizing Plant "
+      + "Maintenance', 'I_FlocCategoryText functional location category text CDS view', 'Define Category of "
+      + "Functional Location Customizing structure indicator', 'Archiving of Functional Locations PM_IFLOT tables "
+      + "IFLOT IFLOS ILOA', 'Text for Functional Location Category I_FlocCategoryText released text view', 'FLTYP "
+      + "functional location category field archiving', 'Customizing Activities for Reference Functional Location "
+      + "edit key', 'Linear Assets functional location category Linear Asset indicator Customizing', 'OIA1 OIMR "
+      + "transaction Plant Maintenance Customizing', 'Functional Location Structure List API "
+      + "FunctionalLocationCategoryDesc'), ריצה מקבילה בסקופ SAP_ERP ('T370T functional location category text'), "
+      + "וחיפוש רשת מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal.cloud.sap. שלושת ה-URL שנרשמו הועתקו "
+      + "כלשונם מפלט ה-JSON (loio ו-versionId 2025.001 לשתי הרשומות הרשמיות). גופי עמודי ה-Help של S/4HANA לא נקראו "
+      + "(מעטפת JavaScript), וכל טענה תחומה לכותרת ולסניפטים של רשומת החיפוש; העמוד היחיד שגופו נקרא בפועל הוא עמוד "
+      + "ספריית R/3 4.6C, שהוא HTML סטטי. ממצא שלילי מרכזי, תחום לחיפושים שבוצעו: אף רשומה רשמית שנבדקה אינה נוקבת "
+      + "בשם הטכני T370T, לא בסקופ S/4HANA (שמונה התוצאות הראשונות שנבדקו עוסקות במחרוזות אחרות כמו /SCWM/T300T "
+      + "ו-T370P; שדה total בפלט הכלי מחזיר 21 לכל שאילתה, כולל שאילתת בדיקה חסרת משמעות, ולכן אינו מספר תוצאות "
+      + "אמיתי ואינו נרשם כאן כמדד היקף) ולא בסקופ SAP_ERP (שש התוצאות שנבדקו אינן נוקבות בשם). מסמך רשימת הפישוט "
+      + "הציבורי הורד ונקרא בפועל: SIMPL_OP2025.pdf מ-help.sap.com (0df2ffddebab40cf9338488b2f18dc41/2025.latest), "
+      + "HTTP 200, 10,585,218 בתים, md5 c1ccf8ebcd92d51fdc80e4b4873f3b73, חילוץ pdftotext -layout נתן 70,529 שורות "
+      + "טקסט; אין בו ולו מופע אחד של 'T370T', של 'T370', של 'FLTYP', של 'IFLOT' או של 'functional location "
+      + "categor' (ללא תלות ברישיות), בעוד מחרוזות הבקרה מופיעות כצפוי: 'MATDOC' 84 מופעים, 'S4TWL' ב-1,679 שורות, "
+      + "'EQUI' ב-9 שורות ו-'Plant Maintenance' ב-10 שורות. הסתירה הפנימית החשובה ביותר היא בתוך המאגר: הבלופרינט "
+      + "מתאר טבלת טקסט של קטגוריית מיקום פונקציונלי (SPRAS + FLTYP), ושתי שכבות הידע מתארות טקסט של סוג אובייקט "
+      + "טכני ושל קטגוריית ציוד; הערוץ הרשמי תומך בקיומה של קטגוריית מיקום פונקציונלי ובשדה FLTYP, אך אינו נוקב "
+      + "בטבלה, ולכן אינו מכריע איזו מהקריאות נכונה. סתירה שנייה, פנימית גם היא: תיאור הבלופרינט ('הגדרות "
+      + "מבנה/קטגוריות') ובעיקר הפונקציה STRUCTURE_INDICATOR_READ והתוכנית RIFLET00 מערבבים בין מחוון המבנה לבין "
+      + "הקטגוריה, בעוד התיעוד הרשמי מפריד ביניהם: עמוד 'Archiving of Functional Locations (CS-BD/PM-EQM-FL)' "
+      + "(2025.001, loio 7e06bd53d34ab64ce10000000a174cb4) מונה בשדות התנאי של ILM את 'Functional Location Category "
+      + "(FLTYP)' ואת 'Functional Location Structure Indicator (TPLKZ)' כשני שדות נפרדים, ועמוד 'Structure "
+      + "Indicator' בדליברבל Technical Objects (CS-BD/PM-EQM) (2025.001, loio 7078bb53707db44ce10000000a174cb4) "
+      + "קובע 'You define the structure indicator in Customizing for Plant Maintenance under Create structure "
+      + "indicator for ref.funct.locs/funct.locs', כלומר פעילות קסטומיזציה אחרת מזו של הקטגוריה. אותו עמוד ארכוב "
+      + "מלמד גם שאובייקט הארכוב PM_IFLOT מורכב מ-IFLOT, IFLOS, IFLOTX, ILOA, IHPA ו-IHSG ואינו כולל את T370T, מה "
+      + "שעקבי עם טבלת קסטומיזציה שאינה מארכבת, אך אינו ראיה לקיומה. רשומות רשמיות נוספות שנראו ולא נרשמו כראיה כדי "
+      + "לשמור על רשומה תחומה: 'CDS Views for BW Extraction' ב-What's New של 1809 (1809.000, loio "
+      + "35648f645fd148aa9bc10fc7ede32053) שמחזיר 'I_FLOCCATEGORYTEXT You can use this CDS view to obtain "
+      + "information about the [...] description of the functional location category', כלומר תצוגת הטקסט קיימת "
+      + "בתיעוד לפחות מאז 1809; 'Functional Location Structure List' בדליברבל APIs for Maintenance Management "
+      + "(2023.latest, loio d223832dceda4245a6d72772020436f8) שבו 'FunctionalLocationCategoryDesc Indicates the "
+      + "functional location category text' כמאפיין של A_FuncnlLocStrucList, כלומר תיאור הקטגוריה נחשף גם ב-API "
+      + "משוחרר; 'Customizing for Partners' בדליברבל Orders (CS-SE/PM-WOC-MO) (2025.001, loio "
+      + "90dfb65334e6b54ce10000000a174cb4) שמחזיר בסניפט 'location category to partner determination procedure' ואת "
+      + "הנתיב 'Plant Maintenance and Customer Service / Master Data in Plant Maintenance and Customer Service / "
+      + "Technical Objects / Functional Locations / Define', כלומר אותו אזור קסטומיזציה בהקשר שיוך תהליך קביעת "
+      + "שותפים; הסניפט נקטע במילה Define ואינו מציג את שם הפעילות המלא; ו'Customizing Activities for Reference "
+      + "Functional Location' ב-What's New של 2025 FPS01 (2025.001, loio d6a8539c6f7645579937a0a08a5bed79) שקובע "
+      + "'There are the following new configuration activities for reference functional locations: You can define "
+      + "edit keys for a reference functional location in the Customizing for Plant Maintenance and Customer "
+      + "Service', כלומר שינוי קסטומיזציה בגרסה הנוכחית באזור הסמוך של מיקומי ייחוס, בלי שהוא נוגע בשם טבלה. "
+      + "הטרנזקציות OIA1 ו-OIMR שהבלופרינט מייחס לטבלה לא אומתו: החיפוש הרשמי עליהן החזיר רק רשומות Oil & Gas ללא "
+      + "קשר לקטגוריות מיקום, ולכן הן אינן נרשמות כאן כ-xref. מצב קודם באפליקציה: אין רשומת אימות ל-T370T, ולכן "
+      + "הפסיקה נגזרת מהערת הבלופרינט 'ללא שינוי (Customizing תואם)' דרך s4ClassOf ומוצגת כ'ללא שינוי ב-S/4HANA' "
+      + "ברמת 'מאומת מול נתוני הפרויקט', בלי גרסה ובלי מקורות; הרשומה הזו מחליפה את הטוקן ב'נדרש אימות נוסף', שכן "
+      + "אין ראיה רשמית לשם הטכני, ומוסיפה שלוש ראיות חיצוניות ואת רובד המאגר. לא בוצעה בדיקה חיה במערכת SAP: חיבור "
+      + "ה-MCP של sc4sap נכשל לפי MANIFEST, ולכן מבנה ה-DDIC, מפתח הטבלה, רשימת שדותיה, טיפוסיהם ואורכיהם נשארים "
+      + "לאימות ב-SE11 או ב-ADT. קטלוג פריטי הפישוט ב-launchpad.support.sap.com וה-SAP Notes דורשים S-user לפי "
+      + "MANIFEST ולא נבדקו. הרשומה אינה נושאת שדה reviewer: אף רשומה בתשעת קבצי data/verification/** אינה נושאת "
+      + "שדה כזה, וזו מוסכמת הבית.",
+  },
+  /* ------------------------------------------------------------ table:T399X */
+  {
+    id: "table:T399X",
+    evidence: [
+      T399X_SIMPL_SOURCING_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 FPS01 · item 6.5.13 S4TWL - PROFIT AND LOSS PLANNING AND "
+          + "PROFIT CENTER PLANNING, pp. 357-358",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE5,
+        claim:
+          "פריט 6.5.13 (רכיב יישום CO-OM, הערת Business Impact מספר 0002270407, שתיהן מודפסות בעמ' 357) פותח בעמ' "
+          + "357 רשימת בדיקות רלוונטיות תחת הכותרת 'This Simplification Item is relevant if:', ובעמ' 358 ממשיך בה "
+          + "הסעיף: 'Production/process order planning is used if planned cost calculation is active for the "
+          + "combination of plant and order type and is carried out automatically when the production order (CO01 "
+          + "or CO02) or the process order (COR1 or COR2) is created, changed or released.Use Customizing T-codes "
+          + "COR4 and OPL8 to check whether plan costs are determined for production order and process orders'. זו "
+          + "הנחיית בדיקה למערכת שעוברת המרה, ולכן המשפט מאשר שהקסטומיזציה נקבעת לפי צירוף מפעל וסוג פקודה ושהיא "
+          + "נתחזקת ב-COR4 וב-OPL8, ואינו קובע דבר על זמינות שתי הטרנזקציות לאחר ההמרה. את קיומה של פעילות "
+          + "הקסטומיזציה בתיעוד גרסת 2025 FPS01 מאשרת ראיה נפרדת ברשומה זו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Order Type-Dependent Parameters | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/1ad54a02b0de40cfbdaa66470b9b75ff.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "עמוד רשמי בגרסת 2025 FPS01 (loio 1ad54a02b0de40cfbdaa66470b9b75ff, דליברבל 'Production Planning and "
+          + "Detailed Scheduling (PP/DS)') בשם 'Maintain Order Type-Dependent Parameters'. שאילתות שונות למנוע "
+          + "החיפוש של help.sap.com החזירו ממנו שלושה קטעי סניפט: 'Access the activity for Production Orders using "
+          + "this IMG menu path: Production > Shop Floor Control > Master data > Order > Define Order "
+          + "Type-Dependent Parameters for Production Orders', 'Access the activity using this IMG menu path for "
+          + "Process Orders: Production Planning for Process Industries > Process Order > Master data > Order > "
+          + "Define Order-Type-Dependent Parameters for Process Orders', וכן 'Specify that the long text for a "
+          + "planned order can be copied during the conversion of a planned order into a production order or a "
+          + "process order'. מפרידי הנתיב בסניפט המקורי הם רווחים קשיחים והוצגו כאן כסימן '>'. כלומר פעילות "
+          + "הקסטומיזציה קיימת בתיעוד הגרסה הנוכחית גם לפקודות ייצור וגם לפקודות תהליך. גוף העמוד אינו נשלף ואינו "
+          + "נוקב בשם הטכני של הטבלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "סתירה פנימית בנתוני הפרויקט סביב זהות T399X",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE5,
+        claim:
+          "רשומת הבלופרינט PP-PI:T399X נושאת תווית עברית 'פרמטרי בקרת MRP למפעל' ותווית אנגלית 'Plant', אך כל שאר "
+          + "שדותיה מתארים קסטומיזציה תלוית מפעל וסוג פקודה: המפתח הוא WERKS + AUART (שניהם מסומנים PK), ה-guideHe "
+          + "הוא 'פרמטרי בקרה לפק\"ע לפי מפעל/סוג פק\"ע: זמינות, אופק שחרור, פרופיל סטטוס, IDoc. כאן מוגדרת זרימת "
+          + "ה-Control Recipe ל-Zetes/Daymax.', ה-helpLbl הוא 'SAP Help - Order Type Plant Parameters', וה-JOIN הוא "
+          + "'FROM AUFK JOIN T399X ON AUFK.WERKS = T399X.WERKS AND AUFK.AUART = T399X.AUART' לצד 'FROM T399X JOIN "
+          + "TCK03 ON T399X.KLVARP = TCK03.KLVAR'. רשימת השדות בבלופרינט מונה ארבעה שדות בלבד, WERKS, AUART, "
+          + "APROFIL ו-TERHO; KLVARP אינו מופיע בה אלא רק בצירוף ה-JOIN אל TCK03. גם tx-intel (רשומת COR4, שדה "
+          + "tables: T399X, TCO41, TCO43) ועץ הקונפיגורציה של PP-PI (צומת n2 בטרנזקציה OPL8, צומת n3 בטרנזקציה "
+          + "COR4) מקשרים את T399X לפרמטרים תלויי סוג פקודה. מנגד, data/table-titles.json ורשומת ההעשרה "
+          + "table-enrichment#T399X מתארות 'פרמטרי MRP ברמת מפעל' עם מפתח MANDT + WERKS ועם OPPQ. שתי הקריאות אינן "
+          + "יכולות להתקיים יחד.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/sapData.pppi.ts#T399X; data/table-titles.json#T399X; data/table-enrichment.ts#T399X; "
+          + "data/tx-intel.ts#COR4; data/pppi-config-tree.ts#n2,n3",
+      },
+    ],
+    status: {
+      status: "simplified",
+      he:
+        "טבלת קסטומיזציה של פרמטרים תלויי סוג פקודה ומפעל. השם הטכני T399X מופיע בפריט פישוט רשמי, 9.5.5 S4TWL - "
+        + "Simplified Sourcing ברשימת הפישוט של SAP S/4HANA 2025 FPS01: תכונת סוג הפקודה 'Routing selection' "
+        + "T399X-ARBPA, שנקבעת בטרנזקציית הקסטומיזציה OPL8, קבעה בלוגיקה הקלאסית כיצד נבחר routing ביצירת פקודת "
+        + "ייצור, ואילו בלוגיקת S/4HANA גרסאות הייצור הן מקור האספקה היחיד לייצור פנימי, גרסת הייצור מפנה ל-routing "
+        + "וה-routing הזה משמש ליצירת פקודות הייצור. הפריט אינו קובע שהטבלה או השדה הוסרו. פעילות הקסטומיזציה של "
+        + "פרמטרים תלויי סוג פקודה ממשיכה להופיע בתיעוד הרשמי של אותה גרסה, בעמוד 'Maintain Order Type-Dependent "
+        + "Parameters' בגרסת 2025 FPS01, גם לפקודות ייצור וגם לפקודות תהליך; אותו מסמך פישוט גם מנחה לבדוק ב-COR4 "
+        + "וב-OPL8 אם נקבעות עלויות מתוכננות לפי צירוף מפעל וסוג פקודה, אך זו הנחיית בדיקה למערכת שעוברת המרה ולא "
+        + "אמירה על S/4HANA. הפישוט חל על תכונת ARBPA בלבד; שאר תוכן הטבלה לפי הבלופרינט של הפרויקט (פרופיל בדיקת "
+        + "זמינות APROFIL, אופק שחרור TERHO, ובצירוף ה-JOIN גם וריאנט תמחיר דרך KLVARP) אינו נדון בפריט ולא אומת "
+        + "מול מקור רשמי.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: T399X_SIMPL_SOURCING_2025,
+      recommendedAction:
+        "לטפל ב-T399X כפריט פישוט ולא כטבלה ללא שינוי: לסרוק קוד מותאם, וריאנטים ודוחות הקוראים את השדה "
+        + "T399X-ARBPA או נשענים על בחירת routing לפי סוג פקודה, ולוודא שקיימות גרסאות ייצור לכל צירוף חומר, עץ "
+        + "מוצר ורשימת פעולות שאמור להיבחר בתכנון (רשימת הפישוט מפנה לדוח ההמרה CS_BOM_PRODVER_MIGRATION02 שבהערת "
+        + "SAP מספר 2655077; גוף ההערה דורש משתמש S ולא נקרא בפרויקט). בתעשיות תהליכיות לבדוק את אותם פרמטרים דרך "
+        + "COR4 לצד OPL8 בייצור בדיד, ולתקן את תווית הרשומה במאגר: המקור הרשמי מייחס את פרמטרי ה-MRP ברמת המפעל "
+        + "ל-T399D ולא ל-T399X. מבנה המפתח והשדות שבבלופרינט דורשים אימות ב-SE11 או ב-ADT במערכת חיה לפני שמסתמכים "
+        + "עליהם.",
+    },
+    xrefs: [
+      "tx:OPL8", "tx:COR4", "table:AUFK", "table:MKAL", "table:TCK03", "table:T003O", "table:T438M", "tx:MD01",
+      "cds:I_ProductionVersion",
+    ],
+    lastVerifiedAt: DATE5,
+    notes:
+      "שיטה: scripts/sap-help-search.mjs בשאילתות תוכן על שלושה מוצרים, ומהן שמונה שאילתות (ארבע "
+      + "ב-SAP_S4HANA_ON-PREMISE, שתיים ב-SAP_ERP, שתיים ב-SAP_S4HANA_CLOUD, עד 20 רשומות כל אחת) שתוצאותיהן נסרקו "
+      + "מכנית למחרוזת T399X; בנוסף חיפוש רשת מוגבל לדומיינים הרשמיים, וקריאה מקומית של קובצי ה-Simplification "
+      + "List. מדידה: אף אחת מרשומות החיפוש הללו אינה מחזירה כותרת או סניפט שבהם מופיעה המחרוזת T399X; המופע הרשמי "
+      + "היחיד שנמצא הוא בקובצי רשימת הפישוט. אימות רוחב: אותו משפט מופיע גם ברשימת הפישוט של 2023 (גרסת מסמך 1.35 "
+      + "מ-2025-02-25, https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf), שם "
+      + "הפריט ממוספר 30.38 S4TWL - Simplified Sourcing והמשפט על T399X-ARBPA נמצא בעמ' 818, כלומר האמירה יציבה "
+      + "לאורך מהדורות. רשומת חיפוש נוספת שנמצאה ולא הפכה לראיה: 'Customizing for Production Operations (Execution "
+      + "and Control)' בתוך What's New in SAP S/4HANA 2022 (versionId 2022.000, loio "
+      + "441ba47d6c984831abc4f1d93cdceecb), שהסניפט שלה מזכיר 'Define Order-Type-Dependent Parameters for "
+      + "Production Orders' לצד 'Changed Customizing activity' אך נקטע, וגוף העמוד אינו נשלף, ולכן לא נבנתה עליה "
+      + "טענה. תיקון מול המאגר: עד כה האפליקציה גזרה לטבלה 'ללא שינוי ב-S/4HANA' מעמודת s4Note של הבלופרינט ('ללא "
+      + "שינוי (Customizing).'), בעוד פריט פישוט רשמי נוקב בשמה. התווית העברית 'פרמטרי בקרת MRP למפעל' סותרת את "
+      + "המקור הרשמי ואת שאר שדות הבלופרינט עצמו, ומוצע להחליפה ב'פרמטרים תלויי סוג פקודה ומפעל'. הפניות שלא נוספו "
+      + "ל-xrefs מפני שאינן קיימות ביקום המזהים של הפרויקט: table:T399D, tx:OPPQ, tx:CORY, tx:OPJG. השדות המפורטים "
+      + "בבלופרינט הם WERKS, AUART, APROFIL ו-TERHO בלבד, ו-KLVARP מופיע רק בצירוף ה-JOIN אל TCK03 ולא ברשימת "
+      + "השדות; לא מבנה המפתח ולא השדות אומתו באף מקור רשמי, והם נשארים לאימות ב-SE11 או ב-ADT. גוף עמודי "
+      + "help.sap.com אינו נשלף (app shell), וה-MCP של מערכת SAP חיה אינו מחובר בסשן. מספרי הערות SAP שמופיעים "
+      + "ברשומה נקראו מילולית מקובצי ה-PDF הציבוריים; גופי ההערות דורשים משתמש S ולא נקראו. הרשומה אינה נושאת שדה "
+      + "reviewer, בהתאם למוסכמה של data/verification/**.",
+  },
+  /* ------------------------------------------------------------ table:ADMI_RUN */
+  {
+    id: "table:ADMI_RUN",
+    aliases: ["admi_run"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Archive Administration Data (BC-CCM-ADK) | Data Archiving in the ABAP Application System",
+        product: "ABAP Platform",
+        edition: "on-premise",
+        release: "202510.001",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/f0944a4717b5464f8d2343f9a44ff65b/4ae440376d0baf43e10000009b38f839.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        accessedAt: DATE5,
+        claim:
+          "נושא 'Archiving Archive Administration Data (BC-CCM-ADK)' במדריך Data Archiving in the ABAP "
+          + "Application System, במערך התיעוד של ABAP Platform לגרסת 2025 FPS01 (versionId 202510.001, loio "
+          + "4ae440376d0baf43e10000009b38f839, תאריך 2026-07-27), קובע בסניפט: 'Definition You can use archiving "
+          + "object BC_ARCHIVE to archive and delete archive administration data' וכן 'Structure Tables The "
+          + "archiving object BC_ARCHIVE consists of the following tables, from which data is archived and deleted "
+          + "(valid for both ADK and XML archiving objects): Table Description ADMI_RUN'. שאילתה שנייה על אותה "
+          + "רשומה החזירה את המשך אותה טבלה: 'Header data for archiving sessions ADMI_FILES Archive files for "
+          + "archiving sessions ADMI_VARIA Content of archiving program variant ADMI_SKIP Address of data objects "
+          + "that should be skipped' ולאחריו '<Info-Tab> Archive file info table for an archiving object ADMI_XRUN "
+          + "Archive files for archiving sessions of XML archiving objects ADMI_XDOCS Resources (XML Archiving)'. "
+          + "כלומר בגרסת הפלטפורמה שמתחת ל-SAP S/4HANA On-Premise לשנת 2025, ADMI_RUN עדיין נקובה בשמה הטכני כאחת "
+          + "מטבלאות אובייקט הארכוב BC_ARCHIVE, לצד ADMI_FILES, ADMI_VARIA, ADMI_SKIP, ADMI_XRUN ו-ADMI_XDOCS. "
+          + "הצמדת התיאור 'Header data for archiving sessions' דווקא ל-ADMI_RUN אינה נראית ברצף אחד בתוך הסניפט, "
+          + "והיא אומתה בקריאה מלאה של גוף אותו נושא (אותו loio) במערך תיעוד ישן יותר, כמפורט בהערות הרשומה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Archive Administration Data (BC-CCM-ADK) | Data Archiving in the ABAP Application System",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1709.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f0944a4717b5464f8d2343f9a44ff65b/4ae440376d0baf43e10000009b38f839.html?locale=en-US&state=PRODUCTION&version=1709.latest",
+        accessedAt: DATE5,
+        claim:
+          "אותו נושא מאונדקס גם במערך המוצר SAP S/4HANA On-Premise, שם הוא מוחזר בגרסה 1709 Latest (versionId "
+          + "1709.latest, אותו loio 4ae440376d0baf43e10000009b38f839, תאריך 2026-06-24), עם הסניפט 'Structure "
+          + "Tables The archiving object BC_ARCHIVE consists of the following tables, from which data is archived "
+          + "and deleted (valid for both ADK and XML archiving objects): Table Description ADMI_RUN' ולצדו "
+          + "'Archiving Archive Administration Data (BC-CCM-ADK) Definition You can use archiving object BC_ARCHIVE "
+          + "to archive and delete archive administration data'. כלומר התיעוד שנוקב ב-ADMI_RUN שויך גם למערך המוצר "
+          + "של SAP S/4HANA עצמו, ולא רק למערך תיעוד הפלטפורמה. הרשומה הזו היא ראיה לשיוך ולנוסח, ולא ראיה על "
+          + "גרסאות S/4HANA מאוחרות יותר: שאילתות שהוצמדו לגרסה 2025.001 באותו מערך מוצר לא החזירו רשומה הנוקבת "
+          + "ב-ADMI_RUN או ב-BC_ARCHIVE.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "ILM-Specific Enhancements to Archive Administration | SAP Information Lifecycle Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/35d6f7d8cbd04dbf997ca36785c7a795/2e8c881b74174869abd4f4c38130fc98.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE5,
+        claim:
+          "נושא 'ILM-Specific Enhancements to Archive Administration' במדריך SAP Information Lifecycle Management "
+          + "של SAP S/4HANA On-Premise בגרסת 2025 FPS01 (versionId 2025.001, loio 2e8c881b74174869abd4f4c38130fc98, "
+          + "תאריך 2026-02-25) קובע בסניפט: 'Use If you activate the ILMBusiness Function, the system enhances the "
+          + "archive administration by ILM-specific functions and fields' ובהמשך 'ILM-Specific Properties of "
+          + "Archiving Sessions In archive administration, you use the ILM-specific properties of archiving "
+          + "sessions as follows: For information, such as the ID and client of the original'. כלומר בגרסה הנוכחית "
+          + "של S/4HANA ניהול הארכוב מורחב בפונקציות ובשדות ייעודיים רק כאשר מפעילים את פונקציית העסק של ILM, "
+          + "ולריצות הארכוב נוספות תכונות ייעודיות ל-ILM. העמוד אינו נוקב בשם טבלה כלשהו, ובכלל זה אינו מזכיר את "
+          + "ADMI_RUN.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Archive Administration Data (BC-CCM-ADK) | Data Archiving (CA-ARC)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/c6ef916aeac74db0a6bec2142bc00248/4ae440376d0baf43e10000009b38f839-1510.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE5,
+        claim:
+          "אותו נושא מאונדקס גם במערך SAP ERP במדריך Data Archiving (CA-ARC) בגרסה 6.0 EHP8 Latest (versionId "
+          + "6.18.latest, loio 4ae440376d0baf43e10000009b38f839-1510, תאריך 2026-06-12), עם אותו סניפט: 'Structure "
+          + "Tables The archiving object BC_ARCHIVE consists of the following tables, from which data is archived "
+          + "and deleted (valid for both ADK and XML archiving objects): Table Description ADMI_RUN'. הרשומה מבססת "
+          + "את הרציפות מ-ECC ואינה ראיה על S/4HANA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נתוני הפרויקט: בלופרינט ההגירה של תחזוקת מפעל, שכבת ההעשרה ושכבות הידע, רשומת ADMI_RUN",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE5,
+        claim:
+          "רובד המאגר: בלופרינט תחזוקת מפעל (רשומה PM:ADMI_RUN, נושא 12 'היסטוריה וארכיון') מתאר את הטבלה כ'ריצות "
+          + "ניהול ארכוב (Archiving)' / 'Archiving Run', עם הטרנזקציות 'SARA; AOBJ, DB15', שדה Fiori 'Data "
+          + "Archiving (אמת ID)' כלומר בלי מזהה אפליקציה, עמודת S/4 'ללא שינוי; ILM אופציונלי ב-S/4', טבלה חליפית "
+          + "'ADMI_RUN (זהה) + SAP ILM', טרנזקציה חליפית 'SARA (זהה)' והערת SUM 'ללא פעולת המרה ייעודית ב-SUM (טבלה "
+          + "תואמת). מומלץ Regression Test ואימות התאמות אישיות לאחר ההמרה.'. הבלופרינט מונה שלושה מודולי פונקציה "
+          + "(ARCHIVE_OPEN_FOR_WRITE, ARCHIVE_GET_NEXT_OBJECT, ARCHIVE_DELETE_FROM_DB), תוכנית אחת (RIARCPM1, "
+          + "'כתיבה/מחיקה של ארכוב פקודות אחזקה'), אפס קשרי ER, וארבעה שדות כולם בלי טיפוס ובלי אורך: RUNID (PK, "
+          + "'Archiving run ID'), OBJECT ('Archiving object (PM_ORDER/PM_QMEL)'), GENER_DATE ('Generation date') "
+          + "ו-STATUS ('Run status'). שכבת ההעשרה (trust verified, מקורות טקסטואליים ללא קישור: 'SAP DDIC (SE11) - "
+          + "ADMI_RUN', 'SAP Help Portal - Data Archiving (SARA)') מוסיפה מפתח ראשי MANDT ומזהה ריצה, את ההערה "
+          + "שניהול הארכוב מתבצע דרך SARA ומודולי הארכוב ולא ב-SELECT ישיר, ואת ההערה שמסמכים שאורכבו אינם זמינים "
+          + "בשאילתות רגילות. שכבות הידע מוסיפות שיוך תפקידים (מנהל ארכוב ב-SARA, צוות Basis), מסלול לימוד (AOBJ, "
+          + "SARA, Write, קובץ ארכיב, Delete, Archive Information System, שחזור) ומחלקות וממשקים (CL_ARCHIVE_FILE, "
+          + "ARCHIVE_OPEN_FOR_WRITE/READ/DELETE), בדרגת חשיבות advanced ובהערת S/4 'ארכוב חשוב לפני המרה (הקטנת "
+          + "DB)'. הטבלה אינה מופיעה ב-data/s4-impact.ts ואין לה רשומת מחזור חיים או רשומת tx-intel; רשומת האימות "
+          + "הקיימת של fm:ARCHIVE_DELETE_FROM_DB כבר מפנה אליה ב-xrefs וכתובה שם verification_required.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/sapData.pm.ts#PM:ADMI_RUN; data/table-enrichment.ts#ADMI_RUN; "
+          + "data/knowledge/object-intel.ts#ADMI_RUN; data/knowledge/pm-objects-ext.ts#ADMI_RUN; "
+          + "data/verification/functions.ts#fm:ARCHIVE_DELETE_FROM_DB",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "התיעוד הרשמי העדכני של שכבת הארכוב עדיין נוקב ב-ADMI_RUN בשמה הטכני: במערך ABAP Platform לגרסת 2025 "
+        + "FPS01 היא נמנית בין טבלאות אובייקט הארכוב BC_ARCHIVE, לצד ADMI_FILES, ADMI_VARIA, ADMI_SKIP, ADMI_XRUN "
+        + "ו-ADMI_XDOCS, ובאותו נוסח שבו הנושא מאונדקס גם במערך המוצר SAP S/4HANA On-Premise (גרסה 1709 Latest) וגם "
+        + "במערך SAP ERP (גרסה 6.18 Latest). אף רשומה רשמית שנשלפה בסבב הזה אינה מסמנת את הטבלה כפריט פישוט, "
+        + "כמוגבלת, כמוחלפת או כמוסרת, ואף אחת אינה נוקבת ביורשת. בדיקה שלילית שבוצעה בפועל: רשימות הפישוט "
+        + "הציבוריות של 2025 FPS01 ושל 2023 נקראו כטקסט מלא ואין בהן ולו מופע אחד של המחרוזות ADMI_RUN או "
+        + "BC_ARCHIVE. שני סייגים לגבולות הטענה: ראשית, התיעוד שנוקב בטבלה הוא תיעוד הארכוב החוצה-יישומי (Data "
+        + "Archiving in the ABAP Application System), ולא מדריכי הארכוב של תחזוקת מפעל ושל תעשיות תהליכיות, שמונים "
+        + "לכל אובייקט ארכוב את טבלאות היישום בלבד (PLKO, MAPL, QMEL, MPLA, IMRG וכדומה) ואינם מזכירים את ADMI_RUN. "
+        + "שנית, לא אומתו מול מקור רשמי רשימת השדות של הטבלה, מפתחה, הטיפוסים והאורכים, ובכלל זה ארבעת השדות "
+        + "שרשומים בבלופרינט (RUNID, OBJECT, GENER_DATE, STATUS). ההערה 'ILM אופציונלי ב-S/4' שבבלופרינט נתמכת "
+        + "בעקיפין בלבד: עמוד ILM-Specific Enhancements to Archive Administration בגרסת 2025 FPS01 קובע שהפעלת "
+        + "פונקציית העסק של ILM היא שמרחיבה את ניהול הארכוב בפונקציות ובשדות, אך אינו נוקב בשם הטבלה.",
+      edition: "on-premise",
+      release: "202510.001 (ABAP Platform 2025 FPS01)",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Archiving Archive Administration Data (BC-CCM-ADK) | Data Archiving in the ABAP Application System",
+        product: "ABAP Platform",
+        edition: "on-premise",
+        release: "202510.001",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/f0944a4717b5464f8d2343f9a44ff65b/4ae440376d0baf43e10000009b38f839.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        accessedAt: DATE5,
+        claim:
+          "נושא 'Archiving Archive Administration Data (BC-CCM-ADK)' במדריך Data Archiving in the ABAP "
+          + "Application System, במערך התיעוד של ABAP Platform לגרסת 2025 FPS01 (versionId 202510.001, loio "
+          + "4ae440376d0baf43e10000009b38f839, תאריך 2026-07-27), קובע בסניפט: 'Definition You can use archiving "
+          + "object BC_ARCHIVE to archive and delete archive administration data' וכן 'Structure Tables The "
+          + "archiving object BC_ARCHIVE consists of the following tables, from which data is archived and deleted "
+          + "(valid for both ADK and XML archiving objects): Table Description ADMI_RUN'. שאילתה שנייה על אותה "
+          + "רשומה החזירה את המשך אותה טבלה: 'Header data for archiving sessions ADMI_FILES Archive files for "
+          + "archiving sessions ADMI_VARIA Content of archiving program variant ADMI_SKIP Address of data objects "
+          + "that should be skipped' ולאחריו '<Info-Tab> Archive file info table for an archiving object ADMI_XRUN "
+          + "Archive files for archiving sessions of XML archiving objects ADMI_XDOCS Resources (XML Archiving)'. "
+          + "כלומר בגרסת הפלטפורמה שמתחת ל-SAP S/4HANA On-Premise לשנת 2025, ADMI_RUN עדיין נקובה בשמה הטכני כאחת "
+          + "מטבלאות אובייקט הארכוב BC_ARCHIVE, לצד ADMI_FILES, ADMI_VARIA, ADMI_SKIP, ADMI_XRUN ו-ADMI_XDOCS. "
+          + "הצמדת התיאור 'Header data for archiving sessions' דווקא ל-ADMI_RUN אינה נראית ברצף אחד בתוך הסניפט, "
+          + "והיא אומתה בקריאה מלאה של גוף אותו נושא (אותו loio) במערך תיעוד ישן יותר, כמפורט בהערות הרשומה.",
+        verificationLevel: "sap_official_verified",
+      },
+      recommendedAction:
+        "בהסבה ל-S/4HANA אין למפות את ADMI_RUN כטבלת יישום ואין לכלול אותה בהמרת נתונים עסקיים: זו טבלת ניהול של "
+        + "שכבת הארכוב (ADK), שנכתבת ונקראת על ידי ניהול הארכוב עצמו. לפני חלון ההמרה יש לתכנן ארכוב של אובייקטי "
+        + "היישום דרך SARA לפי מדריכי הארכוב של תחזוקת מפעל ושל תעשיות תהליכיות (PM_ORDER, PM_QMEL, PM_EQUI, "
+        + "PM_IMRG, PM_PLAN, PP_ORDER, PR_ORDER ודומיהם), לוודא שריצות הכתיבה והמחיקה הושלמו ושלא נשארו ג'ובים "
+        + "פתוחים, ולתעד את ריצות הארכוב לצורכי ביקורת. אין לכתוב ל-ADMI_RUN מקוד Z ואין לבסס דוחות על SELECT ישיר "
+        + "ממנה: לקריאת נתונים שאורכבו יש להשתמש בממשק ADK ובמערכת המידע של הארכיב, ולניתוח היקפים בטרנזקציות SARA, "
+        + "AOBJ ו-DB15 שרשומות בבלופרינט. בתמיכה שוטפת: מסמך שאורכב אינו נגיש בשאילתה רגילה, ולכן תלונה בנוסח "
+        + "'המסמך לא נמצא' אחרי ארכוב נבדקת מול ריצת הארכוב שכיסתה אותו. אם נדרשות מדיניות שמירה ומחיקה לפי כללים, "
+        + "יש לבחון הפעלת פונקציית העסק של ILM, שלפי התיעוד הרשמי מרחיבה את ניהול הארכוב בשדות ובפונקציות נוספים, "
+        + "ולכלול את ההחלטה הזו בתכנון ההסבה. את רשימת השדות, המפתח, הטיפוסים והאורכים יש לאמת ב-SE11 או ב-ADT "
+        + "במערכת היעד לפני הסתמכות על ארבעת השדות שבמאגר.",
+    },
+    xrefs: [
+      "tx:SARA", "tx:AOBJ", "tx:DB15", "fm:ARCHIVE_OPEN_FOR_WRITE", "fm:ARCHIVE_GET_NEXT_OBJECT",
+      "fm:ARCHIVE_DELETE_FROM_DB", "table:AUFK", "table:AFIH", "table:QMEL", "table:EQUI", "table:IMRG",
+      "table:PLKO",
+    ],
+    lastVerifiedAt: DATE5,
+    notes:
+      "שיטה: עשרים ושתיים ריצות של scripts/sap-help-search.mjs ב-2026-09-16 בשישה מערכי מוצר "
+      + "(SAP_S4HANA_ON-PREMISE, SAP_ERP, ABAP_PLATFORM_NEW, SAP_NETWEAVER, SAP_NETWEAVER_750, "
+      + "SAP_NETWEAVER_AS_ABAP_752), ובהן 'ADMI_RUN archive administration table', 'ADMI_RUN', 'Archiving Archive "
+      + "Administration Data BC_ARCHIVE ADMI_RUN ADMI_FILES', 'ADMI_RUN Management data for archiving sessions', "
+      + "'ADMI_FILES archive files for archiving sessions table', 'ADMI_RUN RUNID OBJECT archiving run identifier "
+      + "field', 'BC_ARCHIVE ADMI_RUN archive administration data' (בשלושה מערכי פלטפורמה), 'ADMI_RUN Header data "
+      + "for archiving sessions ADMI_FILES archive files', 'archiving object PM_ORDER maintenance orders ADMI_RUN "
+      + "administration data', 'Information Lifecycle Management ILM archive administration ADMI_RUN retention', "
+      + "'ILM-Specific Enhancements to Archive Administration', וכן ארבע שאילתות שהוצמדו לגרסה 2025.001 ('Data "
+      + "Archiving in the ABAP Application System archive administration', 'BC_ARCHIVE archiving object archive "
+      + "administration data', 'Data Archiving in Plant Maintenance and Customer Service administration tables "
+      + "ADMI', 'ILM-Specific Enhancements to Archive Administration legend archiving session'); לצדן חיפוש רשת "
+      + "מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal.cloud.sap. הערת תאריכים: כלי החיפוש מדפיס "
+      + "accessedAt לפי UTC והחזיר 2026-09-15 בשעת הריצות, בעוד התאריך המקומי היה כבר 2026-09-16; החותמת ברשומה היא "
+      + "התאריך המקומי, בהתאם למוסכמת הסבב. תשובה לשאלת הסבב: ADMI_RUN אינה מתועדת במדריכי הארכוב של תחזוקת מפעל "
+      + "ושל תעשיות תהליכיות. שאילתה ייעודית על המדריך Data Archiving in Plant Maintenance and Customer Service "
+      + "(PM/CS) בגרסה 2025.001 החזירה את עמודי אובייקטי הארכוב של המודול, וכולם מונים טבלאות יישום בלבד: 'Relevant "
+      + "Tables The following tables are relevant for Archiving: Table Description PLKO Task list header PLKZ "
+      + "Time-independent header data (for example, administrative data) MAPL Material-task' (PM_PLAN, loio "
+      + "617cbe532789b44ce10000000a174cb4), 'The archiving object PM_IMRG for measurement documents comprises the "
+      + "following tables' (loio 579fce5314894208e10000000a174cb4), 'It comprises the following tables: Table Short "
+      + "Text MPLA Maintenance plan MMPT Cycle definitions and measuring points for the maintenance plan MHIS "
+      + "Maintenance plan calls' (PM_MPLAN, loio 96a0ce5314894208e10000000a174cb4), ועמוד הסקירה 'Data Archiving in "
+      + "Plant Maintenance and Customer Service (PM/CS)' (loio a0cfba538c95b54ce10000000a174cb4) שמונה את אובייקטי "
+      + "הארכוב PM_EQUI, PM_IFLOT, PM_OBJLIST, PM_IMRG ו-PM_QMEL. אף אחד מהם אינו נוקב ב-ADMI_RUN: הטבלה מופיעה רק "
+      + "בתיעוד הארכוב החוצה-יישומי, ושם היא טבלת הניהול של ריצות הארכוב עצמן. אותו נושא (אותו loio "
+      + "4ae440376d0baf43e10000009b38f839, אותו מזהה מדריך f0944a4717b5464f8d2343f9a44ff65b) מוחזר במקביל בשלושה "
+      + "מערכי פלטפורמה: ABAP Platform 2025 FPS01 (202510.001), SAP NetWeaver 7.5 (7.5.29) ו-SAP NetWeaver "
+      + "Application Server for ABAP 7.52 (7.52.latest), בכולם עם אותו סניפט פתיחה. קריאה מלאה שבוצעה בפועל: גוף "
+      + "אותו נושא נגיש כעמוד סטטי במערך תיעוד SAP NetWeaver 7.3 EHP1 בכתובת "
+      + "https://help.sap.com/doc/saphelp_nw73ehp1/7.31.19/en-US/4a/e440376d0baf43e10000009b38f839/content.htm?no_cache=true "
+      + "(HTTP 200, ‏17,805 בתים, נקרא במלואו). הגוף קובע מילה במילה: 'Table Description ADMI_RUN Header data for "
+      + "archiving sessions ADMI_FILES Archive files for archiving sessions ADMI_VARIA Content of archiving program "
+      + "variant ADMI_SKIP Address of data objects that should be skipped <Info-Tab> Archive file info table for an "
+      + "archiving object ADMI_XRUN Archive files for archiving sessions of XML archiving objects ADMI_XDOCS "
+      + "Resources (XML Archiving)', ובהמשך 'In addition, the archiving object uses the archiving class TEXT, which "
+      + "covers the following tables' (STXB, STXH, STXL) ו-'Programs BC_ARCHIVE is shipped with the following "
+      + "programs: Program Function BC_ARCHIVE_PRE Preprocessing RSAADMAR Write RSAADMLO Delete RSAADMRL Reload'. "
+      + "זהו מערך תיעוד ישן יותר, והוא משמש כאן אך ורק ליישוב הצמדת התיאור לשם הטבלה, במקום שבו הסניפט של הגרסה "
+      + "הנוכחית קוטע את השורה; הוא לא נרשם כראיה נפרדת משום שאינו מערך תיעוד של S/4HANA. הקשר ECC: במערך SAP_ERP "
+      + "אותו נושא מוחזר בגרסאות 6.06, 6.16, 6.17 ו-6.18 Latest, למשל תחת המדריך Data Archiving (CA-ARC) בכתובת "
+      + "https://help.sap.com/docs/SAP_ERP/c6ef916aeac74db0a6bec2142bc00248/4ae440376d0baf43e10000009b38f839-1510.html?locale=en-US&state=PRODUCTION&version=6.18.latest "
+      + "(loio 4ae440376d0baf43e10000009b38f839-1510, תאריך 2026-06-12, HTTP 200), עם אותו סניפט הנוקב ב-ADMI_RUN "
+      + "וב-ADMI_XRUN; הרשומה הזו מבססת את הרציפות מ-ECC והיא נרשמה כראיה נפרדת (הראיה הרביעית) בעקבות הביקורת "
+      + "הנגדית, כדי שהאזכור של מערך SAP ERP בפסקת הסטטוס יישען על ראיה שברשומה ולא על ההערות בלבד. בדיקות שליליות "
+      + "מדודות: (1) SIMPL_OP2025.pdf (רשימת הפישוט הציבורית ל-2025 FPS01, ‏10,585,218 בתים, md5 "
+      + "c1ccf8ebcd92d51fdc80e4b4873f3b73) ו-SIMPL_OP2023.pdf (‏10,174,700 בתים, md5 "
+      + "909c6e9087b009e809c116d3c6cf2eec) נקראו כטקסט מלא: אפס שורות מכילות ADMI_RUN ואפס מכילות BC_ARCHIVE "
+      + "בשתיהן, בעוד מחרוזת הבקרה MATDOC מופיעה ב-76 שורות בכל אחת מהן. (2) שאילתות שהוצמדו לגרסה 2025.001 במערך "
+      + "SAP_S4HANA_ON-PREMISE לא החזירו רשומה הנוקבת ב-ADMI_RUN או ב-BC_ARCHIVE; הבית הנוכחי של הנושא הוא מערך "
+      + "תיעוד הפלטפורמה. (3) אין מזהה Fiori: data/fiori/apps.ts אינה כוללת אפליקציית ארכוב, והבלופרינט עצמו כותב "
+      + "'Data Archiving (אמת ID)' בלי מזהה, ולכן אין xref ל-Fiori. (4) מספר SAP Note לא נרשם: me.sap.com דורש "
+      + "S-user לפי MANIFEST ולא נבדק. גופי עמודי help.sap.com מסוג docs אינם נקראים (מעטפת JavaScript): משיכה "
+      + "ישירה של עמוד 1709 החזירה 1,160 בתים ובהם אפס מופעים של ADMI_RUN, ולכן הראיה בפועל היא רשומת שירות החיפוש. "
+      + "ארבעת ה-URL נבדקו ב-curl ב-2026-09-16. הערה על גבולות הבדיקה: עמודי /docs/ ב-help.sap.com מחזירים מעטפת "
+      + "JavaScript של 1,160 בתים ו-HTTP 200 גם עבור loio שאינו קיים (נבדק בפועל מול loio מפוברק), ולכן קוד 200 "
+      + "אינו מעיד על קיום הנושא; הקיום נשען על רשומות שירות החיפוש, שבהן אומתו הכותרת, ה-loio, ה-versionId והתאריך "
+      + "של כל אחד מהם. הערת שם דומה: הביטוי 'S4TWL - PS&S SARA Reports' שברשימת הפישוט אינו הטרנזקציה SARA אלא דוח "
+      + "רגולטורי בתחום Product Safety and Stewardship, ואין לו קשר לניהול הארכוב. ממצא רשמי שהוא הקשר ולא ראיה: "
+      + "עמוד 'Enterprise Asset Management: Continuous Improvements' (Logistics, 2025.001, loio "
+      + "86429ea7a6e945e18a09ee75d566e789) קובע בסניפט 'Both tables have been added to the existing archiving "
+      + "object PM_QMEL' ו-'Archiving of equipment: customer-specific checks You can use three new Business Add-Ins "
+      + "(BAdIs) to run customer-specific checks when archiving equipment', כלומר תוכן הארכוב של תחזוקת מפעל אכן "
+      + "השתנה ב-S/4HANA ברמת אובייקטי היישום, בעוד טבלת ניהול הריצות נשארת אותה טבלה; שמה של אחת משתי הטבלאות "
+      + "שנוספו לאובייקט הארכוב PM_QMEL כן מופיע בתיעוד הרשמי: עמוד 'Pool Asset Management' (Customer Service (CS), "
+      + "2025.001, loio 0b5ad2c9e2f249abad4df1479243a001) קובע בסניפט 'the following two tables have been added to "
+      + "the archiving object for maintenance notifications (PM_QMEL): Requirements (Objects to be Scheduled) "
+      + "(technical name: PAMS_NEED) and Splits'. השם הטכני של טבלת ה-Splits אינו נראה בסניפט ולכן לא נרשם, ואין "
+      + "לכל זה השלכה על ADMI_RUN. עוד רשומות רשמיות שנראו ולא צוטטו: 'Data Archiving in the ABAP Platform' (ABAP "
+      + "Platform 202510.001, loio 8d3e4bb1462a11d189000000e8323d3a) המונה בסניפט 'Archive administration data "
+      + "BC_ARCHIVE' בין אובייקטי הארכוב של הפלטפורמה, ו-'Archive Administration Data (BC-CCM-ADK)' (אותו מערך, "
+      + "loio 43a9efb6550117b6e10000000a1553f6) שבסניפט שלו 'In Archive Administration enter the archiving object "
+      + "BC_ARCHIVE and schedule archiving as usual' ו-'The new archiving session then appears in the archive "
+      + "administration data of BC_ARCHIVE'. בחירת ה-xrefs: tx:SARA, tx:AOBJ ו-tx:DB15 הן שלוש הטרנזקציות שרשומות "
+      + "בשורת הבלופרינט; שלושת מודולי הפונקציה הם אלה שהבלופרינט מונה, ורשומת האימות של fm:ARCHIVE_DELETE_FROM_DB "
+      + "כבר מפנה חזרה לטבלה הזו; table:AUFK, table:AFIH, table:QMEL, table:EQUI, table:IMRG ו-table:PLKO הן טבלאות "
+      + "של אובייקטי הארכוב של תחזוקת מפעל לפי מדריך הארכוב הרשמי של PM/CS בגרסה 2025.001, והקישור אליהן ניווטי "
+      + "בלבד: אף מקור רשמי אינו קושר אותן ל-ADMI_RUN ישירות. tx:SARI (מערכת המידע של הארכיב) אינה קיימת ביקום "
+      + "המזהים של הפרויקט ולכן היא מוזכרת בטקסט בלבד. מה לא אומת ונשאר פתוח: רשימת השדות של הטבלה ומפתחה "
+      + "(הבלופרינט נוקב ב-RUNID, OBJECT, GENER_DATE ו-STATUS בלי טיפוסים ובלי אורכים), הקביעה של שכבת ההעשרה "
+      + "ש-MANDT הוא חלק מהמפתח, וקיומן בפועל של ADMI_FILES, ADMI_VARIA, ADMI_SKIP, ADMI_XRUN ו-ADMI_XDOCS בגרסה "
+      + "המותקנת. חיבור ה-MCP למערכת SAP חיה (sc4sap) נכשל בסשן, ולכן לא בוצעה בדיקת SE11 או ADT. מצב קודם "
+      + "באפליקציה: אין רשומת אימות ל-ADMI_RUN, ולכן הפסיקה נגזרת מהערת הבלופרינט 'ללא שינוי; ILM אופציונלי ב-S/4' "
+      + "דרך s4ClassOf ומוצגת כ'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', בלי גרסה, בלי מהדורה ובלי "
+      + "מקורות; הרשומה הזו משאירה את אותו טוקן ומוסיפה לו ארבע ראיות רשמיות, גרסה ומהדורה. הרשומה אינה נושאת שדה "
+      + "reviewer, בהתאם למוסכמת הבית בקבצי data/verification/**.",
   },
 ];

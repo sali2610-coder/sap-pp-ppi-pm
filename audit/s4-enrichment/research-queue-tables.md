@@ -16,7 +16,9 @@ resource/tool family and the work-center capacity family; four of the eight writ
 assignment tables plus the status-text, notification-type and order-type Customizing tables). Updated 2026-09-15 for batch 9
 (7 audited, 5 written, 2 refuted: `table:T134T` and `table:T023T`; the material-type, material-group and
 unit-of-measure Customizing tables plus the catalog-profile header and the task-list inspection
-characteristics).
+characteristics). Updated 2026-09-21 for batch 10 (8 audited, 8 written, 0 refuted; access date 2026-09-16;
+the PP-PI Customizing family plus `table:T370T` and `table:ADMI_RUN`; six of the eight written
+`verification_required`, `table:T399X` written `simplified`, `table:ADMI_RUN` written `unchanged`).
 
 ## refuted / needs new evidence
 
@@ -1009,3 +1011,103 @@ why `npm run report:coverage -- --catalog tables` now reports one edition-specif
   observed, not resolved. `descriptionEn` is `Task list type` (the PLNTY label copied as the table name; the
   same artifact hits PLPO, PLFL and PLAS). `PLMW`, `QPMK` and the Fiori app `F3788` are absent from the
   universe, so the values table, the master characteristic and *Manage Inspection Plans* get no xref.
+
+## batch 10 (access date 2026-09-16, written 2026-09-21): 8 audited, 8 written, 0 refuted
+
+Records written: `table:TC22`, `table:TC60`, `table:TCA01`, `table:TCK03`, `table:TCO01`, `table:T370T`,
+`table:T399X`, `table:ADMI_RUN`: the PP-PI Customizing family (control key, routing profile, costing variant,
+order-type-dependent parameters), the PM functional-location category text table and the ADK archive
+administration table. Seven were merged from the verdict's `fixedRecord`; `table:ADMI_RUN` had no `fixedRecord`,
+so the verdict's listed downgrades were applied to the draft (detailed below). **Nothing was refuted in this
+batch, so the `## refuted / needs new evidence` section above gains no entry.**
+
+Six of the eight carry **`verification_required`** with `release: null` and `source: null`, on the
+`table:T003O` / `table:T352` / `table:PLZU` / `table:FHMI` / `table:KAZT` precedent: no official page in the
+index prints the strings `TC22`, `TC60`, `TCA01`, `TCK03`, `TCO01` or `T370T`, and the 2025 FPS01 Simplification
+List (read in full) prints none of them either. `table:T399X` is the only **`simplified`** record of the batch, because
+Simplification Item 9.5.5 *S4TWL - Simplified Sourcing* prints `T399X-ARBPA` verbatim, and `table:ADMI_RUN` is
+**`unchanged`** on the ABAP Platform 2025 FPS01 archiving topic.
+
+One shared evidence object was hoisted to a module constant, `T399X_SIMPL_SOURCING_2025`, so `table:T399X`'s
+`evidence[0]` and its `status.source` point at the same document. A fifth date constant, `DATE5 = "2026-09-16"`,
+was added for this batch.
+
+`table:ADMI_RUN`: downgrades applied to the draft, since the verdict supplied no `fixedRecord`:
+- `status.release` written as `"202510.001 (ABAP Platform 2025 FPS01)"` rather than the bare platform
+  `versionId`. `components/neo-shell/evidence/evidence-block.tsx` renders `status.release` as a bare chip next to
+  the S/4HANA edition, so the bare number would read as an S/4HANA release. `evidence[0].release` and
+  `status.source.release` keep the bare `202510.001`, where it is the citation itself.
+- A fifth evidence entry was added (SAP ERP 6.0 EHP8 Latest, *Data Archiving (CA-ARC)*, loio
+  `4ae440376d0baf43e10000009b38f839-1510`, versionId `6.18.latest`, `edition: "ecc"`) so that the `status.he`
+  clause naming the SAP ERP doc set rests on evidence in the record rather than on the notes. The notes sentence
+  that previously said the ERP record "was not registered as evidence" was rewritten to match.
+- The HTTP-200 line in the notes was replaced: `/docs/` pages on help.sap.com answer 200 with the same
+  1,160-byte JavaScript shell for a fabricated loio, so 200 proves nothing; existence rests on the search records.
+- The two extracted-line counts (70,529 / 74,223) were removed from the notes. The 2023 figure did not reproduce
+  (a re-extraction gives 76,533 lines), so the counts are not stated as measurements; the file size, the md5 and
+  the hit counts, which do reproduce, were kept.
+- The EAM-continuous-improvements paragraph no longer says the two tables added to archiving object `PM_QMEL`
+  are unnamed: the 2025.001 *Pool Asset Management* page (Customer Service (CS), loio
+  `0b5ad2c9e2f249abad4df1479243a001`) names `PAMS_NEED` in its snippet. The Splits table's technical name is
+  still not visible in any snippet, so it stays unwritten, and `PAMS_NEED` gets no xref (absent from the universe).
+
+### batch 10 open conflicts, recorded in the written records' notes
+
+- `table:TC22` / `table:TC60`: **the same blueprint description on two different tables.** Of the 68 table rows
+  in the PP-PI workbook, exactly two carry `descriptionHe` "מפתח בקרה" and `descriptionEn` "Control key", TC22 and
+  TC60, and both carry the same join on `PLPO.STEUS`. Their field lists differ (TC22: STEUS, RUECK, BANFK,
+  PROZESS; TC60: STEUS, PVZNR, ATNAM), and TC60's own guide text describes process-instruction characteristics,
+  not a control key. A third reading exists inside the repo: `data/knowledge/object-intel.ts` calls TC22 a
+  catalog-code table. `data/table-enrichment.ts#PLPO` (marked `verified`) maps `STEUS → T430`, a name absent from
+  the universe. Which table actually sits behind `PLPO.STEUS` is undecided; SE11 or ADT is required for TC22,
+  TC60, TC30 and T430 together.
+- `table:TCA01`: **three project layers, three different tables.** The blueprint calls it "מזהה פרופיל /
+  Profile ID" (which is the `PROFIDNETZ` field label, and the official routing batch-input page shows
+  `PROFIDNETZ` as a field of structure `BIPKO`, not a table); `data/table-enrichment.ts#TCA01` calls it the task
+  list types table (key MANDT + PLNTY); `data/knowledge/object-intel.ts#TCA01` calls it work-centre categories.
+  A fourth, milder layer, `data/knowledge/pppi-objects-ext.ts`, agrees with the blueprint at
+  `trust: needs-verification`. This is the batch's only record whose evidence level is `conflicting_sources`, and
+  it is why `npm run report:coverage -- --catalog tables` now reports one conflicting row where it reported zero.
+  The one official page in the index that contains the string is about a *different* name, `TCA01_SUBTYPE`
+  (*Define Version Profile*, PEO shop-floor routing); name similarity is recorded as a hypothesis, not a finding.
+- `table:TCK03`: **costing variant vs valuation variant.** The blueprint and `data/knowledge/object-intel.ts`
+  read TCK03 as the costing-variant table (KLVAR, BWVAR, KALAW); `data/table-enrichment.ts#TCK03` reads it as the
+  valuation-variant table with key "MANDT, KLVAR/BWVAR" and a debug line naming OKK4. The official VDM
+  distinguishes the two concepts and gives them separate released CDS views (`I_CostingVariant` vs
+  `I_CostingValuationVariant`), so one of the two project layers is wrong. Neither the name TCK03 nor the field
+  names appear in any official page or in the Simplification List.
+- `table:TCO01` / `table:T399X`: **two blueprint rows describing the same customizing.** Both sit in PP-PI topic
+  7, both carry key WERKS + AUART, both carry `descriptionEn` "Plant" (the WERKS field label copied as the table
+  name) and the same S/4 note, and both carry an availability-check profile field (`APROF` vs `APROFIL`). Only
+  T399X is named in an official source. Two further defects on the TCO01 row: its SQL join to T003O uses AUART
+  alone and drops WERKS although WERKS is marked key, and the project knowledge layers read TCO01 as CO internal
+  order field selection rather than process-order parameters. `TCO41` and `TCO43` (which `data/tx-intel.ts#COR4`
+  names) and transactions `OPJH` / `CORN` have no id in the universe, so the comparison they are needed for can
+  only be done in SE11.
+- `table:T399X`: **repository label contradicts the official source.** The blueprint's Hebrew label is
+  "פרמטרי בקרת MRP למפעל" and `data/table-titles.json` plus `data/table-enrichment.ts#T399X` describe plant-level
+  MRP parameters with key MANDT + WERKS and transaction OPPQ, while Simplification Item 9.5.5 attributes
+  plant-level MRP parameters to **T399D** (`T399D-GTERM`) and T399X to the order-type attribute. Suggested
+  correction, not applied here: relabel the blueprint row "פרמטרים תלויי סוג פקודה ומפעל". `table:T399D`,
+  `tx:OPPQ`, `tx:CORY` and `tx:OPJG` are absent from the universe and therefore carry no xref.
+- `table:T370T`: **functional-location category vs object type vs equipment category.** The blueprint records a
+  SPRAS + FLTYP text table for functional-location categories, `data/knowledge/pm-objects-ext.ts` calls it texts
+  for the technical object type, and `data/knowledge/object-intel.ts` calls it equipment-category texts pointing
+  at T370 and IE01. The official channel confirms the *field* `FLTYP` and the customizing activity *Define
+  Category of Functional Location*, but names no table. A second, milder mix-up in the same blueprint row: its
+  function `STRUCTURE_INDICATOR_READ` and program `RIFLET00` belong to the structure indicator (`TPLKZ`), which
+  the official archiving page lists as a field separate from `FLTYP`. Transactions `OIA1` and `OIMR` from that
+  row could not be corroborated (the official search returns only Oil & Gas topics) and are not xref'd.
+- `table:ADMI_RUN`: no cross-layer conflict, but two bounded gaps stay open: the field list and key (the
+  blueprint's RUNID / OBJECT / GENER_DATE / STATUS carry no type or length, and the enrichment layer adds MANDT),
+  and the existence in the installed release of the sibling tables `ADMI_FILES`, `ADMI_VARIA`, `ADMI_SKIP`,
+  `ADMI_XRUN` and `ADMI_XDOCS`. `tx:SARI` is absent from the universe, so the Archive Information System is
+  mentioned in prose only.
+
+Channel limits that held for the whole batch: `sc4sap` (live SE11 / ADT) failed to connect, so no record in this
+batch carries a live-system check; `me.sap.com/notes` and the interactive Simplification Item Catalog need an
+S-user and were not opened, so every SAP Note number that appears (0002268069, 0002270233, 2269324, 3035649,
+0002270407, 2655077, 0002267834) is quoted verbatim from a public PDF that was read, never from memory, and none
+is written into a `sapNote` field. `help.sap.com/docs/` bodies are JavaScript shells, so every official claim is
+bounded by the search record's title, deliverable and snippet, except the two PDFs and the one static
+`help.sap.com/doc/saphelp_*` page, which were read in full.
