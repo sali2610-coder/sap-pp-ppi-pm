@@ -1,49 +1,62 @@
-# S/4HANA knowledge deepening · checkpoint report (2026-09-14)
+# S/4HANA knowledge deepening · checkpoint report (2026-09-21)
 
 Branch `design/neo-correction-pass` · preview only · `main` and production untouched.
 
 ## What exists now (foundation, all committed)
 - **Evidence model** (`lib/evidence/`): `Evidence` (source type, title, official URL or repoRef, product, edition, release, access date, claim, verification level, conflicting evidence), `VerificationRecord` keyed by canonical id, `S4StatusClaim` with edition/release/source/recommended action/successor. Verification levels: `sap_official_verified · repository_verified · supported_secondary_source · verification_required · conflicting_sources · legacy_context_only`.
-- **Unified S/4HANA status model** (14 tokens) with a tested mapping from every legacy vocabulary in the repo (blueprint verdicts, lifecycle, s4-objects, ecc-s4, tx dispositions, bapi-registry, fiori trust, cds enrichment, EccS4 blocks, verified-objects, cockpit trust). The validated blueprint vocabulary (ללא שינוי / מותאם / הוחלף / הוסר / לא הוכרע במקור) is untouched; overlay claims sit beside it.
-- **Depth scoring L0–L5** per catalog, **coverage report** (`npm run report:coverage`), **14 schema rules + xref gates** in `npm test` (no source, status without edition/release, replacement without successor, Fiori without official id/URL, CDS without release context, FM released without official source, dangling xref, duplicate id, bad id syntax, placeholder, certainty language, URL domain allowlist, SAP Note format, alias collision).
-- **Overlay data layer** `data/verification/*.ts` (generated `data/sapData.*` never edited) and **evidence block** on every detail page (tables, objects, transactions, BAPI/FM, IDoc, CDS, Fiori, enhancements) + a new **Best Practices** section (`/neo/best-practices/`).
-- **Research pipeline** `scripts/workflows/enrich-family.js`: researcher (official SAP Help search JSON, api.sap.com, Fiori library, official PDFs) → adversarial auditor (every URL and snippet re-checked, default refute) → single writer (gates). Official lookup tool: `scripts/sap-help-search.mjs`.
+- **Unified S/4HANA status model** (14 tokens) with a tested mapping from every legacy vocabulary in the repo. The validated blueprint vocabulary is untouched; overlay claims sit beside it.
+- **Depth scoring L0–L5** per catalog, **coverage report** (`npm run report:coverage`), **14 schema rules + xref gates** in `npm test`.
+- **Overlay data layer** `data/verification/*.ts` (generated `data/sapData.*` never edited) and an **evidence block** on every detail page, plus the **Best Practices** section (`/neo/best-practices/`).
+- **Research pipeline** `scripts/workflows/enrich-family.js`: researcher → adversarial auditor (default refute) → single writer. Official lookup tool: `scripts/sap-help-search.mjs`.
 
-## Records verified against official SAP sources (Tier 1)
-| Catalog | Records written | Refuted → queue | Notable findings |
+## Records verified against official SAP sources
+| Catalog | Overlay records | State | Notable findings |
 |---|---|---|---|
-| Tables | 28 (2 batches) | AFVC | 10/11 undecided blueprint verdicts resolved; MARA `changed` (extended material number); BUT000 `simplified` (Business Partner/CVI); MSEG `replaced` (MATDOC) |
-| Transactions | 32 (2 batches) | none | all 12 lifecycle conflicts (MB*/ME*) resolved from the Simplification List 2023 FPS03 item 27.6 (replaced → MIGO / BAPI_GOODSMVT_CREATE); MD01 from item 9.5.2 MRP in HANA; IW/IP/IE/IL/COR/CO/C201 verified in 2025 FPS01 docs |
-| BAPI / FM / API | 12 | none | BAPI_ALM_ORDER_MAINTAIN → `released_api_available` (Maintenance Order OData API pages); 10 FMs honestly `verification_required` |
-| IDocs | 4 | none | MATMAS/LOIPRO + basic types MATMAS05/LOIPRO01 (DMC integration guide PDF read) |
-| CDS Views | 13 | none | I_MaterialDocumentItem **deprecated 2021** (successor named); I_MaintenancePlan → I_MaintenancePlanBasic (queued: successor not a catalog row); 3 views only on Public Cloud pages |
-| Fiori apps | 19 | F3289 | **8 curated id/title bindings are wrong** (F2731, F2730, F2730A, F4072, F3577, F3364, F1576, F0843) → `conflicting_sources` with both sources kept; Confirm Jobs W0020 deprecated 2022 / deleted 2023 |
-| Enhancements | 14 | none | 10 PM customer exits + 4 BAdIs cited to SAP Library / 2025 pages; CONFPM01 and IEQM0001 repository descriptions disagree with SAP definitions (recorded) |
-| **Total** | **122 records** | **2** | 14 `conflicting_sources`, 11 edition-specific (Public Cloud) claims, 0 invented facts (auditor-enforced) |
+| Tables | **105 — catalog closed** | every table the cockpit renders carries a sourced record | MKPF and COSP `replaced` (MATDOC, ACDOCA); MSEG, MARA, BUT000 from batches 1–2; PLZU, FHMI, AFWI, KAZT, CRVD_A, T352, T003O, TC22, TC60, TCA01, TCK03, TCO01, T370T, T134T honestly `verification_required`; T352B `conflicting_sources` |
+| Transactions | 32 | batches 1–2 | all 12 lifecycle conflicts resolved from Simplification List 2023 FPS03 item 27.6; MD01 from item 9.5.2 |
+| BAPI / FM / API | 34 | batches 1–3 | equipment, functional-location and order BAPIs `released_api_available` with official OData successors; 7 FMs honestly `verification_required` |
+| IDocs | 6 | complete for the registry | MATMAS/LOIPRO + basic types, DMC integration guide read |
+| CDS Views | **37 — catalog closed** | all 39 curated views have a record or a queue entry | I_MaterialDocumentItem deprecated 2021; 4 views honestly `verification_required` because no official record names them |
+| Fiori apps | 19 | batch 1 | 8 curated id/title bindings recorded as `conflicting_sources` |
+| Enhancements | 23 | batches 1–2 | M61X0001 `simplified` (classic MRP exits not called by MRP Live); SAPLV01Z exposed as a function group, not an SMOD enhancement |
+| Objects | 2 | foundation | registry seed |
+| **Total** | **258 records** | | 20 recorded `conflicting_sources`, 20 edition-specific claims, 0 invented facts (auditor-enforced) |
 
-## Coverage (measured, `report:coverage`, 2026-09-14)
+## Coverage (measured, `report:coverage`, 2026-09-21)
 ```
 catalog          total   L0   L1   L2   L3   L4   L5  verified  verif.req  conflict  legacy  s4-appl  edition
-tables             105    0   75    0   13    0   17       105          0         0       0      104        0
+tables             105    0   75    1    1    0   28       103          0         2       0       89        1
 transactions      1817    0 1275    0  514    0   28       554       1262         1       0      555        3
-functions          145    0    2   48   93    1    1       107         38         0       0       79        0
+functions          145    0    2   50   79    1   13       114         31         0       0       77        0
 idocs                2    0    0    0    0    0    2         2          0         0       0        2        0
-cds                 39    0    0    3   26    1    9        39          0         0       0       36        5
+cds                 39    0    0    9    5    2   23        37          2         0       0       30       13
 fiori               20    0    0    2    7    0   11        12          0         8       0       18        2
-enhancements        42    0    0    4   34    2    2        31          6         5       0       38        1
+enhancements        42    0    0    6   28    3    5        30          3         9       0       36        1
 objects              1    0    0    1    0    0    0         1          0         0       0        0        0
 best-practices       2    0    0    2    0    0    0         2          0         0       0        0        0
-TOTAL             2173    0 1352   60  687    4   70       853       1306        14       0      832       11
+TOTAL             2173    0 1352   71  634    6  110       855       1298        20       0      807       20
 ```
-Baseline before this phase: L5 **0**, L4 4, verified 839, verification_required 1,334, conflicts 0. Now: L5 **70**, verified 853, verification_required 1,306, conflicts 14 (recorded, not hidden). The 1,275 L1 transactions are the tx-registry codes with no authored intel — they are counted, not hidden.
+Baseline before this phase: L5 **0**, L4 4, verified 839, verification_required 1,334, conflicts 0. Now L5 **110**, conflicts 20 (recorded, not hidden).
 
-## Gates (final build 2026-09-14)
-tsc 0 · tsc (tests) 0 · eslint 0 errors · `npm test` 201/201 · build 7,803 pages · route manifest in sync · dead links 0 · sitemap 4,507 URLs, 0 dead · browser sweep **54/54** (18 detail routes × desktop light/dark × phone: 0 console errors, 0 overflow, evidence block on every catalog page) · `data/ai-tree` drift 0.
+Three counters moved **down** on purpose. `verified` and `s4-applicable` fall whenever an authored `verification_required` replaces a verdict the blueprint derived but no source supports. That is the correction working, not a regression.
+
+## Gates (full regression, 2026-09-21)
+tsc 0 · tsc (tests) 0 · eslint 0 errors (405 accepted warnings) · `npm test` **201/201** · build **7,803 pages** · route manifest in sync (`/cds/` 39, `/apps/` 539, `/impact/` 105) · dead internal links **0 of 7,805 pages** · sitemap 4,507 URLs covering all 4,507 indexable pages, 0 dead · browser sweep **54/54** (18 detail routes × desktop light/dark × phone: 0 console errors, 0 horizontal overflow, evidence block on every catalog page) · `data/ai-tree` drift **0**.
+
+Spot-checked in the built export: KAZT renders «נדרש אימות נוסף»; T352B renders «מקורות סותרים»; MKPF and COSP render «הוחלף ב-S/4HANA». COSP's successor links to a real page; MKPF's successor is a registry entry with no page, so it renders as a chip rather than a dead link.
 
 ## Honest scope statement
-Verified scope = the 122 overlay records above. Everything else on the site still renders its **derived** status (labelled as derived, with the repository tier) or `נדרש אימות נוסף`. Not yet done from the brief: batch 3+ of every catalog (tables 77 remaining, CDS 26, functions 133, fiori index 1,450 thin entries, enhancements 28), `obj:` business-object registry, Best Practices process catalog beyond the 2 seeds, knowledge/incidents/academy cross-references, AI knowledge integration. The research queues (`research-queue-*.md`) carry every refuted record and every source conflict.
+Verified scope = the 258 overlay records above. Everything else still renders its **derived** status (labelled as derived, with the repository tier) or «נדרש אימות נוסף». Closed: the tables and CDS catalogs. Open from the brief: transactions beyond the 32 authored codes (1,275 registry codes carry no authored intel), functions (102 remain), the Fiori thin index (1,450 entries), enhancements (19 remain), the `obj:` business-object registry, the Best Practices process catalog beyond its 2 seeds, knowledge/incidents/academy cross-references, Books cross-references, and AI knowledge integration. Every refused record and every source conflict is in `research-queue-*.md`.
+
+## Known corrections queued, not applied
+Each of these changes a file outside the overlay layer, so it needs its own audited change rather than riding along inside an enrichment batch:
+- `tx:IP30` claims no Simplification Item names IP30 and that RISTRA20 is unsourced. Item 4.1.2 of the 2025 list names both.
+- `fm:NOTIF_TASK_READ` conflates the notification activities table with the notification tasks table.
+- `data/table-tcodes.json` maps the quality-notification creation code to the inspection-setup table, which is not an inspection-setup path.
+- `table:TJ30T` reads a shared snippet by label; the column-order reading measured correct.
+- `data/function-intel.ts` carries five keys that are not function modules (two IDoc message types already covered as IDoc records, two further IDoc or process concepts, and one whose name contains a space and so cannot take a canonical id). The functions catalog total is inflated by five.
 
 ## Limits that shaped the evidence
-- help.sap.com topic bodies, fal.cloud.sap and api.sap.com pages are JavaScript shells: claims are bounded to the official search record's title/snippet or to PDFs actually read (Simplification Lists 2023/2025, What's New PDFs, DMC integration guide). Auditors refuted every body-text claim.
-- `sc4sap` MCP (live ABAP) never connected; interface parameters that only a live system could confirm stay `verification_required`.
-- Session/credit limits interrupted runs repeatedly; every pipeline was resumed from its journal cache, and nothing was written without its auditor verdict.
+- help.sap.com topic bodies, fal.cloud.sap and api.sap.com pages are JavaScript shells: claims are bounded to the official search record's title/snippet or to PDFs actually read. A non-existent page identifier also returns HTTP 200 on help.sap.com, so a 200 is never treated as proof a topic exists; the re-run search record is.
+- The live ABAP connection never worked, so interface parameters only a running system could confirm stay `verification_required`.
+- Session, weekly and credit limits interrupted runs repeatedly. Every pipeline resumed from its journal cache, and nothing was written without its auditor verdict.
