@@ -18,17 +18,17 @@
 
 import Link from "next/link";
 import {
-  AlertTriangle, ArrowLeft, BadgeCheck, Boxes, Cable, FlaskConical, GitBranch,
+  AlertTriangle, BadgeCheck, Boxes, Cable, FlaskConical, GitBranch,
   GraduationCap, LayoutGrid, Lightbulb, Plug, Puzzle, Route, ShieldQuestion,
-  Table2, Terminal, Wrench,
+  Table2, Terminal,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
-import { domainCards, domainTotals, type DomainCard, type DomLink, type DomainView } from "./domain-data";
+import { domainCards, domainTotals, type DomLink, type DomainView } from "./domain-data";
+import { DomainHubList } from "./domain-hub-list";
 
 const nf = new Intl.NumberFormat("he-IL");
 
 const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--mod-pppi)" };
-const MOD_HE: Record<string, string> = { PM: "תחזוקת מפעל · PM", "PP-PI": "תעשיות תהליכיות · PP-PI" };
 
 /** The four semantic tones of the ECC↔S/4 verdict, mapped onto the status
  *  tokens the product already owns. No new colour is introduced. */
@@ -43,45 +43,10 @@ const TONE: Record<string, string> = {
 
 /* --------------------------------------------------------------------- hub */
 
-function Card({ c, i }: { c: DomainCard; i: number }) {
-  return (
-    <Link
-      href={`/neo/domain/${c.slug}/`}
-      prefetch={false}
-      className="ndm-card nm-rise nm-once"
-      style={{ "--m": MOD_VAR[c.module], "--nm-i": i } as React.CSSProperties}
-    >
-      <span className="ndm-card-top">
-        <span className="ndm-card-mod">{MOD_HE[c.module]}</span>
-        {/* DEPTH, STATED. A card that carries the deep consultant record says
-            so; one that carries only the spine says that instead of staying
-            silent and letting the reader assume parity. */}
-        <span className="ndm-depth" data-deep={c.deep ? "1" : "0"}>
-          {c.deep ? "רשומה מלאה" : "רשומת בסיס"}
-        </span>
-      </span>
-      <b className="ndm-card-he">{c.he}</b>
-      <span className="ndm-card-en" dir="ltr">{c.title}</span>
-      <span className="ndm-card-sum">{c.summary}</span>
-      <span className="ndm-card-nums">
-        <em><b>{nf.format(c.steps)}</b> שלבים</em>
-        <em><b>{nf.format(c.tables)}</b> טבלאות</em>
-        <em><b>{nf.format(c.tcodes)}</b> טרנזקציות</em>
-        {c.s4 ? <em className="ndm-card-s4">S/4HANA</em> : null}
-      </span>
-      <span className="ndm-card-go">
-        <ArrowLeft size={14} strokeWidth={2} aria-hidden="true" />
-        פתיחת התחום
-      </span>
-    </Link>
-  );
-}
 
 export function DomainsHub() {
   const t = domainTotals();
   const cards = domainCards();
-  const pm = cards.filter((c) => c.module === "PM");
-  const pp = cards.filter((c) => c.module === "PP-PI");
 
   return (
     <div className="ndm nm-scene" data-surface="domains" data-scene="cream">
@@ -123,18 +88,7 @@ export function DomainsHub() {
         ) : null}
       </header>
 
-      {([["PM", pm, Wrench], ["PP-PI", pp, FlaskConical]] as const).map(([mod, list, Icon]) => (
-        <section key={mod} className="ndm-mod" style={{ "--m": MOD_VAR[mod] } as React.CSSProperties}>
-          <h2 className="ndm-mod-h">
-            <Icon size={16} strokeWidth={1.75} aria-hidden="true" />
-            {MOD_HE[mod]}
-            <span className="ndm-mod-n">{list.length} תחומים</span>
-          </h2>
-          <div className="ndm-grid">
-            {list.map((c, i) => <Card key={c.slug} c={c} i={i} />)}
-          </div>
-        </section>
-      ))}
+      <DomainHubList cards={cards} />
 
       <p className="ndm-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
     </div>

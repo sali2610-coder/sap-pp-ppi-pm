@@ -1560,3 +1560,12 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nx-app .nw-sub-h,
   .nx-app .nw-sub-s { min-inline-size: 0; max-inline-size: 100%; overflow-wrap: anywhere; }
 }
+
+/* Chapter index as progressive disclosure (design audit §7, 2026-09-21). */
+.nw-idx-d > summary { list-style: none; cursor: pointer; }
+.nw-idx-d > summary::-webkit-details-marker { display: none; }
+.nw-idx-d > summary .nw-idx-k::after { content: " ▾"; color: var(--ink-3); font-size: .85em; }
+.nw-idx-d[open] > summary .nw-idx-k::after { content: " ▴"; }
+.nw-idx-d[open] > .nw-idx-l { margin-block-start: var(--sp-4); }
+/* The jump from a chosen topic to its tables. */
+.nw-rank-go { margin-block-start: var(--sp-3); }

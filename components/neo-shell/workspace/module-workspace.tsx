@@ -289,8 +289,10 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       // The one chapter the page is really for. It is marked here, once, and the
       // running bar reads the flag — nothing about S/4HANA is hard-coded into a
       // component that five other screens also use.
-      { key: "s4", id: "nw-s4", kicker: "המעבר ל-S/4HANA", title: "מה משתנה במודול במעבר ל-S/4HANA", count: data.s4x.changed.length, countLabel: "טבלאות משתנות", feature: true },
+      // The working table comes right after the map (design audit §7: tables,
+      // processes and search early); the S/4HANA chapter follows it.
       { key: "tbl", id: "nw-tbl", kicker: "קטלוג טבלאות SAP", title: "טבלאות SAP של המודול", count: data.counts.rows, countLabel: "רשומות תיעוד" },
+      { key: "s4", id: "nw-s4", kicker: "המעבר ל-S/4HANA", title: "מה משתנה במודול במעבר ל-S/4HANA", count: data.s4x.changed.length, countLabel: "טבלאות משתנות", feature: true },
       { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "הטרנזקציות שהתיעוד קושר למודול", count: data.counts.tcodes, countLabel: "טרנזקציות" },
       { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "קשרי הנתונים של המודול עם שאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים" },
       { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "ממשקים, תצוגות CDS ויישומי Fiori של המודול", count: data.counts.funcEntries, countLabel: "רשומות ממשק" },
@@ -374,8 +376,6 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
         onTopic={(t) => setTopic((cur) => (cur === t ? null : t))}
         onZone={(z) => setZone((cur) => (cur === z ? null : z))}
       />
-
-      <WorkspaceS4 d={data} meta={ch.s4} />
 
       {/* ================================================= the working table */}
       <Chapter
@@ -518,6 +518,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
         />
       </Chapter>
 
+      <WorkspaceS4 d={data} meta={ch.s4} />
       <WorkspaceOps d={data} meta={ch.ops} />
       <WorkspaceContext d={data} meta={ch.rel} />
       <WorkspaceIface d={data} meta={ch.iface} />

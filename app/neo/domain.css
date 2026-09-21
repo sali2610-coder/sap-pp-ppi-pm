@@ -331,3 +331,17 @@
   .ndm-sec { padding-inline: .95rem; }
   .ndm-sec-n { position: static; }
 }
+
+/* Local search and module filter on the hub (design audit §7, 2026-09-21). */
+.ndm-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .9rem; margin-block-start: 1.1rem; }
+.ndm-find {
+  display: flex; align-items: center; gap: .5rem; flex: 1 1 18rem; min-inline-size: 0;
+  padding: .45rem .7rem; border: 1px solid var(--hairline); border-radius: .7rem; background: var(--surface);
+  color: var(--ink-3);
+}
+.ndm-find:focus-within { border-color: var(--m, var(--brand)); color: var(--ink-1); }
+.ndm-find input { flex: 1 1 auto; min-inline-size: 0; border: 0; background: transparent; font: inherit; color: var(--ink-1); outline: none; }
+.ndm-modchips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.ndm-modchips .nu-tab em { font-style: normal; margin-inline-start: .3rem; color: var(--ink-3); }
+.ndm-count { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin: .8rem 0 0; font-size: .86rem; color: var(--ink-3); }
+.ndm-none { padding: 1.2rem; display: grid; gap: .8rem; justify-items: start; margin-block-start: 1rem; }

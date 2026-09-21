@@ -132,6 +132,14 @@ export function WorkspaceMap({
               </li>
             ))}
           </ul>
+          {/* Design audit §7: after choosing a topic, the results are a chapter
+              away. The button names the count and jumps to the filtered table. */}
+          {topic != null && d.topics.some((t) => t.idx === topic) ? (
+            <a className="nu-btn nw-rank-go" href="#nw-tbl">
+              הצג {nf.format(d.topics.find((t) => t.idx === topic)!.tables)} טבלאות של הנושא
+              <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" style={{ transform: "rotate(-90deg)" }} />
+            </a>
+          ) : null}
           <p className="nw-fine">
             אורך הפס הוא מספר הטבלאות בנושא מול הנושא הרחב ביותר במודול, שמחזיק {nf.format(d.maxTopicTables)} טבלאות.
           </p>
