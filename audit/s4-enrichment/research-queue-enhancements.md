@@ -407,3 +407,204 @@ Same defect class as the five non-function keys recorded in
 `research-queue-functions.md`. Not fixed inside an enrichment batch: removing or
 re-homing rows in `data/exits.ts` changes what the enhancement pages render, so it needs
 its own audited change with a before and after route check.
+
+---
+
+# Batch 4 · written 2026-09-21 (access date stamped 2026-09-21)
+
+The 9 audited PP / PP-PI extension drafts of the closing batch: `enh:exit:CONFPP01`,
+`enh:exit:PPCO0021`, `enh:exit:PCSD0002`, `enh:badi:MD_PLDORD_POST`, `enh:badi:MD_ADD_ELEMENTS`,
+`enh:technique:substitution-validation`, `enh:technique:transaction-variant` (7 written) and
+`enh:technique:enhancement-spot`, `enh:technique:vofm` (2 refuted at the gate, queued below).
+Five of the seven were written from their auditor's `fixedRecord`; `MD_PLDORD_POST` was re-derived
+from its verdict text with the six listed downgrades applied (no `fixedRecord` was supplied), and
+`PCSD0002` is the submitted draft with exactly the two patched fields the verdict names.
+
+## refuted
+
+- `enh:technique:enhancement-spot` — **structural, blocking.** The draft put `recommendedAction` on
+  the record as a sibling of `status`, not inside it. `S4StatusClaim.recommendedAction` is required
+  (`lib/evidence/types.ts`) and `VerificationRecord` has no such property, so the record as drafted
+  carries a missing required field plus an excess property and cannot compile under `tsc --strict`.
+  Beyond the shape: (a) the draft invented a "4-evidence limit" and then used it as the stated
+  reason for omitting exactly the evidence its status token needs. No such cap exists. The
+  auditor's own counts for this point were themselves off; re-measured over the 38 records now in
+  `data/verification/enhancements.ts`, the range is 4 to 7 evidence entries (18 records at 4, 13 at
+  5, 6 at 6, and `enh:exit:IMRC0001` at 7; `new-badi` 6, `bte` 6, `user-exit` 5), which still
+  refutes a four-item cap; (b) the token `unchanged` asserts no
+  change between SAP ERP and S/4HANA while all four evidence items are current-release only (ABAP
+  platform 202510.001 ×3, S/4HANA 2025.001 ×1) and not one cites the ECC side, unlike the file's
+  own precedent `enh:technique:new-badi`, which anchors `unchanged` on the technique being
+  documented on both sides (SAP ERP 6.0 EHP8 / `ES_EDOCUMENT`) — the auditor reproduced an ECC-side
+  source, so this is an omission, not an evidence vacuum; (c) `notes` claimed loio
+  `8200b753128eb44ce10000000a174cb4` is also served under the book `Controlling (CO)`, and three
+  separate `scripts/sap-help-search.mjs` runs returned it only under `Production Orders (PP-SFC)`,
+  deliverable `34de0103497c4b80a7c7fbf6952ff971`; the CO topic that actually covers order-split
+  costing is a different loio (`Production Order Split (at Actual Costs)`, Controlling (CO),
+  `d0aab26fdd044c82ae9bb2ef435fc631`, 2025.001); (d) the record leaned throughout on "all four URLs
+  return HTTP 200 with a 1,160-byte JavaScript shell" as verification — the auditor ran a control
+  with a deliberately fabricated loio on the same deliverable path and got the same 200 and the
+  same shell, so the curl verifies nothing (the four URLs are genuine, but because the search
+  service returned them); (e) `summary` claimed the record passed `validateRecords` over all eight
+  overlay files and `tsc --strict` cleanly, which cannot be true: no such id exists in
+  `data/verification/enhancements.ts`, so nothing in the repo was validated, and in the drafted
+  shape `tsc --strict` cannot be clean. Minor: `status.he` calls the ABAP Platform bridge page
+  "עמוד ABAP Platform של אותה גרסה" while `status.release` is 2025.001 and that evidence carries
+  202510.001 — two different versionId spaces the record elsewhere keeps apart.
+  **Still missing:** the record moved into the correct shape (`recommendedAction` inside `status`);
+  an ECC-side official source for the `unchanged` token, or a downgrade of the token; the CO-book
+  claim dropped or re-cited to `d0aab26fdd044c82ae9bb2ef435fc631`; the HTTP-200 language removed or
+  restated as "the search service returned this record"; and an actual validation run instead of an
+  asserted one.
+
+- `enh:technique:vofm` — **unsupported claims about Oil & Gas, measured against the service.**
+  `notes` asserted that S/4HANA On-Premise 2025 FPS01 names transaction VOFM "in at least four
+  books (Sales, Service, Oil & Gas, China and Peru among the countries)". Oil & Gas does not name
+  it: `node scripts/sap-help-search.mjs "VOFM transaction routine" --size 21` returns 21 S/4
+  2025.001 records whose only Oil & Gas hit is `Routine Setups` (PRA, DN Automation), with no VOFM
+  in the snippet, and a dedicated `"Oil Gas VOFM"` query returned 21 records with VOFM in zero
+  snippets. The two Oil & Gas pages the draft cites (`f98dcf535b804808e10000000a174cb4`,
+  `f08dcf535b804808e10000000a174cb4`) quote only the IMG path `Sales and Distribution System
+  Modification Routines Define formulas for pricing`; the transaction code never appears. The
+  record's own `evidence[2].claim` is scrupulous about this ("עמודי ה-System Adaptation ... אינם
+  נוקבים ב-VOFM") and `notes` contradicts it, inflating the book count from three to four. Same
+  root cause in `notes` ("בתיעוד 2025 FPS01 של Oil & Gas הן מכונות דווקא user exit") and `gaps[2]`:
+  both treat the Oil & Gas formula routine as a VOFM routine, while the page names an IMG activity
+  and never VOFM — and that inference is the sole basis for the record's Modification-vs-Exit
+  classification discussion. Further: (a) `notes` states "SPAU מופיעה ארבע פעמים" in the extracted
+  Custom Code Migration guide; re-measured on the same file (1,893,033 bytes, 82 pages;
+  `pdftotext` → 118,659 bytes) `grep -o SPAU | wc -l` = 8, four of them inside `SPAU_ENH`, over 4
+  lines — the figure four holds only under line counting, which the record does not state (the
+  other two counts, `modification` 8 and `enhancement` 5, check out exactly, and the load-bearing
+  negatives VOFM 0 / routine 0 hold); (b) `status.he` says the Sales book instructs creating a
+  pricing routine in VOFM — China and Peru are verbatim, Sales is not: its three 2025.001 pages say
+  "create a new VOFM copy routine", "(Transaction VOFM in menu point Formulas)" for free-goods
+  quantity rules, and the credit No Check routine, and a follow-up query returned no Sales page
+  instructing pricing-routine creation; none of the three is cited as evidence; (c) house-style
+  deviation: `evidence[1]` and `evidence[2]` carry claims about pages they do not link
+  (`8402608dfbe34b7abfede95d315a076e` under evidence[1]; three further loios under evidence[2]), so
+  a reader following evidence[2]'s link sees one of the four sentences quoted — all four secondary
+  loios do verify, so this is structural, not factual, and the stated reason ("כדי להחזיק את מספר
+  הראיות בארבע") is not a rule in this repository; (d) `summary` says "לצד 30 הרשומות הקיימות
+  בקובץ" while `ENH_VERIFICATION.length` was 31 (the two validation runs themselves reproduce clean
+  with `lib/evidence/validate.ts`); (e) minor, `gaps[3]` presents "31, 108, 113, 311, 601" as
+  S/4HANA findings — 108 is ECC only (`Merchandise Distribution: Customizing Settings`, SAP ERP
+  6.18.latest, loio `eca3c7536e8e2a4be10000000a174cb4`).
+  **Still missing:** the Oil & Gas claims dropped from `notes` and `gaps` or replaced with the IMG
+  path the page actually carries; the Sales half of `status.he` either cited to one of the three
+  real Sales pages or removed; the SPAU count restated as measured (8 occurrences / 4 lines); each
+  `Evidence.claim` bounded by the page its own `url` points to, with the secondary loios promoted
+  to their own evidence entries; and the record count corrected.
+
+## conflicts
+
+- `enh:exit:CONFPP01` — `data/exits.ts#CONFPP01` describes the exit as input validation that blocks
+  posting ("ולידציה/לוגיקה באישור פעולת ייצור/תהליך", trigger "בעת אישור (CO11N/COR6N), לפני רישום"),
+  scopes it to process orders and COR6N, and names `BAdI WORKORDER_CONFIRM` as the Clean Core
+  target. The only official document that names CONFPP01 at all is the Plant Connectivity 15.0
+  implementation guide (read in full, p. 19 of 34), which pairs it with `EXIT_SAPLCORF_101` and
+  shows one example scenario — reading external machine data into the confirmation fields in CO11N
+  on the *Propose actual data* pushbutton. It does not enumerate the enhancement's function-exit
+  components, does not define its scope and does not rule the repository's uses out; and it names
+  two different includes for the same implementation (`ZXCOFU06` on p. 19, `ZXCOFU11` in step 5 on
+  p. 19 and in the sample-code header on p. 20), an inconsistency internal to the source that was
+  not resolved. `WORKORDER_CONFIRM` appears on no official S/4HANA page (see
+  `enh:badi:WORKORDER_CONFIRM`). Recorded as an authored `verification_required` status, not as a
+  conflict record, because the gap is silence in the sources rather than a contradiction.
+- `enh:exit:PPCO0021` — three repository layers describe the same exit three different ways:
+  `data/exits.ts` "בדיקת רכיבי פקודה" (inferred), `data/workbenches-ext.ts` "Exit בעת יצירת רכיבי
+  הזמנה / חישוב מחדש של RESB", `data/troubleshooting-ext2.ts` the scenario "פיצוץ BOM ללא רכיבים
+  בפקודה"; `data/domain-detail.ts:369` shortens to "PPCO0021 (רכיבים)". The `object` field carries
+  `Enhancement PPCO0021` with no function-exit name. No official source decides between them: the
+  name PPCO0021 appears in zero titles and zero snippets across fourteen queries in three products,
+  and zero times in the 2025 FPS01 simplification list (which does contain 23 `PP-SFC` hits). The
+  `eccS4.changed` line "העדף BAdI WORKORDER_GOODSMVT" has no official support either. Left as
+  repository-layer statements rather than a conflict against SAP, since there is no SAP statement
+  to conflict with.
+- `enh:exit:PCSD0002` — written as `conflicting_sources`. `data/exits.ts#PCSD0002` calls it
+  "ולידציה/השלמה של פריטי עץ מוצר בשמירה" and the PM migration workbook row 11 calls it "ברירות
+  מחדל לפריטי עץ מוצר"; the two contradict each other and both contradict the official 2025 FPS01
+  table `Enhancements for Function Group XCSA`, where PCSD0002 is `Customer fields in item`,
+  `Component check for material items` belongs to PCSD0005 and `Enhance maintenance of material
+  BOMs` to PCSD0001. Separately, the `eccS4.changed` name `BADI_BOM_CHANGES` did not appear as a
+  standalone token in any title or snippet across 105 returned records in five On-Premise queries
+  or the two Public Cloud records; the documented modern BOM extension points are `BOM_BEFORE_SAVE`
+  (spot `ES_BOM_UPDATE`, interface `IF_BOM_BEFORE_SAVE`, method `HANDLE_BEFORE_SAVE`) and
+  `BOM_UPDATE` (method `CHANGE_ADD_SAVE`). Neither declares itself a successor, so no `successor`
+  was written.
+- `enh:badi:MD_PLDORD_POST` — `data/exits.ts` merges two different BAdIs and inverts the MRP Live
+  direction. SAP's R/3 4.70 release note defines `MD_PLDORD_POST` as further processing of planned
+  orders *already posted* ("You can, for example, log any changes made") and assigns pre-posting
+  data changes to a separate BAdI, `MD_PLDORD_CHANGE`; the repository row describes intervention in
+  creation and update. Its trigger is limited to posting by MRP, while the release note adds
+  "posted during manual planned order processing". And `eccS4.changed` reads "תואם MRP Live (מועדף
+  על M61X exits)", the opposite of what the simplification item states: `MD_PLDORD_POST` is listed
+  among the classic BAdIs to be re-implemented as an AMDP BAdI, and classic implementations are not
+  processed for a material planned in MRP Live.
+- `enh:badi:MD_ADD_ELEMENTS` — `data/exits.ts` records "נתמך." with no MRP Live qualification, sets
+  the trigger to "MD04/MD05", and presents the Fiori app *Monitor Material Coverage* as the BAdI's
+  counterpart. Measured against the sources: no official page ties BAdI-added elements to any Fiori
+  app; MD05 appears in no official source for this BAdI, while MD04, MD07, MD01 and MD02 do; and
+  per the comparison pages already recorded under `tx:MD04`, `Monitor Material Coverage - Net
+  Segments (F0247A)` maps to MD07 and `Manage Material Coverage (F0251)` to MD04. Also corrects a
+  note inside this catalog: `enh:exit:M61X0001` states the 2025 FPS1 rotated BAdI table "cannot be
+  extracted"; it can, with `pdftotext -raw` plus whitespace stripping, and the `Extension M61X0001`
+  row sits on pp. 729 and 752 of that very file. That note should be updated in its own change.
+- `enh:technique:substitution-validation` — `data/enhancements.ts#substitution-validation` states
+  that "חלק מההחלפות מומרות ל-BAdI/BRF+"; no official source found supports it, and no page says
+  BRF+ replaces the technique. Its two examples ("אימות ייחוס חשבונאי בהזמנת אחזקה", "החלפת מרכז
+  רווח בעלות פק\"ע") are not connected to a maintenance order or a process order on any official
+  page found, so they stayed at repository level. Transaction `OKC7` appears in exactly one support
+  content page and in no product documentation. The code-to-action mapping `GGB0` = validation /
+  `GGB1` = substitution is supported by three support-content pages but by no S/4HANA product
+  documentation page.
+- `enh:technique:transaction-variant` — `data/enhancements.ts#transaction-variant` states for
+  S/4HANA "ב-Fiori התאמה דרך UI Adaptation". The 2025 FPS01 page `Adapt User Interfaces at Runtime`
+  (loio `a80e623dc43a4fe5b1531695c2f7aeb5`) does define runtime UI adaptation for key users, but it
+  never mentions transaction variants and never presents itself as their replacement, so no
+  `successor` and no `fiori_alternative_available` flag were written. Source-side typo worth
+  knowing: `Technical Information on Transaction Variants` (PP-REM, loio
+  `be68b6531de6b64ce10000000a174cb4`) prints "(transaction SDH0)" in both the SAP ERP 6.18 and the
+  S/4HANA 2025.001 servings. `SDH0` is SAP's own typo for `SHD0` and must not be recorded as a
+  transaction.
+
+## open verification (live system)
+
+- `SMOD` / `CMOD` / `SE37` in the target system for `CONFPP01` (existence, the function-exit
+  component list, the `EXIT_SAPLCORF_101` interface and which include actually carries the code,
+  `ZXCOFU06` or `ZXCOFU11`) and for `PPCO0021` (existence, short text, components, calling point,
+  and whether it is assigned to an active project after conversion).
+- `SE18` / `SE19` for `MD_PLDORD_POST` and `MD_ADD_ELEMENTS`: enhancement-spot name, method
+  signatures and parameters, filter/multiple-use flags, and the active implementations. No official
+  S/4HANA page names either BAdI's interface.
+- `SMOD` plus `SE18` for `PCSD0002`: whether `EXIT_SAPLCSDI_002` and `EXIT_SAPLCSDI_003` really
+  belong to it (the pairing rests on snippet column order with an ellipsis between the enhancement
+  name and the two modules, so it was not recorded as an alias), and whether any object named
+  `BADI_BOM_CHANGES` exists at all.
+- `GGB0` / `GGB1` / `OB28` / `OKC7` in the installed system for the substitution-validation
+  technique: which codes exist, which action each performs, and the form-pool entries in `T80D`.
+- `SHD0` in the installed system for transaction-variant: the variant names, screen numbers and
+  assignments, which are release- and support-package-dependent.
+- The `sc4sap` ABAP MCP was unavailable in every session of this batch (`Connection closed`), so no
+  live SAP check was performed or claimed anywhere in these records.
+
+## writer deviations, batch 4
+
+- `enh:exit:PPCO0021`: the auditor's `fixedRecord` opened `notes` with an editorial instruction to
+  the writer ("הערת עריכה לכותב: כל ערכי DATE21 לעיל הם הקבוע `DATE21` ..."). That sentence is
+  instruction, not record content, and was dropped; the instruction itself was carried out (every
+  `accessedAt` and `lastVerifiedAt` in the batch is the `DATE21` constant, never a literal).
+- `enh:exit:PCSD0002`: the verdict's structured patch says `appendToClaim` on `evidence[3]` while
+  its prose says "add at the end of the claim, before the final two sentences". The recommendation
+  column belongs with the workbook rows it describes, so the sentence was placed immediately after
+  the row enumeration and before the closing conflict statement. Text identical either way.
+- `enh:badi:MD_PLDORD_POST` had no `fixedRecord`; it was re-derived from the draft with all six
+  downgrades applied, including the optional strengthening (the `MD_MRP_FORCE_CLASSIC` sentence is
+  now grounded in the simplification-list PDF that was read, not only in a snippet). SAP note
+  3233524, which the verdict flagged as legitimate but off-topic, was deliberately not added.
+- `enh:technique:transaction-variant` was taken from the auditor's fully patched record file rather
+  than re-typed, as the verdict directed; all twelve downgrades were re-checked against it before
+  writing (six evidence entries, no bridging inference in `evidence[0]`, the full SE93 sentence, the
+  corrected twin attribution, the corrected SDH0 warning, zero em dashes).
+- The two em dashes that remain in `enh:exit:PCSD0002` sit inside SAP's own deliverable title
+  `Logistics — General (LO)`, returned verbatim by the search service, and were left as quoted.

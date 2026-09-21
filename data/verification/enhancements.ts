@@ -30,7 +30,28 @@
    measured against the official search service on 2026-09-21, are recorded in each record's
    notes: the ABAP platform product string is stored verbatim as "ABAP platform"; three snippet
    fragments the auditors marked truncated came back complete and are quoted in full; and the
-   simplification-list negative for BTE is stated as a standalone-token count. */
+   simplification-list negative for BTE is stated as a standalone-token count.
+   Batch 4 (written and access-stamped 2026-09-21, const DATE21): the 7 PP / PP-PI extension
+   records that close the catalog's production and MRP families (CONFPP01, PPCO0021, PCSD0002,
+   MD_PLDORD_POST, MD_ADD_ELEMENTS, substitution-validation, transaction-variant). Five were
+   written from their auditor's fixedRecord; MD_PLDORD_POST was re-derived from its verdict text
+   with the six listed downgrades applied, and PCSD0002 is the submitted draft with exactly the
+   two patched fields. Two of the seven (MD_PLDORD_POST, MD_ADD_ELEMENTS) join enh:exit:M61X0001 as
+   the catalog's only "simplified" statuses, both anchored on item 9.5.2 "S4TWL - MRP in HANA" of the 2025 FPS01
+   simplification list, whose rotated BAdI table was read with `pdftotext -raw` and cross-checked
+   against the normally-typeset 2023 FPS3 printing; neither names a successor, because the AMDP
+   BAdI PPH_MRP_RUN_BADI is not an id in this project's universe and no official page declares it
+   a successor. CONFPP01 and PPCO0021 carry an authored verification_required status: no official
+   S/4HANA or SAP ERP page names either enhancement, so the derived "changed" verdict from the
+   exits.ts ECC-vs-S/4 block must not render beside an official pill. PCSD0002 marks the
+   contradicting repository row conflicting_sources (the workbook and the catalog give the exit
+   two different purposes, neither of which is the documented "Customer fields in item").
+   transaction-variant carries six evidence entries, inside the catalog's measured 4-to-7 range
+   (18 records at 4, 13 at 5, 6 at 6, and enh:exit:IMRC0001 at 7): the Restrictions page and the
+   Variant Transactions page were added at the gate because the recommendation leans on them, and
+   because the SE93 variant transaction is classified Modification while the variant itself is
+   Customizing. Two audited drafts (enhancement-spot, vofm) were refuted at the gate and are
+   queued, not written. */
 import type { VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
@@ -3587,5 +3608,614 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       + "ממנו. הערת קטלוג נוספת: קטלוג ההרחבות בשם אינו מכיל אף רשומה מסוג 'User Exit', ולכן דף הטכניקה מציג "
       + "אפס הרחבות בשם משויכות. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמה בכל קבצי data/verification/**. "
       + "ה-MCP ל-ABAP לא היה זמין בסשן; בדיקת SMOD, SE38, SE18 או SPAU במערכת חיה לא בוצעה.",
+  },
+  {
+    id: "enh:exit:CONFPP01",
+    aliases: ["EXIT_SAPLCORF_101"],
+    status: {
+      status: "verification_required",
+      he: "אף עמוד רשמי של SAP S/4HANA On-Premise או של SAP ERP שאותר אינו נוקב בשם ההרחבה CONFPP01 או במודול EXIT_SAPLCORF_101. המסמך הרשמי היחיד שנמצא, נקרא ונוקב בשמם הוא מדריך היישום של SAP לחיבור מקורות נתונים חיצוניים ל-SAP Business Suite‏ (Plant Connectivity 15.0, 2014), והוא מתאר תרחיש דוגמה אחד: קריאת נתוני מכונה חיצוניים לשדות האישור בטרנזקציה CO11N, כאשר לפי המדריך קוד ה-user exit מעובד בעת לחיצה על הלחצן Propose actual data. המדריך אינו מונה את כלל רכיבי ה-Function Exit של ההרחבה, אינו מגדיר את תחולתה ואינו שולל שימושים אחרים בה. לכן מעמד ההרחבה ב-S/4HANA, וכן תיאור המאגר שלפיו היא משמשת לבדיקות באישור לפני רישום, נשארים ללא אימות עד בדיקה ב-SMOD וב-CMOD במערכת היעד.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: "לאמת במערכת היעד לפני ההסבה: ב-SMOD את קיום ההרחבה CONFPP01 ואת רשימת רכיבי ה-Function Exit שלה, ב-SE37 את ממשק EXIT_SAPLCORF_101 ואת ה-include שבו נכתב הקוד (מדריך ה-PCo נוקב בשני שמות שונים, ZXCOFU06 בפסקת היישום ו-ZXCOFU11 בצעד 5 ובכותרת הקוד לדוגמה), וב-CMOD את הפרויקט הפעיל. לסרוק ב-ATC וב-SCMON את השימוש בפועל. את תיאור הקטלוג כבדיקת קלט החוסמת שמירה יש להשאיר מסומן כלא מאומת עד שתיעוד ההרחבה ב-SMOD במערכת יאשר זאת: התיעוד לגרסת 2025 FPS01 נוקב בפעילות Customizing בשם Customer Specific Input Checks When Saving תחת Enhancements in Order Confirmation, ומביא אותה בהקשר של CONFPP05 ושל EXIT_SAPLCORF_105. למסלול הרחבה מתועד ב-S/4HANA לאישור הזמנת ייצור אפשר לבחון את הרחבת שירות ה-OData‏ API_PROD_ORDER_CONFIRMATION_2_SRV בשדות לקוח דרך אפליקציית Custom Fields (הקשר עסקי PP_ORDER_CONFIRMATION), בלי לרשום אותו כמחליף כל עוד אין מקור רשמי הקובע החלפה."
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Implementation Guide for the Connection of External Data Sources to SAP Business Suite Applications, Plant Connectivity 15.0 (PDF)",
+        url: "https://help.sap.com/doc/60061f3f73f1400292090f713729563b/15.3.0/en-US/PCO15_BS_IMPL_G_FINAL.pdf",
+        product: "SAP Plant Connectivity 15.0 / SAP Business Suite",
+        edition: "ecc",
+        release: "PCo 15.0, Version 1.0 (April 2014)",
+        accessedAt: DATE21,
+        claim: "המסמך הורד (HTTP 200, ‏1,146,306 בתים) וחולץ לטקסט; הציטוטים לקוחים מעמודים 19 ו-20 מתוך 34, ועמוד 19 הוא העמוד היחיד שבו מופיעים השמות CONFPP01 ו-EXIT_SAPLCORF_101. תחת הכותרת 'Default values for order confirmation' מתאר המדריך תרחיש דוגמה: 'In this scenario, production progress of a discrete manufacturing facility is monitored via confirmations. For this, the user creates a time ticket confirmation in transaction CO11N. After pressing the pushbutton Propose actual data, the input fields are prefilled with the corresponding data of the operation.' בסעיף היישום: 'A suitable coding section for the implementation of the corresponding PCo query would be the Include ZXCOFU06, which belongs to the user exit CONFPP01. The coding of the user exit is processed when the user presses the pushbutton Propose actual data.' צעדי היישום באותו עמוד: '1. Start transaction CMOD and create a new project. 2. Assign the enhancement CONFPP01. 3. Switch to the component view and position the cursor on the entry EXIT_SAPLCORF_101 of the function module exit', ובצעד 5: 'Create the implementation for the user exit by putting the cursor on ZXCOFU11 and double-clicking it' (כותרת הקוד לדוגמה, בעמוד 20: 'Include ZXCOFU11'). כלומר המדריך משייך את EXIT_SAPLCORF_101 להרחבה CONFPP01, ונוקב בשני שמות include שונים לאותו יישום. המדריך אינו מונה רכיבי Function Exit נוספים של ההרחבה, אינו מגדיר את תחולתה ואינו מזכיר הזמנות תהליך או את הטרנזקציה COR6N. שער המסמך נושא 'Plant Connectivity 15.0' ו-'Implementation Guide for SAP Business Suite Integration with PCo Rel. 15.0, Version 1.0', סעיף 'Version overview' בעמוד 6 נוקב ב-'Version 1.0 (April 2014)' והעמוד השני נושא '© Copyright 2014 SAP AG', בעוד מקטע הגרסה בכתובת הוא 15.3.0; אותו קובץ בדיוק (אותו md5) מוגש גם תחת מקטע הגרסה 15.5.0 בכתובת https://help.sap.com/doc/3520c88dce6b44a6a8bf01d3a92e42c4/15.5.0/en-US/PCO15_BS_IMPL_G_FINAL.pdf.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Preparation and Customizing | Workflow",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/0f18dddf28764f5b807ecd80549044cc/cc6cb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש של help.sap.com לנושא 'Preparation and Customizing' (deliverable: Workflow, SAP S/4HANA 2025 FPS01, ‏loio cc6cb6531de6b64ce10000000a174cb4, תאריך 2026-02-24) הוחזרה במספר שאילתות נפרדות במוצר SAP_S4HANA_ON-PREMISE, ובסניפטים שלה (הנחתכים לפי השאילתה) מופיעים המקטעים הבאים כלשונם: 'System Modifications → Enhancements in Order Confirmation → Customer Specific Input Checks When Saving'; 'Then program and activate the function module exit EXIT_SAPLCORF_105 (customer enhancement CONFPP05).'; 'Further information on the function module exit EXIT_SAPLCORF_105 is available in Customizing under Production → Shop Floor Control → Workflows → Variances in Confirmations or Production → Shop Floor Control ...' (הסניפט נקטע שם). מכאן ששני דברים מתועדים בגרסת 2025 FPS01: צומת ה-Customizing‏ 'Enhancements in Order Confirmation' עצמו, והפעילות 'Customer Specific Input Checks When Saving' שהסניפט מביא בהקשר של CONFPP05 ושל EXIT_SAPLCORF_105. הסניפט אינו מונה את שאר הפעילויות תחת אותו צומת, אינו מזכיר את CONFPP01 ואינו אומר דבר על תחולתה. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Extensibility: Production Order Confirmation | APIs for Manufacturing",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/5545b66fed454b2ab591e54921110c04.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש לנושא 'Extensibility: Production Order Confirmation' (deliverable: APIs for Manufacturing, SAP S/4HANA 2025 FPS01, ‏loio 5545b66fed454b2ab591e54921110c04, תאריך 2026-02-24) קובעת: 'You can extend the OData Service API_PROD_ORDER_CONFIRMATION_2_SRV according to your business needs'; 'Features Key users can extend the OData Service in the Custom Fields app using the following business context: Manufacturing: Order Confirmation (PP_ORDER_CONFIRMATION)'; ולגבי הנתונים: 'your custom fields for the data source Production Order Confirmation in the OData APIs section of the Custom Fields app and publish them'. הסניפט מתאר הרחבת שדות לקוח לשירות ה-OData בלבד: הוא אינו מזכיר את CONFPP01, אינו נוקב בהרחבת SMOD כלשהי ואינו קובע החלפה של הרחבת לקוח. הוא מובא כהקשר למסלול ההרחבה המתועד באישור הזמנת ייצור ב-2025 FPS01, לא כיורש. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג ההרחבות בשם של הפרויקט (EXITS), רשומת CONFPP01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת המאגר מתארת את CONFPP01 כ'בדיקות באישור ייצור': מטרה 'ולידציה/לוגיקה באישור פעולת ייצור/תהליך', טריגר 'בעת אישור (CO11N/COR6N), לפני רישום', אובייקט 'Enhancement CONFPP01 · EXIT_SAPLCORF_101', טרנזקציות CO11N, COR6N ו-CMOD, דוגמה 'חסימת אישור כמות תוצר החורגת מ-110% מכמות הפקודה', ובבלוק ECC מול S/4HANA: 'נתמך.' ו-'Clean Core → BAdI WORKORDER_CONFIRM.'. צמד השמות CONFPP01 ו-EXIT_SAPLCORF_101 נתמך במדריך ה-PCo שנקרא. שלושה חלקים אחרים ברשומה לא אותרו באף מקור רשמי שנבדק: התיאור כבדיקת ולידציה לפני רישום, השיוך להזמנות תהליך ולטרנזקציה COR6N, וההפניה ל-BAdI WORKORDER_CONFIRM כיעד Clean Core (שם שאינו מופיע באף עמוד רשמי של S/4HANA, כפי שמתועד ברשומת enh:badi:WORKORDER_CONFIRM). זהו פער אימות ולא הפרכה: המקורות שנמצאו אינם מונים את תחולת ההרחבה ואינם שוללים את השימושים האלה.",
+        verificationLevel: "verification_required",
+        repoRef: "data/exits.ts#CONFPP01"
+      }
+    ],
+    xrefs: [
+      "enh:technique:customer-exit",
+      "enh:exit:CONFPP05",
+      "enh:exit:CONFPM01",
+      "enh:exit:PPCO0001",
+      "enh:badi:WORKORDER_CONFIRM",
+      "tx:CO11N",
+      "tx:CMOD",
+      "tx:SMOD",
+      "table:AFRU",
+      "table:AFKO",
+      "cds:I_ProductionOrderConfirmation"
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "מה אומת בפועל: השיוך CONFPP01 ↔ EXIT_SAPLCORF_101 מופיע במסמך רשמי של SAP שנקרא (מדריך היישום של Plant Connectivity 15.0, עמוד 19 מתוך 34), יחד עם צעדי ההפעלה ב-CMOD ועם תרחיש הדוגמה שבו קוד ה-Exit מעובד בלחיצה על Propose actual data בטרנזקציה CO11N. אותו מדריך נוקב בשני שמות include שונים לאותו יישום, ZXCOFU06 בפסקת היישום (עמוד 19) ו-ZXCOFU11 בצעד 5 (עמוד 19) ובכותרת הקוד לדוגמה (עמוד 20); אי-ההתאמה היא בתוך המקור עצמו ולא הוכרעה כאן. מה שלא אומת: תיאור המאגר שלפיו ההרחבה משמשת לוולידציה החוסמת רישום, השיוך להזמנות תהליך ול-COR6N, ויעד ה-Clean Core‏ BAdI WORKORDER_CONFIRM. הבדיקה השלילית שבוצעה, ורק היא: שירות החיפוש של SAP Help נשאל בשלושה מוצרים (SAP_S4HANA_ON-PREMISE, SAP_ERP, SAP_S4HANA_CLOUD) בשלוש שאילתות ('CONFPP01', 'EXIT_SAPLCORF_101', ושאילתה משולבת עם production order confirmation), תשעה צירופים בסך הכול, ובאף אחת מ-138 הרשומות שהוחזרו (בין 2 ל-21 לצירוף) לא הופיעה המחרוזת CONFPP01 או SAPLCORF_101 בכותרת או בסניפט; WebSearch מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal לא החזיר עמוד S/4HANA הנוקב בשם; רשימת הפישוט SIMPL_OP2025.pdf ומסמך What's New לגרסת 2025 FPS01 (Document Version 1.0, ‏2026-02-25) חולצו לטקסט ואינם מכילים את המחרוזות CONFPP01, ‏SAPLCORF_101, ‏CONFPP או CONFPM אף לא פעם אחת. אין מכך מסקנה על מה שאין בו מקור: היעדר אזכור אינו הסרה, ובדיקת SMOD במערכת חיה לא בוצעה (חיבור ה-MCP ל-ABAP נכשל בפתיחת ההפעלה). הרחבות אחיות שכן מתועדות: CONFPP05 עם EXIT_SAPLCORF_105 בשלושה עמודי Workflow ב-2025 FPS01 (רשומת enh:exit:CONFPP05 בקובץ זה), ו-CONFPP07 להגדרת מסכים משלך. העמוד 'Entering Confirmations' (deliverable Production Orders (PP-SFC), ‏loio fe03b753128eb44ce10000000a174cb4) נקרא במלואו בעיבוד הסטטי שלו בכתובת https://help.sap.com/doc/7205b753128eb44ce10000000a174cb4/1610%20002/en-US/fe03b753128eb44ce10000000a174cb4.html ‏(HTTP 200, ‏17,755 בתים; מטא-נתוני העמוד: product 'SAP S/4HANA', version '1610 FPS02 (May 2017)'): הוא מתאר את ערוצי הזנת האישור (time ticket, ‏progress, אירוע זמן, רמת כותרת, התייחסות לאישור קיים, Collective Entry, ‏Fast Entry עם 'The system only executes limited checks' ועדכון בתוכנית CORUPROC1, ו-Single Screen Entry), וההרחבה היחידה שהוא נוקב בשמה היא CONFPP07: 'If the predefined screens are not sufficient, you can define your own screens in the customer enhancement CONFPP07'; השמות CONFPP01 ו-EXIT_SAPLCORF_101 אינם מופיעים בו. אותו loio מוחזר בשירות החיפוש גם לגרסת 2025 FPS01 עם אותו משפט על CONFPP07 בסניפט (https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/34de0103497c4b80a7c7fbf6952ff971/fe03b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001), אך גוף הגרסה ההיא לא נקרא. הטרנזקציה COR6N לא נכללה ב-xrefs מאותה סיבה שבה לא נכללה ברשומת CONFPP05: אין מקור רשמי המשייך את ההרחבה להזמנות תהליך. לא נרשם xref ל-Fiori: קטלוג האפליקציות של הפרויקט מכיל את F2730 ‏(Confirm Jobs, ‏PM) ואת F3364 ‏(Confirm Process Order, ‏PP-PI) ואין בו אפליקציית אישור להזמנת ייצור. הרשומה אינה נושאת שדה reviewer: אף רשומה ב-data/verification/** אינה נושאת אותו. הסטטוס נכתב ידנית כ-verification_required כדי שלא ייגזר מבלוק ה-ECC מול S/4HANA שבמאגר פסק דין שהתיעוד אינו תומך בו, לצד פיל אימות רשמי. המצב שנמדד לפני הרשומה, בהרצת fromEccS4Block ו-evidenceBlock על data/exits.ts#CONFPP01: הבלוק מכיל גם unchanged ‏('נתמך.') וגם changed ‏('Clean Core → BAdI WORKORDER_CONFIRM.'), ה-changed מנצח במפה, והאפליקציה הציגה 'משתנה ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', needsVerification=false, עומק L1. עם הרשומה הזו הסטטוס הופך ל'נדרש אימות נוסף' עם needsVerification=true, בעוד רמת הראיות עולה ל'מאומת מול תיעוד SAP רשמי' על סמך שלוש הראיות הרשמיות. גרסה קודמת של רשומה זו נפסלה בביקורת של מנה 2 משום שייחסה למדריך ה-PCo קביעה בלעדית ('ערכי ברירת מחדל ולא בדיקות קלט') שאינה מופיעה בו; הנוסח הנוכחי מביא רק את מה שהמדריך אומר."
+  },
+  {
+    id: "enh:exit:PPCO0021",
+    status: {
+      status: "verification_required",
+      he: "אף רשומה רשמית בשירות החיפוש של help.sap.com אינה נוקבת בשם PPCO0021 בכותרת או בסניפט, לא תחת SAP S/4HANA On-Premise, לא תחת SAP ERP 6.0 EHP8 ולא תחת SAP S/4HANA Cloud Public Edition; גם רשימת הפישוט לגרסת 2025 FPS01, שחולצה כטקסט מלא, אינה מכילה אף מופע של הרצף 'PPCO'. לכן אי אפשר לקבוע מתיעוד ציבורי אם ההרחבה קיימת ב-S/4HANA, מה בדיוק היא עושה ומה ממשקה, והסטטוס נשאר לאימות. הסטטוס שהאפליקציה גזרה עד כה, 'משתנה ב-S/4HANA', מקורו בהערת השינוי 'העדף BAdI WORKORDER_GOODSMVT' שבבלוק ECC מול S/4HANA של data/exits.ts; אותה רשומה מסומנת שם inferred, ולא נמצא מקור רשמי התומך בהמלצה הזו או מציג את WORKORDER_GOODSMVT כיורש של PPCO0021.",
+      edition: "on-premise",
+      release: null,
+      source: {
+        sourceType: "repository",
+        sourceTitle: "קטלוג ההרחבות בשם של הפרויקט (EXITS), רשומת PPCO0021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת המאגר מתארת את PPCO0021 כ-Customer Exit במודול PP בשם 'בדיקת רכיבי פקודה': ולידציה או התאמה של רכיבי הפקודה (Components/Reservations), טריגר 'בעיבוד רכיבים בפקודה', שדה object 'Enhancement PPCO0021' ללא שם מודול פונקציה, הטרנזקציות CO02 ו-COR2, דוגמה של אכיפת אצווה ספציפית לרכיב רגיש בפקודת תהליך, ובבלוק ECC מול S/4HANA: 'נתמך.' ו-'העדף BAdI WORKORDER_GOODSMVT.'. הרשומה מסומנת inferred. רשומות נגזרות במאגר מנסחות זאת אחרת: data/workbenches-ext.ts כותב 'Exit בעת יצירת רכיבי הזמנה / חישוב מחדש של RESB', data/domain-detail.ts שורה 369 מקצר ל-'PPCO0021 (רכיבים)', ו-data/troubleshooting-ext2.ts מפנה אליו בתרחיש 'פיצוץ BOM ללא רכיבים בפקודה'. data/transactions.ts מונה אותו בין ההרחבות של CO01 לצד PPCO0001 ו-PPCO0007. כל אלה הם רובד המאגר בלבד.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/exits.ts#PPCO0021; data/workbenches-ext.ts#PPCO0021; data/domain-detail.ts:369"
+      },
+      recommendedAction: "לאמת במערכת S/4HANA היעד ב-SMOD את קיום ההרחבה PPCO0021, את הטקסט הקצר שלה, את רכיביה (מודולי EXIT_, מסכים או includes) ואת נקודת ההפעלה, ובשאילתת CMOD אם היא משויכת לפרויקט פעיל לאחר ההמרה; אין להסתמך על תיאור המאגר לפרמטרים או להיקף. לפיתוח חדש בכיוון Clean Core כדאי לבחון תחילה את שני ה-BAdIs שכן מתועדים רשמית ב-S/4HANA: WORKORDER_UPDATE, שלפי What's New לגרסת 2022 SPS03 משמש לעיבוד המשך או למניעה של שינויים בפקודות ושנוספה לו המתודה COMP_RQMT_DATE_TIME_SET (לפי רשומת ה-PEO של What's New 2023: Change Component Requirement Date and Time from Scheduling, תחת צומת ה-Customizing 'BAdI: Order Change'), ו-WORKORDER_GOODSMVT לתנועות הסחורה של הפקודה (ראו רשומת enh:badi:WORKORDER_GOODSMVT). אף מקור רשמי אינו מציג אחד מהם כיורש של PPCO0021, ולכן לא נרשם successor. בבדיקות QA לאחר ההמרה להריץ את תרחישי הרכיבים בפקודת ייצור (CO02) ובפקודת תהליך בתעשיות תהליכיות (COR2), ולוודא שהלוגיקה הקיימת עדיין נורית ושרזרבציות RESB נוצרות ומתעדכנות כמצופה."
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "BAdI for Further Processing Changes to Orders | What's New in SAP S/4HANA 2022 SPS03",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/86956eb2f92146db85b12838f4affeb8.html?locale=en-US&state=PRODUCTION&version=2022.003",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.003",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש הרשמית (title 'BAdI for Further Processing Changes to Orders', deliverable 'What's New in SAP S/4HANA 2022 SPS03', loio 86956eb2f92146db85b12838f4affeb8, גרסה 2022 SPS03 (Nov 2023), תאריך פרסום 2023-11-15) נושאת בסניפט: 'The Business Add-In WORKORDER_UPDATE, which you can use to further process or prohibit changes to orders, has been enhanced with a new method COMP_RQMT_DATE_TIME_SET'. זהו המקור הרשמי שנוקב בשם ה-BAdI ובשם המתודה גם יחד. הרשומה אינה מזכירה את PPCO0021 ואינה קובעת יחס כלשהו בין ה-BAdI לבין הרחבת הלקוח. גוף העמוד לא נקרא (help.sap.com מגיש מעטפת JavaScript); הציטוט מסניפט שירות החיפוש בלבד.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Customizing Activities and Business Add-Ins for PEO | What's New in SAP S/4HANA 2023",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/d1d5db5f2df54e78a956b573e1d3327a.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש הרשמית (title 'Customizing Activities and Business Add-Ins for PEO', deliverable 'What's New in SAP S/4HANA 2023', loio d1d5db5f2df54e78a956b573e1d3327a, גרסה 2023 (Oct 2023), תאריך פרסום 2024-10-08) נושאת בסניפט: 'Production Shop Floor Control System Modifications Business Add-Ins BAdI: Order Change You can use the new method COMP_RQMT_DATE_TIME_SET (Change Component Requirement Date and Time from Scheduling' (הסניפט נקטע כאן), וכן 'Configuration Changed n/a PP-PEO SAP S/4HANA 2023' ו-'Related Information BAdI for Further Processing Changes to Orders'. מכאן נלמדים נתיב ה-Customizing (Production, Shop Floor Control, System Modifications, Business Add-Ins), שם הצומת 'BAdI: Order Change' והשם התיאורי של המתודה, הנוגע לתאריך ולשעת הדרישה של רכיב מתוך תזמון הפקודה. הסניפט עצמו אינו מקשר במפורש בין שם הצומת לבין השם הטכני WORKORDER_UPDATE; הקישור נשען על הרשומה האחרת באותו סניפט תחת Related Information ועל רשומת 2022 SPS03. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 - Feature Pack Stack 1 (Document Version 1.36, 1,514 עמודים)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE21,
+        claim: "רשימת הפישוט הציבורית לגרסת 2025 FPS01 הורדה מהכתובת שבשדה ה-url, חולצה כטקסט מלא (3,623,854 בתים, 3,603,831 תווים, 1,514 עמודים) ונסרקה: אפס מופעים של הרצף 'PPCO' ואפס מופעים של הרצף 'WORKORDER'. הממצא השלילי תחום ומשמעותי, שכן אותו מסמך כן עוסק בתחום: 23 מופעים של 'PP-SFC', 59 מופעים של 'production order' (ללא תלות ברישיות; 48 מהם באיות אותיות קטנות בלבד) ושלושה מופעים של 'Shop Floor Control'. כלומר לא קיים ברשימה זו פריט פישוט הנוקב בשם PPCO0021 או בשם כל הרחבת PPCO אחרת, וגם לא ב-WORKORDER_UPDATE או ב-WORKORDER_GOODSMVT. אין בכך קביעה על קיומה או אי-קיומה של ההרחבה במערכת.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג ההרחבות בשם של הפרויקט (EXITS), רשומת PPCO0021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת המאגר מתארת את PPCO0021 כ-Customer Exit במודול PP בשם 'בדיקת רכיבי פקודה': ולידציה או התאמה של רכיבי הפקודה (Components/Reservations), טריגר 'בעיבוד רכיבים בפקודה', שדה object 'Enhancement PPCO0021' ללא שם מודול פונקציה, הטרנזקציות CO02 ו-COR2, דוגמה של אכיפת אצווה ספציפית לרכיב רגיש בפקודת תהליך, ובבלוק ECC מול S/4HANA: 'נתמך.' ו-'העדף BAdI WORKORDER_GOODSMVT.'. הרשומה מסומנת inferred. רשומות נגזרות במאגר מנסחות זאת אחרת: data/workbenches-ext.ts כותב 'Exit בעת יצירת רכיבי הזמנה / חישוב מחדש של RESB', data/domain-detail.ts שורה 369 מקצר ל-'PPCO0021 (רכיבים)', ו-data/troubleshooting-ext2.ts מפנה אליו בתרחיש 'פיצוץ BOM ללא רכיבים בפקודה'. data/transactions.ts מונה אותו בין ההרחבות של CO01 לצד PPCO0001 ו-PPCO0007. כל אלה הם רובד המאגר בלבד.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/exits.ts#PPCO0021; data/workbenches-ext.ts#PPCO0021; data/domain-detail.ts:369"
+      }
+    ],
+    xrefs: [
+      "enh:badi:WORKORDER_UPDATE",
+      "enh:badi:WORKORDER_GOODSMVT",
+      "enh:technique:customer-exit",
+      "enh:technique:classic-badi",
+      "enh:exit:PPCO0001",
+      "enh:exit:PPCO0007",
+      "enh:exit:CONFPP05",
+      "enh:exit:PCSD0002",
+      "tx:CO01",
+      "tx:CO02",
+      "tx:COR1",
+      "tx:COR2",
+      "tx:CMOD",
+      "tx:SMOD",
+      "tx:SE18",
+      "tx:SE19",
+      "table:AUFK",
+      "table:AFKO",
+      "table:AFPO",
+      "table:RESB"
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה, הכול ב-2026-09-21: ארבע-עשרה שאילתות ב-scripts/sap-help-search.mjs תחת שלושה מוצרים (SAP_S4HANA_ON-PREMISE: PPCO0021; PPCO0021 enhancement; customer enhancement production order components PPCO check; customer exit order components PPCO0021 reservation; Enhancements in Production Order PPCO0009 PPCO0021; PPCO0020 PPCO0021 PPCO0022 enhancement SMOD; Document Integration in the Production Order customer enhancements PPCO0015 PPCO0016 PPCO0017; BAdI for Further Processing Changes to Orders COMP_RQMT_DATE_TIME_SET; Customizing Activities and Business Add-Ins for PEO COMP_RQMT_DATE_TIME_SET Order Change; Process Orders customer enhancements components material list PPCO. SAP_ERP: PPCO0021; implement enhancement PPCO0021 transaction SMOD CMOD; Enhancements Shop Floor Control production order SMOD CMOD customer exit list. SAP_S4HANA_CLOUD: PPCO0021 customer exit order components), חיפוש רשת אחד מוגבל ל-help.sap.com, וחמישה מסמכים רשמיים שהורדו ונקראו או נסרקו בפועל. הסניפטים תלויי-שאילתה: הסניפט המצוטט מרשומת ה-PEO (loio d1d5db5f2df54e78a956b573e1d3327a) מוחזר בשאילתה 'BAdI for Further Processing Changes to Orders', בעוד שהשאילתה 'Customizing Activities and Business Add-Ins for PEO COMP_RQMT_DATE_TIME_SET Order Change' מחזירה את אותה רשומה עם סניפט כללי. כמו כן שירות החיפוש מחזיר את אותו loio תחת שלושה מקטעי deliverable שונים לפי השאילתה (f5d3e1005efd4e86acf9a65abf428082, f296651f454c4284ade361292c633d69, e296651f454c4284ade361292c633d69); כל הצורות פתירות, והכתובת שנבחרה אינה קנונית. מה שאומת רשמית: רק עובדות ה-BAdI, לא PPCO0021 עצמה. השם PPCO0021 אינו מופיע באף כותרת או סניפט שהוחזרו. הרשומות הרשמיות היחידות ממשפחת PPCO שכן הוחזרו נוגעות להרחבות אחרות: PPCO0001 (שלושת עמודי תרחיש ה-Workflow 'Production Order Changes (PP-SFC)', 'Preparation and Customizing' ו-'Technical Implementation', 2025.001, שבסניפטיהם 'the function module exit EXIT_SAPLCOBT_001 (customer enhancement PPCO0001)'), PPCO0005 ('Implement Enhancement to Clear Backflush Indicator (ERP)', loio c80069c184f841f9ada8b58506a491dd, 2025.001) ו-PPCO0015/PPCO0016/PPCO0017 ('Document Integration in the Production Order', loio b0ffb753128eb44ce10000000a174cb4, 2025.001). ממצאים שליליים, כולם נמדדו ולא הוסקו, כל מסמך עם כתובת פתירה: (1) רשימת הפישוט SIMPL_OP2025.pdf (ראו הראיה השלישית); (2) הערות השחרור הרשמיות של PP ל-SAP ERP Central Component 6.0, פרק 18 (https://help.sap.com/doc/ecedecf75e7c48498161e79546881b7b/6.00.29/en-US/Chapter_18__PP_Production_Planning_and_ControlE_(2).PDF, 31 עמודים) הורדו וחולצו כטקסט: שלושת המופעים היחידים של 'PPCO' נמצאים בסעיף 18.7.3, 'Business Add-In for Document Links in the Production Order (New)', שבו נכתב 'The BAdI is an alternative to or enhancement of the following Customer Exits: PPCO0015 (Additional check for document links from BOMs) PPCO0016 (Additional check for document links from master data) PPCO0017 (Additional check for dialog processing of document links)'; המחרוזת PPCO0021 אינה מופיעה במסמך; (3) הערות השחרור של SAP enhancement package 6 for SAP ERP 6.0, פרק 15 PP (https://help.sap.com/doc/34b5fbaa4d02406bba63ccfcfbe5f52b/6.06.19/en-US/SAP_ERP_-_Chapter_15_-_PP_Production_Planning_and_ControlE.PDF, 33 עמודים, ובו סעיף 15.2 PP-SFC Production Orders) הורדו וחולצו כטקסט: אפס מופעים של 'PPCO' ואפס של 'WORKORDER'; (4) עמוד ספריית SAP לגרסת 4.6C 'Enhancement when Saving an Order (Header Fields)' (https://help.sap.com/saphelp_46c/helpdata/en/35/71883286c2223ae10000009b38f984/content.htm?no_cache=true) הורד ונקרא: הוא מתעד את PPCO0007 בלבד ('The following enhancement is available for production orders: PPCO0007 Exit when saving production order') ואינו רשימה כוללת של הרחבות פקודת הייצור, ולכן היעדר PPCO0021 ממנו אינו ממצא. עמוד 4.6C 'Develop Enhancements' (loio 35/6f4073268b2239e10000009b38f984) נקרא אף הוא ונמצא שהוא רשימת ההרחבות של תחזוקת מפעל ושירות לקוחות בלבד (IEQM, ILOM, IMRC, IQSM, IPRM, IWOC, QQMA, IWO1), אפס מופעי 'PPCO', ולכן גם הוא אינו ממצא לגבי PP. מה שלא אומת ואינו נטען ברשומה: הטקסט הקצר הרשמי של PPCO0021, שמות מודולי ה-EXIT_ שלה, רשימת הפרמטרים, נקודת ההפעלה המדויקת, תחולתה על פקודות תהליך (COR1/COR2) לצד פקודות ייצור, וקיומה בגרסת S/4HANA היעד; הרשומה אינה מציעה השערה על משמעות שמה. סתירות ושתיקות במאגר: שדה object ברשומת data/exits.ts נושא 'Enhancement PPCO0021' ללא שם Function Exit, ושלוש רשומות נגזרות מנסחות את תפקיד ההרחבה בשלוש דרכים שונות (בדיקת רכיבים, יצירת רכיבי הזמנה וחישוב מחדש של RESB, פיצוץ BOM); לא נמצא מקור רשמי שיכריע ביניהן, ולכן הן נרשמו כרובד מאגר ולא כסתירה מול SAP. חיבור ה-MCP למערכת ABAP חיה לא היה זמין בסשן זה, ובדיקת SMOD/CMOD/SE37 לא בוצעה. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמה בכל קבצי data/verification/**."
+  },
+  {
+    id: "enh:exit:PCSD0002",
+    aliases: ["PCSD0002 (בדיקת פריט BOM)", "PCSD0002 (פריט BOM)"],
+    status: {
+      status: "unchanged",
+      he: "ההרחבה PCSD0002 מתועדת ב-SAP S/4HANA On-Premise 2025 FPS01 בעמוד 'Enhancements Using Customer Exits (BOMs)' כאחת מהרחבות קבוצת הפונקציות XCSA, בתיאור 'Customer fields in item'. ברשומות החיפוש שנסרקו לא נמצאה עבורה הערת פישוט, הוצאה משימוש, הגבלה או הכרזת יורש. הסטטוס מתייחס להימצאות ההרחבה בסט התיעוד הנוכחי של S/4HANA On-Premise ולתיאור המתועד שלה בלבד: גוף העמוד לא נקרא, ואותו loio מופיע גם בסט התיעוד של SAP ERP 6.18, כך שההימצאות אינה מעידה על בדיקה מחודשת של ההרחבה לקראת S/4HANA.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Enhancements Using Customer Exits (BOMs) | Bill of Material (LO-MD-BOM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/18ee18df146f46e9a7738186eebceaa7/e504c453f57eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש של העמוד 'Enhancements Using Customer Exits (BOMs)' (loio e504c453f57eb44ce10000000a174cb4, תאריך 2026-02-24) מופיעה בתיעוד SAP S/4HANA On-Premise 2025 FPS01 וקובעת: 'In order to optimize the BOM processing processes in your business, you can change some functions of the SAP System in BOMs by using Customer Exits'. הסניפט מציג את הטבלה 'Enhancements for Function Group XCSA' בעמודות Description / Enhancement / Function Modules, ובה: 'Enhance maintenance of material BOMs PCSD0001 EXIT_SAPLCSDI_001', ואחריה 'Customer fields in item PCSD0002', ולאחר סימן השמטה בסניפט 'EXIT_SAPLCSDI_002 EXIT_SAPLCSDI_003 Customer fields in header PCSD0003 EXIT_SAPLCSDI_004 EXIT_SAPLCSDI_005 BOM comparison PCSD0004 EXIT_RCS14001_001 EXIT_RCS14001_002'; בחלון סניפט שני של אותו loio מופיעות גם השורות 'Component check for material items PCSD0005 EXIT_SAPLCSDI_006', 'Mass Changes PCSD0006 EXIT_SAPMC29M_001', 'Check on the changes to BOM header PCSD0007 EXIT_SAPLCSDI_007' ו-'PCSD0010 EXIT_SAPLCSSO_002'. כלומר ההרחבה PCSD0002 מתועדת בגרסת 2025 FPS01 בתיאור 'Customer fields in item'. גוף העמוד לא נקרא (מעטפת JavaScript), ובסניפטים לא הופיעה הצהרה על הוצאה משימוש, הגבלה או יורש.",
+        verificationLevel: "sap_official_verified"
+      },
+      recommendedAction: "בהמרה: לשמר את מימוש ההרחבה הקיים ולבחון אותו בכלי Custom Code Migration ‏(SCMON/ATC) לפי הנחיית חוברת ההגירה בשורה 11, ולאמת ב-SMOD את רכיבי ההרחבה בגרסה המותקנת לפני שמסתמכים על תיאור הפרויקט. לפיתוח חדש בגישת Clean Core בתחום עצי מוצר מציג תיעוד 2025 FPS01 שתי נקודות הרחבה מודרניות: BOM_BEFORE_SAVE (הגדרת BAdI תחת Enhancement Spot‏ ES_BOM_UPDATE, ממשק IF_BOM_BEFORE_SAVE, מתודה HANDLE_BEFORE_SAVE) לוולידציה של עץ המוצר לפני שמירה, ו-BOM_UPDATE (מתודה CHANGE_ADD_SAVE) ליצירת אירוע המפעיל workflow בעקבות שינוי בעץ. אף אחד משני העמודים אינו מגדיר את עצמו כיורש של PCSD0002, ולכן לא נרשם successor. לתיקון רובד הפרויקט: השם BADI_BOM_CHANGES שברשומת הקטלוג לא אותר כטוקן עצמאי באף כותרת או סניפט שנסרקו ויש להחליפו בשם מאומת או לסמנו כדורש אימות ב-SE18, ותיאור המטרה ('ולידציה של פריטי עץ מוצר') אינו תואם את התיאור הרשמי 'Customer fields in item', שבו הבדיקה על רכיבי חומר מיוחסת להרחבה אחרת (PCSD0005)."
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enhancements Using Customer Exits (BOMs) | Bill of Material (LO-MD-BOM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/18ee18df146f46e9a7738186eebceaa7/e504c453f57eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש של העמוד 'Enhancements Using Customer Exits (BOMs)' (loio e504c453f57eb44ce10000000a174cb4, תאריך 2026-02-24) מופיעה בתיעוד SAP S/4HANA On-Premise 2025 FPS01 וקובעת: 'In order to optimize the BOM processing processes in your business, you can change some functions of the SAP System in BOMs by using Customer Exits'. הסניפט מציג את הטבלה 'Enhancements for Function Group XCSA' בעמודות Description / Enhancement / Function Modules, ובה: 'Enhance maintenance of material BOMs PCSD0001 EXIT_SAPLCSDI_001', ואחריה 'Customer fields in item PCSD0002', ולאחר סימן השמטה בסניפט 'EXIT_SAPLCSDI_002 EXIT_SAPLCSDI_003 Customer fields in header PCSD0003 EXIT_SAPLCSDI_004 EXIT_SAPLCSDI_005 BOM comparison PCSD0004 EXIT_RCS14001_001 EXIT_RCS14001_002'; בחלון סניפט שני של אותו loio מופיעות גם השורות 'Component check for material items PCSD0005 EXIT_SAPLCSDI_006', 'Mass Changes PCSD0006 EXIT_SAPMC29M_001', 'Check on the changes to BOM header PCSD0007 EXIT_SAPLCSDI_007' ו-'PCSD0010 EXIT_SAPLCSSO_002'. כלומר ההרחבה PCSD0002 מתועדת בגרסת 2025 FPS01 בתיאור 'Customer fields in item'. גוף העמוד לא נקרא (מעטפת JavaScript), ובסניפטים לא הופיעה הצהרה על הוצאה משימוש, הגבלה או יורש.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Workflow: Implement BOM Change | Logistics — General (LO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/3a481ce17bac4ce6ab5d04c7fd1f73f7.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש של העמוד 'Workflow: Implement BOM Change' (חבילת Logistics — General (LO), loio 3a481ce17bac4ce6ab5d04c7fd1f73f7, תאריך 2026-02-24) בתיעוד SAP S/4HANA On-Premise 2025 FPS01 קובעת בסעיף התנאים המקדימים: 'You have created an implementation for the Business Add-In BOM_UPDATE (method CHANGE_ADD_SAVE) that creates the triggering event following a BOM change'. כלומר השם BOM_UPDATE, שבו נוקבת חוברת ההגירה של תחזוקת מפעל בשורה 12, מתועד כ-BAdI בגרסת 2025 FPS01 עם המתודה CHANGE_ADD_SAVE. הסניפט אינו נוקב ב-PCSD0002 ואינו מצהיר שה-BAdI מחליף הרחבת לקוח כלשהי.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "BAdI: Validate BOM Before Saving | Bill of Material (LO-MD-BOM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/18ee18df146f46e9a7738186eebceaa7/aa6a8c61616b41009c448721163b891c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש של העמוד 'BAdI: Validate BOM Before Saving' (loio aa6a8c61616b41009c448721163b891c) בתיעוד SAP S/4HANA On-Premise 2025 FPS01 קובעת: 'This Business Add-In (BAdI) is used in the component Bill of Material (LO-MD-BOM). You can use this BAdI to custom validate the bill of material before saving'; 'The BAdI consists of the following method: HANDLE_BEFORE_SAVE: This method allows you to read the BOM-related data and validate the BOM before saving'; 'BAdI definition:BOM_BEFORE_SAVE'; 'This BAdI is created under Enhancement Spot ES_BOM_UPDATE. This BAdI definition uses the standard interface IF_BOM_BEFORE_SAVE'; ובהגדרות: 'Multi-Use BAdI Not filter-dependent'. הסניפט אינו נוקב ב-PCSD0002 ואינו מגדיר את ה-BAdI כיורש של הרחבת לקוח.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג ההרחבות בשם של הפרויקט (EXITS) וגיליון קוד הלקוח של חוברת ההגירה לתחזוקת מפעל",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת הקטלוג מגדירה את PCSD0002 כ-Customer Exit במודול PP בשם 'בדיקת פריט BOM', מטרה 'ולידציה/השלמה של פריטי עץ מוצר בשמירה', טריגר 'בשמירת BOM (CS01/CS02)', אובייקט 'Enhancement PCSD0002', דוגמה 'אכיפת יחידת מידה תקנית לרכיבי אריזה', ניפוי דרך CMOD, ובבלוק ECC מול S/4HANA: 'נתמך.' לצד 'ב-S/4 BADI_BOM_CHANGES מועדף.'; הרשומה מסומנת inferred: true. הדאטהסט שנגזר מחוברת ההגירה של תחזוקת מפעל מונה תחת '3. עצי מוצר של אחזקה (BOM)' את PCSD0001 בתיאור 'הרחבת לקוח לעצי מוצר (BOM) - בדיקות פריטים' (שורה 10), את PCSD0002 בתיאור 'ברירות מחדל לפריטי עץ מוצר' (שורה 11) ואת BOM_UPDATE כ-BAdI בתיאור 'BAdI לעדכון/בדיקת עצי מוצר (אמת ב-SE18)' (שורה 12), שלושתם בסטטוס 'To review'. עמודת ההמלצה של שורות 10 ו-11 נושאת את אותו טקסט, 'בדוק ב-Custom Code Migration (SCMON/ATC); שקול מעבר ל-BAdI/Enhancement Spot מודרני.', ואילו שורה 12 נושאת 'אמת תאימות ה-BAdI ב-S/4 (SPAU_ENH); ודא חתימה ומימוש אקטיבי לאחר השדרוג.'. שני התיאורים שהמאגר נותן ל-PCSD0002 סותרים זה את זה וגם את טבלת התיעוד הרשמי לגרסת 2025 FPS01, שבה PCSD0002 מתוארת 'Customer fields in item', 'Component check for material items' מיוחס ל-PCSD0005 ו-'Enhance maintenance of material BOMs' ל-PCSD0001.",
+        verificationLevel: "conflicting_sources",
+        repoRef: "data/exits.ts#PCSD0002; data/sapData.pm.ts#custom-code rows 10-12 (PCSD0001, PCSD0002, BOM_UPDATE)",
+        conflictingEvidence: [
+          {
+            sourceType: "sap_help",
+            sourceTitle: "Enhancements Using Customer Exits (BOMs) | Bill of Material (LO-MD-BOM)",
+            url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/18ee18df146f46e9a7738186eebceaa7/e504c453f57eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025.001",
+            accessedAt: DATE21,
+            claim: "בטבלת 'Enhancements for Function Group XCSA' שבסניפט העמוד, השורה של PCSD0002 נושאת את התיאור 'Customer fields in item', ואילו התיאור 'Component check for material items' מופיע בשורה של PCSD0005 והתיאור 'Enhance maintenance of material BOMs' בשורה של PCSD0001. התיעוד אינו מייחס ל-PCSD0002 בדיקת רכיבים או ברירות מחדל.",
+            verificationLevel: "sap_official_verified"
+          }
+        ]
+      }
+    ],
+    xrefs: [
+      "enh:technique:customer-exit",
+      "enh:technique:new-badi",
+      "tx:CS01",
+      "tx:CS02",
+      "tx:CS03",
+      "tx:CMOD",
+      "tx:SMOD",
+      "tx:SE18",
+      "table:MAST",
+      "table:STKO",
+      "table:STPO",
+      "table:STAS",
+      "cds:I_BillOfMaterial",
+      "cds:I_BillOfMaterialItem",
+      "fm:CSAP_MAT_BOM_MAINTAIN",
+      "fm:CSAP_BOM_ITEM_MAINTAIN"
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה: שירות החיפוש הרשמי של SAP Help ‏(scripts/sap-help-search.mjs) בשלושה מוצרים ב-2026-09-21, בשאילתות 'PCSD0002', 'BOM_UPDATE Business Add-In', 'Enhancements Using Business Add-Ins BOM bill of material', 'EXIT_SAPLCSDI_002 customer fields in item', 'Customer fields in item PCSD0002 EXIT_SAPLCSDI_002 function group XCSA', 'BAdI Validate BOM Before Saving Enhancement Spot ES_BOM_UPDATE', 'BOM_BEFORE_SAVE enhancement spot ES_BOM_UPDATE standard interface IF_BOM_BEFORE_SAVE', 'BADI_BOM_CHANGES', 'Enhancements in BOMs customer exits function exits SAP enhancement concept', 'Custom Fields at BOM Item Level' ו-'BAdI Validate BOM Before Updating BOM_BEFORE_UPDATE', לצד שני חיפושי רשת מוגבלים ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal. שלושת ה-URL שברשומה מחזירים HTTP 200 ב-2026-09-21. תיקון לטיוטה שנפסלה בביקורת: הטענה שהשם BOM_UPDATE אינו מופיע באף כותרת או סניפט רשמיים הופרכה. העמוד 'Workflow: Implement BOM Change' ‏(loio 3a481ce17bac4ce6ab5d04c7fd1f73f7, גרסה 2025.001) נוקב בו במפורש, והרשומה בנויה עליו. שלילה שנמדדה ולא הוסקה: השם BADI_BOM_CHANGES, שרשומת הקטלוג מציעה כמועדף ב-S/4HANA, לא הופיע כטוקן עצמאי באף כותרת או סניפט מתוך 105 רשומות שהוחזרו בחמש שאילתות במוצר SAP S/4HANA On-Premise, ולא בשתי הרשומות שהוחזרו במוצר SAP S/4HANA Cloud Public Edition. המדידה מוגבלת לרשומות שהוחזרו ואינה ראיה לאי-קיום האובייקט במערכת. אותו עמוד, ארבעה renderings: ה-loio ‏e504c453f57eb44ce10000000a174cb4 הוחזר תחת ארבעה deliverables, כל אחד בנתיב guide משלו: Bill of Material (LO-MD-BOM), Product Lifecycle Management (PLM), Document Management ו-Order BOMs (PP-BD-BOM). ברשומה נשמר ה-URL של Bill of Material (LO-MD-BOM); מדובר במקור אחד ולא בארבעה. אותו loio מופיע גם בסט התיעוד של SAP ERP ‏(versionId 6.18.latest, deliverable Order BOMs (PP-BD-BOM)), ולכן הימצאותו ב-2025.001 מלמדת שהעמוד חלק מסט התיעוד הנוכחי של S/4HANA On-Premise בלבד. מה לא אומת: (1) שיוך מודולי הפונקציה EXIT_SAPLCSDI_002 ו-EXIT_SAPLCSDI_003 ל-PCSD0002 נשען על סדר העמודות בסניפט, ובין שם ההרחבה לבין שני המודולים מופיע סימן השמטה; לכן השיוך לא נרשם כ-alias והוא דורש אימות ב-SMOD; (2) גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript) וכל ציטוט תחום לכותרת ולסניפט של רשומת החיפוש; (3) לא אותר פריט פישוט, הודעת הוצאה משימוש או הכרזת יורש ל-PCSD0002, ולכן הרשומה נטולת successor; (4) במוצר SAP S/4HANA Cloud Public Edition לא הוחזרה רשומה הנוקבת ב-PCSD0002 (ארבע שאילתות, 49 רשומות שנסרקו); זהו ממצא שתחום לחיפוש ואינו טענה על זמינות במהדורה זו; (5) ב-Public Cloud מתועד BAdI אחר לוולידציה של עץ מוצר, 'Validate BOM Before Updating' ‏(BOM_BEFORE_UPDATE), למשל בעמוד 'BAdI: Validate BOM Before Updating' ‏(R&D / Engineering, versionId 2608.500) ובעמוד What's New של S/4HANA Cloud 2408.1; הוא לא נכלל כראיה משום שהרשומה מוגבלת ל-On-Premise; (6) בקטלוג ה-Fiori של הפרויקט אין אפליקציית עץ מוצר (נמדד: אפס התאמות ב-data/fiori/apps.ts) ולכן אין xref לאפליקציה; (7) PCSD0001 ו-PCSD0005, שהתיעוד הרשמי נוקב בהם לצד PCSD0002, אינם קיימים ביקום הפרויקט ולכן אינם ב-xrefs; (8) גם BOM_UPDATE ו-BOM_BEFORE_SAVE אינם רשומות בפרויקט ולכן מוזכרים בטקסט בלבד. עמוד What's New ‏'Custom Fields at BOM Item Level' ‏(loio 77bef09007f04eeab48726d55b210ae7, versionId 2021.000) נבדק ולא נכלל כראיה: לפי הסניפט הוא משויך ל-Application Component‏ 'Extended Production Engineering and Operations' ועוסק בהוספת שדות לקוח באפליקציות מסוימות, היקף צר מזה של הרשומה. ה-MCP ל-ABAP לא היה זמין בסשן זה; אימות ההפעלה בפועל דורש SMOD/CMOD ו-SE18 במערכת S/4HANA חיה. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמה בכל קבצי data/verification/**."
+  },
+  {
+    id: "enh:badi:MD_PLDORD_POST",
+    aliases: [
+      "BAdI MD_PLDORD_POST",
+      "MD_PLDORD_POST (BAdI להזמנה מתוכננת)",
+      "Update Planned Orders (MD_PLDORD_POST)"
+    ],
+    status: {
+      status: "simplified",
+      he: "ה-BAdI‏ MD_PLDORD_POST (עיבוד נוסף של הזמנות מתוכננות שנרשמו) מכוסה בפריט הפישוט הרשמי 'S4TWL - MRP in HANA' ‏(רכיב יישום PP-MRP) ברשימת הפישוט של SAP S/4HANA 2025 FPS1: בטבלת 'Purpose / Classic BAdI or extension / AMDP BAdI' מודפסת השורה 'Change planned orders created by MRP' עם ה-BAdIs הקלאסיים 'MD_PLDORD_CHANGE, MD_PLDORD_POST' ומולם ה-AMDP BAdI‏ 'PPH_MRP_RUN_BADI => PLANORD_BEFORE_UPDATE_ADJUST'. הפריט מורה 'Re-implement BAdI implementations and extensions of the classic MRP as AMDP BAdI' וקובע ש'Enhancements or BAdI implementations of the classic MRP run does not work with MRP Live if the material is supported/planned within MRP Live', ואילו לחומר שריצת התכנון מנתבת ל-MRP הקלאסי 'the existing classic BAdI implementation still can be used'. ההסתייגות האחרונה מנוסחת בפריט על מימושים המשפיעים על 'the planning process and storing behavior of the classic MRP', ובאותה פסקה המקור מפנה במפורש אל 'the new BAdIs (see table below)' - כלומר אל הטבלה שבה נמנה MD_PLDORD_POST עצמו. אין במקור קביעה על תכליתו של MD_PLDORD_POST מול הניסוח הזה, והערת השחרור של SAP מתארת אותו כעיבוד נוסף של הזמנות שכבר נרשמו, עם הדוגמה 'log any changes made'. אף מקור רשמי שנקרא אינו מגדיר את ה-BAdI כמוסר, כלא זמין או כבעל יורש מוכרז: רשימת הפישוט מציגה אותו כמימוש קלאסי שיש לתרגם ל-AMDP BAdI במעבר ל-MRP Live.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 9.5.2 S4TWL - MRP in HANA (PP-MRP), Document Version 1.36, item begins p. 651",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE21,
+        claim: "טבלת 'Purpose / Classic BAdI or extension / AMDP BAdI' בפריט 9.5.2 ‏'S4TWL - MRP in HANA' כוללת את השורה: Purpose ‏'Change planned orders created by MRP', Classic BAdI or extension ‏'MD_PLDORD_CHANGE, MD_PLDORD_POST', AMDP BAdI‏ 'PPH_MRP_RUN_BADI => PLANORD_BEFORE_UPDATE_ADJUST', ותא ה-Comment של השורה ריק. בעמ' 655, תחת 'Required and Recommended Action(s)', נדרש 'Re-implement BAdI implementations and extensions of the classic MRP as AMDP BAdI (see \"BAdI related information\" below for further details)'.",
+        verificationLevel: "sap_official_verified"
+      },
+      recommendedAction: "לסווג את MD_PLDORD_POST כפריט פישוט ולא כהרחבה שהוסרה: רשימת הפישוט אינה מבטלת אותו אלא מורה לממש אותו מחדש כ-AMDP BAdI. לפני המעבר ל-MRP Live: (1) לממש מחדש את לוגיקת העיבוד שלאחר רישום ההזמנה המתוכננת ב-AMDP BAdI‏ PPH_MRP_RUN_BADI, מתודה PLANORD_BEFORE_UPDATE_ADJUST, כפי שמצמידה טבלת פריט הפישוט לשורה 'Change planned orders created by MRP'; (2) למפות אילו חומרים תלויים במימוש הקלאסי, שכן לפי אותו פריט 'the existing classic BAdI implementation still can be used' לחומר שריצת התכנון מנתבת ל-MRP הקלאסי, בעוד לחומר המתוכנן ב-MRP Live המימוש הקלאסי אינו מעובד; (3) לתקן את רובד הפרויקט: לפי הערת השחרור של SAP R/3 Enterprise 4.70 ה-BAdI מיועד ל-'further process the data from planned orders, which are posted in the planning run or posted during manual planned order processing', עם הדוגמה 'You can, for example, log any changes made', בעוד שינוי נתוני ההזמנה לפני הרישום משויך ב-SAP ל-BAdI נפרד בשם MD_PLDORD_CHANGE. הרשומה בקטלוג הפרויקט מתארת התערבות ביצירה ובעדכון ומגבילה את ההפעלה לרישום ע\"י MRP בלבד, ולכן היא ממזגת שני BAdIs שונים ומשמיטה את ההפעלה בעיבוד ידני של הזמנה מתוכננת; (4) לאמת במערכת S/4HANA חיה, ב-SE18 ו-SE19, את קיום ה-BAdI, את ממשק המתודות ואת המימושים הפעילים, שכן אף עמוד תיעוד רשמי של S/4HANA שנקרא אינו מתעד את הממשק."
+    },
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 9.5.2 S4TWL - MRP in HANA (PP-MRP), Document Version 1.36, item begins p. 651",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE21,
+        claim: "פריט 9.5.2 ‏'S4TWL - MRP in HANA' (רכיב יישום PP-MRP) קובע בעמ' 655 בין הפעולות הנדרשות: 'Re-implement BAdI implementations and extensions of the classic MRP as AMDP BAdI', ומוסיף 'Please note that it might be necessary to adjust certain BAdI implementations even if you still use classic MRP. This is since the data reading processes of some classic MRP transaction (like MD01, MD02, MD03, etc.) have been optimized for HANA database accesses'. תחת 'BAdI related information' נכתב 'Enhancements or BAdI implementations of the classic MRP run does not work with MRP Live if the material is supported/planned within MRP Live. Please note: MRP Live can force materials into classic MRP if materials use a setup which is not supported in MRP live', ובדוגמה שבהמשך 'The second material B is not supported in MD01N and the planning run routes this material B into classic MRP. Therefore the existing classic BAdI implementation still can be used for material B. This refers only to all BAdI implementations which influence the planning process and storing behavior of the classic MRP'. בטבלת 'Purpose / Classic BAdI or extension / AMDP BAdI' מודפסת השורה: Purpose ‏'Change planned orders created by MRP', Classic BAdI or extension ‏'MD_PLDORD_CHANGE, MD_PLDORD_POST', AMDP BAdI‏ 'PPH_MRP_RUN_BADI => PLANORD_BEFORE_UPDATE_ADJUST', ותא ה-Comment של השורה ריק. פריט 9.5.2 משתרע במסמך זה על עמ' 651 עד 777, משום שסעיף 'BAdI related information' והטבלה מודפסים כטקסט מסובב הנפרש על עמודים רבים. אותה שורה מודפסת מילה במילה גם ברשימת הפישוט של 2023 FPS3 בעמ' 737.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP Production Planning and Control - Release Notes, SAP R/3 Enterprise · 19.1.1 Business Add-Ins in MRP",
+        url: "https://help.sap.com/saphelp_crm60/helpdata/en/06/fb4d40eae76f13e10000000a1550b0/19_pp_en.pdf",
+        product: "SAP R/3 Enterprise",
+        edition: "ecc",
+        release: "4.70 (SAP_APPL 470)",
+        accessedAt: DATE21,
+        claim: "הערת השחרור 19.1.1 ‏'Business Add-Ins in MRP' פותחת ב-'As of SAP R/3 Enterprise 4.70 (SAP_APPL 470) Business Add-Ins (BAdIs) are available for the following functions in material requirements planning (MRP)', ומונה תחת הכותרת 'MRP Procurement Proposal (PP-MRP-PP)' את הרשומה: 'Processing planned orders further: MD_PLDORD_POST - Using this BAdI, you can further process the data from planned orders, which are posted in the planning run or posted during manual planned order processing. You can, for example, log any changes made'. באותה רשימה, ובאותו רכיב יישום, מופיע בנפרד 'Changing planned orders: MD_PLDORD_CHANGE - Using this BAdI, you can change the data from planned orders before posting in the planning run, or before posting during manual planned order changes', וכן MD_PLDORD_TIME_STAMP ו-MD_PLDORD_SCHEDULING. תחת 'Effects on Customizing' נכתב 'To activate a Business Add-In, you have to create an active implementation. To do this, choose Tools -> ABAP Workbench -> Utilities -> Business Add-Ins -> Implementation in the SAP menu'. המסמך נקרא במלואו כקובץ PDF.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP Production Planning and Control - Release Notes, SAP ERP Central Component · 18.6.1 Business Add-Ins in Material Requirements Planning (New/Enhanced)",
+        url: "https://help.sap.com/doc/ecedecf75e7c48498161e79546881b7b/6.00.29/en-US/Chapter_18__PP_Production_Planning_and_ControlE_(2).PDF",
+        product: "SAP ERP Central Component",
+        edition: "ecc",
+        release: "ECC 6.0 (SAP_APPL 600)",
+        accessedAt: DATE21,
+        claim: "הערת השחרור 18.6.1 בפרק PP-MRP קובעת 'As of SAP ECC 6.0 (SAP_APPL 600) you can use the following Business Add-Ins (BAdIs)', ומונה את הפריט 'Update Planned Orders ( MD_PLDORD_POST) (Enhanced) - Up to and including SAP ECC 5.0 it was only possible to use the BAdI to publish the header data and components of planned orders. You can now use this BAdI to publish capacity data and/or its change status as well'. בהערת השחרור הזאת ה-BAdI נקרא 'Update Planned Orders', בעוד הערת השחרור של R/3 Enterprise 4.70 מכנה אותו 'Processing planned orders further'; זהו גם המקור להיקף הנתונים שהוא מפרסם ב-ECC 6.0: נתוני כותרת, רכיבים ונתוני קיבולת או מצב השינוי שלהם. המסמך נקרא במלואו כקובץ PDF.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג ההרחבות בשם של הפרויקט (EXITS), רשומת MD_PLDORD_POST",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת הקטלוג: BAdI במודול PP בשם 'BAdI להזמנה מתוכננת', מטרה 'התערבות ביצירה/עדכון של הזמנות מתוכננות מ-MRP', נקודת הפעלה 'בעת רישום הזמנה מתוכננת ע\"י MRP', אובייקט 'BAdI MD_PLDORD_POST', טרנזקציות MD01N, MD02 ו-SE19, דוגמה 'הוספת נתון מותאם להזמנה מתוכננת לצורך תכנון מתקדם', איתור תקלות 'SE19 מימוש; breakpoint; הרץ MRP', ובבלוק ECC מול S/4HANA: 'נתמך', 'תואם MRP Live (מועדף על M61X exits)' ו-'QA: לוגיקת הזמנה מתוכננת ב-MD01N'. שלושה פערים מול התיעוד הרשמי שנקרא: המטרה והדוגמה מתארות התערבות בנתוני ההזמנה, בעוד SAP מגדירה את MD_PLDORD_POST כעיבוד נוסף של הזמנות שכבר נרשמו ומשייכת את שינוי הנתונים לפני הרישום ל-BAdI נפרד MD_PLDORD_CHANGE; נקודת ההפעלה מוגבלת לרישום ע\"י MRP, בעוד הערת השחרור מוסיפה 'posted during manual planned order processing'; והמשפט 'תואם MRP Live' הפוך לכיוון שרשימת הפישוט קובעת, שכן שם MD_PLDORD_POST נמנה עם ה-BAdIs הקלאסיים שיש לתרגם ל-AMDP BAdI ושאינם מעובדים לחומר המתוכנן ב-MRP Live.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/exits.ts#MD_PLDORD_POST"
+      }
+    ],
+    xrefs: [
+      "enh:technique:classic-badi",
+      "enh:exit:M61X0001",
+      "enh:badi:MD_ADD_ELEMENTS",
+      "tx:MD01N",
+      "tx:MD01",
+      "tx:MD02",
+      "tx:MD03",
+      "tx:MD11",
+      "tx:MD12",
+      "tx:SE18",
+      "tx:SE19",
+      "fiori:F1339"
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה: ארבעה מסמכי PDF רשמיים מ-help.sap.com שנקראו, ושש שאילתות בשירות החיפוש הרשמי, אחת מהן בשני מוצרים (scripts/sap-help-search.mjs, מוצר SAP_S4HANA_ON-PREMISE ו-SAP_ERP: 'MD_PLDORD_POST', 'BAdI planned order MRP saving', 'PPH_MRP_RUN_BADI planned order', 'BAdIs no Longer Supported MRP Live planned orders', 'Seasons in Planned Orders PLANORD_BEFORE_UPDATE_ADJUST', 'Information and Settings for Materials in MRP on HANA Plan in Classic MRP BAdI') וחיפוש רשת מוגבל ל-help.sap.com, ‏api.sap.com, ‏fioriappslibrary ו-fal, שדרכו אותרו שתי הערות השחרור של PP. שלושת ה-URL שברשומה, וכן ה-URL של רשימת הפישוט 2023 FPS3 המוזכר להלן, הוחזרו ב-HTTP 200 ביום 2026-09-21. קטע הגרסה ב-URL של רשימת הפישוט 2025 הוא 2025.latest, כינוי נייד: /2025/, /2025.000/ ו-/latest/ החזירו HTTP 403 באותו יום, ולכן זהו הנתיב הזמין היחיד. העוגן הקבוע לגרסה שנקראה הוא Document Version 1.36 שבעמוד השער, והוא נרשם ב-sourceTitle. ממצא מרכזי: השם הטכני MD_PLDORD_POST אינו מופיע בכותרת או בסניפט של אף רשומת חיפוש של SAP S/4HANA On-Premise או של SAP ERP; שאילתת השם הטכני במוצר SAP_S4HANA_ON-PREMISE החזירה עמודי Malaysia, Romania ו-Material Ledger ללא סניפט וללא קשר לנושא, ובמוצר SAP_ERP החזירה רשומות לא קשורות באותו אופן. המקורות הרשמיים שכן נוקבים בשמו הם קובצי PDF בלבד: שתי הערות שחרור של PP ושתי רשימות פישוט (2025 FPS1 ו-2023 FPS3). טבלת ה-BAdIs ברשימת הפישוט של 2025 FPS1 מודפסת כטקסט מסובב שאינו נקרא כשורות טבלה בחילוץ רגיל (החילוץ הרגיל מחזיר את התאים כעמודות תווים זו לצד זו); היא שוחזרה כאן באמצעות pdftotext -raw על עמודים 656 עד 677, שמחזיר תו בשורה, ושרשור התווים לפי סדר הקריאה. השחזור אומת מול המסמך של 2023 FPS3, שבו אותה טבלה מודפסת בכיוון רגיל בעמ' 737 ‏(https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf) ושורת MD_PLDORD_CHANGE / MD_PLDORD_POST זהה בשני המסמכים. השחזור גם מיישב את סדר התאים: הערת ה-Comment ‏'See simplification item 2.1.11.7 Simplified Sourcing' שייכת לשורת 'Source of supply determination in MRP' שמתחתיה ולא לשורת ההזמנות המתוכננות, ולכן תא ה-Comment של שורת MD_PLDORD_POST ריק. מה שלא נכתב כ-successor: ה-AMDP BAdI‏ PPH_MRP_RUN_BADI והמתודה PLANORD_BEFORE_UPDATE_ADJUST מופיעים בטבלה כמקבילה המודרנית, אך PPH_MRP_RUN_BADI אינו קיים בקטלוג ההרחבות של הפרויקט ולכן אין לו מזהה שניתן לאמת, וגם אין עמוד רשמי המכריז עליו כיורש רשמי של MD_PLDORD_POST; מסיבה זו לא נרשם שדה successor ולא נוסף xref. שתי רשומות חיפוש נוספות לגרסת 2025 FPS01 מחזקות את התמונה אך לא נכללו כראיות מכיוון שגוף העמודים לא נקרא (מעטפת JavaScript): 'Seasons in Planned Orders' ‏(loio 9a84e8f5276f459d9494a0119a4cf865, deliverable Retail, versionId 2025.001), שבסניפט שלה 'You can use the BAdI method PLANORD_BEFORE_UPDATE_ADJUST in PPH_MRP_RUN_BADI to implement the logic as per business need to fill the season data for planned orders created through MRP Live', ו-'MRP Live: Incompatible Changes' ‏(loio 1d4ee5514ec5c90ae10000000a44176d, deliverable Material Requirements Planning (PP-MRP), versionId 2025.001), שבסניפט שלה 'BAdIs no Longer Supported MRP Live (transaction MD01N) does not process BAdIs for materials that are completely planned in SAP HANA' ו-'For such materials, you have to force the MRP Live run to call classic MRP by setting the Plan in Classic MRP indicator in transaction MD_MRP_FORCE_CLASSIC'. המשפט הזה מופיע גם בגוף רשימת הפישוט של 2025 שנקראה: 'Corresponding materials can be set using transaction MD_MRP_FORCE_CLASSIC in such a way that they are automatically redirected to classic MRP in MRP Live', ולכן הוא נשען על מסמך שנקרא ולא רק על סניפט. הטרנזקציה MD_MRP_FORCE_CLASSIC אינה קיימת בדאטהסט ולכן אינה ב-xrefs. ה-xref ל-fiori:F1339 נשען על רשומת What's New 1809 FPS02 ‏(loio 4f972af74c8d42a29a6ae5ba0bb0c8bc), שבסניפט שלה 'MRP Runs app (transaction MD01N or app ID F1339)'. ה-xrefs ל-tx:MD11 ו-tx:MD12 הם ניווט בלבד: הערת השחרור מדברת על 'manual planned order processing' ואינה נוקבת בשם טרנזקציה. לא אומת: ממשק ה-BAdI (שם ה-Enhancement Spot, שמות המתודות והפרמטרים), קיומו בפועל בגרסת S/4HANA On-Premise 2025, מצבו ב-SAP S/4HANA Cloud Public Edition, והאם הוא עדיין נקרא בעיבוד ידני של הזמנה מתוכננת ב-S/4HANA. אף עמוד תיעוד של S/4HANA שנקרא אינו מזכיר אותו בשמו, ולכן האימות הזה דורש SE18/SE19 במערכת חיה; ה-MCP ל-ABAP לא היה זמין בסשן. הרשומה אינה נושאת שדה reviewer, לפי המוסכמה בכל קובצי data/verification/**."
+  },
+  {
+    id: "enh:badi:MD_ADD_ELEMENTS",
+    aliases: ["MD_ADD_ELEMENTS (תצוגת MD04)", "BAdI MD_ADD_ELEMENTS"],
+    status: {
+      status: "simplified",
+      he: "ה-BAdI‏ MD_ADD_ELEMENTS (אלמנטי MRP מותאמים בתצוגת מצב המלאי והדרישות) נקוב בשמו בפריט הפישוט הרשמי 'S4TWL - MRP in HANA' (רכיב יישום PP-MRP), ויש לו בפריט שני תפקידים נפרדים. ראשית, הוא עצמו נמנה בטבלת ההמרה ל-AMDP: השורה 'User-defined MRP elements in MRP' מצמידה ל-Classic BAdI 'MD_ADD_ELEMENTS' את ה-AMDP BAdI‏ 'PPH_MRP_RUN_BADI => MDPS_ADJUST', תחת המשפט הפותח 'BAdI implementations of the classic MRP should be translated into AMDP BAdI implementations if still required. This affects the following BAdIs:'. קיים אפוא מקור רשמי שנוקב עבורו במקבילה ב-AMDP, ולא ניתן לומר שאין כזו. שנית, אותו פריט מציג אותו כ-BAdI ה-ABAP החלופי לתהליכי קריאת הנתונים המותאמים ל-HANA ב-MRP הקלאסי: 'If the planning transactions are optimized for HANA (like MD01, MD02, MD03, materials forced to classic MRP by MRP Live), then it is required to use an alternative ABAP BAdI. In this case BAdI MD_ADD_ELEMENTS has to be used to adjust the data determined by the HANA optimized reading processes', ובשורת MD_CHANGE_MRP_DATA שבטבלה מופיעה ההערה 'Use BAdI MD_ADD_ELEMENTS for classic MRP transactions which are optimized for HANA'. שני התפקידים נשענים על אותה הבחנה שהפריט עושה בנוסח 2023 FPS3 שלו (עמ' 736): 'Enhancements or BAdI implementations of the classic MRP run does not work with MRP Live if the material is supported/planned within MRP Live'; המשפט הזה אינו מופיע ברינדור של אותו פריט במסמך 2025 FPS01. מדריך התפעול של S/4HANA 1709 מוסיף היכן ה-BAdI מעובד: 'The BAdI MD_ADD_ELEMENTS is processed in MRP evaluations such as MD04 or MD07 and is processed in the classic MRP transactions MD01 or MD02 or if you have set the Plan in Classic MRP indicator'. אף מקור רשמי שנקרא אינו מסמן את ה-BAdI כהרחבה שהוסרה, ואינו מגדיר את PPH_MRP_RUN_BADI כיורש המבטל אותו, אלא כמקבילה שיש לממש כשהלוגיקה נדרשת ב-MRP Live.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 9.5.2 S4TWL - MRP in HANA, pp. 651-777",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE21,
+        claim: "פריט 9.5.2 'S4TWL - MRP in HANA' (Application Component: PP-MRP; Related Notes: Business Impact 0002268085 'MRP Live on SAP HANA - MD01N') נפרש בעמ' 651 עד 777 של גרסת המסמך 1.36. טבלת 'Purpose / Classic BAdI or extension / AMDP BAdI / Comment' מודפסת במסמך זה כטקסט מסובב; pdftotext -raw מחלץ אותה במלואה, אך תו בכל שורה, ולכן התאמת מחרוזת מחייבת הסרת רווחים וירידות שורה לפני החיפוש (grep ישיר על הפלט מחזיר אפס תוצאות). בעמ' 656 (ושוב ברינדור ההמשך בעמ' 698, 702 ו-735) מופיעה השורה: Purpose 'User-defined MRP elements in MRP', Classic BAdI or extension 'MD_ADD_ELEMENTS', AMDP BAdI 'PPH_MRP_RUN_BADI => MDPS_ADJUST', ועמודת ה-Comment של שורה זו ריקה. באותה טבלה, שורת 'Reading material receipts and requirements' / 'MD_CHANGE_MRP_DATA' / 'PPH_MRP_RUN_BADI => MDPS_ADJUST' נושאת את ההערה 'Use BAdI MD_ADD_ELEMENTS for classic MRP transactions which are optimized for HANA'. הטקסט הרץ שלפני הטבלה (אותו רינדור; המשפט נפרש על פני עמ' 685 עד 686) קובע: 'If the planning transactions are optimized for HANA (like MD01, MD02, MD03, materials forced to classic MRP by MRP Live), then it is required to use an alternative ABAP BAdI. In this case BAdI MD_ADD_ELEMENTS has to be used to adjust the data determined by the HANA optimized reading processes.' ומיד אחריו: 'A new set of AMDP BAdIs will be available for MRP Live from SAP S/4HANA on-premise edition 1603. BAdI implementations of the classic MRP should be translated into AMDP BAdI implementations if still required. This affects the following BAdIs:'. באותה טבלה נמנית גם השורה 'Material selection for MRP run' / 'Extension M61X0001' / 'PPH_MRP_NETTING_BADI => AT_PLANNING_FILE_ENTRIES_READ' (עמ' 752). גודל הקובץ שנקרא, 10,585,218 בתים, זהה ל-content-length שמחזירה help.sap.com לכתובת זו.",
+        verificationLevel: "sap_official_verified"
+      },
+      recommendedAction: "לסווג את MD_ADD_ELEMENTS כפריט פישוט ולא כהרחבה 'נתמכת ללא הסתייגות': הפריט אינו מבטל אותה, אך מצמיד לה מקבילה ב-AMDP עבור MRP Live. בפרויקט המרה: (1) למפות את מימושי ה-BAdI הקיימים ולהחליט לכל מימוש אם הלוגיקה שלו נדרשת בריצת MRP Live; אם כן, לממש אותה מחדש ב-PPH_MRP_RUN_BADI במתודה MDPS_ADJUST, כפי שקובעת טבלת פריט הפישוט. (2) להשאיר את המימוש הקלאסי לתצוגות ה-MRP (MD04, MD07) ולטרנזקציות ה-MRP הקלאסי המותאמות ל-HANA (MD01, MD02), שבהן מדריך התפעול מורה במפורש להשתמש ב-MD_ADD_ELEMENTS להתאמת הנתונים שקריאת ה-HANA מחזירה. (3) לחומרים שהתכנון שלהם דורש עיבוד BAdI בריצת ה-MRP, לבדוק את סימון 'Plan in Classic MRP' שמדריך התפעול נוקב בו לפני המעבר ל-MD01N. (4) לתקן את רובד הפרויקט: data/exits.ts רושם 'נתמך.' ללא ההסתייגות של MRP Live, מציג את Fiori 'Monitor Material Coverage' כמקבילה ל-BAdI, ומגדיר נקודת הפעלה 'MD04/MD05'. אף מקור רשמי שנקרא אינו קובע שלאלמנטים שנוספו דרך ה-BAdI יש ייצוג באפליקציות Fiori, ואינו נוקב ב-MD05; התיעוד הרשמי נוקב ב-MD04, MD07, MD01 ו-MD02. (5) לוודא בסביבת בדיקות שהאלמנטים המותאמים עדיין מוצגים ב-MD04 וב-MD07 אחרי ההמרה, ולתעד את התוצאה כבדיקה שבוצעה במערכת."
+    },
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 9.5.2 S4TWL - MRP in HANA, pp. 651-777",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE21,
+        claim: "פריט 9.5.2 'S4TWL - MRP in HANA' (Application Component: PP-MRP; Related Notes: Business Impact 0002268085 'MRP Live on SAP HANA - MD01N') נפרש בעמ' 651 עד 777 של גרסת המסמך 1.36. טבלת 'Purpose / Classic BAdI or extension / AMDP BAdI / Comment' מודפסת במסמך זה כטקסט מסובב; pdftotext -raw מחלץ אותה במלואה, אך תו בכל שורה, ולכן התאמת מחרוזת מחייבת הסרת רווחים וירידות שורה לפני החיפוש (grep ישיר על הפלט מחזיר אפס תוצאות). בעמ' 656 (ושוב ברינדור ההמשך בעמ' 698, 702 ו-735) מופיעה השורה: Purpose 'User-defined MRP elements in MRP', Classic BAdI or extension 'MD_ADD_ELEMENTS', AMDP BAdI 'PPH_MRP_RUN_BADI => MDPS_ADJUST', ועמודת ה-Comment של שורה זו ריקה. באותה טבלה, שורת 'Reading material receipts and requirements' / 'MD_CHANGE_MRP_DATA' / 'PPH_MRP_RUN_BADI => MDPS_ADJUST' נושאת את ההערה 'Use BAdI MD_ADD_ELEMENTS for classic MRP transactions which are optimized for HANA'. הטקסט הרץ שלפני הטבלה (אותו רינדור; המשפט נפרש על פני עמ' 685 עד 686) קובע: 'If the planning transactions are optimized for HANA (like MD01, MD02, MD03, materials forced to classic MRP by MRP Live), then it is required to use an alternative ABAP BAdI. In this case BAdI MD_ADD_ELEMENTS has to be used to adjust the data determined by the HANA optimized reading processes.' ומיד אחריו: 'A new set of AMDP BAdIs will be available for MRP Live from SAP S/4HANA on-premise edition 1603. BAdI implementations of the classic MRP should be translated into AMDP BAdI implementations if still required. This affects the following BAdIs:'. באותה טבלה נמנית גם השורה 'Material selection for MRP run' / 'Extension M61X0001' / 'PPH_MRP_NETTING_BADI => AT_PLANNING_FILE_ENTRIES_READ' (עמ' 752). גודל הקובץ שנקרא, 10,585,218 בתים, זהה ל-content-length שמחזירה help.sap.com לכתובת זו.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition 2023 - Feature Pack Stack 3 (Document Version 1.35, 2025-02-25) · item 30.2 S4TWL - MRP in HANA, pp. 732-738",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE21,
+        claim: "במסמך של 2023 FPS3 אותו פריט (30.2, Application Components: PP-MRP, Business Impact note 2268085 'S4TWL - MRP Live on SAP HANA - MD01N') מודפס בפריסה רגילה וקריא ללא היפוך. עמ' 736 קובע: 'If the planning transactions are optimized for HANA (like MD01, MD02, MD03, materials forced to classic MRP by MRP Live), then it is required to use an alternative ABAP BAdI. In this case BAdI MD_ADD_ELEMENTS has to be used to adjust the data determined by the HANA optimized reading processes.', ומיד אחריו 'A new set of AMDP BAdIs will be available for MRP Live from SAP S/4HANA on-premise edition 1603. BAdI implementations of the classic MRP should be translated into AMDP BAdI implementations if still required. This affects the following BAdIs:'. באותו עמוד מופיעה שורת 'Reading material receipts and requirements' / 'MD_CHANGE_MRP_DATA' / 'PPH_MRP_RUN_BADI => MDPS_ADJUST' עם ההערה 'Use BAdI MD_ADD_ELEMENTS for classic MRP transactions which are optimized for HANA'. בעמ' 737 מופיעה השורה של ה-BAdI עצמו: Purpose 'User-defined MRP elements in MRP', Classic BAdI or extension 'MD_ADD_ELEMENTS', AMDP BAdI 'PPH_MRP_RUN_BADI => MDPS_ADJUST'. עמ' 736 קובע גם: 'Enhancements or BAdI implementations of the classic MRP run does not work with MRP Live if the material is supported/planned within MRP Live', ובהמשך שם: 'The second material B is not supported in MD01N and the planning run routes this material B into classic MRP. Therefore the existing classic BAdI implementation still can be used for material B'. גודל הקובץ שנקרא, 10,174,700 בתים, זהה ל-content-length שמחזירה help.sap.com לכתובת זו.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material Requirements Planning | Operations Guide for SAP S/4HANA 1709",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/300497627ccc47bb9454af54ccf76a60/b53c01562b16612de10000000a441470.html?locale=en-US&state=PRODUCTION&version=1709.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1709.latest",
+        accessedAt: DATE21,
+        claim: "רשומת החיפוש הרשמית (loio b53c01562b16612de10000000a441470, deliverable 'Operations Guide for SAP S/4HANA 1709', versionId 1709.latest, תאריך פרסום 2025-06-25) נוקבת ב-BAdI בשמו: 'If you have and if the BAdI only adds data to MRP evaluations such as MD04, re-implement your BAdI implementations in BAdI MD_ADD_ELEMENTS' וכן 'Note The BAdI MD_ADD_ELEMENTS is processed in MRP evaluations such as MD04 or MD07 and is processed in the classic MRP transactions MD01 or MD02 or if you have set the Plan in Classic MRP indicator for' (הסניפט נקטע כאן). שאילתה אחרת על אותה רשומה מחזירה גם 'Check which materials require the processing of a BAdI during the MRP run and set the Plan in Classic MRP indicator for these materials'. זהו העמוד היחיד שמחזיר שירות החיפוש של help.sap.com במוצר SAP_S4HANA_ON-PREMISE עם השם MD_ADD_ELEMENTS בכותרת או בסניפט (6 תוצאות לשאילתה, חמש האחרות אינן מזכירות אותו). העמוד שייך למערך התיעוד של 1709 ולא לגרסה הנוכחית, וגופו לא נקרא (מעטפת JavaScript); כל הציטוטים כאן תחומים לסניפט.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג ההרחבות בשם של הפרויקט (EXITS), רשומת MD_ADD_ELEMENTS",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת הקטלוג: BAdI במודול PP בשם 'BAdI לאלמנטים ב-MD04', מטרה 'הוספת אלמנטי תכנון מותאמים לתצוגת מצב מלאי/דרישות (MD04)', נקודת הפעלה 'בעת בניית תצוגת MD04/MD05', אובייקט 'BAdI MD_ADD_ELEMENTS', טרנזקציות MD04 ו-SE19, דוגמה 'הצגת דרישות ממערכת תכנון חיצונית כאלמנט ב-MD04', ובבלוק ECC מול S/4HANA: 'נתמך.', 'Fiori Monitor Material Coverage מקביל.', שדה fiori 'Monitor Material Coverage' והערת הגירה 'QA: אלמנטים מותאמים ב-MD04/Fiori', עם דגל inferred. מכאן נגזר המעמד שהאפליקציה הציגה עד כה: 'משתנה ב-S/4HANA' לפי בלוק ECC מול S/4HANA (קיימת הערת שינוי), ברמת אימות 'נדרש אימות נוסף' בשל הדגל inferred. מטרת הרשומה עולה בקנה אחד עם עמודת Purpose שבטבלת פריט הפישוט ('User-defined MRP elements in MRP'), אך שלושה פרטים ברשומה אינם נתמכים במקורות שנקראו: (א) 'נתמך.' נאמר ללא ההסתייגות שפריט הפישוט קובע לגבי MRP Live ולגבי ההמרה ל-AMDP; (ב) נקודת ההפעלה 'MD04/MD05' נוקבת ב-MD05, שאינה מופיעה באף מקור רשמי שנקרא לגבי BAdI זה, ומשמיטה את MD07, MD01 ו-MD02 שהתיעוד הרשמי נוקב בהם; (ג) 'Fiori Monitor Material Coverage מקביל' מציג אפליקציית Fiori כמקבילה לנקודת הרחבה בקוד ABAP. אף מקור רשמי שנקרא אינו קובע שאלמנטים שנוספו דרך ה-BAdI מוצגים באפליקציות Fiori, ולפי דפי ההשוואה הרשמיים שתועדו ברשומת tx:MD04 השם Monitor Material Coverage - Net Segments (F0247A) משויך ל-MD07 ואילו Manage Material Coverage (F0251) ל-MD04.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/exits.ts#MD_ADD_ELEMENTS"
+      }
+    ],
+    xrefs: [
+      "enh:exit:M61X0001",
+      "enh:badi:MD_PLDORD_POST",
+      "enh:technique:classic-badi",
+      "enh:technique:new-badi",
+      "tx:MD04",
+      "tx:MD07",
+      "tx:MD01",
+      "tx:MD02",
+      "tx:MD03",
+      "tx:MD01N",
+      "tx:SE19"
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה: שירות החיפוש הרשמי של SAP Help (scripts/sap-help-search.mjs, מוצר SAP_S4HANA_ON-PREMISE; השאילתות 'MD_ADD_ELEMENTS', 'BAdI MD_ADD_ELEMENTS MRP evaluations', 'User-defined MRP elements stock requirements list', 'Add Elements to Stock Requirements List BAdI', 'Enhancements MRP Business Add-In stock requirements list MD04', 'Plan in Classic MRP indicator materials BAdI', 'MRP Live BAdIs no longer supported', 'Custom Code MRP Live BAdI implementations AMDP', 'user-defined MRP elements BAdI classic MRP AMDP', 'PPH_MRP_RUN_BADI MDPS_ADJUST'), WebSearch מוגבל ל-help.sap.com / api.sap.com / fioriappslibrary / fal, וקריאת פריט 'S4TWL - MRP in HANA' משני קובצי ה-PDF של רשימות הפישוט. שלושת ה-URL שברשומה נפתרים ב-2026-09-21: שני קובצי ה-PDF מחזירים HTTP 200 עם content-length הזהה לגודל הקבצים שנקראו (10,585,218 ו-10,174,700 בתים), ועמוד מדריך התפעול מחזיר HTTP 200. נבדקו גם שני URL שאינם ראיה ברשומה: עמוד תוכן התמיכה ומדריך Advanced MD04. תיקון לממצא קודם בקטלוג: רשומת enh:exit:M61X0001 כותבת בהערותיה שטבלת ההרחבות ברשימת הפישוט של 2025 FPS1 'מודפסת כטקסט מסובב שאינו ניתן לחילוץ'. הטבלה אכן מסובבת, אך pdftotext -raw (בניגוד ל-pdftotext -layout) מחלץ אותה במלואה, אם כי תו בכל שורה, כך שיש להסיר רווחים לפני החיפוש: בקובץ 1.36 היא מופיעה בעמ' 656 ובחזרות רינדור בעמ' 685 עד 705 ובעמ' 729, 735 ו-752, ובה גם שורת MD_ADD_ELEMENTS (עמ' 656, 698, 702 ו-735) וגם שורת Extension M61X0001 (עמ' 729 ו-752); בעמ' 753 מתחילה כבר טבלת 'Table related information' של אותו פריט, והפריט עצמו מסתיים בעמ' 777 (פריט 9.5.3 'S4TWL - Storage Location MRP' פותח בעמ' 778). לכן הצמדת ה-AMDP מאושרת כאן גם מהמסמך הנוכחי של 2025 FPS01 ולא רק מזה של 2023 FPS3, ויש לעדכן את הערת M61X0001 בהתאם. לא נרשם successor: PPH_MRP_RUN_BADI והמתודה MDPS_ADJUST אינם אובייקטים ביקום המזהים של הפרויקט (data/exits.ts, lib/route-manifest.generated.ts), ומעבר לכך פריט הפישוט מציג את ה-AMDP BAdI כמקבילה שיש לממש כשהלוגיקה נדרשת ב-MRP Live, ולא כאובייקט שמבטל את ה-BAdI הקלאסי. מקורות רשמיים נוספים שנראו ולא צורפו כראיה: 'MRP Live: Incompatible Changes' (loio 1d4ee5514ec5c90ae10000000a44176d, 2025.001), שהסניפט שלו קובע 'BAdIs no Longer Supported. MRP Live (transaction MD01N) does not process BAdIs for materials that are completely planned in SAP HANA' אך אינו נוקב ב-MD_ADD_ELEMENTS; 'Information and Settings for Materials in MRP on HANA' (loio fea55f5353496655e10000000a423f68, 2025.001) ו-'When to Plan in MRP Live and When to Plan with Classic MRP' (loio 8b1f7d5128f6563ce10000000a423f68, 2025.001), העוסקים בסימון Plan in Classic MRP בטרנזקציה md_mrp_force_classic ומפנים ל-SAP Note 1914010; ושתי רשומות Retail בגרסה 2025.001 ('Seasons in Planned Orders', loio 9a84e8f5276f459d9494a0119a4cf865, ו-'Seasons in Purchase Requisitions', loio cfa1f8237bcb4e92b2e2d54d0c16aa5b) המאשרות ש-PPH_MRP_RUN_BADI מתועד בגרסה הנוכחית עם המתודות PLANORD_BEFORE_UPDATE_ADJUST ו-PURREQ_BEFORE_UPDATE_ADJUST; אף אחת מהן אינה נוקבת במתודה MDPS_ADJUST, ששמה מגיע מטבלת פריט הפישוט בלבד. מה לא אומת: שם ממשק ה-BAdI, שמות המתודות והפרמטרים של MD_ADD_ELEMENTS, האם הוא Filter-enabled או Multiple-use, והאם הוא מתוחזק ב-SE18 או ב-SE19 (רשומת המאגר נוקבת ב-SE19 בלבד); אף מקור רשמי שנקרא אינו נוקב בהם, ואימותם דורש SE18/SE19 או ADT במערכת S/4HANA חיה. נקודת ההפעלה MD05 שברשומת המאגר לא אושרה ולכן tx:MD05 אינו ב-xrefs, כפי שנעשה גם ברשומת M61X0001 לגבי MD02. אפליקציות Fiori אינן ב-xrefs מאותו טעם. עמוד תוכן התמיכה 'User exits and BADIs of MRP' (help.sap.com/docs/SUPPORT_CONTENT/mrp/3138698509.html) הורד ב-2026-09-21, מחזיר HTTP 200 אך גופו ריק (1,160 בתים של מעטפת JavaScript, ללא טקסט תוכן כלשהו), ולכן לא צוטט. מדריך 'Advanced MD04' (help.sap.com/doc/2d1f4f3d24da48d7b3d0d842e7c0ab2d/2022.1/en-US/MD4_EN.pdf) הורד ונסרק כטקסט מלא: אפס מופעים של MD_ADD_ELEMENTS, והוא ממילא שייך למוצר נפרד (Advanced MD04) ולא ל-S/4HANA On-Premise. גופי עמודי ה-Help לא נקראו (מעטפת JavaScript); כל ציטוט מהם תחום לכותרת ולסניפט של רשומת החיפוש, ושני פריטי הפישוט נקראו מקובצי ה-PDF. ה-MCP למערכת ABAP לא היה זמין בהרצה זו, ולכן לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer: אף רשומה ב-data/verification/** אינה נושאת אותו."
+  },
+  {
+    id: "enh:technique:substitution-validation",
+    aliases: [
+      "Substitution & Validation",
+      "Substitution and Validation",
+      "Validations, Substitutions, and Rules",
+      "Validation/Substitution"
+    ],
+    status: {
+      status: "unchanged",
+      he: "התיעוד הרשמי של SAP S/4HANA On-Premise 2025 FPS01 ממשיך לתעד את הטכניקה בשני מדריכים: נושא 'Validations, Substitutions, and Rules' במדריך Special Purpose Ledgers מגדיר אותה כתוכנת ולידציה והחלפה הפועלת בזמן הזנת הנתונים ב-FI-SL ובמערכות SAP נוספות, ונושא 'Validation and Substitution' במדריך Controlling (CO) נוקב בנתיב ההגדרה שלה תחת Account Assignment Logic. ההמשכיות בין ECC ל-S/4HANA נמדדה ולא הוסקה: loio 700ad553088f4308e10000000a174cb4 של נושא ה-CO מוגש גם תחת SAP ERP עם תווית הגרסה '6.0 EHP8 Latest' (versionId 6.18.latest), וכך גם נושאי Validation / Substitution: Overview,‏ Application Areas ו-Setting the User Exit File Name; הנושא Using the Analysis Tool חזר פעם ב-6.18.latest ופעם ב-6.17.latest. רשימת הפישוט הציבורית לגרסת 2025 FPS01, שחולצה כטקסט מלא (1,514 עמודים), אינה נוקבת ב-GGB0, ב-GGB1, ב-OB28 או ב-OKC7 באף מקום. פריט הפישוט היחיד הנוגע למסגרת שבה מתועדת הטכניקה, 6.1.32 S4TWL - Special Purpose Ledger, פותח דווקא בהגבלה: 'The usage of special purpose ledger is partly included in the SAP S/4HANA compatibility scope, which comes with limited usage rights', ומפנה להערה 2269324 ולמזהה 430 במטריצת התאימות; מיד לאחר מכן הוא מבחין בין השימושים ובין המסגרת עצמה וקובע 'Generally, special purpose ledger as framework is not part of compatibility scope, which means it will be available and supported beyond the compatibility scope expiry date'. ההגבלות שהפריט מונה נוגעות לספרים שהוגדרו ליישומים שבהיקף התאימות (EC-PCA planning, Cost of Sales ledger, Consolidation preparation) ואינן נוקבות בוולידציות, בהחלפות או בקודי הטרנזקציה שלהן. 'ללא שינוי' נאמר כאן במובן צר: המשכיות התיעוד, נתיבי ההגדרה והיעדר פריט פישוט הנוקב בטכניקה, ולא קביעה שכל כלל קיים עובר המרה ולא קביעה על מעמד התאימות של ספרים מסוימים. עמוד ה-CO עצמו מסייג שהמערכת אינה ממירה כללי החלפה וולידציה בשלמותם עבור טרנזקציות עסקיות פנימיות ב-CO ובהן יישוב הזמנות.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Validations, Substitutions, and Rules | Special Purpose Ledgers",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/b6995ca88c524372b0609345b693f8d5/73a4c4530b29b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד 'Validations, Substitutions, and Rules' מתוך המדריך Special Purpose Ledgers לגרסת SAP S/4HANA On-Premise 2025 FPS01 (loio 73a4c4530b29b44ce10000000a174cb4) מגדיר את הטכניקה: 'With the validations and substitutions software, you can validate and/or substitute data at the time of entry in the FI-SL System and other SAP Systems'. הסניפט ממשיך: 'Validation rules are stored in the Rule Manager; as data is entered, the Integration Manager validates the data against the validation rules stored in the Rule Manager' ו-'Substitution Substitution rules are stored in the Rule Manager. When data is entered in the system, it is substituted by the Integration Manager. The Integration Manager calls the Rule Manager'. שני הקטעים התקבלו משתי שאילתות נפרדות של אותה רשומה, שכן חלון הסניפט משתנה לפי השאילתה. הסניפט אינו נוקב בקוד טרנזקציה. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      recommendedAction: "בפרויקט מיגרציה יש לרשום תחילה את כל הוולידציות וההחלפות הפעילות לפי אזור יישום ונקודת קריאה (Application Area / Callup Point) ולאמת במערכת המותקנת אילו מהן עדיין נדרשות. עמוד ה-Controlling לגרסת 2025 FPS01 מסייג במפורש שהמערכת אינה ממירה כללי החלפה וולידציה בשלמותם עבור טרנזקציות עסקיות פנימיות ב-CO ובהן יישוב הזמנות, ולכן כללים הנוגעים ליישוב הזמנת תחזוקה או פקודת תהליך דורשים בדיקה ידנית ובדיקת רגרסיה אחרי ההמרה. כלל המסתמך על User Exit מסוג FORM routine דורש אימות נפרד של שם ה-form pool בטבלת T80D. אם הכלל מוגדר על ספר ייעודי שהוגדר ליישום שנמצא בהיקף התאימות, יש לבדוק את פריט הפישוט 6.1.32 ואת הערה 2269324 לפני שנשענים עליו לטווח ארוך. לתרחיש הרחבה חדש הנוגע לרישומי FI כדאי לבחון תחילה את היישום Manage Substitution/Validation Rules, שתיעוד ה-Finance של 2025 FPS01 מונה אותו בין אפשרויות ההרחבה, ולבדוק בעמוד ההקשרים העסקיים שלו אם ההקשר הדרוש נתמך. כל קוד טרנזקציה וכל כלל ספציפי דורשים אימות במערכת SAP המותקנת."
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Validations, Substitutions, and Rules | Special Purpose Ledgers",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/b6995ca88c524372b0609345b693f8d5/73a4c4530b29b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד 'Validations, Substitutions, and Rules' מתוך המדריך Special Purpose Ledgers לגרסת SAP S/4HANA On-Premise 2025 FPS01 (loio 73a4c4530b29b44ce10000000a174cb4) מגדיר את הטכניקה: 'With the validations and substitutions software, you can validate and/or substitute data at the time of entry in the FI-SL System and other SAP Systems'. הסניפט ממשיך: 'Validation rules are stored in the Rule Manager; as data is entered, the Integration Manager validates the data against the validation rules stored in the Rule Manager' ו-'Substitution Substitution rules are stored in the Rule Manager. When data is entered in the system, it is substituted by the Integration Manager. The Integration Manager calls the Rule Manager'. שני הקטעים התקבלו משתי שאילתות נפרדות של אותה רשומה, שכן חלון הסניפט משתנה לפי השאילתה. הסניפט אינו נוקב בקוד טרנזקציה. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Validation and Substitution | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/700ad553088f4308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד 'Validation and Substitution' מתוך המדריך Controlling (CO) לגרסת S/4HANA On-Premise 2025 FPS01 (loio 700ad553088f4308e10000000a174cb4) נוקב בנתיב ההגדרה: 'You make the settings for validation and substitution in Customizing for Controlling, under Controlling General Account Assignment Logic Define Validation or Define Substitution', ומוסיף 'Validation and Substitution Use You can validate or substitute data directly at the input stage' ו-'Note Substitution and validation are only intended for actual postings'. חלון סניפט נוסף של אותה רשומה מוסיף את הסייג 'The SAP System cannot convert substitutions or validation rules completely for the following CO-internal business transactions: Order settlement Assessment, distribution, periodic reposting, indirect activity' (הסניפט נקטע כאן). בסניפט המקורי מופיעים רצפי nbsp בין פריטי נתיב ההגדרה, וצוטטו כאן כרווחים. אותו loio מוגש גם תחת SAP ERP עם תווית הגרסה '6.0 EHP8 Latest' (versionId 6.18.latest) במדריך Cost Center Accounting (CO-OM-CCA). גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Set values are overwritten when transport validation and substitution | Financial Accounting",
+        url: "https://help.sap.com/docs/SUPPORT_CONTENT/fiaccounting/3361880664.html?locale=en-US&state=PRODUCTION&version=1.0",
+        product: "Support Content",
+        edition: "on-premise",
+        release: "1.0",
+        accessedAt: DATE21,
+        claim: "רשומת תוכן התמיכה של SAP בפורטל help.sap.com בשם 'Set values are overwritten when transport validation and substitution' (המדריך Financial Accounting, המוצר Support Content בגרסה 1.0, loio 3361880664, תאריך 2026-07-01) היא המקור הרשמי היחיד שנמצא הנוקב בשלושת קודי הטרנזקציה שרשומת המאגר מונה, והיא עושה זאת במשפט אחד: 'However, there is a default check on \"Transport Sets\" within validation and substitutions steps (GGB1, GGB0, OB28, OBBH)'. המשפט מונה את הקודים כשלבים של ולידציה והחלפה ואינו מייחס קוד מסוים לפעולה מסוימת. הרשומה היא תוכן תמיכה ואינה תיעוד מוצר הקשור לגרסת S/4HANA מסוימת, והערכים edition ו-release נרשמו כאן רק משום שהסכימה דורשת אותם. גוף העמוד לא נקרא: הבדיקה הראתה שהעמוד מוגש כמעטפת JavaScript בת 1,160 בתים ללא טקסט גוף.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 6.1.32 S4TWL - Special Purpose Ledger, pp. 247-248",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.latest",
+        accessedAt: DATE21,
+        claim: "רשימת הפישוט הציבורית לגרסת 2025 FPS01 (גרסת מסמך 1.36, 1,514 עמודים) הורדה, חולצה כטקסט מלא ונסרקה: אין בה אף מופע של 'GGB0', של 'GGB1', של 'OB28' או של 'OKC7'. המחרוזת 'substitution' מופיעה שש פעמים בלבד, כולן בהקשרים אחרים: פריט 13.17.22 S4TWL - Substitution of IS-U Backlog Reduction Engine by BPEM, החלפת פריטי תצורה ב-Variant Configuration, ההחלפות המוגדרות ב-OKC9 בתוך פריט 6.5.11 S4TWL - Profitability Analysis, ומודרניזציה של כללי היישוב של רכיבי WBS ב-OPS_PS_CI_1. פריט הפישוט היחיד הנוגע למסגרת שבה מתועדת הטכניקה הוא 6.1.32 S4TWL - Special Purpose Ledger (עמ' 247 עד 248, רכיב יישום FI-SL, הערת ההשפעה העסקית מופיעה בקובץ כ-'0003015013'). הפריט פותח בהגבלה: 'The usage of special purpose ledger is partly included in the SAP S/4HANA compatibility scope, which comes with limited usage rights', מפנה להערה 2269324 ולמזהה 430 במטריצת התאימות, ורק אז מבחין בין השימושים ובין המסגרת: 'Generally, special purpose ledger as framework is not part of compatibility scope, which means it will be available and supported beyond the compatibility scope expiry date'. הפריט מגביל ספרים מסוימים (EC-PCA planning, Cost of Sales ledger, Consolidation preparation) ואינו נוקב בוולידציות, בהחלפות או בקודי הטרנזקציה שלהן. שני מספרי ההערות שצוטטו כאן נקראו בתוך קובץ ה-PDF עצמו ולא הוזנו מזיכרון.",
+        verificationLevel: "sap_official_verified"
+      }
+    ],
+    xrefs: ["enh:technique:user-exit", "enh:technique:key-user-extensibility", "tx:KO88"],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה: שאילתות ב-scripts/sap-help-search.mjs תחת SAP_S4HANA_ON-PREMISE, SAP_ERP, SAP_S4HANA_CLOUD ו-SUPPORT_CONTENT, שני חיפושי רשת מוגבלים לדומיינים הרשמיים, הורדה וחילוץ טקסט מלא של קובץ רשימת הפישוט, ובדיקת HTTP אחת של עמוד תוכן תמיכה, כולן ב-2026-09-21. מה שאומת מול המקור: השם, ההגדרה והבסיס הבוליאני של הטכניקה בתיעוד 2025 FPS01; נתיב ההגדרה ב-Controlling; הסייג על המרה חלקית של כללים בטרנזקציות פנימיות ב-CO ובהן יישוב הזמנות; קיומם של שלושת קודי הטרנזקציה GGB1, GGB0 ו-OB28 בעמוד תוכן תמיכה אחד; והיעדר פריט פישוט הנוקב בטכניקה או בקודיה. רשומות רשמיות נוספות שנראו ולא צוטטו כראיה: 'Validation / Substitution: Overview' (2025.001, loio 3bbed953189a424de10000000a174cb4), 'What Are Validations?' (loio 25bed953189a424de10000000a174cb4), 'What Are Substitutions?' (loio 71d0d7537c98424de10000000a174cb4), 'Validation/Substitution Callup Points' (loio 30bed953189a424de10000000a174cb4), 'Boolean Classes' (loio 33bed953189a424de10000000a174cb4, הנוקב בשדות COBK ו-COBL), 'Boolean Logic Statements and Rules' (loio 2abed953189a424de10000000a174cb4), 'Application Areas' (loio 2dbed953189a424de10000000a174cb4, המונה את אזורי היישום AM, CO, CS, FI, GL, LC, PC ואחרים), 'User Exits in Validations/Substitutions/Rules' (loio 0bacc2531bb9b44ce10000000a174cb4, שבסניפטים שלו מופיעים גם 'User exits are user-defined FORM routines that are used to calculate and/or replace values within a validation, substitution, or rule' וגם 'Table T80D contains the form pool names for the user exits used in validations, substitutions, and rules') ו-'Setting the User Exit File Name' (loio aebed953189a424de10000000a174cb4: 'The form pool name of the user exit is configurable and must be stored in the table for client-dependent user exits (table T80D) in Customizing'), כולם במדריך Special Purpose Ledgers לגרסת 2025.001; 'Extensibility Options for Finance' (FI-GL, 2025.001, loio 266cb949a0414d1bb30c4a6550d55835) המונה 'Substitution/Validation Rules Use rules to fill fields automatically or to substitute and validate field values automatically using the Manage Substitution/Validation Rules app'; ועמוד הלוקליזציה 'Customizing for Payment Release List and Payment Program' (China, 2025.001, loio 817949523e85d130e10000000a44538d) שהוא תיעוד המוצר היחיד שנמצא הנוקב בקוד OB28, בניסוח 'Validation in Accounting Documents (transaction ob28)' באותיות קטנות. ייחוס הקודים לפעולות נשען על עמודי תוכן תמיכה נוספים שנראו ולא צוטטו: loio 3361881895 ('Go to GGB0 - To maintain the validations' ובחלון סניפט אחר 'Define Validations for Posting Go to OB28'), loio 3361878698 ('GGB0: Define Validation GGB4: Activate Validation GCT9: Transport Validation'), loio 3361880922 של המדריך Financials - Controlling ('Go to transaction GGB1 and see under the node profit center accounting' בהקשר החלפת מרכז רווח), ו-loio 3363505912 הנוקב ב-'T Code OKC7'. סתירה לכאורה שנבדקה ויושבה: חלון סניפט אחד של עמוד 'Transaction code list' (loio 3361880659) משטח את הטבלה לכדי 'Validation Maintenance GGB1 Substitution Maintenance GGB3 Maintain Boolean Class GGB4' ונראה כמצמיד שם לקוד הלא נכון, אך חלון סניפט רחב יותר של אותה רשומה מגיש 'GD64 Code combinations deactivation GGB0 Validation Maintenance GGB1 Substitution Maintenance GGB3 Maintain', כלומר הקוד מקדים את תיאורו והטבלה תואמת ל-GGB0 = Validation Maintenance ול-GGB1 = Substitution Maintenance; תימוכין נוסף בעמוד 'SAP Profit Center relevant T-codes' (loio 3361880916): 'OBBH - C FI Maintain Table T001Q (Document) GGB1 ... - Substitution Maintenance'. ייחוס GGB0 לוולידציה ו-GGB1 להחלפה נתמך אפוא בעמודי תוכן התמיכה, ועדיין אינו מופיע באף עמוד של תיעוד המוצר של S/4HANA. מה שלא אומת: אף עמוד רשמי שנמצא אינו מקשר ולידציה או החלפה להזמנת תחזוקה או לפקודת תהליך, ולכן שתי הדוגמאות שברשומת המאגר ('אימות ייחוס חשבונאי בהזמנת אחזקה', 'החלפת מרכז רווח בעלות פק\"ע') נשארות ברמת המאגר ולא נכתבו בסטטוס; הקביעה שברשומת המאגר שלפיה 'חלק מההחלפות מומרות ל-BAdI/BRF+' לא נתמכה באף מקור רשמי שנמצא, ואף עמוד אינו קובע ש-BRF+ מחליף את הטכניקה; הטרנזקציה OKC7 שברשומת המאגר מופיעה בעמוד תוכן תמיכה אחד בלבד ולא בתיעוד המוצר. היישום Manage Substitution/Validation Rules נמצא בתיעוד 2025.001 של FI-GL, Group Reporting, Financial Planning and Analysis ו-Service, ומזהה היישום F4406 מופיע ברשומת S/4HANA Cloud (loio 5c8c2825535f4e3aa9b7f716a0085221, versionId 2608.500, 'Manage Substitution/Validation Rules App ID: F4406') ובספריית יישומי Fiori; אף עמוד רשמי שנמצא אינו קובע שהיישום מחליף את GGB0 או את GGB1, ולכן אין כאן סטטוס 'הוחלף' ואין successor. מזהי F4406, F4407, F7818 ו-F4886 אינם קיימים בקטלוג ה-Fiori של הפרויקט (data/fiori/apps.ts, עשרים מזהים) ולכן אינם xrefs. קודי הטרנזקציה GGB0, GGB1, OB28 ו-OKC7 אינם קיימים ב-lib/route-manifest.generated.ts ולכן אינם מופיעים כ-xrefs אף שהם מצוטטים בראיה השלישית; ה-xref ל-tx:KO88 נסמך על הסייג בעמוד ה-CO הנוקב בטרנזקציה העסקית 'Order settlement' ולא בקוד הטרנזקציה עצמו, וקוד KO88 נבחר משום שהוא קוד יישוב ההזמנות בקטלוג הפרויקט. הטבלאות COBK, COBL ו-T80D המצוטטות בעמודים הרשמיים אינן קיימות בקטלוג הטבלאות של הפרויקט ולכן אינן xrefs. פריט 6.5.1 S4TWL - TECHNICAL CHANGES IN CONTROLLING ברשימת הפישוט קובע שלא ניתן עוד להסיר את הדגל 'CoCd Validation' באזור הבקרה; זו בדיקת קוד חברה ולא כלל ולידציה שהמשתמש מגדיר, ולכן לא נכתב כראיה. מעמד הטכניקה ב-SAP S/4HANA Cloud Public Edition לא נקבע: חיפוש תחת SAP_S4HANA_CLOUD לא החזיר אף רשומה הנוקבת ב-GGB0 או ב-GGB1, וזהו ממצא תחום בחיפוש ולא קביעה של אי-זמינות. שירות החיפוש אינו יציב לגבי תווית הגרסה של loio c3bed953189a424de10000000a174cb4 ('Using the Analysis Tool') תחת SAP_ERP: שאילתה אחת החזירה 6.18.latest ואחרת 6.17.latest; ארבעת ה-loio האחרים חזרו עקבית ב-6.18.latest. גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript), למעט קובץ ה-PDF של רשימת הפישוט שנסרק במלואו; כל טענה רשמית כאן תחומה בכותרת ובסניפט של רשומת החיפוש. לא נרשם מספר הערת SAP או KBA בשדה ייעודי: שני המספרים שנקראו בפועל (0003015013 כהערת ההשפעה העסקית של פריט 6.1.32, ו-2269324 כהערת היקף התאימות שאליה הפריט מפנה) נוגעים למסגרת ולהיקף התאימות ולא לטכניקה עצמה, ומספר ההערה על אפשרויות ההרחבה ב-Finance (2453614) מופיע בסניפט של loio 266cb949a0414d1bb30c4a6550d55835 אך לא אומת מול תוכן ההערה, שדורש התחברות S-user. הסטטוס הנגזר שהאפליקציה הציגה לפני רשומה זו היה 'משתנה ב-S/4HANA', משום ש-components/neo-shell/reference/enh-data.ts קורא ל-fromEccS4Block עם השדה s4 כ-changed, ו-fromEccS4Block (lib/evidence/s4-status.ts) ממפה כל טקסט לא ריק בשדה s4 ל-changed. אימות GGB0, GGB1 או OB28 במערכת חיה לא בוצע: ה-MCP ל-ABAP לא היה זמין. הרשומה אינה נושאת שדה reviewer, לפי המוסכמה בכל קבצי data/verification."
+  },
+  {
+    id: "enh:technique:transaction-variant",
+    aliases: ["Transaction Variant", "Screen Variant", "Transaction and Screen Variants"],
+    status: {
+      status: "unchanged",
+      he: "התיעוד הרשמי ממשיך לתעד את טכניקת וריאנט הטרנזקציה והמסך בגרסה הנוכחית ובאותו שם: העמוד Transaction Variants and Screen Variants במדריך Changing the SAP Standard (BC) מוגש בתיעוד ABAP platform לגרסת 2025 FPS01, מסווג את וריאנט הטרנזקציה והמסך כ-Customizing מבחינת ההתנהגות בשדרוג ובהעברה, ומפנה לטרנזקציה SHD0. באותו מדריך ובאותה גרסה, העמוד Variant Transactions מסווג דווקא Modification את טרנזקציית הווריאנט שמנגישה את הווריאנט למשתמשים, ולכן הסיווג Customizing אינו חל על כל שלבי המימוש. הרצף מול ECC נמדד על אותו נושא תיעוד עצמו: העמוד Definition of Variants (loio 3c05b753128eb44ce10000000a174cb4) מוגש גם בתיעוד SAP ERP 6.0 EHP8 תחת הספר Production Planning - Process Industries (PP-PI) וגם בתיעוד SAP S/4HANA On-Premise 2025 FPS01 תחת הספר Production Planning and Control, ובשתי הגרסאות מופיעה אותה דוגמה המגדירה וריאנט טרנזקציה בטרנזקציה SHD0. בתחזוקת מפעל, העמוד Customizing for Partners בספר Orders (CS-SE/PM-WOC-MO) לגרסת 2025 FPS01 עדיין מנחה להגדיר וריאנט טרנזקציה ולשייך אותו לפונקציית שותף. הקביעה 'ללא שינוי' מתייחסת כאן להמשכיות התיעוד, לשם הטכניקה, לטרנזקציה SHD0, לסיווגים ולדוגמאות היישום בתעשיות תהליכיות ובתחזוקת מפעל בלבד, ולא להצהרת SAP על מעמד הטכניקה בהמרה. לא אותרה רשומת What's New ולא פריט פישוט הנוגעים לטכניקה, ולא אותר עמוד רשמי הקובע שהטכניקה חלה על יישומי Fiori.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Definition of Variants | Production Planning and Control",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/3c05b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "העמוד Definition of Variants בספר Production Planning and Control של SAP S/4HANA On-Premise לגרסת 2025 FPS01 (loio 3c05b753128eb44ce10000000a174cb4, תאריך 2026-02-24) מונה את וריאנט הטרנזקציה בין טכניקות ההתאמה של עיבוד המוני ושל מערכת מידע ההזמנות, ומדגים את הגדרתו. שלושה חלונות סניפט משלוש שאילתות נפרדות: (1) 'Defining a transaction variant Using transaction SHD0, you define the transaction variant Z_LV01_01 for report transaction Z_LV01_T. You hide the Production orders and Planned orders fields'; (2) 'Variant transaction A variant transaction is used to call up a transaction variant (see Maintaining Transactions and Variant Transactions )' ולאחריו 'Defining a variant transaction Using transaction SE93, you define the variant transaction ZLV01 for transaction variant Z_LV01_01 of report transaction Z_LV01_T.', וכן 'You can put together user-dependent report variants, report transactions, and variant transactions to provide every user with the exact range of functions required'; (3) 'Transaction for process order: COHVPI Logistics Production - Process Process Order Tools Mass Processing Report variant Report : PPIO_ENTRY, Variant : SAP&HVOM or SAP&HVOMPI Order Information' וכן 'Transaction for process order: COOISPI'. אותו חלון סניפט, בשאילתה זהה, חזר גם מהרשומה התאומה של אותו נושא בספר Production Orders (PP-SFC) באותה גרסה (loio 3c05b753128eb44ce10000000a174cb4-431), ובשתיהן הופיע גם הניסוח 'Transaction variants With a transaction variant (see Maintaining Transactions and Variant Transactions ) you can also hide fields or specify default values for them (for example, the parameters for mass' (נקטע). הסניפט אינו מתייחס להזמנת תחזוקה ואינו אומר דבר על יישומי Fiori. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      recommendedAction: "להתאמת מסכים ללא קוד בטרנזקציות SAP GUI של תחזוקת מפעל ושל תעשיות תהליכיות, הנתיב המתועד בגרסת 2025 FPS01 הוא הגדרת הווריאנט בטרנזקציה SHD0 והנגשתו למשתמשים דרך טרנזקציית וריאנט הנוצרת ב-SE93, כפי שהעמוד Definition of Variants מדגים בהקשר של פקודות התהליך (COHVPI לעיבוד המוני, COOISPI למערכת מידע ההזמנות). בתחזוקת מפעל, כאשר המטרה היא כתובת שותף נוספת בהזמנה, ההנחיה הרשמית לגרסת 2025 FPS01 היא להגדיר וריאנט טרנזקציה ולשייך אותו לפונקציית השותף תחת הנתיב General Settings, Field Display Characteristics, Configure Application Transaction Fields. שים לב שהעמוד Variant Transactions באותו מדריך ובאותה גרסה מסווג את שלב ה-SE93 כ-Modification מבחינת ההתנהגות בשדרוג ובהעברה, בשונה מהווריאנט עצמו שמסווג Customizing, ויש לתכנן את שלב זה בהתאם. לפני מימוש לעבור על מגבלות הטכניקה בעמוד Transaction Variants and Screen Variants: Restrictions שבאותו מדריך: לא ניתן להוסיף אלמנטים חדשים למסך באמצעות וריאנט טרנזקציה או וריאנט מסך, ולא ניתן לאחד מסכים. הנחיית הפרויקט, ולא קביעה של SAP: מכיוון שאף מקור רשמי שנבדק אינו נוקב בחלופה, הוספת שדה חדש נשארת משימה של הרחבת Key User או של הרחבה קלאסית, ויש לאמת זאת מול התיעוד הרלוונטי לפני החלטה. שמות הווריאנטים, מספרי המסכים וההקצאות תלויים בגרסה ובחבילת התמיכה ויש לאמת אותם ב-SHD0 במערכת לפני ההטמעה."
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transaction Variants and Screen Variants | Changing the SAP Standard (BC)",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/2b28ffa716c24348903f8ffbfeb81df8/bfec07845db911d295ae0000e82de14a.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001 (ABAP platform 2025 FPS01)",
+        accessedAt: DATE21,
+        claim: "בתיעוד ABAP platform לגרסת 2025 FPS01 (versionId 202510.001), העמוד Transaction Variants and Screen Variants במדריך Changing the SAP Standard (BC) (loio bfec07845db911d295ae0000e82de14a) מגדיר את הטכניקה ואת סיווגה. הסניפט שהוחזר תחת מוצר זה: 'SHD0) More Information Transaction Variants and Screen Variants' וכן 'Transaction Variants and Screen Variants Type (Behavior at Upgrade, Transport) Customizing Description of Function Transaction variants simplify transaction flow by: Inserting default values in' (הסניפט נקטע ומתחדש) 'fields Changing the ready-for-input status of fields Hiding various screen elements and menu functions,' (נקטע). כלומר תיעוד ABAP platform לגרסת 2025 FPS01 עדיין מתעד את הטכניקה באותו שם, מסווג אותה כ-Customizing מבחינת התנהגות בשדרוג ובהעברה, ומפנה לטרנזקציה SHD0. הסניפט אינו קובע שגרסה זו של ABAP platform היא הפלטפורמה שמתחת ל-SAP S/4HANA 2025, וקישור זה אינו נלמד מהמקור. הסניפט אינו נוקב בגרסת S/4HANA ואינו מתייחס לתחזוקת מפעל או לתעשיות תהליכיות. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Definition of Variants | Production Planning and Control",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/3c05b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "העמוד Definition of Variants בספר Production Planning and Control של SAP S/4HANA On-Premise לגרסת 2025 FPS01 (loio 3c05b753128eb44ce10000000a174cb4, תאריך 2026-02-24) מונה את וריאנט הטרנזקציה בין טכניקות ההתאמה של עיבוד המוני ושל מערכת מידע ההזמנות, ומדגים את הגדרתו. שלושה חלונות סניפט משלוש שאילתות נפרדות: (1) 'Defining a transaction variant Using transaction SHD0, you define the transaction variant Z_LV01_01 for report transaction Z_LV01_T. You hide the Production orders and Planned orders fields'; (2) 'Variant transaction A variant transaction is used to call up a transaction variant (see Maintaining Transactions and Variant Transactions )' ולאחריו 'Defining a variant transaction Using transaction SE93, you define the variant transaction ZLV01 for transaction variant Z_LV01_01 of report transaction Z_LV01_T.', וכן 'You can put together user-dependent report variants, report transactions, and variant transactions to provide every user with the exact range of functions required'; (3) 'Transaction for process order: COHVPI Logistics Production - Process Process Order Tools Mass Processing Report variant Report : PPIO_ENTRY, Variant : SAP&HVOM or SAP&HVOMPI Order Information' וכן 'Transaction for process order: COOISPI'. אותו חלון סניפט, בשאילתה זהה, חזר גם מהרשומה התאומה של אותו נושא בספר Production Orders (PP-SFC) באותה גרסה (loio 3c05b753128eb44ce10000000a174cb4-431), ובשתיהן הופיע גם הניסוח 'Transaction variants With a transaction variant (see Maintaining Transactions and Variant Transactions ) you can also hide fields or specify default values for them (for example, the parameters for mass' (נקטע). הסניפט אינו מתייחס להזמנת תחזוקה ואינו אומר דבר על יישומי Fiori. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Definition of Variants | Production Planning - Process Industries (PP-PI)",
+        url: "https://help.sap.com/docs/SAP_ERP/698b19fa88b846359bc611f11184c810/3c05b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest (SAP ERP 6.0 EHP8)",
+        accessedAt: DATE21,
+        claim: "אותו מזהה נושא (loio 3c05b753128eb44ce10000000a174cb4) מוגש גם בתיעוד SAP ERP 6.0 EHP8, תחת הספר Production Planning - Process Industries (PP-PI), עם אותו תוכן: 'Defining a transaction variant Using transaction SHD0, you define the transaction variant Z_LV01_01 for report transaction Z_LV01_T. You hide the Production orders and Planned orders fields' וכן 'Techniques Used Report variants With a report variant, (see Variant Maintenance ) you can specify default values for fie' (הסניפט נקטע). זו הראיה לצד ה-ECC של ההשוואה: אותו נושא תיעוד, אותה טרנזקציה SHD0 ואותה דוגמה, מוגשים גם בתיעוד SAP ERP וגם בתיעוד SAP S/4HANA On-Premise 2025 FPS01. הסניפט אינו אומר דבר על מעבר ל-S/4HANA. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Customizing for Partners | Orders (CS-SE/PM-WOC-MO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/efc7922405fd4d56b7571930c5eaa798/90dfb65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "בספר Orders (CS-SE/PM-WOC-MO) של SAP S/4HANA On-Premise לגרסת 2025 FPS01, העמוד Customizing for Partners (loio 90dfb65334e6b54ce10000000a174cb4) מנחה להשתמש בטכניקה בהקשר של הזמנת תחזוקה ושירות: 'You define a transaction variant for the transaction in which an additional partner address is to be entered' ו-'Afterwards, you assign the transaction variant to the respective partner function General Settings Field Display Characteristics Configure Application Transaction Fields You can create a transaction' (הסניפט נקטע ומתחדש) 'variant per partner function, which defines the'. חלון סניפט נוסף מאותה רשומה מוסיף: 'Selection for List Display of Address Data There is an additional partner address per partner function in the order'. הסניפט אינו נוקב בקודי הטרנזקציות IW31 או IW32 ואינו נוקב בשם הווריאנט. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transaction Variants and Screen Variants: Restrictions | Changing the SAP Standard (BC)",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/2b28ffa716c24348903f8ffbfeb81df8/7df63a1c015111d396480000e82de14a.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001 (ABAP platform 2025 FPS01)",
+        accessedAt: DATE21,
+        claim: "העמוד Transaction Variants and Screen Variants: Restrictions באותו מדריך Changing the SAP Standard (BC) של ABAP platform לגרסת 2025 FPS01 (loio 7df63a1c015111d396480000e82de14a) מונה את מגבלות הטכניקה. הסניפט: 'Additional Screen Elements You cannot use transaction variants and screen variants to add additional elements to a screen' וכן 'Consolidating Screens You cannot use transaction variants to hide fields in various screens and subsequently consolidate these screens into a single new screen' וכן 'No Screen Sequence Control in Transaction Variants Function codes are only stored in transaction variants if a screen is to be hidden using a variant'. זו הראיה למגבלה שבשדה ההמלצה. הסניפט אינו נוקב בחלופה להוספת שדה ואינו מתייחס לתחזוקת מפעל או לתעשיות תהליכיות. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Variant Transactions | Changing the SAP Standard (BC)",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/2b28ffa716c24348903f8ffbfeb81df8/bfec07875db911d295ae0000e82de14a.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001 (ABAP platform 2025 FPS01)",
+        accessedAt: DATE21,
+        claim: "העמוד Variant Transactions באותו מדריך ובאותה גרסה (loio bfec07875db911d295ae0000e82de14a) מסווג את טרנזקציית הווריאנט אחרת מווריאנט הטרנזקציה עצמו. הסניפט: 'Variant Transactions Type (Behavior at Upgrade, Transport) Modification Description of Function In order to assign transaction variants to specific users, you must first define a variant transaction' וכן 'When defining a variant transaction you must enter the name of the transaction and the name of the variant'. כלומר הסיווג Customizing חל על וריאנט הטרנזקציה והמסך, ואילו טרנזקציית הווריאנט שמנגישה אותו למשתמשים מסווגת Modification מבחינת ההתנהגות בשדרוג ובהעברה. הסניפט אינו אומר דבר על S/4HANA, על תחזוקת מפעל או על תעשיות תהליכיות. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified"
+      }
+    ],
+    xrefs: [
+      "tx:SHD0",
+      "tx:SE93",
+      "tx:COHVPI",
+      "tx:COOISPI",
+      "tx:IW31",
+      "tx:IW32",
+      "enh:technique:key-user-extensibility",
+      "enh:technique:customer-exit",
+      "enh:technique:field-exit"
+    ],
+    lastVerifiedAt: DATE21,
+    notes: "שיטה (2026-09-21): כעשר שאילתות ב-scripts/sap-help-search.mjs על פני ארבעה מערכי מוצר (SAP_S4HANA_ON-PREMISE, SAP_S4HANA_CLOUD, SAP_ERP, ABAP_PLATFORM_NEW) וחיפוש רשת אחד מוגבל לדומיינים הרשמיים. כל הציטוטים הועתקו מחלונות הסניפט של שירות החיפוש לאחר ניקוי ישויות HTML (nbsp, ndash, amp) וכיווץ רווחים, ולכן הרווחים הפנימיים אינם בהכרח זהים לפלט הגולמי. מה שאומת מול המקור: השם Transaction Variants and Screen Variants, הסיווג Customizing של וריאנט הטרנזקציה והמסך מבחינת התנהגות בשדרוג ובהעברה לעומת הסיווג Modification של טרנזקציית הווריאנט, הטרנזקציה SHD0, יכולות הטכניקה (ערכי ברירת מחדל, ביטול סטטוס מוכן-לקלט, הסתרת אלמנטים ותפריטים), טרנזקציית הווריאנט הנוצרת ב-SE93, והשימוש בפועל בתעשיות תהליכיות (COHVPI, COOISPI) ובתחזוקת מפעל (שיוך וריאנט לפונקציית שותף). הרשומה נושאת שש ראיות. העמוד Restrictions והעמוד Variant Transactions נכתבו כראיות 5 ו-6 לאחר ביקורת נגדית, מפני ששדה ההמלצה נשען עליהם: מגבלת הוספת האלמנטים, והסיווג Modification של שלב ה-SE93 שאינו זהה לסיווג Customizing של הווריאנט עצמו. שאר קטלוג ההרחבות נושא בין ארבע לשבע ראיות לרשומה, ולכן שש אינו חורג מהמוסכמה. ראיה משלימה שנראתה ולא נכתבה: העמוד Transport באותו מדריך ובאותה גרסה (loio 7df63a07015111d396480000e82de14a) קובע 'For a transaction variant R3TR STVI <name of transaction variant>, For a screen variant R3TR SCVI <name of screen variant>'. ועוד: אותו מדריך Changing the SAP Standard (BC) מוגש גם תחת מערך התיעוד של SAP S/4HANA On-Premise, אך בגרסת 1709 Latest בלבד (אותו loio bfec07845db911d295ae0000e82de14a, https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2b28ffa716c24348903f8ffbfeb81df8/bfec07845db911d295ae0000e82de14a.html?locale=en-US&state=PRODUCTION&version=1709.latest), ושם הוחזרו חלונות סניפט נוספים: 'Restrictions May not be used with selection screens Range (Validity) Transactions, both client-dependent and cross-client Access in the System Tools > Accelerated SAP > Personalization (transaction' (נקטע), 'Hiding various screen elements and menu functions, or even entire screens Adjusting table control settings' ו-'You may also assign different variants to specific users. You can do this by using variant transactions'. מפני שגרסת ההגשה הזו היא 1709, הראיה שנכתבה לגרסה הנוכחית היא ההגשה של ABAP platform. מה שלא אומת: אף עמוד רשמי שנמצא אינו קובע את מעמד הטכניקה בהמרה ל-S/4HANA במפורש, ולכן הקביעה 'ללא שינוי' נשענת על המשכיות התיעוד ועל אותו מזהה נושא בשני מערכי המוצר, ולא על הצהרת SAP ייעודית. ממצאים תחומים של חיפוש, לא הוכחות היעדר: בשאילתה 'What's New transaction variant screen variant SHD0' תחת SAP_S4HANA_ON-PREMISE עם size 21, אף אחת מ-21 הרשומות שהוחזרו אינה שייכת למערך What's New; בשאילתה 'transaction variant simplification not supported S/4HANA' לא הוחזרה רשומת פישוט הנוגעת לטכניקה; בשאילתה 'SHD0' באותו מוצר עם size 21, 19 מ-21 הרשומות מכילות את המחרוזת SHD0 בכותרת או בסניפט, בהן עמודי 2025 FPS01 מהתחומים Retail, JIT, Revenue and Cost Accounting, Policy Management, Sales, FI-GL, Financial Operations ו-Production Orders (PP-SFC). שים לב שהשדה total בפלט הסקריפט הוא מספר הרשומות שהוחזרו בעמוד ולא גודל הקורפוס. Public Cloud: תחת המוצר SAP_S4HANA_CLOUD השאילתה 'SHD0' החזירה שלוש רשומות בלבד, כולן עמודי API שאינם עוסקים בטכניקה (APIs for Sales, APIs for Warehousing), והשאילתה 'transaction variant' לא החזירה עמוד המגדיר את הטכניקה; במקום זאת התיעוד של Public Cloud מתאר התאמת מסכים קלאסיים דרך SAP Screen Personas ('Adapting UIs for Classic Applications', loio 2515e5ca2de74bc18255e5a62ecd2a0d, גרסה 2608.500), ועמוד Flavor Maintenance במדריך הניהול של Screen Personas מונה 'How to Create a Transaction Variant' תחת Related Information. לא נטען מכך שהטכניקה אינה זמינה ב-Public Cloud. השוואה לרשומת המאגר (data/enhancements.ts#transaction-variant): ההגדרה 'התאמת מסך ללא קוד, הסתרה/חובה/ערך ברירת מחדל לשדות בטרנזקציה', דרך המימוש 'SHD0 (Transaction Variant) / Screen Variant; שיוך לטרנזקציה או Variant Transaction' והטרנזקציה SHD0 נתמכות במקורות הרשמיים שצוטטו. החצי השני של השדה s4 ברשומת המאגר, 'ב-Fiori התאמה דרך UI Adaptation', אינו נתמך כאמירה על וריאנט טרנזקציה: העמוד Adapt User Interfaces at Runtime בספר SAP Fiori Overview לגרסת 2025 FPS01 (loio a80e623dc43a4fe5b1531695c2f7aeb5) אכן קובע 'UI adaptation at runtime enables key users to perform certain code-free adaptations of SAP Fiori apps' ו-'UI adaptation at runtime (RTA) is a plug-in for the SAP Fiori launchpad', אך אינו מזכיר וריאנטי טרנזקציה ואינו מציג את עצמו כתחליף להם, ולכן לא נכתב successor ולא סומן דגל חלופת Fiori. אזהרת שגיאת כתיב במקור: העמוד Technical Information on Transaction Variants בספר Repetitive Manufacturing (PP-REM) קיים בשתי הגרסאות (SAP S/4HANA 2025 FPS01 ו-SAP ERP 6.18, loio be68b6531de6b64ce10000000a174cb4) ומתאר 'A transaction variant consists of several screen variants', ובשתי ההגשות כאחת הסניפט כולל את הצירוף 'Creating your own variants: You can also create your own transaction and screen variants without using existing ones (transaction SDH0)'; SDH0 היא שגיאת כתיב של SAP עצמה, היא שרדה גם לגרסת 2025.001, ואין לרשום אותה כטרנזקציה. ה-xrefs: tx:SHD0, tx:SE93, tx:COHVPI ו-tx:COOISPI נקובים בראיות; tx:IW31 ו-tx:IW32 הם הקשר הפרויקט בלבד ואינם נקובים בעמוד התחזוקה שצוטט; שלוש הטכניקות השכנות הן הקשר קטלוגי, ואף מקור רשמי אינו מציג אותן כחלופה מוסמכת לוריאנט טרנזקציה. הסטטוס הנגזר שהאפליקציה מציגה לפני רשומה זו: 'משתנה ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', שכן components/neo-shell/reference/enh-data.ts מעביר את השדה s4 של הרשומה כ-changed ל-fromEccS4Block. גוף עמודי help.sap.com לא נקרא באף שלב (מעטפת JavaScript), ה-MCP ל-ABAP לא היה זמין (Connection closed), ולא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer: אף רשומה בתשעת קבצי data/verification/** אינה נושאת אותו."
   },
 ];
