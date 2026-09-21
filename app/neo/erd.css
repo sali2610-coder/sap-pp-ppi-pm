@@ -1673,3 +1673,24 @@ html[data-theme="dark"] .ne {
   opacity: .78;
 }
 .ne-edge[data-cross="1"] .ne-edge-cap { fill: var(--erd-cross); stroke: var(--erd-cross); }
+
+/* ---------------------------------------------------------------------------
+   Design audit (2026-09-21): narrower inspector on the overview, the mode chip,
+   the canonical status word on nodes and in the inspector, focus mode. */
+.ne[data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr) 19rem; }
+@media (min-width: 2000px) { .ne[data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr) 22rem; } }
+.ne[data-insp="0"][data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr); }
+.ne-modechip { display: inline-flex; align-items: center; gap: var(--sp-2); margin: var(--sp-2) 0 0; font-size: var(--t-micro); color: var(--ink-2); }
+.ne-modechip-k { color: var(--ink-3); }
+.ne-modechip b { font-weight: 650; color: var(--ink-1); }
+.ne-node-s4[data-k="replaced"] rect { fill: var(--sec-transactions, #1d5fd0); }
+.ne-node-s4[data-k="replaced"] text { fill: #eff6ff; }
+.ne-node-s4[data-k="not_available"] rect, .ne-node-s4[data-k="legacy_ecc_only"] rect { fill: #dc2626; }
+.ne-node-s4[data-k="not_available"] text, .ne-node-s4[data-k="legacy_ecc_only"] text { fill: #fef2f2; }
+.ne-node-s4[data-k="verification_required"] rect { fill: #94a3b8; }
+.ne-node-s4[data-k="verification_required"] text { fill: #0f172a; }
+.ne-node-s4[data-k="s4_native"] rect { fill: #0e7f8c; }
+.ne-node-s4[data-k="s4_native"] text { fill: #ecfeff; }
+.ne-node-s4 text { font-family: var(--font-sans, inherit); font-size: 9.5px; font-weight: 700; }
+.ne-s4-canon { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin: 0 0 var(--sp-2); }
+.ne-s4-canon em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }

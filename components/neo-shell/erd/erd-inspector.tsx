@@ -247,6 +247,12 @@ export function ErdInspector({
 
             <div className="ne-blk">
               <h3>ECC → S/4HANA</h3>
+              {/* The canonical status first (the same word the table page and the
+                  catalog show), then the dictionary's own sentence. */}
+              <p className="ne-s4-canon">
+                <span className="nu-status" style={{ "--s": active.s4k.d } as React.CSSProperties}>{active.s4k.l}</span>
+                <em>{active.s4k.a ? "לפי רשומת אימות" : "לפי עמודת S/4HANA בבלופרינט"}</em>
+              </p>
               {active.s4 ? (
                 <>
                   <p className="ne-s4">{active.s4}</p>

@@ -50,14 +50,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowRight, Boxes, ChevronDown, Crosshair, Filter, Keyboard, Layers, Link2, Map as MapIcon,
-  Maximize, Maximize2, Minimize, Minus, PanelRightClose, PanelRightOpen, Plus, RotateCcw, Scan,
+  Focus, Maximize, Maximize2, Minimize, Minus, PanelRightClose, PanelRightOpen, Plus, RotateCcw, Scan,
   Search, Share2, SlidersHorizontal, Target, Workflow, X,
 } from "lucide-react";
 import {
   ANALYSIS, LEVEL_HE, MODULE_ORDER, REL_HE, REL_ORDER, S4_RISK_HE, S4_TRUST_HE, ZONE_HE, modVar,
-  type Analysis, type ErdCatalog, type ErdEdgeOut, type ErdTable, type Level, type ModCode,
+  type Analysis, type ErdCatalog, type ErdEdgeOut, type ErdS4K, type ErdTable, type Level, type ModCode,
   type RelKind,
 } from "./erd-types";
+import { useShellFocus } from "../focus";
 import {
   SmartReturn, consumeReturn, rememberOrigin, useReturnPacket,
 } from "@/components/neo-shell/nav-context";
@@ -165,6 +166,21 @@ interface Saved {
   sel?: string | null;
   mode?: Analysis;
 }
+
+/* The node badge word for a canonical S/4HANA status (design audit §5). The
+   five words the audit asked for, plus "חדשה" for objects that only exist in
+   S/4HANA. "unchanged" gets no badge; a derived "verification_required" gets
+   none either (it would badge most of the map), an AUTHORED one does. */
+const S4_WORD: Record<string, string> = {
+  changed: "משתנה", simplified: "משתנה", restricted: "משתנה", compatibility_scope: "משתנה",
+  fiori_alternative_available: "משתנה", released_api_available: "משתנה", deprecated: "משתנה",
+  replaced: "מוחלפת", not_available: "הוסרה", legacy_ecc_only: "הוסרה", s4_native: "חדשה",
+};
+function s4Word(k: ErdS4K): string | null {
+  if (k.k === "verification_required") return k.a ? "נדרש אימות" : null;
+  return S4_WORD[k.k] || null;
+}
+const s4BadgeW = (k: ErdS4K): number => 10 + (s4Word(k) || "").length * 6.4;
 
 export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const router = useRouter();
@@ -1039,6 +1055,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
    *  server and the first client render agree, and the control is simply not
    *  drawn where the API does not exist. */
   const [fsOk, setFsOk] = useState(false);
+  // Focus mode (design audit §3): the canvas alone, shell hidden, Escape or
+  // the pinned control exits. Page-scoped; nothing persisted.
+  const [shellFocus, setShellFocus] = useState(false);
+  const exitShellFocus = useCallback(() => setShellFocus(false), []);
+  useShellFocus(shellFocus, exitShellFocus);
   useEffect(() => {
     const d = document as FsDoc;
     const el = root.current as FsEl | null;
@@ -1683,6 +1704,18 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 ? `${nf.format(scopeCount)} טבלאות · ${nf.format(edgeCount)} קשרים${M.purpose ? ` · ${M.purpose}` : ""}`
                 : `${nf.format(data.stats.modules)} מודולים · ${nf.format(data.stats.memberships)} שיוכי טבלה · ${nf.format(data.stats.tables)} טבלאות · ${nf.format(data.stats.edges)} קשרים`}
             </p>
+            {/* Which of the three modes the reader is in, always stated (design
+                audit §7): overview, selection, or relation analysis. */}
+            <p className="ne-modechip" aria-live="polite">
+              <span className="ne-modechip-k">מצב</span>
+              <b>
+                {isMap
+                  ? "סקירה · כל המודולים"
+                  : sel
+                    ? (lens.id !== "focus" ? `ניתוח קשרים · ${lens.he}` : "בחירה") + ` · ${sel}`
+                    : `דפדוף במודול ${M?.code ?? ""}`}
+              </b>
+            </p>
           </div>
         </div>
 
@@ -1776,6 +1809,16 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             {/* FULLSCREEN. The real API on the workspace root, so the controls
                 come with the picture. Its pressed state is read from the
                 browser, never from this click. */}
+            <button
+              type="button"
+              className="nu-ghost"
+              onClick={() => setShellFocus((v) => !v)}
+              aria-pressed={shellFocus}
+              aria-label={shellFocus ? "יציאה ממצב מיקוד" : "מצב מיקוד: הסתרת הניווט והפקדים הכלליים"}
+              title={shellFocus ? "יציאה ממצב מיקוד · Esc" : "מצב מיקוד"}
+            >
+              <Focus size={15} strokeWidth={1.8} aria-hidden="true" />
+            </button>
             {fsOk ? (
               <button
                 type="button"
@@ -2222,6 +2265,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         ) : null}
       </div>
 
+      {shellFocus ? (
+        <button type="button" className="nu-btn nx-focus-exit" onClick={exitShellFocus}>
+          <Focus size={14} strokeWidth={1.9} aria-hidden="true" />
+          יציאה ממצב מיקוד
+        </button>
+      ) : null}
       <div className="ne-body">
         {/* --------------------------------------------------------- THE STAGE */}
         <div
@@ -2512,14 +2561,20 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                   the same thing into s4v, so the badge is that
                                   and nothing else, and it carries the risk
                                   colour rather than one flat amber. */}
-                              {t.s4v && (t.s4v.r === "high" || t.s4v.r === "medium") ? (
+                              {/* Design audit §5 (2026-09-21): the badge is a WORD from the
+                                  canonical vocabulary (משתנה / מוחלפת / הוסרה / נדרש אימות /
+                                  חדשה), the same status the table page and the catalog show,
+                                  not a colour alone. "נשמרת" is the quiet default and gets
+                                  no badge, so the map stays readable. */}
+                              {s4Word(t.s4k) ? (
                                 <g
                                   className="ne-node-s4"
-                                  data-risk={t.s4v.r}
-                                  transform={`translate(${ow / 2 - 34} ${oy + 12})`}
+                                  data-risk={t.s4v?.r || "medium"}
+                                  data-k={t.s4k.k}
+                                  transform={`translate(${ow / 2 - s4BadgeW(t.s4k) - 8} ${oy + 12})`}
                                 >
-                                  <rect width={26} height={13} rx={3} />
-                                  <text x={13} y={10} textAnchor="middle">S/4</text>
+                                  <rect width={s4BadgeW(t.s4k)} height={13} rx={3} />
+                                  <text x={s4BadgeW(t.s4k) / 2} y={10} textAnchor="middle">{s4Word(t.s4k)}</text>
                                 </g>
                               ) : null}
                               {/* The affordance the old node shows on hover. */}

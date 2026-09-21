@@ -72,6 +72,7 @@ import { FigureTail, SectionBlock } from "./section-body";
 import { planFigures, type PlacedFigure } from "./figures";
 import { canStep, LANG_HE, LANG_NOTE, LANGS, LEAD_HE, MEASURE_HE, SIZE_HE, useReaderPrefs } from "./prefs";
 import { scrollHost, useReducedMotion } from "./env";
+import { useShellFocus } from "../focus";
 
 /* --------------------------------------------------------------- scrolling */
 
@@ -193,6 +194,10 @@ function openingLine(book: NRBook, o: Opening): string | null {
 export function NeoReader({ book }: { book: NRBook }) {
   const reduced = useReducedMotion();
   const { prefs, set, step, reset } = useReaderPrefs();
+  // Focus mode now also hides the shell (rail, top bar, dock), not only the
+  // reader's own chrome (design audit §3). The reader keeps its exit control.
+  const exitFocus = useCallback(() => set("focus", false), [set]);
+  useShellFocus(!!prefs.focus, exitFocus);
 
   const ids = useMemo(() => [book.id], [book.id]);
   const reading = useReading(ids);

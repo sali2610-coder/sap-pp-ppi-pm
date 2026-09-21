@@ -39,8 +39,9 @@
    ========================================================================== */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useShellFocus } from "../focus";
 import {
-  Crosshair, Expand, Filter, Maximize2, Minus, Plus, RotateCcw, Search, X,
+  Crosshair, Expand, Filter, Maximize2, Minus, Plus, RotateCcw, Search, X, Focus,
 } from "lucide-react";
 import {
   KIND_META, MODES, S4_COLOR, ZONES, buildHetero, layoutSubset, layoutZoned,
@@ -59,6 +60,10 @@ export function StudioView() {
   const [q, setQ] = useState("");
   const [zones, setZones] = useState<Set<string>>(new Set());
   const [full, setFull] = useState(false);
+  // Focus mode (design audit §3): shell hidden, the studio alone; Escape exits.
+  const [shellFocus, setShellFocus] = useState(false);
+  const exitShellFocus = useCallback(() => setShellFocus(false), []);
+  useShellFocus(shellFocus, exitShellFocus);
 
   /* Camera. Kept in state rather than in the DOM so reset and fit are one
      assignment, and so the transition is declarative. */
@@ -273,6 +278,7 @@ export function StudioView() {
             <button type="button" onClick={fit} title="התאמה למסך"><Expand size={15} /></button>
             <button type="button" onClick={() => { setCam({ x: 0, y: 0, k: 1 }); setSel(null); setZones(new Set()); }} title="איפוס"><RotateCcw size={15} /></button>
             <button type="button" onClick={toggleFull} title={full ? "יציאה ממסך מלא" : "מסך מלא"}><Maximize2 size={15} /></button>
+            <button type="button" onClick={() => setShellFocus((v) => !v)} aria-pressed={shellFocus} title={shellFocus ? "יציאה ממצב מיקוד · Esc" : "מצב מיקוד"}><Focus size={15} /></button>
           </span>
           <span className="nst-grp" role="group" aria-label="זום">
             <button type="button" onClick={() => zoom(1 / 1.25)} title="הקטנה"><Minus size={15} /></button>
@@ -287,6 +293,9 @@ export function StudioView() {
 
       <div className="nst-body">
         {/* ---------------------------------------------------------- side */}
+        {shellFocus ? (
+          <button type="button" className="nu-btn nx-focus-exit" onClick={exitShellFocus}><Focus size={14} /> יציאה ממצב מיקוד</button>
+        ) : null}
         <aside className="nst-side" aria-label="תצוגות ומסננים">
           <div className="nst-mods">
             {MODULES.map((m) => (

@@ -191,6 +191,10 @@ export const ANALYSIS: AnalysisDef[] = [
    standing at all carries NO record here — the UI then says
    "לא קיים מידע מאומת בפרויקט" instead of guessing. */
 
+/** The canonical S/4HANA status token, its Hebrew label, and whether an
+ *  authored overlay record decided it (1) or the blueprint derivation did (0). */
+export interface ErdS4K { k: string; l: string; a: 0 | 1; d: string }
+
 export interface ErdS4 {
   /** Risk, verbatim from the resolver. */
   r: "high" | "medium" | "low";
@@ -246,6 +250,8 @@ export interface ErdTable {
    *  none. Never a placeholder — null is the honest answer and the UI prints
    *  it as one. */
   s4v: ErdS4 | null;
+  /** Canonical status for the node badge and the inspector (design audit §5). */
+  s4k: ErdS4K;
 }
 
 export interface ErdEdgeOut {

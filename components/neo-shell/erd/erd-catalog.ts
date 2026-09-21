@@ -40,6 +40,8 @@ import {
   OBJECTS,
 } from "@/app/sap-infrastructure/meta";
 import { s4For } from "@/lib/s4";
+import { evidenceBlock, fromBlueprintClass } from "@/lib/evidence";
+import { s4ClassOf } from "@/lib/s4-class";
 import { edges as dictEdges, tableNames } from "./model";
 import {
   MODULE_ORDER,
@@ -48,6 +50,7 @@ import {
   type ErdEdgeOut,
   type ErdModuleOut,
   type ErdS4,
+  type ErdS4K,
   type ErdTable,
   type ModCode,
   type RelKind,
@@ -184,6 +187,15 @@ function s4Standing(name: string, s4?: string, s4alt?: string): ErdS4 | null {
     nt: clean(st.impact.note),
     fl: (st.impact.fields || []).map((f) => clean(f.field)).filter(Boolean),
   };
+}
+
+/** The ONE canonical S/4HANA status (lib/evidence), the same resolver the table
+ *  catalog and the table page render, so a node, a list row and a detail page
+ *  never disagree (design audit §5). Built here so the browser never imports
+ *  the evidence layer. `a` = 1 when an authored overlay record decided it. */
+function s4Canon(name: string, s4?: string, s4alt?: string): ErdS4K {
+  const st = evidenceBlock(`table:${name}`, fromBlueprintClass(s4ClassOf({ s4Note: s4 || "" }), s4alt), { hasHe: false, structural: 0 }, "tables").status;
+  return { k: st.key, l: st.label, a: st.derived ? 0 : 1, d: st.dot };
 }
 
 const kindOf = (card?: string): RelKind => {
@@ -430,6 +442,7 @@ export function erdCatalog(): ErdCatalog {
       pg: pages.has(n) ? 1 : 0,
       r: t.real ? 1 : 0,
       s4v: s4Standing(n, clean(t.s4), clean(t.s4alt)),
+      s4k: s4Canon(n, clean(t.s4), clean(t.s4alt)),
     };
   });
 
