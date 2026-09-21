@@ -306,3 +306,8 @@ html[data-theme="dark"] .nxk-theme-b[data-on="1"] {
   .nxk-theme-now { display: none; }
   .nxk-theme-b { padding-inline: .5rem; }
 }
+
+/* One display menu (design audit §3, 2026-09-22): the bar button names the
+   resolved theme; appearance sits as the first fieldset of the panel. */
+.nxk-b-state { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: .15rem; }
+.nxk-set--theme .nxk-theme { margin: 0; }
