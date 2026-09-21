@@ -24,5 +24,10 @@ export function s4For(name: string, s4note?: string, s4alt?: string): S4Status {
 }
 
 export const TRUST_HE: Record<string, string> = { verified: "מאומת", partial: "חלקי", needs: "נדרש אימות SAP" };
-export const RISK_HE: Record<string, string> = { high: "סיכון גבוה", medium: "סיכון בינוני", low: "יציב", none: "נדרש אימות נוסף" };
+// A RISK word, never a status word. "יציב" used to sit here and was read on
+// the table page as the table's S/4HANA status, next to a different status
+// from the evidence layer (the design audit's AFKO finding). Risk and status
+// are now two vocabularies: this one says how much attention the migration
+// needs, lib/evidence/types.ts S4_STATUS_HE says what happens to the object.
+export const RISK_HE: Record<string, string> = { high: "סיכון גבוה", medium: "סיכון בינוני", low: "סיכון נמוך", none: "ללא הערכת סיכון" };
 export const RISK_COLOR: Record<string, string> = { high: "#dc2626", medium: "#d97706", low: "#16a34a", none: "#94a3b8" };

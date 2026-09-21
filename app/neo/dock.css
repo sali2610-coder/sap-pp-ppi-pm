@@ -208,7 +208,13 @@ html[data-theme="dark"] .nxk-scrim { background: color-mix(in srgb, var(--backgr
 
 /* The dock is fixed, so the canvas has to reserve its height or the last line
    of every page sits underneath it. */
-.nx-app .nx-canvas { padding-block-end: calc(var(--sp-8) + var(--nxk-h)); }
+.nx-app .nx-canvas {
+  padding-block-end: calc(var(--sp-8) + var(--nxk-h));
+  /* Keyboard focus and anchor jumps land above the dock, not under it
+     (WCAG 2.2 focus-not-obscured): the scroller keeps the dock's height clear
+     when it brings an element into view. */
+  scroll-padding-block-end: calc(var(--nxk-h) + var(--sp-6));
+}
 
 /* ============================================================================
    APPEARANCE CONTROL — יום / אוטומטי / לילה

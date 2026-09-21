@@ -79,21 +79,21 @@ const SORTS: { s: Sort; he: string }[] = [
 ];
 
 const CAPS: { id: Cap; he: string }[] = [
-  { id: "s4", he: "מוחלפת ב-S/4HANA" },
+  { id: "s4", he: "הוחלף ב-S/4HANA" },
   { id: "cds", he: "עם תצוגת CDS" },
   { id: "fiori", he: "עם יישום Fiori" },
   { id: "hub", he: "צומת קשרים (6+)" },
   { id: "shared", he: "משותפת לשני המודולים" },
 ];
 
-/** The S/4 disposition of a table, read only from what the blueprint states.
- *  A table whose note is silent gets the honest "לא צוין" rather than a made-up
- *  "no material change". STATUS FORM: a small dot plus its word, never a ring. */
+/** The S/4 status of a table: the canonical status the row was built with in
+ *  tables-data.ts, which is the SAME resolver the table's own page renders in
+ *  its evidence block. This used to be a local reading of the blueprint column
+ *  ("מוחלפת" whenever a replacement table was named), which is how the design
+ *  audit found AFKO marked one way in this list and another way on its page.
+ *  STATUS FORM: a small dot plus its word, never a ring. */
 function s4State(r: NeoTableRow): { he: string; s: string } {
-  if (r.s4Alt) return { he: "מוחלפת", s: "var(--status-in-conversion)" };
-  if (/הוסר|בוטל|removed|obsolete/i.test(r.s4)) return { he: "הוסרה", s: "var(--status-in-analysis)" };
-  if (r.s4) return { he: "נשמרת", s: "var(--status-done)" };
-  return { he: "לא צוין", s: "var(--status-not-started)" };
+  return { he: r.status.label, s: r.status.dot };
 }
 
 const openContext = (name: string) =>

@@ -437,11 +437,11 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         </p>
         <p>
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
-          {" "}אותו שיעור זמין גם במסך הלמידה הקודם,{" "}
+          {" "}הגרסה הקודמת של השיעור, במעטפת ובתפריט הישנים:{" "}
           <Link className="nu-link" href={academyLessonHref(lesson.slug)} prefetch={false}>
-            <span className="nx-sap">{academyLessonHref(lesson.slug)}</span>
+            פתיחה במסך הלמידה הקודם
           </Link>
-          , וההתקדמות משותפת לשני המסכים.
+          . ההתקדמות משותפת לשני המסכים.
         </p>
       </div>
     </div>

@@ -92,22 +92,34 @@
 .nm-rise,
 .nm-fade { will-change: opacity; }
 
-/* --- the modern path: compositor-driven, zero JS ------------------------- */
+/* --- the modern path: compositor-driven, zero JS -------------------------
+   view(0px), never view(): the default inset is `auto`, which borrows the
+   scroll container's scroll-padding. .nx-canvas keeps the dock's height as
+   scroll-padding so keyboard focus lands above it, and with `auto` every
+   reveal timeline was silently shortened by that same 76px, which is exactly
+   how a chat starter card 200px inside the viewport measured 79% opacity. A
+   zero inset ties the timeline to the real edge of the scrollport. */
 @supports (animation-timeline: view()) {
   .nm-rise,
   .nm-fade {
     animation: nm-rise linear both;
-    animation-timeline: view();
-    /* Finish well before the element reaches the middle of the screen. An
-       element still animating while you are reading it is a distraction, not
-       an entrance. */
-    animation-range: entry 2% cover 26%;
+    animation-timeline: view(0px);
+    /* THE RANGE IS A LENGTH, NOT A FRACTION OF THE ELEMENT. The earlier
+       `cover 26%` ended the entrance a quarter of the way through the element's
+       own passage, which for a tall section meant the reader was already inside
+       it while it sat at half opacity: the design audit of 2026-09-14 measured
+       45% on the readiness screen, and this branch measured 31% on the S/4
+       centre and 51% on the cockpit. The entrance now completes once the
+       element's leading edge has travelled a fixed 160px into the scrollport,
+       whatever the element's height, so useful text is fully readable the
+       moment it can be read. */
+    animation-range: entry 0% entry 160px;
   }
   .nm-fade { animation-name: nm-fade; }
 
   /* Once seen, stay seen. Without this an element re-animates on the way back
      up, which turns a considered entrance into a flicker. */
-  .nm-once { animation-range: entry 2% entry 92%; }
+  .nm-once { animation-range: entry 0% entry 160px; }
 }
 
 /* --- the fallback path: observed, then transitioned --------------------- */
@@ -141,13 +153,17 @@
   .nm-seq > .nm-fade { animation-delay: 0ms; }
   /* A scroll timeline has no time axis to delay along, so the sequence is
      expressed as a staggered RANGE instead: each child begins its entrance a
-     little later in its own passage. Same perceived cascade, no timers. */
-  .nm-seq > *:nth-child(1) { animation-range: entry 2%  cover 24%; }
-  .nm-seq > *:nth-child(2) { animation-range: entry 6%  cover 28%; }
-  .nm-seq > *:nth-child(3) { animation-range: entry 10% cover 32%; }
-  .nm-seq > *:nth-child(4) { animation-range: entry 14% cover 36%; }
-  .nm-seq > *:nth-child(5) { animation-range: entry 18% cover 40%; }
-  .nm-seq > *:nth-child(n+6) { animation-range: entry 22% cover 44%; }
+     little later in its own passage. Same perceived cascade, no timers.
+     The stagger moves only the START. Every child finishes at the same 160px,
+     because a sequence of SECTIONS enters the screen one at a time, and a
+     sixth section that finished 100px later than the first was the reason the
+     PM and PP-PI pages still read at 47% after the base range was fixed. */
+  .nm-seq > *:nth-child(1) { animation-range: entry 0px  entry 160px; }
+  .nm-seq > *:nth-child(2) { animation-range: entry 10px entry 160px; }
+  .nm-seq > *:nth-child(3) { animation-range: entry 20px entry 160px; }
+  .nm-seq > *:nth-child(4) { animation-range: entry 30px entry 160px; }
+  .nm-seq > *:nth-child(5) { animation-range: entry 40px entry 160px; }
+  .nm-seq > *:nth-child(n+6) { animation-range: entry 50px entry 160px; }
 }
 
 /* --------------------------------------------------------------------------
@@ -169,7 +185,7 @@
   .nm-par,
   .nm-par-slow {
     animation: nm-par linear both;
-    animation-timeline: view();
+    animation-timeline: view(0px);
     animation-range: cover 0% cover 100%;
     will-change: transform;
   }
@@ -225,12 +241,12 @@
   [data-motion="4"] .nm-kin > span > *,
   [data-motion="3"] .nm-kin > span > * {
     animation: nm-kin-line linear both;
-    animation-timeline: view();
+    animation-timeline: view(0px);
   }
-  .nm-kin > span:nth-child(1) > * { animation-range: entry 4%  cover 22%; }
-  .nm-kin > span:nth-child(2) > * { animation-range: entry 9%  cover 27%; }
-  .nm-kin > span:nth-child(3) > * { animation-range: entry 14% cover 32%; }
-  .nm-kin > span:nth-child(n+4) > * { animation-range: entry 19% cover 37%; }
+  .nm-kin > span:nth-child(1) > * { animation-range: entry 0px  entry 140px; }
+  .nm-kin > span:nth-child(2) > * { animation-range: entry 12px entry 140px; }
+  .nm-kin > span:nth-child(3) > * { animation-range: entry 24px entry 140px; }
+  .nm-kin > span:nth-child(n+4) > * { animation-range: entry 36px entry 140px; }
 }
 @supports not (animation-timeline: view()) {
   [data-motion="4"] .nm-kin > span > *,
@@ -260,8 +276,8 @@
 @supports (animation-timeline: view()) {
   .nm-grow {
     animation: nm-grow linear both;
-    animation-timeline: view();
-    animation-range: entry 10% cover 34%;
+    animation-timeline: view(0px);
+    animation-range: entry 0px entry 200px;
   }
 }
 @supports not (animation-timeline: view()) {

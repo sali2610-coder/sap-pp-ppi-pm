@@ -305,7 +305,15 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       >
         <div className="nxb-stand" data-risk={t.s4.risk} data-impact={t.s4.impacted ? "1" : "0"}>
           <p className="nxb-stand-h">
-            <span className="nu-status" style={{ "--s": RISK_COLOR[t.s4.risk] } as React.CSSProperties}>
+            {/* ONE status vocabulary. The pill is the canonical S/4HANA status
+                from lib/evidence, the same key the evidence block below, the
+                tables catalog rows and the search results render. The risk
+                word follows it as a plain chip: risk says how much attention
+                the migration needs, it is not what happens to the table. */}
+            <span className="nu-status" style={{ "--s": t.evidence.status.dot } as React.CSSProperties}>
+              {t.evidence.status.label}
+            </span>
+            <span className="nu-chip" style={{ color: RISK_COLOR[t.s4.risk] }}>
               {t.s4.riskHe}
             </span>
             {t.s4.note ? <span className="nu-chip is-sap">{t.s4.note}</span> : null}

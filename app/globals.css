@@ -1348,6 +1348,15 @@ html[data-device="phone"] .nx-app .nx-main { grid-column: 1 / -1; grid-template-
   overflow: auto; overscroll-behavior: contain; min-block-size: 0;
   padding: var(--sp-6);
   display: grid; align-content: start; gap: var(--sp-5);
+  /* The one content column may never be wider than the canvas. A grid track
+     defaults to `auto`, whose minimum is the min-content of what sits in it, so
+     a page whose section strip carried seven chips resolved the track to
+     1,243px inside a 1,083px canvas and the whole scene scrolled sideways (the
+     design audit measured 1,296 against 1,073 on the migration cockpit).
+     minmax(0, 1fr) makes the track shrink with the canvas; anything wider than
+     that then scrolls inside its own box, never the page. */
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
   transition: opacity var(--dur-base) var(--ease-out-expo);
 }
 .nx-app[data-searching="1"] .nx-canvas { opacity: .38; }

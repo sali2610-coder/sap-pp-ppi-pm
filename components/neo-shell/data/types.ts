@@ -53,6 +53,12 @@ export interface NeoTableRow {
   s4Tcode: string;
   /** SUM conversion note (PM blueprint only), or "". */
   sum: string;
+  /** The canonical S/4HANA status from lib/evidence: the SAME resolver the
+   *  table's detail page renders in its evidence block, so a catalog row and
+   *  its page can never disagree about one table (the design audit's AFKO
+   *  finding). `derived` is true when no authored overlay record exists and
+   *  the status comes from the blueprint column. */
+  status: { key: string; label: string; dot: string; derived: boolean };
   /** The table's own detail page — /neo/tables/<NAME>/ — or null when
    *  app/neo/tables/[name] does not generate one for this row.
    *
