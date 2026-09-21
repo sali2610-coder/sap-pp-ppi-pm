@@ -21,11 +21,20 @@
    repository contradicts itself about whether the name exists at all, and that
    contradiction is written as conflictingEvidence, not only as a note. None
    claims a successor; none carries a SAP Note or KBA number. 0 refuted.
+   Functions batch 5 (2026-09-21, written 2026-09-22): 4 more audited records -
+   the remaining maintenance-notification BAPIs (BAPI_ALM_NOTIF_SAVE,
+   BAPI_ALM_NOTIF_LIST_FILTER, BAPI_ALM_NOTIF_TASK_ADD) and
+   BAPI_ALM_ORDERHEAD_GET_LIST. Two carry released_api_available on a documented
+   OData alternative (SAVE, ORDERHEAD_GET_LIST); LIST_FILTER and TASK_ADD stay
+   verification_required at conflicting_sources because the repository
+   contradicts itself about whether the name exists at all (the measurement-id
+   treatment). One KBA number is carried (3379615 on SAVE, read from its public
+   preview, cited by its me.sap.com/notes url). None claims a successor. 0 refuted.
    Tier-1 evidence comes from
    help.sap.com search records (scripts/sap-help-search.mjs; loio + versionId
    re-verified live), from the fully-read Simplification List PDF, from the
    fully-read ECC 6.0 EHP3 Release Notes PDF and from
-   two fully-read SAP Library/NetWeaver pages; api.sap.com is cited only by
+   three fully-read static NetWeaver documentation pages (help.sap.com/doc/saphelp_*); api.sap.com is cited only by
    the title a domain-restricted search returned; Tier-2 is the named
    repository record. Every claim is bounded by the snippet, the fully-read
    page or the named repository record; negative findings are search-bounded,
@@ -310,6 +319,62 @@ const BATCH_OPS_API: Evidence = {
          "change operations'. קיימות אפוא שתי פעולות קריאה רשמיות לנתוני אצווה בשיטת GET תחת השירות API_BATCH_SRV. " +
          "סניפט שורת ה-Retrieve נחתך אחרי BatchIdentifyingPlant, ולכן מבנה המפתח המלא אינו נטען כאן; רשימת הפעולות " +
          "המלאה, הפרמטרים ומבנה התשובה אינם מופיעים בתקציר.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_ALM_NOTIF_SAVE: the Maintenance Notification API operations page, bounded to its create/read/update rows (also its status source). */
+const MAINTNOTIF_OPS_CRUD: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE21,
+  claim: "בחוברת 'APIs for Maintenance Management' לגרסת S/4HANA On-Premise 2025 FPS01: 'The " +
+         "API_MAINTNOTIFICATION API offers these operations', ובהן Read Maintenance Notification (GET), Create " +
+         "Maintenance Notification (POST) ו-Update Maintenance Notification (PATCH) תחת נתיב השירות " +
+         "‎/sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintenanceNotification, וכן שימוש ב-ETags (כלשון הסניפט). " +
+         "זו חלופת OData רשמית לרצף יצירה ושמירה של הודעת תחזוקת מפעל; העמוד אינו נוקב בשם ה-BAPI, ושלב שמירה " +
+         "נפרד אינו מופיע בחלון הסניפט.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_ALM_ORDERHEAD_GET_LIST: the Read All Maintenance Orders (Version 2) operation page (also its status source). */
+const ALM_ORDER_READ_ALL_V2: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Read All Maintenance Orders (Version 2) | APIs for Maintenance Management",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/50ded8443fd649b0bb3fa841da1e5eb6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE21,
+  claim: "רשומת 'Read All Maintenance Orders (Version 2)' במדריך APIs for Maintenance Management למהדורת " +
+         "On-Premise 2025 FPS01 קובעת, כלשון התקציר: 'With this operation, you use the HTTP method GET to " +
+         "retrieve a list of all maintenance orders. You can use filters to limit the list results. ... " +
+         "Response The operation returns the success status code 200 OK with the header details of all " +
+         "maintenance orders that correspond to your filter settings.' באותו מדריך ובאותה מהדורה, רשומת " +
+         "'Operations for Maintenance Order (Entity) - Version 2' (loio a77ab811acd34f38a715f8093eb68ead) מונה " +
+         "'Read All Maintenance Orders (Version 2) GET' לצד 'Read Maintenance Order Header (Version 2) GET " +
+         "<host>/sap/opu/odata/sap/API_MAINTENANCEORDER;v=2/MaintenanceOrder('4012109')'; כתובת הדוגמה של " +
+         "פעולת Read All עצמה נקטעת בתקציר ואינה נרשמת. רשומת השירות 'Maintenance Order (Version 2)' (loio " +
+         "c1457e0e539740a29932fbdcf36fea3c, 2025.001) פותחת ב-'This service enables you to create, read, " +
+         "update and delete maintenance order data in an API call', מציגה את הישות 'Maintenance Order " +
+         "(MaintenanceOrder) Allows to read the maintenance order header data' ונושאת בתקציר את השם " +
+         "API_MAINTENANCEORDER_0002; אותו שם מופיע ב-What's New 2025 FPS01 (loio " +
+         "5bde6113f9fd41afba2740a652612498; בקובץ WN_OP2025_FPS01_EN.pdf עמ' 37, סעיף 3.1.5 'OData API: " +
+         "Maintenance Order'). היסטוריית השירות לפי רשומות What's New: 2021 (loio " +
+         "be4e2d6267d844a89f99119c1d5215ef): 'The OData API Maintenance Order - Read (API_MAINTENANCEORDER) is " +
+         "a synchronous inbound service that allows you to read header, operation, component, object list " +
+         "item, and operation relationship data of maintenance orders'; 2022 (loio " +
+         "600107c46bea4b0fbb32575531821dce): 'Up to now, you could only use the OData API to read maintenance " +
+         "order data' ו-'the API has been renamed from Maintenance Order - Read to Maintenance Order'. רשומת " +
+         "'Maintenance Order (Deprecated)' (loio d3f02cfccf00407ab9776ea2ec2030d3, 2025.001) קובעת: 'We " +
+         "recommend that you switch to the following successor API as soon as possible: Maintenance Order " +
+         "(Version 2) (API_MaintenanceOrder_002)'; הצהרת יורש זו נוגעת לגרסה 1 מול גרסה 2 של שירות ה-OData, לא " +
+         "ל-BAPI. אף אחת מהרשומות אינה נוקבת בשם BAPI_ALM_ORDERHEAD_GET_LIST.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -5890,5 +5955,736 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "שנמדד לפני הרשומה: הסטטוס הנגזר מ-lib/bapi-registry הוא 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני " +
       "הפרויקט', בעומק L3. עם הרשומה הזו הסטטוס הופך ל'קיים API משוחרר' ברמת 'מאומת מול תיעוד SAP רשמי' ועומק " +
       "הרשומה עולה ל-L5. ספירות הכיסוי ברמת הקטלוג נמדדות למנה כולה ולא לרשומה בודדת, ולכן אינן נרשמות כאן.",
+  },
+
+  /* ------------------------------ fm:BAPI_ALM_NOTIF_LIST_FILTER */
+  {
+    id: "fm:BAPI_ALM_NOTIF_LIST_FILTER",
+    aliases: ["BAPI_ALM_NOTIF_LIST_FILTER"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד 'Operations for Maintenance Notifications' במדריך APIs for Maintenance Management למהדורת " +
+               "On-Premise‏ 2025 FPS01 קובע בתקצירו: 'The API_MAINTNOTIFICATION API offers these operations: " +
+               "Operation HTTP Method Sample URL Read Maintenance Notification GET', ומציג שתי דוגמאות GET: על סט " +
+               "הישויות ‎<host>/sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintenanceNotification ועל מפתח בודד " +
+               "‎.../MaintenanceNotification(MaintenanceNotification='10101798'), לצד Create Maintenance " +
+               "Notification‏ (POST) ו-Update Maintenance Notification‏ (PATCH). זהו ערוץ OData מתועד לקריאת הודעות " +
+               "תחזוקת מפעל ב-S/4HANA. התקציר אינו מציג פרמטרי $filter או קריטריוני סינון, אינו נוקב בשם " +
+               "BAPI_ALM_NOTIF_LIST_FILTER ואינו מציג את השירות כמחליף של מודול פונקציה כלשהו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Notification | APIs for Maintenance Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/f430cbb1950c4880810e27a8308db301.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE21,
+        claim: "עמוד השירות 'Maintenance Notification' באותו מדריך, בגרסה שהחיפוש מחזיר עבורה versionId‏ " +
+               "2023.latest, מונה בתקצירו את פונקציות השירות כלשונן: 'Create maintenance notification data Read " +
+               "maintenance notification data Update maintenance notification data Mass create, read and update of " +
+               "maintenance notification data', וקובע: 'This service enables you to create, read, and update data " +
+               "related to maintenance notification. The data is provided in the payload, in an API call'. רשומת " +
+               "What's New לגרסת 2021 ‏(loio 2fb95f8272f343e68f4bf384f1d2bfcb, ‏versionId‏ 2021.000) מתעדת את ה-API " +
+               "כחדש: 'The Maintenance Notification API enables you to create, read, and update data related to " +
+               "maintenance notifications', ורשומת What's New לגרסת 2025 FPS01 ‏(loio " +
+               "fd9c0988b37243f0a030624c3b43bcc8, ‏2025.001) רושמת 'Object Name API: API_MAINTNOTIFICATION', " +
+               "‏'Application Component PM-WOC-MN (Maintenance Notification)' ו-'Availability SAP S/4HANA Cloud " +
+               "Private Edition and SAP S/4HANA'. אף אחד מהתקצירים אינו נוקב בשם ה-BAPI ואינו מפרט קריטריוני סינון " +
+               "לקריאה מרובה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Find Maintenance Notification | Maintenance Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/e994a057b4010322e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד האפליקציה 'Find Maintenance Notification' במדריך Maintenance Management למהדורת 2025 FPS01 קובע " +
+               "בתקצירו: 'With this app, you can list the maintenance notifications in your system and find the one " +
+               "you need', ומונה בין הפעולות 'Export the search result tables into a spreadsheet file', ‏'Assign a " +
+               "maintenance notification or several notifications to an existing maintenance order' ו-'Display the " +
+               "change log of the maintenance notification'. רשומת What's New לגרסת 2022 ‏(loio " +
+               "9af70b1f8d894091a637d2c7ddbcb3a1, ‏2022.000) מוסיפה: 'In the Find Maintenance Notification app, you " +
+               "can now filter maintenance notifications by an equipment or a functional location', ורשומת 'Deletion " +
+               "of Manage Notification List App' לגרסת 2023 FPS01 ‏(loio b34107a2f922449b908eb9e44cd3c610, " +
+               "‏2023.001) נוקבת במזהה האפליקציה: 'You can use the following successor app which is available on the " +
+               "SAP Fiori launchpad: Find Maintenance Notification (F2071)'. זו חלופת משתמש מתועדת לרשימת הודעות " +
+               "מסוננת; אף אחד מהתקצירים אינו נוקב בשם ה-BAPI, וההחלפה המתועדת היא של אפליקציית Fiori קודמת, לא של " +
+               "מודול פונקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "שלוש שכבות מאגר סותרות לאותו שם: תיקוני קטלוג ה-BAPI מול קטלוג הפונקציות ומול הבלופרינט המחולל",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "‏data/bapi-enrichment.pm.ts מסמן לשם זה verificationStatus‏ 'invalid-name' ב-confidence‏ 'high', " +
+               "בנוסח 'אינו FM סטנדרטי. משפחת ה-LIST מפוצלת לפי קריטריון: LIST_EQUI · LIST_FUNCLOC · LIST_PARTNER · " +
+               "LIST_PLANGROUP · LIST_SORTFIELD', ובהערת ה-QA 'אימות: אין וריאנט FILTER גנרי. אין לפרסם כשם תקין'; " +
+               "מקור האימות הרשום שם הוא מחרוזת ללא קישור ('SAP Help (BUS2038 · S/4HANA On-Premise) + SE37 metadata " +
+               "(fn group IWOPM) · SAP KBA 1923267'), ושמות המשפחה החלופיים שהוא מציע אינם מזהים ביקום הרשומות ולא " +
+               "נמצאו באף רשומת SAP Help. מנגד data/function-intel.ts רושם לאותו שם רשומה מלאה שאינה מסומנת " +
+               "inferred: 'שליפת רשימת הודעות אחזקה לפי קריטריוני סינון (סוג, מצב, אובייקט, תאריכים)', קלט 'Filter " +
+               "(type/status/dates/object)', טבלת פלט NOTIFICATIONS, ‏'זמין ב-ECC', ‏'זמין ב-S/4HANA; חלופה: Fiori " +
+               "\"Find Maintenance Notifications\" / OData', טרנזקציות IW28 ו-IW29 וטבלת QMEL, בלי מקור. מקור הרישום " +
+               "הוא הדאטהסט המחולל של בלופרינט PM: נושא 12 'היסטוריה וארכיון', שורת QMEL ('הודעות (כולל היסטוריות) " +
+               "לניתוח אמינות', טרנזקציות 'IW64; IW66/IW67'), מונה את השם במערך funcs בתווית 'סינון הודעות לפי " +
+               "קריטריון'; data/transactions.ts (IW28) ו-data/domain-detail.ts (pm-notifications) חוזרים על השם. " +
+               "audit/s4-enrichment/baseline-inventories.json רושם את הסתירה בין function-intel לרישום על 13 מזהי " +
+               "invalid-name, וזה אחד מהם. אף שכבה אינה נסמכת על עמוד SAP רשמי.",
+        verificationLevel: "conflicting_sources",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_ALM_NOTIF_LIST_FILTER; " +
+                 "data/function-intel.ts#BAPI_ALM_NOTIF_LIST_FILTER; data/sapData.pm.ts#PM:QMEL (topic 12, funcs); " +
+                 "data/transactions.ts#IW28; data/domain-detail.ts#pm-notifications",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: "מודול הפונקציה רשום בקטלוג הפרויקט כשליפת רשימת הודעות תחזוקת מפעל לפי קריטריוני סינון (סוג, מצב, " +
+          "אובייקט, תאריכים), בזיקה ל-IW28/IW29 ולטבלת QMEL, אך שם האובייקט עצמו לא אושר באף מקור SAP רשמי " +
+          "שנבדק: שאילתות חוזרות בשירות החיפוש של SAP Help (סקופ On-Premise וסקופ SAP ERP, ‏2026-09-21) לא " +
+          "החזירו כותרת או תקציר הנוקבים בו, גם לא בשמות המשפחה החלופיים שרשומת המאגר מציעה, וחיפוש רשת מוגבל " +
+          "ל-help.sap.com ול-api.sap.com לא העלה אותו. בתוך המאגר שתי רשומות סותרות זו את זו בשאלת עצם קיום השם " +
+          "(invalid-name מול רשומת intel מלאה). התיעוד הרשמי לגרסת 2025 FPS01 מתעד ערוצים אחרים לקריאת רשימת " +
+          "הודעות: שירות ה-OData‏ API_MAINTNOTIFICATION עם פעולת Read Maintenance Notification‏ (GET) על סט " +
+          "הישויות MaintenanceNotification, ואפליקציית Fiori‏ Find Maintenance Notification‏ (F2071) המציגה " +
+          "רשימת הודעות ומסננת, מגרסת 2022, גם לפי ציוד או מיקום פונקציונלי. הסטטוס נשאר פתוח עד בדיקה ב-SE37 " +
+          "או ב-BAPI Explorer במערכת היעד.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לפני שימוש בשם זה בקוד Z, בממשק או במסמך אפיון: לבדוק ב-SE37 או ב-BAPI Explorer (שיטות האובייקט " +
+        "BUS2038) במערכת ECC וב-S/4HANA אם BAPI_ALM_NOTIF_LIST_FILTER קיים כאובייקט סטנדרטי. אם אינו קיים, " +
+        "לתקן את ההפניה בבלופרינט PM (המקור של data/sapData.pm.ts המחולל), ב-data/function-intel.ts, " +
+        "ב-data/transactions.ts (IW28) וב-data/domain-detail.ts; אם קיים, להסיר את סימון invalid-name " +
+        "ב-data/bapi-enrichment.pm.ts ולתעד את הפרמטרים שנמדדו. לשליפה מסוננת של הודעות בממשק חדש להעדיף את " +
+        "שירות ה-OData‏ API_MAINTNOTIFICATION‏ (GET על סט הישויות MaintenanceNotification), ולאמת את אפשרויות " +
+        "הסינון מול המטא-דאטה של השירות ב-Business Accelerator Hub או במערכת חיה, שכן התקציר הרשמי אינו מציג " +
+        "אותן; בתרחישי דיווח לבחון גם את תצוגת ה-CDS‏ I_MaintenanceNotification (רשומה נפרדת בקטלוג). " +
+        "למשתמשים: Find Maintenance Notification‏ (F2071) או IW28/IW29. לאימות תפקודי להשוות את התוצאה מול " +
+        "IW28 ומול QMEL. אין להציג את השם כממשק משוחרר כל עוד לא נמצא לו מקור רשמי או בדיקה במערכת.",
+    },
+    xrefs: [
+      "table:QMEL",
+      "table:QMFE",
+      "tx:IW28",
+      "tx:IW29",
+      "tx:IW64",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:BAPI_ALM_NOTIF_CREATE",
+      "cds:I_MaintenanceNotification",
+      "cds:I_MaintNotificationItem",
+      "fiori:F4604",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "שיטה (2026-09-21): שאילתות ב-scripts/sap-help-search.mjs תחת המוצר SAP_S4HANA_ON-PREMISE על השם " +
+      "המדויק, על הקידומת BAPI_ALM_NOTIF_LIST, על השם החלופי BAPI_ALM_NOTIF_LIST_EQUI, על ה-OData API " +
+      "להודעות תחזוקה, על אפליקציית Find Maintenance Notification, על IW28/IW29 ועל האובייקט BUS2038, " +
+      "ושאילתות נוספות תחת המוצר SAP_ERP על השם המדויק ועל שיטות ה-BAPI של הודעות תחזוקה; בתוספת חיפוש רשת " +
+      "מוגבל ל-help.sap.com, ‏api.sap.com, ‏fioriappslibrary ו-fal.cloud.sap. ה-url, ה-loio וה-versionId של " +
+      "הראיות הרשמיות הועתקו כלשונם מפלט ה-JSON. גופי עמודי help.sap.com הם מעטפת JavaScript ולא נקראו " +
+      "(ניסיון WebFetch על עמוד Operations for Maintenance Notifications החזיר כותרת בלבד), ולכן כל טענה " +
+      "תחומה בכותרת ובתקציר של רשומת החיפוש. (1) הממצא השלילי על השם תחום לשאילתות ואינו הוכחת היעדר: שירות " +
+      "החיפוש אינו מתעד כל מודול פונקציה בשמו, ובדיקת SE37 במערכת חיה לא בוצעה (חיבור ה-MCP‏ sc4sap נכשל " +
+      "בפתיחת ההפעלה). השאילתה על השם המדויק החזירה בסקופ On-Premise ארבע עד חמש רשומות ובסקופ SAP ERP " +
+      "חמש-עשרה עד שמונה-עשרה (בשתי הרצות, 2026-09-21 ו-2026-09-22), כולן ממדריכים כלליים על BAPI או " +
+      "ממדריכים שאינם קשורים, כולן ללא תקציר; שאילתת הקידומת LIST ושאילתת LIST_EQUI החזירו רשומות כלליות " +
+      "בלבד; הרכב התוצאות משתנה בין הרצות ולכן אינו נרשם כרשימה סגורה. חיפוש הרשת המוגבל על השם המדויק " +
+      "החזיר עמודי מבוא כלליים ל-BAPI ואת העמוד 'List of BAPI's' ב-SUPPORT_CONTENT של help.sap.com, שגופו " +
+      "לא נקרא (מעטפת). (2) הסטטוס הנגזר שהאפליקציה מציגה היום, כפי שנמדד בהרצת fromFuncRegistry " +
+      "ב-2026-09-21 עם ערכי הרישום (verificationStatus‏ 'invalid-name' מתיקוני PM_ENRICHMENT, " +
+      "‏s4OnPremSupport‏ 'unknown' מהרשומה הנגזרת, שכן רשומת התיקון אינה קובעת שדות תמיכה): 'לא רלוונטי' " +
+      "ברמת 'מאומת מול נתוני הפרויקט', עם הנימוק 'לפי רישום אובייקטי הפונקציה של הפרויקט: השם אינו אובייקט " +
+      "SAP תקני; תמיכה ב-S/4HANA On-Premise: לא צוין' וההמלצה 'השם אינו אובייקט SAP תקני; לתקן את ההפניה " +
+      "במאגר'. רשומה זו מחליפה את התצוגה ב'נדרש אימות נוסף' ברמת 'מקורות סותרים', באותו דפוס שבו נכתבו " +
+      "BAPI_MEASUREMENTPOINT_CREATE ו-BAPI_MEASUREMENTDOCUM_CREATE: 'לא רלוונטי' ברמת מאגר מאומת הוא פסק " +
+      "דין חזק מדי לשם שהמאגר עצמו סותר את עצמו לגביו ושאין עליו מקור רשמי. (3) מדוע לא " +
+      "released_api_available כמו ברשומות האחיות BAPI_ALM_NOTIF_CREATE ו-BAPI_ALM_NOTIF_GET_DETAIL: שם " +
+      "ה-BAPI עצמו שנוי במחלוקת במאגר, וסטטוס 'קיים API משוחרר' היה מציג שם שאולי אינו קיים כאובייקט תקין " +
+      "עם חלופה; הראיות הרשמיות מאמתות את ערוצי הקריאה הקיימים בגרסה 2025 FPS01, לא את נושא הרשומה. (4) אין " +
+      "successor: אף מקור רשמי אינו מציג אובייקט כלשהו כיורש של השם; ה-OData API הוא חלופה מתועדת ולא טענת " +
+      "החלפה; ההחלפה היחידה המתועדת (Manage Notification List אל F2071) היא בין אפליקציות Fiori; F2071 אינה " +
+      "קיימת ב-data/fiori/apps.ts ולכן לא נרשם לה xref, ו-fiori:F4604 ‏(Manage Maintenance Notifications " +
+      "and Orders) נרשם כ-xref בלבד. שמות המשפחה החלופיים שרשומת bapi-enrichment מציעה (LIST_EQUI, " +
+      "‏LIST_FUNCLOC, ‏LIST_PARTNER, ‏LIST_PLANGROUP, ‏LIST_SORTFIELD) אינם מזהים ביקום הרשומות, לא נמצאו " +
+      "באף רשומת SAP Help ואינם נטענים כאן כשמות תקינים. (5) מקורות רשמיים נוספים שנראו ולא נכתבו כראיה: " +
+      "'Linear Data in Reports' במדריך Maintenance Management לגרסת 2025 FPS01 ‏(loio " +
+      "2807244d6b50403682bfb72dce26e428), שתקצירו מונה 'IW28, IW29, IW58, IW59' מיד לפני 'Notification " +
+      "(Multilevel) IW30' בטבלת טרנזקציות הדוחות, כלומר בין דוחות רשימת ההודעות (תווית השורה שלפני IW28 " +
+      "אינה נראית בתקציר); 'Selection of Notifications' במדריך Notifications (CS-CM-SN/PM-WOC-MN) לאותה " +
+      "גרסה ‏(loio c485c1536ca9b54ce10000000a174cb4): 'You can display the notifications in either a single " +
+      "or multi-level list'; 'Extensibility: Maintenance Notification API' ‏(loio " +
+      "211d0924bec64fdc89388d4aa82e66ca, ‏2025.001): 'you can extend the OData Service " +
+      "API_MAINTNOTIFICATION'; ובהקשר ECC בלבד, רשומת What's New ל-EHP8 ‏(SAP_ERP, ‏6.18.latest, ‏loio " +
+      "6b5b1cb694a64bc1886f179b625229d0) 'Maintenance Notification: New Fields in Mass Change', שתקצירה " +
+      "נוקב ב-'Notification BAPIs (IWON_NOTIFICATION)' וב-'list in the SAP GUI transaction IW28'; ה-BAdI‏ " +
+      "IWON_NOTIFICATION אינו קיים ב-data/exits.ts או ב-data/enhancements.ts ולכן אינו xref. (6) מספר " +
+      "ה-KBA‏ 1923267 מופיע רק במחרוזת המקור של רשומת bapi-enrichment, לא אומת ולא נרשם כשדה sapNote/kba. " +
+      "(7) סטייה בשם במאגר: function-intel כותב 'Find Maintenance Notifications' (רבים) בעוד כותרת " +
+      "האפליקציה הרשמית היא 'Find Maintenance Notification' ‏(F2071); הכותרת ברבים קיימת רשמית רק לווריאנט " +
+      "Defense & Security ‏(F4633, ‏loio 7d118fa07a2248c2afb2747625734639). (8) מה שנשאר פתוח: קיום השם " +
+      "ב-SE37, קבוצת הפונקציות שלו, סטטוס השחרור שלו ופרמטריו (הקלט 'Filter (type/status/dates/object)' " +
+      "וטבלת הפלט NOTIFICATIONS שרשומת function-intel נוקבת בהם אינם מופיעים באף מקור רשמי ואינם נטענים " +
+      "כאן); אפשרויות ה-$filter של ה-OData API; מהדורות Cloud לא נבדקו ברשומה זו.",
+  },
+
+  /* ------------------------------------- fm:BAPI_ALM_NOTIF_SAVE */
+  {
+    id: "fm:BAPI_ALM_NOTIF_SAVE",
+    aliases: ["BAPI_ALM_NOTIF_SAVE"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance notification | Data Migration",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/c03f981dd76f4fc7a241f17adc80758b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "אובייקט ההגירה 'PM - Maintenance notification' בחוברת Data Migration לגרסת S/4HANA On-Premise 2025 " +
+               "FPS01 נוקב ב-BAPI_ALM_NOTIF_SAVE בשמו, לצד BAPI_ALM_NOTIF_CREATE, תחת 'APIs/BAPIs' של מודול הפונקציה " +
+               "הייעודי להגירה CNV_PE_S4_PM_NOTIF_CREATE ('Function Module: CNV_PE_S4_PM_NOTIF_CREATE APIs/BAPIs " +
+               "BAPI_ALM_NOTIF_CREATE BAPI_ALM_NOTIF_SAVE', כלשון הסניפט). חלונות סניפט נוספים של אותו עמוד (loio " +
+               "c03f981dd76f4fc7a241f17adc80758b): 'This migration technique transfers data to the target system " +
+               "using Application Programming Interfaces (APIs)', 'Create Maintenance Notification Creates the " +
+               "maintenance notification in' ו-'Out of Scope Status handling Addresses Change documents Reference " +
+               "objects Measurement documents Long texts for DIR object links'. אותו loio מופיע גם בחוברת 'Migration " +
+               "Objects for SAP S/4HANA' לגרסת 2021 FPS02 (versionId 2021.002) עם סניפט זהה. הסניפט מונה את שמות " +
+               "ה-BAPI בלבד ואינו מתאר פרמטרים או סטטוס שחרור.",
+        verificationLevel: "sap_official_verified",
+      },
+      MAINTNOTIF_OPS_CRUD,
+      {
+        sourceType: "kba",
+        sourceTitle: "3379615 - BAPI_ALM_NOTIF_SAVE doesn't return notification number",
+        url: "https://me.sap.com/notes/3379615",
+        kba: "3379615",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "סעיף ה-Symptom בתצוגה המקדימה הפומבית של ה-KBA (userapps.support.sap.com, ללא התחברות) קובע: 'When " +
+               "you use the Notification BAPI \"BAPI_ALM_NOTIF_CREATE\" to create a notification, BAPI_ALM_NOTIF_SAVE " +
+               "and BAPI_TRANSACTION_COMMIT are called as suggested. However, you failed to find out which " +
+               "notification number was created.' סעיף Environment מונה 'SAP S/4HANA, on-premise' ו-'SAP S/4HANA " +
+               "Cloud Private Edition' לצד SAP ERP, ECC ו-R/3, רשימת המוצרים כוללת 'SAP S/4HANA all versions', " +
+               "ומילות המפתח: 'KBA, PM-WOC-MN, Maintenance Notifications, How To'. סעיפי הסיבה והפתרון דורשים " +
+               "התחברות S-user ולא נקראו.",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של הפרויקט (PM enrichment), רשומת קטלוג הפונקציות, דאטהסט הבלופרינט ופרקטיקת " +
+                     "משמעת ה-COMMIT",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת המאגר מתארת את BAPI_ALM_NOTIF_SAVE כשמירת ההודעה למסד הנתונים והקצאת המספר הסופי: אובייקט BOR‏ " +
+               "BUS2038, פרמטרים 'IMP NUMBER · TOGETHER_WITH_ORDER · EXP NOTIFHEADER · TAB RETURN', סטטוס 'Released " +
+               "· RFC · created 4.6 (110)', requiresCommit: yes, תמיכה ב-ECC וב-S/4HANA On-Premise: yes, Public " +
+               "Cloud: unknown, verified-docs מ-2026-07-14, ורצף הכתיבה CREATE, אחר כך DATA_ADD / DATA_MODIFY / " +
+               "DATA_DELETE, אחר כך PUTINPROGRESS / CHANGEUSRSTAT / CLOSE, אחר כך SAVE ולבסוף " +
+               "BAPI_TRANSACTION_COMMIT. רשומת הקטלוג (function-intel) רושמת קלט NUMBER (מספר זמני) ופלט NOTIFHEADER " +
+               "(מספר סופי) עם 'חובה אחריו BAPI_TRANSACTION_COMMIT', והבלופרינט רושם את ה-BAPI תחת QMEL כ'שמירת " +
+               "ההודעה'. פרקטיקת bapi-commit-discipline קובעת שהמספר הסופי של ההודעה נוצר רק ב-SAVE.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_ALM_NOTIF_SAVE; data/function-intel.ts#BAPI_ALM_NOTIF_SAVE; " +
+                 "data/sapData.pm.ts#QMEL; data/best-practices/pm.ts#bapi-commit-discipline",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "ה-BAPI לשמירת הודעת תחזוקת מפעל והקצאת המספר הסופי נקוב בשמו ב-S/4HANA On-Premise 2025 FPS01 תחת " +
+          "'APIs/BAPIs' של אובייקט ההגירה 'PM - Maintenance notification', יחד עם BAPI_ALM_NOTIF_CREATE, לצד " +
+          "מודול הפונקציה הייעודי להגירה CNV_PE_S4_PM_NOTIF_CREATE (כלשון הסניפט). קיימת חלופת API רשמית " +
+          "משוחררת: OData‏ API_MAINTNOTIFICATION עם פעולות יצירה (POST), קריאה (GET) ועדכון (PATCH) המתועדות " +
+          "ל-2025 FPS01; שלב שמירה נפרד אינו מופיע בסניפט הפעולות, ולכן הרצף CREATE, SAVE, COMMIT הוא מאפיין של " +
+          "ממשק ה-BAPI (לפי נתוני המאגר ולפי סעיף ה-Symptom של KBA 3379615). לא אותר תיעוד רשמי על הוצאה משימוש " +
+          "או החלפה של ה-BAPI, ולכן אין יורש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MAINTNOTIF_OPS_CRUD,
+      recommendedAction:
+        "באינטגרציות RFC קיימות לשמור על הרצף: BAPI_ALM_NOTIF_CREATE (ולפי הצורך DATA_ADD או DATA_MODIFY), " +
+        "אחר כך BAPI_ALM_NOTIF_SAVE עם המספר הזמני שהוחזר, בדיקת טבלת RETURN, ואז BAPI_TRANSACTION_COMMIT " +
+        "(WAIT='X' כשקוראים את ההודעה מיד) על אותו חיבור RFC; לקרוא את המספר הסופי מהפרמטר NOTIFHEADER המוחזר " +
+        "מ-SAVE, ואם אינו מוחזר לפנות ל-KBA 3379615 (דורש S-user). לאמת ב-SE37 במערכת היעד את הפרמטר " +
+        "TOGETHER_WITH_ORDER ואת סטטוס השחרור. לאינטגרציות חדשות להעדיף את OData‏ API_MAINTNOTIFICATION (POST " +
+        "/ PATCH) ולאמת ישויות ופרמטרים מול ה-Business Accelerator Hub (דורש מפתח API) או מול מערכת חיה.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_NOTIF_CREATE",
+      "fm:BAPI_ALM_NOTIF_DATA_ADD",
+      "fm:BAPI_ALM_NOTIF_DATA_MODIFY",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:BAPI_ALM_NOTIF_CLOSE",
+      "fm:BAPI_ALM_NOTIF_PUTINPROGRESS",
+      "fm:BAPI_ALM_NOTIF_CHANGEUSRSTAT",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "fm:BAPI_TRANSACTION_ROLLBACK",
+      "tx:IW21",
+      "tx:IW22",
+      "tx:IW23",
+      "table:QMEL",
+      "table:QMFE",
+      "cds:I_MaintenanceNotification",
+      "fiori:F1511",
+      "fiori:F4604",
+      "enh:badi:NOTIF_EVENT_SAVE",
+      "enh:exit:QQMA0001",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "מה שאומת: שם ה-BAPI בעמוד רשמי אחד בשירות החיפוש של help.sap.com (Data Migration, אובייקט 'PM - " +
+      "Maintenance notification', loio c03f981dd76f4fc7a241f17adc80758b, 2025.001), שאותר גם בגרסת 2021 " +
+      "FPS02 (חוברת 'Migration Objects for SAP S/4HANA', versionId 2021.002) עם סניפט זהה; שאילתת אותו שם " +
+      "עם version=2020.latest, 2022.latest ו-2023.latest החזירה 0 רשומות (ממצא תחום-חיפוש, לא היעדר). " +
+      "שאילתת השם במוצר SAP_ERP החזירה 7 עמודי BAPI כלליים ללא סניפט (ספירה מיום הביקורת 2026-09-21; המדד " +
+      "משתנה) ואף אחד מהם אינו נוקב בשם; במוצר SAP_S4HANA_CLOUD: 0 רשומות, ולכן זמינות ב-Public Cloud לא " +
+      "מאומתת (cloudSupport: unknown גם במאגר). גופי העמודים ב-help.sap.com הם מעטפת JavaScript (1160 בתים " +
+      "ב-curl) ולא נקראו; כל טענה תחומה בכותרת ובסניפט. ה-KBA‏ 3379615 נקרא מדף התצוגה המקדימה הפומבי " +
+      "(userapps.support.sap.com, ללא התחברות): כותרת, Symptom, Environment, Product ו-Keywords; סעיפי " +
+      "הסיבה והפתרון לא נקראו, ולכן אופן החזרת המספר הסופי (NOTIFHEADER) לא אומת רשמית ונשען על המאגר; " +
+      "כתובת me.sap.com/notes/3379615 עצמה דורשת S-user. KBA נוסף שאותר בחיפוש מוגבל-דומיין: 2541226 " +
+      "'Phase/Status inconsistency when using Notification BAPi's', שסעיף ה-Symptom הפומבי שלו עוסק " +
+      "ב-BAPI_ALM_NOTIF_PUTINPROGRESS (אי-התאמה בין QMEL-PHASE לסטטוס המערכת) ומילות המפתח שלו כוללות " +
+      "BAPI_ALM_NOTIF_SAVE; לא צורף כראיה כי גופו לא נקרא. חיפוש מוגבל ל-api.sap.com החזיר את הכותרת " +
+      "'Overview | Maintenance Notification' בכתובת /api/API_MAINTNOTIFICATION/overview (שם ה-API בלבד; " +
+      "מעטפת JavaScript). סטטוס Released, קבוצת הפונקציות IWOPM, הפרמטר TOGETHER_WITH_ORDER ורישום BOR‏ " +
+      "BUS2038 מגיעים מנתוני הפרויקט בלבד (verified-docs מ-2026-07-14 ללא URL) ולא נבדקו במערכת חיה; חיבור " +
+      "sc4sap MCP נכשל בסשן. ה-OData API אינו מוצג באף מקור רשמי כיורש של ה-BAPI, ולכן הסטטוס הוא 'קיים API " +
+      "משוחרר' ולא 'הוחלף'; גרסת השחרור של ה-API (S/4HANA 2021) מתועדת ברשומת fm:BAPI_ALM_NOTIF_CREATE ולא " +
+      "הוכפלה כאן. הסטטוס הנגזר במאגר (unchanged, מאומת מול נתוני הפרויקט, bapi-registry) אינו סותר את " +
+      "הממצאים. ניואנס מאגר: data/bapi-enrichment.pm.ts מציין SAP KBA 1923267 כמקור ל'save/commit contract' " +
+      "ללא URL; המספר לא אומת בסשן ולא הוזן בשדה kba. שדה reviewer אינו נכתב לפי מוסכמת הבית (אף קובץ " +
+      "overlay אינו נושא אותו).",
+  },
+
+  /* --------------------------------- fm:BAPI_ALM_NOTIF_TASK_ADD */
+  {
+    id: "fm:BAPI_ALM_NOTIF_TASK_ADD",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search: \"BAPI_ALM_NOTIF_TASK_ADD\" (SAP_S4HANA_ON-PREMISE, SAP_ERP), " +
+                     "\"BAPI_ALM_NOTIF_DATA_ADD\" (SAP_S4HANA_ON-PREMISE, SAP_ERP), \"maintenance notification tasks BAPI " +
+                     "NOTIFTASK add task\", \"BUS2038 maintenance notification BAPI\"",
+        product: "SAP S/4HANA / SAP ERP",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "ממצא שלילי תחום-חיפוש: שאילתת השם המדויק BAPI_ALM_NOTIF_TASK_ADD בשירות החיפוש של SAP Help החזירה " +
+               "ב-2026-09-21 11 רשומות בסקופ SAP S/4HANA On-Premise (חוברות Convergent Invoicing ו-SAP S/4HANA " +
+               "Insurance for reinsurance management) ו-13 רשומות בסקופ SAP ERP (חוברות BAPI כלליות של " +
+               "Cross-Application Components, Transaction Manager, SAP for Insurance ועוד; בהרצה חוזרת ב-2026-09-22 " +
+               "הוחזרו 15 רשומות מאותו סוג), כולן עם תקציר ריק ואף אחת אינה נוקבת בשם בכותרתה. שאילתת השם " +
+               "BAPI_ALM_NOTIF_DATA_ADD, שרישום ההעשרה של הפרויקט מפנה אליו כחלופה, החזירה 2 רשומות ב-On-Premise " +
+               "(Social Media Integration 1709, Download of Characteristic Data Using BAPIs) ו-11 רשומות ב-SAP ERP, " +
+               "אף אחת אינה נוקבת בשם. השאילתות 'maintenance notification tasks BAPI NOTIFTASK add task' ו-'BUS2038 " +
+               "maintenance notification BAPI' (21 רשומות כל אחת) לא החזירו עמוד המתעד BAPI להוספת משימות להודעת " +
+               "תחזוקה. שתי הרצות WebSearch מוגבלות ל-help.sap.com / api.sap.com / " +
+               "fioriappslibrary.hana.ondemand.com / fal.cloud.sap לא החזירו עמוד הנוקב באחד משני השמות. הממצא תחום " +
+               "לכותרות ולתקצירים של רשומות החיפוש ואינו אמירה שהאובייקט אינו קיים במערכת.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Maintenance Notifications (PM-WOC-MN) | Data Archiving in Plant Maintenance and Customer " +
+                     "Service (PM/CS)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/60adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד הארכוב של הודעות אחזקה בגרסת 2025 FPS01 קובע בתקציר: 'Archiving object PM_QMEL with which you " +
+               "can archive maintenance notifications in the Plant Maintenance component' ו-'The archiving object " +
+               "PM_QMEL for maintenance notifications is composed of the following tables: Table Name Contents QMEL " +
+               "Notification header data QMFE Items QMMA Activities QMSM', והתקציר נקטע מיד אחרי QMSM. עמוד האח " +
+               "לשירות, 'Archiving of Service Notifications (PM-SMA-SC)' (loio 63adb6531de6b64ce10000000a174cb4, " +
+               "2025.001), מציג את אותה רשימה עבור SM_QMEL עם הרצף 'QMMA Activities QMSM Tasks'. כלומר QMSM היא טבלת " +
+               "המשימות של ההודעה בגרסה הנוכחית של תחזוקת מפעל; העמוד אינו נוקב ב-BAPI כלשהו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance notification | Data Migration",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/c03f981dd76f4fc7a241f17adc80758b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד אובייקט ההגירה של הודעת האחזקה בגרסת 2025 FPS01 מציג בתקציר את הרצף 'Function Module: " +
+               "CNV_PE_S4_PM_NOTIF_CREATE APIs/BAPIs BAPI_ALM_NOTIF_CREATE BAPI_ALM_NOTIF_SAVE Function Module: " +
+               "CNV_PE_S4_CA_DIR_OBJ_LINKS APIs/BAPIs BAPI_DOCUMENT_CHANGE2', כלומר ברצף שהוחזר נקובים תחת " +
+               "APIs/BAPIs של מודול ההגירה של ההודעה שני שמות, ו-BAPI_ALM_NOTIF_TASK_ADD אינו ביניהם. בהרצה אחרת " +
+               "באותו יום החזיר אותו עמוד את הרצף 'Maintenance notifications with OSNO or OSTS statuses at the " +
+               "header level and TSOS status at the task level' ואת 'In Scope The following data is set for " +
+               "migration: Notifications header data Items Items/causes Items/tasks', כלומר משימות ההודעה נכללות " +
+               "בהיקף ההגירה של האובייקט. התקצירים מוגשים עם השמטות, ולכן נטען כאן רק מה שהופיע ברצף.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technical Realization (PM-WOC-MN / Completing a Task) | PM/CS - Plant Maintenance and Customer " +
+                     "Service: Workflow Scenarios",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/805892ef876c41ad886c213b03c7194c/8266b6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "עמוד תרחיש ה-Workflow להשלמת משימה בהודעת אחזקה בגרסת 2025 FPS01 קובע בתקציר: 'In this standard " +
+               "task, a task is completed in a maintenance notification' ו-'Object type QM/SM (task) A task " +
+               "corresponds to object type QMSM. You can find the attributes, methods, and events for object type " +
+               "QMSM in the Business Object Repository of the SAP system'. כלומר משימת ההודעה היא אובייקט BOR נפרד " +
+               "מסוג QMSM, לצד BUS2038 של ההודעה עצמה ('BUS2038 refers to notifications while QMSM refers to tasks', " +
+               "עמוד Entering Responsibilities (Workflow Connection), loio 2a85c1536ca9b54ce10000000a174cb4, " +
+               "2025.001). שמות המתודות של אובייקט QMSM אינם מופיעים בתקציר, ולכן לא ניתן לגזור מכאן שם BAPI להוספת " +
+               "משימה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE21,
+        claim: "טבלת הפעולות של API_MAINTNOTIFICATION בגרסת 2025 FPS01 מונה בתקצירים שהוחזרו: 'Read Maintenance " +
+               "Notification GET', 'Create Maintenance Notification' (POST על MaintenanceNotification), 'Create " +
+               "Notification Item Activity POST' על MaintNotificationItemActivity, 'Update Notification Item " +
+               "Activity PATCH', 'Create Notification Item Cause POST' על MaintNotificationItemCause ו-'Update " +
+               "Notification Item Cause PATCH'; עדכון ההודעה עצמה (PATCH) מתועד בעמוד נפרד באותה חוברת, 'Update " +
+               "Maintenance Notification' (loio 8bd7929a37cb4107acc617fcc4ea4dd9, 2025.001). עמודים נפרדים באותה " +
+               "חוברת מתעדים Create Notification Item (loio abf44d7da8114c3a9b958cf9f8366fce, 2025.001), Create " +
+               "Notification Partner ו-Create Notification Item Cause (2023.latest) ו-Create Notification Failure " +
+               "Effect (2023.latest). באף רשומה מרשומות החוברת שהוחזרו בשלוש שאילתות ממוקדות לא הופיעה פעולה או ישות " +
+               "למשימות ההודעה (Notification Task); רשומת What's New 2021 FPS01 'Create, Update, or Delete Task list " +
+               "Using Maintenance Notification API' (loio 33364ab200b24a5bb1c413fb04a24b21) עוסקת לפי לשונה ב-task " +
+               "list (רשימת משימות אחזקה) ולא במשימת ההודעה, וההבחנה לא אומתה מגוף העמוד. גוף עמוד הפעולות לא נקרא, " +
+               "ולכן כיסוי משימות ההודעה ב-OData נשאר לא מוכרע.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ההעשרה של אובייקטי ה-BAPI של תחזוקת מפעל בפרויקט (תיקון שם)",
+        product: "SAP ECC 6.0 / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת ההעשרה מסמנת את השם BAPI_ALM_NOTIF_TASK_ADD כ-verificationStatus 'invalid-name' ברמת ביטחון " +
+               "גבוהה, עם התיאור 'אינו FM סטנדרטי. להוספת משימות השתמש ב-BAPI_ALM_NOTIF_DATA_ADD (טבלת NOTIFTASK)' " +
+               "והערת QA 'אימות: לא נמצא ב-SE37 / מראות מטא-דאטה. אין לפרסם כשם תקין', ומפנה " +
+               "ל-BAPI_ALM_NOTIF_TASK_COMPLETE ול-BAPI_ALM_NOTIF_TASK_RELEASE כאובייקטים קשורים (שני שמות שאינם " +
+               "ביקום המזהים של הפרויקט ולא אומתו). מקור האימות הרשום הוא מחרוזת כללית של הקובץ ('SAP Help (BUS2038 " +
+               "· S/4HANA On-Premise) + SE37 metadata (fn group IWOPM) · SAP KBA 1923267', תאריך 2026-07-14) ולא " +
+               "קישור לעמוד SAP; בדיקת SE37 עצמה לא בוצעה בסשן זה. רישום אובייקטי הפונקציה (lib/bapi-registry.ts) " +
+               "גוזר מסימון זה יציבות 'Obsolete' ותמיכת S/4HANA On-Premise 'לא צוין'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_ALM_NOTIF_TASK_ADD; lib/bapi-registry.ts#deriveStability",
+        conflictingEvidence: [
+          {
+            sourceType: "repository",
+            sourceTitle: "קטלוג הפונקציות של הפרויקט, חוברת ההגירה של תחזוקת מפעל ורשומת האימות table:QMSM",
+            product: "SAP ECC 6.0 / SAP S/4HANA",
+            edition: "on-premise",
+            accessedAt: DATE21,
+            claim: "שלוש רשומות מאגר אחרות מציגות את אותו שם כאובייקט קיים: קטלוג הפונקציות מתאר 'הוספת משימה (Task) " +
+                   "להודעת אחזקה', מונה פרמטרים NUMBER (import, חובה), NOTIFTASK (table) ו-RETURN, קובע 'זמין ב-ECC.' " +
+                   "ו'זמין ב-S/4HANA.' ללא סימון inferred, ומשייך ל-IW22, לטבלה QMSM ולתהליך PM-6; בחוברת ההגירה השם " +
+                   "מופיע ברשימת הפונקציות של הטבלה PM:QMSM עם התיאור 'הוספת משימה', לצד NOTIF_TASK_READ; ורשומת האימות " +
+                   "table:QMSM (data/verification/tables.ts) נוקבת בו בראיית המאגר שלה ומפנה אליו ב-xrefs. BASELINE.md " +
+                   "מונה את השם בין 18 המזהים המסומנים invalid-name ובין 13 מהם שקטלוג הפונקציות סותר. אף אחת מהרשומות " +
+                   "אינה נסמכת על מקור SAP רשמי.",
+            verificationLevel: "repository_verified",
+            repoRef: "data/function-intel.ts#BAPI_ALM_NOTIF_TASK_ADD; data/sapData.pm.ts#PM:QMSM; " +
+                     "data/verification/tables.ts#table:QMSM; audit/s4-enrichment/BASELINE.md",
+          },
+        ],
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: "השם BAPI_ALM_NOTIF_TASK_ADD לא אותר באף רשומה רשמית של SAP במעבר זה, לא בסקופ SAP S/4HANA On-Premise " +
+          "ולא בסקופ SAP ERP, וגם השם החלופי שהמאגר מפנה אליו, BAPI_ALM_NOTIF_DATA_ADD, אינו נקוב באף רשומה. " +
+          "התיעוד הרשמי של 2025 FPS01 קובע שמשימות ההודעה נשמרות בטבלה QMSM (אובייקט הארכוב PM_QMEL) ושהמשימה " +
+          "היא אובייקט BOR מסוג QMSM לצד BUS2038 של ההודעה, ובתקציר חוברת ההגירה נקובים תחת APIs/BAPIs של " +
+          "ההודעה BAPI_ALM_NOTIF_CREATE ו-BAPI_ALM_NOTIF_SAVE ולא השם הזה. ב-OData API_MAINTNOTIFICATION לא " +
+          "אותרה פעולה למשימות ההודעה. נתוני הפרויקט עצמם חלוקים על קיום האובייקט: רישום ההעשרה מסמן את השם כלא " +
+          "תקני, בעוד קטלוג הפונקציות, חוברת ההגירה ורשומת table:QMSM מציגים אותו כאובייקט זמין ב-S/4HANA. לכן " +
+          "לא נקבע כאן סטטוס S/4HANA לאובייקט: קיומו טרם אומת, היעדר רשומה רשמית הוא ממצא תחום-חיפוש ולא אמירה " +
+          "רשמית על אי-זמינות, ולא נקבע יורש.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE37 במערכת ECC ובמערכת S/4HANA היעד אם קיים אובייקט בשם BAPI_ALM_NOTIF_TASK_ADD, ובאותה " +
+        "בדיקה גם אם BAPI_ALM_NOTIF_DATA_ADD קיים ונושא טבלת NOTIFTASK, לפני כל הסתמכות על אחד השמות בקוד, " +
+        "בממשק או בחומר הדרכה. עד אז להוסיף משימות להודעת תחזוקה בתרחישי RFC רק ברצף שהמאגר מתעד למשפחת " +
+        "BUS2038 (BAPI_ALM_NOTIF_CREATE או הודעה קיימת, אחר כך BAPI_ALM_NOTIF_DATA_ADD עם טבלת NOTIFTASK, אחר " +
+        "כך BAPI_ALM_NOTIF_SAVE ואז BAPI_TRANSACTION_COMMIT על אותו חיבור), ולאמת ב-BAPI Explorer את סטטוס " +
+        "השחרור. לאינטגרציות חדשות להשתמש ב-OData API_MAINTNOTIFICATION לכותרת, לפריטים, לסיבות, לפעילויות " +
+        "ולשותפים של ההודעה, ולאמת מול תיעוד ה-API בגרסת היעד או מול ה-Business Accelerator Hub אם קיימת ישות " +
+        "למשימות ההודעה לפני שמתכננים עליה. לא להציג את השם בקטלוג כ-BAPI משוחרר ולא להציג את רשימת הפרמטרים " +
+        "שבקטלוג הפונקציות כעובדה מאומתת עד לבדיקת SE37, וליישר את רשומת table:QMSM ואת חוברת ההגירה עם תוצאת " +
+        "הבדיקה.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_NOTIF_DATA_ADD",
+      "fm:BAPI_ALM_NOTIF_DATA_MODIFY",
+      "fm:BAPI_ALM_NOTIF_CREATE",
+      "fm:BAPI_ALM_NOTIF_SAVE",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:NOTIF_TASK_READ",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "table:QMSM",
+      "table:QMEL",
+      "tx:IW22",
+      "tx:IW52",
+      "tx:IW66",
+      "cds:I_MaintenanceNotification",
+      "fiori:F4604",
+      "enh:badi:NOTIF_EVENT_SAVE",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "מה נבדק בפועל: עשר שאילתות בשירות החיפוש של help.sap.com דרך scripts/sap-help-search.mjs " +
+      "ב-2026-09-21 ('BAPI_ALM_NOTIF_TASK_ADD' ו-'BAPI_ALM_NOTIF_DATA_ADD', כל אחת בסקופ " +
+      "SAP_S4HANA_ON-PREMISE ובסקופ SAP_ERP; 'maintenance notification task API_MAINTNOTIFICATION'; 'Create " +
+      "Notification Task API_MAINTNOTIFICATION MaintenanceNotificationTask'; 'Read Notification Task " +
+      "maintenance notification OData'; 'PM_QMEL archiving maintenance notifications QMSM'; 'Maintenance " +
+      "Notification Task What's New'; 'BUS2038 maintenance notification BAPI'; 'maintenance notification " +
+      "tasks BAPI NOTIFTASK add task'; 'I_MaintNotificationTaskData Maintenance Notification Task Data' " +
+      "בסינון 2025.001; 'Quality Notification Task QualityNotificationTask API'; ושאילתה ממוקדת לתקציר " +
+      "APIs/BAPIs של עמוד ההגירה בסינון 2025.001), לצד שתי הרצות WebSearch מוגבלות ל-help.sap.com / " +
+      "api.sap.com / fioriappslibrary.hana.ondemand.com / fal.cloud.sap. סריקה של כל רשומות ה-JSON שהוחזרו " +
+      "על המחרוזות 'TASK_ADD' ו-'NOTIF_DATA_ADD' העלתה אפס התאמות בכותרות ובתקצירים. ארבע הכתובות שברשומה " +
+      "נבדקו ב-2026-09-21 והחזירו HTTP 200; ה-loio וה-versionId הועתקו מרשומות ה-JSON. גופי עמודי " +
+      "help.sap.com לא נקראו (מעטפת JavaScript), ולכן כל טענה תחומה בכותרת ובתקציר של רשומת החיפוש; ספירות " +
+      "התוצאות אינן יציבות בין הרצות ונרשמות כמדידה של אותו יום בלבד. הסטטוס הנגזר כיום באפליקציה נמדד בסשן " +
+      "זה דרך fromFuncRegistry: 'לא רלוונטי' (not_applicable) ברמת 'מאומת מול נתוני הפרויקט', עם ההסבר 'לפי " +
+      "רישום אובייקטי הפונקציה של הפרויקט: השם אינו אובייקט SAP תקני; תמיכה ב-S/4HANA On-Premise: לא צוין'; " +
+      "רשומה זו מחליפה אותו ב'נדרש אימות נוסף' ומורידה את דרגת האימות ל'מקורות סותרים', משום שהסתירה בין " +
+      "רשומות המאגר נוגעת לשאלת קיום האובייקט, שהיא עצם נושא הרשומה, ולכן נרשמת כ-conflictingEvidence ולא " +
+      "רק בהערות (אותו טיפול שניתן ל-fm:BAPI_MEASUREMENTDOCUM_CREATE). BASELINE.md מתעד את אותה תופעה " +
+      "במחלקה שלמה של 18 מזהים invalid-name, ובהם גם fm:BAPI_ALM_NOTIF_LIST_FILTER מאותה משפחה. עמודים " +
+      "רשמיים נוספים שנצפו ולא צורפו כראיות: 'Maintenance Notification | Maintenance Management' (loio " +
+      "78c09d53839cca11e10000000a44176d, 2025.001), 'Task Data You can enter tasks, set the status for one " +
+      "or more tasks, and remove tasks' על SAP Web UI for Plant Maintenance; 'Maintenance Notification Task " +
+      "Data | Virtual Data Model and CDS Views' (loio 161e8aa6a3d14a1aba33a9e8f490b29b, 2023.latest), תצוגת " +
+      "CDS‏ I_MaintNotificationTaskData במעמד Released עם 'It is 1 when the status of the maintenance " +
+      "notification task is TSOS (Outstanding) or TSRL (Released)', שלא הוחזרה בסינון 2025.001 ואינה ביקום " +
+      "ה-cds של הפרויקט ולכן אינה xref; 'Location Analysis Cube' (loio 9cebb3d3cfd449dab1c434cf247f5ba3, " +
+      "2025.001) עם המדד NumberOfMaintNotifTasks; 'Operations for Quality Notifications' ו-'Quality " +
+      "Notification Task' במדריך APIs for Quality Management (loio 9d9f91a2b3954ec48d1a12d54a0909a7 " +
+      "ו-471cda8852a04d75bfe1ddb2ebed81af, 2025.001), שבהם קיימת פעולת 'Read Quality Notification Task GET' " +
+      "וישות QualityNotificationTask להודעות איכות בלבד, לא להודעות תחזוקה; ו-'Task Definition: Maintenance " +
+      "Notification' (App ID F3359, Environment, Health, and Safety, 2025.001), יישום ניהול אירועי EHS ולא " +
+      "ממשק למשימות הודעת תחזוקה, ואינו בקטלוג ה-Fiori של הפרויקט. מה שלא אומת: קיום האובייקט ב-SE37 (חיבור " +
+      "sc4sap MCP נכשל בסשן, לא בוצעה בדיקה במערכת חיה); רשימת הפרמטרים שבקטלוג הפונקציות (NUMBER, " +
+      "NOTIFTASK, RETURN) ומבנה טבלת NOTIFTASK; שיוך ל-BOR ולקבוצת פונקציות; סטטוס שחרור; זמינות במהדורות " +
+      "Cloud; SAP KBA 1923267 מופיע רק במחרוזת המקור הכללית של קובץ ההעשרה ולא צורף. לא נטען יורש: הסטטוס " +
+      "אינו replaced, deprecated או not_available, ההפניה ל-BAPI_ALM_NOTIF_DATA_ADD היא של המאגר בלבד, ושם " +
+      "זה עצמו אינו נקוב באף רשומה רשמית. ה-xref אל fm:BAPI_ALM_NOTIF_DATA_ADD ואל fm:NOTIF_TASK_READ הם " +
+      "עוגני ניווט לרשומות שכנות שתיעודן במאגר בלבד; BAPI_ALM_NOTIF_TASK_COMPLETE " +
+      "ו-BAPI_ALM_NOTIF_TASK_RELEASE אינם ביקום המזהים ולכן אינם xrefs.",
+  },
+
+  /* ----------------------------- fm:BAPI_ALM_ORDERHEAD_GET_LIST */
+  {
+    id: "fm:BAPI_ALM_ORDERHEAD_GET_LIST",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Ranges Table - SAP Documentation | SAP NetWeaver Gateway (help.sap.com/doc/saphelp_ssb)",
+        url:
+          "https://help.sap.com/doc/saphelp_ssb/1.0/en-US/b5/525672853e47d08cf123247955eb86/content.htm?no_cache=true",
+        product: "SAP NetWeaver Gateway",
+        edition: "ecc",
+        release: "saphelp_ssb 1.0",
+        accessedAt: DATE21,
+        claim: "עמוד התיעוד של SAP NetWeaver Gateway (ערכת התיעוד saphelp_ssb לפי נתיב הכתובת; כותרת העמוד 'Ranges " +
+               "Table - SAP Documentation'; העמוד מפנה תחת More Information למסמך 'SAP NetWeaver Gateway Generators " +
+               "Cookbook' ולנושא 'Mapping the Query Operation'; שם המדריך האב אינו כתוב ב-HTML הסטטי) נקרא במלואו " +
+               "כ-HTML סטטי (20,557 בתים, לא מעטפת JavaScript) ונוקב בשם ה-BAPI במפורש בדוגמה שלו: 'Using an example " +
+               "based on the BOR object, MaintenanceOrderBAPI, you can map the method OrderHeadGetList to the query " +
+               "operation for the Data Model. The method, OrderHeadGetList, is implemented by the BAPI " +
+               "BAPI_ALM_ORDERHEAD_GET_LIST, which contains an input range table ItRanges. This is a generic range " +
+               "table which can hold selection for various fields.' בהמשך: 'to support filtering using Order Enter " +
+               "Date, first obtain details about the method from the documentation for the specific BAPI. According " +
+               "to the documentation, to support such filtering, the constant value, OPTIONS_FOR_ENTER_DATE should " +
+               "be assigned to the field, FIELD_NAME in the table, ItRanges', והמחולל זיהה בטבלת הטווחים את השדות " +
+               "'Sign and Option' ואת 'LOW_VALUE and HIGH_VALUE'. העמוד מעיד על קיום ה-BAPI, על שיוכו למתודת ה-BOR " +
+               "OrderHeadGetList ועל טבלת טווחים גנרית כקלט; זהו תיעוד NetWeaver Gateway מתקופת Business Suite, והוא " +
+               "אינו אומר דבר על S/4HANA. שמות הפרמטרים מצוטטים בכתיב שבעמוד (ItRanges בכתיב ה-Gateway); שם פרמטר " +
+               "ה-ABAP בכתיב הטכני אינו מופיע בעמוד, ואף פרמטר פלט (כגון ET_HEADER) אינו נזכר בו. הטקסט חולץ מ-HTML, " +
+               "ולכן הרווחים סביב סימני הפיסוק בציטוטים נורמלו.",
+        verificationLevel: "sap_official_verified",
+      },
+      ALM_ORDER_READ_ALL_V2,
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+                     "Edition 2025 - Feature Pack Stack 1 · item 4.1.4 S4TWL - Batch Input for Enterprise Asset Management " +
+                     "(EAM), pp. 77-78",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE21,
+        claim: "מסמך רשימת הפישוט הרשמית SIMPL_OP2025.pdf הורד מ-help.sap.com (10.6MB, 1,514 עמודים, Document " +
+               "Version 1.36) והטקסט חולץ ונקרא (pdftotext -layout: 70,529 שורות; pdftotext רגיל: 85,712 שורות): " +
+               "המחרוזת BAPI_ALM_ORDERHEAD_GET_LIST אינה מופיעה ולו פעם אחת בשתי ההפקות, וגם המחרוזת " +
+               "API_MAINTENANCEORDER אינה מופיעה; לפיכך אין ברשימת הפישוט של 2025 FPS01 פריט הנוקב ב-BAPI זה (ממצא " +
+               "תחום לטקסט המחולץ). ה-BAPI היחיד של פקודות אחזקה שהמסמך נוקב בו הוא BAPI_ALM_ORDER_MAINTAIN, בפריט " +
+               "4.1.4 S4TWL - Batch Input for Enterprise Asset Management (EAM) (Application Component: PM, עמ' 77 " +
+               "עד 78): 'Plant Maintenance offers a set of API´s which are supporting the creation / change of Plant " +
+               "Maintenance data like: ... Maintenance Order • BAPI_ALM_ORDER_MAINTAIN', ובהמלצה: 'Recommendation " +
+               "within EAM is to use the API´s wherever possible'. זו רשימת ממשקי יצירה ושינוי, ו-BAPI הקריאה לרשימת " +
+               "כותרות אינו נמנה בה; הפריט עצמו עוסק ב-Batch Input (טרנזקציית IBIP) ולא ב-BAPI זה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת סריקת ה-BAPI של הפרויקט, לצד רשומת ההעשרה של PM ורשומת הקטלוג הפונקציונלי",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim: "רשומת הסריקה (data/bapi-enrichment.sweep.ts, שורה 93, תבנית verified) מתארת BAPI קריאה בלבד עם RFC " +
+               "לשליפת רשימת כותרות פקודות אחזקה לפי קריטריוני בחירה, עם סיכום פרמטרים 'IN: selection ranges " +
+               "(plant/status/dates) · OUT: order-header list, RETURN.', verificationStatus verified-docs, תמיכת ECC " +
+               "ותמיכת S/4HANA On-Premise 'yes', תמיכת Cloud 'unknown', יציבות Released, ומקור אימות מוצהר 'SAP Help " +
+               "Portal' בתאריך 2026-07-15. רשומת ההעשרה של PM (data/bapi-enrichment.pm.ts, שורה 232, תבנית g) " +
+               "מוסיפה: פעולת Read ללא SAVE או COMMIT, קטגוריה Execution, תהליך Maintenance Order, אובייקט BOR " +
+               "BUS2007, טרנזקציות IW38 ו-IW39, טבלאות AUFK ו-AFIH, אובייקט קשור BAPI_ALM_ORDER_GET_DETAIL, סיכום " +
+               "'IMP selection · TAB ET_HEADER, RETURN', releasedStatus 'Released · RFC', ומקור אימות 'SE37 metadata " +
+               "mirror (sapdatasheet.org) + SAP Community' (ערוץ Tier-3 לפי MANIFEST). רשומת הקטלוג הפונקציונלי " +
+               "(data/function-intel.ts, שורה 194) מתארת קלט 'Selection ranges' (import), פלט ET_HEADER ו-RETURN, " +
+               "וכותבת בשדה ה-S/4 'זמין ב-S/4HANA' ללא חלופת OData; היא מפנה ל-IW38, IW39, AUFK ולתהליך PM-7. דאטהסט " +
+               "ה-blueprint (data/sapData.pm.ts) מונה את ה-BAPI פעמיים תחת נושאי AUFK כשליפת רשימת פקודות עבודה. " +
+               "שלוש הרשומות מסכימות על התרחיש; אף אחת אינה נשענת על עמוד רשמי שנמצא בהרצה זו לגבי S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.sweep.ts#BAPI_ALM_ORDERHEAD_GET_LIST",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he: "BAPI_ALM_ORDERHEAD_GET_LIST נזכר בתיעוד SAP רשמי רק בעמוד 'Ranges Table' של תיעוד SAP NetWeaver " +
+          "Gateway (saphelp_ssb), המעיד על קיומו, על מתודת ה-BOR OrderHeadGetList ועל טבלת טווחים גנרית כקלט; " +
+          "אף רשומת help.sap.com למהדורת S/4HANA On-Premise שנסרקה אינה נוקבת בשמו, ורשימת הפישוט 2025 FPS01 " +
+          "שנקראה במלואה אינה נוקבת בו, כך שזמינותו ב-S/4HANA נשענת על רובד המאגר בלבד (verified-docs, " +
+          "s4OnPremSupport yes; מקור משפחת ה-PM הוא מראת SE37). במקביל קיים ממשק OData רשמי לאותו תרחיש של " +
+          "שליפת רשימת כותרות פקודות אחזקה לפי קריטריונים: הפעולה 'Read All Maintenance Orders (Version 2)' " +
+          "במדריך APIs for Maintenance Management לגרסת 2025 FPS01, שבשיטת GET מחזירה 'the header details of " +
+          "all maintenance orders that correspond to your filter settings' תחת שירות Maintenance Order (Version " +
+          "2) בנתיב API_MAINTENANCEORDER;v=2 (שם ה-Hub API_MAINTENANCEORDER_0002); ישויות גרסה 1 של אותו שירות " +
+          "מסומנות '(Deprecated)' עם המלצה לעבור לגרסה 2. זו טענת חלופה משוחררת ולא טענת החלפה: אין מקור רשמי " +
+          "שנסרק המכריז על ה-BAPI כמוחלף, ולכן לא נרשם יורש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: ALM_ORDER_READ_ALL_V2,
+      recommendedAction:
+        "לאמת תחילה במערכת היעד, ב-SE37 או ב-BAPI Explorer ובתיעוד ה-BAPI עצמו, את שם טבלת הטווחים ואת ערכי " +
+        "FIELD_NAME הנתמכים (העמוד הרשמי מזכיר רק את OPTIONS_FOR_ENTER_DATE כדוגמה) ואת טבלת הפלט של הכותרות " +
+        "(ET_HEADER מופיע ברשומות המאגר בלבד); לאחר האימות להמשיך להשתמש ב-BAPI בממשקי RFC ובדוחות קיימים " +
+        "לשליפת רשימות כותרות, ולהצר טווחי בחירה רחבים בהתאם להערת ה-QA שברשומת המאגר. לאינטגרציות חדשות, " +
+        "לתרחישי OData או REST ולהרחבות Fiori להעדיף את API_MAINTENANCEORDER בגרסה 2 (;v=2) עם הפעולה Read " +
+        "All Maintenance Orders (Version 2) וסינון $filter, ולא את גרסה 1 המסומנת '(Deprecated)'. לדיווח " +
+        "ולאנליטיקה פנימיים לשקול את תצוגת ה-CDS I_MaintenanceOrder הקיימת ביקום המזהים של הפרויקט (לא אומתה " +
+        "מול רשומה רשמית במעבר זה). את רשימת הישויות, השדות ואפשרויות הסינון לאמת מול SAP Business " +
+        "Accelerator Hub (OP_API_MAINTENANCEORDER_0002, דורש מפתח API) או מול מערכת חיה.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_ORDER_GET_DETAIL",
+      "fm:BAPI_ALM_ORDER_MAINTAIN",
+      "table:AUFK",
+      "table:AFIH",
+      "tx:IW38",
+      "tx:IW39",
+      "cds:I_MaintenanceOrder",
+      "fiori:F4604",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "שיטה: שירות החיפוש הרשמי (scripts/sap-help-search.mjs) בשש-עשרה שאילתות: השם המדויק תחת " +
+      "SAP_S4HANA_ON-PREMISE (גם מוצמד ל-2025.001), תחת SAP_ERP, תחת SUPPORT_CONTENT ותחת SAP_S4HANA_CLOUD; " +
+      "'ALM_ORDERHEAD'; 'OrderHeadGetList' (On-Premise ו-SAP_ERP); 'Maintenance Order Header list BAPI'; " +
+      "'Read All Maintenance Orders API_MAINTENANCEORDER'; 'Read All Maintenance Orders (Version 2)'; " +
+      "'OData API Maintenance Order Read synchronous inbound service'; 'Maintenance Order (Version 2) " +
+      "API_MAINTENANCEORDER_0002 read the maintenance order header data'; 'Operations for Maintenance Order " +
+      "(Deprecated) Read All Maintenance Orders'; 'Simplification maintenance order BAPI list'; " +
+      "'Maintenance Order BAPIs BAPI_ALM_ORDER_MAINTAIN BAPI_ALM_ORDERHEAD_GET_LIST'; 'I_MaintenanceOrder " +
+      "CDS view'; 'IW38 IW39 order list change display maintenance orders'; 'BAPI maintenance order ALM " +
+      "order list' (SAP_ERP); 'Maintenance Order Integration BAPIs maintenance orders'. שני חיפושי רשת " +
+      "מוגבלים ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal. שלושה מסמכי PDF רשמיים הורדו ונקראו " +
+      "כטקסט: SIMPL_OP2025.pdf, WN_OP2025_FPS01_EN.pdf ו-CONV_OP2025.pdf. עמוד ה-Gateway נקרא במלואו כ-HTML " +
+      "סטטי; שאר עמודי help.sap.com הם מעטפת JavaScript וכל טענה עליהם תחומה בכותרת ובתקציר של רשומת " +
+      "החיפוש; ישויות HTML נוקו מהציטוטים. (1) ממצא שלילי תחום-חיפוש: שאילתות השם המדויק על S/4HANA " +
+      "On-Premise החזירו רשומות עם תקציר ריק בלבד ('List of Available BAPIs', Logistics - General, " +
+      "2023.latest, loio 7481c1536ca9b54ce10000000a174cb4; 'BAPI Objects', 2025.001, loio " +
+      "6b81c1536ca9b54ce10000000a174cb4; 'Operations for Service Order (A2X)'), ואף אחת אינה מציגה את השם " +
+      "בכותרת או בתקציר, ולכן לא צוטטו. חיפוש הרשת המוגבל החזיר לשם המדויק גם את עמוד 'Maintenance Order' " +
+      "במדריך Maintenance Management (loio b1b69953d1ddb27ae10000000a423f68, 2025.001), אך תקציר החיפוש שלו " +
+      "אינו מציג את השם וגופו אינו נשלף, ולכן אינו מצוטט כעמוד הנוקב ב-BAPI. ספירות התוצאות של שירות החיפוש " +
+      "אינן יציבות בין הרצות ואינן נרשמות. (2) שלושת ה-PDF: רשימת הפישוט (1,514 עמודים) ללא מופע של השם; " +
+      "What's New 2025 FPS01 (728 עמודים, Document Version 1.0 מיום 2026-02-25, 38,829 שורות) ללא מופע של " +
+      "השם, כאשר BAPI_ALM_ORDER_MAINTAIN נזכר בעמ' 99 (סעיף 3.1.58, פקודות אחזקה לחיוב) " +
+      "ו-API_MAINTENANCEORDER_0002 בעמ' 37 (סעיף 3.1.5) ובעמ' 43 (ישות Linear Asset Management Data); מדריך " +
+      "ההסבה CONV_OP2025.pdf (46 עמודים) ללא מופע. כתובות ההורדה של WN_OP2025_FPS01_EN.pdf " +
+      "ו-CONV_OP2025.pdf לא נרשמו במעבר זה; שני הקבצים אינם משמשים כמקור ראיה בעל URL אלא כבדיקה שלילית " +
+      "תחומה לטקסט המחולץ. (3) הסטטוס 'קיים API משוחרר' הוא טענת חלופה משוחררת ולא טענת החלפה; הצהרת היורש " +
+      "היחידה שנמדדה במשפחה נוגעת לגרסה 1 מול גרסה 2 של שירות ה-OData ('Maintenance Order (Deprecated)', " +
+      "loio d3f02cfccf00407ab9776ea2ec2030d3). מצב ה-Released של ה-BAPI עצמו וזמינותו ב-S/4HANA הם " +
+      "repository_verified בלבד: אף עמוד רשמי למהדורת S/4HANA שנסרק אינו נוקב בשמו. (4) ממשק ה-BAPI: רק " +
+      "טבלת טווחים גנרית כקלט מעוגנת בעמוד רשמי (ItRanges בכתיב ה-Gateway, שדות FIELD_NAME, SIGN, OPTION, " +
+      "LOW_VALUE, HIGH_VALUE והקבוע OPTIONS_FOR_ENTER_DATE כדוגמה); טבלת הפלט ET_HEADER מופיעה ברשומות " +
+      "המאגר בלבד. שלושה קבצי מאגר מסכמים את הפרמטרים בשלושה נוסחים ('IN: selection ranges " +
+      "(plant/status/dates) · OUT: order-header list, RETURN.' בסריקה, 'IMP selection · TAB ET_HEADER, " +
+      "RETURN' בקובץ ה-PM, 'Selection ranges' אל ET_HEADER בקטלוג הפונקציונלי); לפי מיזוג השדות " +
+      "ב-lib/bapi-registry.ts (mergePatch, מאז 2026-09-21) ערכי הסריקה גוברים על סקלרים שהיא מגדירה ומערכים " +
+      "מאוחדים, כך שסיכום הסריקה הוא המוצג. (5) רשומת הסריקה מצהירה מקור אימות 'SAP Help Portal' בתאריך " +
+      "2026-07-15, אך בהרצה זו לא נמצא עמוד Help ציבורי למהדורת S/4HANA הנוקב ב-BAPI; מקור משפחת ה-PM הוא " +
+      "מראת SE37 (Tier-3). (6) אובייקט BOR: קובץ ה-PM נוקב ב-BUS2007, ועמוד ה-Gateway נוקב בשם האובייקט " +
+      "'MaintenanceOrderBAPI'; אף מקור שנקרא אינו קושר את שני השמות, והקשר לא נרשם כעובדה. (7) הסטטוס הנגזר " +
+      "שהאפליקציה מציגה לפני רשומה זו, לפי קריאת fromFuncRegistry על הרישום הממוזג (verificationStatus " +
+      "verified-docs, s4OnPremSupport yes, releasedStatus 'Released · RFC'): 'ללא שינוי ב-S/4HANA' ברמת " +
+      "'מאומת מול נתוני הפרויקט'; scripts/report-coverage.mjs לא רץ בסביבה זו (כשל פענוח הכינוי @/data), " +
+      "ולכן הנגזרת נקבעה מקריאת הקוד ולא ממדידה חיה. (8) לא נרשם מספר SAP Note או KBA: פריט הפישוט 4.1.4 " +
+      "מפנה להערת Business Impact הדורשת משתמש S, ואין ברשומה כתובת me.sap.com. (9) Fiori: המזהים F2175 " +
+      "(Find Maintenance Orders) ו-F5241 (Manage Maintenance Orders) נזכרים ברשומות אחיות כשמות רשמיים אך " +
+      "אינם קיימים ב-data/fiori/apps.ts, ולכן לא נרשמו כ-xref; fiori:F4604 קיים בקטלוג ונזכר ברשומת tx:IW38 " +
+      "כאפליקציית רשימה רשמית; אין מקור רשמי הקושר את ה-BAPI לאפליקציה כלשהי, ו-fiori:F2731 (שיוך שנוי " +
+      "במחלוקת ב-data/verification/fiori.ts) לא נרשם. (10) cds:I_MaintenanceOrder נרשם כ-xref ניווטי מיקום " +
+      "המזהים; השאילתה 'I_MaintenanceOrder CDS view' לא החזירה רשומה רשמית הנוקבת בתצוגה. (11) api.sap.com: " +
+      "חיפוש הרשת החזיר את כתובות ה-Hub ל-OP_API_MAINTENANCEORDER_0002 ול-CE_API_MAINTENANCEORDER_0002 עם " +
+      "כותרת גנרית; תוכן ה-Hub אינו בר-אימות ללא מפתח API ולא צוטט, ורשומת Hub למשפחה זו כבר מצוטטת ברשומה " +
+      "האחות fm:BAPI_ALM_ORDER_MAINTAIN. (12) עמוד ה-Gateway שייך לערכת התיעוד saphelp_ssb (כותרת העמוד " +
+      "'Ranges Table - SAP Documentation'; 'Mapping the Query Operation' ו-'SAP NetWeaver Gateway " +
+      "Generators Cookbook' מופיעים בו רק כקישורי More Information, ושם המדריך האב אינו כתוב ב-HTML הסטטי); " +
+      "מחרוזת הגרסה '1.0' נלקחה מנתיב הכתובת, גרסת ה-Gateway אינה כתובה בעמוד, והמהדורה נרשמה 'ecc' משום " +
+      "שזהו תיעוד NetWeaver מתקופת Business Suite ולא תיעוד S/4HANA. (13) מהדורות Cloud לא נבדקו מעבר " +
+      "לשאילתת השם המדויק תחת SAP_S4HANA_CLOUD, שהחזירה רשומה אחת זרה לנושא עם תקציר ריק; תמיכת Cloud " +
+      "ברשומת המאגר נשארת 'unknown'.",
   },
 ];
