@@ -103,7 +103,10 @@ const BUILDERS = {
     }, "transactions"));
   }),
 
-  functions: () => registry().filter((o) => o.objectType !== "IDoc").map((o) => {
+  // IDoc message types are the idocs catalog; blueprint keys function-intel marks
+  // kind "concept" (Control Recipe, PPCC1) are process concepts, not functions, and
+  // are not counted here (2026-09-21).
+  functions: () => registry().filter((o) => o.objectType !== "IDoc" && FUNCTION_INTEL[o.id]?.kind !== "concept").map((o) => {
     const { status } = ev.fromFuncRegistry(o);
     const intel = FUNCTION_INTEL[o.id];
     const structural = Math.max(

@@ -1221,3 +1221,9 @@ verbatim from public PDFs that were read in full, and neither is written into a 
 title, deliverable and snippet, except the three PDFs (`SIMPL_OP2025.pdf`, `SIMPL_OP2023.pdf`,
 `Deletable_Objects.pdf`), which were downloaded and read as full text; all three URLs returned HTTP 200 with the
 exact content lengths the records state.
+
+### Resolved 2026-09-21 (design audit round 2 · audit/ux-2026-09/SAP-FIXES.md)
+- `tx:IP30` queued correction: applied. Item 4.1.2 of SIMPL_OP2025.pdf (v1.36) names IP30, RISTRA20, IP30H and RISTRA20H; the record now carries the item as evidence and source, status `simplified`.
+- `table:QMMA` vs `data/function-intel.ts#NOTIF_TASK_READ`: applied. NOTIF_TASK_READ → QMSM only; NOTIF_ACTIVITY_READ → QMMA.
+- `table:QMAT` vs `data/table-tcodes.json`: applied. QMAT → `MM01, MM02, MM03, QA08`; `data/sapData.*` regenerated (one-line diff).
+- `table:TJ30T` corrective pass: applied. Evidence 3 re-read by column order (TXTSH/TXTMD extraction fields ← TXT04/TXT30 origin fields); status text and notes corrected.

@@ -9903,8 +9903,9 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       + "MNGRP, MNCOD) ובלי FENUM, בעוד data/table-enrichment.ts#QMMA רושם מפתח MANDT + QMNUM + FENUM + MANUM וקשר "
       + "QMNUM+FENUM אל QMFE; אף מקור רשמי לא אימת את מבנה המפתח, וההופעה של NotificationItem בין מאפייני התצוגה "
       + "הרשמית בצד האיכות היא רמז בלבד ואינה הוכחה למפתח ה-DDIC. שיוך פונקציה: "
-      + "data/function-intel.ts#NOTIF_TASK_READ מתאר 'משימות הודעה (Tasks) - QMMA/QMSM', בעוד העמוד הרשמי מפריד "
-      + "QMMA=Activities מ-QMSM=Tasks; תיקון לקטלוג הפונקציות נרשם כתור ולא בוצע ברשומה הזו. תצוגת CDS: "
+      + "data/function-intel.ts#NOTIF_TASK_READ תיאר 'משימות הודעה (Tasks) - QMMA/QMSM', בעוד העמוד הרשמי מפריד "
+      + "QMMA=Activities מ-QMSM=Tasks; תוקן ב-2026-09-21 (סבב 2 של ביקורת העיצוב): NOTIF_TASK_READ מפנה ל-QMSM "
+      + "בלבד, ו-NOTIF_ACTIVITY_READ, שהצביע על QMSM, מפנה ל-QMMA. תצוגת CDS: "
       + "data/cds-enrichment.ts ממקמת את I_MaintNotifActivity מעל QMSM ואילו data/cds-map.ts ממפה אותה "
       + "ל-QMMA+QMSM+QMUR; הפער כבר תועד ברשומת cds:I_MaintNotifActivity שנשארה verification_required, והרשומה הזו "
       + "אינה מכריעה אותו ונשארת עקבית איתה. שכבת היציבות: data/s4-impact.ts#S4_STABLE מכילה את QMEL ואת QMFE אך לא "
@@ -11478,7 +11479,8 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
         accessedAt: DATE4,
         claim:
           "הבלופרינט (data/sapData.pppi.ts, רשומה PP-PI:QMAT) כותב tableName 'QMAT', descriptionHe 'הגדרת בדיקת איכות "
-          + "לחומר', descriptionEn 'Material number', tcodes 'QM01, MM02', fioriApp ריק, s4Note 'ללא שינוי מבני.', "
+          + "לחומר', descriptionEn 'Material number', tcodes 'MM01, MM02, MM03, QA08' (מאז תיקון data/table-tcodes.json "
+          + "ב-2026-09-21; לפני כן 'QM01, MM02'), fioriApp ריק, s4Note 'ללא שינוי מבני.', "
           + "guideHe 'הפעלת סוגי בדיקה (קליטה/ייצור/שחרור) לחומר - מחבר את הייצור ל-QM. קריטי לשחרור אצווה לפני משלוח.', "
           + "helpLbl 'SAP Help - Quality Inspection' ו-sqlJoinSnippet 'FROM QMAT JOIN MARC ON QMAT.MATNR = MARC.MATNR "
           + "AND QMAT.WERKS = MARC.WERKS'. הוא רושם ארבעה שדות: MATNR (PK/FK, CHAR, אורך '18->40'), WERKS (PK/FK, CHAR "
@@ -11530,8 +11532,9 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
         + "communicated from ERP to EWM' ומזכיר את הטבלה בסניפט קטוע, 'from the material master (QMAT table)) that "
         + "triggers an Idoc to delete the inspection rule in EWM', אך מה שקדם למחרוזת הזו בגוף העמוד לא נראה בסניפט "
         + "ולכן לא נטען כאן איזו פעולה בדיוק מפעילה את ה-IDoc. לפני הסתמכות על רשימת השדות שבמאגר לאמת אותה ב-SE11 מול "
-        + "ה-DDIC, בשל הפער בין ארבעת השדות שברשומת הבלופרינט לבין המפתח שרובד ההעשרה רושם, ולתקן את עמודת הטרנזקציות "
-        + "במאגר, שכותבת QM01 (יצירת הודעת איכות) במקום טרנזקציות תחזוקת אב החומר והגדרת הבדיקה.",
+        + "ה-DDIC, בשל הפער בין ארבעת השדות שברשומת הבלופרינט לבין המפתח שרובד ההעשרה רושם, ולוודא שעמודת הטרנזקציות "
+        + "במאגר נשארת MM01, MM02, MM03 ו-QA08 (תוקנה ב-2026-09-21; לפני כן כתבה QM01, יצירת הודעת איכות, שאינה נתיב "
+        + "הגדרת הבדיקה).",
     },
     xrefs: [
       "table:MARA", "table:MARC", "table:MAPL", "table:PLKO", "table:PLMK", "tx:MM01", "tx:MM02", "tx:MM03",
@@ -11598,8 +11601,10 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       + "קובעת בסניפטה 'In EWM the inspection types 01 (Goods receipt insp. for purchase order), 04 (Goods receipt "
       + "inspection from production), 08 (Stock transfer inspection) and 09 (Recurring inspection of batches) are "
       + "supported'. הטענה נאמרת בהקשר EWM ללא כללי בדיקה ואינה טענה על שדה ART בטבלה QMAT, ולכן היא תומכת במשמעות "
-      + "המספרים ולא במבנה הטבלה. הטרנזקציות - data/table-tcodes.json כותב ל-QMAT 'QM01, MM02', אך QM01 היא יצירת "
-      + "הודעת איכות ולא תחזוקת הגדרת הבדיקה; תיקון לקטלוג נרשם כתור ולא בוצע ברשומה הזו. שם באנגלית - descriptionEn "
+      + "המספרים ולא במבנה הטבלה. הטרנזקציות - data/table-tcodes.json כתב ל-QMAT 'QM01, MM02', אך QM01 היא יצירת "
+      + "הודעת איכות ולא תחזוקת הגדרת הבדיקה; תוקן ב-2026-09-21 (סבב 2 של ביקורת העיצוב) ל-'MM01, MM02, MM03, QA08' "
+      + "לפי העמודים 'Inspection Setup' ו-'Making Mass Changes to the Inspection Setup', ו-data/sapData.* נוצרו מחדש "
+      + "מהבלופרינט. שם באנגלית - descriptionEn "
       + "של הבלופרינט הוא 'Material number', תיאור השדה הראשון ולא הטבלה. שכבת היציבות - data/s4-impact.ts#S4_STABLE "
       + "אינה מכילה את QMAT, ולכן הסטטוס 'ללא שינוי' שהאפליקציה גזרה עד כה נשען על עמודת s4Note של הבלופרינט בלבד "
       + "דרך lib/s4-class; הרשומה הזו מחליפה את הגזירה בסטטוס מחובר למקור רשמי. (5) אפליקציית Fiori: "
@@ -13615,9 +13620,13 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
           + "ובסניפט נראים הרצפים 'LANGU Language Key TJ02T / TJ30T' ו-'SPRAS STATUS BW Status DPR_BW_SYSSTAT / "
           + "DPR_BW_USERSTAT BWSTATUS TXTSH Short Description TJ02T / TJ30T TXT04 TXTMD Medium Description TJ02T / TJ30T "
           + "TXT30 TXTLG Long Description'. כלומר בתיעוד הרשמי של 2025 FPS01 המזהה TJ30T עדיין נקוב, בצמד עם TJ02T, כטבלת "
-          + "מקור לטקסטים של סטטוס, ולצדו שמות השדות SPRAS (מפתח שפה), TXT04 (טקסט קצר) ו-TXT30 (טקסט בינוני), מול "
-          + "ה-DataSources DPR_BW_SYSSTAT ו-DPR_BW_USERSTAT. עמודת Origin Table מציגה את שתי הטבלאות כצמד ואינה מפרידה "
-          + "איזו מהן נושאת כל שדה, הסניפט קטוע, ואין בו מפתח טבלה, טיפוסים או אורכים.",
+          + "מקור לטקסטים של סטטוס, מול ה-DataSources DPR_BW_SYSSTAT ו-DPR_BW_USERSTAT. קריאה לפי סדר העמודות של "
+          + "טבלת המיפוי (Field in Extraction Structure · Description · Origin Table · Field in Origin Table): שדה "
+          + "החילוץ TXTSH, שתיאורו 'Short Description', מקורו בשדה TXT04 של TJ02T / TJ30T; שדה החילוץ TXTMD, שתיאורו "
+          + "'Medium Description', מקורו בשדה TXT30; ו-SPRAS הוא שדה המקור של מפתח השפה LANGU. 'Short Description' "
+          + "ו-'Medium Description' הם אפוא תיאורי שדות מבנה החילוץ (TXTSH, TXTMD) ולא תיאורי TXT04 ו-TXT30 עצמם "
+          + "(תוקן 2026-09-21; הקריאה הקודמת ייחסה את התוויות לשדות המקור). עמודת Origin Table מציגה את שתי הטבלאות "
+          + "כצמד ואינה מפרידה איזו מהן נושאת כל שדה, הסניפט קטוע, ואין בו מפתח טבלה, טיפוסים או אורכים.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -13699,7 +13708,8 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
         + "מונה את TJ30T בין הטבלאות שבהן שמור מידע הסטטוס של הזמנת ייצור ('the tables JEST, JSTO, TJ20T, TJ30T, TJ02, "
         + "TJ02T and view CAUFV'); אותו נושא עצמו בגרסת SAP ERP 6.0 EHP8 מונה בדיוק את אותה רשימת טבלאות, כך שאין "
         + "בתיעוד הזה שינוי בשמות במעבר מ-ECC ל-S/4HANA; ובגרסה הנוכחית 2025 FPS01 המזהה TJ30T עדיין נקוב בתיעוד רשמי "
-        + "כטבלת מקור לטקסטים של סטטוס לצד TJ02T, עם השדות SPRAS, TXT04 ו-TXT30. שלושה עמודים רשמיים נוספים בגרסת 2025 "
+        + "כטבלת מקור לטקסטים של סטטוס לצד TJ02T, כאשר TXT04 ו-TXT30 מופיעים כשדות המקור של שדות החילוץ TXTSH "
+        + "ו-TXTMD ו-SPRAS כשדה המקור של מפתח השפה. שלושה עמודים רשמיים נוספים בגרסת 2025 "
         + "FPS01 מבססים את ההקשר התפקודי (ניהול סטטוסים בתחזוקת מפעל, פרופיל סטטוס לפי סוג הזמנה בתעשיות תהליכיות, "
         + "ומפתח תלוי שפה באורך עד ארבעה תווים עם טקסט קצר), אך אף אחד מהם אינו נוקב בשם הטבלה. אף מקור רשמי שנבדק בסבב "
         + "זה אינו נוקב ביורשת, בפריט פישוט, בהגבלה או בהוצאה משימוש של הטבלה. מה שלא אומת רשמית: מבנה ה-DDIC המלא, סדר "
@@ -13770,7 +13780,10 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       + "נשען על רשומת הפרויקט ב-data/cds-enrichment.ts, המתארת את התצוגה כמקבילת סטטוס האובייקט ומפנה ל-JEST "
       + "ול-TJ02T, ואין עמוד רשמי הקושר בין התצוגה לבין TJ30T. סטטוס נגזר קודם: לפני הרשומה הזו האפליקציה הציגה עבור "
       + "TJ30T 'ללא שינוי' שנגזר מעמודת ה-S/4 של הבלופרינט (derivedFrom: blueprint) ברמת אימות של נתוני הפרויקט בלבד; "
-      + "הרשומה הזו משאירה את אותה פסיקה ומוסיפה מתחתיה ראיות רשמיות, כולל השוואת ECC מול S/4HANA על אותו נושא.",
+      + "הרשומה הזו משאירה את אותה פסיקה ומוסיפה מתחתיה ראיות רשמיות, כולל השוואת ECC מול S/4HANA על אותו נושא. "
+      + "תיקון 2026-09-21 (סבב 2 של ביקורת העיצוב): ראיה 3 (ה-DataSource של Portfolio and Project Management) נקראה "
+      + "מחדש לפי סדר העמודות — TXTSH ו-TXTMD הם שדות מבנה החילוץ ו-TXT04 ו-TXT30 שדות המקור; הטענה הקודמת 'TXT04 "
+      + "(טקסט קצר) ו-TXT30 (טקסט בינוני)' קראה את הסניפט לפי התווית ולא לפי העמודה ותוקנה בראיה ובפסיקה.",
   },
 
   /* ---------------------------------------------------------- table:TQ80 */

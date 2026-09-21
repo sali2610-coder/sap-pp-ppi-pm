@@ -1011,9 +1011,9 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "במאגר (F3577 מול F4587 מול F4512) ולא ספק בקיום היישום. ספר ה-Fiori (book7, Tier-2, " +
       "data/library/book7/ch5.sections.json, מקטע F4587) מתאר את F4587 כיישום Transactional עם KPI לפי סטטוס עיבוד, " +
       "איכות, זמינות רכיבים וכמות, ופעולות עריכה, שחרור, אישור והשלמה טכנית. פרטי התפקיד (SAP_BR_PRODN_OPERATOR_PROC), " +
-      "הקטלוג (SAP_PP_BC_PROCESS_ORDER) ושירות ה-OData (API_PROCESSORDER_2) שברשומת המאגר לא אומתו מול מקור רשמי; " +
-      "רשומות ה-Help מתעדות את API_PROCESS_ORDERS ואת API_PROCESS_ORDER_2_SRV כשירותי ה-OData של הזמנת תהליך, ושם " +
-      "השירות ברשומת המאגר אינו תואם לאף אחד מהם. F4587 ו-F5323 אינם קיימים ב-data/fiori/apps.ts ולכן אינם ב-xrefs. " +
+      "הקטלוג (SAP_PP_BC_PROCESS_ORDER) ושירות ה-OData שברשומת המאגר לא אומתו מול מקור רשמי; " +
+      "רשומות ה-Help מתעדות את API_PROCESS_ORDERS ואת API_PROCESS_ORDER_2_SRV כשירותי ה-OData של הזמנת תהליך; שם " +
+      "השירות ברשומת המאגר (API_PROCESSORDER_2 עד 2026-09-21) נורמל ל-API_PROCESS_ORDER_2_SRV. F4587 ו-F5323 אינם קיימים ב-data/fiori/apps.ts ולכן אינם ב-xrefs. " +
       "accessedAt = 2026-09-02 לפי תאריך האצווה; צמדי loio/versionId אומתו מחדש בריצה חיה.",
   },
 
@@ -1072,7 +1072,8 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         accessedAt: DATE,
         claim:
           "רשומת המאגר מקצה את המזהה F3364 לאפליקציה Confirm Process Order (PP-PI, Transactional, guiTx COR6N, OData " +
-          "'API_PROCORDCONF', תפקיד SAP_BR_PRODN_OPERATOR_PROC, קטלוג SAP_PP_BC_PROCESS_ORDER), בסימון trust 'curated' " +
+          "'API_PROC_ORDER_CONFIRMATION_2_SRV' מאז 2026-09-21, קודם 'API_PROCORDCONF'; תפקיד SAP_BR_PRODN_OPERATOR_PROC, " +
+          "קטלוג SAP_PP_BC_PROCESS_ORDER), בסימון trust 'curated' " +
           "ובלי קישור לספריית Fiori; אותו מזהה חוזר ב-data/centers/fiori.ts ובשדות s4Delta של COR6N, COR6 ו-CORK " +
           "ב-data/tx-intel.ts, ואינו קיים באינדקס 1,450 האפליקציות (data/fiori.ts) ולא בספר ה-Fiori המורשה (book7). " +
           "המזהה סותר חזיתית את תיעוד SAP, שבו האפליקציה ששמה Confirm Process Order נושאת App ID: CORK.",
@@ -1111,8 +1112,8 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "רק אפליקציות אחרות (F3464, F3384, F3346, F3664, F8364) ואת אינפוטייפ 3364. לכן נכתב סטטוס 'נדרש אימות נוסף' " +
       "ורמת הרשומה משקפת מקורות סותרים: מזהה המאגר מול המזהה הרשמי לאותו שם. רשומת Help נוספת של הענן הציבורי ('App " +
       "Extensibility in Production Operations', 2608.500, loio fad095a8b7314eefa7a8ebccb568ce90) מסווגת את 'Confirm " +
-      "Process Order (CORK)' כ-SAP GUI Application; לא נכללה כראיה נפרדת. שירות ה-OData 'API_PROCORDCONF' שברשומת " +
-      "המאגר לא נמצא במקור רשמי; רשומת What's New 2023 FPS03 (loio fe27113cd73e4219ac8dd23a4db1ef16) נוקבת בשם 'OData " +
+      "Process Order (CORK)' כ-SAP GUI Application; לא נכללה כראיה נפרדת. שירות ה-OData 'API_PROCORDCONF' שהיה ברשומת " +
+      "המאגר עד 2026-09-21 לא נמצא במקור רשמי ונורמל ל-API_PROC_ORDER_CONFIRMATION_2_SRV; רשומת What's New 2023 FPS03 (loio fe27113cd73e4219ac8dd23a4db1ef16) נוקבת בשם 'OData " +
       "API: Process Order Confirmation (API_PROC_ORDER_CONFIRMATION_2_SRV)', ותיעוד APIs for Manufacturing 2025.001 " +
       "מציג את הנתיב /sap/opu/odata/SAP/API_PROC_ORDER_CONFIRMATION_2_SRV. תפקיד וקטלוג (SAP_BR_PRODN_OPERATOR_PROC, " +
       "SAP_PP_BC_PROCESS_ORDER) נשארים Tier-2 ללא אימות. F4587/F5323 אינם קיימים ב-data/fiori/apps.ts ולכן אינם " +

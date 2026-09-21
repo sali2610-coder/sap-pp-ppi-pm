@@ -42,7 +42,7 @@ export const PROCESS_MAPS: ProcessMap[] = [
     steps: [
       { he: "ניהול ביקוש (PIR)", tcodes: ["MD61", "MD62"], tables: ["PBIM", "PBED"], fiori: ["Manage PIRs"], incidents: ["pir-strategy"], test: "PIR גרסה 00 מזין MRP." },
       { he: "MRP", tcodes: ["MD01N", "MD04"], tables: ["MDKP", "PLAF"], fiori: ["Monitor Material Coverage"], interfaces: ["—"], incidents: ["mrp-no-planned-orders", "no-production-version"], test: "MRP יוצר הזמנות מתוכננות; גרסת ייצור." },
-      { he: "פקודת ייצור/תהליך", tcodes: ["CO01", "COR1"], tables: ["AUFK", "AFKO", "AFPO"], fiori: ["Manage Process/Production Orders"], interfaces: ["API_PROCESSORDER_2", "LOIPRO IDoc"], incidents: ["process-order-no-control-recipe"], test: "המרה+שחרור; מרשם בקרה ל-MES." },
+      { he: "פקודת ייצור/תהליך", tcodes: ["CO01", "COR1"], tables: ["AUFK", "AFKO", "AFPO"], fiori: ["Manage Process/Production Orders"], interfaces: ["API_PROCESS_ORDER_2_SRV", "LOIPRO IDoc"], incidents: ["process-order-no-control-recipe"], test: "המרה+שחרור; מרשם בקרה ל-MES." },
       { he: "ביצוע + אישור", tcodes: ["CO11N", "COR6N", "COGI"], tables: ["AFRU", "RESB", "AFFW"], fiori: ["Confirm Production/Process Order"], interfaces: ["Process messages (MES)"], incidents: ["cogi-stuck", "ru505-backflush-stock", "phase-confirm-sequence"], test: "אישור+Backflush; COGI נקי." },
       { he: "קבלת תוצר (GR)", tcodes: ["MIGO", "MB31"], tables: ["MATDOC", "MCH1"], fiori: ["Post Goods Movement"], incidents: ["char-batch-classification-missing"], test: "GR 101 לאצווה עם תפוגה." },
       { he: "התחשבנות + סטיות", tcodes: ["KKS2", "CO88"], tables: ["COBRB", "ACDOCA", "CKMLPP"], fiori: ["Run Settlement"], incidents: ["settlement-error", "variance-missing"], test: "WIP→Variance→Settlement ל-ACDOCA." },

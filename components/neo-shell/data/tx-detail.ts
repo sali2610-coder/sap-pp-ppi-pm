@@ -436,6 +436,21 @@ export function txDetail(rawCode: string): TxDetail | null {
     total: 0,
   };
 
+  // One S/4 vocabulary per page (design audit round 2): when an authored overlay
+  // record exists, the plate headline is the canonical label the evidence block
+  // shows, and the disposition follows it so colour and headline agree. A
+  // verification_required claim keeps the derived disposition (the dataset's
+  // own words still stand) and only relabels the headline.
+  const canon = detail.evidence.status;
+  if (!canon.derived) {
+    const disp: S4Disposition | undefined =
+      canon.key === "unchanged" || canon.key === "s4_native" || canon.key === "not_applicable" ? "available"
+      : canon.key === "replaced" || canon.key === "not_available" || canon.key === "legacy_ecc_only" ? "superseded"
+      : canon.key === "verification_required" ? undefined
+      : "changed";
+    detail.s4 = { ...detail.s4, he: canon.label, disposition: disp ?? detail.s4.disposition };
+  }
+
   // The 14 facts the brief names, counted honestly: a fact is "known" only when
   // the dataset actually answers it. The screen prints both numbers, so a thin
   // record reads as thin instead of pretending otherwise.

@@ -373,7 +373,7 @@ export const DOMAIN_DETAIL: Record<string, DomainDetail> = {
     scenario: "בארגון: פקודת תהליך לייצור 50K בקבוקים. שחרור בודק זמינות תרכיז (aATP), שולח הוראות לבקר הקו (מרשם בקרה), הקו מדווח כמויות חזרה (הודעות תהליך), GR לאצווה, התחשבנות למלאי.",
     fiori: ["Create Process Order", "Manage Process Orders", "Confirm Process Order"],
     migration: "AUFK/AFKO/AFPO נשמרים. QA: מחזור פקודת תהליך מלא + מרשם בקרה + התחשבנות ל-ACDOCA.",
-    eccS4: { unchanged: "מודל AUFK/AFKO/AFPO זהה.", changed: "OData API_PROCESSORDER_2; PP-DS/aATP; UX Fiori.", fiori: "Manage Process Orders", cds: "I_ManufacturingOrder", migration: "QA: מחזור מלא + מרשם בקרה + התחשבנות." } },
+    eccS4: { unchanged: "מודל AUFK/AFKO/AFPO זהה.", changed: "OData API_PROCESS_ORDER_2_SRV; PP-DS/aATP; UX Fiori.", fiori: "Manage Process Orders", cds: "I_ManufacturingOrder", migration: "QA: מחזור מלא + מרשם בקרה + התחשבנות." } },
   "pppi-confirmations": {
     purpose: "אישור פקודת תהליך מדווח ביצוע — שלבים, כמויות תוצר/פסולת, זמנים, Backflush ו-GR. מעדכן עלות בפועל, מלאי וזמינות, ומאפשר סטיות והתחשבנות.",
     diagram: ["פקודה משוחררת", "ביצוע שלב", "אישור (COR6N)", "Backflush רכיבים", "GR תוצר לאצווה", "סטיות + התחשבנות"],

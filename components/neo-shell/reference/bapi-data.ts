@@ -17,7 +17,9 @@
    ========================================================================== */
 
 import { FUNCTION_INTEL, type FunctionIntel } from "@/data/function-intel";
+import { ALL_TABLES } from "@/data/sapData";
 import { registry, type SapFuncObject } from "@/lib/bapi-registry";
+import { cleanFunc } from "@/lib/object-intel";
 import { commitInfo } from "@/lib/bapi-complexity";
 import { evidenceBlock, fromFuncRegistry } from "@/lib/evidence";
 import { MOD_HE } from "../mod-var";
@@ -92,6 +94,36 @@ export const bapiObject = (id: string): SapFuncObject | undefined =>
   objects().find((o) => o.id === id);
 
 const intelOf = (id: string): FunctionIntel | undefined => FUNCTION_INTEL[id];
+
+/** Blueprint keys that are process concepts, not callable objects (function-intel
+ *  kind "concept"). They keep their page and their content, are labelled as
+ *  concepts, and are never counted as functions. */
+const CONCEPT_KIND = "מושג תהליכי";
+const isConcept = (id: string): boolean => intelOf(id)?.kind === "concept";
+
+/** The blueprint rows that list this object in their function column, and the
+ *  transactions those rows carry. This is what the registry derives `tables` and
+ *  `transactions` from when no enrichment file curates them. The PP-PI blueprint
+ *  uses some BAPI pairs as a default value on task-list and PRT rows, so a derived
+ *  list can carry routing tables and transactions that are not the object's own;
+ *  the page therefore labels a derived list by its provenance. */
+function blueprintOwners(id: string): { tables: string[]; tcodes: string[] } {
+  const tables: string[] = [];
+  const tcodes = new Set<string>();
+  for (const t of ALL_TABLES) {
+    if (!(t.funcs || []).some((f) => cleanFunc(f[0]) === id)) continue;
+    if (!tables.includes(t.tableName)) tables.push(t.tableName);
+    // same tokenisation as lib/bapi-registry deriveRegistry, so the derived list
+    // (first 12 codes, table order) can be recognised exactly
+    for (const c of (t.tcodes || "").split(/[^A-Za-z0-9_]+/)) {
+      if (c.length >= 2 && /^[A-Z][A-Z0-9_]*$/i.test(c)) tcodes.add(c.toUpperCase());
+    }
+  }
+  return { tables, tcodes: [...tcodes] };
+}
+
+const sameSet = (a: string[], b: string[]): boolean =>
+  a.length === b.length && a.every((x) => b.includes(x)) && b.every((x) => a.includes(x));
 
 const modsOf = (o: SapFuncObject): string[] =>
   uniq([o.primaryModule, ...(o.secondaryModules || [])]);
@@ -169,7 +201,7 @@ function rowOf(o: SapFuncObject): RefRow {
     he,
     en: clean(o.shortDescriptionEn),
     mods,
-    kind: o.objectType,
+    kind: isConcept(o.id) ? CONCEPT_KIND : o.objectType,
     group: CATEGORY_HE[o.category] || CATEGORY_HE.General,
     nums: [
       { i: "table", sr: "טבלאות מקושרות ", v: nf.format(o.tables.length) },
@@ -192,6 +224,9 @@ function rowOf(o: SapFuncObject): RefRow {
 export function bapiDir(): RefDir {
   const all = objects();
   const rows = all.map(rowOf);
+  // function objects proper; blueprint process concepts are listed but not counted
+  const fnRows = rows.filter((r) => r.kind !== CONCEPT_KIND);
+  const concepts = rows.length - fnRows.length;
 
   const count = (fn: (r: RefRow) => boolean) => rows.filter(fn).length;
   const byMod = new Map<string, number>();
@@ -206,11 +241,12 @@ export function bapiDir(): RefDir {
     title: "BAPIs ומודולי פונקציה",
     icon: "plug",
     lede:
-      `${nf.format(all.length)} אובייקטי פונקציה (BAPI ו-FM) מקטלוג הפרויקט: כל אחד מהם מתועד על טבלת SAP ` +
+      `${nf.format(fnRows.length)} אובייקטי פונקציה (BAPI ו-FM) מקטלוג הפרויקט: כל אחד מהם מתועד על טבלת SAP ` +
       `בתחזוקת מפעל (PM) או בתעשיות תהליכיות (PP-PI), או נוסף כרשומה מאומתת. לכל אובייקט מוצגים המודול, ` +
-      `המשמעות, הטבלאות והטרנזקציות המקושרות ומעמדו ב-S/4HANA לפי התיעוד.`,
+      `המשמעות, הטבלאות והטרנזקציות המקושרות ומעמדו ב-S/4HANA לפי התיעוד.` +
+      (concepts ? ` לצדם ${nf.format(concepts)} מושגים תהליכיים שהבלופרינט מונה בעמודת הפונקציות; הם מסומנים ככאלה ואינם נספרים כפונקציות.` : ""),
     stats: [
-      { v: all.length, l: "אובייקטי פונקציה", i: "plug" },
+      { v: fnRows.length, l: "אובייקטי פונקציה", i: "plug" },
       { v: byKind.get("BAPI") || 0, l: "BAPIs", i: "shieldCheck" },
       { v: byKind.get("FM") || 0, l: "מודולי פונקציה (FM)", i: "fileCode" },
       { v: count((r) => r.caps.includes("deep")), l: "מתועדים לעומק", i: "bookOpen" },
@@ -285,6 +321,12 @@ export function bapiDetail(id: string): RefDetail | null {
   const sections: RefSection[] = [];
 
   const what: RefFact[] = [];
+  if (isConcept(o.id)) {
+    what.push({
+      label: "סוג הרשומה",
+      text: "מושג תהליכי שהבלופרינט מונה בעמודת הפונקציות של הטבלאות — לא מודול פונקציה ולא BAPI. אין לו מזהה fm: והוא אינו נספר בקטלוג הפונקציות; התוכן נשמר כמידע תהליכי.",
+    });
+  }
   if (intel?.what) what.push({ label: "תפקיד האובייקט", text: intel.what });
   else if (o.shortDescriptionHe) what.push({ label: "תפקיד האובייקט", text: o.shortDescriptionHe });
   if (intel?.why) what.push({ label: "מקרי שימוש", text: intel.why });
@@ -332,18 +374,31 @@ export function bapiDetail(id: string): RefDetail | null {
     sections.push({ id: "contract", icon: "fileCode", title: "ממשק הקריאה והפרמטרים", facts: contract });
   }
 
-  /* objects and tables */
+  /* objects and tables — provenance made explicit (2026-09-21): a curated list
+     from an enrichment file is shown as the record's own; a list the registry
+     derived from the blueprint rows is labelled as that association, and the
+     blueprint mentions stay visible next to a curated list. */
+  const bp = blueprintOwners(o.id);
+  // "derived" = exactly what deriveRegistry would have produced; a curated list
+  // that happens to be a subset of the blueprint codes (COR3, IW33) is still curated
+  const derivedTables = o.tables.length > 0 && sameSet(o.tables, bp.tables);
+  const derivedTx = o.transactions.length > 0 && sameSet(o.transactions, bp.tcodes.slice(0, 12));
+  const BP_TABLES = "טבלאות הבלופרינט המזכירות את האובייקט (שיוך לפי עמודת הפונקציות בשורת הטבלה)";
   const objFacts: RefFact[] = [];
   if (o.businessObject) objFacts.push({ label: "אובייקט עסקי (BOR)", codes: [{ t: o.businessObject }] });
   objFacts.push({
-    label: "טבלאות SAP מקושרות",
+    label: derivedTables ? BP_TABLES : "טבלאות SAP ברשומה המאומתת",
     codes: o.tables.length
       ? standings(o.tables).map((t) => ({ t: t.name, href: t.href }))
       : undefined,
     absent: "לא קיימת בתיעוד טבלת SAP המקושרת לאובייקט זה.",
   });
+  if (!derivedTables) {
+    const extra = bp.tables.filter((t) => !o.tables.includes(t));
+    if (extra.length) objFacts.push({ label: BP_TABLES, codes: standings(extra).map((t) => ({ t: t.name, href: t.href })) });
+  }
   objFacts.push({
-    label: "טרנזקציות",
+    label: derivedTx ? "טרנזקציות של טבלאות הבלופרינט המזכירות אותו (שיוך עקיף, לא בהכרח של האובייקט עצמו)" : "טרנזקציות ברשומה המאומתת",
     codes: o.transactions.length
       ? o.transactions.map((c) => ({ t: c, href: txHref(c) }))
       : undefined,
@@ -459,7 +514,7 @@ export function bapiDetail(id: string): RefDetail | null {
 
   return {
     kind: "bapi",
-    eyebrow: `${o.objectType} · ${mods.join(" · ")}`,
+    eyebrow: `${isConcept(o.id) ? CONCEPT_KIND : o.objectType} · ${mods.join(" · ")}`,
     code: o.technicalName,
     he: clean(o.shortDescriptionHe) || clean(intel?.what) || "",
     en: clean(o.shortDescriptionEn),
@@ -467,6 +522,7 @@ export function bapiDetail(id: string): RefDetail | null {
     mod: o.primaryModule,
     modHe: MOD_HE[o.primaryModule] || "",
     chips: uniq([
+      isConcept(o.id) ? "מושג תהליכי מהבלופרינט (לא FM)" : "",
       CATEGORY_HE[o.category],
       OP_HE[o.operationType],
       DIFF_HE[o.difficulty],

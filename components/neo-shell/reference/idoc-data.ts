@@ -289,9 +289,14 @@ export function idocDetail(name: string): RefDetail | null {
   }
   if (relatedFuncs.length) {
     // BAPI counterparts, only where the project really generates a page.
+    // Only function objects: a message type referencing another (kind "idoc") is
+    // not a function card, and a blueprint process concept says so in its reason.
     const fnCards: RefCard[] = uniq(Object.keys(FUNCTION_INTEL))
-      .filter((k) => (FUNCTION_INTEL[k].related.idocs || []).includes(r.name))
-      .map((k) => ({ href: bapiHref(k), code: k, he: FUNCTION_INTEL[k].what, reason: "אובייקט פונקציה שרשומתו מפנה לסוג ההודעה" }));
+      .filter((k) => FUNCTION_INTEL[k].kind !== "idoc" && (FUNCTION_INTEL[k].related.idocs || []).includes(r.name))
+      .map((k) => ({
+        href: bapiHref(k), code: k, he: FUNCTION_INTEL[k].what,
+        reason: FUNCTION_INTEL[k].kind === "concept" ? "מושג תהליכי מהבלופרינט שרשומתו מפנה לסוג ההודעה" : "אובייקט פונקציה שרשומתו מפנה לסוג ההודעה",
+      }));
     if (fnCards.length) {
       sections.push({ id: "funcs", icon: "plug", title: "אובייקטי פונקציה קשורים", cards: fnCards });
     }

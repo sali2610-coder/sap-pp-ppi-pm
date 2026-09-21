@@ -14,10 +14,13 @@
    data/function-intel.ts, data/bapi-enrichment.sweep.ts; "MATMAS IDoc |
    APIs for Product Master" 2025.001) and LOIPRO01 ("LOIPRO01" and
    "Transaction Data", LO-SCI, SAP ERP 6.18.latest). Open conflicts and
-   registry suggestions live in audit/s4-enrichment/research-queue-idocs.md. */
+   registry suggestions live in audit/s4-enrichment/research-queue-idocs.md.
+   2026-09-21 (design audit round 2): idoc:msg:BOMMAT added when the material-BOM
+   message type moved from the functions catalog to the IDoc family. */
 import type { Evidence, RegistryEntry, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE2 = "2026-09-02";
+const DATE21 = "2026-09-21";
 
 /* --------------------------------------------------------------- registry */
 
@@ -119,6 +122,24 @@ const LOIPRO01_ORDER_INTEGRATION_2025: Evidence = {
 
 /* --------------------------------------------------------------- records */
 
+const BOMMAT_ALE_PAGE: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Distributing BOM Data within ID PDM | Library of ALE Business Processes",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/61af834e09164854993e81aa39be576d/f4e3e4535dd4414de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE21,
+  claim:
+    "עמוד הפצת נתוני עצי מוצר בספריית תהליכי ה-ALE (2025 FPS01) פותח טבלת 'Technical Data' בסניפט: 'Message type: "
+    + "BOMMAT 3.1G Basis type: BOMMAT01 3.1G Manual distribution (transaction BD30) Functions: CRE, CNG, and DEL 3.1G "
+    + "… New basis type BOMMAT03 with corrected field type 4.6B Retail table Table T415B for bill of material for "
+    + "empties are supported'. כלומר BOMMAT הוא סוג הודעת IDoc (Message type) להפצת עצי מוצר, עם סוג בסיסי BOMMAT01 "
+    + "וסוג בסיסי מתוקן BOMMAT03, הפצה ידנית ב-BD30 ופונקציות יצירה, שינוי ומחיקה; העמוד עצמו מתפרסם תחת מהדורת "
+    + "S/4HANA On-Premise 2025 FPS01.",
+  verificationLevel: "sap_official_verified",
+};
+
 export const IDOC_VERIFICATION: VerificationRecord[] = [
   /* ------------------------------------------------------ idoc:msg:MATMAS */
   {
@@ -180,6 +201,104 @@ export const IDOC_VERIFICATION: VerificationRecord[] = [
     lastVerifiedAt: DATE2,
     notes:
       "הסטטוס נקבע מרשומות חיפוש רשמיות (SAP_S4HANA_ON-PREMISE, 2025 FPS01): MATMAS מתועד כ-IDoc בפרק APIs for Product Master עם השם הטכני MATMAS05, משויך ל-MATMAS05 בהנחיית ALE של MDG, ונקוב בתרחישי EWM מבוזר (Supply Assignment, loio 123195b2) ו-PEO (Transaction Processing in PEO-ERP Integration, loio b8403273). אף מקור רשמי לא נמצא המסמן אותו כמוחלף, מוגבל או לא אסטרטגי, ולכן 'ללא שינוי' בלי יורשת. הפרדה בין סוג הודעה לסוג בסיסי: העמודים הרשמיים נוקבים בשלושה סוגים בסיסיים של אותו סוג הודעה: MATMAS03 (IDoc Types for Distributing Material Master Data by ALE, loio afb1c053), MATMAS05 (APIs for Product Master; MDG; PEO דורש MATMAS05 כגרסה מינימלית, loio 6e3a83da) ו-MATMAS06 (Technical Information: Material Master (MATMAS06), Logistics General, loio 3e436254, סגמנטים מורחבים). זו אינה סתירה אלא גרסאות מקבילות; ברישום הסוגים הבסיסיים של הפרויקט קיים MATMAS05 בלבד, ולכן MATMAS06 אינו ב-xrefs. הסטטוס הנגזר במאגר לפני רשומה זו היה 'משתנה' (בלוק ECC מול S/4HANA ברשומת function-intel, בשל אורך MATNR 40); הרחבת מספר החומר היא הפעלה אופציונלית ולא שינוי בסוג ההודעה עצמו, ולכן הקביעה מן המקור הרשמי גוברת והאזהרה נשמרת ב-recommendedAction כבדיקה ברמת נתוני הפרויקט (data/function-intel.ts#MATMAS, data/s4-objects.ts#MATMAS, data/s4-impact.ts). אובייקטים רשמיים נוספים שנקובים בסניפטים ואינם ב-xrefs כי אינם ביקום המזהים: user exit EXIT_SAPLMV01_002 ביציאה (Customer-Specific Fields in ALE, loio 8c14c453), BAdI BADI_MATMAS_ALE_CR (loio 30ef1d20), קוד תהליך נכנס MATM ו-WE30 לזיהוי הגרסה העדכנית (loio 6e3a83da), טרנזקציות BD50 / BD61 למצביעי שינוי (Activate Change Pointers, loio bdf1b8a5) ודוח RBDMIDOC (loio b0e6f732). WE05 נקובה רשמית רק בהקשר כללי של שגיאות ALE (Other Error Sources, loio b3e54d2d) ולא לצד MATMAS, ולכן לא נרשמה. גופי העמודים לא נקראו (מעטפת JavaScript); כל טענה תחומה בכותרת ובסניפט של רשומת החיפוש. לא בוצעה בדיקה חיה במערכת SAP (חיבור sc4sap נכשל): הסוג הבסיסי הפעיל, קוד התהליך, הקישור בין קוד התהליך MATM למודול IDOC_INPUT_MATMAS01 והסגמנטים המלאים נשארים לאימות ב-WE20 / WE30 / WE60. הטענה 'OData API_PRODUCT' שברשומת function-intel לא אומתה בסניפט רשמי (What's New 2020 נוקב ב-'Product Master (A2X) OData API' בלבד, loio 060f792a), ולכן ההמלצה מפנה לשירותי ה-SOAP הנקובים בפרק. שתי ראיות המאגר הקודמות (sweep, function-intel) הוחלפו בארבע ראיות רשמיות; ניתן להחזירן עם repoRef. קיימת גרסת Public Cloud לעמוד MATMAS IDoc (אותו loio תחת SAP_S4HANA_CLOUD) שלא נקראה; המהדורה ברשומה נשארת On-Premise. ביקורת אדברסרית 2026-09-05: ארבעת ה-URL נבדקו (HTTP 200, loio ו-versionId 2025.001 אומתו מול רשומות החיפוש), כל טענה נמצאה בסניפט, 14 xrefs נפתרים, validateRecords החזיר 0 בעיות.",
+  },
+
+  /* ------------------------------------------------------ idoc:msg:BOMMAT */
+  {
+    id: "idoc:msg:BOMMAT",
+    evidence: [
+      BOMMAT_ALE_PAGE,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technical Information: Bill of Materials | Logistics — General (LO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/7f7567563889c159e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE21,
+        claim:
+          "טבלת 'Technical Description of the IDoc Type' בעמוד המידע הטכני לעצי מוצר (Logistics — General, 2025 FPS01) "
+          + "נפתחת בעמודות Document Type · Direction · Logical Message · IDoc Type · Process Code ובשורה 'Bill of "
+          + "material Inbound BOMMAT BOMMAT07 BOMM…' (הסניפט קטוע אחרי BOMM). כלומר במהדורת 2025 FPS01 ההודעה הלוגית "
+          + "BOMMAT מתועדת לכיוון נכנס עם סוג ה-IDoc‏ BOMMAT07; קוד התהליך המלא לא נראה בסניפט ואינו נטען. אותה טבלה "
+          + "מופיעה גם במדריך Retail באותה גרסה (loio 27ff4a5616bcf81ae10000000a441470).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PDR: Connecting the Systems | Product Lifecycle Management (PLM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/36802406aebb4b96b1598246e1d316ee/d9725995bfba44b181e63037842a2d0a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE21,
+        claim:
+          "בהנחיית חיבור המערכות של Product Data Replication ‏(PLM, 2025 FPS01) הסניפט קובע: 'The following message "
+          + "type (IDoc) entries are necessary for the sending direction from source to target: IDoc Description BOMDOC "
+          + "BOMs: document structure BOMMAT BOMs: material BOM CHRMAS Class…'. כלומר BOMMAT הוא סוג ההודעה של עץ "
+          + "מוצר לחומר (Material BOM), לצד BOMDOC לעץ מוצר של מסמך.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Stock Separation Using Logistical Products | What's New in SAP S/4HANA 1809 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1809 FPS01",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/e29bd2a5a04f4d7893f73cf2182cc1e1.html?locale=en-US&state=PRODUCTION&version=1809.001",
+        accessedAt: DATE21,
+        claim:
+          "רשומת What's New של S/4HANA 1809 FPS01 קובעת: 'The bill of material of a procurement product (which is "
+          + "technically a structured article) can be exchanged via ALE using an IDoc (message type BOMMAT)'. כלומר "
+          + "BOMMAT נזכר כסוג הודעת IDoc ל-ALE גם ברשומת חידושים של S/4HANA עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הבלופרינט של PP-PI ומודיעין הפונקציות של הפרויקט - רשומת BOMMAT",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE21,
+        claim:
+          "הבלופרינט (data/sapData.pppi.ts) מונה את 'BOMMAT' בעמודת הפונקציות של טבלה בנושא עצי המוצר עם התיאור 'הפצת "
+          + "עץ מוצר חומר בין מערכות'; data/function-intel.ts#BOMMAT מתאר 'סוג הודעת IDoc/הפצת עץ מוצר חומר (Material "
+          + "BOM) בין מערכות' בסימון inferred ומפנה ל-WE02, WE20, STKO ו-STPO. עד 2026-09-21 סיווג המאגר (lib/object-intel) "
+          + "ראה ב-BOMMAT מודול פונקציה, ורובד ההעשרה של PP-PI תיאר אותו כ'שם מבנה/טבלה של נתוני BOM'; שני התיאורים "
+          + "הוחלפו: BOMMAT מסווג כסוג הודעת IDoc (kind idoc), נספר בקטלוג ה-IDocs ומוגש ב-/neo/idoc/BOMMAT/.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BOMMAT, data/bapi-enrichment.pppi.ts#BOMMAT, lib/object-intel.ts#IDOC_RE",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "סוג ההודעה BOMMAT (עץ מוצר לחומר, Material BOM) מתועד ב-S/4HANA On-Premise 2025 FPS01 בספריית תהליכי ה-ALE "
+        + "(סוג בסיסי BOMMAT01 מגרסה 3.1G, BOMMAT03 מגרסה 4.6B, הפצה ידנית ב-BD30 עם הפונקציות CRE, CNG ו-DEL), במידע "
+        + "הטכני לעצי מוצר של Logistics — General ו-Retail (הודעה לוגית BOMMAT, סוג IDoc‏ BOMMAT07, כיוון נכנס) ובהנחיית "
+        + "Product Data Replication של PLM. לא נמצא מקור רשמי המסמן אותו כמוחלף, מוגבל או לא זמין ב-S/4HANA. סוגי "
+        + "ה-IDoc הבסיסיים BOMMAT01/03/07 מצוטטים מהסניפטים ולא נרשמו כרשומות registry נפרדות; מבנה המקטעים, קוד התהליך "
+        + "הנכנס והסוג הבסיסי שבשימוש בפועל דורשים בדיקה ב-WE30/WE20 של המערכת.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: BOMMAT_ALE_PAGE,
+      recommendedAction:
+        "להמשיך להפיץ עצי מוצר לחומר ב-ALE עם BOMMAT; במיגרציה לבדוק בפרופיל השותף (WE20) את הסוג הבסיסי בפועל "
+        + "(BOMMAT01, BOMMAT03 או BOMMAT07) ואת קוד התהליך הנכנס, ולנטר ב-WE02 / BD87. במאגר: BOMMAT אינו מודול "
+        + "פונקציה ואינו שם טבלה; שדות ה-BOM שאליהם הוא מפיץ הם STKO, STPO ו-MAST.",
+    },
+    xrefs: [
+      "table:STKO", "table:STPO", "table:MAST", "idoc:msg:MATMAS", "idoc:msg:LOIPRO",
+      "tx:WE02", "tx:BD87", "tx:WE20", "tx:CS01", "tx:CS02", "tx:CS03",
+      "fm:CSAP_MAT_BOM_MAINTAIN", "fm:BAPI_MATERIAL_BOM_GROUP_CREATE",
+    ],
+    lastVerifiedAt: DATE21,
+    notes:
+      "שיטה: scripts/sap-help-search.mjs 'BOMMAT' במוצר SAP_S4HANA_ON-PREMISE (2026-09-21; 21 תוצאות, ארבע רלוונטיות "
+      + "ורשומת Retail כפולה של המידע הטכני). גוף עמודי ה-Help אינו נשלף (מעטפת JavaScript), ולכן כל טענה מוגבלת לכותרת "
+      + "ולסניפט של רשומת החיפוש. BD30 נזכר בסניפט הרשמי אך אינו ביקום הטרנזקציות של המאגר, ולכן נזכר בטקסט בלי xref. "
+      + "לא נבדק במערכת SAP חיה (ה-MCP של sc4sap לא התחבר). הרשומה נכתבה בסבב 2 של ביקורת העיצוב, כשהתיקון הקטלוגי "
+      + "העביר את BOMMAT מקטלוג הפונקציות (שם נספר בטעות כמודול פונקציה) למשפחת ה-IDocs; רשומת ההעשרה של PP-PI, "
+      + "שתיארה אותו כ'שם מבנה/טבלה של נתוני BOM', תוקנה באותו מועד.",
   },
 
   /* ------------------------------------------------------ idoc:msg:LOIPRO */

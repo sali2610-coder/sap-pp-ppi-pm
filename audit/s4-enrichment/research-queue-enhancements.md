@@ -608,3 +608,6 @@ from its verdict text with the six listed downgrades applied (no `fixedRecord` w
   corrected twin attribution, the corrected SDH0 warning, zero em dashes).
 - The two em dashes that remain in `enh:exit:PCSD0002` sit inside SAP's own deliverable title
   `Logistics — General (LO)`, returned verbatim by the search service, and were left as quoted.
+
+### Resolved 2026-09-21 (design audit round 2 · audit/ux-2026-09/SAP-FIXES.md)
+- catalog-integrity finding (`CMOD/SMOD`, `Implicit Enhancement` rows in `data/exits.ts`): applied. Both rows removed from the named-exit catalogue; every unique sentence moved into the `note` of `data/enhancements.ts#customer-exit` and `#implicit-enhancement`. Named exits 42 → 40, all id-bearing.

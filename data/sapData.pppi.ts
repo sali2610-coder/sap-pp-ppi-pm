@@ -1265,7 +1265,7 @@ export const PPPI_DATA = {
           "tableName": "QMAT",
           "descriptionHe": "הגדרת בדיקת איכות לחומר",
           "descriptionEn": "Material number",
-          "tcodes": "QM01, MM02",
+          "tcodes": "MM01, MM02, MM03, QA08",
           "fioriApp": "",
           "s4Note": "ללא שינוי מבני.",
           "guideHe": "הפעלת סוגי בדיקה (קליטה/ייצור/שחרור) לחומר - מחבר את הייצור ל-QM. קריטי לשחרור אצווה לפני משלוח.",

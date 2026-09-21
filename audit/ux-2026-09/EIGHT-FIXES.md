@@ -14,3 +14,19 @@
 | 8 | אשכול שמות שגויים באותו queue: (a) `data/bapi-enrichment.pppi.ts:73` `tx: ["COConf"]` — טרנזקציה שאינה קיימת; (b) `data/fiori/apps.ts#F3364` `odata: "API_PROCORDCONF"` מול השם הרשמי `API_PROC_ORDER_CONFIRMATION_2_SRV`; (c) `data/bapi-enrichment.pppi.ts:90` `bor: "BUS1001_BATCH"` מול הרשמי `BUS1001002`; (d) `data/function-intel.ts:33,202` + `data/concepts.ts:61` `API_PROCESSORDER_2` מול `API_PROCESS_ORDER_2_SRV` | הקבצים הנ"ל | `research-queue-functions.md` §batch 4 conflicts, "fm:BAPI_PROCORDCONF_GETLIST (1)(2)", "fm:BAPI_BATCH_CREATE (3)", "fm:BAPI_PROCORD_CREATE (1)" | COR6/COR6N/CORK/CORS/CORT מתועדים ("Documentary Batches in Production", loio 36ffb753128eb44ce10000000a174cb4, 2025.001); "Reference Objects | Production Planning and Control" (loio 62d3b65334e6b54ce10000000a174cb4, 2025.001) מונה `BUS1001002 Batch` |
 
 כל תיקון יקבל EvidenceRecord (מזהה, טענה, Release, Edition, URL/loio, תאריך, קטע תומך, סטטוס, Confidence) ב-`audit/ux-2026-09/SAP-FIXES.md` ובקובץ הנתונים עצמו כאשר הקובץ הוא overlay של `data/verification`.
+
+
+## מצב אחרי סבב 2 (2026-09-21)
+
+| # | מצב | ראיית After | קבצים שהשתנו |
+|---|---|---|---|
+| 1 | APPLIED | `/neo/transactions/IP30/` מציג "פריט פישוט (Simplification Item)" ומצטט RISTRA20/RISTRA20H; הטענה "לא נמצאה רשומת Simplification Item" נעלמה מהעמוד (`shots/after-r2/sap-ip30.png`) | `data/verification/transactions.ts` |
+| 2 | APPLIED | `/neo/bapi/NOTIF_TASK_READ/` → "משימות (QMSM)"; `/neo/bapi/NOTIF_ACTIVITY_READ/` → "פעילויות (QMMA)"; "QMMA/QMSM" אינו מופיע (`sap-notif-task-read.png`) | `data/function-intel.ts`, `data/verification/tables.ts` (QMMA notes) |
+| 3 | APPLIED | `/neo/tables/QMAT/` מציג MM01/MM02/MM03/QA08; "QM01, MM02" אינו מופיע; diff של `data/sapData.pppi.ts` = שורה אחת (`sap-qmat.png`) | `data/table-tcodes.json`, `data/sapData.pppi.ts` (generated), `data/verification/tables.ts` |
+| 4 | APPLIED | `/neo/tables/TJ30T/` מציג את הפסיקה המתוקנת (TXTSH/TXTMD כשדות חילוץ); הראיה והערות הרשומה מנוסחות לפי סדר העמודות | `data/verification/tables.ts` |
+| 5 | APPLIED | `/neo/idoc/BOMMAT/` נבנה (200) עם רשומה מאומתת; `/neo/bapi/BOMMAT/` אינו נבנה עוד (404, אין קישורים אליו: crawl 0 dead links); `/neo/bapi/Control Recipe/` ו-`/neo/bapi/PPCC1/` מסומנים "מושג תהליכי מהבלופרינט (לא FM)"; ספריית ה-BAPI מונה 142 אובייקטי פונקציה + 2 מושגים; `report:coverage` functions 145→142, idocs 2→3 | `data/function-intel.ts`, `lib/object-intel.ts`, `data/bapi-enrichment.pppi.ts`, `data/verification/idocs.ts`, `components/neo-shell/reference/bapi-data.ts`, `components/neo-shell/reference/idoc-data.ts`, `scripts/report-coverage.mjs`, `lib/route-manifest.generated.ts` |
+| 6 | APPLIED | `/neo/enhancements/customer-exit/` ו-`/neo/enhancements/implicit-enhancement/` מציגים את הטקסט שהועבר (`sap-customer-exit.png`); `/exits/CMOD-SMOD/` 404 ללא קישור שבור; enhancements 42→40 | `data/exits.ts`, `data/enhancements.ts` |
+| 7 | APPLIED | `/neo/bapi/BAPI_PROCORD_GET_DETAIL/`: BUS2116, "טבלאות SAP ברשומה המאומתת" AFKO/AFPO/AFVC, "טבלאות הבלופרינט המזכירות את האובייקט" AFFH…TCA01, טרנזקציות COR3 | `lib/bapi-registry.ts`, `components/neo-shell/reference/bapi-data.ts`, `data/verification/functions.ts` |
+| 8 | APPLIED | GETLIST מציג CORT ולא COConf; BATCH_CREATE מציג BUS1001002; F3364 מציג API_PROC_ORDER_CONFIRMATION_2_SRV; PROCORD_CREATE/F3577 מציגים API_PROCESS_ORDER_2_SRV; 0 מופעים של השמות הישנים מחוץ ל-`data/verification` | ראו SAP-FIXES.md §FIX-8 |
+
+שערים: tsc 0 · tsc(tests) 0 · eslint 0 שגיאות (405 אזהרות baseline) · `npm test` 201/201 · build 7,802 עמודי index (היו 7,803: ‎−2 דפי exits, ‎−1 `/neo/bapi/BOMMAT/`, ‎+1 `/neo/idoc/BOMMAT/`, ‎+1 `/idoc/BOMMAT/`) · check:routes בסנכרון · crawl 7,804 עמודים, 0 קישורים שבורים · `ux-measure` 30 מסלולים: 0 גלישה, 0 טקסט דהוי, 0 שגיאות קונסול · ספרים: 574/574 קבצים זהים (ZERO_CONTENT_LOSS, `books-zero-loss.round2.json`).

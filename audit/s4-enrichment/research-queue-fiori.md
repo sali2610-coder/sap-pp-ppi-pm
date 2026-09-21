@@ -210,3 +210,6 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
   every record `trust: curated` with the source string 'SAP Fiori Apps Library (curated)' and no
   URL; eight records now carry official evidence contradicting the curated id or name. The
   curated file is outside this overlay's write scope.
+
+### Resolved 2026-09-21 (design audit round 2 · audit/ux-2026-09/SAP-FIXES.md)
+- F3364 `odata: API_PROCORDCONF` → `API_PROC_ORDER_CONFIRMATION_2_SRV` (also `data/centers/fiori.ts`). F3577 `API_PROCESSORDER_2` → `API_PROCESS_ORDER_2_SRV`. The app-id conflicts (F3364 vs CORK, F3577 vs F4587) remain open as recorded.

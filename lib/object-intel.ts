@@ -15,8 +15,10 @@ export function cleanFunc(name: string): string {
   return (name || "").split(/\s*[/(]|\s+-\s/)[0].trim().replace(/[^A-Za-z0-9_]+$/, "");
 }
 
-// Explicit IDoc basic-type allowlist (no broad report-program catch-all).
-const IDOC_RE = /^(MATMAS|LOIPRO|ORDERS\d*|DELVRY\d*|SHPMNT\d*|INVOIC\d*|DESADV\d*|WMMBXY|PROACT|DELINS)$/;
+// Explicit IDoc message-type allowlist (no broad report-program catch-all).
+// BOMMAT added 2026-09-21: SAP documents it as the material-BOM IDoc message
+// type (basic types BOMMAT01/03/07), so it is an IDoc, not a function module.
+const IDOC_RE = /^(MATMAS|LOIPRO|BOMMAT|ORDERS\d*|DELVRY\d*|SHPMNT\d*|INVOIC\d*|DESADV\d*|WMMBXY|PROACT|DELINS)$/;
 export function classifyFunc(name: string): FuncKind {
   const c = cleanFunc(name);
   if (IDOC_RE.test(c)) return "IDoc";

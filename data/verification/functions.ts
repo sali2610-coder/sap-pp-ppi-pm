@@ -1625,9 +1625,9 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "ה-replaces הרשמית היחידה (What's New 2020) היא OData V1 מול V2, לא BAPI מול OData; לא נכתב סטטוס מוסמך " +
       "והרשומה נשענת על הרישום הנגזר מרובד המאגר. הנחיה: להשאיר את ה-BAPI בתרחישי טעינה ואינטגרציה קיימים; " +
       "בפיתוחים חדשים להעדיף את ה-OData API לפקודות תהליך (Process Order גרסה 2). לא נמצאו מספרי SAP Note באף " +
-      "סניפט — לא נרשמו. סתירות שנרשמו גם בקובץ התור: (1) data/function-intel.ts קורא לחלופה 'API_PROCESSORDER_2' " +
+      "סניפט — לא נרשמו. סתירות שנרשמו גם בקובץ התור: (1) data/function-intel.ts קרא לחלופה 'API_PROCESSORDER_2' " +
       "בעוד השם הנקוב במקורות הרשמיים הוא API_PROCESS_ORDER_2_SRV‏ ('Process Order (Version 2)') — סטיית איות " +
-      "במאגר שכדאי לנרמל; (2) data/bapi-enrichment.pppi.ts מסמן releasedStatus‏ 'Released · RFC' במקור 'SAP Help " +
+      "שנורמלה בכל אתרי המאגר ב-2026-09-21 (סבב 2 של ביקורת העיצוב); (2) data/bapi-enrichment.pppi.ts מסמן releasedStatus‏ 'Released · RFC' במקור 'SAP Help " +
       "Portal + SE37 metadata', אך לא נמצא עמוד Help ציבורי הנוקב בשם ה-BAPI — מצב השחרור הוא repository_verified " +
       "בלבד. ‏fm:BAPI_PROCORD_CREATE_FROM_PLORD אינו ב-xrefs כי אינו ביקום המזהים של הדאטהסט (נשאר בטקסט בלבד); " +
       "מזהה הווריאנט OP_API_PROCESS_ORDER_2_SRV_0001 שנכלל בטיוטה הוסר — אינו בר-אימות ללא מפתח Hub. תאריכי " +
@@ -4602,8 +4602,8 @@ export const FM_VERIFICATION: VerificationRecord[] = [
         accessedAt: DATE21,
         claim: "רשומת הקטלוג מתארת 'קריאת פרטי פקודת תהליך, כותרת, פעולות, רכיבים' לשימושי אינטגרציה, מערכות MES ודוחות " +
                "ב-PP-PI, עם קלט NUMBER ופלט 'HEADER/POSITION/SEQUENCE', בזיקה ל-COR3 ולטבלאות AFKO ו-AFPO; שדה ה-ECC " +
-               "נוקב ב'זמין ב-ECC' ושדה ה-S/4 ב'זמין ב-S/4HANA; חלופה: API_PROCESSORDER_2'. השם API_PROCESSORDER_2 אינו " +
-               "השם שבתיעוד הרשמי, שבו השירות נקרא API_PROCESS_ORDER_2_SRV.",
+               "נוקב ב'זמין ב-ECC' ושדה ה-S/4 ב'זמין ב-S/4HANA; חלופה: API_PROCESS_ORDER_2_SRV' (מאז תיקון 2026-09-21; " +
+               "לפני כן נקב בשם API_PROCESSORDER_2, שאינו השם שבתיעוד הרשמי, שבו השירות נקרא API_PROCESS_ORDER_2_SRV).",
         verificationLevel: "repository_verified",
         repoRef: "data/function-intel.ts#BAPI_PROCORD_GET_DETAIL",
       },
@@ -4693,7 +4693,7 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "תוכן ה-Hub אינו בר-שליפה ללא מפתח API, כתובת ה-overview כבר מצוטטת ברשומת fm:BAPI_PROCORD_CREATE ברמת " +
       "'נדרש אימות', ולכן לא נכפלה כאן, והמזהה OP_API_PROCESS_ORDER_2_SRV_0001 לא נכתב כראיה. ממצאי מאגר שנמדדו " +
       "בהרצה ולא רק נקראו: (1) המיזוג ב-lib/bapi-registry.ts ‏(enrichAll, פריסה של קובץ ה-PM ואז PP-PI ואז " +
-      "הסריקה) מחליף עבור מזהה זה את רשומת ה-PP-PI במלואה ברשומת הסריקה, כך שערכי ה-PP-PI ‏(טרנזקציה COR3, " +
+      "הסריקה) החליף עד 2026-09-21 עבור מזהה זה את רשומת ה-PP-PI במלואה ברשומת הסריקה, כך שערכי ה-PP-PI ‏(טרנזקציה COR3, " +
       "טבלאות AFKO/AFPO/AFVC, אובייקט BOR‏ BUS2116 וסיכום הפרמטרים 'IMP NUMBER · EXP ORDER_OBJECTS · TAB " +
       "RETURN') אינם מגיעים לרישום כלל. זהו אותו כשל מבני שכבר נרשם ברשומת fm:BAPI_ALM_ORDER_GET_DETAIL. (2) " +
       "בעקבותיו, אובייקט הרישום הממוזג נושא טבלאות וטרנזקציות שאינן שייכות לפקודת תהליך אלא לרשימות פעולות " +
@@ -4701,13 +4701,15 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "וטרנזקציות C202, ‏C203, ‏CS08, ‏CA01, ‏CA02, ‏CA03, ‏C201, ‏CFV1, ‏CFV2, ‏CFV3, ‏C298, ‏CC01. המקור הוא " +
       "הבסיס הנגזר מהבלופרינט: ב-data/sapData.pppi.ts הצמד BAPI_PROCORD_CREATE ו-BAPI_PROCORD_GET_DETAIL הוא " +
       "ערך ברירת המחדל של עמודת הפונקציות בשורות נושא של רשימות פעולות ושל אמצעי ייצור (למשל PLAS עם C202 " +
-      "ו-C203), והוא נאסף משם. התוצאה היא שעמוד ה-BAPI בקוקפיט מקשר לטרנזקציות מסלול ייצור במקום ל-COR3. נרשם " +
-      "לקובץ התור. (3) סתירת פרמטרים בתוך המאגר: הסריקה נוקבת ב-'IN: NUMBER, ORDER_OBJECTS', " +
+      "ו-C203), והוא נאסף משם. התוצאה הייתה שעמוד ה-BAPI בקוקפיט קישר לטרנזקציות מסלול ייצור במקום ל-COR3. תוקן " +
+      "ב-2026-09-21 (סבב 2 של ביקורת העיצוב): המיזוג ב-lib/bapi-registry.ts הפך למיזוג לפי שדות (mergePatch), " +
+      "הרשומה הממוזגת נושאת COR3 ו-AFKO/AFPO/AFVC מרשומת ה-PP-PI, ועמוד ה-BAPI מציג את טבלאות הבלופרינט וטרנזקציותיהן " +
+      "בתווית שיוך עקיף. (3) סתירת פרמטרים בתוך המאגר: הסריקה נוקבת ב-'IN: NUMBER, ORDER_OBJECTS', " +
       "‏data/bapi-enrichment.pppi.ts ב-'IMP NUMBER · EXP ORDER_OBJECTS · TAB RETURN' ו-data/function-intel.ts " +
       "בפלט 'HEADER/POSITION/SEQUENCE'; כלומר ORDER_OBJECTS מופיע פעם כפרמטר כניסה ופעם כפרמטר יציאה. אף עמוד " +
       "רשמי שנסרק אינו מכריע, והפרמטרים נשארים לאימות ב-SE37 או ב-BAPI Explorer. (4) סטיית שם: " +
-      "data/function-intel.ts קורא לחלופה API_PROCESSORDER_2 במקום API_PROCESS_ORDER_2_SRV, אותה סטייה שכבר " +
-      "נרשמה ברשומת fm:BAPI_PROCORD_CREATE ולא תוקנה; מומלץ לנרמל את השם בקובץ. המצב שנמדד לפני הרשומה, בהרצת " +
+      "data/function-intel.ts קרא לחלופה API_PROCESSORDER_2 במקום API_PROCESS_ORDER_2_SRV, אותה סטייה שכבר " +
+      "נרשמה ברשומת fm:BAPI_PROCORD_CREATE; נורמלה בכל אתרי המאגר ב-2026-09-21. המצב שנמדד לפני הרשומה, בהרצת " +
       "fromFuncRegistry ו-evidenceBlock על האובייקט הממוזג: האפליקציה הציגה 'ללא שינוי ב-S/4HANA' ברמת 'מאומת " +
       "מול נתוני הפרויקט', ‏derivedFrom‏ bapi-registry, ‏release ו-source בערך null, ‏needsVerification=false, " +
       "עומק L3, ורשימת מקורות ריקה. עם הרשומה הזו הסטטוס הופך ל'קיים API משוחרר' ורמת הראיות עולה ל'מאומת מול " +
@@ -5114,8 +5116,9 @@ export const FM_VERIFICATION: VerificationRecord[] = [
                "מקור האימות: data/bapi-enrichment.pppi.ts נוקב ב-'SE37 metadata mirror (sapdatasheet.org)' ואילו " +
                "data/bapi-enrichment.sweep.ts נוקב ב-'SAP Help Portal — verified 2026-07-15'; שדות eccSupport, " +
                "s4OnPremSupport ו-releasedStatus בשני הקבצים הם ברירות מחדל של פונקציות התבנית def() ו-verified() " +
-               "המוחלות על כל רשומה, לא נתון ייעודי ל-BAPI זה. ‏data/bapi-enrichment.pppi.ts משייך לו גם טרנזקציה בשם " +
-               "'COConf', שאינה טרנזקציה ביקום המזהים של הדאטהסט.",
+               "המוחלות על כל רשומה, לא נתון ייעודי ל-BAPI זה. ‏data/bapi-enrichment.pppi.ts שייך לו עד 2026-09-21 טרנזקציה בשם " +
+               "'COConf', שאינה טרנזקציה ביקום המזהים של הדאטהסט; מאז התיקון הרשומה נוקבת ב-COR6, COR6N, CORK, CORS ו-CORT " +
+               "לפי העמוד הרשמי 'Documentary Batches in Production'.",
         verificationLevel: "repository_verified",
         repoRef: "data/function-intel.ts#BAPI_PROCORDCONF_GETLIST",
       },
@@ -5203,13 +5206,13 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "של 'Objects Changed for Developer Extensibility in Production Operations' ‏(loio " +
       "6af9237e91bb4682bfa8363bdd7a26de, ‏2025.001) נוקב ב-Business object interface " +
       "‏I_PROCESSORDERCONFIRMATIONTP. זהו ממשק אובייקט עסקי ולא תצוגת VDM, והוא אינו ביקום המזהים, ולכן לא נרשם " +
-      "xref. סתירות מאגר שנרשמו לתיקון: ‏(1) data/bapi-enrichment.pppi.ts משייך ל-BAPI טרנזקציה בשם 'COConf' " +
+      "xref. סתירות מאגר שנרשמו ותוקנו ב-2026-09-21 (סבב 2 של ביקורת העיצוב): ‏(1) data/bapi-enrichment.pppi.ts שייך ל-BAPI טרנזקציה בשם 'COConf' " +
       "שאינה קיימת ביקום המזהים ואינה מופיעה באף רשומה רשמית; לעומתה, סניפט העמוד 'Documentary Batches in " +
       "Production' ‏(loio 36ffb753128eb44ce10000000a174cb4, ‏2025.001) מונה את טרנזקציות האישור לפקודת תהליך " +
       "בלשונו: 'Time Ticket for Process Order (COR6, COR6N) Confirmation of process order (CORK) Cancel " +
       "Confirmation for Process Order (CORS) (display only) Display Confirmation for Process Order (CORT)'; " +
-      "‏(2) data/fiori/apps.ts#F3364 רושם odata‏ 'API_PROCORDCONF' בעוד השם הטכני הרשמי הוא " +
-      "API_PROC_ORDER_CONFIRMATION_2_SRV, סטיית איות שכדאי לנרמל; ‏(3) שני רישומי ההעשרה נוקבים בשני מקורות " +
+      "‏(2) data/fiori/apps.ts#F3364 רשם odata‏ 'API_PROCORDCONF' בעוד השם הטכני הרשמי הוא " +
+      "API_PROC_ORDER_CONFIRMATION_2_SRV — נורמל (גם ב-data/centers/fiori.ts); ‏(3) שני רישומי ההעשרה נוקבים בשני מקורות " +
       "אימות שונים לאותו אובייקט. במדריך Virtual Data Model לא נמצאה תצוגת CDS ייעודית לאישורי פקודת תהליך; " +
       "I_ProductionOrderConfirmation ‏(loio 5e053c432869473e9cdea33d7e0118c0) מוגדרת בסניפט שלה כשולפת נתוני " +
       "אישורי פקודת ייצור מטבלת AFRU ולכן לא נרשמה. לא נמצאו מספרי SAP Note או KBA באף סניפט, ולכן לא נרשמו.",
@@ -5735,10 +5738,10 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "ייחודי לרשומה; ללא סטטוס מחובר היה components/neo-shell/reference/bapi-data.ts גוזר דרך fromFuncRegistry " +
       "את 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', קביעה רחבה מהראיות. הסטטוס המחובר כאן מיישר את " +
       "התצוגה עם התמונה הרשמית, כפי שנעשה קודם ב-fm:BAPI_GOODSMVT_CREATE וב-fm:BAPI_MATERIAL_SAVEDATA. (6) פער " +
-      "קטלוגי שנרשם ולא תוקן: data/bapi-enrichment.pppi.ts נוקב באובייקט העסקי 'BUS1001_BATCH', בעוד העמוד " +
+      "קטלוגי שנרשם ותוקן ב-2026-09-21: data/bapi-enrichment.pppi.ts נקב באובייקט העסקי 'BUS1001_BATCH', בעוד העמוד " +
       "הרשמי 'Reference Objects | Production Planning and Control' לגרסת 2025.001 (loio " +
       "62d3b65334e6b54ce10000000a174cb4) מונה בסניפט 'BUS1001 Material BUS1001002 Batch'. העמוד עוסק באובייקטי " +
-      "ייחוס של PP ולא ב-BAPI, ולכן לא נרשם כראיה ברשומה זו; ההפרש מופנה לתור הקטלוג. (7) xrefs שלא נכתבו מחוסר " +
+      "ייחוס של PP ולא ב-BAPI, ולכן לא נרשם כראיה ברשומה זו; הרשומה נוקבת כעת ב-BUS1001002. (7) xrefs שלא נכתבו מחוסר " +
       "מזהה ביקום הפרויקט: table:MCHB, table:AUSP, table:INOB, fm:BAPI_BATCH_CHANGE ו-tx:COB1 (האחרון מופיע " +
       "ב-function-intel כטרנזקציה קשורה). (8) fiori:F1576 נכתב לפי מזהה היקום של הפרויקט (data/fiori/apps.ts, " +
       "Manage Batches). רשומת האימות fiori:F1576 עצמה מתעדת סתירת מזהה פתוחה: לפי אותה רשומה המקורות הרשמיים " +

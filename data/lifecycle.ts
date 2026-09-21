@@ -65,7 +65,7 @@ export const LIFECYCLE: Record<string, Lifecycle> = {
   // ---- Output (NAST) ----
   "NACE": { status: "Deprecated", ecc: true, s4: true, alt: "Output Management (BRF+)", simplification: "Output Management (BRF+/Adobe)", migration: "NAST קיים לחלק מהאובייקטים; OM החדש מבוסס BRF+.", impact: "Medium" },
   // ---- Process order / batch (active) ----
-  "COR1": { status: "Active", ecc: true, s4: true, fiori: "Create Process Order", migration: "נתמך; OData API_PROCESSORDER_2 + Fiori.", impact: "None" },
+  "COR1": { status: "Active", ecc: true, s4: true, fiori: "Create Process Order", migration: "נתמך; OData API_PROCESS_ORDER_2_SRV + Fiori.", impact: "None" },
   "MSC1N": { status: "Active", ecc: true, s4: true, fiori: "Manage Batches", migration: "נתמך; BIC משופר ב-Fiori.", impact: "None" },
 };
 

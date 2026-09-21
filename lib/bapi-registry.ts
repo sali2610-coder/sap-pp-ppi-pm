@@ -206,13 +206,35 @@ export function deriveStability(kind: FuncKind, vs: VerificationStatus): Stabili
   return kind === "BAPI" ? "Released" : "Internal";
 }
 
+// Field-level merge of the enrichment families for ONE id. Until 2026-09-21 the
+// three files were spread whole (`{...PM, ...PPPI, ...SWEEP}`), so for an id present
+// in two families the later record replaced the earlier one entirely and curated
+// fields the later file never set (COR3, AFKO/AFPO/AFVC, BUS2116 on
+// BAPI_PROCORD_GET_DETAIL) were lost. Now: a later family overrides a scalar it
+// actually sets; arrays are unioned in family order; undefined never overwrites.
+function mergePatch(...patches: (Partial<SapFuncObject> | undefined)[]): Partial<SapFuncObject> {
+  const out: Record<string, unknown> = {};
+  for (const p of patches) {
+    if (!p) continue;
+    for (const [k, v] of Object.entries(p)) {
+      if (v === undefined) continue;
+      const cur = out[k];
+      out[k] = Array.isArray(v) && Array.isArray(cur) ? [...new Set([...cur, ...v])] : v;
+    }
+  }
+  return out as Partial<SapFuncObject>;
+}
+
 // one-shot registry = derived base + curated enrichment overlay + verified additions,
 // then a computed-complexity pass (documented rule → reasons[] + learn-time). Curated
 // difficulty from enrichment/additions wins; the rest use the computed level.
 let _cache: SapFuncObject[] | null = null;
 export function registry(): SapFuncObject[] {
   if (_cache) return _cache;
-  const enrichAll = { ...PM_ENRICHMENT, ...PPPI_ENRICHMENT, ...SWEEP_ENRICHMENT };
+  const enrichAll: Record<string, Partial<SapFuncObject>> = {};
+  for (const id of new Set([...Object.keys(PM_ENRICHMENT), ...Object.keys(PPPI_ENRICHMENT), ...Object.keys(SWEEP_ENRICHMENT)])) {
+    enrichAll[id] = mergePatch(PM_ENRICHMENT[id], PPPI_ENRICHMENT[id], SWEEP_ENRICHMENT[id]);
+  }
   const curatedDifficulty = new Set<string>(Object.entries(enrichAll).filter(([, p]) => p.difficulty != null).map(([id]) => id));
   const byId = new Map(deriveRegistry().map((o) => [o.id, o]));
   for (const [id, patch] of Object.entries(enrichAll)) {  // curate/verify existing derived records
