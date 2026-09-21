@@ -62,6 +62,9 @@ export function DomainsHub() {
           {" "}<b>{t.deep}</b> מהם כוללים גם רשומה מלאה: נתוני אב, User Exits ו-BAdIs, תרחישי בדיקה,
           תקלות מהשטח, תרחיש מהמפעל והכרעת מעבר ל-S/4HANA.
         </p>
+        <p className="nx-gate-note">
+          כאן: איפה זה קורה בתהליך. <b>מרכז הידע</b> מסביר מה זה (מושגי SAP), <b>מרכזי הידע</b> מסבירים איך עושים (יחידות עבודה).
+        </p>
         <div className="ndm-stats">
           {([
             [t.domains, "תחומים"],

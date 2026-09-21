@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpLeft, GitBranch, Table, Terminal, Waypoints } from "lucide-react";
+import { ArrowUpLeft, GitBranch, GraduationCap, Route, Table, Terminal, Waypoints } from "lucide-react";
 // The interaction system first, the page's own sheet second: Home never invents
 // a control style, it consumes .nu-* and only overrides layout around them.
 import "./ui.css";
@@ -161,18 +161,29 @@ export default function NeoHome() {
               </span>
             ))}
           </div>
+          {/* Design audit §7: the four actions a reader comes for, in the first
+              window — search a table, open a process, check an S/4HANA change,
+              continue learning. The data model stays one link away. */}
           <div className="nh-cta">
-            <Link className="nu-btn" href="/neo/s4hana/" prefetch={false}>
-              <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
-              מרכז <span className="nh-sap">S/4HANA</span>
-            </Link>
-            <Link className="nu-btn2" href="/neo/erd/" prefetch={false}>
-              <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />
-              מודל הנתונים
-            </Link>
-            <Link className="nu-btn2" href="/neo/tables/" prefetch={false}>
+            <Link className="nu-btn" href="/neo/tables/" prefetch={false}>
               <Table size={15} strokeWidth={1.75} aria-hidden="true" />
-              טבלאות SAP
+              חיפוש טבלה
+            </Link>
+            <Link className="nu-btn2" href="/neo/domain-model/" prefetch={false}>
+              <Route size={15} strokeWidth={1.75} aria-hidden="true" />
+              פתיחת תהליך עסקי
+            </Link>
+            <Link className="nu-btn2" href="/neo/s4hana/" prefetch={false}>
+              <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
+              בדיקת שינוי ב-<span className="nh-sap">S/4HANA</span>
+            </Link>
+            <Link className="nu-btn2" href="/neo/academy/" prefetch={false}>
+              <GraduationCap size={15} strokeWidth={1.75} aria-hidden="true" />
+              המשך ללמוד
+            </Link>
+            <Link className="nu-link" href="/neo/erd/" prefetch={false}>
+              <GitBranch size={14} strokeWidth={1.75} aria-hidden="true" />
+              מודל הנתונים
             </Link>
           </div>
         </div>

@@ -128,38 +128,6 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         {r.impact && r.impact !== r.impactKind ? <p className="nxv-lede">{r.impact}</p> : null}
       </header>
 
-      {/* ------------------------------------------------- THE S/4HANA PLATE */}
-      {r.hasS4 ? (
-        <section className="nxv-s4" data-s4="1" aria-labelledby="i-s4">
-          <div className="nxv-s4-top">
-            <span className="nx-eyebrow">S/4HANA · {n("s4")}</span>
-            <h2 className="nxv-s4-h" id="i-s4">התנהגות התקלה ב-ECC וב-S/4HANA</h2>
-          </div>
-          <div className="nxv-s4-two">
-            <div className="nxv-s4-c">
-              <span className="nxv-l">ECC 6.0</span>
-              {r.ecc ? <p>{r.ecc}</p> : <Absent what="התנהגות ב-ECC" />}
-            </div>
-            <div className="nxv-s4-c">
-              <span className="nxv-l">S/4HANA</span>
-              {r.s4 ? <p>{r.s4}</p> : <Absent what="התנהגות ב-S/4HANA" />}
-            </div>
-          </div>
-        </section>
-      ) : (
-        <section className="nxv-sec" aria-labelledby="i-s4">
-          <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-s4">ECC ו-S/4HANA</h2>
-            <em className="nxv-sec-n">{n("s4")}</em>
-          </div>
-          <Absent what="הבחנה בין ECC ל-S/4HANA" />
-          <p className="nx-muted">
-            הרשומה אינה מבחינה בין הגרסאות. נדרש אימות נוסף במערכת לפני הסקה שההתנהגות זהה.
-          </p>
-        </section>
-      )}
-
       {/* ------------------------------------------------------------ SYMPTOM */}
       <section className="nxv-sec" aria-labelledby="i-sym">
         <div className="nxv-sec-h">
@@ -293,6 +261,39 @@ export function IncidentView({ r }: { r: IncidentRow }) {
           </ul>
         </section>
       ) : null}
+
+      {/* ------------------------------------------------- THE S/4HANA PLATE — after symptom, diagnosis and fix
+          (design audit §7, 2026-09-21): the reader sees what they see first. */}
+      {r.hasS4 ? (
+        <section className="nxv-s4" data-s4="1" aria-labelledby="i-s4">
+          <div className="nxv-s4-top">
+            <span className="nx-eyebrow">S/4HANA · {n("s4")}</span>
+            <h2 className="nxv-s4-h" id="i-s4">התנהגות התקלה ב-ECC וב-S/4HANA</h2>
+          </div>
+          <div className="nxv-s4-two">
+            <div className="nxv-s4-c">
+              <span className="nxv-l">ECC 6.0</span>
+              {r.ecc ? <p>{r.ecc}</p> : <Absent what="התנהגות ב-ECC" />}
+            </div>
+            <div className="nxv-s4-c">
+              <span className="nxv-l">S/4HANA</span>
+              {r.s4 ? <p>{r.s4}</p> : <Absent what="התנהגות ב-S/4HANA" />}
+            </div>
+          </div>
+        </section>
+      ) : (
+        <section className="nxv-sec" aria-labelledby="i-s4">
+          <div className="nxv-sec-h">
+            <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
+            <h2 className="nx-h2" id="i-s4">ECC ו-S/4HANA</h2>
+            <em className="nxv-sec-n">{n("s4")}</em>
+          </div>
+          <Absent what="הבחנה בין ECC ל-S/4HANA" />
+          <p className="nx-muted">
+            הרשומה אינה מבחינה בין הגרסאות. נדרש אימות נוסף במערכת לפני הסקה שההתנהגות זהה.
+          </p>
+        </section>
+      )}
 
       {/* ---------------------------------------------------------- SCENARIO */}
       {r.scenario ? (

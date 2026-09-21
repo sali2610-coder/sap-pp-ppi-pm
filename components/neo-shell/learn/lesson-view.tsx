@@ -283,7 +283,7 @@ function Section({ b, done, onRead }: { b: LessonBlock; done: boolean; onRead: (
         ) : null}
         {done ? (
           <span className="nu-status nxs-read" style={{ "--s": "var(--status-done)" } as React.CSSProperties}>
-            נקרא
+            נצפה
           </span>
         ) : null}
       </header>
@@ -380,10 +380,10 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
           <span className="nx-eyebrow">ההתקדמות בשיעור</span>
           <h2 className="nxv-s4-h" id="nxs-p">
             {pct === 100
-              ? "כל יחידות התוכן בשיעור נקראו"
+              ? "כל יחידות התוכן בשיעור נצפו"
               : started
-                ? `${nf.format(doneSet.size)} מתוך ${nf.format(kinds.length)} יחידות תוכן נקראו`
-                : "לא נרשמה קריאה של השיעור במכשיר הזה"}
+                ? `${nf.format(doneSet.size)} מתוך ${nf.format(kinds.length)} יחידות תוכן נצפו`
+                : "לא נרשמה צפייה בשיעור במכשיר הזה"}
           </h2>
         </div>
         {started ? (
@@ -402,7 +402,24 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
             {" "}ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>).
           </p>
         )}
+        {/* Exposure is not understanding (design audit §7): the count above is
+            what was shown; understanding is checked elsewhere. */}
+        <p className="nx-muted nxs-exposure">
+          צפייה אינה הוכחת הבנה. הבנה נבדקת ב<Link href="/neo/certification/" prefetch={false}>תרגול ובדיקת ידע</Link>.
+        </p>
       </section>
+
+      {/* Local table of contents for long lessons (design audit §7 / §8). */}
+      {blocks.length >= 5 ? (
+        <nav className="nxs-toc" aria-label="תוכן השיעור">
+          <span className="nx-eyebrow">תוכן השיעור · {nf.format(blocks.length)} יחידות</span>
+          <ol>
+            {blocks.map((b) => (
+              <li key={b.kind}><a href={`#nxs-${b.kind}`}>{b.title || KIND_HE[b.kind] || b.kind}</a></li>
+            ))}
+          </ol>
+        </nav>
+      ) : null}
 
       {/* ------------------------------------------------------- THE LESSON */}
       {blocks.length === 0 ? (

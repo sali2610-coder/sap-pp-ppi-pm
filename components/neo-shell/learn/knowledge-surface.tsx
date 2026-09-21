@@ -276,6 +276,9 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
           {" "}{nf.format(totals.centers)} נושאי עבודה ב-{nf.format(totals.families)} מרכזים
           {" "}({nf.format(totals.sections)} מקטעי תוכן).
         </p>
+        <p className="nx-gate-note">
+          שלושה שערים, שלושה תפקידים: <b>מרכז הידע</b> מסביר מה זה (מושגים ונושאי עבודה); <b>מרכזי הידע</b> מסבירים איך עושים (יחידות עבודה עם רשימת בדיקה); <b>התחומים העסקיים</b> מראים איפה זה קורה בתהליך של PM ו-PP-PI.
+        </p>
       </header>
 
       <section className="nx-card nxl-stats" aria-label="סיכום מרכז הידע">

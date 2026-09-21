@@ -95,7 +95,7 @@ export function GeneralChat() {
         <div className="nxg-head-text nm-rise nm-once">
           <span className="nxq-eyebrow">
             <Terminal size={13} strokeWidth={2} aria-hidden="true" />
-            עוזר SAP כללי · רמת ביסוס בכל תשובה
+            שיחה כללית על SAP · לא מוגבלת לספרייה · רמת ביסוס בכל תשובה
           </span>
           <h1 className="nxq-h1">NEO AI</h1>
           <p className="nxq-lede">{M.tagline}</p>
@@ -222,7 +222,8 @@ function Intro({ onPick }: { onPick: (q: string) => void }) {
           שאלות לדוגמה
         </span>
         <div className="nxq-starters-row nm-seq">
-          {M.starters.map((s, i) => (
+          {/* A few openers, not a wall (design audit §7). */}
+          {M.starters.slice(0, 4).map((s, i) => (
             <button
               key={s.label}
               type="button"

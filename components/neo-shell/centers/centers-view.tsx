@@ -53,6 +53,9 @@ export function CentersHub() {
           כל נושא נכתב כיחידת עבודה: מטרה, מתי להשתמש, רשימת בדיקה, מלכודות נפוצות ואימות.
           {" "}{t.withS4} מהנושאים כוללים הכרעת מעבר מתועדת ל-<span className="nct-sap">S/4HANA</span>.
         </p>
+        <p className="nx-gate-note">
+          כאן: איך עושים. <b>מרכז הידע</b> מסביר מה זה (מושגי SAP), <b>התחומים העסקיים</b> מראים איפה זה קורה בתהליך.
+        </p>
       </header>
 
       <div className="nct-grid">

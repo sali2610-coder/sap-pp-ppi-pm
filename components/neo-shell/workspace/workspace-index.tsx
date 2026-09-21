@@ -29,7 +29,7 @@ export function WorkspaceIndex({ chapters }: { chapters: ChapterMeta[] }) {
       <summary className="nw-idx-h">
         <span className="nw-idx-k">תוכן העמוד · {nf.format(chapters.length)} פרקים</span>
         <span className="nw-idx-s">
-          כולם נבנים מתיעוד המודול. פרק ללא נתונים בתיעוד אינו מוצג. לחיצה פותחת את כרטיסי הפרקים.
+          לחיצה פותחת את כרטיסי הפרקים.
         </span>
       </summary>
       <ol className="nw-idx-l nm-seq">

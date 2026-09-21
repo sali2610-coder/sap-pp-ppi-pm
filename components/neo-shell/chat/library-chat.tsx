@@ -127,7 +127,7 @@ export function LibraryChat() {
         <div className="nxq-hero-text nm-rise nm-once">
           <span className="nxq-eyebrow">
             <BookOpen size={13} strokeWidth={2} aria-hidden="true" />
-            ספריית SAP · תשובות מבוססות מקור
+            עזרה מהספרייה · תשובות מהספרים בלבד, עם מקור
           </span>
           <h1 className="nxq-h1">{M.title}</h1>
           <p className="nxq-lede">
@@ -353,7 +353,8 @@ function Welcome({ scope, onPick, onAction, onOpenScope }: {
           שאלות לדוגמה
         </span>
         <div className="nxq-starters-row nm-seq">
-          {M.starters.map((s, i) => (
+          {/* A few openers, not a wall (design audit §7). */}
+          {M.starters.slice(0, 4).map((s, i) => (
             <button
               key={s.label}
               type="button"

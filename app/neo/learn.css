@@ -1210,3 +1210,15 @@ html[data-theme="dark"] .nx-app .nxb-yes { background: color-mix(in srgb, var(--
   .nx-app .nxl-bodies { inline-size: 100%; }
   .nx-app .nxl-bodies .nu-tab.nxl-bodytab { flex: 1 1 0; justify-content: center; }
 }
+
+/* Design audit §7 (2026-09-21): the academy's opening line and start control,
+   the lesson's exposure note and local table of contents. */
+.nxl-what { max-inline-size: 72ch; }
+.nxl-what a, .nxs-exposure a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
+.nxl-start { margin: var(--sp-3) 0 0; }
+.nxs-exposure { margin-block-start: var(--sp-2); }
+.nxs-toc { margin: var(--sp-5) 0; padding: var(--sp-3) var(--sp-4); border: 1px solid var(--hairline); border-radius: var(--r-md, .8rem); background: var(--surface); }
+.nxs-toc ol { margin: var(--sp-2) 0 0; padding-inline-start: 1.2rem; display: grid; gap: .3rem; columns: 2; }
+.nxs-toc li { font-size: var(--t-sm); }
+.nxs-toc a { color: var(--ink-1); text-decoration: none; }
+.nxs-toc a:hover { color: var(--brand); text-decoration: underline; }

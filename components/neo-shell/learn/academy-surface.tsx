@@ -156,6 +156,18 @@ export function AcademySurface({ data }: { data: AcademyData }) {
           מסלולי הלמידה של הפרויקט: {nf.format(totals.courses)} קורסים, {nf.format(totals.chapters)} פרקים ו-{nf.format(totals.lessons)} שיעורים.
           {" "}ההתקדמות המוצגת היא זו שנרשמה במכשיר הזה.
         </p>
+        {/* Design audit §7: open with what the reader will learn and one way in. */}
+        <p className="nx-gate-note nxl-what">
+          מה תלמד: מודלי הנתונים של PM ו-PP-PI, הטרנזקציות והתהליכים העסקיים, והמעבר מ-ECC ל-S/4HANA — קורס אחר קורס, שיעור אחר שיעור. צפייה בשיעור נרשמת כחשיפה; הבנה נבדקת ב<Link href="/neo/certification/" prefetch={false}>תרגול ובדיקת ידע</Link>.
+        </p>
+        {!cont && courses.length ? (
+          <p className="nxl-start">
+            <Link className="nu-btn" href={`/neo/academy/${courses[0].id}/`} prefetch={false} onClick={() => onOpen(courses[0].id)}>
+              <Play size={14} strokeWidth={2} aria-hidden="true" />
+              התחלת הלמידה: {courses[0].title}
+            </Link>
+          </p>
+        ) : null}
       </header>
 
       {/* Appears only when the store actually holds a session. No session, no
