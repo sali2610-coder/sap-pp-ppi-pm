@@ -1,0 +1,27 @@
+# Capability Inventory · 2026-09-21
+
+| כלי | סוג | תחום | זמין / חסום | רלוונטיות | שלב הפעלה | תוצאה בפועל |
+|---|---|---|---|---|---|---|
+| `scripts/sap-help-search.mjs` | script | SAP research (help.sap.com search JSON) | זמין (נבדק 2026-09-21, 21 תוצאות) | ראיות Tier-1 לכל תיקון SAP | Round 2 (8 התיקונים), Round 4 | בשימוש בכל batch של ה-workflow |
+| `scripts/workflows/enrich-family.js` | Workflow (researcher → auditor → writer) | הרחבת מאגר הידע | זמין | Functions/Transactions/Fiori/Objects/Best Practices | Round 4 | 281 רשומות עד כה; batches של 8 |
+| `scripts/report-coverage.mjs`, `check:evidence`, `npm test` (201) | scripts | Gate C/E | זמין | כל commit | כל סבב | ירוק ב-HEAD |
+| `scripts/qa/evidence-sweep.mjs` (playwright-core 1.62.1 + Chrome) | browser QA | 18 routes × desktop light/dark × phone | זמין | Gate D/E/F | כל סבב | 54/54 ב-HEAD |
+| `scripts/tmp-measure.mjs` (חדש, זמני) | browser measurement | overflow / opacity / height / zoom ב-1363×936 | זמין | Before/After לכל ממצא | Round 0 → כל סבב | `before-measurements.json` |
+| `scripts/verify-reader.mjs` (`verify:reader`) | browser QA | קורא הספרים: desktop/tablet/mobile | זמין | Gate B | אחרי כל שינוי בספרייה/קורא | טרם הופעל בסבב זה |
+| `scripts/crawl-dead-links.mjs`, `check-route-manifest`, `check-sitemap` | scripts | Gate E | זמין | כל build | כל סבב | 0 dead / in sync ב-HEAD |
+| `pandoc` | extraction | קריאת ה-DOCX בעותק זמני | זמין | Round 0 | Round 0 | `scratchpad/audit-docx/audit.md` (597 שורות, 6 טבלאות, 4 תמונות) |
+| Playwright CLI skill (`playwright-cli`) | skill | browser automation | זמין (skill מותקן) | מקביל ל-playwright-core הקיים | לא נדרש; playwright-core מכסה | — |
+| `browser-use` MCP | MCP | browser | זמין (לא נבדק) | חלופה ל-Playwright | לא נדרש | — |
+| `sc4sap` MCP (live ABAP) | MCP | SE37/SE11 live checks | **חסום** — `MCP error -32000: Connection closed` (2026-09-21) | היה מכריע ל-`verification_required` | — | fallback: help.sap.com + PDF; רשומות נשארות `verification_required` |
+| Vercel MCP (`list_projects`, `list_deployments`) | MCP | Preview status | **חסום לפרויקט זה** — הטוקן רואה רק `cbc-interactive-case-study` | אימות Preview | — | fallback: Export מקומי byte-identical; Preview URL מתועד, Deployment עצמו לא נבדק |
+| Vercel Authentication על ה-Preview | platform | Preview content | **חוסם קריאת תוכן** (200 עם מעטפת SSO) | Gate F | — | Deployment לא נבדק; מסומן במפורש |
+| `neo-sap-content-quality-reviewer`, `neo-accessibility-reviewer`, `neo-enterprise-ux-auditor`, `neo-sap-visual-designer`, `neo-search-experience-reviewer`, `neo-architecture-studio-reviewer`, `neo-documentation-guardian` | project skills (`.claude/skills`) | ביקורת תוכן/נגישות/UX | זמינים | ביקורת אחרי סבבים 1–3 | Round 3/5 (review) | טרם הופעלו בסבב זה |
+| `enterprise-ux-reviewer`, `enterprise-adaptive-ui-reviewer`, `enterprise-performance-reviewer` | project skills | UX/adaptive/perf | זמינים | Round 3/5 | — | טרם הופעלו |
+| `web-design-guidelines`, `design-taste-frontend`, `ui-ux-pro-max`, `high-end-visual-design`, `motion-doctrine` | global skills | design guidance | זמינים | Round 3/5 (ליטוש) בלי לשכתב מידע מקצועי | — | טרם הופעלו |
+| `image-to-code` | global skill | mockup → code | זמין | לא רלוונטי (אין mockups חדשים) | — | לא יופעל |
+| Explore / Plan / general-purpose agents | agents | חקירה מקבילה | זמינים | עד 3–4 במקביל | לפי צורך | — |
+| `sap-ecc-troubleshooter`, `sap-abap-ecc-s4-expert`, `sap-function-finder`, `hq/oracle/sherlock` | global skills | ידע SAP | זמינים | ייעוץ; לא מקור ראיה (Tier-3) | — | לא כמקור ל-verified |
+| DESIGN.md / Awesome Design | guidance file | — | **לא קיים בריפו** | — | — | לא נמצא (`DESIGN.md`, `docs/DESIGN.md`) |
+| `obsidian-second-brain` MCP, `magic` MCP, higgsfield, Canva, Make, M365, figma | MCP | — | חסומים / דורשים auth | לא רלוונטיים למשימה | — | — |
+
+כללים שהוחלו: אין התקנת Plugin/Skill חדש; אין טענה על כלי שנכשל; כלי עיצוב לא משנים מידע מקצועי; כלי תוכן לא משנים עיצוב מחוץ לסקופ.
