@@ -1111,3 +1111,113 @@ S-user and were not opened, so every SAP Note number that appears (0002268069, 0
 is written into a `sapNote` field. `help.sap.com/docs/` bodies are JavaScript shells, so every official claim is
 bounded by the search record's title, deliverable and snippet, except the two PDFs and the one static
 `help.sap.com/doc/saphelp_*` page, which were read in full.
+
+## batch 11 (2026-09-21) — 6 audited, 6 written, 0 refuted
+
+Writer: single writer, merged from the adversarial verdicts. `fixedRecord` was supplied for `table:TJ30`,
+`table:QPGR` and `table:T352B` and was taken as the base; for `table:TJ02T`, `table:T134T` and `table:T023T` no
+`fixedRecord` was supplied, so the verdicts' listed downgrades were re-derived and applied to the researcher
+drafts. Four of the six ids (`TJ30`, `TJ02T`, `T134T`, `T023T`) were the refusals of batches 8 and 9 and are now
+resolved and written. `table:QPGR` was the batch-6 refusal. Mechanics applied across the batch: `DATE6 =
+"2026-09-21"` added next to `DATE5`; four shared `Evidence` consts hoisted (`TJ30_STATUS_ESIL`,
+`TJ02T_STATUS_TABLES`, `QPGR_CLF_MIGRATION`, `T023T_MC_DISTRIBUTION_2025`) so each record's `status.source` and
+its first evidence entry cannot drift; `table:T023T` reuses the already-committed const `T023_MATERIAL_GROUPS`
+(accessedAt stays `DATE4`, the day it was first measured) instead of re-inlining it.
+
+### refuted / needs new evidence (batch 11)
+
+None. All six records were written.
+
+### writer deviations from the verdicts (batch 11)
+
+Every deviation below is a correction measured on the writing day, not a softening of a rule.
+
+- `table:T352B`, evidence[0] (`Deletable_Objects.pdf`): the verdict's `fixedRecord` kept the draft's claim that the
+  two rows adjacent to `R3TR CDAT V_T352B_CL Catalog profile Deleted 0064` are `V_ORIGIN` and `V_TQ85`. Measured on
+  the extracted text (`pdftotext -layout`, 9,822 lines): the row **before** is `R3TR CDAT V_ORIGIN Source
+  structures Deleted 0064` and the row **after** is `R3TR CDAT V_T682 Access Sequences Deleted 0064`; `V_TQ85
+  Action Box` sits eight lines lower on the same page 20. The claim now states this. The verdict's own page-count
+  correction (148, not 149) was re-measured and confirmed with `qpdf --show-npages`.
+- `table:T352B`, evidence[4] (the ECC `Distribution of Customer Enhancements` page the verdict asked to add as its
+  own entry): under the query the verdict used, this session's first run returned the fragment with an elision
+  between `/ISDFPS` and `/RV Revision T352R`. A second query (`Reference location IRLOT ISDFPS RV Revision T352R
+  Confirmation`) returned it contiguous. The claim now names the query that reproduces the contiguous string and
+  records that another run elides it.
+- `table:TJ02T`: the verdict listed the Workflow page `c06cb6531de6b64ce10000000a174cb4` as an *optional* fifth
+  evidence entry. It was added, because the record's status paragraph now leans on the internal-status-number
+  mapping. Re-measured: the snippet carries **four** pairings, not the three the verdict quoted — `I0001 CRTD`,
+  `I0002 REL`, `I0007 PRT` and `I0010 PCNF`. The claim states all four and states explicitly that the page does
+  not name `TJ02T`.
+- `table:QPGR`: the verdict's optional upgrade (the `ConfigurableCodesCatalog` page behind the prescriptive
+  `recommendedAction`) was applied. The deliverable id was taken from a live `sap-help-search` run, not
+  constructed: `a08e12a754cf4891b41a01a285d065bb`, loio `82da28fcadae439c90e57d3bdd84969c`, versionId `2025.001`,
+  date `2026-02-24`. Both quoted fragments were reproduced under separate queries.
+- `table:QPGR`, evidence[3] (the 2023 Simplification List the verdict asked to split out): the cover line prints
+  the version and the date separated by an en dash. Rather than reproduce the dash inside a quoted string, the
+  claim names the two strings it carries. The measured facts are unchanged: 10,174,700 bytes, md5
+  `909c6e9087b009e809c116d3c6cf2eec`, 1,482 pages, 76,533 lines, zero hits for `QPGR` and `QPCD`, item 34.4, note
+  printed `2505099`.
+- `table:T134T` and `table:T023T`: every line count taken from a Simplification List PDF now names its extraction
+  (`pdftotext -layout` = 70,529 lines for `SIMPL_OP2025.pdf`; the default flags give 85,712), so the one figure a
+  reader could not otherwise re-derive is re-derivable.
+- `table:T134T`, notes: the sentence claiming that the Public Cloud `2608.500` rendering of loio `7641dc08`
+  returns `Data Category Status Released` was dropped. It did not reproduce, and the record derives nothing from
+  it. The `This CDS view provides the information about Material types` quote is now attributed to the Public
+  Cloud `2608.500` scope, where it was reproduced, and not to the page generally.
+- The `VerificationRecord` type has no `gaps` or `conflicts` fields (measured: zero occurrences across
+  `data/verification/**`). Verdict downgrades phrased as "replace gaps item 8" or "add a seventh conflicts item"
+  were therefore folded into the record's `notes`, which is the field that carries honest caveats.
+
+### batch 11 corrections applied to already-committed records
+
+- `table:T023` (notes): the record quoted the S/4HANA snippet of loio `18a8c7536e8e2a4be10000000a174cb4` as one
+  contiguous string, `T023 Merchandise category master data T023T Merchandise category texts T023S ...`. Measured
+  on 2026-09-21 in six separate queries: the S/4HANA rendering elides immediately after `T023T` and returns the
+  rest as a separate fragment; only the ECC rendering of the same loio returns the pair contiguous. An elision
+  marker and the measurement were added, so the two records in this file no longer state opposite things about
+  one snippet.
+
+### batch 11 open conflicts, recorded in the written records' notes
+
+- `table:TJ02T` vs `table:TJ30T` (**same file, contradictory readings of one snippet**). The committed
+  `table:TJ30T` record reads loio `34c68853` as naming `TXT04 (טקסט קצר)` and `TXT30 (טקסט בינוני)`. The new
+  `table:TJ02T` record reads the same snippet by column order: `Short Description` and `Medium Description` label
+  the *extraction-structure* fields `TXTSH` and `TXTMD`, and `TXT04` / `TXT30` are what stands opposite them in
+  the `Field in Origin Table` column. The `TJ02T` reading is the accurate one (re-measured: the snippet returns
+  `... TXTSH Short Description TJ02T / TJ30T TXT04 TXTMD Medium Description TJ02T / TJ30T TXT30 TXTLG Long
+  Description`). **`table:TJ30T` needs a corrective pass; it was not edited here.**
+- `table:T352B`: four project layers describe one table four ways — the PM blueprint (catalog-profile to
+  selected-set link), `data/table-enrichment.ts` (maintenance revisions, key `MANDT + IWERK + REVNR`),
+  `data/knowledge/object-intel.ts` (notification types, a role the blueprint gives `TQ80`) and
+  `data/knowledge/pm-objects-ext.ts` (work centres / planner groups). The official layer breaks the tie only
+  partly: `V_T352B_CL` is described `Catalog profile`, and every official page naming a maintenance-revisions
+  table names `T352R`, in both the S/4HANA and the SAP ERP doc sets. The enrichment layer's `T352B = revisions`
+  reading is unsupported and should be corrected against SE11, which was not available.
+- `table:TJ30`: five blueprint-level inconsistencies measured and left alone — `TXT04` listed as a `TJ30` field in
+  the PM blueprint but as a `TJ30T` field in PP-PI and in the enrichment layer; `VORNR` labelled "status sequence
+  number" on `TJ30` while the same technical name is "operation number" on `AFVC` and `PLPO`; `descriptionEn` on
+  the PP-PI row is `Status profile`, which is `TJ20`'s description; the `TJ30` / `TJ30T` parent-child roles point
+  both ways; and `JSTO` / `T003O` are marked parents of `TJ30` on the strength of `STSMA` alone.
+- `table:TJ02T`: the PP-PI blueprint writes the created-status code as `CRTE`; two official 2025 FPS01 pages
+  return `CRTD`, and a query built around `CRTE` returned no snippet containing that string. A source-workbook
+  correction, not a `sapData` one. `TXT30`'s label also differs between the two blueprints (`Status long text` vs
+  `Status description`).
+- `table:QPGR`: the blueprint's transaction column says `QS51; QS61` while the official documentation attributes
+  code-group maintenance to `QS41` / `QS42` and `QS51` / `QS52` to selected sets; and `data/tx-intel.ts#QS41`
+  records the authorization object `Q_CODE`, a string that appears in no official record found this round.
+- `table:T134T` and `table:T023T`: `descriptionEn` on both rows is a field label copied into the table-name column
+  (`Material type`, `Material group`), duplicating the parent row; and the parent-child roles between `T134` /
+  `T134T` are the inverse of the key dependency.
+- Open question on `table:T134T` that no channel could settle: the API entity `ProductTypeText` matches the three
+  blueprint fields in meaning and in two of three lengths (`Language` max length 2 against `SPRAS LANG 1`), but no
+  official page says the entity is built on `T134T`. The record stays `verification_required` and labels the
+  identification as its own inference, including the `product type` / `material type` terminology step.
+
+Channel limits that held for the whole batch: `sc4sap` (live SE11 / ADT) failed to connect, so no record carries a
+live-system check; `me.sap.com/notes` and the interactive Simplification Item Catalog need an S-user and were not
+opened, so the two note numbers that appear (`0002505099` in the 2025 PDF, `2505099` in the 2023 PDF) are quoted
+verbatim from public PDFs that were read in full, and neither is written into a `sapNote` field.
+`help.sap.com/docs/` bodies are JavaScript shells, so every official claim is bounded by the search record's
+title, deliverable and snippet, except the three PDFs (`SIMPL_OP2025.pdf`, `SIMPL_OP2023.pdf`,
+`Deletable_Objects.pdf`), which were downloaded and read as full text; all three URLs returned HTTP 200 with the
+exact content lengths the records state.
