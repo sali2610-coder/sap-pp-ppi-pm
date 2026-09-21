@@ -1,4 +1,4 @@
-# S/4HANA knowledge deepening · checkpoint report (2026-09-21, final pass of this session)
+# S/4HANA knowledge deepening · checkpoint report (2026-09-22, after the design-audit pass)
 
 Branch `design/neo-correction-pass` · preview only · `main` and production untouched.
 
@@ -13,28 +13,28 @@ Branch `design/neo-correction-pass` · preview only · `main` and production unt
 | Catalog | Overlay records | State | Notable findings |
 |---|---|---|---|
 | Tables | **105 — catalog closed** | every table the cockpit renders carries a sourced record | MKPF and COSP `replaced` (MATDOC, ACDOCA); MSEG, MARA, BUT000 from batches 1–2; PLZU, FHMI, AFWI, KAZT, CRVD_A, T352, T003O, TC22, TC60, TCA01, TCK03, TCO01, T370T, T134T honestly `verification_required`; T352B `conflicting_sources` |
-| Transactions | 32 | batches 1–2 | all 12 lifecycle conflicts resolved from Simplification List 2023 FPS03 item 27.6; MD01 from item 9.5.2 |
-| BAPI / FM / API | 42 | batches 1–4 | equipment, functional-location, order, process-order and batch BAPIs `released_api_available` with official OData successors; the two measurement BAPIs `conflicting_sources` because our function names are contradicted by SAP; 7 FMs honestly `verification_required` |
-| IDocs | 6 | complete for the registry | MATMAS/LOIPRO + basic types, DMC integration guide read |
+| Transactions | 32 | batches 1–2 (+ IP30 corrected 2026-09-21) | all 12 lifecycle conflicts resolved from Simplification List 2023 FPS03 item 27.6; MD01 from item 9.5.2; IP30 `simplified` from Simplification List 2025 FPS01 item 4.1.2 |
+| BAPI / FM / API | 50 | batches 1–6 | equipment, functional-location, order, process-order and batch BAPIs `released_api_available` with official OData successors; the two measurement BAPIs `conflicting_sources` because our function names are contradicted by SAP; 7 FMs honestly `verification_required` |
+| IDocs | 7 | complete for the registry | MATMAS/LOIPRO/BOMMAT + basic types; BOMMAT moved from the functions catalog to the IDoc family on 2026-09-21 |
 | CDS Views | **37 — catalog closed** | all 39 curated views have a record or a queue entry | I_MaterialDocumentItem deprecated 2021; 4 views honestly `verification_required` because no official record names them |
 | Fiori apps | 19 | batch 1 | 8 curated id/title bindings recorded as `conflicting_sources` |
 | Enhancements | 38 | batches 1–4, 38 of 40 reachable rows | the 8 platform techniques written from the Enhancement Framework documentation; the classic BAdI concept `replaced` by the kernel-based BAdI on SAP's own wording; two MRP BAdIs `simplified`; M61X0001 `simplified`; SAPLV01Z exposed as a function group, not an SMOD enhancement |
 | Objects | 2 | foundation | registry seed |
-| **Total** | **281 records** | | 25 recorded `conflicting_sources`, 20 edition-specific claims, 0 invented facts (auditor-enforced) |
+| **Total** | **290 records** | | 25 recorded `conflicting_sources`, 20 edition-specific claims, 0 invented facts (auditor-enforced) |
 
-## Coverage (measured, `report:coverage`, 2026-09-21)
+## Coverage (measured, `report:coverage`, 2026-09-22)
 ```
 catalog          total   L0   L1   L2   L3   L4   L5  verified  verif.req  conflict  legacy  s4-appl  edition
 tables             105    0   75    1    1    0   28       103          0         2       0       89        1
 transactions      1817    0 1275    0  514    0   28       554       1262         1       0      555        3
-functions          145    0    2   52   71    1   19       112         31         2       0       77        0
-idocs                2    0    0    0    0    0    2         2          0         0       0        2        0
+functions          142    0    2   56   60    3   21       105         31         6       0       77        1
+idocs                3    0    0    0    0    0    3         3          0         0       0        3        0
 cds                 39    0    0    9    5    2   23        37          2         0       0       30       13
 fiori               20    0    0    2    7    0   11        12          0         8       0       18        2
-enhancements        42    0    0   10   16    3   13        30          0        12       0       32        1
+enhancements        40    0    0   10   14    3   13        28          0        12       0       30        1  (13 techniques + 27 named exits/BAdIs)
 objects              1    0    0    1    0    0    0         1          0         0       0        0        0
 best-practices       2    0    0    2    0    0    0         2          0         0       0        0        0
-TOTAL             2173    0 1352   77  614    6  124       853       1295        25       0      803       20
+TOTAL             2169    0 1352   81  601    8  127       845       1295        29       0      802       21
 ```
 Baseline before this phase: L5 **0**, L4 4, verified 839, verification_required 1,334, conflicts 0. Now L5 **124**, conflicts 25 (recorded, not hidden).
 
@@ -48,7 +48,7 @@ Spot-checked in the built export, in both themes, with screenshots: KAZT and the
 ## Honest scope statement
 Verified scope = the 281 overlay records above. Everything else still renders its **derived** status (labelled as derived, with the repository tier) or «נדרש אימות נוסף». Closed: the tables and CDS catalogs. Open from the brief: transactions beyond the 32 authored codes (1,275 registry codes carry no authored intel), functions (94 remain), the Fiori thin index (1,450 entries), enhancements (2 refused ids remain, plus 2 rows that can never take a valid id), the `obj:` business-object registry, the Best Practices process catalog beyond its 2 seeds, knowledge/incidents/academy cross-references, Books cross-references, and AI knowledge integration. Every refused record and every source conflict is in `research-queue-*.md`.
 
-## Known corrections queued, not applied
+## Known corrections queued, not applied (all eight APPLIED on 2026-09-21 in design-audit round 2, see `audit/ux-2026-09/SAP-FIXES.md`; kept for the record)
 Each of these changes a file outside the overlay layer, so it needs its own audited change rather than riding along inside an enrichment batch:
 - `tx:IP30` claims no Simplification Item names IP30 and that RISTRA20 is unsourced. Item 4.1.2 of the 2025 list names both.
 - `fm:NOTIF_TASK_READ` conflates the notification activities table with the notification tasks table.
@@ -62,3 +62,9 @@ Each of these changes a file outside the overlay layer, so it needs its own audi
 - help.sap.com topic bodies, fal.cloud.sap and api.sap.com pages are JavaScript shells: claims are bounded to the official search record's title/snippet or to PDFs actually read. A non-existent page identifier also returns HTTP 200 on help.sap.com, so a 200 is never treated as proof a topic exists; the re-run search record is.
 - The live ABAP connection never worked, so interface parameters only a running system could confirm stay `verification_required`.
 - Session, weekly and credit limits interrupted runs repeatedly. Every pipeline resumed from its journal cache, and nothing was written without its auditor verdict.
+
+
+## 2026-09-22 addendum
+- Functions batches 5 and 6 (8 records, runs wf_2079911b-793 and wf_b60b7f17-7de, batches of 4): 4 `released_api_available` (BAPI_ALM_NOTIF_SAVE, BAPI_ALM_ORDERHEAD_GET_LIST, BAPI_BUPA_CREATE_FROM_DATA, BAPI_GOODSMVT_GETDETAIL), 4 `verification_required` with conflicting sources (BAPI_ALM_NOTIF_TASK_ADD, BAPI_ALM_NOTIF_LIST_FILTER, BAPI_CENTRAL_CHARACT_CREATE, BAPI_EQMT_INSTALL). 92 registry function ids still have no record (`scratchpad/fn-batch-5.json` lists the next ones in priority order: BAPI_GOODSMVT_GETITEMS, BAPI_MATERIAL_BOM_GROUP_CREATE, BAPI_MATERIAL_GET_DETAIL, BAPI_MEASUREMENTDOCUM_CREATEM, BAPI_MEASUREMENTPOINT_GETLIST, BAPI_OBJCL_CREATE, BAPI_PRODVERS_CREATE_REPLACE, BAPI_PR_CREATE, ...).
+- Open data/UI consistency point recorded by the writer: records using the flat `conflicting_sources` evidence form show 0 conflicts beside the pill because `resolve.ts` counts only the `conflictingEvidence` array.
+- Freshness is computed in UTC (`lib/evidence/depth.ts`), so a record stamped with the local date reads one day in the future until UTC midnight.
