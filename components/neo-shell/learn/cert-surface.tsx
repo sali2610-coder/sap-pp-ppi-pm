@@ -71,7 +71,7 @@ export function CertSurface({ data }: { data: CertData }) {
 
       <header className="nxl-head">
         <span className="nx-eyebrow">ידע ולמידה</span>
-        <h1 className="nx-h1">הסמכה</h1>
+        <h1 className="nx-h1">תרגול ובדיקת ידע</h1>
         <p className="nx-lede">
           הערכת ידע עצמית על בסיס התיעוד המאומת של הפרויקט: {nf.format(totals.questions)} שאלות שנגזרות
           {" "}מ-{nf.format(totals.tables)} טבלאות SAP מתועדות, מקשרי ה-ER שלהן, ממפת השפעת המעבר ל-S/4HANA ומקטלוג התקלות.

@@ -56,7 +56,7 @@ const appsFor = (view: string) =>
     (a.cds || "").split(/[\s/,]+/).map((x) => x.trim()).includes(view));
 
 const kindOf = (v: CdsView): string =>
-  VIEW_TYPE_HE[enrichOf(v.view)?.viewType || ""] || "לא צוין במאגר";
+  VIEW_TYPE_HE[enrichOf(v.view)?.viewType || ""] || "לא מתועד במאגר";
 
 /* ----------------------------------------------------------- S/4 standing */
 

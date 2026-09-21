@@ -314,15 +314,6 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
         <p className="nx-lede">{dir.lede}</p>
       </header>
 
-      <section className="nx-card nxd-stats" aria-label="מספרי הקטלוג">
-        {dir.stats.map((s) => (
-          <div key={s.l} className="nxd-stat">
-            <span className="nxd-stat-i" aria-hidden="true"><Glyph i={s.i} /></span>
-            <b>{nf.format(s.v)}</b>
-            <span>{s.l}</span>
-          </div>
-        ))}
-      </section>
 
       <div className="nxd-tools">
         <div className="nxd-field">
@@ -433,6 +424,16 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
         ) : null}
       </div>
 
+      <section className="nx-card nxd-stats nxd-stats--after" aria-label="מספרי הקטלוג">
+        {dir.stats.map((s) => (
+          <div key={s.l} className="nxd-stat">
+            <span className="nxd-stat-i" aria-hidden="true"><Glyph i={s.i} /></span>
+            <b>{nf.format(s.v)}</b>
+            <span>{s.l}</span>
+          </div>
+        ))}
+      </section>
+
       <p className="nxd-count" aria-live="polite">
         <b>{nf.format(rows.length)}</b> מתוך {nf.format(dir.rows.length)} רשומות
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
@@ -440,7 +441,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
 
       {rows.length === 0 ? (
         <div className="nx-card nxd-none">
-          <p><b>לא נמצאו רשומות התואמות לסינון שנבחר.</b></p>
+          <p><b>לא נמצאו רשומות מתאימות. נסה חיפוש אחר או נקה מסננים.</b></p>
           <p className="nx-muted">{dir.emptyNote}</p>
           <div className="nxd-none-a">
             <button type="button" className="nu-btn" onClick={reset}>הצגת כל הרשומות</button>

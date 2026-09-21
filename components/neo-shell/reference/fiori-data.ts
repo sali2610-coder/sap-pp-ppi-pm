@@ -36,7 +36,7 @@ const TRUST: Record<string, RefStatus> = {
   "needs-review": { he: "נדרשת סקירה", color: "var(--status-not-started)" },
 };
 
-const TRI_HE: Record<string, string> = { yes: "כן", no: "לא", unknown: "לא צוין במאגר" };
+const TRI_HE: Record<string, string> = { yes: "כן", no: "לא", unknown: "לא מתועד במאגר" };
 
 export const fioriSlugs = (): string[] => FIORI_APPS.map((a) => a.slug);
 export const fioriApp = (slug: string): FioriApp | undefined =>
@@ -175,7 +175,7 @@ export function fioriDetail(slug: string): RefDetail | null {
       bullets: [
         `S/4HANA On-Premise: ${TRI_HE[a.s4OnPrem]}`,
         `S/4HANA Cloud: ${TRI_HE[a.cloud]}`,
-        a.releaseInfo ? `גרסה: ${a.releaseInfo}` : "גרסה: לא צוין במאגר",
+        a.releaseInfo ? `גרסה: ${a.releaseInfo}` : "גרסה: לא מתועד במאגר",
       ],
     },
   ];

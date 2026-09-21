@@ -12,7 +12,7 @@ import { s4TopicTotals } from "@/components/neo-shell/s4/s4-data";
 export function generateMetadata() {
   const t = s4TopicTotals();
   return {
-    title: "מוכנות ל-S/4HANA · Project NEO",
+    title: "כיסוי תיעוד למעבר ל-S/4HANA · Project NEO",
     description: `ציון מוכנות לכל מודול ו-${t.total} נושאי שינוי ECC → S/4HANA, עם סטטוס, Fiori, CDS והשפעת המעבר.`,
     robots: { index: false, follow: false },
   };

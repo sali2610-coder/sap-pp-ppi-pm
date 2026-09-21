@@ -370,22 +370,6 @@ export function TransactionsSurface() {
         </p>
       </header>
 
-      <section className="nx-card nxd-stats nm-rise nm-once" aria-label="מספרי המאגר">
-        {[
-          { v: stats.total, l: "טרנזקציות במאגר", i: <Terminal size={14} strokeWidth={1.75} /> },
-          { v: stats.deep, l: "מתועדות לעומק", i: <Layers size={14} strokeWidth={1.75} /> },
-          { v: stats.light, l: "רשומות אימות", i: <Search size={14} strokeWidth={1.75} /> },
-          { v: modules.length, l: "מודולים", i: <SlidersHorizontal size={14} strokeWidth={1.75} /> },
-          { v: facets.topics.length, l: "נושאים מסווגים", i: <Flame size={14} strokeWidth={1.75} /> },
-          { v: facets.objects.length, l: "אובייקטים עסקיים", i: <AppWindow size={14} strokeWidth={1.75} /> },
-        ].map((s) => (
-          <div key={s.l} className="nxd-stat">
-            <span className="nxd-stat-i" aria-hidden="true">{s.i}</span>
-            <b>{nf.format(s.v)}</b>
-            <span>{s.l}</span>
-          </div>
-        ))}
-      </section>
 
       <div className="nxd-tools nm-fade nm-once">
         <div className="nxd-field">
@@ -498,6 +482,23 @@ export function TransactionsSurface() {
           </>
         ) : null}
       </div>
+
+      <section className="nx-card nxd-stats nxd-stats--after nm-rise nm-once" aria-label="מספרי המאגר">
+        {[
+          { v: stats.total, l: "טרנזקציות במאגר", i: <Terminal size={14} strokeWidth={1.75} /> },
+          { v: stats.deep, l: "מתועדות לעומק", i: <Layers size={14} strokeWidth={1.75} /> },
+          { v: stats.light, l: "רשומות אימות", i: <Search size={14} strokeWidth={1.75} /> },
+          { v: modules.length, l: "מודולים", i: <SlidersHorizontal size={14} strokeWidth={1.75} /> },
+          { v: facets.topics.length, l: "נושאים מסווגים", i: <Flame size={14} strokeWidth={1.75} /> },
+          { v: facets.objects.length, l: "אובייקטים עסקיים", i: <AppWindow size={14} strokeWidth={1.75} /> },
+        ].map((s) => (
+          <div key={s.l} className="nxd-stat">
+            <span className="nxd-stat-i" aria-hidden="true">{s.i}</span>
+            <b>{nf.format(s.v)}</b>
+            <span>{s.l}</span>
+          </div>
+        ))}
+      </section>
 
       <p className="nxd-count nm-fade nm-once" aria-live="polite">
         <b>{nf.format(list.length)}</b> תוצאות

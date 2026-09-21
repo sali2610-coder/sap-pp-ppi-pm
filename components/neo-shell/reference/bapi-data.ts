@@ -78,7 +78,7 @@ const VERIF: Record<string, RefStatus> = {
   deprecated: { he: "הוצא משימוש", color: "var(--status-in-conversion)" },
 };
 
-const TRI_HE: Record<string, string> = { yes: "כן", no: "לא", unknown: "לא צוין במאגר" };
+const TRI_HE: Record<string, string> = { yes: "כן", no: "לא", unknown: "לא מתועד במאגר" };
 
 /* ------------------------------------------------------------- the objects */
 
@@ -359,7 +359,7 @@ export function bapiDetail(id: string): RefDetail | null {
   contract.push({
     label: "COMMIT",
     text: ci.value === "unknown"
-      ? "לא צוין במאגר"
+      ? "לא מתועד במאגר"
       : `${TRI_HE[ci.value]}${ci.derived ? " (נגזר מסוג הפעולה, ללא רשומה מפורשת)" : ""}`,
   });
   if (o.requiresSave && o.requiresSave !== "unknown") {

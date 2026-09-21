@@ -878,3 +878,18 @@ html[data-device="tablet"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-
   .nx-app .nxc-act,
   .nx-app .nxc-go { opacity: 1; transform: none; }
 }
+
+/* Empty shelf = one short line (design audit §3, 2026-09-21). The tabs and the
+   panes stay mounted for their refs and aria wiring; they show again as soon as
+   an object is opened or pinned. */
+.nx-app .nx-shelf[data-empty="1"] { min-block-size: 0; grid-template-rows: auto; }
+.nx-app .nx-shelf[data-empty="1"] .nx-shelf-tabs,
+.nx-app .nx-shelf[data-empty="1"] .nx-shelf-panes { display: none; }
+.nx-app .nx-shelf-empty {
+  display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: var(--sp-2);
+  inline-size: 100%; margin: 0; padding: var(--sp-2) var(--sp-3); white-space: nowrap; overflow: hidden;
+  font-size: var(--t-micro); color: var(--ink-3); line-height: 1.5; text-align: start;
+  background: transparent; border: 0; cursor: pointer;
+}
+.nx-app .nx-shelf-empty:hover { color: var(--ink-1); }
+.nx-app .nx-shelf-empty-a { color: var(--railtint); font-weight: 650; white-space: nowrap; }

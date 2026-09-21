@@ -16,7 +16,23 @@
 import Link from "next/link";
 import { ArrowLeft, Layers, ListTree, Sparkles } from "lucide-react";
 import type { CenterItem } from "@/components/topic-center";
+import { CopyId } from "../copy-id";
 import { CENTER_FAMILIES, centerTotals, type CenterFamily } from "./centers-data";
+
+/** The toolkit items are templates and checklists. "Copy template" (design audit
+ *  §7) hands the whole item over as plain text: title, purpose line, then every
+ *  section with its lines, steps numbered. Nothing is rewritten. */
+const templateText = (it: CenterItem): string => [
+  `${it.he} · ${it.title}`,
+  it.sub,
+  "",
+  ...it.sections.flatMap((s) => {
+    const lines = s.type === "text"
+      ? [s.text || ""]
+      : (s.items || []).map((x, i) => (s.type === "steps" ? `${i + 1}. ${x}` : `- ${x}`));
+    return [s.title, ...lines, ""];
+  }),
+].join("\n");
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -127,6 +143,7 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
         <div className="nct-hero-tags">
           {item.module ? <span className="nct-tag nct-tag--mod">{item.module}</span> : null}
           {item.tag ? <span className="nct-tag">{item.tag}</span> : null}
+          {fam.id === "toolkit" ? <CopyId value={templateText(item)} label="העתק תבנית" /> : null}
         </div>
       </header>
 

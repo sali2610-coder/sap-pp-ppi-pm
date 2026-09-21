@@ -166,7 +166,7 @@ export function CertExam() {
             התחלת המבחן
             <ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
           </button>
-          <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לעמוד ההסמכה</Link>
+          <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לתרגול ובדיקת ידע</Link>
         </div>
       </div>
     );
@@ -236,7 +236,7 @@ export function CertExam() {
           <button type="button" className="nu-btn2" onClick={() => { setPhase("setup"); }}>
             <RotateCcw size={14} strokeWidth={2} aria-hidden="true" />התחלת מבחן חדש
           </button>
-          <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לעמוד ההסמכה</Link>
+          <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לתרגול ובדיקת ידע</Link>
         </div>
       </div>
     );

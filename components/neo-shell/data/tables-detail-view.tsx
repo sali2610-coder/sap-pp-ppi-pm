@@ -44,6 +44,7 @@ import {
 import { RISK_COLOR } from "@/lib/s4";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { CopyId } from "../copy-id";
 import { EvidenceBlock } from "../evidence/evidence-block";
 import { MOD_HE, REL_HE, relVar, tableSummary, type TableDetail } from "./tables-detail";
 
@@ -159,10 +160,13 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         </p>
 
         <div className="nxb-title">
-          <h1 className="nxb-name nx-sap">
-            <span className="nxb-cls" aria-hidden="true" />
-            {t.name}
-          </h1>
+          <div className="nxt-codeline">
+            <h1 className="nxb-name nx-sap">
+              <span className="nxb-cls" aria-hidden="true" />
+              {t.name}
+            </h1>
+            <CopyId value={t.name} label="העתקת שם הטבלה" compact />
+          </div>
           <div className="nxb-names">
             <p className="nxb-he">{t.he || "לא קיים תיעוד מאומת במאגר: אין תיאור עברי לטבלה זו."}</p>
             {t.en ? <p className="nxb-en nx-sap">{t.en}</p> : null}
@@ -279,6 +283,10 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             </Link>
           ))}
         </div>
+        <p className="nxb-cta-note">
+          עמוד הטבלה (כאן): השדות, המפתחות, הקשרים ומעמד ה-S/4HANA של הטבלה מתוך הבלופרינט. עמוד האובייקט: אותה טבלה
+          בהקשר הרחב שלה: תהליכים, טרנזקציות, פונקציות, תקלות וספרים.
+        </p>
 
         <p className="nxb-rank">
           {t.deg

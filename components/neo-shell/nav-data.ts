@@ -210,7 +210,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
         { id: "best-practices", href: "/neo/best-practices/", label: "שיטות עבודה מומלצות", icon: "ClipboardCheck", count: BEST_PRACTICES.length, countLabel: "שיטות" },
         { id: "academy", label: "SAP Academy", icon: "GraduationCap", count: BOOKS.length, countLabel: "ספרי לימוד" },
         { id: "incidents", label: "תקלות", icon: "AlertTriangle", count: INCIDENTS.length, countLabel: "תקלות" },
-        { id: "certification", label: "הסמכה", icon: "Award", count: null, countLabel: "" },
+        { id: "certification", label: "תרגול ובדיקת ידע", icon: "Award", count: null, countLabel: "" },
       ],
     },
     { id: "tools", label: "כלים", items: [

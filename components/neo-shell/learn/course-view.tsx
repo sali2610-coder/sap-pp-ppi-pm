@@ -125,7 +125,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
               ? "כל השיעורים בקורס הושלמו"
               : started
                 ? `${nf.format(p.completedLessons)} מתוך ${nf.format(p.totalLessons)} שיעורים הושלמו`
-                : "לא נרשמה התקדמות בקורס במכשיר הזה"}
+                : "עדיין לא התחלת את הקורס"}
           </h2>
         </div>
 

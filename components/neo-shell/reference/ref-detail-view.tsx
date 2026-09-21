@@ -36,6 +36,7 @@ import Link from "next/link";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { EvidenceBlock } from "../evidence/evidence-block";
+import { CopyId } from "../copy-id";
 import { MOD_HE, modVar } from "../mod-var";
 import { Glyph } from "./icons";
 import type { RefDetail, RefFact, RefSection, RefStatus } from "./types";
@@ -179,7 +180,10 @@ export function RefDetailView({ d }: { d: RefDetail }) {
         <p className="nx-eyebrow nxt-eyebrow">{d.eyebrow}</p>
 
         <div className="nxt-title nxr-title">
-          <h1 className="nxt-code nx-sap">{d.code}</h1>
+          <div className="nxt-codeline">
+            <h1 className="nxt-code nx-sap">{d.code}</h1>
+            <CopyId value={d.code} label="העתקת השם הטכני" compact />
+          </div>
           <div className="nxt-names">
             <p className="nxt-he">{d.he || NONE}</p>
             {d.en

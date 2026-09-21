@@ -1680,3 +1680,22 @@ html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, 
   .nx-app .nxd-item[data-back="1"]::after { animation-duration: 900ms; }
   .nx-app .nxb-tbl tbody tr[data-k]:not([data-k="none"]) { transition: none; }
 }
+
+/* Catalog order after the design audit (§7, 2026-09-21): title → search and
+   tools → facets → the numbers → rows. The stats plate becomes a compact strip
+   so the first thing under the title is the search, not a wall of numbers. */
+.nx-app .nxd-stats--after {
+  gap: var(--sp-2) var(--sp-4);
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  padding: var(--sp-3) var(--sp-4);
+}
+.nx-app .nxd-stats--after .nxd-stat-i { inline-size: 1.75rem; block-size: 1.75rem; }
+.nx-app .nxd-stats--after .nxd-stat b { font-size: var(--t-h3); }
+
+/* One line under the table page's actions saying what each destination gives
+   (design audit §7: "table page" vs "object page" were two unexplained targets). */
+.nx-app .nxb-cta-note { margin: var(--sp-2) 0 0; font-size: var(--t-micro); color: var(--ink-3); line-height: 1.55; max-inline-size: 72ch; }
+/* The technical name line: the id in mono, the copy control beside it. */
+.nx-app .nxt-codeline { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+.nx-app .nx-copy { display: inline-flex; align-items: center; gap: 4px; font-size: var(--t-micro); }
+.nx-app .nx-copy[data-done="1"] { color: var(--status-done); }

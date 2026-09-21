@@ -384,24 +384,6 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
         </p>
       </header>
 
-      <section className="nx-card nxd-stats nm-rise nm-once" aria-label="מספרי מאגר הטבלאות">
-        {[
-          { v: t.tables, l: "טבלאות", i: <TableIcon size={14} strokeWidth={1.75} /> },
-          { v: t.fields, l: "שדות", i: <Database size={14} strokeWidth={1.75} /> },
-          { v: t.keys, l: "שדות מפתח", i: <KeyRound size={14} strokeWidth={1.75} /> },
-          { v: t.rels, l: "קשרי ER", i: <GitBranch size={14} strokeWidth={1.75} /> },
-          { v: t.tcodes, l: "טרנזקציות", i: <Terminal size={14} strokeWidth={1.75} /> },
-          { v: t.shared, l: "משותפות לשני המודולים", i: <Boxes size={14} strokeWidth={1.75} /> },
-          { v: t.s4, l: "עם טבלה חלופית ב-S/4HANA", i: <ArrowLeft size={14} strokeWidth={1.75} /> },
-          { v: t.cds, l: "עם תצוגת CDS", i: <Sigma size={14} strokeWidth={1.75} /> },
-        ].map((s) => (
-          <div key={s.l} className="nxd-stat">
-            <span className="nxd-stat-i" aria-hidden="true">{s.i}</span>
-            <b>{nf.format(s.v)}</b>
-            <span>{s.l}</span>
-          </div>
-        ))}
-      </section>
 
       <div className="nxd-tools nm-fade nm-once">
         <div className="nxd-field">
@@ -504,6 +486,25 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
         ) : null}
       </div>
 
+      <section className="nx-card nxd-stats nxd-stats--after nm-rise nm-once" aria-label="מספרי מאגר הטבלאות">
+        {[
+          { v: t.tables, l: "טבלאות", i: <TableIcon size={14} strokeWidth={1.75} /> },
+          { v: t.fields, l: "שדות", i: <Database size={14} strokeWidth={1.75} /> },
+          { v: t.keys, l: "שדות מפתח", i: <KeyRound size={14} strokeWidth={1.75} /> },
+          { v: t.rels, l: "קשרי ER", i: <GitBranch size={14} strokeWidth={1.75} /> },
+          { v: t.tcodes, l: "טרנזקציות", i: <Terminal size={14} strokeWidth={1.75} /> },
+          { v: t.shared, l: "משותפות לשני המודולים", i: <Boxes size={14} strokeWidth={1.75} /> },
+          { v: t.s4, l: "עם טבלה חלופית ב-S/4HANA", i: <ArrowLeft size={14} strokeWidth={1.75} /> },
+          { v: t.cds, l: "עם תצוגת CDS", i: <Sigma size={14} strokeWidth={1.75} /> },
+        ].map((s) => (
+          <div key={s.l} className="nxd-stat">
+            <span className="nxd-stat-i" aria-hidden="true">{s.i}</span>
+            <b>{nf.format(s.v)}</b>
+            <span>{s.l}</span>
+          </div>
+        ))}
+      </section>
+
       <p className="nxd-count nm-fade nm-once" aria-live="polite">
         <b>{nf.format(rows.length)}</b> מתוך {nf.format(t.tables)} טבלאות
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
@@ -511,7 +512,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
 
       {rows.length === 0 ? (
         <div className="nx-card nxd-none nm-rise nm-once">
-          <p><b>לא נמצאו טבלאות SAP התואמות לסינון שנבחר.</b></p>
+          <p><b>לא נמצאו טבלאות מתאימות. נסה חיפוש אחר או נקה מסננים.</b></p>
           <p className="nx-muted">
             החיפוש מכסה {nf.format(t.tables)} טבלאות SAP מתיעוד המקור: שם, תיאור, נושא, טרנזקציה ותצוגת CDS.
           </p>

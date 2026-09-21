@@ -45,6 +45,7 @@ import {
 import { modVar, secVar } from "../mod-var";
 import { PreviewPanel } from "../preview";
 import { ContextPane, PinnedPane, RecentPane, ShelfTabs } from "../shelf";
+import { useFavorites } from "@/lib/prefs";
 import { MobileSheet, MobileTabs } from "../mobile-nav";
 import { pushRecentObject, relTime, setLayout, useLayout, useRecent } from "../store";
 import type { ModuleKey, NavItem, RailMode, ShelfTab, ShellData } from "../types";
@@ -119,6 +120,11 @@ export function NeoShellClient({
   const [sheet, setSheet] = useState(false);
 
   const { names: recent, seen } = useRecent();
+  // The shelf collapses to one line while nothing has been opened or pinned
+  // (design audit §3: an empty shelf took a large slice of the rail).
+  const favs = useFavorites();
+  const [shelfOpen, setShelfOpen] = useState(false);
+  const shelfEmpty = !shelfOpen && recent.length === 0 && favs.length === 0;
 
   /* -------------------------------------------------------------- refs */
   const appRef = useRef<HTMLDivElement>(null);
@@ -815,7 +821,13 @@ export function NeoShellClient({
           })}
         </div>
 
-        <div className="nx-shelf" ref={shelfRef} data-shelf={shelf}>
+        <div className="nx-shelf" ref={shelfRef} data-shelf={shelf} data-empty={shelfEmpty ? "1" : undefined}>
+          {shelfEmpty ? (
+            <button type="button" className="nx-shelf-empty" onClick={() => setShelfOpen(true)}>
+              עדיין לא נפתח אובייקט
+              <span className="nx-shelf-empty-a">הצגת המדף</span>
+            </button>
+          ) : null}
           <ShelfTabs tab={shelf} onTab={setShelf} tabsRef={shelfTabsRef} indRef={shelfIndRef} />
           {/* All three panes stay mounted and are toggled with `hidden`, exactly
               as the prototype did: going from display:none back to displayed is

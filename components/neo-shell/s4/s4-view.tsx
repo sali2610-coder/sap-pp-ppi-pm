@@ -412,18 +412,18 @@ export function S4ReadinessCenter() {
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
       <Hero
-        eyebrow="מוכנות ל-S/4HANA · READINESS"
+        eyebrow="כיסוי תיעוד למעבר · READINESS COVERAGE"
         icon={<Gauge size={13} strokeWidth={2} aria-hidden="true" />}
-        title="מוכנות ל-S/4HANA לפי מודול"
+        title="כיסוי תיעוד למעבר ל-S/4HANA לפי מודול"
         lede={
           r.available
-            ? <>ציון מוכנות לכל מודול, מחושב מ-{nf.format(r.tables)} טבלאות SAP מתועדות: כיסוי Fiori, כיסוי CDS, שיעור הטבלאות המסומנות כמוחלפות ואומדן עבודת הקוד המותאם. בנוסף {tt.total} נושאי שינוי ECC → S/4HANA, כל אחד עם סטטוס והשפעת מעבר.</>
+            ? <>ציון כיסוי תיעוד לכל מודול, מחושב מ-{nf.format(r.tables)} טבלאות SAP מתועדות: כיסוי Fiori, כיסוי CDS, שיעור הטבלאות המסומנות כמוחלפות ואומדן עבודת הקוד המותאם. בנוסף {tt.total} נושאי שינוי ECC → S/4HANA, כל אחד עם סטטוס והשפעת מעבר.</>
             : <>ציון המוכנות אינו זמין, מכיוון שקטלוג טבלאות SAP לא נטען. {tt.total} נושאי השינוי מוצגים במלואם.</>
         }
         stats={
           r.available
             ? [
-                [`${r.overall}%`, "מוכנות כוללת"],
+                [`${r.overall}%`, `כיסוי תיעוד למעבר · מדגם ${nf.format(r.tables)} טבלאות`],
                 [r.mods.length, "מודולים"],
                 [r.tables, "טבלאות SAP"],
                 [r.highRisk, "מודולים בסיכון גבוה"],
@@ -467,7 +467,7 @@ export function S4ReadinessCenter() {
                   <div><dt>מסומן S/4HANA</dt><dd className="nx-sap">{m.s4Pct}%</dd></div>
                   <div><dt>מוחלף/הוסר</dt><dd className="nx-sap">{m.deprecatedPct}%</dd></div>
                   <div><dt>מורכבות</dt><dd className="nx-sap">{m.complexity}</dd></div>
-                  <div><dt>אומדן</dt><dd>{m.effort}</dd></div>
+                  <div><dt>אומדן (לא תוכנית מאומתת)</dt><dd>{m.effort}</dd></div>
                   <div><dt>קוד מותאם</dt><dd className="nx-sap">{nf.format(m.customCodeImpact)}</dd></div>
                 </dl>
               </li>
