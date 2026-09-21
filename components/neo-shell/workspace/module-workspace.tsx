@@ -293,13 +293,15 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       // processes and search early); the S/4HANA chapter follows it.
       { key: "tbl", id: "nw-tbl", kicker: "קטלוג טבלאות SAP", title: "טבלאות SAP של המודול", count: data.counts.rows, countLabel: "רשומות תיעוד" },
       { key: "s4", id: "nw-s4", kicker: "המעבר ל-S/4HANA", title: "מה משתנה במודול במעבר ל-S/4HANA", count: data.s4x.changed.length, countLabel: "טבלאות משתנות", feature: true },
-      { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "הטרנזקציות שהתיעוד קושר למודול", count: data.counts.tcodes, countLabel: "טרנזקציות" },
-      { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "קשרי הנתונים של המודול עם שאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים" },
-      { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "ממשקים, תצוגות CDS ויישומי Fiori של המודול", count: data.counts.funcEntries, countLabel: "רשומות ממשק" },
+      // Secondary chapters open on demand (or from their anchor); the map, the
+      // table and the S/4HANA chapter stay open.
+      { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "הטרנזקציות שהתיעוד קושר למודול", count: data.counts.tcodes, countLabel: "טרנזקציות", collapsed: true },
+      { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "קשרי הנתונים של המודול עם שאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים", collapsed: true },
+      { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "ממשקים, תצוגות CDS ויישומי Fiori של המודול", count: data.counts.funcEntries, countLabel: "רשומות ממשק", collapsed: true },
       ...(buildRows
-        ? [{ key: "build", id: "nw-build", kicker: "קונפיגורציה וכלים", title: "קונפיגורציה, קוד מותאם וכלי יישום", count: buildRows, countLabel: "רשומות בגיליונות" }]
+        ? [{ key: "build", id: "nw-build", kicker: "קונפיגורציה וכלים", title: "קונפיגורציה, קוד מותאם וכלי יישום", count: buildRows, countLabel: "רשומות בגיליונות", collapsed: true }]
         : []),
-      { key: "learn", id: "nw-learn", kicker: "ידע ופעילות", title: "ספרים, קורסים ופעילות אחרונה", count: data.books.length + data.courses.length, countLabel: "ספרים וקורסים" },
+      { key: "learn", id: "nw-learn", kicker: "ידע ופעילות", title: "ספרים, קורסים ופעילות אחרונה", count: data.books.length + data.courses.length, countLabel: "ספרים וקורסים", collapsed: true },
     ];
 
     // Every chapter stands on the module's own scene. It costs nothing visually

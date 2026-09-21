@@ -1,3 +1,5 @@
+"use client";
+
 // Project NEO · the MODULE CHAPTER — the one shape every region below the hero
 // is built from.
 //
@@ -44,7 +46,7 @@
 // stylesheet's job. This is also what lets the shell's scene observer hand the
 // ground back after a section has taken a different one.
 
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 export interface ChapterMeta {
   /** Anchor id. The page index jumps to it, so it is also the scroll target. */
@@ -64,6 +66,23 @@ export interface ChapterMeta {
   /** The one chapter this page most wants read. The running section bar marks
    *  it; nothing else about the chapter changes. */
   feature?: boolean;
+  /** A secondary chapter opens on demand (design audit §7, 2026-09-21): the
+   *  header stays in the flow as the summary, the body is a closed <details>
+   *  until the reader opens it or navigates to the chapter's anchor. Nothing is
+   *  removed; the page stops being 17,000px of everything at once. */
+  collapsed?: boolean;
+}
+
+function useHashOpen(id: string, collapsed: boolean | undefined): [boolean, (v: boolean) => void] {
+  const [open, setOpen] = useState(!collapsed);
+  useEffect(() => {
+    if (!collapsed) return;
+    const sync = () => { if (window.location.hash === `#${id}`) setOpen(true); };
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, [collapsed, id]);
+  return [open, setOpen];
 }
 
 export function Chapter({
@@ -83,14 +102,8 @@ export function Chapter({
   /** The working table takes the canvas edge-to-edge for its sticky rail. */
   wide?: boolean;
 }) {
-  return (
-    <section
-      className={`nw-ch${wide ? " nw-ch--wide" : ""}`}
-      id={meta.id}
-      aria-labelledby={`${meta.id}-h`}
-      data-ch={meta.n}
-      data-scene={meta.scene}
-    >
+  const [open, setOpen] = useHashOpen(meta.id, meta.collapsed);
+  const header = (
       <header className="nw-ch-h">
         <span className="nw-ch-n nm-par-slow" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
         <p className="nw-ch-k nm-fade">
@@ -102,8 +115,31 @@ export function Chapter({
         <h2 className="nw-ch-t nm-kin" id={`${meta.id}-h`}><span><span>{meta.title}</span></span></h2>
         <p className="nw-ch-s nm-rise">{lede}</p>
         {lead ? <p className="nw-ch-go nm-rise">{lead}</p> : null}
+        {meta.collapsed ? (
+          <span className="nw-ch-toggle" aria-hidden="true">{open ? "צמצום הפרק" : "הצגת הפרק"}</span>
+        ) : null}
       </header>
-      <div className="nw-ch-body">{children}</div>
+  );
+  return (
+    <section
+      className={`nw-ch${wide ? " nw-ch--wide" : ""}`}
+      id={meta.id}
+      aria-labelledby={`${meta.id}-h`}
+      data-ch={meta.n}
+      data-scene={meta.scene}
+      data-collapsed={meta.collapsed ? (open ? "open" : "closed") : undefined}
+    >
+      {meta.collapsed ? (
+        <details className="nw-ch-d" open={open} onToggle={(e) => setOpen((e.currentTarget as HTMLDetailsElement).open)}>
+          <summary className="nw-ch-sum">{header}</summary>
+          <div className="nw-ch-body">{children}</div>
+        </details>
+      ) : (
+        <>
+          {header}
+          <div className="nw-ch-body">{children}</div>
+        </>
+      )}
     </section>
   );
 }

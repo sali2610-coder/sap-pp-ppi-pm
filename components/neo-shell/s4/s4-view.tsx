@@ -26,6 +26,7 @@ import {
   Sparkles, Truck, Waypoints,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { S4Catalog } from "./s4-catalog";
 import {
   APPROACHES, ARCH, ARCH_STATUS, CUSTOM_CODE, CUSTOM_CODE_NOTE, CUTOVER, EXEC_NARRATIVE,
   INTEGRATION, LESSONS, MIG_CHECKLIST, MIG_ERRORS, MIG_LOAD_LAYERS, QUALITY_DIMS, READINESS,
@@ -124,13 +125,6 @@ export function S4HanaCenter() {
   const tr = transformTotals();
   const mon = monitorLinks();
 
-  const ORDER: { k: string; he: string }[] = [
-    { k: "removed", he: "בוטל" },
-    { k: "replaced", he: "הוחלף" },
-    { k: "changed", he: "השתנה" },
-    { k: "stays", he: "נשאר" },
-  ];
-
   const nav: [string, string][] = [
     ["ns4-cat", "קטלוג האובייקטים"],
     ["ns4-arch", "ארכיטקטורת המערכת"],
@@ -182,80 +176,7 @@ export function S4HanaCenter() {
         title="קטלוג האובייקטים"
         lede="מסודר לפי חומרת השינוי: תחילה מה שבוטל, בסוף מה שנשאר."
       >
-        {ORDER.map(({ k, he }) => {
-          const list = objs.filter((o) => o.status === k);
-          if (!list.length) return null;
-          return (
-            <div key={k} className="ns4-group">
-              <h3 className="ns4-h3">
-                <i aria-hidden="true" style={{ background: list[0].statusColor }} />
-                {he}
-                <span className="ns4-h3-n">{list.length}</span>
-              </h3>
-              <div className="ns4-objs">
-                {list.map((o) => (
-                  <article key={o.name} className="ns4-obj" style={{ "--s": o.statusColor } as React.CSSProperties}>
-                    <header className="ns4-obj-h">
-                      {o.href
-                        ? <Link className="ns4-obj-n nx-sap" href={o.href} prefetch={false} dir="ltr">{o.name}</Link>
-                        : <b className="ns4-obj-n nx-sap" dir="ltr">{o.name}</b>}
-                      <span className="ns4-kind">{o.kind}</span>
-                      <Risk r={o.risk} />
-                      {o.release ? <span className="ns4-rel nx-sap" dir="ltr">{o.release}</span> : null}
-                      <Trust t={o.trust} />
-                    </header>
-                    <p className="ns4-obj-he">{o.he}</p>
-
-                    <dl className="ns4-ba">
-                      <div><dt>ECC</dt><dd>{o.ecc}</dd></div>
-                      <div><dt>S/4HANA</dt><dd>{o.s4}</dd></div>
-                    </dl>
-
-                    {o.why ? <p className="ns4-why"><b>סיבת השינוי: </b>{o.why}</p> : null}
-
-                    {o.replacesLinks.length ? (
-                      <>
-                        <h4 className="ns4-h4">מחליף את</h4>
-                        <Chips items={o.replacesLinks} />
-                      </>
-                    ) : null}
-
-                    {(o.abap || []).length ? (
-                      <>
-                        <h4 className="ns4-h4"><Code2 size={12} strokeWidth={2} aria-hidden="true" /> השפעה על קוד ABAP</h4>
-                        <ul className="ns4-abap">
-                          {(o.abap || []).map((a, i) => (
-                            <li key={i}>
-                              <span className="ns4-abap-k nx-sap" dir="ltr">{a.k}</span>
-                              <span className="ns4-abap-b">
-                                <span>{a.note}</span>
-                                {a.code ? <code className="ns4-code" dir="ltr">{a.code}</code> : null}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    ) : null}
-
-                    {(o.checklist || []).length ? (
-                      <>
-                        <h4 className="ns4-h4"><ClipboardList size={12} strokeWidth={2} aria-hidden="true" /> נקודות לבדיקה בפרויקט</h4>
-                        <ul className="ns4-check">
-                          {(o.checklist || []).map((c, i) => <li key={i}>{c}</li>)}
-                        </ul>
-                      </>
-                    ) : null}
-
-                    <footer className="ns4-obj-f">
-                      <span className="ns4-mods">{o.modules.join(" · ")}</span>
-                      {o.relatedLinks.length ? <Chips items={o.relatedLinks} /> : null}
-                    </footer>
-                  </article>
-                ))}
-              </div>
-            </div>
-          );
-        })}
+        <S4Catalog objs={objs} />
       </Sec>
 
       {/* ================================================== ARCHITECTURE */}
@@ -580,11 +501,15 @@ export function MigrationCockpit() {
               <section key={w} className="ns4-wave">
                 <h3 className="ns4-h3">גל {w}<span className="ns4-h3-n">{list.length}</span></h3>
                 <ul className="ns4-wave-l">
+                  {/* Each entry of the load-order map jumps to its own card below
+                      (design audit §7: highlight the chosen object). */}
                   {list.map((o) => (
                     <li key={o.id} style={{ "--s": catColor[o.cat] } as React.CSSProperties}>
-                      <b>{o.he}</b>
-                      <em className="nx-sap" dir="ltr">{o.name}</em>
-                      <span className="ns4-cat">{catHe[o.cat]}</span>
+                      <a className="ns4-wave-a" href={`#mo-${o.id}`}>
+                        <b>{o.he}</b>
+                        <em className="nx-sap" dir="ltr">{o.name}</em>
+                        <span className="ns4-cat">{catHe[o.cat]}</span>
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -602,9 +527,19 @@ export function MigrationCockpit() {
         title="אובייקטי המעבר"
         lede={`${t.objects} אובייקטים. ${MIG_LOAD_LAYERS.map((l) => `${l.he.replace(/^\d+ · /, "")} ${t.byCat[l.cat] || 0}`).join(" · ")}.`}
       >
+        {/* The long catalogue is grouped by wave; wave 1 open, the rest on demand
+            (the map above, the dependency lists and the anchors open a closed
+            wave on navigation). The chosen card is highlighted with :target. */}
+        {waves.map((w) => (
+        <details key={w} className="ns4-group ns4-group-d" open={w === waves[0]}>
+          <summary className="ns4-h3">
+            גל {w}
+            <span className="ns4-h3-n">{objs.filter((o) => o.wave === w).length}</span>
+            <span className="ns4-h3-hint" aria-hidden="true">הצגה / צמצום</span>
+          </summary>
         <div className="ns4-objs">
-          {objs.map((o) => (
-            <article key={o.id} className="ns4-obj" style={{ "--s": catColor[o.cat] } as React.CSSProperties}>
+          {objs.filter((o) => o.wave === w).map((o) => (
+            <article key={o.id} id={`mo-${o.id}`} className="ns4-obj" style={{ "--s": catColor[o.cat] } as React.CSSProperties}>
               <header className="ns4-obj-h">
                 <b className="ns4-obj-n">{o.he}</b>
                 <span className="ns4-obj-en nx-sap" dir="ltr">{o.name}</span>
@@ -627,7 +562,7 @@ export function MigrationCockpit() {
               {o.dependsHe.length ? (
                 <>
                   <h4 className="ns4-h4">נטען לאחר</h4>
-                  <ul className="ns4-dep">{o.dependsHe.map((d) => <li key={d.id}>{d.he}</li>)}</ul>
+                  <ul className="ns4-dep">{o.dependsHe.map((d) => <li key={d.id}><a href={`#mo-${d.id}`}>{d.he}</a></li>)}</ul>
                 </>
               ) : (
                 <p className="ns4-free"><CheckCircle2 size={12} strokeWidth={2} aria-hidden="true" /> ללא תלויות, נטען בגל הראשון.</p>
@@ -636,7 +571,7 @@ export function MigrationCockpit() {
               {o.unlocks.length ? (
                 <>
                   <h4 className="ns4-h4">תנאי מקדים ל</h4>
-                  <ul className="ns4-dep" data-tone="fwd">{o.unlocks.map((d) => <li key={d.id}>{d.he}</li>)}</ul>
+                  <ul className="ns4-dep" data-tone="fwd">{o.unlocks.map((d) => <li key={d.id}><a href={`#mo-${d.id}`}>{d.he}</a></li>)}</ul>
                 </>
               ) : null}
 
@@ -644,6 +579,8 @@ export function MigrationCockpit() {
             </article>
           ))}
         </div>
+        </details>
+        ))}
       </Sec>
 
       {/* ===================================================== APPROACHES */}

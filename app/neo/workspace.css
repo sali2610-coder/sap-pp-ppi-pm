@@ -1569,3 +1569,17 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
 .nw-idx-d[open] > .nw-idx-l { margin-block-start: var(--sp-4); }
 /* The jump from a chosen topic to its tables. */
 .nw-rank-go { margin-block-start: var(--sp-3); }
+
+/* Secondary chapters as progressive disclosure (design audit §7, 2026-09-21):
+   the header is the summary, the body opens on click or on anchor navigation. */
+.nw-ch-d > summary { list-style: none; cursor: pointer; }
+.nw-ch-d > summary::-webkit-details-marker { display: none; }
+.nw-ch-d > summary:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--m); border-radius: var(--r-sm); }
+.nw-ch-toggle {
+  display: inline-flex; align-items: center; gap: 4px; margin-block-start: var(--sp-3);
+  font-size: var(--t-micro); font-weight: 650; color: var(--m);
+}
+.nw-ch-toggle::after { content: "▾"; }
+.nw-ch[data-collapsed="open"] .nw-ch-toggle::after { content: "▴"; }
+.nw-ch[data-collapsed="closed"] > .nw-ch-d > summary .nw-ch-h { margin-block-end: 0; }
+.nw-ch-d[open] > .nw-ch-body { margin-block-start: var(--sp-6); }
