@@ -295,7 +295,7 @@ export function BookQuickView({
             </div>
           ) : (
             <p className="nb-fine nb-resume-none">
-              לספר זה אין מיקום קריאה שמור. המיקום נשמר במהלך הקריאה ויוצג כאן.
+              התחל לקרוא. המיקום יישמר במכשיר הזה.
             </p>
           )}
 

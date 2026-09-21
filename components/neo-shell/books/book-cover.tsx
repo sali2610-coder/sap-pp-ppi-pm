@@ -163,7 +163,7 @@ export function BookCover({
             <span className="nb-cov-type">
               <span className="nb-cov-foil" />
               {r.kicker && <span className="nb-cov-kick" lang="en">{r.kicker}</span>}
-              <span className="nb-cov-subj" lang={b.titleHe ? "he" : "en"}>{r.subject}</span>
+              <span className="nb-cov-subj" lang={b.titleHe ? "he" : "en"} aria-hidden="true">{r.subject}</span>
               {r.platform && (
                 <span className="nb-cov-plat" lang={b.titleHe ? "he" : "en"}>{r.platform}</span>
               )}

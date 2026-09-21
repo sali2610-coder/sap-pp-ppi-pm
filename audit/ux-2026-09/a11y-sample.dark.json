@@ -1,0 +1,1425 @@
+{
+  "theme": "dark",
+  "viewport": "1363x936",
+  "measuredAt": "2026-09-21T21:07:32.057Z",
+  "results": [
+    {
+      "url": "/neo/",
+      "checked": 112,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/pm/",
+      "checked": 721,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "input",
+          "w": 857,
+          "h": 23,
+          "label": "חיפוש בטבלת העבודה",
+          "cls": ""
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/pp-pi/",
+      "checked": 668,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "input",
+          "w": 857,
+          "h": 23,
+          "label": "חיפוש בטבלת העבודה",
+          "cls": ""
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/domain/",
+      "checked": 40,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 87,
+          "h": 18,
+          "label": "pm-analytics/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 101,
+          "h": 18,
+          "label": "pm-breakdown/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 99,
+          "h": 18,
+          "label": "pm-calibration/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 112,
+          "h": 18,
+          "label": "pm-confirmation/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 98,
+          "h": 18,
+          "label": "pm-equipment/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 158,
+          "h": 18,
+          "label": "pm-functional-locations/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 179,
+          "h": 18,
+          "label": "pm-maintenance-execution/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 156,
+          "h": 18,
+          "label": "pm-maintenance-orders/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 172,
+          "h": 18,
+          "label": "pm-maintenance-planning/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 141,
+          "h": 18,
+          "label": "pm-measuring-points/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 109,
+          "h": 18,
+          "label": "pm-notifications/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 78,
+          "h": 18,
+          "label": "pm-permits/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 184,
+          "h": 18,
+          "label": "pm-preventive-maintenance/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 96,
+          "h": 18,
+          "label": "pm-settlement/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 100,
+          "h": 18,
+          "label": "pm-spare-parts/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 87,
+          "h": 18,
+          "label": "pm-task-lists/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 139,
+          "h": 18,
+          "label": "pm-technical-objects/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 114,
+          "h": 18,
+          "label": "pm-work-centers/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 100,
+          "h": 18,
+          "label": "pppi-backflush/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 160,
+          "h": 18,
+          "label": "pppi-batch-management/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 67,
+          "h": 18,
+          "label": "pppi-bom/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 153,
+          "h": 18,
+          "label": "pppi-capacity-planning/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 126,
+          "h": 18,
+          "label": "pppi-confirmations/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 69,
+          "h": 18,
+          "label": "pppi-gi-gr/",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 131,
+          "h": 18,
+          "label": "pppi-master-recipes/",
+          "cls": ""
+        }
+      ],
+      "smallCount": 39,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/domain/pm-functional-locations/",
+      "checked": 212,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 88,
+          "h": 22,
+          "label": "תחומים עסקיים",
+          "cls": "ndm-back"
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/s4hana/",
+      "checked": 465,
+      "contrast": [
+        {
+          "text": "הוסר",
+          "ratio": 2.37,
+          "need": 4.5,
+          "size": 10.9,
+          "cls": ""
+        },
+        {
+          "text": "הוסר",
+          "ratio": 2.37,
+          "need": 4.5,
+          "size": 10.9,
+          "cls": ""
+        },
+        {
+          "text": "הוסר",
+          "ratio": 2.37,
+          "need": 4.5,
+          "size": 10.9,
+          "cls": ""
+        },
+        {
+          "text": "הוסר",
+          "ratio": 2.37,
+          "need": 4.5,
+          "size": 10.9,
+          "cls": ""
+        },
+        {
+          "text": "הוסר",
+          "ratio": 2.37,
+          "need": 4.5,
+          "size": 10.9,
+          "cls": ""
+        },
+        {
+          "text": "הוסר",
+          "ratio": 2.37,
+          "need": 4.5,
+          "size": 10.9,
+          "cls": ""
+        },
+        {
+          "text": "הוסר",
+          "ratio": 2.37,
+          "need": 4.5,
+          "size": 10.9,
+          "cls": ""
+        },
+        {
+          "text": "הוסר",
+          "ratio": 2.37,
+          "need": 4.5,
+          "size": 10.9,
+          "cls": ""
+        }
+      ],
+      "contrastCount": 8,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/s4-readiness/",
+      "checked": 509,
+      "contrast": [
+        {
+          "text": "100",
+          "ratio": 3.47,
+          "need": 4.5,
+          "size": 16.8,
+          "cls": "ns4-score.nx-sap"
+        }
+      ],
+      "contrastCount": 1,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/migration-cockpit/",
+      "checked": 393,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 22,
+          "h": 13,
+          "label": "לקוח",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 20,
+          "h": 13,
+          "label": "ספק",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 102,
+          "h": 13,
+          "label": "פריטים פתוחים (חו\"ז)",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 94,
+          "h": 13,
+          "label": "מרכז עבודה / משאב",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 42,
+          "h": 13,
+          "label": "נכס קבוע",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 72,
+          "h": 13,
+          "label": "עובד (PA/OM)",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 77,
+          "h": 13,
+          "label": "עץ מוצר (BOM)",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 67,
+          "h": 13,
+          "label": "רשימת פעולות",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 50,
+          "h": 13,
+          "label": "מתכון ייצור",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 49,
+          "h": 13,
+          "label": "גרסת ייצור",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 18,
+          "h": 13,
+          "label": "ציוד",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 95,
+          "h": 13,
+          "label": "תוכנית בדיקה (QM)",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 53,
+          "h": 13,
+          "label": "יתרות מלאי",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 94,
+          "h": 13,
+          "label": "הזמנות רכש פתוחות",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 103,
+          "h": 13,
+          "label": "הזמנות מכירה פתוחות",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 18,
+          "h": 13,
+          "label": "ציוד",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 66,
+          "h": 13,
+          "label": "תוכנית אחזקה",
+          "cls": ""
+        }
+      ],
+      "smallCount": 18,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/erd/",
+      "checked": 143,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/studio/",
+      "checked": 188,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "input",
+          "w": 438,
+          "h": 24,
+          "label": "חיפוש בגרף",
+          "cls": ""
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "BUT000נתוני אב שותף עסקי",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "CRTXטקסטים למרכז עבודה",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "EQSTקישור ציוד לעץ מוצר",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "IFLOSתוויות מבנה למיקום פונקצי",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "MASTשיוך עץ מוצר (BOM) לחומר",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "STPOפריטי עץ מוצר (BOM)",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "TPSTקישור מיקום פונקציונלי לעץ",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "MHIOאובייקטי קריאת תכנית האחזק",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "MHISהיסטוריית תזמון תכנית אחזק",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "MPOSפריט תכנית אחזקה",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "PLPOפעולות ברשימת הפעולות",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "AFIHכותרת פקודת אחזקה (PM)",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "AFKOנתוני כותרת פקודת ייצור / ",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "AFPOפריטי פקודת ייצור",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 61,
+          "h": 18,
+          "label": "AFWIתנועות מלאי המקושרות לדיוו",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 61,
+          "h": 18,
+          "label": "TJ02Tטקסטים של סטטוסי מערכת",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "TJ30סטטוסי משתמש (הגדרה)",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 61,
+          "h": 18,
+          "label": "TJ30Tטקסטים לסטטוס משתמש",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "QMFEפריטי הודעת איכות (נזק / ג",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "QMMAפעולות / אמצעים בהודעת איכ",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "QMSMמשימות בהודעת איכות",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "QMURסיבות לליקוי",
+          "cls": "nst-node"
+        },
+        {
+          "tag": "button",
+          "w": 71,
+          "h": 21,
+          "label": "QPCDקודים בתוך קבוצת קוד",
+          "cls": "nst-node"
+        }
+      ],
+      "smallCount": 38,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/tables/",
+      "checked": 1594,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "input",
+          "w": 455,
+          "h": 23,
+          "label": "חיפוש בטבלאות SAP",
+          "cls": ""
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/tables/AFKO/",
+      "checked": 378,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 389,
+          "h": 20,
+          "label": "Production Order Header | Virt",
+          "cls": "nev-a"
+        },
+        {
+          "tag": "a",
+          "w": 554,
+          "h": 20,
+          "label": "Scenarios and Tables for Subst",
+          "cls": "nev-a"
+        },
+        {
+          "tag": "a",
+          "w": 899,
+          "h": 20,
+          "label": "Archiving Maintenance and Serv",
+          "cls": "nev-a"
+        },
+        {
+          "tag": "a",
+          "w": 362,
+          "h": 20,
+          "label": "Manufacturing Order | Virtual ",
+          "cls": "nev-a"
+        }
+      ],
+      "smallCount": 5,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/object/MARA/",
+      "checked": 424,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 70,
+          "h": 21,
+          "label": "מודל הנתונים",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "MARC",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "MCH1",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "MARM",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "MBEW",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "MAST",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "MEAN",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "MAKT",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "MLGN",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "MVKE",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "MLAN",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "T134",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 264,
+          "h": 23,
+          "label": "T023",
+          "cls": "nx-sap"
+        },
+        {
+          "tag": "a",
+          "w": 414,
+          "h": 20,
+          "label": "Extended Material Number in SA",
+          "cls": "nev-a"
+        },
+        {
+          "tag": "a",
+          "w": 422,
+          "h": 20,
+          "label": "Material Numbers | Inventory M",
+          "cls": "nev-a"
+        },
+        {
+          "tag": "a",
+          "w": 286,
+          "h": 20,
+          "label": "Types of Checks Performed | Pr",
+          "cls": "nev-a"
+        },
+        {
+          "tag": "a",
+          "w": 659,
+          "h": 20,
+          "label": "Replicating Custom Fields for ",
+          "cls": "nev-a"
+        }
+      ],
+      "smallCount": 18,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/transactions/",
+      "checked": 1351,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "input",
+          "w": 419,
+          "h": 23,
+          "label": "חיפוש טרנזקציות",
+          "cls": ""
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/bapi/",
+      "checked": 1161,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "input",
+          "w": 402,
+          "h": 23,
+          "label": "חיפוש · BAPIs ומודולי פונקציה",
+          "cls": ""
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/bapi/BAPI_ALM_CONF_CREATE/",
+      "checked": 201,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 509,
+          "h": 20,
+          "label": "Maintenance Order Operation Co",
+          "cls": "nev-a"
+        },
+        {
+          "tag": "a",
+          "w": 524,
+          "h": 20,
+          "label": "Create a Single Order Operatio",
+          "cls": "nev-a"
+        },
+        {
+          "tag": "a",
+          "w": 346,
+          "h": 20,
+          "label": "Overview | Maintenance Order O",
+          "cls": "nev-a"
+        }
+      ],
+      "smallCount": 4,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/idoc/",
+      "checked": 166,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "input",
+          "w": 504,
+          "h": 23,
+          "label": "חיפוש · IDocs",
+          "cls": ""
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/cds/",
+      "checked": 500,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "input",
+          "w": 340,
+          "h": 23,
+          "label": "חיפוש · CDS Views",
+          "cls": ""
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/fiori-apps/",
+      "checked": 307,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "input",
+          "w": 409,
+          "h": 23,
+          "label": "חיפוש · יישומי SAP Fiori",
+          "cls": ""
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/enhancements/",
+      "checked": 181,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "input",
+          "w": 541,
+          "h": 23,
+          "label": "חיפוש · טכניקות הרחבה",
+          "cls": ""
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/books/",
+      "checked": 189,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/read/book2/",
+      "checked": 291,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 1 · Introduction to Produc",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 2 · Organizational Structu",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 3 · Discrete Manufacturing",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 4 · Process Manufacturing ",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 5 · Repetitive Manufacturi",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 6 · Production Planning fo",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 7 · Production Planning fo",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 8 · Production Planning fo",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 9 · Kanban",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 10 · Batch Management",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 11 · Sales and Operations ",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 12 · Demand Management",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 13 · Material Requirements",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 14 · Demand-Driven Repleni",
+          "cls": "nr-tick"
+        },
+        {
+          "tag": "button",
+          "w": 28,
+          "h": 14,
+          "label": "פרק 15 · Predictive Material a",
+          "cls": "nr-tick"
+        }
+      ],
+      "smallCount": 16,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/ai/",
+      "checked": 88,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/chat/",
+      "checked": 82,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/knowledge/",
+      "checked": 378,
+      "contrast": [
+        {
+          "text": "מושגים",
+          "ratio": 2.21,
+          "need": 4.5,
+          "size": 13,
+          "cls": "nu-tab.nxl-bodytab"
+        }
+      ],
+      "contrastCount": 1,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/academy/",
+      "checked": 184,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 82,
+          "h": 15,
+          "label": "תרגול ובדיקת ידע",
+          "cls": ""
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/certification/",
+      "checked": 153,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/incidents/cogi-stuck/",
+      "checked": 100,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/centers/",
+      "checked": 102,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/best-practices/",
+      "checked": 82,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 27,
+          "h": 23,
+          "label": "NEO",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    }
+  ]
+}

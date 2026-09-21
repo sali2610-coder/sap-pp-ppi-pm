@@ -19,6 +19,12 @@
 
 .ns4 {
   --s: var(--ink-3);
+  /* The section bar bleeds by its own padding; on a 390px phone that pushed the
+     scene to 427px and the canvas scrolled sideways (screen matrix 2026-09-21). */
+  min-inline-size: 0; overflow-x: clip;
+  /* Auto margins made the scene fit-content; on a 390px phone that meant 427px.
+     Explicit: the track, capped at the reading width. */
+  inline-size: min(78rem, 100%);
   padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem) 5rem;
   max-inline-size: 78rem;
   margin-inline: auto;
@@ -115,9 +121,11 @@
 .ns4-rel, .ns4-wave-b { unicode-bidi: isolate; }
 
 .ns4-risk {
-  font-size: .66rem; font-weight: 700; white-space: nowrap;
+  font-size: .72rem; font-weight: 700; white-space: nowrap;
   padding: .12rem .4rem; border-radius: 5px;
-  color: var(--r, var(--ink-3));
+  /* Coloured text on its own tint measured 2.1:1; darkened towards the ink
+     (lightened on the dark theme below) to clear 4.5:1 (a11y sample 2026-09-21). */
+  color: color-mix(in srgb, var(--r, var(--ink-3)) 60%, var(--ink-1));
   background: color-mix(in srgb, var(--r, var(--ink-3)) 10%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r, var(--ink-3)) 30%, transparent);
 }
@@ -125,8 +133,8 @@
    a stated limit of the project's own knowledge. */
 .ns4-trust {
   margin-inline-start: auto;
-  font-size: .64rem; font-weight: 600; white-space: nowrap;
-  padding: .12rem .4rem; border-radius: 5px; color: var(--ink-3);
+  font-size: .72rem; font-weight: 600; white-space: nowrap;
+  padding: .12rem .4rem; border-radius: 5px; color: var(--ink-2);
   border: 1px solid var(--hairline);
 }
 .ns4-trust[data-t="needs-verification"] { border-style: dashed; color: var(--status-in-analysis, #d97706); }
@@ -246,8 +254,8 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-topics > li { border-inline-start-color: var(--s); }
 .ns4-topic-en { font-size: .74rem; color: var(--ink-3); unicode-bidi: isolate; }
 .ns4-topic-st {
-  font-size: .66rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px; white-space: nowrap;
-  color: var(--s); background: color-mix(in srgb, var(--s) 12%, transparent);
+  font-size: .72rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px; white-space: nowrap;
+  color: color-mix(in srgb, var(--s) 60%, var(--ink-1)); background: color-mix(in srgb, var(--s) 12%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--s) 30%, transparent);
 }
 .ns4-topic-area { margin-inline-start: auto; }
@@ -270,8 +278,8 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-arch-h { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
 .ns4-arch-layer { font-size: .74rem; font-weight: 700; color: var(--ink-3); }
 .ns4-arch-st {
-  font-size: .66rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px;
-  color: var(--s); background: color-mix(in srgb, var(--s) 12%, transparent);
+  font-size: .72rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px;
+  color: color-mix(in srgb, var(--s) 60%, var(--ink-1)); background: color-mix(in srgb, var(--s) 12%, transparent);
 }
 .ns4-arch-pair {
   display: flex; flex-wrap: wrap; align-items: center; gap: .4rem;
@@ -344,7 +352,7 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-dep[data-tone="fwd"] li { color: var(--ink-3); border-style: dashed; }
 .ns4-free {
   display: flex; align-items: center; gap: .3rem;
-  margin: .5rem 0 0; font-size: .8rem; color: var(--status-done, #16a34a);
+  margin: .5rem 0 0; font-size: .8rem; color: color-mix(in srgb, var(--status-done, #16a34a) 70%, var(--ink-1));
 }
 
 /* ------------------------------------------------------------- steps */
@@ -421,3 +429,10 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-dep li a:hover { text-decoration-color: currentColor; }
 .ns4-obj { scroll-margin-block-start: calc(var(--nxs-pad, 0px) + 4.5rem); }
 .ns4-obj:target { box-shadow: 0 0 0 2px var(--scene-raised, var(--surface)), 0 0 0 4px var(--s); }
+
+/* Dark theme: the same chips lighten towards white instead (a11y sample 2026-09-21). */
+html[data-theme="dark"] .ns4-risk { color: color-mix(in srgb, var(--r, var(--ink-3)) 65%, #fff); }
+html[data-theme="dark"] .ns4-topic-st, html[data-theme="dark"] .ns4-arch-st { color: color-mix(in srgb, var(--s) 65%, #fff); }
+html[data-theme="dark"] .ns4-free { color: color-mix(in srgb, var(--status-done, #16a34a) 65%, #fff); }
+.ns4-act { color: var(--scene-accent, var(--brand)); }
+html[data-theme="dark"] .ns4-abap-k { color: var(--scene-ink); }

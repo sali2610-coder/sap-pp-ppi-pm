@@ -83,10 +83,10 @@
 
 /* --- type steps ----------------------------------------------------------- */
 .nr[data-size="sm"]  { --nr-fs: 0.875rem; }   /* the canonical reader's own 14px */
-.nr[data-size="md"]  { --nr-fs: 0.9375rem; }
-.nr[data-size="lg"]  { --nr-fs: 1.0625rem; }
-.nr[data-size="xl"]  { --nr-fs: 1.1875rem; }
-.nr[data-size="xxl"] { --nr-fs: 1.3125rem; }
+.nr[data-size="md"]  { --nr-fs: 1rem; }        /* 16px — design audit §4 reading floor */
+.nr[data-size="lg"]  { --nr-fs: 1.125rem; }
+.nr[data-size="xl"]  { --nr-fs: 1.25rem; }
+.nr[data-size="xxl"] { --nr-fs: 1.375rem; }
 
 .nr[data-lead="snug"]   { --nr-lh: 1.58; }
 .nr[data-lead="normal"] { --nr-lh: 1.72; }

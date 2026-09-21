@@ -1760,3 +1760,6 @@ html[data-theme="dark"] #nh-5[data-scene="pppi-full"] {
 @media (max-width: 1080px) {
   .nh-paths { grid-template-columns: 1fr; }
 }
+
+/* a11y sample 2026-09-21: the text link in the gate measured 4.2:1 on the deep scene. */
+.nh-gate-in .nu-link { color: var(--scene-ink, #fff); }

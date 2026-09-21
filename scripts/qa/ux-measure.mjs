@@ -25,7 +25,17 @@ const ROUTES = [
   ["incident-cogi", "/neo/incidents/cogi-stuck/"], ["centers", "/neo/centers/"], ["best-practices", "/neo/best-practices/"],
 ];
 const browser = await chromium.launch({ executablePath: CHROME, headless: true });
-const ctx = await browser.newContext({ viewport: { width: 1363, height: 936 } });
+// Screen matrix (design audit §10): VW/VH viewport, THEME=dark (via the boot
+// key), MOTION=reduce (prefers-reduced-motion), UA=phone (a phone user agent so
+// the shell's device gate takes the phone path).
+const VW = Number(process.env.VW || 1363), VH = Number(process.env.VH || 936);
+const PHONE_UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
+const ctx = await browser.newContext({
+  viewport: { width: VW, height: VH },
+  ...(process.env.UA === "phone" ? { userAgent: PHONE_UA, isMobile: true, hasTouch: true, deviceScaleFactor: 2 } : {}),
+  ...(process.env.MOTION === "reduce" ? { reducedMotion: "reduce" } : {}),
+});
+if (process.env.THEME === "dark") await ctx.addInitScript(() => { try { localStorage.setItem("neo:theme", "dark"); } catch {} });
 const page = await ctx.newPage();
 const errs = []; page.on("pageerror", (e) => errs.push(e.message)); page.on("console", (m) => { if (m.type() === "error") errs.push(m.text()); });
 const results = [];
@@ -56,8 +66,13 @@ for (const [id, url] of ROUTES) {
     }
     off.sort((a, b) => b.over - a.over);
     // low-opacity visible text
-    const vh = window.innerHeight; let minOp = 1, dim = 0, sample = "";
+    // The reveal boundary is the scroller's bottom edge (the canvas on desktop,
+    // the same element inside the phone shell), 160px above it = the end of the
+    // reveal range. Elements inside a closed <details> or aria-hidden are not
+    // shown to the reader and are not judged.
+    const vh = Math.min(window.innerHeight, cb.bottom); let minOp = 1, dim = 0, sample = "";
     for (const el of document.querySelectorAll(".nm-rise, .nm-fade")) {
+      if (el.closest('details:not([open]) > :not(summary), [aria-hidden="true"]')) continue;
       const r = el.getBoundingClientRect();
       if (r.top < vh - 160 && r.bottom > 0 && (el.textContent || "").trim().length > 20) {
         const op = parseFloat(getComputedStyle(el).opacity);

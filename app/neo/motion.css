@@ -364,8 +364,13 @@
      is shortened to the point of being a courtesy rather than an effect. */
   .nm-rise,
   .nm-fade {
-    animation-timeline: none !important;
-    animation: nm-fade 120ms linear both !important;
+    /* 2026-09-21: `animation-timeline: none` froze the 120ms fade at its first
+       keyframe, so every reveal stayed at opacity 0 for reduced-motion readers
+       (measured: 8 invisible chapter cards on /neo/pm/). A time-based fade also
+       never starts inside a skipped subtree (closed <details>), so the content
+       is simply present: no animation, full opacity. */
+    animation: none !important;
+    opacity: 1 !important;
     transform: none !important;
   }
 

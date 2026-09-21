@@ -1578,8 +1578,11 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne {
   --erd-mod-mm:    #2f81f7;
   --erd-mod-pp:    #9b5de5;
-  --erd-mod-pppi:  #6d28d9;
-  --erd-mod-pm:    #f97316;
+  /* 2026-09-21 (design audit §5): PM and PP-PI take the product's own module
+     hues so a module reads the same on a card, in a table and on the map.
+     Literal in both themes: they are fills under white text here. */
+  --erd-mod-pppi:  #1d4ed8;
+  --erd-mod-pm:    #0f766e;
   --erd-mod-cs:    #14b8a6;
   --erd-mod-sd:    #22c55e;
   --erd-mod-fi:    #ef4444;

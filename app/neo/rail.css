@@ -888,8 +888,15 @@ html[data-device="tablet"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-
 .nx-app .nx-shelf-empty {
   display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: var(--sp-2);
   inline-size: 100%; margin: 0; padding: var(--sp-2) var(--sp-3); white-space: nowrap; overflow: hidden;
-  font-size: var(--t-micro); color: var(--ink-3); line-height: 1.5; text-align: start;
+  font-size: var(--t-micro); color: var(--ink-2); line-height: 1.5; text-align: start;
   background: transparent; border: 0; cursor: pointer;
 }
 .nx-app .nx-shelf-empty:hover { color: var(--ink-1); }
-.nx-app .nx-shelf-empty-a { color: var(--railtint); font-weight: 650; white-space: nowrap; }
+.nx-app .nx-shelf-empty-a { color: var(--ink-2); font-weight: 650; white-space: nowrap; }
+
+/* a11y sample 2026-09-21: group labels and counts in the rail measured 3.8:1
+   at 10–11px; one step larger and one ink darker clears 4.5:1. */
+.nx-app .nx-group-btn .nx-t { font-size: 0.75rem; color: var(--ink-2); }
+.nx-app .nx-navitem-n { font-size: 0.6875rem; color: var(--ink-2); }
+.nx-app .nx-srch-input { block-size: 1.75rem; min-block-size: 1.75rem; } /* the rail field sits under a 0.9 scale; 28px renders as 25px */
+.nx-app .nx-srch-meta { color: var(--ink-2); }

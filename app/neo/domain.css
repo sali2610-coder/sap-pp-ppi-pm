@@ -302,7 +302,8 @@
   padding-inline-start: .75rem;
   border-inline-start: 3px solid var(--t, var(--ink-3));
 }
-.ndm-s4 li b { font-size: .78rem; font-weight: 700; color: var(--t, var(--ink-2)); }
+.ndm-s4 li b { font-size: .78rem; font-weight: 700; color: color-mix(in srgb, var(--t, var(--ink-2)) 62%, var(--ink-1)); }
+html[data-theme="dark"] .ndm-s4 li b { color: color-mix(in srgb, var(--t, var(--ink-2)) 65%, #fff); }
 .ndm-s4 li span { font-size: .88rem; line-height: 1.68; color: var(--ink-2); }
 
 /* -------------------------------------------------------------- siblings */

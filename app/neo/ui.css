@@ -301,3 +301,7 @@ a.nu-card:active, button.nu-card:active { transform: translateY(0); box-shadow: 
    is the right answer there (6.9:1) and forcing white dropped it to 3.05:1.
    Same control, opposite correction — which is exactly why this is measured per
    theme instead of reasoned about once. */
+
+/* Interactive chips are targets: 24px minimum (WCAG 2.5.8; a11y sample 2026-09-21).
+   Static chips keep their height. */
+.nx-app a.nu-chip, .nx-app button.nu-chip { min-block-size: 1.5rem; }
