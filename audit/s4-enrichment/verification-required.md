@@ -1,15 +1,15 @@
 # Verification-required list · precise state (design-audit continuation §11, 2026-09-22)
 
 The brief names ten identifiers to "close or document precisely". Each row says what the
-evidence layer holds today (HEAD of `design/neo-correction-pass`, same day), what was checked,
+evidence layer holds at HEAD `a3f74666`, what was checked,
 what would close it, and its delivery classification. Nothing below was checked in a live SAP
 system; every "not found" is a documented negative search, never a claim of non-existence.
 
 | id | record today | what was checked | what closes it | classification |
 |---|---|---|---|---|
-| `PPCC1` | `data/function-intel.ts` kind `concept` (`inferred: true`); `data/bapi-enrichment.pppi.ts#PPCC1` = blueprint identifier "PPCC1 (PP-PI message)", `requires-verification`; page `/neo/functions/PPCC1/` exists (route family bapiFm); **no overlay record yet** | SAP Help search 2026-09-21 returned only `/SAPAPO/PPC1` and `PPC*` codes, no official record names PPCC1 (queue note, research-queue-functions.md) | an overlay record `fm:PPCC1` with status `verification_required` carrying the negative search and the blueprint origin (written after batch 9 finishes its write of `data/verification/functions.ts`), then SE93 / SE37 in the target system | Partial → Manual live test |
+| `PPCC1` | `data/verification/functions.ts#fm:PPCC1`: status `verification_required`, three evidence entries (two `repository_verified` for the blueprint and the function catalogue, one `verification_required` for the negative official search); page `/neo/functions/PPCC1/` exists | SAP Help search 2026-09-21 returned only `/SAPAPO/PPC1` and `PPC*` codes; the blueprint calls it "PPCC1 (PP-PI message)" and the function catalogue marks it `concept` with `inferred: true` | SE93 and SE37 in the target system | Manual live test |
 | `idoc:msg:BOMMAT` | `data/verification/idocs.ts`: status `unchanged`, official + repository evidence (BOMMAT / BOMMAT01 / BOMMAT03 / BOMMAT07 Help pages, FIX-8 series) | official Help pages verified 2026-09-21 (loios f4e3e4535dd4414de10000000a174cb4, 27ff4a5616bcf81ae10000000a441470) | closed | Completed |
-| `table:TJ30T` | `data/verification/tables.ts`: status `unchanged`, official + repository evidence | official Help page verified in the tables batch | closed | Completed |
+| `table:TJ30T` | `data/verification/tables.ts`: status `unchanged`, official + repository evidence | the two `sap_help` URLs on `table:TJ30T` in `data/verification/tables.ts`, both `sap_official_verified` | closed | Completed |
 | `NOTIF_TASK_READ` | no overlay record; `data/function-intel.ts` row (PM read FM for notification tasks) | not researched yet: queued as batch 10, ids 1-2 (`fm:NOTIF_TASK_READ`, `fm:NOTIF_ACTIVITY_READ`) | batch 10 of the enrichment pipeline (launched after batch 9 completes; one pipeline at a time) | Partial (queued) |
 | `NOTIF_ACTIVITY_READ` | same as above | same | same | Partial (queued) |
 | `BAPI_ALM_NOTIF_TASK_ADD` | `data/verification/functions.ts`: `verification_required`; official evidence for the surrounding facts (tasks live in QMSM, BOR QMSM beside BUS2038, migration object lists CREATE/SAVE only), repository evidence, `verification_required` entry for the name | name not found in any official record (On-Premise and ERP scopes); the alternative name the repository points to (BAPI_ALM_NOTIF_DATA_ADD) is not named either; no task operation in OData API_MAINTNOTIFICATION | SE37 / BAPI Explorer (SWO1) in the target system | Manual live test |
@@ -19,5 +19,5 @@ system; every "not found" is a documented negative search, never a claim of non-
 | `API_PRODUCTION_ORDER_2` | not a catalog family (OData service); referenced inside `fiori:F2336` (repository field `odata` that does not match the official snippet's `PP_MPE_ORDER_MANAGE`) and `cds:I_ProductionOrderItem` (recommended action) | `https://api.sap.com/api/API_PRODUCTION_ORDER_2/overview` and `/resource/Production_Order` fetched 2026-09-22: the Business Accelerator Hub answers with a JavaScript shell, no readable content, so the service title/version could not be verified without an interactive session | open the API Hub page interactively (or the S/4HANA 2025 FPS01 "APIs for Production Orders" Help topic) and add a `sap_api_hub` evidence entry to `fiori:F2336`; until then the repository field stays labelled as unverified | External blocker (interactive API Hub) |
 
 Method notes: overlay states were read from the records themselves (`status.status`, evidence
-levels) on 2026-09-22; the negative-search sentences are the records' own claims, condensed. No
+levels) at HEAD `a3f74666` on 2026-09-22; the negative-search sentences are the records' own claims, condensed. No
 SAP Note or KBA number appears here that is not already in a record.

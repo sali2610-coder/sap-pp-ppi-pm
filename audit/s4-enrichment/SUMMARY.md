@@ -22,7 +22,7 @@ Branch `design/neo-correction-pass` · preview only · `main` and production unt
 | Objects | 2 | foundation | registry seed |
 | **Total** | **290 records** | | 25 recorded `conflicting_sources`, 20 edition-specific claims, 0 invented facts (auditor-enforced) |
 
-## Coverage (measured, `report:coverage`, 2026-09-22)
+## Coverage (measured, `report:coverage`, 2026-09-21, HEAD cb9cd6f7)
 ```
 catalog          total   L0   L1   L2   L3   L4   L5  verified  verif.req  conflict  legacy  s4-appl  edition
 tables             105    0   75    1    1    0   28       103          0         2       0       89        1
@@ -36,7 +36,7 @@ objects              1    0    0    1    0    0    0         1          0       
 best-practices       2    0    0    2    0    0    0         2          0         0       0        0        0
 TOTAL             2169    0 1352   81  601    8  127       845       1295        29       0      802       21
 ```
-Baseline before this phase: L5 **0**, L4 4, verified 839, verification_required 1,334, conflicts 0. Now L5 **124**, conflicts 25 (recorded, not hidden).
+Baseline before this phase: L5 **0**, L4 4, verified 839, verification_required 1,334, conflicts 0. At that point L5 **127**, conflicts 29 (recorded, not hidden); see the 2026-09-22 addendum below for the current figures.
 
 Three counters moved **down** on purpose. `verified` and `s4-applicable` fall whenever an authored `verification_required` replaces a verdict the blueprint derived but no source supports. That is the correction working, not a regression.
 
@@ -46,9 +46,9 @@ tsc 0 · tsc (tests) 0 · eslint 0 errors (405 accepted warnings) · `npm test` 
 Spot-checked in the built export, in both themes, with screenshots: KAZT and the measuring-point BAPI render «נדרש אימות נוסף»; T352B and the measuring-point BAPI render «מקורות סותרים»; MKPF and COSP render «הוחלף ב-S/4HANA»; the classic BAdI technique renders «הוחלף ב-S/4HANA»; the batch-creation BAPI renders «קיים API משוחרר» at depth L5. COSP's successor links to a real page; MKPF's successor is a registry entry with no page, so it renders as a chip rather than a dead link.
 
 ## Honest scope statement
-Verified scope = the 290 overlay records above (105 tables, 50 functions, 37 CDS, 32 transactions, 38 enhancements, 19 Fiori, 7 IDocs, 1 object record; conflicting_sources 29 as measured on 2026-09-22). Everything else still renders its **derived** status (labelled as derived, with the repository tier) or «נדרש אימות נוסף». Closed: the tables and CDS catalogs. Open from the brief: transactions beyond the 32 authored codes (1,817 routes; 1,278 carry no TX_INTEL entry, 1,275 carry neither TX_INTEL nor an authored TRANSACTIONS entry = the L1 count), functions (92 of 142 registry ids have no record), the Fiori thin index (1,450 entries), enhancements (2 refused ids remain, plus 2 rows that can never take a valid id), the `obj:` business-object registry, the Best Practices process catalog beyond its 2 seeds, knowledge/incidents/academy cross-references, Books cross-references, and AI knowledge integration. Every refused record and every source conflict is in `research-queue-*.md`.
+Verified scope on 2026-09-21 = the 290 overlay records above (105 tables, 50 functions, 37 CDS, 32 transactions, 38 enhancements, 19 Fiori, 7 IDocs, 1 object record; conflicting_sources 29 as measured on 2026-09-22). Everything else still renders its **derived** status (labelled as derived, with the repository tier) or «נדרש אימות נוסף». Closed: the tables and CDS catalogs. Open from the brief: transactions beyond the 32 authored codes (1,817 routes; 1,278 carry no TX_INTEL entry, 1,275 carry neither TX_INTEL nor an authored TRANSACTIONS entry = the L1 count), functions (92 of 142 registry ids have no record), the Fiori thin index (1,450 entries), enhancements (2 refused ids remain, plus 2 rows that can never take a valid id), the `obj:` business-object registry, the Best Practices process catalog beyond its 2 seeds, knowledge/incidents/academy cross-references, Books cross-references, and AI knowledge integration. Every refused record and every source conflict is in `research-queue-*.md`.
 
-## Known corrections queued, not applied (all eight APPLIED on 2026-09-21 in design-audit round 2, see `audit/ux-2026-09/SAP-FIXES.md`; kept for the record)
+## Known corrections, all eight applied on 2026-09-21 (kept for the record in design-audit round 2, see `audit/ux-2026-09/SAP-FIXES.md`; kept for the record)
 Each of these changes a file outside the overlay layer, so it needs its own audited change rather than riding along inside an enrichment batch:
 - `tx:IP30` claims no Simplification Item names IP30 and that RISTRA20 is unsourced. Item 4.1.2 of the 2025 list names both.
 - `fm:NOTIF_TASK_READ` conflates the notification activities table with the notification tasks table.
@@ -70,11 +70,11 @@ Each of these changes a file outside the overlay layer, so it needs its own audi
 - Freshness is computed in UTC (`lib/evidence/depth.ts`), so a record stamped with the local date reads one day in the future until UTC midnight.
 
 ## 2026-09-22 addendum, part two (design-audit continuation §11)
-Measured on the same HEAD as the delivery report of this pass.
+Measured at HEAD `c7d9789d`.
 
 **Records now (overlay files):** tables 105, functions 63, CDS 37, transactions 33, enhancements 38,
 Fiori 19, IDocs 7, object records 6 = **308 records**, plus 6 business-object registry entries and
-3 best-practice records.
+**17 best-practice records**.
 
 ```
 catalog          total   L0   L1   L2   L3   L4   L5  verified  verif.req  conflict  legacy  s4-appl  edition
@@ -86,8 +86,8 @@ cds                 39    0    0    9    5    2   23        37          2       
 fiori               20    0    1    2    6    0   11        13          0         7       0       18        2
 enhancements        40    0    0   10   14    3   13        28          0        12       0       30        1
 objects              6    0    0    6    0    0    0         6          0         0       0        0        0
-best-practices       3    0    0    3    0    0    0         3          0         0       0        0        0
-TOTAL             2176    0 1353   90  590    6  137       851       1295        30       0      802       23
+best-practices      17    0    0   17    0    0    0        17          0         0       0        0        0
+TOTAL             2190    0 1353  104  590    6  137       865       1295        30       0      802       23
 ```
 L5 is now **137** (was 124 on 2026-09-21); recorded conflicts 30.
 
@@ -113,5 +113,3 @@ L5 is now **137** (was 124 on 2026-09-21); recorded conflicts 30.
   NOTIF_ACTIVITY_READ, BAPI_MEASUREMENTPOINT_GETLIST, BAPI_OBJCL_CREATE) was launched and lost all
   four research agents to a usage-credit interruption; nothing was written, so it re-runs from the
   same queue.
-- The process catalog covers the notification process; the PM, PP, PP-PI and cross-module records
-  were drafted in parallel and are merged as each one passes the validator.

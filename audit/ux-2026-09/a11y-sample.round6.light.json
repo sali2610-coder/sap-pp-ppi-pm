@@ -1,7 +1,7 @@
 {
   "theme": "light",
   "viewport": "1363x936",
-  "measuredAt": "2026-09-22T06:46:57.122Z",
+  "measuredAt": "2026-09-22T07:12:36.892Z",
   "results": [
     {
       "url": "/neo/",
@@ -78,37 +78,8 @@
       "checked": 388,
       "contrast": [],
       "contrastCount": 0,
-      "small": [
-        {
-          "tag": "a",
-          "w": 22,
-          "h": 24,
-          "label": "לקוח",
-          "cls": ""
-        },
-        {
-          "tag": "a",
-          "w": 20,
-          "h": 24,
-          "label": "ספק",
-          "cls": ""
-        },
-        {
-          "tag": "a",
-          "w": 18,
-          "h": 24,
-          "label": "ציוד",
-          "cls": ""
-        },
-        {
-          "tag": "a",
-          "w": 18,
-          "h": 24,
-          "label": "ציוד",
-          "cls": ""
-        }
-      ],
-      "smallCount": 4,
+      "small": [],
+      "smallCount": 0,
       "focusObscured": [],
       "focusObscuredCount": 0
     },
@@ -332,7 +303,145 @@
     },
     {
       "url": "/neo/best-practices/",
-      "checked": 120,
+      "checked": 230,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/exits/CMOD-SMOD/",
+      "checked": 34,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 1,
+          "h": 1,
+          "label": "דלג לתוכן",
+          "cls": "sr-only.focus:not-sr-only"
+        },
+        {
+          "tag": "a",
+          "w": 71,
+          "h": 15,
+          "label": "מדיניות פרטיות",
+          "cls": "font-medium.text-muted-foreground"
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [
+        {
+          "tag": "button",
+          "label": "ערכת נושא: מערכת. החלף לבהיר",
+          "top": -12,
+          "bottom": 28,
+          "inside": false
+        },
+        {
+          "tag": "button",
+          "label": "כווץ/הרחב סרגל",
+          "top": 898,
+          "bottom": 937,
+          "inside": false
+        },
+        {
+          "tag": "a",
+          "label": "מדיניות פרטיות",
+          "top": 982,
+          "bottom": 997,
+          "inside": false
+        },
+        {
+          "tag": "button",
+          "label": "ערכת נושא: מערכת. החלף לבהיר",
+          "top": -12,
+          "bottom": 28,
+          "inside": false
+        }
+      ],
+      "focusObscuredCount": 4
+    },
+    {
+      "url": "/exits/Implicit-Enhancement/",
+      "checked": 34,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 1,
+          "h": 1,
+          "label": "דלג לתוכן",
+          "cls": "sr-only.focus:not-sr-only"
+        },
+        {
+          "tag": "a",
+          "w": 71,
+          "h": 15,
+          "label": "מדיניות פרטיות",
+          "cls": "font-medium.text-muted-foreground"
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [
+        {
+          "tag": "button",
+          "label": "ערכת נושא: מערכת. החלף לבהיר",
+          "top": -12,
+          "bottom": 28,
+          "inside": false
+        },
+        {
+          "tag": "button",
+          "label": "כווץ/הרחב סרגל",
+          "top": 898,
+          "bottom": 937,
+          "inside": false
+        },
+        {
+          "tag": "a",
+          "label": "מדיניות פרטיות",
+          "top": 982,
+          "bottom": 997,
+          "inside": false
+        },
+        {
+          "tag": "button",
+          "label": "ערכת נושא: מערכת. החלף לבהיר",
+          "top": -12,
+          "bottom": 28,
+          "inside": false
+        }
+      ],
+      "focusObscuredCount": 4
+    },
+    {
+      "url": "/neo/best-practices/maintenance-notification-process/",
+      "checked": 352,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/best-practices/production-order-process/",
+      "checked": 523,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/best-practices/ecc-to-s4hana-migration-process/",
+      "checked": 403,
       "contrast": [],
       "contrastCount": 0,
       "small": [],

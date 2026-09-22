@@ -3,8 +3,8 @@
 | כלי | סוג | תחום | זמין / חסום | רלוונטיות | שלב הפעלה | תוצאה בפועל |
 |---|---|---|---|---|---|---|
 | `scripts/sap-help-search.mjs` | script | SAP research (help.sap.com search JSON) | זמין (נבדק 2026-09-21, 21 תוצאות) | ראיות Tier-1 לכל תיקון SAP | Round 2 (8 התיקונים), Round 4 | בשימוש בכל batch של ה-workflow |
-| `scripts/workflows/enrich-family.js` | Workflow (researcher → auditor → writer) | הרחבת מאגר הידע | זמין | Functions/Transactions/Fiori/Objects/Best Practices | Round 4 | 281 רשומות עד כה; batches של 8 |
-| `scripts/report-coverage.mjs`, `check:evidence`, `npm test` (201) | scripts | Gate C/E | זמין | כל commit | כל סבב | ירוק ב-HEAD |
+| `scripts/workflows/enrich-family.js` | Workflow (researcher → auditor → writer) | הרחבת מאגר הידע | זמין | Functions/Transactions/Fiori/Objects/Best Practices | Round 4 | 308 רשומות ב-2026-09-22; batches של 4 |
+| `scripts/report-coverage.mjs`, `check:evidence`, `npm test` (207 ב-2026-09-22) | scripts | Gate C/E | זמין | כל commit | כל סבב | ירוק ב-HEAD |
 | `scripts/qa/evidence-sweep.mjs` (playwright-core 1.62.1 + Chrome) | browser QA | 18 routes × desktop light/dark × phone | זמין | Gate D/E/F | כל סבב | 54/54 ב-HEAD |
 | `scripts/qa/ux-measure.mjs` (קודם `tmp-measure`) | browser measurement | overflow / opacity / height / zoom / console ב-30 מסלולים; VW/VH/THEME/MOTION/UA למטריצת המסכים | זמין | Before/After לכל ממצא, Gate D/F | Round 0 → כל סבב | `before-measurements.json`, `after-measurements.round{1,2,3,3a,3b,5}.json`, `matrix/*.json` (390 phone · 1440 · 1920 · dark · reduced-motion) |
 | `scripts/qa/r3-check.mjs`, `r3b-check.mjs`, `r3c-check.mjs`, `r3d-check.mjs`, `shelf-check.mjs` (חדשים) | browser QA | בדיקות אינטראקטיביות לממצאי הסבב (CTA, מסננים, details, מצב מיקוד, סדר סעיפים) | זמין | Gate D/E | Round 3 | כולם exit 0 ב-HEAD של סבב 3 |
@@ -32,9 +32,11 @@
 | כלי | הופעל | תוצאה |
 |---|---|---|
 | `neo-sap-content-quality-reviewer` (skill, סקירה בלבד) | כן, על רשומות IP30 / IP30H ואצוות 7-8 של הפונקציות | ‏VERDICT: FAIL, 0 חוסמים, 3 עיקריים, 7 משניים. שלושת העיקריים תוקנו באותו יום (קומיט `91b65c35`), המשניים בקובץ הפונקציות תוקנו אחרי סיום אצווה 9 (קומיט `aaf2a255`) |
-| `scripts/workflows/enrich-family.js` | אצוות 7, 8, 9 הושלמו; אצווה 10 נכשלה | אצווה 9: 4 רשומות (2.35M טוקנים, 69 דקות). אצווה 10 (NOTIF_TASK_READ, NOTIF_ACTIVITY_READ, BAPI_MEASUREMENTPOINT_GETLIST, BAPI_OBJCL_CREATE) איבדה את ארבעת סוכני המחקר להפסקת קרדיט שימוש; לא נכתבה אף רשומה, התור נשמר לריצה חוזרת |
-| סוכני כתיבה (general-purpose) לקטלוג התהליכים | 5 סוכנים; ארבעה נפלו בהפסקת הקרדיט והופעלו מחדש | הרשומה הראשונה (תהליך הודעת התחזוקה) נכתבה ישירות; שאר המשפחות נכתבות בקבצים נפרדים ונבדקות בוואלידטור לפני מיזוג |
+| `scripts/workflows/enrich-family.js` | אצוות 7, 8, 9 הושלמו; אצווה 10 נכשלה | אצווה 9: 4 רשומות (2.35M טוקנים, 69 דקות). אצווה 10 (NOTIF_TASK_READ, NOTIF_ACTIVITY_READ, BAPI_MEASUREMENTPOINT_GETLIST, BAPI_OBJCL_CREATE) ארבעת סוכני המחקר שלה נפלו בהפסקת קרדיט שימוש; לא נכתבה אף רשומה, התור נשמר לריצה חוזרת |
+| סוכני כתיבה (general-purpose) לקטלוג התהליכים | 5 סוכנים; ארבעה נפלו בהפסקת הקרדיט והופעלו מחדש | חמש המשפחות (PM, ‏PM המשך, ‏PP, ‏PP-PI, חוצה מודולים) מוזגו ונבדקו בוואלידטור: 17 רשומות תהליך ב-report:coverage, 207/207 בדיקות |
 | `scripts/qa/*` | ux-measure (‏1363 / 390 / 1440 / 1920 / dark / reduced-motion), a11y-sample (בהיר + כהה), status-consistency, module-colour-check, ai-states-check, books-hash-check | ראו סעיף הבדיקות בדוח המסירה |
 | `WebFetch` על api.sap.com | כן, פעמיים (‏API_PRODUCTION_ORDER_2) | הדפים חוזרים כמעטפת JavaScript ריקה; נרשם כחסם חיצוני ב-`verification-required.md` |
 | `sc4sap` MCP | ניסיון נוסף ב-2026-09-22 | עדיין `MCP error -32000: Connection closed`; אף בדיקה חיה לא בוצעה ואף טענה חיה לא נכתבה |
-| `neo-accessibility-reviewer`, `neo-architecture-studio-reviewer`, `neo-search-experience-reviewer`, `neo-documentation-guardian`, `neo-enterprise-ux-auditor` | טרם הופעלו בהמשך הזה | מופעלים כשער אחרון אחרי מיזוג קטלוג התהליכים |
+| `neo-accessibility-reviewer` | כן (סקירה בלבד, 2026-09-22) | ‏VERDICT: FAIL, 3 חוסמים, 3 עיקריים. שלושת החוסמים תוקנו באותו יום (קומיט a3f74666): הסרת ה-meta refresh בן 8 השניות (WCAG F40 מול 2.2.1), טוקן brand-foreground במקום לבן על אדום בכהה, וכותרת המרכז שמפסיקה לצבוע את ה-eyebrow בגוון המשפחה. גם ההערות העיקריות טופלו: משפט הקרדינליות נאמר פעם אחת לפאנל, ורשימת המסלולים של מדגם הנגישות הורחבה לדפי התאימות ולרשומות התהליך |
+| `neo-documentation-guardian` | כן (סקירה בלבד, 2026-09-22) | ‏VERDICT: BLOCK, 4 חוסמים, 11 עיקריים. תוקנו: שורת PPCC1 שטענה שאין רשומה (יש), היסט עמודות שהשמיט תשעה שמות משפחה ב-PROGRESS, שורה 7 שסתרה את עצמה, שלוש שורות בנות 15 תאים ב-COVERAGE-MATRIX שהסתירו את עמודת המגבלה, וספירות שהתיישנו |
+| `neo-architecture-studio-reviewer`, `neo-search-experience-reviewer`, `neo-sap-visual-designer`, `neo-enterprise-ux-auditor` | טרם הופעלו | מופעלים בשער האחרון |

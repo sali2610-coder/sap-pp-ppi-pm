@@ -1,7 +1,7 @@
 # Cross-references across the knowledge families (design-audit continuation §11, 2026-09-22)
 
 Measured with `scratchpad/xref-audit.mjs` (read-only) and a resolver replay against the generated
-route manifest, on the same HEAD as the rest of this pass. Books are a read-only zone: every
+route manifest, at HEAD `a3f74666`. Books are a read-only zone: every
 reference below points *at* a book section, none edits one.
 
 ## Incidents

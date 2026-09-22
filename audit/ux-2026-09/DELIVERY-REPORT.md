@@ -112,7 +112,7 @@
 # נספח · המשך הביקורת והשלמת הסקופ (2026-09-22, סבב 6-7)
 
 ## א. ענף ו-HEAD
-`design/neo-correction-pass`, ‏15 קומיטים מעל `origin` בזמן כתיבת הנספח. ‏`main` ו-Production לא נגעו: אין Merge, אין Promote, אין Deploy לפרודקשן, אין Force push.
+`design/neo-correction-pass`, ‏HEAD `c7d9789d`, ‏23 קומיטים מעל `cb9cd6f7` (ה-HEAD שבו נסגר הסבב הקודם). ‏`main` ו-Production לא נגעו: אין Merge, אין Promote, אין Deploy לפרודקשן, אין Force push.
 
 ## ב. קומיטים לפי משפחה (מעל `f35b58a6`)
 | קומיט | משפחה | תוכן |
@@ -131,36 +131,36 @@
 | `6935ad4f` | נגישות | שאריות ניגודיות וגודל מטרה; תשובת AI ריקה נאמרת במפורש |
 | `44be0991` | מסלולי תאימות | `/exits/CMOD-SMOD/` ו-`/exits/Implicit-Enhancement/` + כלי ה-QA |
 
-## ג. שערי בנייה ובדיקה (HEAD הנוכחי)
+## ג. שערי בנייה ובדיקה (HEAD `c7d9789d`)
 | שער | תוצאה |
 |---|---|
 | `tsc --noEmit` | 0 שגיאות |
 | `npm test` | 207/207 |
-| `eslint` על הקבצים שנגעו | 0 שגיאות |
-| build (פעמיים, עם sitemap ביניהן) | exit 0, **7,809** עמודי HTML |
+| `eslint` על הקבצים שנגעו בהם בסבב (‏ERD, שיטות עבודה, צ'אט, דפי התאימות) | 0 שגיאות, 4 אזהרות baseline |
+| build (פעמיים, עם sitemap ביניהן) | exit 0, **7,823** עמודי HTML |
 | `check:routes` | מניפסט מסונכרן עם המסלולים הבנויים |
-| `crawl:deadlinks` | pages=7,809, validRoutes=7,809, **DEAD_LINKS=0** |
+| `crawl:deadlinks` | pages=7,823, validRoutes=7,823, **DEAD_LINKS=0** |
 | ספרים (ZERO_CONTENT_LOSS) | **574/574** זהים ל-hash הבסיס |
-| `report:coverage` | ‏L5 137, ‏verified 851, ‏verification_required 1,295, conflicts 30 |
+| `report:coverage` | ‏TOTAL 2,190, ‏L5 137, ‏verified 865, ‏verification_required 1,295, conflicts 30, best practices 17 |
 
-## ד. מסלולים חדשים באקספורט (נבדקו 200)
+## ד. מסלולים חדשים באקספורט (כולם החזירו 200)
 `/exits/CMOD-SMOD/`, `/exits/Implicit-Enhancement/`, `/neo/transactions/IP30H/`,
-`/neo/fiori-apps/screen-maintenance-requests/`, `/neo/best-practices/maintenance-notification-process/`.
+`/neo/fiori-apps/screen-maintenance-requests/`, ו-17 עמודי `/neo/best-practices/<slug>/` (מתוכם 11 רשומות תהליך חדשות, כולן נבדקו והחזירו 200).
 
 ## ה. מה נסגר מהתדריך
 - **§7** חמש השורות הפתוחות: סגורות (`36e52ea4`).
-- **§8** שורות PARTIAL: ‏30+ נסגרו בסבבים 5-6; נותרו S10-1, S10-3 (שאריות נגישות מדודות) ו-ACC-6 (החלטת מוצר על המעטפת הישנה).
+- **§8** שורות PARTIAL: נסגרו בסבבים 5-7, כולל S10-1 ו-S10-3 שנסגרו כמדגם נגישות (0 כשלי ניגודיות בשתי ערכות הנושא). נותרה ACC-6 בלבד, כהחלטת מוצר על המעטפת הישנה של הספרייה.
 - **§9** מצבי AI: ‏27 תרחישים מבוקרים עברו; ‏S7-AI-6 מסומן `MANUAL_LIVE_TEST_REQUIRED` עם תסריט מלא ב-`AI-LIVE-TEST.md`; ‏3D `NOT_APPLICABLE_TO_CURRENT_REPO`.
 - **§10** IP30/IP30H, מסלולי ה-exits, צבעי ERD וסקריפט הקורא: בוצעו.
-- **§11** פונקציות (אצוות 7-9 + PPCC1), טרנזקציות (IP30H), Fiori (F4072), אובייקטים עסקיים (5 זרעים), Best Practices (פרופיל התהליך + הרשומה הראשונה), קישורים צולבים (מדידה), ERD cardinality, רשימת ה-verification-required, החלטות ההרחבות.
+- **§11** פונקציות (אצוות 7-9 + PPCC1), טרנזקציות (IP30H), Fiori (F4072), אובייקטים עסקיים (5 זרעים), Best Practices (פרופיל התהליך + 17 רשומות, מהן 11 רשומות תהליך חדשות), קישורים צולבים (מדידה), ERD cardinality, רשימת ה-verification-required, החלטות ההרחבות.
 - **§12** שערים: ראו סעיף ג.
 
 ## ו. מה נשאר פתוח, ולמה
 | פריט | מצב | סיבה |
 |---|---|---|
-| קטלוג התהליכים (PM, PP, PP-PI, חוצה מודולים) | בכתיבה | חמש משפחות נכתבות בקבצים נפרדים; כל קובץ נבדק בוואלידטור לפני מיזוג |
+| קטלוג התהליכים | הושלם לסבב הזה | חמש המשפחות מוזגו ונבדקו: 17 רשומות. הרחבה נוספת (תהליכים שלא נמנו בתדריך) נשארת פתוחה |
 | אצווה 10 של הפונקציות | לא נכתבה | ארבעת סוכני המחקר נפלו בהפסקת קרדיט שימוש; התור נשמר וניתן להרצה חוזרת |
 | 80 מזהי פונקציה ללא רשומה | פתוח | קצב מדוד: ‏4 מזהים לאצווה, כ-2M טוקנים לאצווה |
 | `BAPI_ALM_NOTIF_TASK_ADD`, `BAPI_ALM_NOTIF_LIST_FILTER`, `BAPI_CENTRAL_CHARACT_CREATE`, `BAPI_EQMT_INSTALL`, `PPCC1` | `MANUAL_LIVE_TEST_REQUIRED` | דורשים SE37 / SE93 במערכת יעד; ‏sc4sap MCP לא התחבר |
 | `API_PRODUCTION_ORDER_2` | חסם חיצוני | עמודי ה-API Business Hub חוזרים כמעטפת JavaScript |
-| Preview | חסום ב-Vercel Authentication | האקספורט המקומי הוא של אותו HEAD |
+| Preview | חסום ב-Vercel Authentication | האקספורט המקומי נבנה מ-HEAD `c7d9789d` ונבדק במלואו |
