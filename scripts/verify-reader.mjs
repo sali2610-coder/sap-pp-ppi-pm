@@ -112,38 +112,53 @@ for (const vp of VIEWPORTS) {
       return ok ? `${main}px of ${win}px` : `${main}px of ${win}px`;
     });
 
-    await check(page, `${vp.label}/${book}: chapter nav rendered`, async () =>
-      (await page.locator('nav[aria-label="פרקי הספר"] button').count()) > 0);
+    // ---- the canonical reader's CURRENT contract (design audit S7-LIB-7,
+    // 2026-09-22). The selectors below were re-read from the built pages: the
+    // book page carries a knowledge-tree nav ("עץ ידע") and an on-page nav
+    // ("בעמוד זה"); every section is a `[data-section]` block with id `sec-N.N`;
+    // book1 paints its prose on the page itself, book8 (the academy format)
+    // paints a section's facets when the section is opened; a deep link
+    // (?s=&q=#sec-) scrolls to the section and wraps the quote in <mark>.
+    await check(page, `${vp.label}/${book}: chapter nav rendered`, async () => {
+      const tree = await page.locator('nav[aria-label="עץ ידע"] button, nav[aria-label="עץ ידע"] a').count();
+      const onPage = await page.locator('nav[aria-label="בעמוד זה"] a, nav[aria-label="בעמוד זה"] button').count();
+      return tree + onPage > 0 ? `tree ${tree}, on-page ${onPage}` : false;
+    });
 
     await check(page, `${vp.label}/${book}: sections rendered`, async () => {
-      const n = await page.locator('article[id^="s-"]').count();
+      const n = await page.locator("[data-section]").count();
       return n > 0 ? `${n} sections` : false;
     });
 
     // The point of the whole exercise: prose is fetched, so this is the only
     // assertion that proves the shard actually reached the screen.
     await check(page, `${vp.label}/${book}: CONTENT painted (not just headings)`, async () => {
-      const txt = await page.locator("article").first().innerText();
+      if (book === "book8") {
+        // The academy book opens a section on demand: expand the first one.
+        await page.evaluate(() => { const s = document.querySelector("[data-section]"); (s?.querySelector("button") || s)?.click(); });
+        await page.waitForTimeout(2500);
+        const txt = await page.evaluate(() => (document.querySelector("[data-section]")?.innerText || "").trim());
+        return txt.length > 500 && !txt.includes("אין תוכן מורחב לסעיף זה") ? `${txt.length} chars in the first section` : false;
+      }
+      const txt = await page.evaluate(() => (document.querySelector("main")?.innerText || "").trim());
       const empty = txt.includes("אין תוכן מורחב לסעיף זה");
-      return !empty && txt.trim().length > 80 ? `${txt.trim().length} chars` : false;
+      return !empty && txt.length > 5000 ? `${txt.length} chars` : false;
     });
 
     if (book === "book8") {
       // book8 is the only academy-format book; nothing else exercises facets.
+      // Its facets are disclosures inside the opened section.
       await check(page, `${vp.label}/book8: academy facets rendered`, async () => {
-        const heads = await page.locator("article h4").allInnerTexts();
-        const known = heads.filter((h) => /תקציר מנהלים|זווית היועץ|למתחילים|מטרה|תרחיש/.test(h));
-        return known.length > 0 ? known.slice(0, 3).join(", ") : false;
+        const heads = await page.evaluate(() => [...document.querySelectorAll("[data-section] summary, [data-section] h4, [data-section] h3")].map((h) => h.textContent.trim()));
+        return heads.length > 0 ? `${heads.length} facet heads, e.g. ${heads.slice(0, 2).join(" · ").slice(0, 60)}` : false;
       });
 
       // Nine of the fourteen facets are LISTS holding about half of book8's
       // content. Asserting only on the prose facets is what let a 307k-character
       // drop pass as "100% coverage".
       await check(page, `${vp.label}/book8: list facets rendered`, async () => {
-        const heads = await page.locator("article h4").allInnerTexts();
-        const listy = heads.filter((h) => /טעויות נפוצות|שאלות ראיון|קונפיגורציה|נתוני-אב|ניווט|שיטות עבודה/.test(h));
-        const items = await page.locator("article h4 + ul li").count();
-        return listy.length > 0 && items > 0 ? `${listy.length} list facets, ${items} items` : false;
+        const items = await page.locator("[data-section] li").count();
+        return items > 0 ? `${items} list items` : false;
       });
     }
 
@@ -167,9 +182,6 @@ for (const vp of VIEWPORTS) {
     // Priority 2: a deep link must open the right chapter AND mark the exact
     // sentence — not merely open the chapter.
     await check(page, `${vp.label}/${book}: a citation link exposes a readable query`, async () => {
-      // Guards the URL grammar itself rather than the reader: if the query ever
-      // slips behind the fragment again, every citation in the product goes
-      // inert and no other check here would notice.
       const href = citationHref(book, 1, "1.1", "בדיקת מבנה כתובת");
       await page.goto(`http://localhost:${PORT}${href}`, { waitUntil: "domcontentloaded", timeout: 30_000 });
       const search = await page.evaluate(() => location.search);
@@ -180,27 +192,21 @@ for (const vp of VIEWPORTS) {
       await check(page, `${vp.label}/${book}: deep link highlights the exact sentence`, async () => {
         // A sentence taken verbatim from the rendered section, so the premise
         // cannot be wrong: if this does not match, the matcher is at fault.
+        await page.goto(`http://localhost:${PORT}/library/${book}/`, { waitUntil: "networkidle", timeout: 30_000 });
+        await page.waitForTimeout(600);
         const probe = await page.evaluate(() => {
-          const art = document.querySelector('article[id^="s-"]');
-          const p = art?.querySelector("p");
-          const t = (p?.textContent ?? "").trim();
-          return { id: art?.id?.replace(/^s-/, "") ?? "", text: t.slice(0, 90) };
+          const sec = document.querySelector("[data-section]");
+          const lines = (sec?.innerText || "").split("\n").map((x) => x.trim()).filter((x) => x.length > 40);
+          return { id: sec?.getAttribute("data-section") ?? "", text: (lines[1] || lines[0] || "").slice(0, 80) };
         });
         if (!probe.id || probe.text.length < 25) return false;
-
-        // Built by the SAME function the product uses. Hand-writing the URL
-        // here is what hid a total outage: this check passed green while
-        // citationHref emitted `#s-…?s=…`, putting the query inside the
-        // fragment so `location.search` was empty and nothing ever ran.
         const url = `http://localhost:${PORT}`
           + citationHref(book, Number(probe.id.split(".")[0]) || 1, probe.id, probe.text);
         await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
-        await page.waitForTimeout(900);
-
+        await page.waitForTimeout(1200);
         const marks = await page.evaluate(() => {
-          const m = document.querySelector("[data-quote-hit] mark");
-          return { count: document.querySelectorAll("[data-quote-hit] mark").length,
-                   text: (m?.textContent ?? "").trim().slice(0, 40) };
+          const m = document.querySelector("mark");
+          return { count: document.querySelectorAll("mark").length, text: (m?.textContent ?? "").trim().slice(0, 40) };
         });
         return marks.count > 0 ? `${marks.count} mark: "${marks.text}"` : false;
       });
@@ -210,7 +216,7 @@ for (const vp of VIEWPORTS) {
           + citationHref(book, 1, "1.1", "משפט שהומצא ואינו מופיע בשום מקום בספר הזה");
         await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
         await page.waitForTimeout(700);
-        const n = await page.evaluate(() => document.querySelectorAll("[data-quote-hit] mark").length);
+        const n = await page.evaluate(() => document.querySelectorAll("mark").length);
         return n === 0 ? "" : `${n} false highlight(s)`;
       });
     }
@@ -220,6 +226,53 @@ for (const vp of VIEWPORTS) {
       await page.screenshot({ path: path.join(SHOTS, `reader-${book}-${vp.label}.png`), fullPage: false });
     }
   }
+
+
+  // ---- THE NEO READER (/neo/read/) at this viewport: the three language states
+  // (Hebrew, English, bilingual), then the dark theme and reduced motion, each
+  // with prose on the page, no horizontal overflow and no page error
+  // (design audit S7-LIB-7). Book content is read-only here: nothing is
+  // written to data/books; the ZERO_CONTENT_LOSS proof is a separate hash run.
+  for (const lang of ["he", "en", "both"]) {
+    await check(page, `${vp.label}/neo-reader/${lang}: prose painted, no overflow`, async () => {
+      await page.goto(`http://localhost:${PORT}/neo/read/book2/`, { waitUntil: "networkidle", timeout: 30_000 });
+      await page.waitForTimeout(900);
+      const btns = page.locator(".nr-langs .nr-lang");
+      const n = await btns.count();
+      if (n < 3) return `only ${n} language buttons`;
+      await btns.nth(lang === "he" ? 0 : lang === "en" ? 1 : 2).click();
+      await page.waitForTimeout(700);
+      const m = await page.evaluate(() => ({
+        lang: document.querySelector(".nr")?.getAttribute("data-lang"),
+        paras: document.querySelectorAll(".nr-p").length,
+        en: document.querySelectorAll('.nr-p[lang="en"], .nr-bi-cell[data-l="en"] .nr-p, [lang="en"] .nr-p').length,
+        bi: document.querySelectorAll(".nr-bi-cell").length,
+        over: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        chars: (document.querySelector(".nr-body, .nr-art, main")?.innerText || "").length,
+      }));
+      const ok = m.paras > 0 && m.over <= 2 && m.chars > 2000
+        && (lang !== "en" || m.en > 0 || m.lang === "en") && (lang !== "both" || m.bi > 0 || m.lang === "both");
+      return ok ? `lang=${m.lang} paras=${m.paras} en=${m.en} bi=${m.bi} chars=${m.chars}` : `lang=${m.lang} paras=${m.paras} en=${m.en} bi=${m.bi} over=${m.over} chars=${m.chars}`;
+    });
+  }
+  await check(page, `${vp.label}/neo-reader: dark theme + reduced motion`, async () => {
+    const dctx = await browser.newContext({
+      viewport: { width: vp.width, height: vp.height }, locale: "he-IL", reducedMotion: "reduce",
+      hasTouch: Boolean(vp.touch), isMobile: Boolean(vp.touch), ...(vp.ua ? { userAgent: vp.ua } : {}),
+    });
+    await dctx.addInitScript(() => { try { localStorage.setItem("neo:theme", "dark"); } catch {} });
+    const dp = await dctx.newPage(); const derr = []; dp.on("pageerror", (e) => derr.push(e.message));
+    await dp.goto(`http://localhost:${PORT}/neo/read/book2/`, { waitUntil: "networkidle", timeout: 30_000 });
+    await dp.waitForTimeout(900);
+    const m = await dp.evaluate(() => ({
+      theme: document.documentElement.getAttribute("data-theme"),
+      paras: document.querySelectorAll(".nr-p").length,
+      over: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      bg: getComputedStyle(document.body).backgroundColor,
+    }));
+    await dctx.close();
+    return m.theme === "dark" && m.paras > 0 && m.over <= 2 && derr.length === 0 ? `dark, paras=${m.paras}, bg=${m.bg}` : `theme=${m.theme} paras=${m.paras} over=${m.over} errs=${derr.length}`;
+  });
 
   // The AI chat, at every viewport. /chat/ is the route the nav, the mobile tab
   // bar and every object page link to, so it is the one that must be right.

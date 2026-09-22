@@ -14,7 +14,7 @@ mkdirSync(SHOTS, { recursive: true });
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const ROUTES = [
   ["home", "/neo/"], ["pm", "/neo/pm/"], ["pp-pi", "/neo/pp-pi/"],
-  ["domains", "/neo/domain/"], ["domain-floc", "/neo/domain/pm-functional-locations/"],
+  ["domains", "/neo/domain-model/"], ["domain-floc", "/neo/domain/pm-functional-locations/"],
   ["s4-center", "/neo/s4hana/"], ["readiness", "/neo/s4-readiness/"], ["cockpit", "/neo/migration-cockpit/"],
   ["erd", "/neo/erd/"], ["studio", "/neo/studio/"],
   ["tables", "/neo/tables/"], ["table-afko", "/neo/tables/AFKO/"], ["object-mara", "/neo/object/MARA/"],

@@ -9,7 +9,7 @@ import { chromium } from "playwright-core";
 import fs from "node:fs";
 const base = process.env.NEO_BASE || "http://localhost:4195";
 const OUT = process.env.OUT || "";
-const ROUTES = ["/neo/", "/neo/pm/", "/neo/pp-pi/", "/neo/domain/", "/neo/domain/pm-functional-locations/", "/neo/s4hana/", "/neo/s4-readiness/", "/neo/migration-cockpit/", "/neo/erd/", "/neo/studio/", "/neo/tables/", "/neo/tables/AFKO/", "/neo/object/MARA/", "/neo/transactions/", "/neo/transactions/IP30/", "/neo/bapi/", "/neo/bapi/BAPI_ALM_CONF_CREATE/", "/neo/idoc/", "/neo/cds/", "/neo/fiori-apps/", "/neo/enhancements/", "/neo/books/", "/neo/read/book2/", "/neo/ai/", "/neo/chat/", "/neo/knowledge/", "/neo/knowledge/table/", "/neo/academy/", "/neo/certification/", "/neo/incidents/cogi-stuck/", "/neo/centers/", "/neo/best-practices/"];
+const ROUTES = ["/neo/", "/neo/pm/", "/neo/pp-pi/", "/neo/domain-model/", "/neo/domain/pm-functional-locations/", "/neo/s4hana/", "/neo/s4-readiness/", "/neo/migration-cockpit/", "/neo/erd/", "/neo/studio/", "/neo/tables/", "/neo/tables/AFKO/", "/neo/object/MARA/", "/neo/transactions/", "/neo/transactions/IP30/", "/neo/bapi/", "/neo/bapi/BAPI_ALM_CONF_CREATE/", "/neo/idoc/", "/neo/cds/", "/neo/fiori-apps/", "/neo/enhancements/", "/neo/books/", "/neo/read/book2/", "/neo/ai/", "/neo/chat/", "/neo/knowledge/", "/neo/knowledge/table/", "/neo/academy/", "/neo/certification/", "/neo/incidents/cogi-stuck/", "/neo/centers/", "/neo/best-practices/"];
 const browser = await chromium.launch({ executablePath: process.env.CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" });
 const page = await browser.newPage({ viewport: { width: 1363, height: 936 } });
 const report = [];

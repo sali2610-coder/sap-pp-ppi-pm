@@ -10,7 +10,9 @@ import { chromium } from "playwright-core";
 import fs from "node:fs";
 const base = process.env.NEO_BASE || "http://localhost:4195";
 const OUT = process.env.OUT || "audit/ux-2026-09/a11y-sample.json";
-const ROUTES = JSON.parse(fs.readFileSync("audit/ux-2026-09/after-measurements.round3.json", "utf8")).results.map((r) => r.url);
+// The route list is the measurement run's (round 6 by default: /neo/domain/ was a
+// directory listing in round 3's list; the hub is /neo/domain-model/).
+const ROUTES = JSON.parse(fs.readFileSync(process.env.ROUTES_FROM || "audit/ux-2026-09/after-measurements.round6.json", "utf8")).results.map((r) => r.url);
 const browser = await chromium.launch({ executablePath: process.env.CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" });
 const ctx = await browser.newContext({ viewport: { width: 1363, height: 936 } });
 if (process.env.THEME === "dark") await ctx.addInitScript(() => { try { localStorage.setItem("neo:theme", "dark"); } catch {} });

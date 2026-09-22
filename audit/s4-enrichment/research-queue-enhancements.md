@@ -611,3 +611,9 @@ from its verdict text with the six listed downgrades applied (no `fixedRecord` w
 
 ### Resolved 2026-09-21 (design audit round 2 · audit/ux-2026-09/SAP-FIXES.md)
 - catalog-integrity finding (`CMOD/SMOD`, `Implicit Enhancement` rows in `data/exits.ts`): applied. Both rows removed from the named-exit catalogue; every unique sentence moved into the `note` of `data/enhancements.ts#customer-exit` and `#implicit-enhancement`. Named exits 42 → 40, all id-bearing.
+
+## decisions on the two refused ids (2026-09-22, design-audit continuation §11)
+
+- `enh:exit:PPCO0021` — stays out of the overlay. The refused draft carried an uncited method name in `recommendedAction`; the auditor's re-run named two official records that DO document the BAdI ("BAdI for Further Processing Changes to Orders", What's New in SAP S/4HANA 2022 SPS03, loio 86956eb2f92146db85b12838f4affeb8, and its 2023 counterpart). Decision: re-research in the next enhancements batch with those two records as the starting evidence; until then the row keeps its derived status (no invented text restored).
+- `enh:technique:enhancement-spot` — stays out of the overlay. The refused draft was structurally wrong (`recommendedAction` outside `status`, an invented "4-evidence limit"). Decision: re-draft in the next enhancements batch with the record shape of `lib/evidence/types.ts` and the evidence its status token needs; nothing from the invalid draft is restored.
+- Both are queued for the enhancements pipeline after the functions priority list; neither is marked DONE.
