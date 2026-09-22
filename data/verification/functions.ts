@@ -40,11 +40,23 @@
    treatment). One SAP Note number is carried (2265093 on BUPA, read from the
    Simplification List text and the blueprints, on the repository claim with a
    repoRef). None claims a successor. 0 refuted.
+   Functions batch 7 (2026-09-22): 4 more audited records - the ADK archiving
+   pair (ARCHIVE_GET_NEXT_OBJECT, ARCHIVE_OPEN_FOR_WRITE) and the two remaining
+   maintenance-notification data BAPIs (BAPI_ALM_NOTIF_DATA_DELETE,
+   BAPI_ALM_NOTIF_DATA_MODIFY). The two ADK modules carry an authored unchanged
+   on help.sap.com records that print the technical name (ABAP Platform 2025
+   FPS01 / S/4HANA 2025 FPS01) plus fully-read static ADK pages; DATA_MODIFY
+   carries released_api_available on the documented PATCH operations of
+   API_MAINTNOTIFICATION; DATA_DELETE is written verification_required by
+   authored status because no official record names it and the OData service
+   documents DELETE for failure effects only. Two KBA numbers are carried
+   (1923267 and 1619709 on DATA_MODIFY, read from their public previews, cited
+   by their me.sap.com/notes urls). None claims a successor. 0 refuted.
    Tier-1 evidence comes from
    help.sap.com search records (scripts/sap-help-search.mjs; loio + versionId
    re-verified live), from the fully-read Simplification List PDF, from the
    fully-read ECC 6.0 EHP3 and EHP5 Release Notes PDFs and from
-   three fully-read static NetWeaver documentation pages (help.sap.com/doc/saphelp_*); api.sap.com is cited only by
+   the fully-read static NetWeaver and SAP Library documentation pages (help.sap.com/doc/saphelp_*); api.sap.com is cited only by
    the title a domain-restricted search returned; Tier-2 is the named
    repository record. Every claim is bounded by the snippet, the fully-read
    page or the named repository record; negative findings are search-bounded,
@@ -441,6 +453,96 @@ const MATDOC_READ_API: Evidence = {
          "'/A_MaterialDocumentHeader(MaterialDocumentYear='2017',MaterialDocument='5000021256')'. אף אחת " +
          "מהרשומות אינה נוקבת ב-BAPI_GOODSMVT_GETDETAIL ואינה מציגה את השירות כמחליף שלו; הן מתעדות חלופת " +
          "OData לקריאת מסמכי חומר לצד ה-BAPI.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:ARCHIVE_GET_NEXT_OBJECT: the Archive Files topic of the ABAP Platform 2025 FPS01 Data Archiving guide (also its status source). */
+const ARCHIVE_FILES_ADK: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Archive Files | Data Archiving in the ABAP Application System",
+  url:
+    "https://help.sap.com/docs/ABAP_PLATFORM_NEW/f0944a4717b5464f8d2343f9a44ff65b/4d9d446ce22b5042e10000000a42189c.html?locale=en-US&state=PRODUCTION&version=202510.001",
+  product: "ABAP Platform",
+  edition: "on-premise",
+  release: "202510.001",
+  accessedAt: DATE22,
+  claim:
+    "נושא 'Archive Files' במדריך Data Archiving in the ABAP Application System, במערך התיעוד של ABAP " +
+    "Platform לגרסת 2025 FPS01 (versionId 202510.001, loio 4d9d446ce22b5042e10000000a42189c, תאריך " +
+    "2026-07-27), נוקב במודול בשמו הטכני: 'Consequently, everything that can be read between the first " +
+    "and second call up of function module ARCHIVE_GET_NEXT_OBJECT belongs to the same data object. The " +
+    "AFB operates using these data objects.' ובסניפט נוסף של אותה רשומה (שאילתת 'Archive Files " +
+    "ARCHIVE_NEW_OBJECT ARCHIVE_SAVE_OBJECT data object' באותו מערך ובאותה גרסה) אובייקט נתונים מוגדר " +
+    "כנתונים שתוכנית הכתיבה כותבת לארכיון 'between calling up the function modules ARCHIVE_NEW_OBJECT and " +
+    "ARCHIVE_SAVE_OBJECT'. כלומר בגרסת הפלטפורמה שמתחת ל-SAP S/4HANA On-Premise לשנת 2025, " +
+    "ARCHIVE_GET_NEXT_OBJECT הוא המודול שקריאה אחת שלו תוחמת אובייקט נתונים אחד בקובץ ארכיון (ADK), והוא " +
+    "הבסיס לעבודת ה-Archive File Browser. אותו loio מאונדקס גם במערך המוצר SAP S/4HANA On-Premise בגרסה " +
+    "1709 Latest (versionId 1709.latest, תאריך 2026-06-24) ובמערך SAP ERP בגרסה 6.0 EHP8 Latest " +
+    "(versionId 6.18.latest, loio 4d9d446ce22b5042e10000000a42189c-602, מדריך Data Archiving (CA-ARC)), " +
+    "עם אותו סניפט. גוף העמוד נקרא במלואו בעותק הסטטי של אותו loio במערך SAP NetWeaver 7.31 SP19 " +
+    "(help.sap.com/doc/saphelp_nw73ehp1), והמשפט מופיע בו כלשונו.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:ARCHIVE_OPEN_FOR_WRITE: the S_ARCHIVE authorization page that prints the module name at S/4HANA 2025 FPS01 (also its status source). */
+const S_ARCHIVE_AUTH_OBJECTS: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Authorization Objects | Payments and Bank Communication",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e200555127f24878bed8d1481c9d5a0b/9301c5536a51204be10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE22,
+  claim:
+    "נושא 'Authorization Objects' במדריך Payments and Bank Communication של SAP S/4HANA On-Premise בגרסת " +
+    "2025 FPS01 (versionId 2025.001, loio 9301c5536a51204be10000000a174cb4, תאריך 2026-02-24) נוקב בשם " +
+    "המודול כלשונו בתקציר: 'The activities are checked as follows: 01 Everything allowed: Create archives " +
+    "(ARCHIVE_OPEN_FOR_WRITE) Start delete program (ARCHIVE_OPEN_FOR_DELETE) Reload " +
+    "(ARCHIVE_OPEN_FOR_MOVE) Read and evaluate archives'. כלומר בתיעוד המוצר הנוכחי של S/4HANA המחרוזת " +
+    "ARCHIVE_OPEN_FOR_WRITE משמשת כתווית של פעולת 'Create archives' באובייקט ההרשאה S_ARCHIVE, לצד " +
+    "המודולים האחים לפתיחה למחיקה, לטעינה חוזרת ולקריאה. שאילתה נוספת על השם החזירה רשומה שנייה מאותה " +
+    "גרסה, 'Archiving Collective Expenditure Orders Using SAFM_CEO' במדריך Saudi Arabia (loio " +
+    "1be8d90b35bd49a0b7b28443c3167413, תאריך 2026-02-25), עם אותו נוסח: 'Activity Required Authorization " +
+    "Object Create archives (ARCHIVE_OPEN_FOR_WRITE) Start delete program (ARCHIVE_OPEN_FOR_DELETE' " +
+    "ובהמשך ') Reload (ARCHIVE_OPEN_FOR_MOVE) Read and analyze archives (ARCHIVE_OPEN_FOR_READ) Change " +
+    "mode in archive management S_ARCHIVE'. שני העמודים הם עמודי הרשאות של אובייקטי ארכוב יישומיים " +
+    "(בנקאות, גרסת מדינה), לא עמודי תחזוקת מפעל או תעשיות תהליכיות, ואינם מתארים את ממשק המודול או את " +
+    "הפרמטרים שלו.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** fm:BAPI_ALM_NOTIF_DATA_MODIFY: the API_MAINTNOTIFICATION operations table read for its PATCH rows (also its status source). */
+const MAINTNOTIF_OPS_PATCH: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE22,
+  claim:
+    "טבלת הפעולות של API_MAINTNOTIFICATION בחוברת 'APIs for Maintenance Management' לגרסת S/4HANA " +
+    "On-Premise 2025 FPS01 ('The API_MAINTNOTIFICATION API offers these operations', loio " +
+    "061b31b90a88432fad5e710aa9cd175c) מונה פעולות עדכון (PATCH) לרבדי ההודעה שה-BAPI משנה: 'Update " +
+    "Maintenance Notification PATCH' על הישות MaintenanceNotification, 'Update Notification Item PATCH' " +
+    "על MaintenanceNotificationItem, 'Update Notification Item Cause PATCH' לצד 'Create Notification Item " +
+    "Cause POST' על MaintNotificationItemCause, ו-'Update Notification Item Activity PATCH' על " +
+    "MaintNotificationItemActivity (חלונות סניפט שונים של אותו loio בשאילתות שונות). עמודי פעולה נפרדים " +
+    "באותה חוברת ובאותה גרסה: 'Update Maintenance Notification' (loio 8bd7929a37cb4107acc617fcc4ea4dd9): " +
+    "'With this operation, you can update a maintenance notification', דוגמת PATCH על " +
+    "MaintenanceNotification('10102553') עם MaintPriority; 'Update Notification Item' (loio " +
+    "6c7b49f733054d74b978c6de3320c5bd): 'With this operation, you can update a notification item', בדוגמה " +
+    "MaintNotifItemText, MaintNotifDamageCodeGroup ו-MaintNotificationDamageCode; 'Update Notification " +
+    "Partner' (loio 2c1d22eee33346d2a185c997da765695): 'you can update an existing partner for " +
+    "notification'; 'Maintenance Notification Item Cause' (loio 6be9a042055c49949201f92bfe1594c8): " +
+    "'Supported Operations ... Read Notification Item Cause Create Notification Item Cause Update " +
+    "Notification Item Cause'. רשומת What's New 2025 FPS01 'OData API: Maintenance Notification' (loio " +
+    "fd9c0988b37243f0a030624c3b43bcc8) רושמת 'Availability SAP S/4HANA Cloud Private Edition and SAP " +
+    "S/4HANA', רכיב PM-WOC-MN ושורת הסיכום 'Extensibility Changed ... PM-WOC-MN 2025 FPS01' (המילה " +
+    "Changed מופיעה בסניפט; הכותרת 'Type' לא נראתה בו). אף אחד מהעמודים אינו נוקב בשם ה-BAPI, ופעולת " +
+    "עדכון למשימות (Tasks) לא הופיעה באף חלון סניפט.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -7615,5 +7717,804 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "MaterialDocumentItem) לא הוחזר באף תקציר של loio 2b1124c6321a47559518f5b5bdc1db72 ולכן הוסר מהראיה " +
       "ומההמלצה; נשמרו רק הפרגמנטים שהוחזרו (CancelItem function import, מאפייני Reversed*, ומפתח הכותרת " +
       "מתקציר Cancel at Header Level).",
+  },
+  {
+    id: "fm:ARCHIVE_GET_NEXT_OBJECT",
+    evidence: [
+      ARCHIVE_FILES_ADK,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Managing Archived Change Documents | Change Documents",
+        url:
+          "https://help.sap.com/docs/ABAP_PLATFORM_NEW/c14d25a8f471453590980dbb47a2aa0e/48dfbb3fab14280ee10000000a42189c.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP Platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE22,
+        claim:
+          "נושא 'Managing Archived Change Documents' במדריך Change Documents של ABAP Platform לגרסת 2025 FPS01 " +
+          "(versionId 202510.001, loio 48dfbb3fab14280ee10000000a42189c, תאריך 2026-07-27) נוקב במודול פעמיים " +
+          "בסניפט: 'CHANGEDOCU_READ_ARCHIVE_OBJECT This function module gets all change documents of the object " +
+          "previously read by the function module ARCHIVE_GET_NEXT_OBJECT' וכן 'CHANGEDOCU_RELOAD_ARCHIVE_OBJ " +
+          "This function module writes all data of the object previously read by the function module " +
+          "ARCHIVE_GET_NEXT_OBJECT back to the database'. כלומר בתיעוד הפלטפורמה העדכני, מודולי הקריאה " +
+          "והטעינה-מחדש של מחלקת הארכוב CHANGEDOCU מוגדרים ביחס לאובייקט שנקרא קודם לכן על ידי " +
+          "ARCHIVE_GET_NEXT_OBJECT. העותק הסטטי של אותו loio (help.sap.com/doc/saphelp_gbt10) נקרא במלואו " +
+          "ומוסיף לגבי CHANGEDOCU_READ_ARCHIVE_OBJECT: 'The handle must have been created with the function " +
+          "module ARCHIVE_OPEN_FOR_READ (or ARCHIVE_OPEN_FOR_MOVE)'. העמוד עוסק במחלקת הארכוב CHANGEDOCU ואינו " +
+          "מתאר את הממשק (הפרמטרים) של ARCHIVE_GET_NEXT_OBJECT עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Develop Read Programs | Archive Development Kit",
+        url:
+          "https://help.sap.com/docs/SAP_NETWEAVER_701/6da164076c4b1014b5a8a94a7127ea2d/2afa04af493111d182b70000e829fbfe.html?locale=en-US&state=PRODUCTION&version=7.01.26",
+        product: "SAP NetWeaver 7.0 EHP1 (ADK)",
+        edition: "ecc",
+        release: "7.01.26",
+        accessedAt: DATE22,
+        claim:
+          "נושא 'Develop Read Programs' במדריך Archive Development Kit של SAP NetWeaver 7.0 EHP1 (versionId " +
+          "7.01.26, SPS26, loio 2afa04af493111d182b70000e829fbfe, תאריך 2023-12-01) קובע בסניפטים של שתי " +
+          "שאילתות על אותה רשומה: 'Read programs read data from archiving objects and classes' וכן 'enter it " +
+          "for your archiving objects in transaction AOBJ' וכן 'Read next data object from archive files - " +
+          "ARCHIVE_GET_NEXT_OBJECT This function module reads the next data object from the opened archive " +
+          "file' ו-'You call this function module to read the archiving class data passed by " +
+          "ARCHIVE_GET_NEXT_OBJECT'. העותק הסטטי של אותו loio (help.sap.com/doc/saphelp_snc70, 'Developing Read " +
+          "Programs') נקרא במלואו: רצף הקריאות בתוכנית קריאה הוא ARCHIVE_OPEN_FOR_READ, ואחריו לולאה (צעדים 4 " +
+          "עד 7) שבה ARCHIVE_GET_NEXT_OBJECT קורא את אובייקט הנתונים הבא ('Sequentially reads all archived data " +
+          "objects from all opened archive files into ADK's data container', 'For archiving class data, passes " +
+          "the data to the archiving class', 'The parameter OBJECT_ID must syntactically be CHAR'), בתוכה " +
+          "ARCHIVE_GET_NEXT_RECORD (או ARCHIVE_GET_TABLE) עד שאין עוד רשומות, וסיום ב-ARCHIVE_CLOSE_FILE; את " +
+          "תוכנית הקריאה רושמים לאובייקט הארכוב בטרנזקציה AOBJ. באותו מדריך ובאותה גרסה, הנושאים 'Create " +
+          "Deletion Programs' (loio 2afa0495493111d182b70000e829fbfe), 'Develop Reload Programs (Optional)' " +
+          "(loio 2afa04a2493111d182b70000e829fbfe) ו-'Creating ADK Indexes and Using Them to Access Archive' " +
+          "(loio 2afa04c9493111d182b70000e829fbfe) נוקבים במודול באותו תפקיד, ועמוד 'ADK Interface' (loio " +
+          "2afa03ec493111d182b70000e829fbfe, נקרא במלואו בעותק הסטטי saphelp_em700_ehp01) מונה אותו בין " +
+          "ה-'Object-specific functions' של ממשק ADK, שלפי העמוד 'can only be called by " +
+          "write/delete/read/reload/conversion programs'. זהו תיעוד מפתחים של תקופת NetWeaver 7.0, לא תיעוד " +
+          "S/4HANA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "נתוני הפרויקט: רשומת קטלוג הפונקציות, סריקת האימות של רישום ה-BAPI/FM ובלופרינט ההגירה של תחזוקת " +
+          "מפעל (ADMI_RUN)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim:
+          "רובד המאגר: data/function-intel.ts מתאר את המודול כ'קריאת האובייקט הבא מקובץ ארכיון (ADK), " +
+          "לקריאה/שחזור/דוחות', משייך אותו ל-PP-PI ולתחום 'ארכוב נתונים', קובע 'זמין ב-ECC' ו'זמין ב-S/4HANA', " +
+          "ומונה פרמטר ייבוא ARCHIVE_HANDLE ופלט 'OBJECT_OFFSET / data' ללא מקור; הרשומה אינה מסומנת inferred. " +
+          "data/bapi-enrichment.sweep.ts מסמן את המודול verified-docs עם התיאור 'Read the next object from an " +
+          "archive file (ADK, function group ARCH)', תמיכה ב-S/4HANA On-Premise 'yes' ותווית stability " +
+          "'Released', אך מקור האימות הרשום שם הוא 'SE37 repository metadata (sapdatasheet.org / se80.co.uk)', " +
+          "אתרי מראה שאינם מקור SAP רשמי; לכן הסיווג הנגזר שהמסך הציג עד כה (unchanged, מאומת מול נתוני " +
+          "הפרויקט, 'אומת מול תיעוד SAP') נשען על אתרי מראה ולא על help.sap.com. בבלופרינט תחזוקת מפעל " +
+          "(PM:ADMI_RUN, נושא 12 'היסטוריה וארכיון') המודול נמנה כ'קריאת אובייקט הבא מהארכיון' לצד " +
+          "ARCHIVE_OPEN_FOR_WRITE ו-ARCHIVE_DELETE_FROM_DB ולצד התוכנית RIARCPM1, בטבלה עם הטרנזקציות SARA, " +
+          "AOBJ ו-DB15. זהו הקשר שימוש בפרויקט, לא אימות SAP: שם קבוצת הפונקציות, מצב השחרור ורשימת הפרמטרים לא " +
+          "אומתו מול מקור רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/function-intel.ts#ARCHIVE_GET_NEXT_OBJECT; " +
+          "data/bapi-enrichment.sweep.ts#ARCHIVE_GET_NEXT_OBJECT; data/sapData.pm.ts#PM:ADMI_RUN",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "התיעוד הרשמי העדכני של שכבת הארכוב (ADK) עדיין נוקב ב-ARCHIVE_GET_NEXT_OBJECT בשמו הטכני ובתפקידו: " +
+        "במערך ABAP Platform לגרסת 2025 FPS01 נושא Archive Files מגדיר אובייקט נתונים בקובץ ארכיון כמה שנקרא " +
+        "בין שתי קריאות עוקבות של המודול, ונושא Managing Archived Change Documents מגדיר את מודולי הקריאה " +
+        "והטעינה-מחדש של מחלקת הארכוב CHANGEDOCU ביחס לאובייקט שנקרא קודם לכן על ידי המודול. אותו נושא " +
+        "Archive Files מאונדקס באותו נוסח גם במערך המוצר SAP S/4HANA On-Premise (גרסה 1709 Latest) וגם במערך " +
+        "SAP ERP (גרסה 6.18 Latest), ותיעוד המפתחים של ADK ב-SAP NetWeaver 7.0 EHP1 מתאר אותו כצעד 'Read next " +
+        "data object from archive files' בלולאת תוכנית הקריאה. אף רשומה רשמית שנשלפה אינה מסמנת את המודול " +
+        "כפריט פישוט, כמוגבל, כמוחלף או כמוסר, ואף אחת אינה נוקבת ביורש; בדיקה שלילית שבוצעה בפועל: רשימת " +
+        "הפישוט הציבורית של 2025 FPS01 נקראה כטקסט מלא ואין בה ולו מופע אחד של המחרוזות " +
+        "ARCHIVE_GET_NEXT_OBJECT, ADK או Archive Development Kit. גבולות הטענה: זהו מודול ממשק של ADK " +
+        "לתוכניות ארכוב (write/delete/read/reload), לא BAPI ולא API בקטלוג Business Accelerator Hub; התיעוד " +
+        "הנוקב בו הוא תיעוד הפלטפורמה החוצה-יישומי ולא מדריכי הארכוב של תחזוקת מפעל או של תעשיות תהליכיות; " +
+        "ורשימת הפרמטרים שלו (ובכלל זה ARCHIVE_HANDLE ו-OBJECT_OFFSET שברשומת הפרויקט) לא אומתה מול מקור " +
+        "רשמי, למעט האמירה שהפרמטר OBJECT_ID חייב להיות CHAR.",
+      edition: "on-premise",
+      release: "202510.001 (ABAP Platform 2025 FPS01)",
+      source: ARCHIVE_FILES_ADK,
+      recommendedAction:
+        "ניתן להמשיך להשתמש במודול בתוכניות קריאה, מחיקה וטעינה-מחדש של אובייקטי ארכוב (ADK) גם ב-S/4HANA " +
+        "On-Premise, באותו רצף מתועד: ARCHIVE_OPEN_FOR_READ, לולאת ARCHIVE_GET_NEXT_OBJECT ובתוכה " +
+        "ARCHIVE_GET_NEXT_RECORD, ולבסוף ARCHIVE_CLOSE_FILE; לרשום את תוכנית הקריאה לאובייקט הארכוב ב-AOBJ " +
+        "ולהריץ אותה דרך SARA. לפני הסתמכות על ממשק המודול בקוד מותאם (Z) יש לאמת את רשימת הפרמטרים ב-SE37 " +
+        "במערכת היעד, ולהריץ את תוכניות הקריאה של הפרויקט (למשל לאובייקטי הארכוב של פקודות אחזקה בתחזוקת " +
+        "מפעל) כחלק מבדיקות הרגרסיה אחרי ההמרה; לתרחישי קריאת נתונים מאורכבים למשתמשים יש להעדיף את ה-Archive " +
+        "Information System ואת ה-Archive File Browser המתועדים.",
+    },
+    xrefs: [
+      "table:ADMI_RUN",
+      "tx:SARA",
+      "tx:AOBJ",
+      "fm:ARCHIVE_OPEN_FOR_WRITE",
+      "fm:ARCHIVE_DELETE_FROM_DB",
+    ],
+    lastVerifiedAt: DATE22,
+    notes:
+      "מה נבדק בפועל (2026-09-22): יותר מ-15 שאילתות בשירות החיפוש של SAP Help (המוצרים " +
+      "SAP_S4HANA_ON-PREMISE, ABAP_PLATFORM_NEW, SAP_ERP, SAP_NETWEAVER_701, SAP_S4HANA_CLOUD; הצמדות גרסה " +
+      "2025.001 ו-2023.latest), שני חיפושי רשת מוגבלים ל-help.sap.com ול-api.sap.com, ובדיקת HTTP לשמונה " +
+      "כתובות (כולן 200). ארבעה עמודים סטטיים נקראו במלואם: Archive Files (saphelp_nw73ehp1 7.31.19), ADK " +
+      "Interface (saphelp_em700_ehp01 7.0.1), Developing Read Programs (saphelp_snc70 7.0) ו-Manage " +
+      "Archived Change Documents (saphelp_gbt10 1.0); גופי עמודי ה-docs עצמם הם מעטפת JavaScript, ולכן כל " +
+      "טענה עליהם מוגבלת לכותרת ולסניפט של רשומת החיפוש. ממצאים שליליים, תחומים בגבולות החיפוש: במערך המוצר " +
+      "SAP S/4HANA On-Premise, שאילתות שהוצמדו לגרסאות 2025.001 ו-2023.latest לא החזירו אף רשומה הנוקבת בשם " +
+      "המודול (הנושא Archive Files מאונדקס שם רק בגרסה 1709 Latest, ובמערך ABAP Platform בגרסה 2025 FPS01); " +
+      "במוצר SAP S/4HANA Cloud (Public Edition) אין רשומה הנוקבת בשם; חיפוש מוגבל ל-api.sap.com לא החזיר אף " +
+      "עמוד הנוקב בשם, ולכן אין למודול רישום ידוע ב-Business Accelerator Hub ואין כאן טענת API. רשימת " +
+      "הפישוט SIMPL_OP2025.pdf (10,585,218 בתים, md5 c1ccf8ebcd92d51fdc80e4b4873f3b73, 1,514 עמודים לפי " +
+      "qpdf) הורדה ונקראה כטקסט מלא: 0 מופעים ל-ARCHIVE_GET_NEXT_OBJECT, 0 ל-ADK, 0 ל-Archive Development " +
+      "Kit (בדיקת בקרה: המחרוזת MATDOC מופיעה ב-76 שורות של הטקסט המחולץ, 37 מופעים כמילה שלמה ו-84 " +
+      "כתת-מחרוזת); מחרוזות ARCHIVE_ שכן מופיעות בה הן שמות תוכניות של אובייקטים אחרים " +
+      "(/GSINS/*_ARCHIVE_WRITE ו-_DELETE, COP0_ARCHIVE_PI_SHEET, ADDI_ARCHIVE_READ, ARCHIVE_CUST_CONTENT). " +
+      "היעדר מרשימת הפישוט אינו הוכחה חיובית לגבי התנהגות המודול. סייגים: (א) הסיווג הנגזר שהמסך הציג עד כה " +
+      "(unchanged, מאומת מול נתוני הפרויקט) נשען על רשומת הסריקה שמקורה אתרי מראה של SE37 (sapdatasheet.org " +
+      "/ se80.co.uk); התווית 'Released' וקבוצת הפונקציות 'ARCH' שברשומה זו לא אומתו מול מקור SAP רשמי ואינן " +
+      "נטענות כאן. (ב) רשומת function-intel משייכת את המודול ל-PP-PI, בעוד הרישום הקנוני משייך אותו ל-PM " +
+      "(נגזר מבלופרינט ADMI_RUN); המודול חוצה-יישומי (Basis/ADK) ושני השיוכים הם הקשרי שימוש בלבד. (ג) ממשק " +
+      "המודול: אף מקור רשמי שנקרא אינו מונה את רשימת הפרמטרים; העמוד Developing Read Programs נוקב רק בכך " +
+      "ש-OBJECT_ID חייב להיות CHAR, ורשומת הפרויקט מונה ARCHIVE_HANDLE ו-OBJECT_OFFSET ללא מקור. (ד) בדיקת " +
+      "SE37 במערכת חיה לא בוצעה: חיבור sc4sap MCP נכשל בסשן זה. (ה) ערך edition 'ecc' בראיית NetWeaver 7.0 " +
+      "EHP1 מציין תיעוד פלטפורמה מתקופת ECC, לא תיעוד ECC עצמו; ערך release של הסטטוס נכתב '202510.001 " +
+      "(ABAP Platform 2025 FPS01)' כדי שלא ייקרא כגרסת S/4HANA. (ו) הרשומה הקיימת של " +
+      "fm:ARCHIVE_DELETE_FROM_DB כבר מצטטת את עמוד ADK Interface ומפנה לכאן ב-xrefs, וכך גם table:ADMI_RUN.",
+  },
+  {
+    id: "fm:ARCHIVE_OPEN_FOR_WRITE",
+    evidence: [
+      S_ARCHIVE_AUTH_OBJECTS,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Developing Write Programs | Archive Development Kit (SAP Library)",
+        url:
+          "https://help.sap.com/doc/saphelp_em700_ehp01/7.0.1/en-US/2a/fa047b493111d182b70000e829fbfe/content.htm",
+        product: "SAP NetWeaver (ADK, SAP Library EM 7.0 EHP1)",
+        edition: "ecc",
+        release: "7.0.1",
+        accessedAt: DATE22,
+        claim:
+          "העמוד הסטטי 'Developing Write Programs' בספריית ADK (SAP Library, מערך saphelp_em700_ehp01, loio " +
+          "2afa047b493111d182b70000e829fbfe) הורד ב-2026-09-22 (HTTP 200, 18,210 בתים) ונקרא במלואו; הוא נוקב " +
+          "בשם המודול פעמיים. בסעיף Program Sequence, תחת הצעד 'Open archiving', הוא קובע: " +
+          "'ARCHIVE_OPEN_FOR_WRITE This archiving object function module is called only once for each archiving " +
+          "session (per archiving object) and returns a unique archive handle, which is required for all " +
+          "further archive operations. When this function module is called, the initialization phase begins', " +
+          "ומונה את משימותיו: 'Controls whether the write program runs in test mode or production mode', " +
+          "'Controls whether the delete program should be called in test mode', 'Creates a new archiving " +
+          "session in archive management', 'Includes the archiving classes set in AOBJ'. בהמשך: 'The following " +
+          "three function modules, if used, must be called directly after ARCHIVE_OPEN_FOR_WRITE and before " +
+          "ARCHIVE_NEW_OBJECT is called for the first time' (ARCHIVE_REGISTER_CLASS, " +
+          "ARCHIVE_REGISTER_STRUCTURES, ARCHIVE_PUT_INIT_DATA); הלולאה לכל אובייקט נתונים היא " +
+          "ARCHIVE_NEW_OBJECT, ARCHIVE_PUT_RECORD/ARCHIVE_PUT_TABLE ו-ARCHIVE_SAVE_OBJECT, ושלב הכתיבה נסגר " +
+          "ב-ARCHIVE_CLOSE_FILE ('The archive handle becomes invalid and can no longer be used'). העמוד גם קובע " +
+          "'To avoid loss of data, the write program must not delete any data in the database itself. The data " +
+          "is deleted by an independent delete program', דורש טיפול בחריגה TERMINATION_REQUESTED לבקשות הפסקה " +
+          "מ-ADK, ומסיים ב-'When you finish developing your write program, enter it for your archiving object " +
+          "in transaction AOBJ'. העמוד אינו מציג את חתימת המודול (שמות פרמטרים וטיפוסים) ואינו מתייחס " +
+          "ל-S/4HANA; אותו loio הוחזר גם במערך saphelp_aii710 (HTTP 200) ובמערך saphelp_sm71_sp13 (HTTP 200, " +
+          "גוף טקסט זהה).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Authorization Check | Data Archiving in the ABAP Application System",
+        url:
+          "https://help.sap.com/docs/ABAP_PLATFORM_NEW/f0944a4717b5464f8d2343f9a44ff65b/4d8c7851910b154ee10000000a42189e.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP Platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE22,
+        claim:
+          "נושא 'Authorization Check' במדריך Data Archiving in the ABAP Application System, במערך התיעוד של " +
+          "ABAP Platform לגרסת 2025 FPS01 (versionId 202510.001, loio 4d8c7851910b154ee10000000a42189e, תאריך " +
+          "2026-07-27), קובע בתקציר: 'Authorization object S_ARCHIVE checks the authorization to carry out " +
+          "various archiving object programs' ו-'The Archive Development Kit (ADK) performs the check when an " +
+          "archive file is opened for one of the following actions: Write Delete Read Reload', ומפרט " +
+          "'Everything is permitted Write, read, and reload archives; execute delete programs; change mode in " +
+          "archive'. כלומר בפלטפורמה שמתחת ל-SAP S/4HANA 2025 FPS01 פתיחת קובץ ארכיון לכתיבה היא עדיין נקודת " +
+          "הבדיקה של S_ARCHIVE ב-ADK; בקריאה משולבת עם עמוד ההרשאות של S/4HANA (הראיה הראשונה) זו הפעולה שתיעוד " +
+          "המוצר מסמן בתווית ARCHIVE_OPEN_FOR_WRITE. שם המודול עצמו אינו מופיע בתקציר של נושא זה. אותו loio " +
+          "מאונדקס גם במערך המוצר SAP S/4HANA On-Premise בגרסה 1709 Latest (versionId 1709.latest, תאריך " +
+          "2026-06-24) עם אותו נוסח; שאילתות שהוצמדו לגרסה 2025.001 במערך המוצר של S/4HANA לא החזירו את נושאי " +
+          "המדריך הזה. באותו מדריך ובאותה גרסת פלטפורמה, הנושא 'Archive Files' (loio " +
+          "4d9d446ce22b5042e10000000a42189c) נוקב במודולים האחים של תוכנית הכתיבה: 'A data object always " +
+          "consists of exactly the data that is written to the archive by the write program between calling up " +
+          "the function modules ARCHIVE_NEW_OBJECT and ARCHIVE_SAVE_OBJECT', והנושא 'Implicitly Interrupting an " +
+          "Archiving Session' (loio 4d8868058d7a40ade10000000a15822b) קובע 'The write program must be able to " +
+          "process the exception and call function module ARCHIVE_CLOSE_FILE'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "נתוני הפרויקט: קטלוג הפונקציות, סריקת האימות של קטלוג ה-BAPI, בלופרינט תחזוקת מפעל (ADMI_RUN) ושכבת " +
+          "הידע",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim:
+          "רובד המאגר: data/function-intel.ts מתאר את המודול כ'פתיחת קובץ ארכיון לכתיבה (ADK), שלב ראשון בכתיבת " +
+          "אובייקט ארכוב', משייך אותו למודול PP-PI ולתחום 'ארכוב נתונים' בזרימה Write → Store → Delete, רושם " +
+          "פרמטר קלט OBJECT ('אובייקט ארכוב (למשל PP_ORDER, PM_ORDER)', חובה) ופרמטר פלט ARCHIVE_HANDLE ('מזהה " +
+          "הפעלה לכתיבה'), שדות 'זמין ב-ECC' ו'זמין ב-S/4HANA (ILM/ADK)' ללא מקור, טרנזקציות קשורות SARA " +
+          "ו-AOBJ, תלות ב-'Archiving Object (AOBJ)' וב-'Content Repository', וכשלים אפשריים 'אובייקט ארכוב לא " +
+          "קיים' ו'הרשאת S_ARCHIVE'; הרשומה אינה מסומנת inferred. סריקת האימות data/bapi-enrichment.sweep.ts " +
+          "(סבב 2, 2026-07-15) מסמנת את השם verificationStatus 'verified-docs' ב-confidence 'high' עם מקור " +
+          "טקסטואלי בלבד (SAP Help Portal, verified 2026-07-15) וללא קישור, ומחילה עליו את ברירות המחדל של " +
+          "העוזר verified: תמיכת ECC ו-S/4HANA On-Premise 'yes', תמיכת ענן 'unknown', יציבות 'Released', " +
+          "remoteEnabled 'no', requiresCommit 'no'; אף אחד מהשדות האלה לא אומת מול עמוד SAP. הבלופרינט של " +
+          "תחזוקת מפעל (data/sapData.pm.ts, רשומה PM:ADMI_RUN, נושא 12 'היסטוריה וארכיון') מונה את המודול במערך " +
+          "funcs של הטבלה בתיאור 'פתיחת ארכיון לכתיבה' לצד ARCHIVE_GET_NEXT_OBJECT ו-ARCHIVE_DELETE_FROM_DB " +
+          "ולצד התוכנית RIARCPM1, ושכבת הידע data/knowledge/object-intel.ts מונה אותו תחת classesApis של " +
+          "ADMI_RUN לצד CL_ARCHIVE_FILE, ARCHIVE_OPEN_FOR_READ ו-ARCHIVE_OPEN_FOR_DELETE. הסטטוס הנגזר " +
+          "שהאפליקציה מציגה היום נובע, לפי קוד המיפוי lib/evidence/s4-status.ts (fromFuncRegistry), מרישום " +
+          "ה-BAPI (verified-docs, תמיכת On-Premise 'yes'): 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני " +
+          "הפרויקט', ללא כתובת מקור.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/function-intel.ts#ARCHIVE_OPEN_FOR_WRITE; data/bapi-enrichment.sweep.ts#ARCHIVE_OPEN_FOR_WRITE; " +
+          "data/sapData.pm.ts#PM:ADMI_RUN (funcs); data/knowledge/object-intel.ts#ADMI_RUN (classesApis)",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "שם המודול מופיע כלשונו בתיעוד המוצר של SAP S/4HANA On-Premise לגרסת 2025 FPS01: שני עמודי הרשאות של " +
+        "אובייקטי ארכוב (Payments and Bank Communication; גרסת המדינה Saudi Arabia, SAFM_CEO) מסמנים את פעולת " +
+        "'Create archives' של אובייקט ההרשאה S_ARCHIVE בתווית ARCHIVE_OPEN_FOR_WRITE, לצד " +
+        "ARCHIVE_OPEN_FOR_DELETE, ARCHIVE_OPEN_FOR_MOVE ו-ARCHIVE_OPEN_FOR_READ. תפקידו מתועד בעמוד ADK הסטטי " +
+        "'Developing Write Programs' שנקרא במלואו: קריאה אחת לכל ריצת ארכוב לאובייקט ארכוב, המחזירה archive " +
+        "handle ופותחת את שלב האתחול; ובמדריך Data Archiving של ABAP Platform לגרסת 2025 FPS01 פתיחת קובץ " +
+        "ארכיון לכתיבה היא עדיין נקודת הבדיקה של S_ARCHIVE ב-ADK, ומודולי הכתיבה האחים (ARCHIVE_NEW_OBJECT, " +
+        "ARCHIVE_SAVE_OBJECT, ARCHIVE_CLOSE_FILE) נקובים שם בשמם. אף רשומה רשמית שנשלפה אינה מסמנת את המודול " +
+        "כפריט פישוט, כמוגבל, כמוחלף או כמוסר, ואף אחת אינה נוקבת ביורש. בדיקות שליליות שבוצעו בפועל " +
+        "ב-2026-09-22: רשימת הפישוט הציבורית של 2025 (1,514 עמודים) ומסמך What's New של 2025 FPS01 (728 " +
+        "עמודים) הומרו לטקסט מלא ואין בהם ולו מופע אחד של המחרוזות ARCHIVE_OPEN_FOR_WRITE, ARCHIVE_OPEN, " +
+        "'Archive Development Kit' או ADK כמילה שלמה. גבולות הטענה: שום עמוד רשמי אינו מציג את חתימת המודול " +
+        "(פרמטרים, טיפוסים, חריגות), את מאפיין ה-RFC שלו או סיווג יציבות, תיאור התפקיד המלא נסמך על ספריית " +
+        "ADK מתקופת NetWeaver, ועמודי הארכוב של תחזוקת מפעל ושל תעשיות תהליכיות (PM_ORDER, PR_ORDER) אינם " +
+        "נוקבים במודול.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: S_ARCHIVE_AUTH_OBJECTS,
+      recommendedAction:
+        "בהסבה ל-S/4HANA אין צורך בפעולת המרה למודול עצמו: הוא חלק מממשק ADK של הפלטפורמה ולא מקוד יישומי של " +
+        "תחזוקת מפעל או תעשיות תהליכיות. לפני חלון ההמרה יש להריץ את תוכניות הכתיבה של אובייקטי הארכוב " +
+        "היישומיים דרך SARA (PM_ORDER ו-PM_QMEL לפקודות ולהודעות אחזקה, PR_ORDER ו-PP_ORDER לפקודות תהליך " +
+        "וייצור, לפי מדריכי הארכוב של 2025 FPS01), לוודא שריצות הכתיבה והמחיקה הושלמו ושהרשאת S_ARCHIVE עם " +
+        "פעילות 01 ('Create archives') מוקצית למשתמש הארכוב. בקוד Z שקורא למודול ישירות (תוכנית כתיבה " +
+        "לאובייקט ארכוב Z שהוגדר ב-AOBJ) יש לשמור על רצף ADK המתועד: קריאה אחת ל-ARCHIVE_OPEN_FOR_WRITE לכל " +
+        "ריצה, לולאה של ARCHIVE_NEW_OBJECT, ARCHIVE_PUT_RECORD/ARCHIVE_PUT_TABLE ו-ARCHIVE_SAVE_OBJECT, סגירה " +
+        "ב-ARCHIVE_CLOSE_FILE, טיפול בחריגה TERMINATION_REQUESTED, ובלי מחיקה ממסד הנתונים בתוך תוכנית " +
+        "הכתיבה. לפני הסתמכות על הפרמטרים שרשומים במאגר (OBJECT, ARCHIVE_HANDLE) יש לבדוק את חתימת המודול " +
+        "ב-SE37 במערכת היעד, ולזכור שסיווג היציבות 'Released' שברישום הפרויקט לא אומת מול מקור SAP. אם נדרשת " +
+        "מדיניות שמירה ומחיקה לפי כללים, יש לבחון הפעלת פונקציית העסק של ILM, שלפי התיעוד מוסיפה לתוכניות " +
+        "הכתיבה של אובייקטי הארכוב את מסגרת ILM Actions; המודול עצמו אינו נזכר בהקשר ILM.",
+    },
+    xrefs: [
+      "table:ADMI_RUN",
+      "tx:SARA",
+      "tx:AOBJ",
+      "tx:DB15",
+      "tx:SE37",
+      "fm:ARCHIVE_GET_NEXT_OBJECT",
+      "fm:ARCHIVE_DELETE_FROM_DB",
+    ],
+    lastVerifiedAt: DATE22,
+    notes:
+      "שיטה: עשרים ואחת ריצות של scripts/sap-help-search.mjs ב-2026-09-22 בארבעה מערכי מוצר " +
+      "(SAP_S4HANA_ON-PREMISE, ABAP_PLATFORM_NEW, SAP_NETWEAVER_750, SAP_NETWEAVER) ושתי ריצות WebSearch " +
+      "מוגבלות לדומיינים הרשמיים. השם ARCHIVE_OPEN_FOR_WRITE מוחזר במערך S/4HANA רק בשני עמודי ההרשאות " +
+      "שצוטטו (Payments and Bank Communication; Saudi Arabia) ובארבע רשומות ללא תקציר ממדריך Malaysia (2023 " +
+      "Latest) שאינן קשורות; במערך ABAP Platform השאילתה על השם לבדו החזירה 21 רשומות ללא תקציר, אף אחת מהן " +
+      "אינה נושא ADK. הנושא 'Developing Write Programs' לא הוחזר על ידי שירות החיפוש במערכי ABAP Platform " +
+      "2025 FPS01 ו-NetWeaver 7.5, ולכן תיאור התפקיד נסמך על העמוד הסטטי של ספריית ADK (SAP Library EM 7.0 " +
+      "EHP1) שאותר ב-WebSearch ונקרא במלואו; WebSearch החזיר גם את הנושא האח 'Develop Read Programs' (loio " +
+      "2afa04af493111d182b70000e829fbfe) בכתובת docs תחת SAP_NETWEAVER_701, מעטפת JavaScript שלא נקראה. ערך " +
+      "edition 'ecc' בראיה זו מציין בסיס NetWeaver מתקופת ECC, לא תיעוד ECC עצמו. עמוד 'ADK Interface' " +
+      "באותה ספרייה (loio 2afa03ec493111d182b70000e829fbfe), שנקרא במלואו כבר ברשומת " +
+      "fm:ARCHIVE_DELETE_FROM_DB ונקרא שוב היום, מסווג את ARCHIVE_OPEN_FOR_WRITE/DELETE/READ/MOVE כפונקציות " +
+      "Object-specific של ממשק ADK הנקראות רק מתוכניות write/delete/read/reload/conversion, וקובע שמודולי " +
+      "הממשק אינם מוחקים נתונים מהמסד. הקשר תחזוקת מפעל ותעשיות תהליכיות: מדריכי הארכוב של 2025 FPS01 " +
+      "נוקבים באובייקטי הארכוב PM_ORDER ('Archiving object PM_ORDER, with which you can archive maintenance " +
+      "orders and service orders in the Plant Maintenance component', loio " +
+      "15e1b6531de6b64ce10000000a174cb4) ו-PR_ORDER ('You can archive process orders using archiving object " +
+      "PR_ORDER', loio 8b70bd534f22b44ce10000000a174cb4; נושא נוסף באותו שם, loio " +
+      "8e70bd534f22b44ce10000000a174cb4, נושא את הסעיף 'ILM-Related Information for the Archiving Object " +
+      "You can use this archiving object with ILM object PR_ORDER'), אך אף אחד מהעמודים האלה אינו נוקב " +
+      "במודול; הקישור ביניהם הוא של המאגר בלבד (function-intel: OBJECT 'למשל PP_ORDER, PM_ORDER'; " +
+      "הבלופרינט: RIARCPM1 לצד ADMI_RUN). שמות אובייקטי הארכוב PM_QMEL ו-PP_ORDER שבהמלצת הפעולה נסמכים על " +
+      "הנושא 'Dependencies (CS-BD/PM-EQM-SF-MPC)' במדריך הארכוב של PM/CS לגרסת 2025 FPS01 (loio " +
+      "669fce5314894208e10000000a174cb4, תאריך 2026-02-24), שתקצירו מונה 'PM_ORDER Service and maintenance " +
+      "orders PM_QMEL Maintenance ... notifications PP_ORDER Production order' (הסניפט נקטע בין Maintenance " +
+      "ל-notifications); הצירוף הרצוף 'Maintenance notifications PM_QMEL' מופיע בתקציר עמוד המדריך 'Data " +
+      "Archiving in Plant Maintenance and Customer Service (PM/CS)' (loio a0cfba538c95b54ce10000000a174cb4, " +
+      "2025.001, תאריך 2026-02-24): 'Maintenance notifications PM_QMEL Service notifications SM_QMEL " +
+      "Maintenance orders and service orders ... PM_ORDER'; שני התקצירים הוחזרו בהרצה חוזרת של הכותב " +
+      "ב-2026-09-22. ILM: התיעוד קושר את ILM לתוכניות הכתיבה של אובייקטי הארכוב ולא למודול: עמוד 'Archiving " +
+      "of Serial Number History (LO-MD-SN)' במדריך הארכוב של PM/CS לגרסת 2025 FPS01 (loio " +
+      "e9fcb8535c39b44ce10000000a174cb4) קובע 'You can use this archiving object in Information Lifecycle " +
+      "Management. You must have activated the corresponding business functions to do this. The system then " +
+      "shows the ILM Actions group box' ומפנה ל-'ILM Enhancements for Data Archiving, section ILM Actions " +
+      "in the Write Program'; גם עמוד PM_ORDER נושא את הסעיף 'ILM-Related Information for the Archiving " +
+      "Object'. ההערה 'זמין ב-S/4HANA (ILM/ADK)' שברשומת המאגר נתמכת אפוא ברמת המנגנון (ADK ב-ABAP Platform " +
+      "2025 FPS01, ILM דרך ILM Actions) ולא ברמת שם המודול. בדיקות שליליות מדודות: SIMPL_OP2025.pdf (HTTP " +
+      "200, 10,585,218 בתים, 1,514 עמודים) מכיל 0 מופעים של ARCHIVE_OPEN_FOR_WRITE, ARCHIVE_OPEN, 'Archive " +
+      "Development Kit', ADK, S_ARCHIVE ו-ADMI_RUN (המחרוזת 'Data Archiving' מופיעה בו 8 פעמים, בעיקר " +
+      "בפריטי IS-OIL); WN_OP2025_FPS01_EN.pdf (HTTP 200, 12,864,449 בתים, 728 עמודים) מכיל 0 מופעים של " +
+      "ARCHIVE_OPEN_FOR_WRITE, ARCHIVE_OPEN ו-'Archive Development Kit', 0 מופעים של ADK כמילה שלמה, והמופע " +
+      "היחיד של המחרוזת S_ARCHIVE בו הוא חלק משם הדוח REA_VBS_ARCHIVE. היעדר מרשימת הפישוט אינו הוכחה, אך " +
+      "הוא עקבי עם סטטוס 'ללא שינוי'. מה לא אומת: חתימת המודול (OBJECT, ARCHIVE_HANDLE ושאר הפרמטרים " +
+      "שברשומת המאגר), מאפיין RFC, סיווג היציבות 'Released' שבסריקת האימות, וקיום המודול במערכת חיה: חיבור " +
+      "sc4sap MCP לא היה זמין בסשן זה ולכן בדיקת SE37 לא בוצעה. שיוך המודול למודול PP-PI ברשומת " +
+      "function-intel הוא בחירת קטלוג של הפרויקט; המודול הוא מודול של שכבת הפלטפורמה (ADK) ומשמש כל אובייקט " +
+      "ארכוב.",
+  },
+  {
+    id: "fm:BAPI_ALM_NOTIF_DATA_DELETE",
+    aliases: ["BAPI_ALM_NOTIF_DATA_DELETE"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim:
+          "טבלת הפעולות של API_MAINTNOTIFICATION בחוברת APIs for Maintenance Management למהדורת S/4HANA " +
+          "On-Premise 2025 FPS01 מונה, בחלונות הסניפט שהוחזרו ב-2026-09-22: 'Read Maintenance Notification " +
+          "GET', יצירה ב-POST על MaintenanceNotification, 'Update Maintenance Notification PATCH', שורת " +
+          "'Notification Item POST' על MaintenanceNotificationItem (תחילת השורה נחתכה; העמוד הנפרד 'Create " +
+          "Notification Item', loio abf44d7da8114c3a9b958cf9f8366fce, 2025.001, מתעד אותה), 'Update " +
+          "Notification Item PATCH', 'Create Notification Item Activity POST', 'Update Notification Item " +
+          "Activity PATCH', 'Create Notification Item Cause POST', 'Update Notification Item Cause PATCH', " +
+          "'Update Notification Failure Effect PATCH' ו-'Delete Notification Failure Effect DELETE' עם כתובת " +
+          "הדוגמה " +
+          "'<host>/sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintNotificationEffectCode(MaintenanceNotification='10000000',MaintenanceNotificationEffect='1')'. " +
+          "זו שורת ה-DELETE היחידה שהופיעה בחלונות הסניפט. עמודי הישויות באותה חוברת ובאותה מהדורה: " +
+          "'Maintenance Notification Item Cause' (loio 6be9a042055c49949201f92bfe1594c8) קובע 'Supported " +
+          "Operations The following operations are supported: Read Notification Item Cause Create Notification " +
+          "Item Cause Update Notification Item Cause' ומונה את המאפיין 'IsDeleted Indicates if the item cause " +
+          "is deleted'; 'Maintenance Notification Partner' (loio 1f6106223977443d9ce8eb0ad286ff9a) קובע " +
+          "'Supported Operations The following operations are supported: Read Notification Partner Create " +
+          "Notification Partner Update Notification Partner'; והעמוד 'Delete Notification Failure Effect' (loio " +
+          "2aff4b7b878f43bfbaa7d1011e96b53e) פותח ב-'With this operation, you can delete a failure effect from " +
+          "a notification'. כלומר, בתקצירים שהוחזרו, שירות ה-OData מתעד פעולת מחיקה לתופעות כשל (failure " +
+          "effects) בלבד, ולא לפריטים, לסיבות, לפעילויות, למשימות או לשותפים של ההודעה, שהם היקף ה-BAPI לפי " +
+          "נתוני המאגר. אף רשומה אינה נוקבת בשם ה-BAPI, וגופי העמודים לא נקראו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "OData API: Maintenance Notification | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private " +
+          "Edition 2023 FPS02",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/6ca3558111eb4754828b9c79deb2e012.html?locale=en-US&state=PRODUCTION&version=2023.002",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.002",
+        accessedAt: DATE22,
+        claim:
+          "רשומת What's New למהדורת 2023 FPS02 קובעת בתקציר: 'The Maintenance Notification API now allows you " +
+          "to create, read, update, and delete failure effect details in maintenance notifications using the " +
+          "new entity Maintena' (התקציר נחתך), עם 'Technical Object Name API: API_MAINTNOTIFICATION Application " +
+          "Component PM-WOC-MN (Maintenance Notifications) Availability SAP S/4HANA and SAP S/4HANA Cloud " +
+          "Private Edition'. רשומות What's New נוספות של אותו API שהוחזרו: 2021 FPS01 'Create, Update, or " +
+          "Delete Task list Using Maintenance Notification API' (loio 33364ab200b24a5bb1c413fb04a24b21, " +
+          "versionId 2021.001): 'You can now create, update, or delete a task list using the Maintenance " +
+          "Notification API'; 2022 'Enhancements in Maintenance Notification API' (loio " +
+          "bef2d10f6c75470b8cc319866bc47c40, 2022.000) עם אותו משפט; 2025 (loio " +
+          "e76f7a15faca43499a80f9ad4afd7328, 2025.000): 'With the OData API Maintenance Notification " +
+          "(API_MAINTNOTIFICATION), you can now perform the following operations: ApproveMaintWorkRequest: Use' " +
+          "(נחתך); 2025 FPS01 (loio fd9c0988b37243f0a030624c3b43bcc8, 2025.001): 'it is now possible to create, " +
+          "update and display notification with processing context using the OData API Maintenance Notification " +
+          "(API_MAINTNOTIFICATION)' ו-'Availability SAP S/4HANA Cloud Private Edition and SAP S/4HANA'. עמוד " +
+          "השירות 'Maintenance Notification | APIs for Maintenance Management' (loio " +
+          "f430cbb1950c4880810e27a8308db301, 2023.latest) קובע: 'This service enables you to create, read, and " +
+          "update data related to maintenance notification', 'Maintenance Notification Item Cause Data " +
+          "(A_MaintNotifItemCause) Allows you to create, read, and update notification item cause' " +
+          "ו-'Maintenance Notification Failure Effect (A_MaintNotifEffectCode) Allows you to create, read, " +
+          "update, and delete failure effects for maintenance notifications'. בהיסטוריית ה-What's New שהוחזרה " +
+          "המילה delete מופיעה עבור task list (רשימת פעולות אחזקה לפי לשון הרשומה, ולא משימת ההודעה; ההבחנה לא " +
+          "אומתה מגוף העמוד) ועבור תופעות כשל בלבד; אף רשומה אינה נוקבת בשם ה-BAPI.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Notification | Maintenance Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/78c09d53839cca11e10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim:
+          "עמוד הודעת התחזוקה בחוברת Maintenance Management למהדורת 2025 FPS01 קובע בשני חלונות סניפט: 'You can " +
+          "use the Business Add-In BAdI: Modification of Data in Notification BAPIs (IWON_NOTIFICATION) to " +
+          "check' ו-'and adjust field values that are transferred in your customer-specific fields using the " +
+          "appropriate BAPIs'. עמוד 'Carry Out a Mass Change' (loio 69cab65334e6b54ce10000000a174cb4, 2025.001) " +
+          "נוקב באותו BAdI: 'Modification of Data in Notification BAPIs (IWON_NOTIFICATION) for the assignment " +
+          "and validity of customer-specific fields', ורשומת What's New 1809 'Maintenance Notification: New " +
+          "Fields in Mass Change' (loio 9e3a3ea100134535b3109ed18185d0b8, 1809.000) מכנה אותו 'Changes to Data " +
+          "in Notification BAPIs (IWON_NOTIFICATION)'. כלומר משפחת ה-Notification BAPIs של הודעת תחזוקת מפעל " +
+          "מתועדת במהדורה הנוכחית דרך ה-BAdI שלה; אף תקציר אינו מונה את חברי המשפחה ואינו נוקב " +
+          "ב-BAPI_ALM_NOTIF_DATA_DELETE.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance notification | Data Migration",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/c03f981dd76f4fc7a241f17adc80758b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim:
+          "אובייקט ההגירה 'PM - Maintenance notification' בחוברת Data Migration למהדורת 2025 FPS01 מציג בתקציר: " +
+          "'Function Module: CNV_PE_S4_PM_NOTIF_CREATE APIs/BAPIs BAPI_ALM_NOTIF_CREATE BAPI_ALM_NOTIF_SAVE " +
+          "Function Module: CNV_PE_S4_CA_DIR_OBJ_LINKS APIs/BAPIs BAPI_DOCUMENT_CHANGE2', ובחלון אחר: 'In Scope " +
+          "The following data is set for migration: Notifications header data Items Items/causes Items/tasks " +
+          "Items/activities Tasks Activities Classification Long texts for notifications'. " +
+          "BAPI_ALM_NOTIF_DATA_DELETE אינו בין השמות שהוחזרו תחת APIs/BAPIs. אובייקט ה-BOR של ההודעה מתועד " +
+          "בעמוד 'Technical Realization (PM-WOC-MN)' בחוברת PM/CS Workflow Scenarios (loio " +
+          "dd67b6531de6b64ce10000000a174cb4, 2025.001): 'Business object BUS2038 (Maintenance Notification) A " +
+          "maintenance notification corresponds to the business object type BUS2038', ובעמוד 'Entering " +
+          "Responsibilities (Workflow Connection)' (loio 2a85c1536ca9b54ce10000000a174cb4, 2025.001): 'BUS2038 " +
+          "refers to notifications while QMSM refers to tasks'. שיוך המתודות של ה-BAPI לאובייקט זה אינו מופיע " +
+          "בתקצירים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "help.sap.com search: \"BAPI_ALM_NOTIF_DATA_DELETE\" (SAP_S4HANA_ON-PREMISE, SAP_ERP, " +
+          "SAP_S4HANA_CLOUD), \"BAPI_ALM_NOTIF\" (SAP_S4HANA_ON-PREMISE), \"Notification BAPIs maintenance " +
+          "notification delete\", \"Notification BAPIs\" (2025.001), \"BUS7051\"",
+        product: "SAP S/4HANA / SAP ERP",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim:
+          "ממצא שלילי תחום-חיפוש: שאילתת השם המדויק BAPI_ALM_NOTIF_DATA_DELETE בשירות החיפוש של SAP Help " +
+          "ב-2026-09-22 החזירה בהרצות של אותו יום בין 18 ל-21 רשומות בסקופ SAP S/4HANA On-Premise (חוברות " +
+          "Interfaces for Contract Accounting, APIs for Product Master, מדריכי ארכוב והשמדת נתוני HR למדינות, " +
+          "Security Guide 1709 'Deletion of Personal Data', Transactional Banking, וכן העמוד 'Delete " +
+          "Notification Failure Effect' מחוברת APIs for Maintenance Management), 16 רשומות בסקופ SAP ERP (עמודי " +
+          "תכנות BAPI כלליים כגון 'Programming Delete()/Undelete() BAPIs', 'Programming Change() BAPIs', " +
+          "'Download of Characteristic Data Using BAPIs') ו-12 רשומות בסקופ SAP S/4HANA Cloud (פעולות מחיקה של " +
+          "APIs אחרים), כולן עם תקציר ריק; סריקת 46 הרשומות של הרצת המחקר (ובהרצת הביקורת החוזרת, כל הרשומות " +
+          "שהוחזרו) על המחרוזת ALM_NOTIF בכותרת ובתקציר העלתה אפס התאמות. שאילתת BAPI_ALM_NOTIF בסקופ " +
+          "On-Premise החזירה בהרצות של אותו יום 0 עד 2 רשומות (בהרצה החוזרת: Working with BAPIs, Logistics " +
+          "General 2025.001; Italy, What's New 1709 FPS02), שתיהן עם תקציר ריק ואף אחת אינה נוקבת בשם. השאילתות " +
+          "'Notification BAPIs maintenance notification delete' ו-'Notification BAPIs' (בסינון 2025.001) לא " +
+          "החזירו עמוד המונה את חברי משפחת ה-BAPI בשמם, ושאילתת 'BUS7051' החזירה 21 רשומות שאף אחת מהן אינה " +
+          "נושאת את המחרוזת בכותרת או בתקציר. שתי הרצות WebSearch מוגבלות ל-help.sap.com / api.sap.com / " +
+          "fioriappslibrary.hana.ondemand.com / fal.cloud.sap לא החזירו עמוד הנוקב בשם (התוצאות: 'Programming " +
+          "Delete()/Undelete() BAPIs', עמודי סקירה כלליים של BAPI ועמודי SAP Cloud ALM שאינם קשורים). הממצא " +
+          "תחום לכותרות ולתקצירים של רשומות החיפוש ואינו אמירה שהאובייקט אינו קיים במערכת; סטטוס השחרור, קבוצת " +
+          "הפונקציות וטבלאות הפרמטרים לא אומתו מול מקור רשמי.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "רישום ה-BAPI המועשר של הפרויקט (PM additions), תיקון ה-sweep שאינו מגיע לרשומה, ומדידת הסטטוס הנגזר",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim:
+          "רשומת ההוספה של הפרויקט (PM_ADDITIONS, דרך העוזר notif) מתארת את ה-BAPI כ'מחיקת תת-אובייקטים " +
+          "(פריטים/סיבות/פעילויות/משימות/שותפים) מהודעה' עם parameterSummary 'IMP NUMBER · TAB NOTITEM · " +
+          "NOTIFCAUS · NOTIFACTV · NOTIFTASK · NOTIFPARTNR · RETURN', אובייקט BOR‏ BUS2038, operationType " +
+          "Delete, 'Released · RFC · created 4.6 (110)', remoteEnabled: yes, requiresSave ו-requiresCommit: " +
+          "yes, eccSupport ו-s4OnPremSupport: yes, cloudSupport: unknown, verificationStatus verified-docs עם " +
+          "מחרוזת מקור כללית ('SAP Help (BUS2038 · S/4HANA On-Premise) + SE37 metadata (fn group IWOPM) · SAP " +
+          "KBA 1923267 (save/commit contract)', 2026-07-14, ללא URL), רצף הכתיבה CREATE, אחר כך DATA_ADD / " +
+          "DATA_MODIFY / DATA_DELETE, אחר כך PUTINPROGRESS / CHANGEUSRSTAT / CLOSE, אחר כך SAVE ולבסוף " +
+          "BAPI_TRANSACTION_COMMIT, טבלאות QMEL, QMFE, QMUR, QMMA, QMSM וטרנזקציות IW21, IW22, IW23, IW28, " +
+          "IW29. קובץ ה-sweep נושא תיקון שני לאותו מזהה (מחרוזת המקור SRC_HELP של הקובץ, SAP Help Portal, אומת " +
+          "2026-07-15, ללא URL; תיאור 'מחיקת פריטי נתונים מהודעת אחזקה (פריט/סיבה/פעולה)'; operationType " +
+          "Change; category Execution; parameterSummary 'IN: NUMBER, delete tables · OUT: RETURN'), אך " +
+          "registry() מחיל תיקונים רק על מזהים נגזרים (if (cur)) ומוסיף את ההוספות אחריהם, ולכן התיקון אינו " +
+          "מגיע לרשומה, כפי ש-BASELINE.md ו-baseline-inventories.json מתעדים בין 14 תיקוני sweep מתים; נמדד " +
+          "בסשן: registryObject מחזיר את ערכי ההוספה (מקור VSRC, 2026-07-14, Delete). השם אינו מופיע " +
+          "ב-data/function-intel.ts, ב-data/sapData.pm.ts וב-data/sapData.ts (0 התאמות), ופרקטיקת " +
+          "bapi-commit-discipline מפנה ל-DATA_ADD ול-SAVE בלבד. הסטטוס הנגזר שנמדד בסשן דרך fromFuncRegistry " +
+          "ו-evidenceBlock: 'ללא שינוי ב-S/4HANA' (unchanged) ברמת 'מאומת מול נתוני הפרויקט', עומק 3, עם ההסבר " +
+          "'לפי רישום אובייקטי הפונקציה של הפרויקט: אומת מול תיעוד SAP; תמיכה ב-S/4HANA On-Premise: כן; " +
+          "Released · RFC · created 4.6 (110)'.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/bapi-enrichment.pm.ts#BAPI_ALM_NOTIF_DATA_DELETE; " +
+          "data/bapi-enrichment.sweep.ts#BAPI_ALM_NOTIF_DATA_DELETE; lib/bapi-registry.ts#registry; " +
+          "audit/s4-enrichment/BASELINE.md; audit/s4-enrichment/baseline-inventories.json",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "BAPI למחיקת תת-אובייקטים (פריטים, סיבות, פעילויות, משימות, שותפים) מהודעת תחזוקה (BUS2038) בתחזוקת " +
+        "מפעל, לפי רשומת המאגר. השם לא אותר באף רשומה רשמית של SAP Help בסקופ S/4HANA On-Premise, SAP ERP " +
+        "ו-S/4HANA Cloud, ואף מקור רשמי אינו נוקב בסטטוס השחרור שלו או בשינוי שלו ב-S/4HANA. ה-OData " +
+        "API_MAINTNOTIFICATION מתעד פעולת DELETE לתופעות כשל בלבד (2023 FPS02) ול-task list (2021 FPS01), " +
+        "ועמודי הישויות של 2025.001 מונים לסיבת פריט ולשותף פעולות Read, Create ו-Update עם מאפיין IsDeleted, " +
+        "כך שאין חלופת OData מתועדת להיקף המחיקה של ה-BAPI. לכן לא נקבע כאן סטטוס S/4HANA: הסטטוס הנגזר במאגר " +
+        "(ללא שינוי, bapi-registry) נשאר טענת מאגר, והראיות הרשמיות ברשומה מאמתות את ההקשר ולא את ה-BAPI " +
+        "עצמו. לא נקבע יורש.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לאמת ב-SE37 / BAPI Explorer במערכת S/4HANA היעד את קיום BAPI_ALM_NOTIF_DATA_DELETE, את סטטוס השחרור, " +
+        "את קבוצת הפונקציות (IWOPM לפי המאגר) ואת מבנה טבלאות המחיקה (NOTITEM, NOTIFCAUS, NOTIFACTV, " +
+        "NOTIFTASK, NOTIFPARTNR) לפני הסתמכות בקוד או בחומר הדרכה. בתרחישי RFC קיימים להמשיך ברצף שהמאגר מתעד " +
+        "(CREATE או הודעה קיימת, אחר כך DATA_DELETE, אחר כך BAPI_ALM_NOTIF_SAVE ואז BAPI_TRANSACTION_COMMIT " +
+        "על אותו חיבור) ולבדוק את טבלת RETURN אחרי כל קריאה. לאינטגרציות חדשות לאמת מול תיעוד ה-API בגרסת " +
+        "היעד אם קיימת פעולת DELETE לפריט, לסיבה, לפעילות, למשימה או לשותף של ההודעה; בתקצירים שהוחזרו מתועדת " +
+        "מחיקה לתופעות כשל בלבד.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_NOTIF_CREATE",
+      "fm:BAPI_ALM_NOTIF_DATA_ADD",
+      "fm:BAPI_ALM_NOTIF_DATA_MODIFY",
+      "fm:BAPI_ALM_NOTIF_SAVE",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "fm:BAPI_TRANSACTION_ROLLBACK",
+      "fm:NOTIF_ITEM_READ",
+      "fm:NOTIF_CAUSE_READ",
+      "fm:NOTIF_ACTIVITY_READ",
+      "fm:NOTIF_TASK_READ",
+      "table:QMEL",
+      "table:QMFE",
+      "table:QMUR",
+      "table:QMMA",
+      "table:QMSM",
+      "tx:IW22",
+      "cds:I_MaintenanceNotification",
+      "cds:I_MaintNotificationItem",
+      "cds:I_MaintNotifActivity",
+      "fiori:F4604",
+      "fiori:F1511",
+      "enh:badi:NOTIF_EVENT_SAVE",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE22,
+    notes:
+      "מה נבדק בפועל: שש-עשרה שאילתות (שמונה-עשרה הרצות) בשירות החיפוש של help.sap.com דרך " +
+      "scripts/sap-help-search.mjs ב-2026-09-22, ובהן שאילתת השם המדויק בשלושה סקופים " +
+      "(SAP_S4HANA_ON-PREMISE, SAP_ERP, SAP_S4HANA_CLOUD), 'BAPI_ALM_NOTIF', 'BUS7051', 'BUS2038 refers to " +
+      "notifications while QMSM refers to tasks', 'Notification BAPIs' (2025.001), 'IWON_NOTIFICATION " +
+      "Modification of Data in Notification BAPIs', שאילתות ממוקדות לפעולות ולישויות של " +
+      "API_MAINTNOTIFICATION (Delete Notification Item / Item Cause / Item Activity, Operations for " +
+      "Maintenance Notifications DELETE, Supported Operations IsDeleted) ולרשומות What's New של ה-API, " +
+      "ושאילתה ממוקדת לתקציר APIs/BAPIs של עמוד ההגירה; לצד שתי הרצות WebSearch מוגבלות דומיין. אחת-עשרה " +
+      "כתובות נבדקו ב-curl (ובהן ארבע הכתובות שברשומה) והחזירו HTTP 200 עם גוף של 1160 בתים, כלומר מעטפת " +
+      "JavaScript; גופי העמודים לא נקראו, וכל טענה תחומה בכותרת ובתקציר של רשומת החיפוש; ספירות התוצאות " +
+      "אינן יציבות בין הרצות ונרשמות כמדידה של אותו יום בלבד (רשומת fm:BAPI_ALM_NOTIF_DATA_ADD מדדה 12 " +
+      "רשומות לשאילתת BAPI_ALM_NOTIF ב-2026-09-14, היום 0 עד 2 בהרצות חוזרות). ה-loio וה-versionId הועתקו " +
+      "מרשומות ה-JSON. למה נכתב סטטוס verification_required מחברי: אף רשומה רשמית אינה נוקבת בשם ה-BAPI, " +
+      "ולכן אין מקור ל'ללא שינוי' מחברי; ושירות ה-OData API_MAINTNOTIFICATION מתעד מחיקה רק לתופעות כשל " +
+      "(2023 FPS02) ול-task list (2021 FPS01), ואילו עמודי הישויות של 2025.001 מונים לסיבת פריט ולשותף " +
+      "פעולות Read, Create ו-Update בלבד עם מאפיין IsDeleted, כך שאין חלופת OData מתועדת להיקף המחיקה של " +
+      "ה-BAPI (פריטים, סיבות, פעילויות, משימות, שותפים) ולא ניתן לכתוב released_api_available (בניגוד " +
+      "ל-fm:BAPI_ALM_NOTIF_DATA_ADD, שם פעולות היצירה מתועדות). הסטטוס הנגזר במאגר, 'ללא שינוי ב-S/4HANA' " +
+      "(bapi-registry, מאומת מול נתוני הפרויקט, עומק 3), אינו נסתר מהממצאים, אך עם הסטטוס המחברי " +
+      "verification_required הוא אינו מוצג עוד בבלוק הראיות (pickStatus מעדיף טענה מחברית); יש לקרוא אותו " +
+      "כטענת מאגר: הראיות הרשמיות ברשומה מאמתות את ההקשר (משפחת Notification BAPIs דרך ה-BAdI " +
+      "IWON_NOTIFICATION, שמות CREATE ו-SAVE בעמוד ההגירה, אובייקט BUS2038, פעולות ה-OData), לא את ה-BAPI " +
+      "עצמו. מה שחסר בדיוק: עמוד רשמי הנוקב בשם, או בדיקת SE37 / BAPI Explorer במערכת S/4HANA היעד (חיבור " +
+      "sc4sap MCP נכשל בסשן; לא בוצעה בדיקה במערכת חיה) לקיום האובייקט, לסטטוס השחרור, לקבוצת הפונקציות " +
+      "(IWOPM לפי המאגר), לשיוך המתודה לאובייקט BOR ולמבנה טבלאות המחיקה (NOTITEM, NOTIFCAUS, NOTIFACTV, " +
+      "NOTIFTASK, NOTIFPARTNR). אובייקט BUS7051 שהוצע בהנחיית המחקר לא אותר באף רשומה; המאגר והתיעוד הרשמי " +
+      "משייכים את הודעת התחזוקה ל-BUS2038, ושיוך המתודות של ה-BAPI לאובייקט לא אומת. ניואנס מאגר (לא סתירה " +
+      "על קיום): תיקון ה-sweep המת מתאר operationType Change, קטגוריה Execution והיקף '(פריט/סיבה/פעולה)', " +
+      "בעוד ההוספה מתארת Delete, Notification והיקף של חמישה תת-אובייקטים; מכיוון שהתיקון אינו מגיע לרשומה, " +
+      "האפליקציה מציגה את ערכי ההוספה. היעדר השם בעמוד ההגירה אינו ממצא על זמינותו: אובייקט ההגירה יוצר " +
+      "הודעות ואינו מוחק נתונים. ה-BAdI IWON_NOTIFICATION אינו ביקום ה-xrefs (data/exits.ts, " +
+      "data/enhancements.ts) ולכן נשאר בפרוזה; enh:badi:NOTIF_EVENT_SAVE משמש כעוגן השמירה שבו נבדקת " +
+      "המחיקה. api.sap.com: חיפוש מוגבל דומיין החזיר את הכותרות 'Overview | Maintenance Notification' " +
+      "(/api/API_MAINTNOTIFICATION/overview), 'Maintenance Notification' (/resource) ו-'API Reference | " +
+      "Maintenance Notification' (/path/post_MaintenanceNotification); מעטפות JavaScript, לא נקראו ולא " +
+      "נרשמו כראיה. Public Cloud: שאילתת השם בסקופ SAP_S4HANA_CLOUD החזירה 12 רשומות לא קשורות, ולכן זמינות " +
+      "ב-Public Cloud לא מאומתת (cloudSupport: unknown גם במאגר); WebSearch החזיר גם עמודי SAP_S4HANA_CLOUD " +
+      "של ה-OData (Operations for Maintenance Notifications; Maintenance Notification OData V2 ו-V4), שלא " +
+      "נבדקו ואינם ראיה כאן. SAP KBA 1923267 מופיע רק במחרוזת המקור הכללית של קובץ ההעשרה ולא אומת ולא הוזן " +
+      "בשדה kba. לא נטען יורש: אין סטטוס replaced, deprecated או not_available. שדה reviewer אינו נכתב לפי " +
+      "מוסכמת הבית (אף קובץ overlay אינו נושא אותו).",
+  },
+  {
+    id: "fm:BAPI_ALM_NOTIF_DATA_MODIFY",
+    aliases: ["BAPI_ALM_NOTIF_DATA_MODIFY"],
+    evidence: [
+      MAINTNOTIF_OPS_PATCH,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Notification | Maintenance Management",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/78c09d53839cca11e10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim:
+          "הקשר בלבד (לא טענה על ה-BAPI עצמו): עמוד 'Maintenance Notification' בחוברת Maintenance Management " +
+          "לגרסת 2025 FPS01 קובע 'You can enter, change, and display notification data on the following tab " +
+          "pages' ומפנה ל-BAdI 'Modification of Data in Notification BAPIs (IWON_NOTIFICATION) to check' " +
+          "(הסניפט נקטע אחרי to check); עמוד 'Carry Out a Mass Change' בחוברת Orders (CS-SE/PM-WOC-MO) לפי " +
+          "רשומת החיפוש (loio 69cab65334e6b54ce10000000a174cb4, 2025.001) מפנה לאותו BAdI 'for the assignment " +
+          "and validity of customer-specific fields'. כלומר משפחת ה-Notification BAPIs מתועדת בגרסה זו דרך " +
+          "ה-BAdI שלה; אף אחד משני הסניפטים אינו נוקב בשם BAPI_ALM_NOTIF_DATA_MODIFY ואינו קובע דבר על סטטוס " +
+          "השחרור שלו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "kba",
+        sourceTitle: "1923267 - BAPI_ALM_NOTIF_* - Notification not updated",
+        url: "https://me.sap.com/notes/1923267",
+        kba: "1923267",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim:
+          "סעיף ה-Symptom בתצוגה המקדימה הפומבית של ה-KBA (userapps.support.sap.com, ללא התחברות) קובע: " +
+          "'BAPI_ALM_NOTIF_DATA_ADD is not updating the notification', 'The following sequence is being " +
+          "followed to update notification 1. BAPI_ALM_NOTIF_DATA_ADD 2. BAPI_ALM_NOTIF_SAVE 3. " +
+          "BAPI_TRANSACTION_COMMIT No error is returned' ו-'The symptom can also occur for other " +
+          "BAPI_ALM_NOTIF_* BAPIs, for example BAPI_ALM_NOTIF_DATA_MODIFY and BAPI_ALM_NOTIF_DATA_DELETE'. סעיף " +
+          "Environment מונה 'SAP S/4HANA, on-premise' ו-'SAP S/4HANA, Cloud Private Edition' לצד SAP ERP, ECC " +
+          "ו-R/3; רשימת המוצרים כוללת 'SAP S/4HANA all versions' ו-'SAP S/4HANA Cloud Private Edition all " +
+          "versions'; מילות המפתח כוללות BAPI_ALM_NOTIF_DATA_MODIFY, BAPI_ALM_NOTIF_DATA_DELETE, " +
+          "BAPI_ALM_NOTIF_SAVE, SAVE_ERROR, iw21, iw22, iw23, sequence ו-PM-WOC-MN. סעיפי הסיבה והפתרון דורשים " +
+          "התחברות S-user ולא נקראו. המספר קיים גם במחרוזת המקור של רשומת המאגר ('SAP KBA 1923267 (save/commit " +
+          "contract)' ב-data/bapi-enrichment.pm.ts).",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "kba",
+        sourceTitle: "1619709 - Notification breakdown duration not populated from BAPI",
+        url: "https://me.sap.com/notes/1619709",
+        kba: "1619709",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim:
+          "סעיף ה-Symptom בתצוגה המקדימה הפומבית של ה-KBA (userapps.support.sap.com, ללא התחברות) קובע: " +
+          "'Breakdown duration is not calculated when a notification is created from BAPI_ALM_NOTIF_CREATE' " +
+          "ו-'Duration field is not filled when notification is changed with BAPI_ALM_NOTIF_DATA_MODIFY'. סעיף " +
+          "Environment מונה 'SAP S/4HANA, on-premise' לצד SAP ERP Plant Maintenance (PM), Customer Service " +
+          "(CS), ECC ו-R/3; רשימת המוצרים כוללת 'SAP S/4HANA all versions'; מילות המפתח: IW23, IW52, IW53, " +
+          "Breakdown duration, BAPI_ALM_NOTIF_CREATE, BAPI_ALM_NOTIF_DATA_MODIFY, RIWO00-EAUSZT, PM-WOC-MN, " +
+          "CS-CM-SN, How To. הסניפט מציג את ה-BAPI כאמצעי לשינוי הודעה קיימת ואינו מתאר פרמטרים או סטטוס שחרור; " +
+          "סעיפי הסיבה והפתרון לא נקראו (S-user).",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "רישום ה-BAPI המועשר של הפרויקט (PM_ADDITIONS, משפחת הודעות תחזוקה BUS2038), רשומת IW22 במודיעין " +
+          "הטרנזקציות ורשומת QMEL בקובץ היבטי נתוני האב של תחזוקת מפעל",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim:
+          "רשומת המאגר מתארת 'שינוי נתוני הודעה (כותרת/פריטים/משימות) עם מבני X לסימון שדות לעדכון', " +
+          "operationType Change, write: true, פרמטרים 'IMP NUMBER · NOTIFHEADER (+_X) · TAB NOTIFITEM (+_X) · " +
+          "NOTIFCAUS (+_X) · NOTIFACTV (+_X) · NOTIFTASK (+_X) · NOTIFPARTNR (+_X) · RETURN', אובייקט BOR " +
+          "BUS2038, טרנזקציות IW21/IW22/IW23/IW28/IW29, טבלאות QMEL/QMFE/QMUR/QMMA/QMSM, 'Released · RFC · " +
+          "created 4.6 (110)', requiresSave ו-requiresCommit: yes, תמיכה ב-ECC וב-S/4HANA On-Premise: yes, " +
+          "Public Cloud: unknown, verified-docs מ-2026-07-14 עם מקור 'SAP Help (BUS2038 · S/4HANA On-Premise) + " +
+          "SE37 metadata (fn group IWOPM) · SAP KBA 1923267 (save/commit contract)' ללא URL, ורצף הכתיבה " +
+          "CREATE, אחר כך DATA_ADD / DATA_MODIFY / DATA_DELETE, אחר כך PUTINPROGRESS / CHANGEUSRSTAT / CLOSE, " +
+          "אחר כך SAVE ולבסוף BAPI_TRANSACTION_COMMIT. רשומת IW22 (tx-intel) רושמת את ה-BAPI כ-BAPI של " +
+          "הטרנזקציה, ורשומת QMEL בקובץ היבטי נתוני האב מונה אותו לצד CREATE ו-CLOSE. ה-BAPI נעדר " +
+          "מ-data/function-intel.ts ומדאטהסט הבלופרינט (data/sapData.pm.ts), בניגוד ל-DATA_ADD; רשומת SWEEP " +
+          "מקבילה ('IN: NUMBER, NOTIFHEADER(_X), tables · OUT: RETURN') היא 'dead patch' לפי " +
+          "audit/s4-enrichment/baseline-inventories.json ואינה מגיעה לרישום.",
+        verificationLevel: "repository_verified",
+        repoRef:
+          "data/bapi-enrichment.pm.ts#BAPI_ALM_NOTIF_DATA_MODIFY; data/tx-intel.ts#IW22; " +
+          "data/pm-master-data-facets.ts#QMEL",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he:
+        "ה-BAPI לשינוי נתונים בהודעת תחזוקת מפעל קיימת (BUS2038: כותרת, פריטים, סיבות, פעילויות, משימות " +
+        "ושותפים לפי רשומת המאגר) אינו נזכר בשמו באף רשומת help.sap.com שאותרה; קיומו והרצף שלו (DATA_MODIFY, " +
+        "אחר כך SAVE, אחר כך BAPI_TRANSACTION_COMMIT) נתמכים בסעיפי Symptom ו-Environment של שני KBA פומביים " +
+        "(1923267, 1619709) המונים 'SAP S/4HANA, on-premise', ובנתוני המאגר. קיימת חלופת API רשמית משוחררת: " +
+        "OData API_MAINTNOTIFICATION ב-S/4HANA On-Premise 2025 FPS01 מתעד פעולות עדכון (PATCH) לכותרת ההודעה, " +
+        "לפריט, לסיבת פריט, לפעילות פריט ולשותף; פעולת עדכון למשימות (Tasks) לא אותרה בסניפטים. לא אותר תיעוד " +
+        "רשמי על הוצאה משימוש או החלפה של ה-BAPI, ולכן אין יורש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MAINTNOTIF_OPS_PATCH,
+      recommendedAction:
+        "באינטגרציות RFC קיימות לשמור על הרצף: BAPI_ALM_NOTIF_DATA_MODIFY עם מבני ה-X לסימון השדות המעודכנים, " +
+        "בדיקת טבלת RETURN, אחר כך BAPI_ALM_NOTIF_SAVE ואז BAPI_TRANSACTION_COMMIT על אותו חיבור RFC " +
+        "(stateful); כשההודעה אינה מתעדכנת בלי שגיאה לפנות ל-KBA 1923267, וכשמשך ההשבתה (Breakdown duration) " +
+        "אינו מתמלא ל-KBA 1619709 (סעיפי הפתרון של שניהם דורשים S-user). לאמת ב-SE37 במערכת היעד את סטטוס " +
+        "השחרור ואת שמות טבלאות הפרמטרים (NOTIFITEM, NOTIFCAUS, NOTIFACTV, NOTIFTASK, NOTIFPARTNR ומבני " +
+        "ה-_X). לאינטגרציות חדשות להעדיף את פעולות ה-PATCH של OData API_MAINTNOTIFICATION (כותרת, פריט, סיבה, " +
+        "פעילות, שותף) ולאמת את כיסוי המשימות (Tasks) מול תיעוד ה-API בגרסת היעד.",
+    },
+    xrefs: [
+      "fm:BAPI_ALM_NOTIF_CREATE",
+      "fm:BAPI_ALM_NOTIF_DATA_ADD",
+      "fm:BAPI_ALM_NOTIF_DATA_DELETE",
+      "fm:BAPI_ALM_NOTIF_SAVE",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fm:BAPI_ALM_NOTIF_CLOSE",
+      "fm:BAPI_TRANSACTION_COMMIT",
+      "fm:BAPI_TRANSACTION_ROLLBACK",
+      "tx:IW21",
+      "tx:IW22",
+      "tx:IW23",
+      "tx:IW28",
+      "table:QMEL",
+      "table:QMFE",
+      "table:QMUR",
+      "table:QMMA",
+      "table:QMSM",
+      "cds:I_MaintenanceNotification",
+      "cds:I_MaintNotificationItem",
+      "cds:I_MaintNotifActivity",
+      "fiori:F4604",
+      "enh:badi:NOTIF_EVENT_SAVE",
+      "enh:exit:QQMA0001",
+      "bp:bapi-commit-discipline",
+    ],
+    lastVerifiedAt: DATE22,
+    notes:
+      "מה שאומת: (1) חלופת ה-OData בעמודי APIs for Maintenance Management 2025.001 (טבלת הפעולות loio " +
+      "061b31b90a88432fad5e710aa9cd175c ועמודי Update Maintenance Notification, Update Notification Item, " +
+      "Update Notification Partner ו-Maintenance Notification Item Cause); עמודי 'Update Notification Item " +
+      "Cause' (loio 5f9ec4f899424ee5bffcdc25fe8d73b5) ו-'Update Notification Item Activity' (loio " +
+      "8ff969de5a3d4e7b98ccd5fbdbd33f33) עלו בחיפוש רק בגרסת 2023 latest ולא צורפו כראיה, אך אותן פעולות " +
+      "מופיעות בטבלת הפעולות של 2025.001. (2) שם ה-BAPI בשני KBA שנקראו מדף התצוגה המקדימה הפומבי (כותרת, " +
+      "Symptom, Environment, Product ו-Keywords); סעיפי הסיבה והפתרון לא נקראו, וכתובות me.sap.com/notes " +
+      "עצמן דורשות S-user. ממצא שלילי תחום-חיפוש (2026-09-22): שאילתת השם הטכני בשירות החיפוש של " +
+      "help.sap.com החזירה בבדיקה חוזרת 5 רשומות ב-On-Premise (BAPI Objects, Transfer Records via BAPI, " +
+      "External Data Transfer with BAPIs, Notification Tab Page, Fields Added to CT-e BAPI Structure), 18 " +
+      "רשומות ב-SAP_ERP ו-2 ב-SAP_S4HANA_CLOUD (המספרים משתנים בין הרצות), כולן עם סניפט ריק ואף אחת מהן " +
+      "אינה נוקבת בשם בכותרתה; השאילתות 'Maintenance Notification BAPI change notification data', " +
+      "'Modification of Data in Notification BAPIs IWON_NOTIFICATION', 'Notification BAPIs maintenance " +
+      "notification BUS2038' ו-'BAPI_ALM_NOTIF' לא החזירו עמוד המתעד את ה-BAPI בשמו; חיפוש רשת מוגבל " +
+      "ל-help.sap.com / api.sap.com / fioriappslibrary / fal.cloud.sap החזיר עמודי BAPI כלליים בלבד. שני " +
+      "KBA נוספים נקראו מהתצוגה המקדימה ולא צורפו כראיה כדי להשאיר ארבעה מקורות מקוונים: 3132326 (Symptom: " +
+      "'User Exit EXIT_SAPMIWO0_020 not executed when called from certain BAPI's E.g. BAPI_ALM_NOTIF_CREATE " +
+      "BAPI_ALM_NOTIF_DATA_MODIFY BAPI BAPI_ALM_NOTIF_CLOSE BAPI_ALM_NOTIF_SAVE', Environment כולל 'SAP " +
+      "S/4HANA, on-premise') ו-2482578 (ה-Symptom עוסק ב-BAPI_ALM_NOTIF_CREATE, השם DATA_MODIFY מופיע רק " +
+      "במילות המפתח, Environment כולל 'SAP S/4HANA, cloud edition'). מה שלא אומת: גופי העמודים " +
+      "ב-help.sap.com הם מעטפת JavaScript ולא נקראו, כל טענה תחומה בכותרת ובסניפט; סטטוס Released, קבוצת " +
+      "הפונקציות IWOPM, שמות טבלאות הפרמטרים ומבני ה-_X מגיעים מנתוני הפרויקט בלבד (verified-docs " +
+      "מ-2026-07-14 ללא URL) ולא נבדקו במערכת חיה (חיבור sc4sap MCP נכשל בסשן); כיסוי המשימות (NOTIFTASK) " +
+      "ב-OData: רשומת What's New 2022 'Enhancements in Maintenance Notification API' (loio " +
+      "bef2d10f6c75470b8cc319866bc47c40) מדברת על 'create, update, or delete a task list', ניסוח שלא הוצלב " +
+      "מול טבלת הפעולות של 2025.001, ולכן נשאר לאימות; Public Cloud לא אומת (cloudSupport: unknown במאגר, 0 " +
+      "רשומות רלוונטיות ב-SAP_S4HANA_CLOUD). ה-OData API אינו מוצג באף מקור רשמי כיורש של ה-BAPI, ולכן " +
+      "הסטטוס הוא 'קיים API משוחרר' ולא 'הוחלף'; גרסת השחרור של ה-API (S/4HANA 2021) והרישום ב-api.sap.com " +
+      "מתועדים ברשומת fm:BAPI_ALM_NOTIF_CREATE ולא הוכפלו כאן. הסטטוס הנגזר כיום באפליקציה (bapi-data דרך " +
+      "fromFuncRegistry: 'ללא שינוי ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', verified-docs, תמיכת " +
+      "On-Premise 'כן', 'Released · RFC · created 4.6 (110)') אינו סותר את הממצאים. ניואנס מאגר (לא סתירה): " +
+      "רשומת DATA_MODIFY נוקבת בטבלת NOTIFITEM ואילו רשומות DATA_ADD ו-DATA_DELETE באותו קובץ נוקבות " +
+      "ב-NOTITEM; שני השמות לא אומתו ב-SE37. ה-BAdI IWON_NOTIFICATION אינו קיים ביקום ה-xrefs ולכן נשאר " +
+      "בפרוזה. שדה reviewer אינו נכתב לפי מוסכמת קובץ functions.ts (אף רשומה בו אינה נושאת אותו).",
   },
 ];
