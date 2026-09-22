@@ -213,3 +213,7 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
 
 ### Resolved 2026-09-21 (design audit round 2 · audit/ux-2026-09/SAP-FIXES.md)
 - F3364 `odata: API_PROCORDCONF` → `API_PROC_ORDER_CONFIRMATION_2_SRV` (also `data/centers/fiori.ts`). F3577 `API_PROCESSORDER_2` → `API_PROCESS_ORDER_2_SRV`. The app-id conflicts (F3364 vs CORK, F3577 vs F4587) remain open as recorded.
+
+## decision · F4072 curated fix applied (2026-09-22)
+
+The curated record `data/fiori/apps.ts#F4072` was corrected to Screen Maintenance Requests (slug `screen-maintenance-requests`, trust verified-docs, unread fields emptied), `data/centers/fiori.ts` and the six `data/tx-intel.ts` s4Delta lines (IP01 / IP02 / IP03 / IP10 / IP30 / IP41) no longer name F4072 for scheduling, and `fiori:F4072` dropped `conflicting_sources` (repository evidence re-levelled to repository_verified with the fix dated). F2774 / F5325 remain without records; they are the next Fiori batch's first two ids together with the nine on the brief's list (F2731, F2730, F2730A, F4072 re-verify, F3577, F3364, F1576, F0843, F3289).

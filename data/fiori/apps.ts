@@ -24,7 +24,7 @@ export const FIORI_APPS: FioriApp[] = [
     commonErrors: ["האפליקציה לא מופיעה ב-Launchpad → Business Role/Catalog לא הוקצו (בדוק /UI2/FLPD_CUST).", "OData 403 → הרשאת I_AUART חסרה לסוג הפקודה."],
     troubleshooting: "בדוק הקצאת Business Role ב-PFCG/Business Role Maintenance, ואת ה-Catalog ב-Launchpad Content Manager. שגיאות OData נבדקות ב-/IWFND/ERROR_LOG.",
     cbc: "ב-CBC, מתכנן פותח את F2731, מתכנן פקודת PM01 עם פעולות ורכיבים, ומשחרר — הכל מדפדפן.",
-    similar: ["confirm-jobs", "manage-technical-objects", "schedule-maintenance-plans"],
+    similar: ["confirm-jobs", "manage-technical-objects"],
   },
   {
     id: "F1511", slug: "create-maintenance-request", name: "Create Maintenance Request", he: "פתיחת בקשת אחזקה", module: "PM", type: "Transactional",
@@ -63,18 +63,25 @@ export const FIORI_APPS: FioriApp[] = [
     odata: "API_EQUIPMENT / API_FUNCTIONALLOCATION", cds: "I_Equipment / I_FunctionalLocation", guiTx: ["IE01", "IL01", "IH08"],
     relatedTables: ["EQUI", "IFLOT", "ILOA"], relatedObjects: ["BAPI_EQUI_CREATE"],
     ecc: "ECC: IE01/IL01/IH08.", s4OnPrem: "yes", cloud: "yes",
-    similar: ["manage-maintenance-orders", "schedule-maintenance-plans"],
+    similar: ["manage-maintenance-orders"],
   },
   {
-    id: "F4072", slug: "schedule-maintenance-plans", name: "Schedule Maintenance Plans", he: "תזמון תכניות אחזקה", module: "PM", type: "Analytical",
-    trust: "curated", source: SRC, lastReviewed: LV,
-    purpose: "תזמון תכניות אחזקה מונעת והפקת פקודות/הודעות אוטומטית לפי לוח זמנים או מונה.",
-    problem: "IP30 רץ כ-Job רקע ללא נראות. Fiori נותן לוח תזמון אינטראקטיבי עם תחזית.",
-    explain: { beginner: "קובעים מתי לבצע אחזקה מונעת.", consultant: "מבוסס API_MAINTENANCEPLAN; מחליף IP10/IP30.", technical: "אפליקציה אנליטית מעל תכניות אחזקה + פריטי תחזוקה." },
-    role: "SAP_BR_MAINTENANCE_PLANNER", catalog: "SAP_EAM_BC_MAINT_PLANNER",
-    odata: "API_MAINTENANCEPLAN", guiTx: ["IP10", "IP30"], relatedTables: ["MPLA", "MPOS"],
-    ecc: "ECC: IP10/IP30 (Job).", s4OnPrem: "yes", cloud: "yes",
-    similar: ["manage-maintenance-orders", "manage-technical-objects"],
+    // F4072 · corrected 2026-09-22 (design-audit continuation §11 / research-queue-fiori.md):
+    // the official record is Screen Maintenance Requests (Maintenance Management 2025.001,
+    // loio 5ae0d3b492dc4df3a0eb1b8cad02cda3; Fiori Apps Reference Library appId=F4072;
+    // What's New 2021 "App New"). The scheduling content this row used to carry belongs to
+    // apps the project has no record for (F2774 Mass Schedule Maintenance Plans, F5325
+    // Manage Maintenance Plans) and was NOT moved here. Fields the sources do not state are
+    // empty on purpose; the verification record fiori:F4072 carries the evidence.
+    id: "F4072", slug: "screen-maintenance-requests", name: "Screen Maintenance Requests", he: "סינון וקבלת בקשות אחזקה", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Screen Maintenance Requests) · SAP Fiori Apps Reference Library F4072", lastReviewed: "2026-09-22",
+    purpose: "סינון וקבלה של בקשות אחזקה (Maintenance Requests): לפי התיעוד הרשמי, 'With this app, you can screen and accept maintenance requests'.",
+    problem: "",
+    explain: { beginner: "מסך שבו בוחנים בקשות אחזקה שנפתחו (למשל ב-Create Maintenance Request) ומקבלים אותן להמשך טיפול.", consultant: "לפי Maintenance Management 2025 FPS01 היישום מסנן ומקבל בקשות אחזקה; ב-SAP S/4HANA Cloud Public Edition 2608 הוא מסומן 'Old Version' לצד Manage Maintenance Notifications (F5777), עדות לענן הציבורי בלבד.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מהספרייה (העמוד נטען כ-app shell) ולכן אינם מוצגים; ראו רשומת האימות fiori:F4072." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "yes",
+    similar: [],
   },
   {
     id: "F2336", slug: "manage-production-orders", name: "Manage Production Orders", he: "ניהול הזמנות ייצור", module: "PP", type: "Transactional",
@@ -270,7 +277,7 @@ FIORI_APPS.push(
     guiTx: ["IP10", "IP30", "IW38"], relatedTables: ["MPLA", "MHIS", "AUFK"],
     ecc: "ECC: IP10/IP30 (תזמון/רשימת תוכניות) + IW38 — ללא דשבורד OVP מרוכז.", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA (OVP · תלוי scope items)",
     commonErrors: ["האפליקציה לא מופיעה → catalog SAP_EAM_BC_ORD_MC אולי לא כלול ב-role; או scope items חדשים (Phase Model) ללא BH1/BH2/BJ2.", "כרטיסים ריקים → ודא נתוני תכנון אחזקה קיימים (תוכניות/פקודות)."],
-    similar: ["schedule-maintenance-plans", "manage-maintenance-orders", "manage-maintenance-notifications-orders"],
+    similar: ["manage-maintenance-orders", "manage-maintenance-notifications-orders"],
   },
 );
 

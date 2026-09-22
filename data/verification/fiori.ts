@@ -772,14 +772,16 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: DATE,
         claim:
-          "רשומת המאגר מציגה את F4072 כ-'Schedule Maintenance Plans' (תזמון תכניות אחזקה), סוג Analytical, טרנזקציות " +
-          "GUI IP10 / IP30 ושירות OData API_MAINTENANCEPLAN, ברמת trust 'curated'. אותו צימוד שם-מזהה חוזר " +
-          "ב-data/centers/fiori.ts וב-s4Delta של IP01 / IP10 / IP41 ב-data/tx-intel.ts, בעוד האינדקס הפנימי " +
-          "data/library/fiori-apps.json רושם F4072 = 'Screen Maintenance Requests'. השם 'Schedule Maintenance Plans' " +
-          "עבור F4072 אינו נתמך באף רשומה רשמית שנמצאה.",
-        verificationLevel: "conflicting_sources",
+          "עד 2026-09-22 רשומת המאגר הציגה את F4072 כ-'Schedule Maintenance Plans' (תזמון תכניות אחזקה), סוג Analytical, " +
+          "טרנזקציות GUI IP10 / IP30 ושירות OData API_MAINTENANCEPLAN, ברמת trust 'curated', ואותו צימוד שם-מזהה חזר " +
+          "ב-data/centers/fiori.ts וב-s4Delta של IP01 / IP02 / IP03 / IP10 / IP30 / IP41 ב-data/tx-intel.ts. תוקן " +
+          "ב-2026-09-22: הרשומה שונתה ל-Screen Maintenance Requests (slug screen-maintenance-requests, trust " +
+          "verified-docs; תפקיד, קטלוג, OData, טרנזקציות GUI וטבלאות הושארו ריקים כי המקורות אינם מציינים אותם), " +
+          "רשומת מרכז ה-Fiori תוקנה בהתאם, וההפניות ל-F4072 ב-tx-intel הוחלפו בשמות היישומים המתועדים לתזמון " +
+          "(F2774 / F5325, ללא רשומה בפרויקט). data/library/fiori-apps.json רשם מלכתחילה F4072 = Screen Maintenance " +
+          "Requests.",
+        verificationLevel: "repository_verified",
         repoRef: "data/fiori/apps.ts#F4072",
-        conflictingEvidence: [F4072_SCREEN_MAINT_REQUESTS],
       },
     ],
     status: {
@@ -787,23 +789,23 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       he:
         "לפי Maintenance Management לגרסת 2025 FPS01 ולפי SAP Fiori Apps Reference Library, המזהה F4072 שייך ליישום " +
         "Screen Maintenance Requests (סינון וקבלה של בקשות אחזקה, תחום הודעות תחזוקת מפעל), ולא ליישום 'Schedule " +
-        "Maintenance Plans' כפי שרשומת המאגר מציגה. היישום קיים ב-S/4HANA On-Premise; תזמון תכניות אחזקה ב-Fiori " +
-        "מתועד תחת מזהה אחר (F2774 Mass Schedule Maintenance Plans).",
+        "Maintenance Plans' כפי שרשומת המאגר הציגה עד 2026-09-22 (תוקן). היישום קיים ב-S/4HANA On-Premise; תזמון " +
+        "תכניות אחזקה ב-Fiori מתועד תחת מזהה אחר (F2774 Mass Schedule Maintenance Plans).",
       edition: "on-premise",
       release: "2025.001",
       source: F4072_SCREEN_MAINT_REQUESTS,
       recommendedAction:
-        "לתקן את רשומת המאגר: השם, סוג היישום, טרנזקציות ה-GUI ושירות ה-OData של F4072 צריכים להתאים ל-Screen " +
-        "Maintenance Requests (בקשות אחזקה, QMEL / IW21 / IW28). את תוכן תזמון תכניות האחזקה (IP10 / IP30, " +
-        "API_MAINTENANCEPLAN) להעביר לרשומה נפרדת שתאומת בנפרד; המזהה הרשמי שנמצא בחיפוש זה לתזמון תכניות אחזקה הוא " +
-        "F2774, וכן Manage Maintenance Plans (F5325 בספרייה; What's New 2022 מתאר תזמון תכניות אחזקה ביישום זה), " +
-        "שניהם דורשים רשומה ואימות נפרדים. עד לתיקון אין להציג את הדף הזה כחלופת Fiori ל-IP10 / IP30.",
+        "רשומת המאגר תוקנה ב-2026-09-22 (שם, סוג, slug; השדות שלא נקראו מהספרייה נשארו ריקים). תוכן תזמון תכניות " +
+        "האחזקה (IP10 / IP30, API_MAINTENANCEPLAN) לא הועבר לרשומה זו; המזהים הרשמיים לתזמון הם F2774 (Mass Schedule " +
+        "Maintenance Plans) ו-F5325 (Manage Maintenance Plans, What's New 2022), ושניהם דורשים רשומה ואימות נפרדים " +
+        "לפני שיוצגו כחלופת Fiori ל-IP10 / IP30. לקרוא בעתיד את תפקיד היישום, הקטלוג ושירות ה-OData מהספרייה.",
     },
     xrefs: ["table:QMEL", "tx:IW21", "tx:IW28", "fiori:F1511", "tx:IP10", "tx:IP30"],
     lastVerifiedAt: DATE,
     notes:
       "ארבע רשומות help.sap.com עצמאיות (Maintenance Management 2025.001; What's New 2023 FPS02, 2025 ו-2025 FPS01) " +
-      "ורשומת הספרייה הרשמית מסכימות: F4072 = Screen Maintenance Requests. לפי רשומת What's New in SAP S/4HANA 2021 " +
+      "ורשומת הספרייה הרשמית מסכימות: F4072 = Screen Maintenance Requests (רשומת המאגר תוקנה בהתאם ב-2026-09-22 " +
+      "וסימון הסתירה הוסר). לפי רשומת What's New in SAP S/4HANA 2021 " +
       "(Screen Maintenance Requests, סימון App New, SAP S/4HANA 2021) היישום הופיע לראשונה בגרסת 2021; המידע מהקטע " +
       "בלבד. הסתירה היא בין המאגר לתיעוד הרשמי, ולכן הפתרון הוא תיקון רשומת המאגר; לאחר התיקון ניתן להסיר את סימון " +
       "הסתירה ולהעלות את הרשומה ל-sap_official_verified. בספריית Fiori נמצאה רשומה בשם 'Schedule Maintenance Plan' " +
