@@ -12,7 +12,7 @@ OK   idoc BOMMAT: list=unchanged detail=unchanged erd=n/a palette=n/a glyph=true
 OK   enh Business Transaction Events (BTE): list=unchanged detail=unchanged erd=n/a palette=n/a glyph=true
 {
   "base": "http://localhost:4195",
-  "checkedAt": "2026-09-22T07:15:20.355Z",
+  "checkedAt": "2026-09-22T08:33:55.934Z",
   "consoleErrors": 0,
   "fails": 0,
   "results": [

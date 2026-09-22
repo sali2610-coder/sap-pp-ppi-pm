@@ -27,7 +27,7 @@ OK   phone library busy-stop: {"during":{"busy":"1","stopBtn":true},"stopped":"×
 OK   phone library retry: {"failBefore":true,"answerAfter":64,"failAfter":null}
 {
   "base": "http://localhost:4195",
-  "checkedAt": "2026-09-22T06:33:49.353Z",
+  "checkedAt": "2026-09-22T08:35:23.696Z",
   "fails": 0,
   "results": [
     {

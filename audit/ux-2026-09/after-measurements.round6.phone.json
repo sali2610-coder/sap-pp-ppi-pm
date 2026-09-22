@@ -1,7 +1,7 @@
 {
   "viewport": "1363x936",
   "base": "http://localhost:4195",
-  "measuredAt": "2026-09-22T07:54:32.546Z",
+  "measuredAt": "2026-09-22T08:30:30.806Z",
   "results": [
     {
       "id": "home",
@@ -377,6 +377,47 @@
         {
           "over": 1138,
           "w": 91,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "bp-record",
+      "url": "/neo/best-practices/maintenance-order-process/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "פקודת תחזוקה: מיצירה ושחרור, דרך ביצוע ואישור, ועד סגירה טכנ",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 390,
+      "contentH": 19151,
+      "offenders": [
+        {
+          "over": 621,
+          "w": 133,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 604,
+          "w": 77,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 519,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 480,
+          "w": 147,
           "tag": "a",
           "cls": "nxs-i.nm-sel"
         }

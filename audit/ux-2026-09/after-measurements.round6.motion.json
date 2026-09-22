@@ -1,7 +1,7 @@
 {
   "viewport": "1363x936",
   "base": "http://localhost:4195",
-  "measuredAt": "2026-09-22T06:30:31.478Z",
+  "measuredAt": "2026-09-22T08:33:20.832Z",
   "results": [
     {
       "id": "home",
@@ -224,7 +224,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 1083,
-      "contentH": 7310,
+      "contentH": 7327,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -356,6 +356,22 @@
           "cls": "nxs-i.nm-sel"
         }
       ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "bp-record",
+      "url": "/neo/best-practices/maintenance-order-process/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "פקודת תחזוקה: מיצירה ושחרור, דרך ביצוע ואישור, ועד סגירה טכנ",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 1083,
+      "contentH": 10302,
+      "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
       "dimSample": "",
@@ -626,7 +642,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 1083,
-      "contentH": 1055,
+      "contentH": 3742,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,

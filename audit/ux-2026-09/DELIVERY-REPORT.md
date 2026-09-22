@@ -112,7 +112,7 @@
 # נספח · המשך הביקורת והשלמת הסקופ (2026-09-22, סבב 6-7)
 
 ## א. ענף ו-HEAD
-`design/neo-correction-pass`, ‏HEAD `c7d9789d`, ‏23 קומיטים מעל `cb9cd6f7` (ה-HEAD שבו נסגר הסבב הקודם). ‏`main` ו-Production לא נגעו: אין Merge, אין Promote, אין Deploy לפרודקשן, אין Force push.
+`design/neo-correction-pass`, ‏HEAD `bfcbf503`, ‏27 קומיטים מעל `cb9cd6f7` (ה-HEAD שבו נסגר הסבב הקודם). ‏`main` ו-Production לא נגעו: אין Merge, אין Promote, אין Deploy לפרודקשן, אין Force push.
 
 ## ב. קומיטים לפי משפחה (מעל `f35b58a6`)
 | קומיט | משפחה | תוכן |
@@ -137,7 +137,7 @@
 | `a3f74666` | נגישות | טיפול בשלושת החוסמים של סקירת הנגישות |
 | `d894aa05`, `23ec9532`, `15082d32`, `7c7770c3` | תיעוד | מדידות סבב 6-7, דוח 16 הסעיפים, כתובת ה-Preview, ותיקוני סקירת התיעוד |
 
-## ג. שערי בנייה ובדיקה (HEAD `c7d9789d`)
+## ג. שערי בנייה ובדיקה (HEAD `bfcbf503`)
 | שער | תוצאה |
 |---|---|
 | `tsc --noEmit` | 0 שגיאות |
@@ -147,7 +147,9 @@
 | `check:routes` | מניפסט מסונכרן עם המסלולים הבנויים |
 | `crawl:deadlinks` | pages=7,823, validRoutes=7,823, **DEAD_LINKS=0** |
 | ספרים (ZERO_CONTENT_LOSS) | **574/574** זהים ל-hash הבסיס |
-| `report:coverage` | ‏TOTAL 2,190, ‏L5 137, ‏verified 865, ‏verification_required 1,295, conflicts 30, best practices 17 |
+| `report:coverage` | ‏TOTAL 2,190, ‏L5 137, ‏verified 865, ‏verification_required 1,295, conflicts 30, best practices 17 (מהן 15 רשומות תהליך) |
+| מדגם נגישות (36 מסלולים, 14,537 צמתים, שתי ערכות) | **0 כשלי ניגודיות**; הסורק תוקן כדי לקרוא כל מרחב צבע, וחשף 31/40 כשלים שהיו מוסתרים, שתוקנו |
+| גלישה ברשומות שיטות העבודה ב-390 | **0/17** (הייתה 12/17) |
 
 ## ד. מסלולים חדשים באקספורט (כולם החזירו 200)
 `/exits/CMOD-SMOD/`, `/exits/Implicit-Enhancement/`, `/neo/transactions/IP30H/`,
@@ -158,7 +160,7 @@
 - **§8** שורות PARTIAL: נסגרו בסבבים 5-7, כולל S10-1 ו-S10-3 שנסגרו כמדגם נגישות (0 כשלי ניגודיות בשתי ערכות הנושא). נותרה ACC-6 בלבד, כהחלטת מוצר על המעטפת הישנה של הספרייה.
 - **§9** מצבי AI: ‏27 תרחישים מבוקרים עברו; ‏S7-AI-6 מסומן `MANUAL_LIVE_TEST_REQUIRED` עם תסריט מלא ב-`AI-LIVE-TEST.md`; ‏3D `NOT_APPLICABLE_TO_CURRENT_REPO`.
 - **§10** IP30/IP30H, מסלולי ה-exits, צבעי ERD וסקריפט הקורא: בוצעו.
-- **§11** פונקציות (אצוות 7-9 + PPCC1), טרנזקציות (IP30H), Fiori (F4072), אובייקטים עסקיים (5 זרעים), Best Practices (פרופיל התהליך + 17 רשומות, מהן 11 רשומות תהליך חדשות), קישורים צולבים (מדידה), ERD cardinality, רשימת ה-verification-required, החלטות ההרחבות.
+- **§11** פונקציות (אצוות 7-9 + PPCC1), טרנזקציות (IP30H), Fiori (F4072), אובייקטים עסקיים (5 זרעים), Best Practices (פרופיל התהליך + 17 רשומות, מהן 15 רשומות תהליך), קישורים צולבים (מדידה), ERD cardinality, רשימת ה-verification-required, החלטות ההרחבות.
 - **§12** שערים: ראו סעיף ג.
 
 ## ו. מה נשאר פתוח, ולמה
@@ -169,4 +171,4 @@
 | 80 מזהי פונקציה ללא רשומה | פתוח | קצב מדוד: ‏4 מזהים לאצווה, כ-2M טוקנים לאצווה |
 | `BAPI_ALM_NOTIF_TASK_ADD`, `BAPI_ALM_NOTIF_LIST_FILTER`, `BAPI_CENTRAL_CHARACT_CREATE`, `BAPI_EQMT_INSTALL`, `PPCC1` | `MANUAL_LIVE_TEST_REQUIRED` | דורשים SE37 / SE93 במערכת יעד; ‏sc4sap MCP לא התחבר |
 | `API_PRODUCTION_ORDER_2` | חסם חיצוני | עמודי ה-API Business Hub חוזרים כמעטפת JavaScript |
-| Preview | חסום ב-Vercel Authentication | האקספורט המקומי נבנה מ-HEAD `c7d9789d` ונבדק במלואו |
+| Preview | חסום ב-Vercel Authentication | האקספורט המקומי נבנה מ-HEAD `bfcbf503` ונבדק במלואו |
