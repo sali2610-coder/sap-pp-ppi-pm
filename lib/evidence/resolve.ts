@@ -17,7 +17,7 @@ import {
   bapiHref, cdsHref, enhHref, fioriHref, idocHref, objectHref, txHref,
 } from "@/components/neo-shell/reference/ref-links";
 import { makeId, nameOf, parseId } from "./canonical";
-import { derivedLevel, levelOf, pickStatus } from "./s4-status";
+import { conflictCount, derivedLevel, levelOf, pickStatus } from "./s4-status";
 import { depthInputFor, depthOf, successorOkFor, DEPTH_HE, type Catalog, type DepthInput } from "./depth";
 import {
   S4_STATUS_DOT, S4_STATUS_HE, VERIFICATION_DOT, VERIFICATION_HE,
@@ -192,7 +192,7 @@ export function evidenceBlock(
     })),
     lastVerifiedAt,
     reviewer: rec?.reviewer ?? null,
-    conflicts: evidence.filter((e) => (e.conflictingEvidence?.length ?? 0) > 0).length,
+    conflicts: conflictCount(evidence),
     needsVerification: level === "verification_required" || status.status === "verification_required",
     depth: { level: depth, he: DEPTH_HE[depth] },
   };

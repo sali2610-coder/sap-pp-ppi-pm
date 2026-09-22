@@ -309,3 +309,12 @@ export function levelOf(evidence: Evidence[]): VerificationLevel {
   for (const e of evidence) if (LEVEL_RANK[e.verificationLevel] > LEVEL_RANK[best]) best = e.verificationLevel;
   return best;
 }
+
+/** How many evidence entries carry a recorded contradiction. Both authoring
+ *  forms count: the structured `conflictingEvidence[]` and the flat entry whose
+ *  own level is `conflicting_sources` (the MEASUREMENTPOINT_CREATE / LIST_FILTER
+ *  precedent). Until 2026-09-22 only the array form was counted, so a flat
+ *  record showed "0 conflicts" beside its "מקורות סותרים" pill. */
+export function conflictCount(evidence: readonly Evidence[]): number {
+  return evidence.filter((e) => (e.conflictingEvidence?.length ?? 0) > 0 || e.verificationLevel === "conflicting_sources").length;
+}

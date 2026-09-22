@@ -41,8 +41,8 @@
 `audit/ux-2026-09/SAP-FIXES.md` — 8 תיקונים + 2 איחודים, כל אחד עם EvidenceRecord (מזהה, טענה, Release, Edition, URL/loio, קטע תומך, סטטוס, תאריך, Confidence). מקורות: Simplification List 2025 FPS01 (PDF, v1.36), help.sap.com 2025.001 (רשומות חיפוש), What's New. לא הומצא שם, מספר Note או יורש.
 
 ## 8. ספירות
-- רשומות overlay: 282 (tables 105, functions 42 → 50 אחרי סבב 4, cds 37, transactions 32, enhancements 38, fiori 19, idocs 7, objects 2).
-- `report:coverage`: functions 142 (145 לפני: BOMMAT → IDoc, שני מושגים לא נספרים), idocs 3, enhancements 40 (42 לפני; 40 ברי-מזהה), TOTAL 2,169, L5 125, conflicting_sources 25.
+- רשומות overlay: 290 (tables 105, functions 50, cds 37, transactions 32, enhancements 38, fiori 19, idocs 7, objects 1 — רשומה אחת לאובייקט הרישום היחיד `obj:material-document`; ספירות ישנות של "2" מנו את רשומת הרישום ואת רשומת האימות בנפרד).
+- `report:coverage` (2026-09-22): functions 142 (145 לפני: BOMMAT → IDoc, שני מושגים לא נספרים; 50 עם רשומה, 92 בלי), transactions 1,817 מסלולים (539 עם TX_INTEL, 1,278 בלי; 1,275 בלי TX_INTEL ובלי רשומת TRANSACTIONS = L1), idocs 3, enhancements 40 (42 לפני; 40 ברי-מזהה), TOTAL 2,169, L5 129, conflicting_sources 29 (25 לפני סבב 4; +4 מרשומות הפונקציות עם מקורות סותרים).
 - דפים: 7,802 עמודי index (7,803 לפני סבב 2), crawl 7,804 עמודים / 0 קישורים שבורים, sitemap/routes בסנכרון.
 
 ## 9. ספרים · ZERO_CONTENT_LOSS
@@ -95,7 +95,7 @@
 - סבב 4: `fm:BAPI_ALM_NOTIF_TASK_ADD`, `fm:BAPI_ALM_NOTIF_LIST_FILTER`, `fm:BAPI_CENTRAL_CHARACT_CREATE`, `fm:BAPI_EQMT_INSTALL` (אין רשומה רשמית הנוקבת בשם; ה-SE37 שאלות פתוחות בתור).
 
 ## 17. `conflicting_sources`
-- ללא שינוי: 25 רשומות רשומות ב-`report:coverage`; מהסבב: `tx-intel.ts#IP30.s4Delta` מפנה ל-F4072 כ"תזמון בודד" בעוד המזהה מתועד רשמית כ-Screen Maintenance Requests (פתוח, בתור ה-Fiori); F3364/CORK ו-F3577/F4587 (מזהי אפליקציה) נשארים כפי שנרשמו.
+- 29 רשומות ב-`report:coverage` (25 + 4 מסבב 4; מוצגות עכשיו גם כמספר בבלוק הראיות אחרי תיקון `conflictCount`); מהסבב: `tx-intel.ts#IP30.s4Delta` מפנה ל-F4072 כ"תזמון בודד" בעוד המזהה מתועד רשמית כ-Screen Maintenance Requests (פתוח, בתור ה-Fiori); F3364/CORK ו-F3577/F4587 (מזהי אפליקציה) נשארים כפי שנרשמו.
 
 ## 18. מה דורש אישור אנושי
 1. Merge ל-`main` / Promote to Production — **לא בוצע, לא יבוצע ללא אישור מפורש**.

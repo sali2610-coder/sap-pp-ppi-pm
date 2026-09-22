@@ -9,6 +9,7 @@ import {
   fromS4Object, fromS4Trust, fromTxDisposition, fromVStatus, levelOf, pickStatus,
 } from "../lib/evidence/s4-status.ts";
 import { DEPTH_HE, depthInputFor, depthOf, fresh, successorOkFor } from "../lib/evidence/depth.ts";
+import { conflictCount } from "../lib/evidence/s4-status.ts";
 import { isValidId, makeId, normalizeAlias, parseId } from "../lib/evidence/canonical.ts";
 import { validId } from "../lib/evidence/validate.ts";
 import {
@@ -199,6 +200,10 @@ test("depthOf is cumulative and monotonic; staleness drops L5 to L4", () => {
   assert.equal(fresh("2025-09-01", TODAY), true);
   assert.equal(fresh("2025-08-31", TODAY), false);
   assert.equal(fresh(null, TODAY), false);
+  // clock skew: a stamp one local day ahead of the builder's day is fresh, two days is not
+  assert.equal(fresh("2026-09-22", "2026-09-21"), true);
+  assert.equal(fresh("2026-09-23", "2026-09-21"), false);
+  assert.equal(fresh(TODAY, TODAY), true);
   // successorOk: only replacement-family statuses demand a successor
   assert.equal(successorOkFor({ ...status, successor: undefined }), false);
   assert.equal(successorOkFor({ ...status, status: "unchanged", successor: undefined }), true);
@@ -266,4 +271,19 @@ test("vocabulary Hebrew is complete, em-dash-free, and dots use --status-* token
   for (const v of [...Object.values(S4_STATUS_DOT), ...Object.values(VERIFICATION_DOT)]) {
     assert.match(v, /^var\(--status-[a-z-]+\)$/, v);
   }
+});
+
+
+/* ------------------------------------------- conflicts: both authoring forms */
+
+test("conflictCount counts the flat conflicting_sources entry as well as conflictingEvidence[]", () => {
+  const base = { sourceType: "sap_help", sourceTitle: "t", product: "SAP S/4HANA", edition: "on-premise", accessedAt: "2026-09-22", claim: "c" } as const;
+  const official = { ...base, verificationLevel: "sap_official_verified" } as never;
+  const flat = { ...base, verificationLevel: "conflicting_sources" } as never;
+  const structured = { ...base, verificationLevel: "repository_verified", conflictingEvidence: [{ ...base, verificationLevel: "sap_official_verified" }] } as never;
+  assert.equal(conflictCount([]), 0);
+  assert.equal(conflictCount([official]), 0);
+  assert.equal(conflictCount([official, flat]), 1);
+  assert.equal(conflictCount([structured]), 1);
+  assert.equal(conflictCount([flat, structured, official]), 2);
 });

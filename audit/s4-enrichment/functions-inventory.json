@@ -1,0 +1,469 @@
+{
+ "generatedAt": "2026-09-22",
+ "head": "cb9cd6f7",
+ "registryFunctionIds": 142,
+ "withRecord": 50,
+ "missing": 92,
+ "queue": [
+  {
+   "id": "fm:ARCHIVE_GET_NEXT_OBJECT",
+   "he": "קריאת האובייקט הבא מקובץ ארכיון (ADK) — לקריאה/שחזור/דוחות.",
+   "priority": 1
+  },
+  {
+   "id": "fm:ARCHIVE_OPEN_FOR_WRITE",
+   "he": "פתיחת קובץ ארכיון לכתיבה (ADK) — שלב ראשון בכתיבת אובייקט ארכוב.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_ALM_NOTIF_DATA_DELETE",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_ALM_NOTIF_DATA_MODIFY",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_ALM_NOTIF_PUTINPROGRESS",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_EQUI_CREATE",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_EQUI_INSTALL",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_GOODSMVT_GETITEMS",
+   "he": "שליפת פריטי תנועות מלאי לפי קריטריונים.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_MAINTENANCEPLAN_CREATE",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_MATERIAL_BOM_GROUP_CREATE",
+   "he": "יצירת עץ מוצר (Material BOM) — כותרת ופריטים.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_MATERIAL_GET_DETAIL",
+   "he": "קריאת נתוני אב חומר ברמת מפעל/בסיס.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_MEASUREMENTDOCUM_CREATEM",
+   "he": "יצירת מסמכי קריאת מדידה מרובים (Mass) בקריאה אחת.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_MEASUREMENTPOINT_GETLIST",
+   "he": "רשימת נקודות מדידה (Measuring Points) לפי אובייקט טכני.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_MPID_CREATE",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_OBJCL_CREATE",
+   "he": "שיוך סיווג (Classification) לאובייקט — הקצאת קלאס וערכי מאפיינים.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_PLANNEDORDER_CREATE",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_PLANNEDORDER_GET_DETAIL",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_PR_CREATE",
+   "he": "יצירת דרישת רכש (Purchase Requisition) — לחלפים/שירותים לא-מלאיים.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_PROCORD_COMPLETE_TECH",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_PROCORD_RELEASE",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_PROCORDCONF_CANCEL",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_PRODVERS_CREATE_REPLACE",
+   "he": "יצירה/החלפה של גרסת ייצור (Production Version) — קישור BOM + מתכון/מסלול.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_REQUISITION_GETDETAIL",
+   "he": "שליפת פרטי דרישת רכש (Purchase Requisition) — פריטים, ייחוס חשבונאי, מקור.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_RESERVATION_CREATE1",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_ROUTING_CREATE",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_ROUTING_GETDETAIL",
+   "he": "קריאת פרטי מסלול ייצור/מתכון — פעולות, רצפים, הקצאות.",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_TASKLIST_CREATE",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:BAPI_TRANSACTION_ROLLBACK",
+   "he": "",
+   "priority": 1
+  },
+  {
+   "id": "fm:CR_TEXT_READ",
+   "he": "קריאת טקסט תיאור מרכז עבודה (CRTX).",
+   "priority": 2
+  },
+  {
+   "id": "fm:CR_WORK_CENTER_READ",
+   "he": "קריאת נתוני מרכז עבודה/משאב (Work Center/Resource) — CRHD ונתונים נלווים.",
+   "priority": 2
+  },
+  {
+   "id": "fm:CSAP_BOM_ITEM_MAINTAIN",
+   "he": "תחזוקת פריטי עץ מוצר (BOM Items) — הוספה/שינוי/מחיקה של רכיבים בעץ קיים.",
+   "priority": 2
+  },
+  {
+   "id": "fm:CSAP_MAT_BOM_CREATE",
+   "he": "יצירת עץ מוצר חומר (Material BOM) דרך ממשק CS.",
+   "priority": 2
+  },
+  {
+   "id": "fm:CSAP_MAT_BOM_MAINTAIN",
+   "he": "תחזוקת עץ מוצר חומר (Material BOM) — יצירה/שינוי כותרת ופריטים בקריאה אחת.",
+   "priority": 2
+  },
+  {
+   "id": "fm:CSAP_MAT_BOM_READ",
+   "he": "קריאת עץ מוצר חומר — כותרת ופריטים ברמה אחת (לא פיצוץ רב-שלבי).",
+   "priority": 2
+  },
+  {
+   "id": "fm:CS_BOM_EXPL_FLO_RC1",
+   "he": "פיצוץ עץ מוצר של מיקום פונקציונלי (Functional Location BOM).",
+   "priority": 2
+  },
+  {
+   "id": "fm:CS_BOM_EXPL_MAT_RC1",
+   "he": "פיצוץ עץ מוצר חומר (BOM Explosion) — רשימת רכיבים רב-שכבתית.",
+   "priority": 2
+  },
+  {
+   "id": "fm:CS_BT_BOM_HEADER_READ",
+   "he": "קריאת כותרת עץ מוצר (BOM Header) — STKO לפי מפתח BOM.",
+   "priority": 2
+  },
+  {
+   "id": "fm:CY_CAPACITY_HEADER_READ",
+   "he": "קריאת כותרת קיבולת של משאב (Capacity Header) — KAKO.",
+   "priority": 2
+  },
+  {
+   "id": "fm:CY_CAPACITY_LOAD",
+   "he": "חישוב עומס קיבולת של מרכז עבודה מול קיבולת זמינה.",
+   "priority": 2
+  },
+  {
+   "id": "fm:DIMENSION_GET",
+   "he": "שליפת המימד (Dimension) של יחידת מידה — אורך/מסה/נפח (T006D).",
+   "priority": 2
+  },
+  {
+   "id": "fm:EQUIPMENT_DISMANTLE",
+   "he": "פירוק ציוד מהמיקום/ציוד-אב (Dismantle) — סיום תקופת התקנה.",
+   "priority": 2
+  },
+  {
+   "id": "fm:EQUIPMENT_TEXT_READ",
+   "he": "קריאת טקסט תיאור ציוד (EQKT) לפי מספר ציוד ושפה.",
+   "priority": 2
+  },
+  {
+   "id": "fm:EQUI_TIMESEGMENT_READ",
+   "he": "קריאת פלחי הזמן של הציוד (EQUZ) — תקופות תוקף, התקנות והיסטוריית שיוך.",
+   "priority": 2
+  },
+  {
+   "id": "fm:FUNC_LOCATION_LABEL_READ",
+   "he": "קריאת תווית/מזהה היררכי של מיקום פונקציונלי לפי מחוון מבנה.",
+   "priority": 2
+  },
+  {
+   "id": "fm:ILOA_INHERIT_FROM_FUNCLOC",
+   "he": "ירושת נתוני מיקום/חיוב (ILOA) מהמיקום הפונקציונלי לציוד המותקן בו.",
+   "priority": 2
+  },
+  {
+   "id": "fm:ILOA_READ",
+   "he": "קריאת נתוני מיקום/חיוב (ILOA) — מרכז עלות, מפעל אחזקה, מיקום, ייחוס חשבונאי.",
+   "priority": 2
+  },
+  {
+   "id": "fm:ILOA_UPDATE",
+   "he": "עדכון נתוני מיקום/חיוב (ILOA) לאובייקט טכני.",
+   "priority": 2
+  },
+  {
+   "id": "fm:ISCHED_CALL_GENERATE",
+   "he": "יצירת קריאת אחזקה ופקודה/הודעה מתזמון תכנית (Schedule Call).",
+   "priority": 2
+  },
+  {
+   "id": "fm:ISU_FUNCLOC_GETLIST",
+   "he": "שליפת רשימת מיקומים פונקציונליים לפי קריטריוני בחירה.",
+   "priority": 2
+  },
+  {
+   "id": "fm:K_COSTS_READ",
+   "he": "קריאת עלויות אובייקט CO (Order/Cost object) — מתוכנן מול בפועל.",
+   "priority": 2
+  },
+  {
+   "id": "fm:K_ORDER_SETTLEMENT",
+   "he": "התחשבנות פקודה (Settlement) — העברת עלויות ליעד (מרכז עלות/נכס/WBS).",
+   "priority": 2
+  },
+  {
+   "id": "fm:K_SETTLEMENT_RULE_READ",
+   "he": "קריאת חוק התחשבנות (Settlement Rule) — COBRB.",
+   "priority": 2
+  },
+  {
+   "id": "fm:MAINTENANCE_ITEM_READ",
+   "he": "קריאת פריט תכנית אחזקה (Maintenance Item) — MPOS.",
+   "priority": 2
+  },
+  {
+   "id": "fm:MAINTENANCE_PLAN_SCHEDULE",
+   "he": "תזמון תכנית אחזקה — חישוב מועדי קריאה והפעלת פקודות/הודעות.",
+   "priority": 2
+  },
+  {
+   "id": "fm:MAKT_SINGLE_READ",
+   "he": "קריאת טקסט תיאור חומר (MAKT) לפי חומר ושפה.",
+   "priority": 2
+  },
+  {
+   "id": "fm:MARA_SINGLE_READ",
+   "he": "קריאת רשומת אב חומר ברמת לקוח (MARA) — נתונים כלליים.",
+   "priority": 2
+  },
+  {
+   "id": "fm:MARC_SINGLE_READ",
+   "he": "קריאת נתוני אב חומר ברמת מפעל (MARC) — MRP, ייצור, רכש.",
+   "priority": 2
+  },
+  {
+   "id": "fm:MATERIAL_UNIT_CONVERSION",
+   "he": "המרת כמות בין יחידות מידה של חומר לפי יחס ההמרה (MARM).",
+   "priority": 2
+  },
+  {
+   "id": "fm:MD_CONVERT_MATERIAL_UNIT",
+   "he": "המרת יחידת מידה של חומר בהקשר MRP/תכנון.",
+   "priority": 2
+  },
+  {
+   "id": "fm:MEASUREMENT_POINT_READ",
+   "he": "קריאת פרטי נקודת מדידה (Measuring Point) — characteristic, אובייקט, גבולות.",
+   "priority": 2
+  },
+  {
+   "id": "fm:MEASUREM_DOCUM_RFC_SINGLE_001",
+   "he": "קליטת מסמך מדידה בודד דרך RFC (Measurement Document) — קריאת מונה/מדידה.",
+   "priority": 2
+  },
+  {
+   "id": "fm:NOTIF_ACTIVITY_READ",
+   "he": "קריאת פעילויות שבוצעו בהודעה (Activities) — QMMA.",
+   "priority": 2
+  },
+  {
+   "id": "fm:NOTIF_CAUSE_READ",
+   "he": "קריאת סיבות ליקוי בהודעה (Causes) — QMUR.",
+   "priority": 2
+  },
+  {
+   "id": "fm:NOTIF_ITEM_READ",
+   "he": "קריאת פריטי הודעת אחזקה (Notification Items) — QMFE.",
+   "priority": 2
+  },
+  {
+   "id": "fm:NOTIF_TASK_READ",
+   "he": "קריאת משימות הודעה (Tasks) — QMSM.",
+   "priority": 2
+  },
+  {
+   "id": "fm:ORDER_TYPE_READ",
+   "he": "קריאת סוג פקודה והגדרותיו (Order Type) — T003O.",
+   "priority": 2
+  },
+  {
+   "id": "fm:PM_NOTIFICATION_TYPE_READ",
+   "he": "קריאת סוג הודעת אחזקה והגדרותיו (Notification Type config).",
+   "priority": 2
+  },
+  {
+   "id": "fm:PRIORITY_DETERMINE",
+   "he": "קביעת עדיפות (Priority) לפי סוג עדיפות והגדרת מועדים.",
+   "priority": 2
+  },
+  {
+   "id": "fm:QPK1_CATALOG_READ",
+   "he": "קריאת קטלוג QM (Catalog type) והגדרותיו.",
+   "priority": 2
+  },
+  {
+   "id": "fm:QPK1_CODEGROUP_READ",
+   "he": "קריאת קבוצת קוד (Code Group) מקטלוג QM.",
+   "priority": 2
+  },
+  {
+   "id": "fm:QPK1_CODE_TEXT_READ",
+   "he": "קריאת קוד וטקסט מקטלוג QM (Catalog code + text).",
+   "priority": 2
+  },
+  {
+   "id": "fm:QPK1_INSPCHAR_READ",
+   "he": "קריאת מאפייני בדיקה (Inspection Characteristics) מתכנית/מתכון QM.",
+   "priority": 2
+  },
+  {
+   "id": "fm:RESERVATION_READ",
+   "he": "קריאת הזמנת רכיבים (Reservation) — RESB/RKPF.",
+   "priority": 2
+  },
+  {
+   "id": "fm:RFC_READ_TABLE",
+   "he": "קריאה גנרית של טבלה דרך RFC — שורות ושדות לפי תנאי.",
+   "priority": 2
+  },
+  {
+   "id": "fm:SCHEDULING_HISTORY_READ",
+   "he": "קריאת היסטוריית תזמון של תכנית אחזקה — MHIS.",
+   "priority": 2
+  },
+  {
+   "id": "fm:SERIAL_NUMBER_CREATE",
+   "he": "יצירת מספר סידורי (Serial Number) לחומר — רשומת OBJK/master serial.",
+   "priority": 2
+  },
+  {
+   "id": "fm:SERNR_ADD_TO_DOCUMENT",
+   "he": "שיוך מספרים סידוריים לתעודת מלאי/מסמך (Serial assignment).",
+   "priority": 2
+  },
+  {
+   "id": "fm:STATUS_CHANGE_EXTERN",
+   "he": "שינוי סטטוס משתמש/מערכת חיצוני לאובייקט (General Status Management).",
+   "priority": 2
+  },
+  {
+   "id": "fm:STATUS_CHANGE_INTERN",
+   "he": "שינוי סטטוס מערכת פנימי של אובייקט (תכנותי).",
+   "priority": 2
+  },
+  {
+   "id": "fm:STATUS_OBJECT_CREATE",
+   "he": "יצירת אובייקט סטטוס (JSTO/JEST) ושיוך פרופיל סטטוס לאובייקט עסקי.",
+   "priority": 2
+  },
+  {
+   "id": "fm:STATUS_PROFILE_READ",
+   "he": "קריאת פרופיל סטטוס (Status Profile) — TJ20/TJ30 והסטטוסים המוגדרים.",
+   "priority": 2
+  },
+  {
+   "id": "fm:STATUS_READ",
+   "he": "קריאת סטטוסי מערכת ומשתמש של אובייקט (System/User Status).",
+   "priority": 2
+  },
+  {
+   "id": "fm:STATUS_TEXT_READ",
+   "he": "קריאת טקסט סטטוס (מערכת/משתמש) לאובייקט — להצגה ודיווח.",
+   "priority": 2
+  },
+  {
+   "id": "fm:STATUS_USER_CHANGE",
+   "he": "שינוי סטטוס משתמש לאובייקט (User Status change).",
+   "priority": 2
+  },
+  {
+   "id": "fm:STRUCTURE_INDICATOR_READ",
+   "he": "קריאת מחוון מבנה (Structure Indicator) והגדרות העריכה/אורך לרמות.",
+   "priority": 2
+  },
+  {
+   "id": "fm:T352_READ",
+   "he": "קריאת הגדרות פרופיל קטלוג/סוג הודעה מטבלת ההגדרה.",
+   "priority": 2
+  },
+  {
+   "id": "fm:UNIT_CONVERSION_SIMPLE",
+   "he": "המרת ערך בין שתי יחידות מידה תקניות לפי ISO/T006.",
+   "priority": 2
+  },
+  {
+   "id": "fm:USER_STATUS_CHECK",
+   "he": "בדיקת סטטוס משתמש מול פרופיל — האם פעולה מותרת.",
+   "priority": 2
+  },
+  {
+   "id": "fm:USER_STATUS_TEXT_READ",
+   "he": "קריאת טקסט סטטוס משתמש (User Status text) — TJ30T.",
+   "priority": 2
+  },
+  {
+   "id": "fm:VB_BATCH_DETAIL_GET",
+   "he": "שליפת פרטי אצווה (Batch) — MCH1/MCHA, מאפיינים, תוקף.",
+   "priority": 2
+  },
+  {
+   "id": "fm:VB_BATCH_VERIFY",
+   "he": "בדיקת קיום/תקינות אצווה לחומר/מפעל (Batch verify).",
+   "priority": 2
+  },
+  {
+   "id": "fm:VIEW_MAINTENANCE_CALL",
+   "he": "הפעלת תחזוקת View/Table דרך SM30 בצורה תכנותית (View Cluster/Table Maintenance).",
+   "priority": 2
+  }
+ ]
+}

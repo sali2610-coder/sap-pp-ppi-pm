@@ -101,18 +101,27 @@ export function depthInputFor(catalog: Catalog, facts: Partial<DepthInput>): Dep
   };
 }
 
-const isoToday = (): string => new Date().toISOString().slice(0, 10);
+/** The LOCAL calendar day, not the UTC one: records are stamped by people in
+ *  Asia/Jerusalem, and `toISOString()` was still on the previous day between
+ *  00:00 and 03:00 local, which made a fresh record read "one day in the
+ *  future" (2026-09-22). */
+const isoToday = (): string => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
 
 const utc = (iso: string): number => {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
   return m ? Date.UTC(+m[1], +m[2] - 1, +m[3]) : NaN;
 };
 
-/** true when `at` is within the last 365 days of `today` (inclusive). */
+/** true when `at` is within the last 365 days of `today` (inclusive). A stamp
+ *  one day AHEAD of `today` still counts: the two dates can come from different
+ *  clocks (a writer's local day vs a builder's), never from a real future. */
 export function fresh(at: string | null, today: string, maxDays = 365): boolean {
   if (!at) return false;
   const d = (utc(today) - utc(at)) / 86_400_000;
-  return Number.isFinite(d) && d >= 0 && d <= maxDays;
+  return Number.isFinite(d) && d >= -1 && d <= maxDays;
 }
 
 export function depthOf(i: DepthInput, today: string = isoToday()): DepthLevel {
