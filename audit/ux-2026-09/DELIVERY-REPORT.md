@@ -112,7 +112,7 @@
 # נספח · המשך הביקורת והשלמת הסקופ (2026-09-22, סבב 6-7)
 
 ## א. ענף ו-HEAD
-`design/neo-correction-pass`, ‏HEAD `88e1b7c9`, ‏29 קומיטים מעל `cb9cd6f7` (ה-HEAD שבו נסגר הסבב הקודם). ‏`main` ו-Production לא נגעו: אין Merge, אין Promote, אין Deploy לפרודקשן, אין Force push.
+`design/neo-correction-pass`, ‏הקומיט האחרון של הקוד `73a4fbfe`, ‏29 קומיטים מעל `cb9cd6f7` (ה-HEAD שבו נסגר הסבב הקודם). ‏`main` ו-Production לא נגעו: אין Merge, אין Promote, אין Deploy לפרודקשן, אין Force push.
 
 ## ב. קומיטים לפי משפחה (מעל `f35b58a6`)
 | קומיט | משפחה | תוכן |
@@ -137,7 +137,7 @@
 | `a3f74666` | נגישות | טיפול בשלושת החוסמים של סקירת הנגישות |
 | `d894aa05`, `23ec9532`, `15082d32`, `7c7770c3` | תיעוד | מדידות סבב 6-7, דוח 16 הסעיפים, כתובת ה-Preview, ותיקוני סקירת התיעוד |
 
-## ג. שערי בנייה ובדיקה (HEAD `88e1b7c9`)
+## ג. שערי בנייה ובדיקה (קומיט הקוד האחרון `73a4fbfe`)
 | שער | תוצאה |
 |---|---|
 | `tsc --noEmit` | 0 שגיאות |
@@ -171,4 +171,4 @@
 | 80 מזהי פונקציה ללא רשומה | פתוח | קצב מדוד: ‏4 מזהים לאצווה, כ-2M טוקנים לאצווה |
 | `BAPI_ALM_NOTIF_TASK_ADD`, `BAPI_ALM_NOTIF_LIST_FILTER`, `BAPI_CENTRAL_CHARACT_CREATE`, `BAPI_EQMT_INSTALL`, `PPCC1` | `MANUAL_LIVE_TEST_REQUIRED` | דורשים SE37 / SE93 במערכת יעד; ‏sc4sap MCP לא התחבר |
 | `API_PRODUCTION_ORDER_2` | חסם חיצוני | עמודי ה-API Business Hub חוזרים כמעטפת JavaScript |
-| Preview | חסום ב-Vercel Authentication | האקספורט המקומי נבנה מ-HEAD `88e1b7c9` ונבדק במלואו |
+| Preview | חסום ב-Vercel Authentication | האקספורט המקומי נבנה מקומיט הקוד האחרון `73a4fbfe` ונבדק במלואו |
