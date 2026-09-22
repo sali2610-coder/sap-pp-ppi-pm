@@ -15,8 +15,9 @@
    name in data/fiori/apps.ts disagrees with the official record (F2731,
    F2730, F2730A, F4072, F3577, F3364, F1576, F0843); the fix is a product
    decision on the curated file, logged in
-   audit/s4-enrichment/research-queue-fiori.md together with the refuted
-   draft (F3289) and every open conflict. accessedAt / lastVerifiedAt carry
+   audit/s4-enrichment/research-queue-fiori.md together with every open
+   conflict. fiori:F3289, refuted on 2026-09-02, was rewritten and added on
+   2026-09-22 (DATE22). accessedAt / lastVerifiedAt carry
    the batch stamp 2026-09-02; live re-checks ran 2026-09-05 and 2026-09-07. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
@@ -255,6 +256,23 @@ const F0247A_APP_TOPIC: Evidence = {
     "with net requirements segments that might have coverage issues according to a specified shortage definition'; " +
     "והאפליקציה 'is contained in the business catalog Production Planning - MRP Cockpit (SAP_SCM_BC_MRPCOCKPIT)'. " +
     "הסניפט אינו נוקב במזהה F של האפליקציה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const F3289_APP_TOPIC: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Manage Work Center Capacity | Production Planning and Control",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/74e3356c89914b1495667e7d1f76eb23.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE22,
+  claim:
+    "עמוד היישום בתיעוד Production Planning and Control של S/4HANA On-Premise 2025 FPS01 (לפי קטע תוצאת החיפוש; " +
+    "גוף הדף לא נקרא): 'With this app, you can visualize the capacities of work centers, and the load on work " +
+    "centers', 'Manage shifts for a work center to enable a better utilization spread across an evaluation " +
+    "horizon', 'Copy shifts across multiple work centers within your area of responsibility' ו-'Navigate to apps " +
+    "that let you manage orders and operations'.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -2374,6 +2392,99 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "Maintenance Items) נקוב במקורות כזוגו של F5325 אך אין לו רשומה בפרויקט, ולכן אינו ב-xrefs. סוג היישום " +
       "Transactional ברשומת הקטלוג נגזר מהפונקציה המתועדת (עיבוד ושינוי תכניות) ולא נקרא מהספרייה. לא בוצעה בדיקה " +
       "במערכת SAP חיה.",
+  },
+
+  /* --------------------------------------------------------- fiori:F3289 */
+  {
+    id: "fiori:F3289",
+    evidence: [
+      F3289_APP_TOPIC,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Work Center Capacity | What's New in SAP S/4HANA 2020",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/2acb634615974535b4fabdc710937599.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        accessedAt: DATE22,
+        claim:
+          "רשומת What's New לגרסת 2020 מציגה בפרטים הטכניים 'App New 31L PP-CFS-CE SAP S/4HANA 2020', כלומר רכיב " +
+          "PP-CFS-CE ופריט היקף 31L; התוכן העסקי בקטע: 'You can edit the start and end time of a shift from the " +
+          "Shifts tab directly'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Work Center Capacity | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/7b61621545224d24be7b20624523dcdf.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE22,
+        claim:
+          "רשומת What's New לגרסת 2021 חוזרת על 'App New 31L PP-CFS-CE' עבור S/4HANA 2021; התוכן העסקי בקטע: 'you " +
+          "can select a date range or set an offset value before and after the current date in the Evaluation " +
+          "Horizon filter'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Work Center Capacity | Planning",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f296651f454c4284ade361292c633d69/ce274262f5584b0f9049022063100935.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE22,
+        claim: "רשומת What's New לגרסת 2023 מציגה בפרטים הטכניים 'App Changed 3LQ PP-CFS-CE SAP S/4HANA 2023'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הקטלוג המתוחזק של יישומי ה-Fiori בפרויקט (FIORI_APPS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim:
+          "רשומת המאגר מצמידה ליישום את הטרנזקציות CM01 ו-CM07 (guiTx) ומתארת את מצב ECC כ-'CM01/CM07 (הערכת " +
+          "קיבולת, ללא גרף ניצולת אינטראקטיבי)', בסימון אמון 'curated'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/fiori/apps.ts#F3289",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori של S/4HANA להצגת הקיבולות של מרכזי עבודה והעומס עליהם ולניהול משמרות לאורך אופק ההערכה, " +
+        "מתועד בגרסת 2025 FPS01 תחת Production Planning and Control. What's New 2020 ו-2021 רושמים אותו כיישום חדש " +
+        "ברכיב PP-CFS-CE ובפריט ההיקף 31L; What's New 2023 רושם אותו תחת 3LQ, ולכן שיוך פריט ההיקף אינו אחיד " +
+        "במקורות של SAP. בפרויקט הוא מוצמד ל-CM01/CM07 של ECC לפי רשומת המאגר בלבד.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: F3289_APP_TOPIC,
+      recommendedAction:
+        "להשתמש ביישום להצגת העומס מול הקיבולת במרכזי עבודה ולניהול משמרות, לצד CM01/CM07 (הצימוד ל-CM01/CM07 " +
+        "נשען על רשומת המאגר; לא נמצאה הכרזת החלפה של SAP). לאמת במערכת את פריט ההיקף שהופעל (31L או 3LQ), את " +
+        "התפקיד העסקי ואת הקטלוג שהוקצו למשתמשים.",
+    },
+    xrefs: ["tx:CM01", "tx:CM07", "table:CRHD", "table:KAKO", "fiori:F3951"],
+    lastVerifiedAt: DATE22,
+    notes:
+      "נוסף 2026-09-22 כטיוטה מחודשת לרשומה שנדחתה ב-2026-09-02: הציטוט 'View the capacity requirement and " +
+      "available capacity for work centers. Reschedule the operation start and end date if required' הוסר, כי אינו " +
+      "מופיע באף קטע חיפוש וגוף הדף הוא מעטפת JavaScript. סתירה בשיוך פריט ההיקף: What's New 2020 (loio " +
+      "2acb634615974535b4fabdc710937599) ו-2021 (loio 7b61621545224d24be7b20624523dcdf) נוקבים ב-'31L PP-CFS-CE'; " +
+      "What's New 2023 (loio ce274262f5584b0f9049022063100935, 2023.000) מציג 'App Changed 3LQ PP-CFS-CE'; What's " +
+      "New של Cloud 2408.2 (loio a16c230ccde2438c93f700e0e5565124, 2408.07) מתייג את קבוצת יישומי Capacity " +
+      "Planning, ובהם Manage Work Center Capacity, כ-'Scope Item 3LQ (Production Capacity Leveling) 31L (Production " +
+      "Capacity Evaluation)'. הרכיב PP-CFS-CE עקבי בכל הרשומות. המזהה F3289 אינו מופיע בקטעי החיפוש של " +
+      "On-Premise; הוא מופיע בכתובת SAP Fiori Apps Library בכותרת 'Manage Work Center Capacity - Fiori Apps " +
+      "Library' (https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F3289')/S21OP, " +
+      "גוף הדף לא נקרא) וברשומות What's New של Cloud Public Edition, למשל 2602 (loio " +
+      "ddbe768b47ca46b39d466cb7315c1081, 2602.00): 'App ID: F3289 New 31L PP-CFS-CE' ו-'Application Component " +
+      "PP-CFS-CE-2CL (Capacity Evaluation)'. לא אומתו במקור של SAP: התפקיד SAP_BR_PRODN_PLNR, הקטלוג " +
+      "SAP_SCM_BC_CFS, הטבלאות CRHD/KAKO, הזמינות מ-Cloud 2002 והטענה שהיישום תומך רק במרכזי עבודה של PP ולא PM " +
+      "(data/fiori/apps.ts#F3289); קטע What's New של Cloud 2408.2 מזכיר הצגת תאריכי פעולה של פקודות אחזקה ביישומי " +
+      "Capacity Planning, ולכן טענת ה-PP בלבד דורשת בדיקה. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
 ];

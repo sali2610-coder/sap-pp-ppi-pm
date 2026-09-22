@@ -51,12 +51,19 @@
    Variant Transactions page were added at the gate because the recommendation leans on them, and
    because the SE93 variant transaction is classified Modification while the variant itself is
    Customizing. Two audited drafts (enhancement-spot, vofm) were refuted at the gate and are
-   queued, not written. */
+   queued, not written.
+   Batch 5 (written and access-stamped 2026-09-22, const DATE22): the two re-drafted techniques that
+   batch 4 refuted, enhancement-spot and vofm, each the audited draft with the verdict downgrades
+   applied (neither verdict carried a fixedRecord). Both carry an authored "unchanged" status bounded
+   to documentation continuity: the technique is documented on the SAP ERP and S/4HANA 2025 FPS01
+   sides and no official source found describes a change. vofm keeps its repository row at
+   verification_required for the Access Key, BAdI-preference and PP-example parts. */
 import type { VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
 const DATE14 = "2026-09-14";
 const DATE21 = "2026-09-21";
+const DATE22 = "2026-09-22";
 
 export const ENH_VERIFICATION: VerificationRecord[] = [
   {
@@ -4217,5 +4224,197 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
     ],
     lastVerifiedAt: DATE21,
     notes: "שיטה (2026-09-21): כעשר שאילתות ב-scripts/sap-help-search.mjs על פני ארבעה מערכי מוצר (SAP_S4HANA_ON-PREMISE, SAP_S4HANA_CLOUD, SAP_ERP, ABAP_PLATFORM_NEW) וחיפוש רשת אחד מוגבל לדומיינים הרשמיים. כל הציטוטים הועתקו מחלונות הסניפט של שירות החיפוש לאחר ניקוי ישויות HTML (nbsp, ndash, amp) וכיווץ רווחים, ולכן הרווחים הפנימיים אינם בהכרח זהים לפלט הגולמי. מה שאומת מול המקור: השם Transaction Variants and Screen Variants, הסיווג Customizing של וריאנט הטרנזקציה והמסך מבחינת התנהגות בשדרוג ובהעברה לעומת הסיווג Modification של טרנזקציית הווריאנט, הטרנזקציה SHD0, יכולות הטכניקה (ערכי ברירת מחדל, ביטול סטטוס מוכן-לקלט, הסתרת אלמנטים ותפריטים), טרנזקציית הווריאנט הנוצרת ב-SE93, והשימוש בפועל בתעשיות תהליכיות (COHVPI, COOISPI) ובתחזוקת מפעל (שיוך וריאנט לפונקציית שותף). הרשומה נושאת שש ראיות. העמוד Restrictions והעמוד Variant Transactions נכתבו כראיות 5 ו-6 לאחר ביקורת נגדית, מפני ששדה ההמלצה נשען עליהם: מגבלת הוספת האלמנטים, והסיווג Modification של שלב ה-SE93 שאינו זהה לסיווג Customizing של הווריאנט עצמו. שאר קטלוג ההרחבות נושא בין ארבע לשבע ראיות לרשומה, ולכן שש אינו חורג מהמוסכמה. ראיה משלימה שנראתה ולא נכתבה: העמוד Transport באותו מדריך ובאותה גרסה (loio 7df63a07015111d396480000e82de14a) קובע 'For a transaction variant R3TR STVI <name of transaction variant>, For a screen variant R3TR SCVI <name of screen variant>'. ועוד: אותו מדריך Changing the SAP Standard (BC) מוגש גם תחת מערך התיעוד של SAP S/4HANA On-Premise, אך בגרסת 1709 Latest בלבד (אותו loio bfec07845db911d295ae0000e82de14a, https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2b28ffa716c24348903f8ffbfeb81df8/bfec07845db911d295ae0000e82de14a.html?locale=en-US&state=PRODUCTION&version=1709.latest), ושם הוחזרו חלונות סניפט נוספים: 'Restrictions May not be used with selection screens Range (Validity) Transactions, both client-dependent and cross-client Access in the System Tools > Accelerated SAP > Personalization (transaction' (נקטע), 'Hiding various screen elements and menu functions, or even entire screens Adjusting table control settings' ו-'You may also assign different variants to specific users. You can do this by using variant transactions'. מפני שגרסת ההגשה הזו היא 1709, הראיה שנכתבה לגרסה הנוכחית היא ההגשה של ABAP platform. מה שלא אומת: אף עמוד רשמי שנמצא אינו קובע את מעמד הטכניקה בהמרה ל-S/4HANA במפורש, ולכן הקביעה 'ללא שינוי' נשענת על המשכיות התיעוד ועל אותו מזהה נושא בשני מערכי המוצר, ולא על הצהרת SAP ייעודית. ממצאים תחומים של חיפוש, לא הוכחות היעדר: בשאילתה 'What's New transaction variant screen variant SHD0' תחת SAP_S4HANA_ON-PREMISE עם size 21, אף אחת מ-21 הרשומות שהוחזרו אינה שייכת למערך What's New; בשאילתה 'transaction variant simplification not supported S/4HANA' לא הוחזרה רשומת פישוט הנוגעת לטכניקה; בשאילתה 'SHD0' באותו מוצר עם size 21, 19 מ-21 הרשומות מכילות את המחרוזת SHD0 בכותרת או בסניפט, בהן עמודי 2025 FPS01 מהתחומים Retail, JIT, Revenue and Cost Accounting, Policy Management, Sales, FI-GL, Financial Operations ו-Production Orders (PP-SFC). שים לב שהשדה total בפלט הסקריפט הוא מספר הרשומות שהוחזרו בעמוד ולא גודל הקורפוס. Public Cloud: תחת המוצר SAP_S4HANA_CLOUD השאילתה 'SHD0' החזירה שלוש רשומות בלבד, כולן עמודי API שאינם עוסקים בטכניקה (APIs for Sales, APIs for Warehousing), והשאילתה 'transaction variant' לא החזירה עמוד המגדיר את הטכניקה; במקום זאת התיעוד של Public Cloud מתאר התאמת מסכים קלאסיים דרך SAP Screen Personas ('Adapting UIs for Classic Applications', loio 2515e5ca2de74bc18255e5a62ecd2a0d, גרסה 2608.500), ועמוד Flavor Maintenance במדריך הניהול של Screen Personas מונה 'How to Create a Transaction Variant' תחת Related Information. לא נטען מכך שהטכניקה אינה זמינה ב-Public Cloud. השוואה לרשומת המאגר (data/enhancements.ts#transaction-variant): ההגדרה 'התאמת מסך ללא קוד, הסתרה/חובה/ערך ברירת מחדל לשדות בטרנזקציה', דרך המימוש 'SHD0 (Transaction Variant) / Screen Variant; שיוך לטרנזקציה או Variant Transaction' והטרנזקציה SHD0 נתמכות במקורות הרשמיים שצוטטו. החצי השני של השדה s4 ברשומת המאגר, 'ב-Fiori התאמה דרך UI Adaptation', אינו נתמך כאמירה על וריאנט טרנזקציה: העמוד Adapt User Interfaces at Runtime בספר SAP Fiori Overview לגרסת 2025 FPS01 (loio a80e623dc43a4fe5b1531695c2f7aeb5) אכן קובע 'UI adaptation at runtime enables key users to perform certain code-free adaptations of SAP Fiori apps' ו-'UI adaptation at runtime (RTA) is a plug-in for the SAP Fiori launchpad', אך אינו מזכיר וריאנטי טרנזקציה ואינו מציג את עצמו כתחליף להם, ולכן לא נכתב successor ולא סומן דגל חלופת Fiori. אזהרת שגיאת כתיב במקור: העמוד Technical Information on Transaction Variants בספר Repetitive Manufacturing (PP-REM) קיים בשתי הגרסאות (SAP S/4HANA 2025 FPS01 ו-SAP ERP 6.18, loio be68b6531de6b64ce10000000a174cb4) ומתאר 'A transaction variant consists of several screen variants', ובשתי ההגשות כאחת הסניפט כולל את הצירוף 'Creating your own variants: You can also create your own transaction and screen variants without using existing ones (transaction SDH0)'; SDH0 היא שגיאת כתיב של SAP עצמה, היא שרדה גם לגרסת 2025.001, ואין לרשום אותה כטרנזקציה. ה-xrefs: tx:SHD0, tx:SE93, tx:COHVPI ו-tx:COOISPI נקובים בראיות; tx:IW31 ו-tx:IW32 הם הקשר הפרויקט בלבד ואינם נקובים בעמוד התחזוקה שצוטט; שלוש הטכניקות השכנות הן הקשר קטלוגי, ואף מקור רשמי אינו מציג אותן כחלופה מוסמכת לוריאנט טרנזקציה. הסטטוס הנגזר שהאפליקציה מציגה לפני רשומה זו: 'משתנה ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', שכן components/neo-shell/reference/enh-data.ts מעביר את השדה s4 של הרשומה כ-changed ל-fromEccS4Block. גוף עמודי help.sap.com לא נקרא באף שלב (מעטפת JavaScript), ה-MCP ל-ABAP לא היה זמין (Connection closed), ולא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer: אף רשומה בתשעת קבצי data/verification/** אינה נושאת אותו."
+  },
+  {
+    id: "enh:technique:enhancement-spot",
+    aliases: [
+      "Enhancement Spot",
+      "Simple Enhancement Spot",
+      "Composite Enhancement Spot"
+    ],
+    status: {
+      status: "unchanged",
+      he: "Enhancement Spot הוא המיכל של ה-Enhancement Framework: לפי מדריך Enhancement Framework של ABAP platform 2025 FPS01, כל enhancement spot element definition חייבת להיות משויכת לפחות ל-Enhancement Spot אחד, כל BAdI הוא חלק מ-Enhancement Spot, וה-Spot הוא שמשמש כאובייקט ההעברה (transport object). הטכניקה מתועדת בשני הצדדים: בתיעוד SAP ERP 6.0 EHP8 (Enterprise Services in Logistics) BAdI זמין 'in enhancement spot ECH_SPOT_SE_ECO', ובתיעוד פקודות הייצור (PP-SFC) של SAP S/4HANA On-Premise 2025 FPS01 מופעל מימוש BAdI בתוך Enhancement Spot בשם WORKORDER_UPDATE. אף עמוד רשמי שנמצא אינו מתאר שינוי בטכניקה עצמה במעבר מ-ECC ל-S/4HANA, ולכן המעמד הוא זמינות ללא שינוי ברמת הטכניקה, ולא קביעה על Enhancement Spot ספציפי או על נקודות ההרחבה המפורשות ש-SAP סיפקה בתוכו.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Cost Distribution at Order Split | Production Orders (PP-SFC)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/34de0103497c4b80a7c7fbf6952ff971/8200b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "רשומת העמוד Cost Distribution at Order Split בספר Production Orders (PP-SFC) לגרסת S/4HANA On-Premise 2025 FPS01 (loio 8200b753128eb44ce10000000a174cb4, תאריך 2026-02-24) מחזירה שני קטעי סניפט נפרדים, המופרדים בסימן השמטה של שירות החיפוש: 'spot WORKORDER_UPDATE.' ו-'automatically post the goods issue for the by-product in the child order, activate the BAdI implementation CO_SPLIT_COMPONENT_POST_GI (Automatic GI for By-Product in Child Order of Order Split) in the enhancement'. הקטעים מראים ש-Enhancement Spot בשם WORKORDER_UPDATE משמש בתיעוד פקודות הייצור של S/4HANA 2025 FPS01 כמיכל שבו מפעילים מימוש BAdI. בשאילתה אחרת על אותה רשומה ('Cost Distribution at Order Split enhancement spot WORKORDER_UPDATE') הסניפט מחזיר גם את הקטע 'Order of Order Split) in the enhancement spot WORKORDER_UPDATE.', הקושר בתוך קטע אחד את סוף שם המימוש לשם ה-Spot. הסניפט אינו נוקב בשם BAdI definition, בממשק או בטרנזקציה, ואינו מתייחס להזמנת תחזוקה. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      recommendedAction: "בהרחבות חדשות בתחזוקת מפעל ובתעשיות תהליכיות לרכז את הגדרות ה-BAdI ואת נקודות ההרחבה של תהליך אחד בתוך Enhancement Spot, משום שלפי מדריך Enhancement Framework ה-Spot הוא אובייקט ההעברה של ה-BAdIs שבו. לפני מימוש בנקודת הרחבה מפורשת ש-SAP סיפקה בתוך Spot, לעיין ברשומה enh:technique:explicit-enhancement, שבה מתועדת ההמלצה של תיעוד S/4HANA שלא להשתמש בנקודות כאלה להרחבות לקוח. שם ה-Spot, ה-BAdI definitions שבו והמימושים הקיימים תלויים בגרסה ובחבילת התמיכה, ויש לאמת אותם במערכת (SE18, SE20, SE80) לפני המימוש."
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enhancement Spots | Enhancement Framework",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/46a2cfc13d25463b8b9a3d2a3c3ba0d9/91f1e540f8648431e10000000a1550b0.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE22,
+        claim: "רשומת העמוד Enhancement Spots בספר Enhancement Framework של ABAP platform לגרסת 2025 FPS01 (loio 91f1e540f8648431e10000000a1550b0) קובעת: 'The enhancement spot element definition and the corresponding enhancement spot element calls make up the definition of an explicit enhancement option', 'Each enhancement spot element definition must be assigned to at least one enhancement spot' ו-'Note Implicit enhancement options do not need to be assigned to enhancement spots'. הסניפט אינו נוקב בטרנזקציה ואינו מתייחס ל-S/4HANA או ל-ECC. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enhancement Concept | Enhancement Framework",
+        url: "https://help.sap.com/docs/ABAP_PLATFORM_NEW/46a2cfc13d25463b8b9a3d2a3c3ba0d9/42d356adddec036fe10000000a114cbd.html?locale=en-US&state=PRODUCTION&version=202510.001",
+        product: "ABAP platform",
+        edition: "on-premise",
+        release: "202510.001",
+        accessedAt: DATE22,
+        claim: "רשומת העמוד Enhancement Concept בספר Enhancement Framework של ABAP platform לגרסת 2025 FPS01 (loio 42d356adddec036fe10000000a114cbd) קובעת: 'Each BAdI is part of an enhancement spot and it is the spot that functions as a transport object', ומגדירה enhancement options כ-'positions in repository objects where you can make enhancements'. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Find Engineering Change Request by Material | Enterprise Services in Logistics",
+        url: "https://help.sap.com/docs/SAP_ERP/1a781c11dd4f41829c798db4d8ff3a41/9f99eaf0ba7711da2b24000f20dac9ef.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE22,
+        claim: "רשומת העמוד Find Engineering Change Request by Material בספר Enterprise Services in Logistics של תיעוד SAP ERP, תווית הגרסה '6.0 EHP8 Latest' (versionId 6.18.latest, loio 9f99eaf0ba7711da2b24000f20dac9ef), מראה שהטכניקה מתועדת גם בצד ה-ECC: 'The Inbound/Outbound processing BAdI for ECR by Material (ECH_SE_ECR_SMPL_BY_MAT_QR) Business Add-In (BAdI) is available in enhancement spot ECH_SPOT_SE_ECO'. הרשומה עוסקת בשירות ארגוני לבקשת שינוי הנדסי, לא בתחזוקת מפעל או בתעשיות תהליכיות, ואינה נוקבת בטרנזקציה. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Cost Distribution at Order Split | Production Orders (PP-SFC)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/34de0103497c4b80a7c7fbf6952ff971/8200b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "רשומת העמוד Cost Distribution at Order Split בספר Production Orders (PP-SFC) לגרסת S/4HANA On-Premise 2025 FPS01 (loio 8200b753128eb44ce10000000a174cb4, תאריך 2026-02-24) מחזירה שני קטעי סניפט נפרדים, המופרדים בסימן השמטה של שירות החיפוש: 'spot WORKORDER_UPDATE.' ו-'automatically post the goods issue for the by-product in the child order, activate the BAdI implementation CO_SPLIT_COMPONENT_POST_GI (Automatic GI for By-Product in Child Order of Order Split) in the enhancement'. הקטעים מראים ש-Enhancement Spot בשם WORKORDER_UPDATE משמש בתיעוד פקודות הייצור של S/4HANA 2025 FPS01 כמיכל שבו מפעילים מימוש BAdI. בשאילתה אחרת על אותה רשומה ('Cost Distribution at Order Split enhancement spot WORKORDER_UPDATE') הסניפט מחזיר גם את הקטע 'Order of Order Split) in the enhancement spot WORKORDER_UPDATE.', הקושר בתוך קטע אחד את סוף שם המימוש לשם ה-Spot. הסניפט אינו נוקב בשם BAdI definition, בממשק או בטרנזקציה, ואינו מתייחס להזמנת תחזוקה. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      }
+    ],
+    xrefs: [
+      "enh:technique:new-badi",
+      "enh:technique:classic-badi",
+      "enh:technique:explicit-enhancement",
+      "enh:technique:implicit-enhancement",
+      "enh:badi:WORKORDER_UPDATE",
+      "tx:SE18",
+      "tx:SE19",
+      "tx:SE20",
+      "tx:SE80"
+    ],
+    lastVerifiedAt: DATE22,
+    notes: "שיטה: ריצות של scripts/sap-help-search.mjs ב-2026-09-22 על שלושה מערכי מוצר (SAP_S4HANA_ON-PREMISE, ABAP_PLATFORM_NEW, SAP_ERP). כל כתובת, loio ו-versionId הועתקו מרשומת שירות החיפוש כפי שהוחזרה; גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript), ולכן כל טענה רשמית תחומה בכותרת ובסניפט של הרשומה. לא נטען אימות HTTP של הכתובות: הכתובות מאומתות משום ששירות החיפוש החזיר אותן, לא משום שהן מחזירות קוד 200. המעמד עוגן ישירות בעמוד S/4HANA On-Premise בגרסת 2025.001, ולכן לא נדרש גשר בין מספרי הגרסה של ABAP platform (202510.001) לבין S/4HANA (2025.001); שני מרחבי ה-versionId נשמרו נפרדים בכל ראיה. רשומות רשמיות נוספות שנראו ולא צוטטו כראיה: 'Order Split' (What's New in SAP S/4HANA 2023, versionId 2023.000, loio 981c11df67df4b3eb91aa449f5dc1e72, https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f296651f454c4284ade361292c633d69/981c11df67df4b3eb91aa449f5dc1e72.html?locale=en-US&state=PRODUCTION&version=2023.000), שבה המשפט הרציף 'A new BAdI implementation CO_SPLIT_COMPONENT_POST_GI (Automatic GI for By-Product in Child Order of Order Split) is now available in the enhancement spot WORKORDER_UPDATE' (רכיב PP-PEO-SFE); 'ABAP Platform' (ABAP platform 202510.001, loio 48ba073157b85295e10000000a42189b): 'ABAP platform is the basis of the SAP S/4HANA product line'; 'BAdI Implementations for Online Check' (Product Safety and Stewardship, S/4HANA 2025.001, loio d4a1ce5314894208e10000000a174cb4): 'If the relevant BAdI was migrated to an enhancement spot, create an enhancement spot implementation. Use the transaction BAdI Builder: Initial Screen for Definitions ( SE18 )'; 'Creating an Enhancement Implementation and BAdI Implementation' (ABAP Development Tools for Eclipse, loio 18ef8ab2bd604516bbe7c0d297ee2476): 'Run transaction SE20. The Enhancements: Initial Screen is opened'; רשומה נוספת של ABAP platform (loio 2be79195cf874bd3bd612ac30159dcb8) מזכירה 'the SMIME enhancement spot in Enhancements (transaction SE20)'; 'How to Implement a BAdI' (Enhancement Framework, loio 44f518d884056c30e10000000a114a6b): 'In the Object Navigator (transaction SE80), open the enhancement spot'; וכן 'Creating, Editing, and Deleting Enhancement Spots' (loio 3b0a39426f79f83ae10000000a1550b0), 'Enhancement Builder' (loio 099bf240a5668d38e10000000a155106) ו-'Creating BAdI Enhancement Spots' (ADT, loio 2101737de99648dca92e692a2a4ec46e). SE19 לא הופיעה באף סניפט שנמצא בהקשר של Enhancement Spot, ולכן ה-xref אליה הוא הקשר הקטלוג בלבד ואינה נזכרת בפעולה המומלצת. מול רשומת המאגר data/enhancements.ts#enhancement-spot: התיאור 'מיכל המגדיר נקודות הרחבה מפורשות ו-BAdIs חדשים' תואם את הסניפטים; 'SE20 ליצירת Spot' נתמך חלקית (SE20 מופיעה בסניפטים כמסך Enhancements, לא כהוראת יצירה של Spot); 'זמין מ-NW7.0' ו-'Clean Core' לא אומתו באף רשומה רשמית שנמצאה ולכן לא נכתבו במעמד. לפי תור המחקר (audit/s4-enrichment/research-queue-enhancements.md) המעמד הנגזר שהאפליקציה מציגה היום לרשומה זו הוא 'משתנה ב-S/4HANA', שנגזר מבלוק ה-s4 של רשומת המאגר; המעמד המחובר כאן מחליף אותו ב'ללא שינוי ב-S/4HANA' כמו בתקדים enh:technique:new-badi, משום ששדה ה-s4 במאגר הוא המלצה ולא תיאור שינוי. המעמד unchanged נשען על תיעוד הטכניקה בשני הצדדים ועל היעדר אמירת שינוי, לא על אמירה רשמית מפורשת שהטכניקה לא השתנתה. ההגבלה על נקודות הרחבה מפורשות ש-SAP סיפקה (ENHANCEMENT-POINT ו-ENHANCEMENT-SECTION) מתועדת ברשומה enh:technique:explicit-enhancement ואינה מצוטטת כאן כראיה. לא נמצא עמוד רשמי הנוקב בשם Enhancement Spot ייעודי להזמנת תחזוקה (PM) או לפקודת תהליך (PP-PI); הקשר של WORKORDER_UPDATE לפקודות ייצור נשען על עמוד PP-SFC, והרשומה enh:badi:WORKORDER_UPDATE נושאת את שמו התיאורי הרשמי. מהדורת Public Cloud לא נבדקה. ה-MCP ל-ABAP לא היה זמין, ולא בוצע אימות ב-SE18, SE20 או SE80 במערכת חיה."
+  },
+  {
+    id: "enh:technique:vofm",
+    status: {
+      status: "unchanged",
+      he: "בתיעוד SAP S/4HANA On-Premise לגרסה 2025 FPS01 הטרנזקציה VOFM עדיין מתועדת ככלי לשגרות לקוח: בספר Sales, בנושא 'Maintaining Free Goods Master Data', נכתב 'You can enhance the rules for determining the free goods quantity with your own routines (Transaction VOFM' ... '(Transaction VOFM in menu point Formulas )', שני חלקים של אותו סניפט המופרדים בסימן השמטה של שירות החיפוש, ואותו נושא (אותו loio) נושא את אותו משפט גם תחת SAP ERP 6.18. רשימת הפישוט לגרסה 2025 FPS01 אינה מכילה פריט פישוט ל-VOFM: המחרוזת מופיעה בה פעם אחת, בפריט של OGSD שאינו עוסק בטכניקה עצמה. לכן 'ללא שינוי' כאן פירושו המשך התיעוד של הטכניקה ב-On-Premise ולא יותר. המשפט במאגר 'נתמכות; להעדיף BAdI/Extension כשאפשר', שממנו נגזר עד כה 'משתנה ב-S/4HANA', אינו נתמך באף מקור SAP שאותר.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: {
+        sourceType: "sap_help",
+        sourceTitle: "Maintaining Free Goods Master Data | Sales",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/5f8bc95360267214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "רשומת החיפוש של help.sap.com לנושא 'Maintaining Free Goods Master Data' (deliverable: Sales, SAP S/4HANA 2025 FPS01, loio 5f8bc95360267214e10000000a174cb4, תאריך 2026-02-24) מביאה בסניפט: 'You can enhance the rules for determining the free goods quantity with your own routines (Transaction VOFM' ... '(Transaction VOFM in menu point Formulas )', שני חלקים של אותו סניפט המופרדים בסימן השמטה של שירות החיפוש, ובשאילתה אחרת גם 'The condition technique is used for free goods in the same way as for pricing'. כלומר בגרסה 2025 FPS01 מתועדת הרחבת כללי כמות מוצרי החינם בשגרות לקוח דרך VOFM, תחת Formulas. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified"
+      },
+      recommendedAction: "לפני ההסבה: לרשום במערכת המקור את השגרות שהלקוח יצר ב-VOFM (Requirements, Formulas, Data Transfer) ואת המקומות שבהם הן משויכות, למשל נוהל תמחור, בקרת העתקה ו-OVA8 לשגרת No Check באשראי, ולהריץ ATC ו-SCMON על הקוד שלהן. לאמת במערכת היעד את דרישת ה-Access Key שבמאגר, שלא נמצא לה מקור. הרשומה אינה קובעת דבר על S/4HANA Cloud Public Edition, ואינה ממליצה על מעבר ל-BAdI כל עוד אין מקור רשמי הנוקב בחלופה."
+    },
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintaining Free Goods Master Data | Sales",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/5f8bc95360267214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "רשומת החיפוש של help.sap.com לנושא 'Maintaining Free Goods Master Data' (deliverable: Sales, SAP S/4HANA 2025 FPS01, loio 5f8bc95360267214e10000000a174cb4, תאריך 2026-02-24) מביאה בסניפט: 'You can enhance the rules for determining the free goods quantity with your own routines (Transaction VOFM' ... '(Transaction VOFM in menu point Formulas )', שני חלקים של אותו סניפט המופרדים בסימן השמטה של שירות החיפוש, ובשאילתה אחרת גם 'The condition technique is used for free goods in the same way as for pricing'. כלומר בגרסה 2025 FPS01 מתועדת הרחבת כללי כמות מוצרי החינם בשגרות לקוח דרך VOFM, תחת Formulas. גוף העמוד לא נקרא (מעטפת JavaScript).",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintaining Free Goods Master Data | Basic Functions and Master Data in SD Processing (SD-BF)",
+        url: "https://help.sap.com/docs/SAP_ERP/a428aae377ba4a1199c3ecc8b7f5f33d/5f8bc95360267214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP 6.0",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE22,
+        claim: "רשומת החיפוש במוצר SAP_ERP לאותו loio (5f8bc95360267214e10000000a174cb4), בגרסה 6.18.latest ובספר SD-BF, מביאה בסניפט: 'You can enhance the rules for determining the free goods quantity with your own routines (Transaction VOFM'. עד המקום שבו הסניפט נקטע, זהו אותו משפט שמופיע תחת אותו loio בגרסת S/4HANA 2025 FPS01 (ראיה 1). כלומר נושא זה מתועד ב-ECC וב-S/4HANA באותו נוסח לפחות בחלק שהסניפטים מציגים. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Fields Used in Pricing Enhancements | Service",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c9b5e9de6e674fb99fff88d72c352291/8402608dfbe34b7abfede95d315a076e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "רשומת החיפוש לנושא 'Fields Used in Pricing Enhancements' (deliverable: Service, SAP S/4HANA 2025 FPS01, loio 8402608dfbe34b7abfede95d315a076e, תאריך 2026-02-24) מביאה בסניפט: 'You can use pricing routines (for example transaction VOFM) and user exits to enhance the pricing functionality', וכן 'To ensure that the fields of the communication structures KOMK and KOMP are populated with data for executing the pricing routines and user exits during the pricing run, you need to list them in Customizing'. הסניפט מציג את שגרות התמחור ואת ה-user exits כשני אמצעים לצד זה, ואינו קובע ביניהם העדפה. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Exceptions (No Check and Released Documents) | Sales",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/6c9a234520db4d5eb06179328c46b70f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "רשומת החיפוש לנושא 'Exceptions (No Check and Released Documents)' (deliverable: Sales, SAP S/4HANA 2025 FPS01, loio 6c9a234520db4d5eb06179328c46b70f, תאריך 2026-02-24) מביאה בסניפט: 'With a No Check routine, the SAP Credit Check can be bypassed. This routine can be created and maintained in transaction VOFM and assigned to the relevant combination in transaction OVA8', וכן 'The two requirements, 001 \"Order, example\" and 002 \"Delivery, example,\" contain an e...' (הסניפט נקטע שם). כלומר שגרת דרישה לבדיקת אשראי נוצרת ב-VOFM ומשויכת ב-OVA8. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Product Selection in Deliveries | Sales",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/fe89c95360267214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "רשומת החיפוש לנושא 'Product Selection in Deliveries' (deliverable: Sales, SAP S/4HANA 2025 FPS01, loio fe89c95360267214e10000000a174cb4, תאריך 2026-02-24) מביאה בסניפט: 'Note that if the main item is weight/volume relevant, you must create a new VOFM copy routine to copy this value from the ...' (הסניפט נקטע שם). זו הראיה לשגרת העתקה (copy routine) ב-VOFM בגרסה 2025 FPS01, בהקשר של בחירת מוצר באספקה. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 13.13.19 S4TWL - OGSD - Classic OGSD Interfaces, p. 1237",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE22,
+        claim: "טקסט רשימת הפישוט שחולץ בתיקיית העבודה (scratchpad/SIMPL_OP2025.pdf.txt, 2,796,452 בתים, 85,712 שורות) נסרק: למחרוזת 'VOFM' יש בו מופע אחד בלבד, בפריט 13.13.19 'S4TWL - OGSD - Classic OGSD Interfaces' (עמוד 1237 לפי תוכן העניינים, רכיב IS-OIL-DS-OGSD), במשפט 'You are using the OGSD application \"Classic Interfaces\" to process (mostly inbound) IDocs using VOFM-style customer enhancements via form routines'. הפריט עוסק בממשקי OGSD הקלאסיים ולא בטרנזקציה VOFM או בשגרות התמחור וההעתקה. אין ברשימה פריט פישוט שכותרתו או נושאו VOFM. אין בכך קביעה על מה שהרשימה אינה מכסה.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג טכניקות ההרחבה של הפרויקט (ENHANCEMENTS), רשומת vofm",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim: "רשומת המאגר מסווגת את VOFM כ-kind 'Exit' ומתארת: 'שגרות התאמה ל-SD/לוגיסטיקה (תמחור, דרישות, העברת נתונים, נוסחאות)', 'VOFM; שגרות Requirements/Data Transfer/Formulas; נדרש Access Key; משויכות ב-Customizing', ecc 'נפוצות ב-SD/תמחור', s4 'נתמכות; להעדיף BAdI/Extension כשאפשר', דוגמת PP 'שגרת דרישה לקביעת מקור/אספקה' והערה המבקשת לאמת את הרלוונטיות מחוץ ל-SD ולוגיסטיקה. התיאור הכללי ושלוש קטגוריות השגרות נתמכים בסניפטים הרשמיים שבראיות 1 עד 5 (Formulas, requirement routine, copy routine). שלושה חלקים לא אותרו באף מקור רשמי שנבדק: הדרישה ל-Access Key, ההמלצה להעדיף BAdI או Extension, ודוגמת ה-PP. זהו פער אימות ולא הפרכה.",
+        verificationLevel: "verification_required",
+        repoRef: "data/enhancements.ts#vofm"
+      }
+    ],
+    xrefs: [
+      "enh:technique:user-exit",
+      "enh:technique:customer-exit",
+      "tx:VOFM",
+      "tx:OVA8"
+    ],
+    lastVerifiedAt: DATE22,
+    notes: "שיטה (2026-09-22): שש שאילתות ב-scripts/sap-help-search.mjs במוצר SAP_S4HANA_ON-PREMISE, כל אחת עם 21 רשומות ('VOFM transaction routine', 'VOFM', 'VOFM pricing routine formula', 'VOFM copy requirements data transfer routine', 'Oil Gas VOFM', 'VOFM requirement routine production'), שאילתה אחת 'VOFM' במוצר SAP_ERP ושאילתה אחת 'VOFM' במוצר SAP_S4HANA_CLOUD, חיפוש רשת אחד מוגבל ל-help.sap.com ול-api.sap.com, וסריקת הטקסט של רשימות הפישוט 2025 FPS01 ו-2023 FPS03. ספירה נמדדת: ב-S/4HANA 2025.001 המחרוזת VOFM מופיעה בסניפט של 13 נושאים שונים (לפי loio) בשישה ספרים: Sales (שישה נושאים), Service (שניים), Retail (שניים), Invoicing, China ו-Peru (אחד בכל אחד). נספרו רק רשומות שהסניפט שלהן מכיל VOFM. Oil & Gas אינו נכלל בספירה: שני נושאי התמחור שלו, 'Day of the Week and Time Pricing' (loio f98dcf535b804808e10000000a174cb4) ו-'Date and Time Pricing' (loio f08dcf535b804808e10000000a174cb4), מביאים בסניפט רק את נתיב ה-Customizing 'Sales and Distribution > System Modification > Routines > Define formulas for pricing' ואינם נוקבים ב-VOFM; הנושא 'Routine Setups' (PRA) אינו נוקב ב-VOFM; והשאילתה 'Oil Gas VOFM' החזירה 21 רשומות שבאף אחת מהן VOFM אינו בסניפט. לכן הרשומה אינה מייחסת לתיעוד Oil & Gas שימוש ב-VOFM ואינה גוזרת ממנו סיווג של הטכניקה. S/4HANA Cloud Public Edition: 21 רשומות, ו-VOFM אינו מופיע באף סניפט; ממצא תחום לשאילתה זו ואינו טענת אי-זמינות. תעשיות תהליכיות: בשאילתה 'VOFM requirement routine production' הופיע VOFM רק בסניפטים של Sales ו-Service, ולא נמצא נושא PP או PP-PI הנוקב ב-VOFM; דוגמת ה-PP שבמאגר נשארת לא מאומתת. תחזוקת מפעל: המאגר עצמו אינו נותן דוגמת PM, ולא נמצא נושא PM הנוקב ב-VOFM. רשימת הפישוט 2023 FPS03: הנתיב שנרשם בטיוטה (scratchpad/official/SIMPL_OP2023.pdf.txt) אינו קיים. הכותב חזר על הסריקה ב-2026-09-22 בקובץ scratchpad/SIMPL_OP2023.pdf.txt (2,486,408 בתים) ומצא בו מופע יחיד של VOFM, באותו משפט של פריט OGSD Classic Interfaces. הסריקה הזו אינה מצוטטת כראיה, משום שלקובץ אין כתובת רשמית ברשומה. חיפוש הרשת החזיר עמוד R/3 ישן 'Routines (SAP Library - Shipping)' (saphelp_pserv464); ההורדה הפנתה למסך הזדהות ולא נקראה, ולכן לא צוטט. הסטטוס נכתב ידנית כ-'unchanged' במקום הנגזר 'משתנה ב-S/4HANA', שנשען רק על משפט המאגר 'להעדיף BAdI/Extension כשאפשר'; משמעותו המשך תיעוד ב-On-Premise 2025 FPS01, לא בדיקה במערכת. ה-MCP ל-ABAP לא היה זמין בסשן; בדיקת VOFM, SE38 או ATC במערכת חיה לא בוצעה. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמה ב-data/verification/**."
   },
 ];

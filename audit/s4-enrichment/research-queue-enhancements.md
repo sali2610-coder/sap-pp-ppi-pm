@@ -617,3 +617,51 @@ from its verdict text with the six listed downgrades applied (no `fixedRecord` w
 - `enh:exit:PPCO0021` — stays out of the overlay. The refused draft carried an uncited method name in `recommendedAction`; the auditor's re-run named two official records that DO document the BAdI ("BAdI for Further Processing Changes to Orders", What's New in SAP S/4HANA 2022 SPS03, loio 86956eb2f92146db85b12838f4affeb8, and its 2023 counterpart). Decision: re-research in the next enhancements batch with those two records as the starting evidence; until then the row keeps its derived status (no invented text restored).
 - `enh:technique:enhancement-spot` — stays out of the overlay. The refused draft was structurally wrong (`recommendedAction` outside `status`, an invented "4-evidence limit"). Decision: re-draft in the next enhancements batch with the record shape of `lib/evidence/types.ts` and the evidence its status token needs; nothing from the invalid draft is restored.
 - Both are queued for the enhancements pipeline after the functions priority list; neither is marked DONE.
+
+---
+
+# Batch 5 · written 2026-09-22 (access date stamped 2026-09-22, const DATE22)
+
+2 drafts audited: **2 written**, **0 refuted**. Written ids: `enh:technique:enhancement-spot`,
+`enh:technique:vofm`. Neither verdict carried a `fixedRecord`; both are the audited draft with the
+listed downgrades applied. This closes the batch-4 decision above for `enhancement-spot`
+(re-drafted with the `lib/evidence/types.ts` shape; nothing from the invalid draft restored).
+The catalog was already graduated out of the repository-only foundation guard, so no test change.
+
+## refuted
+
+- (none in this batch.)
+
+## conflicts
+
+- Correction to the batch-4 refutation of `enh:technique:enhancement-spot`, point (c): loio
+  `8200b753128eb44ce10000000a174cb4` is not served only under Production Orders (PP-SFC). Per the
+  batch-5 auditor, the query 'WORKORDER_UPDATE CO_SPLIT_COMPONENT_POST_GI' returns the same loio
+  under Controlling (CO), deliverable `5e23dc8fe9be4fd496f8ab556667ea05`, 2025.001. The written
+  record cites only the PP-SFC serving, so nothing in the overlay depends on this.
+- `enh:technique:enhancement-spot` vs `data/enhancements.ts#enhancement-spot`: 'זמין מ-NW7.0' and
+  'Clean Core' are not supported by any official record found; 'SE20 ליצירת Spot' only partly
+  (SE20 appears as the Enhancements screen, not as a create-spot instruction). Not a conflict
+  marker in the overlay; the repository row is not cited as evidence.
+- `enh:technique:vofm` vs `data/enhancements.ts#vofm`: the Access Key requirement, the s4 line
+  'להעדיף BAdI/Extension כשאפשר' and the PP example are unsupported by any official source found;
+  recorded as `verification_required` on the repository evidence entry, not as a refutation.
+
+## writer deviations, batch 5
+
+- `enh:technique:enhancement-spot`: optional downgrade 1 applied. The writer re-ran the query
+  'Cost Distribution at Order Split enhancement spot WORKORDER_UPDATE' on 2026-09-22 and the
+  PP-SFC 2025.001 record returned 'Order of Order Split) in the enhancement spot WORKORDER_UPDATE.';
+  the sentence was added to `status.source.claim` and `evidence[3].claim`.
+- `enh:technique:vofm`: the stitched-quote fix was also applied to `status.he`, which carried the
+  same single reconstructed sentence (the verdict named only `evidence[0]` and `status.source`).
+  The writer re-read the 2025.001 snippet: it ends '(Transaction VOFM in menu point', confirming
+  the quote is fragmentary.
+- `enh:technique:vofm` `evidence[5]`: besides the path and line-count fix, 'שחולץ במאגר' became
+  'שחולץ בתיקיית העבודה', because the extracted text lives in the session scratchpad, not in the
+  repository.
+- `enh:technique:vofm` `notes`: the 2023 FPS03 sentence was rephrased, not removed. The writer
+  re-ran the scan on 2026-09-22 against `scratchpad/SIMPL_OP2023.pdf.txt` (2,486,408 bytes): one
+  VOFM occurrence, in the OGSD Classic Interfaces item. The notes state the drafted path did not
+  exist and that the scan is not cited as evidence.
+- No live SAP check was performed (sc4sap MCP: Connection closed).

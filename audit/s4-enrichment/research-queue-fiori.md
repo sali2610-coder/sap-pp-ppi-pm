@@ -24,6 +24,14 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
 
 ## refuted
 
+- `fiori:F3289` — RESOLVED 2026-09-22 (entry below kept for history). Rewritten draft passed the
+  audit (not refuted) and was written with both auditor downgrades applied: an evidence row was
+  added for What's New 2023 (loio `ce274262f5584b0f9049022063100935`, 2023.000, URL taken from the
+  search JSON under deliverable `f296651f454c4284ade361292c633d69`, claim quoting only 'App Changed
+  3LQ PP-CFS-CE SAP S/4HANA 2023'), and "או במקומן בתרחישים חדשים" was removed from
+  recommendedAction. Still open: role SAP_BR_PRODN_PLNR, catalog SAP_SCM_BC_CFS, CRHD/KAKO link,
+  Cloud 2002 availability and the "PP work centers only, not PM" claim in apps.ts; scope item
+  31L vs 3LQ disagrees across SAP records.
 - `fiori:F3289` (Manage Work Center Capacity) — REFUTED, not written. (1) evidence[0] and
   status.source quote 'View the capacity requirement and available capacity for work centers.
   Reschedule the operation start and end date if required' as text of loio
