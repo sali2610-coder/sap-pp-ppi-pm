@@ -51,6 +51,7 @@ import {
   RotateCcw,
   ScanLine,
   Sun,
+  SlidersHorizontal,
 } from "lucide-react";
 import type { SectionBody } from "@/lib/library/book";
 import { loadChapterBodies } from "@/lib/library/book";
@@ -243,6 +244,7 @@ export function NeoReader({ book }: { book: NRBook }) {
      is also the more honest rule for memory — merely landing on a page is not a
      "last location". */
   const [moved, setMoved] = useState(false);
+  const [adv, setAdv] = useState(false);
   const markMoved = useCallback(() => setMoved(true), []);
 
   const stored = useMemo(
@@ -742,21 +744,6 @@ export function NeoReader({ book }: { book: NRBook }) {
               <Focus size={14} strokeWidth={1.9} aria-hidden="true" />
               <span className="nr-tool-l">מיקוד</span>
             </button>
-            <button
-              type="button"
-              className="nu-filter"
-              data-on={prefs.lens && !reduced ? "1" : undefined}
-              aria-pressed={prefs.lens && !reduced}
-              aria-label="עדשת קריאה"
-              disabled={reduced}
-              onClick={() => set("lens", !prefs.lens)}
-              title={reduced
-                ? "עדשת הקריאה מושבתת כאשר במערכת מופעלת העדפה לתנועה מופחתת"
-                : "עדשת קריאה: הדגשת רצועת קריאה קצרה ועמעום שאר העמוד"}
-            >
-              <ScanLine size={14} strokeWidth={1.9} aria-hidden="true" />
-              <span className="nr-tool-l">עדשה</span>
-            </button>
             <span className="nr-steps" role="group" aria-label="גודל טקסט">
               <button
                 type="button"
@@ -779,6 +766,40 @@ export function NeoReader({ book }: { book: NRBook }) {
                 <AArrowUp size={16} strokeWidth={1.9} aria-hidden="true" />
               </button>
             </span>
+            {/* BASIC AND ADVANCED (design audit S7-LIB-5): what a reader
+                touches every time — bookmark, language, focus, text size —
+                stays on the bar; the finer settings — lens, column width,
+                leading, paper tone, reset — sit behind one toggle. Nothing was
+                removed; the group opens in place. */}
+            <button
+              type="button"
+              className="nu-filter nr-tool-min nr-adv-b"
+              aria-expanded={adv}
+              aria-controls="nr-adv"
+              data-on={adv ? "1" : undefined}
+              onClick={() => setAdv((v) => !v)}
+              title="הגדרות מתקדמות: עדשת קריאה, רוחב הטור, רווח שורות, גוון נייר, איפוס"
+            >
+              <SlidersHorizontal size={14} strokeWidth={1.9} aria-hidden="true" />
+              <span className="nr-tool-l">עוד</span>
+            </button>
+            {adv ? (
+              <span className="nr-adv" id="nr-adv" role="group" aria-label="הגדרות מתקדמות">
+            <button
+              type="button"
+              className="nu-filter"
+              data-on={prefs.lens && !reduced ? "1" : undefined}
+              aria-pressed={prefs.lens && !reduced}
+              aria-label="עדשת קריאה"
+              disabled={reduced}
+              onClick={() => set("lens", !prefs.lens)}
+              title={reduced
+                ? "עדשת הקריאה מושבתת כאשר במערכת מופעלת העדפה לתנועה מופחתת"
+                : "עדשת קריאה: הדגשת רצועת קריאה קצרה ועמעום שאר העמוד"}
+            >
+              <ScanLine size={14} strokeWidth={1.9} aria-hidden="true" />
+              <span className="nr-tool-l">עדשה</span>
+            </button>
             <span className="nr-steps nr-steps--wide" role="group" aria-label="רוחב הטור">
               <button
                 type="button"
@@ -835,6 +856,8 @@ export function NeoReader({ book }: { book: NRBook }) {
             >
               <RotateCcw size={14} strokeWidth={1.9} aria-hidden="true" />
             </button>
+              </span>
+            ) : null}
           </div>
         </div>
 

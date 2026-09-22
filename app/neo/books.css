@@ -1421,7 +1421,7 @@ html[data-theme="dark"] .nb-slot::after {
   margin-block-start: 2px;
 }
 .nb-card-n i { inline-size: 1px; block-size: 9px; background: var(--hairline); flex: none; }
-.nb-card-k { font-size: var(--t-micro); color: var(--ink-3); }
+.nb-card-k { font-size: var(--t-xs); color: var(--ink-3); }
 /* The touch-visible half of the bookmark: the same sentence the hover label
    carries, printed where no pointer is needed to read it. */
 .nb-card-res {

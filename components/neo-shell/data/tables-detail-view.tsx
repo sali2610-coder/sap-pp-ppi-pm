@@ -121,10 +121,16 @@ export function TableDetailView({ t }: { t: TableDetail }) {
   // ONE list drives the numbering and the jump nav, so a section can never be
   // numbered 04 in the page and 03 in the nav.
   const nav: [string, string][] = [
-    ["nxb-s4", "המעבר ל-S/4HANA"],
-    ["nxb-own", t.rows.length > 1 ? "רשומות התיעוד" : "רשומת התיעוד"],
+    // FIELDS AND RELATIONS FIRST (design audit S7-TBL-1): the table's own
+    // structure begins right under the header, ~0.7 screen from the top at
+    // 1363 (it began 2.3 screens down, behind the S/4 plate and the
+    // ownership section). The canonical S/4 status stays in the header, so
+    // the main answer still precedes its sources (S7-TBL-4); the S/4 plate
+    // and the evidence block follow the structure.
     ["nxb-fields", "שדות ומפתחות"],
     ["nxb-rel", "קשרים ו-JOIN"],
+    ["nxb-s4", "המעבר ל-S/4HANA"],
+    ["nxb-own", t.rows.length > 1 ? "רשומות התיעוד" : "רשומת התיעוד"],
     ["nxb-tx", "טרנזקציות"],
     ["nxb-cds", "CDS Views"],
     ["nxb-if", "ממשקים ו-Fiori"],
@@ -224,6 +230,18 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           </div>
         </dl>
 
+        {/* THE ANSWER FIRST (design audit S7-TBL-4 / ACC-3): the canonical
+            S/4HANA status in the header — the same pill the S/4 section and
+            the evidence block carry — before any source is shown. */}
+        <p className="nxb-stand-h">
+          <StatusPill status={t.evidence.status.key} label={t.evidence.status.label} dot={t.evidence.status.dot} />
+          {!t.s4.impacted ? (
+            <a className="nu-link" href="#nxb-s4">
+              פירוט המעבר ל-S/4HANA
+              <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
+            </a>
+          ) : null}
+        </p>
         {/* S/4HANA badge — the one place brand red appears on this page. */}
         {t.s4.impacted ? (
           <p className="nxb-s4flag">
@@ -303,129 +321,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           numbers below. */}
       <SectionNav sections={nav.map(([id, label]) => ({ id, label }))} />
 
-      {/* ================================================= 2. S/4HANA */}
-      <Sec
-        id="nxb-s4"
-        n={num["nxb-s4"]}
-        icon={<TriangleAlert size={16} strokeWidth={1.75} />}
-        eyebrow="ECC → S/4HANA"
-        title="השפעת המעבר ל-S/4HANA על הטבלה"
-        lede="תחילה הכרעת הפרויקט ומקורה, ואחריה הערות תיעוד המקור של כל מודול, כלשונן. כאשר אין הכרעה, הדבר מצוין במפורש."
-      >
-        <div className="nxb-stand" data-risk={t.s4.risk} data-impact={t.s4.impacted ? "1" : "0"}>
-          <p className="nxb-stand-h">
-            {/* ONE status vocabulary. The pill is the canonical S/4HANA status
-                from lib/evidence, the same key the evidence block below, the
-                tables catalog rows and the search results render. The risk
-                word follows it as a plain chip: risk says how much attention
-                the migration needs, it is not what happens to the table. */}
-            <StatusPill status={t.evidence.status.key} label={t.evidence.status.label} dot={t.evidence.status.dot} />
-            <span className="nu-chip" style={{ color: RISK_COLOR[t.s4.risk] }}>
-              {t.s4.riskHe}
-            </span>
-            {t.s4.note ? <span className="nu-chip is-sap">{t.s4.note}</span> : null}
-          </p>
-          {t.s4.changed
-            ? <p className="nxb-stand-w">{t.s4.changed}</p>
-            : (
-              <p className="nxb-stand-w nxb-stand-none">
-                לא קיים תיעוד מאומת במאגר לגבי השינוי בטבלה זו ב-S/4HANA.
-              </p>
-            )}
-          {t.s4.why ? <p className="nxb-stand-y">{t.s4.why}</p> : null}
-          {t.s4.tcodes.length || t.s4.cds.length ? (
-            <dl className="nxb-kv">
-              {t.s4.tcodes.length ? (
-                <div>
-                  <dt>טרנזקציות לבדיקה</dt>
-                  <dd>{t.s4.tcodes.map((c) => <span key={c} className="nu-chip is-sap">{c}</span>)}</dd>
-                </div>
-              ) : null}
-              {t.s4.cds.length ? (
-                <div>
-                  <dt>תצוגות תאימות</dt>
-                  <dd>{t.s4.cds.map((c) => <span key={c} className="nu-chip is-sap">{c}</span>)}</dd>
-                </div>
-              ) : null}
-            </dl>
-          ) : null}
-          <p className="nxb-stand-t">
-            <BadgeCheck size={12} strokeWidth={1.75} aria-hidden="true" />
-            {t.s4.trustHe} · {TRUST_WHY[t.s4.trust]}
-          </p>
-        </div>
-
-        <EvidenceBlock e={t.evidence} />
-
-        <h3 className="nxb-h3">
-          <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />
-          הערות תיעוד המקור, כלשונן
-        </h3>
-        {t.s4.rows.length ? (
-          <div className="nxb-s4rows">
-            {t.s4.rows.map((r, i) => (
-              <article key={`${r.mod}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
-                <header>
-                  <span className="nxb-row-bar" aria-hidden="true" />
-                  <b>{r.mod} · {MOD_HE[r.mod]}</b>
-                  {r.topic ? <em>{r.topic}</em> : null}
-                </header>
-                {r.note ? <p className="nxb-quote">{r.note}</p> : null}
-                {r.altTable || r.altTcode ? (
-                  <dl className="nxb-kv">
-                    {r.altTable ? (<div><dt>טבלה / שדה חלופיים</dt><dd className="nx-sap">{r.altTable}</dd></div>) : null}
-                    {r.altTcode ? (<div><dt>טרנזקציה חלופית</dt><dd className="nx-sap">{r.altTcode}</dd></div>) : null}
-                  </dl>
-                ) : null}
-                {r.sum ? <p className="nxb-sum"><b>SUM</b>{r.sum}</p> : null}
-              </article>
-            ))}
-          </div>
-        ) : (
-          <Missing what="הערת מעבר ל-S/4HANA" />
-        )}
-      </Sec>
-
-      {/* ============================================== 3. WHO OWNS IT */}
-      <Sec
-        id="nxb-own"
-        n={num["nxb-own"]}
-        icon={<Boxes size={16} strokeWidth={1.75} />}
-        eyebrow={t.rows.length > 1 ? "בעלות ותיעוד" : "בעלות"}
-        title={
-          t.rows.length > 1
-            ? `${nf.format(t.rows.length)} רשומות תיעוד לאותה טבלה`
-            : "רשומת התיעוד של הטבלה"
-        }
-        lede="הנושא שאליו הטבלה משויכת, הטרנזקציות שנרשמו לה ומקור התיעוד, כלשונם ובנפרד לכל מודול."
-      >
-        <div className="nxb-rows">
-          {t.rows.map((r, i) => (
-            <article className="nxb-row" key={`${r.mod}-${r.topicIdx}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
-              <header>
-                <span className="nxb-row-bar" aria-hidden="true" />
-                <b>{r.mod} · {MOD_HE[r.mod]}</b>
-                <em>{r.topic || "ללא נושא"}</em>
-              </header>
-              <dl className="nxb-kv">
-                <div>
-                  <dt>שדות ברשומה</dt>
-                  <dd className="nx-sap">{nf.format(r.fields)}</dd>
-                </div>
-                <div>
-                  <dt>טרנזקציות, כלשונן</dt>
-                  <dd className="nx-sap">{r.tcodesRaw || "לא קיים תיעוד מאומת במאגר"}</dd>
-                </div>
-                {r.fiori ? (<div><dt>יישום Fiori</dt><dd className="nx-sap">{r.fiori}</dd></div>) : null}
-                {r.helpLbl ? (<div><dt>מקור</dt><dd>{r.helpLbl}</dd></div>) : null}
-              </dl>
-              {r.guide ? <p className="nxb-guide">{r.guide}</p> : null}
-            </article>
-          ))}
-        </div>
-      </Sec>
-
-      {/* =================================================== 4. FIELDS */}
+      {/* =================================================== 2. FIELDS */}
       <Sec
         id="nxb-fields"
         n={num["nxb-fields"]}
@@ -489,7 +385,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         )}
       </Sec>
 
-      {/* ================================================ 5. RELATIONS */}
+      {/* ================================================ 3. RELATIONS */}
       <Sec
         id="nxb-rel"
         n={num["nxb-rel"]}
@@ -590,6 +486,128 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
         </p>
+      </Sec>
+
+      {/* ================================================= 4. S/4HANA */}
+      <Sec
+        id="nxb-s4"
+        n={num["nxb-s4"]}
+        icon={<TriangleAlert size={16} strokeWidth={1.75} />}
+        eyebrow="ECC → S/4HANA"
+        title="השפעת המעבר ל-S/4HANA על הטבלה"
+        lede="תחילה הכרעת הפרויקט ומקורה, ואחריה הערות תיעוד המקור של כל מודול, כלשונן. כאשר אין הכרעה, הדבר מצוין במפורש."
+      >
+        <div className="nxb-stand" data-risk={t.s4.risk} data-impact={t.s4.impacted ? "1" : "0"}>
+          <p className="nxb-stand-h">
+            {/* ONE status vocabulary. The pill is the canonical S/4HANA status
+                from lib/evidence, the same key the evidence block below, the
+                tables catalog rows and the search results render. The risk
+                word follows it as a plain chip: risk says how much attention
+                the migration needs, it is not what happens to the table. */}
+            <StatusPill status={t.evidence.status.key} label={t.evidence.status.label} dot={t.evidence.status.dot} />
+            <span className="nu-chip" style={{ color: RISK_COLOR[t.s4.risk] }}>
+              {t.s4.riskHe}
+            </span>
+            {t.s4.note ? <span className="nu-chip is-sap">{t.s4.note}</span> : null}
+          </p>
+          {t.s4.changed
+            ? <p className="nxb-stand-w">{t.s4.changed}</p>
+            : (
+              <p className="nxb-stand-w nxb-stand-none">
+                לא קיים תיעוד מאומת במאגר לגבי השינוי בטבלה זו ב-S/4HANA.
+              </p>
+            )}
+          {t.s4.why ? <p className="nxb-stand-y">{t.s4.why}</p> : null}
+          {t.s4.tcodes.length || t.s4.cds.length ? (
+            <dl className="nxb-kv">
+              {t.s4.tcodes.length ? (
+                <div>
+                  <dt>טרנזקציות לבדיקה</dt>
+                  <dd>{t.s4.tcodes.map((c) => <span key={c} className="nu-chip is-sap">{c}</span>)}</dd>
+                </div>
+              ) : null}
+              {t.s4.cds.length ? (
+                <div>
+                  <dt>תצוגות תאימות</dt>
+                  <dd>{t.s4.cds.map((c) => <span key={c} className="nu-chip is-sap">{c}</span>)}</dd>
+                </div>
+              ) : null}
+            </dl>
+          ) : null}
+          <p className="nxb-stand-t">
+            <BadgeCheck size={12} strokeWidth={1.75} aria-hidden="true" />
+            {t.s4.trustHe} · {TRUST_WHY[t.s4.trust]}
+          </p>
+        </div>
+
+        <EvidenceBlock e={t.evidence} />
+
+        <h3 className="nxb-h3">
+          <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />
+          הערות תיעוד המקור, כלשונן
+        </h3>
+        {t.s4.rows.length ? (
+          <div className="nxb-s4rows">
+            {t.s4.rows.map((r, i) => (
+              <article key={`${r.mod}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
+                <header>
+                  <span className="nxb-row-bar" aria-hidden="true" />
+                  <b>{r.mod} · {MOD_HE[r.mod]}</b>
+                  {r.topic ? <em>{r.topic}</em> : null}
+                </header>
+                {r.note ? <p className="nxb-quote">{r.note}</p> : null}
+                {r.altTable || r.altTcode ? (
+                  <dl className="nxb-kv">
+                    {r.altTable ? (<div><dt>טבלה / שדה חלופיים</dt><dd className="nx-sap">{r.altTable}</dd></div>) : null}
+                    {r.altTcode ? (<div><dt>טרנזקציה חלופית</dt><dd className="nx-sap">{r.altTcode}</dd></div>) : null}
+                  </dl>
+                ) : null}
+                {r.sum ? <p className="nxb-sum"><b>SUM</b>{r.sum}</p> : null}
+              </article>
+            ))}
+          </div>
+        ) : (
+          <Missing what="הערת מעבר ל-S/4HANA" />
+        )}
+      </Sec>
+
+      {/* ============================================== 5. WHO OWNS IT */}
+      <Sec
+        id="nxb-own"
+        n={num["nxb-own"]}
+        icon={<Boxes size={16} strokeWidth={1.75} />}
+        eyebrow={t.rows.length > 1 ? "בעלות ותיעוד" : "בעלות"}
+        title={
+          t.rows.length > 1
+            ? `${nf.format(t.rows.length)} רשומות תיעוד לאותה טבלה`
+            : "רשומת התיעוד של הטבלה"
+        }
+        lede="הנושא שאליו הטבלה משויכת, הטרנזקציות שנרשמו לה ומקור התיעוד, כלשונם ובנפרד לכל מודול."
+      >
+        <div className="nxb-rows">
+          {t.rows.map((r, i) => (
+            <article className="nxb-row" key={`${r.mod}-${r.topicIdx}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
+              <header>
+                <span className="nxb-row-bar" aria-hidden="true" />
+                <b>{r.mod} · {MOD_HE[r.mod]}</b>
+                <em>{r.topic || "ללא נושא"}</em>
+              </header>
+              <dl className="nxb-kv">
+                <div>
+                  <dt>שדות ברשומה</dt>
+                  <dd className="nx-sap">{nf.format(r.fields)}</dd>
+                </div>
+                <div>
+                  <dt>טרנזקציות, כלשונן</dt>
+                  <dd className="nx-sap">{r.tcodesRaw || "לא קיים תיעוד מאומת במאגר"}</dd>
+                </div>
+                {r.fiori ? (<div><dt>יישום Fiori</dt><dd className="nx-sap">{r.fiori}</dd></div>) : null}
+                {r.helpLbl ? (<div><dt>מקור</dt><dd>{r.helpLbl}</dd></div>) : null}
+              </dl>
+              {r.guide ? <p className="nxb-guide">{r.guide}</p> : null}
+            </article>
+          ))}
+        </div>
       </Sec>
 
       {/* ============================================= 6. TRANSACTIONS */}

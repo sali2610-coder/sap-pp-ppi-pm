@@ -39,9 +39,10 @@
    ========================================================================== */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useShellFocus } from "../focus";
 import {
-  Crosshair, Expand, Filter, Maximize2, Minus, Plus, RotateCcw, Search, X, Focus,
+  Crosshair, Expand, Filter, Maximize2, Minus, Plus, Presentation, RotateCcw, Search, X, Focus,
 } from "lucide-react";
 import {
   KIND_META, MODES, S4_COLOR, ZONES, buildHetero, layoutSubset, layoutZoned,
@@ -53,16 +54,35 @@ const MODULES: Mod[] = ["PM", "PP-PI"];
 
 const S4_HE: Record<string, string> = { kept: "ללא החלפה מתועדת", replaced: "הוחלפה", removed: "הוסרה" };
 
+/** The first layer of a module: the first zone (in ZONES order) that has at
+ *  least one table in the module's graph. The studio opens on it (design
+ *  audit S7-STU-1) instead of on every object at once. */
+function firstZoneOf(module: Mod): Set<string> {
+  const h = buildHetero(module as never);
+  for (const z of ZONES) {
+    for (const [id, n] of h.nodes) if (n.kind === "table" && zoneOf(id) === z.id) return new Set([z.id]);
+  }
+  return new Set();
+}
+
 export function StudioView() {
   const [mod, setMod] = useState<Mod>("PM");
   const [modeId, setModeId] = useState("tables");
   const [sel, setSel] = useState<string | null>(null);
   const [q, setQ] = useState("");
-  const [zones, setZones] = useState<Set<string>>(new Set());
+  /* A LAYERED START (design audit S7-STU-1). The studio used to open on all
+     56 objects at 46%, where the labels were 10px. It now opens on ONE layer —
+     the first zone that has objects in the module — and the reader widens to
+     the next layer or to all of them with the controls below. The same zone
+     filter the side panel already offers; only the starting value changed. */
+  const [zones, setZones] = useState<Set<string>>(() => firstZoneOf("PM"));
   const [full, setFull] = useState(false);
   // Focus mode (design audit §3): shell hidden, the studio alone; Escape exits.
   const [shellFocus, setShellFocus] = useState(false);
-  const exitShellFocus = useCallback(() => setShellFocus(false), []);
+  /* PRESENTATION MODE (design audit S6-3): focus + fullscreen + larger type
+     (studio.css [data-present]). One switch; Esc or the same button ends it. */
+  const [present, setPresent] = useState(false);
+  const exitShellFocus = useCallback(() => { setShellFocus(false); setPresent(false); }, []);
   useShellFocus(shellFocus, exitShellFocus);
 
   /* Camera. Kept in state rather than in the DOM so reset and fit are one
@@ -138,9 +158,12 @@ export function StudioView() {
     }
     if (!maxX || !maxY) return;
     const PAD = 48;
-    const k = Math.min((el.clientWidth - PAD) / maxX, (el.clientHeight - PAD) / maxY, 1.4);
+    const raw = Math.min((el.clientWidth - PAD) / maxX, (el.clientHeight - PAD) / maxY, 1.4);
+    // PRESENTATION (design audit S6-3): a fit never lands below 90%, so the
+    // labels stay legible from across a room; the presenter pans to the rest.
+    const k = present ? Math.max(raw, 0.9) : raw;
     setCam({ k, x: (el.clientWidth - maxX * k) / 2, y: (el.clientHeight - maxY * k) / 2 });
-  }, [laid.nodes]);
+  }, [laid.nodes, present]);
 
   const centerOn = useCallback((id: string) => {
     const el = wrapRef.current;
@@ -225,6 +248,16 @@ export function StudioView() {
     document.addEventListener("fullscreenchange", on);
     return () => document.removeEventListener("fullscreenchange", on);
   }, []);
+  const enterPresent = useCallback(() => {
+    setPresent(true);
+    setShellFocus(true);
+    if (!document.fullscreenElement) void toggleFull();
+  }, [toggleFull]);
+  const exitPresent = useCallback(() => {
+    setPresent(false);
+    setShellFocus(false);
+    if (document.fullscreenElement) void toggleFull();
+  }, [toggleFull]);
 
   const selNode: SNode | null = sel ? hetero.nodes.get(sel) ?? null : null;
   const selNeighbours = useMemo(() => {
@@ -238,13 +271,33 @@ export function StudioView() {
   const colorOf = (n: LNode) =>
     mode.colorBy === "s4" && n.s4 ? S4_COLOR[n.s4] : KIND_META[n.kind].c;
 
+  /* The layer strip: which layer is on stage, how much of the module it is,
+     and the two ways out — the next layer, or everything. Counted from the
+     graph, never authored. */
+  const zoneCounts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const [id, n] of hetero.nodes) if (n.kind === "table") { const z = zoneOf(id); m.set(z, (m.get(z) ?? 0) + 1); }
+    return m;
+  }, [hetero]);
+  const layered = ZONES.filter((z) => (zoneCounts.get(z.id) ?? 0) > 0);
+  const nextZone = layered.find((z) => !zones.has(z.id));
+  const tablesTotal = [...zoneCounts.values()].reduce((a, b) => a + b, 0);
+  const tablesShown = layered.filter((z) => !zones.size || zones.has(z.id)).reduce((a, z) => a + (zoneCounts.get(z.id) ?? 0), 0);
+
   return (
-    <div className="nst" data-full={full ? "1" : "0"}>
+    <div className="nst" data-full={full ? "1" : "0"} data-present={present ? "1" : "0"}>
       {/* ------------------------------------------------------------ top */}
       <header className="nst-top">
         <div className="nst-brand">
           <h1 className="nst-h1">Architecture Studio</h1>
           <p className="nst-sub">{laid.nodes.length} אובייקטים · {laid.edges.length} קשרים</p>
+          {/* WHAT THE STUDIO DOES THAT THE ERD DOES NOT (design audit S7-STU-1):
+              one sentence, next to the title, so the two canvases are not
+              taken for one another. */}
+          <p className="nst-role">
+            הסטודיו מסביר ארכיטקטורה בשכבות: אזורים, סוגי אובייקטים ומעמד S/4HANA.
+            {" "}<Link href="/neo/erd/" prefetch={false}>מודל הנתונים (ERD)</Link> מראה את קשרי הטבלאות ומפתחותיהן.
+          </p>
         </div>
 
         <div className="nst-search">
@@ -277,6 +330,7 @@ export function StudioView() {
           <span className="nst-grp" role="group" aria-label="תצוגה">
             <button type="button" onClick={fit} title="התאמה למסך"><Expand size={15} /></button>
             <button type="button" onClick={() => { setCam({ x: 0, y: 0, k: 1 }); setSel(null); setZones(new Set()); }} title="איפוס"><RotateCcw size={15} /></button>
+            <button type="button" onClick={present ? exitPresent : enterPresent} aria-pressed={present} aria-label={present ? "יציאה ממצב הצגה" : "מצב הצגה: מסך מלא וטקסט גדול, לחדר ישיבות"} title={present ? "יציאה ממצב הצגה · Esc" : "מצב הצגה"}><Presentation size={15} /></button>
             <button type="button" onClick={toggleFull} title={full ? "יציאה ממסך מלא" : "מסך מלא"}><Maximize2 size={15} /></button>
             <button type="button" onClick={() => setShellFocus((v) => !v)} aria-pressed={shellFocus} title={shellFocus ? "יציאה ממצב מיקוד · Esc" : "מצב מיקוד"}><Focus size={15} /></button>
           </span>
@@ -291,6 +345,27 @@ export function StudioView() {
         </div>
       </header>
 
+      {/* THE LAYER STRIP (design audit S7-STU-1): the studio opens on one
+          layer and discloses the rest step by step. */}
+      <div className="nst-layer" role="group" aria-label="שכבת התצוגה">
+        <span className="nst-layer-t">
+          {zones.size
+            ? <>שכבה: <b>{layered.filter((z) => zones.has(z.id)).map((z) => z.he).join(" · ") || "—"}</b></>
+            : <>כל השכבות</>}
+          <em className="nst-layer-n">{tablesShown} מתוך {tablesTotal} טבלאות המודול</em>
+        </span>
+        {nextZone && zones.size ? (
+          <button type="button" className="nu-btn2" onClick={() => setZones((s) => new Set([...s, nextZone.id]))}>
+            הוספת השכבה הבאה · {nextZone.he} ({zoneCounts.get(nextZone.id)})
+          </button>
+        ) : null}
+        {zones.size ? (
+          <button type="button" className="nu-ghost" onClick={() => setZones(new Set())}>הצגת כל השכבות</button>
+        ) : (
+          <button type="button" className="nu-ghost" onClick={() => setZones(firstZoneOf(mod))}>חזרה לשכבה הראשונה</button>
+        )}
+      </div>
+
       <div className="nst-body">
         {/* ---------------------------------------------------------- side */}
         {shellFocus ? (
@@ -300,7 +375,7 @@ export function StudioView() {
           <div className="nst-mods">
             {MODULES.map((m) => (
               <button key={m} type="button" className="nst-mod" data-on={mod === m ? "1" : "0"}
-                onClick={() => { setMod(m); setSel(null); }}>{m}</button>
+                onClick={() => { setMod(m); setSel(null); setZones(firstZoneOf(m)); }}>{m}</button>
             ))}
           </div>
 

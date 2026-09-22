@@ -347,6 +347,9 @@ html[data-theme="dark"] .ne {
   background: var(--m, var(--ink-3));
   flex: none;
 }
+/* The relation in words (design audit S7-ERD-5). */
+.ne-join-say { margin: 2px 0 4px; font-size: var(--t-xs); line-height: 1.55; color: var(--ink-2); }
+.ne-join-say b { font-weight: 700; color: var(--ink-1); }
 .ne-rel > i {
   flex: none;
   inline-size: 18px !important;
@@ -1508,6 +1511,45 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 /* ==========================================================================
    PHONE · the open card is the surface, and getting back out is one tap
    ========================================================================== */
+
+/* ==========================================================================
+   PRESENTATION MODE (design audit S6-3) · a meeting room, not a desk
+   Focus mode + fullscreen are the workspace's own; this sheet adds the type:
+   the inspector's tokens step up one size, the card labels grow a little
+   (the card boxes are fixed, so names keep their size and the fit floor of
+   100% carries them), the minimap steps aside and a short legend sits on the
+   stage. Nothing is hidden that a presenter would need: fit, zoom, the
+   picker and the inspector all stay.
+   ========================================================================== */
+.ne[data-present="1"] {
+  --t-micro: .875rem;
+  --t-xs: .95rem;
+  --t-sm: 1.02rem;
+  --t-body: 1.08rem;
+  --t-h2: 1.3rem;
+}
+.ne[data-present="1"] .ne-node-he { font-size: 13px; }
+.ne[data-present="1"] .ne-node-k, .ne[data-present="1"] .ne-node-fk { font-size: 12px; }
+.ne[data-present="1"] .ne-node-mod, .ne[data-present="1"] .ne-node-z { font-size: 11.5px; }
+.ne[data-present="1"] .ne-mod-he { font-size: 19px; }
+.ne[data-present="1"] .ne-mod-en { font-size: 14px; }
+.ne[data-present="1"] .ne-mini { display: none; }
+.ne-legend {
+  position: absolute; inset-inline: 10px; inset-block-end: 10px; z-index: 3;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px;
+  padding: 8px 14px;
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--surface) 93%, transparent);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-2);
+  font-size: var(--t-xs); color: var(--ink-2);
+  pointer-events: none;
+}
+.ne-legend-h { font-weight: 700; color: var(--ink-1); margin-inline-end: 6px; }
+.ne-legend-i { display: inline-flex; align-items: center; gap: 7px; }
+.ne-legend-i i { inline-size: 28px; block-size: 0; border-block-start: 2.5px solid var(--ink-2); }
+.ne-legend-i i[data-kind="unstated"] { border-block-start-style: dashed; opacity: .55; }
+.ne-legend-i b { inline-size: 11px; block-size: 11px; border-radius: 3px; background: var(--ms, var(--ink-3)); }
 
 /* PHONE ENTRY AND FOCUS (design audit S6-4). Rendered only on a phone (the
    workspace reads the same 640px query) and drawn only here: a desktop never

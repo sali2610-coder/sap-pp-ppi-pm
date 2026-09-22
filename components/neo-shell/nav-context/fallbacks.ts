@@ -67,7 +67,7 @@ const PARENTS: [prefix: string, parent: ParentRef][] = [
   ["/neo/pp-pi/", { href: "/neo/pp-pi/", label: "PP-PI · תעשיות תהליכיות" }],
   // --- tools and assistant ---------------------------------------------------
   ["/neo/studio/", { href: "/neo/studio/", label: "Architecture Studio" }],
-  ["/neo/chat/", { href: "/neo/chat/", label: "NEO AI" }],
+  ["/neo/chat/", { href: "/neo/chat/", label: "שיחה כללית · NEO AI" }],
   ["/neo/ai/", { href: "/neo/ai/", label: "שאל את הספרייה" }],
   ["/neo/", { href: "/neo/", label: "מסך הבית" }],
 ];

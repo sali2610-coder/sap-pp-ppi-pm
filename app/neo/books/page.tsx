@@ -76,7 +76,15 @@ export default function NeoBooks() {
 
       </header>
 
-      {/* COVERAGE AND METADATA, IN ONE PLACE (design audit S7-LIB-4). The line
+      </div>
+
+      <BookShelf data={d} />
+
+      {/* COVERAGE AND METADATA, IN ONE PLACE (design audit S7-LIB-4), placed
+          AFTER the shelf (S7-LIB-2): the books are what the reader came for, so
+          the covers start under the masthead, and the coverage statement follows
+          them. Measured before this move: first cover at 907px on a 936px
+          screen. The line
           carries the two numbers; the module links stay in the open; the three
           explanations — which books have a technical twin, which book has no
           page count, which two books are one guide in two schemas — sit behind
@@ -120,9 +128,6 @@ export default function NeoBooks() {
           </div>
         </details>
       </section>
-      </div>
-
-      <BookShelf data={d} />
 
       <footer className="nb-foot nm-fade">
         {/* The button names the DIGITAL LIBRARY — the canonical /library/ site,

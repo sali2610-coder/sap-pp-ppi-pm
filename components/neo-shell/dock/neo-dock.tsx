@@ -120,11 +120,15 @@ export function NeoDock() {
           type="button"
           className="nxk-b nxk-b--ask"
           aria-expanded={panel === "ask"}
-          aria-label="שאל את NEO על העמוד הזה"
+          aria-label="עזרה בעמוד הזה: ההקשר הנוכחי ושתי סביבות השאלות"
           onClick={() => setPanel((p) => (p === "ask" ? "none" : "ask"))}
         >
           <Sparkles className="ico" size={15} aria-hidden="true" />
-          <span>שאל את NEO</span>
+          {/* THREE NAMES, THREE THINGS (design audit S7-AI-4): "עזרה בעמוד"
+              is this panel — the current page's context and the way to the
+              two assistants; "עזרה מהספרייה" answers from the books; "שיחה
+              כללית" is the open SAP conversation. */}
+          <span>עזרה בעמוד</span>
         </button>
       </div>
 
@@ -210,11 +214,11 @@ export function NeoDock() {
           data-scene="ai"
           role="dialog"
           aria-modal="false"
-          aria-label="שאל את NEO"
+          aria-label="עזרה בעמוד הזה"
         >
           <header className="nxk-p-h">
-            <h2>שאל את NEO</h2>
-            <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגירת חלונית שאל את NEO" onClick={() => setPanel("none")}>
+            <h2>עזרה בעמוד הזה</h2>
+            <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגירת חלונית העזרה" onClick={() => setPanel("none")}>
               <X className="ico" size={16} aria-hidden="true" />
             </button>
           </header>
@@ -233,13 +237,13 @@ export function NeoDock() {
           <div className="nxk-go">
             <Link className="nu-btn nxk-go-a" href="/neo/ai/" prefetch={false} onClick={() => setPanel("none")}>
               <BookOpen className="ico" size={16} aria-hidden="true" />
-              שאל את הספרייה
-              <em>תשובות מתוך 11 הספרים, עם מקורות</em>
+              עזרה מהספרייה
+              <em>שאל את הספרייה · תשובות מתוך 11 הספרים, עם מקורות</em>
             </Link>
             <Link className="nu-btn2 nxk-go-a" href="/neo/chat/" prefetch={false} onClick={() => setPanel("none")}>
               <MessageSquare className="ico" size={16} aria-hidden="true" />
-              NEO AI
-              <em>שאלות SAP כלליות, ללא מקורות מהפרויקט</em>
+              שיחה כללית
+              <em>NEO AI · שאלות SAP כלליות, ללא מקורות מהפרויקט</em>
             </Link>
           </div>
         </section>

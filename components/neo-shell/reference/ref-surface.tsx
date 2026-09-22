@@ -108,8 +108,14 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
       >
         <span className="nxd-mark" aria-hidden="true" />
 
-        <span className="nxd-id">
-          <b className="nx-sap">{r.name}</b>
+        <span className="nxd-id" data-lead={r.lead ?? "code"}>
+          {/* THE BUSINESS ACTION FIRST where the record is an action (the
+              Fiori directory, design audit S7-CAT-6); the code everywhere
+              else. The other order's information is not lost: the code
+              becomes a chip on the id line, the role the first body line. */}
+          {r.lead === "name"
+            ? <b className="nxd-lead">{r.he || r.name}</b>
+            : <b className="nx-sap">{r.name}</b>}
           <span className="nxd-mods">
             {r.mods.map((m) => (
               <span key={m} className="nu-chip nxd-mod" style={{ "--m": modVar(m) } as React.CSSProperties}>
@@ -119,11 +125,16 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
               </span>
             ))}
             {r.kind ? <span className="nu-chip nxr-kind">{r.kind}</span> : null}
+            {r.lead === "name" ? <span className="nu-chip is-sap">{r.name}</span> : null}
           </span>
         </span>
 
         <span className="nxd-body">
-          <span className="nxd-he">{r.he || "לא קיים תיעוד מאומת במאגר"}</span>
+          <span className="nxd-he">
+            {r.lead === "name"
+              ? (r.group ? `תפקיד: ${r.group}` : "לא צוין תפקיד עסקי במאגר")
+              : (r.he || "לא קיים תיעוד מאומת במאגר")}
+          </span>
           <span className="nxd-sub">
             {r.en ? <span className="nxd-en" dir="ltr">{r.en}</span> : null}
             {r.en && r.group ? <span className="nxd-dot" aria-hidden="true">·</span> : null}
@@ -480,6 +491,40 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
 
       {children}
 
+      {dir.compare ? (
+        <details className="nxr-compare">
+          <summary>
+            <span>{dir.compare.title}</span>
+            <em>{dir.compare.lede}</em>
+          </summary>
+          <div className="nxr-compare-w">
+            <table className="nxr-compare-t">
+              <thead>
+                <tr>{dir.compare.columns.map((c) => <th key={c} scope="col">{c}</th>)}</tr>
+              </thead>
+              <tbody>
+                {dir.compare.rows.map((row) => (
+                  <tr key={row.href}>
+                    <th scope="row">
+                      <Link href={row.href} prefetch={false}>
+                        <b className="nx-sap">{row.code}</b>
+                        {row.he ? <span>{row.he}</span> : null}
+                      </Link>
+                    </th>
+                    {row.cells.map((c, i) => (
+                      <td key={i}>
+                        {typeof c === "string"
+                          ? c
+                          : <StatusPill status={c.status.key} label={c.status.he} dot={c.status.color} />}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      ) : null}
       <p className="nxd-foot">{dir.foot}</p>
     </div>
   );

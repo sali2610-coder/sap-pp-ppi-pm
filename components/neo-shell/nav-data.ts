@@ -226,7 +226,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
          different number for a different dataset under a near-identical name. */
       { id: "studio", label: "Architecture Studio", icon: "Compass", count: null, countLabel: "" },
     ] },
-    { id: "assistant", label: "עוזר SAP", items: [{ id: "chat", label: "NEO AI", icon: "MessageSquare", count: null, countLabel: "" }] },
+    { id: "assistant", label: "עוזר SAP", items: [{ id: "chat", label: "שיחה כללית · NEO AI", icon: "MessageSquare", count: null, countLabel: "" }] },
   ];
 }
 

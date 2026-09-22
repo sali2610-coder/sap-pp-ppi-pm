@@ -92,12 +92,17 @@ export default function NeoHome() {
   // max the dots already carry (a shared table's fields counted once), and
   // relations as the deduplicated undirected ER pairs the page itself draws —
   // not the 126 per-module relation rows.
-  const fieldsUnique = d.dots.reduce((a, x) => a + x.f, 0);
-  const stats: [number, string][] = [
-    [d.tables, "טבלאות SAP"],
-    [fieldsUnique, "שדות מתועדים"],
-    [d.tcodes, "טרנזקציות"],
-    [d.edges.length, "קשרי ER ממודלים"],
+  // THREE NUMBERS THAT LEAD SOMEWHERE (design audit S7-HOME-4: drop the
+  // metrics that do not help choose an action). Each one is the size of the
+  // catalog it opens: the tables, the transactions, and the tables the
+  // blueprints mark for change in the move. The field and ER-relation counts
+  // left the gate: they describe the model, they do not choose a door, and
+  // both are still counted where they are used (the module cards below, the
+  // data model itself).
+  const stats: [number, string, string][] = [
+    [d.tables, "טבלאות SAP", "/neo/tables/"],
+    [d.tcodes, "טרנזקציות", "/neo/transactions/"],
+    [marked, "מסומנות לשינוי במעבר", "/neo/s4hana/"],
   ];
 
   // The verdict labels are lib/s4-class S4_HE, verbatim — the blueprint's own
@@ -154,11 +159,11 @@ export default function NeoHome() {
             <span className="nh-sap">S/4HANA</span>. זמינה במלואה גם ללא חיבור לרשת.
           </p>
           <div className="nh-stats nm-seq">
-            {stats.map(([n, l]) => (
-              <span className="nh-stat nm-rise" key={l}>
+            {stats.map(([n, l, href]) => (
+              <Link className="nh-stat nm-rise" key={l} href={href} prefetch={false}>
                 <b className="nh-sap">{nf.format(n)}</b>
                 <em>{l}</em>
-              </span>
+              </Link>
             ))}
           </div>
           {/* Design audit §7: the four actions a reader comes for, in the first

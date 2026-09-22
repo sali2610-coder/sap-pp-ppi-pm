@@ -75,6 +75,20 @@ export function GeneralChat() {
   const idle = !turns.length && !pending;
   const markState = pending ? (live?.preview ? "writing" : "thinking") : "idle";
 
+  const composer = (
+    <Composer
+      value={draft}
+      onChange={setDraft}
+      onSend={() => send(draft)}
+      onStop={stop}
+      busy={busy}
+      scope={scope}
+      placeholder="שאלה על טבלה, טרנזקציה או תהליך ב-SAP"
+      hint={HINT}
+      autoFocusKey={focusKey}
+    />
+  );
+
   /* NEO'S OWN GROUND. See the note in library-chat: the two assistants used to
      share one canvas and were distinguishable only by their h1.
 
@@ -95,9 +109,13 @@ export function GeneralChat() {
         <div className="nxg-head-text nm-rise nm-once">
           <span className="nxq-eyebrow">
             <Terminal size={13} strokeWidth={2} aria-hidden="true" />
-            שיחה כללית על SAP · לא מוגבלת לספרייה · רמת ביסוס בכל תשובה
+            NEO AI · לא מוגבל לספרייה · רמת ביסוס בכל תשובה
           </span>
-          <h1 className="nxq-h1">NEO AI</h1>
+          {/* The name says what it is (design audit S7-AI-4): a general
+              conversation, distinct from the library help and from the
+              page-help panel. NEO AI stays the assistant's name, on the
+              eyebrow. */}
+          <h1 className="nxq-h1">שיחה כללית על SAP</h1>
           <p className="nxq-lede">{M.tagline}</p>
         </div>
         {turns.length ? (
@@ -119,6 +137,10 @@ export function GeneralChat() {
         <ShieldAlert size={14} strokeWidth={2} aria-hidden="true" />
         <span>{CONSULT_DISCLAIMER}</span>
       </div>
+
+      {/* THE QUESTION FIELD FIRST while the conversation is empty (design
+          audit S7-AI-1); under the turns once there are any. */}
+      {idle ? composer : null}
 
       <div className="nxq-thread">
         {idle ? (
@@ -158,17 +180,7 @@ export function GeneralChat() {
         <div ref={endRef} className="nxq-end" aria-hidden="true" />
       </div>
 
-      <Composer
-        value={draft}
-        onChange={setDraft}
-        onSend={() => send(draft)}
-        onStop={stop}
-        busy={busy}
-        scope={scope}
-        placeholder="שאלה על טבלה, טרנזקציה או תהליך ב-SAP"
-        hint={HINT}
-        autoFocusKey={focusKey}
-      />
+      {!idle ? composer : null}
     </div>
   );
 }

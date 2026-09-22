@@ -1,0 +1,56 @@
+OK   desktop AFKO: level=table edges=24 selected=5 sel(op 0.96, sw 3.2) vs other(op 0.22, sw 1.84)
+OK   desktop EQUI: level=table edges=24 selected=5 sel(op 0.96, sw 3.2) vs other(op 0.22, sw 1.84)
+OK   phone AFKO: level=table edges=24 selected=5 sel(op 0.96, sw 3.2) vs other(op 0.22, sw 1.84)
+OK   phone EQUI: level=table edges=24 selected=5 sel(op 0.96, sw 3.2) vs other(op 0.22, sw 1.84)
+{
+  "desktop:AFKO": {
+    "level": "table",
+    "sel": "1",
+    "edges": 24,
+    "selected": 5,
+    "selOpacity": 0.96,
+    "selStroke": 3.2,
+    "otherOpacity": 0.22,
+    "otherStroke": 1.84,
+    "name": "AFKO",
+    "ok": true
+  },
+  "desktop:EQUI": {
+    "level": "table",
+    "sel": "1",
+    "edges": 24,
+    "selected": 5,
+    "selOpacity": 0.96,
+    "selStroke": 3.2,
+    "otherOpacity": 0.22,
+    "otherStroke": 1.84,
+    "name": "EQUI",
+    "ok": true
+  },
+  "desktop:consoleErrors": 0,
+  "phone:AFKO": {
+    "level": "table",
+    "sel": "1",
+    "edges": 24,
+    "selected": 5,
+    "selOpacity": 0.96,
+    "selStroke": 3.2,
+    "otherOpacity": 0.22,
+    "otherStroke": 1.84,
+    "name": "AFKO",
+    "ok": true
+  },
+  "phone:EQUI": {
+    "level": "table",
+    "sel": "1",
+    "edges": 24,
+    "selected": 5,
+    "selOpacity": 0.96,
+    "selStroke": 3.2,
+    "otherOpacity": 0.22,
+    "otherStroke": 1.84,
+    "name": "EQUI",
+    "ok": true
+  },
+  "phone:consoleErrors": 0
+}

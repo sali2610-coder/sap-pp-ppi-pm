@@ -30,7 +30,7 @@ import { MOD_HE } from "../mod-var";
 import {
   bapiHref, cdsHref, clean, completeness, fioriHref, nf, standings, uniq,
 } from "./ref-links";
-import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus } from "./types";
+import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus, RefChain } from "./types";
 
 const VIEW_TYPE_HE: Record<string, string> = {
   "Interface (Basic)": "Interface · בסיסי",
@@ -278,6 +278,23 @@ export function cdsDetail(name: string): RefDetail | null {
         : { he: "מיפוי בלבד: ללא רשומת העשרה", color: "var(--status-in-analysis)" },
   ];
 
+  /* THE CHAIN (design audit S7-CAT-5): classic tables → this view → what
+     consumes it. The same records the sections below list, drawn as one line
+     so the relation reads at a glance. */
+  const chain: RefChain = {
+    fromLabel: "טבלאות קלאסיות שהתצוגה קוראת",
+    from: s4.tables.map((t) => ({ t: t.name, href: t.href, he: t.he })),
+    via: { code: v.view, he: v.he },
+    toLabel: "מי צורך את התצוגה",
+    to: [
+      ...(v.consumption ? [{ t: v.consumption, href: cdsHref(v.consumption), he: "תצוגת צריכה (Consumption)" }] : []),
+      ...cards.map((c) => ({ t: c.code, href: c.href, he: c.he, mod: c.mod })),
+    ],
+    note: !s4.tables.length || !(v.consumption || cards.length)
+      ? "צד ריק בשרשרת = לא קיימת בתיעוד רשומה בצד זה; לא הושלם בניחוש."
+      : undefined,
+  };
+
   return {
     kind: "cds",
     eyebrow: `CDS View · ${v.module}`,
@@ -286,6 +303,7 @@ export function cdsDetail(name: string): RefDetail | null {
     en: "",
     mod: v.module,
     modHe: MOD_HE[v.module] || "",
+    chain,
     chips: uniq([clean(e?.viewType), v.consumption ? `Consumption · ${v.consumption}` : ""]),
     statuses,
     completeness: completeness(checks.filter(Boolean).length, checks.length),

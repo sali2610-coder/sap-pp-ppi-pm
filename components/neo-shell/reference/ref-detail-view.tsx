@@ -39,7 +39,7 @@ import { EvidenceBlock } from "../evidence/evidence-block";
 import { CopyId } from "../copy-id";
 import { MOD_HE, modVar } from "../mod-var";
 import { Glyph } from "./icons";
-import type { RefDetail, RefFact, RefSection, RefStatus } from "./types";
+import type { RefDetail, RefFact, RefSection, RefStatus, RefCode } from "./types";
 
 const NONE = "לא קיים תיעוד מאומת במאגר";
 
@@ -95,7 +95,14 @@ function Fact({ f }: { f: RefFact }) {
             ))}
           </ul>
         ) : null}
-        {f.pre ? <pre className="nxr-pre" dir="ltr">{f.pre}</pre> : null}
+        {/* Code is meant to be taken away (design audit S7-CAT-5): every
+            preformatted block carries its own copy control. */}
+        {f.pre ? (
+          <div className="nxr-pre-w">
+            <pre className="nxr-pre" dir="ltr">{f.pre}</pre>
+            <CopyId value={f.pre} label="העתקת הקוד" />
+          </div>
+        ) : null}
       </dd>
     </div>
   );
@@ -162,6 +169,20 @@ function Section({ s }: { s: RefSection }) {
 
 /* ------------------------------------------------------------- the screen */
 
+/** One record in the chain: a link when the project has its page, a value
+ *  when it does not. */
+function ChainCode({ c }: { c: RefCode }) {
+  const body = (
+    <>
+      <b className="nx-sap">{c.t}</b>
+      {c.he ? <span>{c.he}</span> : null}
+    </>
+  );
+  return c.href
+    ? <Link href={c.href} prefetch={false} className="nxr-chain-c">{body}</Link>
+    : <span className="nxr-chain-c nxr-chain-c--none">{body}</span>;
+}
+
 export function RefDetailView({ d }: { d: RefDetail }) {
   const m = modVar(d.mod);
   const modHe = d.modHe || MOD_HE[d.mod] || "";
@@ -179,18 +200,36 @@ export function RefDetailView({ d }: { d: RefDetail }) {
         <span className="nx-modbar" aria-hidden="true" />
         <p className="nx-eyebrow nxt-eyebrow">{d.eyebrow}</p>
 
-        <div className="nxt-title nxr-title">
-          <div className="nxt-codeline">
-            <h1 className="nxt-code nx-sap">{d.code}</h1>
-            <CopyId value={d.code} label="העתקת השם הטכני" compact />
+        {d.lead === "name" ? (
+          /* THE BUSINESS ACTION IS THE TITLE (design audit S7-CAT-6, Fiori):
+             the Hebrew name leads, the technical id follows with its copy
+             control, the English name and the role stay under both. */
+          <div className="nxt-title nxr-title" data-lead="name">
+            <h1 className="nxt-lead">{d.he || d.code}</h1>
+            <div className="nxt-codeline">
+              <span className="nxt-code nxt-code--sub nx-sap">{d.code}</span>
+              <CopyId value={d.code} label="העתקת המזהה הטכני" compact />
+            </div>
+            <div className="nxt-names">
+              {d.en
+                ? <p className="nxt-en" dir="ltr">{d.en}</p>
+                : d.enAbsent ? <p className="nxt-en nxt-absent">{d.enAbsent}</p> : null}
+            </div>
           </div>
-          <div className="nxt-names">
-            <p className="nxt-he">{d.he || NONE}</p>
-            {d.en
-              ? <p className="nxt-en" dir="ltr">{d.en}</p>
-              : d.enAbsent ? <p className="nxt-en nxt-absent">{d.enAbsent}</p> : null}
+        ) : (
+          <div className="nxt-title nxr-title">
+            <div className="nxt-codeline">
+              <h1 className="nxt-code nx-sap">{d.code}</h1>
+              <CopyId value={d.code} label="העתקת השם הטכני" compact />
+            </div>
+            <div className="nxt-names">
+              <p className="nxt-he">{d.he || NONE}</p>
+              {d.en
+                ? <p className="nxt-en" dir="ltr">{d.en}</p>
+                : d.enAbsent ? <p className="nxt-en nxt-absent">{d.enAbsent}</p> : null}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="nxt-meta">
           {d.statuses.map((s) => <Status key={s.he} s={s} />)}
@@ -207,6 +246,33 @@ export function RefDetailView({ d }: { d: RefDetail }) {
           ) : null}
         </div>
       </header>
+
+      {/* THE CHAIN (design audit S7-CAT-5): what feeds the record and what
+          consumes it, one line, real routes only. */}
+      {d.chain ? (
+        <section className="nxr-chain" aria-label="שרשרת הנתונים">
+          <div className="nxr-chain-col">
+            <span className="nxr-chain-l">{d.chain.fromLabel}</span>
+            {d.chain.from.length
+              ? d.chain.from.map((c) => <ChainCode key={c.t} c={c} />)
+              : <span className="nxr-chain-none">אין רשומה בתיעוד</span>}
+          </div>
+          <span className="nxr-chain-arrow" aria-hidden="true">←</span>
+          <div className="nxr-chain-col nxr-chain-via">
+            <span className="nxr-chain-l">התצוגה</span>
+            <b className="nx-sap">{d.chain.via.code}</b>
+            <span>{d.chain.via.he}</span>
+          </div>
+          <span className="nxr-chain-arrow" aria-hidden="true">←</span>
+          <div className="nxr-chain-col">
+            <span className="nxr-chain-l">{d.chain.toLabel}</span>
+            {d.chain.to.length
+              ? d.chain.to.map((c) => <ChainCode key={`${c.t}-${c.he ?? ""}`} c={c} />)
+              : <span className="nxr-chain-none">אין רשומה בתיעוד</span>}
+          </div>
+          {d.chain.note ? <p className="nxr-chain-note">{d.chain.note}</p> : null}
+        </section>
+      ) : null}
 
       {/* --------------------------------------------- 2. S/4HANA — §2
           The loudest block on the screen, and the only one rendered even when

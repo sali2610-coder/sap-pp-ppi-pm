@@ -266,3 +266,90 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 @media (prefers-reduced-motion: reduce) {
   .nx-app .nxr-codelink .nu-arw { transition: none; transform: none; }
 }
+
+/* ==========================================================================
+   ROUND 6 · the catalog cards (design audit S7-CAT-2 … CAT-7)
+   ========================================================================== */
+
+/* CAT-6 · a row that leads with the business action (Fiori). */
+.nx-app .nxd-id[data-lead="name"] .nxd-lead {
+  font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.nx-app .nxr-title[data-lead="name"] { display: grid; gap: var(--sp-2); }
+.nx-app .nxt-lead {
+  margin: 0;
+  font-size: clamp(1.6rem, 1.15rem + 1.4vw, 2.25rem);
+  font-weight: 800; line-height: 1.15; letter-spacing: -.015em; color: var(--ink-1);
+  text-wrap: balance;
+}
+.nx-app .nxt-code--sub {
+  font-size: var(--t-h2); font-weight: 700; color: var(--ink-2);
+  line-height: 1.3; letter-spacing: 0;
+}
+
+/* CAT-5 · the chain: sources → the view → consumers. */
+.nx-app .nxr-chain {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: var(--sp-3); align-items: start;
+  padding: var(--sp-4); margin-block: var(--sp-4);
+  border: 1px solid var(--hairline); border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  min-inline-size: 0;
+}
+.nx-app .nxr-chain-col { display: grid; gap: 6px; min-inline-size: 0; }
+.nx-app .nxr-chain-via { text-align: center; justify-items: center; }
+.nx-app .nxr-chain-via > b { font-size: var(--t-h2); }
+.nx-app .nxr-chain-via > span { font-size: var(--t-xs); color: var(--ink-2); }
+.nx-app .nxr-chain-l { font-size: var(--t-micro); font-weight: 700; color: var(--ink-3); letter-spacing: .03em; }
+.nx-app .nxr-chain-arrow { align-self: center; font-size: 1.2rem; color: var(--ink-3); padding-block-start: 1.2rem; }
+.nx-app .nxr-chain-c {
+  display: grid; gap: 1px; padding: 6px 10px;
+  border: 1px solid var(--hairline); border-radius: var(--r-xs);
+  background: var(--surface); color: inherit; text-decoration: none;
+  min-block-size: 2.5rem; min-inline-size: 0;
+}
+.nx-app .nxr-chain-c b { font-size: var(--t-xs); color: var(--ink-1); }
+.nx-app .nxr-chain-c span { font-size: var(--t-micro); color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nx-app a.nxr-chain-c:hover { border-color: color-mix(in srgb, var(--m, var(--brand)) 45%, var(--hairline)); }
+.nx-app a.nxr-chain-c:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nx-app .nxr-chain-c--none { opacity: .8; }
+.nx-app .nxr-chain-none { font-size: var(--t-xs); color: var(--ink-3); }
+.nx-app .nxr-chain-note { grid-column: 1 / -1; margin: 0; font-size: var(--t-xs); color: var(--ink-3); }
+@media (max-width: 640px) {
+  .nx-app .nxr-chain { grid-template-columns: minmax(0, 1fr); }
+  .nx-app .nxr-chain-arrow { transform: rotate(-90deg); justify-self: center; padding: 0; }
+}
+
+/* CAT-5 · a code block with its own copy control. */
+.nx-app .nxr-pre-w { position: relative; display: grid; gap: var(--sp-2); }
+.nx-app .nxr-pre-w .nx-copy { justify-self: start; }
+
+/* CAT-7 · the comparison table, behind a disclosure. */
+.nx-app .nxr-compare {
+  margin-block-start: var(--sp-5);
+  border: 1px solid var(--hairline); border-radius: var(--r-md); background: var(--surface);
+  min-inline-size: 0;
+}
+.nx-app .nxr-compare > summary {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2) var(--sp-3);
+  min-block-size: var(--c-tap, 2.75rem); padding: var(--sp-2) var(--sp-4);
+  cursor: pointer; list-style: none; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1);
+  border-radius: var(--r-md);
+}
+.nx-app .nxr-compare > summary::-webkit-details-marker { display: none; }
+.nx-app .nxr-compare > summary em { font-style: normal; font-weight: 400; font-size: var(--t-xs); color: var(--ink-3); }
+.nx-app .nxr-compare > summary:hover { background: color-mix(in srgb, var(--ink-1) 4%, transparent); }
+.nx-app .nxr-compare > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nx-app .nxr-compare-w { overflow-x: auto; padding: 0 var(--sp-4) var(--sp-4); }
+.nx-app .nxr-compare-t { border-collapse: collapse; inline-size: 100%; min-inline-size: 56rem; font-size: var(--t-xs); }
+.nx-app .nxr-compare-t th, .nx-app .nxr-compare-t td {
+  padding: 8px 10px; text-align: start; vertical-align: top;
+  border-block-end: 1px solid var(--hairline); line-height: 1.5;
+}
+.nx-app .nxr-compare-t thead th { font-size: var(--t-micro); color: var(--ink-3); font-weight: 700; position: sticky; inset-block-start: 0; background: var(--surface); }
+.nx-app .nxr-compare-t tbody th a { display: grid; gap: 2px; color: inherit; text-decoration: none; min-inline-size: 9rem; }
+.nx-app .nxr-compare-t tbody th a span { font-size: var(--t-micro); font-weight: 400; color: var(--ink-3); }
+.nx-app .nxr-compare-t tbody th a:hover b { text-decoration: underline; }
+.nx-app .nxr-compare-t tbody th a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nx-app .nxr-compare-t td { color: var(--ink-2); max-inline-size: 26rem; }

@@ -116,7 +116,7 @@ export function PracticalLayer({ o, accent }: { o: AppObject; accent: string }) 
   return (
     <>
       {/* 1 · Screens */}
-      <Block id="screens" icon={<Monitor className="size-5" />} title="מסכים — מה רואים ב-SAP" sub="ללא צילומים מומצאים — מקומות שמורים עם הוראות צילום" accent={accent}>
+      <Block id="screens" icon={<Monitor className="size-5" />} title="מסכים — מה רואים ב-SAP" sub="מקומות שמורים עם הוראות צילום" accent={accent}>
         <div className="grid-adaptive">
           <ShotSlot icon={<Terminal className="size-3.5" />} c="#475569" title="מסך ראשי · SAP GUI"
             what={`מסך הפתיחה של ${t.code} ב-SAP GUI (Easy Access → קוד טרנזקציה)`}
@@ -158,7 +158,7 @@ export function PracticalLayer({ o, accent }: { o: AppObject; accent: string }) 
               );
             })}
           </div>
-          <p className="mt-3 text-[11px] text-ink-3">הנקודה הפעילה מסמנת היכן {t.code} נמצא בתהליך. GIF/הקלטה אמיתית יתווספו בהמשך — ללא צילומים מומצאים.</p>
+          <p className="mt-3 text-[11px] text-ink-3">הנקודה הפעילה מסמנת היכן {t.code} נמצא בתהליך. GIF/הקלטה אמיתית יתווספו בהמשך.</p>
         </Block>
       )}
 

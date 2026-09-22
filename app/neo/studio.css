@@ -25,7 +25,7 @@
 /* ------------------------------------------------------------------- top */
 
 .nst-top {
-  display: flex; align-items: center; gap: .8rem;
+  display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
   padding: .6rem clamp(.7rem, 2vw, 1.1rem);
   border-block-end: 1px solid var(--hairline);
   background: var(--surface);
@@ -33,7 +33,25 @@
 }
 .nst-h1 { margin: 0; font-size: 1rem; font-weight: 700; letter-spacing: -.015em; }
 .nst-sub { margin: 0; font-size: .72rem; color: var(--ink-3); }
-.nst-brand { flex: none; }
+/* The studio's role next to the ERD's, one line (design audit S7-STU-1). */
+.nst-role { margin: .2rem 0 0; font-size: var(--t-xs); line-height: 1.5; color: var(--ink-3); max-inline-size: min(60ch, 100%); overflow-wrap: anywhere; }
+.nst-role a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; }
+.nst-role a:hover { color: var(--ink-1); }
+/* THE LAYER STRIP (design audit S7-STU-1): what is on stage, and the way to
+   the next layer or to all of them. */
+.nst-layer {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px;
+  padding: 6px var(--sp-4);
+  border-block-end: 1px solid var(--hairline);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  font-size: var(--t-xs); color: var(--ink-2);
+  min-inline-size: 0;
+}
+.nst-layer-t { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.nst-layer-t b { color: var(--ink-1); }
+.nst-layer-n { font-style: normal; color: var(--ink-3); }
+.nst-layer .nu-btn2, .nst-layer .nu-ghost { min-block-size: 2rem; font-size: var(--t-xs); }
+.nst-brand { flex: 1 1 14rem; min-inline-size: 0; }
 
 .nst-search { position: relative; flex: 1 1 22rem; max-inline-size: 30rem; display: flex; align-items: center; gap: .45rem;
   padding: .35rem .6rem; border-radius: .7rem; background: var(--surface-2); border: 1px solid var(--hairline); }
@@ -50,7 +68,7 @@
 .nst-res span { font-size: .75rem; color: var(--ink-3); flex: 1 1 auto; }
 .nst-res i { inline-size: 8px; block-size: 8px; border-radius: 2px; flex: none; }
 
-.nst-tools { display: flex; align-items: center; gap: .45rem; flex: none; margin-inline-start: auto; }
+.nst-tools { display: flex; align-items: center; gap: .45rem; flex: none; flex-wrap: wrap; margin-inline-start: auto; max-inline-size: 100%; }
 /* Grouped, not one long row of identical buttons. */
 .nst-grp { display: inline-flex; align-items: center; gap: 1px; padding: 2px;
   border-radius: .6rem; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); }
@@ -134,6 +152,14 @@
   transition: opacity .22s ease, box-shadow .18s ease, border-color .18s ease, transform .18s ease;
 }
 .nst-node b { font-size: .74rem; font-weight: 700; unicode-bidi: isolate; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* PRESENTATION MODE (design audit S6-3): the side panel's tokens step up one
+   size and the node labels grow; the fit floor of 90% (studio-view.tsx)
+   carries the rest. */
+.nst[data-present="1"] { --t-micro: .875rem; --t-xs: .95rem; --t-sm: 1.02rem; --t-body: 1.08rem; }
+.nst[data-present="1"] .nst-node b { font-size: .88rem; }
+.nst[data-present="1"] .nst-node[data-tier="core"] b { font-size: .95rem; }
+.nst[data-present="1"] .nst-node span { font-size: .78rem; }
+.nst[data-present="1"] .nst-rel span { font-size: .85rem; }
 .nst-node span { direction: rtl; font-size: .64rem; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nst-node[data-tier="core"] b { font-size: .8rem; }
 .nst-node:hover { box-shadow: var(--elev-3); transform: translateY(-1px); }

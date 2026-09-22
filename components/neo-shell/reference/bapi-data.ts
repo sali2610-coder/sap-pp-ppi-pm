@@ -220,7 +220,15 @@ function rowOf(o: SapFuncObject): RefRow {
     mods,
     kind: isConcept(o.id) ? CONCEPT_KIND : o.objectType,
     group: CATEGORY_HE[o.category] || CATEGORY_HE.General,
+    // READ / WRITE AND COMMIT FIRST (design audit S7-CAT-3): what the object
+    // does to the data and whether a COMMIT is needed, before the counts. The
+    // operation is the registry's own field (the page prints the same word);
+    // the COMMIT chip appears only when the record states it.
     nums: [
+      ...(o.operationType && o.operationType !== "Unknown"
+        ? [{ i: "workflow" as const, sr: "סוג פעולה ", v: OP_HE[o.operationType] || o.operationType }]
+        : []),
+      ...(commitInfo(o).value === "yes" ? [{ i: "shieldCheck" as const, sr: "", v: "דורש COMMIT" }] : []),
       { i: "table", sr: "טבלאות מקושרות ", v: nf.format(o.tables.length) },
       { i: "terminal", sr: "טרנזקציות ", v: nf.format(o.transactions.length) },
       { i: "bookOpen", sr: "רמת מורכבות ", v: DIFF_HE[o.difficulty] || o.difficulty },

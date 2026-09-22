@@ -122,7 +122,6 @@ function Row({ t, fav, onOpen, landed, st }: { t: RegistryTx; fav: boolean; onOp
   const deep = t.depth === "deep";
   const intel = TX_INTEL[t.code];
   const fiori = intel?.fiori?.trim() || "";
-  const pop = txPopularity(t.code);
   const f = facetsOf(t.code);
   return (
     <li
@@ -174,10 +173,12 @@ function Row({ t, fav, onOpen, landed, st }: { t: RegistryTx; fav: boolean; onOp
           <span className="nu-status" style={{ "--s": deep ? "var(--status-done)" : "var(--status-not-started)" } as React.CSSProperties}>
             {deep ? "מתועדת לעומק" : "מאומתת"}
           </span>
+          {/* LESS METADATA ON THE CARD (design audit S7-CAT-2): the code, its
+              meaning, where it is used and its S/4 standing. The Fiori
+              successor stays because it is a door; the topic says "when";
+              the reference count and the second facet moved to the page. */}
           {fiori ? <span className="nu-chip"><AppWindow size={11} strokeWidth={1.75} /><span className="nx-sr">יישום Fiori עוקב </span>{fiori}</span> : null}
-          {pop > 0 ? <span className="nu-chip"><Flame size={11} strokeWidth={1.75} /><span className="nx-sr">הפניות מתוך המאגר </span>{nf.format(pop)}</span> : null}
           {f.topics[0] ? <span className="nu-chip">{f.topics[0]}</span> : null}
-          {f.objects[0] ? <span className="nu-chip">{f.objects[0]}</span> : null}
         </span>
 
         <span className="nxd-go" aria-hidden="true"><ArrowLeft size={15} strokeWidth={2} /></span>

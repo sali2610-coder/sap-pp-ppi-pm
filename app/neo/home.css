@@ -482,7 +482,13 @@ html .nx-app .nx-canvas:has(> .nh) {
   padding: .9rem 1rem;
   background: color-mix(in oklab, var(--scene-raised) 62%, transparent);
   min-inline-size: 0;
+  /* A door, not a figure (design audit S7-HOME-4): each number opens the
+     catalog it counts. */
+  color: inherit; text-decoration: none;
+  transition: background .18s ease;
 }
+.nh-stat:hover { background: color-mix(in oklab, var(--scene-raised) 82%, transparent); }
+.nh-stat:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
 .nh-stat > b {
   font-size: clamp(1.15rem, 2.4cqi, 1.7rem);
   font-weight: 780;

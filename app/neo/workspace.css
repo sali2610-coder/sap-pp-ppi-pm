@@ -123,7 +123,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 
 .nw-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
-.nw-fine { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.7; max-inline-size: 76ch; }
+.nw-fine { font-size: var(--t-xs); color: var(--ink-3); line-height: 1.7; max-inline-size: 76ch; }
 .nw-sr {
   position: absolute; inline-size: 1px; block-size: 1px;
   margin: -1px; padding: 0; overflow: hidden; white-space: nowrap;
@@ -291,7 +291,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 /* --- the counts. A rail of figures, not a grid of cards ------------------- */
 .nw-figs { display: flex; flex-wrap: wrap; gap: var(--sp-4) var(--sp-8); margin-block-start: var(--sp-2); }
 .nw-fig { display: grid; gap: 2px; }
-.nw-fig dt { font-size: var(--t-micro); color: var(--ink-3); order: 2; }
+.nw-fig dt { font-size: var(--t-xs); color: var(--ink-3); order: 2; }
 .nw-fig dd { display: flex; align-items: baseline; gap: var(--sp-2); flex-wrap: wrap; }
 .nw-fig b {
   font-variant-numeric: tabular-nums;
@@ -852,7 +852,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: bottom;
-  font-size: 10px;
+  font-size: var(--t-xs);
 }
 .nw-c-f b, .nw-c-fn b, .nw-c-rel b { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
 .nw-c-f em { font-style: normal; font-size: 10px; color: var(--ink-3); margin-inline-start: 5px; }
@@ -1126,7 +1126,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   align-items: baseline;
 }
 .nw-move-kv dt {
-  font-size: var(--t-micro);
+  font-size: var(--t-xs);
   font-weight: 650;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -1141,7 +1141,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: var(--t-micro);
+  font-size: var(--t-xs);
   color: var(--ink-3);
   padding-block-start: var(--sp-2);
   border-block-start: 1px solid var(--hairline);
@@ -1196,7 +1196,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   align-items: baseline;
 }
 .nw-sheet-kv dt {
-  font-size: var(--t-micro);
+  font-size: var(--t-xs);
   font-weight: 650;
   letter-spacing: .05em;
   color: var(--ink-3);

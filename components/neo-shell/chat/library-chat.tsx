@@ -105,6 +105,21 @@ export function LibraryChat() {
   const idle = !turns.length && !pending;
   const markState = pending ? (live?.preview ? "writing" : "thinking") : "idle";
 
+  const composer = (
+    <Composer
+      value={draft}
+      onChange={setDraft}
+      onSend={() => send(draft)}
+      onStop={stop}
+      busy={busy}
+      scope={scope}
+      onOpenScope={() => setSheet(true)}
+      placeholder="שאלה על תהליך, טרנזקציה או אובייקט SAP מתוך ספרי הספרייה"
+      hint={`${HINT} · ${scopeLabel(scope)}`}
+      autoFocusKey={focusKey}
+    />
+  );
+
   /* THE LIBRARY'S OWN GROUND.
      This assistant and the general one used to render on the identical
      warm-light canvas, so with the titles covered the only thing telling a
@@ -172,6 +187,12 @@ export function LibraryChat() {
           long answer never separates it from the context it was drawn from. */}
       <ContextBar scope={scope} mode="library" onOpenScope={() => setSheet(true)} />
 
+      {/* THE QUESTION FIELD FIRST (design audit S7-AI-1). While the conversation
+          is empty the composer sits right under the scope line — on a phone it
+          used to start 1,540px down, below the welcome and the starters. Once
+          there are turns it moves back under them, where a chat expects it. */}
+      {idle ? composer : null}
+
       <div className="nxq-thread">
         {idle ? (
           <Welcome
@@ -217,18 +238,7 @@ export function LibraryChat() {
         <div ref={endRef} className="nxq-end" aria-hidden="true" />
       </div>
 
-      <Composer
-        value={draft}
-        onChange={setDraft}
-        onSend={() => send(draft)}
-        onStop={stop}
-        busy={busy}
-        scope={scope}
-        onOpenScope={() => setSheet(true)}
-        placeholder="שאלה על תהליך, טרנזקציה או אובייקט SAP מתוך ספרי הספרייה"
-        hint={`${HINT} · ${scopeLabel(scope)}`}
-        autoFocusKey={focusKey}
-      />
+      {!idle ? composer : null}
 
       {sheet ? (
         <ScopeSheet scope={scope} onScope={setScope} onClose={() => setSheet(false)} />

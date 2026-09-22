@@ -288,6 +288,17 @@ export function ErdInspector({
                           <span className="ne-card nx-sap">{e.cd || REL_HE[e.k as RelKind]}</span>
                           {e.x ? <span className="ne-ct">חוצה מודול</span> : null}
                         </div>
+                        {/* IN WORDS (design audit S7-ERD-5): which side is the
+                            source and which depends on it. Read off the
+                            dataset's own parent/child, nothing inferred. */}
+                        <p className="ne-join-say">
+                          {isParent ? (
+                            <><b className="nx-sap">{active.n}</b> היא המקור (צד המפתח הראשי); <b className="nx-sap">{other}</b> תלויה בה דרך מפתח זר.</>
+                          ) : (
+                            <><b className="nx-sap">{other}</b> היא המקור (צד המפתח הראשי); <b className="nx-sap">{active.n}</b> תלויה בה דרך מפתח זר.</>
+                          )}
+                          {e.cd ? <> קרדינליות מתועדת: <span className="nx-sap">{e.cd}</span>.</> : <> קרדינליות לא צוינה בתיעוד.</>}
+                        </p>
                         {e.ds ? <p className="ne-join-d">{e.ds}</p> : null}
                         {e.j.map((j, i) => (
                           <div className="ne-join-s" key={i} style={{ "--m": modVar(j.m) } as React.CSSProperties}>

@@ -387,7 +387,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
   font-weight: 700; color: var(--ink-1); margin: 0;
 }
 .nx-app .nxl-course-en {
-  font-size: var(--t-micro); color: var(--ink-3);
+  font-size: var(--t-xs); color: var(--ink-3);
   direction: ltr; unicode-bidi: isolate;
 }
 .nx-app .nxl-course-n {
@@ -429,7 +429,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
 }
 [dir="ltr"] .nx-app .nxl-bar-f { transform-origin: left center; }
 .nx-app .nxl-course-idle {
-  font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he);
+  font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he);
 }
 .nx-app .nxl-course-a { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-block-start: auto; }
 /* A signpost, not a control: the whole card is already the link, so this row

@@ -186,7 +186,8 @@ html[data-theme="dark"] .nu-btn { color: #0b0e11; }
 /* --- status: a STATE. dot + word, per the form rule ----------------------- */
 .nu-status {
   display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.6875rem; font-weight: 650; color: var(--ink-2);
+  /* 12px: a state word is a label, not prose, but 11px was below every floor. */
+  font-size: 0.75rem; font-weight: 650; color: var(--ink-2);
   cursor: default;
 }
 .nu-status::before {

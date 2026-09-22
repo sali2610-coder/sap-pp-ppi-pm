@@ -36,7 +36,10 @@
      15px is the closest step that keeps this shell's Hebrew ramp (Hebrew reads
      smaller than Latin at the same px). The size control still reaches 14px
      through `sm` and 21px through `xxl`, so nobody is locked to this. */
-  --nr-fs: 0.9375rem;
+  /* 16px by default: the reading floor of design audit §4 (was 15px, a size
+     between the reader's own sm and md steps). The size control still offers
+     sm / md / lg / xl / xxl below. */
+  --nr-fs: 1rem;
   /* READING RHYTHM, MATCHED TO THE CANONICAL READER.
      The old /library/ reader sets a technical book at 14px / 1.625 on a 672px
      measure. This surface kept 17px / 1.9 on a 62ch measure, which at two
@@ -892,7 +895,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   color: var(--ink-2);
   transition: background-color var(--dur-fast) var(--ease-out-expo), color var(--dur-fast) var(--ease-out-expo);
 }
-.nr-rtoc-t { font-size: 0.75rem; font-weight: 650; }
+.nr-rtoc-t { font-size: 0.8125rem; font-weight: 650; }
 .nr-rtoc-t:hover, .nr-rtoc-sec:hover { background: var(--surface-2); color: var(--ink-1); }
 .nr-rtoc-t:focus-visible, .nr-rtoc-sec:focus-visible, .nr-rtoc-fold:focus-visible {
   outline: none;
@@ -952,7 +955,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 }
 
 .nr-rtoc-s { margin-inline-start: calc(1.5rem + 2px); }
-.nr-rtoc-sec { font-size: 0.6875rem; font-weight: 500; }
+.nr-rtoc-sec { font-size: 0.75rem; font-weight: 500; }
 .nr-rtoc-sid {
   flex: none;
   font-family: var(--font-mono);
@@ -1541,3 +1544,8 @@ html[data-theme="dark"] .nr-tip { box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .7
 .nr-dock-t,
 .nr-rail-t,
 .nr-nav-t { unicode-bidi: isolate; }
+
+/* BASIC / ADVANCED (design audit S7-LIB-5): the advanced group flows inline
+   with the bar when open; the toggle shows its state. */
+.nr-adv { display: contents; }
+.nr-adv-b[aria-expanded="true"] { color: var(--ink-1); }

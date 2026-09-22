@@ -50,7 +50,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { useRouter } from "next/navigation";
 import {
   ArrowRight, Boxes, ChevronDown, Crosshair, Filter, Keyboard, Layers, Link2, Map as MapIcon,
-  Focus, Maximize, Maximize2, Minimize, Minus, PanelRightClose, PanelRightOpen, Plus, RotateCcw, Scan,
+  Focus, Maximize, Maximize2, Minimize, Minus, PanelRightClose, PanelRightOpen, Plus, Presentation, RotateCcw, Scan,
   Search, Share2, SlidersHorizontal, Target, Workflow, X,
 } from "lucide-react";
 import {
@@ -73,6 +73,10 @@ import {
 const SKEY = "neo:erd:v3";
 const TWEEN = 460;
 const PAD = 52;
+/** PRESENTATION MODE (design audit S6-3): an automatic fit never lands below
+ *  this zoom, so a module read from across a meeting room keeps legible
+ *  titles; the presenter pans to the rest instead of squinting at all of it. */
+const PRESENT_MIN_K = 1;
 
 /** PHONE. The workspace on a ≤640px viewport — the same breakpoint erd.css
  *  uses for its phone rules. Read through an external store so the server
@@ -258,6 +262,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
    *  event, never by the click, so the button can never desync from the browser
    *  when the user leaves fullscreen with Escape or with the system control. */
   const [full, setFull] = useState(false);
+  /* PRESENTATION MODE (design audit S6-3): focus mode plus the real
+     fullscreen, larger type in the inspector and on the canvas (erd.css
+     [data-present]), a legibility floor on every automatic fit, the minimap
+     out of the way and a short legend on the stage. One switch, one exit
+     (Esc, or the same button). Declared here, above fitTo, which reads it. */
+  const [present, setPresent] = useState(false);
   /** The analysis lens the reader asked for. The lens actually IN FORCE is
    *  derived below — a module with no recorded object chain cannot answer the
    *  business-flow question, and falling back is a reading of the data, not a
@@ -769,14 +779,14 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       if (!st) return;
       const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
       autoBox.current = b;
-      const k = clampK(raw);
+      const k = clampK(present ? Math.max(raw, PRESENT_MIN_K) : raw);
       glide({
         k,
         x: (st.clientWidth - b.w * k) / 2 - b.x * k,
         y: (st.clientHeight - b.h * k) / 2 - b.y * k,
       });
     },
-    [glide],
+    [glide, present],
   );
 
   /** The toolbar's fit: a true fit, no floor. */
@@ -1109,7 +1119,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   // Focus mode (design audit §3): the canvas alone, shell hidden, Escape or
   // the pinned control exits. Page-scoped; nothing persisted.
   const [shellFocus, setShellFocus] = useState(false);
-  const exitShellFocus = useCallback(() => setShellFocus(false), []);
+  // Leaving focus (Esc, or the exit button) also ends a presentation.
+  const exitShellFocus = useCallback(() => { setShellFocus(false); setPresent(false); }, []);
   useShellFocus(shellFocus, exitShellFocus);
   useEffect(() => {
     const d = document as FsDoc;
@@ -1140,6 +1151,21 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (fsNow()) done((document.exitFullscreen ?? d.webkitExitFullscreen)?.call(document));
     else done((el.requestFullscreen ?? el.webkitRequestFullscreen)?.call(el));
   }, [fsNow]);
+
+  /** PRESENTATION MODE, in and out (design audit S6-3). Focus mode hides the
+   *  shell, fullscreen takes the browser chrome, the [data-present] attribute
+   *  raises the type and floors the fit, and the same button or Esc undoes
+   *  all of it. Fullscreen is asked for only where the browser allows it. */
+  const enterPresent = useCallback(() => {
+    setPresent(true);
+    setShellFocus(true);
+    if (fsOk && !fsNow()) toggleFull();
+  }, [fsOk, fsNow, toggleFull]);
+  const exitPresent = useCallback(() => {
+    setPresent(false);
+    setShellFocus(false);
+    if (fsNow()) toggleFull();
+  }, [fsNow, toggleFull]);
 
   /** Entering or leaving fullscreen is an explicit act with a much larger or
    *  much smaller stage on the other side of it, so the picture is re-framed
@@ -1714,6 +1740,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       data-opencard={openT ? "1" : "0"}
       data-mode={isMap ? "" : mode}
       data-plist={phoneList ? "1" : "0"}
+      data-present={present ? "1" : "0"}
     >
       <header className="ne-bar">
         {/* IDENTITY IN TWO LINES, NOT FOUR. The return, the ladder, the title
@@ -1858,6 +1885,18 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             </button>
           </div>
           <div className="ne-group">
+            {/* PRESENTATION (design audit S6-3): focus + fullscreen + larger
+                type + legend, for a meeting room. */}
+            <button
+              type="button"
+              className="nu-ghost"
+              onClick={present ? exitPresent : enterPresent}
+              aria-pressed={present}
+              aria-label={present ? "יציאה ממצב הצגה" : "מצב הצגה: מסך מלא, טקסט גדול ומקרא, לחדר ישיבות"}
+              title={present ? "יציאה ממצב הצגה · Esc" : "מצב הצגה"}
+            >
+              <Presentation size={15} strokeWidth={1.8} aria-hidden="true" />
+            </button>
             {/* FULLSCREEN. The real API on the workspace root, so the controls
                 come with the picture. Its pressed state is read from the
                 browser, never from this click. */}
@@ -2420,6 +2459,26 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
                 חזרה לתצוגה הקודמת
               </button>
+            </div>
+          ) : null}
+          {/* THE SHORT LEGEND of presentation mode (design audit S6-3): what is
+              on the stage, the relation kinds and the module colours, in the
+              words the inspector and the keys sheet already use. */}
+          {present ? (
+            <div className="ne-legend" role="note" aria-label="מקרא">
+              <span className="ne-legend-h">{M ? `${M.code} · ${M.he}` : `מפת ${data.stats.modules} המודולים`}</span>
+              {REL_ORDER.map((k) => (
+                <span key={k} className="ne-legend-i">
+                  <i data-kind={k} aria-hidden="true" />
+                  {REL_HE[k]}
+                </span>
+              ))}
+              {[...mods].map((m) => (
+                <span key={m} className="ne-legend-i" style={{ "--ms": modVar(m) } as React.CSSProperties}>
+                  <b aria-hidden="true" />
+                  <span className="nx-sap">{m}</span>
+                </span>
+              ))}
             </div>
           ) : null}
           <svg

@@ -20,7 +20,7 @@ import { EXITS, type Exit, type ExitKind } from "@/data/exits";
 import { evidenceBlock, fromEccS4Block } from "@/lib/evidence";
 import { canonStatus } from "./canon";
 import { completeness, enhHref, nf, txHref, uniq } from "./ref-links";
-import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus } from "./types";
+import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus, RefCompare } from "./types";
 
 const KIND_HE: Record<string, string> = {
   Exit: "Exit קלאסי",
@@ -103,6 +103,32 @@ function rowOf(e: Enhancement): RefRow {
 
 export function enhDir(): RefDir {
   const rows = ENHANCEMENTS.map(rowOf);
+
+  /* THE COMPARISON (design audit S7-CAT-7): every technique on one table —
+     kind, what it is for, the record's own reservation, the canonical S/4
+     standing and the implementation T-Codes. Same records, same resolver as
+     the rows; a cell the record does not fill says so. */
+  const bySlug = new Map(rows.map((r) => [r.id, r]));
+  const compare: RefCompare = {
+    title: "השוואת טכניקות ההרחבה",
+    lede: "לפי שימוש, מגבלות ומעמד ב-S/4HANA. כל שורה פותחת את הרשומה המלאה.",
+    columns: ["טכניקה", "סוג", "שימוש", "מגבלות והסתייגויות", "מעמד ב-S/4HANA", "מימוש"],
+    rows: ENHANCEMENTS.map((e) => {
+      const r = bySlug.get(e.slug);
+      return {
+        code: e.title,
+        he: e.he,
+        href: `/neo/enhancements/${encodeURIComponent(e.slug)}/`,
+        cells: [
+          KIND_HE[e.kind] || e.kind,
+          e.def,
+          e.note || "לא צוינה הסתייגות ברשומה",
+          r ? { status: r.s4.status } : "",
+          e.tcodes.length ? e.tcodes.join(" · ") : "לא צוינה טרנזקציה",
+        ],
+      };
+    }),
+  };
   const count = (fn: (r: RefRow) => boolean) => rows.filter(fn).length;
   const byKind = new Map<string, number>();
   for (const r of rows) byKind.set(r.kind, (byKind.get(r.kind) || 0) + 1);
@@ -137,6 +163,7 @@ export function enhDir(): RefDir {
       { id: "pp", he: "דוגמת PP או PP-PI", n: count((r) => r.caps.includes("pp")) },
       { id: "caveat", he: "עם הסתייגות", n: count((r) => r.caps.includes("caveat")) },
     ].filter((c) => c.n > 0),
+    compare,
     groupLabel: "",
     rankLabel: "מספר הרחבות בשם",
     searchPlaceholder: "שם טכניקה · הגדרה · טרנזקציה · תרחיש",

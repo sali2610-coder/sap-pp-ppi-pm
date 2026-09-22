@@ -1094,7 +1094,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 }
 .nxq-starter { display: grid; gap: 2px; padding: var(--sp-3); }
 .nxq-starter-l { font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); }
-.nxq-starter-p { font-size: var(--t-micro); line-height: 1.6; color: var(--ink-3); }
+.nxq-starter-p { font-size: var(--t-xs); line-height: 1.6; color: var(--ink-3); }
 
 /* ------------------------------------------------- 6b. THE GENERAL SURFACE
 
