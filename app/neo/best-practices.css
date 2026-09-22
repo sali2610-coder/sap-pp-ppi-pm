@@ -192,14 +192,17 @@ html[data-theme="dark"] .nx-app .nbp-claims > li {
      The official reference is a sentence-long title, so here it behaves as
      text and is allowed to break. Without this the title pushed the canvas
      sideways on a phone (measured: 12 of 17 records at 390px). */
-  display: inline;
+  /* inline-block, not inline: it still wraps inside its own box, and unlike an
+     inline box it can hold the 24px minimum target (the inline version measured
+     17px tall, 2026-09-22). */
+  display: inline-block;
   max-inline-size: 100%;
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
-  min-block-size: 0;
+  min-block-size: 1.5rem;
   padding: 0;
-  line-height: inherit;
+  line-height: 1.5rem;
   font-size: inherit;
   font-weight: 650;
   border: 0;

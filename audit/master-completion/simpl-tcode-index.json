@@ -1,0 +1,10798 @@
+{
+ "generatedAt": "2026-09-22T12:42:38.292Z",
+ "lists": [
+  {
+   "key": "2025",
+   "title": "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36)",
+   "release": "2025 FPS01",
+   "url": "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+   "md5": "c1ccf8ebcd92d51fdc80e4b4873f3b73"
+  },
+  {
+   "key": "2023",
+   "title": "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35)",
+   "release": "2023 FPS03",
+   "url": "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+   "md5": "909c6e9087b009e809c116d3c6cf2eec"
+  }
+ ],
+ "codes": {
+  "AB01": {
+   "2023": [
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      15778,
+      15865,
+      15989
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      10144,
+      10256,
+      10380
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      12146,
+      12247,
+      12385
+     ]
+    }
+   ]
+  },
+  "AFAB": {
+   "2023": [
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      15513,
+      15589,
+      16080
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      9559,
+      9817,
+      9912
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      11568,
+      11824,
+      11919
+     ]
+    }
+   ]
+  },
+  "AS91": {
+   "2023": [
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      15775,
+      15829
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      10141,
+      10208
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      12143,
+      12210
+     ]
+    }
+   ]
+  },
+  "C223": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36655
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53228
+     ]
+    }
+   ]
+  },
+  "CJ20N": {
+   "2023": [
+    {
+     "item": "32.7",
+     "title": "S4TWL - Hierarchy Graphics in Project Systems",
+     "lines": [
+      43590,
+      43596
+     ]
+    },
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      43951,
+      43955
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.34",
+     "title": "S4TWL - Navigation to Project Builder instead of special maintenance",
+     "lines": [
+      49010,
+      49016
+     ]
+    },
+    {
+     "item": "10.1.61",
+     "title": "S4TWL - Hierarchy Graphics in Project Systems",
+     "lines": [
+      50780,
+      50781,
+      50787
+     ]
+    }
+   ]
+  },
+  "CJ40": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19640
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19729
+     ]
+    },
+    {
+     "item": "10.1.61",
+     "title": "S4TWL - Hierarchy Graphics in Project Systems",
+     "lines": [
+      50781
+     ]
+    }
+   ]
+  },
+  "CK11N": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20407
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.9",
+     "title": "S4TWL - Reporting/Analytics in Controlling",
+     "lines": [
+      18689
+     ]
+    }
+   ]
+  },
+  "CKM3N": {
+   "2023": [
+    {
+     "item": "18.2",
+     "title": "S4TWL - Technical Changes in Material Ledger",
+     "lines": [
+      23675
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.6",
+     "title": "S4TWL - Technical Changes in Material Ledger",
+     "lines": [
+      18080
+     ]
+    }
+   ]
+  },
+  "CM01": {
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43137
+     ]
+    }
+   ]
+  },
+  "CO01": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19501,
+      19627
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.9",
+     "title": "S4TWL - Reporting/Analytics in Controlling",
+     "lines": [
+      18689
+     ]
+    },
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19576,
+      19715
+     ]
+    }
+   ]
+  },
+  "CO02": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19501
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19576
+     ]
+    }
+   ]
+  },
+  "CO03": {
+   "2025": [
+    {
+     "item": "6.5.9",
+     "title": "S4TWL - Reporting/Analytics in Controlling",
+     "lines": [
+      18689
+     ]
+    }
+   ]
+  },
+  "CO11N": {
+   "2023": [
+    {
+     "item": "52.4",
+     "title": "S4TWL - Process batch",
+     "lines": [
+      60957
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.4",
+     "title": "S4TWL - Process batch",
+     "lines": [
+      69109
+     ]
+    }
+   ]
+  },
+  "CO53": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      40775
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.3.17",
+     "title": "S4TWL - Control Recipes/Instructions",
+     "lines": [
+      34680
+     ]
+    }
+   ]
+  },
+  "COHV": {
+   "2023": [
+    {
+     "item": "52.6",
+     "title": "S4TWL - Selection by characteristics in mass processing of orders",
+     "lines": [
+      61044,
+      61047,
+      61050
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.6",
+     "title": "S4TWL - Selection by characteristics in mass processing of orders",
+     "lines": [
+      69185,
+      69188,
+      69191
+     ]
+    }
+   ]
+  },
+  "COOIS": {
+   "2025": [
+    {
+     "item": "9.2.1",
+     "title": "S4TWL - Logistic Information System in PP",
+     "lines": [
+      33037,
+      33039,
+      33040
+     ]
+    }
+   ]
+  },
+  "COOISPI": {
+   "2025": [
+    {
+     "item": "9.2.1",
+     "title": "S4TWL - Logistic Information System in PP",
+     "lines": [
+      33043,
+      33045,
+      33046
+     ]
+    }
+   ]
+  },
+  "COR1": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19501,
+      19627
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19576,
+      19715
+     ]
+    }
+   ]
+  },
+  "COR2": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19501
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19576
+     ]
+    }
+   ]
+  },
+  "COR4": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19502
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19577
+     ]
+    }
+   ]
+  },
+  "COR6N": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      40548,
+      40691
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.3.16",
+     "title": "S4TWL - Process Messages",
+     "lines": [
+      34554
+     ]
+    },
+    {
+     "item": "9.3.17",
+     "title": "S4TWL - Control Recipes/Instructions",
+     "lines": [
+      34728
+     ]
+    }
+   ]
+  },
+  "CORK": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      40548,
+      40691
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.3.16",
+     "title": "S4TWL - Process Messages",
+     "lines": [
+      34554
+     ]
+    },
+    {
+     "item": "9.3.17",
+     "title": "S4TWL - Control Recipes/Instructions",
+     "lines": [
+      34728
+     ]
+    }
+   ]
+  },
+  "CR01": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20407
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.9",
+     "title": "S4TWL - Reporting/Analytics in Controlling",
+     "lines": [
+      18690
+     ]
+    }
+   ]
+  },
+  "CS01": {
+   "2023": [
+    {
+     "item": "28.4",
+     "title": "S4TWL - Variant Configuration",
+     "lines": [
+      36071
+     ]
+    },
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36647
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.8",
+     "title": "S4TWL - Variant Configuration",
+     "lines": [
+      52084
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53224
+     ]
+    }
+   ]
+  },
+  "CS02": {
+   "2023": [
+    {
+     "item": "28.4",
+     "title": "S4TWL - Variant Configuration",
+     "lines": [
+      36071
+     ]
+    },
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36647
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.8",
+     "title": "S4TWL - Variant Configuration",
+     "lines": [
+      52084
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53224
+     ]
+    }
+   ]
+  },
+  "F110": {
+   "2023": [
+    {
+     "item": "11.2",
+     "title": "S4TWL - CASH MANAGEMENT - GENERAL",
+     "lines": [
+      16883,
+      16884,
+      16885
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.11.17",
+     "title": "S4TWL - CASH MANAGEMENT - GENERAL",
+     "lines": [
+      24886,
+      24891,
+      24898
+     ]
+    }
+   ]
+  },
+  "FAGLB03": {
+   "2023": [
+    {
+     "item": "15.5",
+     "title": "S4TWL - Currencies in Universal Journal",
+     "lines": [
+      21651
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.12",
+     "title": "S4TWL - Currencies in Universal Journal",
+     "lines": [
+      11016
+     ]
+    }
+   ]
+  },
+  "FAGLL03": {
+   "2023": [
+    {
+     "item": "15.5",
+     "title": "S4TWL - Currencies in Universal Journal",
+     "lines": [
+      21655
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.12",
+     "title": "S4TWL - Currencies in Universal Journal",
+     "lines": [
+      11018
+     ]
+    }
+   ]
+  },
+  "FB03": {
+   "2023": [
+    {
+     "item": "15.5",
+     "title": "S4TWL - Currencies in Universal Journal",
+     "lines": [
+      21643
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.12",
+     "title": "S4TWL - Currencies in Universal Journal",
+     "lines": [
+      11012
+     ]
+    }
+   ]
+  },
+  "FB50": {
+   "2023": [
+    {
+     "item": "15.8",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      22205
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.13",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      11111
+     ]
+    }
+   ]
+  },
+  "FB60": {
+   "2023": [
+    {
+     "item": "15.8",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      22205
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.13",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      11111
+     ]
+    }
+   ]
+  },
+  "FB65": {
+   "2023": [
+    {
+     "item": "15.8",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      22205
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.13",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      11111
+     ]
+    }
+   ]
+  },
+  "FB70": {
+   "2023": [
+    {
+     "item": "15.8",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      22206
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.13",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      11111
+     ]
+    }
+   ]
+  },
+  "FB75": {
+   "2023": [
+    {
+     "item": "15.8",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      22206
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.13",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      11112
+     ]
+    }
+   ]
+  },
+  "FD01": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9109
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68365
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7051
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72923
+     ]
+    }
+   ]
+  },
+  "FD02": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9109
+     ]
+    },
+    {
+     "item": "11.2",
+     "title": "S4TWL - CASH MANAGEMENT - GENERAL",
+     "lines": [
+      17117
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68366
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7051
+     ]
+    },
+    {
+     "item": "6.11.17",
+     "title": "S4TWL - CASH MANAGEMENT - GENERAL",
+     "lines": [
+      25126
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72924
+     ]
+    }
+   ]
+  },
+  "FD03": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9109
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68367
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7051
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72924
+     ]
+    }
+   ]
+  },
+  "FK01": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9109
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68359
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7053
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72923
+     ]
+    }
+   ]
+  },
+  "FK02": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9109
+     ]
+    },
+    {
+     "item": "11.2",
+     "title": "S4TWL - CASH MANAGEMENT - GENERAL",
+     "lines": [
+      17118
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68360
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7054
+     ]
+    },
+    {
+     "item": "6.11.17",
+     "title": "S4TWL - CASH MANAGEMENT - GENERAL",
+     "lines": [
+      25126
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72923
+     ]
+    }
+   ]
+  },
+  "FK03": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9109
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68361
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7054
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72923
+     ]
+    }
+   ]
+  },
+  "IP19": {
+   "2023": [
+    {
+     "item": "29.9",
+     "title": "S4TWL - Changes In List Reports For Order and Notification",
+     "lines": [
+      38832
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.10",
+     "title": "S4TWL - SAP Graphics in EAM Transactions",
+     "lines": [
+      4315
+     ]
+    }
+   ]
+  },
+  "IP30": {
+   "2023": [
+    {
+     "item": "29.6",
+     "title": "S4TWL - Scheduling of Maintenance Plan",
+     "lines": [
+      38533,
+      38544
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.2",
+     "title": "S4TWL - Scheduling of Maintenance Plan",
+     "lines": [
+      3962,
+      3973
+     ]
+    }
+   ]
+  },
+  "IW37": {
+   "2023": [
+    {
+     "item": "29.9",
+     "title": "S4TWL - Changes In List Reports For Order and Notification",
+     "lines": [
+      38684,
+      38697
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.7",
+     "title": "S4TWL - Changes In List Reports For Order and Notification",
+     "lines": [
+      4170,
+      4182
+     ]
+    }
+   ]
+  },
+  "IW49": {
+   "2023": [
+    {
+     "item": "29.9",
+     "title": "S4TWL - Changes In List Reports For Order and Notification",
+     "lines": [
+      38684,
+      38697
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.7",
+     "title": "S4TWL - Changes In List Reports For Order and Notification",
+     "lines": [
+      4170,
+      4182
+     ]
+    }
+   ]
+  },
+  "KA01": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20234
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.5",
+     "title": "S4TWL - COST ELEMENTS",
+     "lines": [
+      17969
+     ]
+    }
+   ]
+  },
+  "KA06": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20243
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.5",
+     "title": "S4TWL - COST ELEMENTS",
+     "lines": [
+      17970
+     ]
+    }
+   ]
+  },
+  "KB21N": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19793
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17660
+     ]
+    }
+   ]
+  },
+  "KB31N": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19795
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17663
+     ]
+    }
+   ]
+  },
+  "KB33N": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19795
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17663
+     ]
+    }
+   ]
+  },
+  "KE24": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20368,
+      20595
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.9",
+     "title": "S4TWL - Reporting/Analytics in Controlling",
+     "lines": [
+      18649
+     ]
+    },
+    {
+     "item": "6.5.11",
+     "title": "S4TWL - Profitability Analysis",
+     "lines": [
+      19419
+     ]
+    }
+   ]
+  },
+  "KE30": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20367,
+      20595
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.9",
+     "title": "S4TWL - Reporting/Analytics in Controlling",
+     "lines": [
+      18649
+     ]
+    },
+    {
+     "item": "6.5.11",
+     "title": "S4TWL - Profitability Analysis",
+     "lines": [
+      19419
+     ]
+    }
+   ]
+  },
+  "KEPM": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19562,
+      19565
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19637,
+      19640
+     ]
+    }
+   ]
+  },
+  "KKS1": {
+   "2023": [
+    {
+     "item": "12.2",
+     "title": "S4TWL - Summarization Hierarchies in Controlling",
+     "lines": [
+      18475,
+      18482
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.12",
+     "title": "S4TWL - Summarization Hierarchies in Controlling",
+     "lines": [
+      19506,
+      19519
+     ]
+    }
+   ]
+  },
+  "KP06": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19640,
+      20310
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.9",
+     "title": "S4TWL - Reporting/Analytics in Controlling",
+     "lines": [
+      18597
+     ]
+    },
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19730
+     ]
+    }
+   ]
+  },
+  "KSU1": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19787
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17645
+     ]
+    }
+   ]
+  },
+  "KSU5": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19784
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17640
+     ]
+    }
+   ]
+  },
+  "KSV1": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19787
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17645
+     ]
+    }
+   ]
+  },
+  "KSV5": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19777
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17639
+     ]
+    }
+   ]
+  },
+  "LS24": {
+   "2023": [
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      71477
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.15.6",
+     "title": "S4TWL - Segmentation (from 1809 onwards)",
+     "lines": [
+      74168
+     ]
+    },
+    {
+     "item": "13.15.10",
+     "title": "S4TWL - Segmentation",
+     "lines": [
+      74528
+     ]
+    }
+   ]
+  },
+  "MB01": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34680,
+      34698
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84132,
+      84159
+     ]
+    }
+   ]
+  },
+  "MB02": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34680,
+      34708
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84132,
+      84162
+     ]
+    }
+   ]
+  },
+  "MB03": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34680,
+      34708
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84132,
+      84162
+     ]
+    }
+   ]
+  },
+  "MB04": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34680,
+      34698
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84132,
+      84159
+     ]
+    }
+   ]
+  },
+  "MB05": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34680,
+      34698
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84132,
+      84159
+     ]
+    }
+   ]
+  },
+  "MB11": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34680,
+      34699
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84132,
+      84159
+     ]
+    }
+   ]
+  },
+  "MB1A": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34680,
+      34699
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84132,
+      84160
+     ]
+    }
+   ]
+  },
+  "MB1B": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34680,
+      34699
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84132,
+      84160
+     ]
+    }
+   ]
+  },
+  "MB1C": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34680,
+      34699
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84132,
+      84160
+     ]
+    }
+   ]
+  },
+  "MB22": {
+   "2023": [
+    {
+     "item": "27.2",
+     "title": "S4TWL - Blocked customer or supplier in Inventory Management",
+     "lines": [
+      33497
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.5",
+     "title": "S4TWL - Blocked customer or supplier in Inventory Management",
+     "lines": [
+      83517
+     ]
+    }
+   ]
+  },
+  "MB31": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34680,
+      34699
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84132,
+      84160
+     ]
+    }
+   ]
+  },
+  "MBRL": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34681,
+      34699
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84133,
+      84160
+     ]
+    }
+   ]
+  },
+  "MBST": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34681,
+      34710
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84133,
+      84164
+     ]
+    }
+   ]
+  },
+  "MD01": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36646
+     ]
+    },
+    {
+     "item": "30.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      39056,
+      39091
+     ]
+    },
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      70089,
+      70091,
+      70100
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      35729,
+      35772,
+      35846
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53223
+     ]
+    },
+    {
+     "item": "13.15.55",
+     "title": "S4TWL - Retail Obsolete Transactions",
+     "lines": [
+      76963
+     ]
+    },
+    {
+     "item": "13.15.58",
+     "title": "S4TWL - Replenishment",
+     "lines": [
+      77515,
+      77517,
+      77530
+     ]
+    }
+   ]
+  },
+  "MD01N": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36647
+     ]
+    },
+    {
+     "item": "30.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      38936,
+      38942,
+      38959
+     ]
+    },
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      70090,
+      71483
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      35718,
+      35729,
+      35731
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53223
+     ]
+    },
+    {
+     "item": "13.15.6",
+     "title": "S4TWL - Segmentation (from 1809 onwards)",
+     "lines": [
+      74173
+     ]
+    },
+    {
+     "item": "13.15.10",
+     "title": "S4TWL - Segmentation",
+     "lines": [
+      74533
+     ]
+    },
+    {
+     "item": "13.15.58",
+     "title": "S4TWL - Replenishment",
+     "lines": [
+      77516
+     ]
+    }
+   ]
+  },
+  "MD02": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36646
+     ]
+    },
+    {
+     "item": "30.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      39056,
+      39091
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      35772,
+      35847,
+      35854
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53223
+     ]
+    }
+   ]
+  },
+  "MD03": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36646
+     ]
+    },
+    {
+     "item": "30.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      39056,
+      39091
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      35772,
+      35902
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53223
+     ]
+    }
+   ]
+  },
+  "MD04": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      41789
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.14",
+     "title": "S4TWL - Graphical display of available quantity in MRP evaluations",
+     "lines": [
+      44347
+     ]
+    }
+   ]
+  },
+  "MD07": {
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44669
+     ]
+    }
+   ]
+  },
+  "MD11": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36647
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53224
+     ]
+    }
+   ]
+  },
+  "MD12": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36648
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53224
+     ]
+    }
+   ]
+  },
+  "MD13": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36648
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53224
+     ]
+    }
+   ]
+  },
+  "MD50": {
+   "2023": [
+    {
+     "item": "30.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      38990,
+      39088
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      35772,
+      35798
+     ]
+    }
+   ]
+  },
+  "MD51": {
+   "2023": [
+    {
+     "item": "30.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      38991,
+      39088
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      35772,
+      35799
+     ]
+    }
+   ]
+  },
+  "MDBT": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36656
+     ]
+    },
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      41544
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.11",
+     "title": "S4TWL - Planning Horizon",
+     "lines": [
+      44177
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53229
+     ]
+    }
+   ]
+  },
+  "ME21N": {
+   "2023": [
+    {
+     "item": "38.9",
+     "title": "S4TWL - Co-Deployment of SAP SRM",
+     "lines": [
+      51037
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.2.12",
+     "title": "S4TWL - CI Include Conflicts in EKKO_INCL_EEW_PS and",
+     "lines": [
+      80841
+     ]
+    }
+   ]
+  },
+  "ME24": {
+   "2023": [
+    {
+     "item": "38.2",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      49411
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.2.8",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      80469
+     ]
+    }
+   ]
+  },
+  "ME25": {
+   "2023": [
+    {
+     "item": "38.2",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      49412
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.2.8",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      80469
+     ]
+    }
+   ]
+  },
+  "ME27": {
+   "2023": [
+    {
+     "item": "38.2",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      49419
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.2.8",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      80469
+     ]
+    }
+   ]
+  },
+  "ME28": {
+   "2023": [
+    {
+     "item": "38.2",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      49420
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.2.8",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      80470
+     ]
+    }
+   ]
+  },
+  "ME41": {
+   "2023": [
+    {
+     "item": "38.7",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      50553
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.4.1",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      81059
+     ]
+    }
+   ]
+  },
+  "ME42": {
+   "2023": [
+    {
+     "item": "38.7",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      50554
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.4.1",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      81060
+     ]
+    }
+   ]
+  },
+  "ME43": {
+   "2023": [
+    {
+     "item": "38.7",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      50555
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.4.1",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      81061
+     ]
+    }
+   ]
+  },
+  "ME47": {
+   "2023": [
+    {
+     "item": "38.7",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      50558
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.4.1",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      81064
+     ]
+    }
+   ]
+  },
+  "ME48": {
+   "2023": [
+    {
+     "item": "38.7",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      50559
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.4.1",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      81065
+     ]
+    }
+   ]
+  },
+  "ME49": {
+   "2023": [
+    {
+     "item": "38.7",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      50560
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.4.1",
+     "title": "S4TWL - RFQ Simplified Transaction",
+     "lines": [
+      81066
+     ]
+    }
+   ]
+  },
+  "ME51N": {
+   "2023": [
+    {
+     "item": "38.1",
+     "title": "S4TWL - MM-PUR WebDynpro Applications",
+     "lines": [
+      49281
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.2.7",
+     "title": "S4TWL - MM-PUR WebDynpro Applications",
+     "lines": [
+      80371
+     ]
+    }
+   ]
+  },
+  "MF50": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42111,
+      42112,
+      42115
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43102,
+      43127,
+      43148
+     ]
+    }
+   ]
+  },
+  "MFP1": {
+   "2023": [
+    {
+     "item": "49.2",
+     "title": "S4TWL - Handling Unit Management - Obsolete Transactions",
+     "lines": [
+      58335,
+      58441,
+      58502
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.2.16",
+     "title": "S4TWL - Handling Unit Management - Obsolete Transactions",
+     "lines": [
+      62178,
+      62299,
+      62345
+     ]
+    }
+   ]
+  },
+  "MIGO": {
+   "2023": [
+    {
+     "item": "27.3",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      33618,
+      33630,
+      33637
+     ]
+    },
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34678,
+      34688,
+      34691
+     ]
+    },
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      35323,
+      35329,
+      35875
+     ]
+    },
+    {
+     "item": "48.5",
+     "title": "S4TWL - Manufacturer Part Number",
+     "lines": [
+      57746,
+      57747
+     ]
+    },
+    {
+     "item": "56.8",
+     "title": "S4TWL - Optimization in Oil & Gas - TD module for STO and sales",
+     "lines": [
+      65187
+     ]
+    },
+    {
+     "item": "56.9",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      65677
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.1.3",
+     "title": "S4TWL - Manufacturer Part Number",
+     "lines": [
+      59898,
+      59900
+     ]
+    },
+    {
+     "item": "13.13.3",
+     "title": "S4TWL - Optimization in Oil & Gas - TD module for STO and sales order",
+     "lines": [
+      69599
+     ]
+    },
+    {
+     "item": "13.13.33",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      72334
+     ]
+    },
+    {
+     "item": "15.3.6",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      83650,
+      83663,
+      83675
+     ]
+    },
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      84019,
+      84061
+     ]
+    },
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84128,
+      84141,
+      84143
+     ]
+    },
+    {
+     "item": "6.0",
+     "title": "This 'new architecture' is harmonized with the SAP ERP standard and removes the",
+     "lines": [
+      85014
+     ]
+    },
+    {
+     "item": "15.3.12",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      85040,
+      85048,
+      85060
+     ]
+    }
+   ]
+  },
+  "MIGO_GR": {
+   "2023": [
+    {
+     "item": "27.3",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      33727
+     ]
+    },
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34713
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.6",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      83799
+     ]
+    },
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84153
+     ]
+    },
+    {
+     "item": "15.3.12",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      85188
+     ]
+    }
+   ]
+  },
+  "MK01": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9105,
+      9109
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7045,
+      7054
+     ]
+    }
+   ]
+  },
+  "MK02": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9105,
+      9110
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7045,
+      7054
+     ]
+    }
+   ]
+  },
+  "MK03": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9105,
+      9110
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7045,
+      7055
+     ]
+    }
+   ]
+  },
+  "MM01": {
+   "2023": [
+    {
+     "item": "3.25",
+     "title": "S4TWL - MRP fields in Material Master",
+     "lines": [
+      9909,
+      9911
+     ]
+    },
+    {
+     "item": "3.26",
+     "title": "S4TWL - Material Type SERV",
+     "lines": [
+      10041
+     ]
+    },
+    {
+     "item": "16.1",
+     "title": "S4TWL - Material classification with commodity codes",
+     "lines": [
+      22233,
+      22249
+     ]
+    },
+    {
+     "item": "27.8",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      35027
+     ]
+    },
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36655
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.7.4",
+     "title": "S4TWL - Material classification with commodity codes",
+     "lines": [
+      21319,
+      21337
+     ]
+    },
+    {
+     "item": "9.5.15",
+     "title": "S4TWL - MRP fields in Material Master",
+     "lines": [
+      44381,
+      44382
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53228
+     ]
+    },
+    {
+     "item": "12.1.1",
+     "title": "S4TWL - Material Type SERV",
+     "lines": [
+      59409
+     ]
+    },
+    {
+     "item": "15.3.10",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      84269
+     ]
+    }
+   ]
+  },
+  "MM02": {
+   "2023": [
+    {
+     "item": "16.1",
+     "title": "S4TWL - Material classification with commodity codes",
+     "lines": [
+      22233,
+      22249
+     ]
+    },
+    {
+     "item": "27.7",
+     "title": "S4TWL - Material Ledger Obligatory for Material Valuation",
+     "lines": [
+      34914
+     ]
+    },
+    {
+     "item": "27.8",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      35027
+     ]
+    },
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      35319
+     ]
+    },
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36656
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.7.4",
+     "title": "S4TWL - Material classification with commodity codes",
+     "lines": [
+      21319,
+      21337
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53228
+     ]
+    },
+    {
+     "item": "15.3.2",
+     "title": "S4TWL - Material Ledger Obligatory for Material Valuation",
+     "lines": [
+      83285
+     ]
+    },
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      84058
+     ]
+    },
+    {
+     "item": "15.3.10",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      84270
+     ]
+    }
+   ]
+  },
+  "MM03": {
+   "2023": [
+    {
+     "item": "27.8",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      35027
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.10",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      84270
+     ]
+    }
+   ]
+  },
+  "MMBE": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34682,
+      34697,
+      34714
+     ]
+    },
+    {
+     "item": "56.9",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      66564,
+      66576,
+      66580
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.13.4",
+     "title": "S4TWL - Unit of Measure (UoM) Group enahncement",
+     "lines": [
+      69713,
+      69729,
+      69732
+     ]
+    },
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84135,
+      84154,
+      84158
+     ]
+    }
+   ]
+  },
+  "MMBE_OLD": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34682
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84135
+     ]
+    }
+   ]
+  },
+  "MMPV": {
+   "2023": [
+    {
+     "item": "12.4",
+     "title": "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+     "lines": [
+      18724
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.10",
+     "title": "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+     "lines": [
+      18909
+     ]
+    }
+   ]
+  },
+  "MSC1N": {
+   "2023": [
+    {
+     "item": "3.3",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      7946
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.8",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      5418
+     ]
+    }
+   ]
+  },
+  "MSC2N": {
+   "2023": [
+    {
+     "item": "3.3",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      7947
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.8",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      5419
+     ]
+    }
+   ]
+  },
+  "MSC3N": {
+   "2023": [
+    {
+     "item": "3.3",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      7948
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.8",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      5420
+     ]
+    }
+   ]
+  },
+  "MSC4N": {
+   "2023": [
+    {
+     "item": "3.3",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      7949
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.8",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      5421
+     ]
+    }
+   ]
+  },
+  "QA32": {
+   "2023": [
+    {
+     "item": "34.7",
+     "title": "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services",
+     "lines": [
+      45855,
+      45900
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.4",
+     "title": "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services",
+     "lines": [
+      45379,
+      45389
+     ]
+    }
+   ]
+  },
+  "QDV3": {
+   "2023": [
+    {
+     "item": "34.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45220
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45066
+     ]
+    }
+   ]
+  },
+  "QE51N": {
+   "2023": [
+    {
+     "item": "34.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45203
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45042
+     ]
+    }
+   ]
+  },
+  "QGA1": {
+   "2023": [
+    {
+     "item": "34.3",
+     "title": "S4TWL - Removed Navigation to Transactions for Evaluations in QM",
+     "lines": [
+      45316,
+      45326
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.1",
+     "title": "S4TWL - Removed Navigation to Transactions for Evaluations in QM",
+     "lines": [
+      44962,
+      44972
+     ]
+    }
+   ]
+  },
+  "QGP1": {
+   "2023": [
+    {
+     "item": "34.3",
+     "title": "S4TWL - Removed Navigation to Transactions for Evaluations in QM",
+     "lines": [
+      45316,
+      45333
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.1",
+     "title": "S4TWL - Removed Navigation to Transactions for Evaluations in QM",
+     "lines": [
+      44962,
+      44984
+     ]
+    }
+   ]
+  },
+  "QI03": {
+   "2023": [
+    {
+     "item": "34.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45226
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45086
+     ]
+    }
+   ]
+  },
+  "QM10": {
+   "2023": [
+    {
+     "item": "34.7",
+     "title": "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services",
+     "lines": [
+      45879,
+      45901
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.4",
+     "title": "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services",
+     "lines": [
+      45384,
+      45390
+     ]
+    }
+   ]
+  },
+  "QM13": {
+   "2023": [
+    {
+     "item": "34.7",
+     "title": "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services",
+     "lines": [
+      45883,
+      45902
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.4",
+     "title": "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services",
+     "lines": [
+      45386,
+      45392
+     ]
+    }
+   ]
+  },
+  "VA01": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61089,
+      61108
+     ]
+    },
+    {
+     "item": "57.3",
+     "title": "S4TWL - OGSD - Sales Logistics Cockpit",
+     "lines": [
+      67126
+     ]
+    },
+    {
+     "item": "57.5",
+     "title": "S4TWL - OGSD - Infosheet",
+     "lines": [
+      67276,
+      67279,
+      67283
+     ]
+    },
+    {
+     "item": "57.7",
+     "title": "S4TWL - OGSD - Formroutines Telesales",
+     "lines": [
+      67406,
+      67445
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69227,
+      69245
+     ]
+    },
+    {
+     "item": "13.13.13",
+     "title": "S4TWL - OGSD - Infosheet",
+     "lines": [
+      70496,
+      70498,
+      70501
+     ]
+    },
+    {
+     "item": "13.13.15",
+     "title": "S4TWL - OGSD - Sales Logistics Cockpit",
+     "lines": [
+      70620
+     ]
+    },
+    {
+     "item": "13.13.31",
+     "title": "S4TWL - OGSD - Formroutines Telesales",
+     "lines": [
+      71568,
+      71581
+     ]
+    }
+   ]
+  },
+  "VA02": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61089,
+      61108
+     ]
+    },
+    {
+     "item": "57.3",
+     "title": "S4TWL - OGSD - Sales Logistics Cockpit",
+     "lines": [
+      67126
+     ]
+    },
+    {
+     "item": "57.5",
+     "title": "S4TWL - OGSD - Infosheet",
+     "lines": [
+      67276
+     ]
+    },
+    {
+     "item": "57.7",
+     "title": "S4TWL - OGSD - Formroutines Telesales",
+     "lines": [
+      67406
+     ]
+    },
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      71613
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69227,
+      69245
+     ]
+    },
+    {
+     "item": "13.13.13",
+     "title": "S4TWL - OGSD - Infosheet",
+     "lines": [
+      70496
+     ]
+    },
+    {
+     "item": "13.13.15",
+     "title": "S4TWL - OGSD - Sales Logistics Cockpit",
+     "lines": [
+      70620
+     ]
+    },
+    {
+     "item": "13.13.31",
+     "title": "S4TWL - OGSD - Formroutines Telesales",
+     "lines": [
+      71581
+     ]
+    },
+    {
+     "item": "13.15.34",
+     "title": "S4TWL - Fashion Contract Disablement",
+     "lines": [
+      75774
+     ]
+    }
+   ]
+  },
+  "VA03": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61089,
+      61108
+     ]
+    },
+    {
+     "item": "57.3",
+     "title": "S4TWL - OGSD - Sales Logistics Cockpit",
+     "lines": [
+      67126
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69227,
+      69245
+     ]
+    },
+    {
+     "item": "13.13.15",
+     "title": "S4TWL - OGSD - Sales Logistics Cockpit",
+     "lines": [
+      70620
+     ]
+    }
+   ]
+  },
+  "VA05": {
+   "2023": [
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      71813
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.15.59",
+     "title": "S4TWL - Fashion Functionality",
+     "lines": [
+      77597
+     ]
+    }
+   ]
+  },
+  "VA11": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61108
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69245
+     ]
+    }
+   ]
+  },
+  "VA12": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61108
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69245
+     ]
+    }
+   ]
+  },
+  "VA13": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61108
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69245
+     ]
+    }
+   ]
+  },
+  "VA21": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61108
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69245
+     ]
+    }
+   ]
+  },
+  "VA22": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61108
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69245
+     ]
+    }
+   ]
+  },
+  "VA23": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61108
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69245
+     ]
+    }
+   ]
+  },
+  "VA41": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61109
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69245
+     ]
+    }
+   ]
+  },
+  "VA42": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61109
+     ]
+    },
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      71614
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69245
+     ]
+    },
+    {
+     "item": "13.15.34",
+     "title": "S4TWL - Fashion Contract Disablement",
+     "lines": [
+      75775
+     ]
+    }
+   ]
+  },
+  "VA43": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61109
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69246
+     ]
+    }
+   ]
+  },
+  "VD01": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9104,
+      9111
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7045,
+      7052
+     ]
+    }
+   ]
+  },
+  "VD02": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9104,
+      9111
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7045,
+      7052
+     ]
+    }
+   ]
+  },
+  "VD03": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9104,
+      9111
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7045,
+      7052
+     ]
+    }
+   ]
+  },
+  "VK11": {
+   "2023": [
+    {
+     "item": "4.1",
+     "title": "S4TWL - CPM - Rate Card",
+     "lines": [
+      10174
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.21",
+     "title": "S4TWL - CPM - Rate Card",
+     "lines": [
+      48472
+     ]
+    }
+   ]
+  },
+  "VKM3": {
+   "2023": [
+    {
+     "item": "18.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      23517
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      53798
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.3.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      14940
+     ]
+    },
+    {
+     "item": "11.1.5",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      58166
+     ]
+    }
+   ]
+  },
+  "VKM4": {
+   "2023": [
+    {
+     "item": "18.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      23518
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      53799
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.3.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      14940
+     ]
+    },
+    {
+     "item": "11.1.5",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      58166
+     ]
+    }
+   ]
+  },
+  "VL09": {
+   "2023": [
+    {
+     "item": "56.9",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      66202
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.13.28",
+     "title": "S4TWL - Optimization in Oil&Gas - Inter company sales - Cross border",
+     "lines": [
+      71412
+     ]
+    }
+   ]
+  },
+  "VOV8": {
+   "2023": [
+    {
+     "item": "52.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      61102
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.7",
+     "title": "S4TWL - Fast entry of characteristic values in sales document",
+     "lines": [
+      69239
+     ]
+    }
+   ]
+  },
+  "XD01": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9104,
+      9111
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68368
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7044,
+      7053
+     ]
+    },
+    {
+     "item": "5.1.30",
+     "title": "S4TWL - Business Partner Approach for SAP MDG",
+     "lines": [
+      7362
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72924
+     ]
+    }
+   ]
+  },
+  "XD02": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9104,
+      9111
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68369
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7045,
+      7053
+     ]
+    },
+    {
+     "item": "5.1.30",
+     "title": "S4TWL - Business Partner Approach for SAP MDG",
+     "lines": [
+      7362
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72924
+     ]
+    }
+   ]
+  },
+  "XD03": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9104,
+      9111
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68370
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7045,
+      7053
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72924
+     ]
+    }
+   ]
+  },
+  "XK01": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9112
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68362
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7055
+     ]
+    },
+    {
+     "item": "5.1.30",
+     "title": "S4TWL - Business Partner Approach for SAP MDG",
+     "lines": [
+      7362
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72923
+     ]
+    }
+   ]
+  },
+  "XK02": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9104,
+      9112
+     ]
+    },
+    {
+     "item": "27.2",
+     "title": "S4TWL - Blocked customer or supplier in Inventory Management",
+     "lines": [
+      33508
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68363
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7045,
+      7055
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72923
+     ]
+    },
+    {
+     "item": "15.3.5",
+     "title": "S4TWL - Blocked customer or supplier in Inventory Management",
+     "lines": [
+      83532
+     ]
+    }
+   ]
+  },
+  "XK03": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9104,
+      9112
+     ]
+    },
+    {
+     "item": "59.7",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      68364
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7045,
+      7055
+     ]
+    },
+    {
+     "item": "5.1.30",
+     "title": "S4TWL - Business Partner Approach for SAP MDG",
+     "lines": [
+      7362
+     ]
+    },
+    {
+     "item": "13.14.1",
+     "title": "S4TWL - Specific fields on Business Partner",
+     "lines": [
+      72923
+     ]
+    }
+   ]
+  },
+  "CT04": {
+   "2023": [
+    {
+     "item": "28.5",
+     "title": "S4TWL - Classification",
+     "lines": [
+      36263,
+      36267,
+      36271
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.9",
+     "title": "S4TWL - Classification",
+     "lines": [
+      52185,
+      52186,
+      52187
+     ]
+    }
+   ]
+  },
+  "CR03": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20407
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.9",
+     "title": "S4TWL - Reporting/Analytics in Controlling",
+     "lines": [
+      18690
+     ]
+    }
+   ]
+  },
+  "CO09": {
+   "2023": [
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      71853
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.15.59",
+     "title": "S4TWL - Fashion Functionality",
+     "lines": [
+      77639
+     ]
+    }
+   ]
+  },
+  "CM21": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42097,
+      42099,
+      42141
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43101,
+      43124,
+      43126
+     ]
+    }
+   ]
+  },
+  "CL20N": {
+   "2023": [
+    {
+     "item": "28.5",
+     "title": "S4TWL - Classification",
+     "lines": [
+      36159,
+      36390
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.9",
+     "title": "S4TWL - Classification",
+     "lines": [
+      52183,
+      52193
+     ]
+    }
+   ]
+  },
+  "CL24N": {
+   "2023": [
+    {
+     "item": "28.5",
+     "title": "S4TWL - Classification",
+     "lines": [
+      36175,
+      36406
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.9",
+     "title": "S4TWL - Classification",
+     "lines": [
+      52184,
+      52195
+     ]
+    }
+   ]
+  },
+  "CL30N": {
+   "2023": [
+    {
+     "item": "28.5",
+     "title": "S4TWL - Classification",
+     "lines": [
+      36414
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.9",
+     "title": "S4TWL - Classification",
+     "lines": [
+      52196
+     ]
+    }
+   ]
+  },
+  "MSC1": {
+   "2023": [
+    {
+     "item": "3.3",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      7943,
+      7962
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.8",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      5411,
+      5433
+     ]
+    }
+   ]
+  },
+  "MSC2": {
+   "2023": [
+    {
+     "item": "3.3",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      7943,
+      7963
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.8",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      5411,
+      5433
+     ]
+    }
+   ]
+  },
+  "MSC3": {
+   "2023": [
+    {
+     "item": "3.3",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      7943,
+      7964
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.8",
+     "title": "S4TWL - Logistics Batch Management",
+     "lines": [
+      5411,
+      5433
+     ]
+    }
+   ]
+  },
+  "CM50": {
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43138
+     ]
+    }
+   ]
+  },
+  "CM02": {
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43137
+     ]
+    }
+   ]
+  },
+  "CM04": {
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43137
+     ]
+    }
+   ]
+  },
+  "CM05": {
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43137
+     ]
+    }
+   ]
+  },
+  "IP30H": {
+   "2023": [
+    {
+     "item": "29.6",
+     "title": "S4TWL - Scheduling of Maintenance Plan",
+     "lines": [
+      38538,
+      38544
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.2",
+     "title": "S4TWL - Scheduling of Maintenance Plan",
+     "lines": [
+      3967,
+      3973
+     ]
+    }
+   ]
+  },
+  "CO54": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      40624
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.3.16",
+     "title": "S4TWL - Process Messages",
+     "lines": [
+      34505
+     ]
+    }
+   ]
+  },
+  "MM17": {
+   "2023": [
+    {
+     "item": "48.5",
+     "title": "S4TWL - Manufacturer Part Number",
+     "lines": [
+      57786
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.1.3",
+     "title": "S4TWL - Manufacturer Part Number",
+     "lines": [
+      59946
+     ]
+    }
+   ]
+  },
+  "MD41": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36647
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      35772,
+      35847
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53224
+     ]
+    }
+   ]
+  },
+  "MDAB": {
+   "2023": [
+    {
+     "item": "30.3",
+     "title": "S4TWL - Planning File",
+     "lines": [
+      39388
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      35729
+     ]
+    },
+    {
+     "item": "9.5.6",
+     "title": "S4TWL - Planning File",
+     "lines": [
+      43890
+     ]
+    }
+   ]
+  },
+  "CO55": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42927,
+      43097
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.3.18",
+     "title": "S4TWL - Browser-based Process Instruction-Sheets/Electronic Work",
+     "lines": [
+      34861,
+      35069
+     ]
+    }
+   ]
+  },
+  "CO60": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42928,
+      43097
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.3.18",
+     "title": "S4TWL - Browser-based Process Instruction-Sheets/Electronic Work",
+     "lines": [
+      34861,
+      35070
+     ]
+    }
+   ]
+  },
+  "SM37": {
+   "2023": [
+    {
+     "item": "2.25",
+     "title": "S4TWL - Changes in Process Observer",
+     "lines": [
+      4919
+     ]
+    },
+    {
+     "item": "2.49",
+     "title": "S4TWL - JOB SCHEDULING",
+     "lines": [
+      7433
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.10",
+     "title": "S4TWL - Changes in Process Observer",
+     "lines": [
+      2460
+     ]
+    },
+    {
+     "item": "8.1.4",
+     "title": "S4TWL - JOB SCHEDULING",
+     "lines": [
+      28615
+     ]
+    }
+   ]
+  },
+  "SM36": {
+   "2023": [
+    {
+     "item": "2.49",
+     "title": "S4TWL - JOB SCHEDULING",
+     "lines": [
+      7445,
+      7506
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.4",
+     "title": "S4TWL - JOB SCHEDULING",
+     "lines": [
+      28612,
+      28622
+     ]
+    }
+   ]
+  },
+  "SP01": {
+   "2023": [
+    {
+     "item": "3.7",
+     "title": "S4TWL: Business partner data exchange between SAP CRM and",
+     "lines": [
+      8255
+     ]
+    },
+    {
+     "item": "18.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      23543
+     ]
+    },
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42566
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      53818
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.5",
+     "title": "S4TWL - SD – FI/CA Integration with distributed systems",
+     "lines": [
+      2056,
+      2063
+     ]
+    },
+    {
+     "item": "5.1.4",
+     "title": "S4TWL: Business partner data exchange between SAP CRM and S/4HANA",
+     "lines": [
+      4853
+     ]
+    },
+    {
+     "item": "6.3.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      14964
+     ]
+    },
+    {
+     "item": "6.4.3",
+     "title": "S4TWL - Mark-to-Market & Profit-and-Loss Reporting for Derivatives",
+     "lines": [
+      15400
+     ]
+    },
+    {
+     "item": "9.5.5",
+     "title": "S4TWL - Simplified Sourcing",
+     "lines": [
+      43614
+     ]
+    },
+    {
+     "item": "11.1.5",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      58196
+     ]
+    }
+   ]
+  },
+  "SICF": {
+   "2023": [
+    {
+     "item": "19.8",
+     "title": "S4TWL – Landing Pages and Suite Page Builder",
+     "lines": [
+      25090
+     ]
+    },
+    {
+     "item": "34.6",
+     "title": "S4TWL - ITS services in QM",
+     "lines": [
+      45802
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.20",
+     "title": "S4TWL – Landing Pages and Suite Page Builder",
+     "lines": [
+      27243
+     ]
+    },
+    {
+     "item": "9.6.6",
+     "title": "S4TWL - ITS services in QM",
+     "lines": [
+      45610
+     ]
+    }
+   ]
+  },
+  "SARA": {
+   "2023": [
+    {
+     "item": "3.2",
+     "title": "S4TWL - SRM Product Master",
+     "lines": [
+      7911
+     ]
+    },
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      44044,
+      44095,
+      44103
+     ]
+    },
+    {
+     "item": "33.1",
+     "title": "S4TWL - PS&S SARA Reports",
+     "lines": [
+      44162,
+      44176,
+      44189
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.7",
+     "title": "S4TWL - SRM Product Master",
+     "lines": [
+      5384
+     ]
+    },
+    {
+     "item": "9.1.9",
+     "title": "S4TWL - PS&S SARA Reports",
+     "lines": [
+      29918,
+      29928,
+      29935
+     ]
+    },
+    {
+     "item": "10.1.56",
+     "title": "S4TWL - Specific PS archiving transactions",
+     "lines": [
+      50463,
+      50494,
+      50504
+     ]
+    }
+   ]
+  },
+  "SLG1": {
+   "2023": [
+    {
+     "item": "2.32",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      6035
+     ]
+    },
+    {
+     "item": "3.8",
+     "title": "S4TWL - HANA-based Analytics for Master Data Governance",
+     "lines": [
+      8395
+     ]
+    },
+    {
+     "item": "41.3",
+     "title": "S4TWL - Location Geo-Coding Adjustments",
+     "lines": [
+      54790,
+      54791,
+      54799
+     ]
+    },
+    {
+     "item": "62.9",
+     "title": "S4TWL - Deprecation of transaction EA22_TOOL",
+     "lines": [
+      73396
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.1",
+     "title": "S4TWL - HANA-based Analytics for Master Data Governance",
+     "lines": [
+      4676
+     ]
+    },
+    {
+     "item": "8.1.6",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      29121
+     ]
+    },
+    {
+     "item": "13.17.23",
+     "title": "S4TWL - Machine Learning Scenario for Utilities Billing",
+     "lines": [
+      79630
+     ]
+    },
+    {
+     "item": "15.2.4",
+     "title": "S4TWL - Location Geo-Coding Adjustments",
+     "lines": [
+      81829,
+      81831,
+      81837
+     ]
+    }
+   ]
+  },
+  "SWI1": {
+   "2023": [
+    {
+     "item": "2.31",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      5658
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.23",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      3618
+     ]
+    }
+   ]
+  },
+  "SWIA": {
+   "2023": [
+    {
+     "item": "2.31",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      5659
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.23",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      3619
+     ]
+    }
+   ]
+  },
+  "SWU3": {
+   "2023": [
+    {
+     "item": "2.30",
+     "title": "ABAPTWL - Change of workflow system user and workflow system",
+     "lines": [
+      5417,
+      5461,
+      5473
+     ]
+    },
+    {
+     "item": "2.31",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      5660
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.17",
+     "title": "ABAPTWL - Change of workflow system user and workflow system jobs",
+     "lines": [
+      2917,
+      2920,
+      2972
+     ]
+    },
+    {
+     "item": "3.1.23",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      3620
+     ]
+    }
+   ]
+  },
+  "SWI5": {
+   "2023": [
+    {
+     "item": "2.31",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      5659
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.23",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      3619
+     ]
+    }
+   ]
+  },
+  "SWUD": {
+   "2023": [
+    {
+     "item": "2.31",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      5661
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.23",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      3621
+     ]
+    }
+   ]
+  },
+  "SE11": {
+   "2023": [
+    {
+     "item": "1.3.3",
+     "title": "Customer views using aggregated stock quantity data",
+     "lines": [
+      34644,
+      34645
+     ]
+    },
+    {
+     "item": "27.8",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      35056,
+      35057
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "1.3.3",
+     "title": "Customer views using aggregated stock quantity dataCustomer views having at least",
+     "lines": [
+      83081,
+      83082
+     ]
+    },
+    {
+     "item": "15.3.10",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      84297,
+      84304
+     ]
+    }
+   ]
+  },
+  "SE16N": {
+   "2023": [
+    {
+     "item": "3.0",
+     "title": "(CARAB 2.0) and consuming applications are not supported. SAP plans to provide a",
+     "lines": [
+      27411
+     ]
+    },
+    {
+     "item": "1.3",
+     "title": "Customer Appends on views",
+     "lines": [
+      34582
+     ]
+    },
+    {
+     "item": "47.2",
+     "title": "S4TWL - BI content, Datasources and extractors for DFPS",
+     "lines": [
+      57093
+     ]
+    },
+    {
+     "item": "59.1",
+     "title": "S4TWL - Functionality German Local Authorities",
+     "lines": [
+      67879
+     ]
+    },
+    {
+     "item": "59.2",
+     "title": "S4TWL - Authorization in Funds Management",
+     "lines": [
+      67948
+     ]
+    },
+    {
+     "item": "59.4",
+     "title": "S4TWL - Former Budgeting System (FBS) in Funds Management",
+     "lines": [
+      68110,
+      68111,
+      68119
+     ]
+    },
+    {
+     "item": "59.5",
+     "title": "S4TWL - Functionality for FACTS I and FACTS II (Federal Agencies",
+     "lines": [
+      68213
+     ]
+    },
+    {
+     "item": "59.6",
+     "title": "S4TWL - Expenditure Certification",
+     "lines": [
+      68294
+     ]
+    },
+    {
+     "item": "59.8",
+     "title": "S4TWL - Fund Accounting based on Special Ledger",
+     "lines": [
+      68456
+     ]
+    },
+    {
+     "item": "59.9",
+     "title": "S4TWL - Data Structure changes in BCS",
+     "lines": [
+      68532,
+      68592
+     ]
+    },
+    {
+     "item": "60.2",
+     "title": "S4TWL - Retail Closed BW Scenarios",
+     "lines": [
+      68869
+     ]
+    },
+    {
+     "item": "60.3",
+     "title": "S4TWL - Retail Markdown Plan",
+     "lines": [
+      68914
+     ]
+    },
+    {
+     "item": "60.4",
+     "title": "S4TWL - Retail Bonus Buy",
+     "lines": [
+      68960
+     ]
+    },
+    {
+     "item": "60.5",
+     "title": "S4TWL - Retail Sales Forecasting",
+     "lines": [
+      69016
+     ]
+    },
+    {
+     "item": "60.6",
+     "title": "S4TWL - Retail Order Optimizing: Load Build, Investment Buy",
+     "lines": [
+      69062
+     ]
+    },
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      69302,
+      69434,
+      69481
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.5.1",
+     "title": "S4TWL - BI content, Datasources and extractors for DFPS",
+     "lines": [
+      63301
+     ]
+    },
+    {
+     "item": "13.14.3",
+     "title": "S4TWL - Fund Accounting based on Special Ledger",
+     "lines": [
+      73050
+     ]
+    },
+    {
+     "item": "13.14.4",
+     "title": "S4TWL - Expenditure Certification",
+     "lines": [
+      73113
+     ]
+    },
+    {
+     "item": "13.14.5",
+     "title": "S4TWL - Funds Management Dimensions as part of the Universal Journal",
+     "lines": [
+      73171
+     ]
+    },
+    {
+     "item": "13.14.6",
+     "title": "S4TWL - Data Structure changes in BCS",
+     "lines": [
+      73264
+     ]
+    },
+    {
+     "item": "13.14.8",
+     "title": "S4TWL - Functionality for FACTS I and FACTS II (Federal Agencies",
+     "lines": [
+      73396
+     ]
+    },
+    {
+     "item": "13.14.9",
+     "title": "S4TWL - Former Budgeting System (FBS) in Funds Management",
+     "lines": [
+      73465,
+      73466,
+      73474
+     ]
+    },
+    {
+     "item": "13.14.10",
+     "title": "S4TWL - Functionality German Local Authorities",
+     "lines": [
+      73545
+     ]
+    },
+    {
+     "item": "13.14.12",
+     "title": "S4TWL - Authorization in Funds Management",
+     "lines": [
+      73677
+     ]
+    },
+    {
+     "item": "13.15.1",
+     "title": "S4TWL - Season Field Length Extension",
+     "lines": [
+      73862,
+      73963,
+      73965
+     ]
+    },
+    {
+     "item": "13.15.3",
+     "title": "S4TWL - Supply Assignment Preview (upgrade to SAP S/4HANA 1809)",
+     "lines": [
+      74010
+     ]
+    },
+    {
+     "item": "13.15.6",
+     "title": "S4TWL - Segmentation (from 1809 onwards)",
+     "lines": [
+      74201
+     ]
+    },
+    {
+     "item": "13.15.7",
+     "title": "S4TWL - Vendor Characteristic Values",
+     "lines": [
+      74252
+     ]
+    },
+    {
+     "item": "13.15.10",
+     "title": "S4TWL - Segmentation",
+     "lines": [
+      74567
+     ]
+    },
+    {
+     "item": "13.15.11",
+     "title": "S4TWL - Business Partner in Site Master",
+     "lines": [
+      74608
+     ]
+    },
+    {
+     "item": "13.15.12",
+     "title": "S4TWL - Market Basket Calculation",
+     "lines": [
+      74653
+     ]
+    },
+    {
+     "item": "13.15.14",
+     "title": "S4TWL - Retail Ledger / Profit Center Analytics",
+     "lines": [
+      74729
+     ]
+    },
+    {
+     "item": "13.15.15",
+     "title": "S4TWL - Goods Receipt Capacity Check",
+     "lines": [
+      74766
+     ]
+    },
+    {
+     "item": "13.15.16",
+     "title": "S4TWL - Seasonal Procurement",
+     "lines": [
+      74820,
+      74822
+     ]
+    },
+    {
+     "item": "13.15.17",
+     "title": "S4TWL - Prepack Allocation Planning",
+     "lines": [
+      74861
+     ]
+    },
+    {
+     "item": "13.15.18",
+     "title": "S4TWL - PRICAT Outbound",
+     "lines": [
+      74923
+     ]
+    },
+    {
+     "item": "13.15.19",
+     "title": "S4TWL - Value and Quota Scales",
+     "lines": [
+      74965
+     ]
+    },
+    {
+     "item": "13.15.20",
+     "title": "S4TWL - Retail Season Conversion",
+     "lines": [
+      75061
+     ]
+    },
+    {
+     "item": "13.15.21",
+     "title": "S4TWL - Valuation in Retail",
+     "lines": [
+      75106
+     ]
+    },
+    {
+     "item": "13.15.23",
+     "title": "S4TWL - Article Hierarchy",
+     "lines": [
+      75193
+     ]
+    },
+    {
+     "item": "13.15.24",
+     "title": "S4TWL - Retail Method of Accounting",
+     "lines": [
+      75235
+     ]
+    },
+    {
+     "item": "13.15.29",
+     "title": "S4TWL - Season Conversion (1610 to 1709)",
+     "lines": [
+      75453
+     ]
+    },
+    {
+     "item": "13.15.30",
+     "title": "S4TWL - Merchandise and Assortment Planning (ERP based)",
+     "lines": [
+      75516
+     ]
+    },
+    {
+     "item": "13.15.31",
+     "title": "S4TWL - Allocation Run Master Data",
+     "lines": [
+      75553
+     ]
+    },
+    {
+     "item": "13.15.32",
+     "title": "S4TWL - Allocation Run",
+     "lines": [
+      75695
+     ]
+    },
+    {
+     "item": "13.15.33",
+     "title": "S4TWL - Logistical Variant",
+     "lines": [
+      75729
+     ]
+    },
+    {
+     "item": "13.15.34",
+     "title": "S4TWL - Fashion Contract Disablement",
+     "lines": [
+      75783
+     ]
+    },
+    {
+     "item": "13.15.35",
+     "title": "S4TWL - Perishables Procurement",
+     "lines": [
+      75822
+     ]
+    },
+    {
+     "item": "13.15.39",
+     "title": "S4TWL - Retail Store Fiori App",
+     "lines": [
+      75980
+     ]
+    },
+    {
+     "item": "13.15.40",
+     "title": "S4TWL - AIN",
+     "lines": [
+      76024
+     ]
+    },
+    {
+     "item": "13.15.44",
+     "title": "S4TWL - Segment Field Length Extension",
+     "lines": [
+      76164
+     ]
+    },
+    {
+     "item": "13.15.45",
+     "title": "S4TWL - Season Active in Inventory Management",
+     "lines": [
+      76202
+     ]
+    },
+    {
+     "item": "13.15.50",
+     "title": "S4TWL - Fashion Season Conversion (from ERP)",
+     "lines": [
+      76474,
+      76476
+     ]
+    },
+    {
+     "item": "13.15.51",
+     "title": "S4TWL - Retail Information System",
+     "lines": [
+      76539,
+      76544,
+      76558
+     ]
+    },
+    {
+     "item": "13.15.54",
+     "title": "S4TWL - Generic Article Harmonization",
+     "lines": [
+      76715
+     ]
+    },
+    {
+     "item": "13.15.61",
+     "title": "S4TWL - POS Outbound via Idoc WP_PLU",
+     "lines": [
+      77769
+     ]
+    },
+    {
+     "item": "13.15.63",
+     "title": "S4TWL - Retail Bonus Buy",
+     "lines": [
+      77854
+     ]
+    },
+    {
+     "item": "13.15.64",
+     "title": "S4TWL - Retail Markdown Plan",
+     "lines": [
+      77894
+     ]
+    },
+    {
+     "item": "13.15.65",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      77965
+     ]
+    },
+    {
+     "item": "13.15.68",
+     "title": "S4TWL - Retail Sales Forecasting",
+     "lines": [
+      78098
+     ]
+    },
+    {
+     "item": "13.15.69",
+     "title": "S4TWL - Retail Order Optimizing: Load Build, Investment Buy",
+     "lines": [
+      78139
+     ]
+    },
+    {
+     "item": "13.15.70",
+     "title": "S4TWL - Retail Closed BW Scenarios",
+     "lines": [
+      78190
+     ]
+    },
+    {
+     "item": "1.3",
+     "title": "Customer Appends on views",
+     "lines": [
+      83003
+     ]
+    }
+   ]
+  },
+  "SE38": {
+   "2023": [
+    {
+     "item": "3.9",
+     "title": "S4TWL - Business Partner BUT000/Header Level Time Dependency",
+     "lines": [
+      8461
+     ]
+    },
+    {
+     "item": "4.6",
+     "title": "S4TWL - CPM - Forecast from financial plan versions",
+     "lines": [
+      10500
+     ]
+    },
+    {
+     "item": "8.5",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      14597
+     ]
+    },
+    {
+     "item": "11.4",
+     "title": "S4TWL - CASH MANAGEMENT - Memo Record",
+     "lines": [
+      17972
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.22",
+     "title": "S4TWL - Business Partner BUT000/Header Level Time Dependency",
+     "lines": [
+      6402
+     ]
+    },
+    {
+     "item": "6.1.3",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      8148
+     ]
+    },
+    {
+     "item": "6.4.33",
+     "title": "S4TWL - CM: CCTR CPE Commodity Code Harmonization",
+     "lines": [
+      16978
+     ]
+    },
+    {
+     "item": "6.11.15",
+     "title": "S4TWL - CASH MANAGEMENT - Memo Record",
+     "lines": [
+      23936
+     ]
+    },
+    {
+     "item": "10.1.23",
+     "title": "S4TWL - CPM - Forecast from financial plan versions",
+     "lines": [
+      48547
+     ]
+    }
+   ]
+  },
+  "SE80": {
+   "2023": [
+    {
+     "item": "2.49",
+     "title": "S4TWL - JOB SCHEDULING",
+     "lines": [
+      7472
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.4",
+     "title": "S4TWL - JOB SCHEDULING",
+     "lines": [
+      28651
+     ]
+    }
+   ]
+  },
+  "SE24": {
+   "2023": [
+    {
+     "item": "24.9",
+     "title": "S4TWL - Changed data model for Occupational Exposure Limits",
+     "lines": [
+      32054
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.1.22",
+     "title": "S4TWL - Deprecation of Mapping Workbench in Foundation of EHS",
+     "lines": [
+      31110
+     ]
+    }
+   ]
+  },
+  "SE93": {
+   "2023": [
+    {
+     "item": "8.5",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      14687,
+      14689
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.3",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      8255,
+      8257
+     ]
+    }
+   ]
+  },
+  "SE71": {
+   "2023": [
+    {
+     "item": "34.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45205
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45050
+     ]
+    }
+   ]
+  },
+  "SFP": {
+   "2023": [
+    {
+     "item": "24.9",
+     "title": "S4TWL - Changed data model for Occupational Exposure Limits",
+     "lines": [
+      32054
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.1.22",
+     "title": "S4TWL - Deprecation of Mapping Workbench in Foundation of EHS",
+     "lines": [
+      31109
+     ]
+    }
+   ]
+  },
+  "SCI": {
+   "2023": [
+    {
+     "item": "2.17",
+     "title": "ABAPTWL - End of Support for Pool Tables",
+     "lines": [
+      4218,
+      4239
+     ]
+    },
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      41800
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "2.1.1",
+     "title": "ABAPTWL - End of Support for Pool Tables",
+     "lines": [
+      1668,
+      1699
+     ]
+    }
+   ]
+  },
+  "SM30": {
+   "2023": [
+    {
+     "item": "8.5",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      14541,
+      14672,
+      14682
+     ]
+    },
+    {
+     "item": "10.4",
+     "title": "S4TWL - Asset management transfers in Joint Venture Acccounting",
+     "lines": [
+      16167
+     ]
+    },
+    {
+     "item": "15.2",
+     "title": "S4TWL - GENERAL LEDGER",
+     "lines": [
+      20976
+     ]
+    },
+    {
+     "item": "16.3",
+     "title": "S4TWL - Determination of default values in Intrastat reporting",
+     "lines": [
+      22434,
+      22435,
+      22436
+     ]
+    },
+    {
+     "item": "18.6",
+     "title": "S4TWL - Differentiation Category Dependent FS Datasets Not Available",
+     "lines": [
+      24440
+     ]
+    },
+    {
+     "item": "24.9",
+     "title": "S4TWL - Changed data model for Occupational Exposure Limits",
+     "lines": [
+      31050
+     ]
+    },
+    {
+     "item": "45.1",
+     "title": "S4TWL - Business User integration of BPs with user name and personal",
+     "lines": [
+      56360
+     ]
+    },
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      70169
+     ]
+    },
+    {
+     "item": "62.9",
+     "title": "S4TWL - Deprecation of transaction EA22_TOOL",
+     "lines": [
+      73425
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.14",
+     "title": "S4TWL - Differentiation Category Dependent FS Datasets Not Available in",
+     "lines": [
+      5778
+     ]
+    },
+    {
+     "item": "6.1.3",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      8055,
+      8129,
+      8235
+     ]
+    },
+    {
+     "item": "6.1.23",
+     "title": "S4TWL - GENERAL LEDGER",
+     "lines": [
+      13025
+     ]
+    },
+    {
+     "item": "6.2.1",
+     "title": "S4TWL - Asset management transfers in Joint Venture Acccounting (JVA)",
+     "lines": [
+      13926
+     ]
+    },
+    {
+     "item": "6.7.2",
+     "title": "S4TWL - Determination of default values in Intrastat reporting",
+     "lines": [
+      21215,
+      21216,
+      21217
+     ]
+    },
+    {
+     "item": "9.1.33",
+     "title": "S4TWL - Changed data model for Occupational Exposure Limits",
+     "lines": [
+      31870
+     ]
+    },
+    {
+     "item": "13.3.1",
+     "title": "S4TWL - Business User integration of BPs with user name and personal",
+     "lines": [
+      62429
+     ]
+    },
+    {
+     "item": "13.15.51",
+     "title": "S4TWL - Retail Information System",
+     "lines": [
+      76536
+     ]
+    },
+    {
+     "item": "13.17.23",
+     "title": "S4TWL - Machine Learning Scenario for Utilities Billing",
+     "lines": [
+      79661
+     ]
+    }
+   ]
+  },
+  "SM34": {
+   "2023": [
+    {
+     "item": "8.5",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      14637
+     ]
+    },
+    {
+     "item": "59.9",
+     "title": "S4TWL - Data Structure changes in BCS",
+     "lines": [
+      68761
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.3",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      8181
+     ]
+    },
+    {
+     "item": "13.14.11",
+     "title": "S4TWL - Functionality Average Daily Balance-based Distribution",
+     "lines": [
+      73610
+     ]
+    }
+   ]
+  },
+  "SU01": {
+   "2023": [
+    {
+     "item": "2.32",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      5688,
+      5734,
+      5735
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.6",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      28762,
+      28801,
+      28802
+     ]
+    }
+   ]
+  },
+  "PFCG": {
+   "2023": [
+    {
+     "item": "2.30",
+     "title": "ABAPTWL - Change of workflow system user and workflow system",
+     "lines": [
+      5449
+     ]
+    },
+    {
+     "item": "28.9",
+     "title": "S4TWL - Engineering Change Management ECR/ECO",
+     "lines": [
+      37368,
+      37441
+     ]
+    },
+    {
+     "item": "34.5",
+     "title": "S4TWL - Results Recording",
+     "lines": [
+      45624
+     ]
+    },
+    {
+     "item": "34.6",
+     "title": "S4TWL - ITS services in QM",
+     "lines": [
+      45668
+     ]
+    },
+    {
+     "item": "34.7",
+     "title": "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services",
+     "lines": [
+      45843
+     ]
+    },
+    {
+     "item": "38.5",
+     "title": "S4TWL - Authorization Concept for Supplier Invoice",
+     "lines": [
+      49608
+     ]
+    },
+    {
+     "item": "59.2",
+     "title": "S4TWL - Authorization in Funds Management",
+     "lines": [
+      67965
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.17",
+     "title": "ABAPTWL - Change of workflow system user and workflow system jobs",
+     "lines": [
+      2961
+     ]
+    },
+    {
+     "item": "9.6.4",
+     "title": "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services",
+     "lines": [
+      45372
+     ]
+    },
+    {
+     "item": "9.6.5",
+     "title": "S4TWL - Results Recording",
+     "lines": [
+      45432
+     ]
+    },
+    {
+     "item": "9.6.6",
+     "title": "S4TWL - ITS services in QM",
+     "lines": [
+      45472
+     ]
+    },
+    {
+     "item": "10.4.1",
+     "title": "S4TWL - Assemblies",
+     "lines": [
+      51695
+     ]
+    },
+    {
+     "item": "10.4.20",
+     "title": "S4TWL - New Access Control Management",
+     "lines": [
+      52912
+     ]
+    },
+    {
+     "item": "10.4.21",
+     "title": "S4TWL - Access Control Management (ACM)",
+     "lines": [
+      52962,
+      52966
+     ]
+    },
+    {
+     "item": "13.14.12",
+     "title": "S4TWL - Authorization in Funds Management",
+     "lines": [
+      73706
+     ]
+    },
+    {
+     "item": "14.1.1",
+     "title": "S4TWL - Authorization Concept for Supplier Invoice",
+     "lines": [
+      79909
+     ]
+    }
+   ]
+  },
+  "SU25": {
+   "2023": [
+    {
+     "item": "34.4",
+     "title": "S4TWL - Authorization Objects in QM",
+     "lines": [
+      45581
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.7",
+     "title": "S4TWL - Authorization Objects in QM",
+     "lines": [
+      45797
+     ]
+    }
+   ]
+  },
+  "SXMB_MONI": {
+   "2023": [
+    {
+     "item": "62.9",
+     "title": "S4TWL - Deprecation of transaction EA22_TOOL",
+     "lines": [
+      73908
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.17.8",
+     "title": "S4TWL - Enterprise Services for SAP for Utilities (IS-U)",
+     "lines": [
+      78735
+     ]
+    }
+   ]
+  },
+  "SOAMANAGER": {
+   "2023": [
+    {
+     "item": "2.32",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      6165
+     ]
+    },
+    {
+     "item": "47.1",
+     "title": "S4TWL - DFPS eSOA services",
+     "lines": [
+      57038
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.6",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      29249
+     ]
+    },
+    {
+     "item": "13.5.4",
+     "title": "S4TWL - DFPS eSOA services",
+     "lines": [
+      63472
+     ]
+    }
+   ]
+  },
+  "/IWFND/MAINT_SERVICE": {
+   "2023": [
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      26861
+     ]
+    },
+    {
+     "item": "37.8",
+     "title": "S4TWL - Fiori apps of UI FOR SAP PORTF PROJ MGMT 6.0 in SAP",
+     "lines": [
+      48230
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.6",
+     "title": "S4TWL - Travel Management SRA004 Simplified Model",
+     "lines": [
+      26056
+     ]
+    },
+    {
+     "item": "10.1.12",
+     "title": "S4TWL - Fiori apps of UI FOR SAP PORTF PROJ MGMT 6.0 in SAP",
+     "lines": [
+      46513
+     ]
+    }
+   ]
+  },
+  "SRT_MONI": {
+   "2023": [
+    {
+     "item": "62.9",
+     "title": "S4TWL - Deprecation of transaction EA22_TOOL",
+     "lines": [
+      73909
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.17.8",
+     "title": "S4TWL - Enterprise Services for SAP for Utilities (IS-U)",
+     "lines": [
+      78736
+     ]
+    }
+   ]
+  },
+  "AB08": {
+   "2023": [
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      15877
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      10267
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      12271
+     ]
+    }
+   ]
+  },
+  "ABST2": {
+   "2023": [
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      16004
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      10398
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      12413
+     ]
+    }
+   ]
+  },
+  "AFAR": {
+   "2023": [
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      15510,
+      16080
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      9559,
+      9814
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      11568,
+      11821
+     ]
+    }
+   ]
+  },
+  "AJAB": {
+   "2023": [
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      15740,
+      15998
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      10103,
+      10389
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      12105,
+      12394
+     ]
+    }
+   ]
+  },
+  "AJRW": {
+   "2023": [
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      15733,
+      16009
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      10092,
+      10420
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      12094,
+      12418
+     ]
+    }
+   ]
+  },
+  "BAPI": {
+   "2023": [
+    {
+     "item": "3.22",
+     "title": "S4TWL - Material Number Field Length Extension",
+     "lines": [
+      9539,
+      9544
+     ]
+    },
+    {
+     "item": "8.5",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      14580
+     ]
+    },
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      15809,
+      15816,
+      15817
+     ]
+    },
+    {
+     "item": "15.7",
+     "title": "S4TWL - Amount Field Length Extension",
+     "lines": [
+      22032,
+      22038
+     ]
+    },
+    {
+     "item": "18.6",
+     "title": "S4TWL - Differentiation Category Dependent FS Datasets Not Available",
+     "lines": [
+      24449
+     ]
+    },
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34678,
+      34688,
+      34691
+     ]
+    },
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      35584,
+      35589,
+      35614
+     ]
+    },
+    {
+     "item": "28.9",
+     "title": "S4TWL - Engineering Change Management ECR/ECO",
+     "lines": [
+      38087
+     ]
+    },
+    {
+     "item": "30.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      39005,
+      39006
+     ]
+    },
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      41555,
+      41556,
+      41563
+     ]
+    },
+    {
+     "item": "39.6",
+     "title": "S4TWL -Miscellaneous minor functionalities in SD Area",
+     "lines": [
+      52104,
+      52108
+     ]
+    },
+    {
+     "item": "54.4",
+     "title": "S4TWL - FS-RI - Redesign Data Access Framework",
+     "lines": [
+      62004
+     ]
+    },
+    {
+     "item": "54.8",
+     "title": "S4TWL - FS-RI - Ensuring the functionality of the Extension Service",
+     "lines": [
+      62467
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.5",
+     "title": "S4TWL - Material Number Field Length Extension",
+     "lines": [
+      5084,
+      5094
+     ]
+    },
+    {
+     "item": "5.1.14",
+     "title": "S4TWL - Differentiation Category Dependent FS Datasets Not Available in",
+     "lines": [
+      5783
+     ]
+    },
+    {
+     "item": "6.1.3",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      8120
+     ]
+    },
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      9559,
+      10187,
+      10194
+     ]
+    },
+    {
+     "item": "6.1.14",
+     "title": "S4TWL - Amount Field Length Extension",
+     "lines": [
+      11325,
+      11331
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      11568,
+      12184,
+      12191
+     ]
+    },
+    {
+     "item": "9.3.13",
+     "title": "S4TWL - Extended Field Length of Kanban Container Status Text",
+     "lines": [
+      34067,
+      34081
+     ]
+    },
+    {
+     "item": "9.5.11",
+     "title": "S4TWL - Planning Horizon",
+     "lines": [
+      44183,
+      44184,
+      44191
+     ]
+    },
+    {
+     "item": "10.4.5",
+     "title": "S4TWL - Engineering Client Viewer (ECL)",
+     "lines": [
+      51938
+     ]
+    },
+    {
+     "item": "11.1.13",
+     "title": "S4TWL -Miscellaneous minor functionalities in SD Area",
+     "lines": [
+      59015,
+      59019
+     ]
+    },
+    {
+     "item": "13.9.16",
+     "title": "S4TWL - FS-RI - Redesign Data Access Framework",
+     "lines": [
+      66627
+     ]
+    },
+    {
+     "item": "13.9.18",
+     "title": "S4TWL - FS-RI - Ensuring the functionality of the Extension Service",
+     "lines": [
+      67030
+     ]
+    },
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84128,
+      84141,
+      84143
+     ]
+    },
+    {
+     "item": "15.3.11",
+     "title": "S4TWL - CWM in SAP S/4HANA",
+     "lines": [
+      84364
+     ]
+    },
+    {
+     "item": "6.0",
+     "title": "This 'new architecture' is harmonized with the SAP ERP standard and removes the",
+     "lines": [
+      84422,
+      84425,
+      84431
+     ]
+    }
+   ]
+  },
+  "CAT2": {
+   "2023": [
+    {
+     "item": "2.41",
+     "title": "S4TWL - CATSXT",
+     "lines": [
+      6797,
+      6798
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.8",
+     "title": "S4TWL - CATSXT",
+     "lines": [
+      26173,
+      26175
+     ]
+    }
+   ]
+  },
+  "CJ01": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50702
+     ]
+    },
+    {
+     "item": "10.1.61",
+     "title": "S4TWL - Hierarchy Graphics in Project Systems",
+     "lines": [
+      50781
+     ]
+    }
+   ]
+  },
+  "CJ02": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50703
+     ]
+    }
+   ]
+  },
+  "CJ03": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50704
+     ]
+    }
+   ]
+  },
+  "CJ06": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50705
+     ]
+    }
+   ]
+  },
+  "CJ07": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50706
+     ]
+    }
+   ]
+  },
+  "CJ08": {
+   "2025": [
+    {
+     "item": "10.1.34",
+     "title": "S4TWL - Navigation to Project Builder instead of special maintenance",
+     "lines": [
+      49012
+     ]
+    },
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50707
+     ]
+    }
+   ]
+  },
+  "CJ11": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50708
+     ]
+    }
+   ]
+  },
+  "CJ12": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50709
+     ]
+    }
+   ]
+  },
+  "CJ13": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50710
+     ]
+    }
+   ]
+  },
+  "CJ14": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50711
+     ]
+    }
+   ]
+  },
+  "CJ20": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50732
+     ]
+    }
+   ]
+  },
+  "CJ27": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50741
+     ]
+    }
+   ]
+  },
+  "CJ2A": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50733
+     ]
+    }
+   ]
+  },
+  "CJ2B": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50742
+     ]
+    }
+   ]
+  },
+  "CJ2D": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50734
+     ]
+    }
+   ]
+  },
+  "CJ30": {
+   "2025": [
+    {
+     "item": "10.1.61",
+     "title": "S4TWL - Hierarchy Graphics in Project Systems",
+     "lines": [
+      50781
+     ]
+    }
+   ]
+  },
+  "CJ48": {
+   "2025": [
+    {
+     "item": "10.1.54",
+     "title": "S4TWL - Selected project financial planning and control functions",
+     "lines": [
+      50217
+     ]
+    }
+   ]
+  },
+  "CJ49": {
+   "2025": [
+    {
+     "item": "10.1.54",
+     "title": "S4TWL - Selected project financial planning and control functions",
+     "lines": [
+      50218
+     ]
+    }
+   ]
+  },
+  "CJ8V": {
+   "2025": [
+    {
+     "item": "10.1.54",
+     "title": "S4TWL - Selected project financial planning and control functions",
+     "lines": [
+      50317
+     ]
+    }
+   ]
+  },
+  "CJ9D": {
+   "2025": [
+    {
+     "item": "10.1.54",
+     "title": "S4TWL - Selected project financial planning and control functions",
+     "lines": [
+      50331
+     ]
+    }
+   ]
+  },
+  "CJI3": {
+   "2023": [
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      43765
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.50",
+     "title": "S4TWL - Project Reporting",
+     "lines": [
+      49974
+     ]
+    },
+    {
+     "item": "10.1.63",
+     "title": "S4TWL - Project System - Compatibility Scope without alternative",
+     "lines": [
+      50893
+     ]
+    },
+    {
+     "item": "10.1.64",
+     "title": "S4TWL - Project System - Compatibility Scope with alternative",
+     "lines": [
+      51032
+     ]
+    }
+   ]
+  },
+  "CJI3N": {
+   "2023": [
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      43766,
+      43950
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.34",
+     "title": "S4TWL - Navigation to Project Builder instead of special maintenance",
+     "lines": [
+      49010
+     ]
+    },
+    {
+     "item": "10.1.50",
+     "title": "S4TWL - Project Reporting",
+     "lines": [
+      49975
+     ]
+    },
+    {
+     "item": "10.1.63",
+     "title": "S4TWL - Project System - Compatibility Scope without alternative",
+     "lines": [
+      50894
+     ]
+    },
+    {
+     "item": "10.1.64",
+     "title": "S4TWL - Project System - Compatibility Scope with alternative",
+     "lines": [
+      51033
+     ]
+    }
+   ]
+  },
+  "CJSB": {
+   "2023": [
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      43768
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.50",
+     "title": "S4TWL - Project Reporting",
+     "lines": [
+      49983
+     ]
+    },
+    {
+     "item": "10.1.63",
+     "title": "S4TWL - Project System - Compatibility Scope without alternative",
+     "lines": [
+      50896
+     ]
+    },
+    {
+     "item": "10.1.64",
+     "title": "S4TWL - Project System - Compatibility Scope with alternative",
+     "lines": [
+      51041
+     ]
+    }
+   ]
+  },
+  "CJSG": {
+   "2025": [
+    {
+     "item": "10.1.54",
+     "title": "S4TWL - Selected project financial planning and control functions",
+     "lines": [
+      50324
+     ]
+    }
+   ]
+  },
+  "CJV1": {
+   "2025": [
+    {
+     "item": "10.1.57",
+     "title": "S4TWL - Current simulation functions in project system",
+     "lines": [
+      50549
+     ]
+    }
+   ]
+  },
+  "CJV2": {
+   "2025": [
+    {
+     "item": "10.1.57",
+     "title": "S4TWL - Current simulation functions in project system",
+     "lines": [
+      50550
+     ]
+    }
+   ]
+  },
+  "CJV3": {
+   "2025": [
+    {
+     "item": "10.1.57",
+     "title": "S4TWL - Current simulation functions in project system",
+     "lines": [
+      50551
+     ]
+    }
+   ]
+  },
+  "CJV4": {
+   "2025": [
+    {
+     "item": "10.1.57",
+     "title": "S4TWL - Current simulation functions in project system",
+     "lines": [
+      50552
+     ]
+    }
+   ]
+  },
+  "CJV5": {
+   "2025": [
+    {
+     "item": "10.1.57",
+     "title": "S4TWL - Current simulation functions in project system",
+     "lines": [
+      50553
+     ]
+    }
+   ]
+  },
+  "CJV6": {
+   "2025": [
+    {
+     "item": "10.1.57",
+     "title": "S4TWL - Current simulation functions in project system",
+     "lines": [
+      50554
+     ]
+    }
+   ]
+  },
+  "CKM3": {
+   "2023": [
+    {
+     "item": "12.4",
+     "title": "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+     "lines": [
+      18767,
+      18776,
+      18787
+     ]
+    },
+    {
+     "item": "18.2",
+     "title": "S4TWL - Technical Changes in Material Ledger",
+     "lines": [
+      23675,
+      23676,
+      23678
+     ]
+    },
+    {
+     "item": "27.8",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      35027
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.6",
+     "title": "S4TWL - Technical Changes in Material Ledger",
+     "lines": [
+      18000,
+      18080,
+      18081
+     ]
+    },
+    {
+     "item": "6.5.10",
+     "title": "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+     "lines": [
+      18715,
+      18956,
+      18972
+     ]
+    },
+    {
+     "item": "15.3.10",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      84270
+     ]
+    }
+   ]
+  },
+  "CKMLCP": {
+   "2023": [
+    {
+     "item": "12.4",
+     "title": "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+     "lines": [
+      18639,
+      18800,
+      18801
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.10",
+     "title": "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+     "lines": [
+      18715,
+      18811,
+      19001
+     ]
+    }
+   ]
+  },
+  "CKMLCPAVR": {
+   "2023": [
+    {
+     "item": "12.4",
+     "title": "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+     "lines": [
+      18640,
+      18801,
+      18804
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.10",
+     "title": "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+     "lines": [
+      18715,
+      18811,
+      19022
+     ]
+    }
+   ]
+  },
+  "CL6O": {
+   "2023": [
+    {
+     "item": "28.5",
+     "title": "S4TWL - Classification",
+     "lines": [
+      36344
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.9",
+     "title": "S4TWL - Classification",
+     "lines": [
+      52209
+     ]
+    }
+   ]
+  },
+  "CM03": {
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43137
+     ]
+    }
+   ]
+  },
+  "CM07": {
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43137
+     ]
+    }
+   ]
+  },
+  "CM25": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42099,
+      42142
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43102,
+      43124,
+      43126
+     ]
+    }
+   ]
+  },
+  "CM31": {
+   "2025": [
+    {
+     "item": "9.5.4",
+     "title": "S4TWL - Graphical Planning Table",
+     "lines": [
+      43127
+     ]
+    }
+   ]
+  },
+  "CMP9": {
+   "2025": [
+    {
+     "item": "10.1.52",
+     "title": "S4TWL - Workforce Planning",
+     "lines": [
+      50091
+     ]
+    }
+   ]
+  },
+  "CN04": {
+   "2023": [
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      44144
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.45",
+     "title": "S4TWL - Project texts (PS texts)",
+     "lines": [
+      49512
+     ]
+    }
+   ]
+  },
+  "CN05": {
+   "2023": [
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      44148
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.45",
+     "title": "S4TWL - Project texts (PS texts)",
+     "lines": [
+      49513
+     ]
+    }
+   ]
+  },
+  "CN19": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50736
+     ]
+    }
+   ]
+  },
+  "CN21": {
+   "2023": [
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      43999
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.59",
+     "title": "S4TWL - Production Resources and Tools functions for projects",
+     "lines": [
+      50650
+     ]
+    },
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50738
+     ]
+    }
+   ]
+  },
+  "CN22": {
+   "2023": [
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      43999
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.59",
+     "title": "S4TWL - Production Resources and Tools functions for projects",
+     "lines": [
+      50650
+     ]
+    },
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50739
+     ]
+    }
+   ]
+  },
+  "CN23": {
+   "2025": [
+    {
+     "item": "10.1.60",
+     "title": "S4TWL - Simplification of maintenance transactions",
+     "lines": [
+      50740
+     ]
+    }
+   ]
+  },
+  "CN24": {
+   "2025": [
+    {
+     "item": "10.1.53",
+     "title": "S4TWL - Simplification of Date Planning Transactions",
+     "lines": [
+      50147
+     ]
+    }
+   ]
+  },
+  "CN24N": {
+   "2025": [
+    {
+     "item": "10.1.53",
+     "title": "S4TWL - Simplification of Date Planning Transactions",
+     "lines": [
+      50146
+     ]
+    }
+   ]
+  },
+  "CN41": {
+   "2023": [
+    {
+     "item": "32.2",
+     "title": "S4TWL - Selected Project System Interfaces",
+     "lines": [
+      43307
+     ]
+    },
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      43951
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.27",
+     "title": "S4TWL - Selected Project System Interfaces",
+     "lines": [
+      48717
+     ]
+    },
+    {
+     "item": "10.1.34",
+     "title": "S4TWL - Navigation to Project Builder instead of special maintenance",
+     "lines": [
+      49010
+     ]
+    }
+   ]
+  },
+  "CN60": {
+   "2023": [
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      43754,
+      43756,
+      43764
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.50",
+     "title": "S4TWL - Project Reporting",
+     "lines": [
+      49980
+     ]
+    },
+    {
+     "item": "10.1.63",
+     "title": "S4TWL - Project System - Compatibility Scope without alternative",
+     "lines": [
+      50888,
+      50890,
+      50892
+     ]
+    },
+    {
+     "item": "10.1.64",
+     "title": "S4TWL - Project System - Compatibility Scope with alternative",
+     "lines": [
+      51018,
+      51023,
+      51028
+     ]
+    }
+   ]
+  },
+  "CN65": {
+   "2023": [
+    {
+     "item": "32.9",
+     "title": "S4TWL - Project System - Compatibility Scope",
+     "lines": [
+      43763
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.1.50",
+     "title": "S4TWL - Project Reporting",
+     "lines": [
+      49978
+     ]
+    },
+    {
+     "item": "10.1.63",
+     "title": "S4TWL - Project System - Compatibility Scope without alternative",
+     "lines": [
+      50891
+     ]
+    },
+    {
+     "item": "10.1.64",
+     "title": "S4TWL - Project System - Compatibility Scope with alternative",
+     "lines": [
+      51027
+     ]
+    }
+   ]
+  },
+  "CNMM": {
+   "2025": [
+    {
+     "item": "10.1.48",
+     "title": "S4TWL - Selected Logistics Capabilities",
+     "lines": [
+      49639
+     ]
+    }
+   ]
+  },
+  "COHVPI": {
+   "2023": [
+    {
+     "item": "52.6",
+     "title": "S4TWL - Selection by characteristics in mass processing of orders",
+     "lines": [
+      61044,
+      61047,
+      61050
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.12.6",
+     "title": "S4TWL - Selection by characteristics in mass processing of orders",
+     "lines": [
+      69185,
+      69188,
+      69191
+     ]
+    }
+   ]
+  },
+  "COPC": {
+   "2023": [
+    {
+     "item": "11.1",
+     "title": "S4TWL - Electronic Payment Integration for China",
+     "lines": [
+      16521,
+      16525,
+      16527
+     ]
+    },
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      40275
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.7.7",
+     "title": "S4TWL - Electronic Payment Integration for China",
+     "lines": [
+      21586,
+      21591,
+      21593
+     ]
+    },
+    {
+     "item": "9.5.18",
+     "title": "S4TWL - Production Campaign (ERP)",
+     "lines": [
+      44747
+     ]
+    }
+   ]
+  },
+  "CORZ": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      40548,
+      40691
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.3.16",
+     "title": "S4TWL - Process Messages",
+     "lines": [
+      34554
+     ]
+    },
+    {
+     "item": "9.3.17",
+     "title": "S4TWL - Control Recipes/Instructions",
+     "lines": [
+      34728
+     ]
+    }
+   ]
+  },
+  "CPC1": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19787
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17651
+     ]
+    }
+   ]
+  },
+  "DBACOCKPIT": {
+   "2023": [
+    {
+     "item": "2.33",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      6278
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.3",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      28542
+     ]
+    }
+   ]
+  },
+  "F111": {
+   "2023": [
+    {
+     "item": "11.2",
+     "title": "S4TWL - CASH MANAGEMENT - GENERAL",
+     "lines": [
+      16884,
+      16887,
+      16889
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.11.17",
+     "title": "S4TWL - CASH MANAGEMENT - GENERAL",
+     "lines": [
+      24887,
+      24891,
+      24898
+     ]
+    }
+   ]
+  },
+  "FAGLFLEXT": {
+   "2023": [
+    {
+     "item": "8.2",
+     "title": "S4TWL - DATA MODEL CHANGES IN FIN",
+     "lines": [
+      13021,
+      13023
+     ]
+    },
+    {
+     "item": "8.5",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      14595
+     ]
+    },
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20299
+     ]
+    },
+    {
+     "item": "15.2",
+     "title": "S4TWL - GENERAL LEDGER",
+     "lines": [
+      20945
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.3",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      8138,
+      8146
+     ]
+    },
+    {
+     "item": "6.1.4",
+     "title": "S4TWL - DATA MODEL CHANGES IN FIN",
+     "lines": [
+      8377,
+      8378
+     ]
+    },
+    {
+     "item": "6.1.23",
+     "title": "S4TWL - GENERAL LEDGER",
+     "lines": [
+      12989
+     ]
+    },
+    {
+     "item": "6.5.9",
+     "title": "S4TWL - Reporting/Analytics in Controlling",
+     "lines": [
+      18587
+     ]
+    }
+   ]
+  },
+  "FB50L": {
+   "2023": [
+    {
+     "item": "15.8",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      22205
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.13",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      11111
+     ]
+    }
+   ]
+  },
+  "FD31": {
+   "2023": [
+    {
+     "item": "18.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      23443
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      53724
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.3.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      14856
+     ]
+    },
+    {
+     "item": "11.1.5",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      58087
+     ]
+    }
+   ]
+  },
+  "FD32": {
+   "2023": [
+    {
+     "item": "18.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      23443,
+      23496,
+      23510
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      53724,
+      53771,
+      53785
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.3.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      14856,
+      14917,
+      14928
+     ]
+    },
+    {
+     "item": "11.1.5",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      58087,
+      58148,
+      58159
+     ]
+    }
+   ]
+  },
+  "FD33": {
+   "2023": [
+    {
+     "item": "18.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      23510
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      53785
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.3.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      14929
+     ]
+    },
+    {
+     "item": "11.1.5",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      58160
+     ]
+    }
+   ]
+  },
+  "FI01": {
+   "2023": [
+    {
+     "item": "11.3",
+     "title": "S4TWL - CASH MANAGEMENT - Bank Accounts",
+     "lines": [
+      17336,
+      17342
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.11.16",
+     "title": "S4TWL - CASH MANAGEMENT - Bank Accounts",
+     "lines": [
+      24082,
+      24106
+     ]
+    }
+   ]
+  },
+  "FI02": {
+   "2023": [
+    {
+     "item": "11.3",
+     "title": "S4TWL - CASH MANAGEMENT - Bank Accounts",
+     "lines": [
+      17343,
+      17358
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.11.16",
+     "title": "S4TWL - CASH MANAGEMENT - Bank Accounts",
+     "lines": [
+      24083,
+      24107
+     ]
+    }
+   ]
+  },
+  "FI03": {
+   "2023": [
+    {
+     "item": "11.3",
+     "title": "S4TWL - CASH MANAGEMENT - Bank Accounts",
+     "lines": [
+      17350,
+      17374
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.11.16",
+     "title": "S4TWL - CASH MANAGEMENT - Bank Accounts",
+     "lines": [
+      24085,
+      24109
+     ]
+    }
+   ]
+  },
+  "FI12": {
+   "2023": [
+    {
+     "item": "11.3",
+     "title": "S4TWL - CASH MANAGEMENT - Bank Accounts",
+     "lines": [
+      17327,
+      17372
+     ]
+    },
+    {
+     "item": "6.0",
+     "title": "EhP6+.",
+     "lines": [
+      17398,
+      17435,
+      17539
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.11.16",
+     "title": "S4TWL - CASH MANAGEMENT - Bank Accounts",
+     "lines": [
+      24089,
+      24196,
+      24206
+     ]
+    }
+   ]
+  },
+  "FV50": {
+   "2023": [
+    {
+     "item": "15.8",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      22205
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.13",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      11111
+     ]
+    }
+   ]
+  },
+  "FV60": {
+   "2023": [
+    {
+     "item": "15.8",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      22205
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.13",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      11111
+     ]
+    }
+   ]
+  },
+  "FV70": {
+   "2023": [
+    {
+     "item": "15.8",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      22206
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.13",
+     "title": "S4TWL - Removal of D/C Indicator from Editing Options",
+     "lines": [
+      11112
+     ]
+    }
+   ]
+  },
+  "KA02": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20235
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.5",
+     "title": "S4TWL - COST ELEMENTS",
+     "lines": [
+      17969
+     ]
+    }
+   ]
+  },
+  "KA03": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20242
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.5",
+     "title": "S4TWL - COST ELEMENTS",
+     "lines": [
+      17969
+     ]
+    }
+   ]
+  },
+  "KB11N": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19792
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17658
+     ]
+    }
+   ]
+  },
+  "KB13N": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19792
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17658
+     ]
+    }
+   ]
+  },
+  "KB14N": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19792
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17658
+     ]
+    }
+   ]
+  },
+  "KB15N": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19796
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17665
+     ]
+    }
+   ]
+  },
+  "KB23N": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19793
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17661
+     ]
+    }
+   ]
+  },
+  "KSII": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19785
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17642
+     ]
+    }
+   ]
+  },
+  "MC74": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42330
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44599,
+      44630
+     ]
+    }
+   ]
+  },
+  "MC75": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42330
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44599,
+      44630
+     ]
+    }
+   ]
+  },
+  "MC81": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42330
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44599,
+      44632
+     ]
+    }
+   ]
+  },
+  "MC82": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42330
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44599,
+      44632
+     ]
+    }
+   ]
+  },
+  "MC83": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42330
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44599,
+      44632
+     ]
+    }
+   ]
+  },
+  "MC84": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42327
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44668
+     ]
+    }
+   ]
+  },
+  "MC85": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42327
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44668
+     ]
+    }
+   ]
+  },
+  "MC86": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42327
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44668
+     ]
+    }
+   ]
+  },
+  "MC87": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42330
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44599,
+      44633
+     ]
+    }
+   ]
+  },
+  "MC88": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42330
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44599,
+      44633
+     ]
+    }
+   ]
+  },
+  "MC89": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42331
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44599,
+      44633
+     ]
+    }
+   ]
+  },
+  "MC93": {
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44639
+     ]
+    }
+   ]
+  },
+  "MC94": {
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44639
+     ]
+    }
+   ]
+  },
+  "MC95": {
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44639
+     ]
+    }
+   ]
+  },
+  "MCVA": {
+   "2023": [
+    {
+     "item": "34.1",
+     "title": "S4TWL - Quality Management Information System (QMIS)",
+     "lines": [
+      45104,
+      45153
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.8",
+     "title": "S4TWL - Quality Management Information System (QMIS)",
+     "lines": [
+      45824,
+      45846
+     ]
+    }
+   ]
+  },
+  "MCXA": {
+   "2023": [
+    {
+     "item": "34.1",
+     "title": "S4TWL - Quality Management Information System (QMIS)",
+     "lines": [
+      45105,
+      45154
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.8",
+     "title": "S4TWL - Quality Management Information System (QMIS)",
+     "lines": [
+      45825,
+      45847
+     ]
+    }
+   ]
+  },
+  "MCXB": {
+   "2023": [
+    {
+     "item": "34.1",
+     "title": "S4TWL - Quality Management Information System (QMIS)",
+     "lines": [
+      45104,
+      45153
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.8",
+     "title": "S4TWL - Quality Management Information System (QMIS)",
+     "lines": [
+      45825,
+      45847
+     ]
+    }
+   ]
+  },
+  "MCXC": {
+   "2023": [
+    {
+     "item": "34.1",
+     "title": "S4TWL - Quality Management Information System (QMIS)",
+     "lines": [
+      45105,
+      45154
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.8",
+     "title": "S4TWL - Quality Management Information System (QMIS)",
+     "lines": [
+      45825,
+      45847
+     ]
+    }
+   ]
+  },
+  "MCXX": {
+   "2023": [
+    {
+     "item": "34.1",
+     "title": "S4TWL - Quality Management Information System (QMIS)",
+     "lines": [
+      45104,
+      45153
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.8",
+     "title": "S4TWL - Quality Management Information System (QMIS)",
+     "lines": [
+      45825,
+      45847
+     ]
+    }
+   ]
+  },
+  "MD43": {
+   "2025": [
+    {
+     "item": "9.5.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      35772
+     ]
+    }
+   ]
+  },
+  "MD47": {
+   "2025": [
+    {
+     "item": "9.5.17",
+     "title": "S4TWL - Sales and Operation Planning",
+     "lines": [
+      44669
+     ]
+    }
+   ]
+  },
+  "ME21": {
+   "2023": [
+    {
+     "item": "38.2",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      49407,
+      49436
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.2.8",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      80469,
+      80482
+     ]
+    }
+   ]
+  },
+  "ME22": {
+   "2023": [
+    {
+     "item": "38.2",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      49408
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.2.8",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      80469
+     ]
+    }
+   ]
+  },
+  "ME23": {
+   "2023": [
+    {
+     "item": "38.2",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      49409
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "14.2.8",
+     "title": "S4TWL - Classic MM-PUR GUI Transactions replacement",
+     "lines": [
+      80469
+     ]
+    }
+   ]
+  },
+  "ME2L": {
+   "2023": [
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      70372
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.15.26",
+     "title": "S4TWL - Retail iViews",
+     "lines": [
+      75297
+     ]
+    }
+   ]
+  },
+  "ME2M": {
+   "2023": [
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      70372
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.15.26",
+     "title": "S4TWL - Retail iViews",
+     "lines": [
+      75297
+     ]
+    }
+   ]
+  },
+  "ME2N": {
+   "2023": [
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      70372
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.15.26",
+     "title": "S4TWL - Retail iViews",
+     "lines": [
+      75297
+     ]
+    }
+   ]
+  },
+  "MK05": {
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7055
+     ]
+    }
+   ]
+  },
+  "MK06": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9114
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7055
+     ]
+    }
+   ]
+  },
+  "MP38": {
+   "2023": [
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      70818
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.15.55",
+     "title": "S4TWL - Retail Obsolete Transactions",
+     "lines": [
+      76892
+     ]
+    }
+   ]
+  },
+  "MR21": {
+   "2023": [
+    {
+     "item": "27.7",
+     "title": "S4TWL - Material Ledger Obligatory for Material Valuation",
+     "lines": [
+      34914
+     ]
+    },
+    {
+     "item": "27.8",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      35027
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.2",
+     "title": "S4TWL - Material Ledger Obligatory for Material Valuation",
+     "lines": [
+      83285
+     ]
+    },
+    {
+     "item": "15.3.10",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      84270
+     ]
+    }
+   ]
+  },
+  "MS01": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36647
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53224
+     ]
+    }
+   ]
+  },
+  "MS02": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36647
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53224
+     ]
+    }
+   ]
+  },
+  "MS03": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36647
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53224
+     ]
+    }
+   ]
+  },
+  "MS31": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36655
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53227
+     ]
+    }
+   ]
+  },
+  "MS32": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36655
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53227
+     ]
+    }
+   ]
+  },
+  "MS33": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36655
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53227
+     ]
+    }
+   ]
+  },
+  "OAAQ": {
+   "2023": [
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      15996
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      10387
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      12392
+     ]
+    }
+   ]
+  },
+  "OB22": {
+   "2023": [
+    {
+     "item": "15.5",
+     "title": "S4TWL - Currencies in Universal Journal",
+     "lines": [
+      21106
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.12",
+     "title": "S4TWL - Currencies in Universal Journal",
+     "lines": [
+      10572
+     ]
+    }
+   ]
+  },
+  "OBYC": {
+   "2023": [
+    {
+     "item": "12.4",
+     "title": "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+     "lines": [
+      18877
+     ]
+    },
+    {
+     "item": "18.5",
+     "title": "S4TWL - Conversion to S/4HANA Material Ledger and Actual Costing",
+     "lines": [
+      24283
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.8",
+     "title": "S4TWL - Conversion to S/4HANA Material Ledger and Actual Costing",
+     "lines": [
+      18459
+     ]
+    },
+    {
+     "item": "6.5.10",
+     "title": "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+     "lines": [
+      19086
+     ]
+    }
+   ]
+  },
+  "OKB9": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      20181,
+      20247,
+      20566
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.5",
+     "title": "S4TWL - COST ELEMENTS",
+     "lines": [
+      17912,
+      17974
+     ]
+    },
+    {
+     "item": "6.5.11",
+     "title": "S4TWL - Profitability Analysis",
+     "lines": [
+      19389
+     ]
+    }
+   ]
+  },
+  "OKKP": {
+   "2023": [
+    {
+     "item": "15.5",
+     "title": "S4TWL - Currencies in Universal Journal",
+     "lines": [
+      21106
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.12",
+     "title": "S4TWL - Currencies in Universal Journal",
+     "lines": [
+      10572
+     ]
+    }
+   ]
+  },
+  "OMS2": {
+   "2023": [
+    {
+     "item": "3.21",
+     "title": "S4TWL - Simplified Product Master Tables Related to OMSR",
+     "lines": [
+      9374
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.24",
+     "title": "S4TWL - Simplified Product Master Tables Related to OMSR Transaction",
+     "lines": [
+      6557
+     ]
+    }
+   ]
+  },
+  "OMSL": {
+   "2023": [
+    {
+     "item": "3.22",
+     "title": "S4TWL - Material Number Field Length Extension",
+     "lines": [
+      9658
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.5",
+     "title": "S4TWL - Material Number Field Length Extension",
+     "lines": [
+      5213
+     ]
+    }
+   ]
+  },
+  "OPL8": {
+   "2023": [
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19502
+     ]
+    },
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42461
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19577
+     ]
+    },
+    {
+     "item": "9.5.5",
+     "title": "S4TWL - Simplified Sourcing",
+     "lines": [
+      43503
+     ]
+    }
+   ]
+  },
+  "PA30": {
+   "2023": [
+    {
+     "item": "2.32",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      5878,
+      5886
+     ]
+    },
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25925
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.11",
+     "title": "S4TWL - Conversion of Employees to Business Partners",
+     "lines": [
+      26344
+     ]
+    },
+    {
+     "item": "8.1.6",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      28976,
+      28989
+     ]
+    }
+   ]
+  },
+  "PA40": {
+   "2023": [
+    {
+     "item": "2.32",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      5878,
+      5886
+     ]
+    },
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25925
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.11",
+     "title": "S4TWL - Conversion of Employees to Business Partners",
+     "lines": [
+      26344
+     ]
+    },
+    {
+     "item": "8.1.6",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      28976,
+      28989
+     ]
+    }
+   ]
+  },
+  "PA48": {
+   "2023": [
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25130
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.22",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      27361
+     ]
+    }
+   ]
+  },
+  "PB10": {
+   "2023": [
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25289
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.28",
+     "title": "S4TWL – Recruiting",
+     "lines": [
+      27730
+     ]
+    }
+   ]
+  },
+  "PB20": {
+   "2023": [
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25289
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.28",
+     "title": "S4TWL – Recruiting",
+     "lines": [
+      27730
+     ]
+    }
+   ]
+  },
+  "PB30": {
+   "2023": [
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25289
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.28",
+     "title": "S4TWL – Recruiting",
+     "lines": [
+      27730
+     ]
+    }
+   ]
+  },
+  "PB40": {
+   "2023": [
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25289
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.28",
+     "title": "S4TWL – Recruiting",
+     "lines": [
+      27730
+     ]
+    }
+   ]
+  },
+  "PB50": {
+   "2023": [
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25289
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.28",
+     "title": "S4TWL – Recruiting",
+     "lines": [
+      27730
+     ]
+    }
+   ]
+  },
+  "PEST": {
+   "2023": [
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25371
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.23",
+     "title": "S4TWL – Obsolete Payroll Reports",
+     "lines": [
+      27439
+     ]
+    }
+   ]
+  },
+  "PSV1": {
+   "2023": [
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25505,
+      25511
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.33",
+     "title": "S4TWL – Training and Event Management",
+     "lines": [
+      28043,
+      28066
+     ]
+    }
+   ]
+  },
+  "PSV2": {
+   "2023": [
+    {
+     "item": "19.9",
+     "title": "S4TWL – HCM Obsolete Packages",
+     "lines": [
+      25505,
+      25511
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "7.1.33",
+     "title": "S4TWL – Training and Event Management",
+     "lines": [
+      28043,
+      28066
+     ]
+    }
+   ]
+  },
+  "QC20": {
+   "2023": [
+    {
+     "item": "34.6",
+     "title": "S4TWL - ITS services in QM",
+     "lines": [
+      45672
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.6",
+     "title": "S4TWL - ITS services in QM",
+     "lines": [
+      45477
+     ]
+    }
+   ]
+  },
+  "QC21": {
+   "2023": [
+    {
+     "item": "34.6",
+     "title": "S4TWL - ITS services in QM",
+     "lines": [
+      45672
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.6",
+     "title": "S4TWL - ITS services in QM",
+     "lines": [
+      45477
+     ]
+    }
+   ]
+  },
+  "QM50": {
+   "2023": [
+    {
+     "item": "34.3",
+     "title": "S4TWL - Removed Navigation to Transactions for Evaluations in QM",
+     "lines": [
+      45316,
+      45332
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.1",
+     "title": "S4TWL - Removed Navigation to Transactions for Evaluations in QM",
+     "lines": [
+      44962,
+      44979
+     ]
+    }
+   ]
+  },
+  "QS34": {
+   "2023": [
+    {
+     "item": "34.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45233
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45096
+     ]
+    }
+   ]
+  },
+  "QS42": {
+   "2023": [
+    {
+     "item": "34.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45204
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.6.2",
+     "title": "S4TWL - Redundant Transactions in QM",
+     "lines": [
+      45048
+     ]
+    }
+   ]
+  },
+  "SAINT": {
+   "2023": [
+    {
+     "item": "33.9",
+     "title": "S4TWL - Add-On: EHS Web-Interface",
+     "lines": [
+      45022
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.1.7",
+     "title": "S4TWL - Add-On: Genifix (Labelling solution)",
+     "lines": [
+      29882
+     ]
+    }
+   ]
+  },
+  "SAS": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      41925,
+      41941,
+      41945
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.4",
+     "title": "S4TWL - DATA MODEL CHANGES IN FIN",
+     "lines": [
+      8876
+     ]
+    },
+    {
+     "item": "9.4.1",
+     "title": "S4TWL - Redesign of Status and Action Schema (SAS)",
+     "lines": [
+      35563,
+      35576,
+      35588
+     ]
+    }
+   ]
+  },
+  "SCC4": {
+   "2023": [
+    {
+     "item": "2.10",
+     "title": "ABAPTWL - SSCR license key procedure is no longer supported",
+     "lines": [
+      3894
+     ]
+    },
+    {
+     "item": "2.33",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      6294
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.1",
+     "title": "ABAPTWL - SSCR license key procedure is no longer supported",
+     "lines": [
+      28436
+     ]
+    },
+    {
+     "item": "8.1.3",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      28562
+     ]
+    }
+   ]
+  },
+  "SCC5": {
+   "2023": [
+    {
+     "item": "2.33",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      6285
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.3",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      28554
+     ]
+    }
+   ]
+  },
+  "SCMA": {
+   "2023": [
+    {
+     "item": "8.10",
+     "title": "S4TWL - Schedule Manager",
+     "lines": [
+      15018
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.29",
+     "title": "S4TWL - Schedule Manager",
+     "lines": [
+      13548
+     ]
+    }
+   ]
+  },
+  "SCUM": {
+   "2023": [
+    {
+     "item": "2.32",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      6190
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.6",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      29282
+     ]
+    }
+   ]
+  },
+  "SD11": {
+   "2023": [
+    {
+     "item": "2.35",
+     "title": "S4TWL - Removal of obsolete Data Modeler (SD11) content",
+     "lines": [
+      6357,
+      6372,
+      6380
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.16",
+     "title": "S4TWL - Removal of obsolete Data Modeler (SD11) content",
+     "lines": [
+      5855,
+      5873,
+      5879
+     ]
+    }
+   ]
+  },
+  "SE06": {
+   "2023": [
+    {
+     "item": "2.10",
+     "title": "ABAPTWL - SSCR license key procedure is no longer supported",
+     "lines": [
+      3892,
+      3893
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.1",
+     "title": "ABAPTWL - SSCR license key procedure is no longer supported",
+     "lines": [
+      28434,
+      28435
+     ]
+    }
+   ]
+  },
+  "SE16": {
+   "2023": [
+    {
+     "item": "2.17",
+     "title": "ABAPTWL - End of Support for Pool Tables",
+     "lines": [
+      4206,
+      4213,
+      4235
+     ]
+    },
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19494,
+      19495,
+      19720
+     ]
+    },
+    {
+     "item": "18.6",
+     "title": "S4TWL - Differentiation Category Dependent FS Datasets Not Available",
+     "lines": [
+      24425
+     ]
+    },
+    {
+     "item": "22.1",
+     "title": "S4TWL - New advanced ATP in SAP S/4HANA – Table VBBS",
+     "lines": [
+      30346
+     ]
+    },
+    {
+     "item": "27.1",
+     "title": "S4TWL - FMP in S4HANA",
+     "lines": [
+      33423
+     ]
+    },
+    {
+     "item": "27.3",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      33720
+     ]
+    },
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      35560,
+      35578
+     ]
+    },
+    {
+     "item": "28.8",
+     "title": "S4TWL - SAP PLM Recipe Development",
+     "lines": [
+      36709
+     ]
+    },
+    {
+     "item": "28.9",
+     "title": "S4TWL - Engineering Change Management ECR/ECO",
+     "lines": [
+      36777,
+      36915,
+      37455
+     ]
+    },
+    {
+     "item": "37.6",
+     "title": "S4TWL - cFolders not available anymore in SAP Portfolio and Project",
+     "lines": [
+      46757
+     ]
+    },
+    {
+     "item": "39.5",
+     "title": "S4TWL - SD Rebate Processing replaced by Settlement Management",
+     "lines": [
+      52074
+     ]
+    },
+    {
+     "item": "44.2",
+     "title": "S4TWL - BRIM - Billing of Event Detail Records (EDR)",
+     "lines": [
+      55973
+     ]
+    },
+    {
+     "item": "44.3",
+     "title": "S4TWL - BRIM - Common Object Layer (COL)",
+     "lines": [
+      56023
+     ]
+    },
+    {
+     "item": "44.4",
+     "title": "S4TWL - BRIM - Integration with FSCM Biller Direct (FI-CA)",
+     "lines": [
+      56066
+     ]
+    },
+    {
+     "item": "44.5",
+     "title": "S4TWL - BRIM - Solution Sales and Billing",
+     "lines": [
+      56136
+     ]
+    },
+    {
+     "item": "49.8",
+     "title": "S4TWL - Tracking Inbound",
+     "lines": [
+      59129
+     ]
+    },
+    {
+     "item": "49.9",
+     "title": "S4TWL - Supplier Workplace",
+     "lines": [
+      59216,
+      59296,
+      59298
+     ]
+    },
+    {
+     "item": "52.1",
+     "title": "S4TWL - Sales Order Versions",
+     "lines": [
+      60757
+     ]
+    },
+    {
+     "item": "52.4",
+     "title": "S4TWL - Process batch",
+     "lines": [
+      60955
+     ]
+    },
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      72271
+     ]
+    },
+    {
+     "item": "61.1",
+     "title": "S4TWL - Lock and unlock services using IST_TDATA",
+     "lines": [
+      72599
+     ]
+    },
+    {
+     "item": "62.4",
+     "title": "S4TWL - IDE Outgoing Payment Processing",
+     "lines": [
+      72915
+     ]
+    },
+    {
+     "item": "62.7",
+     "title": "S4TWL - IS-Utilities Settlement Control",
+     "lines": [
+      73070
+     ]
+    },
+    {
+     "item": "62.9",
+     "title": "S4TWL - Deprecation of transaction EA22_TOOL",
+     "lines": [
+      73256,
+      73695
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "2.1.1",
+     "title": "ABAPTWL - End of Support for Pool Tables",
+     "lines": [
+      1656,
+      1663,
+      1694
+     ]
+    },
+    {
+     "item": "5.1.14",
+     "title": "S4TWL - Differentiation Category Dependent FS Datasets Not Available in",
+     "lines": [
+      5756
+     ]
+    },
+    {
+     "item": "6.4.33",
+     "title": "S4TWL - CM: CCTR CPE Commodity Code Harmonization",
+     "lines": [
+      16961
+     ]
+    },
+    {
+     "item": "6.5.2",
+     "title": "S4TWL - ACTIVITY-BASED COSTING",
+     "lines": [
+      17584,
+      17597
+     ]
+    },
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19561,
+      19562
+     ]
+    },
+    {
+     "item": "6.10.1",
+     "title": "S4TWL - BRIM - Billing of Event Detail Records (EDR)",
+     "lines": [
+      22581
+     ]
+    },
+    {
+     "item": "6.10.2",
+     "title": "S4TWL - BRIM - Common Object Layer (COL)",
+     "lines": [
+      22625
+     ]
+    },
+    {
+     "item": "6.10.3",
+     "title": "S4TWL - BRIM - Solution Sales and Billing",
+     "lines": [
+      22676
+     ]
+    },
+    {
+     "item": "6.10.6",
+     "title": "S4TWL - BRIM - Integration with FSCM Biller Direct (FI-CA)",
+     "lines": [
+      23071
+     ]
+    },
+    {
+     "item": "10.1.11",
+     "title": "S4TWL - cFolders not available anymore in SAP Portfolio and Project",
+     "lines": [
+      46462
+     ]
+    },
+    {
+     "item": "10.4.18",
+     "title": "S4TWL - SAP PLM Recipe Development",
+     "lines": [
+      52804
+     ]
+    },
+    {
+     "item": "10.4.19",
+     "title": "S4TWL - Engineering Change Management Change Sequence Graph",
+     "lines": [
+      52851
+     ]
+    },
+    {
+     "item": "10.4.20",
+     "title": "S4TWL - New Access Control Management",
+     "lines": [
+      52924
+     ]
+    },
+    {
+     "item": "10.4.21",
+     "title": "S4TWL - Access Control Management (ACM)",
+     "lines": [
+      52979,
+      52981
+     ]
+    },
+    {
+     "item": "10.4.22",
+     "title": "S4TWL - Recipe Management",
+     "lines": [
+      53074
+     ]
+    },
+    {
+     "item": "10.4.29",
+     "title": "S4TWL - Engineering Change Management ECR/ECO",
+     "lines": [
+      53432
+     ]
+    },
+    {
+     "item": "11.1.14",
+     "title": "S4TWL - SD Rebate Processing replaced by Settlement Management",
+     "lines": [
+      59087
+     ]
+    },
+    {
+     "item": "13.2.1",
+     "title": "S4TWL - Tracking Inbound",
+     "lines": [
+      60785
+     ]
+    },
+    {
+     "item": "13.2.2",
+     "title": "S4TWL - External Service Providers",
+     "lines": [
+      60857,
+      60859
+     ]
+    },
+    {
+     "item": "13.2.3",
+     "title": "S4TWL - Cross-System Transit between Two Plants",
+     "lines": [
+      60923,
+      60924,
+      60927
+     ]
+    },
+    {
+     "item": "13.2.5",
+     "title": "S4TWL - Material Version",
+     "lines": [
+      61121,
+      61123
+     ]
+    },
+    {
+     "item": "13.2.6",
+     "title": "S4TWL - Planning Regular Route Shipments",
+     "lines": [
+      61191,
+      61193
+     ]
+    },
+    {
+     "item": "13.2.7",
+     "title": "S4TWL - BSP based Dealer Portal",
+     "lines": [
+      61260,
+      61262,
+      61264
+     ]
+    },
+    {
+     "item": "13.2.9",
+     "title": "S4TWL - Supplier Workplace",
+     "lines": [
+      61429
+     ]
+    },
+    {
+     "item": "13.12.1",
+     "title": "S4TWL - Sales Order Versions",
+     "lines": [
+      68921
+     ]
+    },
+    {
+     "item": "13.12.4",
+     "title": "S4TWL - Process batch",
+     "lines": [
+      69107
+     ]
+    },
+    {
+     "item": "13.15.28",
+     "title": "S4TWL - Fashion changes in 1709 FPS02",
+     "lines": [
+      75419
+     ]
+    },
+    {
+     "item": "13.15.43",
+     "title": "S4TWL - Retail Store Fiori Apps - Transfer Products/Order Products",
+     "lines": [
+      76129
+     ]
+    },
+    {
+     "item": "13.15.46",
+     "title": "S4TWL - Retail Store Fiori App - Order Products (F&R enhancements)",
+     "lines": [
+      76248
+     ]
+    },
+    {
+     "item": "13.15.56",
+     "title": "S4TWL - BAdI for Article Reference Handling",
+     "lines": [
+      77307
+     ]
+    },
+    {
+     "item": "13.16.1",
+     "title": "S4TWL - Lock and unlock services using IST_TDATA",
+     "lines": [
+      78285
+     ]
+    },
+    {
+     "item": "13.17.2",
+     "title": "S4TWL - IS-U Stock, Transaction and Master Data Statistics (UIS, BW)",
+     "lines": [
+      78430
+     ]
+    },
+    {
+     "item": "13.17.3",
+     "title": "S4TWL - Monitoring Profile Value Import",
+     "lines": [
+      78498
+     ]
+    },
+    {
+     "item": "13.17.14",
+     "title": "S4TWL - IDE Outgoing Payment Processing",
+     "lines": [
+      79213
+     ]
+    },
+    {
+     "item": "13.17.16",
+     "title": "S4TWL - IS-Utilities Settlement Control",
+     "lines": [
+      79301
+     ]
+    },
+    {
+     "item": "15.1.1",
+     "title": "S4TWL - New advanced ATP in SAP S/4HANA – Table VBBS",
+     "lines": [
+      81371
+     ]
+    },
+    {
+     "item": "15.3.6",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      83791
+     ]
+    },
+    {
+     "item": "15.3.8",
+     "title": "S4TWL - FMP in S4HANA",
+     "lines": [
+      84100
+     ]
+    },
+    {
+     "item": "6.0",
+     "title": "This 'new architecture' is harmonized with the SAP ERP standard and removes the",
+     "lines": [
+      84407,
+      84418
+     ]
+    },
+    {
+     "item": "15.3.12",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      85180
+     ]
+    }
+   ]
+  },
+  "SE43": {
+   "2023": [
+    {
+     "item": "8.4",
+     "title": "S4TWL - SAP Travel Management in SAP S/4HANA Suite",
+     "lines": [
+      14337
+     ]
+    },
+    {
+     "item": "56.7",
+     "title": "S4TWL - Handling Oil & Gas obsolete t-codes Oil",
+     "lines": [
+      65070
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.7.10",
+     "title": "S4TWL - SAP Travel Management in SAP S/4HANA Suite",
+     "lines": [
+      22219
+     ]
+    },
+    {
+     "item": "13.13.24",
+     "title": "S4TWL - Handling Oil & Gas obsolete t-codes Oil",
+     "lines": [
+      71194
+     ]
+    }
+   ]
+  },
+  "SE95": {
+   "2023": [
+    {
+     "item": "2.10",
+     "title": "ABAPTWL - SSCR license key procedure is no longer supported",
+     "lines": [
+      3903
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.1",
+     "title": "ABAPTWL - SSCR license key procedure is no longer supported",
+     "lines": [
+      28444
+     ]
+    }
+   ]
+  },
+  "SM31": {
+   "2023": [
+    {
+     "item": "44.6",
+     "title": "S4TWL - BRIM – Immediate Master Data Replication to SAP",
+     "lines": [
+      56211
+     ]
+    },
+    {
+     "item": "6.0",
+     "title": "and then take further action. If both flags are set or both flags are empty, you do",
+     "lines": [
+      56217
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.10.4",
+     "title": "S4TWL - BRIM – Immediate Master Data Replication to SAP Convergent",
+     "lines": [
+      22749,
+      22755
+     ]
+    }
+   ]
+  },
+  "SNOTE": {
+   "2023": [
+    {
+     "item": "2.49",
+     "title": "S4TWL - JOB SCHEDULING",
+     "lines": [
+      7484
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.4",
+     "title": "S4TWL - JOB SCHEDULING",
+     "lines": [
+      28658
+     ]
+    }
+   ]
+  },
+  "SNRO": {
+   "2023": [
+    {
+     "item": "8.5",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      14683
+     ]
+    },
+    {
+     "item": "11.4",
+     "title": "S4TWL - CASH MANAGEMENT - Memo Record",
+     "lines": [
+      17986
+     ]
+    },
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      71863
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.3",
+     "title": "S4TWL - Plan data is not migrated to SAP S/4HANA",
+     "lines": [
+      8246
+     ]
+    },
+    {
+     "item": "6.11.15",
+     "title": "S4TWL - CASH MANAGEMENT - Memo Record",
+     "lines": [
+      23954
+     ]
+    },
+    {
+     "item": "13.15.28",
+     "title": "S4TWL - Fashion changes in 1709 FPS02",
+     "lines": [
+      75383
+     ]
+    },
+    {
+     "item": "13.15.59",
+     "title": "S4TWL - Fashion Functionality",
+     "lines": [
+      77659
+     ]
+    }
+   ]
+  },
+  "SP02": {
+   "2023": [
+    {
+     "item": "10.2.9",
+     "title": "Transaction Types",
+     "lines": [
+      15918
+     ]
+    },
+    {
+     "item": "10.5.1",
+     "title": "Business Functions of Asset Accounting",
+     "lines": [
+      16259
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      52360
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.5",
+     "title": "S4TWL - SD – FI/CA Integration with distributed systems",
+     "lines": [
+      2073
+     ]
+    },
+    {
+     "item": "6.1.9",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      10318
+     ]
+    },
+    {
+     "item": "6.1.16",
+     "title": "S4TWL - ASSET ACCOUNTING",
+     "lines": [
+      12322
+     ]
+    },
+    {
+     "item": "6.1.28",
+     "title": "S4TWL - SELECTED BUSINESS FUNCTIONS IN FINANCIAL",
+     "lines": [
+      13356
+     ]
+    },
+    {
+     "item": "11.1.12",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      58947
+     ]
+    }
+   ]
+  },
+  "SP11": {
+   "2023": [
+    {
+     "item": "3.7",
+     "title": "S4TWL: Business partner data exchange between SAP CRM and",
+     "lines": [
+      8254
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.4",
+     "title": "S4TWL: Business partner data exchange between SAP CRM and S/4HANA",
+     "lines": [
+      4852
+     ]
+    }
+   ]
+  },
+  "SP12": {
+   "2025": [
+    {
+     "item": "3.1.13",
+     "title": "S4TWL - Ariba Cloud Integration",
+     "lines": [
+      2672
+     ]
+    }
+   ]
+  },
+  "SPAU": {
+   "2023": [
+    {
+     "item": "42.3",
+     "title": "S4TWL - Annexing Solution for Israel",
+     "lines": [
+      55005
+     ]
+    },
+    {
+     "item": "54.8",
+     "title": "S4TWL - FS-RI - Ensuring the functionality of the Extension Service",
+     "lines": [
+      62462
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.11.14",
+     "title": "S4TWL - Annexing Solution for Israel",
+     "lines": [
+      23895
+     ]
+    },
+    {
+     "item": "13.9.18",
+     "title": "S4TWL - FS-RI - Ensuring the functionality of the Extension Service",
+     "lines": [
+      67025
+     ]
+    }
+   ]
+  },
+  "SPDD": {
+   "2023": [
+    {
+     "item": "1.1",
+     "title": "Customer Appends on the former document tables MKPF and MSEG",
+     "lines": [
+      34516
+     ]
+    },
+    {
+     "item": "1.1.1",
+     "title": "Customer include CI_COBL in table MSEG",
+     "lines": [
+      34529
+     ]
+    },
+    {
+     "item": "38.9",
+     "title": "S4TWL - Co-Deployment of SAP SRM",
+     "lines": [
+      50948,
+      50957,
+      50984
+     ]
+    },
+    {
+     "item": "39.8",
+     "title": "S4TWL - SD Simplified Data Models",
+     "lines": [
+      52282,
+      52304
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      52622,
+      52654
+     ]
+    },
+    {
+     "item": "54.8",
+     "title": "S4TWL - FS-RI - Ensuring the functionality of the Extension Service",
+     "lines": [
+      62462
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "11.1.7",
+     "title": "S4TWL - Data Model Changes in SD Pricing",
+     "lines": [
+      58528,
+      58551
+     ]
+    },
+    {
+     "item": "11.1.9",
+     "title": "S4TWL - SD Simplified Data Models",
+     "lines": [
+      58774,
+      58791
+     ]
+    },
+    {
+     "item": "13.9.18",
+     "title": "S4TWL - FS-RI - Ensuring the functionality of the Extension Service",
+     "lines": [
+      67025
+     ]
+    },
+    {
+     "item": "14.2.12",
+     "title": "S4TWL - CI Include Conflicts in EKKO_INCL_EEW_PS and",
+     "lines": [
+      80841,
+      80855,
+      80871
+     ]
+    },
+    {
+     "item": "1.1",
+     "title": "Customer Appends on the former document tables MKPF and MSEG",
+     "lines": [
+      82948
+     ]
+    },
+    {
+     "item": "1.1.1",
+     "title": "Customer include CI_COBL in table MSEG",
+     "lines": [
+      82961
+     ]
+    }
+   ]
+  },
+  "ST03N": {
+   "2023": [
+    {
+     "item": "2.35",
+     "title": "S4TWL - Removal of obsolete Data Modeler (SD11) content",
+     "lines": [
+      6407
+     ]
+    },
+    {
+     "item": "8.3",
+     "title": "S4TWL - REPLACED TRANSACTION CODES AND PROGRAMS IN",
+     "lines": [
+      13993
+     ]
+    },
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19496
+     ]
+    },
+    {
+     "item": "28.9",
+     "title": "S4TWL - Engineering Change Management ECR/ECO",
+     "lines": [
+      36778,
+      38037
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.16",
+     "title": "S4TWL - Removal of obsolete Data Modeler (SD11) content",
+     "lines": [
+      5910
+     ]
+    },
+    {
+     "item": "6.1.5",
+     "title": "S4TWL - REPLACED TRANSACTION CODES AND PROGRAMS IN FIN",
+     "lines": [
+      9271
+     ]
+    },
+    {
+     "item": "6.5.13",
+     "title": "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER",
+     "lines": [
+      19563
+     ]
+    },
+    {
+     "item": "10.4.22",
+     "title": "S4TWL - Recipe Management",
+     "lines": [
+      53075
+     ]
+    },
+    {
+     "item": "10.4.29",
+     "title": "S4TWL - Engineering Change Management ECR/ECO",
+     "lines": [
+      53433
+     ]
+    }
+   ]
+  },
+  "SU22": {
+   "2023": [
+    {
+     "item": "54.9",
+     "title": "S4TWL - FS-RI deletion of obsolete functionality for FI-AR",
+     "lines": [
+      64081,
+      64412
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.9.5",
+     "title": "S4TWL - Insurance localization for Russia - deprecation",
+     "lines": [
+      64786
+     ]
+    }
+   ]
+  },
+  "SU3": {
+   "2023": [
+    {
+     "item": "18.5",
+     "title": "S4TWL - Conversion to S/4HANA Material Ledger and Actual Costing",
+     "lines": [
+      24350
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.8",
+     "title": "S4TWL - Conversion to S/4HANA Material Ledger and Actual Costing",
+     "lines": [
+      18544
+     ]
+    }
+   ]
+  },
+  "SUCOMP": {
+   "2023": [
+    {
+     "item": "2.32",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      6194
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.6",
+     "title": "S4TWL - Business User Management",
+     "lines": [
+      29285
+     ]
+    }
+   ]
+  },
+  "SWEL": {
+   "2023": [
+    {
+     "item": "2.31",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      5654
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.23",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      3614
+     ]
+    }
+   ]
+  },
+  "SWO1": {
+   "2023": [
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      35649
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.0",
+     "title": "This 'new architecture' is harmonized with the SAP ERP standard and removes the",
+     "lines": [
+      84545
+     ]
+    }
+   ]
+  },
+  "SWU2": {
+   "2023": [
+    {
+     "item": "2.31",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      5660
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "3.1.23",
+     "title": "ABAPTWL - Change of authorization checks SAP Business Workflow",
+     "lines": [
+      3620
+     ]
+    }
+   ]
+  },
+  "UKM_BP": {
+   "2023": [
+    {
+     "item": "18.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      23458,
+      23496
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      53734,
+      53771
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.3.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      14870,
+      14918
+     ]
+    },
+    {
+     "item": "11.1.5",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      58101,
+      58149
+     ]
+    }
+   ]
+  },
+  "VBO1": {
+   "2023": [
+    {
+     "item": "39.5",
+     "title": "S4TWL - SD Rebate Processing replaced by Settlement Management",
+     "lines": [
+      52048,
+      52053
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "11.1.14",
+     "title": "S4TWL - SD Rebate Processing replaced by Settlement Management",
+     "lines": [
+      59072,
+      59076
+     ]
+    }
+   ]
+  },
+  "VC/2": {
+   "2023": [
+    {
+     "item": "39.3",
+     "title": "S4TWL - Sales Activities",
+     "lines": [
+      51790
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "11.2.1",
+     "title": "S4TWL - Sales Activities",
+     "lines": [
+      59323
+     ]
+    }
+   ]
+  },
+  "VD05": {
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7052
+     ]
+    }
+   ]
+  },
+  "VD06": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9114
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7052
+     ]
+    }
+   ]
+  },
+  "VKM1": {
+   "2023": [
+    {
+     "item": "18.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      23445,
+      23498,
+      23515
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      53726,
+      53773,
+      53790
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.3.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      14858,
+      14920,
+      14938
+     ]
+    },
+    {
+     "item": "11.1.5",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      58089,
+      58151,
+      58164
+     ]
+    }
+   ]
+  },
+  "VKM5": {
+   "2023": [
+    {
+     "item": "18.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      23519
+     ]
+    },
+    {
+     "item": "39.9",
+     "title": "S4TWL - VBFA - Indirect Docflow Relationships",
+     "lines": [
+      53800
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.3.1",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      14941
+     ]
+    },
+    {
+     "item": "11.1.5",
+     "title": "S4TWL - Credit Management",
+     "lines": [
+      58167
+     ]
+    }
+   ]
+  },
+  "VL06I": {
+   "2023": [
+    {
+     "item": "27.3",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      33689,
+      33699,
+      33703
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.6",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      83744,
+      83760,
+      83772
+     ]
+    },
+    {
+     "item": "15.3.12",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      85133,
+      85149,
+      85156
+     ]
+    }
+   ]
+  },
+  "VL32N": {
+   "2023": [
+    {
+     "item": "27.3",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      33654,
+      33659,
+      33669
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.6",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      83695,
+      83709,
+      83720
+     ]
+    },
+    {
+     "item": "15.3.12",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      85085,
+      85093,
+      85104
+     ]
+    }
+   ]
+  },
+  "VL60": {
+   "2023": [
+    {
+     "item": "27.3",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      33654,
+      33660,
+      33689
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "15.3.6",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      83695,
+      83709,
+      83744
+     ]
+    },
+    {
+     "item": "15.3.12",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      85085,
+      85093,
+      85133
+     ]
+    }
+   ]
+  },
+  "VOFM": {
+   "2023": [
+    {
+     "item": "57.2",
+     "title": "S4TWL - OGSD - Classic OGSD Interfaces",
+     "lines": [
+      67034
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.13.19",
+     "title": "S4TWL - OGSD - Classic OGSD Interfaces",
+     "lines": [
+      70794
+     ]
+    }
+   ]
+  },
+  "XD05": {
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7053
+     ]
+    }
+   ]
+  },
+  "XD06": {
+   "2023": [
+    {
+     "item": "3.19",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      9114
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7053
+     ]
+    }
+   ]
+  },
+  "XD07": {
+   "2025": [
+    {
+     "item": "5.1.27",
+     "title": "S4TWL - Business Partner Approach",
+     "lines": [
+      7059
+     ]
+    }
+   ]
+  },
+  "MB56": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      41606
+     ]
+    }
+   ]
+  },
+  "OSS1": {
+   "2023": [
+    {
+     "item": "2.16",
+     "title": "ABAPTWL - Removal of OSS1 (Logon to SAP Service Marketplace)",
+     "lines": [
+      4102,
+      4121
+     ]
+    }
+   ]
+  },
+  "SM01": {
+   "2023": [
+    {
+     "item": "2.16",
+     "title": "ABAPTWL - Removal of OSS1 (Logon to SAP Service Marketplace)",
+     "lines": [
+      4134
+     ]
+    }
+   ]
+  }
+ },
+ "summary": {
+  "universe": 1818,
+  "skippedTwoCharacter": 1,
+  "namedInAnyList": 386,
+  "namedInBoth": 328,
+  "notNamed": 1431
+ }
+}

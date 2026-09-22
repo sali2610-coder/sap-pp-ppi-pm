@@ -2,7 +2,7 @@ OK   desktop library unavailable: {"turns":1,"fail":"שירות ה-AI אינו �
 OK   desktop library generic: {"turns":1,"fail":"אירעה שגיאה זמנית. השיחה נשמרה; אפשר לנסות שוב בעוד רגע.","failNote":null,"retry":true,"answer":0,"empty":null,"sources":0,"sourcesInTurn":0,"answerTex
 OK   desktop library incomplete: {"turns":1,"fail":"אירעה שגיאה זמנית. השיחה נשמרה; אפשר לנסות שוב בעוד רגע.","failNote":"אחזור הקטעים הושלם (7 קטעים); הכשל אירע בשלב כתיבת התשובה. שאר השיחה לא נפגעה.","
 OK   desktop library empty: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":80,"empty":"לא התקבלה תשובה. השיחה נשמרה; אפשר לנסח את השאלה מחדש ולשלוח שוב.","sources":0,"sourcesInTurn":0,
-OK   desktop library long: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":5186,"empty":null,"sources":0,"sourcesInTurn":0,"answerText":"מבוסס על המקורות · מקור אחדפסקה 1: הודעת אחזקה 
+OK   desktop library long: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":5186,"empty":null,"sources":0,"sourcesInTurn":0,"answerText":"מבוסס על המקורות · מקור אחדפסקה 1: הודעת אחזקה
 OK   desktop library citations: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":251,"empty":null,"sources":2,"sourcesInTurn":2,"answerText":"מבוסס על המקורות · 2 מקורותהודעת אחזקה נפתחת ב-I
 OK   desktop library usage: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":83,"empty":null,"sources":0,"sourcesInTurn":0,"answerText":"מבוסס על המקורות · 2 מקורותהודעת אחזקה נפתחת ב-IW
 OK   desktop library busy-stop: {"during":{"busy":"1","stopBtn":true},"stopped":"התשובה נעצרה. לא התקבלה תשובה ולא נשמר טקסט חלקי; שאר השיחה נשמרה. אפשר לשלוח את השאלה שוב.","retry":true,"busyAfter":"0"
@@ -11,7 +11,7 @@ OK   desktop general unavailable: {"turns":1,"fail":"שירות ה-AI אינו �
 OK   desktop general generic: {"turns":1,"fail":"אירעה שגיאה זמנית. השיחה נשמרה; אפשר לנסות שוב בעוד רגע.","failNote":null,"retry":true,"answer":0,"empty":null,"sources":0,"sourcesInTurn":0,"answerTex
 OK   desktop general incomplete: {"turns":1,"fail":"אירעה שגיאה זמנית. השיחה נשמרה; אפשר לנסות שוב בעוד רגע.","failNote":"אחזור הקטעים הושלם (7 קטעים); הכשל אירע בשלב כתיבת התשובה. שאר השיחה לא נפגעה.","
 OK   desktop general empty: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":91,"empty":"לא התקבלה תשובה. השיחה נשמרה; אפשר לנסח את השאלה מחדש ולשלוח שוב.","sources":0,"sourcesInTurn":0,
-OK   desktop general long: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":5186,"empty":null,"sources":0,"sourcesInTurn":0,"answerText":"מבוסס על המקורות · מקור אחדפסקה 1: הודעת אחזקה 
+OK   desktop general long: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":5186,"empty":null,"sources":0,"sourcesInTurn":0,"answerText":"מבוסס על המקורות · מקור אחדפסקה 1: הודעת אחזקה
 OK   desktop general citations: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":251,"empty":null,"sources":2,"sourcesInTurn":2,"answerText":"מבוסס על המקורות · 2 מקורותהודעת אחזקה נפתחת ב-I
 OK   desktop general usage: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":83,"empty":null,"sources":0,"sourcesInTurn":0,"answerText":"מבוסס על המקורות · 2 מקורותהודעת אחזקה נפתחת ב-IW
 OK   desktop general busy-stop: {"during":{"busy":"1","stopBtn":true},"stopped":"התשובה נעצרה. לא התקבלה תשובה ולא נשמר טקסט חלקי; שאר השיחה נשמרה. אפשר לשלוח את השאלה שוב.","retry":true,"busyAfter":"0"
@@ -20,7 +20,7 @@ OK   phone library unavailable: {"turns":1,"fail":"שירות ה-AI אינו ז�
 OK   phone library generic: {"turns":1,"fail":"אירעה שגיאה זמנית. השיחה נשמרה; אפשר לנסות שוב בעוד רגע.","failNote":null,"retry":true,"answer":0,"empty":null,"sources":0,"sourcesInTurn":0,"answerTex
 OK   phone library incomplete: {"turns":1,"fail":"אירעה שגיאה זמנית. השיחה נשמרה; אפשר לנסות שוב בעוד רגע.","failNote":"אחזור הקטעים הושלם (7 קטעים); הכשל אירע בשלב כתיבת התשובה. שאר השיחה לא נפגעה.","
 OK   phone library empty: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":80,"empty":"לא התקבלה תשובה. השיחה נשמרה; אפשר לנסח את השאלה מחדש ולשלוח שוב.","sources":0,"sourcesInTurn":0,
-OK   phone library long: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":5186,"empty":null,"sources":0,"sourcesInTurn":0,"answerText":"מבוסס על המקורות · מקור אחדפסקה 1: הודעת אחזקה 
+OK   phone library long: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":5186,"empty":null,"sources":0,"sourcesInTurn":0,"answerText":"מבוסס על המקורות · מקור אחדפסקה 1: הודעת אחזקה
 OK   phone library citations: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":251,"empty":null,"sources":2,"sourcesInTurn":2,"answerText":"מבוסס על המקורות · 2 מקורותהודעת אחזקה נפתחת ב-I
 OK   phone library usage: {"turns":1,"fail":null,"failNote":null,"retry":true,"answer":83,"empty":null,"sources":0,"sourcesInTurn":0,"answerText":"מבוסס על המקורות · 2 מקורותהודעת אחזקה נפתחת ב-IW
 OK   phone library busy-stop: {"during":{"busy":"1","stopBtn":true},"stopped":"התשובה נעצרה. לא התקבלה תשובה ולא נשמר טקסט חלקי; שאר השיחה נשמרה. אפשר לשלוח את השאלה שוב.","retry":true,"busyAfter":"0"

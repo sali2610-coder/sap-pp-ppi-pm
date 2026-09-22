@@ -1,7 +1,7 @@
 {
   "theme": "light",
   "viewport": "1363x936",
-  "measuredAt": "2026-09-22T08:21:11.775Z",
+  "measuredAt": "2026-09-22T13:21:19.649Z",
   "results": [
     {
       "url": "/neo/",
@@ -152,16 +152,8 @@
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,
-      "small": [
-        {
-          "tag": "a",
-          "w": 677,
-          "h": 17,
-          "label": "Creating a Maintenance Order |",
-          "cls": "nu-link"
-        }
-      ],
-      "smallCount": 1,
+      "small": [],
+      "smallCount": 0,
       "focusObscured": [],
       "focusObscuredCount": 0
     },
@@ -476,16 +468,8 @@
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,
-      "small": [
-        {
-          "tag": "a",
-          "w": 644,
-          "h": 17,
-          "label": "Maintenance Notification | Mai",
-          "cls": "nu-link"
-        }
-      ],
-      "smallCount": 1,
+      "small": [],
+      "smallCount": 0,
       "focusObscured": [],
       "focusObscuredCount": 0
     },
@@ -495,16 +479,8 @@
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,
-      "small": [
-        {
-          "tag": "a",
-          "w": 710,
-          "h": 17,
-          "label": "Production Order Integration |",
-          "cls": "nu-link"
-        }
-      ],
-      "smallCount": 1,
+      "small": [],
+      "smallCount": 0,
       "focusObscured": [],
       "focusObscuredCount": 0
     },
@@ -514,16 +490,8 @@
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,
-      "small": [
-        {
-          "tag": "a",
-          "w": 597,
-          "h": 17,
-          "label": "PM - Maintenance notification ",
-          "cls": "nu-link"
-        }
-      ],
-      "smallCount": 1,
+      "small": [],
+      "smallCount": 0,
       "focusObscured": [],
       "focusObscuredCount": 0
     }

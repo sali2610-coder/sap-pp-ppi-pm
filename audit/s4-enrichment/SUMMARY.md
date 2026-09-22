@@ -10,6 +10,8 @@ Branch `design/neo-correction-pass` · preview only · `main` and production unt
 - **Research pipeline** `scripts/workflows/enrich-family.js`: researcher → adversarial auditor (default refute) → single writer. Official lookup tool: `scripts/sap-help-search.mjs`.
 
 ## Records verified against official SAP sources
+> **Historical snapshot (2026-09-21).** The figures in this section were true when written and are kept as a record. The current, regenerated figures are in the 2026-09-22 addendum below and in `audit/master-completion/PROGRESS.md`.
+
 | Catalog | Overlay records | State | Notable findings |
 |---|---|---|---|
 | Tables | **105 — catalog closed** | every table the cockpit renders carries a sourced record | MKPF and COSP `replaced` (MATDOC, ACDOCA); MSEG, MARA, BUT000 from batches 1–2; PLZU, FHMI, AFWI, KAZT, CRVD_A, T352, T003O, TC22, TC60, TCA01, TCK03, TCO01, T370T, T134T honestly `verification_required`; T352B `conflicting_sources` |
@@ -41,6 +43,8 @@ Baseline before this phase: L5 **0**, L4 4, verified 839, verification_required 
 Three counters moved **down** on purpose. `verified` and `s4-applicable` fall whenever an authored `verification_required` replaces a verdict the blueprint derived but no source supports. That is the correction working, not a regression.
 
 ## Gates (full regression, 2026-09-21)
+> **Historical snapshot (2026-09-21).** The figures in this section were true when written and are kept as a record. The current, regenerated figures are in the 2026-09-22 addendum below and in `audit/master-completion/PROGRESS.md`.
+
 tsc 0 · tsc (tests) 0 · eslint 0 errors (405 accepted warnings) · `npm test` **201/201** · build **7,803 pages** · route manifest in sync (`/cds/` 39, `/apps/` 539, `/impact/` 105) · dead internal links **0 of 7,805 pages** · sitemap 4,507 URLs covering all 4,507 indexable pages, 0 dead · browser sweep **54/54** (18 detail routes × desktop light/dark × phone: 0 console errors, 0 horizontal overflow, evidence block on every catalog page) · `data/ai-tree` drift **0**. The whole stack was re-run twice, once mid-session and once on the final state.
 
 Spot-checked in the built export, in both themes, with screenshots: KAZT and the measuring-point BAPI render «נדרש אימות נוסף»; T352B and the measuring-point BAPI render «מקורות סותרים»; MKPF and COSP render «הוחלף ב-S/4HANA»; the classic BAdI technique renders «הוחלף ב-S/4HANA»; the batch-creation BAPI renders «קיים API משוחרר» at depth L5. COSP's successor links to a real page; MKPF's successor is a registry entry with no page, so it renders as a chip rather than a dead link.

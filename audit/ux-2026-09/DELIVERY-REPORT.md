@@ -49,9 +49,11 @@
 `books-manifest.before.json` (574 קבצים, sha256) מול `books-zero-loss.round2.json` / `round3.json` / `books-zero-loss.final.json`: 574/574 זהים, 0 שונו, 0 חסרים, 0 נוספו. הקורא הישן (`components/book-reader.tsx`, `components/library/**`, `data/books/**`) לא נגע. הקורא של NEO: שינוי בפקדים בלבד (מצב מיקוד מסתיר גם את המעטפת; גודל ברירת מחדל 16px).
 
 ## 10. בדיקות
+> **Snapshot היסטורי (סבבים 1-5, עד 2026-09-21).** המספרים בסעיף הזה נכונים לזמן כתיבתם ונשמרים כתיעוד. המצב הנוכחי נמצא בנספח שבסוף הקובץ וב-`audit/master-completion/PROGRESS.md`.
+
 - tsc 0 · tsc(tests) 0 · eslint 0 שגיאות (406 אזהרות baseline) · `npm test` 201/201 (14 כללי סכימה + xref) · `check:routes` בסנכרון · `crawl:deadlinks` 0.
 - סקריפטי QA שנוספו: `scripts/qa/ux-measure.mjs` (30 מסלולים; VW/VH/THEME/MOTION/UA), `r3-check`, `r3b-check`, `r3c-check`, `r3d-check`, `shelf-check`, `section-profile`, `type-scale`, `a11y-sample`, `threed-local`, `ux-shots`.
-- `verify:reader`: 69/96 — 27 הכישלונות הם סלקטורים מיושנים בסקריפט (מ-2026-08-11 08:29, לפני שינויי הקורא באותו יום); בדיקה ישירה של `/library/book1/`: 120,411 תווים מצוירים, 0 שגיאות קונסול, 0 גלישה. הסקריפט לא תוקן (דורש הכרת ה-DOM של משטח קפוא).
+- `verify:reader` (סבב 3, היסטורי): 69/96 — מאז עודכן הסקריפט ועומד על 108/108 (ראו נספח). 27 הכישלונות הם סלקטורים מיושנים בסקריפט (מ-2026-08-11 08:29, לפני שינויי הקורא באותו יום); בדיקה ישירה של `/library/book1/`: 120,411 תווים מצוירים, 0 שגיאות קונסול, 0 גלישה. הסקריפט לא תוקן (דורש הכרת ה-DOM של משטח קפוא).
 
 ## 11. מטריצת דפדפן/מסך
 | תצורה | תוצאה |

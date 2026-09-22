@@ -13,6 +13,8 @@
  *     scripts/report-coverage.mjs [--json] [--catalog <name>] [--min-depth <catalog>=<L>]
  *
  * --json        print CoverageRow[] as JSON instead of the table
+ * --ids         print every row (id, depth, level, status) as JSON, per catalog:
+ *               the exact universe this report counts, for work queues
  * --catalog X   limit to one catalog
  * --min-depth   gate for later phases: exit 1 if any record of <catalog> is
  *               below depth <L> (repeatable)
@@ -25,6 +27,7 @@ const flags = { json: false, catalog: null, minDepth: [] };
 for (let i = 0; i < args.length; i++) {
   const a = args[i];
   if (a === "--json") flags.json = true;
+  else if (a === "--ids") flags.ids = true;
   else if (a === "--catalog") flags.catalog = args[++i];
   else if (a.startsWith("--catalog=")) flags.catalog = a.slice("--catalog=".length);
   else if (a === "--min-depth") flags.minDepth.push(args[++i]);
@@ -186,7 +189,14 @@ const perCatalog = new Map();
 for (const c of catalogs) perCatalog.set(c, BUILDERS[c]());
 const coverage = [...perCatalog].map(([c, rows]) => ev.coverageOf(c, rows));
 
-if (flags.json) {
+if (flags.ids) {
+  // Written to a file: a large payload piped to stdout is cut at the pipe
+  // buffer when the process exits before the write drains.
+  const { writeFileSync } = await import("node:fs");
+  const out = process.env.IDS_OUT || "coverage-ids.json";
+  writeFileSync(out, JSON.stringify(Object.fromEntries(perCatalog)));
+  console.log(`report-coverage: ${[...perCatalog].map(([c, r]) => `${c} ${r.length}`).join(", ")} -> ${out}`);
+} else if (flags.json) {
   console.log(JSON.stringify(coverage, null, 2));
 } else {
   const cols = [

@@ -10,6 +10,7 @@ export interface ProcStep {
   fiori?: string[];
   interfaces?: string[];
   incidents?: string[];   // troubleshooting slugs
+  notes?: string[];       // SAP-notes catalog slugs (data/sap-notes.ts), not incidents
   test?: string;
 }
 export interface ProcessMap {
@@ -40,7 +41,7 @@ export const PROCESS_MAPS: ProcessMap[] = [
     ] },
   { slug: "plan-to-produce", he: "תכנון לייצור (Plan-to-Produce)", title: "Plan-to-Produce", domain: "PP-PI", summary: "מתחזית/MRP דרך פקודה, ביצוע, GR ועד התחשבנות — ייצור תהליכי/בדיד.",
     steps: [
-      { he: "ניהול ביקוש (PIR)", tcodes: ["MD61", "MD62"], tables: ["PBIM", "PBED"], fiori: ["Manage PIRs"], incidents: ["pir-strategy"], test: "PIR גרסה 00 מזין MRP." },
+      { he: "ניהול ביקוש (PIR)", tcodes: ["MD61", "MD62"], tables: ["PBIM", "PBED"], fiori: ["Manage PIRs"], incidents: ["mrp-no-planned-orders"], test: "PIR גרסה 00 מזין MRP." },
       { he: "MRP", tcodes: ["MD01N", "MD04"], tables: ["MDKP", "PLAF"], fiori: ["Monitor Material Coverage"], interfaces: ["—"], incidents: ["mrp-no-planned-orders", "no-production-version"], test: "MRP יוצר הזמנות מתוכננות; גרסת ייצור." },
       { he: "פקודת ייצור/תהליך", tcodes: ["CO01", "COR1"], tables: ["AUFK", "AFKO", "AFPO"], fiori: ["Manage Process/Production Orders"], interfaces: ["API_PROCESS_ORDER_2_SRV", "LOIPRO IDoc"], incidents: ["process-order-no-control-recipe"], test: "המרה+שחרור; מרשם בקרה ל-MES." },
       { he: "ביצוע + אישור", tcodes: ["CO11N", "COR6N", "COGI"], tables: ["AFRU", "RESB", "AFFW"], fiori: ["Confirm Production/Process Order"], interfaces: ["Process messages (MES)"], incidents: ["cogi-stuck", "ru505-backflush-stock", "phase-confirm-sequence"], test: "אישור+Backflush; COGI נקי." },
@@ -51,7 +52,7 @@ export const PROCESS_MAPS: ProcessMap[] = [
     steps: [
       { he: "יצירת מנת בדיקה", tcodes: ["QA32"], tables: ["QALS"], fiori: ["Manage Inspection Lots"], interfaces: ["—"], incidents: ["qm-no-inspection-lot"], test: "GR/ייצור יוצר lot לפי סוג בדיקה." },
       { he: "רישום תוצאות", tcodes: ["QE11"], tables: ["QAMR", "QASR"], fiori: ["Record Inspection Results"], incidents: ["qm-results-out-of-spec", "qm-inspection-plan-version"], test: "ערכים מול spec; חריגה→דחייה." },
-      { he: "החלטת שימוש (UD)", tcodes: ["QA11"], tables: ["QAVE"], fiori: ["Make Usage Decision"], incidents: ["qm-ud-blocked", "qm-ud-stock-block"], test: "UD משחרר/חוסם מלאי." },
+      { he: "החלטת שימוש (UD)", tcodes: ["QA11"], tables: ["QAVE"], fiori: ["Make Usage Decision"], incidents: ["qm-ud-blocked"], notes: ["qm-ud-stock-block"], test: "UD משחרר/חוסם מלאי." },
       { he: "תעודה/הודעת איכות", tcodes: ["QC20", "QM01"], tables: ["QMEL"], fiori: ["Quality Certificates"], incidents: ["qm-notification-q2", "qm-cert-not-generated"], test: "COA למשלוח; Q-notification לפגם." },
     ] },
   { slug: "maintenance-management", he: "ניהול אחזקה (EAM)", title: "Maintenance Management", domain: "PM", summary: "מהודעה/תכנית דרך פקודה, ביצוע, אישור ועד התחשבנות.",

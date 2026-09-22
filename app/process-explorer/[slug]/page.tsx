@@ -3,6 +3,7 @@ import { PROCESS_MAPS, processBySlug } from "@/data/processes";
 import { tcodeHref } from "@/lib/tcode-search";
 import { tableByName } from "@/lib/knowledge-graph";
 import { incidentBySlug } from "@/data/troubleshooting";
+import { noteBySlug } from "@/data/sap-notes";
 import { Crumb, CenterHeader } from "@/components/knowledge";
 
 export function generateStaticParams() { return PROCESS_MAPS.map((p) => ({ slug: p.slug })); }
@@ -21,6 +22,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   if (!p) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">תהליך לא נמצא.</div>;
   const tbl = (t: string) => tableByName(t) ? `/object/${encodeURIComponent(t)}/` : "";
   const inc = (i: string) => incidentBySlug(i) ? `/resolution/${i}/` : "";
+  const note = (n: string) => noteBySlug(n) ? `/sap-notes/${n}/` : "";
   return (
     <div dir="rtl">
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/process-explorer/", label: "Process Explorer" }, { label: p.he }]} />
@@ -38,6 +40,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 {s.fiori && <Field label="Fiori"><Chips items={s.fiori} tone="#7c3aed" /></Field>}
                 {s.interfaces && <Field label="ממשקים"><Chips items={s.interfaces} tone="#0d9488" /></Field>}
                 {s.incidents && s.incidents.length > 0 && <Field label="תקלות"><Chips items={s.incidents} hrefFn={inc} tone="#dc2626" /></Field>}
+                {s.notes && s.notes.length > 0 && <Field label="מקרי SAP Notes"><Chips items={s.notes} hrefFn={note} tone="#b45309" /></Field>}
               </div>
               {s.test && <p className="mt-2 rounded-lg bg-fuchsia-50 px-2.5 py-1.5 text-[11px] font-semibold text-fuchsia-800">QA: {s.test}</p>}
             </div>
