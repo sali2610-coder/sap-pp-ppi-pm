@@ -14,7 +14,7 @@ const TY: Record<string, string> = { Transactional: "bg-[#eef6ff] text-[#1d4ed8]
 // searchable blob across ALL fields (name/id/role/catalog/odata/cds/tcode/table/module/type)
 const blob = (a: FioriApp) => `${a.id} ${a.name} ${a.he} ${a.module} ${a.type} ${a.role} ${a.catalog} ${a.odata || ""} ${a.cds || ""} ${a.guiTx.join(" ")} ${(a.relatedTables || []).join(" ")} ${a.purpose}`.toLowerCase();
 
-export function FioriAppsCenter() {
+export function FioriAppsCenter({ fullNames = {} }: { fullNames?: Record<string, string> }) {
   const [q, setQ] = useState("");
   const [mod, setMod] = useState<string | null>(null);
   const [type, setType] = useState<string | null>(null);
@@ -22,7 +22,7 @@ export function FioriAppsCenter() {
 
   const modules = useMemo(() => [...new Set(FIORI_APPS.map((a) => a.module))], []);
   const full = useMemo(() => FIORI_APPS.filter((a) => (!mod || a.module === mod) && (!type || a.type === type) && (!s || blob(a).includes(s))), [mod, type, s]);
-  const dir = useMemo(() => (!s ? INDEX.slice(0, 60) : INDEX.filter((a) => `${a.id} ${a.name} ${a.type}`.toLowerCase().includes(s)).slice(0, 120)), [s]);
+  const dir = useMemo(() => (!s ? INDEX.slice(0, 60) : INDEX.filter((a) => `${a.id} ${a.name} ${fullNames[a.id] || ""} ${a.type}`.toLowerCase().includes(s)).slice(0, 120)), [s, fullNames]);
 
   return (
     <div dir="rtl">
@@ -66,12 +66,12 @@ export function FioriAppsCenter() {
 
       {/* full directory (1450) — thin metadata, honest */}
       <div className="mt-7 rounded-2xl border border-hairline bg-surface-2/40 p-4">
-        <div className="flex items-center gap-2 text-[12px] font-extrabold text-ink-2"><LayoutGrid className="size-4" />אינדקס מלא — {INDEX.length.toLocaleString()} אפליקציות <span className="font-semibold text-ink-3">(מטא-דאטה: Fiori ID · שם · סוג)</span></div>
+        <div className="flex items-center gap-2 text-[12px] font-extrabold text-ink-2"><LayoutGrid className="size-4" />אינדקס מלא — {INDEX.length.toLocaleString()} אפליקציות <span className="font-semibold text-ink-3">(מטא-דאטה: Fiori ID · שם · סוג. השם המלא נלקח מספר 7, SAP Fiori Apps Quick Reference של SAP PRESS, מקור משני שאינו ספריית ה-Fiori הרשמית)</span></div>
         <div className="mt-2.5 divide-y divide-hairline">
           {dir.map((a) => (
             <div key={a.id} className="flex items-center gap-3 py-2 text-[12.5px]">
               <span className="rounded bg-surface px-1.5 py-0.5 font-mono text-[10px] font-bold text-brand" dir="ltr">{a.id}</span>
-              <span className="min-w-0 flex-1 truncate text-ink-2">{a.name}</span>
+              <span className="min-w-0 flex-1 truncate text-ink-2" title={fullNames[a.id] ? `בספר 7: ${fullNames[a.id]}` : undefined}>{fullNames[a.id] || a.name}</span>
               <span className="shrink-0 rounded bg-surface px-2 py-0.5 text-[9.5px] font-bold text-ink-3">{a.type}</span>
             </div>
           ))}
