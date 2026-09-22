@@ -1213,7 +1213,11 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-none { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); font-style: italic; }
 
 .ne-joins { display: grid; gap: var(--sp-3); }
-.ne-joins > li { display: grid; gap: 5px; padding-inline-start: var(--sp-3); border-inline-start: 3px solid var(--hairline); }
+/* The gutter rule on a relation row is a hairline, not an accent: it groups the
+   row and carries one piece of meaning, because a relation whose cardinality
+   the dictionary does not state switches it to dashed. Kept at 2px so it reads
+   as a rule rather than a coloured tab. */
+.ne-joins > li { display: grid; gap: 5px; padding-inline-start: var(--sp-3); border-inline-start: 2px solid var(--hairline); }
 .ne-joins > li[data-kind="unstated"] { border-inline-start-style: dashed; }
 .ne-join-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
 .ne-join-go {
