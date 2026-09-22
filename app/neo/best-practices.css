@@ -131,6 +131,11 @@
 .nx-app .nbp-claims > li {
   display: grid;
   gap: 4px;
+  /* A claim card holds a long Hebrew sentence and an unbreakable LTR repoRef
+     such as data/bapi-enrichment.pppi.ts#BAPI_BATCH_CREATE. Both must break,
+     or the card pushes the canvas sideways on a phone. */
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
   padding: var(--sp-3) var(--sp-4);
   border-radius: var(--r-sm);
   background: var(--surface-2);
@@ -139,10 +144,10 @@
 html[data-theme="dark"] .nx-app .nbp-claims > li {
   background: color-mix(in srgb, var(--ink-1) 5%, var(--surface));
 }
-.nx-app .nbp-claim-t { font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); line-height: var(--lh-he); }
+.nx-app .nbp-claim-t { font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); line-height: var(--lh-he); min-inline-size: 0; overflow-wrap: anywhere; }
 .nx-app .nbp-claim-m { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); }
-.nx-app .nbp-claim-c { font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 78ch; }
-.nx-app .nbp-claim-ref { font-size: var(--t-micro); color: var(--ink-3); }
+.nx-app .nbp-claim-c { font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 78ch; min-inline-size: 0; overflow-wrap: anywhere; }
+.nx-app .nbp-claim-ref { font-size: var(--t-micro); color: var(--ink-3); min-inline-size: 0; overflow-wrap: anywhere; word-break: break-all; }
 
 /* ------------------------------------------------------ responsive 390 → */
 
@@ -167,12 +172,38 @@ html[data-theme="dark"] .nx-app .nbp-claims > li {
   gap: var(--sp-4) var(--sp-5);
 }
 .nx-app .nbp-prof-f { display: grid; gap: 4px; align-content: start; min-inline-size: 0; }
-.nx-app .nbp-prof-f dd { margin: 0; }
+.nx-app .nbp-prof-f dd { margin: 0; min-inline-size: 0; }
 .nx-app .nbp-prof-l { margin: 0; }
-.nx-app .nbp-prof-l > li { max-inline-size: 78ch; }
+.nx-app .nbp-prof-l > li { max-inline-size: 78ch; min-inline-size: 0; overflow-wrap: anywhere; }
 .nx-app .nbp-prof-l .nbp-refs { padding-block-start: 2px; }
-.nx-app .nbp-ref { margin-block-start: var(--sp-4); }
+.nx-app .nbp-ref { margin-block-start: var(--sp-4); min-inline-size: 0; }
 .nx-app .nbp-ref .nxt-l { display: inline-flex; align-items: center; gap: 6px; }
+/* The official reference is one long LTR title, often with a URL inside it. It
+   has to break, or it pushes the canvas sideways on a phone (measured: 12 of
+   17 records overflowed at 390px before this rule). */
+.nx-app .nbp-ref .nxt-v {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.nx-app .nbp-ref .nu-link {
+  /* .nu-link is a button-shaped affordance: inline-flex, nowrap, 2.5rem tall.
+     The official reference is a sentence-long title, so here it behaves as
+     text and is allowed to break. Without this the title pushed the canvas
+     sideways on a phone (measured: 12 of 17 records at 390px). */
+  display: inline;
+  max-inline-size: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-block-size: 0;
+  padding: 0;
+  line-height: inherit;
+  font-size: inherit;
+  font-weight: 650;
+  border: 0;
+}
 .nx-app .nbp-ref-n { color: var(--ink-2); }
 .nx-app .nbp-gaps { margin-block-start: var(--sp-3); }
 .nx-app .nbp-prof-chip { color: var(--ink-2); }
