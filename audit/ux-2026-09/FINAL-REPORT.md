@@ -44,7 +44,9 @@
 `before-measurements.json` מול `after-measurements.round6*.json` (שש תצורות) ו-`shots/`.
 
 ## 14. Preview URL
-לא נבדק: ה-Preview מוגן ב-Vercel Authentication. האקספורט המקומי נבנה מאותו HEAD ונבדק במלואו; רשימת הבדיקות הידנית למסך נמצאת ב-`AI-LIVE-TEST.md` ובסעיף 15.
+`https://sap-pp-ppi-pm-git-design-neo-co-469aef-sali2610-coders-projects.vercel.app`
+
+נבדק ב-2026-09-22 אחרי ה-Push: הכתובת מחזירה 200 אך מפנה ל-`vercel.com/login` (SSO), ולכן תוכן ה-Preview לא נקרא ולא נבדק. ה-MCP של Vercel רואה בחשבון הזה פרויקט אחד בלבד (`cbc-interactive-case-study`) ולא את הפרויקט הזה, ולכן גם דרכו לא ניתן לאשר את מצב ה-Deployment. האקספורט המקומי נבנה מאותו HEAD ונבדק במלואו; רשימת הבדיקות הידנית למסך נמצאת ב-`AI-LIVE-TEST.md` ובסעיף 15.
 
 ## 15. בדיקות ידניות שנדרשות
 1. חמישה מזהי אובייקט שדורשים SE37 או SE93 במערכת יעד (`audit/s4-enrichment/verification-required.md`).
