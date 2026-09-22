@@ -26,7 +26,7 @@ const ROUTES = [
   ["idocs", "/neo/idoc/"], ["cds", "/neo/cds/"], ["fiori", "/neo/fiori-apps/"], ["enhancements", "/neo/enhancements/"],
   ["books", "/neo/books/"], ["reader", "/neo/read/book2/"], ["ask-library", "/neo/ai/"], ["chat", "/neo/chat/"],
   ["knowledge", "/neo/knowledge/"], ["academy", "/neo/academy/"], ["certification", "/neo/certification/"],
-  ["incident-cogi", "/neo/incidents/cogi-stuck/"], ["centers", "/neo/centers/"], ["best-practices", "/neo/best-practices/"],
+  ["incidents", "/neo/incidents/"], ["incident-cogi", "/neo/incidents/cogi-stuck/"], ["centers", "/neo/centers/"], ["best-practices", "/neo/best-practices/"],
 ];
 const browser = await chromium.launch({ executablePath: CHROME, headless: true });
 // Screen matrix (design audit §10): VW/VH viewport, THEME=dark (via the boot

@@ -14,6 +14,7 @@
   border-radius: 0.75rem;
   background: var(--surface);
   display: grid;
+  grid-template-columns: minmax(0, 1fr); /* an implicit auto track outgrew the S/4 plate at 320px */
   gap: 0.6rem;
 }
 

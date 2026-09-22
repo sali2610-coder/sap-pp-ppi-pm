@@ -92,7 +92,7 @@
 }
 .ns4-h2 { margin: 0; font-size: 1.18rem; font-weight: 700; letter-spacing: -.015em; }
 .ns4-sec-s { margin: .25rem 0 0; font-size: .84rem; line-height: 1.6; color: var(--ink-3); max-inline-size: 72ch; }
-.ns4-sec-b { display: grid; gap: 1rem; }
+.ns4-sec-b { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
 
 .ns4-h3 {
   display: flex; align-items: center; gap: .45rem; margin: 0 0 .6rem;
@@ -234,10 +234,10 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 
 /* ------------------------------------------------------------ generic rows */
 
-.ns4-rows, .ns4-errs, .ns4-topics, .ns4-mods-list { margin: 0; padding: 0; list-style: none; display: grid; gap: .65rem; }
+.ns4-rows, .ns4-errs, .ns4-topics, .ns4-mods-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: .65rem; }
 .ns4-rows > li, .ns4-errs > li, .ns4-topics > li {
   padding: .8rem .95rem; border-radius: .8rem;
-  background: var(--surface-2); border: 1px solid var(--hairline);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
   border-inline-start: 3px solid var(--r, var(--s));
 }
 .ns4-rows > li header, .ns4-errs > li header, .ns4-topics > li header {
@@ -274,7 +274,7 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-arch { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
 .ns4-arch-c {
   padding: .95rem 1.05rem; border-radius: .9rem;
-  background: var(--surface-2); border: 1px solid var(--hairline);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
   border-block-start: 3px solid var(--s);
 }
 .ns4-arch-h { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
@@ -301,7 +301,7 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-mods { margin: 0; padding: 0; list-style: none; display: grid; gap: .7rem; }
 .ns4-mods > li {
   padding: .85rem 1rem; border-radius: .85rem;
-  background: var(--surface-2); border: 1px solid var(--hairline);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
   border-inline-start: 3px solid var(--s);
 }
 .ns4-mods > li header { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
@@ -336,7 +336,7 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-waves { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
 .ns4-wave {
   padding: .8rem .9rem; border-radius: .85rem;
-  background: var(--surface-2); border: 1px solid var(--hairline);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
 }
 .ns4-wave-l { margin: 0; padding: 0; list-style: none; display: grid; gap: .4rem; }
 .ns4-wave-l li {
@@ -378,7 +378,7 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-cut { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
 .ns4-cut-p {
   padding: .85rem .95rem; border-radius: .85rem;
-  background: var(--surface-2); border: 1px solid var(--hairline);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
 }
 
 /* ------------------------------------------------------------- weights */
@@ -399,7 +399,7 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
   .ns4 { padding-inline: .9rem; }
   .ns4-sec { padding-inline: .95rem; }
   .ns4-sec-n { position: static; }
-  .ns4-objs, .ns4-arch, .ns4-cut, .ns4-waves { grid-template-columns: 1fr; }
+  .ns4-objs, .ns4-arch, .ns4-cut, .ns4-waves { grid-template-columns: minmax(0, 1fr); }
   .ns4-ba > div { grid-template-columns: 1fr; gap: .1rem; }
   .ns4-weights li { grid-template-columns: 1fr 4rem 2rem; }
 }

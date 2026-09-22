@@ -362,6 +362,7 @@
 }
 .nx-app .nxd-s4-t {
   font-size: var(--t-xs); color: var(--ink-3); line-height: 1.4;
+  min-inline-size: 0; overflow-wrap: anywhere; /* API_MAINTENANCENOTIFICATION is one token */
   overflow: hidden; text-overflow: ellipsis;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
 }
@@ -449,7 +450,11 @@
     padding-inline-end: var(--sp-3);
     padding-block-end: 3.25rem;   /* the second action drops under the row */
   }
-  .nx-app .nxd-id { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--sp-2); justify-items: start; }
+  /* flex-wrap, not an auto | 1fr grid: a long BAPI name took the auto track and
+     pushed the nowrap module chips out of the card at 320px */
+  .nx-app .nxd-id { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+  .nx-app .nxd-id > b { min-inline-size: 0; overflow-wrap: anywhere; }
+  .nx-app .nxd-s4 { min-inline-size: 0; }
   .nx-app .nxd-nums { max-inline-size: none; }
   .nx-app .nxd-ctx {
     inset-block-start: auto;
@@ -661,6 +666,9 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
 
 .nx-app .nxt-s4 {
   display: grid;
+  /* one explicit shrinkable track: an implicit auto track took the table card's
+     min-content and cut the plate's text at 320px */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--sp-4);
   padding: var(--sp-6);
   border: 1px solid var(--c-hair);

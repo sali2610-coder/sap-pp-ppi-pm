@@ -93,3 +93,4 @@ priority order and checkpoints after every batch, so an interruption loses nothi
 - 2026-09-22 · CDS 39/39 (`e15d9d3a`), pushed.
 - 2026-09-22 · chain launched (`wf_883a652e-4fa`): 15 batches, enhancements 2, fiori F3289, functions 76 in batches of 6. Resume: `Workflow({scriptPath: "scripts/workflows/enrich-chain.js", resumeFromRunId: "wf_883a652e-4fa"})` with the args in `chain-args.json`. While it runs, no edit to `data/verification/{enhancements,fiori,functions}.ts`.
 - 2026-09-22 · business objects 6 to 16: ten repository-derived seeds from tx-intel related-object fields; names outside the universe listed in notes, not as members; one internal conflict recorded (IK01 names BAPI_MEASUREMENTPOINT_CREATE, the function registry says it does not exist).
+- 2026-09-22 · §19 tab sweep: 26 tabs mapped to 32 routes, 6-way matrix clean; four real clipping sites at 320/390 fixed (implicit grid tracks). See TAB-SWEEP.md.
