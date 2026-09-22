@@ -82,6 +82,19 @@
    MPLAN_CREATE, not the BAPI. One KBA number is carried (2545698 on
    BOM_GROUP_CREATE, read from its public preview, cited by its
    me.sap.com/notes url). None claims a successor. 0 refuted.
+   Functions batch 10 (2026-09-22): 4 more audited records - the classic
+   notification read pair NOTIF_TASK_READ (QMSM) and NOTIF_ACTIVITY_READ (QMMA),
+   BAPI_MEASUREMENTPOINT_GETLIST and BAPI_OBJCL_CREATE. OBJCL_CREATE carries
+   released_api_available on the documented EquipmentClassification entity of
+   API_EQUIPMENT (with the batch classification entities of API_BATCH_SRV as a
+   second channel) and is the only one whose name an official record prints
+   (the Data Migration 'Object classification (general template)' page).
+   NOTIF_TASK_READ carries no authored status (the derived verification_required
+   already says what the evidence says); NOTIF_ACTIVITY_READ is authored
+   verification_required because the documented OData read covers item
+   activities only; MEASUREMENTPOINT_GETLIST stays verification_required with
+   the repository contradiction written as conflictingEvidence. No SAP Note or
+   KBA number, no successor. 0 refuted.
    Tier-1 evidence comes from
    help.sap.com search records (scripts/sap-help-search.mjs; loio + versionId
    re-verified live), from the fully-read Simplification List PDF, from the
@@ -747,6 +760,32 @@ const PRODUCT_A2X_READ: Evidence = {
 };
 
 /* ---------------------------------------------------------------- records */
+
+/** Functions batch 10: shared by an evidence entry and its status.source. */
+const NOTIF_ITEM_ACTY_READ: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Read Notification Item Activity | APIs for Maintenance Management",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/73721399c0e14241baf50028ce081d95.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE22,
+  claim: "עמוד הפעולה בחוברת APIs for Maintenance Management למהדורת S/4HANA On-Premise 2025 FPS01 קובע: 'Read Notification Item Activity With this operation, you can read a notification item activity', ובדוגמת הבקשה נוקב בנתיב '/sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintNotificationItemActivity(MaintenanceNotification='10001240',MaintenanceNotificationItem='1',MaintNotificationActivity' (הסניפט נחתך). בדוגמת התגובה מופיעים המאפיינים MaintNotificationActivity, MaintenanceNotification, MaintenanceNotificationItem, MaintNotifActivitySortNumber ו-MaintNotifActyTxt. עמוד 'Operations for Maintenance Notifications' (loio 061b31b90a88432fad5e710aa9cd175c, 2025.001) מונה באותה טבלה 'Read Notification Item Activity GET' על אותו נתיב. הסניפט אינו נוקב בשם מודול פונקציה ואינו מתאר קריאה של פעילויות ברמת כותרת ההודעה.",
+  verificationLevel: "sap_official_verified",
+};
+
+/** Functions batch 10: shared by an evidence entry and its status.source. */
+const EQUI_CLASSIFICATION_OPS: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Operations for Equipment | APIs for Maintenance Management",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/d1e3c797d3f44120b552d0e64680e445.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE22,
+  claim: "עמוד הפעולות של שירות ה-OData‏ Equipment API במדריך APIs for Maintenance Management לגרסת On-Premise 2025 FPS01 מונה בתקצירו 'Create Equipment Classification Data POST POST - <host>/sap/opu/odata/sap/API_EQUIPMENT/EquipmentClassification' ולצידה 'Update Equipment Classification Data PATCH', ומציין שימוש ב-ETags לבקרת מקביליות. כלומר לסיווג ציוד קיים ערוץ OData מתועד (הישות EquipmentClassification של API_EQUIPMENT). התקציר אינו נוקב בשם מודול פונקציה כלשהו ואינו מציג את השירות כמחליף של BAPI.",
+  verificationLevel: "sap_official_verified",
+};
 
 export const FM_VERIFICATION: VerificationRecord[] = [
   {
@@ -10838,5 +10877,229 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "רשומת תיעוד (רשימת ה-verification-required של המשך ביקורת העיצוב §11): הראיות הן רשומות המאגר וממצא " +
       "החיפוש השלילי מ-2026-09-21; ה-xrefs מפנים לטרנזקציות הודעות התהליך של PP-PI שבמאגר (CO53 / CO54 / CO57) " +
       "כהקשר בלבד, לא כמיפוי רשמי. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  /* ---- fm:NOTIF_TASK_READ (functions batch 10, 2026-09-22) ---- */
+  {
+    id: "fm:NOTIF_TASK_READ",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search: \"NOTIF_TASK_READ\" (SAP_S4HANA_ON-PREMISE, SAP_ERP), \"Read Notification Task\", \"Create Notification Task\", \"MaintNotificationTask\" (SAP_S4HANA_ON-PREMISE, 2025.001)",
+        product: "SAP S/4HANA / SAP ERP",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim: "ממצא שלילי תחום-חיפוש: שאילתת השם המדויק NOTIF_TASK_READ בשירות החיפוש של SAP Help החזירה ב-2026-09-22 21 רשומות בסקופ SAP S/4HANA On-Premise (בעיקר חוברות SAP S/4HANA Insurance for reinsurance management, Malaysia ו-Bank Customer Accounts) ו-21 רשומות בסקופ SAP ERP (בהן 'Display Notification Task - Transaction' בחוברת Business Package for Maintenance Supervisor 1.2 ו-'Change Notification Task - Transaction' בחוברות Business Package), כולן עם תקציר ריק ואף אחת אינה נוקבת בשם NOTIF_TASK_READ בכותרתה. השאילתות 'Read Notification Task' ו-'Create Notification Task' בסינון 2025.001 לא החזירו רשומה מחוברת APIs for Maintenance Management, והשאילתה 'MaintNotificationTask' החזירה 7 רשומות שאף אחת מהן אינה מחוברת זו. הרצת WebSearch מוגבלת ל-help.sap.com / api.sap.com / fioriappslibrary.hana.ondemand.com / fal.cloud.sap על המחרוזת המדויקת לא החזירה עמוד הנוקב בשם. הממצא תחום לכותרות ולתקצירים של רשומות החיפוש ואינו אמירה שהאובייקט אינו קיים במערכת.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Maintenance Notifications (PM-WOC-MN) | Data Archiving in Plant Maintenance and Customer Service (PM/CS)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/60adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד הארכוב של הודעות אחזקה בגרסת 2025 FPS01 קובע בתקציר: 'Archiving object PM_QMEL with which you can archive maintenance notifications in the Plant Maintenance component' ו-'The archiving object PM_QMEL for maintenance notifications is composed of the following tables: Table Name Contents QMEL Notification header data QMFE Items'. בהרצה של 2026-09-21 (רשומת fm:BAPI_ALM_NOTIF_TASK_ADD) הציג אותו תקציר את הרצף 'QMMA Activities QMSM' ועמוד האח לשירות (loio 63adb6531de6b64ce10000000a174cb4) את 'QMMA Activities QMSM Tasks'. כלומר QMSM היא טבלת המשימות של הודעת האחזקה בגרסה הנוכחית של תחזוקת מפעל; העמוד אינו נוקב במודול פונקציה לקריאתה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Maintenance Notifications | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/061b31b90a88432fad5e710aa9cd175c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "טבלת הפעולות של API_MAINTNOTIFICATION בגרסת 2025 FPS01 מונה בתקצירים שהוחזרו ב-2026-09-22: 'Read Maintenance Notification GET', 'Read Linear Asset Management Data GET', 'Create Notification Item Activity POST' על MaintNotificationItemActivity ו-'Update Notification Item Activity PATCH'. באותה חוברת קיימים עמודי קריאה נפרדים לפעילות פריט ('Read Notification Item Activity', loio 73721399c0e14241baf50028ce081d95) ולסיבת פריט ('Read Notification Item Cause', loio 57ef666bd2df4f5fbe16f01c0cc8b289), שניהם 2025.001. באף רשומה מרשומות החוברת שהוחזרו לא הופיעה פעולת קריאה או ישות למשימות ההודעה; גוף העמוד לא נקרא (מעטפת JavaScript), ולכן כיסוי משימות ההודעה ב-OData נשאר לא מוכרע.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Display Maintenance Notifications | Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/3d4f87b564134a4c8f42b66bd75beb97.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד האפליקציה Display Maintenance Notifications בגרסת 2025 FPS01 קובע בתקציר: 'With this app, you can display maintenance notifications' ו-'Display the items, tasks and activities in the notification'. עמוד האח 'Find Maintenance Notification' (loio e994a057b4010322e10000000a44147b, 2025.001) מתאר הצגת פרטי ההודעה 'including the malfunction information, completion date and time, tasks, activities'; עמוד האח 'Display Maintenance Notifications' (loio 5a32c6efd60645239178353b5beb40bd) מציין בתקציר שהאפליקציה היא וריאנט של Find Maintenance Notifications (F2071) שאינו מאפשר עדכון הודעה או ביצוע פעולה. כלומר קריאת משימות ההודעה בממשק המשתמש מתועדת באפליקציות אלה; העמודים אינם נוקבים במודול פונקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    xrefs: ["fm:BAPI_ALM_NOTIF_GET_DETAIL", "fm:BAPI_ALM_NOTIF_TASK_ADD", "fm:BAPI_ALM_NOTIF_DATA_ADD", "fm:NOTIF_ITEM_READ", "fm:NOTIF_CAUSE_READ", "fm:NOTIF_ACTIVITY_READ", "table:QMSM", "table:QMEL", "tx:IW22", "tx:IW23", "tx:IW66", "cds:I_MaintenanceNotification", "fiori:F4604"],
+    lastVerifiedAt: DATE22,
+    notes: "מה נבדק בפועל ב-2026-09-22: שמונה שאילתות בשירות החיפוש של help.sap.com דרך scripts/sap-help-search.mjs (השם המדויק NOTIF_TASK_READ בסקופ SAP_S4HANA_ON-PREMISE ובסקופ SAP_ERP; 'Read Notification Task maintenance notification API'; 'MaintNotificationTask'; 'maintenance notification task OData API_MAINTNOTIFICATION entity'; 'Create Notification Task'; 'Read Notification Task'; 'Maintenance Notification Task entity APIs for Maintenance Management', ועוד שאילתות אימות לתקצירי העמודים שברשומה) ושתי הרצות WebSearch מוגבלות לדומיינים הרשמיים. ארבע הכתובות העיקריות נבדקו והחזירו HTTP 200; loio ו-versionId הועתקו מרשומות ה-JSON. גופי העמודים לא נקראו (מעטפת JavaScript), ולכן כל טענה תחומה בכותרת ובתקציר; התקצירים משתנים בין הרצות. ממצא צדדי: חוברת APIs for Quality Management (loio 9d9f91a2b3954ec48d1a12d54a0909a7, 2025.001) מתעדת 'Read Quality Notification Task' ב-API_QUALITYNOTIFICATION, כלומר ישות משימה קיימת בהודעת איכות ולא אותרה מקבילה בהודעת האחזקה; אין להסיק מכך דבר על API_MAINTNOTIFICATION. נתוני המאגר: data/function-intel.ts#NOTIF_TASK_READ מסומן inferred: true, עם פרמטר QMNUM (import, חובה), טבלת פלט Tasks (QMSM), 'קיים ב-ECC (אמת ב-SE37)' ו-'אמת ב-S/4'; data/sapData.pm.ts#PM:QMSM מונה אותו ברשימת הפונקציות של QMSM עם התיאור 'קריאת משימות'. אין לו רשומה ב-data/bapi-enrichment.*, ולכן lib/bapi-registry.ts#deriveRegistry גוזר verificationStatus 'requires-verification' ו-s4OnPremSupport 'unknown', והסטטוס הנגזר שהאפליקציה מציגה דרך fromFuncRegistry הוא 'נדרש אימות נוסף' (verification_required) ברמת verification_required. סטטוס לא נכתב ברשומה: אף מקור רשמי אינו נוקב בשם, והסטטוס הנגזר כבר משקף זאת. חיבור sc4sap MCP לא היה זמין בסשן, כך שלא בוצעה בדיקת SE37. שם הפרמטר QMNUM ורשימת הפלט אינם מאומתים מול מקור SAP. xref ל-fiori:F5797 (Display Maintenance Notifications לפי תקציר עמוד Feature Comparison for Maintenance Notification Apps) לא נוסף כי המזהה אינו ביקום של הפרויקט.",
+  },
+  /* ---- fm:NOTIF_ACTIVITY_READ (functions batch 10, 2026-09-22) ---- */
+  {
+    id: "fm:NOTIF_ACTIVITY_READ",
+    aliases: ["NOTIF_ACTIVITY_READ"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search: \"NOTIF_ACTIVITY_READ\" (SAP_S4HANA_ON-PREMISE, SAP_ERP, SAP_S4HANA_CLOUD) + \"function module notification activities read QMMA\" (SAP_S4HANA_ON-PREMISE); domain-restricted web search on help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com and fal.cloud.sap",
+        url: "https://help.sap.com",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim: "ממצא שלילי תחום לחיפוש: השאילתה בשם המדויק החזירה 21 רשומות בסקופ S/4HANA On-Premise, 21 בסקופ SAP ERP ו-7 בסקופ S/4HANA Cloud Public Edition, ואף כותרת או סניפט אינם נוקבים במחרוזת NOTIF_ACTIVITY_READ. הרשומה הראשונה בסקופ On-Premise היא עמוד הישות 'Maintenance Notification Item Activity' (APIs for Maintenance Management, 2023.latest, loio 4aaa8f5cc29e417b98f358c6f026fe0b) עם סניפט ריק, כלומר התאמה על מילים ולא על שם המודול. גם חיפוש הרשת המוגבל לדומיינים הרשמיים לא החזיר עמוד הנוקב בשם.",
+        verificationLevel: "verification_required",
+      },
+      NOTIF_ITEM_ACTY_READ,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Maintenance Notifications (PM-WOC-MN) | Data Archiving in Plant Maintenance and Customer Service (PM/CS)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/60adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד הארכוב קובע: 'The archiving object PM_QMEL for maintenance notifications is composed of the following tables: Table Name Contents QMEL Notification header data QMFE Items QMMA Activities QMSM [...] Tasks QMUR Causes' (הסוגריים המרובעים מסמנים קטיעה בין קטעי הסניפט). לפי התיעוד של S/4HANA 2025 FPS01, QMMA היא טבלת הפעילויות של הודעת האחזקה ו-QMSM טבלת המשימות, שתי טבלאות נפרדות. הדף אינו נוקב במודול פונקציה כלשהו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (PM, מסומנת inferred)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim: "רשומת המאגר מתארת את NOTIF_ACTIVITY_READ כקריאת פעילויות שבוצעו בהודעה (Activities) מטבלת QMMA, עם קלט QMNUM ופלט טבלת פעילויות, בזיקה ל-IW22. שדה ה-ECC נושא הסתייגות 'אמת ב-SE37', שדה ה-S/4 אומר 'אמת ב-S/4', והרשומה כולה מסומנת inferred: true. גם חוברת המיגרציה של PM (data/sapData.pm.ts, רשומת QMMA) נוקבת בשם עם התיאור 'קריאת פעילויות שבוצעו'. הזיקה ל-QMMA ולא ל-QMSM היא תוצאת תיקון המאגר מ-2026-09-21.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#NOTIF_ACTIVITY_READ",
+      },
+    ],
+    status: {
+      edition: "on-premise",
+      release: "2025.001",
+      status: "verification_required",
+      he: "מודול פונקציה לקריאת פעילויות הודעת אחזקה (QMMA) בתחזוקת מפעל, לפי רשומת המאגר בלבד. השם לא אותר באף רשומה של SAP Help בסקופ S/4HANA On-Premise, SAP ERP ו-S/4HANA Cloud Public Edition, ואף מקור רשמי אינו נוקב בקיומו, בממשק שלו או במעמד השחרור שלו. נתיב הקריאה המתועד לפעילויות הודעה ב-S/4HANA הוא פעולת Read Notification Item Activity של ה-OData API_MAINTNOTIFICATION (ישות MaintNotificationItemActivity, 2025 FPS01), אך היא מתועדת ברמת פריט ההודעה, ולכן אין כאן ראיה שהיא מכסה את היקף ה-FM כפי שהמאגר מתאר אותו. לא נקבע יורש.",
+      source: NOTIF_ITEM_ACTY_READ,
+      recommendedAction: "לאמת ב-SE37 במערכת S/4HANA היעד את קיום NOTIF_ACTIVITY_READ, את קבוצת הפונקציות, את פרמטרי הממשק (QMNUM וטבלת הפעילויות לפי המאגר) ואת מעמד השחרור, לפני שימוש בקוד Z או במסמך אפיון. לאינטגרציה חדשה מחוץ למערכת לבחון את פעולת Read Notification Item Activity של API_MAINTNOTIFICATION (ישות MaintNotificationItemActivity), ולבדוק בגרסת היעד אם היא מחזירה גם פעילויות ברמת כותרת ההודעה או רק פעילויות פריט. לדיווח אנליטי לבחון את תצוגת ה-VDM המתועדת I_MaintNotificationActyData (ראו רשומת cds:I_MaintNotifActivity). לשמור על ההפרדה: פעילויות ב-QMMA, משימות ב-QMSM (NOTIF_TASK_READ).",
+    },
+    xrefs: ["table:QMMA", "table:QMSM", "table:QMEL", "table:QMFE", "tx:IW22", "tx:IW23", "tx:IW65", "cds:I_MaintNotifActivity", "fm:NOTIF_TASK_READ", "fm:NOTIF_ITEM_READ", "fm:BAPI_ALM_NOTIF_GET_DETAIL", "fm:BAPI_ALM_NOTIF_DATA_ADD", "fiori:F4604"],
+    lastVerifiedAt: DATE22,
+    notes: "שיטה: scripts/sap-help-search.mjs ב-2026-09-22 בשאילתות 'NOTIF_ACTIVITY_READ' (On-Premise, SAP_ERP, S4HANA_CLOUD), 'Maintenance Notification Item Activity', 'A_MaintNotifItemActivity', 'Maintenance Notification Item Activity Supported Operations Read Notification Item Activity', 'Read Notification Item Activity GET API_MAINTNOTIFICATION MaintNotificationItemActivity', 'archiving object PM_QMEL QMMA Activities QMSM Tasks QMUR Causes' ו-'function module notification activities read QMMA', וחיפוש רשת אחד מוגבל לדומיינים הרשמיים. גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript), וכל ציטוט מוגבל לכותרת ולסניפט של רשומת החיפוש. (1) הסטטוס הנגזר שהאפליקציה מציגה כיום: הרשומה נכנסת ל-lib/bapi-registry.ts עם verificationStatus 'requires-verification' ו-s4OnPremSupport 'unknown', ולכן fromFuncRegistry גוזר verification_required ברובד verification_required (inferred). הרשומה הזו אינה משנה את הסטטוס אלא מחברת אותו לראיה רשמית על נתיב הקריאה החלופי. (2) נתיב קריאה משוחרר: עמוד השירות 'Maintenance Notification' (2023.latest, loio f430cbb1950c4880810e27a8308db301) נוקב ב-'Maintenance Notification Item Activity (A_MaintNotifItemActivity) Allows you to create, read, and update a notification item activity', ועמוד הישות (loio 4aaa8f5cc29e417b98f358c6f026fe0b, 2023.latest, וגם בסקופ Cloud Public Edition 2602.500) מונה 'Supported Operations ... Read Notification Item Activity Create Notification Item Activity Update Notification Item Activity'. שם תצוגת ה-CDS שמאחורי הישות אינו נקוב בסניפט. (3) פער היקף: עמוד Data Migration 'PM - Maintenance notification' (2025.001, loio 71b5125d83124e369aea0167e539af4f) מבחין בין 'Notification Activity (S_NOTIF_ACTIVITY)' ל-'Notification Item Activity (S_NOTIF_ITM_ACTIVITY)', כלומר SAP מתעדת פעילויות ברמת כותרת וברמת פריט. ה-OData שבסניפטים מתעד ישות פעילות פריט בלבד, ולכן לא נקבע released_api_available: לא הוכח שהחלופה מכסה את כל הפעילויות שה-FM קורא לפי המאגר. (4) CDS: השם I_MaintNotifActivity שבמאגר לא אותר בתיעוד; השם המתועד הוא I_MaintNotificationActyData (Fact, Released, On-Premise 2023), כפי שמתועד ברשומת cds:I_MaintNotifActivity ב-data/verification/cds.ts; לא אומת מחדש בסבב הזה. (5) הפרדת פעילויות ממשימות: רשומת המאגר של NOTIF_ACTIVITY_READ מפנה ל-QMMA בלבד, בהתאם לעמוד הארכוב הרשמי (QMMA Activities, QMSM Tasks). table:QMSM ו-fm:NOTIF_TASK_READ ב-xrefs כהקשר מבחין בלבד. (6) מקור ה-xrefs: table:QMMA ו-tx:IW22 מרשומת המאגר; table:QMEL, table:QMFE ו-table:QMSM מרשימת הטבלאות של PM_QMEL; tx:IW23 ו-tx:IW65 מעמוד ה-VDM כפי שצוטט ב-data/verification/cds.ts; fm:BAPI_ALM_NOTIF_GET_DETAIL ו-fm:BAPI_ALM_NOTIF_DATA_ADD ו-fiori:F4604 מרובד המאגר, בעקביות עם רשומות QMMA ו-cds:I_MaintNotifActivity, ולא ממקור רשמי שנקרא כאן. (7) לא בוצעה בדיקה במערכת SAP חיה: חיבור ה-MCP (sc4sap) לא התחבר בסשן. לא נטען מספר SAP Note או KBA. מבוסס על קובץ / דורש אימות במערכת SAP.",
+  },
+  /* ---- fm:BAPI_MEASUREMENTPOINT_GETLIST (functions batch 10, 2026-09-22) ---- */
+  {
+    id: "fm:BAPI_MEASUREMENTPOINT_GETLIST",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Measuring Point | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/5088e7c7ba7f47d8a97ca99268da613e.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE22,
+        claim: "רשומת 'Operations for Measuring Point' במדריך APIs for Maintenance Management, בגרסה שהחיפוש מחזיר עבורה versionId‏ 2023.latest, מציגה בתקצירה: 'The Measuring Point API offers these operations: Operation HTTP Method Sample URL Read All Measuring Points GET', עם כתובת הדוגמה של השירות api_measuringpoint/srvd_a2x/sap/MeasuringPoint/0001/MeasuringPoint, ובהרצה נוספת גם 'Read a Measuring Point GET' ותחילת השורה 'Get Top N Measuring' (התקציר קטוע). זו חלופת OData מתועדת לתרחיש שליפת רשימת נקודות מדידה; העמוד אינו נוקב בשם BAPI_MEASUREMENTPOINT_GETLIST ואינו מציג את השירות כמחליף של מודול פונקציה כלשהו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Filter Measuring Points | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/edb18e145d4c4d978885f0041eec00e1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד 'Filter Measuring Points' למהדורת On-Premise‏ 2025 FPS01 קובע בתקצירו: 'Using this option, filter for response based on specific conditions or predicates' ו-'The response provides a list of measuring points that match the evaluated condition', ובאחת מהרצות החיפוש התקציר מציג את דוגמת הבקשה '$filter=((TechnicalObjectType eq 'EAMS_FL') and (MeasuringPointIsCounter eq true))' על אותו שירות api_measuringpoint. מכאן שרשימת נקודות מדידה מסוננת לפי סוג אובייקט טכני מתועדת דרך שירות ה-OData‏ API_MEASURINGPOINT; התקציר אינו נוקב בשם מודול פונקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Measuring Point Data | Virtual Data Model and CDS Views",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/3255e072e7de4324a289844bb14bce87.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE22,
+        claim: "עמוד ה-VDM‏ 'Measuring Point Data' (versionId‏ 2023.latest) מציג בתקצירו תצוגת CDS לנתוני נקודות מדידה: 'This CDS view does not have any input parameters', שאלות עסקיות כמו 'Is the measuring point a counter?' ו-'For which technical object was the measuring point created?', ואת הדרישה 'You have authorizations to display measuring points in transaction IK03'. באחת מהרצות החיפוש התקציר מציג \"CDS View Name I_MeasuringPointData ... Status Released\", כלומר עמוד זה מתעד את I_MeasuringPointData ולא את I_MeasuringPoint. העמוד אינו נוקב בשם BAPI_MEASUREMENTPOINT_GETLIST.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ההעשרה של אובייקטי ה-BAPI של תחזוקת מפעל בפרויקט (תיקון שם)",
+        product: "SAP ECC 6.0 / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim: "‏data/bapi-enrichment.pm.ts מסמן לשם זה (דרך inv()) את verificationStatus‏ 'invalid-name' בנוסח 'אינו קיים. קרא דרך FM MSAM_MEAS_POINT_GETDETAIL / טבלת IMPTT', בלי רשימת חלופות ובלי קישור למקור SAP רשמי. בדיקת SE37 לא בוצעה בסשן זה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_MEASUREMENTPOINT_GETLIST",
+        conflictingEvidence: [
+          {
+            sourceType: "repository",
+            sourceTitle: "קטלוג הפונקציות של הפרויקט, בלופרינט PM ומודיעין האובייקטים",
+            product: "SAP ECC 6.0 / SAP S/4HANA",
+            edition: "on-premise",
+            accessedAt: DATE22,
+            claim: "שלוש רשומות מאגר אחרות מציגות את אותו שם כאובייקט קיים: data/function-intel.ts מתאר 'רשימת נקודות מדידה (Measuring Points) לפי אובייקט טכני', מונה קלט EQUIPMENT / FUNCTLOCATION ופלט MEASUREMENT_POINTS, משייך ל-IK01, ‏IK07 ולטבלת IMPTT, וקובע 'זמין ב-ECC' ו'זמין ב-S/4HANA' בלי מקור; הדאטהסט המחולל של בלופרינט PM מונה אותו במערך funcs של טבלת IMPTT ('שליפת רשימת נקודות מדידה'), לצד tcodes‏ 'IK01/IK02/IK03; IK07, IK08'; ו-data/knowledge/object-intel.ts מונה אותו ב-classesApis של IMPTT. הרשומות סותרות את סימון invalid-name, ואף אחת מהן אינה נסמכת על מקור SAP רשמי.",
+            verificationLevel: "repository_verified",
+            repoRef: "data/function-intel.ts#BAPI_MEASUREMENTPOINT_GETLIST; data/sapData.pm.ts#IMPTT (funcs); data/knowledge/object-intel.ts#IMPTT",
+          },
+        ],
+      },
+    ],
+    status: {
+      edition: "on-premise",
+      release: null,
+      status: "verification_required",
+      he: "מודול הפונקציה רשום בקטלוג הפרויקט כערוץ לשליפת רשימת נקודות מדידה (Measuring Points) לפי ציוד או מיקום פונקציונלי, בזיקה לטבלת IMPTT ולרשימות IK07 ו-IK08, אך שם האובייקט עצמו לא אושר באף מקור SAP רשמי שנבדק: שאילתת החיפוש על השם המדויק בשירות SAP Help (סקופ On-Premise, ‏2026-09-22) החזירה עשר רשומות ממדריכים אחרים ללא תקציר הנוגע לנקודות מדידה, וחיפוש רשת מוגבל ל-help.sap.com ול-api.sap.com לא החזיר עמוד הנוקב בו. התיעוד של On-Premise מתעד לתרחיש זה את שירות ה-OData‏ API_MEASURINGPOINT, עם הפעולות Read All Measuring Points ו-Filter Measuring Points. בתוך המאגר רשומת ההעשרה מסמנת את השם כלא קיים, ושלוש רשומות אחרות מציגות אותו כקיים, ולכן הסטטוס נשאר פתוח עד בדיקה ב-SE37 או ב-BAPI Explorer במערכת היעד.",
+      source: null,
+      recommendedAction: "לפני שימוש בשם זה בקוד Z, בממשק או במסמך אפיון: לבדוק ב-SE37 או ב-BAPI Explorer במערכת ECC וב-S/4HANA אם BAPI_MEASUREMENTPOINT_GETLIST קיים כאובייקט סטנדרטי, ולתקן בהתאם את רשומות המאגר הסותרות. לשליפת רשימת נקודות מדידה בממשק חדש להעדיף את שירות ה-OData‏ API_MEASURINGPOINT עם הפעולה Read All Measuring Points ואפשרות $filter לפי אובייקט טכני; לדיווח ולניתוח לבחון את תצוגת ה-VDM‏ I_MeasuringPointData (Measuring Point Data), שהתיעוד מציג כ-Released. לאימות תפקודי להשוות את התוצאה מול IK07 ואת הרשומות ב-IMPTT לציוד (EQUI) או למיקום הפונקציונלי (IFLOT). אין להציג את השם כממשק משוחרר כל עוד לא נמצא לו מקור רשמי או בדיקה במערכת.",
+    },
+    xrefs: ["table:IMPTT", "table:IMRG", "table:EQUI", "table:IFLOT", "tx:IK07", "tx:IK08", "tx:IK03", "fm:BAPI_MEASUREMENTPOINT_CREATE", "fm:MEASUREMENT_POINT_READ", "cds:I_MeasuringPoint", "cds:I_Equipment", "cds:I_FunctionalLocation"],
+    lastVerifiedAt: DATE22,
+    notes: "שיטה (2026-09-22): שמונה שאילתות ב-scripts/sap-help-search.mjs תחת SAP_S4HANA_ON-PREMISE (השם המדויק, MEASUREMENTPOINT, 'Measuring Point GetList BAPI', 'Read All Measuring Points API_MEASURINGPOINT', 'IK07 Display Measuring Points list', 'Measuring Point list IK08 change', ‏MSAM_MEAS_POINT_GETDETAIL, ‏I_MeasuringPoint), ועוד שלוש לשליפת הרשומות המלאות, בתוספת WebSearch מוגבל ל-help.sap.com ול-api.sap.com. ה-url, ה-loio וה-versionId הועתקו כלשונם מפלט ה-JSON; גופי העמודים הם מעטפת JavaScript ולא נקראו, וכל טענה תחומה בכותרת ובתקציר. (1) הממצא השלילי על השם תחום לשאילתות אלה ואינו הוכחת היעדר; בדיקת SE37 במערכת חיה לא בוצעה. גם MSAM_MEAS_POINT_GETDETAIL, שרשומת ההעשרה מפנה אליו, לא הוחזר באף רשומה רשמית (שש תוצאות, כולן ממדריכים לא קשורים), והוא אינו מזהה ביקום הרשומות, ולכן אינו xref ואינו successor. (2) הסטטוס הנגזר שהאפליקציה מציגה היום, לפי קריאת הקוד של fromFuncRegistry ‏(lib/evidence/s4-status.ts) ולא לפי הרצה: verificationStatus‏ 'invalid-name' ממופה ל-'לא רלוונטי' ברמת 'מאומת מול נתוני הפרויקט', באותו מסלול שנמדד ב-2026-09-21 עבור BAPI_MEASUREMENTPOINT_CREATE. רשומה זו מחליפה אותו ב'נדרש אימות נוסף', כמו ברשומות האחות של משפחת המדידה, משום שהמאגר סותר את עצמו על קיום השם. (3) לא נכתב released_api_available: הראיות הרשמיות מתעדות את שירות ה-OData לתרחיש השליפה, לא את נושא הרשומה ולא קשר החלפה ביניהם. אין successor. (4) IK07 ו-IK08 לא הוחזרו בתקציר רשמי כלשהו; הזיקה אליהם נשענת על הבלופרינט ועל function-intel בלבד. עמוד CS‏ 'Processing Measuring Points and Counters' (loio 336cb65334e6b54ce10000000a174cb4, ‏2025.001) מזכיר הצגת נקודות מדידה 'using list editing' בלי קוד טרנזקציה, ולכן לא נכתב כראיה. (5) CDS: תקציר 'Measuring Point Data' מציג את שם התצוגה I_MeasuringPointData (Released). ה-xref ל-cds:I_MeasuringPoint נשען על הרשומה הקיימת בקטלוג ה-CDS (data/verification/cds.ts) ולא על ראיה ברשומה זו. I_MeasuringPointData אינו מזהה ביקום ולכן אינו xref. (6) פרמטרי הממשק EQUIPMENT / FUNCTLOCATION ו-MEASUREMENT_POINTS שב-function-intel לא הופיעו באף מקור רשמי ואינם נטענים כאן.",
+  },
+  /* ---- fm:BAPI_OBJCL_CREATE (functions batch 10, 2026-09-22) ---- */
+  {
+    id: "fm:BAPI_OBJCL_CREATE",
+    aliases: ["BAPI_OBJCL_CREATE"],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Object classification (general template) | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/1b202b73dc524be2a406e5981790c296.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד אובייקט המיגרציה Object classification (general template) במדריך Data Migration לגרסת On-Premise 2025 FPS01 נוקב בשם הטכני כלשונו בתקציר: 'Not relevant Not relevant BAPI_OBJCL_CREATE'. אותו עמוד מתאר את מטרתו 'This migration object enables you to migrate object classification data from the source ERP system to the target system', קובע 'This migration technique transfers data to the target system using Business Application Programming Interfaces (BAPIs)' ומציין 'Related Business Object: Classification' עם נתיב התפריט 'Cross Application Components > Classification System > Assignment > Assign Object to Classes'. כותרות העמודות שלצד השם אינן נראות בתקציר, ולכן העמוד מראה שהשם רשום באובייקט המיגרציה של הסיווג בגרסה זו, ואינו מציג מעמד שחרור, פרמטרים או דרישת COMMIT.",
+        verificationLevel: "sap_official_verified",
+      },
+      EQUI_CLASSIFICATION_OPS,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Batch Master Record | APIs for Logistics Cross Topics",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e1841426f60f4e50913ec9a64aba8332/48b3c2ac60154137bb1d6411c7047e16.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE22,
+        claim: "עמוד השירות Batch Master Record לגרסת On-Premise 2025 FPS01 קובע 'Technical name: API_BATCH_SRV This service enables you to retrieve batches and their classification data', ומוסיף 'In addition, batches and classification data can be created and updated' וכן 'The batch's classification data is accessible via the entities Batch Class Assignments (BatchClass), Batch Characteristics (BatchCharc), and Batch Characteristics Valuation (BatchCharcValue)'. כלומר לסיווג אצוות קיים ערוץ OData מתועד בתוך שירות האצווה. התקציר אינו נוקב בסוג מחלקה ואינו מזכיר BAPI כלשהו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג אובייקטי הפונקציה של הפרויקט (סריקת אימות סבב 2)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim: "רשומת המאגר מתארת את המודול כשיוך אובייקט למחלקת סיווג ומילוי ערכי מאפיינים, מסמנת אותו כ-RFC, כדורש COMMIT וכמקבילת API ל-CL20N ו-CL24N, ורושמת את הפרמטרים 'IN: OBJECTKEY, OBJECTTABLE, CLASSNUM, CLASSTYPE, ALLOCVALUESCHAR/NUM/CURR · OUT: RETURN'. data/bapi-enrichment.pm.ts רושם לצידו את הטבלאות KSSK, AUSP ו-KLAH ואת BAPI_OBJCL_CHANGE. הפרמטרים, דגל ה-RFC ודרישת ה-COMMIT לא נמצאו באף תקציר רשמי שנבדק.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.sweep.ts#BAPI_OBJCL_CREATE",
+      },
+    ],
+    status: {
+      edition: "on-premise",
+      release: "2025.001",
+      status: "released_api_available",
+      he: "ב-S/4HANA On-Premise 2025 FPS01 השם BAPI_OBJCL_CREATE מופיע בעמוד הרשמי של אובייקט המיגרציה Object classification (general template), שמעביר נתוני סיווג באמצעות BAPIs. לצד המודול קיימים ערוצי OData מתועדים לסיווג לפי סוג האובייקט: הישות EquipmentClassification של API_EQUIPMENT עם POST ליצירה ו-PATCH לעדכון עבור ציוד, והישויות BatchClass, BatchCharc ו-BatchCharcValue של API_BATCH_SRV עבור אצוות. הערוצים האלה מכסים ציוד ואצווה בלבד ואינם תחליף כללי לכל סוגי האובייקטים שהמודול משרת; שירות API_CLFN_PRODUCT לחומר מתועד לקריאה בלבד. מעמד השחרור של המודול עצמו, הפרמטרים שלו ודרישת ה-COMMIT נשענים על נתוני הפרויקט בלבד. לא נמצא מקור רשמי המכריז על יורש, ולכן הרשומה אינה נושאת יורש.",
+      source: EQUI_CLASSIFICATION_OPS,
+      recommendedAction: "לאמת במערכת היעד (SE37 או BAPI Explorer) את קיום המודול, את מבנה הפרמטרים שלו (OBJECTKEY, OBJECTTABLE, CLASSNUM, CLASSTYPE וטבלאות ALLOCVALUES לפי רשומת המאגר) ואת הצורך ב-BAPI_TRANSACTION_COMMIT, כי אף מקור רשמי שנבדק אינו מאשר אותם. בממשקים חדשים לסיווג ציוד בתחזוקת מפעל להעדיף את הישות EquipmentClassification של API_EQUIPMENT, ולסיווג אצוות בתעשיות תהליכיות את ישויות הסיווג של API_BATCH_SRV. לסוגי אובייקטים אחרים לבדוק אם קיים שירות OData ייעודי לפני שבוחרים במודול. בטעינת נתונים ראשונית להשתמש באובייקט המיגרציה Object classification (general template). לפני מימוש סיווג אצוות לבדוק בהגדרות את רמת האצווה, שקובעת את סוג המחלקה (022 ברמת מפעל, 023 ברמת לקוח או חומר).",
+    },
+    xrefs: ["tx:CL20N", "tx:CL24N", "tx:CL02", "tx:CT04", "table:EQUI", "table:MCHA", "table:MCH1", "fm:BAPI_TRANSACTION_COMMIT", "fm:BAPI_BATCH_CREATE", "fm:BAPI_EQUI_CREATE", "fm:BAPI_EQUI_CHANGE", "cds:I_Equipment", "cds:I_Batch", "bp:bapi-commit-discipline", "bp:batch-management-process"],
+    lastVerifiedAt: DATE22,
+    notes: "שיטה: שלוש הראיות הרשמיות נשלפו ב-2026-09-22 מ-scripts/sap-help-search.mjs --json, וה-url, ה-loio וה-versionId הועתקו כלשונם מפלט ה-JSON (1b202b73dc524be2a406e5981790c296, d1e3c797d3f44120b552d0e64680e445, 48b3c2ac60154137bb1d6411c7047e16, כולם 2025.001). גופי עמודי help.sap.com הם מעטפת JavaScript ולא נקראו, ולכן כל טענה תחומה בכותרת ובתקציר של רשומת החיפוש. (1) השם המדויק החזיר בסקופ On-Premise שתי רשומות בכותרת Object classification (general template): loio 1b202b73... (מקור ERP, הראיה הראשונה) ו-loio 080f019e53cd46a2896cc073ce2e8b6a (מקור AFS, אותו תקציר). בסקופ SAP_ERP ובסקופ SAP_S4HANA_CLOUD לא הוחזרה אף רשומה הנוקבת בשם (תקצירים ריקים או זרים לנושא), ולכן זמינות ב-ECC ובמהדורות Cloud לא אומתה מול מקור רשמי. (2) עמוד 'List of Available Function Groups' במדריך Logistics General (loio 5f81c1536ca9b54ce10000000a174cb4, ‏2025.001) קובע 'Function group CACL (Classification) The BAPIs in this group allow you to create new object assignments and value assignment records, and change existing object assignments'; התקציר אינו נוקב בשם BAPI_OBJCL_CREATE, ולכן שיוך המודול לקבוצה CACL אינו נטען. 'List of Available BAPIs' (loio 7481c1536ca9b54ce10000000a174cb4) מציג בתקצירו את CACL_OBJECT_ALLOCATION_MAINT ו-CACL_OBJECT_READ_ALLOCATIONS ואינו נוקב בשם הנבדק. (3) שירות סיווג החומר: הרשומה 'Product Master Data Including Classification - Read' במדריך Classification (CA-CL) (loio d8801cbcdb774c30ae24980f1adc4f77, ‏2025.001) נוקבת ב-'Technical name: API_CLFN_PRODUCT' ומתארת קריאה בלבד של שיוך מחלקה והערכת מאפיינים; השם API_CLFN_PRODUCT_SRV שבהנחיה לא נמצא כלשונו באף תקציר, ולכן הוא אינו נרשם כעובדה. לא נמצא שירות OData כללי ליצירת שיוך סיווג לכל סוג אובייקט. (4) סוגי מחלקה לאצווה: 'Specifications in the Classification System' במדריך Batch Management (loio 18ffb753128eb44ce10000000a174cb4, ‏2025.001) קובע 'There are two class types of the category Batch for batches and their materials: 022 at plant level 023 at client or material level'. לכן סוג 023 שבהנחיה ובקטלוג (function-intel: 'סיווג אצווה (023)') נכון רק לרמת לקוח או חומר; התקציר אינו קושר את סוגי המחלקה ל-BAPI. (5) עמוד 'Equipment Class' (APIs for Maintenance Management, loio 065c142ef283493dac076ba7991ad9dd, ‏2023.latest) קובע 'The standard class type used for an equipment is 002 (equipment class)'; נרשם כאן בלבד כי הגרסה שונה. (6) חיפוש רשת מוגבל לדומיינים הרשמיים החזיר עמודי SUPPORT_CONTENT/sapclass בכותרות 'Classification BAPI: Create Assignment' (3363505960), 'Classification BAPI: Change Assignment' (3363505955) ו-'Classification of Batches' (3363506314); אלה תוכן ויקי תמיכה שהועבר לדומיין, לא נקראו, ורק כותרותיהם נרשמות כאן ולא צוטטו כראיה. (7) הסטטוס הנגזר שהאפליקציה מציגה לפני רשומה זו, לפי קריאת הקוד ולא ממדידה חיה: רשומת הסריקה נבנית ב-verified() עם verificationStatus verified-docs ו-s4OnPremSupport yes, ו-fromFuncRegistry ב-lib/evidence/s4-status.ts ממפה זאת ל-unchanged ברמת 'מאומת מול נתוני הפרויקט' עם ההסבר 'לפי רישום אובייקטי הפונקציה של הפרויקט: אומת מול תיעוד SAP; תמיכה ב-S/4HANA On-Premise: כן'. הסטטוס המחובר כאן מחליף את הנגזרת. מקור 'SAP Help Portal - verified 2026-07-15' של הסריקה אינו נושא URL, ולכן לא נחשב ראיה רשמית. (8) המאגר אינו חלוק בשאלת קיום השם; הוא חלוק רק בפרטים: function-intel רושם AUSP ו-INOB ו-CL20N/CL02, bapi-enrichment.pm רושם KSSK, AUSP ו-KLAH ו-CL20N/CL24N. אף טבלת סיווג (AUSP, KSSK, KLAH, INOB) אינה מזהה ביקום ולכן אינה xref; גם fm:BAPI_OBJCL_CHANGE אינו ביקום. (9) xrefs: tx:CL20N ו-tx:CL24N לפי רשומות המאגר ועמוד Classification של Defense Forces (loio a3c0cc5340487214e10000000a174cb4) הנוקב ב-'Assign Object to Class (transaction CL20N)' וב-'/Classes to Class application (transaction CL24N)'; tx:CL02 ו-tx:CT04 לפי function-intel; table:EQUI ו-cds:I_Equipment לצד ערוץ API_EQUIPMENT; table:MCHA, table:MCH1 ו-cds:I_Batch לצד API_BATCH_SRV; fm:BAPI_BATCH_CREATE מפנה לכאן כערוץ הסיווג הנפרד. (10) לא נרשם מספר SAP Note או KBA. (11) לא בוצעה בדיקה חיה במערכת SAP: חיבור ה-MCP‏ sc4sap נכשל בסשן זה. נבדק בפועל: חיפושי help.sap.com בשלושה סקופים וחיפוש רשת בדומיינים הרשמיים. מבוסס על קובץ: רובד המאגר. דורש אימות במערכת SAP: קיום המודול, פרמטריו, מעמד השחרור ודרישת ה-COMMIT.",
   },
 ];
