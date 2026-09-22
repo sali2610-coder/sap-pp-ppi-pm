@@ -9,11 +9,12 @@ import { PM_PROCESS_PRACTICES } from "./pm-processes";
 import { PP_PROCESS_PRACTICES } from "./pp-processes";
 import { CROSS_PROCESS_PRACTICES } from "./cross-processes";
 import { PPPI_PROCESS_PRACTICES } from "./pppi-processes";
+import { PM_PROCESS_PRACTICES_2 } from "./pm-processes-2";
 
 export type BestPractice = BestPracticeLike;
 
 export const BEST_PRACTICES: BestPractice[] = (() => {
-  const merged = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES, ...PP_PROCESS_PRACTICES, ...CROSS_PROCESS_PRACTICES, ...PPPI_PROCESS_PRACTICES];
+  const merged = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES, ...PP_PROCESS_PRACTICES, ...CROSS_PROCESS_PRACTICES, ...PPPI_PROCESS_PRACTICES, ...PM_PROCESS_PRACTICES_2];
   const seen = new Set<string>();
   for (const b of merged) {
     if (seen.has(b.slug)) throw new Error(`data/best-practices: duplicate slug ${b.slug}`);
