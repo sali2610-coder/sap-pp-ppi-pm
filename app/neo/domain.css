@@ -37,6 +37,7 @@
 .ndm-sap { unicode-bidi: isolate; color: var(--ink-2); }
 .ndm-back {
   color: var(--m); font: inherit; text-decoration: none;
+  display: inline-block; min-block-size: 1.5rem; line-height: 1.5rem;
   border-block-end: 1px solid color-mix(in srgb, var(--m) 40%, transparent);
 }
 .ndm-back:hover { border-block-end-color: var(--m); }
@@ -89,16 +90,16 @@
 
 /* DEPTH BADGE — the honest distinction between a full record and a base one. */
 .ndm-depth {
-  font-size: .66rem; font-weight: 700; letter-spacing: .04em;
+  font-size: .75rem; font-weight: 700; letter-spacing: .04em;
   padding: .14rem .42rem; border-radius: 999px; white-space: nowrap;
 }
 .ndm-depth[data-deep="1"] {
-  color: var(--status-done);
+  color: color-mix(in srgb, var(--status-done) 62%, var(--ink-1));
   background: color-mix(in srgb, var(--status-done) 12%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--status-done) 30%, transparent);
 }
 .ndm-depth[data-deep="0"] {
-  color: var(--ink-3);
+  color: var(--ink-2);
   background: var(--surface-2);
   box-shadow: inset 0 0 0 1px var(--hairline);
 }

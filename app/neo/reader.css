@@ -1074,8 +1074,10 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   position: absolute;
   inset-inline: -2px;
   inset-block-start: calc(var(--at) * 100%);
-  block-size: 14px;
-  margin-block-start: -7px;
+  /* 24px hit box around the 14px mark (design audit §10); the drawn line is
+     the ::before, which keeps its size. */
+  block-size: 24px;
+  margin-block-start: -12px;
   padding: 0;
   border: 0;
   background: none;

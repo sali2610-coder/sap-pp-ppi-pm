@@ -126,6 +126,8 @@
 
 /* -------------------------------------------------------------- 3. TOOLBAR */
 
+/* Search fields meet the 24px target floor (design audit §10). */
+.nx-app .nxd-tools input[type="search"], .nx-app .nxd-tools input[type="text"] { min-block-size: 1.75rem; }
 .nx-app .nxd-tools {
   display: flex; flex-wrap: wrap; align-items: center;
   gap: var(--sp-3) var(--sp-4);

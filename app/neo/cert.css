@@ -45,15 +45,17 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
   transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, color .16s ease;
 }
 .nce-opt b { font-size: .98rem; font-weight: 700; color: var(--ink-1); }
-.nce-opt span { font-size: .8rem; }
+.nce-opt span { font-size: .8rem; color: var(--ink-1); }
 .nce-opt:hover { transform: translateY(-1px); box-shadow: var(--elev-2); }
 /* Selected is a FILL, per the product's selection language. */
 .nce-opt[data-on="1"] {
   color: #fff; border-color: transparent;
-  background: var(--brand);
+  /* A shade under brand red: white at 12.8px on #d62027 measured 3.6:1; on
+     #b21a20 it is 5.9:1. A plain hex, so contrast tools read it too. */
+  background: #b21a20;
   box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--brand) 70%, transparent);
 }
-.nce-opt[data-on="1"] b { color: #fff; }
+.nce-opt[data-on="1"] b, .nce-opt[data-on="1"] span { color: #fff; }
 
 .nce-go { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1.6rem; }
 .nce-start { font-size: .95rem; }

@@ -112,7 +112,7 @@
   background: currentColor;
   opacity: .6;
 }
-.no-eye a { color: inherit; }
+.no-eye a { color: inherit; display: inline-flex; align-items: center; min-block-size: 1.5rem; }
 .no-eye a:hover { color: var(--ink-1); }
 
 .no-mega {
@@ -546,7 +546,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
 
 .no-rel-name { display: grid; gap: 2px; grid-template-columns: 8px 1fr; align-items: center; min-inline-size: 0; }
 .no-rel-cls { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--o); }
-.no-rel-name a { grid-column: 2; font-family: var(--font-mono); direction: ltr; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
+.no-rel-name a { grid-column: 2; font-family: var(--font-mono); direction: ltr; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); display: inline-flex; align-items: center; min-block-size: 1.5rem; }
 .no-rel-name a:hover { color: var(--brand); }
 .no-rel-name em { grid-column: 2; font-size: var(--t-micro); color: var(--ink-3); font-style: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .no-rel-card {
@@ -1497,8 +1497,8 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
   font-size: var(--t-micro); color: var(--ink-3);
 }
 .nod-vf { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; }
-.nod-vf[data-v="verified"] { color: var(--status-done); }
-.nod-vf[data-v="needs-verification"] { color: var(--status-in-analysis); }
+.nod-vf[data-v="verified"] { color: color-mix(in srgb, var(--status-done) 62%, var(--ink-1)); }
+.nod-vf[data-v="needs-verification"] { color: color-mix(in srgb, var(--status-in-analysis) 62%, var(--ink-1)); }
 .nod-src-l { display: inline-flex; align-items: center; gap: 4px; unicode-bidi: plaintext; }
 
 /* A SELF-REFERENCE reuses the dangling block's shape — same "listed, not drawn"

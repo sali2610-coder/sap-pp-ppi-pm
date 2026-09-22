@@ -701,6 +701,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-find:focus-within { border-color: var(--m); box-shadow: 0 0 0 3px color-mix(in srgb, var(--m) 16%, transparent); }
 .nw-find input {
+  min-block-size: 1.75rem;
   flex: 1;
   min-inline-size: 0;
   border: 0;

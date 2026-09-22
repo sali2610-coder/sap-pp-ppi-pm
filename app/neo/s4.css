@@ -133,11 +133,11 @@
    a stated limit of the project's own knowledge. */
 .ns4-trust {
   margin-inline-start: auto;
-  font-size: .72rem; font-weight: 600; white-space: nowrap;
+  font-size: .8125rem; font-weight: 600; white-space: nowrap;
   padding: .12rem .4rem; border-radius: 5px; color: var(--ink-2);
   border: 1px solid var(--hairline);
 }
-.ns4-trust[data-t="needs-verification"] { border-style: dashed; color: var(--status-in-analysis, #d97706); }
+.ns4-trust[data-t="needs-verification"] { border-style: dashed; color: color-mix(in srgb, var(--status-in-analysis, #d97706) 62%, var(--ink-1)); }
 
 .ns4-lbl {
   display: inline-block; min-inline-size: 4.6rem;
@@ -290,8 +290,8 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-sg { margin: .6rem 0 0; padding: 0; list-style: none; display: grid; gap: .35rem; }
 .ns4-sg li { display: grid; grid-template-columns: 3.4rem 1fr; gap: .5rem; align-items: baseline; }
 .ns4-sg li b { font-size: .68rem; font-weight: 700; letter-spacing: .03em; }
-.ns4-sg li[data-k="stay"] b { color: var(--status-done, #16a34a); }
-.ns4-sg li[data-k="gone"] b { color: var(--status-blocked, #dc2626); }
+.ns4-sg li[data-k="stay"] b { color: color-mix(in srgb, var(--status-done, #16a34a) 62%, var(--ink-1)); }
+.ns4-sg li[data-k="gone"] b { color: color-mix(in srgb, var(--status-blocked, #dc2626) 62%, var(--ink-1)); }
 .ns4-sg li span { font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
 
 /* ------------------------------------------------------------- readiness */
@@ -306,10 +306,12 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-mods > li header b { font-size: .95rem; color: var(--ink-1); }
 .ns4-mod-code { font-size: .72rem; color: var(--ink-3); unicode-bidi: isolate; }
 .ns4-band { unicode-bidi: isolate; }
-.ns4-score {
+.ns4-score, .nx-app .ns4-score.nx-sap {
   margin-inline-start: auto;
+  /* Ink, not the status hue: green at 16.8px measured 3.2:1. */
+  color: var(--ink-1);
   font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700;
-  color: var(--s); font-variant-numeric: tabular-nums;
+   font-variant-numeric: tabular-nums;
 }
 .ns4-bar {
   margin-block-start: .5rem; block-size: 6px; border-radius: 999px;
@@ -388,7 +390,7 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 
 .ns4-credit {
   display: flex; align-items: center; gap: .4rem;
-  margin: 2rem 0 0; font-size: .78rem; color: var(--ink-3);
+  margin: 2rem 0 0; font-size: .8125rem; color: var(--ink-2);
 }
 
 @media (max-width: 720px) {

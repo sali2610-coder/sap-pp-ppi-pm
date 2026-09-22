@@ -89,6 +89,8 @@
   color: var(--m, var(--brand));
   font-weight: 650;
   text-decoration: none;
+  /* A 24px target (design audit §10): the link box, not only its glyphs. */
+  display: inline-block; padding-block: 2px; min-block-size: 1.5rem; line-height: 1.25rem;
 }
 .nev-a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .nev-meta { font-size: 0.6875rem; color: var(--ink-3); }

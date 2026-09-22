@@ -505,7 +505,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                 word follows it as a plain chip: risk says how much attention
                 the migration needs, it is not what happens to the table. */}
             <StatusPill status={t.evidence.status.key} label={t.evidence.status.label} dot={t.evidence.status.dot} />
-            <span className="nu-chip" style={{ color: RISK_COLOR[t.s4.risk] }}>
+            <span className="nu-chip" style={{ color: `color-mix(in srgb, ${RISK_COLOR[t.s4.risk]} 62%, var(--ink-1))` }}>
               {t.s4.riskHe}
             </span>
             {t.s4.note ? <span className="nu-chip is-sap">{t.s4.note}</span> : null}

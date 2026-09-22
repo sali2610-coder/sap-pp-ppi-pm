@@ -234,7 +234,8 @@
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--railtint) var(--nxr-ring), transparent);
 }
 .nx-app .nx-navitem[aria-current] .nx-navitem-n {
-  color: var(--railtint);
+  /* The count reads in ink on its tint (the tint colour on the tint measured 4.25:1). */
+  color: var(--ink-1);
   background: color-mix(in srgb, var(--railtint) 14%, transparent);
 }
 
@@ -897,6 +898,6 @@ html[data-device="tablet"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-
 /* a11y sample 2026-09-21: group labels and counts in the rail measured 3.8:1
    at 10–11px; one step larger and one ink darker clears 4.5:1. */
 .nx-app .nx-group-btn .nx-t { font-size: 0.75rem; color: var(--ink-2); }
-.nx-app .nx-navitem-n { font-size: 0.6875rem; color: var(--ink-2); }
+.nx-app .nx-navitem-n { font-size: 0.6875rem; color: var(--ink-1); }
 .nx-app .nx-srch-input { block-size: 1.75rem; min-block-size: 1.75rem; } /* the rail field sits under a 0.9 scale; 28px renders as 25px */
 .nx-app .nx-srch-meta { color: var(--ink-2); }

@@ -986,7 +986,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 
 .nxq-hint {
   margin: 0; padding-inline: var(--sp-2);
-  font-size: var(--t-micro); color: var(--ink-3);
+  font-size: var(--t-micro); color: var(--ink-2);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 

@@ -1218,7 +1218,7 @@ html[data-theme="dark"] .nx-app .nxb-yes { background: color-mix(in srgb, var(--
   padding: 0.55rem 0.9rem;
   border-radius: calc(var(--r-sm) - 3px);
   white-space: nowrap;
-  color: var(--ink-3);
+  color: var(--ink-2);
   font-weight: 600;
   transition: background var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast);
 }
@@ -1233,6 +1233,9 @@ html[data-theme="dark"] .nx-app .nxb-yes { background: color-mix(in srgb, var(--
   box-shadow: var(--elev-2);
   font-weight: 750;
 }
+/* In the dark theme the knowledge hue is a light blue; white on it measured
+   2.2:1, so the selected tab reads in ink instead. */
+html[data-theme="dark"] .nx-app .nxl-bodies .nu-tab.nxl-bodytab[aria-selected="true"] { color: #0f1a2b; }
 .nx-app .nxl-bodies .nxl-bodytab-i { display: grid; place-items: center; opacity: .9; }
 .nx-app .nxl-bodies .nu-tab.nxl-bodytab b {
   font-family: var(--font-mono); font-size: 10px; direction: ltr;

@@ -127,7 +127,8 @@ html[data-theme="dark"] .nu-btn { color: #0b0e11; }
 /* --- link: leaves for another route. the arrow is the signal -------------- */
 .nu-link {
   background: transparent;
-  color: var(--_m);
+  /* Brand red on the light ground measured 4.36:1 at 13px; a step toward ink. */
+  color: color-mix(in srgb, var(--_m) 86%, var(--ink-1));
   border: 0;
   padding: 0.35rem 0;
   border-radius: 0.25rem;

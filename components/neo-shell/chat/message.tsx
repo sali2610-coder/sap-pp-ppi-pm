@@ -147,9 +147,16 @@ export function Message({
               <div className="nxq-answer">
                 <Grounding a={a} mode={mode} />
 
-                {a.policy === "REFUSE" && !a.text ? (
+                {/* AN EMPTY ANSWER IS SAID, NEVER LEFT BLANK. A refusal names its
+                    reason; any other empty text (found by the controlled-state
+                    test of design audit S7-AI-5: a `done` event with no text
+                    drew a grounding line over nothing) says that no answer
+                    arrived. */}
+                {!a.text ? (
                   <p className="nxq-empty">
-                    לא נמצא מקור מאומת בספרייה לשאלה זו, ולכן לא נכתבה תשובה. שאר השיחה נשמרה. אפשר לנסח את השאלה מחדש או לשאול על נושא ממוקד יותר.
+                    {a.policy === "REFUSE"
+                      ? "לא נמצא מקור מאומת בספרייה לשאלה זו, ולכן לא נכתבה תשובה. שאר השיחה נשמרה. אפשר לנסח את השאלה מחדש או לשאול על נושא ממוקד יותר."
+                      : "לא התקבלה תשובה. השיחה נשמרה; אפשר לנסח את השאלה מחדש ולשלוח שוב."}
                   </p>
                 ) : (
                   <AnswerBody text={a.text} citations={citeProps} />

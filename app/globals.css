@@ -1704,9 +1704,10 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   background: var(--surface-2); border: 1px solid var(--c-hair);
   font-family: var(--font-mono); font-size: 10px; direction: ltr; color: var(--ink-2);
 }
-.nx-who-t { display: grid; line-height: 1.2; min-inline-size: 0; }
-.nx-who-t b { font-size: var(--t-micro); }
-.nx-who-t span { font-size: 10px; color: var(--ink-3); }
+.nx-who-t { display: grid; line-height: 1.2; min-inline-size: 0; color: var(--ink-2); }
+.nx-who-t b { font-size: var(--t-micro); color: var(--ink-1); }
+/* The credit is mandatory on every page, so it reads: 11px at ink-2 (was 10px at ink-3, 3.8:1). */
+.nx-who-t span { font-size: 11px; color: var(--ink-2); }
 .nx-rail-foot .nx-iconbtn { margin-inline-start: auto; }
 
 /* --------------------------------------------------------- 6. THE STATES */
@@ -1844,6 +1845,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   background: var(--surface); min-inline-size: 0;
 }
 .nx-crumbs { display: flex; align-items: center; gap: 4px; font-size: var(--t-xs); color: var(--ink-3); min-inline-size: 0; }
+.nx-crumbs a { display: inline-flex; align-items: center; min-block-size: 1.5rem; }
 .nx-crumbs a:hover { color: var(--ink-1); }
 .nx-crumbs .nx-cur { color: var(--ink-1); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nx-cmdbar {

@@ -351,7 +351,8 @@ html[data-theme="dark"] .nb-shelf::after {
   font-size: clamp(1.125rem, 1.6cqi, 1.5rem);
   font-weight: 700;
   letter-spacing: -.02em;
-  color: var(--m);
+  /* Module hue at 18px bold measured 4.19:1 (not yet "large" text); mixed toward ink. */
+  color: color-mix(in srgb, var(--m) 78%, var(--ink-1));
   line-height: 1.1;
 }
 .nb-shelf-he { font-size: var(--t-sm); font-weight: 600; color: var(--ink-1); }
