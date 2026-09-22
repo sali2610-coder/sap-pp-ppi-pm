@@ -244,8 +244,17 @@ function RelList({
                 {other}
               </button>
               <span className="ne-card nx-sap">{e.cd || REL_HE[e.k as RelKind]}</span>
+              {e.k === "unstated" ? (
+                <code className="ne-cnv" title="הקרדינליות לא אומתה במקור SAP רשמי">CARDINALITY_NOT_VERIFIED</code>
+              ) : null}
               {o ? <span className="nu-chip">{o.m}</span> : null}
             </div>
+            {e.k === "unstated" ? (
+              <p className="ne-join-say">
+                קרדינליות לא צוינה בתיעוד: מילון הפרויקט רושם את הקשר בלי יחס כמותי, ו-PK/FK או Association לא אומתו מול
+                מקור SAP רשמי. הקו מצויר מקווקו כתלות מתועדת, לא כיחס מחייב.
+              </p>
+            ) : null}
             {e.ds ? <p className="ne-join-d">{e.ds}</p> : null}
             {e.j.map((j, i) =>
               j.j ? (

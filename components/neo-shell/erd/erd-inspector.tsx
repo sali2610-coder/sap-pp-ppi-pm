@@ -286,6 +286,9 @@ export function ErdInspector({
                             {other}
                           </button>
                           <span className="ne-card nx-sap">{e.cd || REL_HE[e.k as RelKind]}</span>
+                          {e.k === "unstated" ? (
+                            <code className="ne-cnv" title="הקרדינליות לא אומתה במקור SAP רשמי">CARDINALITY_NOT_VERIFIED</code>
+                          ) : null}
                           {e.x ? <span className="ne-ct">חוצה מודול</span> : null}
                         </div>
                         {/* IN WORDS (design audit S7-ERD-5): which side is the
@@ -297,7 +300,14 @@ export function ErdInspector({
                           ) : (
                             <><b className="nx-sap">{other}</b> היא המקור (צד המפתח הראשי); <b className="nx-sap">{active.n}</b> תלויה בה דרך מפתח זר.</>
                           )}
-                          {e.cd ? <> קרדינליות מתועדת: <span className="nx-sap">{e.cd}</span>.</> : <> קרדינליות לא צוינה בתיעוד.</>}
+                          {e.cd ? (
+                            <> קרדינליות מתועדת: <span className="nx-sap">{e.cd}</span>.</>
+                          ) : (
+                            <>
+                              {" "}קרדינליות לא צוינה בתיעוד: מילון הפרויקט רושם את הקשר (הורה, ילד ושדות ה-JOIN כשקיימים) בלי יחס
+                              כמותי, ו-PK/FK או Association לא אומתו מול מקור SAP רשמי. הקו מצויר מקווקו כתלות מתועדת, לא כיחס מחייב.
+                            </>
+                          )}
                         </p>
                         {e.ds ? <p className="ne-join-d">{e.ds}</p> : null}
                         {e.j.map((j, i) => (

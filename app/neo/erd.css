@@ -349,6 +349,19 @@ html[data-theme="dark"] .ne {
 }
 /* The relation in words (design audit S7-ERD-5). */
 .ne-join-say { margin: 2px 0 4px; font-size: var(--t-xs); line-height: 1.55; color: var(--ink-2); }
+/* The literal token for a relation the dictionary records without a
+   cardinality (design audit §11 ERD): monospace, muted, never a colour that
+   reads as a status. */
+.ne-cnv {
+  font: 600 0.6875rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+  border: 1px dashed color-mix(in srgb, var(--ink-2) 55%, transparent);
+  border-radius: 6px;
+  padding: 1px 6px;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
 .ne-join-say b { font-weight: 700; color: var(--ink-1); }
 .ne-rel > i {
   flex: none;
