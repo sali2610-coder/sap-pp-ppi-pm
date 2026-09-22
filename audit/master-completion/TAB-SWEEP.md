@@ -67,3 +67,30 @@ label), so it is not a defect.
   in `textContent`. Visually they are separate lines. Screen-reader output has
   not been checked on a real reader.
 - Safari and physical devices: no access (BLOCKERS).
+
+## 200% zoom (emulated)
+
+`tab-sweep/zoom200.json`: a desktop viewport of 682 x 468 CSS px (1363 x 936 at
+200%). 32 routes: 0 console errors, 0 page overflow, 0 canvas overflow, 0
+faded content. This is emulation of the CSS width at 200%, not a browser zoom.
+
+## Accessibility sample after the fixes
+
+`tab-sweep/a11y.json`, via `scripts/qa/a11y-sample.mjs`: 37 routes (the 32 above
+plus the round-6 extras), 15,055 text nodes checked, **0 contrast failures**.
+Five targets under 24px, all covered by a WCAG 2.5.8 exception:
+
+| route | target | why it is exempt |
+|---|---|---|
+| `/neo/academy/` | "תרגול ובדיקת ידע" (89 x 16) | inline link inside a sentence of body text |
+| `/exits/CMOD-SMOD/`, `/exits/Implicit-Enhancement/` | skip link (1 x 1) | `sr-only` until focused, then full size |
+| same two | "מדיניות פרטיות" (71 x 15) | inline footer text link |
+
+Obscured focus appears on the same two `/exits/*` compatibility routes only (theme
+button and rail toggle, 4 each), as in the round-6 baseline. Both routes render
+through the legacy app shell, not the NEO shell, so this belongs to ACC-6 (two
+shells) and is left there. No NEO route has obscured focus.
+
+No axe-core run: it is not installed in the repository and the mandate forbids
+installing untrusted packages, so these are the project's own checks, not an
+axe audit. No full WCAG conformance is claimed.
