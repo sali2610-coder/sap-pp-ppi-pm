@@ -90,3 +90,6 @@ priority order and checkpoints after every batch, so an interruption loses nothi
 - 2026-09-22 · Fiori thin index: shared display names 61 to 0 from Book 7 titles, no protected file edited (`7e34eb55`).
 - 2026-09-22 · reflow at 320px: 16 grid tracks guarded with min(100%, Nrem), record headings and code links may wrap (pending build).
 - 2026-09-22 · functions batch 10 running (`wf_4de3909b-73f`).
+- 2026-09-22 · CDS 39/39 (`e15d9d3a`), pushed.
+- 2026-09-22 · chain launched (`wf_883a652e-4fa`): 15 batches, enhancements 2, fiori F3289, functions 76 in batches of 6. Resume: `Workflow({scriptPath: "scripts/workflows/enrich-chain.js", resumeFromRunId: "wf_883a652e-4fa"})` with the args in `chain-args.json`. While it runs, no edit to `data/verification/{enhancements,fiori,functions}.ts`.
+- 2026-09-22 · business objects 6 to 16: ten repository-derived seeds from tx-intel related-object fields; names outside the universe listed in notes, not as members; one internal conflict recorded (IK01 names BAPI_MEASUREMENTPOINT_CREATE, the function registry says it does not exist).

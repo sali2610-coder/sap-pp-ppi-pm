@@ -77,6 +77,112 @@ export const OBJECT_REGISTRY: RegistryEntry[] = [
       "fm:BAPI_MAINTENANCEPLAN_CREATE", "cds:I_MaintenancePlan",
     ],
   },
+  /* SEEDS, second round (master completion, 2026-09-22). Ten groupings taken
+     from the related-object fields (tables, bapis) of the transaction
+     intelligence records in data/tx-intel.ts. A member is listed only when its
+     id resolves in the universe; names a record lists that the universe lacks
+     are named in the record's notes, never added as members. No BOR id is
+     claimed for any of these. */
+  {
+    id: "obj:equipment",
+    he: "ציוד",
+    en: "Equipment",
+    members: [
+      "table:EQUI", "table:EQKT", "table:EQUZ", "table:ILOA",
+      "tx:IE01", "tx:IE02", "tx:IE03", "tx:IE4N",
+      "fm:BAPI_EQUI_CREATE", "fm:BAPI_EQUI_CHANGE", "fm:BAPI_EQUI_INSTALL", "fm:BAPI_EQUI_GETDETAIL",
+      "cds:I_Equipment",
+    ],
+  },
+  {
+    id: "obj:functional-location",
+    he: "מיקום פונקציונלי",
+    en: "Functional Location",
+    members: [
+      "table:IFLOT", "table:IFLOS", "table:ILOA",
+      "tx:IL01", "tx:IL02", "tx:IL03",
+      "fm:BAPI_FUNCLOC_CREATE", "fm:BAPI_FUNCLOC_GETDETAIL",
+      "cds:I_FunctionalLocation",
+    ],
+  },
+  {
+    id: "obj:measuring-point",
+    he: "נקודת מדידה ומסמך מדידה",
+    en: "Measuring Point",
+    members: [
+      "table:IMPTT", "table:IMRG",
+      "tx:IK01", "tx:IK02", "tx:IK03", "tx:IK11", "tx:IK12",
+      "fm:BAPI_MPID_CREATE", "fm:MEASUREM_DOCUM_RFC_SINGLE_001",
+    ],
+  },
+  {
+    id: "obj:maintenance-task-list",
+    he: "רשימת משימות אחזקה",
+    en: "Maintenance Task List",
+    members: [
+      "table:PLKO", "table:PLPO", "table:PLAS", "table:PLMZ",
+      "tx:IA01", "tx:IA02", "tx:IA03", "tx:IA05", "tx:IA06",
+    ],
+  },
+  {
+    id: "obj:reservation",
+    he: "שמורה",
+    en: "Reservation",
+    members: [
+      "table:RESB", "table:MARD", "table:MARC",
+      "tx:MB21", "tx:MB22", "tx:MB23",
+      "fm:BAPI_RESERVATION_CREATE1",
+    ],
+  },
+  {
+    id: "obj:planned-order",
+    he: "הזמנה מתוכננת",
+    en: "Planned Order",
+    members: [
+      "table:RESB",
+      "tx:MD11", "tx:MD12", "tx:MD13",
+      "fm:BAPI_PLANNEDORDER_CREATE", "fm:BAPI_PLANNEDORDER_GET_DETAIL",
+    ],
+  },
+  {
+    id: "obj:production-order",
+    he: "פקודת ייצור",
+    en: "Production Order",
+    members: [
+      "table:AUFK", "table:AFKO", "table:AFPO", "table:AFVC", "table:RESB",
+      "tx:CO01", "tx:CO02", "tx:CO03", "tx:CO11N", "tx:CO15",
+      "cds:I_ProductionOrder",
+    ],
+  },
+  {
+    id: "obj:material-bom",
+    he: "עץ מוצר לחומר",
+    en: "Material BOM",
+    members: [
+      "table:MAST", "table:STKO", "table:STPO", "table:STAS",
+      "tx:CS01", "tx:CS02", "tx:CS03",
+      "fm:CSAP_MAT_BOM_CREATE", "fm:CSAP_MAT_BOM_MAINTAIN", "fm:CSAP_MAT_BOM_READ", "fm:BAPI_MATERIAL_BOM_GROUP_CREATE",
+    ],
+  },
+  {
+    id: "obj:master-recipe",
+    he: "מתכון אב",
+    en: "Master Recipe",
+    members: [
+      "table:PLKO", "table:PLPO", "table:PLAS", "table:PLMZ", "table:MAPL",
+      "tx:C201", "tx:C202", "tx:C203",
+    ],
+  },
+  {
+    id: "obj:work-center",
+    he: "מרכז עבודה / משאב",
+    en: "Work Center",
+    members: [
+      "table:CRHD", "table:CRCA", "table:CRCO", "table:CRTX", "table:KAKO",
+      "tx:CR01", "tx:CR02", "tx:CR03",
+      "cds:I_WorkCenter",
+    ],
+  },
 ];
 
 export const OBJECT_VERIFICATION: VerificationRecord[] = [
@@ -234,5 +340,206 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
     lastVerifiedAt: SEED_DATE,
     notes:
       "רשומת זרע: BUS2093 נרשם כמזהה לאימות בלבד (מקור: התדריך), לא כעובדה; אימות רשמי ממתין לפייפליין ה-objects.",
+  },
+  /* ---- seeds, second round, 2026-09-22 ------------------------------- */
+  {
+    id: "obj:equipment",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, IE01 / IE02)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim:
+          "רשומת IE01 במאגר מונה את הטבלאות EQUI, EQKT, EQUZ, ILOA ו-EQBS ואת BAPI_EQUI_CREATE; רשומת IE02 מונה את אותן טבלאות ואת BAPI_EQUI_CHANGE, BAPI_EQUI_INSTALL ו-BAPI_EQUI_DISMANTLE.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IE01",
+      },
+    ],
+    xrefs: ["table:EQUI", "table:EQKT", "tx:IE01", "fm:BAPI_EQUI_CREATE", "cds:I_Equipment"],
+    lastVerifiedAt: SEED_DATE,
+    notes:
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. שמות שהרשומות מונות ואינם בקטלוג: EQBS, BAPI_EQMT_CREATE, BAPI_EQMT_MODIFY, BAPI_EQUI_DISMANTLE. לכן אינם חברים. אימות רשמי ממתין לפייפליין ה-objects.",
+  },
+  {
+    id: "obj:functional-location",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, IL01 / IL02)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim:
+          "רשומת IL01 במאגר מונה את הטבלאות IFLOT, IFLOTX, ILOA ו-IHPA ואת BAPI_FUNCLOC_CREATE; רשומת IL02 מונה את אותן טבלאות ואת BAPI_FUNCLOC_CHANGE.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IL01",
+      },
+    ],
+    xrefs: ["table:IFLOT", "tx:IL01", "fm:BAPI_FUNCLOC_CREATE", "cds:I_FunctionalLocation"],
+    lastVerifiedAt: SEED_DATE,
+    notes:
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. IFLOTX, IHPA ו-BAPI_FUNCLOC_CHANGE אינם בקטלוג ולכן אינם חברים. IFLOS נוסף מרשומת fm:FUNC_LOCATION_LABEL_READ בתור. אימות רשמי ממתין לפייפליין ה-objects.",
+  },
+  {
+    id: "obj:measuring-point",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, IK01 / IK11)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim:
+          "רשומת IK01 במאגר מונה את הטבלאות IMPTT, IMRG ו-IHPA; רשומת IK11 מונה את IMRG ו-IMPTT. רישום הפונקציות של הפרויקט מתעד את BAPI_MPID_CREATE ליצירת נקודת מדידה ואת MEASUREM_DOCUM_RFC_SINGLE_001 למסמך מדידה בודד.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IK01",
+      },
+    ],
+    xrefs: ["table:IMPTT", "table:IMRG", "tx:IK01", "tx:IK11", "fm:BAPI_MPID_CREATE"],
+    lastVerifiedAt: SEED_DATE,
+    notes:
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. סתירה פנימית במאגר: רשומת IK01 מונה את BAPI_MEASUREMENTPOINT_CREATE, ורישום הפונקציות קובע שהשם הזה אינו קיים ומפנה ל-BAPI_MPID_CREATE. החבר שנבחר הוא זה של רישום הפונקציות; הסתירה ממתינה לאימות רשמי.",
+  },
+  {
+    id: "obj:maintenance-task-list",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, IA05 / IA06)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim:
+          "רשומות IA05 ו-IA06 במאגר מונות את הטבלאות PLKO, PLPO, PLAS, PLMZ ו-PLFH.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IA05",
+      },
+    ],
+    xrefs: ["table:PLKO", "table:PLPO", "tx:IA05"],
+    lastVerifiedAt: SEED_DATE,
+    notes:
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. PLFH ו-BAPI_TASKLIST_GET_DETAIL (שרשומת IA05 מונה) אינם בקטלוג. ל-BAPI_TASKLIST_CREATE יש רשומה בתור המחקר ולכן אינו חבר עד שתיכתב. אימות רשמי ממתין לפייפליין ה-objects.",
+  },
+  {
+    id: "obj:reservation",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, MB21)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim:
+          "רשומת MB21 במאגר מונה את הטבלאות RKPF, RESB, MARD ו-MARC ואת BAPI_RESERVATION_CREATE1 ו-BAPI_RESERVATION_CREATE.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MB21",
+      },
+    ],
+    xrefs: ["table:RESB", "tx:MB21", "fm:BAPI_RESERVATION_CREATE1"],
+    lastVerifiedAt: SEED_DATE,
+    notes:
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. RKPF ו-BAPI_RESERVATION_CREATE אינם בקטלוג ולכן אינם חברים. אימות רשמי ממתין לפייפליין ה-objects.",
+  },
+  {
+    id: "obj:planned-order",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, MD11 / MD12)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim:
+          "רשומת MD11 במאגר מונה את הטבלאות PLAF ו-RESB ואת BAPI_PLANNEDORDER_CREATE ו-BAPI_PLANNEDORDER_GET_DETAIL; רשומת MD12 מונה את BAPI_PLANNEDORDER_CHANGE.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MD11",
+      },
+    ],
+    xrefs: ["tx:MD11", "fm:BAPI_PLANNEDORDER_CREATE"],
+    lastVerifiedAt: SEED_DATE,
+    notes:
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. טבלת הכותרת PLAF ו-BAPI_PLANNEDORDER_CHANGE אינם בקטלוג הטבלאות והפונקציות של הפרויקט ולכן אינם חברים; זה פער בקטלוג, לא טענה על SAP. אימות רשמי ממתין לפייפליין ה-objects.",
+  },
+  {
+    id: "obj:production-order",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, CO01 / CO02)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim:
+          "רשומת CO01 במאגר מונה את הטבלאות AUFK, AFKO, AFPO, AFVC, RESB ו-AFVV ואת BAPI_PRODORD_CREATE; רשומת CO02 מוסיפה את JEST ו-JCDS ואת BAPI_PRODORD_CHANGE, BAPI_PRODORD_RELEASE ו-BAPI_PRODORD_COMPLETE_TECH.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CO01",
+      },
+    ],
+    xrefs: ["table:AFKO", "table:AFPO", "tx:CO01", "cds:I_ProductionOrder"],
+    lastVerifiedAt: SEED_DATE,
+    notes:
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. אף אחד מ-BAPI_PRODORD_* אינו ברישום הפונקציות של הפרויקט, וגם AFVV אינה בקטלוג; לכן לאובייקט אין חבר מסוג פונקציה. אימות רשמי ממתין לפייפליין ה-objects.",
+  },
+  {
+    id: "obj:material-bom",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, CS01 / CS02)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim:
+          "רשומת CS01 במאגר מונה את הטבלאות MAST, STKO, STPO ו-STAS ואת BAPI_MATERIAL_BOM_GROUP_CREATE ו-CSAP_MAT_BOM_CREATE; רשומת CS02 מוסיפה את STZU ואת CSAP_MAT_BOM_MAINTAIN.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CS01",
+      },
+    ],
+    xrefs: ["table:MAST", "table:STKO", "tx:CS01", "fm:CSAP_MAT_BOM_CREATE"],
+    lastVerifiedAt: SEED_DATE,
+    notes:
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. STZU אינה בקטלוג. CSAP_MAT_BOM_READ נוסף מרישום הפונקציות (קריאת עץ מוצר לחומר). אימות רשמי ממתין לפייפליין ה-objects.",
+  },
+  {
+    id: "obj:master-recipe",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, C201)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim:
+          "רשומת C201 במאגר מונה את הטבלאות PLKO, PLPO, PLAS, PLMZ ו-MAPL ואת BAPI_RECIPE_CREATE.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#C201",
+      },
+    ],
+    xrefs: ["table:PLKO", "table:MAPL", "tx:C201"],
+    lastVerifiedAt: SEED_DATE,
+    notes:
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. BAPI_RECIPE_CREATE אינו ברישום הפונקציות של הפרויקט ולכן אינו חבר. אימות רשמי ממתין לפייפליין ה-objects.",
+  },
+  {
+    id: "obj:work-center",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, CR01 / CR02)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim:
+          "רשומת CR01 במאגר מונה את הטבלאות CRHD, CRCA, CRCO ו-CRTX; רשומת CR02 מוסיפה את KAKO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CR01",
+      },
+    ],
+    xrefs: ["table:CRHD", "table:KAKO", "tx:CR01", "cds:I_WorkCenter"],
+    lastVerifiedAt: SEED_DATE,
+    notes:
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. הרשומות אינן מונות BAPI; לכן אין חבר מסוג פונקציה. אימות רשמי ממתין לפייפליין ה-objects.",
   },
 ];
