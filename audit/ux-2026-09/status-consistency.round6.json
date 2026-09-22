@@ -1,18 +1,18 @@
 OK   table AFKO: list=unchanged detail=unchanged erd=unchanged palette=unchanged glyph=true
 OK   table EQUI: list=unchanged detail=unchanged erd=unchanged palette=unchanged glyph=true
 OK   table MARA: list=changed detail=changed erd=changed palette=changed glyph=true
-OK   tcode IP30: list=simplified detail=simplified erd=n/a palette=simplified glyph=true
+OK   tcode IP30: list=deprecated detail=deprecated erd=n/a palette=deprecated glyph=true
 OK   tcode IW31: list=unchanged detail=unchanged erd=n/a palette=unchanged glyph=true
 OK   tcode COR3: list=- detail=unchanged erd=n/a palette=unchanged glyph=true
 OK   fm BAPI_ALM_CONF_CREATE: list=released_api_available detail=released_api_available erd=n/a palette=released_api_available glyph=true
 OK   fm BAPI_PROCORD_GET_DETAIL: list=released_api_available detail=released_api_available erd=n/a palette=no result row for BAPI_PROCORD_GET_DETAIL glyph=true
 OK   cds I_Batch: list=s4_native detail=s4_native erd=n/a palette=s4_native glyph=true
-OK   fiori F0247A: list=s4_native detail=s4_native erd=n/a palette=s4_native glyph=true
+OK   fiori null: list=s4_native detail=s4_native erd=n/a palette=no technical name on the list card glyph=true
 OK   idoc BOMMAT: list=unchanged detail=unchanged erd=n/a palette=n/a glyph=true
 OK   enh Business Transaction Events (BTE): list=unchanged detail=unchanged erd=n/a palette=n/a glyph=true
 {
   "base": "http://localhost:4195",
-  "checkedAt": "2026-09-22T03:44:03.381Z",
+  "checkedAt": "2026-09-22T06:38:14.354Z",
   "consoleErrors": 0,
   "fails": 0,
   "results": [
@@ -101,18 +101,18 @@ OK   enh Business Transaction Events (BTE): list=unchanged detail=unchanged erd=
       "kind": "tcode",
       "name": "IP30",
       "list": {
-        "key": "simplified",
-        "text": "פריט פישוט (Simplification Item)",
+        "key": "deprecated",
+        "text": "לא אסטרטגי ב-S/4HANA",
         "glyph": true
       },
       "detail": {
-        "key": "simplified",
-        "text": "פריט פישוט (Simplification Item)",
+        "key": "deprecated",
+        "text": "לא אסטרטגי ב-S/4HANA",
         "glyph": true
       },
       "palette": {
-        "key": "simplified",
-        "text": "פריט פישוט (Simplification Item)",
+        "key": "deprecated",
+        "text": "לא אסטרטגי ב-S/4HANA",
         "glyph": true
       },
       "same": true,
@@ -224,7 +224,7 @@ OK   enh Business Transaction Events (BTE): list=unchanged detail=unchanged erd=
     },
     {
       "kind": "fiori",
-      "name": "F0247A",
+      "name": null,
       "list": {
         "key": "s4_native",
         "text": "חדש ב-S/4HANA",
@@ -236,9 +236,7 @@ OK   enh Business Transaction Events (BTE): list=unchanged detail=unchanged erd=
         "glyph": true
       },
       "palette": {
-        "key": "s4_native",
-        "text": "חדש ב-S/4HANA",
-        "glyph": true
+        "absent": "no technical name on the list card"
       },
       "same": true,
       "glyphs": true,

@@ -1,0 +1,117 @@
+(node:18717) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/salihalif/Desktop/My-Projects/sap-kb3/lib/ai/links.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/salihalif/Desktop/My-Projects/sap-kb3/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+PLATFORM READER — RENDER VERIFICATION
+────────────────────────────────────────────────────────────────────────
+  ok   desktop/book1: shell resolved to desktop
+  ok   desktop/book1: main fills the viewport  (1168px of 1440px)
+  ok   desktop/book1: chapter nav rendered  (tree 18, on-page 32)
+  ok   desktop/book1: sections rendered  (14 sections)
+  ok   desktop/book1: CONTENT painted (not just headings)  (118977 chars)
+  ok   desktop/book1: nothing in view is invisible
+  ok   desktop/book1: no horizontal overflow
+  ok   desktop/book1: a citation link exposes a readable query
+  ok   desktop/book1: deep link highlights the exact sentence  (1 mark: "1.1 A Possible Process for Your Plant Ma")
+  ok   desktop/book1: a bogus quote highlights nothing
+  ok   desktop/book8: shell resolved to desktop
+  ok   desktop/book8: main fills the viewport  (1168px of 1440px)
+  ok   desktop/book8: chapter nav rendered  (tree 18, on-page 20)
+  ok   desktop/book8: sections rendered  (13 sections)
+  ok   desktop/book8: CONTENT painted (not just headings)  (3880 chars in the first section)
+  ok   desktop/book8: academy facets rendered  (2 facet heads, e.g. מהי תחזוקת-מפעל (Plant Maintenance) במשפט אחד? · מדוע 'רעיונ)
+  ok   desktop/book8: list facets rendered  (16 list items)
+  ok   desktop/book8: nothing in view is invisible
+  ok   desktop/book8: no horizontal overflow
+  ok   desktop/book8: a citation link exposes a readable query
+  ok   desktop/neo-reader/he: prose painted, no overflow  (lang=he paras=49 en=9 bi=0 chars=33761)
+  ok   desktop/neo-reader/en: prose painted, no overflow  (lang=both paras=49 en=9 bi=18 chars=79730)
+  ok   desktop/neo-reader/both: prose painted, no overflow  (lang=en paras=49 en=9 bi=0 over=0 chars=50730)
+  ok   desktop/neo-reader: dark theme + reduced motion  (dark, paras=49, bg=rgb(11, 14, 17))
+  ok   desktop: the two AI surfaces differ  (lib=false con=true diff=true)
+  ok   desktop/chat: states it has no live SAP source access
+  ok   desktop: each surface calls its OWN endpoint  (/api/library-stream vs /api/consult-stream)
+  ok   desktop: switching surfaces keeps histories apart  (no cross-over, scope not inherited)
+  ok   desktop: conversation stores are separate  (neo:ai:con:threads,neo:ai:lib:threads,neo:ai:lib:scope,neo:ai:con:active,neo:ai:lib:active,neo:ai:con:scope)
+  ok   desktop: nav tree shows no boolean titles
+  ok   desktop/chat: no legacy Gemini key field
+  ok   desktop/chat: browser holds no provider key
+  ok   desktop/chat: workspace rail reachable  (inline)
+  ok   desktop/chat: composer present
+  ok   desktop/chat: no horizontal overflow
+  ok   desktop: no uncaught page errors
+  ok   tablet/book1: shell resolved to tablet
+  ok   tablet/book1: main fills the viewport  (834px of 834px)
+  ok   tablet/book1: chapter nav rendered  (tree 18, on-page 32)
+  ok   tablet/book1: sections rendered  (35 sections)
+  ok   tablet/book1: CONTENT painted (not just headings)  (81268 chars)
+  ok   tablet/book1: nothing in view is invisible
+  ok   tablet/book1: no horizontal overflow
+  ok   tablet/book1: a citation link exposes a readable query
+  ok   tablet/book1: deep link highlights the exact sentence  (1 mark: "1.1 תהליך אפשרי לפרויקט אחזקת המפעל שלך ")
+  ok   tablet/book1: a bogus quote highlights nothing
+  ok   tablet/book8: shell resolved to tablet
+  ok   tablet/book8: main fills the viewport  (834px of 834px)
+  ok   tablet/book8: chapter nav rendered  (tree 18, on-page 20)
+  ok   tablet/book8: sections rendered  (13 sections)
+  ok   tablet/book8: CONTENT painted (not just headings)  (3880 chars in the first section)
+  ok   tablet/book8: academy facets rendered  (2 facet heads, e.g. מהי תחזוקת-מפעל (Plant Maintenance) במשפט אחד? · מדוע 'רעיונ)
+  ok   tablet/book8: list facets rendered  (16 list items)
+  ok   tablet/book8: nothing in view is invisible
+  ok   tablet/book8: no horizontal overflow
+  ok   tablet/book8: a citation link exposes a readable query
+  ok   tablet/neo-reader/he: prose painted, no overflow  (lang=he paras=49 en=9 bi=0 chars=32162)
+  ok   tablet/neo-reader/en: prose painted, no overflow  (lang=both paras=49 en=9 bi=18 chars=78131)
+  ok   tablet/neo-reader/both: prose painted, no overflow  (lang=en paras=49 en=9 bi=0 over=0 chars=49131)
+  ok   tablet/neo-reader: dark theme + reduced motion  (dark, paras=49, bg=rgb(11, 14, 17))
+  ok   tablet: the two AI surfaces differ  (lib=false con=true diff=true)
+  ok   tablet/chat: states it has no live SAP source access
+  ok   tablet: each surface calls its OWN endpoint  (/api/library-stream vs /api/consult-stream)
+  ok   tablet: switching surfaces keeps histories apart  (no cross-over, scope not inherited)
+  ok   tablet: conversation stores are separate  (neo:ai:con:threads,neo:ai:lib:threads,neo:ai:lib:scope,neo:ai:con:active,neo:ai:lib:active,neo:ai:con:scope)
+  ok   tablet: nav tree shows no boolean titles
+  ok   tablet/chat: no legacy Gemini key field
+  ok   tablet/chat: browser holds no provider key
+  ok   tablet/chat: workspace rail reachable  (inline)
+  ok   tablet/chat: composer present
+  ok   tablet/chat: no horizontal overflow
+  ok   tablet: no uncaught page errors
+  ok   mobile/book1: shell resolved to phone
+  ok   mobile/book1: main fills the viewport  (390px of 390px)
+  ok   mobile/book1: chapter nav rendered  (tree 18, on-page 32)
+  ok   mobile/book1: sections rendered  (22 sections)
+  ok   mobile/book1: CONTENT painted (not just headings)  (52826 chars)
+  ok   mobile/book1: nothing in view is invisible
+  ok   mobile/book1: no horizontal overflow
+  ok   mobile/book1: a citation link exposes a readable query
+  ok   mobile/book1: deep link highlights the exact sentence  (1 mark: "1.1 תהליך אפשרי לפרויקט אחזקת המפעל שלך ")
+  ok   mobile/book1: a bogus quote highlights nothing
+  ok   mobile/book8: shell resolved to phone
+  ok   mobile/book8: main fills the viewport  (390px of 390px)
+  ok   mobile/book8: chapter nav rendered  (tree 18, on-page 20)
+  ok   mobile/book8: sections rendered  (13 sections)
+  ok   mobile/book8: CONTENT painted (not just headings)  (3880 chars in the first section)
+  ok   mobile/book8: academy facets rendered  (2 facet heads, e.g. מהי תחזוקת-מפעל (Plant Maintenance) במשפט אחד? · מדוע 'רעיונ)
+  ok   mobile/book8: list facets rendered  (16 list items)
+  ok   mobile/book8: nothing in view is invisible
+  ok   mobile/book8: no horizontal overflow
+  ok   mobile/book8: a citation link exposes a readable query
+  ok   mobile/neo-reader/he: prose painted, no overflow  (lang=he paras=49 en=9 bi=0 chars=32058)
+  ok   mobile/neo-reader/en: prose painted, no overflow  (lang=both paras=49 en=9 bi=18 chars=78027)
+  ok   mobile/neo-reader/both: prose painted, no overflow  (lang=en paras=49 en=9 bi=0 over=0 chars=49027)
+  ok   mobile/neo-reader: dark theme + reduced motion  (dark, paras=49, bg=rgb(11, 14, 17))
+  ok   mobile: the two AI surfaces differ  (lib=false con=true diff=true)
+  ok   mobile/chat: states it has no live SAP source access
+  ok   mobile: each surface calls its OWN endpoint  (/api/library-stream vs /api/consult-stream)
+  ok   mobile: switching surfaces keeps histories apart  (no cross-over, scope not inherited)
+  ok   mobile: conversation stores are separate  (neo:ai:con:threads,neo:ai:lib:threads,neo:ai:lib:scope,neo:ai:con:active,neo:ai:lib:active,neo:ai:con:scope)
+  ok   mobile: nav tree shows no boolean titles
+  ok   mobile/chat: no legacy Gemini key field
+  ok   mobile/chat: browser holds no provider key
+  ok   mobile/chat: workspace rail reachable  (inline)
+  ok   mobile/chat: composer present
+  ok   mobile/chat: no horizontal overflow
+  ok   mobile: no uncaught page errors
+────────────────────────────────────────────────────────────────────────
+  108/108 passed

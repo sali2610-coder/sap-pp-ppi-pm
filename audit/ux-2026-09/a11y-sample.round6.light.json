@@ -1,0 +1,344 @@
+{
+  "theme": "light",
+  "viewport": "1363x936",
+  "measuredAt": "2026-09-22T06:46:57.122Z",
+  "results": [
+    {
+      "url": "/neo/",
+      "checked": 107,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/pm/",
+      "checked": 651,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/pp-pi/",
+      "checked": 588,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/domain-model/",
+      "checked": 426,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/domain/pm-functional-locations/",
+      "checked": 210,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/s4hana/",
+      "checked": 447,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/s4-readiness/",
+      "checked": 507,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/migration-cockpit/",
+      "checked": 388,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 22,
+          "h": 24,
+          "label": "לקוח",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 20,
+          "h": 24,
+          "label": "ספק",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 18,
+          "h": 24,
+          "label": "ציוד",
+          "cls": ""
+        },
+        {
+          "tag": "a",
+          "w": 18,
+          "h": 24,
+          "label": "ציוד",
+          "cls": ""
+        }
+      ],
+      "smallCount": 4,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/erd/",
+      "checked": 140,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/studio/",
+      "checked": 114,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/tables/",
+      "checked": 1591,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/tables/AFKO/",
+      "checked": 357,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/object/MARA/",
+      "checked": 414,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/transactions/",
+      "checked": 1262,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/bapi/",
+      "checked": 1375,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/bapi/BAPI_ALM_CONF_CREATE/",
+      "checked": 191,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/idoc/",
+      "checked": 147,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/cds/",
+      "checked": 497,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/fiori-apps/",
+      "checked": 325,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/enhancements/",
+      "checked": 180,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/books/",
+      "checked": 181,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/read/book2/",
+      "checked": 285,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/ai/",
+      "checked": 85,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/chat/",
+      "checked": 79,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/knowledge/",
+      "checked": 370,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/academy/",
+      "checked": 181,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 89,
+          "h": 16,
+          "label": "תרגול ובדיקת ידע",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/certification/",
+      "checked": 82,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/incidents/cogi-stuck/",
+      "checked": 97,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/centers/",
+      "checked": 100,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/best-practices/",
+      "checked": 120,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    }
+  ]
+}
