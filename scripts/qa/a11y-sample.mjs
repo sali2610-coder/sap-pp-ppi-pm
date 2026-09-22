@@ -34,10 +34,40 @@ for (const url of ROUTES) {
   await page.waitForTimeout(400);
   const r = await page.evaluate(() => {
     const lum = (c) => { const [r, g, b] = c.map((v) => v / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
-    const parse = (s) => { const m = s.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(",").map((x) => parseFloat(x)); return { rgb: p.slice(0, 3), a: p.length > 3 ? p[3] : 1 }; };
+    // Colours are resolved through a canvas, so a computed value in any colour
+    // space (oklab, color(srgb ...), color-mix output) becomes sRGB instead of
+    // being skipped. Before this, 22% of the candidate nodes on a record page
+    // were dropped silently and a non-sRGB ancestor background fell through to
+    // white, which inflated every ratio measured against it (final audit,
+    // 2026-09-22).
+    const cx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+    const parse = (s) => {
+      if (!s) return null;
+      const m = s.match(/rgba?\(([^)]+)\)/);
+      if (m) { const p = m[1].split(",").map((x) => parseFloat(x)); return { rgb: p.slice(0, 3), a: p.length > 3 ? p[3] : 1 }; }
+      if (/^transparent$/i.test(s.trim())) return { rgb: [0, 0, 0], a: 0 };
+      try {
+        cx.clearRect(0, 0, 1, 1);
+        cx.fillStyle = "#000";
+        cx.fillStyle = s;
+        const resolved = cx.fillStyle;
+        const mm = String(resolved).match(/rgba?\(([^)]+)\)/);
+        if (mm) { const p = mm[1].split(",").map((x) => parseFloat(x)); return { rgb: p.slice(0, 3), a: p.length > 3 ? p[3] : 1 }; }
+        const hex = String(resolved).match(/^#([0-9a-f]{6})$/i);
+        if (hex) { const v = parseInt(hex[1], 16); return { rgb: [(v >> 16) & 255, (v >> 8) & 255, v & 255], a: 1 }; }
+        // Chrome hands back color(srgb r g b [/ a]) untouched for colours
+        // authored in that space; the components are already sRGB 0..1.
+        const srgb = String(resolved).match(/^color\(srgb\s+([\d.eE+-]+)\s+([\d.eE+-]+)\s+([\d.eE+-]+)(?:\s*\/\s*([\d.eE+-]+))?\s*\)$/);
+        if (srgb) {
+          const to255 = (x) => Math.max(0, Math.min(255, Math.round(parseFloat(x) * 255)));
+          return { rgb: [to255(srgb[1]), to255(srgb[2]), to255(srgb[3])], a: srgb[4] === undefined ? 1 : parseFloat(srgb[4]) };
+        }
+      } catch { /* fall through: the node is counted as unresolved below */ }
+      return null;
+    };
     const bgOf = (el) => { let e = el; while (e) { const c = parse(getComputedStyle(e).backgroundColor); if (c && c.a >= 0.99) return c.rgb; e = e.parentElement; } return [255, 255, 255]; };
     const ratio = (f, b) => { const l1 = lum(f), l2 = lum(b); return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05); };
-    const contrast = []; let checked = 0;
+    const contrast = []; let checked = 0; let unresolved = 0;
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     const seen = new Set();
     let n;
@@ -48,7 +78,7 @@ for (const url of ROUTES) {
       if (el.closest('[aria-hidden="true"], details:not([open]) > :not(summary)')) continue;
       const cs = getComputedStyle(el); if (cs.visibility === "hidden" || cs.display === "none" || parseFloat(cs.opacity) < 0.5) continue;
       const box = el.getBoundingClientRect(); if (box.width === 0 || box.height === 0) continue;
-      const fg = parse(cs.color); if (!fg || fg.a < 0.99) continue;
+      const fg = parse(cs.color); if (!fg) { unresolved++; continue; } if (fg.a < 0.99) continue;
       const bg = bgOf(el);
       const size = parseFloat(cs.fontSize); const bold = parseInt(cs.fontWeight, 10) >= 700;
       const large = size >= 24 || (size >= 18.66 && bold);
@@ -62,7 +92,7 @@ for (const url of ROUTES) {
       const cs = getComputedStyle(el); if (cs.visibility === "hidden" || cs.display === "none") continue;
       if (b.width < 24 || b.height < 24) small.push({ tag: el.tagName.toLowerCase(), w: Math.round(b.width), h: Math.round(b.height), label: (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 30), cls: (typeof el.className === "string" ? el.className : "").split(" ").slice(0, 2).join(".") });
     }
-    return { checked, contrast: contrast.slice(0, 40), contrastCount: contrast.length, small: small.slice(0, 25), smallCount: small.length };
+    return { checked, unresolved, contrast: contrast.slice(0, 40), contrastCount: contrast.length, small: small.slice(0, 25), smallCount: small.length };
   });
   // focus not obscured: tab through the first 40 focusables
   const obscured = [];

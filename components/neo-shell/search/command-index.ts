@@ -35,6 +35,7 @@
 // out of the dataset, and a family with no dataset behind it is declared in
 // `gaps` rather than filled with plausible rows.
 
+import { TRANSACTIONS } from "@/data/transactions";
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import { moduleTables, overviewStats } from "@/lib/module-portal";
 import { ZONES } from "@/lib/studio-graph";
@@ -108,6 +109,14 @@ function ownership(): { fn: CommandExtra["fn"]; tx: CommandExtra["tx"] } {
   }
 
   const tx: CommandExtra["tx"] = {};
+  // A code the project documents in its own catalog but that the blueprint
+  // does not carry still has a page, so it gets its destination here. Without
+  // this the palette printed "no dedicated page" for IP30H, which had one
+  // (final audit, 2026-09-22).
+  for (const t of TRANSACTIONS) {
+    const href = txHref(t.code) || "";
+    if (href && !txTables.has(t.code)) tx[t.code] = ["", t.module, href];
+  }
   for (const [code, tables] of txTables) {
     const list = [...tables].sort();
     // Three names, then an honest count of the rest — never a rounded "many".

@@ -10,6 +10,7 @@
 // item with no backed count carries `count: null` and the rail draws an
 // explicit em-dash that says so.
 
+import { TRANSACTIONS } from "@/data/transactions";
 import { ALL_TABLES, PM_DATA, PPPI_DATA } from "@/data/sapData";
 import {
   cdsViews,
@@ -408,7 +409,14 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
     out.push({ k: "table", t: o.name, s: o.he, m: true, href: "/neo/tables/", obj: o.name, st: tStatus.get(o.name) });
   }
 
-  const moduleCodes = uniq([...transactions(PM_DATA), ...transactions(PPPI_DATA)].map((t) => t.code));
+  // The blueprint's codes PLUS the project's own transaction catalog: a code
+  // that has a page must be findable in the palette. IP30H was written into
+  // data/transactions.ts on 2026-09-22 and had a page, but the palette read
+  // only the blueprint and returned nothing for it (final audit finding).
+  const moduleCodes = uniq([
+    ...[...transactions(PM_DATA), ...transactions(PPPI_DATA)].map((t) => t.code),
+    ...TRANSACTIONS.map((t) => t.code),
+  ]);
   for (const code of moduleCodes) out.push({ k: "tcode", t: code, s: "טרנזקציית SAP בתיעוד הפרויקט", m: true, href: "/neo/transactions/", st: xStatus[code.toUpperCase()] });
 
   const seenFn = new Set<string>();

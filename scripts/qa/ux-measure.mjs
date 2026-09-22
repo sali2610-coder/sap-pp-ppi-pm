@@ -18,6 +18,10 @@ const ROUTES = [
   ["s4-center", "/neo/s4hana/"], ["readiness", "/neo/s4-readiness/"], ["cockpit", "/neo/migration-cockpit/"],
   ["erd", "/neo/erd/"], ["studio", "/neo/studio/"],
   ["tables", "/neo/tables/"], ["table-afko", "/neo/tables/AFKO/"], ["object-mara", "/neo/object/MARA/"],
+  // A record page, not only its catalog: the final audit of 2026-09-22 found 12
+  // of 17 best-practice records overflowing at 390px while this list measured
+  // the catalog alone and reported zero.
+  ["bp-record", "/neo/best-practices/maintenance-order-process/"],
   ["transactions", "/neo/transactions/"], ["bapis", "/neo/bapi/"], ["bapi-alm-conf", "/neo/bapi/BAPI_ALM_CONF_CREATE/"],
   ["idocs", "/neo/idoc/"], ["cds", "/neo/cds/"], ["fiori", "/neo/fiori-apps/"], ["enhancements", "/neo/enhancements/"],
   ["books", "/neo/books/"], ["reader", "/neo/read/book2/"], ["ask-library", "/neo/ai/"], ["chat", "/neo/chat/"],

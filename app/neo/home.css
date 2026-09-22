@@ -1041,7 +1041,16 @@ html .nx-app .nx-canvas:has(> .nh) {
 /* STATUS colour, in the one form the design system allows: a small filled dot
    immediately followed by its word. The card, its edge and its bar stay
    neutral. */
-.nh-impcol-k { display: flex; align-items: center; gap: .4rem; font-size: .82rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-impcol-k {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .82rem;
+  /* 13.1px normal weight measured 4.29:1 on --scene-ink-2 in the light scene
+     (final audit, 2026-09-22). Mixing toward the scene's strongest ink clears
+     4.5:1 and keeps the label below the number it labels. */
+  color: color-mix(in srgb, var(--scene-ink-2, var(--ink-2)) 55%, var(--scene-ink, var(--ink-1)));
+}
 .nh-impcol-k > i { inline-size: .5rem; block-size: .5rem; border-radius: 50%; flex: none; }
 .nh-impcol[data-k="kept"] .nh-impcol-k > i { background: var(--status-done); }
 .nh-impcol[data-k="adapted"] .nh-impcol-k > i { background: var(--status-in-analysis); }
