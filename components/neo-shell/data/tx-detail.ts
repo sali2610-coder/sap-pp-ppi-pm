@@ -48,7 +48,7 @@ import { facetsOf } from "@/lib/tx-facets";
 import { tcodeIntel } from "@/lib/object-intel";
 import { s4For } from "@/lib/s4";
 import { evidenceBlock, fromTxDisposition } from "@/lib/evidence";
-import type { CanonicalId, EvidenceBlockData } from "@/lib/evidence/types";
+import type { CanonicalId, EvidenceBlockData, S4Status } from "@/lib/evidence/types";
 import { tableNames } from "@/components/neo-shell/object/object-data";
 
 /** The exact set app/neo/object/[name] generates. Built once per module load. */
@@ -352,6 +352,35 @@ function issuesFor(code: string, intel: (typeof TX_INTEL)[string] | undefined, a
  *  pages /neo/transactions/[code] generates, and exactly the set of codes any
  *  NEO surface is allowed to link at. */
 export const txDetailCodes = (): string[] => registryCodes();
+
+/** The canonical S/4HANA status of EVERY registry code, keyed by code, from
+ *  the same derived claim the detail page's evidence block resolves (an
+ *  authored overlay record wins where one exists). Built once per process;
+ *  read by the transactions list and by the shell's search index, so a row or
+ *  a result never says what the page does not (design audit S5-2 / ACC-3).
+ *  Facts feed only the depth score, not the status, so none are passed. */
+let txStatusCache: Record<string, S4Status> | null = null;
+export function txStatusMap(): Record<string, S4Status> {
+  if (txStatusCache) return txStatusCache;
+  const out: Record<string, S4Status> = {};
+  for (const code of registryCodes()) {
+    const intel = TX_INTEL[code];
+    const authored = TRANSACTIONS.find((t) => t.code.toUpperCase() === code);
+    const s4 = buildS4(code, intel, authored);
+    out[code] = evidenceBlock(
+      `tx:${code}`,
+      fromTxDisposition(
+        s4.disposition,
+        s4.trust,
+        s4.supersededBy[0] ? (`tx:${s4.supersededBy[0]}` as CanonicalId) : undefined,
+      ),
+      {},
+      "transactions",
+    ).status.key;
+  }
+  txStatusCache = out;
+  return out;
+}
 
 export function txDetail(rawCode: string): TxDetail | null {
   const code = clean(rawCode).toUpperCase();

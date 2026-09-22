@@ -25,6 +25,7 @@
 // surface. Status form (dot + word) is used once, for the S/4 disposition of a
 // table, which is a real state of the record.
 
+import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft, Boxes, Database, GitBranch, KeyRound, Layers, LayoutGrid,
@@ -153,7 +154,7 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
         </span>
 
         <span className="nxd-s4">
-          <span className="nu-status" style={{ "--s": st.s } as React.CSSProperties}>{st.he}</span>
+          <StatusPill status={r.status.key} label={st.he} dot={st.s} />
           <span className="nxd-s4-t">
             {r.s4Alt ? <b className="nx-sap">{r.s4Alt}</b> : null}
             {r.s4 || (r.s4Alt ? "" : "תיעוד המקור אינו מציין הערת S/4HANA לטבלה זו")}

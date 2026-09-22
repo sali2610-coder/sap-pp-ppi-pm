@@ -139,6 +139,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         obj: o?.obj,
         objHe: o ? extra.zone[o.zone] : undefined,
         ctx: r.obj,
+        st: r.st,
       });
       continue;
     }
@@ -155,6 +156,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         href,
         mod: own?.[1] || undefined,
         rel: own?.[0] || undefined,
+        st: r.st,
       });
       continue;
     }
@@ -170,6 +172,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         mod: own?.[1] || undefined,
         rel: own?.[0] || undefined,
         ctx: own?.[0],
+        st: r.st,
       });
       continue;
     }
@@ -185,6 +188,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         // of the 39 CDS views in the command surface walked the reader out of
         // NEO. The map arrives already gated by ref-links; "" means no page.
         href: extra.cds[r.t] || null,
+        st: r.st,
       });
       continue;
     }
@@ -199,6 +203,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         // slug and sent all 20 apps to the legacy site. `extra.fiori` now holds
         // the resolved /neo/ destination, or "" when no page exists.
         href: extra.fiori[r.t] || r.href,
+        st: r.st,
       });
       continue;
     }

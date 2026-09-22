@@ -34,6 +34,7 @@
              states this record materially changes in S/4HANA.
    ========================================================================== */
 
+import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Boxes, LayoutGrid, ListTree, Search, X } from "lucide-react";
@@ -143,9 +144,7 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
         </span>
 
         <span className="nxd-s4">
-          <span className="nu-status" style={{ "--s": r.s4.status.color } as React.CSSProperties}>
-            {r.s4.status.he}
-          </span>
+          <StatusPill status={r.s4.status.key} label={r.s4.status.he} dot={r.s4.status.color} />
           <span className="nxd-s4-t">{r.s4.text || "לא קיים תיעוד S/4HANA מאומת לרשומה זו"}</span>
         </span>
 

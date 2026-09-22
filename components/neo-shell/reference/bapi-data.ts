@@ -22,6 +22,7 @@ import { registry, type SapFuncObject } from "@/lib/bapi-registry";
 import { cleanFunc } from "@/lib/object-intel";
 import { commitInfo } from "@/lib/bapi-complexity";
 import { evidenceBlock, fromFuncRegistry } from "@/lib/evidence";
+import { canonStatus } from "./canon";
 import { MOD_HE } from "../mod-var";
 import {
   bapiHref, cdsHref, clean, completeness, enhHref, idocHref, nf, standings,
@@ -171,6 +172,25 @@ function s4Of(o: SapFuncObject) {
   return { tone, headline, tables, critical, intel };
 }
 
+/** The unified evidence block of a function object: the derived claim maps
+ *  the registry's own verification and support fields; structural depth
+ *  counts the linked tables and transactions plus the documented parameters.
+ *  ONE function for the row and the page, so the two cannot drift. */
+function evidenceOf(o: SapFuncObject) {
+  const intel = intelOf(o.id);
+  return evidenceBlock(
+    `fm:${o.id}`,
+    fromFuncRegistry(o).status,
+    {
+      hasHe: !!(clean(o.shortDescriptionHe) || clean(intel?.what)),
+      structural:
+        o.tables.length + o.transactions.length +
+        (intel ? intel.inputs.length + intel.outputs.length : 0),
+    },
+    "functions",
+  );
+}
+
 /* --------------------------------------------------------------- the rows */
 
 function rowOf(o: SapFuncObject): RefRow {
@@ -185,14 +205,11 @@ function rowOf(o: SapFuncObject): RefRow {
   if (o.relatedCds?.length || intel?.related.cds?.length) caps.push("cds");
   if (commitInfo(o).value === "yes") caps.push("commit");
 
-  const status: RefStatus =
-    s4.tone === "changed"
-      ? { he: "משתנה ב-S/4HANA", color: "var(--status-in-conversion)" }
-      : s4.tone === "stable"
-        ? { he: "זמין ב-S/4HANA", color: "var(--status-done)" }
-        : s4.tone === "compare"
-          ? { he: "קיימת הערת S/4HANA", color: "var(--status-in-analysis)" }
-          : { he: "נדרש אימות נוסף", color: "var(--status-not-started)" };
+  // ONE status per record (design audit S5-2 / ACC-3): the row's pill is the
+  // resolver's answer, the same one the detail page's evidence block renders.
+  // The catalog's own reading of the record stays in `tone` (sort, accent)
+  // and in `text` (the one-line S/4 story).
+  const status: RefStatus = canonStatus(evidenceOf(o));
 
   return {
     id: o.id,
@@ -552,20 +569,8 @@ export function bapiDetail(id: string): RefDetail | null {
         ? "לא קיים תיעוד מאומת במאגר על מעמד האובייקט ב-S/4HANA. נדרש אימות נוסף מול SE37, BAPI Explorer או תיעוד SAP לפני החלטת מעבר."
         : undefined,
     },
-    // The unified evidence block: the derived claim maps the registry's own
-    // verification and support fields; structural depth counts the linked
-    // tables and transactions plus the documented parameters.
-    evidence: evidenceBlock(
-      `fm:${o.id}`,
-      fromFuncRegistry(o).status,
-      {
-        hasHe: !!(clean(o.shortDescriptionHe) || clean(intel?.what)),
-        structural:
-          o.tables.length + o.transactions.length +
-          (intel ? intel.inputs.length + intel.outputs.length : 0),
-      },
-      "functions",
-    ),
+    // The unified evidence block — the same call the catalog row makes.
+    evidence: evidenceOf(o),
     sections,
     sources: uniq([o.verificationSource, o.lastVerified ? `נבדק לאחרונה ${o.lastVerified}` : ""]),
     foot:

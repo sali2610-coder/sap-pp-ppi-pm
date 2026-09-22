@@ -39,6 +39,10 @@ export interface RefStatus {
   he: string;
   /** A CSS colour expression — `var(--status-*)` or a RISK_COLOR value. */
   color: string;
+  /** The canonical S4Status key when the status comes from lib/evidence — the
+   *  row pill then draws the same glyph the detail page's evidence block does.
+   *  Absent on trust / depth statuses, which are not S/4 standings. */
+  key?: string;
 }
 
 /** How the project data disposes of a record with respect to S/4HANA.

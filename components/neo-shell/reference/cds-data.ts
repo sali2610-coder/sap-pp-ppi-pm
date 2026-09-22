@@ -21,6 +21,7 @@
 import { CDS_VIEWS, type CdsView } from "@/data/cds-map";
 import { CDS_ENRICHMENT, type CdsEnrichment } from "@/data/cds-enrichment";
 import { evidenceBlock, fromCdsEnrichment } from "@/lib/evidence";
+import { canonStatus } from "./canon";
 import { FIORI_APPS } from "@/data/fiori/apps";
 import { registry } from "@/lib/bapi-registry";
 import { zoneOf } from "@/lib/studio-graph";
@@ -71,6 +72,22 @@ function s4Of(v: CdsView) {
   return { tables, critical, impacted, tone, headline };
 }
 
+/** The unified evidence block of a view: the derived claim reads the
+ *  enrichment record's own verified flag; structural depth counts the mapped
+ *  classic tables and the enrichment's view type and representative key. ONE
+ *  function for the row and the page, so the two cannot drift. */
+function evidenceOf(v: CdsView, e: ReturnType<typeof enrichOf>) {
+  return evidenceBlock(
+    `cds:${v.view}`,
+    fromCdsEnrichment(e).status,
+    {
+      hasHe: !!v.he,
+      structural: (v.tables.length ? 1 : 0) + (e?.viewType ? 1 : 0) + (e?.keyField ? 1 : 0),
+    },
+    "cds",
+  );
+}
+
 /* --------------------------------------------------------------- the rows */
 
 function rowOf(v: CdsView): RefRow {
@@ -97,13 +114,10 @@ function rowOf(v: CdsView): RefRow {
       { i: "gitBranch", sr: "אסוציאציות ", v: nf.format(e?.associations?.length || 0) },
       { i: "appWindow", sr: "יישומי Fiori ", v: nf.format(appsFor(v.view).length + (v.fiori ? 1 : 0)) },
     ],
-    s4: {
-      tone: s4.tone,
-      status: s4.critical.length
-        ? { he: "נשענת על טבלה שמשתנה", color: "var(--status-in-conversion)" }
-        : { he: "שכבת S/4HANA מעל ECC", color: "var(--status-done)" },
-      text: s4.headline,
-    },
+    // ONE status per record (design audit S5-2 / ACC-3): the resolver's answer,
+    // the same the detail page's evidence block renders. The table-impact
+    // reading stays in `tone` and `text`.
+    s4: { tone: s4.tone, status: canonStatus(evidenceOf(v, e)), text: s4.headline },
     caps,
     rank: v.tables.length,
     hay: [v.view, v.he, v.module, v.tables.join(" "), v.consumption, v.fiori, e?.purposeDeep, e?.keyField]
@@ -287,18 +301,8 @@ export function cdsDetail(name: string): RefDetail | null {
       facts: s4Facts,
       tables: s4.tables,
     },
-    // The unified evidence block: the derived claim reads the enrichment
-    // record's own verified flag; structural depth counts the mapped classic
-    // tables and the enrichment's view type and representative key.
-    evidence: evidenceBlock(
-      `cds:${v.view}`,
-      fromCdsEnrichment(e).status,
-      {
-        hasHe: !!v.he,
-        structural: (v.tables.length ? 1 : 0) + (e?.viewType ? 1 : 0) + (e?.keyField ? 1 : 0),
-      },
-      "cds",
-    ),
+    // The unified evidence block — the same call the catalog row makes.
+    evidence: evidenceOf(v, e),
     sections,
     sources: uniq(e?.sources || []),
     foot:

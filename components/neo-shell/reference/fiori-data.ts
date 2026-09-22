@@ -18,6 +18,7 @@
 import { FIORI_APPS } from "@/data/fiori/apps";
 import type { FioriApp } from "@/lib/fiori/types";
 import { S4_NATIVE_DERIVED, evidenceBlock } from "@/lib/evidence";
+import { canonStatus } from "./canon";
 import { MOD_HE } from "../mod-var";
 import {
   bapiHref, cdsHref, clean, completeness, fioriHref, nf, standings, txHref, uniq,
@@ -61,6 +62,23 @@ function s4Of(a: FioriApp) {
 
 /* --------------------------------------------------------------- the rows */
 
+/** The unified evidence block of an app: a Fiori app is S/4-native by the
+ *  definition of this catalog; a needs-review trust drops the tier to
+ *  verification_required. Structural depth counts role, catalog, OData
+ *  service and the replaced GUI transactions. ONE function for the row and
+ *  the page, so the two cannot drift. */
+function evidenceOf(a: FioriApp) {
+  return evidenceBlock(
+    `fiori:${a.id}`,
+    S4_NATIVE_DERIVED("fiori-apps", a.trust === "needs-review"),
+    {
+      hasHe: !!a.he,
+      structural: [a.role, a.catalog, a.odata, a.guiTx.length > 0].filter(Boolean).length,
+    },
+    "fiori",
+  );
+}
+
 function rowOf(a: FioriApp): RefRow {
   const s4 = s4Of(a);
   const caps: string[] = [];
@@ -86,13 +104,10 @@ function rowOf(a: FioriApp): RefRow {
       { i: "table", sr: "טבלאות ", v: nf.format((a.relatedTables || []).length) },
       { i: "keyRound", sr: "קטלוג עסקי ", v: a.catalog ? "יש" : "לא צוין" },
     ],
-    s4: {
-      tone: s4.tone,
-      status: s4.critical.length
-        ? { he: "נשען על טבלה שמשתנה", color: "var(--status-in-conversion)" }
-        : { he: "מחליף מסך SAP GUI", color: "var(--status-done)" },
-      text: s4.headline,
-    },
+    // ONE status per record (design audit S5-2 / ACC-3): the resolver's answer,
+    // the same the detail page's evidence block renders. The table-impact
+    // reading stays in `tone` and `text`.
+    s4: { tone: s4.tone, status: canonStatus(evidenceOf(a)), text: s4.headline },
     caps,
     rank: a.guiTx.length + (a.relatedTables || []).length,
     hay: [a.id, a.he, a.name, a.module, a.type, a.role, a.catalog, a.odata, a.cds,
@@ -300,15 +315,7 @@ export function fioriDetail(slug: string): RefDetail | null {
     // the definition of this catalog; a needs-review trust drops the tier to
     // verification_required. Structural depth counts role, catalog, OData
     // service and the replaced GUI transactions.
-    evidence: evidenceBlock(
-      `fiori:${a.id}`,
-      S4_NATIVE_DERIVED("fiori-apps", a.trust === "needs-review"),
-      {
-        hasHe: !!a.he,
-        structural: [a.role, a.catalog, a.odata, a.guiTx.length > 0].filter(Boolean).length,
-      },
-      "fiori",
-    ),
+    evidence: evidenceOf(a),
     sections,
     sources: uniq([a.source, ...(a.notes || []).map((n) => n.label)]),
     foot:

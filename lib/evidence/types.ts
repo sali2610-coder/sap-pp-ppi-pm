@@ -143,6 +143,30 @@ export const S4_STATUS_DOT: Record<S4Status, string> = {
   not_applicable: "var(--status-not-started)",
 };
 
+/** THE SHAPE BESIDE THE COLOUR (design audit S5-3: "symbol and text, never
+ *  colour alone"). Fourteen statuses read as seven groups — new / keeps /
+ *  changes / moves / gone / past / open — and the shell draws one glyph per
+ *  group next to the dot and the word. Pure data: the glyph itself is chosen
+ *  in components/neo-shell/evidence/status-pill.tsx. */
+export type S4StatusGroup = "new" | "keeps" | "changes" | "moves" | "gone" | "past" | "open";
+
+export const S4_STATUS_GROUP: Record<S4Status, S4StatusGroup> = {
+  s4_native: "new",
+  unchanged: "keeps",
+  released_api_available: "keeps",
+  changed: "changes",
+  simplified: "changes",
+  restricted: "changes",
+  compatibility_scope: "changes",
+  replaced: "moves",
+  fiori_alternative_available: "moves",
+  deprecated: "gone",
+  not_available: "gone",
+  legacy_ecc_only: "past",
+  verification_required: "open",
+  not_applicable: "open",
+};
+
 export type DerivedSource =
   | "blueprint" | "s4-impact" | "s4-objects" | "lifecycle" | "ecc-s4"
   | "tx-intel" | "bapi-registry" | "fiori-apps" | "cds-enrichment" | "eccs4-block" | "verified-objects";

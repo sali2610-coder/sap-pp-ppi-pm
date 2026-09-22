@@ -4,6 +4,7 @@
 import "@/app/neo/ui.css";
 import "@/app/neo/data.css";
 import { TransactionsSurface } from "@/components/neo-shell/data/transactions-surface";
+import { txStatusMap } from "@/components/neo-shell/data/tx-detail";
 
 export const metadata = {
   title: "טרנזקציות SAP · Project NEO",
@@ -16,6 +17,10 @@ export const metadata = {
 // registry holds ~2k codes, and serialising it into this page's RSC payload
 // would inline it into the HTML of the page instead of sharing the one chunk
 // both transaction centres already load.
+// The ONE thing that does cross the boundary is the canonical S/4HANA status
+// of each code (design audit S5-2 / ACC-3): a code → key map computed here by
+// the same resolver the detail page uses, so the list pill and the page pill
+// are the same word. ~1,800 short strings, on this page only.
 export default function NeoTransactions() {
-  return <TransactionsSurface />;
+  return <TransactionsSurface status={txStatusMap()} />;
 }

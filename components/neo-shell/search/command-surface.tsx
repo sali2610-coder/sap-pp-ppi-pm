@@ -31,6 +31,7 @@
 import "@/app/neo/search.css";
 
 import { Ico } from "../icon";
+import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import { modVar } from "../mod-var";
 import type { ObjectContext } from "../types";
 import { KIND_SHAPE, kindMeta, modLabel, type CmdResult } from "./build";
@@ -107,6 +108,9 @@ function Row({
             <span className={isSap(r.rel) ? "nx-sap" : undefined}>{r.rel}</span>
           </span>
         ) : null}
+        {/* THE S/4HANA STANDING, when the record has one: the same word, colour
+            and glyph its page renders (design audit ACC-3). */}
+        {r.st ? <StatusPill status={r.st} className="nxc-st" /> : null}
         {/* THE DESTINATION. The actual route Enter opens, printed on the row, so
             a reader never has to guess where a result leads. A record the
             project has no page for says exactly that instead. */}

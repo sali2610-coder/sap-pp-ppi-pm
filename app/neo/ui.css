@@ -195,6 +195,11 @@ html[data-theme="dark"] .nu-btn { color: #0b0e11; }
   background: var(--s, var(--status-not-started));
   flex: none;
 }
+/* With a glyph (components/neo-shell/evidence/status-pill.tsx) the shape
+   carries the state's colour and the dot steps aside: shape + colour + word,
+   never colour alone (design audit S5-3). */
+.nu-status--g::before { display: none; }
+.nu-status--g > svg { flex: none; color: var(--s, var(--ink-3)); }
 
 /* --- card: a whole selectable region -------------------------------------- */
 .nu-card {

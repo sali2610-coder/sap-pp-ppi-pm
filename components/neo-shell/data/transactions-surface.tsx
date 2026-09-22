@@ -48,6 +48,7 @@ import { facetsOf, presentFacets } from "@/lib/tx-facets";
 import { toggleTxFavorite, useRecentTx, useTxFavorites } from "@/lib/tx-prefs";
 import { SmartReturn, consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
+import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 
 const nf = new Intl.NumberFormat("he-IL");
 const PAGE = 120;
@@ -117,7 +118,7 @@ function fuzzyScore(hay: string, query: string): number {
 
 /* -------------------------------------------------------------------- row */
 
-function Row({ t, fav, onOpen, landed }: { t: RegistryTx; fav: boolean; onOpen: (code: string) => void; landed?: boolean }) {
+function Row({ t, fav, onOpen, landed, st }: { t: RegistryTx; fav: boolean; onOpen: (code: string) => void; landed?: boolean; st?: string }) {
   const deep = t.depth === "deep";
   const intel = TX_INTEL[t.code];
   const fiori = intel?.fiori?.trim() || "";
@@ -166,6 +167,10 @@ function Row({ t, fav, onOpen, landed }: { t: RegistryTx; fav: boolean; onOpen: 
         </span>
 
         <span className="nxd-nums">
+          {/* The canonical S/4HANA standing first — the same word, colour and
+              glyph the code's page renders (design audit S5-2 / ACC-3) — then
+              how deeply the registry documents the code. */}
+          {st ? <StatusPill status={st} /> : null}
           <span className="nu-status" style={{ "--s": deep ? "var(--status-done)" : "var(--status-not-started)" } as React.CSSProperties}>
             {deep ? "מתועדת לעומק" : "מאומתת"}
           </span>
@@ -194,7 +199,7 @@ function Row({ t, fav, onOpen, landed }: { t: RegistryTx; fav: boolean; onOpen: 
 
 /* ---------------------------------------------------------------- surface */
 
-export function TransactionsSurface() {
+export function TransactionsSurface({ status }: { status?: Record<string, string> }) {
   const reg = useMemo(() => txRegistry(), []);
   const all = useMemo(() => [...reg.values()], [reg]);
   const stats = useMemo(() => registryStats(), []);
@@ -518,7 +523,7 @@ export function TransactionsSurface() {
       ) : (
         <>
           <ul className="nxd-list">
-            {shown.map((t) => <Row key={t.code} t={t} fav={favs.includes(t.code)} onOpen={onOpen} landed={t.code === back?.code} />)}
+            {shown.map((t) => <Row key={t.code} t={t} fav={favs.includes(t.code)} onOpen={onOpen} landed={t.code === back?.code} st={status?.[t.code]} />)}
           </ul>
           {list.length > shown.length ? (
             <div className="nxd-page">

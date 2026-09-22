@@ -18,6 +18,7 @@
 import { ENHANCEMENTS, type Enhancement } from "@/data/enhancements";
 import { EXITS, type Exit, type ExitKind } from "@/data/exits";
 import { evidenceBlock, fromEccS4Block } from "@/lib/evidence";
+import { canonStatus } from "./canon";
 import { completeness, enhHref, nf, txHref, uniq } from "./ref-links";
 import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus } from "./types";
 
@@ -50,6 +51,22 @@ export const enhancement = (slug: string): Enhancement | undefined =>
 
 /* --------------------------------------------------------------- the rows */
 
+/** The unified evidence block of a technique: the derived claim reads the
+ *  technique's own authored ECC and S/4HANA pair through the structured EccS4
+ *  mapper; structural depth counts how, scenario and the implementation
+ *  T-Codes. ONE function for the row and the page, so the two cannot drift. */
+function evidenceOf(e: Enhancement) {
+  return evidenceBlock(
+    `enh:technique:${e.slug}`,
+    fromEccS4Block({ changed: e.s4, unchanged: e.ecc }),
+    {
+      hasHe: !!e.def,
+      structural: [e.how, e.scenario, e.tcodes.length > 0].filter(Boolean).length,
+    },
+    "enhancements",
+  );
+}
+
 function rowOf(e: Enhancement): RefRow {
   const exits = namedExits(e.slug);
   const caps: string[] = [];
@@ -71,13 +88,10 @@ function rowOf(e: Enhancement): RefRow {
       { i: "terminal", sr: "טרנזקציות ", v: nf.format(e.tcodes.length) },
       { i: "puzzle", sr: "הרחבות בשם במאגר ", v: nf.format(exits.length) },
     ],
-    s4: {
-      tone: "compare",
-      status: e.note
-        ? { he: "קיימת הסתייגות ברשומה", color: "var(--status-in-analysis)" }
-        : { he: "קיימות הערות ECC ו-S/4HANA", color: "var(--status-done)" },
-      text: e.s4,
-    },
+    // ONE status per record (design audit S5-2 / ACC-3): the resolver's answer,
+    // the same the detail page's evidence block renders. The record's own
+    // reservation, when it has one, stays in the S/4 plate of the page.
+    s4: { tone: "compare", status: canonStatus(evidenceOf(e)), text: e.s4 },
     caps,
     rank: exits.length,
     hay: [e.title, e.he, e.kind, e.def, e.how, e.ecc, e.s4, e.scenario, e.tcodes.join(" ")]
@@ -263,18 +277,8 @@ export function enhDetail(slug: string): RefDetail | null {
       ],
       facts: s4Facts,
     },
-    // The unified evidence block: the derived claim reads the technique's own
-    // authored ECC and S/4HANA pair through the structured EccS4 mapper;
-    // structural depth counts how, scenario and the implementation T-Codes.
-    evidence: evidenceBlock(
-      `enh:technique:${e.slug}`,
-      fromEccS4Block({ changed: e.s4, unchanged: e.ecc }),
-      {
-        hasHe: !!e.def,
-        structural: [e.how, e.scenario, e.tcodes.length > 0].filter(Boolean).length,
-      },
-      "enhancements",
-    ),
+    // The unified evidence block — the same call the catalog row makes.
+    evidence: evidenceOf(e),
     sections,
     sources: [],
     foot:

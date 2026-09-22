@@ -305,6 +305,9 @@
 .nx-app .nxc--r .nxc-row-k { grid-area: k; }
 .nx-app .nxc--r .nxc-row-main { grid-area: main; gap: 2px; }
 .nx-app .nxc--r .nxc-row-meta { grid-area: meta; }
+/* The record's S/4HANA standing on the result row: the same pill its page
+   renders, at the row's meta size. */
+.nx-app .nxc-st { font-size: var(--t-micro); }
 .nx-app .nxc--r .nxc-act { grid-area: act; }
 .nx-app .nxc--r .nxc-go { grid-area: go; }
 

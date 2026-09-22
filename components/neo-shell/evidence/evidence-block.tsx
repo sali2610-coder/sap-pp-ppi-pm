@@ -16,6 +16,7 @@
      · Nothing here invents a fact: every string arrives from the block data.
    ========================================================================== */
 
+import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import { EDITION_HE, type EvidenceBlockData, type SourceType } from "@/lib/evidence/types";
 import "@/app/neo/evidence.css";
@@ -49,9 +50,7 @@ export function EvidenceBlock({ e }: { e: EvidenceBlockData }) {
 
       {/* status pill, the claim's scope, the verification tier, the depth */}
       <div className="nev-head">
-        <span className="nu-status" style={{ "--s": e.status.dot } as React.CSSProperties}>
-          {e.status.label}
-        </span>
+        <StatusPill status={e.status.key} label={e.status.label} dot={e.status.dot} />
         <span className="nu-chip">{EDITION_HE[e.status.edition]}</span>
         {e.status.release ? <span className="nu-chip is-sap">{e.status.release}</span> : null}
         <span className="nu-status" style={{ "--s": e.level.dot } as React.CSSProperties}>

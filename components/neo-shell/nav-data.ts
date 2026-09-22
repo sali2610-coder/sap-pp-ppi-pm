@@ -38,6 +38,11 @@ import { S4_OBJECTS } from "@/data/s4-objects";
 import { ECC_S4_TOPICS } from "@/data/ecc-s4";
 import { BEST_PRACTICES } from "@/data/best-practices";
 import { modelStats } from "./erd/model";
+import { tablesData } from "./data/tables-data";
+import { txStatusMap } from "./data/tx-detail";
+import { bapiDir } from "./reference/bapi-data";
+import { cdsDir } from "./reference/cds-data";
+import { fioriDir } from "./reference/fiori-data";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
 import type {
   HubContent,
@@ -390,12 +395,21 @@ function objectsAndContexts(): { objects: Record<string, ObjectMeta>; contexts: 
 function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
   const out: SearchRecord[] = [];
 
+  // ONE status per record, on the search result too (design audit ACC-3): the
+  // keys come from the very builders the catalog rows and the pages read, so
+  // a result, a row and a page cannot disagree about one record.
+  const tStatus = new Map(tablesData().rows.map((r) => [r.name, r.status.key]));
+  const xStatus = txStatusMap();
+  const fStatus = new Map(bapiDir().rows.map((r) => [r.name.toUpperCase(), r.s4.status.key]));
+  const cStatus = new Map(cdsDir().rows.map((r) => [r.name, r.s4.status.key]));
+  const aStatus = new Map(fioriDir().rows.map((r) => [r.name, r.s4.status.key]));
+
   for (const o of Object.values(objects)) {
-    out.push({ k: "table", t: o.name, s: o.he, m: true, href: "/neo/tables/", obj: o.name });
+    out.push({ k: "table", t: o.name, s: o.he, m: true, href: "/neo/tables/", obj: o.name, st: tStatus.get(o.name) });
   }
 
   const moduleCodes = uniq([...transactions(PM_DATA), ...transactions(PPPI_DATA)].map((t) => t.code));
-  for (const code of moduleCodes) out.push({ k: "tcode", t: code, s: "טרנזקציית SAP בתיעוד הפרויקט", m: true, href: "/neo/transactions/" });
+  for (const code of moduleCodes) out.push({ k: "tcode", t: code, s: "טרנזקציית SAP בתיעוד הפרויקט", m: true, href: "/neo/transactions/", st: xStatus[code.toUpperCase()] });
 
   const seenFn = new Set<string>();
   for (const m of [PM_DATA, PPPI_DATA] as SAPModuleData[]) {
@@ -404,13 +418,13 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
         const nm = (raw || "").trim();
         if (!nm || seenFn.has(nm)) continue;
         seenFn.add(nm);
-        out.push({ k: "func", t: nm, s: he || "אובייקט פונקציה", m: true, href: "/neo/bapi/" });
+        out.push({ k: "func", t: nm, s: he || "אובייקט פונקציה", m: true, href: "/neo/bapi/", st: fStatus.get(nm.toUpperCase()) });
       }
     }
   }
 
-  for (const v of CDS_VIEWS) out.push({ k: "cds", t: v.view, s: v.he, m: true, href: "/neo/cds/" });
-  for (const a of FIORI_APPS) out.push({ k: "fiori", t: a.id, s: a.he || a.name, m: true, href: "/neo/fiori-apps/" });
+  for (const v of CDS_VIEWS) out.push({ k: "cds", t: v.view, s: v.he, m: true, href: "/neo/cds/", st: cStatus.get(v.view) });
+  for (const a of FIORI_APPS) out.push({ k: "fiori", t: a.id, s: a.he || a.name, m: true, href: "/neo/fiori-apps/", st: aStatus.get(a.id) });
   for (const b of LIBRARY) out.push({ k: "book", t: b.titleHe || b.title, s: b.title, m: false, href: "/neo/books/" });
   for (const i of INCIDENTS) out.push({ k: "incident", t: i.he, s: i.symptom.slice(0, 90), m: false, href: "/neo/incidents/" });
 

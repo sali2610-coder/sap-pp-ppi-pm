@@ -118,6 +118,9 @@ export interface CmdRecord {
    *  committing to it. Absent when the project has no page for the record, in
    *  which case the row says so instead of pretending. */
   dest?: string;
+  /** The canonical S/4HANA status key of the record, when it has one — drawn
+   *  as the same pill its page renders (design audit ACC-3). */
+  st?: string;
   /** Lowercased title. Built once on the client, never shipped. */
   lt: string;
   /** Lowercased everything else (context, relationship, module). */

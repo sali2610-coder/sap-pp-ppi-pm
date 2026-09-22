@@ -35,6 +35,7 @@
              S/4HANA.
    ========================================================================== */
 
+import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import {
   AppWindow, ArrowLeft, ArrowUpLeft, BadgeCheck, BookOpen, Boxes, Cable,
@@ -318,9 +319,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                 tables catalog rows and the search results render. The risk
                 word follows it as a plain chip: risk says how much attention
                 the migration needs, it is not what happens to the table. */}
-            <span className="nu-status" style={{ "--s": t.evidence.status.dot } as React.CSSProperties}>
-              {t.evidence.status.label}
-            </span>
+            <StatusPill status={t.evidence.status.key} label={t.evidence.status.label} dot={t.evidence.status.dot} />
             <span className="nu-chip" style={{ color: RISK_COLOR[t.s4.risk] }}>
               {t.s4.riskHe}
             </span>

@@ -18,6 +18,7 @@
 import { FUNCTION_INTEL, type FunctionIntel } from "@/data/function-intel";
 import { IDOC, IDOC_RECORDS, IDOC_STATUSES, idocMessageTypes } from "@/lib/idoc-intel";
 import { evidenceBlock, fromEccS4Block } from "@/lib/evidence";
+import { canonStatus } from "./canon";
 import { funcIntel } from "@/lib/object-intel";
 import { MOD_HE } from "../mod-var";
 import {
@@ -52,6 +53,24 @@ function recordOf(name: string): IdocRecordData | null {
   };
 }
 
+/** The unified evidence block of a message type: the derived claim reads the
+ *  intel record's authored ECC and S/4HANA pair; a version-dependent record
+ *  (inferred) drops the tier to verification_required. Structural depth
+ *  counts the presence of the deep intel record. ONE function for the row
+ *  and the page, so the two cannot drift. */
+function evidenceOf(r: IdocRecordData) {
+  const intel = r.intel;
+  return evidenceBlock(
+    `idoc:msg:${r.name}`,
+    fromEccS4Block(
+      { changed: clean(intel?.s4), unchanged: clean(intel?.ecc) },
+      { inferred: !!intel?.inferred },
+    ),
+    { hasHe: !!(clean(intel?.what) || r.he), structural: intel ? 1 : 0 },
+    "idocs",
+  );
+}
+
 /* --------------------------------------------------------------- the rows */
 
 function rowOf(r: IdocRecordData): RefRow {
@@ -82,15 +101,10 @@ function rowOf(r: IdocRecordData): RefRow {
       { i: "table", sr: "טבלאות מקושרות ", v: nf.format(r.tables.length) },
       { i: "terminal", sr: "טרנזקציות ", v: nf.format(r.tcodes.length) },
     ],
-    s4: {
-      tone,
-      status: critical.length
-        ? { he: "נשען על טבלה שמשתנה", color: "var(--status-in-conversion)" }
-        : r.intel?.s4
-          ? { he: "קיימת הערת S/4HANA", color: "var(--status-in-analysis)" }
-          : { he: "נדרש אימות נוסף", color: "var(--status-not-started)" },
-      text,
-    },
+    // ONE status per record (design audit S5-2 / ACC-3): the resolver's answer,
+    // the same the detail page's evidence block renders. The table-impact
+    // reading stays in `tone` and `text`.
+    s4: { tone, status: canonStatus(evidenceOf(r)), text },
     caps,
     rank: r.tables.length,
     hay: [r.name, r.he, r.module, r.tables.join(" "), r.tcodes.join(" "), r.intel?.what, r.intel?.why]
@@ -347,15 +361,7 @@ export function idocDetail(name: string): RefDetail | null {
     // authored ECC and S/4HANA pair; a version-dependent record (inferred)
     // drops the tier to verification_required. Structural depth counts the
     // presence of the deep intel record.
-    evidence: evidenceBlock(
-      `idoc:msg:${r.name}`,
-      fromEccS4Block(
-        { changed: clean(intel?.s4), unchanged: clean(intel?.ecc) },
-        { inferred: !!intel?.inferred },
-      ),
-      { hasHe: !!(clean(intel?.what) || r.he), structural: intel ? 1 : 0 },
-      "idocs",
-    ),
+    evidence: evidenceOf(r),
     sections,
     sources: [],
     foot:

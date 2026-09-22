@@ -17,6 +17,7 @@
 // Every control is a class from app/neo/ui.css. There is no button chrome
 // defined for this panel.
 
+import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
 import {
   ArrowUpLeft, Crosshair, Expand, Focus, GitBranch, KeyRound, Link2, Terminal,
@@ -250,7 +251,7 @@ export function ErdInspector({
               {/* The canonical status first (the same word the table page and the
                   catalog show), then the dictionary's own sentence. */}
               <p className="ne-s4-canon">
-                <span className="nu-status" style={{ "--s": active.s4k.d } as React.CSSProperties}>{active.s4k.l}</span>
+                <StatusPill status={active.s4k.k} label={active.s4k.l} dot={active.s4k.d} />
                 <em>{active.s4k.a ? "לפי רשומת אימות" : "לפי עמודת S/4HANA בבלופרינט"}</em>
               </p>
               {active.s4 ? (

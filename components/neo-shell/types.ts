@@ -110,6 +110,11 @@ export interface SearchRecord {
   href: string | null;
   /** Table name this record can open in the context shelf, when applicable. */
   obj?: string;
+  /** The canonical S/4HANA status key (lib/evidence) for a table, transaction,
+   *  function object, CDS view or Fiori app — the same key the record's page
+   *  renders, so a search result shows the same standing (design audit ACC-3).
+   *  Absent for books and incidents, which have no S/4 standing. */
+  st?: string;
 }
 
 /** Everything the shell needs, computed once at build time by the server
