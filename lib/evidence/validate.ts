@@ -330,7 +330,12 @@ export function validateBestPractices(bps: BestPracticeLike[], u: Universe): Pro
     if (seen.has(b.slug)) out.push({ rule: "duplicate-id", id, detail: "slug appears twice" });
     seen.add(b.slug);
     if (!validId(id)) out.push({ rule: "bad-id-syntax", id, detail: "slug" });
-    const xrefs = [...b.xrefs, ...b.steps.flatMap((s) => s.xrefs || [])];
+    const pr = b.process;
+    const lines = pr
+      ? [pr.trigger, pr.preconditions, pr.masterData, pr.roles, pr.transactions, pr.tables, pr.integrationPoints,
+         pr.outputs, pr.exceptions, pr.controls, pr.kpis, pr.eccToS4, pr.migration].flatMap((l) => l || [])
+      : [];
+    const xrefs = [...b.xrefs, ...b.steps.flatMap((s) => s.xrefs || []), ...lines.flatMap((l) => l.xrefs || [])];
     for (const x of xrefs) {
       if (!validId(x)) out.push({ rule: "bad-id-syntax", id, detail: `xref ${x}` });
       else if (!resolveId(u, x)) out.push({ rule: "dangling-xref", id, detail: `xref ${x}` });
@@ -355,8 +360,23 @@ export function validateBestPractices(bps: BestPracticeLike[], u: Universe): Pro
       ...(b.checks || []).map((s, i) => ({ label: `checks[${i}]`, text: s })),
       ...b.evidence.map((e, i) => ({ label: `evidence[${i}].claim`, text: e.claim })),
       { label: "notes", text: b.notes },
+      ...(pr ? [{ label: "process.purpose", text: pr.purpose }] : []),
+      ...lines.map((l, i) => ({ label: `process.lines[${i}]`, text: l.he })),
+      ...(pr?.reference ? [{ label: "process.reference.note", text: pr.reference.note }] : []),
     ], lowTier, out);
     evidenceRules(id, b.evidence, out);
+    // The official process reference obeys the url-domain rule of evidence:
+    // an "official" reference is one that points at an official SAP host.
+    if (pr?.reference) {
+      const r = pr.reference;
+      if (r.verificationLevel === "sap_official_verified") {
+        const host = hostOf(r.url || "");
+        if (!host || !OFFICIAL_DOMAINS.includes(host)) {
+          out.push({ rule: "url-domain", id, detail: `process.reference "${r.title}" is official without an official SAP URL` });
+        }
+      }
+      if (!(r.title || "").trim()) out.push({ rule: "placeholder", id, detail: "process.reference.title empty" });
+    }
     if (!(b.lastVerifiedAt || "").trim()) out.push({ rule: "placeholder", id, detail: "lastVerifiedAt empty" });
     if (!(b.reviewer || "").trim()) out.push({ rule: "placeholder", id, detail: "reviewer empty" });
   }

@@ -230,11 +230,52 @@ export interface RegistryEntry {
 
 /** The structural shape validate.ts checks; data/best-practices/index.ts
  *  exports it under the name BestPractice. */
+/** One line of a process profile: Hebrew text plus the ids it names
+ *  (every id must resolve; the page links the ones that have a page). */
+export interface BpProcessLine {
+  he: string;
+  xrefs?: CanonicalId[];
+}
+
+/** The process-catalog profile a practice may carry (design-audit continuation
+ *  §11, 2026-09-22): the fields the brief requires of every S/4HANA process.
+ *  Every list is optional on purpose: a field the repository does not document
+ *  is left out, and the page renders the gap by name instead of filling it. */
+export interface BpProcessProfile {
+  /** Hebrew. Why the process exists, from the repository's process records. */
+  purpose: string;
+  trigger?: BpProcessLine[];
+  preconditions?: BpProcessLine[];
+  masterData?: BpProcessLine[];
+  roles?: BpProcessLine[];
+  /** Transactions and Fiori apps, one line per step or group (ids link). */
+  transactions?: BpProcessLine[];
+  /** Tables, business objects and CDS views (ids link). */
+  tables?: BpProcessLine[];
+  integrationPoints?: BpProcessLine[];
+  outputs?: BpProcessLine[];
+  exceptions?: BpProcessLine[];
+  controls?: BpProcessLine[];
+  kpis?: BpProcessLine[];
+  eccToS4?: BpProcessLine[];
+  migration?: BpProcessLine[];
+  /** The official SAP process / best-practice reference. `null` (or absent)
+   *  means none has been located and verified yet; the page says so. An
+   *  official level requires a URL on an official SAP host. */
+  reference?: {
+    title: string;
+    url?: string;
+    verificationLevel: VerificationLevel;
+    /** Hebrew. */
+    note?: string;
+  } | null;
+}
+
 export interface BestPracticeLike {
   slug: string;
   he: string;
   en: string;
-  module: "PM" | "PP-PI" | "Cross";
+  module: "PM" | "PP" | "PP-PI" | "Cross";
   /** Hebrew. */
   summary: string;
   context: string;
@@ -247,6 +288,8 @@ export interface BestPracticeLike {
   evidence: Evidence[];
   /** When the practice itself is edition-bound. */
   status?: S4StatusClaim;
+  /** Present when the record documents a whole process (the §11 catalog). */
+  process?: BpProcessProfile;
   lastVerifiedAt: string;
   reviewer: string;
   /** Hebrew, honest caveats. */

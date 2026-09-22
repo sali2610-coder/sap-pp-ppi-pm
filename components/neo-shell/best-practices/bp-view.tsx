@@ -16,13 +16,13 @@
 
 import Link from "next/link";
 import {
-  AlertTriangle, ArrowLeft, ClipboardCheck, Info, Link2, ListChecks, ShieldCheck,
+  AlertTriangle, ArrowLeft, BookOpen, ClipboardCheck, Info, LayoutList, Link2, ListChecks, ShieldCheck,
 } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { EvidenceBlock } from "@/components/neo-shell/evidence/evidence-block";
 import { modVar } from "../mod-var";
-import type { BpDetail, BpRow, BpXrefV } from "./bp-data";
+import type { BpDetail, BpLineV, BpRow, BpXrefV } from "./bp-data";
 
 const nf = new Intl.NumberFormat("he-IL");
 const NONE = "לא קיים תיעוד מאומת במאגר";
@@ -89,6 +89,12 @@ function Row({ r }: { r: BpRow }) {
               <Link2 size={11} strokeWidth={1.75} aria-hidden="true" />
               {nf.format(r.xrefsLinked)}/{nf.format(r.xrefs)} הפניות מקושרות לעמוד
             </span>
+            {r.profile ? (
+              <span className="nu-chip nbp-prof-chip">
+                <LayoutList size={11} strokeWidth={1.75} aria-hidden="true" />
+                פרופיל תהליך · {nf.format(r.profile.filled)}/{nf.format(r.profile.total)} שדות
+              </span>
+            ) : null}
           </span>
         </span>
         <span className="nbp-side">
@@ -110,6 +116,7 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
   const xrefs = rows.reduce((a, r) => a + r.xrefs, 0);
   const linked = rows.reduce((a, r) => a + r.xrefsLinked, 0);
   const official = rows.filter((r) => r.officialWithUrl > 0).length;
+  const processes = rows.filter((r) => r.profile).length;
 
   return (
     <div className="nxt" data-surface="best-practices">
@@ -124,8 +131,11 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
             ? "כולן נגזרות מרשומות מתועדות של המאגר, וטרם צורף להן מקור SAP רשמי מקושר."
             : `${nf.format(official)} מהן מגובות במקור SAP רשמי מקושר, והשאר נגזרות מרשומות המאגר.`}
           {" "}כל שיטה מפרטת צעדי עבודה, דפוסים שגויים ובדיקות, וכל הפניה נפתחת כקישור רק כאשר קיים
-          לה עמוד בפרויקט. הקטלוג מורחב בהדרגה לפי משפחות, וכל שיטה תצורף למקורות SAP רשמיים
-          בשלב האיסוף.
+          לה עמוד בפרויקט.
+          {processes > 0
+            ? ` ${nf.format(processes)} מהן הן רשומות תהליך מלאות (מטרה, טריגר, תנאים מוקדמים, נתוני אב, תפקידים, שלבים, טרנזקציות, טבלאות, אינטגרציה, תוצרים, חריגים, בקרות, מדדים, שינויי ECC ל-S/4HANA, הגירה והפניה רשמית); שדה שהמאגר אינו מתעד מוצג כפער ולא מושלם מהדמיון.`
+            : ""}
+          {" "}הקטלוג מורחב בהדרגה לפי משפחות, וכל שיטה תצורף למקורות SAP רשמיים בשלב האיסוף.
         </p>
         <div className="nxt-meta">
           <span className="nu-chip">
@@ -144,6 +154,12 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
             <Link2 size={11} strokeWidth={1.75} aria-hidden="true" />
             {nf.format(linked)}/{nf.format(xrefs)} הפניות מקושרות לעמוד
           </span>
+          {processes > 0 ? (
+            <span className="nu-chip">
+              <LayoutList size={11} strokeWidth={1.75} aria-hidden="true" />
+              {nf.format(processes)} רשומות תהליך
+            </span>
+          ) : null}
         </div>
       </header>
 
@@ -181,12 +197,90 @@ function SecHead({ id, icon, title, note }: { id: string; icon: React.ReactNode;
   );
 }
 
+/** One line of a profile field: the sentence, then the ids it names, each a
+ *  link only when a page exists (the same Ref the steps use). */
+function Line({ l }: { l: BpLineV }) {
+  return (
+    <li>
+      <span className="nxr-text">{l.he}</span>
+      {l.xrefs.length ? (
+        <ul className="nxt-codes nxr-codes nbp-refs" aria-label="הפניות">
+          {l.xrefs.map((r) => <Ref key={r.id} r={r} />)}
+        </ul>
+      ) : null}
+    </li>
+  );
+}
+
+/** The §11 process profile. Every field the record fills is a titled list;
+ *  the fields it leaves empty are named in one line, so the gap is visible
+ *  instead of silently absent. */
+function ProcessProfile({ p }: { p: NonNullable<BpDetail["process"]> }) {
+  return (
+    <section className="nxt-sec" id="bp-process" aria-labelledby="bp-process-h">
+      <SecHead
+        id="bp-process-h"
+        icon={<LayoutList size={15} strokeWidth={1.75} />}
+        title="פרופיל התהליך"
+        note={`${nf.format(p.filled)}/${nf.format(p.total)} שדות מתועדים`}
+      />
+      <div className="nbp-fact">
+        <span className="nxt-l">מטרה</span>
+        <p className="nxt-v nxr-text">{p.purpose}</p>
+      </div>
+      <dl className="nbp-prof">
+        {p.fields.map((f) => (
+          <div className="nbp-prof-f" key={f.key} data-field={f.key}>
+            <dt className="nxt-l">{f.label}</dt>
+            <dd>
+              <ul className="nxt-ul nbp-prof-l">
+                {f.lines.map((l, i) => <Line key={`${f.key}-${i}`} l={l} />)}
+              </ul>
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <div className="nbp-fact nbp-ref">
+        <span className="nxt-l">
+          <BookOpen size={13} strokeWidth={1.75} aria-hidden="true" /> הפניה רשמית לתהליך
+        </span>
+        {p.reference ? (
+          <p className="nxt-v nxr-text">
+            {p.reference.url ? (
+              <a href={p.reference.url} target="_blank" rel="noopener noreferrer" className="nu-link" dir="ltr">
+                {p.reference.title}
+              </a>
+            ) : (
+              <span dir="ltr">{p.reference.title}</span>
+            )}
+            {" "}
+            <span className="nu-status" style={{ "--s": p.reference.levelDot } as React.CSSProperties}>
+              {p.reference.levelHe}
+            </span>
+            {p.reference.note ? <span className="nbp-ref-n"> {p.reference.note}</span> : null}
+          </p>
+        ) : (
+          <p className="nxt-absent">
+            טרם אותרה ואומתה הפניה רשמית של SAP לתהליך זה; היא תתווסף בשלב האיסוף ולא מושלמת מהזיכרון.
+          </p>
+        )}
+      </div>
+      {p.gaps.length ? (
+        <p className="nxt-absent nbp-gaps">
+          שדות שהמאגר אינו מתעד עדיין לתהליך זה: {p.gaps.join(" · ")}.
+        </p>
+      ) : null}
+    </section>
+  );
+}
+
 export function BpDetailView({ d }: { d: BpDetail }) {
   const m = modVar(d.module);
   const linked = d.xrefs.filter((x) => x.href).length;
 
   const nav = [
     { id: "bp-about", label: "מהות השיטה" },
+    ...(d.process ? [{ id: "bp-process", label: "פרופיל התהליך" }] : []),
     { id: "bp-steps", label: "צעדי העבודה" },
     { id: "bp-anti", label: "דפוסים שגויים" },
     { id: "bp-checks", label: "בדיקות" },
@@ -237,6 +331,9 @@ export function BpDetailView({ d }: { d: BpDetail }) {
           <p className="nxt-v nxr-text">{d.context || NONE}</p>
         </div>
       </section>
+
+      {/* ------------------------------------------------ 2b. THE PROCESS */}
+      {d.process ? <ProcessProfile p={d.process} /> : null}
 
       {/* ------------------------------------------------------- 3. THE HOW */}
       <section className="nxt-sec" id="bp-steps" aria-labelledby="bp-steps-h">

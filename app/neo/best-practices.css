@@ -156,3 +156,23 @@ html[data-theme="dark"] .nx-app .nbp-claims > li {
   }
   .nx-app .nbp-go { display: none; }
 }
+
+/* ---------------------------------------------------- the process profile */
+/* §11 catalog fields: a two-column definition grid on wide canvases, one
+   column under 720px. Same tokens as the .nxt-fact rows. */
+.nx-app .nbp-prof {
+  margin: var(--sp-4) 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: var(--sp-4) var(--sp-5);
+}
+.nx-app .nbp-prof-f { display: grid; gap: 4px; align-content: start; min-inline-size: 0; }
+.nx-app .nbp-prof-f dd { margin: 0; }
+.nx-app .nbp-prof-l { margin: 0; }
+.nx-app .nbp-prof-l > li { max-inline-size: 78ch; }
+.nx-app .nbp-prof-l .nbp-refs { padding-block-start: 2px; }
+.nx-app .nbp-ref { margin-block-start: var(--sp-4); }
+.nx-app .nbp-ref .nxt-l { display: inline-flex; align-items: center; gap: 6px; }
+.nx-app .nbp-ref-n { color: var(--ink-2); }
+.nx-app .nbp-gaps { margin-block-start: var(--sp-3); }
+.nx-app .nbp-prof-chip { color: var(--ink-2); }

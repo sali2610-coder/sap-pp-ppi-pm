@@ -5,11 +5,12 @@
 import type { BestPracticeLike } from "@/lib/evidence/types";
 import { PM_BEST_PRACTICES } from "./pm";
 import { PPPI_BEST_PRACTICES } from "./pp-pi";
+import { PM_PROCESS_PRACTICES } from "./pm-processes";
 
 export type BestPractice = BestPracticeLike;
 
 export const BEST_PRACTICES: BestPractice[] = (() => {
-  const merged = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES];
+  const merged = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES];
   const seen = new Set<string>();
   for (const b of merged) {
     if (seen.has(b.slug)) throw new Error(`data/best-practices: duplicate slug ${b.slug}`);

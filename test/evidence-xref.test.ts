@@ -20,9 +20,10 @@ import { ENH_VERIFICATION } from "../data/verification/enhancements.ts";
 import { OBJECT_REGISTRY, OBJECT_VERIFICATION } from "../data/verification/objects.ts";
 import { PM_BEST_PRACTICES } from "../data/best-practices/pm.ts";
 import { PPPI_BEST_PRACTICES } from "../data/best-practices/pp-pi.ts";
+import { PM_PROCESS_PRACTICES } from "../data/best-practices/pm-processes.ts";
 
 const REGISTRY = [...OBJECT_REGISTRY, ...IDOC_BASIC_TYPES];
-const BPS = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES];
+const BPS = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES];
 const ALL_RECORDS = [
   ...TABLE_VERIFICATION, ...TX_VERIFICATION, ...FM_VERIFICATION, ...IDOC_VERIFICATION,
   ...CDS_VERIFICATION, ...FIORI_VERIFICATION, ...ENH_VERIFICATION, ...OBJECT_VERIFICATION,

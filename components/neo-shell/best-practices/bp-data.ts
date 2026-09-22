@@ -108,6 +108,95 @@ function xrefView(id: CanonicalId): BpXrefV {
   };
 }
 
+/* ------------------------------------------------------ the process profile */
+
+/** The brief's per-process fields (design-audit continuation §11), in its
+ *  order. Purpose, the steps, the official reference and the cross-links are
+ *  rendered by their own sections; the thirteen lists below form the grid. */
+const PROFILE_FIELDS: { key: keyof Omit<NonNullable<BestPractice["process"]>, "purpose" | "reference">; label: string }[] = [
+  { key: "trigger", label: "טריגר" },
+  { key: "preconditions", label: "תנאים מוקדמים" },
+  { key: "masterData", label: "נתוני אב" },
+  { key: "roles", label: "תפקידים" },
+  { key: "transactions", label: "טרנזקציות ויישומי Fiori" },
+  { key: "tables", label: "טבלאות ואובייקטים" },
+  { key: "integrationPoints", label: "נקודות אינטגרציה" },
+  { key: "outputs", label: "תוצרים" },
+  { key: "exceptions", label: "חריגים" },
+  { key: "controls", label: "בקרות" },
+  { key: "kpis", label: "מדדים (KPI)" },
+  { key: "eccToS4", label: "שינויים מ-ECC ל-S/4HANA" },
+  { key: "migration", label: "השלכות הגירה" },
+];
+
+/** The 17 fields the brief lists per process: purpose, the 13 lists, the
+ *  step-by-step flow, the official reference and the cross-links. */
+export const PROFILE_TOTAL = PROFILE_FIELDS.length + 4;
+
+export interface BpLineV { he: string; xrefs: BpXrefV[] }
+export interface BpProfileFieldV { key: string; label: string; lines: BpLineV[] }
+export interface BpReferenceV {
+  title: string;
+  url: string | null;
+  levelHe: string;
+  levelDot: string;
+  official: boolean;
+  note: string | null;
+}
+export interface BpProcessV {
+  purpose: string;
+  /** Only the fields the record fills, in the brief's order. */
+  fields: BpProfileFieldV[];
+  /** The labels of the fields the record leaves empty, in the same order. */
+  gaps: string[];
+  filled: number;
+  total: number;
+  reference: BpReferenceV | null;
+}
+
+/** How many of the brief's 17 fields the record fills. */
+function profileCount(b: BestPractice): { filled: number; total: number } | null {
+  const pr = b.process;
+  if (!pr) return null;
+  const lists = PROFILE_FIELDS.filter((f) => (pr[f.key]?.length ?? 0) > 0).length;
+  const filled = lists + 1 /* purpose */ + (b.steps.length ? 1 : 0) + (pr.reference ? 1 : 0) + (allXrefs(b).length ? 1 : 0);
+  return { filled, total: PROFILE_TOTAL };
+}
+
+function processView(b: BestPractice): BpProcessV | null {
+  const pr = b.process;
+  if (!pr) return null;
+  const fields: BpProfileFieldV[] = [];
+  const gaps: string[] = [];
+  for (const f of PROFILE_FIELDS) {
+    const lines = pr[f.key] ?? [];
+    if (lines.length) fields.push({ key: f.key, label: f.label, lines: lines.map((l) => ({ he: l.he, xrefs: (l.xrefs ?? []).map(xrefView) })) });
+    else gaps.push(f.label);
+  }
+  if (!b.steps.length) gaps.push("תהליך שלב אחר שלב");
+  if (!pr.reference) gaps.push("הפניה רשמית לתהליך");
+  if (!allXrefs(b).length) gaps.push("קישורים צולבים");
+  const c = profileCount(b)!;
+  const r = pr.reference;
+  return {
+    purpose: pr.purpose,
+    fields,
+    gaps,
+    filled: c.filled,
+    total: c.total,
+    reference: r
+      ? {
+          title: r.title,
+          url: r.url ?? null,
+          levelHe: VERIFICATION_HE[r.verificationLevel],
+          levelDot: VERIFICATION_DOT[r.verificationLevel],
+          official: r.verificationLevel === "sap_official_verified",
+          note: r.note ?? null,
+        }
+      : null,
+  };
+}
+
 const blockOf = (b: BestPractice): EvidenceBlockData =>
   evidenceBlock(
     bpId(b.slug),
@@ -143,12 +232,16 @@ export interface BpRow {
   depth: number;
   depthHe: string;
   needsVerification: boolean;
+  /** Present for a process-catalog record: how many of the brief's 17
+   *  per-process fields it fills. */
+  profile: { filled: number; total: number } | null;
 }
 
 function rowOf(b: BestPractice): BpRow {
   const e = blockOf(b);
   const xr = allXrefs(b);
   return {
+    profile: profileCount(b),
     slug: b.slug,
     he: b.he,
     en: b.en,
@@ -215,12 +308,15 @@ export interface BpDetail {
   notes: string | null;
   lastVerifiedAt: string;
   reviewer: string;
+  /** The process profile, when the record is a process-catalog entry. */
+  process: BpProcessV | null;
 }
 
 export function bpDetail(slug: string): BpDetail | null {
   const b = bpBySlug(slug);
   if (!b) return null;
   return {
+    process: processView(b),
     slug: b.slug,
     he: b.he,
     en: b.en,
