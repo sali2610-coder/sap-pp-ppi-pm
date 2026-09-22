@@ -446,7 +446,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
    DICTIONARY ROWS — the dual identity
    ========================================================================== */
 
-.no-rows { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+.no-rows { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
 .no-row {
   display: grid;
   gap: var(--sp-3);
@@ -738,7 +738,7 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
    TRANSACTIONS · FLOW · S/4
    ========================================================================== */
 
-.no-tx { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+.no-tx { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
 .no-tx-g {
   padding: var(--sp-3);
   border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));

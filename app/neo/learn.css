@@ -363,7 +363,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
 
 .nx-app .nxl-courses {
   display: grid; gap: var(--sp-4);
-  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
 }
 .nx-app .nxl-course {
   position: relative; overflow: hidden;
@@ -593,7 +593,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
 }
 .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--brand-dark); }
 html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--ink-1); }
-.nx-app .nxv-s4-two { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxv-s4-two { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .nx-app .nxv-s4-c {
   display: grid; gap: var(--sp-2); align-content: start;
   padding: var(--sp-4);
@@ -633,7 +633,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 
 /* ---------------------------------------------------- 10.4 NAMED FACTS */
 
-.nx-app .nxv-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxv-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .nx-app .nxv-fact { display: grid; gap: var(--sp-2); align-content: start; min-inline-size: 0; }
 .nx-app .nxv-l {
   font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
@@ -724,7 +724,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
   font-weight: 750; color: var(--ink-1); margin: 0;
 }
 .nx-app .nxb-claim p { margin: 0; font-size: var(--t-body); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 74ch; }
-.nx-app .nxb-two { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxb-two { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .nx-app .nxb-yes, .nx-app .nxb-no {
   display: grid; gap: var(--sp-2); align-content: start;
   padding: var(--sp-4);
@@ -791,7 +791,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 .nx-app .nxl-more-b .nxb-two h4 { margin: 0 0 var(--sp-2); font-size: var(--t-sm); color: var(--ink-1); }
 @media (prefers-reduced-motion: reduce) { .nx-app .nxl-more > summary svg { transition: none; } }
 
-.nx-app .nxb-banks { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); }
+.nx-app .nxb-banks { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
 .nx-app .nxb-bank {
   position: relative; overflow: hidden;
   display: grid; gap: var(--sp-3); align-content: start;

@@ -107,6 +107,13 @@ html[data-theme="dark"] .nx-app .nxr-row[data-impacted="1"] {
   padding-block: 0.25rem;
 }
 .nx-app .nxr-codelink .nx-sap { font-size: var(--t-xs); font-weight: 700; }
+/* .nu-link is nowrap by design. A code link carrying a long name and its kind
+   label then sets the width of its column and pushes the page sideways at 320px
+   (measured 2026-09-22). Below 400px it wraps inside its own box instead. */
+@media (max-width: 400px) {
+  .nx-app .nxr-codelink { white-space: normal; max-inline-size: 100%; overflow-wrap: anywhere; text-align: start; }
+  .nx-app .nxr-codelink .nbp-kind { white-space: normal; }
+}
 
 /* A preformatted ABAP / SELECT block. Always LTR, always scrollable rather than
    forcing the page wide. */

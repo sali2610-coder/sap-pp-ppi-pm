@@ -3319,7 +3319,8 @@ export const TX_VERIFICATION: VerificationRecord[] = [
           "את ה-Customer Exit‏ IPRM0001 ואת אובייקטי ההרשאה I_TCODE/I_SWERK/I_INGRP. שדה s4Delta ברשומה, בנוסחו " +
           "מ-2026-09-22, אומר: 'נשמרת ב-S/4HANA כ-Job לתזמון המוני, ולפי פריט הפישוט S4TWL - Scheduling of " +
           "Maintenance Plan הנתיב המומלץ לתזמון המוני הוא IP30H (RISTRA20H); חלופת Fiori לפי תיעוד SAP: Mass " +
-          "Schedule Maintenance Plans (F2774, אין לה רשומה בקטלוג הפרויקט)'. עד אותו יום השדה הפנה ל-F4072 " +
+          "Schedule Maintenance Plans (F2774)'. (באותו יום נוסף ל-F2774 רשום בקטלוג הפרויקט, ולכן הושמטה מהשדה " +
+          "ההערה שלא הייתה לו רשומה.) עד אותו יום השדה הפנה ל-F4072 " +
           "כחלופת תזמון, מזהה שהתיעוד הרשמי מייחס ל-Screen Maintenance Requests (ראו רשומת fiori:F4072).",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#IP30",
@@ -3355,7 +3356,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "תוקנה באותו יום (המזהה מתועד רשמית כ-Screen Maintenance Requests; s4Delta מפנה עכשיו ל-IP30H ול-F2774 לפי " +
         "תיעוד SAP).",
     },
-    xrefs: ["tx:IP30H", "tx:IP10", "tx:IP01", "tx:IP24", "table:MPLA", "table:MPOS", "table:MHIS", "table:MHIO", "fm:MAINTENANCE_PLAN_SCHEDULE", "fm:ISCHED_CALL_GENERATE", "cds:I_MaintenancePlan", "enh:exit:IPRM0001"],
+    xrefs: ["tx:IP30H", "tx:IP10", "tx:IP01", "tx:IP24", "table:MPLA", "table:MPOS", "table:MHIS", "table:MHIO", "fm:MAINTENANCE_PLAN_SCHEDULE", "fm:ISCHED_CALL_GENERATE", "cds:I_MaintenancePlan", "enh:exit:IPRM0001", "fiori:F2774", "fiori:F5325"],
     lastVerifiedAt: DATE22,
     notes:
       "שיטה: scripts/sap-help-search.mjs בשש שאילתות On-Premise ('IP30 deadline monitoring maintenance " +
@@ -3378,8 +3379,9 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "לא נמצא במקור רשמי הוסרו; פריט 4.1.2 'S4TWL - Scheduling of Maintenance Plan' ברשימת הפישוט הרשמית " +
       "של 2025 FPS01 (הקובץ SIMPL_OP2025.pdf, גרסת מסמך 1.36, נקרא במלואו ולא דרך סניפט) נוקב במפורש ב-IP30, " +
       "ב-RISTRA20, ב-IP30H וב-RISTRA20H, והסטטוס עודכן מ'ללא שינוי' ל'פריט פישוט' עם הפריט כמקור. " +
-      "BAPI_MAINTENANCEPLAN_SCHEDULE שברשומת tx-intel עדיין לא נמצא במקור רשמי ואינו ביקום המאגר. F2774 ו-F5325 אינם " +
-      "ב-data/fiori/apps.ts ולכן אין fiori: ב-xrefs; F4072 ו-F2828 שבמאגר לא צורפו כ-xref כי מיפוין ל-IP30 " +
+      "BAPI_MAINTENANCEPLAN_SCHEDULE שברשומת tx-intel עדיין לא נמצא במקור רשמי ואינו ביקום המאגר. F2774 ו-F5325 לא היו " +
+      "ב-data/fiori/apps.ts עד 2026-09-22 ולכן לא היו ב-xrefs; באותו יום נוספו לקטלוג עם רשומות אימות משלהן " +
+      "(fiori:F2774, fiori:F5325) וצורפו כאן. F4072 ו-F2828 שבמאגר לא צורפו כ-xref כי מיפוין ל-IP30 " +
       "הוא אוצרות המאגר ולא מיפוי רשמי. קישורי ה-FM וה-Customer Exit ב-xrefs הם שיוכי Tier-2 " +
       "(function-intel ו-exits.ts, חלקם מסומנים inferred) ולא מיפוי רשמי. לא בוצעה בדיקה במערכת SAP חיה. " +
       "accessedAt = 2026-09-07 לפי הנחיית ה-workflow; הרצת הכלי בפועל הטביעה 2026-09-08. אימות אדברסרי " +

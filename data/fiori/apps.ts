@@ -84,6 +84,44 @@ export const FIORI_APPS: FioriApp[] = [
     similar: [],
   },
   {
+    // F2774 · added 2026-09-22 (master completion §12). Sources: Maintenance Management
+    // 2025.001 (loio 12f60922946c4ec49807c81ad93d5ba4, "App ID: F2774"), What's New 1709
+    // (loio ef815ff35f454fb389d17bbae8ac7250), What's New S/4HANA 100 (loio
+    // 6f39ce28d1e14e57adaf45dcf1beed30). Type is derived from the documented function (it
+    // schedules plans, i.e. creates call objects), not read from the Apps Library, whose page
+    // loads as a JS shell; role, catalog and OData are empty for the same reason.
+    id: "F2774", slug: "mass-schedule-maintenance-plans", name: "Mass Schedule Maintenance Plans", he: "תזמון המוני של תכניות תחזוקה", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Mass Schedule Maintenance Plans) · What's New in SAP S/4HANA 1709", lastReviewed: "2026-09-22",
+    purpose: "תזמון המוני של תכניות תחזוקה: לפי התיעוד הרשמי, 'With this app, you can schedule all maintenance plans that are due within a specific time frame'.",
+    problem: "",
+    explain: { beginner: "מסך שבו מתכנן התחזוקה מתזמן בבת אחת את כל תכניות התחזוקה שמועדן חל בחלון זמן מסוים.", consultant: "לפי What's New in SAP S/4HANA (גרסה 100) היישום מיועד למתכנן התחזוקה ('As a maintenance planner, you can use this app to schedule all maintenance plans that are due within a specific time frame'), וזמין מ-S/4HANA 1709. תיעוד התזמון של 2025 FPS01 מתאר את טרנזקציית ה-GUI IP30H באותו שם ('Mass schedule maintenance plans (transaction IP30H)'); זהות השם אינה מוכיחה שהיישום עוטף את IP30H, ולכן IP30H אינה רשומה כטרנזקציית הרקע שלו.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori (העמוד נטען כ-app shell) ולכן אינם מוצגים; ראו רשומת האימות fiori:F2774." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "SAP S/4HANA 1709 (What's New 1709)",
+    similar: [],
+  },
+  {
+    // F5325 · added 2026-09-22 (master completion §12). Sources: What's New 2022 (loio
+    // 9fe2ab1a1d5f4f1482ebebdfb9a875d2, deprecation of the Manage Maintenance Plan and Item
+    // List app with F5325 and F5356 as successors), What's New 2023 FPS01 (loio
+    // 0e83f36ad7914324976ddc9db47621fc, its deletion), What's New 2025 FPS01 (loio
+    // a0c0e9f184f24910b2985d6a7cccb43a, scope items 4HI and BJ2, "App ID: F5325"), Data
+    // Migration "PM - Maintenance plan" 2025.001 (loio b97c17855d78480ead0cebb32c4a346f).
+    // Type derived from the documented function (it processes and changes plans).
+    id: "F5325", slug: "manage-maintenance-plans", name: "Manage Maintenance Plans", he: "ניהול תכניות תחזוקה", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2022, 2023 FPS01, 2025 FPS01 · Data Migration 2025.001 (PM - Maintenance plan)", lastReviewed: "2026-09-22",
+    purpose: "ניהול תכניות תחזוקה: היישום שמחליף מ-S/4HANA 2022 את Manage Maintenance Plan and Item List, יחד עם Manage Maintenance Items (F5356).",
+    problem: "",
+    explain: { beginner: "מסך לעיבוד ולהצגה של תכניות תחזוקה, שהחליף את רשימת התכניות והפריטים הישנה.", consultant: "לפי What's New 2022 היישום Manage Maintenance Plan and Item List הוצא משימוש וזמינים במקומו Manage Maintenance Plans (F5325) ו-Manage Maintenance Items (F5356); ב-2023 FPS01 היישום הישן נמחק. What's New 2025 FPS01 משייך את F5325 לפריטי ההיקף 4HI (Proactive Maintenance) ו-BJ2 (Preventive Maintenance). תיעוד ההגירה של אובייקט 'PM - Maintenance plan' מונה אותו לצד Display Maintenance Plan (IP16) ו-(IP03).", technical: "רכיב PM-PRM-MP (Maintenance Plans) לפי What's New 2023; אובייקט ההרשאה I_MPTYP (Maintenance Plan Category) זמין ביישום מ-2023. תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori ולכן אינם מוצגים; ראו רשומת האימות fiori:F5325." },
+    role: "", catalog: "",
+    authObjects: ["I_MPTYP"],
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "SAP S/4HANA 2022 (What's New 2022, successor of Manage Maintenance Plan and Item List)",
+    similar: [],
+  },
+  {
     id: "F2336", slug: "manage-production-orders", name: "Manage Production Orders", he: "ניהול הזמנות ייצור", module: "PP", type: "Transactional",
     trust: "curated", source: SRC, lastReviewed: LV,
     purpose: "ניהול פקודות ייצור בדיד — יצירה, שחרור, מעקב וסגירה.",

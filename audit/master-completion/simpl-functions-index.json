@@ -1,0 +1,275 @@
+{
+ "generatedAt": "2026-09-22T13:33:26.527Z",
+ "lists": [
+  {
+   "key": "2025",
+   "title": "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36)",
+   "release": "2025 FPS01",
+   "url": "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+   "md5": "c1ccf8ebcd92d51fdc80e4b4873f3b73"
+  },
+  {
+   "key": "2023",
+   "title": "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35)",
+   "release": "2023 FPS03",
+   "url": "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+   "md5": "909c6e9087b009e809c116d3c6cf2eec"
+  }
+ ],
+ "codes": {
+  "BAPI_ALM_NOTIF_CREATE": {
+   "2023": [
+    {
+     "item": "29.8",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      38637
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.4",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      4066
+     ]
+    }
+   ]
+  },
+  "BAPI_ALM_NOTIF_DATA_ADD": {
+   "2023": [
+    {
+     "item": "29.8",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      38638
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.4",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      4067
+     ]
+    }
+   ]
+  },
+  "BAPI_ALM_NOTIF_DATA_MODIFY": {
+   "2023": [
+    {
+     "item": "29.8",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      38639
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.4",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      4068
+     ]
+    }
+   ]
+  },
+  "BAPI_ALM_NOTIF_GET_DETAIL": {
+   "2023": [
+    {
+     "item": "29.8",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      38640
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.4",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      4069
+     ]
+    }
+   ]
+  },
+  "BAPI_ALM_ORDER_MAINTAIN": {
+   "2023": [
+    {
+     "item": "29.8",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      38642
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.4",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      4071
+     ]
+    }
+   ]
+  },
+  "BAPI_EQUI_CHANGE": {
+   "2023": [
+    {
+     "item": "29.8",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      38630
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.4",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      4059
+     ]
+    }
+   ]
+  },
+  "BAPI_EQUI_CREATE": {
+   "2023": [
+    {
+     "item": "29.8",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      38629
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.4",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      4058
+     ]
+    }
+   ]
+  },
+  "BAPI_FUNCLOC_CHANGE": {
+   "2023": [
+    {
+     "item": "29.8",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      38634
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.4",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      4063
+     ]
+    }
+   ]
+  },
+  "BAPI_FUNCLOC_CREATE": {
+   "2023": [
+    {
+     "item": "29.8",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      38633
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.4",
+     "title": "S4TWL - Batch Input for Enterprise Asset Management (EAM)",
+     "lines": [
+      4062
+     ]
+    }
+   ]
+  },
+  "BAPI_GOODSMVT_CREATE": {
+   "2023": [
+    {
+     "item": "27.6",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      34678,
+      34688,
+      34691
+     ]
+    },
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      35328,
+      35620
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      84019
+     ]
+    },
+    {
+     "item": "15.3.9",
+     "title": "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+     "lines": [
+      84128,
+      84141,
+      84144
+     ]
+    },
+    {
+     "item": "6.0",
+     "title": "This 'new architecture' is harmonized with the SAP ERP standard and removes the",
+     "lines": [
+      84474
+     ]
+    }
+   ]
+  },
+  "BAPI_MATERIAL_SAVEDATA": {
+   "2023": [
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      35615
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.0",
+     "title": "This 'new architecture' is harmonized with the SAP ERP standard and removes the",
+     "lines": [
+      84437
+     ]
+    }
+   ]
+  }
+ },
+ "summary": {
+  "universe": 142,
+  "skippedTwoCharacter": 0,
+  "namedInAnyList": 11,
+  "namedInBoth": 11,
+  "notNamed": 131
+ },
+ "family": "functions"
+}

@@ -1,0 +1,1325 @@
+{
+ "generatedAt": "2026-09-22T13:33:25.809Z",
+ "lists": [
+  {
+   "key": "2025",
+   "title": "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36)",
+   "release": "2025 FPS01",
+   "url": "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+   "md5": "c1ccf8ebcd92d51fdc80e4b4873f3b73"
+  },
+  {
+   "key": "2023",
+   "title": "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35)",
+   "release": "2023 FPS03",
+   "url": "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+   "md5": "909c6e9087b009e809c116d3c6cf2eec"
+  }
+ ],
+ "codes": {
+  "AFKO": {
+   "2023": [
+    {
+     "item": "33.2",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      44333,
+      44334,
+      44340
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.1.10",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      30037,
+      30043,
+      30073
+     ]
+    }
+   ]
+  },
+  "AFPO": {
+   "2023": [
+    {
+     "item": "33.2",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      44336,
+      44341
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.1.10",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      30038,
+      30044
+     ]
+    }
+   ]
+  },
+  "AUFK": {
+   "2023": [
+    {
+     "item": "33.2",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      44333,
+      44340
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.1.10",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      30037,
+      30043
+     ]
+    }
+   ]
+  },
+  "BUT000": {
+   "2023": [
+    {
+     "item": "3.9",
+     "title": "S4TWL - Business Partner BUT000/Header Level Time Dependency",
+     "lines": [
+      8400,
+      8415,
+      8425
+     ]
+    },
+    {
+     "item": "3.17",
+     "title": "S4TWL - Removal of Gender Domain Fixed Values",
+     "lines": [
+      8909,
+      8911
+     ]
+    },
+    {
+     "item": "3.20",
+     "title": "S4TWL - Reduction of Redundant Business Partner Data Storage in the",
+     "lines": [
+      9302,
+      9303,
+      9304
+     ]
+    },
+    {
+     "item": "26.1",
+     "title": "S4TWL - Simplifications in Management of Change",
+     "lines": [
+      33292
+     ]
+    },
+    {
+     "item": "45.1",
+     "title": "S4TWL - Business User integration of BPs with user name and personal",
+     "lines": [
+      56347,
+      56367,
+      56413
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "5.1.2",
+     "title": "S4TWL - Removal of Gender Domain Fixed Values",
+     "lines": [
+      4744,
+      4746
+     ]
+    },
+    {
+     "item": "5.1.15",
+     "title": "S4TWL - Reduction of Redundant Business Partner Data Storage in the",
+     "lines": [
+      5837,
+      5838,
+      5839
+     ]
+    },
+    {
+     "item": "5.1.22",
+     "title": "S4TWL - Business Partner BUT000/Header Level Time Dependency",
+     "lines": [
+      6332,
+      6343,
+      6350
+     ]
+    },
+    {
+     "item": "9.1.1",
+     "title": "S4TWL - Simplifications in Management of Change",
+     "lines": [
+      29500
+     ]
+    },
+    {
+     "item": "13.3.1",
+     "title": "S4TWL - Business User integration of BPs with user name and personal",
+     "lines": [
+      62411,
+      62435,
+      62501
+     ]
+    }
+   ]
+  },
+  "COSP": {
+   "2023": [
+    {
+     "item": "8.2",
+     "title": "S4TWL - DATA MODEL CHANGES IN FIN",
+     "lines": [
+      13005,
+      13007,
+      13487
+     ]
+    },
+    {
+     "item": "12.2",
+     "title": "S4TWL - Summarization Hierarchies in Controlling",
+     "lines": [
+      18451,
+      18468
+     ]
+    },
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19434,
+      19455
+     ]
+    },
+    {
+     "item": "15.2",
+     "title": "S4TWL - GENERAL LEDGER",
+     "lines": [
+      20946
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.4",
+     "title": "S4TWL - DATA MODEL CHANGES IN FIN",
+     "lines": [
+      8369,
+      8370,
+      8744
+     ]
+    },
+    {
+     "item": "6.1.23",
+     "title": "S4TWL - GENERAL LEDGER",
+     "lines": [
+      12996
+     ]
+    },
+    {
+     "item": "6.5.1",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      17524,
+      17544
+     ]
+    },
+    {
+     "item": "6.5.12",
+     "title": "S4TWL - Summarization Hierarchies in Controlling",
+     "lines": [
+      19486,
+      19499
+     ]
+    }
+   ]
+  },
+  "COSS": {
+   "2023": [
+    {
+     "item": "8.2",
+     "title": "S4TWL - DATA MODEL CHANGES IN FIN",
+     "lines": [
+      13013,
+      13015,
+      13495
+     ]
+    },
+    {
+     "item": "12.2",
+     "title": "S4TWL - Summarization Hierarchies in Controlling",
+     "lines": [
+      18451,
+      18468
+     ]
+    },
+    {
+     "item": "12.9",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      19434,
+      19455
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.1.4",
+     "title": "S4TWL - DATA MODEL CHANGES IN FIN",
+     "lines": [
+      8373,
+      8374,
+      8748
+     ]
+    },
+    {
+     "item": "6.5.1",
+     "title": "S4TWL - TECHNICAL CHANGES IN CONTROLLING",
+     "lines": [
+      17524,
+      17544
+     ]
+    },
+    {
+     "item": "6.5.12",
+     "title": "S4TWL - Summarization Hierarchies in Controlling",
+     "lines": [
+      19486,
+      19500
+     ]
+    }
+   ]
+  },
+  "EBAN": {
+   "2023": [
+    {
+     "item": "33.2",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      44246,
+      44299,
+      44314
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.1.10",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      29985,
+      30012,
+      30051
+     ]
+    }
+   ]
+  },
+  "MARA": {
+   "2023": [
+    {
+     "item": "2.33",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      6280
+     ]
+    },
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      35856,
+      35862
+     ]
+    },
+    {
+     "item": "48.5",
+     "title": "S4TWL - Manufacturer Part Number",
+     "lines": [
+      57702,
+      57720,
+      57857
+     ]
+    },
+    {
+     "item": "55.2",
+     "title": "S4TWL - Media Product Master",
+     "lines": [
+      64637
+     ]
+    },
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      69481,
+      69945,
+      71766
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.3",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      28544
+     ]
+    },
+    {
+     "item": "13.1.3",
+     "title": "S4TWL - Manufacturer Part Number",
+     "lines": [
+      59845,
+      59872,
+      60025
+     ]
+    },
+    {
+     "item": "13.11.2",
+     "title": "S4TWL - Media Product Master",
+     "lines": [
+      68871
+     ]
+    },
+    {
+     "item": "13.15.1",
+     "title": "S4TWL - Season Field Length Extension",
+     "lines": [
+      73964
+     ]
+    },
+    {
+     "item": "13.15.20",
+     "title": "S4TWL - Retail Season Conversion",
+     "lines": [
+      75013,
+      75045,
+      75061
+     ]
+    },
+    {
+     "item": "13.15.33",
+     "title": "S4TWL - Logistical Variant",
+     "lines": [
+      75729
+     ]
+    },
+    {
+     "item": "13.15.44",
+     "title": "S4TWL - Segment Field Length Extension",
+     "lines": [
+      76164,
+      76165
+     ]
+    },
+    {
+     "item": "13.15.50",
+     "title": "S4TWL - Fashion Season Conversion (from ERP)",
+     "lines": [
+      76476,
+      76477
+     ]
+    },
+    {
+     "item": "13.15.54",
+     "title": "S4TWL - Generic Article Harmonization",
+     "lines": [
+      76715
+     ]
+    },
+    {
+     "item": "6.0",
+     "title": "This 'new architecture' is harmonized with the SAP ERP standard and removes the",
+     "lines": [
+      84983,
+      84994
+     ]
+    }
+   ]
+  },
+  "MARC": {
+   "2023": [
+    {
+     "item": "2.33",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      6280
+     ]
+    },
+    {
+     "item": "3.24",
+     "title": "S4TWL - Foreign Trade fields in Material Master",
+     "lines": [
+      9850,
+      9851,
+      9857
+     ]
+    },
+    {
+     "item": "3.25",
+     "title": "S4TWL - MRP fields in Material Master",
+     "lines": [
+      9913,
+      9916,
+      9918
+     ]
+    },
+    {
+     "item": "16.1",
+     "title": "S4TWL - Material classification with commodity codes",
+     "lines": [
+      22267
+     ]
+    },
+    {
+     "item": "27.5",
+     "title": "S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MMIM)",
+     "lines": [
+      33855,
+      33945,
+      34479
+     ]
+    },
+    {
+     "item": "1.3.3",
+     "title": "Customer views using aggregated stock quantity data",
+     "lines": [
+      34639
+     ]
+    },
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36599
+     ]
+    },
+    {
+     "item": "30.2",
+     "title": "S4TWL - MRP in HANA",
+     "lines": [
+      39284,
+      39287
+     ]
+    },
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42422,
+      42433,
+      42498
+     ]
+    },
+    {
+     "item": "56.9",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      65378,
+      65416,
+      65466
+     ]
+    },
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      71564,
+      71565,
+      71568
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "1.1.1.1.1",
+     "title": "Description",
+     "lines": [
+      21017,
+      21018,
+      21019
+     ]
+    },
+    {
+     "item": "6.7.4",
+     "title": "S4TWL - Material classification with commodity codes",
+     "lines": [
+      21355
+     ]
+    },
+    {
+     "item": "8.1.3",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      28545
+     ]
+    },
+    {
+     "item": "9.5.5",
+     "title": "S4TWL - Simplified Sourcing",
+     "lines": [
+      43468,
+      43547,
+      43573
+     ]
+    },
+    {
+     "item": "9.5.15",
+     "title": "S4TWL - MRP fields in Material Master",
+     "lines": [
+      44393,
+      44396,
+      44398
+     ]
+    },
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53246
+     ]
+    },
+    {
+     "item": "13.13.6",
+     "title": "S4TWL - Oil & Gas inconsistency reports deprecation",
+     "lines": [
+      69825,
+      69924
+     ]
+    },
+    {
+     "item": "13.13.33",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      71870,
+      72105
+     ]
+    },
+    {
+     "item": "13.15.31",
+     "title": "S4TWL - Allocation Run Master Data",
+     "lines": [
+      75549,
+      75550,
+      75553
+     ]
+    },
+    {
+     "item": "13.15.45",
+     "title": "S4TWL - Season Active in Inventory Management",
+     "lines": [
+      76202
+     ]
+    },
+    {
+     "item": "15.3.1",
+     "title": "S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)",
+     "lines": [
+      82463,
+      82526,
+      82914
+     ]
+    },
+    {
+     "item": "1.3.3",
+     "title": "Customer views using aggregated stock quantity dataCustomer views having at least",
+     "lines": [
+      83075
+     ]
+    }
+   ]
+  },
+  "MARD": {
+   "2023": [
+    {
+     "item": "2.33",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      6281
+     ]
+    },
+    {
+     "item": "3.25",
+     "title": "S4TWL - MRP fields in Material Master",
+     "lines": [
+      9927,
+      9928,
+      9935
+     ]
+    },
+    {
+     "item": "27.5",
+     "title": "S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MMIM)",
+     "lines": [
+      33856,
+      33974
+     ]
+    },
+    {
+     "item": "56.9",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      65422,
+      65470
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "8.1.3",
+     "title": "S4TWL - Generic Check for SAP S/4HANA Conversion and Upgrade",
+     "lines": [
+      28545
+     ]
+    },
+    {
+     "item": "9.5.15",
+     "title": "S4TWL - MRP fields in Material Master",
+     "lines": [
+      44407,
+      44408,
+      44409
+     ]
+    },
+    {
+     "item": "13.13.33",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      72113
+     ]
+    },
+    {
+     "item": "15.3.1",
+     "title": "S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)",
+     "lines": [
+      82463,
+      82527
+     ]
+    }
+   ]
+  },
+  "MARM": {
+   "2023": [
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      35560,
+      35860,
+      35862
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.0",
+     "title": "This 'new architecture' is harmonized with the SAP ERP standard and removes the",
+     "lines": [
+      84407,
+      84989,
+      84994
+     ]
+    }
+   ]
+  },
+  "MBEW": {
+   "2023": [
+    {
+     "item": "18.5",
+     "title": "S4TWL - Conversion to S/4HANA Material Ledger and Actual Costing",
+     "lines": [
+      23890
+     ]
+    },
+    {
+     "item": "27.7",
+     "title": "S4TWL - Material Ledger Obligatory for Material Valuation",
+     "lines": [
+      34788,
+      34829
+     ]
+    },
+    {
+     "item": "27.8",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      35014
+     ]
+    },
+    {
+     "item": "5.2",
+     "title": "Logistics Information System (LIS)",
+     "lines": [
+      35357,
+      35569
+     ]
+    },
+    {
+     "item": "56.9",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      65268
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "6.5.8",
+     "title": "S4TWL - Conversion to S/4HANA Material Ledger and Actual Costing",
+     "lines": [
+      18240
+     ]
+    },
+    {
+     "item": "13.15.21",
+     "title": "S4TWL - Valuation in Retail",
+     "lines": [
+      75096
+     ]
+    },
+    {
+     "item": "15.3.2",
+     "title": "S4TWL - Material Ledger Obligatory for Material Valuation",
+     "lines": [
+      83153,
+      83215
+     ]
+    },
+    {
+     "item": "15.3.3",
+     "title": "S4TWL - Goods movements without exclusive locking by material valuation",
+     "lines": [
+      83420
+     ]
+    },
+    {
+     "item": "15.3.10",
+     "title": "S4TWL - Material Valuation - Statistical moving average price",
+     "lines": [
+      84258
+     ]
+    },
+    {
+     "item": "6.0",
+     "title": "This 'new architecture' is harmonized with the SAP ERP standard and removes the",
+     "lines": [
+      84415
+     ]
+    }
+   ]
+  },
+  "MCH1": {
+   "2023": [
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      70185
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.15.51",
+     "title": "S4TWL - Retail Information System",
+     "lines": [
+      76550
+     ]
+    }
+   ]
+  },
+  "MCHA": {
+   "2023": [
+    {
+     "item": "60.9",
+     "title": "S4TWL - Retail Additionals",
+     "lines": [
+      70185
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "13.15.51",
+     "title": "S4TWL - Retail Information System",
+     "lines": [
+      76551
+     ]
+    }
+   ]
+  },
+  "MKPF": {
+   "2023": [
+    {
+     "item": "27.5",
+     "title": "S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MMIM)",
+     "lines": [
+      33853,
+      33863,
+      33891
+     ]
+    },
+    {
+     "item": "1.1",
+     "title": "Customer Appends on the former document tables MKPF and MSEG",
+     "lines": [
+      34501,
+      34502,
+      34503
+     ]
+    },
+    {
+     "item": "1.3.1",
+     "title": "Customer views on MKPF/MSEG",
+     "lines": [
+      34584,
+      34586
+     ]
+    },
+    {
+     "item": "1.3.3",
+     "title": "Customer views using aggregated stock quantity data",
+     "lines": [
+      34605,
+      34607
+     ]
+    },
+    {
+     "item": "33.2",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      44253,
+      44313,
+      44318
+     ]
+    },
+    {
+     "item": "56.9",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      65244,
+      65256,
+      65257
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.1.10",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      30004,
+      30011,
+      30026
+     ]
+    },
+    {
+     "item": "13.13.6",
+     "title": "S4TWL - Oil & Gas inconsistency reports deprecation",
+     "lines": [
+      69820,
+      69855,
+      69919
+     ]
+    },
+    {
+     "item": "13.13.33",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      71685,
+      71702,
+      71880
+     ]
+    },
+    {
+     "item": "15.3.1",
+     "title": "S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)",
+     "lines": [
+      82461,
+      82471,
+      82502
+     ]
+    },
+    {
+     "item": "1.1",
+     "title": "Customer Appends on the former document tables MKPF and MSEG",
+     "lines": [
+      82935,
+      82936,
+      82937
+     ]
+    },
+    {
+     "item": "1.3.1",
+     "title": "Customer views on MKPF/MSEG",
+     "lines": [
+      83005,
+      83012
+     ]
+    },
+    {
+     "item": "1.3.3",
+     "title": "Customer views using aggregated stock quantity dataCustomer views having at least",
+     "lines": [
+      83033,
+      83035
+     ]
+    }
+   ]
+  },
+  "MSEG": {
+   "2023": [
+    {
+     "item": "27.2",
+     "title": "S4TWL - Blocked customer or supplier in Inventory Management",
+     "lines": [
+      33551
+     ]
+    },
+    {
+     "item": "27.3",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      33726
+     ]
+    },
+    {
+     "item": "27.5",
+     "title": "S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MMIM)",
+     "lines": [
+      33853,
+      33863,
+      33932
+     ]
+    },
+    {
+     "item": "1.1",
+     "title": "Customer Appends on the former document tables MKPF and MSEG",
+     "lines": [
+      34501,
+      34502,
+      34504
+     ]
+    },
+    {
+     "item": "1.1.1",
+     "title": "Customer include CI_COBL in table MSEG",
+     "lines": [
+      34525,
+      34526,
+      34530
+     ]
+    },
+    {
+     "item": "1.3.1",
+     "title": "Customer views on MKPF/MSEG",
+     "lines": [
+      34586
+     ]
+    },
+    {
+     "item": "1.3.3",
+     "title": "Customer views using aggregated stock quantity data",
+     "lines": [
+      34605,
+      34607
+     ]
+    },
+    {
+     "item": "33.2",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      44295,
+      44313,
+      44321
+     ]
+    },
+    {
+     "item": "56.9",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      65244,
+      65256,
+      65257
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.1.10",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      30005,
+      30011,
+      30027
+     ]
+    },
+    {
+     "item": "13.13.6",
+     "title": "S4TWL - Oil & Gas inconsistency reports deprecation",
+     "lines": [
+      69821,
+      69856,
+      69920
+     ]
+    },
+    {
+     "item": "13.13.33",
+     "title": "S4TWL - Data Model in Oil & Gas Inventory management",
+     "lines": [
+      71685,
+      71702,
+      71887
+     ]
+    },
+    {
+     "item": "15.3.1",
+     "title": "S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)",
+     "lines": [
+      82461,
+      82471,
+      82525
+     ]
+    },
+    {
+     "item": "1.1",
+     "title": "Customer Appends on the former document tables MKPF and MSEG",
+     "lines": [
+      82935,
+      82936,
+      82937
+     ]
+    },
+    {
+     "item": "1.1.1",
+     "title": "Customer include CI_COBL in table MSEG",
+     "lines": [
+      82957,
+      82958,
+      82961
+     ]
+    },
+    {
+     "item": "1.3.1",
+     "title": "Customer views on MKPF/MSEG",
+     "lines": [
+      83013
+     ]
+    },
+    {
+     "item": "1.3.3",
+     "title": "Customer views using aggregated stock quantity dataCustomer views having at least",
+     "lines": [
+      83033,
+      83035
+     ]
+    },
+    {
+     "item": "15.3.5",
+     "title": "S4TWL - Blocked customer or supplier in Inventory Management",
+     "lines": [
+      83593
+     ]
+    },
+    {
+     "item": "15.3.6",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      83799
+     ]
+    },
+    {
+     "item": "15.3.12",
+     "title": "S4TWL - Document Flow Consistency for Goods Receipt to Inbound",
+     "lines": [
+      85188
+     ]
+    }
+   ]
+  },
+  "OBJK": {
+   "2023": [
+    {
+     "item": "29.1",
+     "title": "S4TWL - Object List Number Field Length Extension",
+     "lines": [
+      38182,
+      38189
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "4.1.11",
+     "title": "S4TWL - Object List Number Field Length Extension",
+     "lines": [
+      4357,
+      4358
+     ]
+    }
+   ]
+  },
+  "RESB": {
+   "2023": [
+    {
+     "item": "27.2",
+     "title": "S4TWL - Blocked customer or supplier in Inventory Management",
+     "lines": [
+      33552
+     ]
+    },
+    {
+     "item": "30.4",
+     "title": "S4TWL - Total Dependent Requirements",
+     "lines": [
+      39485
+     ]
+    },
+    {
+     "item": "33.2",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      44336,
+      44338,
+      44341
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.1.10",
+     "title": "S4TWL - Substance Volume Tracking Selection Criteria based on tables",
+     "lines": [
+      30038,
+      30040,
+      30044
+     ]
+    },
+    {
+     "item": "9.5.7",
+     "title": "S4TWL - Total Dependent Requirements",
+     "lines": [
+      43987
+     ]
+    },
+    {
+     "item": "15.3.5",
+     "title": "S4TWL - Blocked customer or supplier in Inventory Management",
+     "lines": [
+      83594
+     ]
+    }
+   ]
+  },
+  "STAS": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36632
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53279
+     ]
+    }
+   ]
+  },
+  "STPO": {
+   "2023": [
+    {
+     "item": "28.7",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      36632
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "10.4.26",
+     "title": "S4TWL - BOM, Routing, Production Version",
+     "lines": [
+      53279
+     ]
+    }
+   ]
+  },
+  "T134": {
+   "2023": [
+    {
+     "item": "3.26",
+     "title": "S4TWL - Material Type SERV",
+     "lines": [
+      10131
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "12.1.1",
+     "title": "S4TWL - Material Type SERV",
+     "lines": [
+      59559
+     ]
+    }
+   ]
+  },
+  "T438M": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42625
+     ]
+    }
+   ],
+   "2025": [
+    {
+     "item": "9.5.5",
+     "title": "S4TWL - Simplified Sourcing",
+     "lines": [
+      43683
+     ]
+    }
+   ]
+  },
+  "T399X": {
+   "2023": [
+    {
+     "item": "30.9",
+     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "lines": [
+      42450
+     ]
+    }
+   ]
+  }
+ },
+ "summary": {
+  "universe": 105,
+  "skippedTwoCharacter": 0,
+  "namedInAnyList": 23,
+  "namedInBoth": 22,
+  "notNamed": 82
+ },
+ "family": "tables"
+}

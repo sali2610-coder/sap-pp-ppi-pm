@@ -21,6 +21,7 @@
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
+const DATE22 = "2026-09-22";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -778,7 +779,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
           "ב-2026-09-22: הרשומה שונתה ל-Screen Maintenance Requests (slug screen-maintenance-requests, trust " +
           "verified-docs; תפקיד, קטלוג, OData, טרנזקציות GUI וטבלאות הושארו ריקים כי המקורות אינם מציינים אותם), " +
           "רשומת מרכז ה-Fiori תוקנה בהתאם, וההפניות ל-F4072 ב-tx-intel הוחלפו בשמות היישומים המתועדים לתזמון " +
-          "(F2774 / F5325, ללא רשומה בפרויקט). data/library/fiori-apps.json רשם מלכתחילה F4072 = Screen Maintenance " +
+          "(F2774 / F5325, שלא היו להם רשומות בפרויקט באותה שעה; שתיהן נוספו מאוחר יותר באותו יום). data/library/fiori-apps.json רשם מלכתחילה F4072 = Screen Maintenance " +
           "Requests.",
         verificationLevel: "repository_verified",
         repoRef: "data/fiori/apps.ts#F4072",
@@ -2201,4 +2202,178 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "On-Premise. הספרייה הקלאסית מציגה הודעת פרישה המפנה ל-fal.cloud.sap; העמוד החדש לא נקרא. לא בוצעה בדיקה " +
       "במערכת SAP חיה (חיבור sc4sap MCP נכשל).",
   },
+  /* ---- F2774 and F5325, added 2026-09-22 (master completion §12). Every claim is
+     bounded to the search-record title and snippet the official SAP Help search
+     returned on that date; the Apps Library pages load as JS shells, so role,
+     catalog and OData are not asserted. ---- */
+  {
+    id: "fiori:F2774",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Mass Schedule Maintenance Plans | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/12f60922946c4ec49807c81ad93d5ba4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE22,
+        claim:
+          "Maintenance Management לגרסת 2025 FPS01: 'Mass Schedule Maintenance Plans Use App ID: F2774 With this app, " +
+          "you can schedule all maintenance plans that are due within a specific time frame'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Mass Schedule Maintenance Plans | What's New in SAP S/4HANA 1709",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1709",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/ef815ff35f454fb389d17bbae8ac7250.html?locale=en-US&state=PRODUCTION&version=1709%20000",
+        accessedAt: DATE22,
+        claim:
+          "What's New 1709 מונה את Mass Schedule Maintenance Plans תחת Apps for Plant Maintenance, 'to schedule all " +
+          "maintenance plans that are due within a specific time': היישום זמין מ-S/4HANA 1709.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Mass Schedule Maintenance Plans | What's New in SAP S/4HANA (100)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "100",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4c6c3c99e6e94a92a626f424add61cba/6f39ce28d1e14e57adaf45dcf1beed30.html?locale=en-US&state=PRODUCTION&version=100",
+        accessedAt: DATE22,
+        claim:
+          "'As a maintenance planner, you can use this app to schedule all maintenance plans that are due within a " +
+          "specific time frame': היישום מיועד למתכנן התחזוקה. הקטע אינו נוקב בשם הטכני של התפקיד העסקי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Scheduling and Automatic Scheduling | Maintenance Planning (CS-AG/PM-PRM-MP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f7d969cde600466b96094e772632c3f3/2d396b50389ff015e10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE22,
+        claim:
+          "קטע החיפוש של תיעוד התזמון ב-2025 FPS01: 'Mass schedule maintenance plans (transaction IP30H) In the " +
+          "maintenance planning menu, choose Scheduling for Maintenance Plans Mass Schedule Maintenance Plans'. הקטע " +
+          "קושר את השם לטרנזקציית ה-GUI IP30H; הוא אינו קובע שהיישום F2774 עוטף אותה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori לתזמון המוני של תכניות תחזוקה, מתועד ב-Maintenance Management לגרסת 2025 FPS01 תחת App ID F2774 " +
+        "וזמין מ-S/4HANA 1709 (What's New 1709). מיועד למתכנן התחזוקה. תיעוד התזמון נותן לטרנזקציית ה-GUI IP30H את " +
+        "אותו שם, אך אינו קובע שהיישום עוטף אותה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: null,
+      recommendedAction:
+        "להשתמש ב-F2774 כנתיב ה-Fiori לתזמון המוני, לצד טרנזקציית IP30H (שהחליפה את עבודות הרקע של IP30 לפי פריט " +
+        "הפישוט 'S4TWL - Scheduling of Maintenance Plan'). לקרוא מספריית ה-Fiori את התפקיד העסקי, הקטלוג ושירות " +
+        "ה-OData לפני שיוצגו.",
+    },
+    xrefs: ["tx:IP30H", "tx:IP30", "tx:IP10", "fiori:F5325", "cds:I_MaintenancePlan"],
+    lastVerifiedAt: DATE22,
+    notes:
+      "נוסף 2026-09-22. הראיות הן כותרות וקטעים של רשומות חיפוש SAP Help רשמיות שהוחזרו באותו יום " +
+      "(scripts/sap-help-search.mjs). סוג היישום Transactional ברשומת הקטלוג נגזר מהפונקציה המתועדת (תזמון יוצר " +
+      "רשומות קריאה) ולא נקרא מהספרייה. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "fiori:F5325",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deprecation of Manage Maintenance Plan and Item List App | What's New in SAP S/4HANA 2022",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/9fe2ab1a1d5f4f1482ebebdfb9a875d2.html?locale=en-US&state=PRODUCTION&version=2022.000",
+        accessedAt: DATE22,
+        claim:
+          "What's New 2022: היישום Manage Maintenance Plan and Item List הוצא משימוש ('Valid as Of SAP S/4HANA 2022'), " +
+          "'You can use the following successor apps which are available on the SAP Fiori launchpad: Manage " +
+          "Maintenance Plans (F5325'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deletion of Manage Maintenance Plan and Item List App | What's New in SAP S/4HANA 2023 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/0e83f36ad7914324976ddc9db47621fc.html?locale=en-US&state=PRODUCTION&version=2023.001",
+        accessedAt: DATE22,
+        claim:
+          "What's New 2023 FPS01: היישום הישן נמחק; 'You can use the following successor apps which are available on " +
+          "the SAP Fiori launchpad: Manage Maintenance Plans (F5325) and Manage Maintenance Items (F5356)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Filter by Plan Description in the Manage Maintenance Plans App | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/a0c0e9f184f24910b2985d6a7cccb43a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE22,
+        claim:
+          "What's New 2025 FPS01, Technical Details: 'Scope Item 4HI (Proactive Maintenance) BJ2 (Preventive " +
+          "Maintenance) Technical Object Name App ID: F5325'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance plan | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/b97c17855d78480ead0cebb32c4a346f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE22,
+        claim:
+          "אובייקט ההגירה 'PM - Maintenance plan' ב-2025 FPS01: 'In addition, you can also use the following app or " +
+          "apps: App: Manage Maintenance Plans (F5325) Display Maintenance Plan (IP16) Display Maintenance Plan (IP03)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Authorization Object for Maintenance Plans | What's New in SAP S/4HANA 2023",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/d3629c11d9c442798d1df074e58ea49f.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE22,
+        claim:
+          "What's New 2023: 'The new authorization object Maintenance Plan Category (I_MPTYP) is available in the apps " +
+          "Manage Maintenance Plans (F5325'.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori לניהול תכניות תחזוקה, היורש של Manage Maintenance Plan and Item List שהוצא משימוש ב-S/4HANA 2022 " +
+        "ונמחק ב-2023 FPS01. What's New 2025 FPS01 משייך אותו לפריטי ההיקף 4HI (Proactive Maintenance) ו-BJ2 " +
+        "(Preventive Maintenance), ואובייקט ההרשאה I_MPTYP זמין בו מ-2023.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: null,
+      recommendedAction:
+        "להשתמש ב-F5325 (ובזוגו Manage Maintenance Items, F5356) במקום היישום הישן Manage Maintenance Plan and Item List. " +
+        "לקרוא מספריית ה-Fiori את התפקיד העסקי, הקטלוג ושירות ה-OData לפני שיוצגו.",
+    },
+    xrefs: ["tx:IP03", "tx:IP16", "tx:IP01", "tx:IP02", "fiori:F2774", "cds:I_MaintenancePlan", "table:MPLA"],
+    lastVerifiedAt: DATE22,
+    notes:
+      "נוסף 2026-09-22. הראיות הן כותרות וקטעים של רשומות חיפוש SAP Help רשמיות שהוחזרו באותו יום. F5356 (Manage " +
+      "Maintenance Items) נקוב במקורות כזוגו של F5325 אך אין לו רשומה בפרויקט, ולכן אינו ב-xrefs. סוג היישום " +
+      "Transactional ברשומת הקטלוג נגזר מהפונקציה המתועדת (עיבוד ושינוי תכניות) ולא נקרא מהספרייה. לא בוצעה בדיקה " +
+      "במערכת SAP חיה.",
+  },
+
 ];

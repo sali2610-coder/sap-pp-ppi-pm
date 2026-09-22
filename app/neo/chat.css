@@ -1198,7 +1198,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 
 .nxg-cols {
   display: grid; gap: var(--sp-3);
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
 }
 .nxg-col {
   display: grid; gap: var(--sp-2); align-content: start;

@@ -619,6 +619,9 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
   letter-spacing: var(--t-display-tr);
   font-weight: 700;
   color: var(--ink-1);
+  /* One token with no break opportunity (BAPI_ALM_CONF_CREATE is 350px at display
+     size): reflow at 320px (WCAG 1.4.10) needs it to be allowed to break. */
+  overflow-wrap: anywhere;
   direction: ltr;
   unicode-bidi: isolate;
   margin: 0;
@@ -705,7 +708,7 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 .nx-app .nxt-s4-why { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); }
 .nx-app .nxt-s4-why .nx-sap { font-family: var(--font-mono); }
 
-.nx-app .nxt-s4-facts { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+.nx-app .nxt-s4-facts { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
 .nx-app .nxt-s4-warn {
   font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he);
   padding: var(--sp-3) var(--sp-4);
@@ -753,7 +756,7 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 
 /* ----------------------------------------------------- 12.4 NAMED FACTS */
 
-.nx-app .nxt-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxt-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .nx-app .nxt-fact { display: grid; gap: 4px; align-content: start; min-inline-size: 0; }
 .nx-app .nxt-l {
   font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
@@ -776,7 +779,7 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 
 .nx-app .nxt-codes { display: flex; flex-wrap: wrap; gap: 4px; }
 .nx-app .nxt-inline-i { color: var(--ink-3); }
-.nx-app .nxt-two { display: grid; gap: var(--sp-5); grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+.nx-app .nxt-two { display: grid; gap: var(--sp-5); grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
 
 /* --------------------------------------------------- 12.5 TABLE RESULTS */
 
@@ -810,7 +813,7 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 
 .nx-app .nxt-near {
   display: grid; gap: var(--sp-2);
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
 }
 .nx-app .nxt-near-c {
   position: relative; overflow: hidden;
@@ -895,7 +898,7 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 
 @media (min-width: 2200px) {
   .nx-app .nxt { max-inline-size: 104rem; }
-  .nx-app .nxt-near { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); }
+  .nx-app .nxt-near { grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }
 }
 
 /* --------------------------------------------------------------- 12.10 DARK */

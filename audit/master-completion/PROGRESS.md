@@ -44,6 +44,28 @@ it is not stamped onto the records as official evidence (that would lift a recor
 "verified" while its S/4HANA status is still unread). The 364 are the research queue; the
 1,421 carry a documented negative search in `simpl-tcode-index.json`.
 
+## Tables and functions against the official lists
+
+The same index, run over the other two families (`FAMILY=tables|functions`):
+
+| family | universe | named by an item | named by neither |
+|---|---|---|---|
+| tables | 105 | 23 | 82 |
+| functions | 142 | 11 | 131 |
+
+It reproduces the known table verdicts (MKPF in 27.5 "DATA MODEL IN INVENTORY MANAGEMENT",
+COSP in the FIN data-model item). Of the 16 tables the mandate names for a depth check, 15
+appear in neither list (PLZU, FHMI, AFWI, KAZT, CRVD_A, T003O, T352, TC22, TC60, TCA01, TCK03,
+TCO01, T370T, T134T, T352B); T438M appears only in two unrelated items. For a customizing or
+text table, absence from every item is consistent with an unchanged table but is not proof,
+so these stay `verification_required` with this search on record.
+
+Why 75 tables are L1: depth L2 needs at least five fields carrying a data type and a length
+(`lib/evidence/depth.ts`, STRUCTURAL_MIN.tables = 5), and the PM and PP-PI blueprints publish
+no data types for these customizing tables. The project rule forbids inventing them. What
+closes it is SE11 on a live system, or an official DDIC field list, neither of which is public
+for these tables.
+
 ## Honest sizing
 
 Measured cost of the research pipeline: about 2 million subagent tokens and 50 to 70 minutes for
@@ -63,3 +85,8 @@ priority order and checkpoints after every batch, so an interruption loses nothi
 ## Log
 
 - 2026-09-22 · queue and official-list index generated; checkpoint created.
+- 2026-09-22 · reports corrected: 20 stale PENDING cells, historical snapshots labelled, capability matrix updated (`7434ad26`).
+- 2026-09-22 · cross-reference gaps closed: pir-strategy re-pointed, qm-ud-stock-block moved to a notes field (`7434ad26`).
+- 2026-09-22 · Fiori thin index: shared display names 61 to 0 from Book 7 titles, no protected file edited (`7e34eb55`).
+- 2026-09-22 · reflow at 320px: 16 grid tracks guarded with min(100%, Nrem), record headings and code links may wrap (pending build).
+- 2026-09-22 · functions batch 10 running (`wf_4de3909b-73f`).

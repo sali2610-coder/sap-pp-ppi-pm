@@ -1,0 +1,475 @@
+{
+ "accessedAt": "2026-09-22",
+ "batches": [
+  {
+   "catalog": "enhancements",
+   "queue": [
+    {
+     "id": "enh:technique:enhancement-spot",
+     "he": "נקודת הרחבה מפורשת (Enhancement Spot) ב-Enhancement Framework.",
+     "hint": "RE-DRAFT of a refused record. Refusal (structural): recommendedAction was placed outside status, and the draft invented a '4-evidence limit'. recommendedAction belongs INSIDE status. No house rule may be invented. The parenthetical that carried the whole verdict must itself be sourced or removed."
+    },
+    {
+     "id": "enh:technique:vofm",
+     "he": "שגרות ופורמולות (VOFM) להתאמת תמחור, העתקה ותנאים.",
+     "hint": "RE-DRAFT of a refused record. Refusal: notes claimed S/4HANA On-Premise 2025 FPS01 names VOFM 'in at least four books' including Oil & Gas. Measured: 'node scripts/sap-help-search.mjs \"VOFM transaction routine\" --size 21' returns 21 records whose only Oil & Gas hit (Routine Setups) has no VOFM in the snippet, and an 'Oil Gas VOFM' query had VOFM in zero snippets. The two Oil & Gas pages (f98dcf535b804808e10000000a174cb4, f08dcf535b804808e10000000a174cb4) quote only the IMG path, never the code. Count only books whose snippets contain VOFM (three), and keep notes consistent with evidence[2], which already says the System Adaptation pages do not name VOFM."
+    }
+   ]
+  },
+  {
+   "catalog": "fiori",
+   "queue": [
+    {
+     "id": "fiori:F3289",
+     "he": "ניהול קיבולת מרכז עבודה (Manage Work Center Capacity).",
+     "hint": "RE-DRAFT of a refused record. (1) Drop the quotation 'View the capacity requirement and available capacity for work centers. Reschedule the operation start and end date if required' attributed to loio 74e3356c89914b1495667e7d1f76eb23: it appears in no snippet and the topic body is a JS shell. (2) Source component PP-CFS-CE and scope item from What's New 2020 (loio 2acb634615974535b4fabdc710937599, 2020.000) and 2021 (loio 7b61621545224d24be7b20624523dcdf, 2021.000), which carry '31L PP-CFS-CE', and state the disagreement: What's New 2023 (loio ce274262f5584b0f9049022063100935) lists the app under '3LQ PP-CFS-CE', and Cloud What's New 2408.2 (loio a16c230ccde2438c93f700e0e5565124) labels '3LQ (Production Capacity Leveling) 31L (Production Capacity Evaluation)'. (3) The ECC pairing CM01/CM07 needs a repository evidence row with repoRef data/fiori/apps.ts#F3289, and nothing beyond what that row says. Confirmed OK before: all four URLs on allowlisted hosts; library title 'Manage Work Center Capacity - Fiori Apps Library' at Apps('F3289')/S21OP; 2602 Technical Details (App ID F3289, PP-CFS-CE-2CL); s4_native token; xrefs resolve."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:BAPI_PR_CREATE",
+     "he": "יצירת דרישת רכש (Enjoy). דורש BAPI_TRANSACTION_COMMIT.",
+     "hint": "Registry: BAPI, module PM. Repository tables: EBAN. Repository transactions: ME51N, ME52N, ME53N, ME57. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_REQUISITION_GETDETAIL",
+     "he": "הצגת פרטי דרישת רכש (פריטים, הקצאות, טקסטים). קריאה בלבד.",
+     "hint": "Registry: BAPI, module PM. Repository tables: EBAN. Repository transactions: ME51N, ME52N, ME53N, ME57. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_RESERVATION_CREATE1",
+     "he": "יצירת שמורה ידנית (Reservation) לתנועת מלאי עתידית. דורש COMMIT.",
+     "hint": "Registry: BAPI, module PM. Repository tables: RESB, RKPF. Repository transactions: MB21. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_TASKLIST_CREATE",
+     "he": "אינו קיים. ב-S/4 השתמש ב-FM EAM_TASKLIST_CREATE / EAM_TASKLIST_POST.",
+     "hint": "Registry: BAPI, module PM. Repository tables: PLKO. Repository transactions: IA05, IA01, IA11, IA06, IA08. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:CR_TEXT_READ",
+     "he": "קריאת טקסט מרכז עבודה",
+     "hint": "Registry: FM, module PM. Repository tables: CRTX. Repository transactions: IR02, IR03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:CS_BOM_EXPL_FLO_RC1",
+     "he": "פיצוץ עץ מוצר של מיקום",
+     "hint": "Registry: FM, module PM. Repository tables: TPST. Repository transactions: IB11, IB12, IB13. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:CS_BT_BOM_HEADER_READ",
+     "he": "קריאת כותרת עץ מוצר",
+     "hint": "Registry: FM, module PM. Repository tables: STKO. Repository transactions: IB01, CS01, CS02, CS03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:EQUI_TIMESEGMENT_READ",
+     "he": "קריאת פלחי הזמן של הציוד",
+     "hint": "Registry: FM, module PM. Repository tables: EQUZ. Repository transactions: IE02, IE4N. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:EQUIPMENT_DISMANTLE",
+     "he": "פירוק ציוד ממיקום התקנה. FM פנימי מאחורי ה-BAPIs של ציוד (קבוצת פונקציות IBEQ).",
+     "hint": "Registry: FM, module PM. Repository tables: EQUZ. Repository transactions: IE02, IE4N. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:EQUIPMENT_TEXT_READ",
+     "he": "קריאת טקסט תיאור ציוד (EQKT) לפי מספר ציוד ושפה (קבוצת פונקציות ITX1).",
+     "hint": "Registry: FM, module PM. Repository tables: EQKT. Repository transactions: IE02, IE03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:FUNC_LOCATION_LABEL_READ",
+     "he": "קריאת תווית מיקום פונקציונלי",
+     "hint": "Registry: FM, module PM. Repository tables: IFLOS. Repository transactions: IL01, IL02, IL03, IH06. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:ILOA_INHERIT_FROM_FUNCLOC",
+     "he": "ירושת נתונים מהמיקום לציוד",
+     "hint": "Registry: FM, module PM. Repository tables: ILOA. Repository transactions: IL02, IE02. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:ILOA_READ",
+     "he": "קריאת נתוני מיקום/חיוב",
+     "hint": "Registry: FM, module PM. Repository tables: ILOA. Repository transactions: IL02, IE02. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:ILOA_UPDATE",
+     "he": "עדכון נתוני מיקום/חיוב (ILOA) לאובייקט טכני. FM פנימי (קבוצת פונקציות ILA0).",
+     "hint": "Registry: FM, module PM. Repository tables: ILOA. Repository transactions: IL02, IE02. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:ISCHED_CALL_GENERATE",
+     "he": "יצירת קריאת אחזקה ופק\"ע",
+     "hint": "Registry: FM, module PM. Repository tables: MHIO. Repository transactions: IP10, IP30, IP24. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:ISU_FUNCLOC_GETLIST",
+     "he": "שליפת רשימת מיקומים לפי בחירה",
+     "hint": "Registry: FM, module PM. Repository tables: IFLOT. Repository transactions: IL01, IL02, IL03, IH01, IH06. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:K_COSTS_READ",
+     "he": "קריאת עלויות אובייקט",
+     "hint": "Registry: FM, module PM. Repository tables: COSP, COSS. Repository transactions: KO88, KO8G, KOB1, S_ALR_87013611. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:K_ORDER_SETTLEMENT",
+     "he": "ביצוע התחשבנות פק\"ע",
+     "hint": "Registry: FM, module PM. Repository tables: COSP. Repository transactions: KO88, KO8G, KOB1, S_ALR_87013611. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:K_SETTLEMENT_RULE_READ",
+     "he": "קריאת חוק התחשבנות",
+     "hint": "Registry: FM, module PM. Repository tables: COBRA, COBRB. Repository transactions: KO02, IW32. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:MAINTENANCE_ITEM_READ",
+     "he": "קריאת פריט תכנית אחזקה",
+     "hint": "Registry: FM, module PM. Repository tables: MPOS. Repository transactions: IP04, IP02. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:MAINTENANCE_PLAN_SCHEDULE",
+     "he": "תזמון תכנית אחזקה",
+     "hint": "Registry: FM, module PM. Repository tables: MPLA, MHIO. Repository transactions: IP01, IP02, IP03, IP41, IP42, IP10, IP30, IP24. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:MEASUREM_DOCUM_RFC_SINGLE_001",
+     "he": "יצירת מסמך מדידה בודד לנקודת מדידה (RFC משוחרר, קבוצת פונקציות IMR0).",
+     "hint": "Registry: FM, module PM. Repository tables: IMRG. Repository transactions: IK11, IK12, IK13, IK21, IK41. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:MEASUREMENT_POINT_READ",
+     "he": "קריאת פרטי נקודת מדידה",
+     "hint": "Registry: FM, module PM. Repository tables: IMPTT. Repository transactions: IK01, IK02, IK03, IK07, IK08. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:NOTIF_CAUSE_READ",
+     "he": "קריאת סיבות הליקוי",
+     "hint": "Registry: FM, module PM. Repository tables: QMUR. Repository transactions: IW22, IW67. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:NOTIF_ITEM_READ",
+     "he": "לא אומת כשם משוחרר. לקריאת פריטי הודעת אחזקה השתמש ב-BAPI_ALM_NOTIF_GET_DETAIL (מחזיר טבלת NOTITEM).",
+     "hint": "Registry: FM, module PM. Repository tables: QMFE. Repository transactions: IW22, IW66. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:ORDER_TYPE_READ",
+     "he": "קריאת סוג פקודה והגדרותיו",
+     "hint": "Registry: FM, module PM. Repository tables: T003O. Repository transactions: SPRO, OIOA, KOT2_OPA. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:PM_NOTIFICATION_TYPE_READ",
+     "he": "קריאת סוג הודעה והגדרותיו",
+     "hint": "Registry: FM, module PM. Repository tables: TQ80. Repository transactions: OIAL, SPRO, QCC0. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:PRIORITY_DETERMINE",
+     "he": "קביעת עדיפות לפי סוג",
+     "hint": "Registry: FM, module PM. Repository tables: TQ80. Repository transactions: OIAL, SPRO, QCC0. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:QPK1_CATALOG_READ",
+     "he": "קריאת קטלוג",
+     "hint": "Registry: FM, module PM. Repository tables: QPCD. Repository transactions: QS51, QS61. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:QPK1_CODE_TEXT_READ",
+     "he": "קריאת קוד וטקסט",
+     "hint": "Registry: FM, module PM. Repository tables: QPCD. Repository transactions: QS51, QS61. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:QPK1_CODEGROUP_READ",
+     "he": "קריאת קבוצת קוד",
+     "hint": "Registry: FM, module PM. Repository tables: QPGR. Repository transactions: QS51, QS61. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:RESERVATION_READ",
+     "he": "לא אומת כשם משוחרר. לקריאת שמורה השתמש ב-BAPI_RESERVATION_GETDETAIL (RFC) או ב-FM פנימיים מקבוצת MBRE.",
+     "hint": "Registry: FM, module PM. Repository tables: RESB. Repository transactions: MB1A, MIGO, MB21, IW32. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:SCHEDULING_HISTORY_READ",
+     "he": "קריאת היסטוריית תזמון",
+     "hint": "Registry: FM, module PM. Repository tables: MHIS. Repository transactions: IP10, IP30. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:SERIAL_NUMBER_CREATE",
+     "he": "לא אומת כשם סטנדרטי. ליצירת מספר סידורי השתמש ב-ITOB_SERIALNO_CREATE_SINGLE, או ב-BAPI_EQUI_CREATE לציוד.",
+     "hint": "Registry: FM, module PM. Repository tables: OBJK. Repository transactions: IQ01, IQ02, IQ03, IQ08, IQ09. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:SERNR_ADD_TO_DOCUMENT",
+     "he": "הוספת מספרים סידוריים למסמך. FM פנימי (קבוצת פונקציות IPW1).",
+     "hint": "Registry: FM, module PM. Repository tables: OBJK. Repository transactions: IQ01, IQ02, IQ03, IQ08, IQ09. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:STATUS_CHANGE_EXTERN",
+     "he": "קביעת סטטוס משתמש חיצוני לאובייקט (קבוצת פונקציות BSVA). מקבילה החיצונית ל-_INTERN.",
+     "hint": "Registry: FM, module PM. Repository tables: JEST, TJ30. Repository transactions: BS22, BS23, IW33, IE03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:STATUS_OBJECT_CREATE",
+     "he": "יצירת אובייקט סטטוס (JSTO) לניהול סטטוס כללי. FM פנימי (קבוצת פונקציות BSVA).",
+     "hint": "Registry: FM, module PM. Repository tables: JSTO. Repository transactions: BS02, BS03, OIBS, BS22. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:STATUS_PROFILE_READ",
+     "he": "קריאת פרופיל סטטוס",
+     "hint": "Registry: FM, module PM. Repository tables: JSTO, TJ30. Repository transactions: BS02, BS03, OIBS, BS22. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:STATUS_TEXT_READ",
+     "he": "קריאת טקסט סטטוס מערכת",
+     "hint": "Registry: FM, module PM. Repository tables: TJ02T. Repository transactions: BS23, BS22. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:STATUS_USER_CHANGE",
+     "he": "שינוי סטטוס משתמש",
+     "hint": "Registry: FM, module PM. Repository tables: TJ30. Repository transactions: BS02, BS03, OIBS. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:STRUCTURE_INDICATOR_READ",
+     "he": "קריאת מחוון מבנה והגדרותיו",
+     "hint": "Registry: FM, module PM. Repository tables: T370T. Repository transactions: SPRO, OIA1, OIMR. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:T352_READ",
+     "he": "קריאת פרופיל קטלוג",
+     "hint": "Registry: FM, module PM. Repository tables: T352. Repository transactions: OIM1, QCC0. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:USER_STATUS_TEXT_READ",
+     "he": "קריאת טקסט סטטוס משתמש",
+     "hint": "Registry: FM, module PM. Repository tables: TJ30T. Repository transactions: BS02, BS03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_PRODVERS_CREATE_REPLACE",
+     "he": "אין BAPI משוחרר ליצירת גרסת ייצור. השתמש בטרנזקציה C223, או ב-FM הפנימי CM_FV_PROD_VERS_MAINTAIN.",
+     "hint": "Registry: BAPI, module PP-PI. Repository tables: MKAL. Repository transactions: C223, MM02. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_ROUTING_GETDETAIL",
+     "he": "אינו קיים. אין BAPI לקריאת מסלול. ליצירה: BAPI_ROUTING_CREATE · לקריאה: טבלאות PLKO·PLPO·MAPL·PLAS.",
+     "hint": "Registry: BAPI, module PP-PI. Repository tables: PLPO. Repository transactions: C201, C202, C203, CA02. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:CR_WORK_CENTER_READ",
+     "he": "לא אומת בשם זה. לקריאת מרכז עבודה השתמש ב-CR_WORKSTATION_READ (פנימי) או ב-CR_RFC_WORKCENTER_LIST (RFC).",
+     "hint": "Registry: FM, module PP-PI. Repository tables: CRHD. Repository transactions: CR01, CR02, CR03, CRC1. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:CSAP_BOM_ITEM_MAINTAIN",
+     "he": "תחזוקת פריט בעץ מוצר (FM פנימי, לא RFC — הקורא אחראי לשמירה).",
+     "hint": "Registry: FM, module PP-PI. Repository tables: STPO. Repository transactions: IB02, CS02, CS11, CS15. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:CSAP_MAT_BOM_MAINTAIN",
+     "he": "תחזוקת עץ-מוצר לחומר (FM עם RFC). לא מסומן כ-BAPI Released רשמי — הקורא חייב COMMIT.",
+     "hint": "Registry: FM, module PP-PI. Repository tables: STKO, STPO, MAST. Repository transactions: CS01, CS02. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:CSAP_MAT_BOM_READ",
+     "he": "קריאת/הצגת עץ מוצר לחומר (FM פנימי, לא RFC).",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MAST. Repository transactions: CS01, CS02, CS03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:CY_CAPACITY_HEADER_READ",
+     "he": "קריאת כותרת קיבולת",
+     "hint": "Registry: FM, module PP-PI. Repository tables: KAKO. Repository transactions: CR11, CR12, CR13. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:CY_CAPACITY_LOAD",
+     "he": "חישוב עומס קיבולת",
+     "hint": "Registry: FM, module PP-PI. Repository tables: CRHD. Repository transactions: CR01, CR02, CR03, CRC1. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:DIMENSION_GET",
+     "he": "שליפת ממד יחידת מידה (קבוצת פונקציות SCVU) — בסיס להמרות יחידות.",
+     "hint": "Registry: FM, module PP-PI. Repository tables: T006. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:MAKT_SINGLE_READ",
+     "he": "קריאה בודדת מאוגרת של תיאור חומר מ-MAKT. FM פנימי.",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MAKT. Repository transactions: MM01, MM02, MM03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:MARA_SINGLE_READ",
+     "he": "קריאה בודדת מאוגרת (buffered) של נתוני אב חומר MARA. FM פנימי (FG MG21).",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MARA. Repository transactions: MM01, MM02, MM03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:MARC_SINGLE_READ",
+     "he": "קריאה בודדת מאוגרת (buffered) של נתוני מפעל-חומר MARC. FM פנימי (קבוצת פונקציות MG22).",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MARC. Repository transactions: MM01, MM02, MM03, MD04. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:MATERIAL_UNIT_CONVERSION",
+     "he": "המרת יחידת מידה של חומר לפי נתוני אב (קבוצת פונקציות MAME).",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MARM. Repository transactions: MM01, MM02, MM03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:MD_CONVERT_MATERIAL_UNIT",
+     "he": "המרת יחידת מידה של חומר (RFC-enabled, קבוצת פונקציות MDR1).",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MARM. Repository transactions: MM01, MM02, MM03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:QPK1_INSPCHAR_READ",
+     "he": "קריאת מאפייני בדיקה",
+     "hint": "Registry: FM, module PP-PI. Repository tables: PLMK. Repository transactions: QP01, QP02, C202. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:RFC_READ_TABLE",
+     "he": "FM שירות גנרי לקריאת טבלה דרך RFC — אינו אובייקט עסקי של PP. הימנע בפרודקשן; חלופה: CDS/OData או קריאה ייעודית.",
+     "hint": "Registry: FM, module PP-PI. Repository tables: T134T, T023, T023T, T399X, TCK03, T438M, TCO01, TJ30T. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:UNIT_CONVERSION_SIMPLE",
+     "he": "המרת יחידת מידה פשוטה בין יחידות מקור/יעד. כלי עזר מתועד.",
+     "hint": "Registry: FM, module PP-PI. Repository tables: T006. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:USER_STATUS_CHECK",
+     "he": "בדיקת סטטוס משתמש מותר",
+     "hint": "Registry: FM, module PP-PI. Repository tables: TJ30. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:VB_BATCH_DETAIL_GET",
+     "he": "שליפת פרטי אצווה",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MCH1. Repository transactions: MSC1N, MSC2N, MSC3N. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:VB_BATCH_VERIFY",
+     "he": "אימות אצווה במפעל",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MCHA. Repository transactions: MSC1N, MSC2N, MSC3N. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:VIEW_MAINTENANCE_CALL",
+     "he": "FM גנרי לתחזוקת טבלאות (SM30) — אינו אובייקט עסקי של PP.",
+     "hint": "Registry: FM, module PP-PI. Repository tables: T134T, T023, T023T, T399X, TCK03, T438M, TCO01, TJ30T. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_MPID_CREATE",
+     "he": "יצירת נקודת מדידה (Measuring Point). (השם הישן BAPI_MEASUREMENTPOINT_CREATE אינו קיים).",
+     "hint": "Registry: BAPI. Repository tables: IMPTT. Repository transactions: IK01. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_PLANNEDORDER_CREATE",
+     "he": "יצירת הזמנה מתוכננת (Planned Order).",
+     "hint": "Registry: BAPI. Repository tables: PLAF. Repository transactions: MD11. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:BAPI_PLANNEDORDER_GET_DETAIL",
+     "he": "שליפת פרטי הזמנה מתוכננת — קריאה בלבד.",
+     "hint": "Registry: BAPI. Repository tables: PLAF. Repository transactions: MD13. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_PROCORD_COMPLETE_TECH",
+     "he": "סגירה טכנית של פקודות תהליך (TECO).",
+     "hint": "Registry: BAPI. Repository tables: AFKO, JEST. Repository transactions: COR2. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_PROCORD_RELEASE",
+     "he": "שחרור פקודות תהליך (Release).",
+     "hint": "Registry: BAPI. Repository tables: AFKO, JEST. Repository transactions: COR2. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_PROCORDCONF_CANCEL",
+     "he": "ביטול דיווח פקודת תהליך.",
+     "hint": "Registry: BAPI. Repository tables: AFRU. Repository transactions: CORS. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_ROUTING_CREATE",
+     "he": "יצירת מסלול ייצור (Routing). אין BAPI לקריאת מסלול — לקריאה השתמש בטבלאות PLKO·PLPO·MAPL·PLAS.",
+     "hint": "Registry: BAPI. Repository tables: PLKO, PLPO, MAPL, PLAS. Repository transactions: CA01. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:BAPI_TRANSACTION_ROLLBACK",
+     "he": "ביצוע ROLLBACK WORK חיצוני — ביטול השינויים במקרה שגיאה ברצף BAPI.",
+     "hint": "Registry: BAPI. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:CS_BOM_EXPL_MAT_RC1",
+     "he": "הווריאנט _RC1 לא אומת. לפיצוץ עץ מוצר לחומר השתמש ב-CS_BOM_EXPL_MAT_V2 (או _V2_RFC ל-RFC).",
+     "hint": "Registry: FM, module PM/PP-PI. Repository tables: STPO, MAST. Repository transactions: IB02, CS02, CS11, CS15, CS01, CS03, CS12. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:CSAP_MAT_BOM_CREATE",
+     "he": "יצירת עץ מוצר לחומר (FM פנימי, לא RFC — API-modules for BOMs).",
+     "hint": "Registry: FM, module PM/PP-PI. Repository tables: STKO. Repository transactions: IB01, CS01, CS02, CS03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:STATUS_CHANGE_INTERN",
+     "he": "קביעת/מחיקת סטטוס מערכת (ניהול סטטוס כללי). FM פנימי — הסיומת _INTERN מסמנת קריאה פנימית, לא API משוחרר.",
+     "hint": "Registry: FM, module PM/PP-PI. Repository tables: JEST, T134. Repository transactions: BS22, BS23, IW33, IE03, COR3. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    },
+    {
+     "id": "fm:STATUS_READ",
+     "he": "קריאת סטטוס אובייקט מ-JSTO/JEST (ניהול סטטוס כללי). FM פנימי (FG BSVA).",
+     "hint": "Registry: FM, module PM/PP-PI. Repository tables: JEST. Repository transactions: BS22, BS23, IW33, IE03, COR3. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability. Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence."
+    }
+   ]
+  }
+ ]
+}

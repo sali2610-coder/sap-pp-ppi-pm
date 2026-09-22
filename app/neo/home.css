@@ -827,7 +827,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 /* The 19, as cards. */
 .nh-shared {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
   gap: .7rem;
   margin-block-end: 1rem;
 }
@@ -925,7 +925,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 
 .nh-two {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
   gap: clamp(1.5rem, 3.5cqi, 3rem);
   align-items: start;
 }
@@ -1265,7 +1265,7 @@ html .nx-app .nx-canvas:has(> .nh) {
    than as the drawing itself. */
 .nhn-key {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
   gap: var(--sp-5);
   margin-block-start: var(--sp-6);
   list-style: none; padding: 0;
