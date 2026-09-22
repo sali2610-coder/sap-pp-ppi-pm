@@ -95,3 +95,4 @@ priority order and checkpoints after every batch, so an interruption loses nothi
 - 2026-09-22 · business objects 6 to 16: ten repository-derived seeds from tx-intel related-object fields; names outside the universe listed in notes, not as members; one internal conflict recorded (IK01 names BAPI_MEASUREMENTPOINT_CREATE, the function registry says it does not exist).
 - 2026-09-22 · §19 tab sweep: 26 tabs mapped to 32 routes, 6-way matrix clean; four real clipping sites at 320/390 fixed (implicit grid tracks). See TAB-SWEEP.md.
 - 2026-09-22 · chain batches 1-2 written: enh:technique:enhancement-spot and enh:technique:vofm (unchanged, bounded to documentation continuity), fiori:F3289 (s4_native, scope item 31L/3LQ disagreement recorded). Enhancements 40/40 and curated Fiori 22/22 authored.
+- 2026-09-22 · chain batches 3-4 written (functions, 12 ids: BAPI_PR_CREATE ... ILOA_INHERIT_FROM_FUNCLOC). Functions L5 34, verified 109.

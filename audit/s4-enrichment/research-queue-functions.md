@@ -311,3 +311,53 @@ Written by the single writer from the adversarial verdicts (no `fixedRecord` sup
 - Em/en dashes added: 0.
 - `test/evidence-schema.test.ts`: no change; functions graduated 2026-09-02 and is already in the graduated repoRef test.
 - Gates: `tsc --noEmit` 0, `tsc --noEmit -p tsconfig.test.json` 0, `npm test` 212/212 pass. Coverage (functions): L2 59 to 60, L3 50 to 48, L5 30 to 31, verified 103 to 104, verification_required 31 to 29, conflict 8 to 9.
+
+---
+
+# Functions batch 11 (2026-09-22): 6 drafts audited, 6 written, 0 refuted
+
+Written by the single writer from the adversarial verdicts (no `fixedRecord` supplied; the listed downgrades applied to each researcher draft). `fm:BAPI_PR_CREATE`: Simplification List method sentence appended to notes (the writer cites the two official SIMPL PDF urls instead of the auditor's temporary scratchpad path). `fm:BAPI_REQUISITION_GETDETAIL`: no downgrades; one method clause added to its existing Simplification List sentence. `fm:BAPI_RESERVATION_CREATE1`: evidence #2 quote cut at the snippet boundary ('... create and delete reservation', marked truncated), Delete Reservation added to its operation list, status.he attributes API_RESERVATION_DOCUMENT_SRV to loio 025cdccd12e4438f95788d5e3acfdb12 and words the Simplification List negative as search-bounded, method line (ה) added to notes. `fm:BAPI_TASKLIST_CREATE`: Simplification List method line appended to notes, so the status.he sentence stays. `fm:CR_TEXT_READ`: API_WORK_CENTERS dropped from notes (not in the cited snippet); the 'לפי ה-hint' sentence replaced by the named full-text grep of the two SIMPL PDFs. `fm:CS_BOM_EXPL_FLO_RC1`: the drafts carry no `gaps` field, so the gap-4 rewrite (EAM_MAINTENANCE_BOM, loio 21317859a54d477b89e43e4501249157, not a universe id, not a successor) went into notes; the Simplification List sentence now names the grep.
+
+## refuted
+- (none in this batch: all 6 audited drafts survived verification and were written with their auditors' downgrades applied.)
+
+## conflicts
+- `fm:BAPI_PR_CREATE`: release status, RFC flag and the PRHEADER/PRITEM parameter contract are repository-only (sweep and function-intel); Fiori F2229 (named in the migration snippet) is not in `data/fiori/apps.ts`; IDoc PREQCR102 / PREQCHANGE02 are not in IDOC_BASIC_TYPES and are not tied to the BAPI by any snippet.
+- `fm:BAPI_REQUISITION_GETDETAIL`: no official record prints the name (On-Premise 7 / SAP_ERP 21 / Cloud 2, all without it; AFS 6.0 and 6.3 release notes without it). BAPI_PR_GETDETAIL is printed officially but is not a universe id and no source calls it a successor. Repository descriptions differ (function-intel: items, account assignment, source; sweep: items, allocations, texts), and the sweep's requiresCommit / stability / s4OnPremSupport are template defaults.
+- `fm:BAPI_RESERVATION_CREATE1`: repository contradicts itself on parameter names (sweep RESERVATIONHEADER / RESERVATIONITEMS vs pppi RESERVATION_GENERAL_DATA / RESERVATION_ITEMS); the only official record printing the name is the SAP ERP EHP7 What's New list. F4839 and F5601 are not in `data/fiori/apps.ts`; table RKPF is not a universe id.
+- `fm:BAPI_TASKLIST_CREATE`: repository contradicts itself on whether the name exists (`data/bapi-enrichment.pm.ts` invalid-name on a Tier-3 SE37 mirror plus SAP Community vs `data/function-intel.ts`, the PM blueprint PLKO funcs, `data/domains.ts`, `data/domain-detail.ts` and `data/academy/lessons/pm-generated.ts` presenting it as usable, the last at trust verified-docs). Official 2025 FPS01 pages name EAM_TASKLIST_CREATE / CHANGE / POST and API_MAINTENANCETASKLIST, none of them universe ids. Needs SE37 / BAPI Explorer.
+- `fm:CR_TEXT_READ`: no official record names the FM; function-intel marks it `inferred: true` while `data/academy/lessons/pm-generated.ts:171` labels the work-center FM group verified-docs. The service name API_WORK_CENTERS appears only in the uncited sibling record loio 57db94e225e740d5ad1685c0ec6d3c3d; add it as its own evidence before naming the service.
+- `fm:CS_BOM_EXPL_FLO_RC1`: no official record names the FM, CS_BOM_EXPL_FLO or RCSBI020; the sweep marks the sibling CS_BOM_EXPL_MAT_RC1 invalid-name (pointing to CS_BOM_EXPL_MAT_V2), and `data/knowledge/object-intel.ts#TPST` names a different variant CS_BOM_EXPL_FLO_V1. EAM_MAINTENANCE_BOM and I_FUNCTIONALLOCBOMLINK are not universe ids. Needs SE37.
+
+## Writer-level normalisations applied
+- `reviewer` dropped on all 6 (house convention); `successor: null` dropped on BAPI_TASKLIST_CREATE (the type allows only a canonical id or omission).
+- Two shared Evidence consts hoisted (`PR_ODATA_OPS`, `RESERVATION_ODATA_CREATE`) so each status.source equals its evidence entry.
+- Simplification List negatives re-checked by the writer: full-text grep of the pdftotext extracts of SIMPL_OP2025.pdf and SIMPL_OP2023.pdf returns 0 hits for BAPI_PR_CREATE, BAPI_REQUISITION_GETDETAIL, BAPI_RESERVATION_CREATE1, BAPI_TASKLIST_CREATE, EAM_TASKLIST, CR_TEXT_READ and CS_BOM_EXPL_FLO; control strings BAPI_GOODSMVT_CREATE (6 / 6) and BAPI_PO_CREATE (2 / 2) hit.
+- Em/en dashes added: 0.
+- `test/evidence-schema.test.ts`: no change; functions graduated 2026-09-02.
+- Gates: `tsc --noEmit` 0, `tsc --noEmit -p tsconfig.test.json` 0, `npm test` 212/212 pass. Coverage (functions): L2 60 to 61, L3 48 to 44, L4 1 to 2, L5 31 to 33, verified 104 to 105, verification_required 29 to 27, conflict 9 to 10.
+
+---
+
+# Functions batch 12 (2026-09-22): 6 drafts audited, 6 written, 0 refuted
+
+Written by the single writer from the adversarial verdicts. `fm:CS_BT_BOM_HEADER_READ`: `verdict.fixedRecord` taken verbatim (key list cut to the snippet, the Malaysia-count sentence reworded as index drift, API_BILL_OF_MATERIAL dropped from notes). `fm:EQUI_TIMESEGMENT_READ`: evidence #4 bounded to the AFS-source migration object, the "history not migrated" inference limited to that object. `fm:EQUIPMENT_DISMANTLE`: the stitched DismantleEquipment quote replaced by the verbatim snippet fragments (evidence #1 and status.source, now one shared const `EQUI_DISMANTLE_FI`); EAM Part 1 quote cut after BAPI_IE4N_DISMANTLE (marked truncated), BAPI_IE4N_EXCHANGE removed from notes, BAPI_IE4N_INSTALL stays sourced to EAM Part 4 (loio 3346ac67364447a3ba2f4efa65b8c014). `fm:EQUIPMENT_TEXT_READ`: no downgrades. `fm:FUNC_LOCATION_LABEL_READ`: RFC_002 parameter quote replaced by the two verbatim snippet pieces; the On-Premise hit count reworded as 18 to 19 (drifts between runs). `fm:ILOA_INHERIT_FROM_FUNCLOC`: the KBA number seen only on a non-allowlisted host removed from notes. The drafts carried no `gaps`/`summary` fields, so gaps-only downgrades had nothing to apply to.
+
+## refuted
+- (none in this batch: all 6 audited drafts survived verification and were written with their auditors' downgrades applied.)
+
+## conflicts
+- `fm:CS_BT_BOM_HEADER_READ`: no official record names the FM or a CS_BT group; the repo parameter contract (STLNR/STLAL) is `inferred: true` in `data/function-intel.ts`. API_MAINTENANCEBOM (Read Maintenance BOM Header) is documented but not tied to the FM and not a universe id. Needs SE37.
+- `fm:EQUI_TIMESEGMENT_READ`: no official record names the FM. Repo drift: function-intel links IE03 while the PM blueprint EQUZ row lists IE02 / IE4N. `cds:I_EquipmentTimeSegment` stays verification_required (the documented public-cloud name is I_EQUIPMENTTIMESEG). The only official time-segment migration statement is scoped to the AFS-source object.
+- `fm:EQUIPMENT_DISMANTLE`: the repo's "internal, not RFC, requiresCommit" rests on a sweep sourced to sapdatasheet.org / se80.co.uk (not allowlisted). The authored `released_api_available` covers the scenario (API_EQUIPMENT DismantleEquipment, 2023.latest; 2025.001 record of the same loio not returned today) and replaces the derived `restricted`; keeping `restricted` remains a defensible alternative. BAPI_IE4N_DISMANTLE / BAPI_IE4N_INSTALL are official names but not universe ids; BAPI_IE4N_EXCHANGE was seen in an earlier run only.
+- `fm:EQUIPMENT_TEXT_READ`: no official record names the FM or the ITX1 group (sweep source is a string without a link). I_EquipmentText (Released, 2023.latest VDM) is not a universe id, so it is evidence, not an xref.
+- `fm:FUNC_LOCATION_LABEL_READ`: no official record names the FM; no `data/bapi-enrichment.*` entry. FUNC_LOCATION_RFC_002 and I_FunctionalLocationLabel are official but not universe ids and not stated as successors. TPLNR / Label contract is `inferred: true`.
+- `fm:ILOA_INHERIT_FROM_FUNCLOC`: no official record names the FM; the official Data Transfer pages describe a dialog function only. A KBA title on data origin in BAPI_FUNCLOC_CREATE was seen on userapps.support.sap.com (not allowlisted, body not read) and is not cited.
+
+## Writer-level normalisations applied
+- `reviewer` dropped on all 6 (house convention).
+- `fm:EQUIPMENT_TEXT_READ` evidence #3 release normalised from "2023 Latest" to "2023.latest" (matches the URL versionId).
+- `fm:EQUIPMENT_DISMANTLE` notes (2): the reviewer-addressed sentence reworded as a plain alternative, same content.
+- Em/en dashes added: 0 in authored prose; two occur inside verbatim quotes (the SAP deliverable title "Logistics — General (LO)" and the repository sweep source string "... se80.co.uk) — verified 2026-07-15").
+- `test/evidence-schema.test.ts`: no change; functions graduated 2026-09-02.
+- Gates: `tsc --noEmit` 0, `tsc --noEmit -p tsconfig.test.json` 0, `npm test` 212/212 pass. Coverage (functions): L3 44 to 42, L4 2 to 3, L5 33 to 34, verified 105 to 109, verification_required 27 to 23, conflict 10 to 10.
