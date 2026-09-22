@@ -432,7 +432,9 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
      link inside a sentence: 24px minimum box (design audit S10-3). */
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-block-size: 1.5rem;
+  min-inline-size: 1.5rem;
   color: inherit;
   text-decoration: underline;
   text-decoration-color: var(--scene-hair, var(--hairline));
