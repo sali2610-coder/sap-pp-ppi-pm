@@ -68,3 +68,50 @@ Each of these changes a file outside the overlay layer, so it needs its own audi
 - Functions batches 5 and 6 (8 records, runs wf_2079911b-793 and wf_b60b7f17-7de, batches of 4): 4 `released_api_available` (BAPI_ALM_NOTIF_SAVE, BAPI_ALM_ORDERHEAD_GET_LIST, BAPI_BUPA_CREATE_FROM_DATA, BAPI_GOODSMVT_GETDETAIL), 4 `verification_required` with conflicting sources (BAPI_ALM_NOTIF_TASK_ADD, BAPI_ALM_NOTIF_LIST_FILTER, BAPI_CENTRAL_CHARACT_CREATE, BAPI_EQMT_INSTALL). 92 registry function ids still have no record (`scratchpad/fn-batch-5.json` lists the next ones in priority order: BAPI_GOODSMVT_GETITEMS, BAPI_MATERIAL_BOM_GROUP_CREATE, BAPI_MATERIAL_GET_DETAIL, BAPI_MEASUREMENTDOCUM_CREATEM, BAPI_MEASUREMENTPOINT_GETLIST, BAPI_OBJCL_CREATE, BAPI_PRODVERS_CREATE_REPLACE, BAPI_PR_CREATE, ...).
 - Open data/UI consistency point recorded by the writer: records using the flat `conflicting_sources` evidence form show 0 conflicts beside the pill because `resolve.ts` counts only the `conflictingEvidence` array.
 - Freshness is computed in UTC (`lib/evidence/depth.ts`), so a record stamped with the local date reads one day in the future until UTC midnight.
+
+## 2026-09-22 addendum, part two (design-audit continuation §11)
+Measured on the same HEAD as the delivery report of this pass.
+
+**Records now (overlay files):** tables 105, functions 63, CDS 37, transactions 33, enhancements 38,
+Fiori 19, IDocs 7, object records 6 = **308 records**, plus 6 business-object registry entries and
+3 best-practice records.
+
+```
+catalog          total   L0   L1   L2   L3   L4   L5  verified  verif.req  conflict  legacy  s4-appl  edition
+tables             105    0   75    1    1    0   28       103          0         2       0       89        1
+transactions      1818    0 1275    0  514    0   29       555       1262         1       0      556        3
+functions          142    0    2   59   50    1   30       103         31         8       0       76        3
+idocs                3    0    0    0    0    0    3         3          0         0       0        3        0
+cds                 39    0    0    9    5    2   23        37          2         0       0       30       13
+fiori               20    0    1    2    6    0   11        13          0         7       0       18        2
+enhancements        40    0    0   10   14    3   13        28          0        12       0       30        1
+objects              6    0    0    6    0    0    0         6          0         0       0        0        0
+best-practices       3    0    0    3    0    0    0         3          0         0       0        0        0
+TOTAL             2176    0 1353   90  590    6  137       851       1295        30       0      802       23
+```
+L5 is now **137** (was 124 on 2026-09-21); recorded conflicts 30.
+
+**What changed today**
+- Functions batches 7, 8 and 9 (12 records) plus `fm:PPCC1` as `verification_required`.
+- `tx:IP30H` written as a native transaction record and `tx:IP30` given it as a linked successor
+  (SAP-FIXES FIX-9); the content-quality reviewer's three majors fixed the same day (2023 item
+  29.6, not 29.7; the repository claim requoted; the `s4_native` token bounded in the record).
+- `fiori:F4072` corrected to Screen Maintenance Requests (FIX-10) across the catalog, the Fiori
+  centre, six `tx-intel` delta strings and the route manifest.
+- Five business-object registry seeds with their verification records; every BOR id is a claim to
+  verify, with its repository origin named.
+- The best-practice shape gained the brief's 17 per-process fields, with schema rules over every
+  id, every line and the official reference; the first process record is the maintenance
+  notification process.
+- ERD: relations without a stated cardinality print `CARDINALITY_NOT_VERIFIED` and say what is and
+  is not known (report in `erd-cardinality.json`).
+- New documents: `verification-required.md` (the ten ids, each with its state and what closes it)
+  and `cross-references.md` (incidents, domains, search, AI index, books, measured).
+
+**Still open in this family**
+- 80 of the 142 function registry ids have no record. Batch 10 (NOTIF_TASK_READ,
+  NOTIF_ACTIVITY_READ, BAPI_MEASUREMENTPOINT_GETLIST, BAPI_OBJCL_CREATE) was launched and lost all
+  four research agents to a usage-credit interruption; nothing was written, so it re-runs from the
+  same queue.
+- The process catalog covers the notification process; the PM, PP, PP-PI and cross-module records
+  were drafted in parallel and are merged as each one passes the validator.

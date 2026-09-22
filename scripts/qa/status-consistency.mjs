@@ -65,6 +65,10 @@ async function fromErd(name) {
   });
 }
 async function fromPalette(name) {
+  // A catalog whose card leads with the human name (Fiori, since the round-6
+  // card change) has no technical name to type; the palette step is then
+  // reported as skipped rather than crashing on a null query.
+  if (typeof name !== "string" || !name) return { absent: "no technical name on the list card" };
   await page.goto(base + "/neo/", { waitUntil: "networkidle" });
   await page.keyboard.press("Control+k");
   const input = page.locator('input[aria-label="חיפוש בניווט ובתיעוד הטכני"]:visible').first();
@@ -84,7 +88,7 @@ async function fromPalette(name) {
 const out = []; let fails = 0;
 for (const s of SAMPLE) {
   const list = await fromList(s);
-  const name = list?.name || s.id;
+  const name = list?.name || s.id || null;
   const detailHref = s.detail || list?.href;
   const detail = detailHref ? await fromDetail(detailHref) : null;
   const erd = s.erd ? await fromErd(name) : undefined;

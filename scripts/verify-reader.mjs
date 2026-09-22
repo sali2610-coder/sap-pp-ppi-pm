@@ -125,6 +125,11 @@ for (const vp of VIEWPORTS) {
       return tree + onPage > 0 ? `tree ${tree}, on-page ${onPage}` : false;
     });
 
+    // The shard is fetched, so the section blocks appear after the first
+    // paint. A phone profile is slower than the desktop one, so wait for the
+    // blocks instead of assuming they are already there (they were, on
+    // desktop and tablet, which is why this only ever failed on the phone).
+    await page.waitForSelector("[data-section]", { timeout: 20_000 }).catch(() => {});
     await check(page, `${vp.label}/${book}: sections rendered`, async () => {
       const n = await page.locator("[data-section]").count();
       return n > 0 ? `${n} sections` : false;
@@ -140,6 +145,7 @@ for (const vp of VIEWPORTS) {
         const txt = await page.evaluate(() => (document.querySelector("[data-section]")?.innerText || "").trim());
         return txt.length > 500 && !txt.includes("אין תוכן מורחב לסעיף זה") ? `${txt.length} chars in the first section` : false;
       }
+      await page.waitForFunction(() => ((document.querySelector("main")?.innerText || "").trim().length > 5000), null, { timeout: 20_000 }).catch(() => {});
       const txt = await page.evaluate(() => (document.querySelector("main")?.innerText || "").trim());
       const empty = txt.includes("אין תוכן מורחב לסעיף זה");
       return !empty && txt.length > 5000 ? `${txt.length} chars` : false;

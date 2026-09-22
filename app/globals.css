@@ -1402,7 +1402,14 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
 .nx-glyph i:nth-child(3) { block-size: 7px; opacity: .42; }
 .nx-lock { display: grid; line-height: 1.2; min-inline-size: 0; }
 .nx-lock b { font-size: var(--t-sm); letter-spacing: -.012em; white-space: nowrap; }
-.nx-lock span { font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
+.nx-lock span {
+  /* The product name under the wordmark. --ink-3 measured 3.8:1 at 12px in the
+     accessibility sample (design audit S10-1); ink-2 clears the 4.5:1 line
+     without changing the hierarchy. */
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
 .nx-collapse { margin-inline-start: auto; }
 
 .nx-iconbtn {

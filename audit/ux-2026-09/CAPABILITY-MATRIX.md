@@ -27,3 +27,14 @@
 | `obsidian-second-brain` MCP, `magic` MCP, higgsfield, Canva, Make, M365, figma | MCP | — | חסומים / דורשים auth | לא רלוונטיים למשימה | — | — |
 
 כללים שהוחלו: אין התקנת Plugin/Skill חדש; אין טענה על כלי שנכשל; כלי עיצוב לא משנים מידע מקצועי; כלי תוכן לא משנים עיצוב מחוץ לסקופ.
+
+## מה הופעל בפועל בהמשך הביקורת (2026-09-22)
+| כלי | הופעל | תוצאה |
+|---|---|---|
+| `neo-sap-content-quality-reviewer` (skill, סקירה בלבד) | כן, על רשומות IP30 / IP30H ואצוות 7-8 של הפונקציות | ‏VERDICT: FAIL, 0 חוסמים, 3 עיקריים, 7 משניים. שלושת העיקריים תוקנו באותו יום (קומיט `91b65c35`), המשניים בקובץ הפונקציות תוקנו אחרי סיום אצווה 9 (קומיט `aaf2a255`) |
+| `scripts/workflows/enrich-family.js` | אצוות 7, 8, 9 הושלמו; אצווה 10 נכשלה | אצווה 9: 4 רשומות (2.35M טוקנים, 69 דקות). אצווה 10 (NOTIF_TASK_READ, NOTIF_ACTIVITY_READ, BAPI_MEASUREMENTPOINT_GETLIST, BAPI_OBJCL_CREATE) איבדה את ארבעת סוכני המחקר להפסקת קרדיט שימוש; לא נכתבה אף רשומה, התור נשמר לריצה חוזרת |
+| סוכני כתיבה (general-purpose) לקטלוג התהליכים | 5 סוכנים; ארבעה נפלו בהפסקת הקרדיט והופעלו מחדש | הרשומה הראשונה (תהליך הודעת התחזוקה) נכתבה ישירות; שאר המשפחות נכתבות בקבצים נפרדים ונבדקות בוואלידטור לפני מיזוג |
+| `scripts/qa/*` | ux-measure (‏1363 / 390 / 1440 / 1920 / dark / reduced-motion), a11y-sample (בהיר + כהה), status-consistency, module-colour-check, ai-states-check, books-hash-check | ראו סעיף הבדיקות בדוח המסירה |
+| `WebFetch` על api.sap.com | כן, פעמיים (‏API_PRODUCTION_ORDER_2) | הדפים חוזרים כמעטפת JavaScript ריקה; נרשם כחסם חיצוני ב-`verification-required.md` |
+| `sc4sap` MCP | ניסיון נוסף ב-2026-09-22 | עדיין `MCP error -32000: Connection closed`; אף בדיקה חיה לא בוצעה ואף טענה חיה לא נכתבה |
+| `neo-accessibility-reviewer`, `neo-architecture-studio-reviewer`, `neo-search-experience-reviewer`, `neo-documentation-guardian`, `neo-enterprise-ux-auditor` | טרם הופעלו בהמשך הזה | מופעלים כשער אחרון אחרי מיזוג קטלוג התהליכים |
