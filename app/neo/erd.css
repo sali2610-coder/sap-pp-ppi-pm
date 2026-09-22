@@ -1476,6 +1476,8 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
      that used to sit here never applied. They are in the viewport media query
      below instead, which is the only place that can reach .ne itself. */
   .ne-body { grid-template-columns: minmax(0, 1fr); }
+  /* The overview's two-column rule lives at the END of this sheet (same
+     specificity, later wins), so its narrow override sits right after it. */
   .ne-stage { block-size: 58svh; min-block-size: 20rem; }
   .ne-insp {
     grid-template-rows: auto auto;
@@ -1507,7 +1509,30 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
    PHONE · the open card is the surface, and getting back out is one tap
    ========================================================================== */
 
+/* PHONE ENTRY AND FOCUS (design audit S6-4). Rendered only on a phone (the
+   workspace reads the same 640px query) and drawn only here: a desktop never
+   sees them. */
+.ne-phone { display: none; }
+
 @media (max-width: 640px) {
+  .ne-phone {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px;
+    min-inline-size: 0;
+    padding: 8px var(--sp-3);
+    border-block-end: 1px solid var(--hairline);
+    background: var(--surface);
+  }
+  .ne-phone-h {
+    flex: 1 1 10rem; margin: 0; min-inline-size: 0;
+    font-size: var(--t-xs); line-height: 1.5; color: var(--ink-2);
+  }
+  .ne-phone-btn, .ne-phone-up { min-block-size: var(--c-tap, 2.75rem); }
+  .ne-phone-btn:disabled { opacity: .55; cursor: default; }
+  .ne-phone-up { margin-inline-start: auto; }
+  /* The list replaces the shrunk map: the stage is not drawn until the reader
+     asks for the full map or opens a module. The inspector below it stays. */
+  .ne[data-plist="1"] .ne-stage { display: none; }
+
   /* The stage grows: an opened table is a card with a field list in it, and it
      has to be read without pinching. */
   .ne-stage { block-size: 66svh; min-block-size: 24rem; }
@@ -1683,6 +1708,15 @@ html[data-theme="dark"] .ne {
 .ne[data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr) 19rem; }
 @media (min-width: 2000px) { .ne[data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr) 22rem; } }
 .ne[data-insp="0"][data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr); }
+/* A NARROW WORKSPACE IS ONE COLUMN AT THE OVERVIEW TOO. The two-column rule
+   above outranks the container query's `.ne-body` rule by specificity, so on
+   a 390px phone it put a 19rem inspector beside an 86px stage and the two
+   overlapped (measured 2026-09-22: columns "86px 304px"). Same selector, same
+   specificity, later in the sheet — this one wins where the container is
+   narrow. */
+@container ne (max-width: 900px) {
+  .ne[data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr); }
+}
 .ne-modechip { display: inline-flex; align-items: center; gap: var(--sp-2); margin: var(--sp-2) 0 0; font-size: var(--t-micro); color: var(--ink-2); }
 .ne-modechip-k { color: var(--ink-3); }
 .ne-modechip b { font-weight: 650; color: var(--ink-1); }

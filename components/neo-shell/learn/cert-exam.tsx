@@ -47,14 +47,7 @@ import {
   LEVEL_HE, QTYPE_HE, pickExam, type CertModule, type Level, type Question,
 } from "@/lib/cert/generate";
 import { recordExam } from "@/lib/cert/store";
-
-const MODULES: { id: CertModule; he: string }[] = [
-  { id: "PM", he: "תחזוקת מפעל" },
-  { id: "PP-PI", he: "תעשיות תהליכיות" },
-  { id: "PP", he: "תכנון ייצור" },
-];
-const LEVELS: Level[] = [1, 2, 3, 4];
-const LENGTHS = [10, 20, 30];
+import { LENGTHS, LEVELS, MODULES, Opt, Picker, parseExamQuery } from "./cert-pick";
 
 /** The project's own threshold, from lib/cert/store. Never presented as SAP's. */
 const PASS = 80;
@@ -103,6 +96,30 @@ export function CertExam() {
        store — this file does not invent a persistence layer. */
     try { recordExam(mod, score, qs.length, correct); } catch { /* device storage off */ }
   }, [mod, score, qs.length, correct]);
+
+  /* THE ENTRY PAGE'S CHOICE. /neo/certification/ asks bank, level and length
+     first and hands them over in the URL (cert-pick.tsx). Read once, on the
+     client, after hydration: the server render is the untouched setup screen,
+     so nothing can mismatch. `start=1` begins the exam at once; without it the
+     pickers are only pre-filled. The writes are deferred a tick so they happen
+     outside the effect body itself. */
+  useEffect(() => {
+    const p = parseExamQuery(window.location.search);
+    if (!p.mod && !p.level && !p.len) return;
+    const id = window.setTimeout(() => {
+      if (p.mod) setMod(p.mod);
+      if (p.level) setLevel(p.level);
+      if (p.len) setLen(p.len);
+      if (p.start && p.mod && p.level && p.len) {
+        const bank = pickExam(p.mod, p.level, p.len);
+        setQs(bank);
+        setAnswers({});
+        setAt(0);
+        setPhase(bank.length ? "run" : "setup");
+      }
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, []);
 
   /* Keyboard: 1-9 answer, arrows move, Enter advances. A question surface that
      needs a mouse is a question surface half the readers cannot use quickly. */
@@ -336,21 +353,5 @@ export function CertExam() {
   );
 }
 
-/* ------------------------------------------------------------- primitives */
-
-function Picker({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <section className="nce-pick">
-      <h2 className="nce-pick-h">{label}</h2>
-      <div className="nce-pick-row">{children}</div>
-    </section>
-  );
-}
-
-function Opt({ on, onClick, children }: { on: boolean; onClick: () => void; children: React.ReactNode }) {
-  return (
-    <button type="button" className="nce-opt" data-on={on ? "1" : "0"} aria-pressed={on} onClick={onClick}>
-      {children}
-    </button>
-  );
-}
+/* The Picker / Opt primitives moved to ./cert-pick.tsx so the entry page can
+   ask the same three questions (audit S7-CERT-2). */

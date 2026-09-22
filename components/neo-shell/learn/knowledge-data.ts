@@ -64,6 +64,12 @@ export interface ConceptRef {
   /** A real generated route, or "" when nothing in the project answers to it. */
   href: string;
   kind: "concept" | "table" | "tcode" | "none";
+  /** The HUMAN name of a concept reference — its Hebrew name and its English
+   *  term — so a link reads "אלמנט נתונים · Data Element" and not the slug
+   *  `data-element` (design audit S7-KN-1). Both are "" for tables, T-codes
+   *  and unresolved refs, whose code IS the name a consultant knows. */
+  he: string;
+  en: string;
 }
 
 export interface ConceptRow {
@@ -168,11 +174,11 @@ export function knowledgeData(): KnowledgeData {
   const resolve = (raw: string): ConceptRef => {
     const { code, note } = splitExample(raw);
     const c = bySlug.get(code);
-    if (c) return { label: raw, code, note, href: `/neo/knowledge/${code}/`, kind: "concept" };
+    if (c) return { label: raw, code, note, href: `/neo/knowledge/${code}/`, kind: "concept", he: c.he, en: c.title };
     const up = code.toUpperCase();
-    if (tables.has(up)) return { label: raw, code: up, note, href: `/neo/object/${encodeURIComponent(up)}/`, kind: "table" };
-    if (tcodes.has(up)) return { label: raw, code: up, note, href: `/neo/transactions/${encodeURIComponent(up)}/`, kind: "tcode" };
-    return { label: raw, code, note, href: "", kind: "none" };
+    if (tables.has(up)) return { label: raw, code: up, note, href: `/neo/object/${encodeURIComponent(up)}/`, kind: "table", he: "", en: "" };
+    if (tcodes.has(up)) return { label: raw, code: up, note, href: `/neo/transactions/${encodeURIComponent(up)}/`, kind: "tcode", he: "", en: "" };
+    return { label: raw, code, note, href: "", kind: "none", he: "", en: "" };
   };
 
   const rows: ConceptRow[] = CONCEPTS.map((c) => {

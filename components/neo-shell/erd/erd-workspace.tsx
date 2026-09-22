@@ -46,7 +46,7 @@
 //   OBJECT  --obj-*  the class marker on a node.
 //   BRAND   --brand  focus ring and the minimap viewport. Never a data category.
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowRight, Boxes, ChevronDown, Crosshair, Filter, Keyboard, Layers, Link2, Map as MapIcon,
@@ -73,6 +73,20 @@ import {
 const SKEY = "neo:erd:v3";
 const TWEEN = 460;
 const PAD = 52;
+
+/** PHONE. The workspace on a ≤640px viewport — the same breakpoint erd.css
+ *  uses for its phone rules. Read through an external store so the server
+ *  render and the first client render agree (both "not a phone") and the real
+ *  answer arrives on the client without a state write in an effect. */
+const PHONE_MQ = "(max-width: 640px)";
+const subPhone = (cb: () => void) => {
+  if (typeof window === "undefined") return () => {};
+  const mq = window.matchMedia(PHONE_MQ);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+const getPhone = () => typeof window !== "undefined" && window.matchMedia(PHONE_MQ).matches;
+const getPhoneServer = () => false;
 
 /* ------------------------------------------------------------- the open card
 
@@ -314,6 +328,13 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
   const level: Level = !M ? "overview" : sel ? "table" : group ? "group" : "module";
   const isMap = level === "overview";
+
+  /* PHONE ENTRY (design audit S6-4). On a phone the overview is a LIST of
+     modules, not the fifteen-module map shrunk until it fits; the full map is
+     one tap away for the reader who wants it. `phoneMap` is that choice. */
+  const phone = useSyncExternalStore(subPhone, getPhone, getPhoneServer);
+  const [phoneMap, setPhoneMap] = useState(false);
+  const phoneList = phone && isMap && !phoneMap;
 
   /** The modules on screen. One unless the reader has added more. */
   const mods = useMemo(
@@ -864,6 +885,36 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     const only = new Set<string>([sel, ...(adj.get(sel) || [])]);
     fitTo(bboxOf(live.pos, sizeMap, only));
   }, [sel, adj, live.pos, sizeMap, fitTo]);
+
+  /** Frame the sub-process: the group's tables plus their one-step ring, which
+   *  is exactly what the group filter leaves on the picture. */
+  const fitGroup = useCallback(() => {
+    if (!groupRing || !groupRing.size) return;
+    fitTo(bboxOf(live.pos, sizeMap, groupRing));
+  }, [groupRing, live.pos, sizeMap, fitTo]);
+
+  /* PHONE FOCUS (design audit S6-4). On a phone the picture is never shrunk
+     until everything fits: choosing a table re-frames the camera on that table
+     and its neighbours, and choosing a sub-process re-frames on the group. A
+     desktop keeps the other rule — filters and selection never move the camera
+     on their own. The callbacks are read through refs so the two effects key
+     on the reader's choice, not on every layout tick. */
+  const fitSelRef = useRef(fitSelection);
+  const fitGroupRef = useRef(fitGroup);
+  useEffect(() => {
+    fitSelRef.current = fitSelection;
+    fitGroupRef.current = fitGroup;
+  });
+  useEffect(() => {
+    if (!phone || isMap || !sel || open) return;
+    const id = window.setTimeout(() => fitSelRef.current(), 90);
+    return () => window.clearTimeout(id);
+  }, [phone, isMap, sel, open]);
+  useEffect(() => {
+    if (!phone || isMap || !group || sel) return;
+    const id = window.setTimeout(() => fitGroupRef.current(), 90);
+    return () => window.clearTimeout(id);
+  }, [phone, isMap, group, sel]);
 
   const zoomAt = useCallback(
     (mult: number, px?: number, py?: number) => {
@@ -1662,6 +1713,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       // closest(), so a second one here would swallow every canvas click.
       data-opencard={openT ? "1" : "0"}
       data-mode={isMap ? "" : mode}
+      data-plist={phoneList ? "1" : "0"}
     >
       <header className="ne-bar">
         {/* IDENTITY IN TWO LINES, NOT FOUR. The return, the ladder, the title
@@ -2272,6 +2324,62 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         </button>
       ) : null}
       <div className="ne-body">
+        {/* PHONE ENTRY (design audit S6-4). At the overview a 390px screen used
+            to get the whole module map shrunk until it fitted, which is a map
+            nobody can read. On a phone the map is not drawn until asked for:
+            the inspector below already lists the modules, so a module opens
+            with one tap from that list, and the full map is one tap away here.
+            Inside a module the second bar moves between the whole module and
+            the focused neighbourhood of the chosen table or sub-process. Both
+            bars are phone-only by CSS; a desktop never renders them. */}
+        {phone && isMap ? (
+          <div className="ne-phone" role="group" aria-label="מפת המודולים בנייד">
+            {phoneMap ? (
+              <button type="button" className="nu-btn2 ne-phone-btn" onClick={() => setPhoneMap(false)}>
+                <Boxes size={14} strokeWidth={1.9} aria-hidden="true" />
+                חזרה לרשימת המודולים
+              </button>
+            ) : (
+              <>
+                <p className="ne-phone-h">
+                  בנייד המודול נפתח מהרשימה שלמטה; המפה המלאה של {data.stats.modules} המודולים זמינה לפי בקשה.
+                </p>
+                <button type="button" className="nu-btn2 ne-phone-btn" onClick={() => setPhoneMap(true)}>
+                  <MapIcon size={14} strokeWidth={1.9} aria-hidden="true" />
+                  הצגת המפה המלאה
+                </button>
+              </>
+            )}
+          </div>
+        ) : null}
+        {phone && M ? (
+          <div className="ne-phone ne-phone--focus" role="group" aria-label="מיקוד התצוגה">
+            <button
+              type="button"
+              className="nu-btn2 ne-phone-btn"
+              disabled={!sel}
+              onClick={fitSelection}
+              title={sel ? "הטבלה הנבחרת ושכנותיה" : "בחירת טבלה ברשימה או במפה"}
+            >
+              <Crosshair size={13} strokeWidth={2} aria-hidden="true" />
+              {sel ? `מיקוד · ${sel}` : "מיקוד בטבלה נבחרת"}
+            </button>
+            {group ? (
+              <button type="button" className="nu-btn2 ne-phone-btn" onClick={fitGroup} title="תת-התהליך הנבחר">
+                <Layers size={13} strokeWidth={2} aria-hidden="true" />
+                {group.v}
+              </button>
+            ) : null}
+            <button type="button" className="nu-btn2 ne-phone-btn" onClick={fit} title="התאמת המודול כולו למסך">
+              <Maximize size={13} strokeWidth={2} aria-hidden="true" />
+              המודול כולו
+            </button>
+            <button type="button" className="nu-ghost ne-phone-up" onClick={toOverview}>
+              <ArrowRight size={13} strokeWidth={2} aria-hidden="true" />
+              כל המודולים
+            </button>
+          </div>
+        ) : null}
         {/* --------------------------------------------------------- THE STAGE */}
         <div
           className="ne-stage"

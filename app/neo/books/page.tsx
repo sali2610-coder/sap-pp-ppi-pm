@@ -74,19 +74,18 @@ export default function NeoBooks() {
           ))}
         </div>
 
-        {d.totals.pagesMissing > 0 && (
-          <p className="nb-note">
-            {d.totals.pagesMissing === 1
-              ? "לספר אחד אין ספירת עמודים במטא-דאטה, והוא אינו נכלל בסכום העמודים."
-              : `ל-${d.totals.pagesMissing} ספרים אין ספירת עמודים במטא-דאטה, והם אינם נכללים בסכום העמודים.`}
-          </p>
-        )}
       </header>
 
+      {/* COVERAGE AND METADATA, IN ONE PLACE (design audit S7-LIB-4). The line
+          carries the two numbers; the module links stay in the open; the three
+          explanations — which books have a technical twin, which book has no
+          page count, which two books are one guide in two schemas — sit behind
+          one disclosure, word for word. */}
       <section className="nb-dictbar nm-rise nm-once" aria-label="כיסוי התיעוד הטכני">
         <p className="nb-dictbar-t">
           <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
-          התיעוד הטכני של Project NEO מכסה {d.dictModules.length} מודולים מתוך {d.totals.modules}
+          התיעוד הטכני של Project NEO מכסה {d.dictModules.length} מודולים מתוך {d.totals.modules};
+          {" "}{d.totals.withDict} מתוך {d.totals.books} הספרים שייכים למודול מתועד.
         </p>
         <div className="nb-dictbar-l">
           {d.dictModules.map((m) => (
@@ -103,16 +102,27 @@ export default function NeoBooks() {
             </Link>
           ))}
         </div>
-        <p className="nb-note">
-          {d.totals.withDict} מתוך {d.totals.books} הספרים שייכים למודול שיש לו תיעוד טכני במאגר.
-          בכרטיס של שאר הספרים מצוין שלמודול שלהם לא קיים תיעוד טכני.
-        </p>
+        <details className="nb-more">
+          <summary>הסבר על הכיסוי והמטא-נתונים</summary>
+          <div className="nb-more-b">
+            <p className="nb-note">
+              {d.totals.withDict} מתוך {d.totals.books} הספרים שייכים למודול שיש לו תיעוד טכני במאגר.
+              בכרטיס של שאר הספרים מצוין שלמודול שלהם לא קיים תיעוד טכני.
+            </p>
+            {d.totals.pagesMissing > 0 && (
+              <p className="nb-note">
+                {d.totals.pagesMissing === 1
+                  ? "לספר אחד אין ספירת עמודים במטא-דאטה, והוא אינו נכלל בסכום העמודים."
+                  : `ל-${d.totals.pagesMissing} ספרים אין ספירת עמודים במטא-דאטה, והם אינם נכללים בסכום העמודים.`}
+              </p>
+            )}
+            {d.twinNote && <p className="nb-note">{d.twinNote}</p>}
+          </div>
+        </details>
       </section>
       </div>
 
       <BookShelf data={d} />
-
-      {d.twinNote && <p className="nb-note nb-note--wide nm-fade">{d.twinNote}</p>}
 
       <footer className="nb-foot nm-fade">
         {/* The button names the DIGITAL LIBRARY — the canonical /library/ site,

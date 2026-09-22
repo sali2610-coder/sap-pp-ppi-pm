@@ -58,8 +58,17 @@ function Ref({ r }: { r: ConceptRef }) {
   return (
     <Link href={r.href} className="nu-card nxv-ref" prefetch={false}>
       {icon}
-      <b>{r.code}</b>
-      {r.note ? <span>{r.note}</span> : null}
+      {r.he ? (
+        <>
+          <b>{r.he}</b>
+          <span className="nx-sap" dir="ltr">{r.en}</span>
+        </>
+      ) : (
+        <>
+          <b>{r.code}</b>
+          {r.note ? <span>{r.note}</span> : null}
+        </>
+      )}
       <ArrowLeft size={13} strokeWidth={2} aria-hidden="true" style={{ marginInlineStart: "auto", opacity: 0.5 }} />
     </Link>
   );
@@ -76,7 +85,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
         <span className="nx-eyebrow">מרכז הידע · {c.groupHe}</span>
         <div className="nxv-title">
           <h1 className="nxv-h1">{c.he}</h1>
-          <p className="nxv-en">{c.title}</p>
+          {c.title.toLowerCase() !== c.he.toLowerCase() ? <p className="nxv-en">{c.title}</p> : null}
         </div>
         <div className="nxv-meta">
           <span className="nu-chip">{c.groupHe}</span>

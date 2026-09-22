@@ -199,11 +199,15 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         title="הזרימה העסקית"
         lede={`${nf.format(v.flow.length)} שלבים, כפי שתועדו במאגר.`}
       >
-        <ol className="ndm-flow">
+        {/* A COMPACT STEP DIAGRAM (design audit S7-DOM-2). The same steps the
+            record holds, in the same order, drawn as a row of numbered stations
+            that wraps on a phone. Nothing is added: a station is one `flow`
+            entry, and the detailed chain below stays the long form. */}
+        <ol className="ndm-steps" aria-label={`${nf.format(v.flow.length)} שלבי התהליך`}>
           {v.flow.map((s, i) => (
-            <li key={i}>
-              <span className="ndm-flow-n">{i + 1}</span>
-              <span className="ndm-flow-b">
+            <li key={i} className="ndm-step">
+              <span className="ndm-step-n" aria-hidden="true">{i + 1}</span>
+              <span className="ndm-step-b">
                 <b className="nx-sap" dir="ltr">{s.step}</b>
                 <em>{s.he}</em>
               </span>
@@ -212,7 +216,10 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         </ol>
         {v.diagram.length ? (
           <>
-            <h3 className="ndm-h3">התהליך המפורט</h3>
+            <a className="ndm-step-more" href="#ndm-chain">
+              לתהליך המפורט · {nf.format(v.diagram.length)} תחנות
+            </a>
+            <h3 className="ndm-h3" id="ndm-chain">התהליך המפורט</h3>
             <ol className="ndm-chain">
               {v.diagram.map((x, i) => <li key={i}>{x}</li>)}
             </ol>

@@ -216,19 +216,56 @@
 
 /* ------------------------------------------------------------------- flow */
 
-.ndm-flow { display: grid; gap: .5rem; margin: 0; padding: 0; list-style: none; }
-.ndm-flow li { display: flex; align-items: flex-start; gap: .65rem; }
-.ndm-flow-n {
-  flex: none; inline-size: 1.55rem; block-size: 1.55rem; border-radius: .55rem;
+/* S7-DOM-2 · the flow as a compact row of numbered stations. Each station is
+   one `flow` entry of the record; the row wraps, so a 390px phone reads it as
+   a two-column ladder and a wide screen as one line. Reading direction is the
+   page's (RTL): the first station sits on the right and the arrow in each gap
+   points to the next one. The detailed chain below stays the long form. */
+.ndm-steps {
+  --stp: 10.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--stp), 1fr));
+  gap: .55rem 1rem;
+  margin: 0; padding: 0; list-style: none;
+  min-inline-size: 0;
+}
+.ndm-step {
+  position: relative;
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .55rem; align-items: start;
+  min-inline-size: 0; min-block-size: 3.4rem;
+  padding: .6rem .7rem;
+  border-radius: .75rem;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-inline-start: 3px solid color-mix(in srgb, var(--m) 55%, transparent);
+}
+.ndm-step-n {
+  inline-size: 1.55rem; block-size: 1.55rem; border-radius: .55rem;
   display: grid; place-items: center;
   font-family: var(--font-mono); font-size: .72rem; font-weight: 700;
   color: var(--m);
   background: color-mix(in srgb, var(--m) 12%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 28%, transparent);
 }
-.ndm-flow-b { display: grid; gap: 1px; }
-.ndm-flow-b b { font-size: .82rem; color: var(--ink-1); unicode-bidi: isolate; }
-.ndm-flow-b em { font-style: normal; font-size: .87rem; line-height: 1.55; color: var(--ink-2); }
+.ndm-step-b { display: grid; gap: 2px; min-inline-size: 0; }
+.ndm-step-b b { font-size: .8rem; color: var(--ink-1); unicode-bidi: isolate; overflow-wrap: anywhere; }
+.ndm-step-b em { font-style: normal; font-size: .85rem; line-height: 1.5; color: var(--ink-2); overflow-wrap: anywhere; }
+.ndm-step:not(:last-child)::after {
+  content: "←";
+  position: absolute; inset-inline-end: -1rem; inset-block-start: 50%;
+  inline-size: 1rem; transform: translateY(-50%);
+  text-align: center; font-size: .75rem; color: var(--ink-3); opacity: .7;
+  pointer-events: none;
+}
+.ndm-step-more {
+  display: inline-flex; align-items: center; gap: .3rem;
+  inline-size: fit-content; min-block-size: 2.25rem;
+  font-size: .8rem; font-weight: 600; color: var(--m); text-decoration: none;
+}
+.ndm-step-more:hover { text-decoration: underline; }
+.ndm-step-more:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 480px) { .ndm-steps { --stp: 8.5rem; gap: .5rem .85rem; } }
 
 .ndm-chain { margin: 0; padding: 0 0 0 0; list-style: none; display: flex; flex-wrap: wrap; gap: .4rem; }
 .ndm-chain li {

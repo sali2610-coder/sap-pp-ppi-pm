@@ -10,6 +10,9 @@
 // own placement rules still win.
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
+// The selection pickers (bank, level, length) are the runner's; their sheet
+// comes along so the entry asks the same three questions in the same clothes.
+import "@/app/neo/cert.css";
 import { certData } from "@/components/neo-shell/learn/cert-data";
 import { CertSurface } from "@/components/neo-shell/learn/cert-surface";
 

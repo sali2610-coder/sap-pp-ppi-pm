@@ -148,6 +148,29 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-lede { font-size: 1.0625rem; line-height: 1.62; color: var(--ink-2); max-inline-size: 64ch; }
 .nb-note { font-size: var(--t-xs); line-height: 1.7; color: var(--ink-3); max-inline-size: 78ch; }
 .nb-note--wide { max-inline-size: none; }
+/* S7-LIB-4 · the coverage and metadata explanations, unified behind one
+   disclosure under the coverage line. The notes keep their full wording. */
+.nb-more { max-inline-size: 78ch; min-inline-size: 0; }
+.nb-more > summary {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  min-block-size: var(--c-tap, 2.75rem);
+  cursor: pointer; list-style: none;
+  font-size: var(--t-xs); font-weight: 600; color: var(--ink-2);
+  border-radius: 6px;
+}
+.nb-more > summary::-webkit-details-marker { display: none; }
+.nb-more > summary::before {
+  content: ""; flex: none;
+  inline-size: .5em; block-size: .5em;
+  border-inline-end: 1.5px solid currentColor; border-block-end: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-20%);
+  transition: transform .18s ease;
+}
+.nb-more[open] > summary::before { transform: rotate(-135deg) translateY(-10%); }
+.nb-more > summary:hover { color: var(--ink-1); }
+.nb-more > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nb-more-b { display: grid; gap: var(--sp-2); padding-block: var(--sp-1) var(--sp-2); }
+@media (prefers-reduced-motion: reduce) { .nb-more > summary::before { transition: none; } }
 
 .nb-stats { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); }
 .nb-stat { display: grid; gap: 2px; }

@@ -83,7 +83,7 @@ function CenterCard({ c, onOpen }: { c: CenterRow; onOpen: (slug: string) => voi
         <span className="nxl-body">
           <span className="nxl-t1">
             <b>{c.he}</b>
-            <em className="nx-sap" dir="ltr">{c.title}</em>
+            {c.title.toLowerCase() !== c.he.toLowerCase() ? <em className="nx-sap" dir="ltr">{c.title}</em> : null}
           </span>
           <span className="nxl-desc">{c.sub}</span>
           <span className="nxl-meta">
@@ -121,7 +121,9 @@ function Row({ c, onOpen }: { c: ConceptRow; onOpen: (slug: string) => void }) {
         <span className="nxl-body">
           <span className="nxl-t1">
             <b>{c.he}</b>
-            <em>{c.title}</em>
+            {/* Ten terms have no Hebrew name (BAPI, IDoc, BAdI…): the English
+                term IS the human name, so it is not printed twice. */}
+            {c.title.toLowerCase() !== c.he.toLowerCase() ? <em>{c.title}</em> : null}
           </span>
           <span className="nxl-desc">{c.biz || "לא קיים תיעוד מאומת במאגר"}</span>
           <span className="nxl-meta">

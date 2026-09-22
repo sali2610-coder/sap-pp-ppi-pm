@@ -749,6 +749,48 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
    action takes it. Nothing else on this surface does. */
 .nx-app .nxl .nu-btn.nxl-primary { --_m: var(--brand); }
 
+/* ------------------------------------------------------------------------
+   CERTIFICATION ENTRY (design audit S7-CERT-2)
+   The three questions first — bank, level, length — in the runner's own
+   pickers (app/neo/cert.css), one primary action, and the long form folded
+   behind two disclosures. Nothing was removed; it moved one tap away.
+   ------------------------------------------------------------------------ */
+.nx-app .nxb-setup { display: grid; gap: var(--sp-2); }
+.nx-app .nxb-setup .nce-pick { margin-bottom: var(--sp-1); }
+.nx-app .nxb-setup .nce-pick-h { color: var(--ink-2); }
+.nx-app .nxb-setup .nce-pick-hint { font-weight: 400; color: var(--ink-3); }
+.nx-app .nxb-setup .nce-go { margin-top: var(--sp-2); }
+.nx-app .nxb-setup-n { font-size: var(--t-xs); line-height: 1.6; max-inline-size: 46ch; }
+.nx-app .nxb-none-l { margin: 0; font-size: var(--t-sm); line-height: var(--lh-he); }
+
+.nx-app .nxl-more {
+  min-inline-size: 0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+.nx-app .nxl-more > summary {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2);
+  min-block-size: var(--c-tap, 2.75rem);
+  padding: var(--sp-2) var(--sp-4);
+  cursor: pointer; list-style: none;
+  font-size: var(--t-sm); font-weight: 700; color: var(--ink-1);
+  border-radius: var(--r-md);
+}
+.nx-app .nxl-more > summary::-webkit-details-marker { display: none; }
+.nx-app .nxl-more > summary svg { flex: none; color: var(--ink-3); transition: transform .18s ease; }
+.nx-app .nxl-more[open] > summary svg { transform: rotate(180deg); }
+.nx-app .nxl-more > summary em {
+  font-style: normal; font-weight: 400; font-size: var(--t-xs); color: var(--ink-3);
+  margin-inline-start: auto;
+}
+.nx-app .nxl-more > summary:hover { background: color-mix(in srgb, var(--ink-1) 4%, transparent); }
+.nx-app .nxl-more > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nx-app .nxl-more-b { display: grid; gap: var(--sp-4); padding: 0 var(--sp-4) var(--sp-4); min-inline-size: 0; }
+.nx-app .nxl-more-b .nxb-claim h3 { margin: 0; font-size: var(--t-h3, 1.05rem); color: var(--ink-1); }
+.nx-app .nxl-more-b .nxb-two h4 { margin: 0 0 var(--sp-2); font-size: var(--t-sm); color: var(--ink-1); }
+@media (prefers-reduced-motion: reduce) { .nx-app .nxl-more > summary svg { transition: none; } }
+
 .nx-app .nxb-banks { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); }
 .nx-app .nxb-bank {
   position: relative; overflow: hidden;
