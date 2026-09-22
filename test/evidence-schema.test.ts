@@ -26,9 +26,10 @@ import { PPPI_BEST_PRACTICES } from "../data/best-practices/pp-pi.ts";
 import { PM_PROCESS_PRACTICES } from "../data/best-practices/pm-processes.ts";
 import { PP_PROCESS_PRACTICES } from "../data/best-practices/pp-processes.ts";
 import { CROSS_PROCESS_PRACTICES } from "../data/best-practices/cross-processes.ts";
+import { PPPI_PROCESS_PRACTICES } from "../data/best-practices/pppi-processes.ts";
 
 const REGISTRY = [...OBJECT_REGISTRY, ...IDOC_BASIC_TYPES];
-const BPS = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES, ...PP_PROCESS_PRACTICES, ...CROSS_PROCESS_PRACTICES];
+const BPS = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES, ...PP_PROCESS_PRACTICES, ...CROSS_PROCESS_PRACTICES, ...PPPI_PROCESS_PRACTICES];
 const ALL_RECORDS = [
   ...TABLE_VERIFICATION, ...TX_VERIFICATION, ...FM_VERIFICATION, ...IDOC_VERIFICATION,
   ...CDS_VERIFICATION, ...FIORI_VERIFICATION, ...ENH_VERIFICATION, ...OBJECT_VERIFICATION,
@@ -126,7 +127,7 @@ const DATA_FILES = [
   "data/verification/tables.ts", "data/verification/transactions.ts", "data/verification/functions.ts",
   "data/verification/idocs.ts", "data/verification/cds.ts", "data/verification/fiori.ts",
   "data/verification/enhancements.ts", "data/verification/objects.ts",
-  "data/best-practices/pm.ts", "data/best-practices/pp-pi.ts", "data/best-practices/pm-processes.ts", "data/best-practices/pp-processes.ts", "data/best-practices/cross-processes.ts",
+  "data/best-practices/pm.ts", "data/best-practices/pp-pi.ts", "data/best-practices/pm-processes.ts", "data/best-practices/pp-processes.ts", "data/best-practices/cross-processes.ts", "data/best-practices/pppi-processes.ts",
 ];
 
 test("pure modules and overlay files carry no value imports at all", () => {
