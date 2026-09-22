@@ -3313,21 +3313,22 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL), רשומת IP30",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE3,
+        accessedAt: DATE22,
         claim:
           "רובד Tier-2 מסמן את IP30 כ'זמינה ב-S/4HANA' (verified) ומשייך אליה את הטבלאות MPLA/MHIS/MPOS/MMPT, " +
-          "את ה-Customer Exit‏ IPRM0001 ואת אובייקטי ההרשאה I_TCODE/I_SWERK/I_INGRP. שדה s4Delta ברשומה מפנה " +
-          "ל'חלופות Fiori קיימות לתזמון בודד (F4072)', מזהה שקובץ התור " +
-          "audit/s4-enrichment/research-queue-fiori.md מייחס, על סמך רשומה רשמית, ל-Screen Maintenance Requests " +
-          "ולא לתזמון תכניות; אותו שדה הוא שגורם לאפליקציה לגזור כיום סטטוס 'משתנה ב-S/4HANA' ל-IP30.",
+          "את ה-Customer Exit‏ IPRM0001 ואת אובייקטי ההרשאה I_TCODE/I_SWERK/I_INGRP. שדה s4Delta ברשומה, בנוסחו " +
+          "מ-2026-09-22, אומר: 'נשמרת ב-S/4HANA כ-Job לתזמון המוני, ולפי פריט הפישוט S4TWL - Scheduling of " +
+          "Maintenance Plan הנתיב המומלץ לתזמון המוני הוא IP30H (RISTRA20H); חלופת Fiori לפי תיעוד SAP: Mass " +
+          "Schedule Maintenance Plans (F2774, אין לה רשומה בקטלוג הפרויקט)'. עד אותו יום השדה הפנה ל-F4072 " +
+          "כחלופת תזמון, מזהה שהתיעוד הרשמי מייחס ל-Screen Maintenance Requests (ראו רשומת fiori:F4072).",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#IP30",
       },
     ],
     status: {
       // 2026-09-22: 'simplified' -> 'deprecated' (לא אסטרטגי). The Simplification
-      // Item's own words — "not considered as future technology ... We plan to
-      // discontinue this in one of the next Releases" — in the 2025 FPS01 and
+      // Item's own words ("not considered as future technology ... We plan to
+      // discontinue this in one of the next Releases") in the 2025 FPS01 and
       // 2023 lists are the release-appropriate evidence; IP30H is now a native
       // record of the project, so the successor is linked. The item itself
       // stays as the secondary reading.
@@ -3351,7 +3352,8 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "לפי הפריט: לסקור את עבודות הרקע התקופתיות של IP30 (תוכנית RISTRA20) וליצור עבודות רקע חדשות ל-IP30H " +
         "(תוכנית RISTRA20H); אין השפעה צפויה על התהליך העסקי. במאגר (בוצע 2026-09-22): IP30H נוספה כרשומת " +
         "טרנזקציה מקורית והסטטוס שודרג ל'לא אסטרטגי' עם יורשת מקושרת; ההפניה ל-F4072 בשדה s4Delta של tx-intel " +
-        "נשארת סתירה פתוחה (המזהה מתועד רשמית כ-Screen Maintenance Requests).",
+        "תוקנה באותו יום (המזהה מתועד רשמית כ-Screen Maintenance Requests; s4Delta מפנה עכשיו ל-IP30H ול-F2774 לפי " +
+        "תיעוד SAP).",
     },
     xrefs: ["tx:IP30H", "tx:IP10", "tx:IP01", "tx:IP24", "table:MPLA", "table:MPOS", "table:MHIS", "table:MHIO", "fm:MAINTENANCE_PLAN_SCHEDULE", "fm:ISCHED_CALL_GENERATE", "cds:I_MaintenancePlan", "enh:exit:IPRM0001"],
     lastVerifiedAt: DATE22,
@@ -3363,8 +3365,8 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "לכל כתובת מצוטטת (200), ורובד Tier-2 מהמאגר. גוף עמודי ה-Help לא נקרא; כל טענה מוגבלת לכותרת ולסניפט " +
       "של רשומת החיפוש. ההבחנה מ-IP10 לפי הרשומה הרשמית: IP10 היא 'Scheduling individual maintenance " +
       "plans', IP30 היא 'Deadline Monitoring for Maintenance Plans (Batch Input IP10)' על מבחר תכניות, " +
-      "ו-IP30H היא 'Mass schedule maintenance plans' התלויה ב-LOG_EAM_MPS1; IP30H אינה ביקום המאגר ולכן אין " +
-      "אליה xref. רשומות רשמיות נוספות שנמצאו ולא נכללו כראיות: What's New 1610 FPS02 'Planning Plant in " +
+      "ו-IP30H היא 'Mass schedule maintenance plans' התלויה ב-LOG_EAM_MPS1; עד 2026-09-21 IP30H לא הייתה ביקום " +
+      "המאגר ולכן לא היה אליה xref (מאז היא רשומה ומקושרת). רשומות רשמיות נוספות שנמצאו ולא נכללו כראיות: What's New 1610 FPS02 'Planning Plant in " +
       "Maintenance Schedule Date Monitoring' (loio abf10f8a6121496ebc3566fdc72e5459), What's New 1709 'Mass " +
       "Schedule Maintenance Plans' (loio ef815ff35f454fb389d17bbae8ac7250), 'Specifying End Date and End " +
       "Counter' 2025.001 (loio 240a205cebe6470496d25e5689c636d7, 'automatic scheduling (transactions IP30 " +
@@ -3373,7 +3375,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "Maintenance Plan API' (loio b49aca3380b5436aa4e5c494fc0fd33d) ו-What's New 2025 FPS01 'OData API: " +
       "Maintenance Plan' (loio 880c79762567475fa24fdd9a0c41f500, API_MAINTENANCEPLAN). תיקון 2026-09-21 (סבב 2 " +
       "של ביקורת העיצוב): הטענה הקודמת 'לא נמצאה רשומת Simplification Item הנוקבת ב-IP30' והקביעה ש-RISTRA20 " +
-      "לא נמצא במקור רשמי הוסרו — פריט 4.1.2 'S4TWL - Scheduling of Maintenance Plan' ברשימת הפישוט הרשמית " +
+      "לא נמצא במקור רשמי הוסרו; פריט 4.1.2 'S4TWL - Scheduling of Maintenance Plan' ברשימת הפישוט הרשמית " +
       "של 2025 FPS01 (הקובץ SIMPL_OP2025.pdf, גרסת מסמך 1.36, נקרא במלואו ולא דרך סניפט) נוקב במפורש ב-IP30, " +
       "ב-RISTRA20, ב-IP30H וב-RISTRA20H, והסטטוס עודכן מ'ללא שינוי' ל'פריט פישוט' עם הפריט כמקור. " +
       "BAPI_MAINTENANCEPLAN_SCHEDULE שברשומת tx-intel עדיין לא נמצא במקור רשמי ואינו ביקום המאגר. F2774 ו-F5325 אינם " +
@@ -3382,27 +3384,30 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "(function-intel ו-exits.ts, חלקם מסומנים inferred) ולא מיפוי רשמי. לא בוצעה בדיקה במערכת SAP חיה. " +
       "accessedAt = 2026-09-07 לפי הנחיית ה-workflow; הרצת הכלי בפועל הטביעה 2026-09-08. אימות אדברסרי " +
       "2026-09-14: ארבע רשומות ה-Help אושרו מחדש בחיפוש חי (כותרת, versionId 2025.001, loio), ארבע הכתובות " +
-      "מחזירות HTTP 200, 11 ה-xrefs פותרים ביקום החי, ורשומת tx-intel#IP30 תואמת מילה במילה. עדכון 2026-09-22 " +
+      "מחזירות HTTP 200, 11 ה-xrefs דאז פותרים ביקום החי, ורשומת tx-intel#IP30 תאמה מילה במילה את הנוסח שצוטט " +
+      "אז (הציטוט הוחלף ב-2026-09-22 לנוסח הנוכחי של s4Delta). עדכון 2026-09-22 " +
       "(המשך ביקורת העיצוב, §18 IP30/IP30H): IP30H נוספה ל-data/transactions.ts (ולכן לרישום, לדף " +
       "/neo/transactions/IP30H/ ולמניפסט המסלולים) ולשכבת האימות (tx:IP30H, s4_native); הסטטוס כאן שודרג " +
       "מ'פריט פישוט' ל'לא אסטרטגי' עם successor tx:IP30H ו-secondary 'simplified', על סמך לשון הפריט בשתי " +
-      "רשימות הפישוט (2025 FPS01 פריט 4.1.2; 2023 פריט 29.7, אותו נוסח). לא בוצעה בדיקה במערכת SAP חיה.",
+      "רשימות הפישוט (2025 FPS01 פריט 4.1.2; 2023 FPS03 פריט 29.6, אותו נוסח). סקירת איכות תוכן 2026-09-22: מספר " +
+      "הפריט ברשימת 2023 תוקן מ-29.7 ל-29.6 (29.7 הוא Mobile Asset Management) והרכיבים ל-PM, PM-PRM לפי הקובץ " +
+      "המקומי; ראיית המאגר על s4Delta עודכנה לנוסח הנוכחי; 12 ה-xrefs פותרים ביקום החי. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* ----------------------------------------------------- tx:IP30H */
   {
     id: "tx:IP30H",
-    aliases: ["IP30H (Mass Schedule Maintenance Plans)", "RISTRA20H"],
+    aliases: ["IP30H (Mass Schedule Maintenance Plans)"],
     evidence: [
       IP30_SIMPL_ITEM,
       {
         sourceType: "simplification_item",
         sourceTitle:
-          "Simplification List for SAP S/4HANA 2023 (SIMPL_OP2023.pdf) · item 29.7 S4TWL - Scheduling of Maintenance " +
-          "Plan (PM-WOC-MB, PM)",
+          "Simplification List for SAP S/4HANA 2023 (SIMPL_OP2023.pdf) · item 29.6 S4TWL - Scheduling of Maintenance " +
+          "Plan (PM, PM-PRM)",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        release: "2023",
+        release: "2023 FPS03",
         url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
         accessedAt: DATE22,
         claim:
@@ -3468,10 +3473,12 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       source: IP30_SIMPL_ITEM,
       he:
         "IP30H ‏(Mass Schedule Maintenance Plans, תוכנית RISTRA20H) היא הטרנזקציה החדשה של S/4HANA לתזמון המוני " +
-        "של תכניות אחזקה: פריט הפישוט 4.1.2 'S4TWL - Scheduling of Maintenance Plan' (2025 FPS01; אותו נוסח " +
-        "בפריט 29.7 של רשימת 2023) מציג אותה כ'optimized for HANA' עם עיבוד מקבילי, ומורה להעביר אליה את " +
-        "עבודות הרקע של IP30 (RISTRA20). תיעוד ה-Help של 2025 FPS01 מקשר אותה ל-Business Function‏ " +
-        "LOG_EAM_MPS1, ו-KBA 3776496 מתעד אותה כנתיב תזמון פעיל ב-S/4HANA לצד IP10 ו-IP30.",
+        "של תכניות תחזוקה לפי תיעוד S/4HANA: פריט הפישוט 4.1.2 'S4TWL - Scheduling of Maintenance Plan' (2025 FPS01; " +
+        "אותו נוסח בפריט 29.6 של רשימת 2023 FPS03) מציג אותה כ'optimized for HANA' עם עיבוד מקבילי, ומורה להעביר " +
+        "אליה את עבודות הרקע של IP30 (RISTRA20). תיעוד ה-Help של 2025 FPS01 מקשר אותה ל-Business Function‏ " +
+        "LOG_EAM_MPS1 ('Available From SAP S/4HANA, on-premise edition'), ו-KBA 3776496 מתעד אותה כנתיב תזמון " +
+        "פעיל לצד IP10 ו-IP30. גבול הטענה: 'חדשה' נאמר ביחס ל-IP30 ועל סמך תיעוד S/4HANA בלבד; תקציר ה-KBA מונה " +
+        "גם SAP ERP בין המוצרים, וזמינות IP30H במערכת ECC לא נבדקה ואינה נשללת כאן.",
       recommendedAction:
         "ליצור עבודות רקע תקופתיות ל-IP30H (RISTRA20H) במקום אלה של IP30 (RISTRA20), כהוראת הפריט; לוודא שה-Business " +
         "Function‏ LOG_EAM_MPS1 מופעלת במערכת; בבדיקות: אותה בחירת תכניות מפיקה אותן קריאות, וריצה חוזרת " +
@@ -3481,7 +3488,8 @@ export const TX_VERIFICATION: VerificationRecord[] = [
     lastVerifiedAt: DATE22,
     notes:
       "שיטה (2026-09-22, המשך ביקורת העיצוב §18): קריאה מלאה של שני קובצי רשימת הפישוט הרשמיים שבמאגר המקומי " +
-      "(SIMPL_OP2025.pdf גרסת מסמך 1.36, פריט 4.1.2; SIMPL_OP2023.pdf, פריט 29.7 — שניהם נוקבים במפורש " +
+      "(SIMPL_OP2025.pdf גרסת מסמך 1.36, פריט 4.1.2; SIMPL_OP2023.pdf גרסת מסמך 1.35, Feature Pack Stack 3, " +
+      "פריט 29.6 'S4TWL - Scheduling of Maintenance Plan', רכיבים PM, PM-PRM; שניהם נוקבים במפורש " +
       "ב-IP30H וב-RISTRA20H); רשומת ה-Help 'Maintenance Plan Scheduling 1' (2025.001, loio c9e717b3…) " +
       "שאומתה כבר ברשומת tx:IP30; תקציר KBA 3776496 (userapps.support.sap.com, HTTP 200, תצוגה מקדימה ללא " +
       "כניסה); חיפוש רשת מוגבל ל-help.sap.com. עמוד ה-Help loio 2d396b50389ff015e10000000a44176d (מסמכי " +
