@@ -92,7 +92,7 @@ function Row({ r }: { r: BpRow }) {
             {r.profile ? (
               <span className="nu-chip nbp-prof-chip">
                 <LayoutList size={11} strokeWidth={1.75} aria-hidden="true" />
-                פרופיל תהליך · {nf.format(r.profile.filled)}/{nf.format(r.profile.total)} שדות
+                פרופיל תהליך · {nf.format(r.profile.filled)} מתוך {nf.format(r.profile.total)} שדות
               </span>
             ) : null}
           </span>
@@ -133,7 +133,7 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
           {" "}כל שיטה מפרטת צעדי עבודה, דפוסים שגויים ובדיקות, וכל הפניה נפתחת כקישור רק כאשר קיים
           לה עמוד בפרויקט.
           {processes > 0
-            ? ` ${nf.format(processes)} מהן הן רשומות תהליך מלאות (מטרה, טריגר, תנאים מוקדמים, נתוני אב, תפקידים, שלבים, טרנזקציות, טבלאות, אינטגרציה, תוצרים, חריגים, בקרות, מדדים, שינויי ECC ל-S/4HANA, הגירה והפניה רשמית); שדה שהמאגר אינו מתעד מוצג כפער ולא מושלם מהדמיון.`
+            ? ` ${nf.format(processes)} מהן הן רשומות תהליך מלאות (מטרה, טריגר, תנאים מוקדמים, נתוני אב, תפקידים, שלבים, טרנזקציות, טבלאות, אינטגרציה, תוצרים, חריגים, בקרות, מדדים, שינויי ECC ל-S/4HANA, הגירה, הפניה רשמית וקישורים צולבים); שדה שהמאגר אינו מתעד מוצג כפער ולא מושלם מהדמיון.`
             : ""}
           {" "}הקטלוג מורחב בהדרגה לפי משפחות, וכל שיטה תצורף למקורות SAP רשמיים בשלב האיסוף.
         </p>
@@ -199,12 +199,12 @@ function SecHead({ id, icon, title, note }: { id: string; icon: React.ReactNode;
 
 /** One line of a profile field: the sentence, then the ids it names, each a
  *  link only when a page exists (the same Ref the steps use). */
-function Line({ l }: { l: BpLineV }) {
+function Line({ l, label }: { l: BpLineV; label: string }) {
   return (
     <li>
       <span className="nxr-text">{l.he}</span>
       {l.xrefs.length ? (
-        <ul className="nxt-codes nxr-codes nbp-refs" aria-label="הפניות">
+        <ul className="nxt-codes nxr-codes nbp-refs" aria-label={`הפניות · ${label}`}>
           {l.xrefs.map((r) => <Ref key={r.id} r={r} />)}
         </ul>
       ) : null}
@@ -222,7 +222,7 @@ function ProcessProfile({ p }: { p: NonNullable<BpDetail["process"]> }) {
         id="bp-process-h"
         icon={<LayoutList size={15} strokeWidth={1.75} />}
         title="פרופיל התהליך"
-        note={`${nf.format(p.filled)}/${nf.format(p.total)} שדות מתועדים`}
+        note={`${nf.format(p.filled)} מתוך ${nf.format(p.total)} שדות מתועדים`}
       />
       <div className="nbp-fact">
         <span className="nxt-l">מטרה</span>
@@ -234,7 +234,7 @@ function ProcessProfile({ p }: { p: NonNullable<BpDetail["process"]> }) {
             <dt className="nxt-l">{f.label}</dt>
             <dd>
               <ul className="nxt-ul nbp-prof-l">
-                {f.lines.map((l, i) => <Line key={`${f.key}-${i}`} l={l} />)}
+                {f.lines.map((l, i) => <Line key={`${f.key}-${i}`} l={l} label={f.label} />)}
               </ul>
             </dd>
           </div>
@@ -249,6 +249,7 @@ function ProcessProfile({ p }: { p: NonNullable<BpDetail["process"]> }) {
             {p.reference.url ? (
               <a href={p.reference.url} target="_blank" rel="noopener noreferrer" className="nu-link" dir="ltr">
                 {p.reference.title}
+                <span className="nx-sr"> (נפתח בכרטיסייה חדשה)</span>
               </a>
             ) : (
               <span dir="ltr">{p.reference.title}</span>

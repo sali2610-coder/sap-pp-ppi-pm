@@ -174,7 +174,8 @@ function processView(b: BestPractice): BpProcessV | null {
     else gaps.push(f.label);
   }
   if (!b.steps.length) gaps.push("תהליך שלב אחר שלב");
-  if (!pr.reference) gaps.push("הפניה רשמית לתהליך");
+  // A missing official reference already has a rendered place of its own in
+  // the profile, so it is not repeated in the gap line.
   if (!allXrefs(b).length) gaps.push("קישורים צולבים");
   const c = profileCount(b)!;
   const r = pr.reference;

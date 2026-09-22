@@ -20,7 +20,6 @@ const TARGET = "/neo/enhancements/implicit-enhancement/";
 export default function Page() {
   return (
     <div dir="rtl" className="mx-auto max-w-3xl px-4 py-8">
-      <meta httpEquiv="refresh" content={`8;url=${TARGET}`} />
       <CenterHeader
         accent="#475569"
         eyebrow="Enhancements · reclassified"
@@ -34,10 +33,10 @@ export default function Page() {
           בדף הטכניקה.
         </p>
         <p className="mt-3">
-          הדף הזה נשאר כדי שקישורים ישנים לא יישברו. תועבר לרשומה החדשה בעוד כמה שניות, או לחץ על הקישור.
+          הדף הזה נשאר כדי שקישורים ישנים לא יישברו. הקישור למטה מוביל לרשומה המלאה.
         </p>
         <p className="mt-5">
-          <Link href={TARGET} className="inline-flex min-h-11 items-center rounded-xl bg-brand px-4 py-2 font-bold text-white">
+          <Link href={TARGET} className="inline-flex min-h-11 items-center rounded-xl bg-brand px-4 py-2 font-bold text-brand-foreground">
             Implicit Enhancement · הרשומה המלאה
           </Link>
         </p>

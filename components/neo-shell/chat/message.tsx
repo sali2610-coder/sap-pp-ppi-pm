@@ -153,7 +153,7 @@ export function Message({
                     drew a grounding line over nothing) says that no answer
                     arrived. */}
                 {!a.text ? (
-                  <p className="nxq-empty">
+                  <p className="nxq-empty" role="status">
                     {a.policy === "REFUSE"
                       ? "לא נמצא מקור מאומת בספרייה לשאלה זו, ולכן לא נכתבה תשובה. שאר השיחה נשמרה. אפשר לנסח את השאלה מחדש או לשאול על נושא ממוקד יותר."
                       : "לא התקבלה תשובה. השיחה נשמרה; אפשר לנסח את השאלה מחדש ולשלוח שוב."}

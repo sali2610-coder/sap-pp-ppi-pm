@@ -273,6 +273,13 @@ export function ErdInspector({
                 <GitBranch size={13} strokeWidth={2} aria-hidden="true" />
                 {nf.format(activeEdges.length)} קשרים
               </h3>
+              {activeEdges.some((e) => !e.cd) ? (
+                <p className="ne-note ne-cnv-note">
+                  קשר המסומן <span className="nx-sap">CARDINALITY_NOT_VERIFIED</span> נרשם במילון הפרויקט עם הורה, ילד ושדות
+                  ה-JOIN כשהם קיימים, בלי יחס כמותי; ‏PK/FK או Association לא אומתו מול מקור SAP רשמי. הקו מצויר מקווקו כתלות
+                  מתועדת ולא כיחס מחייב.
+                </p>
+              ) : null}
               {activeEdges.length ? (
                 <ul className="ne-joins">
                   {activeEdges.map((e) => {
@@ -286,8 +293,8 @@ export function ErdInspector({
                             {other}
                           </button>
                           <span className="ne-card nx-sap">{e.cd || REL_HE[e.k as RelKind]}</span>
-                          {e.k === "unstated" ? (
-                            <code className="ne-cnv" title="הקרדינליות לא אומתה במקור SAP רשמי">CARDINALITY_NOT_VERIFIED</code>
+                          {!e.cd ? (
+                            <code className="ne-cnv" aria-hidden="true">CARDINALITY_NOT_VERIFIED</code>
                           ) : null}
                           {e.x ? <span className="ne-ct">חוצה מודול</span> : null}
                         </div>
@@ -303,10 +310,7 @@ export function ErdInspector({
                           {e.cd ? (
                             <> קרדינליות מתועדת: <span className="nx-sap">{e.cd}</span>.</>
                           ) : (
-                            <>
-                              {" "}קרדינליות לא צוינה בתיעוד: מילון הפרויקט רושם את הקשר (הורה, ילד ושדות ה-JOIN כשקיימים) בלי יחס
-                              כמותי, ו-PK/FK או Association לא אומתו מול מקור SAP רשמי. הקו מצויר מקווקו כתלות מתועדת, לא כיחס מחייב.
-                            </>
+                            <> קרדינליות לא צוינה בתיעוד.</>
                           )}
                         </p>
                         {e.ds ? <p className="ne-join-d">{e.ds}</p> : null}

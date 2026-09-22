@@ -13,6 +13,17 @@ const OUT = process.env.OUT || "audit/ux-2026-09/a11y-sample.json";
 // The route list is the measurement run's (round 6 by default: /neo/domain/ was a
 // directory listing in round 3's list; the hub is /neo/domain-model/).
 const ROUTES = JSON.parse(fs.readFileSync(process.env.ROUTES_FROM || "audit/ux-2026-09/after-measurements.round6.json", "utf8")).results.map((r) => r.url);
+// Routes the measurement run does not carry, added after the accessibility
+// review of 2026-09-22 found the compatibility pages and the process records
+// sitting outside the sample that reported zero failures.
+const EXTRA = [
+  "/exits/CMOD-SMOD/", "/exits/Implicit-Enhancement/",
+  "/neo/best-practices/maintenance-notification-process/",
+  "/neo/best-practices/production-order-process/",
+  "/neo/best-practices/ecc-to-s4hana-migration-process/",
+];
+for (const r of EXTRA) if (!ROUTES.includes(r)) ROUTES.push(r);
+
 const browser = await chromium.launch({ executablePath: process.env.CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" });
 const ctx = await browser.newContext({ viewport: { width: 1363, height: 936 } });
 if (process.env.THEME === "dark") await ctx.addInitScript(() => { try { localStorage.setItem("neo:theme", "dark"); } catch {} });
