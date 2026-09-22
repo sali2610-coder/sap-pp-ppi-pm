@@ -165,3 +165,19 @@
 |---|---|---|---|
 | U-1 | `/neo/transactions/IP30/`: לוח ה-S/4 בראש העמוד הציג "משתנה ב-S/4HANA" (נגזר מ-tx-intel) בעוד בלוק הראיות מתחתיו הציג "פריט פישוט (Simplification Item)" — שני אוצרות מילים על עמוד אחד (אותה תקלה שתוקנה לטבלאות בסבב 1, ממצא §5 בדוח) | כאשר קיימת רשומת overlay מאומתת, כותרת הלוח היא התווית הקנונית של בלוק הראיות וה-disposition (צבע/פריסה) עוקב אחריה; `verification_required` משאיר את ה-disposition הנגזר ומחליף רק את הכותרת | `components/neo-shell/data/tx-detail.ts` |
 | U-2 | `/neo/idoc/BOMMAT/`: הכותרת הציגה "תלוי גרסה: נדרש אימות נוסף" ו"אמת זמינות ב-S/4" (מ-`function-intel.ts`, `inferred: true`) בעוד בלוק הראיות הציג "ללא שינוי ב-S/4HANA · מאומת מול תיעוד SAP רשמי" | טקסט ה-S/4 וה-ECC של הרשומה מנוסח מהמקורות הרשמיים של `idoc:msg:BOMMAT`; דגל `inferred` הוסר (המהות מתועדת ב-2025 FPS01); MAST נוסף לטבלאות הקשורות לפי ספריית ה-ALE | `data/function-intel.ts` |
+
+---
+
+## FIX-9 · IP30H כרשומת טרנזקציה מקורית, ו-IP30 כ"לא אסטרטגי" עם יורשת מקושרת (המשך ביקורת העיצוב, §18, 2026-09-22)
+
+| שדה | ערך |
+|---|---|
+| מזהה | `tx:IP30H` (חדש) · `tx:IP30` (עדכון מחזור חיים) |
+| טענה | IP30H (תוכנית RISTRA20H) היא הטרנזקציה החדשה של S/4HANA לתזמון המוני של תכניות אחזקה, והנתיב שרשימת הפישוט מפנה אליו במקום עבודות הרקע של IP30 (RISTRA20); IP30 זמינה אך "לא נחשבת טכנולוגיה עתידית" עם כוונת הפסקה במהדורה עתידית |
+| Release / Edition | SAP S/4HANA On-Premise 2025 FPS01 (רשימת הפישוט v1.36, פריט 4.1.2) ו-2023 (פריט 29.7, אותו נוסח); Help 2025.001 |
+| מקורות | Simplification List OP2025 §4.1.2 "S4TWL - Scheduling of Maintenance Plan" (PM-PRM, Business Impact Note 2270078) · Simplification List OP2023 §29.7 (`help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf`) · SAP Help "Maintenance Plan Scheduling 1 \| Logistics" 2025.001 (loio `c9e717b3620e4898a1aba5db9bf03afc`, Business Function LOG_EAM_MPS1 "introduces the scheduling function Mass Schedule Maintenance Plans (transaction IP30H)") · KBA 3776496 "Plan is unable to schedule in IP30H due to error IP735" (`me.sap.com/notes/3776496`; תצוגה מקדימה ללא כניסה) |
+| קטע תומך | "The new transaction for doing mass scheduling is IP30H which is optimized for HANA and is offering parallel processing at a much hiher speed … Review your background Jobs which you most probably have scheduled periodically for transaction IP30 (Reports RISTRA20) and create new background jobs for IP30H (Report RISTRA20H)" |
+| מה שונה | `data/transactions.ts`: רשומת IP30H (PM · אחזקה מונעת) → דף `/neo/transactions/IP30H/` + מזהה במניפסט המסלולים (`gen:routes`); `data/verification/transactions.ts`: רשומה `tx:IP30H` (s4_native, on-premise, 4 ראיות רשמיות + ראיית מאגר, xrefs ל-IP30/IP10/MPLA/MPOS/MHIS/MHIO/I_MaintenancePlan); `tx:IP30`: `simplified` → `deprecated` ("לא אסטרטגי ב-S/4HANA") עם `successor: tx:IP30H`, `secondary: [simplified]`, xref ל-IP30H, הערות מתוארכות |
+| מה לא שונה | הסטטוס `deprecated` ניתן רק על סמך לשון הפריט בשתי רשימות פישוט (ראיה מתאימה למהדורה); לא נקבע `not_available`; ה-OData API‏ API_MAINTENANCEPLAN לא נכלל כראיה (נתיב נפרד); הסתירה F4072 ב-tx-intel נשארת פתוחה |
+| בדיקות | `test/ip30h.test.ts` (3 בדיקות: רשומה מקורית + מניפסט; s4_native על ראיות רשמיות; IP30 לא אסטרטגי עם יורשת מקושרת) · `test/evidence-schema` / `evidence-xref` עוברות |
+| מגבלה | לא בוצעה בדיקה במערכת SAP חיה (sc4sap לא התחבר); עמוד Help loio `2d396b50389ff015e10000000a44176d` הוחזר כמעטפת JS ולא נקרא; גוף ה-KBA דורש S-user |

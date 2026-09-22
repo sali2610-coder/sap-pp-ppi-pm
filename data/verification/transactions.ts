@@ -17,6 +17,7 @@ const DATE = "2026-09-01";
 const DATE2 = "2026-09-02";
 const DATE3 = "2026-09-07";
 const DATE21 = "2026-09-21";
+const DATE22 = "2026-09-22";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -3324,7 +3325,15 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       },
     ],
     status: {
-      status: "simplified",
+      // 2026-09-22: 'simplified' -> 'deprecated' (לא אסטרטגי). The Simplification
+      // Item's own words — "not considered as future technology ... We plan to
+      // discontinue this in one of the next Releases" — in the 2025 FPS01 and
+      // 2023 lists are the release-appropriate evidence; IP30H is now a native
+      // record of the project, so the successor is linked. The item itself
+      // stays as the secondary reading.
+      status: "deprecated",
+      secondary: ["simplified"],
+      successor: "tx:IP30H",
       edition: "on-premise",
       release: "2025 FPS01",
       source: IP30_SIMPL_ITEM,
@@ -3335,16 +3344,17 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "בודדת), אך SAP מגדירה את טכנולוגיית ה-Batch Input שבה כ'לא עתידית', מציינת שאין עדיין מקבילה תפקודית " +
         "מלאה, ומודיעה על כוונה להפסיקה באחת המהדורות הבאות. הנתיב שהפריט מפנה אליו לתזמון המוני הוא IP30H " +
         "(תוכנית RISTRA20H, מותאמת HANA עם עיבוד מקבילי), שהתיעוד מקשר ל-Business Function‏ LOG_EAM_MPS1; נתיב " +
-        "ה-Fiori המתועד הוא Mass Schedule Maintenance Plans ‏(F2774). IP30H אינה ביקום מזהי המאגר ולכן אינה " +
-        "רשומה כיורשת מקושרת.",
+        "ה-Fiori המתועד הוא Mass Schedule Maintenance Plans ‏(F2774). מ-2026-09-22 IP30H היא רשומת טרנזקציה " +
+        "מקורית של המאגר (tx:IP30H) ולכן רשומה כאן כיורשת מקושרת, והסטטוס הוא 'לא אסטרטגי ב-S/4HANA' כלשון " +
+        "הפריט ('not considered as future technology'), עם פריט הפישוט כקריאה משנית.",
       recommendedAction:
         "לפי הפריט: לסקור את עבודות הרקע התקופתיות של IP30 (תוכנית RISTRA20) וליצור עבודות רקע חדשות ל-IP30H " +
-        "(תוכנית RISTRA20H); אין השפעה צפויה על התהליך העסקי. במאגר: לשקול הוספת IP30H כרשומת טרנזקציה מקורית, " +
-        "ואז לשדרג את הסטטוס ל'לא אסטרטגי' עם יורשת מקושרת; ההפניה ל-F4072 בשדה s4Delta של tx-intel נשארת " +
-        "סתירה פתוחה (המזהה מתועד רשמית כ-Screen Maintenance Requests).",
+        "(תוכנית RISTRA20H); אין השפעה צפויה על התהליך העסקי. במאגר (בוצע 2026-09-22): IP30H נוספה כרשומת " +
+        "טרנזקציה מקורית והסטטוס שודרג ל'לא אסטרטגי' עם יורשת מקושרת; ההפניה ל-F4072 בשדה s4Delta של tx-intel " +
+        "נשארת סתירה פתוחה (המזהה מתועד רשמית כ-Screen Maintenance Requests).",
     },
-    xrefs: ["tx:IP10", "tx:IP01", "tx:IP24", "table:MPLA", "table:MPOS", "table:MHIS", "table:MHIO", "fm:MAINTENANCE_PLAN_SCHEDULE", "fm:ISCHED_CALL_GENERATE", "cds:I_MaintenancePlan", "enh:exit:IPRM0001"],
-    lastVerifiedAt: DATE3,
+    xrefs: ["tx:IP30H", "tx:IP10", "tx:IP01", "tx:IP24", "table:MPLA", "table:MPOS", "table:MHIS", "table:MHIO", "fm:MAINTENANCE_PLAN_SCHEDULE", "fm:ISCHED_CALL_GENERATE", "cds:I_MaintenancePlan", "enh:exit:IPRM0001"],
+    lastVerifiedAt: DATE22,
     notes:
       "שיטה: scripts/sap-help-search.mjs בשש שאילתות On-Premise ('IP30 deadline monitoring maintenance " +
       "plans', 'Deadline Monitoring for Maintenance Plans', 'IP30H', 'Mass Schedule Maintenance Plans app " +
@@ -3372,7 +3382,114 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "(function-intel ו-exits.ts, חלקם מסומנים inferred) ולא מיפוי רשמי. לא בוצעה בדיקה במערכת SAP חיה. " +
       "accessedAt = 2026-09-07 לפי הנחיית ה-workflow; הרצת הכלי בפועל הטביעה 2026-09-08. אימות אדברסרי " +
       "2026-09-14: ארבע רשומות ה-Help אושרו מחדש בחיפוש חי (כותרת, versionId 2025.001, loio), ארבע הכתובות " +
-      "מחזירות HTTP 200, 11 ה-xrefs פותרים ביקום החי, ורשומת tx-intel#IP30 תואמת מילה במילה.",
+      "מחזירות HTTP 200, 11 ה-xrefs פותרים ביקום החי, ורשומת tx-intel#IP30 תואמת מילה במילה. עדכון 2026-09-22 " +
+      "(המשך ביקורת העיצוב, §18 IP30/IP30H): IP30H נוספה ל-data/transactions.ts (ולכן לרישום, לדף " +
+      "/neo/transactions/IP30H/ ולמניפסט המסלולים) ולשכבת האימות (tx:IP30H, s4_native); הסטטוס כאן שודרג " +
+      "מ'פריט פישוט' ל'לא אסטרטגי' עם successor tx:IP30H ו-secondary 'simplified', על סמך לשון הפריט בשתי " +
+      "רשימות הפישוט (2025 FPS01 פריט 4.1.2; 2023 פריט 29.7, אותו נוסח). לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* ----------------------------------------------------- tx:IP30H */
+  {
+    id: "tx:IP30H",
+    aliases: ["IP30H (Mass Schedule Maintenance Plans)", "RISTRA20H"],
+    evidence: [
+      IP30_SIMPL_ITEM,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 (SIMPL_OP2023.pdf) · item 29.7 S4TWL - Scheduling of Maintenance " +
+          "Plan (PM-WOC-MB, PM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE22,
+        claim:
+          "רשימת הפישוט של SAP S/4HANA 2023 (הקובץ SIMPL_OP2023.pdf, נקרא מקומית במלואו) נושאת את אותו פריט באותו " +
+          "נוסח: 'The new transaction for doing mass scheduling is IP30H which is optimized for HANA and is " +
+          "offering parallel processing at a much hiher speed' [כך במקור], ותחת Required and Recommended " +
+          "Action(s): 'Review your background Jobs which you most probably have scheduled periodically for " +
+          "transaction IP30 (Reports RISTRA20) and create new background jobs for IP30H (Report RISTRA20H)'. " +
+          "כלומר IP30H היא הנתיב הרשמי לתזמון המוני לפחות ממהדורת 2023 ועד 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Plan Scheduling 1 | Logistics",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/77c07c8d30664260a0b3ff864e6b5e78/c9e717b3620e4898a1aba5db9bf03afc.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE3,
+        claim:
+          "ה-Business Function‏ LOG_EAM_MPS1 ('Enterprise Business Function', 'Available From SAP S/4HANA, " +
+          "on-premise edition') 'introduces the scheduling function Mass Schedule Maintenance Plans " +
+          "(transaction IP30H), which is used to schedule a defined selection of maintenance plans', ומאפשרת " +
+          "'to carry out the mass scheduling of maintenance plans faster and more easily'. זהו תיעוד ה-Help " +
+          "הרשמי של הטרנזקציה ב-2025 FPS01; לפי הסניפט, IP30H תלויה בהפעלת ה-Business Function.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "kba",
+        sourceTitle: "3776496 - Plan is unable to schedule in IP30H due to error IP735",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        url: "https://me.sap.com/notes/3776496",
+        kba: "3776496",
+        accessedAt: DATE22,
+        claim:
+          "תקציר ה-KBA הרשמי (עמוד התצוגה המקדימה userapps.support.sap.com/sap/support/knowledge/en/3776496, " +
+          "ללא כניסה; הקישור הקנוני הוא me.sap.com/notes/3776496) מונה בין המוצרים את SAP S/4HANA (on-premise " +
+          "ו-Cloud Private Edition) ואת SAP ERP, ומתאר את התסמין: 'The plan can be scheduled in IP10 and IP30 " +
+          "without issue, but unable to schedule via IP30H or RISTRA20H due to error IP735'. כלומר SAP מתעדת " +
+          "את IP30H ואת התוכנית RISTRA20H כנתיב תזמון פעיל לצד IP10 ו-IP30. גוף ה-KBA המלא דורש כניסת S-user " +
+          "ולא נקרא; לפי כללי השכבה, KBA שנקרא מתקציר נרשם כמקור תומך ולא כאימות רשמי.",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציות המקורית של הפרויקט (data/transactions.ts#IP30H)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE22,
+        claim:
+          "IP30H נוספה ב-2026-09-22 לקובץ הטרנזקציות המקורי של הפרויקט על סמך המקורות הרשמיים שלעיל (מודול PM, " +
+          "נושא 'אחזקה מונעת'); שדות הטבלאות והאובייקטים משקפים את רשומת IP30 המקורית (MHIS/MHIO, Maintenance " +
+          "Plan / Maintenance Order) ואינם מיפוי רשמי; אין לה רשומת tx-intel ואין מודולי פונקציה משויכים.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/transactions.ts#IP30H",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: IP30_SIMPL_ITEM,
+      he:
+        "IP30H ‏(Mass Schedule Maintenance Plans, תוכנית RISTRA20H) היא הטרנזקציה החדשה של S/4HANA לתזמון המוני " +
+        "של תכניות אחזקה: פריט הפישוט 4.1.2 'S4TWL - Scheduling of Maintenance Plan' (2025 FPS01; אותו נוסח " +
+        "בפריט 29.7 של רשימת 2023) מציג אותה כ'optimized for HANA' עם עיבוד מקבילי, ומורה להעביר אליה את " +
+        "עבודות הרקע של IP30 (RISTRA20). תיעוד ה-Help של 2025 FPS01 מקשר אותה ל-Business Function‏ " +
+        "LOG_EAM_MPS1, ו-KBA 3776496 מתעד אותה כנתיב תזמון פעיל ב-S/4HANA לצד IP10 ו-IP30.",
+      recommendedAction:
+        "ליצור עבודות רקע תקופתיות ל-IP30H (RISTRA20H) במקום אלה של IP30 (RISTRA20), כהוראת הפריט; לוודא שה-Business " +
+        "Function‏ LOG_EAM_MPS1 מופעלת במערכת; בבדיקות: אותה בחירת תכניות מפיקה אותן קריאות, וריצה חוזרת " +
+        "אינה מכפילה קריאות; יומן התזמון נקרא ב-SLG1.",
+    },
+    xrefs: ["tx:IP30", "tx:IP10", "table:MPLA", "table:MPOS", "table:MHIS", "table:MHIO", "cds:I_MaintenancePlan"],
+    lastVerifiedAt: DATE22,
+    notes:
+      "שיטה (2026-09-22, המשך ביקורת העיצוב §18): קריאה מלאה של שני קובצי רשימת הפישוט הרשמיים שבמאגר המקומי " +
+      "(SIMPL_OP2025.pdf גרסת מסמך 1.36, פריט 4.1.2; SIMPL_OP2023.pdf, פריט 29.7 — שניהם נוקבים במפורש " +
+      "ב-IP30H וב-RISTRA20H); רשומת ה-Help 'Maintenance Plan Scheduling 1' (2025.001, loio c9e717b3…) " +
+      "שאומתה כבר ברשומת tx:IP30; תקציר KBA 3776496 (userapps.support.sap.com, HTTP 200, תצוגה מקדימה ללא " +
+      "כניסה); חיפוש רשת מוגבל ל-help.sap.com. עמוד ה-Help loio 2d396b50389ff015e10000000a44176d (מסמכי " +
+      "S/4HANA On-Premise) הוחזר כמעטפת JavaScript ללא תוכן ולכן אינו ראיה. IP30H אינה ברישום הרוחבי " +
+      "(TCODE_CATALOG/TCODE_DIRECTORY) ואינה בבלופרינטים; היא נרשמה ב-data/transactions.ts (הרובד המקורי " +
+      "העמוק) ולכן מקבלת דף /neo/transactions/IP30H/ ומזהה במניפסט המסלולים. הסטטוס s4_native ולא " +
+      "released_api_available: ה-OData API‏ API_MAINTENANCEPLAN (What's New 2025 FPS01) הוא נתיב נפרד שלא נכלל " +
+      "כראיה כאן. לא בוצעה בדיקה במערכת SAP חיה (sc4sap לא התחבר).",
   },
 
   /* ----------------------------------------------------- tx:IE01 */
