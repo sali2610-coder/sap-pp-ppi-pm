@@ -139,3 +139,35 @@ honest ones: `cds:I_BillOfMaterialItemAssgmt` now resolves at level `verificatio
 - `cds:I_MaintNotifActivity` — NO OFFICIAL PAGE names the view. Documented instead: `I_MaintNotificationActyData` (Fact / Released, BW DataSource) and `I_MaintNotifItemActivityTP_3` (Developer Extensibility 2025, replacing TP_2 which the same page marks Deprecated); SAP also keeps activities, tasks and causes in three separate views (`I_MaintNotificationTaskData`, `I_MaintNotificationCauseData`) while `data/cds-map.ts` folds them into one row titled "פעולות/משימות בהודעה". Base-table conflict inside the repo: enrichment says QMSM (tasks), map says QMMA + QMSM + QMUR; the archiving page PM_QMEL settles the TABLE meanings (QMMA activities, QMSM tasks, QMUR causes) but not the view's base table, and the record says so explicitly rather than instructing the reader. Authored `verification_required` with edition on-premise and release 2023.latest (bounded by the `I_MaintNotificationActyData` page). IW65 comes from the official page; IW22/IW66/IW67/IW69 are repository-layer xrefs.
 - `cds:I_ObjectStatus` — NO OFFICIAL PAGE names the view (15 On-Premise + 1 Public Cloud query; the exact-name search returns 21 unrelated on-prem records — Real Estate data migration with the migration object `S_OBJECTSTATUS`, empty-snippet Malaysia localization topics, and reinsurance topics — and 2 Public Cloud APIs-for-Warehousing records). Documented status views: `I_ManufacturingOrderStatus` (Fact), `I_MfgOrderWithStatus` (JEST + AUFK/AFKO) and `I_MfgOrderOperationWithStatus` (JEST + AFVC/AFVV/AFVU); a fourth sibling, `I_MfgOrderComponentWithStatus`, has a snippet truncated before its table list, so the record says "two views observed" rather than "two views exist". None is a project id → no successor. Authored `verification_required` (release null, source null). Repo conflicts kept open: map says JEST + JSTO, enrichment text says JEST only; enrichment viewType "Interface (Basic)" vs the three official categories; the enrichment's T-code "BSVX" is not in the dataset transaction manifest and was not verified. `AFVV` / `AFVU` are not universe ids and stay out of xrefs. `api.sap.com/cdsviews/I_ObjectStatus` returns a 666-byte login shell identical in size to a control path for a nonexistent view, so it is evidence for nothing.
 - Cross-cutting (batch 3) — all 11 views are marked "verified" in `data/cds-enrichment.ts` with templated sources and no URL. Five of them now carry an authored `verification_required` because no official page names the project's view name at all (I_RoutingOperationComponent, I_EquipmentTimeSegment, I_MaintNotifActivity, I_ObjectStatus) or because every evidence item is `verification_required` (I_BillOfMaterialItemAssgmt, no authored status). Six carry official evidence that contradicts the enrichment's `viewType`: Composite/Basic vs the official "basic view" (I_ProductValuation), "Basic, Dimension" (I_WorkCenterCapacity), "Basic, Text" (I_WorkCenterText) or "Dimension" (I_ProductDescription, I_ProductUnitOfMeasure, I_EquipmentTimeSegment). `data/cds-map.ts` tags eight of the eleven PP-PI while the official records place them under product master or Production Engineering. Both files are outside this overlay's write scope; align them in a separate data pass. Cosmetic inconsistency inherited from the audited drafts and left as written: the enrichment source labels are quoted with an em dash in `cds:I_BillOfMaterialItemAssgmt` (matching the file byte for byte) and with a hyphen in the other records.
+
+---
+
+# Batch 4 · 2026-09-22 (re-research of the two batch-3 refutations)
+
+2 drafts audited, **2 written** into `data/verification/cds.ts` (`DATE22`), 0 refuted. Neither
+verdict carried a `fixedRecord`; both records were re-derived from the researchers' drafts with
+every listed downgrade applied. `status.source` of `cds:I_MfgOrderComponent` is hoisted into
+`MFGORDERCOMP_WITHSTATUS_VDM_2023` (house style). No `reviewer` field. The catalog was already
+graduated, so `test/evidence-schema.test.ts` needed no change.
+
+Writer-side deviations, both disclosed here:
+
+1. `cds:I_ProductSalesData` evidence[0] tail "ולכן הספירה נכונה לתאריך הגישה בלבד" and the notes
+   phrase "ספירות החיפוש ברשומה נכונות להרצה ב-2026-09-22 בלבד" were reworded ("מספר התוצאות
+   והרכבן משתנים בין הרצות, גם באותו תאריך" / "אינן יציבות בין הרצות"). The auditor's same-day
+   re-runs disproved both, and the verdict says only the negative finding is reproducible.
+2. The `gaps` downgrade for `cds:I_ProductSalesData` has no target: `VerificationRecord` has no
+   `gaps` field and the draft carried none. The intent (counts 5 to 7, titles vary) is in the notes.
+
+Gates: `tsc --noEmit` 0; `tsc -p tsconfig.test.json` 0; `npm test` 212/212;
+`report:coverage --catalog cds` 39 rows, L2 9→11, L3 5→3, s4-applicable 30→28 (both records author
+`verification_required`, which `coverageOf` excludes), verified 37 and verif.req 2 unchanged.
+
+## refuted
+
+- (none in this batch.)
+
+## conflicts
+
+- `cds:I_MfgOrderComponent` — NO OFFICIAL PAGE names the bare view (about 12 query variants, On-Premise default / 2025.001 / 2022.latest, Public Cloud). Documented siblings: `I_MfgOrderComponentWithStatus` (loio `775ef9dc39f848348e7b2a4930f4dced`, New in 2023), `I_MfgOrderOperationComponent` (loio `d821563df8ef4ecb9a5fedc2bacda6fe`, Dimension), `I_MfgOrderComponentLongText` (loio `701eda41fac8429e939290e3a2a401f9`); none is in the id universe, so none is an xref. Enrichment key, associations and the AFFH mapping are unsupported; module tag PP-PI neither supported nor refuted. Needs SE11 / ADT / View Browser.
+- `cds:I_ProductSalesData` — NO OFFICIAL PAGE names the view (8 variants, both scopes); search counts are unstable (5 to 7 on-prem, varying titles), only the negative finding reproduces. Documented neighbour `I_ProductSalesDelivery` (loio `dede052460194546a9ac1ceb4a983738`) has no `data/cds-map.ts` row; adding one would make it xref-able. `data/cds-map.ts` module tag PP-PI and the Fiori-id-less "Manage Product Master Data" remain repository drift. Needs a VDM topic, a read api.sap.com cdsviews page, or a live system check.

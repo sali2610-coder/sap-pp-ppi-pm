@@ -22,12 +22,16 @@
    I_MaintNotifActivity, I_ObjectStatus) found no official page naming the project's
    view name and stay honest at verification_required / no authored status. Two
    drafts (I_MfgOrderComponent, I_ProductSalesData) were refuted at the gate and are
-   queued, not written. */
+   queued, not written.
+   Batch 4 (2026-09-22, DATE22): those two re-researched drafts passed the gate and are
+   written with every auditor downgrade applied; both stay at an authored
+   verification_required, because no official page names either view. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE2 = "2026-09-02";
 const DATE14 = "2026-09-14";
 const DATE15 = "2026-09-15";
+const DATE22 = "2026-09-22";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -466,6 +470,19 @@ const MAINTNOTIF_ACTYDATA_VDM_2023: Evidence = {
   accessedAt: DATE15,
   claim: "תצוגת ה-VDM המתועדת לפעילויות הודעת אחזקה נקראת I_MaintNotificationActyData ולא I_MaintNotifActivity: רשומת החיפוש קובעת 'Maintenance Notification Activity Data CDS View Name I_MaintNotificationActyData Data Category Fact Status Released Data Extraction Type Delta-enabled, the extraction is based on field LastChangeDateTime'. לפי אותה רשומה התצוגה בנויה על האובייקטים העסקיים 'Maintenance notification activity', 'Maintenance notification item' ו-Maintenance notification, ובין המדדים והמאפיינים שהסניפט מונה: נתוני פעילות של הודעת אחזקה או הודעת שירות, מספר מיקום פונקציונלי, מספר ציוד ונתוני נזק. הסניפט מוסיף כי 'This CDS view does not have any input parameters', כי היא 'modeled for usage as a DataSource in Business Warehouse', וכי בתנאים המוקדמים נדרשות הרשאות להצגת פעילויות הודעת האחזקה בטרנזקציות IW65 ו-IW23.",
   verificationLevel: "sap_official_verified",
+};
+
+/** cds:I_MfgOrderComponent: the sibling-view record its authored status points at (batch 4). */
+const MFGORDERCOMP_WITHSTATUS_VDM_2023: Evidence = {
+  "sourceType": "sap_help",
+  "sourceTitle": "Manufacturing Order Component with Status | Virtual Data Model and CDS Views",
+  "product": "SAP S/4HANA",
+  "edition": "on-premise",
+  "release": "2023.latest",
+  "url": "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/775ef9dc39f848348e7b2a4930f4dced.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+  "accessedAt": DATE22,
+  "claim": "עמוד ה-VDM הרשמי (loio 775ef9dc39f848348e7b2a4930f4dced, סט 2023 Latest, פורסם 2026-08-05) קובע: 'Manufacturing Order Component with Status CDS View Name I_MfgOrderComponentWithStatus' ו-'Purpose This CDS view helps to select manufacturing order components supplemented with system status information', ומשיב על השאלה 'Which system statuses are active for a manufacturing order component?'. חלונות סניפט נוספים של אותו עמוד מונים 'Requirement Quantity WithdrawnQuantity Withdrawn Quantity ConfirmedAvailableQuantity Available Quantity EntryUnit Unit of Entry GoodsMovementEntryQty Quantity in Unit of Entry Currency' ו-'MatlCompDiscontinuationType Discontinuation Type MaterialProvisionType Material Provision Type MatlComponentSparePartType Spare Part Type QuantityIsFixed Quantity is fixed BaseUnit Base Unit of Measure RequiredQuantity' (חלונות נפרדים המחוברים בשלוש נקודות, לא טקסט רציף). הסניפט אינו מציין Release Status, שדה מפתח, אסוציאציות או טבלאות מקור.",
+  "verificationLevel": "sap_official_verified"
 };
 
 export const CDS_VERIFICATION: VerificationRecord[] = [
@@ -3302,5 +3319,149 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
     ],
     lastVerifiedAt: DATE15,
     notes: "שיטה: scripts/sap-help-search.mjs ב-2026-09-15, חמש עשרה שאילתות בסקופ SAP_S4HANA_ON-PREMISE ושאילתה אחת בסקופ SAP_S4HANA_CLOUD, בתוספת חיפוש רשת מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap. הממצא השלילי תחום לאינדקס החיפוש במועד הבדיקה ואינו קביעה שהתצוגה אינה קיימת במערכת. עמוד רשמי נוסף שאותר ולא נרשם כראיה נפרדת: What's New 'CDS Views for Discrete and Process Manufacturing' (loio d179056c52d24117a2fe1cbaf7025969, 2025.000), שבטבלת 'CDS Views Changed for Discrete and Process Manufacturing' מונה 'Manufacturing Order Status I_ManufacturingOrderStatus' ו-'Manufacturing Order with Status I_MfgOrderWithStatus' לצד 'Order Header I_Order'. שלוש התצוגות האלה אינן מזהים ביקום הפרויקט (data/cds-map.ts), ולכן אינן ב-xrefs ואינן נרשמות כיורשות. הסטטוס שהאפליקציה מציגה כיום לרשומה זו נגזר מ-lib/evidence/s4-status.ts#fromCdsEnrichment: 'חדש ב-S/4HANA' ברובד 'מאומת מול נתוני הפרויקט', מפני שרשומת ההעשרה מסומנת verified; הרשומה הזו מחליפה אותו בסטטוס מוסמך 'נדרש אימות נוסף', בהתאם לפריט בתור המחקר של הטבלאות (audit/s4-enrichment/research-queue-tables.md) שקבע ש-I_ObjectStatus מופיעה ב-data/cds-map.ts בלבד ללא רשומת VDM רשמית. הקביעה עקבית עם רשומות table:JEST ו-table:JSTO שכבר קיימות ב-data/verification/tables.ts ומציינות במפורש שלא נמצא עמוד VDM רשמי לתצוגה. שלוש פונקציות ניהול הסטטוס שנזכרות בהמלצה (STATUS_READ, STATUS_PROFILE_READ, USER_STATUS_CHECK) מקורן ביקום המזהים של הפרויקט ובהמלצה שכבר נרשמה ברשומת table:JEST, ולא במקור SAP רשמי שנקרא בבדיקה זו. סתירות פנימיות במאגר שלא הוכרעו: המפה מקשרת ל-JEST ו-JSTO בעוד טקסט ההעשרה מתאר את JEST בלבד; ההעשרה קובעת viewType 'Interface (Basic)' בעוד התצוגות הרשמיות הקרובות מסווגות 'Analytical Data Category Fact' (I_ManufacturingOrderStatus), 'Data Category Basic, Dimension' (I_MfgOrderWithStatus) ו-'Data Category Composite, Dimension' (I_MfgOrderOperationWithStatus); קוד ה-T של ההעשרה 'BSVX' אינו קיים במניפסט הטרנזקציות של הדאטהסט ולא אומת. tx:BS02, tx:BS22 ו-tx:BS23 אינם ב-xrefs מטעמי היקף בלבד. הקודים קיימים ב-lib/route-manifest.generated.ts, שהוא מראה של generateStaticParams של app/tcode/[code], ולכן יש להם דף באפליקציה; הנוסח ברשומות table:JEST ו-table:JSTO הקובע שאין להם דף אינו מדויק וראוי לתיקון שם. בדיקת נתיב ה-Business Accelerator Hub ב-2026-09-15: api.sap.com/cdsviews/I_ObjectStatus החזיר HTTP 200 עם מעטפת התחברות של 666 בייט, זהה בגודלה לנתיב הבקרה של שם שאינו קיים (I_ZZZNOTAVIEW, 666 בייט) ודומה לנתיב של תצוגה מתועדת (I_ManufacturingOrderStatus, 664 בייט), ולכן אינו ראיה לכאן או לכאן. גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript); כל ציטוט נלקח מכותרת ומסניפט של שירות החיפוש הרשמי. לא בוצעה בדיקה במערכת SAP חיה (חיבור ה-MCP של sc4sap נכשל, כמתועד ב-MANIFEST), ולא נטען שום מספר SAP Note או KBA. מה יאפשר שדרוג: נושא ב-help.sap.com שבו CDS View Name הוא I_ObjectStatus, עמוד cdsviews ב-api.sap.com שנקרא בפועל, או בדיקת ADT/SE11/View Browser במערכת היעד; אם התצוגה קיימת כתצוגה לא משוחררת, כתצוגת לקוח או בגרסה מאוחרת, יש לרשום זאת עם המקור.",
+  },
+  {
+    "id": "cds:I_MfgOrderComponent",
+    "aliases": [
+      "I_MFGORDERCOMPONENT"
+    ],
+    "status": {
+      "status": "verification_required",
+      "he": "רכיב הזמנת ייצור (Manufacturing Order Component) ברובד ה-VDM של S/4HANA. אף רשומה רשמית שנמצאה אינה נוקבת בתצוגה בשם המדויק I_MfgOrderComponent. תיעוד SAP Help (Virtual Data Model and CDS Views, סט 2023 Latest) מתעד שלוש תצוגות אחיות בשמות מוארכים: I_MfgOrderComponentWithStatus (רכיבי הזמנת ייצור בתוספת מידע סטטוס מערכת), I_MfgOrderOperationComponent (Analytical Data Category Dimension, רכיבים המשויכים לפעולת הזמנת ייצור) ו-I_MfgOrderComponentLongText (טקסט ארוך של רכיב). קיומה של תצוגה בשם שהמאגר מחזיק, סטטוס השחרור שלה, רשימת השדות והטבלאות שמתחתיה לא נמצאו באף רשומה רשמית ודורשים אימות במערכת.",
+      "edition": "on-premise",
+      "release": "2023.latest",
+      "source": MFGORDERCOMP_WITHSTATUS_VDM_2023,
+      "recommendedAction": "לפני שימוש בשם I_MfgOrderComponent בקוד Z, בתצוגת CDS מותאמת או במסמך אפיון: לאמת במערכת S/4HANA (SE11 או ADT, ויישום View Browser) האם תצוגה בשם זה קיימת ומה סטטוס השחרור שלה. לקריאת רכיבי הזמנת ייצור עם סטטוס מערכת לבדוק את התצוגה המתועדת I_MfgOrderComponentWithStatus, שבה הסניפט הרשמי מונה את השדות RequiredQuantity ו-WithdrawnQuantity; לשאלה אילו רכיבים משויכים לפעולת הזמנה לבדוק את I_MfgOrderOperationComponent. את מפתח הרשומה, האסוציאציות (_ManufacturingOrder, _Material, _Plant) והמיפוי ל-RESB ול-AFFH שברשומת ההעשרה לא להעתיק כמות שהם: אף אחד מהם אינו מופיע בסניפטים הרשמיים. להזמנות תהליך (תעשיות תהליכיות, PP-PI) לא להניח כיסוי עד לאימות במערכת: הסניפטים אינם קובעים אילו סוגי הזמנות נכללים. ב-ECC אין תצוגת VDM מקבילה: המקור הוא RESB בקריאה ישירה או דרך CO03/COR3 ודוח החוסרים CO24."
+    },
+    "evidence": [
+      MFGORDERCOMP_WITHSTATUS_VDM_2023,
+      {
+        "sourceType": "sap_help",
+        "sourceTitle": "Manufacturing Order Operation Component | Virtual Data Model and CDS Views",
+        "product": "SAP S/4HANA",
+        "edition": "on-premise",
+        "release": "2023.latest",
+        "url": "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/d821563df8ef4ecb9a5fedc2bacda6fe.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        "accessedAt": DATE22,
+        "claim": "עמוד ה-VDM הרשמי (loio d821563df8ef4ecb9a5fedc2bacda6fe, סט 2023 Latest, פורסם 2026-08-05) קובע: 'Manufacturing Order Operation Component CDS View Name I_MfgOrderOperationComponent Analytical Data Category Dimension' ו-'Purpose With this CDS view, you can retrieve manufacturing order component' (נקטע), ומשיב על השאלה 'Which components are assigned to a manufacturing order operation?'. הסניפט מונה בין היתר 'Reservation item Reservation record type Manufacturing order Manufacturing order operation Manufacturing order type and category Requirement type Requirement date and time Material Storage' ומזכיר את 'Order Item CDS view (I_ManufacturingOrderItem)'.",
+        "verificationLevel": "sap_official_verified"
+      },
+      {
+        "sourceType": "sap_help",
+        "sourceTitle": "CDS Views for Production Operations | What's New in SAP S/4HANA 2023",
+        "product": "SAP S/4HANA",
+        "edition": "on-premise",
+        "release": "2023.000",
+        "url": "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/479d02806f8947a7973590dc8c7d819a.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        "accessedAt": DATE22,
+        "claim": "עמוד ה-What's New של SAP S/4HANA 2023 (loio 479d02806f8947a7973590dc8c7d819a) מכיל את הטבלה 'CDS Views Released or Changed for Production Operations Name Technical Name Status Area', ובה השורה 'Manufacturing Order Component Component with Status I_MfgOrderComponentWithStatus New Shop Floor Control' (הסניפט נקטע כאן). הסניפט מציין 'Application Component PP-VDM (Virtual Data Model in PP) Valid as Of SAP S/4HANA 2023' ו-'CDS View New BJ5 BJ8 PP-PI-POR PP-SFC PP-VDM'. הסניפט אינו נוקב בתצוגה בשם I_MfgOrderComponent.",
+        "verificationLevel": "sap_official_verified"
+      },
+      {
+        "sourceType": "repository",
+        "sourceTitle": "רשומת ההעשרה ומפת ה-CDS של הפרויקט",
+        "product": "SAP S/4HANA",
+        "edition": "on-premise",
+        "accessedAt": DATE22,
+        "claim": "data/cds-map.ts ממפה את I_MfgOrderComponent ל-'רכיבי פקודה / שמורות' מעל הטבלאות RESB ו-AFFH במודול 'PP-PI'. data/cds-enrichment.ts מתאר אותה כ-'Interface (Basic)' גנרית לייצור בדיד ותהליכי מעל RESB, עם שדה מפתח 'Reservation + ReservationItem (+ RecordType)', אסוציאציות _ManufacturingOrder/_Material/_Plant, דוגמת SELECT עם השדות Reservation‏, ReservationItem‏, Material‏, RequiredQuantity ו-WithdrawnQuantity, וחלופת ECC של RESB דרך CO02/CO03/COR2 וחוסרים ב-CO24. הרשומה מסומנת 'verified' עם מחרוזות מקור תבניתיות ללא קישור. השם המדויק, סוג התצוגה, שדה המפתח, האסוציאציות והמיפוי ל-RESB ול-AFFH אינם מופיעים באף סניפט רשמי שנמצא; שמות השדות RequiredQuantity ו-WithdrawnQuantity כן מופיעים בסניפטים הרשמיים של התצוגות I_MfgOrderComponentWithStatus ו-I_ProductionOrderComponent, אך לא של תצוגה בשם I_MfgOrderComponent.",
+        "verificationLevel": "verification_required",
+        "repoRef": "data/cds-enrichment.ts#I_MfgOrderComponent"
+      }
+    ],
+    "xrefs": [
+      "table:RESB",
+      "table:AFFH",
+      "table:AFKO",
+      "table:AUFK",
+      "cds:I_ProductionOrderComponent",
+      "cds:I_ProductionOrder",
+      "tx:CO02",
+      "tx:CO03",
+      "tx:COR2",
+      "tx:COR3",
+      "tx:CO24",
+      "tx:COOIS"
+    ],
+    "lastVerifiedAt": DATE22,
+    "notes": "שיטה (2026-09-22): כתריסר שאילתות ב-scripts/sap-help-search.mjs (מוצר SAP_S4HANA_ON-PREMISE בברירת המחדל, וכן --version 2025.001, --version 2022.latest ו---product SAP_S4HANA_CLOUD), ביניהן 'I_MfgOrderComponent', 'Manufacturing Order Component CDS View', 'I_MfgOrderComponentWithStatus', 'Manufacturing Order Component Virtual Data Model', 'RequiredQuantity WithdrawnQuantity' ו-'Production Order Component RequiredQuantity WithdrawnQuantity', וחיפוש רשת אחד מוגבל ל-help.sap.com ו-api.sap.com. ארבעת ה-URL הרשמיים מחזירים HTTP 200 ב-2026-09-22; גוף העמודים לא נקרא (מעטפת JavaScript), וכל ציטוט תחום לכותרת ולסניפט של רשומת החיפוש. ממצא מרכזי (ממצא חיפוש תחום, לא הוכחת היעדר): אף רשומה שהוחזרה אינה נוקבת בשם I_MfgOrderComponent ללא סיומת, ולא נמצא עמוד VDM בכותרת 'Manufacturing Order Component' לבדה; השאילתה 'I_MfgOrderComponent' החזירה חמש רשומות שאינן קשורות, וחיפוש הרשת לא החזיר עמוד הנוקב בשם. תצוגות אחיות שכן מתועדות: I_MfgOrderComponentWithStatus (גם בסט SAP S/4HANA Cloud Public Edition 2608.500, אותו loio, וב-What's New של Cloud 2302 כ-New), I_MfgOrderOperationComponent, ו-I_MfgOrderComponentLongText ('This CDS view retrieves the plain long text of a manufacturing order component', loio 701eda41fac8429e939290e3a2a401f9, 2023 Latest; ב-What's New של Cloud 2402 כ-New). תיקון לטיוטה שנפסלה: השדות RequiredQuantity ו-WithdrawnQuantity אינם שייכים לישויות OData בלבד. חלונות הסניפט הרשמיים של I_MfgOrderComponentWithStatus כוללים את 'WithdrawnQuantity Withdrawn Quantity' ובחלון נפרד את 'RequiredQuantity', והסניפט של עמוד Production Order Component (loio fdbbfc2cda1e4c12bff09946e22ed8cb, 2023 Latest) מונה בחלון אחר 'Requirement Quantity WithdrawnQuantity Withdrawn Quantity ConfirmedAvailableQuantity Available Quantity GoodsMovementEntryQty Quantity in Unit of Entry WithdrawnQuantityAmount Value Withdrawn'. השמות מופיעים גם בישויות A_ProductionOrderComponent ו-A_ProcessOrderComponent במדריך APIs for Manufacturing (2025.001). מכאן שהשדות קיימים ברובד ה-VDM בתצוגות האחיות; לא נקבע מכך שהם קיימים בתצוגה בשם I_MfgOrderComponent. היחס בין I_MfgOrderComponent ל-I_ProductionOrderComponent (הרשומה במאגר מציגה אותה כמקבילה גנרית) לא אומת מול מקור רשמי ולא נקבע כאן סיווג Analytical Data Category לאף אחת מהן בשם רשומה זו. פערים במאגר: המיפוי ל-AFFH (audit/s4-enrichment/BASELINE.md כבר מסמן אותו כסתירה מול I_ProductionOrderComponent) לא נמצא באף סניפט; תיוג המודול 'PP-PI' אינו נתמך ואינו נסתר, כי ה-What's New של 2023 מונה את רכיבי היישום PP-PI-POR‏, PP-SFC ו-PP-VDM לטבלה כולה ולא לשורה בודדת. הסטטוס הנגזר שהאפליקציה הציגה לפני רשומה זו: 'חדש ב-S/4HANA' (s4_native) ברמת 'מאומת מול נתוני הפרויקט', כי fromCdsEnrichment ב-lib/evidence/s4-status.ts ממפה רשומת העשרה 'verified' ל-s4_native. הסטטוס נכתב ידנית כ-verification_required, כמו ברשומת cds:I_ProductionOrderOperation, כי לא נמצא מקור רשמי לשם המדויק; מקור הסטטוס הוא עמוד התצוגה האחות, והוא תומך רק בכך שהתיעוד נוקב בשם אחר. xrefs: table:RESB, table:AFFH וטרנזקציות ה-CO/COR הם הקשר הפרויקט (data/cds-map.ts, data/cds-enrichment.ts) ולא נקובים בסניפטים הרשמיים; שלוש התצוגות האחיות אינן ביקום המזהים (lib/route-manifest.generated.ts) ולכן אינן ב-xrefs. לא נטען SAP Note, KBA, פריט פישוט, successor או יישום Fiori. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמה ב-data/verification/**. לא בוצעה בדיקה במערכת SAP חיה."
+  },
+  {
+    "id": "cds:I_ProductSalesData",
+    "aliases": [
+      "I_PRODUCTSALESDATA"
+    ],
+    "status": {
+      "status": "verification_required",
+      "he": "תצוגת CDS לנתוני מכירה של מוצר ברמת ארגון מכירות וערוץ הפצה, שהמאגר מציג כתצוגת Interface מעל MVKE. בתיעוד SAP הנגיש (מדריך Virtual Data Model and CDS Views ומדריכי ה-API, סקופ On-Premise ו-Public Cloud) לא אותר נושא הנוקב בשם I_ProductSalesData. התצוגה המתועדת לנתוני שרשרת ההפצה של מוצר היא I_ProductSalesDelivery (Product Sales Delivery Core Entity, 2023 Latest), ו-'Product Sales Data' מתועד כישות API בלבד. קיום התצוגה, מצב השחרור שלה, מפתחה, שדותיה וה-associations שברשומת ההעשרה דורשים אימות.",
+      "edition": "on-premise",
+      "release": null,
+      "source": null,
+      "recommendedAction": "לאמת במערכת S/4HANA היעד (ADT או SE11, ואפליקציית View Browser) אם התצוגה I_ProductSalesData קיימת ומהו חוזה השחרור שלה לפני שימוש בקוד מותאם או בהרחבות. לקריאת נתוני מכירה של מוצר ברמת ארגון מכירות וערוץ הפצה המדריך מתעד את I_ProductSalesDelivery; לבדוק במערכת את שדותיה ואת טבלת הבסיס שלה לפני החלפת SELECT ישיר מ-MVKE. אין להציג את I_ProductSalesData כתצוגה משוחררת או מתועדת עד לאימות."
+    },
+    "evidence": [
+      {
+        "sourceType": "sap_help",
+        "sourceTitle": "help.sap.com search: \"I_ProductSalesData\" (SAP_S4HANA_ON-PREMISE default scope, 2025.001, 2023.latest; SAP_S4HANA_CLOUD default scope, 2608.500), \"Product Sales Data\", \"I_ProductSalesDelivery\", \"Product Sales Delivery Virtual Data Model\" and 4 further variants",
+        "product": "SAP S/4HANA",
+        "edition": "on-premise",
+        "accessedAt": DATE22,
+        "claim": "ממצא שלילי תחום לחיפוש: שאילתת השם המדויק I_ProductSalesData בשירות החיפוש של help.sap.com החזירה ב-2026-09-22, בהרצות חוזרות, בין שש לשבע רשומות בסקופ On-Premise ברירת המחדל, והרכבן השתנה בין הרצות (למשל Create Time Slice for Production Routing Operation, Sales Order Management and Processing, Industries, Product Compliance, Product Plant Sales, Manufacturing for Production Engineering and Operations), וכן רשומות בודדות בגרסאות 2025.001 ו-2023.latest ובסקופ Public Cloud. לכל הרשומות סניפט ריק, ואף אחת מהן אינה נושא במדריך Virtual Data Model and CDS Views שבו CDS View Name הוא I_ProductSalesData. מספר התוצאות והרכבן משתנים בין הרצות, גם באותו תאריך, ורק הממצא השלילי עצמו שוחזר.",
+        "verificationLevel": "verification_required"
+      },
+      {
+        "sourceType": "repository",
+        "sourceTitle": "רשומת ההעשרה של תצוגות ה-CDS בפרויקט",
+        "product": "SAP S/4HANA",
+        "edition": "on-premise",
+        "accessedAt": DATE22,
+        "claim": "רשומת ההעשרה מתארת את I_ProductSalesData כתצוגת Interface (Composite) מעל MVKE, עם מפתח Product + SalesOrganization + DistributionChannel, ה-associations ‏_Product, ‏_SalesOrganization ו-_DistributionChannel, דוגמת SELECT על השדה ProductSalesStatus, וחלופת ECC‏ MVKE דרך MM03 (תצוגות Sales Org 1/2). הרשומה מסומנת verified, אך מקורותיה הם מחרוזות תבנית ללא קישור, ואת המפתח, השדות וה-associations לא ניתן לאשר ממקור SAP נגיש.",
+        "verificationLevel": "verification_required",
+        "repoRef": "data/cds-enrichment.ts#I_ProductSalesData"
+      },
+      {
+        "sourceType": "repository",
+        "sourceTitle": "מיפוי הטבלאות הקלאסיות לתצוגות CDS בפרויקט",
+        "product": "SAP S/4HANA",
+        "edition": "on-premise",
+        "accessedAt": DATE22,
+        "claim": "המיפוי מקשר את התצוגה לטבלה MVKE, מתייג אותה במודול PP-PI בשם העברי 'נתוני מכירה לחומר', ומצמיד לה את היישום 'Manage Product Master Data' ללא מזהה Fiori. אותו שם מופיע גם ברשימת תצוגות ה-CDS של פאסט נתוני האב ב-data/pppi-master-data-facets.ts.",
+        "verificationLevel": "verification_required",
+        "repoRef": "data/cds-map.ts#I_ProductSalesData"
+      },
+      {
+        "sourceType": "sap_help",
+        "sourceTitle": "Product Sales Delivery Core Entity (I_ProductSalesDelivery) | Virtual Data Model and CDS Views",
+        "product": "SAP S/4HANA",
+        "edition": "on-premise",
+        "release": "2023.latest",
+        "url": "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/dede052460194546a9ac1ceb4a983738.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        "accessedAt": DATE22,
+        "claim": "הקשר בלבד, לא אישור לשם I_ProductSalesData: המדריך מתעד תצוגה בשם 'CDS View Name I_ProductSalesDelivery' עם 'Business Role (Template) SAP_BR_PRODMASTER_SPECIALIST' ו-'Business Catalog SAP_CMD_BC_PR_MAINT_PC', ולפי הסניפט היא קשורה לסוגי האובייקט 'Material Product Sales Organization Distribution Channel'. חלון סניפט אחר קורא 'Data Category SAP_CMD_BC_PR_MAINT_PC Status Dimension Data Extraction Type Released Purpose This CDS view provides the consumer with list of distribution chain records along with Product'; התוויות והערכים בחלון זה מוסטים זה מזה, ולכן הקריאה Data Category = Dimension ו-Status = Released היא פרשנות של סדר העמודות ולא ציטוט. הסניפט אינו נוקב בטבלת בסיס.",
+        "verificationLevel": "sap_official_verified"
+      },
+      {
+        "sourceType": "sap_help",
+        "sourceTitle": "Product Sales Data | APIs for Product Lifecycle Management",
+        "product": "SAP S/4HANA",
+        "edition": "on-premise",
+        "release": "2025.001",
+        "url": "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9f047b05da4545ca8f9ebfc22acefd06/f8d07ba126fd422aa276fbe621e3cb21.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        "accessedAt": DATE22,
+        "claim": "הקשר בלבד: הנושא שכותרתו 'Product Sales Data' הוא ישות API ולא תצוגת VDM. לפי הסניפט: 'This entity contains the fields related to sales data for product', ובין המאפיינים נראים SalesMeasureUnit ('Sales Unit', 'Unit of measure in which the product is sold') ו-ProductSalesStatusValidityDate ('Date from which distr.-chain-spec. product status is valid'). הסניפט אינו נוקב בשם תצוגת CDS, וזה ההסבר הסביר לשם שבמאגר, לא ראיה לקיומו.",
+        "verificationLevel": "sap_official_verified"
+      }
+    ],
+    "xrefs": [
+      "table:MVKE",
+      "table:MARA",
+      "tx:MM01",
+      "tx:MM02",
+      "tx:MM03",
+      "cds:I_Product",
+      "idoc:msg:MATMAS",
+      "idoc:basic:MATMAS05"
+    ],
+    "lastVerifiedAt": DATE22,
+    "notes": "לא אותר תיעוד SAP לשם I_ProductSalesData: שמונה וריאציות חיפוש בשירות החיפוש של help.sap.com (2026-09-22; סקופ On-Premise ברירת מחדל, 2025.001 ו-2023.latest, סקופ Public Cloud ברירת מחדל ו-2608.500) וחיפוש רשת מוגבל ל-help.sap.com ול-api.sap.com לא העלו נושא שבו CDS View Name הוא השם הזה. ספירות החיפוש ברשומה אינן יציבות בין הרצות (בהרצות שונות חזרו בין חמש לשבע רשומות בסקופ On-Premise, בהרכב משתנה); הממצא השלילי עצמו שוחזר. התצוגה המתועדת הקרובה, I_ProductSalesDelivery, אינה מזהה ביקום הפרויקט (אין לה שורה ב-data/cds-map.ts), ולכן היא נזכרת בטקסט בלבד ואינה יורשת או xref. הקשר לממשקי ALE: באחד מחלונות הסניפט של עמוד MATMAS IDoc (APIs for Product Master, 2025.001, loio 5f1d9c221c1841e0b202c5536fc1fa87) נראה 'E1MVKEM Master material sales data (MVKE)' לצד E1MLANM ו-E1MTXHM, והרשומה idoc:basic:MATMAS05 הקיימת ב-data/verification/idocs.ts כבר מתעדת את E1MVKEM; לכן idoc:basic:MATMAS05 ו-idoc:msg:MATMAS נוספו ל-xrefs. הסניפט אינו רשימה מלאה של הסגמנטים ואין להסיק ממנו מה אינו בעמוד. בנושא App Extensibility: Manage Product Master (Product Master, 2025.001, loio ecb59556027ed75fe10000000a441470) נראות המחרוזות I_PRODUCTSALESDELIVERYWD, C_PRODUCTSALESDELIVERY, E_PRODUCTSALESDELIVERY, SALD_INCL_EEW_PS ו-MVKE באותו חלון; שירות החיפוש מחבר קטעי הדגשה בנקודות השמטה, ולכן סמיכות המחרוזות אינה מוכיחה ש-MVKE היא טבלת הבסיס של I_ProductSalesDelivery, והנושא לא נרשם כראיה. המפתח Product + SalesOrganization + DistributionChannel מופיע ברשומת ההעשרה בלבד (דרגת מאגר). אי-התאמות פנימיות: data/cds-map.ts מתייג את התצוגה PP-PI ומצמיד את 'Manage Product Master Data' ללא מזהה Fiori; השיעור data/academy/lessons/pp-generated.ts מסמן מקור verified-docs שלא שוחזר. עמודי api.sap.com ו-fal.cloud.sap הם מעטפת JavaScript ולא צוטטו; חיבור sc4sap MCP נכשל בסשן, כך שלא בוצעה בדיקת ADT/SE11. מה חסר לשדרוג: נושא VDM שבו CDS View Name הוא I_ProductSalesData, עמוד cdsviews ב-api.sap.com שנקרא בפועל, או בדיקה חיה במערכת היעד. כל הציטוטים לקוחים מכותרות ומתקצירי שירות החיפוש בלבד."
   },
 ];
