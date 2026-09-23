@@ -161,7 +161,11 @@ export function StudioView() {
     const raw = Math.min((el.clientWidth - PAD) / maxX, (el.clientHeight - PAD) / maxY, 1.4);
     // PRESENTATION (design audit S6-3): a fit never lands below 90%, so the
     // labels stay legible from across a room; the presenter pans to the rest.
-    const k = present ? Math.max(raw, 0.9) : raw;
+    // Otherwise a fit never shrinks the smallest node below a 24px target
+    // (WCAG 2.5.8): measured, a 390px canvas fitted 44px nodes to 15px. On a
+    // narrow canvas the reader pans instead; wide screens fit above the floor.
+    const floor = 24 / Math.min(...laid.nodes.map((n) => n.h));
+    const k = present ? Math.max(raw, 0.9) : Math.max(raw, floor);
     setCam({ k, x: (el.clientWidth - maxX * k) / 2, y: (el.clientHeight - maxY * k) / 2 });
   }, [laid.nodes, present]);
 

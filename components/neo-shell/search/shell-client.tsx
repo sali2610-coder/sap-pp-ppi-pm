@@ -35,6 +35,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { flushSync } from "react-dom";
 import {
   useCallback, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState,
+  useSyncExternalStore,
 } from "react";
 import { mark } from "@/components/defer-mount";
 import { consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
@@ -55,6 +56,22 @@ import type { CmdKind, CmdRecord, CommandExtra } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
 const PREVIEW_DELAY = 260;
+
+/* A desktop window narrower than 40rem (a phone-width window, or a desktop
+   browser at 400% zoom, which is the WCAG reflow case) defaults to the peek
+   rail: the expanded rail left the content 110px at 390px and 40px at 320px,
+   and even the compact one left 252px at 320px, narrower than any phone
+   layout. Peek gives the canvas the full width and slides the rail in on
+   hover of its edge strip or when focus enters it. Only the default changes;
+   a mode the user chose is kept, and the device still decides the shell
+   (lib/device.ts). */
+const NARROW_Q = "(max-width: 40rem)";
+const subscribeNarrow = (cb: () => void) => {
+  const m = window.matchMedia(NARROW_Q);
+  m.addEventListener("change", cb);
+  return () => m.removeEventListener("change", cb);
+};
+const isNarrow = () => window.matchMedia(NARROW_Q).matches;
 
 /* --------------------------------------------------------------- returning
 
@@ -102,7 +119,8 @@ export function NeoShellClient({
      setState inside an effect. A group with no entry is open — that is the
      default, and it is the server snapshot too. */
   const layout = useLayout();
-  const mode: RailMode = layout.mode ?? "expanded";
+  const narrow = useSyncExternalStore(subscribeNarrow, isNarrow, () => false);
+  const mode: RailMode = layout.mode ?? (narrow ? "peek" : "expanded");
   const open = layout.open;
   const setMode = useCallback((m: RailMode) => setLayout({ mode: m }), []);
 
@@ -245,7 +263,12 @@ export function NeoShellClient({
       return;
     }
     ind.dataset.off = "0";
-    const y = el.offsetTop;
+    // Summed up to the pill's own offsetParent: in the compact rail the item's
+    // offsetParent is its .nx-group, so a bare offsetTop was group-relative and
+    // parked the pill beside the first group. Offsets, not rects, so a FLIP
+    // transform in flight cannot skew it.
+    let y = 0;
+    for (let n: HTMLElement | null = el; n && n !== ind.offsetParent; n = n.offsetParent as HTMLElement | null) y += n.offsetTop;
     ind.style.setProperty("--y", `${y}px`);
     ind.style.setProperty("--h", `${el.offsetHeight}px`);
     ind.style.setProperty("--m", el.dataset.mod ? modVar(el.dataset.mod) : "var(--brand)");
@@ -273,7 +296,13 @@ export function NeoShellClient({
   useEffect(() => {
     const on = () => raf(syncInd);
     window.addEventListener("resize", on);
-    return () => window.removeEventListener("resize", on);
+    // The groups settle after the first layout pass (a compact rail is restored
+    // after hydration: their padding and hairline arrive ~40ms later) and no
+    // window resize fires for that; measured, the pill was left 24px above the
+    // current item. Border-box, because only padding and border change.
+    const ro = new ResizeObserver(on);
+    scrollRef.current?.querySelectorAll(".nx-group").forEach((g) => ro.observe(g, { box: "border-box" }));
+    return () => { window.removeEventListener("resize", on); ro.disconnect(); };
   }, [syncInd]);
 
   /* -------------------------------------------------------- rail tint
@@ -682,7 +711,7 @@ export function NeoShellClient({
         {/* Search grows out of the same slot the quick action lives in, and it
             filters the very list underneath it before it ever escalates. */}
         <div className="nx-rail-cmd" ref={cmdRef}>
-          <button type="button" className="nx-railq" onClick={() => changeMode("search")}>
+          <button type="button" className="nx-railq" aria-label="חיפוש בניווט ובתיעוד" onClick={() => changeMode("search")}>
             <span className="nx-railq-i"><Ico name="Search" size={15} /></span>
             <span className="nx-railq-l">חיפוש בניווט ובתיעוד</span>
             <kbd>⌘K</kbd>

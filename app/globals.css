@@ -1758,6 +1758,12 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
 }
 [dir="ltr"] .nx-app[data-nav="hidden"] .nx-rail,
 [dir="ltr"] .nx-app[data-nav="peek"] .nx-rail { transform: translateX(-100%); }
+/* HIDDEN has no reveal on focus (peek does, below), so its links must leave the
+   tab order once the slide-out ends: keyboard focus was landing off-screen. */
+.nx-app[data-nav="hidden"] .nx-rail {
+  visibility: hidden;
+  transition: transform 520ms var(--c-spring), visibility 0s linear 520ms;
+}
 .nx-railedge {
   display: none; position: absolute; inset-block: 0; inset-inline-start: 0;
   inline-size: var(--c-peek-w); z-index: 21; background: transparent;
