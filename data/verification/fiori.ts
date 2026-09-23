@@ -23,6 +23,7 @@ import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
 const DATE22 = "2026-09-22";
+const DATE23 = "2026-09-23";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -382,6 +383,182 @@ const F2828_LIBRARY: Evidence = {
   verificationLevel: "sap_official_verified",
 };
 
+/* ------------------------- 2026-09-23 batch: status sources (see records) */
+
+const F5241_APP_TOPIC: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Manage Maintenance Orders | Maintenance Management",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/55828a51fe634affb76fe4283f71c1d9.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE23,
+  claim:
+    "עמוד היישום ב-Maintenance Management לגרסת 2025 FPS01 (loio 55828a51fe634affb76fe4283f71c1d9): 'Manage Maintenance " +
+    "Orders App ID: F5241 This app offers both a comprehensive list view of maintenance orders and the possibility to " +
+    "process individual maintenance orders.' ובקטע נפרד: 'This includes the possibility to manage the assignment of the " +
+    "selected orders to a maintenance event or a revision.'",
+  verificationLevel: "sap_official_verified",
+};
+
+const F2072_APM_TOPIC: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Integration with SAP APM Assessments | Maintenance Management",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/1563a9bd3b1c4844ad5dd1a3a7d6a156.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE23,
+  claim:
+    "מדריך Maintenance Management לגרסת 2025 FPS01 (loio 1563a9bd3b1c4844ad5dd1a3a7d6a156) מצמיד את השם למזהה: 'If you " +
+    "have set up the integration with SAP APM, you can view details of these assessments in the Find Technical Object " +
+    "app (F2072).'",
+  verificationLevel: "sap_official_verified",
+};
+
+const W0029_WHATS_NEW_2025_FPS01: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "BAdI: Functional Location Management | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025 FPS01",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/41a47f86d1d449318dee191474b5f64e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE23,
+  claim:
+    "רשומת What's New לגרסת 2025 FPS01 (loio 41a47f86d1d449318dee191474b5f64e) נוקבת במזהה לצד השם: 'Web Dynpro app - " +
+    "Process Technical Object (W0029) to create or change technical objects'. באותה רשימה מופיעים 'IL02 (Change " +
+    "Functional Location)' ו-'API - Functional Location (API_FUNCTIONALLOCATION)'; כותרת הרשימה אינה בקטע.",
+  verificationLevel: "sap_official_verified",
+};
+
+const W0028_MIGRATION_EQUIPMENT: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "PM - Equipment | Data Migration",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/2f60604160f141be904d23b23e69c3a6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE23,
+  claim:
+    "תיעוד ההגירה של אובייקט PM - Equipment לגרסת 2025 FPS01 (loio 2f60604160f141be904d23b23e69c3a6) נוקב במזהה לצד השם: " +
+    "'Equipment Number Display Technical Object (app ID W0028) BAPI_EQUI_CREATE'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const F8669_APP_TOPIC: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Manage Technical Object Structures | Maintenance Management",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/15df8bf64aef43f9bd8680bb0d711f3e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE23,
+  claim:
+    "עמוד היישום ב-Maintenance Management לגרסת 2025 FPS01 (loio 15df8bf64aef43f9bd8680bb0d711f3e): 'Manage Technical " +
+    "Object Structures App ID: F8669 With this app, you can create and manage draft technical object structures.'; 'When " +
+    "the objects in the draft technical object structure are created, you can generate a technical object structure.'; " +
+    "'View the application logs for details about the creation of the technical object structure, including information " +
+    "on whether the process was successful or failed.'",
+  verificationLevel: "sap_official_verified",
+};
+
+const F4587_FEATURE_COMPARISON: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Feature Comparison for Process Orders | Production Planning and Control",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/0af42d30f5654313ac5d7a0ff9f36094.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE23,
+  claim:
+    "טבלת ההשוואה לגרסת 2025 FPS01 (loio 0af42d30f5654313ac5d7a0ff9f36094): 'App Name Monitor Process / Planned Orders Mass " +
+    "Processing: Process Orders Manage Process Orders / Manage Process Order Operations App ID COOISPI COHVPI F4587/ " +
+    "F5323'. לפי סדר הערכים משני צידי הלוכסן, F4587 הוא Manage Process Orders ו-F5323 הוא Manage Process Order " +
+    "Operations; הטבלה מציבה את שניהם לצד COOISPI ו-COHVPI.",
+  verificationLevel: "sap_official_verified",
+};
+
+const F2462_APP_TOPIC: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Manage Batches | Batch Management (LO-BM)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4eb099dbc8a6435c9b36a854a7e05522/34b021588aee0a02e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE23,
+  claim:
+    "עמוד היישום ב-Batch Management (LO-BM) לגרסת 2025 FPS01 (loio 34b021588aee0a02e10000000a44147b): 'Manage Batches App " +
+    "ID: F2462 Use With this app you can display and edit existing and create new batches.'; 'the possibility to search " +
+    "for batches that are managed at specific plants.'; 'View batch-relevant information, for example: Plants at which " +
+    "the batch is managed Inspection lots of the selected batch'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const F1511A_APP_TOPIC: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Create Maintenance Request | Maintenance Management",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/78732361f0b94fe1b1711632af4362b3.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE23,
+  claim:
+    "עמוד היישום ב-Maintenance Management לגרסת 2025 FPS01 (loio 78732361f0b94fe1b1711632af4362b3): 'In the Create " +
+    "Maintenance Request app (F1511A) and the Screen Maintenance Requests app (F4072), when you remove a technical object " +
+    "or change the notification type'; 'Create Maintenance Request With this app, you can create maintenance requests.'; " +
+    "'The My Drafts button allows you to view all your drafts in the My Maintenance Requests app.'",
+  verificationLevel: "sap_official_verified",
+};
+
+const F0251A_APP_TOPIC: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Manage Material Coverage (F0251A) | Material Requirements Planning (PP-MRP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/fe39e10a9a864a8f8dc9537704f0fa13/beea5a0c485340769ad37d33537ad962.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE23,
+  claim:
+    "עמוד היישום ב-PP-MRP לגרסת 2025 FPS01 (loio beea5a0c485340769ad37d33537ad962): 'Manage Material Coverage (F0251A) App " +
+    "ID: F0251A With this app, you can display and analyze coverage issues that exist for selected materials.'; 'Note " +
+    "This app is the successor of the app Manage Material Coverage (F0251).'; 'However, this app does not yet fully cover " +
+    "all aspects of the current Manage Material Coverage (F0251) app.'",
+  verificationLevel: "sap_official_verified",
+};
+
+const F5460_WHATS_NEW_2025_FPS01: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Enhancements for Advanced Scheduling Board | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025 FPS01",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/65074cb6e3be4f958e16d5c14d83e2a8.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE23,
+  claim:
+    "רשומת What's New לגרסת 2025 FPS01 (loio 65074cb6e3be4f958e16d5c14d83e2a8): 'This release delivers functional and " +
+    "configurational enhancements across the Advanced Scheduling Board (ASB) application including updates'; בפרטים " +
+    "הטכניים: 'Technical Details Type Changed Functional Localization No localization Scope Item Not applicable Technical " +
+    "Object Name App ID: F5460 Application Component SCM-APO-PPS-DS'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const W0020_DELETION_2023: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Deletion of Confirm Jobs App | What's New in SAP S/4HANA 2023",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2023.000",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f296651f454c4284ade361292c633d69/22fd7c9f368f454fad5b3acfa5a26b6d.html?locale=en-US&state=PRODUCTION&version=2023.000",
+  accessedAt: DATE23,
+  claim:
+    "רשומת What's New לגרסת SAP S/4HANA 2023 (loio 22fd7c9f368f454fad5b3acfa5a26b6d): 'The Confirm Jobs app (W0020) has " +
+    "been deleted and is no longer available on the SAP Fiori launchpad.'; 'You can use the following successor apps " +
+    "which are available on the SAP Fiori launchpad to review, execute, and report the findings for the jobs dispatched " +
+    "for execution: Perform Maintenance Jobs (F5104A'; 'Report and Repair Malfunction (F2023).'; בשורת הסיכום: 'See More " +
+    "App Deleted BH1 BJ2 PM SAP S/4HANA 2023'.",
+  verificationLevel: "sap_official_verified",
+};
+
 /* ---------------------------------------------------------------- records */
 
 export const FIORI_VERIFICATION: VerificationRecord[] = [
@@ -451,7 +628,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "זה ל-F2731; לתקן את ההפניה ל-F2731 בספר הלימוד QM ל-F2345 לפי רשומת Manage Usage Decisions הרשמית. עד אז " +
         "להציג את 'F2731' עם פסיקת 'נדרש אימות נוסף' ולא כיישום S/4HANA מאומת.",
     },
-    xrefs: ["tx:IW31", "tx:IW32", "tx:IW38", "fiori:F4604", "table:AUFK"],
+    xrefs: ["tx:IW31", "tx:IW32", "tx:IW38", "fiori:F4604", "table:AUFK", "fiori:F5241"],
     lastVerifiedAt: DATE,
     notes:
       "שיטה: scripts/sap-help-search.mjs בחמש שאילתות (Manage Maintenance Orders, F5241, F2731 ב-On-Premise " +
@@ -469,7 +646,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "אומתו מול מקור רשמי ואינם נטענים כאן. fiori:F5241 אינו קיים ב-data/fiori/apps.ts ולכן אינו ב-xrefs ואינו יורש; " +
       "לא הוגדר alias, כדי ש-F5241 לא יפוענח לרשומה שגויה. cds:C_MaintOrderListReport שברשומה המתוחזקת אינו במניפסט " +
       "המסלולים ולכן אינו ב-xrefs. תאריך הגישה הוטבע כ-2026-09-02 לפי מדיניות הסבב; ריצת כלי החיפוש עצמה דיווחה " +
-      "2026-09-05.",
+      "2026-09-05. תוספת 2026-09-23: היישום הרשמי Manage Maintenance Orders נכנס לקטלוג כ-fiori:F5241, ונוסף כאן כקישור; ההערה הקודמת שלפיה F5241 אינו בקטלוג נכונה לתאריכה. הכרעה אם לפרוש או למפתח מחדש את הרשומה האצורה F2731 נשארת החלטת מוצר.",
   },
 
   /* --------------------------------------------------------- fiori:F1511 */
@@ -538,7 +715,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "לפני שמפנים אליה. בהטמעה חדשה של דיווח בקשות מהשטח להשוות את שתי האפליקציות לפי עמוד ההשוואה הרשמי; תפקיד, " +
         "קטלוג ושירות OData נלקחים מרשומת הספרייה ולא מרשומת המאגר.",
     },
-    xrefs: ["tx:IW21", "table:QMEL", "fm:BAPI_ALM_NOTIF_CREATE", "cds:I_MaintenanceNotification"],
+    xrefs: ["tx:IW21", "table:QMEL", "fm:BAPI_ALM_NOTIF_CREATE", "cds:I_MaintenanceNotification", "fiori:F1511A"],
     lastVerifiedAt: DATE,
     notes:
       "מה שאומת: המזהה F1511, שמו הרשמי 'Request Maintenance' וכתובת הספרייה, מתוך כותרת רשומת הספרייה ומתוך שני " +
@@ -551,13 +728,12 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "Create Maintenance Request. F1511A אינה קיימת ב-data/fiori/apps.ts ולכן אינה ב-xrefs וגם לא נרשמה כיורשת; לא " +
       "נמצא רישום 'App Deprecated' או 'App Deleted' עבור F1511 בחיפושים שבוצעו, ושתי האפליקציות מתועדות זו לצד זו " +
       "ב-2025 FPS01, לכן הסטטוס אינו replaced. פרטי הטמעה (תפקיד עסקי, קטלוג, שירות OData, תצוגת CDS) לא אומתו מול " +
-      "מקור רשמי.",
+      "מקור רשמי. תוספת 2026-09-23: Create Maintenance Request נכנס לקטלוג כ-fiori:F1511A ונוסף כאן כקישור; שינוי שם הרשומה האצורה ל-Request Maintenance נשאר החלטת מוצר.",
   },
 
   /* --------------------------------------------------------- fiori:F2730 */
   {
     id: "fiori:F2730",
-    aliases: ["W0020"],
     evidence: [
       {
         sourceType: "sap_help",
@@ -622,7 +798,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "השם Confirm Jobs שייך למזהה W0020, ויש להסיר את ההפניה 'Confirm Jobs (F2730)' מרשומת IW41 ב-tx-intel ומשורת " +
         "confirm-jobs ב-data/centers/fiori.ts.",
     },
-    xrefs: ["fiori:F5104A", "tx:IW41", "tx:IW42", "table:AFRU", "fm:BAPI_ALM_CONF_CREATE"],
+    xrefs: ["fiori:F5104A", "tx:IW41", "tx:IW42", "table:AFRU", "fm:BAPI_ALM_CONF_CREATE", "fiori:W0020"],
     lastVerifiedAt: DATE,
     notes:
       "זהות המזהה היא הפער המרכזי: שלושה מקורות רשמיים (What's New 2022, What's New 2023 וספריית ה-Fiori) קושרים את " +
@@ -633,7 +809,8 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "תוקן כאן. ההפניה 'Confirm Jobs (F2730)' ברשומת IW41 של tx-intel כבר סומנה כסותרת ברשומת tx:IW41. הכינוי " +
       "W0020 נוסף כדי שחיפוש לפי המזהה שבמקורות SAP יגיע לעמוד זה עד לתיקון הרשומה המתוחזקת. כתובות שני נושאי " +
       "ה-What's New נלקחו כלשונן מרשומות שירות החיפוש בריצה החיה (2022: deliverable f5d3e1005efd4e86acf9a65abf428082; " +
-      "2023: deliverable f296651f454c4284ade361292c633d69).",
+      "2023: deliverable f296651f454c4284ade361292c633d69). 2026-09-23: הכינוי W0020 הוסר מרשומה זו, כי W0020 נוסף " +
+      "לקטלוג כרשומה עצמאית (fiori:W0020, לא זמין מ-2023 עם היורש F5104A), והרשומה מפנה אליו כעת ב-xrefs בלבד.",
   },
 
   /* -------------------------------------------------------- fiori:F2730A */
@@ -729,10 +906,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "sap_official_verified",
       },
     ],
-    xrefs: [
-      "tx:IE01", "tx:IE02", "tx:IL01", "tx:IL02", "tx:IH08", "table:EQUI", "table:IFLOT", "table:ILOA",
-      "cds:I_Equipment", "cds:I_FunctionalLocation", "fm:BAPI_EQUI_CREATE", "fm:BAPI_FUNCLOC_CREATE",
-    ],
+    xrefs: ["tx:IE01", "tx:IE02", "tx:IL01", "tx:IL02", "tx:IH08", "table:EQUI", "table:IFLOT", "table:ILOA", "cds:I_Equipment", "cds:I_FunctionalLocation", "fm:BAPI_EQUI_CREATE", "fm:BAPI_FUNCLOC_CREATE", "fiori:F2072", "fiori:W0029", "fiori:W0028", "fiori:F8669"],
     lastVerifiedAt: DATE,
     notes:
       "הכותרת המתוחזקת נבדקה ונמצאה בסתירה: המזהה F2730A לא נמצא באף מקור רשמי (חיפוש help.sap.com JSON בכל " +
@@ -749,7 +923,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "F2072 (רשימה ופרטים, מבנה) ושל W0029 (יצירה ושינוי), לא אפליקציה אחת. פרטי התפקיד, הקטלוג וה-OData ברשומה " +
       "(SAP_BR_MAINTENANCE_PLANNER / SAP_EAM_BC_TECH_OBJ / API_EQUIPMENT) לא אומתו. לא נקבע סטטוס: אין רשומה רשמית " +
       "לאפליקציה במזהה זה, והסטטוס הנגזר כיום (חדש ב-S/4HANA, מאומת מול נתוני הפרויקט) אינו נתמך במקור. תיקון המזהה " +
-      "ברשומה המתוחזקת הוא החלטת מוצר.",
+      "ברשומה המתוחזקת הוא החלטת מוצר. תוספת 2026-09-23: ארבעת יישומי האובייקט הטכני המתועדים נכנסו לקטלוג (F2072, W0029, W0028, F8669) ונוספו כאן כקישורים; ההערה הקודמת שלפיה אף אחד מהם אינו בקטלוג נכונה לתאריכה. הגורל של הרשומה האצורה F2730A נשאר החלטת מוצר.",
   },
 
   /* --------------------------------------------------------- fiori:F4072 */
@@ -819,7 +993,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "Maintenance Plans) ו-F5325 (Manage Maintenance Plans, What's New 2022), ושניהם דורשים רשומה ואימות נפרדים " +
         "לפני שיוצגו כחלופת Fiori ל-IP10 / IP30. לקרוא בעתיד את תפקיד היישום, הקטלוג ושירות ה-OData מהספרייה.",
     },
-    xrefs: ["table:QMEL", "tx:IW21", "tx:IW28", "fiori:F1511", "tx:IP10", "tx:IP30"],
+    xrefs: ["table:QMEL", "tx:IW21", "tx:IW28", "fiori:F1511", "tx:IP10", "tx:IP30", "fiori:F1511A"],
     lastVerifiedAt: DATE,
     notes:
       "ארבע רשומות help.sap.com עצמאיות (Maintenance Management 2025.001; What's New 2023 FPS02, 2025 ו-2025 FPS01) " +
@@ -835,7 +1009,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "היישומים מתקיימים במקביל; זו עדות לענן הציבורי בלבד. בחיפוש On-Premise 2025.001 לא נמצאה רשומה ל-F5777, ולכן " +
       "לא נרשם successor. תפקיד, קטלוג ושירות OData של F4072 לא נקראו (app shell). המזהה של Create Maintenance " +
       "Request בקטעים הרשמיים הוא F1511A בעוד המאגר מחזיק F1511; נושא לרשומת fiori:F1511. ה-xrefs ל-IP10 / IP30 " +
-      "נשמרו כדי שהתיקון יהיה נגיש מדפי הטרנזקציות שמפנות היום ל-F4072.",
+      "נשמרו כדי שהתיקון יהיה נגיש מדפי הטרנזקציות שמפנות היום ל-F4072. תוספת 2026-09-23: fiori:F1511A (Create Maintenance Request) נכנס לקטלוג ונוסף כאן כקישור ניווט. F5777 לא נוסף: רק רשומות Public Cloud נוקבות בו.",
   },
 
   /* --------------------------------------------------------- fiori:F2336 */
@@ -1014,10 +1188,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "C202), ב-data/solutions.ts וב-data/centers/fiori.ts. את F4512 שבחוברת הבלופרינט PP-PI יש לתקן בקובץ ה-xlsx " +
         "המקורי ולא בקובץ המחולל. עד לתיקון, להציג את F3577 כמזהה שנוי במחלוקת ולא כעובדה.",
     },
-    xrefs: [
-      "tx:COR1", "tx:COR2", "tx:COR3", "tx:COID", "tx:COOISPI", "tx:COHVPI", "table:AUFK", "table:AFKO",
-      "table:AFPO", "table:AFVC", "fm:BAPI_PROCORD_CREATE", "fiori:F3364",
-    ],
+    xrefs: ["tx:COR1", "tx:COR2", "tx:COR3", "tx:COID", "tx:COOISPI", "tx:COHVPI", "table:AUFK", "table:AFKO", "table:AFPO", "table:AFVC", "fm:BAPI_PROCORD_CREATE", "fiori:F3364", "fiori:F4587", "fiori:F5323"],
     lastVerifiedAt: DATE,
     notes:
       "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs ('Manage Process Orders', 'F3577', " +
@@ -1035,7 +1206,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "הקטלוג (SAP_PP_BC_PROCESS_ORDER) ושירות ה-OData שברשומת המאגר לא אומתו מול מקור רשמי; " +
       "רשומות ה-Help מתעדות את API_PROCESS_ORDERS ואת API_PROCESS_ORDER_2_SRV כשירותי ה-OData של הזמנת תהליך; שם " +
       "השירות ברשומת המאגר (API_PROCESSORDER_2 עד 2026-09-21) נורמל ל-API_PROCESS_ORDER_2_SRV. F4587 ו-F5323 אינם קיימים ב-data/fiori/apps.ts ולכן אינם ב-xrefs. " +
-      "accessedAt = 2026-09-02 לפי תאריך האצווה; צמדי loio/versionId אומתו מחדש בריצה חיה.",
+      "accessedAt = 2026-09-02 לפי תאריך האצווה; צמדי loio/versionId אומתו מחדש בריצה חיה. תוספת 2026-09-23: Manage Process Orders נכנס לקטלוג כ-fiori:F4587 ו-Manage Process Order Operations כ-fiori:F5323, ושניהם נוספו כאן כקישורים. הפיכת F3577 לכינוי של F4587 מחייבת קודם הסרה של F3577 מהקטלוג (כלל התנגשות הכינויים), ולכן נשארת החלטת מוצר.",
   },
 
   /* --------------------------------------------------------- fiori:F3364 */
@@ -1123,7 +1294,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "הקטלוג ושירות ה-OData מול SAP Fiori Apps Reference Library (fal.cloud.sap) בכניסה מדפדפן, ולעדכן xrefs רק " +
         "למזהים הקיימים בדאטהסט (F4587/F5323 אינם ב-data/fiori/apps.ts).",
     },
-    xrefs: ["tx:COR6N", "tx:CORK", "table:AFRU", "table:RESB", "fm:BAPI_PROCORDCONF_CREATE_TT", "fiori:F3577", "fiori:F1576"],
+    xrefs: ["tx:COR6N", "tx:CORK", "table:AFRU", "table:RESB", "fm:BAPI_PROCORDCONF_CREATE_TT", "fiori:F3577", "fiori:F1576", "fiori:F4587", "fiori:F5323"],
     lastVerifiedAt: DATE,
     notes:
       "מה שאומת: השם 'Confirm Process Order' הוא שם אפליקציה רשמי, אך תחת App ID: CORK (Help של הענן הציבורי " +
@@ -1139,13 +1310,12 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "מציג את הנתיב /sap/opu/odata/SAP/API_PROC_ORDER_CONFIRMATION_2_SRV. תפקיד וקטלוג (SAP_BR_PRODN_OPERATOR_PROC, " +
       "SAP_PP_BC_PROCESS_ORDER) נשארים Tier-2 ללא אימות. F4587/F5323 אינם קיימים ב-data/fiori/apps.ts ולכן אינם " +
       "ב-xrefs ולא נכתב successor. ספריית fal.cloud.sap והרשומה הקלאסית לא נפתחו כדפים (יישומי JS); בדיקת מערכת חיה " +
-      "לא הייתה זמינה (ה-MCP sc4sap לא התחבר).",
+      "לא הייתה זמינה (ה-MCP sc4sap לא התחבר). תוספת 2026-09-23: F4587 ו-F5323 נכנסו לקטלוג ונוספו כאן כקישורים. CORK עדיין אינו מזהה fiori: תקף לפי כלל הצורה, ולכן אינו מיוצג.",
   },
 
   /* --------------------------------------------------------- fiori:F1576 */
   {
     id: "fiori:F1576",
-    aliases: ["F2462"],
     evidence: [
       {
         sourceType: "sap_help",
@@ -1234,7 +1404,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
     ],
     xrefs: [
       "tx:MSC1N", "tx:MSC2N", "tx:MSC3N", "table:MCH1", "table:MCHA", "cds:I_Batch",
-      "fm:BAPI_BATCH_CREATE", "fm:BAPI_BATCH_GET_DETAIL",
+      "fm:BAPI_BATCH_CREATE", "fm:BAPI_BATCH_GET_DETAIL", "fiori:F2462",
     ],
     lastVerifiedAt: DATE,
     notes:
@@ -1250,7 +1420,9 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "API_BATCH_SRV כ-Batch API, ואינו קובע שהאפליקציה בנויה על API_BATCH_SRV. לא נכתב סטטוס מחובר: הסטטוס s4_native " +
       "הנגזר מרישום ה-Fiori של המאגר נשאר, ורמת הרשומה משקפת מקורות סותרים עד שהמזהה יתוקן. הקשר תעשיות תהליכיות: " +
       "המזהה F1576 מופיע גם בפרקי הספרייה (pp-textbook ch10, qm-textbook ch18, mm-textbook ch04) ובשיעורי האקדמיה; " +
-      "משטחים אלה לא טופלו במסגרת רשומה זו.",
+      "משטחים אלה לא טופלו במסגרת רשומה זו. 2026-09-23: הכינוי F2462 הוסר מרשומה זו, כי F2462 נוסף לקטלוג כרשומה " +
+      "עצמאית (fiori:F2462, Manage Batches) והרשומה מפנה אליו כעת ב-xrefs; לא נכתב יורש, כי F2462 הוא המזהה הרשמי של " +
+      "אותו יישום ולא יישום שמחליף אותו.",
   },
 
   /* --------------------------------------------------------- fiori:F0843 */
@@ -1424,10 +1596,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "הרשאות יש לאמת תפקיד עסקי, קטלוג ושירות OData מול ספריית ה-Fiori או מערכת חיה, כי פרטים אלה אינם נתמכים " +
         "בסניפטים הרשמיים שנבדקו.",
     },
-    xrefs: [
-      "tx:IW28", "tx:IW38", "tx:IW34", "tx:IW31", "table:QMEL", "table:AUFK", "table:AFIH",
-      "fm:BAPI_ALM_ORDER_MAINTAIN", "fiori:F5104A",
-    ],
+    xrefs: ["tx:IW28", "tx:IW38", "tx:IW34", "tx:IW31", "table:QMEL", "table:AUFK", "table:AFIH", "fm:BAPI_ALM_ORDER_MAINTAIN", "fiori:F5104A", "fiori:F5241"],
     lastVerifiedAt: DATE,
     notes:
       "שיטה: scripts/sap-help-search.mjs בארבע שאילתות על SAP_S4HANA_ON-PREMISE (השם באנגלית, המזהה F4604, " +
@@ -1442,7 +1611,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "ואינה נטענת כאן למהדורת On-Premise. ה-BAdI‏ EAM_CROSS_APP_NAV_CONTROL נזכר רשמית (2023.002) עבור F2175 ו-F4604 " +
       "אך אינו קיים ב-data/exits.ts. אפליקציית שלב הסינון Screen Maintenance Requests אינה ב-xrefs: התיעוד הרשמי " +
       "(Maintenance Management 2025.001) מזהה אותה כ-F4072, בעוד הרשומה המתוחזקת data/fiori/apps.ts#F4072 נושאת את " +
-      "השם Schedule Maintenance Plans; הסתירה נרשמה לתור ה-Fiori. ‏accessedAt לפי תאריך מחזור האיסוף (2026-09-02).",
+      "השם Schedule Maintenance Plans; הסתירה נרשמה לתור ה-Fiori. ‏accessedAt לפי תאריך מחזור האיסוף (2026-09-02). תוספת 2026-09-23: fiori:F5241 נכנס לקטלוג ונוסף כאן כקישור; F2175 ו-F2173 עדיין אינם בקטלוג.",
   },
 
   /* --------------------------------------------------------- fiori:F0251 */
@@ -1513,7 +1682,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "המקור (xlsx) את שורות CO24 ו-MD04 בגיליון 'מדריך טרנזקציות ודוחות ייצור' המכנות את F0251 'Monitor Material " +
         "Coverage - Net Segments', בעוד שהמזהה הרשמי של יישום ה-Monitor הוא F0247A.",
     },
-    xrefs: ["fiori:F0247A", "tx:MD04", "tx:MD07", "tx:MD01N"],
+    xrefs: ["fiori:F0247A", "tx:MD04", "tx:MD07", "tx:MD01N", "fiori:F0251A"],
     lastVerifiedAt: DATE,
     notes:
       "גוף דפי ה-Help לא נקרא (מעטפת JavaScript); כל טענה תחומה לכותרת ולתקציר של רשומת החיפוש הרשמית (loio " +
@@ -1535,7 +1704,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "כאן מחוברת ל-On-Premise בלבד, ומהדורת Public Cloud לא נכללה בראיות. לא אומתו בסשן זה: התפקיד " +
       "SAP_BR_MRP_CONTROLLER, הקשר ל-CDS I_MRPMaterial ‏(data/cds-enrichment.ts:428, טענת מאגר בלבד) והטבלאות " +
       "MDKP/MDTB. סתירה פנימית במאגר: data/sapData.pppi.ts (שורות CO24 ו-MD04 בגיליון 'מדריך טרנזקציות ודוחות ייצור') " +
-      "מכנה את F0251 'Monitor Material Coverage - Net Segments'.",
+      "מכנה את F0251 'Monitor Material Coverage - Net Segments'. תוספת 2026-09-23: F0251A נכנס לקטלוג ונוסף כאן כקישור, כך שהפעולה המומלצת להוסיף אותו לקטלוג בוצעה. המעמד נשאר changed.",
   },
 
   /* -------------------------------------------------------- fiori:F0247A */
@@ -1802,7 +1971,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "(F3951) בהתאם להיקף ה-PP/DS שמופעל במערכת. לפני הקצאה למשתמשים לאמת בסביבת S/4HANA את הפעלת PP/DS, את " +
         "התפקיד העסקי, הקטלוג ושירות ה-OData, שלא אומתו מול הספרייה הרשמית.",
     },
-    xrefs: ["fiori:F3951", "tx:CM21", "tx:CO03", "table:AFKO", "table:AFVC", "table:CRHD"],
+    xrefs: ["fiori:F3951", "tx:CM21", "tx:CO03", "table:AFKO", "table:AFVC", "table:CRHD", "fiori:F5460"],
     lastVerifiedAt: DATE,
     notes:
       "1) הספרייה הרשמית אישרה מזהה ושם בלבד; התפקיד SAP_BR_PRODN_PLNR, הקטלוג SAP_SCM_BC_CFS, שירות OData/CDS " +
@@ -1821,7 +1990,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "מזהה שאינו ביקום הפרויקט. לא נמצאה רשומה רשמית המכריזה על החלפה או הוצאה משימוש של F2176, ולכן לא נרשם יורש. " +
       "6) אי-עקביות במאגר: data/library/wm-textbook/ch09.ts:39 ו-data/academy/lessons/wm-generated.ts משייכים את " +
       "F2176 לפרק חלקי חילוף PM/EWM, בעוד המקור הרשמי ממקם אותו ב-PP/DS. 7) שדה explain.technical ברשומת apps.ts " +
-      "מנסח את שכבת ה-OData/CDS כפריט עתידי במקום כ'לא אומת'; כדאי לתקן את הניסוח.",
+      "מנסח את שכבת ה-OData/CDS כפריט עתידי במקום כ'לא אומת'; כדאי לתקן את הניסוח. תוספת 2026-09-23: Advanced Scheduling Board נכנס לקטלוג כ-fiori:F5460 ונוסף כאן כקישור; לא נמצאה רשומה רשמית הקובעת החלפה של F2176.",
   },
 
   /* -------------------------------------------------------- fiori:F5104A */
@@ -1909,10 +2078,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "What's New ‏2023 היא נמחקה מה-Fiori Launchpad, ו-Perform Maintenance Jobs ‏(F5104A) נמנית בין האפליקציות " +
         "היורשות. תפקיד עסקי, קטלוג טכני ושירות OData דורשים אימות בספריית ה-Fiori או במערכת SAP.",
     },
-    xrefs: [
-      "tx:IW41", "tx:IW42", "tx:IW44", "tx:IW48", "tx:IK11", "tx:IK34", "table:AFRU", "table:AUFK",
-      "fm:BAPI_ALM_CONF_CREATE", "fm:BAPI_ALM_ORDER_MAINTAIN", "fiori:F2730", "fiori:F4604",
-    ],
+    xrefs: ["tx:IW41", "tx:IW42", "tx:IW44", "tx:IW48", "tx:IK11", "tx:IK34", "table:AFRU", "table:AUFK", "fm:BAPI_ALM_CONF_CREATE", "fm:BAPI_ALM_ORDER_MAINTAIN", "fiori:F2730", "fiori:F4604", "fiori:W0020"],
     lastVerifiedAt: DATE,
     notes:
       "זהות האפליקציה אוששה ב-Tier-1 משלושה כיוונים עצמאיים: השם Perform Maintenance Jobs בתיעוד Maintenance " +
@@ -1928,7 +2094,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "ניווט לסתירה בלבד. תפקיד SAP_BR_MAINTENANCE_TECHNICIAN, קטלוג SAP_EAM_BC_MAINT_WORKER ושירות OData שברשומת " +
       "המאגר לא היו ניתנים לאימות מהסניפטים ונשארים ברמת נתוני הפרויקט. זמינות במהדורת Public Cloud ‏(2105 לפי רשומת " +
       "המאגר) לא נבדקה; המסמך הרשמי נוקב ב-'SAP S/4HANA and SAP S/4HANA Cloud Private Edition'. ‏accessedAt נחתם " +
-      "2026-09-02 לפי הוראת האיסוף; ריצות החיפוש של 2026-09-07 החזירו את אותן רשומות (loio זהה).",
+      "2026-09-02 לפי הוראת האיסוף; ריצות החיפוש של 2026-09-07 החזירו את אותן רשומות (loio זהה). תוספת 2026-09-23: Confirm Jobs (W0020) נכנס לקטלוג כרשומה נפרדת במעמד not_available, עם F5104A כיורש.",
   },
 
   /* --------------------------------------------------------- fiori:F1339 */
@@ -2075,11 +2241,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "משימוש ללא אימות. את התפקיד הטכני SAP_BR_MAINTENANCE_TECHNICIAN והקטלוג SAP_EAM_BC_MAINT_WORKER לאמת " +
         "בספריית Fiori או במערכת היעד לפני שמסתמכים עליהם.",
     },
-    xrefs: [
-      "tx:IW21", "tx:IW24", "tx:IW26", "tx:IW41", "table:QMEL", "table:AUFK", "table:AFIH", "table:AFRU",
-      "fm:BAPI_ALM_NOTIF_CREATE", "cds:I_MaintenanceNotification", "fiori:F5104A", "fiori:F1511",
-      "enh:badi:NOTIF_EVENT_SAVE",
-    ],
+    xrefs: ["tx:IW21", "tx:IW24", "tx:IW26", "tx:IW41", "table:QMEL", "table:AUFK", "table:AFIH", "table:AFRU", "fm:BAPI_ALM_NOTIF_CREATE", "cds:I_MaintenanceNotification", "fiori:F5104A", "fiori:F1511", "enh:badi:NOTIF_EVENT_SAVE", "fiori:W0020"],
     lastVerifiedAt: DATE,
     notes:
       "שם ומזהה: המזהה F2023 והשם Report and Repair Malfunction אומתו משלושה מקורות רשמיים בלתי תלויים (כותרת ספריית " +
@@ -2103,7 +2265,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "the findings for the jobs dispatched for execution'; ועמודי App Extensibility ל-Report Malfunction, Manage " +
       "Malfunction Reports ו-Repair Malfunctions (2025.001) עם ההקשרים העסקיים EAMS_NTF, EAMS_EQUI, EAMS_FL ו-EAMS_ORD. " +
       "דרישות Customizing (פרופיל סטטוס כולל, סוג הודעה לפי מפעל תכנון) הופיעו רק בסיכום של מנוע החיפוש ולא בסניפט, " +
-      "ולכן לא נטענו.",
+      "ולכן לא נטענו. תוספת 2026-09-23: W0020 (Confirm Jobs, נמחק ב-2023) נכנס לקטלוג; רשומת המחיקה נוקבת גם ב-F2023 בין היורשים.",
   },
 
   /* --------------------------------------------------------- fiori:F2828 */
@@ -2195,10 +2357,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "ההיקף שנוקבו ב-What's New 2023 (4HH/4HI/BH1/BH2/BJ2) לתהליך האחזקה שנבחר. היישום דורש HANA DB, ולכן אינו " +
         "חלק מתרחיש ECC.",
     },
-    xrefs: [
-      "tx:IW28", "tx:IW29", "tx:IW38", "tx:IW39", "table:QMEL", "table:AUFK", "table:EBAN", "cds:I_MaintenanceOrder",
-      "cds:I_MaintenanceNotification", "fiori:F4604", "fiori:F2731",
-    ],
+    xrefs: ["tx:IW28", "tx:IW29", "tx:IW38", "tx:IW39", "table:QMEL", "table:AUFK", "table:EBAN", "cds:I_MaintenanceOrder", "cds:I_MaintenanceNotification", "fiori:F4604", "fiori:F2731", "fiori:F5241"],
     lastVerifiedAt: DATE,
     notes:
       "מזהה, שם ו-URL אומתו מול ספריית SAP Fiori Apps Reference Library (F2828, Maintenance Planning Overview) ומול " +
@@ -2218,7 +2377,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "17248e4667fb433a9c3f944000fada3f) קיים גם תחת SAP S/4HANA Cloud Public Edition (Asset Management, versionId " +
       "2608.500) והספרייה מונה SAP S/4HANA Public Cloud; מהדורת הענן הציבורי לא נבחנה מעבר לכך והרשומה מסומנת " +
       "On-Premise. הספרייה הקלאסית מציגה הודעת פרישה המפנה ל-fal.cloud.sap; העמוד החדש לא נקרא. לא בוצעה בדיקה " +
-      "במערכת SAP חיה (חיבור sc4sap MCP נכשל).",
+      "במערכת SAP חיה (חיבור sc4sap MCP נכשל). תוספת 2026-09-23: fiori:F5241 נכנס לקטלוג ונוסף כאן כקישור ניווט.",
   },
   /* ---- F2774 and F5325, added 2026-09-22 (master completion §12). Every claim is
      bounded to the search-record title and snippet the official SAP Help search
@@ -2485,6 +2644,867 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "SAP_SCM_BC_CFS, הטבלאות CRHD/KAKO, הזמינות מ-Cloud 2002 והטענה שהיישום תומך רק במרכזי עבודה של PP ולא PM " +
       "(data/fiori/apps.ts#F3289); קטע What's New של Cloud 2408.2 מזכיר הצגת תאריכי פעולה של פקודות אחזקה ביישומי " +
       "Capacity Planning, ולכן טענת ה-PP בלבד דורשת בדיקה. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* ---- 2026-09-23 batch: official App IDs that the records above already named (F5241, F2072,
+     W0029, W0028, F8669, F4587, F5323, F2462, F1511A, F0251A, F5460, W0020), now catalog entries in
+     data/fiori/apps.ts. Every quotation is a fragment of a help.sap.com search snippet saved on
+     that date (scripts/sap-help-search.mjs --json); topic bodies are JS shells and were not
+     read. F5777 was not added: no SAP_S4HANA_ON-PREMISE record names it. ---- */
+
+  /* --------------------------------------------------------- fiori:F5241 */
+  {
+    id: "fiori:F5241",
+    evidence: [
+      F5241_APP_TOPIC,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Maintenance Orders App | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2023 FPS03",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/dd84263e832b4c3b83d35d4be9653f39.html?locale=en-US&state=PRODUCTION&version=2023.003",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2023 FPS03 (loio dd84263e832b4c3b83d35d4be9653f39): 'With this app, you can display a " +
+          "comprehensive list view of maintenance orders, create maintenance orders and process individual orders.'; 'Technical " +
+          "Details Type New'; 'Scope Item 4HH (Reactive Maintenance) 4HI (Proactive Maintenance) BH1 (Corrective Maintenance) " +
+          "BJ2'; 'Technical Object Name App ID: F5241 Application Component PM-FIO-WOC-MO (Fiori UI for PM Maintenance Orders) " +
+          "Availability SAP S/4HANA and SAP S/4HANA Cloud Private Edition'; 'Valid as Of 2023 FPS03'. היישום נוסף כחדש " +
+          "ב-2023 FPS03.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Enhancements for Manage Maintenance Orders App | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/ec6bf626bf8246439f2795f31e7f07c3.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2025 FPS01 (loio ec6bf626bf8246439f2795f31e7f07c3): 'New features are available in the " +
+          "Manage Maintenance Orders app (F5241).' היישום ממשיך לקבל הרחבות במהדורה הנוכחית.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori של S/4HANA לניהול פקודות אחזקה: What's New 2023 FPS03 רושם אותו כחדש (Type New) ברכיב PM-FIO-WOC-MO " +
+        "ובזמינות SAP S/4HANA ו-SAP S/4HANA Cloud Private Edition, והוא מתועד ב-Maintenance Management לגרסת 2025 FPS01 " +
+        "תחת App ID F5241.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: F5241_APP_TOPIC,
+      recommendedAction:
+        "להשתמש במזהה F5241 לכותרת Manage Maintenance Orders. הרשומה המתוחזקת F2731 נושאת את אותה כותרת בלי מקור רשמי " +
+        "(ראו fiori:F2731). לקרוא מספריית ה-Fiori את התפקיד העסקי, הקטלוג ושירות ה-OData לפני שיוצגו.",
+    },
+    xrefs: ["fiori:F2731", "fiori:F4604"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בארבע שאילתות על SAP_S4HANA_ON-PREMISE (שם היישום עם המזהה " +
+      "בגרסה 2025.001, שאילתה ללא גרסה, ושתי שאילתות נעוצות לגרסה 2023.003 לפרטים הטכניים). הראיות הן כותרות וקטעים של " +
+      "רשומות החיפוש; גופי הדפים לא נקראו. רשומת What's New 2025 (loio e765a4541f49412b9508fdab1ecaf2c9) מתעדת הרחבה " +
+      "בשדות Key User לפעולות ההזמנה ביישום F5241. לא אומתו: תפקיד עסקי, קטלוג, שירות OData, תצוגות CDS, טרנזקציות GUI " +
+      "מקבילות וזמינות ב-Public Cloud. ה-xref ל-F4604 הוא עזר ניווט (שני היישומים נמנים יחד בקטעים רשמיים, למשל EAM, " +
+      "Inspection Checklists לגרסת 2025.001), לא מיפוי רשמי. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* --------------------------------------------------------- fiori:F2072 */
+  {
+    id: "fiori:F2072",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Find Technical Object | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/4dd5a057b76f9f2de10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "נושא היישום ב-Maintenance Management לגרסת 2025 FPS01 (loio 4dd5a057b76f9f2de10000000a44147b): 'Find Technical " +
+          "Object Use With this app, you can list the technical objects in your system.'; תחת Key Features: 'List technical " +
+          "objects Filter technical objects by various parameters, such as type, location, manufacturer, and status Search for " +
+          "technical objects Display a single technical object'. קטע הנושא אינו נוקב במזהה.",
+        verificationLevel: "sap_official_verified",
+      },
+      F2072_APM_TOPIC,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Equipment | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/08c1d29f1acc4d459ecc198dc18ee6ce.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "תיעוד ההגירה של אובייקט PM - Equipment לגרסת 2025 FPS01 (loio 08c1d29f1acc4d459ecc198dc18ee6ce): 'In addition, you " +
+          "can also use the following app or apps: App: Find Technical Object (F2072) Create Equipment (IE01) Change Equipment " +
+          "(IE02) Display Equipment (IE03)'. הקטע מונה את היישום לצד טרנזקציות הציוד ואינו קובע שהוא מחליף אותן.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Structure in Find Technical Object App | What's New in SAP S/4HANA 2023",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/5e0bcb6d686840e0b6bd02f1628c00bb.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2023 (loio 5e0bcb6d686840e0b6bd02f1628c00bb): 'You can now install equipment on the " +
+          "equipment or dismantle equipment from the equipment using the options that are available in the Manage Structure " +
+          "dropdown list in the Find Technical'; בשורת הסיכום: 'App Changed 4HH 4HI 4VT 4WM PM-EQM SAP S/4HANA 2023'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deletion of Display Master Data Information Center Apps | What's New in SAP S/4HANA 2023",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/1fae728c81b34dbb8294e903cec45e6e.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2023 (loio 1fae728c81b34dbb8294e903cec45e6e): 'The Display Master Data Information Center " +
+          "apps (W0011 and W0012) have been deleted and are no longer available on the SAP Fiori launchpad.'; 'You can use the " +
+          "following successor app which is available on the SAP Fiori launchpad: Find Technical Object (F2072).'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Finding Technical Objects and Maintenance Execution Data | What's New in SAP S/4HANA",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "100",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4c6c3c99e6e94a92a626f424add61cba/aaa3b71a56074367b64a0e06477988f1.html?locale=en-US&state=PRODUCTION&version=100",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New in SAP S/4HANA (versionId 100, loio aaa3b71a56074367b64a0e06477988f1): 'with the Maintenance " +
+          "Technician role: Find Technical Object Find Maintenance Notification Find Maintenance Order Find'; 'Technical Name of " +
+          "Product Feature Find Technical Object: F2072_S4OP'. הקטע אינו קובע גרסת הצגה ראשונה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori של S/4HANA לאיתור אובייקטים טכניים, מתועד ב-Maintenance Management לגרסת 2025 FPS01 תחת App ID F2072, " +
+        "ורשום במסמך What's New in SAP S/4HANA (100) בין היישומים של תפקיד Maintenance Technician (שם המאפיין הטכני " +
+        "F2072_S4OP). מ-2023 הוא היישום היורש של Display Master Data Information Center (W0011, W0012).",
+      edition: "on-premise",
+      release: "2025.001",
+      source: F2072_APM_TOPIC,
+      recommendedAction:
+        "להשתמש ב-F2072 לאיתור, להצגה ולעריכה המונית של אובייקטים טכניים ולניהול המבנה (התקנה ופירוק של ציוד). הרשומה " +
+        "המתוחזקת F2730A (Manage Technical Objects) אינה נתמכת במקור רשמי (ראו fiori:F2730A). לקרוא מספריית ה-Fiori את " +
+        "התפקיד העסקי, הקטלוג ושירות ה-OData לפני שיוצגו.",
+    },
+    xrefs: ["fiori:F2730A", "fiori:W0028", "tx:IE01", "tx:IE02", "tx:IE03"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בחמש שאילתות על SAP_S4HANA_ON-PREMISE (המזהה עם השם, תיאור " +
+      "היישום, רשומת המחיקה של 2023, שאילתה על רשומות What's New ללא גרסה ושאילתה נעוצה לגרסה 1610) ובשתי שאילתות על " +
+      "SAP_ERP ו-SAP_FIORI. " +
+      "העריכה ההמונית נשענת על נושא Mass Editing of Technical Objects (2025.001, loio 3affff95fad94b9fb3b81730a5f880b1) " +
+      "שקטעו אומר שביישום ניתן לשנות פרמטרים של כמה אובייקטים טכניים בבת אחת. What's New 1610 (loio " +
+      "f49b0833772e4599b58e342fa7f3fd19) מונה את Finding Technical Objects and Maintenance Execution Data עם חמישה " +
+      "יישומים; הקטע אינו נוקב במזהה ואינו קובע שהיישום חדש, ולכן releaseInfo ריק. חיפוש שם היישום במוצרים SAP_ERP " +
+      "ו-SAP_FIORI (21 רשומות בכל אחד) לא החזיר רשומה בשם זה ולא את המזהה; ההיעדר תחום לחיפוש ואינו הוכחה. " +
+      "ה-xrefs ל-IE01/IE02/IE03 ול-W0028 נשענים על קטעי ההגירה של PM - Equipment, שמונים אותם כיישומים נוספים לאותו " +
+      "אובייקט; זה עזר ניווט ולא מיפוי החלפה. לא אומתו: תפקיד עסקי, קטלוג, שירות OData, תצוגות CDS וזמינות ב-Public " +
+      "Cloud. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* --------------------------------------------------------- fiori:W0029 */
+  {
+    id: "fiori:W0029",
+    evidence: [
+      W0029_WHATS_NEW_2025_FPS01,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Technical Object | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/60021e57f2f40a75e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "נושא Process Technical Object ב-Maintenance Management לגרסת 2025 FPS01 (loio 60021e57f2f40a75e10000000a4450e5): " +
+          "'Process Technical Object Use Three apps are provided for processing a technical object: Create Technical Object, " +
+          "Change Technical Object, and Display Technical Object.'; 'As a maintenance planner, you can create and change " +
+          "technical objects to efficiently manage and evaluate technical assets and maintenance objects and monitor the costs " +
+          "involved.'; 'Supported Device Types Desktop Relevant Business Catalog EAM - Technical Object (SAP_EAM_BC_TO)'. קטע " +
+          "הנושא אינו נוקב ב-W0029; הקישור בין הנושא למזהה נשען על זהות הכותרת עם רשומת ה-What's New.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Package for Generic EAM Functions 1.61 | Business Package for Generic EAM Functions 1.61",
+        product: "SAP ERP 6.0",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/8c7d68c3fa98477780473f8525c7588d/698fc7b98cb84b61b24965d10b95faf5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE23,
+        claim:
+          "תיעוד SAP ERP 6.0 EHP8 (loio 698fc7b98cb84b61b24965d10b95faf5): 'The Business Package for Generic EAM Functions " +
+          "contains Web Dynpro applications for the following business'; בטבלת המצבים: 'Object Type Available Modes Technical " +
+          "object Change, create, and display'. אפליקציות Web Dynpro ליצירה, לשינוי ולהצגה של אובייקט טכני מתועדות כבר " +
+          "ב-SAP ERP; הקטע אינו נוקב ב-W0029, ולכן הזהות בינן לבין W0029 אינה מוכחת.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "Process Technical Object (W0029) היא אפליקציית Web Dynpro ליצירה ולשינוי של אובייקטים טכניים, מתועדת ב-S/4HANA " +
+        "On-Premise 2025 FPS01 (What's New 2025 FPS01 ונושא Maintenance Management). תיעוד SAP ERP 6.0 EHP8 מתאר כבר " +
+        "אפליקציות Web Dynpro ליצירה, לשינוי ולהצגה של אובייקט טכני ב-Business Package for Generic EAM Functions 1.61, " +
+        "ולכן לא נקבע אם W0029 חדשה ב-S/4HANA או אותה אפליקציה מ-SAP ERP; הקטעים אינם מכריעים.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: W0029_WHATS_NEW_2025_FPS01,
+      recommendedAction:
+        "להציג את W0029 כזמינה ב-S/4HANA On-Premise 2025 FPS01 בלי לסמן אותה כחדשה ב-S/4HANA. לאמת במערכת או בספריית " +
+        "ה-Fiori את שם אפליקציית ה-Web Dynpro ואת התפקיד העסקי, ולהשוות לאפליקציות של Business Package for Generic EAM " +
+        "Functions ב-ECC לפני שמכריעים אם היא חדשה או ממשיכה אפליקציה קיימת.",
+    },
+    xrefs: ["tx:IL02", "fiori:W0028", "fiori:F2730A"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בארבע שאילתות על SAP_S4HANA_ON-PREMISE 2025.001 (המזהה, שאילתה " +
+      "ממוקדת לרשומת ה-BAdI, קטלוג הנושא ותיאור תפקיד המתכנן) ובשאילתה אחת על SAP_ERP. הקטלוג SAP_EAM_BC_TO ברשומת הקטלוג " +
+      "נלקח מנושא Process Technical Object, שקטעו אינו נוקב במזהה; הקישור נשען על זהות הכותרת. סוג היישום Transactional " +
+      "ברשומת הקטלוג הוא ערך הסכימה הקרוב (אין בסכימה ערך Web Dynpro). הסטטוס 'נדרש אימות נוסף' נכתב במקום 'חדש " +
+      "ב-S/4HANA' בגלל הראיה מ-SAP ERP; זמינות היישום ב-S/4HANA On-Premise 2025 FPS01 עצמה מאומתת. לא אומתו: תפקיד עסקי, " +
+      "שם אפליקציית ה-Web Dynpro, זמינות ב-Public Cloud וגרסת הצגה ראשונה. ה-xref ל-IL02 נשען על רשומת ה-What's New " +
+      "שמונה את שניהם ברשימה אחת; זה עזר ניווט ולא מיפוי החלפה. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* --------------------------------------------------------- fiori:W0028 */
+  {
+    id: "fiori:W0028",
+    evidence: [
+      W0028_MIGRATION_EQUIPMENT,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Functional location | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/7c5578ab53e0457f905145bc535839cf.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "אותו צימוד באובייקט ההגירה PM - Functional location לגרסת 2025 FPS01 (loio 7c5578ab53e0457f905145bc535839cf): " +
+          "'Functional Location Display Technical Object (app ID W0028) BAPI_FUNCLOC_CREATE'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Functional location | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/b6207b9f98d3490c81b2b5550e315273.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "נושא הגירה נוסף של PM - Functional location לגרסת 2025 FPS01 (loio b6207b9f98d3490c81b2b5550e315273): 'The Display " +
+          "Technical Object app shows only the data relevant for the logon language.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Display Technical Object | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/f11f4d57001c0922e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "נושא Display Technical Object ב-Maintenance Management לגרסת 2025 FPS01 (loio f11f4d57001c0922e10000000a44147b): " +
+          "'Display Technical Object Use As a maintenance technician, you can use this app to view technical objects that have " +
+          "been created to efficiently manage and evaluate technical assets and maintenance objects'; 'Supported Device Types " +
+          "Desktop Relevant Business Catalog EAM - Technical Object MW (SAP_EAM_BC_TO_MW)'; 'Note If you have the business role " +
+          "Maintenance Planner, you can also use this app as well as access the apps Create Technical Object and Change " +
+          "Technical Object.' קטע הנושא אינו נוקב ב-W0028; הקישור נשען על זהות הכותרת עם רשומות ההגירה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Display Technical Object | Business Package for Generic EAM Functions 1.61",
+        product: "SAP ERP 6.0",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/8c7d68c3fa98477780473f8525c7588d/a4628cb3d1de4d89bffa676e976f7cab.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE23,
+        claim:
+          "תיעוד SAP ERP 6.0 EHP8 (loio a4628cb3d1de4d89bffa676e976f7cab): 'You can use this iView to display a technical " +
+          "object.'; 'Technical Name of the iView com.sap.pct.erp.eam.gen.eam_technical_object_display Runtime Technology " +
+          "ABAP/Web Dynpro'. iView מבוסס Web Dynpro באותו שם מתועד כבר ב-SAP ERP; הקטע אינו נוקב ב-W0028, ולכן הזהות " +
+          "ביניהם אינה מוכחת.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "Display Technical Object (W0028) מתועדת ב-S/4HANA On-Premise 2025 FPS01 בתיעוד ההגירה של ציוד ושל מיקום פונקציונלי " +
+        "ובנושא Maintenance Management כאפליקציה שבה טכנאי האחזקה צופה באובייקטים טכניים. תיעוד SAP ERP 6.0 EHP8 מתאר iView " +
+        "מבוסס Web Dynpro באותו שם ב-Business Package for Generic EAM Functions 1.61, ולכן לא נקבע אם W0028 חדשה ב-S/4HANA " +
+        "או אותה אפליקציה מ-SAP ERP; הקטעים אינם מכריעים.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: W0028_MIGRATION_EQUIPMENT,
+      recommendedAction:
+        "להציג את W0028 כזמינה ב-S/4HANA On-Premise 2025 FPS01 בלי לסמן אותה כחדשה ב-S/4HANA, ולזכור שלפי תיעוד ההגירה היא " +
+        "מציגה רק את נתוני שפת ההתחברות. לאמת במערכת או בספריית ה-Fiori את שם אפליקציית ה-Web Dynpro ואת התפקיד העסקי " +
+        "לפני שמכריעים אם היא חדשה או ממשיכה את ה-iView של SAP ERP.",
+    },
+    xrefs: ["tx:IE03", "tx:IL03", "fiori:F2072", "fiori:W0029", "fiori:F2730A"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בשתי שאילתות על SAP_S4HANA_ON-PREMISE 2025.001 (המזהה עם השם, " +
+      "וקטלוג הנושא) ובשתי שאילתות על SAP_ERP. הקטלוג SAP_EAM_BC_TO_MW ברשומת הקטלוג נלקח מנושא Display Technical Object, " +
+      "שקטעו אינו נוקב במזהה; הקישור נשען על זהות הכותרת. סוג היישום Transactional ברשומת הקטלוג הוא ערך הסכימה הקרוב " +
+      "לאפליקציית תצוגה; הקטעים אינם מציינים את טכנולוגיית הממשק של W0028. אותו iView מופיע גם ב-Business Package for " +
+      "Maintenance Worker 1.61 (SAP ERP 6.0 EHP6 on HANA ו-EHP8). הסטטוס 'נדרש אימות נוסף' נכתב במקום 'חדש ב-S/4HANA' בגלל הראיה " +
+      "מ-SAP ERP; הזמינות ב-S/4HANA On-Premise 2025 FPS01 עצמה מאומתת. ה-xrefs ל-IE03 ול-IL03 נשענים על קטעי ההגירה של " +
+      "PM - Equipment ו-PM - Functional location, שמונים את Display Equipment (IE03) ואת Display Functional Location (IL03) " +
+      "לצד היישום; זה עזר ניווט ולא מיפוי החלפה. לא אומתו: תפקיד עסקי, שם אפליקציית ה-Web Dynpro, זמינות ב-Public Cloud " +
+      "וגרסת הצגה ראשונה. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* --------------------------------------------------------- fiori:F8669 */
+  {
+    id: "fiori:F8669",
+    evidence: [
+      F8669_APP_TOPIC,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Technical Object Structures App | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/6b9a013a2f4649708c2b9c7238271c85.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2025 FPS01 (loio 6b9a013a2f4649708c2b9c7238271c85): 'Technical Details Type New Functional " +
+          "Localization No localization Scope Item Not applicable Technical Object Name App ID: F8669 Application Component " +
+          "PM-EQM-RS'; 'With the Manage Technical Object Structures (F8669) app, you can view and manage hierarchical " +
+          "structures.' היישום חדש ב-2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori חדש ב-S/4HANA 2025 FPS01 (What's New 2025 FPS01: Type New, רכיב PM-EQM-RS) ליצירה ולניהול של מבני " +
+        "אובייקטים טכניים בטיוטה, מתועד ב-Maintenance Management לגרסת 2025 FPS01 תחת App ID F8669.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: F8669_APP_TOPIC,
+      recommendedAction:
+        "לשקול את F8669 לבניית מבנים חדשים של אובייקטים טכניים כטיוטה לפני יצירתם במערכת (זמין מ-2025 FPS01). היישום אינו " +
+        "מחליף את הרשומה המתוחזקת F2730A (Manage Technical Objects), שאינה נתמכת במקור רשמי. לקרוא מספריית ה-Fiori את " +
+        "התפקיד העסקי, הקטלוג ושירות ה-OData לפני שיוצגו.",
+    },
+    xrefs: ["fiori:F2730A"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בשתי שאילתות על SAP_S4HANA_ON-PREMISE 2025.001 (המזהה עם השם, " +
+      "ושאילתה ממוקדת לפרטים הטכניים של רשומת ה-What's New). רכיב היישום נקטע בקטע אחרי 'PM-EQM-RS'. אובייקט ההרשאה " +
+      "I_DRTOS (Authorization for Draft Technical Object Structure) מתועד ב-What's New 2025 FPS01 (loio " +
+      "0d8840e3e7384c1c9e73bbcb8ea8cd71) עם הפניה ל-Manage Technical Object Structures, אך הקטע אינו קובע שהוא נבדק " +
+      "ביישום, ולכן אינו ברשומת הקטלוג. לא אומתו: תפקיד עסקי, קטלוג, שירות OData וזמינות ב-Public Cloud. לא בוצעה בדיקה " +
+      "במערכת SAP חיה.",
+  },
+
+  /* --------------------------------------------------------- fiori:F4587 */
+  {
+    id: "fiori:F4587",
+    evidence: [
+      F4587_FEATURE_COMPARISON,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Segmentation Enhancements in Process Order Related Fiori Apps | What's New in SAP S/4HANA 2021 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/77ff56ba8e584f4cb537b660e7810fd7.html?locale=en-US&state=PRODUCTION&version=2021.001",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2021 FPS01 (loio 77ff56ba8e584f4cb537b660e7810fd7): 'Apps that have been enhanced with the " +
+          "stock segment information include: Process Order Object Page (F2263) Process Order Confirmation Object Page (F2266) " +
+          "Manage Process Orders (F4587)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Fashion Enablement in Standard Manufacturing Apps | Retail",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/21d0d1f8e18e41ebbc93d2a8a4c51d97.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "תיעוד Retail לגרסת 2025 FPS01 (loio 21d0d1f8e18e41ebbc93d2a8a4c51d97): 'Manage Process Orders (F4587) Features You " +
+          "can display fashion related information'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Process Orders | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/a84b0308f73c43f29154fbb7e54e15d3.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "נושא היישום לגרסת 2025 FPS01 (loio a84b0308f73c43f29154fbb7e54e15d3): 'Manage Process Orders With this app, you can " +
+          "manage the progress of process orders. You have an overview of the current situation with all the information you " +
+          "need to solve any issues.'; 'Manage the entire lifecycle of your process order from creation to completion.'; " +
+          "'Manage Process Order Operations to view the operation level details of the process order.' קטע הנושא אינו נוקב " +
+          "במזהה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Process Orders | What's New in SAP S/4HANA 2020",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/dc987ea755344b219964916762803a47.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2020 (loio dc987ea755344b219964916762803a47): 'Manage Process Orders With this feature, you " +
+          "can manage the progress of process orders.'; 'See More App New BJ8 PP-FIO-PI SAP S/4HANA 2020'. הרשומה נוקבת " +
+          "בכותרת ולא במזהה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori של S/4HANA לניהול הזמנות תהליך (PP-PI), מתועד ב-Production Planning and Control לגרסת 2025 FPS01. " +
+        "המזהה F4587 מופיע לצד השם בטבלת ההשוואה של 2025 FPS01, ב-What's New 2021 FPS01 ובתיעוד Retail לגרסת 2025 FPS01; " +
+        "What's New 2020 רושם את Manage Process Orders כיישום חדש ברכיב PP-FIO-PI (לפי הכותרת).",
+      edition: "on-premise",
+      release: "2025.001",
+      source: F4587_FEATURE_COMPARISON,
+      recommendedAction:
+        "להשתמש במזהה F4587 לכותרת Manage Process Orders. המזהה F3577 שברשומה המתוחזקת אינו מופיע באף מקור רשמי (ראו " +
+        "fiori:F3577). לקרוא מספריית ה-Fiori את התפקיד העסקי, הקטלוג ושירות ה-OData לפני שיוצגו.",
+    },
+    xrefs: ["fiori:F3577", "fiori:F5323", "tx:COOISPI", "tx:COHVPI"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בארבע שאילתות על SAP_S4HANA_ON-PREMISE (המזהה עם השם בגרסה " +
+      "2025.001, תיאור היישום, ושתי שאילתות נעוצות לגרסאות 2021.001 ו-2020.000). releaseInfo ברשומת הקטלוג (SAP S/4HANA " +
+      "2020) נשען על רשומת What's New 2020 הנוקבת בכותרת Manage Process Orders בלי מזהה; הקישור למזהה F4587 נשען על זהות " +
+      "הכותרת. ה-xrefs ל-COOISPI ול-COHVPI נשענים על טבלת ההשוואה; זה עזר ניווט ולא מיפוי החלפה. לא אומתו: תפקיד עסקי, " +
+      "קטלוג, שירות OData, תצוגות CDS וזמינות ב-Public Cloud. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* --------------------------------------------------------- fiori:F5323 */
+  {
+    id: "fiori:F5323",
+    evidence: [
+      F4587_FEATURE_COMPARISON,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Process Order Operations | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/48d4f057b6a44fb59d3c3d85500a9f42.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "נושא היישום לגרסת 2025 FPS01 (loio 48d4f057b6a44fb59d3c3d85500a9f42): 'Manage Process Order Operations With this " +
+          "app, you can monitor the progress of process orders at the detailed operations level.'; 'View the details of all the " +
+          "operations involved in a process order.' קטע הנושא אינו נוקב במזהה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Process Order Operations | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/579f4687ec304f5eb19e2b1fefa09d84.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2021 (loio 579f4687ec304f5eb19e2b1fefa09d84): 'Technical Details Type New Functional " +
+          "Localization Not applicable Scope Item BJ8(Make-to-Stock - Process Manufacturing Based on Process Order) Application " +
+          "Component PP-FIO-PI'; 'Valid as Of SAP S/4HANA 2021'. הרשומה נוקבת בכותרת ולא במזהה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori של S/4HANA למעקב אחר הזמנות תהליך ברמת הפעולה, חדש ב-SAP S/4HANA 2021 לפי What's New 2021 (רכיב " +
+        "PP-FIO-PI, פריט היקף BJ8) ומתועד ב-Production Planning and Control לגרסת 2025 FPS01. המזהה F5323 נשען על טבלת " +
+        "ההשוואה של 2025 FPS01 בלבד, בקריאה לפי סדר הערכים.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: F4587_FEATURE_COMPARISON,
+      recommendedAction:
+        "להשתמש ב-F5323 לצד Manage Process Orders (F4587) למעקב ברמת הפעולה. מכיוון שהמזהה נשען על רשומה רשמית אחת בקריאה " +
+        "לפי סדר הערכים, לאמת אותו בספריית ה-Fiori יחד עם התפקיד העסקי, הקטלוג ושירות ה-OData לפני שמציגים אותו ללקוח.",
+    },
+    xrefs: ["fiori:F4587", "fiori:F3577"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בשמונה שאילתות. חיפוש המזהה F5323 לבדו ללא גרסה על " +
+      "SAP_S4HANA_ON-PREMISE החזיר רשומה אחת בלבד הנוקבת במזהה (טבלת ההשוואה); חיפוש השם עם המזהה בסוגריים בגרסאות " +
+      "2022.000, 2023.000 ו-2025.000 (21 רשומות בכל אחת) לא החזיר צימוד נוסף, וגם חיפוש על SAP_S4HANA_CLOUD לא החזיר " +
+      "רשומה הנוקבת ב-F5323 (בקטע טבלת ההשוואה בענן המזהים נקטעו). releaseInfo ברשומת הקטלוג (SAP S/4HANA 2021) נשען על " +
+      "רשומת What's New הנוקבת בכותרת בלבד. What's New 2022 (loio cfa1ded421e34d4c9717c49ead0edca8) מתעד הרחבת Key User " +
+      "ליישום. לא אומתו: תפקיד עסקי, קטלוג, שירות OData וזמינות ב-Public Cloud. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* --------------------------------------------------------- fiori:F2462 */
+  {
+    id: "fiori:F2462",
+    evidence: [
+      F2462_APP_TOPIC,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "App Implementation: Manage Batches | Batch Management (LO-BM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4eb099dbc8a6435c9b36a854a7e05522/006de05317e74e5399d82fb88f21810d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "עמוד ה-App Implementation לגרסת 2025 FPS01 (loio 006de05317e74e5399d82fb88f21810d) מכיל את 'appId=F2462.' וקובע: " +
+          "'Please also note that depending on the batch level one of the following search connectors needs to be activated " +
+          "in the back-end system: Batch Level Search Connector Plant level BATCH_PLANT_H'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Characteristics as Custom Fields | Product Lifecycle Management (PLM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/36802406aebb4b96b1598246e1d316ee/ed8ef9ad029a421d829e5d393873d741.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "טבלה בעמוד ה-PLM לגרסת 2025 FPS01 (loio ed8ef9ad029a421d829e5d393873d741) שכותרות העמודות שלה בקטע הן 'Business " +
+          "Context Business Object Fiori Applications Data Source to be Extended', ובה השורה 'BATCH_CLASSIFICATION_CFE Batch " +
+          "Manage Batches (F2462) LO_BM_BATCH_SRV'. LO_BM_BATCH_SRV הוא מקור הנתונים של היישום להרחבה בשדות מאפיין.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Batch unique at plant level | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/3504f738294541709a8c2dff2dbb5b30.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "תיעוד ההגירה לגרסת 2025 FPS01 (loio 3504f738294541709a8c2dff2dbb5b30): 'In addition, you can also use the following " +
+          "app or apps: App: Manage Batches (F2462) Display Batch (MSC3N)'.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori של S/4HANA לניהול אצוות, מתועד ב-Batch Management (LO-BM) לגרסת 2025 FPS01 תחת App ID F2462. בחיפושי " +
+        "SAP ERP ו-SAP Fiori for SAP Business Suite לא נמצאה רשומה בשם Manage Batches; גרסת ההצגה הראשונה לא נקבעה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: F2462_APP_TOPIC,
+      recommendedAction:
+        "להשתמש במזהה F2462 לכותרת Manage Batches. המזהה F1576 שברשומה המתוחזקת אינו מופיע באף מקור רשמי (ראו " +
+        "fiori:F1576). לפני ההפעלה להפעיל ב-back-end את מחבר החיפוש המתאים לרמת האצווה (למשל BATCH_PLANT_H לרמת מפעל), " +
+        "ולקרוא מספריית ה-Fiori את התפקיד העסקי והקטלוג.",
+    },
+    xrefs: ["fiori:F1576", "tx:MSC3N"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בשאילתה אחת על SAP_S4HANA_ON-PREMISE 2025.001 (המזהה עם השם) " +
+      "ובשתי שאילתות על SAP_ERP ו-SAP_FIORI; שתי האחרונות (21 רשומות בכל אחת) לא החזירו רשומה בשם Manage Batches ולא את " +
+      "המזהה, וההיעדר תחום לחיפוש. המודול LO-BM נקבע לפי ה-deliverable ‏Batch Management (LO-BM); הרשומה המתוחזקת F1576 " +
+      "מסווגת את אותו יישום תחת PP-PI. שדה odata ברשומת הקטלוג (LO_BM_BATCH_SRV) הוא מקור הנתונים שהטבלה ב-PLM מציגה " +
+      "ליישום (Data Source to be Extended); רשימת השירותים המלאה של היישום לא נקראה, והתיעוד מכיר גם את API_BATCH_SRV " +
+      "כ-Batch API בלי לקשור אותו ליישום. ה-xref ל-MSC3N נשען על קטע ההגירה; זה עזר ניווט ולא מיפוי החלפה. לא אומתו: " +
+      "תפקיד עסקי, קטלוג, גרסת הצגה ראשונה וזמינות ב-Public Cloud. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* -------------------------------------------------------- fiori:F1511A */
+  {
+    id: "fiori:F1511A",
+    evidence: [
+      F1511A_APP_TOPIC,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Feature Comparison - Request Maintenance and Create Maintenance Request | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/5d2fbff31efc440b8200fbad95a68dfe.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "עמוד ההשוואה לגרסת 2025 FPS01 (loio 5d2fbff31efc440b8200fbad95a68dfe): 'Compared Features Request Maintenance " +
+          "Create Maintenance Request F1511 F1511A Draft maintenance requests are available.' שתי אפליקציות נפרדות: לפי סדר " +
+          "הכותרות והמזהים, F1511 היא Request Maintenance ו-F1511A היא Create Maintenance Request.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Activity Type in Maintenance Requests | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/77a5d29949fd4a7494731ff6b4152e6f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2025 FPS01 (loio 77a5d29949fd4a7494731ff6b4152e6f): 'You can now add a maintenance activity " +
+          "type for a maintenance request in Create Maintenance Request app (F1511A)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Maintenance Request | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/7a645d9e5e7841af8a6309e117e3bedf.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2021 (loio 7a645d9e5e7841af8a6309e117e3bedf): 'Create Maintenance Request With this app, you " +
+          "can create maintenance requests.'; 'The maintenance requests created by you are also available in My Maintenance " +
+          "Requests app.' הרשומה נוקבת בכותרת ולא במזהה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Phase Model for the Maintenance Process | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/155d60bad23c421ca95ba64c68ce96fa.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2021 (loio 155d60bad23c421ca95ba64c68ce96fa): 'For more information, see the following " +
+          "What's New documents about new apps designed for this end-to-end process: Create Maintenance Request My Maintenance " +
+          "Requests Screen Maintenance Requests'. Create Maintenance Request נמנה בין היישומים החדשים של מודל השלבים (לפי " +
+          "הכותרת).",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori של S/4HANA ליצירת בקשות אחזקה, מתועד ב-Maintenance Management לגרסת 2025 FPS01 תחת App ID F1511A, ונמנה " +
+        "ב-What's New 2021 בין היישומים החדשים של מודל השלבים בתהליך האחזקה (לפי הכותרת). יישום נפרד מ-Request Maintenance " +
+        "(F1511).",
+      edition: "on-premise",
+      release: "2025.001",
+      source: F1511A_APP_TOPIC,
+      recommendedAction:
+        "להשתמש במזהה F1511A לכותרת Create Maintenance Request. הרשומה המתוחזקת F1511 נושאת את הכותרת הזו, בעוד שלפי התיעוד " +
+        "F1511 הוא Request Maintenance (ראו fiori:F1511). לקרוא מספריית ה-Fiori את התפקיד העסקי, הקטלוג ושירות ה-OData לפני " +
+        "שיוצגו.",
+    },
+    xrefs: ["fiori:F1511", "fiori:F4072"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בארבע שאילתות על SAP_S4HANA_ON-PREMISE (המזהה עם השם בגרסה " +
+      "2025.001, שאילתה ללא גרסה ושתי שאילתות נעוצות לגרסה 2021.000). releaseInfo ברשומת הקטלוג (SAP S/4HANA 2021) נשען על " +
+      "רשומות What's New 2021 הנוקבות בכותרת בלי מזהה; הקטע של רשומת Create Maintenance Request עצמה אינו מציג סיווג 'App " +
+      "New'. במהדורת SAP S/4HANA Cloud Public Edition (2608.500, loio 78732361f0b94fe1b1711632af4362b3) קטע הנושא של " +
+      "F1511A פותח ב-'Create Maintenance Request - Old Version (F1511A) Manage Maintenance Notifications - New Version " +
+      "(F5777)'; זו עדות לענן הציבורי בלבד ואינה ראיה כאן. לא אומתו: " +
+      "תפקיד עסקי, קטלוג, שירות OData וזמינות ב-Public Cloud. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* -------------------------------------------------------- fiori:F0251A */
+  {
+    id: "fiori:F0251A",
+    evidence: [
+      F0251A_APP_TOPIC,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Material Coverage (F0251A) | What's New in SAP S/4HANA 2023",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/c106b41442594c6797aad29381a6b521.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2023 (loio c106b41442594c6797aad29381a6b521): 'The app is a successor of the app Manage " +
+          "Material Coverage (F0251), providing an improved look-and-feel based on the Fiori elements framework'; 'See More App " +
+          "New J44 PP-FIO-MRP SAP S/4HANA 2023'; 'Technical Details Type New'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Feature Comparison for Managing Material Coverage | Material Requirements Planning (PP-MRP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/fe39e10a9a864a8f8dc9537704f0fa13/0fc6b5b8da9d4138a73a65a46ee01038.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "טבלת ההשוואה ב-PP-MRP לגרסת 2025 FPS01 (loio 0fc6b5b8da9d4138a73a65a46ee01038): 'App Name Monitor Stock / " +
+          "Requirements List Manage Material Coverage (F0251) Manage Material Coverage (F0251A) App ID MD04 F0251 F0251A'.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori חדש ב-SAP S/4HANA 2023 (What's New 2023: App New, פריט היקף J44, רכיב PP-FIO-MRP), היורש של Manage " +
+        "Material Coverage (F0251), מתועד ב-PP-MRP לגרסת 2025 FPS01 תחת App ID F0251A. לפי אותו תיעוד הוא עדיין אינו מכסה " +
+        "את כל ההיבטים של F0251 (ראו fiori:F0251).",
+      edition: "on-premise",
+      release: "2025.001",
+      source: F0251A_APP_TOPIC,
+      recommendedAction:
+        "לבחון את F0251A לפריסות חדשות של MRP Cockpit רק לאחר בדיקה, לפי טבלת ההשוואה הרשמית, שהתכונות הנדרשות מכוסות בו. " +
+        "לקרוא מספריית ה-Fiori את התפקיד העסקי, הקטלוג ושירות ה-OData לפני שיוצגו.",
+    },
+    xrefs: ["fiori:F0251", "fiori:F0247A", "tx:MD04"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בארבע שאילתות על SAP_S4HANA_ON-PREMISE (המזהה עם השם בגרסה " +
+      "2025.001, שתי שאילתות נעוצות לגרסה 2023.000, ושאילתת תפקידים וקטלוג שלא החזירה תפקיד או קטלוג ל-F0251A). ה-xref " +
+      "ל-F0247A נשען על נושא Monitor Material Coverage - Net Segments (2025.001, loio 5ab21556d22c0033e10000000a44538d), " +
+      "שממנו ניתן לנווט ל-F0251 או ל-F0251A; ה-xref ל-MD04 נשען על טבלת ההשוואה. כתובת What's New 2023 נלקחה כלשונה " +
+      "מרשומת החיפוש (deliverable f5d3e1005efd4e86acf9a65abf428082). לא אומתו: תפקיד עסקי, קטלוג, שירות OData וזמינות " +
+      "ב-Public Cloud. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* --------------------------------------------------------- fiori:F5460 */
+  {
+    id: "fiori:F5460",
+    evidence: [
+      F5460_WHATS_NEW_2025_FPS01,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Advanced Scheduling Board | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2023 FPS02",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.002",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/0931e75179fb4fb38e66fc45218b0ba1.html?locale=en-US&state=PRODUCTION&version=2023.002",
+        accessedAt: DATE23,
+        claim:
+          "רשומה שכותרתה Advanced Scheduling Board ב-What's New לגרסת 2023 FPS02 (loio 0931e75179fb4fb38e66fc45218b0ba1): " +
+          "'Technical Details Type New Functional Localization Not applicable Scope Item Not applicable Technical Object Name " +
+          "App ID: F5460 Application Component SCM-APO-PPS-DS'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Advanced Scheduling Board | What's New in SAP S/4HANA 2022",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/10b3ef999b2245618091a7c467384129.html?locale=en-US&state=PRODUCTION&version=2022.000",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת 2022 (loio 10b3ef999b2245618091a7c467384129): 'Advanced Scheduling Board is a new " +
+          "application which supports Production Planner in creation and Detailed Scheduling of a feasible production plan.'; " +
+          "'See More App New n/a SCM-APO-PPS'. הרשומה נוקבת בכותרת ולא במזהה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Chart Selector | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/dd540abcec6c474692097a58e8ab5abb.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE23,
+        claim:
+          "מדריך PP/DS לגרסת 2025 FPS01 (loio dd540abcec6c474692097a58e8ab5abb): 'The Advanced Scheduling Board app has four " +
+          "Gantt Charts and two Time Continuous charts which are listed below: Resource Chart Product Chart Order Chart " +
+          "Operations Chart Product Stock Visualization'.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "יישום Fiori של PP/DS ב-S/4HANA: What's New 2022 מציג את Advanced Scheduling Board כיישום חדש (App New, רכיב " +
+        "SCM-APO-PPS), ו-What's New 2023 FPS02 ו-2025 FPS01 נוקבים ב-App ID F5460 ברכיב SCM-APO-PPS-DS; ב-2025 FPS01 היישום " +
+        "מקבל הרחבות, והוא מתועד במדריך PP/DS לגרסה זו.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: F5460_WHATS_NEW_2025_FPS01,
+      recommendedAction:
+        "להעריך את F5460 לתזמון מפורט במסגרת PP/DS לצד Production Scheduling Board (F2176), לפי היקף ה-PP/DS המופעל " +
+        "במערכת; לא נמצאה רשומה רשמית הקובעת שאחד מהם מחליף את השני. לקרוא מספריית ה-Fiori את התפקיד העסקי, הקטלוג ושירות " +
+        "ה-OData לפני שיוצגו.",
+    },
+    xrefs: ["fiori:F2176"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בחמש שאילתות על SAP_S4HANA_ON-PREMISE (השם עם המזהה בגרסה " +
+      "2025.001, המזהה לבדו, שאילתה נעוצה לגרסה 2022.000, ושתי שאילתות על נושאי היישום ב-PP/DS). What's New 2023 FPS03 " +
+      "(loio fe0642d015544dbc8216b3af69b993a6) ו-What's New 2025 (loio 3032bd1ab4c54a9189ba6e67a2fbdaa7) נוקבים אף הם " +
+      "ב-'App ID: F5460' ברשומות שכותרתן Advanced Scheduling Board. releaseInfo ברשומת הקטלוג (SAP S/4HANA 2022) נשען על " +
+      "רשומת What's New 2022 הנוקבת בכותרת בלי מזהה. המודול PP נקבע לפי תחום ה-deliverable ‏Production Planning and " +
+      "Detailed Scheduling (PP/DS), כמו ברשומת F2176; רכיב היישום הרשמי הוא SCM-APO-PPS-DS. ה-xref ל-F2176 הוא עזר ניווט " +
+      "בין שני לוחות PP/DS ולא מיפוי רשמי. לא אומתו: תפקיד עסקי, קטלוג, שירות OData, דרישות liveCache וזמינות ב-Public " +
+      "Cloud. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* --------------------------------------------------------- fiori:W0020 */
+  {
+    id: "fiori:W0020",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deprecation of Confirm Jobs | What's New in SAP S/4HANA 2022",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/af315b2ddb3e488eb3999f4ae144f0ed.html?locale=en-US&state=PRODUCTION&version=2022.000",
+        accessedAt: DATE23,
+        claim:
+          "רשומת What's New לגרסת SAP S/4HANA 2022 (loio af315b2ddb3e488eb3999f4ae144f0ed): 'The Confirm Jobs app (W0020) is " +
+          "deprecated and will be deleted from the SAP Fiori launchpad in an upcoming release.'; 'Valid as Of SAP S/4HANA 2022 " +
+          "Additional Details The following successor apps are available on the SAP Fiori Launchpad: Perform Maintenance Jobs " +
+          "(F5104A)'; בשורת הסיכום: 'See More App Deprecated BH1 BJ2 PM'.",
+        verificationLevel: "sap_official_verified",
+      },
+      W0020_DELETION_2023,
+    ],
+    status: {
+      status: "not_available",
+      he:
+        "אפליקציית Confirm Jobs (W0020) הוצאה משימוש ב-SAP S/4HANA 2022 ונמחקה מה-SAP Fiori launchpad ב-SAP S/4HANA 2023, " +
+        "לפי רשומות What's New של SAP. רשומת המחיקה מונה כיישומים יורשים את Perform Maintenance Jobs (F5104A) ואת Report and " +
+        "Repair Malfunction (F2023).",
+      edition: "on-premise",
+      release: "2023.000",
+      source: W0020_DELETION_2023,
+      successor: "fiori:F5104A",
+      recommendedAction:
+        "לא לתכנן תרחישים חדשים על W0020. לביצוע ולדיווח של עבודות שהוקצו לטכנאי האחזקה להפנות ל-Perform Maintenance Jobs " +
+        "(F5104A) או ל-Report and Repair Malfunction (F2023). הרשומה המתוחזקת F2730 בשם Confirm Jobs אינה נתמכת במקור רשמי " +
+        "(ראו fiori:F2730).",
+    },
+    xrefs: ["fiori:F2730", "fiori:F5104A", "fiori:F2023"],
+    lastVerifiedAt: DATE23,
+    notes:
+      "נוסף 2026-09-23 כרשומה עצמאית למזהה הרשמי של Confirm Jobs; עד תאריך זה W0020 היה alias של fiori:F2730, והכינוי הוסר " +
+      "משם. שיטה: scripts/sap-help-search.mjs בחמש שאילתות על SAP_S4HANA_ON-PREMISE, נעוצות לגרסאות 2022.000 ו-2023.000. " +
+      "שירות החיפוש החזיר לאותו loio של 2022 שני מזהי deliverable בכתובת (e296651f454c4284ade361292c633d69 " +
+      "ו-f5d3e1005efd4e86acf9a65abf428082); הכתובת כאן היא זו שהוחזרה עם קטע היורשים, והיא זהה לכתובת שברשומת fiori:F2730. " +
+      "היורש ברשומה הוא F5104A, היישום הראשון שרשומת המחיקה מונה; F2023 מופיע ב-xrefs. עמוד ספריית ה-Fiori ‏Apps('W0020') " +
+      "המוזכר ברשומת fiori:F2730 לא נפתח בסבב זה ואינו ראיה כאן. סוג היישום Transactional ברשומת הקטלוג נגזר מהפונקציה " +
+      "(אישור עבודות); הקטעים אינם מציינים את טכנולוגיית הממשק. לא אומתו: תפקיד עסקי, קטלוג, שירות OData, זמינות ב-SAP ERP " +
+      "ובענן הציבורי וגרסת הצגה ראשונה. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
 ];

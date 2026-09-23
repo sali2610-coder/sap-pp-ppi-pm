@@ -2188,7 +2188,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "שבוצעו). לתעד את Manage Maintenance Orders ‏(F5241) כנתיב ה-Fiori המתועד ליצירת הזמנות תחזוקה " +
         "ולעיבודן, וליישב את ההפניה הישנה ל-F2773 ב-data/tx-intel.ts מול F5241 (וכן F2731 ברשומות IW32/IW33).",
     },
-    xrefs: ["tx:IW32", "tx:IW33", "tx:IW34", "fiori:F4604"],
+    xrefs: ["tx:IW32", "tx:IW33", "tx:IW34", "fiori:F4604", "fiori:F5241"],
     lastVerifiedAt: DATE2,
     notes:
       "שיטה: scripts/sap-help-search.mjs בשתי שאילתות (On-Premise, ‏21 תוצאות כל אחת), חיפוש רשת מוגבל-דומיין " +
@@ -2198,7 +2198,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "יחידה ל-IW31 (תיעוד Service מפנה גם לאפליקציית 'Create Maintenance Order (IW31)', והמאגר נוקב ב-F2773) — " +
       "לכן F5241 מוצגת כנתיב המתועד, לא כחלופה ממונה, וסתירת המזהים נרשמה בקובץ התור. ‏F5241 אינה קיימת " +
       "ב-data/fiori/apps.ts ולכן אין fiori:F5241 ב-xrefs; פרטי תפקיד/קטלוג/OData של האפליקציה לא אומתו ואינם " +
-      "נטענים. ‏accessedAt = 2026-09-02 — התאריך שהטביע כלי החיפוש בפועל.",
+      "נטענים. ‏accessedAt = 2026-09-02 — התאריך שהטביע כלי החיפוש בפועל. תוספת 2026-09-23: Manage Maintenance Orders נכנס לקטלוג כ-fiori:F5241 ונוסף ל-xrefs; המשפט הקודם על היעדרו נכון לתאריכו.",
   },
 
   /* ------------------------------------------------------------ tx:IW41 */
@@ -2958,7 +2958,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "(LOG_EAM_SIMPLICITY_17, כלשון הסניפט) ו-Simplified Management of EAM Functions 3 (השם הטכני מפוצל " +
         "בסניפט ודורש אימות ב-SFW5 במערכת SAP).",
     },
-    xrefs: ["tx:IW31", "tx:IW33", "tx:IW37N", "tx:IW38", "tx:IW41", "table:AUFK", "table:AFIH", "fm:BAPI_ALM_ORDER_MAINTAIN", "enh:badi:WORKORDER_UPDATE", "enh:exit:IWO10009", "enh:exit:IWO10018", "cds:I_MaintenanceOrder"],
+    xrefs: ["tx:IW31", "tx:IW33", "tx:IW37N", "tx:IW38", "tx:IW41", "table:AUFK", "table:AFIH", "fm:BAPI_ALM_ORDER_MAINTAIN", "enh:badi:WORKORDER_UPDATE", "enh:exit:IWO10009", "enh:exit:IWO10018", "cds:I_MaintenanceOrder", "fiori:F5241"],
     lastVerifiedAt: DATE3,
     notes:
       "שיטה: scripts/sap-help-search.mjs בחמש שאילתות (On-Premise, 21 תוצאות כל אחת: 'IW32', 'IW32 change " +
@@ -2979,7 +2979,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "מועד ההצגה של ביטול Do Not Execute אינו נקבע: What's New 2020 FPS02 נוקב ב-2020 FPS02, ה-What's New " +
       "המאוחד באותה כותרת נוקב ב-1909 SPS04. גופי העמודים ב-help.sap.com הם יישומי JS ולא נקראו; כל טענה " +
       "תחומה בסניפט של רשומת החיפוש. accessedAt = 2026-09-07 (הרצת החוקר) למעט הראיה המשותפת IW31_MES " +
-      "‏(2026-09-02) ושתי ראיות שהוסיף המבקר (2026-09-08).",
+      "‏(2026-09-02) ושתי ראיות שהוסיף המבקר (2026-09-08). תוספת 2026-09-23: Manage Maintenance Orders נכנס לקטלוג כ-fiori:F5241 ונוסף ל-xrefs; המשפט הקודם על היעדרו נכון לתאריכו.",
   },
 
   /* ----------------------------------------------------- tx:IW38 */
@@ -3087,7 +3087,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "מזהה) את ההפניה 'Manage Maintenance Orders (F2731)' ל-F5241 לפי התיעוד הרשמי. למשתמשי Fiori: לתעד את " +
         "F5241 / F2175 / F4604 כנתיב המתועד לשינוי גורף של הזמנות תחזוקה, כחלופה זמינה ולא כתחליף ממונה.",
     },
-    xrefs: ["tx:IW39", "tx:IW32", "tx:IW31", "tx:IW37N", "tx:IW72", "tx:IW73", "tx:IW40", "fiori:F4604", "table:AUFK", "table:AFIH", "fm:BAPI_ALM_ORDERHEAD_GET_LIST"],
+    xrefs: ["tx:IW39", "tx:IW32", "tx:IW31", "tx:IW37N", "tx:IW72", "tx:IW73", "tx:IW40", "fiori:F4604", "table:AUFK", "table:AFIH", "fm:BAPI_ALM_ORDERHEAD_GET_LIST", "fiori:F5241"],
     lastVerifiedAt: DATE3,
     notes:
       "שיטה: scripts/sap-help-search.mjs בחמש שאילתות מול SAP_S4HANA_ON-PREMISE (IW38 change orders list; " +
@@ -3109,7 +3109,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "פריט פישוט: הערוצים חסומים ב-S-user (MANIFEST שורות 25-27) ואף מספר לא הופיע בסניפט רשמי. גופי הדפים " +
       "לא נקראו (JS shell); כל טענה מוגבלת לכותרת ולסניפט. פרטי מסך הבחירה, ה-logical database והפעולות " +
       "הגורפות הכלליות של IW38 שברשומת tx-intel נשארים Tier-2. accessedAt = 2026-09-07, התאריך שהדפיס כלי " +
-      "החיפוש בפועל.",
+      "החיפוש בפועל. תוספת 2026-09-23: Manage Maintenance Orders נכנס לקטלוג כ-fiori:F5241 ונוסף ל-xrefs; המשפט הקודם על היעדרו נכון לתאריכו.",
   },
 
   /* ----------------------------------------------------- tx:IP10 */

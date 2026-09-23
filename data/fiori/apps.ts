@@ -319,4 +319,203 @@ FIORI_APPS.push(
   },
 );
 
+// ── 2026-09-23 · official App IDs the verification evidence already names ──
+// (audit/s4-enrichment/research-queue-fiori.md, "conflicts" and "Cross-cutting"). Written like
+// F2774 / F5325: trust "verified-docs", only fields a help.sap.com search snippet supports,
+// everything else empty. Where the official title is already a curated slug (F2731, F2730,
+// F3577, F1576, F1511, F0251) the new slug carries the id. Type is derived from the
+// documented function, not read from the Apps Library (its pages load as JS shells);
+// "Transactional" is also the schema bucket for the two Web Dynpro apps W0028 / W0029.
+// F5777 is not added: only SAP S/4HANA Cloud Public Edition records name it.
+FIORI_APPS.push(
+  {
+    // F5241 · Maintenance Management 2025.001 (loio 55828a51fe634affb76fe4283f71c1d9, "App ID:
+    // F5241"), What's New 2023 FPS03 (loio dd84263e832b4c3b83d35d4be9653f39, Type New,
+    // PM-FIO-WOC-MO), What's New 2025 FPS01 (loio ec6bf626bf8246439f2795f31e7f07c3).
+    id: "F5241", slug: "manage-maintenance-orders-f5241", name: "Manage Maintenance Orders", he: "ניהול פקודות אחזקה", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Manage Maintenance Orders) · What's New in SAP S/4HANA 2023 FPS03, 2025 FPS01", lastReviewed: "2026-09-23",
+    purpose: "ניהול פקודות אחזקה ברשימה מקיפה ועיבוד של פקודה בודדת: לפי התיעוד הרשמי, 'This app offers both a comprehensive list view of maintenance orders and the possibility to process individual maintenance orders.'",
+    problem: "",
+    explain: { beginner: "מסך אחד שבו מתכנן האחזקה מאתר פקודות אחזקה ברשימה, יוצר פקודות חדשות ומעבד כל פקודה לגופה.", consultant: "לפי What's New 2023 FPS03 היישום נוסף כחדש (Type New) עם פריטי ההיקף 4HH, 4HI, BH1 ו-BJ2, רכיב היישום PM-FIO-WOC-MO וזמינות SAP S/4HANA ו-SAP S/4HANA Cloud Private Edition. עמוד היישום לגרסת 2025 FPS01 מציין גם ניהול של שיוך הפקודות שנבחרו לאירוע אחזקה (maintenance event) או ל-revision. הכותרת זהה לזו של הרשומה המתוחזקת F2731, שאינה מופיעה באף מקור רשמי; ראו רשומת האימות fiori:F2731.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori (העמוד נטען כ-app shell) ולכן אינם מוצגים; ראו רשומת האימות fiori:F5241." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "SAP S/4HANA 2023 FPS03 (What's New 2023 FPS03, Type New)",
+    similar: [],
+  },
+  {
+    // F2072 · Maintenance Management 2025.001 (app topic loio 4dd5a057b76f9f2de10000000a44147b;
+    // "Find Technical Object app (F2072)" in loio 1563a9bd3b1c4844ad5dd1a3a7d6a156), Data
+    // Migration PM - Equipment 2025.001 (loio 08c1d29f1acc4d459ecc198dc18ee6ce), What's New 2023
+    // (loios 5e0bcb6d686840e0b6bd02f1628c00bb, 1fae728c81b34dbb8294e903cec45e6e).
+    id: "F2072", slug: "find-technical-object", name: "Find Technical Object", he: "איתור אובייקט טכני", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Find Technical Object) · Data Migration 2025.001 (PM - Equipment) · What's New in SAP S/4HANA 2023", lastReviewed: "2026-09-23",
+    purpose: "איתור והצגה של אובייקטים טכניים: לפי התיעוד הרשמי, 'With this app, you can list the technical objects in your system.'",
+    problem: "",
+    explain: { beginner: "רשימה של הציוד והמיקומים הפונקציונליים במערכת, עם סינון לפי סוג, מיקום, יצרן וסטטוס, ופתיחה של אובייקט בודד.", consultant: "לפי What's New 2023 ניתן להתקין ציוד על ציוד או לפרק אותו דרך האפשרויות של Manage Structure ביישום (רכיב PM-EQM), ו-F2072 נקוב כיישום היורש של אפליקציות Display Master Data Information Center (W0011 ו-W0012) שנמחקו ב-2023. תיעוד ההגירה של אובייקט PM - Equipment לגרסת 2025 FPS01 מונה אותו לצד Create Equipment (IE01), Change Equipment (IE02) ו-Display Equipment (IE03).", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori (העמוד נטען כ-app shell) ולכן אינם מוצגים; ראו רשומת האימות fiori:F2072." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "",
+    similar: [],
+  },
+  {
+    // W0029 · What's New 2025 FPS01 (loio 41a47f86d1d449318dee191474b5f64e, "Web Dynpro app -
+    // Process Technical Object (W0029)"), Maintenance Management 2025.001 topic Process Technical
+    // Object (loio 60021e57f2f40a75e10000000a4450e5, business catalog SAP_EAM_BC_TO; that topic's
+    // snippet carries the title, not the id).
+    id: "W0029", slug: "process-technical-object", name: "Process Technical Object", he: "עיבוד אובייקט טכני", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2025 FPS01 (BAdI: Functional Location Management) · Maintenance Management 2025.001 (Process Technical Object)", lastReviewed: "2026-09-23",
+    purpose: "יצירה ושינוי של אובייקטים טכניים באפליקציית Web Dynpro: לפי התיעוד הרשמי, 'Web Dynpro app - Process Technical Object (W0029) to create or change technical objects'.",
+    problem: "",
+    explain: { beginner: "המסך שבו מתכנן האחזקה יוצר ומשנה ציוד ומיקומים פונקציונליים.", consultant: "נושא Process Technical Object ב-Maintenance Management לגרסת 2025 FPS01 מתאר שלוש אפליקציות, Create Technical Object, Change Technical Object ו-Display Technical Object, ומציין את הקטלוג העסקי EAM - Technical Object (SAP_EAM_BC_TO). רשומת What's New 2025 FPS01 בנושא BAdI: Functional Location Management מונה את W0029 ברשימה אחת עם IL02 (Change Functional Location) ועם API_FUNCTIONALLOCATION.", technical: "אפליקציית Web Dynpro לפי What's New 2025 FPS01. תפקיד עסקי ושירות OData לא נקראו; ראו רשומת האימות fiori:W0029." },
+    role: "", catalog: "SAP_EAM_BC_TO",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "",
+    similar: [],
+  },
+  {
+    // W0028 · Data Migration 2025.001, PM - Equipment (loio 2f60604160f141be904d23b23e69c3a6) and
+    // PM - Functional location (loio 7c5578ab53e0457f905145bc535839cf), "Display Technical Object
+    // (app ID W0028)"; Maintenance Management 2025.001 topic Display Technical Object (loio
+    // f11f4d57001c0922e10000000a44147b, business catalog SAP_EAM_BC_TO_MW; title only).
+    id: "W0028", slug: "display-technical-object", name: "Display Technical Object", he: "הצגת אובייקט טכני", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Data Migration 2025.001 (PM - Equipment, PM - Functional location) · Maintenance Management 2025.001 (Display Technical Object)", lastReviewed: "2026-09-23",
+    purpose: "הצגת אובייקטים טכניים לטכנאי האחזקה: לפי התיעוד הרשמי, 'As a maintenance technician, you can use this app to view technical objects that have been created to efficiently manage and evaluate technical assets and maintenance objects'.",
+    problem: "",
+    explain: { beginner: "מסך קריאה שבו טכנאי האחזקה רואה את הנתונים של ציוד או של מיקום פונקציונלי.", consultant: "תיעוד ההגירה של PM - Equipment ו-PM - Functional location לגרסת 2025 FPS01 נוקב ב-Display Technical Object (app ID W0028) ומציין: 'The Display Technical Object app shows only the data relevant for the logon language.' נושא היישום ב-Maintenance Management מציין את הקטלוג EAM - Technical Object MW (SAP_EAM_BC_TO_MW), ומשתמש בתפקיד Maintenance Planner ניגש ממנו גם ל-Create Technical Object ול-Change Technical Object.", technical: "תפקיד עסקי ושירות OData לא נקראו מהספרייה; ראו רשומת האימות fiori:W0028." },
+    role: "", catalog: "SAP_EAM_BC_TO_MW",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "",
+    similar: [],
+  },
+  {
+    // F8669 · Maintenance Management 2025.001 (loio 15df8bf64aef43f9bd8680bb0d711f3e, "App ID:
+    // F8669"), What's New 2025 FPS01 (loio 6b9a013a2f4649708c2b9c7238271c85, Type New, PM-EQM-RS).
+    id: "F8669", slug: "manage-technical-object-structures", name: "Manage Technical Object Structures", he: "ניהול מבני אובייקטים טכניים", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Manage Technical Object Structures) · What's New in SAP S/4HANA 2025 FPS01", lastReviewed: "2026-09-23",
+    purpose: "יצירה וניהול של מבני אובייקטים טכניים בטיוטה: לפי התיעוד הרשמי, 'With this app, you can create and manage draft technical object structures.'",
+    problem: "",
+    explain: { beginner: "מסך שבו בונים מבנה היררכי של אובייקטים טכניים כטיוטה, ולאחר שכל האובייקטים בטיוטה נוצרו מפיקים ממנה את המבנה עצמו.", consultant: "לפי What's New 2025 FPS01 היישום חדש (Type New) ברכיב PM-EQM-RS ומאפשר 'view and manage hierarchical structures'. עמוד היישום מציין שכאשר האובייקטים במבנה הטיוטה נוצרו ניתן להפיק מבנה אובייקטים טכניים, ושיומני האפליקציה (application logs) מראים אם תהליך היצירה הצליח או נכשל.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F8669." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "SAP S/4HANA 2025 FPS01 (What's New 2025 FPS01, Type New)",
+    similar: [],
+  },
+  {
+    // F4587 · Feature Comparison for Process Orders 2025.001 (loio 0af42d30f5654313ac5d7a0ff9f36094),
+    // What's New 2021 FPS01 (loio 77ff56ba8e584f4cb537b660e7810fd7), Retail 2025.001 (loio
+    // 21d0d1f8e18e41ebbc93d2a8a4c51d97), app topic 2025.001 (loio a84b0308f73c43f29154fbb7e54e15d3,
+    // title only), What's New 2020 (loio dc987ea755344b219964916762803a47, App New, title only).
+    id: "F4587", slug: "manage-process-orders-f4587", name: "Manage Process Orders", he: "ניהול הזמנות תהליך", module: "PP-PI", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Production Planning and Control 2025.001 (Manage Process Orders, Feature Comparison for Process Orders) · What's New in SAP S/4HANA 2020, 2021 FPS01", lastReviewed: "2026-09-23",
+    purpose: "ניהול ההתקדמות של הזמנות תהליך (Process Orders): לפי התיעוד הרשמי, 'With this app, you can manage the progress of process orders.'",
+    problem: "",
+    explain: { beginner: "מסך שבו רואים את מצב הזמנות התהליך ומטפלים בהן לאורך כל חייהן, מהיצירה ועד ההשלמה.", consultant: "לפי נושא היישום לגרסת 2025 FPS01 ניתן לנהל את מחזור החיים של הזמנת התהליך מיצירה ועד השלמה, ולנווט ל-Manage Process Order Operations לפרטי הפעולות. טבלת ההשוואה של 2025 FPS01 מציבה אותו לצד COOISPI ו-COHVPI. What's New 2020 רושם את Manage Process Orders כיישום חדש (App New, פריט היקף BJ8, רכיב PP-FIO-PI). הרשומה המתוחזקת F3577 נושאת את אותה כותרת בלי מקור רשמי; ראו רשומת האימות fiori:F3577.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F4587." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "SAP S/4HANA 2020 (What's New 2020, App New)",
+    similar: [],
+  },
+  {
+    // F5323 · Feature Comparison for Process Orders 2025.001 (loio 0af42d30f5654313ac5d7a0ff9f36094,
+    // "F4587/ F5323", the only On-Premise record found that names the id), app topic 2025.001
+    // (loio 48d4f057b6a44fb59d3c3d85500a9f42), What's New 2021 (loio 579f4687ec304f5eb19e2b1fefa09d84,
+    // Type New, title only).
+    id: "F5323", slug: "manage-process-order-operations", name: "Manage Process Order Operations", he: "ניהול פעולות של הזמנות תהליך", module: "PP-PI", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Production Planning and Control 2025.001 (Feature Comparison for Process Orders, Manage Process Order Operations) · What's New in SAP S/4HANA 2021", lastReviewed: "2026-09-23",
+    purpose: "מעקב אחר התקדמות הזמנות תהליך ברמת הפעולה: לפי התיעוד הרשמי, 'With this app, you can monitor the progress of process orders at the detailed operations level.'",
+    problem: "",
+    explain: { beginner: "מסך שבו רואים את כל הפעולות של הזמנת תהליך ואת ההתקדמות של כל אחת מהן.", consultant: "What's New 2021 רושם את היישום כחדש (Type New) עם פריט ההיקף BJ8 ורכיב PP-FIO-PI. טבלת ההשוואה של 2025 FPS01 מציגה את Manage Process Orders / Manage Process Order Operations עם המזהים F4587/ F5323; זו הרשומה הרשמית היחידה שנמצאה הנוקבת במזהה F5323, והצימוד נקרא לפי סדר הערכים.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F5323." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "SAP S/4HANA 2021 (What's New 2021, Type New)",
+    similar: [],
+  },
+  {
+    // F2462 · Batch Management (LO-BM) 2025.001 (loios 34b021588aee0a02e10000000a44147b,
+    // 006de05317e74e5399d82fb88f21810d), PLM 2025.001 (loio ed8ef9ad029a421d829e5d393873d741, data
+    // source LO_BM_BATCH_SRV), Data Migration 2025.001 (loio 3504f738294541709a8c2dff2dbb5b30).
+    id: "F2462", slug: "manage-batches-f2462", name: "Manage Batches", he: "ניהול אצוות", module: "PP-PI", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Batch Management (LO-BM) 2025.001 (Manage Batches, App Implementation: Manage Batches) · Product Lifecycle Management (PLM) 2025.001 · Data Migration 2025.001", lastReviewed: "2026-09-23",
+    purpose: "הצגה, עריכה ויצירה של אצוות: לפי התיעוד הרשמי, 'With this app you can display and edit existing and create new batches.'",
+    problem: "",
+    explain: { beginner: "מסך אחד שבו מחפשים אצוות, רואים את הפרטים שלהן ויוצרים אצוות חדשות.", consultant: "לפי Batch Management (LO-BM) לגרסת 2025 FPS01 ניתן לחפש אצוות המנוהלות במפעלים מסוימים ולראות נתונים הקשורים לאצווה, כגון המפעלים שבהם היא מנוהלת, סיווגי אצווה ומנות הבדיקה (inspection lots) שלה. לפי עמוד ה-App Implementation יש להפעיל ב-back-end את מחבר החיפוש (search connector) המתאים לרמת האצווה, למשל BATCH_PLANT_H לרמת מפעל. תיעוד ההגירה מונה אותו לצד Display Batch (MSC3N). הרשומה המתוחזקת F1576 נושאת את אותה כותרת בלי מקור רשמי; ראו רשומת האימות fiori:F1576.", technical: "טבלת Business Contexts and Fiori Applications בתיעוד ה-PLM מציגה את LO_BM_BATCH_SRV כמקור הנתונים (Data Source to be Extended) של Manage Batches (F2462) להרחבה בשדות מאפיין. תפקיד עסקי וקטלוג לא נקראו מהספרייה; ראו רשומת האימות fiori:F2462." },
+    role: "", catalog: "",
+    odata: "LO_BM_BATCH_SRV",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "",
+    similar: [],
+  },
+  {
+    // F1511A · Maintenance Management 2025.001 (app topic loio 78732361f0b94fe1b1711632af4362b3;
+    // Feature Comparison loio 5d2fbff31efc440b8200fbad95a68dfe), What's New 2025 FPS01 (loio
+    // 77a5d29949fd4a7494731ff6b4152e6f), What's New 2021 (loios 7a645d9e5e7841af8a6309e117e3bedf,
+    // 155d60bad23c421ca95ba64c68ce96fa: "new apps", title only).
+    id: "F1511A", slug: "create-maintenance-request-f1511a", name: "Create Maintenance Request", he: "יצירת בקשת אחזקה", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Create Maintenance Request, Feature Comparison - Request Maintenance and Create Maintenance Request) · What's New in SAP S/4HANA 2021, 2025 FPS01", lastReviewed: "2026-09-23",
+    purpose: "יצירת בקשות אחזקה: לפי התיעוד הרשמי, 'Create Maintenance Request With this app, you can create maintenance requests.'",
+    problem: "",
+    explain: { beginner: "טופס שבו מבקשים עבודת אחזקה; הטיוטות נשמרות וניתן לצפות בהן דרך הכפתור My Drafts.", consultant: "What's New 2021 מונה את Create Maintenance Request בין 'new apps designed for this end-to-end process' של מודל השלבים (Phase Model) בתהליך האחזקה, לצד My Maintenance Requests ו-Screen Maintenance Requests (F4072). עמוד ההשוואה של 2025 FPS01 משווה אותו ל-Request Maintenance (F1511), שהוא יישום נפרד. הרשומה המתוחזקת F1511 נושאת את הכותרת Create Maintenance Request בלי מקור רשמי; ראו רשומת האימות fiori:F1511.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F1511A." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "SAP S/4HANA 2021 (What's New 2021)",
+    similar: [],
+  },
+  {
+    // F0251A · PP-MRP 2025.001 (loio beea5a0c485340769ad37d33537ad962, "App ID: F0251A"; Feature
+    // Comparison loio 0fc6b5b8da9d4138a73a65a46ee01038), What's New 2023 (loio
+    // c106b41442594c6797aad29381a6b521, App New, J44, PP-FIO-MRP).
+    id: "F0251A", slug: "manage-material-coverage-f0251a", name: "Manage Material Coverage", he: "ניהול כיסוי חומרים", module: "PP", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Material Requirements Planning (PP-MRP) 2025.001 (Manage Material Coverage (F0251A), Feature Comparison for Managing Material Coverage) · What's New in SAP S/4HANA 2023", lastReviewed: "2026-09-23",
+    purpose: "הצגה וניתוח של בעיות כיסוי בחומרים שנבחרו: לפי התיעוד הרשמי, 'With this app, you can display and analyze coverage issues that exist for selected materials.'",
+    problem: "",
+    explain: { beginner: "מסך שבו מתכנן ה-MRP רואה אילו חומרים שנבחרו סובלים מבעיות כיסוי ומנתח אותן.", consultant: "לפי What's New 2023 היישום חדש (App New, פריט היקף J44, רכיב PP-FIO-MRP) והוא היורש של Manage Material Coverage (F0251), עם ממשק מבוסס Fiori elements. תיעוד PP-MRP לגרסת 2025 FPS01 מציין שהיישום עדיין אינו מכסה את כל ההיבטים של F0251, וטבלת ההשוואה שם מציבה אותו לצד Monitor Stock / Requirements List (MD04) ו-F0251.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F0251A." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "SAP S/4HANA 2023 (What's New 2023, App New)",
+    similar: [],
+  },
+  {
+    // F5460 · What's New 2023 FPS02 (loio 0931e75179fb4fb38e66fc45218b0ba1) and 2025 FPS01 (loio
+    // 65074cb6e3be4f958e16d5c14d83e2a8), "App ID: F5460", SCM-APO-PPS-DS; What's New 2022 (loio
+    // 10b3ef999b2245618091a7c467384129, App New, title only); PP/DS 2025.001 Chart Selector (loio
+    // dd540abcec6c474692097a58e8ab5abb). Module PP = the area of the PP/DS deliverable, as F2176.
+    id: "F5460", slug: "advanced-scheduling-board", name: "Advanced Scheduling Board", he: "לוח תזמון מתקדם", module: "PP", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2022, 2023 FPS02, 2025 FPS01 (Advanced Scheduling Board) · Production Planning and Detailed Scheduling (PP/DS) 2025.001", lastReviewed: "2026-09-23",
+    purpose: "תכנון ותזמון מפורט של תכנית ייצור ישימה: לפי What's New 2022, 'Advanced Scheduling Board is a new application which supports Production Planner in creation and Detailed Scheduling of a feasible production plan.'",
+    problem: "",
+    explain: { beginner: "לוח גרפי שבו מתכנן הייצור בונה ומתזמן תכנית ייצור שאפשר לבצע בפועל.", consultant: "לפי תיעוד PP/DS לגרסת 2025 FPS01 הלוח כולל ארבעה תרשימי Gantt ושני תרשימים רציפים בזמן, בהם Resource Chart, Product Chart, Order Chart, Operations Chart ו-Product Stock Visualization. What's New 2023 FPS02 ו-2025 FPS01 נוקבים ב-App ID F5460 וברכיב SCM-APO-PPS-DS, וב-2025 FPS01 היישום מקבל הרחבות.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F5460." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "yes", cloud: "unknown",
+    releaseInfo: "SAP S/4HANA 2022 (What's New 2022, App New)",
+    similar: [],
+  },
+  {
+    // W0020 · the official id of Confirm Jobs: deprecated in What's New 2022 (loio
+    // af315b2ddb3e488eb3999f4ae144f0ed), deleted in What's New 2023 (loio
+    // 22fd7c9f368f454fad5b3acfa5a26b6d) with Perform Maintenance Jobs (F5104A) and Report and
+    // Repair Malfunction (F2023) as successors. s4OnPrem "no": not on the launchpad from 2023 on.
+    id: "W0020", slug: "confirm-jobs-w0020", name: "Confirm Jobs", he: "אישור עבודות", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2022 (Deprecation of Confirm Jobs) · What's New in SAP S/4HANA 2023 (Deletion of Confirm Jobs App)", lastReviewed: "2026-09-23",
+    purpose: "אישור עבודות (Confirm Jobs) בתחזוקת מפעל, יישום שנמחק: לפי What's New 2023, 'The Confirm Jobs app (W0020) has been deleted and is no longer available on the SAP Fiori launchpad.'",
+    problem: "",
+    explain: { beginner: "אפליקציה לאישור עבודות שנמחקה מה-SAP Fiori launchpad; במקומה משתמשים ב-Perform Maintenance Jobs או ב-Report and Repair Malfunction.", consultant: "What's New 2022 מסווג את W0020 כ-App Deprecated (פריטי ההיקף BH1 ו-BJ2, רכיב PM) ומפנה ל-Perform Maintenance Jobs (F5104A); What's New 2023 מסווג אותה כ-App Deleted ומונה את Perform Maintenance Jobs (F5104A) ואת Report and Repair Malfunction (F2023) כיישומים יורשים. הרשומה המתוחזקת F2730 נושאת את הכותרת Confirm Jobs בלי מקור רשמי; ראו רשומת האימות fiori:F2730.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו; ראו רשומת האימות fiori:W0020." },
+    role: "", catalog: "",
+    guiTx: [], relatedTables: [],
+    ecc: "", s4OnPrem: "no", cloud: "unknown",
+    releaseInfo: "",
+    similar: [],
+  },
+);
+
 export const FIORI_BY_SLUG: Record<string, FioriApp> = Object.fromEntries(FIORI_APPS.map((a) => [a.slug, a]));
