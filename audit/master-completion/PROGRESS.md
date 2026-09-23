@@ -107,3 +107,4 @@ priority order and checkpoints after every batch, so an interruption loses nothi
 - 2026-09-23 · chain batch 6 written (`c962ae29`). Record-page sweep: all 371 record pages at 320 px; the S/4 plate header and the evidence source list clipped on long SAP tokens, fixed at the component (`b2bef2c2`), 371/371 then 0 clipped. Watcher armed for batch 7 (`scratchpad/watch-batch.py 3` in the session scratchpad).
 - 2026-09-23 · chain batch 7 written (NOTIF_ITEM_READ, ORDER_TYPE_READ, PM_NOTIFICATION_TYPE_READ, PRIORITY_DETERMINE, QPK1_CATALOG_READ, QPK1_CODE_TEXT_READ).
 - 2026-09-23 · chain batch 8 written (QPK1_CODEGROUP_READ, RESERVATION_READ, SCHEDULING_HISTORY_READ, SERIAL_NUMBER_CREATE, SERNR_ADD_TO_DOCUMENT, STATUS_CHANGE_EXTERN).
+- 2026-09-23 · chain batch 9 written (STATUS_OBJECT_CREATE, STATUS_PROFILE_READ, STATUS_TEXT_READ, STATUS_USER_CHANGE, STRUCTURE_INDICATOR_READ, T352_READ).
