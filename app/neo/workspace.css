@@ -481,6 +481,9 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-ch-s b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
 .nw-ch-go { display: flex; gap: var(--sp-4); flex-wrap: wrap; margin-block-start: var(--sp-2); }
+/* a collapsed chapter's lead, outside its <summary>: the number is a spacer only */
+.nw-ch-h--lead > .nw-ch-n { visibility: hidden; block-size: 0; overflow: hidden; }
+.nw-ch-h--lead > .nw-ch-go { margin-block-start: 0; }
 .nw-ch-body { display: grid; gap: var(--sp-8); align-content: start; }
 .nw-ch-body > * { min-inline-size: 0; }
 
@@ -1338,6 +1341,7 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-ch-body { gap: var(--sp-6); }
   .nw-ch-h { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
   .nw-ch-n { grid-row: auto; font-size: 2rem; }
+  .nw-ch-h--lead > .nw-ch-n { display: none; }
   .nw-ch-s { font-size: var(--t-body); }
   .nw-ch-go { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
   .nw-ch-go > .nu-btn, .nw-ch-go > .nu-btn2 { inline-size: 100%; }

@@ -150,7 +150,7 @@ export function S4Catalog({ objs }: { objs: S4ObjView[] }) {
                             <span className="ns4-abap-k nx-sap" dir="ltr">{a.k}</span>
                             <span className="ns4-abap-b">
                               <span>{a.note}</span>
-                              {a.code ? <code className="ns4-code" dir="ltr">{a.code}</code> : null}
+                              {a.code ? <code className="ns4-code" dir="ltr" tabIndex={0}>{a.code}</code> : null}
                             </span>
                           </li>
                         ))}

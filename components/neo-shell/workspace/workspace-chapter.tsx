@@ -114,7 +114,9 @@ export function Chapter({
             outer one is the mask the line rises out of. */}
         <h2 className="nw-ch-t nm-kin" id={`${meta.id}-h`}><span><span>{meta.title}</span></span></h2>
         <p className="nw-ch-s nm-rise">{lede}</p>
-        {lead ? <p className="nw-ch-go nm-rise">{lead}</p> : null}
+        {/* A collapsed chapter's header is a <summary>, i.e. a button: its lead is
+            rendered after the <details> instead, so no link sits inside a button. */}
+        {lead && !meta.collapsed ? <p className="nw-ch-go nm-rise">{lead}</p> : null}
         {meta.collapsed ? (
           <span className="nw-ch-toggle" aria-hidden="true">{open ? "צמצום הפרק" : "הצגת הפרק"}</span>
         ) : null}
@@ -130,10 +132,20 @@ export function Chapter({
       data-collapsed={meta.collapsed ? (open ? "open" : "closed") : undefined}
     >
       {meta.collapsed ? (
+        <>
         <details className="nw-ch-d" open={open} onToggle={(e) => setOpen((e.currentTarget as HTMLDetailsElement).open)}>
           <summary className="nw-ch-sum">{header}</summary>
           <div className="nw-ch-body">{children}</div>
         </details>
+        {/* Same grid as the header, with an invisible copy of the number, so the
+            lead lines up with the header's text column at every width. */}
+        {lead ? (
+          <div className="nw-ch-h nw-ch-h--lead">
+            <span className="nw-ch-n" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
+            <p className="nw-ch-go">{lead}</p>
+          </div>
+        ) : null}
+        </>
       ) : (
         <>
           {header}

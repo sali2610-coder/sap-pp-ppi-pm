@@ -967,6 +967,8 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* on the current row's tint ink-3 measured 4.11:1 in the dark theme (axe) */
+.nr-rtoc [data-now="1"] .nr-rtoc-sid, button[data-now="1"] > .nr-rtoc-sid { color: var(--ink-2); }
 .nr-rtoc-st {
   flex: 1 1 auto;
   min-inline-size: 0;

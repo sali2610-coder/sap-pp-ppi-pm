@@ -93,6 +93,11 @@
 .ns4-h2 { margin: 0; font-size: 1.18rem; font-weight: 700; letter-spacing: -.015em; }
 .ns4-sec-s { margin: .25rem 0 0; font-size: .84rem; line-height: 1.6; color: var(--ink-3); max-inline-size: 72ch; }
 .ns4-sec-b { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+/* Every list here that is a grid takes a shrinkable track unless its own rule
+   sets columns (zero specificity, so any class rule wins): an implicit track
+   took the widest item's min-content and cut the Migration Cockpit steps at a
+   320px desktop window (400% zoom). */
+:where(.ns4) :where(ul, ol) { grid-template-columns: minmax(0, 1fr); }
 
 .ns4-h3 {
   display: flex; align-items: center; gap: .45rem; margin: 0 0 .6rem;
@@ -363,7 +368,7 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 
 .ns4-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
 .ns4-steps li { display: flex; gap: .6rem; align-items: flex-start; }
-.ns4-steps li > span:last-child { display: grid; gap: 1px; }
+.ns4-steps li > span:last-child { display: grid; gap: 1px; min-inline-size: 0; overflow-wrap: anywhere; }
 .ns4-steps li b { font-size: .87rem; color: var(--ink-1); font-weight: 600; }
 .ns4-steps li em { font-style: normal; font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
 .ns4-step-n {

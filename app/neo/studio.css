@@ -95,6 +95,9 @@
   background: var(--surface-2); color: var(--ink-2); font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer;
   transition: background .16s ease, color .16s ease, border-color .16s ease; }
 .nst-mod[data-on="1"] { background: var(--brand); border-color: transparent; color: #fff; }
+/* dark theme: --brand is a light coral there, white on it measured 3.05:1, ink on it passes */
+html[data-theme="dark"] .nst-mod[data-on="1"] { color: #1a0f0e; }
+html[data-theme="dark"] .nst-mode[data-on="1"] { color: var(--ink-1); }
 
 .nst-modes, .nst-zones { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .nst-mode, .nst-zone {
@@ -105,7 +108,7 @@
 }
 .nst-mode:hover, .nst-zone:hover { background: var(--surface-2); color: var(--ink-1); }
 /* Selected is a fill. */
-.nst-mode[data-on="1"] { background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand); font-weight: 700;
+.nst-mode[data-on="1"] { background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand-dark); font-weight: 700;
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand) 30%, transparent); }
 .nst-zone i { inline-size: 9px; block-size: 9px; border-radius: 2px; flex: none; opacity: .45; transition: opacity .15s ease; }
 .nst-zone[data-on="1"] { background: var(--surface-2); color: var(--ink-1); font-weight: 600; }

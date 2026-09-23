@@ -315,7 +315,7 @@
 
 /* A module VALUE inside a chip: ring + tint + leading line. */
 .nx-app .nxd-mod {
-  color: var(--m);
+  color: color-mix(in srgb, var(--m) 80%, var(--ink-1)); /* axe: pure --m on its own 10% tint measured 4.31-4.38 for PP and PM */
   background: color-mix(in srgb, var(--m) 10%, transparent);
   border-color: color-mix(in srgb, var(--m) var(--nxd-ring), transparent);
 }
@@ -324,7 +324,7 @@
   background: var(--m);
 }
 .nx-app .nxd-mod em {
-  font-style: normal; font-weight: 600; color: var(--ink-3);
+  font-style: normal; font-weight: 600; color: var(--ink-2); /* ink-3 on the module tint: 4.39:1 (axe) */
   padding-inline-start: 3px;
 }
 .nx-app .nxd-mod:empty { display: none; }
@@ -649,7 +649,7 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
 }
 /* A module VALUE inside a chip: ring + tint + leading line, same as the list. */
 .nx-app .nxt-mod {
-  color: var(--m);
+  color: color-mix(in srgb, var(--m) 80%, var(--ink-1)); /* axe: pure --m on its own 10% tint measured 4.31-4.38 for PP and PM */
   background: color-mix(in srgb, var(--m) 10%, transparent);
   border-color: color-mix(in srgb, var(--m) 26%, transparent);
 }

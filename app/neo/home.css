@@ -186,7 +186,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nh-index-l { font-weight: 700; }
 /* The number is secondary now, and it says so. */
-.nh-index-n { opacity: .5; font-size: .72em; font-variant-numeric: tabular-nums; }
+.nh-index-n { color: var(--ink-3); font-size: .8em; font-variant-numeric: tabular-nums; } /* was opacity .5 at .72em: 2.52:1 at 8.6px (axe) */
 /* The subject line only has room on a wide bar. */
 .nh-index-f { display: none; }
 @container (min-width: 62rem) {

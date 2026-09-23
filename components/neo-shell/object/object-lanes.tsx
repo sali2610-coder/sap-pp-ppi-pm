@@ -257,7 +257,7 @@ export function ObjectLanes({ name }: { name: string }) {
         <svg
           viewBox={`0 0 ${VW} ${H}`}
           width="100%"
-          role="img"
+          role="group" /* not "img": the nodes inside are focusable controls (axe nested-interactive) */
           aria-label={`תרשים קשרי ${g.center.tableName}: ${g.upstream.length} טבלאות במעלה הזרם, ${g.downstream.length} במורד הזרם`}
           style={{ minWidth: 620 }}
           onMouseLeave={() => setHot(null)}

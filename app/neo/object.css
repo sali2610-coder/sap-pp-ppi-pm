@@ -589,6 +589,8 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   overflow-x: auto;
   white-space: pre;
 }
+/* a phone wraps the join instead of scrolling it: a scroller that cannot take focus is unreachable by keyboard (axe) */
+@media (max-width: 720px) { .no-join { white-space: pre-wrap; overflow-wrap: anywhere; overflow-x: visible; } }
 
 .no-dangle { display: grid; gap: var(--sp-3); }
 .no-dangle-l { display: grid; gap: var(--sp-2); }
