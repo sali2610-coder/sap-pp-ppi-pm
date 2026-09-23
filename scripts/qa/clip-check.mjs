@@ -8,14 +8,15 @@
 // keyboard sweep found no off-screen focus there). Routes default to the
 // ux-measure.mjs list, read from that file so the two can never drift, and are
 // never passed through a shell variable.
-//   NEO_BASE=http://localhost:4195 OUT=<json> VW=320 UA=phone node scripts/qa/clip-check.mjs [route ...]
+//   NEO_BASE=http://localhost:4195 OUT=<json> VW=320 UA=phone [ROUTES_FILE=<one route per line>] node scripts/qa/clip-check.mjs [route ...]
 import { createRequire } from "node:module";
 import { readFileSync, writeFileSync } from "node:fs";
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright-core");
 const BASE = process.env.NEO_BASE || "http://localhost:4195", OUT = process.env.OUT;
 const VW = Number(process.env.VW || 1363);
-const ROUTES = process.argv.length > 2 ? process.argv.slice(2)
+const ROUTES = process.env.ROUTES_FILE ? readFileSync(process.env.ROUTES_FILE, "utf8").split("\n").map((l) => l.trim()).filter(Boolean).map((r) => r.split("/").map(encodeURIComponent).join("/"))
+  : process.argv.length > 2 ? process.argv.slice(2)
   : [...readFileSync(new URL("./ux-measure.mjs", import.meta.url), "utf8").matchAll(/"(\/neo\/[^"]*)"/g)].map((m) => m[1]);
 const PHONE_UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
 const b = await chromium.launch({ executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", headless: true });

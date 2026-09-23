@@ -66,13 +66,16 @@
   color: var(--ink-3);
 }
 
-.nev-srcwrap { display: grid; gap: 0.35rem; }
+.nev-srcwrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.35rem; }
 
 .nev-src {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
+  /* shrinkable, and titles break long tokens: a source titled with
+     SAP_S4HANA_ON-PREMISE overran the plate at 320px */
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.35rem;
 }
 .nev-src li {
@@ -86,6 +89,7 @@
   line-height: 1.5;
 }
 .nev-t { color: var(--ink-1); font-weight: 600; }
+.nev-t, .nev-a { min-inline-size: 0; overflow-wrap: anywhere; }
 .nev-a {
   color: var(--m, var(--brand));
   font-weight: 650;

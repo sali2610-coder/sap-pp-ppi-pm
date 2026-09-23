@@ -695,10 +695,13 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
 }
 [dir="ltr"] .nx-app .nxt-s4[data-impacted="1"] { box-shadow: var(--elev-2), inset -4px 0 0 0 var(--brand); }
 
-.nx-app .nxt-s4-top { display: grid; gap: var(--sp-2); }
+.nx-app .nxt-s4-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
 .nx-app .nxt-s4-h {
   font-size: clamp(1.6rem, 1.25rem + 1.15vw, 2.2rem); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
   font-weight: 750; color: var(--ink-1); margin: 0;
+  /* the verdict can carry a service name (API_MAINTENANCENOTIFICATION) at h1
+     scale; it breaks rather than overrunning the plate at 320px */
+  overflow-wrap: anywhere;
 }
 .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: var(--brand-dark); }
 html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: var(--ink-1); }
