@@ -23,6 +23,16 @@ const DATE_TBL_15 = "2026-09-15"; // data/verification/tables.ts, table:COBRA / 
 const DATE_FM_14 = "2026-09-14"; // data/verification/functions.ts DATE14 (fm:BAPI_GOODSMVT_CREATE)
 const DATE_FM_22 = "2026-09-22"; // data/verification/functions.ts DATE22 (fm:BAPI_RESERVATION_CREATE1)
 
+/* 2026-09-23: two more cross processes follow the first three, sales demand
+   handed from SD to PP/PP-PI and procure-to-pay for a maintenance order.
+   Stricter sourcing for these two: every repository evidence entry names ONE
+   record (path#key) and its claim condenses that record only. Official
+   entries are copied verbatim (url and claim) from the verification layer
+   and keep its accessedAt: DATE_FM_22 for the fm:BAPI_PR_CREATE and
+   fm:BAPI_REQUISITION_GETDETAIL pages, DATE_TBL_15 for the table:EBAN page
+   (tables.ts DATE4, the same day). */
+const DATE23 = "2026-09-23";
+
 export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
   /* ============================================================== settlement */
   {
@@ -1260,5 +1270,1129 @@ export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
       "bp:goods-movement-process). הטרנזקציות MB21 עד MB26, ‏CO27 ו-MF60 אינן נושאות רשומת אימות רשמית. רשומות " +
       "המאגר חלוקות בשמות הפרמטרים של BAPI_RESERVATION_CREATE1, ורשומת RESERVATION_READ מסומנת inferred. סנכרון " +
       "Zetes מוזכר ב-blueprint בלי פירוט. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* ================================================== sales demand to production */
+  {
+    slug: "sales-demand-to-production",
+    he: "מביקוש מכירות לייצור: הזמנת לקוח, בדיקת זמינות, אסטרטגיית תכנון וצריכת תחזית עד פקודת הייצור",
+    en: "Sales demand to production: sales order, availability check, planning strategy and forecast consumption up to the order",
+    module: "Cross",
+    summary:
+      "הזמנת לקוח ב-SD היא ביקוש, ואסטרטגיית התכנון של החומר קובעת מה נעשה בו: בייצור-למלאי ההזמנה נמשכת מהמלאי " +
+      "או צורכת את התחזית (PIR), ובייצור-להזמנה היא עצמה מניעה את הייצור. בדיקת הזמינות בהזמנה, צריכת התחזית וריצת " +
+      "ה-MRP הן נקודות המסירה שבהן הביקוש עובר מ-SD ל-PP ול-PP-PI, עד הזמנה מתוכננת ופקודת ייצור או תהליך.",
+    context:
+      "לפי מפות התהליך של המאגר, בצד SD הזמנת הלקוח נקלטת ב-VA01 (טבלאות VBAK ו-VBAP) ועוברת בדיקת זמינות (CO09, טבלת " +
+      "VBBE); בצד הייצור הביקוש המתוכנן נקלט כ-PIR ב-MD61 וב-MD62 בגרסה 00, ה-MRP (MD01N, ‏MD04) יוצר הזמנות מתוכננות, " +
+      "והן מומרות לפקודת ייצור או תהליך (CO01, ‏COR1). לפי רשומת התחום, אסטרטגיית התכנון נקבעת ב-Strategy Group בנתוני " +
+      "MRP3 של החומר ומבוססת על Requirements Types, וטבלת האסטרטגיות של מרכז ה-MRP מונה את 10, ‏11, ‏20, ‏40, ‏50 ו-70. " +
+      "לפי רשומות המאגר האסטרטגיות זהות ב-ECC וב-S/4HANA, והשינוי הוא בבדיקת הזמינות: לפי נושא המעבר, ב-S/4HANA פועלת " +
+      "בדיקת זמינות מתקדמת (aATP) עם Back-Order Processing, ‏Product Allocation ו-Release for Delivery.",
+    steps: [
+      {
+        he: "לקבוע לכל חומר את אסטרטגיית התכנון: Strategy Group בנתוני MRP3 של החומר (MM02). לפי רשומת פירוט התחום בחירה נכונה מאזנת זמינות מלאי מול הון חוזר, ואסטרטגיה שאינה תואמת את דפוס הביקוש מובילה למלאי-יתר.",
+        xrefs: ["tx:MM02", "table:MARC"],
+      },
+      {
+        he: "לבחור מסלול לפי טבלת האסטרטגיות של מרכז ה-MRP: 10 ייצור-למלאי נטו לפי PIR, שבו הזמנות הלקוח נמשכות מהמלאי ואינן יוצרות דרישה נוספת; 40 תחזית והזמנות לקוח, שבו ההזמנות צורכות את התחזית; 20 ייצור-להזמנה טהור בלי תחזית, שבו המלאי והעלות נשמרים לפי ההזמנה. הטבלה מונה גם 11 (ייצור-למלאי ברוטו), ‏50 (תכנון בלי הרכבה סופית) ו-70 (תכנון ברמת הרכבה).",
+      },
+      {
+        he: "לוודא שסוג הדרישה (Requirements Type) תואם לאסטרטגיה: לפי רשומת MD61 הוא נגזר ממנה (LSF לאסטרטגיה 10, ‏VSF ל-40), וטבלת האסטרטגיות נותנת גם BSF ל-11, ‏KE ל-20, ‏VSE ל-50 ו-VSEB ל-70. רשומת התחום מונה התאמה של סוג הדרישה בין הבדיקות לכפל ביקוש של תחזית ומכירות.",
+        xrefs: ["tx:MD61"],
+      },
+      {
+        he: "בייצור-למלאי להזין את התחזית כ-PIR ב-MD61 ולעדכן אותה ב-MD62, בגרסת הדרישות הפעילה 00: לפי רשומת MD61 גרסה שאינה פעילה אינה נלקחת ב-MRP.",
+        xrefs: ["tx:MD61", "tx:MD62"],
+      },
+      {
+        he: "להגדיר צריכה (Consumption Mode ו-Consumption Periods) בנתוני MRP3 כך שהזמנות הלקוח יקזזו את התחזית: לפי רשומות המאגר אסטרטגיה 40 בלי צריכה מביאה לכפל ביקוש, ותחזית שאינה נצרכת נבדקת ב-Strategy Group ובהגדרות הצריכה.",
+      },
+      {
+        he: "לקלוט את הזמנת הלקוח ב-VA01 (שינוי ב-VA02, תצוגה ב-VA03): לפי רשומת VA01 ההזמנה מפעילה בדיקת זמינות (ATP), והרשומה מונה בין הטעויות הזנת תאריך אספקה לא ריאלי בלי בדיקת ATP.",
+        xrefs: ["tx:VA01", "tx:VA02", "tx:VA03", "table:VBAK", "table:VBAP"],
+      },
+      {
+        he: "לנתח את הזמינות ב-CO09: לפי רשומתה הכמות הזמינה המצטברת נגזרת מ-checking group, מ-checking rule ומ-scope of check (OPJJ), וזה המקום לברר מדוע הזמנה קיבלה או לא קיבלה אישור זמינות. ה-checking group יושב בנתוני החומר במפעל (MTVFP ב-MARC).",
+        xrefs: ["tx:CO09", "table:MARC"],
+      },
+      {
+        he: "לבדוק ב-MD04 שהביקוש הגיע לתכנון: לפי רשומת MD04 היא מציגה בזמן אמת את כל הביקושים וההיצעים של החומר, וה-Pegging מראה את מקור הדרישה, למשל איזו הזמנת לקוח גורמת לחוסר. את צריכת התחזית מול הדרישות מציגה MD62, לפי רשומתה.",
+        xrefs: ["tx:MD04", "tx:MD62"],
+      },
+      {
+        he: "להריץ MRP ב-MD01N ולהעריך ב-MD04: לפי מרכז ה-MRP הזמנות לקוח הן מקור דרישה לצד PIR, דרישות תלויות ומלאי בטחון, והתוצר הוא הזמנה מתוכננת או דרישת רכש. פירוט הריצה ברשומה bp:mrp-process.",
+        xrefs: ["tx:MD01N", "tx:MD04", "bp:mrp-process"],
+      },
+      {
+        he: "להמיר את ההזמנה המתוכננת לפקודה: בייצור בדיד פקודת ייצור (לפי רשומת CO01 ברוב הסביבות מהזמנה מתוכננת ב-MD04, ‏CO40 או CO41 ולא ידנית), ובייצור תהליכי פקודת תהליך (COR1, והמרה ב-COR8 לפי רשומת התחום). ההמרה דורשת גרסת ייצור תקפה (MKAL).",
+        xrefs: ["tx:CO01", "tx:CO40", "tx:CO41", "tx:COR1", "tx:COR8", "table:MKAL", "bp:production-order-process", "bp:process-order-process"],
+      },
+      {
+        he: "לפני השחרור לבדוק את זמינות הרכיבים: לפי תקרית aatp-shortage-release, שחרור פקודת תהליך נחסם ב-aATP בחוסר זמינות רכיב, והניתוח ב-CO09, ‏MD04 ו-COR2.",
+        xrefs: ["tx:CO09", "tx:MD04", "tx:COR2"],
+      },
+      {
+        he: "לנקות תקופתית PIR ישנות ב-MD74 או ב-MD75: לפי רשומות ה-PIR של המאגר הן מצטברות, ו-MD74 מנקה PIR שנצרכו או שפג תוקפן.",
+        xrefs: ["tx:MD74", "tx:MD75"],
+      },
+    ],
+    antiPatterns: [
+      "אסטרטגיה 40 בלי Consumption Mode ו-Consumption Periods: התחזית והזמנות הלקוח נספרות יחד ונוצר כפל ביקוש.",
+      "Requirements Type שאינו תואם את אסטרטגיית התכנון: רשומת MD61 מונה זאת בין השגיאות הנפוצות.",
+      "הזנת PIR לגרסת דרישות שאינה פעילה: MRP מתעלם מהתחזית.",
+      "אסטרטגיה שאינה תואמת את דפוס הביקוש: מלאי-יתר או חוסר.",
+      "הזנת תאריך אספקה לא ריאלי בהזמנה בלי בדיקת ATP.",
+      "פרשנות שגויה של scope of check, או בלבול בין כמות ATP לכמות מלאי פיזי.",
+      "יצירת פקודת ייצור ידנית למרות שקיימת הזמנה מתוכננת: לפי רשומת CO01 זה יוצר ביקוש כפול.",
+      "תחזית שאינה נצרכת ואינה מנוטרת: לפי רשומת MD62 זה המקור הנפוץ לייצור עודף.",
+    ],
+    checks: [
+      "חיובי: אסטרטגיה 10, ‏PIR בגרסה 00 מניעה ייצור-למלאי דרך ה-MRP.",
+      "חיובי: אסטרטגיה 20, הזמנת הלקוח מניעה ייצור-להזמנה.",
+      "אינטגרציה: באסטרטגיה 40 הזמנת הלקוח צורכת את ה-PIR.",
+      "שלילי: אסטרטגיה 40 בלי צריכה מייצרת כפל ביקוש, ו-PIR בגרסה שאינה פעילה אינה נלקחת ב-MRP.",
+      "אימות: סוג הדרישה תואם לאסטרטגיה.",
+      "זמינות: ההזמנה עוברת בדיקת ATP; תרחיש הבדיקה של שלב הזמינות במפת התהליך הוא aATP/BOP והקצאה.",
+      "תכנון: MRP יוצר הזמנות מתוכננות, וההמרה והשחרור עוברים עם גרסת ייצור תקפה.",
+      "רגרסיה: MD74 מנקה PIR שנצרכו או שפג תוקפן.",
+      "לאחר המרה: אסטרטגיה, צריכה ו-ATP.",
+    ],
+    process: {
+      purpose:
+        "להעביר את ביקוש המכירות מ-SD לתכנון ולביצוע ב-PP וב-PP-PI: אסטרטגיית התכנון קובעת אם הזמנת הלקוח נמשכת " +
+        "מהמלאי, צורכת תחזית או מניעה ייצור, ובדיקת הזמינות, צריכת התחזית וה-MRP מתרגמות אותה להזמנות מתוכננות " +
+        "ולפקודות, כך שזמינות המלאי מאוזנת מול ההון החוזר.",
+      trigger: [
+        { he: "הזמנת לקוח חדשה או שינוי בה (VA01, ‏VA02).", xrefs: ["tx:VA01", "tx:VA02"] },
+        { he: "תחזית מכירות שנקלטת כ-PIR ב-MD61 או מתעדכנת ב-MD62.", xrefs: ["tx:MD61", "tx:MD62"] },
+        { he: "ריצת MRP שקולטת את הביקוש החדש.", xrefs: ["tx:MD01N"] },
+      ],
+      preconditions: [
+        { he: "Strategy Group ו-Consumption Mode/Periods מוגדרים בנתוני MRP3 של החומר.", xrefs: ["tx:MM02"] },
+        { he: "Customizing של האסטרטגיות לפי רשומת ההגדרות: SPRO > Production > Production Planning > Demand Management > Planned Independent Requirements > Planning Strategy, בטבלאות T459K, ‏T461 ו-T459P; רשומת התחום נוקבת גם ב-OPPS." },
+        { he: "checking group לבדיקת הזמינות בחומר (MTVFP ב-MARC), ו-checking rule ו-scope of check מוגדרים (OPJJ לפי רשומת CO09).", xrefs: ["table:MARC", "tx:CO09"] },
+        { he: "PIR בגרסת הדרישות הפעילה 00 ובתוך אופק התכנון.", xrefs: ["tx:MD61"] },
+        { he: "גרסת ייצור תקפה (MKAL) לחומר המיוצר, כתנאי להמרת ההזמנה המתוכננת לפקודה.", xrefs: ["table:MKAL"] },
+        { he: "לקוח כ-Business Partner: לפי נושא המעבר ב-S/4HANA הלקוח הוא תפקיד של BP ו-CVI חובה, ו-VBAK מתועדת ב-S/4HANA עם Business Partner ללקוחות.", xrefs: ["table:VBAK"] },
+      ],
+      masterData: [
+        { he: "נתוני החומר במפעל: סוג MRP, ‏checking group ל-ATP ואסטרטגיית תכנון, לפי העשרת MARC.", xrefs: ["table:MARC", "tx:MM02"] },
+        { he: "Requirements Type ו-Consumption Mode/Periods: רשומת פירוט התחום מונה LSF, ‏VSF, ‏KSV ו-KEV, ורשומת ההגדרות מונה LSF, ‏VSF ו-KE." },
+        { he: "PIR: רשומת התחום נוקבת ב-PBIM, ‏PBED ו-PBHI, שאינן במילון הפרויקט ולכן מופיעות בפרוזה בלבד.", xrefs: ["tx:MD61"] },
+        { he: "הזמנת הלקוח: VBAK כותרת מסמך המכירה (לקוח, ארגון מכירות, תנאים) ו-VBAP פריט המסמך (חומר, כמות, מחיר, מפעל, תנאי אספקה).", xrefs: ["table:VBAK", "table:VBAP"] },
+        { he: "גרסת ייצור לחומר המיוצר.", xrefs: ["table:MKAL"] },
+      ],
+      roles: [
+        { he: "נציג שירות לקוחות, פקיד מכירות ו-Order Management: קליטת ההזמנה ב-VA01, לפי רשומתה.", xrefs: ["tx:VA01"] },
+        { he: "מתכנן ביקוש ומתכנן ייצור: הזנת PIR ועדכונן ב-MD61 וב-MD62, לפי רשומותיהן.", xrefs: ["tx:MD61", "tx:MD62"] },
+        { he: "מתכנן ייצור, מתכנן חומרים ויועץ PP/SD: ניתוח ה-ATP ב-CO09, לפי רשומתה.", xrefs: ["tx:CO09"] },
+        { he: "מתכנן ייצור, מתכנן חומרים ומתכנן ביקוש: רשימת המלאי והדרישות ב-MD04, לפי רשומתה.", xrefs: ["tx:MD04"] },
+      ],
+      transactions: [
+        { he: "הזמנת לקוח: VA01 יצירה, ‏VA02 שינוי, ‏VA03 תצוגה.", xrefs: ["tx:VA01", "tx:VA02", "tx:VA03"] },
+        { he: "זמינות: CO09 סקירת ATP.", xrefs: ["tx:CO09"] },
+        { he: "PIR: MD61 יצירה ו-MD62 שינוי; רשומת התחום מונה גם MD63 ו-MD73, ו-MD74 ו-MD75 לארגון מחדש של PIR ישנות.", xrefs: ["tx:MD61", "tx:MD62", "tx:MD63", "tx:MD73", "tx:MD74", "tx:MD75"] },
+        { he: "אסטרטגיה בחומר: MM02 (נתוני MRP3); OPPS לפי רשומת התחום, אינה במילון הפרויקט.", xrefs: ["tx:MM02"] },
+        { he: "תכנון והמרה: MD01N ו-MD04; פקודת ייצור ב-CO01 או המרה ב-CO40 וב-CO41; פקודת תהליך ב-COR1 או המרה ב-COR8.", xrefs: ["tx:MD01N", "tx:MD04", "tx:CO01", "tx:CO40", "tx:CO41", "tx:COR1", "tx:COR8"] },
+        { he: "Fiori לפי מפות התהליך: Manage Sales Orders, ‏Release for Delivery (aATP), ‏Manage PIRs ו-Monitor Material Coverage; רשומת MD04 מפנה ל-MRP Cockpit (F0247A, ‏F0251). רשומת VA01 נוקבת ב-Create Sales Orders (F0018), שאינו בקטלוג הפרויקט ולכן אינו מקושר.", xrefs: ["fiori:F0247A", "fiori:F0251"] },
+      ],
+      tables: [
+        { he: "VBAK ו-VBAP מסמך המכירה: כותרת ופריטים.", xrefs: ["table:VBAK", "table:VBAP"] },
+        { he: "MARC נתוני החומר במפעל, ובהם checking group ל-ATP (MTVFP) ואסטרטגיית התכנון.", xrefs: ["table:MARC"] },
+        { he: "AUFK, ‏AFKO ו-AFPO של הפקודה שנוצרת, ו-MKAL גרסאות הייצור.", xrefs: ["table:AUFK", "table:AFKO", "table:AFPO", "table:MKAL"] },
+        { he: "טבלאות שרשומות המאגר נוקבות בהן ואינן במילון הפרויקט, ולכן מופיעות בפרוזה בלבד: VBBE בשלב ה-ATP, ‏PBIM ו-PBED של ה-PIR, ‏T459K ו-T461 של האסטרטגיות, ו-MDKP ו-PLAF של ה-MRP." },
+        { he: "האובייקטים העסקיים הזמנה מתוכננת, פקודת ייצור ופקודת תהליך.", xrefs: ["obj:planned-order", "obj:production-order", "obj:process-order"] },
+      ],
+      integrationPoints: [
+        { he: "SD אל PP: לפי מרכז ה-MRP הזמנת הלקוח היא מקור דרישה ל-MRP לצד PIR, דרישות תלויות ומלאי בטחון.", xrefs: ["tx:VA01", "tx:MD01N"] },
+        { he: "ממשקי שלב ההזמנה לפי מפת התהליך: IDoc מסוג ORDERS ו-API_SALES_ORDER; ה-BAPI לפי רשומת VA01: BAPI_SALESORDER_CREATEFROMDAT2. אינם במילון הפרויקט ולכן אינם מקושרים." },
+        { he: "ATP: לפי רשומת CO09 הבדיקה נשענת על checking group בחומר; לפי נושא המעבר aATP משפיע על שחרור פקודות ועל אספקה.", xrefs: ["tx:CO09", "table:MARC"] },
+        { he: "PP אל ביצוע: ההזמנה המתוכננת מומרת לפקודת ייצור או תהליך; ממשקי הפקודה לפי מפת התהליך הם API_PROCESS_ORDER_2_SRV ו-IDoc מסוג LOIPRO.", xrefs: ["idoc:msg:LOIPRO", "bp:production-order-process", "bp:process-order-process", "bp:plan-to-produce-discrete", "bp:process-industries-plan-to-produce"] },
+        { he: "ממשק תוכניתי ל-PIR לפי רשומת התחום: BAPI_REQUIREMENTS_CREATE ו-BAPI_REQUIREMENTS_GETDETAIL, שאינם במילון הפרויקט; רשומת פירוט האסטרטגיות נוקבת ב-MARC_SINGLE_READ.", xrefs: ["fm:MARC_SINGLE_READ"] },
+        { he: "הרחבות: M61X0001 ו-MABP0001 ברשימת ה-Exits של רשומת פירוט ה-PIR, ו-ATP_CUST_EX ברשימת ה-BAdIs של רשומת פירוט האסטרטגיות; רק M61X0001 במילון הפרויקט.", xrefs: ["enh:exit:M61X0001"] },
+      ],
+      outputs: [
+        { he: "הזמנת לקוח עם תוצאת בדיקת זמינות.", xrefs: ["tx:VA01", "tx:CO09"] },
+        { he: "PIR פעילה בגרסה 00, שנצרכת מול הזמנות הלקוח לפי האסטרטגיה.", xrefs: ["tx:MD61"] },
+        { he: "הזמנות מתוכננות ודרישות רכש מריצת ה-MRP, ופקודת ייצור או תהליך אחרי ההמרה.", xrefs: ["obj:planned-order", "obj:production-order", "obj:process-order"] },
+      ],
+      exceptions: [
+        { he: "כפל ביקוש של תחזית ומכירות: Requirements Type או צריכה שאינם תואמים לאסטרטגיה.", xrefs: ["tx:MD61"] },
+        { he: "התחזית אינה נצרכת: Consumption Mode או Consumption Periods.", xrefs: ["tx:MD62"] },
+        { he: "MRP מתעלם מה-PIR: גרסה שאינה 00 או אופק התכנון.", xrefs: ["tx:MD61"] },
+        { he: "מלאי-יתר: אסטרטגיה שאינה תואמת את דפוס הביקוש." },
+        { he: "בדיקת הזמינות: checking rule חסר, אין כמות ATP, או scope of check שאינו כולל את האלמנטים הנדרשים, לפי רשומת CO09.", xrefs: ["tx:CO09"] },
+        { he: "ההמרה לפקודה נכשלת בלי גרסת ייצור תקפה, ולפי רשומת התחום כפל דרישות נבדק באסטרטגיה ובצריכת ה-PIR; מפת התהליך מצמידה לשלב ה-MRP את התקריות mrp-no-planned-orders ו-no-production-version.", xrefs: ["table:MKAL", "tx:MD04"] },
+        { he: "שחרור פקודת תהליך נחסם ב-aATP: חוסר מלאי או כניסות לרכיב, ‏Checking Rule שגוי, ‏Product Allocation חוסם או אופק ATP (תקרית aatp-shortage-release).", xrefs: ["tx:CO09", "tx:COR2"] },
+      ],
+      controls: [
+        { he: "בדיקה שסוג הדרישה תואם לאסטרטגיה, כחלק מבדיקות ההגדרה לפי רשומת ההגדרות." },
+        { he: "ניטור שוטף של צריכת התחזית: לפי רשומת MD62, תחזית שלא נצרכת היא המקור הנפוץ לייצור עודף.", xrefs: ["tx:MD62"] },
+        { he: "ארגון מחדש תקופתי של PIR ישנות ב-MD74 וב-MD75.", xrefs: ["tx:MD74", "tx:MD75"] },
+        { he: "הבנת scope of check ובדיקת checking group בחומר, ושילוב CO09 עם MD04 לתמונה מלאה, לפי רשומת CO09.", xrefs: ["tx:CO09", "tx:MD04"] },
+        { he: "עבודה לפי Pegging ב-MD04 להבנת מקור הדרישה.", xrefs: ["tx:MD04"] },
+        { he: "המרה מהזמנה מתוכננת ולא יצירה ידנית, לשמירת הקישור ל-MRP, לפי רשומת CO01.", xrefs: ["tx:CO40", "tx:CO41"] },
+      ],
+      eccToS4: [
+        { he: "לפי רשומת פירוט התחום, אסטרטגיות התכנון (10, ‏11, ‏20, ‏40, ‏50, ‏70) זהות ב-ECC וב-S/4HANA, ו-aATP ו-Product Allocation משופרים ב-S/4HANA; רשומת ההגדרות מסכמת 'אסטרטגיות זהות' ו-'aATP/Allocation משופרים'." },
+        { he: "לפי נושא המעבר, ב-ECC בדיקת הזמינות היא ATP קלאסי (CO09) על בסיס ערכי ATP בטבלאות, וב-S/4HANA aATP על HANA עם Back-Order Processing, ‏Product Allocation ו-Release for Delivery; לפי רשומת CO09 היא זמינה ב-S/4HANA לצד aATP.", xrefs: ["tx:CO09"] },
+        { he: "PIR: לפי רשומת פירוט התחום מודל PBIM ו-PBED זהה והניהול גם ב-Fiori 'Manage PIRs'; MD61 זמינה ב-S/4HANA לפי רשומתה.", xrefs: ["tx:MD61"] },
+        { he: "הזמנת הלקוח: לפי רשומת VA01 היא זמינה ב-S/4HANA ונתמכת ב-SAP GUI לצד אפליקציית Fiori, ו-VBAK מתועדת ב-S/4HANA עם Business Partner ללקוחות.", xrefs: ["tx:VA01", "table:VBAK"] },
+        { he: "ריצת ה-MRP והמעבר שלה ל-S/4HANA מפורטים ברשומה bp:mrp-process.", xrefs: ["bp:mrp-process", "tx:MD01N"] },
+      ],
+      migration: [
+        { he: "לפי רשומת פירוט התחום T459K ו-T461 נשמרות; בדיקה לאחר המרה: אסטרטגיה, צריכה ו-Requirements Type, וגם ATP." },
+        { he: "לפי רשומת פירוט ה-PIR, ‏PBIM ו-PBED נשמרות; בדיקה לאחר המרה: צריכת תחזית וארגון מחדש.", xrefs: ["tx:MD74"] },
+        { he: "לפי נושא המעבר של aATP, תהליכי הקצאה ידניים מוחלפים ב-BOP ונדרשות הגדרות חדשות.", xrefs: ["tx:CO09"] },
+        { he: "לפי נושא המעבר של Business Partner, סנכרון CVI הוא צעד הכנה קריטי במיגרציה, והלקוח מנוהל כתפקיד של BP." },
+      ],
+      reference: null,
+    },
+    xrefs: [
+      "tx:VA01", "tx:VA02", "tx:VA03", "tx:CO09", "tx:MD61", "tx:MD62", "tx:MD63", "tx:MD73", "tx:MD74", "tx:MD75",
+      "tx:MM02", "tx:MD01N", "tx:MD04", "tx:CO01", "tx:CO40", "tx:CO41", "tx:COR1", "tx:COR8", "tx:COR2",
+      "table:VBAK", "table:VBAP", "table:MARC", "table:AUFK", "table:AFKO", "table:AFPO", "table:MKAL",
+      "fm:MARC_SINGLE_READ", "enh:exit:M61X0001", "idoc:msg:LOIPRO", "fiori:F0247A", "fiori:F0251",
+      "obj:planned-order", "obj:production-order", "obj:process-order",
+      "bp:mrp-process", "bp:production-order-process", "bp:process-order-process", "bp:plan-to-produce-discrete",
+      "bp:process-industries-plan-to-produce",
+    ],
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מפת התהליך 'הזמנה לגבייה (O2C)' של הפרויקט (PROCESS_MAPS): שלבי הזמנת הלקוח ובדיקת הזמינות",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "שלב 'הזמנת לקוח': VA01, ‏VA02, ‏VA03, טבלאות VBAK ו-VBAP, ‏Fiori 'Manage Sales Orders', ממשקים 'ORDERS IDoc' " +
+          "ו-'API_SALES_ORDER', ובדיקה 'הזמנה עם תמחור+ATP; חסימת אשראי'. שלב 'בדיקת זמינות (ATP)': CO09, טבלת VBBE, " +
+          "Fiori 'Release for Delivery (aATP)', תקרית aatp-shortage-release ובדיקה 'aATP/BOP; הקצאה'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/processes.ts#o2c",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מפת התהליך 'תכנון לייצור (Plan-to-Produce)' של הפרויקט (PROCESS_MAPS): שלבי הביקוש, ה-MRP והפקודה",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "שלב 'ניהול ביקוש (PIR)': MD61, ‏MD62, טבלאות PBIM ו-PBED, ‏Fiori 'Manage PIRs', תקרית mrp-no-planned-orders ובדיקה " +
+          "'PIR גרסה 00 מזין MRP'. שלב 'MRP': MD01N, ‏MD04, טבלאות MDKP ו-PLAF, ‏Fiori 'Monitor Material Coverage', תקריות " +
+          "mrp-no-planned-orders ו-no-production-version ובדיקה 'MRP יוצר הזמנות מתוכננות; גרסת ייצור'. שלב 'פקודת " +
+          "ייצור/תהליך': CO01, ‏COR1, טבלאות AUFK, ‏AFKO, ‏AFPO, ממשקים API_PROCESS_ORDER_2_SRV ו-'LOIPRO IDoc' ובדיקה " +
+          "'המרה+שחרור; מרשם בקרה ל-MES'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/processes.ts#plan-to-produce",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום 'אסטרטגיות תכנון' של הפרויקט (DOMAINS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "אסטרטגיית תכנון קובעת כיצד מתנהלים ביקוש והיצע: ייצור-למלאי (MTS) מול ייצור-להזמנה (MTO), שימוש בתחזית (PIR) " +
+          "וצריכתה; נקבעת בנתוני MRP3 של החומר (Strategy Group) ומבוססת על Requirements Types. זרימה: Strategy Group " +
+          "ב-MRP3, סוג דרישה (PIR או הזמנת לקוח), ‏MRP לפי אסטרטגיה, צריכת תחזית, ייצור MTS או MTO. טבלאות MARC, ‏T459K, " +
+          "T461, ‏VBBE; טרנזקציות MM02, ‏OPPS, ‏MD04, ‏MD61. לימוד: 10 MTS נטו לפי תחזית, ‏11 MTS ברוטו (ללא מלאי), ‏20 MTO " +
+          "טהור, ‏40 MTS עם תכנון סופי (תחזית והזמנות), ‏50 תכנון ללא הרכבה סופית, ‏70 תכנון ברמת הרכבה. תקלות: תחזית לא " +
+          "נצרכת, לבדוק Strategy Group ו-Consumption Mode/Periods ב-MRP3; כפל ביקוש (תחזית ומכירות), לוודא Requirements " +
+          "Type תואם לאסטרטגיה (LSF/VSF/KSV).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pppi-planning-strategies",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "פירוט התחום 'אסטרטגיות תכנון' של הפרויקט (DOMAIN_DETAIL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "מטרה: אסטרטגיית תכנון קובעת את ההתנהלות מול ביקוש (MTS או MTO, שימוש בתחזית וצריכתה), ובחירה נכונה מאזנת " +
+          "זמינות מלאי מול הון חוזר. נתוני אב: Strategy Group, ‏Requirements Type (LSF/VSF/KSV/KEV), ‏Consumption " +
+          "Mode/Periods, ‏Availability Check. פונקציה MARC_SINGLE_READ; BAdI ATP_CUST_EX (בדיקת זמינות). QA: אסטרטגיה 10, " +
+          "PIR מניע ייצור-למלאי; אסטרטגיה 20, הזמנת לקוח מניעה MTO; 40 ללא Consumption, כפל ביקוש; אסטרטגיה 50 תכנון " +
+          "ללא הרכבה סופית. תקלות: כפל ביקוש (Requirements Type או Consumption), תחזית לא נצרכת (Consumption " +
+          "Mode/Periods), מלאי-יתר (אסטרטגיה לא תואמת לדפוס ביקוש). תרחיש: מוצרי גמר סטנדרטיים באסטרטגיה 40 ומוצרים " +
+          "מותאמי-לקוח באסטרטגיה 20. הגירה: T459K ו-T461 נשמרות, ‏QA של אסטרטגיה, צריכה ו-Requirements Type. ECC מול S/4: " +
+          "אסטרטגיות זהות (10/11/20/40/50/70), ‏aATP ו-Product Allocation משופרים ב-S/4, ‏QA של אסטרטגיה, צריכה ו-ATP.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domain-detail.ts#pppi-planning-strategies",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום 'דרישות עצמאיות מתוכננות (PIR)' של הפרויקט (DOMAINS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "PIR הן תחזית הביקוש שמזינה את ה-MRP בייצור-למלאי, מנוהלות ב-MD61 וב-MD62 לפי גרסת דרישות ונצרכות מול הזמנות " +
+          "לקוח בפועל לפי אסטרטגיית התכנון. טבלאות PBIM, ‏PBED, ‏PBHI; טרנזקציות MD61, ‏MD62, ‏MD63, ‏MD73, ‏MD74; BAPIs " +
+          "BAPI_REQUIREMENTS_CREATE ו-BAPI_REQUIREMENTS_GETDETAIL. לימוד: גרסה 00 פעילה לתכנון; האסטרטגיה קובעת את " +
+          "הצריכה; MD74 ו-MD75 לארגון מחדש של PIR ישנות. תקלות: MRP לא רואה PIR, לוודא גרסת דרישות פעילה (00) ואופק " +
+          "תכנון; כפל דרישה, לבדוק אסטרטגיה וצריכה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pppi-pir",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "פירוט התחום 'דרישות עצמאיות מתוכננות (PIR)' של הפרויקט (DOMAIN_DETAIL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "נתוני אב: גרסת דרישות (00 פעילה), אסטרטגיית תכנון, ‏Consumption Mode/Periods, ‏Requirements Type. Exits M61X0001 " +
+          "ו-MABP0001 (תחזית). QA: PIR בגרסה 00 ו-MRP יוצר היצע; גרסה לא פעילה ו-MRP מתעלם; הזמנת לקוח צורכת PIR " +
+          "(אסטרטגיה 40); MD74 מנקה PIR שנצרכו או פגו. תקלות: MRP מתעלם מ-PIR (גרסה לא 00 או אופק), כפל ביקוש (צריכה לא " +
+          "מוגדרת), ‏PIR ישנות מצטברות (להריץ MD74/MD75). הגירה: PBIM ו-PBED נשמרים, ‏QA של צריכת תחזית וארגון מחדש. ECC " +
+          "מול S/4: מודל PBIM/PBED זהה, וניהול ב-Fiori 'Manage PIRs'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domain-detail.ts#pppi-pir",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "טבלת אסטרטגיות התכנון של מרכז ה-MRP של הפרויקט (PLANNING_STRATEGIES)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "10 ייצור-למלאי נטו (MTS): תכנון לפי PIR בלבד, הזמנות לקוח לא יוצרות דרישה נוספת (נמשכות מהמלאי), סוג דרישה LSF. " +
+          "11 ייצור-למלאי ברוטו: לפי PIR ברוטו ללא התחשבות במלאי, ‏BSF. 20 ייצור-להזמנה (MTO) טהור: ייצור רק נגד הזמנת " +
+          "לקוח, ללא תחזית, מלאי ועלות נשמרים לפי הזמנה, ‏KE. 40 MTS עם תכנון סופי: תחזית (PIR) והזמנות לקוח, ההזמנות " +
+          "צורכות את התחזית, ‏VSF. 50 תכנון ללא הרכבה סופית: רכיבים והרכבות מראש לפי תחזית וההרכבה הסופית רק נגד הזמנה, " +
+          "VSE. 70 תכנון ברמת הרכבה, ‏VSEB.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/mrp-center.ts#PLANNING_STRATEGIES",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז ה-MRP של הפרויקט (MRP_SECTIONS): הסעיף 'אסטרטגיות תכנון'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "אסטרטגיית התכנון (Strategy Group ב-MRP3) קובעת כיצד מתנהלים ביקוש והיצע, ‏MTS מול MTO, שימוש בתחזית וצריכתה; " +
+          "הבחירה משפיעה על Requirements Type, על קיזוז התחזית ועל מתי מתחיל הייצור. נקודות: Strategy Group ו-Requirements " +
+          "Type (LSF/VSF/KSV/KEV); Consumption Mode/Periods קובעים קיזוז בין תחזית למכירות; MTS ייצור למלאי לפי תחזית, ‏MTO " +
+          "ייצור נגד הזמנה. טבלאות MARC, ‏T459K, ‏T461; טרנזקציות MM02, ‏OPPS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/mrp-center.ts#strategies",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז ה-MRP של הפרויקט (MRP_SECTIONS): הסעיף 'יסודות MRP'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "MRP מתרגם ביקוש להיצע: דרישות נטו הן ביקוש פחות מלאי זמין פחות כניסות מתוכננות; מקור דרישה: PIR, הזמנות לקוח, " +
+          "דרישות תלויות (BOM), מלאי בטחון; תוצר: הזמנה מתוכננת (PLAF) או דרישת רכש (EBAN).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/mrp-center.ts#fundamentals",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת VA01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "VA01 יוצרת הזמנת מכירה (VBAK/VBAP) ומפעילה תמחור, בדיקת זמינות (ATP) ופיצול לאספקות; לא לעריכה (VA02) ולא " +
+          "לתצוגה (VA03). משתמשים: נציג שירות לקוחות, פקיד מכירות, ‏Order Management. טעות נפוצה: הזנת תאריך אספקה לא " +
+          "ריאלי ללא בדיקת ATP. BAPIs BAPI_SALESORDER_CREATEFROMDAT2 ו-BAPI_SALESDOCU_CREATEFROMDATA1, ובין הטרנזקציות הנלוות CO09. ב-S/4 " +
+          "זמינה ופעילה עם Fiori 'Create Sales Orders' (F0018) ו-Manage Sales Orders, ו-VA01 עדיין נתמכת ב-SAP GUI.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VA01",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת CO09",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "CO09 מציגה את מצב ה-ATP של חומר במפעל: הכמות הזמינה המצטברת נגזרת מ-checking group ו-checking rule ומ-scope of " +
+          "check (OPJJ), וקריטית להבנת מדוע הזמנה קיבלה או לא קיבלה אישור זמינות. משתמשים: מתכנן ייצור, מתכנן חומרים, " +
+          "יועץ PP/SD. שגיאות: Checking rule not maintained, ‏No ATP quantity, ‏Scope of check excludes required elements. " +
+          "טעויות: פרשנות שגויה של scope of check, בלבול בין ATP לכמות מלאי פיזי. המלצות: להבין את scope of check, לבדוק " +
+          "checking group בחומר (MRP3), לשלב עם MD04. ב-S/4 זמינה לצד aATP עם Product Availability Check ו-Backorder " +
+          "Processing.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CO09",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת MD61",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "MD61 יוצרת PIR (PBED/PBIM) לפי requirement type וגרסה, והן מתקזזות מול דרישות מכירה לפי planning strategy; " +
+          "ה-requirement type נגזר מה-planning strategy (לדוגמה LSF לאסטרטגיה 10, ‏VSF ל-40), והקיזוז לפי consumption " +
+          "mode/periods. משתמשים: מתכנן ביקוש, מתכנן ייצור, ‏Demand planner. שגיאות: requirement type לא תואם planning " +
+          "strategy, ‏PIR לא מקוזזות, ‏version לא אקטיבי. טעות: הזנת PIR ל-version לא פעיל; המלצה: active version (00); " +
+          "טיפ: גרסה לא פעילה לא נלקחת ב-MRP. ב-S/4 זמינה, ‏PBIM/PBED ללא שינוי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MD61",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת MD62",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "MD62 משנה PIR קיימות ומאפשרת צפייה בצריכה (consumption) מול הדרישות; משתמשים: מתכנן ביקוש, מתכנן ייצור. טיפ: " +
+          "לנטר צריכת תחזית שוטפת, כי תחזית שלא נצרכת היא המקור הנפוץ לייצור עודף.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MD62",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת MD04",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "MD04 היא תצוגה דינמית בזמן אמת של כל הביקושים וההיצעים לחומר, עם Pegging ונקודת קפיצה לטרנזקציות ההמשך " +
+          "(CO40, ‏CO48, ‏ME21N). משתמשים: מתכנן ייצור, מתכנן חומרים, מתכנן ביקוש. המלצה: להשתמש ב-Pegging להבנת מקור " +
+          "הדרישה; דוגמה: מתכנן רואה איזו הזמנת לקוח גדולה גורמת לחומר לרדת למינוס. חלופת Fiori: MRP Cockpit " +
+          "(F0247A/F0251).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MD04",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת CO01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "CO01 מיועדת ליצירה ידנית של הזמנת ייצור כשאין הצעת תכנון; ברוב הסביבות ההזמנות נוצרות מ-Planned Orders ב-MD04, " +
+          "CO40 או CO41 ולא ידנית, ובתעשייה תהליכית משתמשים ב-COR1 ולא ב-CO01. טעות: יצירת הזמנה ידנית למרות שקיימת " +
+          "Planned Order יוצרת ביקוש כפול; המלצה: המרה מ-Planned Order לשמירת קישוריות MRP.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CO01",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום 'תכנון דרישות חומר (MRP)' של הפרויקט (DOMAINS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "MRP מחשב מה, כמה ומתי לרכוש או לייצר ומייצר הזמנות מתוכננות ודרישות רכש; PLAF הזמנה מתוכננת שמומרת לפקודת " +
+          "תהליך (COR8). תקלות: כפל דרישות, לבדוק אסטרטגיית תכנון וצריכת PIR; הזמנות לא מומרות, לוודא גרסת ייצור (MKAL) " +
+          "תקפה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pppi-mrp",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט: רשומת MARC",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "MARC מחזיקה נתוני אב חומר ברמת מפעל: סוג MRP (DISMM), ‏MRP Controller (DISPO), רכש (BESKZ), גודל אצווה, זמני " +
+          "אספקה, ‏checking group ל-ATP (MTVFP) ואסטרטגיית תכנון; MTVFP קובע את התנהגות בדיקת הזמינות (CO09).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#MARC",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "האובייקטים המאומתים של הפרויקט (VERIFIED_OBJECTS): רשומת VBAK",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "VBAK כותרת מסמך מכירה (הזמנת מכירה, הצעת מחיר, חוזה): לקוח, ארגון מכירות, תנאים; קיימת ב-ECC וב-S/4HANA " +
+          "(Business Partner ללקוחות); טרנזקציות VA01, ‏VA02, ‏VA03.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verified-objects.ts#VBAK",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "האובייקטים המאומתים של הפרויקט (VERIFIED_OBJECTS): רשומת VBAP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "VBAP פריט מסמך מכירה: חומר, כמות, מחיר, מפעל, תנאי אספקה; קיימת ב-ECC וב-S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verified-objects.ts#VBAP",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נושא המעבר 'Advanced ATP (aATP)' של הפרויקט (ECC_S4_TOPICS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "ECC: ATP קלאסי (CO09) על בסיס ערכי ATP בטבלאות. S/4HANA: aATP על HANA עם Back-Order Processing (BOP), ‏Product " +
+          "Allocation ו-Release for Delivery, מהיר ומבוסס Fiori. השפעה: תהליכי הקצאה ידניים מוחלפים ב-BOP, הגדרות " +
+          "חדשות; משפיע על שחרור פקודות ואספקה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/ecc-s4.ts#atp",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נושא המעבר 'Business Partner (CVI)' של הפרויקט (ECC_S4_TOPICS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "ECC: לקוח (XD01) וספק (XK01) נוהלו בנפרד ו-BP אופציונלי. S/4HANA: Business Partner הוא נקודת הכניסה היחידה, " +
+          "לקוח וספק הם תפקידי BP ו-CVI חובה. השפעה: צעד הכנה קריטי במיגרציה (סנכרון CVI, ‏Number Ranges); ספקי חלפים " +
+          "ב-PM-MM מושפעים.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/ecc-s4.ts#business-partner",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: aatp-shortage-release",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "שחרור פקודת תהליך נחסם עקב חוסר זמינות רכיב (Advanced ATP); סיבות: חוסר מלאי או כניסות לרכיב, ‏Checking Rule " +
+          "שגוי, ‏Product Allocation חוסם, אופק ATP; ניתוח ב-CO09, ‏MD04, ‏COR2; תיקון: לספק מלאי או כניסות, להתאים " +
+          "Checking Rule או Scope, או חריגה מבוקרת או BOP; מניעה: תכנון MRP מסונכרן וניטור חוסרים מראש.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext2.ts#aatp-shortage-release",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז ההגדרות של הפרויקט (CONFIG_TOPICS): 'הגדרת אסטרטגיות תכנון'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "נתיב SPRO: Production > Production Planning > Demand Management > Planned Independent Requirements > Planning " +
+          "Strategy; טבלאות T459K, ‏T461, ‏T459P; הגדרות מפתח: Strategy Group (10/20/40/50/70), ‏Requirements Type " +
+          "(LSF/VSF/KE), ‏Consumption Mode/Periods, שיוך ל-MRP3. טעויות: Strategy לא תואם לדפוס ביקוש מוביל למלאי-יתר או " +
+          "חוסר; Consumption לא מוגדר מוביל לכפל ביקוש. השפעה: קובע התנהלות MTS/MTO וקיזוז תחזית. QA: אסטרטגיה 40, " +
+          "מכירות צורכות PIR; 40 ללא Consumption, כפל; Req. Type תואם. ECC מול S/4: אסטרטגיות זהות, ‏aATP/Allocation " +
+          "משופרים; הגירה: QA של אסטרטגיה וצריכה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/centers/config.ts#pppi-strategies-config",
+      },
+    ],
+    lastVerifiedAt: DATE23,
+    reviewer: "Design-audit continuation §11 (process catalog)",
+    notes:
+      "רשומת תהליך חוצת מודולים (SD מול PP ו-PP-PI), ממתינה לסקירת עורך אנושי. כל שדה בפרופיל נגזר מרשומות המאגר " +
+      "הנקובות בלבד, רשומה אחת לכל ראיה. הרשומה מקשרת אל bp:mrp-process, ‏bp:production-order-process, " +
+      "bp:process-order-process, ‏bp:plan-to-produce-discrete ו-bp:process-industries-plan-to-produce במקום לשכפל את ריצת " +
+      "ה-MRP ואת הפקודה. היקף: נקודות המסירה בין SD ל-PP; שלבי התמחור, האשראי, האספקה, החיוב והגבייה במפת O2C אינם " +
+      "בהיקף. פערים גלויים: לא אותר עמוד SAP רשמי שכבר אומת בשכבות האימות על אסטרטגיות תכנון, על צריכת תחזית או על " +
+      "בדיקת זמינות בהזמנת לקוח, ולכן ההפניה הרשמית ריקה ואף טענה כאן אינה ברמת תיעוד רשמי; ל-VA01, ‏CO09, ‏MD61 ו-MD62 " +
+      "אין רשומת אימות רשמית. שדה kpis הושמט: המאגר אינו מתעד מדדי ביצוע לתהליך. המאגר חלוק בסוגי הדרישה: טבלת " +
+      "האסטרטגיות נותנת ערך אחד לכל אסטרטגיה (10 LSF, ‏11 BSF, ‏20 KE, ‏40 VSF, ‏50 VSE, ‏70 VSEB), רשומת ההגדרות מונה " +
+      "LSF/VSF/KE, ורשומות אחרות מונות גם KSV ו-KEV; לפי רשומת התחום גם PIR וגם הזמנת לקוח נושאות סוג דרישה, אך אף " +
+      "רשומה אינה משייכת את KSV ו-KEV לאסטרטגיה או לסוג המסמך, והשיוך דורש אימות במערכת SAP. המאגר אינו נוקב בשם השדה " +
+      "של Strategy Group ב-MARC, אינו מפרט את אסטרטגיות 11, ‏50 ו-70 מעבר לשורה אחת, ואינו מפרט את המלאי והעלות לפי " +
+      "הזמנה בייצור-להזמנה. VBBE, ‏PBIM, ‏PBED, ‏PBHI, ‏T459K, ‏T461, ‏T459P, ‏MDKP, ‏PLAF, ‏OPPS, ‏OPJJ, ‏MABP0001, ‏ATP_CUST_EX " +
+      "וה-BAPIs של ה-PIR ושל הזמנת הלקוח אינם במילון הפרויקט ולכן מופיעים בפרוזה בלבד. מזהה ה-Fiori F0018 מגיע מרשומת " +
+      "tx-intel בלבד ואינו בקטלוג. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* =============================================== procure-to-pay for maintenance */
+  {
+    slug: "procure-to-pay-for-maintenance",
+    he: "רכש לתחזוקה: חלף לא-מלאי ושירות חיצוני מפקודת אחזקה, מדרישת רכש ועד תשלום",
+    en: "Procure-to-pay for maintenance: non-stock parts and external services from the maintenance order to payment",
+    module: "Cross",
+    summary:
+      "רכיב שאינו מנוהל במלאי בפקודת אחזקה, חלף לא-מלאי או שירות חיצוני, יוצר דרישת רכש (EBAN) המחויבת לפקודה (EBKN). " +
+      "משם הזרימה היא זרימת הרכש: הזמנת רכש, קבלת טובין או אישור גיליון שירות, אימות חשבונית בהתאמה משולשת ותשלום, " +
+      "והעלות נצברת בפקודה עד ההתחשבנות. רכיב מלאי, לעומת זאת, הולך לרזרבציה ולניפוק.",
+    context:
+      "לפי רשומות התחום של המאגר, אינטגרציית החלפים (PM-MM) מבחינה בין רכיב מלאי, שנשמר ברזרבציה ומנופק לפקודה, לבין " +
+      "רכיב לא-מלאי, שיוצר דרישת רכש (EBAN, ‏EBKN) הממשיכה להזמנת רכש ולקבלה, והעלות נרשמת לפקודה. ה-blueprint של " +
+      "תחזוקת המפעל משייך את EBAN ואת EBKN לנושא 'אינטגרציית מלאי ורכש (PM-MM)' ומתעד חיוב של הדרישה לפקודה דרך " +
+      "EBKN.AUFNR. מפת התהליך P2P של המאגר מונה חמישה שלבים: דרישת רכש (ME51N, ‏ME53N), הזמנת רכש (ME21N), קבלת טובין " +
+      "(MIGO), חשבונית (MIRO, התאמה משולשת וחסימות MRBR) ותשלום (F110). לשירות, רשומת ML81N מתארת גיליון רישום " +
+      "שירותים שאישורו יוצר את רישום הקבלה לשירות. ב-S/4HANA, לפי רשומות המאגר, מודל EBAN זהה, תנועות המלאי נרשמות " +
+      "ל-MATDOC והספק מנוהל כ-Business Partner.",
+    steps: [
+      {
+        he: "לתכנן את הרכיבים בפקודת האחזקה (IW31, ‏IW32) ולסווג כל רכיב: רכיב מלאי יוצר רזרבציה, ורכיב לא-מלאי יוצר דרישת רכש. בעץ המוצר של הציוד, לפי רשומת נתוני האב של האחזקה, קטגוריית פריט L מובילה לרזרבציה ו-N לדרישת רכש.",
+        xrefs: ["tx:IW31", "tx:IW32", "table:RESB", "table:EBAN", "bp:material-staging-and-reservation"],
+      },
+      {
+        he: "להקים את אב החומר לפי סוג הרכש: לפי רשומת אב החומר של האחזקה חלף מלאי מוקם כ-ERSA ושירות כיול חיצוני כ-Non-stock עם נתוני רכש בלבד; רשומת פירוט התחום מונה בנתוני האב גם סוג פריט (מלאי או לא-מלאי), מקור אספקה ומלאי בטחון.",
+        xrefs: ["tx:MM01", "table:MARA"],
+      },
+      {
+        he: "לשירות חיצוני לפקודה, כמו שירות כיול: לפי רשומות המאגר הוא נרכש כרכיב לא-מלאי, בדרישת רכש, בהזמנת רכש לספק ובקבלת שירות, ולפי רשומת EBAN במודיעין האובייקטים דרישת רכש לשירות חיצוני נוצרת מפקודת תחזוקה.",
+        xrefs: ["table:EBAN"],
+      },
+      {
+        he: "לוודא שהדרישה מחויבת לפקודה: לפי ה-blueprint שדה KNTTP בדרישה הוא סוג החיוב (F לפקודה), ו-EBKN מחזיקה את החיוב ומקשרת לפקודה דרך AUFNR; לפי רשומת EBKN במודיעין האובייקטים, ייעוד לפקודת תחזוקה (F) גורם לעלות להיזקף לפקודת ה-PM.",
+        xrefs: ["table:EBAN", "table:EBKN", "table:AUFK"],
+      },
+      {
+        he: "לעקוב אחרי הדרישה ב-ME53N: לפי רשומתה לשונית הסטטוס מראה אם נוצרה ממנה הזמנת רכש, ומתכנן האחזקה בודק שם אם דרישה מפקודה הומרה ומתי צפויה האספקה. שינוי ב-ME52N ואישור ב-ME54N, לפי רשומות המאגר.",
+        xrefs: ["tx:ME53N", "tx:ME52N", "tx:ME54N"],
+      },
+      {
+        he: "להמיר את הדרישה להזמנת רכש: ME21N עם הפניה לדרישה, או ME57 ו-ME59N מתוך הדרישות; לפי רשומת ME21N קטגוריית הקצאת החשבון (K/F/A/P) קובעת את החיוב, והאישור (Release) הוא שלב בתהליך.",
+        xrefs: ["tx:ME21N", "tx:ME57", "tx:ME59N"],
+      },
+      {
+        he: "לקבל חלף מול הזמנת הרכש ב-MIGO (תנועה 101): לפי רשומת MIGO הקבלה מעדכנת את היסטוריית ההזמנה (EKBE) ומבצעת GR/IR clearing; לפי רשומות המאגר, בקבלה של רכיב לא-מלאי העלות נרשמת לפקודה. אם בדיקת QM פעילה נוצרת מנת בדיקה, לפי מפת התהליך.",
+        xrefs: ["tx:MIGO", "fm:BAPI_GOODSMVT_CREATE", "bp:goods-movement-process", "bp:quality-inspection-in-production"],
+      },
+      {
+        he: "לשירות שנרכש בהזמנת רכש לשירותים עם item category D: לרשום ולאשר גיליון רישום שירותים ב-ML81N; לפי רשומתה האישור הוא שיוצר את רישום הקבלה לשירות ומסמך FI, ונדרשת הקצאת חשבון, למשל להזמנת עבודה.",
+        xrefs: ["tx:ML81N"],
+      },
+      {
+        he: "לאמת את החשבונית ב-MIRO בהתאמה משולשת של הזמנה, קבלה וחשבונית: לפי רשומת MIRO סטייה מעבר ל-tolerance (OMR6) חוסמת את החשבונית לתשלום, וחשבוניות חסומות משוחררות ב-MRBR אחרי בירור הסטייה.",
+        xrefs: ["tx:MIRO", "tx:MRBR"],
+      },
+      {
+        he: "לשלם בריצת F110: לפי רשומתה פרמטרים, הצעה (Proposal), ריצה והפקת קובץ בנק, על פריטים פתוחים בשלים; מפת התהליך מצמידה לשלב גם את FBL1N, ובדיקת השלב היא קיזוז הפריטים הפתוחים.",
+        xrefs: ["tx:F110", "tx:FBL1N"],
+      },
+      {
+        he: "לסגור את המעגל בפקודה: לפי רשומת פירוט התחום עלות החלף והשירות נצברת בפקודה ומותחשבנת למרכז העלות. לפי רשומת ME53N דרישת רכש פתוחה על פקודה יוצרת התחייבות שחוסמת סילוק, ולפי רשומת התחום, כשלא ניתן לבצע TECO יש לסגור הודעות פתוחות והזמנות רכש פתוחות; לכן לבדוק את שתיהן לפני TECO.",
+        xrefs: ["tx:ME53N", "bp:order-settlement-process", "bp:maintenance-order-process"],
+      },
+      {
+        he: "בממשק: BAPI_PR_CREATE יוצר דרישת רכש מפקודה (לפי רשומת קטלוג הפונקציות, לחלפים ולשירותים לא-מלאיים), ואחרי הצלחה BAPI_TRANSACTION_COMMIT; BAPI_REQUISITION_GETDETAIL שולף את פרטי הדרישה ואת הייחוס החשבונאי.",
+        xrefs: ["fm:BAPI_PR_CREATE", "fm:BAPI_TRANSACTION_COMMIT", "fm:BAPI_REQUISITION_GETDETAIL", "bp:bapi-commit-discipline"],
+      },
+    ],
+    antiPatterns: [
+      "קטגוריית פריט שגויה בעץ המוצר (L במקום N): רזרבציה במקום דרישת רכש לחלף חיצוני, או להפך.",
+      "דרישה בלי ייחוס חשבונאי נכון: העלות נזקפת במקום שגוי (רשומת פירוט התחום: עלות שגויה, ייחוס חשבונאי ב-EBKN).",
+      "עריכה ידנית של EBKN במקום עדכון דרך הטרנזקציה.",
+      "הזמנת רכש בלי הפניה לדרישה: כפילות נתונים ושבירת שרשרת המסמכים.",
+      "אישור גיליון שירות לפני שהשירות בוצע בפועל, או חריגה מהכמות או מהערך שבהזמנה.",
+      "קליטת חשבונית לפני הקבלה כשמופעל אימות חשבונית מבוסס קבלה.",
+      "שחרור חשבונית חסומה בלי בירור הסטייה.",
+      "הרצת תשלום בלי בדיקת ה-Proposal.",
+      "סגירה טכנית של הפקודה כשדרישות או הזמנות רכש פתוחות עליה.",
+      "השארת דרישות רכש ישנות שלא הומרו: הן מטות את הדוחות.",
+    ],
+    checks: [
+      "חיובי: רכיב לא-מלאי בפקודה, דרישת רכש, הזמנת רכש, קבלה ועלות לפקודה.",
+      "שירות: רכיב לא-מלאי, דרישת רכש, הזמנת רכש, קבלת שירות ועלות.",
+      "אימות: הדרישה נוצרת עם ייחוס חשבונאי תקין, ו-EBKN נכון למרכז העלות של הפקודה.",
+      "BAPI: דרישת רכש מפקודה נוצרת עם EBAN ו-EBKN, ודרישה שנוצרה מ-IW32 לרכיב לא-מלאי נשלפת עם הפריט.",
+      "הזמנת רכש: תנאי מחיר ושחרור לפי release strategy.",
+      "חשבונית: התאמה משולשת של הזמנה, קבלה וחשבונית, וחסימות מטופלות ב-MRBR.",
+      "תשלום: ריצת F110 וקיזוז פריטים פתוחים.",
+      "לאחר המרה: רזרבציה, ניפוק ודרישת רכש, והזמנת רכש לספק כ-Business Partner.",
+    ],
+    process: {
+      purpose:
+        "לרכוש לפקודת אחזקה את מה שאינו מנוהל במלאי, חלף לא-מלאי או שירות חיצוני, כך שהחלף או השירות זמינים בזמן: " +
+        "הרכיב בפקודה יוצר דרישת רכש המחויבת לפקודה, והיא עוברת הזמנת רכש, קבלה, אימות חשבונית ותשלום, והעלות נצברת " +
+        "בפקודה עד ההתחשבנות.",
+      trigger: [
+        { he: "רכיב לא-מלאי שמתוכנן בפקודת אחזקה, ידנית או מעץ המוצר של הציוד שנשלף לפקודה.", xrefs: ["tx:IW31", "tx:IW32"] },
+        { he: "צורך בשירות חיצוני לפקודה, כמו שירות כיול." },
+        { he: "חוסר בחלף: לפי רשומת התחום בודקים זמינות ומלאי, ולחלף לא-מלאי עוברים לדרישת רכש." },
+      ],
+      preconditions: [
+        { he: "אב חומר לחלף או לשירות, עם נתוני רכש, לפי רשומת אב החומר של האחזקה.", xrefs: ["table:MARA", "tx:MM01"] },
+        { he: "סוג פריט נכון ברכיב (מלאי או לא-מלאי) ומקור אספקה, לפי רשומת פירוט התחום." },
+        { he: "קבוצת רכש וסוג דרישה, לפי רשומת BAPI_PR_CREATE בקטלוג הפונקציות.", xrefs: ["fm:BAPI_PR_CREATE"] },
+        { he: "ספק כ-Business Partner: לפי ה-blueprint הספק הקבוע בדרישה מנוהל ב-S/4HANA דרך Business Partner (CVI).", xrefs: ["table:BUT000"] },
+        { he: "להזמנת שירות: item category D והקצאת חשבון, לפי רשומת ML81N.", xrefs: ["tx:ML81N"] },
+        { he: "tolerance keys לאימות החשבונית (OMR6) לפי רשומת MIRO, והגדרות FBZP ופרטי בנק בספק לתשלום לפי רשומת F110.", xrefs: ["tx:MIRO", "tx:FBZP", "tx:F110"] },
+      ],
+      masterData: [
+        { he: "אב חומר: לפי רשומת אב החומר של האחזקה סוגים רלוונטיים ERSA (חלפים) ו-Non-stock, ושירות כיול חיצוני מוקם כ-Non-stock עם נתוני רכש בלבד.", xrefs: ["table:MARA", "table:MARC"] },
+        { he: "עץ המוצר של הציוד: קטגוריית פריט L לרזרבציה ו-N לדרישת רכש.", xrefs: ["table:MAST", "table:STPO"] },
+        { he: "ייחוס חשבונאי בדרישה: EBKN עם הפקודה (AUFNR), מרכז עלות וחשבון ראשי.", xrefs: ["table:EBKN", "table:AUFK"] },
+        { he: "ספק כ-Business Partner.", xrefs: ["table:BUT000"] },
+        { he: "מקור אספקה ומלאי בטחון לחלף, לפי רשומת פירוט התחום." },
+      ],
+      roles: [
+        { he: "מתכנן תחזוקה: יוצר את הדרישה דרך הפקודה ועוקב אחריה ב-ME53N, לפי רשומות EBAN ו-ME53N.", xrefs: ["tx:ME53N"] },
+        { he: "קניין ומנהל רכש: המרה להזמנת רכש ב-ME21N או ב-ME57, לפי רשומות EBAN ו-ME21N.", xrefs: ["tx:ME21N", "tx:ME57"] },
+        { he: "מחסנאי ופקיד מלאי: קבלה ב-MIGO; רכש שירותים ומבקש או מאשר השירות, ובהם אחזקה (PM): גיליון השירות ב-ML81N.", xrefs: ["tx:MIGO", "tx:ML81N"] },
+        { he: "הנהלת חשבונות ספקים ופקיד חשבוניות: MIRO, ושחרור חסומות ב-MRBR; צוות תשלומים ומנהל AP: F110.", xrefs: ["tx:MIRO", "tx:MRBR", "tx:F110"] },
+      ],
+      transactions: [
+        { he: "פקודה ורכיבים: IW31 ו-IW32.", xrefs: ["tx:IW31", "tx:IW32"] },
+        { he: "דרישת רכש: ME51N יצירה, ‏ME52N שינוי, ‏ME53N תצוגה, ‏ME54N אישור.", xrefs: ["tx:ME51N", "tx:ME52N", "tx:ME53N", "tx:ME54N"] },
+        { he: "הזמנת רכש: ME21N יצירה, ‏ME22N שינוי, ‏ME23N תצוגה; המרה מדרישות ב-ME57 וב-ME59N.", xrefs: ["tx:ME21N", "tx:ME22N", "tx:ME23N", "tx:ME57", "tx:ME59N"] },
+        { he: "קבלה: MIGO לחומר, ‏ML81N לגיליון רישום שירותים.", xrefs: ["tx:MIGO", "tx:ML81N"] },
+        { he: "חשבונית ותשלום: MIRO, ‏MRBR לחשבוניות חסומות, ‏F110 ריצת תשלומים, ו-FBL1N לפי מפת התהליך.", xrefs: ["tx:MIRO", "tx:MRBR", "tx:F110", "tx:FBL1N"] },
+        { he: "Fiori לפי מפת התהליך: Manage Purchase Requisitions, ‏Create Purchase Order, ‏Post Goods Movement, ‏Verify Supplier Invoice ו-Manage Automatic Payments; רשומת פירוט התחום מוסיפה Process Purchase Requisitions. אין מזהה מאומת בקטלוג הפרויקט, ולכן אין קישור." },
+      ],
+      tables: [
+        { he: "EBAN שורות דרישת הרכש ו-EBKN החיוב שלה, המקושר לפקודה (EBKN.AUFNR = AUFK.AUFNR לפי ה-blueprint).", xrefs: ["table:EBAN", "table:EBKN", "table:AUFK"] },
+        { he: "MKPF ו-MSEG מסמך החומר של הקבלה, לפי רשומת MIGO; ב-S/4HANA תנועות המלאי נרשמות ל-MATDOC, לפי רשומת פירוט התחום.", xrefs: ["table:MKPF", "table:MSEG", "cds:I_MaterialDocumentItem", "bp:matdoc-read-through-compatibility"] },
+        { he: "ACDOCA ברישום הפיננסי של שלב התשלום, לפי מפת התהליך.", xrefs: ["table:ACDOCA"] },
+        { he: "טבלאות שרשומות המאגר נוקבות בהן ואינן במילון הפרויקט, ולכן מופיעות בפרוזה בלבד: EKKO ו-EKPO של הזמנת הרכש, ‏EKBE היסטוריית ההזמנה, ‏RBKP ו-RSEG של החשבונית, ‏BSIK בשלב התשלום, ‏ESSR ו-ESLL של גיליון השירות, ו-MATDOC." },
+        { he: "האובייקטים העסקיים פקודת תחזוקה ומסמך חומר.", xrefs: ["obj:maintenance-order", "obj:material-document"] },
+      ],
+      integrationPoints: [
+        { he: "PM אל MM: רכיב מלאי ברזרבציה ובניפוק, ורכיב לא-מלאי בדרישת רכש; צד המלאי מפורט ברשומה bp:material-staging-and-reservation.", xrefs: ["bp:material-staging-and-reservation", "table:RESB", "table:EBAN"] },
+        { he: "MM אל FI: לפי רשומת MIRO החשבונית כותבת RBKP ו-RSEG ומסמך FI ומנקה את חשבון ה-GR/IR; לפי רשומת F110 התשלום ב-S/4HANA נרשם ל-Universal Journal.", xrefs: ["tx:MIRO", "tx:F110", "table:ACDOCA"] },
+        { he: "PM אל CO: העלות נצברת בפקודה ומותחשבנת למרכז העלות.", xrefs: ["bp:order-settlement-process"] },
+        { he: "ממשק תוכניתי לפי רשומות התחום: BAPI_PR_CREATE, ‏BAPI_REQUISITION_GETDETAIL ו-BAPI_GOODSMVT_CREATE; לפי רשומת BAPI_PR_CREATE בקטלוג הפונקציות, אחרי הצלחה BAPI_TRANSACTION_COMMIT, וב-S/4HANA קיימת חלופה API_PURCHASEREQ_PROCESS_SRV.", xrefs: ["fm:BAPI_PR_CREATE", "fm:BAPI_REQUISITION_GETDETAIL", "fm:BAPI_GOODSMVT_CREATE", "fm:BAPI_TRANSACTION_COMMIT", "bp:bapi-commit-discipline"] },
+        { he: "לפי התיעוד הרשמי, שירות OData API_PURCHASEREQ_PROCESS_SRV מציע יצירה, קריאה, עדכון ומחיקה של דרישת רכש, ותרחיש קריאה בשירות OData V4 מחזיר את הדרישה עם פריטיה, הטקסטים והייחוס החשבונאי; שני העמודים אינם נוקבים ב-BAPI ואינם מציגים אותו כמוחלף.", xrefs: ["fm:BAPI_PR_CREATE", "fm:BAPI_REQUISITION_GETDETAIL"] },
+        { he: "ממשקי מפת התהליך: ORDERS IDoc ו-API_PURCHASEORDER בהזמנת הרכש, ‏INVOIC IDoc בחשבונית, ‏PAYEXT / DMEE בתשלום; אינם במילון הפרויקט ולכן אינם מקושרים." },
+        { he: "קבלנות משנה בפקודת אחזקה: לפי תיעוד ניהול האחזקה הרשמי, בשמירה או בשחרור של הפקודה המערכת יוצרת אוטומטית דרישת רכש של קבלנות משנה, ושינוי ברמת הרכיב אחרי יצירתה משתקף בה.", xrefs: ["table:EBAN"] },
+        { he: "הרחבות לפי רשומת פירוט התחום: IWO10009 ו-MBCF0002, ‏WORKORDER_GOODSMVT ו-MB_MIGO_BADI; רשומת ME51N מוסיפה ME_PROCESS_REQ_CUST ו-MEREQ001, שאינם במילון הפרויקט.", xrefs: ["enh:exit:IWO10009", "enh:exit:MBCF0002", "enh:badi:WORKORDER_GOODSMVT", "enh:badi:MB_MIGO_BADI"] },
+      ],
+      outputs: [
+        { he: "דרישת רכש מחויבת לפקודה (EBAN, ‏EBKN).", xrefs: ["table:EBAN", "table:EBKN"] },
+        { he: "הזמנת רכש לספק, ומסמך קבלה או גיליון שירות מאושר.", xrefs: ["tx:ME21N", "tx:MIGO", "tx:ML81N"] },
+        { he: "חשבונית מאומתת ותשלום לספק.", xrefs: ["tx:MIRO", "tx:F110"] },
+        { he: "עלות בפועל בפקודה, לקראת ההתחשבנות.", xrefs: ["bp:order-settlement-process"] },
+      ],
+      exceptions: [
+        { he: "דרישת רכש לא נוצרה: סוג פריט או מקור אספקה, לפי רשומת פירוט התחום; ב-BAPI_PR_CREATE: קבוצת רכש חסרה או קטגוריית פריט שגויה.", xrefs: ["fm:BAPI_PR_CREATE"] },
+        { he: "עלות שגויה בפקודה בגלל ייחוס חשבונאי (EBKN); לפי רשומת EBKN במודיעין האובייקטים, אובייקט CO שגוי בייחוס לפני המרה להזמנה עלול לחסום את הקבלה.", xrefs: ["table:EBKN"] },
+        { he: "קבלה נכשלת: תקופת MM סגורה (M7 053), חוסר הרשאה לתנועה או למפעל, או חשבון G/L שלא נמצא ב-OBYC, לפי רשומת MIGO.", xrefs: ["tx:MIGO"] },
+        { he: "גיליון שירות נדחה: אין פריט הזמנה עם item category D, נתוני הקצאת חשבון חסרים או כמות מעבר ליתרה בהזמנה, לפי רשומת ML81N.", xrefs: ["tx:ML81N"] },
+        { he: "חשבונית חסומה לתשלום: סטיית מחיר או כמות מעבר ל-tolerance, או GR חסר באימות מבוסס קבלה, לפי רשומת MIRO.", xrefs: ["tx:MIRO", "tx:MRBR"] },
+        { he: "ריצת תשלום: אין אמצעי תשלום תקף, אמצעי תשלום שאינו מותר לספק, או פריטים חסומים לתשלום, לפי רשומת F110.", xrefs: ["tx:F110"] },
+        { he: "סילוק או סגירה טכנית נחסמים בגלל דרישות או הזמנות רכש פתוחות על הפקודה.", xrefs: ["tx:ME53N"] },
+      ],
+      controls: [
+        { he: "Release strategy לדרישת הרכש ולהזמנת הרכש: לפי רשומת EBAN במודיעין האובייקטים לפי ערך או קבוצת רכש, ולפי רשומת ME21N לבקרת תקציב.", xrefs: ["tx:ME54N", "tx:ME21N"] },
+        { he: "הזמנת רכש מתוך הדרישה לשמירת שרשרת המסמכים.", xrefs: ["tx:ME21N"] },
+        { he: "אימות חשבונית מבוסס קבלה ו-tolerance keys (OMR6), וניטור שבועי של חשבוניות חסומות.", xrefs: ["tx:MIRO", "tx:MRBR"] },
+        { he: "בדיקת ה-Proposal לפני ריצת התשלום.", xrefs: ["tx:F110"] },
+        { he: "ניטור דרישות והזמנות רכש פתוחות על הפקודה לפני TECO.", xrefs: ["tx:ME53N"] },
+        { he: "ניקוי דרישות רכש ישנות שלא הומרו." },
+        { he: "עדכון EBKN דרך הטרנזקציה בלבד, ושמירת העקיבות בין EBAN ל-EBKN לדוחות ההתחייבויות.", xrefs: ["table:EBKN"] },
+      ],
+      eccToS4: [
+        { he: "לפי רשומת פירוט התחום, מודל RESB ו-EBAN זהה, תנועות המלאי עוברות ל-MATDOC והספקים מנוהלים כ-Business Partner.", xrefs: ["table:EBAN", "table:RESB", "bp:matdoc-read-through-compatibility"] },
+        { he: "ה-blueprint מסמן את EBAN 'מותאם (Business Partner לספקים)' עם 'EBAN (זהה)', ואת EBKN 'מותאם (חיוב ל-ACDOCA)' עם 'EBKN (זהה); עלות בפועל ב-ACDOCA'.", xrefs: ["table:EBAN", "table:EBKN", "table:ACDOCA"] },
+        { he: "לפי נושא המעבר, ב-S/4HANA Business Partner הוא נקודת הכניסה היחידה, ספק הוא תפקיד של BP ו-CVI חובה, וספקי חלפים ב-PM-MM מושפעים." },
+        { he: "לפי רשומות tx-intel, ‏ME51N, ‏ME21N, ‏MIGO ו-MIRO זמינות ב-S/4HANA לצד אפליקציות Fiori, ו-ME51, ‏ME21 ו-MB1A הישנות מסומנות deprecated.", xrefs: ["tx:ME51N", "tx:ME21N", "tx:MIGO", "tx:MIRO", "tx:MB1A"] },
+        { he: "לפי רשומת ML81N היא עדיין נתמכת ב-S/4HANA לשירותים הקלאסיים, לצד גישת Lean Services ואפליקציות Fiori לגיליונות שירות.", xrefs: ["tx:ML81N"] },
+        { he: "לפי רשומת F110, ב-S/4HANA התשלום נרשם ל-Universal Journal ומנוהל גם ב-Fiori 'Manage Automatic Payments'.", xrefs: ["tx:F110", "table:ACDOCA"] },
+        { he: "לפי התיעוד הרשמי לגרסת 2025 FPS01, שירות OData API_PURCHASEREQ_PROCESS_SRV הוא חלופה מתועדת ליצירה ולעדכון של דרישת רכש, ואינו מציג את BAPI_PR_CREATE כמוחלף.", xrefs: ["fm:BAPI_PR_CREATE"] },
+      ],
+      migration: [
+        { he: "לפי רשומת פירוט התחום, ‏RESB ו-EBAN נשמרות ותנועות עוברות ל-MATDOC; בדיקה לאחר המרה: רזרבציה, ניפוק ודרישת רכש, והזמנת רכש לספק כ-Business Partner.", xrefs: ["table:RESB", "table:EBAN"] },
+        { he: "לפי ה-blueprint, ‏CVI והמרת ספקים ולקוחות ל-Business Partner נדרשים לפני ההמרה או במהלכה (Pre-check חובה), ולפי נושא המעבר זהו צעד הכנה קריטי במיגרציה (סנכרון CVI ו-Number Ranges).", xrefs: ["table:EBAN", "table:BUT000"] },
+        { he: "לפי ה-blueprint של EBKN, עלויות מומרות ל-ACDOCA ב-SUM ויש להתאים דוחות עלות מותאמים והרצות התחשבנות.", xrefs: ["table:EBKN", "table:ACDOCA"] },
+        { he: "דרישות רכש פתוחות: עמוד אובייקט ההגירה הרשמי 'MM - Purchase requisition (only open PR)' לגרסת 2025 FPS01 נוקב ב-BAPI_PR_CREATE ובאובייקט S4_MM_PURCHASE_REQUISITION, עם טבלאות וירטואליות לנתוני הפריט (ART_EBAN) ולנתוני הייחוס החשבונאי (ART_EBKN).", xrefs: ["fm:BAPI_PR_CREATE", "table:EBAN", "table:EBKN"] },
+      ],
+      reference: null,
+    },
+    xrefs: [
+      "tx:IW31", "tx:IW32", "tx:MM01", "tx:ME51N", "tx:ME52N", "tx:ME53N", "tx:ME54N", "tx:ME21N", "tx:ME22N",
+      "tx:ME23N", "tx:ME57", "tx:ME59N", "tx:MIGO", "tx:ML81N", "tx:MIRO", "tx:MRBR", "tx:F110", "tx:FBL1N",
+      "tx:FBZP", "tx:MB1A",
+      "table:EBAN", "table:EBKN", "table:AUFK", "table:RESB", "table:MAST", "table:STPO", "table:MARA", "table:MARC",
+      "table:BUT000", "table:MKPF", "table:MSEG", "table:ACDOCA",
+      "fm:BAPI_PR_CREATE", "fm:BAPI_REQUISITION_GETDETAIL", "fm:BAPI_GOODSMVT_CREATE", "fm:BAPI_TRANSACTION_COMMIT",
+      "cds:I_MaterialDocumentItem",
+      "enh:exit:IWO10009", "enh:exit:MBCF0002", "enh:badi:WORKORDER_GOODSMVT", "enh:badi:MB_MIGO_BADI",
+      "obj:maintenance-order", "obj:material-document",
+      "bp:material-staging-and-reservation", "bp:maintenance-order-process", "bp:order-settlement-process",
+      "bp:goods-movement-process", "bp:quality-inspection-in-production", "bp:bapi-commit-discipline",
+      "bp:matdoc-read-through-compatibility",
+    ],
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מפת התהליך 'רכש לתשלום (P2P)' של הפרויקט (PROCESS_MAPS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "מדרישת רכש דרך הזמנה, קבלה, חשבונית ועד תשלום. דרישת רכש: ME51N, ‏ME53N, טבלאות EBAN ו-EBKN, ‏Fiori 'Manage " +
+          "Purchase Requisitions', ממשק BAPI_REQUISITION_*, בדיקה 'PR נוצרת עם ייחוס חשבונאי תקין'. הזמנת רכש: ME21N, " +
+          "ME22N, ‏ME23N, טבלאות EKKO ו-EKPO, ‏Fiori 'Create Purchase Order', ממשקים 'ORDERS IDoc' ו-API_PURCHASEORDER, בדיקה " +
+          "'PO עם תנאי מחיר; שחרור (release strategy)'. קבלת טובין: MIGO, טבלאות MATDOC ו-MSEG, ‏Fiori 'Post Goods " +
+          "Movement', ממשק BAPI_GOODSMVT_CREATE, בדיקה 'GR 101 מעדכן מלאי; QM lot אם פעיל'. חשבונית (LIV): MIRO, טבלאות " +
+          "RBKP ו-RSEG, ‏Fiori 'Verify Supplier Invoice', ממשק 'INVOIC IDoc', בדיקה '3-way match (PO/GR/Invoice); חסימות " +
+          "MRBR'. תשלום: F110, ‏FBL1N, טבלאות BSIK ו-ACDOCA, ‏Fiori 'Manage Automatic Payments', ממשק 'PAYEXT / DMEE', בדיקה " +
+          "'ריצת תשלומים F110; קיזוז פריטים פתוחים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/processes.ts#p2p",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום 'אינטגרציית חלפים (PM-MM)' של הפרויקט (DOMAINS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "אינטגרציית חלפים מחברת אחזקה לרכש ולמלאי: רכיבי פקודה, הזמנות מלאי, דרישות רכש ומשיכת חומר מהמחסן, ומבטיחה " +
+          "זמינות חלפים. זרימה: רכיבי פקודה, הזמנת מלאי (RESB), דרישת רכש (EBAN), משיכת חומר (MB1A), צריכה בפקודה. " +
+          "טבלאות RESB, ‏EBKN, ‏EBAN, ‏MAST, ‏MARC; טרנזקציות IW31, ‏MB1A, ‏ME21N, ‏IW3M, ‏MB21; BAPIs BAPI_RESERVATION_CREATE1, " +
+          "BAPI_PR_CREATE, ‏BAPI_GOODSMVT_CREATE. לימוד: RESB הזמנת מלאי לרכיבי הפקודה, ו-EBKN/EBAN דרישת רכש לחלפים " +
+          "לא-מלאיים; חומר מלאי מול לא-מלאי, והלא-מלאי לדרישת רכש. תקלה: חוסר חלף, לבדוק ATP ומלאי ולהפוך לדרישת רכש " +
+          "לחלף לא-מלאי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pm-spare-parts",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "פירוט התחום 'אינטגרציית חלפים (PM-MM)' של הפרויקט (DOMAIN_DETAIL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "מטרה: רכיבים לפקודות אחזקה, מלאי (רזרבציה ו-GI) או לא-מלאי (דרישת רכש, הזמנה, קבלה), זמינות חלף בזמן ושיוך " +
+          "עלות לפקודה. נתוני אב: אב חומר (חלף), סוג פריט (מלאי או לא-מלאי), מקור אספקה, מלאי בטחון. פונקציות " +
+          "RESERVATION_READ, BAPI_REQUISITION_GETDETAIL, ACCOUNT_ASSIGNMENT_READ, BAPI_GOODSMVT_CREATE; Exits IWO10009 " +
+          "ו-MBCF0002; BAdIs WORKORDER_GOODSMVT ו-MB_MIGO_BADI. QA: רכיב לא-מלאי, דרישת רכש, הזמנת רכש, קבלה ועלות לפקודה. " +
+          "תקלות: דרישת רכש לא נוצרה (סוג פריט או מקור), עלות שגויה (ייחוס חשבונאי, ‏EBKN). תרחיש: אטם כרכיב מלאי ושירות " +
+          "כיול חיצוני כלא-מלאי (דרישת רכש, הזמנה לספק, קבלת שירות); שתי העלויות נצברות בפקודה ומותחשבנות למרכז העלות. " +
+          "Fiori: Manage Stock, ‏Process Purchase Requisitions, ‏Post Goods Movement. הגירה: RESB ו-EBAN נשמרים ותנועות " +
+          "ל-MATDOC; QA של רזרבציה, ‏GI ודרישת רכש. ECC מול S/4: מודל RESB/EBAN זהה; תנועות מלאי ל-MATDOC ו-BP לספקים; CDS " +
+          "I_MaterialDocumentItem; פישוט MM-IM ו-Business Partner; QA של רזרבציה, ‏GI, דרישת רכש והזמנה לספק BP.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domain-detail.ts#pm-spare-parts",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום 'ביצוע אחזקה' של הפרויקט (DOMAINS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "ביצוע אחזקה מנהל את מחזור פקודת האחזקה: תכנון משאבים וחומרים, שחרור, ביצוע, אישורים, תנועות מלאי וסגירה " +
+          "טכנית ועסקית (TECO/CLSD). תקלה: לא ניתן ל-TECO, לסגור הודעות פתוחות והזמנות רכש פתוחות.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pm-maintenance-execution",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת ME51N",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "ME51N יוצרת דרישת רכש לחומר או לשירות בטבלאות EBAN ו-EBKN, ו-account assignment category קובע את החיוב; תהליך: " +
+          "זיהוי צורך (ידני או MRP), דרישת רכש, אישור (ME54N), המרה להזמנה (ME21N, ‏ME57, ‏ME59N). release strategy לדרישה " +
+          "נפרדת מזו של ההזמנה. משתמשים: מתכנן, מחסנאי, מבקש פנימי, קניין. המלצות: להזין source of supply, להגדיר release " +
+          "strategy לדרישה, להשתמש ב-account assignment נכון לפי סוג הצורך. BAPIs BAPI_PR_CREATE ו-BAPI_REQUISITION_CREATE; " +
+          "BAdI ME_PROCESS_REQ_CUST; Exit MEREQ001. ב-S/4 זמינה עם Fiori, ו-ME51 הישן deprecated.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME51N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת ME53N",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "ME53N מציגה דרישת רכש (EBAN/EBKN) בלי עריכה; לשונית הסטטוס מראה אם נוצרו ממנה הזמנת רכש או RFQ. משתמשים: " +
+          "מתכנן, קניין, מבקש פנימי, הנהלת חשבונות. דוגמה: מתכנן אחזקה בודק דרישת רכש שנוצרה מפקודה, אם כבר הומרה להזמנת " +
+          "רכש ומתי צפויה האספקה. טיפ: דרישת רכש פתוחה על פקודה יוצרת התחייבות שחוסמת סילוק, ויש לנטר אותה לפני TECO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME53N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת ME21N",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "ME21N יוצרת הזמנת רכש לספק, למוצרים או לשירותים, בטבלאות EKKO ו-EKPO, עם הפניה לדרישה, ל-RFQ, לחוזה או להזמנה קיימת; Account " +
+          "assignment category (K/F/A/P) קובע את החיוב. תהליך: דרישה, הזמנה, אישור (Release), קבלה (MIGO), חשבונית (MIRO), " +
+          "תשלום. לא לשינוי (ME22N) ולא לתצוגה (ME23N). משתמשים: קניין, מנהל רכש. טעות: אי שימוש בהפניה לדרישה וכך " +
+          "כפילות נתונים; המלצות: ליצור הזמנה מתוך הדרישה לשמירת שרשרת המסמכים, ולהגדיר release strategy לבקרת תקציב. " +
+          "ב-S/4 זמינה, ו-ME21 הישן deprecated.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME21N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת MIGO",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "MIGO היא הטרנזקציה המאוחדת לתנועות מלאי וכותבת MKPF ו-MSEG; קבלה מהזמנת רכש (101) מעדכנת את היסטוריית ההזמנה " +
+          "(EKBE) ומבצעת GR/IR clearing. משתמשים: מחסנאי, מנהל מחסן, פקיד מלאי. שגיאות: תקופת MM סגורה (M7 053), חוסר " +
+          "הרשאה לתנועה או למפעל, מלאי לא מספיק, חשבון G/L לא נמצא ב-OBYC, אצווה חסרה. BAPI_GOODSMVT_CREATE ברקע. ב-S/4 " +
+          "זמינה, ו-MB01/MB1A/MB1B/MB1C deprecated לטובתה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MIGO",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת ML81N",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "ML81N יוצרת ומאשרת גיליון רישום שירותים (Service Entry Sheet) מול הזמנת רכש לשירותים (ESSR/ESLL); האישור יוצר " +
+          "תנועה לוגית 101 לשירות, מסמך GR ומסמך FI, ומבוסס על Item Category D בהזמנה. משתמשים: רכש שירותים, מבקש או " +
+          "מאשר שירות, אחזקה (PM), פרויקטים. דרישות: הזמנה עם item category D והקצאת חשבון (תקציבית, הזמנת עבודה או WBS). " +
+          "תהליך: הזמנת שירות (ME21N), ביצוע, רישום ואישור ב-ML81N, חשבונית (MIRO), תשלום. שגיאות: אין פריט הזמנה עם item " +
+          "category D, נתוני הקצאת חשבון חסרים, כמות מעבר ליתרה. טעויות: אישור לפני ביצוע השירות, חריגה מהכמות או מהערך " +
+          "בהזמנה. המלצה: להתאים שורות הגיליון לשורות החשבונית. ב-S/4 קיימת ונתמכת לשירותים קלאסיים, לצד גישת Lean " +
+          "Services ואפליקציות Fiori.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ML81N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת MIRO",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "MIRO קולטת חשבונית ספק מול הזמנת רכש וקבלה (3-way match), כותבת RBKP ו-RSEG ומסמך FI/CO, חוסמת תשלום בסטיית " +
+          "מחיר או כמות מעבר ל-tolerance (OMR6) ומנקה את חשבון ה-GR/IR. משתמשים: הנהלת חשבונות ספקים, פקיד חשבוניות. " +
+          "שגיאות: סטייה מעבר ל-tolerance וחסימה, תקופה סגורה, ‏GR חסר ב-GR-based IV. טעות: קליטת חשבונית לפני GR ב-GR-based " +
+          "IV. המלצות: GR-based invoice verification, ‏tolerance keys, טיפול בחשבוניות חסומות ב-MRBR. ב-S/4 זמינה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MIRO",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת MRBR",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "MRBR משחררת חשבוניות שנחסמו ב-MIRO (חסימה R) עקב סטיות מחיר, כמות או תאריך, ידנית או אוטומטית. משתמשים: פקיד " +
+          "AP, צוות כספים, מנהל רכש. טעות: שחרור בלי בירור הסטייה. המלצות: בירור סיבת החסימה לפני שחרור, ניטור שבועי של " +
+          "החסומות.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MRBR",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת F110",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "F110 היא תוכנית התשלומים האוטומטית: פרמטרים, הצעה (Proposal), ריצה והפקת קובץ בנק (DME) על פריטים פתוחים " +
+          "בשלים, ונשענת על הגדרות FBZP ועל פרטי הבנק במאסטר הספק. משתמשים: צוות תשלומים, צוות אוצר, מנהל AP. שגיאות: אין " +
+          "אמצעי תשלום תקף, אמצעי תשלום שאינו מותר לספק, פריטים חסומים לתשלום. טעות: הרצת ריצה בלי בדיקת ה-Proposal. " +
+          "ב-S/4 זמינה, ‏Fiori 'Manage Automatic Payments', ורושמת ל-Universal Journal.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#F110",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין מודולי הפונקציה של הפרויקט (FUNCTION_INTEL): BAPI_PR_CREATE",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "BAPI_PR_CREATE יוצר דרישת רכש לחלפים או לשירותים לא-מלאיים, באינטגרציית PM-MM (דרישת רכש לחלף בפקודה); זרימה: " +
+          "רכיב פקודה, דרישת רכש, הזמנת רכש. קלט PRHEADER/PRITEM, פלט NUMBER (מספר הדרישה ב-EBAN) ו-RETURN, וחובה לקרוא " +
+          "BAPI_TRANSACTION_COMMIT לאחר הצלחה. QA: דרישה לחלף לא-מלאי וקישור לפקודה; כשלים: קבוצת רכש חסרה, קטגוריית פריט " +
+          "שגויה; תלויות: קבוצת רכש, סוג דרישה; תרחיש: דרישת רכש מפקודה עם EBAN ו-EBKN. ב-S/4 זמין, חלופה " +
+          "API_PURCHASEREQ_PROCESS_SRV.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_PR_CREATE",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין מודולי הפונקציה של הפרויקט (FUNCTION_INTEL): BAPI_REQUISITION_GETDETAIL",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "BAPI_REQUISITION_GETDETAIL שולף פרטי דרישת רכש: פריטים, ייחוס חשבונאי ומקור, לרכש חלפים לאחזקה (PM-MM); קלט " +
+          "NUMBER ופלט פריטים וייחוס. QA: שליפת דרישה מפקודת אחזקה וייחוס חשבונאי; תרחיש: דרישה שנוצרה מ-IW32 לרכיב " +
+          "לא-מלאי. ב-S/4 זמין, חלופה OData API_PURCHASEREQ_PROCESS_SRV.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_REQUISITION_GETDETAIL",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של הפרויקט: רשומת EBKN",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "EBKN מחזיקה את נתוני הקצאת החשבון של שורת דרישת רכש (מרכז עלות, ‏WBS, הזמנה, חשבון G/L), רלוונטית כשהדרישה " +
+          "מוקצית חשבון (KNTTP אינו ריק), וחיוב מפוצל הוא כמה שורות ZEKKN; מפתח זר AUFNR אל AUFK, ובדוגמת הדיבוג פקודת PM " +
+          "כמקבל נרשמת כ-AUFNR ב-EBKN.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#EBKN",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "blueprint ההגירה של הפרויקט (PM), נושא 9 'אינטגרציית מלאי ורכש (PM-MM)', שורת EBAN",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "EBAN 'דרישת רכש', טרנזקציות 'ME51N; ME52N/ME53N, ‏ME57', ‏Fiori 'Manage Purchase Requisitions (אמת ID)', עמודת S/4 " +
+          "'מותאם (Business Partner לספקים)', 'EBAN (זהה)', 'ME51N נתמך; ספק דרך BP', והערת SUM 'נדרש CVI והמרת " +
+          "ספקים/לקוחות ל-Business Partner לפני/במהלך ההמרה (Pre-check חובה)'; פונקציות BAPI_PR_CREATE " +
+          "ו-BAPI_REQUISITION_GETDETAIL; שדה KNTTP 'Account assignment cat. (F=order)'; קשר EBAN.FLIEF = BUT000.PARTNER, " +
+          "'ספק קבוע בדרישת הרכש - ב-S/4 דרך Business Partner (CVI)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:EBAN",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "blueprint ההגירה של הפרויקט (PM), נושא 9 'אינטגרציית מלאי ורכש (PM-MM)', שורת EBKN",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "EBKN 'חיוב דרישת רכש (לפק\"ע)', טרנזקציות 'ME51N; ME52N', עמודת S/4 'מותאם (חיוב ל-ACDOCA)', 'EBKN (זהה); עלות " +
+          "בפועל ב-ACDOCA', והערת SUM: עלויות מומרות ל-Universal Journal (ACDOCA) ב-SUM, ‏COSP ו-COSS הופכים ל-Views, ויש " +
+          "להתאים דוחות עלות מותאמים והרצות התחשבנות. שדות BANFN, ‏BNFPO, ‏AUFNR 'פק\"ע מחויבת', ‏KOSTL, ‏SAKTO; קשר " +
+          "EBKN.AUFNR = AUFK.AUFNR, 'דרישת הרכש מחויבת לפק\"ע'; פונקציה ACCOUNT_ASSIGNMENT_READ; תוכנית RM06BANF.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:EBKN",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין האובייקטים של הפרויקט (OBJECT_INTEL): רשומת EBAN",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "EBAN נוצרת על ידי מבקש רכש (ME51N), מערכת MRP ומתכנן תחזוקה (PM דרך הזמנה), נקראת על ידי קניין (ME21N / ME57) " +
+          "ומנהל רכש, ומתעדכנת בהמרה להזמנה, ב-ME52N ובזרימת אישורים (Release). תרחיש: דרישת רכש לשירות חיצוני שנוצרה " +
+          "מפקודת תחזוקה (PM). המלצות: אסטרטגיות שחרור לפי ערך או קבוצת רכש, שמירה על הקישור ל-EBKN לחשבונאות עלויות " +
+          "נכונה, ניקוי דרישות פתוחות ישנות שלא הומרו כדי לא להטות דוחות.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/knowledge/object-intel.ts#EBAN",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין האובייקטים של הפרויקט (OBJECT_INTEL): רשומת EBKN",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "EBKN נוצרת על ידי מבקש רכש, מערכת MRP ומתכנן תחזוקה (ייעוד לפקודת PM), ונקראת גם על ידי מערכת ההתחשבנות בזמן " +
+          "GR/IR. תרחיש: ייעוד לפקודת תחזוקה (F) כך שהעלות תיזקף לפקודת PM. המלצות: התאמה בין קטגוריית ייעוד החשבון " +
+          "לאובייקט, בדיקת אובייקט ה-CO לפני המרה להזמנת רכש למניעת חסימת GR, הימנעות מעריכה ידנית של EBKN ועדכון דרך " +
+          "הטרנזקציה, ושמירת עקיבות בין EBAN ל-EBKN לדוחות התחייבויות.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/knowledge/object-intel.ts#EBKN",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז ה-QA של הפרויקט: 'אינטגרציה PM-MM (חלפים)'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "טרנזקציות IW32, ‏ME53N, ‏MIGO, ‏MB23; טבלאות RESB, ‏EBAN, ‏MATDOC, ‏EBKN. תרחישים: רכיב מלאי, רזרבציה, ‏GI 261 ועלות " +
+          "לפקודה; רכיב לא-מלאי, דרישת רכש, הזמנת רכש, קבלת שירות ועלות; ייחוס חשבונאי (EBKN) נכון למרכז עלות הפקודה; GI " +
+          "ללא מלאי נכשל; ביטול אישור מהפך רזרבציה ו-GI.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/qa-center.ts#integration-pm-mm",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נתוני האב של האחזקה בפרויקט (PM master-data facets): עץ מוצר (BOM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "באחזקה עץ המוצר משמש להקצאת חלקי חילוף לפקודות; קטגוריות פריט: L (מלאי, לרזרבציה), ‏N (לא-מלאי, לדרישת רכש), ‏I " +
+          "(אלמנט מבנה PM), ‏T (טקסט). טעות נפוצה: קטגוריית פריט שגויה (L במקום N) מביאה לרזרבציה במקום דרישת רכש לחלף " +
+          "חיצוני, או להפך. דוגמה: שירות כיול חיצוני כפריט לא-מלאי (N) לדרישת רכש, והחלפים נשלפים אוטומטית בפתיחת פקודה. " +
+          "טבלאות MAST, ‏STKO, ‏STPO, ‏STAS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/pm-master-data-facets.ts#MAST",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נתוני האב של האחזקה בפרויקט (PM master-data facets): אב חומר",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "באחזקה אב החומר משמש לחלקי חילוף (מלאי ולא-מלאי); סוגים רלוונטיים: ERSA (חלפים), ‏Non-stock, משאבי תפעול; נוצר " +
+          "ב-MM01. דוגמה: אטם מוקם כחומר ERSA (חלף מלאי) ושירות כיול חיצוני כ-Non-stock עם נתוני רכש בלבד, ושניהם רכיבי " +
+          "BOM ורזרבציות או דרישות רכש בפקודות. טבלאות MARA, ‏MARC, ‏MBEW, ‏MAKT.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/pm-master-data-facets.ts#MARA",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נושא המעבר 'Business Partner (CVI)' של הפרויקט (ECC_S4_TOPICS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim:
+          "ECC: לקוח (XD01) וספק (XK01) נוהלו בנפרד ו-BP אופציונלי. S/4HANA: Business Partner הוא נקודת הכניסה היחידה, " +
+          "לקוח וספק הם תפקידי BP ו-CVI חובה. השפעה: צעד הכנה קריטי במיגרציה (סנכרון CVI, ‏Number Ranges); ספקי חלפים " +
+          "ב-PM-MM מושפעים.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/ecc-s4.ts#business-partner",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Subcontract Purchase Requisitions and Purchase Orders | Maintenance Management (אומת ברשומת table:EBAN)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/b9f59902a6c647e19960e4b05b522b0a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TBL_15,
+        claim: "תיעוד ניהול האחזקה (Maintenance Management) בגרסת 2025 FPS01 קובע שבשמירה או בשחרור של צו אחזקה המערכת יוצרת אוטומטית דרישת רכש של קבלנות משנה: 'When you save or release a maintenance order, the system automatically creates a subcontract purchase requisition', ושינויים בצו האחזקה ברמת הרכיב לאחר יצירת הדרישה משתקפים באותה דרישה: 'If you make changes to the maintenance order at component level after creation of the purchase requisition, the changes are reflected in that purchase requisition'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "MM - Purchase requisition (only open PR) | Data Migration (אומת ברשומת fm:BAPI_PR_CREATE)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/978944291b0444bc90503f90fe51e1f0.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_22,
+        claim: "עמוד אובייקט ההגירה של דרישות רכש פתוחות בחוברת Data Migration לגרסת S/4HANA On-Premise 2025 FPS01 נוקב ב-BAPI_PR_CREATE בשמו, כלשון הסניפט: 'Purchase Requisition Number Manage Purchase Requisition Professional (app ID F2229) BAPI_PR_CREATE'. חלון סניפט נוסף של אותו עמוד (loio 978944291b0444bc90503f90fe51e1f0): 'Name of this migration object: S4_MM_PURCHASE_REQUISITION Virtual Tables ART_EBAN: To handle item data ART_EBKN: To handle account assignment data'. כלומר ה-BAPI נקוב בהקשר הגירת דרישות רכש ל-S/4HANA בגרסה זו. הסניפט מונה את השם בלבד ואינו מתאר פרמטרים, סטטוס שחרור או התנהגות COMMIT.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Purchase Requisition | APIs for Sourcing and Procurement (אומת ברשומת fm:BAPI_PR_CREATE)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91af7f8d3acd47da90d33aaacfcd0d59/9fcd8bf3ff7644faa16c92a010e53fa1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_22,
+        claim: "בחוברת 'APIs for Sourcing and Procurement' לגרסת S/4HANA On-Premise 2025 FPS01, העמוד 'Operations for Purchase Requisition' קובע: 'Purchase requisition offers the following operations', ובהן 'Create a purchase requisition Create POST', קריאה (GET) ועדכון (PATCH) תחת הנתיב /sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionHeader, 'Delete a purchase requisition Delete PATCH' ופעולת EnableForPurchasing (POST). זו חלופת OData מתועדת ליצירה ולעדכון של דרישת רכש. העמוד אינו נוקב בשם ה-BAPI ואינו מציג אותו כמוחלף.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Read a Purchase Requisition | APIs for Sourcing and Procurement (אומת ברשומת fm:BAPI_REQUISITION_GETDETAIL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91af7f8d3acd47da90d33aaacfcd0d59/f244a2979ffd447bb3ed7a9e761fdf92.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_22,
+        claim: "הקשר בלבד (לא טענת יורש): תרחיש הקריאה בשירות OData V4 לדרישות רכש במהדורת 2025 FPS01: 'In this scenario, you wish to read a purchase requisition', 'the purchase requisition along with its associated entities', ובדוגמה 'we are reading the purchase requisition \"10783070\", along with its items and associated entities'. פרגמנט אחר של אותו תקציר מציג GET על ‎/sap/opu/odata4/sap/api_purchaserequisition_2/srvd_a2x/sap/purchaserequisition/0001/PurchaseReqn(PurchaseRequisition='10783070') ותגובה הכוללת את הישויות _PurchaseRequisitionItem, _PurchaseReqnItemText, _PurchaseReqnAcctAssgmt ו-_PurchaseReqnDelivAddress, כלומר קריאת פריטים, טקסטים וייחוס חשבונאי של דרישת רכש. העמוד אינו נוקב ב-BAPI כלשהו.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    lastVerifiedAt: DATE23,
+    reviewer: "Design-audit continuation §11 (process catalog)",
+    notes:
+      "רשומת תהליך חוצת מודולים (PM מול MM ו-FI), ממתינה לסקירת עורך אנושי. כל שדה בפרופיל נגזר מרשומות המאגר הנקובות, " +
+      "רשומה אחת לכל ראיה, או מעמוד רשמי שכבר אומת ברשומות table:EBAN, ‏fm:BAPI_PR_CREATE ו-fm:BAPI_REQUISITION_GETDETAIL " +
+      "(אותה כתובת ואותה טענה). הרשומה מקשרת אל bp:material-staging-and-reservation (צד המלאי), ‏bp:goods-movement-process " +
+      "ו-bp:order-settlement-process במקום לשכפל אותם. פערים גלויים: שדה kpis הושמט, המאגר אינו מתעד מדדי ביצוע לרכש " +
+      "לתחזוקה. לא אותר עמוד רשמי שכבר אומת בשכבות האימות ומכסה את תהליך הרכש לפקודת אחזקה, ולכן ההפניה הרשמית ריקה; " +
+      "העמוד הרשמי שאומת ברשומת table:EBAN ועוסק בדרישת רכש מפקודת אחזקה מתאר קבלנות משנה בלבד. המאגר אינו מתעד מתי " +
+      "נוצרת דרישת הרכש לרכיב לא-מלאי (בשמירה או בשחרור הפקודה), אינו מתעד מפתח בקרה לפעולה חיצונית בפקודה ואינו מקשר " +
+      "את דרישת השירות מהפקודה ל-item category D שבהזמנה; זרימת השירות מתועדת כרכיב לא-מלאי וכגיליון שירות בלבד. המאגר " +
+      "אינו מתעד את אופן הרישום בקבלה של פריט מוקצה-חשבון: בדיקת הקבלה במפת P2P מתארת עדכון מלאי. שמות אפליקציות " +
+      "ה-Fiori שונים בין הרשומות (למשל 'Verify Supplier Invoice' במפת התהליך ו-'Create Supplier Invoice' ברשומת MIRO), " +
+      "ואין להן מזהה בקטלוג הפרויקט. EKKO, ‏EKPO, ‏EKBE, ‏RBKP, ‏RSEG, ‏BSIK, ‏ESSR, ‏ESLL, ‏MATDOC ו-OMR6 אינם במילון הפרויקט " +
+      "ולכן מופיעים בפרוזה בלבד. רשומת האימות fm:BAPI_REQUISITION_GETDETAIL לא איתרה עמוד רשמי הנוקב בשמו, " +
+      "ו-ACCOUNT_ASSIGNMENT_READ, הנקוב ברשומות המאגר לקריאת החיוב, נמצא ברמת verification_required ואינו מוצג כאן " +
+      "כממשק. ל-ME51N, ‏ME53N, ‏ME21N, ‏ML81N, ‏MIRO, ‏MRBR ו-F110 אין רשומת אימות רשמית. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 ];
