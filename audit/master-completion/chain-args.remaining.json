@@ -1,0 +1,136 @@
+{
+ "accessedAt": "2026-09-28",
+ "functionsCommonHint": "Establish: official name and purpose, released or not, RFC-enabled, the parameter contract where an official page prints it, commit/rollback behaviour, ECC and S/4HANA standing, and a released successor (OData/CDS/Fiori) only when a source names it. A name that no official record prints stays verification_required; never assert non-existence.",
+ "batches": [
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:MARC_SINGLE_READ",
+     "he": "קריאה בודדת מאוגרת (buffered) של נתוני מפעל-חומר MARC. FM פנימי (קבוצת פונקציות MG22).",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MARC. Repository transactions: MM01, MM02, MM03, MD04. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:MATERIAL_UNIT_CONVERSION",
+     "he": "המרת יחידת מידה של חומר לפי נתוני אב (קבוצת פונקציות MAME).",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MARM. Repository transactions: MM01, MM02, MM03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:MD_CONVERT_MATERIAL_UNIT",
+     "he": "המרת יחידת מידה של חומר (RFC-enabled, קבוצת פונקציות MDR1).",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MARM. Repository transactions: MM01, MM02, MM03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:QPK1_INSPCHAR_READ",
+     "he": "קריאת מאפייני בדיקה",
+     "hint": "Registry: FM, module PP-PI. Repository tables: PLMK. Repository transactions: QP01, QP02, C202. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:RFC_READ_TABLE",
+     "he": "FM שירות גנרי לקריאת טבלה דרך RFC — אינו אובייקט עסקי של PP. הימנע בפרודקשן; חלופה: CDS/OData או קריאה ייעודית.",
+     "hint": "Registry: FM, module PP-PI. Repository tables: T134T, T023, T023T, T399X, TCK03, T438M, TCO01, TJ30T. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:UNIT_CONVERSION_SIMPLE",
+     "he": "המרת יחידת מידה פשוטה בין יחידות מקור/יעד. כלי עזר מתועד.",
+     "hint": "Registry: FM, module PP-PI. Repository tables: T006. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:USER_STATUS_CHECK",
+     "he": "בדיקת סטטוס משתמש מותר",
+     "hint": "Registry: FM, module PP-PI. Repository tables: TJ30. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:VB_BATCH_DETAIL_GET",
+     "he": "שליפת פרטי אצווה",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MCH1. Repository transactions: MSC1N, MSC2N, MSC3N. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:VB_BATCH_VERIFY",
+     "he": "אימות אצווה במפעל",
+     "hint": "Registry: FM, module PP-PI. Repository tables: MCHA. Repository transactions: MSC1N, MSC2N, MSC3N. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:VIEW_MAINTENANCE_CALL",
+     "he": "FM גנרי לתחזוקת טבלאות (SM30) — אינו אובייקט עסקי של PP.",
+     "hint": "Registry: FM, module PP-PI. Repository tables: T134T, T023, T023T, T399X, TCK03, T438M, TCO01, TJ30T. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:BAPI_MPID_CREATE",
+     "he": "יצירת נקודת מדידה (Measuring Point). (השם הישן BAPI_MEASUREMENTPOINT_CREATE אינו קיים).",
+     "hint": "Registry: BAPI. Repository tables: IMPTT. Repository transactions: IK01. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:BAPI_PLANNEDORDER_CREATE",
+     "he": "יצירת הזמנה מתוכננת (Planned Order).",
+     "hint": "Registry: BAPI. Repository tables: PLAF. Repository transactions: MD11. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:BAPI_PLANNEDORDER_GET_DETAIL",
+     "he": "שליפת פרטי הזמנה מתוכננת — קריאה בלבד.",
+     "hint": "Registry: BAPI. Repository tables: PLAF. Repository transactions: MD13. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:BAPI_PROCORD_COMPLETE_TECH",
+     "he": "סגירה טכנית של פקודות תהליך (TECO).",
+     "hint": "Registry: BAPI. Repository tables: AFKO, JEST. Repository transactions: COR2. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:BAPI_PROCORD_RELEASE",
+     "he": "שחרור פקודות תהליך (Release).",
+     "hint": "Registry: BAPI. Repository tables: AFKO, JEST. Repository transactions: COR2. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:BAPI_PROCORDCONF_CANCEL",
+     "he": "ביטול דיווח פקודת תהליך.",
+     "hint": "Registry: BAPI. Repository tables: AFRU. Repository transactions: CORS. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:BAPI_ROUTING_CREATE",
+     "he": "יצירת מסלול ייצור (Routing). אין BAPI לקריאת מסלול — לקריאה השתמש בטבלאות PLKO·PLPO·MAPL·PLAS.",
+     "hint": "Registry: BAPI. Repository tables: PLKO, PLPO, MAPL, PLAS. Repository transactions: CA01. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:BAPI_TRANSACTION_ROLLBACK",
+     "he": "ביצוע ROLLBACK WORK חיצוני — ביטול השינויים במקרה שגיאה ברצף BAPI.",
+     "hint": "Registry: BAPI. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    }
+   ]
+  },
+  {
+   "catalog": "functions",
+   "queue": [
+    {
+     "id": "fm:CS_BOM_EXPL_MAT_RC1",
+     "he": "הווריאנט _RC1 לא אומת. לפיצוץ עץ מוצר לחומר השתמש ב-CS_BOM_EXPL_MAT_V2 (או _V2_RFC ל-RFC).",
+     "hint": "Registry: FM, module PM/PP-PI. Repository tables: STPO, MAST. Repository transactions: IB02, CS02, CS11, CS15, CS01, CS03, CS12. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:CSAP_MAT_BOM_CREATE",
+     "he": "יצירת עץ מוצר לחומר (FM פנימי, לא RFC — API-modules for BOMs).",
+     "hint": "Registry: FM, module PM/PP-PI. Repository tables: STKO. Repository transactions: IB01, CS01, CS02, CS03. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:STATUS_CHANGE_INTERN",
+     "he": "קביעת/מחיקת סטטוס מערכת (ניהול סטטוס כללי). FM פנימי — הסיומת _INTERN מסמנת קריאה פנימית, לא API משוחרר.",
+     "hint": "Registry: FM, module PM/PP-PI. Repository tables: JEST, T134. Repository transactions: BS22, BS23, IW33, IE03, COR3. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    },
+    {
+     "id": "fm:STATUS_READ",
+     "he": "קריאת סטטוס אובייקט מ-JSTO/JEST (ניהול סטטוס כללי). FM פנימי (FG BSVA).",
+     "hint": "Registry: FM, module PM/PP-PI. Repository tables: JEST. Repository transactions: BS22, BS23, IW33, IE03, COR3. Named in neither official Simplification List (2025 FPS01, 2023 FPS03); a documented negative, not proof of availability."
+    }
+   ]
+  }
+ ]
+}
