@@ -1,0 +1,495 @@
+{
+ "accessedAt": "2026-09-23",
+ "batches": [
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:IP19",
+     "he": "תחזוקה מונעת — תזמון (Scheduling)",
+     "hint": "Registry: module PM, area 'תחזוקה מונעת — תזמון (Scheduling)', English title 'Maintenance Scheduling Overview'. Named in the official Simplification Lists: 2023 FPS03: 29.9 'S4TWL - Changes In List Reports For Order and Notification' | 2025 FPS01: 4.1.10 'S4TWL - SAP Graphics in EAM Transactions'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:IW37",
+     "he": "ביצוע ותחזוקה - פעולות",
+     "hint": "Registry: module PM, area 'ביצוע ותחזוקה - פעולות', English title 'Change Operations'. Named in the official Simplification Lists: 2023 FPS03: 29.9 'S4TWL - Changes In List Reports For Order and Notification' | 2025 FPS01: 4.1.7 'S4TWL - Changes In List Reports For Order and Notification'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:IW49",
+     "he": "דוחות וניהול רשימות - פעולות",
+     "hint": "Registry: module PM, area 'דוחות וניהול רשימות - פעולות', English title 'Display Operations'. Named in the official Simplification Lists: 2023 FPS03: 29.9 'S4TWL - Changes In List Reports For Order and Notification' | 2025 FPS01: 4.1.7 'S4TWL - Changes In List Reports For Order and Notification'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CL6O",
+     "he": "סקירת אובייקטים",
+     "hint": "Registry: module PP-PI, area 'מערכת מחלקות', English title 'Object Overview'. Named in the official Simplification Lists: 2023 FPS03: 28.5 'S4TWL - Classification' | 2025 FPS01: 10.4.9 'S4TWL - Classification'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CO54",
+     "he": "ניטור הודעות תהליך",
+     "hint": "Registry: module PP-PI, area 'אינטגרציית MES', English title 'Process Messages: Process Message Monitor'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.3.16 'S4TWL - Process Messages'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CO55",
+     "he": "PI Sheet",
+     "hint": "Registry: module PP-PI, area 'Maintain PI sheet.', English title 'Self-Defined Maintenance of Process Messages'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.3.18 'S4TWL - Browser-based Process Instruction-Sheets/Electronic Work'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:CO60",
+     "he": "מרשם בקרה",
+     "hint": "Registry: module PP-PI, area 'Find/maintain control recipe.', English title 'Find PI Sheet'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.3.18 'S4TWL - Browser-based Process Instruction-Sheets/Electronic Work'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:COHVPI",
+     "he": "עיבוד המוני - הזמנות תהליך",
+     "hint": "Registry: module PP-PI, area 'הזמנות תהליך', English title 'Mass Processing - Process Orders'. Named in the official Simplification Lists: 2023 FPS03: 52.6 'S4TWL - Selection by characteristics in mass processing of orders' | 2025 FPS01: 13.12.6 'S4TWL - Selection by characteristics in mass processing of orders'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:COPC",
+     "he": "דפדפן גיליון PI",
+     "hint": "Registry: module PP-PI, area 'גיליונות PI', English title 'PI Sheet: Browser'. Named in the official Simplification Lists: 2023 FPS03: 11.1 'S4TWL - Electronic Payment Integration for China'; 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 6.7.7 'S4TWL - Electronic Payment Integration for China'; 9.5.18 'S4TWL - Production Campaign (ERP)'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CORZ",
+     "he": "אישור אירוע זמן להזמנת תהליך",
+     "hint": "Registry: module PP-PI, area 'אישורים', English title 'Process Order: Time Event Confirmation'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.3.16 'S4TWL - Process Messages'; 9.3.17 'S4TWL - Control Recipes/Instructions'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CPC1",
+     "he": "תיעוד נתוני תהליך: מסמכים",
+     "hint": "Registry: module PP-PI, area 'נתוני תהליך', English title 'Process Data Documentation: Documents'. Named in the official Simplification Lists: 2023 FPS03: 12.9 'S4TWL - TECHNICAL CHANGES IN CONTROLLING' | 2025 FPS01: 6.5.2 'S4TWL - ACTIVITY-BASED COSTING'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:C223",
+     "he": "נתוני אב — גרסת ייצור (Production Version)",
+     "hint": "Registry: module PP, area 'נתוני אב — גרסת ייצור (Production Version)', English title 'Maintain Production Version'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:CK11N",
+     "he": "חישוב עלות מוצר (Product Costing)",
+     "hint": "Registry: module PP, area 'חישוב עלות מוצר (Product Costing)', English title 'Create Material Cost Estimate with Quantity Structure'. Named in the official Simplification Lists: 2023 FPS03: 12.9 'S4TWL - TECHNICAL CHANGES IN CONTROLLING' | 2025 FPS01: 6.5.9 'S4TWL - Reporting/Analytics in Controlling'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CL20N",
+     "he": "סיווג — שיוך אובייקט (Classification)",
+     "hint": "Registry: module PP, area 'סיווג — שיוך אובייקט (Classification)', English title 'Assignment of Object to Classes'. Named in the official Simplification Lists: 2023 FPS03: 28.5 'S4TWL - Classification' | 2025 FPS01: 10.4.9 'S4TWL - Classification'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CL24N",
+     "he": "סיווג — שיוך אובייקטים (Classification)",
+     "hint": "Registry: module PP, area 'סיווג — שיוך אובייקטים (Classification)', English title 'Class Assignments'. Named in the official Simplification Lists: 2023 FPS03: 28.5 'S4TWL - Classification' | 2025 FPS01: 10.4.9 'S4TWL - Classification'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CL30N",
+     "he": "סיווג — חיפוש (Classification)",
+     "hint": "Registry: module PP, area 'סיווג — חיפוש (Classification)'. Named in the official Simplification Lists: 2023 FPS03: 28.5 'S4TWL - Classification' | 2025 FPS01: 10.4.9 'S4TWL - Classification'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CM01",
+     "he": "תכנון קיבולת (Capacity Planning)",
+     "hint": "Registry: module PP, area 'תכנון קיבולת (Capacity Planning)', English title 'Capacity Planning: Work Center Load'. Named in the official Simplification Lists: 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CM02",
+     "he": "תכנון קיבולת — הערכה (Capacity Evaluation)",
+     "hint": "Registry: module PP, area 'תכנון קיבולת — הערכה (Capacity Evaluation)', English title 'Capacity Planning: Orders'. Named in the official Simplification Lists: 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:CM03",
+     "he": "תכנון קיבולת: מאגר",
+     "hint": "Registry: module PP, area 'תכנון קיבולת', English title 'Capacity Planning: Pool'. Named in the official Simplification Lists: 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CM04",
+     "he": "תכנון קיבולת — הערכה (Capacity Evaluation)",
+     "hint": "Registry: module PP, area 'תכנון קיבולת — הערכה (Capacity Evaluation)', English title 'Capacity Planning: Backlog'. Named in the official Simplification Lists: 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CM05",
+     "he": "תכנון קיבולת — הערכה (Capacity Evaluation)",
+     "hint": "Registry: module PP, area 'תכנון קיבולת — הערכה (Capacity Evaluation)', English title 'Capacity Planning: Overload'. Named in the official Simplification Lists: 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CM07",
+     "he": "תכנון קיבולת: הערכה משתנה",
+     "hint": "Registry: module PP, area 'תכנון קיבולת', English title 'Capacity Planning: Variable Evaluation'. Named in the official Simplification Lists: 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CM21",
+     "he": "תכנון קיבולת (Capacity Leveling)",
+     "hint": "Registry: module PP, area 'תכנון קיבולת (Capacity Leveling)', English title 'Capacity Leveling: Detailed Planning'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CM25",
+     "he": "תכנון קיבולת: איזון גרפי",
+     "hint": "Registry: module PP, area 'תכנון קיבולת', English title 'Capacity Planning: Leveling (Graphical)'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:CM31",
+     "he": "איזון קיבולת: טבלת תכנון ייצור",
+     "hint": "Registry: module PP, area 'תכנון קיבולת', English title 'Capacity Leveling: Production Planning Table'. Named in the official Simplification Lists: 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CM50",
+     "he": "תכנון קיבולת — הערכה (Capacity Evaluation)",
+     "hint": "Registry: module PP, area 'תכנון קיבולת — הערכה (Capacity Evaluation)', English title 'Capacity Evaluation: Work Center View'. Named in the official Simplification Lists: 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CO02",
+     "he": "ניהול הזמנות ייצור (Discrete Manufacturing)",
+     "hint": "Registry: module PP, area 'ניהול הזמנות ייצור (Discrete Manufacturing)', English title 'Change Production Order'. Named in the official Simplification Lists: 2023 FPS03: 12.9 'S4TWL - TECHNICAL CHANGES IN CONTROLLING' | 2025 FPS01: 6.5.13 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CO03",
+     "he": "ניהול הזמנות ייצור (Discrete Manufacturing)",
+     "hint": "Registry: module PP, area 'ניהול הזמנות ייצור (Discrete Manufacturing)', English title 'Display Production Order'. Named in the official Simplification Lists: 2025 FPS01: 6.5.9 'S4TWL - Reporting/Analytics in Controlling'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CO09",
+     "he": "בדיקת זמינות (Availability Check / ATP)",
+     "hint": "Registry: module PP, area 'בדיקת זמינות (Availability Check / ATP)', English title 'Availability Overview'. Named in the official Simplification Lists: 2023 FPS03: 60.9 'S4TWL - Retail Additionals' | 2025 FPS01: 13.15.59 'S4TWL - Fashion Functionality'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CO53",
+     "he": "PP-PI — ניהול תהליך (Control Recipe Monitor)",
+     "hint": "Registry: module PP, area 'PP-PI — ניהול תהליך (Control Recipe Monitor)', English title 'Control Recipe Monitor'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.3.17 'S4TWL - Control Recipes/Instructions'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:COHV",
+     "he": "ניהול המוני של הזמנות ייצור (Mass Processing)",
+     "hint": "Registry: module PP, area 'ניהול המוני של הזמנות ייצור (Mass Processing)', English title 'Mass Processing of Production Orders'. Named in the official Simplification Lists: 2023 FPS03: 52.6 'S4TWL - Selection by characteristics in mass processing of orders' | 2025 FPS01: 13.12.6 'S4TWL - Selection by characteristics in mass processing of orders'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:COOIS",
+     "he": "מערכת מידע הזמנות ייצור (Order Information System)",
+     "hint": "Registry: module PP, area 'מערכת מידע הזמנות ייצור (Order Information System)', English title 'Production Order Information System'. Named in the official Simplification Lists: 2025 FPS01: 9.2.1 'S4TWL - Logistic Information System in PP'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:COOISPI",
+     "he": "מערכת מידע הזמנות תהליך (PP-PI Order Info System)",
+     "hint": "Registry: module PP, area 'מערכת מידע הזמנות תהליך (PP-PI Order Info System)', English title 'Process Order Information System'. Named in the official Simplification Lists: 2025 FPS01: 9.2.1 'S4TWL - Logistic Information System in PP'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:COR4",
+     "he": "PP-PI — Customizing סוג פקודת תהליך",
+     "hint": "Registry: module PP, area 'PP-PI — Customizing סוג פקודת תהליך', English title 'Detailed Capacity List'. Named in the official Simplification Lists: 2023 FPS03: 12.9 'S4TWL - TECHNICAL CHANGES IN CONTROLLING' | 2025 FPS01: 6.5.13 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CORK",
+     "he": "PP-PI — דיווח לפי Phase",
+     "hint": "Registry: module PP, area 'PP-PI — דיווח לפי Phase', English title 'Process Order Confirmation (Order)'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.3.16 'S4TWL - Process Messages'; 9.3.17 'S4TWL - Control Recipes/Instructions'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CR01",
+     "he": "ניהול נתוני אב — מרכז עבודה (Work Center)",
+     "hint": "Registry: module PP, area 'ניהול נתוני אב — מרכז עבודה (Work Center)', English title 'Create Work Center'. Named in the official Simplification Lists: 2023 FPS03: 12.9 'S4TWL - TECHNICAL CHANGES IN CONTROLLING' | 2025 FPS01: 6.5.9 'S4TWL - Reporting/Analytics in Controlling'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:CR03",
+     "he": "מרכזי עבודה (Work Centers)",
+     "hint": "Registry: module PP, area 'מרכזי עבודה (Work Centers)', English title 'Display Work Center'. Named in the official Simplification Lists: 2023 FPS03: 12.9 'S4TWL - TECHNICAL CHANGES IN CONTROLLING' | 2025 FPS01: 6.5.9 'S4TWL - Reporting/Analytics in Controlling'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CS01",
+     "he": "נתוני אב – עץ מוצר (Bill of Materials)",
+     "hint": "Registry: module PP, area 'נתוני אב – עץ מוצר (Bill of Materials)', English title 'Create Material BOM'. Named in the official Simplification Lists: 2023 FPS03: 28.4 'S4TWL - Variant Configuration'; 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.8 'S4TWL - Variant Configuration'; 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CS02",
+     "he": "נתוני אב — עץ מוצר (Bill of Materials)",
+     "hint": "Registry: module PP, area 'נתוני אב — עץ מוצר (Bill of Materials)', English title 'Change Material BOM'. Named in the official Simplification Lists: 2023 FPS03: 28.4 'S4TWL - Variant Configuration'; 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.8 'S4TWL - Variant Configuration'; 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:CT04",
+     "he": "סיווג — מאפיינים (Characteristics)",
+     "hint": "Registry: module PP, area 'סיווג — מאפיינים (Characteristics)', English title 'Characteristics'. Named in the official Simplification Lists: 2023 FPS03: 28.5 'S4TWL - Classification' | 2025 FPS01: 10.4.9 'S4TWL - Classification'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC74",
+     "he": "העברת נתוני תכנון לניהול ביקושים",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Transfer Planning Data to Demand Management'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC75",
+     "he": "העברת תכנון גס לניהול ביקושים",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Transfer Rough-Cut Plan to Demand Management'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:MC81",
+     "he": "יצירת תכנון גס לקבוצת מוצרים",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Create Rough-Cut Plan for Product Group'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC82",
+     "he": "שינוי תכנון גס",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Change Rough-Cut Plan'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC83",
+     "he": "הצגת תכנון גס",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Display Rough-Cut Plan'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC84",
+     "he": "יצירת קבוצת מוצרים",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Create Product Group'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC85",
+     "he": "הצגת קבוצת מוצרים",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Display Product Group'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC86",
+     "he": "שינוי קבוצת מוצרים",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Change Product Group'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:MC87",
+     "he": "יצירת פרופיל תכנון גס",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Create Rough-Cut Planning Profile'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC88",
+     "he": "שינוי פרופיל תכנון גס",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Change Rough-Cut Planning Profile'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC89",
+     "he": "הצגת פרופיל תכנון גס",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Display Rough-Cut Planning Profile'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC93",
+     "he": "יצירת תכנית מכירות ותפעול גמישה",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Create Flexible Sales & Operations Plan'. Named in the official Simplification Lists: 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC94",
+     "he": "שינוי תכנית מכירות ותפעול גמישה",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Change Flexible Sales & Operations Plan'. Named in the official Simplification Lists: 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MC95",
+     "he": "הצגת תכנית מכירות ותפעול גמישה",
+     "hint": "Registry: module PP, area 'תכנון מכירות ותפעול', English title 'Display Flexible Sales & Operations Plan'. Named in the official Simplification Lists: 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:MD01N",
+     "he": "תכנון דרישות חומר (MRP) — S/4HANA",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר (MRP) — S/4HANA'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version'; 30.2 'S4TWL - MRP in HANA'; 60.9 'S4TWL - Retail Additionals' | 2025 FPS01: 9.5.2 'S4TWL - MRP in HANA'; 10.4.26 'S4TWL - BOM, Routing, Production Version'; 13.15.6 'S4TWL - Segmentation (from 1809 onwards)'; 13.15.10 'S4TWL - Segmentation'; 13.15.58 'S4TWL - Replenishment'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MD02",
+     "he": "תכנון דרישות חומר (MRP)",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר (MRP)', English title 'MRP - Single-Item, Multi-Level'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version'; 30.2 'S4TWL - MRP in HANA' | 2025 FPS01: 9.5.2 'S4TWL - MRP in HANA'; 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MD03",
+     "he": "תכנון דרישות חומר (MRP)",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר (MRP)', English title 'MRP - Single-Item, Single-Level'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version'; 30.2 'S4TWL - MRP in HANA' | 2025 FPS01: 9.5.2 'S4TWL - MRP in HANA'; 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MD07",
+     "he": "תכנון דרישות חומר (MRP)",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר (MRP)', English title 'Current Material Overview'. Named in the official Simplification Lists: 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MD11",
+     "he": "תכנון דרישות חומר (MRP)",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר (MRP)', English title 'Create Planned Order'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MD12",
+     "he": "תכנון דרישות חומר (MRP)",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר (MRP)', English title 'Change Planned Order'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:MD13",
+     "he": "תכנון דרישות חומר (MRP)",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר (MRP)', English title 'Display Planned Order'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MD41",
+     "he": "הרצת MPS",
+     "hint": "Registry: module PP, area 'MPS run single-item.'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 9.5.2 'S4TWL - MRP in HANA'; 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MD43",
+     "he": "תכנון אינטראקטיבי פריט בודד",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר', English title 'Single-Item, Interactive Planning'. Named in the official Simplification Lists: 2025 FPS01: 9.5.2 'S4TWL - MRP in HANA'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MD47",
+     "he": "הערכת תכנון קבוצת מוצרים",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר', English title 'Product Group Planning Evaluation'. Named in the official Simplification Lists: 2025 FPS01: 9.5.17 'S4TWL - Sales and Operation Planning'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MD50",
+     "he": "תכנון דרישות חומר (MRP) / Make-to-Order",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר (MRP) / Make-to-Order', English title 'Make-to-Order Planning - Multi-Level'. Named in the official Simplification Lists: 2023 FPS03: 30.2 'S4TWL - MRP in HANA' | 2025 FPS01: 9.5.2 'S4TWL - MRP in HANA'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MD51",
+     "he": "תכנון דרישות חומר (MRP) / Project",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר (MRP) / Project', English title 'Single-Item Project Planning'. Named in the official Simplification Lists: 2023 FPS03: 30.2 'S4TWL - MRP in HANA' | 2025 FPS01: 9.5.2 'S4TWL - MRP in HANA'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:MDAB",
+     "he": "אתחול Planning File",
+     "hint": "Registry: module PP, area 'Set up planning file (background).', English title 'Set Up Planning File Entries in Background'. Named in the official Simplification Lists: 2023 FPS03: 30.3 'S4TWL - Planning File' | 2025 FPS01: 9.5.2 'S4TWL - MRP in HANA'; 9.5.6 'S4TWL - Planning File'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MDBT",
+     "he": "תכנון דרישות חומר (MRP)",
+     "hint": "Registry: module PP, area 'תכנון דרישות חומר (MRP)', English title 'MRP Run in Background'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version'; 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.11 'S4TWL - Planning Horizon'; 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MF50",
+     "he": "ייצור חוזר (Repetitive Manufacturing)",
+     "hint": "Registry: module PP, area 'ייצור חוזר (Repetitive Manufacturing)', English title 'Planning Table (Repetitive Manufacturing)'. Named in the official Simplification Lists: 2023 FPS03: 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 9.5.4 'S4TWL - Graphical Planning Table'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MFP1",
+     "he": "תכנון ייצור חוזר (REM) — Production Cost Collector",
+     "hint": "Registry: module PP, area 'תכנון ייצור חוזר (REM) — Production Cost Collector'. Named in the official Simplification Lists: 2023 FPS03: 49.2 'S4TWL - Handling Unit Management - Obsolete Transactions' | 2025 FPS01: 13.2.16 'S4TWL - Handling Unit Management - Obsolete Transactions'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MM01",
+     "he": "ניהול נתוני אב — חומר (Material Master)",
+     "hint": "Registry: module PP, area 'ניהול נתוני אב — חומר (Material Master)', English title 'Create Material'. Named in the official Simplification Lists: 2023 FPS03: 3.25 'S4TWL - MRP fields in Material Master'; 3.26 'S4TWL - Material Type SERV'; 16.1 'S4TWL - Material classification with commodity codes'; 27.8 'S4TWL - Material Valuation - Statistical moving average price'; 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 6.7.4 'S4TWL - Material classification with commodity codes'; 9.5.15 'S4TWL - MRP fields in Material Master'; 10.4.26 'S4TWL - BOM, Routing, Production Version'; 12.1.1 'S4TWL - Material Type SERV'; 15.3.10 'S4TWL - Material Valuation - Statistical moving average price'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MM02",
+     "he": "ניהול נתוני אב — חומר (Material Master)",
+     "hint": "Registry: module PP, area 'ניהול נתוני אב — חומר (Material Master)', English title 'Change Material'. Named in the official Simplification Lists: 2023 FPS03: 16.1 'S4TWL - Material classification with commodity codes'; 27.7 'S4TWL - Material Ledger Obligatory for Material Valuation'; 27.8 'S4TWL - Material Valuation - Statistical moving average price'; 5.2 'Logistics Information System (LIS)'; 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 6.7.4 'S4TWL - Material classification with commodity codes'; 10.4.26 'S4TWL - BOM, Routing, Production Version'; 15.3.2 'S4TWL - Material Ledger Obligatory for Material Valuation'; 5.2 'Logistics Information System (LIS)'; 15.3.10 'S4TWL - Material Valuation - Statistical moving average price'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:MM03",
+     "he": "ניהול נתוני אב — חומר (Material Master)",
+     "hint": "Registry: module PP, area 'ניהול נתוני אב — חומר (Material Master)', English title 'Display Material'. Named in the official Simplification Lists: 2023 FPS03: 27.8 'S4TWL - Material Valuation - Statistical moving average price' | 2025 FPS01: 15.3.10 'S4TWL - Material Valuation - Statistical moving average price'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MP38",
+     "he": "ביצוע תחזית המונית",
+     "hint": "Registry: module PP, area 'תחזית', English title 'Execute Mass Forecast'. Named in the official Simplification Lists: 2023 FPS03: 60.9 'S4TWL - Retail Additionals' | 2025 FPS01: 13.15.55 'S4TWL - Retail Obsolete Transactions'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MS01",
+     "he": "תכנון לטווח ארוך - תכנון כולל",
+     "hint": "Registry: module PP, area 'תכנון לטווח ארוך', English title 'Long-Term Planning - Total Planning Online'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MS02",
+     "he": "תכנון לטווח ארוך - פריט בודד רב-רמתי",
+     "hint": "Registry: module PP, area 'תכנון לטווח ארוך', English title 'Long-Term Planning - Single-Item Multi-Level'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MS03",
+     "he": "תכנון לטווח ארוך - פריט בודד חד-רמתי",
+     "hint": "Registry: module PP, area 'תכנון לטווח ארוך', English title 'Long-Term Planning - Single-Item Single-Level'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MS31",
+     "he": "יצירת תרחיש תכנון",
+     "hint": "Registry: module PP, area 'תכנון לטווח ארוך', English title 'Create Planning Scenario'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  },
+  {
+   "catalog": "transactions",
+   "queue": [
+    {
+     "id": "tx:MS32",
+     "he": "שינוי תרחיש תכנון",
+     "hint": "Registry: module PP, area 'תכנון לטווח ארוך', English title 'Change Planning Scenario'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MS33",
+     "he": "הצגת תרחיש תכנון",
+     "hint": "Registry: module PP, area 'תכנון לטווח ארוך', English title 'Display Planning Scenario'. Named in the official Simplification Lists: 2023 FPS03: 28.7 'S4TWL - BOM, Routing, Production Version' | 2025 FPS01: 10.4.26 'S4TWL - BOM, Routing, Production Version'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MSC1",
+     "he": "ניהול אצוות (Batch Management)",
+     "hint": "Registry: module PP, area 'ניהול אצוות (Batch Management)', English title 'Create Batch'. Named in the official Simplification Lists: 2023 FPS03: 3.3 'S4TWL - Logistics Batch Management' | 2025 FPS01: 5.1.8 'S4TWL - Logistics Batch Management'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MSC2",
+     "he": "ניהול אצוות (Batch Management)",
+     "hint": "Registry: module PP, area 'ניהול אצוות (Batch Management)', English title 'Change Batch'. Named in the official Simplification Lists: 2023 FPS03: 3.3 'S4TWL - Logistics Batch Management' | 2025 FPS01: 5.1.8 'S4TWL - Logistics Batch Management'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:MSC3",
+     "he": "ניהול אצוות (Batch Management)",
+     "hint": "Registry: module PP, area 'ניהול אצוות (Batch Management)', English title 'Display Batch'. Named in the official Simplification Lists: 2023 FPS03: 3.3 'S4TWL - Logistics Batch Management' | 2025 FPS01: 5.1.8 'S4TWL - Logistics Batch Management'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    },
+    {
+     "id": "tx:OPL8",
+     "he": "פרמטרים תלויי סוג הזמנה",
+     "hint": "Registry: module PP, area 'קונפיגורציה', English title 'Order Type-Dependent Parameters'. Named in the official Simplification Lists: 2023 FPS03: 12.9 'S4TWL - TECHNICAL CHANGES IN CONTROLLING'; 30.9 'S4TWL - ANSI/ISA S95 Interface' | 2025 FPS01: 6.5.13 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER'; 9.5.5 'S4TWL - Simplified Sourcing'. A mention is a lead: read the item and state what it says about THIS code (replaced, removed, changed, or only listed), quoting it; the item title alone is not a verdict. Establish the ECC and S/4HANA On-Premise standing, the successor transaction or Fiori app only where an official source names it, and keep a code the item does not rule on at verification_required with the search on record."
+    }
+   ]
+  }
+ ]
+}

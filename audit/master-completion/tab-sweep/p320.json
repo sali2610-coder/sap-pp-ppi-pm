@@ -1,7 +1,7 @@
 {
   "viewport": "1363x936",
   "base": "http://localhost:4195",
-  "measuredAt": "2026-09-22T14:27:13.050Z",
+  "measuredAt": "2026-09-23T03:43:05.172Z",
   "results": [
     {
       "id": "home",
@@ -28,7 +28,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 320,
-      "contentH": 26677,
+      "contentH": 26693,
       "offenders": [
         {
           "over": 1046,
@@ -69,7 +69,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 320,
-      "contentH": 25693,
+      "contentH": 25709,
       "offenders": [
         {
           "over": 1046,
@@ -167,7 +167,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 320,
-      "contentH": 17342,
+      "contentH": 18018,
       "offenders": [
         {
           "over": 652,
@@ -208,7 +208,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 320,
-      "contentH": 19124,
+      "contentH": 19633,
       "offenders": [
         {
           "over": 39,
@@ -237,7 +237,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 320,
-      "contentH": 13133,
+      "contentH": 13326,
       "offenders": [
         {
           "over": 766,
@@ -295,11 +295,36 @@
       "canvasOverflow": 0,
       "canvasW": 320,
       "contentH": 858,
-      "offenders": [],
+      "offenders": [
+        {
+          "over": 22,
+          "w": 321,
+          "tag": "svg",
+          "cls": ""
+        },
+        {
+          "over": 22,
+          "w": 96,
+          "tag": "button",
+          "cls": "nst-node"
+        },
+        {
+          "over": 22,
+          "w": 96,
+          "tag": "button",
+          "cls": "nst-node"
+        },
+        {
+          "over": 19,
+          "w": 3,
+          "tag": "i",
+          "cls": "nst-s4"
+        }
+      ],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
       "dimSample": "",
-      "zoom": "36%"
+      "zoom": "55%"
     },
     {
       "id": "tables",
@@ -374,7 +399,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 320,
-      "contentH": 18007,
+      "contentH": 18259,
       "offenders": [
         {
           "over": 1307,
@@ -862,7 +887,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 320,
-      "contentH": 9087,
+      "contentH": 10706,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,

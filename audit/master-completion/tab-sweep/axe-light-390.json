@@ -1,0 +1,133 @@
+{
+ "axe": "4.12.0",
+ "results": [
+  {
+   "url": "/neo/",
+   "violations": []
+  },
+  {
+   "url": "/neo/pm/",
+   "violations": []
+  },
+  {
+   "url": "/neo/pp-pi/",
+   "violations": []
+  },
+  {
+   "url": "/neo/domain-model/",
+   "violations": []
+  },
+  {
+   "url": "/neo/domain/pm-functional-locations/",
+   "violations": []
+  },
+  {
+   "url": "/neo/s4hana/",
+   "violations": []
+  },
+  {
+   "url": "/neo/s4-readiness/",
+   "violations": []
+  },
+  {
+   "url": "/neo/migration-cockpit/",
+   "violations": []
+  },
+  {
+   "url": "/neo/erd/",
+   "violations": []
+  },
+  {
+   "url": "/neo/studio/",
+   "violations": []
+  },
+  {
+   "url": "/neo/tables/",
+   "violations": []
+  },
+  {
+   "url": "/neo/tables/AFKO/",
+   "violations": []
+  },
+  {
+   "url": "/neo/object/MARA/",
+   "violations": []
+  },
+  {
+   "url": "/neo/best-practices/maintenance-order-process/",
+   "violations": []
+  },
+  {
+   "url": "/neo/transactions/",
+   "violations": []
+  },
+  {
+   "url": "/neo/bapi/",
+   "violations": []
+  },
+  {
+   "url": "/neo/bapi/BAPI_ALM_CONF_CREATE/",
+   "violations": []
+  },
+  {
+   "url": "/neo/idoc/",
+   "violations": []
+  },
+  {
+   "url": "/neo/cds/",
+   "violations": []
+  },
+  {
+   "url": "/neo/fiori-apps/",
+   "violations": []
+  },
+  {
+   "url": "/neo/enhancements/",
+   "violations": []
+  },
+  {
+   "url": "/neo/books/",
+   "violations": []
+  },
+  {
+   "url": "/neo/read/book2/",
+   "violations": []
+  },
+  {
+   "url": "/neo/ai/",
+   "violations": []
+  },
+  {
+   "url": "/neo/chat/",
+   "violations": []
+  },
+  {
+   "url": "/neo/knowledge/",
+   "violations": []
+  },
+  {
+   "url": "/neo/academy/",
+   "violations": []
+  },
+  {
+   "url": "/neo/certification/",
+   "violations": []
+  },
+  {
+   "url": "/neo/incidents/",
+   "violations": []
+  },
+  {
+   "url": "/neo/incidents/cogi-stuck/",
+   "violations": []
+  },
+  {
+   "url": "/neo/centers/",
+   "violations": []
+  },
+  {
+   "url": "/neo/best-practices/",
+   "violations": []
+  }
+ ]
+}

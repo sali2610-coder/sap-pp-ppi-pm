@@ -1,0 +1,157 @@
+{
+ "axe": "4.12.0",
+ "results": [
+  {
+   "url": "/neo/",
+   "violations": []
+  },
+  {
+   "url": "/neo/pm/",
+   "violations": []
+  },
+  {
+   "url": "/neo/pp-pi/",
+   "violations": []
+  },
+  {
+   "url": "/neo/domain-model/",
+   "violations": []
+  },
+  {
+   "url": "/neo/domain/pm-functional-locations/",
+   "violations": []
+  },
+  {
+   "url": "/neo/s4hana/",
+   "violations": []
+  },
+  {
+   "url": "/neo/s4-readiness/",
+   "violations": []
+  },
+  {
+   "url": "/neo/migration-cockpit/",
+   "violations": []
+  },
+  {
+   "url": "/neo/erd/",
+   "violations": []
+  },
+  {
+   "url": "/neo/studio/",
+   "violations": []
+  },
+  {
+   "url": "/neo/tables/",
+   "violations": []
+  },
+  {
+   "url": "/neo/tables/AFKO/",
+   "violations": []
+  },
+  {
+   "url": "/neo/object/MARA/",
+   "violations": []
+  },
+  {
+   "url": "/neo/best-practices/maintenance-order-process/",
+   "violations": []
+  },
+  {
+   "url": "/neo/transactions/",
+   "violations": []
+  },
+  {
+   "url": "/neo/bapi/",
+   "violations": []
+  },
+  {
+   "url": "/neo/bapi/BAPI_ALM_CONF_CREATE/",
+   "violations": []
+  },
+  {
+   "url": "/neo/idoc/",
+   "violations": []
+  },
+  {
+   "url": "/neo/cds/",
+   "violations": []
+  },
+  {
+   "url": "/neo/fiori-apps/",
+   "violations": []
+  },
+  {
+   "url": "/neo/enhancements/",
+   "violations": []
+  },
+  {
+   "url": "/neo/books/",
+   "violations": []
+  },
+  {
+   "url": "/neo/read/book2/",
+   "violations": [
+    {
+     "id": "target-size",
+     "impact": "serious",
+     "n": 3,
+     "help": "All touch targets must be 24px large, or leave sufficient space",
+     "sample": [
+      {
+       "t": ".nr-tick[data-on=\"1\"][aria-current=\"true\"]",
+       "html": "<button type=\"button\" class=\"nr-tick\" data-on=\"1\" style=\"--at:0\" aria-current=\"true\" title=\"פרק 1 · Introduction to Production Planning in SAP S/4HANA\"><span cl",
+       "why": "Target has insufficient size because it is partially obscured (smallest space is 28px by 9.9px, should be at least 24px by 24px)"
+      },
+      {
+       "t": ".nr-tick:nth-child(5)",
+       "html": "<button type=\"button\" class=\"nr-tick\" style=\"--at:0.018145161290322582\" title=\"פרק 2 · Organizational Structure in SAP S/4HANA\"><span class=\"nr-sr\">פרק 2 · Orga",
+       "why": "Target has insufficient size because it is partially obscured (smallest space is 28px by 14.4px, should be at least 24px by 24px)"
+      },
+      {
+       "t": ".nr-tick:nth-child(17)",
+       "html": "<button type=\"button\" class=\"nr-tick\" style=\"--at:0.9516129032258065\" title=\"פרק 14 · Demand-Driven Replenishment\"><span class=\"nr-sr\">פרק 14 · Demand-Driven Re",
+       "why": "Target has insufficient size because it is partially obscured (smallest space is 28px by 19.9px, should be at least 24px by 24px)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "url": "/neo/ai/",
+   "violations": []
+  },
+  {
+   "url": "/neo/chat/",
+   "violations": []
+  },
+  {
+   "url": "/neo/knowledge/",
+   "violations": []
+  },
+  {
+   "url": "/neo/academy/",
+   "violations": []
+  },
+  {
+   "url": "/neo/certification/",
+   "violations": []
+  },
+  {
+   "url": "/neo/incidents/",
+   "violations": []
+  },
+  {
+   "url": "/neo/incidents/cogi-stuck/",
+   "violations": []
+  },
+  {
+   "url": "/neo/centers/",
+   "violations": []
+  },
+  {
+   "url": "/neo/best-practices/",
+   "violations": []
+  }
+ ]
+}

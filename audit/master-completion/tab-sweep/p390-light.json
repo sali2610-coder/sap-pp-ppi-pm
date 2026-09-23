@@ -1,7 +1,7 @@
 {
   "viewport": "1363x936",
   "base": "http://localhost:4195",
-  "measuredAt": "2026-09-22T14:25:41.943Z",
+  "measuredAt": "2026-09-23T03:42:21.814Z",
   "results": [
     {
       "id": "home",
@@ -28,7 +28,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 390,
-      "contentH": 23919,
+      "contentH": 23935,
       "offenders": [
         {
           "over": 976,
@@ -69,7 +69,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 390,
-      "contentH": 22951,
+      "contentH": 22967,
       "offenders": [
         {
           "over": 976,
@@ -167,7 +167,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 390,
-      "contentH": 15176,
+      "contentH": 15391,
       "offenders": [
         {
           "over": 582,
@@ -286,7 +286,7 @@
       "dimVisible": 0,
       "minVisibleOpacity": 1,
       "dimSample": "",
-      "zoom": "47%"
+      "zoom": "55%"
     },
     {
       "id": "tables",
@@ -354,7 +354,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 390,
-      "contentH": 16668,
+      "contentH": 16920,
       "offenders": [
         {
           "over": 1237,
@@ -816,7 +816,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 390,
-      "contentH": 7304,
+      "contentH": 8552,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
