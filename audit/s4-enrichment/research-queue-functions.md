@@ -574,3 +574,16 @@ Written by the single writer from the adversarial verdicts (no verdict carried a
 - Header: the batch-19 paragraph added.
 - `test/evidence-schema.test.ts`: no change; functions graduated 2026-09-02, is already in the graduated repoRef test, and FOUNDATION_RECORDS holds only the objects catalog.
 - Gates: `./node_modules/.bin/tsc --noEmit` 0; `./node_modules/.bin/tsc --noEmit -p tsconfig.test.json` 0; `npm test` 212/212 pass; `./node_modules/.bin/eslint data/verification/functions.ts` 0; `validateRecords` over the six alone, over all 121 fm records and over all 393 overlay records: 0 problems in the universe the schema test builds (80 xrefs, all exact ids); 33 distinct URLs (evidence url fields and URLs written inside claims and notes) answered HTTP 200 (the six PDFs 206 to a range request). Coverage (functions, 142): L2 75 to 77, L3 25 to 21, L5 36 to 38, verified 123 to 125, verification_required 5 to 3, conflict 14 to 14, s4-applicable 66 to 64, edition-specific 6 to 6. Per id: CSAP_MAT_BOM_READ L3 repository_verified restricted to L5 sap_official_verified unchanged; DIMENSION_GET L3 repository_verified unchanged to L5 sap_official_verified unchanged; MAKT_SINGLE_READ and MARA_SINGLE_READ L3 repository_verified restricted to L2 sap_official_verified verification_required; CY_CAPACITY_HEADER_READ and CY_CAPACITY_LOAD stay L2 verification_required, level verification_required to sap_official_verified (context evidence). No other id changed. Not run: `next build` (not in this batch's gate list; its prebuild regenerates data/ai-tree/*.json). Not committed.
+
+## main-session batch (2026-09-23) · the 22 ids the weekly usage limit took from the chain
+
+Written in the main session, not by the pipeline: the chain `wf_f565a3e6-6c1` lost its last four batches to the weekly usage limit (resets 2026-09-28). Method: `scripts/sap-help-search.mjs` in three scopes per id (exact name On-Premise, exact name SAP_ERP, `<name> function module` unscoped) plus targeted successor / migration-object queries; every result saved as raw JSON (session scratchpad `fn-src/`, 59 + 25 files) and every quoted English fragment checked mechanically against it by the generator that wrote the records. No adversarial auditor ran; each record's notes say so, and an independent audit of these 22 is the first task after the reset.
+
+| status | ids |
+|---|---|
+| `unchanged` (documented on both sides, no change statement) | BAPI_TRANSACTION_ROLLBACK, CSAP_MAT_BOM_CREATE |
+| `released_api_available` (named as usable in 2025 FPS01 documentation) | BAPI_PROCORDCONF_CANCEL, BAPI_ROUTING_CREATE |
+| `verification_required` with an authored status (official context without the name, or one side only) | MD_CONVERT_MATERIAL_UNIT, RFC_READ_TABLE, BAPI_MPID_CREATE, BAPI_PLANNEDORDER_CREATE, BAPI_PLANNEDORDER_GET_DETAIL, BAPI_PROCORD_COMPLETE_TECH, BAPI_PROCORD_RELEASE, CS_BOM_EXPL_MAT_RC1 |
+| derived status kept, documented negative search | MARC_SINGLE_READ, MATERIAL_UNIT_CONVERSION, QPK1_INSPCHAR_READ, UNIT_CONVERSION_SIMPLE, USER_STATUS_CHECK, VB_BATCH_DETAIL_GET, VB_BATCH_VERIFY, VIEW_MAINTENANCE_CALL, STATUS_CHANGE_INTERN, STATUS_READ |
+
+Not asserted anywhere: non-existence of a name (CS_BOM_EXPL_MAT_RC1 and its recommended CS_BOM_EXPL_MAT_V2 were both absent from every search; the record says so and nothing more).
