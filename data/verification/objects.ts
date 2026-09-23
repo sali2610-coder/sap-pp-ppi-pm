@@ -330,8 +330,9 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
           "רשומות IP01 / IP02 / IP03 / IP10 / IP30 במאגר משייכות את תוכנית האחזקה לטבלאות MPLA (כותרת), MPOS " +
           "(פריטים), MHIS (היסטוריית תזמון) ו-MHIO (אובייקטי קריאה), ל-IP41 / IP42 (תוכנית מחזור יחיד / אסטרטגיה), " +
           "ל-BAPI_MAINTENANCEPLAN_CREATE ולתצוגת CDS‏ I_MaintenancePlan; IP30H נרשמה ב-2026-09-22 כנתיב התזמון " +
-          "ההמוני של S/4HANA (tx:IP30H). מזהה ה-BOR‏ BUS2093 שהתדריך מונה אינו מופיע באף קובץ של המאגר וטרם אומת " +
-          "מול רשומה רשמית.",
+          "ההמוני של S/4HANA (tx:IP30H). מזהה ה-BOR‏ BUS2093 שהתדריך מונה לתוכנית האחזקה מופיע במאגר רק כמזהה ה-BOR " +
+          "של BAPI_RESERVATION_CREATE1 (שמורה, data/bapi-enrichment.pppi.ts), ואף רשומה במאגר אינה קושרת אותו " +
+          "לתוכנית אחזקה; הוא טרם אומת מול רשומה רשמית.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#IP01",
       },
@@ -339,7 +340,8 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
     xrefs: ["table:MPLA", "table:MPOS", "tx:IP01", "tx:IP30H", "cds:I_MaintenancePlan"],
     lastVerifiedAt: SEED_DATE,
     notes:
-      "רשומת זרע: BUS2093 נרשם כמזהה לאימות בלבד (מקור: התדריך), לא כעובדה; אימות רשמי ממתין לפייפליין ה-objects.",
+      "רשומת זרע: BUS2093 נרשם כמזהה לאימות בלבד (מקור: התדריך), לא כעובדה. תיקון 2026-09-23: נוסח קודם קבע " +
+      "שהמזהה אינו מופיע במאגר, אך הוא מופיע בו כ-BOR של שמורה; ראו obj:reservation. אימות רשמי ממתין לפייפליין ה-objects.",
   },
   /* ---- seeds, second round, 2026-09-22 ------------------------------- */
   {
@@ -440,7 +442,9 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
     xrefs: ["table:RESB", "tx:MB21", "fm:BAPI_RESERVATION_CREATE1"],
     lastVerifiedAt: SEED_DATE,
     notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. RKPF ו-BAPI_RESERVATION_CREATE אינם בקטלוג ולכן אינם חברים. אימות רשמי ממתין לפייפליין ה-objects.",
+      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR: קובץ ההעשרה של המאגר " +
+      "מתייג את BAPI_RESERVATION_CREATE1 ב-bor: BUS2093 (data/bapi-enrichment.pppi.ts), אך המזהה לא אומת מול רשומה " +
+      "רשמית. RKPF ו-BAPI_RESERVATION_CREATE אינם בקטלוג ולכן אינם חברים. אימות רשמי ממתין לפייפליין ה-objects.",
   },
   {
     id: "obj:planned-order",

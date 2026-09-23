@@ -55,7 +55,7 @@ export const CERTAINTY_RE: readonly RegExp[] = [
   /(תמיד|לעולם לא|בוודאות|ללא ספק|מובטח|נתמך במלואו|באופן רשמי)/,
 ] as const;
 
-export const PLACEHOLDER_RE: RegExp = /\b(TODO|TBD|FIXME|lorem|xxx)\b|\?\?\?|בקרוב|למלא|placeholder|^\s*$/i;
+export const PLACEHOLDER_RE: RegExp = /\b(TODO|TBD|FIXME|lorem|xxx)\b|\?\?\?|בקרוב|(?<![\u0590-\u05FF])למלא(?![\u0590-\u05FF])|placeholder|^\s*$/i;
 
 /** Same rule as scripts/check-bapi-consistency.mjs. */
 export const SAP_NOTE_RE: RegExp = /^\d{6,7}$/;
