@@ -104,6 +104,28 @@
    conflicting_sources; the other three carry no authored status. Simplification
    List negatives are full-text greps of SIMPL_OP2025.pdf and SIMPL_OP2023.pdf.
    No SAP Note or KBA number, no successor. 0 refuted.
+   Functions batch 12 (2026-09-22): 6 more audited records - CS_BT_BOM_HEADER_READ,
+   EQUI_TIMESEGMENT_READ, EQUIPMENT_DISMANTLE, EQUIPMENT_TEXT_READ,
+   FUNC_LOCATION_LABEL_READ and ILOA_INHERIT_FROM_FUNCLOC. EQUIPMENT_DISMANTLE
+   carries released_api_available on the DismantleEquipment operation of
+   API_EQUIPMENT; the other five carry no authored status. 0 refuted.
+   Functions batch 13 (2026-09-23): 6 more audited records - the ILOA pair
+   (ILOA_READ, ILOA_UPDATE), ISCHED_CALL_GENERATE, ISU_FUNCLOC_GETLIST and the CO
+   cost pair (K_COSTS_READ, K_ORDER_SETTLEMENT). No official record prints any of
+   the six names, and the official evidence documents context only (the tables,
+   the business scenario or a documented read/update channel), never a
+   successor. Four carry no authored status (the derived verification_required
+   of ILOA_READ, ISCHED_CALL_GENERATE and ISU_FUNCLOC_GETLIST and the derived
+   restricted of ILOA_UPDATE stay); the
+   CO pair is authored verification_required because its derived restricted
+   rested on a naming rule in lib/bapi-registry.ts, not on a source. One KBA
+   number is carried (2516482 on ILOA_UPDATE, read from its public preview,
+   cited by its me.sap.com/notes url); SAP Note 838264 is quoted inside one
+   claim as printed on an official page, not read, no sapNote field. Some topic
+   bodies were read in full through the portal's own content service
+   (help.sap.com/http.svc/deliverableMetadata, then http.svc/pagecontent) or in
+   a browser; the auditors re-fetched the content-service bodies and checked the
+   browser-read quotes against the saved page text. 0 refuted.
    Tier-1 evidence comes from
    help.sap.com search records (scripts/sap-help-search.mjs; loio + versionId
    re-verified live), from the fully-read Simplification List PDF, from the
@@ -125,6 +147,7 @@ const DATE2 = "2026-09-02";
 const DATE14 = "2026-09-14";
 const DATE21 = "2026-09-21";
 const DATE22 = "2026-09-22";
+const DATE23 = "2026-09-23";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -829,6 +852,19 @@ const EQUI_DISMANTLE_FI: Evidence = {
   release: "2023.latest",
   accessedAt: DATE22,
   claim: "רשומת החיפוש הרשמית של עמוד ה-Function Imports של הציוד במדריך APIs for Maintenance Management (loio 4373216a4f874dc1aa4b40b742998066, versionId 2023.latest, תאריך 2026-08-05) מתעדת בשירות ה-OData‏ API_EQUIPMENT פעולת פירוק ציוד. כלשון קטעי התקציר: 'location or superordinate equipment POST - <host>/sap/opu/odata/sap/API_EQUIPMENT/Dism…' (התקציר קטוע) ו-'Type: Dismantle Equipment for Superordinate Equipment or Functional Location Entity Set: POST POST - <host>/sap/opu/odata/sap/API_EQUIPMENT/DismantleEquipment?', וכן 'Return Type: Dismantle Equipment for Functional Location with Data Transfer Entity'. כלומר לתרחיש פירוק ציוד ממיקום פונקציונלי או מציוד-על קיימת במהדורה זו פעולת OData מתועדת. התקציר אינו נוקב בשם EQUIPMENT_DISMANTLE ולא בשם מודול פונקציה כלשהו; רשימת הפרמטרים המלאה ודרישות החובה לא נקראו מגוף העמוד.",
+  verificationLevel: "sap_official_verified"
+};
+
+/* functions batch 13 (2026-09-23): shared by an evidence entry of fm:K_COSTS_READ and its status.source */
+const K_COSTS_SIMPL_CO_OM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 - Feature Pack Stack 1 · item 6.5.1 S4TWL - TECHNICAL CHANGES IN CONTROLLING (CO-OM), pp. 319-320",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE23,
+  claim: "מסמך רשימת הפישוט הרשמי SIMPL_OP2025.pdf ‏(Document Version 1.36, ‏1,514 עמודים; הכתובת נבדקה ב-2026-09-23 והחזירה HTTP 200 עם content-length של 10,585,218 בתים, זהה לקובץ שנקרא) חולץ לטקסט מלא ב-pdftotext, בהפקה רגילה ובהפקת layout, ונסרק: המחרוזות K_COSTS_READ, ‏K_COSTS ו-COSTS_READ אינן מופיעות בו ולו פעם אחת, ובשתי ההפקות מופיעה המחרוזת BAPI_ ‏121 פעמים, כך שהחילוץ נושא שמות טכניים. זהו ממצא שלילי תחום למסמך ואינו הוכחה לזמינות. הפריט הנוגע לטבלאות שהמאגר משייך למודול, 6.5.1 S4TWL - TECHNICAL CHANGES IN CONTROLLING ‏(Application Component: CO-OM), קובע בעמ' 319: 'In SAP S/4 HANA the totals records for primary and secondary costs have been removed and the universal journal includes all actual cost postings, both primary and secondary', ובעמ' 320: 'The former tables COEP, COSP, and COSS are replaced by views of the same name, so-called compatibility views, that aggregate the data in the universal journal on the fly in accordance with the old table structures', וכן 'Value types other than ‘04’ and ‘11’ are still stored in COEP, COSP_BAK, COSS_BAK', ‏'From a business point of view, all classic transactions are still running - based on compatibility views or using direct acces to ACDOCA' ו-'Customer coding still runs based on compatibility views'. הפעולה הנדרשת בפריט: 'Please check your customer-specific programs using CO tables. Customer coding should be adapted by replacing the access via compatibility views with direct access to ACDOCA for value types 04 and 11', לצד האזהרה 'Using these views may have a performance impact on existing reports'. הפריט עוסק בטבלאות ואינו נוקב במודול פונקציה כלשהו.",
   verificationLevel: "sap_official_verified"
 };
 
@@ -11839,5 +11875,418 @@ export const FM_VERIFICATION: VerificationRecord[] = [
     ],
     lastVerifiedAt: DATE22,
     notes: "לא נמצא מקור רשמי הנוקב בשם ILOA_INHERIT_FROM_FUNCLOC (בדיקה מ-2026-09-22), ולכן לא נכתב סטטוס מחובר: replaced / deprecated / not_available / released_api_available אינם ברי-טענה, והסטטוס הנגזר verification_required משקף את הראיות. נבדק: (1) שירות החיפוש של help.sap.com (scripts/sap-help-search.mjs, סקופ On-Premise) בחמש שאילתות: השם המדויק, 'ILOA_INHERIT', 'Data Transfer functional location equipment', 'Inheritance of data in the technical object hierarchy' ו-'What's New technical objects data transfer ILOA' / 'Simplification location account assignment ILOA' (שתי האחרונות ללא תוצאות); אף כותרת או תקציר אינם נוקבים בשם. (2) חיפוש רשת מוגבל לדומיינים הרשמיים בשם במירכאות החזיר רק עמודים כלליים על מיקומים פונקציונליים וכותרות KBA במארח userapps.support.sap.com, שאינו ברשימת ההיתר ולכן לא צוטט; אחת הכותרות עוסקת בעדכון שדות מקור הנתונים (data origin) של מיקום פונקציונלי ע\"י BAPI_FUNCLOC_CREATE; גופה לא נקרא ולכן לא צוטטה. (3) חיפוש טקסט מלא (pdftotext) ברשימות הפישוט SIMPL_OP2025.pdf (2025 FPS01, https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf) ו-SIMPL_OP2023.pdf (2023 FPS03, https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf) לא החזיר את המחרוזת ILOA_INHERIT; זהו ממצא שלילי תחום לשתי הרשימות ולא הוכחת זמינות. היעדר תוצאה אינו הוכחה לאי-קיום. חיבור ה-MCP למערכת SAP חיה (sc4sap) נכשל בסשן, ולכן קיום, קבוצת פונקציות, סטטוס Released, דגל RFC, הפרמטרים והתנהגות commit/rollback לא אומתו ב-SE37. תיעוד Data Transfer ו-Transferring Data From Installed Equipment מצוטט כהקשר לתרחיש העסקי בלבד. רשומת חיפוש נוספת שלא נכללה כראיה: 'APIs for Maintenance Management' (2025.001, loio 13d40bd35fc74d289e81fc284a928448) מונה לשירות הציוד 'Install and dismantle equipment without data transfer'; לפי התקציר ההתקנה דרך ה-API מתבצעת ללא העברת נתונים, ולכן אין בה בסיס לראות בשירות חלופה לירושת נתונים. רשומות 'Displaying and Changing Data Origin' (loio 6779bb53707db44ce10000000a174cb4) ו-'Data Transfer Sequence' (loio 5b79bb53707db44ce10000000a174cb4, שתיהן 2025.001) מתארות את מקור הנתונים ואת סדר ההעברה בהיררכיה, ואינן נוקבות במודול. מה חסר לשדרוג: עמוד רשמי הנוקב בשם, או בדיקת SE37 חיה ב-ECC 6.0 וב-S/4HANA היעד (קיום, סטטוס שחרור, RFC, ממשק). לאימות תפקודי: התקנת ציוד ב-IE02 עם 'Install w. DataTransfer' ובדיקת נתוני המיקום בציוד מול המיקום הפונקציונלי ב-IL03. גופי דפי ה-Help הם מעטפות JavaScript, ולכן כל טענה תחומה בכותרת ובתקציר; url, loio ו-versionId הועתקו כלשונם מרשומות החיפוש."
+  },
+  /* ---- fm:ILOA_READ (functions batch 13, 2026-09-23) ---- */
+  {
+    id: "fm:ILOA_READ",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת function-intel, בלופרינט PM (טבלת ILOA), domain-detail ורישום אובייקטי הפונקציה: ILOA_READ",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "רשומת המאגר ב-data/function-intel.ts מתארת את ILOA_READ כקריאת נתוני מיקום/חיוב (ILOA): מרכז עלות, מפעל אחזקה, מיקום וייחוס חשבונאי, מודול PM, תחום 'אובייקטים טכניים', עם קלט ILOAN ('מפתח ILOA', import, חובה) ופלט 'ILOA data' (export, 'נתוני מיקום/חיוב'); שדה ה-ECC אומר 'קיים ב-ECC (אמת ב-SE37)', שדה ה-S/4 אומר 'אמת ב-S/4', הטרנזקציה המקושרת היא IE03 והרשומה מסומנת inferred: true. ה-blueprint של PM (data/sapData.pm.ts, טבלת ILOA) מונה את המודול בתיאור 'קריאת נתוני מיקום/חיוב' לצד ILOA_UPDATE, ILOA_INHERIT_FROM_FUNCLOC והתוכנית RILOAA00, עם הטרנזקציות 'IL02; IE02 (ירושה)' ועמודת S/4 'ללא שינוי (תואם)' ברמת הטבלה. data/domain-detail.ts מונה אותו בין הפונקציות של תחום המיקומים הפונקציונליים, ותקרית equipment-cost-center ב-data/troubleshooting-ext2.ts ('מרכז עלות ציוד שגוי בפקודה') מפנה אליו. רישום אובייקטי הפונקציה גוזר ממנו רשומה ללא העשרה: verificationStatus 'requires-verification', confidence 'derived', eccSupport ו-s4OnPremSupport 'unknown', בלי דגל RFC ובלי דגל commit; הערך stability 'Internal' הוא ברירת המחדל של הגזירה למודול שאינו BAPI ושאינו מאומת. הפרמטרים הם הסקה של המאגר ולא חוזה ממשק מאומת.",
+        verificationLevel: "verification_required",
+        repoRef: "data/function-intel.ts#ILOA_READ; data/sapData.pm.ts#ILOA (funcs); data/domain-detail.ts#pm-functional-locations; data/troubleshooting-ext2.ts#equipment-cost-center; lib/bapi-registry.ts#deriveRegistry"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search ו-pagecontent: \"ILOA_READ\" (SAP_S4HANA_ON-PREMISE, גם במירכאות; SAP_ERP; SAP_S4HANA_CLOUD), \"Function Module ILOA\" ו-\"ILOA location account assignment function module\" (SAP_S4HANA_ON-PREMISE)",
+        url: "https://help.sap.com/http.svc/elasticsearch?area=content&q=ILOA_READ&language=en-US&state=PRODUCTION&transtype=standard&product=SAP_S4HANA_ON-PREMISE&format=json&from=0&size=8",
+        product: "SAP S/4HANA / SAP ERP",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "ממצא שלילי: בשירות החיפוש של SAP Help (2026-09-23; הכתובת היא שאילתת השם המדויק בסקופ On-Premise, ושאר השאילתות נשלחו לאותו שירות בשינוי q ו-product) השם המדויק ILOA_READ החזיר 21 רשומות בסקופ S/4HANA On-Premise, השם במירכאות החזיר 8, ובסקופים SAP ERP ו-S/4HANA Cloud הוחזרו 21 ו-4 רשומות, בסך הכול 46 נושאים שונים. הגופים של כל 46 הנושאים נקראו במלואם דרך שירות התוכן הציבורי של הפורטל (http.svc/pagecontent), ואף אחד מהם אינו מכיל את המחרוזת ILOA_READ או מילה המתחילה ב-ILOA. רוב הנושאים אינם קשורים לתחזוקת מפעל (IO_READ של Payroll Control Center, לוקליזציות מלזיה ורומניה, ביטוח משנה, דוגמאות קריאת ארכיון במדריך Developer Extensibility של S/4HANA Cloud); בסקופ SAP ERP הוחזרו גם שלושה עמודי הודעות אחזקה (Notifications (CS-CM-SN/PM-WOC-MN), 6.05.latest), ואף הם אינם נוקבים בשם. השאילתות 'Function Module ILOA' ו-'ILOA location account assignment function module' החזירו 30 נושאים: 24 גופים נקראו במלואם ושישה עמודי אובייקטי הגירה החזירו את דף הנחיתה של המדריך ונבדקו לפי כותרת ותקציר בלבד; עשרה מהגופים נוקבים בטבלה ILOA או בשדה ILOAN, ואף אחד אינו נוקב בשם המודול. זהו ממצא על מה שלא נמצא ואינו קביעה שהמודול אינו קיים.",
+        verificationLevel: "verification_required"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Function Module FUNC_LOCATION_RFC_002 | Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/7070b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE23,
+        claim: "עמוד התיעוד של מודול פונקציה אחר, FUNC_LOCATION_RFC_002, במדריך Maintenance Management של S/4HANA On-Premise 2025 FPS01 (loio 7070b65334e6b54ce10000000a174cb4; הגוף נקרא במלואו) מתאר 'RFC to functional location: Individual processing, Change/Display/Read' שמאפשר בין השאר 'Just reading of location data (WITH_DIALOG_SCREEN = ' ')', וקובע שנתוני המיקום (view IFLO) מוחזרים בכל קריאה שאינה מסתיימת בחריגה (EXCEPTION). פרמטרי הייבוא המתועדים הם FUNC_LOCATION, SECONDARY_INDEX, FUNC_LOCATION_LABEL, LABELLING_SYSTEM, WITH_DIALOG_SCREEN, EDIT_MODE ו-WAIT_AFTER_COMMIT ('X = Wait for database update'); פרמטרי הייצוא הם IFLO_BA ('Work area returned from transaction') ו-UPDATE_SUCCESS ('X = Update performed'); רשימת השדות כוללת בין השאר ILOAN ('Location and account assignment for the maintenance object'), KOSTL, BUKRS, GSBER, KOKRS, SWERK, STORT, BEBER, IWERK ו-INGRP; והחריגים הם NO_AUTHORITY, INDEX_NOT_UNIQUE, LOCATION_NOT_FOUND ו-LOCATION_LOCKED. כלומר לקריאה מרחוק של נתוני המיקום והחיוב של מיקום פונקציונלי קיים מודול פונקציה מתועד. העמוד אינו נוקב ב-ILOA_READ ואינו מציג את FUNC_LOCATION_RFC_002 כמחליף שלו.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Equipment | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/75e9ecd8ebcb4ab582c365beddbb2c76.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE23,
+        claim: "עמוד הישות Equipment ('Technical name: A_Equipment') במדריך APIs for Maintenance Management של S/4HANA On-Premise 2025 FPS01 (loio 75e9ecd8ebcb4ab582c365beddbb2c76; הגוף נקרא במלואו) מונה בין מאפייני נתוני האב של הציוד את MaintenancePlant, AssetLocation, AssetRoom ו-PlantSection, את CompanyCode, BusinessArea, CostCenter, ControllingArea, WBSElementExternalID ו-SettlementOrder, את MaintenancePlanningPlant, MaintenancePlannerGroup ו-MainWorkCenter, ואת MaintObjectLocAcctAssgmtNmbr ('Indicates the location and account assignment for the technical object'), ובין הפעולות הנתמכות את Read Equipment. עמוד השירות (loio 13d40bd35fc74d289e81fc284a928448, 2025.001) מציג 'Technical name: API_EQUIPMENT', מונה 'Read equipment master data' וקובע שהשירות 'is based on OData protocol and can be consumed by external systems and user interfaces' ושהוא מפורסם ב-SAP Business Accelerator Hub. כלומר נתוני המיקום והחיוב של ציוד מתועדים לקריאה בשירות ה-OData של הציוד. העמודים אינם נוקבים ב-ILOA_READ או בטבלה ILOA, ואינם קובעים ש-MaintObjectLocAcctAssgmtNmbr הוא השדה ILOAN.",
+        verificationLevel: "sap_official_verified"
+      }
+    ],
+    xrefs: [
+      "table:ILOA",
+      "table:IFLOT",
+      "table:EQUI",
+      "table:EQUZ",
+      "tx:IL02",
+      "tx:IL03",
+      "tx:IE02",
+      "tx:IE03",
+      "fm:ILOA_UPDATE",
+      "fm:ILOA_INHERIT_FROM_FUNCLOC",
+      "fm:BAPI_FUNCLOC_GETDETAIL",
+      "fm:BAPI_EQUI_GETDETAIL",
+      "cds:I_FunctionalLocation",
+      "cds:I_Equipment",
+      "bp:technical-objects-process"
+    ],
+    lastVerifiedAt: DATE23,
+    notes: "שיטה (2026-09-23): 23 שאילתות ב-scripts/sap-help-search.mjs (431 רשומות, ואף כותרת או תקציר אינם נוקבים בשם ILOA_READ): השם המדויק בסקופים SAP_S4HANA_ON-PREMISE, SAP_ERP ו-SAP_S4HANA_CLOUD וגם במירכאות, שתי שאילתות מודול פונקציה על ILOA, שאילתות על נתוני מיקום וחיוב (MaintObjectLocAcctAssgmtNmbr, תצוגות VDM, הישויות A_Equipment ו-A_FunctionalLocation, העתקת הנתונים לפקודה), שאילתות 'What's New' ו-'Simplification' על נתוני מיקום וחיוב, ושתי שאילתות בסקופים SAP_ERP ו-SAP_S4HANA_CLOUD להקשר. גופי העמודים נקראו דרך שירות התוכן הציבורי שהפורטל עצמו קורא לו (http.svc/deliverableMetadata ואחריו http.svc/pagecontent ב-help.sap.com), ולכן הטענות בראיות הרשמיות תחומות בגוף העמוד שנקרא. בנוסף שלושה חיפושי רשת: שניים מוגבלים ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal.cloud.sap, שהחזירו עמודים כלליים (קריאה למודולי פונקציה, רשימת מבנה של מיקומים פונקציונליים, READ_TEXT, ILOData של SAP Mobile Services) שאף כותרת בהם אינה נוקבת בשם, ואחד מוגבל לדומייני התמיכה של SAP. שתי רשימות הפישוט הורדו מחדש, SIMPL_OP2025.pdf (2025 FPS01, גרסת מסמך 1.36, https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf) ו-SIMPL_OP2023.pdf (2023 FPS03, גרסת מסמך 1.35, https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf), עם MD5 זהה לרשום ב-audit/master-completion/simpl-functions-index.json, ונסרקו בטקסט מלא (pdftotext רגיל ו-layout): אין בהן ILOA_READ, אין 'ILOA_' ואין ILOAN, והמופע היחיד של המחרוזת ILOA בכל אחת מהן הוא בתוך שם הדוח RSWILOAD. זהו ממצא שלילי תחום לשתי הרשימות ולא הוכחת זמינות. סטטוס: הסטטוס הנגזר שהאפליקציה מציגה היום הוא 'נדרש אימות נוסף' (verification_required ממקור bapi-registry, מסומן inferred) עם הנימוק 'לפי רישום אובייקטי הפונקציה של הפרויקט: נדרש אימות במערכת SAP; תמיכה ב-S/4HANA On-Premise: לא צוין'. ברשומה הזאת לא נכתב סטטוס מחובר, ולכן הנגזר נשאר בתוקף: אף מקור רשמי אינו נוקב בשם, ו-replaced, deprecated, not_available או released_api_available אינם ברי-טענה. לא אומתו: קיום המודול ב-ECC 6.0 וב-S/4HANA, קבוצת הפונקציות, סטטוס Released, דגל RFC, חוזה הפרמטרים (ILOAN כקלט ו-'ILOA data' כפלט הם תיאור המאגר בלבד), החריגים והתנהגות commit/rollback. כמודול קריאה לא צפוי בו commit, אך הדבר לא נבדק ואינו נכתב כטענה. חיבור ה-MCP למערכת SAP חיה (sc4sap) נכשל בפתיחת הסשן, ולכן לא בוצעה בדיקת SE37. הטבלה ILOA עצמה מתועדת ב-S/4HANA 2025 FPS01 (ראו רשומת table:ILOA), וזה אינו אומר דבר על המודול. יורש לא נקבע: שתי הראיות הרשמיות ברשומה, FUNC_LOCATION_RFC_002 ו-API_EQUIPMENT, הן דרכי קריאה מתועדות לאותם נתונים עסקיים ולא מחליפים מוכרזים. גם 'Read Functional Location' של API_FUNCTIONALLOCATION (2025.001, loio f4966d57034b436a907099bdfb374e2b) מציג דוגמת תגובה עם MaintenancePlant, AssetLocation, PlantSection, CompanyCode, BusinessArea, CostCenter, ControllingArea, WBSElementExternalID, SettlementOrder, MaintenancePlanningPlant, MaintenancePlannerGroup ו-MainWorkCenter. תצוגות ה-CDS I_FunctionalLocationData ו-I_EquipmentData (VDM 2023 Latest, loio 7fab53351cf04ae4b9a016336ad489c3 ו-c03993b6d4a24f8e8731aed4cdb313a4, 'Status Released') עונות על 'What are the location details' ועל 'What are the account assignment details', אך בשתיהן כתוב 'This CDS view is modeled for usage as a DataSource in Business Warehouse. We recommend that you only use it for this purpose', ובגרסת הענן הציבורי 2608 של I_FunctionalLocationData 'We strongly recommend'. לצד זאת What's New של 2025 (loio e666a33610e6491f9d800882be108d02, 2025.000) מונה את I_FunctionalLocationData כ-New ברשימת 'Objects Released for Developer Extensibility in Maintenance Management' ('This CDS view allows you to retrieve the data related to a functional location', 'Valid as Of 2025'). לכן התצוגות האלה אינן מוצגות כאן כתחליף כללי לקריאת נתוני מיקום וחיוב. דף ה-VDM של I_Equipment (loio b3f9876bb0eb4141ab9f5dea73e5db4a, 2023 Latest, 'Release Status Released') מונה מפעל תכנון וקבוצת מתכננים ולא מרכז עלות או ייחוס חשבונאי. I_FunctionalLocationData, I_EquipmentData ו-FUNC_LOCATION_RFC_002 אינם ביקום המזהים של הפרויקט ולשירותי OData אין סוג מזהה, ולכן הם ראיה ופרוזה ולא xref. הקשר עסקי: לפי 'Establishment of Reference Object Data' (Orders (CS-SE/PM-WOC-MO), 2025.001, loio 71c7b65334e6b54ce10000000a174cb4), 'When an order is created, the location and account assignment data for the reference object is copied from the master data into the order and established there, so that it is stable for PM-IS evaluations'; את מצב האובייקט העדכני מקבלים בפקודה בפונקציה 'Update reference object data', והעמוד מציע להריץ את התוכנית RIUPDATE_ILOA ברקע ('Execute the program RIUPDATE_ILOA several times daily in the background'). כלומר לפקודת התחזוקה יש עותק משלה של נתוני המיקום והחיוב, וזה רלוונטי לתקרית equipment-cost-center. בצד ה-ECC, 'The Usage History' (Work Management, SAP ERP 6.18.latest, loio 616cb6535fe6b74ce10000000a174cb4) מתאר פלחי זמן תפעוליים לציוד ומונה 'Location data, for example, functional location, maintenance plant, location, room' ו-'Account assignment data, for example, cost center' בין הנתונים שבשינוים המערכת יכולה, לפי הגדרה ב-Customizing, לסגור את תקופת השימוש ולפתוח חדשה; הוא אינו נוקב במודול. חיפוש הרשת בדומייני התמיכה החזיר KBA שהתצוגה המקדימה הפומבית שלו (userapps.support.sap.com, מארח שאינו ברשימת ההיתר) עוסקת בהודעה AM010 בתחזוקת כתובת ב-IE02/IL02; ILOA מופיע בה כמילת מפתח בלבד ו-ILOA_READ אינו מופיע, ולכן לא צוטט. המלצה מעשית (לא טענה רשמית): לא לבנות ממשק חדש או קוד Z על ILOA_READ. לממשק חיצוני לקרוא נתוני מיקום וחיוב דרך API_EQUIPMENT או API_FUNCTIONALLOCATION, או דרך FUNC_LOCATION_RFC_002 למיקומים פונקציונליים, ולבדוק את השדות מול ה-metadata והתיעוד במערכת היעד. לקוד Z קיים שקורא למודול: לאתר ב-where-used או ב-ATC ולאמת ב-SE37 במערכת ECC וב-S/4HANA את קיומו, הממשק וסטטוס השחרור לפני ההמרה. בבירור מרכז עלות שגוי בפקודה להשוות את נתוני המיקום של הפקודה עצמה לנתוני האובייקט הטכני ב-IE03 או ב-IL03. מה חסר לשדרוג: עמוד רשמי הנוקב בשם, או בדיקת SE37 חיה ב-ECC 6.0 וב-S/4HANA היעד (קיום, קבוצת פונקציות, סטטוס שחרור, RFC, ממשק). xrefs: table:ILOA, tx:IL02 ו-tx:IE02 מה-blueprint ומהרישום; tx:IE03 מ-function-intel; tx:IL03 ו-table:EQUI מתקרית equipment-cost-center; table:IFLOT ו-table:EQUZ מקשרי ה-blueprint של ILOA (ILOA.TPLNR = IFLOT.TPLNR, EQUZ.ILOAN = ILOA.ILOAN); fm:ILOA_UPDATE ו-fm:ILOA_INHERIT_FROM_FUNCLOC כמודולים מקבילים תחת ILOA; fm:BAPI_FUNCLOC_GETDETAIL מרשימת הפונקציות של domain-detail; fm:BAPI_EQUI_GETDETAIL, cds:I_FunctionalLocation ו-cds:I_Equipment כקישורי קריאה תפקודיים לאובייקט הטכני (רשומת table:ILOA ממליצה על שתי התצוגות, אך דף ה-VDM של I_Equipment אינו מונה מרכז עלות); bp:technical-objects-process מהפרקטיקה שמתחזקת את ILOA. אלה קישורי מאגר ולא טענה רשמית על המודול. אי-התאמה קלה במאגר: function-intel מקשר את IE03 בעוד ה-blueprint והרישום מונים IL02 ו-IE02. לא נטען שום מספר SAP Note או KBA. url, loio ו-versionId הועתקו כלשונם מרשומות החיפוש, וכל הכתובות שצוטטו או הוזכרו החזירו HTTP 200 ב-2026-09-23."
+  },
+  /* ---- fm:ILOA_UPDATE (functions batch 13, 2026-09-23) ---- */
+  {
+    id: "fm:ILOA_UPDATE",
+    evidence: [
+      {
+        sourceType: "kba",
+        sourceTitle: "2516482 - Update termination and short dump when create notification due to inconsistency in table ILOA",
+        url: "https://me.sap.com/notes/2516482",
+        kba: "2516482",
+        product: "SAP ERP / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "סעיף ה-Symptom בתצוגה המקדימה הפומבית של ה-KBA (userapps.support.sap.com, ללא התחברות) קובע: 'There is an update termination after saving notification creation in transaction code IW21', ושלמרות הודעת המידע שההודעה נוצרה, פתיחתה ב-IW22 מחזירה שגיאה שההודעה אינה קיימת; את פרטי ביטול העדכון בודקים ב-SM13, ו-'In ST22, short dump DBSQL_DUPLICATE_KEY_ERROR is arise from ILOA table insert'. סעיף Keywords מונה: 'Transaction Code IW21; Transaction Code IW51; Update termiation; ILOA_UPDATE; Error on INSERT in table ILOA; RCode = 4; I0 002; LILA0U01; SNRO; ILOAN', עם הרכיבים PM-WOC-MN ו-PM-WOC-MO. סעיף Environment מונה את SAP ERP Plant Maintenance (PM), SAP ERP Customer Service (CS), SAP R/3, SAP ERP Central Component ו-SAP ERP לצד 'SAP S/4HANA, on-premise' ו-'SAP S/4HANA Cloud Private Edition', ורשימת המוצרים כוללת 'SAP S/4HANA all versions'. זו הרשומה היחידה של SAP שנמצאה ומדפיסה את השם ILOA_UPDATE, ורק כמילת מפתח: היא אינה מתארת את המודול, את הממשק שלו, את קבוצת הפונקציות, את סטטוס השחרור או את סימון ה-RFC. סעיפי הסיבה והפתרון דורשים התחברות S-user ולא נקראו.",
+        verificationLevel: "supported_secondary_source"
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישומי הפרויקט: טלאי ה-sweep, רישום אובייקטי הפונקציה, function-intel, בלופרינט PM (טבלת ILOA) וקטלוג הטרנזקציות (IL02)",
+        product: "SAP ECC 6.0 / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "המאגר מתאר את ILOA_UPDATE כמודול פונקציה פנימי לעדכון נתוני מיקום/חיוב (ILOA) של אובייקט טכני. טלאי ה-sweep ב-data/bapi-enrichment.sweep.ts, בקבוצה 'confirmed real but INTERNAL (not released integration APIs)', נושא את התיאור 'עדכון נתוני מיקום/חיוב (ILOA) לאובייקט טכני. FM פנימי (קבוצת פונקציות ILA0).' עם op 'Change', internal ו-commit, ומקור האימות הרשום שלו הוא 'SE37 repository metadata (sapdatasheet.org / se80.co.uk)' מ-2026-07-15, אתרים שאינם ברשימת ההיתר של הפרויקט. הרשומה הנגזרת ב-registry()‎, כפי שנמדדה ב-2026-09-23, נושאת verificationStatus 'internal-unsupported', stability 'Internal', remoteEnabled 'no', requiresCommit ו-requiresSave 'yes', eccSupport ו-s4OnPremSupport 'yes', cloudSupport 'unknown', טרנזקציות IL02 ו-IE02 וטבלה ILOA. data/function-intel.ts מונה קלט 'ILOA data' (import, חובה) ופלט 'RETURN', כותב 'קיים ב-ECC (אמת ב-SE37).' ו-'אמת ב-S/4; העדף BAPI/Fiori לשינוי אובייקט טכני.' ומסמן את הרשומה inferred: true. בלופרינט PM מונה אותו בין הפונקציות של ILOA ('עדכון נתוני מיקום/חיוב') לצד ILOA_READ ו-ILOA_INHERIT_FROM_FUNCLOC, עם הטרנזקציות 'IL02; IE02 (ירושה)', וקטלוג הטרנזקציות מונה אותו ב-IL02 לצד BAPI_FUNCLOC_CHANGE. אף שכבה אינה נסמכת על עמוד SAP רשמי; הפרמטרים, קבוצת הפונקציות וסימון ה-RFC לא אומתו.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.sweep.ts#ILOA_UPDATE; lib/bapi-registry.ts#registry; data/function-intel.ts#ILOA_UPDATE; data/sapData.pm.ts#PM:ILOA (funcs); data/transactions.ts#IL02"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Specifying and Changing Reference Objects | Notifications (CS-CM-SN/PM-WOC-MN)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7f05ca069f8744759f48892c6d307fab/e284c1536ca9b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE23,
+        claim: "הקשר בלבד (לא טענה על המודול): תיעוד Notifications (CS-CM-SN/PM-WOC-MN) למהדורת On-Premise‏ 2025 FPS01 (loio e284c1536ca9b54ce10000000a174cb4, תאריך 2026-02-24) קובע בתקצירו: 'Moreover, the system will copy the location and account assignment data for the reference object from the master data to the notification. You can modify the data here.' רשומת 'Archiving Maintenance Notifications (PM-WOC-MN)' בחוברת Data Archiving in Plant Maintenance and Customer Service (PM/CS) לאותה גרסה (loio 60adb6531de6b64ce10000000a174cb4) מתארת את 'Archiving object PM_QMEL with which you can archive maintenance notifications' ומונה בין טבלאותיו 'ILOA Location Data'. יחד הן מתעדות שלהודעת תחזוקה יש נתוני מיקום וחיוב משלה, המועתקים מאובייקט הייחוס, ושטבלת ILOA נכללת באובייקט הארכוב של ההודעות; זה ההקשר שבו ה-KBA‏ 2516482 מזכיר את השם. אף תקציר אינו נוקב ב-ILOA_UPDATE או במודול פונקציה כלשהו.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Update Functional Location | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/9fc5a7b5dcdb4c2c9d9e40384dac5489.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE23,
+        claim: "הקשר בלבד (לא טענת יורש): העמוד 'Update Functional Location' במדריך APIs for Maintenance Management (2023 Latest, loio 9fc5a7b5dcdb4c2c9d9e40384dac5489) פותח ב-'With this operation, you can update a functional location', ובתקציר מופיעים מדוגמת הקוד המאפיינים AssetLocation, AssetRoom, PlantSection, WorkCenter, ABCIndicator, MaintObjectFreeDefinedAttrib, CompanyCode ו-CostCenter. עמוד השירות לגרסת 2025 FPS01 (loio b6a1e644059f4d53b11201b9c0aaefd7) נוקב ב-'Technical name: API_FUNCTIONALLOCATION' ומתאר את הישות A_FunctionalLocation כ-'Allows you to create, read, and update a functional location'. העמוד המקביל 'Update Equipment' (2023 Latest, loio 4ee7f73c08f84b2d98a8b7cc8fcd672f: 'With this operation, you can update an equipment') מציג את 'PATCH <host>/sap/opu/odata/sap/API_EQUIPMENT/Equipment' ובדוגמה את AssetRoom, PlantSection, WorkCenter, WorkCenterPlant, ABCIndicator ו-MaintObjectFreeDefinedAttrib, ועמוד הישות 'Equipment' לגרסת 2025 FPS01 (loio 75e9ecd8ebcb4ab582c365beddbb2c76) מגדיר את המאפיין MaintObjectLocAcctAssgmtNmbr: 'Indicates the location and account assignment for the technical object'. כלומר נתוני מיקום וחיוב של ציוד ושל מיקום פונקציונלי נחשפים בשירותי ה-OData של תחזוקת מפעל, ופעולות העדכון המתועדות נושאות בדוגמאותיהן מאפייני מיקום וחיוב. התקצירים אינם נוקבים ב-ILOA_UPDATE, אינם מציגים את השירותים כמחליפים שלו, ואינם מראים אם המאפיינים שבדוגמה שייכים לגוף הבקשה.",
+        verificationLevel: "sap_official_verified"
+      }
+    ],
+    xrefs: [
+      "table:ILOA",
+      "table:IFLOT",
+      "table:EQUI",
+      "table:QMEL",
+      "tx:IL02",
+      "tx:IE02",
+      "tx:IW21",
+      "tx:SM13",
+      "fm:ILOA_READ",
+      "fm:ILOA_INHERIT_FROM_FUNCLOC",
+      "fm:BAPI_EQUI_CHANGE",
+      "fm:BAPI_FUNCLOC_CHANGE",
+      "cds:I_Equipment",
+      "cds:I_FunctionalLocation",
+      "bp:technical-objects-process"
+    ],
+    lastVerifiedAt: DATE23,
+    notes: "שיטה (2026-09-23): scripts/sap-help-search.mjs בשם המדויק ILOA_UPDATE בסקופ SAP_S4HANA_ON-PREMISE (6 רשומות), SAP_ERP (2) ו-SAP_S4HANA_CLOUD (6), וכן LILA0U01 ו-'ILA0 function group' (21 רשומות כל אחת); אף כותרת או תקציר אינם נוקבים ב-ILOA_UPDATE, ב-LILA0U01 או ב-ILA0, ומספר הרשומות משתנה בין הרצות (הרצה מוקדמת באותו יום החזירה 8, 5 ו-4). שאילתות נוספות: 'location and account assignment data technical object', 'ILOA location account assignment', 'MaintObjectLocAcctAssgmtNmbr', 'Update Equipment ...', 'Update Functional Location ...', 'What's New location and account assignment technical object', 'Virtual Data Model maintenance object location account assignment CDS view' ו-'Simplification location account assignment ILOA'; אף רשומה אינה נוקבת במודול, ואף רשומת What's New אינה מתעדת שינוי או יורש לו. חיפוש רשת מוגבל לדומיינים של SAP החזיר את ה-KBA‏ 2516482 כרשומה היחידה הנוקבת בשם; התצוגה המקדימה הפומבית שלו נקראה ישירות, והסיכום האוטומטי של מנוע החיפוש, שכינה את LILA0U01 'function module', לא שימש מקור. נקראו גם התצוגות המקדימות של שני KBA נוספים על ILOA, ואף אחד מהם אינו נוקב בשם: 1813340 ('Errors during the update of PM orders': 'This dump happens when system is updating tables ILOA or OBJK', וכן DUMP_NO_ILOAN בהקשר 'Update interruption with dump', סביבת ERP בלבד) ו-3629707 (TPLNR חסר ב-ILOA, בסביבה גם S/4HANA). חיפוש טקסט מלא (pdftotext במצב layout ובמצב raw) ברשימות הפישוט SIMPL_OP2025.pdf (2025 FPS01, https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf) ו-SIMPL_OP2023.pdf (2023 FPS03, https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf) לא החזיר ILOA_UPDATE, ILA0 או ILOA כמילה; המופע היחיד של המחרוזת ILOA הוא בתוך השם RSWILOAD ברשימת אובייקטים לא קשורה. זהו ממצא שלילי תחום לשתי הרשימות ולא הוכחת זמינות. כל כתובות הראיה, הכתובות שבטענות ושני קובצי ה-PDF החזירו HTTP 200 ב-2026-09-23; גופי עמודי ה-Help הם מעטפת JavaScript, ולכן כל טענה תחומה בכותרת ובתקציר, ו-url, loio ו-versionId הועתקו כלשונם מרשומות החיפוש. הסטטוס שהאפליקציה מציגה היום, כפי שנמדד בהרצת registryObject ו-fromFuncRegistry דרך scripts/alias-loader.mjs: 'מוגבל ב-S/4HANA' (restricted, derivedFrom bapi-registry) ברמת 'מאומת מול נתוני הפרויקט', עם הנימוק 'לפי רישום אובייקטי הפונקציה של הפרויקט: מודול פונקציה פנימי; תמיכה ב-S/4HANA On-Premise: כן' וההמלצה 'לא לשימוש כממשק אינטגרציה; לבחור BAPI או API משוחרר.'. לא נכתב סטטוס מחובר, כי אף רשומה רשמית (help.sap.com, api.sap.com, ספריית Fiori) אינה נוקבת בשם, וה-KBA נוקב בו כמילת מפתח בלבד. הסטטוס הנגזר נשאר, וה-KBA אינו סותר אותו: סביבת ה-KBA כוללת S/4HANA On-Premise ו-Private Edition, והקשר ביטול העדכון תואם מודול שרץ בתוך שמירת האובייקט ולא ממשק לקריאה חיצונית. בשל שתי ראיות ההקשר הרשמיות, תג רמת האימות של הרשומה יוצג כ'מאומת מול תיעוד SAP רשמי', אף שהסטטוס עצמו נשען על רישום הפרויקט בלבד. מה ה-KBA מלמד ומה לא: השם מופיע במילות המפתח לצד 'Update termiation' ו-'Error on INSERT in table ILOA; RCode = 4', והתסמין הוא ביטול עדכון אחרי שמירת הודעה ב-IW21, שפרטיו ב-SM13 (לפי קטלוג הטרנזקציות: ניהול רשומות עדכון), עם short dump‏ DBSQL_DUPLICATE_KEY_ERROR מהכנסה ל-ILOA. לפי ההקשר הזה השם קשור לכתיבת ILOA בשמירת הודעת תחזוקה, בעוד המאגר מתאר את המודול כעדכון 'לאובייקט טכני' בלבד; התיעוד הרשמי (ראיה 3) מאשר שלהודעה נתוני מיקום וחיוב משלה ושטבלת ILOA כלולה באובייקט הארכוב PM_QMEL. מילת המפתח LILA0U01 תואמת במוסכמת השמות של ABAP ל-include של קבוצת הפונקציות ILA0 (L, שם הקבוצה, U01), הקבוצה שהמאגר מייחס למודול; השיוך הוא הסקה ממוסכמת השמות ואינו נאמר ב-KBA. מילת המפתח SNRO (לפי קטלוג הטרנזקציות: תחזוקת אובייקטי טווח מספרים) מופיעה בלי הקשר, וסעיפי הסיבה והפתרון לא נקראו, ולכן אין לגזור ממנה סיבה. לא אומתו: סטטוס Released, דגל RFC (המאגר: remoteEnabled 'no'), קבוצת הפונקציות, חוזה הפרמטרים (קלט 'ILOA data' ופלט RETURN הם הסקה של function-intel בלבד) והתנהגות commit/rollback (המאגר: requiresCommit ו-requiresSave 'yes'). לבדוק ב-SE37 במערכת ECC 6.0 ובמערכת S/4HANA היעד את קיום המודול, קבוצת הפונקציות, סוג העיבוד (Processing Type) ורשימת הפרמטרים: אם הוא מוגדר כמודול עדכון, כפי שמרמז הקשר ה-KBA, פלט RETURN שבמאגר דורש בדיקה, כי מודול עדכון אינו מחזיר פרמטרי EXPORT לקורא (ידע כללי ב-ABAP, לא מקור ברשומה). חיבור ה-MCP למערכת SAP חיה (sc4sap) נכשל בסשן, ולכן לא בוצעה בדיקת SE37. חלופות מתועדות, לא יורשים: לשינוי נתוני מיקום וחיוב של אובייקט טכני קיימים BAPI_EQUI_CHANGE ו-BAPI_FUNCLOC_CHANGE (ברשומות האימות שלהם בפרויקט סטטוס released_api_available על מקורות 2025.001) ופעולות העדכון של API_EQUIPMENT ו-API_FUNCTIONALLOCATION (ראיה 4); בעבודה ידנית IE02 ו-IL02, כשלפי רשומת table:ILOA הציוד המותקן יורש את נתוני המיקום והחיוב מהמיקום הפונקציונלי. אף מקור אינו מציג אחת מהן כמחליפה של ILOA_UPDATE, ולכן לא נרשם successor. API_EQUIPMENT, API_FUNCTIONALLOCATION ו-FUNC_LOCATION_RFC_002 אינם מזהים ביקום ומופיעים בפרוזה בלבד. סחיפה במאגר: function-intel מקשר את המודול ל-IE02 בלבד ולתהליך PM-1, הרישום וה-sweep מונים IL02 ו-IE02, קטלוג הטרנזקציות מונה אותו ב-IL02, והבלופרינט רושם 'IL02; IE02 (ירושה)'. רשומות רשמיות שנבדקו ולא נכללו כראיה: 'Establishment of Reference Object Data' (Orders, 2025.001, loio 71c7b65334e6b54ce10000000a174cb4: 'When an order is created, the location and account assignment data for the reference object is copied from the master data into the order and established there, so that it is stable for PM-IS'); 'Equipment Data' (VDM, 2023.latest, loio c03993b6d4a24f8e8731aed4cdb313a4: 'Location, account assignment and installation fields are time-dependent'); 'Function Module FUNC_LOCATION_RFC_002' (2025.001, loio 7070b65334e6b54ce10000000a174cb4), שבו 'ILOAN CHAR 12 Location and account assignment for the maintenance object'. מעמד הטבלה ILOA עצמה ב-S/4HANA (unchanged, 2025.001, שתי רשימות הפישוט) מתועד ברשומת table:ILOA ואינו חוזר כאן. לא נטען מספר SAP Note; מספר ה-KBA‏ 2516482 הועתק מהתצוגה המקדימה שנקראה ומצוטט בכתובת me.sap.com."
+  },
+  /* ---- fm:ISCHED_CALL_GENERATE (functions batch 13, 2026-09-23) ---- */
+  {
+    id: "fm:ISCHED_CALL_GENERATE",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search: \"ISCHED_CALL_GENERATE\" (SAP_S4HANA_ON-PREMISE, SAP_ERP, SAP_S4HANA_CLOUD, ללא סינון מוצר), \"ISCHED\", \"CALL_GENERATE\"",
+        product: "SAP S/4HANA / SAP ERP",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "ממצא שלילי תחום-חיפוש מ-2026-09-23: שאילתת השם המדויק ISCHED_CALL_GENERATE בשירות החיפוש של SAP Help החזירה 4 רשומות בסקופ SAP S/4HANA On-Premise (עמודי לוקליזציה של מלזיה, 2023.latest), 21 בסקופ SAP ERP (בהם עמודי Basic Functions ו-Notifications (CS-CM-SN/PM-WOC-MN) של 6.05.latest ועמודי לוקליזציה של רומניה), 2 בסקופ SAP S/4HANA Cloud (APIs for Warehousing, 2602.500) ו-21 ללא סינון מוצר (IS-H, ICM, Web Dynpro ABAP ועמודי Best Practices של הענן הציבורי), ובאף אחת מהן הכותרת או הסניפט אינם מכילים את השם. שאילתות המקטעים ISCHED ו-CALL_GENERATE בסקופ On-Premise, בסקופ SAP ERP וללא סינון מוצר (בין 12 ל-21 רשומות לשאילתה) לא החזירו כותרת או סניפט המכילים אחד מהם. חיפוש רשת לשם במירכאות, מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap, החזיר רק מסמכי פטנט שאינם קשורים מ-uspto.gov (מחוץ לסינון הדומיין); חיפוש שני, מוגבל ל-help.sap.com, api.sap.com, me.sap.com ו-support.sap.com, החזיר עשרה עמודי help.sap.com על תוכניות תחזוקה שאף כותרת שלהם אינה נוקבת בשם. הממצא תחום לכותרות ולסניפטים של רשומות החיפוש, ואינו קביעה שהמודול אינו קיים במערכת.",
+        verificationLevel: "verification_required"
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "שכבות המאגר: function-intel, ה-blueprint של PM (טבלת MHIO), קטלוג הטרנזקציות, קטלוג התחומים, רישום אובייקטי הפונקציה ומנוע האימות",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "data/function-intel.ts מתאר את ISCHED_CALL_GENERATE כ'יצירת קריאת אחזקה ופקודה/הודעה מתזמון תכנית (Schedule Call).', מודול PM, תחום 'אחזקה מונעת', זרימה 'Plan → Schedule → Call → Order/Notification', קלט חובה 'WARPL/Date' (תכנית + מועד) ופלט 'Call/Order' (קריאה + פקודה (MHIS)); שדה ה-ECC אומר 'קיים ב-ECC (אמת ב-SE37).', שדה ה-S/4 אומר 'אמת ב-S/4.', והרשומה מסומנת inferred: true. ה-blueprint של PM מונה את השם ברשימת הפונקציות של הטבלה MHIO ('אובייקטי קריאת תכנית האחזקה') בתיאור 'יצירת קריאת אחזקה ופק\"ע', לצד MAINTENANCE_PLAN_SCHEDULE ('תזמון ושחרור קריאות') והתוכנית RISTRA20 ('ניטור מועדים ברקע (IP30)'), עם הטרנזקציות 'IP10; IP30, IP24'. data/transactions.ts מונה אותו ב-funcs של IP10 ושל IP30, ו-data/domain-detail.ts ב-funcs של התחום pm-maintenance-planning. שורת registry() שנמדדה ב-2026-09-23 נושאת verificationStatus 'requires-verification', confidence 'derived', stability 'Internal', operationType 'Create', eccSupport, s4OnPremSupport ו-cloudSupport 'unknown', הטבלה MHIO והטרנזקציות IP10, IP30 ו-IP24. מנוע האימות lib/verification.ts כולל את התחילית ^ISCHED_ בביטוי SUSPICIOUS ('suspicious FM/BAdI name patterns (likely dataset-normalized / custom / uncertain)'), ובהרצת findings() ב-2026-09-23 השם נכלל בממצא 'Suspicious FM mappings (תלוי-גרסה/custom)' (52 פריטים). חוזה הפרמטרים הוא הסקה של המאגר ולא חוזה ממשק מאומת.",
+        verificationLevel: "verification_required",
+        repoRef: "data/function-intel.ts#ISCHED_CALL_GENERATE; data/sapData.pm.ts#MHIO (funcs); data/transactions.ts#IP10, #IP30 (funcs); data/domain-detail.ts#pm-maintenance-planning (funcs); lib/bapi-registry.ts#registry; lib/verification.ts#SUSPICIOUS"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Scheduling and Automatic Scheduling | Maintenance Planning (CS-AG/PM-PRM-MP)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f7d969cde600466b96094e772632c3f3/2d396b50389ff015e10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE23,
+        claim: "גוף העמוד (2025 FPS01, loio 2d396b50389ff015e10000000a44176d) נקרא במלואו ב-2026-09-23 דרך שירות התוכן של הפורטל (help.sap.com/http.svc/pagecontent, deliverable_id 40374650, buildNo 1779). כלשונו: 'You schedule a maintenance plan with which the system generates maintenance call objects (for example, maintenance orders or service orders) for the defined cycles'; אפשרויות התזמון הן 'Schedule individual maintenance plans (transaction IP10)' ותזמון אוטומטי, שבו 'it starts the scheduling of individual maintenance plans (transaction IP10)' ו-'When you run the deadline monitoring function, the system converts all the maintenance calls, for which the call horizon has been reached, into maintenance call objects and generates new maintenance calls'. ב-IP30 בוחרים 'Call transaction or BDC session (batch input)', וב-IP30H 'The system creates maintenance calls/maintenance call objects for the defined timeframe'. לפי העמוד 'When the maintenance call is due, the system generates a maintenance call object for each due maintenance item', וסוג האובייקט נקבע לפי קטגוריית תוכנית התחזוקה; יומן התזמון נקרא ב-IBIPA או ב-SLG1 (אובייקט IBIP ל-IP30 ואובייקט IP30H ל-IP30H). אותו loio קיים גם ב-SAP ERP 6.0 EHP8 (6.18.latest, deliverable_id 23795294), וגופו, שנקרא באותו אופן, כמעט זהה: ההבדלים הם הערה על הבדלי הודעות היומן בין IP30H ל-IP30 וניסוח כותרות ונתיבי תפריט. העמוד אינו נוקב במודול פונקציה כלשהו ואינו נוקב ב-ISCHED_CALL_GENERATE.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Schedule a Maintenance Plan | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/54f432f2aa6d4e1aa888c3ee04f0e1f7.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE23,
+        claim: "גוף עמוד הפעולה (2025 FPS01, loio 54f432f2aa6d4e1aa888c3ee04f0e1f7) נקרא במלואו ב-2026-09-23 דרך שירות התוכן של הפורטל (deliverable_id 40374289, buildNo 1779). כלשונו: 'Using this operation, you can schedule a maintenance plan of category Maintenance Notification, Maintenance Order and Service Order', בבקשת POST על ‎/sap/opu/odata/sap/API_MAINTENANCEPLAN/StartMaintPlnSchedule עם הפרמטר MaintenancePlan. העמוד מונה ארבעה פרמטרים: SchedulingStartDate (אם לא הועבר, התאריך הנוכחי), SchedulingStartTime (לתוכניות מונים מרובים בלבד), MaintPlanStartCntrReadingValue (לתוכניות מבוססות ביצועים, למעט מונים מרובים) ו-MaintPlnSchedgCallObjUpToDte: 'If not passed, the calls are released based on the period in schedule that the plan was scheduled. If passed as a date in future, all calls till that period in time will be released and call objects will be created', עם המלצה לא לשחרר קריאות ליותר מארבעה חודשים במחזור חודשי שתקופת התזמון שלו 12 חודשים. לפני ההפעלה 'It is mandatory to do a read operation on the maintenance plan being scheduled', ויש להעביר את ה-e-tag שנוצר בקריאה ככותרת של בקשת ה-POST; התשובה מכילה את נתוני התוכנית שתוזמנה. זו הפעולה המתועדת בשירות ה-OData‏ API_MAINTENANCEPLAN לתזמון שיוצר אובייקטי קריאה; העמוד אינו נוקב ב-ISCHED_CALL_GENERATE ואינו מציג את הפעולה כיורשת של מודול פונקציה כלשהו.",
+        verificationLevel: "sap_official_verified"
+      }
+    ],
+    xrefs: [
+      "table:MHIO",
+      "table:MHIS",
+      "table:MPLA",
+      "table:MPOS",
+      "table:AUFK",
+      "table:QMEL",
+      "tx:IP10",
+      "tx:IP30",
+      "tx:IP30H",
+      "tx:IP24",
+      "fm:MAINTENANCE_PLAN_SCHEDULE",
+      "fm:BAPI_MAINTENANCEPLAN_CREATE",
+      "fm:SCHEDULING_HISTORY_READ",
+      "cds:I_MaintenancePlan",
+      "fiori:F2774",
+      "fiori:F5325",
+      "bp:preventive-maintenance-process"
+    ],
+    lastVerifiedAt: DATE23,
+    notes: "שיטה (2026-09-23): שירות החיפוש של SAP Help דרך scripts/sap-help-search.mjs, ובקריאה ישירה לאותו שירות (help.sap.com/http.svc/elasticsearch) לקבלת סניפטים מלאים, בסקופים SAP_S4HANA_ON-PREMISE (בנעילה ל-2025.001 ובלעדיה), SAP_ERP, SAP_S4HANA_CLOUD וללא סינון מוצר. השאילתות: השם המדויק, 'ISCHED', 'CALL_GENERATE', 'Enhancements to BAPIs for Maintenance Plan Scheduling', 'generate maintenance call object maintenance plan scheduling order notification', 'Release Maintenance Call Fix Maintenance Call API_MAINTENANCEPLAN', 'Schedule a Maintenance Plan API_MAINTENANCEPLAN', 'Schedule Maintenance Plan service operation Technical Name Release State', 'Maintenance Plan Scheduling - Query CDS view call objects', 'Function Module maintenance plan scheduling call', 'Maintenance Plan Call Object entity query call objects', 'External Scheduling in Maintenance Planning', 'IP24 scheduling overview maintenance plans' ו-'Manage Maintenance Plans app'; ושני חיפושי רשת מוגבלי-דומיין. גופם המלא של תשעה עמודים נקרא דרך שירותי ה-JSON שהפורטל עצמו טוען מהם תוכן (help.sap.com/http.svc/deliverableMetadata ואחריו help.sap.com/http.svc/pagecontent), ערוץ על המארח הרשמי שמחזיר את ה-HTML של הנושא. זה מרחיב את מגבלת 'סניפט בלבד' שב-MANIFEST, וכל ציטוט מגוף עמוד ברשומה זו נלקח מהטקסט שהוחזר. העמודים שנקראו: Scheduling and Automatic Scheduling (2025.001 ו-SAP ERP 6.18.latest), Schedule a Maintenance Plan ו-Release Maintenance Call (2025.001), Schedule Maintenance Plan של Enterprise Services in Logistics (2023.latest), Enterprise Asset Management Part 4 (2025.001), Optimizing the Maintenance Plan ו-Optimizing the Scheduling (2025.001), ו-What's New 2021 FPS01 'Schedule Maintenance Plans using Maintenance Plan API'. כל הכתובות המצוטטות החזירו HTTP 200 (עמודי הנושא מחזירים מעטפת JavaScript של 1,160 בתים); url, loio ו-versionId הועתקו מרשומות ה-JSON. (1) רשימות הפישוט: SIMPL_OP2025.pdf (2025 FPS01, גרסת מסמך 1.36, md5 c1ccf8ebcd92d51fdc80e4b4873f3b73, https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf) ו-SIMPL_OP2023.pdf (2023 FPS03, גרסת מסמך 1.35, md5 909c6e9087b009e809c116d3c6cf2eec, https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf) חולצו ב-pdftotext -raw ונסרקו לאחר הסרת כל הרווחים ושבירות השורה (בגלל הטבלאות המסובבות): אפס מופעים של ISCHED, SCHED_CALL ו-CALL_GENERATE בשתיהן, לעומת בקרה חיובית של RISTRA20 ו-IP30H (שני מופעים בכל רשימה, בפריט 4.1.2 / 29.6 'S4TWL - Scheduling of Maintenance Plan'). זהו ממצא שלילי ולא הוכחת זמינות או הסרה. (2) העמודים הרשמיים שמונים מודולי פונקציה בתחום התזמון אינם נוקבים בשם: 'Optimizing the Scheduling' (loio 05a9ce5314894208e10000000a174cb4) מונה את EXIT_SAPLIPM5_001 ו-EXIT_SAPLIPM5_002 של ה-Exit IPRM0002, את IPRM0005, את MEASURE_POINT_UPD_PYEAR (כך בטבלה; בקישור הדוגמה באותו עמוד MEASUREM_POINT_UPD_PYEAR) ואת ה-BAdIs IPRM_MCP_SCHE_CHANGE, IPRM_CHECK_UPD_SCHED, DI_WPS_PLAN_EXT_DATE, IPRM_MCP_DATE_I_PAST ו-IPRM_MCP_UPD_CALLOBJ; 'Optimizing the Maintenance Plan' (loio 17a9ce5314894208e10000000a174cb4) מונה את IPRM0003 ואת IPRM0004 עם EXIT_SAPLIPWP3_004. העמוד 'External Scheduling in Maintenance Planning' (Customer Service, 2025.001, loio 78c5b65334e6b54ce10000000a174cb4) קובע: 'If you generate an order from the maintenance plan, the SAP System calls up the function module PM_ORDER_EXTERN_SCHED_DEFAULT'; זהו מודול ממשק של CS-SDL לתזמון חיצוני, המשויך לערך הקבוע S ב-Customizing (עמוד המודול, loio 7bc5b65334e6b54ce10000000a174cb4, קיים גם ב-SAP ERP 6.18.latest). הוא אינו מתואר כמודול שיוצר את הקריאה, ואף מקור אינו קושר אותו ל-ISCHED_CALL_GENERATE. (3) הפונקציה העסקית LOG_EAM_CI_4 ('Enterprise Asset Management Part 4', loio 3346ac67364447a3ba2f4efa65b8c014, 2025.001, זמינות 'SAP S/4HANA, on-premise edition 1511'; אותו loio גם ב-SAP ERP 6.18.latest) קובעת תחת 'Enhancements to BAPIs for Maintenance Plan Scheduling': 'API functions have been developed for the scheduling of maintenance plans. These APIs provide the same functions as transaction IP10: the creation of maintenance calls or the changing of existing maintenance calls'. העמוד אינו נוקב בשמות ה-APIs האלה, ולכן לא ידוע אם ISCHED_CALL_GENERATE הוא אחד מהם; זו השאלה הראשונה לבדיקת SE37 או BAPI Explorer. (4) ערוצים מתועדים נוספים לאותו תרחיש, שאף מקור אינו מציג כיורשים: 'Release Maintenance Call' (loio 906055bdac514c55ade6d9a2983c4f9d, 2025.001, נקרא במלואו): בקשת POST על ‎/sap/opu/odata/sap/API_MAINTENANCEPLAN/ReleaseCall עם MaintenancePlan ו-MaintenancePlanCallNumber, המאפיין MaintenancePlanCallNumber הוא חובה (ההערה לצידו בעמוד: 'The provided maintenance call number will be fixed', כך במקור), וקריאה מקדימה עם e-tag. What's New 2025 FPS01 'OData API: Maintenance Plan' (loio 880c79762567475fa24fdd9a0c41f500) מוסיף לשירות את Release Maintenance Call ואת Fix Maintenance Call. What's New 2021 FPS01 'Schedule Maintenance Plans using Maintenance Plan API' (loio b49aca3380b5436aa4e5c494fc0fd33d, נקרא במלואו): תזמון והפעלה מחדש של תוכנית אחת או יותר, עיבוד באצווה, 'You can also schedule and release calls for a specific interval within the request. This is useful when you create a period job that generates call objects for a specific duration', ו-'Valid as Of SAP S/4HANA 2021 FPS01'; כלומר במהדורות שלפני 2021 FPS01 מסלול ה-OData הזה אינו חלופה. פעולת השירות 'Schedule Maintenance Plan' של Enterprise Services in Logistics (loio af23a420aa7f11dd2b8d000f20fcb6a9, S/4HANA 2023 Latest ו-SAP ERP 6.0 EHP8 6.18.latest; גרסת 2023 Latest נקראה במלואה): 'Service Operation', 'SAP APPL 6.06', 'Release State released', 'MaintenancePlanERPScheduleRequestConfirmation_In', Web Service Definition ECC_MAINTPLNSCHEDRC, A2X, inbound, synchronous, Idempotency yes; ארבעה מצבי תזמון (1 תזמון ראשוני, 2 תזמון מתוכנן, 3 תזמון מחדש, 4 תזמון מחדש במחזור), שגיאות מוחזרות בצומת Log, וה-BAdI EAM_SE_MAINTPLNSCHEDRC. כלומר ממשק תזמון סינכרוני משוחרר מתועד כבר ב-ECC 6.0 EHP8. API_MAINTENANCEPLAN ופעולת השירות אינם מזהים ביקום הפרויקט, ולכן אינם xref ואינם successor. (5) הסטטוס הנגזר שהאפליקציה מציגה, כפי שנמדד ב-2026-09-23 בהרצת registryObject ו-fromFuncRegistry דרך scripts/alias-loader.mjs: 'נדרש אימות נוסף' ברמת 'נדרש אימות נוסף' (derivedFrom bapi-registry, inferred), בנימוק 'לפי רישום אובייקטי הפונקציה של הפרויקט: נדרש אימות במערכת SAP; תמיכה ב-S/4HANA On-Premise: לא צוין' ובהמלצה 'נדרש אימות מול תיעוד SAP או מערכת S/4HANA לפני החלטה.'. לא נכתב סטטוס: שם שאף רשומה רשמית אינה מדפיסה נשאר verification_required, ולכן הסטטוס הנגזר נשאר בתוקף. רמת הראיות של הרשומה עולה ל'מאומת מול תיעוד SAP רשמי' בזכות שתי הראיות הרשמיות על התרחיש, והסטטוס נשאר פתוח. (6) לא אומתו: קיום השם במערכת, קבוצת הפונקציות, סטטוס Released, דגל RFC, חוזה הפרמטרים (WARPL/Date ו-Call/Order הם הסקת המאגר), והתנהגות COMMIT/ROLLBACK (שורת הרישום מציינת 'כנראה דורש COMMIT (נגזר מסוג הפעולה)', גזירה ולא בדיקה). חיבור ה-MCP sc4sap נכשל בסשן, ולכן לא בוצעה בדיקת SE37. מה חסר לשדרוג: עמוד רשמי הנוקב בשם, או בדיקת SE37 חיה ב-ECC 6.0 וב-S/4HANA היעד (קיום, קבוצת פונקציות, סטטוס שחרור, RFC, ממשק), ובאותה בדיקה לאתר את שמות ה-BAPIs לתזמון של LOG_EAM_CI_4. (7) הכוונה מעשית עד לבדיקה: לא לבנות ממשק חדש על השם הזה. לממשק תזמון חדש ב-S/4HANA מגרסת 2021 FPS01: הפעולה StartMaintPlnSchedule של API_MAINTENANCEPLAN, עם קריאה מקדימה ו-e-tag, ועם MaintPlnSchedgCallObjUpToDte לשליטה בטווח שבו נוצרים אובייקטי קריאה, והפעולה ReleaseCall לשחרור קריאה בודדת. ב-ECC 6.0 EHP8, או במהדורה שבה מסלול ה-OData אינו זמין: פעולת השירות MaintenancePlanERPScheduleRequestConfirmation_In, המתועדת תחת SAP ERP 6.0 EHP8 ותחת S/4HANA 2023 Latest (זמינותה במהדורות S/4HANA אחרות לא נבדקה כאן). לתזמון רקע ב-S/4HANA: IP30H (RISTRA20H) לפי פריט הפישוט. לאימות תפקודי: לאחר תזמון לבדוק את הקריאות ב-MHIS, את אובייקטי הקריאה ב-MHIO ואת הפקודה (AUFK) או ההודעה (QMEL) שנוצרו, ואת יומן התזמון ב-IBIPA או ב-SLG1. (8) xrefs: table:MHIO, tx:IP10, tx:IP30, tx:IP24 ו-fm:MAINTENANCE_PLAN_SCHEDULE מרשומת MHIO ב-blueprint (לפי הסניפט של 'Specifying End Date and End Counter', loio 240a205cebe6470496d25e5689c636d7, IP24 היא אחת מרשימות הסקירה IP15, IP16 ו-IP24); tx:IP30H מהעמוד 'Scheduling and Automatic Scheduling'; table:MHIS מ-data/transactions.ts (IP10, IP30); table:MPLA ו-table:MPOS הן טבלאות התוכנית והפריט במאגר, ו-table:AUFK ו-table:QMEL טבלאות הפקודה וההודעה במאגר: הראיות הרשמיות נוקבות בישויות (תוכנית תחזוקה, 'each due maintenance item', פקודות והודעות כאובייקטי קריאה) ולא בשמות הטבלאות; fiori:F2774 (Mass Schedule Maintenance Plans; What's New 1709, loio ef815ff35f454fb389d17bbae8ac7250: 'generate new maintenance calls and call objects') ו-fiori:F5325 (Manage Maintenance Plans; Maintenance Management 2025.001, loio f0e9632b0e654fbeae597bad6abb823c: 'App ID:F5325'; What's New 2022, loio a784971bbee742b2bc491a97583a3621: 'view, create, change, schedule, activate, and delete maintenance plans'); fm:BAPI_MAINTENANCEPLAN_CREATE ו-fm:SCHEDULING_HISTORY_READ הם שכני תחום מ-data/domain-detail.ts; cds:I_MaintenancePlan הוא עוגן ניווט בלבד (לפי הערות רשומת הפרויקט התצוגה הוצאה משימוש מ-S/4HANA 2021 ונמחקת מ-2023, והיורשת I_MaintenancePlanBasic אינה ביקום); bp:preventive-maintenance-process הוא התהליך. enh:exit:IPRM0001 לא נוסף: שני עמודי ה-Exits שנקראו במלואם אינם נוקבים בו. fm:VIEW_MAINTENANCE_CALL לא נוסף: לפי function-intel הוא תחזוקת View דרך SM30, ואינו קשור לקריאות תחזוקה למרות שמו. הקשר רשמי שלא צורף כראיה: 'Maintenance Call Object' (loio ffa8ce5314894208e10000000a174cb4, 2025.001: 'An object which is generated by the system for a due maintenance call'); תצוגת ה-VDM C_MaintPlanSchedgOvwQuery ('Maintenance Plan Scheduling - Query', 2023.latest, loio f6b4b3ea661d416aa6256d04b9580f0a); הישות 'Maintenance Plan Call Object' של API_MAINTENANCEITEM (loio 59b11c027e3845fe909262e105d7fb40, 2025.001); וה-BAdI CRMS4_MPLAN_SCHEDULING ('BAdIs in Recurring Service', loio 15d8e9d11edb407d9ffec17d0ba67ad5), לבדיקות לקוח ביצירת אובייקט הקריאה בשירות החוזר (הסניפט נקטע). לא נטען שום מספר SAP Note או KBA."
+  },
+  /* ---- fm:ISU_FUNCLOC_GETLIST (functions batch 13, 2026-09-23) ---- */
+  {
+    id: "fm:ISU_FUNCLOC_GETLIST",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search: \"ISU_FUNCLOC_GETLIST\" (SAP_S4HANA_ON-PREMISE, SAP_ERP, SAP_S4HANA_CLOUD), \"ISU_FUNCLOC\" (SAP_S4HANA_ON-PREMISE), \"FUNCLOC_GETLIST\" (SAP_S4HANA_ON-PREMISE, SAP_ERP)",
+        product: "SAP S/4HANA / SAP ERP",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "ממצא שלילי תחום-חיפוש: בשירות החיפוש של SAP Help ‏(2026-09-23) החזירה שאילתת השם המדויק ISU_FUNCLOC_GETLIST חמש רשומות בסקופ SAP S/4HANA On-Premise (ארבעה עמודי לוקליזציה של מלזיה והמחלקה CL_ISU_EDM_SETTLSTEP_0014 של Utilities; ספירת השירות משתנה בין הרצות, ובהרצה אחת הוחזרה רשומה שישית, עמוד Intercompany Data Exchange ללא תקציר), ‏21 רשומות בסקופ SAP ERP (בין השאר מחלקות CL_ISU_EDM_SETTLSTEP של Energy Data Management, שלושה עמודי Notifications ‏(CS-CM-SN/PM-WOC-MN), עמודי לוקליזציה של רומניה ועמודי מדריך האבטחה של ECC) וחמש רשומות בסקופ SAP S/4HANA Cloud (בהן 'Create Functional Location' של APIs for Maintenance Management), כולן ללא תקציר, ואף כותרת אינה נוקבת בשם. השאילתה 'ISU_FUNCLOC' החזירה תקציר יחיד, העוסק במשימת ה-Workflow‏ TS 20000390 ('Create functional location', ‏ISRE_FUNCLOC) של Real Estate ‏(IS-RE-BD-RU), והשאילתה 'FUNCLOC_GETLIST' (On-Premise ו-SAP ERP) לא החזירה כותרת או תקציר הנוקבים במחרוזת. הרצת WebSearch מוגבלת ל-help.sap.com, ‏api.sap.com, ‏fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap על השם במירכאות החזירה עשר תוצאות שאף כותרת שלהן אינה נוקבת בשם, ובהן ארבעה קובצי PDF סטטיים ב-help.sap.com (פרק IS-U SAP Utilities בהערות השחרור של ECC 6.0 ושלושה מדריכים של פתרונות Utopia); חיפוש טקסט מלא בארבעתם לא מצא את המחרוזת. הממצא תחום לרשומות שנבדקו ואינו קביעה שהמודול אינו קיים במערכת.",
+        verificationLevel: "verification_required"
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ה-blueprint של PM (רשומת IFLOT), קטלוג הפונקציות ומודיעין האובייקטים של הפרויקט",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "ה-blueprint של PM ‏(docs/SAP_PM_ECC6_to_S4_Migration.xlsx: גיליון 'מסך ניווט מרכזי' שורה 17 וגיליון '1. מבנה ארגוני ותשתית' תא H4, כפי שנוצרו ל-data/sapData.pm.ts) מונה את ISU_FUNCLOC_GETLIST ברשימת הפונקציות של IFLOT ('רשומת אב של מיקום פונקציונלי') בתיאור 'שליפת רשימת מיקומים לפי בחירה', לצד BAPI_FUNCLOC_CREATE, ‏BAPI_FUNCLOC_CHANGE ו-BAPI_FUNCLOC_GETDETAIL ועם tcodes‏ 'IL01/IL02/IL03; IH01, IH06'. קטלוג הפונקציות ‏(data/function-intel.ts) מתאר 'שליפת רשימת מיקומים פונקציונליים לפי קריטריוני בחירה' במודול PM, עם קלט 'Selection (plant/struct/class)' ופלט 'FUNCLOC list' מ-IFLOT; לפי שדה ה-ECC שלו המודול קיים ב-ECC אך השם והזמינות תלויי גרסה ויש לאמת ב-SE37, ושדה ה-S/4 ממליץ להעדיף ב-S/4 את CDS I_FunctionalLocation או Fiori. הרשומה נושאת דגל inferred: true. מודיעין האובייקטים (data/knowledge/object-intel.ts, רשומת IFLOT) מונה ב-classesApis את BAPI_FUNCLOC_CREATE, ‏BAPI_FUNCLOC_CHANGE, ‏BAPI_FUNCLOC_GETDETAIL ו-BAPI_FUNCLOC_GETLIST, כלומר BAPI_FUNCLOC_GETLIST במקום שבו ה-blueprint נוקב ב-ISU_FUNCLOC_GETLIST. אלה נתוני פרויקט: שם המודול, הפרמטרים והזמינות אינם חוזה ממשק מאומת.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#IFLOT (funcs); data/function-intel.ts#ISU_FUNCLOC_GETLIST; data/knowledge/object-intel.ts#IFLOT"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Read Functional Location | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/f4966d57034b436a907099bdfb374e2b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE23,
+        claim: "מדריך APIs for Maintenance Management למהדורת On-Premise‏ 2025 FPS01 מתעד את הפעולה 'Read Functional Location' של שירות ה-OData‏ API_FUNCTIONALLOCATION; לפי התקציר היא קוראת 'Read all functional locations' ו-'Read a functional location', עם בקשת דוגמה על הנתיב ‎<host>/sap/opu/odata/sap/API_FUNCTIONALLOCATION. רשומת 'Functional Location' באותו מדריך ובאותה מהדורה (loio b6a1e644059f4d53b11201b9c0aaefd7) מציגה בתקציר, אחרי הנתיב ‎/sap/opu/odata/sap/API_FUNCTIONALLOCATION/FunctionalLocation? וקטיעה, את המחרוזת ‎$filter=FunctionalLocationLabelName eq 'TEST-ANK-AA-13', ולצידה את המשפט 'You need to get the functional location ‘Internal ID’ using: /sap/opu/odata/sap/API_FUNCTIONALLOCATION/FunctionalLocation?' (התקציר קטוע). זו חלופה מתועדת לתרחיש שליפת רשימת מיקומים פונקציונליים; אף אחת משתי הרשומות אינה נוקבת ב-ISU_FUNCLOC_GETLIST ואינה מציגה את השירות כמחליף של מודול פונקציה כלשהו.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Functional Location | Virtual Data Model and CDS Views",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/bb72281d5569412e9d1721cc89209f42.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE23,
+        claim: "עמוד ה-VDM מתעד את התצוגה שקטלוג הפונקציות של הפרויקט ממליץ עליה ב-S/4HANA. לפי התקציר: 'Functional Location Technical Name I_FunctionalLocation View Type Basic Release Status Released', עם שאלות עסקיות כמו 'What is the system status of this functional location?' ו-'What are the manufacturer details of this functional location?'. תקציר אחר של אותו עמוד מביא את השאלה 'What are the functional location ID and the functional location description?', מונה בין המאפיינים 'Functional location category', 'Functional location structure' ו-'Superior functional location', ומכיל את המחרוזת 'IL03 and IH06' (ההקשר שלפניה נקטע). בחיפושים שנערכו הנושא הוחזר ב-On-Premise תחת 2023 Latest; חיפוש בסינון 2025.001 החזיר עמודי API_FUNCTIONALLOCATION ולא את העמוד הזה. העמוד אינו נוקב במודול פונקציה ואינו מציג את התצוגה כיורשת של מודול כלשהו.",
+        verificationLevel: "sap_official_verified"
+      }
+    ],
+    xrefs: [
+      "table:IFLOT",
+      "table:IFLOS",
+      "tx:IL01",
+      "tx:IL02",
+      "tx:IL03",
+      "tx:IL07",
+      "tx:IH01",
+      "tx:IH06",
+      "fm:BAPI_FUNCLOC_GETDETAIL",
+      "fm:BAPI_FUNCLOC_CREATE",
+      "fm:BAPI_FUNCLOC_CHANGE",
+      "cds:I_FunctionalLocation"
+    ],
+    lastVerifiedAt: DATE23,
+    notes: "מה נבדק בפועל ב-2026-09-23: (1) עשרים הרצות של scripts/sap-help-search.mjs: השם המדויק בשלושה מוצרים (SAP_S4HANA_ON-PREMISE, ‏SAP_ERP, ‏SAP_S4HANA_CLOUD); 'ISU_FUNCLOC'; 'FUNCLOC_GETLIST' ו-'BAPI_FUNCLOC_GETLIST' ב-On-Premise וב-SAP ERP; 'Functional Location API_FUNCTIONALLOCATION read'; 'I_FunctionalLocation'; 'Functional Location list IH06'; 'Simplification functional location'; 'I_FunctionalLocation Release Status Released'; 'API_FUNCNLLOC_STRUCLIST Functional Location Hierarchy Read'; 'Read all functional locations', 'Read Functional Location filter' ו-'Functional Location I_FunctionalLocation Virtual Data Model' בסינון 2025.001; ובסקופ SAP_ERP גם 'Functional location BAPI GetList', 'BUS0010 functional location' ו-'list of functional locations selection'. אף כותרת או תקציר לא נקבו ב-ISU_FUNCLOC_GETLIST. (2) שתי הרצות WebSearch מוגבלות לדומיינים הרשמיים (השם המדויק; BAPI_FUNCLOC_GETLIST). ארבעת קובצי ה-PDF שהחיפוש הראשון החזיר (פרק 40 IS-U SAP Utilities של הערות השחרור ל-ECC 6.0, ‏105 עמודים; UGI_EAM_1909_UserHelpGuide_S4H.pdf, ‏21 עמודים; UGI_EAM_2024_ConfigurationGuide_S4H.pdf, ‏118 עמודים; UGI_uDGA_9.2_uXLoader_2.3_Configuration_Guide.pdf, ‏31 עמודים) הורדו ונסרקו בטקסט מלא: אפס מופעים של ISU_FUNCLOC ושל FUNCLOC_GETLIST. (3) חיפוש טקסט מלא בחילוצי הטקסט של רשימות הפישוט SIMPL_OP2025.pdf ‏(2025 FPS01, https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf) ו-SIMPL_OP2023.pdf ‏(2023 FPS03, https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf) לא החזיר את המחרוזות ISU_FUNCLOC_GETLIST, ‏ISU_FUNCLOC או FUNCLOC_GETLIST, וגם audit/master-completion/simpl-functions-index.json אינו מכיל את השם; זהו ממצא שלילי תחום לשתי הרשימות ולא הוכחת זמינות. הסטטוס הנגזר נמדד בהרצה (registryObject ו-fromFuncRegistry דרך scripts/alias-loader.mjs): למזהה אין רשומה ב-data/bapi-enrichment.*, ולכן הוא נגזר מה-blueprint בלבד עם verificationStatus 'requires-verification' ו-s4OnPremSupport 'unknown', והאפליקציה מציגה 'נדרש אימות נוסף' (verification_required, ‏inferred) בנוסח 'לפי רישום אובייקטי הפונקציה של הפרויקט: נדרש אימות במערכת SAP; תמיכה ב-S/4HANA On-Premise: לא צוין'. לא נכתב סטטוס מחובר: אף מקור רשמי אינו נוקב בשם, והסטטוס הנגזר כבר אומר את מה שהראיות אומרות. לפי קריאת lib/evidence/resolve.ts (לא בהרצה), עם רשומה זו רמת הראיות עולה ל'מאומת מול תיעוד SAP רשמי' בזכות שתי ראיות ההקשר, ומצב 'נדרש אימות נוסף' נשאר מוצג משום שהסטטוס הוא verification_required. לא אומתו: קיום המודול, קבוצת הפונקציות והחבילה, סטטוס Released, דגל RFC, חוזה הפרמטרים (הקלט 'Selection (plant/struct/class)' והפלט 'FUNCLOC list' הם הסקה של קטלוג הפונקציות) והתנהגות COMMIT/ROLLBACK; לפי תיאור המאגר מדובר בפעולת קריאה, ולכן לא צפויה בו התנהגות commit, אך גם זה לא נבדק. הקידומת ISU_ אינה מוסברת באף מקור שנבדק: ה-blueprint משייך את המודול לתחזוקת מפעל (IFLOT), ופרק IS-U בהערות השחרור של ECC 6.0 מזכיר מיקום פונקציונלי רק בהקשר של מתקן סילוק פסולת (ערכי מדידה של מתקני קומפוסט) ואינו נוקב במודול. סטייה במאגר, לא סתירה על קיום: ברשומת IFLOT ב-data/knowledge/object-intel.ts רשימת ה-classesApis נוקבת ב-BAPI_FUNCLOC_GETLIST באותו מקום שבו ה-blueprint נוקב ב-ISU_FUNCLOC_GETLIST. אף רשומת מאגר אינה קובעת ש-ISU_FUNCLOC_GETLIST אינו קיים, ולכן הסטייה נרשמה בטענת המאגר ובהערה ולא כ-conflictingEvidence. גם BAPI_FUNCLOC_GETLIST לא הוחזר בכותרת או בתקציר של רשומה רשמית כלשהי (חמש רשומות ב-On-Premise, ‏19 ב-SAP ERP, ו-WebSearch מוגבל ל-help.sap.com ול-api.sap.com), והוא אינו ביקום המזהים; לכן הוא אינו xref, אינו alias ואינו successor. הסטייה מיועדת לתור המחקר (audit/s4-enrichment/research-queue-functions.md) לבדיקת SE37 של שני השמות. יורש לא נקבע ולא נטען: אף מקור אינו מציג שירות, תצוגה או אפליקציה כמחליפים של ISU_FUNCLOC_GETLIST. לתרחיש העסקי עצמו, רשימת מיקומים פונקציונליים לפי בחירה, מתועדים ב-S/4HANA On-Premise שלושה ערוצי קריאה: שירות ה-OData‏ API_FUNCTIONALLOCATION (הראיה השלישית), תצוגת ה-CDS‏ I_FunctionalLocation (הראיה הרביעית), ושירות ה-OData V4‏ API_FUNCNLLOC_STRUCLIST לקריאת היררכיית מיקום ('Functional Location Hierarchy - Read', loio bfa6e74bc346463b805eae48d39bb613, ‏2025.001: 'This service enables you to read the hierarchy of a functional location. This is an OData version 4 service'; ו-'Read Functional Location Structure List Using Filter Values', loio 17863782afef487a8b2bd20996dc597f, ‏2025.001, הקורא רשימת מבנה בסינון על שדות כמו FunctionalLocation ו-ValidityStartDate). שני שירותי ה-OData אינם ביקום המזהים ולכן מוזכרים בטקסט בלבד. לבדיקה תפקודית של תוצאת שליפה: רשומת What's New לגרסת 2025 'Renaming of Apps in Maintenance Management' (loio c9959e6129174269adf7632bb60c4ed8, ‏2025.000) מציגה את IH06 'Display Functional Locations (list)' בשמו החדש 'Display Functional Locations - List View'. נבדקו ולא נכללו כראיה: 'Operations for Functional Location' (loio f69f391c38104f75ae5792155a88ce05, מאונדקס תחת 2023.latest בלבד), שמציג את Read Functional Location בשיטת GET; ושני עמודי ספריית SAP סטטיים שהחיפוש המוגבל החזיר ('Standardized BAPIs' של SNC 7.0 לשאילתת השם המדויק, help.sap.com/doc/saphelp_snc70; ועמוד לגרסה 4.64 לשאילתת BAPI_FUNCLOC_GETLIST, help.sap.com/doc/saphelp_pserv464), ששניהם מפנים להתחברות ולא נקראו, ולכן לא צוטטו. מה חסר לשדרוג: עמוד רשמי הנוקב בשם, או בדיקת SE37 חיה ב-ECC 6.0 וב-S/4HANA היעד (קיום, קבוצת פונקציות, Released, ‏RFC, ממשק), כולל בדיקה אם השם בפועל הוא BAPI_FUNCLOC_GETLIST; חיבור ה-MCP‏ sc4sap נכשל בסשן זה. xrefs: ‏table:IFLOT ו-tx:IL01, ‏tx:IL02, ‏tx:IL03, ‏tx:IH01, ‏tx:IH06 מרשומת IFLOT ב-blueprint; fm:BAPI_FUNCLOC_CREATE, ‏fm:BAPI_FUNCLOC_CHANGE ו-fm:BAPI_FUNCLOC_GETDETAIL הם המודולים האחים באותה רשומה; table:IFLOS, ‏tx:IL07 ו-cds:I_FunctionalLocation מקישורי הרשומה ב-data/function-intel.ts. אלה קישורי ניווט מרובד המאגר ולא טענה רשמית על המודול. גופי עמודי ה-Help הם מעטפת JavaScript ולא נקראו, ולכן כל טענה תחומה בכותרת ובתקציר; url, ‏loio ו-versionId הועתקו כלשונם מרשומות ה-JSON, ושבע כתובות העמודים שנזכרות ברשומה ושתי כתובות ה-PDF של רשימות הפישוט החזירו HTTP 200 ב-2026-09-23. לא נטען שום מספר SAP Note או KBA. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמה בכל קבצי data/verification/**."
+  },
+  /* ---- fm:K_COSTS_READ (functions batch 13, 2026-09-23) ---- */
+  {
+    id: "fm:K_COSTS_READ",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "בלופרינט PM (שורות COSP ו-COSS), רשומת function-intel ורישום אובייקטי הפונקציה: K_COSTS_READ",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "הדאטהסט המחולל של בלופרינט PM מונה את K_COSTS_READ בנושא 10 'עלויות והתחשבנות (PM-CO)' בשתי שורות: COSP ‏('קריאת עלויות אובייקט', לצד K_ORDER_SETTLEMENT, עם tcodes ‏'KO88/KO8G; KOB1, S_ALR_87013611') ו-COSS ‏('קריאת עלויות פנימיות', עם tcodes ‏'KO88; KOB1'); בשתיהן עמודת ה-S/4 היא 'הוחלף - עלויות ב-Universal Journal' והטבלה החלופית 'ACDOCA (COSP=View תאימות)' או 'ACDOCA (COSS=View תאימות)'. data/function-intel.ts מתאר קריאת עלויות אובייקט CO (פקודה או אובייקט עלות) 'מתוכנן מול בפועל', עם קלט OBJNR ‏(import, חובה) ופלט טבלת עלויות, שדה ECC ‏'קיים ב-ECC (COEP; אמת ב-SE37)' ושדה S/4 ‏'אמת ב-S/4 (עלויות מ-ACDOCA)', ומסמן את הרשומה inferred: true. ברישום אובייקטי הפונקציה (lib/bapi-registry.ts, ‏deriveRegistry) המודול מקבל verificationStatus ‏'internal-unsupported' ו-stability ‏'Use-With-Caution' מכלל שמות בלבד: מודול פונקציה ששמו אינו פותח ב-BAPI_ ואינו פותח בשתי אותיות גדולות או יותר ואחריהן קו תחתון מסומן כפנימי, ו-'K_' היא אות אחת; שדות התמיכה ב-ECC, ב-S/4HANA On-Premise ובענן נשארים 'unknown'. רשומות התחום (data/domain-detail.ts, ‏data/domains.ts) מונות אותו באישור אחזקה, בהתחשבנות פקודת אחזקה ובהתחשבנות ובניתוח סטיות של פקודות ייצור ותהליך. אף שכבה אינה נשענת על עמוד SAP רשמי, והפרמטרים הם תיאור המאגר ולא חוזה ממשק מאומת.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/sapData.pm.ts#PM:COSP; data/sapData.pm.ts#PM:COSS; data/function-intel.ts#K_COSTS_READ; lib/bapi-registry.ts#deriveRegistry; data/domain-detail.ts (pm-confirmation, pm-settlement, pppi-settlement, pppi-variance); data/domains.ts (pm-settlement, pppi-settlement, pppi-variance)"
+      },
+      K_COSTS_SIMPL_CO_OM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Costs in Maintenance Orders | Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/c2a6395540104fa29db5295cfbd1e17c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE23,
+        claim: "עמוד Costs in Maintenance Orders בדליברבל Maintenance Management לגרסת 2025 FPS01 ‏(loio c2a6395540104fa29db5295cfbd1e17c, תאריך 2026-02-24) נקרא במלואו בדפדפן. לפיו 'Planned costs, baseline costs and actual costs are embedded in the universal journal which is the single source of truth in SAP Finance', ‏'In the universal journal, line items are written only once and totals are calculated on-the-fly when needed', וכל עסקה שמובילה לעלות בפועל מיוצגת בשורה נפרדת: 'These individual line items are not replaced by any aggregated entry'. העמוד מוסיף ש-'In the maintenance order, actual costs are only collected temporarily' ושיש להתחשבן את הפקודה במלואה לפי פרופיל ההתחשבנות, ושבעבודה עם ledgers מקבילים 'you need to specify a ledger if you analyze maintenance costs in Fiori apps, such as the Maintenance Order Costs app'. העמוד אינו נוקב ב-K_COSTS_READ, ב-COSP, ב-COSS או ב-ACDOCA ואינו עוסק במודולי פונקציה.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Order (Version 2) | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/c1457e0e539740a29932fbdcf36fea3c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE23,
+        claim: "הקשר בלבד (לא טענת יורש): עמוד השירות Maintenance Order (Version 2) בתיעוד APIs for Maintenance Management לגרסת 2025 FPS01 ‏(loio c1457e0e539740a29932fbdcf36fea3c, תאריך 2026-02-24) נקרא במלואו בדפדפן. השם הטכני המודפס הוא API_MAINTENANCEORDER_0002; לפי העמוד 'This service enables you to create, read, update and delete maintenance order data in an API call. It is based on the OData V2 protocol', והשירות 'published on the SAP Business Accelerator Hub'. בטבלת הישויות מופיעה הישות האופציונלית Maintenance Order Costing Overview ‏(MaintOrderActlPlndCostItm) עם התיאור 'Allows to monitor and evaluate estimated costs, baseline costs, planned costs and actual costs resulting from current maintenance orders'. העמוד אינו נוקב ב-K_COSTS_READ ואינו מציג את השירות כתחליף למודול פונקציה כלשהו; שדות הישות והפעולות הנתמכות בה לא נקראו.",
+        verificationLevel: "sap_official_verified"
+      }
+    ],
+    status: {
+      status: "verification_required",
+      he: "מודול פונקציה לקריאת עלויות של אובייקט CO, לפי רשומות המאגר בלבד: הבלופרינט של תחזוקת מפעל משייך אותו לטבלאות COSP ו-COSS, ורשומות התחום משייכות אותו גם להתחשבנות ולניתוח סטיות של פקודות ייצור ותהליך. השם אינו מופיע באף רשומה רשמית שנבדקה: לא בשירות החיפוש של SAP Help בסקופים S/4HANA On-Premise, ‏SAP ERP ו-S/4HANA Cloud, לא בחיפוש רשת מוגבל לדומיינים הרשמיים, ולא בטקסט המלא של רשימות הפישוט 2025 FPS01 ו-2023 FPS03. זהו ממצא שלילי ולא הוכחה לזמינות או להסרה, ולכן לא נקבע כאן מעמד S/4HANA ולא נקבע יורש; הסטטוס 'מוגבל' שהאפליקציה גוזרת נשען על כלל שמות במאגר ולא על מקור. ההקשר המתועד: לפי פריט הפישוט 6.5.1 ‏(CO-OM) הטבלאות COSP ו-COSS הוחלפו בתצוגות תאימות באותו שם שמאגדות בזמן ריצה את נתוני ה-universal journal, ולפי תיעוד תחזוקת מפעל לגרסת 2025 FPS01 עלויות מתוכננות, עלויות בסיס ועלויות בפועל של פקודת אחזקה מוטמעות ב-universal journal.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: K_COSTS_SIMPL_CO_OM,
+      recommendedAction: "לא להסתמך על K_COSTS_READ בקוד Z חדש, בממשק או במסמך אפיון לפני בדיקה ב-SE37 במערכת ECC ובמערכת S/4HANA היעד: קיום השם, קבוצת הפונקציות, סטטוס השחרור, סימון RFC ורשימת הפרמטרים (OBJNR וטבלת העלויות הם תיאור המאגר בלבד). קוד Z קיים שקורא למודול או שולף ישירות מ-COSP או מ-COSS יש לאתר ב-ATC או בחיפוש שימושים ולבדוק מול פריט הפישוט 6.5.1: לפי הפריט קוד לקוח ממשיך לרוץ דרך תצוגות התאימות, אך יש להחליף את הגישה דרכן בגישה ישירה ל-ACDOCA עבור סוגי ערך 04 ו-11, וסוגי ערך אחרים נשמרים לפי הפריט ב-COEP, ‏COSP_BAK ו-COSS_BAK; יש לבדוק גם את ההשפעה על ביצועים שהפריט מזהיר ממנה. בסביבה עם ledgers מקבילים יש לציין ledger בכל ניתוח של עלויות פקודת אחזקה. לאינטגרציה חדשה מחוץ למערכת לבחון את הישות Maintenance Order Costing Overview ‏(MaintOrderActlPlndCostItm) של שירות ה-OData‏ API_MAINTENANCEORDER_0002, ולבדוק את השדות והפעולות מול ה-metadata של השירות במערכת היעד. לניתוח עסקי ללא קוד: לשונית העלויות באפליקציה Manage Maintenance Orders ‏(F5241) לפקודה בודדת, והאפליקציות Maintenance Order Costs ‏(F4603) ו-Actual Cost Analysis ‏(F3567) לניתוח על פני פקודות, כמתואר בעמוד Analyzing Costs and Settling the Order (Maintenance Management, 2025.001); ב-SAP GUI‏ KOB1 ו-S_ALR_87013611 לפי הבלופרינט. אלה ערוצים מתועדים לאותו צורך עסקי ולא יורש מוצהר של המודול."
+    },
+    xrefs: [
+      "table:COSP",
+      "table:COSS",
+      "table:ACDOCA",
+      "table:AUFK",
+      "tx:KOB1",
+      "tx:KO88",
+      "tx:KO8G",
+      "tx:S_ALR_87013611",
+      "fm:K_ORDER_SETTLEMENT",
+      "fm:K_SETTLEMENT_RULE_READ",
+      "obj:maintenance-order",
+      "obj:production-order",
+      "obj:process-order"
+    ],
+    lastVerifiedAt: DATE23,
+    notes: "שיטה (2026-09-23): (1) scripts/sap-help-search.mjs בשם המדויק בשלושה סקופים: SAP_S4HANA_ON-PREMISE החזיר חמש רשומות (What's New 1709 ו-1709 FPS01, ‏Material Costing ב-Project System), ‏SAP_ERP החזיר 21 (עמודי עלויות ב-Controlling, ב-Product Cost Planning וב-Project System) ו-SAP_S4HANA_CLOUD החזיר שתיים (APIs for Warehousing); לכולן תקציר ריק ואף כותרת אינה נוקבת בשם. השם במירכאות החזיר ארבע רשומות של לוקליזציית מלזיה, 'K_COSTS_READ function module' החזיר עמודים כלליים על מודולי פונקציה ו-'K_COSTS' החזיר עמודים על עלויות; אף כותרת או תקציר אינם נוקבים בשם. (2) חיפוש רשת מוגבל ל-help.sap.com, ‏api.sap.com, ‏fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap בשם במירכאות, וחיפוש נוסף שכלל גם את me.sap.com ו-support.sap.com: אף כותרת אינה נוקבת בשם. (3) טקסט מלא (pdftotext): מלבד SIMPL_OP2025.pdf שבראיה, גם SIMPL_OP2023.pdf ‏(2023 FPS03, ‏Document Version 1.35, ‏1,482 עמודים, https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf, ‏10,174,700 בתים, HTTP 200 ב-2026-09-23), מדריך ההמרה https://help.sap.com/doc/2b87656c4eee4284a5eb8976c0fe88fc/2025/en-US/CONV_OP2025.pdf, ‏What's New 2025 FPS01 ‏(https://help.sap.com/doc/b870b6ebcd2e4b5890f16f4b06827064/2025.001/en-US/WN_OP2025_FPS01_EN.pdf), ‏What's New 2021 ‏(https://help.sap.com/doc/b870b6ebcd2e4b5890f16f4b06827064/2021.000/en-US/WN_OP2021_EN.pdf) והערות השחרור של CO ל-ECC 6.0 (עשרה עמודים, 2006, https://help.sap.com/doc/3c19aa9894cb4ed4aaf9e9c23b59566e/6.00.29/en-US/Chapter_05__CO_ControllingE_(2).PDF) לא החזירו את המחרוזות K_COSTS או COSTS_READ; גודל כל קובץ שנקרא זהה ל-content-length שהכתובת מחזירה. אלה ממצאים שליליים תחומים למסמכים ולשאילתות, לא הוכחה לאי-קיום ולא הוכחה לזמינות. חיבור ה-MCP למערכת SAP חיה (sc4sap) נכשל בסשן, ולכן לא בוצעה בדיקת SE37. לא אומתו: שם ומטרה רשמיים, סימון released, יכולת RFC, קבוצת פונקציות, חוזה הפרמטרים והתנהגות COMMIT/ROLLBACK; כמודול קריאה לפי המאגר סביר שאינו כותב, אך הדבר לא נבדק ואינו נכתב כטענה. מעמד ECC: אף רשומה רשמית בסקופ SAP ERP אינה נוקבת בשם, ושדה ה-ECC ב-function-intel עצמו מבקש 'אמת ב-SE37'. הסטטוס: לפני הרשומה, בהרצת registryObject ו-fromFuncRegistry דרך scripts/alias-loader.mjs, האפליקציה הציגה 'מוגבל ב-S/4HANA' (restricted) ברמת 'מאומת מול נתוני הפרויקט', עם הנימוק 'לפי רישום אובייקטי הפונקציה של הפרויקט: מודול פונקציה פנימי; תמיכה ב-S/4HANA On-Premise: לא צוין' וההמלצה 'לא לשימוש כממשק אינטגרציה; לבחור BAPI או API משוחרר', ולפי evidenceBlock ‏needsVerification=false ועומק L3 ‏('מעמד S/4HANA נקבע'). הסימון 'פנימי' נגזר מכלל השמות ב-deriveRegistry ולא ממקור, ולכן הסטטוס נכתב ידנית כ-verification_required, כדי שפסק הדין הנגזר לא יוצג לצד פיל אימות רשמי שנשען על ראיות הקשר בלבד (הדפוס של רשומת ההרחבה CONFPP01); הזהירות של ההמלצה הנגזרת נשמרה בהמלצה המחוברת. עם הרשומה, כפי שנמדד ב-evidenceBlock כשהיא מוזרקת בזיכרון: 'נדרש אימות נוסף', רמת 'מאומת מול תיעוד SAP רשמי' על סמך ראיות ההקשר, needsVerification=true ועומק L2 ‏('מבנה מתועד'). ירידת העומק מ-L3 מכוונת, כי L3 נשען על פסק הדין שנגזר מכלל השמות. יורש: לא נקבע. אף מקור אינו נוקב במודול, ולכן replaced, ‏deprecated, ‏not_available ו-released_api_available אינם ברי-טענה. ערוצי קריאה מתועדים שמצוטטים כהקשר בלבד: הישות MaintOrderActlPlndCostItm של API_MAINTENANCEORDER_0002 (ראיה); העמוד 'Analyzing Costs and Settling the Order' ‏(Maintenance Management, ‏2025.001, loio 2d32b8ac5466449285b667cf8a02e0d5, נקרא במלואו), הנוקב בלשונית Costs של 'the Manage Maintenance Orders app (F5241)' וב-'the Maintenance Order Costs app (F4603) or the Actual Cost Analysis app (F3567)'; ותצוגת ה-CDS‏ I_MaintOrderActualCostDataCube ‏('Maintenance Order Actual Cost Data', ‏Virtual Data Model, ‏2023.latest, loio bffc94cdb52745ad93cbb9981f8e730e, נקרא במלואו) במעמד 'Released', שמספקת 'the actual cost postings which were incurred from maintenance orders', אך העמוד קובע 'This CDS view is modeled for usage as a DataSource in Business Warehouse. We recommend that you only use it for this purpose', ולכן אינה ערוץ לקריאה מקוד Z. רשומת What's New 2025 'Objects Released for Developer Extensibility in Maintenance Management' ‏(2025.000, loio e666a33610e6491f9d800882be108d02, נקראה במלואה) מתארת את תצוגת ה-CDS החדשה I_MaintOrdCostDetnStatus: 'The cost determination status of a maintenance order indicates whether the planned costs and overhead costs of the maintenance order have been calculated and transferred to planning table ACDOCP'. F5241, ‏F4603, ‏F3567, שתי תצוגות ה-CDS שנזכרו בשמן, ‏API_MAINTENANCEORDER_0002, ‏ACDOCP, ‏COEP ו-PMCO אינם ביקום המזהים של הפרויקט, ולכן מופיעים בפרוזה ולא ב-xrefs. רשומות נוספות שנצפו ולא נכללו: 'Universal Journal: FAQ' ‏(FI-GL, ‏2025.001, loio 8b8e5695c4dc4749a706f9fa2f6bda92: 'The data for statistical postings and target data remain in the tables COEP, COSS, and COSP'), שכבר מצוטט ברשומות table:COSP ו-table:COSS; 'Actual/Plan/Target Costs by Ledger for Manufacturing Order - Cube' ‏(Virtual Data Model, ‏2023.latest, loio 82deb331ebec435b93216b73d712cc32), תצוגת CDS לעלויות בפועל, תכנון ויעד של פקודות ייצור שהתקציר אינו נוקב בשמה הטכני; ותצוגה מקדימה ציבורית של KBA 3553558 'Performance issue on CO tables in S/4HANA' (רכיב CO, במארח userapps.support.sap.com שאינו ברשימת ההיתר), שהסימפטום שלה 'In S/4HANA, the CO tables such as COVP, COEP, COSP, COSS have poor performance' והיא אינה נוקבת במודול. אי-התאמות במאגר: data/academy/lessons/pm-generated.ts ו-pp-generated.ts מסמנים את המודול ב-trust ‏'verified-docs' עם המקורות 'SAP Help Portal - Plant Maintenance (S/4HANA)' ו-'SAP Help Portal - Production Planning (S/4HANA)', סימון שחיפושי הסשן אינם משחזרים; תא ה-Fiori בשורות COSP ו-COSS בבלופרינט ('Maintenance Order Actuals (אמת ID)') אינו שם של אפליקציה שהוחזרה בחיפושים (השאילתה 'Maintenance Order Actuals' החזירה את תצוגות ה-CDS לנתוני עלות בפועל ועמודים הנוקבים באפליקציות Maintenance Order Costs ו-Actual Cost Analysis). מה חסר לשדרוג: עמוד רשמי הנוקב בשם, או בדיקת SE37 חיה ב-ECC 6.0 וב-S/4HANA היעד (קיום, קבוצת פונקציות, סטטוס שחרור, RFC, ממשק). שני עמודי ה-Help שבראיות ושלושת העמודים שההערה מסמנת 'נקרא במלואו' נקראו במלואם בדפדפן (playwright-core עם Chrome); שתי כתובות ה-Help שבראיות החזירו HTTP 200; url, ‏loio ו-versionId הועתקו כלשונם מרשומות החיפוש. לא צוטט מספר SAP Note לרשומה; הרשומה אינה נושאת שדה reviewer, כמוסכמת data/verification/**."
+  },
+  /* ---- fm:K_ORDER_SETTLEMENT (functions batch 13, 2026-09-23) ---- */
+  {
+    id: "fm:K_ORDER_SETTLEMENT",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search: \"K_ORDER_SETTLEMENT\" (גם במירכאות), \"K_ORDER_SETTLEMENT function module\", \"K_ORDER_SETTLEMENT function module settlement\", \"settlement function module order KO88\" (SAP_S4HANA_ON-PREMISE, SAP_ERP, SAP_S4HANA_CLOUD, ללא סינון מוצר)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "ממצא שלילי: בתשע הרצות של שירות החיפוש של SAP Help (2026-09-23), על השם המדויק, על השם במירכאות ועל צירופיו עם 'function module', 'settlement' ו-KO88 (שמונה הרצות בסקופים SAP S/4HANA On-Premise, SAP ERP ו-SAP S/4HANA Cloud ואחת ללא סינון מוצר), אף כותרת או תקציר אינם נוקבים בשם K_ORDER_SETTLEMENT. השאילתה המדויקת בסקופ On-Premise החזירה 0 רשומות; בסקופ SAP ERP חזרה רשומה אחת לא קשורה (CL_ISU_EDM_SETTLSTEP_0008, Energy Data Management, תקציר ריק); בסקופ Cloud חזרו ארבע רשומות עם תקציר ריק, ובהן 'Read Settlement Rules of a Maintenance Order' (APIs for Maintenance Management, 2608), שאין בהן כדי לקבוע דבר על השם; ההרצה ללא סינון מוצר החזירה עמודי BI Content ו-NetWeaver עם תקציר ריק. זהו ממצא על מה שלא נמצא, ואינו קביעה שהמודול אינו קיים.",
+        verificationLevel: "verification_required"
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט (PM, עלויות והתחשבנות) ושורת COSP בבלופרינט PM (נושא 10: עלויות והתחשבנות PM-CO)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE23,
+        claim: "רשומת קטלוג הפונקציות מתארת את K_ORDER_SETTLEMENT כהתחשבנות פקודה (Settlement), כלומר העברת עלויות ליעד (מרכז עלות, נכס, WBS), מודול PM, תחום 'עלויות והתחשבנות', זרימה 'Order costs → Settlement → Receiver', קלט חובה 'AUFNR + period' (פקודה + תקופה) ופלט 'Settlement result', עם הטרנזקציות KO88 ו-KO8G, הטבלה AUFK והתהליך PM-7; שדה ה-ECC אומר 'זמין ב-ECC.' ושדה ה-S/4 אומר 'זמין ב-S/4HANA (Universal Journal/ACDOCA).'. הרשומה אינה מסומנת inferred, אך אף אחד מהשדות האלה אינו נושא מקור. שורת COSP בבלופרינט PM (נושא 10, 'עלויות והתחשבנות (PM-CO)') מונה את המודול ('ביצוע התחשבנות פק\"ע') לצד K_COSTS_READ ואת התוכנית RKO7KO88 ('תוכנית ההתחשבנות (KO88)'), עם tcodes 'KO88/KO8G; KOB1, S_ALR_87013611' ו-s4AltTcode 'KO88 נתמך; Fiori Settlement'. פרמטרי הממשק הם תיאור המאגר ולא חוזה ממשק מאומת.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#K_ORDER_SETTLEMENT; data/sapData.pm.ts#PM:COSP (funcs/progs, נושא 10)"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settlement Methods | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/4687d0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE23,
+        claim: "עמוד 'Settlement Methods' במדריך Controlling (CO) לגרסת S/4HANA On-Premise 2025 FPS01 (loio 4687d0531d8b4208e10000000a174cb4), שגופו נקרא במלואו בדפדפן ב-2026-09-23, קובע: 'Individual settlement and collective settlement are available for almost all sender objects', ולהזמנות: 'Use the Fiori app Run Settlement - Actual app (F4568) or the classic SAP gui app Run Settlement - Orders - Actual (KO88) for individual settlement to analyze settlement results in greater detail' ו-'Use the Fiori app Schedule Overhead Accounting Jobs (F3767) with the job template Actual Settlement: Orders (SAP) or the classic SAP gui app Run Settlement - Orders - Actual (Collective) (KO8GH) for collective settlement to process a large number of sender objects'; ובהמשך: 'Collective settlement is generally used during period-end closing to start settlement in the background'. העמוד מתאר גם חזרה על התחשבנות בתקופה ('You can repeat settlement for a given period at any time') וביטול התחשבנות ('you can only reverse the last settlement for a sender'). אלה ערוצי ההתחשבנות שהעמוד מתעד בגרסה זו; העמוד אינו נוקב במודול פונקציה כלשהו, אינו מזכיר את K_ORDER_SETTLEMENT ואינו מציג אף ערוץ כיורש שלו.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settlement of an Order | Orders (CS-SE/PM-WOC-MO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/efc7922405fd4d56b7571930c5eaa798/ccc9b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE23,
+        claim: "עמוד 'Settlement of an Order' במדריך Orders (CS-SE/PM-WOC-MO) לגרסת S/4HANA On-Premise 2025 FPS01 (loio ccc9b65334e6b54ce10000000a174cb4), שגופו נקרא במלואו בדפדפן ב-2026-09-23, מתאר את התחשבנות פקודות האחזקה והשירות: 'The costs are initially collected on the order. They are then transferred to the settlement receiver specified in the settlement rule'. תנאים מוקדמים: 'You can settle an order if: It is released, It has the status Settlement rule created, Costs collected for it have not yet been settled, A business completion has not yet been performed for it'. יכולות: 'Orders are mainly settled automatically at regular intervals. However, you can also settle orders in dialog, individually, or in connection with an order group' ו-'You can simulate the settlement first in a test run, without saving it'. חלופה: 'You can also settle maintenance and service orders directly via the CO report program RKO7KO8G (with order category 30)', בהפניה להערת SAP 838264 (ההערה לא נקראה). תוצאה: 'The system settles the order to the specified receiver. After the settlement, the balance on the order is 0'. העמוד אינו נוקב במודול פונקציה כלשהו ואינו מזכיר את K_ORDER_SETTLEMENT.",
+        verificationLevel: "sap_official_verified"
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settlement of an Order | Orders (CS-SE/PM-WOC-MO)",
+        url: "https://help.sap.com/docs/SAP_ERP/b4174aff4a234ed5be928a10c60997fb/ccc9b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP 6.0",
+        edition: "ecc",
+        release: "ECC 6.0 EHP8",
+        accessedAt: DATE23,
+        claim: "אותו עמוד (loio ccc9b65334e6b54ce10000000a174cb4) במערך SAP ERP 6.0 EHP8 Latest נקרא במלואו בדפדפן ב-2026-09-23; גוף הטקסט זהה מילה במילה לגרסת S/4HANA 2025 FPS01 (השוואת diff), כולל תנאי ההתחשבנות והחלופה RKO7KO8G לסוג פקודה 30. העמוד אינו נוקב במודול פונקציה כלשהו ואינו מזכיר את K_ORDER_SETTLEMENT.",
+        verificationLevel: "sap_official_verified"
+      }
+    ],
+    status: {
+      status: "verification_required",
+      he: "לפי המאגר, K_ORDER_SETTLEMENT הוא מודול פונקציה לביצוע התחשבנות פקודה (העברת העלויות שנצברו בפקודה למקבל שבכלל ההתחשבנות) בתחזוקת מפעל, הרשום תחת COSP. אף רשומה רשמית שנבדקה ב-SAP Help (S/4HANA On-Premise, SAP ERP, S/4HANA Cloud) ואף אחת מארבע התצוגות המקדימות הפומביות של KBA שנקראו אינן נוקבות בשם, ולכן קיומו, שמו האנגלי הרשמי, סטטוס השחרור, יכולת ה-RFC, חוזה הפרמטרים והתנהגות ה-COMMIT/ROLLBACK אינם מאומתים, ולא נקבע לו מעמד S/4HANA. הסטטוס הנגזר שהוצג עד כה ('מוגבל ב-S/4HANA', 'מודול פונקציה פנימי') נבע מכלל שמות ב-lib/bapi-registry.ts (מודול שאינו BAPI ושמו אינו פותח בשתי אותיות לפחות ואחריהן קו תחתון), ולא ממקור. התהליך העסקי עצמו מתועד בשתי המהדורות: 'Settlement of an Order' זהה ב-SAP ERP 6.0 EHP8 וב-S/4HANA 2025 FPS01, ו-'Settlement Methods' לגרסת 2025 FPS01 מפנה להתחשבנות בודדת של הזמנות ל-KO88 או לאפליקציית Fiori‏ F4568, ולהתחשבנות מרוכזת לתבנית העבודה Actual Settlement: Orders (SAP) ב-F3767 או ל-KO8GH. אף מקור אינו מציג ערוץ מאלה כיורש של המודול.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: "לא להסתמך על K_ORDER_SETTLEMENT בקוד חדש, בממשק או בחומר הדרכה לפני אימות ב-SE37 במערכת ECC ובמערכת S/4HANA היעד: קיום השם המדויק, קבוצת הפונקציות, סטטוס השחרור, סימון RFC, הממשק, והאם המודול מבצע COMMIT בעצמו. להתחשבנות פקודות אחזקה להשתמש בערוצים שהתיעוד לגרסת 2025 FPS01 מתאר: KO88 או Run Settlement - Actual ‏(F4568) לפקודה בודדת, תבנית העבודה Actual Settlement: Orders (SAP) ב-Schedule Overhead Accounting Jobs ‏(F3767) או KO8GH להתחשבנות מרוכזת בסגירת תקופה, והתוכנית RKO7KO8G לפקודות אחזקה ושירות (סוג פקודה 30, בכפוף לתנאים שהעמוד מונה לחלופה זו). לפני ההרצה לוודא את התנאים שהתיעוד מונה (פקודה משוחררת, קיים כלל התחשבנות, יש עלויות שעדיין לא הועברו ולא בוצעה סגירה עסקית) ולהריץ תחילה הרצת בדיקה."
+    },
+    xrefs: [
+      "table:COSP",
+      "table:AUFK",
+      "table:COBRA",
+      "table:COBRB",
+      "table:ACDOCA",
+      "tx:KO88",
+      "tx:KO8G",
+      "tx:CO88",
+      "tx:KOB1",
+      "tx:S_ALR_87013611",
+      "fm:K_SETTLEMENT_RULE_READ",
+      "fm:K_COSTS_READ",
+      "obj:maintenance-order"
+    ],
+    lastVerifiedAt: DATE23,
+    notes: "שיטה (2026-09-23): תשע הרצות של scripts/sap-help-search.mjs ושל שירות החיפוש עצמו על השם (השם המדויק, השם במירכאות, 'K_ORDER_SETTLEMENT function module', 'K_ORDER_SETTLEMENT function module settlement', 'settlement function module order KO88') בסקופים SAP_S4HANA_ON-PREMISE, SAP_ERP ו-SAP_S4HANA_CLOUD ובהרצה אחת ללא סינון מוצר; שאילתות הקשר ('Settle the Maintenance Order', 'individual settlement order KO88', 'RKO7KO88', 'order settlement API OData', 'settlement Virtual Data Model CDS view', 'Run Settlement - Actual F4568', 'Schedule Overhead Accounting Jobs settlement', 'settlement API Controlling', 'Actual Settlement: Orders job template', ו-'Settlement of an Order maintenance' ו-'Order Settlement individual processing KO88' בסקופ SAP_ERP); וחיפוש רשת מוגבל ל-help.sap.com, api.sap.com, me.sap.com, support.sap.com ו-userapps.support.sap.com. ה-url, ה-loio וה-versionId הועתקו כלשונם מפלט ה-JSON. שלושה עמודים נקראו במלואם בדפדפן (Chrome ללא ממשק דרך playwright-core): Settlement Methods (2025.001), Settlement of an Order (2025.001) ו-Settlement of an Order במערך SAP ERP 6.0 EHP8 (https://help.sap.com/docs/SAP_ERP/b4174aff4a234ed5be928a10c60997fb/ccc9b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest). ארבע תצוגות מקדימות פומביות של KBA שחיפוש הרשת החזיר לשאילתות על השם נקראו (2493675, 2662333, 3540028, 3578464); השם אינו מופיע באף אחת מהן (ב-2493675 מופיעה המחרוזת K_ORDER כשם אובייקט ההרשאה 'CO: General Authorization Object for Internal Orders', וב-3578464 מופיע מודול אחר, K_POSTING_RULE_INSERT), ולכן הן אינן מצוטטות. עמוד ה-SUPPORT_CONTENT שנבדק ('Errors during Settlement') הוא מעטפת JavaScript, ועמודי SUPPORT_CONTENT האחרים שהחיפוש החזיר לא נקראו. רשימות הפישוט: חיפוש טקסט מלא (pdftotext) ב-SIMPL_OP2025.pdf (2025 FPS01, https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf) וב-SIMPL_OP2023.pdf (2023 FPS03, https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf) לא החזיר את המחרוזות K_ORDER_SETTLEMENT, K_ORDER, KO88, KO8G ו-RKO7KO88; זהו ממצא שלילי תחום לשתי הרשימות ולא הוכחת זמינות. להקשר בלבד: פריט 6.5.1 S4TWL - TECHNICAL CHANGES IN CONTROLLING (CO-OM, עמ' 319-320 ברשימת 2025) קובע שב-S/4HANA 'all sender-receiver relationships that are triggered by allocations, settlement, and so on are captured in the universal journal', ושהטבלאות COEP, COSP ו-COSS הוחלפו בתצוגות תאימות באותו שם; הפריט מצוטט במלואו ברשומת table:COSP ואינו נוקב במודול. הסטטוס: לפני רשומה זו הציגה האפליקציה למזהה 'מוגבל ב-S/4HANA' ברמת 'מאומת מול נתוני הפרויקט', עומק 3 ('מעמד S/4HANA נקבע'), needsVerification=false וללא מקורות (נמדד ב-2026-09-23 דרך fromFuncRegistry ו-evidenceBlock). המקור הוא lib/bapi-registry.ts: הרישום נגזר משורת COSP, והכלל looksInternal מסווג כל מודול שאינו BAPI ושמו אינו פותח בשתי אותיות לפחות ואחריהן קו תחתון כ-internal-unsupported, ומשם למעמד restricted. זהו כלל שמות ולא ראיה, ולכן נכתב כאן סטטוס verification_required במפורש, כמו ב-PPCC1 וב-ACCOUNT_ASSIGNMENT_READ. לא אומתו: שם אנגלי רשמי, סימון released, יכולת RFC, חוזה פרמטרים (AUFNR + period הוא תיאור המאגר), התנהגות COMMIT/ROLLBACK, ומעמד המודול עצמו ב-ECC וב-S/4HANA. הביטול העסקי (reversal) והרצת הבדיקה שהעמודים הרשמיים מתארים שייכים לתהליך ההתחשבנות ואינם מידע על טרנזקציית מסד הנתונים של המודול. אין יורש מוצהר: F4568, תבנית העבודה ב-F3767, KO88, KO8GH ו-RKO7KO8G הם ערוצים מתועדים לתהליך העסקי, ואף מקור אינו מציג אותם כתחליף למודול; F4568, F3767 ו-KO8GH גם אינם ביקום הפרויקט ולכן אינם xref. בחיפושי הסשן לא אותר API רשמי (OData או אחר) לביצוע התחשבנות הזמנות CO; ה-API בשם Settlement Document מתועד במדריך APIs for Settlement Management (רשומת 'Settlement Document', loio bf855abdfc6045c0a7aa2536781917ec, 2025.001; רשומת הסקירה 'APIs for Settlement Management', loio ee209ee8f56b4af89d608aa4769d0fa4), ואין בתקצירי רשומות אלה אזכור להתחשבנות הזמנות CO. אי-התאמות במאגר: רשומת קטלוג הפונקציות קושרת את המודול לטבלה AUFK, והבלופרינט לשורת COSP; הבלופרינט מונה את התוכנית RKO7KO88, והעמוד הרשמי של תחזוקת מפעל נוקב ב-RKO7KO8G (סוג פקודה 30) כחלופה; המאגר מונה את KO8G, ועמוד Settlement Methods לגרסת 2025 FPS01 נוקב ב-KO8GH כאפליקציית GUI להתחשבנות מרוכזת של הזמנות (הקשר בין שתי הטרנזקציות אינו נקבע בעמוד; מדריך אפליקציות ה-Fiori המורשה במאגר, data/library/book7-full.json, כותב על F4568 'The app is similar to Transactions CJ88, VA88, KO88, KO8GH, and CJ8GH in SAP GUI'). שרשרת הקריאות ב-data/centers/debugging.ts ('RKO7CO88 (settlement)', '→ K_SETTLEMENT_RULE_READ', '→ K_ORDER_SETTLEMENT', '→ ACDOCA posting') אינה נושאת מקור. תווית trust 'verified-docs' ב-data/academy/lessons/pm-generated.ts (שורות 374 ו-433) וב-data/academy/lessons/pp-generated.ts (שורה 681), עם המקורות 'SAP Help Portal - Plant Maintenance (S/4HANA)' ו-'SAP Help Portal - Production Planning (S/4HANA)', לא שוחזרה בחיפושי הסשן. הפרקטיקה bp:order-settlement-process נוקבת במודול על סמך רשומות המאגר בלבד. הכוונה לבדיקה: חיפוש גילוי מחוץ לדומיינים הרשמיים העלה רק מודול בשם שונה, K_ORDER_SETTLEMENT_RULE, באתרי קטלוג שאינם של SAP; הממצא אינו מצוטט ואינו ראיה, ומופיע כאן רק כדי שבדיקת SE37 תכלול את השאלה אם השם במאגר מדויק. מה חסר לשדרוג: עמוד רשמי הנוקב בשם, או בדיקת SE37 חיה ב-ECC 6.0 וב-S/4HANA היעד (קיום, קבוצת פונקציות, סטטוס שחרור, RFC, ממשק); חיבור ה-MCP sc4sap נכשל בסשן. לא צוטט מספר SAP Note או KBA כראיה; מספר ההערה 838264 מופיע בעמוד הרשמי ולא נקרא. הרשומה אינה נושאת שדה reviewer: אף רשומה ב-data/verification/** אינה נושאת אותו."
   },
 ];
