@@ -1,7 +1,7 @@
 {
   "viewport": "1363x936",
   "base": "http://localhost:4195",
-  "measuredAt": "2026-09-23T03:44:31.064Z",
+  "measuredAt": "2026-09-23T17:29:39.388Z",
   "results": [
     {
       "id": "home",
@@ -600,7 +600,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 320,
-      "contentH": 8399,
+      "contentH": 12085,
       "offenders": [
         {
           "over": 13,
@@ -887,7 +887,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 320,
-      "contentH": 11384,
+      "contentH": 12592,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
