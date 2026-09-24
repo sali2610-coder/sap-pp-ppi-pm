@@ -1579,7 +1579,8 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "ומאחר שהגוף לא נקרא לא נקבע אם MB04 הוסרה ממנו. סוגי התנועה 543/544 ומלאי מיוחד O נלקחו מרשומת " +
       "tx-intel בלבד. ‏BAPI_GOODSMVT_CANCEL, ‏MIGO_DIALOG ו-MBLB אינם מזהים בני-פענוח בדאטהסט ולכן אינם " +
       "ב-xrefs. לא בוצעה בדיקה במערכת SAP חיה (ה-MCP של sc4sap לא התחבר: 'MCP error -32000: Connection " +
-      "closed').",
+      "closed')." +
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-18 (audit/ux-2026-09/SAP-FIXES.md, ce8b9f8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
   {
     id: "tx:MB05",
@@ -1707,7 +1708,8 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "כאן. לא בוצעה בדיקה במערכת SAP חיה (ה-MCP של sc4sap לא התחבר: MCP error -32000, Connection closed), " +
       "ולכן קיום הקוד בפועל, התנהגות הודעת השגיאה מהתפריט והפונקציה המדויקת של MB05 במערכת היעד נותרים " +
       "'דורש אימות במערכת SAP'. הרשומה אינה נושאת שדה reviewer: אף רשומה ב-data/verification/** אינה נושאת " +
-      "אותו.",
+      "אותו." +
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-18 (audit/ux-2026-09/SAP-FIXES.md, ce8b9f8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
   {
     id: "tx:MB22",
@@ -2128,7 +2130,8 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "available, רמת אמון חלקי), משום שאף רשומת tx-intel אינה מונה את MBRL בשדה obsolete ושדה s4 שלה " +
       "('זמינה') אינו מכיל אות החלפה; הסטטוס המחובר כאן ('הוחלף', עוקבת tx:MIGO) מתקן את התצוגה עד לתיקון " +
       "הנתונים. ‏status.release = 2025 FPS01, מהדורת פריט הפישוט המשמש כמקור הסטטוס; הפריט במהדורת 2023 " +
-      "FPS03 מצוטט כראיה שנייה. ‏accessedAt = 2026-09-24, מועד הגישה בפועל.",
+      "FPS03 מצוטט כראיה שנייה. ‏accessedAt = 2026-09-24, מועד הגישה בפועל." +
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-18 (audit/ux-2026-09/SAP-FIXES.md, ce8b9f8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
   {
     id: "tx:ME21N",
@@ -2428,7 +2431,8 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "'ללא שינוי' נבחר לפי מוסכמת הקטלוג (tx:MIGO, tx:IW31): הטרנזקציה נשארת מיפוי הפעילות הסטנדרטי ואינה " +
       "מוחלפת, מוסרת או מוגבלת; התוספת של מהדורת 2025 (לשונית Compliance) והמלצת SAP על Manage Purchase " +
       "Orders מתועדות בהסבר ובדגל המשני. הרשומה אינה נושאת שדה reviewer: אף רשומה ב-data/verification/** " +
-      "אינה נושאת אותו.",
+      "אינה נושאת אותו." +
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-19 (audit/ux-2026-09/SAP-FIXES.md, 66004e8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
   {
     id: "tx:ME24",
@@ -4056,7 +4060,8 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "בפרוזה בלבד: שדה sapNote מחייב לפי כלל sap-note-format קישור me.sap.com או repoRef. ביקורת אדברסרית " +
       "2026-09-24: הורדות הוחלו (source לסטטוס, שורת ראיה לדף התפקיד, תיקון טווח עמודים 2023, הסרת מקף " +
       "ארוך, צמצום ניסוח ראיה 2). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג. לא בוצעה בדיקה במערכת " +
-      "SAP חיה.",
+      "SAP חיה." +
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-19 (audit/ux-2026-09/SAP-FIXES.md, 66004e8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
   {
     id: "tx:MIGO_GR",
@@ -5089,7 +5094,8 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "בוצעה בדיקה במערכת SAP חיה. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:MMBE_OLD " +
       "ב-transactions-auto.ts (ישן: report-coverage.mjs --ids הציג לפני כתיבתה סטטוס נגזר 'unchanged' ברמת " +
       "repository_verified; חדש: replaced, יורש tx:MMBE, לפי פריט הפישוט). הרשומה אינה נושאת שדה reviewer, " +
-      "כמוסכמת הקטלוג.",
+      "כמוסכמת הקטלוג." +
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-18 (audit/ux-2026-09/SAP-FIXES.md, ce8b9f8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
   {
     id: "tx:MMPV",
@@ -6108,7 +6114,8 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "Supplier' במקום תווית המאגר, והקו המפריד הארוך הוסר. בכתיבה: ניסוח השלילה בסעיף (2) הוגבל לתוצאות " +
       "החיפושים, שם הפריט נוסף בסעיף (4), ורכיב QM-QC-IS נוסף לשורת ספריית ה-Fiori לפי פלט fal-app.mjs שהמבקר " +
       "הריץ מחדש. לפני כתיבת רשומה זו הציג report-coverage.mjs --ids עבור tx:MCVA את הרמה " +
-      "verification_required (ישן); חדש: compatibility_scope. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+      "verification_required (ישן); חדש: compatibility_scope. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג." +
+      " 2026-09-25: הרשומות במאגר (data/tcode-catalog.ts) תוקנו לפי FIX-18 (audit/ux-2026-09/SAP-FIXES.md, ce8b9f8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
   {
     id: "tx:MCXB",
@@ -6193,7 +6200,8 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "כפי שהודפסה (בלי 1909), מזהי אפליקציות QM Analytics שהפריט מונה נוספו לשורת הפריט, הפריטים מצוטטים " +
       "בשמם, ומשפט על טבלאות שאף מקור מצוטט אינו מדפיס הוסר. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית " +
       "ל-tx:MCXB ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, verification_required לפי report-coverage.mjs " +
-      "--ids; חדש: compatibility_scope). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+      "--ids; חדש: compatibility_scope). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג." +
+      " 2026-09-25: הרשומות במאגר (data/tcode-catalog.ts) תוקנו לפי FIX-18 (audit/ux-2026-09/SAP-FIXES.md, ce8b9f8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
   {
     id: "tx:MCXC",
@@ -6279,7 +6287,8 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "משייכים ל-MCXC אפליקציה מסוימת. תיקון מול טיוטה קודמת: כתובת ה-PDF של 2025 הוחלפה בכתובת הרשמית " +
       "(2025.latest), תווית 'ניתוח ספקים' הוסרה מהסטטוס. הרשומה הדטרמיניסטית tx:MCXC ב-transactions-auto.ts " +
       "מוחלפת ברשומה זו (ישן: ללא הכרעת מעמד, verification_required לפי report-coverage.mjs --ids; חדש: " +
-      "compatibility_scope). לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+      "compatibility_scope). לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג." +
+      " 2026-09-25: הרשומות במאגר (data/tcode-catalog.ts) תוקנו לפי FIX-18 (audit/ux-2026-09/SAP-FIXES.md, ce8b9f8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
   {
     id: "tx:MCXA",
