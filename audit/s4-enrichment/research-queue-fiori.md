@@ -484,6 +484,51 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
     predecessors F0226 / F0227 / W0011 / W0012 have no catalog entries; `releaseInfo` empty and
     `cloud: unknown` (S36 / S37 appear in All_Rel only); SAP_EAM_BC_TO carries a title on S27OP
     ('EAM - Technical Object') but not on S32OP, so the two releases match by catalog ID only.
+- 2026-09-24 · batch 5, same channel (`scripts/fal-app.mjs` on S32OP and S27OP), audited and
+  written; library values copied into `data/fiori/apps.ts` for all six (lastReviewed
+  2026-09-24, provenance comment on each entry, the SAP Help `source` string kept with the
+  library appended, `explain.technical` rewritten where it said the values were not read):
+  - `fiori:W0029`: role SAP_BR_MAINTENANCE_PLANNER and guiTx IE01 (leading), IE02 / IE03 / IL01
+    / IL02 / IL03 filled; catalog SAP_EAM_BC_TO confirmed; the library prints no OData service
+    (NumberofOdataServices=0), so `odata` stays empty. Status stays `verification_required`: the
+    library's release list names S/4HANA releases (1511 to 2025 FPS01, plus 2602 / 2608 in
+    group SC) and does not say whether W0029 is the SAP ERP 6.0 EHP8 Web Dynpro app of the
+    Business Package for Generic EAM Functions 1.61. What would settle it: a system comparison
+    of Web Dynpro EAMS_WDA_TECHOBJ_OIF and PFCG role SAP_COCKPIT_EAMS_GENERIC_FUNC2 with the ERP
+    business package apps. Still open: Public Cloud (S36 / S37 not read), first release; `type`
+    stays Transactional while the library prints Web Dynpro (schema decision).
+  - `fiori:W0028`: role SAP_BR_MAINTENANCE_TECHNICIAN and guiTx IQ09 (leading, no related)
+    filled; catalog SAP_EAM_BC_TO_MW confirmed; no OData service printed. Status stays
+    `verification_required` on the same ERP question (iView
+    com.sap.pct.erp.eam.gen.eam_technical_object_display). Still open: Public Cloud (S36 / S37
+    in All_Rel, not read); S17OP (1909 FPS02) is absent from All_Rel; first release; `type` as
+    for W0029.
+  - `fiori:F8669`: role SAP_BR_MD_SPECIALIST_EAM, catalog SAP_ASM_BC_REFTO_MNG and the V4 service
+    group UI_DRFTTECHOBJSTRUCTURE_MANAGE filled; empty Results on S27OP (new in 2025 FPS01);
+    status source moved from the app topic to the What's New 2025 FPS01 row (Type New). Still
+    open: Public Cloud (the library prints S32OP and S32PCE for this release); authorization
+    object I_DRTOS is not tied to the app by the snippet.
+  - `fiori:F4587`: the audited record carried no `catalogPatch` object, but its approved
+    recommendedAction named the library values; role SAP_BR_PRODN_SUPERVISOR_PROC, catalog
+    SAP_SCM_BC_PROC_ORD_MGMT and OData PP_MPE_AOR, PP_PROCESS_ORDER_MANAGE_SRV were copied,
+    guiTx stays empty (library '-'). This settles the batch 2 line "F4587 still has empty role
+    / catalog". The recommendedAction no longer says F3577 is in no official source; it is
+    bounded to the searches run. The S32OP library row is one const (F4587_FAL_S32OP) shared by
+    fiori:F4587 and fiori:F3577. Re-keying F3577 to F4587 stays a product decision. Still open:
+    Public Cloud (S36 / S37 in the release list, not read); CDS views.
+  - `fiori:F5323`: role, catalog and OData filled with the same library values as F4587; the id
+    is now named by the library record itself, not only by the value order of the Feature
+    Comparison. Still open: `explain.consultant` in `data/fiori/apps.ts#F5323` still calls the
+    Feature Comparison the only official record found that names F5323 (outside the patch
+    fields, no audited replacement text; the provenance comment now adds the library); Public
+    Cloud (S36 / S37 in the release list, not read).
+  - `fiori:F2462`: lead role SAP_BR_INVENTORY_MANAGER, the five business catalogs and guiTx
+    MSC1N (leading), MSC2N / MSC3N filled; OData LO_BM_BATCH_SRV confirmed. Still open: the 18
+    non-leading roles are not in `role` (the patch carried the lead role); the curated F1576
+    'Manage Batches' conflict is unchanged (the library assigns F1576 to Supplier Evaluation
+    Response; product decision); Private Cloud (S32PCE) not read as a row, Public Cloud not
+    checked; first release not set beyond S9OP = 1709. The UI follow-up above (a non-empty
+    guiTx rendered as "replaces") now also applies to W0029, W0028 and F2462.
 
 ### Resolved 2026-09-21 (design audit round 2 · audit/ux-2026-09/SAP-FIXES.md)
 - F3364 `odata: API_PROCORDCONF` → `API_PROC_ORDER_CONFIRMATION_2_SRV` (also `data/centers/fiori.ts`). F3577 `API_PROCESSORDER_2` → `API_PROCESS_ORDER_2_SRV`. The app-id conflicts (F3364 vs CORK, F3577 vs F4587) remain open as recorded.

@@ -465,13 +465,18 @@ FIORI_APPS.push(
     // Process Technical Object (W0029)"), Maintenance Management 2025.001 topic Process Technical
     // Object (loio 60021e57f2f40a75e10000000a4450e5, business catalog SAP_EAM_BC_TO; that topic's
     // snippet carries the title, not the id).
+    // 2026-09-24: role and guiTx copied from the SAP Fiori Apps Reference Library (scripts/fal-app.mjs
+    // W0029, S32OP = S/4HANA 2025 FPS01 and S27OP = S/4HANA 2023, Published, Web Dynpro
+    // EAMS_WDA_TECHOBJ_OIF): role SAP_BR_MAINTENANCE_PLANNER, catalog SAP_EAM_BC_TO (unchanged), OData
+    // '-' (NumberofOdataServices=0, odata left empty), leading IE01, related IE02 / IE03 / IL01 / IL02 /
+    // IL03. type stays the schema bucket Transactional (the library prints Web Dynpro).
     id: "W0029", slug: "process-technical-object", name: "Process Technical Object", he: "עיבוד אובייקט טכני", module: "PM", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2025 FPS01 (BAdI: Functional Location Management) · Maintenance Management 2025.001 (Process Technical Object)", lastReviewed: "2026-09-23",
+    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2025 FPS01 (BAdI: Functional Location Management) · Maintenance Management 2025.001 (Process Technical Object) · SAP Fiori Apps Reference Library W0029 (scripts/fal-app.mjs, S32OP = S/4HANA 2025 FPS01 and S27OP = S/4HANA 2023, Published, Web Dynpro, OData '-')", lastReviewed: "2026-09-24",
     purpose: "יצירה ושינוי של אובייקטים טכניים באפליקציית Web Dynpro: לפי התיעוד הרשמי, 'Web Dynpro app - Process Technical Object (W0029) to create or change technical objects'.",
     problem: "",
-    explain: { beginner: "המסך שבו מתכנן האחזקה יוצר ומשנה ציוד ומיקומים פונקציונליים.", consultant: "נושא Process Technical Object ב-Maintenance Management לגרסת 2025 FPS01 מתאר שלוש אפליקציות, Create Technical Object, Change Technical Object ו-Display Technical Object, ומציין את הקטלוג העסקי EAM - Technical Object (SAP_EAM_BC_TO). רשומת What's New 2025 FPS01 בנושא BAdI: Functional Location Management מונה את W0029 ברשימה אחת עם IL02 (Change Functional Location) ועם API_FUNCTIONALLOCATION.", technical: "אפליקציית Web Dynpro לפי What's New 2025 FPS01. תפקיד עסקי ושירות OData לא נקראו; ראו רשומת האימות fiori:W0029." },
-    role: "", catalog: "SAP_EAM_BC_TO",
-    guiTx: [], relatedTables: [],
+    explain: { beginner: "המסך שבו מתכנן האחזקה יוצר ומשנה ציוד ומיקומים פונקציונליים.", consultant: "נושא Process Technical Object ב-Maintenance Management לגרסת 2025 FPS01 מתאר שלוש אפליקציות, Create Technical Object, Change Technical Object ו-Display Technical Object, ומציין את הקטלוג העסקי EAM - Technical Object (SAP_EAM_BC_TO). רשומת What's New 2025 FPS01 בנושא BAdI: Functional Location Management מונה את W0029 ברשימה אחת עם IL02 (Change Functional Location) ועם API_FUNCTIONALLOCATION.", technical: "אפליקציית Web Dynpro לפי What's New 2025 FPS01 ולפי ספריית ה-Fiori (EAMS_WDA_TECHOBJ_OIF); בספרייה (S32OP): תפקיד SAP_BR_MAINTENANCE_PLANNER, NumberofOdataServices=0; ראו רשומת האימות fiori:W0029." },
+    role: "SAP_BR_MAINTENANCE_PLANNER", catalog: "SAP_EAM_BC_TO",
+    guiTx: ["IE01", "IE02", "IE03", "IL01", "IL02", "IL03"], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
     releaseInfo: "",
     similar: [],
@@ -481,13 +486,18 @@ FIORI_APPS.push(
     // PM - Functional location (loio 7c5578ab53e0457f905145bc535839cf), "Display Technical Object
     // (app ID W0028)"; Maintenance Management 2025.001 topic Display Technical Object (loio
     // f11f4d57001c0922e10000000a44147b, business catalog SAP_EAM_BC_TO_MW; title only).
+    // 2026-09-24: role and guiTx copied from the SAP Fiori Apps Reference Library (scripts/fal-app.mjs
+    // W0028, S32OP = S/4HANA 2025 FPS01 and S27OP = S/4HANA 2023, Published, Web Dynpro
+    // EAMS_WDA_TECHOBJ_OIF): role SAP_BR_MAINTENANCE_TECHNICIAN, catalog SAP_EAM_BC_TO_MW (unchanged),
+    // OData '-' (NumberofOdataServices=0, odata left empty), leading IQ09 with no related transaction.
+    // type stays the schema bucket Transactional (the library prints Web Dynpro).
     id: "W0028", slug: "display-technical-object", name: "Display Technical Object", he: "הצגת אובייקט טכני", module: "PM", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · Data Migration 2025.001 (PM - Equipment, PM - Functional location) · Maintenance Management 2025.001 (Display Technical Object)", lastReviewed: "2026-09-23",
+    trust: "verified-docs", source: "SAP Help Portal · Data Migration 2025.001 (PM - Equipment, PM - Functional location) · Maintenance Management 2025.001 (Display Technical Object) · SAP Fiori Apps Reference Library W0028 (scripts/fal-app.mjs, S32OP = S/4HANA 2025 FPS01 and S27OP = S/4HANA 2023, Published; UI technology Web Dynpro, type kept as the schema bucket Transactional)", lastReviewed: "2026-09-24",
     purpose: "הצגת אובייקטים טכניים לטכנאי האחזקה: לפי התיעוד הרשמי, 'As a maintenance technician, you can use this app to view technical objects that have been created to efficiently manage and evaluate technical assets and maintenance objects'.",
     problem: "",
-    explain: { beginner: "מסך קריאה שבו טכנאי האחזקה רואה את הנתונים של ציוד או של מיקום פונקציונלי.", consultant: "תיעוד ההגירה של PM - Equipment ו-PM - Functional location לגרסת 2025 FPS01 נוקב ב-Display Technical Object (app ID W0028) ומציין: 'The Display Technical Object app shows only the data relevant for the logon language.' נושא היישום ב-Maintenance Management מציין את הקטלוג EAM - Technical Object MW (SAP_EAM_BC_TO_MW), ומשתמש בתפקיד Maintenance Planner ניגש ממנו גם ל-Create Technical Object ול-Change Technical Object.", technical: "תפקיד עסקי ושירות OData לא נקראו מהספרייה; ראו רשומת האימות fiori:W0028." },
-    role: "", catalog: "SAP_EAM_BC_TO_MW",
-    guiTx: [], relatedTables: [],
+    explain: { beginner: "מסך קריאה שבו טכנאי האחזקה רואה את הנתונים של ציוד או של מיקום פונקציונלי.", consultant: "תיעוד ההגירה של PM - Equipment ו-PM - Functional location לגרסת 2025 FPS01 נוקב ב-Display Technical Object (app ID W0028) ומציין: 'The Display Technical Object app shows only the data relevant for the logon language.' נושא היישום ב-Maintenance Management מציין את הקטלוג EAM - Technical Object MW (SAP_EAM_BC_TO_MW), ומשתמש בתפקיד Maintenance Planner ניגש ממנו גם ל-Create Technical Object ול-Change Technical Object.", technical: "ברשומת Fiori Apps Library (S32OP) התפקיד SAP_BR_MAINTENANCE_TECHNICIAN, אפליקציית ה-WDA EAMS_WDA_TECHOBJ_OIF, ללא שירות OData רשום (NumberofOdataServices=0); ראו רשומת האימות fiori:W0028." },
+    role: "SAP_BR_MAINTENANCE_TECHNICIAN", catalog: "SAP_EAM_BC_TO_MW",
+    guiTx: ["IQ09"], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
     releaseInfo: "",
     similar: [],
@@ -495,12 +505,16 @@ FIORI_APPS.push(
   {
     // F8669 · Maintenance Management 2025.001 (loio 15df8bf64aef43f9bd8680bb0d711f3e, "App ID:
     // F8669"), What's New 2025 FPS01 (loio 6b9a013a2f4649708c2b9c7238271c85, Type New, PM-EQM-RS).
+    // 2026-09-24: role, catalog and OData (V4 service group) copied from the SAP Fiori Apps Reference
+    // Library (scripts/fal-app.mjs F8669, S32OP = S/4HANA 2025 FPS01, Published; empty Results on
+    // S27OP = 2023). No GUI transaction printed (guiTx stays empty); cloud stays unknown.
     id: "F8669", slug: "manage-technical-object-structures", name: "Manage Technical Object Structures", he: "ניהול מבני אובייקטים טכניים", module: "PM", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Manage Technical Object Structures) · What's New in SAP S/4HANA 2025 FPS01", lastReviewed: "2026-09-23",
+    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Manage Technical Object Structures) · What's New in SAP S/4HANA 2025 FPS01 · SAP Fiori Apps Reference Library F8669 (scripts/fal-app.mjs, S32OP = S/4HANA 2025 FPS01, Published; not in library on S27OP = S/4HANA 2023)", lastReviewed: "2026-09-24",
     purpose: "יצירה וניהול של מבני אובייקטים טכניים בטיוטה: לפי התיעוד הרשמי, 'With this app, you can create and manage draft technical object structures.'",
     problem: "",
-    explain: { beginner: "מסך שבו בונים מבנה היררכי של אובייקטים טכניים כטיוטה, ולאחר שכל האובייקטים בטיוטה נוצרו מפיקים ממנה את המבנה עצמו.", consultant: "לפי What's New 2025 FPS01 היישום חדש (Type New) ברכיב PM-EQM-RS ומאפשר 'view and manage hierarchical structures'. עמוד היישום מציין שכאשר האובייקטים במבנה הטיוטה נוצרו ניתן להפיק מבנה אובייקטים טכניים, ושיומני האפליקציה (application logs) מראים אם תהליך היצירה הצליח או נכשל.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F8669." },
-    role: "", catalog: "",
+    explain: { beginner: "מסך שבו בונים מבנה היררכי של אובייקטים טכניים כטיוטה, ולאחר שכל האובייקטים בטיוטה נוצרו מפיקים ממנה את המבנה עצמו.", consultant: "לפי What's New 2025 FPS01 היישום חדש (Type New) ברכיב PM-EQM-RS ומאפשר 'view and manage hierarchical structures'. עמוד היישום מציין שכאשר האובייקטים במבנה הטיוטה נוצרו ניתן להפיק מבנה אובייקטים טכניים, ושיומני האפליקציה (application logs) מראים אם תהליך היצירה הצליח או נכשל.", technical: "תפקיד עסקי SAP_BR_MD_SPECIALIST_EAM, קטלוג עסקי SAP_ASM_BC_REFTO_MNG וקבוצת שירות V4 UI_DRFTTECHOBJSTRUCTURE_MANAGE נקראו מספריית ה-Fiori (S32OP, 2026-09-24); הספרייה אינה מדפיסה טרנזקציית GUI. ראו רשומת האימות fiori:F8669." },
+    role: "SAP_BR_MD_SPECIALIST_EAM", catalog: "SAP_ASM_BC_REFTO_MNG",
+    odata: "UI_DRFTTECHOBJSTRUCTURE_MANAGE",
     guiTx: [], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
     releaseInfo: "SAP S/4HANA 2025 FPS01 (What's New 2025 FPS01, Type New)",
@@ -511,12 +525,16 @@ FIORI_APPS.push(
     // What's New 2021 FPS01 (loio 77ff56ba8e584f4cb537b660e7810fd7), Retail 2025.001 (loio
     // 21d0d1f8e18e41ebbc93d2a8a4c51d97), app topic 2025.001 (loio a84b0308f73c43f29154fbb7e54e15d3,
     // title only), What's New 2020 (loio dc987ea755344b219964916762803a47, App New, title only).
+    // 2026-09-24: role, catalog and OData copied from the SAP Fiori Apps Reference Library
+    // (scripts/fal-app.mjs F4587, S32OP = S/4HANA 2025 FPS01 and S27OP = 2023, Published), as the
+    // audited record fiori:F4587 recommends; the GUI transaction fields print '-' (guiTx stays empty).
     id: "F4587", slug: "manage-process-orders-f4587", name: "Manage Process Orders", he: "ניהול הזמנות תהליך", module: "PP-PI", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · Production Planning and Control 2025.001 (Manage Process Orders, Feature Comparison for Process Orders) · What's New in SAP S/4HANA 2020, 2021 FPS01", lastReviewed: "2026-09-23",
+    trust: "verified-docs", source: "SAP Help Portal · Production Planning and Control 2025.001 (Manage Process Orders, Feature Comparison for Process Orders) · What's New in SAP S/4HANA 2020, 2021 FPS01 · SAP Fiori Apps Reference Library F4587 (scripts/fal-app.mjs, S32OP = S/4HANA 2025 FPS01 and S27OP = S/4HANA 2023, Published)", lastReviewed: "2026-09-24",
     purpose: "ניהול ההתקדמות של הזמנות תהליך (Process Orders): לפי התיעוד הרשמי, 'With this app, you can manage the progress of process orders.'",
     problem: "",
-    explain: { beginner: "מסך שבו רואים את מצב הזמנות התהליך ומטפלים בהן לאורך כל חייהן, מהיצירה ועד ההשלמה.", consultant: "לפי נושא היישום לגרסת 2025 FPS01 ניתן לנהל את מחזור החיים של הזמנת התהליך מיצירה ועד השלמה, ולנווט ל-Manage Process Order Operations לפרטי הפעולות. טבלת ההשוואה של 2025 FPS01 מציבה אותו לצד COOISPI ו-COHVPI. What's New 2020 רושם את Manage Process Orders כיישום חדש (App New, פריט היקף BJ8, רכיב PP-FIO-PI). הרשומה המתוחזקת F3577 נושאת את אותה כותרת בלי מקור רשמי; ראו רשומת האימות fiori:F3577.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F4587." },
-    role: "", catalog: "",
+    explain: { beginner: "מסך שבו רואים את מצב הזמנות התהליך ומטפלים בהן לאורך כל חייהן, מהיצירה ועד ההשלמה.", consultant: "לפי נושא היישום לגרסת 2025 FPS01 ניתן לנהל את מחזור החיים של הזמנת התהליך מיצירה ועד השלמה, ולנווט ל-Manage Process Order Operations לפרטי הפעולות. טבלת ההשוואה של 2025 FPS01 מציבה אותו לצד COOISPI ו-COHVPI. What's New 2020 רושם את Manage Process Orders כיישום חדש (App New, פריט היקף BJ8, רכיב PP-FIO-PI). הרשומה המתוחזקת F3577 נושאת את אותה כותרת בלי מקור רשמי; ראו רשומת האימות fiori:F3577.", technical: "לפי ספריית ה-Fiori (S32OP): תפקיד SAP_BR_PRODN_SUPERVISOR_PROC, קטלוג עסקי SAP_SCM_BC_PROC_ORD_MGMT, שירותי OData PP_MPE_AOR ו-PP_PROCESS_ORDER_MANAGE_SRV (קבוצת V4 PP_MPE_AOR_SRV); שדות טרנזקציית ה-GUI מודפסים '-'. ראו רשומת האימות fiori:F4587." },
+    role: "SAP_BR_PRODN_SUPERVISOR_PROC", catalog: "SAP_SCM_BC_PROC_ORD_MGMT",
+    odata: "PP_MPE_AOR, PP_PROCESS_ORDER_MANAGE_SRV",
     guiTx: [], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
     releaseInfo: "SAP S/4HANA 2020 (What's New 2020, App New)",
@@ -527,12 +545,16 @@ FIORI_APPS.push(
     // "F4587/ F5323", the only On-Premise record found that names the id), app topic 2025.001
     // (loio 48d4f057b6a44fb59d3c3d85500a9f42), What's New 2021 (loio 579f4687ec304f5eb19e2b1fefa09d84,
     // Type New, title only).
+    // 2026-09-24: role, catalog and OData copied from the SAP Fiori Apps Reference Library
+    // (scripts/fal-app.mjs F5323, S32OP = S/4HANA 2025 FPS01 and S27OP = 2023, Published); the library
+    // record also names the id. The GUI transaction fields print '-' (guiTx stays empty).
     id: "F5323", slug: "manage-process-order-operations", name: "Manage Process Order Operations", he: "ניהול פעולות של הזמנות תהליך", module: "PP-PI", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · Production Planning and Control 2025.001 (Feature Comparison for Process Orders, Manage Process Order Operations) · What's New in SAP S/4HANA 2021", lastReviewed: "2026-09-23",
+    trust: "verified-docs", source: "SAP Help Portal · Production Planning and Control 2025.001 (Feature Comparison for Process Orders, Manage Process Order Operations) · What's New in SAP S/4HANA 2021 · SAP Fiori Apps Reference Library F5323 (S32OP/S27OP, scripts/fal-app.mjs)", lastReviewed: "2026-09-24",
     purpose: "מעקב אחר התקדמות הזמנות תהליך ברמת הפעולה: לפי התיעוד הרשמי, 'With this app, you can monitor the progress of process orders at the detailed operations level.'",
     problem: "",
-    explain: { beginner: "מסך שבו רואים את כל הפעולות של הזמנת תהליך ואת ההתקדמות של כל אחת מהן.", consultant: "What's New 2021 רושם את היישום כחדש (Type New) עם פריט ההיקף BJ8 ורכיב PP-FIO-PI. טבלת ההשוואה של 2025 FPS01 מציגה את Manage Process Orders / Manage Process Order Operations עם המזהים F4587/ F5323; זו הרשומה הרשמית היחידה שנמצאה הנוקבת במזהה F5323, והצימוד נקרא לפי סדר הערכים.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F5323." },
-    role: "", catalog: "",
+    explain: { beginner: "מסך שבו רואים את כל הפעולות של הזמנת תהליך ואת ההתקדמות של כל אחת מהן.", consultant: "What's New 2021 רושם את היישום כחדש (Type New) עם פריט ההיקף BJ8 ורכיב PP-FIO-PI. טבלת ההשוואה של 2025 FPS01 מציגה את Manage Process Orders / Manage Process Order Operations עם המזהים F4587/ F5323; זו הרשומה הרשמית היחידה שנמצאה הנוקבת במזהה F5323, והצימוד נקרא לפי סדר הערכים.", technical: "תפקיד עסקי SAP_BR_PRODN_SUPERVISOR_PROC, קטלוג SAP_SCM_BC_PROC_ORD_MGMT, OData PP_MPE_AOR ו-PP_PROCESS_ORDER_MANAGE_SRV לפי ספריית ה-Fiori (S32OP); ראו רשומת האימות fiori:F5323." },
+    role: "SAP_BR_PRODN_SUPERVISOR_PROC", catalog: "SAP_SCM_BC_PROC_ORD_MGMT",
+    odata: "PP_MPE_AOR, PP_PROCESS_ORDER_MANAGE_SRV",
     guiTx: [], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
     releaseInfo: "SAP S/4HANA 2021 (What's New 2021, Type New)",
@@ -542,14 +564,18 @@ FIORI_APPS.push(
     // F2462 · Batch Management (LO-BM) 2025.001 (loios 34b021588aee0a02e10000000a44147b,
     // 006de05317e74e5399d82fb88f21810d), PLM 2025.001 (loio ed8ef9ad029a421d829e5d393873d741, data
     // source LO_BM_BATCH_SRV), Data Migration 2025.001 (loio 3504f738294541709a8c2dff2dbb5b30).
+    // 2026-09-24: lead role, business catalogs and GUI transactions copied from the SAP Fiori Apps
+    // Reference Library (scripts/fal-app.mjs F2462, S32OP = S/4HANA 2025 FPS01 and S27OP = 2023,
+    // Published): SAP_BR_INVENTORY_MANAGER (lead of 19 roles), five business catalogs, OData
+    // LO_BM_BATCH_SRV (unchanged), leading MSC1N, related MSC2N / MSC3N.
     id: "F2462", slug: "manage-batches-f2462", name: "Manage Batches", he: "ניהול אצוות", module: "PP-PI", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · Batch Management (LO-BM) 2025.001 (Manage Batches, App Implementation: Manage Batches) · Product Lifecycle Management (PLM) 2025.001 · Data Migration 2025.001", lastReviewed: "2026-09-23",
+    trust: "verified-docs", source: "SAP Help Portal · Batch Management (LO-BM) 2025.001 (Manage Batches, App Implementation: Manage Batches) · Product Lifecycle Management (PLM) 2025.001 · Data Migration 2025.001 · SAP Fiori Apps Reference Library F2462 (scripts/fal-app.mjs, OData channel, S32OP = S/4HANA 2025 FPS01, isPublished=Published); same role, catalogs, OData service and GUI transactions on S27OP = S/4HANA 2023", lastReviewed: "2026-09-24",
     purpose: "הצגה, עריכה ויצירה של אצוות: לפי התיעוד הרשמי, 'With this app you can display and edit existing and create new batches.'",
     problem: "",
-    explain: { beginner: "מסך אחד שבו מחפשים אצוות, רואים את הפרטים שלהן ויוצרים אצוות חדשות.", consultant: "לפי Batch Management (LO-BM) לגרסת 2025 FPS01 ניתן לחפש אצוות המנוהלות במפעלים מסוימים ולראות נתונים הקשורים לאצווה, כגון המפעלים שבהם היא מנוהלת, סיווגי אצווה ומנות הבדיקה (inspection lots) שלה. לפי עמוד ה-App Implementation יש להפעיל ב-back-end את מחבר החיפוש (search connector) המתאים לרמת האצווה, למשל BATCH_PLANT_H לרמת מפעל. תיעוד ההגירה מונה אותו לצד Display Batch (MSC3N). הרשומה המתוחזקת F1576 נושאת את אותה כותרת בלי מקור רשמי; ראו רשומת האימות fiori:F1576.", technical: "טבלת Business Contexts and Fiori Applications בתיעוד ה-PLM מציגה את LO_BM_BATCH_SRV כמקור הנתונים (Data Source to be Extended) של Manage Batches (F2462) להרחבה בשדות מאפיין. תפקיד עסקי וקטלוג לא נקראו מהספרייה; ראו רשומת האימות fiori:F2462." },
-    role: "", catalog: "",
+    explain: { beginner: "מסך אחד שבו מחפשים אצוות, רואים את הפרטים שלהן ויוצרים אצוות חדשות.", consultant: "לפי Batch Management (LO-BM) לגרסת 2025 FPS01 ניתן לחפש אצוות המנוהלות במפעלים מסוימים ולראות נתונים הקשורים לאצווה, כגון המפעלים שבהם היא מנוהלת, סיווגי אצווה ומנות הבדיקה (inspection lots) שלה. לפי עמוד ה-App Implementation יש להפעיל ב-back-end את מחבר החיפוש (search connector) המתאים לרמת האצווה, למשל BATCH_PLANT_H לרמת מפעל. תיעוד ההגירה מונה אותו לצד Display Batch (MSC3N). הרשומה המתוחזקת F1576 נושאת את אותה כותרת בלי מקור רשמי; ראו רשומת האימות fiori:F1576.", technical: "טבלת Business Contexts and Fiori Applications בתיעוד ה-PLM מציגה את LO_BM_BATCH_SRV כמקור הנתונים (Data Source to be Extended) של Manage Batches (F2462) להרחבה בשדות מאפיין. התפקיד המוביל, הקטלוגים וטרנזקציות ה-GUI נקראו מספריית ה-Fiori (S32OP); ראו רשומת האימות fiori:F2462." },
+    role: "SAP_BR_INVENTORY_MANAGER", catalog: "SAP_EHS_BC_MOC_CHANGE_MGMT, SAP_SCM_BC_BATCH_DSP, SAP_SCM_BC_BATCH_MGMT, SAP_SCM_BC_BATCH_MNTR, SAP_SCM_BC_MPE_EXEC_MNTR",
     odata: "LO_BM_BATCH_SRV",
-    guiTx: [], relatedTables: [],
+    guiTx: ["MSC1N", "MSC2N", "MSC3N"], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
     releaseInfo: "",
     similar: [],
