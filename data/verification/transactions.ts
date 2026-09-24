@@ -166,7 +166,37 @@
    purpose, keywords); the MD51 notes end with the sentence that the
    generated record in transactions-auto.ts is superseded, with its
    documented Fiori negative (S32OP, 0 apps with the leading code MD51),
-   since its notes say fal-app was not run. */
+   since its notes say fal-app was not run.
+   Batch 16 (research + adversarial audit 2026-09-24, written 2026-09-25;
+   access date stamped 2026-09-24): 6 audited records (MDAB, MDBT, MF50, MFP1,
+   MM01, MM02), none refuted. MF50 and MM01 from verdict.fixedRecord; MDAB,
+   MDBT, MFP1 and MM02 from the drafts with their auditors' downgrades applied
+   (the MDBT and MM02 downgrades were marked optional and were applied). Status
+   sources point at the new shared MDAB_SIMPL_ITEM_2025, MDBT_FAL,
+   MF50_SIMPL_ITEM_2025, MFP1_SIMPL_ITEM_2025, MM01_SIMPL_ITEM_2025 and
+   MM02_SIMPL_ITEM_2025 consts instead of the 'evidence[N]' marker strings or
+   the re-typed copies the drafts and verdicts carried. MDAB is written
+   legacy_ecc_only (the tx:CL6O pattern: PPH_MDAB is not a canonical id, so no
+   successor can resolve). Writer corrections: the MM01 reviewer field dropped
+   (house convention); the MDAB gaps[0] downgrade folded into its notes (the
+   draft carried no gaps field); the MDAB repository row's repoRef also names
+   data/tcode-directory.ts, which its title and claim cite; the MFP1 notes'
+   undocumented negative search replaced by the query, scopes and hit counts
+   the generated tx:MFP1 record documents (no new search was run); 'רק'
+   dropped from two source-bounded sentences (MFP1 evidence[1], MF50 notes);
+   the MFP1 repository row titled in the house form 'רשומת המאגר:
+   tx-intel.ts#MFP1' (the fix the MF50 auditor asked for on the same kind of
+   row); MFP1 'ממשיכה להתקיים וקיימת' trimmed and 'רשימות ההפשטה' written
+   'רשימות הפישוט'; the MDAB notes' 'ללא פגיעה ישירה' written 'ללא תוצאה ישירה'
+   (the batch-12 fix) and item 30.3 named 'באותו שם'; the MM02 status.he lists
+   the four changes its four cited items describe (the draft said three and
+   left out the SERV item it cites), and its notes name items 15.3.2 / 15.3.10
+   next to the numbers (HOUSE-RULES §3.5). Each record's notes say the
+   generated record in transactions-auto.ts is superseded; MF50, MFP1, MM01 and
+   MM02 carry that record's S32OP Fiori Apps Library registration row verbatim
+   as a context row (never counted toward level or depth; the batch-12 MC84
+   precedent), and MDAB carries its documented Fiori negative in notes, since
+   its notes say fal-app was not run. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -2022,6 +2052,134 @@ const MD51_INCOMPATIBLE_CHANGES: Evidence = {
     "necessary.' עמודת 'How to Upgrade' קובעת: 'Use MRP Live for the top-level material and include the BOM " +
     "components in planning.' באותה טבלה מופיעה גם MD50 (Multi-Level, Make-to-Order Planning) באותו ניסוח. העמוד " +
     "אינו מציין יורש ל-MD51 עצמה; ההנחיה בו היא שינוי בגישת התכנון.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* ---------------------------------------------------------- batch 16 docs */
+
+const MDAB_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.5.6 S4TWL - " +
+    "Planning File, p. 790-792",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "הפריט 'S4TWL - Planning File' ‏(Application Component: PP-MRP) ברשימת הפישוט לגרסת 2025 FPS01 מציג טבלה " +
+    "שכותרתה 'Transaction not available in SAP S/4HANA on-premise edition', ובה: 'MDAB, MDRE (batch versions of " +
+    "above reports for operative planning file entries replaced by PPH_MDAB)'. באותה טבלה, תחת 'Reports (not " +
+    "available in SAP S/4HANA)', מפורטים RMDBVM00, RMDBVM10, RMMDVM10, RMMDVM20, RMMDVL10 ו-RMMDVL20. 'Required " +
+    "and Recommended Action(s)': 'After the system conversion, you should run report PPH_SETUP_MRPRECORDS to " +
+    "populate the new planning file table with operative MRP records (PP-MRP)', וכחלופה 'the conversion reports " +
+    "PPH_CONVERT_MRPRECORDS and PPH_CONVERT_MRPRECORDS_SIMU'. 'Custom Code related information': 'The original " +
+    "planning files MDVM/MDVL and DBVM/DBVL no longer exist. They were replaced by the new planning file PPH_DBVM. " +
+    "If your custom code creates planning file entries directly by updating or inserting into tables MDVM, MDVL, " +
+    "DBVM, or DBVL, then you have to adapt the custom code and call function module DISPSATZ_ERSTELLEN instead', " +
+    "ובהמשך: 'Queries from table DBVM or DBVL will be redirected to the new planning file PPH_DBVM by " +
+    "compatibility views'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MDBT_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library: F1339 - Schedule MRP Runs (SAP Fiori: Generic Job Scheduling Framework, component " +
+    "PP-FIO-MRP, release S32OP)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1339')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ספריית אפליקציות Fiori (scripts/fal-app.mjs F1339 --release S32OP) מציגה את F1339 'Schedule MRP Runs': " +
+    "סוג Transactional, SAP Fiori: Generic Job Scheduling Framework, סטטוס Published, רכיב PP-FIO-MRP, קטלוגים " +
+    "עסקיים SAP_SCM_BC_MRPRUN ו-SAP_RFM_BC_DC_RPLNMT, שירות OData APJ_JOB_MANAGEMENT_SRV. הרשומה מדפיסה 'GUI " +
+    "transactions: leading MD01; related MD01N, MD02, MD03, MD40, MD41, MD42, MD43, MDBT, MPBT, MSBT'. היא רשומה " +
+    "בין היתר במהדורות S3OP (1511) ו-S32OP (2025 FPS01); predecessors ו-successors: אין.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MF50_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 · item 9.5.4 S4TWL - Graphical Planning " +
+    "Table (PP-CRP, SAP Note 2268050)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.5.4 (SAP Note 2268050) מונה את MF50 תחת 'Other Terms' ('Transactions CM21, CM22, CM23, CM25, CM29, " +
+    "MF50'). בפרק Solution הוא קובע: 'The Planning Table for Repetitive Manufacturing (Transaction MF50) uses the " +
+    "same graphical planning table as well. The transaction MF50 will continue to be available, but the graphical " +
+    "planning table can only be used as part of the SAP S/4HANA compatibility scope until end of expiry date. " +
+    "There is no alternative planned for a graphical visualization in MF50.' לפרטי ה-compatibility scope ותאריך " +
+    "התפוגה הפריט מפנה ל-SAP Note 2269324: 'In the compatibility matrix attached to SAP note 2269324, Graphical " +
+    "Planning Table can be found under the ID 451'. בפרק Reason and Prerequisites נכתב: 'The classic Gantt-chart " +
+    "control, which was used in transactions CM21, CM22, CM25, CM27, CM29, CM30, CM31, CM32, CM33, CM36, or MF50 " +
+    "only works in SAP-Gui', ובהקשר של ממשקי דפדפן ללא התקנה מקומית (Zero footprint): 'This is not possible with " +
+    "the classic Gantt-chart control'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MFP1_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 – " +
+    "Feature Pack Stack 1 · item 13.2.16 S4TWL - Handling Unit Management - Obsolete Transactions",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  verificationLevel: "sap_official_verified",
+  claim:
+    "הנוסח ב-2025 FPS01 (פריט 13.2.16) זהה במהותו לפריט המקביל מ-2023 FPS03: HUP1 מוגדרת מיושנת (הודעת שגיאה " +
+    "VHUAP 039), וההנחיה היא 'transactions MFP1 or MFP2 should be used instead'. הפריט ממשיך למנות את MFP1 (עם " +
+    "MFP11-MFP14, MFPP1) כטרנזקציות ליצירת יחידות אריזה מתוכננות בייצור חוזר, תחת פרופיל טרנזקציית אריזה 0014. " +
+    "גם כאן אין קביעה ש-MFP1 עצמה הוסרה, שונתה או הוחלפה; הפריט מפנה אליה במקום HUP1 המיושנת.",
+};
+
+const MM01_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 FPS01 · item 9.5.15 S4TWL - MRP fields in Material Master",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "הפריט קובע: 'The SAP S/4HANA simplification is done on the following tabs in transaction MM01/02/03', ומונה " +
+    "את השדות שבהם חל הפישוט: בכרטיס MRP1 קבוצת יחידות מידה (MARC-MEGRU); בכרטיס MRP2 שימוש בהסדר מכסות " +
+    "(MARC-USEQU), משום ש-MRP מתחשב בהסדרי מכסות ואין צורך להפעיל זאת באב החומר; בכרטיס MRP4 שיטת הבחירה " +
+    "(MARC-ALTSL), שדות ההפצה (MARC-DPLFS, MARC-DPLPU, MARC-DPLHO) וארבעה שדות ברמת מיקום אחסון (MARD-DISKZ, " +
+    "MARD-LSOBS, MARD-LMINB, MARD-LBSTF). לגבי MARC-MDACH (Action control) הפריט מציין: 'This field is made " +
+    "available from SAP S/4HANA 2020'. עוד נקבע: 'the backend database fields for these \"omitted functionality\" " +
+    "remains existing in the system'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MM02_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.7.4 S4TWL - Material classification " +
+    "with commodity codes",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (רכיב SLL-LEG-FUN-CLS; ב-Related Notes מודפסת SAP Note 2376556 בכתיב 0002376556) פותח ב-Symptom: 'You " +
+    "classify materials with commodity codes in transaction MM01 / MM02 ... This functionality (material/article " +
+    "classification with commodity codes) is redesigned in SAP S/4HANA 1610.' לפי הפריט, ב-ECC וב-1511 הסיווג " +
+    "נעשה 'in material master apps (e.g. MM01, MM02)', ומ-1610 ואילך: 'time-dependent, valid for material /article " +
+    "and a country or multiple countries, functionality accessible only via FIORI apps, new data model'. הפריט " +
+    "אינו נוקב במזהה אפליקציית Fiori. בפרק הפעולות הוא מפנה ל-KBA 2432527.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -12386,5 +12544,717 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "SAP חיה. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MD51 ב-data/verification/transactions-auto.ts (ישן: ללא " +
       "הכרעת מעמד; חדש: changed), שתיעדה בספריית Fiori במהדורה S32OP את MD51 כאפליקציה רשומה ו-0 אפליקציות עם קוד " +
       "מוביל MD51.",
+  },
+  {
+    id: "tx:MDAB",
+    evidence: [
+      MDAB_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 30.3 " +
+          "S4TWL - Planning File, p. 739-741",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "אותו פריט 'S4TWL - Planning File' ברשימת הפישוט לגרסת 2023 FPS03 תואם בתוכן לגרסת 2025 FPS01: תחת " +
+          "'Transaction not available in SAP S/4HANA on-premise edition' מופיע 'MDAB, MDRE (batch versions of above " +
+          "reports for operative planning file entries replaced by PPH_MDAB)', ובפריט אותה הנחיה להריץ " +
+          "PPH_SETUP_MRPRECORDS ואותה הערה על DISPSATZ_ERSTELLEN. ההבדלים: רכיבי היישום בגרסת 2023 FPS03 הם " +
+          "'PP-MP-LTP, PP-MRP' (בגרסת 2025 FPS01: 'PP-MRP'), ופריסת הטבלה בעמוד שונה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transaction Codes for MRP (PP-MRP) | Material Requirements Planning (PP-MRP)",
+        url: "https://help.sap.com/docs/SAP_ERP/85d3fce10e264972a0155c8b46ecf93b/f3a9ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית בצד ה-ECC ‏(SAP ERP 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "f3a9ce5314894208e10000000a174cb4), שהוחזרה לשאילתה 'MDAB planning file entry' בסקופ SAP_ERP ‏(21 " +
+          "תוצאות), מציגה בסניפט: 'MD21 Display planning file entry ... MDAB Set up planning file entry in background " +
+          "... MDRE Check planning file entry'. מכאן הכותרת האנגלית הרשמית של MDAB בצד ECC: 'Set up planning file " +
+          "entry in background'. גוף העמוד לא נקרא; הטענה תחומה לסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MDAB / tcode-directory.ts#MDAB",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#MDAB; data/tcode-directory.ts#MDAB",
+        claim:
+          "קטלוג הטרנזקציות של המאגר רושם ל-MDAB את הכותרת 'Set Up Planning File Entries in Background' ‏/ 'הגדרת " +
+          "רשומות קובץ תכנון ברקע', מודול PP, תחום 'תכנון דרישות חומר' (data/tcode-catalog.ts#MDAB); ספריית " +
+          "הטרנזקציות מתארת אותה כ'אתחול Planning File', ‏'Set up planning file (background).' " +
+          "(data/tcode-directory.ts#MDAB). הכותרת במאגר עולה בקנה אחד עם הכותרת בסניפט הרשמי בצד ECC.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "legacy_ecc_only",
+      he:
+        "MDAB ‏(Set up planning file entry in background) מופיעה בפריט הפישוט הרשמי 'S4TWL - Planning File' (סעיף " +
+        "9.5.6 ברשימת 2025 FPS01, סעיף 30.3 ברשימת 2023 FPS03) בטבלה שכותרתה 'Transaction not available in SAP " +
+        "S/4HANA on-premise edition', בנוסח: 'MDAB, MDRE (batch versions of above reports for operative planning " +
+        "file entries replaced by PPH_MDAB)'. הפריט נוקב ב-PPH_MDAB כמחליף ואינו מציין את סוג האובייקט (טרנזקציה " +
+        "או דוח); באפליקציית Fiori מחליפה הפריט אינו נוקב. נבחר הסטטוס 'ECC בלבד' ולא 'לא זמין ב-S/4HANA', כי " +
+        "כללי השכבה דורשים לסטטוס האחרון יורש מקושר, ו-PPH_MDAB אינו מזהה קנוני במאגר (אותו דפוס כמו tx:CL6O).",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MDAB_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להתייחס ל-MDAB כטרנזקציית ECC ולא לתכנן עליה תרחישי S/4HANA on-premise; לפי הפריט, יצירת רשומות " +
+        "ה-planning file האופרטיביות ברקע עוברת ל-PPH_MDAB. בהמרה, לפי 'Required and Recommended Action(s)': אחרי " +
+        "ההמרה להריץ את הדוח PPH_SETUP_MRPRECORDS לאכלוס טבלת ה-planning file החדשה ברשומות MRP אופרטיביות, או את " +
+        "דוח ההמרה PPH_CONVERT_MRPRECORDS. קוד מותאם אישית שכותב ישירות ל-MDVM, MDVL, DBVM או DBVL צריך להסתגל " +
+        "ולקרוא למודול הפונקציה DISPSATZ_ERSTELLEN; קוד שקורא מ-DBVM או DBVL אינו דורש התאמה, לפי הפריט. לא בוצעה " +
+        "בדיקה במערכת SAP חיה.",
+    },
+    xrefs: ["tx:MD01N", "tx:MD20", "tx:MD21", "tx:MDBT"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: נקרא audit/s4-enrichment/HOUSE-RULES.md ורשומת התקדים tx:CL6O ב-data/verification/transactions.ts. " +
+      "נקראו מהקבצים המקומיים scratchpad/official/SIMPL_OP2025.pdf.txt (פריט 9.5.6 'S4TWL - Planning File', עמודים " +
+      "790 עד 792) ו-SIMPL_OP2023.pdf.txt (פריט 30.3 באותו שם, עמודים 739 עד 741). הציטוט 'MRP live uses the new " +
+      "planning file PPH_DBVM ... also used by classic MRP' שהופיע בטיוטה קודמת שייך לפריט 'S4TWL - MRP in HANA' " +
+      "ולא לפריט 'S4TWL - Planning File', ולכן הוסר (ישן: ציטוט משויך ל-9.5.6; חדש: ההצהרה על PPH_DBVM נלקחת " +
+      "משורת Custom Code של 9.5.6). הסטטוס שונה מ-not_available ל-legacy_ecc_only (ישן → חדש): not_available " +
+      "דורש יורש מקושר, ו-PPH_MDAB אינו מזהה קנוני במאגר; זה הדפוס של tx:CL6O. הפריט אינו מקשר בין PPH_MDAB " +
+      "ל-PPH_DBVM, והרשומה אינה מקשרת ביניהם. חיפוש: scripts/sap-help-search.mjs 'MDAB planning file entry' " +
+      "--product SAP_ERP ‏(21 תוצאות) החזיר את רשומת 'Transaction Codes for MRP (PP-MRP)' עם הסניפט המצוטט " +
+      "ב-evidence[2]; בטיוטה הקודמת רצו גם 'MDAB planning file S/4HANA' ‏(SAP_S4HANA_ON-PREMISE, 21 תוצאות, ללא " +
+      "תוצאה ישירה ל-MDAB) ו-'PPH_SETUP_MRPRECORDS' ‏(2 תוצאות, לא רלוונטיות ישירות). scripts/fal-app.mjs לא " +
+      "הורץ: אף מקור רשמי שנקרא אינו נוקב באפליקציית Fiori מחליפה. PPH_MDAB מופיע בפרוזה בלבד ולא כ-xref. פער " +
+      "פתוח: PPH_MDAB, שהפריט נוקב בו כמחליף, אינו מזהה קנוני במאגר, והפריט אינו מציין אם PPH_MDAB הוא טרנזקציה " +
+      "או דוח; זה דורש אימות במערכת SAP (SE93 / SE38). לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה את הרשומה " +
+      "שנוצרה אוטומטית ל-MDAB ב-data/verification/transactions-auto.ts (ישן: ללא הכרעת מעמד; חדש: " +
+      "legacy_ecc_only), שתיעדה בספריית Fiori במהדורה S32OP ש-MDAB אינה רשומה כאפליקציה ו-0 אפליקציות עם קוד " +
+      "מוביל MDAB, וציטטה כהקשר גם את פריט 9.5.2 'S4TWL - MRP in HANA' בשורה 'MRP Live, MD01N, MDAB, MD01'.",
+  },
+  {
+    id: "tx:MDBT",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#MDBT",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tx-intel.ts#MDBT",
+        claim:
+          "רשומת המאגר מתארת את MDBT כ'תכנון MRP ברקע (MRP in Background / Total Planning as Background Job)', " +
+          "מודול PP, תחום 'תכנון דרישות חומר (MRP)'. שדה ה-s4 ברשומה: 'זמין; ב-S/4HANA העדף 'Schedule MRP Runs' " +
+          "(Fiori) המבוסס MRP Live.'",
+        verificationLevel: "repository_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Overview of the Main Transaction Codes for CBP | Sourcing and Procurement",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/757db6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Sourcing and Procurement, S/4HANA 2025 FPS01, versionId 2025.001, loio " +
+          "757db6535fe6b74ce10000000a174cb4) נוקבת בקוד MDBT בסניפט: 'Overview of the Main Transaction Codes for " +
+          "CBP Transaction Activity MD01 Carry out total planning online MD03 Carry out single-item, single-level " +
+          "planning MDBT Carry out total planning in …'. הסניפט קטוע בנקודה זו. MDBT מופיעה בטבלת טרנזקציות ה-CBP " +
+          "בתיעוד S/4HANA 2025 FPS01, on-premise.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Performance Optimizations for MRP | Logistics",
+        url: "https://help.sap.com/docs/SAP_ERP/930f133a36a843318dc3347afe00a9d6/819f1a74147f4a9089132288e7c6ab3c.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "בצד ה-ECC: רשומת החיפוש הרשמית (Logistics, SAP ERP 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "819f1a74147f4a9089132288e7c6ab3c) נוקבת בקוד MDBT בסניפט: 'A read optimization is only possible for the " +
+          "following transactions: Operational planning: MDBT, MD01, MD02, and MD03 Master production scheduling: " +
+          "MDBS, MD40, MD41, …'. הסניפט מונה את MDBT תחת Operational planning.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Planning Horizon (Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, document " +
+          "version 1.36, item 9.5.11, component PP-MRP)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "גוף הפריט (נקרא במלואו) קובע תחת 'Business Process related information': 'A planning run is usually " +
+          "executed in batch mode via the planning batch transactions MDBT for MRP, MSBT for Long Term Planning and " +
+          "MDBS for MPS-Planning. In that context, variants can be defined. If old variants still contain the " +
+          "processing key NETPL, they won't work anymore.' תחת 'Required and Recommended Action(s)': 'If there are " +
+          "still variants for the planning run batch Transactions having the processing key filled with NETPL, these " +
+          "variants have to be deleted.' כלומר, הפריט נוקב ב-MDBT כטרנזקציית ה-batch שדרכה ריצת תכנון MRP " +
+          "מבוצעת בדרך כלל, קובע שוריאנטים שעדיין מכילים את מפתח העיבוד NETPL לא יעבדו עוד וחייבים להימחק, ואינו " +
+          "נוקב בטרנזקציה מחליפה ל-MDBT.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Planning Horizon (Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3, document " +
+          "version 1.35, item 30.26, components PP-MP-LTP, PP-MRP, PP-MP-MPS)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "גוף הפריט המקביל ב-2023 FPS03 (נקרא במלואו) מביא את אותו ניסוח: 'A planning run is usually executed in " +
+          "batch mode via the planning batch transactions MDBT for MRP, MSBT for Long Term Planning and MDBS for " +
+          "MPS-Planning. In that context, variants can be defined. If old variants still contain the processing key " +
+          "NETPL, they won't work anymore.' ואת אותה פעולה נדרשת: וריאנטים של טרנזקציות ה-batch עם מפתח עיבוד " +
+          "NETPL 'have to be deleted'. גם כאן הפריט אינו נוקב בטרנזקציה מחליפה ל-MDBT.",
+        verificationLevel: "sap_official_verified",
+      },
+      MDBT_FAL,
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "בפריט 'S4TWL - Planning Horizon' ברשימות הפישוט (2025 FPS01 ו-2023 FPS03) MDBT נקובה כטרנזקציית ה-batch " +
+        "שדרכה ריצת תכנון MRP מבוצעת בדרך כלל; הפריט קובע שוריאנטים שעדיין מכילים את מפתח העיבוד NETPL לא יעבדו " +
+        "עוד, ואינו נוקב בטרנזקציה מחליפה ל-MDBT. בספריית אפליקציות Fiori (S32OP) MDBT רשומה בין טרנזקציות ה-GUI " +
+        "הקשורות (related) של F1339 'Schedule MRP Runs', שהטרנזקציה המובילה שלה היא MD01.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MDBT_FAL,
+      recommendedAction:
+        "לפני המעבר יש לאתר ולמחוק וריאנטים של MDBT שמכילים את מפתח העיבוד NETPL, כנדרש בפריט 'S4TWL - Planning " +
+        "Horizon'. מומלץ להעריך את F1339 'Schedule MRP Runs' לתזמון ריצות MRP מ-Fiori. יש לאמת ב-SE93 במערכת היעד " +
+        "את קיום הטרנזקציה; לא בוצעה בדיקה במערכת SAP חיה.",
+    },
+    xrefs: ["tx:MD01", "tx:MD01N", "fiori:F1339"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "הרשומה גוברת על הרשומה של MDBT ב-data/verification/transactions-auto.ts (סביב שורה 44666), שנוצרה אוטומטית " +
+      "ונותנת הקשר בלבד ללא הכרעת מעמד (ישן: ללא הכרעת מעמד; חדש: fiori_alternative_available). חיפושים שבוצעו: " +
+      "sap-help-search.mjs 'MDBT MRP background' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות, אחת נוקבת ב-MDBT " +
+      "ומצוטטת: 'Overview of the Main Transaction Codes for CBP', 2025.001); 'MDBT' בסקופ SAP_ERP (21 רשומות, שלוש " +
+      "נוקבות ב-MDBT: 'Overview of the Main Transaction Codes for CBP', 'Transaction Codes for MRP (PP-MRP)' " +
+      "ו-'Performance Optimizations for MRP'; האחרונה מצוטטת). ספריית Fiori: fal-app.mjs --tcode MDBT ב-S32OP מחזיר " +
+      "'leading app(s): none; GUI app entry: none', ממצא שלילי מתועד ולא הכרעה; fal-app.mjs F1339 --release S32OP " +
+      "רושם את MDBT בין טרנזקציות ה-GUI הקשורות. פריטי 'S4TWL - Planning Horizon' נקראו " +
+      "ב-scratchpad/official/SIMPL_OP2025.pdf.txt (סביב שורה 44177) וב-SIMPL_OP2023.pdf.txt (סביב שורה 41544), " +
+      "שתי גרסאות עם אותו ניסוח. לפי audit/master-completion/simpl-tcode-index.json, MDBT נקובה גם בפריטי 'S4TWL - " +
+      "BOM, Routing, Production Version' (2025 FPS01 ו-2023 FPS03); שם היא מופיעה ברשימת 'Other Terms' ללא דיון " +
+      "בגוף הפריט, ולכן הם לא שימשו בסיס למעמד. הרמז שהפנה לפריט '2023 FPS03 30.9 S4TWL - ANSI/ISA S95 Interface' " +
+      "אינו תואם את האינדקס: לפי האינדקס הפריט ב-2023 FPS03 שנוקב ב-MDBT הוא 'S4TWL - Planning Horizon' (30.26). " +
+      "מגבלת הסטטוס: ברשומת F1339, MDBT מופיעה בין טרנזקציות ה-GUI הקשורות (related) ולא כטרנזקציה המובילה " +
+      "(MD01), fal-app.mjs --tcode MDBT אינו מחזיר ל-MDBT אפליקציה מובילה ב-S32OP, ואף מקור רשמי שנקרא אינו נוקב " +
+      "ביורש ל-MDBT; לכן לא נקבע successor. ביקורת (ישן → חדש): המשפט על תוצאת fal-app.mjs --tcode MDBT הוסר " +
+      "משורת F1339, שכן הוא אינו מודפס בדף F1339 ומתועד כאן; לקטלוג העסקי שנמנה בשורה (SAP_SCM_BC_MRPRUN) נוסף " +
+      "הקטלוג העסקי השני שהספרייה מדפיסה (SAP_RFM_BC_DC_RPLNMT). לא בוצעה בדיקה במערכת SAP חיה; SE93 " +
+      "במערכת היעד נדרש לאימות קיום הטרנזקציה, התוכנית והמסך.",
+  },
+  {
+    id: "tx:MF50",
+    evidence: [
+      MF50_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 · item 30.35 S4TWL - Graphical Planning " +
+          "Table (PP-CRP, SAP Note 2268050)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "פריט 30.35 קובע בניסוח כמעט זהה: 'The Planning Table for Repetitive Manufacturing (Transaction MF50) uses " +
+          "the graphical planning table as well. The transaction MF50 will continue to be available, but the " +
+          "graphical planning table can only be used as part of the SAP S/4HANA compatibility scope until end of " +
+          "expiry date. There is no alternative planned for a graphical visualization in MF50.' בפסקאות שאחרי קביעה " +
+          "זו הפריט מציע: 'Alternatively consider SAP Digital Manufacturing Cloud DMC component Resource " +
+          "Orchestration REO', וגם 'Use embedded PP/DS for complex scheduling problems'. הפסקאות האלה אינן מזכירות " +
+          "את MF50 בשמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Planned Order",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/758e4dd738ab4a1c9b4494f9bca7f826.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (מדריך Production Planning and Control, versionId 2025.001, loio " +
+          "758e4dd738ab4a1c9b4494f9bca7f826) מדפיסה בסניפט: 'Planning Table (MF50) for repetitive manufacturing Using " +
+          "the planning table, you can access all central functions of planning and production control.' כלומר " +
+          "תיעוד On-Premise 2025 FPS01 מתאר את MF50 כלוח התכנון של ייצור חוזר. גוף הדף לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "The Repetitive Manufacturing Planning Table",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/d673b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (מדריך Production Planning and Control, versionId 2025.001, loio " +
+          "d673b6535fe6b74ce10000000a174cb4) מדפיסה בסניפט: 'If you use the repetitive manufacturing planning table " +
+          "(REM planning table) in operative planning, you can now also use the planning table in long-term' וכן 'To " +
+          "call up the planning table in long-term planning, start from the long-term planning node and choose " +
+          "Long-term planning > Planning table.' הסניפט אינו מדפיס את הקוד MF50; הזיהוי של לוח התכנון של REM עם " +
+          "MF50 נשען על רשומת 'Planned Order'. גוף הדף לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#MF50",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "data/tx-intel.ts#MF50 מתעד את MF50 כ-planning table של REM, המשמש להקצאת run schedule quantities לקווי " +
+          "ייצור לפי תקופות, ושדה s4 שלו הוא 'זמין ב-S/4HANA.'. הרשומה אינה מזכירה את מגבלת ה-compatibility scope על " +
+          "לוח התכנון הגרפי. זה פער תיעודי מול פריטי הפישוט ולא סתירה: 'זמין' תואם את הקביעה שהטרנזקציה ממשיכה " +
+          "להיות זמינה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MF50",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App MF50 'Manage Repetitive Manufacturing' (SAP GUI), release S32OP (S/4HANA 2025 " +
+          "FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MF50')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את MF50 כאפליקציה 'Manage Repetitive Manufacturing' מסוג SAP GUI " +
+          "(SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "MF50 (לוח תכנון לייצור חוזר) ממשיכה להיות זמינה ב-SAP S/4HANA On-Premise, ותיעוד 2025 FPS01 מתאר אותה " +
+        "כלוח התכנון של ייצור חוזר. פריטי הפישוט S4TWL - Graphical Planning Table (2023 FPS03 ו-2025 FPS01) קובעים " +
+        "שלוח התכנון הגרפי שבו היא משתמשת שמיש במסגרת SAP S/4HANA compatibility scope עד תאריך התפוגה (SAP Note " +
+        "2269324, מזהה 451), וכי אין חלופה מתוכננת להדמיה גרפית ב-MF50.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MF50_SIMPL_ITEM_2025,
+      recommendedAction:
+        "לבדוק ב-SAP Note 2269324 את תאריך התפוגה של ה-compatibility scope עבור Graphical Planning Table (מזהה 451), " +
+        "ולתכנן את השימוש ב-MF50 כך שלא יהיה תלוי לטווח ארוך בתצוגה הגרפית שלה. לבעיות תזמון מורכבות, פריט 2023 " +
+        "FPS03 מציע את REO של SAP Digital Manufacturing Cloud או PP/DS משובץ; הפריט אינו מציג אותם כמחליף של MF50, " +
+        "ולכן לא נקבע successor. לעדכן את רשומת tx-intel.ts#MF50 כך שתציין את מגבלת לוח התכנון הגרפי.",
+    },
+    xrefs: ["tx:MFBF", "tx:MD01", "tx:MD02", "tx:MF52", "tx:CM21"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. פריטי S4TWL - Graphical Planning Table נקראו בטקסט שחולץ מקובצי ה-PDF " +
+      "הרשמיים (scratchpad/official/SIMPL_OP2025.pdf.txt שורות 43080-43155, SIMPL_OP2023.pdf.txt שורות " +
+      "42067-42142). audit/master-completion/simpl-tcode-index.json משייך את MF50 לפריט 30.35 (2023) ולפריט 9.5.4 " +
+      "(2025). פריט 30.9 'S4TWL - ANSI/ISA S95 Interface', שהופיע ברמז המקורי, אינו מזכיר את MF50 ולכן אינו מצוטט. " +
+      "חיפושים ב-scripts/sap-help-search.mjs (ברירת מחדל SAP_S4HANA_ON-PREMISE): 'MF50' (--size 12, 21 תוצאות, " +
+      "הרלוונטיות: 'Planned Order' ו-'DRF Integration for MES Processes'), 'Planning Table repetitive " +
+      "manufacturing' (--size 10, 21 תוצאות) ו-'S4TWL Graphical Planning Table'. scripts/sap-help-body.mjs לא " +
+      "הופעל, ולכן שתי רשומות ה-sap_help מבוססות על הסניפטים בלבד. scripts/fal-app.mjs לא הופעל: הפריטים קובעים " +
+      "שאין חלופה מתוכננת להדמיה גרפית ב-MF50, ולכן אין successor. תאריך התפוגה של ה-compatibility scope אינו " +
+      "מודפס בפריטים (הם מפנים ל-SAP Note 2269324) ונותר לאימות מול ה-Note. רשומת tx:MF50 שנוצרה אוטומטית " +
+      "ב-transactions-auto.ts מוחלפת ברשומה זו. שורת ההקשר שלה מספריית Fiori (MF50 כאפליקציית SAP GUI 'Manage " +
+      "Repetitive Manufacturing', סטטוס Published, S32OP) הועברה לכאן כלשונה, והרשומה ההיא תיעדה גם 0 אפליקציות " +
+      "עם קוד מוביל MF50 במהדורה זו.",
+  },
+  {
+    id: "tx:MFP1",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 – Feature Pack Stack 3 · item 49.2 S4TWL - Handling Unit Management - Obsolete Transactions",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "הפריט עוסק בהחלפת הטרנזקציות המיושנות COWBPACK ו-HUP1 ביצירת יחידות אריזה (Handling Units). לגבי MFP1 " +
+          "הוא קובע כי כאשר משתמשים ב-HUP1 מוצגת הודעת שגיאה VHUAP 039 המפנה להשתמש במקום ב-MFP1 או ב-MFP2 " +
+          "('transactions MFP1 or MFP2 should be used instead'). בהמשך הפריט מפרט: MFP1 (יחד עם MFP11-MFP14 " +
+          "ו-MFPP1) הן הטרנזקציות ליצירת יחידות אריזה מתוכננות (planned handling units, להבדיל מפיזיות) בייצור " +
+          "חוזר (repetitive manufacturing), ולפי הפריט, מי שבוחר ליצור יחידות אריזה מתוכננות בטרנזקציות אלה צריך " +
+          "לבדוק את פרופיל טרנזקציית האריזה (packing transaction profile) 0014 ולהתאים אותו במידת הצורך. הפריט אינו " +
+          "קובע ש-MFP1 עצמה מיושנת, מוסרת או משתנה; הוא מציב אותה כיעד המומלץ במקום HUP1.",
+      },
+      MFP1_SIMPL_ITEM_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transaction Codes in Cost Object Controlling",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/ebc64252eaa43507e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        verificationLevel: "supported_secondary_source",
+        claim:
+          "גוף העמוד (נקרא במלואו דרך שירות התוכן) מציג את טבלת הטרנזקציות ל-Cost Object Controlling, כולל Product " +
+          "Cost Collector: KKF6N ('Edit product cost collectors: Create, change, and display product cost " +
+          "collectors'), KKF6M, KKF9, MF30 ואחרות. MFP1 אינה מופיעה ברשימה זו. העמוד מציין במפורש 'The list is not " +
+          "necessarily complete', כך שזו אינה קביעת אי-קיום מוחלטת. העמוד מפרט את KKF6N ליצירה, שינוי והצגה של " +
+          "Product Cost Collector; היעדרה של MFP1 מרשימה שאינה בהכרח מלאה אינו מהווה קביעה לגבי MFP1.",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#MFP1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tx-intel.ts#MFP1",
+        verificationLevel: "repository_verified",
+        claim:
+          "רשומת המאגר מתייגת את MFP1 כטרנזקציה הקשורה ליצירת Product Cost Collector בייצור חוזר (REM), עם KKF6N " +
+          "כטרנזקציה 'המקובלת' לכך. תיאור זה אינו נתמך על ידי המקורות הרשמיים שנבדקו כאן: לא פריטי ה-S4TWL " +
+          "'Handling Unit Management - Obsolete Transactions' ולא עמוד 'Transaction Codes in Cost Object " +
+          "Controlling' מזכירים את MFP1 בהקשר Product Cost Collector; שני פריטי ה-S4TWL ממקמים את MFP1 בתחום " +
+          "Handling Unit Management / Automatic Packing (יצירת יחידות אריזה מתוכננות בייצור חוזר).",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App MFP1 'Create Planned Handling Units, Plan HUs to Repetitive Manufacturing - " +
+          "General' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MFP1')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את MFP1 כאפליקציה 'Create Planned Handling Units, Plan HUs to " +
+          "Repetitive Manufacturing - General' מסוג SAP GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס " +
+          "'Published'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "לפי שני פריטי S4TWL (2023 FPS03 ו-2025 FPS01, שניהם 'S4TWL - Handling Unit Management - Obsolete " +
+        "Transactions') הטרנזקציה MFP1 ממשיכה להתקיים ב-SAP S/4HANA On-Premise; היא היעד המומלץ (יחד עם MFP2) " +
+        "במקום HUP1 המיושנת, לצורך יצירת יחידות אריזה מתוכננות (planned handling units) בייצור חוזר. הפריטים אינם " +
+        "קובעים שינוי, הסרה או תחליף עבור MFP1 עצמה. שימו לב: זהו תחום עסקי שונה מהתיאור הקיים כרגע במאגר " +
+        "הפרויקט (Product Cost Collector); לתפקיד יצירת Product Cost Collector מפרט עמוד help.sap.com את KKF6N; " +
+        "MFP1 אינה מופיעה באותה רשימה, שהעמוד מציין כי אינה בהכרח מלאה (ראו ראיה 3).",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MFP1_SIMPL_ITEM_2025,
+      recommendedAction:
+        "יש לוודא מול הצוות המקצועי מהו התהליך העסקי שבו MFP1 נמצאת בשימוש בפועל בפרויקט: Product Cost Collector " +
+        "מול Handling Unit Management. אם הכוונה ליצירת Product Cost Collector, יש להשתמש ב-KKF6N כפי שמפורט בעמוד " +
+        "הרשמי; אם הכוונה ליצירת יחידת אריזה מתוכננת בייצור חוזר, MFP1 תקפה בהתאם לפריטי ה-S4TWL, תוך בדיקת " +
+        "פרופיל טרנזקציית אריזה 0014 והתאמתו במידת הצורך, כפי שמפורט בפריט.",
+    },
+    xrefs: ["tx:KKF6N", "table:VEKP"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "המחקר בוצע דרך help.sap.com (חיפוש רשמי וקריאת גוף עמוד מלא) ורשימות הפישוט המקומיות ב-scratchpad/official " +
+      "(SIMPL_OP2023.pdf.txt, SIMPL_OP2025.pdf.txt); לא בוצעה בדיקה במערכת SAP חיה. עלה פער מהותי בין תיאור " +
+      "הרשומה הקיימת במאגר (MFP1 = Product Cost Collector, REM) לבין המקורות הרשמיים שנבדקו, שממקמים את MFP1 " +
+      "בתחום Handling Unit Management / Automatic Packing. הפער מובא לתשומת לב הבודק ולא נפתר כאן ביוזמת הכותב; " +
+      "ייתכן שהמאגר מתאר הקשר עסקי אחר שלא אותר, או תיוג שגוי. בחיפוש ב-help.sap.com לא אותר עמוד נושא שמצטט את " +
+      "הקוד MFP1. השאילתה, ה-scope ומספר התוצאות של החיפוש שבטיוטה לא תועדו; החיפוש המתועד הוא של הרשומה שנוצרה " +
+      "אוטומטית ל-MFP1 ב-data/verification/transactions-auto.ts (scripts/qa/gen-tx-evidence.mts, 2026-09-24): " +
+      "השאילתה 'MFP1' החזירה 21 רשומות בסקופ SAP_S4HANA_ON-PREMISE ו-21 בסקופ SAP_ERP, ואף אחת מהן לא צוטטה " +
+      "כנוקבת בקוד בכותרת או בתקציר; זהו ממצא שלילי מתועד, לא הכרעה. בתחום עלתה אפליקציית Fiori F6445 'Manage " +
+      "Handling Units in Production – Scheduling Agreement' (ב-Fiori Apps Library, S32OP, טרנזקציית GUI מובילה " +
+      "MFHU); היא אינה קיימת ב-data/fiori/apps.ts ולכן לא נכללה כ-xref או כ-successor. הרשומה שנוצרה אוטומטית " +
+      "מוחלפת ברשומה זו (ישן: ללא הכרעת מעמד; חדש: unchanged); שורת ההקשר שלה מספריית Fiori (MFP1 כאפליקציית SAP " +
+      "GUI 'Create Planned Handling Units, Plan HUs to Repetitive Manufacturing - General', סטטוס Published, S32OP) " +
+      "הועברה לכאן כלשונה, והרשומה ההיא תיעדה גם 0 אפליקציות עם קוד מוביל MFP1 במהדורה זו.",
+  },
+  {
+    id: "tx:MM01",
+    evidence: [
+      MM01_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 FPS01 · item 12.1.1 S4TWL - Material Type SERV",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "הפריט קובע: 'A new material type SERV (Service Materials) is created with reduced user departments and " +
+          "fields in the classical transactions: MM01/MM02/MM03'. המחלקות הנתמכות לפי הפריט: Accounting, " +
+          "Purchasing, Basic Data, Sales. הפריט מונה שדות שאינם זמינים ל-SERV, למשל בכרטיס Basic data 1: EAN/UPC, " +
+          "EAN Category, Product allocation, ומציין: 'The selected fields are hidden only from the material type " +
+          "\"Service Materials\", however, they are supported for other material types'. SAP ממליצה בפריט על SERV " +
+          "על פני DIEN, במיוחד בתרחישים כמו lean service procurement.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 FPS01 · item 15.3.10 S4TWL - Material Valuation - Statistical " +
+          "moving average price",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "הפריט מתאר אפשרות לשנות את התנהגות הנעילה בתנועות סחורה בהסבה ל-S/4HANA, ומציין 'this is not mandatory " +
+          "for you'. אם האפשרות נבחרה, השדות SALKV ו-VERPR בטבלאות MBEW, EBEW, OBEW, QBEW אינם מתעדכנים עוד " +
+          "לחומרים בבקרת מחיר 'Standard', ולכן 'the \"statistical\" moving average price and the value based on the " +
+          "\"statistical\" moving average price are no longer available on the user interface. This concerns the " +
+          "following transaction codes: MM01, MM02, MM03, CKM3 and MR21'. הפריט מציין שהבחירה 'can not be " +
+          "un-done', ושאם האפשרות לא נבחרה המערכת ממשיכה לחשב את המחיר הממוצע הנע הסטטיסטי לחומרים בבקרת מחיר S. " +
+          "עוד נקבע: 'the \"statistical\" moving average price is purely statistical and does not have any impact on " +
+          "actual financials-relevant valuation'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 FPS01 · item 6.7.4 S4TWL - Material classification with " +
+          "commodity codes",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "הפריט קובע שסיווג חומרים בקודי סחורה (commodity codes) עוצב מחדש ב-S/4HANA 1610. ב-ECC וב-S/4HANA 1511 " +
+          "הסיווג 'done in material master apps (e.g. MM01, MM02)', עם הפצה דרך MATMAS/ARTMAS IDoc ועיבוד נכנס " +
+          "דרך BAPIs. מ-1610 ואילך: 'functionality accessible only via FIORI apps, new data model', עיבוד נכנס דרך " +
+          "MATMAS/ARTMAS IDoc 'not possible anymore, only simplified outbound processing supported', ו-'inbound " +
+          "processing via BAPIs not supported anymore'. שם האפליקציה אינו נקוב בפריט, ולכן לא נקבע xref ל-Fiori.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App MM01 'Create Material' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MM01')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את MM01 כאפליקציה 'Create Material' מסוג SAP GUI (SAP GUI) " +
+          "במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "ברשימת הפישוט של 2025 FPS01, MM01 נזכרת כטרנזקציה שחלו בה שינויים ביחס ל-ECC: פישוט שדות MRP בכרטיסי " +
+        "MRP1, MRP2 ו-MRP4 (שדות מסד הנתונים נותרים קיימים), וסוג חומר SERV עם פחות מחלקות ושדות. אם בהסבה נבחרה " +
+        "אפשרות שינוי הנעילה, המחיר הממוצע הנע הסטטיסטי אינו מוצג עוד לחומרים בבקרת מחיר Standard. סיווג בקודי " +
+        "סחורה נגיש מ-1610 דרך אפליקציות Fiori, ועיבוד נכנס דרך MATMAS או BAPI אינו נתמך עוד לסיווג זה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MM01_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-MM01 ליצירת אב חומר, ולבדוק שתהליכים ודוחות אינם נשענים על תחזוקת השדות שפושטו במסך " +
+        "(MARC-MEGRU, MARC-USEQU, MARC-ALTSL, MARC-DPLFS, MARC-DPLPU, MARC-DPLHO, MARD-DISKZ, MARD-LSOBS, MARD-LMINB, " +
+        "MARD-LBSTF). אם בהסבה נבחרה אפשרות שינוי הנעילה בתנועות סחורה, להסיר מקוד לקוח הערכה של SALKV או VERPR " +
+        "לחומרים בבקרת מחיר Standard, כהמלצת הפריט. סיווג בקודי סחורה יבוצע באפליקציות Fiori ולא ב-MM01. עבור SERV " +
+        "לוודא שהמחלקות והשדות הנדרשים אינם בין אלה שאינם זמינים לסוג חומר זה.",
+    },
+    xrefs: ["tx:MM02", "tx:MM03"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. כל הקביעות מבוססות על טקסט שחולץ מרשימת הפישוט הרשמית SIMPL_OP2025.pdf " +
+      "(2025 FPS01, מסמך 1.36). הפריט 'S4TWL - BOM, Routing, Production Version' (2025 FPS01 item 10.4.26; 2023 " +
+      "FPS03 item 28.7) מזכיר את MM01 ואת MM02 ברשימת 'Other Terms' ואינו קובע דבר מהותי על MM01, ולכן לא נכלל " +
+      "כראיה, בדומה למקרה המתועד ברשומת tx:C223. בפריט 'S4TWL - MRP fields in Material Master' השדה MARC-MDACH " +
+      "מסומן 'made available from SAP S/4HANA 2020', ולכן אינו נמנה כאן בין השדות שפושטו. בפריט 'S4TWL - Material " +
+      "Valuation - Statistical moving average price' מתוארת אפשרות שאינה חובה; ההשפעה על MM01 תלויה בבחירה שבוצעה " +
+      "בהסבה ודורשת אימות במערכת. הפריטים המקבילים ברשימת 2023 FPS03 (3.25, 3.26, 16.1, 27.8, 28.7) לא נקראו " +
+      "בנפרד, ואין ציטוט ספציפי לגרסת 2023. שם אפליקציית ה-Fiori לסיווג בקודי סחורה אינו נקוב בפריט 'S4TWL - " +
+      "Material classification with commodity codes', ולכן אין xref לאפליקציית Fiori. אין במאגר רשומת lifecycle או " +
+      "tx-detail ל-MM01; הרשומה data/function-intel.ts#BAPI_MATERIAL_SAVEDATA מזכירה את MM01, MM02 ו-MM03 " +
+      "כטרנזקציות קשורות ולא צוטטה כראיה. השם 'Manage Product Master' המופיע בה אינו ב-data/fiori/apps.ts ולא אומת " +
+      "מול מקור רשמי. הרשומה שנוצרה אוטומטית ל-MM01 ב-data/verification/transactions-auto.ts מוחלפת ברשומה זו " +
+      "(ישן: ללא הכרעת מעמד; חדש: changed). שורת ההקשר שלה מספריית Fiori (MM01 כאפליקציית SAP GUI 'Create " +
+      "Material', סטטוס Published, S32OP) הועברה לכאן כלשונה; שורות ההקשר האחרות שלה (רשומות החיפוש 'Periodic " +
+      "Actual Costing' ו-'Materials in Projects', ושלוש אפליקציות עם קוד מוביל MM01 ב-S32OP: F2756, F2757 " +
+      "ו-F3042) לא הועברו.",
+  },
+  {
+    id: "tx:MM02",
+    evidence: [
+      MM02_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 15.3.2 S4TWL - Material Ledger " +
+          "Obligatory for Material Valuation",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "בפרק Business Process related information הפריט קובע: 'If customers are not already using the material " +
+          "ledger, it will be activated during the conversion process. In MM02 and MR21 material prices can now be " +
+          "maintained in multiple currencies.' אותו משפט מופיע גם ברשימת 2023 FPS03, פריט 27.7.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 15.3.10 S4TWL - Material Valuation " +
+          "- Statistical moving average price",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט מתאר אפשרות בהסבה ל-S/4HANA לשנות את התנהגות הנעילה בתנועות מלאי כדי להגדיל תפוקה; לפי הפריט " +
+          "הבחירה בה אינה חובה ואינה ניתנת לביטול. אם נבחרה, המערכת מפסיקה לחשב את ה-'statistical' moving average " +
+          "price לחומרים עם בקרת מחיר 'S', ושדות כמו SALKV ו-VERPR ב-MBEW אינם מתעדכנים. הציטוט: 'the " +
+          "\"statistical\" moving average price and the value based on the \"statistical\" moving average price are no " +
+          "longer available on the user interface. This concerns the following transaction codes: MM01, MM02, MM03, " +
+          "CKM3 and MR21.' אותו נוסח מופיע גם ב-2023 FPS03, פריט 27.8.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 12.1.1 S4TWL - Material Type SERV",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (רכיב LO-MD-MM) קובע: 'A new material type SERV (Service Materials) is created with reduced user " +
+          "departments and fields in the classical transactions: MM01/MM02/MM03.' לפי הפריט, בסוג חומר SERV שדות " +
+          "ומחלקות שאינם רלוונטיים מוסתרים מהמסך, והם נשארים זמינים לסוגי חומר אחרים. אותו נוסח מופיע ב-2023 " +
+          "FPS03, פריט 3.26.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Changing Material PP-SATST01",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/80ba6f1ebc664faaa6df32575c640582/1525bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Change Management (LO-ECH), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "1525bd534f22b44ce10000000a174cb4) מונה את MM02 בין הטרנזקציות שניתן לבצע עם הפניה למספר שינוי (change " +
+          "number): 'For example, you can make the following transactions with reference to a change number: MM01 " +
+          "Create material general MM02 Change material MM11 Create material (schedule) MM12 Change material " +
+          "(schedule ...'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Changing Material PP-SATST01",
+        url: "https://help.sap.com/docs/SAP_ERP/9d59d0a6bdd14004adc69f4367d36a50/1525bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "בצד ECC, רשומת החיפוש הרשמית (Change Management (LO-ECH), 6.0 EHP8 Latest, versionId 6.18.latest, אותו " +
+          "loio) מציגה סניפט זהה: MM02 'Change material' ברשימת הטרנזקציות שניתן לבצע עם הפניה למספר שינוי (change " +
+          "number).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: domains.ts (סלאגים pppi-production-versions, pppi-planning-strategies)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/domains.ts#pppi-production-versions,pppi-planning-strategies",
+        claim:
+          "המאגר מציג את MM02 בשני תחומי PP-PI: גרסאות ייצור (לצד C223 ו-MM01) ואסטרטגיות תכנון (לצד OPPS, MD04 " +
+          "ו-MD61). זו רשומת הקשר פנימית של הפרויקט ואינה מקור SAP רשמי.",
+        verificationLevel: "repository_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App MM02 'Change Material' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MM02')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את MM02 כאפליקציה 'Change Material' מסוג SAP GUI (SAP GUI) " +
+          "במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "MM02 (Change Material) מתועדת ב-help.sap.com הן ב-ECC והן ב-S/4HANA On-Premise 2025 FPS01. פריטי רשימת " +
+        "הפישוט המצוטטים כאן מתארים בה ארבעה שינויים: סיווג חומר לפי commodity code עוצב מחדש מ-1610 ועבר " +
+        "לאפליקציות Fiori; מחירי חומר ניתנים לתחזוקה במספר מטבעות (Material Ledger); נוסף סוג החומר SERV (Service " +
+        "Materials), שמוצגים לו פחות מחלקות משתמש ושדות; וה-statistical moving average price אינו מוצג בממשק כאשר " +
+        "נבחרה בהסבה האפשרות לשנות את התנהגות הנעילה בתנועות מלאי.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MM02_SIMPL_ITEM_2025,
+      recommendedAction:
+        "לפני ההסבה: לבדוק אם קיימים ערכים בשדה STAWN בטבלת MARC (מבחן הרלוונטיות שבפריט), לעבור על KBA 2432527 " +
+        "ולהדריך משתמשים לסיווג commodity code באפליקציות Fiori; מזהה האפליקציה אינו מודפס בפריט ונותר לאימות. לתאם " +
+        "עם צוות הכספים את תחזוקת המחירים במספר מטבעות ואת ההחלטה על אפשרות הנעילה, שמשפיעה על הצגת ה-statistical " +
+        "moving average price ב-MM02. לבחון את סוג החומר SERV לחומרי שירות.",
+    },
+    xrefs: ["tx:MM01", "tx:MM03", "tx:MR21", "tx:CKM3", "table:MARA", "table:MARC", "table:MBEW"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שרצו: 'MM02 Change Material' ב-help.sap.com, היקף S/4HANA " +
+      "On-Premise (21 תוצאות) ובהיקף SAP_ERP (21 תוצאות); ההתאמה בשתיהן היא loio 1525bd534f22b44ce10000000a174cb4. " +
+      "רשימות הפישוט נקראו מ-scratchpad/official (2025 FPS01 ו-2023 FPS03). היסטוריה: unchanged → changed. הטיוטה " +
+      "הקודמת קבעה unchanged וטענה שפריטים 15.3.2 ('S4TWL - Material Ledger Obligatory for Material Valuation') " +
+      "ו-15.3.10 ('S4TWL - Material Valuation - Statistical moving average price') אינם מזכירים את MM02; הטענה " +
+      "שגויה: פריט 15.3.2 כותב 'In MM02 and MR21 material prices can now be maintained in multiple currencies' ופריט " +
+      "15.3.10 כותב 'no longer available on the user interface. This concerns the following transaction codes: MM01, " +
+      "MM02, MM03, CKM3 and MR21' (2023 FPS03: פריטים 27.7 ו-27.8). אזכורים נוספים שאינם קביעת סטטוס: פריט 15.3.7 " +
+      "(כותרתו מודפסת קטועה: 'S4TWL - Performance optimizations within Material Document Processing lock beh'; " +
+      "הכותרת המלאה מופיעה בתיאור ה-Related Notes שלו: 'Performance optimizations within Material Document " +
+      "Processing - lock behavior and stock underrun protection') מזכיר את MM02 כדוגמה לסימון הדגל 'Neg. stocks in " +
+      "plant' (בטיוטה הקודמת יוחס בטעות לפריט LIS); פריט 10.4.26 'S4TWL - BOM, Routing, Production Version' מונה " +
+      "את MM01 ו-MM02 ברשימת קודים בגוף הפריט, ולא נקרא כקביעה על MM02. מזהה אפליקציית ה-Fiori לסיווג commodity " +
+      "code לא נמצא באף מקור שנקרא, ולכן אינו מופיע כ-xref או כ-successor. הרשומה שנוצרה אוטומטית ל-MM02 " +
+      "ב-data/verification/transactions-auto.ts מוחלפת ברשומה זו (ישן: ללא הכרעת מעמד; חדש: changed). שורת ההקשר " +
+      "שלה מספריית Fiori (MM02 כאפליקציית SAP GUI 'Change Material', סטטוס Published, S32OP) הועברה לכאן כלשונה, " +
+      "והרשומה ההיא תיעדה 0 אפליקציות עם קוד מוביל MM02 במהדורה זו; שורות ההקשר האחרות שלה (רשומות החיפוש " +
+      "'Periodic Actual Costing' ו-'Materials in Projects') לא הועברו.",
   },
 ];
