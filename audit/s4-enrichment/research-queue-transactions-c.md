@@ -25,6 +25,28 @@ verified 583, verif.req 1225, conflict 10, s4-appl 589; 01:05 L3 444, L5 93, ver
 verif.req 1216, conflict 11, s4-appl 597. The remainder is chain B's concurrent batch in
 `transactions-b.ts` (MSC1N, MSC2N, MSC3N, MSC4N, QA32, MCXA, MCXX, QC20, QC21).
 
+Batch 2 written 2026-09-25 (access date stamped 2026-09-25): 8 drafts audited, 8 written, none
+refuted. The eight are the PS project-definition, WBS-element and structure-planning codes the
+item 'S4TWL - Simplification of maintenance transactions' lists (`tx:CJ06`, `tx:CJ07`,
+`tx:CJ08`, `tx:CJ11`, `tx:CJ12`, `tx:CJ13`, `tx:CJ14`, `tx:CJ20`), each written as `changed`.
+Five were taken from `verdict.fixedRecord` (`tx:CJ08`, `tx:CJ11`, `tx:CJ12`, `tx:CJ14`,
+`tx:CJ20`) and three were re-derived from the draft with the listed downgrades (`tx:CJ06`,
+`tx:CJ07`, `tx:CJ13`). The records were generated from the audited JSON, not retyped: every
+downgrade was applied as an exact-once substring replacement (a miss aborts the run), and the
+written module was deep-compared against the expected objects, with `status.source` checked for
+identity with its evidence row.
+
+Depth (`report-coverage.mjs --ids`, before and after): all eight moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified` with the authored
+`changed`. They stay at depth L1: none has a tx-intel / tx-detail record, so the page structure
+(3 authored facts needed for L2) is missing. Batch effect on the catalog totals
+(`npm run report:coverage -- --catalog transactions`): verified +8, verification_required -8,
+s4-appl +8, depth bands and conflict unchanged. Measured totals: 01:25 L1 1279, L3 443, L4 2,
+L5 94, verified 596, verif.req 1211, conflict 11, s4-appl 600; 01:35 L1 1279, L3 437, L4 2,
+L5 100, verified 605, verif.req 1202, conflict 11, s4-appl 609. The remainder (L3 -6, L5 +6,
+verified +1, verification_required -1, s4-appl +1) is chain B's concurrent batch in
+`transactions-b.ts` (QDV3, QE51N, QGA1, QGP1, QI03, QM10, QM50).
+
 ## refuted
 
 - `tx:KSV5` (batch 1, 2026-09-25): refuted at the adversarial gate, not written; the generated
@@ -74,6 +96,8 @@ verif.req 1216, conflict 11, s4-appl 597. The remainder is chain B's concurrent 
   below), limit recommendedAction to the item's own options and required action, state the
   TKA09-REFVS / TKA00-COABC checks as the item prints them, and move the 2023 FPS03 sentence
   to its own 2023 row.
+- Batch 2 (2026-09-25): none refuted. All eight audited drafts (`tx:CJ06`, `tx:CJ07`,
+  `tx:CJ08`, `tx:CJ11`, `tx:CJ12`, `tx:CJ13`, `tx:CJ14`, `tx:CJ20`) were written.
 
 ## conflicts
 
@@ -112,6 +136,50 @@ verif.req 1216, conflict 11, s4-appl 597. The remainder is chain B's concurrent 
   'S4TWL - Simplification of maintenance transactions' lists 'Create / Change / Display Work
   Breakdown Structure'; the Fiori Apps Library lists the SAP GUI apps as 'Create Project' /
   'Change Project' / 'Display Project'. Both labels are official; the CJ01 notes record it.
+- `tx:CJ20` · official snippet not yet read, possible conflict (batch 2): the generated record
+  cited the search record 'Commercial Project Inception & Lean Staffing 2 | SAP Professional
+  Services' (2025.001, loio 951512968e16425a91953f6a25e2e769), whose snippet reads
+  'Transaction CJ20 replaced with the addition of User Fields. ...'. The researcher left it out
+  of the evidence because the snippet alone does not show what was replaced (a field addition
+  or the transaction itself); the auditor accepted the record without it. The writer carried
+  it over as a context row (verbatim, access date 2026-09-24) so the source stays visible; it
+  does not decide the status, which rests on item 10.1.60 ('changed', perpetual scope from
+  2020 FPS2). What settles it: read the body with `sap-help-body.mjs` and bound a claim to it.
+  If the body says CJ20 itself is replaced, the status goes back to audit
+  (`conflicting_sources` against item 10.1.60 until one reading wins).
+- `tx:CJ14` · repository vs official label (batch 2, raised by the auditor):
+  `data/tcode-catalog.ts#CJ14` (line 122) labels CJ14 'הצגת אלמנט WBS (קלטי עלות/פעילות)' /
+  'Display WBS Element (Cost/Activity Inputs)', while the item 'S4TWL - Simplification of
+  maintenance transactions' prints 'CJ14 Display WBS Element (From DMS)'. The status uses the
+  official label; the repository row quotes the catalog verbatim, as a quote must. Not fixed
+  (tcode-catalog.ts is outside this writer's files). What settles it: a separate FIX pass on
+  the catalog entry against the item.
+- `tx:CJ2A` / `tx:CJ2D` · repository vs official label (batch 2, raised by the CJ20 auditor;
+  these two records are not in this batch): `data/tcode-catalog.ts` (lines 126 and 128) labels
+  CJ2A 'הצגת לוח תכנון פרויקט' / 'Display Project Planning Board' and CJ2D 'לוח תכנון פרויקט
+  (יצירה)' / 'Project Planning Board (Create)', while the PFCG search record 'Maintaining and
+  Displaying Project Structures' (2025.001 and 6.18.latest, loio
+  2606b753128eb44ce10000000a174cb4) prints 'CJ2D Structure Planning: Create Project' and 'CJ2A
+  Structure Planning: Display Project' in the snippet the CJ20 record cites. For the CJ2A and
+  CJ2D records to settle when the chain reaches them.
+- `tx:CJ03` / `tx:CJ06` / `tx:CJ07` · status wording, audit inconsistency (batch 2): the CJ14
+  auditor ruled that 'פעיל ב-S/4HANA' and 'ללא סילוק או החלפה של הפונקציונליות' go beyond the
+  item, which prints neither, and replaced them with 'הפריט אינו קובע הסרה או החלפה של הקוד'.
+  The CJ07 status.he carries both phrases (as does the batch-1 CJ03 record), and the CJ06
+  status.he says 'ללא החלפה או הסרה'; their auditors passed them, so they are written as
+  audited. For CJ03 and CJ07, 'פעיל' has some support in the Fiori Apps Library (Published in
+  S32OP), which CJ14 lacks. What settles it: one wording ruling for the family. If the CJ14
+  ruling applies, re-word the CJ03, CJ06 and CJ07 status.he in a later batch (text only, the
+  evidence stands).
+- `tx:CJ08` · label variance, no status conflict (batch 2): the search record 'Project
+  Period-End Closing: Individual Processing' (Single and Composite Roles (PFCG), 2025.001)
+  prints 'CJ08 Overhead: Individual Commitment Processing', while the item, the Fiori Apps
+  Library and the repository give 'Display Project Definition'. Not cited and not checked; the
+  CJ08 notes record it.
+- `tx:CJ20` · label variance, no status conflict (batch 2): the repository gives 'Special
+  Maintenance Functions: Structure'; the official labels are 'Structure Planning: Change
+  Project' (PFCG snippet), 'Change Structure Planning' (Fiori Apps Library) and 'Structure
+  planning' (item). The CJ20 notes record it.
 
 ## writer deviations (batch 1, 2026-09-25)
 
@@ -149,4 +217,49 @@ verif.req 1216, conflict 11, s4-appl 597. The remainder is chain B's concurrent 
    KSV1, OKB9 and CJ03; the CJ01, CJ02 and OKKP notes already carry their history. The KSV1
    notes also record the tx-intel.ts#KSV1 conflict above.
 8. No foundation-guard change: `transactions-c.ts` is already covered by the graduated
+   repoRef test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 2, 2026-09-25)
+
+1. Status sources. Shared consts CJ06_SIMPL2025, CJ07_SIMPL2025, CJ08_SIMPL2025,
+   CJ11_SIMPL2025, CJ12_SIMPL2025, CJ13_SIMPL2025, CJ14_SIMPL2025 and CJ20_SIMPL2025, each the
+   record's own item-10.1.60 row, used by identity in evidence[] and in status.source. They
+   replace the CJ07 and CJ12 pointer strings, the CJ08 and CJ11 objects whose claim was an
+   instruction to the writer, and the CJ06, CJ13, CJ14 and CJ20 full copies (deep-equal to
+   their evidence rows). All access and verification dates use DATE25; the carried context
+   rows keep DATE24.
+2. Reviewer fields dropped (CJ07 carried 'researcher'; the CJ11, CJ12 and CJ14 drafts carried a
+   personal address). House convention, and records may carry no personal name or address.
+3. Handoff text kept out of the records. The CJ12 fixedRecord notes ("Same notes as the draft.
+   Writer: ...") were not copied: the draft notes were used, with the closing sentence (which
+   said status.source stayed null until a writer replaced it) rewritten to describe the shared
+   const. The CJ13 notes sentence addressed to the writer ('לכותב: ...') was rewritten the same
+   way.
+4. CJ07 notes corrected against the repository (local file checks, no research lookup). The
+   notes said CJ07 is in the route-manifest `apps` list; `lib/route-manifest.generated.ts`
+   lists CJ07 under `tcodes` only. They also said no earlier VerificationRecord exists for
+   tx:CJ07; the generated record exists in `transactions-auto.ts`. Both statements were
+   corrected, and an Old → New sentence (HOUSE-RULES §3.8) was added before the closing
+   sentence.
+5. CJ12 notes: 'הסניפט הנגיש עוצר אחרי CJ03 ולפני שהוא מגיע ל-CJ11/CJ12/CJ13 ברשימה'
+   presupposed that the unread page body lists CJ11 to CJ13. Reworded to 'עוצר אחרי CJ03 ואינו
+   נוקב ב-CJ11/CJ12/CJ13' (honesty rule 2).
+6. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the
+   item number for Simplification List rows) the audited record does not cite were carried
+   over verbatim (`context: true`, access date 2026-09-24): CJ12 (Fiori Apps Library F0292
+   'Change WBS Element Status', its own deep link) and CJ20 (the 'SAP Professional Services'
+   search record, see conflicts). The CJ20 notes sentence that said the snippet was not
+   included now says it was carried as context only and points at this file. The other six
+   generated records are fully covered by the audited rows. The CJ08 F0290A row supersedes the
+   generated F0290A row (same deep link); the generated claim's 'Published' is not repeated in
+   the audited claim.
+7. Optional downgrades. Applied: the CJ06 anchoring sentence (the item row now also quotes the
+   list lines for CJ01, CJ02, CJ03, CJ07 and CJ08, so every CJ06 xref is tied to a cited row)
+   and the CJ13 recommendedAction wording. Not applied: the CJ07 release option; the item row
+   keeps '2025 FPS01' like the sibling item rows, and status.release stays '2025.001' as
+   audited, like CJ03 and CJ06.
+8. Not applied across the batch: citing PDF pages instead of the scratch path and line numbers
+   was asked only by the CJ20 auditor. The CJ06, CJ07, CJ11, CJ13 and CJ14 item rows keep the
+   scratch path and line range as audited, like the batch-1 CJ03 row.
+9. No foundation-guard change: `transactions-c.ts` is already covered by the graduated
    repoRef test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
