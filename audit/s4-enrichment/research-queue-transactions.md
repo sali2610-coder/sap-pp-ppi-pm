@@ -166,6 +166,48 @@ CO09 and CO53 L3 → L5 (repository_verified → sap_official_verified; derived 
 'unchanged'), CM31 L1 → L1 (verification_required → sap_official_verified, authored
 'compatibility_scope'; no `data/transactions.ts` / `tx-intel` structural facts, the L2 gate).
 Gates: both `tsc` runs clean (plus a non-incremental `tsc --noEmit`); `npm test` 212/212.
+Batch 10 written 2026-09-24 (access date stamped 2026-09-24): 6 audited records written
+(`tx:COHV`, `tx:COOIS`, `tx:COOISPI`, `tx:COR4`, `tx:CORK`, `tx:CR01`), 0 refuted. COHV from the
+draft (its verdict listed no problem and no downgrade); COOIS, COOISPI, COR4, CORK and CR01 from
+`verdict.fixedRecord`. Status sources point at shared consts (`COHV_FAL` = evidence[3],
+`COOIS_SIMPL_ITEM` and `COOISPI_SIMPL_ITEM` = evidence[0], `CORK_FAL` = evidence[1], `CR01_FAL`
+= evidence[0]) instead of the markers the draft and verdicts carried (`{"__ref":
+"evidence[3]"}`, 'evidence[0]', 'CORK_FAL (evidence[1], the Fiori Apps Library row)') or the
+re-typed CR01 copy (asserted deep-equal to evidence[0] apart from its stub claim '(evidence[0])'
+before the swap); COR4 carries evidence only (no authored status), as audited. Writer
+deviations: (1) `reviewer` dropped from COR4 ('researcher') and CORK (''), house convention; (2)
+the COOIS `summary` dropped and its two `gaps` folded into notes (neither is a
+`VerificationRecord` field): 'F2335 לא נבדקה מול scripts/fal-app.mjs ולא צוטטה כראיית
+fiori_library נפרדת' (the rest of that gap was already in notes; its 'רק' limiter dropped) and
+'לא נקבע successor: הפריט מפנה לשתי אפליקציות, F2336 ו-F2335, במקום COOIS, ולא לאפליקציה יורשת
+אחת' (bounded to what item 9.2.1 prints; the gap's inference 'המכסות יחד את התחום' dropped; its
+live-check sentence was already in notes); (3) the COR4 and CORK notes sentences on
+`simpl-tcode-index.json` (2023 mention at 12.9, resp. 30.9) now read 'בגרסה שב-HEAD בזמן הכתיבה
+(2026-09-24)': at write time another pipeline had uncommitted changes to
+`scripts/qa/simpl-tcode-index.mjs` (the glued-heading fix) and to the index JSON, whose rebuilt
+entries give COR4 → 12.10, CORK → 30.18 / 30.19 and CR01 → 12.16, so the unbounded sentences
+would turn false when that lands; (4) every notes field ends with the sentence that the
+generated record in `transactions-auto.ts` is superseded (the C223 / CM01 form). Kept as audited
+after review: the bounded 'בלבד' in CR01 status.he ('בלבד מבחינת הנוסח המצוטט', the auditor's
+own rewording of the draft's 'רק') and the 'רק' / 'בלבד' tokens that describe what was read or
+cited (COOIS notes, CORK evidence[0] / evidence[2] / notes, CR01 notes, COOISPI
+recommendedAction 'על סמך הפריט בלבד'). No new lookups (writer contract): no sap-help-search /
+sap-help-body / fal-app run and no Simplification List read; the values are the auditors'.
+Repository files read at write, for this queue only: `data/tx-intel.ts` and
+`data/tcode-catalog.ts` rows of the six codes, `data/transactions.ts#CR01`,
+`data/verification/fiori.ts#F3364`, and the HEAD and working-tree `simpl-tcode-index.json`
+entries of the six. The TS was emitted mechanically from the audited JSON and round-tripped (the
+six loaded records deep-equal the audited ones plus the listed deviations, each `status.source`
+is the cited evidence object, the 63 existing records unchanged); pre-write scan of the six: no
+em dash, no certainty token, no placeholder. Coverage (`report:coverage --catalog transactions`,
+plus a per-id diff of `--ids` before / after in which only the six ids moved): L3 479 → 473, L4
+1 → 2, L5 63 → 68, L1 1275 → 1275, verified 567 → 567, verification-required 1247 → 1247,
+conflict 4 → 4, s4-applicable 568 → 568; COHV, COOISPI, CORK and CR01 L3 → L5
+(repository_verified → sap_official_verified; derived 'changed' → authored 'unchanged'), COOIS
+L3 → L5 (derived 'changed' → authored 'fiori_alternative_available'), COR4 L3 → L4
+(repository_verified → sap_official_verified; no authored status, the derived 'changed' stays).
+Gates: both `tsc` runs clean; `npm test` 211/211 (212 before e936351a removed the objects
+foundation-guard test).
 
 ## refuted
 
@@ -178,6 +220,7 @@ Gates: both `tsc` runs clean (plus a non-incremental `tsc --noEmit`); `npm test`
 - (none in batch 7, 2026-09-24: the one audited draft, `tx:C223`, survived verification and was written; this closes the batch-4 `tx:C223` entry above. CM01 and CM02 from batch 5 are still open.)
 - (none in batch 8, 2026-09-24: both audited drafts, `tx:CM01` and `tx:CM02`, survived verification and were written; this closes the batch-5 `tx:CM01` / `tx:CM02` entries above.)
 - (none in batch 9, 2026-09-24: all 6 audited drafts, CM31, CM50, CO02, CO03, CO09 and CO53, survived verification and were written from `verdict.fixedRecord` with the writer deviations listed in the header.)
+- (none in batch 10, 2026-09-24: all 6 audited drafts, COHV, COOIS, COOISPI, COR4, CORK and CR01, survived verification and were written; COHV from the draft (no problem, no downgrade), the other five from `verdict.fixedRecord`, with the writer deviations listed in the header.)
 
 ## conflicts
 
@@ -235,6 +278,13 @@ Gates: both `tsc` runs clean (plus a non-incremental `tsc --noEmit`); `npm test`
 - `tx:CO09` (batch 9): `simpl-tcode-index.json` lists CO09 under both Fashion items because of the line 'FSH_CO09 Generic Article CO09' (the obsolete code is FSH_CO09), and attributes the 2023 line 71853 to 60.9 'S4TWL - Retail Additionals' while it sits under 60.46 'S4TWL - Fashion Functionality' (heading printed '60.46S4TWL' at line 71769). `data/tx-intel.ts#CO09` (`s4`, `fiori`, `alternative`) names 'Check Product Availability (aATP)' / 'Check Availability' as the S/4HANA path; no record cited by tx:CO09 names such an app for CO09, and the FAL record CO09 (Monitor Product Availability, SAP GUI, Published at S32OP) prints no predecessor or successor. The `unchanged` status rests on that FAL record, not on SAP text that states it (said in the record's notes).
 - `tx:CO53` (batch 9): `simpl-tcode-index.json` attributes the 2023 FPS03 Other Terms line 'Process Management; PI Sheet; CO53, CO53XT' (line 40775) to 30.9 'S4TWL - ANSI/ISA S95 Interface'; it closes item 30.19 'S4TWL - Control Recipes/Instructions' (heading printed '30.19S4TWL' at line 40626), the CORZ defect of batch 4. `data/tx-intel.ts#CO53` (`s4` 'זמין ב-S/4HANA; Process Management ו-PI sheets נתמכים'; `s4Delta` '... זרימת Control Recipe / PI-sheet ללא שינוי מושגי') is stronger than items 9.3.17 / 30.19, which put control recipes/instructions used with browser-based PI sheets in compatibility scope item 444 with limited usage rights until the licence expiry; its `alternative` CO60 is itself written `restricted` (batch 4). Open consistency decision, not resolved at write: CO53 is `compatibility_scope` as audited, while CO54 (process messages, scope item 455, batch 3) is `simplified` with the scope kept in its explanation and CO55 is `restricted`; one house rule for codes that a compatibility-scope item names in Other Terms would settle it. CO53XT is outside the id universe. The help topic 'Monitoring of Control Instructions/Recipes' (body read) does not print CO53, so that row stays `supported_secondary_source`.
 - cross-cutting (batch 9): the heading-without-space index defect recurs for CO02 (12.10), CO09 (60.46) and CO53 (30.19); the CM31 and CM50 entries are correct, and the CO03 entry misses the 2023 mention ('CO01CO03'). Not done for any of the six: a live SAP check (sc4sap MCP not connected in this session).
+
+- `tx:COHV` (batch 10, 2026-09-24): no repository conflict of substance. `data/tx-intel.ts#COHV` (`fiori`) names 'Manage Production Orders'; the FAL COHV record (S32OP) lists no predecessor or successor, and the record xrefs no Fiori id for that reason (its notes). The Feature Comparison page cited in `tx:COOIS` (loio 5fe6af156e554b1e81118df2e7f6e3a7, 2025.001) compares COOIS, COHV, F2336 and F2335 side by side. SAP Notes 2358159 and 0002381891, printed by item 13.12.6 / 52.6 'S4TWL - Selection by characteristics in mass processing of orders', were not read (the batch-4 COHVPI entry says the same for 2358159). The researcher's earlier draft labelled the Retail topic (loio 4ce43d7c33544dcfb74a3cdbcff4dafa) a What's New page; corrected in the record's notes.
+- `tx:COOIS` / `tx:COOISPI` (batch 10): open consistency decision, not resolved at write. Both rest on the same Exceptions paragraph of item 9.2.1 'S4TWL - Logistic Information System in PP' (2025 FPS01), worded in parallel for each code ('not part of the SAP S/4HANA compatibility scope ... SAP is not planning to invest ... Forward looking, Fiori apps ... should be used rather than transaction COOIS'); COOIS carries `fiori_alternative_available` as its status, COOISPI carries `unchanged` with `secondary: ["fiori_alternative_available"]`, each as audited. One reading should be chosen for both codes. Repository: `data/tx-intel.ts#COOIS` and `#COOISPI` (`s4Delta`) name 'אפליקציות Fiori אנליטיות ו-CDS' as the modern alternative, while the item names F2336 / F2335 ('Manage Production Orders' / 'Manage Production Operations') and F4587 / F5323 ('Manage Process Orders' / 'Manage Process Order Operations'); `#COOIS` (`fiori`) also names 'Production Order Worklist', which none of the claims in `tx:COOIS` mentions. F2335 is absent from `data/fiori/apps.ts` (prose only, as for CO01 / CO02).
+- `tx:COR4` (batch 10): the two repository rows disagree with each other. `data/tcode-catalog.ts#COR4` = 'Detailed Capacity List' / 'רשימת קיבולת מפורטת' (area 'קיבולת'); `data/tx-intel.ts#COR4` = area 'PP-PI' and 'Customizing סוג פקודת תהליך' joined by a long dash, descHe on order type-dependent parameters of process orders per plant, `s4` 'זמין ב-S/4HANA כחלק מ-IMG של PP-PI.', `s4Delta` 'נשמרת ב-S/4HANA (PP-PI).'. The official items (2023 FPS03 12.10 / 2025 FPS01 6.5.13 'S4TWL - Profit and Loss Planning and Profit Center Planning') print COR4 as a 'Customizing T-code' to check whether plan costs are determined for production and process orders and name neither description; 'Maintain Order Type-Dependent Parameters' (2025.001) does not print COR4 (body read by the researcher, re-read by the auditor). The record keeps the gap open (evidence[2]) and carries no authored status, so the page still shows the builder-derived 'changed' from the populated `s4Delta` (the batch-2 cross-cutting heuristic) and COR4 reaches L4, not L5. `simpl-tcode-index.json` at HEAD gives 12.9 for the 2023 mention (PDF: 12.10); the rebuilt index in the working tree gives 12.10.
+- `tx:CORK` (batch 10): `data/tx-intel.ts#CORK` names 'Confirm Production Operation (תלוי גרסה)' (`fiori`) and, in `s4Delta`, 'Confirm Process Order (F3364)' as the Fiori alternative plus 'תנועות ל-MATDOC'. The FAL record prints 'Confirm Process Order' as the name of the CORK SAP GUI app itself (PP-PI-POR-OPC, predecessors and successors empty), and `fiori:F3364` carries `verification_required` in `data/verification/fiori.ts` (its header: no library record on S32OP / S27OP). Neither pairing nor the MATDOC sentence was checked by this record. `simpl-tcode-index.json` at HEAD gives the 2023 mention to 30.9 'S4TWL - ANSI/ISA S95 Interface'; the string sits in 30.18 / 30.19 (the CORZ / CO53 defect); the rebuilt index in the working tree gives 30.18 / 30.19. The help.sap.com search service labels the Confirmations record's deliverable as Retail or as Logistics - General (LO) depending on the query (auditor); the record says so.
+- `tx:CR01` (batch 10): `data/transactions.ts#CR01` (`fiori`) names 'Manage Work Centers'; the researcher did not find an app of that name under `fal-app --tcode CR01` (S32OP: the GUI entry, 0 successors), so the claim is kept out of the record as unverified. `data/tx-intel.ts#CR01` joins 'ניהול נתוני אב' and 'מרכז עבודה (Work Center)' with a long dash in `area`, which the record's quote renders as a comma (HOUSE-RULES §3.7, the CM50 precedent); its `s4` 'זמין ב-S/4HANA ללא שינוי מהותי' is repository-only and was kept out of status.he at the audit; its `s4Delta` names CRHD / KAKO / CRCO and CDS I_WorkCenter, I_WorkCenterCapacity, I_WorkCenterCostCenter, not checked here. Official-source tension kept inside the record: item 6.5.9 / 12.16 'S4TWL - Reporting/Analytics in Controlling' labels 'CR01-CR03 (create/change/display process order)', while the FAL record and the role page 'Work Center Maintenance' (loio 5d25bf53d25ab64ce10000000a174cb4) identify CR01 as Create Work Center; quoted verbatim, not marked conflicting_sources (as audited); the SE93 text of CR01 in a live system would settle it. `simpl-tcode-index.json` at HEAD gives the 2023 mention (line 20407) to 12.9; the quote sits under 12.16 (the CK11N defect of batch 5); the rebuilt index in the working tree gives 12.16.
+- cross-cutting (batch 10): at write time another pipeline had uncommitted changes to `scripts/qa/simpl-tcode-index.mjs` (a heading pattern that accepts '12.10S4TWL') and to `audit/master-completion/simpl-tcode-index.json`; the rebuilt entries address the heading-without-space defect recorded in batches 3 to 10 (checked at write for this batch's six codes: COR4 12.9 → 12.10, CORK 30.9 → 30.18 / 30.19, CR01 12.9 → 12.16; COHV, COOIS and COOISPI unchanged). The index sentences in the notes of the batch 3 to 9 records describe the index committed at their write time and were not touched (existing records are kept); once the rebuild lands they want a dated update (Old → New). The COR4 / CORK sentences of this batch are bounded to the committed index already. Not done for any of the six: a live SAP check (sc4sap MCP not connected in this session).
 
 ## IP30 / IP30H decision (2026-09-22, design-audit continuation §18)
 

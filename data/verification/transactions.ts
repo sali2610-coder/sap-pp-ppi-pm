@@ -66,7 +66,19 @@
    the files (simpl-tcode-index.json does list CM31 under item 9.5.4 'S4TWL -
    Graphical Planning Table'; the 2023 FPS03 item 30.35 of the same name does
    not print CM31 and has no Exceptions section). The generated records for
-   the six ids in transactions-auto.ts are superseded. */
+   the six ids in transactions-auto.ts are superseded.
+   Batch 10 (2026-09-24): 6 audited records (COHV, COOIS, COOISPI, COR4,
+   CORK, CR01), none refuted. COHV from the draft (its verdict listed no
+   problem and no downgrade), the other five from verdict.fixedRecord. Status
+   sources point at the shared COHV_FAL, COOIS_SIMPL_ITEM, COOISPI_SIMPL_ITEM,
+   CORK_FAL and CR01_FAL consts instead of the marker strings or the re-typed
+   copy the verdicts carried; COR4 carries evidence only (no authored status,
+   as audited). Writer corrections: reviewer fields dropped (COR4, CORK); the
+   COOIS summary dropped and its two gaps folded into notes; the COR4 and CORK
+   notes sentences on simpl-tcode-index.json bounded to the index committed at
+   write time (another pipeline is rebuilding it); every notes field ends with
+   the sentence that the generated record in transactions-auto.ts is
+   superseded. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -1262,6 +1274,97 @@ const CO53_SIMPL_ITEM_2025: Evidence = {
     "recipes/instructions in conjunction with browser-based PI sheets (PP-PI) and work instructions (PP-SFC) can be " +
     "used until the expiry date of the compatibility pack license... Immediate action is not required.' הקוד CO53 " +
     "מופיע בפריט בשורת Other Terms; הפריט אינו אומר דבר על פעולת הטרנזקציה עצמה.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* ---------------------- batch 10 (2026-09-24) status sources, shared with the evidence row each record cites */
+
+const COHV_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "SAP Fiori Apps Reference Library: COHV Mass Processing Production Orders (S32OP, S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('COHV')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "פלט scripts/fal-app.mjs COHV --release S32OP: 'Mass Processing Production Orders', סוג SAP GUI, מצב Published, " +
+    "רכיב PP-SFC (Production Orders), תפקיד SAP_BR_PRODN_SUPERVISOR_DISC, קטלוג עסקי SAP_SCM_BC_PRODN_ORD_MGMT, " +
+    "intent ProductionOrder-changeMultiple, גרסאות מ-S6OP=1610 עד S32OP=2025 FPS01 (וגם S36=2602, S37=2608), " +
+    "'predecessors: -; successors: -'. פלט --tcode COHV תואם: 'GUI app entry: COHV Mass Processing Production Orders " +
+    "(SAP GUI, successors 0)'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const COOIS_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "S4TWL - Logistic Information System in PP (SAP S/4HANA 2025 FPS01 Simplification List, item 9.2.1)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט עוסק בכיבוי ה-Logistic Information System (LIS) הקלאסי, ומתייחס במפורש ל-COOIS בפסקת 'Exceptions': 'The " +
+    "production order information system (transaction COOIS) is not part of the SAP S/4HANA compatibility scope. " +
+    "Unlike LIS, the production order information system is reading data from the original production order tables. " +
+    "COOIS is not using redundant data and therefore avoids the disadvantages of the LIS. However, SAP is not " +
+    "planning to invest into transaction COOIS. Forward looking, Fiori apps \"Manage Production Orders\" (Fiori-ID " +
+    "F2336) and \"Manage Production Operations\" (Fiori-ID F2335) should be used rather than transaction COOIS.' " +
+    "כלומר COOIS אינה חלק מה-compatibility scope המוגבל (בניגוד ל-shop floor information system של LIS, S021-S028) " +
+    "וקוראת את הנתונים מטבלאות הזמנת הייצור המקוריות. עם זאת SAP אינה מתכננת להשקיע בה, ומפנה קדימה ל-Fiori.",
+  verificationLevel: "sap_official_verified",
+};
+
+const COOISPI_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "S4TWL - Logistic Information System in PP (SAP S/4HANA 2025 FPS01 Simplification List, item 9.2.1)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (רכיב היישום PP-IS; הערה קשורה שהפריט מדפיס: SAP Note 0002268063) נקרא בטקסט שחולץ מה-PDF הרשמי " +
+    "(scratchpad/official/SIMPL_OP2025.pdf.txt, שורות 33043-33048). לגבי COOISPI הוא קובע: 'The process order " +
+    "information system (transaction COOISPI) is not part of the SAP S/4HANA compatibility scope. Unlike LIS, the " +
+    "process order information system is reading data from the original production order tables. COOISPI is not " +
+    "using redundant data and therefore avoids the disadvantages of the LIS. However, SAP is not planning to invest " +
+    "into transaction COOISPI. Forward looking, Fiori apps \"Manage Process Orders\" (Fiori-ID F4587) and \"Manage " +
+    "Process Order Operations\" (Fiori-ID F5323) should be used rather than transaction COOIS.' (המשפט האחרון מסתיים " +
+    "במקור ב-COOIS ולא ב-COOISPI). הפריט אינו קובע שהטרנזקציה הוסרה או שאינה זמינה, ואינו נוקב בתאריך הפסקה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CORK_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Fiori Apps Library: CORK - Confirm Process Order (SAP GUI, component PP-PI-POR-OPC)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CORK')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ה-Fiori Apps Library (S32OP = SAP S/4HANA 2025 FPS01 On-Premise) מציגה את CORK כאפליקציית SAP GUI בשם " +
+    "Confirm Process Order, סטטוס Published, רכיב PP-PI-POR-OPC, תפקיד SAP_BR_PRODN_SUPERVISOR_PROC, קטלוג עסקי " +
+    "SAP_SCM_BC_PROC_ORD_MGMT, intent ProcessOrderConfirmation-createOrderConfirmation; שדות ה-Predecessors " +
+    "וה-Successors ריקים. fal-app.mjs --tcode CORK מציג אותה כאפליקציה המובילה עבור קוד הטרנזקציה CORK.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CR01_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Fiori Apps Library: CR01 Create Work Center @ S32OP (SAP S/4HANA 2025 FPS01, On-Premise)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CR01')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "רשומת Fiori Apps Library ל-CR01 (component PP-BD-WKC, Work Center) מסווגת אותה כ-SAP GUI בסטטוס Published, תחת " +
+    "התפקיד SAP_BR_PRODN_ENG_DISC (Production Engineer - Discrete Manufacturing) והקטלוג העסקי SAP_SCM_BC_PROC_ENG. " +
+    "השדות predecessors ו-successors ריקים ('-'), ושדה OData ריק ('-'). עמודת releases מפרטת את S6OP=1610 ועד " +
+    "S32OP=2025 FPS01 ו-S32PCE (Private Cloud), וכן S36=2602 ו-S37=2608.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -8657,5 +8760,543 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "כ-xref או כרשומה נפרדת. בפריטים לא נמצאה אמירה הקובעת החלפה, הפסקה או Fiori alternative לקוד CO53; הפריט קובע " +
       "'Immediate action is not required'. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CO53 " +
       "ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:COHV */
+  {
+    id: "tx:COHV",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Value Information in Orders (SAP S/4HANA 2025 FPS01, deliverable Retail)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/4ce43d7c33544dcfb74a3cdbcff4dafa.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "נושא העזרה הרשמי (תוצר Retail, 2025 FPS01 On-Premise) נוקב ב-'Mass Processing Production Orders (COHV)' " +
+          "ומציין: 'The characteristic value information is now displayed for these planned orders or production " +
+          "orders'. לפי גוף העמוד, מדובר בהרחבת Retail/Fashion: ערכי מאפייני SKU (COLOR, SIZE1, SIZE2) שנשמרו " +
+          "בטרנזקציה WRFCHVAL מוצגים ב-CS15, COGI, CO41, COOIS ו-COHV. הנושא אינו מציין באיזו גרסה נוספה ההרחבה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Mass Processing of Process and Production Orders (SAP ERP 6.0 EHP8, deliverable Production Planning - " +
+          "Process Industries (PP-PI))",
+        url: "https://help.sap.com/docs/SAP_ERP/698b19fa88b846359bc611f11184c810/1b05b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט הרשמי של ECC 6.0 EHP8 מציין: 'The following documentation on mass processing relates to the " +
+          "transactions COHV ( Mass Processing Production Orders ) and COHVPI ( Mass Processing Process Orders ), " +
+          "which replace the transactions CO28' (הסניפט נקטע בנקודה זו); כלומר בצד ה-ECC, COHV ו-COHVPI הן טרנזקציות " +
+          "העיבוד ההמוני המתועדות, והן מחליפות את CO28.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Selection by characteristics in mass processing of orders (Simplification List for SAP S/4HANA " +
+          "2025 – Feature Pack Stack 1, item 13.12.6, Application Component IS-MP-PP; item 52.6 in the 2023 FPS03 " +
+          "list)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "לשון הפריט: 'As of SAP S/4HANA 1610, the feature selection by characteristics in mill specific " +
+          "transaction /SAPMP/PP_COHV is merged into transactions for Mass processing of Production orders (COHV) " +
+          "and Mass Processing of Process Orders (COHVPI)'. הפעולה הנדרשת: 'Customers using transaction " +
+          "/SAPMP/PP_COHV in the past now need to shift to transaction COHV and/or COHVPI instead'. COHV היא היעד " +
+          "שאליו מוזגה הפונקציונליות; הפריט אינו קובע שינוי, הסרה או החלפה של COHV עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      COHV_FAL,
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#COHV",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#COHV",
+        claim:
+          "רשומת קטלוג הטרנזקציות של המאגר: code COHV, module PP, he 'עיבוד המוני של הזמנות ייצור', en 'Mass " +
+          "Processing of Production Orders', area 'הזמנות ייצור'.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "ספריית האפליקציות של Fiori מפרסמת את COHV כאפליקציית SAP GUI ברכיב PP-SFC בכל הגרסאות מ-S6OP=1610 עד " +
+        "S32OP=2025 FPS01, ללא קודמים ויורשים רשומים (predecessors: -; successors: -). נושא עזרה רשמי של Retail " +
+        "ב-2025 FPS01 נוקב ב-COHV, ופריט הפישוט 'S4TWL - Selection by characteristics in mass processing of orders' " +
+        "עוסק במיזוג /SAPMP/PP_COHV אל תוך COHV ואינו קובע החלפה של COHV עצמה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: COHV_FAL,
+      recommendedAction:
+        "להמשיך להשתמש ב-COHV לעיבוד המוני של הזמנות ייצור ב-S/4HANA On-Premise; רשומת ספריית האפליקציות אינה מציגה " +
+        "יורש (successors: -). אם נעשה שימוש בטרנזקציה /SAPMP/PP_COHV (לפי הפריט, רלוונטי כאשר נעשה שימוש " +
+        "ב-/SAPMP/PP_COHV; ייתכן שרלוונטי כאשר Business Function DIMP_SDUD פעילה), יש לעבור ל-COHV ו/או COHVPI לפי " +
+        "פריט הפישוט ולעיין ב-SAP Note 2358159 המוזכרת בו.",
+    },
+    xrefs: ["tx:COHVPI", "tx:CO01", "tx:CO02", "tx:COOIS", "table:AUFK", "table:AFKO", "table:AFPO"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: חיפושים ב-scripts/sap-help-search.mjs: 'COHV Mass Processing Production Orders' ב-On-Premise (21 " +
+      "תוצאות) וב-SAP_ERP (21 תוצאות), 'Mass Processing of Production Orders What's New', 'Selection by " +
+      "characteristics in mass processing of orders'. גוף נושא ה-Retail (loio 4ce43d7c33544dcfb74a3cdbcff4dafa) נקרא " +
+      "עם scripts/sap-help-body.mjs. הורץ scripts/fal-app.mjs COHV --release S32OP וגם --tcode COHV. פריטי הפישוט " +
+      "ברשימות הפישוט (2023 FPS03 פריט 52.6, 2025 FPS01 פריט 13.12.6) נקראו " +
+      "מ-scratchpad/official/SIMPL_OP2023.pdf.txt ו-SIMPL_OP2025.pdf.txt; הם עוסקים במיזוג /SAPMP/PP_COHV אל תוך " +
+      "COHV ו-COHVPI. לא נוסף ל-xrefs מזהה fiori: כי רשומת ה-FAL אינה מציגה יורש Fiori. SAP Notes 2358159 " +
+      "ו-0002381891 מודפסים בפריט הפישוט ולא נקראו כמקור עצמאי. תיקון מול טיוטה קודמת: נושא 4ce43d7c תויג בטעות כדף " +
+      "What's New; בפועל הוא עזרת יישום של Retail. לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה את הרשומה שנוצרה " +
+      "אוטומטית ל-COHV ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:COOIS */
+  {
+    id: "tx:COOIS",
+    evidence: [
+      COOIS_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Order Information System | Production Planning and Control",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/e804b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת התיעוד (2025 FPS01, 2026-02-24) מתעדת את COOIS ‏('Production Order Information System') לצד COOISPI " +
+          "‏('Process Order Information System'): 'The following documentation on the order information system " +
+          "relates to the transactions COOIS (Production Order Information System) and COOISPI (Process Order " +
+          "Information System)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Order Information System | Production Planning - Process Industries (PP-PI)",
+        url: "https://help.sap.com/docs/SAP_ERP/698b19fa88b846359bc611f11184c810/e804b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-ECC ‏(SAP ERP 6.0 EHP8 Latest) מתעדת את COOIS: 'relates to the transactions COOIS ( Production " +
+          "Order Information System ) and COOISPI ( Process Order Information System )', כלומר COOIS מתועדת גם בצד " +
+          "ECC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Feature Comparison for Processing Production Orders and Operations",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/5fe6af156e554b1e81118df2e7f6e3a7.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "דף ההשוואה (2025 FPS01) משווה את היכולות של COOIS, COHV, Manage Production Orders ו-Manage Production " +
+          "Operations בעיבוד הזמנות ופעולות ייצור, בשורה 'App ID COOIS COHV F2336 F2335'. היכולות אינן זהות: למשל " +
+          "שינוי תאריכים וכמויות ושחרור הזמנה מסומנים No עבור COOIS.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Production Orders | SAP Fiori Apps Reference Library, Apps('F2336') S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2336')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library ל-F2336 ‏(S32OP, S/4HANA 2025 FPS01) מפרטת: Business Catalog " +
+          "SAP_SCM_BC_PRODN_ORD_MNTR, בין שירותי ה-OData ‏PP_MPE_ORDER_MANAGE 0001 (S4CORE 109), טרנזקציית GUI " +
+          "מובילה CO02 ו-COOIS ברשימת הטרנזקציות הקשורות; זמינה מ-S9OP (1709) ואילך, ללא successor רשום.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "לפי הפריט, COOIS אינה חלק מה-compatibility scope המוגבל (בניגוד ל-LIS הקלאסי) וקוראת ישירות מטבלאות ההזמנה. " +
+        "עם זאת SAP אינה מתכננת להשקיע עוד ב-COOIS, ומפנה קדימה לאפליקציות Fiori: Manage Production Orders (F2336) " +
+        "ו-Manage Production Operations (F2335).",
+      edition: "on-premise",
+      release: "2025.001",
+      source: COOIS_SIMPL_ITEM,
+      recommendedAction:
+        "להשתמש בהדרגה ב-Manage Production Orders (F2336) וב-Manage Production Operations (F2335) במקום COOIS, לפי " +
+        "הפריט 'S4TWL - Logistic Information System in PP' (סעיף 9.2.1, 2025 FPS01); F2335 אינה רשומה במילון הפרויקט " +
+        "(data/fiori/apps.ts) ולכן אינה מקושרת ב-xrefs.",
+    },
+    xrefs: ["tx:COOISPI", "tx:COHV", "tx:CO02", "fiori:F2336"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: חיפוש help.sap.com דרך scripts/sap-help-search.mjs ('COOIS production order information system' במוצר " +
+      "SAP_S4HANA_ON-PREMISE וב-SAP_ERP), קריאת הפריט המלא 'S4TWL - Logistic Information System in PP' " +
+      "מ-scratchpad/official/SIMPL_OP2025.pdf.txt (עמ' 602-604, סעיף 9.2.1, פסקת Exceptions), גוף דף ההשוואה דרך " +
+      "scripts/sap-help-body.mjs, ו-scripts/fal-app.mjs F2336 --release S32OP. הפריט עוסק בעיקרו בכיבוי LIS (מבני " +
+      "מידע S021-S028) ולא ב-COOIS עצמה; אזכור COOIS מופיע בפסקת חריגים. F2335 מוזכרת בפריט ובדף ההשוואה אך אינה " +
+      "קיימת ב-data/fiori/apps.ts ולכן לא נכללה ב-xrefs. ראיית ECC: Old → New, הרשומה 'Production Order Information " +
+      "System' (Segmentation LO-SGT, loio a92d6b54166b033de10000000a441470) הוחלפה ברשומה 'Order Information System' " +
+      "(PP-PI, loio e804b753128eb44ce10000000a174cb4) כי רק האחרונה מדפיסה את COOIS ב-snippet. COOISPI מוזכר באותו " +
+      "סעיף באותו ניסוח כלפי F4587/F5323; אינו חלק מרשומה זו. F2335 לא נבדקה מול scripts/fal-app.mjs ולא צוטטה " +
+      "כראיית fiori_library נפרדת. לא נקבע successor: הפריט מפנה לשתי אפליקציות, F2336 ו-F2335, במקום COOIS, ולא " +
+      "לאפליקציה יורשת אחת. לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-COOIS " +
+      "ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:COOISPI */
+  {
+    id: "tx:COOISPI",
+    evidence: [
+      COOISPI_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Order Information System",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/e804b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (Production Planning and Control, מהדורה 2025 FPS01) נושאת את הכותרת 'Order Information " +
+          "System' ואת הסניפט: 'The following documentation on the order information system relates to the " +
+          "transactions COOIS (Production Order Information System) and COOISPI (Process Order Information System); " +
+          "these replace the previous ... Production - Process → Process Order → Reporting → Order Information " +
+          "System → Process Order Information System Select production orders, process orders, or planned ...'. " +
+          "הסניפט מתעד את COOISPI ואת נתיב התפריט שלה במהדורה 2025 FPS01; גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Order Information System",
+        url: "https://help.sap.com/docs/SAP_ERP/698b19fa88b846359bc611f11184c810/e804b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "בהיקף SAP_ERP מחזיר החיפוש רשומה באותו loio, בכותרת 'Order Information System' ובמדריך Production " +
+          "Planning - Process Industries (PP-PI), מהדורה 6.18.latest, עם הסניפט: 'The following documentation on the " +
+          "order information system relates to the transactions COOIS ( Production Order Information System ) and " +
+          "COOISPI ( Process Order Information System ); which replace the ...'. הרשומה מתעדת את COOISPI בצד ה-ECC; " +
+          "גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Feature Comparison for Process Orders",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/0af42d30f5654313ac5d7a0ff9f36094.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "דף ההשוואה להזמנות תהליך (Production Planning and Control, מהדורה 2025 FPS01) מציג בסניפט את השורה 'App " +
+          "Name Monitor Process / Planned Orders Mass Processing: Process Orders Manage Process Orders / Manage " +
+          "Process Order Operations App ID COOISPI COHVPI F4587/ F5323'; כלומר COOISPI מופיעה בטבלת ההשוואה לצד " +
+          "COHVPI ו-F4587/F5323. שורות התכונות לא נראו בסניפט, וגוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "COOISPI מתועדת ב-SAP S/4HANA On-Premise 2025 FPS01. לפי הפריט 'S4TWL - Logistic Information System in PP' " +
+        "היא אינה חלק מהיקף התאימות (compatibility scope), ובניגוד ל-LIS היא קוראת מטבלאות ההזמנה המקוריות ולא " +
+        "מנתונים כפולים; עם זאת SAP אינה מתכננת להשקיע בה, והפריט ממליץ לעבור ל-Manage Process Orders (F4587) " +
+        "ול-Manage Process Order Operations (F5323).",
+      edition: "on-premise",
+      release: "2025.001",
+      source: COOISPI_SIMPL_ITEM,
+      secondary: ["fiori_alternative_available"],
+      recommendedAction:
+        "להמשיך להשתמש ב-COOISPI לדיווח על הזמנות תהליך בסביבות PP-PI, ולתעד למשתמשים שלפי הפריט SAP אינה מתכננת " +
+        "להשקיע בה. לתכנן מעבר הדרגתי ל-Manage Process Orders (F4587) ול-Manage Process Order Operations (F5323) כפי " +
+        "שהפריט ממליץ; הפריט אינו נוקב בתאריך הפסקה, ולכן אין לנטרל את COOISPI על סמך הפריט בלבד.",
+    },
+    xrefs: ["tx:COOIS", "tx:COHVPI", "fiori:F4587", "fiori:F5323"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. שיטה: חיפושים ב-help.sap.com דרך scripts/sap-help-search.mjs: 'COOISPI Process " +
+      "Order Information System' (היקף On-Premise, 21 רשומות; ובהיקף --product SAP_ERP, 21 רשומות) ו-'Feature " +
+      "Comparison for Process Orders' (היקף On-Premise). url, loio ו-versionId הועתקו כלשונם, וכל הכתובות החזירו " +
+      "HTTP 200 ב-2026-09-24. פריט ה-S4TWL נקרא מהטקסט שחולץ מה-PDF הרשמי (scratchpad/official/SIMPL_OP2025.pdf.txt, " +
+      "פריט 9.2.1, כותרת בשורה 32917, הציטוט בשורות 33043-33048, לפי " +
+      "audit/master-completion/simpl-tcode-index.json). הפלט של scripts/fal-app.mjs --tcode COOISPI (S32OP) הוא " +
+      "'COOISPI Monitor Process / Planned Orders (SAP GUI, successors 0)'. גופי העמודים 'Order Information System' " +
+      "(בשתי המהדורות) ו-'Feature Comparison for Process Orders' לא נקראו דרך scripts/sap-help-body.mjs, ולכן הטענות " +
+      "תחומות לכותרת ולסניפט. רשומת המאגר data/tx-intel.ts#COOISPI (לא צוטטה כראיה) נושאת s4: 'קיימת ב-S/4HANA; " +
+      "מושלמת באפליקציות Fiori לניהול הזמנות תהליך.', והיא תואמת את הפריט. לא נמצא מקור רשמי הנוקב בתאריך הפסקה או " +
+      "הסרה של COOISPI, ולכן לא נכתב סטטוס deprecated או not_available ולא נקבע יורש. הרשומה מחליפה את הרשומה שנוצרה " +
+      "אוטומטית ל-COOISPI ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:COR4 */
+  {
+    id: "tx:COR4",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3, item 12.10 S4TWL - Profit and Loss " +
+          "Planning and Profit Center Planning (Business Impact note 2270407)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "בפרק 'Reason and Prerequisites' הפריט קובע: 'Production/process order planning is used if planned cost " +
+          "calculation is active for the combination of plant and order type and is carried out automatically when " +
+          "the production order (CO01 or CO02) or the process order (COR1 or COR2) is created, changed or released. " +
+          "Use Customizing T-codes COR4 and OPL8 to check whether plan costs are determined for production order and " +
+          "process orders.' COR4 מוזכר כאן ככלי בדיקה (יחד עם OPL8) לקביעת רלוונטיות הפריט; הפריט אינו קובע שינוי, " +
+          "החלפה או הסרה של COR4 עצמו, ועוסק בטבלאות התכנון GLPCP ו-COEJ ובטרנזקציות התכנון הקלאסיות FSE5N, FSE6N, " +
+          "FAGLPLSET, GP12N ו-GP12NA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1, item 6.5.13 S4TWL - Profit and Loss " +
+          "Planning and Profit Center Planning (Business Impact note 0002270407)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "אותו ניסוח חוזר בפריט המקביל ברשימת 2025 FPS01: 'Use Customizing T-codes COR4 and OPL8 to check whether " +
+          "plan costs are determined for production order and process orders.' COR4 מופיע באותו תפקיד כמו בפריט " +
+          "2023: טרנזקציית Customizing לבדיקה אם נקבעות עלויות מתוכננות לפקודות ייצור ולפקודות תהליך. הפריט אינו " +
+          "קובע את מעמד COR4 עצמו; הוא עוסק בתכנון CO-OM, תכנון P&L ותכנון מרכזי רווח, ומפנה לתכנון ב-SAP Analytics " +
+          "Cloud.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#COR4",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#COR4",
+        claim:
+          "רשומת הקטלוג של הפרויקט מגדירה את COR4 כמודול PP-PI, תחום 'קיבולת', שם עברי 'רשימת קיבולת מפורטת' ושם " +
+          "אנגלי 'Detailed Capacity List'. השם הזה שונה מהשימוש שמופיע בשני פריטי הפישוט הרשמיים (בדיקה אם נקבעות " +
+          "עלויות מתוכננות לפי סוג פקודה); הפער נותר פתוח לבירור.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    lastVerifiedAt: DATE24,
+    notes:
+      "ECC ↔ S/4HANA On-Premise: לא נמצא מקור רשמי שקובע מעמד ל-COR4 עצמו. שני פריטי הפישוט הרשמיים (2023 FPS03 פריט " +
+      "12.10 ו-2025 FPS01 פריט 6.5.13, שניהם 'S4TWL - Profit and Loss Planning and Profit Center Planning') מזכירים " +
+      "את COR4 כטרנזקציית Customizing לבדיקה אם תכנון עלויות פעיל לסוג הפקודה; זהו שלב אבחון לרלוונטיות הפריט ולא " +
+      "פסיקה על COR4. חיפוש ב-help.sap.com ('Order Type Dependent Parameters process order', SAP_S4HANA_ON-PREMISE, " +
+      "21 תוצאות) העלה את 'Maintain Order Type-Dependent Parameters' (2025.001), אך גוף הדף שנקרא עם " +
+      "sap-help-body.mjs אינו מדפיס את הקוד COR4, ולכן לא נכלל כראיה. fal-app.mjs --tcode COR4 ב-S32OP לא החזיר " +
+      "אפליקציה מובילה; לא נמצא מחליף מאומת. אין ראיה לביטול, הסרה או שינוי. אינדקס " +
+      "audit/master-completion/simpl-tcode-index.json, בגרסה שב-HEAD בזמן הכתיבה (2026-09-24), משייך את האזכור " +
+      "ב-2023 לפריט 12.9, בעוד שטקסט ה-PDF ממקם אותו בפריט 12.10. לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה את " +
+      "הרשומה שנוצרה אוטומטית ל-COR4 ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CORK */
+  {
+    id: "tx:CORK",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CORK",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#CORK",
+        claim:
+          "מאגר הפרויקט (data/tcode-catalog.ts) רושם את CORK במודול PP-PI, אזור 'אישורים', עם השם האנגלי Process " +
+          "Order Confirmation (Order) והשם העברי 'אישור הזמנת תהליך (הזמנה)'; זו רשומת קטלוג בלבד ואינה קובעת סטטוס " +
+          "S/4HANA.",
+        verificationLevel: "repository_verified",
+      },
+      CORK_FAL,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Confirmations (help.sap.com, SAP S/4HANA 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/df9284f0026b439f89c9e55ba5f49323.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (versionId 2025.001, loio df9284f0026b439f89c9e55ba5f49323; ה-deliverable מוצג " +
+          "לסירוגין כ-Retail או כ-Logistics - General (LO)) נוקבת בקוד CORK בסניפט: 'You can carry out the " +
+          "confirmation for a process order (CORK) or for an operation (COR6 or COR6N)'; נקראו רק הכותרת והסניפט, " +
+          "גוף הדף לא נשלף.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36): 'S4TWL - Process " +
+          "Messages' ו-'S4TWL - Control Recipes/Instructions'",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "שני הפריטים (ומקביליהם ברשימת 2023 FPS03, Document Version 1.35) קובעים תחת Business Process related " +
+          "information: 'No influence on business processes expected as long as you continue to use process messages " +
+          "/ control recipes-instructions', ומוסיפים: 'It is also possible to use the built-in features of SAP " +
+          "S/4HANA for production execution, that is: Transactions CORK, COR6N, CORZ; Apps for the production " +
+          "operator role SAP_BR_PRODN_OPTR_PROC'. הפריטים מזכירים את CORK כדוגמה לתכונה מובנית של SAP S/4HANA לביצוע " +
+          "ייצור, כאפשרות נוספת לצד השימוש ב-process messages / control recipes; לפי הפריטים, השימוש בהם עם " +
+          "browser-based PI Sheets/work instructions הוא חלק מה-compatibility scope (scope items 455/444), ואילו " +
+          "השימוש מול MES חיצוני דרך Manufacturing Execution Connect (classic) אינו חלק ממנו. אין בפריטים הצהרה על " +
+          "ביטול, שינוי או יורש ל-CORK עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "CORK (Confirm Process Order) ממשיכה להתקיים כאפליקציית SAP GUI מפורסמת בספריית ה-Fiori Apps Library גם " +
+        "ב-SAP S/4HANA 2025 FPS01 On-Premise, ללא יורש רשום. פריטי הפישוט 'S4TWL - Process Messages' ו-'S4TWL - " +
+        "Control Recipes/Instructions' מזכירים אותה כדוגמה לתכונה מובנית לביצוע ייצור, כאפשרות נוספת לצד תרחיש " +
+        "ה-compatibility scope של process messages/control recipes עם browser-based PI Sheets, ולא כטרנזקציה " +
+        "שהשתנתה, בוטלה או קיבלה יורש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CORK_FAL,
+      recommendedAction:
+        "אין צורך בפעולת הסבה לגבי CORK עצמה: להמשיך להשתמש בה לאישור הזמנת תהליך ברמת ההזמנה. פריטי הפישוט 'S4TWL - " +
+        "Process Messages' ו-'S4TWL - Control Recipes/Instructions' קובעים 'Immediate action is not required' לתרחיש " +
+        "ה-compatibility scope הרלוונטי (process messages/control recipes עם browser-based PI Sheets/work " +
+        "instructions), לא לקוד CORK.",
+    },
+    xrefs: ["tx:CORZ", "tx:COR6N", "table:AFRU"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "אימות: fal-app.mjs CORK --release S32OP ו---tcode CORK; sap-help-search.mjs (רשומת Confirmations, snippet " +
+      "בלבד); רשימות הפישוט המקומיות 2025 FPS01 (פריטים 9.3.16 עמ' 630, 9.3.17 עמ' 633) ו-2023 FPS03 (30.18 עמ' 768, " +
+      "30.19 עמ' 772). simpl-tcode-index.json, בגרסה שב-HEAD בזמן הכתיבה (2026-09-24), משייך את CORK ב-2023 לפריט " +
+      "30.9 'S4TWL - ANSI/ISA S95 Interface' (עמ' 751), שאינו מזכיר CORK; המחרוזת נמצאת בפריטים 30.18/30.19 (כותרות " +
+      "'30.18S4TWL'/'30.19S4TWL' בקובץ הטקסט, שורות 40486/40626). לא נשלף גוף עמוד Confirmations; לא בוצעה בדיקה " +
+      "במערכת SAP חיה. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CORK ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CR01 */
+  {
+    id: "tx:CR01",
+    aliases: ["CR01 (Create Work Center)", "CR01 (יצירת מרכז עבודה)"],
+    evidence: [
+      CR01_FAL,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work Center Maintenance | Single and Composite Roles (PFCG)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/5d25bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "תקציר רשומת החיפוש (loio 5d25bf53d25ab64ce10000000a174cb4, גרסה 2025 FPS01) מונה תחת 'Work Center " +
+          "Maintenance' את הטרנזקציות: 'Work Center CR01 Create work center CR02 Change work center ... CR03 Display " +
+          "work center CA85 Replace work center Capacity CR11 Create capacity CR12 Change capacity CR13 Display " +
+          "capacity Hierarchy CR21 Create hierarchy'. התקציר מציג את CR01 כ-'Create work center' בתפקיד זה (שם טכני " +
+          "בתקציר מתחיל ב-SAP_LO_PP_WRKC_MA, קטוע).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work Center Maintenance | Single and Composite Roles (PFCG)",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/5d25bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו עמוד תפקיד (loio זהה) קיים גם בסקופ SAP ERP (versionId 6.18.latest), והתקציר שלו מדפיס 'Work Center " +
+          "CR01 Create work center CR02 Change work center ... CR03 Display work center'. בצד ECC 6.0 EHP8, CR01 " +
+          "מתועדת כ-'Create work center'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 FPS1 · 6.5.9 S4TWL - Reporting/Analytics in Controlling (CO-OM-IS)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "הפריט 'S4TWL - Reporting/Analytics in Controlling' (Application Component: CO-OM-IS; ברשימת 2023 FPS03 " +
+          "הוא פריט 12.16 בנוסח כמעט זהה) עוסק בדיווח ב-Controlling. הציטוט: 'Please ensure that the transactions " +
+          "such as CK11N (create standard cost estimate), CO01-CO03 (create/change/display production order) and " +
+          "CR01-CR03 (create/change/display process order) are calling ABAP List Views rather than the old Report " +
+          "Writer reports. To do this, choose transaction OKN0, select the tab \"Report Selection\" and ensure that " +
+          "the flags \"Flexible itemization\", \"Flexible cost component report\" and \"Flexible cost display\" are " +
+          "active.' הפריט אינו קובע ש-CR01 הוחלפה או בוטלה; הוא מונה אותה בין הטרנזקציות שעבורן יש לוודא ב-OKN0 " +
+          "תצוגת ABAP List Views. הפריט מתאר את CR01-CR03 כ-'process order', בעוד שתי הראיות הרשמיות האחרות מזהות את " +
+          "CR01 כ-Work Center; הציטוט מובא כלשונו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#CR01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tx-intel.ts#CR01",
+        claim:
+          "רשומת tx-intel.ts#CR01 מגדירה את area כ-'ניהול נתוני אב, מרכז עבודה (Work Center)', מתארת יצירת מרכז " +
+          "עבודה עם קיבולת, scheduling וקישור לחישוב עלות, וכותבת ל-CRHD, CRCA ו-CRCO. שדה s4 (קביעה פנימית של " +
+          "המאגר, לא רשמית): 'זמין ב-S/4HANA ללא שינוי מהותי. מבנה CRHD/CRCA/CRCO נשמר.' שדה fiori ריק. " +
+          "data/tcode-catalog.ts#CR01 מוסיפה: module PP, 'יצירת מרכז עבודה', 'Create Work Center'. " +
+          "data/transactions.ts#CR01 נוקבת ב-fiori: 'Manage Work Centers'; טענה זו לא אומתה מול Fiori Apps Library " +
+          "ואינה מובאת כעובדה.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "CR01 (יצירת מרכז עבודה) מופיעה ב-Fiori Apps Library כטרנזקציית SAP GUI זמינה מ-1610 ועד SAP S/4HANA 2025 " +
+        "FPS01 (On-Premise ו-Private Cloud), ללא קודמת וללא יורשת רשומה; היא מתועדת גם בתפקיד Work Center " +
+        "Maintenance ב-SAP ERP 6.0 EHP8. פריט הפישוט 'S4TWL - Reporting/Analytics in Controlling' מזכיר אותה בהקשר " +
+        "תצוגת דוחות עלות (OKN0) בלבד מבחינת הנוסח המצוטט.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CR01_FAL,
+      recommendedAction:
+        "להמשיך לעבוד עם CR01 ב-SAP GUI או דרך Fiori Launchpad (intent WorkCenter-create); Fiori Apps Library אינה " +
+        "מציגה יורשת (successors: -). לבדוק ב-OKN0, בלשונית 'Report Selection', שהדגלים 'Flexible itemization', " +
+        "'Flexible cost component report' ו-'Flexible cost display' פעילים, כפי שפריט הפישוט 'S4TWL - " +
+        "Reporting/Analytics in Controlling' מבקש עבור CR01-CR03 (הפריט מתאר אותן כ-process order).",
+    },
+    xrefs: ["table:CRHD", "table:CRCA", "table:CRCO"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק מול help.sap.com (עמוד התפקיד Work Center Maintenance, S/4HANA 2025.001 ו-SAP ERP 6.18.latest, loio " +
+      "5d25bf53d25ab64ce10000000a174cb4, תקציר חיפוש בלבד, גוף העמוד לא נקרא), Fiori Apps Library (fal-app.mjs CR01 " +
+      "@ S32OP ו---tcode CR01: successors 0) ורשימות הפישוט (2025 FPS01 פריט 6.5.9, 2023 FPS03 פריט 12.16, 'S4TWL - " +
+      "Reporting/Analytics in Controlling'). פריט הפישוט מכנה את CR01-CR03 'process order', בעוד שתי ראיות רשמיות " +
+      "מזהות את CR01 כ-Work Center; מתועד כלשונו. data/transactions.ts#CR01 (fiori: 'Manage Work Centers') לא אומתה " +
+      "ולא צוטטה כעובדה. תיקון ביקורת: כתובת ה-PDF של 2025 הוחלפה לכתובת הרשמית 0df2ffdd.../2025.latest (הכתובת " +
+      "הקודמת החזירה דף HTML); מספר הפריט ב-2023 תוקן מ-12.9 ל-12.16. לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה " +
+      "את הרשומה שנוצרה אוטומטית ל-CR01 ב-data/verification/transactions-auto.ts.",
   },
 ];
