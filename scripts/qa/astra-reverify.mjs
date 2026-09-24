@@ -112,6 +112,8 @@ RUNS.push(
   { id: "r3b-check", cmd: node("scripts/qa/r3b-check.mjs") },
   { id: "r3c-check", cmd: node("scripts/qa/r3c-check.mjs") },
   { id: "r3d-check", cmd: node("scripts/qa/r3d-check.mjs") },
+  // rows the other scripts do not reach: SAP-1..8, S11-*, catalog order, ACC-6, S7-LIB-3, S7-AI-3, S7-HOME-3, S9-1
+  { id: "astra-extra-check", cmd: node("scripts/qa/astra-extra-check.mjs") },
   { id: "round6-misc-check", cmd: node("scripts/qa/round6-misc-check.mjs") },
   { id: "catalog-cards-check", cmd: node("scripts/qa/catalog-cards-check.mjs") },
   { id: "erd-selection-check", cmd: node("scripts/qa/erd-selection-check.mjs") },
@@ -228,33 +230,21 @@ const NOT_MEASURABLE = {
   SCOPE: "scope row, nothing to measure",
   KEEP: "preserve row, nothing to measure",
   PRIO: "priority row mapped to S-rows, nothing to measure",
-  SAP: "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)",
 };
 const NM_ROWS = {
   "S12-R1": "round summary row (commit references)", "S12-R2": "round summary row (commit references)", "S12-R3": "round summary row", "S12-REC": "round summary row",
   "S7-3D-1": "no 3D view in this repo; the Preview is blocked by Vercel Authentication",
   "S7-AI-6": "manual live AI test (paid external service), by design not automated",
   "S7-LIB-1": "preserve row (frozen Library surface)",
-  "S7-LIB-3": "conditional UI on a saved reading position; no QA script",
-  "S7-AI-3": "limits column / advisory presence not scripted",
-  "S7-HOME-3": "one-sentence opener is editorial; no QA script",
-  "S7-CAT-4": "shared ref-surface order across 7 catalogs not scripted",
-  "S7-CAT-8": "same toolbar order across 7 catalogs not scripted",
-  "S7-TBL-3": "source-code UI-string scan (→ S9-1), not a served-export measurement",
-  "S9-1": "source-code UI-string scan, not a served-export measurement",
-  "S7-ERD-2": "resize → refit was a round-1 ad-hoc interaction run; no script in scripts/qa",
-  "APPX-4": "opening-vs-fit state was a round-1 ad-hoc interaction run; no script",
-  "S11-1": "round-1 ad-hoc interaction run (tables search); no script in scripts/qa",
-  "S11-2": "round-1 ad-hoc interaction run (empty state); no script in scripts/qa",
-  "S11-3": "round-1 ad-hoc interaction run (section chip); no script in scripts/qa",
-  "S11-4": "round-1 ad-hoc interaction run (object lanes); no script in scripts/qa",
-  "S11-5": "round-1 ad-hoc interaction run (key 0 fit); no script in scripts/qa",
   "S8-2": "product/dataset decision (NOT_IN_DATASET), nothing to measure",
-  "ACC-6": "product decision (legacy shell kept on purpose); partial by design",
 };
 
 // Measured rows: id → scripts (run ids) + test(): [pass, evidence].
+const XC = (id) => () => { const v = J("astra-extra-check")?.[id]; const { ok, ...d } = v || {}; return [!!ok, v ? JSON.stringify(d).slice(0, 400) : "no result"]; };
+const EXTRA = ["SAP-1", "SAP-2", "SAP-3", "SAP-4", "SAP-5", "SAP-6", "SAP-7", "SAP-8", "S9-1", "S11-1", "S11-2", "S11-3", "S11-4", "S11-5", "APPX-4", "S7-ERD-2", "S7-CAT-4", "S7-CAT-8", "S7-HOME-3", "S7-AI-3", "S7-LIB-3", "ACC-6"];
 const ROWS = {
+  ...Object.fromEntries(EXTRA.map((id) => [id, { scripts: ["astra-extra-check"], test: XC(id) }])),
+  "S7-TBL-3": { via: "S9-1" },
   "S3-1": { scripts: ["r3d-check", "r3c-check"], test: () => { const d = J("r3d-check"), c = J("r3c-check"); const f = d.focus, e = d.focusAfterEsc; const ok = !f.rail && !f.top && !f.dock && f.exitBtn && e.rail && e.top && c.shellFocusOn.focus === "1" && c.studioFocusOn.focus === "1" && c.shellAfterEsc.focus == null; return [ok, `focus: rail=${f.rail} top=${f.top} dock=${f.dock} exit=${f.exitBtn} → Esc rail=${e.rail} top=${e.top}; r3c erd focus=${c.shellFocusOn.focus} studio=${c.studioFocusOn.focus} reader=${c.readerFocusOn?.focus ?? "n/a"}; errs ${d.consoleErrors}+${c.consoleErrors}`]; } },
   // Acceptance: the empty shelf is one row (≤ 40px; 34px in round 3.1). The
   // "tabs return with the first item" half is outside shelf-check's reach: a
