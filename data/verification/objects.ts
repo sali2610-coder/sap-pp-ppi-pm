@@ -21,7 +21,22 @@
    two restored seed rows (tx-intel IP01, IL01) keep SEED_DATE and their text.
    One registry change, ordered by the batch verdict: the obj:batch member
    fiori:F1576 (the library's Supplier Evaluation Response) became fiori:F2462
-   (Manage Batches). */
+   (Manage Batches).
+   Objects batch 3 (2026-09-24, const DATE24): measuring-point,
+   maintenance-task-list, reservation and planned-order are superseded by
+   their audited records (0 refuted). reservation is its verdict's
+   fixedRecord; the other three are the researcher drafts with the verdicts'
+   downgrades applied (measuring-point: the create/record verbs for IK01 and
+   IK11 in recommendedAction; maintenance-task-list: the Simplification List
+   row's release is "2025 FPS01", as in obj:batch; planned-order: none).
+   Writer changes as in batches 1 and 2 (hoisted status.source, date
+   constants, the reservation reviewer field dropped); all four restored seed
+   rows keep SEED_DATE and their text. Three writer honesty fixes, no new
+   lookups: planned-order status.he no longer calls F2260 the only Fiori app
+   (house rule: never "only"), planned-order notes keep the seed's catalog-gap
+   finding (PLAF, BAPI_PLANNEDORDER_CHANGE) as Old → New, and the task-list
+   notes put the seed's BAPI_TASKLIST_CREATE sentence in the past tense
+   (fm:BAPI_TASKLIST_CREATE now has a record). Registry members unchanged. */
 import type { Evidence, RegistryEntry, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -329,6 +344,75 @@ const FLOC_DEF_S4_2025: Evidence = {
     "מיקום ותחזוקה, ונתוני שותפים (למשל supplier, purchaser, responsible employee). פונקציות נוספות " +
     "המודפסות: נקודות מדידה, מונים ומסמכי מדידה, Approval, טקסט רב-לשוני, סיווג (classification), ניהול " +
     "מסמכים וניהול כתובות.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* Official rows that also carry a record's status (status.source), objects batch 3. */
+const MPOINT_DEF_S4_2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Measuring Point (Customer Service (CS), SAP S/4HANA 2025 FPS01)",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25de5f7eadc94d688aa3ce34de0cd09b/606cb65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "גוף העמוד (loio 606cb65334e6b54ce10000000a174cb4, נקרא דרך sap-help-body.mjs) מגדיר נקודות מדידה " +
+    "כמיקומים פיזיים ו/או לוגיים שבהם מתואר מצב; ב-Plant Maintenance נקודות מדידה ממוקמות על אובייקטים " +
+    "טכניים, כלומר על ציוד (Equipment) או על מיקום פונקציונלי (Functional Location). קריאות המדידה הן נתוני " +
+    "התנועה של נקודת המדידה ומתועדות כמסמכי מדידה (Measurement Documents); אפשר להגדיר לנקודה ערך יעד " +
+    "(target value) ולהזין קריאה בשלוש צורות: כמותית, איכותית או משולבת. כל נקודת מדידה משויכת למאפיין " +
+    "(characteristic) ממערכת הסיווג, מספרי ובעל יחידה. רשומת החיפוש משייכת את העמוד לתוצר Customer Service " +
+    "(CS).",
+  verificationLevel: "sap_official_verified",
+};
+const TASKLIST_F2660_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Find Maintenance Task List (F2660), Fiori Apps Reference Library, S/4HANA 2025 FPS01",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2660')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ספריית ה-Fiori ל-F2660 (Find Maintenance Task List) ב-S32OP מדפיסה: סוג Transactional, Fact sheet " +
+    "/ SAP Fiori elements, רכיב PM-FIO; תפקידים SAP_BR_MAINTENANCE_PLANNER, SAP_BR_MAINTENANCE_TECHNICIAN, " +
+    "SAP_BR_MAINT_SUPERVISOR ו-SAP_BR_MD_SPECIALIST_EAM; קטלוגים עסקיים SAP_EAM_BC_TL, SAP_EAM_BC_TL_MW " +
+    "ו-SAP_EAM_BC_TSKL_DSP; intent MaintenanceTaskList-displayFactSheet; שירות OData EAM_OBJPG_TASKLIST_SRV " +
+    "0001; זמינות החל מ-1809 (S12OP) ועד 2025 FPS01 (S32OP); אפליקציה קודמת F0387 Task List. הרשומה אינה " +
+    "מדפיסה טרנזקציית GUI מובילה או קשורה.",
+  verificationLevel: "sap_official_verified",
+};
+const RESV_F4839_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Manage Manual Reservations (F4839), SAP Fiori Apps Reference Library, S/4HANA 2025 FPS01 (S32OP)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4839')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "ספריית יישומי ה-Fiori מציגה את F4839 Manage Manual Reservations כיישום טרנזקציוני (SAP Fiori/SAPUI5, " +
+    "רכיב MM-FIO-IM-RSV) שמוביל את טרנזקציית ה-GUI MB21 (וקשור אליו MB22, MB23), תפקיד " +
+    "SAP_BR_WAREHOUSE_CLERK, קטלוג עסקי SAP_MM_BC_IM_RESV_PROCESS, ושירות OData‏ V2‏ " +
+    "UI_RESERVATION_HDR_MNG_V2 (S4CORE 109). אין קודם ואין יורש רשומים ליישום זה.",
+  verificationLevel: "sap_official_verified",
+};
+const PLORD_API_WN2021: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "OData API: Planned Order (What's New in SAP S/4HANA 2021)",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/61b00a5868a944f28c4f2d865f45442c.html?locale=en-US&state=PRODUCTION&version=2021.000",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2021.000",
+  accessedAt: DATE24,
+  claim:
+    "לפי גוף העמוד (sap-help-body.mjs): ה-API‏ OData‏ Planned Order (API_PLANNED_ORDERS) מאפשר קריאה, יצירה, " +
+    "שינוי ומחיקה של הזמנות מתוכננות. רשומת What's New 2021 מסווגת אותו כ-Changed: ה-API הורחב לקריאת נתוני " +
+    "כותרת, Available As Of SAP S/4HANA 2021. ה-API נמצא ב-SAP API Business Hub ורכיב היישום שלו PP-ES. " +
+    "ה-Additional Details ממליצים להשתמש בשירות Planned Order ב-OData גרסה 4 לניהול הזמנות מתוכננות.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -1159,10 +1243,59 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
       "העמודים נקראו דרך sap-help-body.mjs: הגדרת האובייקט ב-S/4HANA, הגדרת האובייקט ב-ECC ועמוד השירות. " +
       "W0029 נקראה דרך fal-app.mjs עם --release S32OP. לא בוצעה בדיקה במערכת SAP חיה.",
   },
-  /* ---- seeds, second round, 2026-09-22 ------------------------------- */
+  /* ---- objects batch 3, audited records, 2026-09-24 ------------------- */
   {
     id: "obj:measuring-point",
     evidence: [
+      MPOINT_DEF_S4_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Measuring Point (Plant Maintenance (PM), SAP ERP 6.0 EHP8 Latest)",
+        url:
+          "https://help.sap.com/docs/SAP_ERP/61f8c51bfee94fa78c8835db685249eb/606cb65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "באותו loio (606cb65334e6b54ce10000000a174cb4) רשומת החיפוש ב-SAP ERP 6.0 EHP8 משייכת את העמוד " +
+          "לתוצר Plant Maintenance (PM), וב-SAP S/4HANA 2025 FPS01 לתוצר Customer Service (CS). שני גופי " +
+          "העמוד נמשכו דרך sap-help-body.mjs ב-2026-09-24, ומעבר לשורות הכותרת של הסקריפט הטקסט זהה מילה " +
+          "במילה (השוואת diff ללא הבדל): הגדרת נקודת המדידה, קטגוריית נקודת מדידה, Measurement Position " +
+          "וטווח המדידה מתוארים ב-ECC וב-S/4HANA באותו נוסח.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Measuring Point (APIs for Maintenance Management, SAP S/4HANA 2025 FPS01)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/8cdfef769b2b4f7195a5f296982e2fe6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "לפי הסניפטים של רשומת החיפוש (גוף העמוד לא נקרא): 'Service name: API_MEASURINGPOINT', שירות " +
+          "inbound סינכרוני המאפשר ליצור, לקרוא ולעדכן (create, read, and update) נקודת מדידה או אוסף נקודות " +
+          "מדידה מיישום חיצוני; הישויות MeasuringPoint ו-MeasuringPointLongText; הגדרת השירות 'SRVD_A2X " +
+          "API_MEASURINGPOINT 0001'; והמשפט 'This service is published on the SAP Business Accelerator Hub'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Library: W0030 Display Measuring Point @ S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('W0030')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "פלט fal-app.mjs עבור W0030 ב-S32OP: שם Display Measuring Point, טכנולוגיית UI‏ Web Dynpro / Web " +
+          "Dynpro, סטטוס Published, רכיב EP-PCT-MAN-MW, תפקיד SAP_BR_MAINTENANCE_TECHNICIAN, קטלוג עסקי " +
+          "SAP_EAM_BC_MEAPT_MW, intent MeasuringPoint-display, שירות OData: '-', טרנזקציית GUI מובילה IK03 " +
+          "וקשורה IK06, ללא יישום קודם או יורש.",
+        verificationLevel: "sap_official_verified",
+      },
       {
         sourceType: "repository",
         sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, IK01 / IK11)",
@@ -1170,39 +1303,213 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: SEED_DATE,
         claim:
-          "רשומת IK01 במאגר מונה את הטבלאות IMPTT, IMRG ו-IHPA; רשומת IK11 מונה את IMRG ו-IMPTT. רישום הפונקציות של הפרויקט מתעד את BAPI_MPID_CREATE ליצירת נקודת מדידה ואת MEASUREM_DOCUM_RFC_SINGLE_001 למסמך מדידה בודד.",
+          "רשומת IK01 במאגר מונה את הטבלאות IMPTT, IMRG ו-IHPA; רשומת IK11 מונה את IMRG ו-IMPTT. רישום " +
+          "הפונקציות של הפרויקט מתעד את BAPI_MPID_CREATE ליצירת נקודת מדידה ואת " +
+          "MEASUREM_DOCUM_RFC_SINGLE_001 למסמך מדידה בודד.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#IK01",
       },
     ],
-    xrefs: ["table:IMPTT", "table:IMRG", "tx:IK01", "tx:IK11", "fm:BAPI_MPID_CREATE"],
-    lastVerifiedAt: SEED_DATE,
+    status: {
+      status: "unchanged",
+      he:
+        "עמוד ההגדרה של נקודת מדידה ב-SAP S/4HANA 2025 FPS01 זהה מילה במילה לעמוד ב-SAP ERP 6.0 EHP8 (אותו " +
+        "loio, שני הגופים נקראו והושוו), אף שהתוצר המשייך שונה: Plant Maintenance (PM) ב-ECC ו-Customer " +
+        "Service (CS) ב-S/4HANA. בסריקת רשימות הפישוט (scratchpad/official/SIMPL_OP2025.pdf.txt " +
+        "ו-SIMPL_OP2023.pdf.txt) לא נמצאה אף התאמה ל-measuring point, measurement document, IMPTT, IMRG, " +
+        "IK01, IK02, IK03, IK11 או IK12; זהו ממצא שלילי מתועד ולא קביעה שאין שינוי במערכת.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MPOINT_DEF_S4_2025,
+      recommendedAction:
+        "ליצור נקודות מדידה ב-IK01 ולרשום מסמכי מדידה ב-IK11 (לפי רשומות המאגר), ולהציג נקודת מדידה ב-IK03 " +
+        "או ביישום W0030 מסוג Web Dynpro (לפי FAL). לאינטגרציה חיצונית לבחון את שירות API_MEASURINGPOINT " +
+        "(SRVD_A2X, גרסה 0001) ליצירה, קריאה ועדכון. לפני המעבר לוודא במערכת את שם ה-BAPI ליצירת נקודת " +
+        "מדידה, שכן רשומת IK01 במאגר מונה את BAPI_MEASUREMENTPOINT_CREATE ורישום הפונקציות מפנה " +
+        "ל-BAPI_MPID_CREATE.",
+    },
+    xrefs: ["table:IMPTT", "table:IMRG", "tx:IK01", "tx:IK03", "tx:IK11", "fm:BAPI_MPID_CREATE", "fm:MEASUREM_DOCUM_RFC_SINGLE_001"],
+    lastVerifiedAt: DATE24,
     notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. סתירה פנימית במאגר: רשומת IK01 מונה את BAPI_MEASUREMENTPOINT_CREATE, ורישום הפונקציות קובע שהשם הזה אינו קיים ומפנה ל-BAPI_MPID_CREATE. החבר שנבחר הוא זה של רישום הפונקציות; הסתירה ממתינה לאימות רשמי.",
+      "Old → New: הרשומה הקודמת נשענה על שורת המאגר בלבד (data/tx-intel.ts#IK01, repository_verified) ללא " +
+      "סטטוס; כעת נוספו עמוד ההגדרה ב-S/4HANA 2025 FPS01 וב-ECC 6.0 EHP8 (שני הגופים נקראו דרך " +
+      "sap-help-body.mjs והושוו), סניפטים של שירות API_MEASURINGPOINT ורשומת FAL של W0030, וסטטוס unchanged. " +
+      "הממצא הישן נשמר: סתירה פנימית במאגר, רשומת IK01 מונה את BAPI_MEASUREMENTPOINT_CREATE, ורישום " +
+      "הפונקציות קובע שהשם הזה אינו קיים ומפנה ל-BAPI_MPID_CREATE; החבר שנבחר הוא זה של רישום הפונקציות, " +
+      "והסתירה ממתינה לאימות מול מקור של SAP. חיפושים ב-scripts/sap-help-search.mjs: 'Measuring Point' " +
+      "(S/4HANA On-Premise), 'Measuring Point' עם --product SAP_ERP, 'API_MEASURINGPOINT'. fal-app.mjs הורץ " +
+      "על W0030 ב-S32OP; W0030 ו-IK06 אינם בקטלוג הפרויקט ולכן אינם ב-xrefs. לא נטען מזהה BOR, כי אף מקור " +
+      "שנקרא אינו מדפיס אחד. tx:IK02 ו-tx:IK12 נשארים חברי הקיבוץ מהמאגר, אך אף שורת ראיה אינה מדפיסה אותם. " +
+      "לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "obj:maintenance-task-list",
     evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Task List (SAP S/4HANA 2025 FPS01, Quality Management deliverable)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/3d86c1536ca9b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "העמוד מגדיר Maintenance Task List כתיאור הנוהל לתחזוקת אובייקט תחזוקה, ומונה שלושה סוגי רשימות " +
+          "משימות ב-Plant Maintenance: רשימת משימות לציוד, רשימת משימות למיקום פונקציונלי ורשימת משימות " +
+          "תחזוקה כללית. לפי העמוד, הרשימה הכללית אינה מקושרת לאובייקט תחזוקה מסוים וניתן להשתמש בה כהצעה " +
+          "בעת יצירת פקודות תחזוקה ורשימות משימות אחרות; רשימת משימות מכילה פעולות (operations) שניתן לפצל " +
+          "לתת-פעולות, והרצף הכרונולוגי שלהן מוגדר על ידי קשרים (relationships).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - General maintenance task list (Data Migration guide, SAP S/4HANA 2025 FPS01)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/018d0b79415c448a9f3bc3282f0a0d7c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד מדריך המיגרציה לאובייקט 'PM - General maintenance task list' מדפיס Object Alias GENMT_TL, " +
+          "Business Object Component PM ו-Business Object Type Master data. היררכיית מבנה המיפוי בעמוד כוללת " +
+          "כותרת רשימת משימות (S_TASKLIST_HDR, חובה), פעולה (S_OPERATIONS, חובה), תת-פעולה, חבילת תחזוקה, " +
+          "רכיבי חומר, Production Resources and Tools ומבני שירות. לאימות הנתונים העמוד מפנה לאפליקציות " +
+          "Display General Task List (IA07) ו-Display Task List (IA29) ולטרנזקציה IA07.",
+        verificationLevel: "sap_official_verified",
+      },
+      TASKLIST_F2660_FAL,
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "OData API: Maintenance Task List (What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition " +
+          "2025 FPS01)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/790420b953f04c2aaf66b20dbd703367.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "פריט What's New של 2025 FPS01 מדפיס: Type Changed, Scope Item 4HH (Reactive Maintenance) ו-4HI " +
+          "(Proactive Maintenance), Technical Object Name 'API: API_MAINTENANCETASKLIST', Application " +
+          "Component PM-PRM-TL (Maintenance Task Lists), Availability 'SAP S/4HANA Cloud Private Edition and " +
+          "SAP S/4HANA Valid as Of 2025 FPS01'. הטקסט קובע: 'With the OData API (V4) Maintenance Task List " +
+          "(API_MAINTENANCETASKLIST), you can now read, create, and update lean services.' השינוי המתואר " +
+          "בעמוד תחום ל-lean services.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Batch Input for Enterprise Asset Management (EAM) (Simplification List for SAP S/4HANA " +
+          "2025 - Feature Pack Stack 1, item 4.1.4)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (4.1.4, Application Component: PM, עמ' 77 עד 78) קובע: 'Transaction IBIP is using Batch " +
+          "Input as an technology to create transactional data for all EAM Objects (Equipment, Functional " +
+          "Location, Notification, Order, Maintenance Plan, Task List...). This is an outdated technology. " +
+          "Within EAM we plan to discontinue to support this technology in a future release.' רשימת ה-API " +
+          "שהפריט מונה ליצירה ושינוי של נתוני Plant Maintenance נוקבת ב-BAPI לציוד, למיקום פונקציונלי, " +
+          "להודעת תחזוקה ולפקודת תחזוקה, והפעולה המומלצת היא 'Recommendation within EAM is to use the API´s " +
+          "wherever possible'. הפריט עוסק בטכנולוגיית Batch Input ואינו מתאר הסרה של רשימת המשימות עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
       {
         sourceType: "repository",
         sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, IA05 / IA06)",
         product: "SAP S/4HANA",
         edition: "on-premise",
         accessedAt: SEED_DATE,
-        claim:
-          "רשומות IA05 ו-IA06 במאגר מונות את הטבלאות PLKO, PLPO, PLAS, PLMZ ו-PLFH.",
+        claim: "רשומות IA05 ו-IA06 במאגר מונות את הטבלאות PLKO, PLPO, PLAS, PLMZ ו-PLFH.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#IA05",
       },
     ],
-    xrefs: ["table:PLKO", "table:PLPO", "tx:IA05"],
-    lastVerifiedAt: SEED_DATE,
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "ספריית ה-Fiori מדפיסה ב-S/4HANA 2025 FPS01 (on-premise) את האפליקציה Find Maintenance Task List " +
+        "(F2660), זמינה החל מ-1809, לאיתור רשימות משימות תחזוקה והצגתן כ-Fact sheet. בנוסף, פריט What's New " +
+        "של 2025 FPS01 מציין שה-OData API (V4) API_MAINTENANCETASKLIST מאפשר כעת קריאה, יצירה ועדכון של lean " +
+        "services.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: TASKLIST_F2660_FAL,
+      recommendedAction:
+        "לתעד ב-NEO את F2660 (Find Maintenance Task List) כחלופת Fiori לאיתור רשימות משימות תחזוקה והצגתן, " +
+        "ואת API_MAINTENANCETASKLIST לתרחישי lean services. לבדוק בסביבת הלקוח אם רשימות משימות נוצרות או " +
+        "משתנות ב-Batch Input (טרנזקציה IBIP): הפריט 'S4TWL - Batch Input for Enterprise Asset Management " +
+        "(EAM)' (רשימת הפישוט 2025 FPS01, פריט 4.1.4) מונה את Task List בין אובייקטי EAM ש-IBIP מטפלת בהם, " +
+        "מגדיר את הטכנולוגיה כמיושנת וממליץ להשתמש בממשקי API ככל האפשר.",
+    },
+    xrefs: ["table:PLKO", "table:PLPO", "table:PLAS", "table:PLMZ", "tx:IA01", "tx:IA05", "tx:IA06"],
+    lastVerifiedAt: DATE24,
     notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. PLFH ו-BAPI_TASKLIST_GET_DETAIL (שרשומת IA05 מונה) אינם בקטלוג. ל-BAPI_TASKLIST_CREATE יש רשומה בתור המחקר ולכן אינו חבר עד שתיכתב. אימות רשמי ממתין לפייפליין ה-objects.",
+      "היסטוריה (Old → New): הזרע (2026-09-22) החזיק שורת מאגר אחת (data/tx-intel.ts#IA05) בלי סטטוס, עם " +
+      "xrefs ל-PLKO, PLPO ו-IA05 וההערה 'אימות רשמי ממתין לפייפליין ה-objects'. כעת: " +
+      "fiori_alternative_available מתוך רשומת F2660 ב-S32OP (release 2025.001, on-premise), עם ארבע שורות " +
+      "רשמיות ושורת הזרע נשמרת כשורה האחרונה; xrefs הורחבו ל-PLAS, PLMZ, IA01 ו-IA06, שכולם נשענים על רשומות " +
+      "IA01/IA05 במאגר. טיוטה קודמת שהציעה s4_native נדחתה: אף מקור שנקרא אינו קובע שהאובייקט חדש ב-S/4HANA. " +
+      "מקור הקיבוץ במרשם: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר (ללא שינוי בחברי הרישום). מזהה " +
+      "BOR: מדריך המיגרציה מדפיס Object Alias GENMT_TL לרשימה הכללית; זה alias ולא מספר BUS, ולכן לא נטען " +
+      "מזהה BOR. PLFH ו-BAPI_TASKLIST_GET_DETAIL (שרשומת IA05 מונה) אינם בקטלוג; ל-BAPI_TASKLIST_CREATE " +
+      "הייתה בזמן הזרע רשומה בתור המחקר ולכן לא נוסף כחבר; כיום קיימת הרשומה fm:BAPI_TASKLIST_CREATE " +
+      "ב-data/verification/functions.ts, וחברי הרישום לא שונו בשלב זה. F2660 אינו ב-data/fiori/apps.ts ולכן " +
+      "נזכר בטקסט בלבד ולא כ-xref; IA07, IA29 ו-IBIP נזכרים בטקסט מתוך המקורות הרשמיים ואינם נוספים כחברים. " +
+      "חיפושים (sap-help-search.mjs, SAP_S4HANA_ON-PREMISE אלא אם צוין): 'maintenance task list' (21 רשומות, " +
+      "כולל Maintenance Task List בגרסה 2025.001 ו-PM - General maintenance task list במדריך המיגרציה), " +
+      "'API_MAINTENANCETASKLIST' (21 רשומות, כולל פריט ה-What's New), 'Find Maintenance Task List app Fiori' " +
+      "(21 רשומות), 'task list' עם --product SAP_ERP (21 רשומות): נמצאה כותרת מקבילה 'Task List' ב-SAP ERP " +
+      "6.18.latest (loio 1bb49e5376cfc835e10000000a441470), גוף העמוד לא נקרא ולכן לא נכתבה טענת השוואה " +
+      "ל-ECC. גופי העמודים נקראו ב-sap-help-body.mjs עבור שלושת עמודי ה-sap_help. fal-app.mjs הורץ על F2660 " +
+      "עם --release S32OP. רשימת הפישוט 2025 FPS01 (scratchpad/official/SIMPL_OP2025.pdf.txt, Document " +
+      "Version 1.36) נסרקה ב-grep על 'task list': הפריט הרלוונטי הוא 4.1.4 'S4TWL - Batch Input for " +
+      "Enterprise Asset Management (EAM)' (עמ' 77 עד 78); מופע נוסף בעמ' 954 עוסק בשילוב סוגי רשימות משימות " +
+      "(כולל General maintenance task list, type A) ב-Change Records. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "obj:reservation",
     evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reservation (Inventory Management and Inventory, MM-IM)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/ade0ba538c95b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "לפי הגוף של הדף (help.sap.com, MM-IM), שמורה (Reservation) היא בקשה למחסן להחזיק חומרים זמינים " +
+          "למשיכה במועד מאוחר יותר ולמטרה מסוימת; מסמך השמורה מורכב מכותרת (יוצר, סוג תנועה, שיוך חשבונאי) " +
+          "ולפחות פריט אחד (חומר, כמות, תאריך דרישה). קיימות שמורות ידניות ואוטומטיות (עבור הזמנות, רשתות " +
+          "ורכיבי WBS, וכן שמורות העברת מלאי בתכנון נקודת הזמנה מחדש); שמורה אוטומטית אינה ניתנת לעיבוד ידני " +
+          "ישיר. ברישום שמורה נוצר מסמך שמורה כהוכחה לבקשה; ברשומת החומר המלאי הכולל והמלאי הפנוי לשימוש " +
+          "אינם משתנים, המלאי המשוריין עולה בכמות המשוריינת, וב-MRP המלאי הזמין יורד בהתאם.",
+        verificationLevel: "sap_official_verified",
+      },
+      RESV_F4839_FAL,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Reservation Items (F5601), SAP Fiori Apps Reference Library, S/4HANA 2025 FPS01 (S32OP)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5601')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית יישומי ה-Fiori מציגה את F5601 Manage Reservation Items כיישום טרנזקציוני (רכיב " +
+          "MM-FIO-IM-RSV) שמוביל את MB21 (וקשורים אליו MB22, MB23, MB24), תפקיד SAP_BR_WAREHOUSE_CLERK, " +
+          "קטלוג עסקי SAP_MM_BC_IM_RESV_PROCESS, ושירותי OData‏ UI_RESERVATION_HDR_MNG_V2 " +
+          "ו-UI_RESERVATION_ITM_MNG_V2 (S4CORE 109).",
+        verificationLevel: "sap_official_verified",
+      },
       {
         sourceType: "repository",
         sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, MB21)",
@@ -1210,17 +1517,48 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: SEED_DATE,
         claim:
-          "רשומת MB21 במאגר מונה את הטבלאות RKPF, RESB, MARD ו-MARC ואת BAPI_RESERVATION_CREATE1 ו-BAPI_RESERVATION_CREATE.",
+          "רשומת MB21 במאגר מונה את הטבלאות RKPF, RESB, MARD ו-MARC ואת BAPI_RESERVATION_CREATE1 " +
+          "ו-BAPI_RESERVATION_CREATE.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#MB21",
       },
     ],
-    xrefs: ["table:RESB", "tx:MB21", "fm:BAPI_RESERVATION_CREATE1"],
-    lastVerifiedAt: SEED_DATE,
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "ב-SAP S/4HANA 2025 FPS01 (on-premise) זמינים היישומים Manage Manual Reservations (F4839) ו-Manage " +
+        "Reservation Items (F5601), שמובילים את טרנזקציית ה-GUI MB21 (וקשורות אליהם MB22, MB23, MB24), על " +
+        "קטלוג עסקי SAP_MM_BC_IM_RESV_PROCESS ושירותי OData‏ V2 ‏UI_RESERVATION_HDR_MNG_V2 " +
+        "ו-UI_RESERVATION_ITM_MNG_V2. לא נמצא פריט S4TWL או פריט פישוט הנוגע לאובייקט שמורה עצמו; שני " +
+        "היישומים אינם רשומים בקטלוג ה-Fiori של הפרויקט (data/fiori/apps.ts) נכון לתאריך זה, ולכן אין להם " +
+        "מזהה xref במאגר.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: RESV_F4839_FAL,
+      recommendedAction:
+        "להפנות משתמשים ליישומי Fiori‏ Manage Manual Reservations (F4839) ו-Manage Reservation Items (F5601) " +
+        "לצד טרנזקציות ה-GUI MB21, MB22 ו-MB23; לוודא בגרסת היעד את הקטלוג העסקי SAP_MM_BC_IM_RESV_PROCESS " +
+        "ואת התפקיד SAP_BR_WAREHOUSE_CLERK.",
+    },
+    xrefs: ["table:RESB", "table:MARD", "table:MARC", "tx:MB21", "tx:MB22", "tx:MB23", "fm:BAPI_RESERVATION_CREATE1"],
+    lastVerifiedAt: DATE24,
     notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR: קובץ ההעשרה של המאגר " +
-      "מתייג את BAPI_RESERVATION_CREATE1 ב-bor: BUS2093 (data/bapi-enrichment.pppi.ts), אך המזהה לא אומת מול רשומה " +
-      "רשמית. RKPF ו-BAPI_RESERVATION_CREATE אינם בקטלוג ולכן אינם חברים. אימות רשמי ממתין לפייפליין ה-objects.",
+      "נבדק לפי HOUSE-RULES: (1) המאגר: obj:reservation קיים ברישום (חברים table:RESB, table:MARD, " +
+      "table:MARC, tx:MB21/22/23, fm:BAPI_RESERVATION_CREATE1) ורשומת האימות הקודמת (SEED_DATE 2026-09-22) " +
+      "הסתמכה רק על data/tx-intel.ts#MB21; שורת הראיה הזו נשמרה ללא שינוי. (2) חיפושים ב-sap-help-search.mjs " +
+      "(size 12, בסינון ברירת המחדל SAP_S4HANA_ON-PREMISE): 'Reservation S/4HANA' (21 תוצאות, ברובן Guided " +
+      "Buying, לא ממוקדות באובייקט עצמו), 'Manage Reservations app' (21 תוצאות, כולל Manage Manual " +
+      "Reservations ו-Manage Reservation Items), 'Reservation for Material Fiori' (21 תוצאות, כולל את דף " +
+      "'Reservation' עצמו ואת ה-API‏ 'Create Reservation Document'), 'S4TWL Reservation' (21 תוצאות, ללא " +
+      "פריט פישוט התואם לאובייקט שמורה). גם בטקסט המחולץ של Simplification List ל-2025 FPS01 לא עלה פריט " +
+      "S4TWL הנוגע לאובייקט שמורה; זהו ממצא חיפוש, לא קביעה שפריט כזה אינו קיים. (3) גוף עמוד 'Reservation' " +
+      "(MM-IM, loio ade0ba53..., 2025.001) נקרא במלואו דרך sap-help-body.mjs ותומך במבנה המסמך (כותרת " +
+      "ופריטים), בסוגי השמורות ובהשפעה על המלאי המשוריין ועל ה-MRP. (4) scripts/fal-app.mjs --tcode MB21 " +
+      "(S32OP) איתר את F4839 ו-F5601 כיישומים מובילים; שתי הרשומות נקראו במלואן. שני מזהי ה-Fiori אינם " +
+      "קיימים ב-data/fiori/apps.ts נכון לתאריך זה ולכן לא נכללו ב-xrefs (רק בטקסט הראיה והסטטוס). (5) קובץ " +
+      "ההעשרה של המאגר מתייג את BAPI_RESERVATION_CREATE1 ב-bor: BUS2093 (data/bapi-enrichment.pppi.ts); " +
+      "המזהה לא אומת מול רשומה רשמית ולכן אינו נטען כעובדה. RKPF ו-BAPI_RESERVATION_CREATE אינם בקטלוג ולכן " +
+      "אינם חברים או xrefs. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "obj:planned-order",
@@ -1232,16 +1570,67 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: SEED_DATE,
         claim:
-          "רשומת MD11 במאגר מונה את הטבלאות PLAF ו-RESB ואת BAPI_PLANNEDORDER_CREATE ו-BAPI_PLANNEDORDER_GET_DETAIL; רשומת MD12 מונה את BAPI_PLANNEDORDER_CHANGE.",
+          "רשומת MD11 במאגר מונה את הטבלאות PLAF ו-RESB ואת BAPI_PLANNEDORDER_CREATE " +
+          "ו-BAPI_PLANNEDORDER_GET_DETAIL; רשומת MD12 מונה את BAPI_PLANNEDORDER_CHANGE.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#MD11",
       },
+      PLORD_API_WN2021,
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "SAP Fiori Apps Reference Library: Planned Order Object Page (F2260), S32OP (SAP S/4HANA 2025 " +
+          "FPS01 on-premise)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2260')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "לפי scripts/fal-app.mjs (F2260 על S32OP): 'Planned Order Object Page' הוא Fact Sheet מסוג SAP " +
+          "Fiori elements בסטטוס Published, ברכיב PP-FIO-PLO (Fiori UI for Planned Orders), עם שירות OData " +
+          "MPE_PLANNEDORDER_OBJPG_SRV בגרסה 0001 (S4CORE 109), intent PlannedOrder-displayFactSheet, קטלוג " +
+          "עסקי SAP_SCM_BC_MFG_ORD_OBJ_PGS וקטלוג טכני SAP_TC_SCM_PP_COMMON. טרנזקציית ה-GUI המובילה היא " +
+          "MD13, ללא טרנזקציות קשורות מודפסות. הגרסאות הרשומות משתרעות מ-S6OP (SAP S/4HANA 1610) ועד S37 " +
+          "(2608), ואין אפליקציות קודמות או יורשות מודפסות.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
-    xrefs: ["tx:MD11", "fm:BAPI_PLANNEDORDER_CREATE"],
-    lastVerifiedAt: SEED_DATE,
+    status: {
+      status: "released_api_available",
+      he:
+        "API_PLANNED_ORDERS מאפשר קריאה, יצירה, שינוי ומחיקה של הזמנות מתוכננות (רשומת What's New 2021, Type " +
+        "Changed), ו-SAP ממליצה להשתמש בשירות Planned Order ב-OData גרסה 4. לצד זאת קיימת אפליקציית Fiori " +
+        "מסוג Fact Sheet (F2260) להצגת הזמנה מתוכננת; הפעולות ליצירה ושינוי (MD11/MD12) נותרו טרנזקציות SAP " +
+        "GUI ללא אפליקציית Fiori יורשת מודפסת בספרייה.",
+      edition: "on-premise",
+      release: "2021.000",
+      source: PLORD_API_WN2021,
+      recommendedAction:
+        "לפיתוחים חדשים לבחון את שירות Planned Order ב-OData גרסה 4 בהתאם להמלצה בתיעוד; לתצוגה בממשק Fiori " +
+        "להשתמש באפליקציית Fact Sheet F2260; ליצירה ושינוי אינטראקטיביים להמשיך להשתמש ב-MD11/MD12 עד שתאותר " +
+        "אפליקציית Fiori יורשת רשמית.",
+    },
+    xrefs: ["tx:MD11", "tx:MD12", "tx:MD13", "fm:BAPI_PLANNEDORDER_CREATE", "fm:BAPI_PLANNEDORDER_GET_DETAIL", "table:RESB"],
+    lastVerifiedAt: DATE24,
     notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. טבלת הכותרת PLAF ו-BAPI_PLANNEDORDER_CHANGE אינם בקטלוג הטבלאות והפונקציות של הפרויקט ולכן אינם חברים; זה פער בקטלוג, לא טענה על SAP. אימות רשמי ממתין לפייפליין ה-objects.",
+      "חיפושים שרצו (sap-help-search.mjs): 'planned order S/4HANA' (21 תוצאות), 'planned order OData API " +
+      "S/4HANA' (21 תוצאות), 'planned order simplification' (21 תוצאות), 'Manage Planned Orders app' (21 " +
+      "תוצאות). גוף עמוד נקרא (sap-help-body.mjs) עבור רשומת ה-OData API ועבור רשומת 'Planned Order (SAP " +
+      "S/4HANA)' 1610 (feature F2260_S4OP, PP-MRP) שהובילה לחיפוש ב-fal-app.mjs. fal-app.mjs --tcode MD11 " +
+      "ו---tcode MD12 מחזירים רק אפליקציות SAP GUI (Create/Change Planned Order) ללא יורשים; לכן הסטטוס " +
+      "released_api_available מתייחס ל-API ולאפליקציית ה-Fact Sheet בלבד, לא לפעולות היצירה והשינוי. לא נמצא " +
+      "מזהה BOR רשמי להזמנה מתוכננת בשום רשומה שנקראה (רק 'Planned Order business object' כטקסט חופשי בעמוד " +
+      "ה-What's New 1610), ולכן BOR לא נטען לרשומה. אפליקציית 'Manage Planned Orders' (What's New 1909, " +
+      "J44/PP-MRP-PP) אותרה בחיפוש אך מזהה ה-F שלה לא אומת דרך fal-app.mjs, ולכן לא צוינה כחבר או xref. " +
+      "fiori:F2260 אומת רשמית (fal-app.mjs) אך אינו קיים כרגע ב-data/fiori/apps.ts של הפרויקט, ולכן לא נכלל " +
+      "כ-xref (כלל §1); זהו פער בקטלוג ה-Fiori של הפרויקט, לא טענה על SAP. הרשומה הקודמת " +
+      "(repository_verified בלבד) נשמרה כראייה ראשונה. Old → New: ממצא הזרע (2026-09-22) נשמר: 'טבלת הכותרת " +
+      "PLAF ו-BAPI_PLANNEDORDER_CHANGE אינם בקטלוג הטבלאות והפונקציות של הפרויקט ולכן אינם חברים; זה פער " +
+      "בקטלוג, לא טענה על SAP.' שני המזהים עדיין אינם ב-lib/route-manifest.generated.ts. לא בוצעה בדיקה " +
+      "במערכת SAP חיה.",
   },
+  /* ---- seeds, second round, 2026-09-22 ------------------------------- */
   {
     id: "obj:production-order",
     evidence: [
