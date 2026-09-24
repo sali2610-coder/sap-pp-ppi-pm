@@ -936,7 +936,7 @@ export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
         { he: "ניפוק: MIGO, ו-MB1A הישנה.", xrefs: ["tx:MIGO", "tx:MB1A"] },
         { he: "Backflush וכשלים: COR6N ו-CO11N באישור, ‏COGI ו-MF47 לעיבוד מחדש, ‏CO46 לפערי צריכה.", xrefs: ["tx:COR6N", "tx:CO11N", "tx:COGI", "tx:MF47", "tx:CO46"] },
         { he: "בקרה: MD04 דרישות ומלאי, ‏MMBE סקירת מלאי, ‏MB51 תנועות.", xrefs: ["tx:MD04", "tx:MMBE", "tx:MB51"] },
-        { he: "Fiori: רשומות המאגר נוקבות ב-Manage Reservations‏ (F1622), ‏Stage Materials for Production ו-Post Goods Movement; F1622 אינו בקטלוג הפרויקט ולכן אינו מקושר, ו-F0843 מקושר כרשומת קטלוג בלבד.", xrefs: ["fiori:F0843"] },
+        { he: "Fiori: רשומות המאגר נקבו ב-Manage Reservations‏ (F1622), מזהה שאינו בספריית ה-Fiori; מ-2026-09-24 רשומת MB21 מפנה ל-Manage Manual Reservations (F4839), כפי שהספרייה מציינת (MB21 מובילה, MB22 ו-MB23 קשורות); ‏Stage Materials for Production ו-Post Goods Movement; F4839 אינו בקטלוג הפרויקט ולכן אינו מקושר, ו-F0843 מקושר כרשומת קטלוג בלבד.", xrefs: ["fiori:F0843"] },
       ],
       tables: [
         { he: "RESB פריטי הרזרבציה (BDMNG, ‏ENMNG, ‏BWART, ‏XLOEK, ‏KZEAR ודגלי Backflush); כותרת הרזרבציה RKPF אינה במילון הפרויקט.", xrefs: ["table:RESB"] },
@@ -1133,7 +1133,7 @@ export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
         accessedAt: DATE,
         claim:
           "MB21: רזרבציה ידנית (RKPF/RESB), רזרבציות מפקודות נוצרות אוטומטית, סוג התנועה (201/261/281/921) קובע " +
-          "את היעד, מופיעה ב-MD04 כדרישה; Fiori 'Manage Reservations (F1622)'; משתמשים: מתכנן ייצור, מתכנן חומרים, " +
+          "את היעד, מופיעה ב-MD04 כדרישה; Fiori 'Manage Reservations (F1622)' (כך עד 2026-09-24; כעת Manage Manual Reservations (F4839) לפי ספריית ה-Fiori); משתמשים: מתכנן ייצור, מתכנן חומרים, " +
           "איש תחזוקה, מנהל פרויקט. MB25: דוח רזרבציות לניקוי תקופתי עם MB22. CO27: ליקוט וניפוק 261 מרוכז לפי " +
           "RESB, להבחין בין רכיבי Backflush לליקוט ידני; Fiori 'Stage Materials for Production'. MF60: Pull List " +
           "בייצור החוזר, דורש אזורי אספקה ו-Control Cycles, להריץ לפני משמרת; ב-EWM ה-staging מנוהל ב-EWM. COGI: " +
@@ -1265,8 +1265,8 @@ export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
       "הנקובות או מעמוד רשמי שכבר אומת ברשומות table:RESB, ‏fm:BAPI_RESERVATION_CREATE1 ו-fm:BAPI_GOODSMVT_CREATE. " +
       "הרשומה מקשרת אל bp:goods-movement-process ואל bp:confirmation-process במקום לשכפל את פירוט התנועות והאישור. " +
       "פערים גלויים: שדה kpis הושמט, המאגר אינו מתעד מדדי ביצוע לאספקת חומר. RKPF, ‏AFFW, ‏MATDOC, ‏PVBE, ‏LPK1 " +
-      "ו-IW3M אינם במילון הפרויקט ולכן מופיעים בפרוזה בלבד. מזהה Fiori‏ F1622 (Manage Reservations) מגיע " +
-      "מרשומות tx-intel בלבד ואינו בקטלוג הפרויקט; F0843 מקושר כרשומת קטלוג ולא כחלופה ל-MIGO (ראו הערות " +
+      "ו-IW3M אינם במילון הפרויקט ולכן מופיעים בפרוזה בלבד. מזהה Fiori‏ F1622 (Manage Reservations) הגיע " +
+      "מרשומות tx-intel בלבד ואינו בקטלוג הפרויקט (עדכון 2026-09-24: המזהה אינו בספריית ה-Fiori, ו-tx-intel מפנה כעת ל-F4839 Manage Manual Reservations); F0843 מקושר כרשומת קטלוג ולא כחלופה ל-MIGO (ראו הערות " +
       "bp:goods-movement-process). הטרנזקציות MB21 עד MB26, ‏CO27 ו-MF60 אינן נושאות רשומת אימות רשמית. רשומות " +
       "המאגר חלוקות בשמות הפרמטרים של BAPI_RESERVATION_CREATE1, ורשומת RESERVATION_READ מסומנת inferred. סנכרון " +
       "Zetes מוזכר ב-blueprint בלי פירוט. לא בוצעה בדיקה במערכת SAP חיה.",
@@ -1395,7 +1395,7 @@ export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
         { he: "PIR: MD61 יצירה ו-MD62 שינוי; רשומת התחום מונה גם MD63 ו-MD73, ו-MD74 ו-MD75 לארגון מחדש של PIR ישנות.", xrefs: ["tx:MD61", "tx:MD62", "tx:MD63", "tx:MD73", "tx:MD74", "tx:MD75"] },
         { he: "אסטרטגיה בחומר: MM02 (נתוני MRP3); OPPS לפי רשומת התחום, אינה במילון הפרויקט.", xrefs: ["tx:MM02"] },
         { he: "תכנון והמרה: MD01N ו-MD04; פקודת ייצור ב-CO01 או המרה ב-CO40 וב-CO41; פקודת תהליך ב-COR1 או המרה ב-COR8.", xrefs: ["tx:MD01N", "tx:MD04", "tx:CO01", "tx:CO40", "tx:CO41", "tx:COR1", "tx:COR8"] },
-        { he: "Fiori לפי מפות התהליך: Manage Sales Orders, ‏Release for Delivery (aATP), ‏Manage PIRs ו-Monitor Material Coverage; רשומת MD04 מפנה ל-MRP Cockpit (F0247A, ‏F0251). רשומת VA01 נוקבת ב-Create Sales Orders (F0018), שאינו בקטלוג הפרויקט ולכן אינו מקושר.", xrefs: ["fiori:F0247A", "fiori:F0251"] },
+        { he: "Fiori לפי מפות התהליך: Manage Sales Orders, ‏Release for Delivery (aATP), ‏Manage PIRs ו-Monitor Material Coverage; רשומת MD04 מפנה ל-MRP Cockpit (F0247A, ‏F0251). רשומת VA01 נקבה ב-Create Sales Orders (F0018), מזהה שאינו בספריית ה-Fiori; מ-2026-09-24 היא מפנה ל-Manage Sales Orders - Version 2 (F3893), שהספרייה מציינת כיישום שטרנזקציית ה-GUI המובילה שלו VA01; F3893 אינו בקטלוג הפרויקט ולכן אינו מקושר.", xrefs: ["fiori:F0247A", "fiori:F0251"] },
       ],
       tables: [
         { he: "VBAK ו-VBAP מסמך המכירה: כותרת ופריטים.", xrefs: ["table:VBAK", "table:VBAP"] },
@@ -1603,7 +1603,7 @@ export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
           "VA01 יוצרת הזמנת מכירה (VBAK/VBAP) ומפעילה תמחור, בדיקת זמינות (ATP) ופיצול לאספקות; לא לעריכה (VA02) ולא " +
           "לתצוגה (VA03). משתמשים: נציג שירות לקוחות, פקיד מכירות, ‏Order Management. טעות נפוצה: הזנת תאריך אספקה לא " +
           "ריאלי ללא בדיקת ATP. BAPIs BAPI_SALESORDER_CREATEFROMDAT2 ו-BAPI_SALESDOCU_CREATEFROMDATA1, ובין הטרנזקציות הנלוות CO09. ב-S/4 " +
-          "זמינה ופעילה עם Fiori 'Create Sales Orders' (F0018) ו-Manage Sales Orders, ו-VA01 עדיין נתמכת ב-SAP GUI.",
+          "זמינה ופעילה עם Fiori 'Create Sales Orders' (F0018) ו-Manage Sales Orders, ו-VA01 עדיין נתמכת ב-SAP GUI. (ציטוט המאגר ב-2026-09-23; F0018 אינו בספריית ה-Fiori, ו-tx-intel תוקן ב-2026-09-24 ל-Manage Sales Orders - Version 2 (F3893).)",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#VA01",
       },
@@ -1796,7 +1796,7 @@ export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
       "של Strategy Group ב-MARC, אינו מפרט את אסטרטגיות 11, ‏50 ו-70 מעבר לשורה אחת, ואינו מפרט את המלאי והעלות לפי " +
       "הזמנה בייצור-להזמנה. VBBE, ‏PBIM, ‏PBED, ‏PBHI, ‏T459K, ‏T461, ‏T459P, ‏MDKP, ‏PLAF, ‏OPPS, ‏OPJJ, ‏MABP0001, ‏ATP_CUST_EX " +
       "וה-BAPIs של ה-PIR ושל הזמנת הלקוח אינם במילון הפרויקט ולכן מופיעים בפרוזה בלבד. מזהה ה-Fiori F0018 מגיע מרשומת " +
-      "tx-intel בלבד ואינו בקטלוג. לא בוצעה בדיקה במערכת SAP חיה.",
+      "tx-intel בלבד ואינו בקטלוג (עדכון 2026-09-24: F0018 אינו בספריית ה-Fiori, ו-tx-intel מפנה כעת ל-F3893). לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* =============================================== procure-to-pay for maintenance */
