@@ -11,7 +11,10 @@
    service, the Simplification List PDF page read, the fal-app.mjs output or the
    named repository record; auditor downgrades applied in full; no record carries
    a reviewer field. Open repository conflicts live in
-   audit/s4-enrichment/research-queue-transactions-b.md. */
+   audit/s4-enrichment/research-queue-transactions-b.md.
+   Batch 2 (research + adversarial audit 2026-09-24, written the same day): 7
+   audited records for MM-PUR codes (ME27, ME28, ME2L, ME2M, ME2N, ME41, ME43);
+   tx:ME42 was refuted at the gate and sits in the research queue. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -229,6 +232,165 @@ const ME25_SIMPL2025: Evidence = {
     "ואינו קובע גרסת הסרה; מספרי ה-SAP Notes מובאים כפי שהודפסו בפריט ולא נקראו. הטקסט נקרא מחילוץ ה-PDF " +
     "(Document Version 1.36, ‏1,514 עמודים); כתובת הקובץ החזירה ב-2026-09-24 ‏HTTP 200 עם content-length " +
     "של 10,585,218 בתים.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 2 (2026-09-24): shared status sources for ME27, ME28, ME2L, ME2M, ME2N, ME41, ME43 */
+
+const ME27_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item " +
+    "14.2.8 S4TWL - Classic MM-PUR GUI Transactions replacement (MM-PUR-GF), pp. 1418-1419",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 14.2.8 ברשימת הפישוט הרשמית של SAP S/4HANA 2025 FPS01 (רכיב יישום MM-PUR-GF; הערת Business " +
+    "Impact 0002267449 'Classic MM-PUR GUI Transactions replacement') מונה את ME27 בשמה בטבלה שכותרתה " +
+    "'Transactions are NO longer supported in SAP S/4HANA on-premise edition', לצד ME21, ME22, ME23, " +
+    "ME24, ME25, ME28, ME51, ME52, ME53, ME54, ME59, MR01 ו-MR1M, ובטבלה הסמוכה 'BAPIs are NO longer " +
+    "supported in SAP S/4HANA on-premise edition' את BAPI_PO_CREATE, BAPI_REQUISITION_CREATE " +
+    "ו-BAPI_PO_GETDETAIL. תיאור הפריט בלשונו: 'Classic SAP ERP Materials Management (MM) transactions and " +
+    "BAPIs for the business objects Purchase Order, Purchase Requisition, and Supplier Invoice have been " +
+    "replaced by the corresponding transactions and BAPIs made available with SAP R/3 Enterprise 4.70. " +
+    "With SAP S/4HANA, on-premise, these classic MM transactions and BAPIs are NO longer supported. The " +
+    "replacements that are available since SAP R/3 Enterprise 4.70 shall be used.'; תחת Business Process " +
+    "related information: 'No influence on business processes expected.'; ותחת Required and Recommended " +
+    "Action(s): 'See SAP notes: 1803189: FAQ: End of Support of ME21, ME51, and BAPI_PO_CREATE etc.' " +
+    "ו-'144081: Replacing MR01 / Functions of MR1M (Release 4.6)'. הפריט אינו נוקב בטרנזקציה עוקבת " +
+    "ספציפית ל-ME27: ההחלפה מנוסחת למשפחה כולה של הטרנזקציות הקלאסיות.",
+  verificationLevel: "sap_official_verified",
+};
+
+const ME28_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+    "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 14.2.8 S4TWL - Classic MM-PUR GUI " +
+    "Transactions replacement (MM-PUR-GF), pp. 1418-1419",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 14.2.8 (עמ' 1418-1419) קובע: 'Classic SAP ERP Materials Management (MM) transactions and BAPIs " +
+    "for the business objects Purchase Order, Purchase Requisition, and Supplier Invoice have been " +
+    "replaced by the corresponding transactions and BAPIs made available with SAP R/3 Enterprise 4.70. " +
+    "With SAP S/4HANA, on-premise, these classic MM transactions and BAPIs are NO longer supported.' ME28 " +
+    "מנוי כלשונו בטבלת 'Transactions are NO longer supported in SAP S/4HANA on-premise edition' (עמ' " +
+    "1419, בין ME27 ל-ME51), לצד ME21, ME22, ME23, ME24, ME25, ME27, ME51-ME54, ME59, MR01, MR1M. הפריט " +
+    "אינו נוקב בטרנזקציה עוקבת ייעודית ל-ME28; ה-Solution מפנה כלליות ל'replacements that are available " +
+    "since SAP R/3 Enterprise 4.70' בלי לשמם עבור כל קוד בנפרד. ההערות המצוינות (כפי שהודפסו, לא נקראו): " +
+    "1803189 ('FAQ: End of Support of ME21, ME51, and BAPI_PO_CREATE etc.'), 144081; Business Impact note " +
+    "0002267449.",
+  verificationLevel: "sap_official_verified",
+};
+
+const ME2L_ROLE_2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Lists of Purchase Orders (MM-PUR) | Materials Management (MM)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/8d06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הנושא Lists of Purchase Orders (MM-PUR) בתיעוד S/4HANA 2025 FPS01 (loio " +
+    "8d06b753128eb44ce10000000a174cb4, versionId 2025.001, תאריך 2026-02-24; רשומת החיפוש אומתה " +
+    "ב-sap-help-search.mjs). גוף הנושא, שנקרא דרך sap-help-body.mjs (deliverable 40374615), מונה בטבלת " +
+    "'Activities in Materials Management' את השורה 'Purchase orders by vendor ME2L' לצד ME2M, ME2K, ME2J, " +
+    "ME2C, ME2B, ME2N, ME2W, MSRV3 ו-ME2S, ומציג את השאלה העסקית 'What is the status of purchase orders " +
+    "issued to a certain vendor?'. הסניפט של רשומת החיפוש מציג את הכותרת, את השם הטכני " +
+    "SAP_MM_PUR_PURCHASEORDER_LISTS וחלק מהקודים (ME2W, MSRV3, ME2S, ME2J, ME2C, ME2B), לא את שורת ME2L " +
+    "עצמה. זהו תיעוד פעיל של ME2L כטרנזקציית דיווח סטנדרטית במהדורה הנוכחית, לא הצהרה על שינוי מעמד.",
+  verificationLevel: "sap_official_verified",
+};
+
+const ME2M_ROLE_2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Lists of Purchase Orders (MM-PUR)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/8d06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE24,
+  claim:
+    "העמוד 'Lists of Purchase Orders (MM-PUR)' (SAP S/4HANA 2025 FPS01, נושא Materials Management (MM)) " +
+    "מציג את טבלת הפעילויות של הדיווח על הזמנות רכש ובה השורה: 'Purchase orders by material ME2M', לצד " +
+    "ME2L (לפי ספק), ME2K (לפי הקצאת חשבון), ME2J (לפי פרויקט), ME2C (לפי קבוצת חומרים), ME2B, ME2N " +
+    "ו-ME2W. הראיה מבססת ש-ME2M מתועדת כטרנזקציית הדיווח 'הזמנות רכש לפי חומר' במהדורת S/4HANA העדכנית " +
+    "שנבדקה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const ME2N_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App ME2N 'Display Purchasing Documents by Number' (SAP GUI), release S32OP (SAP " +
+    "S/4HANA 2025 FPS01, On-Premise)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('ME2N')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת Fiori Apps Library למזהה 'ME2N' מציגה אותו כאפליקציית 'SAP GUI' בשם 'Display Purchasing " +
+    "Documents by Number', סטטוס Published, רכיב MM-PUR (Purchasing), עם GUI transaction מוביל ME2N " +
+    "(related: ME2N), technical catalog SAP_TC_PRC_BE_APPS:S4PRC, intent " +
+    "PurchasingDocument-displayByDocumentNumber. שדה ה-releases מפרט זמינות רציפה מ-S6OP (SAP S/4HANA " +
+    "1610) דרך S27OP (2023) ועד S32OP (2025 FPS01, On-Premise) ו-S32PCE (2025 FPS01, Private Cloud) כאחד; " +
+    "predecessors ו-successors שניהם ריקים ('-').",
+  verificationLevel: "sap_official_verified",
+};
+
+const ME41_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 14.4.1 S4TWL - RFQ Simplified " +
+    "Transaction (Sourcing and Contract Management, MM-PUR-RFQ)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 14.4.1 (עמ' 1429-1430, SAP Note 2332710 מודפס בגוף הפריט) קובע: 'The following transactions are " +
+    "deprecated in SAP S/4HANA: ME41 ME42 ME43 ME44 ME45 ME47 ME48 ME49 ME4B ME4C ME4L ME4M ME4N ME4S' " +
+    "(כלשונו). הפריט מסביר שהגישה הקודמת ל-RFQ כללה שדה ספק חובה ומוגבל לספק אחד בלבד, ושהגישה החדשה " +
+    "מאפשרת שליחת RFQ שנוצר באפליקציית Fiori לפלטפורמות sourcing חיצוניות בלי לנקוב ספק מדויק; לגבי " +
+    "הטרנזקציות הקלאסיות (ME41 בכללן) נכתב במפורש: 'the functionality is currently available in SAP " +
+    "S/4HANA but it is not considered as future technology and a functional equivalent is not available' " +
+    "(כלשונו). בסעיף 'Business Process Related Information' נכתב: 'If you want to use functionality " +
+    "related to sourcing of goods and services, you can use the following apps: Manage RFQs (F2049), " +
+    "Monitor RFQ Items (F2425), Request for Quotation Types (F4149), Manage Supplier Quotations (F1991), " +
+    "Compare Supplier Quotations (F2324)' (כלשונו); זו המלצה ברמת תהליך העסקי ולא הצהרה מפורשת שאפליקציה " +
+    "בודדת היא היורשת הפורמלית של ME41.",
+  verificationLevel: "sap_official_verified",
+};
+
+const ME43_SIMPL2023: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 38.7 S4TWL - RFQ Simplified " +
+    "Transaction (SAP Note 2332710)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2023 FPS03",
+  url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+  accessedAt: DATE24,
+  claim:
+    "הפריט קובע במפורש (עמ' 957-958, Note 2332710 כלשון המסמך): 'The following transactions are " +
+    "deprecated in SAP S/4HANA: ME41 ME42 ME43 ME44 ME45 ME47 ME48 ME49 ME4B ME4C ME4L ME4M ME4N ME4S' " +
+    "(כלשונו), ורשימת שמות הטרנזקציות המקבילה כוללת עבור ME43 את 'Display'. תחת Business Process Related " +
+    "Information הפריט מציע כחלופה עסקית לתהליכי sourcing את אפליקציות ה-Fiori 'Manage RFQs (F2049)', " +
+    "'Monitor RFQ Items (F2425)', 'Request for Quotation Types (F4149)', 'Manage Supplier Quotations " +
+    "(F1991)' ו-'Compare Supplier Quotations (F2324)', ומנחה לסגור (status 'Completed') RFQ שנוצרו " +
+    "בטרנזקציות הישנות לפני המעבר לאפליקציות אלה. הפריט אינו קובע מיפוי 1:1 בין ME43 הספציפית לבין " +
+    "אפליקציה יחידה מתוך החמש.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -1516,5 +1678,808 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "לפריט הפישוט, ו-obsolete: ['ME25'] מונה את הקוד את עצמו. ראיית ה-ECC נושאת release = 6.18.latest " +
       "(ה-versionId של רשומת החיפוש, כמוסכמת HOUSE-RULES); התווית האנושית SAP ERP 6.0 EHP8 נשמרת בטקסט " +
       "הטענה.",
+  },
+  {
+    id: "tx:ME27",
+    evidence: [
+      ME27_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private " +
+          "Edition 2023 - Feature Pack Stack 3 (Document Version 1.35) · item 38.2 S4TWL - Classic MM-PUR GUI " +
+          "Transactions replacement (MM-PUR-GF), pp. 941-942",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "אותו פריט מופיע כבר ברשימת הפישוט של SAP S/4HANA 2023 FPS03 כפריט 38.2 (Application Components: " +
+          "MM-PUR-GF; הערת Business Impact 2267449 'S4TWL - Classic MM-PUR GUI Transactions replacement') " +
+          "בניסוח זהה: ME27 מנויה בטבלה 'Transactions are NO longer supported in SAP S/4HANA on-premise " +
+          "edition' (עמ' 942, ברשימה הרציפה ME21 ME22 ME23 ME24 ME25 [עמ' 941] ME27 ME28 ME51 ME52 ME53 ME54 " +
+          "ME59 MR01 MR1M), והתיאור זהה: 'With SAP S/4HANA, on-premise, these classic MM transactions and BAPIs " +
+          "are NO longer supported. The replacements that are available since SAP R/3 Enterprise 4.70 shall be " +
+          "used.' הפריט מפנה ל-SAP Notes 1803189 ו-144081 (כפי שהודפסו, לא נקראו). כלומר מעמדה של ME27 " +
+          "כטרנזקציה קלאסית שאינה נתמכת ב-S/4HANA On-Premise נשמר ללא שינוי בין מהדורת 2023 FPS03 למהדורת 2025 " +
+          "FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Plant Return and Store Return with Stock Transport Order | Inventory Management and Inventory " +
+          "(MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/b760bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף הנושא (loio b760bd534f22b44ce10000000a174cb4, deliverable 40374236, buildNo 1779, תאריך " +
+          "2026-02-24) נקרא במלואו ב-2026-09-24 דרך שירות התוכן של הפורטל " +
+          "(help.sap.com/http.svc/deliverableMetadata ואחריו http.svc/pagecontent). בסעיף Activities כתוב " +
+          "כלשונו: 'Stock transport order (ME21N or ME27) Create a stock transport order and select Returns " +
+          "Item. Note that you can remove this indicator again in the Enjoy order (ME21N), whereas the " +
+          "indicator cannot be changed subsequently in the \"old\" order (ME21 and ME27).' כלומר בתיעוד S/4HANA " +
+          "2025 FPS01 הנוכחי, ME27 עדיין מתועדת כדרך תקפה ליצירת הזמנת רכש להעברת מלאי (Stock Transport Order) " +
+          "בתהליך Plant Return / Store Return, לצד ME21N, ומכונה 'the \"old\" order' (המסך הישן) לעומת ה-Enjoy " +
+          "order ME21N. העמוד אינו מזכיר פריט פישוט או סטטוס תמיכה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Plant Return and Store Return with Stock Transport Order | Materials Management (MM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/b704a8db767040a08100adc846218964/b760bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (loio זהה, b760bd534f22b44ce10000000a174cb4, versionId 6.18.latest, תאריך 2026-06-12, " +
+          "בהיקף --product SAP_ERP) מדפיסה את אותו קטע כלשונו בתקציר: 'Note that you can remove this indicator " +
+          "again in the Enjoy order (ME21N), whereas the indicator cannot be changed subsequently in the \"old\" " +
+          "order (ME21 and ME27) ... Activities Stock transport order(ME21N or ME27) Create a stock transport " +
+          "order and select Returns Item.' הגוף המלא לא נקרא בהיקף זה (נקרא רק במהדורת S/4HANA 2025.001, אותו " +
+          "loio); הטענה כאן מוגבלת לתקציר. זהו מעמד ה-ECC של הקוד: טרנזקציה מתועדת ליצירת STO בתהליך Plant " +
+          "Return / Store Return, לצד ME21N.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL), רשומת ME27",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ME27 ב-data/tx-intel.ts (module MM, area 'רכש (Purchasing), הזמנות העברת מלאי') מתארת את הקוד " +
+          "כ'יצירת הזמנת רכש להעברת מלאי (Stock Transport Order, STO) במסך הקלאסי, להעברת חומרים בין מפעלים " +
+          "בתוך הארגון', document type UB (intra-company) / NB, כותבת EKKO/EKPO עם supplying plant; שדה s4: " +
+          "'זמין ב-S/4HANA; ME21N עם doc type STO מועדף. Advanced Intercompany Sales/STO ב-S/4 מרחיב זאת.', " +
+          "alternative: ['ME21N'], obsolete: [] (הרשומה אינה מונה את עצמה, בניגוד ל-ME24/ME25). 'Advanced " +
+          "Intercompany Sales/STO' אינו שם מתועד באף מקור רשמי שנמצא כאן; אף שכבה אחרת במאגר (lifecycle, " +
+          "ecc-s4, s4-impact, tcode-catalog) אינה מכילה רשומת ME27.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME27",
+      },
+    ],
+    status: {
+      status: "simplified",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: ME27_SIMPL2025,
+      he:
+        "ME27 (המסך הקלאסי ליצירת הזמנת רכש להעברת מלאי בין מפעלים, Stock Transport Order, כמתואר ברשומת " +
+        "המאגר) מכוסה בפריט הפישוט הרשמי S4TWL - Classic MM-PUR GUI Transactions replacement (14.2.8 ברשימת " +
+        "2025 FPS01, 38.2 ברשימת 2023 FPS03, MM-PUR-GF): הטרנזקציות הקלאסיות של MM-PUR, וביניהן ME27 בשמה, " +
+        "'are NO longer supported' ב-SAP S/4HANA On-Premise, והוחלפו 'by the corresponding transactions and " +
+        "BAPIs made available with SAP R/3 Enterprise 4.70'. הפריט אינו נוקב בטרנזקציה עוקבת ספציפית ל-ME27; " +
+        "עם זאת, נושא התיעוד 'Plant Return and Store Return with Stock Transport Order' במהדורת S/4HANA 2025 " +
+        "FPS01 עדיין מתאר את ME27 כלשונו כדרך תקפה ליצירת Stock Transport Order (לצד ME21N), ומכנה אותה 'the " +
+        "\"old\" order' לעומת ה-'Enjoy order' ME21N. לכן הסטטוס הוא פריט פישוט: הקוד קיים ומתועד להלכה במהדורה " +
+        "הנוכחית כחלופת המסך הקלאסי ל-STO, אך רשימת הפישוט מסווגת אותו כטרנזקציה שאינה נתמכת עוד ב-S/4HANA " +
+        "On-Premise.",
+      recommendedAction:
+        "לא לבסס תהליכים, הקלטות batch input או קוד לקוח על ME27 ב-S/4HANA On-Premise, ולהתייחס אליה " +
+        "כטרנזקציה שאינה נתמכת לפי פריט הפישוט למרות שנושא Plant Return / Store Return עדיין מתעד אותה. לבחון " +
+        "את יצירת ה-Stock Transport Order דרך ME21N (עם document type STO מתאים, UB/NB) כמסלול המסך האחוד " +
+        "המתועד כתחליף ('Enjoy order'), ולפני ההחלטה לקרוא את SAP Note 1803189 ('FAQ: End of Support of ME21, " +
+        "ME51, and BAPI_PO_CREATE etc.') שהפריט מפנה אליה ולא נקראה כאן (דורשת S-user). אין ברשומה זו מקור " +
+        "רשמי הנוקב במחליפה ייעודית ל-ME27, ולכן לא נרשם successor; במערכת היעד יש לבדוק ב-SE93 שהקוד עדיין " +
+        "קיים ולוודא שתרחיש Plant Return / Store Return (שדה Returns Item, שאינו ניתן לשינוי לאחור ב-ME27 כמו " +
+        "ב-ME21N) מכוסה במסלול החלופי שנבחר. במאגר: לתקן את שדה s4 ברשומת ME27 ב-data/tx-intel.ts כך שלא " +
+        "ייכתב 'זמין ב-S/4HANA' סתם, אלא שהקוד מכוסה בפריט הפישוט 'Classic MM-PUR GUI Transactions " +
+        "replacement' ואינו נתמך עוד להלכה; 'Advanced Intercompany Sales/STO' אינו שם מתועד במקור רשמי שנמצא " +
+        "ודורש בדיקה נפרדת.",
+    },
+    xrefs: [
+      "tx:ME21N", "tx:ME21", "tx:ME24", "tx:ME25", "tx:ME28", "tx:MIGO", "tx:VL10B", "tx:VL02N",
+      "tx:MB1B",
+    ],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה (2026-09-24; תיעוד רשמי ומאגר בלבד, ללא בדיקה חיה במערכת SAP: ה-MCP של sc4sap לא התחבר בסשן זה, " +
+      "לכן זמינות ME27 במהדורה המותקנת לא נבדקה ב-SE93). שירות החיפוש של help.sap.com נשאל דרך " +
+      "scripts/sap-help-search.mjs בשלוש שאילתות ('ME27 stock transport order', 'ME27' פעמיים, בהיקף " +
+      "SAP_S4HANA_ON-PREMISE ובהיקף --product SAP_ERP); הכתובת, ה-loio וה-versionId של כל ראיה הועתקו " +
+      "כלשונם מרשומות החיפוש. גוף הנושא 'Plant Return and Store Return with Stock Transport Order' נקרא " +
+      "במלואו דרך scripts/sap-help-body.mjs עבור מהדורת S/4HANA 2025.001 בלבד (deliverable 40374236, " +
+      "buildNo 1779); מהדורת SAP ERP (אותו loio) לא נקראה בגוף מלא, והטענה עליה מוגבלת לתקציר החיפוש בלבד, " +
+      "כנדרש בכללי ההתנהגות. שני פריטי הפישוט (14.2.8 ברשימת 2025 FPS01, 38.2 ברשימת 2023 FPS03) נקראו מתוך " +
+      "חילוצי pdftotext השמורים בפרויקט (scratchpad/official/SIMPL_OP2025.pdf.txt, " +
+      "scratchpad/official/SIMPL_OP2023.pdf.txt) ואומתו מול audit/master-completion/simpl-tcode-index.json " +
+      "(רישומי ME27 לשני הקבצים). fal-app.mjs --tcode ME27 (מהדורת S32OP = 2025 FPS01) החזיר 'leading " +
+      "app(s): none; GUI app entry: none': אין אפליקציית Fiori המובילה בקוד ME27, ולכן אין xref ל-Fiori " +
+      "ואין fiori_alternative_available. ME2ST, EKKO, EKPO, EKET אינם מזהים בני-פענוח ביקום הפרויקט " +
+      "(lib/route-manifest.generated.ts) ולכן אינם ב-xrefs; VL10B נבדק מול היקום, נפתר, ומודפס בגוף הנושא " +
+      "במהדורת 2025.001 כפעילות ההמשך ('Delivery (VL10B)'), ולכן נכלל ב-xrefs. לא בוצעה בדיקת מערכת SAP " +
+      "חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג; עברה סבב ביקורת אדברסרית ב-2026-09-24 (כתובות, " +
+      "רשומות חיפוש, גוף העמוד, פריטי הפישוט ופלט fal-app נבדקו מחדש).",
+  },
+  {
+    id: "tx:ME28",
+    evidence: [
+      ME28_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private " +
+          "Edition 2023 - Feature Pack Stack 3 (Document Version 1.35, 2025-02-25) · item 38.2 S4TWL - Classic " +
+          "MM-PUR GUI Transactions replacement (MM-PUR-GF), pp. 941-942",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "אותו פריט מופיע כבר ברשימת הפישוט של SAP S/4HANA 2023 FPS03 כפריט 38.2, בניסוח כמעט זהה: ME28 מנויה " +
+          "בטבלת 'Transactions are NO longer supported in SAP S/4HANA on-premise edition' (עמ' 942, בין ME27 " +
+          "ל-ME51; ME21 עד ME25 בעמ' 941), עם אותה הפניה ל-SAP Note 1803189. כלומר מעמד ME28 כטרנזקציה קלאסית " +
+          "שאינה נתמכת ב-S/4HANA On-Premise נשמר ללא שינוי בין מהדורת 2023 FPS03 למהדורת 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Release Purchase Orders (MM-PUR) | Materials Management (MM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/cf06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הנושא 'Release Purchase Orders (MM-PUR)' (loio cf06b753128eb44ce10000000a174cb4, תאריך 2026-02-24; " +
+          "גוף העמוד נקרא במלואו ב-2026-09-24 דרך שירות התוכן של הפורטל, deliverable_id 40374615, buildNo 1779) " +
+          "מתאר את התפקיד 'Technical name: SAP_MM_PUR_PO_RELEASE': 'You can use this role to release (approve) " +
+          "purchase orders. A purchase order may be blocked via a release procedure (if its total value exceeds " +
+          "a predefined value - say $10,000 - for instance). Before this purchase order can be outputted..., it " +
+          "must be approved (i.e. released).' ובטבלת Activities in Materials Management מונה שורה יחידה: " +
+          "'Release purchase order ME28' (כלשונה). אזכור בתיעוד תפקיד אינו הצהרת תמיכה ואינו סותר במפורש את " +
+          "פריט הפישוט, אך מראה שהקוד עדיין מתועד כפעילות תקנית במהדורה זו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Release Purchase Orders (MM-PUR) | Materials Management (MM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/6cfdc7caaef746cd9c7543e32e7e87c0/cf06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "מעמד ECC: אותו נושא במדריך Materials Management (MM) של SAP ERP 6.0 EHP8 (versionId 6.18.latest, " +
+          "תאריך 2026-06-12; גוף העמוד נקרא במלואו ב-2026-09-24 דרך שירות התוכן של הפורטל, deliverable_id " +
+          "23795313, buildNo 533) זהה תו בתו לגרסת S/4HANA 2025 FPS01, ומונה את 'Release purchase order ME28' " +
+          "כפעילות תקנית של התפקיד SAP_MM_PUR_PO_RELEASE. ב-ECC הטרנזקציה מתועדת כפעילות רגילה בתהליך אישור " +
+          "הזמנות רכש, ללא הסתייגות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · ME28 Release Purchase Orders (SAP GUI), S/4HANA 2025 FPS01 (S32OP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01 (S32OP)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('ME28')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ME28 בספריית אפליקציות ה-Fiori (fal-app.mjs, נקרא ב-2026-09-24) עבור S32OP=2025 FPS01 (המהדורה " +
+          "On-Premise העדכנית ביותר בספרייה): שם 'Release Purchase Orders', UI Technology 'SAP GUI', סטטוס " +
+          "'Deprecated', רכיב 'MM-PUR (Purchasing)', technical catalog 'SAP_TC_PRC_BE_APPS:S4PRC', intent " +
+          "'PurchaseOrder-releaseMultiple', GUI transaction leading/related: ME28. שדות predecessors " +
+          "ו-successors ריקים ('-') בכל טווח המהדורות המנוי (S6OP=1610 עד S32OP=2025 FPS01); הספרייה אינה נוקבת " +
+          "בשום אפליקציית Fiori או טרנזקציה עוקבת רשמית ל-ME28. חיפוש --tcode ME28 החזיר את ME28 עצמה בלבד " +
+          "כאפליקציית SAP GUI מובילה, ללא אפליקציית Fiori חלופית רשומה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL), רשומת ME28",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ME28 ב-data/tx-intel.ts רושמת area 'רכש (Purchasing), אישור הזמנות', descHe 'שחרור/אישור " +
+          "הזמנות רכש (Release PO), מסך קולקטיבי לאישור הזמנות לפי אסטרטגיית אישור (release strategy)', s4: " +
+          "'זמין ב-S/4HANA; Fiori Approve Purchase Orders / flexible workflow מומלצים כחלופה מודרנית.', fiori: " +
+          "'My Inbox / Approve Purchase Orders', alternative: ['ME29N'], obsolete: []. טענת ה-s4/fiori בשדה זה " +
+          "(אפליקציית Fiori חלופית בשם) אינה מגובה באף מקור רשמי שנבדק ברשומה זו: ה-FAL אינו נוקב ב-successor " +
+          "ל-ME28, ופריט הפישוט אינו נוקב במחליף שמי. זוהי סתירת מאגר מול המקורות הרשמיים, מסומנת לתיקון.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME28",
+      },
+    ],
+    status: {
+      status: "simplified",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: ME28_SIMPL2025,
+      he:
+        "ME28 (Release Purchase Orders, שחרור/אישור הזמנות רכש) מכוסה בפריט הפישוט הרשמי S4TWL - Classic " +
+        "MM-PUR GUI Transactions replacement (14.2.8 ברשימת 2025 FPS01, זהה ל-38.2 ברשימת 2023 FPS03): " +
+        "הטרנזקציות הקלאסיות של MM-PUR, וביניהן ME28 בשמה, 'are NO longer supported' ב-SAP S/4HANA " +
+        "On-Premise, לפי הפריט הוחלפו 'by the corresponding transactions and BAPIs made available with SAP " +
+        "R/3 Enterprise 4.70'. הפריט אינו נוקב בטרנזקציה עוקבת ספציפית ל-ME28, ולכן לא נרשם successor. ספריית " +
+        "אפליקציות ה-Fiori עדיין רושמת את ME28 כאפליקציית SAP GUI ב-2025 FPS01 (S32OP) בסטטוס 'Deprecated' " +
+        "(לא 'Removed'), ללא predecessor/successor רשום; תיעוד התפקיד SAP_MM_PUR_PO_RELEASE במהדורת 2025 " +
+        "FPS01 עדיין מונה את הקוד כפעילות תקנית. הפער בין 'NO longer supported' (פריט הפישוט) ל-'Deprecated' " +
+        "עדיין קיים בספרייה נשאר לאימות במערכת חיה.",
+      recommendedAction:
+        "לא לבסס תהליכים חדשים, הקלטות batch input או קוד לקוח על ME28 ב-S/4HANA On-Premise, ולהתייחס אליה " +
+        "כטרנזקציה שאינה נתמכת לפי פריט הפישוט. לבדוק במערכת היעד את אסטרטגיית ה-workflow הגמישה (Flexible " +
+        "Workflow) לאישור הזמנות רכש ואת יכולות ה-My Inbox כחלופה מעשית, אך לתעד זאת כהמלצה מבוססת מדיניות " +
+        "כללית ולא כ-successor רשמי הנוקב שמית ב-ME28 עד שיימצא מקור כזה. לפני המרה: לקרוא את SAP Notes " +
+        "1803189 ו-144081 בגישת S-user, לבדוק בפועל אם הרצת ME28 ב-2025 FPS01 מפיקה הודעת שגיאה או פועלת " +
+        "(סתירה בין הסטטוס 'Deprecated' בספריית ה-Fiori לבין 'NO longer supported' בפריט הפישוט), ולסרוק קוד " +
+        "לקוח הקורא ל-ME28. במאגר: לתקן את שדות s4/fiori ברשומת data/tx-intel.ts#ME28 כך שלא יציגו ללא מקור " +
+        "את 'Approve Purchase Orders' כ-successor רשמי.",
+    },
+    xrefs: [
+      "tx:ME21", "tx:ME22", "tx:ME23", "tx:ME24", "tx:ME25", "tx:ME27", "tx:ME21N", "tx:ME22N",
+      "tx:ME29N", "tx:MIGO", "tx:MIRO", "tx:ME9F",
+    ],
+    lastVerifiedAt: DATE24,
+    notes:
+      "הסטטוס 'simplified' נבחר בהתאם לתבנית שכבר נקבעה עבור tx:ME24 ו-tx:ME25 באותו קובץ " +
+      "(transactions-b.ts, אותו פריט פישוט בדיוק): המקור הרשמי היחיד שמכריע על ME28 הוא פריט הפישוט עצמו, " +
+      "שנוקב בקוד בשמו בטבלת 'NO longer supported' בשתי המהדורות (2023 FPS03 עמ' 941-942, ME28 בעמ' 942; " +
+      "2025 FPS01 עמ' 1418-1419, ME28 בעמ' 1419; שני קבצי ה-PDF נקראו מ-scratchpad/official/ שהופק מכתובות " +
+      "help.sap.com הרשמיות). לא נמצא מקור רשמי הנוקב במחליפה ייעודית ל-ME28: לא ב-Simplification List " +
+      "(שמנסחת את ההחלפה למשפחה כולה ולא לכל קוד בנפרד), ולא ב-Fiori Apps Library (fal-app.mjs --tcode ME28 " +
+      "מחזיר את ME28 עצמה בלבד כ-'SAP GUI' עם predecessors/successors ריקים בכל טווח המהדורות, כולל " +
+      "S32OP=2025 FPS01 העדכנית ביותר). נמצא פער בין ניסוח פריט הפישוט ('NO longer supported') לבין הסטטוס " +
+      "'Deprecated' (לא 'Removed') הרשום ל-ME28 בספריית ה-Fiori עדיין עבור 2025 FPS01 - זו אינה סתירה " +
+      "מוצהרת בין שני מקורות (הם עוסקים בשכבות שונות: מדיניות המרה מול מלאי מוצרים בספרייה), אך היא נרשמת " +
+      "כנקודה פתוחה שדורשת קריאת SAP Notes 1803189/144081 בגישת S-user ובדיקה במערכת SAP חיה כדי להכריע אם " +
+      "הריצה בפועל חסומה. נמצאה סתירת מאגר: data/tx-intel.ts#ME28 טוען ל-'Fiori Approve Purchase Orders' " +
+      "כחלופה מומלצת ומציין 'My Inbox' כ-fiori בלי מקור רשמי שנבדק שתומך בכך כ-successor שמי; סומן לתור " +
+      "התיקון בהערות אלו בלבד, קובץ המקור עצמו לא נערך על ידי הרשומה הזו. חיפוש Help (On-Premise ו-SAP ERP, " +
+      "שלוש וריאציות: 'ME28 Release Purchase Order', 'Release Purchasing Document ME28' --product SAP_ERP, " +
+      "וחיפוש נוסף בתוך fal-app.mjs) לא החזיר עמוד What's New או תיעוד ייעודי ל-ME28 מעבר לעמוד תפקיד ה-MM. " +
+      "לא בוצעה בדיקת מערכת SAP חיה (ה-MCP של sc4sap לא התחבר), ולכן קיום הקוד ב-SE93, התנהגות זמן ריצה " +
+      "בפועל (הודעת שגיאה או לא) והמצב במערכת המותקנת נשארים לאימות במערכת. accessedAt = 2026-09-24, מועד " +
+      "הגישה בפועל לשירות החיפוש, לשירות התוכן, לקבצי ה-PDF ול-fal-app.mjs. הרשומה אינה נושאת שדה reviewer, " +
+      "כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:ME2L",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Retail iViews (Simplification List for SAP S/4HANA 2025 FPS01, item 13.15.26, Application " +
+          "Component MM-PUR-PO, SAP Note 0002370183 'Retail Buying iViews')",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "הפריט עוסק בהסרת ה-iViews של Retail Buying (הטרנזקציות WRBDL ו-WRBDL2, שאינן זמינות עוד ב-S/4HANA), " +
+          "ולא ב-ME2L עצמה. בסעיף Required and Recommended Action(s) נכתב: 'For open purchase orders there are " +
+          "transaction ME2L, ME2M, ME2N or the purchase order Fiori app', כלומר ME2L מוצגת כאחת החלופות הקיימות " +
+          "לצפייה במידע שה-iViews שהוסרו נתנו, לא כטרנזקציה שנבדקת או משתנה. הפריט אינו קובע דבר על מעמדה של " +
+          "ME2L עצמה (לא 'הוחלפה', לא 'הוסרה', לא 'שונתה'); זהו אזכור בלבד, לא פסיקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Retail iViews (Simplification List for SAP S/4HANA 2023 FPS03, item 60.28, Application " +
+          "Components MM-PUR, SAP Note 2370183 'S4TWL - Retail Buying iViews')",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "אותו פריט וניסוח זהה מופיעים כבר ברשימת הפישוט של 2023 FPS03, שם הוא ממוספר 60.28 (לא 60.9 כפי שרשום " +
+          "ברישום העזר של הפרויקט audit/master-completion/simpl-tcode-index.json; ראו הערה על כך בשדה notes). " +
+          "גם כאן: 'For open purchase orders there are transaction ME2L, ME2M, ME2N or the purchase order Fiori " +
+          "app' מופיע תחת Required and Recommended Action(s) של פריט Retail iViews, כחלופה לצפייה במקום " +
+          "ה-iViews שהוסרו, ולא כפסיקה על ME2L.",
+        verificationLevel: "sap_official_verified",
+      },
+      ME2L_ROLE_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Lists of Purchase Orders (MM-PUR) | Materials Management (MM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/6cfdc7caaef746cd9c7543e32e7e87c0/8d06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו נושא (אותו loio) בתיעוד SAP ERP 6.0 EHP8 (versionId 6.18.latest, תאריך 2026-06-12). גוף הנושא, " +
+          "שנקרא דרך sap-help-body.mjs (deliverable 23795313), מציג את אותה שורה 'Purchase orders by vendor " +
+          "ME2L' באותה טבלת פעילויות ואת אותה שאלה עסקית. תיעוד ME2L ב-ECC ובמהדורת S/4HANA 2025 FPS01 זהה " +
+          "בכותרת ובגוף שני הנושאים.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      edition: "on-premise",
+      release: "2025.001",
+      source: ME2L_ROLE_2025,
+      he:
+        "ME2L (Purchase Orders by Vendor / Purchasing Documents per Vendor) מתועדת כטרנזקציית דיווח סטנדרטית " +
+        "פעילה הן ב-SAP ERP 6.0 EHP8 והן ב-SAP S/4HANA 2025 FPS01 On-Premise, באותו נושא Help רשמי ובאותה " +
+        "טבלת פעילויות MM-PUR. בחיפוש טקסטואלי בשתי רשימות הפישוט (2023 FPS03 ו-2025 FPS01) נמצא אזכור אחד " +
+        "בלבד של הקוד בכל רשימה, בפריט S4TWL - Retail iViews (זהה בשתיהן), והוא אינו קובע דבר על מעמד ME2L " +
+        "עצמה: הוא מציין אותה כחלופת דיווח קיימת לתפקוד ה-iViews של Retail Buying שהוסר, לא כטרנזקציה " +
+        "שהוחלפה, השתנתה או הוסרה.",
+      recommendedAction:
+        "ניתן להמשיך להשתמש ב-ME2L לדיווח על הזמנות רכש לפי ספק ב-S/4HANA On-Premise; לא נמצא ברשימות הפישוט " +
+        "2023 FPS03 ו-2025 FPS01 פריט המורה על הפסקת השימוש בה או על מעבר לחלופה מחייבת. מומלץ עם זאת לבדוק " +
+        "אם קיימת אפליקציית Fiori רלוונטית לתפקוד זה (דוחות או רשימות הזמנות רכש) בקטלוג ה-Fiori Apps Library " +
+        "של הארגון, שכן פריט הפישוט מזכיר 'the purchase order Fiori app' בלשון כללית בלבד, ללא מזהה יישום; " +
+        "אימות סופי של קיום הטרנזקציה (SE93) ושל זמינותה בפועל בסביבת היעד דורש בדיקה במערכת SAP חיה, שלא " +
+        "בוצעה.",
+    },
+    xrefs: ["tx:ME2M", "tx:ME2N", "tx:ME21N", "tx:ME23N"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "המצב 'unchanged' נשען על תיעוד Help זהה בשתי המהדורות (ECC 6.18.latest ו-S/4HANA 2025.001) המציג את " +
+      "ME2L כפעילות תקנית בתפקיד Lists of Purchase Orders (MM-PUR); status.source הוא נושא ה-Help של " +
+      "2025.001 (evidence[2]), בהתאם לתקדים tx:MB22 באותו קובץ. המסקנה 'ללא שינוי' היא היסק מהזהות בין שני " +
+      "הנושאים ולא ציטוט מפורש של המילה. שני גופי הנושאים נקראו דרך sap-help-body.mjs ב-2026-09-24. חיפוש " +
+      "טקסטואלי ב-scratchpad/official/SIMPL_OP2023.pdf.txt וב-SIMPL_OP2025.pdf.txt מצא שורה אחת עם ME2L בכל " +
+      "קובץ (70372, 75297), שתיהן בתוך S4TWL - Retail iViews; פריט 14.2.8 S4TWL - Classic MM-PUR GUI " +
+      "Transactions replacement ברשימת 2025 FPS01 מונה את ME21, ME22, ME23, ME24, ME25, ME27, ME28, ME51, " +
+      "ME52, ME53, ME54, ME59, MR01 ו-MR1M כטרנזקציות שאינן נתמכות עוד, ואינו מונה את ME2L. ממצא תקינות " +
+      "במאגר הפרויקט: audit/master-completion/simpl-tcode-index.json ממפה את ME2L בגרסת 2023 למספר פריט " +
+      "'60.9' וכותרת 'S4TWL - Retail Additionals', אך שורת ה-PDF שהאינדקס עצמו מצביע עליה (70372) נמצאת " +
+      "בפועל בתוך פריט 60.28 'S4TWL - Retail iViews' (כותרת הפריט בשורה 70337); פריט 60.9 (Retail " +
+      "Additionals, SAP Note 2371631, מתחיל בשורה 69231) אינו מזכיר את ME2L. זהו באג במיפוי מספר/כותרת " +
+      "הפריט באינדקס העזר, מדווח לתור לתיקון, ולא שימש בסיס לטענה כלשהי ברשומה זו. לא נמצא Fiori app ספציפי " +
+      "(fal-app.mjs לא הופעל כי לא נמצא מזהה יישום רשמי לחפש; פריט הפישוט מזכיר 'the purchase order Fiori " +
+      "app' בלשון כללית בלבד), ולכן אין xref ל-fiori: ואין successor. data/tx-intel.ts אינו מכיל רשומה " +
+      "ל-ME2L (הקוד מופיע רק ברשימות alternative של ME23N ו-ME5A); זו הרשומה הראשונה עבור קוד זה בשכבת " +
+      "האימות. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:ME2M",
+    evidence: [
+      ME2M_ROLE_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Lists of Purchase Orders (MM-PUR)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/6cfdc7caaef746cd9c7543e32e7e87c0/8d06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו נושא בדיוק (loio זהה 8d06b753128eb44ce10000000a174cb4) מתועד גם בתיעוד SAP ERP 6.0 EHP8 Latest, " +
+          "עם אותה שורת טבלה: 'Purchase orders by material ME2M'. הראיה מבססת ש-ME2M מתועדת באופן זהה גם בצד " +
+          "ה-ECC, ולא נמצא שינוי בין שתי המהדורות בתיאור הפעילות הזו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Display Purchasing Documents by Material | SAP Fiori Apps Reference Library, Apps('ME2M'), release " +
+          "S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01 (S32OP)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('ME2M')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ספריית אפליקציות ה-Fiori עבור Apps('ME2M') מציגה אפליקציית SAP GUI בשם 'Display Purchasing " +
+          "Documents by Material', רכיב MM-PUR (Purchasing), תפקיד SAP_BR_PURCHASER (Purchaser), קטלוג עסקי " +
+          "SAP_PRC_BC_PURCHASER_PO, קטלוג טכני SAP_TC_PRC_BE_APPS:S4PRC, טרנזקציית GUI מובילה ומשויכת ME2M; " +
+          "שורת ה-releases ברשומה מונה כל מהדורת On-Premise מ-S6OP (S/4HANA 1610) ועד S32OP (2025 FPS01, " +
+          "המהדורה העדכנית שנבדקה), ולצדן מהדורות Private Cloud (S29PCE עד S32PCE), עם predecessors: - " +
+          "ו-successors: - (שני השדות ריקים). הראיה מבססת שהטרנזקציה קיימת ומתועדת בספריית ה-Fiori בכל המהדורות " +
+          "שנבדקו, בלי יורש רשום.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 13.15.26 S4TWL - Retail " +
+          "iViews (MM-PUR-PO); the same text is item 60.28 S4TWL - Retail iViews (Note Description: S4TWL - " +
+          "Retail Buying iViews) in the 2023 FPS03 list",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "פריט הפישוט 13.15.26 (S4TWL - Retail iViews) עוסק בהסרת ה-iViews הישנים לרכש קמעונאי, לא ב-ME2M " +
+          "עצמה: 'In SAP S/4HANA, retail buying iViews are not available anymore. Transactions WRBDL, WRBDL2 " +
+          "are not available anymore'. בסעיף הפעולות הנדרשות הפריט קובע: 'For open purchase orders there are " +
+          "transaction ME2L, ME2M, ME2N or the purchase order Fiori app', כלומר נוקב ב-ME2M כאחת משלוש " +
+          "הטרנזקציות הקיימות המוצעות כחלופה למידע שהוצג בעבר דרך ה-iView שהוסר. הפריט אינו קובע דבר על שינוי, " +
+          "הסרה או החלפה של ME2M עצמה, ואינו נוקב ביישום Fiori ספציפי ('the purchase order Fiori app' כללי, בלי " +
+          "שם או מזהה).",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      edition: "on-premise",
+      release: "2025.001",
+      source: ME2M_ROLE_2025,
+      he:
+        "ME2M (Purchase Orders by Material, הזמנות רכש לפי חומר) מתועדת כטרנזקציית דיווח קיימת וזהה בתוכנה הן " +
+        "בתיעוד SAP ERP 6.0 EHP8 והן בתיעוד SAP S/4HANA 2025 FPS01 On-Premise (נושא 'Lists of Purchase Orders " +
+        "(MM-PUR)'); ספריית אפליקציות ה-Fiori מציגה אותה כאפליקציית SAP GUI, הרשומה בה מונה מהדורות מ-1610 " +
+        "ועד 2025 FPS01, ללא predecessor וללא successor רשום. פריט הפישוט 13.15.26 (2025 FPS01) / 60.28 (2023 " +
+        "FPS03) ('S4TWL - Retail iViews') נוקב בה רק כחלופה קיימת למידע שנמסר בעבר ב-iViews של רכש קמעונאי " +
+        "שהוסרו (WRBDL, WRBDL2), ואינו קובע שינוי, הסרה או החלפה ל-ME2M עצמה. הסטטוס נקבע 'ללא שינוי " +
+        "ב-S/4HANA' על סמך השוואת שני נושאי התיעוד ורשומת ה-Fiori Apps Library.",
+      recommendedAction:
+        "להמשיך להשתמש ב-ME2M לדיווח הזמנות רכש לפי חומר; אין מקור רשמי הקובע יורש ספציפי או תאריך הסרה. פריט " +
+        "הפישוט 13.15.26 מזכיר 'the purchase order Fiori app' כללי בלי מזהה, ולכן לא נרשם successor או xref " +
+        "לאפליקציית Fiori. אם נדרשת חלופת Fiori אמיתית לרשימת הזמנות רכש, יש לאתר את מזהה האפליקציה במקור " +
+        "רשמי נפרד לפני קביעת xref; במערכת היעד מומלץ לוודא ב-SE93 שהקוד עדיין קיים ולבדוק שאין הגבלת הרשאה " +
+        "ספציפית לתפקיד SAP_BR_PURCHASER.",
+    },
+    xrefs: ["tx:ME2L", "tx:ME2N", "tx:ME21N"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: (1) עמוד 'Lists of Purchase Orders (MM-PUR)' (loio 8d06b753128eb44ce10000000a174cb4) נבדק " +
+      "בשני ההיקפים (SAP_S4HANA_ON-PREMISE 2025.001 ו-SAP_ERP 6.18.latest) דרך scripts/sap-help-search.mjs; " +
+      "שתי הרשומות מדפיסות את אותה שורת טבלה 'Purchase orders by material ME2M'. (2) scripts/fal-app.mjs " +
+      "ME2M --release S32OP הריץ מול Fiori Apps Library והחזיר רשומה יחידה, SAP GUI app, שורת releases " +
+      "מ-S6OP (1610) עד S32OP (2025 FPS01), predecessors/successors ריקים. (3) שני פריטי הפישוט (2025 FPS01 " +
+      "13.15.26, 2023 FPS03 60.28) אותרו דרך audit/master-completion/simpl-tcode-index.json והטקסט נקרא " +
+      "מתוך scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt (חילוצי pdftotext שמורים " +
+      "בפרויקט מ-2026-09-22); שני הפריטים זהים בתוכנם ועוסקים בהסרת iViews לרכש קמעונאי, לא ב-ME2M. האינדקס " +
+      "simpl-tcode-index.json מייחס לשורת 2023 את המספר 60.9 והכותרת 'S4TWL - Retail Additionals'; בטקסט " +
+      "ה-PDF עצמו (שורה 70337) הכותרת היא '60.28 S4TWL - Retail iViews', והמספר נלקח מהטקסט ולא מהאינדקס. " +
+      "מה שלא אומת: (א) לא בוצעה קריאת גוף עמוד נוספת דרך scripts/sap-help-body.mjs, כי קטעי החיפוש הספיקו " +
+      "לביסוס כל טענה; לא בוצעה WebSearch. (ב) ה-MCP ל-ABAP (sc4sap) לא התחבר בסשן זה ('Connection " +
+      "closed'), ולכן אין בדיקת SE93 חיה שהקוד קיים במערכת יעד. (ג) קובצי ה-PDF של רשימות הפישוט לא הורדו " +
+      "מחדש היום; הראיה מסתמכת על אותה כתובת PDF שכבר צוטטה ברשומות אחרות בקובץ transactions-b.ts. (ד) 'the " +
+      "purchase order Fiori app' בפריט הפישוט אינו מזהה אפליקציה ספציפית; לא בוצע חיפוש נוסף לזיהוי " +
+      "אפליקציה זו כי אינה נדרשת לקביעת סטטוס ME2M. (ה) בדיקת data/tx-intel.ts העלתה שאין בו רשומה ייעודית " +
+      "ל-ME2M (הקוד מוזכר ברשומת ME22N (together), ברשומת ME23N (alternative) ובטקסט של רשומת ME5A); " +
+      "data/tcode-catalog.ts מונה אותה במודול MM, אזור 'רכש דיווח', שם אנגלי 'Purchase Orders by Material', " +
+      "תואם לראיות ולא נמצאה סתירה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג. לא בוצעה בדיקה במערכת " +
+      "SAP חיה.",
+  },
+  {
+    id: "tx:ME2N",
+    evidence: [
+      ME2N_FAL_S32OP,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Lists of Purchase Orders (MM-PUR) · role SAP_MM_PUR_PURCHASEORDER_LISTS (SAP S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/8d06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד (SAP S/4HANA 2025 FPS01, loio 8d06b753128eb44ce10000000a174cb4) נקרא במלואו דרך " +
+          "deliverableMetadata + pagecontent: תחת התפקיד 'Lists of Purchase Orders (MM-PUR)' (Technical name: " +
+          "SAP_MM_PUR_PURCHASEORDER_LISTS) מופיעה בטבלת הפעילויות השורה 'Purchase orders by PO number ME2N', " +
+          "לצד ME2L, ME2M, ME2K, ME2J, ME2C, ME2B, ME2W, MSRV3, ME2S; שם הפעילות האנגלי תואם לשם 'Purchase " +
+          "Orders by PO Number' ולתיאור העברי 'הזמנות רכש לפי מספר' ברשומת המאגר data/tcode-catalog.ts#ME2N. " +
+          "אין בעמוד ציון של הסרה, שינוי או תחליף לטרנזקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Lists of Purchase Orders (MM-PUR) · SAP ERP, versionId 6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/6cfdc7caaef746cd9c7543e32e7e87c0/8d06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש ב-help.sap.com בהיקף SAP_ERP (השאילתה 'ME2N purchase orders by PO number' עם --product " +
+          "SAP_ERP, 21 תוצאות) מחזירה עמוד זהה בכותרתו ('Lists of Purchase Orders (MM-PUR)') וב-loio לעמוד " +
+          "ה-S/4HANA, עם versionId 6.18.latest; קטע התצוגה מדפיס '...ME2B Purchase orders by PO number ME2N " +
+          "Purchase orders by supplying...'. גוף העמוד בצד ECC נקרא דרך sap-help-body.mjs ומדפיס את אותה טבלת " +
+          "פעילויות, 'Purchase orders by PO number ME2N' תחת SAP_MM_PUR_PURCHASEORDER_LISTS; כלומר אותה פעילות " +
+          "ME2N מתועדת גם בצד ה-ECC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+          "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 13.15.26 S4TWL - Retail iViews " +
+          "(MM-PUR-PO, SAP Note 0002370183 'Retail Buying iViews')",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (עמ' 1322, לפני 13.15.27 'Retail Factsheets') עוסק בהסרת ה-iViews לרכש קמעונאי ('In SAP " +
+          "S/4HANA, retail buying iViews are not available anymore. Transactions WRBDL, WRBDL2 are not " +
+          "available anymore') ולא ב-ME2N עצמה. תחת Required and Recommended Action(s) נכתב במפורש: 'For open " +
+          "purchase orders there are transaction ME2L, ME2M, ME2N or the purchase order Fiori app'; כלומר הפריט " +
+          "הרשמי מציין את ME2N כטרנזקציה זמינה וקיימת ב-S/4HANA 2025 FPS01, המשמשת כחלופה מומלצת ל-iViews " +
+          "שהוסרו, ואין בפריט קביעה הנוגעת לסטטוס של ME2N עצמה. באינדקס הפרויקט (simpl-tcode-index.json) מספר " +
+          "הפריט לשנת 2023 רשום כ-'60.9' ושמו 'S4TWL - Retail Additionals', אך שורת הטקסט המצוטטת (קו 70372 " +
+          "בחילוץ ה-PDF) שייכת בפועל לפריט 60.28 'S4TWL - Retail iViews' (אותה הערה 2370183) בגוף PDF 2023 " +
+          "FPS03; פער זה באינדקס מתועד כאן ולא תוקן.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      edition: "on-premise",
+      release: "2025.001",
+      source: ME2N_FAL_S32OP,
+      he:
+        "ME2N ‏(Display Purchasing Documents by Number / הזמנות רכש לפי מספר) הוא דוח GUI קלאסי לרשימת מסמכי " +
+        "רכש, המתועד כפעילות פעילה בתפקיד 'Lists of Purchase Orders (MM-PUR)' " +
+        "‏(SAP_MM_PUR_PURCHASEORDER_LISTS) בתיעוד S/4HANA 2025 FPS01 (המהדורה העדכנית ביותר On-Premise) לצד " +
+        "ME2L/ME2M/ME2K/ME2J/ME2C/ME2B/ME2W. רשומת Fiori Apps Library מציגה אותו כאפליקציית SAP GUI זמינה " +
+        "ברציפות מ-S/4HANA 1610 ועד 2025 FPS01 (S32OP), ללא predecessor וללא successor. פריט הפישוט 13.15.26 " +
+        "‏(2025 FPS01) / 60.28 ‏(2023 FPS03) 'S4TWL - Retail iViews' אינו מסמן את ME2N כמושפעת מהפישוט, אלא " +
+        "מפנה אליה כחלופה תקינה וקיימת להצגת הזמנות רכש פתוחות לאחר הסרת iViews קמעונאיים ישנים. לפיכך אין " +
+        "מקור רשמי הקובע שינוי, החלפה או הפסקת תמיכה ב-ME2N עצמה; הקוד נותר זמין ומתועד כפי שהוא.",
+      recommendedAction:
+        "אפשר להמשיך ולבסס תהליכי דיווח רכש על ME2N ב-S/4HANA On-Premise; זו טרנזקציית GUI מתועדת ופעילה גם " +
+        "ב-2025 FPS01 (S32OP), ללא successor רשמי. פריט הפישוט מפנה גם ל'אפליקציית Fiori להזמנת רכש' ללא שם " +
+        "('the purchase order Fiori app'), ואף מקור רשמי שנקרא כאן אינו מצהיר על אפליקציה ספציפית כיורשת " +
+        "פורמלית של ME2N, ולכן לא נרשם successor. לפני החלטת תהליך במערכת יעד יש לוודא ב-SE93 שהקוד עדיין " +
+        "קיים ופעיל שם, בדיקה שלא בוצעה בסשן זה.",
+    },
+    xrefs: ["tx:ME2L", "tx:ME2M", "tx:ME21N", "tx:ME21"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: (1) רשומת Fiori Apps Library ל-ME2N (fal-app.mjs ME2N --release S32OP) מציגה אותו כ-SAP " +
+      "GUI app זמין רציף S6OP עד S32OP/S32PCE, predecessors/successors ריקים. (2) גוף העמוד 'Lists of " +
+      "Purchase Orders (MM-PUR)' (S/4HANA 2025.001, loio 8d06b753128eb44ce10000000a174cb4) נקרא במלואו דרך " +
+      "sap-help-body.mjs ומדפיס 'Purchase orders by PO number ME2N' תחת SAP_MM_PUR_PURCHASEORDER_LISTS, " +
+      "תואם לשם ולתיאור ב-data/tcode-catalog.ts#ME2N. (3) אותו עמוד קיים בהיקף SAP_ERP (השאילתה 'ME2N " +
+      "purchase orders by PO number' --product SAP_ERP, אותו loio, versionId 6.18.latest); גם הגוף בצד ECC " +
+      "נקרא דרך sap-help-body.mjs (בביקורת) ומדפיס את אותה טבלה. השאילתה 'Lists of Purchase Orders " +
+      "(MM-PUR)' בהיקף SAP_ERP מחזירה את אותה רשומה אך קטע התצוגה שלה נחתך לפני ME2N. (4) פריט הפישוט " +
+      "'S4TWL - Retail iViews' (2025 FPS01 item 13.15.26, הערה 0002370183 / 2023 FPS03 item 60.28, הערה " +
+      "2370183) נקרא מחילוץ ה-PDF השמור (scratchpad/official/SIMPL_OP2025.pdf.txt קו 75297, " +
+      "scratchpad/official/SIMPL_OP2023.pdf.txt קו 70372) ומצטט את ME2N כחלופה מומלצת, לא כטרנזקציה מושפעת; " +
+      "אי-התאמה בין מספר/שם הפריט באינדקס הפרויקט (simpl-tcode-index.json: '60.9 Retail Additionals') לבין " +
+      "הפריט שנמצא בפועל בטקסט ('60.28 Retail iViews') מתועדת בראיית הפריט ולא תוקנה כחלק מהמשימה. הופעת " +
+      "'RME2N' בפריט SAP Retail Store באותם קבצים היא קוד אחר ואינה נוגעת ל-ME2N. מה שלא אומת: (א) לא בוצעה " +
+      "בדיקה חיה ב-SE93 שהקוד קיים במערכת יעד (MCP ABAP לא זמין בסשן זה). (ב) לא נמצא מקור רשמי הקושר " +
+      "אפליקציית Fiori ספציפית כ-successor פורמלי ל-ME2N; לכן לא נרשם שדה successor. (ג) PDF-ים לא הורדו " +
+      "מחדש היום; נעשה שימוש בחילוץ הטקסט השמור מ-2026-09-22 כפי שרשומות אחרות בקובץ זה כבר עושות. (ד) לא " +
+      "בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:ME41",
+    evidence: [
+      ME41_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 38.7 S4TWL - RFQ Simplified " +
+          "Transaction (MM-PUR-RFQ)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "פריט 38.7 (עמ' 957-958, SAP Note 2332710 מודפס בגוף הפריט) מנוסח כמעט זהה לפריט 14.4.1 ברשימת 2025 " +
+          "FPS01: אותה רשימת טרנזקציות 'deprecated in SAP S/4HANA' (ME41 ME42 ME43 ME44 ME45 ME47 ME48 ME49 " +
+          "ME4B ME4C ME4L ME4M ME4N ME4S, כלשונו), אותו ניסוח 'a functional equivalent is not available', ואותה " +
+          "המלצה ברמת תהליך על Manage RFQs (F2049), Monitor RFQ Items (F2425), Request for Quotation Types " +
+          "(F4149), Manage Supplier Quotations (F1991) ו-Compare Supplier Quotations (F2324). שני הפריטים (38.7 " +
+          "ו-14.4.1) מפרטים את אותה חלוקת תפקידים: SAP_BR_PURCHASER (Purchaser) ל-Manage RFQs, Monitor RFQ " +
+          "Items, Manage Supplier Quotations ו-Compare Supplier Quotations, ו-SAP_BR_BUYER (Strategic Buyer) " +
+          "ל-Request for Quotation Types (F4149).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process RFQ (MM-PUR) | Materials Management (MM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/6cfdc7caaef746cd9c7543e32e7e87c0/c306b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד (Technical name: SAP_MM_PUR_RFQ; נקרא במלואו דרך help.sap.com/http.svc/deliverableMetadata " +
+          "ו-pagecontent) מפרט טבלת 'Activities in Materials Management': 'Create RFQ ME41', 'Change RFQ ME42', " +
+          "'Display RFQ ME43', 'Maintain RFQ supplement ME44', 'Release RFQ ME45' (כלשונו), ומגדיר את התפקיד " +
+          "כמכסה את כל הפעילויות הדרושות לעיבוד RFQ ב-SAP ERP. זה המקור הרשמי הקובע ש-ME41 היא טרנזקציית יצירת " +
+          "ה-RFQ הקלאסית ב-ECC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL), רשומת ME41",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר (module MM, area 'רכש (Purchasing), הצעות מחיר (RFQ)') מתארת את ME41 כ'יצירת בקשה להצעת " +
+          "מחיר (Request for Quotation, RFQ) לשליחה לספקים פוטנציאליים לקבלת תמחור', מסמך רכש מסוג A (doc type " +
+          "AN) במסך קלאסי, עם collective number לקיבוץ הצעות. שדה fiori ברשומה ריק, ושדה s4 קובע: 'זמין " +
+          "ב-S/4HANA; לתהליכי sourcing מתקדמים SAP מכוונת ל-Ariba Sourcing / Central Procurement.' ושדה " +
+          "consultant מוסיף 'ב-S/4 קיים RFx ב-Ariba/SAP Sourcing כחלופה אסטרטגית'; זהו ניסוח עצמאי של המאגר " +
+          "שאינו מפנה לפריט הפישוט הרשמי ואינו נושא מקור לטענת ה-Ariba. הרשומה מקשרת את הקוד ל-ME9A, ME47, ME42 " +
+          "(after) ול-ME51N, ME57 (before), ולטבלאות EKKO, EKPO, EKET.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME41",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · F2049 Manage RFQs, release S32OP (SAP S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2049')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library לאפליקציה Manage RFQs (F2049), רכיב MM-FIO-PUR-RFQ, תפקיד " +
+          "SAP_BR_PURCHASER, OData MM_PUR_RFQ_MAINTAIN_SRV, מציגה שדה 'GUI transactions: leading ME41; related " +
+          "ME42, ME43'; רשומת ה-FAL מתעדת את F2049 כאפליקציה שה-GUI transaction המוביל שלה הוא ME41, אך שדות " +
+          "'predecessors: -; successors: -' באותה רשומה אינם מגדירים יחס predecessor/successor פורמלי. F2049 " +
+          "אינה רשומה בקטלוג data/fiori/apps.ts של הפרויקט, ולכן לא נכללת ב-xrefs או כ-successor של הרשומה " +
+          "הזאת.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "simplified",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: ME41_SIMPL2025,
+      he:
+        "ME41 (יצירת RFQ) מופיעה בשמה, יחד עם ME42/ME43/ME44/ME45/ME47/ME48/ME49 ורשימות התצוגה " +
+        "(ME4B/ME4C/ME4L/ME4M/ME4N/ME4S), בפריט הפישוט הרשמי 'S4TWL - RFQ Simplified Transaction' (14.4.1 " +
+        "ברשימת S/4HANA 2025 FPS01, 38.7 ברשימת 2023 FPS03) תחת הכותרת 'deprecated in SAP S/4HANA'. הפריט " +
+        "קובע במפורש שהפונקציונליות זמינה במערכת S/4HANA אך אינה נחשבת ארכיטקטורת יעד, וש'a functional " +
+        "equivalent is not available' לגישת ה-RFQ הקלאסית עם שדה ספק חובה ויחיד. הפריט אינו מכריז על טרנזקציה " +
+        "או אפליקציית Fiori בודדת כיורשת ישירה של ME41 עצמה; הוא ממליץ ברמת תהליך העסקי על חבילת אפליקציות " +
+        "Fiori (Manage RFQs F2049 ואחרות) ומתאר שליחת RFQ שנוצר ב-Fiori לפלטפורמות sourcing חיצוניות (הדוגמה " +
+        "בפריט: SAP Ariba Sourcing), ורשומת ה-Fiori Apps Library של F2049 (S32OP) אכן מציגה את ME41 " +
+        "כטרנזקציית ה-GUI המובילה שלה, אך אינה מגדירה אותה שם כ-successor פורמלי (predecessors/successors " +
+        "רשומים כ-'-'). לכן הסטטוס נכתב כפריט פישוט (simplified): הקוד קיים ותקין להרצה ב-S/4HANA On-Premise, " +
+        "מסווג 'deprecated' בפריט הרשמי, ללא הצהרה רשמית על יורשת בודדת שמאפשרת רישום שדה successor.",
+      recommendedAction:
+        "לא לבסס תהליכי RFQ חדשים, הדרכות או פיתוחים על ME41 במסלול ההמרה ל-S/4HANA On-Premise: הפריט הרשמי " +
+        "מסווג אותה 'deprecated' ומציין שאין functional equivalent לגישה הקלאסית עם ספק חובה ויחיד. לבחון את " +
+        "מעבר תהליך ה-sourcing לאפליקציות Fiori שהפריט מפנה אליהן (Manage RFQs, Monitor RFQ Items, Manage " +
+        "Supplier Quotations, Compare Supplier Quotations, Request for Quotation Types) או לפלטפורמת sourcing " +
+        "חיצונית (הפריט נוקב ב-SAP Ariba Sourcing כדוגמה), ולבדוק ב-SE93 במערכת היעד שהקוד עודנו קיים ומורשה " +
+        "טרם החלטה על תהליך יעד קבוע. F2049 אינה רשומה עדיין בקטלוג ה-Fiori של הפרויקט (data/fiori/apps.ts); " +
+        "יש להוסיפה שם ולקרוא SAP Note 2332710 (דורש S-user, לא נקרא כאן) לפני שניתן יהיה לקבוע successor " +
+        "רשמי לרשומה הזאת.",
+    },
+    xrefs: ["tx:ME42", "tx:ME43", "tx:ME47", "tx:ME48", "tx:ME49", "tx:ME31K", "tx:ME21N", "tx:ME51N"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: (1) שני פריטי הפישוט הרשמיים (14.4.1 ברשימת 2025 FPS01, 38.7 ברשימת 2023 FPS03) מונים את " +
+      "ME41 בשמה ברשימת הטרנזקציות 'deprecated in SAP S/4HANA', עם הציטוט המלא 'the functionality is " +
+      "currently available in SAP S/4HANA but it is not considered as future technology and a functional " +
+      "equivalent is not available'; שני הטקסטים כמעט זהים מילה במילה. (2) גוף העמוד 'Process RFQ (MM-PUR)' " +
+      "(SAP ERP 6.18.latest, loio c306b753128eb44ce10000000a174cb4) נקרא במלואו דרך " +
+      "help.sap.com/http.svc/deliverableMetadata ו-http.svc/pagecontent ומאשר ש-Create RFQ = ME41 ב-ECC. " +
+      "(3) scripts/fal-app.mjs F2049 --release S32OP אושר: F2049 (Manage RFQs) מתעדת GUI transaction מוביל " +
+      "ME41, ללא predecessor/successor פורמלי רשום. מה שלא אומת: (א) SAP Note 2332710, המצוטט בשני הפריטים, " +
+      "דורש S-user ולא נקרא; המספר מצוטט כפי שהודפס בפריט ואינו נישא בשדה sapNote. (ב) לא נמצא עמוד What's " +
+      "New או עמוד help.sap.com נוסף המזכיר את ME41 ישירות (רק את F2049 ואת עמוד התפקיד ECC); חיפוש 'Manage " +
+      "RFQs F2049' החזיר 21 רשומות, רק שתיים מהן עוסקות ישירות באפליקציה עצמה. (ג) לא בוצעה בדיקת SE93 " +
+      "במערכת S/4HANA חיה שהקוד עדיין קיים; ה-MCP ל-ABAP (sc4sap) לא התחבר בסשן זה ('Connection closed'). " +
+      "(ד) F2425, F4149, F1991, F2324 לא נבדקו דרך fal-app.mjs ואינן רשומות בקטלוג data/fiori/apps.ts; לכן " +
+      "לא נכללות כ-xrefs. (ה) קובצי ה-PDF נקראו מחילוצי pdftotext השמורים בפרויקט " +
+      "(scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt), לא הורדו מחדש היום; רק כותרות " +
+      "ה-HTTP נבדקו ב-2026-09-24. לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת " +
+      "הקטלוג; עברה סבב ביקורת אדברסרית ב-2026-09-24, והורדות המבקר יושמו: הסרת קווים מפרידים ארוכים, ציטוט " +
+      "מדויק של שדות s4 ו-consultant ברשומת tx-intel, חלוקת התפקידים זהה בשני הפריטים (לא תוספת של 38.7), " +
+      "טווח העמודים 957-958 ברשימת 2023 FPS03, ו-SAP Ariba Sourcing מוצג כדוגמה בפריט ולא כהמלצה למעבר.",
+  },
+  {
+    id: "tx:ME43",
+    evidence: [
+      ME43_SIMPL2023,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 14.4.1 S4TWL - RFQ Simplified " +
+          "Transaction (SAP Note 2332710)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "גרסת 2025 FPS01 של הפריט חוזרת על אותה רשימה במדויק (עמ' 1429-1430; מספר ה-Note מודפס שם " +
+          "כ-0002332710): 'The following transactions are deprecated in SAP S/4HANA: ME41 ME42 ME43 ME44 ME45 " +
+          "ME47 ME48 ME49 ME4B ME4C ME4L ME4M ME4N ME4S' (כלשונו), ומוסיפה בסעיף Reason and Prerequisites כי " +
+          "הקונספט הישן התבסס על RFQ עם שדה ספק חובה ומוגבל לספק אחד, ואינו מתאים לתרחישי sourcing מרובי-ספקים " +
+          "(כגון SAP Ariba Sourcing); הפריט מציין גם כי ה-IDocs REQOTE ו-QUOTES (Basic Type ORDERS05) הקשורים " +
+          "ל-RFQ 'not considered as the target architecture', ללא קביעה נפרדת על ME43 מעבר להיותה חלק מהרשימה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · Manage RFQs (F2049), release S32OP (SAP S/4HANA 2025 FPS01, on-premise)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2049')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library לאפליקציה Manage RFQs (F2049), שרשימת הגרסאות on-premise שלה משתרעת " +
+          "מ-1610 (S6OP) ועד 2025 FPS01 (S32OP), מפרטת בשדה ה-GUI Transactions: 'leading ME41; related ME42, " +
+          "ME43' (כלשונו). כלומר, ME43 מודפסת ברשומת ה-Fiori Apps Library כטרנזקציית GUI 'related' לאפליקציה " +
+          "F2049, אך אין ברשומה קביעת successor ייעודית (השדות predecessors/successors ריקים); F2049 היא אחת " +
+          "מחמש האפליקציות שהפריט הפישוטי הציג כקבוצה, לא מיפוי בלעדי ל-ME43. F2049 עצמה אינה עדיין רשומה במאגר " +
+          "ה-Fiori המקומי של הפרויקט (data/fiori/apps.ts), כך שלא ניתן להצביע עליה כ-successor הניתן לאימות " +
+          "ברמת ה-xref.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tx-intel.ts#ME43",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר הקיימת (לפני ביקורת) מתעדת את ME43 כטרנזקציית SAP GUI קלאסית להצגת RFQ בלבד (ללא עריכה) " +
+          "מעל EKKO/EKPO (מסמך category A), וכי הרשומה מציינת 'זמין ב-S/4HANA' ללא הפניה לפריט הפישוט או לחלופת " +
+          "Fiori; שדה ה-fiori ברשומה ריק. אין ברשומה קביעה עצמאית לגבי הפסקת שימוש עתידית.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME43",
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      edition: "on-premise",
+      release: "2023 FPS03",
+      source: ME43_SIMPL2023,
+      he:
+        "פריט הפישוט מונה את ME43 ברשימת הטרנזקציות ה-deprecated ומפנה לחמש אפליקציות Fiori כחלופה לתהליכי " +
+        "RFQ; Manage RFQs (F2049) מודפסת ב-Fiori Apps Library עם ME43 כטרנזקציית GUI related. אף אחת " +
+        "מהאפליקציות אינה במאגר הפרויקט, ולכן לא נקבע successor.",
+      recommendedAction:
+        "לתכנן מעבר ל-Manage RFQs (F2049) ולאפליקציות ה-RFQ הנלוות; לסגור RFQ פתוחים שנוצרו בטרנזקציות הישנות " +
+        "(status Completed) לפני המעבר; לעדכן ל-deprecated עם successor לאחר הוספת F2049 " +
+        "ל-data/fiori/apps.ts.",
+    },
+    xrefs: ["tx:ME41", "tx:ME42", "tx:ME47", "tx:ME48", "tx:ME49"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שני פריטי הפישוט (2023 FPS03 §38.7, 2025 FPS01 §14.4.1) קובעים באופן מפורש וזהה ש-ME43 (בתוך קבוצת " +
+      "ME4x) 'is deprecated' ב-S/4HANA, אך ללא קביעת מחליפה חד-ערכית: הם מפנים לחמש אפליקציות Fiori (Manage " +
+      "RFQs F2049, Monitor RFQ Items F2425, Request for Quotation Types F4149, Manage Supplier Quotations " +
+      "F1991, Compare Supplier Quotations F2324) כחלופה עסקית לקבוצה כולה. חיפוש שכבת ה-fal-app.mjs מאשר " +
+      "ש-F2049 מודפסת עם ME43 כ-GUI transaction 'related', אך אף אחת מחמש האפליקציות אינה עדיין רשומה " +
+      "ב-data/fiori/apps.ts (מאגר ה-Fiori המקומי), ולכן אין xref/successor הניתן לאימות לפי כללי הפרויקט; " +
+      "לא נקבע status מסוג deprecated (המחייב successor שקיים ב-universe), ונרשם " +
+      "fiori_alternative_available על סמך פריט 38.7 ורשומת ה-Fiori Apps Library של F2049, כאפשרות שהמבקר " +
+      "הציע והכותב אימץ. חיפושי sap-help-search.mjs נוספים ('ME43 display RFQ', --size 12, ללא --product; " +
+      "12 תוצאות, 7 הראשונות מ-2025.001) מראים ש-ME43 עדיין מתועדת ברשימות הפעילויות הרשמיות של S/4HANA " +
+      "2025 FPS01 (למשל 'General Display Functions in Purchasing (MM-PUR)', 'Process RFQ (MM-PUR)') " +
+      "כטרנזקציה קיימת, כך שהפסקת השימוש היא הודעת deprecation ולא הסרה בפועל. פעולה מומלצת להשלמת הרשומה: " +
+      "להוסיף את F2049 (ואפליקציות ה-RFQ הנלוות) למאגר data/fiori/apps.ts, ואז לעדכן רשומה זו ל-status: " +
+      "deprecated עם successor: fiori:F2049 מאומת. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג. לא בוצעה " +
+      "בדיקה במערכת SAP חיה; אין תשובה רשמית האם קיים כלי המרה אוטומטי (SUM) ספציפי ל-ME43 מעבר לפריט " +
+      "הפישוט.",
   },
 ];
