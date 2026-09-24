@@ -338,3 +338,14 @@
 | מקור | רשומת `tx:MM03` (שרשרת A, אצווה 17, `b9ecb706`): 'S4TWL - Material Type SERV' (2025 FPS01 12.1.1, 2023 FPS03 3.26) ו-'S4TWL - Material Valuation - Statistical moving average price' (15.3.10 / 27.8) נוקבים ב-MM03 בשני שינויי תצוגה |
 | מה שונה | `tx-intel.ts#MM03`, שדה `s4`: "ללא שינוי מהותי" הוחלף בשני השינויים כפי שהפריטים מתארים אותם. סריקה מכנית של כל רשומה עם סטטוס שינוי מול משפט "ללא שינוי" ב-`s4` (`scratchpad/fix/tx-contra4.mts`) לא מצאה מקרה נוסף |
 | בדיקות | `tsc` 0 |
+
+---
+
+## FIX-23 · F2018 בשיעור פקודת האחזקה (אימות SAP S/4HANA, 2026-09-25)
+
+| שדה | ערך |
+|---|---|
+| מקור | `scripts/fal-app.mjs F2018 --release S32OP`: 'Purchase Requisition No Touch Rate' (יישום אנליטי של רכש). Manage Maintenance Orders הוא F5241 (רשומת `fiori:F5241`) |
+| מה שונה | `academy/lessons/pm-maintenance-order.ts`: שלושה מופעים של F2018 כמזהה של Manage Maintenance Orders → F5241 (הערת הקוד מתעדת את התיקון) |
+| שיטה | כל מזהה Fiori בקבצי `data/**` שאינם ספרים, רשומות אימות, `tx-intel.ts` או קטלוג ה-Fiori (105 מזהים ב-90 קבצים) הורץ ב-`fal-app.mjs`; 45 נמצאו ב-S32OP והשמות הושוו להקשר, 14 שאינם ב-S32OP וב-S27OP מופיעים רק ברשומות שיטות העבודה, שמציגות אותם במפורש כקודמים או כמזהים שאינם בספרייה |
+| בדיקות | `tsc` 0 · `npm test` 211/211 · `check:academy-blocks` 460 בסנכרון |
