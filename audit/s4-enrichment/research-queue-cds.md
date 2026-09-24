@@ -213,3 +213,64 @@ verif.req 2, s4-applicable 28): all four records stay at `verification_required`
 - `cds:I_RoutingOperation`: same negative finding on 2026-09-24 (three queries). The repository drift noted in batch 2 (`data/domain-detail.ts` and `data/transactions.ts` write "I_RoutingHeader / I_RoutingOperation") was not re-checked this round.
 - `cds:I_MfgOrderComponent`: evidence[2] attributes "Application Component PP-VDM (Virtual Data Model in PP) Valid as Of SAP S/4HANA 2023" and "CDS View New BJ5 BJ8 PP-PI-POR PP-SFC PP-VDM" to the snippet; the auditor found both strings in the page body (`scripts/sap-help-body.mjs`, 2026-09-24). The claim is supported and was left worded as a snippet claim; a later pass may cite the body instead.
 - `cds:I_ProductSalesData`: the exact-name hit count keeps moving (6 in two auditor runs on 2026-09-24, 7 in earlier runs, varying titles), so the record gives a range, not a number. The batch 4 items stand.
+
+---
+
+# Batch 6 · 2026-09-24 (re-verification of I_WorkCenter, I_ProductionOrderOperation, I_MaintenanceOrder, I_MaintenanceNotification)
+
+4 drafts audited, **4 written** into `data/verification/cds.ts` (`DATE24`), 0 refuted. All four
+ids already existed, so each was merged in place over its own record (no new id, no duplicate).
+`cds:I_ProductionOrderOperation` was written from its auditor's `fixedRecord` (one new
+APIs-for-Manufacturing row after the Manufacturing Order Operation row, status.he tail extended,
+release `2023.latest` and source `PRODORDER_OPERATION_VDM_2023` kept, notes appended). The other
+three had no `fixedRecord` and were re-derived from the drafts with every listed downgrade applied:
+
+- `cds:I_WorkCenter`: the snippet-only duplicate row was dropped; the body claim (em dash and
+  "סוג ותקן שכר עובד" fixed) now lives in the shared const `WORKCENTER_VDM_2023` (`DATE24`), which
+  is both evidence[0] and `status.source`; status.he separates the Purpose questions from the
+  attribute list and restores the plant-maintenance sentence; the F6175 row lists On-Premise,
+  Private Cloud and Public Cloud releases separately; OData V2/V4 labels replaced by the printed
+  paths; the 2026-09-14 notes are kept and the re-check is appended after a blank line.
+- `cds:I_MaintenanceOrder`: the five preserved rows keep `DATE2`; two new rows (`DATE24`): the
+  2026-09-24 negative-search row with hit counts, and the What's New 2025 FPS01 body row (loio
+  `d118d076`). Terminology אחזקה → תחזוקה across the record, as the draft and verdict agreed.
+- `cds:I_MaintenanceNotification`: evidence[1] stays the const `MAINT_MGMT_DEVEXT_WN2025_NOTIF`;
+  the other three rows re-stamped `DATE24`; the Old/New field-list detail and the auditor's
+  OData-type correction are in the notes.
+
+Writer-side deviations, all disclosed in the records:
+
+1. `cds:I_WorkCenter` content kept where the draft shortened it: the What's New 2025 row and the
+   repository row keep their full 2026-09-14 claims plus the draft's additions (the re-check
+   sentence; the two qualifiers "סותר את 'View Type Basic, Dimension' הרשמי" and "שלא אומתו
+   במקור רשמי"). The repository row was re-read locally before its `DATE24` stamp
+   (`data/cds-map.ts:23`, `data/cds-enrichment.ts` I_WorkCenter, `data/transactions.ts`,
+   `data/domain-detail.ts`).
+2. `cds:I_WorkCenter` PDF row (What's New 2023 SPS04) left at `DATE14` with its full claim: the
+   draft re-stamped it `DATE24` with a shorter claim, but no re-read of the PDF is recorded.
+3. `cds:I_WorkCenter` old notes kept verbatim except one terminology fix ("בהזמנת אחזקה" →
+   "בהזמנת תחזוקה", the precedent the I_MaintenanceOrder auditor accepted). The V2/V4 inference was
+   also removed from the appended notes paragraph, not only from evidence and recommendedAction.
+   In recommendedAction "מפרט מאפיינים עסקיים בלבד וללא שמות שדה טכניים" became "מפרט מאפיינים
+   עסקיים ואינו נוקב בשמות שדה טכניים", and the 2026-09-14 reason "והתצוגה עודכנה בתוספות שדות
+   ב-2023 SPS04" was kept.
+4. `gaps` (I_WorkCenter, I_MaintenanceNotification) is not a `VerificationRecord` field. Its
+   content is in the notes: the auditor's gaps[3] rewrite is item (6) of the I_MaintenanceNotification
+   notes; the I_WorkCenter open items quoted by the verdict are in the appended paragraph.
+
+Gates: `tsc --noEmit` 0; `tsc -p tsconfig.test.json` 0; `npm test` 211/211;
+`report:coverage --catalog cds` unchanged at 39 rows (L2 11, L3 3, L4 2, L5 23, verified 37,
+verif.req 2, s4-applicable 28, edition-specific 13), and the per-id rows of all 39 ids match the
+pre-merge run. A structural diff against HEAD shows the other 35 records deep-equal. No `reviewer`
+field. The catalog was already graduated, so `test/evidence-schema.test.ts` needed no change.
+
+## refuted
+
+- (none in this batch.)
+
+## conflicts
+
+- `cds:I_WorkCenter`: the Composite-vs-Basic conflict with `data/cds-enrichment.ts` stands, now against a body read (loio `c90e05a792674f7d8bbae247c5200999`). The body names no technical field, association or source table, so CRTX/CRCA/KAKO stay repository mapping. F6175 (Manage Work Centers, PP-BD-WKC, OData UI_WORKCENTERS) is in the Fiori library but not in `data/fiori/apps.ts`, and nothing shows that it reads I_WorkCenter. Depth stays L3: `tx:IR02` and `tx:IR03` are in `lib/route-manifest.generated.ts` (so `dangling-xref` passes) but `txHref` in `components/neo-shell/reference/ref-links.ts` returns null for both, and `resolvesInApp` feeds depth. That drift predates this batch and belongs to the transactions catalog, not to this overlay.
+- `cds:I_ProductionOrderOperation`: the documented name is still `I_ProductionOrderOperation_2`. The new row (loio `b23319e138664f8b85a1a26de7ef3fed`, snippet only, body not read) names the OData entity `A_ProductionOrderOperation_2` and the extensibility data source `I_PRODUCTIONORDEROPERATIONTP`; how that TP view relates to the VDM views is open. The batch 2 items stand.
+- `cds:I_MaintenanceOrder`: the negative finding held for six more queries (On-Premise across versions, Public Cloud 2608.500) and for the 2025 FPS01 What's New body, which lists only new and changed views and so settles nothing about an older view. `I_MaintenanceOrderBasic` (Public Cloud) is carried from 2026-09-02/05; no 2026-09-24 result set prints it. The `pm-generated.ts` trust-label item from batch 1 stands.
+- `cds:I_MaintenanceNotification`: `status.source` moved from `MAINT_MGMT_DEVEXT_WN2025_NOTIF` to `null` (valid for `verification_required`, disclosed Old → New). The F1511 `API_MAINTENANCENOTIFICATION` vs official `API_MAINTNOTIFICATION` drift remains for the Fiori catalog; the 2025.001 Extensibility snippet spells the entity `A_MAINTENANCENOTIFICATION`.

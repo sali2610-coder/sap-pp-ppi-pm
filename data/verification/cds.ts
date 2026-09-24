@@ -30,7 +30,13 @@
    and I_RoutingOperation re-verified and re-audited, merged in place; each keeps
    its earlier findings and appends the re-check to its notes. Exception to the
    JS-shell rule above: cds:I_Routing now quotes one topic body (loio 8c9e297f)
-   read through scripts/sap-help-body.mjs. */
+   read through scripts/sap-help-body.mjs.
+   Batch 6 (2026-09-24, DATE24): I_WorkCenter, I_ProductionOrderOperation,
+   I_MaintenanceOrder and I_MaintenanceNotification re-verified and re-audited,
+   merged in place; earlier findings stay in notes (Old → New). Two more body
+   exceptions, both read through scripts/sap-help-body.mjs: WORKCENTER_VDM_2023
+   (loio c90e05a7) and the What's New 2025 FPS01 row of cds:I_MaintenanceOrder
+   (loio d118d076). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE2 = "2026-09-02";
@@ -304,8 +310,8 @@ const WORKCENTER_VDM_2023: Evidence = {
   edition: "on-premise",
   release: "2023.latest",
   url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/c90e05a792674f7d8bbae247c5200999.html?locale=en-US&state=PRODUCTION&version=2023.latest",
-  accessedAt: DATE14,
-  claim: "נושא ה-VDM הרשמי 'Work Center' (מדריך Virtual Data Model and CDS Views, On-Premise 2023 Latest, loio c90e05a792674f7d8bbae247c5200999) קובע: 'Technical Name I_WorkCenter', 'View Type Basic, Dimension', 'Release Status Released', ומטרה: 'This CDS view provides the prerequisites for answering the following business questions'. לפי הסניפט, המאפיינים הראשיים שהתצוגה מספקת: Work center type, Work center internal ID, Plant, Work center, Work center category, Work center location, Work center usage. תנאים מוקדמים לפי הסניפט: הרשאה להצגת מרכזי עבודה לפי מפעל (C_ARPL_WRK) והרשאה להצגת מרכזי עבודה לפי קטגוריית מרכז עבודה (C_ARPL_ART). הסניפט אינו נוקב בטבלת המקור של התצוגה.",
+  accessedAt: DATE24,
+  claim: "נושא ה-VDM הרשמי 'Work Center' (מדריך Virtual Data Model and CDS Views, On-Premise 2023 Latest, loio c90e05a792674f7d8bbae247c5200999). גוף העמוד הרשמי (נקרא בפועל 2026-09-24 דרך scripts/sap-help-body.mjs, בניגוד לסבב הקודם שבו הגוף עלה כמעטפת JS ורק הסניפט צוטט): 'Work Center Technical Name I_WorkCenter View Type Basic, Dimension Release Status Released'. Purpose לפי הגוף: 'This CDS view provides the prerequisites for answering the following business questions: Which work centers are maintained? What is the semantic key of a work center? What are the validity start and end dates of a work center? Who is the responsible person of a work center? What are the work center category codes and the work center usage codes? Which standard work quantity (activity) unit of measures are maintained?'. Prerequisites: 'You have the authorization to display work centers by plant (C_ARPL_WRK) You have the authorization to display work centers by work center category (C_ARPL_ART)'. 'This CDS view does not have any input parameters.' המאפיינים המרכזיים לפי הגוף (Measures and attributes): סוג מרכז עבודה, מזהה פנימי, מפעל, מרכז עבודה, קטגוריה, מיקום מרכז עבודה, שימוש מרכז עבודה, אחראי, קיבולת, סוג מכונה, אזור אספקה (supply area), סוג וקבוצת שכר עובד (Employee wage type and group), תאריכי תוקף התחלה וסיום, ויחידות מידה לכמות עבודה סטנדרטית. הגוף אינו נוקב בטבלת המקור (CRHD) ואינו מפרט שמות שדה טכניים או associations.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -505,9 +511,9 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: DATE2,
         claim:
-          "ממצא שלילי: בסריקת כל נושאי המדריך 'Virtual Data Model and CDS Views' הנוגעים לפקודת אחזקה (17 נושאים " +
+          "ממצא שלילי: בסריקת כל נושאי המדריך 'Virtual Data Model and CDS Views' הנוגעים לפקודת תחזוקה (17 נושאים " +
           "בסקופ On-Premise, 21 בסקופ Public Cloud, 15 וריאציות שאילתה) אף נושא אינו נוקב בשם I_MaintenanceOrder " +
-          "בשדה CDS View Name. השמות המתועדים לפקודת אחזקה הם I_MaintenanceOrderStdVH, I_MaintenanceOrderDEX, " +
+          "בשדה CDS View Name. השמות המתועדים לפקודת תחזוקה הם I_MaintenanceOrderStdVH, I_MaintenanceOrderDEX, " +
           "I_MaintOrderTechObjCube, I_MaintOrderOperation_DEX, I_MaintOrderComponentDEX " +
           "ו-I_MaintOrdChangeDocumentDEX, ובענן הציבורי I_MaintenanceOrderBasic. גם בקובץ ה-PDF של What's New 2025 " +
           "FPS01 השם המדויק אינו מופיע.",
@@ -520,7 +526,7 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: DATE2,
         claim:
-          "רשומת ההעשרה מתארת את I_MaintenanceOrder כתצוגת Interface (VDM) לפקודת אחזקה מעל AUFK/AFKO עם מפתח " +
+          "רשומת ההעשרה מתארת את I_MaintenanceOrder כתצוגת Interface (VDM) לפקודת תחזוקה מעל AUFK/AFKO עם מפתח " +
           "MaintenanceOrder, ומציינת כחלופת ECC את הטבלאות AUFK+AFKO ואת הטרנזקציות IW31/IW32/IW33. הרשומה מסומנת " +
           "verified, אך מקורותיה הם מחרוזות תבנית ללא קישור רשמי, ואת השדות וה-associations שברשומה לא ניתן לאשר " +
           "ממקור רשמי נגיש.",
@@ -547,7 +553,7 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         accessedAt: DATE2,
         claim:
           "הקשר בלבד (לא אישור לשם I_MaintenanceOrder): המדריך הרשמי מתעד את תצוגת עזרת הערכים " +
-          "I_MaintenanceOrderStdVH לפקודת אחזקה וקובע: 'This view should be used for value help purposes only. If " +
+          "I_MaintenanceOrderStdVH לפקודת תחזוקה וקובע: 'This view should be used for value help purposes only. If " +
           "you intend to select the entire business data, use the view instead'. שם התצוגה הראשית שאליה מפנה המשפט " +
           "אינו מופיע בתקציר החיפוש.",
         verificationLevel: "sap_official_verified",
@@ -562,37 +568,58 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f296651f454c4284ade361292c633d69/703891a9fae040cda87dd8f5d23fadb1.html?locale=en-US&state=PRODUCTION&version=2023.000",
         accessedAt: DATE2,
         claim:
-          "הקשר בלבד: בין האובייקטים שנפתחו ל-Developer Extensibility בניהול אחזקה ב-SAP S/4HANA 2023 נמנית 'CDS " +
+          "הקשר בלבד: בין האובייקטים שנפתחו ל-Developer Extensibility בניהול תחזוקה ב-SAP S/4HANA 2023 נמנית 'CDS " +
           "view Maintenance Order Data I_MaintenanceOrderDEX New: This CDS view provides access to maintenance " +
           "order data', והתקציר מזכיר גם את ממשק האובייקט העסקי I_MaintenanceOrderTP. השם I_MaintenanceOrder לבדו " +
           "אינו נמנה בתקציר.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search 2026-09-24: \"I_MaintenanceOrder\", \"Virtual Data Model CDS Views Maintenance Order\", \"Maintenance Order CDS View Name\", \"What's New Maintenance Order CDS View\", \"I_MaintenanceOrderStdVH\" (SAP_S4HANA_ON-PREMISE, all versions: hits in 2023.latest, 2025.001, 2025.000, 2023.003, 2023.001, 2023.000, 2022.004, 2022.002, 2021.006) + \"I_MaintenanceOrder CDS view released\" (SAP_S4HANA_CLOUD 2608.500)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "ממצא שלילי חוזר: שש השאילתות החזירו 21, 21, 21, 21 ו-11 רשומות בסקופ On-Premise ו-21 רשומות בסקופ Public Cloud 2608.500, ואף כותרת או תקציר אינם נוקבים בשם I_MaintenanceOrder כשם תצוגה. השאילתה 'I_MaintenanceOrder' והשאילתה בסקופ Public Cloud החזירו נושאים מהמדריך 'APIs for Maintenance Management' (כגון 'Read All Maintenance Order Long Texts') שתקציריהם מזכירים את API_MAINTENANCEORDER. השאילתות 'Virtual Data Model CDS Views Maintenance Order', 'Maintenance Order CDS View Name' ו-'What's New Maintenance Order CDS View' החזירו בעיקר נושאי VDM הנוקבים ב-I_MaintenanceOrderDEX, I_MaintOrderTechObjCube (בתקציר: 'Status Released'), I_MaintOrderOperation_DEX, I_MaintOrderComponentDEX ו-I_MaintOrdChangeDocumentDEX, ובנושא 'Maintenance Order (Value Help)' (2023.latest): 'Maintenance Order (Value Help) CDS View Name I_MaintenanceOrderStdVH Purpose This CDS view provides value help for a maintenance order'. השאילתה 'I_MaintenanceOrderStdVH' החזירה את אותו נושא ואת 'CDS Views for Maintenance Management' של What's New 2023 FPS03.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "CDS Views for Maintenance Management | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/d118d0760699443cabed725d5a93add6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim: "גוף העמוד (loio d118d0760699443cabed725d5a93add6, נקרא דרך scripts/sap-help-body.mjs) מציג סקירה (overview) של תצוגות CDS חדשות ומשונות בניהול תחזוקה ל-2025 FPS01: 'The following table provides an overview of the new and changed CDS views'. הטבלה מונה את I_MaintObjectPhaseLogCube, C_MaintObjectPhaseLogQuery, D_EquipmentCVH, D_FunctionalLocationCVH, D_TechnicalObjectCVH, I_ReferenceEquipmentTP, I_ReferenceEquipmentPartnerTP, I_ReferenceEquipmentTextTP, D_ReferenceEquipmentCopyP, D_RefEquipmentExtendValidityP ו-C_ReferenceEquipmentCategoryVH (New) ואת C_MaintenanceItemDEX (Changed), והשם I_MaintenanceOrder אינו מופיע בה. העמוד מכסה תצוגות שנוספו או שונו בגרסה זו, ולכן היעדרות השם ממנו אינה מלמדת על קיומה או אי-קיומה של תצוגה קודמת.",
         verificationLevel: "sap_official_verified",
       },
     ],
     status: {
       status: "verification_required",
       he:
-        "תצוגת CDS לפקודת אחזקה שהמאגר מציג כתצוגת Interface מעל AUFK/AFKO. בתיעוד SAP הרשמי הנגיש (מדריך " +
+        "תצוגת CDS לפקודת תחזוקה שהמאגר מציג כתצוגת Interface מעל AUFK/AFKO. בתיעוד SAP הרשמי הנגיש (מדריך " +
         "Virtual Data Model and CDS Views, מדריכי What's New 2023 עד 2025 FPS01, סקופ On-Premise ו-Public Cloud) " +
-        "לא אותר נושא הנוקב בשם I_MaintenanceOrder. התצוגות המתועדות לפקודת אחזקה הן I_MaintenanceOrderStdVH " +
+        "לא אותר נושא הנוקב בשם I_MaintenanceOrder. התצוגות המתועדות לפקודת תחזוקה הן I_MaintenanceOrderStdVH " +
         "(עזרת ערכים), I_MaintenanceOrderDEX (גישה לנתוני פקודה, נפתחה ל-Developer Extensibility ב-2023) " +
         "ו-I_MaintOrderTechObjCube (סטטוס Released לפי התקציר), ובענן הציבורי I_MaintenanceOrderBasic. קיום " +
-        "התצוגה, מצב השחרור שלה, שדותיה וה-associations שברשומת ההעשרה דורשים אימות.",
+        "התצוגה, מצב השחרור שלה, שדותיה וה-associations שברשומת ההעשרה דורשים אימות." +
+        " אימות חוזר ב-2026-09-24 (שש שאילתות חיפוש וקריאת גוף העמוד 'CDS Views for Maintenance Management' של What's New 2025 FPS01) לא שינה את הממצא.",
       edition: "on-premise",
       release: null,
       source: null,
       recommendedAction:
         "לאמת במערכת S/4HANA היעד (ADT או SE11, ואפליקציית View Browser) שהתצוגה I_MaintenanceOrder קיימת ומהו " +
-        "חוזה השחרור שלה לפני שימוש בקוד מותאם או בהרחבות. לחילוץ ולדיווח על פקודות אחזקה המדריך הרשמי מתעד את " +
+        "חוזה השחרור שלה לפני שימוש בקוד מותאם או בהרחבות. לחילוץ ולדיווח על פקודות תחזוקה המדריך הרשמי מתעד את " +
         "I_MaintenanceOrderDEX ואת I_MaintOrderTechObjCube, ולעזרת ערכים את I_MaintenanceOrderStdVH. אין להציג " +
         "את I_MaintenanceOrder כתצוגה משוחררת או מתועדת עד לאימות.",
     },
     xrefs: ["table:AUFK","table:AFKO","tx:IW31","tx:IW32","tx:IW33"],
-    lastVerifiedAt: DATE2,
+    lastVerifiedAt: DATE24,
     notes:
       "לא אותר תיעוד רשמי לשם I_MaintenanceOrder: 15 וריאציות חיפוש בשירות החיפוש של help.sap.com (סקופ " +
       "On-Premise בגרסאות 2023.latest ו-2025.001 וסקופ Public Cloud 2608.500, ‏2026-09-02), סריקה מלאה של " +
-      "נושאי פקודת אחזקה במדריך Virtual Data Model and CDS Views, קריאה מלאה של PDF What's New 2025 FPS01 ושל " +
+      "נושאי פקודת תחזוקה במדריך Virtual Data Model and CDS Views, קריאה מלאה של PDF What's New 2025 FPS01 ושל " +
       "שני מדריכי Business Accelerator Hub (Custom CDS Views; Plant Maintenance Order Date Change) לא העלו את " +
       "השם המדויק. חיפוש רשת מוגבל ל-api.sap.com החזיר רק את API_MAINTENANCEORDER " +
       "ו-OP_API_MAINTENANCEORDER_0001, ללא עמוד cdsviews לתצוגה זו; קורפוס הספרים במאגר אינו מזכיר את השם. " +
@@ -601,7 +628,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
       "רשומת ההעשרה ו-cds-map הן מקור המיפוי ל-AUFK/AFKO. מה חסר לשדרוג: נושא רשמי ב-help.sap.com שבו CDS View " +
       "Name הוא I_MaintenanceOrder, עמוד cdsviews ב-api.sap.com, או בדיקת ADT/SE11 חיה במערכת היעד (חיבור " +
       "sc4sap MCP נכשל בסשן זה). ביקורת עצמאית 2026-09-05: שני ה-loio, כותרותיהם, גרסאותיהם וכל המחרוזות " +
-      "המצוטטות שוחזרו מתקצירי שירות החיפוש; הממצא השלילי שוחזר בסקופ On-Premise ו-Public Cloud.",
+      "המצוטטות שוחזרו מתקצירי שירות החיפוש; הממצא השלילי שוחזר בסקופ On-Premise ו-Public Cloud." +
+      " אימות חוזר 2026-09-24 (Old → New): ישן: אין נושא רשמי הנוקב בשם I_MaintenanceOrder (2026-09-02, שוחזר בביקורת 2026-09-05) → חדש: הממצא השלילי נשמר. שש שאילתות חדשות: 'I_MaintenanceOrder', 'Virtual Data Model CDS Views Maintenance Order', 'Maintenance Order CDS View Name', 'What's New Maintenance Order CDS View' (21 רשומות כל אחת) ו-'I_MaintenanceOrderStdVH' (11 רשומות) בסקופ On-Premise בכל הגרסאות (פגיעות ב-2023.latest, 2025.001, 2025.000, 2023.003, 2023.001, 2023.000, 2022.004, 2022.002, 2021.006), ו-'I_MaintenanceOrder CDS view released' בסקופ Public Cloud (21 רשומות, 2608.500). אף כותרת או תקציר אינם נוקבים בשם. נוסף לראשונה: קריאת גוף (sap-help-body.mjs) של העמוד 'CDS Views for Maintenance Management' (What's New 2025 FPS01, loio d118d0760699443cabed725d5a93add6): סקירה רשמית של תצוגות CDS חדשות ומשונות בניהול תחזוקה ל-2025 FPS01, שאינה כוללת את I_MaintenanceOrder; מאחר שהעמוד מכסה תצוגות חדשות או משונות, היעדרות השם ממנו אינה מחזקת ואינה מחלישה את הממצא. api.sap.com לא נבדק מחדש בסשן זה. במהלך האימות החוזר עודכנה הטרמינולוגיה בטקסט הרשומה ל'תחזוקה' לפי כללי הבית. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "cds:I_Equipment",
@@ -790,13 +818,12 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "public-cloud",
         release: "2608.500",
         url: "https://help.sap.com/docs/SAP_S4HANA_CLOUD/c0c54048d35849128be8e872df5bea6d/45fdea6e43724a349ecd4a9f3e993030.html?locale=en-US&state=PRODUCTION&version=2608.500",
-        accessedAt: DATE2,
+        accessedAt: DATE24,
         claim:
           "עמוד ה-VDM של הענן הציבורי (2608) נוקב ב-'Maintenance Notification CDS View Name " +
           "I_MAINTENANCENOTIFICATION' וקובע: 'This view represents the following SAP object type: " +
           "MaintenanceNotification ( BusinessObject )'. הסניפט שהוחזר מונה שדות כגון MAINTENANCENOTIFICATION, " +
-          "NOTIFICATIONCOMPLETIONTIME (Completion Time of Notification), SERIALNUMBER, LASTCHANGEDBYUSER, " +
-          "ISDELETED ו-MAINTNOTIFICATIONCODE. התיעוד הוא למהדורת Public Cloud; הטבלה הפיזית שמאחורי התצוגה אינה " +
+          "NOTIFICATIONCOMPLETIONTIME (Completion Time of Notification) ו-SERIALNUMBER. התיעוד הוא למהדורת Public Cloud; הטבלה הפיזית שמאחורי התצוגה אינה " +
           "נזכרת בסניפט.",
         verificationLevel: "sap_official_verified",
       },
@@ -808,13 +835,13 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2023.latest",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/c5fd76401fd54466b559783f1790b2ad.html?locale=en-US&state=PRODUCTION&version=2023.latest",
-        accessedAt: DATE2,
+        accessedAt: DATE24,
         claim:
           "מדריך ה-VDM ל-On-Premise (2023) מתעד את 'Maintenance Notification Data CDS View Name " +
           "I_PMNotifMaintenanceData' עם DataSource מקביל IPMNTFMAINTDATA, ומציין: 'This CDS view provides the data " +
           "to answer the following business questions: For which maintenance notification can you view details?'. " +
-          "זו תצוגת פרטי הודעת האחזקה המתועדת ל-On-Premise ברשומות שהוחזרו; היא תצוגה אחרת " +
-          "מ-I_MaintenanceNotification.",
+          "זו תצוגת פרטי הודעת התחזוקה המתועדת ל-On-Premise ברשומות שהוחזרו; היא תצוגה אחרת " +
+          "מ-I_MaintenanceNotification. בחיפוש החוזר ב-2026-09-24 תחת 'CDS Views for Notifications Virtual Data Model' (21 תוצאות, SAP_S4HANA_ON-PREMISE) אף רשומה לא נקבה בשם I_MaintenanceNotification.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -822,29 +849,23 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         sourceTitle: "מיפוי הטבלאות הקלאסיות לתצוגות CDS ורשומת ההעשרה של הפרויקט",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE2,
+        accessedAt: DATE24,
         claim:
-          "מיפוי הפרויקט מקשר את I_MaintenanceNotification לטבלה QMEL (מודול PM, 'הודעת אחזקה') ללא שכבת צריכה או " +
-          "אפליקציית Fiori; רשומת ההעשרה מגדירה אותה כ-Interface (Composite) עם מפתח MaintenanceNotification " +
+          "מיפוי הפרויקט (data/cds-map.ts) מקשר את I_MaintenanceNotification לטבלה QMEL (מודול PM, בתווית המאגר 'הודעת אחזקה') ללא שכבת צריכה או " +
+          "אפליקציית Fiori; רשומת ההעשרה (data/cds-enrichment.ts) מגדירה אותה כ-Interface (Composite) עם מפתח MaintenanceNotification " +
           "ו-associations ‏_MaintNotificationItem, ‏_Equipment, ‏_FunctionalLocation ו-_MaintPriority, ומסומנת " +
-          "'verified' עם מקורות טקסטואליים בלבד (ללא קישור רשמי). רשומות TX_INTEL של IW28 ו-IW29 ושיעור האקדמיה " +
-          "pm-fiori-reports מפנים לאותה תצוגה.",
+          "'verified' עם מקורות טקסטואליים בלבד (ללא קישור רשמי). רשומות TX_INTEL של IW28 ו-IW29 ושיעורי האקדמיה " +
+          "ב-data/academy/lessons/pm-generated.ts מפנים לאותה תצוגה.",
         verificationLevel: "repository_verified",
         repoRef: "data/cds-map.ts#I_MaintenanceNotification",
       },
     ],
     status: {
       status: "verification_required",
-      he:
-        "תצוגת VDM להודעת אחזקה (תחזוקת מפעל, PM) מעל QMEL לפי מיפוי הפרויקט. ברשומות ה-Help שנסרקו, השם המדויק " +
-        "I_MAINTENANCENOTIFICATION מתועד רשמית רק במדריך ה-VDM של SAP S/4HANA Cloud Public Edition 2608, כתצוגה " +
-        "המייצגת את אובייקט MaintenanceNotification. ברשומות ה-Help של S/4HANA On-Premise שנסרקו (2022 עד 2025 " +
-        "FPS01) לא נמצאה רשומה הנוקבת בשם זה: What's New 2025 מונה את I_MaintenanceNotificationTP_3 כתצוגה חדשה " +
-        "ל-Developer Extensibility, ומדריך ה-VDM מתעד את I_PMNotifMaintenanceData לפרטי הודעת אחזקה. לכן סטטוס " +
-        "ה-On-Premise נשאר פתוח עד לאימות במערכת או לרשומה רשמית הנוקבת בשם.",
+      he: "תצוגת VDM להודעת תחזוקה (PM) מעל QMEL לפי מיפוי הפרויקט. ברשומות ה-Help שנסרקו, הרשומה הרשמית הנוקבת בשם המדויק I_MAINTENANCENOTIFICATION היא מדריך ה-VDM של SAP S/4HANA Cloud Public Edition 2608, כתצוגה המייצגת את אובייקט MaintenanceNotification. ברשומות ה-Help של S/4HANA On-Premise שנסרקו לא נמצאה רשומה הנוקבת בשם זה: מדריך ה-VDM מתעד את I_PMNotifMaintenanceData לפרטי הודעת תחזוקה, ו-What's New 2025 מונה את I_MaintenanceNotificationTP_3 כתצוגה חדשה ל-Developer Extensibility. לכן סטטוס ה-On-Premise נשאר פתוח עד לאימות במערכת או לרשומה רשמית הנוקבת בשם.",
       edition: "on-premise",
       release: null,
-      source: MAINT_MGMT_DEVEXT_WN2025_NOTIF,
+      source: null,
       recommendedAction:
         "לפני בניית קוד Z, דוח או ממשק על I_MaintenanceNotification ב-S/4HANA On-Premise: לאמת את קיום התצוגה " +
         "ואת סטטוס השחרור שלה במערכת עצמה (אפליקציית View Browser או ADT) או ברשומה רשמית הנוקבת בשם. לחלופין " +
@@ -859,24 +880,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
       "cds:I_Equipment", "cds:I_FunctionalLocation", "fiori:F1511", "fiori:F4604",
       "bp:bapi-commit-discipline",
     ],
-    lastVerifiedAt: DATE2,
-    notes:
-      "(1) הרשומה הרשמית היחידה שנמצאה בחיפוש והנוקבת בשם המדויק היא עמוד ה-VDM של S/4HANA Cloud Public " +
-      "Edition 2608, והיא כותבת אותו באותיות גדולות (I_MAINTENANCENOTIFICATION); שמות אובייקטי DDIC נשמרים " +
-      "באותיות גדולות, ולכן זה אותו שם (ידע כללי, לא ציטוט). (2) היעדר רשומה On-Premise באינדקס החיפוש אינו " +
-      "הוכחה שהתצוגה חסרה ב-On-Premise; הוא רק אומר שאין כאן ציטוט רשמי ל-On-Premise, ולכן הסטטוס נשאר 'נדרש " +
-      "אימות נוסף' עם מהדורת On-Premise. (3) What's New 2022 (loio 4b9d789a1fda4cf2bf730b24e9ae07de, 2022.000) " +
-      "מתעד את שחרור I_PMNotifMaintenanceData; What's New 2025 (2025.000) מתעד את " +
-      "I_MaintenanceNotificationTP_3 כחדשה, והסניפט של אותו עמוד גם קובע: 'I_MaintenanceNotificationTP_2 has " +
-      "been deprecated and replaced with the successor view I_MaintenanceNotificationTP_3'. שתיהן תצוגות אחרות " +
-      "מהתצוגה שברשומה. (4) ה-OData API להודעות אחזקה ב-On-Premise מתועד בשם API_MAINTNOTIFICATION (ישות " +
-      "A_MaintenanceNotification, טיפוס cds_api_maintnotification.MaintenanceNotificationType, deliverable " +
-      "'APIs for Maintenance Management' 2025.001), ואילו בענן הציבורי שירות ה-OData V4 נקרא " +
-      "api_maintenancenotification; רשומת F1511 במאגר נוקבת ב-API_MAINTENANCENOTIFICATION, וההבדל נרשם כסתירה " +
-      "לקטלוג ה-Fiori, לא נפתר כאן. (5) גוף העמודים ב-help.sap.com לא נקרא (מעטפת JavaScript); כל טענה נשענת " +
-      "על כותרת וסניפט של רשומת החיפוש. ה-associations, ה-annotations והטבלה QMEL שמאחורי התצוגה נשארים ברובד " +
-      "המאגר בלבד; ה-MCP‏ sc4sap לא התחבר בסשן, כך שלא בוצעה בדיקת מערכת חיה. (6) הבדיקות בפועל בוצעו " +
-      "ב-2026-09-05; accessedAt נחתם 2026-09-02 לפי הנחיית קטלוג ה-cds.",
+    lastVerifiedAt: DATE24,
+    notes: "(1) בדיקה חוזרת ב-2026-09-24 דרך scripts/sap-help-search.mjs: 'I_MaintenanceNotification' (SAP_S4HANA_ON-PREMISE, 21 תוצאות; רשומות API_MAINTNOTIFICATION של 'Operations for Maintenance Notifications' ודפי הפעולות ב-2023.latest וב-2025.001, אף אחת אינה נוקבת בשם התצוגה); 'I_MaintenanceNotificationTP_3' (SAP_S4HANA_ON-PREMISE, 21 תוצאות; loio e666a33610e6491f9d800882be108d02 ב-2025.000, הסניפט: 'This CDS view of the business object interface I_MaintenanceNotificationTP_2 has been deprecated and replaced with the successor view I_MaintenanceNotificationTP_3'); 'CDS Views for Notifications Virtual Data Model' (SAP_S4HANA_ON-PREMISE, 21 תוצאות; loio c5fd76401fd54466b559783f1790b2ad ב-2023.latest); 'I_MaintenanceNotification' עם SAP_S4HANA_CLOUD (21 תוצאות; loio 45fdea6e43724a349ecd4a9f3e993030 ב-2608.500). לא עלתה רשומה On-Premise חדשה הנוקבת בשם. (2) עמוד ה-VDM של הענן כותב את השם באותיות גדולות (I_MAINTENANCENOTIFICATION); שמות אובייקטי DDIC נשמרים באותיות גדולות, ולכן זה אותו שם (ידע כללי, לא ציטוט). היעדר רשומה On-Premise באינדקס החיפוש אינו הוכחה שהתצוגה חסרה ב-On-Premise; המשמעות היא שאין כאן ציטוט רשמי ל-On-Premise. (3) Old → New. Old (בדיקות 2026-09-05, accessedAt 2026-09-02): What's New 2022 (loio 4b9d789a1fda4cf2bf730b24e9ae07de, 2022.000) מתעד את שחרור I_PMNotifMaintenanceData; What's New 2025 (2025.000) מתעד את I_MaintenanceNotificationTP_3 כחדשה ואת החלפת I_MaintenanceNotificationTP_2 בה, שתיהן תצוגות אחרות מהתצוגה שברשומה; ה-OData API להודעות תחזוקה ב-On-Premise מתועד בשם API_MAINTNOTIFICATION (ישות A_MaintenanceNotification, טיפוס cds_api_maintnotification.MaintenanceNotificationType, deliverable 'APIs for Maintenance Management' 2025.001), ואילו בענן הציבורי שירות ה-OData V4 נקרא api_maintenancenotification; רשומת F1511 במאגר נוקבת ב-API_MAINTENANCENOTIFICATION, וההבדל נרשם כסתירה לקטלוג ה-Fiori, לא נפתר כאן; source של הסטטוס היה MAINT_MGMT_DEVEXT_WN2025_NOTIF; evidence[0] (2608.500) מנה אז בסניפט גם את השדות LASTCHANGEDBYUSER, ISDELETED ו-MAINTNOTIFICATIONCODE. New (2026-09-24): הממצא לא השתנה; רשימת השדות ב-evidence[0] צומצמה לסניפט שהוחזר ב-2026-09-24; accessedAt של רשומות ה-VDM (ענן ו-2023) ושל רשומת המאגר רוענן ל-2026-09-24; evidence[1] נשאר הקבוע המשותף MAINT_MGMT_DEVEXT_WN2025_NOTIF (accessedAt 2026-09-02) והסניפט שלו נמצא שוב; source של הסטטוס הוא כעת null, כמותר ל-verification_required. (4) גוף העמודים לא נקרא דרך scripts/sap-help-body.mjs; כל טענה נשענת על כותרת וסניפט של רשומת החיפוש. ה-associations, ה-annotations והטבלה QMEL שמאחורי התצוגה נשארים ברובד המאגר בלבד. (5) לא בוצעה בדיקה במערכת SAP חיה; ה-MCP‏ sc4sap לא התחבר בסשן. (6) פרטי ה-OData בשורת Old נשמרו כהיסטוריה מהרשומה הקודמת. בחיפוש 2026-09-24 הטיפוס cds_api_maintnotification.MaintenanceNotificationType הופיע במלואו בסניפט של Read Maintenance Notification (2023.latest) ובקיצוץ ב-Create Maintenance Notification (2025.001); הישות הופיעה בכתיב A_MAINTENANCENOTIFICATION בסניפט ה-Extensibility של 2025.001.",
   },
   {
     id: "cds:I_MaintNotificationItem",
@@ -2151,8 +2156,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2025.000",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/21cd2fa6d9dd4855a02f7edc83dcfe22.html?locale=en-US&state=PRODUCTION&version=2025.000",
-        accessedAt: DATE14,
-        claim: "עמוד ה-What's New לגרסת 2025 (2025.000, loio 21cd2fa6d9dd4855a02f7edc83dcfe22) מונה את I_WorkCenter (שם: Work Center) בטבלת 'CDS Views Changed for Basic Work Center Data' לצד I_WorkCenterCostCenter ו-I_WorkCenterText; בפרטים הטכניים שבסניפט: Type New, ללא לוקליזציה (No localization), Scope Item לא רלוונטי (Not applicable), ו-Technical Object Name 'CDS View: I_WorkCenter'. הסניפט אינו מפרט אילו שדות השתנו.",
+        accessedAt: DATE24,
+        claim: "עמוד ה-What's New לגרסת 2025 (2025.000, loio 21cd2fa6d9dd4855a02f7edc83dcfe22) מונה את I_WorkCenter (שם: Work Center) בטבלת 'CDS Views Changed for Basic Work Center Data' לצד I_WorkCenterCostCenter ו-I_WorkCenterText; בפרטים הטכניים שבסניפט: Type New, ללא לוקליזציה (No localization), Scope Item לא רלוונטי (Not applicable), ו-Technical Object Name 'CDS View: I_WorkCenter'. הסניפט אינו מפרט אילו שדות השתנו. אומת מחדש 2026-09-24: הרשומה זהה לזו שנקראה ב-2026-09-14.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -2171,23 +2176,45 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         sourceTitle: "מיפוי הטבלאות הקלאסיות לתצוגות CDS בפרויקט ורשומת ההעשרה של התצוגה",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE14,
-        claim: "מיפוי הפרויקט (data/cds-map.ts) מקשר את I_WorkCenter (שם עברי: מרכז עבודה / משאב, מודול PP-PI) לטבלאות CRHD, CRTX, CRCA ו-KAKO. רשומת ההעשרה (data/cds-enrichment.ts#I_WorkCenter) מסומנת 'verified' עם מקורות טקסטואליים ללא קישור, מגדירה viewType 'Interface (Composite)', שדה מפתח WorkCenterInternalID, associations ‏_WorkCenterCategory‏, _Plant‏, _CostCenter, דוגמת SELECT עם השדות WorkCenterInternalID, WorkCenter, WorkCenterCategory ו-Plant, ונוקבת בחלופת ECC‏: CRHD+CRTX+CRCA+KAKO עם CR01/CR02/CR03. רשומות transactions.ts ו-domain-detail.ts מפנות אל I_WorkCenter כתצוגת ה-CDS של מרכז העבודה והמשאב.",
+        accessedAt: DATE24,
+        claim: "מיפוי הפרויקט (data/cds-map.ts) מקשר את I_WorkCenter (שם עברי: מרכז עבודה / משאב, מודול PP-PI) לטבלאות CRHD, CRTX, CRCA ו-KAKO. רשומת ההעשרה (data/cds-enrichment.ts#I_WorkCenter) מסומנת 'verified' עם מקורות טקסטואליים ללא קישור, מגדירה viewType 'Interface (Composite)' (סותר את 'View Type Basic, Dimension' הרשמי), שדה מפתח WorkCenterInternalID, associations ‏_WorkCenterCategory‏, _Plant‏, _CostCenter שלא אומתו במקור רשמי, דוגמת SELECT עם השדות WorkCenterInternalID, WorkCenter, WorkCenterCategory ו-Plant, ונוקבת בחלופת ECC‏: CRHD+CRTX+CRCA+KAKO עם CR01/CR02/CR03. רשומות transactions.ts ו-domain-detail.ts מפנות אל I_WorkCenter כתצוגת ה-CDS של מרכז העבודה והמשאב.",
         verificationLevel: "repository_verified",
         repoRef: "data/cds-map.ts#I_WorkCenter",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Manage Work Centers (F6175), S/4HANA 2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F6175')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim: "רשומת הספרייה (fal-app.mjs F6175, S32OP = S/4HANA 2025 FPS01): 'Manage Work Centers', Transactional / SAP Fiori elements, Published, רכיב יישום PP-BD-WKC (Work Center); תפקיד SAP_BR_PRODN_ENG_DISC (Production Engineer - Discrete Manufacturing); קטלוג עסקי SAP_SCM_BC_PROC_ENG, קטלוג טכני SAP_TC_SCM_PP_COMMON; intent WorkCenter-manage; שירות OData UI_WORKCENTERS גרסה 0001 (S4CORE 109); ללא GUI transaction מובילה. גרסאות On-Premise מ-S24OP (2022) עד S32OP (2025 FPS01), ובנוסף מהדורות Private Cloud (S29PCE עד S32PCE) ו-Public Cloud (S36=2602, S37=2608). הרשומה מצוטטת כאינדיקציה לצרכן Fiori אפשרי של נתוני מרכז עבודה (רכיב PP-BD-WKC, intent WorkCenter-manage), לא כאישור רשמי שהאפליקציה קוראת דרך CDS view I_WorkCenter עצמו: הספרייה אינה מפרטת את שכבת ה-CDS שמאחורי שירות ה-OData.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Work Center | APIs for Manufacturing",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/7c4401ed25bb4653862f8141e3839b89.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim: "תיעוד APIs for Manufacturing לגרסת 2025 FPS01 (loio 7c4401ed25bb4653862f8141e3839b89) מתאר את יצירת מרכז עבודה: 'Work Center Header - A_WorkCenters WorkCenter Plant WorkCenterCategoryCode WorkCenterResponsible WorkCenterUsage', ודוגמת בקשה 'POST <host>/sap/opu/odata/SAP/API_WORK_CENTERS/A_WorkCent...'. זהו השירות API_WORK_CENTERS (נתיב /sap/opu/odata/SAP/API_WORK_CENTERS, ישות A_WorkCenters) לכתיבה/יצירה, נפרד מתצוגת הקריאה I_WorkCenter; מצוטט כחלופת אינטגרציה חיצונית, לא כראיה למבנה התצוגה. באותו תיעוד מופיע גם שירות חלופי api_work_center (נתיב /sap/opu/odata4/sap/api_work_center/srvd_a2x/sap/workcenter/0001, ישות WorkCenterHeader) ב-'Create Work Center Header' (loio e2091a8113d44d40a8d87ee6dd74485c).",
+        verificationLevel: "sap_official_verified",
       },
     ],
     status: {
       status: "s4_native",
-      he: "תצוגת CDS מסוג Basic, Dimension במודל הנתונים הווירטואלי (VDM) של SAP S/4HANA, בסטטוס שחרור Released לפי התיעוד הרשמי (Virtual Data Model and CDS Views, On-Premise 2023 Latest). לפי הסניפט התצוגה מספקת את מאפייני מרכז העבודה: סוג, מזהה פנימי, מפעל, מרכז עבודה, קטגוריה, מיקום ושימוש, ודורשת את ההרשאות C_ARPL_WRK ו-C_ARPL_ART. מסמך ה-What's New ל-2023 SPS04 (PDF שנקרא בפועל) מונה אותה בין התצוגות שעודכנו בתוספות שדות תחת Basic Work Center Data (רכיב PP-VDM), ועמוד ה-What's New ל-2025 מונה אותה שוב בטבלת CDS Views Changed של אותו אזור. לא נמצאה הודעת deprecation או החלפה לתצוגה זו בחיפוש בתיעוד הרשמי. המקור הקלאסי לפי מיפוי הפרויקט הוא CRHD עם CRTX, CRCA ו-KAKO (הסניפט הרשמי אינו נוקב בטבלת המקור). התצוגה משותפת לתחזוקת מפעל (מרכז העבודה הראשי והמבצע בהזמנת האחזקה) ולמשאבים בתעשיות תהליכיות, שכן שניהם חולקים את אותו מודל נתונים לפי רשומת CRHD במאגר.",
+      he: "תצוגת CDS מסוג Basic, Dimension במודל הנתונים הווירטואלי (VDM) של SAP S/4HANA, בסטטוס שחרור Released לפי התיעוד הרשמי. לפי גוף העמוד הרשמי (נקרא 2026-09-24) התצוגה עונה על שאלות: אילו מרכזי עבודה מתוחזקים, מהו המפתח הסמנטי, תאריכי תוקף, האחראי, קודי קטגוריה ושימוש, ויחידות מידה לכמות עבודה סטנדרטית; בין המאפיינים שהיא מספקת גם קיבולת, סוג מכונה, אזור אספקה וסוג וקבוצת שכר עובד (Employee wage type and group). היא דורשת הרשאות C_ARPL_WRK ו-C_ARPL_ART ואין לה פרמטרי קלט. מסמך ה-What's New ל-2023 SPS04 (PDF שנקרא בפועל) ועמוד ה-What's New ל-2025 מונים אותה בין התצוגות שעודכנו/נוצרו תחת Basic Work Center Data (רכיב PP-VDM). לא נמצאה הודעת deprecation או החלפה בחיפוש חוזר ב-2026-09-24. המקור הקלאסי לפי מיפוי הפרויקט הוא CRHD עם CRTX, CRCA ו-KAKO (הגוף הרשמי עצמו אינו נוקב בטבלת המקור). התצוגה משותפת לתחזוקת מפעל (מרכז העבודה הראשי והמבצע בהזמנת התחזוקה) ולמשאבים בתעשיות תהליכיות, שכן שניהם חולקים את אותו מודל נתונים לפי רשומת CRHD במאגר. אפליקציית Fiori F6175 'Manage Work Centers' (רכיב PP-BD-WKC, OData UI_WORKCENTERS) עלתה כצרכן אפשרי אך לא מאושר במפורש כקורא דרך I_WorkCenter.",
       edition: "on-premise",
       release: "2023.latest",
       source: WORKCENTER_VDM_2023,
-      recommendedAction: "בקוד חדש, בדוחות ובאנליטיקה ב-S/4HANA לקרוא נתוני אב של מרכז עבודה ומשאב דרך I_WorkCenter (תצוגת Basic, Dimension משוחררת) במקום SELECT ישיר מ-CRHD, הן בתחזוקת מפעל והן בייצור ובתעשיות תהליכיות; לטקסטים תלויי שפה להשתמש ב-I_WorkCenterText ולשיוך מרכז עלות וסוג פעילות ב-I_WorkCenterCostCenter. לפני שימוש לאמת במערכת (View Browser או SE11) את רשימת האלמנטים המלאה, שדות המפתח וה-associations, כי התיעוד הפומבי מציג רק את המאפיינים הראשיים והתצוגה עודכנה בתוספות שדות ב-2023 SPS04. לוודא שלמשתמש הקורא יש את ההרשאות C_ARPL_WRK ו-C_ARPL_ART. התצוגה מיועדת לקריאה; ליצירה ולעדכון של מרכזי עבודה קיימים בתיעוד APIs for Manufacturing (2025 FPS01) דפי Create Work Center ו-Read Work Center (נתיב בסניפט: API_WORK_CENTERS) ו-Create Work Center Header (נתיב OData V4 בסניפט: api_work_center), שאינם מצוטטים כראיה ברשומה זו. לתקן את data/cds-enrichment.ts: הערך viewType 'Interface (Composite)' סותר את 'View Type Basic, Dimension' הרשמי.",
+      recommendedAction: "בקוד חדש, בדוחות ובאנליטיקה ב-S/4HANA לקרוא נתוני אב של מרכז עבודה ומשאב דרך I_WorkCenter (תצוגת Basic, Dimension משוחררת) במקום SELECT ישיר מ-CRHD, הן בתחזוקת מפעל והן בייצור ובתעשיות תהליכיות; לטקסטים תלויי שפה להשתמש ב-I_WorkCenterText ולשיוך מרכז עלות וסוג פעילות ב-I_WorkCenterCostCenter. לפני שימוש לאמת במערכת (View Browser או SE11) את רשימת האלמנטים הטכניים המלאה (שמות שדה), שדות המפתח וה-associations, כי גוף התיעוד הרשמי (שנקרא בפועל) מפרט מאפיינים עסקיים ואינו נוקב בשמות שדה טכניים, והתצוגה עודכנה בתוספות שדות ב-2023 SPS04. לוודא שלמשתמש הקורא יש את ההרשאות C_ARPL_WRK ו-C_ARPL_ART. ליצירה/עדכון של מרכזי עבודה קיימים שני שירותי OData נפרדים בתיעוד APIs for Manufacturing 2025 FPS01: API_WORK_CENTERS (נתיב /sap/opu/odata/SAP/API_WORK_CENTERS, ישות A_WorkCenters) ו-api_work_center (נתיב /sap/opu/odata4/sap/api_work_center/srvd_a2x/sap/workcenter/0001, ישות WorkCenterHeader). לתקן את data/cds-enrichment.ts: הערך viewType 'Interface (Composite)' סותר את 'View Type Basic, Dimension' הרשמי. לפני קביעת F6175 (Manage Work Centers) כצרכן מאושר של I_WorkCenter יש לאמת בפועל (View Browser / SE11 / trace) שהאפליקציה קוראת דרך תצוגה זו, שכן הספרייה אינה מפרטת שכבת CDS.",
     },
     xrefs: ["table:CRHD", "table:CRTX", "table:CRCA", "table:KAKO", "table:CRCO", "cds:I_WorkCenterText", "cds:I_WorkCenterCostCenter", "cds:I_RoutingOperation", "cds:I_ProductionOrderOperation", "tx:CR01", "tx:CR02", "tx:CR03", "tx:CRC1", "tx:CRC2", "tx:CRC3", "tx:IR01", "tx:IR02", "tx:IR03", "fm:CR_WORK_CENTER_READ", "fm:CRAP_WORKCENTER_GET_DETAIL"],
-    lastVerifiedAt: DATE14,
-    notes: "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs ('I_WorkCenter' במערכי On-Premise ו-SAP_S4HANA_CLOUD, 'I_WorkCenter' מוצמד לגרסה 2025.001, 'Work Center Virtual Data Model' מוצמד ל-2025.001, 'CDS Views for Basic Work Center Data', 'I_WorkCenter deprecated successor', ושתי שאילתות להרחבת הסניפט של עמוד ה-VDM), וקריאה בפועל של מסמך ה-What's New ל-2023 SPS04 (PDF, עמודים 17-18). גוף עמוד ה-Help הוא מעטפת JavaScript ולכן כל טענה מוגבלת לכותרת ולסניפט של רשומת החיפוש; רשימת האלמנטים המלאה, שדות המפתח, ה-associations והפרמטרים של התצוגה לא אומתו, וחיבור ה-MCP למערכת חיה נכשל בסשן. הסניפט של עמוד ה-VDM אינו נוקב בטבלת המקור; הקישור ל-CRHD נשען על מיפוי הפרויקט ועל עמוד האחות Work Center by Semantic Key (I_WorkCenterBySemanticKey, loio fdbddc4bc0704188a5ada9af57ebb5ed) שסניפטו נוקב ב-CRHD, ומצוטט ברשומת table:CRHD; CRTX, CRCA ו-KAKO שבמיפוי הפרויקט לא אומתו כמקורות ישירים של התצוגה. עמוד Work Center Text (loio add9ad94e7be47f2822099e9622b94b6, 2023 Latest) מציין בסניפט ש-I_WorkCenterText 'is used as an association in the view Work Center (I_WorkCenter)'; שם ה-association אינו נקוב. ב-On-Premise נושא ה-VDM מאונדקס רק תחת 2023 Latest (2023.latest); חיפוש I_WorkCenter מוצמד ל-2025.001 החזיר רק דפי APIs for Manufacturing (ודפים לא קשורים) ולא את דף ה-VDM, ועמוד ה-What's New 2025 מאונדקס תחת 2025.000; לכן הגרסה ברשומה היא 2023.latest והקיום ב-2025 נסמך על עמוד ה-What's New. אותו loio מופיע במערך SAP S/4HANA Cloud Public Edition בגרסה 2608.500 עם 'Technical Name I_WorkCenter View Type Basic, Dimension' (לא צוטט כראיה, המהדורה ברשומה נשארת On-Premise לפי ברירת המחדל של הפרויקט). מסמך 2023 SPS04 מציין זמינות גם ב-SAP S/4HANA Cloud Private Edition. סתירה מול המאגר: data/cds-enrichment.ts מגדיר viewType 'Interface (Composite)' בעוד המקור הרשמי קובע 'View Type Basic, Dimension'; שדה המפתח WorkCenterInternalID וה-associations ‏_WorkCenterCategory‏, _Plant‏, _CostCenter שברשומת ההעשרה אינם מופיעים בסניפט ונשארים ברמת נדרש אימות. data/cds-map.ts מסווג את התצוגה תחת PP-PI בלבד; ההקשר בתחזוקת מפעל (מרכז עבודה ראשי ומבצע בהזמנת אחזקה, IR01/IR02/IR03) נלקח מרשומת table:CRHD במאגר. I_WorkCenterTP (What's New 2022, Objects Released for Developer Extensibility, אובייקט RAP) ו-I_WorkCenterCapacity_3, I_WorkCenterCapIntvl_4 ושאר התצוגות החדשות שבסעיף 4.1.1 הם אובייקטים נפרדים ואינם התצוגה הזו. אף מקור רשמי אינו מסמן את I_WorkCenter כמוצאת משימוש או מוחלפת, ולכן אין יורש (החיפוש 'I_WorkCenter deprecated successor' החזיר רק דפים שאינם קשורים). אין xref ל-Fiori: Manage Work Centers (F6175) שמופיע בעמוד ההגירה Work center/Resource אינו קיים ב-data/fiori/apps.ts, ו-Manage Work Center Capacity (F3289) הקיים במאגר לא אומת כקשור לתצוגה. cds:I_WorkCenterBySemanticKey אינה קיימת ביקום הרשומות ולכן מוזכרת בטקסט בלבד. api.sap.com לא צוטט (מעטפת יישום ללא מפתח API). ביקורת עצמאית 2026-09-14: שלושת ה-URL מחזירים HTTP 200 (ה-PDF הורד ונקרא), ה-loio, הכותרות והגרסאות שוחזרו מרשומות שירות החיפוש, וכל המחרוזות המצוטטות נמצאו בתקצירים ובעמודי ה-PDF.",
+    lastVerifiedAt: DATE24,
+    notes: "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs ('I_WorkCenter' במערכי On-Premise ו-SAP_S4HANA_CLOUD, 'I_WorkCenter' מוצמד לגרסה 2025.001, 'Work Center Virtual Data Model' מוצמד ל-2025.001, 'CDS Views for Basic Work Center Data', 'I_WorkCenter deprecated successor', ושתי שאילתות להרחבת הסניפט של עמוד ה-VDM), וקריאה בפועל של מסמך ה-What's New ל-2023 SPS04 (PDF, עמודים 17-18). גוף עמוד ה-Help הוא מעטפת JavaScript ולכן כל טענה מוגבלת לכותרת ולסניפט של רשומת החיפוש; רשימת האלמנטים המלאה, שדות המפתח, ה-associations והפרמטרים של התצוגה לא אומתו, וחיבור ה-MCP למערכת חיה נכשל בסשן. הסניפט של עמוד ה-VDM אינו נוקב בטבלת המקור; הקישור ל-CRHD נשען על מיפוי הפרויקט ועל עמוד האחות Work Center by Semantic Key (I_WorkCenterBySemanticKey, loio fdbddc4bc0704188a5ada9af57ebb5ed) שסניפטו נוקב ב-CRHD, ומצוטט ברשומת table:CRHD; CRTX, CRCA ו-KAKO שבמיפוי הפרויקט לא אומתו כמקורות ישירים של התצוגה. עמוד Work Center Text (loio add9ad94e7be47f2822099e9622b94b6, 2023 Latest) מציין בסניפט ש-I_WorkCenterText 'is used as an association in the view Work Center (I_WorkCenter)'; שם ה-association אינו נקוב. ב-On-Premise נושא ה-VDM מאונדקס רק תחת 2023 Latest (2023.latest); חיפוש I_WorkCenter מוצמד ל-2025.001 החזיר רק דפי APIs for Manufacturing (ודפים לא קשורים) ולא את דף ה-VDM, ועמוד ה-What's New 2025 מאונדקס תחת 2025.000; לכן הגרסה ברשומה היא 2023.latest והקיום ב-2025 נסמך על עמוד ה-What's New. אותו loio מופיע במערך SAP S/4HANA Cloud Public Edition בגרסה 2608.500 עם 'Technical Name I_WorkCenter View Type Basic, Dimension' (לא צוטט כראיה, המהדורה ברשומה נשארת On-Premise לפי ברירת המחדל של הפרויקט). מסמך 2023 SPS04 מציין זמינות גם ב-SAP S/4HANA Cloud Private Edition. סתירה מול המאגר: data/cds-enrichment.ts מגדיר viewType 'Interface (Composite)' בעוד המקור הרשמי קובע 'View Type Basic, Dimension'; שדה המפתח WorkCenterInternalID וה-associations ‏_WorkCenterCategory‏, _Plant‏, _CostCenter שברשומת ההעשרה אינם מופיעים בסניפט ונשארים ברמת נדרש אימות. data/cds-map.ts מסווג את התצוגה תחת PP-PI בלבד; ההקשר בתחזוקת מפעל (מרכז עבודה ראשי ומבצע בהזמנת תחזוקה, IR01/IR02/IR03) נלקח מרשומת table:CRHD במאגר. I_WorkCenterTP (What's New 2022, Objects Released for Developer Extensibility, אובייקט RAP) ו-I_WorkCenterCapacity_3, I_WorkCenterCapIntvl_4 ושאר התצוגות החדשות שבסעיף 4.1.1 הם אובייקטים נפרדים ואינם התצוגה הזו. אף מקור רשמי אינו מסמן את I_WorkCenter כמוצאת משימוש או מוחלפת, ולכן אין יורש (החיפוש 'I_WorkCenter deprecated successor' החזיר רק דפים שאינם קשורים). אין xref ל-Fiori: Manage Work Centers (F6175) שמופיע בעמוד ההגירה Work center/Resource אינו קיים ב-data/fiori/apps.ts, ו-Manage Work Center Capacity (F3289) הקיים במאגר לא אומת כקשור לתצוגה. cds:I_WorkCenterBySemanticKey אינה קיימת ביקום הרשומות ולכן מוזכרת בטקסט בלבד. api.sap.com לא צוטט (מעטפת יישום ללא מפתח API). ביקורת עצמאית 2026-09-14: שלושת ה-URL מחזירים HTTP 200 (ה-PDF הורד ונקרא), ה-loio, הכותרות והגרסאות שוחזרו מרשומות שירות החיפוש, וכל המחרוזות המצוטטות נמצאו בתקצירים ובעמודי ה-PDF.\n\nאימות חוזר 2026-09-24 על רשומה קיימת (lastVerifiedAt קודם: 2026-09-14). שיטה: שלושה חיפושים ב-scripts/sap-help-search.mjs ('I_WorkCenter'; לא נמצא שינוי מהותי בתוצאות מול 2026-09-14), קריאת גוף העמוד הרשמי בפועל דרך scripts/sap-help-body.mjs על loio c90e05a792674f7d8bbae247c5200999 (בסבב הקודם דווח שהגוף עלה כמעטפת JavaScript; בסבב זה הוא נקרא בהצלחה ומכיל רשימת מאפיינים עסקיים מלאה שלא הופיעה בסניפט), והרצת scripts/fal-app.mjs F6175 שאיתרה את 'Manage Work Centers' (OData UI_WORKCENTERS, תפקיד SAP_BR_PRODN_ENG_DISC, קטלוג SAP_SCM_BC_PROC_ENG, רכיב PP-BD-WKC) כצרכן Fiori אפשרי, לצד שני שירותי OData לכתיבה מתיעוד APIs for Manufacturing (API_WORK_CENTERS ו-api_work_center; התיעוד נוקב בנתיבים /sap/opu/odata/ ו-/sap/opu/odata4/ ולא בגרסת פרוטוקול). הגוף עדיין אינו נוקב בשמות שדה טכניים, ב-associations או בטבלת המקור; הקישור ל-CRHD/CRTX/CRCA/KAKO נשען כמקודם על מיפוי הפרויקט (data/cds-map.ts) ולא על מקור רשמי ישיר. F6175 לא נוסף ל-xrefs כי fiori:F6175 אינו קיים עדיין ב-data/fiori/apps.ts (יקום ה-Fiori); הוא מוזכר בפרוזה בלבד ואינו מאושר במפורש כקורא דרך I_WorkCenter; נדרש אימות נוסף (view browser / trace) לפני קביעה כזו, כי הספרייה אינה חושפת את שכבת ה-CDS שמאחורי שירות ה-OData. Old → New בראיה המשותפת WORKCENTER_VDM_2023 (שהיא גם status.source): ישן: טענה מבוססת סניפט (accessedAt 2026-09-14) עם Technical Name, View Type, Release Status, משפט המטרה, שבעה מאפיינים ראשיים (Work center type עד Work center usage) וההרשאות C_ARPL_WRK ו-C_ARPL_ART; חדש: טענה מבוססת גוף העמוד (accessedAt 2026-09-24) עם שאלות ה-Purpose, התנאים המוקדמים, היעדר פרמטרי קלט ורשימת Measures and attributes המלאה. שורת הסניפט הכפולה שבטיוטה (אותו URL, loio וגרסה) לא נכתבה כראיה נפרדת. נוספו שתי ראיות: רשומת F6175 בספרייה ועמוד Create Work Center (loio 7c4401ed25bb4653862f8141e3839b89); שורת ה-What's New 2025 ושורת המאגר רועננו ל-2026-09-24; שורת ה-PDF של 2023 SPS04 נשארת עם תאריך הגישה 2026-09-14, כי בסבב זה לא תועדה קריאה חוזרת של המסמך. הסתירה מול data/cds-enrichment.ts (viewType 'Interface (Composite)' מול 'View Type Basic, Dimension') עדיין פתוחה, ושמות השדה הטכניים, שדות המפתח וה-associations נשארים לאימות במערכת. במהלך האימות החוזר עודכנה הטרמינולוגיה בטקסט הרשומה ל'תחזוקה' לפי כללי הבית. לא בוצעה בדיקה במערכת SAP חיה; חיבור ה-MCP למערכת חיה (sc4sap) לא היה זמין בסבב זה. תוספות אלו הן ראיות משלימות: מסקנת הסטטוס (s4_native, 2023.latest, מקור עמוד ה-VDM של Work Center) לא השתנתה מהסבב הקודם.",
   },
   {
     id: "cds:I_ProductionOrderItem",
@@ -2276,6 +2303,17 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "sap_official_verified",
       },
       {
+        sourceType: "sap_help",
+        sourceTitle: "Extensibility: Production Order (Version 2) | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/b23319e138664f8b85a1a26de7ef3fed.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim: "עמוד המדריך 'APIs for Manufacturing' (On-Premise 2025 FPS01) עוסק בהרחבת ה-API 'Production Order (Version 2)' וקובע בסניפט: 'When the service calls the Production Order business object, you also have to enable the usage of your custom fields for the data source I_PRODUCTIONORDEROPERATIONTP', ומונה את 'A_ProductionOrderOperation_2 Manufacturing: Order Operation API_PRODUCTION_ORDER_2_SRV'. הסניפט אינו נוקב בשם I_ProductionOrderOperation ואף לא ב-I_ProductionOrderOperation_2; מקור הנתונים שהוא מציין להרחבת הפעולה הוא I_PRODUCTIONORDEROPERATIONTP, והיחס בינו לבין תצוגות ה-VDM נשאר לאימות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
         sourceType: "repository",
         sourceTitle: "רשומת ההעשרה של תצוגות ה-CDS בפרויקט",
         product: "SAP S/4HANA",
@@ -2298,15 +2336,15 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
     ],
     status: {
       status: "verification_required",
-      he: "פעולת הזמנת ייצור ברובד ה-VDM של S/4HANA, מעל טבלאות הפעולות AFVC (ולפי המקור הרשמי גם AFVV ו-AFVU). תיעוד SAP Help אינו נוקב בתצוגה בשם I_ProductionOrderOperation: התצוגה המתועדת לפעולת הזמנת ייצור בדידה היא I_ProductionOrderOperation_2 (Analytical Data Category Fact, רשומה כ-New ב-What's New של 2025 תחת Discrete Manufacturing, רכיב יישום PP-VDM), תצוגת עזרת הערכים I_ProductionOrderOperationVH מפנה אליה במפורש, ולפעולות הזמנה כללית מתועדת I_ManufacturingOrderOperation. קיומה של תצוגה בשם המדויק שהמאגר מחזיק, סטטוס השחרור שלה ויחסה לגרסה _2 (קודמת, פנימית או שם שגוי במאגר) לא נמצאו באף רשומה רשמית ודורשים אימות במערכת.",
+      he: "פעולת הזמנת ייצור ברובד ה-VDM של S/4HANA, מעל טבלאות הפעולות AFVC (ולפי המקור הרשמי גם AFVV ו-AFVU). תיעוד SAP Help אינו נוקב בתצוגה בשם I_ProductionOrderOperation: התצוגה המתועדת לפעולת הזמנת ייצור בדידה היא I_ProductionOrderOperation_2 (Analytical Data Category Fact, רשומה כ-New ב-What's New של 2025 תחת Discrete Manufacturing, רכיב יישום PP-VDM), תצוגת עזרת הערכים I_ProductionOrderOperationVH מפנה אליה במפורש, ולפעולות הזמנה כללית מתועדת I_ManufacturingOrderOperation; במדריך APIs for Manufacturing (2025 FPS01) ישות ה-OData לפעולה נקראת A_ProductionOrderOperation_2 ומקור הנתונים להרחבה הוא I_PRODUCTIONORDEROPERATIONTP. קיומה של תצוגה בשם המדויק שהמאגר מחזיק, סטטוס השחרור שלה ויחסה לגרסה _2 (קודמת, פנימית או שם שגוי במאגר) לא נמצאו באף רשומה רשמית ודורשים אימות במערכת.",
       edition: "on-premise",
       release: "2023.latest",
       source: PRODORDER_OPERATION_VDM_2023,
       recommendedAction: "לפני שימוש בשם I_ProductionOrderOperation בקוד Z, בתצוגת CDS מותאמת, ב-Custom Analytical Query או במסמך אפיון: לאמת במערכת S/4HANA (SE11 או ADT, ויישום View Browser) האם תצוגה בשם זה קיימת ומה סטטוס השחרור שלה. לקריאת פעולות של הזמנות ייצור בדידות (מרכז עבודה, עיבוד חיצוני, מפתחות פנימיים) להעדיף את התצוגה המתועדת I_ProductionOrderOperation_2 בהתאם להפניה הרשמית מתצוגת עזרת הערכים; לצרכי דוחות על פעולות הזמנה כללית לבדוק את I_ManufacturingOrderOperation (שים לב: לפי הסניפט הרשמי לפחות רכיב אחד בתצוגה זו הוצא משימוש, ולכן יש לבדוק את רשימת הרכיבים שהוצאו משימוש לפני שימוש). להזמנות תהליך (תעשיות תהליכיות) לא להניח כיסוי: המקורות הרשמיים משייכים את התצוגה ל-Discrete Manufacturing, והכיסוי של הזמנות תהליך נשאר לאימות. את שמות השדות, המפתח והאסוציאציות שברשומת ההעשרה (ManufacturingOrder, _WorkCenter) לא להעתיק כמות שהם, כי הסניפט הרשמי מונה ProductionOrder ו-ProductionOrderOperation; לאמת מול ה-DDL בפועל. ב-ECC אין תצוגת VDM מקבילה: המקור הוא AFVC (ו-AFVV) בקריאה ישירה או דרך CO03/COOIS.",
     },
     xrefs: ["table:AFVC", "table:AFFL", "table:AFKO", "table:AUFK", "table:CRHD", "cds:I_ProductionOrder", "cds:I_ProductionOrderItem", "cds:I_ProductionOrderComponent", "cds:I_ProductionOrderConfirmation", "cds:I_WorkCenter", "cds:I_RoutingOperation", "tx:CO02", "tx:CO03", "tx:COOIS", "tx:CO11N", "fm:CO_ZF_OPERATIONS_READ", "fiori:F2336"],
-    lastVerifiedAt: DATE14,
-    notes: "אומת מרשומות חיפוש רשמיות של help.sap.com בלבד (כותרת, deliverable, גרסה, loio, סניפט); גוף עמודי ה-Help אינו נשלף (מעטפת JavaScript), ולכן רשימת השדות המלאה, המפתח, האסוציאציות וחוזה השחרור נשארים לאימות במערכת SAP חיה או ב-ADT. הממצא המרכזי: אף רשומה רשמית (מספר שאילתות ממוקדות בסט On-Premise ואחת בסט Public Cloud 2608) אינה נוקבת בשם I_ProductionOrderOperation ללא סיומת; השם המתועד הוא I_ProductionOrderOperation_2 (אותו loio 60ade555aa3742b58cf83828022b6eac מפורסם גם לסט SAP S/4HANA Cloud Public Edition 2608.500). לא נמצא מקור רשמי שקובע שגרסה 1 הוצאה משימוש או הוחלפה, ולכן לא נרשם סטטוס 'הוחלף' ולא successor; הסיומת _2 לבדה אינה ראיה. הקשר גרסה: ה-What's New של 2025 רושם את _2 כ-New, אך עמוד ה-VDM שלה מופיע בסט 2023 Latest, וה-What's New של 2023 'CDS Views for Production Operations' (loio 479d02806f8947a7973590dc8c7d819a, Type New, רכיבי יישום PP-PI-POR, PP-SFC ו-PP-VDM, scope items BJ5 ו-BJ8) אינו מונה שמות תצוגות בסניפט, כך שמועד השחרור הראשון אינו מוכרע. פערים במאגר: data/cds-map.ts מתייג את התצוגה במודול 'PP-PI' בעוד המקור הרשמי משייך אותה ל-Discrete Manufacturing; המיפוי ל-AFFL אינו תואם את הסניפט הרשמי, שמונה AFVC, AFVV, AFVU לפעולה ואת AFFL לתצוגת הרצף 'Production Order Sequence' I_ProductionOrderSequence ('retrieves production order sequence data by semantic key (table AFFL)', loio 7b47cbb4384c497b993c670138aec9c7). AFVV ו-AFVU אינן חלק מיקום המזהים של הפרויקט ולכן אינן ב-xrefs. ההעשרה (data/cds-enrichment.ts) משתמשת בשמות שדות של Manufacturing Order (ManufacturingOrder, ManufacturingOrderOperation) שאינם בסניפט של התצוגה המתועדת; ייתכן שהם לקוחים מתצוגת I_ManufacturingOrderOperation, שעמודה הרשמי מתעד תצוגת Dimension נפרדת. עמוד ה-What's New 2025 'CDS Views for Discrete and Process Manufacturing' (loio d179056c52d24117a2fe1cbaf7025969, 2025.000) מונה בסניפט את I_Order ו-I_ManufacturingOrderStatus תחת 'CDS Views Changed for Discrete and Process Manufacturing' ואינו נוקב בתצוגת פעולה או שלב (phase), כך ששאלת הכיסוי של הזמנות תהליך נשארת פתוחה. הקישור ליישום Manage Production Orders (F2336) הוא מנתוני הפרויקט בלבד ולא אומת מול מקור רשמי. הסטטוס הנגזר הקודם (חדש ב-S/4HANA לפי רשומת ההעשרה המסומנת verified) הוחלף בסטטוס מחובר 'נדרש אימות נוסף' כי לא נמצא מקור רשמי לשם המדויק. לא נטען SAP Note, KBA או פריט פישוט לתצוגה. המהדורה שנרשמה היא On-Premise לפי מזהה המוצר בשירות החיפוש; ה-What's New של 2025 מכסה גם Private Edition. ביקורת עצמאית 2026-09-14: ארבעת ה-URL מחזירים HTTP 200, ה-loio, הכותרות והגרסאות שוחזרו מרשומות שירות החיפוש, וכל המחרוזות המצוטטות נמצאו בתקצירים.",
+    lastVerifiedAt: DATE24,
+    notes: "אומת מרשומות חיפוש רשמיות של help.sap.com בלבד (כותרת, deliverable, גרסה, loio, סניפט); גוף עמודי ה-Help אינו נשלף (מעטפת JavaScript), ולכן רשימת השדות המלאה, המפתח, האסוציאציות וחוזה השחרור נשארים לאימות במערכת SAP חיה או ב-ADT. הממצא המרכזי: אף רשומה רשמית (מספר שאילתות ממוקדות בסט On-Premise ואחת בסט Public Cloud 2608) אינה נוקבת בשם I_ProductionOrderOperation ללא סיומת; השם המתועד הוא I_ProductionOrderOperation_2 (אותו loio 60ade555aa3742b58cf83828022b6eac מפורסם גם לסט SAP S/4HANA Cloud Public Edition 2608.500). לא נמצא מקור רשמי שקובע שגרסה 1 הוצאה משימוש או הוחלפה, ולכן לא נרשם סטטוס 'הוחלף' ולא successor; הסיומת _2 לבדה אינה ראיה. הקשר גרסה: ה-What's New של 2025 רושם את _2 כ-New, אך עמוד ה-VDM שלה מופיע בסט 2023 Latest, וה-What's New של 2023 'CDS Views for Production Operations' (loio 479d02806f8947a7973590dc8c7d819a, Type New, רכיבי יישום PP-PI-POR, PP-SFC ו-PP-VDM, scope items BJ5 ו-BJ8) אינו מונה שמות תצוגות בסניפט, כך שמועד השחרור הראשון אינו מוכרע. פערים במאגר: data/cds-map.ts מתייג את התצוגה במודול 'PP-PI' בעוד המקור הרשמי משייך אותה ל-Discrete Manufacturing; המיפוי ל-AFFL אינו תואם את הסניפט הרשמי, שמונה AFVC, AFVV, AFVU לפעולה ואת AFFL לתצוגת הרצף 'Production Order Sequence' I_ProductionOrderSequence ('retrieves production order sequence data by semantic key (table AFFL)', loio 7b47cbb4384c497b993c670138aec9c7). AFVV ו-AFVU אינן חלק מיקום המזהים של הפרויקט ולכן אינן ב-xrefs. ההעשרה (data/cds-enrichment.ts) משתמשת בשמות שדות של Manufacturing Order (ManufacturingOrder, ManufacturingOrderOperation) שאינם בסניפט של התצוגה המתועדת; ייתכן שהם לקוחים מתצוגת I_ManufacturingOrderOperation, שעמודה הרשמי מתעד תצוגת Dimension נפרדת. עמוד ה-What's New 2025 'CDS Views for Discrete and Process Manufacturing' (loio d179056c52d24117a2fe1cbaf7025969, 2025.000) מונה בסניפט את I_Order ו-I_ManufacturingOrderStatus תחת 'CDS Views Changed for Discrete and Process Manufacturing' ואינו נוקב בתצוגת פעולה או שלב (phase), כך ששאלת הכיסוי של הזמנות תהליך נשארת פתוחה. הקישור ליישום Manage Production Orders (F2336) הוא מנתוני הפרויקט בלבד ולא אומת מול מקור רשמי. הסטטוס הנגזר הקודם (חדש ב-S/4HANA לפי רשומת ההעשרה המסומנת verified) הוחלף בסטטוס מחובר 'נדרש אימות נוסף' כי לא נמצא מקור רשמי לשם המדויק. לא נטען SAP Note, KBA או פריט פישוט לתצוגה. המהדורה שנרשמה היא On-Premise לפי מזהה המוצר בשירות החיפוש; ה-What's New של 2025 מכסה גם Private Edition. ביקורת עצמאית 2026-09-14: ארבעת ה-URL מחזירים HTTP 200, ה-loio, הכותרות והגרסאות שוחזרו מרשומות שירות החיפוש, וכל המחרוזות המצוטטות נמצאו בתקצירים. אימות חוזר (2026-09-24): שאילתות ב-scripts/sap-help-search.mjs (SAP_S4HANA_ON-PREMISE), בהן 'I_ProductionOrderOperation' (21 תוצאות) ו-'CDS Views for Discrete Manufacturing What's New', החזירו את אותם שלושה עמודים רשמיים (Value Help, Production Order Operation, What's New 2025) עם אותו loio ואותו ממצא: שם ה-VDM המתועד הוא I_ProductionOrderOperation_2. נוספה ראיה אחת: עמוד 'Extensibility: Production Order (Version 2)' במדריך APIs for Manufacturing (2025 FPS01, loio b23319e138664f8b85a1a26de7ef3fed), שהסניפט שלו נוקב ב-A_ProductionOrderOperation_2 וב-I_PRODUCTIONORDEROPERATIONTP ואינו נוקב ב-I_ProductionOrderOperation או ב-I_ProductionOrderOperation_2. גוף העמוד לא נקרא (sap-help-body.mjs לא הורץ). לא נוספו xrefs, שדות או successor, והסטטוס ומקורו לא שונו. חמשת ה-URL הרשמיים מחזירים HTTP 200. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "cds:I_ProductionOrderComponent",
