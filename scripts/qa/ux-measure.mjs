@@ -31,12 +31,14 @@ const ROUTES = [
 const browser = await chromium.launch({ executablePath: CHROME, headless: true });
 // Screen matrix (design audit §10): VW/VH viewport, THEME=dark (via the boot
 // key), MOTION=reduce (prefers-reduced-motion), UA=phone (a phone user agent so
-// the shell's device gate takes the phone path).
+// the shell's device gate takes the phone path), UA=tablet (an iPad user agent).
 const VW = Number(process.env.VW || 1363), VH = Number(process.env.VH || 936);
 const PHONE_UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
+const TABLET_UA = "Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
 const ctx = await browser.newContext({
   viewport: { width: VW, height: VH },
   ...(process.env.UA === "phone" ? { userAgent: PHONE_UA, isMobile: true, hasTouch: true, deviceScaleFactor: 2 } : {}),
+  ...(process.env.UA === "tablet" ? { userAgent: TABLET_UA, isMobile: true, hasTouch: true, deviceScaleFactor: 2 } : {}),
   ...(process.env.MOTION === "reduce" ? { reducedMotion: "reduce" } : {}),
 });
 if (process.env.THEME === "dark") await ctx.addInitScript(() => { try { localStorage.setItem("neo:theme", "dark"); } catch {} });

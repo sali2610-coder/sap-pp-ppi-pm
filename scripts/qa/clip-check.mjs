@@ -23,6 +23,7 @@ const b = await chromium.launch({ executablePath: "/Applications/Google Chrome.a
 const ctx = await b.newContext({
   viewport: { width: VW, height: 900 }, reducedMotion: "reduce",
   ...(process.env.UA === "phone" ? { userAgent: PHONE_UA, isMobile: true, hasTouch: true } : {}),
+  ...(process.env.UA === "tablet" ? { userAgent: "Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1", isMobile: true, hasTouch: true } : {}),
 });
 if (process.env.THEME === "dark") await ctx.addInitScript(() => { try { localStorage.setItem("neo:theme", "dark"); } catch {} });
 const p = await ctx.newPage();
