@@ -78,7 +78,19 @@
    notes sentences on simpl-tcode-index.json bounded to the index committed at
    write time (another pipeline is rebuilding it); every notes field ends with
    the sentence that the generated record in transactions-auto.ts is
-   superseded. */
+   superseded.
+   Batch 11 (2026-09-24): 6 audited records (CR03, CS01, CS02, CT04, MC74,
+   MC75), none refuted. CS01, CS02 and MC74 from verdict.fixedRecord; CR03
+   (a repaired draft whose re-audit listed no problem), CT04 and MC75 from the
+   drafts with the auditors' downgrades applied, each replacement matched
+   exactly once. Status sources point at the shared CR03_FAL,
+   CS01_SIMPL_ITEM, CS02_SIMPL_ITEM, CT04_SIMPL_ITEM, MC74_SIMPL_ITEM_2025 and
+   MC75_SIMPL_ITEM_2025 consts instead of the stub copies or marker strings
+   the verdicts and drafts carried. Writer corrections: the MC74 reviewer
+   field dropped (house convention); the CS02 repository row's repoRef also
+   names data/domains.ts, which its title and claim cite; the notes of CS01,
+   CS02, CT04 and MC75 end with the sentence that the generated record in
+   transactions-auto.ts is superseded (CR03 and MC74 already say so). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -1365,6 +1377,138 @@ const CR01_FAL: Evidence = {
     "התפקיד SAP_BR_PRODN_ENG_DISC (Production Engineer - Discrete Manufacturing) והקטלוג העסקי SAP_SCM_BC_PROC_ENG. " +
     "השדות predecessors ו-successors ריקים ('-'), ושדה OData ריק ('-'). עמודת releases מפרטת את S6OP=1610 ועד " +
     "S32OP=2025 FPS01 ו-S32PCE (Private Cloud), וכן S36=2602 ו-S37=2608.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* ---------------------- batch 11 (2026-09-24) status sources, shared with the evidence row each record cites */
+
+const CR03_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Fiori Apps Library: CR03 Display Work Center @ S32OP (SAP S/4HANA 2025 FPS01, On-Premise)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CR03')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "רשומת Fiori Apps Library ל-CR03 (Display Work Center, component PP-BD-WKC) מסווגת אותה כ-SAP GUI בסטטוס " +
+    "Published, עם intent WorkCenter-display, שדה OData ריק ('-'), ושבעה תפקידים, ביניהם SAP_BR_PRODN_ENG_DISC, " +
+    "SAP_BR_PRODN_ENG_PROC ו-SAP_BR_PRODN_PLNR. השדות predecessors ו-successors ריקים ('-'). עמודת releases מפרטת את " +
+    "S6OP=1610 ועד S32OP=2025 FPS01 ו-S32PCE (Private Cloud), וכן S36=2602 ו-S37=2608. fal-app.mjs --tcode CR03 מציג " +
+    "את CR03 כאפליקציה המובילה לקוד הטרנזקציה, עם successors 0.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CS01_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 10.4.8 S4TWL - Variant Configuration",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט הפישוט 'S4TWL - Variant Configuration' (2025 FPS01, פריט 10.4.8; נוסח זהה בפריט 28.4 של 2023 FPS03) נקרא " +
+    "מקובץ ה-PDF. בקטע Description הוא מונה פונקציונליות שהושבתה ב-S/4HANA On Premise 1511, ובה: 'It's not possible " +
+    "to maintain \"Classification as Selection Condition\" in Material BOM items anymore (e.g. transactions CS01, " +
+    "CS02). If in Material BOM items classes as selection condition are already maintained, the BOM explosion will " +
+    "work as before. But it's not allowed to use \"Classification as Selection Condition\" for BOM items, where it " +
+    "wasn't used before.' בקטע Business Process related information: 'Class nodes should be used in Material BOM " +
+    "items instead of \"Classification as selection condition\". It's recommended to make this substitution also in " +
+    "existing material BOMs.' בקטע Required and Recommended Action(s): 'If you use \"Classification as a selection " +
+    "condition,\" no action is required for existing models. For new models we recommend setting up selection " +
+    "conditions in BOMs by class nodes.' הפריט מגביל פונקציה אחת בתוך CS01 ואינו קובע שהטרנזקציה הוסרה או הוחלפה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CS02_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "S4TWL - Variant Configuration (SAP S/4HANA 2025 FPS01 Simplification List, item 10.4.8; same title 2023 FPS03, " +
+    "item 28.4)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (רכיב יישום LO-VC; בסעיף Related Notes מודפסת הערת SAP 0002267873 'Variant Configuration') קובע בפרק " +
+    "Description: \"It's not possible to maintain 'Classification as Selection Condition' in Material BOM items " +
+    "anymore (e.g. transactions CS01, CS02). If in Material BOM items classes as selection condition are already " +
+    "maintained, the BOM explosion will work as before. But it's not allowed to use 'Classification as Selection " +
+    "Condition' for BOM items, where it wasn't used before.\" כלומר: מ-SAP S/4HANA On Premise 1511 אי אפשר להוסיף " +
+    "שימוש חדש ב-'Classification as Selection Condition' בפריטי BOM שנערכים ב-CS02 (וב-CS01); שימושים קיימים ממשיכים " +
+    "לעבוד כמו קודם. בפרק Business Process related information: 'Class nodes should be used in Material BOM items " +
+    "instead of \"Classification as selection condition\"'. CS02 מוזכרת במפורש במשפט התיאור, לא רק ברשימת Other " +
+    "Terms. נוסח זהה מופיע ב-2023 FPS03, item 28.4.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CT04_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "S4TWL - Classification (Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, Document Version 1.36, " +
+    "item 10.4.9; זהה בתוכנו לפריט 28.5 ברשימת 2023 FPS03)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (רכיב יישום CA-CL) נקרא במלואו מהקובץ המקומי (scratchpad/official/SIMPL_OP2025.pdf.txt, סביב שורות " +
+    "52150-52230, ומקבילו הזהה בנוסחו ב-2023 FPS03 סביב שורות 36110-36270). תחת הכותרת 'Transaction not available " +
+    "since SAP S/4HANA on-premise edition 1511' מול הכותרת 'Available alternative transactions and reports' מופיעות " +
+    "CT01, CT02, CT03, CT05 ו-CT06, ובטור החלופות מופיע לפי הסדר חמש פעמים CT04 Characteristics (הטבלה משוטחת בטקסט " +
+    "המחולץ; השיוך נגזר מהסדר ומהספירה, ובטקסט 2023 FPS03 חמשת רישומי CT04 באים מיד אחרי CT01..CT06). כלומר CT04 " +
+    "עצמה אינה רשומה כטרנזקציה שהוסרה; היא מוצגת כטרנזקציה החלופית המאחדת עבור חמש טרנזקציות Create/Change/Display " +
+    "שבוטלו. באותו פריט מופיע גם תיאור השינויים הפונקציונליים הכלליים לכל מערכת הסיווג: 'User Defined Data Type " +
+    "(031) for characteristics has been removed', 'Rename Characteristic functionality has been disabled', " +
+    "'Parameter Effectivity has been hidden', וש-batch import הוגבל לפעולה מעמדת העבודה (presentation server) בלבד; " +
+    "אין בפריט פירוט אילו מהשינויים חלים ספציפית על מסך CT04 לעומת שאר מסכי הסיווג.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MC74_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 " +
+    "FPS01 (document version 1.36) · item 9.5.17 S4TWL - Sales and Operation Planning",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.5.17 'S4TWL - Sales and Operation Planning' (SAP Note 2268064) מונה את MC74 ברשימת טרנזקציות ה-SOP שהן " +
+    "חלק מה-compatibility pack: 'The following SOP transactions are part of the compatibility pack: ... Transaction " +
+    "MC74, MC75, MC76, MC77 (Disaggregation)', ונוקב בו גם תחת Other Terms. הפריט קובע: 'Sales & Operations Planning " +
+    "(SOP) will be replaced by Integrated Business Planning IBP (Functionality available in SAP S/4HANA delivery but " +
+    "not considered as future technology)', ותחת Required and Recommended Action(s): 'PP SOP is intended as a bridge " +
+    "or interim solution in S/4HANA, which allows you a stepwise system conversion from SAP ERP to SAP S/4HANA " +
+    "on-premise edition and SAP IBP... IBP is the successor solution'. לפרטי זכויות השימוש הפריט מפנה ל-SAP Note " +
+    "2269324 (Compatibility Scope Matrix).",
+  verificationLevel: "sap_official_verified",
+};
+
+const MC75_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "S4TWL - Sales and Operation Planning (SAP S/4HANA 2025 FPS01 Simplification List, document version 1.36, item " +
+    "9.5.17, SAP Note 2268064)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט קובע במפורש תחת הכותרת 'The following SOP transactions are part of the compatibility pack': 'Transaction " +
+    "MC74, MC75, MC76, MC77 (Disaggregation)'. כלומר MC75 מנוי בפירוש כטרנזקציית Disaggregation שנמצאת בתוך " +
+    "ה-compatibility scope של SAP S/4HANA (זכויות שימוש מוגבלות, ר' SAP Note 2269324). תחת 'Reasons why Sales and " +
+    "Operations Planning is part of the compatibility pack' הפריט קובע: \"Integrated Business Planning IBP is the " +
+    "solution for sales and operations planning\"; תחת 'Required and Recommended Action(s)' נכתב 'PP SOP is intended " +
+    "as a bridge or interim solution... IBP is the successor solution', עם הפניה ל-SAP Note 3503528 למימוש IBP, " +
+    "ומצוין שאין נתיב מעבר ייעודי (no special migration path) בין SOP ל-IBP.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -9298,5 +9442,558 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "ולא צוטטה כעובדה. תיקון ביקורת: כתובת ה-PDF של 2025 הוחלפה לכתובת הרשמית 0df2ffdd.../2025.latest (הכתובת " +
       "הקודמת החזירה דף HTML); מספר הפריט ב-2023 תוקן מ-12.9 ל-12.16. לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה " +
       "את הרשומה שנוצרה אוטומטית ל-CR01 ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CR03 */
+  {
+    id: "tx:CR03",
+    aliases: ["CR03 (Display Work Center)", "CR03 (הצגת מרכז עבודה)"],
+    evidence: [
+      CR03_FAL,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work Center Display | Single and Composite Roles (PFCG)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/6025bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "תקציר רשומת החיפוש (loio 6025bf53d25ab64ce10000000a174cb4, גרסה 2025 FPS01) מדפיס: 'Work Center CR03 " +
+          "Display work center CR13 Display capacity CR23 Display hierarchy Reporting ... Work Center Display " +
+          "Technical name: SAP_LO_PP_WRKC_DISPLAY'. התפקיד SAP_LO_PP_WRKC_DISPLAY מונה את CR03 כ-'Display work " +
+          "center'. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work Center Display | Single and Composite Roles (PFCG)",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/6025bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו עמוד תפקיד (loio זהה) קיים בסקופ SAP ERP (versionId 6.18.latest), והתקציר שלו מדפיס 'Work Center " +
+          "CR03 Display work center CR13 Display capacity CR23 Display hierarchy ... Technical name: " +
+          "SAP_LO_PP_WRKC_DISPLAY'. בצד ECC 6.0 EHP8, CR03 מתועדת כ-'Display work center'. ה-snippet זהה לזה של " +
+          "S/4HANA 2025.001; גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work center/Resource | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/d1c46c79ab034062a3ded5bb8ab3e79f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "תקציר רשומת החיפוש (loio d1c46c79ab034062a3ded5bb8ab3e79f, גרסה 2025 FPS01) מדפיס: 'App: Display Work " +
+          "Center (CR03) Display Resource (CRC3) Manage Work Centers (F6175)' וכן 'Transaction: Display Work Center " +
+          "(CR03) Display Resource (CRC3)'. התקציר מציג את CR03 לצד Manage Work Centers (F6175) ואינו מצהיר על יחס " +
+          "יורש ביניהן. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 FPS1 · 6.5.9 S4TWL - Reporting/Analytics in Controlling (CO-OM-IS)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "הפריט 'S4TWL - Reporting/Analytics in Controlling' (Application Component: CO-OM-IS; ברשימת 2023 FPS03 " +
+          "הוא פריט 12.16 בנוסח כמעט זהה) עוסק בדיווח ב-Controlling. הציטוט: 'Please ensure that the transactions " +
+          "such as CK11N (create standard cost estimate), CO01-CO03 (create/change/display production order) and " +
+          "CR01-CR03 (create/change/display process order) are calling ABAP List Views rather than the old Report " +
+          "Writer reports. To do this, choose transaction OKN0, select the tab \"Report Selection\" and ensure that " +
+          "the flags \"Flexible itemization\", \"Flexible cost component report\" and \"Flexible cost display\" are " +
+          "active.' הפריט אינו קובע ש-CR03 הוחלפה או בוטלה; הוא מונה את CR01-CR03 בין הטרנזקציות שעבורן יש לוודא " +
+          "ב-OKN0 תצוגת ABAP List Views. הפריט מתאר את CR01-CR03 כ-'process order', בעוד שהראיות הרשמיות האחרות " +
+          "מזהות את CR03 כ-Display Work Center; הציטוט מובא כלשונו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#CR03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tx-intel.ts#CR03",
+        claim:
+          "רשומת tx-intel.ts#CR03 מגדירה את area כ-'מרכזי עבודה (Work Centers)', מתארת גישת display ל-CRHD, CRCA " +
+          "ו-CRCO, ומונה בשדה tables את CRHD, CRCA, CRCO ו-KAKO; בשדות after ו-together מופיעה CA03. שדה s4 (קביעה " +
+          "פנימית של המאגר, לא רשמית): 'זמינה ב-S/4HANA.' שדה fiori ריק.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "CR03 (הצגת מרכז עבודה) מופיעה ב-Fiori Apps Library כרשומת SAP GUI בסטטוס Published, עם עמודת releases " +
+        "מ-1610 ועד SAP S/4HANA 2025 FPS01 (On-Premise ו-Private Cloud), ושדות predecessors ו-successors ריקים. " +
+        "ה-snippet של תפקיד PFCG 'Work Center Display' (SAP_LO_PP_WRKC_DISPLAY) זהה בשני הצדדים, SAP ERP 6.18.latest " +
+        "ו-S/4HANA 2025.001; פריט הפישוט 'S4TWL - Reporting/Analytics in Controlling' מזכיר את CR01-CR03 בהקשר תצוגת " +
+        "דוחות עלות ב-OKN0 ואינו קובע החלפה או הסרה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CR03_FAL,
+      recommendedAction:
+        "להמשיך לעבוד עם CR03 ב-SAP GUI או דרך Fiori Launchpad (intent WorkCenter-display); Fiori Apps Library אינה " +
+        "מציגה יורשת (successors: -). לבדוק ב-OKN0, בלשונית 'Report Selection', שהדגלים 'Flexible itemization', " +
+        "'Flexible cost component report' ו-'Flexible cost display' פעילים, כפי שפריט הפישוט 'S4TWL - " +
+        "Reporting/Analytics in Controlling' מבקש עבור CR01-CR03 (הפריט מתאר אותן כ-process order).",
+    },
+    xrefs: ["tx:CR01", "tx:CR02", "tx:CA03", "table:CRHD", "table:CRCA", "table:CRCO"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק מול help.sap.com: 'Display Work Center CR03' בסקופ S/4HANA On-Premise (21 רשומות) ובסקופ SAP_ERP (21 " +
+      "רשומות); 'Work Center Fiori app manage' (21 רשומות, ביניהן Manage Work Center Utilization ו-App " +
+      "Extensibility: Manage Work Center Utilization; אף תקציר ברשומות אלה אינו מצהיר על יורש ל-CR03). הרשומה 'Work " +
+      "center/Resource' (Data Migration, loio d1c46c79ab034062a3ded5bb8ab3e79f, 2025.001) מונה את Manage Work " +
+      "Centers (F6175) לצד Display Work Center (CR03) ללא הצהרת יורש; F6175 אינו קיים ב-data/fiori/apps.ts, ולכן " +
+      "אינו מקבל xref. Fiori Apps Library: fal-app.mjs CR03 @ S32OP ו---tcode CR03 (successors 0). רשימות הפישוט: " +
+      "2025 FPS01 פריט 6.5.9 ו-2023 FPS03 פריט 12.16 ('S4TWL - Reporting/Analytics in Controlling'), נקראו מהטקסט " +
+      "המחולץ; ה-PDF מדפיס תחת Related Notes את 0002349297, ושדה sapNote לא נוסף כי כלל sap-note-format דורש כתובת " +
+      "me.sap.com/notes. גופי העמודים ב-help.sap.com לא נקראו (sap-help-body.mjs לא הורץ); הטענות תחומות בתקצירי " +
+      "החיפוש. תיקון ביקורת: כתובת ה-PDF של 2025 הוחלפה לכתובת 0df2ffdd.../2025.latest (הכתובת הקודמת " +
+      "c34b5ef7.../2025 החזירה דף HTML); הוסרו xrefs cds:I_WorkCenter ו-fm:CR_WORKCENTER_READ שלא נתמכו בראיה של " +
+      "רשומה זו. לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CR03 " +
+      "ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CS01 */
+  {
+    id: "tx:CS01",
+    evidence: [
+      CS01_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Complete BOM Maintenance",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/9d76b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "תיעוד תפקיד ה-PFCG 'Complete BOM Maintenance' (שם טכני SAP_LO_MD_BOM_MAINTAIN, S/4HANA 2025 FPS01 " +
+          "On-Premise) מונה את CS01 ברשימת הפעילויות של תחזוקת ה-BOM. גוף העמוד, שנקרא דרך sap-help-body.mjs: " +
+          "'Material BOM CS01 Create material BOM CS02 Change material BOM CS03 Display material BOM'. כלומר CS01 " +
+          "מתועדת כפעילות בתפקיד ה-BOM במהדורה זו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Complete BOM Maintenance",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/9d76b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio מתועד גם עבור SAP ERP 6.0 EHP8 (ECC). גוף העמוד, שנקרא דרך sap-help-body.mjs, מונה את CS01 " +
+          "באותה רשימת פעילויות: 'Material BOM CS01 Create material BOM CS02 Change material BOM CS03 Display " +
+          "material BOM'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Maintain Bill Of Material (F1813) - Fiori Apps Library, S32OP (SAP S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1813')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library לאפליקציה F1813 'Maintain Bill Of Material' (S32OP) מדפיסה 'GUI transactions: " +
+          "leading CS01; related CS02, CS03'. האפליקציה רשומה במהדורות On-Premise מ-S6OP (1610) ועד S32OP (2025 " +
+          "FPS01). בשדה predecessors מודפס '-', ובשדה successors מודפס 'F1813A Maintain Bill Of Material (Version " +
+          "2)'; שאילתה ל-F1813A ב-S32OP מחזירה תוצאה ריקה, כלומר היא אינה רשומה במהדורת On-Premise זו.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "פריט הפישוט 'S4TWL - Variant Configuration' (2025 FPS01; נוסח זהה ב-2023 FPS03) קובע שמ-S/4HANA On Premise " +
+        "1511 לא ניתן עוד לתחזק 'Classification as Selection Condition' בפריטי BOM לחומר (לדוגמה ב-CS01 וב-CS02). " +
+        "בפריטים שכבר תוחזקו כך פיצוץ ה-BOM ממשיך לפעול כקודם, ושימוש חדש אינו מותר. הפריט אינו קובע ש-CS01 הוסרה או " +
+        "הוחלפה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CS01_SIMPL_ITEM,
+      recommendedAction:
+        "ב-BOM חדשים יש להגדיר תנאי בחירה באמצעות צמתי מחלקה (class nodes) במקום 'Classification as Selection " +
+        "Condition'. לפי הפריט, ב-BOM קיימים שכבר משתמשים בסימון לא נדרשת פעולה, אך מומלץ לבצע את ההחלפה גם בהם. " +
+        "אפליקציית F1813 'Maintain Bill Of Material' רשומה ב-Fiori Apps Library עם CS01 כטרנזקציית ה-GUI המובילה. " +
+        "ברשומה מודפס יורש F1813A שאינו רשום ב-S32OP, ולכן יש לבדוק במהדורת היעד אם כל אחת מהאפליקציות זמינה.",
+    },
+    xrefs: ["tx:CS02", "tx:CS03", "table:MAST", "table:STPO"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק: (1) המאגר הפנימי (tcode-catalog.ts, tcode-directory.ts, domains.ts, solutions.ts, cds-enrichment.ts, " +
+      "exits.ts) מתאר את CS01 כ'יצירת עץ מוצר (BOM) לחומר' במודול PP. (2) שני פריטי הפישוט שנוקבים ב-CS01 נקראו " +
+      "במלואם משני קובצי ה-PDF המקומיים (SIMPL_OP2023.pdf פריטים 28.4/28.7, SIMPL_OP2025.pdf פריטים 10.4.8/10.4.26). " +
+      "פריט 'S4TWL - Variant Configuration' נוקב ב-CS01 בקטע Description. בפריט 'S4TWL - BOM, Routing, Production " +
+      "Version' CS01 מופיעה ברשימת Other Terms ולא בקטעי Reason/Business Value/Solution, ולכן הוא לא שימש מקור " +
+      "לסטטוס. (3) חיפושי sap-help-search.mjs רצו על 'CS01 Create Material BOM' (SAP_S4HANA_ON-PREMISE, 21 תוצאות), " +
+      "על 'CS01' עם --product SAP_ERP (21 תוצאות) ועל 'Complete BOM Maintenance' בשני המוצרים. גוף עמוד התפקיד נקרא " +
+      "דרך sap-help-body.mjs בשני המוצרים. (4) fal-app.mjs F1813 --release S32OP הציג את CS01 כטרנזקציית GUI מובילה " +
+      "ואת היורש F1813A (Version 2), שמחזיר תוצאה ריקה ב-S32OP. F1813 ו-F1813A אינן רשומות ב-data/fiori/apps.ts, " +
+      "ולכן אין xref ל-Fiori. תיקון ביקורת (2026-09-24): טווח הזמינות של F1813 תוקן מ-'S10OP (1709 FPS01)' ל-S6OP " +
+      "(1610), ונוסף היורש F1813A. לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CS01 " +
+      "ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CS02 */
+  {
+    id: "tx:CS02",
+    evidence: [
+      CS02_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Feature Comparison for Bills of Material Apps",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/18ee18df146f46e9a7738186eebceaa7/5e641f76c48f43aea26fa0a1f698d689.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "טבלת ההשוואה (loio 5e641f76c48f43aea26fa0a1f698d689, SAP S/4HANA 2025 FPS01) ממפה את App ID CS02 לשם " +
+          "האפליקציה 'Change Bill of Material', לצד F1813 'Maintain Bill of Material', CS01, CS03, CS07, CS08, CS15, " +
+          "F2214, F5238, F7802. F1813 מסומנת Yes ליצירה, שינוי ומחיקה של Material BOM (header ו-items) ול-Support of " +
+          "draft BOMs. באותה טבלה F1813 מסומנת No עבור Maintain variant BOMs ו-Maintain subitems, בעוד CS02 מסומנת " +
+          "Yes בשתיהן; מנגד F1813 מסומנת Yes ו-CS02 No עבור View and navigate to various change instances in a " +
+          "timeline. זו טבלת השוואה בין אפליקציות, והיא אינה מגדירה את F1813 כ-successor של CS02. F1813 אינה " +
+          "ב-data/fiori/apps.ts ולכן אינה מצוטטת כ-xref.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Library - GUI transaction entry CS02 'Change Bill of Material'",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CS02')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-FAL עבור CS02 ב-S32OP (SAP S/4HANA 2025 FPS01) מציגה Status = Published, UI Technology = SAP GUI, " +
+          "רכיב LO-MD-BOM (Bills of Material), תפקידי PFCG SAP_BR_PRODN_ENG_DISC ו-SAP_BR_PRODN_ENG_PROC, ורשימת " +
+          "releases רציפה מ-S6OP (1610) ועד S32OP (2025 FPS01). השדות predecessors ו-successors ריקים ('-'), כלומר " +
+          "ברשומת S32OP לא רשומה אפליקציה מחליפה (successor) ל-CS02.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CS02 ו-domains.ts (עץ מוצר)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#CS02; data/domains.ts",
+        claim:
+          "רשומת המאגר מגדירה את CS02 כ'שינוי עץ מוצר לחומר' (Change Material BOM), מודול PP, תחום 'עץ מוצר'; תואם " +
+          "לשם 'Change Bill of Material' שבמקורות הרשמיים. domains.ts כולל את CS02 ברשימת ה-tcodes של תחום עץ המוצר " +
+          "יחד עם CS01, CS03, CS11, CS12, CS15.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "CS02 (שינוי עץ מוצר לחומר) היא טרנזקציית SAP GUI פעילה, רשומה ב-Fiori Apps Library כ-Published ב-S/4HANA " +
+        "On-Premise 2025 FPS01, ללא predecessor או successor. פריט ה-S4TWL 'Variant Configuration' מגדיר בה שינוי " +
+        "פונקציונלי: מ-1511 אי אפשר להוסיף שימוש חדש ב-'Classification as Selection Condition' בפריטי עץ המוצר; " +
+        "שימושים קיימים ממשיכים לפעול כמו קודם.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CS02_SIMPL_ITEM,
+      recommendedAction:
+        "להמשיך לתחזק עצי מוצר ב-CS02. בפריטי BOM חדשים לא להגדיר 'Classification as Selection Condition' ולהשתמש " +
+        "ב-Class nodes, כפי שהפריט ממליץ; פריטים קיימים עם התנאי הישן ממשיכים לפעול בלי פעולה נדרשת. אפליקציית Fiori " +
+        "F1813 'Maintain Bill of Material' מכסה לפי טבלת Feature Comparison for Bills of Material Apps יצירה, שינוי " +
+        "ומחיקה של Material BOM ו-draft BOMs, אך מסומנת שם No עבור variant BOMs ו-subitems, ש-CS02 תומכת בהם, ואינה " +
+        "רשומה כ-successor של CS02.",
+    },
+    xrefs: ["tx:CS01", "tx:CS03", "table:STKO", "table:STPO"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק: (1) הרישום ב-data/tcode-catalog.ts ו-data/domains.ts תואם לשם ולתחום הרשמיים. (2) " +
+      "simpl-tcode-index.json מזהה את CS02 בשני פריטי S4TWL: 'S4TWL - Variant Configuration' (2025 FPS01 item " +
+      "10.4.8, 2023 FPS03 item 28.4) ו-'S4TWL - BOM, Routing, Production Version' (2025 FPS01 item 10.4.26, 2023 " +
+      "FPS03 item 28.7). פריט ה-Variant Configuration (שורות 52036-52120 ב-scratchpad/official/SIMPL_OP2025.pdf.txt, " +
+      "36027-36075 ב-SIMPL_OP2023.pdf.txt) מזכיר את CS02 במשפט התיאור עצמו, ולכן הוא מקור הסטטוס. פריט ה-BOM, " +
+      "Routing, Production Version מזכיר את CS02 רק ב-Other Terms ואינו קובע החלפה, שינוי או הסרה שלה; כמו ברשומת " +
+      "C223, הוא אינו משמש מקור לסטטוס. (3) sap-help-search 'Change Material BOM CS02' (SAP S/4HANA On-Premise " +
+      "ו-SAP_ERP) החזיר את 'Feature Comparison for Bills of Material Apps'; גוף הדף נקרא ב-sap-help-body.mjs. F1813 " +
+      "אינה ב-data/fiori/apps.ts ולכן לא נוספה כ-xref. (4) scripts/fal-app.mjs CS02 --release S32OP: Published, ללא " +
+      "predecessor/successor. status.source מקושר ל-evidence[0] (S4TWL - Variant Configuration). אודיטור 2026-09-24: " +
+      "רכיב היישום תוקן ל-LO-VC (CA-CL → LO-VC); טענת ה-FAL צומצמה ל-S32OP; נוספו שורות ה-variant BOMs, subitems " +
+      "ו-timeline מטבלת ההשוואה. לא בוצעה בדיקה במערכת SAP חיה (sc4sap MCP לא זמין בסשן זה). הרשומה מחליפה את הרשומה " +
+      "שנוצרה אוטומטית ל-CS02 ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CT04 */
+  {
+    id: "tx:CT04",
+    evidence: [
+      CT04_SIMPL_ITEM,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Library, CT04 @ S32OP (SAP S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CT04')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-FAL (scripts/fal-app.mjs CT04 --release S32OP) מדפיסה ארבע וריאציות שם עבור אותה טרנזקציה: " +
+          "'Characteristics (Deprecated)', 'Display Characteristic (Deprecated)', 'Manage Characteristics' ו-'Manage " +
+          "Characteristics (Deprecated)'; ApplicationType/UITechnology 'SAP GUI', isPublished 'Published', רכיב " +
+          "היישום CA-CL-CHR (Characteristics). שדה GUI transactions מדפיס: leading CT04; related CT04. שדה " +
+          "ה-releases מדפיס רצף מ-S6OP (1610) ועד S32OP (2025 FPS01); ברשימה מופיעים גם S36=2602 ו-S37=2608 ללא ציון " +
+          "מהדורה בפלט. שדות Predecessors ו-Successors ריקים (מקף): לא נרשם יורש ולא קודם. הקטלוגים העסקיים: " +
+          "SAP_LO_BC_VC_MODELING, SAP_PLM_BC_CLF ('Tools - Classification Handling'), SAP_RFM_BC_MD_SPECLST_ITM, " +
+          "SAP_SGT_BC_MASTER_DATA. חלק מווריאציות השם נושאות את התווית 'Deprecated' בלי שנרשם מחליף (successor ריק).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Classifications (deliverable: Cross-Application Components, CA)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/849930ca4c3349b5a117bf279a72b34f/f786c4535cdeb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (loio f786c4535cdeb44ce10000000a174cb4, היקף SAP_S4HANA_ON-PREMISE 2025.001, שאילתה 'CT04 " +
+          "Characteristics', 21 תוצאות) מדפיסה בסניפט: 'CT04 Characteristics management CL02 Class management CLHP " +
+          "Graphical maintenance of class hierarchies Assignment CL20N Assignment of object CL24N Assignment of … " +
+          "Create Classifications Technical name: SAP_CA_CL_MAINTAIN'. הסניפט בלבד נקרא (לא הגוף המלא); בתיעוד " +
+          "S/4HANA On-Premise 2025 FPS01, CT04 מופיעה בתקציר כ-CT04 Characteristics management לצד " +
+          "CL02/CLHP/CL20N/CL24N, והסניפט מסתיים ב-Create Classifications Technical name: SAP_CA_CL_MAINTAIN. אין " +
+          "בסניפט שנקרא סימון הסרה או שינוי שם ל-CT04.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Classifications (deliverable: Cross-Application Components, CA)",
+        url: "https://help.sap.com/docs/SAP_ERP/cf37e689fcbb4b67a4197897e0622b5f/f786c4535cdeb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio (f786c4535cdeb44ce10000000a174cb4) עולה גם בהיקף SAP_ERP 6.18.latest (שאילתה 'CT04 " +
+          "Characteristics', 21 תוצאות) ומדפיס בדיוק אותו סניפט: 'CT04 Characteristics management CL02 Class " +
+          "management CLHP Graphical maintenance of class hierarchies …'. הסניפט בלבד נקרא; גם בתיעוד צד ה-ECC (SAP " +
+          "ERP 6.0 EHP8), CT04 מופיעה בתקציר כ-CT04 Characteristics management לצד CL02/CLHP/CL20N/CL24N, ובסניפט " +
+          "שנקרא אין סימון הסרה או שינוי שם.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "CT04 (Characteristics) מופיעה בתיעוד הרשמי כטרנזקציה לתחזוקת מאפיינים במערכת הסיווג הן ב-ECC והן ב-S/4HANA " +
+        "On-Premise 2025 FPS01, ומשמשת כחלופה המאוחדת הרשומה במפורש בפריט הפישוט 'S4TWL - Classification' עבור חמש " +
+        "הטרנזקציות שהוסרו: CT01, CT02, CT03, CT05 ו-CT06 (יצירה/שינוי/הצגה של מאפיין). עם זאת אותו פריט קובע " +
+        "שינויים פונקציונליים כלליים לכלל טרנזקציות הסיווג מאז SAP S/4HANA On-Premise 1511 (הסרת סוג נתונים 031, " +
+        "נטרול Rename Characteristic, הסתרת Parameter Effectivity, הגבלת batch import לעמדת עבודה בלבד), בלי לפרט " +
+        "אילו מהם נוגעים ספציפית למסך CT04. ב-SAP Fiori Apps Library חלק מווריאציות שם הרשומה נושאות תווית " +
+        "'Deprecated' בלי שנרשם מחליף (Successors ריק).",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CT04_SIMPL_ITEM,
+      recommendedAction:
+        "להמשיך להשתמש ב-CT04 לתחזוקת מאפיינים בגרסה הנוכחית, כולל כחלופה ל-CT01/CT02/CT03/CT05/CT06 שהוסרו; לעקוב " +
+        "מעת לעת אחרי SAP Fiori Apps Library (scripts/fal-app.mjs CT04) לבדוק אם נרשם מחליף רשמי לווריאציות השם " +
+        "הנושאות תווית Deprecated; בעת פרויקט הסבה בפועל לבדוק את ארבעת השינויים הפונקציונליים הכלליים שקובע פריט " +
+        "'S4TWL - Classification' (סוג נתונים מוגדר-משתמש 031, Rename Characteristic, Parameter Effectivity, מגבלת " +
+        "batch import) מול השימוש בפועל במסך CT04.",
+    },
+    xrefs: ["tx:CL01", "tx:CL02", "tx:CL03", "tx:CL20N", "tx:CL24N", "tx:CL30N"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. הרשומה במאגר (data/tcode-catalog.ts) רושמת את CT04 במודול PP-PI, אזור 'מערכת " +
+      "מחלקות', בשם עברי 'מאפיינים' ואנגלי 'Characteristics'; רמז המשימה ציין מודול PP ואזור 'סיווג, מאפיינים " +
+      "(Characteristics)', שתואם בתוכן אך לא במדויק בניסוח למאגר. חיפושים שרצו: sap-help-search.mjs 'CT04 " +
+      "Characteristics' בהיקף SAP_S4HANA_ON-PREMISE (21 תוצאות) ובהיקף SAP_ERP (21 תוצאות); fal-app.mjs CT04 " +
+      "--release S32OP. שני פריטי הפישוט (2023 FPS03 §28.5, 2025 FPS01 §10.4.9, שניהם 'S4TWL - Classification', רכיב " +
+      "CA-CL) נקראו במלואם מהקבצים המקומיים ב-scratchpad/official/, כולל טבלת ההתאמה 'Transaction not available / " +
+      "Available alternative transactions' שממנה נגזרה הקביעה ש-CT04 היא החלופה ל-CT01/CT02/CT03/CT05/CT06. לא נמצא " +
+      "successor רשום עבור CT04 עצמה באף מקור (לא בפריט הפישוט ולא ב-FAL), ולכן לא נקבע status='deprecated' או " +
+      "'replaced' (כלל replacement-no-successor דורש מחליף בר-פתרון בטבלת ה-xrefs, ואין כזה). דורש אימות במערכת חיה: " +
+      "התנהגות בפועל של המגבלות (סוג נתונים 031, Rename Characteristic, Parameter Effectivity, batch import) בסביבת " +
+      "CBC, ומועד תוקף RIN notes 3493254/3671888 המודפסים ברשומת ה-FAL (לא נקראו במלואם, רק צוטטו כשדה מהרשומה). " +
+      "CT01/CT02/CT03/CT05/CT06 אינן קיימות ב-lib/route-manifest.generated.ts (רק CT04 עצמה רשומה שם) ולכן לא נכללות " +
+      "כ-xrefs, למרות שהן נקובות בשמן בפריט הפישוט. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CT04 " +
+      "ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:MC74 */
+  {
+    id: "tx:MC74",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MC74",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#MC74; data/library/pp-knowledge.ts; data/library/pp-textbook/ch11.ts",
+        claim:
+          "רשומת המאגר data/tcode-catalog.ts מגדירה את MC74 כ'העברת נתוני תכנון לניהול ביקושים' (Transfer Planning " +
+          "Data to Demand Management), מודול PP, תחום 'תכנון מכירות ותפעול'. data/library/pp-knowledge.ts מציב אותה " +
+          "ברצף MC81/MC82 (יצירה/שינוי תוכנית) ➔ MC87 (גרסאות) ➔ MC74/MC75 (העברה ל-Demand Management, טבלת PBED); " +
+          "data/library/pp-textbook/ch11.ts מונה אותה לצד MC75 ו-MD61 תחת 'SOP ► Transfer to Demand Management'.",
+        verificationLevel: "repository_verified",
+      },
+      MC74_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 FPS03 (document version 1.35) · item 30.37 S4TWL - Sales and Operation Planning",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "פריט 30.37 'S4TWL - Sales and Operation Planning' (SAP Note 2268064) נוקב ב-MC74 תחת Other Terms: " +
+          "'Transactions MC74, MC75, MC76, MC78, MC80, MC81, MC82, MC83, MC87, MC88, MC89'. MC74 אינו ברשימת " +
+          "ה-Exceptions של הפריט, כלומר החלקים שנשארים בליבת S/4HANA ואינם מוחלפים (V_T001W_DR ו-MC84/MC85/MC86 " +
+          "לתחזוקת קבוצות מוצר). הפריט קובע ש-SOP 'will be replaced by Integrated Business Planning IBP " +
+          "(Functionality available in SAP S/4HANA delivery but not considered as future technology)' ו-'PP SOP is " +
+          "intended as a bridge or interim solution'. בגרסה זו של הפריט אין רשימת טרנזקציות compatibility pack ואין " +
+          "הפניה ל-SAP Note 2269324; אלה מופיעים בפריט 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transfer to Demand Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/d853922bdd584e8e83027e5a0b8122f2/5e6ebd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד עזרה ב-deliverable 'Sales & Operations Planning (LO-LIS-PLN)' של S/4HANA 2025 FPS01 (versionId " +
+          "2025.001, loio 5e6ebd534f22b44ce10000000a174cb4), שגופו נקרא במלואו, מתאר את הפונקציונליות 'You can pass " +
+          "on data planned in Flexible Planning or Standard SOP to Demand Management', התואמת לתיאור MC74 במאגר. גוף " +
+          "העמוד אינו מדפיס את הקוד MC74, ולכן זו ראיה תומכת בלבד ולא אישור ישיר לקוד.",
+        verificationLevel: "supported_secondary_source",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "פריט הפישוט 'S4TWL - Sales and Operation Planning' ברשימת הפישוט 2025 FPS01 (פריט 9.5.17) מונה את MC74 " +
+        "ברשימה המפורשת של טרנזקציות SOP שהן חלק מה-compatibility pack ('Transaction MC74, MC75, MC76, MC77 " +
+        "(Disaggregation)'), עם זכויות שימוש מוגבלות לפי SAP Note 2269324. הפריט קובע ש-SOP יוחלף ב-SAP IBP, זמין " +
+        "במסירת S/4HANA אך אינו נחשב לטכנולוגיית העתיד, ומגדיר את PP SOP כפתרון גישור; פריט 2023 FPS03 (30.37) נוקב " +
+        "ב-MC74 תחת Other Terms ומביא את אותה קביעת החלפה, ללא רשימת ה-compatibility pack.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MC74_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להתייחס ל-MC74 כזמינה בהיקף התאימות (compatibility pack) בלבד: לבדוק ב-SAP Note 2269324 את זכויות השימוש " +
+        "ואת מועד הפקיעה של היקף התאימות לפני תכנון ארוך טווח סביב הקוד. לתכנן מעבר לפתרון היורש SAP IBP; לפי הפריט " +
+        "אין נתיב מעבר ייעודי מ-PP SOP ל-IBP. אם SOP משמש רק כממשק למערכת תכנון חיצונית, הפריט ממליץ שהמערכת " +
+        "החיצונית תיצור דרישות בלתי תלויות מתוכננות ישירות, למשל דרך OP_API_PLND_INDEP_RQMT_SRV_0001, במקום להעביר " +
+        "נתונים דרך SOP.",
+    },
+    xrefs: ["tx:MC75", "tx:MC81", "tx:MC87"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "המחקר בדק תחילה מה קיים במאגר: data/tcode-catalog.ts#MC74, data/library/pp-knowledge.ts (רצף MC81/MC82 ➔ MC87 " +
+      "➔ MC74/MC75) ו-data/library/pp-textbook/ch11.ts, וכן את הרשומה האוטומטית " +
+      "ב-data/verification/transactions-auto.ts#MC74 (context-only, ללא הכרעת מעמד). חיפושים שרצו: 'Sales and " +
+      "Operations Planning compatibility pack S/4HANA' (--product SAP_S4HANA_ON-PREMISE, 21 תוצאות, ללא אזכור ישיר " +
+      "של MC74 בכותרת או בתקציר) ו-'MC74 Transfer Planning Data Demand Management' (21 תוצאות; הרלוונטית ביותר: " +
+      "'Transfer to Demand Management', שגופה נקרא). שני פריטי הפישוט נקראו במלואם מתוך " +
+      "scratchpad/official/SIMPL_OP2023.pdf.txt ו-SIMPL_OP2025.pdf.txt: רשימת ה-compatibility pack שבה מופיע MC74 " +
+      "('Transaction MC74, MC75, MC76, MC77 (Disaggregation)') וההפניה ל-SAP Note 2269324 מופיעות בפריט 9.5.17 של " +
+      "2025 FPS01 בלבד; פריט 30.37 של 2023 FPS03 נוקב ב-MC74 תחת Other Terms בלבד. נבדק גם פריט 30.9 'S4TWL - " +
+      "ANSI/ISA S95 Interface' (2023 FPS03); הוא אינו מזכיר את MC74 ומתועד כבדיקה שנשללה, לא כראיה. " +
+      "scripts/fal-app.mjs --tcode MC74 הורץ בביקורת והדפיס 'MC74 @ S32OP: leading app(s): none; GUI app entry: " +
+      "none'; היורש הנקוב (SAP IBP) הוא מוצר נפרד ללא מזהה ביקום (obj:/bp:), ולכן לא נרשם successor מובנה " +
+      "(compatibility_scope אינו מחייב אותו). גוף SAP Note 2269324 (Compatibility Scope Matrix) לא נקרא: מועד הפקיעה " +
+      "המדויק של זכויות השימוש נותר לאימות. לא בוצעה בדיקה במערכת SAP חיה (SE93 לא הופעל); זו הפעולה הסוגרת לקיום " +
+      "הקוד, התוכנית והמסך במערכת היעד. רשומה זו מיועדת להחליף את tx:MC74 ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:MC75 */
+  {
+    id: "tx:MC75",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MC75",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#MC75",
+        claim:
+          "רשומת המאגר מתארת את MC75 כ'העברת תכנון גס לניהול ביקושים' (Transfer Rough-Cut Plan to Demand " +
+          "Management), מודול PP, תחום 'תכנון מכירות ותפעול' (SOP).",
+        verificationLevel: "repository_verified",
+      },
+      MC75_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Sales and Operation Planning (SAP S/4HANA 2023 FPS03 Simplification List, document version 1.35, " +
+          "item 30.37, SAP Note 2268064)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE24,
+        claim:
+          "הפריט המקביל ב-2023 FPS03 (30.37, אותו SAP Note 2268064) עוסק באותו נושא ('PP SOP is intended as a bridge " +
+          "or interim solution... from SAP ERP to SAP S/4HANA on-premise edition and SAP IBP') ומזכיר את MC75 בשורת " +
+          "'Other Terms' בסוף הפריט: 'Transactions MC74, MC75, MC76, MC78, MC80, MC81, MC82, MC83, MC87, MC88, MC89' " +
+          "(מונח חיפוש). גוף הפריט של 2023 אינו כולל את פירוט ה-compatibility-pack טרנזקציה-אחר-טרנזקציה שמופיע רק " +
+          "בגרסת 2025 FPS01; ב-2023 הסעיף 'Exceptions' נוקב ב-V_T001W_DR וב-MC84/MC85/MC86, ולא ב-MC75.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "MC75 (Disaggregation בתכנון מכירות ותפעול קלאסי - SOP) מנוי בפירוש בפריט S4TWL - Sales and Operation " +
+        "Planning (2025 FPS01) כטרנזקציה שנמצאת בתוך ה-compatibility scope של SAP S/4HANA, עם זכויות שימוש מוגבלות " +
+        "לפי SAP Note 2269324. הפריט מציין את SAP Integrated Business Planning (IBP) כפתרון לתכנון מכירות ותפעול " +
+        "(\"IBP is the successor solution\") וקובע שאין נתיב מעבר ייעודי בין PP SOP ל-IBP.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MC75_SIMPL_ITEM_2025,
+      recommendedAction:
+        "לבדוק את תוקף רישיון ה-compatibility pack מול SAP Note 2269324 ולתכנן מעבר ל-SAP Integrated Business " +
+        "Planning (IBP) בהתאם ל-SAP Note 3503528; אם MC75 משמש רק כממשק למערכת תכנון חיצונית, לשקול יצירת PIR ישירות " +
+        "דרך ה-API המתועד בפריט (OP_API_PLND_INDEP_RQMT_SRV_0001) במקום להמשיך להשתמש ב-SOP.",
+    },
+    xrefs: ["tx:MC74"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "המחקר בוצע לפי scripts/sap-help-search.mjs (4 חיפושים: 'MC75 Transfer Rough-Cut Plan to Demand Management', " +
+      "'Sales and Operations Planning compatibility scope S/4HANA', 'S4TWL Sales and Operation Planning' בסקופ " +
+      "SAP_S4HANA_ON-PREMISE, וחיפוש דטרמיניסטי קודם המתועד ב-transactions-auto.ts שכלל גם סקופ SAP_ERP; אף לא אחד " +
+      "מהם החזיר את מסמך ה-PDF כתוצאת חיפוש ישירה) ועל קריאת שני מסמכי ה-PDF הרשמיים שכבר חולצו לפי HOUSE-RULES §4 " +
+      "(scratchpad/official/SIMPL_OP2025.pdf.txt סביב שורות 44599-44700; scratchpad/official/SIMPL_OP2023.pdf.txt " +
+      "סביב שורות 42300-42335), מאומת מול audit/master-completion/simpl-tcode-index.json. תיקון מול ההנחיה שהתקבלה: " +
+      "ההנחיה ציינה עבור 2023 FPS03 פריט 30.9 'S4TWL - ANSI/ISA S95 Interface'; זה אינו תואם את הממצא בפועל. הן " +
+      "ה-index והן קריאת ה-PDF מראים שהפריט המזכיר MC75 ב-2023 FPS03 הוא 30.37 'S4TWL - Sales and Operation " +
+      "Planning' (אותו נושא כמו 9.5.17 ב-2025 FPS01), ואין כל אזכור של MC75 בפריט 30.9 או בכל פריט העוסק ב-ANSI/ISA " +
+      "S95. לא נמצאה אפליקציית Fiori עם MC75 כקוד מוביל בספריית Fiori Apps Library (S32OP), לפי חיפוש דטרמיניסטי " +
+      "קודם; לכן לא נכתב successor פורמלי (SAP IBP אינו קוד/מזהה קנוני במאגר הזה - tx/table/fiori/cds - ולכן אינו " +
+      "יכול לשמש כ-successor xref לפי כללי הבית, ומוזכר רק בפרוזה). מעמד ECC ייעודי (מעבר להיות MC75 טרנזקציית SOP " +
+      "סטנדרטית) לא אומת בנפרד: 0 תוצאות חיפוש מצוטטות בסקופ SAP_ERP. לא בוצעה בדיקה במערכת SAP חיה; ה-SE93 בסביבת " +
+      "היעד נותר הבדיקה הסוגרת לקיום/טיפוס הטרנזקציה. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MC75 " +
+      "ב-data/verification/transactions-auto.ts.",
   },
 ];

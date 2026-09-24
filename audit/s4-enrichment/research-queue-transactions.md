@@ -208,6 +208,56 @@ L3 → L5 (derived 'changed' → authored 'fiori_alternative_available'), COR4 L
 (repository_verified → sap_official_verified; no authored status, the derived 'changed' stays).
 Gates: both `tsc` runs clean; `npm test` 211/211 (212 before e936351a removed the objects
 foundation-guard test).
+Batch 11 written 2026-09-24 (access date stamped 2026-09-24): 6 audited records written
+(`tx:CR03`, `tx:CS01`, `tx:CS02`, `tx:CT04`, `tx:MC74`, `tx:MC75`), 0 refuted. CS01, CS02 and
+MC74 from `verdict.fixedRecord`; CR03 from its repaired, re-audited draft (the re-audit listed
+no problem and one optional cleanup whose target, a writer instruction in the draft's summary
+and gaps, was not part of the draft handed to the writer); CT04 and MC75 from the drafts with
+every listed downgrade applied, each anchor matched exactly once. Status sources point at shared
+consts (`CR03_FAL`, `CS01_SIMPL_ITEM`, `CS02_SIMPL_ITEM` and `CT04_SIMPL_ITEM` = evidence[0],
+`MC74_SIMPL_ITEM_2025` and `MC75_SIMPL_ITEM_2025` = evidence[1]) instead of what the drafts and
+verdicts carried: a full re-typed copy (CR03, MC74; asserted deep-equal to the evidence row
+before the swap), a stub copy whose claim read '(same object as evidence[0]...)' (CS01, CS02;
+asserted equal apart from that claim) or a marker string (CT04: a string naming evidence[0];
+MC75: 'evidence[1] (2025 FPS01 item 9.5.17)'). Writer deviations: (1) the MC74 `reviewer` field
+(set by the researcher) dropped, house convention (no record carries one); (2) the CS02
+repository row's `repoRef` extended from `data/tcode-catalog.ts#CS02` to
+`data/tcode-catalog.ts#CS02; data/domains.ts`: its title and claim cite domains.ts, the file
+that names CS11 and CS12 (HOUSE-RULES §3.1; `data/domains.ts` line 345 read at write), the
+multi-path form the MC74 audit required for its own repository row; (3) the notes of CS01, CS02,
+CT04 and MC75 end with the sentence that the generated record in `transactions-auto.ts` is
+superseded (CR03 and MC74 already said so); `data/verification/index.ts` and the schema test
+drop the generated record of a researched code, so the CT04 verdict's instruction to regenerate
+that shard (a file this writer does not own) was not needed and not done; (4) CT04 evidence[2]
+and evidence[3]: both auditor phrases applied verbatim ('מופיעה בתקציר כ-CT04 Characteristics
+management לצד CL02/CLHP/CL20N/CL24N', 'והסניפט מסתיים ב-Create Classifications Technical name:
+SAP_CA_CL_MAINTAIN'), with the surrounding sentence re-derived so it does not repeat itself
+('הוא מאשר ש-...' dropped); (5) the CT04 evidence[0] table replacement also consumed the draft's
+trailing ": 'CT04 Characteristics'." so the name is not printed twice. No target in the draft
+handed to the writer: the CT04 verdict's items on `summary`, `gaps[0]` and `gaps[1]` (the drafts
+carried no summary or gaps field; the gaps[0] content is in evidence[0].claim and status.he, the
+gaps[1] content in status.he and recommendedAction). Kept as audited after review (the batch-10
+rule): 'רק' / 'בלבד' tokens bounded to fully read items or describing what was read (CS02 notes
+'רק ב-Other Terms', MC74 notes 'בלבד' twice, MC75 evidence[2] 'שמופיע רק בגרסת 2025 FPS01', CT04
+'הסניפט בלבד נקרא' and the batch-import restriction); the MC75 tokens its verdict named were
+removed. No new lookups (writer contract): no sap-help-search / sap-help-body / fal-app run and
+no Simplification List read; the values are the auditors'. The audited JSON was taken verbatim
+from the task transcript and the TS emitted mechanically; round trip: the 69 existing records
+deep-equal before and after, the six new ones deep-equal the transformed JSON, and the only
+paths that differ from the audited records are the ones listed above. Repository files read at
+write, for this queue only: the `data/tx-intel.ts` and `data/tcode-catalog.ts` rows of the six
+codes (tx-intel has none for MC74 / MC75), the `data/transactions.ts` row of CS01 (none for the
+other five), `data/domains.ts` line 345, the MC74 lines of
+`data/library/pp-knowledge.ts` and `data/library/pp-textbook/ch11.ts`, `data/fiori/apps.ts` (no
+F1813, F1813A or F6175), and the `simpl-tcode-index.json` entries of the six at HEAD and before
+e7dddc5f. Coverage (`report:coverage --catalog transactions`, plus a per-id diff of `--ids`
+before / after in which only the six ids moved): L3 471 → 467, L5 68 → 72, L1 1277 → 1277, L4 2
+→ 2, verified 567 → 569, verification-required 1247 → 1245, conflict 4 → 4, s4-applicable 568 →
+570; CR03, CS01, CS02 and CT04 L3 → L5 (repository_verified → sap_official_verified; status
+token unchanged, 'unchanged' for CR03 and 'changed' for the other three, now carried by an
+official status source), MC74 and MC75 L1 → L1 (verification_required → sap_official_verified,
+authored 'compatibility_scope'; no `data/transactions.ts` / `tx-intel` structural facts, the L2
+gate, as for CM31). Gates: both `tsc` runs clean; `npm test` 211/211.
 
 ## refuted
 
@@ -221,6 +271,7 @@ foundation-guard test).
 - (none in batch 8, 2026-09-24: both audited drafts, `tx:CM01` and `tx:CM02`, survived verification and were written; this closes the batch-5 `tx:CM01` / `tx:CM02` entries above.)
 - (none in batch 9, 2026-09-24: all 6 audited drafts, CM31, CM50, CO02, CO03, CO09 and CO53, survived verification and were written from `verdict.fixedRecord` with the writer deviations listed in the header.)
 - (none in batch 10, 2026-09-24: all 6 audited drafts, COHV, COOIS, COOISPI, COR4, CORK and CR01, survived verification and were written; COHV from the draft (no problem, no downgrade), the other five from `verdict.fixedRecord`, with the writer deviations listed in the header.)
+- (none in batch 11, 2026-09-24: all 6 audited drafts, CR03, CS01, CS02, CT04, MC74 and MC75, survived verification and were written; CS01, CS02 and MC74 from `verdict.fixedRecord`, CR03 from its repaired, re-audited draft, CT04 and MC75 from the drafts with the downgrades applied, with the writer deviations listed in the header.)
 
 ## conflicts
 
@@ -285,6 +336,12 @@ foundation-guard test).
 - `tx:CORK` (batch 10): `data/tx-intel.ts#CORK` names 'Confirm Production Operation (תלוי גרסה)' (`fiori`) and, in `s4Delta`, 'Confirm Process Order (F3364)' as the Fiori alternative plus 'תנועות ל-MATDOC'. The FAL record prints 'Confirm Process Order' as the name of the CORK SAP GUI app itself (PP-PI-POR-OPC, predecessors and successors empty), and `fiori:F3364` carries `verification_required` in `data/verification/fiori.ts` (its header: no library record on S32OP / S27OP). Neither pairing nor the MATDOC sentence was checked by this record. `simpl-tcode-index.json` at HEAD gives the 2023 mention to 30.9 'S4TWL - ANSI/ISA S95 Interface'; the string sits in 30.18 / 30.19 (the CORZ / CO53 defect); the rebuilt index in the working tree gives 30.18 / 30.19. The help.sap.com search service labels the Confirmations record's deliverable as Retail or as Logistics - General (LO) depending on the query (auditor); the record says so.
 - `tx:CR01` (batch 10): `data/transactions.ts#CR01` (`fiori`) names 'Manage Work Centers'; the researcher did not find an app of that name under `fal-app --tcode CR01` (S32OP: the GUI entry, 0 successors), so the claim is kept out of the record as unverified. `data/tx-intel.ts#CR01` joins 'ניהול נתוני אב' and 'מרכז עבודה (Work Center)' with a long dash in `area`, which the record's quote renders as a comma (HOUSE-RULES §3.7, the CM50 precedent); its `s4` 'זמין ב-S/4HANA ללא שינוי מהותי' is repository-only and was kept out of status.he at the audit; its `s4Delta` names CRHD / KAKO / CRCO and CDS I_WorkCenter, I_WorkCenterCapacity, I_WorkCenterCostCenter, not checked here. Official-source tension kept inside the record: item 6.5.9 / 12.16 'S4TWL - Reporting/Analytics in Controlling' labels 'CR01-CR03 (create/change/display process order)', while the FAL record and the role page 'Work Center Maintenance' (loio 5d25bf53d25ab64ce10000000a174cb4) identify CR01 as Create Work Center; quoted verbatim, not marked conflicting_sources (as audited); the SE93 text of CR01 in a live system would settle it. `simpl-tcode-index.json` at HEAD gives the 2023 mention (line 20407) to 12.9; the quote sits under 12.16 (the CK11N defect of batch 5); the rebuilt index in the working tree gives 12.16.
 - cross-cutting (batch 10): at write time another pipeline had uncommitted changes to `scripts/qa/simpl-tcode-index.mjs` (a heading pattern that accepts '12.10S4TWL') and to `audit/master-completion/simpl-tcode-index.json`; the rebuilt entries address the heading-without-space defect recorded in batches 3 to 10 (checked at write for this batch's six codes: COR4 12.9 → 12.10, CORK 30.9 → 30.18 / 30.19, CR01 12.9 → 12.16; COHV, COOIS and COOISPI unchanged). The index sentences in the notes of the batch 3 to 9 records describe the index committed at their write time and were not touched (existing records are kept); once the rebuild lands they want a dated update (Old → New). The COR4 / CORK sentences of this batch are bounded to the committed index already. Not done for any of the six: a live SAP check (sc4sap MCP not connected in this session).
+
+- `tx:CR03` (batch 11, 2026-09-24): no repository conflict. `data/tx-intel.ts#CR03` (area 'מרכזי עבודה (Work Centers)', `s4` 'זמינה ב-S/4HANA.', `fiori` empty, no `s4Delta`) and `data/tcode-catalog.ts#CR03` ('Display Work Center') agree with the FAL record. The official-source tension logged for `tx:CR01` applies unchanged: item 6.5.9 / 12.16 'S4TWL - Reporting/Analytics in Controlling' labels 'CR01-CR03 (create/change/display process order)', while the FAL record and the role page 'Work Center Display' (loio 6025bf53d25ab64ce10000000a174cb4) identify CR03 as Display Work Center; quoted verbatim, not marked conflicting_sources (as audited). The Data Migration record 'Work center/Resource' (loio d1c46c79ab034062a3ded5bb8ab3e79f) lists Manage Work Centers (F6175) next to CR03 with no successor statement; F6175 is absent from `data/fiori/apps.ts` (prose only). The committed index gave the 2023 mention to 12.9 before e7dddc5f and gives 12.16 now, the item the record cites.
+- `tx:CS01` (batch 11): `data/tx-intel.ts#CS01` (`s4Delta`) says 'נשמרת ב-S/4HANA' and names Maintain Bill of Material (F1813) as the Fiori alternative. The FAL F1813 record (S32OP) prints CS01 as its leading GUI transaction and a successor 'F1813A Maintain Bill Of Material (Version 2)' that returns empty at S32OP, which `s4Delta` does not mention; item 10.4.8 'S4TWL - Variant Configuration' restricts 'Classification as Selection Condition' in CS01 / CS02, so the record carries an authored 'changed'. The `s4Delta` sentence on STKO / STPO / STAS / MAST was not checked. F1813 and F1813A are absent from `data/fiori/apps.ts` (prose only).
+- `tx:CS02` (batch 11): `data/tx-intel.ts#CS02` names 'Manage Bill of Materials' in `fiori`, a name no record cited by tx:CS02 prints (the Feature Comparison page names F1813 'Maintain Bill of Material'), and in `s4Delta` calls F1813 the Fiori alternative, while that page marks F1813 'No' for Maintain variant BOMs and Maintain subitems (CS02 'Yes'). Its `alternative` lists CSAP_MAT_BOM_MAINTAIN, not checked here; its `s4` 'זמין ב-S/4HANA. מומלץ ECM.' is repository-only.
+- `tx:CT04` (batch 11): the repository rows disagree on the module: `data/tcode-catalog.ts#CT04` = module PP-PI, area 'מערכת מחלקות'; `data/tx-intel.ts#CT04` = module PP, area 'סיווג' and 'מאפיינים (Characteristics)' joined by a long dash (the task hint the record's notes quote as 'סיווג, מאפיינים (Characteristics)'). The `tx-intel` `s4` / `s4Delta` (kept in S/4HANA, CABN / CAWN kept, used by Advanced Variant Configuration) is repository-only and mentions neither the general changes item 10.4.9 / 28.5 'S4TWL - Classification' makes to the classification transactions nor the '(Deprecated)' name variants the FAL record prints at S32OP with no successor; the record carries an authored 'changed'. CT01, CT02, CT03, CT05 and CT06, which the item names, are not in the route manifest (prose only).
+- `tx:MC74` / `tx:MC75` (batch 11): no repository conflict; neither code has a `data/tx-intel.ts` or `data/transactions.ts` row, so both stay at L1 (the L2 gate) while carrying an authored 'compatibility_scope' from item 9.5.17 'S4TWL - Sales and Operation Planning' (2025 FPS01). The task hint's 2023 FPS03 item 30.9 'S4TWL - ANSI/ISA S95 Interface' came from the index before e7dddc5f; the committed index now gives 30.37 'S4TWL - Sales and Operation Planning' for both codes, the item the records cite. The two records cite the same 2025 item with different release strings ('2025 FPS01' for MC74, '2025.001' for MC75), both house forms. Open: the body of SAP Note 2269324 (usage rights and expiry of the compatibility scope) was not read; SAP IBP, which the item names as the successor solution, has no id in the universe, so no structured successor. Not done for any of the six: a live SAP check (sc4sap MCP not connected in this session).
 
 ## IP30 / IP30H decision (2026-09-22, design-audit continuation §18)
 
