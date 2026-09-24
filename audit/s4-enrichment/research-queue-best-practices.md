@@ -137,6 +137,76 @@ earlier batches, 43 from the new records), and no other rule; both `tsc` gates c
 211/211 (one test fewer than batch 2 because commit e936351a removed the objects foundation
 guard).
 
+Batch 4 written 2026-09-24 (access date stamped 2026-09-24): 4 drafts audited, 4 written
+(`project-system-process`, `ewm-warehouse-process` and `embedded-analytics-process`, module Cross;
+`ibp-ppds-integration-process`, module PP), none refuted, so nothing was added under refuted. No
+verdict carried a fixedRecord: the writer applied every listed downgrade to the researcher drafts,
+loaded from the workflow journal (research results of wf_d9aa0357-e61, whose step, evidence and xref
+counts match the auditors' counts: 11/33/44, 9/46/40, 10/43/27 and 10/41/60); each replacement matched
+exactly once, with RLM marks ignored when locating the text. Both optional downgrades were taken: the
+project-system 6.1.4 row is now byte-identical to the first `table:COSP` row of
+`data/verification/tables.ts` (DATE4 = 2026-09-15, kept as `DATE_TB_15`) plus '(אומת ברשומת
+table:COSP)', and the EWM reference stays on the Warehouse Request page, with a note that it is the
+definition page shared by inbound and outbound processing. Rows added by the downgrades:
+project-system +5 (the CJ40 / CJ8G row and the incidents row each split in two;
+`data/function-intel.ts#K_ORDER_SETTLEMENT`, `data/function-intel.ts#K_SETTLEMENT_RULE_READ`,
+`data/tcode-catalog.ts#IW31`); ewm +2 (Fiori library F4150; What's New 2022 'Direct Transfer
+Migration Approach for EWM in SAP S/4HANA'); embedded-analytics +2 (the incidents row and the
+transformation row each split in two); ibp +1 (`data/books/book4.json#11.1`). Before writing, the
+writer re-ran `scripts/fal-app.mjs F4150 --release S32OP` (both roles, both catalogs and the leading
+/SCWM/MON, as the new row states), re-ran the search 'Direct Transfer Migration Approach for EWM in
+SAP S/4HANA' (url, loio c6ee329bf90545f6ae838b0100f2bbf2 and versionId 2022.000 came back verbatim),
+re-read through `scripts/sap-help-body.mjs` the bodies of that page, of P3 (loio
+9a862211cdd44d6ea5beedecbaee7204: 'CO01 or COR1', 'Release the manufacturing order', 'CO02 or COR2'),
+of the LO page 'Production Planning and Detailed Scheduling (PP/DS)' (loio
+e01f0742705a4b97bfca4157949873fc: 'with certain restrictions'), of 'Production Planning Integration
+Based on Key Figures' (IBP 2608: 'in a regularly scheduled planning run') and of 'Staging Table
+Migration Approach for EWM in SAP S/4HANA', read items 10.1.50, 9.5.1, 15.5.2, 9.2.1 and 4.1.13 in
+`scratchpad/official/SIMPL_OP2025.pdf.txt`, re-read every repository record behind a new row
+(function-intel K_ORDER_SETTLEMENT and K_SETTLEMENT_RULE_READ, tcode-catalog IW31, IW32, KO8G and
+CO88, tx-intel CJ40, troubleshooting settlement-error, maint-order-budget and acdoca-coep-mismatch,
+s4-transformation LESSONS) and confirmed book4 sections 11.1 to 11.3 and every other cited book
+section. Every official row that ends in '(אומת ברשומת X)' was compared with its overlay row: the
+url, title, release and accessedAt match, and the claim is the overlay claim (F0539: with a longer
+tag naming the F0286A row of the same record) or its verbatim leading part (for /SCWM/TO_CONF the
+quoted snippet is closed where it was cut). Writer deviations beyond the listed downgrades: (1) project-system summary: the replaced
+span is one phrase longer than the verdict's, so 'לפי כלל ההתחשבנות' is not repeated; (2) the new
+CJ40 row also carries the record's process line (CJ20N, CJ40, CJ30, actuals, CJI3), which the
+verdict's context text relies on, and its s4Delta sentence on the COSP / COSS compatibility views
+(eccToS4[3]); (3) the 'S4TWL - Project Reporting' row now also quotes 'These Fiori apps are hence
+deprecated as of SAP S/4HANA 2023', the sentence behind the verdict's eccToS4[2] wording; (4) the
+notes' new parenthetical is merged with the release list; (5) ewm: the Direct Transfer row quotes
+the page body, because the search snippet breaks off before 'approach'; the WM item row now quotes
+'which comes with limited usage rights', which antiPatterns[4] relies on; the notes record the
+writer's reads; (6) embedded-analytics: steps[9] also names MCI7 (its xref) and renders the item's
+'should be used rather than transaction COOIS' as 'מומלץ להשתמש ... במקום COOIS';
+preconditions[1] keeps SAP_BR_EMPLOYEE as the general prerequisite in an added sentence;
+exceptions[5] got the steps[8] softening in its own wording; (7) ibp: the LO body was re-read, so
+that row (which is also the status source) quotes the full sentence and the notes say so; the
+notes' '(טיוטת חוקר)' label is dropped; the 9.5.1 row quotes the item's prerequisite ('Target
+release is SAP S/4HANA 1809. Source release is SAP S/4HANA 1610 or SAP S/4HANA 1709') instead of
+'1809 ומעלה'; the key-figures row quotes 'in a regularly scheduled planning run', which steps[4]
+now says; the tx-intel MD61 and domains rows now print MD63 (the MD61 record's `similar` list and
+the domains records' `tcodes`), because steps[2] and transactions[1] name MD63 and no claim printed
+it; migration[0] says 'במקרה זה' instead of repeating 'אם הם ממומשים'; (8) file: the header's kpis
+sentence also names embedded-analytics-process (kpis from the repository's domain records) and
+the two authored statuses; three date constants were added (`DATE_TB_01`, `DATE_TX_07`,
+`DATE_FI_23`) and the comments of `DATE_TX_21`, `DATE_TX_02`, `DATE_TB_15` and `DATE_FM_14` list the
+rows they now also date; the two status sources are shared consts (`EA_STATUS_SOURCE`,
+`PPDS_STATUS_SOURCE`, typed `BestPracticeLike["evidence"][number]`, so the type import stays the only
+import), each the same object as its evidence row. Documented negatives left in notes on purpose:
+the zero-hit query 'BAPI_BUS2054_CREATE_MULTI' (project-system) and the 'Best Practice - Demand
+Planning (7JF)' hit that belongs to SCM-APO-SPP and is not recorded as a scope item (ibp).
+Coverage (`report:coverage --catalog best-practices`): total 28 → 32, L2 28 → 30, L5 0 → 2, verified
+27 → 31, conflict 1 → 1, s4-appl 0 → 2, edition 0 → 1 (the IBP record's public-cloud sources).
+Gates: the validator on the full registered universe prints 0 problems (32 practices);
+`scratchpad/validate-bp-file.mjs` prints 80 `dangling-xref` hits, all bp slugs registered in files
+its reduced universe does not load (53 from the earlier batches; 27 from the new records:
+confirmation-process, goods-movement-process, maintenance-order-process,
+material-staging-and-reservation, mrp-process, order-settlement-process, plan-to-produce-discrete,
+production-order-process, sales-demand-to-production), and no other rule; both `tsc` gates clean;
+`npm test` 211/211.
+
 ## refuted
 
 - `bp:breakdown-maintenance-process` (batch 1, 2026-09-24): refuted at the gate, not
@@ -326,3 +396,34 @@ guard).
   gap in the same record: the Simplification List item prints the DDL sources NSDM_DDL_MKPF /
   NSDM_DDL_MSEG and `data/s4-impact.ts` names the views NSDM_V_MKPF / NSDM_V_MSEG; the link
   between the two names was not verified.
+- `bp:project-system-process`, repository against Simplification List (disclosed in notes, no
+  `conflicting_sources` row): `data/tx-intel.ts#CJ20N` lists CJ01, CJ02, CJ06, CN21 and CN22 as
+  obsolete, while 'S4TWL - Simplification of maintenance transactions' (2025 FPS01 Simplification
+  List, item 10.1.60) says these maintenance transactions are part of the compatibility scope and,
+  enhanced with SAP S/4HANA 2020 FPS2 (field extensibility), part of the perpetual scope. The record
+  follows the item. In the same repository record the process line reads 'תקצוב (CJ40)/תכנון',
+  while the CJ40 record and the catalog make CJ40 planning and CJ30 budgeting; the record uses CJ40
+  for planning and CJ30 for budgeting. BAPI_BUS2054_CREATE and BAPI_BUS2001_GET_STATUS, listed in
+  the same record, were not found in an official search and stay for verification in SE37. What
+  would settle it: SE93 for the five codes in the target system, and an edition split of the
+  `obsolete` list in `data/tx-intel.ts` (not a best-practices file, not edited here).
+- `bp:ewm-warehouse-process`, repository against Simplification List (disclosed in eccToS4[5] and
+  in the tcode-catalog row, no `conflicting_sources` row): `data/ecc-s4.ts#ewm` and
+  `data/lifecycle.ts#LT03` (and the s4Delta of tx-intel LT01 and LT12) describe the whole of classic
+  WM as compatibility scope, while 'S4TWL - Warehouse Management (WM)' (2025 FPS01, item 15.5.2)
+  says Stock Room Management reuses major parts of LE-WM and can be used beyond 2025, and that
+  WM-TRM, WM-LSR, WM-VAS, WM-YM, WM-CD, WM-TFM-CP and WM-DWM are the compatibility-scope parts,
+  'which comes with limited usage rights' (SAP note 2269324). Second item: `data/tcode-catalog.ts`
+  titles /SCWM/ADGI 'Adjust Goods Issue (EWM)', while the Fiori library (S32OP, row copied from
+  `tx:/SCWM/ADGI`) calls it 'Post Goods Issue - Unplanned'; the record uses the library title. What
+  would settle it: corrected texts in those repository records and a corrected catalog title (not
+  best-practices files, not edited here).
+- `bp:embedded-analytics-process`, repository against Simplification List (disclosed in notes, no
+  `conflicting_sources` row): the s4Delta of `data/tx-intel.ts#MCI7` and `#MCI8` says PMIS/LIS is
+  compatibility scope, while 'S4TWL - LIS in EAM' (2025 FPS01, item 4.1.13) does not use that term
+  for PMIS; the term appears in 'S4TWL - Logistic Information System in PP' (item 9.2.1) for the
+  shop floor information system (ID 452 of the matrix). The record attributes each statement to
+  its source. Related: `data/fiori/apps.ts#F3289` keeps type 'Transactional' while the library
+  prints 'Transactional, Analytical' (the apps.ts entry records the gap itself). What would settle
+  it: the compatibility matrix attached to SAP Note 2269324, then a correction of the tx-intel
+  s4Delta (not a best-practices file, not edited here).

@@ -11,19 +11,64 @@
    through scripts/sap-help-body.mjs. Official sources that disagree stay side
    by side as conflicting_sources. A field no source documents is left out on
    purpose (kpis in every record below except order-to-cash-process, whose kpis
-   come from the official Order-to-Cash Performance page): the page renders the
-   gap by name.
+   come from the official Order-to-Cash Performance page, and
+   embedded-analytics-process, whose kpis come from the repository's domain
+   records): the page renders the gap by name. Two records carry an authored
+   status (embedded-analytics-process, ibp-ppds-integration-process); its source
+   is the same object as the official evidence row it names (EA_STATUS_SOURCE,
+   PPDS_STATUS_SOURCE below).
    Drafts the auditor refuted are queued in
    audit/s4-enrichment/research-queue-best-practices.md, not written. */
 import type { BestPracticeLike } from "@/lib/evidence/types";
 
 const DATE = "2026-09-24";
 /** accessedAt values kept from the verification entries reused below. */
-const DATE_TX_21 = "2026-09-21"; // data/verification/transactions.ts DATE21 (IP30_SIMPL_ITEM, tx:IP30 / tx:IP30H)
-const DATE_TX_02 = "2026-09-02"; // data/verification/transactions.ts DATE2 (MB11_SIMPL, tx:MB11)
-const DATE_TB_15 = "2026-09-15"; // data/verification/tables.ts DATE4 (QMAT_INSPECTION_SETUP, table:QMAT; item 6.5.1, table:COSP)
+const DATE_TX_21 = "2026-09-21"; // data/verification/transactions.ts DATE21 (IP30_SIMPL_ITEM, tx:IP30 / tx:IP30H);
+// the same date on the rows copied from enhancements.ts DATE21 (enh:technique:bte) and functions.ts (fm:BAPI_MATERIAL_SAVEDATA)
+const DATE_TX_02 = "2026-09-02"; // data/verification/transactions.ts DATE2 (MB11_SIMPL, tx:MB11);
+// the same date on the rows copied from cds.ts DATE2 (cds:I_ProductionOrder, cds:I_MaintenancePlan,
+// cds:I_MeasurementDocument), fiori.ts DATE (fiori:F2176) and enhancements.ts DATE (enh:badi:WORKORDER_UPDATE)
+const DATE_TB_15 = "2026-09-15"; // data/verification/tables.ts DATE4 (QMAT_INSPECTION_SETUP, table:QMAT; items 6.5.1 and 6.1.4, table:COSP)
 const DATE_TB_02 = "2026-09-02"; // data/verification/tables.ts DATE2 (MM - Material inventory balance, table:MBEW)
-const DATE_FM_14 = "2026-09-14"; // data/verification/functions.ts DATE14 (Material Documents - Read, Create, fm:BAPI_GOODSMVT_CREATE)
+const DATE_FM_14 = "2026-09-14"; // data/verification/functions.ts DATE14 (Material Documents - Read, Create, fm:BAPI_GOODSMVT_CREATE;
+// also Communication of Goods Movements from Inventory Management to EWM, same record)
+const DATE_TB_01 = "2026-09-01"; // data/verification/tables.ts DATE (Warehouse Product Migration, table:MLGN / table:MLGT)
+const DATE_TX_07 = "2026-09-07"; // data/verification/transactions.ts DATE3 (Material Staging (with EWM), tx:COR2)
+const DATE_FI_23 = "2026-09-23"; // data/verification/fiori.ts DATE23 (Advanced Scheduling Board, fiori:F5460)
+
+/** Authored status sources: each is the same object as the official evidence row it names. */
+const EA_STATUS_SOURCE: BestPracticeLike["evidence"][number] = {
+  sourceType: "sap_help",
+  sourceTitle: "S/4HANA Embedded Analytics | Analytics",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6b356c79dea443c4bbeeaf0865e04207/c53deb5765c7be12e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE,
+  claim: "גוף העמוד (loio c53deb5765c7be12e10000000a4450e5, versionId 2025.001, נקרא דרך " +
+    "scripts/sap-help-body.mjs) מונה למשתמשי הקצה: Multidimensional reports, ‏Smart Business Runtime " +
+    "Environment, יישומים אנליטיים מבוססי Analysis Path Framework (APF), ‏Query Browser ויישומי Fiori " +
+    "אנליטיים; ולמומחי האנליטיקה: Custom View app, ‏Custom Analytical Queries app, ‏APF Configuration " +
+    "Modeler, ‏Manage KPIs and Reports ו-View Browser. העמוד קובע: 'All the analytical tools consume Core " +
+    "Data Services (CDS views), which make up the Virtual Data Model (VDM) of SAP S/4HANA'; לשימוש בתצוגות " +
+    "CDS מסוג analytical queries יש להגדיר את ה-Analytic Engine; ובאמצעות ה-Fiori Launchpad המשתמש עובר בין " +
+    "יישומים טרנזקציוניים ואנליטיים 'without need for data replication'.",
+  verificationLevel: "sap_official_verified",
+};
+const PPDS_STATUS_SOURCE: BestPracticeLike["evidence"][number] = {
+  sourceType: "sap_help",
+  sourceTitle: "Production Planning and Detailed Scheduling (PP/DS) | Logistics - General (LO)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/e01f0742705a4b97bfca4157949873fc.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  accessedAt: DATE,
+  claim: "loio e01f0742705a4b97bfca4157949873fc; גוף העמוד (2025 FPS01) נקרא דרך scripts/sap-help-body.mjs " +
+    "ב-2026-09-24: 'Production Planning and Detailed Scheduling (PP/DS) is part of SAP S/4HANA from SAP " +
+    "S/4HANA OP 1709 onwards as ePP/DS (embedded Production Planning and Detailed Scheduling) with certain " +
+    "restrictions'.",
+  verificationLevel: "sap_official_verified",
+};
 
 export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
   /* ============================================================= calibration */
@@ -4767,5 +4812,4142 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "תיקון ברשומת המאגר (לא בוצע כאן). מקורות DDL ‏NSDM_DDL_MSEG / NSDM_DDL_MKPF מודפסים בפריט הפישוט, ושמות " +
       "התצוגות NSDM_V_MSEG / NSDM_V_MKPF מופיעים ברשומת המאגר; הקשר ביניהם לא אומת. לא בוצעה בדיקה במערכת SAP " +
       "חיה.",
+  },
+  /* ========================================================== project system */
+  {
+    slug: "project-system-process",
+    he: "מערכת פרויקטים (PS) עם תחזוקה וייצור: מבנה, תקציב, צבירת עלויות והתחשבנות",
+    en: "Project System with maintenance and production: structure, budget, cost collection and settlement",
+    module: "Cross",
+    summary: "הפרויקט ב-Project System מורכב מהגדרת פרויקט, היררכיית אלמנטי WBS, ורשתות עם פעילויות ואבני דרך. על " +
+      "ה-WBS מתכננים עלויות, מקצים ומשחררים תקציב תחת בקרת זמינות, ומשייכים אליו פקודות תחזוקה ופקודות ייצור כך " +
+      "שהעלויות שלהן מנוהלות יחד עם הפרויקט. בסוף התקופה העלויות מתחשבנות למקבלים לפי כלל ההתחשבנות, ישירות או " +
+      "דרך ה-WBS, עד סגירה טכנית וסגירה עסקית.",
+    context: "לפי רשומת tx-intel של CJ20N במאגר, Project Builder הוא סביבת העבודה המרכזית למבנה (הגדרת פרויקט ב-PROJ, " +
+      "אלמנטי WBS ב-PRPS, רשתות ב-AUFK/AFKO ופעילויות ב-AFVC), ולפי רשומת tx-intel של CJ40 הרצף הוא מבנה " +
+      "(CJ20N), תכנון עלויות (CJ40), תקצוב (CJ30), רישום בפועל והשוואה (CJI3), והתחשבנות (CJ8G) לפי רשומת " +
+      "CJ20N. לפי עמוד 'Orders for Projects' הרשמי (S/4HANA 2025 FPS01), ניתן לשייך פקודות תחזוקה, פקודות ייצור " +
+      "והזמנות פנימיות לאלמנט WBS שהוא אלמנט הקצאת חשבון, והעלויות המתוכננות שלהן נרשמות בפרויקט בצורה מסוכמת. " +
+      "ב-S/4HANA, פריט הפישוט 'S4TWL - Simplification of maintenance transactions' קובע שטרנזקציות התחזוקה " +
+      "הקלאסיות (CJ01, ‏CJ06, ‏CN21, ‏CN22 ועוד) הורחבו ב-S/4HANA 2020 FPS2 והן חלק מה-perpetual scope; 'S4TWL " +
+      "- Project Reporting' מציב את CJI3 ב-compatibility scope עם CJI3N כחלופה, ולפי עמוד היישום Project Cost " +
+      "Overview ‏(F6991), העלויות בפועל נקראות מ-ACDOCA והתכנון מ-ACDOCP. תפקידי ה-Fiori הרשמיים הם Project " +
+      "Financial Controller ו-Project Logistics Controller.",
+    steps: [
+      {
+        he: "לבנות את מבנה הפרויקט: הגדרת פרויקט ואלמנטי WBS ב-CJ20N (או CJ06 ו-CJ01 הקלאסיות), עם Project Profile " +
+          "ותבנית לפי רשומת tx-intel. לסמן את אלמנטי ה-WBS שיקבלו עלויות כאלמנטי הקצאת חשבון: לפי העמוד הרשמי " +
+          "'Orders for Projects' רק אלמנט כזה מקבל שיוך פקודות. הטבלאות לפי המאגר: PROJ ו-PRPS (שתיהן אינן במילון " +
+          "הפרויקט), סטטוסים ב-JEST.",
+        xrefs: ["tx:CJ20N", "tx:CJ06", "tx:CJ01", "table:JEST"],
+      },
+      {
+        he: "לבנות רשתות ופעילויות ולשייך אותן ל-WBS: ב-CJ20N או ב-CN21 / CN22; לפי המאגר כותרת הרשת נשמרת ב-AUFK " +
+          "ו-AFKO והפעילויות ב-AFVC. אבני דרך נוצרות ברשת, ב-WBS ובמבנים התקניים, ולא לרכיבי פעילות (לפי העמוד " +
+          "הרשמי 'Creating Milestones').",
+        xrefs: ["tx:CN21", "tx:CN22", "table:AUFK", "table:AFKO", "table:AFVC"],
+      },
+      {
+        he: "לתכנן עלויות על ה-WBS ב-CJ40 (תכנון כולל ושנתי, לפי גרסת תכנון); לפי רשומת tx-intel התכנון אינו מחייב " +
+          "ואינו מבוקר בבקרת זמינות, והוא הבסיס להשוואת תכנון מול ביצוע. בסטטוס CRTD מותר לתכנן עלויות ולתקצב (לפי " +
+          "עמוד הסטטוסים הרשמי).",
+        xrefs: ["tx:CJ40", "table:COSP", "table:COSS"],
+      },
+      {
+        he: "לתקצב ולשחרר: תקציב מקורי ב-CJ30, שחרור תקציב ב-CJ32 (לפי העמוד הרשמי 'Releasing The Budget' השחרור נשען " +
+          "על התקציב הנוכחי ואפשר ברמה כוללת או שנתית), והפעלת בקרת זמינות ב-CJBV. בקרת הזמינות משווה את הערך " +
+          "המוקצה (בפועל ומחויבויות) לתקציב הניתן לחלוקה או לשחרור, לפי מגבלות הסבולת שב-Customizing.",
+        xrefs: ["tx:CJ30", "tx:CJ32", "tx:CJBV"],
+      },
+      {
+        he: "לשחרר את הפרויקט (REL): לפי עמוד הסטטוסים הרשמי, בסטטוס REL אפשר לרשום עלויות בפועל ל-WBS, והמעבר חזרה " +
+          "מ-REL ל-CRTD אינו אפשרי. לפי רשומת tx-intel של CJ20N, רישום ל-WBS בסטטוס CRTD הוא טעות שכיחה.",
+        xrefs: ["tx:CJ20N", "table:JEST"],
+      },
+      {
+        he: "לשייך פקודות תחזוקה לפרויקט: ב-IW31 / IW32 הפקודה משויכת לאלמנט WBS או לפעולת רשת; לפי העמוד הרשמי 'Use " +
+          "of Order Assignments' תאריכי הפרויקט הם תאריכי הבסיס של הפקודה, וכשהפקודה משויכת גם ל-WBS וגם לרשת " +
+          "תאריכי פעולת הרשת גוברים. בשיוך אוטומטי דרך Maintenance Event Builder המערכת משתמשת בשדה PM/PS Reference " +
+          "Element של רשימת המשימות (עמוד 'Assigning Maintenance Orders to Projects').",
+        xrefs: ["tx:IW31", "tx:IW32", "table:ILOA", "obj:maintenance-order"],
+      },
+      {
+        he: "לחבר את צד הייצור: MD51 מתכנן חומרים לפרויקט (WBS) עם מלאי פרויקט, ויוצר פקודות מתוכננות ודרישות רכש " +
+          "המוקצות לפרויקט (לפי רשומת tx-intel). פקודת ייצור משויכת ל-WBS; בקיבוץ דרישות, לפי העמוד הרשמי " +
+          "'Distribution of Costs from Production Orders', העלויות, ה-WIP והסטיות מתחלקים מפקודת הייצור לאלמנטי " +
+          "ה-WBS שנקבעו ב-Pegging, ולא לפקודה בסטטוס CLSD.",
+        xrefs: ["tx:MD51", "obj:planned-order", "obj:production-order"],
+      },
+      {
+        he: "לדווח ביצוע: אישור פעילויות רשת ב-CN25 או ביישום Confirm Network Activity ‏(F0296), ואישור אבני דרך " +
+          "ביישום Confirm Project Milestone ‏(F0295), שמוביל ל-CJ20N לפי ספריית ה-Fiori.",
+        xrefs: ["tx:CN25", "tx:CJ20N"],
+      },
+      {
+        he: "לעקוב אחר עלויות: CN41N לסקירת מבנה, CN42N / CN43N לסקירות פרטניות, CJI3N לשורות עלות בפועל (CJI3 נמצאת " +
+          "ב-compatibility scope לפי 'S4TWL - Project Reporting'); ב-Fiori: Project Cost Overview ‏(F6991) " +
+          "ו-Project Cost Line Items ‏(F6992); לפי עמוד Project Cost Overview, F6991 מנתח גם פקודות תחזוקה עם הקצאת " +
+          "חשבון בכותרת.",
+        xrefs: ["tx:CN41N", "tx:CN42N", "tx:CN43N", "tx:CJI3N", "tx:CJI3", "table:ACDOCA"],
+      },
+      {
+        he: "להתחשבן בסוף התקופה: קודם הפקודות ל-WBS שאליו הן משויכות (KO88 בודד, KO8G מרוכז לפי רשומת tx-intel של " +
+          "KO88; CO88 לפקודות ייצור ותהליך לפי קטלוג הטרנזקציות), ואז ה-WBS והרשתות ב-CJ88 (בודד) או CJ8G (מרוכז) " +
+          "למקבלים החיצוניים, לפי כלל ההתחשבנות (COBRA / COBRB); כללים אפשר לייצר ב-CJB1. להריץ Test Run תחילה " +
+          "(רשומות tx-intel של KO88 ו-CJ8G). פירוט כלל ההתחשבנות בשיטת התחשבנות הפקודות. לפי העמוד הרשמי 'Project " +
+          "Settlement', אפשר גם התחשבנות ישירה של כל אובייקט למקבל החיצוני; בהתחשבנות מרובת רמות הפקודות מתחשבנות " +
+          "ל-WBS הרלוונטי וה-WBS מתחשבן הלאה.",
+        xrefs: [
+          "tx:KO88", "tx:KO8G", "tx:CO88", "tx:CJ88", "tx:CJ8G", "tx:CJB1", "table:COBRA", "table:COBRB",
+          "bp:order-settlement-process",
+        ],
+      },
+      {
+        he: "לסגור: TECO לאלמנטים שהושלמו טכנית ועדיין צפויות בהם עלויות, CLSD כשהאלמנט הושלם לוגיסטית וחשבונאית (לפי " +
+          "עמוד הסטטוסים הרשמי, ב-CLSD אין רישום עלויות בפועל ל-WBS), ו-DLFL רק אחרי התחשבנות מלאה או כשהאלמנט אינו " +
+          "רלוונטי להתחשבנות.",
+        xrefs: ["table:JEST", "bp:period-end-closing-process"],
+      },
+    ],
+    antiPatterns: [
+      "אלמנט WBS שלא סומן כאלמנט הקצאת חשבון: לא ניתן לשייך אליו פקודות ולרשום עליו עלויות (רשומת tx-intel של " +
+        "CJ20N והעמוד הרשמי 'Orders for Projects').",
+      "רישום עלויות ל-WBS בסטטוס CRTD במקום REL (רשומת tx-intel של CJ20N).",
+      "בלבול בין תכנון (CJ40, לא מחייב) לתקצוב (CJ30, מבוקר בבקרת זמינות), או תכנון על WBS שאינו אלמנט תכנון " +
+        "(רשומת tx-intel של CJ40).",
+      "הרצת CJ8G או CJ88 בלי Test Run, או על WBS ללא כלל התחשבנות (רשומת tx-intel של CJ8G).",
+      "התחשבנות מרובת רמות לגלגול ערכים בתוך ההיררכיה: לפי העמוד הרשמי 'Project Settlement' היא עלולה להציג " +
+        "עלויות שגויות ב-WBS העליון במערכת המידע של הפרויקט.",
+      "העברת פקודה שכבר התחשבנה מ-WBS אחד לאחר: לפי העמוד הרשמי 'Settling Orders for Projects', הסכום שהתחשבן " +
+        "נשאר מוצג ב-WBS הקודם.",
+    ],
+    checks: [
+      "חיובי: פקודת תחזוקה משויכת ל-WBS משוחרר מקבלת את תאריכי הבסיס מהפרויקט, והעלויות שלה מוצגות תחת ה-WBS " +
+        "ב-Project Cost Overview.",
+      "שלילי: רישום עלות ל-WBS בסטטוס CRTD או CLSD נדחה.",
+      "שלילי: עם בקרת זמינות פעילה, רישום שחורג ממגבלת הסבולת מחזיר אזהרה או שגיאה לפי הפעולה שהוגדרה.",
+      "אינטגרציה: אחרי KO88 לפקודה ו-CJ88 ל-WBS, הפרויקט מאופס ב-CJI3N והעלות מופיעה במקבל החיצוני.",
+      "רגרסיה ב-S/4HANA: הניווט מ-CN41 או CJI3N לאובייקט הפרויקט פותח את CJ20N (לפי 'S4TWL - Navigation to " +
+        "Project Builder instead of special maintenance functions').",
+    ],
+    process: {
+      purpose: "לתכנן, לתקצב ולבקר עבודה חד-פעמית ומורכבת (למשל שיפוץ או השבתה מתוכננת, או ייצור לפי פרויקט) במבנה אחד, " +
+        "לאסוף אליו את עלויות פקודות התחזוקה והייצור המשויכות, ולהעביר את העלויות בסוף התקופה למקבלים הסופיים. " +
+        "לפי העמוד הרשמי 'Project Settlement', עלויות והכנסות נאספות בפרויקט באופן זמני בלבד ומתחשבנות למקבל אחד " +
+        "או יותר.",
+      trigger: [
+        {
+          he: "עבודת תחזוקה גדולה המתוכננת כפרויקט, כמו Revision שהפקודות שלה משויכות לרשת הפרויקט (עמוד 'Assigning " +
+            "Maintenance Orders to Projects').",
+          xrefs: ["obj:maintenance-order"],
+        },
+        {
+          he: "דרישה לייצור או לרכש המנוהלים לפי פרויקט, עם מלאי פרויקט ותכנון ב-MD51 (רשומת tx-intel של MD51).",
+          xrefs: ["tx:MD51"],
+        },
+      ],
+      preconditions: [
+        {
+          he: "Project Profile ו-Network Profile מתאימים; לפי רשומת tx-intel של CJ20N, Network Profile חסר הוא שגיאה " +
+            "שכיחה.",
+          xrefs: ["tx:CJ20N"],
+        },
+        {
+          he: "פרופיל תקציב עם הגדרות בקרת זמינות ומגבלות סבולת (Project System, Costs, Budget ב-Customizing, לפי " +
+            "העמודים הרשמיים 'Availability Control' ו-'Releasing The Budget').",
+          xrefs: ["tx:CJBV"],
+        },
+        {
+          he: "פרופיל התחשבנות ב-Project Profile או בסוג הרשת, וכלל התחשבנות בכל שולח לפני ההתחשבנות (עמוד 'Project " +
+            "Settlement').",
+          xrefs: ["table:COBRA", "table:COBRB"],
+        },
+        {
+          he: "סטטוס מערכת שמתיר את הפעולה: REL לרישום עלויות, והתחשבנות רק בסטטוס שמתיר אותה.",
+          xrefs: ["table:JEST"],
+        },
+      ],
+      masterData: [
+        {
+          he: "הגדרת פרויקט ואלמנטי WBS (PROJ ו-PRPS, שתיהן אינן במילון הפרויקט), עם סימוני אלמנט תכנון, אלמנט הקצאת " +
+            "חשבון ואלמנט חיוב (רשומת tx-intel של CJ20N).",
+          xrefs: ["tx:CJ20N"],
+        },
+        {
+          he: "רשתות ופעילויות (AUFK, ‏AFKO, ‏AFVC לפי המאגר) ואבני דרך.",
+          xrefs: ["table:AUFK", "table:AFKO", "table:AFVC"],
+        },
+        {
+          he: "בצד התחזוקה: שדה ה-WBS בנתוני המיקום והקצאת החשבון של האובייקט (ILOA, לפי העשרת הטבלאות במאגר).",
+          xrefs: ["table:ILOA"],
+        },
+      ],
+      roles: [
+        {
+          he: "Project Financial Controller ‏(SAP_BR_PROJ_FIN_CONTROLLER): קטלוג 'PS - Project Financial Control', " +
+            "יישומי Project Cost Overview ‏(F6991), Project Cost Line Items ‏(F6992) ו-Confirm Project Milestone " +
+            "‏(F0295), לפי ספריית ה-Fiori.",
+        },
+        {
+          he: "Project Logistics Controller ‏(SAP_BR_PROJ_LOG_CONTROLLER): קטלוג 'PS - Project Logistics Control', " +
+            "יישומי Confirm Network Activity ‏(F0296) ו-Confirm Project Milestone ‏(F0295).",
+          xrefs: ["tx:CN25"],
+        },
+        {
+          he: "לפי רשומות tx-intel במאגר: מנהל פרויקט, בקר פרויקטים ורואה חשבון עלויות (PS) ב-CJ20N, CJ40 ו-CJ8G.",
+          xrefs: ["tx:CJ20N", "tx:CJ40", "tx:CJ8G"],
+        },
+      ],
+      transactions: [
+        {
+          he: "מבנה: CJ20N (Project Builder); CJ06 / CJ01 / CJ02 / CJ03 להגדרת פרויקט ול-WBS; CN21 / CN22 לרשת.",
+          xrefs: ["tx:CJ20N", "tx:CJ06", "tx:CJ01", "tx:CJ02", "tx:CJ03", "tx:CN21", "tx:CN22"],
+        },
+        {
+          he: "תכנון ותקציב: CJ40 תכנון עלויות כולל; CJ30 תקציב מקורי; CJ32 שחרור תקציב; CJBV הפעלת בקרת זמינות.",
+          xrefs: ["tx:CJ40", "tx:CJ30", "tx:CJ32", "tx:CJBV"],
+        },
+        {
+          he: "פקודות משויכות: IW31 / IW32 לפקודת תחזוקה; MD51 לתכנון חומרים לפרויקט.",
+          xrefs: ["tx:IW31", "tx:IW32", "tx:MD51"],
+        },
+        {
+          he: "ביצוע: CN25 אישור רשת; ב-Fiori‏ Confirm Network Activity ‏(F0296), Confirm Project Milestone ‏(F0295), " +
+            "Milestone ‏(F0286A) ו-Change Network Activity Status ‏(F0539), שלושת האחרונים עם CJ20N כטרנזקציה מובילה.",
+          xrefs: ["tx:CN25", "tx:CJ20N"],
+        },
+        {
+          he: "מעקב: CN41N, ‏CN42N, ‏CN43N, ‏CJI3N (CJI3 ב-compatibility scope); ב-Fiori‏ Project Cost Overview " +
+            "‏(F6991) ו-Project Cost Line Items ‏(F6992), יורשי F2513 ו-F2538.",
+          xrefs: ["tx:CN41N", "tx:CN42N", "tx:CN43N", "tx:CJI3N", "tx:CJI3"],
+        },
+        {
+          he: "התחשבנות: CJB1 לייצור כללי התחשבנות; CJ88 בודד ו-CJ8G מרוכז לפרויקטים ולרשתות; KO88 / KO8G לפקודות; CO88 " +
+            "לפקודות ייצור ותהליך.",
+          xrefs: ["tx:CJB1", "tx:CJ88", "tx:CJ8G", "tx:KO88", "tx:KO8G", "tx:CO88"],
+        },
+      ],
+      tables: [
+        {
+          he: "מבנה: PROJ הגדרת פרויקט ו-PRPS אלמנטי WBS (שתיהן אינן במילון הפרויקט); AUFK / AFKO כותרת רשת; AFVC " +
+            "פעילויות; JEST סטטוסים.",
+          xrefs: ["table:AUFK", "table:AFKO", "table:AFVC", "table:JEST"],
+        },
+        {
+          he: "עלויות ותקציב: COSP / COSS סיכומי עלות (לפי CJ40 במאגר), RPSCO סיכומי פרויקט ו-BPGE / BPJA תקציב (שלושתן " +
+            "אינן במילון הפרויקט).",
+          xrefs: ["table:COSP", "table:COSS"],
+        },
+        {
+          he: "התחשבנות: COBRA כותרת הכלל ו-COBRB שורות החלוקה; לפי העשרת הטבלאות במאגר, שדה PS_PSP_PNR ב-COBRB מצביע " +
+            "על PRPS כשהמקבל הוא WBS.",
+          xrefs: ["table:COBRA", "table:COBRB"],
+        },
+        {
+          he: "הפקודות המשויכות כאובייקטים עסקיים; ב-S/4HANA העלות בפועל ב-ACDOCA והתכנון ב-ACDOCP (אינה במילון " +
+            "הפרויקט), לפי עמוד Project Cost Overview.",
+          xrefs: ["obj:maintenance-order", "obj:production-order", "table:ACDOCA"],
+        },
+      ],
+      integrationPoints: [
+        {
+          he: "תחזוקה: פקודת תחזוקה משויכת ל-WBS או לפעולת רשת ומקבלת את תאריכי הבסיס מהפרויקט; שיוך אוטומטי דרך " +
+            "Maintenance Event Builder ושדה PM/PS Reference Element; מ-S/4HANA 2023 FPS01 אפשר לשייך גם פקודת תחזוקה " +
+            "בת-חיוב ל-WBS (מלאי פרויקט אינו מותר בה).",
+          xrefs: ["tx:IW31", "tx:IW32", "obj:maintenance-order", "table:ILOA"],
+        },
+        {
+          he: "ייצור: MD51 ומלאי פרויקט; חלוקת עלויות, WIP וסטיות מפקודת הייצור לאלמנטי ה-WBS שנקבעו ב-Pegging.",
+          xrefs: ["tx:MD51", "obj:production-order", "obj:planned-order"],
+        },
+        {
+          he: "בקרת עלויות: התחשבנות הפקודות ל-WBS ואז ה-WBS למרכז עלות, נכס, מגזר רווחיות או חשבון ראשי; סגירת התקופה " +
+            "בשיטות הייעודיות. לפי העמוד הרשמי 'Project Settlement', אפשר גם התחשבנות ישירה של כל אובייקט למקבל " +
+            "החיצוני; בהתחשבנות מרובת רמות הפקודות מתחשבנות ל-WBS הרלוונטי וה-WBS מתחשבן הלאה.",
+          xrefs: ["bp:order-settlement-process", "bp:period-end-closing-process", "tx:CJ88", "tx:KO88"],
+        },
+        {
+          he: "בקרת זמינות: לפי העמוד הרשמי 'Availability Control' הרכיב משולב עם CO, ‏FI, ‏PP ו-MM ובודק רישומים יוצרי " +
+            "עלות מול התקציב.",
+          xrefs: ["tx:CJBV"],
+        },
+      ],
+      interfaces: [
+        {
+          he: "לפי רשומת tx-intel של CJ20N: BAPI_PROJECT_MAINTAIN, ‏BAPI_BUS2054_CREATE ו-BAPI_BUS2001_GET_STATUS, " +
+            "BAdIs‏ WORKBREAKDOWN_UPDATE ו-NETWORK_UPDATE ו-User Exit‏ CNEX0001 (כולם אינם במילון הפרויקט).",
+        },
+        {
+          he: "ב-S/4HANA, פריט 'S4TWL - Selected Project System BAPIs' קובע שה-BAPIs של ProjectDefinition, ‏Network " +
+            "ו-WorkBreakdownStruct אינם ארכיטקטורת היעד וממליץ על ה-BAPIs של ProjectDefinitionPI, ‏NetworkPI ו-WBSPI " +
+            "(חבילה CNIF_PI) או על OData APIs‏ OP_API_PROJECT_V3_0001 ו-OP_API_PROJECTNETWORK_0001.",
+        },
+        {
+          he: "התחשבנות פקודות: K_ORDER_SETTLEMENT ו-K_SETTLEMENT_RULE_READ (רשומות function-intel במאגר; " +
+            "K_SETTLEMENT_RULE_READ מסומנת שם כמוסקת ודורשת אימות ב-SE37).",
+          xrefs: ["fm:K_ORDER_SETTLEMENT", "fm:K_SETTLEMENT_RULE_READ"],
+        },
+        {
+          he: "שירותי ה-OData של יישומי ה-Fiori לפי הספרייה: PS_MILESTONE_CONFIRM ‏(F0295), PS_ACTIVITY_CONFIRM " +
+            "‏(F0296), UI_PROJECTCOSTLINEITEM ‏(F6992). אלה שירותי UI של היישומים.",
+        },
+      ],
+      outputs: [
+        {
+          he: "מבנה פרויקט: הגדרת פרויקט, היררכיית WBS, רשתות, פעילויות ואבני דרך.",
+          xrefs: ["tx:CJ20N"],
+        },
+        {
+          he: "ערכי תכנון, תקציב מקורי ושחרורי תקציב על ה-WBS.",
+          xrefs: ["tx:CJ40", "tx:CJ30", "tx:CJ32"],
+        },
+        {
+          he: "עלויות בפועל ומחויבויות על ה-WBS ועל הפקודות המשויכות; ב-S/4HANA שורות ב-Universal Journal.",
+          xrefs: ["tx:CJI3N", "table:ACDOCA"],
+        },
+        {
+          he: "מסמכי התחשבנות: לפי העמוד 'Project Settlement', רישומי זיכוי לפרויקט נוצרים אוטומטית והחיובים נשארים " +
+            "במקבלים.",
+          xrefs: ["tx:CJ88", "tx:CJ8G"],
+        },
+      ],
+      exceptions: [
+        {
+          he: "רישום נחסם: WBS שאינו אלמנט הקצאת חשבון, או סטטוס שאינו מתיר (CRTD / CLSD), לפי השגיאות השכיחות ברשומת " +
+            "tx-intel של CJ20N.",
+          xrefs: ["tx:CJ20N", "table:JEST"],
+        },
+        {
+          he: "חריגת תקציב (בקרת זמינות) בפקודת תחזוקה: תקרית maint-order-budget במרכז התקלות (BP603), ניתוח ב-KO23, " +
+            "‏IW32 ו-CJ30.",
+          xrefs: ["tx:IW32", "tx:CJ30"],
+        },
+        {
+          he: "בקרת זמינות אינה מגיבה: לפי העמוד הרשמי 'Notes for Problems with Availability Control', בסוג הפעלה 1 " +
+            "פרויקט שלא תוקצב אינו מבוקר עד שנרשם תקציב מקורי ל-WBS העליון; ובקבלת טובין או ברישום פעילות מתעדכן רק " +
+            "הערך המוקצה, בלי בדיקה.",
+          xrefs: ["tx:CJBV"],
+        },
+        {
+          he: "התחשבנות נכשלת: כלל התחשבנות חסר, תקופה סגורה או מקבל לא תקף (תקרית settlement-error ורשומת tx-intel של " +
+            "CJ8G).",
+          xrefs: ["tx:CJ8G", "tx:KO88", "table:COBRB"],
+        },
+      ],
+      controls: [
+        {
+          he: "בקרת זמינות פעילה עם מגבלות סבולת; שמירת שחרור תקציב נבדקת כשבקרת הזמינות פעילה.",
+          xrefs: ["tx:CJBV", "tx:CJ32"],
+        },
+        {
+          he: "ניהול סטטוסים: REL לפני רישומים, TECO / CLSD בסגירה, DLFL אחרי התחשבנות מלאה.",
+          xrefs: ["table:JEST"],
+        },
+        {
+          he: "Test Run לפני CJ88 / CJ8G ו-KO88, ובדיקת כללי התחשבנות מלאים.",
+          xrefs: ["tx:CJ88", "tx:CJ8G", "tx:KO88"],
+        },
+        {
+          he: "הרשאות לפי אובייקטי ההרשאה C_PRPS_KOK ו-C_PROJ_VNR (רשומת tx-intel של CJ20N).",
+          xrefs: ["tx:CJ20N"],
+        },
+      ],
+      eccToS4: [
+        {
+          he: "S/4HANA: לפי 'S4TWL - Simplification of maintenance transactions', טרנזקציות התחזוקה (CJ01 עד CJ03, " +
+            "‏CJ06, ‏CN21 עד CN23 ועוד) הן חלק מה-compatibility scope; לפי הפריט, מ-S/4HANA 2020 FPS2 הן הורחבו " +
+            "(field extensibility) ובזכות ההרחבה הן חלק מה-perpetual scope.",
+          xrefs: ["tx:CJ01", "tx:CJ02", "tx:CJ03", "tx:CJ06", "tx:CN21", "tx:CN22"],
+        },
+        {
+          he: "S/4HANA 1511 ואילך: ניווט מ-CJI3N, ‏CJI4N, ‏CN41 ו-CNS0 לאובייקט פותח את CJ20N ולא את טרנזקציית האובייקט " +
+            "(ב-ECC למשל CJ08), לפי 'S4TWL - Navigation to Project Builder instead of special maintenance functions'.",
+          xrefs: ["tx:CJ20N", "tx:CJI3N"],
+        },
+        {
+          he: "S/4HANA: לפי 'S4TWL - Project Reporting', CJI3 זמינה כחלק מה-compatibility scope ו-CJI3N היא החלופה; " +
+            "F6991 ו-F6992 (מ-2022 FPS1) מיועדים להחליף את F2513 ו-F2538, שסומנו deprecated מ-S/4HANA 2023.",
+          xrefs: ["tx:CJI3", "tx:CJI3N"],
+        },
+        {
+          he: "S/4HANA: COSP ו-COSS הוחלפו בתצוגות תאימות (compatibility views) בעלות שם זהה, לפי 'S4TWL - DATA MODEL " +
+            "CHANGES IN FIN'; קריאה נשמרת, כתיבה הוסרה.",
+          xrefs: ["table:COSP", "table:COSS"],
+        },
+        {
+          he: "S/4HANA: ה-BAPIs של ProjectDefinition, ‏Network ו-WorkBreakdownStruct אינם ארכיטקטורת היעד ('S4TWL - " +
+            "Selected Project System BAPIs').",
+        },
+      ],
+      migration: [
+        {
+          he: "אובייקט ההגירה 'PS - Project' (S4_PS_PROJECT_STRUCTURE, ‏Direct Transfer): בוחר פרויקטים מ-PROJ חוץ " +
+            "מסגורים ומחוקים, ומעביר הגדרת פרויקט, WBS, היררכיות, אבני דרך, רשתות, פעילויות וקשרים; מחוץ לתחולה: " +
+            "סטטוסי מערכת (היעד מקבל CRTD), כללי התחשבנות, רישומי עלות ואישורים.",
+        },
+        {
+          he: "אובייקט ההגירה 'PM - Maintenance order' מטפל בשיוך WBS לנתוני הפקודה ולהתחשבנות (AT_PRPS, ‏AT_COBRB_PRPS " +
+            "לפי תקציר החיפוש).",
+          xrefs: ["obj:maintenance-order", "table:COBRB"],
+        },
+      ],
+      reference: {
+        title: "Orders for Projects | Project System (PS) (SAP S/4HANA On-Premise 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/d444d953292a424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        verificationLevel: "sap_official_verified",
+        note: "עמוד התיעוד הרשמי של שיוך פקודות תחזוקה, ייצור ופנימיות ל-WBS (loio d444d953292a424de10000000a174cb4, " +
+          "‏2025.001, הגוף נקרא דרך sap-help-body); לצדו עמוד 'Project Settlement' (loio " +
+          "f291d353c6244308e10000000a174cb4). עמוד What's New של S/4HANA 2020 'Project Type as Filter in Apps' " +
+          "(loio 9d4c36eef8a941419716c377e4a564f3) נוקב בפריט ה-Scope ‏1NT 'Project Financial Control'; עמוד פריט " +
+          "ה-Scope עצמו ב-SAP Best Practices Explorer לא נקרא.",
+      },
+    },
+    xrefs: [
+      "tx:CJ20N", "tx:CJ01", "tx:CJ02", "tx:CJ03", "tx:CJ06", "tx:CN21", "tx:CN22", "tx:CJ40", "tx:CJ30", "tx:CJ32",
+      "tx:CJBV", "tx:CN25", "tx:CN41N", "tx:CN42N", "tx:CN43N", "tx:CJI3", "tx:CJI3N", "tx:CJB1", "tx:CJ88",
+      "tx:CJ8G", "tx:KO88", "tx:KO8G", "tx:CO88", "tx:IW31", "tx:IW32", "tx:MD51", "table:AUFK", "table:AFKO",
+      "table:AFVC", "table:JEST", "table:COSP", "table:COSS", "table:COBRA", "table:COBRB", "table:ILOA",
+      "table:ACDOCA", "fm:K_ORDER_SETTLEMENT", "fm:K_SETTLEMENT_RULE_READ", "obj:maintenance-order",
+      "obj:production-order", "obj:planned-order", "bp:order-settlement-process", "bp:period-end-closing-process",
+      "bp:maintenance-order-process", "bp:production-order-process",
+    ],
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#CJ20N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "Project Builder: עורך אינטגרטיבי ל-PROJ (הגדרת פרויקט), PRPS (WBS), AUFK/AFKO (רשתות) ו-AFVC (פעילויות), " +
+          "עם סטטוסים (JEST); רצף: הגדרה, CJ20N, תקצוב (CJ40)/תכנון, רישומי בפועל, התחשבנות (CJ8G); סטטוס REL נדרש " +
+          "לרישום עלויות; שגיאות שכיחות: WBS שאינו אלמנט הקצאת חשבון, סטטוס שאינו מתיר, חריגת תקציב (AVAC), Network " +
+          "Profile חסר; BAPIs‏ BAPI_PROJECT_MAINTAIN, BAPI_BUS2054_CREATE, BAPI_BUS2001_GET_STATUS; BAdIs‏ " +
+          "WORKBREAKDOWN_UPDATE, NETWORK_UPDATE; Exit‏ CNEX0001; הרשאות C_PRPS_KOK, C_PROJ_VNR. הרשומה מונה את " +
+          "CJ01, CJ02, CJ06, CN21, CN22 כ-obsolete (ראו notes).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CJ20N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#CJ40",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "CJ40: תכנון עלויות כולל ושנתי על WBS, לא מחייב (לעומת CJ30 המבוקר בבקרת זמינות), טבלאות PROJ, PRPS, " +
+          "RPSCO, COSP, COSS; טעות שכיחה: תכנון על WBS שאינו אלמנט תכנון. הרצף ברשומה: מבנה פרויקט (CJ20N), תכנון " +
+          "עלויות (CJ40), תקצוב (CJ30), רישום בפועל, השוואה (CJI3). לפי שדה s4Delta ברשומה, ב-S/4HANA טבלאות " +
+          "הסיכומים COSP ו-COSS 'were removed and replaced by identically-named DDL SQL views, called compatibility " +
+          "views': קריאה עובדת כבעבר וכתיבה הוסרה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CJ40",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#CJ8G",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "CJ8G: התחשבנות מרוכזת של WBS ורשתות לפי COBRA/COBRB, מקבילה ל-CJ88 הבודדת; שגיאות: כלל חסר, תקופה סגורה; " +
+          "להריץ Test Run תחילה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CJ8G",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#MD51",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "MD51 מתכנן חומרים לפרויקט (WBS) עם מלאי פרויקט ויוצר פקודות מתוכננות ודרישות רכש המוקצות לפרויקט; מחבר " +
+          "את PP עם PS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MD51",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג הטרנזקציות של המאגר: קודי PS (CJ30, CJ32, CJBV, CJB1, CJ88, CN25, CN41N, CN42N, CN43N, CJI3, " +
+          "CJI3N)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הקטלוג מתאר, מודול PS: CJ30 שינוי תקציב מקורי, CJ32 שינוי שחרור תקציב, CJBV הפעלת בקרת זמינות, CJB1 " +
+          "יצירת כלל סילוק קולקטיבית, CJ88 סילוק פרויקטים ורשתות, CN25 דיווח ביצוע רשת, CN41N סקירת מבנה, CN42N / " +
+          "CN43N סקירות, CJI3 / CJI3N פריטי שורה של עלויות בפועל.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CJ30",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג הטרנזקציות של המאגר: IW31, IW32, KO8G, CO88",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "IW31 יצירת הזמנת עבודה, IW32 שינוי הזמנת עבודה (PM); KO8G סילוק בפועל: הזמנות; CO88 סילוק בפועל: הזמנות " +
+          "ייצור/תהליך (CO).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#IW31",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#KO88",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "KO88 מעבירה את העלויות שנצברו בפקודה למקבלים שבכלל ההתחשבנות (מרכז עלות, חשבון ראשי, נכס, WBS, CO-PA) על " +
+          "בסיס COBRA/COBRB; Test Run לפני Update; KO8G להתחשבנות המונית.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KO88",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: function-intel.ts#K_ORDER_SETTLEMENT",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "התחשבנות פקודה: העברת עלויות ליעד (מרכז עלות, נכס, WBS); כשלים: כלל התחשבנות חסר, תקופה סגורה, סטטוס " +
+          "שאינו מאפשר; קשור ל-KO88 ול-KO8G.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#K_ORDER_SETTLEMENT",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: function-intel.ts#K_SETTLEMENT_RULE_READ",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "קריאת כלל ההתחשבנות (COBRB) של אובייקט לפי OBJNR; הרשומה מסומנת inferred, ו-ECC ו-S/4HANA נשארים לאימות " +
+          "ב-SE37.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#K_SETTLEMENT_RULE_READ",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת הטבלאות של המאגר: COBRB ו-ILOA",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "COBRB מחזיקה את מקבלי הסילוק (מרכז עלות, חשבון ראשי, WBS, נכס), ומפתח זר PS_PSP_PNR מצביע על PRPS; ILOA " +
+          "מחזיקה את נתוני המיקום והקצאת החשבון (מרכז עלות, WBS) של ציוד, מיקום פונקציונלי והזמנה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/table-enrichment.ts#COBRB",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: maint-order-budget",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "maint-order-budget: שחרור פקודת תחזוקה נחסם בחריגת תקציב (Availability Control, ‏BP603), ניתוח ב-KO23, " +
+          "IW32, CJ30, טבלאות BPGE ו-BPJA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext2.ts#maint-order-budget",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: settlement-error",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "KO88/CO88 מסיימים בשגיאה: כלל התחשבנות חסר, תקופת CO/FI סגורה, סטטוס פקודה (CLSD/LKD) או יעד לא תקף; " +
+          "ניתוח ב-KO88, CO88, KO02, OB52.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting.ts#settlement-error",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Orders for Projects | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/d444d953292a424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio d444d953292a424de10000000a174cb4, הגוף נקרא: 'You can assign various types of orders to a WBS " +
+          "element provided the WBS element is an account assignment element'; 'The plan costs for the orders are " +
+          "recorded in the project in summarized form'; בין הפקודות: Internal orders, Plant maintenance orders, " +
+          "Production orders ו-Sales orders; 'You cannot enter a budget for orders for networks'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settling Orders for Projects | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/e044d953292a424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio e044d953292a424de10000000a174cb4, הגוף נקרא: פקודה לפרויקט מתחשבנת ל-WBS שאליו היא משויכת, ל-WBS או " +
+          "פקודה אחרים, או למקבל אחר (מרכז עלות, נכס, מגזר רווחיות); 'when costs are settled, responsibility for " +
+          "them passes to the receiver'; בדוגמה, פקודה שהתחשבנה ל-W1 והועברה ל-W2 משאירה את הסכום שהתחשבן מוצג " +
+          "ב-W1.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Project Settlement | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/f291d353c6244308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio f291d353c6244308e10000000a174cb4, הגוף נקרא: 'Costs and revenues are collected in projects only " +
+          "temporarily'; תנאים: סטטוס שמתיר התחשבנות וכלל התחשבנות בכל שולח; פרופיל ההתחשבנות נשמר ב-Project " +
+          "Profile או בסוג הרשת; 'offset entries crediting the project are generated automatically'; התחשבנות ישירה " +
+          "או מרובת רמות, ואזהרה שלא להשתמש במרובת רמות לגלגול ערכים בהיררכיה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "System Statuses in Work Breakdown Structures | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/1c77bb53707db44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 1c77bb53707db44ce10000000a174cb4, הגוף נקרא: CRTD מתיר תכנון עלויות ותקצוב; ב-REL 'you can assign " +
+          "costs and revenues to WBS elements' ואין מעבר חזרה ל-CRTD; TECO לאלמנטים שהושלמו טכנית ועדיין צפויות בהם " +
+          "עלויות; CLSD אוסר רישום עלויות בפועל ל-WBS; DLFL רק כשה-WBS התחשבן במלואו או אינו רלוונטי להתחשבנות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Releasing The Budget | Controlling (CO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/ff12d553088f4308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio ff12d553088f4308e10000000a174cb4, הגוף נקרא: 'The release is based on the current budget'; שחרור " +
+          "ברמה כוללת או שנתית; כשבקרת הזמינות פעילה נשמר רק שחרור ללא שגיאות; בקרת הזמינות בודקת את הערכים המוקצים " +
+          "(בפועל ומחויבויות) מול התקציב או השחרור לפי פרופיל התקציב.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Availability Control | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/358fd153370e4608e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 358fd153370e4608e10000000a174cb4, הגוף נקרא: בקרת זמינות פסיבית (סקירת כספים) ופעילה (מונעת הקצאת " +
+          "כספים עודפת באזהרות ובשגיאות); משולבת עם CO, FI, PP ו-MM; מגבלות הסבולת לפרויקטים ב-Project System, " +
+          "Costs, Budget, Define Tolerance Limits; בודקת את התקציב הניתן לחלוקה (או השחרור) מול הערך המוקצה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Notes for Problems with Availability Control | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/1113d553088f4308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 1113d553088f4308e10000000a174cb4, הגוף נקרא: בסוג הפעלה 1 (הפעלה עם הקצאת תקציב) פרויקט שלא תוקצב " +
+          "אינו מבוקר, והפתרון: 'Post an original budget to the top WBS element. Then execute a return for the same " +
+          "amount'; בקבלת טובין או ברישום פעילות 'only the assigned value is updated'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Use of Order Assignments | Orders (CS-SE/PM-WOC-MO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/efc7922405fd4d56b7571930c5eaa798/fbc8b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio fbc8b65334e6b54ce10000000a174cb4, הגוף נקרא: 'The order can be assigned to a WBS (work breakdown " +
+          "structure) element or a network operation from the project'; 'the project dates represent the definitive " +
+          "basic dates for the order'; בשיוך גם ל-WBS וגם לרשת, תאריכי פעולת הרשת גוברים על תאריכי ה-WBS.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Assigning Maintenance Orders to Projects | Product Lifecycle Management (PLM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/36802406aebb4b96b1598246e1d316ee/eed5c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio eed5c353b677b44ce10000000a174cb4, הגוף נקרא: פקודות תחזוקה של Revision משויכות לפרויקט ידנית או " +
+          "אוטומטית דרך Maintenance Event Builder, בשיוך האוטומטי לפי שדה PM/PS Reference Element ברשימת המשימות; " +
+          "תנאי: Revision משויכת לרשת פרויקט; התוצאה: הפקודות משויכות לפעילויות רשת או ל-WBS, ותאריכי הפעילויות " +
+          "משמשים לתזמון הפקודות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Using WBS Elements in Billable Maintenance Orders | What's New in SAP S/4HANA 2023 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/d9e0d3a10fac411fb43ccb4022f4ec12.html?locale=en-US&state=PRODUCTION&version=2023.001",
+        accessedAt: DATE,
+        claim: "loio d9e0d3a10fac411fb43ccb4022f4ec12, הגוף נקרא: 'you can assign billable maintenance orders to " +
+          "projects' על ידי הזנת אלמנט ה-WBS בפקודה בת-החיוב; 'project stock components are not allowed in billable " +
+          "maintenance orders'; רכיב PM-WOC-MO, תקף מ-S/4HANA 2023 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Distribution of Costs from Production Orders | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/dff4c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio dff4c353b677b44ce10000000a174cb4, הגוף נקרא: בקיבוץ דרישות ל-WBS מקבץ, אחרי תכנון ו-Pegging 'The " +
+          "costs are distributed from the production order to the WBS elements that were determined during " +
+          "pegging'; לפקודה בסטטוס CLSD החלוקה אינה רצה; WIP וסטיות מתחלקים לאלמנטי ה-WBS שיצרו את הדרישות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Creating Milestones | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/1b72bb53707db44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 1b72bb53707db44ce10000000a174cb4, הגוף נקרא: 'You can create milestones in networks, standard " +
+          "networks, work breakdown structures (WBS) and standard work breakdown structures'; 'You cannot create " +
+          "milestones for activity elements'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Project Cost Overview | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/1448cfa991784030b1a4a39f425cfd1c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 1448cfa991784030b1a4a39f425cfd1c, הגוף נקרא: היישום מנתח עלויות בפועל ומתוכננות של פרויקט, WBS, " +
+          "הזמנות פנימיות, פקודות ייצור, רשתות 'and plant maintenance orders with header account assignment'; 'The " +
+          "planned costs are derived from the central financial planning table, ACDOCP ; and the actual costs are " +
+          "derived from the table for universal journal entry, ACDOCA'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F6991 'Project Cost Overview', release S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F6991')/S32OP",
+        accessedAt: DATE,
+        claim: "ספריית ה-Fiori (scripts/fal-app.mjs): F6991 'Project Cost Overview', אנליטי, תפקיד " +
+          "SAP_BR_PROJ_FIN_CONTROLLER (Project Financial Controller), קטלוג 'PS - Project Financial Control', קודם: " +
+          "F2513; באותה בדיקה F6992 'Project Cost Line Items' (קודם F2538, שירות UI_PROJECTCOSTLINEITEM), F0295 " +
+          "'Confirm Project Milestone' (תפקידים SAP_BR_PROJ_FIN_CONTROLLER ו-SAP_BR_PROJ_LOG_CONTROLLER, טרנזקציה " +
+          "מובילה CJ20N, שירות PS_MILESTONE_CONFIRM) ו-F0296 'Confirm Network Activity' " +
+          "(SAP_BR_PROJ_LOG_CONTROLLER, קטלוג 'PS - Project Logistics Control', טרנזקציה מובילה CN25, שירות " +
+          "PS_ACTIVITY_CONFIRM).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F0539 'Change Network Activity Status' (SAP Fiori (SAPUI5)), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0539')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F0539 'Change " +
+          "Network Activity Status' (SAP Fiori (SAPUI5), 'Published') עם קוד הטרנזקציה המוביל CJ20N (אומת ברשומת " +
+          "tx:CJ20N; באותה רשומה גם F0286A 'Milestone').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 10.1.60 " +
+          "S4TWL - Simplification of maintenance transactions",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE,
+        claim: "הפריט (Application Component PS, נקרא בטקסט המחולץ של הרשימה): 'Several maintenance transactions for " +
+          "projects in project sytem are part of the SAP S/4HANA compatibility scope'; 'With SAP S/4HANA 2020 FPS2 " +
+          "below transactions are enhanced with SAP S/4HANA capabilities (i.e. field extensibility), with this " +
+          "enhancement they are part of SAP S/4HANA perpetual scope', והרשימה כוללת CJ01, CJ02, CJ03, CJ06, CJ07, " +
+          "CJ08, CJ11 עד CJ14, CJ20, CJ2A, CJ2D, CN21, CN22, CN23, CJ27, CJ2B, CJ2C.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 10.1.34 " +
+          "S4TWL - Navigation to Project Builder instead of special maintenance",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE,
+        claim: "הפריט (נקרא בטקסט המחולץ): 'As of SAP S/4HANA 1511, when navigating to the details of an project object " +
+          "from the reports CJI3N, CJI4N, CN41, CNS0, the object opens in the single maintenance transaction CJ20N " +
+          "(Project Builder). Previously navigation opened the object in single maintenance transaction for the " +
+          "object, e.g. CJ08 for Project Definition'; נדרשת העברת ידע למשתמשי קצה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 10.1.50 " +
+          "S4TWL - Project Reporting",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE,
+        claim: "הפריט (נקרא בטקסט המחולץ): 'The transaction CJI3 Project Actual Cost Line Items can only be used as part " +
+          "of the SAP S/4HANA compatibility scope'; 'Transaction CJI3N Projects Line Items Actual Costs New can be " +
+          "used as an alternative'; היישומים F2513 ו-F2538 מ-1709, ו-'As of SAP S/4HANA 2022 FPS1 also the new SAP " +
+          "Fiori apps Project Cost Overview (F6991) and Project Cost Line Items (F6992) are available and intended " +
+          "to replace the Fiori apps F2513 and F2538 in future. These Fiori apps are hence deprecated as of SAP " +
+          "S/4HANA 2023'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 10.1.35 " +
+          "S4TWL - Selected Project System BAPIs",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE,
+        claim: "הפריט (Application Component PS-ST, נקרא בטקסט המחולץ): ה-BAPIs של ProjectDefinition, Network " +
+          "ו-WorkBreakdownStruct 'are not considered as the target architecture'; מומלץ 'to use the corresponding " +
+          "BAPIs for business objects ProjectDefinitionPI, NetworkPI, and WBSPI (within package CNIF_PI)' או OData " +
+          "APIs‏ OP_API_PROJECT_V3_0001 ו-OP_API_PROJECTNETWORK_0001; 'No influence on business processes " +
+          "expected'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.1.4 S4TWL - DATA MODEL CHANGES " +
+          "IN FIN (FI-GL), p. 159, 160, 163",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE_TB_15,
+        claim: "פריט הפישוט 6.1.4 S4TWL - DATA MODEL CHANGES IN FIN (Application Component: FI-GL), שנקרא ישירות מקובץ " +
+          "ה-PDF, קובע בעמ' 160: 'With the installation of SAP Simple Finance, on-premise edition totals and " +
+          "application index tables were removed and replaced by identically-named DDL SQL views, called " +
+          "compatibility views'. בטבלת המיפוי שבאותו עמוד, תחת הכותרות Original Table, Compatibility View " +
+          "(identically-named view in DDIC), DDL Source (for the identically-named DDIC View) ו-Backup Table (for " +
+          "original table content), מופיעה השורה: COSP, COSP, V_COSP_DDL, COSP_BAK. אותו פריט מוסיף: 'The " +
+          "compatibility views ensure database SELECTs work as before. However, write access (INSERT, UPDATE, " +
+          "DELETE, MODIFY) was removed from SAP standard, or has to be removed from custom code'. בעמ' 163, בטבלת " +
+          "תצוגות ה-DDIC הישנות שהוחלפו, מופיעה השורה Original DDIC database view: V_COSP_A, Obsolete database " +
+          "table used: COSP, As of release: sFIN 1.0, Replaced by: Code. הפריט מפנה ל-Business Impact note " +
+          "0002270333 'Data Model Changes in FIN' ול-SAP note 1976487; שני המספרים מצוטטים כלשונם מהמסמך הציבורי " +
+          "ולא נקראו בפועל. (אומת ברשומת table:COSP)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PS - Project | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/968b480bbec34454baff85baaa38dd9b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 968b480bbec34454baff85baaa38dd9b, הגוף נקרא: Migration Approach 'Direct Transfer - ERP'; פרויקטים " +
+          "רלוונטיים (חוץ מסגורים ומחוקים) נבחרים מטבלת PROJ; בתחולה: הגדרת פרויקט, WBS, היררכיות, אבני דרך, רשתות, " +
+          "פעילויות וקשרים; מחוץ לתחולה: סטטוסי מערכת (ביעד 'Created or CRTD'), כללי התחשבנות, רישומי עלות " +
+          "ואישורים; שם האובייקט S4_PS_PROJECT_STRUCTURE; תקציר החיפוש נוקב ב-BAPI_PROJECT_MAINTAIN תחת APIs/BAPIs.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PM - Maintenance order | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/edf9651b00514f4082e8aa81f83827aa.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "תקציר רשומת החיפוש (loio edf9651b00514f4082e8aa81f83827aa): 'AT_PRPS: To handle WBS elements for order " +
+          "master data AT_COBRB_PRPS: To handle WBS elements for order settlement'. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Project Type as Filter in Apps | What's New in SAP S/4HANA 2020",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/9d4c36eef8a941419716c377e4a564f3.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        accessedAt: DATE,
+        claim: "loio 9d4c36eef8a941419716c377e4a564f3, הגוף נקרא: 'Scope Item 1NT ( Project Financial Control )', " +
+          "Application Component PS-FIO, זמין מ-S/4HANA 2020; המסנן זמין ב-Project Cost Report (F2513) וב-Manage " +
+          "Project Procurement (F2930).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 9 בספריית הפרויקט (SAP PRESS, Plant Maintenance with SAP S/4HANA: Business User Guide), פרק 6, סעיף " +
+          "6.9.1 'Project System'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הסעיף 6.9.1 'Project System' תחת 6.9 'Project-Based Maintenance' (לצד 6.9.2 'Maintenance Event " +
+          "Builder'); הפניית קריאה בלבד ואינו מקור לטענה חדשה.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book9.json#6.9.1",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 9 בספריית הפרויקט, פרק 8 'Plant Maintenance Controlling', סעיף 8.3.4 'Budgeting Using WBS Elements'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הסעיף 8.3.4 'Budgeting Using WBS Elements' בפרק בקרת התחזוקה (לצד תקצוב פקודות, מרכזי עלות ותוכניות " +
+          "השקעה); הפניית קריאה בלבד ואינו מקור לטענה חדשה.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book9.json#8.3.4",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 7 בספריית הפרויקט (SAP Fiori Apps for SAP S/4HANA: The Quick Reference Guide), פרק 9 'Project " +
+          "System'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "פרק 9 'Project System' מונה בין היתר את F0296 'Confirm Network Activity', ‏F0295 'Confirm Project " +
+          "Milestone', ‏F0286A 'Milestone', ‏F6991 'Project Cost Overview' ו-F6992 'Project Cost Line Items'; " +
+          "הפניית קריאה בלבד.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book7.json#F6991",
+      },
+    ],
+    lastVerifiedAt: DATE,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    notes: "רשומת תהליך: מבוססת על רשומות המאגר הנקובות, על 15 עמודי help.sap.com שגופם נקרא ב-sap-help-body " +
+      "(2025.001, 2023.001 ו-2020.000; העמוד 'PM - Maintenance order' נשען על תקציר החיפוש בלבד), על ספריית " +
+      "ה-Fiori (fal-app, S32OP) ועל רשימת הפישוט 2025 FPS01. חיפושים שרצו (scripts/sap-help-search.mjs, " +
+      "2026-09-24): 'Project Financial Control', 'Project Logistics Control', 'Project System structures " +
+      "project definition WBS element network', 'availability control budget project WBS', 'settlement WBS " +
+      "element project settlement rule', 'orders assigned to WBS element maintenance order project', " +
+      "'production order account assignment WBS element project', 'Project Financial Control scope item 1NT', " +
+      "'BAPI_PROJECT_MAINTAIN', 'BAPI_BUS2054_CREATE_MULTI' (אף רשומה אינה נוקבת בשם), 'PS - WBS element Data " +
+      "Migration'. סתירה פתוחה: רשומת tx-intel של CJ20N מונה את CJ01, ‏CJ02, ‏CJ06, ‏CN21 ו-CN22 כ-obsolete, " +
+      "ואילו 'S4TWL - Simplification of maintenance transactions' קובע שהן הורחבו ב-2020 FPS2 והן ב-perpetual " +
+      "scope; הרשומה נשענת על הפריט הרשמי. שמות ה-BAPI ברשומת tx-intel (BAPI_BUS2054_CREATE, " +
+      "BAPI_BUS2001_GET_STATUS) לא אותרו בחיפוש רשמי ונשארים לאימות ב-SE37. PROJ, ‏PRPS, ‏RPSCO, ‏BPGE, ‏BPJA " +
+      "ו-ACDOCP אינן במילון הפרויקט; אין ביישומי ה-Fiori של המאגר יישום PS ולכן אין קישורי fiori:, ואין תצוגת " +
+      "CDS של PS במאגר. KPIs לא נרשמו: אף מקור אינו מגדיר מדד לתהליך. עמוד פריט ה-Scope ‏1NT לא נקרא. לא בוצעה " +
+      "בדיקה במערכת SAP חיה.",
+  },
+  /* =========================================================== ewm warehouse */
+  {
+    slug: "ewm-warehouse-process",
+    he: "תהליכי מחסן ב-EWM: קליטה, אחסון וניפוק",
+    en: "EWM inbound, putaway and outbound warehouse processes",
+    module: "Cross",
+    summary: "ב-EWM כל תנועה פיזית במחסן נשענת על בקשת מחסן (Warehouse Request): מסירה נכנסת לקליטה ואחסון, הזמנת " +
+      "מסירה יוצאת (Outbound Delivery Order) לליקוט וניפוק. מבקשת המחסן נוצרות משימות מחסן (Warehouse Tasks), " +
+      "שמקובצות להזמנות מחסן (Warehouse Orders) כחבילות עבודה; אישור המשימות ורישום הקבלה או הניפוק סוגרים את " +
+      "המעגל מול ניהול המלאי. אותו מנגנון משרת גם את אספקת החומר לייצור.",
+    context: "לפי תיעוד EWM לגרסת 2025 FPS01, בקשת המחסן מסוג מסירה נכנסת או הזמנת מסירה יוצאת היא הבסיס לפעולות אחסון " +
+      "והוצאה מהמלאי, ו-EWM רושם על בסיסה את תנועות הקבלה והניפוק. בצד S/4HANA מסירה נכנסת נוצרת מהודעת משלוח " +
+      "מוקדמת ומופצת ל-EWM, ומסירה יוצאת נוצרת מהזמנת הלקוח. קוד הטרנזקציה בצד EWM הוא /SCWM/PRDI למסירה נכנסת, " +
+      "/SCWM/PRDO להזמנת מסירה יוצאת ו-/SCWM/MON למוניטור המחסן; ב-Fiori קיימים Change Inbound Delivery " +
+      "(F1706), Run Outbound Process - Deliveries (F1704) ו-Process Warehouse Tasks - Picking / Putaway (F3880, " +
+      "F4150), שאינם בקטלוג ה-Fiori של הפרויקט. בצד ECC ניהול המחסן הקלאסי (LE-WM) עובד בפקודות העברה (LT01, " +
+      "LT03, LT04, אישור ב-LT12) על LTAK, LTAP ו-LQUA; רשימת הפישוט 2025 FPS01 קובעת בפריט 'S4TWL - Warehouse " +
+      "Management (WM)' ש-LE-WM אינו ארכיטקטורת היעד וש-EWM ו-Stock Room Management הם החלופות.",
+    steps: [
+      {
+        he: "קליטה: S/4HANA יוצר מסירה נכנסת מהודעת משלוח מוקדמת ומפיץ אותה ל-EWM, ו-EWM יוצר ממנה בקשת מחסן שהיא " +
+          "נקודת הפתיחה לאחסון. בודקים את המסירה ב-/SCWM/PRDI (Maintain Inbound Deliveries) או ביישום Change " +
+          "Inbound Delivery (F1706).",
+        xrefs: ["tx:/SCWM/PRDI"],
+      },
+      {
+        he: "ליצור משימות מחסן לאחסון: אוטומטית בפעולת PPF או ידנית (Create Warehouse Tasks - Inbound Delivery). " +
+          "אסטרטגיית האחסון קובעת את תא היעד, ובקרת האחסון (ישירה או משולבת) קובעת אם ה-HU עובר דרך תאי ביניים. לפי " +
+          "רשומת המאגר /SCWM/TODLV_TO יוצרת משימת מחסן למסירה.",
+        xrefs: ["tx:/SCWM/TODLV_TO"],
+      },
+      {
+        he: "לקבץ משימות להזמנות מחסן לפי כללי יצירת הזמנות המחסן ב-Customizing: הזמנת מחסן היא חבילת עבודה אחת לעובד " +
+          "בזמן נתון, ומקבצת משימות מחסן או פריטי ספירת מלאי.",
+        xrefs: ["tx:/SCWM/MON"],
+      },
+      {
+        he: "לבצע ולאשר: אישור משימות המחסן במסוף RF (/SCWM/RFUI), ב-/SCWM/TO_CONF (Confirm Warehouse Tasks - " +
+          "Advanced), מתוך המוניטור, או ביישום Process Warehouse Tasks - Putaway (F4150). EWM רושם את תנועת הקבלה " +
+          "על בסיס בקשת המחסן.",
+        xrefs: ["tx:/SCWM/RFUI", "tx:/SCWM/TO_CONF", "tx:/SCWM/MON", "obj:material-document"],
+      },
+      {
+        he: "ניפוק: הזמנת לקוח מייצרת מסירה יוצאת ב-S/4HANA (VL01N), ו-EWM יוצר ממנה הזמנת מסירה יוצאת כבקשת מחסן. " +
+          "בודקים ב-/SCWM/PRDO (Outbound Delivery Orders) או ב-Run Outbound Process - Deliveries (F1704).",
+        xrefs: ["tx:VL01N", "tx:/SCWM/PRDO", "table:LIKP", "table:LIPS", "bp:order-to-cash-process"],
+      },
+      {
+        he: "ליקוט: משימות מחסן לליקוט נוצרות כברירת מחדל בשחרור גל (/SCWM/WAVE, Process Waves), בפעולת PPF או ידנית, " +
+          "ומקובצות להזמנות מחסן. הביצוע ב-RF או ביישום Process Warehouse Tasks - Picking (F3880).",
+        xrefs: ["tx:/SCWM/WAVE", "tx:/SCWM/RFUI"],
+      },
+      {
+        he: "לאשר את משימות הליקוט (אישור רושם הפרשים בין הכמות הנדרשת לכמות שלוקטה), לארוז ב-/SCWM/PACK (Pack " +
+          "Handling Units - Advanced) ולהעמיס, ואז לרשום ניפוק לבקשת המחסן. EWM מקטין את מלאי תא המקור. ניפוק לא " +
+          "מתוכנן: /SCWM/ADGI (Post Goods Issue - Unplanned).",
+        xrefs: ["tx:/SCWM/PACK", "tx:/SCWM/ADGI", "bp:goods-movement-process"],
+      },
+      {
+        he: "אספקה לייצור: יצירת פקודה (CO01 / COR1), שחרורה והפעלת Material Staging (CO02 להזמנת ייצור, COR2 להזמנת " +
+          "תהליך) יוצרים ב-Advanced Production Integration בקשת חומר לייצור (PMR) ב-EWM; מתכננים משימות Staging " +
+          "לאזור אספקת הייצור (PSA), רושמים צריכה, וקולטים תוצרת לאחסון. בחלופה מבוססת מסירה, הזמנת מסירה יוצאת " +
+          "ל-PSA ב-/SCWM/PRDO וניפוק אוטומטי בדוח /SCWM/DLV_GIPSA.",
+        xrefs: [
+          "tx:CO01", "tx:COR1", "tx:COR2", "obj:production-order", "obj:process-order", "table:RESB",
+          "bp:material-staging-and-reservation",
+        ],
+      },
+      {
+        he: "לנטר ולהתאים: מוניטור המחסן /SCWM/MON לעבודה פתוחה, ובדיקת מלאי EWM מול ניהול המלאי (MMBE) כשיש פער; לפי " +
+          "תקרית wm-ewm-stock-mismatch הסיבות האפשריות הן תנועה שלא הועברה, תור EWM תקוע או סנכרון שנכשל.",
+        xrefs: ["tx:/SCWM/MON", "tx:MMBE", "table:MARD"],
+      },
+    ],
+    antiPatterns: [
+      "יצירת משימות מחסן בלי כללי יצירת הזמנות מחסן: העבודה אינה מקובצת לחבילות, ולפי התיעוד היצירה האוטומטית " +
+        "להזמנות מחסן דורשת את הגדרות ה-Customizing.",
+      "טיפול בפער מלאי EWM מול ניהול המלאי בתנועה ידנית בלי לבדוק קודם את התור ואת התנועה שלא הועברה (תקרית " +
+        "wm-ewm-stock-mismatch).",
+      "תכנון תהליך אחסון או ניפוק מורכב (תאי ביניים, Deconsolidation) בלי Handling Units: לפי תיעוד EWM תהליכים " +
+        "מורכבים אפשריים רק עם HU.",
+      "הסתמכות על EWM לבדיקת זמינות בניפוק: לפי תיעוד EWM הבדיקה נעשית ברמת הרכיבים שקדמו לו ו-EWM מבצע תפקיד " +
+        "ביצועי בלבד.",
+      "המשך פיתוח על פונקציות LE-WM שנמנות ב-compatibility scope (למשל Wave Management של LE-WM) בלי תכנית " +
+        "יציאה: לפי פריט הפישוט אלה חלק מ-compatibility scope עם זכויות שימוש מוגבלות (SAP Note 2269324).",
+    ],
+    checks: [
+      "חיובי: מסירה נכנסת מ-S/4HANA מופיעה ב-/SCWM/PRDI, משימות האחסון נוצרות והסטטוס Putaway Planning עובר " +
+        "ל-Completed.",
+      "חלקי: משימות אחסון לחלק מהכמות מציבות Putaway Planning במצב Partially Completed.",
+      "יציאה: הזמנת מסירה יוצאת ב-/SCWM/PRDO, משימות ליקוט מקובצות להזמנת מחסן, אישור ורישום ניפוק מקטינים את " +
+        "מלאי תא המקור.",
+      "הפרשים: אישור ליקוט בכמות חסרה רושם את ההפרש מול הכמות הנדרשת.",
+      "ייצור: שחרור פקודה והפעלת Staging יוצרים PMR ב-EWM, והצריכה מעדכנת את ה-PMR ואת הפקודה.",
+      "התאמה: אין פער בין המלאי ב-/SCWM/MON לבין MMBE.",
+    ],
+    process: {
+      purpose: "לבצע את התנועה הפיזית של טובין במחסן ברמת התא: קליטה ואחסון מסירות נכנסות, ליקוט, אריזה וניפוק להזמנות " +
+        "מסירה יוצאות ואספקת חומר לייצור, כשכל פעולה מתועדת במשימת מחסן ומסונכרנת לניהול המלאי.",
+      trigger: [
+        {
+          he: "הודעת משלוח מוקדמת ממערכת חיצונית: S/4HANA יוצר מסירה נכנסת ומפיץ אותה ל-EWM.",
+          xrefs: ["tx:/SCWM/PRDI"],
+        },
+        {
+          he: "הזמנת לקוח: עיבוד היציאה יוצר מסירות יוצאות לפי שורות התזמון המאושרות, ו-EWM משתמש בהן לתהליכי המחסן.",
+          xrefs: ["tx:VL01N"],
+        },
+        {
+          he: "שחרור פקודת ייצור או הזמנת תהליך והפעלת Material Staging.",
+          xrefs: ["tx:COR2", "obj:production-order", "obj:process-order"],
+        },
+        {
+          he: "תנועת סחורה שנרשמה בניהול המלאי ומועברת ל-EWM.",
+          xrefs: ["fm:BAPI_GOODSMVT_CREATE"],
+        },
+      ],
+      preconditions: [
+        {
+          he: "לפי עמוד EWM Integration (2025 FPS01): שימוש ב-EWM Integration במערכת ה-ERP מחייב הפעלת Business " +
+            "Function‏ LOG_LE_INTEGRATION ו-Customizing של Logistics Execution תחת Extended Warehouse Management " +
+            "Integration; העמוד אינו מבחין בין EWM מוטמע למבוזר.",
+        },
+        {
+          he: "הגדרות בסיס ב-Customizing של EWM: סוגי אחסון, אזורי אחסון ותאים, Activity Areas, עמדות עבודה, דלתות " +
+            "ואזורי Staging.",
+        },
+        {
+          he: "פעולת PPF ליצירת משימות אחסון אוטומטית, וכללי יצירת הזמנות מחסן (Cross-Process Settings, Warehouse " +
+            "Order).",
+        },
+        {
+          he: "לניפוק: אסטרטגיית הוצאה (Stock Removal Strategy) ומחוון בקרת הוצאה מוגדרים; בקשת המחסן שלמה ורלוונטית " +
+            "לליקוט.",
+        },
+        {
+          he: "לאספקה לייצור: אזורי אספקת ייצור (PSA) עם תאים משויכים; לניפוק אוטומטי, סוג המסמך רשום והדוח " +
+            "/SCWM/DLV_GIPSA מתוזמן.",
+        },
+      ],
+      masterData: [
+        {
+          he: "נתוני מחסן בחומר: MLGN (לכל מספר מחסן) ו-MLGT (לכל סוג אחסון), שמשמשים מקור להעברת Warehouse Product " +
+            "ל-EWM לצד MARA ו-MARC.",
+          xrefs: ["table:MLGN", "table:MLGT", "table:MARA", "table:MARC"],
+        },
+        { he: "מבנה המחסן: סוגי אחסון, אזורים ותאים; Activity Areas; עמדות עבודה ודלתות." },
+        { he: "אזור אספקת ייצור (PSA) עם תאים משויכים, שממנו נקבע אזור ה-Staging." },
+        { he: "Handling Units: תהליכי אחסון והוצאה מורכבים ב-EWM דורשים HU." },
+      ],
+      roles: [
+        {
+          he: "SAP_BR_WAREHOUSE_CLERK_EWM (Warehouse Clerk, EWM): Change Inbound Delivery (F1706), Run Outbound Process " +
+            "- Deliveries (F1704) ויישומי Process Warehouse Tasks, לפי ספריית יישומי Fiori (S32OP).",
+        },
+        {
+          he: "SAP_BR_WAREHOUSE_OPERATIVE_EWM (Warehouse Operative, EWM): Process Warehouse Tasks - Picking (F3880) " +
+            "ו-Putaway (F4150).",
+        },
+      ],
+      transactions: [
+        {
+          he: "קליטה: /SCWM/PRDI (Maintain Inbound Deliveries); Fiori‏ Change Inbound Delivery (F1706), שהיורש שלו " +
+            "בספרייה הוא Manage Inbound Deliveries - Warehouse (F7922).",
+          xrefs: ["tx:/SCWM/PRDI"],
+        },
+        {
+          he: "משימות מחסן: /SCWM/TODLV_TO (לפי רשומת המאגר), /SCWM/ADPROD (Create Warehouse Tasks - Product), אישור " +
+            "ב-/SCWM/TO_CONF; RF ב-/SCWM/RFUI.",
+          xrefs: ["tx:/SCWM/TODLV_TO", "tx:/SCWM/ADPROD", "tx:/SCWM/TO_CONF", "tx:/SCWM/RFUI"],
+        },
+        {
+          he: "יציאה: /SCWM/PRDO (Outbound Delivery Orders), /SCWM/WAVE (Process Waves), /SCWM/PACK, /SCWM/ADGI; Fiori‏ " +
+            "Run Outbound Process - Deliveries (F1704), שהיורש שלו הוא Manage Outbound Delivery Orders (F6498).",
+          xrefs: ["tx:/SCWM/PRDO", "tx:/SCWM/WAVE", "tx:/SCWM/PACK", "tx:/SCWM/ADGI"],
+        },
+        {
+          he: "ניטור: /SCWM/MON (Warehouse Monitor); זו הטרנזקציה המובילה של Process Warehouse Tasks - Picking (F3880) " +
+            "ו-Putaway (F4150).",
+          xrefs: ["tx:/SCWM/MON"],
+        },
+        {
+          he: "צד S/4HANA: VL01N / VL02N למסירה יוצאת, MIGO לתנועות בניהול המלאי, CO01 / COR1 / COR2 לפקודות " +
+            "ול-Material Staging, MF60 ב-REM.",
+          xrefs: ["tx:VL01N", "tx:VL02N", "tx:MIGO", "tx:CO01", "tx:COR1", "tx:COR2", "tx:MF60"],
+        },
+        {
+          he: "צד ECC (LE-WM): LT01 יצירת פקודת העברה, LT03 מתוך מסירה, LT04 מתוך דרישת העברה, LT12 אישור.",
+          xrefs: ["tx:LT01", "tx:LT03", "tx:LT04", "tx:LT12"],
+        },
+      ],
+      tables: [
+        {
+          he: "מסירה יוצאת בצד S/4HANA: LIKP / LIPS.",
+          xrefs: ["table:LIKP", "table:LIPS"],
+        },
+        {
+          he: "מלאי בניהול המלאי: MARD; רזרבציה לרכיבי פקודה: RESB; מסמך חומר (ב-S/4HANA ב-MATDOC, שאינה במילון " +
+            "הפרויקט).",
+          xrefs: ["table:MARD", "table:RESB", "obj:material-document", "obj:reservation"],
+        },
+        {
+          he: "נתוני אב מחסן בחומר: MLGN, MLGT.",
+          xrefs: ["table:MLGN", "table:MLGT"],
+        },
+        {
+          he: "ECC (LE-WM): LTAK / LTAP פקודות העברה, LQUA Quants, LAGP תאים.",
+          xrefs: ["table:LTAK", "table:LTAP", "table:LQUA", "table:LAGP"],
+        },
+      ],
+      interfaces: [
+        {
+          he: "BAPIs של ניהול המלאי לרישום וביטול תנועות מול EWM: BAPI_GOODSMVT_CREATE ו-BAPI_GOODSMVT_CANCEL.",
+          xrefs: ["fm:BAPI_GOODSMVT_CREATE"],
+        },
+        {
+          he: "שירותי OData של יישומי המסירות: /SCWM/SIMPLE_INB_DLV_SRV (F1706) ו-/SCWM/SIMPLE_OUTB_DLV_SRV (F1704), " +
+            "לפי ספריית יישומי Fiori.",
+        },
+        {
+          he: "EWM מבוזר: הפצת נתוני אב חומר ב-MATMAS (סוג בסיסי MATMAS05) נקובה בתרחישי EWM מבוזר.",
+          xrefs: ["idoc:msg:MATMAS", "idoc:basic:MATMAS05"],
+        },
+        {
+          he: "BAdI‏ WORKORDER_UPDATE לתהליך האוטומטי של Expected Goods Receipts מפקודות.",
+          xrefs: ["enh:badi:WORKORDER_UPDATE"],
+        },
+      ],
+      integrationPoints: [
+        {
+          he: "ניהול מלאי: EWM רושם קבלה וניפוק על בסיס בקשת המחסן; תנועות מניהול המלאי מועברות ל-EWM.",
+          xrefs: ["fm:BAPI_GOODSMVT_CREATE", "obj:material-document", "bp:goods-movement-process"],
+        },
+        {
+          he: "מכירות והפצה: מסירות יוצאות מהזמנות לקוח; החיוב מבוסס על המסירות.",
+          xrefs: ["tx:VL01N", "bp:order-to-cash-process"],
+        },
+        {
+          he: "ייצור: Advanced Production Integration להזמנות ייצור ולהזמנות תהליך (PMR, Staging, צריכה, קליטה מייצור); " +
+            "רכיבי PP-SFC, ‏PP-PI, ‏PP-REM ו-Kanban.",
+          xrefs: ["tx:COR2", "tx:MF60", "bp:material-staging-and-reservation"],
+        },
+        { he: "אינטגרציה ל-PP בשתי תצורות: EWM מוטמע ב-S/4HANA, ו-EWM שאינו מוטמע (בלי תנועות סחורה סינכרוניות)." },
+        { he: "תחזוקה: ספר 6 מקדיש פרק לאינטגרציית EWM עם פקודות תחזוקה (תהליכי יציאה וכניסה)." },
+      ],
+      outputs: [
+        {
+          he: "בקשת מחסן: מסירה נכנסת או הזמנת מסירה יוצאת ב-EWM.",
+          xrefs: ["tx:/SCWM/PRDI", "tx:/SCWM/PRDO"],
+        },
+        { he: "משימות מחסן והזמנות מחסן; הדפסה של בקשת המחסן עם המשימות משמשת מסמך ליקוט." },
+        {
+          he: "רישום קבלה או ניפוק שמעדכן את ניהול המלאי (מסמך חומר).",
+          xrefs: ["obj:material-document"],
+        },
+        { he: "בייצור: בקשת חומר לייצור (PMR) ב-EWM, שנסגרת אוטומטית עם סגירת הפקודה." },
+      ],
+      exceptions: [
+        {
+          he: "דחיית מסירה נכנסת ב-EWM: הכמות המתוכננת מאופסת, S/4HANA מקבל הודעה ובקשת המחסן מקבלת סטטוס Completed.",
+        },
+        { he: "משימות אחסון שלא כיסו את כל הכמות: Putaway Planning במצב Partially Completed." },
+        { he: "הפרשי ליקוט: נרשמים באישור המשימה, בין הכמות הנדרשת לכמות שלוקטה." },
+        {
+          he: "פער מלאי EWM מול ניהול המלאי (תקרית wm-ewm-stock-mismatch): תנועה שלא הועברה, תור EWM תקוע או סנכרון " +
+            "שנכשל; בדיקה ב-/SCWM/MON ומול MMBE.",
+          xrefs: ["tx:/SCWM/MON", "tx:MMBE", "table:MARD", "table:LQUA"],
+        },
+        {
+          he: "הפרשי כמות באחסון ל-HU שטרם אוחסנו סופית: טיפול ב-/SCWM/PACK.",
+          xrefs: ["tx:/SCWM/PACK"],
+        },
+      ],
+      controls: [
+        { he: "אישור משימת המחסן הוא הרישום של השלמת הפעולה הפיזית; ההפרשים נרשמים באישור." },
+        { he: "כללי יצירת הזמנות מחסן קובעים את היקף חבילת העבודה ואת סוגה." },
+        { he: "EWM אינו מבצע בדיקת זמינות עצמאית בניפוק; הבדיקה נעשית ברמת הרכיבים שקדמו לו." },
+        {
+          he: "ניטור שוטף של עבודה פתוחה ותורים במוניטור המחסן.",
+          xrefs: ["tx:/SCWM/MON"],
+        },
+      ],
+      eccToS4: [
+        {
+          he: "ECC: ניהול מחסן קלאסי (LE-WM) בפקודות העברה LT01 / LT03 / LT04 ואישור LT12 על LTAK, LTAP ו-LQUA; לצדו " +
+            "אינטגרציית ERP עם מערכת SAP EWM נפרדת, שבה המסירה נבדקת ב-/SCWM/PRDI.",
+          xrefs: ["tx:LT01", "tx:LT03", "tx:LT04", "tx:LT12", "table:LTAK", "table:LTAP", "table:LQUA", "tx:/SCWM/PRDI"],
+        },
+        {
+          he: "S/4HANA 2025 FPS01, פריט 'S4TWL - Warehouse Management (WM)': LE-WM אינו ארכיטקטורת היעד; החלופות הן EWM " +
+            "ו-Stock Room Management (מ-1909). Stock Room Management משתמש מחדש בחלקים עיקריים של LE-WM וניתן לשימוש " +
+            "אחרי 2025, בלי הגירה טכנית.",
+        },
+        {
+          he: "לפי אותו פריט, Task & Resource Management, ממשק Warehouse Control Unit, ‏VAS, ‏Yard Management, " +
+            "‏Cross-Docking, ‏Wave Management ו-WM מבוזר אינם חלק מ-Stock Room Management והם ב-compatibility scope " +
+            "עם זכויות שימוש מוגבלות (SAP Note 2269324).",
+        },
+        {
+          he: "פריט 'S4TWL - Wave Management': ניהול הגלים של LE-WM נשאר ב-compatibility packages לזמן מוגבל, והחלופה " +
+            "היא Wave Management ב-EWM (ב-EWM: /SCWM/WAVE).",
+          xrefs: ["tx:/SCWM/WAVE"],
+        },
+        {
+          he: "S/4HANA: EWM מוטמע ב-S/4HANA או EWM מבוזר המבוסס על S/4HANA; יישומי Fiori ל-EWM (F1706, F1704, F3880, " +
+            "F4150) מפורסמים ב-S32OP.",
+          xrefs: ["tx:/SCWM/MON"],
+        },
+        {
+          he: "רשומות המאגר ecc-s4.ts#ewm ו-lifecycle.ts#LT03 מתארות את WM הקלאסי כולו כ-compatibility; פריט 2025 FPS01 " +
+            "מבחין בין Stock Room Management לבין רכיבי ה-compatibility, ולכן הניסוח במאגר מחייב דיוק.",
+          xrefs: ["tx:LT03"],
+        },
+      ],
+      migration: [
+        {
+          he: "העברת Warehouse Product ל-EWM: טבלאות המקור ב-S/4HANA הן MLGN ו-MLGT לצד MARA ו-MARC, עם מיפוי שדות " +
+            "LE-WM אל EWM.",
+          xrefs: ["table:MLGN", "table:MLGT", "table:MARA", "table:MARC"],
+        },
+        {
+          he: "הגירת נתונים מ-SAP EWM ל-EWM ב-S/4HANA: גישת Direct Transfer (What's New 2022) וגישת Staging Table " +
+            "(What's New 2023 FPS01).",
+        },
+        { he: "מעבר מ-LE-WM ל-Stock Room Management אינו דורש הגירה טכנית, לפי פריט הפישוט." },
+      ],
+      reference: {
+        title: "Warehouse Req. - Type Inbound Del. or Outbound Del. Order | Extended Warehouse Management (EWM) (SAP " +
+          "S/4HANA On-Premise 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/39cecb53ad377114e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        verificationLevel: "sap_official_verified",
+        note: "עמוד תיעוד EWM שמגדיר את בקשת המחסן כבסיס לאחסון ולהוצאה מהמלאי ולרישום הקבלה והניפוק (גוף העמוד נקרא). " +
+          "פריטי SAP Best Practices הנקובים ברשומות רשמיות: 1FS (Basic Warehouse Inbound Processing from Supplier) " +
+          "ו-1G2 (Basic Warehouse Outbound Processing to Customer), לפי What's New. העמוד הוא עמוד ההגדרה של בקשת " +
+          "המחסן, המשותף לעיבוד הנכנס ולעיבוד היוצא; שלבי התהליך עצמם מפורטים בעמודי Goods Receipt ו-Goods Issue " +
+          "שבראיות.",
+      },
+    },
+    xrefs: [
+      "tx:/SCWM/PRDI", "tx:/SCWM/PRDO", "tx:/SCWM/MON", "tx:/SCWM/TO_CONF", "tx:/SCWM/WAVE", "tx:/SCWM/RFUI",
+      "tx:/SCWM/PACK", "tx:/SCWM/ADGI", "tx:/SCWM/ADPROD", "tx:/SCWM/TODLV_TO", "tx:LT01", "tx:LT03", "tx:LT04",
+      "tx:LT12", "tx:VL01N", "tx:VL02N", "tx:MIGO", "tx:COR2", "tx:MF60", "tx:MMBE", "table:LIKP", "table:LIPS",
+      "table:MARD", "table:RESB", "table:MLGN", "table:MLGT", "table:LTAK", "table:LTAP", "table:LQUA", "table:LAGP",
+      "fm:BAPI_GOODSMVT_CREATE", "idoc:msg:MATMAS", "enh:badi:WORKORDER_UPDATE", "obj:material-document",
+      "obj:reservation", "obj:production-order", "obj:process-order", "bp:material-staging-and-reservation",
+      "bp:goods-movement-process", "bp:order-to-cash-process",
+    ],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Warehouse Req. - Type Inbound Del. or Outbound Del. Order | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/39cecb53ad377114e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 39cecb53ad377114e10000000a174cb4) קובע: 'The warehouse request of the type inbound " +
+          "delivery or outbound delivery order serves in EWM as the basis for performing putaway or stock removal " +
+          "activities' ו-'EWM also posts goods movements for goods receipt or goods issue based on the warehouse " +
+          "request'; EWM מקבל מסירות נכנסות והזמנות מסירה יוצאות ממערכות אחרות, ואפשר גם ליצור אותן ידנית.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Goods Receipt | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/4cc8cb53ad377114e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 4cc8cb53ad377114e10000000a174cb4): התהליך מתחיל בהודעת משלוח מוקדמת, S/4HANA יוצר ממנה " +
+          "מסירה נכנסת ומפיץ אותה ל-EWM, ו-EWM יוצר בקשת מחסן שהיא 'the starting point for the putaway process'; " +
+          "בדחיית המסירה EWM מאפס את הכמות המתוכננת ומודיע ל-S/4HANA; תהליכי אחסון מורכבים אפשריים רק עם Handling " +
+          "Units; דרישות מוקדמות ב-Customizing: סוגי אחסון, אזורים, תאים, Activity Areas, עמדות עבודה, דלתות ואזורי " +
+          "Staging.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Creation of Warehouse Tasks for Putaway | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/ffc7cb53ad377114e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio ffc7cb53ad377114e10000000a174cb4): EWM יוצר משימות אחסון אוטומטית בפעולת PPF או ידנית " +
+          "(Create Warehouse Tasks - Inbound Delivery), קובע תא יעד באסטרטגיות אחסון ובקרת אחסון ישירה או משולבת, " +
+          "ומקבץ משימות להזמנות מחסן לפי ה-Customizing; הסטטוס Putaway Planning עובר ל-Completed או ל-Partially " +
+          "Completed לפי הכמות שכוסתה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Goods Issue | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/c4c8cb53ad377114e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio c4c8cb53ad377114e10000000a174cb4): EWM יוצר בקשת מחסן מסוג הזמנת מסירה יוצאת כנקודת " +
+          "הפתיחה לניפוק; 'EWM does not carry out an independent availability check'; משימות ליקוט נוצרות כברירת " +
+          "מחדל בשחרור גל, בפעולת PPF או ידנית, ומקובצות להזמנות מחסן; האישור רושם הפרשים בין הכמות הנדרשת לכמות " +
+          "שלוקטה; אחרי אריזה והעמסה רושמים ניפוק, ו-EWM מקטין את מלאי תא המקור. דרישות מוקדמות: Stock Removal " +
+          "Strategy ו-Stock Removal Control Indicator.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Warehouse Order | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/65cccb53ad377114e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 65cccb53ad377114e10000000a174cb4) מגדיר הזמנת מחסן כ'executable work package that a " +
+          "warehouse employee should perform at a specific time', המורכבת ממשימות מחסן או מפריטי ספירת מלאי; היקפה " +
+          "וסוגה נקבעים בכללי יצירת הזמנות מחסן ב-Customizing.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Outbound Processing | Extended Warehouse Management Integration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2d95c3180a974e0aad07556ee4d28e94/4361b6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 4361b6531de6b64ce10000000a174cb4): ניהול ההזמנות ב-S/4HANA יוצר הזמנות לקוח, עיבוד " +
+          "היציאה יוצר מסירות יוצאות לפי שורות התזמון המאושרות, החיוב מבוסס על המסירות, ו-'EWM uses the outbound " +
+          "deliveries to perform logistical processes in the warehouse'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Extended Warehouse Management Integration | Extended Warehouse Management Integration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2d95c3180a974e0aad07556ee4d28e94/9060b6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 9060b6531de6b64ce10000000a174cb4): לפני שימוש ב-EWM Integration יש להפעיל את Business " +
+          "Function‏ 'LE, Extended Warehouse Management Integration (LOG_LE_INTEGRATION)' ולתחזק Customizing של " +
+          "Logistics Execution; התכונות כוללות Extended Inbound Delivery Processing, ‏Goods Issue Process, " +
+          "‏Transfer and Inventory Management ו-Integration in Production Planning and Control.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Advanced Production Integration | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/1b7fec53d3eb5514e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 1b7fec53d3eb5514e10000000a441470): בשחרור הפקודה וב-Material Staging נוצרת ב-EWM בקשת " +
+          "חומר לייצור (PMR); מתכננים משימות Staging ל-PSA, רושמים צריכה (ניפוק שמעדכן את ה-PMR ואת הפקודה), קולטים " +
+          "תוצרת לאחסון, וה-PMR נסגר אוטומטית עם סגירת הפקודה; התהליך חל על הזמנות ייצור ועל הזמנות תהליך, וגם על " +
+          "EWM מבוזר.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Outbound Delivery Process | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/3b57d55ea66e41998106fd99face9a66.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 3b57d55ea66e41998106fd99face9a66): באספקה לייצור מבוססת מסירה, אזור ה-Staging נקבע " +
+          "מה-PSA ונראה ב-/SCWM/PRDO; דרישה מוקדמת: PSA עם תאים משויכים; לניפוק אוטומטי יש לרשום את סוג המסמך " +
+          "ולתזמן את הדוח Post Goods Movement for Production Supply Area (transaction /SCWM/DLV_GIPSA); התהליך: " +
+          "הזמנת מסירה יוצאת, משימת מחסן, אישור ורישום ניפוק.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Communication of Goods Movements from Inventory Management to EWM | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/8a532e4e6aaf4f4b97fd2f014f9837e0.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE_FM_14,
+        claim: "הסניפט לגרסת On-Premise 2025 FPS01 קובע: 'You can also post and cancel goods movements using the " +
+          "following Inventory Management BAPIs: BAPI_GOODSMVT_CREATE BAPI_GOODSMVT_CANCEL'. (אומת ברשומת " +
+          "fm:BAPI_GOODSMVT_CREATE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "External Procurement with Purchase Order | Extended Warehouse Management Integration",
+        url: "https://help.sap.com/docs/SAP_ERP/d3a123be3f924c7f897930e5d9bdeed5/ada2cf5d5fd64a0ba24f86e54b5e76fb.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE,
+        claim: "רשומת החיפוש הרשמית (Extended Warehouse Management Integration, 6.0 EHP8 Latest, versionId 6.18.latest, " +
+          "loio ada2cf5d5fd64a0ba24f86e54b5e76fb) נוקבת בקוד /SCWM/PRDI בסניפט: 'In the EWM system, you check the " +
+          "transmitted ERP delivery document using transaction /SCWM/PRDI. ... In the EWM system, you create the " +
+          "warehouse task for the inbound delivery using transaction ...'. (אומת ברשומת tx:/SCWM/PRDI)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Monitor Methods | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/4b2f87853cc94cb9e10000000a42189b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "רשומת החיפוש הרשמית (Extended Warehouse Management (EWM), 2025 FPS01 (Feb 2026), versionId 2025.001, " +
+          "loio 4b2f87853cc94cb9e10000000a42189b) נוקבת בקוד /SCWM/TO_CONF בסניפט: '... in Foreground Confirm in " +
+          "the foreground one or more selected warehouse tasks (transaction /SCWM/TO_CONF). ...'. (אומת ברשומת " +
+          "tx:/SCWM/TO_CONF)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Warehouse Product Migration | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/d158a5ef3b6a427eab5e7cc9bad16b96.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE_TB_01,
+        claim: "תיעוד EWM לגרסת 2025 FPS01 קובע: 'The data sources in SAP S/4HANA are the following tables: MLGN - " +
+          "Material Data for Each Warehouse Number', וממפה שדות LE-WM אל שדות ה-Warehouse Product‏: MLGN-MATNR‏, " +
+          "MLGN-LGNUM‏, MLGN-LGBKZ. (אומת ברשומת table:MLGN)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Using Expected Goods Receipts | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/c9e9a85296007b6ae10000000a423f68.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE_TX_02,
+        claim: "תיעוד EWM לגרסת 2025 FPS01 נוקב בשם התיאורי הרשמי של ה-BAdI, הכולל את תחזוקת המפעל (PM), ובתחולתו על שתי " +
+          "המערכות: 'If you use SAP ERP or SAP S/4HANA as your enterprise management system and want to use the " +
+          "automated process, implement the Business Add-In PM/PP/PS/PI Orders Operation: UPDATE " +
+          "(WORKORDER_UPDATE'. (אומת ברשומת enh:badi:WORKORDER_UPDATE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 15.5.2 " +
+          "S4TWL - Warehouse Management (WM)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE,
+        claim: "הפריט (Application Component LE-WM, Note 2270211) קובע: 'The Warehouse Management (LE-WM) is not the " +
+          "target architecture anymore within SAP S/4HANA', והחלופה היא 'Extended Warehouse Management (SAP EWM) " +
+          "and since S/4HANA 1909 Stock Room Management'; 'Stock Room Management reuses major parts of LE-WM and " +
+          "can be used beyond 2025'; WM-TRM, ‏WM-LSR, ‏WM-VAS, ‏WM-YM, ‏WM-CD, ‏WM-TFM-CP ו-WM-DWM אינם חלק מ-Stock " +
+          "Room Management והם ב-compatibility scope, 'which comes with limited usage rights' (SAP note 2269324); " +
+          "'There is no technical migration needed to go from LE-WM to Stockroom Management'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 15.5.5 " +
+          "S4TWL - Wave Management",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE,
+        claim: "הפריט (LE-WM-TFM-CP, Note 2889652) קובע ש-Wave Management / Collective Processing של LE-WM אינו " +
+          "ארכיטקטורת היעד, זמין ב-compatibility packages 'for a limited period of time', והחלופה היא 'Wave " +
+          "Management in Extended Warehouse Management (SAP EWM)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F1706 'Change Inbound Delivery' (SAP Fiori (SAPUI5)), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1706')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית היישומים (S32OP) רושמת את F1706 'Change Inbound Delivery' בתפקיד SAP_BR_WAREHOUSE_CLERK_EWM, " +
+          "בקטלוג SAP_SCM_BC_EWM_INB_BSC, עם OData‏ /SCWM/SIMPLE_INB_DLV_SRV, טרנזקציה מובילה /SCWM/PRDI ויורש " +
+          "F7922 'Manage Inbound Deliveries - Warehouse'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F1704 'Run Outbound Process - Deliveries' (SAP Fiori (SAPUI5)), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1704')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית היישומים (S32OP) רושמת את F1704 'Run Outbound Process - Deliveries' בתפקיד " +
+          "SAP_BR_WAREHOUSE_CLERK_EWM, בקטלוג SAP_SCM_BC_EWM_OUTB_BSC, עם OData‏ /SCWM/SIMPLE_OUTB_DLV_SRV, " +
+          "טרנזקציה מובילה /SCWM/PRDO ויורש F6498 'Manage Outbound Delivery Orders'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F3880 'Process Warehouse Tasks - Picking' (SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3880')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית היישומים (S32OP) רושמת את F3880 'Process Warehouse Tasks - Picking' בתפקידים " +
+          "SAP_BR_WAREHOUSE_CLERK_EWM ו-SAP_BR_WAREHOUSE_OPERATIVE_EWM, עם טרנזקציה מובילה /SCWM/MON.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F4150 'Process Warehouse Tasks - Putaway' (SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4150')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית היישומים (S32OP) רושמת את F4150 'Process Warehouse Tasks - Putaway' בתפקידים " +
+          "SAP_BR_WAREHOUSE_CLERK_EWM ו-SAP_BR_WAREHOUSE_OPERATIVE_EWM, בקטלוגים SAP_SCM_BC_EWM_EXEC_F_BSC " +
+          "ו-SAP_SCM_BC_EWM_INB_BSC, עם טרנזקציה מובילה /SCWM/MON.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Attachment Service for EWM Objects | What's New in SAP S/4HANA 2020",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/fe544c6966c2487285de23d8c9b50505.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio fe544c6966c2487285de23d8c9b50505) נוקב בפריטי ההיקף 'Scope Item 1FS (Basic Warehouse " +
+          "Inbound Processing from Supplier), 1G2 (Basic Warehouse Outbound Processing to Customer)', לצד 1V5, " +
+          "‏1V7, ‏1V9, ‏1VD, ‏4RO_DE ו-4RP_DE, ברכיב SCM-EWM-DLP.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Staging Table Migration Approach for EWM in SAP S/4HANA | What's New in SAP S/4HANA 2023 FPS01",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/865fb91de2c745a19a13a9a775146be8.html?locale=en-US&state=PRODUCTION&version=2023.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.001",
+        accessedAt: DATE,
+        claim: "הסניפט (loio 865fb91de2c745a19a13a9a775146be8): 'With this feature, you can migrate warehouse data to " +
+          "Extended Warehouse Management (EWM) in SAP S/4HANA using the staging table approach'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Direct Transfer Migration Approach for EWM in SAP S/4HANA | What's New in SAP S/4HANA 2022",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/c6ee329bf90545f6ae838b0100f2bbf2.html?locale=en-US&state=PRODUCTION&version=2022.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.000",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio c6ee329bf90545f6ae838b0100f2bbf2, נקרא דרך scripts/sap-help-body.mjs): 'With this " +
+          "feature, you can migrate data from an SAP EWM system to Extended Warehouse Management (EWM) in SAP " +
+          "S/4HANA using the direct transfer approach'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App /SCWM/PRDI 'Maintain Inbound Deliveries' (SAP GUI), release S32OP (S/4HANA 2025 " +
+          "FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('/SCWM/PRDI')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת את /SCWM/PRDI כאפליקציה 'Maintain Inbound Deliveries' מסוג SAP " +
+          "GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. (אומת ברשומת tx:/SCWM/PRDI)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App /SCWM/PRDO 'Outbound Delivery Orders' (SAP GUI), release S32OP (S/4HANA 2025 " +
+          "FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('/SCWM/PRDO')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת את /SCWM/PRDO כאפליקציה 'Outbound Delivery Orders' מסוג SAP GUI " +
+          "(SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. (אומת ברשומת tx:/SCWM/PRDO)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App /SCWM/MON 'Warehouse Monitor' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('/SCWM/MON')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת את /SCWM/MON כאפליקציה 'Warehouse Monitor' מסוג SAP GUI (SAP " +
+          "GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. (אומת ברשומת tx:/SCWM/MON)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App /SCWM/TO_CONF 'Confirm Warehouse Tasks - Advanced' (SAP GUI), release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('/SCWM/TO_CONF')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת את /SCWM/TO_CONF כאפליקציה 'Confirm Warehouse Tasks - Advanced' " +
+          "מסוג SAP GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. (אומת ברשומת " +
+          "tx:/SCWM/TO_CONF)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Entry of Quantity Differences During Putaway | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/2a67bd2b40934c899a6b4cd63852a6a0.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "רשומת החיפוש הרשמית (Extended Warehouse Management (EWM), 2025 FPS01 (Feb 2026), versionId 2025.001, " +
+          "loio 2a67bd2b40934c899a6b4cd63852a6a0) נוקבת בקוד /SCWM/PACK בסניפט: '... haven't been finally put away, " +
+          "you can use the Pack Handling Units - Advanced app (transaction /SCWM/PACK ...'. (אומת ברשומת " +
+          "tx:/SCWM/PACK)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App /SCWM/ADGI 'Post Goods Issue - Unplanned' (SAP GUI), release S32OP (S/4HANA " +
+          "2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('/SCWM/ADGI')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת את /SCWM/ADGI כאפליקציה 'Post Goods Issue - Unplanned' מסוג SAP " +
+          "GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. (אומת ברשומת tx:/SCWM/ADGI)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App /SCWM/ADPROD 'Create Warehouse Tasks - Product' (SAP GUI), release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('/SCWM/ADPROD')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת את /SCWM/ADPROD כאפליקציה 'Create Warehouse Tasks - Product' " +
+          "מסוג SAP GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. (אומת ברשומת " +
+          "tx:/SCWM/ADPROD)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Processing of Waves | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/10c9cb53ad377114e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "רשומת החיפוש הרשמית (Extended Warehouse Management (EWM), 2025 FPS01 (Feb 2026), versionId 2025.001, " +
+          "loio 10c9cb53ad377114e10000000a174cb4) נוקבת בקוד /SCWM/WAVE בסניפט: '... warehouse management monitor " +
+          "(transaction /SCWM/MON) or the Process Waves app (transaction /SCWM/WAVE). ... The simulation can be " +
+          "triggered in the warehouse management monitor using the methods ...'. (אומת ברשומת tx:/SCWM/WAVE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Skip Pick-HU Screen During RF Picking for Replenishment | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/fd9c74cf038f4f9c87fccbeec1a9422c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "רשומת החיפוש הרשמית (Extended Warehouse Management (EWM), 2025 FPS01 (Feb 2026), versionId 2025.001, " +
+          "loio fd9c74cf038f4f9c87fccbeec1a9422c) נוקבת בקוד /SCWM/RFUI בסניפט: '... creating pick-handling units " +
+          "(pick-HUs) in the radio frequency (RF) environment (transaction /SCWM/RFUI) or in voice-based ... " +
+          "picking (transaction /SCWM/RFUI_PBV). ...'. (אומת ברשומת tx:/SCWM/RFUI)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material Staging (with EWM) | Production Orders (PP-SFC)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/34de0103497c4b80a7c7fbf6952ff971/8800b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TX_07,
+        claim: "תיעוד S/4HANA On-Premise 2025 FPS01 מונה את COR2 כטרנזקציה פעילה להזמנות תהליך: 'Staging of Pick Parts " +
+          "Directly in the Production or Process Order (Transactions CO02 and COR2)' וכן 'For process orders, you " +
+          "can use transaction COR2 or COHVPI to trigger material staging' (כלשון הסניפט). CO02 מיועדת להזמנת ייצור " +
+          "ו-COR2 להזמנת תהליך. (אומת ברשומת tx:COR2)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Warehouse Product Migration | Extended Warehouse Management (EWM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/d158a5ef3b6a427eab5e7cc9bad16b96.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TB_01,
+        claim: "'MLGT - Material Data for Each Storage Type' נמנית בין טבלאות המקור ב-SAP S/4HANA להעברת Warehouse " +
+          "Product ל-EWM, לצד MLGN‏, MARA ו-MARC. (אומת ברשומת table:MLGT)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Flow for Pick Parts Using Inventory-Managed (MM-IM) Storage Location (P3) | Extended Warehouse " +
+          "Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/9a862211cdd44d6ea5beedecbaee7204.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 9a862211cdd44d6ea5beedecbaee7204, נקרא דרך scripts/sap-help-body.mjs) קובע: 'Create a " +
+          "manufacturing order in the SAP S/4HANA system (transaction CO01 or COR1), and save it', 'Release the " +
+          "manufacturing order' ו-'Activate staging for the products by calling transaction CO02 or COR2. You use " +
+          "the manufacturing order number to find and check the outbound delivery'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Integration of Production Supply (PP) | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/252245dc92d247eeb7054b9bd58fc026.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "רשומת החיפוש (loio 252245dc92d247eeb7054b9bd58fc026) מונה בסניפט את רכיבי האספקה לייצור ב-EWM: " +
+          "'Production Orders (PP-SFC) Process Order (PP-PI_POR) Repetitive Manufacturing (PP-REM) Kanban " +
+          "(PP-KAB)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Integration of Extended Warehouse Management in PP | Extended Warehouse Management Integration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2d95c3180a974e0aad07556ee4d28e94/3cf58757f91b478aa5e408eba5b3a2ec.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "רשומת החיפוש (loio 3cf58757f91b478aa5e408eba5b3a2ec) מונה שתי אפשרויות אינטגרציה: 'Extended Warehouse " +
+          "Management (EWM) that is not embedded in S/4HANA', עם הפניה ל-'Integration of Extended Warehouse " +
+          "Management into PP Without Synchronous Goods Movements', ו-'Extended Warehouse Management (EWM) that is " +
+          "embedded in S/4HANA'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג הטרנזקציות של המאגר: /SCWM/PRDI, /SCWM/PRDO, /SCWM/MON, /SCWM/TO_CONF, /SCWM/TODLV_TO, /SCWM/WAVE",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הקטלוג מתאר את /SCWM/PRDI כתחזוקת מסירה נכנסת, /SCWM/PRDO כתחזוקת הזמנת מסירה יוצאת, /SCWM/MON כמוניטור " +
+          "ניהול המחסן, /SCWM/TO_CONF כאישור משימת מחסן, /SCWM/TODLV_TO כיצירת משימת מחסן למסירה ו-/SCWM/WAVE " +
+          "כתחזוקת גלים (מודול WM). /SCWM/ADGI מתואר שם כ'Adjust Goods Issue', בעוד ספריית ה-Fiori קוראת לו 'Post " +
+          "Goods Issue - Unplanned'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#/SCWM/PRDI",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של המאגר: LT01, LT03, LT04, LT12, MF60",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "LT01 יוצר פקודת העברה ומעדכן LTAK/LTAP; LT03 יוצר פקודת העברה מתוך מסירה (LIKP/LIPS) לליקוט; LT04 מתוך " +
+          "דרישת העברה; LT12 מאשר פקודה שלמה ומעדכן LQUA; הערת S/4HANA של LT01 ו-LT12: WM קלאסי ב-compatibility " +
+          "scope ו-EWM הפתרון האסטרטגי. MF60: בסביבות EWM ה-Staging מנוהל ב-EWM.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#LT01",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נושא המעבר 'Warehouse Management → EWM' של הפרויקט (ECC_S4_TOPICS)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ECC: WM קלאסי (LE-WM) משולב. S/4HANA: WM קלאסי במצב Compatibility ו-Embedded EWM הוא הכיוון; השפעה: " +
+          "ארגונים עם WM צריכים תכנית מעבר ל-EWM, ואספקת חלפים ממחסן (PM-MM) מושפעת.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/ecc-s4.ts#ewm",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: wm-ewm-stock-mismatch",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "אי-התאמת מלאי WM/EWM מול IM: סיבות, תנועה שלא הועברה, Queue תקוע ב-EWM או סנכרון שנכשל; ניתוח ב-LX02, " +
+          "‏LS24 ו-/SCWM/MON (LX02 מול MMBE); טבלאות LQUA ו-MARD; תיקון: השלמת תנועת WM, פינוי תור EWM, סנכרון " +
+          "מלאי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext3.ts#wm-ewm-stock-mismatch",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "שיטת העבודה 'רכיבים לפקודה: רזרבציה, אספקה לקו וניפוק' של הפרויקט",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "רכיבי פקודה נשמרים כרזרבציה ב-RESB, והאספקה לקו ב-CO27 או ב-MF60; לפי הרשומה, בסביבות EWM ה-Staging " +
+          "מנוהל ב-EWM.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/best-practices/cross-processes-2.ts#material-staging-and-reservation",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת האימות של סוג ההודעה MATMAS",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הרשומה קובעת ש-MATMAS (סוג בסיסי MATMAS05) מתועד בפרק APIs for Product Master ונקוב בתרחישי EWM מבוזר " +
+          "(Supply Assignment).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verification/idocs.ts#idoc:msg:MATMAS",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת מחזור החיים של הפרויקט: LT03 ו-MIGO",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "LT03: סטטוס Deprecated, קיימת ב-ECC וב-S/4HANA, חלופה EWM (embedded), 'LE-WM not strategic; EWM target', " +
+          "הגירה: WM קלאסי ב-Compatibility והכיוון Embedded EWM. MIGO: פעילה ב-S/4HANA, Fiori‏ Post Goods Movement " +
+          "(F0843), תנועות נרשמות ל-MATDOC.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/lifecycle.ts#LT03",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של המאגר: VL01N, VL02N, LX03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "VL01N יוצר אספקה יוצאת (LIKP/LIPS) מהזמנת מכירה; VL02N מזין כמויות ליקוט ומבצע PGI; לפי פריט הפישוט " +
+          "'S4TWL - SD Simplified Data Models' שדות הסטטוס של LIKP/LIPS עברו מ-VBUK/VBUP. LX03 (LE-WM) משלב את LAGP " +
+          "(תאים) עם LQUA (Quants).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VL01N",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 6 בספריית הפרויקט (SAP PRESS, Integrating Warehouse Management in SAP S/4HANA), פרק 1, סעיף 1.2.2 " +
+          "'Embedded EWM and Decentralized EWM'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הסעיף עוסק בשתי תצורות ה-EWM ב-S/4HANA (מוטמע ומבוזר), והפרק כולל גם העברות נתונים בין ERP ל-EWM (1.4) " +
+          "ואינטגרציה עם מודולים אחרים (1.5); הספר משמש כאן להפניית קריאה בלבד.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book6.json#1.2.2",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 6 בספריית הפרויקט, פרק 2 'Production Planning', סעיף 2.3 'Advanced Production Integration'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הסעיף מכסה Staging, צריכה וקבלה מייצור ל-Manufacturing Orders (2.3.1 עד 2.3.3, כלשון כותרות הסעיפים) " +
+          "ופינוי תא PSA (2.3.4), לצד אינטגרציה מבוססת מסירה (2.2); הפניית קריאה בלבד.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book6.json#2.3",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 6 בספריית הפרויקט, פרק 9 'Plant Maintenance', סעיף 9.2 'Using Plant Maintenance Orders'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הסעיף מתעד תהליך יציאה (9.2.1) ותהליך כניסה (9.2.2) של EWM עם פקודות תחזוקה; הפניית קריאה בלבד.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book6.json#9.2",
+      },
+    ],
+    lastVerifiedAt: DATE,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    notes: "רשומת תהליך: נבנתה מעמודי תיעוד EWM ו-EWM Integration לגרסת 2025 FPS01 שגופם נקרא (Warehouse Request, " +
+      "Goods Receipt, Creation of Warehouse Tasks for Putaway, Goods Issue, Warehouse Order, Outbound " +
+      "Processing, EWM Integration, Advanced Production Integration, Outbound Delivery Process), מפריטי רשימת " +
+      "הפישוט 2025 FPS01, מספריית יישומי Fiori (S32OP) ומרשומות המאגר. יישומי ה-Fiori של EWM (F1706, F1704, " +
+      "F3880, F4150, F7922, F6498) אינם בקטלוג ה-Fiori של הפרויקט ולכן נקובים בטקסט בלבד. טבלאות EWM (/SCWM/*) " +
+      "ותצוגות CDS של EWM אינן במילון הפרויקט ואינן נקובות. /SCWM/TODLV_TO נשען על רשומת המאגר בלבד (אין רשומה " +
+      "רשמית הנוקבת בו). /SCWM/DLV_GIPSA נקוב בתיעוד הרשמי ואינו במילון הפרויקט. פריטי ההיקף 1FS ו-1G2 נקובים " +
+      "ברשומות What's New ולא נבדק דף ה-Best Practices שלהם. מדדי KPI לא תועדו במקורות ולכן הושמטו. הדרישה " +
+      "ל-LOG_LE_INTEGRATION מובאת כלשון עמוד EWM Integration, והתחולה שלה על EWM מוטמע דורשת אימות במערכת. בשלב " +
+      "הכתיבה (2026-09-24) נקראו גם גופי העמודים P3 ו-'Direct Transfer Migration Approach for EWM in SAP " +
+      "S/4HANA', ו-F4150 נקרא בספריית ה-Fiori (S32OP). לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  /* ====================================================== embedded analytics */
+  {
+    slug: "embedded-analytics-process",
+    he: "אנליטיקה מובנית: מ-CDS לאפליקציות אנליטיות",
+    en: "Embedded analytics: from CDS views to analytical apps",
+    module: "Cross",
+    summary: "ב-S/4HANA הדיווח התפעולי נבנה על תצוגות CDS של ה-VDM: תצוגות Basic מעל הטבלאות, תצוגות Composite (בהן " +
+      "קוביות אנליטיות) ותצוגות Consumption מסוג analytical query. מעליהן יושבים Query Browser, דוחות " +
+      "רב-ממדיים, KPI של Smart Business ויישומי Fiori אנליטיים, על נתונים עדכניים וללא שכפול ל-BW. הרשומה מתארת " +
+      "איך בונים, צורכים ומאמתים מספר מול התצוגה שלו.",
+    context: "לפי עמוד התיעוד 'S/4HANA Embedded Analytics' (2025 FPS01), כל כלי האנליטיקה צורכים תצוגות CDS של ה-VDM, " +
+      "ושאילתות מסוג analytical query דורשות את ה-Analytic Engine. לפי עמוד 'VDM Layers and View Types', תצוגות " +
+      "Basic ניגשות ישירות לטבלאות, תצוגות Composite בנויות עליהן ויכולות לשמש קוביות, ותצוגות Consumption הן " +
+      "סוג ה-VDM שיכול לשמש analytical query. בצד ה-ECC, לפי רשומת המאגר data/ecc-s4.ts, הדיווח נעשה ב-SAP " +
+      "GUI/ALV, ב-SQVI ולעיתים ב-BW נפרד, ומערכות המידע PMIS ו-shop floor information system נשענות על מבני LIS " +
+      "צבורים (פריטי הפישוט 'S4TWL - LIS in EAM' ו-'S4TWL - Logistic Information System in PP'). הרשומה חוצת " +
+      "מודולים: דוגמאות התחזוקה נלקחות מ-PM ודוגמאות הייצור מ-PP ו-PP-PI.",
+    steps: [
+      {
+        he: "להגדיר את השאלה העסקית ואת המדד (למשל MTBF/MTTR ועלות תחזוקה ב-PM, תפוקה ופסולת בייצור לפי רשומות " +
+          "התחומים), ולחפש קודם תוכן קיים: Query Browser (F1068) מציג את השאילתות האנליטיות שלמשתמש יש גישה אליהן, " +
+          "ו-View Browser מציג את כל תצוגות ה-CDS עם סוג התצוגה, ממדים ומדדים וסטטוס השחרור.",
+      },
+      {
+        he: "לזהות את שכבת ה-VDM הנכונה: תצוגת Basic ‏(I_, ‏@VDM.viewType: #BASIC) יושבת על הטבלאות, למשל " +
+          "I_ProductionOrder מעל AUFK ו-AFKO המסומנת 'Analytical Data Category Dimension'; תצוגת Composite משמשת " +
+          "קובייה; תצוגת Consumption (C_, סיומת Query/Qry/Q) היא ה-analytical query שהיישום צורך.",
+        xrefs: [
+          "cds:I_ProductionOrder", "table:AUFK", "table:AFKO", "cds:I_MaintenanceOrder",
+          "cds:I_MaintenanceNotification", "table:QMEL",
+        ],
+      },
+      {
+        he: "להעדיף שאילתה אנליטית משוחררת של SAP, כמו C_WorkCenterProdCostQuery ‏(Released) בייצור, שנותנת עלויות " +
+          "בפועל ומתוכננות ברמת מרכז עבודה ופעולה להזמנות ייצור (10) ולהזמנות תהליך (40), מעל " +
+          "I_WorkCenterProdCostCube. בתחזוקה, C_MaintOrdActualCostDataQ מתועדת כתצוגת Analytical Data Category " +
+          "Query שמיועדת בעיקר לשמש מקור נתונים משויך בתצוגה Maintenance Order Actual Cost Data, וניגשים אליה דרך " +
+          "תצוגת CDS אחרת (privileged mode); סטטוס שחרור לא מודפס בעמוד. שתי השאילתות אינן במילון הפרויקט.",
+      },
+      {
+        he: "כשאין שאילתה מתאימה, מומחה האנליטיקה (SAP_BR_ANALYTICS_SPECIALIST) בונה שאילתה ב-Custom Analytical " +
+          "Queries ‏(F1572; הספרייה מציגה יורש F1572A 'Custom Analytical Queries and Services') מעל תצוגות " +
+          "משוחררות, ולפי הצורך תצוגה מותאמת ב-Custom CDS Views ‏(F1866A לפי ספר 7); תצוגות מותאמות מתחילות ב-YY1 " +
+          "לפי View Browser.",
+      },
+      {
+        he: "להגדיר KPI ב-Manage KPIs and Reports ‏(F2814): KPI של Smart Business נשען על שירות OData אנליטי שחושף " +
+          "תצוגת CDS מצרפת (measures מסומנים באנוטציית צבירה, ושאר השדות dimensions), עם הערכה (evaluation), יעדים, " +
+          "ספים ומגמה, אריח ב-Launchpad ויישום drill-down גנרי או מבוסס APF.",
+      },
+      {
+        he: "לצרוך את התוכן: יישומי Fiori אנליטיים כמו Maintenance Planning Overview ‏(F2828, ‏Overview Page למתכנן, " +
+          "IW29 מובילה ו-IW38 קשורה לפי הספרייה) ו-Manage Work Center Capacity ‏(F3289, 'Transactional, Analytical' " +
+          "לפי הספרייה), וכן multidimensional data grid apps ‏(Web Dynpro, מזהי W) לניתוח slice-and-dice לקריאה " +
+          "בלבד.",
+        xrefs: ["fiori:F2828", "tx:IW29", "tx:IW38", "fiori:F3289", "tx:CM01"],
+      },
+      {
+        he: "להקצות תפקידים וקטלוגים ב-PFCG (תקרית fiori-tile-blank) ולהפעיל שירותים: SAP_BR_EMPLOYEE לקטלוג " +
+          "SAP_CA_BC_VDM של Query Browser, SAP_BR_ANALYTICS_SPECIALIST לקטלוגי Query Design ו-KPI Design; ל-Query " +
+          "Browser להפעיל ב-SICF את שירותי ה-ICF (בהם /sap/bw/ina/GetResponse), את OData‏ RSAO_ODATA_SRV ואת תבנית " +
+          "0ANALYSIS. שאילתת CDS אנליטית מוגנת ב-DCL0 וההרשאה ניתנת ברמת היישום.",
+        xrefs: ["tx:SICF", "tx:PFCG"],
+      },
+      {
+        he: "לאמת מספר מול התצוגה שלו: לפתוח את השאילתה ב-Query Browser ב-Open for Analysis; ב-View Browser לבדוק " +
+          "ב-Cross Reference את התצוגות והטבלאות שהתצוגה משתמשת בהן, וב-Show Content להריץ תצוגה מקדימה עם אותם " +
+          "פרמטרים (תקופה, P_CurrencyRole); לרדת לתצוגת ה-Basic ולטבלה (למשל I_ProductionOrder מול AUFK/AFKO), " +
+          "ולהשוות לרשימת ה-GUI לאותה בחירה (COOIS להזמנות ייצור, IW38/IW39 להזמנות תחזוקה). לפי הערת היועץ במאגר, " +
+          "RSRT משמשת לבדיקת query על CDS (אינה במילון הפרויקט).",
+        xrefs: ["cds:I_ProductionOrder", "table:AUFK", "table:AFKO", "tx:COOIS", "tx:IW38", "tx:IW39"],
+      },
+      {
+        he: "לפרש פערים לפני שמכריזים על טעות: לפי עמוד Analytics, האנליטיקה המוטמעת פועלת על נתונים עדכניים ואינה " +
+          "קוראת נתונים ב-data aging או בארכיון; דוח PMIS‏ (MCI7/MCI8) קורא מבני LIS צבורים שתלויים בעדכון, ודוח CO " +
+          "ישן עלול שלא להתאים ל-Universal Journal, למשל כשהוא קורא COEP או כשה-Ledger או המטבע שונים (תקרית " +
+          "acdoca-coep-mismatch).",
+        xrefs: ["tx:MCI7", "tx:MCI8"],
+      },
+      {
+        he: "בהמרה: להריץ את LIS (למשל PMIS ב-MCI7) ואת האנליטיקה מבוססת ה-CDS במקביל עד שהאחרונה מכסה את הדרישות, " +
+          "ורק אז לכבות את עדכון טבלאות ה-LIS; דוחות Z שקוראים S061 עד S065, S070 או S114 עד S116 (PM, לפי 'S4TWL - " +
+          "LIS in EAM') או S021 עד S026, S028, S225 ו-S227 (PP, לפי 'S4TWL - Logistic Information System in PP') " +
+          "צריכים מעבר לתצוגות CDS; לפי פריט ה-PP, מומלץ להשתמש ב-Manage Production Orders ‏(F2336) במקום COOIS.",
+        xrefs: ["tx:MCI7", "tx:COOIS", "fiori:F2336"],
+      },
+    ],
+    antiPatterns: [
+      "בניית שאילתה מותאמת או KPI על תצוגה בסטטוס Not Released או Deprecated: לפי View Browser תצוגות כאלה " +
+        "עלולות להשתנות או להימחק.",
+      "ניסיון לקרוא תצוגת analytical query ישירות ב-SQL או בקוד Z: התצוגה מוגנת ב-DCL0 מפני גישה ישירה, וההרשאה " +
+        "ניתנת ברמת היישום (עמוד C_WorkCenterProdCostQuery).",
+      "המשך פיתוח דוחות Z על מבני LIS‏ (S061, S070, S022) אחרי ההמרה: לפי פריטי הפישוט הם יפסיקו לעבוד כשעדכון " +
+        "ה-LIS יכובה.",
+      "השוואת מספר לדוח ישן בלי ליישר תקופה, מטבע (P_CurrencyRole) והיקף נתונים: האנליטיקה אינה קוראת נתוני " +
+        "data aging או ארכיון.",
+      "בניית אותו דוח גם ב-BW וגם כ-CDS query בלי החלטה: לקח הפרויקט הוא להחליט מוקדם בין BW/4HANA, ‏Datasphere " +
+        "ו-Embedded.",
+      "הגדרת KPI על תצוגה שאין בה measures מצרפים: Smart Business נשען על שירות OData אנליטי מעל תצוגה מצרפת.",
+    ],
+    checks: [
+      "חיובי: שאילתה משוחררת מופיעה ב-Query Browser למשתמש עם SAP_BR_EMPLOYEE ונפתחת ב-Open for Analysis.",
+      "עקיבות: לשונית Cross Reference ב-View Browser מציגה עבור I_ProductionOrder את הטבלאות שמתחתיה, והסכום " +
+        "בשאילתה תואם לרשימת COOIS לאותה בחירה.",
+      "שלילי: משתמש ללא התפקיד או הקטלוג אינו רואה את השאילתה, וקריאה ישירה לתצוגת ה-query נחסמת (DCL0).",
+      "אינטגרציה: אריח KPI מנווט ליישום ה-drill-down ומשם ליישום פעולה באותו הקשר ב-Launchpad.",
+      "רגרסיה אחרי המרה: מדדי MTTR/MTBF והעלויות לפי אובייקט טכני תואמים בין PMIS (כל עוד ה-LIS מתעדכן) " +
+        "לאנליטיקת ה-CDS לפני כיבוי עדכון ה-LIS.",
+    ],
+    status: {
+      status: "s4_native",
+      he: "אנליטיקה מוטמעת על תצוגות CDS של ה-VDM מתועדת כיכולת של SAP S/4HANA (2025 FPS01). לפי data/ecc-s4.ts, " +
+        "ב-ECC הדיווח נעשה ב-SAP GUI/ALV, ב-SQVI או ב-BW נפרד, ולפי פריטי הפישוט PMIS ו-shop floor information " +
+        "system נשענים שם על LIS.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: EA_STATUS_SOURCE,
+      recommendedAction: "בהמרת CBC: למפות כל דוח PMIS, ‏COOIS או Z-report לשאילתה אנליטית משוחררת או ליישום Fiori אנליטי, להגדיר " +
+        "את ה-Analytic Engine, התפקידים והשירותים, ולכבות את עדכון ה-LIS רק אחרי השוואת מספרים מתועדת.",
+    },
+    process: {
+      purpose: "להפוך נתונים טרנזקציוניים של S/4HANA לתובנה עדכנית בלי שכפול נתונים: תצוגות CDS של ה-VDM מעל הטבלאות, " +
+        "שאילתות אנליטיות, KPI ויישומי Fiori אנליטיים באותו Launchpad שבו מבצעים את הפעולה, ולאפשר ליועץ לאמת כל " +
+        "מספר מול התצוגה והטבלאות שמתחתיה.",
+      trigger: [
+        {
+          he: "שאלה עסקית או מדד תפעולי שדורש דיווח עדכני: MTBF, MTTR ועלות בתחזוקה; Yield, ‏Scrap %, ‏Lead Time ו-OEE " +
+            "בייצור (רשומות התחומים pm-analytics ו-pppi-production-analytics).",
+        },
+        {
+          he: "המרה ל-S/4HANA: פריטי הפישוט 'S4TWL - LIS in EAM' ו-'S4TWL - Logistic Information System in PP' מכוונים " +
+            "את הדיווח מ-LIS לאנליטיקה מבוססת CDS.",
+          xrefs: ["tx:MCI7", "tx:COOIS"],
+        },
+        {
+          he: "דוח רשימה ב-GUI שעובר ל-Fiori: לפי data/transactions.ts, ב-IH08 וב-COOIS דוחות הרשימה מוחלפים ב-Fiori " +
+            "וב-Embedded Analytics.",
+          xrefs: ["tx:IH08", "tx:COOIS"],
+        },
+      ],
+      preconditions: [
+        {
+          he: "Analytic Engine מוגדר: נדרש לשימוש בתצוגות CDS מסוג analytical query (עמוד S/4HANA Embedded Analytics).",
+        },
+        {
+          he: "לתצוגה מקדימה של דוחות רב-ממדיים ב-Query Browser (לפי עמוד Query Browser): שירותי ICF מופעלים ב-SICF, " +
+            "שירות OData‏ RSAO_ODATA_SRV פעיל, תבנית 0ANALYSIS פעילה (בדיקה בטבלה RSAOOBJ) ואובייקט ההרשאה S_RS_ZEN " +
+            "משויך. הדרישה הכללית של Query Browser לפי אותו עמוד היא התפקיד SAP_BR_EMPLOYEE.",
+          xrefs: ["tx:SICF"],
+        },
+        {
+          he: "התצוגות הנדרשות קיימות בגרסה ובסטטוס Released; לשימוש חוזר של לקוחות משוחררות תצוגות העומדות בחוזה " +
+            "היציבות C1.",
+        },
+        {
+          he: "מסד HANA: הספרייה מסמנת את F2828 כ-'HANA DB exclusive'.",
+          xrefs: ["fiori:F2828"],
+        },
+        {
+          he: "תפקידים וקטלוגים משויכים (ראו תפקידים); בלעדיהם האריח ריק או מחזיר שגיאת OData.",
+          xrefs: ["tx:PFCG"],
+        },
+      ],
+      masterData: [
+        {
+          he: "הזמנה כממד: I_ProductionOrder מסומנת 'Analytical Data Category Dimension' וקוראת את כותרת הזמנת הייצור " +
+            "מ-AUFK ו-AFKO.",
+          xrefs: ["cds:I_ProductionOrder", "table:AUFK", "table:AFKO"],
+        },
+        {
+          he: "אובייקטים טכניים ומרכזי עבודה לפי מפת ה-CDS: I_Equipment (EQUI, EQKT), ‏I_FunctionalLocation (IFLOT, " +
+            "ILOA), ‏I_WorkCenter ו-I_WorkCenterCapacity.",
+          xrefs: [
+            "cds:I_Equipment", "cds:I_FunctionalLocation", "cds:I_WorkCenter", "cds:I_WorkCenterCapacity",
+            "table:EQUI", "table:IFLOT",
+          ],
+        },
+        {
+          he: "חומר לפי מפת ה-CDS: I_Product (MARA) ו-I_ProductPlant (MARC).",
+          xrefs: ["cds:I_Product", "cds:I_ProductPlant", "table:MARA", "table:MARC"],
+        },
+      ],
+      roles: [
+        {
+          he: "עובד (SAP_BR_EMPLOYEE): Query Browser ‏(F1068), קטלוג SAP_CA_BC_VDM 'Analytics - Query Browser', לפי " +
+            "ספריית ה-Fiori ועמוד התיעוד.",
+        },
+        {
+          he: "מומחה אנליטיקה (SAP_BR_ANALYTICS_SPECIALIST): Custom Analytical Queries ‏(F1572), ‏Manage KPIs and " +
+            "Reports ‏(F2814) ו-APF Configuration Modeler.",
+        },
+        {
+          he: "מתכנן תחזוקה (SAP_BR_MAINTENANCE_PLANNER): Maintenance Planning Overview ‏(F2828).",
+          xrefs: ["fiori:F2828"],
+        },
+        {
+          he: "מתכנן ייצור (SAP_BR_PRODN_PLNR): Manage Work Center Capacity ‏(F3289), לפי רשומת המאגר.",
+          xrefs: ["fiori:F3289"],
+        },
+      ],
+      transactions: [
+        { he: "איתור תוכן: Query Browser ‏(F1068, ללא טרנזקציית GUI מובילה לפי הספרייה) ו-View Browser." },
+        {
+          he: "בניית תוכן: Custom Analytical Queries ‏(F1572, יורש F1572A), ‏Custom CDS Views ‏(F1866A לפי ספר 7), " +
+            "‏Manage KPIs and Reports ‏(F2814).",
+        },
+        {
+          he: "צריכה: Maintenance Planning Overview ‏(F2828; IW29 מובילה, IW38 קשורה), ‏Manage Work Center Capacity " +
+            "‏(F3289; CM01 מובילה), ‏Manage Production Orders ‏(F2336) כתחליף קדימה ל-COOIS.",
+          xrefs: ["fiori:F2828", "tx:IW29", "tx:IW38", "fiori:F3289", "tx:CM01", "fiori:F2336"],
+        },
+        {
+          he: "ECC והמסלול הקלאסי: PMIS ‏(MCI7, MCI8), רשימות IW38/IW39 ו-IW28/IW29, ‏COOIS ו-COHV.",
+          xrefs: ["tx:MCI7", "tx:MCI8", "tx:IW39", "tx:IW28", "tx:COOIS", "tx:COHV"],
+        },
+        {
+          he: "תפעול ואימות: SICF להפעלת שירותי ICF, ‏PFCG לתפקידים (תקרית fiori-tile-blank), ‏RSRT לבדיקת query על CDS " +
+            "לפי הערת היועץ (אינה במילון הפרויקט).",
+          xrefs: ["tx:SICF", "tx:PFCG"],
+        },
+      ],
+      tables: [
+        {
+          he: "טבלאות המקור מתחת לתצוגות: AUFK ו-AFKO (הזמנות), QMEL (הודעות), AFRU (אישורים), לפי רשומות התחומים.",
+          xrefs: ["table:AUFK", "table:AFKO", "table:QMEL", "table:AFRU"],
+        },
+        {
+          he: "תצוגות Basic במילון הפרויקט: I_ProductionOrder, ‏I_MaintenanceOrder, ‏I_MaintenanceNotification, " +
+            "‏I_ProductionOrderConfirmation.",
+          xrefs: [
+            "cds:I_ProductionOrder", "cds:I_MaintenanceOrder", "cds:I_MaintenanceNotification",
+            "cds:I_ProductionOrderConfirmation",
+          ],
+        },
+        {
+          he: "שאילתות וקוביות לדוגמה (אינן במילון הפרויקט): C_WorkCenterProdCostQuery מעל I_WorkCenterProdCostCube; " +
+            "‏C_MaintOrdActualCostDataQ; ובפריט 'S4TWL - LIS in EAM' גם I_LocationAnalysisCube " +
+            "ו-I_MaintOrderTechObjCube.",
+        },
+        {
+          he: "מבני LIS קלאסיים (אינם במילון הפרויקט): S061 עד S065 ו-S070 ב-PMIS; S021 עד S026, S028, S225 ו-S227 " +
+            "ב-shop floor information system.",
+        },
+        {
+          he: "תצוגה שהוצאה משימוש: I_MaintenancePlan סומנה deprecated ב-2021 והיורשת היא I_MaintenancePlanBasic " +
+            "(What's New 2021 FPS01).",
+          xrefs: ["cds:I_MaintenancePlan"],
+        },
+      ],
+      integrationPoints: [
+        {
+          he: "Fiori Launchpad: מעבר בין יישום אנליטי ליישום טרנזקציוני ללא שכפול נתונים; הערכת KPI מקושרת ליישום " +
+            "drill-down וליישומי פעולה באותו הקשר.",
+        },
+        {
+          he: "SAP Analytics Cloud ו-Analysis for Office: לפי data/s4-transformation.ts ו-data/bw-module.ts, תצוגות CDS " +
+            "נצרכות ב-SAC; לפי ספר 7, Manage KPIs and Reports משולב ב-SAC.",
+        },
+        {
+          he: "חילוץ ל-BW: What's New 1809 FPS01 'CDS Views for BW Extraction' משחרר תצוגות לחילוץ (למשל " +
+            "I_MEASUREMENTDOCUMENTDATA); לפי data/s4-transformation.ts גם ODP/CDS extraction ו-SAP Datasphere.",
+        },
+        {
+          he: "PM: לפי 'S4TWL - LIS in EAM', חלופות ל-PMIS הן Maintenance Order Costs, ‏Analytical List Page for " +
+            "Technical Object Breakdown Analysis ו-Technical Object Damages.",
+        },
+      ],
+      interfaces: [
+        {
+          he: "שירותי OData של יישומי האנליטיקה לפי ספריית ה-Fiori: VDM_CDSVIEW_BROWSER ‏(F1068), ‏ANA_QUERY_DESIGNER " +
+            "‏(F1572), ‏/SSB/SMART_BUSINESS_DESIGNTIME_SRV ‏(F2814), ‏EAM_ORDER_MONITOR ‏(F2828); אלה שירותי יישום " +
+            "ולא APIs לשילוב.",
+          xrefs: ["fiori:F2828"],
+        },
+        {
+          he: "ל-Query Browser: OData‏ RSAO_ODATA_SRV ושירותי InA ב-ICF (/sap/bw/ina/GetResponse, " +
+            "‏/sap/es/ina/GetServerInfo).",
+        },
+        { he: "KPI של Smart Business נשען על שירות OData אנליטי מעל תצוגת CDS מצרפת." },
+        {
+          he: "קריאה תוכניתית של מסמכי המקור לפי רשומות התחומים: BAPI_ALM_ORDER_GET_DETAIL, ‏BAPI_ALM_NOTIF_GET_DETAIL, " +
+            "‏BAPI_PROCORD_GET_LIST; קריאת מסמכים ולא אנליטיקה.",
+          xrefs: ["fm:BAPI_ALM_ORDER_GET_DETAIL", "fm:BAPI_ALM_NOTIF_GET_DETAIL", "fm:BAPI_PROCORD_GET_LIST"],
+        },
+      ],
+      outputs: [
+        { he: "שאילתות אנליטיות (C_ עם סיומת Query) ותצוגות מותאמות (YY1) שפורסמו לקטלוג." },
+        { he: "אריחי KPI עם הערכה, יעד, ספים ומגמה, ויישומי drill-down." },
+        {
+          he: "דוחות רב-ממדיים וכרטיסי Overview Page ‏(F2828).",
+          xrefs: ["fiori:F2828"],
+        },
+        {
+          he: "לא נמצא ברשומות שנקראו מסמך לוגיסטי או חשבונאי שהתהליך יוצר; יישומי ה-grid מציגים נתונים 'in read-only " +
+            "mode' (עמוד Multidimensional Data Grid Apps).",
+        },
+      ],
+      exceptions: [
+        {
+          he: "אריח ריק או שגיאת OData ‏403/500: שירות לא רשום, קטלוג או תפקיד חסר, או הרשאת CDS‏ (DCL) (תקרית " +
+            "fiori-tile-blank).",
+          xrefs: ["tx:PFCG"],
+        },
+        { he: "תצוגת query נחסמת בגישה ישירה: DCL0; ההרשאה ניתנת ברמת היישום." },
+        {
+          he: "תצוגה מקדימה של דוח רב-ממדי ב-Query Browser עלולה להיכשל: שירותי ICF לא הופעלו או 0ANALYSIS אינה פעילה.",
+          xrefs: ["tx:SICF"],
+        },
+        {
+          he: "מדדי זמינות ריקים או שגויים: Malfunction Start/End וסימון Breakdown חסרים (תקרית downtime-not-recorded).",
+          xrefs: ["tx:MCI7", "table:QMEL"],
+        },
+        {
+          he: "PMIS ריק: מבני המידע (LIS) לא עודכנו לתקופה (רשומת התחום pm-analytics).",
+          xrefs: ["tx:MCI8"],
+        },
+        {
+          he: "פער מול דוח ישן: נתוני data aging וארכיון אינם נקראים, או שדוח CO ישן אינו תואם ל-Universal Journal, " +
+            "למשל כשהוא קורא COEP או כשה-Ledger או המטבע שונים (תקרית acdoca-coep-mismatch).",
+        },
+        { he: "תצוגה לא קיימת בגרסה או בשם אחר: לאמת release ושם (data/kind-intel.ts)." },
+      ],
+      controls: [
+        { he: "שימוש בתצוגות Released בלבד לבנייה ולשימוש חוזר, לפי ההמלצה ב-View Browser." },
+        {
+          he: "בדיקת תאריך deprecation והיורש ב-View Browser לפני בנייה; דוגמה: I_MaintenancePlan ויורשתה " +
+            "I_MaintenancePlanBasic.",
+          xrefs: ["cds:I_MaintenancePlan"],
+        },
+        {
+          he: "הרשאה ברמת היישום ו-DCL לתצוגות; תפקידי SAP_BR_EMPLOYEE ו-SAP_BR_ANALYTICS_SPECIALIST לפי תפקיד המשתמש.",
+        },
+        { he: "תיעוד הפרמטרים של כל שאילתה (תקופה, P_CurrencyRole) לצד המספר שמדווח." },
+        {
+          he: "החלטה מתועדת בין BW/4HANA, ‏Datasphere ו-Embedded לכל דוח (לקח הפרויקט ב-data/s4-transformation.ts).",
+        },
+      ],
+      kpis: [
+        {
+          he: "תחזוקה: MTBF, ‏MTTR ועלות, לפי רשומת התחום pm-analytics.",
+          xrefs: ["table:QMEL", "table:AUFK"],
+        },
+        {
+          he: "ייצור: Yield, ‏Scrap %, ‏Lead Time ו-OEE, לפי רשומת התחום pppi-production-analytics.",
+          xrefs: ["table:AFRU"],
+        },
+      ],
+      eccToS4: [
+        {
+          he: "ECC: דיווח ב-SAP GUI/ALV, ב-SQVI ולעיתים ב-BW נפרד; PMIS‏ (MCI*) על מבני LIS צבורים (data/ecc-s4.ts, " +
+            "data/domains.ts).",
+          xrefs: ["tx:MCI7", "tx:MCI8"],
+        },
+        {
+          he: "S/4HANA: Embedded Analytics על שאילתות CDS, ‏KPI ו-Overview Pages ב-Fiori, על נתונים עדכניים וללא שכפול.",
+        },
+        {
+          he: "PM, 'S4TWL - LIS in EAM': PMIS הוא חלק מ-LIS; אנליטיקת התחזוקה העתידית מבוססת CDS; אפשר להפעיל במקביל עד " +
+            "כיבוי עדכון ה-LIS, והמלצת הפריט: 'Invest reasonably in the LIS'.",
+        },
+        {
+          he: "PP, 'S4TWL - Logistic Information System in PP': ה-shop floor information system ב-compatibility scope " +
+            "(ID 452); ‏COOIS אינה ב-compatibility scope וקוראת מטבלאות ההזמנה, אך SAP אינה מתכננת להשקיע בה ומפנה " +
+            "ל-F2336 ול-F2335.",
+          xrefs: ["tx:COOIS", "fiori:F2336"],
+        },
+        {
+          he: "ממשק: מאז 2020 יישומי Web Dynpro הם ברירת המחדל לדוחות רב-ממדיים, יישומי Design Studio אינם זמינים עוד, " +
+            "וב-2023 FPS01 שונה השם ל-multidimensional data grid apps.",
+        },
+      ],
+      migration: [
+        {
+          he: "להפעיל LIS ואנליטיקת CDS במקביל, להשוות מספרים, ורק אז לכבות את עדכון ה-LIS; דוחות מותאמים שקוראים S061, " +
+            "S062, S063, S064, S065, S070, S114, S115 או S116 לא יעבדו אחרי הכיבוי ('S4TWL - LIS in EAM').",
+          xrefs: ["tx:MCI7"],
+        },
+        {
+          he: "PP: זכויות השימוש ב-shop floor information system כפופות ל-compatibility scope; הפריט מפנה ל-SAP Note " +
+            "2269324.",
+          xrefs: ["tx:COOIS"],
+        },
+        {
+          he: "QA לפי רשומות המאגר: השוואת רשימה מול Fiori (IH08, COOIS) ובדיקת זמני השבתה ו-MTTR/MTBF אחרי ההמרה " +
+            "(pm-breakdown).",
+          xrefs: ["tx:IH08", "tx:COOIS"],
+        },
+      ],
+      reference: {
+        title: "S/4HANA Embedded Analytics | Analytics (SAP S/4HANA On-Premise 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6b356c79dea443c4bbeeaf0865e04207/c53deb5765c7be12e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        verificationLevel: "sap_official_verified",
+        note: "עמוד התיעוד של תהליך האנליטיקה המוטמעת (loio c53deb5765c7be12e10000000a4450e5, versionId 2025.001), גופו " +
+          "נקרא 2026-09-24. פריט SAP Best Practices (Scope Item) לתהליך לא הודפס באף רשומה שנקראה ולכן אינו נרשם.",
+      },
+    },
+    xrefs: [
+      "cds:I_ProductionOrder", "cds:I_MaintenanceOrder", "cds:I_MaintenanceNotification",
+      "cds:I_ProductionOrderConfirmation", "cds:I_Equipment", "cds:I_WorkCenterCapacity", "cds:I_MaintenancePlan",
+      "table:AUFK", "table:AFKO", "table:QMEL", "table:AFRU", "fiori:F2828", "fiori:F3289", "fiori:F2336", "tx:COOIS",
+      "tx:IW38", "tx:IW39", "tx:IW29", "tx:MCI7", "tx:MCI8", "tx:IH08", "tx:SICF", "tx:PFCG",
+      "fm:BAPI_ALM_ORDER_GET_DETAIL", "fm:BAPI_PROCORD_GET_LIST", "bp:maintenance-notification-process",
+      "bp:production-order-process",
+    ],
+    evidence: [
+      EA_STATUS_SOURCE,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Analytics | Analytics",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6b356c79dea443c4bbeeaf0865e04207/dd28bf545e91ee05e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio dd28bf545e91ee05e10000000a4450e5): אחת הדרכים ליישם embedded analytics היא דוחות " +
+          "רב-ממדיים; לסקירת כל הדוחות 'you can use the Query Browser or the View Browser'; 'Embedded analytics " +
+          "operates on current data. Data in the historical area, that is, data aging or archived data is not " +
+          "retrieved.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "VDM Layers and View Types | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/0a875bc7a005465aad92c08becc11776.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 0a875bc7a005465aad92c08becc11776): תצוגות Basic interface יושבות ישירות על טבלאות מסד " +
+          "הנתונים (@VDM.viewType: #BASIC); תצוגות Composite בנויות על תצוגות Basic ו-'can be used, for example, as " +
+          "analytical cube views' (@VDM.viewType: #COMPOSITE); שתיהן יכולות לשאת @Analytics.dataCategory; תצוגות " +
+          "Consumption הן השכבה העליונה ו-'Consumption views are the only VDM view type that can function as an " +
+          "analytical query' (@VDM.viewType: #CONSUMPTION); לשימוש חוזר של לקוחות משוחררות תצוגות Basic/Composite " +
+          "ו-Consumption מסוג analytical query העומדות בחוזה היציבות C1.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Naming Conventions in the Virtual Data Model | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/8a8cee943ef944fe8936f4cc60ba9bc1.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 8a8cee943ef944fe8936f4cc60ba9bc1): הקידומת I_ מסמנת תצוגת interface (Basic או " +
+          "Composite), ‏C_ תצוגת Consumption, ‏R_ תצוגת restricted reuse ו-A_ תצוגת Remote API; הסיומות Query, ‏Qry " +
+          "או Q מסמנות analytical query view, והסיומות Cube או C מסמנות analytical cube view.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Query Browser | Analytics",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6b356c79dea443c4bbeeaf0865e04207/3a24b854ee8f8d21e10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 3a24b854ee8f8d21e10000000a44176d): Query Browser הוא יישום SAP Fiori לחיפוש, עיון ותיוג " +
+          "של analytical queries, המציג את השאילתות המורשות ושאילתות הלקוח שלמשתמש יש גישה אליהן. דרישות מוקדמות: " +
+          "תפקיד SAP_BR_EMPLOYEE; להצגת דוחות רב-ממדיים: הפעלת שירותי ICF ב-SICF (בהם /sap/es/ina/GetServerInfo, " +
+          "/sap/bw/ina/GetServerInfo ו-/sap/bw/ina/GetResponse), הפעלת OData‏ RSAO_ODATA_SRV, תבנית 0ANALYSIS פעילה " +
+          "(בדיקה בטבלה RSAOOBJ, הפעלה ב-rstco_admin) ואובייקט ההרשאה S_RS_ZEN. ‏Open for Analysis פותחת את השאילתה " +
+          "בכלי Web Dynpro Grid, ומתוצאות החיפוש ניתן להציג את ההגדרה או התוכן של כל תצוגה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "View Browser | Analytics",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6b356c79dea443c4bbeeaf0865e04207/0bde695751505c08e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 0bde695751505c08e10000000a441470): View Browser מציג את כל תצוגות ה-CDS של SAP והמותאמות " +
+          "עם Category, ‏View Types, ‏Dimensions and Measures, ‏Annotations וסטטוס שחרור; 'We recommend using CDS " +
+          "views delivered by SAP with the status Released'; תצוגות מותאמות מתחילות ב-YY1; לתצוגות deprecated " +
+          "מוצגים תאריך ההוצאה והיורשים; Cross Reference מציגה 'all the CDS views and tables used by the selected " +
+          "view'; Alternative Search מאתר תצוגות לפי טבלאות, עמודות ו-annotations; Show Content מציג תצוגה מקדימה " +
+          "של analytical queries משוחררות ושל לקוח; יצירת analytical query מהאפליקציה אפשרית מתצוגות Released " +
+          "מקטגוריית Cube/Dimension.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "KPI Monitoring and Analysis | SAP Fiori Overview",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/22bbe89ef68b4d0e98d05f0d56a7f6c8/4eb83a45673c4987b98756ba67286aad.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 4eb83a45673c4987b98756ba67286aad): ניטור KPI מסופק על ידי SAP Smart Business: כלי תכנון " +
+          "להגדרת KPI, הערכות ויישומי drill-down, ואריחי KPI ב-SAP Fiori launchpad עם ערך, מגמה וסטייה מיעד; הגדרות " +
+          "KPI מבוססות על שירותי OData אנליטיים החושפים תצוגות CDS עם יכולת צבירה, ותצוגה מצרפת מזוהה לפי רכיבים עם " +
+          "אנוטציית צבירה שאינה NONE (measures), ושאר הרכיבים שאינם טקסט הם dimensions; ליישום ה-drill-down שתי " +
+          "אפשרויות: היישום הגנרי של Smart Business או יישום מבוסס Analysis Path Framework.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Cost by Work Center (Non Event-Based) | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/1101e78f908746939bdce0e4023cd850.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 1101e78f908746939bdce0e4023cd850): 'Technical Name C_WorkCenterProdCostQuery', ‏'View " +
+          "Type Query', ‏'Release Status Released'; עלויות ייצור בפועל ומתוכננות והפרשיהן ברמת מרכז עבודה ופעולה, " +
+          "לקטגוריות הזמנה 10 (production order) ו-40 (process order); 'This CDS view is built on the " +
+          "I_WorkCenterProdCostCube view'; פרמטרים P_FromFiscalYearPeriod, ‏P_ToFiscalYearPeriod, ‏P_Language, " +
+          "‏P_CurrencyRole; 'Analytical query CDS views cannot be accessed directly, because DCL0 is used to " +
+          "protect this CDS view against direct access', וההרשאה ניתנת ברמת היישום.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Order Actual Cost Data Query | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/379d1707675944c7b7ca1c016785fb9d.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 379d1707675944c7b7ca1c016785fb9d): 'CDS View Name C_MaintOrdActualCostDataQ', " +
+          "‏'Analytical Data Category Query'; התצוגה מיועדת בעיקר לשמש מקור נתונים משויך בתצוגה Maintenance Order " +
+          "Actual Cost Data, והגישה אליה נעשית דרך תצוגת CDS אחרת (privileged mode).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Multidimensional Data Grid Apps | Analytics",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6b356c79dea443c4bbeeaf0865e04207/f7a8c8547996b109e10000000a423f68.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio f7a8c8547996b109e10000000a423f68): יישומי multidimensional data grid מציגים דוחות " +
+          "רב-ממדיים בטבלה דמוית pivot 'in read-only mode' עם slice-and-dice ו-drilldown; בספריית ה-Fiori הם מסוג " +
+          "Web Dynpro ולרוב עם מזהה שמתחיל ב-W; ב-2023 FPS01 שונה המונח מ-analytical Web Dynpro apps; יישומי Design " +
+          "Studio 'are no longer available', ומאז 2020 יישומי Web Dynpro הם ברירת המחדל.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "General Authorizations Required for SAP Fiori | SAP Fiori Overview",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/22bbe89ef68b4d0e98d05f0d56a7f6c8/cd6e1b6b87dd423ca491f2cd38b7bf4f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "לפי תקציר רשומת החיפוש (loio cd6e1b6b87dd423ca491f2cd38b7bf4f): למידול KPI נדרשים יישומי ה-modeler של " +
+          "SAP Smart Business, ו-'The business role SAP_BR_ANALYTICS_SPECIALIST contains the catalog and group " +
+          "provided by SAP'; גם ל-APF Configuration Modeler נדרש התפקיד SAP_BR_ANALYTICS_SPECIALIST. גוף העמוד לא " +
+          "נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F1068 'Query Browser', release S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1068')/S32OP",
+        accessedAt: DATE,
+        claim: "פלט scripts/fal-app.mjs F1068 @ S32OP (S/4HANA 2025 FPS01, Published): Transactional / SAP Fiori " +
+          "(SAPUI5), רכיב CA-GTF-VDM-QB; תפקיד SAP_BR_EMPLOYEE (R0056); קטלוג עסקי SAP_CA_BC_VDM 'Analytics - Query " +
+          "Browser'; intent AnalyticQuery-browse; OData‏ VDM_CDSVIEW_BROWSER 0001 (S4FND 109); ללא טרנזקציית GUI " +
+          "מובילה או קשורה; גרסאות מ-S3OP=1511 עד S32OP=2025 FPS01, וגם S36=2602 ו-S37=2608; ללא predecessor או " +
+          "successor; קישור התיעוד מפנה לנושא 3a24b854ee8f8d21e10000000a44176d.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F1572 'Custom Analytical Queries', release S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1572')/S32OP",
+        accessedAt: DATE,
+        claim: "פלט scripts/fal-app.mjs F1572 @ S32OP (Published): Transactional / SAP Fiori (SAPUI5), רכיב " +
+          "BC-SRV-APS-EXT-AQD (Fiori based Query Designer); תפקיד SAP_BR_ANALYTICS_SPECIALIST (R0185); קטלוגים " +
+          "SAP_BW_BC_AQD ו-SAP_CA_BC_ANA_AQD 'Analytics - Query Design'; intent AnalyticQuery-manage; OData‏ " +
+          "ANA_QUERY_DESIGNER 0001 ו-DATEFUNCTION 0001; successors: F1572A Custom Analytical Queries and Services.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F2814 'Manage KPIs and Reports', release S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2814')/S32OP",
+        accessedAt: DATE,
+        claim: "פלט scripts/fal-app.mjs F2814 @ S32OP (Published): Transactional / SAP Fiori (SAPUI5), רכיב " +
+          "CA-GTF-SB-S4H-DT (SAP Smart Business S4H - Design Time); תפקיד SAP_BR_ANALYTICS_SPECIALIST; קטלוג " +
+          "SAP_CA_BC_SSB 'Analytics - KPI Design'; intent AnalyticObject-manage; OData‏ " +
+          "/SSB/SMART_BUSINESS_DESIGNTIME_SRV 0001; גרסאות מ-S15OP=1909; predecessors בהם F0817 Create KPI, ‏F0818 " +
+          "KPI Workspace, ‏F0820 Configure KPI Tiles ו-F2318 Create Report.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F2828 'Maintenance Planning Overview' (SAP Fiori elements: Overview Page), " +
+          "release S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2828')/S32OP",
+        accessedAt: DATE,
+        claim: "רשומת ה-OData הרשמית של ספריית ה-Fiori (scripts/fal-app.mjs, F2828 @ S32OP, S/4HANA 2025 FPS01, " +
+          "isPublished='Published', ApplicationComponent PM-FIO): ApplicationType 'Analytical', UITechnology 'SAP " +
+          "Fiori elements: Overview Page'. Business Role מוביל (isLeading='X') SAP_BR_MAINTENANCE_PLANNER (RoleID " +
+          "R0088, 'Maintenance Planner'); Business Role נוסף SAP_BR_MAINT_TECH_OFFICER (RoleID R0308-146, " +
+          "'Technical Officer - Armed Forces'). Business Catalogs: SAP_DFS_BC_MAINTENANCE ('MAINT - Defense " +
+          "Maintenance') ו-SAP_EAM_BC_ORD ('EAM - Order'); Technical Catalog SAP_TC_EAM_COMMON. Semantic " +
+          "Object/Action: MaintenanceOrder/monitor. OData Service נדרש: EAM_ORDER_MONITOR, Version 0001, Namespace " +
+          "ODATA_EAM_ORD_MON, SoftwareComponentName S4CORE 109. GUI Transactions (fuzzy record): " +
+          "LeadingTransactionCodes='IW29', TransactionCodes='IW38'. Backend RetrofittedSWCBackend 'S4CORE 109 - SP " +
+          "0001' / ProductVersionOfficialNameBackend 'SAP S/4HANA 2025'; UI RetrofittedSWCUI 'UIS4H 109 - SP 0001'. " +
+          "NumberofPredecessors=0, NumberofSuccessors=0 (Successors/PredecessorDetails ריקים). RIN Notes: 3493254 " +
+          "(Front-End Server), 3671888 (Back-End Server). AppDocumentationLink: " +
+          "https://help.sap.com/http.svc/outputlink?product=SAP_S4HANA_ON-PREMISE&version=2025.001&topic=17248e4667fb433a9c3f944000fada3f&state=PRODUCTION. " +
+          "Database 'HANA DB exclusive'; ICFNodes: EAM_ORD_MONS1 (ראשי) וצמתים נוספים (isAdditional=1) כגון " +
+          "EAM_PO_MONS1 ו-EAM_PROCMTS1; רשימת הגרסאות: S12OP=1809 עד S32OP=2025 FPS01 (On-Premise) ו-S32PCE " +
+          "(Private Cloud), וכן S36=2602 ו-S37=2608 (SAP S/4HANA Public Cloud). (אומת ברשומת fiori:F2828)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "S4TWL - LIS in EAM (SAP S/4HANA 2025 FPS01 Simplification List, item 4.1.13)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "הפריט (רכיב PM-IS; הערה קשורה שהפריט מדפיס: 0002267463; עמ' 86 עד 88, נקרא בטקסט שחולץ מה-PDF הרשמי, " +
+          "scratchpad/official/SIMPL_OP2025.pdf.txt) קובע: 'The plant maintenance information system is part of the " +
+          "logistics information system LIS'; חסרונות ה-LIS הקלאסי: נתונים עודפים וצבורים מראש, ללא drill-down " +
+          "למסמכים הבודדים, UI ישן; 'Future plant maintenance analytics will be based on HANA, CDS views " +
+          "aggregating transactional data dynamically, and powerful analytical UIs for multi-dimensional " +
+          "reporting'; LIS הקלאסי והאנליטיקה החדשה יכולים לפעול במקביל כל עוד עדכון טבלאות ה-LIS לא כובה; 'Invest " +
+          "reasonably in the LIS'; דוחות מותאמים הקוראים בין היתר מ-S061, ‏S062, ‏S063, ‏S064, ‏S065, ‏S070, ‏S114, " +
+          "‏S115 ו-S116 לא יעבדו אחרי הכיבוי. חלופות שהפריט מונה: Maintenance Order Costs, ‏Analytical List Page " +
+          "for Technical Object Breakdown Analysis, ‏Technical Object Damages, ותצוגות כגון I_LocationAnalysisCube " +
+          "ו-I_MaintOrderTechObjCube.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "S4TWL - Logistic Information System in PP (SAP S/4HANA 2025 FPS01 Simplification List, item 9.2.1)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "הפריט עוסק בכיבוי ה-Logistic Information System (LIS) הקלאסי, ומתייחס במפורש ל-COOIS בפסקת 'Exceptions': " +
+          "'The production order information system (transaction COOIS) is not part of the SAP S/4HANA " +
+          "compatibility scope. Unlike LIS, the production order information system is reading data from the " +
+          "original production order tables. COOIS is not using redundant data and therefore avoids the " +
+          "disadvantages of the LIS. However, SAP is not planning to invest into transaction COOIS. Forward " +
+          "looking, Fiori apps \"Manage Production Orders\" (Fiori-ID F2336) and \"Manage Production Operations\" " +
+          "(Fiori-ID F2335) should be used rather than transaction COOIS.' כלומר COOIS אינה חלק מה-compatibility " +
+          "scope המוגבל (בניגוד ל-shop floor information system של LIS, S021-S028) וקוראת את הנתונים מטבלאות הזמנת " +
+          "הייצור המקוריות. עם זאת SAP אינה מתכננת להשקיע בה, ומפנה קדימה ל-Fiori. (אומת ברשומת tx:COOIS)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "S4TWL - Logistic Information System in PP (SAP S/4HANA 2025 FPS01 Simplification List, item 9.2.1), pp. " +
+          "602-603",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "לפי הטקסט שחולץ מה-PDF הרשמי (רכיב PP-IS, הערה קשורה 0002268063): 'The shop floor information system is " +
+          "part of the SAP S/4HANA compatibility scope, which comes with limited usage rights', מופיע במטריצה של " +
+          "SAP Note 2269324 תחת ID 452, וכולל את מבני המידע S021, S022, S023, S024, S025, S026, S028, S225 ו-S227; " +
+          "'SAP S/4HANA production analytics is based on HANA, CDS views aggregating transactional data " +
+          "dynamically, and powerful analytical UIs for multi-dimensional reporting', ואפשר להפעיל LIS ואנליטיקה " +
+          "במקביל כל עוד יש זכויות שימוש ועדכון ה-LIS לא כובה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Order Header | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/c6c3a06854a44d9383b32946f008b1b8.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TX_02,
+        claim: "עמוד ה-VDM הרשמי: 'CDS View Name I_ProductionOrder', 'Analytical Data Category Dimension', 'This view " +
+          "represents the SAP object type ProductionOrder (BusinessObject)'. מטרת התצוגה כלשונה: 'This CDS view " +
+          "retrieves production order header data (tables AUFK and AFKO)', והיא משיבה על 'Which production orders " +
+          "exist?'. הסניפט מונה בין השדות החשובים ProductionOrder‏, ProductionOrderType ו-CreationDate, וקובע " +
+          "'Deltas are determined automatically by change data capture'. (אומת ברשומת cds:I_ProductionOrder)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "CDS Views for Maintenance Management | What's New in SAP S/4HANA 2021 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/6ffb8fb9aee1469b9d4c506e1790da34.html?locale=en-US&state=PRODUCTION&version=2021.001",
+        accessedAt: DATE_TX_02,
+        claim: "רשומת שירות החיפוש של SAP Help (loio 6ffb8fb9aee1469b9d4c506e1790da34, versionId 2021.001) מציגה את אותו " +
+          "פריט: 'The following CDS views have been deprecated as of SAP S/4HANA 2021', I_MaintenancePlan מנויה בין " +
+          "שלוש התצוגות, 'These CDS views are no longer available by default and will be deleted as of SAP S/4HANA " +
+          "2023 release', וטבלת היורשים 'Deprecated CDS View / Successor CDS View: I_MaintenancePlan / " +
+          "I_MaintenancePlanBasic'. סוג הפריט ברשומה: CDS View Changed, מודול PM, פריטי היקף BH1, BH2, BJ2. (אומת " +
+          "ברשומת cds:I_MaintenancePlan)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "CDS Views for BW Extraction | What's New in SAP S/4HANA 1809 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1809.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/1664545363ca4400ae16741ca529bf28.html?locale=en-US&state=PRODUCTION&version=1809.001",
+        accessedAt: DATE_TX_02,
+        claim: "לפי תקציר הנושא 'CDS Views for BW Extraction' ב-What's New in SAP S/4HANA 1809 FPS01: 'CDS (Core Data " +
+          "Services) views have now been released for BW extraction' ובהן 'I_MEASUREMENTDOCUMENTDATA You can use " +
+          "this CDS view to obtain information about the measurement document'. (אומת ברשומת " +
+          "cds:I_MeasurementDocument)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "נושא המעבר 'Embedded Analytics' של הפרויקט (ECC_S4_TOPICS)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "סטטוס Replaced. ECC: דיווח דרך SAP GUI/ALV, ‏SQVI ולעיתים BW נפרד. S/4HANA: Embedded Analytics על CDS " +
+          "Analytical Queries, ‏KPIs ו-Overview Pages ב-Fiori בזמן אמת; Analytical CDS (C_*/Cube/Query) ו-Smart " +
+          "Business KPIs; השפעה: דוחות ZSQVI/ABAP מסוימים מוחלפים ב-CDS Queries ופחות תלות ב-BW לדיווח תפעולי; " +
+          "דוחות PM/PP זמינים כ-Query CDS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/ecc-s4.ts#embedded-analytics",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מושג 'CDS View' של הפרויקט (CONCEPTS)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "מודל נתונים וירטואלי, שכבת הקריאה והאנליטיקה של S/4HANA: הגדרה ב-DDL, ‏push-down ל-HANA, ‏annotations " +
+          "(UI/OData/Analytics), בסיס ל-Fiori ול-Embedded Analytics; ב-ECC כמעט לא קיים (Open SQL ותצוגות קלאסיות); " +
+          "דוגמאות I_Product, ‏I_ProductionOrder, ‏I_Equipment.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/concepts.ts#cds-view",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין סוג האובייקט 'CDS View' של הפרויקט (KIND_INTEL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "מחזור חיים: הגדרה ב-DDL ‏(ADT), הפעלה, push-down ל-HANA, חשיפה כ-OData או Analytical Query. תקלות: View " +
+          "לא קיים בגרסה (לאמת release ושם), ביצועים (annotations/associations), הרשאה (DCL, ‏Access Control), " +
+          "מיפוי שגוי לטבלת ECC (לאמת את ה-association).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/kind-intel.ts#cds",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת 'CDS Analytical View' במודול ה-BW של הפרויקט",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "CDS Analytical View (@Analytics.dataCategory: #CUBE) מספק דיווח חי על נתוני S/4 ללא חילוץ ל-BW ונצרך " +
+          "ב-SAC וב-Fiori; קבוצת האובייקטים 'Embedded Analytics' במודול. זוהי רשומה מושגית של הפרויקט ולא טבלת DDIC " +
+          "של SAP.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bw-module.ts#CDS_AnalyticalView",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "הערת היועץ לרשומת 'CDS Analytical View' (CONSULTANT_NOTES)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "טעויות: @Analytics.dataCategory שגוי מונע זיהוי כ-cube/dimension; חוסר aggregation על הבסיס פוגע " +
+          "בביצועים. בדיקה: RSRT לבדיקת query על CDS, ‏ST05/SQL trace לביצועים. VDM: interface אל consumption " +
+          "(@Analytics); צריכה ב-SAC, ב-Fiori אנליטי וב-AfO; DCL להרשאות.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/consultant-notes.ts#CDS_AnalyticalView",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום 'PM Analytics & KPIs' של הפרויקט (DOMAINS)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "PMIS ‏(MCI*) מבוסס מבני מידע S061 עד S070; רשימות IW38/IW39 (הזמנות) ו-IW28/IW29 (הודעות); ‏MCI3, ‏MCI8; " +
+          "מדדי MTBF, ‏MTTR ועלות; טבלאות AUFK, ‏QMEL, ‏AFRU; ‏BAPI_ALM_ORDER_GET_DETAIL " +
+          "ו-BAPI_ALM_NOTIF_GET_DETAIL; ב-S/4 אנליטיקה חיה דרך CDS ו-Fiori; תקלה: מדדים ריקים, לוודא עדכון מבני " +
+          "מידע (LIS) ופרק זמן; קודי קטלוג לניתוח Pareto.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pm-analytics",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום 'Production Analytics' של הפרויקט (DOMAINS)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "COOIS (מערכת מידע הזמנות), ‏COHV (עיבוד המוני), ‏MCP1, ‏MCPB, ‏COGI; טבלאות AFKO, ‏AFPO, ‏AFRU; " +
+          "‏BAPI_PROCORD_GET_LIST; KPIs: Yield, ‏Scrap %, ‏Lead Time, ‏OEE; ב-S/4 אנליטיקה חיה דרך CDS ו-Fiori; " +
+          "תקלה: פערי תפוקה, לבדוק אישורים (AFRU) ופסולת מדווחת מול תקן.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pppi-production-analytics",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מפת הטבלאות הקלאסיות לתצוגות CDS של הפרויקט",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "המיפוי האצור: I_ProductionOrder על AFKO/AUFK, ‏I_MaintenanceOrder על AUFK/AFKO, " +
+          "‏I_MaintenanceNotification על QMEL, I_Equipment על EQUI/EQKT, ‏I_FunctionalLocation על IFLOT/ILOA, " +
+          "‏I_WorkCenter ו-I_WorkCenterCapacity על נתוני מרכז העבודה והקיבולת, ‏I_Product על MARA, ‏I_ProductPlant " +
+          "על MARC, ‏I_ProductionOrderConfirmation על AFRU. המיפוי מסומן בקובץ כ-hand-verified ואינו מקור רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/cds-map.ts#I_ProductionOrder",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג יישומי ה-Fiori של הפרויקט: F2828",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "Maintenance Planning Overview, סוג Analytical: דשבורד Overview Page למתכנן התחזוקה עם כרטיסים המציגים " +
+          "KPIs ונתונים בזמן אמת; OData‏ EAM_ORDER_MONITOR; ‏guiTx IW29, ‏IW38; תקלה נפוצה: קטלוגים לא הוקצו " +
+          "לתפקיד, וכרטיסים ריקים כשאין נתוני תכנון.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/fiori/apps.ts#F2828",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג יישומי ה-Fiori של הפרויקט: F3289",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "Manage Work Center Capacity, תפקיד SAP_BR_PRODN_PLNR וקטלוג SAP_SCM_BC_CFS; guiTx CM01; לפי הערת הרשומה " +
+          "הספרייה מדפיסה ApplicationType 'Transactional, Analytical', והרשומה שומרת Transactional כי לשדה ערך אחד.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/fiori/apps.ts#F3289",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "סוגי יישומי Fiori של הפרויקט (APP_TYPES)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "סוג Analytical: תצוגת KPI ומגמות, Smart Business, ‏CDS analytical (cube/query) ו-Virtual Data Model, לצד " +
+          "Transactional ו-Fact Sheet.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/fiori.ts#APP_TYPES",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: fiori-tile-blank",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "אריח Fiori ריק או שגיאת OData (500/403/service not available); סיבות: שירות OData לא רשום, Business " +
+          "Catalog או Role חסר, ‏CDS/Authorization (DCL), ‏Cache; ניתוח ב-/IWFND/MAINT_SERVICE, ‏/IWFND/ERROR_LOG " +
+          "ו-PFCG.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext2.ts#fiori-tile-blank",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: downtime-not-recorded",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "מדדי זמינות שגויים כש-Malfunction Start/End או סימון Breakdown חסרים (ניתוח ב-IW29 וב-MCI7; טבלאות QMIH, " +
+          "‏QMEL).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext3.ts#downtime-not-recorded",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: acdoca-coep-mismatch",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "דוח CO ישן לא תואם ל-Universal Journal; סיבות: דוח קורא COEP במקום ACDOCA, Ledger/Currency שונים, תזמון " +
+          "רישום; תיקון: הסבת דוחות ל-ACDOCA/CDS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext2.ts#acdoca-coep-mismatch",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות הטרנזקציה MCI7 ו-MCI8 של הפרויקט (TX_INTEL)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "MCI7 ו-MCI8 הם דוחות PMIS מבוססי LIS (S061, ‏S065, ‏S070 ועוד), סטטיסטיים ולא בזמן אמת ותלויים בעדכון " +
+          "מבני המידע; תקלות: אין נתונים כשהמבנים לא עודכנו, אי-התאמה מול CO; הצלבה מול KOB1 ו-IW33; ב-S/4HANA " +
+          "זמינים כ-Legacy והכיוון הוא Embedded Analytics, ‏CDS ו-Fiori. שדה s4Delta ברשומה מציין compatibility " +
+          "scope, בעוד שפריט הפישוט 'S4TWL - LIS in EAM' שנקרא אינו משתמש במונח זה ל-PMIS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MCI7",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות הטרנזקציה COOIS ו-IH08 של הפרויקט (TRANSACTIONS)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "COOIS: ב-S/4HANA 'קיים', מוחלף ב-Fiori ו-Embedded Analytics (Manage Production Orders), ‏QA: השוואת " +
+          "COOIS מול Fiori. ‏IH08: דוחות רשימה מוחלפים ב-Fiori list ו-Embedded Analytics, ‏QA: השוואת רשימה מול " +
+          "Fiori.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/transactions.ts#COOIS",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז הטרנספורמציה של הפרויקט: אינטגרציה (INTEGRATION)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "אנליטיקה ודיווח: ECC: BW נפרד ו-Extractors; S/4: Embedded Analytics (CDS), ‏SAP Datasphere, ‏SAC, " +
+          "‏ODP/CDS extraction (trust curated).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/s4-transformation.ts#INTEGRATION",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז הטרנספורמציה של הפרויקט: לקחים (LESSONS)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "לקח: דוחות BW מול Embedded Analytics: להחליט מוקדם בין BW/4HANA, Datasphere או Embedded ולהימנע מכפילות " +
+          "(risk medium).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/s4-transformation.ts#LESSONS",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "פירוט התחום pm-breakdown (תחזוקת שבר) של הפרויקט (DOMAIN_DETAIL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "eccS4: מודל ההודעה והתקלה זהה; השינוי: מדדי אמינות ב-Embedded Analytics וב-Fiori KPI; הגירה: QA לזמני " +
+          "השבתה ול-MTTR/MTBF לאחר ההמרה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domain-detail.ts#pm-breakdown",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 7 בספריית הפרויקט (SAP PRESS, SAP Fiori Apps for SAP S/4HANA: The Quick Reference Guide), פרק 11 " +
+          "'Cross-Functional Apps', יישום F1068 'Query Browser'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הערך בספר: שאילתות שנוצרו ב-Fiori על בסיס תצוגות CDS נמצאות, מוצגות ומתויגות ביישום; מוצגות רק שאילתות " +
+          "שלמשתמש יש גישה אליהן, ומהרשימה ניתן לרדת לשאילתה עצמה או לסמן מועדף.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book7.json#F1068",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 7 בספריית הפרויקט, פרק 11 'Cross-Functional Apps', יישום F1572 'Custom Analytical Queries'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הערך בספר: מומחי אנליטיקה מתכננים שאילתות על תצוגות CDS סטנדרטיות או מותאמות, יוצרים ומשנים שאילתות " +
+          "והיררכיות, מדמים תוצאות ויכולים ליצור אריח Fiori מהשאילתה, ללא קוד.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book7.json#F1572",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 7 בספריית הפרויקט, פרק 11 'Cross-Functional Apps', יישום F1866A 'Custom CDS Views (Version 2)'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הערך בספר: בניית תצוגות CDS מותאמות, שנצרכות בשאילתות אנליטיות ב-Launchpad או דרך APIs בפלטפורמות " +
+          "חיצוניות (SAP Datasphere, ‏SAP Analytics Cloud), עם שדות ממקורות מרובים, שדות חישוב ומסננים.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book7.json#F1866A",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 7 בספריית הפרויקט, פרק 11 'Cross-Functional Apps', יישום F2814 'Manage KPIs and Reports'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הערך בספר: יצירת KPI ודוחות עליהם, הטמעה באריח Fiori ללא קוד ושילוב עם SAP Analytics Cloud; לשוניות " +
+          "Groups, ‏KPIs, Reports ו-Stories.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book7.json#F2814",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 9 בספריית הפרויקט (SAP PRESS, מדריך המשתמש העסקי ל-PM), פרק 8 'Plant Maintenance Controlling', סעיף " +
+          "8.2.3 'Logistics Information System'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "סעיף הספר על ה-LIS בכלי המידע של בקרת התחזוקה (לצד 8.2.1 SAP List Viewer, ‏8.2.2 QuickViewer ו-8.2.4 SAP " +
+          "BW); משמש כאן להפניית קריאה בלבד ואינו מקור לטענה חדשה.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book9.json#8.2.3",
+      },
+    ],
+    lastVerifiedAt: DATE,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    notes: "חיפושים רשמיים שרצו (scripts/sap-help-search.mjs, סקופ SAP_S4HANA_ON-PREMISE, 21 תוצאות כל אחד): " +
+      "'Embedded Analytics', 'Virtual Data Model and CDS Views', 'Query Browser', 'analytical query CDS view', " +
+      "'KPI Design app', 'Multidimensional Reports', 'VDM Layers and View Types', 'Custom Analytical Queries', " +
+      "'Analytical Apps Maintenance Management', 'Production Cost by Work Center', 'Maintenance Order Query " +
+      "analytical query CDS view'; גופי העמודים נקראו דרך scripts/sap-help-body.mjs; יישומים F1068, ‏F1572, " +
+      "‏F2814 נקראו דרך scripts/fal-app.mjs ‏(S32OP). פערים: F1068, F1572, F1866A, F1572A ו-F2814 אינם במילון " +
+      "הפרויקט ולכן אינם ב-xrefs; F1866A מתועד כאן מספר 7 בלבד ולא נבדק בספרייה; מזהה היישום של View Browser לא " +
+      "נבדק; צעדי ההגדרה של ה-Analytic Engine לא נקראו; RSRT אינה במילון הפרויקט ומבוססת על הערת יועץ במאגר " +
+      "בלבד; מבני LIS‏ (S061 וכו') ותצוגות C_WorkCenterProdCostQuery, ‏C_MaintOrdActualCostDataQ, " +
+      "I_LocationAnalysisCube ו-I_MaintOrderTechObjCube אינם במילון הפרויקט ונשארים בטקסט. אי-התאמה במאגר: " +
+      "data/tx-intel.ts#MCI7 מציין ש-PMIS/LIS הוא compatibility scope, בעוד ש-'S4TWL - LIS in EAM' אינו משתמש " +
+      "במונח זה ל-PMIS (המונח מופיע בפריט ה-PP עבור shop floor information system); לא תוקן כאן. אין Scope Item " +
+      "מודפס ברשומה שנקראה עבור תהליך האנליטיקה. KPI נרשמו רק מרשומות התחומים. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  /* =============================================== ibp and pp/ds integration */
+  {
+    slug: "ibp-ppds-integration-process",
+    he: "אינטגרציה של תכנון: IBP ו-PP/DS מול S/4HANA",
+    en: "Planning integration: IBP and PP/DS with S/4HANA",
+    module: "PP",
+    summary: "התהליך מחבר שלוש שכבות תכנון: SAP IBP (ענן) מפיק תוכנית ביקוש והיצע; התוצאות נכנסות ל-S/4HANA כדרישות " +
+      "עצמאיות מתוכננות (PIR) או כ-target supply ו-flexible constraints ל-PP/DS המוטמע; MRP Live (MD01N) מתכנן " +
+      "את החומרים הרגילים ומפנה חומרים עם Advanced Planning להיוריסטיקות PP/DS; PP/DS מתכנן ומתזמן מוצרים " +
+      "קריטיים על משאבי צוואר בקבוק ומעביר הזמנות מתוכננות חזרה ל-S/4HANA, שם הן מומרות לפקודות ייצור ומבוצעות; " +
+      "מצב הביצוע חוזר ל-PP/DS דרך CIF, ולפי תיעוד IBP התוכנית המפורטת מצטברת חזרה ל-IBP כ-confirmed supply.",
+    context: "בצד ECC, לפי רשומת המעבר של המאגר (data/ecc-s4.ts#pp-ds), PP-DS היה רכיב נפרד ב-SCM/APO שחובר ל-ERP " +
+      "ב-CIF; בצד S/4HANA עמוד ה-LO הרשמי (2025.001) קובע ש-PP/DS הוא חלק מ-SAP S/4HANA החל מ-OP 1709 כ-ePP/DS " +
+      "עם מגבלות מסוימות, ועמוד 'Integrating PP/DS' מתאר CIF שמצביע על אותה מערכת ולקוח, בלי distribution " +
+      "definition. עמוד 'PP/DS with SAP S/4HANA' מגדיר את חלוקת העבודה: S/4HANA מחזיק את נתוני האב, את הביצוע " +
+      "ואת תכנון החומרים הלא קריטיים, ו-PP/DS מתכנן מוצרים קריטיים על בסיס production data structures. בצד " +
+      "הביקוש, פריט הפישוט 'S4TWL - Sales and Operation Planning' קובע ש-SOP הוא פתרון גשר בתוך ה-compatibility " +
+      "pack ו-'IBP is the successor solution'. בצד IBP (תיעוד SAP IBP 2608, ענן ציבורי) שני ערוצים מתועדים: " +
+      "תוצאות תחזית כ-PIR דרך SAP Cloud Integration ותוסף האינטגרציה, ושילוב תכנון ייצור מבוסס key figures מול " +
+      "PP/DS (target supply ב-S/4HANA 2022, flexible constraints ב-2023 ומעלה), כשהתיעוד ממליץ על שילוב מבוסס " +
+      "הזמנות לצימוד הדוק יותר. התהליך נשען על bp:mrp-process לריצת ה-MRP, על bp:sales-demand-to-production " +
+      "לצריכת התחזית מול ביקוש מכירות, ועל bp:plan-to-produce-discrete ו-bp:production-order-process לביצוע.",
+    steps: [
+      {
+        he: "להכין נתוני אב ב-S/4HANA: לסמן Advanced Planning ו-Scope Limitation בלשונית Advanced Planning של אב " +
+          "החומר (MM02 בממשק ה-GUI לפי tx-intel.ts#MM02; עמוד 'Working with MRP Live'), להגדיר גרסאות ייצור (C223, " +
+          "MKAL) שמהן נוצרות production data structures ב-PP/DS, ולוודא שהקיבולות של מרכזי העבודה נוצרות כמשאבים " +
+          "(עמוד 'PP/DS with SAP S/4HANA'). לפי עמוד ה-BAPI של PP/DS, BAPI_MATERIAL_SAVEDATA הורחב לשדות Scope " +
+          "Limitation ו-Scope Profile.",
+        xrefs: [
+          "tx:MM02", "tx:C223", "table:MARC", "table:MKAL", "table:CRHD", "obj:work-center",
+          "cds:I_ProductionVersion", "fm:BAPI_MATERIAL_SAVEDATA",
+        ],
+      },
+      {
+        he: "להקים את ה-CIF הפנימי: Model 000 ו-Version 000, הגדרות CIF עם system type SAP_APO ו-release 713, פרמטרי " +
+          "משתמש CIF ורישום תור ה-CIF ב-SMQR, טווח מספרים ב-/SAPAPO/RRPCUST1, ו-CIF Post-Processing כאופן טיפול " +
+          "בשגיאות (עמוד 'Integrating PP/DS'). לפי עמוד 'Integrating PP/DS' הגדרת ה-CIF יוצרת מודל אינטגרציה שמצביע " +
+          "על אותה מערכת ולקוח; שמות הטרנזקציות CFM1 (יצירה) ו-CFM2 (הפעלה) מודפסים בעמוד aATP רשמי בהקשר העברת " +
+          "תחליפי מוצר ל-DSC Edition, ועמוד PP/DS שנוקב בהן לא אותר (אינן במילון הפרויקט).",
+        xrefs: ["tx:SMQR", "tx:SMQ1", "tx:SMQ2"],
+      },
+      {
+        he: "להעביר את תוצאות הביקוש מ-IBP: ה-iFlow 'Integrate Key Figures from SAP IBP to Add-On as Planned " +
+          "Independent Requirements' מעביר תוצאות תחזית כ-PIR ברמת location product או MRP area לתוסף האינטגרציה " +
+          "ב-S/4HANA (What's New IBP 2605); בשילוב מבוסס key figures נשלח Forecast לפי CONSENSUSDEMANDQTY. ה-PIR " +
+          "נשמרות ב-S/4HANA (MD61/MD62/MD63, PBIM/PBED לפי tx-intel.ts#MD61), ועמוד 'Forecast Consumption and " +
+          "Requirements Strategies' ממליץ ליצור PIR ב-S/4HANA ולשלב אותן ב-PP/DS דרך CIF.",
+        xrefs: ["tx:MD61", "tx:MD62", "tx:MD63", "bp:sales-demand-to-production"],
+      },
+      {
+        he: "להעביר את תוכנית ההיצע מ-IBP ל-PP/DS (אופציונלי, לפי עמוד 'Production Planning Integration Based on Key " +
+          "Figures'): target supply לפי key figure PRODUCTION ודרישות העברה/רכש לפי NETNEWREQORDER; ב-S/4HANA 2022 " +
+          "נוצרות KF orders לפי NETNEWPLANNEDPRODREC, וב-2023 ומעלה ה-target supply והכמויות המינימליות/מקסימליות " +
+          "מיוצגות כ-flexible constraints (עמוד 'Planning with Flexible Constraints', scopes LOCPRD ו-LOCPRDSOS).",
+        xrefs: ["obj:planned-order"],
+      },
+      {
+        he: "להריץ תכנון: MRP Live (MD01N, או תזמון דרך Schedule MRP Runs F1339) מחשב low-level code לכל החומרים, " +
+          "מתכנן חומרי S/4HANA ומפנה חומרי Advanced Planning ל-Classic MRP או להיוריסטיקות PP/DS לפי ה-Scope " +
+          "Limitation (עמוד 'Working with MRP Live'; פריט הפישוט 'S4TWL - MRP in HANA'). לפי עמוד IBP 'Production " +
+          "Planning Integration Based on Key Figures', target supply בתוך אופק PP/DS מומר להזמנות מתוכננות בריצת " +
+          "תכנון מתוזמנת בהיוריסטיקה SAP_PP_002, ועם flexible constraints בהיוריסטיקה SAP_PP_FLXC. עמוד 'PP/DS " +
+          "Process' ממליץ לתכנן בריצת ה-MRP ללא התחשבות בקיבולת (SAP note 551124).",
+        xrefs: ["tx:MD01N", "fiori:F1339", "obj:planned-order", "bp:mrp-process", "enh:technique:bte"],
+      },
+      {
+        he: "לתזמן בפירוט את המוצרים הקריטיים: אופטימיזציה או היוריסטיקות תזמון בשלב נפרד של production planning run " +
+          "(/SAPAPO/CDPSB0) לתכנון סופי מול זמינות משאבים, ותכנון אינטראקטיבי ב-Product View (/SAPAPO/RRP3), ב-DS " +
+          "Planning Board (/SAPAPO/CDPS0) או ביישומי Fiori Production Scheduling Board (F2176) ו-Advanced " +
+          "Scheduling Board (F5460). שמות ה-/SAPAPO/ לפי עמוד '3 PP/DS Restricted'; אינם במילון הפרויקט.",
+        xrefs: ["fiori:F2176", "fiori:F5460", "table:CRHD", "table:KAKO"],
+      },
+      {
+        he: "להעביר ולהמיר: לסמן conversion indicator ב-PP/DS לפני ההעברה, כך שההזמנה המתוכננת מומרת אוטומטית לפקודת " +
+          "ייצור ב-S/4HANA ומספר ההזמנה של S/4HANA חוזר ל-PP/DS (עמודים 'Converting Orders' ו-'Transferring Orders " +
+          "to the SAP S/4HANA'). המרה ב-S/4HANA (CO40, CO41 או מ-MD04) של הזמנה בלי conversion indicator דורסת את " +
+          "התאריכים שתוכננו ב-PP/DS (עמוד 'PP/DS with SAP S/4HANA').",
+        xrefs: ["tx:CO40", "tx:CO41", "tx:MD04", "obj:planned-order", "obj:production-order", "table:AFKO", "table:AFPO"],
+      },
+      {
+        he: "לבצע ב-S/4HANA: שחרור, משיכת רכיבים, אישור, קבלת טובין והשלמה טכנית (CO02, CO11N, CO05N לפי " +
+          "tx-intel.ts#CO40; Manage Production Orders F2336). לפי עמוד 'Production Process with SAP S/4HANA and " +
+          "PP/DS' כל שינוי עובר online ל-PP/DS דרך CIF, והשלמה טכנית מוחקת את הפקודה ב-PP/DS.",
+        xrefs: [
+          "tx:CO02", "tx:CO11N", "tx:CO05N", "fiori:F2336", "obj:production-order", "bp:production-order-process",
+          "bp:confirmation-process",
+        ],
+      },
+      {
+        he: "להחזיר את התוכנית ל-IBP: לפי עמוד 'Production Planning Integration Based on Key Figures', הזמנות " +
+          "מתוכננות ופקודות ייצור מ-PP/DS מצטברות ל-IBP כ-confirmed supply ברמת תקופה, צריכת המשאבים מוחזרת ל-key " +
+          "figure המתאים, ואופק ה-PP/DS מיוצג ב-IBP כ-freeze horizon שבו תוכנית ה-PP/DS קבועה.",
+        xrefs: ["obj:production-order", "obj:planned-order"],
+      },
+      {
+        he: "לנטר את הממשק: תורי qRFC של CIF ב-SMQ1/SMQ2 ורישום scheduler ב-SMQR (data/integration.ts#qrfc), יעד RFC " +
+          "ב-SM59 (תקריות qrfc-smq1-outbound-blocked ו-smq1-outbound-stuck), ו-CIF Post-Processing למניעת חסימת " +
+          "תורים (עמוד 'Integrating PP/DS'). מצב הביקוש וההיצע נבדק ב-MD04 וב-MRP Cockpit (F0247A, F0251).",
+        xrefs: ["tx:SMQ1", "tx:SMQ2", "tx:SMQR", "tx:SM59", "tx:MD04", "fiori:F0247A", "fiori:F0251"],
+      },
+    ],
+    antiPatterns: [
+      "להמיר ב-S/4HANA (CO40/CO41) הזמנות מתוכננות של PP/DS שלא סומן להן conversion indicator: לפי עמוד 'PP/DS " +
+        "with SAP S/4HANA' התאריכים שתוכננו ב-PP/DS נדרסים, ועמוד 'Converting Orders' ממליץ להפעיל המרה דרך " +
+        "ה-indicator ב-PP/DS בלבד כדי לשמור אותם.",
+      "להתחשב בזמינות הקיבולת כבר בריצת ה-MRP: עמוד 'PP/DS Process' ממליץ לתכנן בריצה ללא התחשבות בזמינות " +
+        "משאבים (SAP note 551124) ולבצע תכנון סופי בשלב נפרד של אופטימיזציה או היוריסטיקות תזמון.",
+      "להעביר ל-S/4HANA את כל הצעות הרכש של PP/DS: עמוד 'Transferring Orders to the SAP S/4HANA' ממליץ, מטעמי " +
+        "ביצועים, להעביר רק הזמנות שסומן להן conversion indicator ולא הצעות שאינן נדרשות ב-S/4HANA.",
+      "להשאיר מוצר מתוכנן גם ב-MRP של S/4HANA וגם ב-PP/DS: התנאי בעמוד 'PP/DS with SAP S/4HANA' הוא שהמוצרים " +
+        "המתוכננים ב-PP/DS הוצאו מהתכנון ב-S/4HANA; וכן רכיב שקיים ברשימת הרכיבים של PP/DS בלבד 'is not " +
+        "permitted', ה-BOM המלא נשמר ב-S/4HANA.",
+      "בשילוב IBP מבוסס key figures: לשלב דרישות רכש לרכיבים או לשנות KF orders ידנית. התיעוד ממליץ לשלב דרישות " +
+        "רכש למוצרים גמורים בלבד (סיכון כמויות גבוהות מדי), וקובע ששינוי ידני ב-KF orders אינו משפיע על תוצאת " +
+        "התכנון.",
+      "לסמן סימון מחיקה לחומר שעדיין Advanced Planning: עמוד 'Deleting Master Data' (2025.001) קובע שאין לסמן " +
+        "Deletion flag לפני הסרת סימון Advanced Planning.",
+      "למחוק רשומות מתור CIF חסום כדי לשחרר אותו: רשומת qRFC של המאגר מציינת שמחיקה באמצע התור שוברת את הסדר, " +
+        "והתקרית qrfc-smq1-outbound-blocked מורה למחוק head LUW רק אחרי אימות; עמוד 'Integrating PP/DS' ממליץ על " +
+        "CIF Post-Processing כדי למנוע חסימות.",
+    ],
+    checks: [
+      "חיובי: חומר עם Advanced Planning ו-Scope Limitation, ריצת MD01N: החומר מופנה להיוריסטיקת PP/DS לפי " +
+        "ה-Scope Limitation (עמוד 'Working with MRP Live'), וההזמנה המתוכננת נראית ב-MD04 בצד S/4HANA.",
+      "המרה: הזמנה מתוכננת עם conversion indicator שהועברה יוצרת פקודת ייצור ב-S/4HANA מיד, בלי הזמנה מתוכננת " +
+        "מקבילה ב-S/4HANA, ומספר הפקודה חוזר ל-PP/DS (עמוד 'Transferring Orders to the SAP S/4HANA').",
+      "סנכרון ביצוע: אישור פעולה ב-S/4HANA מעדכן כמויות ותאריכים ב-PP/DS באופן סינכרוני, והשלמה טכנית מוחקת את " +
+        "הפקודה ב-PP/DS (עמודים 'PP/DS with SAP S/4HANA' ו-'Production Process with SAP S/4HANA and PP/DS').",
+      "IBP ל-PIR: הרצת ה-iFlow עם Process PIRs פעיל מסתיימת בסטטוס ירוק; בלי ההפעלה הנתונים נשארים בטבלת " +
+        "ה-staging של תוסף האינטגרציה (What's New IBP 2605).",
+      "שלילי: הזמנה מתוכננת שאין לה גרסת ייצור תקפה לא עוברת המרה ב-CO40/CO41 (תקרית " +
+        "planned-order-not-convert); הזמנה שהועברה בלי conversion indicator והומרה ב-S/4HANA מאבדת את תאריכי " +
+        "PP/DS (עמוד 'PP/DS with SAP S/4HANA'); PIR בגרסה לא פעילה אינן נראות ל-MRP (domains.ts#pppi-pir).",
+      "ממשק: אין רשומות SYSFAIL/CPICERR בתורי SMQ1/SMQ2 של CIF וה-scheduler רשום ב-SMQR " +
+        "(data/integration.ts#qrfc).",
+    ],
+    status: {
+      status: "s4_native",
+      he: "PP/DS מוטמע הוא חלק מ-SAP S/4HANA החל מ-OP 1709 (ePP/DS) עם מגבלות מסוימות (with certain restrictions), " +
+        "ומתועד במדריך PP/DS לגרסת 2025 FPS01; ב-ECC התהליך המקביל נשען על SCM/APO נפרד דרך CIF.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: PPDS_STATUS_SOURCE,
+      recommendedAction: "להפעיל Advanced Planning רק למוצרים קריטיים, להגדיר CIF פנימי ו-conversion indicator, ולבחור ערוץ שילוב " +
+        "IBP (PIR דרך SAP Cloud Integration, key figures, או שילוב מבוסס הזמנות) לפי גרסת S/4HANA ורישיון ה-IBP.",
+    },
+    process: {
+      purpose: "לחבר את התכנון הטקטי ב-SAP IBP ואת התכנון המפורט ב-PP/DS לביצוע ב-S/4HANA, כך שהביקוש המאושר מגיע ל-MRP " +
+        "כ-PIR, מוצרים קריטיים מתוכננים ומתוזמנים על משאבי צוואר בקבוק ב-PP/DS, ופקודות הייצור מבוצעות ב-S/4HANA " +
+        "עם תאריכים שנשמרו מהתכנון (עמודים 'PP/DS with SAP S/4HANA', 'PP/DS Process', 'Production Planning " +
+        "Integration Based on Key Figures').",
+      trigger: [
+        {
+          he: "מחזור התכנון ב-IBP מפרסם תוצאות: תחזית (I_FINALGLOBALDEMANDPLANQTY, או I_FINALCONSDEMANDPLANQTY ל-S&OP) " +
+            "להעברה כ-PIR, או תוכנית היצע לפי key figures (CONSENSUSDEMANDQTY, PRODUCTION, NETNEWREQORDER) (תיעוד SAP " +
+            "IBP).",
+          xrefs: ["tx:MD61"],
+        },
+        {
+          he: "שינוי רלוונטי לתכנון שיוצר planning file entry ב-PP/DS, וריצת MRP מתוזמנת (עמוד 'PP/DS Process'; MD01N / " +
+            "F1339).",
+          xrefs: ["tx:MD01N", "fiori:F1339"],
+        },
+        {
+          he: "שינוי בהזמנת מכירה או בפקודה ב-S/4HANA שעובר מיד ל-PP/DS דרך CIF (עמודים 'Forecast Consumption and " +
+            "Requirements Strategies' ו-'Production Process with SAP S/4HANA and PP/DS').",
+          xrefs: ["obj:production-order"],
+        },
+      ],
+      preconditions: [
+        {
+          he: "PP/DS מופעל: Model 000 ו-Version 000, הגדרות CIF (SAP_APO, release 713), פרמטרי משתמש CIF ורישום התור " +
+            "ב-SMQR, טווח מספרים ב-/SAPAPO/RRPCUST1, ו-ATP categories שסופקו (עמוד 'Integrating PP/DS').",
+          xrefs: ["tx:SMQR"],
+        },
+        {
+          he: "המפעל מוגדר כ-location ב-PP/DS והחומר מסומן Advanced Planning עם Scope Limitation; ל-multilevel נדרשים " +
+            "BOM, routing ו-PDS לכל החומרים (עמודים 'Initial Transfer Report' ו-'Working with MRP Live').",
+          xrefs: ["table:MARC"],
+        },
+        {
+          he: "גרסאות ייצור תקפות ב-S/4HANA (עמוד 'PP/DS with SAP S/4HANA'; לפי mrp-center.ts#prod-version גרסה היא " +
+            "חובה ל-MRP Live ול-PP-DS).",
+          xrefs: ["tx:C223", "table:MKAL", "cds:I_ProductionVersion"],
+        },
+        {
+          he: "לשילוב IBP מבוסס key figures: SAP S/4HANA 2022 ומעלה ו-CI-DS 2111 ומעלה (לגרסאות ישנות SAP Note " +
+            "3246773). ל-PIR דרך SAP Cloud Integration: תוסף האינטגרציה בגרסה 2.0 SP02. לפי עמוד Technical System " +
+            "Landscape, CI-DS אינו זמין לרישיונות IBP שהונפקו אחרי April 20, 2026, והחלופה המומלצת היא SAP Cloud " +
+            "Integration.",
+        },
+        {
+          he: "flexible constraints (S/4HANA 2023 ומעלה): טווח מספרים לאובייקט /SAPAPO/FX ב-SNRO (עמוד 'Planning with " +
+            "Flexible Constraints').",
+          xrefs: ["tx:SNRO"],
+        },
+      ],
+      masterData: [
+        {
+          he: "מיפוי נתוני האב S/4HANA ל-PP/DS לפי עמוד 'PP/DS with SAP S/4HANA': Plants→Locations; Material " +
+            "masters→Product masters; Production versions (BOMs, routing/recipe)→production data structures; Work " +
+            "centers (capacities)→resources; Scheduling agreements, Contracts, Purchasing info records→External " +
+            "procurement relationships.",
+          xrefs: [
+            "table:MARA", "table:MARC", "table:MKAL", "table:MAST", "table:PLKO", "table:CRHD", "table:KAKO",
+            "obj:work-center", "obj:material-bom",
+          ],
+        },
+        {
+          he: "Strategy Group ו-requirement class בחומר (MARC לפי domains.ts#pppi-planning-strategies) תואמים ל-Check " +
+            "Mode ב-PP/DS (עמוד 'Forecast Consumption and Requirements Strategies').",
+          xrefs: ["table:MARC", "cds:I_ProductPlant", "cds:I_MRPMaterial"],
+        },
+        {
+          he: "בצד IBP: location, location product ו-MRP area; ה-BAdI /IBP/ETS_PIR_IN ממיר מזהי location ו-MRP area " +
+            "לאורך הנדרש בתוסף האינטגרציה (What's New IBP 2605).",
+        },
+      ],
+      roles: [
+        {
+          he: "מתכנן ייצור (SAP_BR_PRODN_PLNR): Production Scheduling Board ו-Schedule MRP Runs לפי " +
+            "data/fiori/apps.ts#F2176, #F1339; מתכנן חומרים לרכש חיצוני (SAP_BR_MATL_PLNR_EXT_PROC) לפי #F1339.",
+          xrefs: ["fiori:F2176", "fiori:F1339"],
+        },
+        {
+          he: "מתכנן ביקוש (Demand planner, לפי שדה users ב-tx-intel.ts#MD61) מתחזק PIR; תפקידי IBP עצמם אינם מתועדים " +
+            "ברשומות שנקראו.",
+          xrefs: ["tx:MD61", "tx:MD62"],
+        },
+      ],
+      transactions: [
+        {
+          he: "נתוני אב: MM02 (Advanced Planning בחומר), C223 (גרסת ייצור); מודל אינטגרציה: CFM1/CFM2 לפי עמוד aATP " +
+            "בלבד (אינן במילון הפרויקט).",
+          xrefs: ["tx:MM02", "tx:C223"],
+        },
+        {
+          he: "ביקוש: MD61, MD62, MD63 לדרישות עצמאיות מתוכננות.",
+          xrefs: ["tx:MD61", "tx:MD62", "tx:MD63"],
+        },
+        {
+          he: "תכנון: MD01N (MRP Live), Schedule MRP Runs (F1339), MD04 ו-MRP Cockpit (F0247A, F0251).",
+          xrefs: ["tx:MD01N", "tx:MD04", "fiori:F1339", "fiori:F0247A", "fiori:F0251"],
+        },
+        {
+          he: "PP/DS: /SAPAPO/CDPSB0, /SAPAPO/RRP3, /SAPAPO/CDPS0, /SAPAPO/PPT1, /SAPAPO/RPT (עמוד '3 PP/DS " +
+            "Restricted'; לא במילון); Fiori Production Scheduling Board (F2176) ו-Advanced Scheduling Board (F5460).",
+          xrefs: ["fiori:F2176", "fiori:F5460"],
+        },
+        {
+          he: "המרה וביצוע: CO40, CO41 (ללא conversion indicator דורסים תאריכי PP/DS), CO02, CO05N, CO11N; Manage " +
+            "Production Orders (F2336).",
+          xrefs: ["tx:CO40", "tx:CO41", "tx:CO02", "tx:CO05N", "tx:CO11N", "fiori:F2336"],
+        },
+        {
+          he: "ממשק: SMQ1, SMQ2, SMQR, SM59; העברה ראשונית בלי מודל אינטגרציה בדוח /SAPAPO/PPDS_DELTA_ORD_TRANS דרך " +
+            "SE38.",
+          xrefs: ["tx:SMQ1", "tx:SMQ2", "tx:SMQR", "tx:SM59", "tx:SE38"],
+        },
+      ],
+      tables: [
+        {
+          he: "S/4HANA: MARC, MKAL, AFKO/AFPO, RESB; PLAF (הזמנה מתוכננת) ו-PBIM/PBED (PIR) נקובות ב-tx-intel ואינן " +
+            "במילון הפרויקט.",
+          xrefs: ["table:MARC", "table:MKAL", "table:AFKO", "table:AFPO", "table:RESB", "table:MDMA"],
+        },
+        {
+          he: "PP/DS: הזמנות ואלמנטי תכנון נשמרים ב-liveCache (עמודים 'Forecast Consumption and Requirements " +
+            "Strategies', 'Planning with Flexible Constraints'); טבלת הבקרה /SAPAPO/PUB_CHK נקובה בפריט הפישוט 9.5.1.",
+        },
+        {
+          he: "אובייקטים ותצוגות CDS: הזמנה מתוכננת, פקודת ייצור, מרכז עבודה; I_MRPMaterial, I_ProductionVersion, " +
+            "I_ProductionOrder, I_WorkCenter (data/cds-map.ts).",
+          xrefs: [
+            "obj:planned-order", "obj:production-order", "obj:work-center", "cds:I_MRPMaterial",
+            "cds:I_ProductionVersion", "cds:I_ProductionOrder", "cds:I_WorkCenter",
+          ],
+        },
+      ],
+      integrationPoints: [
+        {
+          he: "IBP → S/4HANA: תחזית כ-PIR דרך SAP Cloud Integration ותוסף האינטגרציה, או key figures דרך CI-DS. בכיוון " +
+            "ההפוך, RTI מבוסס CIF מעביר נתונים מ-SAP S/4HANA לאזורי תכנון מבוססי SAP7F ו-I_SAPIBP2, ותוצאות התכנון " +
+            "חוזרות בשילוב תקופתי או בזמן אמת (עמוד 'Data Integration Using Core Interface for RTI', SAP IBP 2608).",
+          xrefs: ["tx:MD61"],
+        },
+        {
+          he: "S/4HANA ↔ PP/DS דרך CIF: נתוני אב וחומרים, PIR, הזמנות מכירה, הזמנות מתוכננות ופקודות ייצור עוברים בשני " +
+            "הכיוונים (עמוד 'PP/DS with SAP S/4HANA').",
+          xrefs: ["obj:planned-order", "obj:production-order", "tx:SMQ1", "tx:SMQ2"],
+        },
+        {
+          he: "MRP Live ↔ PP/DS: MRP Live קורא להיוריסטיקות PP/DS לחומרי Advanced Planning (פריט הפישוט 'S4TWL - MRP in " +
+            "HANA'); לפי What's New 2025 'Business Transaction Events in MRP Live', חומרים לשילוב IBP או PP/DS " +
+            "מתוכננים ב-MRP Live ואירועי BTE מופעלים בעיבוד שלאחר מכן.",
+          xrefs: ["tx:MD01N", "enh:technique:bte"],
+        },
+        {
+          he: "PP/DS → IBP: הזמנות מתוכננות ופקודות ייצור מצטברות ל-confirmed supply, וצריכת משאבים מוחזרת (עמוד " +
+            "'Production Planning Integration Based on Key Figures').",
+        },
+        {
+          he: "המשך הביצוע: bp:production-order-process, bp:confirmation-process ו-bp:goods-movement-process.",
+          xrefs: ["bp:production-order-process", "bp:confirmation-process", "bp:goods-movement-process"],
+        },
+      ],
+      interfaces: [
+        {
+          he: "CIF מעל qRFC (data/integration.ts#qrfc; עמוד 'Integrating PP/DS'); הרחבות פרסום הזמנות מ-PP/DS: BAdI " +
+            "/SAPAPO/PPDS_ORDER_INT ו-BAdIs/exits קודמים כמו /SAPAPO/CL_EX_CIF_OP ו-EXIT_/SAPAPO/SAPLCIF_ORD_001 " +
+            "(פריט הפישוט 9.5.1; אינם במילון הפרויקט).",
+          xrefs: ["tx:SMQ1", "tx:SMQ2"],
+        },
+        {
+          he: "IBP: iFlow 'Integrate Key Figures from SAP IBP to Add-On as Planned Independent Requirements', מודול " +
+            "/IBP/ETS_PIR_IN_CI_RFC ו-BAdI /IBP/ETS_PIR_IN (What's New IBP 2605); iFlow 'Integrate Sales Order " +
+            "History Data from Add-on to SAP IBP' לכיוון הנכנס.",
+        },
+        {
+          he: "OData API בשם 'Flexible Constraint for PP/DS' (Related Information בעמוד What's New 2023); מזהה השירות " +
+            "לא נקרא.",
+        },
+        {
+          he: "BAPI_MATERIAL_SAVEDATA עם Scope Limitation ו-Scope Profile (עמוד ה-BAPI של PP/DS, אומת ברשומת " +
+            "fm:BAPI_MATERIAL_SAVEDATA); BAPI_PLANNEDORDER_CREATE ו-BAPI_PLANNEDORDER_GET_DETAIL להזמנות מתוכננות בצד " +
+            "S/4HANA (tx-intel.ts#MD11).",
+          xrefs: ["fm:BAPI_MATERIAL_SAVEDATA", "fm:BAPI_PLANNEDORDER_CREATE", "fm:BAPI_PLANNEDORDER_GET_DETAIL"],
+        },
+        {
+          he: "הרחבות MRP בצד S/4HANA: Customer Exit M61X0001 ו-BAdI MD_PLDORD_POST (תקרית mrp-no-planned-orders); BAdI " +
+            "/SAPAPO/BADI_FC_CSP_CLNDR ללוח שנה בצריכת תחזית ב-PP/DS (לא במילון).",
+          xrefs: ["enh:exit:M61X0001", "enh:badi:MD_PLDORD_POST"],
+        },
+      ],
+      outputs: [
+        {
+          he: "PIR ב-S/4HANA מתוצאות התחזית של IBP.",
+          xrefs: ["tx:MD61"],
+        },
+        {
+          he: "הזמנות מתוכננות מתוזמנות ב-PP/DS, עם מספר S/4HANA לאחר ההעברה הראשונה.",
+          xrefs: ["obj:planned-order"],
+        },
+        {
+          he: "פקודות ייצור ב-S/4HANA שנוצרו מהמרה עם conversion indicator ושומרות את תאריכי PP/DS.",
+          xrefs: ["obj:production-order", "table:AFKO", "table:AFPO"],
+        },
+        { he: "confirmed supply וצריכת משאבים ב-IBP ברמת תקופה (תיעוד SAP IBP)." },
+        {
+          he: "מסמכי לוגיסטיקה וחשבונאות של הביצוע (משיכת רכיבים, אישור, קבלת טובין) נוצרים ב-S/4HANA ולא ב-PP/DS; " +
+            "פירוטם ב-bp:goods-movement-process וב-bp:confirmation-process.",
+          xrefs: ["bp:goods-movement-process", "bp:confirmation-process"],
+        },
+      ],
+      exceptions: [
+        {
+          he: "תור CIF חסום (SYSFAIL/CPICERR) עוצר את העברת ההזמנות (תקריות qrfc-smq1-outbound-blocked, " +
+            "smq1-outbound-stuck).",
+          xrefs: ["tx:SMQ1", "tx:SMQ2", "tx:SM59"],
+        },
+        {
+          he: "הזמנה מתוכננת לא מומרת: אין גרסת ייצור תקפה (תקרית planned-order-not-convert; בתקרית " +
+            "planned-order-not-convertible, שעוסקת בהמרה להזמנת תהליך ב-PP-PI, נמנים גם COR4 ו-conversion indicator).",
+          xrefs: ["tx:CO40", "tx:CO41", "tx:C223", "table:MKAL"],
+        },
+        {
+          he: "MRP לא יוצר הזמנות: planning file לא מסמן את החומר או שאין דרישה (תקרית mrp-no-planned-orders).",
+          xrefs: ["tx:MD01N", "tx:MD04"],
+        },
+        {
+          he: "תחזית שונה בין לשונית Elements ללשונית Forecast ב-Product View: הפעלת צריכה מחדש בדוח " +
+            "/SAPAPO/CSP_CORRECT_FCST (עמוד 'Forecast Consumption and Requirements Strategies').",
+        },
+        {
+          he: "iFlow ה-PIR נכשל כשמזהה location או MRP area חורג ממגבלת האורך של תוסף האינטגרציה ולא הומר ב-BAdI " +
+            "(What's New IBP 2605).",
+        },
+        {
+          he: "PIR או כמות תחזית כפולה מול מכירות: אסטרטגיה או requirement type לא תואמים " +
+            "(domains.ts#pppi-planning-strategies).",
+          xrefs: ["tx:MD61", "tx:MD62"],
+        },
+      ],
+      controls: [
+        {
+          he: "conversion indicator ב-PP/DS ובדיקות המרה (למשל ATP לרכיבים) לפני העברה ל-S/4HANA (עמוד 'Converting " +
+            "Orders').",
+        },
+        {
+          he: "CIF Post-Processing כאופן טיפול בשגיאות למניעת חסימת תורים (עמוד 'Integrating PP/DS').",
+          xrefs: ["tx:SMQR"],
+        },
+        {
+          he: "freeze horizon ב-IBP שמקביל לאופק PP/DS: תוכנית PP/DS קבועה ואינה ניתנת לשינוי ב-IBP (תיעוד SAP IBP).",
+        },
+        { he: "Process PIRs ב-iFlow מחזיר סטטוס ירוק או הודעת שגיאה על העיבוד בתוסף (What's New IBP 2605)." },
+        {
+          he: "לחומר שה-Scope Limitation שלו PP/DS Restricted מותרות רק ההיוריסטיקות שברשימת ה-Scope Profile (עמוד '3 " +
+            "PP/DS Restricted').",
+        },
+      ],
+      eccToS4: [
+        {
+          he: "ECC: PP-DS היה רכיב נפרד ב-SCM/APO שחובר ב-CIF למערכת ה-ERP (data/ecc-s4.ts#pp-ds). S/4HANA: PP/DS מוטמע " +
+            "(ePP/DS) החל מ-OP 1709 לפי עמוד ה-LO הרשמי, עם CIF שמצביע לאותה מערכת ולקוח (עמוד 'Integrating PP/DS').",
+        },
+        {
+          he: "S/4HANA: פריט הפישוט 'S4TWL - MRP in HANA' קובע ש-MRP Live (MD01N) קורא להיוריסטיקות PP/DS לחומרי " +
+            "Advanced Planning וש-MD01N הוא הטכנולוגיה העתידית; MD01 הקלאסי עדיין זמין.",
+          xrefs: ["tx:MD01N", "tx:MD01"],
+        },
+        {
+          he: "S/4HANA: פריט הפישוט 'S4TWL - Sales and Operation Planning' מציב את SOP (MC74, MC75 ועוד) " +
+            "ב-compatibility pack וקובע ש-IBP הוא הפתרון היורש, ללא נתיב מעבר ייעודי.",
+          xrefs: ["tx:MC74", "tx:MC75", "tx:MC87"],
+        },
+        {
+          he: "S/4HANA 2023: flexible constraints ל-PP/DS מאפשרים לשלב החלטות תכנון ממערכת חיצונית כמו IBP (What's New " +
+            "2023); Advanced Scheduling Board (F5460) חדש מ-S/4HANA 2022 (What's New 2022).",
+          xrefs: ["fiori:F5460"],
+        },
+      ],
+      migration: [
+        {
+          he: "בשדרוג מ-S/4HANA 1610 או 1709 ל-1809 (לפי תנאי הפריט): פריט הפישוט 'S4TWL - Performance optimizations " +
+            "for publication of planning orders' רלוונטי כאשר BAdIs או exits של פרסום הזמנות מ-PP/DS ממומשים; במקרה " +
+            "זה נשמרת הלוגיקה הישנה עד שהקוד מותאם ל-/SAPAPO/PPDS_ORDER_INT ונרשם 'X' ב-/SAPAPO/PUB_CHK.",
+        },
+        {
+          he: "מעבר מ-APO ל-PP/DS מוטמע: ספר 4 פרק 11 'Migration to Embedded PP/DS' (New Implementation, System " +
+            "Conversion, Landscape Transformation), כותרות בלבד; רשומת המאגר data/ecc-s4.ts#pp-ds מציינת שארגונים עם " +
+            "APO צריכים להחליט על מעבר.",
+        },
+        {
+          he: "העברה ראשונית של הזמנות קיימות ל-PP/DS בלי מודל אינטגרציה: הדוח /SAPAPO/PPDS_DELTA_ORD_TRANS (עמוד " +
+            "'Initial Transfer Report').",
+          xrefs: ["tx:SE38"],
+        },
+        {
+          he: "גרסת ייצור תקפה לכל חומר מיוצר היא נקודת בדיקה בהגירה (data/domain-detail.ts#pppi-production-versions).",
+          xrefs: ["tx:C223", "table:MKAL"],
+        },
+      ],
+      reference: {
+        title: "PP/DS Process | Production Planning and Detailed Scheduling (PP/DS) (SAP S/4HANA On-Premise 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/f52ec95360267614e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        verificationLevel: "sap_official_verified",
+        note: "עמוד התהליך הרשמי של PP/DS מרשומת חיפוש (loio f52ec95360267614e10000000a174cb4, 2025.001), נקרא במלואו " +
+          "ב-2026-09-24. זה עמוד תהליך ולא פריט SAP Best Practices; לצד IBP עמוד ההשלמה הוא 'Production Planning " +
+          "Integration Based on Key Figures' (SAP IBP 2608). פריט Scope Item לתהליך לא אותר ולא נרשם; עמוד What's " +
+          "New 'Flexible Constraints' מדפיס 'Scope Item Not applicable'.",
+      },
+    },
+    xrefs: [
+      "tx:MD61", "tx:MD62", "tx:MD63", "tx:MD01N", "tx:MD01", "tx:MD04", "tx:CO40", "tx:CO41", "tx:CO02", "tx:CO05N",
+      "tx:CO11N", "tx:C223", "tx:MM02", "tx:SMQ1", "tx:SMQ2", "tx:SMQR", "tx:SM59", "tx:SNRO", "tx:SE38", "tx:MC74",
+      "tx:MC75", "tx:MC87", "table:MARA", "table:MARC", "table:MKAL", "table:MAST", "table:PLKO", "table:CRHD",
+      "table:KAKO", "table:AFKO", "table:AFPO", "table:RESB", "table:MDMA", "fiori:F2176", "fiori:F5460",
+      "fiori:F1339", "fiori:F0247A", "fiori:F0251", "fiori:F2336", "fm:BAPI_MATERIAL_SAVEDATA",
+      "fm:BAPI_PLANNEDORDER_CREATE", "fm:BAPI_PLANNEDORDER_GET_DETAIL", "cds:I_MRPMaterial",
+      "cds:I_ProductionVersion", "cds:I_ProductionOrder", "cds:I_WorkCenter", "cds:I_ProductPlant",
+      "obj:planned-order", "obj:production-order", "obj:work-center", "obj:material-bom", "enh:exit:M61X0001",
+      "enh:badi:MD_PLDORD_POST", "enh:technique:bte", "bp:mrp-process", "bp:sales-demand-to-production",
+      "bp:plan-to-produce-discrete", "bp:production-order-process", "bp:confirmation-process",
+      "bp:goods-movement-process",
+    ],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP/DS Process | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/f52ec95360267614e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio f52ec95360267614e10000000a174cb4; גוף העמוד נקרא במלואו ב-2026-09-24: 'You enable Advanced Planning " +
+          "as product and integrate PP/DS, to transfer requirements and receipts'; 'You plan the procurement " +
+          "proposals in an MRP planning run for products for which PP/DS creates a planning file entry when " +
+          "planning-relevant changes occur. The system also automatically schedules the newly created procurement " +
+          "proposals on the resources in this case'; 'As a rule, you should plan infinitely in the MRP run, meaning " +
+          "that you do not take account of the resource availability (see SAP note 551124)'; 'You use PP/DS " +
+          "optimization or special scheduling heuristics ... to plan the sequence of orders on the resources while " +
+          "taking account of the resource availability (finite planning)'; כלי התכנון האינטראקטיבי: Heuristics, " +
+          "Product Planning table, Production Scheduling board, Push production; 'The procurement proposals that " +
+          "were created or changed are transferred to SAP S/4HANA. If you do not plan all products of a BOM " +
+          "structure in PP/DS, you must complete planning in SAP S/4HANA'; הביצוע ב-S/4HANA: Confirmations, Posting " +
+          "goods receipt/issue.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP/DS with SAP S/4HANA | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/aa35c95360267514e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE,
+        claim: "loio aa35c95360267514e10000000a174cb4; גוף העמוד נקרא במלואו ב-2026-09-24: 'With Production Planning and " +
+          "Detailed Scheduling (PP/DS) you plan critical products that are produced on bottleneck resources, on the " +
+          "basis of production data structures. You use SAP S/4HANA for master data maintenance, for the " +
+          "manufacturing execution functions ... and for planning uncritical products'; תנאים: 'You have excluded " +
+          "the products that you are planning in PP/DS from the planning in SAP S/4HANA', 'You have defined " +
+          "production versions in SAP S/4HANA', 'The data is integrated to the active model 000 and the active " +
+          "planning version 000'. טבלת נתוני האב: Plants→Locations, Material masters→Product masters, 'The " +
+          "production versions from SAP S/4HANA are created in PP/DS as production data structures', 'The " +
+          "capacities of the work centers are created as resources in PP/DS', ו-Scheduling agreements, Contracts, " +
+          "Purchasing info records→External procurement relationships. נתוני תנועה שעוברים: sales orders, " +
+          "production or process orders, manual reservations, purchase requisitions or orders, planned orders, " +
+          "planned independent requirements; 'Any changes made in PP/DS are transferred automatically to SAP " +
+          "S/4HANA; the same applies in the opposite direction'. השוואת רשימות רכיבים A/B: רכיב שקיים רק ברשימה A " +
+          "'is not permitted. The complete BOM must be maintained in SAP S/4HANA'. 'Orders for which this " +
+          "conversion indicator is set are immediately automatically converted after transfer to SAP S/4HANA'; 'If " +
+          "you transfer planned orders and purchase requisitions, without the conversion indicator set, to SAP " +
+          "S/4HANA, and only carry out the conversion there, the dates planned in PP/DS are overwritten'. טבלת " +
+          "פונקציות הביצוע: משיכת רכיבים, אישור וקבלת טובין מעדכנים את PP/DS באופן סינכרוני; 'Confirmations or " +
+          "final deliveries lead to reduction of the open quantity of the corresponding order in PP/DS to zero'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Integrating PP/DS | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/5531c95360267614e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE,
+        claim: "loio 5531c95360267614e10000000a174cb4; גוף העמוד נקרא במלואו ב-2026-09-24. תנאים מוקדמים: 'You must set " +
+          "up Model '000' and Version '000' manually'; הגדרת CIF ב-Customizing עם 'system type SAP_APO and release " +
+          "713 so that an Integration model pointing to itself (own system and client) is created'; 'You must set " +
+          "up CIF user parameters and then register the CIF queue (using transaction SMQR)'; 'There is no need for " +
+          "maintaining distribution definition or publication types, as PP/DS is part of SAP S/4HANA'; 'SAP " +
+          "recommends using CIF Post-Processing as the error-handling option to avoid queue blocks'; 'You must " +
+          "enable the number range in PP/DS for SAP S/4HANA in PP/DS global parameters and values (using " +
+          "transaction /SAPAPO/RRPCUST1)'; הפניה ל-SAP note 2712349 לשיטות מומלצות ליישום PP/DS ב-S/4HANA (גרסאות " +
+          "1709 עד 2023).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Working with MRP Live | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/86e15c58eb021f60e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE,
+        claim: "loio 86e15c58eb021f60e10000000a44147b; גוף העמוד נקרא במלואו ב-2026-09-24: 'The system despatches SAP " +
+          "S/4HANA materials to be planned with MRP Live, and Advanced Planning-relevant materials to Classic MRP " +
+          "or the appropriate PP/DS product heuristics, based on the Scope Limitation which is selected for the " +
+          "Advanced Planning-relevant materials. Low level code calculation happens in SAP S/4HANA for all " +
+          "materials'; תנאי: 'The Advanced Planning checkbox has been selected for all Advanced Planning-relevant " +
+          "materials and Scope Limitation has been selected in the Advanced Planning tab of the SAP S/4HANA " +
+          "material master. For multilevel scenarios, the required BOMs and routings are maintained; also, " +
+          "production data structure (PDS) has been maintained for all involved materials'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Forecast Consumption and Requirements Strategies | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/479dd3658b3b3c5ce10000000a421937.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 479dd3658b3b3c5ce10000000a421937; גוף העמוד נקרא במלואו ב-2026-09-24: 'in PP/DS planned independent " +
+          "requirements are consumed by other order types, such as sales orders, dependent demand, or transfer " +
+          "requests'; 'Consumption period is calculated in calendar days in PP/DS for SAP S/4HANA and in working " +
+          "days in SAP S/4HANA. A calendar can be assigned to respect working days by using BAdI " +
+          "/SAPAPO/BADI_FC_CSP_CLNDR'; 'The corresponding strategy group of the requirement class has to be defined " +
+          "in SAP S/4HANA material master. In PP/DS, the Requirement Class has to be defined as Check Mode (same " +
+          "identifier)'; 'Trigger the Forecast consumption using Report /SAPAPO/CSP_CORRECT_FCST in case in the " +
+          "Product view the Elements tab result is different from that of the Forecast tab'; 'We recommend creating " +
+          "planned independent requirements (PIRs) in SAP S/4HANA and integrating them with PP/DS'; 'Consumption is " +
+          "fully integrated with SAP S/4HANA using the Core Interface (CIF). This means, for example, that changes " +
+          "to sales orders in SAP S/4HANA are taken into account immediately in PP/DS'; 'Consumption takes place in " +
+          "order liveCache'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transferring Orders to the SAP S/4HANA | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/dc2ec95360267614e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio dc2ec95360267614e10000000a174cb4; גוף העמוד נקרא במלואו ב-2026-09-24: ההפרדה בין transfer event " +
+          "להעברה הפיזית; 'You can link the transfer of planned orders or purchase requisitions with automatic " +
+          "order opening in SAP S/4HANA. To do this, you set the conversion indicator for the orders in PP/DS'; " +
+          "'For performance reasons ... you should only transfer planned orders or purchase requisitions, for which " +
+          "the conversion indicator has been set, into SAP S/4HANA. You should not transfer procurement proposals " +
+          "that you do not need in SAP S/4HANA'; 'PP/DS automatically creates a transfer event for each change to a " +
+          "production order'; שלוש אפשרויות ליצירת transfer event להזמנות מתוכננות ודרישות רכש, מוגדרות ב-Advanced " +
+          "Planning תחת Maintain global parameters and defaults; 'Until the first transfer, a planned order or " +
+          "purchase requisition created in PP/DS has a local order number. When the order is transferred to SAP " +
+          "S/4HANA, it obtains an SAP S/4HANA order number'; 'with the conversion indicator set, a production order " +
+          "or purchase order is immediately automatically created in SAP S/4HANA. In SAP S/4HANA, there is " +
+          "therefore no corresponding planned order or purchase requisition'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Converting Orders | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/7137c95360267614e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 7137c95360267614e10000000a174cb4; גוף העמוד נקרא במלואו ב-2026-09-24: 'the conversion indicator " +
+          "must be set in Production Planning and Detailed Scheduling (PP/DS) before this order is transferred'; " +
+          "ניתן להציב אותו ידנית ב-product view, ב-order processing view או ב-receipt view, או לפני mass transfer " +
+          "להזמנות שמועד הפתיחה המתוכנן שלהן בעבר; 'Basically, you should only trigger conversion of a planned " +
+          "order into a manufacturing order in SAP S/4HANA by setting the conversion indicator in PP/DS. Only by " +
+          "doing this, can the dates planned in PP/DS be retained'; 'Using the conversion checks, you can exclude " +
+          "orders from the transfer and conversion ... For example, you can use an ATP check'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Process with SAP S/4HANA and PP/DS | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/8539c95360267614e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE,
+        claim: "loio 8539c95360267614e10000000a174cb4; גוף העמוד נקרא במלואו ב-2026-09-24: 'The integration of " +
+          "manufacturing orders (production and process orders) allows you to plan your critical components in " +
+          "Production Planning and Detailed Scheduling (PP/DS) and uncritical components in SAP S/4HANA. As a rule, " +
+          "the planned orders created in PP/DS are converted into manufacturing orders'; ב-S/4HANA מבוצעים Release, " +
+          "Confirmation or partial confirmation, Posting of goods issue or goods receipt, Technical completion, " +
+          "Deletion; 'Changes made in SAP S/4HANA are transferred online to PP/DS via the Core Interface (CIF)'; " +
+          "'The manufacturing order is technically completed in SAP S/4HANA. This causes it to be deleted in " +
+          "PP/DS'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Initial Transfer Report from SAP S/4HANA to PP/DS | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/1edc5c58eb021f60e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 1edc5c58eb021f60e10000000a44147b; גוף העמוד נקרא במלואו ב-2026-09-24: 'You can carry out the " +
+          "transfer of orders from SAP S/4HANA to Production Planning and Detailed Scheduling (PP/DS) for SAP " +
+          "S/4HANA using report /SAPAPO/PPDS_DELTA_ORD_TRANS, without the use of an integration model'; תנאים: 'The " +
+          "plant is Advanced Planning-relevant', סוגי ההזמנות להעברה נבחרים ב-Customizing תחת Advanced Planning > " +
+          "Basic Settings > Settings for Data Transfer; פעולות: סימון Advanced Planning בלשונית Advanced Planning " +
+          "של אב החומר, והרצת הדוח ב-SE38 לפי חומר ומפעל.",
+        verificationLevel: "sap_official_verified",
+      },
+      PPDS_STATUS_SOURCE,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "3 PP/DS Restricted | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/51e9a29579624a33a459c204340610b6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 51e9a29579624a33a459c204340610b6; גוף העמוד נקרא במלואו ב-2026-09-24. לחומרים שה-Scope Limitation " +
+          "שלהם PP/DS Restricted מותרת הרצת היוריסטיקות לפי רשימת ה-Scope Profile בלבד, ומותרות פעולות " +
+          "יצירה/עדכון/מחיקה על הזמנות ייצור עצמי ורכש חיצוני בטרנזקציות: Product View (/SAPAPO/RRP3), Create Order " +
+          "(/SAPAPO/RRP5), Receipts View (/SAPAPO/RRP4), Requirements View (/SAPAPO/RRP1), Order Processing " +
+          "(/SAPAPO/RRP2), Pegging Overview (/SAPAPO/PEG1), Production Planning Run (/SAPAPO/CDPSB0), Product " +
+          "Planning Table (/SAPAPO/PPT1), DS Planning Board (/SAPAPO/CDPS0), Production Campaigns (/SAPAPO/PCMT), " +
+          "Push Production (/SAPAPO/PUSH), Resource Planning Table (/SAPAPO/RPT), PP/DS Order Deletion Report " +
+          "(/SAPAPO/DELETE_PP_ORDER).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Procedure | Integration Scenarios for aATP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e1d9bfb257d54a5fbdd0f1545de13b22/71c178cd545f47f79a6b1fdd43478a20.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 71c178cd545f47f79a6b1fdd43478a20; גוף העמוד נקרא במלואו ב-2026-09-24, בהקשר העברת תחליפי מוצר ל-DSC " +
+          "Edition ולא בהקשר PP/DS מוטמע: 'Create the integration model in the Create Integration Model app " +
+          "(transaction CFM1) in the distributing system (SAP S/4HANA)'; 'Activate the integration model in the " +
+          "Manually Activate Integration Model app (transaction CFM2)'; העברת שינויים דרך change pointers (BD50, " +
+          "BD52) ו-CFP1. זהו מקור רשמי לשמות CFM1/CFM2 כטרנזקציות מודל האינטגרציה של CIF ב-S/4HANA 2025 FPS01; עמוד " +
+          "PP/DS רשמי שנוקב בהם לא אותר בשאילתות 'integration model CFM1 PP/DS' ו-'CFM1 create integration model'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Flexible Constraints for Production Planning and Detailed Scheduling (PP/DS) | What's New in SAP S/4HANA " +
+          "2023",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/8375672d6d0542d0bcec304b27724d5d.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE,
+        claim: "loio 8375672d6d0542d0bcec304b27724d5d; גוף העמוד נקרא במלואו ב-2026-09-24: 'This feature enables you to " +
+          "integrate planning decisions that have been made in an external planning system, like SAP Integrated " +
+          "Business Planning for Supply Chain (SAP IBP), as flexible constraints into Production Planning and " +
+          "Detailed Scheduling (PP/DS) where they can be used for planning with a special heuristic'; Type New, " +
+          "Scope Item 'Not applicable', Application Component SCM-APO-PPS, 'Valid as Of SAP S/4HANA 2023'; scopes " +
+          "בסטנדרט: Location Product (LOCPRD) ו-Location Product and Source of Supply (LOCPRDSOS); Related " +
+          "Information: 'OData API: Flexible Constraint for PP/DS'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Planning with Flexible Constraints | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/4240fe2553744af5ab0d3d97bc196a48.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 4240fe2553744af5ab0d3d97bc196a48; גוף העמוד נקרא במלואו ב-2026-09-24: 'Flexible constraints can be " +
+          "created directly in the SAP S/4HANA system, or can be integrated from an external planning system, like " +
+          "SAP Integrated Business Planning for Supply Chain (SAP IBP)'; Minimum/Maximum/Target supply quantity; " +
+          "תנאי: טווח מספרים לאובייקט /SAPAPO/FX ב-SNRO; 'In PP/DS, you use the Planning of Std. Lots (Flex. " +
+          "Constr.) (SAP_PP_FLXC) heuristic to cover demand considering flexible constraints during planning within " +
+          "the PP/DS horizon', שמרחיבה את SAP_PP_002; 'The target supply constraint is considered as \"soft\" " +
+          "constraint'; 'Minimum and maximum supply quantities are considered as hard constraints that can only be " +
+          "violated in exceptional cases'; סדר האילוצים: Planning Elements (שמורים ב-LiveCache), Order Constraints, " +
+          "Demand Constraints, Flexible Constraints; להרחבת scopes מפנה ל-SAP Note 3441715; ניטור דרך PP/DS alert " +
+          "profile.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deleting Master Data | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/2027c9535f267414e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "loio 2027c9535f267414e10000000a174cb4; סניפט רשומת החיפוש (2025 FPS01): 'Unless a material is completely " +
+          "removed from PP/DS (by finally removing the 'Advanced Planning' indicator), you must not set the " +
+          "Deletion flag for the material'. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+          "2025 FPS01 (document version 1.36) · item 9.5.2 S4TWL - MRP in HANA (PP-MRP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE,
+        claim: "פריט 9.5.2 'S4TWL - MRP in HANA' (רכיב PP-MRP; Business Impact note 0002268085 'MRP Live on SAP HANA " +
+          "MD01N', כפי שמודפס בטבלת Related Notes של הפריט), מהטקסט המחולץ " +
+          "ב-scratchpad/official/SIMPL_OP2025.pdf.txt: 'MRP Live calls PP/DS planning heuristics if the material is " +
+          "subject to advanced planning (advanced planning indicator set in the material master) and if PP/DS is " +
+          "running embedded in SAP S/4HANA. Classic MRP planning and advanced PP/DS planning is performed for all " +
+          "materials in the sequence of the low-level code'; וכן 'Classic MRP (transactions MD01, MD02, MD03, MD40, " +
+          "MD41, MD42, MD43, MD50, MD51 ...) are still available in SAP S/4HANA but MRP live (transaction MD01N) is " +
+          "considered the future technology'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+          "2025 FPS01 (document version 1.36) · item 9.5.1 S4TWL - Performance optimizations for publication of " +
+          "planning orders (SCM-APO-INT)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE,
+        claim: "פריט 9.5.1 'S4TWL - Performance optimizations for publication of planning orders' (רכיב SCM-APO-INT; " +
+          "Business Impact note 0002643483 כפי שמודפס בטבלת Related Notes), מהטקסט המחולץ " +
+          "ב-scratchpad/official/SIMPL_OP2025.pdf.txt: 'PP/DS order publishing for planning orders (Planned orders, " +
+          "Purchase requisitions, stock transfer requisitions) is optimized to improve performance. This has " +
+          "resulted in changes in the way BAdI's/User exits are called during publication from PP/DS'; 'Advanced " +
+          "Planning (PP/DS) is used for production planning and planning receipts are integrated back to SAP " +
+          "S/4HANA from live-cache'; 'If you have implemented an effected BAdI's/user exists, the system will " +
+          "retain old publication logic post upgrade'; בין ה-BAdIs הרלוונטיים /SAPAPO/DM_PO_CHANGE, " +
+          "/SAPAPO/CL_EX_CIF_OP, /SAPAPO/CL_EX_CIF_IP, ובין ה-Customer exits EXIT_/SAPAPO/SAPLCIF_ORD_001 " +
+          "ו-EXIT_SAPLCORD_005; ה-BAdI החדש: /SAPAPO/PPDS_ORDER_INT; המעבר ללוגיקה המותאמת דורש רשומה 'X' בטבלה " +
+          "/SAPAPO/PUB_CHK. תנאי הפריט: 'Target release is SAP S/4HANA 1809. Source release is SAP S/4HANA 1610 or " +
+          "SAP S/4HANA 1709'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "S4TWL - Sales and Operation Planning (SAP S/4HANA 2025 FPS01 Simplification List, document version 1.36, " +
+          "item 9.5.17, SAP Note 2268064)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE,
+        claim: "הפריט קובע במפורש תחת הכותרת 'The following SOP transactions are part of the compatibility pack': " +
+          "'Transaction MC74, MC75, MC76, MC77 (Disaggregation)'. כלומר MC75 מנוי בפירוש כטרנזקציית Disaggregation " +
+          "שנמצאת בתוך ה-compatibility scope של SAP S/4HANA (זכויות שימוש מוגבלות, ר' SAP Note 2269324). תחת " +
+          "'Reasons why Sales and Operations Planning is part of the compatibility pack' הפריט קובע: \"Integrated " +
+          "Business Planning IBP is the solution for sales and operations planning\"; תחת 'Required and Recommended " +
+          "Action(s)' נכתב 'PP SOP is intended as a bridge or interim solution... IBP is the successor solution', " +
+          "עם הפניה ל-SAP Note 3503528 למימוש IBP, ומצוין שאין נתיב מעבר ייעודי (no special migration path) בין SOP " +
+          "ל-IBP. (אומת ברשומת tx:MC75)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Transaction Events in MRP Live | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private " +
+          "Edition 2025",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/2278cd20aacc4fa99aa4dcefc5be0a82.html?locale=en-US&state=PRODUCTION&version=2025.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.000",
+        accessedAt: DATE_TX_21,
+        claim: "רשומת What's New בשם 'Business Transaction Events in MRP Live' לגרסת S/4HANA 2025 (loio " +
+          "2278cd20aacc4fa99aa4dcefc5be0a82) נוקבת: 'With this feature, BTE events are now also generated during " +
+          "the MRP Live run'. משפט הפתיחה התקבל בשני חלונות סניפט נפרדים שחופפים זה לזה, ולכן הוא מורכב כאן משניהם " +
+          "ולא צוטט מחלון אחד: 'This feature enables materials relevant for SAP Integrated Business Planning (SAP " +
+          "IBP) or Production Planning and Detailed Scheduling (PP/DS) integration to be planned using MRP live, " +
+          "followed by triggering the Business Transaction Events (BTEs) for documents created during " +
+          "post-processing'. שורת הסיווג בסניפט היא 'Availability SAP S/4HANA Cloud Private Edition and SAP S/4HANA " +
+          "Valid as Of 2025', ובשורת הפריט מופיעים 'Changed n/a PP-MRP 2025'. הרשומה אינה נוקבת בקוד טרנזקציה, בשם " +
+          "אירוע BTE או במודול פונקציה. גוף העמוד לא נקרא. (אומת ברשומת enh:technique:bte)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Scheduling Board | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/e5a89957c59f6c10e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TX_02,
+        claim: "מדריך PP/DS לגרסת 2025 FPS01 מתעד את היישום: 'With this app, you can optimize and plan the resource " +
+          "schedule and the order dates and times in detail by taking resource and component availability into " +
+          "account'. תחת Key Features נמנים בתקציר: 'Select a period of time for scheduling production', 'Select " +
+          "resources that you want to use for production scheduling', 'Define conditions for the resources'. (אומת " +
+          "ברשומת fiori:F2176)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Advanced Scheduling Board | What's New in SAP S/4HANA 2022",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/10b3ef999b2245618091a7c467384129.html?locale=en-US&state=PRODUCTION&version=2022.000",
+        accessedAt: DATE_FI_23,
+        claim: "רשומת What's New לגרסת 2022 (loio 10b3ef999b2245618091a7c467384129): 'Advanced Scheduling Board is a new " +
+          "application which supports Production Planner in creation and Detailed Scheduling of a feasible " +
+          "production plan.'; 'See More App New n/a SCM-APO-PPS'. הרשומה נוקבת בכותרת ולא במזהה. (אומת ברשומת " +
+          "fiori:F5460)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Application Programming Interface (BAPI) | Production Planning and Detailed Scheduling (PP/DS)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/a6385057cf924c59827936db4affb72a.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE_TX_21,
+        claim: "עמוד ה-BAPI של PP/DS לגרסת 2023 Latest קובע בסניפט: 'The following Business Application Programming " +
+          "Interface (BAPI)s have been enhanced to respect the Scope Limitation and Scope Profile during the " +
+          "material master creation: BAPI_MATERIAL_SAVEDATA During material creation, user will be allowed to pass " +
+          "Scope Limitation and Scope Profile values to the BAPIs'; בסניפט עצמו שני הצירופים Scope Limitation " +
+          "ו-Scope Profile מופיעים במשפט השני בתוך מרכאות בודדות. שאילתה נוספת על אותו loio מחזירה מאותו עמוד גם את " +
+          "השם BAPI_MATERIAL_SAVEREPLICA. כלומר המודול קיים ב-S/4HANA והורחב בו לשדות התכנון המתקדם. הסניפט אינו " +
+          "מונה את שאר הפרמטרים ואינו קובע סטטוס שחרור. (אומת ברשומת fm:BAPI_MATERIAL_SAVEDATA)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Planning Integration Based on Key Figures | SAP Integrated Business Planning",
+        product: "SAP Integrated Business Planning",
+        edition: "public-cloud",
+        release: "2608",
+        url: "https://help.sap.com/docs/SAP_INTEGRATED_BUSINESS_PLANNING/feae3cea3cc549aaa9d9de7d363a83e6/279a3fe0d61e44fda27ae4b3165d11b5.html?locale=en-US&state=PRODUCTION&version=2608",
+        accessedAt: DATE,
+        claim: "loio 279a3fe0d61e44fda27ae4b3165d11b5 (SAP IBP 2608); גוף העמוד נקרא במלואו ב-2026-09-24: 'You use the " +
+          "results of TS supply planning as input constraints for the planning heuristics in PP/DS. The integration " +
+          "loosely couples TS supply planning with PP/DS'; 'For a tighter integration, we recommend using " +
+          "order-based integration'; 'Per time period (or \"bucket\"), production receipts created in SAP IBP are " +
+          "integrated into PP/DS as target supply. Transport receipts ... as stock transfer requisitions, purchase " +
+          "requisitions, or subcontracting purchase requisitions'; 'we recommend to integrate purchase requisitions " +
+          "for finished goods only'; 'Planned orders and production orders created in PP/DS are aggregated and " +
+          "integrated into SAP IBP as confirmed supply ... Resource consumption calculated in PP/DS is also " +
+          "integrated back'; תנאים: SAP S/4HANA 2022 or higher (לגרסאות 1909 עד 2022 FPS0 מפנה ל-SAP Note 3246773) " +
+          "ו-SAP Cloud Integration for data services (CI-DS) 2111 or higher; זרימה ב-2022: Forecast לפי " +
+          "CONSENSUSDEMANDQTY, דרישות העברה/רכש לפי NETNEWREQORDER, target supply לפי PRODUCTION, ו-KF orders לפי " +
+          "NETNEWPLANNEDPRODREC; 'manual changes to KF orders have no impact on the planning result'; target supply " +
+          "בתוך אופק PP/DS מומר להזמנות מתוכננות 'in a regularly scheduled planning run' בהיוריסטיקה SAP_PP_002; " +
+          "זרימה ב-2023 ומעלה: flexible constraints והיוריסטיקה SAP_PP_FLXC; 'In SAP IBP, the PP/DS horizon is " +
+          "represented by the freeze horizon. The production plan from PP/DS is considered as fixed and can't be " +
+          "changed in SAP IBP'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Integration with SAP S/4HANA Cloud Private Edition or SAP S/4HANA or SAP ERP | Data Integration Using " +
+          "SAP Cloud Integration",
+        product: "SAP Integrated Business Planning",
+        edition: "public-cloud",
+        release: "2608",
+        url: "https://help.sap.com/docs/SAP_INTEGRATED_BUSINESS_PLANNING/b785818dd21649b69121b8532eb54df8/1eee047de9db490cab837ab90cd22285.html?locale=en-US&state=PRODUCTION&version=2608",
+        accessedAt: DATE,
+        claim: "loio 1eee047de9db490cab837ab90cd22285 (SAP IBP 2608); גוף העמוד נקרא במלואו ב-2026-09-24: האינטגרציה בין " +
+          "SAP IBP ל-SAP S/4HANA Cloud Private Edition, SAP S/4HANA או SAP ERP נעשית ב-SAP Cloud Integration 'with " +
+          "the help of the SAP S/4HANA, supply chain integration add-on for SAP Integrated Business Planning or SAP " +
+          "ERP, supply chain integration add-on for SAP Integrated Business Planning (integration add-on)'; בחבילה: " +
+          "Sales order history (Inbound, 'Integrate Sales Order History Data from Add-on to SAP IBP') ו-Demand " +
+          "forecasting results (Outbound, 'Integrate Key Figures from SAP IBP to Add-On as Planned Independent " +
+          "Requirements'), לאזורי תכנון מבוססי I_SAPIBP2; Related Information: SAP Note 3655387.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "New Integration Flow to Transfer Demand Data as Planned Independent Requirements Using SAP Cloud " +
+          "Integration | What's New in SAP Integrated Business Planning (SAP IBP) 2605",
+        product: "SAP Integrated Business Planning",
+        edition: "public-cloud",
+        release: "2605",
+        url: "https://help.sap.com/docs/SAP_INTEGRATED_BUSINESS_PLANNING/a1759a7d2a544eecbfeb4bc6887211c5/9fd702a9992b48999ed841e3dc6c7d8b.html?locale=en-US&state=PRODUCTION&version=2605",
+        accessedAt: DATE,
+        claim: "loio 9fd702a9992b48999ed841e3dc6c7d8b (SAP IBP 2605, Valid as Of 2026-04-30); גוף העמוד נקרא במלואו " +
+          "ב-2026-09-24: ה-iFlow 'collects demand forecasting results from SAP IBP and transfers them at the " +
+          "location product level as planned independent requirements' לתוסף האינטגרציה; פונקציה חדשה " +
+          "/IBP/ETS_PIR_IN_CI_RFC ו-BAdI /IBP/ETS_PIR_IN עם המתודות CONVERT_LOCID ו-CONVERT_MRP_AREA; ברירת המחדל " +
+          "קוראת את key figure I_FINALGLOBALDEMANDPLANQTY (אזור תכנון I_SAPIBP2), ולתהליך S&OP " +
+          "I_FINALCONSDEMANDPLANQTY; 'The iFlow supports reading demand and creating planned independent " +
+          "requirements at the MRP area level'; כש-Process PIRs פעיל 'If the processing succeeds, the iFlow " +
+          "receives a green status'; אחרת 'the data remains in the staging table in the integration add-on'; נדרשת " +
+          "גרסה 2.0 SP02 של תוסף האינטגרציה; מזהה שחורג ממגבלת האורך ולא הומר גורם לכך ש-'the iFlow is not " +
+          "processed and an error message provides details'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technical System Landscape | Integrating SAP IBP Using SAP Cloud Integration for Data Services",
+        product: "SAP Integrated Business Planning",
+        edition: "public-cloud",
+        release: "2608",
+        url: "https://help.sap.com/docs/SAP_INTEGRATED_BUSINESS_PLANNING/eab8fd1726934516a89eabced318b210/f621aab28f9044b5b4822482720af1c4.html?locale=en-US&state=PRODUCTION&version=2608",
+        accessedAt: DATE,
+        claim: "loio f621aab28f9044b5b4822482720af1c4 (SAP IBP 2608); גוף העמוד נקרא במלואו ב-2026-09-24: 'For SAP " +
+          "S/4HANA on-premise systems, we recommend to install and configure the SAP S/4HANA, Supply Chain " +
+          "Integration Add-On for SAP Integrated Business Planning'; ל-ECC 6.0 (EHP4 ומעלה) התוסף המקביל SAP ERP, " +
+          "Supply Chain Integration Add-On; ו-'SAP Cloud Integration for data services is not available with SAP " +
+          "Integrated Business Planning (SAP IBP) licenses obtained after April 20, 2026 ... We recommend that you " +
+          "use SAP Cloud Integration, which is part of SAP Integration Suite and requires a separate license'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Data Integration Using Core Interface for RTI | Data Integration Scenarios",
+        product: "SAP Integrated Business Planning",
+        edition: "public-cloud",
+        release: "2608",
+        url: "https://help.sap.com/docs/SAP_INTEGRATED_BUSINESS_PLANNING/da797ae2bf6246d58abd417f24915d55/4014f934476e4da89f4b1d9aae6744ca.html?locale=en-US&state=PRODUCTION&version=2608",
+        accessedAt: DATE,
+        claim: "loio 4014f934476e4da89f4b1d9aae6744ca (SAP IBP 2608); גוף העמוד נקרא במלואו ב-2026-09-24: 'Real-time " +
+          "integration (RTI) is based on Core Interface (CIF) and is used for data transfer from SAP ECC or SAP " +
+          "S/4HANA to planning areas based on the SAP7F and I_SAPIBP2 sample planning areas'; 'To integrate " +
+          "planning results back to SAP ECC or SAP S/4 HANA system, you can choose between periodic or real-time " +
+          "integration'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות המעבר ECC מול S/4HANA של הפרויקט: pp-ds, mrp-live (ECC_S4)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "pp-ds: ECC: 'PP-DS היה רכיב נפרד ב-SCM/APO (מערכת נפרדת + CIF)'; S/4HANA: 'Embedded PP-DS בתוך S/4HANA, " +
+          "ללא מערכת APO נפרדת; תכנון מפורט סדר-עבודה/קיבולת'; השפעה: 'ארגונים עם APO צריכים להחליט על מעבר " +
+          "ל-embedded; CIF פנימי'. mrp-live: ECC: MRP קלאסי (MD01/MD02) עם planning file (MDVM); S/4HANA: 'MRP Live " +
+          "(MD01N) רץ על HANA'; Fiori: Monitor/Manage Material Coverage.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/ecc-s4.ts#pp-ds (+mrp-live)",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות מודיעין הטרנזקציות של הפרויקט: MD61, MD62, MD04, MD01N (TX_INTEL)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "MD61: יצירת PIR (טבלאות PBED/PBIM; MD62 ו-MD63 רשומות בה כטרנזקציות דומות), 'תחזית מכירות / S&OP ← MD61 " +
+          "← MD04 ← הרצת MRP'; s4: 'קיימות אפליקציות Fiori לניהול PIR ו-aPP/IBP לתכנון ביקוש מתקדם'; users כולל " +
+          "'מתכנן ביקוש', 'Demand planner'; commonErrors: requirement type לא תואם planning strategy, consumption " +
+          "mode שגוי, version לא אקטיבי. MD62: שינוי PIR (PBED/PBIM). MD04: רשימת מלאי/דרישות דינמית מ-MARC/MARD " +
+          "ו-PLAF, נקודת קפיצה ל-CO40/CO48; s4Delta: חלופת Fiori F0247A/F0251. MD01N: MRP Live על HANA, טבלאות " +
+          "PLAF/PPH_DBVM/RESB, כותב ל-PLAF/EBAN, 'חלק מחומרים עם פיצ'רים לא נתמכים נופלים ל-classic MRP'; fiori: " +
+          "Schedule MRP Runs.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MD61; data/tx-intel.ts#MD62; data/tx-intel.ts#MD04; data/tx-intel.ts#MD01N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות מודיעין הטרנזקציות של הפרויקט: CO40, CO41, MD11, C223, MM02 (TX_INTEL)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "CO40: המרת Planned Order יחיד (PLAF) ל-Production Order (AUFK/AFKO/AFPO) לפי Production Version, 'ההזמנה " +
+          "המתוכננת נמחקת'; after: CO02, CO11N, CO05N; userExits PPCO0001. CO41: המרה קולקטיבית; commonErrors " +
+          "'missing production version'. MD11: יצירת PLAF ידנית; bapis BAPI_PLANNEDORDER_CREATE, " +
+          "BAPI_PLANNEDORDER_GET_DETAIL. C223: גרסת ייצור ב-MKAL, קושרת BOM ל-routing/מתכון. MM02: שינוי אב חומר " +
+          "(MARA/MARC).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CO40; data/tx-intel.ts#CO41; data/tx-intel.ts#MD11; data/tx-intel.ts#C223; " +
+          "data/tx-intel.ts#MM02",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות התחום של הפרויקט: pppi-pir, pppi-planning, pppi-planning-strategies (DOMAINS)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "pppi-pir: 'PIR הן תחזית הביקוש שמזינה את ה-MRP בתרחישי ייצור-למלאי (MTS)', MD61/MD62 (ברשימת הטרנזקציות " +
+          "של הרשומה גם MD63), גרסה 00 פעילה, צריכה מול הזמנות לקוח; טבלאות PBIM/PBED/PBHI. pppi-planning: זרימה " +
+          "SOP (MC87) → ניהול ביקוש → PIR (MD61) → העברה ל-MRP; טבלאות PBED/PBIM/MARC/MARA. " +
+          "pppi-planning-strategies: Strategy Group ב-MRP3 (MARC), סוגי דרישה LSF/VSF/KSV, תקלה 'כפל ביקוש " +
+          "(תחזית+מכירות)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pppi-pir (+pppi-planning, pppi-planning-strategies)",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז ה-MRP ופירוט התחום של הפרויקט: גרסת ייצור (MRP_SECTIONS, DOMAIN_DETAIL)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "'ב-S/4 היא חובה לתרחישי MRP Live ו-PP-DS: בלי גרסה תקפה החומר לא נתכנן/לא ניתן ליצור פקודה. נקבעת " +
+          "ב-C223'; eccS4: unchanged 'מודל MKAL זהה', changed 'גרסת ייצור חובה לתרחישי MRP Live/PP-DS', migration " +
+          "'ודא גרסה תקפה לכל חומר מיוצר'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/mrp-center.ts#prod-version; data/domain-detail.ts#pppi-production-versions",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג יישומי ה-Fiori של הפרויקט: F2176, F5460, F1339, F0247A, F0251, F2336 (FIORI_APPS)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "F2176 Production Scheduling Board: role SAP_BR_PRODN_PLNR, catalog SAP_SCM_BC_CAPA_PLAN, odata " +
+          "PPDS_RES_SCHEDULE, guiTx /SAPAPO/CDPS0 עד /SAPAPO/CDPS3 ו-/SAPAPO/RPT (לפי ספריית ה-Fiori, S32OP), " +
+          "commonErrors 'ודא הפעלת PP/DS ו-liveCache'. F5460 Advanced Scheduling Board: יישום PP/DS " +
+          "(SCM-APO-PPS-DS). F1339 Schedule MRP Runs: roles SAP_BR_MATL_PLNR_EXT_PROC, SAP_BR_PRODN_PLNR, 'Backend " +
+          "= MRP Live (MD01N)'. F0247A/F0251: MRP Cockpit, guiTx MD04/MD07. F2336 Manage Production Orders.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/fiori/apps.ts#F2176 (+F5460, F1339, F0247A, F0251, F2336)",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת טכנולוגיית האינטגרציה qRFC של הפרויקט (INTEGRATION)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "'qRFC מוסיף תורים מעל tRFC: Outbound (TRFCQOUT, ניטור SMQ1) ו-Inbound (TRFCQIN, ניטור SMQ2)... הבסיס " +
+          "ל-CIF (APO)'; ניטור SMQ1, SMQ2, SMQR/SMQS; תקלות: 'תור תקוע (SYSFAIL/CPICERR) חוסם את כל היושבים אחריו', " +
+          "'Scheduler לא רשום (SMQR/SMQS)', 'סדר נשבר אם מוחקים entry באמצע'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/integration.ts#qrfc",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: planned-order-not-convertible, planned-order-not-convert, mrp-no-planned-orders, " +
+          "no-production-version, qrfc-smq1-outbound-blocked, smq1-outbound-stuck",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "planned-order-not-convertible: המרה ב-CO40/CO41 נכשלת; rootCauses כולל 'אין Production Version תקפה' " +
+          "ו-'Conversion indicator לא מוגדר'; ניתוח ב-CO40/CO41/MD04/C223/COR4. planned-order-not-convert: אין גרסת " +
+          "ייצור, חומר חסום; טבלאות PLAF/MKAL; exit PPCO0001. mrp-no-planned-orders: planning file לא מסמן את " +
+          "החומר, MRP Type ND, 'אין דרישה (PIR/הזמנה)'; exits M61X0001, MD_PLDORD_POST. no-production-version: 'אין " +
+          "גרסת ייצור תקפה', 'MRP Live נכשל לחומר'; טבלאות MKAL, MAST, PLKO; ניתוח ב-C223. " +
+          "qrfc-smq1-outbound-blocked: head LUW נכשל ובגלל EOIO כל הבאים תקועים; תיקון 'מחק head LUW רעיל רק לאחר " +
+          "אימות'. smq1-outbound-stuck: SYSFAIL/CPICERR, בדיקת SM59, 'הפעל מחדש את התור (לא למחוק)', 'ודא scheduler " +
+          "(SMQR/SMQS)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting.ts#no-production-version; " +
+          "data/troubleshooting-ext.ts#planned-order-not-convertible; " +
+          "data/troubleshooting-ext2.ts#planned-order-not-convert; data/troubleshooting.ts#mrp-no-planned-orders; " +
+          "data/troubleshooting-ext.ts#qrfc-smq1-outbound-blocked; data/troubleshooting-ext2.ts#smq1-outbound-stuck",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מיפוי תצוגות ה-CDS של הפרויקט: I_MRPMaterial, I_ProductionVersion, I_ProductionOrder, I_WorkCenter, " +
+          "I_ProductPlant (CDS_MAP)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "I_MRPMaterial: נתוני MRP לחומר/אזור (MARC, MDMA), consumption C_MaterialCoverageNetwork; " +
+          "I_ProductionVersion: גרסת ייצור (MKAL); I_ProductionOrder: כותרת פקודת ייצור (AFKO, AUFK); I_WorkCenter: " +
+          "מרכז עבודה/משאב (CRHD, CRTX, CRCA, KAKO); I_ProductPlant: אב חומר ברמת מפעל (MARC).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/cds-map.ts#I_MRPMaterial (+I_ProductionVersion, I_ProductionOrder, I_WorkCenter, I_ProductPlant)",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 4 בספריית הפרויקט (SAP PRESS, PP/DS with SAP S/4HANA), פרק 2 'Master Data', סעיפים 2.1 'Integration " +
+          "Models', 2.1.1 'Create the Integration Model', 2.1.2 'Activate the Integration Model', 2.3.1 'Activation " +
+          "of Advanced Planning for Materials'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרות הסעיפים עוסקות במודלי האינטגרציה (יצירה והפעלה) ובהפעלת Advanced Planning לחומרים; הפניית קריאה " +
+          "בלבד (הקובץ מכיל כותרות בלבד).",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book4.json#2.1",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 4 בספריית הפרויקט (SAP PRESS, PP/DS with SAP S/4HANA), פרק 4 'Data Transfer for Transaction Data', " +
+          "סעיפים 4.2 'Planned Independent Requirements', 4.3 'Planned Orders', 4.4 'Production Orders', 4.12 " +
+          "'Initial Transfer and Retransfer of Transaction Data to PP/DS'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרות הסעיפים עוסקות בהעברת נתוני התנועה (PIR, הזמנות מתוכננות, פקודות ייצור) ובהעברה הראשונית וההעברה " +
+          "החוזרת ל-PP/DS; הפניית קריאה בלבד (הקובץ מכיל כותרות בלבד).",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book4.json#4.3",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 4 בספריית הפרויקט (SAP PRESS, PP/DS with SAP S/4HANA), פרק 5 'Production Planning', סעיפים 5.6.4 " +
+          "'Planning PP/DS Materials in MRP Live (One MRP Run)' ו-5.9 'Planning in PP/DS with SAP Integrated " +
+          "Business Planning for Supply Chain'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרות הסעיפים עוסקות בתכנון חומרי PP/DS בריצת MRP Live אחת ובתכנון ב-PP/DS עם SAP IBP for Supply Chain; " +
+          "הפניית קריאה בלבד (הקובץ מכיל כותרות בלבד).",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book4.json#5.9",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 4 בספריית הפרויקט (SAP PRESS, PP/DS with SAP S/4HANA), פרק 10 'Administering PP/DS with SAP " +
+          "S/4HANA', סעיפים 10.1 'Core Interface Queue Monitoring', 10.2 'Core Interface Postprocessing', 10.3 " +
+          "'Core Interface Comparison and Reconciliation'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרות הסעיפים עוסקות בניטור תורי CIF, בעיבוד מאוחר (Postprocessing) ובהשוואה ותיאום בין S/4HANA " +
+          "ל-PP/DS; הפניית קריאה בלבד (הקובץ מכיל כותרות בלבד).",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book4.json#10.1",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 4 בספריית הפרויקט (SAP PRESS, PP/DS with SAP S/4HANA), פרק 11 'Migration to Embedded PP/DS', סעיפים " +
+          "11.1 'New Implementation', 11.2 'System Conversion', 11.3 'Landscape Transformation'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרות הסעיפים בלבד; הפניית קריאה ואינן מקור לטענה או לשם SAP.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book4.json#11.1",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 10 בספריית הפרויקט (SAP PRESS, Sales and Operations Planning with SAP IBP), פרק 6 'Consolidation', " +
+          "סעיפים 6.3 'Operationalizing the Plan' ו-6.3.1 'Plan Integration Overview'",
+        product: "SAP Integrated Business Planning",
+        edition: "public-cloud",
+        accessedAt: DATE,
+        claim: "כותרות הסעיפים עוסקות בהפיכת התוכנית לתפעולית (Operationalizing the Plan) ובסקירת שילוב התוכניות (Plan " +
+          "Integration Overview); הפניית קריאה בלבד (הקובץ מכיל כותרות בלבד).",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book10.json#6.3.1",
+      },
+    ],
+    lastVerifiedAt: DATE,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    notes: "רשומת תהליך. הזרימה נגזרת מעמודי help.sap.com של PP/DS ושל SAP IBP שנקראו במלואם ב-2026-09-24 דרך " +
+      "scripts/sap-help-body.mjs (למעט 'Deleting Master Data', שנשען על סניפט בלבד; גוף העמוד 'Production " +
+      "Planning and Detailed Scheduling (PP/DS) | LO' נקרא בשלב הכתיבה, 2026-09-24), מפריטי הפישוט 9.5.1 " +
+      "ו-9.5.2 בטקסט המחולץ של רשימת הפישוט 2025 FPS01, ומרשומות המאגר הנקובות. חיפושים שרצו " +
+      "(scripts/sap-help-search.mjs, SAP_S4HANA_ON-PREMISE אלא אם צוין): 'Production Planning and Detailed " +
+      "Scheduling PP/DS integration', 'Advanced Planning material master PP/DS', 'SAP Integrated Business " +
+      "Planning integration planned independent requirements', 'integration model CFM1 PP/DS', 'SAP Integrated " +
+      "Business Planning integration SAP S/4HANA supply chain', 'Integrating PP/DS', 'Conversion of planned " +
+      "orders PP/DS production orders', 'demand-driven replenishment IBP integration S/4HANA', 'external " +
+      "planning system SAP IBP planned orders S/4HANA', 'CFM1 create integration model', 'CFM2 activate " +
+      "integration model', '/SAPAPO/RRP3 product view', ושלוש שאילתות ב-SAP_INTEGRATED_BUSINESS_PLANNING " +
+      "('Production Planning Integration Based on Key Figures', 'integration SAP S/4HANA planned independent " +
+      "requirements', 'SAP Cloud Integration for data services SAP S/4HANA'). שמות שאינם במילון הפרויקט ונשארו " +
+      "בפרוזה בלי xref: CFM1, CFM2 (מקור רשמי בהקשר aATP, לא PP/DS), /SAPAPO/CDPSB0, /SAPAPO/RRP3, " +
+      "/SAPAPO/CDPS0, /SAPAPO/PPT1, /SAPAPO/RPT, /SAPAPO/RRPCUST1, /SAPAPO/PPDS_DELTA_ORD_TRANS, " +
+      "/SAPAPO/CSP_CORRECT_FCST, טבלאות PLAF, PBIM, PBED ו-/SAPAPO/PUB_CHK, ה-BAdIs /SAPAPO/PPDS_ORDER_INT, " +
+      "/SAPAPO/BADI_FC_CSP_CLNDR, /IBP/ETS_PIR_IN, והמודול /IBP/ETS_PIR_IN_CI_RFC. יישומי Fiori של PP/DS שאינם " +
+      "בקטלוג הפרויקט (Manage Flexible Constraints for PP/DS, Monitor Requirements) לא נרשמו כ-xref. תיעוד IBP " +
+      "הוא מוצר ענן ציבורי (edition public-cloud, גרסאות 2605/2608) ומתאר את צד ה-IBP; צד ה-S/4HANA מתועד " +
+      "On-Premise 2023.latest/2025.001. kpis הושמט: אף מקור שנקרא אינו מגדיר מדד לתהליך. תפקידי IBP עסקיים לא " +
+      "תועדו. Scope Item לא אותר (עמוד 'Best Practice - Demand Planning (7JF)' נמצא אך שייך ל-Service Parts " +
+      "Planning, SCM-APO-SPP, ולכן לא נרשם). שילוב IBP מבוסס הזמנות (OBP/RTI) מוזכר ברמת עמוד 'Data Integration " +
+      "Using Core Interface for RTI' בלבד; העמודים 'Production Planning Integration Based on Orders' לא נקראו. " +
+      "לא בוצעה בדיקה במערכת SAP חיה.",
   },
 ];
