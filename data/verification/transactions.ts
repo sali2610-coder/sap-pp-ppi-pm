@@ -54,7 +54,19 @@
    Graphical Planning Table' next to the bare 9.5.4 (HOUSE-RULES §3.5). The
    generated tx:CM01 / tx:CM02 records in transactions-auto.ts are superseded;
    the tx:CM05 notes sentence saying tx:CM01 was not yet written carries a
-   dated update. */
+   dated update.
+   Batch 9 (2026-09-24): 6 audited records (CM31, CM50, CO02, CO03, CO09,
+   CO53) from verdict.fixedRecord, none refuted. Status sources point at the
+   shared CM31_SIMPL_ITEM, CM50_SIMPL_ITEM, CO02_WHATSNEW, CO03_TCODES_2025,
+   CO09_FAL and CO53_SIMPL_ITEM_2025 consts instead of the marker strings or
+   re-typed copies the verdicts carried. Writer corrections: the CM31 sapNote
+   field dropped (sap-note-format; the number stays in the claim as the item
+   prints it); reviewer fields dropped (CM31, CO03); the CO02 summary dropped
+   and its gaps folded into notes; two CM31 notes sentences corrected against
+   the files (simpl-tcode-index.json does list CM31 under item 9.5.4 'S4TWL -
+   Graphical Planning Table'; the 2023 FPS03 item 30.35 of the same name does
+   not print CM31 and has no Exceptions section). The generated records for
+   the six ids in transactions-auto.ts are superseded. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -1125,6 +1137,131 @@ const CM02_SIMPL_ITEM: Evidence = {
     "of SAP S/4HANA compatibility scope. CM01, CM02, CM03, CM04, CM05, CM07, CM26, CM28, CM34, CM35, CM37, CM38, " +
     "CM50, CM53, CM56.' כלומר לפי הפריט CM02 אינה משתמשת בלוח תכנון גרפי ואינה חלק מה-compatibility scope שחל על " +
     "CM21, CM22, CM23, CM25 וכדומה; הפריט אינו קובע לגבי CM02 עצמה החלפה, הסרה או שינוי פונקציונלי.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* ---------------------- batch 9 (2026-09-24) status sources, shared with evidence[0] */
+
+const CM31_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item 9.5.4 S4TWL - " +
+    "Graphical Planning Table (PP-CRP)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט הפישוט 'S4TWL - Graphical Planning Table' (9.5.4) מונה תחת Reason and Prerequisites את CM31 ברשימת " +
+    "הטרנזקציות של לוח התכנון הגרפי הקלאסי: 'The classic Gantt-chart control, which was used in transactions CM21, " +
+    "CM22, CM25, CM27, CM29, CM30, CM31, CM32, CM33, CM36, or MF50 only works in SAP-Gui'. רשימת ה-Exceptions " +
+    "(טרנזקציות CM* שאינן בהיקף: CM01, CM02, CM03, CM04, CM05, CM07, CM26, CM28, CM34, CM35, CM37, CM38, CM50, CM53, " +
+    "CM56) אינה כוללת את CM31. תחת Solution נכתב: 'Transactions CM21, CM22, CM23, CM25, etc with graphical planning " +
+    "table are part of the SAP S/4HANA compatibility scope', עם זכויות שימוש מוגבלות לפי SAP Note 2269324 ו-'ID 451' " +
+    "במטריצת ה-compatibility. הפריט מציין את Capacity Planning and Scheduling (CPS) או את PP/DS כחלופה לטרנזקציות " +
+    "CM*. תחת CPS הוא מונה את האפליקציות Manage Work Center Capacity (F3289), Capacity Planning Table (F3770) " +
+    "ו-Capacity Planning Board (F3951), ואינו קובע אף אחת מהן כתחליף ישיר ל-CM31.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CM50_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item 9.5.4 S4TWL - " +
+    "Graphical Planning Table (PP-CRP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.5.4 עוסק בלוח התכנון הגרפי (Graphical Planning Table / Gantt-Chart) בטרנזקציות CM* ומסמן שהוא חלק מ-SAP " +
+    "S/4HANA compatibility scope עם זכויות שימוש מוגבלות (סעיף Solution, הפניה ל-SAP Note 2269324). תחת הכותרת " +
+    "Exceptions נכתב במפורש: 'The following CM* transactions do not use graphical planning boards. Therefore, they " +
+    "are not part of SAP S/4HANA compatibility scope. CM01, CM02, CM03, CM04, CM05, CM07, CM26, CM28, CM34, CM35, " +
+    "CM37, CM38, CM50, CM53, CM56.' כלומר CM50 מנויה בפירוש כטרנזקציה שאינה כפופה למגבלת ה-compatibility scope " +
+    "שהפריט קובע לטרנזקציות עם לוח תכנון גרפי (CM21/CM22/CM23/CM25 וכד'); הפריט אינו קובע ל-CM50 סטטוס של החלפה, " +
+    "הפסקה או הגבלה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CO02_WHATSNEW: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle:
+    "Change Production Order | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025 FPS01 " +
+    "(MAN-6861-8063)",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/17b276f61ccd47beb523518968618063.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  verificationLevel: "sap_official_verified",
+  claim:
+    "עמוד ה-What's New (נקרא במלואו דרך שירות התוכן) מציין 'Type: Changed' עבור 'Technical Object Name: App ID: CO02 " +
+    "(Change Production Order)', זמינות 'SAP S/4HANA and SAP S/4HANA Cloud Private Edition', 'Valid as Of: 2025 " +
+    "FPS01', ברכיב PP-PEO-SFO. תיאור הפיצ'ר: 'It is now possible to switch from the standard sequence of operations " +
+    "to an alternative sequence of operations in this app... choose Functions Exchange Sequences from the menu' " +
+    "(כלשון הגוף). כלומר, CO02 מתועדת ב-S/4HANA On-Premise 2025 FPS01 וקיבלה בה תוספת פונקציונלית (Exchange " +
+    "Sequences).",
+};
+
+const CO03_TCODES_2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Transaction Codes in Cost Object Controlling (SAP S/4HANA 2025 FPS01)",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/ebc64252eaa43507e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  verificationLevel: "sap_official_verified",
+  claim:
+    "הסניפט הרשמי של טבלת קודי הטרנזקציה ב-Cost Object Controlling ל-S/4HANA 2025 FPS01 מדפיס: 'CO02 Change PP " +
+    "production order Production orders with quantity structure CO03 Display PP production order Production orders " +
+    "with quantity structure'; כלומר CO03 מופיעה בטבלת קודי הטרנזקציה של S/4HANA 2025 FPS01 On-Premise, בשורה שאחרי " +
+    "CO02.",
+};
+
+const CO09_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "SAP Fiori Apps Reference Library: CO09 Monitor Product Availability",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CO09')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "פלט scripts/fal-app.mjs CO09 --release S32OP מציג את CO09 בשם 'Monitor Product Availability', אפליקציית SAP GUI " +
+    "במצב Published ב-S32OP (2025 FPS01), רכיב CA-ATP, קטלוג עסקי SAP_SCM_BC_ATP_DSP, קטלוג טכני " +
+    "SAP_TC_SCM_ATP_BE_APPS:S4SCM, intent Material-analyzeAvailability והטרנזקציה המובילה CO09; תפקידים: " +
+    "SAP_BR_INTERNAL_SALES_REP, SAP_BR_PRODN_SUPERVISOR_DISC, SAP_BR_PRODN_SUPERVISOR_PROC, " +
+    "SAP_BR_PRODN_SUPERVISOR_RPTV. רשימת הגרסאות נעה מ-S6OP (1610) ועד S32OP (2025 FPS01), כולל S29PCE עד S32PCE, " +
+    "וכן S36=2602 ו-S37=2608; לא רשומות אפליקציות קודמות או יורשות.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CO53_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item 9.3.17 S4TWL - " +
+    "Control Recipes/Instructions (PP-PI-PMA-RCP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.3.17 'S4TWL - Control Recipes/Instructions' מפרט תחת Other Terms את הקודים 'CO53, CO53XT'. הפריט קובע " +
+    "(Description): 'The usage of control recipes (PP-PI) and control instructions (PP-SFC) in conjunction with " +
+    "browser-based PI Sheets/work instructions (PP-SFC) is part of the SAP S/4HANA compatibility scope. This usage " +
+    "comes with limited usage rights... You can find the respective scope item under item ID 444'. תחת Business " +
+    "Process related information: 'No influence on business processes expected as long as you continue to use " +
+    "control recipes/instructions', וכן אפשרות להשתמש ביכולות ביצוע הייצור המובנות: 'Transactions CORK, COR6N, CORZ. " +
+    "Apps for the production operator role SAP_BR_PRODN_OPTR_PROC.' בסעיף Custom Code הפריט מפנה לשירות SOAP API " +
+    "'Manufacturing Order - Send' לשליחת נתוני הזמנה ל-MES חיצוני. תחת Required and Recommended Action(s): 'Control " +
+    "recipes/instructions in conjunction with browser-based PI sheets (PP-PI) and work instructions (PP-SFC) can be " +
+    "used until the expiry date of the compatibility pack license... Immediate action is not required.' הקוד CO53 " +
+    "מופיע בפריט בשורת Other Terms; הפריט אינו אומר דבר על פעולת הטרנזקציה עצמה.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -7957,5 +8094,568 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "(c34b5ef72430484cb4d8895d5edd12af/2025), טענה לזהות לפריט 2023 והזכירה שם אפליקציית Fiori ללא מקור. בגרסה זו " +
       "כל אלה תוקנו או הוסרו. הסטטוס 'unchanged' נבחר משום שאין ראיה רשמית לשינוי פונקציונלי, להסרה או להחלפה של " +
       "CM02. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CM02 ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CM31 */
+  {
+    id: "tx:CM31",
+    evidence: [
+      CM31_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Execute Capacity Planning",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/2225bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט של תיאור התפקיד 'Execute Capacity Planning' (PFCG, 2025 FPS01) מציג את CM31 ברשימת הפעילויות לצד CM21, " +
+          "CM22, CM27 ו-CM28. הנוסח המודפס: 'CM31 Capacity leveling … : Execute in the', והמשך התיאור קטוע בסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Execute Capacity Planning",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/2225bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "בצד ECC (SAP ERP 6.0 EHP8) אותו loio מציג את CM31 ברשימת הפעילויות של התפקיד. הנוסח המודפס: 'CM31 Capacity " +
+          "leveling … : Execute in the background CM41 ...'. בגלל סימן ההשמטה אין לייחס את המקטע ': Execute in the " +
+          "background' לשורה של CM31.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CM31",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#CM31",
+        claim:
+          "הרשומה הפנימית ממקמת את CM31 במודול PP, באזור 'תכנון קיבולת', עם השם האנגלי 'Capacity Leveling: Production " +
+          "Planning Table'. זוהי רשומת מאגר פנימית ולא מקור רשמי.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "פריט הפישוט 'S4TWL - Graphical Planning Table' (S/4HANA 2025 FPS01) מונה את CM31 ברשימת הטרנזקציות של לוח " +
+        "התכנון הגרפי הקלאסי (Gantt-chart), שפועל רק ב-SAP GUI. CM31 אינה ברשימת ה-Exceptions, ולכן חלה עליה קביעת הפריט " +
+        "שהטרנזקציות האלה הן חלק מה-compatibility scope, עם זכויות שימוש מוגבלות לפי SAP Note 2269324 (ID 451). תיעוד " +
+        "התפקיד 'Execute Capacity Planning' ל-2025 FPS01 On-Premise מציג את CM31 ברשימת הפעילויות של התפקיד.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CM31_SIMPL_ITEM,
+      recommendedAction:
+        "להשתמש ב-CM31 רק במסגרת ה-compatibility scope וזכויות השימוש המוגבלות שלו (ראו SAP Note 2269324, ID 451), " +
+        "ולתכנן מעבר ל-Capacity Planning and Scheduling (CPS) או ל-PP/DS. תחת CPS הפריט מונה את האפליקציות Manage Work " +
+        "Center Capacity (F3289), Capacity Planning Table (F3770) ו-Capacity Planning Board (F3951), אך אינו קובע אף אחת " +
+        "מהן כתחליף ישיר ל-CM31, ולכן לא נרשם successor.",
+    },
+    xrefs: ["tx:CM21", "tx:CM25", "tx:CM01", "tx:CM04", "fiori:F3289", "fiori:F3951"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. status.source מצביע על evidence[0], פריט הפישוט 'S4TWL - Graphical Planning " +
+      "Table' (9.5.4). שלב 1, מאגר: data/tcode-catalog.ts (קיימת רשומת CM31), data/tx-intel.ts (אין ערך ייעודי; CM31 " +
+      "מוזכרת רק בשדה 'after' של CM01), lib/route-manifest.generated.ts (CM31 קיימת). " +
+      "audit/master-completion/simpl-tcode-index.json מפנה את CM31 לפריט 9.5.4 'S4TWL - Graphical Planning Table' " +
+      "(שורה 43127); הפריט נקרא ב-scratchpad/official/SIMPL_OP2025.pdf.txt, עמ' 779-780 (Reason and Prerequisites, " +
+      "Exceptions, Solution). הפריט המקביל ב-2023 FPS03 (30.35 'S4TWL - Graphical Planning Table', " +
+      "SIMPL_OP2023.pdf.txt שורות 42067-42145) נקרא: אין בו סעיף Exceptions והוא אינו מדפיס את CM31 (הקודים המודפסים " +
+      "בו: CM21, CM22, CM23, CM25, CM29), ולכן הרשומה תחומה ל-2025 FPS01. שלב 2, חיפושים " +
+      "ב-scripts/sap-help-search.mjs: 'CM31 graphical planning table' (SAP_S4HANA_ON-PREMISE, 21 תוצאות) ו-'CM31 " +
+      "capacity leveling' עם --product SAP_ERP (21 תוצאות). בשניהם ההיט הרלוונטי הוא 'Execute Capacity Planning', loio " +
+      "2225bf53d25ab64ce10000000a174cb4. גוף העמוד לא נקרא; הטענות תחומות בסניפט. תיקון מבקר (Old → New): בטיוטה נכתב " +
+      "שהשורה של CM31 היא 'Capacity leveling ... : Execute in the background' ושהיא 'פעילה טכנית'. הסניפט של 2025.001 " +
+      "קטוע ב-'Execute in the', וסימן ההשמטה אינו מאפשר לייחס את התיאור לשורה של CM31, ולכן הטענה צומצמה להופעה ברשימת " +
+      "הפעילויות. בטיוטה נכתב גם שהפריט אינו נוקב באפליקציית Fiori; בפועל הוא מונה את F3289, F3770 ו-F3951 תחת CPS. " +
+      "F3770 אינו קיים ב-data/fiori/apps.ts ולכן מופיע רק בטקסט. scripts/fal-app.mjs לא הורץ, כי אף אפליקציה לא נקבעה " +
+      "כ-successor. תיקוני כותב (2026-09-24, Old → New): (1) 'simpl-tcode-index.json אינו כולל את CM31' → האינדקס מפנה " +
+      "את CM31 לפריט 9.5.4 'S4TWL - Graphical Planning Table' (שורה 43127); (2) 'הפריט המקביל ב-2023 FPS03 (item " +
+      "30.35) נקרא והוא זהה בתוכן' → הפריט של 2023 אינו מדפיס את CM31 ואין בו סעיף Exceptions; (3) שדה sapNote " +
+      "'2269324' שהמבקר הציע לא הוזן, כי כלל sap-note-format דורש כתובת me.sap.com/notes או repoRef; המספר מופיע בטענה " +
+      "כפי שהפריט מדפיס אותו. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CM31 ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CM50 */
+  {
+    id: "tx:CM50",
+    evidence: [
+      CM50_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Evaluate Capacity Planning",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/d724bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף הדף (נקרא דרך scripts/sap-help-body.mjs) מפרט תחת Activities של התפקיד 'Evaluate Capacity Planning' " +
+          "(Technical name: SAP_PP-CAPA_PLAN_EVAL) בתיעוד S/4HANA On-Premise 2025.001 את השורה 'CM50 Extended evaluation: " +
+          "Work center view' לצד CM01, CM02, CM03, CM04, CM05, CM07 ואחרות, כלומר CM50 מופיעה ברשימת הטרנזקציות של תפקיד " +
+          "ה-PFCG הזה במהדורה זו, בתיאור 'Extended evaluation: Work center view'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Evaluate Capacity Planning",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/d724bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio (d724bf53d25ab64ce10000000a174cb4) בהיקף SAP ERP 6.0 EHP8 מדפיס לפי סניפט החיפוש את השורה 'CM50 " +
+          "Extended evaluation: Work … center view', כלומר CM50 מופיעה באותו תפקיד גם בצד ECC; גוף הדף בהיקף ECC לא נקרא, " +
+          "רק הסניפט נבדק.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Capacity Overview",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/5366c1154ae5450eb1f6f63f3bf4abd2/17cdb65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "סניפט החיפוש מציין במפורש: 'The capacity overview is based on the capacity evaluation (transaction CM50) in the " +
+          "backend system', כלומר תיעוד SAP ERP נוסף (Business Package for Production Supervisor 1.4) מזכיר את CM50 בשמה " +
+          "כהערכת הקיבולת בצד ה-backend.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#CM50",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tx-intel.ts#CM50",
+        claim:
+          "הרשומה הפנימית מתעדת את CM50 כ'הערכת קיבולת מורחבת: רשימת מרכזי עבודה' (Capacity Load Utilization), חלק ממשפחת " +
+          "CM01/CM05/CM50, ומציינת 's4: זמינה ב-S/4HANA; לצד כלי תכנון מתקדמים ב-PP/DS'; זוהי רשומת מאגר פנימית ולא מקור " +
+          "רשמי.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "פריט הפישוט הרשמי 'S4TWL - Graphical Planning Table' (S/4HANA 2025 FPS01) מציין במפורש ש-CM50 אינה משתמשת בלוח " +
+        "תכנון גרפי, ולכן אינה חלק ממגבלת ה-compatibility scope שחלה על טרנזקציות כמו CM21/CM22/CM23/CM25. תיעוד התפקיד " +
+        "'Evaluate Capacity Planning' ל-2025 FPS01 (On-Premise) ולצד ECC מונה את CM50 ברשימת הטרנזקציות של התפקיד " +
+        "('Extended evaluation: Work center view'), ותיעוד ECC נוסף ('Capacity Overview') מזכיר אותה בשמה כבסיס להערכת " +
+        "הקיבולת בצד ה-backend.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CM50_SIMPL_ITEM,
+      recommendedAction:
+        "להמשיך להשתמש ב-CM50 להערכת קיבולת מורחבת ברמת מרכז עבודה; בשונה מטרנזקציות עם לוח תכנון גרפי (למשל CM21), CM50 " +
+        "אינה כפופה למגבלות ה-compatibility scope וזכויות השימוש המוגבלות של פריט הפישוט 'S4TWL - Graphical Planning " +
+        "Table'.",
+    },
+    xrefs: ["tx:CM01", "tx:CM02", "tx:CM04", "tx:CM05", "tx:CM21"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שבוצעו ב-scripts/sap-help-search.mjs: 'CM50 capacity evaluation work " +
+      "center' (ברירת מחדל SAP_S4HANA_ON-PREMISE, 21 תוצאות) ו-'CM50 capacity' עם --product SAP_ERP (21 תוצאות, כולל " +
+      "'Evaluate Capacity Planning' ו-'Capacity Overview'); בשני החיפושים ההיט המוביל היה 'Evaluate Capacity Planning' " +
+      "(loio d724bf53d25ab64ce10000000a174cb4). גוף הדף עבור ה-URL של S/4HANA 2025.001 נקרא דרך " +
+      "scripts/sap-help-body.mjs ואישר את השורה 'CM50 Extended evaluation: Work center view'; גוף ה-URL המקביל בהיקף " +
+      "ECC לא נקרא (רק הסניפט), בדומה לשיטת tx:CM04. פריט הפישוט 'S4TWL - Graphical Planning Table' (9.5.4) נקרא " +
+      "מהקובץ המקומי scratchpad/official/SIMPL_OP2025.pdf.txt (עמ' 779-780). הפריט המקביל בגרסת 2023 FPS03 לא נבדק " +
+      "כאן; האימות מוגבל למהדורת 2025 FPS01. scripts/fal-app.mjs --tcode CM50 מדפיס 'leading app(s): none; GUI app " +
+      "entry: none', כך שלא נמצא Fiori app מחליף המצוטט עבור CM50 עצמה ולא צוין successor. לא נמצאה רשומה רשמית הקובעת " +
+      "ל-CM50 סטטוס של deprecated או replaced. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CM50 " +
+      "ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CO02 */
+  {
+    id: "tx:CO02",
+    evidence: [
+      CO02_WHATSNEW,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 12.10 S4TWL - " +
+          "PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "הפריט (נקרא מקומית מ-PDF המסמך הרשמי) עוסק בתכנון רווח והפסד, תכנון מרכז רווח, תכנון מרכז עלות, תכנון הזמנה " +
+          "ותכנון פרויקט; לפי הפריט אלה מכוסים כעת ב-SAP Analytics Cloud, עם אפשרות להמשיך בטרנזקציות התכנון הקלאסיות, " +
+          "ותוצאות התכנון ניתנות לשמירה בטבלת ACDOCP. CO02 מוזכרת רק כאחד מתנאי הרלוונטיות: 'Production/process order " +
+          "planning is used if planned cost calculation is active for the combination of plant and order type and is " +
+          "carried out automatically when the production order (CO01 or CO02) or the process order (COR1 or COR2) is " +
+          "created, changed or released' (כלשון הפריט). הפריט אינו קובע דבר על שינוי, הסרה או החלפה של CO02 עצמה.",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.13 S4TWL - " +
+          "PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "אותו נוסח כמו בפריט המקביל של 2023 FPS03: 'Production/process order planning is used if planned cost " +
+          "calculation is active for the combination of plant and order type and is carried out automatically when the " +
+          "production order (CO01 or CO02) or the process order (COR1 or COR2) is created, changed or released' (כלשון " +
+          "הפריט, שנקרא מקומית מ-PDF המסמך הרשמי). גם כאן CO02 מופיעה רק כתנאי בדיקה לרלוונטיות פריט התכנון, ואין בפריט " +
+          "קביעה לגבי CO02 עצמה.",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App CO02 Change Production Order (SAP GUI), release S32OP, and apps leading with " +
+          "transaction CO02",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CO02')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "שאילתה ל-Fiori Apps Library לפי T-code CO02 (release S32OP) מחזירה שלוש אפליקציות מובילות: CO02 Change " +
+          "Production Order (SAP GUI), F2335 Manage Production Operations (SAP Fiori (SAPUI5)) ו-F2336 Manage Production " +
+          "Orders (SAP Fiori (SAPUI5)). רשומת ה-GUI app (CO02) מסומנת בסטטוס Published ללא successors, כלומר הספרייה אינה " +
+          "מציינת את F2335 או F2336 כיורשות של CO02.",
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "CO02 (Change Production Order) מתועדת בעמוד What's New של SAP S/4HANA ו-SAP S/4HANA Cloud Private Edition 2025 " +
+        "FPS01 כאפליקציה מסוג Changed: נוספה החלפת רצף התפעולים הסטנדרטי ברצף חלופי דרך Functions > Exchange Sequences.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CO02_WHATSNEW,
+      recommendedAction:
+        "להמשיך בשימוש ב-CO02 ולבחון את Exchange Sequences מ-2025 FPS01. אפליקציות Fiori שספריית Fiori מציגה כמובילות " +
+        "לצד CO02 הן F2336 (Manage Production Orders) ו-F2335 (Manage Production Operations); הספרייה אינה מסמנת אותן " +
+        "כיורשות של CO02. שני פריטי ה-S4TWL שנבדקו עוסקים בתכנון עלויות ואינם קובעים דבר לגבי CO02.",
+    },
+    xrefs: ["tx:CO01", "tx:CO03", "tx:COR2", "fiori:F2336"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק: (1) עמוד What's New 'Change Production Order' 2025 FPS01 נקרא במלואו דרך scripts/sap-help-body.mjs; מציין " +
+      "Type: Changed ותוספת פונקציונלית (Exchange Sequences). (2) שני פריטי S4TWL שהוצגו כרמז (2023 FPS03 פריט 12.10, " +
+      "2025 FPS01 פריט 6.5.13, שניהם 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING') נקראו " +
+      "מ-scratchpad/official/SIMPL_OP2023.pdf.txt ו-SIMPL_OP2025.pdf.txt; שניהם מזכירים את CO02 רק כתנאי בדיקה " +
+      "לרלוונטיות פריט התכנון, ולכן לא שימשו מקור לסטטוס. הרשומה שנוצרה אוטומטית ב-transactions-auto.ts שייכה את " +
+      "ההופעה ב-2023 לפריט 12.9 (S4TWL - TECHNICAL CHANGES IN CONTROLLING); ישן → חדש: 12.9 → 12.10, לפי כותרת הפריט " +
+      "ב-PDF. (3) חיפוש 'CO02 Change Production Order' ב-scripts/sap-help-search.mjs (--size 8, 21 רשומות) העלה תיעוד " +
+      "נוסף, למשל 'Transaction Codes in Cost Object Controlling' 2025 FPS01 ('CO02 Change PP production order') " +
+      "ו-'Production Order Integration'; אלה לא נכללו כראיות כדי לשמור על 1 עד 4 רשומות. (4) fal-app.mjs --tcode CO02 " +
+      "--release S32OP החזיר שלוש אפליקציות מובילות (CO02, F2335, F2336), ורשומת ה-GUI של CO02 מופיעה ללא successors; " +
+      "F2335 אינה ב-data/fiori/apps.ts ולכן אינה ב-xrefs. לא בוצעה בדיקה במערכת SAP חיה. פערים: Exchange Sequences " +
+      "מתועד יחד עבור On-Premise ו-Private Cloud Edition ולא אומת בנפרד לכל edition; לא אותר פריט S4TWL שעוסק ישירות " +
+      "בניהול הזמנות ייצור ובטרנזקציה CO02. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CO02 " +
+      "ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CO03 */
+  {
+    id: "tx:CO03",
+    evidence: [
+      CO03_TCODES_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transaction Codes in Cost Object Controlling (SAP ERP 6.0 EHP8)",
+        url: "https://help.sap.com/docs/SAP_ERP/6fe2dad9dab7486fb4469d13552824f2/ebc64252eaa43507e10000000a441470.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "אותו נושא (loio ebc64252eaa43507e10000000a441470) קיים גם בתיעוד SAP ERP 6.0 EHP8, והסניפט שלו מדפיס את אותה " +
+          "שורת CO03: 'CO03 Display PP production order Production orders with quantity structure'; כלומר CO03 מתועדת " +
+          "באותה שורה בצד ECC ובצד S/4HANA On-Premise.",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Reporting/Analytics in Controlling (SAP S/4HANA 2025 FPS01 Simplification List, item 6.5.9)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "הפריט (עמ' 339-342; הציטוט בעמ' 342, scratchpad/official/SIMPL_OP2025.pdf.txt שורה 18689) עוסק בדיווח/אנליטיקה " +
+          "ב-Controlling ואינו קובע ש-CO03 מוחלפת, מוסרת או משתנה; הוא דורש לוודא תצורה: 'Please ensure that the " +
+          "transactions such as CK11N (create standard cost estimate), CO01-CO03 (create/change/display production order) " +
+          "and CR01-CR03 (create/change/display process order) are calling ABAP List Views rather than the old Report " +
+          "Writer reports. To do this, choose transaction OKN0...'. כלומר אזכור CO03 בפריט הפישוט הוא המלצת תצורה (OKN0) " +
+          "לדיווח, לא פסיקה על הטרנזקציה עצמה.",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP - Production order (Data Migration guide, SAP S/4HANA 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/c9464a7b80cb4ed6af2445c88e31bfbe.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "הסניפט הרשמי ממדריך ה-Data Migration מציג טבלת פעילויות מול קודי טרנזקציה הכוללת: 'Display Production Order " +
+          "(app ID CO03)' ו-'Activity Transaction Code ... Display Production Order CO03'; כלומר מדריך ה-Data Migration " +
+          "מציג את CO03 כ-app ID של הצגת הזמנת ייצור.",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library: leading apps for tcode CO03 (release S32OP / 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2261')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "scripts/fal-app.mjs --tcode CO03 מציג שתי אפליקציות מובילות עם CO03: 'CO03 Display Production Order [SAP GUI]' " +
+          "(0 successors) ו-'F2261 Production Order Object Page [SAP Fiori elements]'. בדיקת F2261 עצמה (fal-app.mjs F2261 " +
+          "--release S32OP) מראה 'predecessors: -; successors: -', כלומר F2261 אינה רשומה רשמית כמחליפה (successor) של " +
+          "CO03; היא אפליקציית Fact Sheet מקבילה. F2261 אינה קיימת כיום ברשומות data/fiori/apps.ts (מחוץ ליקום ה-xref של " +
+          "קטלוג זה), ולכן לא נוסף עבורה xref ולא נטען עליה successor רשמי.",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "CO03 (הצגת הזמנת ייצור PP) מתועדת בצד ECC ובצד SAP S/4HANA 2025 FPS01 On-Premise באותו נושא רשמי (loio " +
+        "ebc64252eaa43507e10000000a441470) בשתי המהדורות. פריט הפישוט 6.5.9 (S4TWL - Reporting/Analytics in Controlling) " +
+        "מזכיר את CO01-CO03 בהקשר של המלצת תצורה (OKN0) להבטיח שימוש ב-ABAP List Views בדיווח, ואינו פוסל את הטרנזקציה " +
+        "עצמה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CO03_TCODES_2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-CO03 להצגת הזמנות ייצור; מומלץ לוודא בתצורה (OKN0) שהדיווח קורא ל-ABAP List Views ולא לדוחות " +
+        "Report Writer הישנים, כמצוין בפריט הפישוט 'S4TWL - Reporting/Analytics in Controlling'. לצד CO03 קיימת גם " +
+        "אפליקציית Fiori F2261 (Production Order Object Page) כתצוגת Fact Sheet מקבילה, ללא יחס successor רשמי מתועד.",
+    },
+    xrefs: ["tx:CO01", "tx:CO02"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שבוצעו ב-scripts/sap-help-search.mjs: 'CO03 display production order' " +
+      "(ברירת מחדל SAP_S4HANA_ON-PREMISE, 21 תוצאות) ואותה שאילתה עם --product SAP_ERP (21 תוצאות); וכן 'Display " +
+      "Production Order Fiori app' (21 תוצאות, SAP_S4HANA_ON-PREMISE). פריט הפישוט 'S4TWL - Reporting/Analytics in " +
+      "Controlling' (6.5.9) נקרא מהקובץ המקומי scratchpad/official/SIMPL_OP2025.pdf.txt (עמ' 339-342; הציטוט בעמ' 342, " +
+      "שורה 18689). scripts/fal-app.mjs --tcode CO03 ו-scripts/fal-app.mjs F2261 --release S32OP נבדקו; F2261 אינה " +
+      "ברשימת data/fiori/apps.ts ולכן לא נוסף xref פיורי. status.source מצביע על evidence[0] (S/4HANA 2025 FPS01); " +
+      "evidence[1] מתעדת את אותה שורה בצד ECC. אין SAP Note או KBA שצוטטו כאן; לא אותר מספר הערה רשמי הנוגע ל-CO03 " +
+      "בחיפושים שבוצעו. כתובת ה-PDF של רשימת הפישוט תוקנה בביקורת: " +
+      "/doc/simplification_list_s4hana_2025_fps01/2025.001/... (מחזירה מעטפת HTML) → " +
+      "/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf. הרשומה מחליפה את הרשומה שנוצרה " +
+      "אוטומטית ל-CO03 ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CO09 */
+  {
+    id: "tx:CO09",
+    evidence: [
+      CO09_FAL,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Availability Check | Inventory Management and Inventory (MM-IM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/8c64bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "קטע החיפוש קובע שבשלב Define Checking Rule נקבעים, לכל כלל בדיקה, המלאים, הקבלות וההוצאות שייכללו בסקירת " +
+          "הזמינות: 'the availability overview (transaction code CO09)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Determine WBS Account Assignment at MRP Area Level | Project System (PS)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/a9cfb65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "קטע החיפוש מונה יחד את Current Stock/Requirements List (transaction code MD04), Single-Item Planning " +
+          "(transaction code MD03) ו-Availability Overview (transaction code CO09).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Availability Overview | Material Requirements Planning (PP-MRP)",
+        url: "https://help.sap.com/docs/SAP_ERP/85d3fce10e264972a0155c8b46ecf93b/e4a9ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "בצד ECC, קטע החיפוש קובע: 'You can call up the availability overview using the transaction CO09 or from the " +
+          "relevant application component.' וכן: 'The availability overview enables you to see the ATP situation for a " +
+          "particular material in a defined plant'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 13.15.59 S4TWL - Fashion Functionality " +
+          "(LO-RFM)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט מונה בין הטרנזקציות המיושנות את השורה FSH_CO09 Generic Article CO09; הקוד הנקוב הוא FSH_CO09 ולא CO09, " +
+          "והטקסט אינו נוקב במעמד CO09 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 60.46 S4TWL - Fashion Functionality",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הפריט מונה בין הטרנזקציות המיושנות את השורה FSH_CO09 Generic Article CO09; הקוד הנקוב הוא FSH_CO09 ולא CO09, " +
+          "והטקסט אינו נוקב במעמד CO09 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "CO09 (Monitor Product Availability) מופיעה בספריית Fiori כאפליקציית SAP GUI במצב Published ב-S/4HANA 2025 FPS01 " +
+        "(S32OP); רשימת הגרסאות שבספרייה מתחילה ב-1610 (S6OP) וכוללת גם את S36=2602 ו-S37=2608, ללא אפליקציה יורשת " +
+        "רשומה. תיעוד help.sap.com מזכיר את CO09 גם ב-SAP ERP 6.0 EHP8 וגם ב-S/4HANA 2025 FPS01.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CO09_FAL,
+      recommendedAction:
+        "רשומת ספריית Fiori אינה רושמת אפליקציה יורשת ל-CO09; לאמת ב-SE93 במערכת היעד את קיום הקוד, ולבדוק בשלב Define " +
+        "Checking Rule אילו מלאים, קבלות והוצאות נכללים בסקירת הזמינות.",
+    },
+    xrefs: ["tx:MD04", "tx:MD03"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "חיפושים שבוצעו: (1) 'CO09 availability overview', היקף SAP_S4HANA_ON-PREMISE, 21 תוצאות; (2) 'Availability " +
+      "Overview CO09', היקף SAP_ERP, 21 תוצאות. הורץ scripts/fal-app.mjs CO09 --release S32OP. נקרא טקסט רשימות הפישוט " +
+      "מתוך scratchpad/official/ (SIMPL_OP2025.pdf.txt שורה 77639 תחת 13.15.59; SIMPL_OP2023.pdf.txt שורה 71853 תחת " +
+      "60.46). Old (index): 60.9 'S4TWL - Retail Additionals' → New: 60.46 'S4TWL - Fashion Functionality'; שני פריטי " +
+      "הפישוט מופיעים באינדקס simpl-tcode-index.json בגלל הקוד FSH_CO09 ולא בגלל CO09. רשומות תפקידי PFCG (Maintain " +
+      "Batch Data, Display Batch Data) הוחלפו בנושאי תיעוד ישירים יותר. המעמד unchanged נשען על רשומת ספריית Fiori " +
+      "(Published ב-S32OP, ללא יורשת רשומה) ואינו מבוסס על טקסט SAP שקובע זאת במפורש. לא נקרא גוף עמוד באמצעות " +
+      "sap-help-body.mjs; הטענות תחומות לכותרת ולקטע החיפוש. לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה את הרשומה " +
+      "שנוצרה אוטומטית ל-CO09 ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:CO53 */
+  {
+    id: "tx:CO53",
+    evidence: [
+      CO53_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 (Document Version 1.35) · item 30.19 S4TWL - " +
+          "Control Recipes/Instructions (PP-PI-PMA-RCP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "פריט 30.19 'S4TWL - Control Recipes/Instructions' (מהדורת 2023 FPS03) מדפיס תחת Other Terms את אותה שורה " +
+          "'Process Management; PI Sheet; CO53, CO53XT' ומכסה את אותו נושא: שילוב מרשמי/הוראות בקרה עם PI Sheets/הוראות " +
+          "עבודה מבוססי-דפדפן הוא חלק מ-compatibility scope items 444/453/454/455 עם זכויות שימוש מוגבלות ('The listed " +
+          "content of the compatibility scope is not further supported after the end of usage rights'); לעומת זאת שימוש " +
+          "במרשמי/הוראות בקרה עם ממשק PI-PCS לחיבור מערכות MES/צד-שלישי חיצוניות (destination types 2/3) אפשרי דרך " +
+          "Manufacturing Execution Connect (classic) ואינו חלק מה-compatibility scope. הפריט אינו נוקב בסטטוס של הפסקה או " +
+          "החלפה לקוד CO53; הקוד מופיע בשורת Other Terms בלבד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Monitoring of Control Instructions/Recipes",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/b188bf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד התיעוד של S/4HANA On-Premise 2025 FPS01 (נקרא במלואו דרך שירות ה-content) מתאר את 'monitor for control " +
+          "instructions/recipes' ככלי להצגת כל המרשמים/הוראות הבקרה הקיימים ב-shop floor control and manufacturing ובדיקת " +
+          "סטטוס העיבוד שלהם, כולל שליחה ומחיקה של מרשמי/הוראות בקרה; הדף אינו מדפיס את קוד הטרנזקציה CO53, אך מתאר " +
+          "פונקציונלית את אותו כלי, והעמוד קיים בתיעוד של מהדורה זו.",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CO53",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#CO53",
+        claim:
+          "הרשומה הפנימית מגדירה את CO53 כ'מוניטור מתכון בקרה' (Control Recipe Monitor) במודול PP-PI, ומופיעה גם ברשומות " +
+          "pppi-process-flow.ts ו-qa-center.ts כטרנזקציה ששולחת את מרשם הבקרה ל-MES; זוהי רשומת מאגר פנימית ולא מקור רשמי.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "הקוד CO53 מופיע ב-Other Terms של פריטי הפישוט 'S4TWL - Control Recipes/Instructions' (9.3.17 ב-2025 FPS01, " +
+        "30.19 ב-2023 FPS03). הפריטים קובעים ששימוש במרשמי/הוראות בקרה בשילוב עם PI Sheets/הוראות עבודה מבוססי-דפדפן הוא " +
+        "חלק מ-compatibility scope item 444 עם זכויות שימוש מוגבלות עד תפוגת הרישיון; שימוש מול ממשק PI-PCS למערכות " +
+        "חיצוניות אפשרי דרך Manufacturing Execution Connect (classic) ואינו חלק מה-compatibility scope.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CO53_SIMPL_ITEM_2025,
+      recommendedAction:
+        "הפריט קובע 'Immediate action is not required'; לתכנן מראש מעבר מהשילוב עם PI Sheets מבוססי-דפדפן (compatibility " +
+        "scope item 444) לפני תאריך תפוגת רישיון החבילה, באמצעות שירות SOAP API 'Manufacturing Order - Send' או יכולות " +
+        "ביצוע הייצור המובנות (CORK, COR6N, CORZ, תפקיד SAP_BR_PRODN_OPTR_PROC), בהתאם ל-SAP Note 2269324 המפנה למטריצת " +
+        "ה-compatibility scope.",
+    },
+    xrefs: ["tx:CORZ"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. נבדק מה שכבר קיים במאגר לפני המחקר: data/tcode-catalog.ts, " +
+      "data/pppi-process-flow.ts, data/qa-center.ts, data/solutions.ts (ללא סטטוס S/4 מאומת רשמית עד כה). חיפושים " +
+      "ב-scripts/sap-help-search.mjs: 'CO53 control recipe monitor' (--size 8, ברירת מחדל SAP_S4HANA_ON-PREMISE, 21 " +
+      "רשומות) העלה שני היטים רלוונטיים ('Monitor for Control Instructions/Recipes' ו-'Monitoring of Control " +
+      "Instructions/Recipes', loio 5800b753128eb44ce10000000a174cb4 ו-b188bf53f106b44ce10000000a174cb4, שניהם " +
+      "2025.001). גופי העמודים נקראו דרך scripts/sap-help-body.mjs; אף אחד מהם אינו מדפיס את הקוד 'CO53', ולכן צוין " +
+      "כ-supported_secondary_source והטענה הוגבלה לתיאור פונקציונלי. פריטי הפישוט 9.3.17 (2025 FPS01) ו-30.19 (2023 " +
+      "FPS03), שניהם 'S4TWL - Control Recipes/Instructions', נקראו מהקבצים המקומיים " +
+      "scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt; שניהם מדפיסים 'CO53, CO53XT' תחת Other Terms. " +
+      "היסטוריה: אינדקס simpl-tcode-index.json מיפה את CO53 ב-2023 לפריט 30.9 ANSI/ISA S95 Interface; שורת Other Terms " +
+      "(שורה 40775) שייכת בפועל לפריט 30.19 S4TWL - Control Recipes/Instructions (30.9 → 30.19). successor לא צוין: " +
+      "הפריטים מציגים את CORK/COR6N/CORZ כיכולות ביצוע ייצור מובנות ולא כמחליפות של CO53; לכן CORZ נכלל כ-xref בלבד " +
+      "ולא נקבע status של replaced או deprecated. CO53XT אינו קיים ב-lib/route-manifest.generated.ts ולכן לא נוסף " +
+      "כ-xref או כרשומה נפרדת. בפריטים לא נמצאה אמירה הקובעת החלפה, הפסקה או Fiori alternative לקוד CO53; הפריט קובע " +
+      "'Immediate action is not required'. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CO53 " +
+      "ב-data/verification/transactions-auto.ts.",
   },
 ];

@@ -128,6 +128,44 @@ per-id diff of `--ids` before / after in which only `tx:CM01` and `tx:CM02` move
 sap_official_verified, derived 'changed' → authored 'unchanged'; `tx:CM02` L3 → L5,
 repository_verified → sap_official_verified, derived 'unchanged' → authored 'unchanged'.
 Gates: both `tsc` runs clean; `npm test` 212/212.
+Batch 9 written 2026-09-24 (access date stamped 2026-09-24): 6 audited records written
+(`tx:CM31`, `tx:CM50`, `tx:CO02`, `tx:CO03`, `tx:CO09`, `tx:CO53`), all from
+`verdict.fixedRecord`, 0 refuted. Status sources point at shared consts (`CM31_SIMPL_ITEM`,
+`CM50_SIMPL_ITEM`, `CO02_WHATSNEW`, `CO03_TCODES_2025`, `CO09_FAL`, `CO53_SIMPL_ITEM_2025`)
+instead of the marker strings ('__EVIDENCE_0__', 'evidence[0]', 'CM50_SIMPL_ITEM (...)') or the
+re-typed copies the verdicts carried (the CO03 / CO09 copies were asserted deep-equal to
+evidence[0] before the swap; the CO02 copy differed only by its stub claim 'ראו evidence[0]',
+which never reaches the file). Writer deviations: (1) CM31 `sapNote: "2269324"` dropped
+(`sap-note-format` needs a me.sap.com/notes url or a repoRef; the number stays in the claim as
+the item prints it, the CM03 / COPC precedent); (2) `reviewer` dropped from CM31 (`null`) and
+CO03 (`"researcher-agent"`), house convention; (3) CO02 `summary` and the empty `conflicts`
+dropped, its `gaps` folded into notes (the On-Premise / Private Cloud sentence and the
+no-direct-S4TWL-item sentence; the other two gaps were already in notes); (4) two CM31 notes
+sentences were false against the repository files and were corrected (Old → New, recorded in
+the record): the researcher wrote that `simpl-tcode-index.json` does not list CM31 (it does,
+2025 item 9.5.4 'S4TWL - Graphical Planning Table', line 43127) and that the 2023 FPS03 item
+30.35 of the same name is identical in content (it has no Exceptions section and does not print
+CM31); the '__EVIDENCE_0__' marker sentence was replaced by the item name; (5) every notes field
+ends with the sentence that the generated record in `transactions-auto.ts` is superseded (the
+C223 / CM01 form). Re-checked at write, matching the audited text: the 13 help.sap.com topic
+URLs verbatim in fresh `sap-help-search` records (11 queries, 21 hits each, snippets as quoted);
+`sap-help-body` on the CM50 (SAP_PP-CAPA_PLAN_EVAL), CO02 (MAN-6861-8063, Type Changed,
+PP-PEO-SFO) and CO53 (Monitoring of Control Instructions/Recipes, CO53 not printed) bodies;
+`fal-app` CO02 / CO09 / F2261 at S32OP and `--tcode` CO02 / CO03 / CM50 (output as quoted); the
+Simplification List text of items 9.5.4, 9.3.17, 30.19, 12.10, 6.5.13, 6.5.9 (pp. 339-342,
+quote on p. 342), 13.15.59 and 60.46; repoRefs `data/tcode-catalog.ts#CM31`, `#CO53` and
+`data/tx-intel.ts#CM50`; every xref in the route manifest or `data/fiori/apps.ts` (F3770, F2335
+and F2261 absent, prose only). The TS was emitted mechanically from the audited JSON and
+round-tripped (the six loaded records deep-equal the audited ones plus the listed deviations,
+each `status.source` is the evidence[0] object, the 57 existing records unchanged). Coverage
+(`report:coverage --catalog transactions`, plus a per-id diff of `--ids` before / after in which
+only the six ids moved): L3 484 → 479, L5 58 → 63, L1 1275 → 1275, L4 1 → 1, verified 566 →
+567, verification-required 1248 → 1247, conflict 4 → 4, s4-applicable 567 → 568; CO02, CO03,
+CO09 and CO53 L3 → L5 (repository_verified → sap_official_verified; derived 'changed' → authored
+'changed' / 'unchanged' / 'unchanged' / 'compatibility_scope'), CM50 L3 → L5 (authored
+'unchanged'), CM31 L1 → L1 (verification_required → sap_official_verified, authored
+'compatibility_scope'; no `data/transactions.ts` / `tx-intel` structural facts, the L2 gate).
+Gates: both `tsc` runs clean (plus a non-incremental `tsc --noEmit`); `npm test` 212/212.
 
 ## refuted
 
@@ -139,6 +177,7 @@ Gates: both `tsc` runs clean; `npm test` 212/212.
 - (none in batch 6, 2026-09-24: all 6 audited drafts, CM03, CM04, CM05, CM07, CM21 and CM25, survived verification and were written from `verdict.fixedRecord`. CM01 and CM02 from batch 5 are still open; CM05 / CM07 xref `tx:CM01` / `tx:CM02` as manifest codes, not as overlay records.)
 - (none in batch 7, 2026-09-24: the one audited draft, `tx:C223`, survived verification and was written; this closes the batch-4 `tx:C223` entry above. CM01 and CM02 from batch 5 are still open.)
 - (none in batch 8, 2026-09-24: both audited drafts, `tx:CM01` and `tx:CM02`, survived verification and were written; this closes the batch-5 `tx:CM01` / `tx:CM02` entries above.)
+- (none in batch 9, 2026-09-24: all 6 audited drafts, CM31, CM50, CO02, CO03, CO09 and CO53, survived verification and were written from `verdict.fixedRecord` with the writer deviations listed in the header.)
 
 ## conflicts
 
@@ -188,6 +227,14 @@ Gates: both `tsc` runs clean; `npm test` 212/212.
 - `tx:CM01` / `tx:CM02` (batch 8): the 2023 FPS03 item 30.35 'S4TWL - Graphical Planning Table' prints the general sentence 'Transactions CM* will be replaced by apps like "Manage Work Center Capacity", "Capacity Scheduling Table", and "Capacity Scheduling Board" in SAP S/4HANA' (SIMPL_OP2023.pdf.txt line 42106), has no Exceptions section and prints neither code (the only 2023 hits are WACM01 / WACM02 at line 32678); the 2025 FPS01 item 9.5.4 (same note 2268050) narrows it to 'Transactions CM* with graphical planning board can be replaced by one of the following modules' (SIMPL_OP2025.pdf.txt line 43156) and lists both codes under Exceptions. Treated as the later edition of the same item, not as `conflicting_sources`: both statuses are bounded to 2025 FPS01, the CM03 / CM04 / CM07 stance of batch 6. The CM02 notes say so; the CM01 notes do not mention the 2023 item.
 - `tx:CM02` (batch 8): no `fiori_library` row. `fal-app --tcode CM02` prints no deep link for the GUI entry (the reason the record gives), while app mode (`fal-app CM02 --release S32OP`, the form the CM01 / CM03 rows cite) prints one, and the generated shard record carried Apps('CM02')/S32OP; a follow-up read of that app record would add the row (CM02 is already at L5).
 - `tx:CM05` (batch 8): its notes said tx:CM01 had not been written yet; the sentence is kept and followed by a dated update (Old → New). The batch-6 consistency decision (CM05 without an authored status while CM01, CM02, CM03, CM04 and CM07 carry `unchanged` from the same Exceptions sentence) is still open and now spans six codes. Not done for CM01 / CM02: a live SAP check (sc4sap MCP not connected in this session).
+
+- `tx:CM31` (batch 9, 2026-09-24): no repository conflict; two researcher statements about the files were wrong and are corrected in the record's notes (Old → New): `simpl-tcode-index.json` does list CM31 (2025 item 9.5.4 'S4TWL - Graphical Planning Table', line 43127), and the 2023 FPS03 item 30.35 of the same name is not identical to 9.5.4: it has no Exceptions section and prints CM21, CM22, CM23, CM25 and CM29 but not CM31 (SIMPL_OP2023.pdf.txt lines 42067-42145; CM31 appears nowhere in the 2023 text), so the `compatibility_scope` status is bounded to 2025 FPS01. The auditor's `sapNote: "2269324"` was not written (`sap-note-format`). `data/tcode-catalog.ts#CM31` 'Capacity Leveling: Production Planning Table' cannot be checked against the role pages, whose CM31 description is cut in both snippets ('CM31 Capacity leveling … : Execute in the'). CM31 has no `tx-intel` entry (it appears in the `after` field of CM01), so the page stays at L1 (L2 gate). F3770 is absent from `data/fiori/apps.ts` (prose only).
+- `tx:CM50` (batch 9): `data/tx-intel.ts#CM50` names the code 'Capacity Load Utilization' (descHe 'הערכת קיבולת מורחבת' and 'רשימת מרכזי עבודה' joined by a long dash, which the record's quote renders as a colon); the official role page prints 'CM50 Extended evaluation: Work center view' (Evaluate Capacity Planning, body read) and the ECC 'Capacity Overview' snippet says 'the capacity evaluation (transaction CM50)'; no official record read prints 'Capacity Load Utilization'. CM50 now carries an authored `unchanged` from the same Exceptions sentence of item 9.5.4 as CM01, CM02, CM03, CM04 and CM07, so the batch-6 consistency decision (CM05 without an authored status) now spans seven codes. Writer observation: the 2023 FPS03 text does not print CM50 anywhere (item 30.35 has no Exceptions section); the record itself says the 2023 list was not checked for CM50.
+- `tx:CO02` (batch 9): `simpl-tcode-index.json` and the generated shard record attribute the 2023 FPS03 mention (SIMPL_OP2023.pdf.txt line 19501) to item 12.9 'S4TWL - TECHNICAL CHANGES IN CONTROLLING'; the line sits under item 12.10 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING' (heading printed '12.10S4TWL' at line 19463), the heading-without-space defect of batches 3 to 6; the index also cuts the 2025 FPS01 title (item 6.5.13) at '... AND PROFIT CENTER' where the heading wraps. `data/tx-intel.ts#CO02` (`s4Delta` 'נשמרת ב-S/4HANA; חלופת Fiori', followed by F2336): the FAL lists F2335 and F2336 as apps leading with CO02, and the CO02 GUI entry has no successor; no official record read names F2336 as a successor of CO02. F2335 is absent from `data/fiori/apps.ts`.
+- `tx:CO03` (batch 9): `data/tx-intel.ts#CO03` (`s4Delta`) names Manage Production Orders (F2336) as the Fiori alternative and says costs are shown from ACDOCA; `fal-app --tcode CO03` (S32OP) lists CO03 and F2261 'Production Order Object Page' (Fact sheet, 'GUI transactions: leading CO03', predecessors and successors '-'), not F2336, and no official record read names F2336 for CO03; the ACDOCA sentence was not checked. F2261 is absent from `data/fiori/apps.ts` (prose only). Index gap: the 2023 FPS03 item 12.16 'S4TWL - Reporting/Analytics in Controlling' prints the same OKN0 sentence with 'CO01CO03' (hyphen lost in the text dump, SIMPL_OP2023.pdf.txt line 20407), so `simpl-tcode-index.json` lists CO03 under 2025 only; the record cites the 2025 item only.
+- `tx:CO09` (batch 9): `simpl-tcode-index.json` lists CO09 under both Fashion items because of the line 'FSH_CO09 Generic Article CO09' (the obsolete code is FSH_CO09), and attributes the 2023 line 71853 to 60.9 'S4TWL - Retail Additionals' while it sits under 60.46 'S4TWL - Fashion Functionality' (heading printed '60.46S4TWL' at line 71769). `data/tx-intel.ts#CO09` (`s4`, `fiori`, `alternative`) names 'Check Product Availability (aATP)' / 'Check Availability' as the S/4HANA path; no record cited by tx:CO09 names such an app for CO09, and the FAL record CO09 (Monitor Product Availability, SAP GUI, Published at S32OP) prints no predecessor or successor. The `unchanged` status rests on that FAL record, not on SAP text that states it (said in the record's notes).
+- `tx:CO53` (batch 9): `simpl-tcode-index.json` attributes the 2023 FPS03 Other Terms line 'Process Management; PI Sheet; CO53, CO53XT' (line 40775) to 30.9 'S4TWL - ANSI/ISA S95 Interface'; it closes item 30.19 'S4TWL - Control Recipes/Instructions' (heading printed '30.19S4TWL' at line 40626), the CORZ defect of batch 4. `data/tx-intel.ts#CO53` (`s4` 'זמין ב-S/4HANA; Process Management ו-PI sheets נתמכים'; `s4Delta` '... זרימת Control Recipe / PI-sheet ללא שינוי מושגי') is stronger than items 9.3.17 / 30.19, which put control recipes/instructions used with browser-based PI sheets in compatibility scope item 444 with limited usage rights until the licence expiry; its `alternative` CO60 is itself written `restricted` (batch 4). Open consistency decision, not resolved at write: CO53 is `compatibility_scope` as audited, while CO54 (process messages, scope item 455, batch 3) is `simplified` with the scope kept in its explanation and CO55 is `restricted`; one house rule for codes that a compatibility-scope item names in Other Terms would settle it. CO53XT is outside the id universe. The help topic 'Monitoring of Control Instructions/Recipes' (body read) does not print CO53, so that row stays `supported_secondary_source`.
+- cross-cutting (batch 9): the heading-without-space index defect recurs for CO02 (12.10), CO09 (60.46) and CO53 (30.19); the CM31 and CM50 entries are correct, and the CO03 entry misses the 2023 mention ('CO01CO03'). Not done for any of the six: a live SAP check (sc4sap MCP not connected in this session).
 
 ## IP30 / IP30H decision (2026-09-22, design-audit continuation §18)
 
