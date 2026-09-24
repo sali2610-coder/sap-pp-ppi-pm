@@ -47,6 +47,35 @@ L5 100, verified 605, verif.req 1202, conflict 11, s4-appl 609. The remainder (L
 verified +1, verification_required -1, s4-appl +1) is chain B's concurrent batch in
 `transactions-b.ts` (QDV3, QE51N, QGA1, QGP1, QI03, QM10, QM50).
 
+Batch 3 written 2026-09-25 (access date stamped 2026-09-25): 8 drafts audited, 8 written, none
+refuted. Four are the planning-board and structure-planning codes the item 'S4TWL -
+Simplification of maintenance transactions' lists (`tx:CJ27`, `tx:CJ2A`, `tx:CJ2B`, `tx:CJ2D`,
+each `changed`); three are the payment-planning and period-close codes the item 'S4TWL -
+Selected project financial planning and control functions' lists under 'Modernized topics'
+(`tx:CJ48`, `tx:CJ49`, `tx:CJ8V`, each `changed`); and `tx:CJ30` carries no status, because the
+item 'S4TWL - Hierarchy Graphics in Project Systems' names CJ30 only as an indicator and says
+the transactions themselves are not part of it, so all six CJ30 rows are context rows. Seven
+were taken from `verdict.fixedRecord` (`tx:CJ27`, `tx:CJ2A`, `tx:CJ2B`, `tx:CJ30`, `tx:CJ48`,
+`tx:CJ49`, `tx:CJ8V`) and one was re-derived from the draft with the two listed downgrades
+(`tx:CJ2D`). The records were generated from the audited JSON, not retyped: every change was
+applied as an exact-once substring replacement (a miss aborts the run), every URL was matched
+against the generated shard and the generator's cached search records, the two CJ2B context
+rows the auditor carried were deep-compared with their generated twins, and the written module
+was deep-compared against the expected objects, with `status.source` checked for identity with
+its evidence row and the 15 batch-1 and batch-2 records checked unchanged.
+
+Depth (`report-coverage.mjs --ids`, before and after): seven moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified` with the authored
+`changed`; `tx:CJ30` stays L1 `verification_required` (no status, context rows only, as
+audited). All eight stay at depth L1: none has a tx-intel / tx-detail record, so the page
+structure (3 authored facts needed for L2) is missing. Batch effect on the catalog totals
+(`npm run report:coverage -- --catalog transactions`): verified +7, verification_required -7,
+s4-appl +7, depth bands and conflict unchanged. Measured totals: 01:53 L1 1279, L3 434, L4 2,
+L5 103, verified 608, verif.req 1199, conflict 11, s4-appl 612; 02:09 L1 1279, L3 432, L4 2,
+L5 105, verified 621, verif.req 1186, conflict 11, s4-appl 624. The remainder (L3 -2, L5 +2,
+verified +6, verification_required -6, s4-appl +5) is chain B's concurrent batch in
+`transactions-b.ts` (LS24, VA01, FD31, FD32, FD33, QS34, QS42, UKM_BP).
+
 ## refuted
 
 - `tx:KSV5` (batch 1, 2026-09-25): refuted at the adversarial gate, not written; the generated
@@ -98,6 +127,8 @@ verified +1, verification_required -1, s4-appl +1) is chain B's concurrent batch
   to its own 2023 row.
 - Batch 2 (2026-09-25): none refuted. All eight audited drafts (`tx:CJ06`, `tx:CJ07`,
   `tx:CJ08`, `tx:CJ11`, `tx:CJ12`, `tx:CJ13`, `tx:CJ14`, `tx:CJ20`) were written.
+- Batch 3 (2026-09-25): none refuted. All eight audited drafts (`tx:CJ27`, `tx:CJ2A`,
+  `tx:CJ2B`, `tx:CJ2D`, `tx:CJ30`, `tx:CJ48`, `tx:CJ49`, `tx:CJ8V`) were written.
 
 ## conflicts
 
@@ -180,6 +211,50 @@ verified +1, verification_required -1, s4-appl +1) is chain B's concurrent batch
   Maintenance Functions: Structure'; the official labels are 'Structure Planning: Change
   Project' (PFCG snippet), 'Change Structure Planning' (Fiori Apps Library) and 'Structure
   planning' (item). The CJ20 notes record it.
+- `tx:CJ2A` / `tx:CJ2D` · repository vs official label (batch 3; the batch-2 entry above is now
+  recorded on the record side): both records state the difference in their notes and rest on
+  the official labels. The repository label of CJ2A ('הצגת לוח תכנון פרויקט' / 'Display Project
+  Planning Board', `data/tcode-catalog.ts` line 126) is, in the same official sources, the label
+  of CJ2C (PFCG snippet 'CJ2C Project Planning Board: Display Project', item line 'CJ2C Display
+  project planning board'); CJ2A's official labels are 'Structure Planning: Display Project'
+  (PFCG), 'Display Structure Planning' (Fiori Apps Library) and 'Display structure planning'
+  (item). The repository label of CJ2D ('לוח תכנון פרויקט (יצירה)' / 'Project Planning Board
+  (Create)', line 128) matches the label the PFCG snippet gives CJ27 ('Project Planning Board:
+  Create Project'); CJ2D's official labels are 'Structure Planning: Create Project' (PFCG),
+  'Create Project' (Fiori Apps Library) and 'Structure planning' (item). The repository rows
+  quote the catalog verbatim, as a quote must. CJ2C has no entry in `data/tcode-catalog.ts` and
+  is not in the route manifest, so no record can carry it as an xref (CJ27 and CJ2B name it in
+  prose only). Not fixed (tcode-catalog.ts is outside this writer's files). What settles it: a
+  FIX pass on tcode-catalog.ts lines 126 and 128 against those sources.
+- `tx:CJ2A` · PFCG role name without a cited source (batch 3, found by the writer, not raised
+  in the audit): the audited rows for the search record 'Display Project Structures'
+  (2025.001 and 6.18.latest, loio b705b753128eb44ce10000000a174cb4) named the role technical
+  name 'SAP_PS_STRUCT_DISPL'. The quoted snippet does not print it, the record's notes say no
+  body was read, and the generator's cached search record for the same loio (2026-09-24)
+  carries the same snippet without it. That breaks HOUSE-RULES §3.1 (the pattern the CJ49
+  auditor removed for 'SAP_PS_PAYMENTS_PLAN'). The name was dropped from both rows and the
+  CJ2A notes say it remains to be checked. What settles it: read the body with
+  `sap-help-body.mjs`; if the body prints the technical name, a later batch may cite it with
+  the body as its source.
+- `tx:CJ30` · label variance, no status (batch 3): the PFCG search record 'Project Budgeting'
+  prints 'CJ30 Create Original Budget' (the auditor notes the snippet columns may be mixed),
+  the Fiori Apps Library gives 'Edit Original Budget - Projects' with intent
+  'Project-changeOriginalProjectBudget', and `data/tcode-catalog.ts#CJ30` gives 'שינוי תקציב
+  מקורי של פרויקט' / 'Change Project Original Budget'. The CJ30 notes record that the PFCG
+  label is unconfirmed. What settles it: read the 'Project Budgeting' body.
+- `tx:CJ30` · no status source yet (batch 3): the Simplification List index
+  (`audit/master-completion/simpl-tcode-index.json`) lists one item that names CJ30, 'S4TWL -
+  Hierarchy Graphics in Project Systems' (2025, line 50781), and that item says the
+  transaction itself is not part of it; the search record 'Central Budgeting for Projects | Central Finance'
+  (2025.001) prints 'Therefore, you can only use transaction CJ30 in display mode in the source
+  system.', a Central Finance scenario sentence kept as a context row, not a status. CJ30 stays
+  without an authored status. What settles it: an official record that states the S/4HANA
+  status of CJ30, or SE93 in the target system.
+- `tx:CJ27` / `tx:CJ8V` · status wording, audit inconsistency (batch 3, continues the batch-2
+  entry for CJ03, CJ06 and CJ07): CJ27's status.he ends 'ללא החלפה או הסרה של הפונקציונליות'
+  and CJ8V's says 'ללא החלפה או הסרה', the wording the CJ14 auditor ruled beyond the item. The
+  CJ27 and CJ8V auditors passed it (both item rows say the item names no replacement or
+  removal), so both are written as audited. The same family ruling applies.
 
 ## writer deviations (batch 1, 2026-09-25)
 
@@ -263,3 +338,50 @@ verified +1, verification_required -1, s4-appl +1) is chain B's concurrent batch
    scratch path and line range as audited, like the batch-1 CJ03 row.
 9. No foundation-guard change: `transactions-c.ts` is already covered by the graduated
    repoRef test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 3, 2026-09-25)
+
+1. Status sources. Shared consts CJ27_SIMPL2025, CJ2A_SIMPL2025, CJ2B_SIMPL2025,
+   CJ2D_SIMPL2025, CJ48_SIMPL2025, CJ49_SIMPL2025 and CJ8V_SIMPL2025, each the record's own
+   Simplification List row, used by identity in evidence[] and in status.source. They replace
+   the CJ27 and CJ8V placeholder objects (claim '(same object as evidence[N]; ...)'), the CJ2A
+   pointer string 'evidence[0] (CJ2A_SIMPL2025)', the CJ2B object {"$ref": "evidence[4]"}, the
+   CJ49 placeholder string '<evidence[1]: ...>', and the CJ2D and CJ48 re-typed copies (same
+   fields and claim text as their rows). CJ30 has no status, so it has no const.
+2. CJ2A PFCG role name dropped (see conflicts): 'תפקיד PFCG בשם טכני SAP_PS_STRUCT_DISPL' in
+   evidence[1] became 'Single and Composite Roles (PFCG)' (the record's deliverable), and
+   ', SAP_PS_STRUCT_DISPL' left evidence[2]. One notes sentence says the role name remains to be
+   checked. No lookup was re-run: the check used the quoted snippet, the record's own notes and
+   the generator's cached search record.
+3. CJ30 notes. The fixedRecord listed the searches as 'CJ30' (21 records), 'Project Budgeting'
+   and 'CJ30 original budget'. The researcher's log (the draft) lists 'CJ30 Change Original
+   Budget', 'CJ30' and 'Project Budgeting Fiori app CJ30' (S/4HANA on-premise) and 'CJ30
+   original budget' (SAP_ERP). The record now lists the logged query strings, keeps the one
+   count the audit gave (21) and says the other three counts were not logged.
+4. CJ49 evidence[3].sourceTitle: 'Planned Payments · Single and Composite Roles (PFCG) · SAP
+   ERP 6.0 EHP8 Latest' became 'Planned Payments | Single and Composite Roles (PFCG)', the search
+   record title in house style (HOUSE-RULES §1: the title verbatim) and the same title as the
+   carried CJ48 row with the same URL. Product, release and claim still name SAP ERP 6.0 EHP8.
+5. CJ48: the fixedRecord's empty `aliases: []` dropped (an empty list carries nothing; no other
+   record in this file has aliases). Its notes had no history line, so an Old → New sentence
+   (HOUSE-RULES §3.8) was added together with the carried-row sentence below.
+6. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the
+   item number for Simplification List rows) the audited record does not cite were carried
+   over verbatim (`context: true`, access date 2026-09-24): CJ2A (`tcode-catalog.ts#CJ2A` and
+   the S/4HANA and SAP_ERP search records 'Maintaining and Displaying Project Structures', loio
+   2606b753128eb44ce10000000a174cb4, now evidence[4]-[6]; the CJ2A notes say so) and CJ48 (the
+   SAP_ERP 'Planned Payments' search record, 6.18.latest, now evidence[4]). The CJ2B
+   fixedRecord already carried its two generated context rows ('Maintaining Dates in Projects'
+   S/4HANA, 'Disabling the Automatic Cost Determination in Maintenance Orders'); both were
+   deep-compared with the generated rows and match. The other five generated records are fully
+   covered by the audited rows.
+7. As audited, not normalized: release notation. CJ2A's item row carries release '2025.001'
+   where the sibling item rows carry '2025 FPS01', and CJ8V's status.release is '2025.001'
+   while its source row says '2025 FPS01' (the CJ8V auditor kept it 'as in the siblings'); the
+   CJ48 and CJ49 auditors set status.release to the source row's '2025 FPS01'. Both notations
+   name S/4HANA 2025 FPS01. Also as audited: the CJ30 fixedRecord stamps 2026-09-25 on all six
+   rows, including the three kept from the generated record (repository, Central Finance, Fiori
+   Apps Library); the researcher's 'CJ30' search and the auditor's re-runs of fal-app.mjs and
+   the 'Project Budgeting' records are dated that day.
+8. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
+   test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
