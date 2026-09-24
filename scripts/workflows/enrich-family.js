@@ -44,14 +44,17 @@ const VERDICT = {
 }
 
 phase('Research')
+// Recovery: an item may carry the `draft` (researcher output) and even the `verdict`
+// (auditor output) of an interrupted run, taken from that run's journal; those stages
+// are skipped for it, so a batch killed mid-way is finished without new research.
 const results = await pipeline(queue,
-  (item) => agent(`${COMMON}\n\nYou are the RESEARCHER for ${item.id} (${item.he || ''}). Hint: ${item.hint || 'verify S/4HANA status, release and official sources'}.
+  (item) => item.draft ? Promise.resolve(item.draft) : agent(`${COMMON}\n\nYou are the RESEARCHER for ${item.id} (${item.he || ''}). Hint: ${item.hint || 'verify S/4HANA status, release and official sources'}.
 Steps: (1) read what the repository already holds for this record (grep the id / name in data/**, lib/**, components/neo-shell/** builders) and the current derived status the app shows; (2) run 3-5 targeted queries with scripts/sap-help-search.mjs (the technical name, its SAP English name, 'What's New', 'Simplification', the successor app or API name; --product SAP_ERP for the ECC side), read at most two topic bodies with scripts/sap-help-body.mjs where a snippet is not enough, and for a Fiori app or a transaction's successor run scripts/fal-app.mjs; no WebSearch; (3) build the VerificationRecord: 1-4 Evidence entries with real URLs (from the JSON records - copy url/loio/versionId verbatim), each claim in Hebrew and bounded by what the title/snippet states; an authored status ONLY when an official record supports it (with source = one of your Evidence entries, edition, release, recommendedAction he, successor only if verified and existing in the universe); otherwise omit status and explain in gaps; xrefs to existing ids only; notes with honest caveats. Return the draft.`,
     { label: `research:${item.id}`, phase: 'Research', schema: DRAFT, model: 'sonnet', effort: 'medium' }),
-  (draft, item) => draft ? agent(`${COMMON}\n\nYou are the ADVERSARIAL AUDITOR for ${item.id}. Try to REFUTE this draft. Default to refuted=true if uncertain.
+  (draft, item) => draft ? (item.verdict ? Promise.resolve({ draft, verdict: item.verdict }) : agent(`${COMMON}\n\nYou are the ADVERSARIAL AUDITOR for ${item.id}. Try to REFUTE this draft. Default to refuted=true if uncertain.
 Checks: every url resolves (curl -sI or curl -s | head) and its host is allowlisted; help.sap.com URLs carry a real loio and the versionId/release matches the JSON record (re-run scripts/sap-help-search.mjs to confirm the title exists); every claim is supported by the cited title/snippet (no body-text claims); status token is in the S4Status union; status has source+edition+release; replaced/deprecated/not_available only with a resolvable successor or none stated; no invented SAP Note numbers (a note number must appear in the cited source or a repoRef); sourceType matches the URL; no certainty language on verification_required; Hebrew is professional; xrefs exist in the universe. If the draft carries catalogPatch, re-run scripts/fal-app.mjs for that id and confirm every value verbatim (refute on any invented value). Produce downgrades (mechanical fixes) or refute.
 Draft:\n${JSON.stringify(draft)}`,
-    { label: `verify:${item.id}`, phase: 'Verify', schema: VERDICT, effort: 'high' }).then((verdict) => ({ draft, verdict })) : null,
+    { label: `verify:${item.id}`, phase: 'Verify', schema: VERDICT, effort: 'high' }).then((verdict) => ({ draft, verdict }))) : null,
 )
 
 const drafts = results.map((r, i) => ({ item: queue[i], draft: r && r.draft, verdict: r && r.verdict })).filter((x) => x.verdict)
