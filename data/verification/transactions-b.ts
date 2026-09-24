@@ -28,7 +28,15 @@
    2025 FPS01 item row, also evidence[1]) instead of the shortened re-typed
    copy the verdict carried. Writer corrections: reviewer field dropped (house
    convention); an audit-trail sentence and the sentence that the generated
-   tx:ME42 record in transactions-auto.ts is superseded appended to notes. */
+   tx:ME42 record in transactions-auto.ts is superseded appended to notes.
+   Batch 5 (research + adversarial audit 2026-09-24, written the same day): 8
+   audited records for the MK vendor block / deletion codes and material master,
+   inventory and valuation codes (MK05, MK06, MM17, MMBE, MMBE_OLD, MMPV, MR21,
+   OMS2); no record refuted. Six taken from verdict.fixedRecord, MM17 as drafted
+   (its re-audit after the repair round listed no downgrade), OMS2 re-derived from
+   the draft with the four listed downgrades. Every status source is a shared
+   const (the record's own evidence row) instead of the pointer string, the
+   placeholder or the shortened copy the verdicts carried; no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -588,6 +596,165 @@ const ME42_SIMPL2025: Evidence = {
     "עבור Request for Quotation Types. הפריט אינו ממפה טרנזקציה בודדת לאפליקציה בודדת ואינו קובע גרסת הסרה. " +
     "עמודים: תחילת הפריט בעמ' 1429, רשימת הטרנזקציות והאפליקציות בעמ' 1430, שורת SAP_BR_BUYER בעמ' 1431. " +
     "כתובת קובץ ה-PDF החזירה HTTP 200 ב-2026-09-24; הטקסט נקרא מחילוץ pdftotext השמור בפרויקט.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 5 status sources (2026-09-24): one evidence row per record, shared by evidence[] and
+   status.source (MK05, MK06, MM17, MMBE, MMBE_OLD, MMPV, MR21, OMS2) */
+
+const MK05_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+    "Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט הפישוט 'S4TWL - Business Partner Approach' ברשימת S/4HANA 2025 FPS01 (Document Version 1.36, עמ' " +
+    "136-137) קובע: 'The user interface for SAP S/4HANA is transaction BP. There is no specific user " +
+    "interface for customer/vendor like known from SAP Business Suite'. בטבלה 'Transactions not available in " +
+    "SAP S/4HANA on-premise edition', תחת 'Transactions that get redirected to transaction BP', מופיעה " +
+    "הרשימה: 'FD01, FD02, FD03, FD05, FD06, VD01, VD02, VD03, VD05, VD06, XD01, XD02, XD03, XD05, XD06, " +
+    "FK01, FK02, FK03, FK05, FK06, MK01, MK02, MK03, MK05, MK06, XK01, XK02, XK03, XK05, XK06, MAP1, MAP2, " +
+    "MAP3, V03, V-04, V-05, V-06, V-07, V-08, V-09, V-11, VAP1, VAP2, VAP3'; MK05 נוקבת בה בשמה. באותה טבלה, " +
+    "הרשימה 'Transactions that are obsolete: MK12, MK18, MK19, XD07, XK07, V+21, V+22, V+23' אינה כוללת את " +
+    "MK05.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MK06_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+    "Approach (SAP Note 0002265093)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (מתחיל בעמ' 136, הטבלה בעמ' 137-138, Document Version 1.36) מסווג את MK06 אחרת ממהדורת 2023: " +
+    "הטבלה מציגה את MK06 תחת השורה 'Transactions that get redirected to transaction BP: FD01, FD02, FD03, " +
+    "FD05, FD06, VD01, VD02, VD03, VD05, VD06, XD01, XD02, XD03, XD05, XD06, FK01, FK02, FK03, FK05, FK06, " +
+    "MK01, MK02, MK03, MK05, MK06, XK01, XK02, XK03, XK05, XK06, ...' (כלשונה, כולל MK06), ואת הרשימה הנפרדת " +
+    "'Transactions that are obsolete: MK12, MK18, MK19, XD07, XK07, V+21, V+22, V+23' ללא MK06. כלומר " +
+    "במהדורת 2025 FPS01 MK06 מופיעה ברשימת הניתוב ל-BP ולא ברשימת ה-obsolete, בדומה לניסוח מסמך What's New " +
+    "2022.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MM17_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "S4TWL - Manufacturer Part Number (SAP S/4HANA 2025 FPS01 Simplification List, item 13.1.3)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 13.1.3 'S4TWL - Manufacturer Part Number' (Application Component: IS-ADEC-MPN) ברשימת הפישוט 2025 " +
+    "FPS01 (טקסט מחולץ: scratchpad/official/SIMPL_OP2025.pdf.txt; אותו משפט מודפס גם בפריט 48.5 באותו שם " +
+    "ברשימת 2023 FPS03, scratchpad/official/SIMPL_OP2023.pdf.txt) קובע תחת הכותרת 'Following online " +
+    "transaction will not work after system conversion with MPN materials in SAP S/4HANA' כלשונו: " +
+    "'Transactions MM17 and MMCC are not available for MPN materials in SAP S/4HANA.' הפריט מציין: 'MPN " +
+    "functionality is activated when you select 'Activate Inventory-Managed MPN' in Customizing'. הפריט אינו " +
+    "אומר דבר, לכאן או לכאן, על MM17 עבור חומרים שאינם MPN. SAP Note 2348023 מודפס כ-Business Impact note של " +
+    "הפריט, ותחת 'Required and Recommended Action(s)' מודפסים SAP Notes 2334012, 2334008, 2270836 ו-2360860; " +
+    "הם לא נקראו (דורשים S-user).",
+  verificationLevel: "sap_official_verified",
+};
+
+const MMBE_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM (Simplification List for SAP S/4HANA 2025, Feature Pack " +
+    "Stack 1, item 15.3.9; אותו נוסח בפריט 27.6 ברשימת 2023 FPS03)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (SAP Note 2210569, 'Obsolete Material inventory management transactions') מונה את טרנזקציות ה-MB " +
+    "שהוחלפו ב-MIGO או ב-BAPI_GOODSMVT_CREATE ו-BAPI_GOODSMVT_CANCEL, ובנפרד קובע: 'The transaction MMBE_OLD " +
+    "has been replaced by transaction MMBE. Alternatively there is also the Fiori App Stock Overview'. MMBE " +
+    "אינה ברשימת טרנזקציות ה-MB המוחלפות, ופסקת הפתרון מנחה 'Use transaction MIGO or MMBE in dialog'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MMBE_OLD_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, item 15.3.9 S4TWL - AVAILABILITY OF " +
+    "TRANSACTIONS IN MM-IM (MM-IM-GF)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 15.3.9 (Document Version 1.36, סעיף Symptom, עמ' 1486) קובע: 'The transaction MMBE_OLD has been " +
+    "replaced by transaction MMBE. Alternatively there is also the Fiori App Stock Overview.' לגבי קבוצת " +
+    "הטרנזקציות שהפריט מונה (טרנזקציות ה-MB ו-MMBE_OLD) הוא מוסיף שהן 'do still exist as transaction codes' " +
+    "אך 'calling these transaction codes from the menu has the consequence that an error message is raised', " +
+    "ושהן 'will be deprecated in the near future' (ללא ציון גרסת הסרה). בסעיף Solution: 'Use transaction " +
+    "MIGO or MMBE in dialog.'",
+  verificationLevel: "sap_official_verified",
+};
+
+const MMPV_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "MMPV: Close Periods (Fiori Apps Library, S32OP = SAP S/4HANA 2025 FPS01, On-Premise)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MMPV')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ה-Fiori Apps Library (scripts/fal-app.mjs MMPV --release S32OP) רושמת את MMPV כ-App ID בשם 'Close " +
+    "Periods', סוג SAP GUI / SAP GUI, סטטוס Published, רכיב LO-MD-MM (Material Master), תפקיד " +
+    "SAP_BR_PRODMASTER_SPECIALIST, קטלוג עסקי SAP_CMD_BC_PR_ADMIN, GUI transactions 'leading MMPV; related " +
+    "MMPV', predecessors '-' ו-successors '-'. רשימת הגרסאות כוללת את גרסאות On-Premise מ-S6OP (1610) עד " +
+    "S32OP (2025 FPS01). הערות RIN מודפסות: 3493254 (Front-End Server) ו-3671888 (Back-End Server).",
+  verificationLevel: "sap_official_verified",
+};
+
+const MR21_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, item 15.3.2 S4TWL - Material Ledger " +
+    "Obligatory for Material Valuation (זהה ב-2023 FPS03 item 27.7, SAP Note 2267834)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (סעיף Business Process related information, עמ' 1470) נוקב במפורש ב-MR21 וקובע שינוי התנהגות, לא " +
+    "החלפה: 'If customers are not already using the material ledger, it will be activated during the " +
+    "conversion process. In MM02 and MR21 material prices can now be maintained in multiple currencies' " +
+    "(כלשונו). כלומר, Material Ledger הופך לחובה, ובעקבות זאת MR21 (יחד עם MM02) מקבלת יכולת תחזוקת מחיר " +
+    "במספר מטבעות; אין בפריט קביעה שהטרנזקציה הוחלפה, הוסרה או deprecated. אותו נוסח בדיוק אומת גם בגרסת " +
+    "2023 FPS03 (item 27.7, עמ' 649).",
+  verificationLevel: "sap_official_verified",
+};
+
+const OMS2_HELP_2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Information Sheet on Transferring Article Master Data (Retail)",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/fb17bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "רשומת החיפוש (help.sap.com, S/4HANA On-Premise 2025 FPS01, loio fb17bf53d25ab64ce10000000a174cb4) מציגה " +
+    "בסניפט את הרצף 'Define Attributes of Material Types (transaction OMS2) General Control, Retail Master " +
+    "Data...', כלומר מאשרת ש-OMS2 (הגדרת תכונות סוגי חומר) קיימת ומתועדת בתיעוד הרשמי לגרסת S/4HANA 2025 " +
+    "FPS01 On-Premise. הטענה מוגבלת לסניפט; גוף העמוד לא נקרא.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -3779,5 +3946,796 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "נדחתה בשער הביקורת האדברסרית בסבב 2 (2026-09-24), תוקנה ועברה ביקורת חוזרת באותו יום, ושתי הורדות המבקר " +
       "(F4149 בתפקיד SAP_BR_BUYER ב-recommendedAction; 'לתהליכי sourcing' ב-status.he) כלולות ברשומה. הרשומה " +
       "מחליפה את הרשומה שנוצרה אוטומטית ל-ME42 ב-data/verification/transactions-auto.ts.",
+  },
+  {
+    id: "tx:MK05",
+    evidence: [
+      MK05_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.19 S4TWL - Business Partner " +
+          "Approach (SAP Note 2265093)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "אותו פריט ברשימת 2023 FPS03 (פריט 3.19, עמ' 153-155, Note 2265093 מודפס בפריט) מפרט רשימת הפניה " +
+          "לטרנזקציית BP הכוללת FD01-FD03, FK01-FK03, MK01, MK02, MK03, VD01-VD03, XD01-XD03, XK01-XK03 ועוד, " +
+          "ורשימת 'obsolete' נפרדת הכוללת FD06, FK06, MK06, MK12, MK18, MK19, VD06, XD06, V+21-V+23; MK05 אינה " +
+          "נמנית באף אחת מהן. אין בכך קביעה שהקוד היה זמין ב-2023 FPS03: המסמך באותה גרסה פשוט אינו נוקב ב-MK05, " +
+          "בניגוד לרשימת 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Configure Goods Receipt Control",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/1fd5fc0b81db4825a4d7681e8f6228c3.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת חיפוש (sap-help-search.mjs 'MK05 block vendor purchasing', סקופ ברירת המחדל " +
+          "SAP_S4HANA_ON-PREMISE, 21 רשומות) מתיעוד EWM ל-S/4HANA 2025 FPS01 (versionId 2025.001, loio " +
+          "1fd5fc0b81db4825a4d7681e8f6228c3) מדפיסה בסניפט: 'Supplier Block (transaction MK05). … you can ignore a " +
+          "vendor block or the system can display a warning or an information message for a blocked vendor or " +
+          "product'. העמוד מציג את MK05 כנתיב גישה לחסימת ספק, בעוד פריט הפישוט מונה את MK05 ברשימת הטרנזקציות " +
+          "המנותבות ל-BP; שני המקורות רשמיים ונשמרים כסתירה. ההסבר הסביר הוא סחף תיעוד (אותו דפוס שתועד ב-tx:MK01 " +
+          "וב-tx:MK02), ופריט הפישוט נשאר המקור לסטטוס. מה שיכריע: SE93 או הפעלת MK05 במערכת S/4HANA On-Premise " +
+          "חיה. גוף העמוד לא נקרא מעבר לסניפט.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+              "Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE24,
+            claim:
+              "'Transactions that get redirected to transaction BP: ... MK01, MK02, MK03, MK05, MK06, XK01, XK02, XK03 " +
+              "...'.",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MK05",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת הקטלוג רושמת את MK05 כ-module 'MM', area 'ספק', שם עברי 'חסימת ספק (רכש)', שם אנגלי 'Block Vendor " +
+          "(Purchasing)'; רשומת קטלוג בלבד (code/module/he/en/area), ללא שדות סטטוס S/4, טבלאות, BAPIs או תהליך. " +
+          "לא נמצאה רשומה ייעודית ל-MK05 ב-tx-intel.ts או ב-tx-detail.ts; הקוד מופיע שם רק כהפניה בשדה whenNot של " +
+          "רשומת MK02 (tx-intel.ts), כיעד לחסימה לרכש.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MK05",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "פריט הפישוט 'S4TWL - Business Partner Approach' ברשימת S/4HANA 2025 FPS01 מונה את MK05 בשמה ברשימת " +
+        "הטרנזקציות שאינן זמינות ב-S/4HANA on-premise ומנותבות (redirected) לטרנזקציית BP; לפי הפריט, 'There is " +
+        "no specific user interface for customer/vendor like known from SAP Business Suite'.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MK05_SIMPL2025,
+      recommendedAction:
+        "לתעד תהליכי חסימת ספק לרכש דרך טרנזקציית BP ולא דרך MK05 בסביבת S/4HANA On-Premise; לבדוק ב-SE93 במערכת " +
+        "היעד את הניתוב בפועל, ולוודא ש-Customer Vendor Integration (CVI) הושלם, שכן לפי הפריט 'A system where " +
+        "the CVI is not in place will be declined for the transition'.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:MK01", "tx:MK02", "tx:MK03", "tx:BP"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: פריט הפישוט 'S4TWL - Business Partner Approach' (רשימת 2025 FPS01, Document Version 1.36, " +
+      "פריט 5.1.27) נוקב ב-MK05 בשמה ברשימת 'Transactions that get redirected to transaction BP', לצד MK01, " +
+      "MK02, MK03, MK06 ועוד. בחיפושים שבוצעו זו הרשומה הרשמית היחידה שנמצאה הנוקבת ב-MK05 ביחס לגישת BP. " +
+      "הפריט המקביל בגרסת 2023 FPS03 (פריט 3.19, SAP Note 2265093 מודפס בפריט) נבדק: MK05 אינה נמנית בו, לא " +
+      "ברשימת ההפניה ולא ברשימת ה-obsolete; לכן הסטטוס וה-release נקבעו לפי 2025 FPS01 בלבד. מספר ה-Note מצוטט " +
+      "בכותרת ובפרוזה בלבד ולא בשדה sapNote, לפי כלל sap-note-format. החיפוש 'MK05 block vendor purchasing' " +
+      "(סקופ SAP_S4HANA_ON-PREMISE, 21 רשומות) העלה עמוד EWM ב-2025.001 שהסניפט שלו מדפיס 'Supplier Block " +
+      "(transaction MK05)'; השורה נשמרת כ-conflicting_sources מול פריט הפישוט, כמו ברשומות tx:MK01 ו-tx:MK02, " +
+      "עד בדיקה במערכת חיה. מה שלא אומת: (א) לא בוצעה בדיקה ב-SE93 במערכת יעד שהקוד מנותב ל-BP בפועל (MCP ABAP " +
+      "לא זמין בסשן זה). (ב) לא נקרא גוף עמוד ה-EWM מעבר לסניפט. (ג) לא הורץ fal-app.mjs, מאחר שהיורש הוא " +
+      "טרנזקציית BP ולא אפליקציית Fiori, ולא נמצא מקור רשמי הנוקב באפליקציית Fiori כיורשת של MK05. (ד) לא " +
+      "בוצעה בדיקה במערכת SAP חיה. (ה) ליד שלא נקרא לעניין MK05: הנושא 'Re-direction to Business Partner (BP) " +
+      "Transaction' (What's New in SAP S/4HANA 2022, versionId 2022.000, loio " +
+      "220bd05aa56c49318c4fae0173cc10d4); גופו נקרא ברשומת tx:MK06 לעניין MK06, ומה שהוא קובע לגבי MK05 לא " +
+      "נבדק. הוא עשוי להכריע את מעמד MK05 במהדורות שלפני 2025. רשומה מחקרית זו מחליפה את הרשומה שנוצרה " +
+      "אוטומטית ל-tx:MK05 ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, 'מה שהפריטים קובעים לגבי הקוד טרם " +
+      "נקרא'; חדש: replaced לפי פריט 5.1.27). ביקורת אדברסרית 2026-09-24: status.source הופנה לשורת 2025 " +
+      "FPS01, שדה sapNote הוסר, קווים מפרידים ארוכים הוסרו, טענת אי-קיום ב-status.he הוחלפה בציטוט, שורת EWM " +
+      "סומנה כסותרת. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MK06",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Re-direction to Business Partner (BP) Transaction | What's New in SAP S/4HANA 2022",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/220bd05aa56c49318c4fae0173cc10d4.html?locale=en-US&state=PRODUCTION&version=2022.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.000",
+        accessedAt: DATE24,
+        claim:
+          "גוף הנושא נקרא במלואו דרך sap-help-body.mjs (loio 220bd05aa56c49318c4fae0173cc10d4, deliverable 'What's " +
+          "New in SAP S/4HANA 2022', Application Component LO-MD-BP, Type 'Function Changed', 'Valid as Of SAP " +
+          "S/4HANA 2022'). הטקסט קובע כלשונו: 'Hence, the classical transaction codes XD06, XK06, MK06, FK06, " +
+          "FD06, VD06 are now deprecated. When you access or execute these transaction codes, you will be " +
+          "redirected to the Business Partner screen for maintenance (BP T-code).' הטבלה המצורפת מגדירה את MK06 " +
+          "כלשונה: 'MK06 Mark vendor for deletion (purchasing org level)'. כלומר הקוד הקלאסי MK06 מוגדר deprecated " +
+          "ומנותב למסך טרנזקציית BP, בתוקף החל מגרסת S/4HANA 2022.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.19 S4TWL - Business Partner " +
+          "Approach (SAP Note 2265093)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (מתחיל בעמ' 153, הטבלה בעמ' 155, Document Version 1.35) מפרט בטבלת 'Transactions not available in " +
+          "SAP S/4HANA on-premise edition' שתי רשימות: 'Transactions that get redirected to transaction BP' (רשימה " +
+          "שאינה כוללת את MK06) ולידה 'Transactions that are obsolete: FD06, FK06, MK06, MK12, MK18, MK19, VD06, " +
+          "XD06, V+21, V+22, V+23' (כלשונה, כולל MK06). סיווג זה ('obsolete', ללא ניתוב ל-BP) סותר את מסמך What's " +
+          "New 2022 ואת רשימת 2025 FPS01, שבהם MK06 מנותבת ל-BP. מה שיכריע: הפעלת MK06 או בדיקת SE93 במערכת " +
+          "S/4HANA 2023 On-Premise.",
+        verificationLevel: "conflicting_sources",
+      },
+      MK06_SIMPL2025,
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג הטרנזקציות של הפרויקט (tcode-catalog.ts), רשומת MK06",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "הרשומה (module MM, area 'ספק') מתעדת את MK06 עם שם עברי 'סימון ספק למחיקה (רכש)' ושם אנגלי 'Mark Vendor " +
+          "for Deletion (Purchasing)'. אין ברשומה שדה status, fiori או successor; לא נמצאה רשומה מקבילה " +
+          "ב-data/tx-intel.ts או ב-components/neo-shell/data/tx-detail.ts עבור MK06.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MK06",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "MK06 (סימון ספק למחיקה ברמת ארגון רכש) מופיעה ברשימת הפישוט הרשמית של S/4HANA 2025 FPS01 (S4TWL - " +
+        "Business Partner Approach) בין הטרנזקציות המנותבות לטרנזקציית BP, וכך גם במסמך What's New של SAP " +
+        "S/4HANA 2022 ('Re-direction to Business Partner (BP) Transaction'), שמגדיר אותה deprecated. רשימת 2023 " +
+        "FPS03 מסווגת אותה 'obsolete', והפער בין המהדורות נרשם כסתירה; היורש הנקוב במקורות שנקראו הוא טרנזקציית " +
+        "BP.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MK06_SIMPL2025,
+      recommendedAction:
+        "לא לתחזק תהליכי סימון ספק למחיקה חדשים דרך MK06 ב-S/4HANA On-Premise: הגישה לקוד מנותבת למסך BP. לבצע " +
+        "את הפעולה בטרנזקציית BP. לא נמצא מקור רשמי הנוקב באפליקציית Fiori בודדת עבור MK06, ולכן אין לרשום " +
+        "successor מסוג fiori עד שיימצא מקור כזה.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:MK01", "tx:MK02", "tx:MK03", "tx:MK05"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: (1) גוף מסמך What's New in SAP S/4HANA 2022 ('Re-direction to Business Partner (BP) " +
+      "Transaction', loio 220bd05aa56c49318c4fae0173cc10d4) נקרא במלואו דרך sap-help-body.mjs ומגדיר את MK06 " +
+      "בשמה כטרנזקציה deprecated המנותבת ל-BP, בתוקף מ-S/4HANA 2022. (2) שני פריטי הפישוט הרשמיים (3.19 ברשימת " +
+      "2023 FPS03, 5.1.27 ברשימת 2025 FPS01, שניהם נקראו מחילוץ הטקסט המלא ב-scratchpad/official/) נוקבים " +
+      "ב-MK06 כלשונה, עם סיווג שונה בין המהדורות (obsolete במהדורת 2023 FPS03, redirected to BP במהדורת 2025 " +
+      "FPS01 ובמסמך What's New 2022), שנרשם כסתירה (conflicting_sources); מה שיכריע: הפעלת MK06 או SE93 במערכת " +
+      "S/4HANA 2023. (3) רשומת קטלוג הטרנזקציות של הפרויקט (data/tcode-catalog.ts) אומתה כמקור לשם העברי " +
+      "והאנגלי ולתחום (ספק, MM). מה שלא אומת: (א) לא בוצעה בדיקה חיה ב-SE93 או ב-BP שהקוד אכן מנותב במערכת יעד " +
+      "קונקרטית (MCP ה-ABAP לא זמין בסשן זה). (ב) לא נמצאה רשומה קיימת ב-data/tx-intel.ts או " +
+      "ב-components/neo-shell/data/tx-detail.ts עבור MK06 לצורך הצלבה נוספת. (ג) לא נמצאה אפליקציית Fiori " +
+      "חלופית ספציפית: אף מקור רשמי שנקרא אינו נוקב באפליקציה כזו עבור MK06, ולכן לא נוסף successor מסוג fiori " +
+      "ו-fal-app.mjs לא הופעל בהיעדר מזהה יעד. (ד) העמדה ב-ECC נלמדת מהניסוח 'classical transaction codes' " +
+      "במסמך What's New ומרשומת הקטלוג; חיפושי sap-help-search.mjs עם --product SAP_ERP (שתי שאילתות: 'MK06 " +
+      "vendor deletion', 'MK06 mark vendor deletion purchasing') לא החזירו כותרת או סניפט ECC ייעודיים הנוקבים " +
+      "ב-MK06. ביקורת אדברסרית 2026-09-24: שורת 2023 סומנה כסתירה, מקור הסטטוס הועבר לרשימת 2025 FPS01, הוסרו " +
+      "מההמלצה אפליקציית Fiori והרשאות ללא מקור, טווחי העמודים תוקנו. לא בוצעה בדיקה במערכת SAP חיה. הרשומה " +
+      "אינה נושאת שדה reviewer, כמוסכמת הקטלוג. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:MK06 " +
+      "ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, verification_required; חדש: replaced, יורש tx:BP).",
+  },
+  {
+    id: "tx:MM17",
+    evidence: [
+      MM17_SIMPL2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Mass Maintenance of Material Master Data",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/bd9b645296991257e10000000a445394.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (sap-help-search.mjs 'MM17 mass maintenance material', תחום SAP_S4HANA_ON-PREMISE, " +
+          "deliverable Logistics General (LO), versionId 2025.001) מציגה את הסניפט: 'The mass maintenance tool " +
+          "(transaction MM17) enables you to change a large group of master data records at once. You can select " +
+          "the mass maintenance tool within a number of master data transactions.' כלומר MM17 מתועדת בתיעוד " +
+          "S/4HANA On-Premise 2025 FPS01 ככלי התחזוקה ההמונית לרשומות אב. גוף העמוד לא נקרא, והסניפט אינו אומר דבר " +
+          "על זמינות בפועל במערכת.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Display and Change Master Data",
+        url: "https://help.sap.com/docs/SAP_ERP/83ae2fb47d3f45099dc6d121b0a7706c/3acfcc5340487214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (sap-help-search.mjs 'mass maintenance material master MM17', --product SAP_ERP, " +
+          "deliverable Defense Forces & Public Security, versionId 6.18.latest) מציגה את הסניפט: 'Mass Change to " +
+          "Material Master Data In the transaction for making mass changes to material master data (transaction " +
+          "code MM17), four DFPS-specific fields are available in table MARA'. כלומר בצד ה-ECC, MM17 מתועדת " +
+          "כטרנזקציה לשינוי המוני של אב החומר. גוף העמוד לא נקרא, והסניפט אינו אומר דבר מעבר לכך.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מדריך הטרנזקציות של הפרויקט (TCODE_DIRECTORY), רשומת MM17",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר (module MM) מגדירה את MM17 כ-'שינוי המוני אב חומר' (Mass maintenance material.) עם מילות " +
+          "המפתח mass, שינוי המוני, MASS. הרשומה אינה מפנה לפריט הפישוט או לתרחיש MPN.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-directory.ts#MM17",
+      },
+    ],
+    status: {
+      status: "restricted",
+      he:
+        "פריט הפישוט 'S4TWL - Manufacturer Part Number' ברשימת 2025 FPS01 קובע ש-MM17 ו-MMCC 'not available for " +
+        "MPN materials in SAP S/4HANA', ולכן הסטטוס restricted: ההגבלה המתועדת חלה על חומרי MPN. הפריט אינו אומר " +
+        "דבר, לכאן או לכאן, על חומרים שאינם MPN; עמוד 'Mass Maintenance of Material Master Data' בתיעוד 2025 " +
+        "FPS01 מתאר את MM17 ככלי התחזוקה ההמונית לרשומות אב.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MM17_SIMPL2025,
+      recommendedAction:
+        "לפני ההמרה לבדוק אם הגדרת ה-Customizing 'Activate Inventory-Managed MPN' מופעלת ואילו חומרים מנוהלים " +
+        "כ-MPN, ולתכנן עבורם דרך עבודה אחרת לשינוי המוני, שכן הפריט קובע ש-MM17 אינה זמינה עבורם ב-S/4HANA. " +
+        "לעיין ב-SAP Notes 2348023, 2334012, 2334008, 2270836 ו-2360860 שהפריט מפנה אליהם. לוודא ב-SE93 במערכת " +
+        "היעד שהקוד קיים ומורשה.",
+    },
+    xrefs: ["tx:MM01", "tx:MM02", "table:MARA"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה נבדק: (1) פריט הפישוט 'S4TWL - Manufacturer Part Number' (13.1.3 ברשימת 2025 FPS01; אותו משפט בפריט " +
+      "48.5 ברשימת 2023 FPS03) נקרא בטקסט המחולץ של ה-PDF. (2) חיפוש sap-help-search.mjs 'MM17 mass " +
+      "maintenance material' בתחום SAP_S4HANA_ON-PREMISE: 21 תוצאות, ביניהן 'Mass Maintenance of Material " +
+      "Master Data' (2025.001). (3) חיפוש 'mass maintenance material master MM17' עם --product SAP_ERP: 21 " +
+      "תוצאות, ביניהן 'Display and Change Master Data' (DFPS, 6.18.latest). לא נקרא גוף עמוד דרך " +
+      "sap-help-body.mjs; הטענות מוגבלות לכותרות ולסניפטים. fal-app.mjs לא הורץ: הפריט אינו נוקב באפליקציית " +
+      "Fiori או ביורשת, ולכן לא נרשם successor. תיקון לאחר ביקורת: הטיוטה הקודמת הציגה URL של עמוד PP/DS " +
+      "('Mass Maintenance of Master Data Objects') כאילו הוא עמוד רשימת הפישוט, ייחסה לפריט 13.1.3 מספר SAP " +
+      "Note שהפריט אינו מדפיס (הוא מודפס בפריטים 13.1.1 ו-13.1.2), וייחסה את סניפט ה-DFPS לעמוד 'Changing " +
+      "Material PP-SATST01'; שלושתם תוקנו, ומקור הסטטוס הוחלף ל-PDF של רשימת הפישוט 2025 FPS01. מה לא נבדק: " +
+      "SE93 במערכת יעד (MCP ABAP לא זמין), SAP Notes שהפריט מפנה אליהם (דורשים S-user), ואילו חומרים אצל הלקוח " +
+      "מנוהלים כ-MPN. לא בוצעה בדיקה במערכת SAP חיה. ביקורת אדברסרית חוזרת (2026-09-24) אישרה את הרשומה " +
+      "המתוקנת ללא הורדות. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:MM17 ב-transactions-auto.ts " +
+      "(ישן: ללא הכרעת מעמד, verification_required; חדש: restricted לפי פריט הפישוט). הרשומה אינה נושאת שדה " +
+      "reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MMBE",
+    evidence: [
+      MMBE_SIMPL2025,
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library: MMBE, Display Stock Overview (SAP GUI), S/4HANA 2025 FPS01 On-Premise (S32OP)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MMBE')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library למזהה MMBE (fal-app.mjs MMBE --release S32OP) מציגה רישום Launchpad מפורסם " +
+          "(Published) מסוג SAP GUI, רכיב LO-MD-MM, תפקידים SAP_BR_INVENTORY_MANAGER, SAP_BR_MATL_PLNR_EXT_PROC, " +
+          "SAP_BR_PRODN_PLNR ו-SAP_BR_WAREHOUSE_CLERK, קטלוגים עסקיים SAP_MM_BC_IM_MANAGE " +
+          "ו-SAP_MM_BC_IM_MAT_STOCK_DSP, קטלוג טכני SAP_TC_PRC_IM_BE_APPS:S4PRC, intent " +
+          "Material-displayStockOverviewInWebGUI, GUI transactions 'leading MMBE', ללא predecessor או successor. " +
+          "רשימת ה-releases מתחילה ב-S6OP (1610) ומגיעה עד S32OP (2025 FPS01).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Stock Overview: Company Code/Plant/Storage Location/Batch (MMBE)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/b8fbc492055a4801b92456ff68a6d971.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "סניפט רשומת החיפוש (sap-help-search.mjs, SAP_S4HANA_ON-PREMISE, deliverable Retail, תאריך 2026-02-24): " +
+          "'The stock overview gives you an overview of the stocks of the material across all organizational " +
+          "levels along with the segmentation ... Execute transaction MMBE. ... On the Stock Overview: Company " +
+          "Code/Plant/Storage Location/Batch screen, enter the material.' הנושא מתעד את הרצת MMBE בגרסה זו; הסניפט " +
+          "אינו מציג אותה כמוחלפת.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Stock Overview: Company Code/Plant/Storage Location/Batch (MMBE)",
+        url: "https://help.sap.com/docs/SAP_ERP/f48e74ad3b3740bc8c9eaade394a3c1e/b8fbc492055a4801b92456ff68a6d971.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio (b8fbc492055a4801b92456ff68a6d971), אותה כותרת ואותו סניפט מופיעים תחת SAP_ERP, deliverable " +
+          "Fashion Management, 6.0 EHP8 Latest (תאריך 2026-06-12): 'Execute transaction MMBE'. זה מתעד את MMBE בצד " +
+          "ה-ECC; זהות הסניפטים אינה הצהרה של SAP על זהות תפקודית.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MMBE (סקירת מלאי) מתועדת ב-SAP ERP 6.0 EHP8 וב-S/4HANA On-Premise 2025 FPS01, ומפורסמת ב-Fiori Apps " +
+        "Library כרישום Launchpad מסוג SAP GUI מ-1610 ועד 2025 FPS01 ללא predecessor או successor. פריט הפישוט " +
+        "'S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM' קובע ש-MMBE_OLD הוחלפה ב-MMBE ומנחה 'Use transaction " +
+        "MIGO or MMBE in dialog'; MMBE אינה ברשימת טרנזקציות ה-MB שהוחלפו.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MMBE_SIMPL2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-MMBE לבדיקת חתך מלאי רגעי לפי רמות ארגון וסוגי מלאי; לזמינות עתידית להפנות ל-MD04 או " +
+        "CO09, ולמלאי מחסן להפנות ל-MB52. לא לבלבל בין MMBE ל-MMBE_OLD המוחלפת. לבדוק במערכת היעד את שיוך " +
+        "הקטלוגים SAP_MM_BC_IM_MANAGE או SAP_MM_BC_IM_MAT_STOCK_DSP למשתמשים לפני קביעת נתיב גישה דרך Launchpad. " +
+        "במערכות IS-OIL עם הרחבת UoM Group יש לבדוק את תצוגת MMBE ליחידות מידה שנוספו לקבוצה, לפי הפריט 'S4TWL - " +
+        "Unit of Measure (UoM) Group enahncement'.",
+    },
+    xrefs: ["tx:MB52", "tx:MD04", "tx:CO09"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: (1) הפריט 'S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM' נקרא במלואו משני קובצי ה-PDF שחולצו " +
+      "(SIMPL_OP2023 פריט 27.6, SIMPL_OP2025 פריט 15.3.9), והנוסח זהה בשניהם. הפריט מבחין בין רשימת טרנזקציות " +
+      "ה-MB שהוחלפו ב-MIGO לבין המשפט הנפרד על MMBE_OLD מול MMBE. (2) הרצנו את fal-app.mjs MMBE ואת " +
+      "fal-app.mjs --tcode MMBE על release S32OP: רישום Launchpad יחיד ללא predecessor או successor, מ-1610 " +
+      "ועד 2025 FPS01. (3) שני חיפושים ב-sap-help-search.mjs: 'Stock Overview MMBE' ללא --product (21 תוצאות) " +
+      "ו-'MMBE stock overview' עם --product SAP_ERP (21 תוצאות). נבחר נושא שחוזר עם אותו loio בשני המוצרים " +
+      "(deliverable Retail ב-S/4 ו-Fashion Management ב-ECC); רק הסניפט נקרא. (4) פריטי הרמז: 'S4TWL - Data " +
+      "Model in Oil & Gas Inventory management' (56.9 ברשימת 2023, 13.13.33 ברשימת 2025) אינו מזכיר את MMBE. " +
+      "לעומת זאת, 'S4TWL - Unit of Measure (UoM) Group enahncement' (IS-OIL-DS-HPM, 13.13.4 ברשימת 2025, 56.21 " +
+      "ברשימת 2023) מזכיר את MMBE בתצוגת מלאי ליחידת מידה שנוספה לקבוצה, למשל 'stock in MBL will be shown as 0 " +
+      "in MMBE for newly added UoM (i.e. MBL)'. הפריט הזה ספציפי לענף IS-OIL ולכן לא שימש מקור לסטטוס הכללי. " +
+      "מה שלא אומת: (א) לא נבדק ב-SE93 במערכת יעד שהקוד קיים ומורשה, כי ה-MCP ל-ABAP לא היה זמין. (ב) שדה " +
+      "fiori ברשומת המאגר data/tx-intel.ts#MMBE ('Stock - Single Material, F1077'; במקור מופרד במקף ארוך) נבדק " +
+      "מול fal-app.mjs F1077: F1077 הוא 'Material Documents Overview' המוביל את MB51, לא את MMBE. אי-ההתאמה " +
+      "מחוץ להיקף משימה זו ומתועדת כאן בלבד. (ג) האפליקציה 'Stock - Single Material' מופיעה ברשומת החיפוש " +
+      "'Material inventory balance' (Data Migration, 2025.001) כ-'Stock - Single Material (F1076)', ובעמוד " +
+      "ברזיל 'Moving Goods Out of the Issuing Plant' (2025.001) לצד MMBE ('... app ... or the Stock Overview " +
+      "(MMBE) transaction'). fal-app.mjs לא הורץ עבור F1076, והמזהה אינו ב-data/fiori/apps.ts, ולכן הוא אינו " +
+      "xref ואינו successor. לא בוצעה בדיקה במערכת SAP חיה. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית " +
+      "ל-tx:MMBE ב-transactions-auto.ts; לפני כתיבתה הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' " +
+      "ברמת repository_verified, וכעת הסטטוס unchanged נשען על פריט הפישוט. הרשומה אינה נושאת שדה reviewer, " +
+      "כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MMBE_OLD",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#MMBE_OLD",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר ממקמת את MMBE_OLD במודול MM, תחת האזור 'ניהול מלאי / נתוני אב (Material Master)'. שאר שדות " +
+          "הרשומה (תיאור עסקי, תהליך, טבלאות, BAPI) מתארים בפועל את MM02 ואינם רלוונטיים ל-MMBE_OLD; אינם משמשים " +
+          "כאן כראיה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MMBE_OLD",
+      },
+      MMBE_OLD_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3, item 27.6 S4TWL - AVAILABILITY OF " +
+          "TRANSACTIONS IN MM-IM (MM-IM-GF)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "פריט 27.6 (Document Version 1.35, עמ' 644-645) נושא את אותו טקסט: 'The transaction MMBE_OLD has been " +
+          "replaced by transaction MMBE. Alternatively there is also the Fiori App Stock Overview', עם אותה קביעה " +
+          "לגבי קבוצת הטרנזקציות המנויות: הקודים קיימים אך קריאתם מהתפריט מעלה הודעת שגיאה, והם ייצאו משימוש בעתיד " +
+          "הקרוב. אותה הנחיה בסעיף Solution: 'Use transaction MIGO or MMBE in dialog.' שתי מהדורות הרשימה עקביות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "List Displays (MM-IM) | Materials Management (MM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/3507b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט של רשומת החיפוש לתיעוד MM-IM ב-S/4HANA On-Premise 2025 FPS01 מציג את השורה 'Activity Transaction " +
+          "Code Stock Overview MMBE List of Material Documents MB51', כלומר MMBE מתועדת תחת הפעילות 'Stock " +
+          "Overview'.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "פריט הפישוט S4TWL - Availability of Transactions in MM-IM (SAP Note 2210569) קובע ש-MMBE_OLD הוחלפה " +
+        "בטרנזקציה MMBE, ומציין את אפליקציית ה-Fiori 'Stock Overview' כחלופה נוספת (מזהה אפליקציה לא צוין במקור " +
+        "ולא אותר ב-fal-app.mjs). לגבי קבוצת הטרנזקציות המנויות בפריט, הקודים עדיין קיימים אך קריאתם מהתפריט " +
+        "מעלה הודעת שגיאה, ו-SAP מודיעה שייצאו משימוש בעתיד הקרוב ללא תאריך יעד.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MMBE_OLD_SIMPL2025,
+      recommendedAction:
+        "לעבור לטרנזקציה MMBE לתצוגת מלאי בדיאלוג, או לאפליקציית ה-Fiori 'Stock Overview' שהפריט מציין (לא נמצא " +
+        "לה App ID דרך fal-app.mjs; יש לאתר אותה בקטלוג המערכת בפועל לפני מיפוי סופי). לא להשאיר קוד לקוח שקורא " +
+        "ל-MMBE_OLD, שכן הפריט קובע שהקודים המנויים בו לא ישמשו בקוד לקוח ושקריאתם מהתפריט מעלה הודעת שגיאה.",
+      successor: "tx:MMBE",
+    },
+    xrefs: ["tx:MMBE"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק מול קובצי רשימת הפישוט המקומיים (SIMPL_OP2025.pdf.txt, SIMPL_OP2023.pdf.txt): שתי המהדורות נושאות " +
+      "את אותו משפט לגבי MMBE_OLD. מקור הסטטוס: שורת הראיה של פריט 15.3.9 ברשימת 2025 FPS01. אפליקציית ה-Fiori " +
+      "'Stock Overview' המוזכרת בפריט אינה מזוהה במזהה אפליקציה (fal-app.mjs --tcode MMBE_OLD: none; --tcode " +
+      "MMBE: רק ערך SAP GUI 'MMBE Display Stock Overview', 0 successors), ולכן לא נרשם xref ל-fiori:. מספר " +
+      "ה-SAP Note 2210569 מופיע בפריט עצמו ונשמר בטקסט בלבד, ללא שדה sapNote (אין url של me.sap.com). רשומת " +
+      "המאגר tx-intel.ts#MMBE_OLD פגומה מבחינת התוכן העסקי (מתארת את MM02) ושימשה רק לשדות module/area. לא " +
+      "בוצעה בדיקה במערכת SAP חיה. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:MMBE_OLD " +
+      "ב-transactions-auto.ts (ישן: report-coverage.mjs --ids הציג לפני כתיבתה סטטוס נגזר 'unchanged' ברמת " +
+      "repository_verified; חדש: replaced, יורש tx:MMBE, לפי פריט הפישוט). הרשומה אינה נושאת שדה reviewer, " +
+      "כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MMPV",
+    evidence: [
+      MMPV_FAL_S32OP,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Close Period for Product Master | Product Master (SAP S/4HANA 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/bc6b9325fedd4344a84412b2195064fa/18d9464a79084a51a9c5d54fc31f3672.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (sap-help-search.mjs 'MMPV Close Periods material ledger') מציגה את הסניפט: 'Close Period " +
+          "for Material Master Records When the system is in operation, you normally run the period closing " +
+          "program RMMMPERI using the transaction MMPV once a month at the beginning of a new period ... Close " +
+          "Period for Product Master You can use one of the following apss to close a period: Close Period for " +
+          "Product Master (Fiori app) Close Period for Material Master Records (Classic SAP GUI'. התיעוד של 2025 " +
+          "FPS01 מתאר הרצת RMMMPERI באמצעות MMPV, ומונה את Close Period for Material Master Records (Classic SAP " +
+          "GUI) לצד אפליקציית Fiori בשם Close Period for Product Master. גוף העמוד לא נקרא, רק הסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.5.10 S4TWL - Technical Changes " +
+          "in Material Ledger with Actual Costing (SAP Note 2354768)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "פריט 6.5.10 (רכיב יישום CO-PC-ACT; Business Impact note 2354768) עוסק בשינוי מודל הנתונים של Material " +
+          "Ledger עם Actual Costing: טבלאות MLDOC/MLDOCCCS מחליפות בין היתר את CKMLPP, CKMLCR ו-MLCD, ו-MLRUNLIST " +
+          "מחליפה את CKMLMV011. הפריט מזכיר את MMPV במשפט: 'During period shift (transaction MMPV) the tables " +
+          "MLDOC_EXTRACT and MLDOCCCS_EXTRACT will be compressed automatically for periods older than previous " +
+          "period'. הפריט אינו קובע הסרה, שינוי מסך או יורשת לטרנזקציה MMPV; האזכור מתאר כיווץ אוטומטי של שתי " +
+          "טבלאות בעת הרצת ה-period shift.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 12.4 S4TWL - Technical Changes " +
+          "in Material Ledger with Actual Costing (SAP Note 2354768)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "פריט 12.4 ברשימת 2023 FPS03 (רכיבי יישום FIN-MIG-ML, CO-PC-ACT; Business Impact note 2354768) מזכיר את " +
+          "MMPV באותו נוסח: 'During period shift (transaction MMPV) the tables MLDOC_EXTRACT and MLDOCCCS_EXTRACT " +
+          "will be compressed automatically for periods older than previous period'. המסמך מתאר את MMPV כטרנזקציית " +
+          "ה-period shift ואינו קובע שינוי, הסרה או יורשת לקוד עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "רשומות המאגר: tcode-catalog.ts / tcode-directory.ts / troubleshooting-ext.ts / troubleshooting-ext2.ts, " +
+          "MMPV",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "קטלוג הטרנזקציות מתאר את MMPV כ'סגירת תקופות (סגירת תקופה MM)' / 'Close Periods (MM Period Closing)', " +
+          "ו-tcode-directory.ts כ'פתיחת תקופת MM'. שתי רשומות troubleshooting (period-close-mmrv-ob52-mismatch, " +
+          "period-mm-not-open) מתעדות תרחישי שגיאה M7053 סביב MMPV מול MMRV ו-OB52, " +
+          "ו-best-practices/cross-processes-2.ts מקשר את MMPV לרשימת טרנזקציות הכוללת tx:MMRV, tx:IW31, tx:IW32, " +
+          "tx:COR1, tx:COR2, tx:COR3, tx:COR6N ו-tx:CO11N. הרשומות אינן קובעות status או release; הן משמשות הקשר.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MMPV",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MMPV (Close Periods) רשומה ב-Fiori Apps Library כאפליקציית SAP GUI בסטטוס Published בגרסאות On-Premise " +
+        "מ-1610 עד S/4HANA 2025 FPS01, ללא predecessor או successor, ותיעוד 2025 FPS01 מונה את האפשרות הקלאסית " +
+        "ב-SAP GUI לצד אפליקציית Fiori לסגירת תקופה. פריט הפישוט 'S4TWL - Technical Changes in Material Ledger " +
+        "with Actual Costing' (2023 FPS03 ו-2025 FPS01) מזכיר את MMPV בהקשר כיווץ הטבלאות " +
+        "MLDOC_EXTRACT/MLDOCCCS_EXTRACT בעת ה-period shift, ואינו קובע שינוי, הסרה או יורשת לטרנזקציה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MMPV_FAL_S32OP,
+      recommendedAction:
+        "ניתן להמשיך להשתמש ב-MMPV לסגירה ופתיחה של תקופת MM ב-S/4HANA On-Premise. כאשר Material Ledger Actual " +
+        "Costing פעיל, יש לבדוק מול פריט הפישוט את מודל הנתונים החדש (MLDOC וכו') ואת שלב ההמרה M10 (Migrate " +
+        "Material Ledger Master Data). מומלץ לבדוק ב-SE93 במערכת היעד שהקוד קיים ומורשה, ולבחון את אפליקציית " +
+        "Fiori 'Close Period for Product Master' כחלופת Fiori כשהיא מתאימה לתהליך.",
+    },
+    xrefs: ["tx:MMRV", "tx:OB52", "tx:MR21", "tx:CKM3"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה אומת: (1) רשומת ה-Fiori Apps Library (fal-app.mjs MMPV --release S32OP) מציגה את MMPV כ-App מסוג SAP " +
+      "GUI, Published, ברשימת גרסאות S6OP (1610) עד S32OP (2025 FPS01), ללא predecessor או successor; זהו " +
+      "ה-source של הסטטוס. (2) sap-help-search.mjs 'MMPV Close Periods material ledger' החזיר את העמוד 'Close " +
+      "Period for Product Master' (2025.001, loio 18d9464a79084a51a9c5d54fc31f3672), שהסניפט שלו מתאר הרצת " +
+      "RMMMPERI באמצעות MMPV ומונה את האפשרות הקלאסית ב-SAP GUI לצד אפליקציית Fiori; גוף העמוד לא נקרא. (3) " +
+      "פריטי הפישוט 12.4 (2023 FPS03) ו-6.5.10 (2025 FPS01), שניהם Business Impact note 2354768, נקראו מהטקסט " +
+      "המחולץ ב-scratchpad/official; שניהם מזכירים את MMPV בהקשר כיווץ MLDOC_EXTRACT/MLDOCCCS_EXTRACT בעת " +
+      "ה-period shift, ואינם קובעים דבר על הטרנזקציה עצמה. מה לא אומת: (א) לא בוצעה בדיקה ב-SE93 במערכת יעד. " +
+      "(ב) SAP Note 2354768 עצמו לא נקרא (נדרש S-user). (ג) לא נמצא מקור רשמי שמגדיר את 'Close Period for " +
+      "Product Master' כיורשת של MMPV, ולכן לא נרשם successor. לא בוצעה בדיקה במערכת SAP חיה. רשומה מחקרית זו " +
+      "מחליפה את הרשומה שנוצרה אוטומטית ל-tx:MMPV ב-transactions-auto.ts; לפני כתיבתה הציג report-coverage.mjs " +
+      "--ids סטטוס נגזר 'unchanged' ברמת repository_verified, וכעת הסטטוס unchanged נשען על רשומת ספריית " +
+      "ה-Fiori. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MR21",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MR21",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר המקומית מתעדת את MR21 כ'שינוי מחיר' (Price Change), מודול MM, תחום 'הערכת מלאי'; ללא קביעת " +
+          "מעמד S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MR21",
+      },
+      MR21_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, item 15.3.10 S4TWL - Material " +
+          "Valuation - Statistical moving average price (זהה ב-2023 FPS03 item 27.8)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (עמ' 1489) קובע שבמצב שבו הלקוח בוחר באפשרות להגביר את התפוקה הטרנזקציונית בתנועות מלאי, המערכת " +
+          "מפסיקה לחשב את המחיר הממוצע הנע הסטטיסטי, ובעקבות זאת: 'the \"statistical\" moving average price and the " +
+          "value based on the \"statistical\" moving average price are no longer available on the user interface. " +
+          "This concerns the following transaction codes: MM01, MM02, MM03, CKM3 and MR21' (כלשונו). כלומר MR21 " +
+          "עצמה ממשיכה להתקיים; משתנה רק הצגת שדה אחד במסך שלה, ורק כאשר האפשרות הופעלה (בחירה בלתי הפיכה). אותו " +
+          "נוסח בדיוק אומת גם בגרסת 2023 FPS03 (item 27.8).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Feature Comparison for Material Valuations and Price Changes | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/1703f29f66e94ab8a23e016f9f7f2b89.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד רשמי (נקרא בגוף מלא דרך sap-help-body.mjs, loio 1703f29f66e94ab8a23e016f9f7f2b89) שתיאורו 'Find " +
+          "out about the differences between the app Manage Material Valuations and transactions MM03, CKM3, MR21, " +
+          "MR22, CKME and CKMPRPN', מציג טבלת השוואת יכולות בין האפליקציה F2680 'Manage Material Valuations' לבין " +
+          "MR21 ('Change Material Prices') ושאר הטרנזקציות; בשורה 'Change material costs' שתי העמודות (F2680 " +
+          "ו-MR21) מסומנות 'Yes'. זהו מסמך השוואת תכונות בין שני כלים קיימים במקביל, ואינו מכריז על F2680 " +
+          "כ-successor של MR21 (אין בעמוד ניסוח replace/deprecate/successor).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F6489 'Change Material Prices' (Transactional / SAP Fiori elements), release " +
+          "S32OP (S/4HANA 2025 FPS01, on-premise)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F6489')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ספריית ה-Fiori של F6489 (component CO-FIO-ML, roles SAP_BR_INVENTORY_ACCOUNTANT, OData " +
+          "UI_FML_CHG_MATERIAL_PRICES 0001, זמינה בכל המהדורות מ-S27OP=2023 עד S32OP=2025 FPS01) מדפיסה 'GUI " +
+          "transactions: leading -; related -' וכן 'predecessors: -; successors: -'. כלומר הספרייה עצמה אינה " +
+          "מכריזה על F6489 כ-successor רשמי של MR21 (אין GUI-transaction וגם אין predecessor/successor מקושרים).",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "MR21 ('שינוי מחיר', תחזוקת מחירי חומר) ממשיכה להתקיים ב-S/4HANA On-Premise ולא הוחלפה ולא הוסרה. שני " +
+        "פריטי הפישוט הרשמיים (S4TWL - Material Ledger Obligatory for Material Valuation; S4TWL - Material " +
+        "Valuation - Statistical moving average price) קובעים שתי השפעות על הטרנזקציה: בעקבות הפיכת Material " +
+        "Ledger לחובה, MR21 (יחד עם MM02) מאפשרת כעת תחזוקת מחיר במספר מטבעות; ובמערכות שבהן נבחרה האפשרות " +
+        "הבלתי-הפיכה להגברת התפוקה הטרנזקציונית בתנועות מלאי, שדה המחיר הממוצע הנע הסטטיסטי אינו מוצג עוד במסך " +
+        "MR21. אין מקור רשמי המכריז על מחליפה: אפליקציית ה-Fiori F6489 'Change Material Prices' מדפיסה " +
+        "predecessors/successors ריקים, ועמוד ההשוואה הרשמי מציג את F2680 'Manage Material Valuations' כאפליקציה " +
+        "חופפת-חלקית, לא כמחליפה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MR21_SIMPL2025,
+      recommendedAction:
+        "לאמת בסביבת S/4HANA של CBC אם Material Ledger פעיל ואם אפשרות הגברת התפוקה הטרנזקציונית בתנועות מלאי " +
+        "הופעלה, כדי לדעת אם שדה המחיר הממוצע הנע הסטטיסטי אכן מוצג ב-MR21 בפועל אצלם (פריט 15.3.10, בחירה בלתי " +
+        "הפיכה); לוודא שתחזוקת מחיר במספר מטבעות דרך MR21/MM02 מתאימה לתהליך (פריט 15.3.2); לבחון את F6489 " +
+        "'Change Material Prices' כאפליקציית Fiori נוספת לשינוי מחירים, בלי לראות בה מחליפה, שכן רשומת הספרייה " +
+        "שלה מדפיסה predecessors/successors ריקים.",
+    },
+    xrefs: ["tx:MM02", "tx:MR22", "tx:CKM3", "table:MBEW"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מחקר בוצע במסלול הרשמי בלבד לפי HOUSE-RULES: (1) grep בקוד המקור איתר רשומת tcode-catalog.ts#MR21 וכן " +
+      "רשומה אוטומטית קיימת (ללא הכרעת מעמד) ב-data/verification/transactions-auto.ts, ששימשה נקודת מוצא " +
+      "לזיהוי המקורות הרלוונטיים ואומתה מחדש ישירות מול הקבצים הרשמיים. (2) פריטי הפישוט 15.3.2/15.3.10 (2025 " +
+      "FPS01) ו-27.7/27.8 (2023 FPS03) נקראו במלואם מ-scratchpad/official/SIMPL_OP2025.pdf.txt " +
+      "ו-SIMPL_OP2023.pdf.txt (לא סניפט בלבד); הציטוטים ב-2023 FPS03 זהים מילה-במילה לאלה שצוטטו מ-2025 FPS01, " +
+      "ולכן לא נכללו כראיה נפרדת כדי לא לחרוג ממספר הראיות המומלץ, אך מתועדים כאן: item 27.7 עמ' 649 ('In MM02 " +
+      "and MR21 material prices can now be maintained in multiple currencies'), item 27.8 עמ' 651 ('MM01, " +
+      "MM02, MM03, CKM3 and MR21'). (3) sap-help-search.mjs 'MR21 material price change' (ללא --product, size " +
+      "8) החזיר 21 תוצאות; שתיים מהן (Feature Comparison for Material Valuations and Price Changes; Valuation " +
+      "of Material Components) שימשו את המחקר, האחרונה נקראה כסניפט בלבד ולכן לא נכללה כראיה נפרדת (מסתפקת " +
+      "ברשומה האוטומטית). (4) הגוף המלא של עמוד Feature Comparison נקרא עם sap-help-body.mjs ואישר ש-F2680 " +
+      "'Manage Material Valuations' חופפת חלקית ל-MR21 ולא מוצגת כמחליפה. (5) scripts/fal-app.mjs F6489 " +
+      "--release S32OP הריץ מול ספריית ה-Fiori: predecessors/successors ריקים, אין GUI transaction מקושרת; " +
+      "F2680, F4006 ו-F6684 (שהרשומה האוטומטית איתרה כבעלות MR21 כקוד מוביל) אינן ב-data/fiori/apps.ts ולכן " +
+      "אינן xref/successor. (6) data/library/book7/raw/ch2.json (סעיף Change Material Prices (F6489), ספר NEO, " +
+      "secondary source) מציין ש-SAP ממליצה על MR21 כש-universal parallel accounting אינו מופעל; מקור זה אינו " +
+      "help.sap.com רשמי ולכן לא נכלל כראיה sap_official אלא צוין כאן בלבד. status נקבע 'changed' (לא " +
+      "'unchanged', כדי לשקף את שני השינויים המתועדים; לא 'replaced'/'deprecated' כי אין מקור רשמי הקובע כך). " +
+      "הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג. לא בוצעה בדיקה במערכת SAP חיה. רשומה מחקרית זו מחליפה " +
+      "את הרשומה שנוצרה אוטומטית ל-tx:MR21 ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, verification_required; " +
+      "חדש: changed).",
+  },
+  {
+    id: "tx:OMS2",
+    evidence: [
+      OMS2_HELP_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Information Sheet on Transferring Media Product Master Data",
+        url: "https://help.sap.com/docs/SAP_ERP/3cf673c3a0394db0aabd89d79986cbe0/387ace53118d4308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (help.sap.com, SAP ERP 6.0 EHP8, --product SAP_ERP) מציגה בסניפט 'Define Attributes of " +
+          "Material Types (transaction OMS2)', ומאשרת שגם בצד ה-ECC טרנזקציית OMS2 מתועדת תחת אותו שם פונקציונלי. " +
+          "הטענה מוגבלת לסניפט; גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.24 S4TWL - Simplified " +
+          "Product Master Tables Related to OMSR Transaction",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "פריט 5.1.24 (עמ' 128-129, Note מס' 0002267138) עוסק בטבלאות הקשורות לטרנזקציית OMSR ('Field groups and " +
+          "Field selection for data screens'), כגון T130F, T130A ו-T133F, שמחלקת המסירה שלהן משתנה ל-E ב-S/4HANA " +
+          "(לעומת G ב-Business Suite). בתוך תיאור התהליך המומלץ, הפריט קובע במפורש: 'The created field reference " +
+          "can be assigned to required material type / plant. To assign it to a material type, go to transaction " +
+          "OMS2.' כלומר OMS2 מוזכרת בשמה כטרנזקציה להצמדת Field Reference לסוג חומר, ולא כאובייקט שהפריט עצמו " +
+          "מפשט, מחליף, מגביל או מסיר; הפריט אינו קובע לגבי OMS2 עצמה החלטה כלשהי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.21 S4TWL - Simplified Product " +
+          "Master Tables Related to OMSR Transaction",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "פריט 3.21 (עמ' 161-162, Note מס' 2267138) הוא הפריט הקודם באותו נושא (טבלאות OMSR: T130F/T130A/T133F, " +
+          "מחלקת מסירה E). נוסח התהליך המומלץ תואם לזה של פריט 5.1.24 בגרסת 2025 FPS01, כולל אותו משפט: 'To assign " +
+          "it to a material type, go to transaction OMS2.' כך שהימצאות OMS2 בתהליך המתועד אינה אזכור חד-פעמי אלא " +
+          "עקבית לאורך שתי גרסאות רשימת פישוט עוקבות (2023 FPS03 ו-2025 FPS01); גם כאן הפריט אינו קובע דבר לגבי " +
+          "OMS2 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טרנזקציית OMS2 (הגדרת תכונות סוגי חומר, Define Attributes of Material Types) מתועדת בתיעוד הרשמי של SAP " +
+        "S/4HANA On-Premise 2025 FPS01 באותו שם פונקציונלי שבו היא מתועדת ב-SAP ERP 6.0 EHP8, ומוזכרת בשמה " +
+        "כטרנזקציה להצמדת Field Reference לסוג חומר גם בתוך שני פריטי הפישוט העוקבים 5.1.24 (2025 FPS01) ו-3.21 " +
+        "(2023 FPS03) 'S4TWL - Simplified Product Master Tables Related to OMSR Transaction'. שני הפריטים " +
+        "משפיעים על מחלקת המסירה של טבלאות תלויות (T130F, T130A, T133F) ולא על OMS2 עצמה; אף מקור רשמי שנבדק " +
+        "בסבב זה אינו קובע לגבי OMS2 החלפה, הגבלה, הוצאה משימוש או יורשת.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: OMS2_HELP_2025,
+      recommendedAction:
+        "להמשיך לתחזק סוגי חומר דרך OMS2 (Define Attributes of Material Types), ולוודא בפרויקט ההמרה שהצמדת " +
+        "Field Reference לסוג חומר (לפי תהליך פריט הפישוט של OMSR) עדיין מתבצעת דרך OMS2 כמתואר. שינוי מחלקת " +
+        "המסירה של הטבלאות הנלוות (T130F/T130A/T133F ל-E) אינו דורש שינוי בדרך העבודה עם OMS2 עצמה, אך מומלץ " +
+        "לבדוק קוד מותאם או Z-reports שמניחים מחלקת מסירה G על טבלאות אלה, ולהפסיק Customizing של field " +
+        "selection במרחב השם של SAP (בהתאם להנחיית הפריטים). לאמת ב-SE93 במערכת יעד שהקוד עודנו פעיל, שכן לא " +
+        "בוצעה בדיקה חיה בסבב זה.",
+    },
+    xrefs: ["table:T134", "tx:MM01", "tx:MM02", "tx:MM03", "tx:SPRO"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: (1) grep על OMS2 במאגר (data/tcode-catalog.ts, data/table-enrichment.ts, data/tx-intel.ts, " +
+      "data/verification/tables.ts#table:T134): הפרויקט מסווג OMS2 במודול MM, אזור 'קונפיגורציה', שם אנגלי " +
+      "'Material Type Configuration'; זהו סיווג מבנה פרויקטלי ולא ראיה רשמית. (2) ארבעה חיפושים דרך " +
+      "scripts/sap-help-search.mjs: 'OMS2 material type' (ברירת מחדל S/4HANA On-Premise), 'Material Type " +
+      "Configuration OMS2', 'OMS2 material type' עם --product SAP_ERP, ו-'Define Attributes of Material " +
+      "Types'. שלושת המקורות ה-sap_help שהתקבלו הם סניפטים בלבד; לא הורץ sap-help-body.mjs כי הסניפטים הספיקו " +
+      "לקביעת קיום התיעוד, ולא לטענה עמוקה יותר. (3) שני פריטי הפישוט הרשמיים (2023 FPS03 §3.21, 2025 FPS01 " +
+      "§5.1.24) נקראו במלואם מהטקסט המחולץ ב-scratchpad/official/. (4) לא הורץ fal-app.mjs: אין רמז לאפליקציית " +
+      "Fiori חלופית ל-OMS2 באף מקור שנבדק, וגם לא ל-Fiori בתוך פריטי הפישוט (הם מפנים רק לטרנזקציות " +
+      "OMSR/OMS9/OMS2/OMSA). מה שלא אומת: (א) מבנה השדות המלא של המסך/הטבלאות שמאחורי OMS2 (T134 ונלוות); לא " +
+      "הורחב מעבר לרשומת table:T134 הקיימת. (ב) SAP Note 2267138 (מודפס בגוף שני פריטי הפישוט) לא נקרא בנפרד " +
+      "(דורש S-user). (ג) OMSR ו-OMSA מוזכרות בתהליך אך אינן ברשימת הטרנזקציות של " +
+      "lib/route-manifest.generated.ts ולכן לא הופיעו כ-xref, רק בפרוזה. (ד) לא בוצעה בדיקה במערכת SAP חיה; " +
+      "הכל מבוסס על תיעוד רשמי (snippet-level) ועל פריטי פישוט רשמיים שנקראו במלואם. ביקורת אדברסרית " +
+      "2026-09-24: נתיב ה-IMG שלא הודפס במקור הוסר מההמלצה, מקור הסטטוס הופנה לשורת הראיה הראשונה, קווים " +
+      "מפרידים ארוכים הוסרו, והניסוח על פריט 3.21 תוקן ('נוסח התהליך המומלץ תואם', 'אזכור חד-פעמי'). בכתיבה " +
+      "הוסרו 'בלבד' ו'הפעילה' מ-status.he ומשורת הראיה של פריט 5.1.24 (הפריט מנחה 'go to transaction OMS2' " +
+      "ואינו מתאר את מצב הקוד). רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:OMS2 " +
+      "ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, verification_required; חדש: unchanged). הרשומה אינה נושאת " +
+      "שדה reviewer, כמוסכמת הקטלוג.",
   },
 ];
