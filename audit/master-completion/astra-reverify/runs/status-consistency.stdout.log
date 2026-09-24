@@ -1,0 +1,280 @@
+OK   table AFKO: list=unchanged detail=unchanged erd=unchanged palette=unchanged glyph=true
+OK   table EQUI: list=unchanged detail=unchanged erd=unchanged palette=unchanged glyph=true
+OK   table MARA: list=changed detail=changed erd=changed palette=changed glyph=true
+OK   tcode IP30: list=deprecated detail=deprecated erd=n/a palette=deprecated glyph=true
+OK   tcode IW31: list=unchanged detail=unchanged erd=n/a palette=unchanged glyph=true
+OK   tcode COR3: list=- detail=unchanged erd=n/a palette=unchanged glyph=true
+OK   fm BAPI_ALM_CONF_CREATE: list=released_api_available detail=released_api_available erd=n/a palette=released_api_available glyph=true
+OK   fm BAPI_PROCORD_GET_DETAIL: list=released_api_available detail=released_api_available erd=n/a palette=no result row for BAPI_PROCORD_GET_DETAIL glyph=true
+OK   cds I_Batch: list=s4_native detail=s4_native erd=n/a palette=s4_native glyph=true
+OK   fiori null: list=s4_native detail=s4_native erd=n/a palette=no technical name on the list card glyph=true
+OK   idoc BOMMAT: list=unchanged detail=unchanged erd=n/a palette=n/a glyph=true
+OK   enh Business Transaction Events (BTE): list=unchanged detail=unchanged erd=n/a palette=n/a glyph=true
+{
+  "base": "http://localhost:4196",
+  "checkedAt": "2026-09-24T06:25:50.926Z",
+  "consoleErrors": 0,
+  "fails": 0,
+  "results": [
+    {
+      "kind": "table",
+      "name": "AFKO",
+      "list": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "detail": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "erd": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "palette": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "table",
+      "name": "EQUI",
+      "list": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "detail": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "erd": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "palette": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "table",
+      "name": "MARA",
+      "list": {
+        "key": "changed",
+        "text": "משתנה ב-S/4HANA",
+        "glyph": true
+      },
+      "detail": {
+        "key": "changed",
+        "text": "משתנה ב-S/4HANA",
+        "glyph": true
+      },
+      "erd": {
+        "key": "changed",
+        "text": "משתנה ב-S/4HANA",
+        "glyph": true
+      },
+      "palette": {
+        "key": "changed",
+        "text": "משתנה ב-S/4HANA",
+        "glyph": true
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "tcode",
+      "name": "IP30",
+      "list": {
+        "key": "deprecated",
+        "text": "לא אסטרטגי ב-S/4HANA",
+        "glyph": true
+      },
+      "detail": {
+        "key": "deprecated",
+        "text": "לא אסטרטגי ב-S/4HANA",
+        "glyph": true
+      },
+      "palette": {
+        "key": "deprecated",
+        "text": "לא אסטרטגי ב-S/4HANA",
+        "glyph": true
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "tcode",
+      "name": "IW31",
+      "list": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "detail": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "palette": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "tcode",
+      "name": "COR3",
+      "detail": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "palette": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "fm",
+      "name": "BAPI_ALM_CONF_CREATE",
+      "list": {
+        "key": "released_api_available",
+        "text": "קיים API משוחרר",
+        "glyph": true
+      },
+      "detail": {
+        "key": "released_api_available",
+        "text": "קיים API משוחרר",
+        "glyph": true
+      },
+      "palette": {
+        "key": "released_api_available",
+        "text": "קיים API משוחרר",
+        "glyph": true
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "fm",
+      "name": "BAPI_PROCORD_GET_DETAIL",
+      "list": {
+        "key": "released_api_available",
+        "text": "קיים API משוחרר",
+        "glyph": true
+      },
+      "detail": {
+        "key": "released_api_available",
+        "text": "קיים API משוחרר",
+        "glyph": true
+      },
+      "palette": {
+        "absent": "no result row for BAPI_PROCORD_GET_DETAIL"
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "cds",
+      "name": "I_Batch",
+      "list": {
+        "key": "s4_native",
+        "text": "חדש ב-S/4HANA",
+        "glyph": true
+      },
+      "detail": {
+        "key": "s4_native",
+        "text": "חדש ב-S/4HANA",
+        "glyph": true
+      },
+      "palette": {
+        "key": "s4_native",
+        "text": "חדש ב-S/4HANA",
+        "glyph": true
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "fiori",
+      "name": null,
+      "list": {
+        "key": "s4_native",
+        "text": "חדש ב-S/4HANA",
+        "glyph": true
+      },
+      "detail": {
+        "key": "s4_native",
+        "text": "חדש ב-S/4HANA",
+        "glyph": true
+      },
+      "palette": {
+        "absent": "no technical name on the list card"
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "idoc",
+      "name": "BOMMAT",
+      "list": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "detail": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    },
+    {
+      "kind": "enh",
+      "name": "Business Transaction Events (BTE)",
+      "list": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "detail": {
+        "key": "unchanged",
+        "text": "ללא שינוי ב-S/4HANA",
+        "glyph": true
+      },
+      "same": true,
+      "glyphs": true,
+      "ok": true
+    }
+  ]
+}

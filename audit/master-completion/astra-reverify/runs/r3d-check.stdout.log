@@ -1,0 +1,65 @@
+{
+  "incident": {
+    "sym": 44741,
+    "fix": 52273,
+    "s4": 53221,
+    "sc": 54489,
+    "ok": true
+  },
+  "gates": {
+    "knowledge": true,
+    "centers": true,
+    "domains": true
+  },
+  "academy": {
+    "what": true,
+    "start": true,
+    "cert": true
+  },
+  "home": [
+    [
+      "חיפוש טבלה",
+      true
+    ],
+    [
+      "פתיחת תהליך עסקי",
+      true
+    ],
+    [
+      "בדיקת שינוי ב-",
+      true
+    ],
+    [
+      "המשך ללמוד",
+      true
+    ],
+    [
+      "מודל הנתונים",
+      true
+    ]
+  ],
+  "lessonHref": "/neo/academy/pm/pm-org-structure/",
+  "lesson": {
+    "toc": true,
+    "blocks": 20,
+    "exposure": true,
+    "readWord": "נצפה",
+    "viewed": 20,
+    "nikra": false,
+    "viewedBeforeScroll": 0
+  },
+  "chatStarters": 4,
+  "libStarters": 4,
+  "focus": {
+    "rail": false,
+    "top": false,
+    "dock": false,
+    "exitBtn": true
+  },
+  "focusAfterEsc": {
+    "rail": true,
+    "top": true,
+    "dock": true
+  },
+  "consoleErrors": 0
+}

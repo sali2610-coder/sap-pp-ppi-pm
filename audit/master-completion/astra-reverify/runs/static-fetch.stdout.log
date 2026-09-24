@@ -1,0 +1,182 @@
+{
+  "base": "http://localhost:4196",
+  "checkedAt": "2026-09-24T06:32:34.026Z",
+  "results": [
+    {
+      "id": "S7-HOME-5",
+      "url": "/neo/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {}
+    },
+    {
+      "id": "S7-READ-1",
+      "url": "/neo/s4-readiness/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "כיסוי תיעוד למעבר": 9,
+        "אומדן": 32,
+        "מוכנות כוללת": 0
+      }
+    },
+    {
+      "id": "S7-AC-2",
+      "url": "/neo/academy/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "לא נרשמה התקדמות במכשיר הזה": 8
+      }
+    },
+    {
+      "id": "S9-2",
+      "url": "/neo/academy/pm/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "עדיין לא התחלת את הקורס": 1
+      }
+    },
+    {
+      "id": "S9-4.bapi",
+      "url": "/neo/bapi/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "לא צוין במאגר": 0
+      }
+    },
+    {
+      "id": "S9-4.fiori",
+      "url": "/neo/fiori-apps/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "לא צוין במאגר": 0
+      }
+    },
+    {
+      "id": "S9-4.cds",
+      "url": "/neo/cds/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "לא צוין במאגר": 0
+      }
+    },
+    {
+      "id": "S9-4.bapi-detail",
+      "url": "/neo/bapi/BAPI_ALM_CONF_CREATE/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "לא מתועד במאגר": 2,
+        "לא צוין במאגר": 0
+      }
+    },
+    {
+      "id": "S9-5",
+      "url": "/neo/tables/AFKO/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "אימות ומקורות": 4,
+        "מקור הנתונים": 0
+      }
+    },
+    {
+      "id": "S7-TBL-2",
+      "url": "/neo/tables/AFKO/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "nxb-cta-note": 2
+      }
+    },
+    {
+      "id": "S4-2",
+      "url": "/neo/bapi/BAPI_ALM_CONF_CREATE/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "nxt-codeline": 2,
+        "nx-copy": 1
+      }
+    },
+    {
+      "id": "S7-CAT-1",
+      "url": "/neo/tables/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "nxd-stats--after": 1
+      }
+    },
+    {
+      "id": "S7-CERT-1",
+      "url": "/neo/certification/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "תרגול ובדיקת ידע": 8,
+        "זו אינה תוכנית הסמכה רשמית של SAP": 1
+      }
+    },
+    {
+      "id": "S7-KN-2",
+      "url": "/neo/centers/toolkit/qa-template/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "העתק תבנית": 4
+      }
+    },
+    {
+      "id": "S8-1",
+      "url": "/neo/academy/mm/",
+      "status": 200,
+      "ok": true,
+      "missing": [],
+      "present": [],
+      "counts": {
+        "href=\"/neo/academy/mm/": 122,
+        "href=\"/academy/lesson/": 0
+      }
+    },
+    {
+      "id": "S9-6",
+      "ok": true,
+      "chunk": "out/_next/static/chunks/1yspj1hd4z461.js",
+      "needle": "התחל לקרוא. המיקום יישמר במכשיר הזה"
+    }
+  ]
+}

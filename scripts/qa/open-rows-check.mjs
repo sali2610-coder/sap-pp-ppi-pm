@@ -111,7 +111,10 @@ for (const [kind, w] of [["phone", 390], ["desktop", 1363], ["desktop", 1440], [
 for (const kind of ["phone", "desktop"]) {
   const ctx = await ctxFor(kind, "light"); const page = await ctx.newPage(); const errs = errsOf(page);
   await page.goto(BASE + "/neo/books/", { waitUntil: "networkidle" }); await page.waitForTimeout(600);
-  const m = await page.evaluate(() => ({ line: document.querySelector(".nb-dictbar-t")?.textContent?.trim(), details: !!document.querySelector(".nb-more"), open: document.querySelector(".nb-more")?.open, notes: document.querySelectorAll(".nb-more .nb-note").length, sumH: Math.round(document.querySelector(".nb-more > summary")?.getBoundingClientRect().height || 0), wideNote: document.querySelectorAll(".nb-note--wide").length }));
+  // .nb-dictbar enters with a scroll-driven scale (nm-rise, entry 0..160px):
+  // bring the summary into view first so the measured box is the settled one.
+  await page.evaluate(() => document.querySelector(".nb-more > summary")?.scrollIntoView({ block: "center" })); await page.waitForTimeout(400);
+  const m = await page.evaluate(() => ({ line: document.querySelector(".nb-dictbar-t")?.textContent?.trim(), details: !!document.querySelector(".nb-more"), open: document.querySelector(".nb-more")?.open, notes: document.querySelectorAll(".nb-more .nb-note").length, sumH: Math.round(document.querySelector(".nb-more > summary")?.getBoundingClientRect().height || 0), sumLayoutH: document.querySelector(".nb-more > summary")?.offsetHeight || 0, wideNote: document.querySelectorAll(".nb-note--wide").length }));
   await page.locator(".nb-more > summary").click(); await page.waitForTimeout(300);
   m.openAfter = await page.evaluate(() => document.querySelector(".nb-more")?.open);
   m.noteTexts = await page.evaluate(() => [...document.querySelectorAll(".nb-more .nb-note")].map((n) => n.textContent.trim().slice(0, 60)));

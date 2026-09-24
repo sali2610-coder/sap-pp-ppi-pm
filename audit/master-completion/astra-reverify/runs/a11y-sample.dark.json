@@ -1,0 +1,510 @@
+{
+  "theme": "dark",
+  "viewport": "1363x936",
+  "measuredAt": "2026-09-24T06:23:54.574Z",
+  "results": [
+    {
+      "url": "/neo/",
+      "checked": 107,
+      "unresolved": 1,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/pm/",
+      "checked": 719,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/pp-pi/",
+      "checked": 666,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/domain-model/",
+      "checked": 458,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/domain/pm-functional-locations/",
+      "checked": 216,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/s4hana/",
+      "checked": 505,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/s4-readiness/",
+      "checked": 540,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/migration-cockpit/",
+      "checked": 407,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/erd/",
+      "checked": 141,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/studio/",
+      "checked": 114,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/tables/",
+      "checked": 1592,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/tables/AFKO/",
+      "checked": 379,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/object/MARA/",
+      "checked": 422,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/best-practices/maintenance-order-process/",
+      "checked": 742,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/transactions/",
+      "checked": 1263,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/bapi/",
+      "checked": 1376,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/bapi/BAPI_ALM_CONF_CREATE/",
+      "checked": 199,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/idoc/",
+      "checked": 164,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/cds/",
+      "checked": 498,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/fiori-apps/",
+      "checked": 509,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/enhancements/",
+      "checked": 181,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/books/",
+      "checked": 186,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/read/book2/",
+      "checked": 296,
+      "unresolved": 1,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/ai/",
+      "checked": 86,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/chat/",
+      "checked": 80,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/knowledge/",
+      "checked": 371,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/academy/",
+      "checked": 182,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 89,
+          "h": 16,
+          "label": "תרגול ובדיקת ידע",
+          "cls": ""
+        }
+      ],
+      "smallCount": 1,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/certification/",
+      "checked": 83,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/incidents/",
+      "checked": 492,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/incidents/cogi-stuck/",
+      "checked": 98,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/centers/",
+      "checked": 100,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/best-practices/",
+      "checked": 281,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/exits/CMOD-SMOD/",
+      "checked": 34,
+      "unresolved": 1,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 1,
+          "h": 1,
+          "label": "דלג לתוכן",
+          "cls": "sr-only.focus:not-sr-only"
+        },
+        {
+          "tag": "a",
+          "w": 71,
+          "h": 15,
+          "label": "מדיניות פרטיות",
+          "cls": "font-medium.text-muted-foreground"
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [
+        {
+          "tag": "button",
+          "label": "ערכת נושא: כהה. החלף למערכת",
+          "top": -12,
+          "bottom": 28,
+          "inside": false
+        },
+        {
+          "tag": "button",
+          "label": "כווץ/הרחב סרגל",
+          "top": 898,
+          "bottom": 937,
+          "inside": false
+        },
+        {
+          "tag": "a",
+          "label": "מדיניות פרטיות",
+          "top": 982,
+          "bottom": 997,
+          "inside": false
+        },
+        {
+          "tag": "button",
+          "label": "ערכת נושא: כהה. החלף למערכת",
+          "top": -12,
+          "bottom": 28,
+          "inside": false
+        }
+      ],
+      "focusObscuredCount": 4
+    },
+    {
+      "url": "/exits/Implicit-Enhancement/",
+      "checked": 34,
+      "unresolved": 1,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [
+        {
+          "tag": "a",
+          "w": 1,
+          "h": 1,
+          "label": "דלג לתוכן",
+          "cls": "sr-only.focus:not-sr-only"
+        },
+        {
+          "tag": "a",
+          "w": 71,
+          "h": 15,
+          "label": "מדיניות פרטיות",
+          "cls": "font-medium.text-muted-foreground"
+        }
+      ],
+      "smallCount": 2,
+      "focusObscured": [
+        {
+          "tag": "button",
+          "label": "ערכת נושא: כהה. החלף למערכת",
+          "top": -12,
+          "bottom": 28,
+          "inside": false
+        },
+        {
+          "tag": "button",
+          "label": "כווץ/הרחב סרגל",
+          "top": 898,
+          "bottom": 937,
+          "inside": false
+        },
+        {
+          "tag": "a",
+          "label": "מדיניות פרטיות",
+          "top": 982,
+          "bottom": 997,
+          "inside": false
+        },
+        {
+          "tag": "button",
+          "label": "ערכת נושא: כהה. החלף למערכת",
+          "top": -12,
+          "bottom": 28,
+          "inside": false
+        }
+      ],
+      "focusObscuredCount": 4
+    },
+    {
+      "url": "/neo/best-practices/maintenance-notification-process/",
+      "checked": 453,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/best-practices/production-order-process/",
+      "checked": 743,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    },
+    {
+      "url": "/neo/best-practices/ecc-to-s4hana-migration-process/",
+      "checked": 545,
+      "unresolved": 0,
+      "contrast": [],
+      "contrastCount": 0,
+      "small": [],
+      "smallCount": 0,
+      "focusObscured": [],
+      "focusObscuredCount": 0
+    }
+  ]
+}

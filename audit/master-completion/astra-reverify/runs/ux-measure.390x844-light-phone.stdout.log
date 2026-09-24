@@ -1,0 +1,32 @@
+home: http=200 pageOv=0 canvasOv=0 canvasW=390 h=3554 dim=0(min 1) zoom=- errs=0
+pm: http=200 pageOv=0 canvasOv=0 canvasW=390 h=23935 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +976
+pp-pi: http=200 pageOv=0 canvasOv=0 canvasW=390 h=22967 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +976
+domains: http=200 pageOv=0 canvasOv=0 canvasW=390 h=11910 dim=0(min 1) zoom=- errs=0
+domain-floc: http=200 pageOv=0 canvasOv=0 canvasW=390 h=6433 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +1335
+s4-center: http=200 pageOv=0 canvasOv=0 canvasW=390 h=15391 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +582
+readiness: http=200 pageOv=0 canvasOv=0 canvasW=390 h=14726 dim=0(min 1) zoom=100% errs=0
+cockpit: http=200 pageOv=0 canvasOv=0 canvasW=390 h=11661 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +696
+erd: http=200 pageOv=0 canvasOv=0 canvasW=390 h=1597 dim=0(min 1) zoom=100% errs=0
+studio: http=200 pageOv=0 canvasOv=0 canvasW=390 h=948 dim=0(min 1) zoom=55% errs=0
+tables: http=200 pageOv=0 canvasOv=0 canvasW=390 h=27738 dim=0(min 1) zoom=- errs=0
+table-afko: http=200 pageOv=0 canvasOv=0 canvasW=390 h=11988 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +997
+object-mara: http=200 pageOv=0 canvasOv=0 canvasW=390 h=16920 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +1237
+bp-record: http=200 pageOv=0 canvasOv=0 canvasW=390 h=19175 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +621
+transactions: http=200 pageOv=0 canvasOv=0 canvasW=390 h=31822 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +165
+bapis: http=200 pageOv=0 canvasOv=0 canvasW=390 h=30062 dim=0(min 1) zoom=- errs=0
+bapi-alm-conf: http=200 pageOv=0 canvasOv=0 canvasW=390 h=5154 dim=0(min 1) zoom=- errs=0
+idocs: http=200 pageOv=0 canvasOv=0 canvasW=390 h=3831 dim=0(min 1) zoom=- errs=0
+cds: http=200 pageOv=0 canvasOv=0 canvasW=390 h=11538 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +4
+fiori: http=200 pageOv=0 canvasOv=0 canvasW=390 h=10525 dim=0(min 1) zoom=- errs=0
+enhancements: http=200 pageOv=0 canvasOv=0 canvasW=390 h=4457 dim=0(min 1) zoom=- errs=0 :: table.nxr-compare-t +539
+books: http=200 pageOv=0 canvasOv=0 canvasW=390 h=9450 dim=0(min 1) zoom=- errs=0
+reader: http=200 pageOv=0 canvasOv=0 canvasW=390 h=53410 dim=0(min 1) zoom=- errs=0
+ask-library: http=200 pageOv=0 canvasOv=0 canvasW=390 h=1521 dim=0(min 1) zoom=- errs=0 :: button.nxq-qa-more +530
+chat: http=200 pageOv=0 canvasOv=0 canvasW=390 h=1828 dim=0(min 1) zoom=- errs=0
+knowledge: http=200 pageOv=0 canvasOv=0 canvasW=390 h=8978 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +64
+academy: http=200 pageOv=0 canvasOv=0 canvasW=390 h=3328 dim=0(min 1) zoom=- errs=0
+certification: http=200 pageOv=0 canvasOv=0 canvasW=390 h=1164 dim=0(min 1) zoom=- errs=0
+incidents: http=200 pageOv=0 canvasOv=0 canvasW=390 h=10597 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +93
+incident-cogi: http=200 pageOv=0 canvasOv=0 canvasW=390 h=1910 dim=0(min 1) zoom=- errs=0
+centers: http=200 pageOv=0 canvasOv=0 canvasW=390 h=2469 dim=0(min 1) zoom=- errs=0
+best-practices: http=200 pageOv=0 canvasOv=0 canvasW=390 h=9460 dim=0(min 1) zoom=- errs=0

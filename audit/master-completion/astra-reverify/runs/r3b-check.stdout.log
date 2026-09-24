@@ -1,0 +1,30 @@
+{
+  "pm": {
+    "closed": 5,
+    "open": 0,
+    "canvasH": 11057
+  },
+  "pmAnchor": "open",
+  "s4": {
+    "tools": true,
+    "groups": [
+      "בוטל6ה:open",
+      "הוחלף5:open",
+      "השתנה1:closed",
+      "נשאר8ה:closed"
+    ],
+    "actions": 29,
+    "canvasH": 8652
+  },
+  "s4Filtered": "10 מתוך 29 אובייקטים · השתנה ניקוי הסינון",
+  "cockpit": {
+    "closedWaveTarget": "mo-workcenter",
+    "canvasH": 7327
+  },
+  "cockpitAnchor": {
+    "detailsOpen": true,
+    "isTarget": true,
+    "top": 116
+  },
+  "consoleErrors": 0
+}

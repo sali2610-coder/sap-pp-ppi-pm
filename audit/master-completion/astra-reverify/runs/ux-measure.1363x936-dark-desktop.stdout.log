@@ -1,0 +1,32 @@
+home: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=3148 dim=0(min 1) zoom=- errs=0 :: div.nh-mid.nm-par +65
+pm: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=11057 dim=0(min 1) zoom=- errs=0 :: i.nw-light-b +224
+pp-pi: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=10200 dim=0(min 1) zoom=- errs=0 :: i.nw-light-b +224
+domains: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=6330 dim=0(min 1) zoom=- errs=0
+domain-floc: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=4652 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +592
+s4-center: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=8652 dim=0(min 1) zoom=- errs=0
+readiness: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=8419 dim=0(min 1) zoom=100% errs=0
+cockpit: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=7327 dim=0(min 1) zoom=- errs=0
+erd: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=884 dim=0(min 1) zoom=61% errs=0
+studio: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=988 dim=0(min 1) zoom=116% errs=0
+tables: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=16558 dim=0(min 1) zoom=- errs=0
+table-afko: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=6584 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +244
+object-mara: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=9035 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +460
+bp-record: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=10302 dim=0(min 1) zoom=- errs=0
+transactions: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=16959 dim=0(min 1) zoom=- errs=0
+bapis: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=16637 dim=0(min 1) zoom=- errs=0
+bapi-alm-conf: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=2992 dim=0(min 1) zoom=- errs=0
+idocs: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=2490 dim=0(min 1) zoom=- errs=0
+cds: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=6449 dim=0(min 1) zoom=- errs=0
+fiori: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=5560 dim=0(min 1) zoom=- errs=0
+enhancements: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=2665 dim=0(min 1) zoom=- errs=0
+books: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=5226 dim=0(min 1) zoom=- errs=0
+reader: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=31438 dim=0(min 1) zoom=- errs=0
+ask-library: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=1384 dim=0(min 1) zoom=- errs=0
+chat: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=1287 dim=0(min 1) zoom=- errs=0
+knowledge: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=5257 dim=0(min 1) zoom=- errs=0
+academy: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=2086 dim=0(min 1) zoom=- errs=0
+certification: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=933 dim=0(min 1) zoom=- errs=0
+incidents: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=6082 dim=0(min 1) zoom=- errs=0
+incident-cogi: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=1682 dim=0(min 1) zoom=- errs=0
+centers: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=2347 dim=0(min 1) zoom=- errs=0
+best-practices: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=4814 dim=0(min 1) zoom=- errs=0

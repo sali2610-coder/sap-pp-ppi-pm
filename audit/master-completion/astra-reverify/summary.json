@@ -1,0 +1,1598 @@
+{
+ "ranAt": "2026-09-24T15:27:54.563Z",
+ "base": "http://localhost:4196",
+ "matrix": "audit/ux-2026-09/COVERAGE-MATRIX.md",
+ "layouts": {
+  "1363x936-light-desktop": {
+   "VW": 1363,
+   "VH": 936
+  },
+  "1363x936-dark-desktop": {
+   "VW": 1363,
+   "VH": 936,
+   "THEME": "dark"
+  },
+  "1363x936-light-reduce-desktop": {
+   "VW": 1363,
+   "VH": 936,
+   "MOTION": "reduce"
+  },
+  "390x844-light-phone": {
+   "VW": 390,
+   "VH": 844,
+   "UA": "phone"
+  },
+  "390x844-dark-phone": {
+   "VW": 390,
+   "VH": 844,
+   "UA": "phone",
+   "THEME": "dark"
+  },
+  "320x568-light-phone": {
+   "VW": 320,
+   "VH": 568,
+   "UA": "phone"
+  },
+  "682x468-zoom200-desktop": {
+   "VW": 682,
+   "VH": 468
+  },
+  "390x844-light-desktop": {
+   "VW": 390,
+   "VH": 844
+  },
+  "320x568-light-desktop": {
+   "VW": 320,
+   "VH": 568
+  },
+  "1440x900-light-desktop": {
+   "VW": 1440,
+   "VH": 900
+  },
+  "1920x1080-light-desktop": {
+   "VW": 1920,
+   "VH": 1080
+  }
+ },
+ "counts": {
+  "PASS": 85,
+  "FAIL": 0,
+  "NOT_MEASURABLE": 55
+ },
+ "totalSeconds": 74.16,
+ "rows": [
+  {
+   "id": "INS-1",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "guidance row (הנחיות לקלוד), nothing to measure"
+  },
+  {
+   "id": "INS-2",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "guidance row (הנחיות לקלוד), nothing to measure"
+  },
+  {
+   "id": "INS-3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "guidance row (הנחיות לקלוד), nothing to measure"
+  },
+  {
+   "id": "INS-4",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "guidance row (הנחיות לקלוד), nothing to measure"
+  },
+  {
+   "id": "INS-5",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "guidance row (הנחיות לקלוד), nothing to measure"
+  },
+  {
+   "id": "INS-6",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "guidance row (הנחיות לקלוד), nothing to measure"
+  },
+  {
+   "id": "SCOPE-1",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "scope row, nothing to measure"
+  },
+  {
+   "id": "SCOPE-2",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "scope row, nothing to measure"
+  },
+  {
+   "id": "SCOPE-3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "scope row, nothing to measure"
+  },
+  {
+   "id": "SCOPE-4",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "scope row, nothing to measure"
+  },
+  {
+   "id": "KEEP-1",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "preserve row, nothing to measure"
+  },
+  {
+   "id": "KEEP-2",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "preserve row, nothing to measure"
+  },
+  {
+   "id": "KEEP-3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "preserve row, nothing to measure"
+  },
+  {
+   "id": "KEEP-4",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "preserve row, nothing to measure"
+  },
+  {
+   "id": "KEEP-5",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "preserve row, nothing to measure"
+  },
+  {
+   "id": "KEEP-6",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "preserve row, nothing to measure"
+  },
+  {
+   "id": "PRIO-1",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "priority row mapped to S-rows, nothing to measure"
+  },
+  {
+   "id": "PRIO-2",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "priority row mapped to S-rows, nothing to measure"
+  },
+  {
+   "id": "PRIO-3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "priority row mapped to S-rows, nothing to measure"
+  },
+  {
+   "id": "PRIO-4",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "priority row mapped to S-rows, nothing to measure"
+  },
+  {
+   "id": "PRIO-5",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "priority row mapped to S-rows, nothing to measure"
+  },
+  {
+   "id": "PRIO-6",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "priority row mapped to S-rows, nothing to measure"
+  },
+  {
+   "id": "PRIO-7",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "priority row mapped to S-rows, nothing to measure"
+  },
+  {
+   "id": "PRIO-8",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "priority row mapped to S-rows, nothing to measure"
+  },
+  {
+   "id": "S3-1",
+   "scripts": [
+    "r3d-check",
+    "r3c-check"
+   ],
+   "result": "PASS",
+   "evidence": "focus: rail=false top=false dock=false exit=true → Esc rail=true top=true; r3c erd focus=1 studio=1 reader=1; errs 0+0"
+  },
+  {
+   "id": "S3-2",
+   "scripts": [
+    "shelf-check"
+   ],
+   "result": "PASS",
+   "evidence": "fresh shelf: one row h=35px (≤40; 34 in round 3.1) empty=1 tabs=false; errs 0; after direct goto AFKO: empty=1 tabs=false (not judged: direct navigation never records a recent object, only a catalog click does)"
+  },
+  {
+   "id": "S3-3",
+   "scripts": [
+    "dock-check"
+   ],
+   "result": "PASS",
+   "evidence": "bar controls=2 theme radio=true faces=4 sizes=4; after 'לילה': theme=dark state=לילה; errs 0"
+  },
+  {
+   "id": "S4-1",
+   "scripts": [
+    "type-profile"
+   ],
+   "result": "PASS",
+   "evidence": "h1 gate=86.64px (86.6) work=36/36/36/36/36/36/36px (28–36; module heroes pm/pp-pi 56.316/56.316px as in round 6) detail=39.882/39.882/39.882/40/40/40/40px (≤40); prose<13px tables=9%(≤9) transactions=22%(≤22) bapi=0%(≤0) cds=4%(≤4) fiori-apps=3%(≤5) academy=17%(≤17)"
+  },
+  {
+   "id": "S4-2",
+   "scripts": [
+    "static-fetch",
+    "catalog-cards-check"
+   ],
+   "result": "PASS",
+   "evidence": "BAPI page: /neo/bapi/BAPI_ALM_CONF_CREATE/ http 200 ok; Fiori detail copy button=true code=F0247A"
+  },
+  {
+   "id": "S4-3",
+   "scripts": [
+    "bidi-scan"
+   ],
+   "result": "PASS",
+   "evidence": "32 routes: latin=3789 nonIsolated=0 orderSensitive=0"
+  },
+  {
+   "id": "S5-1",
+   "scripts": [
+    "module-colour-check"
+   ],
+   "result": "PASS",
+   "evidence": "light: 6 module tokens, 0 inconsistent, 0 collisions; dark: 6, 0, 0"
+  },
+  {
+   "id": "S5-2",
+   "scripts": [
+    "status-consistency"
+   ],
+   "result": "PASS",
+   "evidence": "12 records: 12 same across list/detail/ERD/palette, 0 contradictions, errs 0"
+  },
+  {
+   "id": "S5-3",
+   "scripts": [
+    "status-consistency"
+   ],
+   "result": "PASS",
+   "evidence": "12/12 records: every canonical pill carries glyph+word"
+  },
+  {
+   "id": "S6-1",
+   "scripts": [
+    "ux-measure.1363x936-light-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "32/32 routes 0 dim (1363 light)"
+  },
+  {
+   "id": "S6-2",
+   "scripts": [
+    "ux-measure.1363x936-light-desktop",
+    "ux-measure.1440x900-light-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "1363: 32/32 routes 0 overflow (cockpit canvas+0 domain-floc+0 s4-center+0); 1440: 32/32 routes 0 overflow"
+  },
+  {
+   "id": "S6-3",
+   "scripts": [
+    "present-check"
+   ],
+   "result": "PASS",
+   "evidence": "ERD present=1 focus=1 legend=4 zoom=100% xs .8125rem→.95rem Esc→present=0; Studio present=1 focus=1 zoom=90% exit=0; errs 0"
+  },
+  {
+   "id": "S6-4",
+   "scripts": [
+    "open-rows-check"
+   ],
+   "result": "PASS",
+   "evidence": "light: list 15 rows 44px stage=false → map 26% → module 17% → card 110%, overflow 0, errs 0; dark: list 15 rows 44px stage=false → map 26% → module 17% → card 110%, overflow 0, errs 0"
+  },
+  {
+   "id": "S7-HOME-1",
+   "scripts": [
+    "ux-measure.1363x936-light-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/ contentH=3148px (≤4,000)"
+  },
+  {
+   "id": "S7-HOME-2",
+   "scripts": [
+    "r3d-check"
+   ],
+   "result": "PASS",
+   "evidence": "5/5 home actions present: חיפוש טבלה=1 פתיחת תהליך עסקי=1 בדיקת שינוי ב-=1 המשך ללמוד=1 מודל הנתונים=1"
+  },
+  {
+   "id": "S7-HOME-3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "one-sentence opener is editorial; no QA script"
+  },
+  {
+   "id": "S7-HOME-4",
+   "scripts": [
+    "present-check"
+   ],
+   "result": "PASS",
+   "evidence": "3 gate metrics, 3 links: 105→/neo/tables/ 148→/neo/transactions/ 14→/neo/s4hana/"
+  },
+  {
+   "id": "S7-HOME-5",
+   "scripts": [
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/ has no '1[01] ספרים' count: /neo/ http 200 ok"
+  },
+  {
+   "id": "S7-PM-1",
+   "scripts": [
+    "r3b-check"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/pm/ chapters closed=5 open=0, #nw-if anchor → open, canvasH=11057px (was 16,707); errs 0"
+  },
+  {
+   "id": "S7-PM-2",
+   "scripts": [
+    "r3b-check"
+   ],
+   "result": "PASS",
+   "evidence": "→ S7-PM-1: /neo/pm/ chapters closed=5 open=0, #nw-if anchor → open, canvasH=11057px (was 16,707); errs 0"
+  },
+  {
+   "id": "S7-PM-3",
+   "scripts": [
+    "r3b-check"
+   ],
+   "result": "PASS",
+   "evidence": "→ S7-PM-1: /neo/pm/ chapters closed=5 open=0, #nw-if anchor → open, canvasH=11057px (was 16,707); errs 0"
+  },
+  {
+   "id": "S7-PM-4",
+   "scripts": [
+    "r3-check"
+   ],
+   "result": "PASS",
+   "evidence": "topic CTA 'הצג 6 טבלאות של הנושא', table top after click=122px (<936)"
+  },
+  {
+   "id": "S7-PM-5",
+   "scripts": [
+    "sticky-depth-check"
+   ],
+   "result": "PASS",
+   "evidence": "desktop rail@[217,106,106,-4843] filter@[217,106,106,-4843]; phone rail@[245,114,114,114] filter@[245,114,114,114]; errs 0+0"
+  },
+  {
+   "id": "S7-DOM-1",
+   "scripts": [
+    "r3-check"
+   ],
+   "result": "PASS",
+   "evidence": "domains 39→5 for 'ציוד', count line '5 מתוך 39 תחומים · «ציוד» ניקוי הסינון', empty state=true"
+  },
+  {
+   "id": "S7-DOM-2",
+   "scripts": [
+    "open-rows-check"
+   ],
+   "result": "PASS",
+   "evidence": "steps 5/5/5/5, rows 390=3 1363=1 1440=1 1920=1, em 13.6px, chain link=true, overflow 0/0/0/0"
+  },
+  {
+   "id": "S7-S4C-1",
+   "scripts": [
+    "r3b-check"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/s4hana/ tools=true groups בוטל6ה:open הוחלף5:open השתנה1:closed נשאר8ה:closed actions=29 filter 'השתנה' → '10 מתוך 29 אובייקטים · השתנה ניקוי הסינון' canvasH=8652px (was 11,465)"
+  },
+  {
+   "id": "S7-READ-1",
+   "scripts": [
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/s4-readiness/ http 200 ok"
+  },
+  {
+   "id": "S7-COCK-1",
+   "scripts": [
+    "ux-measure.1363x936-light-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "cockpit 1363: page+0 canvas+0 (was +208) canvasW=1083"
+  },
+  {
+   "id": "S7-COCK-2",
+   "scripts": [
+    "r3b-check"
+   ],
+   "result": "PASS",
+   "evidence": "#mo-workcenter: details open=true :target=true top=116"
+  },
+  {
+   "id": "S7-COCK-3",
+   "scripts": [
+    "ux-measure.390x844-light-phone"
+   ],
+   "result": "PASS",
+   "evidence": "cockpit 390 phone: page+0 canvas+0 errs 0"
+  },
+  {
+   "id": "S7-COCK-4",
+   "scripts": [
+    "r3b-check"
+   ],
+   "result": "PASS",
+   "evidence": "cockpit canvasH=7327px (8,104 after round 3.3, ≤8,900; was 12,624), closed wave present=true"
+  },
+  {
+   "id": "S7-CAT-1",
+   "scripts": [
+    "r3-check",
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "empty state 'לא נמצאו טבלאות מתאימות. נסה חיפוש אחר או נקה מסננים.'; /neo/tables/ http 200 ok"
+  },
+  {
+   "id": "S7-CAT-2",
+   "scripts": [
+    "catalog-cards-check"
+   ],
+   "result": "PASS",
+   "evidence": "30 tx rows, chips max 2 avg 1.6, refs chip=false, 30/30 canonical pills"
+  },
+  {
+   "id": "S7-CAT-3",
+   "scripts": [
+    "catalog-cards-check"
+   ],
+   "result": "PASS",
+   "evidence": "90 function rows, 87 with operation chip, 43 with COMMIT chip"
+  },
+  {
+   "id": "S7-CAT-4",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "shared ref-surface order across 7 catalogs not scripted"
+  },
+  {
+   "id": "S7-CAT-5",
+   "scripts": [
+    "catalog-cards-check"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/cds/I_Batch/: chain=true from 2 via I_Batch to 2, copy 1/1 code blocks"
+  },
+  {
+   "id": "S7-CAT-6",
+   "scripts": [
+    "catalog-cards-check"
+   ],
+   "result": "PASS",
+   "evidence": "34/34 Fiori rows name-first; detail h1='ניטור כיסוי חומרים — מקטעי נטו' code=F0247A"
+  },
+  {
+   "id": "S7-CAT-7",
+   "scripts": [
+    "catalog-cards-check"
+   ],
+   "result": "PASS",
+   "evidence": "enhancements table: 13 rows, 6 cols, 13 pills, 13 links, overflow-x auto"
+  },
+  {
+   "id": "S7-CAT-8",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "same toolbar order across 7 catalogs not scripted"
+  },
+  {
+   "id": "S7-TBL-1",
+   "scripts": [
+    "catalog-cards-check"
+   ],
+   "result": "PASS",
+   "evidence": "AFKO fields section at 924px = 0.99 screens (≤1.5; was 2.3); nav 01שדות ומפתחות · 02קשרים ו-JOIN · 03המעבר ל-S/4HANA"
+  },
+  {
+   "id": "S7-TBL-2",
+   "scripts": [
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "nxb-cta-note on /neo/tables/AFKO/: /neo/tables/AFKO/ http 200 ok"
+  },
+  {
+   "id": "S7-TBL-3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "source-code UI-string scan (→ S9-1), not a served-export measurement"
+  },
+  {
+   "id": "S7-TBL-4",
+   "scripts": [
+    "catalog-cards-check"
+   ],
+   "result": "PASS",
+   "evidence": "header pill 'ללא שינוי ב-S/4HANA' at 488px < evidence block 2904px"
+  },
+  {
+   "id": "S7-ERD-1",
+   "scripts": [
+    "ux-measure.1363x936-light-desktop",
+    "clip-check.1363x936-light-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "ERD opens at zoom 61% (fit), clipped=0, overflow page+0 canvas+0"
+  },
+  {
+   "id": "S7-ERD-2",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "resize → refit was a round-1 ad-hoc interaction run; no script in scripts/qa"
+  },
+  {
+   "id": "S7-ERD-3",
+   "scripts": [
+    "r3c-check"
+   ],
+   "result": "PASS",
+   "evidence": "overview inspector 304px (≤310; 19rem), level=overview"
+  },
+  {
+   "id": "S7-ERD-4",
+   "scripts": [
+    "erd-selection-check"
+   ],
+   "result": "PASS",
+   "evidence": "desktop:AFKO 5/24 sel op 0.96/sw 3.2 vs 0.22/1.84; desktop:EQUI 5/24 sel op 0.96/sw 3.2 vs 0.22/1.84; phone:AFKO 5/24 sel op 0.96/sw 3.2 vs 0.22/1.84; phone:EQUI 5/24 sel op 0.96/sw 3.2 vs 0.22/1.84"
+  },
+  {
+   "id": "S7-ERD-5",
+   "scripts": [
+    "round6-misc-check"
+   ],
+   "result": "PASS",
+   "evidence": "#AFKO: 5 sentences for 5 relations"
+  },
+  {
+   "id": "S7-ERD-6",
+   "scripts": [
+    "r3c-check"
+   ],
+   "result": "PASS",
+   "evidence": "mode chip 'מצבסקירה · כל המודולים' → 'מצבדפדוף במודול PP'"
+  },
+  {
+   "id": "S7-3D-1",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "no 3D view in this repo; the Preview is blocked by Vercel Authentication"
+  },
+  {
+   "id": "S7-STU-1",
+   "scripts": [
+    "present-check"
+   ],
+   "result": "PASS",
+   "evidence": "start 16 nodes / zoom 116% / label 13.7px on screen (≥11), layer 'שכבה: נתוני אב16 מתוך 56 טבלאות המודול'; all 56 nodes @ 63%"
+  },
+  {
+   "id": "S7-LIB-1",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "preserve row (frozen Library surface)"
+  },
+  {
+   "id": "S7-LIB-2",
+   "scripts": [
+    "round6-misc-check"
+   ],
+   "result": "PASS",
+   "evidence": "first cover top 675px (< 936), coverage bar 4980px after it"
+  },
+  {
+   "id": "S7-LIB-3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "conditional UI on a saved reading position; no QA script"
+  },
+  {
+   "id": "S7-LIB-4",
+   "scripts": [
+    "open-rows-check"
+   ],
+   "result": "PASS",
+   "evidence": "coverage line 'התיעוד הטכני של Project NEO מכסה 2 מודול…', details closed→open false→true, 3 notes, summary 44px phone / 44px desktop in view (layout 44/44px), overflow 0"
+  },
+  {
+   "id": "S7-LIB-5",
+   "scripts": [
+    "round6-misc-check"
+   ],
+   "result": "PASS",
+   "evidence": "basic bar: langs=true size=true focus=true, 'עוד' toggle=true closed=true → open 6 advanced controls, aria-expanded=true"
+  },
+  {
+   "id": "S7-LIB-6",
+   "scripts": [
+    "round6-misc-check",
+    "r3c-check"
+   ],
+   "result": "PASS",
+   "evidence": "advanced tools folded (6 behind 'עוד'); reader focus: focus=1 rail=false dock=false top=false"
+  },
+  {
+   "id": "S7-LIB-7",
+   "scripts": [
+    "verify-reader",
+    "ux-measure.1363x936-light-desktop",
+    "ux-measure.390x844-light-phone"
+   ],
+   "result": "PASS",
+   "evidence": "verify-reader 108/108 passed; /neo/read/book2/ overflow 1363=0+0 390=0+0"
+  },
+  {
+   "id": "S7-AI-1",
+   "scripts": [
+    "round6-misc-check"
+   ],
+   "result": "PASS",
+   "evidence": "desktop:/neo/ai/ composer 221px/936, desktop:/neo/chat/ composer 324px/936, phone:/neo/ai/ composer 264px/844, phone:/neo/chat/ composer 379px/844"
+  },
+  {
+   "id": "S7-AI-2",
+   "scripts": [
+    "r3d-check"
+   ],
+   "result": "PASS",
+   "evidence": "starters chat=4 library=4 (≤4)"
+  },
+  {
+   "id": "S7-AI-3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "limits column / advisory presence not scripted"
+  },
+  {
+   "id": "S7-AI-4",
+   "scripts": [
+    "round6-misc-check"
+   ],
+   "result": "PASS",
+   "evidence": "chat h1 'שיחה כללית על SAP', dock 'עזרה בעמוד', panel 'עזרה בעמוד הזה', library h1 'שאל את הספרייה'"
+  },
+  {
+   "id": "S7-AI-5",
+   "scripts": [
+    "ai-states-check"
+   ],
+   "result": "PASS",
+   "evidence": "27/27 controlled AI-state scenarios ok (desktop+phone)"
+  },
+  {
+   "id": "S7-AI-6",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "manual live AI test (paid external service), by design not automated"
+  },
+  {
+   "id": "S7-KN-1",
+   "scripts": [
+    "open-rows-check"
+   ],
+   "result": "PASS",
+   "evidence": "33 concept rows, 0 duplicated titles; /neo/knowledge/table/ refs=6 slug-as-primary=0"
+  },
+  {
+   "id": "S7-KN-2",
+   "scripts": [
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "'העתק תבנית' on /neo/centers/toolkit/: /neo/centers/toolkit/qa-template/ http 200 ok"
+  },
+  {
+   "id": "S7-KN-3",
+   "scripts": [
+    "r3d-check"
+   ],
+   "result": "PASS",
+   "evidence": "nx-gate-note knowledge=true centers=true domains=true"
+  },
+  {
+   "id": "S7-AC-1",
+   "scripts": [
+    "r3d-check"
+   ],
+   "result": "PASS",
+   "evidence": "'מה תלמד'=true 'התחלת הלמידה'=true"
+  },
+  {
+   "id": "S7-AC-2",
+   "scripts": [
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/academy/ http 200 ok"
+  },
+  {
+   "id": "S7-AC-3",
+   "scripts": [
+    "r3d-check"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/academy/pm/pm-org-structure/: local TOC=true for 20 blocks"
+  },
+  {
+   "id": "S7-AC-4",
+   "scripts": [
+    "r3d-check"
+   ],
+   "result": "PASS",
+   "evidence": "exposure line=true, read word 'נצפה' on 20/20 sections after scrolling the lesson (0 before), 'נקראו' present=false"
+  },
+  {
+   "id": "S7-AC-5",
+   "scripts": [
+    "r3d-check"
+   ],
+   "result": "PASS",
+   "evidence": "→ S7-AC-4: exposure line=true, read word 'נצפה' on 20/20 sections after scrolling the lesson (0 before), 'נקראו' present=false"
+  },
+  {
+   "id": "S7-CERT-1",
+   "scripts": [
+    "r3d-check",
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "academy link 'תרגול ובדיקת ידע'=true; /neo/certification/ http 200 ok"
+  },
+  {
+   "id": "S7-CERT-2",
+   "scripts": [
+    "open-rows-check"
+   ],
+   "result": "PASS",
+   "evidence": "pickers 3, CTA 44px phone (≥44), details 2 closed 2, /neo/certification/exam/?mod=PP-PI&level=3&len=10&start=1 → phase=run 1/10, /exam/ direct → setup; overflow 0"
+  },
+  {
+   "id": "S7-INC-1",
+   "scripts": [
+    "r3d-check"
+   ],
+   "result": "PASS",
+   "evidence": "cogi-stuck offsets sym=44741 < fix=52273 < s4=53221 < scenario=54489"
+  },
+  {
+   "id": "S8-1",
+   "scripts": [
+    "crawl-dead-links",
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "crawl: 0 dead; /neo/academy/mm/: 0 hrefs to /academy/lesson/, 122 to /neo/academy/mm/"
+  },
+  {
+   "id": "S8-2",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "product/dataset decision (NOT_IN_DATASET), nothing to measure"
+  },
+  {
+   "id": "S9-1",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "source-code UI-string scan, not a served-export measurement"
+  },
+  {
+   "id": "S9-2",
+   "scripts": [
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/academy/pm/ http 200 ok"
+  },
+  {
+   "id": "S9-3",
+   "scripts": [
+    "r3-check"
+   ],
+   "result": "PASS",
+   "evidence": "tables 'לא נמצאו טבלאות מתאימות. נסה חיפוש אחר או נקה מסננים.'; domains 'לא נמצאו תחומים מתאימים. נסה חיפוש אחר או נקה מסננים.'"
+  },
+  {
+   "id": "S9-4",
+   "scripts": [
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/bapi/ http 200 ok; /neo/fiori-apps/ http 200 ok; /neo/cds/ http 200 ok; /neo/bapi/BAPI_ALM_CONF_CREATE/ http 200 ok"
+  },
+  {
+   "id": "S9-5",
+   "scripts": [
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "/neo/tables/AFKO/ http 200 ok"
+  },
+  {
+   "id": "S9-6",
+   "scripts": [
+    "static-fetch"
+   ],
+   "result": "PASS",
+   "evidence": "wording present in 1yspj1hd4z461.js"
+  },
+  {
+   "id": "S10-1",
+   "scripts": [
+    "a11y-sample.light",
+    "a11y-sample.dark"
+   ],
+   "result": "PASS",
+   "evidence": "light: 37 routes, 15,262 text nodes, 0 contrast failures; dark: 37 routes, 15,262 text nodes, 0 contrast failures"
+  },
+  {
+   "id": "S10-2",
+   "scripts": [
+    "ux-measure.390x844-light-phone"
+   ],
+   "result": "PASS",
+   "evidence": "390×844 iPhone UA: 32/32 routes 0 overflow; 0 routes with console errors"
+  },
+  {
+   "id": "S10-3",
+   "scripts": [
+    "a11y-sample.light"
+   ],
+   "result": "PASS",
+   "evidence": "targets <24×24: 5 over 37 routes (≤5 documented exempt: 2 sr-only skip links, 2 legacy privacy links, 1 inline) · /neo/academy/ 1 (a 89×16 'תרגול ובדיקת י'), /exits/CMOD-SMOD/ 2 (a 1×1 'דלג לתוכן'; a 71×15 'מדיניות פרטיות'), /exits/Implicit-Enhancement/ 2 (a 1×1 'דלג לתוכן'; a 71×15 'מדיניות פרטיות')"
+  },
+  {
+   "id": "S10-4",
+   "scripts": [
+    "keyboard-check.1363",
+    "keyboard-check.390",
+    "a11y-sample.light"
+   ],
+   "result": "PASS",
+   "evidence": "1363: 32 routes 1280 stops, 0 off-screen, 0 traps, 0 without visible ring; 390: 32 routes 1280 stops, 0 off-screen, 0 traps, 0 without visible ring; a11y-sample focus-obscured on /neo/* = 0"
+  },
+  {
+   "id": "S10-5",
+   "scripts": [
+    "ux-measure.1363x936-light-reduce-desktop",
+    "ux-measure.1363x936-dark-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "1363x936-light-reduce-desktop: 32/32 routes 0 overflow; 32/32 routes 0 dim; 0 routes with console errors; 1363x936-dark-desktop: 32/32 routes 0 overflow; 32/32 routes 0 dim; 0 routes with console errors"
+  },
+  {
+   "id": "S10-6",
+   "scripts": [
+    "ux-measure.1920x1080-light-desktop",
+    "ux-measure.1440x900-light-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "1920x1080-light-desktop: 32/32 routes 0 overflow; 32/32 routes 0 dim; 0 routes with console errors; 1440x900-light-desktop: 32/32 routes 0 overflow; 32/32 routes 0 dim; 0 routes with console errors"
+  },
+  {
+   "id": "S11-1",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "round-1 ad-hoc interaction run (tables search); no script in scripts/qa"
+  },
+  {
+   "id": "S11-2",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "round-1 ad-hoc interaction run (empty state); no script in scripts/qa"
+  },
+  {
+   "id": "S11-3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "round-1 ad-hoc interaction run (section chip); no script in scripts/qa"
+  },
+  {
+   "id": "S11-4",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "round-1 ad-hoc interaction run (object lanes); no script in scripts/qa"
+  },
+  {
+   "id": "S11-5",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "round-1 ad-hoc interaction run (key 0 fit); no script in scripts/qa"
+  },
+  {
+   "id": "S12-R1",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "round summary row (commit references)"
+  },
+  {
+   "id": "S12-R2",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "round summary row (commit references)"
+  },
+  {
+   "id": "S12-R3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "round summary row"
+  },
+  {
+   "id": "ACC-1",
+   "scripts": [
+    "catalog-cards-check"
+   ],
+   "result": "PASS",
+   "evidence": "AFKO: fields at 0.99 screens, header pill 488px < evidence 2904px"
+  },
+  {
+   "id": "ACC-2",
+   "scripts": [
+    "sticky-depth-check"
+   ],
+   "result": "PASS",
+   "evidence": "pressed filter visible desktop=[----] phone=[----] ('')"
+  },
+  {
+   "id": "ACC-3",
+   "scripts": [
+    "status-consistency"
+   ],
+   "result": "PASS",
+   "evidence": "→ S5-2: 12 records: 12 same across list/detail/ERD/palette, 0 contradictions, errs 0"
+  },
+  {
+   "id": "ACC-4",
+   "scripts": [
+    "ux-measure.1363x936-light-desktop",
+    "clip-check.1363x936-light-desktop",
+    "r3c-check",
+    "r3b-check"
+   ],
+   "result": "PASS",
+   "evidence": "ERD zoom 61% clipped=0 panel 304px; cockpit anchor open=true target=true"
+  },
+  {
+   "id": "ACC-5",
+   "scripts": [
+    "ux-measure.1363x936-light-desktop",
+    "ux-measure.1440x900-light-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "→ S6-2: 1363: 32/32 routes 0 overflow (cockpit canvas+0 domain-floc+0 s4-center+0); 1440: 32/32 routes 0 overflow"
+  },
+  {
+   "id": "ACC-6",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "product decision (legacy shell kept on purpose); partial by design"
+  },
+  {
+   "id": "S12-REC",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "round summary row"
+  },
+  {
+   "id": "APPX-1",
+   "scripts": [
+    "ux-measure.1363x936-light-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "→ S7-COCK-1: cockpit 1363: page+0 canvas+0 (was +208) canvasW=1083"
+  },
+  {
+   "id": "APPX-2",
+   "scripts": [
+    "ux-measure.1363x936-light-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "readiness: dim=0 min opacity 1 (was 0.45)"
+  },
+  {
+   "id": "APPX-3",
+   "scripts": [
+    "ux-measure.1363x936-light-desktop",
+    "clip-check.1363x936-light-desktop"
+   ],
+   "result": "PASS",
+   "evidence": "→ S7-ERD-1: ERD opens at zoom 61% (fit), clipped=0, overflow page+0 canvas+0"
+  },
+  {
+   "id": "APPX-4",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "opening-vs-fit state was a round-1 ad-hoc interaction run; no script"
+  },
+  {
+   "id": "SAP-1",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+  },
+  {
+   "id": "SAP-2",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+  },
+  {
+   "id": "SAP-3",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+  },
+  {
+   "id": "SAP-4",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+  },
+  {
+   "id": "SAP-5",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+  },
+  {
+   "id": "SAP-6",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+  },
+  {
+   "id": "SAP-7",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+  },
+  {
+   "id": "SAP-8",
+   "scripts": [],
+   "result": "NOT_MEASURABLE",
+   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+  }
+ ],
+ "runs": [
+  {
+   "id": "ux-measure.1363x936-light-desktop",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "1363",
+    "VH": "936",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-light-desktop"
+   },
+   "exit": 0,
+   "seconds": 44.2,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
+  },
+  {
+   "id": "ux-measure.1363x936-dark-desktop",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "1363",
+    "VH": "936",
+    "THEME": "dark",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-dark-desktop.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-dark-desktop"
+   },
+   "exit": 0,
+   "seconds": 43.6,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-dark-desktop.json"
+  },
+  {
+   "id": "ux-measure.1363x936-light-reduce-desktop",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "1363",
+    "VH": "936",
+    "MOTION": "reduce",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-reduce-desktop.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-light-reduce-desktop"
+   },
+   "exit": 0,
+   "seconds": 43.8,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-reduce-desktop.json"
+  },
+  {
+   "id": "ux-measure.390x844-light-phone",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "390",
+    "VH": "844",
+    "UA": "phone",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-phone.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.390x844-light-phone"
+   },
+   "exit": 0,
+   "seconds": 45,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-phone.json"
+  },
+  {
+   "id": "ux-measure.390x844-dark-phone",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "390",
+    "VH": "844",
+    "UA": "phone",
+    "THEME": "dark",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.390x844-dark-phone.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.390x844-dark-phone"
+   },
+   "exit": 0,
+   "seconds": 44,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.390x844-dark-phone.json"
+  },
+  {
+   "id": "ux-measure.320x568-light-phone",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "320",
+    "VH": "568",
+    "UA": "phone",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.320x568-light-phone.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.320x568-light-phone"
+   },
+   "exit": 0,
+   "seconds": 43.7,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.320x568-light-phone.json"
+  },
+  {
+   "id": "ux-measure.682x468-zoom200-desktop",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "682",
+    "VH": "468",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.682x468-zoom200-desktop.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.682x468-zoom200-desktop"
+   },
+   "exit": 0,
+   "seconds": 43.4,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.682x468-zoom200-desktop.json"
+  },
+  {
+   "id": "ux-measure.390x844-light-desktop",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "390",
+    "VH": "844",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-desktop.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.390x844-light-desktop"
+   },
+   "exit": 0,
+   "seconds": 42.9,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-desktop.json"
+  },
+  {
+   "id": "ux-measure.320x568-light-desktop",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "320",
+    "VH": "568",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.320x568-light-desktop.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.320x568-light-desktop"
+   },
+   "exit": 0,
+   "seconds": 42.6,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.320x568-light-desktop.json"
+  },
+  {
+   "id": "ux-measure.1440x900-light-desktop",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "1440",
+    "VH": "900",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1440x900-light-desktop.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1440x900-light-desktop"
+   },
+   "exit": 0,
+   "seconds": 44.7,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1440x900-light-desktop.json"
+  },
+  {
+   "id": "ux-measure.1920x1080-light-desktop",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "1920",
+    "VH": "1080",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1920x1080-light-desktop.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1920x1080-light-desktop"
+   },
+   "exit": 0,
+   "seconds": 45.5,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1920x1080-light-desktop.json"
+  },
+  {
+   "id": "clip-check.1363x936-light-desktop",
+   "script": "node scripts/qa/clip-check.mjs",
+   "env": {
+    "VW": "1363",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.1363x936-light-desktop.json"
+   },
+   "exit": 0,
+   "seconds": 39.8,
+   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.1363x936-light-desktop.json"
+  },
+  {
+   "id": "clip-check.1363x936-dark-desktop",
+   "script": "node scripts/qa/clip-check.mjs",
+   "env": {
+    "VW": "1363",
+    "THEME": "dark",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.1363x936-dark-desktop.json"
+   },
+   "exit": 0,
+   "seconds": 40.4,
+   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.1363x936-dark-desktop.json"
+  },
+  {
+   "id": "clip-check.390x844-light-phone",
+   "script": "node scripts/qa/clip-check.mjs",
+   "env": {
+    "VW": "390",
+    "UA": "phone",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-light-phone.json"
+   },
+   "exit": 0,
+   "seconds": 39.6,
+   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-light-phone.json"
+  },
+  {
+   "id": "clip-check.390x844-dark-phone",
+   "script": "node scripts/qa/clip-check.mjs",
+   "env": {
+    "VW": "390",
+    "UA": "phone",
+    "THEME": "dark",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-dark-phone.json"
+   },
+   "exit": 0,
+   "seconds": 39.7,
+   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-dark-phone.json"
+  },
+  {
+   "id": "clip-check.320x568-light-phone",
+   "script": "node scripts/qa/clip-check.mjs",
+   "env": {
+    "VW": "320",
+    "UA": "phone",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.320x568-light-phone.json"
+   },
+   "exit": 0,
+   "seconds": 39.4,
+   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.320x568-light-phone.json"
+  },
+  {
+   "id": "clip-check.682x468-zoom200-desktop",
+   "script": "node scripts/qa/clip-check.mjs",
+   "env": {
+    "VW": "682",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.682x468-zoom200-desktop.json"
+   },
+   "exit": 0,
+   "seconds": 39.7,
+   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.682x468-zoom200-desktop.json"
+  },
+  {
+   "id": "clip-check.390x844-light-desktop",
+   "script": "node scripts/qa/clip-check.mjs",
+   "env": {
+    "VW": "390",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-light-desktop.json"
+   },
+   "exit": 0,
+   "seconds": 40,
+   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-light-desktop.json"
+  },
+  {
+   "id": "clip-check.320x568-light-desktop",
+   "script": "node scripts/qa/clip-check.mjs",
+   "env": {
+    "VW": "320",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.320x568-light-desktop.json"
+   },
+   "exit": 0,
+   "seconds": 39.9,
+   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.320x568-light-desktop.json"
+  },
+  {
+   "id": "axe-sweep.1363-light",
+   "script": "node scripts/qa/axe-sweep.mjs",
+   "env": {
+    "VW": "1363",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.1363-light.json"
+   },
+   "exit": 0,
+   "seconds": 47.4,
+   "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.1363-light.json"
+  },
+  {
+   "id": "axe-sweep.1363-dark",
+   "script": "node scripts/qa/axe-sweep.mjs",
+   "env": {
+    "VW": "1363",
+    "THEME": "dark",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.1363-dark.json"
+   },
+   "exit": 0,
+   "seconds": 47.3,
+   "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.1363-dark.json"
+  },
+  {
+   "id": "axe-sweep.390-light",
+   "script": "node scripts/qa/axe-sweep.mjs",
+   "env": {
+    "VW": "390",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.390-light.json"
+   },
+   "exit": 0,
+   "seconds": 47.2,
+   "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.390-light.json"
+  },
+  {
+   "id": "axe-sweep.390-dark",
+   "script": "node scripts/qa/axe-sweep.mjs",
+   "env": {
+    "VW": "390",
+    "THEME": "dark",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.390-dark.json"
+   },
+   "exit": 0,
+   "seconds": 47,
+   "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.390-dark.json"
+  },
+  {
+   "id": "keyboard-check.1363",
+   "script": "node scripts/qa/keyboard-check.mjs",
+   "env": {
+    "VW": "1363",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/keyboard-check.1363.json"
+   },
+   "exit": 0,
+   "seconds": 103.4,
+   "outFile": "audit/master-completion/astra-reverify/runs/keyboard-check.1363.json"
+  },
+  {
+   "id": "keyboard-check.390",
+   "script": "node scripts/qa/keyboard-check.mjs",
+   "env": {
+    "VW": "390",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/keyboard-check.390.json"
+   },
+   "exit": 0,
+   "seconds": 105.5,
+   "outFile": "audit/master-completion/astra-reverify/runs/keyboard-check.390.json"
+  },
+  {
+   "id": "a11y-sample.light",
+   "script": "node scripts/qa/a11y-sample.mjs",
+   "env": {
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/a11y-sample.light.json",
+    "ROUTES_FROM": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
+   },
+   "exit": 0,
+   "seconds": 46,
+   "outFile": "audit/master-completion/astra-reverify/runs/a11y-sample.light.json"
+  },
+  {
+   "id": "a11y-sample.dark",
+   "script": "node scripts/qa/a11y-sample.mjs",
+   "env": {
+    "THEME": "dark",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/a11y-sample.dark.json",
+    "ROUTES_FROM": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
+   },
+   "exit": 0,
+   "seconds": 46.2,
+   "outFile": "audit/master-completion/astra-reverify/runs/a11y-sample.dark.json"
+  },
+  {
+   "id": "type-profile",
+   "script": "node scripts/qa/type-profile.mjs",
+   "env": {
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/type-profile.json"
+   },
+   "exit": 0,
+   "seconds": 29,
+   "outFile": "audit/master-completion/astra-reverify/runs/type-profile.json"
+  },
+  {
+   "id": "bidi-scan",
+   "script": "node scripts/qa/bidi-scan.mjs",
+   "env": {
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/bidi-scan.json"
+   },
+   "exit": 0,
+   "seconds": 32.4,
+   "outFile": "audit/master-completion/astra-reverify/runs/bidi-scan.json"
+  },
+  {
+   "id": "shelf-check",
+   "script": "node scripts/qa/shelf-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 6.8,
+   "outFile": "audit/master-completion/astra-reverify/runs/shelf-check.stdout.log"
+  },
+  {
+   "id": "dock-check",
+   "script": "node scripts/qa/dock-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 2.2,
+   "outFile": "audit/master-completion/astra-reverify/runs/dock-check.stdout.log"
+  },
+  {
+   "id": "module-colour-check",
+   "script": "node scripts/qa/module-colour-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 15,
+   "outFile": "audit/master-completion/astra-reverify/runs/module-colour-check.stdout.log"
+  },
+  {
+   "id": "status-consistency",
+   "script": "node scripts/qa/status-consistency.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 34.9,
+   "outFile": "audit/master-completion/astra-reverify/runs/status-consistency.stdout.log"
+  },
+  {
+   "id": "present-check",
+   "script": "node scripts/qa/present-check.mjs",
+   "env": {
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/present-check"
+   },
+   "exit": 0,
+   "seconds": 9.1,
+   "outFile": "audit/master-completion/astra-reverify/runs/present-check.stdout.log"
+  },
+  {
+   "id": "open-rows-check",
+   "script": "node scripts/qa/open-rows-check.mjs",
+   "env": {
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/open-rows-check"
+   },
+   "exit": 0,
+   "seconds": 37,
+   "outFile": "audit/master-completion/astra-reverify/runs/open-rows-check.stdout.log"
+  },
+  {
+   "id": "sticky-depth-check",
+   "script": "node scripts/qa/sticky-depth-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 128.2,
+   "outFile": "audit/master-completion/astra-reverify/runs/sticky-depth-check.stdout.log"
+  },
+  {
+   "id": "r3-check",
+   "script": "node scripts/qa/r3-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 5.5,
+   "outFile": "audit/master-completion/astra-reverify/runs/r3-check.stdout.log"
+  },
+  {
+   "id": "r3b-check",
+   "script": "node scripts/qa/r3b-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 4,
+   "outFile": "audit/master-completion/astra-reverify/runs/r3b-check.stdout.log"
+  },
+  {
+   "id": "r3c-check",
+   "script": "node scripts/qa/r3c-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 7.9,
+   "outFile": "audit/master-completion/astra-reverify/runs/r3c-check.stdout.log"
+  },
+  {
+   "id": "r3d-check",
+   "script": "node scripts/qa/r3d-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 8.1,
+   "outFile": "audit/master-completion/astra-reverify/runs/r3d-check.stdout.log"
+  },
+  {
+   "id": "round6-misc-check",
+   "script": "node scripts/qa/round6-misc-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 13.4,
+   "outFile": "audit/master-completion/astra-reverify/runs/round6-misc-check.stdout.log"
+  },
+  {
+   "id": "catalog-cards-check",
+   "script": "node scripts/qa/catalog-cards-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 9.6,
+   "outFile": "audit/master-completion/astra-reverify/runs/catalog-cards-check.stdout.log"
+  },
+  {
+   "id": "erd-selection-check",
+   "script": "node scripts/qa/erd-selection-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 8.2,
+   "outFile": "audit/master-completion/astra-reverify/runs/erd-selection-check.stdout.log"
+  },
+  {
+   "id": "ai-states-check",
+   "script": "node scripts/qa/ai-states-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 71.9,
+   "outFile": "audit/master-completion/astra-reverify/runs/ai-states-check.stdout.log"
+  },
+  {
+   "id": "crawl-dead-links",
+   "script": "node scripts/crawl-dead-links.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 8.4,
+   "outFile": "audit/master-completion/astra-reverify/runs/crawl-dead-links.stdout.log"
+  },
+  {
+   "id": "verify-reader",
+   "script": "node --experimental-strip-types --no-warnings scripts/verify-reader.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 96.6,
+   "outFile": "audit/master-completion/astra-reverify/runs/verify-reader.stdout.log"
+  },
+  {
+   "id": "static-fetch",
+   "script": "astra-reverify.mjs (fetch)",
+   "env": {},
+   "exit": 0,
+   "seconds": 0.1,
+   "outFile": "audit/master-completion/astra-reverify/runs/static-fetch.stdout.log"
+  }
+ ]
+}

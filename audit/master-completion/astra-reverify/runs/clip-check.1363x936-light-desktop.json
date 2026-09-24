@@ -1,0 +1,199 @@
+{
+ "viewport": 1363,
+ "ua": "desktop",
+ "routes": 32,
+ "results": [
+  {
+   "url": "/neo/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/pm/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/pp-pi/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/domain-model/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/domain/pm-functional-locations/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/s4hana/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/s4-readiness/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/migration-cockpit/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/erd/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/studio/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/tables/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/tables/AFKO/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/object/MARA/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/best-practices/maintenance-order-process/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/transactions/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/bapi/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/bapi/BAPI_ALM_CONF_CREATE/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/idoc/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/cds/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/fiori-apps/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/enhancements/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/books/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/read/book2/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/ai/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/chat/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/knowledge/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/academy/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/certification/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/incidents/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/incidents/cogi-stuck/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/centers/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  },
+  {
+   "url": "/neo/best-practices/",
+   "status": 200,
+   "clipped": 0,
+   "sample": {}
+  }
+ ]
+}

@@ -1,0 +1,294 @@
+{
+  "base": "http://localhost:4196",
+  "scannedAt": "2026-09-24T06:24:55.583Z",
+  "report": [
+    {
+      "url": "/neo/",
+      "candidates": 27,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/pm/",
+      "candidates": 518,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/pp-pi/",
+      "candidates": 512,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/domain-model/",
+      "candidates": 79,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/domain/pm-functional-locations/",
+      "candidates": 44,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/s4hana/",
+      "candidates": 314,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/s4-readiness/",
+      "candidates": 167,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/migration-cockpit/",
+      "candidates": 151,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/erd/",
+      "candidates": 32,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/studio/",
+      "candidates": 31,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/tables/",
+      "candidates": 236,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/tables/AFKO/",
+      "candidates": 130,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/object/MARA/",
+      "candidates": 153,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/transactions/",
+      "candidates": 428,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/transactions/IP30/",
+      "candidates": 50,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/bapi/",
+      "candidates": 246,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/bapi/BAPI_ALM_CONF_CREATE/",
+      "candidates": 36,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/idoc/",
+      "candidates": 45,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/cds/",
+      "candidates": 78,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/fiori-apps/",
+      "candidates": 104,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/enhancements/",
+      "candidates": 61,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/books/",
+      "candidates": 29,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/read/book2/",
+      "candidates": 85,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/ai/",
+      "candidates": 9,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/chat/",
+      "candidates": 10,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/knowledge/",
+      "candidates": 88,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/knowledge/table/",
+      "candidates": 23,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/academy/",
+      "candidates": 20,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/certification/",
+      "candidates": 19,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/incidents/cogi-stuck/",
+      "candidates": 23,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/centers/",
+      "candidates": 21,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    },
+    {
+      "url": "/neo/best-practices/",
+      "candidates": 20,
+      "nonIsolated": 0,
+      "hits": 0,
+      "byCls": {},
+      "samples": [],
+      "looseSamples": []
+    }
+  ]
+}

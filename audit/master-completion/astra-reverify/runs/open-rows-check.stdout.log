@@ -1,0 +1,393 @@
+{
+  "erd-phone-light": {
+    "theme": "light",
+    "steps": [
+      {
+        "at": "overview",
+        "plist": "1",
+        "level": "overview",
+        "stageVisible": false,
+        "bodyCols": "390px",
+        "rows": 15,
+        "rowH": 44,
+        "phoneBarW": 390,
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      },
+      {
+        "at": "fullmap",
+        "plist": "0",
+        "stageVisible": true,
+        "zoom": "26%",
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      },
+      {
+        "at": "module",
+        "level": "module",
+        "stageVisible": true,
+        "zoom": "17%",
+        "focusBar": true,
+        "focusDisabled": true,
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      },
+      {
+        "at": "selected",
+        "row": "JSTOפרופיל סטטוס לאובייקט6",
+        "level": "table",
+        "sel": "1",
+        "opencard": "1",
+        "zoom": "110%",
+        "focusLabel": "מיקוד · JSTO",
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      },
+      {
+        "at": "toggle",
+        "wholeZoom": "17%",
+        "focusEnabled": true,
+        "focusZoom": "22%",
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      },
+      {
+        "at": "back",
+        "level": "overview",
+        "plist": "1",
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      }
+    ],
+    "consoleErrors": 0,
+    "errs": []
+  },
+  "erd-phone-dark": {
+    "theme": "dark",
+    "steps": [
+      {
+        "at": "overview",
+        "plist": "1",
+        "level": "overview",
+        "stageVisible": false,
+        "bodyCols": "390px",
+        "rows": 15,
+        "rowH": 44,
+        "phoneBarW": 390,
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      },
+      {
+        "at": "fullmap",
+        "plist": "0",
+        "stageVisible": true,
+        "zoom": "26%",
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      },
+      {
+        "at": "module",
+        "level": "module",
+        "stageVisible": true,
+        "zoom": "17%",
+        "focusBar": true,
+        "focusDisabled": true,
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      },
+      {
+        "at": "selected",
+        "row": "JSTOפרופיל סטטוס לאובייקט6",
+        "level": "table",
+        "sel": "1",
+        "opencard": "1",
+        "zoom": "110%",
+        "focusLabel": "מיקוד · JSTO",
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      },
+      {
+        "at": "toggle",
+        "wholeZoom": "17%",
+        "focusEnabled": true,
+        "focusZoom": "22%",
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      },
+      {
+        "at": "back",
+        "level": "overview",
+        "plist": "1",
+        "ov": {
+          "page": 0,
+          "canvas": 0
+        }
+      }
+    ],
+    "consoleErrors": 0,
+    "errs": []
+  },
+  "erd-desktop": {
+    "phoneEls": 0,
+    "plist": "0",
+    "stageVisible": true,
+    "consoleErrors": 0,
+    "ov": {
+      "page": 0,
+      "canvas": 0
+    }
+  },
+  "dom-390": {
+    "steps": 5,
+    "rows": 3,
+    "firstRightOfLast": true,
+    "emFont": "13.6px",
+    "emColor": "rgb(70, 62, 56)",
+    "olW": 297,
+    "more": "לתהליך המפורט · 6 תחנות",
+    "chainId": true,
+    "texts": [
+      "1Structureמחוון מבנה (Edit Mas",
+      "2Createמיקום פונקציונלי (IL01)",
+      "3Hierarchyהיררכיה רב-שכבתית",
+      "4Linkשיוך ציוד",
+      "5Historyהיסטוריה ועלויות"
+    ],
+    "ov": {
+      "page": 0,
+      "canvas": 0
+    },
+    "consoleErrors": 0
+  },
+  "dom-1363": {
+    "steps": 5,
+    "rows": 1,
+    "firstRightOfLast": true,
+    "emFont": "13.6px",
+    "emColor": "rgb(70, 62, 56)",
+    "olW": 913,
+    "more": "לתהליך המפורט · 6 תחנות",
+    "chainId": true,
+    "texts": [
+      "1Structureמחוון מבנה (Edit Mas",
+      "2Createמיקום פונקציונלי (IL01)",
+      "3Hierarchyהיררכיה רב-שכבתית",
+      "4Linkשיוך ציוד",
+      "5Historyהיסטוריה ועלויות"
+    ],
+    "ov": {
+      "page": 0,
+      "canvas": 0
+    },
+    "consoleErrors": 0
+  },
+  "dom-1440": {
+    "steps": 5,
+    "rows": 1,
+    "firstRightOfLast": true,
+    "emFont": "13.6px",
+    "emColor": "rgb(70, 62, 56)",
+    "olW": 958,
+    "more": "לתהליך המפורט · 6 תחנות",
+    "chainId": true,
+    "texts": [
+      "1Structureמחוון מבנה (Edit Mas",
+      "2Createמיקום פונקציונלי (IL01)",
+      "3Hierarchyהיררכיה רב-שכבתית",
+      "4Linkשיוך ציוד",
+      "5Historyהיסטוריה ועלויות"
+    ],
+    "ov": {
+      "page": 0,
+      "canvas": 0
+    },
+    "consoleErrors": 0
+  },
+  "dom-1920": {
+    "steps": 5,
+    "rows": 1,
+    "firstRightOfLast": true,
+    "emFont": "13.6px",
+    "emColor": "rgb(70, 62, 56)",
+    "olW": 1062,
+    "more": "לתהליך המפורט · 6 תחנות",
+    "chainId": true,
+    "texts": [
+      "1Structureמחוון מבנה (Edit Mas",
+      "2Createמיקום פונקציונלי (IL01)",
+      "3Hierarchyהיררכיה רב-שכבתית",
+      "4Linkשיוך ציוד",
+      "5Historyהיסטוריה ועלויות"
+    ],
+    "ov": {
+      "page": 0,
+      "canvas": 0
+    },
+    "consoleErrors": 0
+  },
+  "books-phone": {
+    "line": "התיעוד הטכני של Project NEO מכסה 2 מודולים מתוך 9; 4 מתוך 11 הספרים שייכים למודול מתועד.",
+    "details": true,
+    "open": false,
+    "notes": 3,
+    "sumH": 44,
+    "sumLayoutH": 44,
+    "wideNote": 0,
+    "openAfter": true,
+    "noteTexts": [
+      "4 מתוך 11 הספרים שייכים למודול שיש לו תיעוד טכני במאגר. בכרט",
+      "לספר אחד אין ספירת עמודים במטא-דאטה, והוא אינו נכלל בסכום הע",
+      "book8 ו-book9 הם אותו מדריך משתמש עסקי בשני מבני נתונים שוני"
+    ],
+    "ov": {
+      "page": 0,
+      "canvas": 0
+    },
+    "consoleErrors": 0
+  },
+  "books-desktop": {
+    "line": "התיעוד הטכני של Project NEO מכסה 2 מודולים מתוך 9; 4 מתוך 11 הספרים שייכים למודול מתועד.",
+    "details": true,
+    "open": false,
+    "notes": 3,
+    "sumH": 44,
+    "sumLayoutH": 44,
+    "wideNote": 0,
+    "openAfter": true,
+    "noteTexts": [
+      "4 מתוך 11 הספרים שייכים למודול שיש לו תיעוד טכני במאגר. בכרט",
+      "לספר אחד אין ספירת עמודים במטא-דאטה, והוא אינו נכלל בסכום הע",
+      "book8 ו-book9 הם אותו מדריך משתמש עסקי בשני מבני נתונים שוני"
+    ],
+    "ov": {
+      "page": 0,
+      "canvas": 0
+    },
+    "consoleErrors": 0
+  },
+  "knowledge": {
+    "rows": 33,
+    "duplicatedTitles": 0,
+    "sample": [
+      "אובייקטObject",
+      "טבלהTable"
+    ],
+    "refs": [
+      {
+        "b": "MARA",
+        "href": "/neo/object/MARA/"
+      },
+      {
+        "b": "EQUI",
+        "href": "/neo/object/EQUI/"
+      },
+      {
+        "b": "AFKO",
+        "href": "/neo/object/AFKO/"
+      },
+      {
+        "b": "מבנה (Structure)",
+        "sec": "Structure",
+        "href": "/neo/knowledge/structure/"
+      },
+      {
+        "b": "אלמנט נתונים",
+        "sec": "Data Element",
+        "href": "/neo/knowledge/data-element/"
+      },
+      {
+        "b": "דומיין",
+        "sec": "Domain",
+        "href": "/neo/knowledge/domain/"
+      }
+    ],
+    "slugAsPrimary": 0,
+    "bapiHead": {
+      "h1": "BAPI",
+      "en": null
+    },
+    "consoleErrors": 0
+  },
+  "cert-phone": {
+    "lede": "הערכת ידע עצמית מתוך התיעוד המאומת של הפרויקט. זו אינה תוכנית הסמכה רשמית של SAP.",
+    "pickers": 3,
+    "opts": 10,
+    "primaryButtons": 1,
+    "ctaHref": "/neo/certification/exam/?mod=PM&level=2&len=20&start=1",
+    "ctaTop": 705,
+    "ctaH": 44,
+    "details": 2,
+    "detailsOpen": 0,
+    "hint": "· 354 שאלות זמינות ברמה זו, מצטבר",
+    "note": "20 שאלות נדגמות מתוך 354 הזמינות במאגר תחזוקת מפעל ברמה 2. הרף הפנימי לעמידה: 80%.",
+    "ctaHref2": "/neo/certification/exam/?mod=PP-PI&level=3&len=10&start=1",
+    "runner": {
+      "url": "/neo/certification/exam/?mod=PP-PI&level=3&len=10&start=1",
+      "phase": "run",
+      "count": "1/10",
+      "chips": [
+        "משמעות עסקית",
+        "יועץ זוטר",
+        "PLMK"
+      ]
+    },
+    "runnerNoQuery": "setup",
+    "ov": {
+      "page": 0,
+      "canvas": 0
+    },
+    "consoleErrors": 0
+  },
+  "cert-desktop": {
+    "lede": "הערכת ידע עצמית מתוך התיעוד המאומת של הפרויקט. זו אינה תוכנית הסמכה רשמית של SAP.",
+    "pickers": 3,
+    "opts": 10,
+    "primaryButtons": 1,
+    "ctaHref": "/neo/certification/exam/?mod=PM&level=2&len=20&start=1",
+    "ctaTop": 536,
+    "ctaH": 40,
+    "details": 2,
+    "detailsOpen": 0,
+    "hint": "· 354 שאלות זמינות ברמה זו, מצטבר",
+    "note": "20 שאלות נדגמות מתוך 354 הזמינות במאגר תחזוקת מפעל ברמה 2. הרף הפנימי לעמידה: 80%.",
+    "ctaHref2": "/neo/certification/exam/?mod=PP-PI&level=3&len=10&start=1",
+    "runner": {
+      "url": "/neo/certification/exam/?mod=PP-PI&level=3&len=10&start=1",
+      "phase": "run",
+      "count": "1/10",
+      "chips": [
+        "פתרון תקלות",
+        "יועץ בכיר",
+        "AFRU"
+      ]
+    },
+    "runnerNoQuery": "setup",
+    "ov": {
+      "page": 0,
+      "canvas": 0
+    },
+    "consoleErrors": 0
+  }
+}

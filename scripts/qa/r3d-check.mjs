@@ -23,7 +23,13 @@ const lessonHref = await page.evaluate(() => [...document.querySelectorAll('a[hr
 out.lessonHref = lessonHref;
 if (lessonHref) {
   await page.goto(base + lessonHref, { waitUntil: "networkidle" });
-  out.lesson = await page.evaluate(() => ({ toc: !!document.querySelector(".nxs-toc"), blocks: document.querySelectorAll(".nxs-sec").length, exposure: !!document.querySelector(".nxs-exposure"), readWord: [...document.querySelectorAll(".nxs-read")].map((e) => e.textContent.trim())[0] || null, nikra: document.body.innerText.includes("נקראו") }));
+  // The viewed label appears only once a section has passed the reading band,
+  // so read it after scrolling the lesson through, as a reader does.
+  const before = await page.evaluate(() => document.querySelectorAll(".nxs-read").length);
+  for (const sec of await page.locator(".nxs-sec").all()) { await sec.scrollIntoViewIfNeeded(); await page.waitForTimeout(120); }
+  await page.waitForTimeout(400);
+  out.lesson = await page.evaluate(() => ({ toc: !!document.querySelector(".nxs-toc"), blocks: document.querySelectorAll(".nxs-sec").length, exposure: !!document.querySelector(".nxs-exposure"), readWord: [...document.querySelectorAll(".nxs-read")].map((e) => e.textContent.trim())[0] || null, viewed: document.querySelectorAll(".nxs-read").length, nikra: document.body.innerText.includes("נקראו") }));
+  out.lesson.viewedBeforeScroll = before;
 }
 await page.goto(base + "/neo/chat/", { waitUntil: "networkidle" });
 out.chatStarters = await page.evaluate(() => document.querySelectorAll(".nxq-starters-row > *").length);

@@ -1,0 +1,898 @@
+{
+  "viewport": "1363x936",
+  "base": "http://localhost:4196",
+  "measuredAt": "2026-09-24T06:06:46.976Z",
+  "results": [
+    {
+      "id": "home",
+      "url": "/neo/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "מפת הידעל-SAP S/4HANA",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 3747,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "pm",
+      "url": "/neo/pm/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "תחזוקת מפעלPM",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 26693,
+      "offenders": [
+        {
+          "over": 1046,
+          "w": 118,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 1029,
+          "w": 62,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 959,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 919,
+          "w": 149,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "pp-pi",
+      "url": "/neo/pp-pi/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "תעשיות תהליכיותPP-PI",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 25709,
+      "offenders": [
+        {
+          "over": 1046,
+          "w": 118,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 1029,
+          "w": 62,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 959,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 919,
+          "w": 149,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "domains",
+      "url": "/neo/domain-model/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "התחומים העסקיים של PM ו-PP-PI",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 13220,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "domain-floc",
+      "url": "/neo/domain/pm-functional-locations/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "מיקומים פונקציונליים",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 6991,
+      "offenders": [
+        {
+          "over": 1405,
+          "w": 135,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 1388,
+          "w": 79,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 1301,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 1261,
+          "w": 169,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "s4-center",
+      "url": "/neo/s4hana/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "השינויים במעבר מ-ECC ל-S/4HANA",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 18018,
+      "offenders": [
+        {
+          "over": 652,
+          "w": 90,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 635,
+          "w": 33,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 593,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 554,
+          "w": 106,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "readiness",
+      "url": "/neo/s4-readiness/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "כיסוי תיעוד למעבר ל-S/4HANA לפי מודול",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 19633,
+      "offenders": [
+        {
+          "over": 39,
+          "w": 122,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 22,
+          "w": 65,
+          "tag": "span",
+          "cls": "nxs-t"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": "100%"
+    },
+    {
+      "id": "cockpit",
+      "url": "/neo/migration-cockpit/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "אובייקטי המעבר ורצף הטעינה",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 13326,
+      "offenders": [
+        {
+          "over": 766,
+          "w": 125,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 749,
+          "w": 68,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 672,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 633,
+          "w": 144,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "erd",
+      "url": "/neo/erd/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "מודל הנתונים · כל המודולים",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 1729,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": "100%"
+    },
+    {
+      "id": "studio",
+      "url": "/neo/studio/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "Architecture Studio",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 776,
+      "offenders": [
+        {
+          "over": 22,
+          "w": 321,
+          "tag": "svg",
+          "cls": ""
+        },
+        {
+          "over": 22,
+          "w": 96,
+          "tag": "button",
+          "cls": "nst-node"
+        },
+        {
+          "over": 22,
+          "w": 96,
+          "tag": "button",
+          "cls": "nst-node"
+        },
+        {
+          "over": 19,
+          "w": 3,
+          "tag": "i",
+          "cls": "nst-s4"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": "55%"
+    },
+    {
+      "id": "tables",
+      "url": "/neo/tables/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "טבלאות SAP",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 29757,
+      "offenders": [
+        {
+          "over": 23,
+          "w": 143,
+          "tag": "button",
+          "cls": "nu-tab"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "table-afko",
+      "url": "/neo/tables/AFKO/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "AFKO",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 13355,
+      "offenders": [
+        {
+          "over": 1067,
+          "w": 134,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 1050,
+          "w": 77,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 964,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 925,
+          "w": 161,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "object-mara",
+      "url": "/neo/object/MARA/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "MARA",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 18259,
+      "offenders": [
+        {
+          "over": 1307,
+          "w": 90,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 1290,
+          "w": 34,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 1248,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 1208,
+          "w": 91,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "bp-record",
+      "url": "/neo/best-practices/maintenance-order-process/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "פקודת תחזוקה: מיצירה ושחרור, דרך ביצוע ואישור, ועד סגירה טכנ",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 22786,
+      "offenders": [
+        {
+          "over": 691,
+          "w": 133,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 674,
+          "w": 77,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 589,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 550,
+          "w": 147,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "transactions",
+      "url": "/neo/transactions/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "טרנזקציות SAP",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 35318,
+      "offenders": [
+        {
+          "over": 235,
+          "w": 110,
+          "tag": "button",
+          "cls": "nu-tab"
+        },
+        {
+          "over": 147,
+          "w": 13,
+          "tag": "svg",
+          "cls": ""
+        },
+        {
+          "over": 146,
+          "w": 11,
+          "tag": "circle",
+          "cls": ""
+        },
+        {
+          "over": 141,
+          "w": 2,
+          "tag": "path",
+          "cls": ""
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "bapis",
+      "url": "/neo/bapi/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "BAPIs ומודולי פונקציה",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 32187,
+      "offenders": [
+        {
+          "over": 12,
+          "w": 101,
+          "tag": "button",
+          "cls": "nu-tab"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "bapi-alm-conf",
+      "url": "/neo/bapi/BAPI_ALM_CONF_CREATE/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "BAPI_ALM_CONF_CREATE",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 5506,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "idocs",
+      "url": "/neo/idoc/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "IDocs",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 4463,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "cds",
+      "url": "/neo/cds/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "CDS Views",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 12649,
+      "offenders": [
+        {
+          "over": 74,
+          "w": 137,
+          "tag": "button",
+          "cls": "nu-tab"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "fiori",
+      "url": "/neo/fiori-apps/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "יישומי SAP Fiori",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 11528,
+      "offenders": [
+        {
+          "over": 5,
+          "w": 87,
+          "tag": "button",
+          "cls": "nu-tab"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "enhancements",
+      "url": "/neo/enhancements/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "טכניקות הרחבה",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 4999,
+      "offenders": [
+        {
+          "over": 609,
+          "w": 896,
+          "tag": "table",
+          "cls": "nxr-compare-t"
+        },
+        {
+          "over": 609,
+          "w": 896,
+          "tag": "thead",
+          "cls": ""
+        },
+        {
+          "over": 609,
+          "w": 896,
+          "tag": "tr",
+          "cls": ""
+        },
+        {
+          "over": 609,
+          "w": 97,
+          "tag": "th",
+          "cls": ""
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "books",
+      "url": "/neo/books/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "ספריית SAP11 ספרים",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 8593,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "reader",
+      "url": "/neo/read/book2/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "פרק 1Introduction to Production Planning in SAP S/4HANA",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 69529,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "ask-library",
+      "url": "/neo/ai/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "שאל את הספרייה",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 1633,
+      "offenders": [
+        {
+          "over": 600,
+          "w": 87,
+          "tag": "button",
+          "cls": "nxq-qa-more"
+        },
+        {
+          "over": 585,
+          "w": 10,
+          "tag": "svg",
+          "cls": ""
+        },
+        {
+          "over": 583,
+          "w": 5,
+          "tag": "path",
+          "cls": ""
+        },
+        {
+          "over": 503,
+          "w": 175,
+          "tag": "button",
+          "cls": "nxq-qa-b.nm-rise.nm-once"
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "chat",
+      "url": "/neo/chat/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "שיחה כללית על SAP",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 1978,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "knowledge",
+      "url": "/neo/knowledge/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "מרכז הידע",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 9644,
+      "offenders": [
+        {
+          "over": 134,
+          "w": 129,
+          "tag": "button",
+          "cls": "nu-tab"
+        },
+        {
+          "over": 125,
+          "w": 16,
+          "tag": "b",
+          "cls": ""
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "academy",
+      "url": "/neo/academy/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "SAP Academy",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 3851,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "certification",
+      "url": "/neo/certification/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "תרגול ובדיקת ידע",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 1332,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "incidents",
+      "url": "/neo/incidents/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "תקלות ופתרון בעיות",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 11772,
+      "offenders": [
+        {
+          "over": 163,
+          "w": 126,
+          "tag": "button",
+          "cls": "nu-tab"
+        },
+        {
+          "over": 154,
+          "w": 22,
+          "tag": "b",
+          "cls": ""
+        },
+        {
+          "over": 25,
+          "w": 214,
+          "tag": "button",
+          "cls": "nu-tab"
+        },
+        {
+          "over": 16,
+          "w": 10,
+          "tag": "b",
+          "cls": ""
+        }
+      ],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "incident-cogi",
+      "url": "/neo/incidents/cogi-stuck/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "תנועות Backflush תקועות ב-COGI",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 2059,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "centers",
+      "url": "/neo/centers/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "מרכזי הידע של הפרויקט",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 2624,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    },
+    {
+      "id": "best-practices",
+      "url": "/neo/best-practices/",
+      "status": 200,
+      "consoleErrors": 0,
+      "h1": "שיטות עבודה מומלצות ל-SAP S/4HANA",
+      "pageOverflow": 0,
+      "canvasOverflow": 0,
+      "canvasW": 320,
+      "contentH": 11869,
+      "offenders": [],
+      "dimVisible": 0,
+      "minVisibleOpacity": 1,
+      "dimSample": "",
+      "zoom": null
+    }
+  ]
+}

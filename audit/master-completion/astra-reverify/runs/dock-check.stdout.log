@@ -1,0 +1,17 @@
+{
+  "bar": [
+    "תצוגהיום",
+    "עזרה בעמוד"
+  ],
+  "panel": {
+    "title": "תצוגה: מראה, גופן וגודל טקסט",
+    "theme": true,
+    "faces": 4,
+    "sizes": 4
+  },
+  "after": {
+    "theme": "dark",
+    "barState": "לילה"
+  },
+  "consoleErrors": 0
+}

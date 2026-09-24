@@ -1,0 +1,71 @@
+{
+  "erd5": {
+    "sentences": 5,
+    "first": "AFKO היא המקור (צד המפתח הראשי); AFPO תלויה בה דרך מפתח זר. קרדינליות לא צוינה בתיעוד.",
+    "joins": 5,
+    "ok": true
+  },
+  "lib2": {
+    "firstCoverTop": 675,
+    "dictbarTop": 4980,
+    "vh": 936,
+    "ok": true
+  },
+  "lib5": {
+    "before": 10,
+    "toggle": true,
+    "advOpen": false,
+    "langs": true,
+    "size": true,
+    "focus": true,
+    "after": {
+      "advOpen": true,
+      "advControls": 6,
+      "expanded": "true",
+      "lens": true,
+      "paper": true
+    },
+    "ok": true
+  },
+  "ai4": {
+    "chatH1": "שיחה כללית על SAP",
+    "chatEyebrow": "NEO AI · לא מוגבל לספרייה · רמת ביסוס בכל תשובה",
+    "dockBtn": "עזרה בעמוד",
+    "title": "שיחה כללית על SAP · NEO AI · Project NEO",
+    "panel": {
+      "h2": "עזרה בעמוד הזה",
+      "links": [
+        "עזרה מהספרייהשאל את הספרייה · ",
+        "שיחה כלליתNEO AI · שאלות SAP כ"
+      ]
+    },
+    "libH1": "שאל את הספרייה",
+    "ok": true
+  },
+  "ai1:desktop:/neo/ai/": {
+    "composerTop": 221,
+    "startersTop": 950,
+    "vh": 936,
+    "ok": true
+  },
+  "ai1:desktop:/neo/chat/": {
+    "composerTop": 324,
+    "startersTop": 456,
+    "vh": 936,
+    "ok": true
+  },
+  "ai1:phone:/neo/ai/": {
+    "composerTop": 264,
+    "startersTop": 1160,
+    "vh": 844,
+    "ok": true
+  },
+  "ai1:phone:/neo/chat/": {
+    "composerTop": 379,
+    "startersTop": 511,
+    "vh": 844,
+    "ok": true
+  },
+  "consoleErrors": 0
+}
+MISC OK

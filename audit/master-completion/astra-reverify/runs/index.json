@@ -1,0 +1,503 @@
+[
+ {
+  "id": "ux-measure.1363x936-light-desktop",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "1363",
+   "VH": "936",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-light-desktop"
+  },
+  "exit": 0,
+  "seconds": 44.2,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
+ },
+ {
+  "id": "ux-measure.1363x936-dark-desktop",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "1363",
+   "VH": "936",
+   "THEME": "dark",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-dark-desktop.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-dark-desktop"
+  },
+  "exit": 0,
+  "seconds": 43.6,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-dark-desktop.json"
+ },
+ {
+  "id": "ux-measure.1363x936-light-reduce-desktop",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "1363",
+   "VH": "936",
+   "MOTION": "reduce",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-reduce-desktop.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-light-reduce-desktop"
+  },
+  "exit": 0,
+  "seconds": 43.8,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-reduce-desktop.json"
+ },
+ {
+  "id": "ux-measure.390x844-light-phone",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "390",
+   "VH": "844",
+   "UA": "phone",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-phone.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.390x844-light-phone"
+  },
+  "exit": 0,
+  "seconds": 45,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-phone.json"
+ },
+ {
+  "id": "ux-measure.390x844-dark-phone",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "390",
+   "VH": "844",
+   "UA": "phone",
+   "THEME": "dark",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.390x844-dark-phone.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.390x844-dark-phone"
+  },
+  "exit": 0,
+  "seconds": 44,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.390x844-dark-phone.json"
+ },
+ {
+  "id": "ux-measure.320x568-light-phone",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "320",
+   "VH": "568",
+   "UA": "phone",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.320x568-light-phone.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.320x568-light-phone"
+  },
+  "exit": 0,
+  "seconds": 43.7,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.320x568-light-phone.json"
+ },
+ {
+  "id": "ux-measure.682x468-zoom200-desktop",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "682",
+   "VH": "468",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.682x468-zoom200-desktop.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.682x468-zoom200-desktop"
+  },
+  "exit": 0,
+  "seconds": 43.4,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.682x468-zoom200-desktop.json"
+ },
+ {
+  "id": "ux-measure.390x844-light-desktop",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "390",
+   "VH": "844",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-desktop.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.390x844-light-desktop"
+  },
+  "exit": 0,
+  "seconds": 42.9,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-desktop.json"
+ },
+ {
+  "id": "ux-measure.320x568-light-desktop",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "320",
+   "VH": "568",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.320x568-light-desktop.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.320x568-light-desktop"
+  },
+  "exit": 0,
+  "seconds": 42.6,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.320x568-light-desktop.json"
+ },
+ {
+  "id": "ux-measure.1440x900-light-desktop",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "1440",
+   "VH": "900",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1440x900-light-desktop.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1440x900-light-desktop"
+  },
+  "exit": 0,
+  "seconds": 44.7,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1440x900-light-desktop.json"
+ },
+ {
+  "id": "ux-measure.1920x1080-light-desktop",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "1920",
+   "VH": "1080",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1920x1080-light-desktop.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1920x1080-light-desktop"
+  },
+  "exit": 0,
+  "seconds": 45.5,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1920x1080-light-desktop.json"
+ },
+ {
+  "id": "clip-check.1363x936-light-desktop",
+  "script": "node scripts/qa/clip-check.mjs",
+  "env": {
+   "VW": "1363",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.1363x936-light-desktop.json"
+  },
+  "exit": 0,
+  "seconds": 39.8,
+  "outFile": "audit/master-completion/astra-reverify/runs/clip-check.1363x936-light-desktop.json"
+ },
+ {
+  "id": "clip-check.1363x936-dark-desktop",
+  "script": "node scripts/qa/clip-check.mjs",
+  "env": {
+   "VW": "1363",
+   "THEME": "dark",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.1363x936-dark-desktop.json"
+  },
+  "exit": 0,
+  "seconds": 40.4,
+  "outFile": "audit/master-completion/astra-reverify/runs/clip-check.1363x936-dark-desktop.json"
+ },
+ {
+  "id": "clip-check.390x844-light-phone",
+  "script": "node scripts/qa/clip-check.mjs",
+  "env": {
+   "VW": "390",
+   "UA": "phone",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-light-phone.json"
+  },
+  "exit": 0,
+  "seconds": 39.6,
+  "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-light-phone.json"
+ },
+ {
+  "id": "clip-check.390x844-dark-phone",
+  "script": "node scripts/qa/clip-check.mjs",
+  "env": {
+   "VW": "390",
+   "UA": "phone",
+   "THEME": "dark",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-dark-phone.json"
+  },
+  "exit": 0,
+  "seconds": 39.7,
+  "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-dark-phone.json"
+ },
+ {
+  "id": "clip-check.320x568-light-phone",
+  "script": "node scripts/qa/clip-check.mjs",
+  "env": {
+   "VW": "320",
+   "UA": "phone",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.320x568-light-phone.json"
+  },
+  "exit": 0,
+  "seconds": 39.4,
+  "outFile": "audit/master-completion/astra-reverify/runs/clip-check.320x568-light-phone.json"
+ },
+ {
+  "id": "clip-check.682x468-zoom200-desktop",
+  "script": "node scripts/qa/clip-check.mjs",
+  "env": {
+   "VW": "682",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.682x468-zoom200-desktop.json"
+  },
+  "exit": 0,
+  "seconds": 39.7,
+  "outFile": "audit/master-completion/astra-reverify/runs/clip-check.682x468-zoom200-desktop.json"
+ },
+ {
+  "id": "clip-check.390x844-light-desktop",
+  "script": "node scripts/qa/clip-check.mjs",
+  "env": {
+   "VW": "390",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-light-desktop.json"
+  },
+  "exit": 0,
+  "seconds": 40,
+  "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-light-desktop.json"
+ },
+ {
+  "id": "clip-check.320x568-light-desktop",
+  "script": "node scripts/qa/clip-check.mjs",
+  "env": {
+   "VW": "320",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.320x568-light-desktop.json"
+  },
+  "exit": 0,
+  "seconds": 39.9,
+  "outFile": "audit/master-completion/astra-reverify/runs/clip-check.320x568-light-desktop.json"
+ },
+ {
+  "id": "axe-sweep.1363-light",
+  "script": "node scripts/qa/axe-sweep.mjs",
+  "env": {
+   "VW": "1363",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.1363-light.json"
+  },
+  "exit": 0,
+  "seconds": 47.4,
+  "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.1363-light.json"
+ },
+ {
+  "id": "axe-sweep.1363-dark",
+  "script": "node scripts/qa/axe-sweep.mjs",
+  "env": {
+   "VW": "1363",
+   "THEME": "dark",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.1363-dark.json"
+  },
+  "exit": 0,
+  "seconds": 47.3,
+  "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.1363-dark.json"
+ },
+ {
+  "id": "axe-sweep.390-light",
+  "script": "node scripts/qa/axe-sweep.mjs",
+  "env": {
+   "VW": "390",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.390-light.json"
+  },
+  "exit": 0,
+  "seconds": 47.2,
+  "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.390-light.json"
+ },
+ {
+  "id": "axe-sweep.390-dark",
+  "script": "node scripts/qa/axe-sweep.mjs",
+  "env": {
+   "VW": "390",
+   "THEME": "dark",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.390-dark.json"
+  },
+  "exit": 0,
+  "seconds": 47,
+  "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.390-dark.json"
+ },
+ {
+  "id": "keyboard-check.1363",
+  "script": "node scripts/qa/keyboard-check.mjs",
+  "env": {
+   "VW": "1363",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/keyboard-check.1363.json"
+  },
+  "exit": 0,
+  "seconds": 103.4,
+  "outFile": "audit/master-completion/astra-reverify/runs/keyboard-check.1363.json"
+ },
+ {
+  "id": "keyboard-check.390",
+  "script": "node scripts/qa/keyboard-check.mjs",
+  "env": {
+   "VW": "390",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/keyboard-check.390.json"
+  },
+  "exit": 0,
+  "seconds": 105.5,
+  "outFile": "audit/master-completion/astra-reverify/runs/keyboard-check.390.json"
+ },
+ {
+  "id": "a11y-sample.light",
+  "script": "node scripts/qa/a11y-sample.mjs",
+  "env": {
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/a11y-sample.light.json",
+   "ROUTES_FROM": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
+  },
+  "exit": 0,
+  "seconds": 46,
+  "outFile": "audit/master-completion/astra-reverify/runs/a11y-sample.light.json"
+ },
+ {
+  "id": "a11y-sample.dark",
+  "script": "node scripts/qa/a11y-sample.mjs",
+  "env": {
+   "THEME": "dark",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/a11y-sample.dark.json",
+   "ROUTES_FROM": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
+  },
+  "exit": 0,
+  "seconds": 46.2,
+  "outFile": "audit/master-completion/astra-reverify/runs/a11y-sample.dark.json"
+ },
+ {
+  "id": "type-profile",
+  "script": "node scripts/qa/type-profile.mjs",
+  "env": {
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/type-profile.json"
+  },
+  "exit": 0,
+  "seconds": 29,
+  "outFile": "audit/master-completion/astra-reverify/runs/type-profile.json"
+ },
+ {
+  "id": "bidi-scan",
+  "script": "node scripts/qa/bidi-scan.mjs",
+  "env": {
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/bidi-scan.json"
+  },
+  "exit": 0,
+  "seconds": 32.4,
+  "outFile": "audit/master-completion/astra-reverify/runs/bidi-scan.json"
+ },
+ {
+  "id": "shelf-check",
+  "script": "node scripts/qa/shelf-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 6.8,
+  "outFile": "audit/master-completion/astra-reverify/runs/shelf-check.stdout.log"
+ },
+ {
+  "id": "dock-check",
+  "script": "node scripts/qa/dock-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 2.2,
+  "outFile": "audit/master-completion/astra-reverify/runs/dock-check.stdout.log"
+ },
+ {
+  "id": "module-colour-check",
+  "script": "node scripts/qa/module-colour-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 15,
+  "outFile": "audit/master-completion/astra-reverify/runs/module-colour-check.stdout.log"
+ },
+ {
+  "id": "status-consistency",
+  "script": "node scripts/qa/status-consistency.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 34.9,
+  "outFile": "audit/master-completion/astra-reverify/runs/status-consistency.stdout.log"
+ },
+ {
+  "id": "present-check",
+  "script": "node scripts/qa/present-check.mjs",
+  "env": {
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/present-check"
+  },
+  "exit": 0,
+  "seconds": 9.1,
+  "outFile": "audit/master-completion/astra-reverify/runs/present-check.stdout.log"
+ },
+ {
+  "id": "open-rows-check",
+  "script": "node scripts/qa/open-rows-check.mjs",
+  "env": {
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/open-rows-check"
+  },
+  "exit": 0,
+  "seconds": 37,
+  "outFile": "audit/master-completion/astra-reverify/runs/open-rows-check.stdout.log"
+ },
+ {
+  "id": "sticky-depth-check",
+  "script": "node scripts/qa/sticky-depth-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 128.2,
+  "outFile": "audit/master-completion/astra-reverify/runs/sticky-depth-check.stdout.log"
+ },
+ {
+  "id": "r3-check",
+  "script": "node scripts/qa/r3-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 5.5,
+  "outFile": "audit/master-completion/astra-reverify/runs/r3-check.stdout.log"
+ },
+ {
+  "id": "r3b-check",
+  "script": "node scripts/qa/r3b-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 4,
+  "outFile": "audit/master-completion/astra-reverify/runs/r3b-check.stdout.log"
+ },
+ {
+  "id": "r3c-check",
+  "script": "node scripts/qa/r3c-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 7.9,
+  "outFile": "audit/master-completion/astra-reverify/runs/r3c-check.stdout.log"
+ },
+ {
+  "id": "r3d-check",
+  "script": "node scripts/qa/r3d-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 8.1,
+  "outFile": "audit/master-completion/astra-reverify/runs/r3d-check.stdout.log"
+ },
+ {
+  "id": "round6-misc-check",
+  "script": "node scripts/qa/round6-misc-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 13.4,
+  "outFile": "audit/master-completion/astra-reverify/runs/round6-misc-check.stdout.log"
+ },
+ {
+  "id": "catalog-cards-check",
+  "script": "node scripts/qa/catalog-cards-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 9.6,
+  "outFile": "audit/master-completion/astra-reverify/runs/catalog-cards-check.stdout.log"
+ },
+ {
+  "id": "erd-selection-check",
+  "script": "node scripts/qa/erd-selection-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 8.2,
+  "outFile": "audit/master-completion/astra-reverify/runs/erd-selection-check.stdout.log"
+ },
+ {
+  "id": "ai-states-check",
+  "script": "node scripts/qa/ai-states-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 71.9,
+  "outFile": "audit/master-completion/astra-reverify/runs/ai-states-check.stdout.log"
+ },
+ {
+  "id": "crawl-dead-links",
+  "script": "node scripts/crawl-dead-links.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 8.4,
+  "outFile": "audit/master-completion/astra-reverify/runs/crawl-dead-links.stdout.log"
+ },
+ {
+  "id": "verify-reader",
+  "script": "node --experimental-strip-types --no-warnings scripts/verify-reader.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 96.6,
+  "outFile": "audit/master-completion/astra-reverify/runs/verify-reader.stdout.log"
+ },
+ {
+  "id": "static-fetch",
+  "script": "astra-reverify.mjs (fetch)",
+  "env": {},
+  "exit": 0,
+  "seconds": 0.1,
+  "outFile": "audit/master-completion/astra-reverify/runs/static-fetch.stdout.log"
+ }
+]
