@@ -13,7 +13,7 @@ const mk = (slug: string, module: string, he: string, app: string, gui: string, 
     { title: "Launchpad Setup", type: "text", tone: "#475569", text: setup },
     { title: "QA Validation", type: "bullets", tone: "#be185d", items: [`Positive: השק את ${app} מה-Launchpad ובצע פעולה`, `Regression: השווה תוצאה מול ${gui} ב-GUI`, "Validation: הרשאה דרך Business Role + Catalog"] },
   ],
-  eccS4: { unchanged: `התהליך העסקי של ${gui} נשמר.`, changed: `UX עובר ל-${app}; GUI עדיין זמין.`, fiori: `${app} (${appId})`, cds: cds, migration: `QA: ${app} מחליף את ${gui}; ודא Catalog/Role ב-PFCG.` },
+  eccS4: { unchanged: `התהליך העסקי של ${gui} נשמר.`, changed: `UX עובר ל-${app}; GUI עדיין זמין.`, fiori: `${app} (${appId})`, cds: cds, migration: `QA: ${app} לצד ${gui}; ודא Catalog/Role ב-PFCG.` },
 });
 
 export const FIORI_APPS: CenterItem[] = [
@@ -41,7 +41,10 @@ export const FIORI_APPS: CenterItem[] = [
   mk("manage-process-orders", "PP-PI", "ניהול הזמנות תהליך", "Manage Process Orders", "COR1 / COR2 / COID", "F3577", "SAP_PP_BC_PROCESS_ORDER", "SAP_BR_PRODN_OPERATOR_PROC", "API_PROCESS_ORDER_2_SRV", "I_ManufacturingOrder", "Catalog לפקודות תהליך; שילוב PP-DS/aATP.", "x"),
   mk("confirm-process-order", "PP-PI", "אישור הזמנת תהליך", "Confirm Process Order", "COR6N", "F3364", "SAP_PP_BC_PROCESS_ORDER", "SAP_BR_PRODN_OPERATOR_PROC", "API_PROC_ORDER_CONFIRMATION_2_SRV", "—", "אישור שלבים + Backflush + GR מה-Launchpad.", "x"),
   mk("manage-batches", "PP-PI", "ניהול אצוות", "Manage Batches", "MSC1N / MSC2N / MSC3N", "F1576", "SAP_LO_BC_BATCH", "SAP_BR_WAREHOUSE_CLERK", "API_BATCH", "I_Batch", "Catalog לאצוות + Batch Information Cockpit.", "x"),
-  mk("post-goods-movement", "PP", "תנועות סחורה", "Post Goods Movement", "MIGO / MB31", "F0843", "SAP_MM_BC_GOODS_MVT", "SAP_BR_WAREHOUSE_CLERK", "API_MATERIAL_DOCUMENT_SRV", "I_MaterialDocumentItem", "מחליף MIGO; תנועות נרשמות ל-MATDOC.", "x"),
+  // MIGO · 2026-09-25: Post Goods Movement is the Web GUI app whose library id is MIGO (fal-app.mjs MIGO, S32OP;
+  // MM-IM 2025.001 "Web GUI app; transaction code MIGO"); F0843 is Post Goods Receipt for Purchasing Document
+  // (fiori:F0843). It shows MIGO in the launchpad, it does not replace it. Catalog and role from the library.
+  mk("post-goods-movement", "PP", "תנועות סחורה", "Post Goods Movement", "MIGO", "MIGO (Web GUI)", "SAP_MM_BC_IM_PROCESS", "SAP_BR_INVENTORY_MANAGER", "—", "טרם אומת", "יישום Web GUI של MIGO ב-Launchpad (ספריית ה-Fiori: Apps('MIGO'), רכיב MM-IM, בלי שירות OData); תנועות נרשמות ל-MATDOC. F0843, שהמאגר הצמיד לשם הזה, הוא Post Goods Receipt for Purchasing Document.", "x"),
   // F1813 · 2026-09-24: the entry named F1814, which the SAP Fiori Apps Reference Library lists as
   // "Sales Order (S/4HANA)"; the BOM app for CS01 (leading) and CS02/CS03 (related) is F1813 "Maintain
   // Bill Of Material" (scripts/fal-app.mjs F1813, S32OP). Slug kept so the route keeps working.

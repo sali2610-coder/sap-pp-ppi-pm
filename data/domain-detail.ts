@@ -233,7 +233,7 @@ export const DOMAIN_DETAIL: Record<string, DomainDetail> = {
     scenario: "בארגון: תחזית ל-200K בקבוקים מוזנת כ-PIR. MRP Live מפצץ ל-תרכיז, בקבוקים, מכסים ותוויות — יוצר הזמנות מתוכננות לייצור ודרישות רכש לחומרי אריזה לפי זמני אספקה של הספקים.",
     fiori: ["Monitor Material Coverage", "Manage Material Coverage", "Display MRP Master Data Issues"],
     migration: "MDKP/PLAF נשמרים. QA: השווה MD01→MD01N, ביצועים, וכיסוי חומרים; תרחישי subcontracting.",
-    eccS4: { unchanged: "תוצרי תכנון (הזמנות מתוכננות) זהים.", changed: "MRP Live על HANA — מהיר, רץ ברמת חומר.", replaced: "MD01 קלאסי → MD01N.", deprecated: "MRP List (MD05) פחות מרכזי; פרמטרים מסוימים לא נתמכים.", fiori: "Monitor Material Coverage", simplification: "MRP in S/4HANA (MRP Live).", migration: "QA: כיסוי + ביצועים + תאימות תרחישים." } },
+    eccS4: { unchanged: "תוצרי תכנון (הזמנות מתוכננות) זהים.", changed: "MRP Live על HANA — מהיר, רץ ברמת חומר. MD01 הקלאסית עדיין זמינה ואינה חלק מחבילת התאימות, ו-MRP Live (MD01N) נחשבת לטכנולוגיית העתיד (פריט הפישוט 'S4TWL - MRP in HANA').", deprecated: "MRP List (MD05) פחות מרכזי; פרמטרים מסוימים לא נתמכים.", fiori: "Monitor Material Coverage", simplification: "MRP in S/4HANA (MRP Live).", migration: "QA: כיסוי + ביצועים + תאימות תרחישים." } },
   "pppi-mps": {
     purpose: "MPS מייצב פריטים קריטיים (מוצרי גמר/צווארי בקבוק) בתכנון נפרד ומבוקר לפני MRP, כדי שתנודות בדרישת רכיבים לא יערערו את תכנית האב.",
     diagram: ["סימון פריט MPS (M*)", "הרצת MPS (MD41)", "ייצוב + Firming", "אישור תכנית אב", "MRP לרכיבים", "המרה לפקודות"],

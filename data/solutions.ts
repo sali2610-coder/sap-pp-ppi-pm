@@ -31,7 +31,7 @@ export const SOLUTIONS: Solution[] = [
   { slug: "goods-movement", domain: "MM", he: "תנועות מלאי", title: "Goods Movements (GR/GI/Transfer)", keywords: ["stock", "movement", "goods", "תנועה", "GR", "GI", "261", "101", "transfer", "העברת מלאי", "קליטת סחורה", "קבלת טובין", "ניפוק"],
     process: "רישום תנועות מלאי — קבלה, ניפוק, העברה — שמעדכנות כמות, ערך ותכנון.",
     eccTcodes: ["MIGO", "MB1A", "MB1B", "MB31"], s4Alt: "MIGO מרכזי; MB* הוסרו. תנועות ל-MATDOC.",
-    fiori: ["Post Goods Movement (F0843)", "Manage Material Documents"], tables: ["MATDOC", "MSEG", "MKPF", "RESB"], cds: ["I_MaterialDocumentItem"], apis: ["API_MATERIAL_DOCUMENT_SRV"], bapis: ["BAPI_GOODSMVT_CREATE", "BAPI_GOODSMVT_GETDETAIL"], exits: ["MBCF0002", "MB_MIGO_BADI"], incidents: ["goods-movement-stock", "duplicate-goods-receipt", "period-mm-not-open"], complexity: "Medium" },
+    fiori: ["Post Goods Movement (Web GUI, MIGO)", "Manage Material Documents"], tables: ["MATDOC", "MSEG", "MKPF", "RESB"], cds: ["I_MaterialDocumentItem"], apis: ["API_MATERIAL_DOCUMENT_SRV"], bapis: ["BAPI_GOODSMVT_CREATE", "BAPI_GOODSMVT_GETDETAIL"], exits: ["MBCF0002", "MB_MIGO_BADI"], incidents: ["goods-movement-stock", "duplicate-goods-receipt", "period-mm-not-open"], complexity: "Medium" },
   { slug: "batch-management", domain: "PP-PI", he: "ניהול אצוות ומעקב", title: "Batch Management & Traceability", keywords: ["batch", "אצווה", "ניהול אצווה", "פתיחת אצווה", "traceability", "מעקב", "FEFO", "recall", "shelf life", "SLED"],
     process: "ניהול מנות ייצור עם מאפיינים ותוקף, קביעה אוטומטית (FEFO) ומעקב מלא ל-Recall.",
     eccTcodes: ["MSC1N", "MSC3N", "MB56", "CL30N"], s4Alt: "מודל זהה; Fiori 'Manage Batches' + Batch Information Cockpit.",

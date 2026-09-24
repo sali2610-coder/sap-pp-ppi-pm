@@ -21,9 +21,9 @@ const DEFAULT: Lifecycle = { status: "Active", ecc: true, s4: true, migration: "
 
 export const LIFECYCLE: Record<string, Lifecycle> = {
   // ---- MM goods movements → MIGO (single-screen) ----
-  "MB1A": { status: "Obsolete", ecc: true, s4: false, fiori: "Post Goods Movement (F0843)", alt: "MIGO", simplification: "MM-IM: single-screen transaction MIGO", migration: "הוסר ב-S/4HANA. החלף ב-MIGO/Fiori. בדוק BDC/ממשקים שמשתמשים ב-MB1A.", impact: "High" },
+  "MB1A": { status: "Obsolete", ecc: true, s4: false, fiori: "Post Goods Movement (Web GUI, MIGO)", alt: "MIGO", simplification: "MM-IM: single-screen transaction MIGO", migration: "הוסר ב-S/4HANA. החלף ב-MIGO/Fiori. בדוק BDC/ממשקים שמשתמשים ב-MB1A.", impact: "High" },
   "MB1B": { status: "Obsolete", ecc: true, s4: false, fiori: "Transfer Stock (F1061) / Post Goods Movement", alt: "MIGO", simplification: "MM-IM: single-screen MIGO", migration: "הוסר ב-S/4HANA. העברות מלאי דרך MIGO. השפעה גבוהה על batch-input/ממשקים.", impact: "High" },
-  "MB1C": { status: "Obsolete", ecc: true, s4: false, fiori: "Post Goods Movement (F0843)", alt: "MIGO", simplification: "MM-IM: single-screen MIGO", migration: "הוסר ב-S/4HANA. קבלות אחרות דרך MIGO.", impact: "High" },
+  "MB1C": { status: "Obsolete", ecc: true, s4: false, fiori: "Post Goods Movement (Web GUI, MIGO)", alt: "MIGO", simplification: "MM-IM: single-screen MIGO", migration: "הוסר ב-S/4HANA. קבלות אחרות דרך MIGO.", impact: "High" },
   "MB31": { status: "Obsolete", ecc: true, s4: false, fiori: "Post Goods Movement", alt: "MIGO (101)", simplification: "MM-IM", migration: "הוסר. GR מפקודה דרך MIGO/אישור עם auto-GR.", impact: "Medium" },
   "MB01": { status: "Obsolete", ecc: true, s4: false, alt: "MIGO", simplification: "MM-IM", migration: "הוסר ב-S/4HANA — GR להזמנת רכש דרך MIGO.", impact: "High" },
   "MB02": { status: "Obsolete", ecc: true, s4: false, alt: "MIGO", simplification: "MM-IM", migration: "הוסר — שינוי מסמך חומר דרך MIGO.", impact: "Medium" },
@@ -33,7 +33,7 @@ export const LIFECYCLE: Record<string, Lifecycle> = {
   "MMBE": { status: "Active", ecc: true, s4: true, fiori: "Stock - Single Material (F1076) / Stock Overview", alt: "MMBE / Fiori", migration: "נתמך; UX מומלץ Fiori 'Stock – Single Material'.", impact: "Low" },
   "MB51": { status: "Active", ecc: true, s4: true, fiori: "Material Documents Overview (F1077)", migration: "נתמך; נתונים מ-MATDOC. דוחות Z על MKPF/MSEG → CDS.", impact: "Low" },
   "MB52": { status: "Active", ecc: true, s4: true, fiori: "Stock - Multiple Materials", migration: "נתמך; Fiori מקביל.", impact: "Low" },
-  "MIGO": { status: "Active", ecc: true, s4: true, fiori: "Post Goods Movement (F0843)", migration: "מרכזי ב-S/4; תנועות נרשמות ל-MATDOC. החלופה ל-MB*.", impact: "None" },
+  "MIGO": { status: "Active", ecc: true, s4: true, fiori: "Post Goods Movement (Web GUI, MIGO)", migration: "מרכזי ב-S/4; תנועות נרשמות ל-MATDOC. החלופה ל-MB*.", impact: "None" },
   // ---- Purchasing ----
   "ME21": { status: "Obsolete", ecc: true, s4: false, alt: "ME21N", migration: "הוסר — השתמש ב-ME21N (Enjoy).", impact: "Medium" },
   "ME22": { status: "Obsolete", ecc: true, s4: false, alt: "ME22N", migration: "הוסר — ME22N.", impact: "Medium" },
@@ -46,7 +46,7 @@ export const LIFECYCLE: Record<string, Lifecycle> = {
   "FD01": { status: "Obsolete", ecc: true, s4: false, alt: "BP", simplification: "Business Partner Approach", migration: "הוסר — BP.", impact: "High" },
   "BP": { status: "Active", ecc: true, s4: true, fiori: "Manage Business Partner Master Data", migration: "נקודת הכניסה היחידה ללקוח/ספק ב-S/4HANA.", impact: "None" },
   // ---- PP MRP ----
-  "MD01": { status: "Deprecated", ecc: true, s4: true, fiori: "—", alt: "MD01N (MRP Live)", simplification: "MRP in S/4HANA (MRP Live)", migration: "קיים אך לא אסטרטגי; MRP Live (MD01N) מועדף. חלק מהפרמטרים/Exits לא נתמכים ב-Live.", impact: "Medium" },
+  "MD01": { status: "Active", ecc: true, s4: true, fiori: "—", alt: "MD01N (MRP Live)", simplification: "MRP in S/4HANA (MRP Live)", migration: "זמינה ב-S/4HANA: לפי פריט הפישוט 'S4TWL - MRP in HANA' הטרנזקציות הקלאסיות עדיין זמינות, אינן חלק מחבילת התאימות ולא הוגדר להן תאריך סיום חיים; MRP Live (MD01N) נחשבת לטכנולוגיית העתיד. חלק מהפרמטרים/Exits לא נתמכים ב-Live.", impact: "Medium" },
   "MD01N": { status: "Active", ecc: false, s4: true, fiori: "Monitor Material Coverage (Version 2) (F0247A)", simplification: "MRP Live", migration: "MRP Live על HANA — הסטנדרט ב-S/4.", impact: "None" },
   "MD04": { status: "Active", ecc: true, s4: true, fiori: "Monitor Material Coverage – Net Segments", migration: "נתמך; נתונים בזמן אמת. Fiori מקביל.", impact: "Low" },
   "MD05": { status: "Deprecated", ecc: true, s4: true, alt: "MD04 (real-time)", simplification: "MRP Live", migration: "MRP List פחות מרכזי; MD04 בזמן אמת מועדף.", impact: "Low" },

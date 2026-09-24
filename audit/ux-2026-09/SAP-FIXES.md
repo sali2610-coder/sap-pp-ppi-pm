@@ -306,3 +306,15 @@
 | Confirm Jobs | הוצאה משימוש ב-S/4HANA 2022 ונמחקה מה-Launchpad ב-2023; What's New 2022 מונה כיורשים את Perform Maintenance Jobs (F5104A) ואת Report and Repair Malfunction (F2023). הוחלפה ביורש (או סומנה) ב-`tx-intel.ts#IW41`, `processes.ts`, `process-guides.ts`, `centers/migration.ts`, `centers/blueprints.ts`, `domain-detail.ts`, `transactions.ts#IW41`, `solutions.ts`, `academy/lessons/pm-generated.ts` (9 מופעים) ובכרטיס `centers/fiori.ts#confirm-jobs` (השם הישן והמחיקה נשמרו בטקסט הכרטיס). 'My Maintenance Jobs', שאף מקור רשמי אינו מדפיס, הוסר. כרטיס `manage-maintenance-orders` עבר ל-F5241 עם ערכי `apps.ts#F5241` |
 | מה לא שונה | 'Manage Work Centers' (CR01 ואחרים): יישום רשמי (Work Centers PP-BD-WKC, 2025.001). MD07 ↔ F0247A: עמוד ה-Feature Comparison מצמיד את F0247A ל-MD06 / MD07. F2828 כדשבורד תכנון (IP19, IW38, IW39): What's New 1809 מתאר אותו כך. COR2 ↔ F3577: רשומת האימות של F3577 מתעדת את השם. רשומות קטלוג ה-Fiori F2731, F3364, F2730A נשארו עם רשומות האימות שלהן (החלטת משפחת ה-Fiori). `pmu-generated.ts` נוצר מספר מוגן ולא נגעתי בו |
 | בדיקות | `tsc` 0 · `npm test` 211/211 · `check:academy-blocks` 460 בסנכרון |
+
+---
+
+## FIX-20 · MD01 "הוחלפה", ו-Post Goods Movement כ-F0843 (אימות SAP S/4HANA, 2026-09-25)
+
+| שדה | ערך |
+|---|---|
+| MD01 | פריט הפישוט 'S4TWL - MRP in HANA' (2025 FPS01 9.5.2, כפי שרשומת `tx:MD01` מצטטת): הטרנזקציות הקלאסיות (MD01, MD02, MD03 ועוד) עדיין זמינות, אינן חלק מחבילת התאימות ולא הוגדר להן תאריך סיום חיים; MRP Live (MD01N) נחשבת לטכנולוגיית העתיד. תוקנו: `tx-intel.ts#MD01` (`s4`: "הוחלף ב-MRP Live"), `tx-intel.ts#MD02` (`techExample`: "מחליף בפועל את MD01/MD02"), `lifecycle.ts#MD01` (Deprecated → Active, עם נוסח הפריט), `domain-detail.ts` (שדה `replaced`: "MD01 קלאסי → MD01N" הוסר והנוסח הרשמי נוסף ל-`changed`) |
+| Post Goods Movement | לפי רשומת `fiori:F0843` ורשומת הספרייה Apps('MIGO') ב-S32OP: Post Goods Movement הוא יישום ה-Web GUI שמזהה האפליקציה שלו MIGO (רכיב MM-IM, בלי שירות OData), ו-F0843 הוא Post Goods Receipt for Purchasing Document. תוקנו: `tx-intel.ts` IW3K, MB1A, MB1B, MB31 (`s4Delta`), ME23N (`fiori`: "Display Purchase Order — F0843" → Purchase Order (Version 2) (F0348A), היישום המוביל ב-`fal-app.mjs --tcode ME23N`); `lifecycle.ts` MB1A, MB1C, MIGO; `solutions.ts`; כרטיס `centers/fiori.ts#post-goods-movement` (טען "מחליף MIGO"; עכשיו מזהה MIGO (Web GUI), קטלוג SAP_MM_BC_IM_PROCESS ותפקיד SAP_BR_INVENTORY_MANAGER מהספרייה, MB31 הוסר מהכרטיס לפי FIX-18) |
+| תבנית כרטיסי Fiori | `centers/fiori.ts#mk`: שורת ה-QA "X מחליף את <טרנזקציה>" הופיעה בכל כרטיס; ספריית ה-Fiori מצמידה יישומים לטרנזקציות (leading / related) ואינה קובעת החלפה (עקרון FIX-12), ולכן הנוסח הוא עכשיו "X לצד <טרנזקציה>" |
+| מה לא שונה | רשומת הקטלוג `data/fiori/apps.ts#F0843` ("Post Goods Movement", "מחליף MIGO"): בתור ה-Fiori היא מסומנת כהחלטת מוצר/סכמה, כי MIGO אינו תואם לתחביר `fiori:` ולא ניתן לרשום את Post Goods Movement תחת מזהה משלו בלי שינוי סכמה (BLOCKERS) |
+| בדיקות | `tsc` 0 · `npm test` 211/211 |
