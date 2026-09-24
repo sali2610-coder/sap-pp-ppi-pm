@@ -123,7 +123,29 @@
    MC95 end with the sentence that the generated record in transactions-auto.ts
    is superseded (MC87, MC89 and MC93 already said so), and for MC88, MC89 and
    MC94, whose notes say fal-app was not run, it also carries that record's
-   documented negative (S32OP, 0 apps with that leading code). */
+   documented negative (S32OP, 0 apps with that leading code).
+   Batch 14 (2026-09-24): 6 audited MRP records (MD01N, MD02, MD03, MD07,
+   MD11, MD12), none refuted. MD02, MD03, MD07, MD11 and MD12 from
+   verdict.fixedRecord; MD01N from the draft with its auditor's two downgrades
+   (the planning-horizon wording in status.he; evidence[0] and status.source
+   are the shared MD01_STATUS_SRC, every other date DATE24). MD01N keeps the
+   audited s4_native with its SAP ERP 6.18 row as conflicting_sources. Status
+   sources point at MD01_STATUS_SRC and the new shared MD02_SIMPL_ITEM_2025,
+   MD03_SIMPL_ITEM_2025, MD07_FAL, MD11_PLANNED_ORDER_INTEGRATION and MD12_FAL
+   consts instead of the marker strings or re-typed copies the verdicts
+   carried. Writer corrections: reviewer fields dropped (MD01N, MD12) and the
+   MD01N writer instruction dropped from its notes; the MD02 repository row's
+   repoRef also names data/tcode-catalog.ts, which its title cites (the
+   verdict's optional downgrade); the MD03 Fiori Apps Library row's release
+   written '2025.001' instead of 'S32OP' (the house form the MD12 auditor
+   applied); 'רק' / 'בלבד' dropped from five source-bounded sentences (MD02
+   notes x2, MD03 notes, MD07 evidence[3] and notes), in the bounded Other
+   Terms form the MD11 and MD12 auditors asked for; two notes statements
+   about repository files corrected against the files (MD03 has a
+   data/tx-intel.ts row; MD12 has its own data/tx-intel.ts row and sits in
+   the 'after' list of MD02), each marked Old → New; the notes of MD01N,
+   MD02, MD03 and MD11 end with the sentence that the generated record in
+   transactions-auto.ts is superseded (MD07 and MD12 already said so). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -1812,6 +1834,102 @@ const MC95_SIMPL_ITEM_2025: Evidence = {
     "Planning (SOP) כולה, כולל התכנון הגמיש, 'will be replaced by Integrated Business Planning IBP', וש-IBP הוא " +
     "'the successor solution'; אין הכרעה בפריט לגבי טרנזקציה או אפליקציית Fiori ספציפית שמחליפה את MC95 עצמה, ואין " +
     "מסלול הגירה טכני ייעודי ('there is no special migration path from PP SOP to IBP').",
+  verificationLevel: "sap_official_verified",
+};
+
+const MD02_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+    "2025 – FPS01, item 9.5.2 'S4TWL - MRP in HANA' (document version 1.36, pp. 651-655)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט קובע במפורש לגבי MD02 (בפרק 'Classic MRP'): 'Classic MRP (transactions MD01, MD02, MD03, MD40, " +
+    "MD41, MD42, MD43, MD50, MD51 and jobs RMMRP000, RMMPS000) are still available in SAP S/4HANA but MRP " +
+    "live (transaction MD01N) is considered the future technology. Classic MRP transactions are not part of " +
+    "the compatibility pack. An end-of-life date for the classic MRP has not yet been defined.' כלומר MD02 " +
+    "ממשיכה לפעול כטרנזקציית MRP קלאסית, בנפרד מרשימות ה-MRP ומה-forecast-based planning (VV) שנמצאות " +
+    "ב-compatibility scope. הפריט מוסיף שקריאת הנתונים של טרנזקציות MRP קלאסיות עברה אופטימיזציה ל-HANA " +
+    "באמצעות AMDP ('the data reading processes of some classic MRP transaction (like MD01, MD02, MD03, etc.) " +
+    "have been optimized for HANA database accesses'), ושבעקבות זאת ייתכן שיידרש להתאים מימושי BAdI גם בשימוש " +
+    "ב-MRP הקלאסי ('it might be necessary to adjust certain BAdI implementations even if you still use " +
+    "classic MRP').",
+  verificationLevel: "sap_official_verified",
+};
+
+const MD03_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 9.5.2 S4TWL - MRP in HANA " +
+    "(PP-MRP)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.5.2 (רכיב יישום PP-MRP; Business Impact note 0002268085 'MRP Live on SAP HANA - MD01N') קובע " +
+    "במפורש: 'Classic MRP (transactions MD01, MD02, MD03, MD40, MD41, MD42, MD43, MD50, MD51 and jobs " +
+    "RMMRP000, RMMPS000) are still available in SAP S/4HANA but MRP live (transaction MD01N) is considered " +
+    "the future technology. Classic MRP transactions are not part of the compatibility pack. An end-of-life " +
+    "date for the classic MRP has not yet been defined.' באותו פריט: קובץ התכנון החדש PPH_DBVM משמש גם את " +
+    "ה-MRP הקלאסי ('the new planning file is also used by classic MRP (transaction MD01, MD02, ...)'), וקריאת " +
+    "הנתונים של חלק מטרנזקציות ה-MRP הקלאסי ('like MD01, MD02, MD03, etc.') עברה אופטימיזציה ל-HANA באמצעות " +
+    "AMDP ואינה ניתנת לכיבוי ב-S/4HANA. MD03 נקובה בשמה המפורש ברשימת טרנזקציות ה-MRP הקלאסי ובמשפט ה-AMDP.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MD07_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library: F0263 - Monitor Internal Requirements (SAP Fiori/SAPUI5, component PP-FIO-MRP, " +
+    "release S32OP)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0263')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ספריית אפליקציות Fiori (scripts/fal-app.mjs --tcode MD07 ב-S32OP; פרטים עם fal-app.mjs F0263 " +
+    "--release S32OP) רושמת את F0263 'Monitor Internal Requirements' כאפליקציה המובילה עבור MD07, עם 'GUI " +
+    "transactions: leading MD07'. סוג Transactional, SAP Fiori (SAPUI5), סטטוס Published, קטלוג עסקי " +
+    "SAP_SCM_BC_MRPCOCKPIT, שירות OData PP_MRP_COCKPIT_SRV. הרשומה מונה מהדורות מ-S3OP (1511) ועד S32OP (2025 " +
+    "FPS01), ללא predecessor, ורושמת successor: 'F0263A Monitor Internal Requirements Version 2'. fal-app.mjs " +
+    "F0263A מחזיר תוצאה ריקה ב-S32OP וב-S31OP.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MD11_PLANNED_ORDER_INTEGRATION: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Planned Order Integration",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/6dc45ed6499e479d9bfe246908a8fcfa.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "נושא העזרה 'Planned Order Integration' (Production Planning and Control, S/4HANA 2025 FPS01) קובע: 'You " +
+    "create a planned order (for example, using transaction MD11, Create Planned Order or using transaction " +
+    "MD01, MRP Run)'; כלומר טרנזקציית MD11 מוזכרת בשמה כדרך ליצירת הזמנה מתוכננת ב-S/4HANA On-Premise 2025 " +
+    "FPS01.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MD12_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "MD12 Change Planned Order, Fiori Apps Library, release S32OP",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MD12')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "רישום ה-Fiori Apps Library למהדורה S32OP (2025 FPS01 on-premise) מציג את MD12 כאפליקציית SAP GUI בסטטוס " +
+    "Published עם NumberofSuccessors = 0; כלומר ברישום זה לא מופיעה אפליקציית Fiori מחליפה ל-MD12.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -11133,5 +11251,568 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "נקרא במלואו מהקובץ המקומי scratchpad/official/SIMPL_OP2025.pdf.txt (עמ' 804-806); הציטוט לעיל מועתק ממנו. " +
       "לא בוצעה בדיקה במערכת SAP חיה; לא אומת קיום המסך/התוכנית של MC95 ב-SE93 במערכת יעד. הרשומה מחליפה את הרשומה " +
       "שנוצרה אוטומטית ל-MC95 ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:MD01N */
+  {
+    id: "tx:MD01N",
+    evidence: [
+      MD01_STATUS_SRC,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Carrying Out the Planning Run Using MRP Live",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/fe39e10a9a864a8f8dc9537704f0fa13/bc5a76513feb1f66e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף הדף (loio bc5a76513feb1f66e10000000a441470, נקרא דרך sap-help-body.mjs) קובע: 'The transaction MD01N " +
+          "is a copy of the transaction MD01', ושהדוח PPH_MRP_DISPATCHER הוא 'a copy of the report RMMRP000'. הדוח " +
+          "PPH_MRP_DISPATCHER מאפשר שתי דרכי ריצה: MD01N קוראת ל-MRP on HANA או ל-MRP הקלאסי ('MRP Live " +
+          "(transaction MD01N) calls MRP on HANA', 'MRP Live (transaction MD01N) calls classic MRP'), לפי פרמטרי " +
+          "ה-MRP ברשומת האב של החומר וב-Customizing ('Which planning run is used depends on the MRP parameters " +
+          "defined for the materials in the material master record and in Customizing').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "MRP Live: Incompatible Changes",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/fe39e10a9a864a8f8dc9537704f0fa13/1d4ee5514ec5c90ae10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף הדף (loio 1d4ee5514ec5c90ae10000000a44176d, נקרא דרך sap-help-body.mjs) קובע: 'MRP Live (transaction " +
+          "MD01N) does not process BAdIs for materials that are completely planned in SAP HANA. For such materials, " +
+          "you have to force the MRP Live run to call classic MRP by setting the Plan in Classic MRP indicator in " +
+          "transaction MD_MRP_FORCE_CLASSIC.' וכן: 'MRP Live does not support net change planning in the planning " +
+          "horizon. The planning horizon is ignored.', 'No MRP list is created for the MRP Live run with the " +
+          "exception of termination MRP lists for materials with inconsistent data', ו-'Multi-level, make-to-order " +
+          "planning (transaction MD50) is not optimized for MRP Live' עם ההנחיה 'Use MRP Live for the top-level " +
+          "material and include the BOM components in planning.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Carrying Out the Planning Run Using MRP Live",
+        url: "https://help.sap.com/docs/SAP_ERP/85d3fce10e264972a0155c8b46ecf93b/bc5a76513feb1f66e10000000a441470.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (sap-help-search.mjs --product SAP_ERP, כותרת וסניפט בלבד; גוף הדף לא נקרא) מציגה את אותו " +
+          "דף (loio bc5a76513feb1f66e10000000a441470) תחת SAP ERP, versionId 6.18.latest, עם הסניפט 'MRP Live " +
+          "(transaction MD01N) calls classic MRP Note The transaction MD01N is a copy of the transaction MD01'. " +
+          "כלומר תיעוד SAP ERP מתעד את MD01N גם בצד ה-ERP, וזה עומד מול הסיווג 'חדש ב-S/4HANA' הנשען על פריט הפישוט " +
+          "'S4TWL - MRP in HANA' ('SAP S/4HANA features MRP Live (MD01N) is a new MRP run optimized for SAP HANA', " +
+          "עמ' 652). מה יכריע: בדיקת קיום MD01N במערכת SAP ERP חיה ברמת 6.18, או מקור רשמי שקובע באיזו גרסה MD01N " +
+          "הופיעה לראשונה.",
+        verificationLevel: "conflicting_sources",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "ברשימת הפישוט של SAP S/4HANA 2025 FPS1, בפריט 'S4TWL - MRP in HANA', מוצגת MD01N כ-'a new MRP run " +
+        "optimized for SAP HANA' וכטכנולוגיית העתיד מול ה-MRP הקלאסי, ללא תאריך סיום חיים שהוגדר ל-MRP הקלאסי; " +
+        "תיעוד SAP ERP (versionId 6.18.latest) מתעד את MD01N גם ב-SAP ERP, ולכן הסיווג 'חדש ב-S/4HANA' שנוי " +
+        "במחלוקת בין המקורות. לפי תיעוד PP-MRP ב-2025 FPS01, MD01N היא העתק של MD01, אינה מעבדת BAdIs עבור חומרים " +
+        "שתכנונם מתבצע כולו ב-SAP HANA, אינה תומכת בתכנון Net Change באופק התכנון והמערכת מתעלמת מאופק התכנון, " +
+        "ואינה יוצרת רשימת MRP (למעט רשימות סיום לחומרים עם נתונים לא עקביים).",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MD01_STATUS_SRC,
+      recommendedAction:
+        "להציג את MD01N כטכנולוגיית היעד לתכנון MRP לפי פריט הפישוט 'S4TWL - MRP in HANA', ולציין שלפי אותו פריט " +
+        "לא הוגדר תאריך סיום חיים ל-MRP הקלאסי (MD01, MD02, MD03). להזהיר יועצים שב-MD01N לא מעובדים BAdIs עבור " +
+        "חומרים שתכנונם מתבצע כולו ב-SAP HANA (ניתן לאלץ MRP קלאסי דרך MD_MRP_FORCE_CLASSIC), מפני היעדר תכנון " +
+        "Net Change באופק התכנון, ומפני היעדר רשימת MRP (במקומה משתמשים ברשימת המלאי/הדרישות).",
+    },
+    xrefs: ["tx:MD01", "tx:MD04", "fiori:F1339"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: scripts/sap-help-search.mjs 'MD01N MRP Live' (היקף S/4HANA On-Premise, 21 רשומות) ו-'MD01N' " +
+      "--product SAP_ERP (21 רשומות); נקראו שני גופי עמוד דרך scripts/sap-help-body.mjs (Carrying Out the " +
+      "Planning Run Using MRP Live; MRP Live: Incompatible Changes, שניהם 2025.001); השורה 'SAP S/4HANA " +
+      "features MRP Live (MD01N) is a new MRP run optimized for SAP HANA' אומתה בטקסט SIMPL_OP2025 (פריט 'S4TWL " +
+      "- MRP in HANA', עמ' 652). רשומות ERP נוספות שמזכירות את MD01N ולא צוטטו כראיה: 'Performance " +
+      "Optimizations for MRP' (6.18.latest), 'MRP Live: Variant Configuration' (6.17.latest), 'MRP Live: " +
+      "Incompatible Changes' (6.18.latest). ישן → חדש: הטיוטה הקודמת הציגה s4_native בלי לייחס את עמדת תיעוד " +
+      "ה-ERP; כעת המחלוקת מתועדת ב-evidence[3] כ-conflicting_sources. פער מול רשומת המאגר " +
+      "data/tx-intel.ts#MD01N (whenNot: 'ב-ECC (לא קיים)') מול תיעוד SAP ERP שמתעד את MD01N; לא תוקן כאן. לא " +
+      "בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MD01N " +
+      "ב-data/verification/transactions-auto.ts (ישן: ללא הכרעת מעמד, ופריט 9.5.2 הובא בה כהקשר; חדש: " +
+      "s4_native, עם המחלוקת המתועדת ב-evidence[3]).",
+  },
+
+  /* ----------------------------------------------------- tx:MD02 */
+  {
+    id: "tx:MD02",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transaction Codes for MRP (PP-MRP) | Material Requirements Planning (PP-MRP)",
+        url: "https://help.sap.com/docs/SAP_ERP/85d3fce10e264972a0155c8b46ecf93b/f3a9ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט מרשימת קודי הטרנזקציה של MRP ב-SAP ERP 6.0 EHP8 מונה את MD02 בין קודי ה-PP-MRP, לצד MD01 'Total " +
+          "planning online', MD03 'Single-item, single-level planning' ו-MD43 'Interactive single-item planning'; " +
+          "הכותרת של MD02 עצמה נחתכת בסניפט (מוצג '...MD03 Single-item, single-level planning MD02 ...MD07 " +
+          "Col...').",
+        verificationLevel: "sap_official_verified",
+      },
+      MD02_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 30.2 S4TWL - MRP in HANA (PP-MRP)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הפריט קובע לגבי טרנזקציות תכנון שעברו אופטימיזציה ל-HANA, ובהן MD02: 'If the planning transactions are " +
+          "optimized for HANA (like MD01, MD02, MD03, materials forced to classic MRP by MRP Live), then it is " +
+          "required to use an alternative ABAP BAdI. In this case BAdI MD_ADD_ELEMENTS has to be used to adjust the " +
+          "data determined by the HANA optimized reading processes.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "MRP - Single-Item, Multi-Level | SAP Fiori Apps Reference Library, Apps('MD02')/S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MD02')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ספריית ה-Fiori (scripts/fal-app.mjs) עבור MD02 ב-S32OP (S/4HANA 2025 FPS01) מדווחת: App Type 'SAP " +
+          "GUI / SAP GUI', Status 'Published', Component PP-MRP, Technical catalog SAP_TC_SCM_PP_BE_APPS:S4PP, GUI " +
+          "transaction מובילה MD02, predecessors '-', successors '-'. רשימת המהדורות שבהן היישום מפורסם " +
+          "(מ-S6OP=1610 ועד S32OP=2025 FPS01, כולל S30OP=2023 FPS03 ו-S31OP=2025) מציגה את MD02 כאפליקציית SAP GUI " +
+          "לאורך כל טווח המהדורות, ללא יישום מחליף רשום.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#MD02 ו-tcode-catalog.ts#MD02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tx-intel.ts#MD02; data/tcode-catalog.ts#MD02",
+        claim:
+          "רשומת tx-intel.ts מתארת את MD02 כ'תכנון דרישות חומר (MRP)', מודול PP; קטלוג הטרנזקציות " +
+          "(tcode-catalog.ts) נותן לה את הכותרת האנגלית 'MRP - Single-Item, Multi-Level', התואמת את הכותרות הרשמיות " +
+          "שנקראו לעיל.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MD02 (MRP - Single-Item, Multi-Level) נותרת זמינה כחלק מה-MRP הקלאסי ב-S/4HANA On-Premise 2025 FPS01, " +
+        "ומתועדת כך במפורש בפריט הפישוט 'S4TWL - MRP in HANA': היא אינה חלק מה-compatibility scope ולא הוגדר לה " +
+        "תאריך סיום חיים. הפריט מציג את MRP Live (MD01N) כטכנולוגיית העתיד אך אינו מגדיר אותה כמחליפה של MD02, " +
+        "וספריית ה-Fiori רושמת ל-MD02 successors '-'.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MD02_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להשאיר את MD02 כטרנזקציית ה-MRP הקלאסית לתכנון single-item, multi-level; לשקול מעבר ל-MRP Live (MD01N), " +
+        "שפריט הפישוט 'S4TWL - MRP in HANA' מציג כטכנולוגיית העתיד (ללא לוח זמנים מחייב). בהרחבות שמשפיעות על " +
+        "קריאת הנתונים ב-MD02, לבדוק מעבר ל-BAdI‏ MD_ADD_ELEMENTS, כפי שפריט 'S4TWL - MRP in HANA' ברשימת הפישוט " +
+        "של 2023 FPS03 קובע לגבי טרנזקציות שעברו אופטימיזציה ל-HANA (כמו MD01, MD02, MD03).",
+    },
+    xrefs: ["tx:MD01", "tx:MD01N", "tx:MD03", "enh:badi:MD_ADD_ELEMENTS"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "הפריטים 30.2 (2023 FPS03) ו-9.5.2 (2025 FPS01), שניהם 'S4TWL - MRP in HANA', נקראו במלואם ומספקים קביעה " +
+      "מפורשת לגבי MD02 (ציטוט בראיות). את ההנחיה על BAdI‏ MD_ADD_ELEMENTS מדפיס פריט 30.2 של 2023 FPS03; בטקסט " +
+      "של 2025 FPS01 השם אינו מופיע, ולכן היא מיוחסת לרשימת 2023. הפריטים 28.7 (2023 FPS03) ו-10.4.26 (2025 " +
+      "FPS01), שניהם 'S4TWL - BOM, Routing, Production Version', נקראו גם הם; MD02 מופיעה בהם ברשימת 'Other " +
+      "Terms' (מילות מפתח), ובגוף הפריטים שנקרא היא אינה מוזכרת בשמה; לכן הם נשמרו כהקשר ולא כקביעת סטטוס. " +
+      "חיפושים שרצו: 'MD02' (SAP_S4HANA_ON-PREMISE, 21 רשומות), 'MRP Single-Item Multi-Level MD02' (SAP_ERP, 21 " +
+      "רשומות), 'S4TWL - MRP in HANA' (SAP_S4HANA_ON-PREMISE, 21 רשומות, הפריט לא אותר ישירות; הטקסט נקרא " +
+      "מהחילוץ המקומי scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt לפי " +
+      "audit/master-completion/simpl-tcode-index.json). scripts/fal-app.mjs MD02 --release S32OP רץ וקרא את " +
+      "רשומת ה-App המלאה. לא בוצעה בדיקה במערכת SAP חיה; לא אותר מקור רשמי שקובע תאריך סיום חיים או יישום מחליף " +
+      "ל-MD02. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MD02 ב-data/verification/transactions-auto.ts (ישן: " +
+      "ללא הכרעת מעמד; חדש: unchanged).",
+  },
+
+  /* ----------------------------------------------------- tx:MD03 */
+  {
+    id: "tx:MD03",
+    evidence: [
+      MD03_SIMPL_ITEM_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Overview of the Main Transaction Codes for CBP | Sourcing and Procurement",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/757db6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט הרשמי (loio 757db6535fe6b74ce10000000a174cb4, 2025 FPS01) מונה בטבלת קודי הטרנזקציה: 'MD03 Carry " +
+          "out single-item, single-level planning' לצד MD01, MDBT, MD05-MD07; הסניפט רק מפרט קוד ופעילות ואינו קובע " +
+          "סטטוס.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transaction Codes for MRP (PP-MRP) | Material Requirements Planning",
+        url: "https://help.sap.com/docs/SAP_ERP/85d3fce10e264972a0155c8b46ecf93b/f3a9ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ECC (SAP ERP 6.0 EHP8, loio f3a9ce5314894208e10000000a174cb4) מציגה 'MD03 Single-item, " +
+          "single-level planning' בטבלת קודי הטרנזקציה של MRP, לצד MD01 (Total planning online), MDBT, MD02 ו-MD43. " +
+          "מבסס את הקיום והתפקיד של MD03 בצד ה-ECC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Logistical Products: Support of Additional Processes | What's New in SAP S/4HANA 1809 FPS02",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/4f972af74c8d42a29a6ae5ba0bb0c8bc.html?locale=en-US&state=PRODUCTION&version=1809.002",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1809.002",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט (What's New 1809 FPS02) מציג את MD03 כ-'MRP-Individual Planning-Single Level app (transaction " +
+          "MD03)' תחת הכותרת 'Classic MRP', לצד 'MRP - Single-Item, Multi-Level app (transaction MD02)' ו-MD01; MRP " +
+          "Live (MD01N/F1339) מוצגת כנתיב נפרד. הסניפט אינו קובע יורש ל-MD03 עצמה. הנושא שייך ל-deliverable של " +
+          "Retail (Logistical Products, רכיב LO-RFM-MD-ART לפי הסניפט).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library: MD03 MRP-Individual Planning-Single Level (SAP GUI, component PP-MRP) @ S32OP (SAP " +
+          "S/4HANA 2025 FPS01, On-Premise)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MD03')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "חיפוש scripts/fal-app.mjs --tcode MD03 מחזיר ב-S32OP (2025 FPS01, המהדורה העדכנית ביותר ל-on-premise) " +
+          "אפליקציית GUI מובילה יחידה: 'MD03 MRP-Individual Planning-Single Level [SAP GUI]', עם 'successors 0'; " +
+          "כלומר ספריית אפליקציות ה-Fiori אינה רושמת אפליקציית Fiori יורשת ל-MD03 באותה מהדורה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "simplified",
+      he:
+        "MD03 (תכנון דרישות חומר ברמה בודדת, MRP קלאסי) מכוסה בפריט הפישוט הרשמי 'S4TWL - MRP in HANA' (PP-MRP) " +
+        "ברשימת הפישוט של SAP S/4HANA 2025 FPS1, הנוקב אותה בשמה המפורש: הטרנזקציות הקלאסיות (MD01, MD02, MD03 " +
+        "ועוד) עדיין זמינות ב-SAP S/4HANA, אינן חלק מחבילת התאימות (compatibility pack), ולא הוגדר להן תאריך סיום " +
+        "חיים; MRP Live (MD01N) נחשבת לטכנולוגיית העתיד. לפי הפריט, קובץ התכנון החדש PPH_DBVM משמש גם את ה-MRP " +
+        "הקלאסי, וקריאת הנתונים של חלק מטרנזקציות ה-MRP הקלאסי (כגון MD01, MD02, MD03) עוברת דרך AMDP ואינה ניתנת " +
+        "לכיבוי ב-S/4HANA. ספריית אפליקציות ה-Fiori אינה רושמת יורש Fiori ל-MD03 ב-2025 FPS01 (successors: 0); " +
+        "MD03 עצמה מופיעה שם כאפליקציית SAP GUI.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MD03_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להשאיר את MD03 זמינה ולסווגה כפריט פישוט ('S4TWL - MRP in HANA'), לא כמוצאת משימוש: אין במקור הרשמי " +
+        "הצהרת יורש או תאריך סיום חיים ל-MD03 עצמה, וספריית ה-Fiori אינה מציגה עבורה אפליקציית Fiori יורשת. לשקול " +
+        "מעבר תפעולי לתכנון ברמת מפעל דרך MRP Live (MD01N / אפליקציית Schedule MRP Runs, F1339) רק במידה שהתהליך " +
+        "העסקי דורש ריצה כוללת; המקורות שנבדקו אינם נוקבים ביורש ל-MD03 עצמה. לפני כל שינוי תהליך: לבדוק את פריט " +
+        "9.5.2 המלא (הדרישה לממש מחדש BAdI והרחבות של ה-MRP הקלאסי כ-AMDP BAdI).",
+    },
+    xrefs: ["tx:MD01", "tx:MD01N", "tx:MD02", "tx:MD04", "tx:MDBT"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק בפועל מול help.sap.com (sap-help-search.mjs, 3 שאילתות: S/4HANA on-premise ו-SAP_ERP) ומול " +
+      "fal-app.mjs (חיפוש לפי tcode MD03, S32OP). לא בוצעה בדיקה במערכת SAP חיה. פריט 9.5.2 'S4TWL - MRP in " +
+      "HANA' נקרא במלואו ברשומת tx:MD01 הקיימת (אותו קובץ, MD01_STATUS_SRC) ואומת שוב בביקורת מול " +
+      "SIMPL_OP2025.pdf; הוא מצטט את MD03 בשמה המפורש. פריט 10.4.26 S4TWL - BOM, Routing, Production Version " +
+      "(SIMPL_OP2025.pdf, עמ' 948) נוקב ב-MD03 ברשימת Other Terms, ובגוף הפריט שנקרא היא אינה מוזכרת בשמה; לא " +
+      "נקבעה טענה מהפריט. גם 2023 FPS03 item 30.2 (המקבילה של 9.5.2) לא נקראה במישרין באותו סבב עבודה ולא " +
+      "צוטטה. ל-MD03 אין רשומה ב-data/lifecycle.ts; ב-data/tx-intel.ts קיימת רשומה (MD03, מודול PP, תחום 'תכנון " +
+      "דרישות חומר (MRP)'), והיא לא צוטטה כראיה ברשומה זו. הערת כותב (2026-09-24), Old → New: במחקר נכתב שאין " +
+      "ל-MD03 רשומת מאגר גם ב-data/tx-intel.ts; המשפט תוקן מול הקובץ. status='simplified' תואם את הניסוח והרמה " +
+      "של tx:MD01 הקיים באותו קובץ, המבוסס על אותו פריט פישוט. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MD03 " +
+      "ב-data/verification/transactions-auto.ts (ישן: ללא הכרעת מעמד; חדש: simplified).",
+  },
+
+  /* ----------------------------------------------------- tx:MD07 */
+  {
+    id: "tx:MD07",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MD07",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#MD07",
+        claim:
+          "רשומת המאגר מתארת את MD07 כ'סקירת חומר נוכחית' (Current Material Overview), מודול PP, תחום 'תכנון דרישות " +
+          "חומר'.",
+        verificationLevel: "repository_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Accept Planning Result of MRP Run (What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/3720a102615c4e409d545c039c60837d.html?locale=en-US&state=PRODUCTION&version=2025.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.000",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד (נקרא דרך sap-help-body.mjs) קובע: 'You can accept and subsequently, revoke the acceptance of " +
+          "the planning result of the MRP run from the Display Stock/Requirements Situation (MD04) and Current " +
+          "Material Overview (MD07) transactions.' לפי העמוד התכונה זמינה ב-SAP S/4HANA וב-SAP S/4HANA Cloud " +
+          "Private Edition, Valid as Of 2025, ברכיבים PP-MRP ו-PP-FIO-MRP. לפי העמוד אפשר ליישם אותה גם ב-2023, ראו " +
+          "SAP Note 3576000. כלומר, מסמך What's New ל-2025 מציג את MD07 כנקודת כניסה לתכונה חדשה.",
+        verificationLevel: "sap_official_verified",
+      },
+      MD07_FAL,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.5.17 " +
+          "S4TWL - Sales and Operation Planning",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "MD07 מופיעה בפריט פעם אחת, כדוגמה, ברשימת הטבלאות והטרנזקציות שנבנו בהקשר של PP-SOP ושויכו לרכיב PP-SOP, " +
+          "'but they are not part of the compatibility pack'. הציטוט: 'Using transactions MC84, MC85, and MC86 you " +
+          "can maintain product groups. Product groups are a popular selection condition in MRP apps like " +
+          "transaction MD07 or MD47. Product groups are part of S/4HANA core.' הפריט אינו קובע מעמד עבור MD07 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "MD07 ('סקירת חומר נוכחית', PP-MRP) מופיעה במסמך What's New ל-S/4HANA 2025 כטרנזקציה שממנה אפשר לאשר " +
+        "ולבטל את האישור של תוצאת ריצת MRP, יחד עם MD04. בספריית אפליקציות Fiori (S32OP) MD07 רשומה כטרנזקציית " +
+        "ה-GUI המובילה של האפליקציה F0263 'Monitor Internal Requirements'.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MD07_FAL,
+      recommendedAction:
+        "בחיפושים שבוצעו לא אותר מקור רשמי שמגדיר ל-MD07 טרנזקציה מחליפה או סיווג של הוצאה משימוש. לפי What's New " +
+        "2025 אפשר להמשיך לעבוד ב-MD07 ב-S/4HANA On-Premise, כולל אישור תוצאת MRP. במעבר מומלץ להעריך את F0263 " +
+        "'Monitor Internal Requirements' כחלופת Fiori. הספרייה רושמת לה successor בשם F0263A, שאינו מופיע ב-S32OP " +
+        "וב-S31OP. מומלץ לאמת ב-SE93 במערכת היעד; לא בוצעה בדיקה במערכת SAP חיה.",
+    },
+    xrefs: ["tx:MD04"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "הרשומה גוברת על הרשומה של MD07 ב-data/verification/transactions-auto.ts, שנוצרה אוטומטית ונותנת הקשר " +
+      "בלבד ללא הכרעת מעמד (index.ts מסנן רשומות auto שיש להן רשומה נחקרת). הפריט 'S4TWL - Sales and Operation " +
+      "Planning' (9.5.17, 2025 FPS01) נקרא ב-scratchpad/official/SIMPL_OP2025.pdf.txt סביב שורה 44669. MD07 " +
+      "מופיעה בו פעם אחת, כדוגמה לאפליקציית MRP שמסננת לפי קבוצות מוצרים. המשפט נמצא ברשימת הפריטים של PP-SOP " +
+      "שהפריט מציין במפורש שאינם חלק מ-compatibility pack. זהו איזכור ולא הכרעת מעמד. תיקון לאחר ביקורת: הטיוטה " +
+      "ייחסה בטעות את הכרעת ה-Compatibility Pack ל-MC84/MC85/MC86; לפי הפריט הם אינם חלק ממנה. גם כתובת ה-PDF " +
+      "תוקנה לכתובת המשמשת במאגר (2025.latest). החיפושים שבוצעו: sap-help-search.mjs 'MD07 Current Material " +
+      "Overview' בסקופ SAP_S4HANA_ON-PREMISE, שזיהה את 'Accept Planning Result of MRP Run' (versionId " +
+      "2025.000); 'MD07 MRP' בסקופ SAP_ERP. גוף העמוד 'Accept Planning Result of MRP Run' נקרא דרך " +
+      "sap-help-body.mjs. fal-app.mjs --tcode MD07 ב-S32OP מצא את F0263 כאפליקציה המובילה. F0263 אינו רשום " +
+      "ב-data/fiori/apps.ts ולכן מוזכר בפרוזה בלבד, בלי xref. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+
+  /* ----------------------------------------------------- tx:MD11 */
+  {
+    id: "tx:MD11",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#MD11",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tx-intel.ts#MD11",
+        claim:
+          "רשומת המאגר מתארת את MD11 כיצירה ידנית של הזמנה מתוכננת (PLAF) ללא הרצת MRP, מודול PP, תחום 'תכנון " +
+          "דרישות חומר (MRP)'; typicalFlow מציין ש'המערכת מחשבת תזמון ורכיבים לפי גרסת הייצור', ו-s4 מצוין כ'זמין " +
+          "ב-S/4HANA ללא שינוי מהותי'.",
+        verificationLevel: "repository_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Overview of the Main Transaction Codes for CBP",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/757db6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד העזרה (deliverable Sourcing and Procurement, S/4HANA 2025 FPS01) מציג את MD11 ברשימת קודי הטרנזקציה " +
+          "העיקריים של CBP; גוף העמוד: 'MD11 Create planned order MD12 Change planned order MD13 Display planned " +
+          "order (individual)'. אותו LOIO מופיע גם בסקופ SAP_ERP (SAP ERP 6.0 EHP8, 6.18.latest, deliverable " +
+          "Consumption-Based Planning (MM-CBP)) עם אותה שורה, כך שהקוד מתועד גם בצד ה-ECC.",
+        verificationLevel: "sap_official_verified",
+      },
+      MD11_PLANNED_ORDER_INTEGRATION,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library: חיפוש לפי קוד טרנזקציה MD11 (S/4HANA 2025 FPS01 On-Premise, S32OP)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MD11')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הרצת fal-app.mjs --tcode MD11 --release S32OP מחזירה עבור MD11 אפליקציה מובילה אחת מסוג SAP GUI ('MD11 " +
+          "Create Planned Order [SAP GUI]') עם 0 successors רשומים בספריית אפליקציות Fiori; כלומר נכון ל-2025 FPS01 " +
+          "לא נרשמה בספרייה אפליקציית Fiori יורשת ל-MD11.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, item 10.4.26 S4TWL - BOM, Routing, " +
+          "Production Version (מקביל לפריט 28.7 ב-2023 FPS03)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (Reason and Prerequisites) קובע: 'Production versions are mandatory in S/4HANA. MRP, planned order " +
+          "creation, and production order creation only find a BOM and routing alternative if a production version " +
+          "is maintained for the BOM and routing alternative.' MD11 מופיע ברשימת 'Other Terms' של הפריט (יחד עם " +
+          "MD01, MD02, MD03, MD12, MD13 ועוד); בגוף Reason and Prerequisites/Solution שנקרא היא אינה מוזכרת בשמה. " +
+          "הפריט אינו קובע כי MD11 הוחלפה, שונתה או הוסרה; הוא קובע דרישה כללית (גרסת ייצור חובה) שחלה על יצירת " +
+          "הזמנה מתוכננת, כולל דרך MD11.",
+        verificationLevel: "supported_secondary_source",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MD11 (יצירת הזמנה מתוכננת) זמינה וללא שינוי מהותי ב-S/4HANA On-Premise 2025 FPS01: נושא העזרה 'Planned " +
+        "Order Integration' מציין את MD11 בשמה כדרך ליצירת הזמנה מתוכננת, ו'Overview of the Main Transaction " +
+        "Codes for CBP' כולל אותה הן בצד ה-ECC והן ב-S/4HANA On-Premise 2025 FPS01. ספריית אפליקציות Fiori " +
+        "(S32OP) מציגה אותה כאפליקציית SAP GUI ללא successor רשום. פריט הפישוט 'S4TWL - BOM, Routing, Production " +
+        "Version' אינו קובע החלפה או ביטול של MD11; הוא קובע שגרסת ייצור היא חובה עבור MRP, הזמנה מתוכננת והזמנת " +
+        "ייצור, מה שמשפיע על תפעול MD11 אך לא על עצם קיומה של הטרנזקציה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MD11_PLANNED_ORDER_INTEGRATION,
+      recommendedAction:
+        "לשמר את MD11 בתהליך המעבר כטרנזקציית GUI זמינה ב-S/4HANA On-Premise 2025 FPS01; לוודא בפרויקט שגרסת " +
+        "ייצור (production version) מוגדרת לכל BOM/Routing רלוונטי לפני ההמרה, בהתאם לפריט 'S4TWL - BOM, Routing, " +
+        "Production Version', כדי שיצירת הזמנה מתוכננת ב-MD11 תמצא חלופת BOM ו-Routing. לא בוצעה בדיקה במערכת SAP " +
+        "חיה; מומלץ אימות SE93 במערכת היעד לפני החלטה פרויקטלית סופית.",
+    },
+    xrefs: ["tx:MD01", "tx:MD02", "tx:MD12", "tx:MD13"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "הרישום ב-Registry (מודול PP, תחום 'תכנון דרישות חומר (MRP)', שם אנגלי 'Create Planned Order') הוצלב עם " +
+      "simpl-tcode-index.json: 2023 FPS03 28.7 ו-2025 FPS01 10.4.26 'S4TWL - BOM, Routing, Production Version'. " +
+      "שני הפריטים נקראו מ-scratchpad/official/SIMPL_OP2023.pdf.txt (שורה 36569) ו-SIMPL_OP2025.pdf.txt (שורה " +
+      "53199): MD11 מופיעה ברשימת 'Other Terms' (יחד עם MD01, MD12, MD13 ועוד), ובגוף הפריט שנקרא היא אינה " +
+      "מוזכרת בשמה; לכן הפריט צוטט כ-supported_secondary_source ולא כמקור הסטטוס. הסטטוס unchanged נסמך על " +
+      "'Planned Order Integration' ועל 'Overview of the Main Transaction Codes for CBP' (גוף העמוד נקרא מחדש " +
+      "דרך sap-help-body.mjs בביקורת, 2025.001, ומדפיס 'MD11 Create planned order'), ועל fal-app.mjs --tcode " +
+      "MD11 --release S32OP (אפליקציית SAP GUI, 0 successors). חיפושים שהורצו (sap-help-search.mjs): 'MD11 " +
+      "Create Planned Order' (S/4HANA On-Premise, 21 תוצאות; --product SAP_ERP, 21 תוצאות), 'Create Planned " +
+      "Order manually' (21), 'Create Planned Order app' (21). לא נבדקה אפליקציית Fiori עצמאית בשם 'Create " +
+      "Planned Order' או 'Manage Planned Orders' (PP-MRP) עם מזהה F####, כי fal-app.mjs --tcode MD11 לא החזיר " +
+      "מועמד כזה. xrefs (MD01, MD02, MD12, MD13) אומתו כקיימים ב-lib/route-manifest.generated.ts ולא נחקרו " +
+      "ברשומה זו. לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MD11 " +
+      "ב-data/verification/transactions-auto.ts (ישן: ללא הכרעת מעמד; חדש: unchanged).",
+  },
+
+  /* ----------------------------------------------------- tx:MD12 */
+  {
+    id: "tx:MD12",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Overview of the Main Transaction Codes for CBP",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/757db6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הטופיק הרשמי (S/4HANA 2025 FPS01, on-premise), שעוסק בקודי הטרנזקציה העיקריים של CBP (תכנון מבוסס " +
+          "צריכה), מונה את MD12 בשם 'Change planned order' לצד MD11 ו-MD13; בטקסט הטופיק אין אזכור להוצאה משימוש או " +
+          "להחלפה.",
+        verificationLevel: "sap_official_verified",
+      },
+      MD12_FAL,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - BOM, Routing, Production Version (SAP S/4HANA 2025 FPS01 Simplification List, item 10.4.26)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף הפריט (Symptom, Reason and Prerequisites, Solution) עוסק בכך שגרסת הייצור (Production Version) היא " +
+          "חובה ב-S/4HANA לצורך פיצוץ BOM ו-Routing תקין. MD12 מופיע ברשימת 'Other Terms' של הפריט, לצד MD01, MD02, " +
+          "MD03, MD11 ו-MD13; הפריט אינו קובע לגבי MD12 עצמה שינוי, הסרה, הגבלה או החלפה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transaction Codes for MRP (PP-MRP)",
+        url: "https://help.sap.com/docs/SAP_ERP/85d3fce10e264972a0155c8b46ecf93b/f3a9ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "התיעוד של SAP ERP 6.0 EHP8 (PP-MRP) מציג את MD12 תחת 'Planned Order' בשם 'Change planned order', כך " +
+          "שהטרנזקציה מתועדת גם בצד ה-ECC באותו תפקיד.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MD12 (שינוי הזמנה מתוכננת) מתועדת ב-ECC וב-S/4HANA 2025 FPS01 (on-premise) כטרנזקציית SAP GUI, ורישום " +
+        "ה-Fiori Apps Library למהדורה זו מציג אותה כ-Published עם אפס אפליקציות מחליפות. פריט הפישוט 'S4TWL - " +
+        "BOM, Routing, Production Version' נוקב ב-MD12 ברשימת המונחים הקשורים ואינו קובע לגביה שינוי ישיר.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MD12_FAL,
+      recommendedAction:
+        "להמשיך לעבוד עם MD12 לשינוי הזמנות מתוכננות ב-S/4HANA; לוודא שגרסאות ייצור (Production Version) מתוחזקות " +
+        "לפי פריט הפישוט 'S4TWL - BOM, Routing, Production Version', שכן הוא קובע אותן כחובה לפיצוץ BOM " +
+        "ו-Routing; רישום ה-Fiori Apps Library למהדורה S32OP אינו מציג אפליקציה מחליפה ל-MD12.",
+    },
+    xrefs: ["tx:MD11", "tx:MD13", "tx:MD01"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדקו: (1) המאגר הקיים: data/tcode-catalog.ts שורה 882 (MD12, PP, 'תכנון דרישות חומר', 'שינוי הזמנה " +
+      "מתוכננת') ו-data/tx-intel.ts#MD12 (רשומה עצמאית: מודול PP, תחום 'תכנון דרישות חומר (MRP)'; MD12 מופיע גם " +
+      "ברשימת 'after' של MD02). tx:MD12 קיים ברשימת ה-tcodes של lib/route-manifest.generated.ts. אין רשומה " +
+      "מחקרית קודמת; קיימת רשומה דטרמיניסטית ב-data/verification/transactions-auto.ts, ללא הכרעת מעמד, ורשומה " +
+      "זו מחליפה אותה (מעמד: ללא → unchanged). (2) ארבעה חיפושים ב-sap-help-search.mjs: 'MD12', 'Change Planned " +
+      "Order Fiori app successor', 'MD12 What's New', ו-'MD12 Change Planned Order' עם --product SAP_ERP. גוף " +
+      "הטופיק 'Transaction Codes for MRP (PP-MRP)' (6.18.latest) נקרא באמצעות scripts/sap-help-body.mjs. (3) " +
+      "הרצה של fal-app.mjs --tcode MD12 --release S32OP. (4) שני עותקי פריט הפישוט 'S4TWL - BOM, Routing, " +
+      "Production Version' (2023 FPS03 פריט 28.7 ו-2025 FPS01 פריט 10.4.26, זהים בתוכנם) נקראו במלואם מתוך " +
+      "scratchpad/official/*.pdf.txt; בשניהם MD12 מופיע ברשימת Other Terms. לא אותר פריט 'Deprecated Apps' או " +
+      "'What's New' שמתייחס ל-MD12 ישירות. לא בוצעה בדיקה במערכת SAP חיה. הערת כותב (2026-09-24), Old → New: " +
+      "במחקר נכתב ש-MD12 מופיע ב-data/tx-intel.ts כערך ברשימות 'after'/'similar' של MD02; מול הקובץ, ל-MD12 יש " +
+      "ב-data/tx-intel.ts רשומה עצמאית, ו-MD02 מונה אותו ברשימת 'after' (רשימת 'similar' של MD02 היא MD01, " +
+      "MD03, MD01N).",
   },
 ];

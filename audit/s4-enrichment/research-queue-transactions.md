@@ -363,6 +363,71 @@ sap_official_verified, authored 'compatibility_scope'; no `data/tx-intel.ts` /
 `data/transactions.ts` structural facts, the L2 gate, as for MC74 .. MC86). Gates: both `tsc`
 runs clean; `npm test` 211/211.
 
+Batch 14 written 2026-09-24 (access date stamped 2026-09-24): 6 audited records written
+(`tx:MD01N`, `tx:MD02`, `tx:MD03`, `tx:MD07`, `tx:MD11`, `tx:MD12`: MRP runs, the MRP evaluation
+MD07 and the planned-order codes), 0 refuted. MD02, MD03, MD07, MD11 and MD12 from
+`verdict.fixedRecord`; MD01N from the draft with its auditor's two downgrades (status.he 'ואופק
+התכנון מתעלם' → 'והמערכת מתעלמת מאופק התכנון'; evidence[0] and status.source are the existing
+`MD01_STATUS_SRC` const, evidence[1..3] and lastVerifiedAt `DATE24`). MD01N keeps the audited
+`s4_native` with its SAP ERP 6.18.latest row as `conflicting_sources`, so the record's level is
+conflicting_sources (see the conflicts line). Status sources point at shared consts
+(`MD01_STATUS_SRC` for MD01N; `MD02_SIMPL_ITEM_2025` = evidence[1], `MD03_SIMPL_ITEM_2025` =
+evidence[0], `MD07_FAL` = evidence[2], `MD11_PLANNED_ORDER_INTEGRATION` = evidence[2], `MD12_FAL` =
+evidence[1]) instead of what the verdicts carried: a re-typed copy whose claim was the marker '(same
+object as evidence[1])' (MD02), the markers 'evidence[0]' (MD03) and 'evidence[2] (Fiori Apps Library
+F0263, S32OP)' (MD07), or a full re-typed copy (MD11, MD12). Writer deviations: (1) `reviewer`
+dropped from MD01N ('researcher-subagent') and MD12 ('sap-hq-researcher'), house convention; (2) the
+MD01N notes lost their leading writer instruction ('לכותב: ... DATE24.'), which the write carries
+out; (3) the MD02 repository row's repoRef is 'data/tx-intel.ts#MD02; data/tcode-catalog.ts#MD02',
+the verdict's optional downgrade, so title and repoRef name the same two files (tcode-catalog line
+875 prints 'MRP - Single-Item, Multi-Level'); (4) the MD03 Fiori Apps Library row's release is
+'2025.001' instead of 'S32OP', the form the MD12 auditor applied to the same kind of row (the file's
+other library rows use '2025.001' or '2025 FPS01', none 'S32OP'); (5) 'רק' / 'בלבד' dropped from
+five source-bounded sentences, in the bounded Other Terms form the MD11 and MD12 auditors asked for
+(HOUSE-RULES §3.2): MD02 notes 'מדפיס רק פריט 30.2' → 'מדפיס פריט 30.2', and 'MD02 מופיעה בהם רק
+ברשימת 'Other Terms' (מילות מפתח), ולכן נשמרו כהקשר בלבד' → '... ברשימת 'Other Terms' (מילות מפתח),
+ובגוף הפריטים שנקרא היא אינה מוזכרת בשמה; לכן הם נשמרו כהקשר'; MD03 notes 'נוקב ב-MD03 רק ברשימת
+Other Terms' → 'נוקב ב-MD03 ברשימת Other Terms, ובגוף הפריט שנקרא היא אינה מוזכרת בשמה' (the MD03
+verdict's own replacement text carried 'רק'); MD07 evidence[3] 'כדוגמה בלבד' → 'כדוגמה' and MD07
+notes 'זהו איזכור בלבד' → 'זהו איזכור'; (6) two notes statements about repository files corrected
+against the files, each marked Old → New in the record: MD03 said it had no row in
+`data/tx-intel.ts` or `data/lifecycle.ts`, and `data/tx-intel.ts` has an MD03 row (line 359; not
+cited by the record; `data/lifecycle.ts` has none); MD12 said it appears in `data/tx-intel.ts` as a
+value of MD02's 'after'/'similar' lists, and it has its own row (line 365) while MD02 lists it under
+`after` (MD02 `similar` = MD01, MD03, MD01N); (7) the notes of MD01N, MD02, MD03 and MD11 end with
+the sentence that the generated record in `transactions-auto.ts` is superseded (MD07 and MD12
+already said so). Kept as audited: 'כותרת וסניפט בלבד' in MD01N evidence[3] (the bound on its own
+reading), 'הסניפט רק מפרט קוד ופעילות' in MD03 evidence[1], 'רק במידה ש...' in the MD03
+recommendedAction (advice), the two 'בלבד' of the MD07 notes (about the generated record and the
+prose-only F0263 mention), the MD02 notes negative 'בטקסט של 2025 FPS01 השם אינו מופיע' (bounded to
+the 2025 text its auditor read in full), the en dashes of the 2025 PDF cover title in the MD02 row (no
+em dash in any added line), and the two release forms for SIMPL_OP2025 rows ('2025.001' in MD02, MD03,
+MD11, MD12; '2025 FPS01' in MD07), both already used in the file. No new lookups (writer contract): no
+sap-help-search / sap-help-body / fal-app run and no Simplification List read. The audited JSON was
+transcribed from the task into a scratch file and the TS emitted mechanically; round trip: the 87
+existing records deep-equal before and after, the six new ones deep-equal the transformed JSON, every
+status.source is the same object as one of its record's evidence rows, and MD01N shares the
+`MD01_STATUS_SRC` object with tx:MD01. `validateRecords` over the six returns no problem, and no
+certainty word appears in any of their texts (the rule applies to MD01N, whose level is
+conflicting_sources). Repository files read at write: the six generated records in
+`transactions-auto.ts`, `data/verification/index.ts` (researched ids filter the generated shard),
+`transactions-b.ts` (none of the six), the `data/tx-intel.ts` rows of the six codes (lines 357-365),
+`data/lifecycle.ts` (MD01N only, `ecc: false`), the `data/tcode-catalog.ts` rows (lines 875-882),
+`data/fiori/apps.ts` (F1339 present, F0263 absent), `data/exits.ts` (MD_ADD_ELEMENTS) and the route
+manifest (every tx xref). Coverage (`report:coverage --catalog transactions`): commits of other
+pipelines landed during the run (da45a535 CJ01 .. CN22 in the SAP data, fc06f0e7 tx:ME42 in
+`transactions-b.ts`, 9dc422ab and bc4ee690 outside this catalog). The first table run (HEAD bb87eaab)
+read verified 581, verification-required 1233, s4-applicable 582; the per-id `--ids` snapshot taken
+just before this batch touched the file read 576 / 1238 / 577, so the batch is isolated with the
+per-id snapshots before and after the edit: exactly 7 rows move, the six ids and tx:ME42 (chain B).
+Batch 14 alone: MD02, MD03, MD07, MD11 and MD12 L3 → L5 (repository_verified with a derived status →
+sap_official_verified with an authored status), MD01N L3 → L3 (repository_verified →
+conflicting_sources, authored `s4_native`); net L3 −5, L5 +5, verified −1, conflict +1,
+s4-applicable ±0. Table, per-id snapshot → after (the same tree plus this batch and ME42): L1 1277 →
+1277, L3 467 → 461, L4 2 → 2, L5 72 → 78, verified 576 → 575, verification-required 1238 → 1238,
+conflict 4 → 5, legacy 1 → 1, s4-applicable 577 → 577. Gates: both `tsc` runs clean; `npm test`
+211/211.
+
 ## refuted
 
 - (none in this batch: all 16 audited drafts survived verification and were written with downgrades applied.)
@@ -378,6 +443,7 @@ runs clean; `npm test` 211/211.
 - (none in batch 11, 2026-09-24: all 6 audited drafts, CR03, CS01, CS02, CT04, MC74 and MC75, survived verification and were written; CS01, CS02 and MC74 from `verdict.fixedRecord`, CR03 from its repaired, re-audited draft, CT04 and MC75 from the drafts with the downgrades applied, with the writer deviations listed in the header.)
 - (none in batch 12, 2026-09-24: all 6 audited drafts, MC81, MC82, MC83, MC84, MC85 and MC86, survived verification and were written; MC85 from the draft with its one downgrade, the other five from `verdict.fixedRecord`, with the writer deviations listed in the batch-12 paragraph.)
 - (none in batch 13, 2026-09-24: all 6 audited drafts, MC87, MC88, MC89, MC93, MC94 and MC95, survived verification and were written; MC88 and MC95 from the drafts with their downgrades, the other four from `verdict.fixedRecord`, with the writer deviations listed in the batch-13 paragraph.)
+- (none in batch 14, 2026-09-24: all 6 audited drafts, MD01N, MD02, MD03, MD07, MD11 and MD12, survived verification and were written; MD01N from the draft with its two downgrades, the other five from `verdict.fixedRecord`, with the writer deviations listed in the batch-14 paragraph.)
 
 ## conflicts
 
@@ -455,6 +521,14 @@ runs clean; `npm test` 211/211.
 
 - `tx:MC87` .. `tx:MC95` (batch 13, 2026-09-24): no conflict with the catalog. Each code's `data/tcode-catalog.ts` row (lines 852-858: module PP, area 'תכנון מכירות ותפעול', Hebrew and English names as the repository rows cite them) matches; none of the six has a `data/tx-intel.ts`, `data/transactions.ts` or `tx-detail.ts` row, so all six stay at L1 (the L2 gate), as MC74 .. MC86. MC87, MC88 and MC89 are printed by both the 2025 FPS01 item 9.5.17 and the 2023 FPS03 item 30.37 (Other Terms); MC93, MC94 and MC95 by the 2025 FPS01 item only ('Transaction MC93, MC94, MC95 (Flexible Planning)'; the MC93 notes record a 0-hit grep of SIMPL_OP2023.pdf.txt, the committed index lists 9.5.17 alone), so their compatibility-scope reading rests on the 2025 item. SAP IBP, the successor solution the item names for the whole area, has no id in the universe, so no record carries a structured successor.
 - cross-cutting (batch 13): the batch-12 wording split continues, and each record was written per its own verdict. (1) Usage rights: none of the six new records calls them limited or names an expiry date (MC87 and MC88 dropped the wording in their repair rounds; the MC89, MC93, MC94 and MC95 auditors removed it as item 9.5.16 wording). The batch-11/12 records still carry it: 'זכויות שימוש מוגבלות' in MC74, MC75, MC81 (including the shared `MC81_SIMPL_ITEM_2025` const, which the MC88 auditor flagged again as needing its own fix) and MC83; 'מועד הפקיעה' in MC74 and MC83; 'תאריך התפוגה' in MC82. (2) 'רק כפתרון גישור זמני' in recommendedAction: the MC93 auditor removed it as a restriction the item does not print (it prints 'PP SOP is intended as a bridge or interim solution'); the MC88, MC89 and MC94 verdicts keep it, as does MC81. (3) 'שמופיע רק בגרסת 2025 FPS01' in the 2023 row: the MC88 (optional) and MC89 (required) auditors bounded it and the writer applied the same bounding to MC94; MC75 evidence[2] and MC81 evidence[1] keep it. Settles it: the family re-audit queued for batch 12, widened to MC74, MC75, MC81, MC82, MC83, MC88, MC89 and MC94 against the body of item 9.5.17 (SIMPL_OP2025.pdf.txt around lines 44578-44720), applied to all at once. Open: the body of SAP Note 2269324 (usage rights of the compatibility scope) was not read. Not done for any of the six: a live SAP check (SE93; the sc4sap MCP failed to connect in this session).
+
+- `tx:MD01N` (batch 14, 2026-09-24): conflicting official sources kept inside the record (HOUSE-RULES §3.4). The 2025 FPS01 item 9.5.2 'S4TWL - MRP in HANA' says 'SAP S/4HANA features MRP Live (MD01N) is a new MRP run optimized for SAP HANA' (p. 652), and the record carries `s4_native` as audited; the SAP ERP search record 'Carrying Out the Planning Run Using MRP Live' (6.18.latest, loio bc5a76513feb1f66e10000000a441470, title and snippet, body not read) prints 'MRP Live (transaction MD01N) calls classic MRP Note The transaction MD01N is a copy of the transaction MD01' (evidence[3], `conflicting_sources`); the researcher also saw 'Performance Optimizations for MRP' (6.18.latest), 'MRP Live: Variant Configuration' (6.17.latest) and 'MRP Live: Incompatible Changes' (6.18.latest) in the SAP_ERP scope, not cited. Settles it: SE93 MD01N on a live SAP ERP 6.18 system, or an official source that names the release in which MD01N first shipped. Repository: `data/tx-intel.ts#MD01N` (`whenNot` 'ב-ECC (לא קיים)', `s4` '(מחליפה MD01)', `obsolete` 'MD01 (ב-S/4)') and `data/lifecycle.ts#MD01N` (`ecc: false`) take the S/4-only side, and the tx-intel 'מחליפה MD01' is stronger than item 9.5.2, which sets no end-of-life date for classic MRP (the batch-2 tx:MD01 line); not corrected here. Depth: the record stays at L3 (level conflicting_sources) until the conflict is settled.
+- `tx:MD01` / `tx:MD02` / `tx:MD03` (batch 14): open consistency decision, not resolved at write. The three rest on the same sentence of item 9.5.2 'S4TWL - MRP in HANA' ('Classic MRP (transactions MD01, MD02, MD03, MD40, MD41, MD42, MD43, MD50, MD51 and jobs RMMRP000, RMMPS000) are still available in SAP S/4HANA ... Classic MRP transactions are not part of the compatibility pack. An end-of-life date for the classic MRP has not yet been defined.'); MD01 (batch 2) and MD03 carry `simplified`, MD02 `unchanged`, each per its own verdict. Settles it: one decision for the classic-MRP codes the sentence lists, applied to all at once.
+- `tx:MD02` (batch 14): `data/tx-intel.ts#MD02` is stronger than item 9.5.2 in `techExample` ('ב-S/4 MRP Live (MD01N) מריץ על ה-HANA ומחליף בפועל את MD01/MD02') and lists NETPL among the processing keys in `selectionScreen`, which item 9.5.6 'S4TWL - Planning File' (cited by tx:MD01) reports as no longer supported in the planning horizon; the same gap as the batch-2 tx:MD01 line. Not corrected here.
+- `tx:MD07` (batch 14): `data/tx-intel.ts#MD07` names 'Monitor Material Coverage - Net Segments' (`fiori`) and F0247A / F0251 (`techExample`, `s4Delta`) as MD07's Fiori counterparts; the library record tx:MD07 cites (fal-app --tcode MD07, S32OP) lists F0263 'Monitor Internal Requirements' as the app leading with MD07, with a successor F0263A that fal-app returns empty for S32OP and S31OP. No record cited by tx:MD07 links F0247A or F0251 to MD07. F0263 is not in `data/fiori/apps.ts`, so the record names it in prose with no xref.
+- `tx:MD03` / `tx:MD12` (batch 14): no conflict with the official sources. Two researcher statements about `data/tx-intel.ts` were wrong and are corrected in the records' notes (Old → New): MD03 has a row there (line 359, not cited by the record), and MD12 has its own row (line 365) besides its place in MD02's `after` list.
+- `tx:MD11` (batch 14): no conflict. `data/tx-intel.ts#MD11` (`s4` 'זמין ב-S/4HANA ללא שינוי מהותי.', `typicalFlow` 'המערכת מחשבת תזמון ורכיבים לפי גרסת הייצור') matches the authored `unchanged` and the item 10.4.26 reading.
+- cross-cutting (batch 14): the auditors of one batch split on two forms, and the writer applied one form to all six. (1) 'רק / אך ורק ברשימת Other Terms': the MD11 and MD12 verdicts bounded it (HOUSE-RULES §3.2), while the MD03 verdict's own replacement text carried 'רק ברשימת Other Terms'; written in the bounded form in MD02, MD03 and MD07 as well (see the batch-14 paragraph). (2) The release of a Fiori Apps Library S32OP row: the MD12 auditor set '2025.001' as house style, the MD03 record carried 'S32OP'; written '2025.001'. Not done for any of the six: a live SAP check (SE93; the sc4sap MCP was not connected in this session).
 
 ## IP30 / IP30H decision (2026-09-22, design-audit continuation §18)
 
