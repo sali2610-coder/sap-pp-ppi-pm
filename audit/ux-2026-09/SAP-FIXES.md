@@ -357,6 +357,6 @@
 | שדה | ערך |
 |---|---|
 | מקור | רשומות האימות שתוקנו או נכתבו: `tx:MB03` ו-`tx:MB1B` (ריצת התיקון, `e69304e0`): 'S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM' (2025 FPS01 15.3.9, 2023 FPS03 27.6) מונה אותן בין טרנזקציות ה-MB שהוחלפו ב-MIGO; `tx:MSC1`-`tx:MSC3` (שרשרת A, אצווה 18, `b9e07510`): 'S4TWL - Logistics Batch Management' (5.1.8 / 3.3) קובע שאינן זמינות מאז 1511 והשקול הפונקציונלי הוא MSC1N-MSC3N; `tx:ME21` (`e69304e0`): 'S4TWL - Classic MM-PUR GUI Transactions replacement' (14.2.8) קובע 'are NO longer supported' ב-S/4HANA On-Premise, בלי לקבוע הסרה |
-| מה שונה | `tx-intel.ts`, שדה `s4`: MB03, MB1B ("זמין" → הוחלפה ב-MIGO, בנוסח הפריט; MIGO_TR, שלא אומת, הוסר), MSC1, MSC2, MSC3 ("זמינה" → אינה זמינה מאז 1511, עם השקול הפונקציונלי). `lifecycle.ts`, שדה `migration`: ME21, ME22, ME23 ("הוסר") → נוסח הפריט ('are NO longer supported') ויורשת ה-Enjoy |
+| מה שונה | `tx-intel.ts`, שדה `s4`: MB03, MB1B ("זמין" → הוחלפה ב-MIGO, בנוסח הפריט; MIGO_TR, שלא אומת, הוסר), MSC1, MSC2, MSC3 ("זמינה" → אינה זמינה מאז 1511, עם השקול הפונקציונלי). `lifecycle.ts`: ME21, ME22, ME23 מ-Obsolete ("הוסר ב-S/4") ל-Deprecated, ושדה `migration` ("הוסר") → נוסח הפריט ('are NO longer supported') ויורשת ה-Enjoy |
 | שיטה | סריקה חוזרת של `tx-contra2.mts` ו-`lc-contra.mts` אחרי שהרשומות נכתבו; שתיהן נקיות אחרי התיקון |
 | בדיקות | `tsc` 0 · `npm test` 211/211 |
