@@ -23,7 +23,10 @@
    through the Fiori Apps Library's public OData service (scripts/fal-app.mjs,
    S32OP = 2025 FPS01 and S27OP = 2023) and re-audited; the role, catalog, OData
    and GUI transactions the library prints for F1511, F4072 and F2774 were copied
-   into data/fiori/apps.ts. */
+   into data/fiori/apps.ts. Second batch the same day: F5325, F2336, F3577,
+   F3364, F1576 and F0843 (library values copied into data/fiori/apps.ts for
+   F5325 and F2336; F3577 and F3364 return no library record on S32OP/S27OP,
+   and the library assigns F1576 to Supplier Evaluation Response). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
@@ -607,6 +610,56 @@ const F2774_MAINT_MGMT: Evidence = {
   verificationLevel: "sap_official_verified",
 };
 
+const F2336_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "SAP Fiori Apps Reference Library: Manage Production Orders (F2336), S/4HANA 2025 FPS01",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2336')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת הספרייה ל-F2336 על S32OP (2025 FPS01), שנקראה דרך ערוץ ה-OData של הספרייה (scripts/fal-app.mjs, לא מעטפת " +
+    "ה-JavaScript): AppName 'Manage Production Orders', isPublished Published, ApplicationType Transactional, " +
+    "UITechnology 'SAP Fiori (SAPUI5)', ApplicationComponent PP-FIO-SFC (Fiori UI for Production Orders). התפקיד " +
+    "העסקי המוביל (isLeading) הוא SAP_BR_PRODN_SUPERVISOR_DISC (R0115-01, 'Production Supervisor - Discrete " +
+    "Manufacturing'); רשימת התפקידים מדפיסה שורה אחת. הקטלוג העסקי SAP_SCM_BC_PRODN_ORD_MNTR ('Production Control " +
+    "(Discrete) - Order Monitoring'); הקטלוג הטכני SAP_TC_SCM_PP_COMMON. Semantic Object/Action: " +
+    "ManufacturingOrderItem-manage. שירות ה-OData הראשי (PrimaryODataServiceName) הוא PP_MPE_ORDER_MANAGE גרסה 0001; " +
+    "לצידו מודפסים LO_VCHCLF, MPE_HOLD_SRV, MPE_MATERIAL_POVER, MPE_PRODNORD_POVER, MPE_WORKCENTER_POVER ו-PP_MPE_AOR " +
+    "(כולם 0001, S4CORE 109), וקבוצת השירות V4 PP_MPE_AOR_SRV (מופיעה פעמיים ברשימה). טרנזקציית GUI מובילה CO02; " +
+    "טרנזקציות קשורות CO05, CO05N, CO09, CO0R5, CO20, CO21, CO22, CO23, CO26, COHV, COOIS; CO01 אינה מופיעה ברשימה " +
+    "שהספרייה מדפיסה. NumberofPredecessors=0, NumberofSuccessors=0. הודעות RIN: 3493254 (Front-End Server), 3671888 " +
+    "(Back-End Server). Backend S4CORE 109 SP 0001 (SAP S/4HANA 2025); UI UIS4H 109 SP 0001. AppDocumentationLink " +
+    "מפנה ל-help.sap.com (outputlink, version=2025.001, topic ee813158edcc9144e10000000a4450e5).",
+  verificationLevel: "sap_official_verified",
+};
+
+const F5325_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Manage Maintenance Plans (F5325), SAP Fiori Apps Reference Library, S32OP (S/4HANA 2025 FPS01)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5325')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת הספרייה ל-F5325 על S32OP (2025 FPS01), שנקראה דרך ערוץ ה-OData הרשמי (scripts/fal-app.mjs, לא ה-JS shell): " +
+    "Published, ApplicationType Transactional, UITechnology 'SAP Fiori elements', ApplicationComponent PM-FIO-PRM-MP " +
+    "(Fiori UI for PM Maintenance Plans). תפקיד עסקי מוביל SAP_BR_MAINTENANCE_PLANNER (R0088, Maintenance Planner), " +
+    "תפקיד נוסף SAP_BR_MD_SPECIALIST_EAM (R0097-180, Master Data Specialist - Maintenance Management). קטלוגים עסקיים " +
+    "SAP_EAM_BC_MPLAN (EAM - Maintenance Plan) ו-SAP_EAM_BC_MP_MNG (EAM - Maintenance Planning Management); קטלוג " +
+    "טכני SAP_TC_EAM_COMMON. שלושה שירותי OData: /SSB/SMART_BUSINESS_RUNTIME_SRV, C_MAINTPLANACTVSYSTSTATUSQ_CDS, " +
+    "UI_MAINTENANCE_PLAN (כולם גרסה 0001, S4COREOP 109). טרנזקציית GUI מובילה IP01, טרנזקציות קשורות IP02, IP03, " +
+    "IP04, IP05, IP06, IP16. קודמים רשומים: F3622 (Find Maintenance Plans), F5009 (Find Maintenance Plans - Service), " +
+    "W0026 (Manage Maintenance Plan and Item List) (הספרייה משייכת את F3622 ו-F5009 ל-S32PCE ול-S37, ואת W0026 " +
+    "ל-S26OP); ללא יורשים. הספרייה משייכת את היישום לפריטי ההיקף 4HI (Proactive Maintenance) ו-BJ2 (Preventive " +
+    "Maintenance). רשומת S27OP (2023) הציגה אותו תפקיד מוביל, אותם קטלוגים ואותן טרנזקציות GUI, עם שירות OData יחיד " +
+    "(UI_MAINTENANCE_PLAN על S4COREOP 108), והתפקיד SAP_BR_MD_SPECIALIST_EAM אינו מודפס שם. הקודמים F3622, F5009 " +
+    "ו-W0026 אינם ביקום המזהים של הפרויקט ולכן אינם ב-xrefs.",
+  verificationLevel: "sap_official_verified",
+};
+
 /* ---------------------------------------------------------------- records */
 
 export const FIORI_VERIFICATION: VerificationRecord[] = [
@@ -1112,7 +1165,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
           "(F2774 / F5325, שלא היו להם רשומות בפרויקט באותה שעה; שתיהן נוספו מאוחר יותר באותו יום). data/library/fiori-apps.json רשם מלכתחילה F4072 = Screen Maintenance " +
           "Requests. ב-2026-09-24 הושלמו ברשומה התפקיד, הקטלוג, שירות ה-OData וטרנזקציות ה-GUI מרשומת הספרייה " +
           "(SAP_BR_MAINT_SUPERVISOR, SAP_EAM_BC_MREQ_DSP, UI_MAINTWORKREQUESTOVW_V2, IW21 / IW22 / IW23 / IW28 / IW29), " +
-          "והשם העברי נשמר ('סינון וקבלת בקשות אחזקה', כמו 'בקשת אחזקה' ב-F1511 וב-F1511A).",
+          "והשם העברי עודכן ל-'סינון וקבלת בקשות תחזוקה' (HOUSE-RULES §7: תחזוקה, לא אחזקה).",
         verificationLevel: "repository_verified",
         repoRef: "data/fiori/apps.ts#F4072",
       },
@@ -1166,19 +1219,22 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
   {
     id: "fiori:F2336",
     evidence: [
+      F2336_FAL_S32OP,
       {
         sourceType: "fiori_library",
-        sourceTitle: "Manage Production Orders - SAP Fiori Apps Reference Library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Manage Production Orders (F2336), S/4HANA 2023",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/?appId=F2336",
-        accessedAt: DATE,
+        release: "2023.000",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2336')/S27OP",
+        accessedAt: DATE24,
         claim:
-          "ספריית SAP Fiori Apps Reference Library (הספרייה הקלאסית) רושמת את המזהה F2336 תחת השם 'Manage Production " +
-          "Orders': כותרת הרשומה שהוחזרה מחיפוש מוגבל-דומיין היא 'Manage Production Orders - SAP Fiori Apps Reference " +
-          "Library' וכתובת ה-URL נושאת appId=F2336. הכתובת נפתחת (HTTP 200), אך נקודת הקצה מחזירה 200 לכל appId ולכן " +
-          "אין בכך ראיה; זיהוי המזהה והשם נשען על כותרת רשומת החיפוש ועל סניפטי help.sap.com. גוף העמוד הוא מעטפת " +
-          "JavaScript ולא נקרא, ולכן תפקיד, קטלוג ושירות OData אינם נלקחים מכאן.",
+          "אותה שאילתה על S27OP (2023) מחזירה Published, Transactional, SAP Fiori (SAPUI5) ו-PP-FIO-SFC, עם אותו תפקיד " +
+          "מוביל SAP_BR_PRODN_SUPERVISOR_DISC (R0115-01), אותו קטלוג עסקי SAP_SCM_BC_PRODN_ORD_MNTR, קטלוג טכני " +
+          "SAP_TC_SCM_PP_COMMON, intent ManufacturingOrderItem-manage, שירות OData ראשי PP_MPE_ORDER_MANAGE 0001 ואותה " +
+          "רשימת טרנזקציות GUI (מובילה CO02; קשורות CO05, CO05N, CO09, CO0R5, CO20, CO21, CO22, CO23, CO26, COHV, COOIS). " +
+          "שירותי ה-OData רצים כאן על S4CORE 108, וה-UI על UIS4HOP1 900. הודעות RIN: 3336823 (Front-End Server), 3351047 " +
+          "(Back-End Server). NumberofPredecessors=0, NumberofSuccessors=0.",
         verificationLevel: "sap_official_verified",
       },
       F2336_APP_TOPIC,
@@ -1232,17 +1288,20 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       },
       {
         sourceType: "repository",
-        sourceTitle: "רשומת ה-Fiori המתוחזקת של הפרויקט (FIORI_APPS) ומרכז ה-Fiori",
+        sourceTitle: "רשומת ה-Fiori המתוחזקת של הפרויקט (FIORI_APPS) ומרכז ה-Fiori, רשומת F2336",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE,
+        accessedAt: DATE24,
         claim:
-          "הרשומה המתוחזקת (curated) מזהה את F2336 כ-Manage Production Orders (מודול PP, Transactional) עם guiTx " +
-          "CO01/CO02/COOIS, טבלאות AUFK/AFKO/AFPO ו-similar אל Manage Process Orders (F3577), בהתאמה למקורות הרשמיים " +
-          "לעיל. שני שדות אינם תואמים אותם: התפקיד SAP_BR_PRODN_OPERATOR_DISC סותר את תיאור התפקיד בעמוד הרשמי " +
-          "('Production Supervisor - Discrete Manufacturing'), ושירות ה-OData הרשום API_PRODUCTION_ORDER_2 אינו השירות " +
-          "שהסניפט הרשמי מציב לצד האפליקציה (PP_MPE_ORDER_MANAGE). הקטלוג SAP_PP_BC_PRODN_ORDER ותצוגת ה-CDS " +
-          "I_ProductionOrder נשארים ברמת המאגר בלבד.",
+          "עד 2026-09-24 רשומת המאגר data/fiori/apps.ts#F2336 (trust: curated) נשאה role SAP_BR_PRODN_OPERATOR_DISC, " +
+          "catalog SAP_PP_BC_PRODN_ORDER, odata API_PRODUCTION_ORDER_2, cds I_ProductionOrder ו-guiTx " +
+          "['CO01','CO02','COOIS'] ו-relatedTables AUFK/AFKO/AFPO; רשומת מרכז ה-Fiori " +
+          "data/centers/fiori.ts#manage-production-orders נושאת את אותם ערכי catalog/role/odata ו-'CO01 / CO02 / COOIS'. " +
+          "ארבעת השדות שונים מהערכים ששתי רשומות ספריית ה-Fiori לעיל מחזירות: התפקיד המוביל הוא " +
+          "SAP_BR_PRODN_SUPERVISOR_DISC, הקטלוג העסקי SAP_SCM_BC_PRODN_ORD_MNTR, שירות ה-OData הראשי PP_MPE_ORDER_MANAGE, " +
+          "וטרנזקציית ה-GUI המובילה CO02; CO01 אינה מופיעה ברשימת הטרנזקציות שהספרייה מדפיסה לאפליקציה. השם וה-Type " +
+          "(Transactional) תואמים. תצוגת ה-CDS I_ProductionOrder נשארת ברמת המאגר. catalogPatch המצורף לרשומה זו מעתיק את " +
+          "ארבעת השדות (role/catalog/odata/guiTx) כלשונם מהספרייה.",
         verificationLevel: "repository_verified",
         repoRef: "data/fiori/apps.ts#F2336 (+data/centers/fiori.ts#manage-production-orders)",
       },
@@ -1250,38 +1309,47 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
     status: {
       status: "s4_native",
       he:
-        "אפליקציית SAP Fiori (Transactional) לניהול הזמנות ייצור בייצור בדיד, מודול PP. מתועדת כאפליקציה פעילה בתיעוד " +
-        "Production Orders (PP-SFC) לגרסת S/4HANA On-Premise 2025 FPS01, מקבלת שיפורים ברשומת What's New 2025 FPS01, " +
-        "ומושווית רשמית ל-COOIS ול-COHV. לפי רשומת המאגר, המקבילות ב-ECC הן מסכי CO01/CO02 ב-SAP GUI.",
+        "אפליקציית SAP Fiori (Transactional, SAPUI5) לניהול הזמנות ייצור בייצור בדיד, מודול PP. ספריית יישומי ה-Fiori " +
+        "מחזירה Published הן על S/4HANA 2025 FPS01 (S32OP) והן על S/4HANA 2023 (S27OP), עם תפקיד עסקי מוביל Production " +
+        "Supervisor - Discrete Manufacturing, קטלוג עסקי Production Control (Discrete) - Order Monitoring, שירות OData " +
+        "ראשי PP_MPE_ORDER_MANAGE וטרנזקציית GUI מובילה CO02; עמוד האפליקציה בתיעוד Production Orders (PP-SFC) מציין את " +
+        "אותו תפקיד ומתאר מעקב אחר התקדמות הייצור. הספרייה רושמת אפס קודמים ואפס יורשים (NumberofPredecessors=0, " +
+        "NumberofSuccessors=0).",
       edition: "on-premise",
       release: "2025.001",
-      source: F2336_APP_TOPIC,
+      source: F2336_FAL_S32OP,
       recommendedAction:
-        "לצטט את עמוד האפליקציה הרשמי (Production Orders (PP-SFC), 2025 FPS01) ואת רשומת הספרייה (appId=F2336). לפני " +
-        "הצגת תפקיד עסקי בממשק: לתקן את שדה role ברשומת data/fiori/apps.ts לתיאור הרשמי 'Production Supervisor - " +
-        "Discrete Manufacturing' (השם הטכני של תבנית התפקיד דורש אימות מול הספרייה), ולסמן את API_PRODUCTION_ORDER_2 " +
-        "כ-API אינטגרציה משוחרר ולא כשירות ה-UI של האפליקציה. להציג את האפליקציה כחלופת Fiori לתרחישי המעקב והעיבוד " +
-        "ההמוני שהיא מושווית אליהם (COOIS, COHV) ולפעולות העריכה והשחרור שספר ה-Fiori Quick Reference (Tier 2) מתאר " +
-        "עבורה, ולא כתחליף מלא לכל טרנזקציות PP-SFC.",
+        "ה-catalogPatch הוחל ב-2026-09-24 על data/fiori/apps.ts#F2336: role SAP_BR_PRODN_SUPERVISOR_DISC, catalog " +
+        "SAP_SCM_BC_PRODN_ORD_MNTR, odata PP_MPE_ORDER_MANAGE, ו-guiTx לפי רשימת הספרייה עם CO02 כמובילה. רשומת " +
+        "data/centers/fiori.ts#manage-production-orders אינה נכללת בו: היא נושאת את אותם ערכים שאינם תואמים לספרייה " +
+        "ודורשת תיקון נפרד. להציג את האפליקציה כמסך מעקב ועריכה לאחראי ייצור (Production Supervisor) בייצור בדיד, שמושווה " +
+        "בתיעוד ל-COOIS ול-COHV, ולא כתחליף מלא לכל מסכי PP-SFC.",
     },
     xrefs: [
-      "tx:CO01", "tx:CO02", "tx:CO03", "tx:COOIS", "tx:COHV", "table:AUFK", "table:AFKO", "table:AFPO",
-      "cds:I_ProductionOrder", "fiori:F3577",
+      "tx:CO02", "tx:CO03", "tx:CO05N", "tx:CO09", "tx:COHV", "tx:COOIS", "table:AUFK", "table:AFKO", "table:AFPO",
+      "cds:I_ProductionOrder",
     ],
-    lastVerifiedAt: DATE,
+    lastVerifiedAt: DATE24,
     notes:
-      "המזהה, השם וכתובת הספרייה מאומתים מול שלושה סניפטים רשמיים של 2025 FPS01 (PLM, השוואת ה-PEO, ועמוד Data " +
-      "Migration 'PP - Production order (only open PO)' הנוקב ב-'Display Production Order (CO03) Manage Production " +
-      "Orders (F2336)') ומול כותרת רשומת הספרייה. גוף עמודי help.sap.com והספרייה לא נקרא (מעטפות JavaScript), ולכן " +
-      "קטלוג עסקי, תבנית תפקיד טכנית (SAP_BR_...), שירות ה-OData של האפליקציה ותצוגת ה-CDS שלה נשארים ברמת המאגר. " +
-      "עמוד Schedule Order Release Runs (2025.001) מציג את השם הטכני SAP_BR_PRODN_SUPERVISOR_DISC לתיאור 'Production " +
-      "Supervisor: Discrete Manufacturing', אך לא בהקשר F2336, ולכן לא נרשם כאן כעובדה. שדה ה-odata ברשומה " +
-      "(API_PRODUCTION_ORDER_2) תואם בשמו ל-API המשוחרר API_PRODUCTION_ORDER_2_SRV (What's New 2020: 'This OData API " +
-      "replaces the API Production Order (API_PRODUCTION_ORDERS)'), אך אף סניפט רשמי אינו קושר אותו לאפליקציה. יש " +
-      "להבחין מהאפליקציה 'Manage Production Orders or Process Orders' (PP-MRP, מתכנן ה-MRP), שהיא אפליקציה אחרת עם " +
-      "עמוד App Implementation נפרד, ולא לצטט אותו עבור F2336. מזהה פריט ההיקף BJ5 ורכיבי היישום PP-SFC-EXE / " +
-      "PP-FIO-SFC לקוחים מסניפטים של What's New בלבד. ספר ה-Fiori Quick Reference (Tier 2, data/library/book7/ch5) " +
-      "מתאר את האפליקציה כמיועדת ל-production supervisors עם AOR, בהתאמה לתיאור הרשמי.",
+      "עודכן ב-2026-09-24: רשומת F2336 בספריית ה-Fiori נקראה דרך ערוץ ה-OData של הספרייה (scripts/fal-app.mjs) על S32OP " +
+      "(2025 FPS01) ועל S27OP (2023), וגוף עמוד האפליקציה ב-help.sap.com (loio 0a4622d10e7e49478943891624ea7ca8, " +
+      "2025.001) נקרא מחדש דרך sap-help-body.mjs ומכיל את כל הציטוטים בשורת F2336_APP_TOPIC. Old → New: (1) שורת " +
+      "הספרייה הקלאסית (appId=F2336, כותרת רשומת חיפוש 'Manage Production Orders - SAP Fiori Apps Reference Library', " +
+      "גוף מעטפת JavaScript שלא נקרא) הוחלפה בשתי רשומות הספרייה שנקראו ב-OData; המזהה והשם שנשענו עליה אושרו. (2) " +
+      "השאלות הפתוחות על התפקיד ועל שירות ה-OData נסגרו: קודם, עמוד Schedule Order Release Runs (2025.001) הציג את " +
+      "SAP_BR_PRODN_SUPERVISOR_DISC לתיאור 'Production Supervisor: Discrete Manufacturing' שלא בהקשר F2336, והסניפט של " +
+      "PLM הציב את PP_MPE_ORDER_MANAGE לצד האפליקציה; כעת fal-app מחזיר את שניהם לרשומת F2336 עצמה. שדה ה-odata במאגר " +
+      "(API_PRODUCTION_ORDER_2) תואם בשמו ל-API API_PRODUCTION_ORDER_2_SRV שרשומת What's New 2020 מתארת ('This OData " +
+      "API replaces the API Production Order (API_PRODUCTION_ORDERS)'), אך אף מקור שנקרא אינו קושר אותו ל-F2336. (3) " +
+      "xref tx:CO03 נשמר על סמך עמוד Data Migration 'PP - Production order (only open PO)' (2025 FPS01), שהסניפט שלו " +
+      "נוקב ב-'Display Production Order (CO03) Manage Production Orders (F2336)'. (4) הוסרו מה-xrefs tx:CO01 (מקורו " +
+      "ב-guiTx של רשומת המאגר; CO01 אינה ברשימת הטרנזקציות שהספרייה מדפיסה) ו-fiori:F3577 (similar ברשומת המאגר, לא יחס " +
+      "קודם/יורש בספרייה). (5) יש להבחין מהאפליקציה 'Manage Production Orders or Process Orders' (PP-MRP, למתכנן " +
+      "ה-MRP), שהיא אפליקציה אחרת עם עמוד App Implementation נפרד, ולא לצטט אותה עבור F2336. (6) פריט ההיקף BJ5 ורכיבי " +
+      "היישום PP-SFC-EXE (What's New 2020) ו-PP-FIO-SFC (What's New 2023 ו-fal-app) לקוחים מהמקורות שצוינו. (7) ספר " +
+      "ה-Fiori Quick Reference (Tier 2, data/library/book7/ch5) מתאר את האפליקציה כמיועדת ל-production supervisors עם " +
+      "AOR, בהתאמה לתיאור הרשמי. Related_Apps (relationType Navigation Target: F0251, F2180, F2261, F2262, F2265, F2335 " +
+      "ועוד) אינם יחס קודם/יורש ולא נרשמו כ-xref. הרשומה אינה נושאת שדה reviewer. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* --------------------------------------------------------- fiori:F3577 */
@@ -1321,6 +1389,51 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "conflicting_sources",
         repoRef: "data/fiori/apps.ts#F3577",
       },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Library: F3577 @ S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3577')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "node scripts/fal-app.mjs F3577 --release S32OP החזיר 'F3577 @ S32OP: not in this release (empty Results)' " +
+          "(S/4HANA 2025 FPS01, On-Premise). הממצא השלילי מוגבל לגרסה זו ואינו קביעה על קיום המזהה בגרסאות אחרות.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Library: F3577 @ S27OP (S/4HANA 2023)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3577')/S27OP",
+        accessedAt: DATE24,
+        claim:
+          "node scripts/fal-app.mjs F3577 --release S27OP החזיר 'F3577 @ S27OP: not in this release (empty Results)' " +
+          "(S/4HANA 2023, On-Premise). הממצא השלילי מוגבל לגרסה זו ואינו קביעה על קיום המזהה בגרסאות אחרות.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Library: F4587 Manage Process Orders @ S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4587')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת הספרייה ל-F4587 בגרסת S32OP: 'Manage Process Orders', Transactional / SAP Fiori elements, סטטוס Published, " +
+          "רכיב PP-FIO-PI (Fiori UI for Process Order). תפקיד: SAP_BR_PRODN_SUPERVISOR_PROC (R0115-11, Production " +
+          "Supervisor - Process Manufacturing). קטלוג עסקי: SAP_SCM_BC_PROC_ORD_MGMT 'Production Control (Process) - Order " +
+          "Management'; קטלוג טכני: SAP_TC_SCM_PP_COMMON; intent: ProcessOrder-manage. OData: PP_MPE_AOR 0001 " +
+          "ו-PP_PROCESS_ORDER_MANAGE_SRV 0001 (S4CORE 109), קבוצת V4: PP_MPE_AOR_SRV. שדות טרנזקציות ה-GUI (מובילה וקשורה) " +
+          "מודפסים '-'. backend: S4CORE 109 SP 0001; UI: UIS4H 109 SP 0001. רשימת הגרסאות של הרשומה נפתחת ב-S18OP (2020) " +
+          "וממשיכה עד S37 (2608); הגרסה האחרונה ב-On-Premise ברשימה היא S32OP (2025 FPS01). שדות הקודמים והיורשים מודפסים " +
+          "'-'. הערות RIN: 3493254 (Front-End Server), 3671888 (Back-End Server).",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     status: {
       status: "s4_native",
@@ -1339,7 +1452,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "המקורי ולא בקובץ המחולל. עד לתיקון, להציג את F3577 כמזהה שנוי במחלוקת ולא כעובדה.",
     },
     xrefs: ["tx:COR1", "tx:COR2", "tx:COR3", "tx:COID", "tx:COOISPI", "tx:COHVPI", "table:AUFK", "table:AFKO", "table:AFPO", "table:AFVC", "fm:BAPI_PROCORD_CREATE", "fiori:F3364", "fiori:F4587", "fiori:F5323"],
-    lastVerifiedAt: DATE,
+    lastVerifiedAt: DATE24,
     notes:
       "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs ('Manage Process Orders', 'F3577', " +
       "'F4587', 'Manage Process Orders F4587', \"What's New Manage Process Orders\", 'Process Order " +
@@ -1356,7 +1469,13 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "הקטלוג (SAP_PP_BC_PROCESS_ORDER) ושירות ה-OData שברשומת המאגר לא אומתו מול מקור רשמי; " +
       "רשומות ה-Help מתעדות את API_PROCESS_ORDERS ואת API_PROCESS_ORDER_2_SRV כשירותי ה-OData של הזמנת תהליך; שם " +
       "השירות ברשומת המאגר (API_PROCESSORDER_2 עד 2026-09-21) נורמל ל-API_PROCESS_ORDER_2_SRV. F4587 ו-F5323 אינם קיימים ב-data/fiori/apps.ts ולכן אינם ב-xrefs. " +
-      "accessedAt = 2026-09-02 לפי תאריך האצווה; צמדי loio/versionId אומתו מחדש בריצה חיה. תוספת 2026-09-23: Manage Process Orders נכנס לקטלוג כ-fiori:F4587 ו-Manage Process Order Operations כ-fiori:F5323, ושניהם נוספו כאן כקישורים. הפיכת F3577 לכינוי של F4587 מחייבת קודם הסרה של F3577 מהקטלוג (כלל התנגשות הכינויים), ולכן נשארת החלטת מוצר.",
+      "accessedAt = 2026-09-02 לפי תאריך האצווה; צמדי loio/versionId אומתו מחדש בריצה חיה. תוספת 2026-09-23: Manage Process Orders נכנס לקטלוג כ-fiori:F4587 ו-Manage Process Order Operations כ-fiori:F5323, ושניהם נוספו כאן כקישורים. הפיכת F3577 לכינוי של F4587 מחייבת קודם הסרה של F3577 מהקטלוג (כלל התנגשות הכינויים), ולכן נשארת החלטת מוצר. " +
+      "תוספת 2026-09-24: fal-app.mjs החזיר Results ריק עבור F3577 ב-S32OP וב-S27OP; F4587 נקרא מהספרייה ב-S32OP (תפקיד " +
+      "SAP_BR_PRODN_SUPERVISOR_PROC, קטלוג SAP_SCM_BC_PROC_ORD_MGMT, OData PP_PROCESS_ORDER_MANAGE_SRV 0001). הפרטים " +
+      "SAP_BR_PRODN_OPERATOR_PROC ו-SAP_PP_BC_PROCESS_ORDER שברשומת המאגר F3577 אינם תואמים לרשומת הספרייה של F4587. " +
+      "גרסאות אחרות לא נבדקו עבור F3577. קודם: דף הספרייה של F4587 לא היה נגיש (מעטפת JavaScript); עכשיו: הרשומה נקראה " +
+      "דרך scripts/fal-app.mjs. חיפוש מתועד: fal-app.mjs --tcode COR1 --release S32OP: GUI app entry COR1 Create " +
+      "Process Order (SAP GUI, 0 successors); COR2 ו-COID לא נבדקו. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* --------------------------------------------------------- fiori:F3364 */
@@ -1407,11 +1526,51 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "supported_secondary_source",
       },
       {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library: Apps('F3364')/S32OP (תוצאה ריקה)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3364')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הרצת scripts/fal-app.mjs F3364 --release S32OP (S/4HANA 2025 FPS01, on-premise) הדפיסה 'F3364 @ S32OP: not in " +
+          "this release (empty Results)'. Apps('F3364') לא נמצאה במהדורה S32OP (2025 FPS01) נכון לתאריך השליפה.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library: Apps('F3364')/S27OP (תוצאה ריקה)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3364')/S27OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        accessedAt: DATE24,
+        claim:
+          "אותה הרצה מול S27OP (S/4HANA 2023, on-premise) הדפיסה 'F3364 @ S27OP: not in this release (empty Results)'. " +
+          "Apps('F3364') לא נמצאה גם ב-S27OP (2023) נכון לתאריך השליפה.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library: TransactionCode COR6N / S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הרצת scripts/fal-app.mjs --tcode COR6N --release S32OP החזירה רשומת SAP GUI בשם 'Confirm Process Order Phase' " +
+          "(fioriId COR6N, SemanticObject ProcessOrderConfirmation, SemanticAction createTimeTicket, isPublished " +
+          "'Published'), NumberofSuccessors: 0, ולא הוחזרה אפליקציית F/W המובילה עם COR6N. החיפוש סורק את השדה " +
+          "LeadingTransactionCodes; רשימת TransactionCodes הקשורה לא נסרקה, והסקריפט לא הדפיס קישור לרשומה זו.",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
         sourceType: "repository",
         sourceTitle: "רשומת ה-Fiori המתוחזקת של הפרויקט (FIORI_APPS), רשומת F3364 (סותרת את המקורות הרשמיים)",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE,
+        accessedAt: DATE24,
         claim:
           "רשומת המאגר מקצה את המזהה F3364 לאפליקציה Confirm Process Order (PP-PI, Transactional, guiTx COR6N, OData " +
           "'API_PROC_ORDER_CONFIRMATION_2_SRV' מאז 2026-09-21, קודם 'API_PROCORDCONF'; תפקיד SAP_BR_PRODN_OPERATOR_PROC, " +
@@ -1432,7 +1591,8 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "Fiori), ובמהדורת On-Premise 2025 FPS01 פעולת האישור 'Confirm Process Order Operation (COR6N)' ניתנת " +
         "באפליקציות Manage Process Orders / Manage Process Order Operations (F4587/F5323). לכן המזהה F3364 שברשומת " +
         "המאגר סותר את המקורות הרשמיים ואינו ניתן להצגה כעובדה; השם 'Confirm Process Order' עצמו מאומת כשם אפליקציה " +
-        "רשמי, אך תחת מזהה אחר.",
+        "רשמי, אך תחת מזהה אחר. " +
+        "ב-2026-09-24 שליפה ישירה של Apps('F3364') מספריית ה-Fiori לא החזירה רשומה במהדורות S32OP ו-S27OP.",
       edition: "on-premise",
       release: null,
       source: null,
@@ -1442,10 +1602,10 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "האפליקציה 'Confirm Process Order' עם App ID: CORK (אישור ברמת הזמנה), או פעולת 'Confirm Process Order " +
         "Operation' באפליקציות F4587/F5323 (On-Premise 2025 FPS01). לפני כל תיקון לאמת את המזהה הסופי, את התפקיד, " +
         "הקטלוג ושירות ה-OData מול SAP Fiori Apps Reference Library (fal.cloud.sap) בכניסה מדפדפן, ולעדכן xrefs רק " +
-        "למזהים הקיימים בדאטהסט (F4587/F5323 אינם ב-data/fiori/apps.ts).",
+        "למזהים הקיימים בדאטהסט (F4587/F5323 קיימים ב-data/fiori/apps.ts מאז 2026-09-23).",
     },
     xrefs: ["tx:COR6N", "tx:CORK", "table:AFRU", "table:RESB", "fm:BAPI_PROCORDCONF_CREATE_TT", "fiori:F3577", "fiori:F1576", "fiori:F4587", "fiori:F5323"],
-    lastVerifiedAt: DATE,
+    lastVerifiedAt: DATE24,
     notes:
       "מה שאומת: השם 'Confirm Process Order' הוא שם אפליקציה רשמי, אך תחת App ID: CORK (Help של הענן הציבורי " +
       "2608.500 + רשומה קלאסית בספריית Fiori), ובמהדורת On-Premise 2025 FPS01 הנתיב המתועד לאישור פעולה הוא 'Confirm " +
@@ -1460,7 +1620,15 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "מציג את הנתיב /sap/opu/odata/SAP/API_PROC_ORDER_CONFIRMATION_2_SRV. תפקיד וקטלוג (SAP_BR_PRODN_OPERATOR_PROC, " +
       "SAP_PP_BC_PROCESS_ORDER) נשארים Tier-2 ללא אימות. F4587/F5323 אינם קיימים ב-data/fiori/apps.ts ולכן אינם " +
       "ב-xrefs ולא נכתב successor. ספריית fal.cloud.sap והרשומה הקלאסית לא נפתחו כדפים (יישומי JS); בדיקת מערכת חיה " +
-      "לא הייתה זמינה (ה-MCP sc4sap לא התחבר). תוספת 2026-09-23: F4587 ו-F5323 נכנסו לקטלוג ונוספו כאן כקישורים. CORK עדיין אינו מזהה fiori: תקף לפי כלל הצורה, ולכן אינו מיוצג.",
+      "לא הייתה זמינה (ה-MCP sc4sap לא התחבר). תוספת 2026-09-23: F4587 ו-F5323 נכנסו לקטלוג ונוספו כאן כקישורים. CORK עדיין אינו מזהה fiori: תקף לפי כלל הצורה, ולכן אינו מיוצג. " +
+      "תוספת 2026-09-24: הרצת scripts/fal-app.mjs F3364 מול S32OP (S/4HANA 2025 FPS01) ומול S27OP (S/4HANA 2023) הדפיסה " +
+      "'not in this release (empty Results)' בשתיהן; Apps('F3364') לא נמצאה בספרייה בשתי המהדורות נכון לתאריך השליפה, " +
+      "וזו ראיה שלילית מתועדת ולא הכרעה. הרצת scripts/fal-app.mjs --tcode COR6N --release S32OP החזירה רשומת SAP GUI " +
+      "בשם 'Confirm Process Order Phase' (SemanticObject ProcessOrderConfirmation, SemanticAction createTimeTicket) עם " +
+      "NumberofSuccessors: 0; חיפוש לפי LeadingTransactionCodes לא החזיר אפליקציית Fiori (F/W) המובילה עם COR6N; רשימת " +
+      "TransactionCodes הקשורה לא נסרקה, ולכן אין בכך קביעה לגבי אפליקציות Fiori אחרות הקשורות ל-COR6N. F3364 נשאר מזהה " +
+      "שלא נמצא באף מקור רשמי; לא נכתב successor ולא נכתב catalogPatch, כי הספרייה לא החזירה עבור F3364 אף ערך של " +
+      "תפקיד, קטלוג, OData או guiTx. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* --------------------------------------------------------- fiori:F1576 */
@@ -1528,13 +1696,15 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         sourceTitle: "רשומת ה-Fiori המתוחזקת של הפרויקט (FIORI_APPS): מזהה F1576",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE,
+        accessedAt: DATE24,
         claim:
           "רשומת המאגר (trust: curated, מקור 'SAP Fiori Apps Library (curated)') רושמת את Manage Batches במזהה F1576, " +
           "עם קטלוג SAP_LO_BC_BATCH, תפקיד SAP_BR_WAREHOUSE_CLERK, שירות OData בשם API_BATCH, תצוגת CDS‏ I_Batch " +
-          "וטרנזקציות MSC1N/MSC2N/MSC3N. המזהה F1576 סותר את המזהה F2462 שבתיעוד SAP Help ובכתובת ספריית ה-Fiori, ולא " +
-          "נמצא באף רשומה רשמית; אותו מזהה משוכפל ב-data/centers/fiori.ts, ב-data/solutions.ts ובשדות s4Delta של " +
-          "MSC1N ו-MSC3N ב-data/tx-intel.ts.",
+          "וטרנזקציות MSC1N/MSC2N/MSC3N. המזהה F1576 סותר את המזהה F2462 שבתיעוד SAP Help ובכתובת ספריית ה-Fiori; " +
+          "רשומת ספריית ה-Fiori עבור F1576 (S32OP ו-S27OP) משייכת את המזהה לאפליקציה Supplier Evaluation Response. אותו " +
+          "מזהה משוכפל ב-data/centers/fiori.ts, ב-data/solutions.ts ובשדות s4Delta של MSC1N ו-MSC3N ב-data/tx-intel.ts. " +
+          "טקסט ה-explain.consultant של רשומת F2462 באותו קובץ מציין שהרשומה המתוחזקת F1576 נושאת את אותה כותרת בלי מקור " +
+          "רשמי ומפנה לרשומת האימות fiori:F1576.",
         verificationLevel: "conflicting_sources",
         repoRef: "data/fiori/apps.ts#F1576",
       },
@@ -1551,13 +1721,81 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "repository_verified",
         repoRef: "data/library/fiori-apps.json#F2462",
       },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Apps('F1576')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1576')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "node scripts/fal-app.mjs F1576 על S32OP (SAP S/4HANA 2025 FPS01) מחזיר AppName 'Supplier Evaluation Response', " +
+          "Published, Transactional, UITechnology 'SAP Fiori (SAPUI5)', ApplicationComponent SLC-EVL (Supplier Evaluation), " +
+          "OData SLC_QUESTIONNAIRE_RESPONSE_SRV 0001, תפקידים: SAP_BR_BUYER, SAP_BR_EMPLOYEE, SAP_BR_EMPLOYEE_PROCUREMENT, " +
+          "SAP_BR_PURCHASER, קטלוגים עסקיים SAP_PRC_BC_CATEGORY_MGT ו-SAP_PRC_BC_SUP_EVAL_APPRSL. שורת טרנזקציות ה-GUI " +
+          "מודפסת 'leading -; related -'. זו אפליקציה שונה מ-Manage Batches שהרשומה המתוחזקת רושמת תחת F1576.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Apps('F1576')/S27OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1576')/S27OP",
+        accessedAt: DATE24,
+        claim:
+          "אותה הרצה על S27OP (SAP S/4HANA 2023) מחזירה שוב 'Supplier Evaluation Response' (SLC-EVL, OData " +
+          "SLC_QUESTIONNAIRE_RESPONSE_SRV 0001, אותם תפקידים וקטלוגים, 'leading -; related -'), כך שהשיוך של F1576 " +
+          "לאפליקציה זו מופיע בשתי המהדורות שנבדקו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Apps('F2462')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2462')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "node scripts/fal-app.mjs F2462 על S32OP מחזיר AppName 'Manage Batches', Published, Transactional, SAP Fiori " +
+          "elements, ApplicationComponent LO-BM-FIO, OData LO_BM_BATCH_SRV 0001, GUI transactions: leading MSC1N; related " +
+          "MSC2N, MSC3N; תפקידים כולל SAP_BR_WAREHOUSE_CLERK. רשומה זו נושאת את השם Manage Batches ואת הטרנזקציות " +
+          "MSC1N/MSC2N/MSC3N שהרשומה המתוחזקת מייחסת ל-F1576.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
+    status: {
+      status: "verification_required",
+      he:
+        "המזהה F1576 משויך בספריית ה-Fiori לאפליקציה Supplier Evaluation Response, ואילו המאגר רושם תחתיו את Manage " +
+        "Batches; השיוך במאגר דורש תיקון לפני קביעת סטטוס.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "להשתמש ב-F2462 (Manage Batches) ולתקן את המזהה במאגר כהחלטת מוצר.",
+    },
     xrefs: [
       "tx:MSC1N", "tx:MSC2N", "tx:MSC3N", "table:MCH1", "table:MCHA", "cds:I_Batch",
       "fm:BAPI_BATCH_CREATE", "fm:BAPI_BATCH_GET_DETAIL", "fiori:F2462",
     ],
-    lastVerifiedAt: DATE,
+    lastVerifiedAt: DATE24,
     notes:
+      "2026-09-24: Old → New: הממצא הקודם (לא ידוע אם F1576 מזהה של אפליקציה אחרת או מזהה שאינו קיים) הוחלף: " +
+      "fal-app.mjs F1576 על S32OP ו-S27OP מחזיר Supplier Evaluation Response (SLC-EVL). זו סתירה בין רשומה רשמית לרשומת " +
+      "המאגר (כלל 4): ספריית ה-Fiori משייכת את F1576 ל-Supplier Evaluation Response, והמאגר (data/fiori/apps.ts#F1576) " +
+      "רושם תחתיו את Manage Batches. מה שיכריע: תיקון המזהה במאגר ל-F2462 כהחלטת מוצר. לכן נכתב status מסוג " +
+      "verification_required, כדי שה-s4_native הנגזר מרישום המאגר לא יוצג כסטטוס של הרשומה. הרצות מתועדות: fal-app.mjs " +
+      "--tcode MSC1N על S32OP: F2462 Manage Batches [SAP Fiori elements] ו-MSC1N Create Batch [SAP GUI]; --tcode MSC2N " +
+      "ו-MSC3N: האפליקציה המובילה שהודפסה היא רשומת ה-GUI של הטרנזקציה עצמה (MSC2N Change Batch, MSC3N Display Batch); " +
+      "F1576 לא הופיע באף אחת מההרצות. לא נכתב successor: F2462 אינו מחליף את F1576 אלא מזהה נפרד הנושא את השם העסקי " +
+      "שהמאגר הציג תחת F1576. עדכון שורת המאגר (data/fiori/apps.ts#F1576) ב-2026-09-24: Old: 'ולא נמצא באף רשומה " +
+      "רשמית'; New: רשומת ספריית ה-Fiori עבור F1576 משייכת את המזהה ל-Supplier Evaluation Response; נוספה הפניה לטקסט " +
+      "ה-explain.consultant של F2462. לא נקראו גופי עמודים ב-help.sap.com עבור Supplier Evaluation Response. בדיקת " +
+      "מערכת SAP חיה לא בוצעה. 2026-09-02 (Old, הוחלף ברישום 2026-09-24): " +
       "סתירת מזהה: כל המקורות הרשמיים שנמצאו (עמוד האפליקציה ועמוד היישום ב-Batch Management (LO-BM) 2025 FPS01, " +
       "עמוד ה-PLM Manage Characteristics as Custom Fields, וכתובת ספריית ה-Fiori) נוקבים ב-Manage Batches כ-F2462. " +
       "חיפוש help.sap.com וחיפוש מוגבל-דומיין בספריית ה-Fiori לא החזירו אף רשומה עבור F1576, כך שלא ידוע אם F1576 " +
@@ -1609,6 +1847,59 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "sap_official_verified",
       },
       {
+        sourceType: "fiori_library",
+        sourceTitle: "Post Goods Receipt for Purchasing Document - SAP Fiori Apps Reference Library, Apps('F0843')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0843')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "הרשומה שהוחזרה מהשירות הרשמי של הספרייה (scripts/fal-app.mjs, S32OP = S/4HANA 2025 FPS01) עבור F0843: 'Post " +
+          "Goods Receipt for Purchasing Document', Transactional / SAP Fiori (SAPUI5), Published, רכיב אפליקציה " +
+          "MM-FIO-IM-SGM (Fiori UI for Stock and Goods Movements); תפקידים SAP_BR_INVENTORY_MANAGER (R0082), " +
+          "SAP_BR_OPERATION_CLERK_ACM (R0260AC), SAP_BR_SETTLEMENT_CLERK_ACM (R0149AC), SAP_BR_WAREHOUSE_CLERK (R0170); " +
+          "קטלוגים עסקיים SAP_MM_BC_IM_GR_PROCESS (Materials Management - Goods Receipt Processing) ו-SAP_MM_BC_IM_PROCESS " +
+          "(Materials Management - Warehouse Processing); קטלוג טכני SAP_TC_PRC_IM_COMMON; אובייקט/פעולה סמנטיים " +
+          "PurchaseOrder-createGR; שירותי OData MMIM_GR4PO_DL_SRV ו-MMIM_MATERIAL_DATA_SRV גרסה 0001 (S4CORE 109); " +
+          "טרנזקציית GUI מובילה MB01, וקשורות MB0A, MB1A, MB1C, MIGO, MIGO_GR; רכיב תוכנה בשרת S4CORE 109 SP 0001 / SAP " +
+          "S/4HANA 2025, בחזית UIS4H 109 SP 0001; אין קודמים ואין יורשים רשומים; הערות RIN 3493254 (Front-End Server) " +
+          "ו-3671888 (Back-End Server); קישור התיעוד מפנה ל-topic 9ddf815494758c4ce10000000a4450e5, גרסה 2025.001.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Post Goods Receipt for Purchasing Document - SAP Fiori Apps Reference Library, Apps('F0843')/S27OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0843')/S27OP",
+        accessedAt: DATE24,
+        claim:
+          "אותו שירות עבור F0843 בגרסת S27OP (S/4HANA 2023) מחזיר את אותו שם 'Post Goods Receipt for Purchasing Document', " +
+          "אותם סוג, רכיב אפליקציה, תפקידים, קטלוגים, אובייקט/פעולה סמנטיים, שירותי OData (כאן S4CORE 108) וטרנזקציות GUI " +
+          "כמו ב-S32OP; אין קודמים ואין יורשים רשומים; הערות RIN 3336823 (Front-End Server) ו-3351047 (Back-End Server); " +
+          "קישור התיעוד מפנה לאותו topic, 9ddf815494758c4ce10000000a4450e5, בגרסה 2023.000.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Goods Movement, Post Goods Movement - SAP Fiori Apps Reference Library, Apps('MIGO')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MIGO')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "הרשומה שהוחזרה מהשירות הרשמי של הספרייה (scripts/fal-app.mjs MIGO, S32OP = S/4HANA 2025 FPS01): כותרת 'Goods " +
+          "Movement, Post Goods Movement', טכנולוגיית UI 'SAP GUI / SAP GUI', Published, רכיב אפליקציה MM-IM (Inventory " +
+          "Management); שורת ה-intent כפי שהסקריפט מדפיס אותה: 'Material,Material-postGoodsMovementInWebGUI,goodsReceipt'; " +
+          "טרנזקציית GUI מובילה MIGO; אין שירות OData ואין קישור תיעוד. כלומר הספרייה רושמת את Post Goods Movement תחת " +
+          "המזהה MIGO, בנפרד מ-F0843. התווית 'Web GUI app' אינה מודפסת ברשומה זו; מקורה ברשומת 'Process Extensibility for " +
+          "Documents in Inventory'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
         sourceType: "repository",
         sourceTitle: "רשומת ה-Fiori המתוחזקת של הפרויקט ושכבת מחזור החיים (סותרות את התיעוד הרשמי)",
         product: "SAP S/4HANA",
@@ -1630,8 +1921,10 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       status: "s4_native",
       he:
         "המזהה F0843 מתועד ב-S/4HANA On-Premise 2025 FPS01 (מדריך MM-IM) כיישום ה-Fiori‏ 'Post Goods Receipt for " +
-        "Purchasing Document', קבלת סחורה בהתייחסות למסמכי רכש. השם 'Post Goods Movement' שהמאגר מצמיד למזהה זה שייך " +
-        "ליישום אחר, שמזההו בתיעוד ובספריית ה-Fiori הוא MIGO‏ (Web GUI app).",
+        "Purchasing Document', קבלת סחורה בהתייחסות למסמכי רכש, ורשומת הספרייה ב-S32OP וב-S27OP מציגה אותו בשם זה " +
+        "כ-Published. השם 'Post Goods Movement' שהמאגר מצמיד למזהה זה שייך ליישום אחר: התיעוד מתאר אותו כ-'Web GUI app; " +
+        "transaction code MIGO', והספרייה רושמת אותו תחת Apps('MIGO') בכותרת 'Goods Movement, Post Goods Movement' עם " +
+        "טכנולוגיית UI 'SAP GUI / SAP GUI'.",
       edition: "on-premise",
       release: "2025.001",
       source: F0843_PGR_TOPIC,
@@ -1639,13 +1932,16 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         "לתקן את רשומת הקטלוג: F0843 = Post Goods Receipt for Purchasing Document (קבלת סחורה למסמך רכש), ואת Post " +
         "Goods Movement להציג תחת המזהה MIGO‏ (Web GUI app; אינו מזהה מסוג F ולכן אינו ניתן לייצוג כרשומת fiori: " +
         "בסכימה הנוכחית). עד לתיקון אין להסתמך על ההצמדה 'Post Goods Movement (F0843)' במסכי ה-Fiori, בשכבת מחזור " +
-        "החיים (MIGO, MB1A, MB1C) ובקטלוג הפתרונות.",
+        "החיים (MIGO, MB1A, MB1C) ובקטלוג הפתרונות. " +
+        "התפקידים, הקטלוגים, שירותי ה-OData וטרנזקציות ה-GUI שהספרייה מדפיסה עבור F0843 (ראיות S32OP ו-S27OP) לא הועתקו " +
+        "ל-data/fiori/apps.ts: הם שייכים ליישום קבלת הסחורה, וההעתקה תלויה בהחלטת המוצר על זהות הרשומה.",
     },
     xrefs: [
       "tx:MIGO", "tx:MB01", "tx:MB31", "tx:MB1A", "tx:MB1C", "table:MSEG", "table:MKPF", "fm:BAPI_GOODSMVT_CREATE",
       "cds:I_MaterialDocumentItem", "obj:material-document", "enh:badi:MB_MIGO_BADI", "enh:exit:MBCF0002",
+      "tx:MIGO_GR",
     ],
-    lastVerifiedAt: DATE,
+    lastVerifiedAt: DATE24,
     notes:
       "מה שאומת (help.sap.com, On-Premise 2025.001, וספריית ה-Fiori): המזהה F0843 שייך ליישום 'Post Goods Receipt " +
       "for Purchasing Document', ו-'Post Goods Movement' הוא יישום Web GUI שמזההו MIGO. רשומות מאששות נוספות שלא " +
@@ -1663,7 +1959,25 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "MB31, ME23N, MIGO), data/sapData.pppi.ts (שם המסמך המקורי נושא את הסימון '(אמת ID)'), רשומת tx:MB1B " +
       "ב-data/verification/transactions.ts שמפנה ל-fiori:F0843 כחלופת Fiori של MB1B, ורשומת tx:ME23N באותו קובץ " +
       "שמצטטת מ-tx-intel את הצמד 'Display Purchase Order — F0843' כייחוס Tier-2. רשומה זו מחליפה את דוגמת היסוד " +
-      "של הקטלוג (שתי ראיות מאגר ברמת נדרש אימות נוסף) שנכתבה ב-2026-09-01.",
+      "של הקטלוג (שתי ראיות מאגר ברמת נדרש אימות נוסף) שנכתבה ב-2026-09-01. " +
+      "תוספת 2026-09-24: node scripts/fal-app.mjs F0843 החזיר רשומה מלאה מהשירות הרשמי של הספרייה ב-S32OP (2025 FPS01) " +
+      "וב-S27OP (2023), ושתיהן נוספו כראיות: השם 'Post Goods Receipt for Purchasing Document', Published, תפקידים " +
+      "SAP_BR_INVENTORY_MANAGER / SAP_BR_WAREHOUSE_CLERK / SAP_BR_OPERATION_CLERK_ACM / SAP_BR_SETTLEMENT_CLERK_ACM, " +
+      "קטלוגים SAP_MM_BC_IM_GR_PROCESS ו-SAP_MM_BC_IM_PROCESS, שירותי OData MMIM_GR4PO_DL_SRV ו-MMIM_MATERIAL_DATA_SRV, " +
+      "טרנזקציית GUI מובילה MB01 וקשורות MB0A / MB1A / MB1C / MIGO / MIGO_GR, ואין קודמים או יורשים רשומים. מספרי הערות " +
+      "ה-RIN (3493254 / 3671888 ב-S32OP, 3336823 / 3351047 ב-S27OP) מצוטטים בראיות הספרייה כפי ש-fal-app מדפיס אותם; לא " +
+      "נקרא תוכן ההערות עצמן. הרצת fal-app.mjs MIGO ב-S32OP החזירה 'Goods Movement, Post Goods Movement' עם טכנולוגיית " +
+      "UI 'SAP GUI / SAP GUI' ו-intent שכולל Material-postGoodsMovementInWebGUI; הספרייה אינה מדפיסה את התווית 'Web GUI " +
+      "app', ומקור התווית הוא רשומת Process Extensibility for Documents in Inventory. רשומת F0843 בספרייה מאששת רק את " +
+      "שם היישום F0843 ואת MIGO כטרנזקציית GUI קשורה; הקישור בין MIGO לשם Post Goods Movement נשען על רשומת Process " +
+      "Extensibility ועל רשומת Apps('MIGO')/S32OP. ה-loio וה-versionId של שתי רשומות help.sap.com " +
+      "(9ddf815494758c4ce10000000a4450e5 ו-ed827c12afa7489d90b0013fd2733b3e, 2025.001) אומתו מחדש בחיפוש חי באותו יום. " +
+      "נוסף xref ל-tx:MIGO_GR; MB0A לא נוסף כי אין לו נתיב במאגר. ערכי הספרייה לתפקיד, קטלוג, OData ו-GUI לא הועתקו " +
+      "ל-data/fiori/apps.ts: רשומת המאגר מתארת את Post Goods Movement (slug, שם עברי, מודול, מטרה, CDS), ושינוי השם " +
+      "בלבד היה משאיר אותה סותרת את עצמה; ההחלטה על זהות הרשומה נותרת החלטת מוצר, כמו ב-F2730A. SAP_BR_WAREHOUSE_CLERK " +
+      "(R0170) מודפס כעת ברשומת הספרייה של F0843 (S32OP/S27OP) וגם של MIGO (S32OP), ולכן הערת \"מה שלא אומת\" לעיל נסגרת " +
+      "לגביו; SAP_MM_BC_GOODS_MVT, API_MATERIAL_DOCUMENT_SRV ו-I_MaterialDocumentItem אינם מודפסים באף אחת משלוש רשומות " +
+      "הספרייה שנקראו. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* --------------------------------------------------------- fiori:F4604 */
@@ -2532,9 +2846,9 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
   /* ---- F2774, added 2026-09-22 (master completion §12), enriched 2026-09-24 through the
      SAP Fiori Apps Reference Library's public OData service (scripts/fal-app.mjs), which
      returned the app on S32OP (2025 FPS01) and S27OP (2023) with the same role, catalogs,
-     OData service and GUI transactions. F5325, added the same day (2026-09-22), keeps the
-     original bound: every claim is the search-record title and snippet the official SAP
-     Help search returned on that date, and its role, catalog and OData are not asserted. ---- */
+     OData service and GUI transactions. F5325, added the same day (2026-09-22), was
+     enriched the same way on 2026-09-24 (fal-app.mjs on S32OP and S27OP, plus its app
+     documentation page read via sap-help-body.mjs); see its record. ---- */
   {
     id: "fiori:F2774",
     evidence: [
@@ -2695,27 +3009,64 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
           "Manage Maintenance Plans (F5325'.",
         verificationLevel: "sap_official_verified",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Maintenance Plans | Maintenance Management (app documentation page)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/f0e9632b0e654fbeae597bad6abb823c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד תיעוד היישום ב-2025 FPS01, נקרא במלואו דרך שירות התוכן (scripts/sap-help-body.mjs): 'Manage Maintenance " +
+          "Plans App ID: F5325 With this app, you can manage maintenance plans.' העמוד מפרט צפייה בתכניות תחזוקה לפי חיפוש, " +
+          "סינון וסטטוס, יצירה, הפעלה והשבתה, סימון למחיקה והסרת הסימון, יצירה ושיוך של פריטי תחזוקה (עם הפניה ל-Manage " +
+          "Maintenance Items), צפייה בקריאות התחזוקה שנוצרות בתזמון התכנית ועריכה המונית (Mass Editing of Maintenance " +
+          "Plans). קישור התיעוד שספריית ה-Fiori מדפיסה עבור F5325 מפנה לאותו loio (f0e9632b0e654fbeae597bad6abb823c).",
+        verificationLevel: "sap_official_verified",
+      },
+      F5325_FAL_S32OP,
     ],
     status: {
       status: "s4_native",
       he:
-        "יישום Fiori לניהול תכניות תחזוקה, היורש של Manage Maintenance Plan and Item List שהוצא משימוש ב-S/4HANA 2022 " +
-        "ונמחק ב-2023 FPS01. What's New 2025 FPS01 משייך אותו לפריטי ההיקף 4HI (Proactive Maintenance) ו-BJ2 " +
-        "(Preventive Maintenance), ואובייקט ההרשאה I_MPTYP זמין בו מ-2023.",
+        "יישום Fiori לניהול תכניות תחזוקה, היורש של Manage Maintenance Plan and Item List (W0026) שהוצא משימוש ב-S/4HANA " +
+        "2022 ונמחק ב-2023 FPS01. ספריית יישומי ה-Fiori מציגה Published על S32OP (2025 FPS01) ועל S27OP (2023): תפקיד " +
+        "מוביל SAP_BR_MAINTENANCE_PLANNER, קטלוגים SAP_EAM_BC_MPLAN ו-SAP_EAM_BC_MP_MNG, טרנזקציית GUI מובילה IP01 " +
+        "וטרנזקציות קשורות IP02 עד IP06 ו-IP16; הספרייה ו-What's New 2025 FPS01 משייכים אותו לפריטי ההיקף 4HI (Proactive " +
+        "Maintenance) ו-BJ2 (Preventive Maintenance), ואובייקט ההרשאה I_MPTYP זמין בו מ-2023.",
       edition: "on-premise",
       release: "2025.001",
-      source: null,
+      source: F5325_FAL_S32OP,
       recommendedAction:
-        "להשתמש ב-F5325 (ובזוגו Manage Maintenance Items, F5356) במקום היישום הישן Manage Maintenance Plan and Item List. " +
-        "לקרוא מספריית ה-Fiori את התפקיד העסקי, הקטלוג ושירות ה-OData לפני שיוצגו.",
+        "להשתמש ב-F5325 (ובזוגו Manage Maintenance Items, F5356, שאין לו רשומה בפרויקט) במקום היישום הישן Manage " +
+        "Maintenance Plan and Item List, עם התפקיד Maintenance Planner ובמידת הצורך Master Data Specialist - Maintenance " +
+        "Management, הקטלוגים SAP_EAM_BC_MPLAN / SAP_EAM_BC_MP_MNG ושירותי ה-OData /SSB/SMART_BUSINESS_RUNTIME_SRV, " +
+        "C_MAINTPLANACTVSYSTSTATUSQ_CDS ו-UI_MAINTENANCE_PLAN. לפני הפעלה: לאמת בגרסת היעד שהתפקידים והקטלוגים מוקצים " +
+        "למשתמשים ושהשירותים פעילים.",
     },
-    xrefs: ["tx:IP03", "tx:IP16", "tx:IP01", "tx:IP02", "fiori:F2774", "cds:I_MaintenancePlan", "table:MPLA"],
-    lastVerifiedAt: DATE22,
+    xrefs: [
+      "tx:IP01", "tx:IP02", "tx:IP03", "tx:IP04", "tx:IP05", "tx:IP06", "tx:IP16", "fiori:F2774",
+      "cds:I_MaintenancePlan", "table:MPLA",
+    ],
+    lastVerifiedAt: DATE24,
     notes:
-      "נוסף 2026-09-22. הראיות הן כותרות וקטעים של רשומות חיפוש SAP Help רשמיות שהוחזרו באותו יום. F5356 (Manage " +
-      "Maintenance Items) נקוב במקורות כזוגו של F5325 אך אין לו רשומה בפרויקט, ולכן אינו ב-xrefs. סוג היישום " +
-      "Transactional ברשומת הקטלוג נגזר מהפונקציה המתועדת (עיבוד ושינוי תכניות) ולא נקרא מהספרייה. לא בוצעה בדיקה " +
-      "במערכת SAP חיה.",
+      "נוסף 2026-09-22 על בסיס כותרות וקטעים של רשומות חיפוש SAP Help רשמיות. הועשר 2026-09-24: נקרא במלואו עמוד תיעוד " +
+      "היישום ב-help.sap.com (loio f0e9632b0e654fbeae597bad6abb823c, scripts/sap-help-body.mjs), שאליו מפנה גם קישור " +
+      "התיעוד שבספרייה, ונשלפה רשומת ספריית יישומי ה-Fiori דרך ערוץ ה-OData הרשמי (scripts/fal-app.mjs) על S32OP (2025 " +
+      "FPS01) ו-S27OP (2023). Old → New: ב-2026-09-22 status.source היה null, סוג היישום Transactional נגזר מהפונקציה " +
+      "המתועדת, והתפקיד, הקטלוג ושירות ה-OData לא נקראו מהספרייה; ב-2026-09-24 status.source מצביע על ראיית הספרייה " +
+      "(evidence[6], קבוע משותף F5325_FAL_S32OP בדומה ל-F2774_MAINT_MGMT), והספרייה מדפיסה ApplicationType " +
+      "Transactional. ה-catalogPatch (role, catalog, odata, guiTx, type, name, source, lastReviewed) מוחל על " +
+      "data/fiori/apps.ts#F5325 יחד עם explain.technical (במקום 'תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית " +
+      "ה-Fiori ולכן אינם מוצגים'), explain.consultant והערת הבלוק שם; הערת הבלוק מעל fiori:F2774 בקובץ זה מתעדכנת כך " +
+      "שלא תקבע עוד שהתפקיד, הקטלוג וה-OData של F5325 אינם מוצגים. שירותי ה-OData יושבים לפי הספרייה על S4COREOP 109 " +
+      "ב-S32OP ועל S4COREOP 108 ב-S27OP. הקודמים F3622, F5009 ו-W0026 שהספרייה מדפיסה אינם ביקום המזהים המתוחזק בפרויקט " +
+      "(data/fiori/apps.ts) ולכן אינם ב-xrefs; F5356 (Manage Maintenance Items), שהמקורות מזכירים כזוג של F5325, גם הוא " +
+      "ללא רשומה בפרויקט. IP04, IP05 ו-IP06 נוספו ל-xrefs כי הם ברשימת הטרנזקציות הקשורות שהספרייה מדפיסה והם קיימים " +
+      "ביקום (lib/route-manifest.generated.ts). הודעות RIN שהספרייה מדפיסה (3493254 ו-3671888 על S32OP; 3336823 " +
+      "ו-3351047 על S27OP) לא נרשמו כ-sapNote כי לא נקראו כ-KBA/OSS Note בתוכן. לא בוצעה בדיקה במערכת SAP חיה (אין " +
+      "חיבור sc4sap MCP בהרצה זו).",
   },
 
   /* --------------------------------------------------------- fiori:F3289 */

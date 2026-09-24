@@ -81,7 +81,7 @@ export const FIORI_APPS: FioriApp[] = [
     // S/4HANA 2025 FPS01, Published; same role, catalog, OData and GUI transactions on
     // S27OP = S/4HANA 2023); the verification record fiori:F4072 carries the full evidence
     // including RIN notes and scope items.
-    id: "F4072", slug: "screen-maintenance-requests", name: "Screen Maintenance Requests", he: "סינון וקבלת בקשות אחזקה", module: "PM", type: "Transactional",
+    id: "F4072", slug: "screen-maintenance-requests", name: "Screen Maintenance Requests", he: "סינון וקבלת בקשות תחזוקה", module: "PM", type: "Transactional",
     trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Screen Maintenance Requests) · SAP Fiori Apps Reference Library F4072 (S32OP/S27OP, scripts/fal-app.mjs)", lastReviewed: "2026-09-24",
     purpose: "סינון וקבלה של בקשות אחזקה (Maintenance Requests): לפי התיעוד הרשמי, 'With this app, you can screen and accept maintenance requests'.",
     problem: "",
@@ -119,27 +119,42 @@ export const FIORI_APPS: FioriApp[] = [
     // 0e83f36ad7914324976ddc9db47621fc, its deletion), What's New 2025 FPS01 (loio
     // a0c0e9f184f24910b2985d6a7cccb43a, scope items 4HI and BJ2, "App ID: F5325"), Data
     // Migration "PM - Maintenance plan" 2025.001 (loio b97c17855d78480ead0cebb32c4a346f).
-    // Type derived from the documented function (it processes and changes plans).
+    // Until 2026-09-24 the type was derived from the documented function and role, catalog
+    // and OData were empty. Type, role, catalogs, OData and GUI transactions now come from the
+    // SAP Fiori Apps Reference Library's public OData service (scripts/fal-app.mjs F5325,
+    // S32OP = S/4HANA 2025 FPS01, Published; S27OP = S/4HANA 2023 prints the lead role, same
+    // catalogs and GUI transactions, and one OData service, UI_MAINTENANCE_PLAN), read
+    // 2026-09-24. App documentation page loio f0e9632b0e654fbeae597bad6abb823c read via
+    // scripts/sap-help-body.mjs.
     id: "F5325", slug: "manage-maintenance-plans", name: "Manage Maintenance Plans", he: "ניהול תכניות תחזוקה", module: "PM", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2022, 2023 FPS01, 2025 FPS01 · Data Migration 2025.001 (PM - Maintenance plan)", lastReviewed: "2026-09-22",
+    trust: "verified-docs", source: "SAP Fiori Apps Reference Library F5325 (S32OP/S27OP, scripts/fal-app.mjs) · SAP Help Portal · Manage Maintenance Plans, Maintenance Management 2025.001 · What's New in SAP S/4HANA 2022, 2023, 2023 FPS01, 2025 FPS01 · Data Migration 2025.001 (PM - Maintenance plan)", lastReviewed: "2026-09-24",
     purpose: "ניהול תכניות תחזוקה: היישום שמחליף מ-S/4HANA 2022 את Manage Maintenance Plan and Item List, יחד עם Manage Maintenance Items (F5356).",
     problem: "",
-    explain: { beginner: "מסך לעיבוד ולהצגה של תכניות תחזוקה, שהחליף את רשימת התכניות והפריטים הישנה.", consultant: "לפי What's New 2022 היישום Manage Maintenance Plan and Item List הוצא משימוש וזמינים במקומו Manage Maintenance Plans (F5325) ו-Manage Maintenance Items (F5356); ב-2023 FPS01 היישום הישן נמחק. What's New 2025 FPS01 משייך את F5325 לפריטי ההיקף 4HI (Proactive Maintenance) ו-BJ2 (Preventive Maintenance). תיעוד ההגירה של אובייקט 'PM - Maintenance plan' מונה אותו לצד Display Maintenance Plan (IP16) ו-(IP03).", technical: "רכיב PM-PRM-MP (Maintenance Plans) לפי What's New 2023; אובייקט ההרשאה I_MPTYP (Maintenance Plan Category) זמין ביישום מ-2023. תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori ולכן אינם מוצגים; ראו רשומת האימות fiori:F5325." },
-    role: "", catalog: "",
+    explain: { beginner: "מסך לעיבוד ולהצגה של תכניות תחזוקה, שהחליף את רשימת התכניות והפריטים הישנה.", consultant: "לפי What's New 2022 היישום Manage Maintenance Plan and Item List הוצא משימוש וזמינים במקומו Manage Maintenance Plans (F5325) ו-Manage Maintenance Items (F5356); ב-2023 FPS01 היישום הישן נמחק. What's New 2025 FPS01 משייך את F5325 לפריטי ההיקף 4HI (Proactive Maintenance) ו-BJ2 (Preventive Maintenance). תיעוד ההגירה של אובייקט 'PM - Maintenance plan' מונה אותו לצד Display Maintenance Plan (IP16) ו-(IP03). ספריית יישומי ה-Fiori (S32OP) מונה את IP01 כטרנזקציית ה-GUI המובילה, את IP02, IP03, IP04, IP05, IP06 ו-IP16 כטרנזקציות קשורות, ואת F3622, F5009 ו-W0026 כקודמים.", technical: "רכיב PM-PRM-MP (Maintenance Plans) לפי What's New 2023; אובייקט ההרשאה I_MPTYP (Maintenance Plan Category) זמין ביישום מ-2023. לפי ספריית יישומי ה-Fiori (scripts/fal-app.mjs, S32OP): רכיב יישום PM-FIO-PRM-MP, תפקיד מוביל SAP_BR_MAINTENANCE_PLANNER (R0088) ותפקיד נוסף SAP_BR_MD_SPECIALIST_EAM (R0097-180), קטלוגים עסקיים SAP_EAM_BC_MPLAN ו-SAP_EAM_BC_MP_MNG, קטלוג טכני SAP_TC_EAM_COMMON, שירותי OData /SSB/SMART_BUSINESS_RUNTIME_SRV, C_MAINTPLANACTVSYSTSTATUSQ_CDS ו-UI_MAINTENANCE_PLAN (S4COREOP 109); ב-S27OP (2023) מודפס שירות יחיד, UI_MAINTENANCE_PLAN (S4COREOP 108). ראו רשומת האימות fiori:F5325." },
+    role: "SAP_BR_MAINTENANCE_PLANNER, SAP_BR_MD_SPECIALIST_EAM", catalog: "SAP_EAM_BC_MPLAN, SAP_EAM_BC_MP_MNG",
     authObjects: ["I_MPTYP"],
-    guiTx: [], relatedTables: [],
+    odata: "/SSB/SMART_BUSINESS_RUNTIME_SRV, C_MAINTPLANACTVSYSTSTATUSQ_CDS, UI_MAINTENANCE_PLAN",
+    guiTx: ["IP01", "IP02", "IP03", "IP04", "IP05", "IP06", "IP16"], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
     releaseInfo: "SAP S/4HANA 2022 (What's New 2022, successor of Manage Maintenance Plan and Item List)",
     similar: [],
   },
   {
+    // F2336 · 2026-09-24: role, catalog, OData and GUI transactions copied from the SAP Fiori
+    // Apps Reference Library (scripts/fal-app.mjs F2336, S32OP = S/4HANA 2025 FPS01, Published;
+    // same role, catalog, primary OData service and GUI transactions on S27OP = 2023). odata is
+    // the library's PrimaryODataServiceName; the other services it prints are listed in the
+    // verification record fiori:F2336. Name and type are unchanged (the library prints the
+    // same). cds, relatedTables, purpose, problem, explain, ecc and similar keep their curated
+    // values and were not read from the library; data/centers/fiori.ts#manage-production-orders
+    // still carries the curated role, catalog, OData and GUI transactions.
     id: "F2336", slug: "manage-production-orders", name: "Manage Production Orders", he: "ניהול הזמנות ייצור", module: "PP", type: "Transactional",
-    trust: "curated", source: SRC, lastReviewed: LV,
+    trust: "verified-docs", source: "SAP Fiori Apps Reference Library F2336 (scripts/fal-app.mjs, OData channel, S32OP = S/4HANA 2025 FPS01, isPublished=Published); same role, catalogs, primary OData service and GUI transactions on S27OP = S/4HANA 2023", lastReviewed: "2026-09-24",
     purpose: "ניהול פקודות ייצור בדיד — יצירה, שחרור, מעקב וסגירה.",
     problem: "CO01/CO02/COOIS מפוזרים. Fiori מרכז את ניהול פקודות הייצור.",
     explain: { beginner: "מנהלים את הזמנות הייצור.", consultant: "מבוסס API_PRODUCTION_ORDER_2.", technical: "List Report/Object Page מעל I_ProductionOrder." },
-    role: "SAP_BR_PRODN_OPERATOR_DISC", catalog: "SAP_PP_BC_PRODN_ORDER",
-    odata: "API_PRODUCTION_ORDER_2", cds: "I_ProductionOrder", guiTx: ["CO01", "CO02", "COOIS"],
+    role: "SAP_BR_PRODN_SUPERVISOR_DISC", catalog: "SAP_SCM_BC_PRODN_ORD_MNTR",
+    odata: "PP_MPE_ORDER_MANAGE", cds: "I_ProductionOrder", guiTx: ["CO02", "CO05", "CO05N", "CO09", "CO0R5", "CO20", "CO21", "CO22", "CO23", "CO26", "COHV", "COOIS"],
     relatedTables: ["AUFK", "AFKO", "AFPO"], ecc: "ECC: CO01/CO02.", s4OnPrem: "yes", cloud: "yes",
     similar: ["manage-process-orders", "post-goods-movement"],
   },
