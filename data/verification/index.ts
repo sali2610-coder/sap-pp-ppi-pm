@@ -7,6 +7,7 @@ import type { CanonicalId, RegistryEntry, VerificationRecord } from "@/lib/evide
 import { TABLE_VERIFICATION } from "./tables";
 import { TX_VERIFICATION } from "./transactions";
 import { TX_VERIFICATION_B } from "./transactions-b";
+import { TX_VERIFICATION_AUTO } from "./transactions-auto";
 import { FM_VERIFICATION } from "./functions";
 import { IDOC_BASIC_TYPES, IDOC_VERIFICATION } from "./idocs";
 import { CDS_VERIFICATION } from "./cds";
@@ -14,10 +15,17 @@ import { FIORI_VERIFICATION } from "./fiori";
 import { ENH_VERIFICATION } from "./enhancements";
 import { OBJECT_REGISTRY, OBJECT_VERIFICATION } from "./objects";
 
+// A researched record supersedes the generated evidence record for the same code
+// (transactions-auto.ts is regenerated, never hand-edited), so a research chain can
+// write any code without first deleting it from the generated shard.
+const RESEARCHED_TX = new Set([...TX_VERIFICATION, ...TX_VERIFICATION_B].map((r) => r.id));
+const TX_AUTO = TX_VERIFICATION_AUTO.filter((r) => !RESEARCHED_TX.has(r.id));
+
 const ALL: VerificationRecord[] = [
   ...TABLE_VERIFICATION,
   ...TX_VERIFICATION,
   ...TX_VERIFICATION_B,
+  ...TX_AUTO,
   ...FM_VERIFICATION,
   ...IDOC_VERIFICATION,
   ...CDS_VERIFICATION,
