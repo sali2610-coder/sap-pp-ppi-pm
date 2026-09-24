@@ -97,6 +97,38 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
   of that record (notes, repository row) and to 'יחיד' in the F2176 status; the F0251 notes say
   the secondary roles and the retail catalog were not copied to apps.ts, instead of 'not
   verified' (the library rows print them).
+- 2026-09-24 · batch 4 of the Fiori depth run (F5104A, F1339, F2023, F2828, F5241, F2072):
+  none refuted, none queued. F5104A, F2023 and F5241 were written from their auditors'
+  `fixedRecord` (the rows it marks unchanged were kept byte for byte from the file); F1339,
+  F2828 and F2072 from their drafts with every listed downgrade applied (the optional F2072
+  sourceTitle included). No lookup was re-run. Each status source is a new const used as an
+  evidence row too: `F5104A_FAL_S32OP`, `F1339_FAL_S32OP`, `F2023_LIBRARY_S32OP`,
+  `F2828_FAL_S32OP`, `F5241_FAL_S32OP` (the F5241 verdict suggested `F5241_FAL`),
+  `F2072_FAL_S32OP`; `F1339_APP_TOPIC` now carries the re-read claim (DATE24), as its verdict
+  asked. Writer normalisations beyond the lists: (1) the catalog patches were applied in the
+  same change, so the `recommendedAction` of F5104A, F2023 and F2072 and the notes of F5104A,
+  F1339, F2023 and F2828 that described curated values in the present tense are dated ('עד
+  2026-09-24 ...', 'ה-catalogPatch הוחל ...'), and every record's notes name the fields that
+  were patched; (2) em dashes the verdicts did not list were replaced as well (F5104A notes
+  'לא נמחק — נשמר', two more in the F2828 notes, one in the F5241 library claim); (3) the
+  F5104A draft notes quoted the curated technical text including a word PLACEHOLDER_RE rejects;
+  the sentence now says the OData field was empty with a 'טרם אומת' note; (4) `reviewer` was
+  dropped from F5104A, F1339 and F2828 too (house policy; the F5241 verdict required it);
+  (5) the F2828 notes reframe 'אין successor/predecessor רשמי' as what the library shows (the
+  F2023 verdict's §3.2 reading), and the F2828 and F5104A notes record the status-source move
+  as Old → New (§3.8), F5104A also the Define Control Parameters advice its old
+  `recommendedAction` carried; (6) `explain` text in `data/fiori/apps.ts` was rewritten outside
+  the patch field list: F5104A (technical), F2828 (consultant, technical, commonErrors) and
+  F5241 (technical) as their verdicts required, F2023 and F2072 (technical) and F1339
+  (consultant, technical) because they named what the patch replaced ('טרם אומת' OData notes,
+  SAP_BR_MRP_CONTROLLER, "not read from the library"); the new text uses only values printed
+  in the audited records; (7) `LV2` in `data/fiori/apps.ts` became unused and was removed. Kept
+  verbatim although it uses the older term for maintenance: the F2828 Maintenance Management
+  2025.001 evidence row, which its verdict required unchanged. Coverage (`npm run
+  report:coverage -- --catalog fiori`): before 34 records, L1 12 / L2 3 / L3 5 / L5 14; after
+  L1 10 / L2 3 / L3 5 / L5 16 (F5241 and F2072 went from L1 to L5 once apps.ts carried role,
+  catalog, OData and GUI transactions); 26 verified / 0 verification_required / 8 conflicting
+  unchanged.
 
 ## conflicts
 
@@ -401,6 +433,57 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
     (FioriType takes one value; a schema decision if both should show). Still open: scope item
     31L (library, What's New 2020 / 2021) against 3LQ (What's New 2023); CRHD / KAKO, Cloud 2002
     and the PP-only claim in `explain.consultant` / `commonErrors` unverified.
+- 2026-09-24 · batch 4, same channel (`scripts/fal-app.mjs` on S32OP and S27OP), audited and
+  written; library values copied into `data/fiori/apps.ts` for all six (trust verified-docs,
+  lastReviewed 2026-09-24, provenance comment on each entry):
+  - `fiori:F5104A`: catalog SAP_EAM_BC_MAINT_WORKER ('סביר') to SAP_EAM_BC_MNTJOB_MNG, OData
+    API_MAINTNOTIFICATION / API_MAINTORDERCONFIRMATION / UI_MAINTENANCEJOB_MANAGE (was empty),
+    guiTx IW41 plus IW21 / IW22 / IW23 / IW32; the lead role was already the library's. Still
+    open: SAP_BR_MAINT_SUPERVISOR (R0198) is not in the `role` field (the patch carried the lead
+    role only); predecessor W0016 (Display Job List) has no catalog entry; the curated F2730
+    'Confirm Jobs' conflict is unchanged; `releaseInfo` / `explain.consultant` 'Cloud 2105' and
+    `cloud: yes` unverified; the Hebrew name and `purpose` use the older term for maintenance.
+  - `fiori:F1339`: role SAP_BR_MRP_CONTROLLER to the library's three roles
+    (SAP_BR_MATL_PLNR_EXT_PROC, SAP_BR_PRODN_PLNR, SAP_BR_RPLNMT_SPCLST_DC_RFM), catalog
+    'SAP_SCM_MRP (Job Catalog)' to SAP_RFM_BC_DC_RPLNMT, SAP_SCM_BC_MRPRUN (the job catalog
+    entry stays named in `explain`), OData APJ_JOB_MANAGEMENT_SRV (was empty), guiTx MD01N to MD01
+    (leading) and ten related codes. Open conflict between official sources: the 'App
+    Implementation: Schedule MRP Runs' page names SAP_BR_MATL_PLNR where the app topic and the
+    library print SAP_BR_MATL_PLNR_EXT_PROC with the same description; the sources do not say
+    whether it is a typo or a separate role, PFCG in a live system would settle it. Still open:
+    F1240 (Application Jobs, a Required app) has no catalog entry; MD40, MD42, MPBT and MSBT
+    have no route in the manifest (guiTx only, no xref); the scope items (1BM and more) are not
+    detailed; `explain.consultant` 'MD01N authorization' and `commonErrors` unverified;
+    SAP_SCM_BC_MRPRUN_MC (Public Edition 2508) not assessed for On-Premise.
+  - `fiori:F2023`: catalog SAP_EAM_BC_MAINT_WORKER to SAP_EAM_BC_CORRMAINT_MW, OData
+    EAM_MALFUNCTION_MANAGE (was empty), guiTx IW21 / IW26 to IW31 (leading) and IW21 / IW22 /
+    IW32 / IW41; technical catalog SAP_TC_EAM_COMMON named in `explain.technical`. Still open:
+    'Report Malfunction (F2215)' in `data/sapData.pm.ts` (no official record names F2215);
+    `releaseInfo` 'S/4HANA Cloud 1708/1709+' unverified (What's New 1709 On-Premise names the
+    app; Cloud 1708 not checked); `ecc` curated.
+  - `fiori:F2828`: roles SAP_BR_MAINTENANCE_PLANNER (lead) and SAP_BR_MAINT_TECH_OFFICER,
+    catalog SAP_EAM_BC_ORD_MC to SAP_DFS_BC_MAINTENANCE, SAP_EAM_BC_ORD, OData EAM_ORDER_MONITOR
+    (was empty), guiTx IP10 / IP30 / IW38 to IW29 (leading) and IW38; `explain.consultant`,
+    `explain.technical` and `commonErrors` no longer name SAP_EAM_BC_ORD_MC, so the verdict's
+    condition for applying the patch is met. This settles the researcher's two conflicts
+    (catalog, GUI transactions) on the curated side. Still open: `ecc` (IP10 / IP30 + IW38),
+    `problem` (IW38 / IP10) and `relatedTables` (MPLA / MHIS / AUFK) still describe maintenance
+    plans while the documented Key Features are notifications, orders and purchasing;
+    Related_Apps F2071 / F2173 / F2175 and Required F2827 / F3065 have no catalog entries;
+    `cloud: yes` against the library's S36 / S37 rows not assessed; the kept 2025.001 evidence
+    row and the Hebrew name use the older term for maintenance.
+  - `fiori:F5241`: role SAP_BR_MAINTENANCE_PLANNER, catalog SAP_EAM_BC_WORKORD_MNG, OData V4
+    group UI_MAINTENANCEORDER_MANAGE and guiTx IW31 filled (all were empty); the related IW32 /
+    IW33 / IW37N / IW38 / IW39 are xrefs of the record, not guiTx (optional per the verdict).
+    Still open: predecessor F2175 and Required W0017 have no catalog entries; `cloud: unknown`
+    (PredecessorDetails also shows S37, Public Cloud); re-keying the curated F2731 to F5241
+    stays a product decision.
+  - `fiori:F2072`: eleven roles (lead SAP_BR_MAINTENANCE_PLANNER), ten business catalogs, OData
+    EAM_OBJPG_TECHNICALOBJECT_SRV and guiTx IE03 (leading), IH06, IH08, IL03 filled (all were
+    empty). Still open: S27OP prints a different 14-role list (not represented in `role`);
+    predecessors F0226 / F0227 / W0011 / W0012 have no catalog entries; `releaseInfo` empty and
+    `cloud: unknown` (S36 / S37 appear in All_Rel only); SAP_EAM_BC_TO carries a title on S27OP
+    ('EAM - Technical Object') but not on S32OP, so the two releases match by catalog ID only.
 
 ### Resolved 2026-09-21 (design audit round 2 · audit/ux-2026-09/SAP-FIXES.md)
 - F3364 `odata: API_PROCORDCONF` → `API_PROC_ORDER_CONFIRMATION_2_SRV` (also `data/centers/fiori.ts`). F3577 `API_PROCESSORDER_2` → `API_PROCESS_ORDER_2_SRV`. The app-id conflicts (F3364 vs CORK, F3577 vs F4587) remain open as recorded.

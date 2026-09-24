@@ -30,7 +30,10 @@
    F4604, F0251, F0247A, F3951, F2176 and F3289 (library values copied into data/fiori/apps.ts
    for all six; F0247A keeps its curated name, because help.sap.com and the library's catalog
    name disagree, and now carries conflicting_sources; F3951 and F0251 keep their curated GUI
-   transactions where the library prints none). */
+   transactions where the library prints none). Fourth batch the same day: F5104A, F1339, F2023,
+   F2828, F5241 and F2072 (library values copied into data/fiori/apps.ts for all six; each
+   status source moved to the record's S32OP library row, the old rows kept or logged as
+   Old → New in the notes). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
@@ -347,13 +350,14 @@ const F1339_APP_TOPIC: Evidence = {
   edition: "on-premise",
   release: "2025.001",
   url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/fe39e10a9a864a8f8dc9537704f0fa13/fdd11356c16b8222e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
-  accessedAt: DATE,
+  accessedAt: DATE24,
   claim:
-    "תיעוד PP-MRP לגרסת 2025 FPS01 קובע: 'With this app you can create and schedule a job for executing your MRP " +
-    "runs'; תבנית ה-Job הנבחרת היא 'Material Requirements Planning (MRP)'; 'This app is available for the roles: " +
-    "SAP_BR_MATL_PLNR_EXT_PROC (Material Planner - External Procurement) SAP_BR_PRODN_PLNR (Production Planner)'; " +
-    "רכיב לתקלות: PP-MRP; אפליקציות קשורות: Monitor Material Coverage, Display MRP Key Figures, Display MRP Master " +
-    "Data Issues.",
+    "תיעוד PP-MRP לגרסת 2025 FPS01 (קישור התיעוד שרשומת הספרייה מדפיסה מפנה ל-topic זה) קובע: 'With this app you can " +
+    "create and schedule a job for executing your MRP runs'; תבנית ה-Job החובה היא 'Material Requirements Planning " +
+    "(MRP)'; 'This app is available for the roles: SAP_BR_MATL_PLNR_EXT_PROC (Material Planner - External " +
+    "Procurement) SAP_BR_PRODN_PLNR (Production Planner)'. SAP_BR_RPLNMT_SPCLST_DC_RFM אינו מוזכר בעמוד זה; הוא " +
+    "מופיע ברשומת הספרייה. רכיב לתקלות: PP-MRP; אפליקציות קשורות: Display MRP Master Data Issues, Display MRP Key " +
+    "Figures, Monitor Material Coverage.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -733,6 +737,167 @@ const F3289_FAL_S32OP: Evidence = {
     "החלפה רשומים. ScopeItems: 31L 'Production Capacity Evaluation'. הודעות RIN: 3493254 (Front-End), 3671888 " +
     "(Back-End). AppDocumentationLink נושא את אותו loio (74e3356c89914b1495667e7d1f76eb23) כמו רשומת ה-sap_help " +
     "הראשונה למעלה, כלומר אותו עמוד תיעוד.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* ----------------------- 2026-09-24 batch 4: status sources (see records) */
+
+const F5104A_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Perform Maintenance Jobs - SAP Fiori Apps Reference Library (F5104A, S32OP, fal-app.mjs)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5104A')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ה-xsodata המובנית של ספריית ה-Fiori Apps (נקראה בפועל דרך scripts/fal-app.mjs, לא מעטפת JavaScript) עבור " +
+    "F5104A ב-S32OP (ReleaseName 'S/4HANA 2025 FPS01', isPublished 'Published'): ApplicationType 'Transactional', " +
+    "UITechnology 'SAP Fiori (SAPUI5)', ApplicationComponent 'PM-FIO-WOC-JC' ('Fiori UI for PM Completion " +
+    "Confirmations'). SplitBusinessRole: BusinessRoleName מוביל 'SAP_BR_MAINTENANCE_TECHNICIAN' (RoleID R0090, " +
+    "isLeading='X'), נוסף 'SAP_BR_MAINT_SUPERVISOR' (R0198). SplitBusinessCatalog: BusinessCatalogName " +
+    "'SAP_EAM_BC_MNTJOB_MNG' ('EAM - Maintenance Job Lists'). SplitTechnicalCatalogs: TechincalCatalog " +
+    "'SAP_TC_EAM_COMMON'. SemanticObject/Action (SplitAdditionalIntents): 'MaintenanceJob'/'performJob'. " +
+    "RequiredODataServices: 'API_MAINTNOTIFICATION' 0001, 'API_MAINTORDERCONFIRMATION' 0001, " +
+    "'UI_MAINTENANCEJOB_MANAGE' 0001 (כולם SoftwareComponentName 'S4CORE 109'). fuzzy.LeadingTransactionCodes " +
+    "'IW41'; fuzzy.TransactionCodes (related) 'IW21, IW22, IW23, IW32'. RetrofittedSWCBackend 'S4CORE 109 - SP " +
+    "0001' על ProductVersionOfficialNameBackend 'SAP S/4HANA 2025'; RetrofittedSWCUI 'UIS4H 109 - SP 0001'. " +
+    "PredecessorDetails: 'W0016' 'Display Job List' (מ-releaseId S26OP), 'W0020' 'Confirm Jobs' (מ-releaseId " +
+    "S25OP); NumberofSuccessors=0 (Successors=[]). Notes (RIN): '3493254' (Front-End Server), '3671888' (Back-End " +
+    "Server). AppDocumentationLink מפנה לאותו topic id (3da57072a73444f18b5ad8785bc2900e) כמו ראיית ה-sap_help " +
+    "הראשונה ברשומה זו. Related_Apps: 'F1511A' 'Create Maintenance Request' (relationType 'Navigation Target').",
+  verificationLevel: "sap_official_verified",
+};
+
+const F1339_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Schedule MRP Runs - SAP Fiori Apps Reference Library (public OData API, Apps('F1339')/S32OP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1339')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "ספריית SAP Fiori Apps Reference Library (שירות ה-OData הציבורי שלה, דרך scripts/fal-app.mjs) מפרסמת למזהה F1339 " +
+    "רשומה בשם 'Schedule MRP Runs', סוג Transactional, טכנולוגיית UI 'SAP Fiori: Generic Job Scheduling Framework', " +
+    "סטטוס Published במהדורה S32OP ‏(S/4HANA 2025 FPS01), רכיב PP-FIO-MRP. תפקידים: SAP_BR_MATL_PLNR_EXT_PROC " +
+    "‏(R0100-21, Material Planner - External Procurement), SAP_BR_PRODN_PLNR ‏(R0114, Production Planner), " +
+    "SAP_BR_RPLNMT_SPCLST_DC_RFM ‏(R0246-176M, Replenishment Specialist - Distribution Center (Retail)). קטלוגים " +
+    "עסקיים: SAP_RFM_BC_DC_RPLNMT ‏('Retail Replenishment - Distribution Center') ו-SAP_SCM_BC_MRPRUN " +
+    "‏('Production Planning - MRP Runs'); קטלוג טכני SAP_TC_SCM_PP_COMMON; intent: MRPRun-schedule. שירות OData: " +
+    "APJ_JOB_MANAGEMENT_SRV גרסה 0001 ‏(SAP_BASIS 816). backend: SAP_BASIS 816 SP 0001 / SAP S/4HANA 2025; UI: " +
+    "UIS4H 109 SP 0001. קודמים ויורשים: אין (predecessors: -; successors: -). קודי GUI: מוביל MD01; קשורים MD01N, " +
+    "MD02, MD03, MD40, MD41, MD42, MD43, MDBT, MPBT, MSBT. הערות RIN: 3493254 ‏(Front-End Server), 3671888 " +
+    "‏(Back-End Server). רשימת המהדורות ברשומה כוללת מהדורות On-Premise מ-S3OP ‏(1511) עד S32OP, מהדורות " +
+    "Private Cloud ‏(S29PCE עד S32PCE), ואת S36 ו-S37 ‏(2602, 2608, ללא ציון מהדורה ברשומה). ברשומה הגולמית " +
+    "מופיעה אפליקציה קשורה מסוג Required: 'Application Jobs' ‏(F1240).",
+  verificationLevel: "sap_official_verified",
+};
+
+const F2023_LIBRARY_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "SAP Fiori Apps Reference Library: Report and Repair Malfunction (F2023), S/4HANA 2025 FPS01",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2023')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת הספרייה ל-F2023 על S32OP (2025 FPS01), שנקראה דרך ערוץ ה-OData הרשמי (scripts/fal-app.mjs, לא ה-JS shell): " +
+    "AppName 'Report and Repair Malfunction', Published, ApplicationType Transactional, UITechnology 'SAP Fiori " +
+    "(SAPUI5)', ApplicationComponent PM-FIO-WOC-JC (Fiori UI for PM Completion Confirmations). תפקיד עסקי " +
+    "SAP_BR_MAINTENANCE_TECHNICIAN (R0090, Maintenance Technician). קטלוג עסקי SAP_EAM_BC_CORRMAINT_MW (EAM - " +
+    "Corrective Maintenance); קטלוג טכני SAP_TC_EAM_COMMON. Semantic Object/Action MaintenanceJob-reportMalfunction. " +
+    "שירות OData EAM_MALFUNCTION_MANAGE גרסה 0001 (S4CORE 109). טרנזקציית GUI מובילה IW31, קשורות " +
+    "IW21/IW22/IW32/IW41. Backend S4CORE 109 SP0001 / S/4HANA 2025; UI UIS4H 109 SP0001. NumberofPredecessors=0, " +
+    "NumberofSuccessors=0. הודעות RIN: 3493254 (Front-End Server), 3671888 (Back-End Server). AppDocumentationLink " +
+    "מפנה לנושא 13b3075824570746e10000000a441470, הנושא של רשומת ה-sap_help Report and Repair Malfunction | " +
+    "Maintenance Management (F2023_APP_TOPIC) לעיל. בהרצה נפרדת על S27OP (2023, " +
+    "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2023')/S27OP) חוזרים " +
+    "אותו תפקיד, אותם קטלוגים ואותן טרנזקציות GUI; ApplicationComponent שם הוא PM-FIO (Fiori User Interface (UI) for " +
+    "PM); OData על S4CORE 108, UI UIS4HOP1 900; הודעות RIN 3336823 (Front-End)/3351047 (Back-End). שתי הריצות מציגות " +
+    "NumberofPredecessors=0, NumberofSuccessors=0.",
+  verificationLevel: "sap_official_verified",
+};
+
+const F2828_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Fiori Apps Library · App F2828 'Maintenance Planning Overview' (SAP Fiori elements: Overview Page), release S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2828')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ה-OData הרשמית של ספריית ה-Fiori (scripts/fal-app.mjs, F2828 @ S32OP, S/4HANA 2025 FPS01, " +
+    "isPublished='Published', ApplicationComponent PM-FIO): ApplicationType 'Analytical', UITechnology 'SAP Fiori " +
+    "elements: Overview Page'. Business Role מוביל (isLeading='X') SAP_BR_MAINTENANCE_PLANNER (RoleID R0088, " +
+    "'Maintenance Planner'); Business Role נוסף SAP_BR_MAINT_TECH_OFFICER (RoleID R0308-146, 'Technical Officer - " +
+    "Armed Forces'). Business Catalogs: SAP_DFS_BC_MAINTENANCE ('MAINT - Defense Maintenance') ו-SAP_EAM_BC_ORD ('EAM " +
+    "- Order'); Technical Catalog SAP_TC_EAM_COMMON. Semantic Object/Action: MaintenanceOrder/monitor. OData Service " +
+    "נדרש: EAM_ORDER_MONITOR, Version 0001, Namespace ODATA_EAM_ORD_MON, SoftwareComponentName S4CORE 109. GUI " +
+    "Transactions (fuzzy record): LeadingTransactionCodes='IW29', TransactionCodes='IW38'. Backend " +
+    "RetrofittedSWCBackend 'S4CORE 109 - SP 0001' / ProductVersionOfficialNameBackend 'SAP S/4HANA 2025'; UI " +
+    "RetrofittedSWCUI 'UIS4H 109 - SP 0001'. NumberofPredecessors=0, NumberofSuccessors=0 " +
+    "(Successors/PredecessorDetails ריקים). RIN Notes: 3493254 (Front-End Server), 3671888 (Back-End Server). " +
+    "AppDocumentationLink: " +
+    "https://help.sap.com/http.svc/outputlink?product=SAP_S4HANA_ON-PREMISE&version=2025.001&topic=17248e4667fb433a9c3f944000fada3f&state=PRODUCTION. " +
+    "Database 'HANA DB exclusive'; ICFNodes: EAM_ORD_MONS1 (ראשי) וצמתים נוספים (isAdditional=1) כגון EAM_PO_MONS1 " +
+    "ו-EAM_PROCMTS1; רשימת הגרסאות: S12OP=1809 עד S32OP=2025 FPS01 (On-Premise) ו-S32PCE (Private Cloud), וכן " +
+    "S36=2602 ו-S37=2608 (SAP S/4HANA Public Cloud).",
+  verificationLevel: "sap_official_verified",
+};
+
+const F5241_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Manage Maintenance Orders (F5241), SAP Fiori Apps Reference Library, S32OP (S/4HANA 2025 FPS01)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5241')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "node scripts/fal-app.mjs F5241 --out /tmp/fal-src (ערוץ ה-OData הרשמי, לא JS shell) מול S32OP (S/4HANA 2025 " +
+    "FPS01) החזיר רשומה Published יחידה: ApplicationType 'Transactional', UITechnology 'SAP Fiori elements', " +
+    "ApplicationComponent 'PM-FIO-WOC-MO'; BusinessRoleName 'SAP_BR_MAINTENANCE_PLANNER' (RoleID R0088, isLeading " +
+    "X); BusinessCatalogName 'SAP_EAM_BC_WORKORD_MNG' (EAM - Work Order Management); TechnicalCatalogName " +
+    "'SAP_TC_EAM_COMMON'; SemanticObject 'MaintenanceOrder', SemanticAction 'manageWorkOrder'; " +
+    "RequiredODataServiceGroups: serviceGroupName 'UI_MAINTENANCEORDER_MANAGE' (SoftwareComponentVersion S4CORE 109); " +
+    "fuzzy.LeadingTransactionCodes 'IW31', fuzzy.TransactionCodes 'IW32, IW33, IW37N, IW38, IW39'; " +
+    "RetrofittedSWCBackend 'S4CORE 109 - SP 0001' על ProductVersionOfficialNameBackend 'SAP S/4HANA 2025'; All_Rel " +
+    "מדפיס Published על S30OP/S30PCE (2023 FPS03), S31OP/S31PCE (2025), S32OP/S32PCE (2025 FPS01); PredecessorDetails " +
+    "מונה F2175 'Find Maintenance Order' (מזהה זה אינו קיים במאגר data/fiori/apps.ts ולכן אינו מקבל xref); Successors " +
+    "ריק; Notes: RIN 3493254 (Front-End Server) ו-3671888 (Back-End Server); Related_Apps מונה W0017 'Process " +
+    "Maintenance Order' כ-Required (אף הוא לא קיים במאגר). על S27OP (S/4HANA 2023) הבקשה החזירה 'not in this " +
+    "release (empty Results)'; זה עקבי עם appFirstRelease S30OP (2023 FPS03) שהספרייה מדפיסה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const F2072_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "SAP Fiori Apps Reference Library: Find Technical Object (F2072), S/4HANA 2025 FPS01",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2072')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ה-OData של ספריית ה-Fiori (fioriId=F2072, releaseId=S32OP, isPublished='Published') מדפיסה: " +
+    "ApplicationType 'Transactional', UITechnology 'SAP Fiori elements', ApplicationComponent 'PM-FIO', תפקיד מוביל " +
+    "(isLeading=X) SAP_BR_MAINTENANCE_PLANNER (R0088) ועוד עשרה תפקידי SAP_BR נוספים, עשרה קטלוגים עסקיים " +
+    "(SAP_EAM_BC_TO, SAP_EAM_BC_TO_DSP, SAP_EAM_BC_TO_MW, SAP_EAM_BC_TO_TMS, SAP_EHS_BC_ENV_MGMT, " +
+    "SAP_EHS_BC_HS_HAZMAT_MGMT, SAP_EHS_BC_HS_RSK_MGMT, SAP_EHS_BC_IM_INC_MGMT, SAP_EHS_BC_MOC_CHANGE_MGMT, " +
+    "SAP_SOM_BC_SUBSCR_ORDER), קטלוג טכני SAP_TC_EAM_COMMON, SemanticObject/Action " +
+    "'MaintenanceObject'/'displayFactSheet', RequiredODataServices עם TechnicalName 'EAM_OBJPG_TECHNICALOBJECT_SRV' " +
+    "גרסה 0001 (S4CORE 109), LeadingTransactionCodes 'IE03' ו-TransactionCodes 'IH06, IH08, IL03', ProductVersion " +
+    "Backend 'SAP S/4HANA 2025' (RetrofittedSWCBackend S4CORE 109 - SP 0001), PredecessorDetails F0226 (Equipment), " +
+    "F0227 (Functional Location), W0011 ו-W0012 (Display Master Data Information Center), NumberofSuccessors=0, " +
+    "ReleaseName 'S/4HANA 2025 FPS01'. אותה שאילתה על S27OP (2023) מחזירה Published עם אותו תפקיד מוביל " +
+    "SAP_BR_MAINTENANCE_PLANNER, אותם עשרה מזהי קטלוג עסקי (כותרת SAP_EAM_BC_TO שם: 'EAM - Technical Object'), אותו " +
+    "שירות OData (S4CORE 108) ואותן טרנזקציות GUI; רשימת התפקידים שם שונה: 14 תפקידים, כולל " +
+    "SAP_BR_CUSTOMER_SERVICE_MGR, SAP_BR_CUST_SRVC_MGR_REPA, SAP_BR_CUST_SRVC_REP_REPA, SAP_BR_CUST_SRVC_TEC_REPA " +
+    "ו-SAP_BR_SERVICE_PLANNER, וללא SAP_BR_SERVICE_MANAGER ו-SAP_BR_SOLN_BUSINESS_SPCLST; רכיב ה-UI הוא UIS4HOP1 900 " +
+    "- SP 0000 ומספרי ה-RIN שונים (RetrofittedSWCBackend S4CORE 108 - SP 0000).",
   verificationLevel: "sap_official_verified",
 };
 
@@ -2818,40 +2983,51 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
           "for execution: Perform Maintenance Jobs (F5104A', כלומר F5104A נמנית בין האפליקציות היורשות של W0020.",
         verificationLevel: "sap_official_verified",
       },
+      F5104A_FAL_S32OP,
       {
         sourceType: "fiori_library",
-        sourceTitle: "Perform Maintenance Jobs - SAP Fiori Apps Reference Library",
+        sourceTitle: "Perform Maintenance Jobs - SAP Fiori Apps Reference Library (F5104A, S27OP, fal-app.mjs)",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/?appId=F5104A",
-        accessedAt: DATE,
+        release: "2023.000",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5104A')/S27OP",
+        accessedAt: DATE24,
         claim:
-          "כותרת רשומת החיפוש הרשמית היא 'Perform Maintenance Jobs - SAP Fiori Apps Reference Library' וכתובתה נושאת " +
-          "appId=F5104A; הכתובת נבדקה בפועל (HTTP 200). גוף הדף הוא יישום JavaScript ולא נקרא: תפקיד עסקי, קטלוג טכני, " +
-          "שירות OData ומהדורת הזמינות המדויקת לא אומתו ממנו.",
-        verificationLevel: "verification_required",
+          "אותה רשומת xsodata עבור F5104A ב-S27OP (ReleaseName 'S/4HANA 2023', isPublished 'Published'): אותם roles " +
+          "('SAP_BR_MAINTENANCE_TECHNICIAN' מוביל + 'SAP_BR_MAINT_SUPERVISOR'), אותו BusinessCatalogName " +
+          "'SAP_EAM_BC_MNTJOB_MNG', אותם RequiredODataServices ואותם fuzzy.LeadingTransactionCodes/TransactionCodes כמו " +
+          "ב-S32OP, אך ApplicationComponent 'PM-FIO' ('Fiori User Interface (UI) for PM'), RetrofittedSWCBackend 'S4CORE " +
+          "108 - SP 0000' על ProductVersionOfficialNameBackend 'SAP S/4HANA 2023', RetrofittedSWCUI 'UIS4HOP1 900 - SP " +
+          "0000'. Notes (RIN): '3336823' (Front-End Server), '3351047' (Back-End Server). מאשש רציפות זהות האפליקציה בין " +
+          "2023 ל-2025 FPS01.",
+        verificationLevel: "sap_official_verified",
       },
     ],
     status: {
       status: "s4_native",
       he:
-        "Perform Maintenance Jobs ‏(F5104A) היא אפליקציית Fiori שנוספה ב-S/4HANA: רשומת What's New של SAP S/4HANA " +
-        "2021 מסווגת אותה 'App New' עם פריטי ההיקף 4HH ו-4HI ורכיב PM, והיא ממשיכה להיות מתועדת ומורחבת בתיעוד " +
-        "Maintenance Management ובמהדורות What's New עד 2025 FPS01 (רכיב יישום PM-FIO, מזהה App ID: F5104A במסמך " +
-        "2023 FPS03). ב-ECC אין לה מקבילה; המסכים המקבילים ב-SAP GUI לפי נתוני הפרויקט הם IW41/IW42/IW44/IW48 " +
+        "Perform Maintenance Jobs (F5104A) היא אפליקציית Fiori שנוספה ב-S/4HANA (What's New 2021, 'App New', פריטי " +
+        "היקף 4HH/4HI, רכיב PM), וממשיכה להיות מפורסמת (isPublished 'Published') ומתוחזקת עד S32OP (S/4HANA 2025 " +
+        "FPS01). ספריית ה-Fiori Apps (fal-app.mjs, נקראה בפועל ב-S32OP וב-S27OP) מאששת: תפקיד מוביל " +
+        "SAP_BR_MAINTENANCE_TECHNICIAN עם SAP_BR_MAINT_SUPERVISOR נוסף, קטלוג עסקי SAP_EAM_BC_MNTJOB_MNG, קטלוג טכני " +
+        "SAP_TC_EAM_COMMON, שלושה שירותי OData (API_MAINTNOTIFICATION, API_MAINTORDERCONFIRMATION, " +
+        "UI_MAINTENANCEJOB_MANAGE), tcode מוביל IW41 ותקודים קשורים IW21/IW22/IW23/IW32, ושני קודמים (W0016, W0020) " +
+        "ללא יורש (NumberofSuccessors=0). המסכים המקבילים ב-SAP GUI לפי נתוני הפרויקט הם IW41/IW42/IW44/IW48 " +
         "לאישורים ו-IK11/IK34 למדידות.",
       edition: "on-premise",
-      release: "2021.000",
-      source: F5104A_WHATS_NEW_2021,
+      release: "2025.001",
+      source: F5104A_FAL_S32OP,
       recommendedAction:
-        "להקצות את האפליקציה לטכנאי תחזוקה כנקודת העבודה המרכזית לביצוע ולדיווח עבודות (זמן, רכיבים, מדידות ונתוני " +
-        "תקלה) ולהגדיר את אפשרויות התצורה תחת Define Control Parameters for Perform Maintenance Jobs (שיוך עצמי של " +
-        "עבודות, אישור עבודות שהוקצו לטכנאים אחרים). אין להפנות טכנאים לאפליקציית Confirm Jobs ‏(W0020): לפי רשומת " +
-        "What's New ‏2023 היא נמחקה מה-Fiori Launchpad, ו-Perform Maintenance Jobs ‏(F5104A) נמנית בין האפליקציות " +
-        "היורשות. תפקיד עסקי, קטלוג טכני ושירות OData דורשים אימות בספריית ה-Fiori או במערכת SAP.",
+        "להקצות את האפליקציה (קטלוג עסקי SAP_EAM_BC_MNTJOB_MNG; עד 2026-09-24 רשם הקטלוג המתוחזק " +
+        "SAP_EAM_BC_MAINT_WORKER) לתפקיד SAP_BR_MAINTENANCE_TECHNICIAN וכן SAP_BR_MAINT_SUPERVISOR, כנקודת העבודה " +
+        "המרכזית לביצוע ולדיווח עבודות (זמן, רכיבים, מדידות ונתוני תקלה), ולוודא שירותי OData API_MAINTNOTIFICATION, " +
+        "API_MAINTORDERCONFIRMATION ו-UI_MAINTENANCEJOB_MANAGE פעילים. אין להפנות טכנאים לאפליקציית Confirm Jobs " +
+        "(W0020): לפי רשומת What's New 2023 היא נמחקה, וספריית ה-Fiori מאשרת ש-W0020 הוא קודם (predecessor) של " +
+        "F5104A. ה-catalogPatch הוחל ב-2026-09-24 על הקטלוג המתוחזק (data/fiori/apps.ts#F5104A), שכולל כעת גם את " +
+        "התקודים הקשורים IW21/IW22/IW23/IW32 לצד IW41.",
     },
-    xrefs: ["tx:IW41", "tx:IW42", "tx:IW44", "tx:IW48", "tx:IK11", "tx:IK34", "table:AFRU", "table:AUFK", "fm:BAPI_ALM_CONF_CREATE", "fm:BAPI_ALM_ORDER_MAINTAIN", "fiori:F2730", "fiori:F4604", "fiori:W0020"],
-    lastVerifiedAt: DATE,
+    xrefs: ["tx:IW41", "tx:IW42", "tx:IW44", "tx:IW48", "tx:IK11", "tx:IK34", "table:AFRU", "table:AUFK", "fm:BAPI_ALM_CONF_CREATE", "fm:BAPI_ALM_ORDER_MAINTAIN", "fiori:F2730", "fiori:F4604", "fiori:W0020", "fiori:F1511A"],
+    lastVerifiedAt: DATE24,
     notes:
       "זהות האפליקציה אוששה ב-Tier-1 משלושה כיוונים עצמאיים: השם Perform Maintenance Jobs בתיעוד Maintenance " +
       "Management ‏2025.001, המזהה F5104A בטבלת Technical Details של מסמך What's New ‏2023 FPS03 (PDF שנקרא בפועל, לא " +
@@ -2866,23 +3042,51 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "ניווט לסתירה בלבד. תפקיד SAP_BR_MAINTENANCE_TECHNICIAN, קטלוג SAP_EAM_BC_MAINT_WORKER ושירות OData שברשומת " +
       "המאגר לא היו ניתנים לאימות מהסניפטים ונשארים ברמת נתוני הפרויקט. זמינות במהדורת Public Cloud ‏(2105 לפי רשומת " +
       "המאגר) לא נבדקה; המסמך הרשמי נוקב ב-'SAP S/4HANA and SAP S/4HANA Cloud Private Edition'. ‏accessedAt נחתם " +
-      "2026-09-02 לפי הוראת האיסוף; ריצות החיפוש של 2026-09-07 החזירו את אותן רשומות (loio זהה). תוספת 2026-09-23: Confirm Jobs (W0020) נכנס לקטלוג כרשומה נפרדת במעמד not_available, עם F5104A כיורש.",
+      "2026-09-02 לפי הוראת האיסוף; ריצות החיפוש של 2026-09-07 החזירו את אותן רשומות (loio זהה). תוספת 2026-09-23: Confirm Jobs (W0020) נכנס לקטלוג כרשומה נפרדת במעמד not_available, עם F5104A כיורש." +
+      " עדכון 2026-09-24: הרצתי node scripts/fal-app.mjs F5104A --out /tmp/fal-src בשתי המהדורות S32OP ו-S27OP " +
+      "(--release S27OP). בניגוד לביקור הקודם (2026-09-02) שבו כתובת הספרייה נקראה כמעטפת JavaScript, שירות ה-xsodata " +
+      "החזיר הפעם רשומה מלאה ('found': true, isPublished 'Published') בשתי המהדורות. זה מחליף את ראיית הספרייה הקודמת " +
+      "(verification_required) בשתי ראיות sap_official_verified חדשות. הפער העיקרי מול הקטלוג המתוחזק " +
+      "(data/fiori/apps.ts#F5104A): עד 2026-09-24 רשם הקטלוג catalog 'SAP_EAM_BC_MAINT_WORKER' עם ההערה 'סביר' (טרם " +
+      "אומת) ושדה OData ריק עם הערת 'טרם אומת' ב-explain.technical, בעוד הספרייה מאששת בפועל catalog " +
+      "'SAP_EAM_BC_MNTJOB_MNG' ו-3 שירותי OData מפורשים; הקטלוג רשם guiTx יחיד IW41 בעוד הספרייה מוסיפה 4 תקודים " +
+      "קשורים (IW21/IW22/IW23/IW32). ה-Related_Apps מונה את F1511A ('Create Maintenance Request', Navigation Target " +
+      "בלבד, לא predecessor/successor רשמי); נוסף ל-xrefs לצורך ניווט. הקודמים W0016 ('Display Job List') ו-W0020 " +
+      "('Confirm Jobs') מגיעים מ-PredecessorDetails; W0016 אינו קיים בקטלוג data/fiori/apps.ts ולכן לא נכלל ב-xrefs " +
+      "(נזכר כאן בטקסט בלבד, לא כיורש/successor נתבע). ה-status נשען כעת על ראיית הספרייה של S32OP כ-source, אך " +
+      "תאריך ה-App New המקורי (2021.000, F5104A_WHATS_NEW_2021) לא נמחק; הוא נשמר בהיסטוריית הראיות. Old → New: שורת " +
+      "הספרייה הקודמת (fiori_library ברמת verification_required, כתובת " +
+      "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/?appId=F5104A שגוף הדף שלה מעטפת JavaScript, " +
+      "2026-09-02) הוחלפה בשתי שורות fal-app.mjs (S32OP, S27OP); הקטלוג העסקי שלא אומת, SAP_EAM_BC_MAINT_WORKER, " +
+      "הוחלף ב-SAP_EAM_BC_MNTJOB_MNG; מקור הסטטוס עבר מ-F5104A_WHATS_NEW_2021 (release 2021.000) לשורת S32OP (release " +
+      "2025.001); המלצת הפעולה הקודמת כללה גם הגדרה של אפשרויות התצורה תחת Define Control Parameters for Perform " +
+      "Maintenance Jobs (שיוך עצמי של עבודות, אישור עבודות שהוקצו לטכנאים אחרים) וסימנה את התפקיד העסקי, הקטלוג " +
+      "הטכני ושירות ה-OData כדורשים אימות. תוספת 2026-09-24 (שלב הכתיבה): ה-catalogPatch הוחל באותו יום על " +
+      "data/fiori/apps.ts#F5104A (catalog, odata, guiTx, source, trust, lastReviewed; role, type והשם תאמו), ומשפט " +
+      "explain.technical שנקב ב-SAP_EAM_BC_MAINT_WORKER ('סביר') ובהערת 'טרם אומת' ל-OData הוחלף בערכי הספרייה. לא " +
+      "בוצעה בדיקה במערכת SAP חיה; הקצאת ה-role והפעלת ה-OData services לא אומתו במערכת.",
   },
 
   /* --------------------------------------------------------- fiori:F1339 */
   {
     id: "fiori:F1339",
     evidence: [
+      F1339_FAL_S32OP,
       {
         sourceType: "fiori_library",
-        sourceTitle: "Schedule MRP Runs - SAP Fiori Apps Reference Library",
-        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F1339')/S18OP",
+        sourceTitle: "Schedule MRP Runs - SAP Fiori Apps Reference Library (public OData API, Apps('F1339')/S27OP)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1339')/S27OP",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE,
+        release: "2023.000",
+        accessedAt: DATE24,
         claim:
-          "ספריית SAP Fiori Apps Reference Library מפרסמת רשומה למזהה F1339 תחת השם 'Schedule MRP Runs' (כותרת " +
-          "התוצאה הרשמית). גוף העמוד (תפקידים, קטלוגים, OData) לא נקרא, משום שהספרייה נטענת כאפליקציית JavaScript.",
+          "במהדורה S27OP ‏(S/4HANA 2023) הספרייה מחזירה את אותו שם וסיווג (Schedule MRP Runs, Transactional, " +
+          "Generic Job Scheduling Framework, Published), אותם שלושה תפקידים, אותם שני קטלוגים עסקיים ואותו קטלוג טכני, " +
+          "שירות OData ‏APJ_JOB_MANAGEMENT_SRV גרסה 0001 ‏(SAP_BASIS 758), ואותם קודי GUI (מוביל MD01; קשורים " +
+          "MD01N, MD02, MD03, MD40, MD41, MD42, MD43, MDBT, MPBT, MSBT). backend: SAP_BASIS 758 SP 0000 / SAP S/4HANA " +
+          "2023; UI: UIS4HOP1 900 SP 0000. הערות RIN למהדורה זו: 3336823 ‏(Front-End Server), 3351047 " +
+          "‏(Back-End Server).",
         verificationLevel: "sap_official_verified",
       },
       F1339_APP_TOPIC,
@@ -2893,12 +3097,17 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         product: "SAP S/4HANA",
         edition: "on-premise",
         release: "2025.001",
-        accessedAt: DATE,
+        accessedAt: DATE24,
         claim:
-          "מדריך היישום קובע כתנאי מוקדם: 'The user needs authorization to schedule corresponding batch jobs'; יש לוודא " +
-          "שרשומת קטלוג ה-Job SAP_SCM_MRP מתוחזקת בפעילות ה-Customizing‏ 'Activation of Scope-Dependent Application Job " +
-          "Catalog Entries (S/4HANA)'; אובייקטי ההרשאה הנדרשים: S_PROGRAM עם P_GROUP = PPH_MRP, ו-S_PROGNAM עם " +
-          "P_PROGNAM = PPH_MRP_START (בשניהם ערכי P_ACTION‏: BTCSUBMIT, SUBMIT, VARIANT).",
+          "מדריך היישום קובע כתנאי מוקדם: 'The user needs authorization to schedule corresponding batch jobs'; אובייקטי " +
+          "ההרשאה: S_PROGRAM עם P_GROUP = PPH_MRP, ‏S_PROGNAM עם P_PROGNAM = PPH_MRP_START (בשניהם P_ACTION עם " +
+          "BTCSUBMIT, SUBMIT, VARIANT), ו-S_BTCH_JOB עם JOBACTION ‏(DELE, LIST, RELE, SHOW) ו-JOBGROUP; יש לוודא " +
+          "שרשומת קטלוג ה-Job‏ SAP_SCM_MRP מתוחזקת בפעילות ה-Customizing 'Activiation of Scope-Dependent Application " +
+          "Job Catalog Entries (S/4HANA)' (האיות כפי שמודפס בעמוד). Required SAP Notes: 'Not applicable'. שירות OData " +
+          "להפעלה: APJ_JOB_MANAGEMENT_SRV ‏(0001); אפליקציית SAPUI5: NW_APS_APJ; לתפקיד PFCG ניתן להשתמש בקטלוג " +
+          "העסקי לדוגמה SAP_SCM_BC_MRPRUN. תחת More Information: 'the roles SAP_BR_MATL_PLNR (Material Planner - " +
+          "External Procurement) and SAP_BR_PRODN_PLNR (Production Planner) give a user the authorization to use this " +
+          "app', ובנוסף יש להקצות בבקאנד את אובייקט ההרשאה M_MTDI_ORG עבור הפעולות שה-Job מבצע.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -2908,7 +3117,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         product: "SAP S/4HANA",
         edition: "on-premise",
         release: "2025.001",
-        accessedAt: DATE,
+        accessedAt: DATE24,
         claim:
           "העמוד מונה, תחת 'MRP Live optimized for SAP HANA', את 'Schedule MRP Runs app (transaction MD01N or app ID " +
           "F1339)', ותחת 'Classic MRP' את 'Schedule MRP Runs app (transaction MD01)' לצד MD02 (Single-Item, " +
@@ -2919,31 +3128,50 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
     status: {
       status: "s4_native",
       he:
-        "אפליקציית Fiori של S/4HANA לתזמון Job להרצת MRP (MRP Live, MD01N). מתועדת ב-PP-MRP לגרסת 2025 FPS01 ורשומה " +
-        "בספריית SAP Fiori Apps Reference Library תחת המזהה F1339.",
+        "אפליקציית Fiori טרנזקציונית לתזמון Job להרצת MRP, מבוססת Generic Job Scheduling Framework; בספרייה קוד ה-GUI " +
+        "המוביל הוא MD01, ובתיעוד Retail היא מוצמדת גם ל-MRP Live ‏(MD01N). מפורסמת (Published) בספריית SAP Fiori " +
+        "Apps Reference Library במהדורות S/4HANA 2023 ו-2025 FPS01.",
       edition: "on-premise",
       release: "2025.001",
-      source: F1339_APP_TOPIC,
+      source: F1339_FAL_S32OP,
       recommendedAction:
-        "לתזמן ריצות MRP Live דרך F1339 במקום תזמון ידני של MD01 / MDBT ברקע; לפני ההפעלה לוודא את רשומת קטלוג ה-Job‏ " +
-        "SAP_SCM_MRP ואת הרשאות ה-batch לפי מדריך היישום; להקצות את התפקידים המתועדים SAP_BR_MATL_PLNR_EXT_PROC או " +
-        "SAP_BR_PRODN_PLNR, ולא SAP_BR_MRP_CONTROLLER המופיע ברשומת המאגר.",
+        "להקצות SAP_BR_MATL_PLNR_EXT_PROC או SAP_BR_PRODN_PLNR (התפקידים שתיעוד האפליקציה מונה), ואת " +
+        "SAP_BR_RPLNMT_SPCLST_DC_RFM כשמדובר בחידוש מלאי במרכז הפצה קמעונאי. לפני ההפעלה: להפעיל את שירות ה-OData‏ " +
+        "APJ_JOB_MANAGEMENT_SRV ‏(0001) ואת אפליקציית ה-SAPUI5‏ NW_APS_APJ, לוודא שרשומת קטלוג ה-Job‏ " +
+        "SAP_SCM_MRP שמוזכרת במדריך היישום מתוחזקת, ולהקצות את אובייקטי ההרשאה S_PROGRAM, S_PROGNAM, S_BTCH_JOB " +
+        "ו-M_MTDI_ORG לפי מדריך היישום.",
     },
-    xrefs: ["tx:MD01N", "tx:MD01", "tx:MDBT", "fiori:F0247A", "fiori:F0251"],
-    lastVerifiedAt: DATE,
+    xrefs: ["tx:MD01", "tx:MD01N", "tx:MDBT", "fiori:F0247A", "fiori:F0251"],
+    lastVerifiedAt: DATE24,
     notes:
-      "המזהה, השם והתיעוד הרשמי אומתו: ספריית Fiori (F1339 = Schedule MRP Runs) ותיעוד PP-MRP לגרסת 2025 FPS01. " +
-      "סתירה מול רשומת המאגר: data/fiori/apps.ts מציין role SAP_BR_MRP_CONTROLLER, בעוד התיעוד הרשמי לגרסת 2025 FPS01 " +
-      "מונה SAP_BR_MATL_PLNR_EXT_PROC ו-SAP_BR_PRODN_PLNR; הרשומה המתוחזקת דורשת תיקון (נרשם בקובץ התור). רשומת " +
-      "קטלוג ה-Job‏ SAP_SCM_MRP והדוח PPH_MRP_START אושרו במדריך היישום. הטבלאות MDKP ו-MDTB שברשומת המאגר אינן " +
-      "ביקום המזהים ולכן אינן ב-xrefs; הקישור ל-MDBT נשען על סקירת הטרנזקציות של CBP בתיעוד (MDBT = total planning " +
-      "ברקע) ועל tx-intel של הפרויקט. לא אומתו: שירות OData / תצוגות CDS של האפליקציה, הקטלוג העסקי ל-On-Premise, " +
-      "וגרסת ההשקה הראשונה של האפליקציה. מקורות נוספים שלא נכללו כרשומות ראיה: תיעוד Public Edition 2608 (loio " +
-      "3e467f54737c8c4ce10000000a4450e5) המציין 'App ID: F1339'; What's New 1809 FPS02 (loio " +
-      "4f972af74c8d42a29a6ae5ba0bb0c8bc) עם אותו צימוד MD01N / F1339; What's New Public Edition 2508 המזכיר את הקטלוג " +
-      "העסקי SAP_SCM_BC_MRPRUN_MC ('Production Planning - MRP Runs'), ללא אישור לגבי On-Premise. בדיקת מבקר " +
-      "(2026-09-07): חיפוש בתיעוד SAP ERP (מוצר SAP_ERP) אחר Schedule MRP Runs app לא העלה נושא בשם זה; ההיעדר תומך " +
-      "ב-s4_native אך אינו הוכחה חיובית.",
+      "עדכון 2026-09-24: scripts/fal-app.mjs החזיר רשומה מובנית מלאה מהספרייה ל-S32OP ‏(2025 FPS01) ול-S27OP " +
+      "‏(2023), עם תפקידים, קטלוגים, OData וקודי GUI זהים בשתי המהדורות; שלושת עמודי help.sap.com נקראו מחדש עם " +
+      "scripts/sap-help-body.mjs (גרסה 2025.001). Old → New: ראיה [0] הקודמת הייתה רשומת ספרייה ל-S18OP " +
+      "‏(https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F1339')/S18OP, נגישה " +
+      "2026-09-02) שאישרה רק את השם 'Schedule MRP Runs' מכותרת התוצאה, כי גוף העמוד נטען כ-JavaScript; היא הוחלפה " +
+      "בשתי רשומות ה-OData של הספרייה. status.source עבר מ-topic האפליקציה (fdd11356) לרשומת הספרייה S32OP; status.he " +
+      "הקודם קשר את האפליקציה ל-MRP Live ‏(MD01N), והנוכחי מבחין בין קוד ה-GUI המוביל בספרייה (MD01) לבין הצימוד " +
+      "ל-MD01N שבעמוד ה-Retail. Old → New (ממצאים קודמים שנשמרים): הקישור ל-MDBT נשען על סקירת הטרנזקציות של CBP " +
+      "בתיעוד (MDBT = total planning ברקע) ועל tx-intel של הפרויקט, וכעת MDBT מופיע גם בין קודי ה-GUI הקשורים בספרייה; " +
+      "הטבלאות MDKP ו-MDTB שברשומת המאגר אינן ביקום המזהים ולכן אינן ב-xrefs; מקורות נוספים שלא נכללו כרשומות ראיה: " +
+      "תיעוד Public Edition 2608 ‏(loio 3e467f54737c8c4ce10000000a4450e5) המציין 'App ID: F1339'; What's New 1809 " +
+      "FPS02 ‏(loio 4f972af74c8d42a29a6ae5ba0bb0c8bc) עם אותו צימוד MD01N / F1339; What's New Public Edition 2508 " +
+      "המזכיר את הקטלוג העסקי SAP_SCM_BC_MRPRUN_MC ‏('Production Planning - MRP Runs'), ללא אישור לגבי " +
+      "On-Premise; בדיקת מבקר (2026-09-07): חיפוש בתיעוד SAP ERP (מוצר SAP_ERP) אחר Schedule MRP Runs app לא העלה " +
+      "נושא בשם זה, ההיעדר תומך ב-s4_native אך אינו הוכחה חיובית. אי-התאמה רשמית שלא נפתרה: עמוד 'App " +
+      "Implementation: Schedule MRP Runs' כותב את התפקיד 'SAP_BR_MATL_PLNR (Material Planner - External " +
+      "Procurement)', בעוד topic האפליקציה והספרייה מדפיסים SAP_BR_MATL_PLNR_EXT_PROC עם אותו תיאור; המקורות אינם " +
+      "מבהירים אם מדובר בטעות דפוס או בתפקיד נפרד עם אותו תיאור; יש לבדוק ב-PFCG במערכת. היקף התפקידים: topic " +
+      "האפליקציה מונה שני תפקידים והספרייה שלושה (בנוסף SAP_BR_RPLNMT_SPCLST_DC_RFM); זה הבדל בהיקף המקורות ולא " +
+      "סתירה. פער מול רשומת המאגר data/fiori/apps.ts (כפי שהייתה עד 2026-09-24): role SAP_BR_MRP_CONTROLLER לא הודפס " +
+      "באף אחד מהמקורות הרשמיים שנקראו כאן; הערך catalog 'SAP_SCM_MRP (Job Catalog)' הוא רשומת קטלוג Job המופיעה " +
+      "במדריך היישום, אך הקטלוגים העסקיים שהספרייה מפרסמת הם SAP_RFM_BC_DC_RPLNMT ו-SAP_SCM_BC_MRPRUN; guiTx במאגר " +
+      "היה MD01N בלבד, והספרייה מובילה ב-MD01. התיקון מוצע ב-catalogPatch. לא אומתו: תצוגות CDS (הספרייה אינה " +
+      "מפרסמת CDS לרשומה זו), פירוט פריטי ההיקף (ScopeItems כוללים 1BM ועוד, נצפו בפלט הגולמי בלבד). F1240 " +
+      "‏(Application Jobs) אינו ביקום המזהים ולכן אינו ב-xrefs. תוספת 2026-09-24 (שלב הכתיבה): ה-catalogPatch " +
+      "הוחל באותו יום על data/fiori/apps.ts#F1339 (role, catalog, odata, guiTx, source, trust, lastReviewed; type " +
+      "והשם תאמו), וב-explain של אותה רשומה הוחלפו התפקיד SAP_BR_MRP_CONTROLLER והערת 'טרם אומת' ל-OData בערכי " +
+      "הרשומה הזו; קטלוג ה-Job‏ SAP_SCM_MRP נשאר שם כרשומת קטלוג Job. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* --------------------------------------------------------- fiori:F2023 */
@@ -2994,27 +3222,27 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
           "Jobs (F5104A) Report and Repair Malfunction (F2023'.",
         verificationLevel: "sap_official_verified",
       },
+      F2023_LIBRARY_S32OP,
     ],
     status: {
       status: "s4_native",
       he:
-        "יישום Fiori של S/4HANA: מתועד במדריך Maintenance Management לגרסת 2025 FPS01 (On-Premise) לתפקיד Maintenance " +
-        "Technician, מזוהה כ-F2023 בעמוד App Implementation ובספריית Fiori Apps Reference Library, ונקוב ב-What's New " +
-        "2022 כאחד משני היישומים היורשים של Confirm Jobs (W0020).",
+        "יישום Fiori של S/4HANA: מתועד במדריך Maintenance Management לגרסת 2025 FPS01 (On-Premise), Published בספריית " +
+        "Fiori Apps Reference Library הן ב-S32OP (2025 FPS01) והן ב-S27OP (2023), לתפקיד העסקי Maintenance Technician " +
+        "(SAP_BR_MAINTENANCE_TECHNICIAN), ונקוב ב-What's New 2022 כאחד היישומים היורשים של Confirm Jobs (W0020).",
       edition: "on-premise",
       release: "2025.001",
-      source: F2023_APP_TOPIC,
+      source: F2023_LIBRARY_S32OP,
       recommendedAction:
-        "לתקן את רשומת המאגר: השם הרשמי הוא Report and Repair Malfunction, ו-Manage Malfunction Reports ו-Report " +
-        "Malfunction הם אריחים של אותו יישום ולא יישומים נפרדים. להחליף את הערת 'טרם אומת' בשדה הטכני של OData/CDS " +
-        "בניסוח שמציין שהשירות דורש אימות מול מקור רשמי. היישום Confirm Jobs שהוצא משימוש ב-2022 ונמחק ב-2023 נושא " +
-        "במקור הרשמי את המזהה W0020; רשומת F2730 ב-data/fiori/apps.ts המכנה את עצמה Confirm Jobs לא אומתה מול מקור " +
-        "רשמי (כפי שכבר נרשם ברשומת tx:IW41), ולכן אין להסתמך עליה כחלופה חיה ואין להעביר אליה את פרטי ההוצאה " +
-        "משימוש ללא אימות. את התפקיד הטכני SAP_BR_MAINTENANCE_TECHNICIAN והקטלוג SAP_EAM_BC_MAINT_WORKER לאמת " +
-        "בספריית Fiori או במערכת היעד לפני שמסתמכים עליהם.",
+        "ה-catalogPatch הוחל ב-2026-09-24 על רשומת המאגר data/fiori/apps.ts#F2023: הקטלוג העסקי לפי הספרייה הוא " +
+        "SAP_EAM_BC_CORRMAINT_MW (עד 2026-09-24 נרשם שם SAP_EAM_BC_MAINT_WORKER), והקטלוג הטכני SAP_TC_EAM_COMMON " +
+        "נוסף לשדה הטכני. הטרנזקציה המובילה לפי הספרייה היא IW31 (עד 2026-09-24 נרשמו שם IW21/IW26); " +
+        "IW21/IW22/IW32/IW41 הן טרנזקציות קשורות. שירות ה-OData הוא EAM_MALFUNCTION_MANAGE (במקום הערת 'טרם אומת' " +
+        "בשדה הטכני של רשומת המאגר). הספרייה אינה מציגה ליישום קודם או יורש (NumberofPredecessors=0, " +
+        "NumberofSuccessors=0). השם, המזהה והתפקיד העסקי תאמו ולא שונו.",
     },
-    xrefs: ["tx:IW21", "tx:IW24", "tx:IW26", "tx:IW41", "table:QMEL", "table:AUFK", "table:AFIH", "table:AFRU", "fm:BAPI_ALM_NOTIF_CREATE", "cds:I_MaintenanceNotification", "fiori:F5104A", "fiori:F1511", "enh:badi:NOTIF_EVENT_SAVE", "fiori:W0020"],
-    lastVerifiedAt: DATE,
+    xrefs: ["tx:IW21", "tx:IW22", "tx:IW24", "tx:IW26", "tx:IW31", "tx:IW32", "tx:IW41", "table:QMEL", "table:AUFK", "table:AFIH", "table:AFRU", "fm:BAPI_ALM_NOTIF_CREATE", "cds:I_MaintenanceNotification", "fiori:F5104A", "fiori:F1511", "enh:badi:NOTIF_EVENT_SAVE", "fiori:W0020"],
+    lastVerifiedAt: DATE24,
     notes:
       "שם ומזהה: המזהה F2023 והשם Report and Repair Malfunction אומתו משלושה מקורות רשמיים בלתי תלויים (כותרת ספריית " +
       "Fiori, עמוד App Implementation עם appId=F2023, ו-What's New 2022). האינדקס של 1,450 היישומים " +
@@ -3037,13 +3265,48 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "the findings for the jobs dispatched for execution'; ועמודי App Extensibility ל-Report Malfunction, Manage " +
       "Malfunction Reports ו-Repair Malfunctions (2025.001) עם ההקשרים העסקיים EAMS_NTF, EAMS_EQUI, EAMS_FL ו-EAMS_ORD. " +
       "דרישות Customizing (פרופיל סטטוס כולל, סוג הודעה לפי מפעל תכנון) הופיעו רק בסיכום של מנוע החיפוש ולא בסניפט, " +
-      "ולכן לא נטענו. תוספת 2026-09-23: W0020 (Confirm Jobs, נמחק ב-2023) נכנס לקטלוג; רשומת המחיקה נוקבת גם ב-F2023 בין היורשים.",
+      "ולכן לא נטענו. תוספת 2026-09-23: W0020 (Confirm Jobs, נמחק ב-2023) נכנס לקטלוג; רשומת המחיקה נוקבת גם ב-F2023 בין היורשים." +
+      " עדכון 2026-09-24 (scripts/fal-app.mjs F2023, S32OP=2025 FPS01 ו-S27OP=2023): שתי הריצות מחזירות Published עם " +
+      "אותו תפקיד, אותם קטלוגים ואותה טרנזקציית GUI מובילה, ומיישבות את הפערים שהרשומה סימנה קודם כ'לא אומת' (הספרייה " +
+      "נקראה קודם כמעטפת JavaScript). התפקיד SAP_BR_MAINTENANCE_TECHNICIAN אושר (תואם לרשומת המאגר). הקטלוג העסקי לפי " +
+      "הספרייה הוא SAP_EAM_BC_CORRMAINT_MW (EAM - Corrective Maintenance), בתוספת קטלוג טכני SAP_TC_EAM_COMMON; זה שונה " +
+      "מהקטלוג SAP_EAM_BC_MAINT_WORKER שנרשם עד 2026-09-24 ב-data/fiori/apps.ts#F2023, סתירת מאגר שתוקנה שם " +
+      "ב-catalogPatch. שירות ה-OData הוא EAM_MALFUNCTION_MANAGE גרסה 0001 (S4CORE 109 ב-S32OP, S4CORE 108 ב-S27OP), " +
+      "והוא נכלל ב-catalogPatch; בכך מאומת גם שם השירות שספר 1 פרק 8 רשם כמקור משני. הטרנזקציה המובילה לפי הספרייה " +
+      "היא IW31 (ברשומת המאגר נרשמו עד 2026-09-24 IW21/IW26); IW21, IW22, IW32, IW41 הן טרנזקציות קשורות; נוספו " +
+      "ל-xrefs: tx:IW31, tx:IW22, tx:IW32 (tx:IW21 ו-tx:IW41 כבר ברשימה; tx:IW24 ו-tx:IW26 נותרו כהיסטוריה אף שרשומת " +
+      "הספרייה אינה מדפיסה אותם). ApplicationComponent שונה בין הגרסאות (PM-FIO-WOC-JC ב-S32OP מול PM-FIO ב-S27OP); " +
+      "פרט תיעודי, לא סתירה מהותית. הספרייה אינה מציגה קודם או יורש (NumberofPredecessors=0, NumberofSuccessors=0 " +
+      "בשתי הריצות), ולכן לא נוסף xref של קודם או יורש. מקור הסטטוס הועבר מ-F2023_APP_TOPIC (מדריך Maintenance " +
+      "Management, 2025.001) לרשומת הספרייה S32OP (2025 FPS01); הניסוח הקודם של הסטטוס והמלצת הפעולה הקודמת (אימות " +
+      "התפקיד והקטלוג SAP_EAM_BC_MAINT_WORKER בספרייה, אי הסתמכות על F2730) נשמרים כאן כהיסטוריה. תוספת 2026-09-24 " +
+      "(שלב הכתיבה): ה-catalogPatch הוחל באותו יום על data/fiori/apps.ts#F2023 (catalog, odata, guiTx, source, trust, " +
+      "lastReviewed; role, type והשם תאמו), ומשפט explain.technical שנקב בהערת 'טרם אומת' ל-OData/CDS הוחלף בשירות " +
+      "ובקטלוג הטכני שהספרייה מדפיסה. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* --------------------------------------------------------- fiori:F2828 */
   {
     id: "fiori:F2828",
     evidence: [
+      F2828_FAL_S32OP,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F2828 'Maintenance Planning Overview' (SAP Fiori elements: Overview Page), release S27OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2828')/S27OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        accessedAt: DATE24,
+        claim:
+          "אותה רשומה בספרייה עבור S27OP (S/4HANA 2023, isPublished='Published'): אותם Application Type, UI Technology, " +
+          "Business Roles (SAP_BR_MAINTENANCE_PLANNER מוביל, SAP_BR_MAINT_TECH_OFFICER), Business Catalogs " +
+          "(SAP_DFS_BC_MAINTENANCE, SAP_EAM_BC_ORD), Technical Catalog SAP_TC_EAM_COMMON, ושירות OData EAM_ORDER_MONITOR " +
+          "Version 0001; RetrofittedSWCBackend 'S4CORE 108 - SP 0000', RetrofittedSWCUI 'UIS4HOP1 900 - SP 0000'; " +
+          "NumberofPredecessors=0, NumberofSuccessors=0; RIN Notes 3336823 (Front-End Server) ו-3351047 (Back-End " +
+          "Server); AppDocumentationLink לגרסת 2023.000.",
+        verificationLevel: "sap_official_verified",
+      },
       F2828_LIBRARY,
       {
         sourceType: "sap_help",
@@ -3113,33 +3376,50 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
     status: {
       status: "s4_native",
       he:
-        "יישום Fiori אנליטי מסוג Overview Page למתכנן האחזקה (תחזוקת מפעל). לפי What's New 1809 הוא נכנס כ-Product " +
-        "feature 'New' עם זמינות SAP S/4HANA 1809, וספריית SAP Fiori Apps Reference Library מתעדת אותו לכל הגרסאות " +
-        "מ-1809 ועד 2025 FPS01 (On-Premise ו-Private Cloud) וגם ל-SAP S/4HANA Public Cloud. הספרייה מונה SAP S/4HANA " +
-        "בלבד כ-Required Back-End Product (HANA DB exclusive), ללא מהדורת SAP ERP.",
+        "יישום Fiori אנליטי מסוג Overview Page למתכנן התחזוקה. ספריית SAP Fiori Apps Reference Library " +
+        "(scripts/fal-app.mjs) מתעדת אותו כ-'Published' מ-S/4HANA 1809 ועד 2025 FPS01 (On-Premise ו-Private Cloud) וגם " +
+        "ב-SAP S/4HANA Public Cloud (2602, 2608); Database 'HANA DB exclusive'; רשימת הגרסאות בספרייה אינה מונה מהדורת " +
+        "SAP ERP.",
       edition: "on-premise",
       release: "2025.001",
-      source: F2828_LIBRARY,
+      source: F2828_FAL_S32OP,
       recommendedAction:
-        "בהמרת CBC ל-S/4HANA: לכלול את F2828 בהיקף תפקיד מתכנן האחזקה כתחליף לסריקת רשימות ה-SAP GUI (IW28/IW29 " +
-        "להודעות, IW38/IW39 לפקודות) לזיהוי הודעות שטרם שויכו, פקודות שלא שוחררו, פקודות באיחור ודרישות או הזמנות " +
-        "רכש לחלפים לא-מלאיים. לפני ההפעלה: לאמת בספריית Fiori (לאחר התחברות, או בספרייה החדשה fal.cloud.sap) או " +
-        "ב-PFCG את ה-Business Role וה-Business Catalog של גרסת היעד, להפעיל את ה-ICF node של היישום EAM_ORD_MONS1 " +
-        "ואת שירותי ה-OData שהספרייה מציגה לגרסה לאחר התחברות (ללא התחברות הטבלה מוצגת כ-No data), ולהתאים את פריטי " +
-        "ההיקף שנוקבו ב-What's New 2023 (4HH/4HI/BH1/BH2/BJ2) לתהליך האחזקה שנבחר. היישום דורש HANA DB, ולכן אינו " +
-        "חלק מתרחיש ECC.",
+        "בהמרת CBC ל-S/4HANA: לכלול את F2828 בהיקף Business Role SAP_BR_MAINTENANCE_PLANNER (Business Catalogs " +
+        "SAP_DFS_BC_MAINTENANCE ו-SAP_EAM_BC_ORD, Technical Catalog SAP_TC_EAM_COMMON) כתחליף לסריקת רשימות ה-SAP GUI " +
+        "(IW29 להודעות, IW38 לפקודות). לפני ההפעלה: להפעיל את צמתי ה-ICF שהספרייה מונה ליישום (EAM_ORD_MONS1 והצמתים " +
+        "הנוספים) ואת שירות ה-OData EAM_ORDER_MONITOR (Version 0001, SoftwareComponentName S4CORE 109 ב-2025 FPS01 / " +
+        "S4CORE 108 ב-2023), ולהתאים את פריטי ההיקף שנוקבו ב-What's New 2023 (4HH/4HI/BH1/BH2/BJ2) לתהליך התחזוקה " +
+        "שנבחר. היישום דורש HANA DB, ולכן אינו חלק מתרחיש ECC.",
     },
     xrefs: ["tx:IW28", "tx:IW29", "tx:IW38", "tx:IW39", "table:QMEL", "table:AUFK", "table:EBAN", "cds:I_MaintenanceOrder", "cds:I_MaintenanceNotification", "fiori:F4604", "fiori:F2731", "fiori:F5241"],
-    lastVerifiedAt: DATE,
+    lastVerifiedAt: DATE24,
     notes:
+      "עדכון 2026-09-24: אומת מחדש דרך הערוץ הרשמי הסקריפטי (scripts/fal-app.mjs F2828, S32OP ו-S27OP); בביקור דפדפן " +
+      "קודם (2026-09-02) טבלאות ה-role/catalog/odata הוצגו כ-'No data' ללא התחברות, וכעת ערוץ ה-OData הציבורי מחזיר " +
+      "נתונים מלאים ותואמים בין S32OP ל-S27OP. Business Role מוביל SAP_BR_MAINTENANCE_PLANNER תואם את רשומת המאגר " +
+      "(data/fiori/apps.ts#F2828), אך ה-Business Catalogs שהספרייה מדפיסה (SAP_DFS_BC_MAINTENANCE, SAP_EAM_BC_ORD) " +
+      "שונים מהקטלוג שהיה ברשומת המאגר עד 2026-09-24 (SAP_EAM_BC_ORD_MC); הפער הוצג ב-catalogPatch להחלטת בעל התוכן. " +
+      "ה-GUI Transaction המוביל לפי הספרייה הוא IW29 (עם IW38 כקשור), בעוד רשומת המאגר הציגה עד 2026-09-24 guiTx " +
+      "IP10/IP30/IW38 (תכניות תחזוקה); התיאור הרשמי (Key Features) עוסק בהודעות שטרם שויכו, פקודות שלא שוחררו " +
+      "ודרישות/הזמנות רכש לחלפים, לא בתזמון תוכניות; גם פער זה הוצג ב-catalogPatch להחלטת בעל התוכן. " +
+      "NumberofPredecessors=0 ו-NumberofSuccessors=0 בשתי הגרסאות: הספרייה אינה מציגה successor או predecessor, ולכן " +
+      "לא נוספו xrefs מסוג fiori. Related_Apps (Navigation Target) מציג F2071/F2173/F2175, ו-Required מציג " +
+      "F2827/F3065; אלה יעדי ניווט/תלות ולא predecessor/successor, ולא נוספו כ-xref לפי כלל §1. השם, ה-App ID וה-URL " +
+      "הועתקו מילולית מפלטי הסקריפט. מקור הסטטוס עבר מ-F2828_LIBRARY (עמוד הספרייה הקלאסי שנקרא בדפדפן, 2026-09-02) " +
+      "לשורת S32OP של fal-app.mjs; הסטטוס (s4_native) וה-release (2025.001) ללא שינוי, ושורת הספרייה הקלאסית נשארה " +
+      "בראיות. תוספת 2026-09-24 (שלב הכתיבה): ה-catalogPatch הוחל באותו יום על data/fiori/apps.ts#F2828 (role, " +
+      "catalog, odata, guiTx, source, trust, lastReviewed; type והשם תאמו), יחד עם explain.consultant, " +
+      "explain.technical ו-commonErrors שנקבו ב-SAP_EAM_BC_ORD_MC או בהערת 'טרם אומת' ל-OData; ecc, problem " +
+      "ו-relatedTables באותה רשומה (IP10/IP30, MPLA/MHIS) נשארו אצורים. לא בוצעה בדיקה במערכת SAP חיה. " +
+      "ממצא קודם (2026-09-02): " +
       "מזהה, שם ו-URL אומתו מול ספריית SAP Fiori Apps Reference Library (F2828, Maintenance Planning Overview) ומול " +
       "What's New 2023 (loio fd64dddf3de2414eb82f13e7c0a66bde); שם הרשומה במאגר תואם. Business Role " +
       "SAP_BR_MAINTENANCE_PLANNER ו-Business Catalog SAP_EAM_BC_ORD_MC שברשומת המאגר (data/fiori/apps.ts#F2828) לא " +
       "אומתו: טבלאות התפקידים, הקטלוגים, שירותי ה-OData ומיפויי היעד בספרייה הוצגו כ-'No data' ללא התחברות, והתיעוד " +
       "הרשמי אומר רק 'maintenance planner user role'. רשומת המאגר מציינת guiTx IP10/IP30/IW38 וטבלאות MPLA/MHIS/AUFK " +
-      "(תוכניות אחזקה), בעוד התיאור הרשמי עוסק בהודעות, בפקודות ובדרישות/הזמנות רכש לחלפים לא-מלאיים; אף עמוד רשמי " +
-      "אינו נוקב בטרנזקציית GUI ליישום, ולכן ה-xrefs כאן (IW28/IW29/IW38/IW39, QMEL/AUFK/EBAN) הם עזרי ניווט של " +
-      "המאגר ולא מיפוי רשמי. רשימת תשעת הכרטיסים (Missing Components, Orders for Planning, Purchase Requisitions Not " +
+      "(תכניות תחזוקה), בעוד התיאור הרשמי עוסק בהודעות, בפקודות ובדרישות/הזמנות רכש לחלפים לא-מלאיים; ה-xrefs כאן " +
+      "(IW28/IW29/IW38/IW39, QMEL/AUFK/EBAN) הוגדרו אז כעזרי ניווט של המאגר ולא כמיפוי רשמי (Old → New: הספרייה " +
+      "מדפיסה כעת IW29/IW38). רשימת תשעת הכרטיסים (Missing Components, Orders for Planning, Purchase Requisitions Not " +
       "Approved, Notifications for Screening, Overdue Orders, Purchase Requisitions Not Converted to Purchase Orders, " +
       "Orders for Completion, Purchase Orders Not Approved, Quick List) ויעדי הניווט F2827/F2175/F2071/F2173/F3065 " +
       "מופיעים במדריך SAP PRESS Fiori Quick Reference (data/library/book7/ch6, רובד 2); ארבעה משמות הכרטיסים מאושרים " +
@@ -3515,7 +3795,9 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
      W0029, W0028, F8669, F4587, F5323, F2462, F1511A, F0251A, F5460, W0020), now catalog entries in
      data/fiori/apps.ts. Every quotation is a fragment of a help.sap.com search snippet saved on
      that date (scripts/sap-help-search.mjs --json); topic bodies are JS shells and were not
-     read. F5777 was not added: no SAP_S4HANA_ON-PREMISE record names it. ---- */
+     read. F5777 was not added: no SAP_S4HANA_ON-PREMISE record names it. F5241 and F2072 were
+     enriched on 2026-09-24 from the library's public OData service (scripts/fal-app.mjs, S32OP
+     and S27OP); their 2026-09-23 rows are unchanged. ---- */
 
   /* --------------------------------------------------------- fiori:F5241 */
   {
@@ -3552,23 +3834,40 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
           "Manage Maintenance Orders app (F5241).' היישום ממשיך לקבל הרחבות במהדורה הנוכחית.",
         verificationLevel: "sap_official_verified",
       },
+      F5241_FAL_S32OP,
     ],
     status: {
       status: "s4_native",
       he:
-        "יישום Fiori של S/4HANA לניהול פקודות אחזקה: What's New 2023 FPS03 רושם אותו כחדש (Type New) ברכיב PM-FIO-WOC-MO " +
-        "ובזמינות SAP S/4HANA ו-SAP S/4HANA Cloud Private Edition, והוא מתועד ב-Maintenance Management לגרסת 2025 FPS01 " +
-        "תחת App ID F5241.",
+        "יישום Fiori של S/4HANA לניהול פקודות תחזוקה, מפורסם (Published) בספריית ה-Fiori בגרסת 2025 FPS01: תפקיד עסקי " +
+        "SAP_BR_MAINTENANCE_PLANNER, קטלוג עסקי SAP_EAM_BC_WORKORD_MNG, קטלוג טכני SAP_TC_EAM_COMMON, קבוצת שירות OData " +
+        "V4 UI_MAINTENANCEORDER_MANAGE, וטרנזקציית GUI מובילה IW31. נוסף כחדש ב-2023 FPS03 (Type New) ואינו מופיע " +
+        "בספרייה עבור 2023 (S27OP).",
       edition: "on-premise",
       release: "2025.001",
-      source: F5241_APP_TOPIC,
+      source: F5241_FAL_S32OP,
       recommendedAction:
-        "להשתמש במזהה F5241 לכותרת Manage Maintenance Orders. הרשומה המתוחזקת F2731 נושאת את אותה כותרת בלי מקור רשמי " +
-        "(ראו fiori:F2731). לקרוא מספריית ה-Fiori את התפקיד העסקי, הקטלוג ושירות ה-OData לפני שיוצגו.",
+        "להשתמש במזהה F5241 לכותרת Manage Maintenance Orders, עם תפקיד SAP_BR_MAINTENANCE_PLANNER, קטלוג עסקי " +
+        "SAP_EAM_BC_WORKORD_MNG, שירות OData UI_MAINTENANCEORDER_MANAGE וטרנזקציית GUI מובילה IW31. הרשומה המתוחזקת " +
+        "F2731 נושאת את אותה כותרת בלי מקור רשמי (ראו fiori:F2731).",
     },
-    xrefs: ["fiori:F2731", "fiori:F4604"],
-    lastVerifiedAt: DATE23,
+    xrefs: ["fiori:F2731", "fiori:F4604", "tx:IW31", "tx:IW32", "tx:IW33", "tx:IW37N", "tx:IW38", "tx:IW39"],
+    lastVerifiedAt: DATE24,
     notes:
+      "עודכן 2026-09-24 (מחליף את גרסת 2026-09-23). מה נוסף: הרצת scripts/fal-app.mjs F5241 מול ערוץ ה-OData הרשמי של " +
+      "ספריית ה-Fiori (לא JS shell) על S32OP ו-S27OP. זה סוגר את הפערים שנשארו פתוחים ב-2026-09-23 " +
+      "(role/catalog/OData/CDS/GUI-tx לא מאומתים): התפקיד, הקטלוג העסקי, הקטלוג הטכני, קבוצת שירות ה-OData והטרנזקציה " +
+      "המובילה אומתו כעת ישירות מהספרייה. עדיין לא אומתו: תצוגות CDS ספציפיות (הספרייה אינה מדפיסה CDS views), זמינות " +
+      "ב-SAP S/4HANA Cloud Public Edition (All_Rel שנקרא מונה מהדורות On-Premise ו-Private Cloud; PredecessorDetails " +
+      "מציג גם קבוצת S37, SAP S/4HANA Public Cloud, ולכן הזמינות לא נקבעה כאן), והתוכן של Description (טקסט תיאורי, " +
+      "לא צוטט בשדה status.he). קודם F2175 'Find Maintenance Order' כ-predecessor ו-W0017 'Process Maintenance Order' " +
+      "כ-required app מוזכרים בראיה אך אינם נכנסים ל-xrefs כי אינם קיימים ב-data/fiori/apps.ts. History (Old → New): " +
+      "ב-2026-09-23 הסטטוס נשען על שלוש רשומות sap_help (app topic, What's New 2023 FPS03, What's New 2025 FPS01) " +
+      "ותפקיד/קטלוג/OData סומנו כלא מאומתים ב-notes; ב-2026-09-24 נוספה ראיית fiori_library המאמתת אותם ישירות והוחלף " +
+      "source הסטטוס אליה. תוספת 2026-09-24 (שלב הכתיבה): ה-catalogPatch הוחל באותו יום על data/fiori/apps.ts#F5241 " +
+      "(role, catalog, odata, guiTx, source, lastReviewed; type, trust והשם תאמו), ומשפט explain.technical שאמר " +
+      "שהתפקיד, הקטלוג ושירות ה-OData לא נקראו מהספרייה הוחלף בערכי הספרייה. לא בוצעה בדיקה במערכת SAP חיה. נוסח " +
+      "2026-09-23: " +
       "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בארבע שאילתות על SAP_S4HANA_ON-PREMISE (שם היישום עם המזהה " +
       "בגרסה 2025.001, שאילתה ללא גרסה, ושתי שאילתות נעוצות לגרסה 2023.003 לפרטים הטכניים). הראיות הן כותרות וקטעים של " +
       "רשומות החיפוש; גופי הדפים לא נקראו. רשומת What's New 2025 (loio e765a4541f49412b9508fdab1ecaf2c9) מתעדת הרחבה " +
@@ -3653,23 +3952,28 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
           "Product Feature Find Technical Object: F2072_S4OP'. הקטע אינו קובע גרסת הצגה ראשונה.",
         verificationLevel: "sap_official_verified",
       },
+      F2072_FAL_S32OP,
     ],
     status: {
       status: "s4_native",
       he:
-        "יישום Fiori של S/4HANA לאיתור אובייקטים טכניים, מתועד ב-Maintenance Management לגרסת 2025 FPS01 תחת App ID F2072, " +
-        "ורשום במסמך What's New in SAP S/4HANA (100) בין היישומים של תפקיד Maintenance Technician (שם המאפיין הטכני " +
-        "F2072_S4OP). מ-2023 הוא היישום היורש של Display Master Data Information Center (W0011, W0012).",
+        "יישום Fiori Elements של S/4HANA (App ID F2072, PM-FIO) לאיתור אובייקטים טכניים; מתועד בספריית יישומי ה-Fiori " +
+        "כ-Published על S32OP (2025 FPS01) ועל S27OP (2023). ב-S32OP התפקיד העסקי המוביל הוא Maintenance Planner " +
+        "(SAP_BR_MAINTENANCE_PLANNER), הקטלוג הטכני SAP_TC_EAM_COMMON ושירות ה-OData EAM_OBJPG_TECHNICALOBJECT_SRV. " +
+        "מ-2023 הוא היישום היורש של Display Master Data Information Center (W0011, W0012); ל-F2072 עצמו אין successor " +
+        "רשום בספרייה.",
       edition: "on-premise",
       release: "2025.001",
-      source: F2072_APM_TOPIC,
+      source: F2072_FAL_S32OP,
       recommendedAction:
-        "להשתמש ב-F2072 לאיתור, להצגה ולעריכה המונית של אובייקטים טכניים ולניהול המבנה (התקנה ופירוק של ציוד). הרשומה " +
-        "המתוחזקת F2730A (Manage Technical Objects) אינה נתמכת במקור רשמי (ראו fiori:F2730A). לקרוא מספריית ה-Fiori את " +
-        "התפקיד העסקי, הקטלוג ושירות ה-OData לפני שיוצגו.",
+        "F2072 מוצג עם התפקיד העסקי, הקטלוגים ושירות ה-OData שהספרייה מדפיסה ל-S32OP (הועתקו ב-2026-09-24 לרשומת " +
+        "הקטלוג data/fiori/apps.ts#F2072); להשתמש בו לאיתור, להצגה ולעריכה המונית של אובייקטים טכניים ולניהול המבנה " +
+        "(התקנה ופירוק של ציוד). הרשומה המתוחזקת F2730A (Manage Technical Objects) אינה נתמכת במקור רשמי (ראו " +
+        "fiori:F2730A). ארבעת ה-predecessors שהספרייה מדפיסה (F0226, F0227, W0011, W0012) אינם קיימים כ-fiori id " +
+        "בקטלוג ולכן לא נוספו כ-xrefs.",
     },
-    xrefs: ["fiori:F2730A", "fiori:W0028", "tx:IE01", "tx:IE02", "tx:IE03"],
-    lastVerifiedAt: DATE23,
+    xrefs: ["fiori:F2730A", "fiori:W0028", "tx:IE01", "tx:IE02", "tx:IE03", "tx:IH06", "tx:IH08", "tx:IL03"],
+    lastVerifiedAt: DATE24,
     notes:
       "נוסף 2026-09-23. שיטה: scripts/sap-help-search.mjs בחמש שאילתות על SAP_S4HANA_ON-PREMISE (המזהה עם השם, תיאור " +
       "היישום, רשומת המחיקה של 2023, שאילתה על רשומות What's New ללא גרסה ושאילתה נעוצה לגרסה 1610) ובשתי שאילתות על " +
@@ -3680,8 +3984,17 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "יישומים; הקטע אינו נוקב במזהה ואינו קובע שהיישום חדש, ולכן releaseInfo ריק. חיפוש שם היישום במוצרים SAP_ERP " +
       "ו-SAP_FIORI (21 רשומות בכל אחד) לא החזיר רשומה בשם זה ולא את המזהה; ההיעדר תחום לחיפוש ואינו הוכחה. " +
       "ה-xrefs ל-IE01/IE02/IE03 ול-W0028 נשענים על קטעי ההגירה של PM - Equipment, שמונים אותם כיישומים נוספים לאותו " +
-      "אובייקט; זה עזר ניווט ולא מיפוי החלפה. לא אומתו: תפקיד עסקי, קטלוג, שירות OData, תצוגות CDS וזמינות ב-Public " +
-      "Cloud. לא בוצעה בדיקה במערכת SAP חיה.",
+      "אובייקט; זה עזר ניווט ולא מיפוי החלפה. תוספת 2026-09-24: scripts/fal-app.mjs F2072 הורץ על S32OP ועל S27OP " +
+      "(ערוץ OData של הספרייה); שתי המהדורות Published עם אותו תפקיד מוביל, אותם מזהי קטלוג עסקי, אותו שירות OData " +
+      "ואותן טרנזקציות GUI; רשימת התפקידים שונה (11 ב-S32OP, 14 ב-S27OP), וכך גם רכיב ה-UI ומספרי ה-RIN. evidence[6] " +
+      "מבוסס על S32OP. source של הסטטוס: F2072_APM_TOPIC (sap_help, ללא נתוני קטלוג) → F2072_FAL_S32OP " +
+      "(fiori_library); הסטטוס וה-release (2025.001) ללא שינוי. xrefs חדשים: tx:IH06, tx:IH08, tx:IL03 (הטרנזקציות " +
+      "הקשורות שהספרייה מדפיסה). ה-predecessors שהספרייה מדפיסה (F0226 Equipment, F0227 Functional Location, W0011, " +
+      "W0012) לא נוספו כ-xrefs כי אינם קיימים כ-fiori id ב-data/fiori/apps.ts. תוספת 2026-09-24 (שלב הכתיבה): " +
+      "ה-catalogPatch הוחל באותו יום על data/fiori/apps.ts#F2072 (role, catalog, odata, guiTx, source, lastReviewed; " +
+      "type, trust והשם תאמו), ומשפט explain.technical שאמר שהתפקיד, הקטלוג ושירות ה-OData לא נקראו מהספרייה הוחלף " +
+      "בערכי הספרייה. לא אומתו: תצוגות CDS וזמינות ב-Public Cloud (S36/S37 מופיעות ב-All_Rel בלבד). לא בוצעה בדיקה " +
+      "במערכת SAP חיה.",
   },
 
   /* --------------------------------------------------------- fiori:W0029 */
