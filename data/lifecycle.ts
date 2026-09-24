@@ -35,9 +35,9 @@ export const LIFECYCLE: Record<string, Lifecycle> = {
   "MB52": { status: "Active", ecc: true, s4: true, fiori: "Stock - Multiple Materials", migration: "נתמך; Fiori מקביל.", impact: "Low" },
   "MIGO": { status: "Active", ecc: true, s4: true, fiori: "Post Goods Movement (Web GUI, MIGO)", migration: "מרכזי ב-S/4; תנועות נרשמות ל-MATDOC. החלופה ל-MB*.", impact: "None" },
   // ---- Purchasing ----
-  "ME21": { status: "Obsolete", ecc: true, s4: false, alt: "ME21N", migration: "הוסר — השתמש ב-ME21N (Enjoy).", impact: "Medium" },
-  "ME22": { status: "Obsolete", ecc: true, s4: false, alt: "ME22N", migration: "הוסר — ME22N.", impact: "Medium" },
-  "ME23": { status: "Obsolete", ecc: true, s4: false, alt: "ME23N", migration: "הוסר — ME23N.", impact: "Low" },
+  "ME21": { status: "Obsolete", ecc: true, s4: false, alt: "ME21N", migration: "לפי פריט הפישוט 'S4TWL - Classic MM-PUR GUI Transactions replacement' (2025 FPS01 14.2.8) הטרנזקציות הקלאסיות 'are NO longer supported' ב-S/4HANA On-Premise; השתמש ב-ME21N (Enjoy).", impact: "Medium" },
+  "ME22": { status: "Obsolete", ecc: true, s4: false, alt: "ME22N", migration: "לפי פריט הפישוט 'S4TWL - Classic MM-PUR GUI Transactions replacement' (2025 FPS01 14.2.8) הטרנזקציות הקלאסיות 'are NO longer supported' ב-S/4HANA On-Premise; השתמש ב-ME22N.", impact: "Medium" },
+  "ME23": { status: "Obsolete", ecc: true, s4: false, alt: "ME23N", migration: "לפי פריט הפישוט 'S4TWL - Classic MM-PUR GUI Transactions replacement' (2025 FPS01 14.2.8) הטרנזקציות הקלאסיות 'are NO longer supported' ב-S/4HANA On-Premise; השתמש ב-ME23N.", impact: "Low" },
   "ME21N": { status: "Active", ecc: true, s4: true, fiori: "Manage Purchase Orders (Version 2) (F0842A)", migration: "נתמך; Fiori מקביל.", impact: "None" },
   // ---- Customer/Vendor → Business Partner ----
   "XD01": { status: "Obsolete", ecc: true, s4: false, fiori: "Manage Business Partner", alt: "BP", simplification: "Business Partner Approach (CVI mandatory)", migration: "לקוח/ספק דרך BP בלבד. XD01 חסום/מנותב ל-BP. השפעה גבוהה — CVI חובה.", impact: "High" },
