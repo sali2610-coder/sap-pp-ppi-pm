@@ -19,7 +19,7 @@ for (const [i, b] of (args.batches || []).entries()) {
     const common = b.catalog === 'functions' && args.functionsCommonHint ? ' ' + args.functionsCommonHint : ''
     const queue = b.queue.map((q) => ({ ...q, hint: (q.hint || '') + common }))
     const r = await workflow({ scriptPath: 'scripts/workflows/enrich-family.js' }, {
-      catalog: b.catalog, batch: queue.length, accessedAt: args.accessedAt, queue, file: b.file || args.file, queueMd: b.queueMd || args.queueMd,
+      catalog: b.catalog, batch: queue.length, accessedAt: args.accessedAt, queue, file: b.file || args.file, queueMd: b.queueMd || args.queueMd, writerHint: b.writerHint || args.writerHint,
     })
     results.push({ i, catalog: b.catalog, ids: b.queue.map((q) => q.id), written: r?.written ?? 0, queued: r?.queued ?? 0, lost: r?.lost ?? 0 })
     log(`batch ${i + 1} done: written ${r?.written ?? 0}, refused ${r?.queued ?? 0}, lost ${r?.lost ?? 0}`)
