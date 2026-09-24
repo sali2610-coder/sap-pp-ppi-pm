@@ -311,6 +311,57 @@ MC81 / MC82 / MC83 authored 'compatibility_scope', MC84 / MC85 / MC86 authored '
 Between the two baselines FIX-16 (2278f20e, `data/tx-intel.ts`) moved 54 other codes' derived
 status from 'unchanged' to 'changed' (CJ40, F-03, VA01, ...); that is not this batch. Gates: both
 `tsc` runs clean; `npm test` 211/211.
+Batch 13 written 2026-09-24 (access date stamped 2026-09-24): 6 audited records written
+(`tx:MC87`, `tx:MC88`, `tx:MC89`, `tx:MC93`, `tx:MC94`, `tx:MC95`, the codes item 9.5.17 'S4TWL -
+Sales and Operation Planning' groups as 'Planning for material' and 'Flexible Planning'), 0
+refuted. MC87, MC89, MC93 and MC94 from `verdict.fixedRecord`; MC88 from the draft with its
+auditor's one optional downgrade (evidence[1] 'שמופיע רק בגרסת 2025 FPS01' → 'שאינו מודפס בגרסת
+2023 FPS03 ומודפס בגרסת 2025 FPS01'); MC95 from the draft with its auditor's four downgrades
+(usage rights no longer called time-limited in the 2025 row, status.he and recommendedAction;
+the Fiori negative bounded to S32OP in notes). Every anchor matched exactly once. Status sources
+point at shared consts (`MC87_SIMPL_ITEM_2025` and `MC95_SIMPL_ITEM_2025` = evidence[1],
+`MC88_SIMPL_ITEM_2025`, `MC89_SIMPL_ITEM_2025`, `MC93_SIMPL_ITEM_2025` and `MC94_SIMPL_ITEM_2025`
+= evidence[0], each the 2025 FPS01 item 9.5.17 row, its release equal to status.release '2025
+FPS01') instead of what the verdicts carried: a full re-typed copy of that row (MC87, MC95; the
+same text in the task JSON), the marker 'evidence[0]' (MC88, MC89, MC93) or '__REF evidence[0]
+...__' (MC94). Writer deviations: (1) `reviewer: "researcher-subagent"` dropped from MC93 and MC94
+(house convention); (2) MC95: `sapNote: "2268064"` dropped from the 2025 row (`sap-note-format`:
+no me.sap.com/notes url, no repoRef), the number kept in its claim ('הערת SAP 2268064') as the
+item heading prints it (0002268064); (3) the item name 'S4TWL - Sales and Operation Planning'
+added next to the bare '9.5.17' in the status.he of MC88, MC94 and MC95 (HOUSE-RULES §3.5, the
+form the MC87 auditor used in its fixedRecord); (4) MC94 evidence[1]: 'שמופיע רק בגרסת 2025
+FPS01' → 'שמופיע בגרסת 2025 FPS01' and 'מבוססת על evidence[0] בלבד' → 'מבוססת על evidence[0]'
+(honesty rule 2; the sentence the MC88 and MC89 auditors bounded in their records, which the
+MC94 verdict did not list); (5) the notes of MC88, MC94 and MC95 end with the sentence that the
+generated record in `transactions-auto.ts` is superseded (MC87, MC89 and MC93 already said so);
+for MC88, MC89 and MC94, whose notes say fal-app was not run, the sentence also carries that
+record's documented negative (S32OP, 0 apps with that leading code); (6) MC95 notes typo
+'ומ-MC93/MC94' → 'ו-MC93/MC94'. The verdicts' summary and gaps lines are not `VerificationRecord`
+fields and were not written (the MC89 gap saying MC87 / MC88 had generated records only is closed
+by this batch). Kept as audited: 'רק כפתרון גישור זמני' in the recommendedAction of MC88, MC89
+and MC94 (see the conflicts line), the 'בלבד' of the repository rows, 'אלא רק ברשימת ה-compatibility
+pack' in MC93 evidence[0] (bounded to the fully read item), and the en dash of the PDF cover
+inside source titles (no em dash in any added line). No new lookups (writer contract): no
+sap-help-search / sap-help-body / fal-app run and no Simplification List read. The audited JSON
+was transcribed from the task into a scratch file and the TS emitted mechanically; round trip:
+the 81 existing records deep-equal before and after, the six new ones deep-equal the transformed
+JSON, and every status.source is the same object as one of its record's evidence rows.
+Repository files read at write: the `data/tcode-catalog.ts` rows of the six codes (lines
+852-858), the six generated records in `transactions-auto.ts`, `data/verification/index.ts`
+(researched ids filter the generated shard), `transactions-b.ts` (none of the six),
+`data/tx-intel.ts`, `data/transactions.ts` and `components/neo-shell/data/tx-detail.ts` (no row
+for any of the six; the MD61 row lists MC87 / MC88 under `before`), the six entries of
+`simpl-tcode-index.json` (MC87 / MC88 / MC89 under 30.37 and 9.5.17, MC93 / MC94 / MC95 under
+9.5.17 only) and `lib/evidence/validate.ts` (`sap-note-format`, the certainty regex). Coverage
+(`report:coverage --catalog transactions`): two commits of other pipelines (7ac302e4,
+98363370) landed during the run, so the batch was also isolated on the final tree (the file
+swapped back to its pre-batch copy, every other file identical): L1 1277 → 1277, L3 467 → 467,
+L4 2 → 2, L5 72 → 72, verified 575 → 581, verification-required 1239 → 1233, conflict 4 → 4,
+legacy 1 → 1, s4-applicable 576 → 582 (identical to the first baseline); the per-id `--ids` diff
+on the same tree moves only the six ids, each L1 → L1 (verification_required →
+sap_official_verified, authored 'compatibility_scope'; no `data/tx-intel.ts` /
+`data/transactions.ts` structural facts, the L2 gate, as for MC74 .. MC86). Gates: both `tsc`
+runs clean; `npm test` 211/211.
 
 ## refuted
 
@@ -326,6 +377,7 @@ status from 'unchanged' to 'changed' (CJ40, F-03, VA01, ...); that is not this b
 - (none in batch 10, 2026-09-24: all 6 audited drafts, COHV, COOIS, COOISPI, COR4, CORK and CR01, survived verification and were written; COHV from the draft (no problem, no downgrade), the other five from `verdict.fixedRecord`, with the writer deviations listed in the header.)
 - (none in batch 11, 2026-09-24: all 6 audited drafts, CR03, CS01, CS02, CT04, MC74 and MC75, survived verification and were written; CS01, CS02 and MC74 from `verdict.fixedRecord`, CR03 from its repaired, re-audited draft, CT04 and MC75 from the drafts with the downgrades applied, with the writer deviations listed in the header.)
 - (none in batch 12, 2026-09-24: all 6 audited drafts, MC81, MC82, MC83, MC84, MC85 and MC86, survived verification and were written; MC85 from the draft with its one downgrade, the other five from `verdict.fixedRecord`, with the writer deviations listed in the batch-12 paragraph.)
+- (none in batch 13, 2026-09-24: all 6 audited drafts, MC87, MC88, MC89, MC93, MC94 and MC95, survived verification and were written; MC88 and MC95 from the drafts with their downgrades, the other four from `verdict.fixedRecord`, with the writer deviations listed in the batch-13 paragraph.)
 
 ## conflicts
 
@@ -400,6 +452,9 @@ status from 'unchanged' to 'changed' (CJ40, F-03, VA01, ...); that is not this b
 - `tx:MC81` .. `tx:MC86` (batch 12, 2026-09-24): no conflict with the catalog. Each code's `data/tcode-catalog.ts` row (lines 846-851: module PP, area 'תכנון מכירות ותפעול', Hebrew and English names as the repository evidence cites them) matches; none of the six has a `data/tx-intel.ts`, `data/transactions.ts` or `tx-detail.ts` row, so all six stay at L1 (the L2 gate), as MC74 / MC75.
 - `tx:MC84` (batch 12): the generated record and the research notes disagree in effect. `transactions-auto.ts#MC84` (bare 'MC84' search, SAP_ERP scope, 7 records, 1 cited) cites the SAP ERP 6.18.latest search record 'Standard Functions Used in SAP Retail with Articles | SAP Retail' (loio 9aa4c7536e8e2a4be10000000a174cb4), whose snippet prints '... can assign articles or materials to a product group that you have created with transaction MC84 . ...'. The research notes say none of its four searches (among them 'MC84 product group', --product SAP_ERP, 21 results) returned a help page that prints MC84, and give '0 תוצאות עם אזכור ישיר של MC84 בסקופ SAP_ERP'. The queries differ, so the two statements need not contradict each other; not re-searched (writer contract). The row is carried over verbatim as a context row (evidence[3], not counted toward level or depth) with a dated writer note, so the generated-shard pruning does not delete it. Settles it: a re-audit that checks whether the 'MC84 product group' SAP_ERP result set contains that loio, and decides whether the row becomes deciding ECC-side evidence ('SAP Retail' context, edition ecc).
 - cross-cutting (batch 12): the auditors of the S4TWL - Sales and Operation Planning family disagree on two phrases, and each record was written per its own verdict. (1) 'זכויות שימוש מוגבלות' (limited usage rights): the MC82 auditor removed it because item 9.5.17 itself prints 'PP SOP is part of the S/4HANA compatibility pack. For details of the usage rights of the compatibility pack refer to note 2269324' and the word 'limited' comes from the preceding Forecast Based Planning item; the MC81 auditor kept it (MC81 evidence[0] and status.he), as did the MC83 auditor (status.he), and the batch-11 MC74 (status.he) and MC75 (status.he and its 2025 row) carry it. (2) the expiry date: the MC81 auditor removed 'תאריך התפוגה' from MC81's recommendedAction as item 9.5.16 wording, while MC82 ('תוקף הרישוי ותאריך התפוגה'), MC83 and MC74 ('מועד הפקיעה') keep it in theirs. Related: the MC81 auditor removed 'הקלאסי' (classic SOP) as an inference the item does not print; MC82 status.he ('(SOP) הקלאסי') and MC75 status.he ('קלאסי') keep it. Settles it: one re-audit of MC74, MC75, MC81, MC82 and MC83 against the body of item 9.5.17 (SIMPL_OP2025.pdf.txt around lines 44578-44720), applied to all five at once.
+
+- `tx:MC87` .. `tx:MC95` (batch 13, 2026-09-24): no conflict with the catalog. Each code's `data/tcode-catalog.ts` row (lines 852-858: module PP, area 'תכנון מכירות ותפעול', Hebrew and English names as the repository rows cite them) matches; none of the six has a `data/tx-intel.ts`, `data/transactions.ts` or `tx-detail.ts` row, so all six stay at L1 (the L2 gate), as MC74 .. MC86. MC87, MC88 and MC89 are printed by both the 2025 FPS01 item 9.5.17 and the 2023 FPS03 item 30.37 (Other Terms); MC93, MC94 and MC95 by the 2025 FPS01 item only ('Transaction MC93, MC94, MC95 (Flexible Planning)'; the MC93 notes record a 0-hit grep of SIMPL_OP2023.pdf.txt, the committed index lists 9.5.17 alone), so their compatibility-scope reading rests on the 2025 item. SAP IBP, the successor solution the item names for the whole area, has no id in the universe, so no record carries a structured successor.
+- cross-cutting (batch 13): the batch-12 wording split continues, and each record was written per its own verdict. (1) Usage rights: none of the six new records calls them limited or names an expiry date (MC87 and MC88 dropped the wording in their repair rounds; the MC89, MC93, MC94 and MC95 auditors removed it as item 9.5.16 wording). The batch-11/12 records still carry it: 'זכויות שימוש מוגבלות' in MC74, MC75, MC81 (including the shared `MC81_SIMPL_ITEM_2025` const, which the MC88 auditor flagged again as needing its own fix) and MC83; 'מועד הפקיעה' in MC74 and MC83; 'תאריך התפוגה' in MC82. (2) 'רק כפתרון גישור זמני' in recommendedAction: the MC93 auditor removed it as a restriction the item does not print (it prints 'PP SOP is intended as a bridge or interim solution'); the MC88, MC89 and MC94 verdicts keep it, as does MC81. (3) 'שמופיע רק בגרסת 2025 FPS01' in the 2023 row: the MC88 (optional) and MC89 (required) auditors bounded it and the writer applied the same bounding to MC94; MC75 evidence[2] and MC81 evidence[1] keep it. Settles it: the family re-audit queued for batch 12, widened to MC74, MC75, MC81, MC82, MC83, MC88, MC89 and MC94 against the body of item 9.5.17 (SIMPL_OP2025.pdf.txt around lines 44578-44720), applied to all at once. Open: the body of SAP Note 2269324 (usage rights of the compatibility scope) was not read. Not done for any of the six: a live SAP check (SE93; the sc4sap MCP failed to connect in this session).
 
 ## IP30 / IP30H decision (2026-09-22, design-audit continuation §18)
 

@@ -106,7 +106,24 @@
    the generated record does not drop it; the notes of MC81, MC82, MC84, MC85
    and MC86 end with the sentence that the generated record in
    transactions-auto.ts is superseded (MC81 and MC85 with its documented Fiori
-   negative; MC83 already said so). */
+   negative; MC83 already said so).
+   Batch 13 (2026-09-24): 6 audited records closing the S4TWL - Sales and
+   Operation Planning family (MC87, MC88, MC89, MC93, MC94, MC95), none
+   refuted. MC87, MC89, MC93 and MC94 from verdict.fixedRecord; MC88 and MC95
+   from the drafts with their auditors' downgrades applied, each anchor matched
+   exactly once. Status sources point at the shared MC87_SIMPL_ITEM_2025 ..
+   MC95_SIMPL_ITEM_2025 consts (the 2025 FPS01 item 9.5.17 row of each record)
+   instead of the marker strings or re-typed copies the verdicts carried.
+   Writer corrections: reviewer fields dropped (MC93, MC94); the MC95 sapNote
+   field dropped (sap-note-format), the number kept in its claim as the item
+   prints it; the item name added next to the bare 9.5.17 in the status.he of
+   MC88, MC94 and MC95 (HOUSE-RULES §3.5, the fix the MC87 auditor made); the
+   MC94 2023 row bounded like MC88 / MC89 (no 'רק' / 'בלבד', the fix both
+   their auditors asked for on the same sentence); the notes of MC88, MC94 and
+   MC95 end with the sentence that the generated record in transactions-auto.ts
+   is superseded (MC87, MC89 and MC93 already said so), and for MC88, MC89 and
+   MC94, whose notes say fal-app was not run, it also carries that record's
+   documented negative (S32OP, 0 apps with that leading code). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -1653,6 +1670,148 @@ const MC86_SIMPL_ITEM_2025: Evidence = {
     "Pack: 'Using transactions MC84, MC85, and MC86 you can maintain product groups. Product groups are a popular " +
     "selection condition in MRP apps like transaction MD07 or MD47. Product groups are part of S/4HANA core.' באותו " +
     "פריט, טרנזקציות התכנון של SOP (למשל MC81-MC83, MC87-MC89) מפורטות כחלק מ-Compatibility Pack.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MC87_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item 9.5.17 S4TWL - " +
+    "Sales and Operation Planning (PP-SOP, SAP Note 0002268064)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "גוף הפריט נקרא במלואו. הפריט קובע ש-'Sales & Operations Planning (SOP) will be replaced by Integrated " +
+    "Business Planning IBP', ומפרט תחת 'The following SOP transactions are part of the compatibility pack' את " +
+    "השורה 'Transaction MC87, MC88, MC89 (Planning for material)', כלומר MC87 עצמה נמנית ברשימת ה-compatibility " +
+    "pack. תחת 'Other Terms' מופיעה הרשימה 'Transactions MC74, MC75, MC76, MC78, MC80, MC81, MC82, MC83, MC87, " +
+    "MC88, MC89'. הרשימה 'The following tables and transactions have been developed in the context of PP-SOP, they " +
+    "are assigned to component PP-SOP, but they are not part of the compatibility pack' (V_T001W_DR, MC84, MC85, " +
+    "MC86 והטבלאות PGMI, PGZU, PROH) אינה כוללת את MC87. תחת 'Required and Recommended Action(s)' נכתב: 'PP SOP is " +
+    "intended as a bridge or interim solution in S/4HANA', 'For details of the usage rights of the compatibility " +
+    "pack refer to note 2269324', 'IBP is the successor solution' ו-'There is no special migration path from PP " +
+    "SOP to IBP'. להטמעת IBP הפריט מפנה ל-note 3503528 (SAP Best Practices for SAP Integrated Business Planning " +
+    "for Supply Chain 2502).",
+  verificationLevel: "sap_official_verified",
+};
+
+const MC88_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 " +
+    "FPS01 (document version 1.36) · item 9.5.17 S4TWL - Sales and Operation Planning (PP-SOP, SAP Note 0002268064)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.5.17 'S4TWL - Sales and Operation Planning' מונה את MC88 תחת 'Other Terms' ברשימה 'Transactions MC74, " +
+    "MC75, MC76, MC78, MC80, MC81, MC82, MC83, MC87, MC88, MC89'. בגוף הפריט, תחת הכותרת 'The following SOP " +
+    "transactions are part of the compatibility pack', נכתב במפורש: 'Transaction MC87, MC88, MC89 (Planning for " +
+    "material)' - כלומר MC88 מוגדר שם כחלק מה-Compatibility Pack. הפריט קובע ש-SOP 'will be replaced by Integrated " +
+    "Business Planning IBP (Functionality available in SAP S/4HANA delivery but not considered as future " +
+    "technology)'. תחת 'Required and Recommended Action(s)' נכתב: 'PP SOP is intended as a bridge or interim " +
+    "solution in S/4HANA... PP SOP is part of the S/4HANA compatibility pack. For details of the usage rights of " +
+    "the compatibility pack refer to note 2269324 - Compatibility Scope Matrix for SAP S/4HANA ... IBP is the " +
+    "successor solution'. MC88 אינה נמנית ברשימת הטבלאות/טרנזקציות שפותחו בהקשר PP-SOP אך 'are not part of the " +
+    "compatibility pack' (V_T001W_DR, MC84/MC85/MC86).",
+  verificationLevel: "sap_official_verified",
+};
+
+const MC89_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item 9.5.17 S4TWL - " +
+    "Sales and Operation Planning (PP-SOP, SAP Note 0002268064)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.5.17 S4TWL - Sales and Operation Planning (הערת SAP 0002268064, רכיב יישום PP-SOP) קובע תחת 'Other " +
+    "Terms' את הרשימה 'Transactions MC74, MC75, MC76, MC78, MC80, MC81, MC82, MC83, MC87, MC88, MC89'. בפרק " +
+    "Solution, תחת הכותרת 'The following SOP transactions are part of the compatibility pack', הפריט קובע במפורש: " +
+    "'Transaction MC87, MC88, MC89 (Planning for material)', כלומר MC89 מוגדר שם כחלק מקבוצת הטרנזקציות 'Planning " +
+    "for material' שבתוך ה-compatibility pack. הפריט קובע ש-'Sales & Operations Planning (SOP) will be replaced by " +
+    "Integrated Business Planning IBP', ש-'PP SOP is intended as a bridge or interim solution', ושפרטי זכויות " +
+    "השימוש ב-compatibility pack נמצאים ב-SAP Note 2269324 (Compatibility Scope Matrix). תחת 'Required and " +
+    "Recommended Action(s)' נכתב 'IBP is the successor solution' לתחום ה-SOP כולו, ומצוין שאין נתיב הגירה ייעודי " +
+    "(no special migration path) מ-PP SOP ל-IBP; הפריט אינו קובע דבר ספציפי למסך התצוגה (Display) של MC89 מעבר לכך " +
+    "שהיא נמנית בקבוצת 'Planning for material'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MC93_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 " +
+    "FPS01 (document version 1.36) · item 9.5.17 S4TWL - Sales and Operation Planning (SAP Note 0002268064, " +
+    "component PP-SOP)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "הפריט נקרא במלואו מהקובץ המקומי scratchpad/official/SIMPL_OP2025.pdf.txt (סביב שורה 44578-44720). תחת הכותרת " +
+    "'The following SOP transactions are part of the compatibility pack:' הוא מונה במפורש שורה נפרדת: 'Transaction " +
+    "MC93, MC94, MC95 (Flexible Planning)'. בפרק Description נכתב: 'Sales & Operations Planning includes standard " +
+    "SOP and flexible planning. Standard SOP comes preconfigured with the system. Flexible planning offers options " +
+    "for customized configuration.' הפריט קובע ש-'Sales & Operations Planning (SOP) will be replaced by Integrated " +
+    "Business Planning IBP (Functionality available in SAP S/4HANA delivery but not considered as future " +
+    "technology)', ותחת 'Required and Recommended Action(s)': 'PP SOP is part of the S/4HANA compatibility pack. " +
+    "For details of the usage rights of the compatibility pack refer to note 2269324 - Compatibility Scope " +
+    "Matrix', ו-'IBP is the successor solution... There is no special migration path from PP SOP to IBP.' MC93 " +
+    "אינו מופיע ברשימת 'tables and transactions... not part of the compatibility pack' (הכוללת MC84/MC85/MC86, " +
+    "V_T001W_DR ואחרות) אלא רק ברשימת ה-compatibility pack עצמה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MC94_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item 9.5.17 S4TWL - " +
+    "Sales and Operation Planning (PP-SOP, SAP Note 0002268064)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "הפריט קובע במפורש תחת הכותרת 'The following SOP transactions are part of the compatibility pack': " +
+    "'Transaction MC93, MC94, MC95 (Flexible Planning)'. כלומר MC94 מנוי בפירוש כטרנזקציית Flexible Planning " +
+    "שנמצאת בתוך ה-compatibility scope של SAP S/4HANA (לפרטי זכויות השימוש ב-compatibility pack הפריט מפנה ל-SAP " +
+    "Note 2269324). תחת 'Reasons why Sales and Operations Planning is part of the compatibility pack' הפריט קובע: " +
+    "'Integrated Business Planning IBP is the solution for sales and operations planning'; תחת 'Required and " +
+    "Recommended Action(s)' נכתב 'PP SOP is intended as a bridge or interim solution... IBP is the successor " +
+    "solution', עם הפניה ל-SAP Note 3503528 למימוש IBP, ומצוין שאין נתיב מעבר ייעודי (no special migration path) " +
+    "בין SOP ל-IBP.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MC95_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.5.17 S4TWL - " +
+    "Sales and Operation Planning, pp. 804-806",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "הפריט 9.5.17 (רכיב PP-SOP, הערת SAP 2268064), הרלוונטי להמרת מערכת ל-S/4HANA on-premise או ל-S/4HANA private " +
+    "cloud, מונה את MC95 בפירוש בין טרנזקציות ה-SOP: 'Transaction MC93, MC94, MC95 (Flexible Planning)', וקובע שהן " +
+    "'part of the compatibility pack' (חבילת התאימות; לפרטי זכויות השימוש הפריט מפנה להערת SAP 2269324, " +
+    "Compatibility Scope Matrix, ומגדיר את PP SOP כ-bridge or interim solution). הפריט מציין כי Sales & Operations " +
+    "Planning (SOP) כולה, כולל התכנון הגמיש, 'will be replaced by Integrated Business Planning IBP', וש-IBP הוא " +
+    "'the successor solution'; אין הכרעה בפריט לגבי טרנזקציה או אפליקציית Fiori ספציפית שמחליפה את MC95 עצמה, ואין " +
+    "מסלול הגירה טכני ייעודי ('there is no special migration path from PP SOP to IBP').",
   verificationLevel: "sap_official_verified",
 };
 
@@ -10579,5 +10738,400 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "(S32OP) החזיר 'none'. MC84 ו-MC85 קיימים ב-lib/route-manifest.generated.ts (tcodes), ולכן ה-xrefs תקפים. לא " +
       "בוצעה בדיקה במערכת SAP חיה (לא SE93 ולא הרצה בפועל). הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MC86 " +
       "ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:MC87 */
+  {
+    id: "tx:MC87",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tcode-catalog.ts#MC87",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#MC87",
+        claim:
+          "רשומת המאגר מתעדת את MC87 כטרנזקציית PP באזור 'תכנון מכירות ותפעול', עם השם האנגלי 'Create Rough-Cut " +
+          "Planning Profile'. הרשומה משמשת לזיהוי הקוד והמודול ואינה מקור למעמד ב-S/4HANA.",
+        verificationLevel: "repository_verified",
+      },
+      MC87_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 (Document Version 1.35) · item 30.37 " +
+          "S4TWL - Sales and Operation Planning (PP-SOP, SAP Note 2268064)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הגרסה הקודמת של אותו פריט פישוט (30.37, אותה SAP Note 2268064) מדפיסה את אותה רשימת 'Other Terms': " +
+          "'Transactions MC74, MC75, MC76, MC78, MC80, MC81, MC82, MC83, MC87, MC88, MC89', ואת אותה קביעה ש-SOP " +
+          "יוחלף ב-IBP ('Sales & Operations Planning (SOP) will be replaced by Integrated Business Planning IBP') " +
+          "וש-PP SOP הוא פתרון גישור זמני. גרסה זו אינה כוללת את פירוט רשימת ה-compatibility pack טרנזקציה אחר " +
+          "טרנזקציה, המופיע בגרסת 2025 FPS01 (evidence[1]). סעיף 'Exceptions' שלה (V_T001W_DR, MC84, MC85, MC86) " +
+          "אינו כולל את MC87.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "MC87 (יצירת פרופיל תכנון גס) נמנית במפורש בפריט הפישוט S4TWL - Sales and Operation Planning (9.5.17, 2025 " +
+        "FPS01) תחת 'Transaction MC87, MC88, MC89 (Planning for material)' ברשימת הטרנזקציות שהן חלק מ-SAP S/4HANA " +
+        "compatibility pack, ולפרטי זכויות השימוש הפריט מפנה ל-SAP Note 2269324. הפריט קובע ש-Sales and Operations " +
+        "Planning יוחלף ב-Integrated Business Planning (IBP), מגדיר את PP SOP כפתרון גישור זמני ואת IBP כפתרון " +
+        "היורש, ומציין שאין נתיב מעבר ייעודי מ-PP SOP ל-IBP. אותו פריט ב-2023 FPS03 (S4TWL - Sales and Operation " +
+        "Planning, 30.37) נוקב ב-MC87 תחת Other Terms ומביא את אותה קביעת החלפה, ללא רשימת ה-compatibility pack " +
+        "המפורטת טרנזקציה אחר טרנזקציה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MC87_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להתייחס ל-MC87 כזמינה בהיקף התאימות (compatibility pack), לפי S4TWL - Sales and Operation Planning: לבדוק " +
+        "ב-SAP Note 2269324 (Compatibility Scope Matrix) את זכויות השימוש לפני תכנון ארוך טווח סביב הקוד, ולתכנן " +
+        "מעבר לפתרון היורש SAP IBP לתחום ה-S&OP. לפי הפריט אין נתיב מעבר ייעודי מ-PP SOP ל-IBP, ולהטמעת IBP הוא " +
+        "מפנה ל-SAP Note 3503528 (SAP Best Practices for SAP Integrated Business Planning for Supply Chain 2502). " +
+        "אם SOP משמש כממשק למערכת תכנון חיצונית, הפריט ממליץ שהמערכת החיצונית תיצור דרישות בלתי תלויות מתוכננות " +
+        "ישירות, למשל דרך OP_API_PLND_INDEP_RQMT_SRV_0001.",
+    },
+    xrefs: ["tx:MC81", "tx:MC82", "tx:MC83"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה (SE93 לא הופעל). פריט 2023 FPS03 30.9 'S4TWL - ANSI/ISA S95 Interface' נבדק " +
+      "ואינו מזכיר את MC87; הפריט הרלוונטי הוא 30.37 ב-2023 FPS03 ו-9.5.17 ב-2025 FPS01, ושניהם נקראו במלואם " +
+      "מהטקסט המקומי של מסמכי ה-Simplification List. חיפושי scripts/sap-help-search.mjs: 'MC87 Create Rough-Cut " +
+      "Planning Profile' (--product SAP_S4HANA_ON-PREMISE, 21 תוצאות) ו-'MC87 Sales and Operations Planning' " +
+      "(--product SAP_ERP, 21 תוצאות); אף רשומה לא נקבה בקוד MC87 בכותרת או בתקציר, ולכן לא צוטטו כראיה. " +
+      "scripts/fal-app.mjs --tcode MC87 --release S32OP: אין אפליקציה מובילה ואין רשומת GUI app (ממצא שלילי מתועד, " +
+      "לא הכרעה על יורש). IBP מוזכר בפריט כפתרון היורש לתחום S&OP כולו, אך אינו מזהה קנוני קיים ביקום הרשומות ולכן " +
+      "לא נרשם כשדה successor. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MC87 " +
+      "ב-data/verification/transactions-auto.ts.",
+  },
+
+  /* ----------------------------------------------------- tx:MC88 */
+  {
+    id: "tx:MC88",
+    evidence: [
+      MC88_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (Document Version 1.35) · item 30.37 " +
+          "S4TWL - Sales and Operation Planning (PP-SOP, SAP Note 2268064)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הגרסה הקודמת של אותו פריט פישוט (30.37, אותה הערת SAP 2268064) מדפיסה את אותה רשימת 'Other Terms': " +
+          "'Transactions MC74, MC75, MC76, MC78, MC80, MC81, MC82, MC83, MC87, MC88, MC89', ואת אותה קביעה כללית " +
+          "ש-SOP יוחלף ב-IBP ('Sales & Operations Planning (SOP) will be replaced by Integrated Business Planning " +
+          "IBP') וש-PP SOP הוא פתרון גישור זמני. גרסה זו אינה כוללת את פירוט הרשימה לפי compatibility pack (שורה " +
+          "'Transaction MC87, MC88, MC89 (Planning for material)'), שאינו מודפס בגרסת 2023 FPS03 ומודפס בגרסת 2025 " +
+          "FPS01 (evidence[0]); לכן הקביעה המפורשת ש-MC88 עצמה נמצאת ב-compatibility scope, ולא רק שהיא נמנית בתוך " +
+          "פריט פישוט כללי, מבוססת על evidence[0].",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tcode-catalog.ts#MC88",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#MC88",
+        claim:
+          "רשומת המאגר מתעדת את MC88 כטרנזקציית PP באזור 'תכנון מכירות ותפעול', עם השם האנגלי 'Change Rough-Cut " +
+          "Planning Profile'; משמשת לזיהוי הקוד והמודול בלבד ואינה מקור למעמד ב-S/4HANA.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "MC88 (שינוי פרופיל תכנון גס) נמנית במפורש בפריט הפישוט S4TWL - Sales and Operation Planning (9.5.17, 2025 " +
+        "FPS01) ברשימת הטרנזקציות שבתוך SAP S/4HANA compatibility pack (יחד עם MC87, MC89, Planning for material), " +
+        "כאשר פרטי זכויות השימוש ב-compatibility pack מופיעים ב-SAP Note 2269324. פריט הפישוט קובע ש-Sales and " +
+        "Operations Planning כולו יוחלף ב-Integrated Business Planning (IBP), שהפריט מגדיר כ-successor solution " +
+        "לתחום כולו, ואינו מגדיר טרנזקציית S/4 יורשת ישירה או אפליקציית Fiori יורשת ל-MC88 עצמה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MC88_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להשתמש ב-MC88 רק כפתרון גישור זמני במעבר ל-S/4HANA, בהתאם לפריט הפישוט 9.5.17 S4TWL - Sales and Operation " +
+        "Planning; לבדוק את זכויות השימוש של ה-compatibility pack ב-SAP Note 2269324 (Compatibility Scope Matrix), " +
+        "ולתכנן מעבר לתכנון S&OP במסגרת Integrated Business Planning (IBP) כפתרון היורש שהפריט מגדיר לתחום כולו.",
+    },
+    xrefs: ["tx:MC87", "tx:MC89", "tx:MC81"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק: 4 חיפושים ב-scripts/sap-help-search.mjs: 'S4TWL Sales and Operation Planning MC88' (21 תוצאות, ללא " +
+      "תוצאה ישירה בפריט פישוט עצמו), 'S4TWL - Sales and Operation Planning simplification list' (21 תוצאות), " +
+      "'2268064 Sales and Operation Planning' (21 תוצאות, פגיעות בתיעוד SOP הכללי בלבד), 'compatibility scope " +
+      "Forecast Based Planning MC88 material' (21 תוצאות, ללא פגיעה ישירה). התיעוד המקצועי הרגיל של SOP מתפרסם " +
+      "ב-help.sap.com תחת נושאי SOP/Forecast-Based Planning נפרדים, לא כעמוד פריט פישוט עצמאי הניתן לאינדוקס. " +
+      "הקביעה על MC88 מבוססת על קריאת הטקסט המלא של פריטי הפישוט מ-scratchpad/official/SIMPL_OP2025.pdf.txt (שורות " +
+      "44578-44700) ו-SIMPL_OP2023.pdf.txt (שורות 42269-42330), לא על תוצאת חיפוש בלבד. המשפט על 'limited usage " +
+      "rights' שייך לפריט 9.5.16 (Forecast Based Planning) ולכן אינו מיוחס כאן לפריט 9.5.17. הרמז שצוין בהנחיית " +
+      "המשימה לפריט 2023 FPS03 30.9 'S4TWL - ANSI/ISA S95 Interface' נבדק ונמצא שאינו מזכיר MC88 כלל (grep על " +
+      "scratchpad/official/SIMPL_OP2023.pdf.txt); הפריט הרלוונטי היחיד שמזכיר את MC88 בפועל הוא 30.37/9.5.17 " +
+      "'S4TWL - Sales and Operation Planning', כפי שהצביע המדד audit/master-completion/simpl-tcode-index.json. לא " +
+      "הופעל scripts/fal-app.mjs: הפריט אינו מציין Fiori app id יורש ל-MC88, אלא פתרון נפרד (SAP IBP) שאינו בתוך " +
+      "יקום המזהים הקנוניים של הפרויקט, ולכן אינו מצוטט כ-successor מובנה. לא בוצעה בדיקה במערכת SAP חיה. הרשומה " +
+      "עוקבת בתבנית הרשומות הקיימות tx:MC81/MC82/MC83 (אותו פריט פישוט, אותו מבנה evidence) עבור אשכול " +
+      "MC87/MC88/MC89 (Planning for material). הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MC88 " +
+      "ב-data/verification/transactions-auto.ts, שתיעדה בספריית Fiori במהדורה S32OP 0 אפליקציות עם קוד מוביל MC88.",
+  },
+
+  /* ----------------------------------------------------- tx:MC89 */
+  {
+    id: "tx:MC89",
+    evidence: [
+      MC89_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 (Document Version 1.35) · item 30.37 " +
+          "S4TWL - Sales and Operation Planning (PP-SOP, SAP Note 2268064)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הגרסה הקודמת של אותו פריט פישוט (30.37, אותה הערת SAP 2268064) מדפיסה את אותה רשימת 'Other Terms': " +
+          "'Transactions MC74, MC75, MC76, MC78, MC80, MC81, MC82, MC83, MC87, MC88, MC89', ואת אותה קביעה כללית " +
+          "ש-SOP יוחלף ב-IBP ('Sales & Operations Planning (SOP) will be replaced by Integrated Business Planning " +
+          "IBP') וש-PP SOP הוא פתרון גישור זמני. גרסה זו של הפריט אינה כוללת את פירוט ה-compatibility pack לפי " +
+          "טרנזקציה (הכולל את 'Transaction MC87, MC88, MC89 (Planning for material)'), שמופיע בגרסת 2025 FPS01 " +
+          "(evidence[0]); בסעיף 'Exceptions' של גרסת 2023 נקובים V_T001W_DR ו-MC84/MC85/MC86 (תחזוקת קבוצות מוצר); " +
+          "MC89 אינו נמנה שם.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tcode-catalog.ts#MC89",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#MC89",
+        claim:
+          "רשומת המאגר מתעדת את MC89 כטרנזקציית PP באזור 'תכנון מכירות ותפעול', עם השם האנגלי 'Display Rough-Cut " +
+          "Planning Profile'; משמשת לזיהוי הקוד והמודול בלבד ואינה מקור למעמד ב-S/4HANA.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "MC89 (הצגת פרופיל תכנון גס) נמנה במפורש בפריט הפישוט 9.5.17 S4TWL - Sales and Operation Planning ברשימת " +
+        "הטרנזקציות שבתוך SAP S/4HANA compatibility pack, תחת הקבוצה 'MC87, MC88, MC89 (Planning for material)', " +
+        "ופרטי זכויות השימוש ב-compatibility pack מופנים ל-SAP Note 2269324. פריט הפישוט קובע ש-Sales and " +
+        "Operations Planning כולו יוחלף ב-Integrated Business Planning (IBP), ומציין שאין נתיב מעבר ייעודי מ-PP " +
+        "SOP ל-IBP.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MC89_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להשתמש ב-MC89 רק כפתרון גישור זמני במעבר ל-S/4HANA, בהתאם לפריט הפישוט 9.5.17 S4TWL - Sales and Operation " +
+        "Planning; לבדוק את זכויות השימוש של ה-compatibility pack ב-SAP Note 2269324 (Compatibility Scope Matrix), " +
+        "ולתכנן מעבר לתכנון S&OP במסגרת Integrated Business Planning (IBP) כפתרון היורש שהפריט מגדיר לתחום כולו.",
+    },
+    xrefs: ["tx:MC87", "tx:MC88", "tx:MC81"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק: node scripts/sap-help-search.mjs עם השאילתות 'MC89 Display Rough-Cut Planning Profile' (21 תוצאות, " +
+      "ללא תוצאה ישירה בפריט פישוט עצמו; פגיעה ב-'Rough-Cut Planning Profiles' תחת Sales & Operations Planning " +
+      "LO-LIS-PLN, גרסה 2025.001, מלמדת שהמושג המקצועי עדיין מתועד ב-S/4HANA אך אינה נוקבת בקוד הטרנזקציה עצמו), " +
+      "'Rough-Cut Planning Profile Sales and Operations Planning' (21 תוצאות, אותה תמונה) ו-'MC89 Rough-Cut " +
+      "Planning Profile' עם --product SAP_ERP (21 תוצאות, אותם עמודים מתועדים גם בצד ECC 6.18.latest). הליד על " +
+      "פריט 2023 FPS03 30.9 S4TWL - ANSI/ISA S95 Interface (LO-S95, הערת SAP 2268117) נבדק מול " +
+      "SIMPL_OP2023.pdf.txt שורות 39835-39860: הפריט עוסק בממשק ANSI/ISA S95 ואינו נוקב ב-MC89 או בטרנזקציות SOP; " +
+      "לא נכלל בראיות הרשומה. הקביעה בפועל על MC89 מבוססת על פריט 9.5.17 (2025 FPS01) ו-30.37 (2023 FPS03), " +
+      "הנקראים במלואם מ-scratchpad/official/SIMPL_OP2025.pdf.txt (שורות 44578-44720) ו-SIMPL_OP2023.pdf.txt (שורות " +
+      "42269-42335), לא רק מתוצאת חיפוש. לא הופעל scripts/fal-app.mjs: אף פריט פישוט אינו מציין Fiori app id כיורש " +
+      "ל-MC89, אלא פתרון נפרד (SAP IBP) שאינו בתוך יקום המזהים הקנוניים של הפרויקט, ולכן אינו מצוטט כ-successor " +
+      "מובנה. לא בוצעה בדיקה במערכת SAP חיה. הרשומה תואמת במבנה ובהיקף האימות את רשומות האחות tx:MC81/MC82/MC83 " +
+      "ומחליפה את הרשומה האוטומטית ל-MC89 ב-data/verification/transactions-auto.ts, שתיעדה בספריית Fiori במהדורה " +
+      "S32OP 0 אפליקציות עם קוד מוביל MC89.",
+  },
+
+  /* ----------------------------------------------------- tx:MC93 */
+  {
+    id: "tx:MC93",
+    evidence: [
+      MC93_SIMPL_ITEM_2025,
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tcode-catalog.ts#MC93",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#MC93",
+        claim:
+          "רשומת המאגר מתעדת את MC93 כטרנזקציית PP באזור 'תכנון מכירות ותפעול', עם השם האנגלי 'Create Flexible " +
+          "Sales & Operations Plan'; משמשת לזיהוי הקוד והמודול בלבד ואינה מקור למעמד ב-S/4HANA.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "MC93 (יצירת תכנית מכירות ותפעול גמישה, Flexible Planning) נמנה במפורש בפריט הפישוט S4TWL - Sales and " +
+        "Operation Planning ברשימת הטרנזקציות שבתוך SAP S/4HANA compatibility pack (יחד עם MC94, MC95, קבוצת " +
+        "Flexible Planning), ולפרטי זכויות השימוש של ה-compatibility pack הפריט מפנה ל-SAP Note 2269324. פריט " +
+        "הפישוט קובע ש-Sales and Operations Planning, הכולל גם את התכנון הגמיש, יוחלף ב-Integrated Business " +
+        "Planning (IBP), ומציין שאין נתיב מעבר ייעודי מ-PP SOP ל-IBP.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MC93_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להתייחס ל-MC93 כפתרון גישור או ביניים ב-S/4HANA, בהתאם לפריט הפישוט S4TWL - Sales and Operation Planning; " +
+        "לבדוק את זכויות השימוש של ה-compatibility pack ב-SAP Note 2269324 (Compatibility Scope Matrix), ולתכנן " +
+        "מעבר של התכנון הגמיש ל-Integrated Business Planning (IBP), הפתרון היורש שהפריט מציין לתחום.",
+    },
+    xrefs: ["tx:MC94", "tx:MC95"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא נמצאה רשומה קודמת ל-MC93 ב-data/verification/transactions.ts. הרשומה מחליפה את הרשומה שנוצרה אוטומטית " +
+      "ל-MC93 ב-data/verification/transactions-auto.ts (ישן: ללא הכרעת מעמד, פריט 9.5.17 הובא כהקשר בלבד, 0 " +
+      "אפליקציות Fiori עם קוד מוביל MC93 ב-S32OP; חדש: compatibility_scope על סמך קריאת הפריט המלא). נבדק: MC93 " +
+      "קיים ב-lib/route-manifest.generated.ts (tcodes); MC94 ו-MC95 קיימים גם הם באותה רשימה, ולכן ה-xrefs תקפים. " +
+      "חיפושי scripts/sap-help-search.mjs: 'MC93 flexible planning' (scope SAP_S4HANA_ON-PREMISE, 21 תוצאות) " +
+      "ו-'Create Flexible Planning S/4HANA' (21 תוצאות); אף תוצאה לא הייתה עמוד ייעודי ל-MC93 או לפריט הפישוט. " +
+      "התוצאות היו עמודי תיעוד כלליים של SOP ו-flexible planning (למשל 'Transferring the Flexible Planning " +
+      "Results', 'Master Data Generator in Standard SOP') תחת S/4HANA On-Premise 2025.001, שאינם נוקבים ב-MC93 " +
+      "בכותרת או בתקציר ולכן לא צוטטו. ההכרעה מבוססת על קריאת הטקסט המלא של פריט הפישוט " +
+      "מ-scratchpad/official/SIMPL_OP2025.pdf.txt. נבדק גם scratchpad/official/SIMPL_OP2023.pdf.txt (2023 FPS03, " +
+      "פריט 30.37): MC93 אינו מוזכר בקובץ (grep מלא, אפס תוצאות). זהו היעדר מתועד, לא קביעה על מעמד הקוד ב-2023 " +
+      "FPS03. scripts/fal-app.mjs --tcode MC93 --release S32OP החזיר 'leading app(s): none'. IBP הוא פתרון נפרד " +
+      "שאינו מזהה קנוני ביקום הפרויקט, ולכן אינו מצוטט כ-successor מובנה. לא בוצעה בדיקה במערכת SAP חיה (לא SE93 " +
+      "ולא הרצה בפועל).",
+  },
+
+  /* ----------------------------------------------------- tx:MC94 */
+  {
+    id: "tx:MC94",
+    evidence: [
+      MC94_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 (Document Version 1.35) · item 30.37 " +
+          "S4TWL - Sales and Operation Planning (PP-SOP, SAP Note 2268064)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הגרסה הקודמת של אותו פריט פישוט (30.37, אותה הערת SAP 2268064) עוסקת ב-SOP כולה ובקביעה הכללית ש-SOP " +
+          "יוחלף ב-IBP ('Sales & Operations Planning (SOP) will be replaced by Integrated Business Planning IBP'), " +
+          "אך אינה כוללת את פירוט הרשימה לפי compatibility pack לפי קוד טרנזקציה שמופיע בגרסת 2025 FPS01 " +
+          "(evidence[0]); לכן הקביעה המפורשת ש-MC94 עצמו נמצא ב-compatibility scope, ולא רק שהוא נמנה בתוך פריט " +
+          "פישוט כללי על תחום SOP, מבוססת על evidence[0].",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tcode-catalog.ts#MC94",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#MC94",
+        claim:
+          "רשומת המאגר מתעדת את MC94 כטרנזקציית PP באזור 'תכנון מכירות ותפעול', עם השם האנגלי 'Change Flexible " +
+          "Sales & Operations Plan'; משמשת לזיהוי הקוד והמודול בלבד ואינה מקור למעמד ב-S/4HANA. לא נמצאה במאגר " +
+          "רשומת lifecycle.ts או tx-detail.ts קיימת עבור MC94.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "MC94 (שינוי תכנית מכירות ותפעול גמישה) נמנה במפורש בפריט הפישוט S4TWL - Sales and Operation Planning " +
+        "(9.5.17, 2025 FPS01) ברשימת הטרנזקציות שבתוך SAP S/4HANA compatibility pack (יחד עם MC93 ו-MC95, Flexible " +
+        "Planning), ולפרטי זכויות השימוש הפריט מפנה ל-SAP Note 2269324. פריט הפישוט קובע ש-Sales and Operations " +
+        "Planning כולו יוחלף ב-Integrated Business Planning (IBP), ומציין שאין נתיב מעבר ייעודי מ-PP SOP ל-IBP.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MC94_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להשתמש ב-MC94 רק כפתרון גישור זמני במעבר ל-S/4HANA, בהתאם לפריט הפישוט 9.5.17 S4TWL - Sales and Operation " +
+        "Planning; לבדוק את זכויות השימוש של ה-compatibility pack ב-SAP Note 2269324 (Compatibility Scope Matrix), " +
+        "ולתכנן מעבר לתכנון S&OP במסגרת Integrated Business Planning (IBP) כפתרון היורש שהפריט מגדיר לתחום כולו, " +
+        "ולא כ-successor מובנה בודד.",
+    },
+    xrefs: ["tx:MC93", "tx:MC95", "tx:MC87"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק: (1) נקרא הטקסט המלא של פריט הפישוט 9.5.17 ב-scratchpad/official/SIMPL_OP2025.pdf.txt (שורות " +
+      "44590-44730), כולל הרשימה 'The following SOP transactions are part of the compatibility pack' שבה מופיע " +
+      "'Transaction MC93, MC94, MC95 (Flexible Planning)' באופן מפורש; (2) נקרא הפריט המקביל 30.37 " +
+      "ב-SIMPL_OP2023.pdf.txt (שורות 42269-42300) לצורך השוואה, ואומת שאין בו פירוט לפי קוד טרנזקציה; (3) הופעל " +
+      "scripts/sap-help-search.mjs פעמיים: 'MC94 Flexible Planning Change Sales Operations Plan' (סקופ S/4HANA " +
+      "on-premise, 21 תוצאות) ו-'MC94 Change Flexible Sales Operations Plan' --product SAP_ERP (21 תוצאות, ECC 6.0 " +
+      "EHP8 latest); שני החיפושים החזירו תיעוד כללי של Sales & Operations Planning / Flexible Planning בלי אזכור " +
+      "ישיר של הקוד MC94 בסניפט (הרשומה 'Viewing the Stock Situation from the Distribution Network Tool' מזכירה את " +
+      "המסך 'Change Plan in Flexible Planning: Initial Screen' אך אינה נוקבת בקוד, ולכן אינה מצוטטת); (4) לא הופעל " +
+      "scripts/fal-app.mjs: לא נמצא מועמד Fiori app id רשמי (המחליף המוצהר בפריט הפישוט הוא פתרון SAP IBP, לא " +
+      "Fiori app בודד, ואינו בתוך יקום המזהים הקנוניים של הפרויקט). עמדת ECC (SAP_ERP): לא נמצא בחיפוש הרשמי טקסט " +
+      "המגביל או מסמן compatibility scope עבור MC94 בצד ECC; מושג ה-compatibility pack הוא ספציפי ל-S/4HANA, ולכן " +
+      "אין ברשומה זו קביעת מעמד נפרדת לצד ECC. לא בוצעה בדיקה במערכת SAP חיה. הרשומה מחליפה את הרשומה שנוצרה " +
+      "אוטומטית ל-MC94 ב-data/verification/transactions-auto.ts, שתיעדה בספריית Fiori במהדורה S32OP 0 אפליקציות עם " +
+      "קוד מוביל MC94.",
+  },
+
+  /* ----------------------------------------------------- tx:MC95 */
+  {
+    id: "tx:MC95",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MC95",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#MC95",
+        claim:
+          "רשומת המאגר מתארת את MC95 כ'הצגת תכנית מכירות ותפעול גמישה' (Display Flexible Sales & Operations Plan), " +
+          "מודול PP, תחום 'תכנון מכירות ותפעול'.",
+        verificationLevel: "repository_verified",
+      },
+      MC95_SIMPL_ITEM_2025,
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "MC95 (תכנון גמיש, חלק מ-Sales & Operations Planning) נמנה בפריט הפישוט הרשמי S4TWL - Sales and Operation " +
+        "Planning (9.5.17, 2025 FPS01) כטרנזקציה שנמצאת בחבילת התאימות (compatibility pack) של SAP S/4HANA " +
+        "on-premise, כאשר לפרטי זכויות השימוש הפריט מפנה למטריצת התאימות (הערת SAP 2269324) ומגדיר את PP SOP " +
+        "כפתרון גישור זמני (bridge or interim solution). הפריט אינו נוקב בטרנזקציה או באפליקציית Fiori ספציפית " +
+        "שמחליפה את MC95 עצמה; הוא קובע ש-IBP הוא פתרון היעד הכולל ל-SOP, ללא מסלול הגירה טכני ישיר.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MC95_SIMPL_ITEM_2025,
+      recommendedAction:
+        "יש לבחון עם הלקוח את זכויות השימוש בחבילת התאימות לפי מטריצת התאימות בהערת SAP 2269324, שכן הפריט מגדיר " +
+        "את PP SOP כפתרון גישור זמני, ולתכנן מעבר ל-SAP IBP כפתרון היעד ל-Sales & Operations Planning; אין להסתמך " +
+        "על טרנזקציה או אפליקציית Fiori חלופית ל-MC95 עד שמקור רשמי ינקוב בה.",
+    },
+    xrefs: ["tx:MC93", "tx:MC94"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מחקר: (1) נקראה הרשומה הקיימת ב-data/verification/transactions-auto.ts (רשומה דטרמיניסטית שהביאה את אותו " +
+      "ציטוט פריט הפישוט אך ללא קריאה של גוף הפריט וללא הכרעת מעמד); MC95 מופיע גם " +
+      "ב-lib/route-manifest.generated.ts (tcodes ו-impact) כך שהוא ו-MC93/MC94 קיימים ביקום ה-xref. (2) חיפושים: " +
+      "'MC95' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות, 0 מצוטטות, אף אחת לא נוגעת ל-MC95 עצמו) ובסקופ SAP_ERP (9 " +
+      "רשומות, 0 מצוטטות, לפי הרשומה הקודמת); 'Flexible Planning S/4HANA compatibility' (21 רשומות, כולל דפי " +
+      "'Compatibility Scope' כלליים שאינם נוקבים ב-MC95 עצמו ולכן לא צוטטו). ספריית Fiori במהדורה S32OP: 0 " +
+      "אפליקציות עם קוד מוביל MC95, כפי שנרשם ברשומה הקודמת (לא הורץ מחדש בסבב זה). (3) גוף פריט הפישוט 9.5.17 " +
+      "נקרא במלואו מהקובץ המקומי scratchpad/official/SIMPL_OP2025.pdf.txt (עמ' 804-806); הציטוט לעיל מועתק ממנו. " +
+      "לא בוצעה בדיקה במערכת SAP חיה; לא אומת קיום המסך/התוכנית של MC95 ב-SE93 במערכת יעד. הרשומה מחליפה את הרשומה " +
+      "שנוצרה אוטומטית ל-MC95 ב-data/verification/transactions-auto.ts.",
   },
 ];
