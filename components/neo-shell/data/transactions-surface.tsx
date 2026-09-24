@@ -92,6 +92,16 @@ const VIEWS: { v: View; he: string }[] = [
   { v: "recent", he: "נצפו לאחרונה" },
 ];
 
+// Same control order as the other six catalogs (design audit S7-CAT-8):
+// search · view · sort. "Relevance" is the order the list always had (search
+// score, else depth then popularity, else the view's own order).
+type Sort = "rel" | "code" | "module";
+const SORTS: { s: Sort; he: string }[] = [
+  { s: "rel", he: "רלוונטיות" },
+  { s: "code", he: "קוד הטרנזקציה" },
+  { s: "module", he: "מודול" },
+];
+
 /* --------------------------------------------------------------- matching
    Typo-tolerant, in the same three tiers the live centre uses: prefix beats an
    inner substring beats an in-order subsequence. Every token has to land, so a
@@ -215,6 +225,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
   const recent = useRecentTx();
 
   const [view, setView] = useState<View>("all");
+  const [sort, setSort] = useState<Sort>("rel");
   const [q, setQ] = useState("");
   const [mod, setMod] = useState("");
   const [topic, setTopic] = useState("");
@@ -252,8 +263,10 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
           a.code.localeCompare(b.code),
       );
     }
+    if (sort === "code") rows = [...rows].sort((a, b) => a.code.localeCompare(b.code));
+    else if (sort === "module") rows = [...rows].sort((a, b) => a.module.localeCompare(b.module) || a.code.localeCompare(b.code));
     return rows;
-  }, [all, reg, view, favs, recent, popular, mod, topic, obj, fiori, q]);
+  }, [all, reg, view, favs, recent, popular, mod, topic, obj, fiori, q, sort]);
 
   const shown = list.slice(0, limit);
   const dirty = !!q || !!mod || !!topic || !!obj || fiori;
@@ -415,6 +428,13 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
             </button>
           ))}
         </div>
+
+        <label className="nxd-sort">
+          <span>מיון</span>
+          <select value={sort} onChange={(e) => { setSort(e.target.value as Sort); setLimit(PAGE); }}>
+            {SORTS.map((x) => <option key={x.s} value={x.s}>{x.he}</option>)}
+          </select>
+        </label>
       </div>
 
       <div className="nxd-facets nm-fade nm-once">
