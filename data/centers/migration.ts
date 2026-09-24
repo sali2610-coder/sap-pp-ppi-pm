@@ -49,7 +49,7 @@ export const MIGRATIONS: CenterItem[] = [
     ["EQUI/IFLOT/AUFK/QMEL", "מחזורי הודעה/פקודה/תכנית", "BAPIs (ALM_*)"],
     ["UX ל-Fiori EAM", "עלויות ל-ACDOCA", "מדדי אמינות ב-Analytics"],
     ["דוחות PMIS ישנים → CDS/Fiori"],
-    ["Manage Maintenance Orders", "Manage Technical Objects", "Confirm Jobs"], ["C_MaintOrderListReport", "I_Equipment"], ["API_MAINTENANCEORDER"],
+    ["Manage Maintenance Orders", "Manage Technical Objects", "Perform Maintenance Jobs (F5104A)"], ["C_MaintOrderListReport", "I_Equipment"], ["API_MAINTENANCEORDER"],
     ["דוחות Z על טבלאות PM → CDS", "הרשאות Fiori (Catalogs)", "התחשבנות ל-ACDOCA"],
     ["מחזור פקודת אחזקה מלא", "ודא Catalogs/Roles ל-Fiori", "התחשבנות ל-ACDOCA", "מדדי MTTR/MTBF"]),
   mk("pppi-process-orders", "PP-PI", "פקודות תהליך", "Process Orders in S/4", "מבנה פקודת תהליך נשמר; OData/Fiori + PP-DS/aATP.",

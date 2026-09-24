@@ -132,9 +132,9 @@ export const DOMAIN_DETAIL: Record<string, DomainDetail> = {
     qa: ["Positive: אישור חלקי + סופי → עלות בפועל מתעדכנת.", "Negative: פקודה לא משוחררת → אישור נחסם.", "Integration: GI חומר באישור → צריכת RESB + עלות.", "Regression: ביטול אישור (IW45) מהפך עלות/מלאי."],
     incidents: ["לא ניתן לאשר — סטטוס לא REL/תקופה סגורה.", "עלות לא נרשמה — CRCO/סוג פעילות.", "מלאי שלילי — GI ללא מלאי.", "אישור כפול — חוסר בקרת כמות."],
     scenario: "בארגון: טכנאי מאשר 4 שעות + צריכת 2 אטמים ב-IW41 על פקודת אחזקת ממלאת. העלות (שעות×תעריף מרכז עלות + חומרים) נצברת בפקודה; לאחר השלמה — TECO.",
-    fiori: ["Confirm Jobs", "My Maintenance Jobs"],
+    fiori: ["Perform Maintenance Jobs (F5104A)"],
     migration: "AFRU נשמר. QA: אישור + עלות (ל-ACDOCA) + צריכת מלאי (MATDOC) לאחר המרה.",
-    eccS4: { unchanged: "מודל AFRU זהה.", changed: "UX ל-Fiori + מובייל לטכנאי.", fiori: "Confirm Jobs", migration: "QA: אישור + עלות + מלאי." } },
+    eccS4: { unchanged: "מודל AFRU זהה.", changed: "UX ל-Fiori + מובייל לטכנאי.", fiori: "Perform Maintenance Jobs (F5104A)", migration: "QA: אישור + עלות + מלאי." } },
   "pm-settlement": {
     purpose: "התחשבנות מעבירה עלויות פקודה ליעד (מרכז עלות/נכס/הזמנה) לפי כלל התחשבנות. מנקה את הפקודה ומשייכת עלות לבעלים העסקי. בלי התחשבנות העלות 'תקועה' בפקודה.",
     diagram: ["צבירת עלויות (אישורים/חומרים)", "הגדרת כלל התחשבנות", "הרצת התחשבנות (KO88)", "העברה ליעד", "בדיקת יתרה 0", "סגירה עסקית (CLSD)"],

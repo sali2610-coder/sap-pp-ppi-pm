@@ -60,7 +60,7 @@ export const PROCESS_MAPS: ProcessMap[] = [
       { he: "הודעה / תכנית מונעת", tcodes: ["IW21", "IP30"], tables: ["QMEL", "MPLA", "MHIS"], fiori: ["Create Maintenance Request"], incidents: ["plan-no-orders", "downtime-not-recorded"], test: "הודעת תקלה / IP30 יוצר פקודה במועד." },
       { he: "פקודת אחזקה", tcodes: ["IW31", "IW32"], tables: ["AUFK", "AFIH", "AFVC"], fiori: ["Create Maintenance Order"], interfaces: ["API_MAINTENANCEORDER"], incidents: ["order-wont-release", "permit-not-auto-assigned", "equipment-not-in-order"], test: "PM01 עם פעולה+רכיב; היתרים; שחרור." },
       { he: "חלפים (PM-MM)", tcodes: ["IW32", "ME53N", "MIGO"], tables: ["RESB", "EBAN"], fiori: ["Process Purchase Requisitions"], incidents: ["pm-cost-no-activity-type"], test: "רכיב מלאי→GI; לא-מלאי→PR." },
-      { he: "ביצוע + אישור", tcodes: ["IW41", "IW42"], tables: ["AFRU"], fiori: ["Confirm Jobs"], incidents: ["confirm-period-closed"], test: "אישור שעות+חומרים; TECO." },
+      { he: "ביצוע + אישור", tcodes: ["IW41", "IW42"], tables: ["AFRU"], fiori: ["Perform Maintenance Jobs (F5104A)"], incidents: ["confirm-period-closed"], test: "אישור שעות+חומרים; TECO." },
       { he: "התחשבנות", tcodes: ["KO88"], tables: ["COBRB", "ACDOCA"], fiori: ["Run Settlement"], incidents: ["settlement-error", "teco-blocked"], test: "התחשבנות למרכז עלות (ACDOCA)." },
     ] },
 ];

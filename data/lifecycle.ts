@@ -53,7 +53,7 @@ export const LIFECYCLE: Record<string, Lifecycle> = {
   // ---- Capacity leveling ----
   "CM21": { status: "Deprecated", ecc: true, s4: true, fiori: "Capacity Scheduling Board (PP-DS)", alt: "PP-DS Planning Board", simplification: "Capacity planning — PP-DS", migration: "כלי leveling קלאסי; ב-S/4 העדף PP-DS Planning Board.", impact: "Medium" },
   // ---- PM (mostly active, Fiori UX) ----
-  "IW31": { status: "Active", ecc: true, s4: true, fiori: "Create Maintenance Order (F2731)", migration: "נתמך; UX מומלץ Fiori EAM.", impact: "Low" },
+  "IW31": { status: "Active", ecc: true, s4: true, fiori: "Manage Maintenance Orders (F5241)", migration: "נתמך; UX מומלץ Fiori EAM.", impact: "Low" },
   "IW21": { status: "Active", ecc: true, s4: true, fiori: "Create Maintenance Request (F1511A)", migration: "נתמך; Fiori מקביל.", impact: "Low" },
   // ---- CO settlement / costing (active, ACDOCA) ----
   "KO88": { status: "Active", ecc: true, s4: true, fiori: "Run Settlement", simplification: "Universal Journal (ACDOCA)", migration: "נתמך; עלויות זורמות ל-ACDOCA.", impact: "Low" },

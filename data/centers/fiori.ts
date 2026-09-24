@@ -17,12 +17,17 @@ const mk = (slug: string, module: string, he: string, app: string, gui: string, 
 });
 
 export const FIORI_APPS: CenterItem[] = [
-  mk("manage-maintenance-orders", "PM", "ניהול הזמנות אחזקה", "Manage Maintenance Orders", "IW31 / IW32 / IW38", "F2731", "SAP_EAM_BC_MAINT_PLANNER", "SAP_BR_MAINTENANCE_PLANNER", "API_MAINTENANCEORDER", "C_MaintOrderListReport", "הוסף Catalog SAP_EAM_BC_MAINT_PLANNER ל-Group; הקצה Role למשתמש.", "x"),
+  // F5241 · 2026-09-25: the card carried F2731, which is in no official record (fiori:F2731); the name
+  // belongs to F5241. Values as in data/fiori/apps.ts#F5241 (scripts/fal-app.mjs F5241, S32OP).
+  mk("manage-maintenance-orders", "PM", "ניהול הזמנות אחזקה", "Manage Maintenance Orders", "IW31 / IW32 / IW33 / IW37N / IW38 / IW39", "F5241", "SAP_EAM_BC_WORKORD_MNG", "SAP_BR_MAINTENANCE_PLANNER", "UI_MAINTENANCEORDER_MANAGE", "טרם אומת", "תפקיד SAP_BR_MAINTENANCE_PLANNER וקטלוג SAP_EAM_BC_WORKORD_MNG לפי ספריית ה-Fiori; טרנזקציית GUI מובילה IW31, קשורות IW32, IW33, IW37N, IW38 ו-IW39.", "x"),
   // F1511 · 2026-09-24: name, catalog, role and OData from the SAP Fiori Apps Reference Library
   // (scripts/fal-app.mjs F1511, S32OP), as in data/fiori/apps.ts#F1511. The curated name
   // "Create Maintenance Request" belongs to F1511A.
   mk("create-maintenance-request", "PM", "פתיחת בקשת אחזקה", "Request Maintenance", "IW21", "F1511", "SAP_EAM_BC_MREQ", "SAP_BR_EMPLOYEE_MAINTENANCE", "EAM_NTF_CREATE", "C_MaintNotificationListReport", "Self-service tile לעובד (SAP_BR_EMPLOYEE_MAINTENANCE); דורש את הקטלוג SAP_EAM_BC_MREQ לפי ספריית ה-Fiori.", "x"),
-  mk("confirm-jobs", "PM", "אישור עבודות אחזקה", "Confirm Jobs", "IW41 / IW42", "F2730", "SAP_EAM_BC_MAINT_WORKER", "SAP_BR_MAINTENANCE_TECHNICIAN", "API_MAINTENANCEORDERCONF", "—", "Tile לטכנאי; תומך מובייל לאישור בשטח.", "x"),
+  // F5104A · 2026-09-25: Confirm Jobs was deprecated in S/4HANA 2022 and deleted from the launchpad in 2023
+  // (What's New; fiori:F2730, fiori:W0020). The card keeps its slug and shows the documented successor,
+  // with the values of data/fiori/apps.ts#F5104A (scripts/fal-app.mjs, S32OP).
+  mk("confirm-jobs", "PM", "ביצוע עבודות אחזקה (היורש של Confirm Jobs)", "Perform Maintenance Jobs", "IW41", "F5104A", "SAP_EAM_BC_MNTJOB_MNG", "SAP_BR_MAINTENANCE_TECHNICIAN", "API_MAINTNOTIFICATION / API_MAINTORDERCONFIRMATION / UI_MAINTENANCEJOB_MANAGE", "—", "Confirm Jobs (W0020) הוצאה משימוש ב-S/4HANA 2022 ונמחקה מה-Launchpad ב-2023; What's New 2022 מונה כיורשים את Perform Maintenance Jobs (F5104A) ואת Report and Repair Malfunction (F2023).", "x"),
   mk("manage-technical-objects", "PM", "ניהול אובייקטים טכניים", "Manage Technical Objects", "IE01 / IL01 / IH08", "F2730A", "SAP_EAM_BC_TECH_OBJ", "SAP_BR_MAINTENANCE_PLANNER", "API_FUNCTIONALLOCATION / API_EQUIPMENT", "I_Equipment / I_FunctionalLocation", "Catalog לאובייקטים טכניים; כולל list+detail.", "x"),
   // corrected 2026-09-22: F4072 is Screen Maintenance Requests (official), not a scheduling app
   mk("screen-maintenance-requests", "PM", "סינון וקבלת בקשות תחזוקה", "Screen Maintenance Requests", "IW21 / IW22 / IW23 / IW28 / IW29", "F4072", "SAP_EAM_BC_MREQ_DSP", "SAP_BR_MAINT_SUPERVISOR", "UI_MAINTWORKREQUESTOVW_V2", "—", "סינון וקבלה של בקשות תחזוקה לפי Maintenance Management 2025 FPS01; תזמון תכניות תחזוקה מתועד תחת F2774 / F5325 (לשתיהן רשומות אימות בפרויקט). תפקיד, קטלוג, OData וטרנזקציות GUI מספריית ה-Fiori (scripts/fal-app.mjs F4072, S32OP).", ""),

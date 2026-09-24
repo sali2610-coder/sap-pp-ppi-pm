@@ -14,7 +14,7 @@ export const BLUEPRINTS: CenterItem[] = [
       { title: "Troubleshooting", type: "bullets", tone: "#dc2626", items: ["פקודה לא משתחררת → היתרים/זמינות", "אישור נכשל → תקופה סגורה (MMRV)", "עלות תקועה → כלל התחשבנות"] },
       { title: "QA Validation", type: "bullets", tone: "#be185d", items: ["Positive: מחזור מלא הודעה→התחשבנות (יתרה 0)", "Negative: שחרור עם היתר פתוח נחסם", "Integration: PR לרכיב לא-מלאי → קבלה → עלות"] },
     ],
-    eccS4: { unchanged: "מחזור הודעה→פקודה→אישור→התחשבנות זהה.", changed: "UX ל-Fiori; עלויות ל-ACDOCA; מדדי אמינות ב-Embedded Analytics.", fiori: "Manage Maintenance Orders / Confirm Jobs", simplification: "Universal Journal.", migration: "QA: מחזור מלא + התחשבנות ל-ACDOCA." } },
+    eccS4: { unchanged: "מחזור הודעה→פקודה→אישור→התחשבנות זהה.", changed: "UX ל-Fiori; עלויות ל-ACDOCA; מדדי אמינות ב-Embedded Analytics.", fiori: "Manage Maintenance Orders / Perform Maintenance Jobs (F5104A)", simplification: "Universal Journal.", migration: "QA: מחזור מלא + התחשבנות ל-ACDOCA." } },
   { slug: "pm-preventive", module: "PM", eyebrow: "Business Blueprint · PM", he: "אחזקה מונעת", title: "Preventive Maintenance", sub: "בלופרינט אחזקה מונעת מבוססת-זמן/ביצועים עם תכניות ותזמון אוטומטי.", accent: A, tag: "PM",
     sections: [
       { title: "Scope", type: "text", tone: A, text: "תכנון וביצוע אחזקה מונעת מתוזמנת: אסטרטגיות, תכניות אחזקה, רשימות פעולות, וניטור מועדים אוטומטי (IP30) ליצירת פקודות במועד." },
