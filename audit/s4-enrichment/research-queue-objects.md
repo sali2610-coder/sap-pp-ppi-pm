@@ -13,7 +13,7 @@ audited JSON) confirmed every field. Writer changes, nothing else: `status.sourc
 hoisted evidence const (house style) instead of the pointer string or copy in the verdict (for
 `obj:process-order` the verdict's copy of the F4587 row carried the claim 'ראו evidence[2]'; the
 record now points at the row itself); dates use the file's constants (`DATE`, `SEED_DATE`,
-`DATE24`); the `reviewer: "sali2610@gmail.com"` field of the process-order draft was dropped
+`DATE24`); the `reviewer: "<personal address>"` field of the process-order draft was dropped
 (no overlay record in `data/verification/**` carries one, and no human sign-off happened).
 Registry members were not changed. No new SAP lookups were run by the writer. The catalog left
 the repository-only foundation guard in `test/evidence-schema.test.ts` in the same change: it
@@ -57,7 +57,7 @@ release '2025 FPS01' on the Simplification List row, as in `obj:batch` and `enha
 planned-order: no downgrades listed). Writer changes: `status.source` is the hoisted evidence const
 (`MPOINT_DEF_S4_2025`, `TASKLIST_F2660_FAL`, `RESV_F4839_FAL`, `PLORD_API_WN2021`; the planned-order
 draft carried the pointer string 'evidence[1]'); dates use the file's constants; the
-`reviewer: "sali2610@gmail.com"` field of the reservation `fixedRecord` was dropped (no overlay
+`reviewer: "<personal address>"` field of the reservation `fixedRecord` was dropped (no overlay
 record carries one, and no human sign-off happened); all four restored seed rows keep `SEED_DATE`
 and their text (the planned-order draft had re-stamped its unchanged seed row 2026-09-24; it now
 equals the seed row, as the sibling verdicts required for theirs). Three writer honesty fixes, no
@@ -83,7 +83,7 @@ written from its auditor's `fixedRecord`. `obj:master-recipe` was refuted at its
 and keeps its 2026-09-22 seed record (see `## refuted`). Writer changes: `status.source` of
 `obj:work-center` is the hoisted evidence const `WKC_API_MFG_2025` (the verdict carried the pointer
 string 'evidence[2] (...)'); dates use the file's constants; the `reviewer` fields
-('researcher-subagent' on material-bom, 'sali2610@gmail.com' on work-center) were dropped (no overlay
+('researcher-subagent' on material-bom, '<personal address>' on work-center) were dropped (no overlay
 record carries one, and no human sign-off happened); the material-bom `aliases: null` was dropped
 (the type takes a string array or nothing); the material-bom `fixedRecord` had re-stamped its
 unchanged seed row 2026-09-24, and that row keeps `SEED_DATE`, as the production-order verdict
