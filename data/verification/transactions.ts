@@ -226,7 +226,37 @@
    MS01, MS03 and MS31 end with the sentence that the generated record in
    transactions-auto.ts is superseded (MM03 and MS02 already said so); MS31
    names the two generated context rows it does not carry (its tcode-catalog
-   row and an HCM Slovakia wage-type search record). */
+   row and an HCM Slovakia wage-type search record).
+   Batch 18 (research + adversarial audit 2026-09-24, written 2026-09-25;
+   access date stamped 2026-09-24): 6 audited records (MS32, MS33, MSC1,
+   MSC2, MSC3, OPL8), none refuted. MS32, MS33, MSC2 and MSC3 from
+   verdict.fixedRecord; MSC1 and OPL8 from the drafts with their auditors'
+   downgrades applied, each anchor matched exactly once. Status sources point
+   at the new shared MS32_FAL, MS33_FAL, MSC1_SIMPL_ITEM_2025,
+   MSC2_SIMPL_ITEM_2025, MSC3_SIMPL_ITEM_2025 and OPL8_SIMPL_ITEM_2025 consts
+   instead of the 'evidence[0]' marker strings, the stub or the re-typed
+   copies the drafts and verdicts carried (MS32, MSC3 and OPL8 copies checked
+   equal to their evidence rows, field by field). Writer corrections: the
+   MSC3 sapNote fields dropped (sap-note-format, the finding the MSC2 auditor
+   made on the same rows; the number stays in the claims as the items print
+   it); the MSC1 summary downgrade changes nothing written (no summary field),
+   its gaps[2] downgrade folded into the last notes sentence, and the residual
+   'רק עמודים שמתעדים את MSC1N' clause after the verdict's notes replacement
+   dropped (HOUSE-RULES §3.2); the MSC2 recommendedAction no longer asks the
+   reader to edit data/tx-intel.ts (the MSC3 auditor's fix for the same
+   pattern; the backlog item moved to notes) and its notes' 'not published as
+   a standalone page' verdict-from-absence written as a documented negative
+   (§3.3); 'בלבד' / 'רק' dropped from the MS33 status.he and notes on the
+   Other Terms mention (the batch-17 MS31 form); the MS33 Fiori Apps Library
+   row titled in the MS02 / MS32 house form; the OPL8 research-round Old → New
+   list labelled as unwritten drafts (the batch-17 MS01 reading of §3.8).
+   Every notes field ends with the sentence that the generated record in
+   transactions-auto.ts is superseded (MS32 and MS33 already said so); MSC2
+   carries that record's SAP ERP 6.18 search row 'Consistency Check for
+   Changes | Batch Management (LO-BM)' verbatim as a context row (the batch-12
+   MC84 precedent), and MSC1 and MSC3 carry its documented Fiori negative
+   (S32OP, 0 apps with the leading code), since fal-app was not run on those
+   codes. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -2274,6 +2304,117 @@ const MS31_FAL: Evidence = {
     "ספריית האפליקציות הרשמית של Fiori רושמת את MS31 כאפליקציה 'Create LTP Scenario' מסוג SAP GUI, ברכיב " +
     "PP-MRP-BD, בסטטוס Published, ללא predecessor או successor רשומים ('predecessors: -; successors: -'). רשימת " +
     "השחרורים שברשומה משתרעת מ-S6OP (1610) ועד S32OP (2025 FPS01).",
+  verificationLevel: "sap_official_verified",
+};
+
+const MS32_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Fiori Apps Library · App MS32 'Change LTP Scenario' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MS32')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "ספריית האפליקציות הרשמית של Fiori רושמת את MS32 כאפליקציית SAP GUI בשם 'Change LTP Scenario', בסטטוס " +
+    "Published, ברכיב PP-MRP-BD (Basic Data), קטלוג טכני SAP_TC_SCM_PP_BE_APPS:S4PP, אינטנט " +
+    "LongTermPlanningScenario-change, טרנזקציית GUI מובילה MS32. רשימת השחרורים ברשומה משתרעת מ-S6OP (1610) ועד " +
+    "S32OP (2025 FPS01) ברציפות, ושדות ה-predecessor וה-successor ריקים ('predecessors: -; successors: -').",
+  verificationLevel: "sap_official_verified",
+};
+
+const MS33_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Fiori Apps Library · App MS33 'Display LTP Scenario' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MS33')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "ספריית האפליקציות הרשמית של Fiori רושמת את MS33 כאפליקציית SAP GUI בשם 'Display LTP Scenario' (רכיב " +
+    "PP-MRP-BD), בסטטוס Published, ברשימת שחרורים מ-S6OP (1610) ועד S32OP (2025 FPS01), עם קטלוג טכני " +
+    "SAP_TC_SCM_PP_BE_APPS:S4PP וכוונה (intent) LongTermPlanningScenario-display; שדות ה-predecessor וה-successor " +
+    "שלה ריקים; טרנזקציית ה-GUI המובילה והקשורה היא MS33.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MSC1_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 · item 5.1.8 S4TWL - Logistics Batch " +
+    "Management (SAP Note 0002267298)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "פריט 5.1.8 'S4TWL - Logistics Batch Management' (מהדורת 2025 FPS01, מבוסס על SAP Note 0002267298) קובע " +
+    "במפורש: 'The following transactions related to Logistics Batch Management are not available in SAP S/4HANA, " +
+    "on-premise edition 1511: MSC1, MSC2, MSC3 and MSC4'. הפריט ממשיך: 'The functional equivalent in SAP S/4HANA, " +
+    "on-premise edition 1511 are the following transactions: MSC1N Create Batch, MSC2N Change Batch, MSC3N Display " +
+    "Batch, MSC4N Display Change Documents for Batch'. הפריט מבהיר שכבר מ-Release 4.6A הומלץ להשתמש בקודי MSC*N, " +
+    "והטרנזקציות הקודמות וקוד התוכנית שלהן אינם זמינים ב-S/4HANA on-premise edition 1511 (לשון הפריט: not " +
+    "available).",
+  verificationLevel: "sap_official_verified",
+};
+
+const MSC2_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item 5.1.8 S4TWL - " +
+    "Logistics Batch Management (LO-BM-MD)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (הערה 0002267298, 'Logistics Batch Management') קובע במפורש: 'The following transactions related to " +
+    "Logistics Batch Management are not available in SAP S/4HANA, on-premise edition 1511: MSC1, MSC2, MSC3 and " +
+    "MSC4. The functional equivalent in SAP S/4HANA, on-premise edition 1511 are the following transactions: MSC1N " +
+    "Create Batch, MSC2N Change Batch, MSC3N Display Batch, MSC4N Display Change Documents for Batch.' לגבי MSC2 " +
+    "באופן ספציפי: הקוד אינו זמין ב-S/4HANA on-premise (מגרסה 1511 ואילך), והחלופה הפונקציונלית הנקובה במפורש היא " +
+    "MSC2N (Change Batch); הפריט מוסיף שכבר מגרסת 4.6A הומלץ להשתמש בקודי ה-*N החדשים.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MSC3_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "S4TWL - Logistics Batch Management (SAP S/4HANA 2025 FPS01 Simplification List, item 5.1.8, p. 104-105)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "אותו פריט (S4TWL - Logistics Batch Management, הערה 2267298, Application Component LO-BM-MD) מופיע ברשימת " +
+    "הפישוט העדכנית (2025 FPS01) בנוסח כמעט זהה: 'The following transactions related to Logistics Batch Management " +
+    "are not available in SAP S/4HANA, on-premise edition 1511: MSC1, MSC2, MSC3 and MSC4. The functional " +
+    "equivalent... are the following transactions: MSC1N Create Batch, MSC2N Change Batch, MSC3N Display Batch, " +
+    "MSC4N Display Change Documents for Batch'. טבלת הסיכום מציבה שוב את MSC3 תחת 'Transaction not available in " +
+    "SAP S/4HANA on-premise edition 1511'. מכאן שהממצא מופיע גם במהדורה העדכנית ביותר שנבדקה (2025 FPS01), ולא רק " +
+    "ברשימת 2023 FPS03.",
+  verificationLevel: "sap_official_verified",
+};
+
+const OPL8_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "S4TWL - Simplified Sourcing (SAP S/4HANA 2025 FPS01 Simplification List, item 9.5.5)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "בטבלת ההשוואה של הפריט ('The SAP S/4HANA sourcing logic differs from the classic business suite sourcing " +
+    "logic in the following aspects'), בעמודת Business Suite Logic: 'The order type attribute \"Routing " +
+    "selection\" T399X-ARBPA determines how a routing is determined during production order creation. The " +
+    "attribute can be defined in customizing transaction OPL8.'; בעמודת SAP S/4HANA Logic באותה שורה: 'Production " +
+    "versions are the only source of supply for in-house production. A production version references a routing. " +
+    "This routing is used to create production orders'; בעמודת Reason: 'Simplification of the sourcing logic'.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -13931,5 +14072,601 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "הכרעת מעמד; חדש: unchanged); שורות ההקשר שלה מרשומת המאגר data/tcode-catalog.ts#MS31 ('יצירת תרחיש תכנון') " +
       "ומרשומת החיפוש 'Evaluation of Certain Wage Types | HCM Local Version for Slovakia' (כותרתה עוסקת בסוגי שכר, " +
       "והסניפט שלה מציג את MS31 לצד 'Meal allowance') לא הועברו.",
+  },
+  {
+    id: "tx:MS32",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MS32",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את MS32 כ'שינוי תרחיש תכנון', מודול PP, תחום 'תכנון לטווח ארוך'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MS32",
+      },
+      MS32_FAL,
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Creating and Changing the Planning Scenario (Production Planning and Control (PP), SAP ERP 6.0 EHP8 " +
+          "Latest)",
+        url: "https://help.sap.com/docs/SAP_ERP/a0d3efbac8b14fc89b29bf47a1677c86/a973b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש ב-help.sap.com בהיקף SAP_ERP (loio a973b6535fe6b74ce10000000a174cb4) מציגה נושא בשם " +
+          "'Creating and Changing the Planning Scenario' תחת התחום Production Planning and Control (PP); הקטע " +
+          "(snippet) מתאר את הפעולה 'Changing the planning scenario' דרך התפריט Long-Term Planning > Scenario > " +
+          "Change. הקטע אינו נוקב בקוד טרנזקציה; ההצמדה ל-MS32 נשענת על שם הפעולה ואינה מודפסת ברשומה. גוף העמוד " +
+          "בהיקף SAP_ERP לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Creating and Changing the Planning Scenario (Production Planning and Control, SAP S/4HANA On-Premise " +
+          "2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/a973b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד נקרא דרך scripts/sap-help-body.mjs (גרסה 2025.001, אותו loio). תחת 'Changing the planning " +
+          "scenario' הוא מתאר: בחירה בתפריט Long-Term Planning > Scenario > Change, הזנת המפתח המספרי של תרחיש " +
+          "התכנון ו-Continue; לפי הטקסט 'The control data maintained when creating the scenario is displayed and " +
+          "can be changed as required - as long as the scenario has not been released.' גוף העמוד אינו נוקב בקוד " +
+          "MS32; ההצמדה ל-MS32 נשענת על שם הפעולה (Change) ועל שם האפליקציה 'Change LTP Scenario' בספריית Fiori.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 10.4.26 " +
+          "S4TWL - BOM, Routing, Production Version",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט נקרא במלואו (SIMPL_OP2025.pdf.txt מתחיל בשורה 53199). לפי Reason and Prerequisites: 'Production " +
+          "versions are mandatory in S/4HANA. MRP, planned order creation, and production order creation only find " +
+          "a BOM and routing alternative if a production version is maintained for the BOM and routing " +
+          "alternative.' חלק ה-Solution מפנה לדוחות CS_BOM_PRODVER_MIGRATION ו-CS_BOM_PRODVER_MIGRATION02. MS31, " +
+          "MS32 ו-MS33 מופיעים ברשימת Other Terms שבחלק Symptom בראש הפריט ('planning, STLID, LTPID, CSLID, OPPQ, " +
+          "PLSC-LTPID, MS31, MS32, MS33, STLAN,'), ואינם נזכרים בחלקי Reason and Prerequisites, Solution או " +
+          "Required and Recommended Action(s). הפריט אינו קובע דבר על MS32 עצמה ומובא כהקשר.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 28.7 " +
+          "S4TWL - BOM, Routing, Production Version",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE24,
+        claim:
+          "באותו פריט בנוסח 2023 FPS03 (item 28.7) נקבע אף הוא שגרסת ייצור היא חובה ב-S/4HANA, ושמאז S/4HANA " +
+          "on-premise edition 1511 השתנה היחס הפונקציונלי בין BOM, Routing ו-Production Version. MS31, MS32 ו-MS33 " +
+          "מופיעים ברשימת Other Terms שבסוף הפריט (SIMPL_OP2023.pdf.txt שורה 36655), ואינם נזכרים בחלקי Reason and " +
+          "Prerequisites, Solution או Required and Recommended Action(s). הפריט אינו קובע דבר על MS32 עצמה ומובא " +
+          "כהקשר.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "ספריית האפליקציות של Fiori רושמת את MS32 ('Change LTP Scenario') כאפליקציית SAP GUI בסטטוס Published " +
+        "ב-S/4HANA 2025 FPS01 On-Premise (S32OP), ברשימת שחרורים מ-1610 (S6OP) ועד S32OP, ושדות ה-predecessor " +
+        "וה-successor שלה ריקים. נושא העזרה 'Creating and Changing the Planning Scenario' מופיע באותו loio ב-SAP " +
+        "ERP 6.0 EHP8 וב-S/4HANA On-Premise 2025 FPS01; פריט הפישוט 'S4TWL - BOM, Routing, Production Version' " +
+        "מזכיר את MS32 ברשימת Other Terms ואינו קובע עליה דבר.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MS32_FAL,
+      recommendedAction:
+        "אין פעולת הסבה ייעודית ל-MS32 לפי המקורות שנבדקו. לפי פריט הפישוט 'S4TWL - BOM, Routing, Production " +
+        "Version', גרסת ייצור היא חובה ל-MRP, ליצירת הזמנה מתוכננת וליצירת הזמנת ייצור; מומלץ לכלול בבדיקות ההסבה " +
+        "גם תרחישי תכנון לטווח ארוך, שכן MS32 מופיעה ברשימת מילות המפתח של הפריט, אך הפריט אינו מפרט השפעה עליהם.",
+    },
+    xrefs: ["tx:MS31", "tx:MS33"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה (SE93). חיפושים שרצו ב-scripts/sap-help-search.mjs: 'MS32 Change LTP " +
+      "Scenario' בהיקף S/4HANA On-Premise (21 תוצאות) ובהיקף SAP_ERP (21 תוצאות); 'MS32 change planning scenario' " +
+      "בהיקף S/4HANA On-Premise (21 תוצאות) ובהיקף SAP_ERP (21 תוצאות); בשני החיפושים בהיקף S/4HANA On-Premise " +
+      "רשומה אחת נוקבת ב-MS32 בכותרת או בסניפט: 'Evaluation of Certain Wage Types | HCM Local Version for " +
+      "Slovakia', העוסקת בסוגי שכר ולא בטרנזקציה; בשני החיפושים בהיקף SAP_ERP אף רשומה אינה נוקבת ב-MS32 בכותרת או " +
+      "בסניפט. 'Long-Term Planning Scenario' בהיקף S/4HANA On-Premise (21 תוצאות) ובהיקף SAP_ERP (21 תוצאות), אף " +
+      "אחת מהן אינה נוקבת ב-MS32. 'Creating and Changing the Planning Scenario' בשני ההיקפים (21 תוצאות כל אחד) " +
+      "החזיר את loio a973b6535fe6b74ce10000000a174cb4 ב-2025.001 וב-6.18.latest; גוף העמוד נקרא בגרסת 2025.001 דרך " +
+      "scripts/sap-help-body.mjs; גוף גרסת SAP_ERP לא נקרא. scripts/fal-app.mjs MS32 --release S32OP " +
+      "(predecessors: -; successors: -). רשימות הפישוט נקראו מ-scratchpad/official (SIMPL_OP2025.pdf.txt " +
+      "ו-SIMPL_OP2023.pdf.txt). מקור הסטטוס הוא רשומת ה-Fiori Apps Library. הרשומה שנוצרה אוטומטית ל-MS32 " +
+      "ב-data/verification/transactions-auto.ts מוחלפת ברשומה זו (ישן: ללא הכרעת מעמד, חמש שורות הקשר, וחיפושי " +
+      "'MS32' בהיקף S/4HANA On-Premise עם 21 רשומות ובהיקף SAP_ERP עם 13 רשומות; חדש: unchanged על סמך Fiori Apps " +
+      "Library); שורת ההקשר מרשומת החיפוש 'Evaluation of Certain Wage Types | HCM Local Version for Slovakia' לא " +
+      "הועברה, ופריטי הפישוט עברו עם release בצורת versionId (2025.001, 2023.003).",
+  },
+  {
+    id: "tx:MS33",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MS33",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מתארת את MS33 כ'הצגת תרחיש תכנון' (Display Planning Scenario), מודול PP, תחום 'תכנון לטווח " +
+          "ארוך'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MS33",
+      },
+      MS33_FAL,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - BOM, Routing, Production Version (SAP S/4HANA 2025 FPS01 Simplification List, item 10.4.26; " +
+          "באותה כותרת ב-2023 FPS03, item 28.7)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט נקרא במלואו. לפי Reason and Prerequisites: 'Production versions are mandatory in S/4HANA. MRP, " +
+          "planned order creation, and production order creation only find a BOM and routing alternative if a " +
+          "production version is maintained for the BOM and routing alternative.' רשימת Other Terms של הפריט מונה " +
+          "עשרות מילות מפתח ובהן 'long-term planning' ו-'MS31, MS32, MS33' לצד MS01, MS02, MS03, C223 ועוד (בנוסח: " +
+          "'planning, STLID, LTPID, CSLID, OPPQ, PLSC-LTPID, MS31, MS32, MS33, STLAN,'). גם בגרסת 2023 FPS03 (item " +
+          "28.7) רשימת Other Terms מונה את MS31, MS32 ו-MS33 (SIMPL_OP2023.pdf.txt שורה 36655, נוסח: 'selection " +
+          "ID, selection ID, long-term planning, STLID, LTPID, CSLID, OPPQ, PLSCLTPID, MS31, MS32, MS33, STLAN, " +
+          "STLAL, ARANG, MDFV, C223, MM01,'). זהו אזכור מילת מפתח בלבד: גוף הפריט אינו מציין לגבי MS33 עצמה החלפה, " +
+          "הסרה או שינוי, ולכן אין כאן קביעת סטטוס עבורה מתוך פריט הפישוט.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "ספריית האפליקציות של Fiori רושמת את MS33 ('Display LTP Scenario') כאפליקציית SAP GUI בסטטוס Published " +
+        "ב-S/4HANA 2025 FPS01 On-Premise (S32OP), ברשימת שחרורים מ-1610 (S6OP) ועד S32OP, ושדות ה-predecessor " +
+        "וה-successor שלה ריקים, כלומר אין לה מחליפה רשומה. פריט הפישוט 'S4TWL - BOM, Routing, Production Version' " +
+        "מזכיר את MS33 ברשימת Other Terms ואינו קובע עליה דבר, לא ב-2025 FPS01 (item 10.4.26) ולא ב-2023 FPS03 " +
+        "(item 28.7).",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MS33_FAL,
+      recommendedAction:
+        "אין פעולת הסבה ייעודית ל-MS33 לפי המקורות שנבדקו. לפי פריט הפישוט 'S4TWL - BOM, Routing, Production " +
+        "Version', גרסת ייצור היא חובה ל-MRP, ליצירת הזמנה מתוכננת וליצירת הזמנת ייצור; מומלץ לבדוק בבדיקות ההסבה " +
+        "גם את תרחישי תכנון לטווח ארוך המוצגים דרך MS33, שכן הקוד מופיע ברשימת מילות המפתח של הפריט, אך הפריט אינו " +
+        "מפרט השפעה ישירה עליו. אימות סופי דורש בדיקת SE93 במערכת היעד.",
+    },
+    xrefs: ["tx:MS31", "tx:MS32"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שרצו (scripts/sap-help-search.mjs): 'Display Planning Scenario' " +
+      "בהיקף SAP_S4HANA_ON-PREMISE (21 תוצאות, אף אחת לא נוקבת בקוד MS33 עצמו); 'Displaying the Planning Scenario' " +
+      "בהיקף SAP_ERP (21 תוצאות, אותה תמונה); 'MS33 Display LTP Scenario' בהיקף SAP_S4HANA_ON-PREMISE (21 תוצאות; " +
+      "הרשומה היחידה שמכילה את המחרוזת 'MS33' היא 'Evaluation of Certain Wage Types' בתחום HCM Local Version for " +
+      "Slovakia, שמדובר בסוגי שכר (Financial allowance, לפי ה-snippet) ולא בתחום PP/תכנון לטווח ארוך; הוחרגה כלא " +
+      "רלוונטית, כפי שהוחרגה ברשומת tx:MS31 המקבילה). scripts/fal-app.mjs --tcode MS33 ו-scripts/fal-app.mjs MS33 " +
+      "--release S32OP: אפליקציית GUI יחידה, MS33 'Display LTP Scenario', ללא predecessor/successor. רשימות הפישוט " +
+      "הרשמיות (2025 FPS01 item 10.4.26, 2023 FPS03 item 28.7, שתיהן 'S4TWL - BOM, Routing, Production Version') " +
+      "נקראו במלואן מ-scratchpad/official; שתיהן מזכירות את MS33 ברשימת Other Terms לצד MS31 ו-MS32, ללא קביעה " +
+      "ספציפית. מקור הסטטוס הוא רשומת ה-Fiori Apps Library. הרשומה שנוצרה אוטומטית ל-MS33 " +
+      "ב-data/verification/transactions-auto.ts (ללא הכרעת מעמד) מוחלפת ברשומה זו.",
+  },
+  {
+    id: "tx:MSC1",
+    evidence: [
+      MSC1_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 (Document Version 1.35) · item 3.3 " +
+          "S4TWL - Logistics Batch Management (SAP Note 2267298)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE24,
+        claim:
+          "פריט 3.3 'S4TWL - Logistics Batch Management' (מהדורת 2023 FPS03, אותו SAP Note 2267298) מדפיס נוסח זהה " +
+          "למילה: MSC1, MSC2, MSC3 ו-MSC4 אינם זמינים ב-S/4HANA on-premise edition 1511, והשקול הפונקציונלי הוא " +
+          "MSC1N Create Batch, MSC2N Change Batch, MSC3N Display Batch, MSC4N Display Change Documents for Batch. " +
+          "הנוסח זהה לזה שבפריט 5.1.8 של 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Creating Batch Master Records | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/6f1076bd3394434e8891bbbaceb41575.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד התיעוד 'Creating Batch Master Records' (S/4HANA On-Premise 2025 FPS01, לפי כותרת ותקציר החיפוש) " +
+          "קורא ל-MSC1N בשם 'the Create Batch app (transaction MSC1N)', כלומר MSC1N מתועד ב-2025 FPS01 כיישום " +
+          "ליצירת אב אצווה.",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MSC1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "הרשומה הפנימית מגדירה את MSC1 כ'יצירת אצווה' (Create Batch) במודול PP-PI, אזור 'אצוות'; זו רשומת מאגר " +
+          "פנימית ולא מקור רשמי, ומשמשת רק לזיהוי השם, המודול והתרגום העברי בקטלוג הפרויקט.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MSC1",
+      },
+    ],
+    status: {
+      status: "replaced",
+      successor: "tx:MSC1N",
+      he:
+        "MSC1 (יצירת אצווה) אינו זמין ב-S/4HANA On-Premise. פריטי הפישוט 2023 FPS03 (3.3) ו-2025 FPS01 (5.1.8), " +
+        "שניהם בשם 'S4TWL - Logistics Batch Management' ומבוססים על אותו SAP Note 2267298, מציינים את MSC1N Create " +
+        "Batch כשקול הפונקציונלי (functional equivalent), ובאותו אופן את MSC2N/MSC3N/MSC4N עבור MSC2/MSC3/MSC4.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MSC1_SIMPL_ITEM_2025,
+      recommendedAction:
+        "יש להשתמש בטרנזקציה MSC1N (Create Batch) ליצירת אב אצווה ב-S/4HANA On-Premise, בהתאם לפריט 'S4TWL - " +
+        "Logistics Batch Management'; הקוד הישן MSC1 וקוד התוכנית שלו אינם זמינים ב-S/4HANA On-Premise לפי הפריט.",
+    },
+    xrefs: ["tx:MSC1N", "tx:MSC2", "tx:MSC3", "tx:MSC4N", "table:MCH1", "table:MCHA"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "המקורות הרשמיים שנבדקו ומצטטים את MSC1 בשמו הם שני פריטי הפישוט (2023 FPS03 3.3 ו-2025 FPS01 5.1.8), " +
+      "הבנויים על אותו SAP Note 0002267298 וחוזרים על אותו נוסח מילה במילה בשתי המהדורות; חיפוש " +
+      "sap-help-search.mjs 'MSC1' (SAP_S4HANA_ON-PREMISE, 21 תוצאות) לא החזיר עמוד שמתעד את MSC1 עצמו; העמוד " +
+      "Movement Types for Customer Stock (PLM, 2025.001) מדפיס בתקציר 'transaction MSC1/2N', ככל הנראה קיצור של " +
+      "MSC1N/MSC2N, ללא קריאת גוף. לא הופעל fal-app.mjs: הפריטים נוקבים בטרנזקציית MSC1N כשקול הפונקציונלי, לא " +
+      "ב-Fiori app, ולכן אין תחליף Fiori רשמי לצטט. לא בוצעה בדיקה במערכת SAP חיה; זמינות הקוד במערכת היעד דורשת " +
+      "אימות בפועל. הרשומה שנוצרה אוטומטית ל-MSC1 ב-data/verification/transactions-auto.ts מוחלפת ברשומה זו (ישן: " +
+      "ללא הכרעת מעמד; חדש: replaced, successor MSC1N). הממצא השלילי שתיעדה בספריית Fiori (S32OP: 0 אפליקציות עם " +
+      "קוד מוביל MSC1) נשמר כאן, כי fal-app לא הופעל במחקר זה. שורות ההקשר שלה לא הועברו: רשומת המאגר " +
+      "data/tx-intel.ts#MSC1 (שדה s4 שלה, 'זמינה ב-S/4HANA', סותר את הפריט; התיקון מועבר לערוץ הכתיבה של המאגר), " +
+      "שתי רשומות החיפוש 'Scholarship (Military Sector) | HCM Local Version for Saudi Arabia' (סוגי שכר, לא " +
+      "טרנזקציה) ורשומת החיפוש 'Movement Types for Customer Stock | SAP for Aerospace & Defense' (SAP_ERP, " +
+      "6.18.latest), שהתקציר שלה מדפיס 'transaction MSC1/2N'.",
+  },
+  {
+    id: "tx:MSC2",
+    evidence: [
+      MSC2_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 · item 3.3 S4TWL - Logistics Batch " +
+          "Management (LO-BM-MD)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "אותו נוסח פריט (עמ' 127-128, הערה 2267298): 'The following transactions related to Logistics Batch " +
+          "Management are not available in SAP S/4HANA, on-premise edition 1511: MSC1, MSC2, MSC3 and MSC4. The " +
+          "functional equivalent ... are the following transactions: MSC1N Create Batch, MSC2N Change Batch, MSC3N " +
+          "Display Batch, MSC4N Display Change Documents for Batch.' העמדה זהה בשתי הרשימות שנקראו (2023 FPS03 " +
+          "ו-2025 FPS01): MSC2 מוחלף ב-MSC2N.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת MSC2",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר קובעת בשדה s4: 'זמינה ב-S/4HANA', וברשימת similar/alternative מציינת את MSC2N ואת אפליקציית " +
+          "ה-Fiori 'Manage Batches' כחלופה, אך אינה מסמנת את MSC2 כ-obsolete. קביעה זו סותרת את הפריט הרשמי (S4TWL " +
+          "- Logistics Batch Management), שקובע שהקוד אינו זמין כלל ב-S/4HANA on-premise; המקור הרשמי גובר.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MSC2",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Consistency Check for Changes | Batch Management (LO-BM)",
+        url: "https://help.sap.com/docs/SAP_ERP/3db8848948314edeabbea684714e1055/a1fdb753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Batch Management (LO-BM), 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "a1fdb753128eb44ce10000000a174cb4) נוקבת בקוד MSC2 בסניפט: 'Caution The consistency check is not " +
+          "integrated into the old batch master transaction (MSC2). ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "replaced",
+      successor: "tx:MSC2N",
+      he:
+        "לפי רשימת הפישוט הרשמית S4TWL - Logistics Batch Management (הערה 0002267298, זהה במהותה בין 2023 FPS03 " +
+        "ל-2025 FPS01), טרנזקציית MSC2 אינה זמינה ב-S/4HANA on-premise מגרסה 1511 ואילך; החלופה הפונקציונלית " +
+        "הנקובה במפורש היא MSC2N (Change Batch), שכן תחזוקת נתוני אב האצווה הועברה במלואה לקודי ה-*N כבר מגרסת " +
+        "4.6A.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MSC2_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להשתמש ב-MSC2N (Change Batch), השקול הפונקציונלי שפריט הפישוט S4TWL - Logistics Batch Management (הערה " +
+        "0002267298) מציין, במקום MSC2, שאינו זמין ב-S/4HANA on-premise לפי הפריט; רשומת המאגר tx-intel.ts#MSC2 " +
+        "מציינת גם את אפליקציית ה-Fiori 'Manage Batches' כחלופה לתחזוקת אצוות.",
+    },
+    xrefs: ["tx:MSC1", "tx:MSC2N", "tx:MSC3"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. נבדק תחילה מה קיים במאגר: data/tcode-catalog.ts#MSC2 ('שינוי אצווה' / " +
+      "'Change Batch', PP-PI), data/tx-intel.ts#MSC2 (טוען s4:'זמינה ב-S/4HANA', ומצד שני מפרט similar/alternative " +
+      "עם MSC2N ו-Fiori 'Manage Batches'; אי-עקביות פנימית במאגר עצמו). חיפושים שרצו: scripts/sap-help-search.mjs " +
+      "\"S4TWL Logistics Batch Management\" (21 תוצאות; אף אחת מהן אינה עמוד של פריט ה-S4TWL עצמו, והפריט נקרא " +
+      "מתוך קובצי ה-PDF של רשימות הפישוט); scripts/sap-help-search.mjs \"2267298 S4TWL Logistics Batch " +
+      "Management\" (ללא תוצאה תואמת ישירה). הראיה המכרעת נקראה במלואה מתוך רשימות הפישוט המקומיות שכבר חולצו " +
+      "לטקסט (scratchpad/official/SIMPL_OP2025.pdf.txt שורות 5388-5433; scratchpad/official/SIMPL_OP2023.pdf.txt " +
+      "שורות 7916-7963), כפי שמוצג גם ב-audit/master-completion/simpl-tcode-index.json תחת המפתח MSC2. הורצה גם " +
+      "scripts/fal-app.mjs --tcode MSC2 (הודעת פלט: 'leading app(s): none; GUI app entry: none'): אין אפליקציית " +
+      "Fiori רשמית שמובילה עם קוד MSC2, ולכן לא נוסף xref ל-Fiori (החלופה הרשמית שמצוטטת היא טרנזקציית MSC2N, לא " +
+      "אפליקציה). tx:MSC4 לא נכלל ב-xrefs כי אינו קיים ביקום (route-manifest.generated.ts כולל MSC4N אך לא MSC4). " +
+      "status.source מצביע על evidence[0] (פריט 2025 FPS01); evidence[1] (2023 FPS03) מובא כאישוש עצמאי לאותה " +
+      "עמדה. מספרי ההערה (0002267298 / 2267298) מצוטטים בגוף הטענות בלבד ולא בשדה sapNote (אין קישור " +
+      "me.sap.com/notes ואין repoRef, כמוסכמת הקטלוג). רשומת המאגר data/tx-intel.ts#MSC2 לא תוקנה כאן; תיקון שדה " +
+      "s4 שלה מועבר לערוץ הכתיבה של המאגר. הרשומה שנוצרה אוטומטית ל-MSC2 ב-data/verification/transactions-auto.ts " +
+      "מוחלפת ברשומה זו (ישן: ללא הכרעת מעמד; חדש: replaced, successor MSC2N); רשומת החיפוש שלה 'Consistency Check " +
+      "for Changes | Batch Management (LO-BM)' (SAP_ERP, 6.18.latest) הועברה כשורת הקשר, ושתי רשומות החיפוש " +
+      "'Scholarship (Military Sector) | HCM Local Version for Saudi Arabia' (סוגי שכר, לא טרנזקציה) לא הועברו.",
+  },
+  {
+    id: "tx:MSC3",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Logistics Batch Management (SAP S/4HANA 2023 FPS03 Simplification List, item 3.3, p. 127-128)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הפריט נקרא בטקסט מלא (Application Component LO-BM-MD, SAP Note 2267298). הוא קובע במפורש: 'The " +
+          "following transactions related to Logistics Batch Management are not available in SAP S/4HANA, " +
+          "on-premise edition 1511: MSC1, MSC2, MSC3 and MSC4. The functional equivalent in SAP S/4HANA, " +
+          "on-premise edition 1511 are the following transactions: MSC1N Create Batch, MSC2N Change Batch, MSC3N " +
+          "Display Batch, MSC4N Display Change Documents for Batch'. הטבלה המסכמת בסוף הפריט מפרטת שוב את MSC3 תחת " +
+          "הכותרת 'Transaction not available in SAP S/4HANA on-premise edition 1511'. הפריט מוסיף: 'As of Release " +
+          "4.6A, the maintenance of batch master data has been completely reworked and assigned to new transaction " +
+          "codes... The previous transactions and with that the belonging program code are not available within " +
+          "SAP S/4HANA, on-premise edition 1511', ושאין השפעה על התהליך העסקי מעבר לשימוש בקוד החלופי.",
+        verificationLevel: "sap_official_verified",
+      },
+      MSC3_SIMPL_ITEM_2025,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library: MSC3N (leading transaction code), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MSC3N')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "חיפוש לפי הקוד המוביל MSC3N בספריית אפליקציות Fiori במהדורה S32OP (2025 FPS01, on-premise) מחזיר רשומת " +
+          "אפליקציית SAP GUI: 'MSC3N Display Batch [SAP GUI]', ללא אפליקציית successor רשומה. הרשומה מאשרת " +
+          "ש-MSC3N, החלופה שהפריט מציין ל-MSC3, רשומה בספרייה ומפורסמת (Published) כאפליקציית SAP GUI במהדורה " +
+          "העדכנית ביותר שנבדקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MSC3",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-MSC3 את הכותרת האנגלית 'Display Batch', מודול PP-PI, אזור 'אצוות', " +
+          "בהתאם לשם הקוד שמופיע בפריט הרשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MSC3",
+      },
+    ],
+    status: {
+      status: "replaced",
+      successor: "tx:MSC3N",
+      he:
+        "לפי פריט הפישוט S4TWL - Logistics Batch Management (הערה 2267298), הטרנזקציה MSC3 אינה זמינה ב-SAP " +
+        "S/4HANA, on-premise edition, מאז on-premise edition 1511, והפריט עדיין מופיע ברשימות הפישוט של 2023 FPS03 " +
+        "ו-2025 FPS01. החלופה הפונקציונלית היא MSC3N (Display Batch), שרשומה בספריית אפליקציות Fiori כאפליקציית " +
+        "SAP GUI במהדורה 2025 FPS01; אין השפעה על התהליך העסקי מעבר למעבר לקוד החלופי.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MSC3_SIMPL_ITEM_2025,
+      recommendedAction:
+        "לעבור ל-MSC3N (Display Batch) בכל תהליך, תוכנית או הדרכת תחזוקה שעדיין מפנים ל-MSC3, ולצטט את פריט הפישוט " +
+        "S4TWL - Logistics Batch Management (הערה 2267298) כמקור.",
+    },
+    xrefs: ["tx:MSC3N", "tx:MSC1", "tx:MSC2", "table:MCH1"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "המחקר בוצע דרך scripts/sap-help-search.mjs (שאילתות: 'MSC3 display batch' ב-SAP_S4HANA_ON-PREMISE, " +
+      "'Logistics Batch Management simplification S4TWL' ב-SAP_S4HANA_ON-PREMISE, 'MSC3 batch' ב-SAP_ERP), קריאת " +
+      "שני קובצי רשימות הפישוט המלאים (scratchpad/official/SIMPL_OP2023.pdf.txt §3.3, SIMPL_OP2025.pdf.txt §5.1.8) " +
+      "והרצת scripts/fal-app.mjs --tcode MSC3N --release S32OP. לא בוצע WebSearch. פריט הפישוט מציין את MSC3 עצמה " +
+      "בשמה, ולא רק בכותרת הפריט, ולכן נקבע מעמד authored. רשומת המאגר tx-intel.ts#MSC3 (s4: 'זמינה ב-S/4HANA') " +
+      "סותרת את הממצא הרשמי; היא לא תוקנה כאן ומועברת לתיקון בערוץ הכתיבה. לא בוצעה בדיקה במערכת SAP חיה. מספר " +
+      "ההערה 2267298 מצוטט בגוף הטענות ולא בשדה sapNote (אין קישור me.sap.com/notes ואין repoRef, כמוסכמת הקטלוג). " +
+      "הרשומה שנוצרה אוטומטית ל-MSC3 ב-data/verification/transactions-auto.ts מוחלפת ברשומה זו (ישן: ללא הכרעת " +
+      "מעמד; חדש: replaced, successor MSC3N); הממצא השלילי שתיעדה בספריית Fiori (S32OP: 0 אפליקציות עם קוד מוביל " +
+      "MSC3) נשמר כאן, ושורות ההקשר שלה מרשומת המאגר data/tx-intel.ts#MSC3 ומשתי רשומות החיפוש 'Scholarship " +
+      "(Military Sector) | HCM Local Version for Saudi Arabia' (סוגי שכר, לא טרנזקציה) לא הועברו.",
+  },
+  {
+    id: "tx:OPL8",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Settings for Shop Floor Routings (Production Engineering and Operations for Complex Assembly, SAP " +
+          "S/4HANA On-Premise 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/9c5b38403c5844d6a309a5644e95639d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש 'OPL8' בהיקף S/4HANA On-Premise (7 תוצאות) מחזירה את הנושא 'Settings for Shop Floor " +
+          "Routings' (loio 9c5b38403c5844d6a309a5644e95639d), שהסניפט שלו נקטע ב-'(transaction OPL8 …'. גוף הנושא " +
+          "(נקרא דרך sap-help-body.mjs, deliverable 40374811) נוקב: 'To allow the copying of alternative sequences " +
+          "to the production order, you need to define the following in Customizing for Production under Shop " +
+          "Floor Control Master Data Order Define Order-Type-Dependent Parameters for Production Orders " +
+          "(transaction OPL8), in the Routing section of the Planning tab: Enter 2 in the Sequence Exchange field, " +
+          "so that you can manually select an alternative sequence in the production order. Activate the " +
+          "Alternative Sequences checkbox.' כלומר בתיעוד S/4HANA On-Premise 2025 FPS01, OPL8 היא פעילות " +
+          "ה-Customizing 'Define Order-Type-Dependent Parameters for Production Orders' תחת Shop Floor Control.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Operations/Components Not Relevant to MRP (Production Orders (PP-SFC), SAP S/4HANA On-Premise 2025 " +
+          "FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/34de0103497c4b80a7c7fbf6952ff971/ac00b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "נושא העזרה (loio ac00b753128eb44ce10000000a174cb4) מתאר את המפתח Reservation/Purc.req בפרמטרים תלויי " +
+          "סוג ההזמנה של הזמנות ייצור. נתיב התפריט מופיע בגוף הדף (נקרא דרך sap-help-body.mjs, deliverable " +
+          "40374687) ולא בסניפט: 'To maintain the Res./Purc.req. key in the order type-dependent parameters, " +
+          "choose Master data Order Define order type-dependent parameters in Customizing for Shop Floor Control.' " +
+          "הדף אינו נוקב בקוד OPL8; הזיהוי של פעילות זו עם OPL8 הוא הצלבה עם evidence[0], שבו נתיב Shop Floor " +
+          "Control Master Data Order מוביל ל-'Define Order-Type-Dependent Parameters for Production Orders " +
+          "(transaction OPL8)', ולא אמירה של מקור זה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations/Components Not Relevant to MRP (Production Orders (PP-SFC), SAP ERP 6.0 EHP8)",
+        url: "https://help.sap.com/docs/SAP_ERP/bfece09273bd474d82fdd97bae070c25/ac00b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "בצד ECC, נושא העזרה עם אותו loio (ac00b753128eb44ce10000000a174cb4) בהיקף SAP_ERP, גרסה 6.0 EHP8 (חיפוש " +
+          "בהיקף SAP_ERP, 21 תוצאות), מתעד את פעילות ה-Customizing 'Define order type-dependent parameters' " +
+          "ב-Customizing for Shop Floor Control; גוף הדף (נקרא דרך sap-help-body.mjs, deliverable 23795361) מדפיס: " +
+          "'To maintain the Res./Purc.req. key in the order type-dependent parameters, choose Master data Order " +
+          "Define order type-dependent parameters in Customizing for Shop Floor Control.' הדף אינו נוקב בקוד OPL8.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING (SAP S/4HANA 2025 FPS01 Simplification " +
+          "List, item 6.5.13)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "תחת Reason and Prerequisites הפריט קובע: 'Production/process order planning is used if planned cost " +
+          "calculation is active for the combination of plant and order type and is carried out automatically when " +
+          "the production order (CO01 or CO02) or the process order (COR1 or COR2) is created, changed or " +
+          "released. Use Customizing T-codes COR4 and OPL8 to check whether plan costs are determined for " +
+          "production order and process orders.' OPL8 מוזכרת כאן ככלי בדיקה ב-Customizing לקביעת רלוונטיות הפריט " +
+          "לתכנון עלויות של הזמנות ייצור והזמנות תהליך; הפריט אינו קובע מעמד ל-OPL8 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      OPL8_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING (SAP S/4HANA 2023 FPS03 Simplification " +
+          "List, item 12.10)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "ברשימת 2023 FPS03, תחת Reason and Prerequisites, מופיע אותו ניסוח: 'Use Customizing T-codes COR4 and " +
+          "OPL8 to check whether plan costs are determined for production order and process orders.' גם כאן OPL8 " +
+          "מוזכרת ככלי בדיקה לרלוונטיות הפריט, והפריט אינו קובע מעמד ל-OPL8 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "S4TWL - Simplified Sourcing (SAP S/4HANA 2023 FPS03 Simplification List, item 30.38)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "ברשימת 2023 FPS03 אותה טבלת השוואה מופיעה; בעמודת Business Suite Logic: 'The order type attribute " +
+          "\"Routing selection\" T399X-ARBPA determines how a routing is determined during production order " +
+          "creation. The attribute can be defined in customizing transaction OPL8.'; בעמודת SAP S/4HANA Logic: " +
+          "'Production versions are the only source of supply for in-house production. A production version " +
+          "references a routing. This routing is used to create production orders'.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "OPL8 מופיעה בתיעוד S/4HANA On-Premise 2025 FPS01 (Settings for Shop Floor Routings); פריט הפישוט S4TWL - " +
+        "Simplified Sourcing משייך את מאפיין Routing selection (T399X-ARBPA) המוגדר ב-OPL8 ללוגיקת Business Suite, " +
+        "ובלוגיקת S/4HANA גרסת הייצור מפנה ל-Routing שממנו נוצרת הזמנת הייצור.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: OPL8_SIMPL_ITEM_2025,
+      recommendedAction:
+        "לבדוק בפרויקט ההסבה את פריט S4TWL - Simplified Sourcing: בחירת Routing לפי מאפיין סוג ההזמנה ב-OPL8 " +
+        "מתוארת בו כלוגיקת Business Suite, וב-S/4HANA הבחירה נעשית דרך גרסת ייצור; לבדוק גם את S4TWL - PROFIT AND " +
+        "LOSS PLANNING AND PROFIT CENTER PLANNING לרלוונטיות תכנון עלויות (COR4, OPL8).",
+    },
+    xrefs: ["tx:COR4", "tx:CO01", "tx:CO02", "table:T399X"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שרצו ב-help.sap.com (2026-09-24): 'OPL8' בהיקף S/4HANA On-Premise (7 " +
+      "תוצאות; ביניהן 'Settings for Shop Floor Routings', הנוקבת ב-OPL8 בשמה); 'Operations/Components Not Relevant " +
+      "to MRP' בהיקף S/4HANA On-Premise ובהיקף SAP_ERP (21 תוצאות בכל אחד, loio משותף " +
+      "ac00b753128eb44ce10000000a174cb4); 'Order Type-Dependent Parameters' בהיקף S/4HANA On-Premise ובהיקף " +
+      "SAP_ERP (21 תוצאות בכל אחד); 'Define Order Type-Dependent Parameters transaction OPL8' בהיקף S/4HANA " +
+      "On-Premise (21 תוצאות, התוצאה הראשונה 'Settings for Shop Floor Routings'). גופי שלושת נושאי העזרה נקראו דרך " +
+      "sap-help-body.mjs. fal-app.mjs --tcode OPL8 ב-S32OP החזיר 'leading app(s): none; GUI app entry: none'; זהו " +
+      "ממצא שלילי מתועד ולא קביעה על קיום אפליקציה. לא נכתב successor. פריטי הפישוט נקראו מ-scratchpad/official " +
+      "(2025 FPS01 ו-2023 FPS03), וכל רשימה מצוטטת ברשומה נפרדת עם ה-URL שלה. מספרי ה-Business Impact notes " +
+      "שמודפסים בפריטים לא הוזנו כשדה sapNote. רשומות המאגר data/tcode-catalog.ts#OPL8 " +
+      "ו-data/pppi-config-tree.ts#n2 נקראו להקשר בלבד ולא צוטטו כראיה. היסטוריית סבבי המחקר והביקורת (טיוטות שלא " +
+      "נכתבו לקובץ): Old: סטטוס unchanged עם source null → New: changed, release 2025.001, source = S4TWL - " +
+      "Simplified Sourcing (2025 FPS01). Old: Simplified Sourcing נקרא כהתנהגות S/4 של OPL8 → New: הציטוט מיוחס " +
+      "לעמודת Business Suite Logic. Old: ציטוט evidence[0] תואר כסניפט → New: מיוחס לגוף הנושא. Old: evidence[2] " +
+      "הסיק שהפעילות 'ובה טרנזקציית OPL8' קיימת בשני הצדדים → New: הוסר; דף ה-ECC אינו נוקב ב-OPL8. Old: שורות " +
+      "הפישוט של 2025 כללו גם טענות על 2023 FPS03 → New: שורות נפרדות ל-2023 FPS03 עם ה-URL של SIMPL_OP2023.pdf. " +
+      "הרשומה שנוצרה אוטומטית ל-OPL8 ב-data/verification/transactions-auto.ts מוחלפת ברשומה זו (ישן: ללא הכרעת " +
+      "מעמד; חדש: changed); שורת ההקשר שלה מרשומת המאגר data/tcode-catalog.ts#OPL8 לא הועברה, כאמור.",
   },
 ];
