@@ -207,6 +207,62 @@ material-staging-and-reservation, mrp-process, order-settlement-process, plan-to
 production-order-process, sales-demand-to-production), and no other rule; both `tsc` gates clean;
 `npm test` 211/211.
 
+Batch 5 written 2026-09-24 (access date stamped 2026-09-24): 3 re-drafted records audited, 3 written
+(`breakdown-maintenance-process`, module PM; `procure-to-pay-process` and
+`physical-inventory-process`, module Cross), none refuted, so nothing was added under refuted; the
+three refusals below are closed by these re-drafts. No verdict carried a fixedRecord, and the
+breakdown verdict listed no downgrade (its one minor note, the token RETURN in steps[10], needs no
+change). The drafts were loaded from the researchers' last on-disk JSON copies after checking them
+against the audited drafts: step, anti-pattern, check, xref and evidence counts and the line count
+of every profile field are equal (11/6/5/48/62, 10/7/7/44/45, 7/6/5/21/34), and 127 sampled passages
+of the audited drafts, among them every string a downgrade replaces, occur verbatim. procure-to-pay:
+all 8 listed downgrades applied, each replacement matched exactly once: exceptions[7] and the
+incident row now carry the record's 'verify SE91' caveat on M8147; interfaces[3] says the system
+tries to post EDI invoices automatically and errors go to manual processing; the MB03 row is the
+verbatim tx:MB03 claim with the em dash replaced by a semicolon and the '(אומת ברשומת tx:MB03; ...)'
+tag; the tautology 'PO שלא שוחרר ממתין לשחרור' is gone from steps[4] and exceptions[1] ('שחרור PO
+ב-ME29N נכשל:'); checks[5] says the function-intel QA scenario was written for goods issue 261 and
+is applied to a receipt; the context's book-3 sentence is bounded by the section titles (chapters 5,
+6, 7 and 12). physical-inventory: all 12 listed downgrades applied: IKPF/ISEG no longer assigned to
+header and items (context, tables[1]); MIBC is the ABC analysis and MICN the batch input for cycle
+counting per 'Cycle Counting (MM-IM)' (steps[1], trigger[1], transactions[1]), and the MI01
+repository row quotes the record's own wording ('חלופות: MICN/MI31 ל-batch creation, cycle counting
+(MIBC)'); the MAN_PHYSICAL_INVENTORY_MONITOR template is attached to 'Physical Inventory Document
+Overview', with a note that no source read ties that name to F0379A; checks[1] and exceptions[2]
+state the tolerance rule as a restriction on the user when a document or its items exceed the user
+group's tolerance; roles[1] lost 'בלבד'. Rows added by the downgrades: physical-inventory +2, both
+copied from `data/verification/transactions-auto.ts` without the generated record's `context` flag
+and with '(אומת ברשומת tx:X)': 'Cycle Counting (MM-IM) | Materials Management (MM)' (2025.001, loio
+3207b753128eb44ce10000000a174cb4, tx:MIBC) and the Fiori library row of MI07 'Post Physical
+Inventory Document' (S32OP, tx:MI07), which now backs the MI07 title named in notes; evidence 34 →
+36 (23 official: 16 sap_help and 7 fiori_library; 10 repository; 3 books). The writer ran no new
+search, page-body or fal-app call (no verdict marks a value unverified); it re-read the repository
+wording the downgrades quote (the tx-intel MI01 alternatives; the incident's error text, which pairs
+M8147 with 'PRD not possible verify SE91') and compared every official row with the overlays: each
+copied row keeps the url, title, release and accessedAt of its overlay entry, and the 22 URLs no
+overlay holds are search-record URLs whose bodies the researchers read and the auditors re-fetched
+(breakdown 8, counting the reference and one conflicting row; procure-to-pay 4 and
+physical-inventory 10, each counting the reference), so `scratchpad/check-bp-official.mjs` (the
+older overlay-only rule, not a required gate) moves from 312 urls / 120 not in an overlay to 381 /
+142. Writer deviations beyond the listed downgrades: (1) procure-to-pay exceptions[1]: the verdict
+says 'keep the three errors', but the draft line lists two (release code outside the authorization,
+no strategy for the PO); both are kept, and the ME29N record's third error ('PO כבר משוחרר') was not
+added; (2) the MB03 claim follows the verdict's text, without the RLM mark the overlay carries
+before 'MB03'; (3) file: the header's kpis sentence also names breakdown-maintenance-process
+(MTTR/MTBF from `data/domains.ts#pm-breakdown`), and the comments of `DATE_TX_02`, `DATE_TB_15`,
+`DATE_FM_14`, `DATE_TB_01`, `DATE_TX_07` and `DATE_FI_23` list the rows they now also date; no
+constant was added, and the ten earlier records are byte-identical. Every uppercase SAP token of the
+new records appears in one of their evidence rows, except RETURN (a BAPI parameter, accepted by the
+auditor), the composites QMEL/QMIH and BH1/BH2/BJ2 (each part printed) and EWM (a product name,
+linked through bp:ewm-warehouse-process). Coverage (`report:coverage --catalog best-practices`):
+total 32 → 35, L2 30 → 33, L5 2 → 2, verified 31 → 33, conflict 1 → 2 (the breakdown record carries
+two `conflicting_sources` rows), s4-appl 2 → 2, edition 1 → 1. Gates: the validator on the full
+registered universe prints 0 problems (35 practices); `scratchpad/validate-bp-file.mjs` prints 95
+`dangling-xref` hits, all bp slugs registered in files its reduced universe does not load (80 from
+the earlier batches; 15 from the new records: confirmation-process, maintenance-order-process,
+order-settlement-process, preventive-maintenance-process, goods-movement-process,
+procure-to-pay-for-maintenance), and no other rule; both `tsc` gates clean; `npm test` 211/211.
+
 ## refuted
 
 - `bp:breakdown-maintenance-process` (batch 1, 2026-09-24): refuted at the gate, not
@@ -248,7 +304,8 @@ production-order-process, sales-demand-to-production), and no other rule; both `
   F1511A = Create Maintenance Request, the role names marked curated-only (or confirmed
   through `scripts/fal-app.mjs`), CO88 described only as its cited rows describe it, the
   TECO / reservation conflict disclosed, the row-2 sentence moved out of that claim, IW28
-  cited through `data/transactions.ts#IW28`, and gap statements in notes.
+  cited through `data/transactions.ts#IW28`, and gap statements in notes. Closed in batch 5
+  (2026-09-24): re-drafted, re-audited without refusal, and written.
 - `bp:procure-to-pay-process` (batch 2, 2026-09-24): refuted at the gate, not written; the
   draft is not in the repository. (1) BLOCKER, ECC/S/4HANA attribution (rule 6) and a gap in
   field 17: step 6 ('הקבלה כותבת מסמך חומר (MKPF/MSEG)'), outputs[2] ('מסמך חומר של הקבלה
@@ -289,6 +346,7 @@ production-order-process, sales-demand-to-production), and no other rule; both `
   the compatibility views), that change added to eccToS4, the search notes corrected to the
   releases listed above plus the 2025.001 'Procurement' page, the MB03 wording re-pointed to
   its own source, and BSIK attributed to ECC with the FBL1N record's ACDOCA note for S/4HANA.
+  Closed in batch 5 (2026-09-24): re-drafted, re-audited without refusal, and written.
 - `bp:physical-inventory-process` (batch 2, 2026-09-24): refuted at the gate, not written;
   the draft is not in the repository. (1) BLOCKER, unsourced claim introduced by the repair:
   step 6 ('קריאה מהן מנותבת לתצוגת CDS, וכתיבה אליהן אינה משפיעה'), antiPatterns[4] ('פעולת
@@ -324,7 +382,8 @@ production-order-process, sales-demand-to-production), and no other rule; both `
   certainty words, no 'אחזקה'. Re-draft with the redirect / no-effect sentence either
   dropped or cited through the 2023 FPS03 item 27.5 row copied verbatim with its own release
   (eccToS4[2] re-pinned to that release), and the summary's evidence count corrected to 12
-  official, 9 repository and 2 secondary, or removed.
+  official, 9 repository and 2 secondary, or removed. Closed in batch 5 (2026-09-24):
+  re-drafted, re-audited without refusal, and written.
 
 ## conflicts
 
@@ -427,3 +486,50 @@ production-order-process, sales-demand-to-production), and no other rule; both `
   prints 'Transactional, Analytical' (the apps.ts entry records the gap itself). What would settle
   it: the compatibility matrix attached to SAP Note 2269324, then a correction of the tx-intel
   s4Delta (not a best-practices file, not edited here).
+- `bp:breakdown-maintenance-process`, TECO and reservations, repository against official (written as
+  `conflicting_sources` on the `data/troubleshooting.ts#teco-blocked` row): teco-blocked lists open
+  confirmations and 'רזרבציות/תנועות פתוחות' as TECO blockers and `data/tx-intel.ts#IW32` names open
+  confirmations and PRs, while `data/process-guides.ts#pm-corrective` says TECO closes open
+  reservations. The ECC page 'Technical Completion of an Order' (SAP ERP 6.0 EHP8, 6.18.latest, loio
+  bac9b65334e6b54ce10000000a174cb4, body read) says the existing reservations are cleared, the
+  purchase requisitions are flagged for deletion and confirmations can still be entered after TECO
+  unless a user status forbids them; the S/4HANA 2025 FPS01 page 'Maintenance Order System Statuses'
+  (loio fffdec9b483b4f7f8347e797a6641acd, body read) does not mention reservations. What would
+  settle it: a TECO test in the target S/4HANA system on an order with an open reservation, an open
+  purchase requisition and an unconfirmed operation, then a correction of the repository records
+  (not best-practices files, not edited here).
+- `bp:breakdown-maintenance-process`, collective settlement run, repository against repository
+  (written as `conflicting_sources` on the `data/domains.ts#pm-settlement` row): pm-settlement says
+  settlement runs 'ב-KO88 (בודד) או CO88 (מרוכז)', while `data/tcode-catalog.ts#CO88` ('Actual
+  Settlement: Production/Process Orders') and `data/tx-intel.ts#CO88` describe CO88 for production
+  and process orders, and `data/tx-intel.ts#KO88` and `data/function-intel.ts#K_ORDER_SETTLEMENT`
+  name KO8G for the collective run. No official page read names a settlement transaction for
+  maintenance orders ('Settle the Maintenance Order' describes the Web UI). What would settle it: an
+  official page that names the collective settlement transaction for maintenance orders, or a test
+  of KO8G and CO88 on PM orders in the target system; then a correction of
+  `data/domains.ts#pm-settlement` (not a best-practices file, not edited here).
+- `bp:breakdown-maintenance-process`, default order type for repair work, repository against
+  repository (disclosed in exceptions[6] and notes, no `conflicting_sources` row):
+  `data/domains.ts#pm-maintenance-orders` and `data/process-guides.ts#pm-corrective` give PM01 to
+  repair, while `data/best-practices/pm-processes-2.ts#maintenance-order-process` lists PM02 as the
+  breakdown type. The official 'Maintenance Order Types' page (2025.001) describes order types by
+  business process, not by key. What would settle it: the order-type Customizing of the target
+  system; the record leaves the key to the project.
+- `bp:procure-to-pay-process`, the identity of F0843, repository against official (disclosed in
+  notes, settled in the overlay `fiori:F0843`, no `conflicting_sources` row): `data/fiori/apps.ts`
+  pairs F0843 with 'Post Goods Movement', `data/tx-intel.ts#MIGO` pairs 'Post Goods Receipt for
+  Purchasing Document' with F0843A, and the P2P map (`data/processes.ts#p2p`) names 'Post Goods
+  Movement' for the goods-receipt step, while the official page (2025.001, loio
+  9ddf815494758c4ce10000000a4450e5) prints 'Post Goods Receipt for Purchasing Document App ID:
+  F0843'. The record follows the official page and names F0843A in prose only. What would settle it:
+  `node scripts/fal-app.mjs F0843` and `F0843A` at S32OP, then corrections in `data/fiori/apps.ts`,
+  `data/tx-intel.ts` and `data/processes.ts` (not best-practices files, not edited here).
+- `bp:physical-inventory-process`, the titles of MI20 and MI07, official against official (disclosed
+  in notes, no `conflicting_sources` row): the activity table of 'Physical Inventory (MM-IM)' (SAP
+  ERP 6.0 EHP8 6.18.latest and S/4HANA 2025.001, loio 4407b753128eb44ce10000000a174cb4, bodies read)
+  calls MI20 'Print List of Differences' and MI07 'Process List of Differences'; the Fiori Apps
+  Library at S32OP lists MI20 as 'Process Physical Inventory Count Results' and MI07 as 'Post
+  Physical Inventory Document' (rows copied from `tx:MI20` and `tx:MI07`). `data/tcode-catalog.ts`
+  adopted the library title for MI20 (commit 48e7d9ac: Old 'Print List of Differences' → New
+  'Process Physical Inventory Count Results') and keeps 'Process List of Differences' for MI07. What
+  would settle it: the transaction texts of MI20 and MI07 in SE93 of the target system.

@@ -12,11 +12,11 @@
    by side as conflicting_sources. A field no source documents is left out on
    purpose (kpis in every record below except order-to-cash-process, whose kpis
    come from the official Order-to-Cash Performance page, and
-   embedded-analytics-process, whose kpis come from the repository's domain
-   records): the page renders the gap by name. Two records carry an authored
-   status (embedded-analytics-process, ibp-ppds-integration-process); its source
-   is the same object as the official evidence row it names (EA_STATUS_SOURCE,
-   PPDS_STATUS_SOURCE below).
+   embedded-analytics-process and breakdown-maintenance-process, whose kpis come
+   from the repository's domain records): the page renders the gap by name. Two
+   records carry an authored status (embedded-analytics-process,
+   ibp-ppds-integration-process); its source is the same object as the official
+   evidence row it names (EA_STATUS_SOURCE, PPDS_STATUS_SOURCE below).
    Drafts the auditor refuted are queued in
    audit/s4-enrichment/research-queue-best-practices.md, not written. */
 import type { BestPracticeLike } from "@/lib/evidence/types";
@@ -27,14 +27,21 @@ const DATE_TX_21 = "2026-09-21"; // data/verification/transactions.ts DATE21 (IP
 // the same date on the rows copied from enhancements.ts DATE21 (enh:technique:bte) and functions.ts (fm:BAPI_MATERIAL_SAVEDATA)
 const DATE_TX_02 = "2026-09-02"; // data/verification/transactions.ts DATE2 (MB11_SIMPL, tx:MB11);
 // the same date on the rows copied from cds.ts DATE2 (cds:I_ProductionOrder, cds:I_MaintenancePlan,
-// cds:I_MeasurementDocument), fiori.ts DATE (fiori:F2176) and enhancements.ts DATE (enh:badi:WORKORDER_UPDATE)
-const DATE_TB_15 = "2026-09-15"; // data/verification/tables.ts DATE4 (QMAT_INSPECTION_SETUP, table:QMAT; items 6.5.1 and 6.1.4, table:COSP)
+// cds:I_MeasurementDocument), fiori.ts DATE (fiori:F2176) and enhancements.ts DATE (enh:badi:WORKORDER_UPDATE);
+// batch 5: fiori.ts DATE (fiori:F1511, fiori:F2023, fiori:F4604, fiori:F0843), functions.ts DATE2
+// (fm:BAPI_ALM_ORDER_MAINTAIN), transactions.ts DATE2 (MB11_SIMPL again) and cds.ts DATE2 (cds:I_MaterialDocumentItem)
+const DATE_TB_15 = "2026-09-15"; // data/verification/tables.ts DATE4 (QMAT_INSPECTION_SETUP, table:QMAT; items 6.5.1 and 6.1.4, table:COSP;
+// batch 5: MKPF_SIMPL2025, item 15.3.1, and the item 27.5 row of table:MKPF)
 const DATE_TB_02 = "2026-09-02"; // data/verification/tables.ts DATE2 (MM - Material inventory balance, table:MBEW)
 const DATE_FM_14 = "2026-09-14"; // data/verification/functions.ts DATE14 (Material Documents - Read, Create, fm:BAPI_GOODSMVT_CREATE;
-// also Communication of Goods Movements from Inventory Management to EWM, same record)
-const DATE_TB_01 = "2026-09-01"; // data/verification/tables.ts DATE (Warehouse Product Migration, table:MLGN / table:MLGT)
-const DATE_TX_07 = "2026-09-07"; // data/verification/transactions.ts DATE3 (Material Staging (with EWM), tx:COR2)
-const DATE_FI_23 = "2026-09-23"; // data/verification/fiori.ts DATE23 (Advanced Scheduling Board, fiori:F5460)
+// also Communication of Goods Movements from Inventory Management to EWM, same record; batch 5: Create a Single
+// Order Operation Confirmation, fm:BAPI_ALM_CONF_CREATE)
+const DATE_TB_01 = "2026-09-01"; // data/verification/tables.ts DATE (Warehouse Product Migration, table:MLGN / table:MLGT;
+// batch 5: MSEG_ARCHIVING and the compatibility-views row of table:MSEG); transactions.ts DATE (tx:MB03)
+const DATE_TX_07 = "2026-09-07"; // data/verification/transactions.ts DATE3 (Material Staging (with EWM), tx:COR2;
+// batch 5: Goods Movement (MM-IM), tx:MIGO)
+const DATE_FI_23 = "2026-09-23"; // data/verification/fiori.ts DATE23 (Advanced Scheduling Board, fiori:F5460;
+// batch 5: fiori:F1511A, fiori:F5241 and fiori:W0020)
 
 /** Authored status sources: each is the same object as the official evidence row it names. */
 const EA_STATUS_SOURCE: BestPracticeLike["evidence"][number] = {
@@ -8949,5 +8956,3617 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "Planning, SCM-APO-SPP, ולכן לא נרשם). שילוב IBP מבוסס הזמנות (OBP/RTI) מוזכר ברמת עמוד 'Data Integration " +
       "Using Core Interface for RTI' בלבד; העמודים 'Production Planning Integration Based on Orders' לא נקראו. " +
       "לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  /* ================================================ breakdown maintenance */
+  {
+    slug: "breakdown-maintenance-process",
+    he: "תחזוקת שבר (תיקון תקלה) מקצה לקצה",
+    en: "Breakdown (corrective) maintenance end to end",
+    module: "PM",
+    summary: "תחזוקת שבר מטפלת בתקלה בלתי מתוכננת באובייקט טכני: הודעת תקלה (M2) עם נתוני השבתה, פקודת תחזוקה עם " +
+      "פעולות ורכיבים, שחרור, ביצוע ואישור, סגירה טכנית (TECO), התחשבנות וסגירה עסקית. ב-S/4HANA התיעוד הרשמי " +
+      "מבחין בין סוג הפקודה Corrective Maintenance, שמעובד ללא מודל שלבים, לבין Reactive Maintenance, שמעובד לפי " +
+      "מודל השלבים.",
+    context: "צד המאגר: מדריך התהליך pm-corrective ורשומות התחום pm-breakdown מתארים את המחזור IW21, IW31, IW32, " +
+      "IW41, TECO, KO88 וניתוח MTTR/MTBF, כשהסימון Breakdown וזמני Malfunction Start/End בהודעה (QMIH, שאינה " +
+      "במילון הפרויקט) מזינים את מדדי הזמינות. צד S/4HANA, לפי עמוד 'Maintenance Order Types' (2025 FPS01): סוג " +
+      "הפקודה קובע את התהליך העסקי ואינו ניתן לשינוי בדיעבד; Corrective Maintenance נועד לתכנון תיקון 'due to a " +
+      "malfunction or breakdown', ומתנהל בתכנון, שחרור, ביצוע, סגירה טכנית וסגירה עסקית; תהליכים על פריטי ההיקף " +
+      "BH1, BH2 ו-BJ2 משתמשים בסוגי פקודה ללא שלבים, ותהליכים על 4HH ו-4HI בסוגים לפי מודל השלבים. צד ECC, לפי " +
+      "עמודי SAP ERP 6.0 EHP8: TECO מנקה הזמנות חומר קיימות ומסמן דרישות רכש למחיקה, וסגירה עסקית דורשת יתרה אפס. " +
+      "הרשומה הזו מקשרת לשיטות העבודה של ההודעה, הפקודה, האישור וההתחשבנות ואינה חוזרת על פרטיהן.",
+    steps: [
+      {
+        he: "לדווח על התקלה: הודעת תקלה מסוג M2 (Malfunction Report לפי התצורה הסטנדרטית בתיעוד 2025 FPS01) עם " +
+          "אובייקט ייחוס, תיאור, קוד פגם, סימון Breakdown ו-Malfunction Start. ב-GUI (ECC ו-S/4HANA): IW21. " +
+          "ב-S/4HANA גם Create Maintenance Request (F1511A), Request Maintenance (F1511, יישום נפרד לפי עמוד " +
+          "ההשוואה הרשמי) או האריח Report Malfunction ביישום Report and Repair Malfunction (F2023). פרטי ההודעה: " +
+          "bp:maintenance-notification-process.",
+        xrefs: [
+          "tx:IW21", "table:QMEL", "table:QMFE", "obj:maintenance-notification", "fiori:F1511A", "fiori:F1511",
+          "fiori:F2023", "bp:maintenance-notification-process",
+        ],
+      },
+      {
+        he: "לסנן ולתעדף: רשימת ההודעות IW28 לבחירה ועיבוד המוני של הודעות פתוחות (data/transactions.ts#IW28); " +
+          "לפי רשומת התחום pm-breakdown עדיפות גבוהה מובילה לזמני יעד קצרים. בעיבוד לפי שלבים ב-S/4HANA הסינון " +
+          "והקבלה עוברים לשלב Screening (עמוד Reactive Maintenance), וההודעה המאושרת מועברת לתכנון.",
+        xrefs: ["tx:IW28", "table:QMEL"],
+      },
+      {
+        he: "לפתוח פקודת תחזוקה מתוך ההודעה (IW31, או Create Direct מתוך ההודעה): לפי עמוד 'Creating an Order " +
+          "Directly from a Notification' מספר ההודעה נרשם ברשימת האובייקטים של הפקודה וההודעה מקבלת את הסטטוסים " +
+          "Order assigned ו-Notification in process. סוג הפקודה: לפי התיעוד הרשמי הוא קובע את התהליך ואינו ניתן " +
+          "לשינוי בדיעבד; המאגר אינו אחיד לגבי סוג ברירת המחדל לתיקון (ראו חריגים). ב-S/4HANA: Manage Maintenance " +
+          "Orders (F5241) מ-2023 FPS03; Manage Maintenance Notifications and Orders (F4604) אינו מציג הודעות " +
+          "ופקודות שמודל השלבים לא הופעל עבורן (עמוד היישום).",
+        xrefs: [
+          "tx:IW31", "table:AUFK", "table:AFIH", "obj:maintenance-order", "fiori:F5241", "fiori:F4604",
+          "bp:maintenance-order-process",
+        ],
+      },
+      {
+        he: "לתכנן פעולות ורכיבים (IW32): מרכז עבודה ופעולות (AFVC), רכיבי מלאי כהזמנת חומר (RESB) ורכיבים שאינם " +
+          "במלאי כדרישת רכש (EBAN). כלל ההתחשבנות: לפי עמוד 'Settle the Maintenance Order' ה-Customizing קובע אם " +
+          "הוא נדרש בשחרור או רק בהשלמה, וניתן להגדיר יצירה אוטומטית שלו.",
+        xrefs: [
+          "tx:IW32", "table:AFVC", "table:RESB", "table:EBAN", "table:CRHD", "table:COBRB", "obj:work-center",
+          "obj:reservation",
+        ],
+      },
+      {
+        he: "לשחרר (REL): לפי עמוד 'Maintenance Order System Statuses' השחרור יוצר אוטומטית דרישות רכש לחומרים " +
+          "שאינם במלאי, לשירותים ולפעולות חיצוניות, ומאפשר קבלת טובין ואישורי זמן. לפי מרכז התקלות השחרור נחסם " +
+          "בהיתר פתוח (effective at release), בכשל בדיקת זמינות, בסטטוס משתמש, בהרשאה או בחריגת תקציב (BP603).",
+        xrefs: ["tx:IW32", "table:JEST", "enh:exit:IWO10009", "enh:badi:WORKORDER_UPDATE"],
+      },
+      {
+        he: "לבצע ולאשר: IW41 לאישור פרטני או IW42 לאישור כולל (שעות, חומרים, מדידות, נתוני הודעה), סימון Final " +
+          "בפעולה האחרונה, ובהודעה Malfunction End. האישור נכתב ל-AFRU. ב-S/4HANA: Perform Maintenance Jobs " +
+          "(F5104A) לטכנאי, והאריח Repair Malfunctions - My Job List ב-F2023; Confirm Jobs (W0020) נמחק ב-S/4HANA " +
+          "2023. פרטי האישור: bp:confirmation-process.",
+        xrefs: [
+          "tx:IW41", "tx:IW42", "table:AFRU", "fm:BAPI_ALM_CONF_CREATE", "fiori:F5104A", "fiori:F2023",
+          "fiori:W0020", "enh:exit:CONFPM01", "bp:confirmation-process",
+        ],
+      },
+      {
+        he: "לסגור טכנית (TECO) ב-IW32 או גורפת ב-IW38. צד S/4HANA (2025 FPS01): אחרי TECO עדיין אפשר להתחשבן " +
+          "ולקבל טובין. צד ECC (6.0 EHP8): הזמנות החומר הקיימות מנוקות, דרישות הרכש מסומנות למחיקה, כלל התחשבנות " +
+          "חסר נוצר אוטומטית, וההודעות מושלמות אלא אם משימה פתוחה או סטטוס משתמש מונעים זאת. המאגר חלוק לגבי " +
+          "הזמנות חומר פתוחות ואישורים פתוחים כחוסמי TECO (ראו חריגים).",
+        xrefs: ["tx:IW32", "tx:IW38", "table:JEST", "table:RESB", "table:EBAN"],
+      },
+      {
+        he: "להתחשבן: KO88 לפקודה בודדת (tx-intel#KO88, domains#pm-settlement), והעלות עוברת ליעד שבכלל ההתחשבנות " +
+          "(מרכז עלות, נכס או הזמנה). ב-S/4HANA הרישום מגיע ל-Universal Journal (ACDOCA) לפי רשומות המאגר. להרצה " +
+          "מרוכזת רשומות המאגר אינן אחידות (KO8G מול CO88, ראו חריגים). פרטי ההתחשבנות: " +
+          "bp:order-settlement-process.",
+        xrefs: [
+          "tx:KO88", "tx:KO8G", "table:COBRB", "table:COBRA", "fm:K_ORDER_SETTLEMENT", "bp:order-settlement-process",
+        ],
+      },
+      {
+        he: "לסגור עסקית (CLSD): לפי עמוד ECC 'Business Completion of an Order' התנאים הם TECO, התחשבנות ביתרה " +
+          "אפס והיעדר הזמנות רכש פתוחות; לפי עמוד הסטטוסים של 2025 FPS01 אחרי CLSD הפקודה אינה מקבלת רישומים, " +
+          "כולל עלויות. בעיבוד לפי שלבים זהו שלב Completion, שבו מתכנן התחזוקה או הבקר הפיננסי בודקים פקודות " +
+          "שנסגרו טכנית ולא התחשבנו.",
+        xrefs: ["tx:IW32", "table:JEST", "table:AUFK"],
+      },
+      {
+        he: "לנתח: זמני Malfunction Start/End וסימון Breakdown מזינים MTTR ו-MTBF (domains#pm-breakdown); MCI7 " +
+          "במערכת המידע PMIS. ב-S/4HANA פריט הפישוט 'S4TWL - LIS in EAM' מתאר אנליטיקה עתידית על תצוגות CDS לצד " +
+          "ה-LIS הקלאסי; במאגר רשומות התצוגות I_MaintenanceOrder ו-I_MaintenanceNotification.",
+        xrefs: ["tx:MCI7", "cds:I_MaintenanceOrder", "cds:I_MaintenanceNotification"],
+      },
+      {
+        he: "בעיבוד תוכניתי: רצף BAPI_ALM_ORDER_MAINTAIN (HEADER/OPERATION/COMPONENT, RELEASE), " +
+          "BAPI_ALM_CONF_CREATE, BAPI_ALM_ORDER_MAINTAIN (TECHNICALCOMPLETE) ו-BAPI_TRANSACTION_COMMIT " +
+          "(bapi-enrichment.pm.ts), עם בדיקת RETURN אחרי כל קריאה (bp:bapi-commit-discipline).",
+        xrefs: [
+          "fm:BAPI_ALM_ORDER_MAINTAIN", "fm:BAPI_ALM_CONF_CREATE", "fm:BAPI_TRANSACTION_COMMIT",
+          "bp:bapi-commit-discipline",
+        ],
+      },
+    ],
+    antiPatterns: [
+      "הודעת תקלה בלי סימון Breakdown ובלי Malfunction Start/End: זמני ההשבתה ומדדי MTTR/MTBF יוצאים שגויים " +
+        "(תקרית downtime-not-recorded, מדריך pm-corrective).",
+      "בחירת סוג פקודה שגוי: לפי עמוד 'Maintenance Order Types' סוג הפקודה קובע את התהליך העסקי ואינו ניתן לשינוי " +
+        "בדיעבד, ובמערכת עם מודל שלבים פקודה ללא שלבים אינה מוצגת ב-F4604.",
+      "שחרור בלי לבדוק היתרים, זמינות רכיבים ותקציב: השחרור נחסם (תקריות order-wont-release, " +
+        "permit-blocks-order-release, maint-order-budget).",
+      "אישור חלקי בלי סימון Final בפעולה האחרונה: הפקודה נשארת ב-PCNF ואינה עוברת ל-CNF (תקרית " +
+        "pm-confirmation-final-flag).",
+      "מרכז עבודה בלי סוג פעילות או תעריף: אישור השעות אינו יוצר עלות (תקרית pm-cost-no-activity-type).",
+      "הנחה ש-TECO חוסמת אישורים נוספים: לפי עמוד ה-ECC הרשמי עדיין אפשר לאשר אחרי TECO, ולמניעה נדרש סטטוס משתמש " +
+        "שאינו מתיר אישורים.",
+    ],
+    checks: [
+      "חיובי: הודעת M2 עם Breakdown ו-Malfunction Start/End, פקודה עם פעולה ורכיב מלאי, שחרור, אישור סופי, TECO " +
+        "והתחשבנות ב-KO88 מעבירים את העלות למרכז העלות ומשאירים יתרה אפס.",
+      "שלילי: היתר הרלוונטי לשחרור שלא ניתן חוסם את השחרור ב-IW32 (תקרית permit-blocks-order-release).",
+      "אינטגרציה: רכיב שאינו במלאי מייצר דרישת רכש בשחרור (עמוד 'Maintenance Order System Statuses'); פקודה " +
+        "שנוצרה ב-Create Direct מופיעה בשדה Order בכותרת ההודעה.",
+      "סגירה: לבדוק במערכת היעד מה קורה להזמנות חומר פתוחות ב-TECO (ECC 6.0 EHP8 מתעד ניקוי; המאגר חלוק), ולוודא " +
+        "ש-CLSD נדחית כשהיתרה אינה אפס.",
+      "רגרסיה אחרי המרה ל-S/4HANA: מחזור מלא, רישום ההתחשבנות ב-ACDOCA וחישוב זמני השבתה ו-MTTR/MTBF (מדריך " +
+        "pm-corrective, domain-detail#pm-breakdown).",
+    ],
+    process: {
+      purpose: "להחזיר אובייקט טכני לפעולה אחרי תקלה בלתי מתוכננת בתהליך מתועד: דיווח התקלה וזמני ההשבתה, תכנון " +
+        "וביצוע התיקון בפקודת תחזוקה, רישום העלות בפועל והעברתה ליעד, ושמירת היסטוריה למדדי MTTR/MTBF ולהחלטות " +
+        "תחזוקה מונעת (domain-detail#pm-breakdown; עמוד 'Maintenance Order Types').",
+      trigger: [
+        {
+          he: "תקלה או השבתה של ציוד בשטח, המדווחת כהודעת תקלה M2 עם סימון Breakdown.",
+          xrefs: ["tx:IW21", "obj:maintenance-notification"],
+        },
+        {
+          he: "ב-S/4HANA לפי מודל השלבים: בקשת תחזוקה (Initiation) שנבדקה ואושרה (Screening) לפני תכנון הפקודה " +
+            "(עמוד Reactive Maintenance).",
+          xrefs: ["fiori:F1511A"],
+        },
+      ],
+      preconditions: [
+        {
+          he: "אובייקט הייחוס קיים ואינו חסום; ממנו נגזרים מיקום ומרכז עלות.",
+          xrefs: ["table:EQUI", "table:IFLOT", "obj:equipment", "obj:functional-location"],
+        },
+        {
+          he: "סוג הודעה M2, קודי פגם וסיבה, ועדיפויות וזמני יעד מוגדרים (domain-detail#pm-breakdown).",
+        },
+        {
+          he: "סוג פקודה מתאים לתהליך (עם שלבים או בלי) והגדרות כלל ההתחשבנות בסוג הפקודה (עמודי Maintenance " +
+            "Order Types ו-Settle the Maintenance Order).",
+        },
+        {
+          he: "מרכז עבודה עם שיוך מרכז עלות וסוג פעילות ותעריף מתוכנן (תקרית pm-cost-no-activity-type).",
+          xrefs: ["table:CRHD", "table:CRCO"],
+        },
+        {
+          he: "תקופות הרישום של MM ושל FI/CO פתוחות לתאריך האישור וההתחשבנות (תקריות confirm-period-closed, " +
+            "settlement-error).",
+          xrefs: ["tx:OB52"],
+        },
+      ],
+      masterData: [
+        {
+          he: "ציוד או מיקום פונקציונלי כאובייקט ייחוס.",
+          xrefs: ["table:EQUI", "table:IFLOT", "table:ILOA"],
+        },
+        {
+          he: "סוג הודעה, קודי פגם וסיבה, עדיפויות וזמני יעד (domain-detail#pm-breakdown).",
+        },
+        {
+          he: "סוג פקודה, מרכז עבודה, פרופיל התחשבנות וכלל התחשבנות (domain-detail#pm-maintenance-orders, " +
+            "#pm-settlement).",
+          xrefs: ["table:CRHD", "table:COBRA", "table:COBRB"],
+        },
+        {
+          he: "חומרים לרכיבים: מלאי כהזמנת חומר, שאינם במלאי כדרישת רכש.",
+          xrefs: ["table:RESB", "table:EBAN"],
+        },
+      ],
+      roles: [
+        {
+          he: "טכנאי תחזוקה (SAP_BR_MAINTENANCE_TECHNICIAN): התפקיד שספריית ה-Fiori מדפיסה ל-Report and Repair " +
+            "Malfunction (F2023) ולתפקיד המוביל של Perform Maintenance Jobs (F5104A); גם אחד מתפקידי Create " +
+            "Maintenance Request (F1511A).",
+          xrefs: ["fiori:F2023", "fiori:F5104A", "fiori:F1511A"],
+        },
+        {
+          he: "מתכנן תחזוקה (SAP_BR_MAINTENANCE_PLANNER): התפקיד המוביל של Manage Maintenance Orders (F5241) " +
+            "והתפקיד של Manage Maintenance Notifications and Orders (F4604) בספריית ה-Fiori (S32OP).",
+          xrefs: ["fiori:F5241", "fiori:F4604"],
+        },
+        {
+          he: "מפקח תחזוקה (SAP_BR_MAINT_SUPERVISOR): תפקיד נוסף שהספרייה מדפיסה ל-F5104A ול-F1511A; עובד " +
+            "(SAP_BR_EMPLOYEE): תפקיד שהספרייה מדפיסה ל-F1511A.",
+          xrefs: ["fiori:F5104A", "fiori:F1511A"],
+        },
+        {
+          he: "בקר פיננסי: בעיבוד לפי שלבים, בשלב Completion יחד עם מתכנן התחזוקה (עמוד Reactive Maintenance); " +
+            "במאגר המשתמשים של KO88 הם בקר עלויות וחשב (tx-intel#KO88).",
+          xrefs: ["tx:KO88"],
+        },
+      ],
+      transactions: [
+        {
+          he: "הודעה: IW21 יצירה, IW28 רשימת הודעות לעיבוד המוני (ECC ו-S/4HANA).",
+          xrefs: ["tx:IW21", "tx:IW28"],
+        },
+        {
+          he: "פקודה: IW31 יצירה, IW32 שינוי, שחרור ו-TECO, IW38 רשימת הזמנות לעיבוד גורף.",
+          xrefs: ["tx:IW31", "tx:IW32", "tx:IW38"],
+        },
+        {
+          he: "אישור: IW41 פרטני, IW42 כולל.",
+          xrefs: ["tx:IW41", "tx:IW42"],
+        },
+        {
+          he: "התחשבנות וניתוח: KO88 בודדת; KO8G קולקטיבית לפי tx-intel#KO88 (K_ORDER_SETTLEMENT מונה אותה " +
+            "כטרנזקציה קשורה); MCI7 ב-PMIS.",
+          xrefs: ["tx:KO88", "tx:KO8G", "tx:MCI7"],
+        },
+        {
+          he: "Fiori ב-S/4HANA: Create Maintenance Request (F1511A), Request Maintenance (F1511), Report and " +
+            "Repair Malfunction (F2023), Manage Maintenance Orders (F5241), Manage Maintenance Notifications and " +
+            "Orders (F4604, להודעות ופקודות לפי שלבים), Perform Maintenance Jobs (F5104A). Confirm Jobs (W0020) " +
+            "נמחק ב-2023.",
+          xrefs: [
+            "fiori:F1511A", "fiori:F1511", "fiori:F2023", "fiori:F5241", "fiori:F4604", "fiori:F5104A",
+            "fiori:W0020",
+          ],
+        },
+      ],
+      tables: [
+        {
+          he: "הודעה: QMEL כותרת, QMFE פריטים, QMUR סיבות; QMIH נתוני התקלה וההשבתה (אינה במילון הפרויקט).",
+          xrefs: ["table:QMEL", "table:QMFE", "table:QMUR"],
+        },
+        {
+          he: "פקודה: AUFK כותרת, AFIH הרחבת התחזוקה, AFKO ו-AFVC פעולות, RESB הזמנות חומר, EBAN דרישות רכש.",
+          xrefs: ["table:AUFK", "table:AFIH", "table:AFKO", "table:AFVC", "table:RESB", "table:EBAN"],
+        },
+        {
+          he: "אישור וסטטוס: AFRU אישורים, JEST סטטוסים (REL, CNF, TECO, CLSD).",
+          xrefs: ["table:AFRU", "table:JEST"],
+        },
+        {
+          he: "התחשבנות: COBRA ו-COBRB כלל ההתחשבנות; ב-S/4HANA שורות היומן ב-ACDOCA לפי tx-intel#KO88.",
+          xrefs: ["table:COBRA", "table:COBRB"],
+        },
+        {
+          he: "אובייקטים ותצוגות CDS: הודעה ופקודת תחזוקה, הזמנת חומר, מרכז עבודה; I_MaintenanceNotification, " +
+            "I_MaintenanceOrder.",
+          xrefs: [
+            "obj:maintenance-notification", "obj:maintenance-order", "obj:reservation", "obj:work-center",
+            "cds:I_MaintenanceNotification", "cds:I_MaintenanceOrder",
+          ],
+        },
+      ],
+      integrationPoints: [
+        {
+          he: "PM-MM: רכיבי מלאי כהזמנת חומר ומשיכה, רכיבים שאינם במלאי כדרישת רכש שנוצרת בשחרור (עמוד הסטטוסים " +
+            "2025 FPS01).",
+          xrefs: ["table:RESB", "table:EBAN", "obj:reservation"],
+        },
+        {
+          he: "PM-CO: עלות שעות לפי סוג הפעילות של מרכז העבודה, והתחשבנות ליעד; ב-S/4HANA ל-Universal Journal.",
+          xrefs: ["table:CRCO", "tx:KO88", "bp:order-settlement-process"],
+        },
+        {
+          he: "הודעה ופקודה: Create Direct מקשר ביניהן, וב-ECC סגירה טכנית משלימה את ההודעות של הפקודה.",
+          xrefs: ["obj:maintenance-notification", "obj:maintenance-order"],
+        },
+        {
+          he: "תחזוקה מונעת: מדדי האמינות מהשבר מזינים החלטות תחזוקה מונעת (domain-detail#pm-breakdown).",
+          xrefs: ["bp:preventive-maintenance-process"],
+        },
+        {
+          he: "הרחבות: QQMA0001 ו-NOTIF_EVENT_SAVE בהודעה, IWO10009 ו-WORKORDER_UPDATE בפקודה, CONFPM01 באישור.",
+          xrefs: [
+            "enh:exit:QQMA0001", "enh:badi:NOTIF_EVENT_SAVE", "enh:exit:IWO10009", "enh:badi:WORKORDER_UPDATE",
+            "enh:exit:CONFPM01",
+          ],
+        },
+      ],
+      interfaces: [
+        {
+          he: "BAPI: BAPI_ALM_NOTIF_CREATE להודעה, BAPI_ALM_ORDER_MAINTAIN לפקודה (כולל RELEASE " +
+            "ו-TECHNICALCOMPLETE), BAPI_ALM_CONF_CREATE לאישור, BAPI_TRANSACTION_COMMIT.",
+          xrefs: [
+            "fm:BAPI_ALM_NOTIF_CREATE", "fm:BAPI_ALM_ORDER_MAINTAIN", "fm:BAPI_ALM_CONF_CREATE",
+            "fm:BAPI_TRANSACTION_COMMIT",
+          ],
+        },
+        {
+          he: "התחשבנות: K_ORDER_SETTLEMENT (function-intel).",
+          xrefs: ["fm:K_ORDER_SETTLEMENT"],
+        },
+        {
+          he: "OData ב-S/4HANA: API_MAINTENANCEORDER לקריאת פקודה (What's New 2021) ו-API_MAINTORDERCONFIRMATION " +
+            "ליצירת אישור פעולה (APIs for Maintenance Management 2025 FPS01).",
+        },
+      ],
+      outputs: [
+        {
+          he: "הודעת תקלה עם פריטים, קודי פגם וסיבה וזמני השבתה.",
+          xrefs: ["table:QMEL", "table:QMFE"],
+        },
+        {
+          he: "פקודת תחזוקה עם פעולות, הזמנות חומר ודרישות רכש.",
+          xrefs: ["table:AUFK", "table:RESB", "table:EBAN"],
+        },
+        {
+          he: "אישורים ומסמכי חומר של משיכת הרכיבים: ב-ECC MKPF/MSEG, ב-S/4HANA MATDOC לפי tx-intel#IW42.",
+          xrefs: ["table:AFRU", "table:MKPF", "table:MSEG"],
+        },
+        {
+          he: "עלות בפועל על הפקודה והתחשבנות ליעד; ב-S/4HANA שורות ב-ACDOCA.",
+          xrefs: ["table:COBRB"],
+        },
+        {
+          he: "היסטוריית תקלות למדדי אמינות.",
+        },
+      ],
+      exceptions: [
+        {
+          he: "שחרור נחסם: היתר, זמינות רכיב, סטטוס משתמש, הרשאה או תקציב (order-wont-release, " +
+            "permit-blocks-order-release, maint-order-budget).",
+          xrefs: ["tx:IW32", "enh:exit:IWO10009"],
+        },
+        {
+          he: "אישור נכשל: תקופה סגורה (confirm-period-closed); שעות בלי עלות (pm-cost-no-activity-type); פקודה " +
+            "ב-PCNF בלי Final (pm-confirmation-final-flag).",
+          xrefs: ["tx:IW41", "table:AFRU", "enh:exit:CONFPM01"],
+        },
+        {
+          he: "מחלוקת TECO: teco-blocked מונה אישורים פתוחים ו'רזרבציות/תנועות פתוחות' כחוסמים, ו-tx-intel#IW32 " +
+            "מונה 'confirmations/PR פתוחים'; מדריך pm-corrective כותב ש-TECO סוגרת רזרבציות פתוחות; עמוד ה-ECC " +
+            "הרשמי מתעד ניקוי הזמנות חומר, סימון דרישות רכש למחיקה ואישורים אפשריים אחרי TECO; עמוד S/4HANA 2025 " +
+            "FPS01 אינו מזכיר הזמנות חומר. להכרעה: בדיקה במערכת היעד.",
+          xrefs: ["tx:IW32", "table:RESB", "table:EBAN", "table:AFRU"],
+        },
+        {
+          he: "התחשבנות נכשלת: כלל חסר, תקופה סגורה, סטטוס CLSD/LKD או יעד לא תקף (settlement-error).",
+          xrefs: ["tx:KO88", "table:COBRB"],
+        },
+        {
+          he: "מחלוקת הרצה מרוכזת: domains#pm-settlement כותבת CO88 מרוכזת לפקודות תחזוקה, בעוד " +
+            "tcode-catalog#CO88 ו-tx-intel#CO88 מתארים אותה להזמנות ייצור ותהליך, ו-tx-intel#KO88 " +
+            "ו-K_ORDER_SETTLEMENT נוקבים ב-KO8G.",
+          xrefs: ["tx:CO88", "tx:KO8G"],
+        },
+        {
+          he: "זמני השבתה חסרים: Malfunction Start/End או סימון Breakdown לא מולאו (downtime-not-recorded).",
+          xrefs: ["tx:MCI7"],
+        },
+        {
+          he: "מחלוקת סוג הפקודה: pm-maintenance-orders ו-pm-corrective משייכים PM01 לתיקון, " +
+            "ו-maintenance-order-process מונה PM02 כתקלה; שם סוג הפקודה ב-Customizing נקבע בפרויקט.",
+        },
+      ],
+      controls: [
+        {
+          he: "Malfunction Start/End וסימון Breakdown חובה בהודעת תקלה (downtime-not-recorded, pm-corrective).",
+        },
+        {
+          he: "סימון Final בפעולה האחרונה לפני TECO (pm-confirmation-final-flag).",
+          xrefs: ["table:AFRU"],
+        },
+        {
+          he: "סטטוס משתמש שאינו מתיר אישורים, כשצריך למנוע אישור אחרי TECO (עמוד ECC 'Technical Completion of an " +
+            "Order').",
+        },
+        {
+          he: "CLSD כשהיתרה אפס ואין הזמנות רכש פתוחות (עמוד ECC 'Business Completion of an Order').",
+          xrefs: ["table:JEST"],
+        },
+        {
+          he: "בכל רצף BAPI: בדיקת RETURN ו-COMMIT מפורש.",
+          xrefs: ["bp:bapi-commit-discipline"],
+        },
+      ],
+      kpis: [
+        {
+          he: "MTTR (זמן תיקון ממוצע) ו-MTBF (זמן בין תקלות), הנגזרים מ-Malfunction Start/End ומסימון Breakdown " +
+            "(domains#pm-breakdown).",
+          xrefs: ["tx:MCI7"],
+        },
+      ],
+      eccToS4: [
+        {
+          he: "מודל הנתונים נשמר: AUFK/AFIH/AFVC ו-QMEL/QMIH ללא שינוי (tx-intel#IW31, tx-intel#IW21, " +
+            "domain-detail#pm-breakdown).",
+          xrefs: ["table:AUFK", "table:AFIH", "table:AFVC", "table:QMEL"],
+        },
+        {
+          he: "S/4HANA: שני מסלולים לפי סוג הפקודה, ללא שלבים (BH1, BH2, BJ2) או לפי מודל השלבים (4HH, 4HI), לפי " +
+            "עמוד 'Maintenance Order Types' של 2025 FPS01. F4604 נוסף ב-2021 עם 4HH ו-4HI ואינו מציג פקודות ללא " +
+            "שלבים.",
+          xrefs: ["fiori:F4604"],
+        },
+        {
+          he: "S/4HANA: עלויות האישור וההתחשבנות ב-Universal Journal (ACDOCA); COSP/COSS תצוגות תאימות לפי 'S4TWL " +
+            "- DATA MODEL CHANGES IN FIN' כפי ש-tx-intel#KO88 מצטט.",
+          xrefs: ["tx:KO88", "table:COSP", "table:COSS"],
+        },
+        {
+          he: "S/4HANA: מסמכי החומר של משיכת הרכיבים ב-MATDOC לפי 'S4TWL - DATA MODEL IN INVENTORY MANAGEMENT " +
+            "(MM-IM)' כפי ש-tx-intel#IW42 מצטט.",
+          xrefs: ["tx:IW42"],
+        },
+        {
+          he: "S/4HANA: Confirm Jobs (W0020) נמחק ב-2023 עם היורשים F5104A ו-F2023; Manage Maintenance Orders " +
+            "(F5241) נוסף ב-2023 FPS03.",
+          xrefs: ["fiori:W0020", "fiori:F5104A", "fiori:F2023", "fiori:F5241"],
+        },
+        {
+          he: "S/4HANA: 'S4TWL - LIS in EAM' מתאר את PMIS כחלק מה-LIS ואנליטיקה עתידית על CDS; tx-intel#MCI7 מסמן " +
+            "את PMIS כ-compatibility scope.",
+          xrefs: ["tx:MCI7", "cds:I_MaintenanceOrder"],
+        },
+      ],
+      migration: [
+        {
+          he: "QMIH/QMEL ו-AUFK/AFIH/AFVC נשמרים; QA למחזור מלא, להתחשבנות ב-ACDOCA ולמדדי MTTR/MTBF " +
+            "(domain-detail#pm-breakdown, #pm-maintenance-orders, pm-corrective).",
+          xrefs: ["table:QMEL", "table:AUFK"],
+        },
+        {
+          he: "לפי 'S4TWL - Changes In List Reports For Order and Notification': להריץ QM_PHASE_FILL " +
+            "ו-RIAFVC_IPHAS_FILL לפני ההסבה, כתנאי לדוחות הרשימה של הזמנות והודעות.",
+        },
+      ],
+      reference: {
+        title: "Maintenance Order Types | Maintenance Management (SAP S/4HANA On-Premise 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/5fbd47786341411992fc9915284da2b2.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        verificationLevel: "sap_official_verified",
+        note: "עמוד התיעוד שמתאר את סוג הפקודה Corrective Maintenance (תכנון, שחרור, ביצוע, סגירה טכנית וסגירה " +
+          "עסקית) ואת מודל השלבים; הוא מקשר סוגי פקודה ללא שלבים לפריטי ההיקף BH1, BH2 ו-BJ2, וסוגים לפי שלבים " +
+          "ל-4HH ו-4HI. פריט היקף יחיד לתהליך הרשומה אינו נקבע כאן.",
+      },
+    },
+    xrefs: [
+      "obj:maintenance-notification", "obj:maintenance-order", "obj:reservation", "obj:work-center", "obj:equipment",
+      "table:QMEL", "table:QMFE", "table:AUFK", "table:AFIH", "table:AFVC", "table:RESB", "table:EBAN", "table:AFRU",
+      "table:JEST", "table:COBRB", "tx:IW21", "tx:IW28", "tx:IW31", "tx:IW32", "tx:IW38", "tx:IW41", "tx:IW42",
+      "tx:KO88", "tx:KO8G", "tx:MCI7", "fm:BAPI_ALM_NOTIF_CREATE", "fm:BAPI_ALM_ORDER_MAINTAIN",
+      "fm:BAPI_ALM_CONF_CREATE", "fm:K_ORDER_SETTLEMENT", "fiori:F1511A", "fiori:F1511", "fiori:F2023",
+      "fiori:F5241", "fiori:F4604", "fiori:F5104A", "fiori:W0020", "cds:I_MaintenanceOrder",
+      "cds:I_MaintenanceNotification", "enh:exit:IWO10009", "enh:exit:CONFPM01", "enh:exit:QQMA0001",
+      "enh:badi:WORKORDER_UPDATE", "bp:maintenance-notification-process", "bp:maintenance-order-process",
+      "bp:confirmation-process", "bp:order-settlement-process", "bp:preventive-maintenance-process",
+      "bp:bapi-commit-discipline",
+    ],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Order Types | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/5fbd47786341411992fc9915284da2b2.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 5fbd47786341411992fc9915284da2b2, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs): 'The order type represents a specific business process', ולכן 'you cannot " +
+          "change the order type of the maintenance order retrospectively'. תחת Prerequisites: תהליכים המבוססים " +
+          "על פריטי ההיקף 4HH (Reactive Maintenance) או 4HI (Proactive Maintenance) משתמשים בסוגי פקודה המעובדים " +
+          "לפי מודל השלבים; תהליכים המבוססים על BH1 (Corrective Maintenance), BH2 (Emergency Maintenance) ו-BJ2 " +
+          "(Preventive Maintenance) משתמשים בסוגי פקודה שאינם לפי מודל השלבים. תחת Order Processing Without " +
+          "Phases מתואר סוג הפקודה Corrective Maintenance: 'allows you to plan repair tasks when maintenance is " +
+          "requested, for example due to a malfunction or breakdown'; המתכנן יוצר פקודה לתכנון הפעילויות " +
+          "והמשאבים, 'Once you have completed the planning, you can release the order for execution', הטכנאי מבצע " +
+          "ומדווח התקדמות, 'you complete the order technically', ו-'When no further costs are expected to be " +
+          "posted to the order, you perform the business completion of the order'. סוג הפקודה Unplanned " +
+          "Maintenance מתואר כך: 'The system automatically creates an emergency order and confirms it'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reactive Maintenance | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/6bc4695243244942a63563ed3e26db3c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 6bc4695243244942a63563ed3e26db3c, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs): בפקודות מסוג Reactive Maintenance התהליך בנוי מתשעה שלבים: Initiation, " +
+          "Screening, Planning ('This order inherits the data of the accepted maintenance request'), Approval " +
+          "(תהליך workflow גמיש), Preparation, Scheduling, Execution ('the maintenance technician executes the " +
+          "preliminary and main maintenance tasks, captures time and material consumption'), Post Execution " +
+          "ו-Completion, שבו 'the maintenance planner or financial controller reviews maintenance orders that " +
+          "have already been technically completed but not yet financially settled' ומעביר אותן ל-Complete " +
+          "(Business).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Order System Statuses | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/fffdec9b483b4f7f8347e797a6641acd.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio fffdec9b483b4f7f8347e797a6641acd, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs), לכל סוגי הפקודה: Release משנה את הסטטוס ל-REL, ו-'When a maintenance order " +
+          "is released, purchase requisitions are automatically generated for non-stock materials, lean services " +
+          "or external operations. Moreover, goods receipts and time confirmations can be posted for order " +
+          "operations of a released maintenance order'. Complete (Technically) משנה ל-TECO, ו-'after you have " +
+          "changed the order system status to TECO (Technically Completed), order settlement can still be carried " +
+          "out and goods receipt can still be posted'. Complete (Business) משנה ל-CLSD, ו-'it can no longer " +
+          "receive any postings, including postings of costs and is locked for all processing changes'. Work " +
+          "Completed ‏(WOCO) רלוונטי לפקודות עם Work Clearance Management ומהווה תנאי ל-TECO בפקודות אלה. העמוד " +
+          "אינו מזכיר הזמנות חומר (reservations).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settle the Maintenance Order | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/b1cc9b3e5fbe43a7b01d212586f805c9.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio b1cc9b3e5fbe43a7b01d212586f805c9, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs): 'You use a settlement rule to define how the costs incurred by the " +
+          "execution of maintenance work are cleared'; ב-Customizing 'You also decide whether the settlement rule " +
+          "has to be entered when the order is released or not until the order is completed'. כלל ברירת מחדל נוצר " +
+          "בלחיצה על Create Default Settlement Rule, עם כלל חלוקה מסוג Full settlement (FUL), או FUL ו-periodic " +
+          "settlement (PER) כשפרופיל ההתחשבנות מתיר שניים או יותר; ניתן להגדיר יצירה אוטומטית של הכלל בשחרור או " +
+          "בהשלמה. העמוד מתאר את ה-SAP Web UI לפקודת התחזוקה ואינו נוקב בטרנזקציית התחשבנות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Creating an Order Directly from a Notification | Notifications (CS-CM-SN/PM-WOC-MN)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7f05ca069f8744759f48892c6d307fab/6185c1536ca9b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 6185c1536ca9b54ce10000000a174cb4, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs): מתוך ההודעה בוחרים Notification, Order, Create Direct; 'The notification " +
+          "number is entered automatically in the object list for the order'; 'The notification is assigned the " +
+          "statuses Order assigned and Notification in process. The number of the assigned order appears in the " +
+          "field Order in the notification header'; ו-'As soon as the notification and order have been assigned " +
+          "to one another, you can process the order from the notification and vice versa'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Changing the Notification Type | Notifications (CS-CM-SN/PM-WOC-MN)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7f05ca069f8744759f48892c6d307fab/b0e2855487f92257e10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio b0e2855487f92257e10000000a44176d, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs) מונה בתצורת SAP הסטנדרטית, בקטגוריית ההודעה Maint. Notification: " +
+          "'Maintenance Requests (M1) Malfunction Reports (M2) Activity Reports (M3)'. שינוי סוג הודעה אפשרי " +
+          "ב-iw21 וב-iw22 (ובהודעות שירות iw51, iw52) רק כל עוד ההודעה טרם הושלמה, ובתנאי שהפונקציה העסקית " +
+          "Enterprise Asset Management Part 7 (LOG_EAM_CI_7) הופעלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technical Completion of an Order | Orders (CS-SE/PM-WOC-MO)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/b4174aff4a234ed5be928a10c60997fb/bac9b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE,
+        claim: "צד ECC (SAP ERP 6.0 EHP8, loio bac9b65334e6b54ce10000000a174cb4, נקרא דרך " +
+          "scripts/sap-help-body.mjs): 'You usually complete an order technically once the maintenance work " +
+          "planned in the order has been performed'. אחרי TECO: 'You can still enter confirmations for a " +
+          "technically completed order. In order to prevent this, you must create a user status that does not " +
+          "permit confirmations'; 'the order can still receive costs, for example, through incoming invoices'; " +
+          "'If no settlement rule has yet been maintained for the order, the system creates one automatically'; " +
+          "'All the existing purchase requisitions for the order are flagged for deletion. All the existing " +
+          "reservations for the order are cleared'; וכל ההודעות של הפקודה מושלמות, אלא אם סימון Complete " +
+          "notifications לא נבחר, משימה לא הושלמה או סטטוס משתמש בהודעה מונע זאת.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Completion of an Order | Orders (CS-SE/PM-WOC-MO)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/b4174aff4a234ed5be928a10c60997fb/c3c9b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE,
+        claim: "צד ECC (SAP ERP 6.0 EHP8, loio c3c9b65334e6b54ce10000000a174cb4, נקרא דרך " +
+          "scripts/sap-help-body.mjs): סגירה עסקית אפשרית כשהפקודה נסגרה טכנית, 'It has been settled and the " +
+          "order balance is 0', ו-'No outstanding purchase orders (commitments) exist for it'; אחריה 'The order " +
+          "cannot receive any more postings, even for posting of costs'. אם היתרה אינה אפס או שקיימות הזמנות רכש " +
+          "פתוחות, המערכת מוציאה הודעת שגיאה ומשאירה את הפקודה בסטטוס Technically completed.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · " +
+          "item 4.1.13 S4TWL - LIS in EAM (PM-IS), p. 86",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE,
+        claim: "פריט 4.1.13 'S4TWL - LIS in EAM' (רכיב PM-IS; הטקסט המחולץ " +
+          "ב-scratchpad/official/SIMPL_OP2025.pdf.txt נקרא): 'The plant maintenance information system is part of " +
+          "the logistics information system LIS', שמעריך ציוד, מיקומים פונקציונליים, הודעות והזמנות; ה-LIS " +
+          "'operates on redundant data' ועל נתונים מצטברים מראש. 'Future plant maintenance analytics will be " +
+          "based on HANA, CDS views aggregating transactional data dynamically'; ניתן להפעיל את ה-LIS הקלאסי ואת " +
+          "האנליטיקה החדשה במקביל כל עוד עדכון טבלאות ה-LIS לא כובה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · " +
+          "item 4.1.7 S4TWL - Changes In List Reports For Order and Notification (PM-WOC-MO), p. 80",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE,
+        claim: "פריט 4.1.7 (רכיב PM-WOC-MO; הטקסט המחולץ נקרא): 'Prerequisite for executing the list reports for " +
+          "orders and notifications in SAP S/4HANA are the performance improvements described in notes 393393 and " +
+          "551133'; תחת Required and Recommended Action(s): להריץ את הדוחות 'QM_PHASE_FILL' ו-'RIAFVC_IPHAS_FILL' " +
+          "לפני ההסבה ל-S/4HANA; 'No influence on business processes expected'. הפריט נוקב ב-IW37 וב-IW49 (הפסקה " +
+          "מתוכננת לטובת IW37n ו-IW49n) ואינו נוקב ב-IW28 או ב-IW38.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Feature Comparison - Request Maintenance and Create Maintenance Request | Maintenance " +
+          "Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/5d2fbff31efc440b8200fbad95a68dfe.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TX_02,
+        claim: "עמוד ההשוואה הרשמי (Maintenance Management, ‏2025 FPS01) מציב זו לצד זו שתי אפליקציות נפרדות " +
+          "לבקשת תחזוקה: 'Request Maintenance' עם המזהה F1511 ו-'Create Maintenance Request' עם המזהה F1511A, " +
+          "כלשון הסניפט: 'Compared Features Request Maintenance Create Maintenance Request F1511 F1511A'. הסניפט " +
+          "מעיד שהטבלה משווה יכולות בין שתי האפליקציות (הפריט הראשון: זמינות טיוטות של בקשות תחזוקה, עם הערכים No " +
+          "/ Yes ללא שיוך ודאי לעמודות); ערכי ההשוואה עצמם לא נקראו מגוף הדף. (אומת ברשומת fiori:F1511)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Maintenance Request | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/78732361f0b94fe1b1711632af4362b3.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FI_23,
+        claim: "עמוד היישום ב-Maintenance Management לגרסת 2025 FPS01 (loio 78732361f0b94fe1b1711632af4362b3): " +
+          "'In the Create Maintenance Request app (F1511A) and the Screen Maintenance Requests app (F4072), when " +
+          "you remove a technical object or change the notification type'; 'Create Maintenance Request With this " +
+          "app, you can create maintenance requests.'; 'The My Drafts button allows you to view all your drafts " +
+          "in the My Maintenance Requests app.' (אומת ברשומת fiori:F1511A)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Library: F1511A Create Maintenance Request @ S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1511A')/S32OP",
+        accessedAt: DATE,
+        claim: "רשומת הספרייה ל-F1511A בגרסת S32OP (S/4HANA 2025 FPS01), סטטוס Published, קומפוננטה PM-FIO-WOC-MN " +
+          "(Fiori UI for PM Maintenance Notifications): 'Create Maintenance Request', Transactional / SAP Fiori " +
+          "(SAPUI5). תפקידים עסקיים: SAP_BR_EMPLOYEE (R0056), SAP_BR_MAINTENANCE_PLANNER (R0088), " +
+          "SAP_BR_MAINTENANCE_TECHNICIAN (R0090), SAP_BR_MAINT_SUPERVISOR (R0198), SAP_BR_MD_SPECIALIST_EAM " +
+          "(R0097-180). קטלוגים עסקיים: SAP_EAM_BC_MREQ_MNG 'EAM - Maintenance Request', SAP_EAM_BC_TO_MNG 'EAM - " +
+          "Technical Objects Management'; קטלוג טכני SAP_TC_EAM_COMMON. Intent: MaintenanceWorkRequest-create. " +
+          "שירות OData: UI_MAINTWORKREQUESTOVW_V2 גרסה 0001 (S4CORE 109); קבוצת V4: UI_PRIORITIZATION_PROFILE " +
+          "(S4CORE 109). טרנזקציית GUI מובילה: IW21. קודמת (predecessor): F1511 Request Maintenance; אין " +
+          "successor רשום. Backend: S4CORE 109 SP0001 / SAP S/4HANA 2025; UI: UIS4H 109 SP0001. רשימת ה-releases " +
+          "מתחילה ב-S21OP=2021 וכוללת גם S36=2602 ו-S37=2608. הערות RIN: 3493254 (Front-End Server), 3671888 " +
+          "(Back-End Server). (אומת ברשומת fiori:F1511A)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Report and Repair Malfunction | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/13b3075824570746e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TX_02,
+        claim: "מדריך Maintenance Management ל-S/4HANA On-Premise 2025 FPS01 מתעד את היישום: 'You can use this " +
+          "app to easily report that a technical object has a malfunction, plan the required repair work, as well " +
+          "as document and confirm the maintenance work'; 'This app is available for the Maintenance Technician " +
+          "role'; ותחת Key Features: 'Three tiles are provided for this app: The Report Malfunction tile for " +
+          "creating malfunction reports, the Manage Malfunction Reports tile that provides a list of malfunction " +
+          "reports that have already been created, and the Repair Malfunctions - My Job List tile that provides a " +
+          "list of all work items assigned to you or to your team'. (אומת ברשומת fiori:F2023)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Report and Repair Malfunction (F2023), S/4HANA 2025 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2023')/S32OP",
+        accessedAt: DATE,
+        claim: "רשומת הספרייה ל-F2023 על S32OP (2025 FPS01), שנקראה דרך ערוץ ה-OData הרשמי (scripts/fal-app.mjs, " +
+          "לא ה-JS shell): AppName 'Report and Repair Malfunction', Published, ApplicationType Transactional, " +
+          "UITechnology 'SAP Fiori (SAPUI5)', ApplicationComponent PM-FIO-WOC-JC (Fiori UI for PM Completion " +
+          "Confirmations). תפקיד עסקי SAP_BR_MAINTENANCE_TECHNICIAN (R0090, Maintenance Technician). קטלוג עסקי " +
+          "SAP_EAM_BC_CORRMAINT_MW (EAM - Corrective Maintenance); קטלוג טכני SAP_TC_EAM_COMMON. Semantic " +
+          "Object/Action MaintenanceJob-reportMalfunction. שירות OData EAM_MALFUNCTION_MANAGE גרסה 0001 (S4CORE " +
+          "109). טרנזקציית GUI מובילה IW31, קשורות IW21/IW22/IW32/IW41. Backend S4CORE 109 SP0001 / S/4HANA 2025; " +
+          "UI UIS4H 109 SP0001. NumberofPredecessors=0, NumberofSuccessors=0. הודעות RIN: 3493254 (Front-End " +
+          "Server), 3671888 (Back-End Server). AppDocumentationLink מפנה לנושא 13b3075824570746e10000000a441470, " +
+          "הנושא של רשומת ה-sap_help Report and Repair Malfunction | Maintenance Management (F2023_APP_TOPIC) " +
+          "לעיל. בהרצה נפרדת על S27OP (2023, " +
+          "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2023')/S27OP) " +
+          "חוזרים אותו תפקיד, אותם קטלוגים ואותן טרנזקציות GUI; ApplicationComponent שם הוא PM-FIO (Fiori User " +
+          "Interface (UI) for PM); OData על S4CORE 108, UI UIS4HOP1 900; הודעות RIN 3336823 (Front-End)/3351047 " +
+          "(Back-End). שתי הריצות מציגות NumberofPredecessors=0, NumberofSuccessors=0. (אומת ברשומת fiori:F2023)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Maintenance Notifications and Orders | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/d8a94ddd0c514780a9836aa04524f96f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TX_02,
+        claim: "עמוד האפליקציה בתיעוד Maintenance Management לגרסת 2025 FPS01 קובע: 'With this app, you can " +
+          "manage maintenance notifications and maintenance orders that are processed by phases', וכן " +
+          "'Maintenance notifications and orders for which the phase model has not been activated are not " +
+          "available in this app'. סוגי מכשירים נתמכים לפי הסניפט: Desktop, Tablet, Smartphone. (אומת ברשומת " +
+          "fiori:F4604)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Maintenance Notifications and Orders | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/e5b77db1b0194806b3431e1739eebc96.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE_TX_02,
+        claim: "ב-What's New in SAP S/4HANA 2021 האפליקציה מופיעה עם 'Technical Details Type New', ‏Scope Item " +
+          "‏4HH (Reactive Maintenance) ו-4HI (Proactive Maintenance), רכיב יישום PM (Plant Maintenance), ובעמודת " +
+          "Version: 'SAP S/4HANA 2021'. תחת Effects on Customizing: 'To be able to use this app, you need to set " +
+          "up your system for the phase-based maintenance process.' (אומת ברשומת fiori:F4604)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reactive Maintenance: Creating an Order with Reference | What's New in SAP S/4HANA and SAP " +
+          "S/4HANA Cloud Private Edition 2023 FPS02",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.002",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/8f958dbed1454edc9d3437f8c40ce3a0.html?locale=en-US&state=PRODUCTION&version=2023.002",
+        accessedAt: DATE_TX_02,
+        claim: "הסניפט קושר את השם למזהה: 'create reactive maintenance orders in the Manage Maintenance " +
+          "Notifications and Orders (F4604) app and use an existing order as a reference or template', ובפרטים " +
+          "הטכניים: 'Technical Object Name App ID: F4604', ‏'Application Component PM-WOC-MO', ‏Scope Item 4HH " +
+          "(Reactive Maintenance). (אומת ברשומת fiori:F4604)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Manage Maintenance Notifications and Orders (F4604), " +
+          "S/4HANA 2025 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4604')/S32OP",
+        accessedAt: DATE,
+        claim: "רשומת הספרייה ל-F4604 על S32OP (2025 FPS01), שנקראה דרך ערוץ ה-OData של הספרייה " +
+          "(scripts/fal-app.mjs, לא מעטפת ה-JavaScript): AppName 'Manage Maintenance Notifications and Orders', " +
+          "isPublished Published, ApplicationType Transactional, UITechnology 'SAP Fiori (SAPUI5)', " +
+          "ApplicationComponent PM-FIO (Fiori User Interface (UI) for PM). תפקיד עסקי SAP_BR_MAINTENANCE_PLANNER " +
+          "(R0088, Maintenance Planner). קטלוג עסקי SAP_EAM_BC_MNTWRK_MNG ('EAM - Maintenance Work Management'); " +
+          "קטלוג טכני SAP_TC_EAM_COMMON. Semantic Object/Action: MaintenanceOrder-plan. שירות ה-OData הראשי " +
+          "(PrimaryODataServiceName) הוא UI_MAINTWRKREQ_ORD_MANAGE גרסה 0001; הספרייה מדפיסה ארבעה שירותים: " +
+          "EAM_OBJPG_MAINTENANCEORDER_SRV, EAM_OBJPG_MAINTNOTIFICATION_SRV, UI_MAINTWORKREQUESTOVW_V2 " +
+          "ו-UI_MAINTWRKREQ_ORD_MANAGE (כולם 0001, S4CORE 109). טרנזקציות GUI: leading '-', related '-'. " +
+          "predecessors '-', successors '-' (NumberofPredecessors=0, NumberofSuccessors=0). הודעות RIN: 3493254 " +
+          "(Front-End Server), 3671888 (Back-End Server). Backend S4CORE 109 SP 0001 (SAP S/4HANA 2025); UI UIS4H " +
+          "109 SP 0001. (אומת ברשומת fiori:F4604)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Maintenance Orders | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/55828a51fe634affb76fe4283f71c1d9.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FI_23,
+        claim: "עמוד היישום ב-Maintenance Management לגרסת 2025 FPS01 (loio 55828a51fe634affb76fe4283f71c1d9): " +
+          "'Manage Maintenance Orders App ID: F5241 This app offers both a comprehensive list view of maintenance " +
+          "orders and the possibility to process individual maintenance orders.' ובקטע נפרד: 'This includes the " +
+          "possibility to manage the assignment of the selected orders to a maintenance event or a revision.' " +
+          "(אומת ברשומת fiori:F5241)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Maintenance Orders (F5241), SAP Fiori Apps Reference Library, S32OP (S/4HANA 2025 " +
+          "FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5241')/S32OP",
+        accessedAt: DATE,
+        claim: "node scripts/fal-app.mjs F5241 --out /tmp/fal-src (ערוץ ה-OData הרשמי, לא JS shell) מול S32OP " +
+          "(S/4HANA 2025 FPS01) החזיר רשומה Published יחידה: ApplicationType 'Transactional', UITechnology 'SAP " +
+          "Fiori elements', ApplicationComponent 'PM-FIO-WOC-MO'; BusinessRoleName 'SAP_BR_MAINTENANCE_PLANNER' " +
+          "(RoleID R0088, isLeading X); BusinessCatalogName 'SAP_EAM_BC_WORKORD_MNG' (EAM - Work Order " +
+          "Management); TechnicalCatalogName 'SAP_TC_EAM_COMMON'; SemanticObject 'MaintenanceOrder', " +
+          "SemanticAction 'manageWorkOrder'; RequiredODataServiceGroups: serviceGroupName " +
+          "'UI_MAINTENANCEORDER_MANAGE' (SoftwareComponentVersion S4CORE 109); fuzzy.LeadingTransactionCodes " +
+          "'IW31', fuzzy.TransactionCodes 'IW32, IW33, IW37N, IW38, IW39'; RetrofittedSWCBackend 'S4CORE 109 - SP " +
+          "0001' על ProductVersionOfficialNameBackend 'SAP S/4HANA 2025'; All_Rel מדפיס Published על S30OP/S30PCE " +
+          "(2023 FPS03), S31OP/S31PCE (2025), S32OP/S32PCE (2025 FPS01); PredecessorDetails מונה F2175 'Find " +
+          "Maintenance Order' (מזהה זה אינו קיים במאגר data/fiori/apps.ts ולכן אינו מקבל xref); Successors ריק; " +
+          "Notes: RIN 3493254 (Front-End Server) ו-3671888 (Back-End Server); Related_Apps מונה W0017 'Process " +
+          "Maintenance Order' כ-Required (אף הוא לא קיים במאגר). על S27OP (S/4HANA 2023) הבקשה החזירה 'not in " +
+          "this release (empty Results)'; זה עקבי עם appFirstRelease S30OP (2023 FPS03) שהספרייה מדפיסה. (אומת " +
+          "ברשומת fiori:F5241)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Perform Maintenance Jobs - SAP Fiori Apps Reference Library (F5104A, S32OP, fal-app.mjs)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5104A')/S32OP",
+        accessedAt: DATE,
+        claim: "רשומת ה-xsodata המובנית של ספריית ה-Fiori Apps (נקראה בפועל דרך scripts/fal-app.mjs, לא מעטפת " +
+          "JavaScript) עבור F5104A ב-S32OP (ReleaseName 'S/4HANA 2025 FPS01', isPublished 'Published'): " +
+          "ApplicationType 'Transactional', UITechnology 'SAP Fiori (SAPUI5)', ApplicationComponent " +
+          "'PM-FIO-WOC-JC' ('Fiori UI for PM Completion Confirmations'). SplitBusinessRole: BusinessRoleName " +
+          "מוביל 'SAP_BR_MAINTENANCE_TECHNICIAN' (RoleID R0090, isLeading='X'), נוסף 'SAP_BR_MAINT_SUPERVISOR' " +
+          "(R0198). SplitBusinessCatalog: BusinessCatalogName 'SAP_EAM_BC_MNTJOB_MNG' ('EAM - Maintenance Job " +
+          "Lists'). SplitTechnicalCatalogs: TechincalCatalog 'SAP_TC_EAM_COMMON'. SemanticObject/Action " +
+          "(SplitAdditionalIntents): 'MaintenanceJob'/'performJob'. RequiredODataServices: " +
+          "'API_MAINTNOTIFICATION' 0001, 'API_MAINTORDERCONFIRMATION' 0001, 'UI_MAINTENANCEJOB_MANAGE' 0001 (כולם " +
+          "SoftwareComponentName 'S4CORE 109'). fuzzy.LeadingTransactionCodes 'IW41'; fuzzy.TransactionCodes " +
+          "(related) 'IW21, IW22, IW23, IW32'. RetrofittedSWCBackend 'S4CORE 109 - SP 0001' על " +
+          "ProductVersionOfficialNameBackend 'SAP S/4HANA 2025'; RetrofittedSWCUI 'UIS4H 109 - SP 0001'. " +
+          "PredecessorDetails: 'W0016' 'Display Job List' (מ-releaseId S26OP), 'W0020' 'Confirm Jobs' " +
+          "(מ-releaseId S25OP); NumberofSuccessors=0 (Successors=[]). Notes (RIN): '3493254' (Front-End Server), " +
+          "'3671888' (Back-End Server). AppDocumentationLink מפנה לאותו topic id " +
+          "(3da57072a73444f18b5ad8785bc2900e) כמו ראיית ה-sap_help הראשונה ברשומת האימות fiori:F5104A. " +
+          "Related_Apps: 'F1511A' 'Create Maintenance Request' (relationType 'Navigation Target'). (אומת ברשומת " +
+          "fiori:F5104A)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deletion of Confirm Jobs App | What's New in SAP S/4HANA 2023",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f296651f454c4284ade361292c633d69/22fd7c9f368f454fad5b3acfa5a26b6d.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE_FI_23,
+        claim: "רשומת What's New לגרסת SAP S/4HANA 2023 (loio 22fd7c9f368f454fad5b3acfa5a26b6d): 'The Confirm " +
+          "Jobs app (W0020) has been deleted and is no longer available on the SAP Fiori launchpad.'; 'You can " +
+          "use the following successor apps which are available on the SAP Fiori launchpad to review, execute, " +
+          "and report the findings for the jobs dispatched for execution: Perform Maintenance Jobs (F5104A'; " +
+          "'Report and Repair Malfunction (F2023).'; בשורת הסיכום: 'See More App Deleted BH1 BJ2 PM SAP S/4HANA " +
+          "2023'. (אומת ברשומת fiori:W0020)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create a Single Order Operation Confirmation | APIs for Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/25fae824604447bb9a2dddc6363ce51b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_14,
+        claim: "ב-S/4HANA On-Premise 2025 FPS01 מתועדת פעולת יצירה של אישור פעולה בודד בפקודת תחזוקה דרך שירות " +
+          "ה-OData: 'Create a single order operation confirmation ... POST: " +
+          "<host>/sap/opu/odata/sap/API_MAINTORDERCONFIRMATION/MaintOrderConfirmation' (כלשון הסניפט). ערוץ " +
+          "היצירה של אישורי תחזוקת מפעל ב-API הרשמי מתועד אפוא גם בגרסה העדכנית; ה-BAPI עצמו אינו מוזכר ברשומה. " +
+          "(אומת ברשומת fm:BAPI_ALM_CONF_CREATE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "OData API: Maintenance Order - Read | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/be4e2d6267d844a89f99119c1d5215ef.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE_TX_02,
+        claim: "‏API_MAINTENANCEORDER ‏(Maintenance Order - Read) הוא שירות OData נכנס סינכרוני לקריאת נתוני " +
+          "כותרת, פעולות, רכיבים ורשימת אובייקטים של פקודת תחזוקה. (אומת ברשומת fm:BAPI_ALM_ORDER_MAINTAIN)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מדריך התהליך של הפרויקט (PROCESS_GUIDES): Corrective Maintenance (Breakdown→Settlement)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "זרימה: תקלה, הודעה, פקודה, תכנון ושחרור, ביצוע ואישור, TECO, התחשבנות, ניתוח. שלבים: הודעת תקלה " +
+          "M2 עם אובייקט ייחוס, Malfunction Start וקוד פגם ב-IW21 (QMEL, QMIH, QMFE); המרה לפקודה מסוג PM01 עם " +
+          "פעולות ורכיבים ב-IW31 (AUFK, AFIH, AFVC, RESB); שחרור ב-IW32 שמפעיל בדיקת זמינות והיתרים; אישור שעות, " +
+          "צריכת חומרים ו-Malfunction End ב-IW41 (AFRU, MSEG); סגירה טכנית ב-IW32, שלפי הרשומה סוגרת רזרבציות " +
+          "פתוחות, והטעות השכיחה בה 'אישורים פתוחים מונעים TECO'; התחשבנות למרכז עלות ב-KO88 אחרי TECO (COBRB, " +
+          "COEP). Exits ו-BAdIs: IWO10009, CONFPM01, WORKORDER_UPDATE, QQMA0001. ECC מול S/4HANA: המחזור זהה; UX " +
+          "ל-Fiori, עלויות ל-ACDOCA, מדדי אמינות ב-Embedded Analytics; הגירה: QA למחזור המלא, להתחשבנות ולמדדי " +
+          "MTTR/MTBF.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/process-guides.ts#pm-corrective",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום של הפרויקט (DOMAINS): pm-breakdown",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "תחזוקת שבר מטפלת בתקלות בלתי מתוכננות: הודעת תקלה עם סימון Breakdown, פקודה דחופה (IW31), תיקון " +
+          "ואישור, ניתוח MTTR/MTBF. טבלאות QMEL, QMIH, AUFK, AFIH; טרנזקציות IW21, IW31, IW41, IW28, MCI7; " +
+          "BAPI_ALM_NOTIF_CREATE ו-BAPI_ALM_ORDER_MAINTAIN. סימון Breakdown ב-QMIH מזין מדדי זמינות, Malfunction " +
+          "Start/End קובעים זמן השבתה, 'MTTR (זמן תיקון ממוצע), MTBF (זמן בין תקלות)', עדיפות גבוהה מובילה לזמני " +
+          "יעד קצרים. תקלות: זמני השבתה לא מחושבים, MTBF שגוי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pm-breakdown",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "פירוט התחום של הפרויקט (DOMAIN_DETAIL): pm-breakdown",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "מטרה: תגובה מהירה לתקלות בלתי מתוכננות ותיעוד זמני השבתה שמזינים MTTR/MTBF להחלטות תחזוקה מונעת. " +
+          "נתוני אב: סוג הודעה M2 (תקלה), עדיפויות וזמני יעד, קודי פגם וסיבה. פונקציות: BAPI_ALM_NOTIF_CREATE, " +
+          "BAPI_ALM_ORDER_MAINTAIN, PRIORITY_DETERMINE; Exits‏ QQMA0001, IWO10009; BAdIs‏ NOTIF_EVENT_SAVE, " +
+          "WORKORDER_UPDATE. QA: הודעת Breakdown עם Malfunction Start/End מופיעה ב-PMIS; בלי Malfunction End זמן " +
+          "ההשבתה נשאר פתוח. הגירה: QMIH/QMEL נשמרים, לבדוק זמני השבתה ומדדי אמינות אחרי ההמרה. ECC מול S/4HANA: " +
+          "מודל ההודעה זהה; מדדי אמינות ב-Embedded Analytics/Fiori KPI.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domain-detail.ts#pm-breakdown",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום של הפרויקט (DOMAINS): pm-maintenance-orders",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "טבלאות AUFK, AFIH, AFKO, AFVC, RESB; טרנזקציות IW31, IW32, IW33, IW38, IW39; " +
+          "BAPI_ALM_ORDER_MAINTAIN; סוגי פקודה 'PM01 תיקון, PM02 מונע, PM03 השקעה'; העלויות מתגלגלות לפקודה " +
+          "ומותחשבנות למרכז עלות או לנכס; תקלה: לא ניתן לסגור (CLSD) בלי התחשבנות (KO88) וסגירת הזמנות פתוחות.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pm-maintenance-orders",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "פירוט התחום של הפרויקט (DOMAIN_DETAIL): pm-maintenance-orders",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "מחזור: יצירה, שחרור, ביצוע ואישור, TECO, התחשבנות (KO88), סגירה עסקית. נתוני אב: סוג פקודה " +
+          "(PM01/PM02), מרכז עבודה, אובייקט ייחוס, כלל התחשבנות, פרופיל היתרים; Exits‏ IWO10009, IWO10012; BAdI‏ " +
+          "WORKORDER_UPDATE; QA: היתר פתוח חוסם שחרור, רכיב שאינו במלאי מייצר דרישת רכש (PR), התחשבנות מעבירה " +
+          "עלות למרכז העלות; תקרית: TECO נכשל בגלל אישורים פתוחים; הגירה: AUFK/AFIH/AFVC נשמרים, QA ליצירה, " +
+          "שחרור, אישור והתחשבנות (ל-ACDOCA).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domain-detail.ts#pm-maintenance-orders",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת שיטת העבודה של הפרויקט: maintenance-order-process",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הרשומה מתעדת את מחזור פקודת התחזוקה (יצירה, תכנון, שחרור, אישור, TECO, התחשבנות) וקובעת בנתוני " +
+          "האב שסוגי הפקודה מותאמי לקוח, ושברירת המחדל שרשומת נתוני האב של המאגר מונה היא 'PM01 מתוכנן או מונע, " +
+          "PM02 תקלה, PM03 שיפוץ או השקעה'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/best-practices/pm-processes-2.ts#maintenance-order-process",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום של הפרויקט (DOMAINS): pm-confirmation",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "אישור מדווח שעות, חומרים, מדידות וסטטוס, מעדכן עלות בפועל וצריכת מלאי ומאפשר TECO. טבלאות AFRU, " +
+          "AFVC, AFKO, AUFK; טרנזקציות IW41, IW42, IW44, IW45, IW48; BAPI_ALM_CONF_CREATE; אישור חלקי מול סופי " +
+          "(Final). תקלות: לא ניתן לאשר (לוודא REL ותקופת רישום פתוחה), עלות לא נרשמה (שיוך מרכז עלות במרכז " +
+          "העבודה, CRCO), תנועת חומר נכשלה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pm-confirmation",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום של הפרויקט (DOMAINS): pm-work-centers",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "מרכז עבודה מגדיר היכן ועל ידי מי מתבצעת עבודת התחזוקה: קיבולת, נוסחאות תזמון ושיוך מרכז עלות; " +
+          "טבלאות CRHD, CRCA, CRCO, CRTX, KAKO; \"CRHD כותרת, CRCA קיבולת, CRCO שיוך עלות, CRTX טקסט\".",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pm-work-centers",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת התחום של הפרויקט (DOMAINS): pm-settlement",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ההתחשבנות מעבירה את עלויות פקודת התחזוקה ליעד (מרכז עלות, נכס או הזמנה) לפי כלל התחשבנות, " +
+          "'ומבוצעת ב-KO88 (בודד) או CO88 (מרוכז)'; טבלאות AUFK, COBRB, COSS, COSP; טרנזקציות KO88, CO88, KO8G, " +
+          "IW32; K_ORDER_SETTLEMENT; ב-S/4 העלויות זורמות ל-ACDOCA; סגירה עסקית (CLSD) אחרי התחשבנות מלאה.",
+        verificationLevel: "conflicting_sources",
+        repoRef: "data/domains.ts#pm-settlement",
+        conflictingEvidence: [
+          {
+            sourceType: "repository",
+            sourceTitle: "קטלוג הטרנזקציות של הפרויקט (tcode-catalog): CO88",
+            product: "SAP ECC / SAP S/4HANA",
+            edition: "on-premise",
+            accessedAt: DATE,
+            claim: "CO88 רשומה כ-'Actual Settlement: Production/Process Orders' (מודול CO, 'סילוק בפועל: הזמנות " +
+              "ייצור/תהליך').",
+            verificationLevel: "repository_verified",
+            repoRef: "data/tcode-catalog.ts#CO88",
+          },
+        ],
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "פירוט התחום של הפרויקט (DOMAIN_DETAIL): pm-settlement",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "נתוני אב: כלל התחשבנות, סוג התחשבנות PER/FUL, מרכז עלות או נכס יעד, פרופיל התחשבנות; פונקציות " +
+          "K_ORDER_SETTLEMENT, K_SETTLEMENT_RULE_READ, K_COSTS_READ; תקריות: כלל חסר, תקופה סגורה, סטטוס " +
+          "CLSD/LKD, יתרה שאינה אפס; ECC מול S/4HANA: תהליך ההתחשבנות ו-COBRB קיימים, העלויות עוברות ל-Universal " +
+          "Journal (ACDOCA) ללא reconciliation נפרד.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domain-detail.ts#pm-settlement",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג הפונקציות של הפרויקט (function-intel): K_ORDER_SETTLEMENT",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "התחשבנות פקודה: העברת עלויות ליעד (מרכז עלות, נכס, WBS); כשלים: כלל התחשבנות חסר, תקופה סגורה, " +
+          "סטטוס שאינו מאפשר; טרנזקציות קשורות KO88 ו-KO8G; ב-S/4HANA זמין (Universal Journal/ACDOCA).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#K_ORDER_SETTLEMENT",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג הטרנזקציות של הפרויקט (tcode-catalog): CO88",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "CO88 רשומה כ-'Actual Settlement: Production/Process Orders' (מודול CO, 'סילוק בפועל: הזמנות " +
+          "ייצור/תהליך').",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CO88",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציה של הפרויקט (TX_INTEL): IW21",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "IW21 יוצרת הודעת תחזוקה לפי סוג הודעה (M1 maintenance request, M2 malfunction report, M3 activity " +
+          "report) וכותבת ל-QMEL ולטבלאות הפריטים, וקושרת לאובייקט טכני (EQUI/IFLOT); טבלאות QMEL, QMFE, QMUR, " +
+          "QMMA, QMSM, QMIH; BAPI_ALM_NOTIF_CREATE, BAPI_ALM_NOTIF_SAVE. s4Delta: IW21 נשמרת ב-S/4HANA, לצדה " +
+          "Create Maintenance Request (F1511A), Request Maintenance (F1511) ו-Report and Repair Malfunction " +
+          "(F2023); QMEL/QMFE/QMIH ללא שינוי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IW21",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציה של הפרויקט (TRANSACTIONS): IW28",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "IW28 'עיבוד רשימת הודעות': בחירה ועיבוד המוני של הודעות בניהול הודעות פתוחות, עבור רכז התחזוקה; " +
+          "טבלה QMEL; פונקציה BAPI_ALM_NOTIF_LIST_FILTER; שגיאה: סינון רחב פוגע בביצועים.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/transactions.ts#IW28",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציה של הפרויקט (TX_INTEL): IW31",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "IW31 יוצרת הזמנת תחזוקה עם פעולות, רכיבים ועלויות; זרימה: הודעה (IW21), IW31, תכנון, release, " +
+          "הפקת PR, ביצוע, IW41, TECO, settlement (KO88). טבלאות AUFK, AFKO, AFVC, RESB, AFIH, JEST, PMCO; " +
+          "BAPI_ALM_ORDER_MAINTAIN, BAPI_ALM_ORDER_GET_DETAIL. שגיאות: order type לא מוגדר, settlement rule חסר, " +
+          "work center לא בתוקף, availability control. s4Delta: IW31/IW32 נשמרות ב-S/4HANA, ה-Settlement נרשם " +
+          "ל-Universal Journal (ACDOCA), הטבלאות הקלאסיות ללא שינוי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IW31",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציה של הפרויקט (TX_INTEL): IW32",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "IW32 משנה הזמנה: פעולות, רכיבים, settlement, release, TECO וסטטוסים. שגיאות: הזמנה נעולה, 'TECO " +
+          "נכשל בגלל confirmations/PR פתוחים', settlement rule חסר, availability control חוסם. s4Delta: נשמרת " +
+          "ב-S/4HANA, עלויות ל-Universal Journal (ACDOCA).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IW32",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציה של הפרויקט (TX_INTEL): IW38",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "IW38 היא עריכת רשימת הזמנות: עריכה גורפת, סינון לפי סטטוס, אובייקט, work center ותאריך; release, " +
+          "TECO והדפסה גורפים. שגיאות: טווח בחירה רחב, פעולה גורפת שנכשלת חלקית. s4Delta: נשמרת ב-S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IW38",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציה של הפרויקט (TX_INTEL): IW41",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "IW41 מדווחת זמן וביצוע על פעולות ההזמנה; זרימה: release (IW32), ביצוע, IW41, TECO, settlement. " +
+          "טבלאות AFRU, AFKO, AFVC, AUFK; BAPI_ALM_CONF_CREATE, BAPI_ALM_CONF_GETDETAIL, BAPI_ALM_CONF_CANCEL. " +
+          "שגיאות: הזמנה לא ב-release, activity type חסר ב-work center, final confirmation בטעות, תאריך מחוץ " +
+          "לתקופה. s4Delta: נשמרת ב-S/4HANA; עלות הפעילות ל-Universal Journal.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IW41",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציה של הפרויקט (TX_INTEL): IW42",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "IW42 היא אישור כולל של הוראת תחזוקה: פעולות, צריכת חומרים, מדידות, נתוני הודעה וסגירה טכנית במסך " +
+          "אחד. שגיאות: period סגור לתנועת חומר, חוסר מלאי לרכיב, 'TECO נכשל בגלל אישורים פתוחים'. s4Delta: " +
+          "תנועות המלאי נרשמות ל-MATDOC, עם ציטוט פריט הפישוט 'S4TWL - DATA MODEL IN INVENTORY MANAGEMENT " +
+          "(MM-IM)'; MKPF/MSEG נשארות כהגדרות DDIC.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IW42",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציה של הפרויקט (TX_INTEL): KO88",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "KO88 היא הסדרה בודדת של הזמנה: העברת העלויות למקבלים שבכלל ההסדרה; משתמשים: בקר עלויות, חשב, " +
+          "אנליסט סגירת תקופה; זרימה: KO02 הגדרת כלל, KO88 הסדרה, בדיקה KOB1, 'KO8G (קולקטיבי) בסוף תקופה'; הסדרה " +
+          "על בסיס COBRA/COBRB; טבלאות ACDOCA, COBRA, COBRB, COEP, COSS. שגיאות: KD 555 תקופה לא פתוחה, כלל חסר " +
+          "או חלקי, מקבל לא תקף. s4Delta: הרישום נכנס ל-Universal Journal (ACDOCA); COSP/COSS תצוגות תאימות, לפי " +
+          "פריט הפישוט 'S4TWL - DATA MODEL CHANGES IN FIN'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KO88",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציה של הפרויקט (TX_INTEL): CO88",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "CO88 מתוארת כ'יישוב קולקטיבי של הזמנות ייצור' (העברת סטיות ו-WIP מהזמנות ייצור בסוף תקופה), " +
+          "בזרימה CO11N, KKAO, KKS1, CO88.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CO88",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת הטרנזקציה של הפרויקט (TX_INTEL): MCI7",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "MCI7 הוא דוח במערכת המידע של התחזוקה (PMIS) לניתוח עלויות לפי אובייקט טכני; טבלאות S061, S065, " +
+          "S070, EQUI, ILOA, AUFK; שגיאה שכיחה: מבני המידע לא עודכנו. s4Delta: 'PMIS/LIS הוא compatibility scope; " +
+          "ניתוח עלות מודרני מבוסס ACDOCA/CDS'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MCI7",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של הפרויקט (PM): BAPI_ALM_ORDER_MAINTAIN",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "BAPI_ALM_ORDER_MAINTAIN (BUS2007) בשרשרת הודעה, פקודת תחזוקה, שחרור, דיווח, תנועת סחורה, סגירה " +
+          "טכנית (TECO), סילוק (KO88); רצף: BAPI_ALM_ORDER_MAINTAIN (HEADER/OPERATION/COMPONENT), " +
+          "BAPI_ALM_ORDER_MAINTAIN (RELEASE), BAPI_ALM_CONF_CREATE, BAPI_ALM_ORDER_MAINTAIN (TECHNICALCOMPLETE), " +
+          "BAPI_TRANSACTION_COMMIT; טבלאות AUFK, AFIH, AFVC, AFVV, RESB.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_ALM_ORDER_MAINTAIN",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מפת ה-CDS של הפרויקט: I_MaintenanceOrder, I_MaintenanceNotification",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "I_MaintenanceOrder (פקודה, מעל AUFK ו-AFKO) ו-I_MaintenanceNotification (הודעה, מעל QMEL) רשומות " +
+          "במפת ה-CDS של המאגר, מודול PM.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/cds-map.ts#I_MaintenanceOrder",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מפת התהליך של הפרויקט (PROCESS_MAPS): maintenance-management",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "מפת ניהול התחזוקה: הודעה (IW21), פקודה (IW31, IW32; תקריות order-wont-release, " +
+          "permit-not-auto-assigned), חלפים (RESB, EBAN), ביצוע ואישור (IW41, IW42, AFRU; תקרית " +
+          "confirm-period-closed), התחשבנות (KO88, COBRB; תקריות settlement-error, teco-blocked).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/processes.ts#maintenance-management",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: order-wont-release",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "פקודה לא משתחררת: היתר פתוח רלוונטי לשחרור, בדיקת זמינות רכיב נכשלה, סטטוס משתמש חוסם, הרשאה " +
+          "I_AUART/I_SWERK; ניתוח ב-IW32, CO24, SU53; EXIT IWO10009 לבדיקות שחרור; טבלאות AUFK, JEST, IHPA, RESB.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting.ts#order-wont-release",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: permit-blocks-order-release",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "IW32 מסרב לשחרר כי היתר נדרש (effective at release) הוקצה ולא ניתן; תיקון: מתן ההיתר על ידי משתמש " +
+          "מורשה, או הסרת ההקצאה כשאינו נדרש; טבלאות AUFK, AFIH, IHGNS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext.ts#permit-blocks-order-release",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: maint-order-budget",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "שחרור או אישור נחסמים בחריגת תקציב (Availability Control, הודעה BP603); ניתוח ב-KO23 ו-IW32; " +
+          "תיקון: הגדלת תקציב (KO22/KO24) או התאמת tolerance.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext2.ts#maint-order-budget",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: confirm-period-closed",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "אישור נכשל בתקופה סגורה (M7053): תקופת MM סגורה (MMRV) או FI/CO סגורה (OB52); חלות גם על CONFPM01 " +
+          "ברשימת ה-exits של התקרית.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting.ts#confirm-period-closed",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: pm-cost-no-activity-type",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "אישור שעות לא יוצר עלות: סוג פעילות לא משויך למרכז העבודה (CRCO) או תעריף לא תוכנן (KP26); exit‏ " +
+          "CONFPM01.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext3.ts#pm-cost-no-activity-type",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: pm-confirmation-final-flag",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "פקודת תחזוקה לא עוברת ל-CNF כי האישור לא סומן Final; טבלאות AFRU, AFVC; BAPI_ALM_CONF_CREATE; " +
+          "exit‏ CONFPM01; בתרחיש הרשומה הפקודה נשארה PCNF כי האישור לא סומן סופי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext3.ts#pm-confirmation-final-flag",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: teco-blocked",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "TECO חסומה: שורשים 'אישורים פתוחים', 'היתר רלוונטי-לסיום פתוח', 'רזרבציות/תנועות פתוחות'; ניתוח " +
+          "ב-IW32, IW41, COGI; תיקון: להשלים אישורים, לתת היתר, לפתור תנועות תקועות (COGI).",
+        verificationLevel: "conflicting_sources",
+        repoRef: "data/troubleshooting.ts#teco-blocked",
+        conflictingEvidence: [
+          {
+            sourceType: "sap_help",
+            sourceTitle: "Technical Completion of an Order | Orders (CS-SE/PM-WOC-MO)",
+            product: "SAP ERP",
+            edition: "ecc",
+            release: "6.18.latest",
+            url: "https://help.sap.com/docs/SAP_ERP/b4174aff4a234ed5be928a10c60997fb/bac9b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+            accessedAt: DATE,
+            claim: "צד ECC (SAP ERP 6.0 EHP8, loio bac9b65334e6b54ce10000000a174cb4, נקרא דרך " +
+              "scripts/sap-help-body.mjs): 'You usually complete an order technically once the maintenance work " +
+              "planned in the order has been performed'. אחרי TECO: 'You can still enter confirmations for a " +
+              "technically completed order. In order to prevent this, you must create a user status that does not " +
+              "permit confirmations'; 'the order can still receive costs, for example, through incoming " +
+              "invoices'; 'If no settlement rule has yet been maintained for the order, the system creates one " +
+              "automatically'; 'All the existing purchase requisitions for the order are flagged for deletion. " +
+              "All the existing reservations for the order are cleared'; וכל ההודעות של הפקודה מושלמות, אלא אם " +
+              "סימון Complete notifications לא נבחר, משימה לא הושלמה או סטטוס משתמש בהודעה מונע זאת.",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: settlement-error",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "'KO88/CO88 מסיימים בשגיאה; עלות נשארת בפקודה': כלל התחשבנות לא הוגדר, תקופת CO/FI סגורה, סטטוס " +
+          "CLSD/LKD, יעד לא תקף; ניתוח ב-KO88, CO88, KO02, OB52; טבלאות COBRB, AUFK, COEP.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting.ts#settlement-error",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: downtime-not-recorded",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "מדדי זמינות שגויים כי Malfunction Start/End חסרים: סימון Breakdown לא סומן, זמני התקלה לא מולאו, " +
+          "או סוג הודעה ללא malfunction; ניתוח ב-IW21, IW29, MCI7; טבלאות QMIH, QMEL; exit‏ QQMA0001.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext3.ts#downtime-not-recorded",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 9 בספריית הפרויקט (SAP PRESS, Plant Maintenance with SAP S/4HANA: Business User Guide), " +
+          "סעיף 4.3 'Planning'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "פרק 4 'Work Order Cycle', סעיף 4.3 ובו יצירת פקודה (4.3.1), סוגי פקודה (4.3.2), פעולות (4.3.4), " +
+          "תכנון חומרים (4.3.7) ועלות משוערת (4.3.12); הפניית קריאה בלבד, לא מקור לטענה בשורה זו.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book9.json#4.3",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 9 בספריית הפרויקט (SAP PRESS, Plant Maintenance with SAP S/4HANA: Business User Guide), " +
+          "סעיף 4.6 'Completion'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "סעיף 4.6 ובו אישורי השלמה (4.6.1), אישורי השלמה טכניים (4.6.2), סגירה טכנית (4.6.3) וסגירה עסקית " +
+          "(4.6.5); הפניית קריאה בלבד.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book9.json#4.6",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 9 בספריית הפרויקט (SAP PRESS, Plant Maintenance with SAP S/4HANA: Business User Guide), " +
+          "סעיף 6.1 'Immediate Repairs'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "פרק 6 'Other Business Processes', סעיף 6.1 ובו יצירת פקודות (עם הודעה) והשלמה (6.1.1) " +
+          "ו-After-Event Recording (6.1.2); הפניית קריאה בלבד.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book9.json#6.1",
+      },
+    ],
+    lastVerifiedAt: DATE,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    notes: "פערים ומחלוקות פתוחים: (1) TECO והזמנות חומר: המאגר חלוק (teco-blocked ו-tx-intel#IW32 מול " +
+      "pm-corrective), עמוד ה-ECC הרשמי (6.18.latest) מתעד ניקוי הזמנות חומר, ועמוד הסטטוסים של S/4HANA 2025 " +
+      "FPS01 אינו מזכיר אותן; לא הוכרע, דורש בדיקה במערכת היעד. (2) הרצת התחשבנות מרוכזת לפקודות תחזוקה: CO88 לפי " +
+      "domains#pm-settlement מול KO8G לפי tx-intel#KO88 (K_ORDER_SETTLEMENT מונה אותה כטרנזקציה קשורה), ו-CO88 " +
+      "מתוארת בקטלוג להזמנות ייצור ותהליך; אף עמוד רשמי שנקרא אינו נוקב בטרנזקציית התחשבנות לפקודת תחזוקה. (3) " +
+      "סוג פקודת ברירת המחדל לתיקון (PM01 או PM02) אינו אחיד במאגר ואינו נקבע כאן. (4) תפקידים: שמות SAP_BR_* " +
+      "נלקחו רק משורות ספריית ה-Fiori (scripts/fal-app.mjs, S32OP) שהועתקו מרשומות האימות fiori:F2023, " +
+      "fiori:F5104A, fiori:F5241, fiori:F4604 ו-fiori:F1511A; לתפקיד הבקר הפיננסי אין מזהה SAP_BR במקור שנקרא, " +
+      "ולצד ECC אין מקור תפקידים. (5) ממשקי IDoc לתהליך אינם מתועדים במאגר ולכן הושמטו; OData נקוב רק בשמות " +
+      "שהשורות הרשמיות מדפיסות. (6) KPI מעבר ל-MTTR/MTBF אינם מתועדים. (7) QMIH, COEP, ACDOCA ו-MATDOC אינם " +
+      "במילון הפרויקט ומופיעים בפרוזה בלבד. (8) ההפניה הרשמית היא עמוד Maintenance Order Types; פריט היקף יחיד " +
+      "לתהליך אינו נקבע, ו-BH1/BH2/BJ2 ו-4HH/4HI מובאים רק כפי שהעמוד מקשר אותם לסוגי פקודה. חיפושים שרצו " +
+      "ב-2026-09-24 (scripts/sap-help-search.mjs, On-Premise אלא אם צוין): 'Reactive Maintenance' (21), " +
+      "'Breakdown Maintenance' (21), 'Corrective Maintenance process maintenance order', 'Technical Completion of " +
+      "Maintenance Order', 'Completion Confirmation maintenance order', 'Settlement of Maintenance Orders', " +
+      "'Changing the Notification Type', וב-SAP_ERP 'Breakdown Maintenance' (21) ו-'Technical Completion of " +
+      "Maintenance Orders' (21). לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  /* ======================================================= procure to pay */
+  {
+    slug: "procure-to-pay-process",
+    he: "רכש עד תשלום (Procure-to-Pay) מקצה לקצה",
+    en: "Procure-to-pay process: from purchase requisition to payment",
+    module: "Cross",
+    summary: "רכש עד תשלום (P2P) הוא הזרימה הכללית של הרכש החיצוני: דרישת רכש, הקצאת מקור אספקה, הזמנת רכש " +
+      "ושחרורה, קבלת טובין, אימות חשבונית ותשלום. הווריאנט הממוקד לרכש מפקודת תחזוקה מתועד ברשומה " +
+      "procure-to-pay-for-maintenance ואינו משוכפל כאן.",
+    context: "עמוד התהליך הרשמי 'Procurement in SAP S/4HANA' (Sourcing and Procurement, 2025 FPS01) מתאר 'a " +
+      "general cycle of activities': קביעת צורך, קביעת מקור, בחירת ספק והשוואת הצעות, עיבוד הזמנת רכש, מעקב " +
+      "הזמנה, קבלת טובין וניהול מלאי, ואימות חשבונית. מפת התהליך 'רכש לתשלום (P2P)' של הפרויקט מונה חמישה שלבים " +
+      "עם קודי טרנזקציה, טבלאות, Fiori, ממשקים ותקריות לכל שלב: דרישת רכש (ME51N, ME53N), הזמנת רכש (ME21N, " +
+      "ME22N, ME23N), קבלת טובין (MIGO), חשבונית (MIRO) ותשלום (F110, FBL1N). רשומות ה-tx-intel של הפרויקט " +
+      "מוסיפות את הקצאת המקור (ME56) וההמרה האוטומטית (ME59N) בין הדרישה להזמנה, ואת שלבי השחרור (ME54N לדרישה, " +
+      "ME29N להזמנה). ב-S/4HANA, לפי רשומות tx-intel וראיות help.sap.com של 2025 FPS01, טרנזקציות השרשרת מתועדות " +
+      "לצד יישומי Fiori; השינויים מתועדים בשדה eccToS4 לפי צד ומהדורה, ובהם שינוי מודל הנתונים של מסמך החומר " +
+      "(MKPF/MSEG ב-ECC, MATDOC ב-S/4HANA) לפי 'S4TWL - Data Model in Inventory Management'. בספר 3 בספריית " +
+      "הפרויקט (Sourcing and Procurement with SAP S/4HANA) יש סעיפים בשמות השלבים האלה בפרקים 5, 6, 7 ו-12 (לפי " +
+      "כותרות הסעיפים; התוכן לא נקרא).",
+    steps: [
+      {
+        he: "לזהות צורך ולפתוח דרישת רכש (PR): ידנית ב-ME51N או אוטומטית מ-MRP, עם document type, קטגוריית הקצאת " +
+          "חשבון (K/F/A) ו-source of supply אופציונלי. הדרישה נכתבת ל-EBAN ולייחוס החשבונאי ב-EBKN (רשומת " +
+          "tx-intel של ME51N; עמוד התהליך הרשמי: 'You can enter purchase requisitions yourself, or they can be " +
+          "generated automatically').",
+        xrefs: ["tx:ME51N", "table:EBAN", "table:EBKN", "fm:BAPI_PR_CREATE"],
+      },
+      {
+        he: "לקבוע מקור אספקה: ME56 מקצה ספק או הסכם מסגרת לדרישות שלא הוקצה להן מקור, על בסיס Source List (ME01) " +
+          "או רשומות מידע רכש (ME11), בלי ליצור PO; ME57 מקצה ומעבדת את הדרישה להזמנה (רשומות tx-intel של ME56 " +
+          "ו-ME51N).",
+        xrefs: ["tx:ME56", "tx:ME57", "tx:ME01", "tx:ME11"],
+      },
+      {
+        he: "לשחרר את הדרישה לפי release strategy של PR: ME54N לדרישה בודדת, ME55 לשחרור קולקטיבי; אסטרטגיית " +
+          "השחרור של PR נפרדת מזו של PO. הדרישה מוצגת ב-ME53N (רשומות tx-intel של ME54N ו-ME51N; העמוד הרשמי " +
+          "Process Purchase Requisition מונה את ME51N, ME52N ו-ME53N).",
+        xrefs: ["tx:ME54N", "tx:ME55", "tx:ME53N", "tx:ME52N"],
+      },
+      {
+        he: "להמיר את הדרישה להזמנת רכש (PO): ב-ME21N עם reference ל-PR, או ב-ME59N להמרה אוטומטית של דרישות עם " +
+          "מקור מוקצה חד-משמעי ודגל 'automatic PO' ב-info record ובמאסטר הספק. ההזמנה נשמרת ב-EKKO ו-EKPO (אינן " +
+          "במילון הפרויקט) (רשומות tx-intel של ME21N ו-ME59N).",
+        xrefs: ["tx:ME21N", "tx:ME59N"],
+      },
+      {
+        he: "לשחרר את ה-PO לפי אסטרטגיית האישור: ME29N ל-PO בודד (כולל ביטול שחרור), ME28 לאישור קולקטיבי (רשומת " +
+          "tx-intel של ME29N).",
+        xrefs: ["tx:ME29N", "tx:ME28"],
+      },
+      {
+        he: "לקבל את הטובין מול ה-PO ב-MIGO (תנועה 101): הקבלה מעדכנת את היסטוריית ה-PO (EKBE, אינה במילון " +
+          "הפרויקט) ומבצעת GR/IR clearing, ומנת בדיקת QM נפתחת אם QM פעיל (רשומת tx-intel של MIGO, מפת P2P). מסמך " +
+          "החומר של הקבלה: ב-ECC ‏(SAP ERP 6.0) נכתב ל-MKPF (כותרת) ול-MSEG (פריטים); ב-S/4HANA, לפי 'S4TWL - " +
+          "Data Model in Inventory Management' (רשימת הפישוט 2025 FPS01, פריט 15.3.1), 'Material document data " +
+          "will be stored in MATDOC only and not anymore in MKPF and MSEG', והתאימות לנתוני הטבלאות הישנות עוברת " +
+          "דרך CDS compatibility views (עמוד Archiving Material Documents, 2025 FPS01). מסמך החומר מוצג ב-MB03. " +
+          "ב-S/4HANA 2025 FPS01 מתועד לקבלה בהתייחסות למסמך רכש יישום Fiori F0843 (Post Goods Receipt for " +
+          "Purchasing Document).",
+        xrefs: [
+          "tx:MIGO", "tx:MB03", "table:MKPF", "table:MSEG", "obj:material-document", "fiori:F0843",
+          "fm:BAPI_GOODSMVT_CREATE", "enh:badi:MB_MIGO_BADI", "enh:exit:MBCF0002",
+        ],
+      },
+      {
+        he: "לאמת את חשבונית הספק ב-MIRO ב-3-way match (PO/GR/Invoice): סטיית מחיר או כמות מעבר ל-tolerance " +
+          "(OMR6) חוסמת תשלום, וחשבונית חסומה משוחררת ב-MRBR. לפי רשומת tx-intel של MIRO (ללא הבחנת מהדורה) MIRO " +
+          "כותבת RBKP ו-RSEG (אינן במילון הפרויקט) ומסמך FI/CO ומנקה את חשבון GR/IR; חשבונית ללא PO נקלטת ב-FB60. " +
+          "בתיעוד S/4HANA 2025 FPS01 (עמוד Invoice Processing): 'When the invoice is posted, the invoice data is " +
+          "saved in the system', והמערכת מציגה את מספר מסמך החשבונית של ניהול החומרים ואת מספר המסמך החשבונאי.",
+        xrefs: ["tx:MIRO", "tx:MRBR", "tx:FB60"],
+      },
+      {
+        he: "לשלם בריצת F110: Parameters, Proposal, Payment Run, Print/DME; הריצה בוחרת פריטים פתוחים לפי due " +
+          "date, אמצעי תשלום ובנק, יוצרת מסמכי תשלום ומקזזת, ומפיקה קבצי DME/IDoc לבנק. פריטי הספק נבדקים ב-FBL1N " +
+          "(רשומות tx-intel של F110 ו-FBL1N, מפת P2P). ב-S/4HANA, לפי רשומת F110, הריצה רושמת ל-Universal Journal " +
+          "(ACDOCA), ותיעוד What's New של S/4HANA 2022 מזכיר את F110 (Automatic Payment Transactions) לצד יישום " +
+          "Fiori Manage Automatic Payments.",
+        xrefs: ["tx:F110", "tx:FBL1N", "tx:FBZP", "table:ACDOCA"],
+      },
+      {
+        he: "לעקוב אחרי מסמכים פתוחים: ME5A מציג דרישות רכש פתוחות שלא הומרו או שלא שוחררו; ME2M מציג הזמנות רכש " +
+          "לפי חומר (רשומת tx-intel של ME5A; העמוד הרשמי Lists of Purchase Orders).",
+        xrefs: ["tx:ME5A", "tx:ME2M"],
+      },
+      {
+        he: "בממשק תוכניתי: BAPI_PR_CREATE ליצירת PR ו-BAPI_GOODSMVT_CREATE לקבלת טובין (קוד תנועה 01 = GR PO), " +
+          "וכל BAPI כותב נסגר ב-BAPI_TRANSACTION_COMMIT. BAPI_PO_CREATE1 (ME21N, ME59N) " +
+          "ו-BAPI_INCOMINGINVOICE_CREATE (MIRO) מתועדים ברשומות tx-intel ואינם במילון הפרויקט.",
+        xrefs: [
+          "fm:BAPI_PR_CREATE", "fm:BAPI_GOODSMVT_CREATE", "fm:BAPI_TRANSACTION_COMMIT", "bp:bapi-commit-discipline",
+        ],
+      },
+    ],
+    antiPatterns: [
+      "הזמנת רכש ללא reference לדרישה: שבירת שרשרת המסמכים וכפילות נתונים (טעות נפוצה ברשומת tx-intel של ME21N).",
+      "המרה אוטומטית ב-ME59N לדרישה ללא מקור מוקצה: דרישה ללא מקור נכשלת בהמרה ומטופלת ב-ME57 (לפי רשומת tx-intel " +
+        "של ME59N); הרצה ללא test run והתעלמות מדרישות שנכשלו מופיעות שם כטעויות.",
+      "בלבול בין שחרור PR (ME54N) לשחרור PO (ME29N) (טעות נפוצה ברשומת tx-intel של ME54N).",
+      "קליטת חשבונית לפני GR כשמופעל GR-based invoice verification, והתעלמות מ-tolerance keys (טעויות ברשומת " +
+        "tx-intel של MIRO).",
+      "הרצת F110 בלי בדיקת ה-Proposal (טעות ברשומת tx-intel של F110).",
+      "ממשק קבלת טובין ללא בדיקת כפילות (idempotency): GR נרשם פעמיים ומכפיל מלאי ועלות (תקרית " +
+        "duplicate-goods-receipt).",
+      "רישום מחדש ידני אחרי הודעת הצלחה כשמסמך החומר או ה-FI חסר: לפי תקרית update-termination-sm13 חוזרים על " +
+        "ה-Update מ-SM13 ולא רושמים מחדש.",
+    ],
+    checks: [
+      "חיובי: PR נוצרת עם ייחוס חשבונאי תקין (בדיקת שלב הדרישה במפת P2P).",
+      "חיובי: PO נוצר עם תנאי מחיר ומשתחרר לפי release strategy (בדיקת שלב ההזמנה במפת P2P).",
+      "אינטגרציה: GR בתנועה 101 מעדכן מלאי, ומנת בדיקת QM נפתחת אם QM פעיל (מפת P2P).",
+      "אינטגרציה: MIRO עוברת 3-way match (PO/GR/Invoice), וחסימות מטופלות ב-MRBR (מפת P2P).",
+      "בקרה: ה-Proposal של F110 נבדק לפני ביצוע הריצה (לפי שיטות העבודה ברשומת tx-intel של F110); ריצת התשלומים " +
+        "מקזזת פריטים פתוחים (מפת P2P).",
+      "ממשק: אחרי BAPI_GOODSMVT_CREATE מוודאים MATERIALDOCUMENT ו-COMMIT ובודקים ב-MB51 (לפי תרחיש ה-QA ברשומת " +
+        "function-intel, שנכתב שם לניפוק 261 ומוחל כאן על קבלה).",
+      "רגרסיה: דרישות רכש פתוחות שלא הומרו או שלא שוחררו מאותרות ב-ME5A.",
+    ],
+    process: {
+      purpose: "לרכוש מספק חומר או שירות במחזור עקיב: מקביעת הצורך ודרישת הרכש, דרך קביעת מקור, הזמנה ושחרורה, " +
+        "קבלת טובין ואימות חשבונית מול ההזמנה והקבלה, ועד תשלום וקיזוז הפריט הפתוח של הספק (עמוד התהליך הרשמי " +
+        "ומפת P2P של הפרויקט).",
+      trigger: [
+        {
+          he: "צורך בחומר או שירות המזוהה במחלקות המשתמשות או דרך materials planning and control (עמוד התהליך " +
+            "הרשמי); הדרישה נפתחת ידנית ב-ME51N או נוצרת מ-MRP (רשומת tx-intel של ME51N).",
+          xrefs: ["tx:ME51N"],
+        },
+        {
+          he: "דרישות רכש פתוחות ללא מקור אספקה, הממתינות להקצאה ב-ME56 (תנאי מוקדם ברשומת tx-intel של ME56).",
+          xrefs: ["tx:ME56"],
+        },
+      ],
+      preconditions: [
+        {
+          he: "Source List (ME01) או רשומות מידע רכש (ME11) לקביעת מקור; להמרה אוטומטית: דגל 'automatic PO' " +
+            "ב-info record ובמאסטר הספק (רשומות tx-intel של ME56 ו-ME59N).",
+          xrefs: ["tx:ME01", "tx:ME11", "tx:ME59N"],
+        },
+        {
+          he: "אסטרטגיית שחרור מוגדרת ל-PR ול-PO, וקוד שחרור בהרשאת המאשר (שגיאה נפוצה 'Release code מחוץ להרשאה' " +
+            "ברשומות ME54N ו-ME29N).",
+          xrefs: ["tx:ME54N", "tx:ME29N"],
+        },
+        {
+          he: "תקופת רישום MM פתוחה וחשבונות G/L מוגדרים ב-OBYC; לחומר בניהול מחיר תקן (S) נדרש חשבון PRD ב-OBYC " +
+            "(רשומת tx-intel של MIGO ותקרית prd-price-difference-account-missing).",
+          xrefs: ["tx:MIGO", "tx:OBYC"],
+        },
+        {
+          he: "tolerance keys (OMR6) לאימות חשבונית (רשומת tx-intel של MIRO).",
+          xrefs: ["tx:MIRO"],
+        },
+        {
+          he: "תצורת FBZP (payment methods, house banks, ranking) ו-bank details במאסטר הספק (תנאים מוקדמים " +
+            "ברשומת tx-intel של F110).",
+          xrefs: ["tx:F110", "tx:FBZP"],
+        },
+      ],
+      masterData: [
+        {
+          he: "חומר או קבוצת חומרים ומפעל בדרישה (שגיאות נפוצות ברשומת ME51N), וייחוס חשבונאי ב-EBKN.",
+          xrefs: ["tx:ME51N", "table:EBKN"],
+        },
+        {
+          he: "Source List ורשומות מידע רכש (ME01, ME11) לקביעת מקור (רשומת ME56).",
+          xrefs: ["tx:ME01", "tx:ME11"],
+        },
+        {
+          he: "מאסטר ספק: דגל 'automatic PO' (רשומת ME59N) ו-bank details לתשלום (רשומת F110).",
+          xrefs: ["tx:ME59N", "tx:F110"],
+        },
+        {
+          he: "רשומות תנאי תמחור (condition records) להזמנה; נבדקות ב-MEK3 (תקרית pricing-condition-missing).",
+          xrefs: ["tx:MEK3"],
+        },
+        {
+          he: "quality info record ברכש כאשר QM ברכש פעיל, נוצר ומשוחרר ב-QI01/QI02 (תקרית " +
+            "qm-procurement-blocks-gr-or-invoice).",
+          xrefs: ["tx:QI01", "tx:QI02"],
+        },
+      ],
+      roles: [
+        {
+          he: "מתכנן, מחסנאי, מבקש פנימי או קניין: פתיחת דרישת רכש ב-ME51N (רשומת tx-intel של ME51N).",
+          xrefs: ["tx:ME51N"],
+        },
+        {
+          he: "קניין ומתכנן רכש: הקצאת מקור ב-ME56; קניין ומנהל רכש: המרה ב-ME59N (רשומות tx-intel). עמוד התהליך " +
+            "הרשמי מזכיר 'buyers' בהקשר של מגבלות over- ו-underdelivery.",
+          xrefs: ["tx:ME56", "tx:ME59N"],
+        },
+        {
+          he: "מנהל רכש, מאשר וראש מחלקה: שחרור PR ב-ME54N; מנהל רכש, מאשר וקניין בכיר: שחרור PO ב-ME29N (רשומות " +
+            "tx-intel).",
+          xrefs: ["tx:ME54N", "tx:ME29N"],
+        },
+        {
+          he: "מחסנאי, מנהל מחסן ופקיד מלאי: קבלת טובין ב-MIGO (רשומת tx-intel); בעמוד התהליך הרשמי: 'Goods " +
+            "Receiving personnel'.",
+          xrefs: ["tx:MIGO"],
+        },
+        {
+          he: "הנהלת חשבונות ספקים (AP) ופקיד חשבוניות: MIRO (רשומת tx-intel); בעמוד התהליך הרשמי: 'accounts " +
+            "payable clerk'.",
+          xrefs: ["tx:MIRO"],
+        },
+        {
+          he: "צוות תשלומים, צוות אוצר ומנהל AP: ריצת F110 (רשומת tx-intel).",
+          xrefs: ["tx:F110"],
+        },
+      ],
+      transactions: [
+        {
+          he: "דרישת רכש: ME51N יצירה, ME52N שינוי, ME53N תצוגה; ME54N שחרור בודד, ME55 שחרור קולקטיבי.",
+          xrefs: ["tx:ME51N", "tx:ME52N", "tx:ME53N", "tx:ME54N", "tx:ME55"],
+        },
+        {
+          he: "מקור והמרה: ME56 הקצאת מקור, ME57 הקצאה ועיבוד, ME59N המרה אוטומטית.",
+          xrefs: ["tx:ME56", "tx:ME57", "tx:ME59N"],
+        },
+        {
+          he: "הזמנת רכש: ME21N יצירה, ME22N שינוי, ME23N תצוגה; ME29N שחרור בודד, ME28 שחרור קולקטיבי; ME2M " +
+            "הזמנות לפי חומר.",
+          xrefs: ["tx:ME21N", "tx:ME22N", "tx:ME23N", "tx:ME29N", "tx:ME28", "tx:ME2M"],
+        },
+        {
+          he: "קבלה: MIGO (תנועה 101); MB03 תצוגת מסמך חומר.",
+          xrefs: ["tx:MIGO", "tx:MB03"],
+        },
+        {
+          he: "חשבונית ותשלום: MIRO, MRBR לחשבוניות חסומות, F110 ריצת תשלומים, FBL1N פריטי ספק.",
+          xrefs: ["tx:MIRO", "tx:MRBR", "tx:F110", "tx:FBL1N"],
+        },
+        {
+          he: "מעקב: ME5A רשימת דרישות רכש.",
+          xrefs: ["tx:ME5A"],
+        },
+        {
+          he: "Fiori (S/4HANA): F0843 Post Goods Receipt for Purchasing Document (ראיה רשמית); Manage Purchase " +
+            "Orders כהמלצת SAP ליצירה, שינוי ותצוגה של הזמנות (עמוד Create Purchase Order - Advanced); לפי מפת " +
+            "P2P ורשומות tx-intel גם Manage Purchase Requisitions, Create Supplier Invoice ו-Manage Automatic " +
+            "Payments, שאין להם מזהה בקטלוג ה-Fiori של הפרויקט.",
+          xrefs: ["fiori:F0843"],
+        },
+      ],
+      tables: [
+        {
+          he: "EBAN שורות דרישת הרכש ו-EBKN הייחוס החשבונאי שלה.",
+          xrefs: ["table:EBAN", "table:EBKN"],
+        },
+        {
+          he: "מסמך החומר של הקבלה: ב-ECC ‏MKPF (כותרת) ו-MSEG (פריטים); ב-S/4HANA, לפי 'S4TWL - Data Model in " +
+            "Inventory Management' (2025 FPS01), מסמך החומר נשמר ב-MATDOC בלבד (אינה במילון הפרויקט), ו-MKPF " +
+            "ו-MSEG 'do still exist in S/4HANA as DDIC definition as well as database object', עם תאימות לנתונים " +
+            "דרך CDS compatibility views. מפת P2P מונה לשלב הקבלה את MATDOC ו-MSEG.",
+          xrefs: ["table:MKPF", "table:MSEG", "obj:material-document", "bp:matdoc-read-through-compatibility"],
+        },
+        {
+          he: "S/4HANA: ACDOCA (Universal Journal) לשלב התשלום, לפי מפת P2P ורשומת F110 ('רושם ל-Universal " +
+            "Journal').",
+          xrefs: ["table:ACDOCA"],
+        },
+        {
+          he: "אינן במילון הפרויקט ומוזכרות בפרוזה: EKKO ו-EKPO של ההזמנה ו-EKBE היסטוריית ההזמנה, RBKP ו-RSEG של " +
+            "החשבונית (לפי רשומות tx-intel, ללא הבחנת מהדורה), REGUH ו-REGUP של ריצת התשלום (רשומת F110). BSIK " +
+            "(פריטי ספק פתוחים) ו-BSAK (מסולקים): ב-ECC טבלאות האינדקס שעליהן FBL1N מבוסס; ב-S/4HANA, לפי רשומת " +
+            "FBL1N המצטטת את 'S4TWL - Data Model Changes in FIN', הן הוחלפו בתצוגות תאימות באותו שם ושורות " +
+            "הפריטים מגיעות מ-ACDOCA.",
+        },
+        {
+          he: "CDS, S/4HANA: I_MaterialDocumentItem (פריטי מסמך חומר; לפי מפת ה-CDS של הפרויקט מעל MSEG, MKPF " +
+            "ו-MATDOC) מסומנת deprecated ב-S/4HANA 2021 לפי What's New 2021, ועמוד ה-VDM 'Material Document Item' " +
+            "(2023) מציג את I_MaterialDocumentItem_2 כ-'the successor view for I_MaterialDocumentItem'. תצוגות " +
+            "CDS להזמנה, לחשבונית ולתשלום אינן במילון ה-CDS של הפרויקט.",
+          xrefs: ["cds:I_MaterialDocumentItem"],
+        },
+      ],
+      integrationPoints: [
+        {
+          he: "תכנון (MRP): דרישות רכש נוצרות אוטומטית מ-MRP (רשומת ME51N; עמוד התהליך הרשמי).",
+          xrefs: ["tx:ME51N"],
+        },
+        {
+          he: "הנהלת חשבונות: MIGO קובעת חשבונות G/L דרך OBYC; MIRO כותבת מסמך FI/CO ומנקה GR/IR; F110 יוצרת " +
+            "מסמכי תשלום ומקזזת (רשומות tx-intel). הרישום הלוגיסטי-חשבונאי המלא מתועד ברשומה " +
+            "logistics-to-finance-postings-process.",
+          xrefs: ["tx:MIGO", "tx:OBYC", "tx:MIRO", "tx:F110", "bp:logistics-to-finance-postings-process"],
+        },
+        {
+          he: "ניהול איכות: מנת בדיקה בקבלה אם QM פעיל (מפת P2P); quality info record ברכש עשוי לחסום GR או " +
+            "חשבונית (תקרית qm-procurement-blocks-gr-or-invoice). תהליך QM ברכש מתועד ברשומה " +
+            "quality-in-procurement-process.",
+          xrefs: ["tx:QA32", "tx:QI01", "bp:quality-in-procurement-process"],
+        },
+        {
+          he: "בנק: F110 מפיקה קבצי DME/IDoc לבנק (רשומת F110).",
+          xrefs: ["tx:F110"],
+        },
+        {
+          he: "תנועות מלאי ורכש לתחזוקה: רשומות התהליך goods-movement-process ו-procure-to-pay-for-maintenance.",
+          xrefs: ["bp:goods-movement-process", "bp:procure-to-pay-for-maintenance"],
+        },
+      ],
+      interfaces: [
+        {
+          he: "דרישת רכש: BAPI_PR_CREATE; לפי רשומת function-intel, ב-S/4HANA קיימת חלופת OData בשם " +
+            "API_PURCHASEREQ_PROCESS_SRV.",
+          xrefs: ["fm:BAPI_PR_CREATE"],
+        },
+        {
+          he: "קבלת טובין: BAPI_GOODSMVT_CREATE; לפי רשומת function-intel, חלופת OData בשם API_MATERIAL_DOCUMENT; " +
+            "פריט הפישוט S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM נוקב בו כחלופה לטרנזקציות ה-MB.",
+          xrefs: ["fm:BAPI_GOODSMVT_CREATE"],
+        },
+        {
+          he: "כל BAPI כותב נסגר ב-BAPI_TRANSACTION_COMMIT (WAIT='X' לסנכרון).",
+          xrefs: ["fm:BAPI_TRANSACTION_COMMIT", "bp:bapi-commit-discipline"],
+        },
+        {
+          he: "מפת P2P מונה ממשקים לפי שלב: BAPI_REQUISITION_* לדרישה, ORDERS IDoc ו-API_PURCHASEORDER להזמנה, " +
+            "INVOIC IDoc לחשבונית, PAYEXT / DMEE לתשלום; עמוד Invoice Processing (S/4HANA 2025 FPS01) מתאר " +
+            "חשבוניות המתקבלות ב-EDI שהמערכת מנסה לרשום אוטומטית, ובשגיאה מעבדים אותן ידנית. BAPI_PO_CREATE1 " +
+            "ו-BAPI_INCOMINGINVOICE_CREATE מתועדים ברשומות tx-intel ואינם במילון הפרויקט.",
+        },
+      ],
+      outputs: [
+        {
+          he: "דרישת רכש משוחררת עם ייחוס חשבונאי (EBAN, EBKN).",
+          xrefs: ["table:EBAN", "table:EBKN"],
+        },
+        {
+          he: "הזמנת רכש משוחררת (EKKO/EKPO, אינן במילון הפרויקט).",
+          xrefs: ["tx:ME21N", "tx:ME29N"],
+        },
+        {
+          he: "מסמך חומר של הקבלה: ב-ECC ב-MKPF/MSEG, ב-S/4HANA ב-MATDOC בלבד לפי 'S4TWL - Data Model in " +
+            "Inventory Management'; לצדו עדכון היסטוריית ההזמנה (EKBE).",
+          xrefs: ["table:MKPF", "table:MSEG", "obj:material-document"],
+        },
+        {
+          he: "מסמך חשבונית (RBKP/RSEG) ומסמך FI/CO מקביל (רשומת MIRO); בתיעוד S/4HANA 2025 FPS01 (Invoice " +
+            "Processing) המערכת מציגה בעת הרישום את מספר מסמך החשבונית בניהול החומרים ואת מספר המסמך החשבונאי.",
+          xrefs: ["tx:MIRO"],
+        },
+        {
+          he: "מסמכי תשלום, קיזוז הפריטים הפתוחים וקבצי DME לבנק (רשומת F110).",
+          xrefs: ["tx:F110"],
+        },
+      ],
+      exceptions: [
+        {
+          he: "דרישה לא הומרה ב-ME59N: 'No suitable source of supply found', דגל 'Automatic PO' חסר ב-info record " +
+            "או במאסטר הספק, או PR שלא שוחררה (רשומת tx-intel של ME59N).",
+          xrefs: ["tx:ME59N", "tx:ME57"],
+        },
+        {
+          he: "שחרור PO ב-ME29N נכשל: קוד שחרור מחוץ להרשאה, אסטרטגיה לא קיימת ל-PO (רשומת tx-intel של ME29N).",
+          xrefs: ["tx:ME29N"],
+        },
+        {
+          he: "מחיר 0 או שגיאת תמחור בהזמנה: condition record חסר, access sequence או תוקף תנאי; אבחון ב-ME23N " +
+            "וב-MEK3 (תקרית pricing-condition-missing).",
+          xrefs: ["tx:ME23N", "tx:MEK3"],
+        },
+        {
+          he: "GR נדחה ב-MIGO: תקופת MM סגורה (M7 053), חוסר הרשאה לתנועה או למפעל, חשבון G/L לא נמצא ב-OBYC, " +
+            "אצווה חסרה (רשומת tx-intel של MIGO).",
+          xrefs: ["tx:MIGO", "tx:OBYC"],
+        },
+        {
+          he: "GR כפול מממשק: מלאי ועלות כפולים; איתור ב-MB51, ביטול ב-MBST, ומפתח ייחודי בממשק (תקרית " +
+            "duplicate-goods-receipt).",
+          xrefs: ["tx:MB51", "tx:MBST", "fm:BAPI_GOODSMVT_CREATE"],
+        },
+        {
+          he: "הרכיב שהתקבל נשאר במלאי בדיקת QM: Usage Decision לא בוצע; שחרור ב-QA11/QA32 (תקרית " +
+            "qm-inspection-lot-block).",
+          xrefs: ["tx:QA32", "tx:QA11"],
+        },
+        {
+          he: "GR או חשבונית חסומים כי quality info record ברכש לא שוחרר או שה-control key חוסם לפי QM system של " +
+            "הספק; תיקון ב-QI01/QI02 (תקרית qm-procurement-blocks-gr-or-invoice).",
+          xrefs: ["tx:QI01", "tx:QI02"],
+        },
+        {
+          he: "GR או חשבונית עם הפרש ערך לחומר במחיר תקן נכשלים כשחשבון PRD חסר ב-OBYC; התקרית מציינת את ההודעה " +
+            "M8147 ומסמנת אותה לאימות ב-SE91 (תקרית prd-price-difference-account-missing).",
+          xrefs: ["tx:OBYC", "tx:MIGO"],
+        },
+        {
+          he: "חשבונית חסומה לתשלום: סטיית מחיר או כמות מעבר ל-tolerance, או GR חסר ב-GR-based IV; שחרור ב-MRBR " +
+            "אחרי בירור (רשומת tx-intel של MIRO).",
+          xrefs: ["tx:MIRO", "tx:MRBR"],
+        },
+        {
+          he: "הודעת הצלחה אך מסמך החומר או ה-FI חסר: ה-Update נכשל; בדיקה וחזרה על ה-Update ב-SM13 (תקרית " +
+            "update-termination-sm13).",
+          xrefs: ["tx:SM13", "tx:MB51"],
+        },
+        {
+          he: "ריצת F110 נכשלת: 'No valid payment method found', 'Payment method not allowed for vendor', 'House " +
+            "bank/account determination failed', 'Items blocked for payment' (רשומת tx-intel של F110).",
+          xrefs: ["tx:F110", "tx:FBZP"],
+        },
+        {
+          he: "דוח CO ישן אינו תואם ל-Universal Journal: קורא COEP במקום ACDOCA; מפת P2P משייכת תקרית זו לשלב " +
+            "התשלום (תקרית acdoca-coep-mismatch).",
+          xrefs: ["table:ACDOCA"],
+        },
+      ],
+      controls: [
+        {
+          he: "release strategy ל-PR נפרדת מזו של PO (רשומות tx-intel של ME51N ו-ME54N).",
+          xrefs: ["tx:ME54N", "tx:ME29N"],
+        },
+        {
+          he: "יצירת PO מתוך PR לשמירת שרשרת המסמכים (שיטת עבודה ברשומת ME21N).",
+          xrefs: ["tx:ME21N"],
+        },
+        {
+          he: "test run לפני המרה אוטומטית, וטיפול בדרישות ללא מקור ב-ME57 (שיטות עבודה ברשומת ME59N).",
+          xrefs: ["tx:ME59N", "tx:ME57"],
+        },
+        {
+          he: "GR-based invoice verification ו-tolerance keys, וטיפול בחשבוניות חסומות ב-MRBR (שיטות עבודה ברשומת " +
+            "MIRO).",
+          xrefs: ["tx:MIRO", "tx:MRBR"],
+        },
+        {
+          he: "בדיקת ה-Proposal של F110 לפני ביצוע הריצה (שיטת עבודה ברשומת F110).",
+          xrefs: ["tx:F110"],
+        },
+        {
+          he: "מעקב אחרי דרישות פתוחות שלא הומרו או שלא שוחררו ב-ME5A.",
+          xrefs: ["tx:ME5A"],
+        },
+        {
+          he: "בדיקת כפילות (idempotency) בממשקי קבלת טובין (מניעה בתקרית duplicate-goods-receipt).",
+          xrefs: ["fm:BAPI_GOODSMVT_CREATE"],
+        },
+      ],
+      eccToS4: [
+        {
+          he: "S/4HANA, לפי רשומות tx-intel: ME51N, ME21N, MIGO ו-MIRO זמינות ב-S/4HANA; ME51 ו-ME21 הישנות " +
+            "מסומנות deprecated, ו-MB01, MB1A, MB1B ו-MB1C מסומנות deprecated לטובת MIGO.",
+          xrefs: ["tx:ME51N", "tx:ME21N", "tx:MIGO", "tx:MIRO"],
+        },
+        {
+          he: "S/4HANA, לפי רשומות tx-intel של ME54N ו-ME29N: flexible workflow ויישומי Fiori לאישור ('Approve " +
+            "Purchase Orders' ל-PO) מועדפים על השחרור הקלאסי.",
+          xrefs: ["tx:ME54N", "tx:ME29N"],
+        },
+        {
+          he: "S/4HANA 2025 FPS01 (help.sap.com): העמוד Process Purchase Orders ממפה את 'Create purchase order' " +
+            "ל-ME21N, לצד ME22N, ME23N, ME56, ME57 ו-ME58; העמוד Process Purchase Requisition מונה את ME51N, " +
+            "ME52N ו-ME53N.",
+          xrefs: ["tx:ME21N", "tx:ME56", "tx:ME57", "tx:ME58", "tx:ME51N"],
+        },
+        {
+          he: "S/4HANA 2025 FPS01 (עמוד Create Purchase Order - Advanced): ME21N, ME22N ו-ME23N הם 'a classic SAP " +
+            "GUI for HTML app'; SAP ממליצה על יישום Manage Purchase Orders, והזמנה עם תכונה שהיישום אינו תומך בה " +
+            "נפתחת ביישום הקלאסי.",
+          xrefs: ["tx:ME21N", "tx:ME22N", "tx:ME23N"],
+        },
+        {
+          he: "ECC ו-S/4HANA: הנושא Lists of Purchase Orders (loio זהה) מתועד בתיעוד SAP ERP 6.0 EHP8 " +
+            "(6.18.latest) ובתיעוד S/4HANA 2025 FPS01 עם אותה שורה 'Purchase orders by material ME2M'.",
+          xrefs: ["tx:ME2M"],
+        },
+        {
+          he: "S/4HANA: פריט הפישוט S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM (רשימת 2023 FPS03) מונה את MB11 " +
+            "בין טרנזקציות ה-MB שהוחלפו ב-MIGO או ב-BAPI_GOODSMVT_CREATE / BAPI_GOODSMVT_CANCEL; העמוד Goods " +
+            "Movement (2025 FPS01) מונה את 'Goods Movement MIGO' ואת 'Goods Receipt from External Procurement " +
+            "MIGO_GR'.",
+          xrefs: ["tx:MIGO", "tx:MB11", "fm:BAPI_GOODSMVT_CREATE"],
+        },
+        {
+          he: "ECC מול S/4HANA, מודל מסמך החומר: לפי 'S4TWL - Data Model in Inventory Management' (רשימת הפישוט " +
+            "2025 FPS01, פריט 15.3.1), מודל SAP ERP 6.0 כולל 'MKPF for document header information and MSEG for " +
+            "document item data', וב-S/4HANA 'Material document data will be stored in MATDOC only and not " +
+            "anymore in MKPF and MSEG'; הטבלאות 'do still exist in S/4HANA as DDIC definition as well as database " +
+            "object'. עמוד Archiving Material Documents (2025 FPS01) מוסיף שהתאימות לנתוני הטבלאות עוברת דרך CDS " +
+            "compatibility views. קריאת מסמכי חומר מקוד מותאם: רשומה matdoc-read-through-compatibility.",
+          xrefs: [
+            "table:MKPF", "table:MSEG", "obj:material-document", "tx:MIGO", "bp:matdoc-read-through-compatibility",
+          ],
+        },
+        {
+          he: "S/4HANA, CDS של מסמך החומר: I_MaterialDocumentItem סומנה deprecated ב-S/4HANA 2021 ('The following " +
+            "CDS views were deprecated in SAP S/4HANA 2021'), והיורשת היא I_MaterialDocumentItem_2 (עמוד ה-VDM " +
+            "'Material Document Item', 2023).",
+          xrefs: ["cds:I_MaterialDocumentItem"],
+        },
+        {
+          he: "S/4HANA 2025 FPS01: יישום Fiori F0843 (Post Goods Receipt for Purchasing Document) לקבלה בהתייחסות " +
+            "למסמכי רכש; MB03 מתועדת כטרנזקציית ההצגה של מסמך חומר ('Choose transaction MB03.').",
+          xrefs: ["fiori:F0843", "tx:MB03"],
+        },
+        {
+          he: "ECC מול S/4HANA, תשלום ופריטי ספק: ב-ECC ‏FBL1N מבוסס על BSIK (פתוחים) ו-BSAK (מסולקים); " +
+            "ב-S/4HANA, לפי רשומות tx-intel של F110 ו-FBL1N המצטטות את 'S4TWL - Data Model Changes in FIN' (2025 " +
+            "FPS01, 6.1.4), הטבלאות 'were removed and replaced by identically-named DDL SQL views, called " +
+            "compatibility views' ושורות היומן ב-ACDOCA; F110 רושמת ל-Universal Journal עם יישום Fiori 'Manage " +
+            "Automatic Payments' (F0770), ולצד FBL1N רשומת ה-tx-intel מציינת את 'Display Supplier Line Items' " +
+            "כחלופה ואת 'Manage Supplier Line Items (F0712)' בשדה ה-Fiori.",
+          xrefs: ["tx:F110", "tx:FBL1N", "table:ACDOCA"],
+        },
+      ],
+      reference: {
+        title: "Procurement in SAP S/4HANA (Sourcing and Procurement, SAP S/4HANA 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/287eb65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        verificationLevel: "sap_official_verified",
+        note: "עמוד תהליך רשמי (loio 287eb65334e6b54ce10000000a174cb4, versionId 2025.001) שגופו נקרא: מחזור הרכש " +
+          "מקביעת הצורך ועד אימות החשבונית. שלב התשלום (F110) אינו מתואר בעמוד ומתועד ברשומות המאגר. העמוד אינו " +
+          "מדפיס מזהה scope item.",
+      },
+    },
+    xrefs: [
+      "tx:ME51N", "tx:ME52N", "tx:ME53N", "tx:ME54N", "tx:ME55", "tx:ME56", "tx:ME57", "tx:ME59N", "tx:ME21N",
+      "tx:ME22N", "tx:ME23N", "tx:ME28", "tx:ME29N", "tx:ME2M", "tx:ME5A", "tx:MIGO", "tx:MB03", "tx:MB11",
+      "tx:MIRO", "tx:MRBR", "tx:F110", "tx:FBL1N", "table:EBAN", "table:EBKN", "table:MKPF", "table:MSEG",
+      "table:ACDOCA", "fm:BAPI_PR_CREATE", "fm:BAPI_GOODSMVT_CREATE", "fm:BAPI_TRANSACTION_COMMIT", "fiori:F0843",
+      "enh:exit:MBCF0002", "enh:badi:MB_MIGO_BADI", "bp:bapi-commit-discipline", "bp:goods-movement-process",
+      "bp:procure-to-pay-for-maintenance", "obj:material-document", "cds:I_MaterialDocumentItem",
+      "bp:matdoc-read-through-compatibility", "bp:logistics-to-finance-postings-process",
+      "bp:quality-in-procurement-process", "tx:FB60", "tx:FBZP", "tx:OBYC",
+    ],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Procurement in SAP S/4HANA | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/287eb65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 287eb65334e6b54ce10000000a174cb4, 2025 FPS01, נקרא דרך sap-help-body.mjs, " +
+          "deliverable 40374862, build 1807): 'External procurement in the SAP S/4HANA system centers around a " +
+          "general cycle of activities'. השלבים: Determination of Requirements ('You can enter purchase " +
+          "requisitions yourself, or they can be generated automatically by the materials planning and control " +
+          "system'), Source Determination, Supplier Selection and Comparison of Quotations, Purchase Order " +
+          "Processing, Purchase Order Follow-Up, Goods Receiving and Inventory Management ('Goods Receiving " +
+          "personnel can confirm the receipt of goods simply by entering the purchase order number'), Invoice " +
+          "Verification ('The accounts payable clerk is notified of quantity and price variances because the " +
+          "system has access to purchase order and goods receipt data'). העמוד אינו נוקב בקודי טרנזקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Purchase Requisition (MM-PUR)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/ed06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "רשומת החיפוש (Materials Management (MM), S/4HANA on-premise 2025 FPS01, loio " +
+          "ed06b753128eb44ce10000000a174cb4) מתארת את התפקיד Process Purchase Requisition (MM-PUR), שם טכני " +
+          "SAP_MM_PUR_PURCHASEREQUISITION, ובקטע 'Activities in Materials Management' מונה: 'Create purchase " +
+          "requisition ME51N', 'Change purchase requisition ME52N', 'Display purchase requisition ME53N' (מתוך " +
+          "ה-snippet). הקטע מתעד את ME51N כפעילות בתפקיד ב-S/4HANA 2025 FPS01; לא נקרא גוף הדף המלא. (אומת ברשומת " +
+          "tx:ME51N)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Purchase Orders (MM-PUR) | Materials Management (MM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/8307b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "בטבלת הפעילויות של Materials Management במהדורת 2025 FPS01 (versionId 2025.001, loio " +
+          "8307b753128eb44ce10000000a174cb4) הפעילות 'Create purchase order' ממופה לטרנזקציה ME21N, לצד 'Create " +
+          "purchase order - vendor unknown' ME25, 'Change purchase order' ME22N ו-'Display purchase order' ME23N, " +
+          "וכן ME56, ME57 ו-ME58; כלשון הסניפט: 'It enables you not only to create and change purchase orders, " +
+          "but also to convert requisitions into orders'. ME21N היא מיפוי הפעילות הסטנדרטי ליצירת הזמנת רכש " +
+          "ב-S/4HANA On-Premise. (אומת ברשומת tx:ME21N)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Purchase Order - Advanced (ME21N, ME22N, ME23N) | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/28f492016a52485784d85b7a31f7542d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף הנושא (loio 28f492016a52485784d85b7a31f7542d) נקרא במלואו דרך שירות התוכן של הפורטל " +
+          "(http.svc/pagecontent, deliverable_id 40374862, buildNo 1807, 16,990 תווים אחרי ניקוי HTML). העמוד " +
+          "קובע: 'With this app, you can create, change, and display purchase orders on a single screen'; 'These " +
+          "modes correspond to the transactions ME21N, ME22N, and ME23N'; 'The Create Purchase Order - Advanced " +
+          "app is a classic SAP GUI for HTML app'. תחת Recommendation: 'SAP recommends that you use the Fiori app " +
+          "Manage Purchase Orders to create, change, and display purchase orders', ובהמשך: 'If a purchase order " +
+          "has a feature that is not supported by the Fiori app, this is indicated by the icon \"i\" (='Advanced' " +
+          "Purchase Order) in the list. In this case, you can jump directly from the list in the Manage Purchase " +
+          "Orders app to the relevant purchase order that is then opened automatically in the classic Create " +
+          "Purchase Order - Advanced app'. כלומר ME21N נשארת הנתיב לתכונות שאין להן כיסוי ב-Fiori. (אומת ברשומת " +
+          "tx:ME21N)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Lists of Purchase Orders (MM-PUR)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/8d06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "העמוד 'Lists of Purchase Orders (MM-PUR)' (SAP S/4HANA 2025 FPS01, נושא Materials Management " +
+          "(MM)) מציג את טבלת הפעילויות של הדיווח על הזמנות רכש ובה השורה: 'Purchase orders by material ME2M', " +
+          "לצד ME2L (לפי ספק), ME2K (לפי הקצאת חשבון), ME2J (לפי פרויקט), ME2C (לפי קבוצת חומרים), ME2B, ME2N " +
+          "ו-ME2W. הראיה מבססת ש-ME2M מתועדת כטרנזקציית הדיווח 'הזמנות רכש לפי חומר' במהדורת S/4HANA העדכנית " +
+          "שנבדקה. (אומת ברשומת tx:ME2M)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Lists of Purchase Orders (MM-PUR)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/6cfdc7caaef746cd9c7543e32e7e87c0/8d06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE,
+        claim: "אותו נושא בדיוק (loio זהה 8d06b753128eb44ce10000000a174cb4) מתועד גם בתיעוד SAP ERP 6.0 EHP8 " +
+          "Latest, עם אותה שורת טבלה: 'Purchase orders by material ME2M'. הראיה מבססת ש-ME2M מתועדת באופן זהה גם " +
+          "בצד ה-ECC, ולא נמצא שינוי בין שתי המהדורות בתיאור הפעילות הזו. (אומת ברשומת tx:ME2M)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Goods Movement (MM-IM) | Materials Management (MM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/3e07b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TX_07,
+        claim: "רשומת החיפוש של help.sap.com לגרסת On-Premise 2025 FPS01 (מדריך Materials Management) מונה תחת " +
+          "'Activities in Materials Management' את הצמדים 'Goods Movement MIGO', 'Goods Issue MIGO_GI', 'Goods " +
+          "Receipt from External Procurement MIGO_GR' ו-'Goods Receipt for Order'. כלומר MIGO ווריאנטי הכניסה שלה " +
+          "מתועדים במהדורה הנוכחית כקודי טרנזקציה לתנועות סחורה; באותה רשימה מופיעים גם MB1B (Transfer Posting), " +
+          "MBST (Cancel Material Document), MBSU ו-MB90. (אומת ברשומת tx:MIGO)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 FPS1-3 · item 27.6 S4TWL - AVAILABILITY OF " +
+          "TRANSACTIONS IN MM-IM (MM-IM-GF)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE_TX_02,
+        claim: "MB11 נמנית בין טרנזקציות ה-MB שהוחלפו בטרנזקציית המסך האחד MIGO או ב-BAPI_GOODSMVT_CREATE / " +
+          "BAPI_GOODSMVT_CANCEL; קודי הטרנזקציה עדיין קיימים אך קריאה מהתפריט מעלה הודעת שגיאה, ואין להשתמש בהם " +
+          "בקוד לקוח ('shall not be used in customer coding'). (מקוצר מהראיה MB11_SIMPL של רשומת tx:MB11 " +
+          "ב-data/verification/transactions.ts; רשימת 2023 FPS03, מהדורה שונה מעמודי 2025 FPS01 ברשומה זו.)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Post Goods Receipt for Purchasing Document | Inventory Management and Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/9ddf815494758c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TX_02,
+        claim: "רשומת החיפוש של help.sap.com לגרסת On-Premise 2025 FPS01 (מדריך MM-IM) קובעת: 'Post Goods Receipt " +
+          "for Purchasing Document App ID: F0843 With this app, you can post the receipt of goods with reference " +
+          "to the different types of purchasing documents'. כלומר המזהה F0843 שייך ליישום קבלת סחורה בהתייחסות " +
+          "למסמך רכש, ולא ליישום Post Goods Movement. (אומת ברשומת fiori:F0843)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Displaying Exchange Data in a Material Document and in an Accounting Document | EXG - " +
+          "Exchanges",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/b846b365dbf64aa3a251fbdb53f4c97e/7e81cf535b804808e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TB_01,
+        claim: "הנוהל להצגת מסמך חומר של קבלת טובין מנחה: 'Choose transaction MB03.'; MB03 היא טרנזקציית הצגה " +
+          "מתועדת בתיעוד ה-On-Premise של 2025 FPS01, בדפים שצוטטו ברשומה זו. (אומת ברשומת tx:MB03; המקף הארוך " +
+          "במקור הוחלף בנקודה-פסיק)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud " +
+          "Private Edition 2025 - Feature Pack Stack 1 · item 15.3.1 S4TWL - Data Model in Inventory Management " +
+          "(MM-IM), p. 1459",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE_TB_15,
+        claim: "פריט 15.3.1 ברשימת הפישוט של 2025 FPS1 (גרסת מסמך 1.36, עמ' 1459 ואילך, נקרא כטקסט מלא מקובץ " +
+          "ה-PDF) חוזר על אותו נוסח: מודל SAP ERP 6.0 מורכב מ-'MKPF for document header information and MSEG for " +
+          "document item data', וב-S/4HANA 'Material document data will be stored in MATDOC only and not anymore " +
+          "in MKPF and MSEG'. הטבלאות 'do still exist in S/4HANA as DDIC definition as well as database object', " +
+          "ובשורת MKPF שבטבלת הפריט רשומים NSDM_DDL_MKPF ו-NSDM_MIG_MKPF ועמודת תצוגת נתוני האב ריקה. הערת " +
+          "ה-Business Impact היא אותה הערה, 0002206980 בכותרת 'Material Inventory Managment: change of data model " +
+          "in S/4HANA'. רכיב היישום עודכן ל-MM-IM-GF-MIG לעומת MM-IM-GF ברשימת 2023 FPS3. (אומת ברשומת " +
+          "table:MKPF, שורת MKPF_SIMPL2025)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Material Documents (MM-IM) | Supply Chain",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/677f0a4e71d7487ebb70683014761789/75bcb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TB_01,
+        claim: "'There is a new single table MATDOC instead of the existing tables MKPF and MSEG'; מסמך חומר " +
+          "מורכב מרשומות MATDOC ומכיל 'a maximum 500 items' (כלשון העמוד). (אומת ברשומת table:MSEG, שורת " +
+          "MSEG_ARCHIVING)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Material Documents (MM-IM) | Supply Chain",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/677f0a4e71d7487ebb70683014761789/75bcb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TB_01,
+        claim: "'Compatibility with the data in the tables of the SAP S/4HANA 6.0 product is guaranteed by Core " +
+          "Data Service (CDS) compatibility views' [כך בלשון הסניפט שהוחזר משירות החיפוש]. (אומת ברשומת " +
+          "table:MSEG)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deprecation of CDS Views | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/6eac4f4b1c024fc5a0d48c51ca66e83c.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE_TX_02,
+        claim: "עמוד What's New לגרסת SAP S/4HANA 2021 קובע: 'The following CDS views were deprecated in SAP " +
+          "S/4HANA 2021: Material Document Header (I_MaterialDocumentHeader) Material Document Item " +
+          "(I_MaterialDocumentItem)'. הסניפט מציב את I_MaterialDocumentItem_2 לצד I_MaterialDocumentItem, בנימוק " +
+          "'To improve the runtime performance and reduce the memory consumption in the database'. (אומת ברשומת " +
+          "cds:I_MaterialDocumentItem)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material Document Item | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/14305f6e8cb842bbb1647ffd5a30ca31.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE_TX_02,
+        claim: "עמוד ה-VDM הרשמי 'Material Document Item' נושא את השם הטכני I_MaterialDocumentItem_2, עם " +
+          "'Analytical Data Category Dimension' ו-'Status Released', וקובע: 'This view is the successor view for " +
+          "I_MaterialDocumentItem'. השאלה העסקית שהעמוד מונה: 'What are the line items of posted material " +
+          "documents?'. (אומת ברשומת cds:I_MaterialDocumentItem)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Invoice Processing | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/ab6fb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio ab6fb6531de6b64ce10000000a174cb4, 2025 FPS01, נקרא דרך sap-help-body.mjs, " +
+          "deliverable 40374862, build 1807): Invoice Processing 'is situated at the end of the logistics supply " +
+          "chain that includes purchasing and invoice verification'; 'When the invoice is posted, the invoice " +
+          "data is saved in the system. The system updates the data saved in the invoice documents in materials " +
+          "management and financial accounting'; 'It completes the material procurement process, from the " +
+          "purchase requisition, via purchasing, to goods receipt'. סוגי החשבוניות: 'Invoices with purchase order " +
+          "reference', 'Invoices with goods receipt reference', 'Invoices without purchase order reference'; דרכי " +
+          "עיבוד נוספות: Document Parking, Invoice Verification in the Background, Evaluated Receipt Settlement " +
+          "(ERS) ו-'Invoices Received via EDI'. בסוף: 'the system displays invoice document numbers generated in " +
+          "materials management, and the document number of the accounting document in financial accounting'. " +
+          "העמוד אינו נוקב בקודי טרנזקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Bank Account Alias Enabled in Additional Transactions | What's New in SAP S/4HANA 2022",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/30c5d8e26bcf46d6af00c27a68b081da.html?locale=en-US&state=PRODUCTION&version=2022.000",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 30c5d8e26bcf46d6af00c27a68b081da, What's New in SAP S/4HANA 2022, versionId " +
+          "2022.000, נקרא דרך sap-help-body.mjs): 'In addition to transaction F110 ( Automatic Payment " +
+          "Transactions ) and Fiori app Manage Automatic Payments , bank account alias is enabled in the " +
+          "following transactions', עם Scope Item J60 (Accounts Payable) ורכיב FI-FIO-AP. העמוד מעיד ש-F110 " +
+          "ויישום Manage Automatic Payments קיימים זה לצד זה ב-S/4HANA 2022; הוא אינו עמוד תהליך P2P.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מפת התהליך 'רכש לתשלום (P2P)' של הפרויקט (PROCESS_MAPS)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "מדרישת רכש דרך הזמנה, קבלה, חשבונית ועד תשלום. דרישת רכש: ME51N, ME53N, טבלאות EBAN ו-EBKN, Fiori " +
+          "'Manage Purchase Requisitions', ממשק BAPI_REQUISITION_*, בדיקה 'PR נוצרת עם ייחוס חשבונאי תקין'. הזמנת " +
+          "רכש: ME21N, ME22N, ME23N, טבלאות EKKO ו-EKPO, Fiori 'Create Purchase Order', ממשקים 'ORDERS IDoc' " +
+          "ו-API_PURCHASEORDER, בדיקה 'PO עם תנאי מחיר; שחרור (release strategy)'. קבלת טובין: MIGO, טבלאות " +
+          "MATDOC ו-MSEG, Fiori 'Post Goods Movement', ממשק BAPI_GOODSMVT_CREATE, בדיקה 'GR 101 מעדכן מלאי; QM " +
+          "lot אם פעיל'. חשבונית (LIV): MIRO, טבלאות RBKP ו-RSEG, Fiori 'Verify Supplier Invoice', ממשק 'INVOIC " +
+          "IDoc', בדיקה '3-way match (PO/GR/Invoice); חסימות MRBR'. תשלום: F110, FBL1N, טבלאות BSIK ו-ACDOCA, " +
+          "Fiori 'Manage Automatic Payments', ממשק 'PAYEXT / DMEE', בדיקה 'ריצת תשלומים F110; קיזוז פריטים " +
+          "פתוחים'. תקריות לפי שלב: subcontracting-components, pricing-condition-missing, goods-movement-stock, " +
+          "duplicate-goods-receipt, qm-inspection-lot-block, update-termination-sm13, acdoca-coep-mismatch.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/processes.ts#p2p",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): ME51N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ME51N היא טרנזקציית Enjoy ליצירת PR בטבלאות EBAN ו-EBKN; PR נוצרת ידנית ב-ME51N או אוטומטית " +
+          "מ-MRP, עם document type, account assignment (K/F/A) ו-source of supply אופציונלי; PR משמשת בסיס " +
+          "ל-assign+process (ME57) או להמרה ל-PO (ME59N); release strategy ל-PR נפרדת מזו של PO. שגיאות נפוצות: " +
+          "account assignment חסר, חומר או קבוצת חומרים חסרים, plant חסר. משתמשים: מתכנן, מחסנאי, מבקש פנימי, " +
+          "קניין. ממשקים ברשומה: BAPI_PR_CREATE. שדה s4: זמינה ב-S/4HANA עם Fiori 'Create Purchase Requisition'; " +
+          "ME51 הישן deprecated.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME51N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): ME54N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ME54N משחררת PR בודדת לפי release strategy של PR, כולל ביטול שחרור; ME55 לשחרור קולקטיבי. שגיאות " +
+          "נפוצות: 'Release code מחוץ להרשאה', אסטרטגיה לא נמצאה ל-PR; טעות נפוצה: בלבול בין release של PR " +
+          "(ME54N) ל-PO (ME29N); שיטת עבודה: release strategy ל-PR נפרדת מ-PO. משתמשים: מנהל רכש, מאשר, ראש " +
+          "מחלקה. שדה s4: זמין ב-S/4HANA; flexible workflow ו-Fiori 'My Inbox' / 'Approve Requisitions' מועדפים.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME54N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): ME56",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ME56 מקצה מקור אספקה (ספק או הסכם מסגרת) לדרישות רכש שלא הוקצה להן מקור, על בסיס Source List " +
+          "(ME01) או רשומות מידע רכש (ME11); מקצה מקור ללא יצירת PO, בשונה מ-ME57, וחיונית לזרימה אוטומטית עם " +
+          "ME59N הדורשת מקור חד-משמעי. תנאים מוקדמים: Source List או Info Records קיימים, דרישות רכש פתוחות ללא " +
+          "מקור. משתמשים: קניין, מתכנן רכש. שדה s4: זמין ב-S/4HANA ללא שינוי מהותי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME56",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): ME59N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ME59N ממירה PR ל-PO אוטומטית עבור PR עם unique source assigned; דורשת info record עם דגל " +
+          "'automatic PO', דגל 'automatic PO' במאסטר הספק ו-source list עם MRP relevant; מאפשרת test run; 'PR ללא " +
+          "source ייכשלו וניתן לטפל ב-ME57'. כותבת EKKO/EKPO; BAPI_PO_CREATE1 ברשומה. שגיאות נפוצות: 'No suitable " +
+          "source of supply found', דגל 'Automatic PO' חסר, 'PR לא משוחרר (release strategy)'. טעויות: הרצה ללא " +
+          "test run, התעלמות מ-PR שנכשלו. משתמשים: קניין, מנהל רכש. שדה s4: זמין ב-S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME59N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): ME21N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ME21N היא טרנזקציית Enjoy ליצירת PO השומרת ב-EKKO/EKPO ומשתמשת ב-BAPI_PO_CREATE1 לתהליך הרקע; " +
+          "ניתן ליצור עם reference ל-PR, RFQ, חוזה או PO קיים. שיטות עבודה: ליצור PO מתוך PR לשמירה על שרשרת " +
+          "מסמכים, להגדיר release strategy לבקרת תקציב; טעות נפוצה: 'אי שימוש ב-reference ל-PR וכך כפילות " +
+          "נתונים'. שדה s4: נשארת הטרנזקציה המרכזית ב-S/4HANA; ME21 הישן (GUI לא-Enjoy) deprecated.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME21N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): ME29N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ME29N משחררת PO בודד במסך Enjoy לפי אסטרטגיית האישור, כולל ביטול שחרור; ME28 לאישור קולקטיבי. " +
+          "שגיאות נפוצות: 'Release code מחוץ להרשאה', אסטרטגיה לא קיימת ל-PO, PO כבר משוחרר. משתמשים: מנהל רכש, " +
+          "מאשר, קניין בכיר. שדה s4: 'זמין ב-S/4HANA. Fiori Approve Purchase Orders / flexible workflow מועדפים " +
+          "לתהליך מודרני'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME29N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): ME5A",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ME5A הוא דוח רשימת דרישות רכש (EBAN/EBKN), שימושי לזיהוי PR פתוחות שלא הומרו או PR שלא שוחררו; " +
+          "הרשומה מבחינה בינו לבין דוחות ההזמנות ME2M/ME2L/ME2N. שדה s4: זמין ב-S/4HANA; Fiori 'Manage Purchase " +
+          "Requisitions' ו-Embedded Analytics חלופה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME5A",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): MIGO",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "MIGO היא טרנזקציה מאוחדת לתנועות מלאי; השדה descTech, ללא ציון מהדורה: 'כותבת MKPF (header) / " +
+          "MSEG (items)'; קבלה מ-PO (101) מעדכנת PO history (EKBE) ומבצעת GR/IR clearing; חשבונות ה-G/L נקבעים " +
+          "דרך OBYC; BAPI_GOODSMVT_CREATE לרקע; הרחבות MB_MIGO_BADI ו-MBCF0002. שגיאות נפוצות: תקופת MM סגורה (M7 " +
+          "053), חוסר הרשאה לתנועה או למפעל, חשבון G/L לא נמצא ב-OBYC, אצווה חסרה. אחריה: MIRO, MB03. משתמשים: " +
+          "מחסנאי, מנהל מחסן, פקיד מלאי. שדה s4: נשארת מרכזית ב-S/4HANA; MB01/MB1A/MB1B/MB1C deprecated לטובת " +
+          "MIGO; שדה fiori: 'Post Goods Receipt for Purchasing Document' עם המזהה F0843A (המקף הארוך במקור " +
+          "הושמט). שדה s4Delta: ב-S/4HANA 'Material document data will be stored in MATDOC only and not anymore " +
+          "in MKPF and MSEG' (פריט הפישוט 'S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)', 2025 FPS01, " +
+          "15.3.1); MKPF/MSEG נשארות כהגדרות DDIC.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MIGO",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): MIRO",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "MIRO מבצעת Logistics Invoice Verification, כותבת RBKP/RSEG ומסמך FI/CO, מבצעת 3-way match מול " +
+          "EKKO/EKPO/EKBE, חוסמת תשלום על price/quantity variance מעבר ל-tolerance (OMR6) ומנקה את חשבון GR/IR; " +
+          "שונה מ-FB60 (חשבונית FI ללא PO); BAPI_INCOMINGINVOICE_CREATE ברשומה. שגיאות נפוצות: חשבונית לא מאוזנת, " +
+          "סטייה מעבר ל-tolerance, תקופה סגורה, GR חסר ל-GR-based IV. שיטות עבודה: GR-based invoice verification, " +
+          "הגדרת tolerance keys, טיפול ב-blocked invoices ב-MRBR. משתמשים: הנהלת חשבונות ספקים (AP), פקיד " +
+          "חשבוניות. שדה s4: נשארת מרכזית ב-S/4HANA; Fiori 'Create Supplier Invoice'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MIRO",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): F110",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "F110 היא תוכנית התשלומים האוטומטית: Parameters, Proposal, Payment Run, Print/DME; בוחרת open " +
+          "items לפי due date, payment method ובנק, יוצרת payment documents ומקזזת, ומפיקה קבצי DME/IDoc לבנק; " +
+          "נשענת על REGUH/REGUP ועל תצורת FBZP. תנאים מוקדמים: FBZP מוגדר, bank details במאסטר ספק, פריטים פתוחים " +
+          "בשלים. שגיאות נפוצות: 'No valid payment method found', 'Payment method not allowed for vendor', 'House " +
+          "bank/account determination failed', 'Items blocked for payment'. שיטת עבודה: 'בדוק proposal לפני run'. " +
+          "משתמשים: צוות תשלומים, צוות אוצר, מנהל AP. שדה s4: זמינה ב-S/4HANA, Fiori 'Manage Automatic Payments' " +
+          "(F0770), רושמת ל-Universal Journal. שדה s4Delta: ב-S/4HANA BSIK/BSAK 'were removed and replaced by " +
+          "identically-named DDL SQL views, called compatibility views' ושורות היומן ב-ACDOCA (פריט 'S4TWL - DATA " +
+          "MODEL CHANGES IN FIN', 2025 FPS01, 6.1.4).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#F110",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): FBL1N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "FBL1N הוא דוח פריטי ספק המבוסס על BSIK (פתוחים) ו-BSAK (מסולקים); שדה consultant: 'ב-S/4HANA " +
+          "ה-line items נשענים על ACDOCA אך ה-tcode עדיין עובד דרך compatibility views'. שדה s4: זמינה ב-S/4HANA " +
+          "דרך compatibility views על ACDOCA; Fiori 'Display Supplier Line Items' / 'Supplier Balances' היא " +
+          "החלופה המומלצת; שדה fiori: 'Manage Supplier Line Items (F0712)'. שדה s4Delta: ב-S/4HANA טבלאות " +
+          "הסיכומים והאינדקס (BSIK/BSAK) 'were removed and replaced by identically-named DDL SQL views, called " +
+          "compatibility views': קריאה עובדת כבעבר וכתיבה הוסרה; שורות היומן ב-ACDOCA (פריט הפישוט 'S4TWL - DATA " +
+          "MODEL CHANGES IN FIN', 2025 FPS01, 6.1.4).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#FBL1N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הפונקציות של הפרויקט (FUNCTION_INTEL): BAPI_PR_CREATE",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "BAPI_PR_CREATE יוצר דרישת רכש ומחזיר את מספרה (EBAN); ECC: 'זמין ב-ECC'; S/4: 'זמין ב-S/4HANA; " +
+          "חלופה: API_PURCHASEREQ_PROCESS_SRV'. כשלים: קבוצת רכש חסרה, קטגוריית פריט שגויה; קשור ל-ME21N ו-ME51N " +
+          "ולטבלאות EBAN ו-EBKN.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_PR_CREATE",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הפונקציות של הפרויקט (FUNCTION_INTEL): BAPI_GOODSMVT_CREATE",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "BAPI_GOODSMVT_CREATE יוצר תנועת מלאי לפי סוג תנועה; GOODSMVT_CODE (01=GR PO); פלט " +
+          "MATERIALDOCUMENT; ECC: 'זמין ב-ECC'; S/4: 'זמין ב-S/4HANA. חלופה: OData API_MATERIAL_DOCUMENT'. כשלים: " +
+          "מלאי חסר, תקופת רישום סגורה (MMPV), אצווה חסרה. תרחיש QA: 'ודא MATERIALDOCUMENT + COMMIT, בדוק ב-MB51'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_GOODSMVT_CREATE",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "העשרת ה-BAPI של הפרויקט (sweep): BAPI_TRANSACTION_COMMIT",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "BAPI_TRANSACTION_COMMIT מאשר את ה-LUW, מסיים ומקבע את כתיבות ה-BAPI שקדמו לו; לפי הרשומה 'חובה " +
+          "אחרי כל BAPI כותב'; WAIT='X' לסנכרון.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.sweep.ts#BAPI_TRANSACTION_COMMIT",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: pricing-condition-missing",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "תנאי תמחור חסר בהזמנת רכש או מכירה: מחיר 0 או שגיאה; סיבות: condition record חסר (MEK1/VK11), " +
+          "access sequence, תוקף תנאי, pricing procedure; אבחון ב-ME23N, VA03 ו-MEK3; תיקון: יצירת condition " +
+          "record ותיקון access sequence או תוקף.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext3.ts#pricing-condition-missing",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: duplicate-goods-receipt",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "קבלת טובין נרשמה פעמיים ומלאי ועלות כפולים; סיבות: לחיצה כפולה או ממשק ללא idempotency, אין בדיקת " +
+          "כפילות; אבחון ב-MB51, MIGO ו-SM13; תיקון: ביטול התנועה הכפולה (MBST) והוספת בדיקת כפילות בממשק; מניעה: " +
+          "idempotency בממשקים; פונקציה BAPI_GOODSMVT_CREATE.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext3.ts#duplicate-goods-receipt",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: qm-inspection-lot-block",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "GR חסום במלאי בדיקת QM: הרכיב במלאי בדיקה ולא במלאי חופשי; סיבות: QM Inspection פעיל, Usage " +
+          "Decision לא בוצע; אבחון ב-QA32, QA33, MMBE; תיקון: Usage Decision (QA11/QA32) לשחרור למלאי חופשי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting.ts#qm-inspection-lot-block",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: qm-procurement-blocks-gr-or-invoice",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "GR או חשבונית להזמנת רכש חסומים כי בקרת QM ברכש מדווחת שהספק או החומר לא משוחרר לפעולה; סיבות: " +
+          "quality info record חסר או לא משוחרר, QM system של הספק נמוך מהנדרש ב-control key, תקופת השחרור פגה; " +
+          "תיקון: יצירה או שחרור quality info record (QI01/QI02) לתקופה תקפה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext.ts#qm-procurement-blocks-gr-or-invoice",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: prd-price-difference-account-missing",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "לחומר בניהול מחיר תקן (S), GR או חשבונית עם הפרש ערך לא נרשמים כי OBYC key PRD ללא חשבון למחלקת " +
+          "ההערכה; שגיאה M8147 (מסומנת ברשומה לאימות ב-SE91); אבחון ב-MIGO, OBYC, MB51; תיקון: תחזוקת חשבון PRD " +
+          "ב-OBYC ורישום מחדש.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext.ts#prd-price-difference-account-missing",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: update-termination-sm13",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "המשתמש קיבל הודעת הצלחה לתנועה אך מסמך החומר או ה-FI אינו קיים; סיבות: משימת Update (V1/V2) " +
+          "נכשלה, ייחוס OBYC חסר, תקופה סגורה; אבחון ב-SM13, ST22, OBYC, MB51; תיקון: תיקון שורש השגיאה וחזרה על " +
+          "ה-Update מ-SM13, 'לא רישום מחדש ידני'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting.ts#update-termination-sm13",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: acdoca-coep-mismatch",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "דוח CO ישן לא תואם ל-Universal Journal ב-S/4: הדוח קורא COEP במקום ACDOCA, או Ledger/Currency " +
+          "שונים; תיקון: הסבת דוחות ל-ACDOCA או CDS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext2.ts#acdoca-coep-mismatch",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מפת ה-CDS של הפרויקט (cds-map): I_MaterialDocumentItem",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "I_MaterialDocumentItem, 'פריטי מסמך חומר', מעל הטבלאות MSEG, MKPF ו-MATDOC, עם תצוגת הצריכה " +
+          "C_MaterialDocumentItem ויישום Fiori 'Material Documents Overview'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/cds-map.ts#I_MaterialDocumentItem",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 3 בספריית הפרויקט (Sourcing and Procurement with SAP S/4HANA), פרק 5 'Operational " +
+          "Procurement', סעיף 5.4 'Purchase Order Processing'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרת הסעיף מאשרת שהספר מתעד את עיבוד הזמנות הרכש בפרק הרכש התפעולי (לצד 5.3 Requirements " +
+          "Processing); הפניית קריאה, לא מקור לטענה.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book3.json#5.4",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 3 בספריית הפרויקט, פרק 7 'Inventory Management', סעיף 7.3.1 'Goods Receipts'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרת הסעיף מאשרת שהספר מתעד את קבלת הטובין תחת Goods Movements; הפניית קריאה, לא מקור לטענה.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book3.json#7.3.1",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 3 בספריית הפרויקט, פרק 12 'Invoice and Payables Management', סעיף 12.2 'Invoice " +
+          "Processing'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרת הסעיף מאשרת שהספר מתעד את עיבוד החשבוניות (לצד 12.3 Accounts Payable); הפניית קריאה, לא " +
+          "מקור לטענה.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book3.json#12.2",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 3 בספריית הפרויקט, פרק 6 'Automated and Direct Procurement', סעיף 6.4 'Contract and " +
+          "Source Determination'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרת הסעיף ותתי-הסעיפים (6.4.1 Purchasing Information Record, 6.4.2 Source List, 6.4.3 Quota " +
+          "Arrangement) מאשרים שהספר מתעד את קביעת המקור; הפניית קריאה, לא מקור לטענה.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book3.json#6.4",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 3 בספריית הפרויקט, פרק 12 'Invoice and Payables Management', סעיף 12.3.1 'Supplier " +
+          "Payment Processing'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרת הסעיף מאשרת שהספר מתעד את עיבוד התשלומים לספקים תחת 12.3 Accounts Payable; הפניית קריאה, לא " +
+          "מקור לטענה.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book3.json#12.3.1",
+      },
+    ],
+    lastVerifiedAt: DATE,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    notes: "הרשומה מתעדת את הזרימה הכללית של רכש עד תשלום; הווריאנטים המקושרים הם procure-to-pay-for-maintenance " +
+      "ו-goods-movement-process, והרישום החשבונאי המפורט ב-logistics-to-finance-postings-process. טיוטה חוזרת " +
+      "אחרי הדחייה של 2026-09-24: (1) MKPF/MSEG מיוחסות ל-ECC בכל מקום (שלב 6, tables[1], outputs[2]), וצד " +
+      "S/4HANA מצטט בשם את 'S4TWL - Data Model in Inventory Management' (2025 FPS01, פריט 15.3.1; שורת " +
+      "MKPF_SIMPL2025 הועתקה מ-data/verification/tables.ts), עם שורות Archiving Material Documents לתאימות דרך " +
+      "CDS; השינוי נוסף ל-eccToS4. רשומת tx-intel של MIGO אומרת 'כותבת MKPF (header) / MSEG (items)' בלי מהדורה, " +
+      "ושדה s4Delta שלה מפנה לאותו פריט פישוט; (2) הערות החיפוש תוקנו (להלן); (3) ניסוח MB03 מפנה לרשומת tx:MB03; " +
+      "(4) BSIK מיוחסת ל-ECC, וצד S/4HANA לפי רשומת FBL1N ('S4TWL - Data Model Changes in FIN', ACDOCA דרך תצוגות " +
+      "תאימות). חיפושים (scripts/sap-help-search.mjs, SAP_S4HANA_ON-PREMISE, 2026-09-24): 'procure to pay' (21 " +
+      "תוצאות): התוצאה הראשונה 'Materials Management: Procure to Pay' (loio 6028d9520ed8471faf16e3d899598c7b, " +
+      "2025.001, deliverable Logistics) היא עמוד business function ולא עמוד תהליך; רשומת ה-scope item של Ariba " +
+      "באותו חיפוש ('Procure to Pay with SAP Ariba Buying and Invoicing', loio d56459607c214c86acc400fd830b2bae, " +
+      "2025.001) מסומנת deprecated ואינה התהליך הכללי; מזהה ה-scope item שלה אינו נכתב כאן כי אינו מופיע בשורת " +
+      "evidence. 'Procurement of Direct Materials' (21 תוצאות): רשומות What's New של הפריט Procurement of Direct " +
+      "Materials במהדורות 1709, 1809.000 ו-100, ובמהדורות 1909.000 ו-2020.000 אותו שם עם מזהה scope item " +
+      "בסוגריים; שתי תוצאות 2023.000 הן נושאים אחרים ('Enterprise Search Function for Customer Fields in Supplier " +
+      "Invoices', 'Purchase Requisition Events'); בתוצאות מופיע גם עמוד 2025.001 בשם 'Procurement' (loio " +
+      "56be0913bd224e218bbd83308039fafb, deliverable Retail), שגופו נקרא והוא עמוד סקירה של פתרונות רכש ב-Retail " +
+      "בלי שלבי תהליך, ולכן לא נבחר כ-reference. מזהה ה-scope item שבכותרות 1909 ו-2020 אינו נכתב ברשומה: הוא " +
+      "מודפס ברשומות What's New ישנות שאינן מצוטטות, ולא בעמוד תהליך של 2025. 'purchase requisition to purchase " +
+      "order goods receipt invoice verification process' (21 תוצאות) ו-'Procurement in SAP S/4HANA' (21 תוצאות) " +
+      "החזירו את 'Procurement in SAP S/4HANA' (loio 287eb65334e6b54ce10000000a174cb4, 2025.001), שגופו נקרא ומתאר " +
+      "את מחזור הרכש עד אימות החשבונית; הוא ה-reference. 'Invoice Processing' החזיר את עמוד Invoice Processing " +
+      "(loio ab6fb6531de6b64ce10000000a174cb4, 2025.001), שגופו נקרא. 'Automatic Payment Transactions' (21 " +
+      "תוצאות) החזיר את 'Bank Account Alias Enabled in Additional Transactions' (What's New 2022, loio " +
+      "30c5d8e26bcf46d6af00c27a68b081da), שגופו נקרא ומדפיס Scope Item J60 (Accounts Payable) לפריט ה-What's New " +
+      "עצמו; J60 אינו נכתב כ-reference של התהליך. שלב התשלום (F110) אינו מתואר בעמוד ה-reference ומתועד ברשומות " +
+      "המאגר (tx-intel F110, מפת P2P) ובעמוד What's New 2022. EKKO, EKPO, EKBE, RBKP, RSEG, BSIK, BSAK, REGUH, " +
+      "REGUP ו-MATDOC אינן במילון הפרויקט; BAPI_PO_CREATE1 ו-BAPI_INCOMINGINVOICE_CREATE אינם במילון ה-fm של " +
+      "הפרויקט; OMR6 אינה במילון הטרנזקציות; כולם מוזכרים בפרוזה. יישומי ה-Fiori Manage Purchase Requisitions, " +
+      "Manage Purchase Orders, Create Supplier Invoice ו-Manage Automatic Payments מוזכרים בשם; F0770, F0712 " +
+      "ו-F0843A מופיעים ברשומות tx-intel ואינם בקטלוג ה-Fiori של הפרויקט (רשומת MIGO מצמידה F0843A לשם שהראיה " +
+      "הרשמית מצמידה ל-F0843). data/fiori/apps.ts מצמיד את F0843 לשם 'Post Goods Movement', בסתירה לראיה הרשמית " +
+      "(Post Goods Receipt for Purchasing Document); הסתירה מתועדת ומוכרעת ברשומת fiori:F0843. kpis ו-migration " +
+      "הושמטו: אף מקור שנקרא אינו מגדיר מדדי P2P או פרק הגירה לתהליך הכללי; סעיפי 12.4 בספר 3 (למשל 12.4.7 Days " +
+      "Payable Outstanding) נושאים כותרות של אנליטיקה, אך תוכנם לא נקרא ולכן לא נכתבו מדדים. לא בוצעה בדיקה " +
+      "במערכת SAP חיה.",
+  },
+  /* =================================================== physical inventory */
+  {
+    slug: "physical-inventory-process",
+    he: "ספירת מלאי (Physical Inventory): מסמך ספירה, הזנת ספירה, ניתוח פערים ורישום הפרשים",
+    en: "Physical inventory process: document creation, count entry, difference analysis and posting of differences",
+    module: "Cross",
+    summary: "ספירת מלאי מתאימה את המלאי בספרים למלאי שנמצא בפועל. העמוד הרשמי 'Physical Inventory Process' מחלק " +
+      "אותה לשלושה שלבים, הכנה, ספירה וניתוח, ומתאר זרימה של יצירת מסמך ספירה, הזנת הספירה ורישום הפרשים, עם " +
+      "ספירה חוזרת לפי הצורך; אותו נוסח מופיע בתיעוד SAP ERP 6.0 EHP8 ובתיעוד S/4HANA 2025 FPS01. בשני הצדדים " +
+      "טבלת הפעולות הרשמית מונה את MI01, MI21, MI07, MI20 ו-MI11; ב-S/4HANA נוספות אפליקציות Fiori ייעודיות, " +
+      "ומסמך החומר שנוצר ברישום ההפרש נשמר ב-MATDOC במקום MKPF ו-MSEG.",
+    context: "לפי העמודים הרשמיים 'Physical Inventory Analysis' ו-'Posting Inventory Differences' (S/4HANA 2025 " +
+      "FPS01, ובאותו נוסח ב-SAP ERP 6.0 EHP8), רישום הפרש הספירה יוצר מסמך חומר שמתעד את יתרות המלאי המתוקנות " +
+      "ומסמך חשבונאי עם תנועות החשבון. לפי רשומות tx-intel של הפרויקט, MI01 יוצרת מסמך ספירה (IKPF/ISEG) עם " +
+      "אפשרות posting block, MI04 מזינה את תוצאות הספירה ומחשבת את ההפרש מול book inventory, ו-MI07 רושמת את " +
+      "ההפרש בתנועה 701 או 702. העמוד הרשמי של F0379A (Manage Physical Inventory Documents) מתאר ספירה חוזרת, " +
+      "רישום ישיר ורישום המוני מתוך האפליקציה. בצד מודל הנתונים, פריט הפישוט 'S4TWL - Data Model in Inventory " +
+      "Management (MM-IM)' קובע שב-S/4HANA מסמך החומר נשמר ב-MATDOC בלבד. IKPF, ISEG ו-MATDOC אינן במילון " +
+      "האובייקטים של הפרויקט ולכן מוזכרות בפרוזה בלבד.",
+    steps: [
+      {
+        he: "הכנה: יוצרים מסמך ספירה לחומרים במחסן. צד GUI (ECC ו-S/4HANA): MI01, 'Create Physical Inventory " +
+          "Document' בטבלת הפעולות הרשמית, שלפי רשומת tx-intel יוצרת מסמך ספירה (IKPF/ISEG) עם אפשרות posting " +
+          "block ו-freeze book inventory. צד S/4HANA (Fiori): Create Physical Inventory Documents (F3197), " +
+          "שספריית האפליקציות רושמת עם MI01 כטרנזקציה מובילה, ולפי העמוד 'Options to Create or Schedule Physical " +
+          "Inventory Documents' מיועדת למספר מסמכים מוגבל ('no mass creation'). העמוד 'Physical Inventory " +
+          "Process' מונה בשלב ההכנה יצירת מסמך, חסימת חומרים לרישום (Blocking Materials for Posting) והדפסה והפצה " +
+          "של המסמך; הדפסת המסמך ב-GUI היא MI21 ('Print Physical Inventory Document').",
+        xrefs: ["tx:MI01", "tx:MI21", "table:MARD"],
+      },
+      {
+        he: "יצירה מרוכזת או מתוזמנת: צד GUI: MI31, שקטלוג הטרנזקציות של הפרויקט מתאר כ-'Batch Input: Create " +
+          "Physical Inventory Documents', וספריית האפליקציות של S/4HANA 2025 FPS01 רושמת כאפליקציית SAP GUI בשם " +
+          "'Create PI Documents - Regular Stock'; לספירת מחזור, לפי טבלת הפעולות בעמוד 'Cycle Counting (MM-IM)', " +
+          "MIBC היא 'ABC Analysis for Cycle Counting' ו-MICN היא 'Batch Input: Physical Inventory Documents in " +
+          "Cycle Counting'. צד S/4HANA (Fiori): Job Scheduling and Mass Processing - Physical Inventory (F4550), " +
+          "עם MI01 כטרנזקציה מובילה ו-MI31 ו-MIBC כטרנזקציות קשורות, לפי ספריית האפליקציות; לפי העמוד 'Options to " +
+          "Create or Schedule Physical Inventory Documents' היא מיועדת ליצירה המונית עם מרווחי זמן חוזרים, ובטבלת " +
+          "ההשוואה שבו רק היא תומכת בספירת מחזור. בספר 3 של הפרויקט סעיף 7.4.2 נושא את הכותרת 'Schedule Physical " +
+          "Inventory Document Creation'.",
+        xrefs: ["tx:MI31", "tx:MIBC", "tx:MI01"],
+      },
+      {
+        he: "ספירה והזנת תוצאות: לפי העמוד 'Physical Inventory Process' הספירה נרשמת על תדפיס המסמך ואחר כך מוזנת " +
+          "למערכת; לפי העמוד 'Physical Inventory Analysis' ספירה חיצונית נקלטת ב-batch input או כנתוני PDC. צד " +
+          "GUI: MI04 מזינה את תוצאות הספירה למסמך קיים ומחשבת את ההפרש מול book inventory, לפי רשומת tx-intel. " +
+          "ספירת אפס מסמנים בעמודה ZC, כי לפי העמוד 'Posting Inventory Differences' המערכת מפרשת 0 כ-'not yet " +
+          "counted'. צד S/4HANA (Fiori): Manage Physical Inventory Count (F5430), עם MI04 כטרנזקציה מובילה, לפי " +
+          "ספריית האפליקציות.",
+        xrefs: ["tx:MI04"],
+      },
+      {
+        he: "ניתוח פערים וספירה חוזרת: לפי העמוד 'Physical Inventory Analysis' בשלב זה קובעים אם נדרשת ספירה " +
+          "חוזרת בגלל פערים, וספירה חוזרת יוצרת מסמך ספירה חדש. צד GUI: טבלת הפעולות הרשמית מונה 'Recount " +
+          "Physical Inventory Document MI11' ו-'Print List of Differences MI20'; ספריית האפליקציות של S/4HANA " +
+          "2025 FPS01 רושמת את MI20 בשם אחר, 'Process Physical Inventory Count Results', וזו גם הכותרת בקטלוג " +
+          "הטרנזקציות של הפרויקט. רשומות tx-intel של MI04 ו-MI07 מציבות את MI20 בין הזנת הספירה לרישום ההפרש " +
+          "וממליצות על recount לפני רישום של פערים חריגים. צד S/4HANA (Fiori): ב-Manage Physical Inventory " +
+          "Documents (F0379A) מפעילים recount לפריט שנספר וטרם נרשם, והאפליקציה יוצרת מסמך ספירה חדש, לפי העמוד " +
+          "הרשמי.",
+        xrefs: ["tx:MI20"],
+      },
+      {
+        he: "רישום הפרשים: צד GUI: MI07, 'Process List of Differences' בטבלת הפעולות הרשמית; לפי רשומת tx-intel " +
+          "היא רושמת תנועה 701 (עודף) או 702 (חוסר), מיישרת את book inventory לכמות שנספרה ויוצרת מסמך חומר ומסמך " +
+          "FI. לפי העמוד 'Posting Inventory Differences' ההפרש נרשם בתקופה שנקבעה בספירה או, כשמותר רישום לתקופה " +
+          "קודמת, בתקופה שאחריה, ולכל פריט אפשר לתת סיבת הפרש. צד S/4HANA (Fiori): Manage Physical Inventory " +
+          "Documents (F0379A) רושמת את הכמות שנספרה לפריט או לכל פריטי המסמך (mass posting), מאפשרת סיבה להפרש " +
+          "לפי ההגדרות, ומנווטת למסמך החומר שנוצר, לפי העמוד הרשמי.",
+        xrefs: ["tx:MI07", "table:MARD"],
+      },
+      {
+        he: "מסמך החומר והמסמך החשבונאי של רישום ההפרש: לפי העמוד 'Posting Inventory Differences' נוצרים מסמך " +
+          "חומר ומסמך חשבונאי. צד ECC: לפי פריט הפישוט 'S4TWL - Data Model in Inventory Management (MM-IM)' מודל " +
+          "SAP ERP 6.0 שומר כותרת ב-MKPF ופריטים ב-MSEG. צד S/4HANA: לפי אותו פריט (2025 FPS01, פריט 15.3.1) " +
+          "נתוני מסמך החומר נשמרים ב-MATDOC בלבד (אינה במילון הפרויקט), ו-MKPF ו-MSEG קיימות כהגדרת DDIC " +
+          "וכאובייקט בבסיס הנתונים; לפי פריט 27.5 ברשימת 2023 FPS03 קריאה מהן מנותבת לתצוגת CDS, וכתיבה אליהן " +
+          "אינה משפיעה. רשומת tx-intel של MI07 מציבה אחריה את MB51 ו-FB03.",
+        xrefs: [
+          "table:MKPF", "table:MSEG", "obj:material-document", "tx:MB51", "bp:matdoc-read-through-compatibility",
+        ],
+      },
+      {
+        he: "בקרת מלאי לפני ואחרי הספירה: MB52 מציגה snapshot נוכחי של כמות וערך לחומרים רבים (למלאי לפי תאריך " +
+          "עבר MB5B), ו-MMBE מציגה מלאי של חומר בודד לפי רמות ארגון וסוגי מלאי, לפי רשומות tx-intel; רשומת MI01 " +
+          "מציבה את שתיהן לפני יצירת המסמך. צד S/4HANA: שתיהן נשמרות, חישובי המלאי מבוססי MATDOC ויש חלופות Fiori " +
+          "להצגת מלאי, לפי שדה s4Delta. אפליקציית Physical Inventory Analysis מופיעה ברשימת ההמשך של עמוד Manage " +
+          "Physical Inventory Documents, בלי תיאור נוסף בעמוד.",
+        xrefs: ["tx:MB52", "tx:MMBE", "tx:MB5B"],
+      },
+    ],
+    antiPatterns: [
+      "יצירת מסמך ספירה בלי posting block כשנדרש freeze של המלאי בספרים; רשומת tx-intel של MI01 מונה זאת בין " +
+        "הטעויות השכיחות.",
+      "רישום הפרש חריג ב-MI07 בלי recount קודם; רשומת tx-intel של MI07 מונה זאת בין הטעויות השכיחות, והעמוד " +
+        "'Physical Inventory Analysis' ממליץ על ספירה חוזרת כשיש חשד לטעות ספירה.",
+      "הזנת 0 בשדה הכמות במקום סימון ZC: לפי העמוד 'Posting Inventory Differences' המערכת מפרשת 0 כ-'not yet " +
+        "counted'; גם רשומת tx-intel של MI04 מונה את שכחת סימון ה-zero count.",
+      "רישום הפרש בתקופה שגויה או מעבר ל-tolerance בלי הרשאה (MI07, לפי רשומת tx-intel); העמוד 'Posting Inventory " +
+        "Differences' קושר את תקופת הרישום לתקופת הספירה.",
+      "עדכון ישיר של יתרות MARD במקום התאמה דרך מסמך ספירה, לפי רשומת object-intel של MARD.",
+      "כתיבה ישירה ל-MKPF או ל-MSEG בקוד לקוח ב-S/4HANA: לפי פריט 27.5 'S4TWL - Data Model in Inventory " +
+        "Management (MM-IM)' ברשימת הפישוט 2023 FPS03 כתיבה כזו אינה משפיעה ויש להסירה, וכתיבה ל-MATDOC מתבצעת " +
+        "דרך המחלקה CL_NSDM_STOCK.",
+    ],
+    checks: [
+      "חיובי: מסמך שנוצר ב-MI01 או ב-F3197 מופיע ב-Manage Physical Inventory Documents, ואחרי הזנת הספירה ב-MI04 " +
+        "שדה Count status בכותרת המסמך מתעדכן (שדות הכותרת לפי העמוד הרשמי 'Physical Inventory Process').",
+      "שלילי: כשמסמך חורג מסבולת המסמך ('maximum amount per physical inventory document') שהוגדרה לקבוצת המשתמש, " +
+        "המשתמש אינו רשאי לרשום הפרשים למסמך (העמוד 'Posting Inventory Differences'), ורישום בתקופה סגורה מחזיר " +
+        "M7308 (רשומת tx-intel של MI07).",
+      "אינטגרציה: אחרי רישום ההפרש קיימים מסמך חומר ומסמך חשבונאי (העמוד 'Posting Inventory Differences'), מסמך " +
+        "החומר בתנועה 701 או 702 (רשומת tx-intel של MI07); ב-S/4HANA ניתן לנווט למסמך החומר מ-Manage Physical " +
+        "Inventory Documents, והמלאי ב-MMBE תואם לכמות שנספרה.",
+      "רגרסיה (S/4HANA): דוח לקוח שקורא מ-MKPF או מ-MSEG מחזיר את מסמכי החומר של רישום ההפרש; לפי פריט 27.5 " +
+        "ברשימת הפישוט 2023 FPS03 הקריאה מנותבת לתצוגת CDS וקוד שכותב לטבלאות אלה צריך להסיר את הכתיבה.",
+      "ספירת אפס: פריט שנספר 0 מסומן ב-ZC ומופיע כנספר, ולא כפריט שטרם נספר (העמוד 'Posting Inventory Differences').",
+    ],
+    process: {
+      purpose: "להתאים את ערכי המלאי בספרים לכמות ולערך שנמצאו בפועל: לפי העמוד הרשמי 'Physical Inventory " +
+        "Process' (SAP ERP 6.0 EHP8 ו-S/4HANA 2025 FPS01, באותו נוסח), ברישום הפרשי הספירה המערכת מתאימה את ערכי " +
+        "המלאי וערכי הספרים למלאי ולערכו בפועל.",
+      trigger: [
+        {
+          he: "ספירה פיזית מתוכננת של חומרים במחסן: לפי רשומת tx-intel של MI01 מסמך הספירה נוצר לפני הספירה " +
+            "הפיזית, ולפי העמוד 'Posting Inventory Differences' תאריך הספירה המתוכנן קובע את שנת הכספים של המסמך.",
+          xrefs: ["tx:MI01"],
+        },
+        {
+          he: "ספירה מרוכזת, מתוזמנת או ספירת מחזור: MI31 ליצירה מרוכזת; לספירת מחזור ניתוח ABC ב-MIBC ויצירת " +
+            "מסמכים ב-batch input ב-MICN, לפי העמוד 'Cycle Counting (MM-IM)' (רשומת tx-intel של MI01 מונה את " +
+            "MI31, MICN ו-MIBC כחלופות); בצד Fiori של S/4HANA F4550, שלפי העמוד 'Options to Create or Schedule " +
+            "Physical Inventory Documents' היא האפליקציה שתומכת בספירת מחזור.",
+          xrefs: ["tx:MI31", "tx:MIBC"],
+        },
+        {
+          he: "ספירה חוזרת: לפי העמוד 'Physical Inventory Analysis' ספירה חוזרת מומלצת כשיש חשד לטעות ספירה, " +
+            "ויוצרת מסמך ספירה חדש.",
+        },
+      ],
+      preconditions: [
+        {
+          he: "החומר קיים באתר ובמחסן ואינו חסום לספירה; אחרת M7001 או שגיאת חומר חסום, לפי רשומת tx-intel של MI01.",
+          xrefs: ["tx:MI01"],
+        },
+        {
+          he: "הספירה הוזנה (MI04) לפני רישום ההפרש (MI07), לפי רשומת tx-intel של MI07; העמוד 'Posting Inventory " +
+            "Differences' מתאר גם הזנת ספירה ורישום הפרש בצעד אחד.",
+          xrefs: ["tx:MI04", "tx:MI07"],
+        },
+        {
+          he: "תקופת רישום פתוחה: לפי העמוד 'Posting Inventory Differences' ההפרש נרשם בתקופה שנקבעה בספירה או " +
+            "בתקופה שאחריה כשמותר רישום לתקופה קודמת; אחרת M7308, לפי רשומת tx-intel של MI07.",
+          xrefs: ["tx:MI07"],
+        },
+        {
+          he: "סבולות ערך לרישום הפרשים מוגדרות לקבוצת המשתמש ב-Customizing של Inventory Management (העמוד " +
+            "'Posting Inventory Differences'; ברשומת tx-intel של MI07: tolerance groups).",
+        },
+      ],
+      masterData: [
+        {
+          he: "מלאי החומר ברמת מחסן (MARD), הבסיס שמולו מחושב ההפרש, לפי רשומות tx-intel של MI01 ו-MI07; לפי " +
+            "רשומת object-intel רישום ההפרש מעדכן את LABST.",
+          xrefs: ["table:MARD"],
+        },
+        {
+          he: "סבולות ערך לקבוצת משתמשים: 'maximum amount per physical inventory document' ו-'maximum amount per " +
+            "document item', לפי העמוד 'Posting Inventory Differences'.",
+        },
+        {
+          he: "סיווג חומרים לספירת מחזור: 'Cycle Counting - Classification' מופיעה ברשימת ההמשך של עמוד Manage " +
+            "Physical Inventory Documents, וספר 3 מקדיש לה את סעיף 7.4.5; המקורות שנקראו אינם מפרטים את נתוני האב " +
+            "שהיא מגדירה.",
+        },
+      ],
+      roles: [
+        {
+          he: "צד GUI, לפי שדה users ברשומות tx-intel: מבקר מלאי, מחסנאי וצוות ספירה (MI01, MI04); מבקר מלאי, " +
+            "מנהל מלאי ואיש כספים (MI07).",
+          xrefs: ["tx:MI01", "tx:MI04", "tx:MI07"],
+        },
+        {
+          he: "צד S/4HANA (Fiori), לפי ספריית האפליקציות: SAP_BR_INVENTORY_MANAGER (Inventory Manager) " +
+            "ו-SAP_BR_WAREHOUSE_CLERK (Warehouse Clerk) ל-F0379A, F3197 ו-F5430; ל-F4550 רשום התפקיד " +
+            "SAP_BR_INVENTORY_MANAGER. העמוד הרשמי של F0379A מציין את מנהל המלאי (inventory manager) כמשתמש " +
+            "לדוגמה.",
+        },
+      ],
+      transactions: [
+        {
+          he: "יצירת מסמך: MI01 (GUI); Create Physical Inventory Documents, F3197 (Fiori).",
+          xrefs: ["tx:MI01"],
+        },
+        {
+          he: "יצירה מרוכזת או מתוזמנת: MI31 (GUI); לספירת מחזור MIBC (ניתוח ABC) ו-MICN (batch input), לפי העמוד " +
+            "'Cycle Counting (MM-IM)'; Job Scheduling and Mass Processing - Physical Inventory, F4550 (Fiori).",
+          xrefs: ["tx:MI31", "tx:MIBC"],
+        },
+        {
+          he: "הדפסה ותצוגה: MI21 הדפסת מסמך ספירה ו-MI03 תצוגה, לפי טבלת הפעולות הרשמית; MI03 היא הטרנזקציה " +
+            "המובילה של F0379A בספריית האפליקציות.",
+          xrefs: ["tx:MI21", "tx:MI03"],
+        },
+        {
+          he: "הזנת ספירה: MI04 (GUI); Manage Physical Inventory Count, F5430 (Fiori).",
+          xrefs: ["tx:MI04"],
+        },
+        {
+          he: "ספירה חוזרת ורשימת הפרשים: MI11 ו-MI20 (GUI), לפי טבלת הפעולות הרשמית; ב-Fiori פעולת recount " +
+            "ב-F0379A.",
+          xrefs: ["tx:MI20"],
+        },
+        {
+          he: "רישום הפרשים וניהול מסמכים: MI07 (GUI); Manage Physical Inventory Documents, F0379A (Fiori), " +
+            "שספריית האפליקציות מקשרת אליה את MI07 ו-MI20 כטרנזקציות קשורות.",
+          xrefs: ["tx:MI07", "tx:MI20"],
+        },
+        {
+          he: "בקרת מלאי: MB52 (רב-חומרי), MMBE (חומר בודד), MB5B (מלאי לפי תאריך).",
+          xrefs: ["tx:MB52", "tx:MMBE", "tx:MB5B"],
+        },
+        {
+          he: "מזהי ה-Fiori F0379A, F3197, F4550 ו-F5430 אינם בקטלוג data/fiori/apps.ts, ו-MI08, MI10, MI11 " +
+            "ו-MICN אינם במילון הטרנזקציות של הפרויקט; לכן הם מוזכרים בפרוזה ולא כ-xref.",
+        },
+      ],
+      tables: [
+        {
+          he: "MARD: מלאי ברמת מחסן, הבסיס להשוואה מול הכמות שנספרה.",
+          xrefs: ["table:MARD"],
+        },
+        {
+          he: "מסמך הספירה: IKPF ו-ISEG, לפי רשומות tx-intel של MI01, MI04 ו-MI07; שתיהן אינן במילון הפרויקט. לפי " +
+            "העמוד 'Physical Inventory Process' הכותרת נושאת את Count status, Adjustment status ו-Delete status, " +
+            "והפריט את היסטוריית הספירה.",
+        },
+        {
+          he: "מסמך החומר: ב-ECC ב-MKPF וב-MSEG; ב-S/4HANA ב-MATDOC (אינה במילון הפרויקט), ולפי פריט 27.5 ברשימת " +
+            "הפישוט 2023 FPS03 קריאה מ-MKPF/MSEG מנותבת לתצוגת CDS. שכבת ההשפעה של הפרויקט נוקבת בתצוגת התאימות " +
+            "NSDM_V_MSEG (רשומת table:MSEG).",
+          xrefs: ["table:MKPF", "table:MSEG", "obj:material-document"],
+        },
+        {
+          he: "CDS: I_MaterialDocumentItem ממופה במאגר ל-MSEG, MKPF ו-MATDOC (data/cds-map.ts); לפי עמוד What's " +
+            "New ל-SAP S/4HANA 2021 התצוגה הוצאה משימוש (deprecated) ב-2021, והסניפט מציב לצדה את " +
+            "I_MaterialDocumentItem_2.",
+          xrefs: ["cds:I_MaterialDocumentItem"],
+        },
+      ],
+      integrationPoints: [
+        {
+          he: "FI: לפי העמודים 'Physical Inventory Analysis' ו-'Posting Inventory Differences' רישום ההפרש יוצר " +
+            "מסמך חשבונאי עם תנועות החשבון לצד מסמך החומר, ולפי העמוד 'Physical Inventory Process' מותאמים גם " +
+            "ערכי הספרים (book values). ראו את רשומת התהליך logistics-to-finance-postings-process.",
+          xrefs: ["tx:MI07", "bp:logistics-to-finance-postings-process"],
+        },
+        {
+          he: "תנועות סחורה: רישום ההפרש יוצר מסמך חומר באותו מודל של תנועות הסחורה; ראו את רשומת התהליך " +
+            "goods-movement-process.",
+          xrefs: ["bp:goods-movement-process", "obj:material-document"],
+        },
+        {
+          he: "קליטת ספירה ממערכת חיצונית: batch input או נתוני PDC (Portable Data Capture), לפי העמוד 'Physical " +
+            "Inventory Analysis'.",
+        },
+        {
+          he: "Situation Handling (S/4HANA): לפי העמוד הרשמי, Manage Physical Inventory Documents משתמשת " +
+            "ב-Situation Handling; לפי What's New 2020 (scope item BML) נוספה באפליקציה Physical Inventory " +
+            "Document Overview תבנית המצב MAN_PHYSICAL_INVENTORY_MONITOR; המקורות שנקראו אינם קושרים את שם " +
+            "האפליקציה הזה ל-F0379A.",
+        },
+        {
+          he: "ספירת מלאי במחסן מנוהל EWM היא תהליך נפרד; ראו את רשומת התהליך ewm-warehouse-process.",
+          xrefs: ["bp:ewm-warehouse-process"],
+        },
+      ],
+      interfaces: [
+        {
+          he: "BAPI_MATPHYSINV_CREATE (יצירה), BAPI_MATPHYSINV_COUNT (ספירה) ו-BAPI_MATPHYSINV_POSTDIFF (רישום " +
+            "הפרשים), לפי רשומות tx-intel של MI01, MI04 ו-MI07; אינם במילון הפונקציות של הפרויקט ולכן בפרוזה בלבד.",
+        },
+        {
+          he: "OData API (S/4HANA): 'Physical Inventory Documents - Read, Create' (API_PHYSICAL_INVENTORY_DOC), " +
+            "שירות inbound סינכרוני לקריאה וליצירה של מסמכי ספירה, עם ישויות כותרת, פריט ומספר סידורי, לפי What's " +
+            "New 2021.",
+        },
+        {
+          he: "שירותי OData של אפליקציות ה-Fiori לפי ספריית האפליקציות (S/4HANA 2025 FPS01): " +
+            "MM_IM_PHYS_INV_DOC_SRV (F0379A), MM_IM_PHYS_INV_MASS_CREATE_SRV_01 (F3197), UI_PI_MANAGE_COUNT_V2 " +
+            "(F5430), APJ_JOB_MANAGEMENT_SRV (F4550); אלה שירותי האפליקציות ולא API לשילוב.",
+        },
+      ],
+      outputs: [
+        {
+          he: "מסמך ספירה (IKPF/ISEG): בכותרת השדות Count status, Adjustment status ו-Delete status, ובפריט " +
+            "היסטוריית הספירה, לפי העמוד 'Physical Inventory Process'.",
+        },
+        {
+          he: "רשימת הפרשים: 'Print List of Differences MI20' לפי טבלת הפעולות הרשמית; ראו את הסתירה בשם MI20 " +
+            "בהערות.",
+          xrefs: ["tx:MI20"],
+        },
+        {
+          he: "מסמך חומר לוגיסטי שמתעד את יתרות המלאי המתוקנות (העמוד 'Posting Inventory Differences'), בתנועה " +
+            "701 או 702 (רשומת tx-intel של MI07).",
+          xrefs: ["tx:MI07", "obj:material-document"],
+        },
+        {
+          he: "מסמך חשבונאי עם תנועות החשבון להפרש, לפי העמודים 'Physical Inventory Analysis' ו-'Posting " +
+            "Inventory Differences'.",
+        },
+        {
+          he: "ב-recount (MI11 או F0379A) נוצר מסמך ספירה חדש, לפי העמודים 'Physical Inventory Analysis' ו-Manage " +
+            "Physical Inventory Documents.",
+        },
+      ],
+      exceptions: [
+        {
+          he: "MI01: M7001 חומר לא קיים באתר או במחסן; חומר חסום לספירה (רשומת tx-intel).",
+          xrefs: ["tx:MI01"],
+        },
+        {
+          he: "MI04: מסמך כבר נספר; פריט חסר במסמך; ספירת אפס שהוזנה כ-0 בלי ZC נחשבת 'not yet counted' (רשומת " +
+            "tx-intel והעמוד 'Posting Inventory Differences').",
+          xrefs: ["tx:MI04"],
+        },
+        {
+          he: "MI07: M7308 תקופה סגורה; חריגה מ-tolerance limit להרשאה; מסמך טרם נספר; הפרש כבר נרשם (רשומת " +
+            "tx-intel). לפי העמוד 'Posting Inventory Differences', כשמסמך חורג מסבולת המסמך של קבוצת המשתמש, " +
+            "המשתמש אינו רשאי לרשום הפרשים למסמך; כשרק פריטים חורגים מסבולת הפריט, הוא אינו רשאי לרשום אותם " +
+            "פריטים, ושאר הפריטים ניתנים לעיבוד.",
+          xrefs: ["tx:MI07"],
+        },
+        {
+          he: "S/4HANA, F0379A: פריט שכבר נרשם אינו ניתן לסימון למחיקה, ומסמך שיש בו פריט רשום אינו נמחק פיזית כי " +
+            "הוא ראיה לרישום, לפי העמוד הרשמי.",
+        },
+        {
+          he: "במאגר לא נמצאה תקרית troubleshooting לתהליך הספירה (חיפוש ב-data/troubleshooting*.ts).",
+        },
+      ],
+      controls: [
+        {
+          he: "posting block ו-freeze book inventory ביצירת המסמך (MI01, רשומת tx-intel); 'Blocking Materials for " +
+            "Posting' בשלב ההכנה לפי העמוד 'Physical Inventory Process'.",
+          xrefs: ["tx:MI01"],
+        },
+        {
+          he: "סבולות ערך לקבוצת משתמשים, למסמך ולפריט (העמוד 'Posting Inventory Differences'); tolerance groups " +
+            "ברשומת tx-intel של MI07.",
+          xrefs: ["tx:MI07"],
+        },
+        {
+          he: "recount לפני רישום של פערים חריגים (best practice ברשומת MI07; MI11 ופעולת recount ב-F0379A).",
+          xrefs: ["tx:MI07"],
+        },
+        {
+          he: "תקופת רישום ושנת כספים: נקבעות בספירה ובתאריך הספירה המתוכנן, לפי העמוד 'Posting Inventory " +
+            "Differences'.",
+        },
+        {
+          he: "הרשאות: אובייקטי ההרשאה M_ISEG_WIB, M_ISEG_WZL ו-M_ISEG_WDB (MI01), M_ISEG_BWA ו-M_MSEG_BWA " +
+            "(MI07), לפי רשומות tx-intel; מחיקה ב-F0379A דורשת הרשאה ייעודית, לפי העמוד הרשמי.",
+          xrefs: ["tx:MI01", "tx:MI07"],
+        },
+        {
+          he: "ניטור: שדות הסטטוס בכותרת, היסטוריית הספירה בפריט וסטטיסטיקת המסמך (העמוד 'Physical Inventory " +
+            "Process'); ב-F0379A פסי Counting Progress ו-Posting Progress.",
+        },
+        {
+          he: "תיעוד סיבת ההפרש: best practice ברשומת MI07; סיבה לכל פריט לפי העמוד 'Posting Inventory " +
+            "Differences'; ב-F0379A סיבה לפי ההגדרות.",
+          xrefs: ["tx:MI07"],
+        },
+      ],
+      eccToS4: [
+        {
+          he: "שלבי התהליך: העמודים 'Physical Inventory Process' ו-'Posting Inventory Differences' מופיעים באותו " +
+            "נוסח (בהבדלי ניסוח בלבד) בתיעוד SAP ERP 6.0 EHP8 ובתיעוד S/4HANA 2025 FPS01, וכך גם טבלת הפעולות " +
+            "בעמוד 'Physical Inventory (MM-IM)'.",
+        },
+        {
+          he: "טרנזקציות: MI01, MI04, MI07, MB52 ו-MMBE זמינות ב-S/4HANA לפי שדה s4 ברשומות tx-intel. MI20 ו-MI31 " +
+            "רשומות בספריית האפליקציות של S/4HANA 2025 FPS01 כאפליקציות SAP GUI בסטטוס Published; רשומות האימות " +
+            "tx:MI20 ו-tx:MI31 אינן קובעות להן מעמד S/4HANA ממקור רשמי.",
+          xrefs: ["tx:MI01", "tx:MI04", "tx:MI07", "tx:MB52", "tx:MMBE", "tx:MI20", "tx:MI31"],
+        },
+        {
+          he: "מודל נתונים: לפי 'S4TWL - Data Model in Inventory Management (MM-IM)' (פריט 15.3.1 ברשימת הפישוט " +
+            "2025 FPS01 ופריט 27.5 ברשימת 2023 FPS03), ב-ECC מסמך החומר נשמר ב-MKPF וב-MSEG, וב-S/4HANA ב-MATDOC " +
+            "בלבד; הטבלאות הישנות קיימות כהגדרת DDIC, ולפי פריט 27.5 קריאה מהן מנותבת לתצוגת CDS וכתיבה אליהן " +
+            "אינה משפיעה.",
+          xrefs: ["table:MKPF", "table:MSEG"],
+        },
+        {
+          he: "Fiori (S/4HANA): לפי ספריית האפליקציות F0379A רשומה מ-1610 (קודמת F0379 'Physical Inventory'), " +
+            "F3197 מ-1809, F4550 מ-2020 ו-F5430 מ-2021, וכולן רשומות במהדורה 2025 FPS01.",
+        },
+        {
+          he: "API: לפי What's New 2021, ה-OData API בשם API_PHYSICAL_INVENTORY_DOC קיבל ב-S/4HANA 2021 ישויות " +
+            "מספר סידורי.",
+        },
+        {
+          he: "CDS: I_MaterialDocumentItem הוצאה משימוש ב-S/4HANA 2021, לפי עמוד What's New 2021.",
+          xrefs: ["cds:I_MaterialDocumentItem"],
+        },
+      ],
+      migration: [
+        {
+          he: "לפי רשומת table:MSEG של הפרויקט, SUM מבצע את המרת נתוני מסמך החומר ל-MATDOC כ-Silent Data " +
+            "Migration. פריט הפישוט של MM-IM מפנה כהערת Business Impact ל-SAP Note 2206980 ('Material Inventory " +
+            "Managment: change of data model in S/4HANA', כך במקור); גוף ההערה לא נקרא. לפי פריט 27.5 ברשימת 2023 " +
+            "FPS03, שדות APPEND או INCLUDE של MKPF מועברים למבנה NSDM_S_HEADER בטבלת MATDOC.",
+        },
+      ],
+      reference: {
+        title: "Physical Inventory Process | Inventory Management and Inventory (MM-IM), SAP S/4HANA 2025 FPS01",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/2761bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        verificationLevel: "sap_official_verified",
+        note: "עמוד תהליך רשמי מתוך רשומת חיפוש (loio 2761bd534f22b44ce10000000a174cb4, versionId 2025.001), " +
+          "שגופו נקרא דרך scripts/sap-help-body.mjs; אותו עמוד קיים ב-SAP ERP 6.0 EHP8 (versionId 6.18.latest). " +
+          "רשומות What's New ל-S/4HANA 2020 ו-2021 משייכות את תכולת הספירה ל-scope item BML ('Physical Inventory " +
+          "- Inventory Count and Adjustment'), ורשומת 2021 מוסיפה OML באותו שם; העמוד עצמו אינו נוקב ב-scope item.",
+      },
+    },
+    xrefs: [
+      "tx:MI01", "tx:MI03", "tx:MI04", "tx:MI07", "tx:MI20", "tx:MI21", "tx:MI31", "tx:MIBC", "tx:MB52", "tx:MMBE",
+      "tx:MB5B", "tx:MB51", "table:MARD", "table:MKPF", "table:MSEG", "obj:material-document",
+      "cds:I_MaterialDocumentItem", "bp:matdoc-read-through-compatibility", "bp:goods-movement-process",
+      "bp:logistics-to-finance-postings-process", "bp:ewm-warehouse-process",
+    ],
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Physical Inventory Process | Inventory Management and Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/2761bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 2761bd534f22b44ce10000000a174cb4) קובע: 'the process of physical inventory can be " +
+          "divided into three phases: Physical Inventory Preparation ... Physical Inventory Count ... Physical " +
+          "Inventory Analysis', וזרימה של 'Creating a Physical Inventory Document, Entering the Physical " +
+          "Inventory Count, Posting inventory differences', עם 'Initiating a recount, if necessary'. בכותרת המסמך " +
+          "'the fields Count status, Adjustment status and Delete status', ובתוצאה: 'When you post the inventory " +
+          "differences, the system adjusts the book inventory values and book values so that they correspond with " +
+          "the actual stocks and stock values'. הגוף מוסיף: 'You can also display statistics for the physical " +
+          "inventory document; the statistics list how many document items are open, counted, posted (inventory " +
+          "differences), recounted, or deleted'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Physical Inventory Process | Inventory Management and Inventory (MM-IM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/96bf9ad642cf4b26a29595e3d573fb8c/2761bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE,
+        claim: "צד ECC: אותו עמוד (אותו loio) בתיעוד SAP ERP 6.0 EHP8 נושא את אותו נוסח שלושת השלבים ('Physical " +
+          "Inventory Preparation', 'Physical Inventory Count', 'Physical Inventory Analysis') ואת אותה זרימה של " +
+          "יצירת מסמך, הזנת ספירה ורישום הפרשים; הגוף נקרא דרך scripts/sap-help-body.mjs.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Physical Inventory (MM-IM) | Materials Management (MM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/4407b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 4407b753128eb44ce10000000a174cb4, נקרא דרך scripts/sap-help-body.mjs): 'In " +
+          "Physical Inventory, the user has the task of creating and processing physical inventory documents. " +
+          "After the physical inventory count is complete and a recount has been carried out if required, he or " +
+          "she posts the inventory differences and can print out a list of these'. טבלת הפעולות בעמוד: 'Create " +
+          "Physical Inventory Document MI01', 'Change Physical Inventory Document MI02', 'Display Physical " +
+          "Inventory Document MI03', 'Print Physical Inventory Document MI21', 'Process List of Differences " +
+          "MI07', 'Create List of Differences with Document MI08', 'Create List of Differences Without Document " +
+          "MI10', 'Print List of Differences MI20', 'Recount Physical Inventory Document MI11'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Physical Inventory (MM-IM) | Materials Management (MM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/6cfdc7caaef746cd9c7543e32e7e87c0/4407b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE,
+        claim: "צד ECC: אותו עמוד (אותו loio) בתיעוד SAP ERP 6.0 EHP8 נושא את אותו טקסט ואת אותה טבלת פעולות, " +
+          "כולל 'Process List of Differences MI07' ו-'Print List of Differences MI20'; הגוף נקרא דרך " +
+          "scripts/sap-help-body.mjs.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Cycle Counting (MM-IM) | Materials Management (MM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/3207b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "רשומת החיפוש הרשמית (Materials Management (MM), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "3207b753128eb44ce10000000a174cb4) נוקבת בקוד MIBC בסניפט: 'Activities in Materials Management Activity " +
+          "Transaction Code ABC Analysis for Cycle Counting MIBC Batch Input: Physical Inventory Documents in " +
+          "Cycle Counting MICN See also: Physical ...'. (אומת ברשומת tx:MIBC)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Physical Inventory Analysis | Inventory Management and Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/3061bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 3061bd534f22b44ce10000000a174cb4): שלב הניתוח כולל 'enter the count results in " +
+          "the system', 'determine whether an inventory recount is necessary due to discrepancies' ו-'post the " +
+          "inventory differences'; ספירה שבוצעה מחוץ ל-SAP נקלטת 'Using batch input for entering count results' " +
+          "או 'Transfer PDC (Portable Data Capture) inventory count data'; 'When you initiate a recount, a new " +
+          "physical inventory document is created'; ובתוצאה: 'the system creates a material document that records " +
+          "the adjusted stock balances and an accounting document that contains the necessary account activities'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Posting Inventory Differences | Inventory Management and Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/5161bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 5161bd534f22b44ce10000000a174cb4): שלוש דרכי רישום ('Posting differences after " +
+          "the count has been posted', 'Posting the count and inventory differences simultaneously after the " +
+          "physical inventory document has been created', 'Entering the count without a document reference'); " +
+          "'The posting period is automatically set during counting. Therefore, the inventory difference must be " +
+          "posted to the same period or - if postings to the previous period are allowed - in the following " +
+          "period'; 'The fiscal year is set by specifying a planned count date when creating a physical inventory " +
+          "document'; 'You can give a reason for the inventory difference for each item'; ב-Customizing אפשר " +
+          "להגדיר לקבוצת משתמשים 'maximum amount per physical inventory document' ו-'maximum amount per document " +
+          "item', ומשתמש שחורג מהן אינו רשאי לרשום את ההפרש; 'If a quantity of zero was counted for an item, " +
+          "enter this by selecting the ZC (zero count) column. It is not sufficient to enter 0 in the Quantity in " +
+          "column, because the system interprets a zero as \"not yet counted.\"'; ובתוצאה נוצרים 'a material " +
+          "document that records the adjusted stock balances and an accounting document'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Posting Inventory Differences | Inventory Management and Inventory (MM-IM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/96bf9ad642cf4b26a29595e3d573fb8c/5161bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE,
+        claim: "צד ECC: אותו עמוד (אותו loio) בתיעוד SAP ERP 6.0 EHP8; השוואת הגוף לגרסת S/4HANA 2025 FPS01 מצאה " +
+          "הבדלי ניסוח בלבד (למשל 'The initial screen appears' מול 'The system displays the initial screen'). " +
+          "משפטי תקופת הרישום, סבולות הערך לקבוצת משתמשים, סימון ZC לספירת אפס ומסמך החומר והמסמך החשבונאי בתוצאה " +
+          "מופיעים בשתיהן באותו נוסח.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Options to Create or Schedule Physical Inventory Documents | Inventory Management and " +
+          "Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/3749ee0faf034bc292155c1d1f581cde.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 3749ee0faf034bc292155c1d1f581cde): 'SAP recommends that you use the following SAP " +
+          "Fiori apps'; Create Physical Inventory Documents (F3197) 'focuses on a limited number of documents to " +
+          "be created (no mass creation)', ו-Job Scheduling and Mass Processing - Physical Inventory (F4550) " +
+          "'focuses on a large number of documents to be created (mass creation), with several options for " +
+          "extensive process flow, like recurring time intervals, with or without printing'. בטבלת ההשוואה רק " +
+          "F4550 מסומנת 'Yes' לשורות 'Does the app support detailed scheduling functions?' ו-'Does the app " +
+          "support cycle counting?', ו-F4550 מסומנת 'No' לשורה 'Does the app support special stocks?'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Physical Inventory Documents | Inventory Management and Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/24177b5796d40322e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 24177b5796d40322e10000000a44147b): 'App ID: F0379A'; 'This app supports you, for " +
+          "example, as an inventory manager'; 'Initiate a recount or post action for a physical inventory " +
+          "document item directly. These actions are active for physical inventory documents with material items " +
+          "that are counted but not yet posted'; 'The app creates a new physical inventory document'; 'After " +
+          "posting the difference it is possible to navigate to the according material document'; 'you can add a " +
+          "reason when posting inventory differences'; 'mass posting'; 'you cannot mark individual items for " +
+          "deletion that have already been posted'; 'If at least one item was posted, the document will not be " +
+          "physically deleted because it is proof of the posting'; 'This app uses Situation Handling'. רשימת " +
+          "ההמשך בעמוד: Manage Physical Inventory Count, Create Physical Inventory Documents, Job Scheduling and " +
+          "Mass Processing - Physical Inventory, Physical Inventory Analysis, Cycle Counting - Classification " +
+          "(המקפים בשמות הוחלפו במקף רגיל).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F0379A 'Manage Physical Inventory Documents', release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0379A')/S32OP",
+        accessedAt: DATE,
+        claim: "scripts/fal-app.mjs F0379A: Transactional, Fact sheet / SAP Fiori elements, Published; תפקידים " +
+          "SAP_BR_INVENTORY_MANAGER, SAP_BR_INVENTORY_MGR_RFM, SAP_BR_WAREHOUSE_CLERK; intent " +
+          "PhysicalInventoryDocument-displayList; OData MM_IM_PHYS_INV_DOC_SRV; GUI מובילה MI03, קשורות MI06, " +
+          "MI07, MI11, MI20, MI24; קודמת F0379 'Physical Inventory'; המהדורה המוקדמת ברשימת המהדורות היא S6OP " +
+          "(1610).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F3197 'Create Physical Inventory Documents', release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3197')/S32OP",
+        accessedAt: DATE,
+        claim: "scripts/fal-app.mjs F3197: Transactional / SAP Fiori elements, Published; תפקידים " +
+          "SAP_BR_INVENTORY_MANAGER, SAP_BR_WAREHOUSE_CLERK (ומקביליהם ל-Retail); intent " +
+          "PhysicalInventoryDocument-createPhysicalInventoryDocuments; OData MM_IM_PHYS_INV_MASS_CREATE_SRV_01; " +
+          "GUI מובילה MI01. המהדורה המוקדמת ברשימת המהדורות היא S12OP (1809).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F5430 'Manage Physical Inventory Count', release S32OP (S/4HANA " +
+          "2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5430')/S32OP",
+        accessedAt: DATE,
+        claim: "scripts/fal-app.mjs F5430: Transactional / SAP Fiori (SAPUI5), Published; תפקידים " +
+          "SAP_BR_INVENTORY_MANAGER, SAP_BR_WAREHOUSE_CLERK; intent PhysicalInventoryDocument-manageCount; OData " +
+          "UI_PI_MANAGE_COUNT_V2; GUI מובילה MI04, קשורות MI05, MI09. המהדורה המוקדמת ברשימת המהדורות היא S21OP " +
+          "(2021).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F4550 'Job Scheduling and Mass Processing - Physical Inventory', " +
+          "release S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4550')/S32OP",
+        accessedAt: DATE,
+        claim: "scripts/fal-app.mjs F4550: Transactional / SAP Fiori: Generic Job Scheduling Framework, " +
+          "Published; תפקיד SAP_BR_INVENTORY_MANAGER; intent PhysicalInventoryDocumentJob-scheduleCreation; OData " +
+          "APJ_JOB_MANAGEMENT_SRV; GUI מובילה MI01, קשורות MI31, MIBC. המהדורה המוקדמת ברשימת המהדורות היא S18OP " +
+          "(2020).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App MI20 'Process Physical Inventory Count Results' (SAP GUI), release " +
+          "S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MI20')/S32OP",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת את MI20 כאפליקציה 'Process Physical Inventory Count " +
+          "Results' מסוג SAP GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. (אומת ברשומת " +
+          "tx:MI20)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App MI31 'Create PI Documents - Regular Stock' (SAP GUI), release " +
+          "S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MI31')/S32OP",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת את MI31 כאפליקציה 'Create PI Documents - Regular Stock' " +
+          "מסוג SAP GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. (אומת ברשומת tx:MI31)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App MI07 'Post Physical Inventory Document' (SAP GUI), release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MI07')/S32OP",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת את MI07 כאפליקציה 'Post Physical Inventory Document' מסוג " +
+          "SAP GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. (אומת ברשומת tx:MI07)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Physical Inventory - Inventory Count and Adjustment (BML) | What's New in SAP S/4HANA 2020",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/b96e1fbb26de4d87bce74ccd56621884.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio b96e1fbb26de4d87bce74ccd56621884): 'Scope Item BML ( Physical Inventory - " +
+          "Inventory Count and Adjustment )', 'Type Changed', 'Application Component MM-IM', 'Available As Of SAP " +
+          "S/4HANA 2020'. החידושים: ב-Create Physical Inventory Documents אפשר 'create physical inventory " +
+          "documents referring to a cycle counting indicator'; ב-Physical Inventory Document Overview 'the new " +
+          "situation template MAN_PHYSICAL_INVENTORY_MONITOR' ושתי פעולות חדשות (Recount ו-Post) 'active for " +
+          "physical inventory documents with material items that are counted but not yet posted'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "OData API: Physical Inventory Documents - Read, Create | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/45918eae47f14dfb85b466d3ae5c9dea.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE,
+        claim: "גוף העמוד (loio 45918eae47f14dfb85b466d3ae5c9dea): 'The OData API Physical Inventory Documents - " +
+          "Read, Create ( API_PHYSICAL_INVENTORY_DOC ) enables you to use a synchronous inbound service to read " +
+          "and create physical inventory documents. The service contains header entities and item entities, and " +
+          "now also serial number entities'; 'Scope Item BML ( Physical Inventory - Inventory Count and " +
+          "Adjustment ) OML ( Physical Inventory - Inventory Count and Adjustment )'; 'Application Component " +
+          "MM-IM-VDM-PI ( Inventory - Physical Inventory )'; 'Available As Of SAP S/4HANA 2021'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud " +
+          "Private Edition 2025 - Feature Pack Stack 1 · item 15.3.1 S4TWL - Data Model in Inventory Management " +
+          "(MM-IM), p. 1459",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE_TB_15,
+        claim: "פריט 15.3.1 ברשימת הפישוט של 2025 FPS1 (גרסת מסמך 1.36, עמ' 1459 ואילך, נקרא כטקסט מלא מקובץ " +
+          "ה-PDF) חוזר על אותו נוסח: מודל SAP ERP 6.0 מורכב מ-'MKPF for document header information and MSEG for " +
+          "document item data', וב-S/4HANA 'Material document data will be stored in MATDOC only and not anymore " +
+          "in MKPF and MSEG'. הטבלאות 'do still exist in S/4HANA as DDIC definition as well as database object', " +
+          "ובשורת MKPF שבטבלת הפריט רשומים NSDM_DDL_MKPF ו-NSDM_MIG_MKPF ועמודת תצוגת נתוני האב ריקה. הערת " +
+          "ה-Business Impact היא אותה הערה, 0002206980 בכותרת 'Material Inventory Managment: change of data model " +
+          "in S/4HANA'. רכיב היישום עודכן ל-MM-IM-GF-MIG לעומת MM-IM-GF ברשימת 2023 FPS3. (אומת ברשומת table:MKPF)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 · item 27.5 S4TWL - Data Model in Inventory " +
+          "Management (MM-IM), טבלת הטבלאות המושפעות ופרק התאמות הקוד",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE_TB_15,
+        claim: "אותו פריט מתאר את מנגנון התאימות: הטבלאות המנויות בו 'do still exist in S/4HANA as DDIC " +
+          "definition as well as database object', ולכל אחת מהן מוקצית תצוגת CDS כ-proxy object כך ש'each read " +
+          "access to one of the tables will get redirected in the database interface layer of NetWeaver to the " +
+          "assigned CDS view. Write accesses to those tables have to be adjusted'. בשורת MKPF (Material document " +
+          "header) שבטבלת הפריט רשומים DDL Source לתצוגת ההפניה NSDM_DDL_MKPF ותצוגה לקריאת תוכן הטבלה ללא ניתוב " +
+          "NSDM_MIG_MKPF, ועמודת תצוגת נתוני האב ריקה. הפריט מוסיף ש'the table MKPF and MSEG will not contain " +
+          "data anymore (except legacy data from migration)', שכתיבה לטבלה עדיין אפשרית טכנית אך 'such write " +
+          "operations are without any effect' ולכן יש להסירה מקוד הלקוח, ש'Write operations on table MATDOC and " +
+          "your moved customer append fields are done by class CL_NSDM_STOCK', ושיש להוסיף שדות מ-APPEND או " +
+          "INCLUDE של MKPF למבנה המשנה NSDM_S_HEADER בטבלת MATDOC. (אומת ברשומת table:MKPF)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving Material Documents (MM-IM) | Supply Chain",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/677f0a4e71d7487ebb70683014761789/75bcb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TB_01,
+        claim: "'There is a new single table MATDOC instead of the existing tables MKPF and MSEG'; מסמך חומר " +
+          "מורכב מרשומות MATDOC ומכיל 'a maximum 500 items' (כלשון העמוד). (אומת ברשומת table:MSEG)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deprecation of CDS Views | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/6eac4f4b1c024fc5a0d48c51ca66e83c.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE_TX_02,
+        claim: "עמוד What's New לגרסת SAP S/4HANA 2021 קובע: 'The following CDS views were deprecated in SAP " +
+          "S/4HANA 2021: Material Document Header (I_MaterialDocumentHeader) Material Document Item " +
+          "(I_MaterialDocumentItem)'. הסניפט מציב את I_MaterialDocumentItem_2 לצד I_MaterialDocumentItem, בנימוק " +
+          "'To improve the runtime performance and reduce the memory consumption in the database'. (אומת ברשומת " +
+          "cds:I_MaterialDocumentItem)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציה של הפרויקט (TX_INTEL), MI01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "תיאור הרשומה (ללא הבחנת צד): MI01 יוצרת מסמך ספירה (IKPF/ISEG) עם אפשרות posting block ו-freeze " +
+          "book inventory; זרימה MI01, MI04, MI20/MI07; חלופות: MICN/MI31 ל-batch creation, cycle counting " +
+          "(MIBC); לפני: MB52, MMBE; טבלאות IKPF, ISEG, MARD; BAPI_MATPHYSINV_CREATE ו-BAPI_MATPHYSINV_COUNT; " +
+          "שגיאות M7001 וחומר חסום לספירה; טעות: אי הפעלת posting block כשצריך freeze; users: מבקר מלאי, מחסנאי, " +
+          "צוות ספירה; אובייקטי הרשאה M_ISEG_WIB, M_ISEG_WZL, M_ISEG_WDB. צד S/4HANA (שדה s4): 'זמינה; Fiori " +
+          "Manage Physical Inventory Documents'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MI01",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציה של הפרויקט (TX_INTEL), MI04",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "תיאור הרשומה (ללא הבחנת צד): MI04 מזינה count results למסמך PI קיים ומחשבת אוטומטית את " +
+          "ה-difference מול book inventory; BAPI_MATPHYSINV_COUNT; שגיאות: מסמך כבר נספר, פריט חסר במסמך, zero " +
+          "count נדרש flag; טעות: שכחת סימון zero count לפריט בכמות 0; best practice: בדיקת MI20 לפני MI07, " +
+          "recount על פערים גדולים; users: צוות ספירה, מבקר מלאי, מחסנאי. צד S/4HANA (שדה s4): 'זמינה; Fiori " +
+          "Manage Physical Inventory'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MI04",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציה של הפרויקט (TX_INTEL), MI07",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "תיאור הרשומה (ללא הבחנת צד): MI07 רושמת הפרשי ספירה (701 עודף, 702 חוסר), מעדכנת MARD ויוצרת מסמך " +
+          "חומר ומסמך FI; דורשת ספירה (MI04) קודם; 'ניתן גם רישום מ-MI20 ישירות'; tolerance limits להרשאת רישום; " +
+          "BAPI_MATPHYSINV_POSTDIFF; טבלאות MATDOC, IKPF, ISEG, MKPF, MSEG, MARD; שגיאות: חריגה מ-tolerance " +
+          "limit, M7308 תקופה סגורה, מסמך טרם נספר, הפרש כבר נרשם; best practices: recount לפני post על פערים " +
+          "חריגים, הגדרת tolerance groups, תיעוד סיבת ההפרש; users: מבקר מלאי, מנהל מלאי, איש כספים; אובייקטי " +
+          "הרשאה M_ISEG_BWA, M_ISEG_WDB, M_MSEG_BWA; אחרי: MB51, FB03, MB52. צד S/4HANA: שדה s4 'זמינה; Fiori " +
+          "Manage Physical Inventory', ושדה s4Delta מצטט את פריט הפישוט 'S4TWL - DATA MODEL IN INVENTORY " +
+          "MANAGEMENT (MM-IM)' (2025 FPS01, 15.3.1): נתוני מסמך החומר נשמרים ב-MATDOC בלבד, ו-MKPF/MSEG נשארות " +
+          "כהגדרות DDIC.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MI07",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציה של הפרויקט (TX_INTEL), MB52",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "תיאור הרשומה: MB52 דוח מלאי רב-חומרי של כמות וערך (snapshot נוכחי; למלאי היסטורי MB5B), שימושי " +
+          "לספירות; טבלאות MARD, MCHB, MARC. צד S/4HANA (s4Delta): 'נשמרת ב-S/4HANA; חישובי המלאי מבוססים MATDOC. " +
+          "חלופות Fiori להצגת מלאי זמינות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MB52",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציה של הפרויקט (TX_INTEL), MMBE",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "תיאור הרשומה: MMBE סקירת מלאי היררכית של חומר לפי מפעל, מחסן ו-batch, עם הבחנה בין סוגי מלאי " +
+          "(unrestricted, quality inspection, blocked, in transit, restricted), לקריאה בלבד; התהליך: 'בדיקת " +
+          "זמינות מלאי לפני פליטה/הזמנה/ספירה'. צד S/4HANA (s4Delta): 'נשמרת ב-S/4HANA; חישובי מלאי מבוססים " +
+          "MATDOC'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MMBE",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג הטרנזקציות של הפרויקט, MI20",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הרשומה מתארת את MI20 כ-'עיבוד תוצאות ספירת מלאי' ('Process Physical Inventory Count Results'), " +
+          "מודול MM, תחום 'מלאי'. לפי הודעת commit 48e7d9ac הכותרת תוקנה לכותרת רשומת ה-GUI של MI20 בספריית " +
+          "האפליקציות (S32OP).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MI20",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג הטרנזקציות של הפרויקט, MI31",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הרשומה מתארת את MI31 כ-'קלט אצווה: יצירת מסמכי ספירת מלאי' ('Batch Input: Create Physical " +
+          "Inventory Documents'), מודול MM, תחום 'מלאי'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MI31",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת האימות של הפרויקט לטבלת MSEG",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        sapNote: "2206980",
+        accessedAt: DATE,
+        claim: "צד S/4HANA: הרשומה קובעת מעמד 'replaced' עם יורש obj:material-document; ברובד המאגר שלה, MSEG " +
+          "הופכת לתצוגת התאימות NSDM_V_MSEG (data/s4-impact.ts#MSEG), SUM מבצע את המרת MATDOC כ-Silent Data " +
+          "Migration, ופריט הפישוט 'Material Inventory Management - new data model (MATDOC)' מתועד עם SAP Note " +
+          "2206980. הרשומה מציינת ששם NSDM_V_MSEG ומספר ההערה נשארים ברובד המאגר.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verification/tables.ts#table:MSEG",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מיפוי הטבלאות הקלאסיות לתצוגות CDS בפרויקט, I_MaterialDocumentItem",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "המיפוי מקשר את I_MaterialDocumentItem ('פריטי מסמך חומר') לטבלאות MSEG, MKPF ו-MATDOC, לשכבת " +
+          "צריכה C_MaterialDocumentItem וליישום 'Material Documents Overview'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/cds-map.ts#I_MaterialDocumentItem",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין האובייקטים של הפרויקט (object-intel), MARD",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הרשומה מונה בין מי שמעדכן את MARD את 'ספירת מלאי (MI07)', בין התרחישים 'התאמת מלאי לאחר ספירה " +
+          "(Physical Inventory) המעדכנת LABST', ובין ההמלצות 'אל תעדכן יתרות MARD ישירות' ו-'בצע התאמות מלאי דרך " +
+          "מסמכי ספירה ולא בעדכון ישיר'. הרשומה אינה מבחינה בין ECC ל-S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/knowledge/object-intel.ts#MARD",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 3 בספריית הפרויקט (Sourcing and Procurement with SAP S/4HANA), פרק 7 'Inventory " +
+          "Management', סעיף 7.4 'Physical Inventory'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "כותרות הסעיפים: 7.4.1 Create Physical Inventory Documents, 7.4.2 Schedule Physical Inventory " +
+          "Document Creation, 7.4.3 Manage Physical Inventory Count, 7.4.4 Manage Physical Inventory Documents, " +
+          "7.4.5 Cycle Counting, Classification (סימן הפיסוק שבכותרת הוחלף בפסיק), 7.4.6 SAP GUI for HTML Apps. " +
+          "הטענה תחומה בכותרות; גוף הסעיפים לא צוטט.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book3.json#7.4",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 3 בספריית הפרויקט, סעיף 7.4.2 'Schedule Physical Inventory Document Creation'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הסעיף קיים בפרק 7 'Inventory Management' בכותרת 'Schedule Physical Inventory Document Creation'; " +
+          "הטענה תחומה בכותרת.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book3.json#7.4.2",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 3 בספריית הפרויקט, סעיף 7.6.5 'Physical Inventory' (תחת 7.6 'Configuring Inventory " +
+          "Management')",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הסעיף קיים בפרק 7 'Inventory Management' תחת 7.6 'Configuring Inventory Management', בכותרת " +
+          "'Physical Inventory'; הטענה תחומה בכותרת, וגוף הסעיף לא צוטט.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book3.json#7.6.5",
+      },
+    ],
+    lastVerifiedAt: DATE,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    notes: "טיוטה מחודשת אחרי סירוב 2026-09-24: משפט הניתוב לתצוגת CDS והכתיבה חסרת ההשפעה מיוחס עכשיו רק לפריט " +
+      "27.5 ברשימת הפישוט 2023 FPS03, שהועתק מילה במילה מרשומת table:MKPF; שורת 2025 FPS01 (פריט 15.3.1) מצוטטת " +
+      "רק לקיום הטבלאות כהגדרת DDIC ולשמירה ב-MATDOC. סתירה בשם MI20: טבלת הפעולות בעמוד 'Physical Inventory " +
+      "(MM-IM)' (SAP ERP 6.0 EHP8 ו-S/4HANA 2025 FPS01) קוראת לה 'Print List of Differences', ספריית האפליקציות " +
+      "(S32OP) רושמת אותה כ-'Process Physical Inventory Count Results', וקטלוג הטרנזקציות של הפרויקט אימץ את שם " +
+      "הספרייה (Old: Print List of Differences, New: Process Physical Inventory Count Results, commit 48e7d9ac); " +
+      "באותו עמוד MI07 היא 'Process List of Differences' והספרייה רושמת אותה כ-'Post Physical Inventory " +
+      "Document'. הכרעה דורשת פתיחת MI20 במערכת. scope item: BML מודפס בשתי רשומות What's New (2020, 2021) ו-OML " +
+      "ברשומת 2021; לא נבדק מול SAP Best Practices Explorer, ורשומות What's New אינן מתעדות את מצבו בגרסה 2025. " +
+      "IKPF, ISEG ו-MATDOC אינן במילון האובייקטים של הפרויקט; BAPI_MATPHYSINV_CREATE, BAPI_MATPHYSINV_COUNT " +
+      "ו-BAPI_MATPHYSINV_POSTDIFF אינם במילון הפונקציות; F0379A, F3197, F4550 ו-F5430 אינם בקטלוג " +
+      "data/fiori/apps.ts; MI08, MI10, MI11 ו-MICN אינם במילון הטרנזקציות; לכן כולם בפרוזה בלבד. שדה kpis הושמט: " +
+      "אף מקור שנקרא אינו מגדיר מדד לתהליך. לא אותרה במאגר תקרית troubleshooting לתהליך הספירה. מעמד S/4HANA של " +
+      "MI20 ו-MI31 לא נקבע ממקור רשמי. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 ];
