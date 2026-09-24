@@ -228,20 +228,18 @@ const stdoutMatch = (id, re) => (runs[id]?.stdout || "").match(re)?.[0] ?? null;
 const NOT_MEASURABLE = {
   INS: "guidance row (הנחיות לקלוד), nothing to measure",
   SCOPE: "scope row, nothing to measure",
-  KEEP: "preserve row, nothing to measure",
   PRIO: "priority row mapped to S-rows, nothing to measure",
 };
 const NM_ROWS = {
   "S12-R1": "round summary row (commit references)", "S12-R2": "round summary row (commit references)", "S12-R3": "round summary row", "S12-REC": "round summary row",
   "S7-3D-1": "no 3D view in this repo; the Preview is blocked by Vercel Authentication",
   "S7-AI-6": "manual live AI test (paid external service), by design not automated",
-  "S7-LIB-1": "preserve row (frozen Library surface)",
   "S8-2": "product/dataset decision (NOT_IN_DATASET), nothing to measure",
 };
 
 // Measured rows: id → scripts (run ids) + test(): [pass, evidence].
 const XC = (id) => () => { const v = J("astra-extra-check")?.[id]; const { ok, ...d } = v || {}; return [!!ok, v ? JSON.stringify(d).slice(0, 400) : "no result"]; };
-const EXTRA = ["SAP-1", "SAP-2", "SAP-3", "SAP-4", "SAP-5", "SAP-6", "SAP-7", "SAP-8", "S9-1", "S11-1", "S11-2", "S11-3", "S11-4", "S11-5", "APPX-4", "S7-ERD-2", "S7-CAT-4", "S7-CAT-8", "S7-HOME-3", "S7-AI-3", "S7-LIB-3", "ACC-6"];
+const EXTRA = ["SAP-1", "SAP-2", "SAP-3", "SAP-4", "SAP-5", "SAP-6", "SAP-7", "SAP-8", "S9-1", "S11-1", "S11-2", "S11-3", "S11-4", "S11-5", "APPX-4", "S7-ERD-2", "S7-CAT-4", "S7-CAT-8", "S7-HOME-3", "S7-AI-3", "S7-LIB-3", "ACC-6", "KEEP-1", "KEEP-2", "KEEP-3", "KEEP-4", "KEEP-5", "KEEP-6", "S7-LIB-1"];
 const ROWS = {
   ...Object.fromEntries(EXTRA.map((id) => [id, { scripts: ["astra-extra-check"], test: XC(id) }])),
   "S7-TBL-3": { via: "S9-1" },

@@ -3,7 +3,8 @@
 // S7-ERD-2, APPX-4), the SAP fact rows (SAP-1..8, strings from SAP-FIXES.md),
 // catalog order (S7-CAT-4/8), the ACC-6 bridge, "continue reading" (S7-LIB-3),
 // the AI limits column (S7-AI-3), the home opener (S7-HOME-3) and the
-// build-explanation string scan (S9-1, S7-TBL-3). Prints JSON; exit 1 on failure.
+// build-explanation string scan (S9-1, S7-TBL-3) and the preserve rows
+// (KEEP-1..6, S7-LIB-1). Prints JSON; exit 1 on failure.
 import { chromium } from "playwright-core";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
@@ -225,6 +226,45 @@ const desk = async (w = 1363, h = 936, extra = {}) => {
   const after = await resume();
   check("S7-LIB-3", before === 0 && after.length >= 1 && after.some((a) => a.primary) && fresh.errs.length === 0, { freshProfile: before, afterReadingBook2: after, consoleErrors: fresh.errs.length });
   await fresh.ctx.close();
+}
+
+/* ------------------------------------------------ KEEP-1..6, S7-LIB-1: what the audit asked to preserve */
+{
+  const { ctx, page, errs } = await desk();
+  await page.goto(base + "/neo/", { waitUntil: "networkidle" });
+  const k1 = await page.evaluate(() => {
+    // any CSS colour (rgb(), color(srgb …), oklch …) → RGBA bytes through a 1×1 canvas
+    const cv = document.createElement("canvas"); cv.width = cv.height = 1; const x = cv.getContext("2d", { willReadFrequently: true });
+    const rgba = (c) => { x.clearRect(0, 0, 1, 1); x.fillStyle = "#000"; x.fillStyle = c; x.fillRect(0, 0, 1, 1); const d = x.getImageData(0, 0, 1, 1).data; return [d[0], d[1], d[2], d[3] / 255]; };
+    // the colour a reader sees: composite each translucent layer over what is behind it
+    const seen = (el) => { const layers = []; for (let e = el; e; e = e.parentElement) layers.push(rgba(getComputedStyle(e).backgroundColor)); let out = [255, 255, 255]; for (const [r, g, bl, al] of layers.reverse()) out = [r * al + out[0] * (1 - al), g * al + out[1] * (1 - al), bl * al + out[2] * (1 - al)]; return out.map(Math.round); };
+    const canvas = seen(document.querySelector(".nx-canvas") || document.body);
+    const card = document.querySelector(".nh-mod");
+    return { brand: getComputedStyle(document.documentElement).getPropertyValue("--brand").trim(), canvas, card: card ? seen(card) : null };
+  });
+  const lum = (c) => (0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]) / 255;
+  check("KEEP-1", k1.brand.toLowerCase() === "#d62027" && k1.canvas[0] > k1.canvas[2] && lum(k1.canvas) > 0.85 && !!k1.card && lum(k1.card) > 0.8, { ...k1, warm: k1.canvas[0] - k1.canvas[2], canvasLum: +lum(k1.canvas).toFixed(3), cardLum: k1.card ? +lum(k1.card).toFixed(3) : null });
+  await page.goto(base + "/neo/tables/AFKO/", { waitUntil: "networkidle" });
+  const t = await page.evaluate(() => {
+    const h1 = document.querySelector("h1"); const head = h1?.closest("header") || h1?.parentElement;
+    const sec = (id) => { const el = document.getElementById(id); return el ? el.querySelectorAll("a[href]").length : -1; };
+    // documentation: the record itself sits inline in its own section; the books
+    // and references section links out to the chapters that document the table
+    return { h1: (h1?.textContent || "").trim().slice(0, 40), headHebrew: /[\u0590-\u05FF]{3}/.test(head?.innerText || ""), links: { rel: sec("nxb-rel"), tx: sec("nxb-tx"), if: sec("nxb-if"), books: sec("nxb-books") }, docRecordChars: (document.getElementById("nxb-own")?.innerText || "").trim().length };
+  });
+  check("KEEP-2", /AFKO/.test(t.h1) && t.headHebrew, { h1: t.h1, hebrewInHeader: t.headHebrew });
+  check("KEEP-3", Object.values(t.links).every((n) => n > 0) && t.docRecordChars > 0, { linksPerSection: t.links, docRecordChars: t.docRecordChars });
+  await page.goto(base + "/neo/object/MARA/", { waitUntil: "networkidle" });
+  const k4 = await page.evaluate(() => ({ lanes: document.querySelectorAll(".nol-lane").length, nodes: document.querySelectorAll(".nol-n").length, unstatedCards: document.querySelectorAll('[data-card="unstated"]').length }));
+  check("KEEP-4", k4.lanes >= 3 && k4.nodes > 0, k4);
+  await page.goto(base + "/neo/transactions/IP30/", { waitUntil: "networkidle" });
+  const k5 = await page.evaluate(() => { const b = document.querySelector(".nev"); return b ? { block: true, status: (b.querySelector(".nu-status")?.textContent || "").trim().slice(0, 40), sources: b.querySelectorAll(".nev-src li").length, needsFlag: b.querySelector("[data-needs]")?.getAttribute("data-needs") ?? null } : { block: false }; });
+  check("KEEP-5", k5.block && !!k5.status && k5.sources > 0, k5);
+  await page.goto(base + "/neo/books/", { waitUntil: "networkidle" });
+  const k6 = await page.evaluate(() => { const c = [...document.querySelectorAll(".nb-cov")].filter((e) => e.getBoundingClientRect().height > 0); return { covers: c.length, depth: document.querySelectorAll(".nb-cov-3d, .nb-cov-edge").length }; });
+  check("KEEP-6", k6.covers >= 11 && k6.depth > 0 && errs.length === 0, { ...k6, consoleErrors: errs.length });
+  check("S7-LIB-1", k6.covers >= 11 && k6.depth > 0, k6);
+  await ctx.close();
 }
 
 /* ------------------------------------------------ ACC-6 bridge on the legacy shell */
