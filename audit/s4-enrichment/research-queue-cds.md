@@ -274,3 +274,77 @@ field. The catalog was already graduated, so `test/evidence-schema.test.ts` need
 - `cds:I_ProductionOrderOperation`: the documented name is still `I_ProductionOrderOperation_2`. The new row (loio `b23319e138664f8b85a1a26de7ef3fed`, snippet only, body not read) names the OData entity `A_ProductionOrderOperation_2` and the extensibility data source `I_PRODUCTIONORDEROPERATIONTP`; how that TP view relates to the VDM views is open. The batch 2 items stand.
 - `cds:I_MaintenanceOrder`: the negative finding held for six more queries (On-Premise across versions, Public Cloud 2608.500) and for the 2025 FPS01 What's New body, which lists only new and changed views and so settles nothing about an older view. `I_MaintenanceOrderBasic` (Public Cloud) is carried from 2026-09-02/05; no 2026-09-24 result set prints it. The `pm-generated.ts` trust-label item from batch 1 stands.
 - `cds:I_MaintenanceNotification`: `status.source` moved from `MAINT_MGMT_DEVEXT_WN2025_NOTIF` to `null` (valid for `verification_required`, disclosed Old → New). The F1511 `API_MAINTENANCENOTIFICATION` vs official `API_MAINTNOTIFICATION` drift remains for the Fiori catalog; the 2025.001 Extensibility snippet spells the entity `A_MAINTENANCENOTIFICATION`.
+
+---
+
+# Batch 7 · 2026-09-24 (re-verification of I_MaintNotificationItem, I_MRPMaterial, I_RoutingOperationComponent, I_BillOfMaterialItemAssgmt)
+
+4 drafts audited, **4 written** into `data/verification/cds.ts` (`DATE24`), 0 refuted. All four
+ids already existed, so each was merged in place over its own record (no new id, no duplicate).
+`cds:I_MaintNotificationItem` and `cds:I_MRPMaterial` were written from their auditors'
+`fixedRecord`. The other two verdicts carried no `fixedRecord`; they were re-derived from the
+repair-round drafts with every listed downgrade applied:
+
+- `cds:I_MaintNotificationItem`: the shared const `NOTIF_ITEM_DATA_VDM` (its only user was this
+  record) was folded into evidence[0] and deleted; all four rows re-stamped `DATE24`; the
+  What's New 2025 row now quotes the page body of loio `e666a336` (TP_2 Deprecated, successor
+  TP_3), read by the auditor through `scripts/sap-help-body.mjs`; `status.release`
+  `2023.latest` → `null` and `status.source` → `null`; אחזקה → תחזוקה across the record; the
+  2026-09-02 notes are kept verbatim as the Old block (terminology fix only).
+- `cds:I_MRPMaterial`: evidence[0] reworded (no "only"); rows 1 to 3 byte-identical, U+200F marks
+  kept; every `accessedAt` stays `DATE14`; the DATE14 notes are kept verbatim and the 2026-09-24
+  paragraph (per-query hit counts, index page f458e8c9 body = title only) is appended; no status.
+- `cds:I_RoutingOperationComponent`: new negative-search row (`DATE24`) as evidence[1], with the
+  Public Cloud count written as a range (9 to 11 in same-day runs); the re-check sentences of the
+  VDM row (47002fa3) and the What's New row (0321ee78) now name what the current snippet shows
+  instead of "ותחילת הסניפט זהה"; those rows keep `DATE15`; status and xrefs unchanged.
+- `cds:I_BillOfMaterialItemAssgmt`: now carries an authored `verification_required` status
+  (release null, source null) and a fifth row, the body of the What's New 2025 BOM page (loio
+  `c4aa65d5`, deliverable 39283979, `DATE24`); the em dashes in the repository row's quoted
+  template strings became colons (disclosed in the claim); "מחברי" removed from the notes.
+
+Writer-side deviations, all disclosed in the records:
+
+1. No `reviewer` field: the `fixedRecord` of I_MaintNotificationItem ("sap-hq-researcher") and the
+   I_RoutingOperationComponent draft ("researcher-subagent") carried one. No overlay record in
+   `data/verification/**` has one, the evidence block would print it as "סוקר", and this batch's
+   I_BillOfMaterialItemAssgmt verdict removed the same field for that reason.
+2. `cds:I_BillOfMaterialItemAssgmt` notes: the draft rewrote the 2026-09-15 notes and dropped findings
+   (the table:MAST cross-check of 2026-09-07, the Production Routing Material Assignment topic loio
+   `81c41224038545279b9ddb5d331d057c`, the Hebrew-name ambiguity, the derived-status explanation via
+   `lib/evidence/s4-status.ts`). HOUSE-RULES §3.8: the 2026-09-15 notes are kept verbatim as
+   "Old (2026-09-15)", and one Old → New sentence records what changed (derived status replaced by
+   the authored one; the "I_MaterialBOMLink covers MAST" wording replaced by a match by attributes;
+   the JS-shell remark valid for 2026-09-15 only).
+3. `cds:I_MaintNotificationItem` notes: the auditor's "source=null" sentence said the status
+   "remains" at source null, but the record had `source` = the 783484db VDM row and release
+   `2023.latest`; it now reads as an Old → New change. A second Old → New sentence keeps the
+   2026-09-02 evidence details that the 2026-09-24 wording no longer carries ('modeled for usage as
+   a DataSource in Business Warehouse' and the business-object basis, 783484db; the
+   I_MaintNotifItemActivityTP_2 / I_MaintenanceNotificationTP_2 replacements and 'stable
+   interface', e666a336; 'is built using the CDS views ... SADL', f430cbb1), quoted from the
+   2026-09-02 claims. Two U+200F marks were re-inserted where the 2026-09-02 claims had them.
+4. `cds:I_MRPMaterial` notes: the label "עדכון DATE24 (2026-09-24):" became "עדכון 2026-09-24:"
+   (a code constant name does not belong in user-facing copy). No claim changed.
+5. `gaps` is not a `VerificationRecord` field; the open items are listed below, with the auditor's
+   wording fix for I_MRPMaterial gaps[1] (title-only body, not a JavaScript shell).
+
+Gates: `tsc --noEmit` 0; `tsc -p tsconfig.test.json` 0; `npm test` 211/211;
+`report:coverage --catalog cds`: before 39 rows (L2 11, L3 3, L4 2, L5 23, verified 37,
+verif.req 2, s4-applicable 28, edition-specific 13); after 39 rows (L2 12, L3 2, L4 2, L5 23,
+verified 38, verif.req 1, s4-applicable 27, edition-specific 13). The only per-id change is
+`cds:I_BillOfMaterialItemAssgmt`: depth 3 → 2, level verification_required → sap_official_verified,
+status s4_native (derived from the repository "verified" flag) → verification_required (authored).
+A structural diff against HEAD shows the other 35 records deep-equal. The catalog was already
+graduated, so `test/evidence-schema.test.ts` needed no change.
+
+## refuted
+
+- (none in this batch.)
+
+## conflicts
+
+- `cds:I_MaintNotificationItem`: still no official record prints the exact name (four On-Premise queries on 2026-09-24; 'I_MaintNotificationItem' returned 21 records, none naming it). Documented: I_MaintNotificationItemData (BW extraction, Released), I_MaintNotificationItemTP_3 (successor of the Deprecated TP_2, now body-confirmed), the OData entity A_MaintNotificationItem. The fields and associations in `data/cds-enrichment.ts` stay textual-only. The F1511 OData-name drift from batch 1 stands; the OData naming against `fiori:F4604` was not re-checked this round.
+- `cds:I_MRPMaterial`: no record prints I_MRPMaterial in its title or snippet across four queries on 2026-09-24 (On-Premise 21, SAP_S4HANA_CLOUD 8, 'I_MRPMaterial CDS View Name' 21, 'CDS Views for Material Requirements Planning' 21). The index page 'CDS Views for Material Requirements Planning' (loio `f458e8c9ad1848139b707e856bea1595`, 2023.latest): the body pulled through `scripts/sap-help-body.mjs` (deliverable 39118365) returned the title only, no view list, so it neither confirms nor rules out the name; next step: the topic tree of that page, or View Browser. Still open from batch 2: `data/cds-enrichment.ts` "verified" with URL-less sources vs the official I_ProductMRPArea / I_PRODUCTPLANTMRP; perfNotes F0247 vs the dataset's F0247A; C_MaterialCoverageNetwork and C_MRPMaterials unconfirmed.
+- `cds:I_RoutingOperationComponent`: same negative finding on 2026-09-24 (five queries). The Public Cloud exact-name count moved between same-day runs (9, 10, 11), so the record gives a range. The auditor noted that the current DEX-query snippet of the What's New row (0321ee78) does not begin with the 2026-09-15 quote 'New CDS views were released for Production Engineering under the Basic Routing Data area'; the pairing with I_ProdnRoutingCompAllocDEX and 'Technical Details Type New Functional Localization No localization' were found again. A later pass may re-read that page body. The batch 3 items stand.
+- `cds:I_BillOfMaterialItemAssgmt`: the base-table conflict stands (`data/cds-map.ts` MAPL vs `data/cds-enrichment.ts` MAST); no official source settles it. The I_MaterialBOMLink ↔ MAST link is an inference from its attributes (snippet names no table, body not read). The TOC page 'CDS Views for Bills of Material' (loio `66366bf1430f419c840161b4645e823d`) returned a title-only body. Maintain Bill of Material (F1813) is in `data/centers/fiori.ts` but not in `data/fiori/apps.ts`, so no Fiori xref. No live ADT or SE11 check (the sc4sap MCP did not connect).

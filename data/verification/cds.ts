@@ -36,7 +36,16 @@
    merged in place; earlier findings stay in notes (Old → New). Two more body
    exceptions, both read through scripts/sap-help-body.mjs: WORKCENTER_VDM_2023
    (loio c90e05a7) and the What's New 2025 FPS01 row of cds:I_MaintenanceOrder
-   (loio d118d076). */
+   (loio d118d076).
+   Batch 7 (2026-09-24, DATE24): I_MaintNotificationItem, I_MRPMaterial,
+   I_RoutingOperationComponent and I_BillOfMaterialItemAssgmt re-verified and
+   re-audited, merged in place; earlier findings stay in notes (Old → New).
+   cds:I_BillOfMaterialItemAssgmt now carries an authored verification_required
+   status; the shared const NOTIF_ITEM_DATA_VDM was folded into its only record,
+   whose status.source is now null. Two more body exceptions, both read through
+   scripts/sap-help-body.mjs: the What's New 2025 Maintenance Management row of
+   cds:I_MaintNotificationItem (loio e666a336) and the What's New 2025 BOM row of
+   cds:I_BillOfMaterialItemAssgmt (loio c4aa65d5). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE2 = "2026-09-02";
@@ -99,25 +108,6 @@ const MAINT_MGMT_DEVEXT_WN2025_NOTIF: Evidence = {
     "Maintenance Notification - TP I_MaintenanceNotificationTP_3 New This view retrieves the details of a " +
     "mainteance notification' [כך במקור], לצד I_MaintNotificationItemTP_3 ו-I_MaintNotifItemCauseTP_3. השם " +
     "I_MaintenanceNotification עצמו אינו מופיע ברשומת החיפוש של עמוד זה.",
-  verificationLevel: "sap_official_verified",
-};
-
-/** cds:I_MaintNotificationItem: the official record that carries its authored status. */
-const NOTIF_ITEM_DATA_VDM: Evidence = {
-  sourceType: "sap_help",
-  sourceTitle: "Maintenance Notification Item Data | Virtual Data Model and CDS Views",
-  product: "SAP S/4HANA",
-  edition: "on-premise",
-  release: "2023.latest",
-  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/783484db9722497c9b6488640dd31544.html?locale=en-US&state=PRODUCTION&version=2023.latest",
-  accessedAt: DATE2,
-  claim:
-    "תצוגת ה-VDM המתועדת לפריט הודעת אחזקה נקראת I_MaintNotificationItemData, לא I_MaintNotificationItem: " +
-    "'CDS View Name I_MaintNotificationItemData Data Category Fact Status Released', חילוץ דלתא לפי השדה " +
-    "LastChangeDateTime, מקור נתונים תואם 0I_MAINTNOTIFICATIONITEMDATA, והיא 'modeled for usage as a " +
-    "DataSource in Business Warehouse'. התצוגה בנויה על האובייקטים העסקיים Maintenance notification item, " +
-    "Maintenance notification ו-Linear Asset Management, ואינה מכילה חלק מהשדות של הודעות שירות (כלשון " +
-    "הסניפט).",
   verificationLevel: "sap_official_verified",
 };
 
@@ -886,40 +876,37 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
   {
     id: "cds:I_MaintNotificationItem",
     evidence: [
-      NOTIF_ITEM_DATA_VDM,
       {
         sourceType: "sap_help",
-        sourceTitle:
-          "Objects Released for Developer Extensibility in Maintenance Management | What's New in SAP S/4HANA and " +
-          "SAP S/4HANA Cloud Private Edition 2025",
+        sourceTitle: "Maintenance Notification Item Data | Virtual Data Model and CDS Views",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/783484db9722497c9b6488640dd31544.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE24,
+        claim: "העמוד מתעד תצוגת VDM לפריט הודעת תחזוקה בשם I_MaintNotificationItemData: הסניפט קובע 'CDS View Name I_MaintNotificationItemData Data Category Fact Status Released', חילוץ דלתא לפי השדה LastChangeDateTime, ו-DataSource תואם 0I_MAINTNOTIFICATIONITEMDATA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Objects Released for Developer Extensibility in Maintenance Management | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/e666a33610e6491f9d800882be108d02.html?locale=en-US&state=PRODUCTION&version=2025.000",
         product: "SAP S/4HANA",
         edition: "on-premise",
         release: "2025.000",
-        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/e666a33610e6491f9d800882be108d02.html?locale=en-US&state=PRODUCTION&version=2025.000",
-        accessedAt: DATE2,
-        claim:
-          "ב-SAP S/4HANA 2025 שוחררה ל-Developer Extensibility תצוגת CDS חדשה לפריט הודעת אחזקה בשם " +
-          "I_MaintNotificationItemTP_3‏ ('Maintenance Notification Item - TP', New, 'This view retrieves the " +
-          "details of a mainteance notification item' כלשון הסניפט), לצד I_MaintNotifItemCauseTP_3 " +
-          "ו-I_MaintNotifItemActivityTP_3. באותו עמוד מסומנת התצוגה הקודמת I_MaintNotificationItemTP_2 " +
-          "כ-Deprecated: 'has been deprecated and replaced with the successor view I_MaintNotificationItemTP_3' " +
-          "(וכך גם I_MaintNotifItemActivityTP_2 ו-I_MaintenanceNotificationTP_2 מול TP_3). העמוד מציג את " +
-          "האובייקטים המשוחררים כ-'stable interface' לבניית הרחבות, שירותים ואפליקציות Fiori עם ABAP Cloud ו-RAP.",
+        accessedAt: DATE24,
+        claim: "ב-SAP S/4HANA 2025 שוחררה ל-Developer Extensibility תצוגת CDS חדשה לפריט הודעת תחזוקה בשם I_MaintNotificationItemTP_3‏ ('Maintenance Notification Item - TP', New, 'This view retrieves the details of a mainteance notification item' כלשון העמוד), לצד I_MaintNotifItemCauseTP_3 ו-I_MaintNotifItemActivityTP_3. באותו עמוד מסומנת I_MaintNotificationItemTP_2 כ-Deprecated: 'has been deprecated and replaced with the successor view I_MaintNotificationItemTP_3' (גוף העמוד נקרא דרך scripts/sap-help-body.mjs ב-2026-09-24).",
         verificationLevel: "sap_official_verified",
       },
       {
         sourceType: "sap_help",
         sourceTitle: "Maintenance Notification | APIs for Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/f430cbb1950c4880810e27a8308db301.html?locale=en-US&state=PRODUCTION&version=2023.latest",
         product: "SAP S/4HANA",
         edition: "on-premise",
         release: "2023.latest",
-        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/f430cbb1950c4880810e27a8308db301.html?locale=en-US&state=PRODUCTION&version=2023.latest",
-        accessedAt: DATE2,
-        claim:
-          "ה-OData API להודעת אחזקה חושף ישות פריט הודעה A_MaintNotificationItem‏ ('Allows you to create, read, " +
-          "and update a notification item') עם ניווטים to_ItemCause ו-to_ItemActivity, והשירות 'is built using the " +
-          "CDS views based on notification, notification item, notification item cause, notification item activity " +
-          "and partner data via gateway service builder and SADL'. שם תצוגת ה-CDS שמאחורי הישות אינו נקוב בסניפט.",
+        accessedAt: DATE24,
+        claim: "ה-OData API להודעת תחזוקה חושף ישות פריט הודעה A_MaintNotificationItem‏ ('Allows you to create, read, and update a notification item', לפי הסניפט) עם ניווטים to_ItemActivity ו-to_ItemCause. שם תצוגת ה-CDS שמאחורי הישות אינו נקוב בסניפט.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -927,57 +914,37 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         sourceTitle: "רשומת ההעשרה של תצוגות ה-CDS בפרויקט",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE2,
-        claim:
-          "ההעשרה מתארת את I_MaintNotificationItem כתצוגת Interface (Basic) מעל QMFE, עם מפתח הודעה + מספר פריט " +
-          "ואסוציאציות _MaintenanceNotification ו-_MaintNotifItemCause. הרשומה מסומנת במאגר כמאומתת, אך מקורותיה " +
-          "טקסטואליים בלבד וללא קישור רשמי; מיפוי הפרויקט (data/cds-map.ts) מקשר את התצוגה לטבלת QMFE במודול PM.",
+        accessedAt: DATE24,
+        claim: "ההעשרה מתארת את I_MaintNotificationItem כתצוגת Interface (Basic) מעל QMFE, עם מפתח הודעה + מספר פריט ואסוציאציות _MaintenanceNotification ו-_MaintNotifItemCause. הרשומה מסומנת במאגר כמאומתת, אך מקורותיה טקסטואליים וללא קישור רשמי; מיפוי הפרויקט (data/cds-map.ts) מקשר את התצוגה לטבלת QMFE במודול PM.",
         verificationLevel: "repository_verified",
         repoRef: "data/cds-enrichment.ts#I_MaintNotificationItem",
       },
     ],
     status: {
       status: "verification_required",
-      he:
-        "פריט הודעת אחזקה (תחזוקת מפעל) ברובד ה-VDM, מעל טבלת QMFE. תיעוד SAP Help אינו נוקב בתצוגה בשם " +
-        "I_MaintNotificationItem: השמות המתועדים הם I_MaintNotificationItemData (תצוגת חילוץ ל-BW בסטטוס " +
-        "Released) ו-I_MaintNotificationItemTP_3 (שוחררה ל-Developer Extensibility ב-2025 כיורשת של " +
-        "I_MaintNotificationItemTP_2 שסומנה Deprecated), וה-OData API בנוי על תצוגות CDS לפריט הודעה שלא נקובות " +
-        "בשם. קיומה של תצוגה בשם המדויק הזה, סטטוס השחרור שלה ורשימת השדות והאסוציאציות שברשומת ההעשרה דורשים " +
-        "אימות במערכת.",
+      he: "פריט הודעת תחזוקה (תחזוקת מפעל) ברובד ה-VDM, מעל טבלת QMFE. בחיפושים שהורצו ב-help.sap.com לא נמצא עמוד שכותרתו או הסניפט שלו נוקבים בשם I_MaintNotificationItem; השמות המתועדים הם I_MaintNotificationItemData (תצוגת חילוץ ל-BW בסטטוס Released) ו-I_MaintNotificationItemTP_3 (שוחררה ל-Developer Extensibility ב-2025 כיורשת של I_MaintNotificationItemTP_2 שסומנה Deprecated), וה-OData API חושף ישות A_MaintNotificationItem. קיומה של תצוגה בשם המדויק הזה, סטטוס השחרור שלה ורשימת השדות והאסוציאציות שברשומת ההעשרה דורשים אימות במערכת.",
       edition: "on-premise",
-      release: "2023.latest",
-      source: NOTIF_ITEM_DATA_VDM,
-      recommendedAction:
-        "לפני שימוש בשם I_MaintNotificationItem בקוד או במסמך אפיון: לאמת במערכת S/4HANA (SE11 או ADT, " +
-        "ואפליקציית View Browser) שהתצוגה קיימת בשם זה ומה סטטוס השחרור שלה (Released / Released for Developer " +
-        "Extensibility). לחילוץ ל-BW ולדיווח אנליטי על פריטי הודעה להעדיף את התצוגה המתועדת " +
-        "I_MaintNotificationItemData; להרחבות ABAP Cloud ו-RAP ב-2025 ומעלה לבדוק את " +
-        "I_MaintNotificationItemTP_3; לקריאה ועדכון של פריטי הודעה מחוץ למערכת להשתמש ב-OData API המתועד (ישות " +
-        "A_MaintNotificationItem). את רשימת השדות והאסוציאציות שברשומת ההעשרה יש לאמת מול ה-DDL בפועל ולא להעתיק " +
-        "כמות שהיא.",
+      release: null,
+      source: null,
+      recommendedAction: "לפני שימוש בשם I_MaintNotificationItem בקוד או במסמך אפיון: לאמת במערכת S/4HANA (SE11 או ADT, ואפליקציית View Browser) שהתצוגה קיימת בשם זה ומה סטטוס השחרור שלה. לחילוץ ל-BW ולדיווח אנליטי על פריטי הודעה להעדיף את התצוגה המתועדת I_MaintNotificationItemData; להרחבות ABAP Cloud ו-RAP ב-2025 ומעלה לבדוק את I_MaintNotificationItemTP_3; לקריאה ועדכון של פריטי הודעה מחוץ למערכת להשתמש ב-OData API המתועד (ישות A_MaintNotificationItem). את רשימת השדות והאסוציאציות שברשומת ההעשרה יש לאמת מול ה-DDL בפועל ולא להעתיק כמות שהיא.",
     },
     xrefs: [
-      "table:QMFE", "table:QMEL", "table:QMUR", "table:QMMA", "cds:I_MaintenanceNotification",
-      "cds:I_MaintNotifActivity", "tx:IW22", "tx:IW23", "tx:IW66", "tx:IW69", "fm:NOTIF_ITEM_READ",
-      "fm:BAPI_ALM_NOTIF_GET_DETAIL", "fiori:F4604",
+      "table:QMFE",
+      "table:QMEL",
+      "table:QMUR",
+      "table:QMMA",
+      "cds:I_MaintenanceNotification",
+      "cds:I_MaintNotifActivity",
+      "tx:IW22",
+      "tx:IW23",
+      "tx:IW66",
+      "tx:IW69",
+      "fm:NOTIF_ITEM_READ",
+      "fm:BAPI_ALM_NOTIF_GET_DETAIL",
+      "fiori:F4604",
     ],
-    lastVerifiedAt: DATE2,
-    notes:
-      "שלוש רשומות רשמיות מתארות תצוגות CDS לפריט הודעת אחזקה, אך אף אחת מהן אינה נוקבת בשם " +
-      "I_MaintNotificationItem: התצוגה המתועדת לחילוץ היא I_MaintNotificationItemData (מוזכרת גם ב-What's New " +
-      "1809 תחת 'CDS Views for BW Extraction' באותיות רישיות), והתצוגה שנפתחה ל-Developer Extensibility ב-2025 " +
-      "היא I_MaintNotificationItemTP_3, שהחליפה את I_MaintNotificationItemTP_2 שסומנה Deprecated באותו עמוד. " +
-      "גוף עמודי ה-Help אינו נגיש לכלי (מעטפת JavaScript), ולכן כל ציטוט מוגבל לכותרת ולסניפט של שירות החיפוש; " +
-      "חיפוש מוגבל-דומיין ב-help.sap.com לא החזיר עמוד שכותרתו או הסניפט שלו נוקבים בשם המדויק. שכבת המאגר " +
-      "(data/cds-enrichment.ts, data/cds-map.ts, data/tx-intel.ts ברשומות IW66 ו-IW69) משתמשת בשם המדויק " +
-      "ומייחסת לו שדות ואסוציאציות ממקורות טקסטואליים בלבד; אין לראות בכך אימות. הטבלה שמתחת, QMFE, מסומנת " +
-      "בחוברת המיגרציה (data/sapData.pm.ts) כ'ללא שינוי (תואם)' עם s4AltTable 'QMFE (זהה)', כך שאין כאן שאלת " +
-      "פישוט של מודל הנתונים אלא שאלת זהות ושחרור של תצוגת ה-CDS בלבד. שם ה-OData API בעמודי 2025 FPS01 הוא " +
-      "API_MAINTNOTIFICATION; רשומת F1511 בקובץ data/fiori/apps.ts נוקבת ב-API_MAINTENANCENOTIFICATION, פער " +
-      "שמצריך תיקון ברשומת ה-Fiori ולא כאן. הסטטוס לא הוגדר כ'חדש ב-S/4HANA' כי לא נמצא מקור רשמי לשם המדויק; " +
-      "המהדורה שנרשמה היא On-Premise לפי מזהה המוצר בשירות החיפוש, וה-What's New של 2025 מכסה גם Private " +
-      "Edition.",
+    lastVerifiedAt: DATE24,
+    notes: "Old (2026-09-02): שלוש רשומות רשמיות מתארות תצוגות CDS לפריט הודעת תחזוקה, אך אף אחת מהן אינה נוקבת בשם I_MaintNotificationItem: התצוגה המתועדת לחילוץ היא I_MaintNotificationItemData (מוזכרת גם ב-What's New 1809 תחת 'CDS Views for BW Extraction' באותיות רישיות), והתצוגה שנפתחה ל-Developer Extensibility ב-2025 היא I_MaintNotificationItemTP_3, שהחליפה את I_MaintNotificationItemTP_2 שסומנה Deprecated באותו עמוד. גוף עמודי ה-Help אינו נגיש לכלי (מעטפת JavaScript), ולכן כל ציטוט מוגבל לכותרת ולסניפט של שירות החיפוש; חיפוש מוגבל-דומיין ב-help.sap.com לא החזיר עמוד שכותרתו או הסניפט שלו נוקבים בשם המדויק. שכבת המאגר (data/cds-enrichment.ts, data/cds-map.ts, data/tx-intel.ts ברשומות IW66 ו-IW69) משתמשת בשם המדויק ומייחסת לו שדות ואסוציאציות ממקורות טקסטואליים בלבד; אין לראות בכך אימות. הטבלה שמתחת, QMFE, מסומנת בחוברת המיגרציה (data/sapData.pm.ts) כ'ללא שינוי (תואם)' עם s4AltTable 'QMFE (זהה)', כך שאין כאן שאלת פישוט של מודל הנתונים אלא שאלת זהות ושחרור של תצוגת ה-CDS בלבד. שם ה-OData API בעמודי 2025 FPS01 הוא API_MAINTNOTIFICATION; רשומת F1511 בקובץ data/fiori/apps.ts נוקבת ב-API_MAINTENANCENOTIFICATION, פער שמצריך תיקון ברשומת ה-Fiori ולא כאן. הסטטוס לא הוגדר כ'חדש ב-S/4HANA' כי לא נמצא מקור רשמי לשם המדויק; המהדורה שנרשמה היא On-Premise לפי מזהה המוצר בשירות החיפוש, וה-What's New של 2025 מכסה גם Private Edition. New (2026-09-24): ארבע שאילתות ב-scripts/sap-help-search.mjs עם --product SAP_S4HANA_ON-PREMISE: (1) 'I_MaintNotificationItemData' החזירה את loio 783484db9722497c9b6488640dd31544 עם אותו ציטוט; (2) 'Maintenance Notification Item Virtual Data Model' החזירה את דף ה-What's New 2025 (loio e666a33610e6491f9d800882be108d02); (3) 'I_MaintNotificationItem' (21 תוצאות) לא החזירה עמוד שכותרתו או הסניפט שלו נוקבים בשם המדויק; (4) 'CDS Views for Notifications Virtual Data Model' לא החזירה תוצאה רלוונטית לתצוגת פריט הודעה. גוף עמוד e666a336 נקרא דרך scripts/sap-help-body.mjs ב-2026-09-24 ומאשר את סימון I_MaintNotificationItemTP_2 כ-Deprecated עם יורשת I_MaintNotificationItemTP_3; ההערה הקודמת שגוף העמודים הוא מעטפת JavaScript אינה תקפה עוד לסקריפט זה. הסטטוס נשאר verification_required; Old → New: release עבר מ-2023.latest ל-null, ו-source עבר מרשומת ה-VDM של I_MaintNotificationItemData (loio 783484db) ל-null, כמותר ל-verification_required. Old → New בראיות: ניסוחי הראיות מ-2026-09-24 מוגבלים למה שנקרא בסבב זה, ופרטים שנרשמו ב-2026-09-02 לא נכללו בהם: בעמוד 783484db, 'modeled for usage as a DataSource in Business Warehouse', בסיס באובייקטים העסקיים Maintenance notification item, Maintenance notification ו-Linear Asset Management, והיעדר חלק משדות הודעות השירות; בעמוד e666a336, החלפת I_MaintNotifItemActivityTP_2 ו-I_MaintenanceNotificationTP_2 ב-TP_3 ותיאור האובייקטים המשוחררים כ-'stable interface' ל-ABAP Cloud ו-RAP; בעמוד f430cbb1, 'is built using the CDS views based on notification, notification item, notification item cause, notification item activity and partner data via gateway service builder and SADL'. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "cds:I_MeasuringPoint",
@@ -2459,7 +2426,7 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2025.001",
         accessedAt: DATE14,
-        claim: "חיפוש השם I_MRPMaterial בתיעוד הרשמי (help.sap.com, מערך SAP_S4HANA_ON-PREMISE, 21 תוצאות) מחזיר רק את הישות A_MRPMaterial של שירות ה-OData‏ API_MRP_MATERIALS_SRV_01 ולא תצוגת CDS בשם I_MRPMaterial. רשומת החיפוש (loio c3190f002137401d8937c8fbc905af72, ‏2025 FPS01) קובעת: 'Master Data Technical name: A_MRPMaterial', 'For the A_MRPMaterial entity, you can use every property as a filter in your request', ומונה בין המאפיינים MaterialName, PlantName, MRPAreaText, MRPAreaCategory ו-MaterialType. עמוד האח 'Read Master Data' (loio c28343ecf3924ae8adad97043daf5f61) מדגים קריאה לפי מפתח Material, MRPPlant ו-MRPArea. אותם נושאים קיימים גם במערך SAP_S4HANA_CLOUD (2608.500).",
+        claim: "חיפוש השם I_MRPMaterial בתיעוד הרשמי (help.sap.com, מערך SAP_S4HANA_ON-PREMISE, 21 תוצאות) מחזיר, מבין הרשומות הנוגעות ל-MRP, את נושאי הישות A_MRPMaterial של שירות ה-OData‏ API_MRP_MATERIALS_SRV_01 ואף אחת מהן אינה נוקבת בתצוגת CDS בשם I_MRPMaterial. רשומת החיפוש (loio c3190f002137401d8937c8fbc905af72, ‏2025 FPS01) קובעת: 'Master Data Technical name: A_MRPMaterial', 'For the A_MRPMaterial entity, you can use every property as a filter in your request', ומונה בין המאפיינים MaterialName, PlantName, MRPAreaText, MRPAreaCategory ו-MaterialType. עמוד האח 'Read Master Data' (loio c28343ecf3924ae8adad97043daf5f61) מדגים קריאה לפי מפתח Material, MRPPlant ו-MRPArea. אותם נושאים קיימים גם במערך SAP_S4HANA_CLOUD (2608.500).",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -2496,8 +2463,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
       },
     ],
     xrefs: ["table:MARC", "table:MDMA", "table:MARA", "cds:I_ProductPlant", "tx:MD01", "tx:MD01N", "tx:MD04", "tx:MD07", "tx:MM03", "fiori:F0247A", "fiori:F0251", "fiori:F1339"],
-    lastVerifiedAt: DATE14,
-    notes: "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs ‏('I_MRPMaterial', 'MRP Material Virtual Data Model CDS view', 'I_MRPMaterial CDS View Name MRP Material', 'CDS Views for Material Requirements Planning', 'Product MRP Area CDS View Name', ובמערך SAP_S4HANA_CLOUD‏ 'I_MRPMaterial' ו-'MRP Material CDS View Name'), חיפוש רשת מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal.cloud.sap, וקריאת עמ' 604 של רשימת הפישוט 2025 FPS01 מקובץ ה-PDF. ממצא שלילי תחום לחיפוש: אף רשומה רשמית אינה נוקבת בתצוגת CDS בשם I_MRPMaterial; השם היחיד עם גזע זהה בתיעוד הרשמי הוא ישות ה-OData‏ A_MRPMaterial של API_MRP_MATERIALS_SRV_01 (What's New 2022, רכיב PP-FIO-MRP, loio 1af95104924f422bafc83918d12ea75e, 'Valid as Of SAP S/4HANA 2022'). ייתכן שהתצוגה קיימת במערכת כתצוגה לא משוחררת או כתצוגת בסיס של השירות, אך זו השערה שלא ניתן לאמת בלי מערכת חיה או View Browser. לכן לא נכתב סטטוס מוסמך; מנוע הגזירה של האפליקציה ממשיך להציג את הסטטוס הנגזר מ-data/cds-map.ts ו-data/cds-enrichment.ts ברמת 'מאומת מול נתוני הפרויקט'. סתירה פנימית: רשומת ההעשרה מסומנת 'verified' עם מקורות ללא URL, בעוד שהתיעוד הרשמי מתעד לפרמטרי MRP את I_ProductMRPArea ואת I_PRODUCTPLANTMRP (On-Premise 2023 Latest) ואת I_PRODUCTPLANTSUPPLYPLANNING (Cloud Public Edition 2608.500, loio b8fdc52dcd1649f881d82d6ec79319aa, 'What are the current MRP parameters (MRP type, MRP controller, lot sizing procedure)'); הערך perfNotes בהעשרה מפנה ל-F0247, בעוד שהמזהה הרשמי שקיים בדאטהסט הוא F0247A. לא אומתו: viewType, שדות, associations, סטטוס שחרור וגרסת שחרור של I_MRPMaterial; קיום תצוגת הצריכה C_MaterialCoverageNetwork ותצוגת C_MRPMaterials; קשר הביניים בין I_MRPMaterial ל-A_MRPMaterial. ה-xrefs cds:I_ProductPlant ו-fiori:F1339 נרשמו כהקשר: I_ProductPlant היא תצוגת המוצר ברמת מפעל המתועדת רשמית לצד I_PRODUCTPLANTMRP, ו-Schedule MRP Runs (F1339) הוא יישום תזמון ריצות MRP Live שרשומת tx:MD01N מפנה אליו; שניהם ממקורות המאגר ולא מסניפט הנוקב ב-I_MRPMaterial. גוף עמודי ה-Help לא נקרא (מעטפת JavaScript); כל טענה תחומה לכותרת ולתקציר של רשומת החיפוש או לעמוד ה-PDF שנקרא. ביקורת עצמאית 2026-09-14: שלושת ה-URL נפתרים, ה-loio, הכותרות והגרסאות שוחזרו מרשומות שירות החיפוש, כל המחרוזות המצוטטות נמצאו בתקצירים, הציטוט מעמ' 604 שוחזר מקובץ ה-PDF (השם I_MRPMaterial אינו מופיע בו כלל), והממצא השלילי שוחזר בסקופ On-Premise (21 תוצאות) ו-Public Cloud (8 תוצאות).",
+    lastVerifiedAt: DATE24,
+    notes: "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs ‏('I_MRPMaterial', 'MRP Material Virtual Data Model CDS view', 'I_MRPMaterial CDS View Name MRP Material', 'CDS Views for Material Requirements Planning', 'Product MRP Area CDS View Name', ובמערך SAP_S4HANA_CLOUD‏ 'I_MRPMaterial' ו-'MRP Material CDS View Name'), חיפוש רשת מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary ו-fal.cloud.sap, וקריאת עמ' 604 של רשימת הפישוט 2025 FPS01 מקובץ ה-PDF. ממצא שלילי תחום לחיפוש: אף רשומה רשמית אינה נוקבת בתצוגת CDS בשם I_MRPMaterial; השם היחיד עם גזע זהה בתיעוד הרשמי הוא ישות ה-OData‏ A_MRPMaterial של API_MRP_MATERIALS_SRV_01 (What's New 2022, רכיב PP-FIO-MRP, loio 1af95104924f422bafc83918d12ea75e, 'Valid as Of SAP S/4HANA 2022'). ייתכן שהתצוגה קיימת במערכת כתצוגה לא משוחררת או כתצוגת בסיס של השירות, אך זו השערה שלא ניתן לאמת בלי מערכת חיה או View Browser. לכן לא נכתב סטטוס מוסמך; מנוע הגזירה של האפליקציה ממשיך להציג את הסטטוס הנגזר מ-data/cds-map.ts ו-data/cds-enrichment.ts ברמת 'מאומת מול נתוני הפרויקט'. סתירה פנימית: רשומת ההעשרה מסומנת 'verified' עם מקורות ללא URL, בעוד שהתיעוד הרשמי מתעד לפרמטרי MRP את I_ProductMRPArea ואת I_PRODUCTPLANTMRP (On-Premise 2023 Latest) ואת I_PRODUCTPLANTSUPPLYPLANNING (Cloud Public Edition 2608.500, loio b8fdc52dcd1649f881d82d6ec79319aa, 'What are the current MRP parameters (MRP type, MRP controller, lot sizing procedure)'); הערך perfNotes בהעשרה מפנה ל-F0247, בעוד שהמזהה הרשמי שקיים בדאטהסט הוא F0247A. לא אומתו: viewType, שדות, associations, סטטוס שחרור וגרסת שחרור של I_MRPMaterial; קיום תצוגת הצריכה C_MaterialCoverageNetwork ותצוגת C_MRPMaterials; קשר הביניים בין I_MRPMaterial ל-A_MRPMaterial. ה-xrefs cds:I_ProductPlant ו-fiori:F1339 נרשמו כהקשר: I_ProductPlant היא תצוגת המוצר ברמת מפעל המתועדת רשמית לצד I_PRODUCTPLANTMRP, ו-Schedule MRP Runs (F1339) הוא יישום תזמון ריצות MRP Live שרשומת tx:MD01N מפנה אליו; שניהם ממקורות המאגר ולא מסניפט הנוקב ב-I_MRPMaterial. גוף עמודי ה-Help לא נקרא (מעטפת JavaScript); כל טענה תחומה לכותרת ולתקציר של רשומת החיפוש או לעמוד ה-PDF שנקרא. ביקורת עצמאית 2026-09-14: שלושת ה-URL נפתרים, ה-loio, הכותרות והגרסאות שוחזרו מרשומות שירות החיפוש, כל המחרוזות המצוטטות נמצאו בתקצירים, הציטוט מעמ' 604 שוחזר מקובץ ה-PDF (השם I_MRPMaterial אינו מופיע בו כלל), והממצא השלילי שוחזר בסקופ On-Premise (21 תוצאות) ו-Public Cloud (8 תוצאות). עדכון 2026-09-24: הרשומה נבדקה מחדש דרך scripts/sap-help-search.mjs. 'I_MRPMaterial' במערך SAP_S4HANA_ON-PREMISE: 21 תוצאות; הרשומות הנוגעות ל-MRP הן נושאי A_MRPMaterial של API_MRP_MATERIALS_SRV_01 (Read Master Data, Master Data, Material Planning Data – Read, Operations, Extensibility, What's New 2022) והשאר נושאים שאינם קשורים (FI, ביטוח). 'I_MRPMaterial' במערך SAP_S4HANA_CLOUD: 8 תוצאות, אותם נושאי A_MRPMaterial בגרסה 2608.500 ועוד רשומת Overview of Changes in Extensibility Objects (2402.504). 'I_MRPMaterial CDS View Name': 21 תוצאות, תצוגות CDS מתחומים אחרים (Utilities, Consolidation ועוד) ורשומת Read Master Data של A_MRPMaterial. באף אחת מהתוצאות לא הופיע השם I_MRPMaterial. 'CDS Views for Material Requirements Planning': 21 תוצאות, ובראשן עמוד האינדקס 'CDS Views for Material Requirements Planning' (Virtual Data Model and CDS Views, On-Premise 2023 Latest, loio f458e8c9ad1848139b707e856bea1595), שלא נבדק בסבב הקודם. גוף העמוד נמשך דרך scripts/sap-help-body.mjs (deliverable 39118365) והחזיר את הכותרת בלבד, בלי רשימת תצוגות; לכן העמוד אינו מאשר ואינו שולל את קיום I_MRPMaterial, והפער נשאר פתוח (צעד הבא: קריאת עץ הנושאים של העמוד או View Browser במערכת). הממצא לא השתנה, ולכן לא נכתב סטטוס מוסמך. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "cds:I_MaterialStock",
@@ -2884,13 +2851,22 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
       },
       {
         sourceType: "sap_help",
+        sourceTitle: "help.sap.com search (אימות חוזר): \"I_RoutingOperationComponent\" (On-Premise default scope, --version 2025.001, --product SAP_S4HANA_CLOUD), \"I_ProdnRoutingCompAllocDEX\", \"Production Routing Component Allocation CDS View Name\" (--version 2025.001)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "ממצא שלילי חוזר, תחום לאינדקס החיפוש במועד הבדיקה: בחמש ריצות של scripts/sap-help-search.mjs ב-2026-09-24 לא אותרה רשומה שבה CDS View Name הוא I_RoutingOperationComponent. (1) השם המדויק בסקופ On-Premise בברירת המחדל: 13 רשומות, כולן עם סניפט ריק: נושאי APIs for Manufacturing ו-APIs for Maintenance Management, נושא לוקליזציה לרומניה, ארבעה נושאי לוקליזציה למלזיה, והנושא 'RTP Components | Invoicing' (2023.latest). (2) השם המדויק עם --version 2025.001: 7 רשומות, כולן נושאי APIs for Manufacturing ו-APIs for Maintenance Management עם סניפט ריק. (3) השם המדויק בסקופ Public Cloud: בין 9 ל-11 רשומות בריצות חוזרות באותו יום, כולן עם סניפט ריק, מהמדריכים APIs for Manufacturing, APIs for Maintenance Management, APIs for Warehousing (שתיים) ו-APIs for Enterprise Portfolio and Project Management ('Create Project Demand'); מספר התוצאות בסקופ זה משתנה בין ריצות. (4) I_ProdnRoutingCompAllocDEX: 6 רשומות, ובהן שני הנושאים הרשמיים שבשורות הבאות. (5) 'Production Routing Component Allocation CDS View Name' עם --version 2025.001: 21 רשומות, ובהן 'Production Routing', 'Production Routing (Version 3)' ו-'Operation Component Allocation (Version 3)' במדריך APIs for Manufacturing, אך לא נושא VDM הנוקב בשם I_RoutingOperationComponent. אף אחת מהרשומות אינה נוקבת בשם הזה.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "sap_help",
         sourceTitle: "Production Routing Component Allocation | Virtual Data Model and CDS Views",
         product: "SAP S/4HANA",
         edition: "on-premise",
         release: "2023.latest",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/47002fa36415449c9f785b4f67fcdad2.html?locale=en-US&state=PRODUCTION&version=2023.latest",
         accessedAt: DATE15,
-        claim: "הקשר בלבד, ולא אישור לשם I_RoutingOperationComponent: רשומת החיפוש של נושא ה-VDM הרשמי (מדריך Virtual Data Model and CDS Views, On-Premise 2023 Latest, loio 47002fa36415449c9f785b4f67fcdad2) קובעת 'Production Routing Component Allocation CDS View Name I_ProdnRoutingCompAllocDEX Analytical Data Category DIMENSION', ומציינת שהתצוגה מייצגת את סוג האובייקט ProductionRoutingCompAlloc‏ (BusinessObject). לפי הסניפט התצוגה עונה על שאלות עסקיות כגון מי יצר או שינה לאחרונה את שיוכי הרכיבים במסלול הייצור ומתי, האם יש רכיבים המסומנים ל-back-flush במסלול, וכיצד ניתן לעקוב אחרי שינויים בשיוכי הרכיבים לאורך זמן; בין שדותיה שבסניפט מופיע BillOfMaterialItemUnit בתיאור Component UoM לצד שדה כמות. הסניפט מוסיף שהתצוגה מאופשרת לחילוץ נתונים במצב מלא וגם במצב דלתא, והדלתאות נקבעות אוטומטית באמצעות change data capture. אותו loio מפורסם גם בסקופ Public Cloud בגרסת התיעוד 2608.500.",
+        claim: "הקשר בלבד, ולא אישור לשם I_RoutingOperationComponent: רשומת החיפוש של נושא ה-VDM הרשמי (מדריך Virtual Data Model and CDS Views, On-Premise 2023 Latest, loio 47002fa36415449c9f785b4f67fcdad2) קובעת 'Production Routing Component Allocation CDS View Name I_ProdnRoutingCompAllocDEX Analytical Data Category DIMENSION', ומציינת שהתצוגה מייצגת את סוג האובייקט ProductionRoutingCompAlloc‏ (BusinessObject). לפי הסניפט התצוגה עונה על שאלות עסקיות כגון מי יצר או שינה לאחרונה את שיוכי הרכיבים במסלול הייצור ומתי, האם יש רכיבים המסומנים ל-back-flush במסלול, וכיצד ניתן לעקוב אחרי שינויים בשיוכי הרכיבים לאורך זמן; בין שדותיה שבסניפט מופיע BillOfMaterialItemUnit בתיאור Component UoM לצד שדה כמות. הסניפט מוסיף שהתצוגה מאופשרת לחילוץ נתונים במצב מלא וגם במצב דלתא, והדלתאות נקבעות אוטומטית באמצעות change data capture. אותו loio מפורסם גם בסקופ Public Cloud בגרסת התיעוד 2608.500. נבדק שוב ב-2026-09-24 בשאילתה I_ProdnRoutingCompAllocDEX: אותו URL, אותו loio ואותו versionId הוחזרו, והסניפט הנוכחי פותח שוב ב-'Production Routing Component Allocation CDS View Name I_ProdnRoutingCompAllocDEX Analytical Data Category DIMENSION'.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -2901,7 +2877,7 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         release: "2025.000",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/0321ee78cf3248329069729161d5cb39.html?locale=en-US&state=PRODUCTION&version=2025.000",
         accessedAt: DATE15,
-        claim: "הקשר בלבד, ולא אישור לשם I_RoutingOperationComponent: רשומת החיפוש של עמוד ה-What's New הרשמי לגרסת 2025 (loio 0321ee78cf3248329069729161d5cb39, versionId 2025.000) קובעת בסניפט 'New CDS views were released for Production Engineering under the Basic Routing Data area', והטבלה 'New CDS Views Released for Basic Routing Data' מצמידה לשם Production Routing Component Allocation את השם הטכני I_ProdnRoutingCompAllocDEX. בסניפט מופיעים גם 'Technical Details Type New Functional Localization No localization', 'Scope Item Not applicable', 'Technical Object Name CDS View: I_ProdnRoutingCompAllocDEX I_ProdnRoutingMatlAssgmtDEX I_ProdnRoutingOpSubordOpDEX I_ProdnRoutingSequenceDEX I_ProdnRtgDocPRTAssgmtDEX', רכיב היישום PP-VDM‏ (Virtual Data Model in PP), זמינות 'SAP S/4HANA Cloud Private Edition and SAP S/4HANA' ו-Valid as Of 2025. השם I_RoutingOperationComponent אינו מופיע בסניפט של עמוד זה.",
+        claim: "הקשר בלבד, ולא אישור לשם I_RoutingOperationComponent: רשומת החיפוש של עמוד ה-What's New הרשמי לגרסת 2025 (loio 0321ee78cf3248329069729161d5cb39, versionId 2025.000) קובעת בסניפט 'New CDS views were released for Production Engineering under the Basic Routing Data area', והטבלה 'New CDS Views Released for Basic Routing Data' מצמידה לשם Production Routing Component Allocation את השם הטכני I_ProdnRoutingCompAllocDEX. בסניפט מופיעים גם 'Technical Details Type New Functional Localization No localization', 'Scope Item Not applicable', 'Technical Object Name CDS View: I_ProdnRoutingCompAllocDEX I_ProdnRoutingMatlAssgmtDEX I_ProdnRoutingOpSubordOpDEX I_ProdnRoutingSequenceDEX I_ProdnRtgDocPRTAssgmtDEX', רכיב היישום PP-VDM‏ (Virtual Data Model in PP), זמינות 'SAP S/4HANA Cloud Private Edition and SAP S/4HANA' ו-Valid as Of 2025. השם I_RoutingOperationComponent אינו מופיע בסניפט של עמוד זה. נבדק שוב ב-2026-09-24 בשאילתה I_ProdnRoutingCompAllocDEX: אותו URL, אותו loio ואותו versionId הוחזרו, והסניפט הנוכחי מציג שוב את הצמדת Production Routing Component Allocation ל-I_ProdnRoutingCompAllocDEX ואת 'Technical Details Type New Functional Localization No localization'.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -2954,8 +2930,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
       "fm:BAPI_ROUTING_CREATE",
       "fm:BAPI_ROUTING_GETDETAIL",
     ],
-    lastVerifiedAt: DATE15,
-    notes: "אותה מסקנה כמו בשתי התצוגות האחיות במאגר (I_Routing ו-I_RoutingOperation): לא אותר עמוד רשמי הנוקב בשם I_RoutingOperationComponent. שלוש עשרה ריצות של scripts/sap-help-search.mjs ב-2026-09-15 (השם הטכני בסקופ On-Premise ובסקופ Public Cloud, השם האנגלי עם Virtual Data Model, PLMZ, גרסה 2025.001, השם הטכני של תצוגת ה-DEX, מתכון אב, ופריט פישוט) וחיפוש רשת מוגבל לארבעת הדומיינים הרשמיים לא החזירו רשומה כזו; הממצא תחום לאינדקס החיפוש במועד הבדיקה ואינו קביעה שהתצוגה אינה קיימת במערכת. עמוד ה-What's New לגרסת 2025 'CDS Views for Basic Routing Data' נרשם כראיה שלישית ברשומה זו. עמודים רשמיים נוספים שנראו ולא צוטטו כראיה נפרדת: 'Production Routing' במדריך APIs for Manufacturing‏ (loio 2dd233df3bc947d6b402d246ed887b5a, 2025.001), שבסניפט שלו 'Technical name: API_PRODUCTION_ROUTING' ומבנה השירות כולל 'component allocation' והישות 'Operation Component Allocation (ProductionRoutingOpCompAlloc) Contains details of the components allocated to an operation' (בסקופ Public Cloud 2608.500 אותו loio מופיע בכותרת 'Production Routing (Deprecated)' לצד 'Production Routing (Version 3)', ולכן אין לרשום כאן מצב שחרור של ה-API); 'Maintaining Material Components' במדריך Routings (PP-BD-RTG)‏ (loio 5186b6535fe6b74ce10000000a174cb4, 2025.001), שבסניפט שלו 'Material components in a BOM that are not assigned to an operation in the routing are automatically assigned to the first' ומזכיר טיפול בהרכבה פיקטיבית (phantom assembly) בעת יצירת פקודת ייצור; ו-'Archiving Task Lists (CS-AG/PM-PRM-TL)'‏ (loio 617cbe532789b44ce10000000a174cb4, 2025.001), שבסניפט שלו 'PLPO Operations PLAS Assignments of operations to sequences PLMZ Material component assignments PLWP Maintenance package assignments' והוא המקבילה של תחזוקת מפעל לאותה משפחת טבלאות. המקבילה של תחזוקת מפעל בשכבת ה-VDM היא I_MaintTaskListOpMaterial‏ ('Maintenance Task List Operation Material', loio ec1be38ee1104c85b2f58cf9940b4c4f, 2023.latest, בסניפט: 'Which components are associated with the maintenance task list operation?'), ואיננה מזהה ביקום הפרויקט ולכן אינה ב-xrefs. אף אחת מהתצוגות הרשמיות האלה אינה מזהה ביקום הפרויקט (data/cds-map.ts), ולכן אין רישום יורש. הערת עקביות פנימית: ביקורת הבסיס (audit/s4-enrichment/baseline-inventories.json) סימנה את PLAS כטבלה שמופיעה ב-data/cds-map.ts אך לא בטקסט ההעשרה; עמוד ארכוב מתכוני האב מיישב את המשמעות (PLMZ שיוכי רכיבי חומר, PLAS שיוך פעולות לרצפים), כך שהמיפוי לשתי הטבלאות סביר, אך ההפרדה בין השתיים ברשומת ההעשרה עדיין אינה מתועדת. הסטטוס הנגזר שהאפליקציה מציגה כיום הוא 'חדש ב-S/4HANA' ברובד 'מאומת מול נתוני הפרויקט', הנגזר בלבד מדגל verified ב-data/cds-enrichment.ts שמקורותיו מחרוזות תבנית; רשומה זו מחליפה אותו בסטטוס 'נדרש אימות נוסף' מחברי. גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript), וכל הציטוטים לקוחים מכותרות ומסניפטים של שירות החיפוש בלבד; עמודי api.sap.com הם מעטפת יישום ללא גוף. חיבור ה-MCP למערכת חיה (sc4sap) נכשל בסשן, ולכן לא בוצעה בדיקת ADT או SE11. מה חסר לשדרוג הרובד: נושא רשמי ב-help.sap.com שבו CDS View Name הוא I_RoutingOperationComponent, עמוד cdsviews ב-api.sap.com שנקרא בפועל, או בדיקה חיה במערכת היעד.",
+    lastVerifiedAt: DATE24,
+    notes: "אותה מסקנה כמו בשתי התצוגות האחיות במאגר (I_Routing ו-I_RoutingOperation): לא אותר עמוד רשמי הנוקב בשם I_RoutingOperationComponent. שלוש עשרה ריצות של scripts/sap-help-search.mjs ב-2026-09-15 (השם הטכני בסקופ On-Premise ובסקופ Public Cloud, השם האנגלי עם Virtual Data Model, PLMZ, גרסה 2025.001, השם הטכני של תצוגת ה-DEX, מתכון אב, ופריט פישוט) וחיפוש רשת מוגבל לארבעת הדומיינים הרשמיים לא החזירו רשומה כזו; הממצא תחום לאינדקס החיפוש במועד הבדיקה ואינו קביעה שהתצוגה אינה קיימת במערכת. עמוד ה-What's New לגרסת 2025 'CDS Views for Basic Routing Data' נרשם כראיה שלישית ברשומה זו. עמודים רשמיים נוספים שנראו ולא צוטטו כראיה נפרדת: 'Production Routing' במדריך APIs for Manufacturing‏ (loio 2dd233df3bc947d6b402d246ed887b5a, 2025.001), שבסניפט שלו 'Technical name: API_PRODUCTION_ROUTING' ומבנה השירות כולל 'component allocation' והישות 'Operation Component Allocation (ProductionRoutingOpCompAlloc) Contains details of the components allocated to an operation' (בסקופ Public Cloud 2608.500 אותו loio מופיע בכותרת 'Production Routing (Deprecated)' לצד 'Production Routing (Version 3)', ולכן אין לרשום כאן מצב שחרור של ה-API); 'Maintaining Material Components' במדריך Routings (PP-BD-RTG)‏ (loio 5186b6535fe6b74ce10000000a174cb4, 2025.001), שבסניפט שלו 'Material components in a BOM that are not assigned to an operation in the routing are automatically assigned to the first' ומזכיר טיפול בהרכבה פיקטיבית (phantom assembly) בעת יצירת פקודת ייצור; ו-'Archiving Task Lists (CS-AG/PM-PRM-TL)'‏ (loio 617cbe532789b44ce10000000a174cb4, 2025.001), שבסניפט שלו 'PLPO Operations PLAS Assignments of operations to sequences PLMZ Material component assignments PLWP Maintenance package assignments' והוא המקבילה של תחזוקת מפעל לאותה משפחת טבלאות. המקבילה של תחזוקת מפעל בשכבת ה-VDM היא I_MaintTaskListOpMaterial‏ ('Maintenance Task List Operation Material', loio ec1be38ee1104c85b2f58cf9940b4c4f, 2023.latest, בסניפט: 'Which components are associated with the maintenance task list operation?'), ואיננה מזהה ביקום הפרויקט ולכן אינה ב-xrefs. אף אחת מהתצוגות הרשמיות האלה אינה מזהה ביקום הפרויקט (data/cds-map.ts), ולכן אין רישום יורש. הערת עקביות פנימית: ביקורת הבסיס (audit/s4-enrichment/baseline-inventories.json) סימנה את PLAS כטבלה שמופיעה ב-data/cds-map.ts אך לא בטקסט ההעשרה; עמוד ארכוב מתכוני האב מיישב את המשמעות (PLMZ שיוכי רכיבי חומר, PLAS שיוך פעולות לרצפים), כך שהמיפוי לשתי הטבלאות סביר, אך ההפרדה בין השתיים ברשומת ההעשרה עדיין אינה מתועדת. הסטטוס הנגזר שהאפליקציה מציגה כיום הוא 'חדש ב-S/4HANA' ברובד 'מאומת מול נתוני הפרויקט', הנגזר בלבד מדגל verified ב-data/cds-enrichment.ts שמקורותיו מחרוזות תבנית; רשומה זו מחליפה אותו בסטטוס 'נדרש אימות נוסף' מחברי. גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript), וכל הציטוטים לקוחים מכותרות ומסניפטים של שירות החיפוש בלבד; עמודי api.sap.com הם מעטפת יישום ללא גוף. חיבור ה-MCP למערכת חיה (sc4sap) נכשל בסשן, ולכן לא בוצעה בדיקת ADT או SE11. מה חסר לשדרוג הרובד: נושא רשמי ב-help.sap.com שבו CDS View Name הוא I_RoutingOperationComponent, עמוד cdsviews ב-api.sap.com שנקרא בפועל, או בדיקה חיה במערכת היעד. אימות חוזר 2026-09-24: חמש ריצות של scripts/sap-help-search.mjs (השם הטכני בסקופ On-Premise בברירת המחדל, השם הטכני עם --version 2025.001, השם הטכני בסקופ Public Cloud, I_ProdnRoutingCompAllocDEX, ו-'Production Routing Component Allocation CDS View Name' עם --version 2025.001) אישרו את אותו ממצא; נוספה שורת evidence לריצות אלה, ושתי הראיות הרשמיות של נושא ה-VDM ושל עמוד ה-What's New הוחזרו שוב באותו URL. ללא שינוי ב-status או ב-xrefs. גוף העמודים לא נקרא בסבב זה, ולא בוצעה בדיקה חיה במערכת SAP.",
   },
   {
     id: "cds:I_BillOfMaterialItemAssgmt",
@@ -3001,10 +2977,29 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         product: "SAP S/4HANA",
         edition: "on-premise",
         accessedAt: DATE15,
-        claim: "רשומת ההעשרה (data/cds-enrichment.ts#I_BillOfMaterialItemAssgmt) מתארת תצוגת Interface (Basic) מעל MAST, עם מפתח Material + Plant + BOMUsage + BillOfMaterial, אסוציאציות _BillOfMaterial, _Product ו-_Plant, וכחלופת ECC את טבלה MAST עם CS01/CS02/CS03. מיפוי הפרויקט (data/cds-map.ts#I_BillOfMaterialItemAssgmt) מקשר את אותו שם לטבלה MAPL בלבד, תחת הכותרת העברית 'שיוך רשימת פעולות לחומר' במודול תעשיות תהליכיות. שני הקבצים חלוקים על טבלת הבסיס, וסתירה זו כבר מתועדת ב-audit/s4-enrichment/baseline-inventories.json כאחת משתי סתירות טבלת הבסיס בשכבת ה-CDS. הרשומה מסומנת 'verified', אך שני מקורותיה הם מחרוזות תבנית ('SAP S/4HANA CDS Views (VDM) — I_BillOfMaterialItemAssgmt' ו-'SAP Help Portal — Bill of Material Assignment') ללא כתובת URL; סוג התצוגה, המפתח, האסוציאציות ודוגמת ה-SELECT הם תוכן מאגר בלבד.",
+        claim: "רשומת ההעשרה (data/cds-enrichment.ts#I_BillOfMaterialItemAssgmt) מתארת תצוגת Interface (Basic) מעל MAST, עם מפתח Material + Plant + BOMUsage + BillOfMaterial, אסוציאציות _BillOfMaterial, _Product ו-_Plant, וכחלופת ECC את טבלה MAST עם CS01/CS02/CS03. מיפוי הפרויקט (data/cds-map.ts#I_BillOfMaterialItemAssgmt) מקשר את אותו שם לטבלה MAPL בלבד, תחת הכותרת העברית 'שיוך רשימת פעולות לחומר' במודול תעשיות תהליכיות. שני הקבצים חלוקים על טבלת הבסיס, וסתירה זו כבר מתועדת ב-audit/s4-enrichment/baseline-inventories.json כאחת משתי סתירות טבלת הבסיס בשכבת ה-CDS. הרשומה מסומנת 'verified', אך שני מקורותיה הם מחרוזות תבנית ('SAP S/4HANA CDS Views (VDM): I_BillOfMaterialItemAssgmt' ו-'SAP Help Portal: Bill of Material Assignment'; המפריד במקור הוחלף בנקודתיים) ללא כתובת URL; סוג התצוגה, המפתח, האסוציאציות ודוגמת ה-SELECT הם תוכן מאגר בלבד.",
         verificationLevel: "verification_required",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "New and Enhanced CDS Views for Bill Of Material Management | What's New in SAP S/4HANA 2025 (Oct 2025)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/c4aa65d50a7342f0a7b5d5a8b0ebbb5d.html?locale=en-US&state=PRODUCTION&version=2025.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.000",
+        accessedAt: DATE24,
+        claim: "גוף העמוד (loio c4aa65d50a7342f0a7b5d5a8b0ebbb5d, SAP S/4HANA 2025 Oct 2025, deliverable 39283979, נקרא בפועל דרך scripts/sap-help-body.mjs) מציג בשדה 'Technical Object Name' 15 שמות טכניים: I_BOMVersionStatusDEX, I_MatBillOfMaterialHeaderDEX, I_MatlBillOfMaterialItemDEX, I_MaterialBOMSubitemDEX, I_MaterialBOMLinkDEX_2, I_SalesOrderBOMHeaderDEX, I_SalesOrderBOMItemDEX, I_SalesOrderBOMSubitemDEX, I_SalesOrderBOMLinkDEX_2, I_VersionStatusText, I_BillOfMaterialStatus, I_BillOfMaterialStatusText, I_BillOfMaterialItemCategory, I_BomItemCategoryText, I_BOMVariantUsage (Application Component LO-MD-BOM). בפסקת Business Details העמוד מונה 21 שמות בסך הכול, 13 כתצוגות 'now available' ו-8 כתצוגות ש-'enabled for data extraction', ובהם גם I_WBSBillOfMaterialHeaderDEX, I_WBSBillOfMaterialItemDEX, I_ProjectBOMSubitemDEX, I_BOMGroupDEX ו-I_BOMGroupLinksDEX. I_BillOfMaterialItemAssgmt אינו באף אחת משתי הרשימות. העמוד מתעד תצוגות חדשות ותצוגות שהופעלו לחילוץ נתונים בגרסת 2025, ואינו סוקר את מלאי התצוגות הקיים משנים קודמות, ולכן היעדרותו של השם ממנו אינה קביעה על אי-קיומה של תצוגה כזו במערכת.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
+    status: {
+      status: "verification_required",
+      he: "תצוגת CDS לשיוך פריט עץ מוצר שהמאגר ממפה בשני אופנים סותרים: data/cds-map.ts מציב אותה מעל MAPL (שיוך רשימת פעולות לחומר), data/cds-enrichment.ts מציב אותה מעל MAST (שיוך חומר לעץ מוצר). בתיעוד SAP הרשמי הנגיש (מדריך Virtual Data Model and CDS Views, ועמוד What's New 2025 'New and Enhanced CDS Views for Bill Of Material Management' שגופו נקרא בפועל) לא אותר נושא הנוקב בשם I_BillOfMaterialItemAssgmt. לצד השיוך חומר-עץ מוצר (שרשומת ההעשרה מציבה מעל MAST) מקבילה התצוגה המתועדת I_MaterialBOMLink (Status Released, 2023.latest) לפי מאפייניה, אך הסניפט שלה אינו נוקב בטבלה MAST. צד MAPL מתועד ב-I_MfgBOOMaterialAssignment וב-I_MfgBOOMaterialAssgmtChgSt (שתיהן Status Released, ושתיהן נוקבות בטבלה MAPL במטרתן). קיום, טבלת הבסיס ומצב השחרור של I_BillOfMaterialItemAssgmt עצמו דורשים אימות.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: "לאמת במערכת S/4HANA היעד (ADT או SE11, אפליקציית View Browser) האם קיימת תצוגה בשם I_BillOfMaterialItemAssgmt, מהי טבלת הבסיס שלה (MAST או MAPL) ומהו מצב השחרור. עד לאימות, לבחון את התצוגות המתועדות: I_MaterialBOMLink ('Material Link for Bill of Material') לשיוך חומר לעץ מוצר, I_MfgBOOMaterialAssignment או I_MfgBOOMaterialAssgmtChgSt לשיוך חומר לרשימת פעולות (MAPL). לתקן את הסתירה בין data/cds-map.ts ל-data/cds-enrichment.ts לפני שימוש בקוד מותאם.",
+    },
     xrefs: [
       "table:MAST",
       "table:MAPL",
@@ -3023,8 +3018,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
       "fm:CSAP_MAT_BOM_READ",
       "fm:CS_BOM_EXPL_MAT_RC1",
     ],
-    lastVerifiedAt: DATE15,
-    notes: "לא אותר תיעוד רשמי לתצוגה בשם I_BillOfMaterialItemAssgmt. הבדיקה החוזרת (2026-09-15) מאשרת את הממצא שכבר נרשם ברשומת table:MAST ב-2026-09-07, ומוסיפה לו את הכיסוי הרשמי החלופי: את צד ה-MAST מכסה במדריך ה-VDM התצוגה I_MaterialBOMLink ('Material Link for Bill of Material', View Type Basic, Status Released, 2023.latest), ואת צד ה-MAPL מכסות I_MfgBOOMaterialAssignment ו-I_MfgBOOMaterialAssgmtChgSt שהסניפטים שלהן נוקבים בטבלה MAPL במפורש. קיים במדריך ה-VDM גם נושא נוסף לצד רשימת הפעולות, Production Routing Material Assignment (2023.latest, loio 81c41224038545279b9ddb5d331d057c), אך הסניפט שלו אינו נוקב בשם טכני ואינו נוקב בטבלה, ולכן לא צוטט. אף אחת מהתצוגות הרשמיות האלה אינה מזהה ביקום הפרויקט, ולכן אינן ב-xrefs ואינן נרשמות כיורש; ללא מקור רשמי שמכריז על החלפה, אין כאן סטטוס 'הוחלף'. סתירה פנימית במאגר: data/cds-map.ts מציב את התצוגה מעל MAPL (שיוך חומר לרשימת פעולות) ואילו data/cds-enrichment.ts מציב אותה מעל MAST (שיוך חומר לעץ מוצר) ומתאר אותה כך לכל אורך הרשומה; אלה שתי משמעויות עסקיות שונות. השם העברי היחיד שהמאגר נותן לתצוגה הוא 'שיוך רשימת פעולות לחומר' ב-data/cds-map.ts, והוא תואם רק לקריאת MAPL; לפי רשומת ההעשרה, שמציבה את התצוגה מעל MAST, הוא אינו מתאים, ולכן גם השם העברי אינו מוכרע. שתי הטבלאות נרשמו ב-xrefs כדי שהקורא יראה את שני הצדדים. הסטטוס הנגזר שהאפליקציה מציגה כיום לרשומה זו הוא 'חדש ב-S/4HANA' ברובד 'מאומת מול נתוני הפרויקט', משום שדגל 'verified' ברשומת ההעשרה ממופה כך ב-lib/evidence/s4-status.ts; רשומה זו אינה מציבה סטטוס מחברי ומורידה את הרובד ל'נדרש אימות נוסף', כי שם התצוגה עצמו אינו נתמך במקור רשמי. גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript) והטענות מוגבלות לכותרת ולסניפט של רשומות החיפוש; חיבור ה-MCP למערכת SAP חיה נכשל בתחילת הסשן ולכן לא בוצעה בדיקה במערכת. לאימות: SE11 או ADT במערכת היעד, אפליקציית View Browser, או Business Accelerator Hub עם כניסה - ולבדוק האם קיימת תצוגה בשם I_BillOfMaterialItemAssgmt, מהי טבלת הבסיס שלה ומהו Release Status שלה. אם היא אינה קיימת, יש לתקן את data/cds-map.ts ואת data/cds-enrichment.ts לשם הרשמי המתאים לפי הכוונה: I_MaterialBOMLink לשיוך עץ מוצר לחומר, או I_MfgBOOMaterialAssignment לשיוך חומר לרשימת פעולות. אפליקציית Maintain Bill of Material (F1813) אינה ב-data/fiori/apps.ts ולכן אין xref ל-Fiori.",
+    lastVerifiedAt: DATE24,
+    notes: "Old (2026-09-15): לא אותר תיעוד רשמי לתצוגה בשם I_BillOfMaterialItemAssgmt. הבדיקה החוזרת (2026-09-15) מאשרת את הממצא שכבר נרשם ברשומת table:MAST ב-2026-09-07, ומוסיפה לו את הכיסוי הרשמי החלופי: את צד ה-MAST מכסה במדריך ה-VDM התצוגה I_MaterialBOMLink ('Material Link for Bill of Material', View Type Basic, Status Released, 2023.latest), ואת צד ה-MAPL מכסות I_MfgBOOMaterialAssignment ו-I_MfgBOOMaterialAssgmtChgSt שהסניפטים שלהן נוקבים בטבלה MAPL במפורש. קיים במדריך ה-VDM גם נושא נוסף לצד רשימת הפעולות, Production Routing Material Assignment (2023.latest, loio 81c41224038545279b9ddb5d331d057c), אך הסניפט שלו אינו נוקב בשם טכני ואינו נוקב בטבלה, ולכן לא צוטט. אף אחת מהתצוגות הרשמיות האלה אינה מזהה ביקום הפרויקט, ולכן אינן ב-xrefs ואינן נרשמות כיורש; ללא מקור רשמי שמכריז על החלפה, אין כאן סטטוס 'הוחלף'. סתירה פנימית במאגר: data/cds-map.ts מציב את התצוגה מעל MAPL (שיוך חומר לרשימת פעולות) ואילו data/cds-enrichment.ts מציב אותה מעל MAST (שיוך חומר לעץ מוצר) ומתאר אותה כך לכל אורך הרשומה; אלה שתי משמעויות עסקיות שונות. השם העברי היחיד שהמאגר נותן לתצוגה הוא 'שיוך רשימת פעולות לחומר' ב-data/cds-map.ts, והוא תואם רק לקריאת MAPL; לפי רשומת ההעשרה, שמציבה את התצוגה מעל MAST, הוא אינו מתאים, ולכן גם השם העברי אינו מוכרע. שתי הטבלאות נרשמו ב-xrefs כדי שהקורא יראה את שני הצדדים. הסטטוס הנגזר שהאפליקציה מציגה כיום לרשומה זו הוא 'חדש ב-S/4HANA' ברובד 'מאומת מול נתוני הפרויקט', משום שדגל 'verified' ברשומת ההעשרה ממופה כך ב-lib/evidence/s4-status.ts; רשומה זו אינה מציבה סטטוס מחברי ומורידה את הרובד ל'נדרש אימות נוסף', כי שם התצוגה עצמו אינו נתמך במקור רשמי. גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript) והטענות מוגבלות לכותרת ולסניפט של רשומות החיפוש; חיבור ה-MCP למערכת SAP חיה נכשל בתחילת הסשן ולכן לא בוצעה בדיקה במערכת. לאימות: SE11 או ADT במערכת היעד, אפליקציית View Browser, או Business Accelerator Hub עם כניסה - ולבדוק האם קיימת תצוגה בשם I_BillOfMaterialItemAssgmt, מהי טבלת הבסיס שלה ומהו Release Status שלה. אם היא אינה קיימת, יש לתקן את data/cds-map.ts ואת data/cds-enrichment.ts לשם הרשמי המתאים לפי הכוונה: I_MaterialBOMLink לשיוך עץ מוצר לחומר, או I_MfgBOOMaterialAssignment לשיוך חומר לרשימת פעולות. אפליקציית Maintain Bill of Material (F1813) אינה ב-data/fiori/apps.ts ולכן אין xref ל-Fiori. New (2026-09-24): לא אותר תיעוד רשמי לתצוגה בשם I_BillOfMaterialItemAssgmt. הבדיקה ב-2026-09-15 מיפתה את הכיסוי הרשמי החלופי: לצד השיוך חומר-עץ מוצר מקבילה לפי מאפייניה I_MaterialBOMLink ('Material Link for Bill of Material', Status Released, 2023.latest), שהסניפט שלה אינו נוקב ב-MAST; צד MAPL מכוסה ב-I_MfgBOOMaterialAssignment וב-I_MfgBOOMaterialAssgmtChgSt (שתיהן נוקבות בטבלה MAPL במפורש). אף אחת מהן אינה מזהה ביקום הפרויקט (data/cds-map.ts), ולכן אינן ב-xrefs ואינן נרשמות כיורש; ללא מקור רשמי שמכריז על החלפה, אין כאן סטטוס 'הוחלף'. אימות חוזר ב-2026-09-24: ריצות של scripts/sap-help-search.mjs על 'I_BillOfMaterialItemAssgmt' בסקופ On-Premise ובסקופ Public Cloud, ועל 'Bill of Material Item Assignment Virtual Data Model' בסקופ On-Premise, לא החזירו רשומה שכותרתה או הסניפט שלה נוקבים בשם המבוקש. גוף עמוד ה-What's New 'New and Enhanced CDS Views for Bill Of Material Management' (2025.000, loio c4aa65d50a7342f0a7b5d5a8b0ebbb5d) נקרא בפועל דרך scripts/sap-help-body.mjs ומפרט 15 שמות בשדה Technical Object Name ו-21 שמות בפסקת Business Details; I_BillOfMaterialItemAssgmt אינו באף אחת מהרשימות. ניסיון לקרוא את גוף עמוד ה-TOC 'CDS Views for Bills of Material' (loio 66366bf1430f419c840161b4645e823d, 2023.latest) הניב כותרת בלבד ללא תוכן טקסטואלי (עמוד ניווט), ולכן לא צוטט כראיה. שינוי לעומת 2026-09-15: אין שינוי מהותי בממצא; הרשומה מקבלת כעת שדה status מפורש (verification_required, release null, source null) וראיה חמישית מבוססת קריאת גוף עמוד. Old → New: הסטטוס הנגזר שהוצג עד כה ('חדש ב-S/4HANA' ברובד 'מאומת מול נתוני הפרויקט') מוחלף בסטטוס המפורש; הניסוח הקודם שלפיו I_MaterialBOMLink מכסה את צד ה-MAST הוחלף בהקבלה לפי מאפיינים, כי הסניפט שלה אינו נוקב בטבלה MAST; והמשפט הקודם על מעטפת JavaScript תקף ל-2026-09-15, ובסבב זה נקרא גוף עמוד c4aa65d5. הסתירה בין data/cds-map.ts (MAPL) ל-data/cds-enrichment.ts (MAST) לגבי טבלת הבסיס נותרה פתוחה. חיבור ה-MCP למערכת SAP חיה (sc4sap) נכשל בסשן, ולכן לא בוצעה בדיקת ADT או SE11. לאימות: SE11 או ADT במערכת היעד, אפליקציית View Browser, או Business Accelerator Hub עם כניסה, כדי לקבוע האם קיימת תצוגה בשם I_BillOfMaterialItemAssgmt, מהי טבלת הבסיס שלה ומהו Release Status שלה; אם אינה קיימת, יש לתקן את data/cds-map.ts ואת data/cds-enrichment.ts לשם הרשמי המתאים לפי הכוונה העסקית. אפליקציית Maintain Bill of Material (F1813) אינה ב-data/fiori/apps.ts ולכן אין xref ל-Fiori.",
   },
   {
     id: "cds:I_WorkCenterCapacity",
