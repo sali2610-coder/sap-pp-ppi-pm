@@ -17,6 +17,8 @@ import { TABLE_VERIFICATION } from "../data/verification/tables.ts";
 import { TX_VERIFICATION } from "../data/verification/transactions.ts";
 import { TX_VERIFICATION_B } from "../data/verification/transactions-b.ts";
 import { TX_VERIFICATION_C } from "../data/verification/transactions-c.ts";
+import { TX_VERIFICATION_D } from "../data/verification/transactions-d.ts";
+import { TX_VERIFICATION_E } from "../data/verification/transactions-e.ts";
 import { TX_VERIFICATION_AUTO } from "../data/verification/transactions-auto.ts";
 import { FM_VERIFICATION } from "../data/verification/functions.ts";
 import { IDOC_BASIC_TYPES, IDOC_VERIFICATION } from "../data/verification/idocs.ts";
@@ -36,11 +38,11 @@ import { PM_PROCESS_PRACTICES_2 } from "../data/best-practices/pm-processes-2.ts
 
 const REGISTRY = [...OBJECT_REGISTRY, ...IDOC_BASIC_TYPES];
 // Same precedence as data/verification/index.ts: a researched record supersedes the generated one.
-const RESEARCHED_TX = new Set([...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C].map((r) => r.id));
+const RESEARCHED_TX = new Set([...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C, ...TX_VERIFICATION_D, ...TX_VERIFICATION_E].map((r) => r.id));
 const TX_AUTO = TX_VERIFICATION_AUTO.filter((r) => !RESEARCHED_TX.has(r.id));
 const BPS = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES, ...PP_PROCESS_PRACTICES, ...CROSS_PROCESS_PRACTICES, ...PPPI_PROCESS_PRACTICES, ...PM_PROCESS_PRACTICES_2, ...CROSS_PROCESS_PRACTICES_2, ...CATALOG_PROCESS_PRACTICES];
 const ALL_RECORDS = [
-  ...TABLE_VERIFICATION, ...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C, ...TX_AUTO, ...FM_VERIFICATION, ...IDOC_VERIFICATION,
+  ...TABLE_VERIFICATION, ...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C, ...TX_VERIFICATION_D, ...TX_VERIFICATION_E, ...TX_AUTO, ...FM_VERIFICATION, ...IDOC_VERIFICATION,
   ...CDS_VERIFICATION, ...FIORI_VERIFICATION, ...ENH_VERIFICATION, ...OBJECT_VERIFICATION,
 ];
 
@@ -102,7 +104,7 @@ test("the honest fiori path: a level above verification_required needs an offici
 // graduated on 2026-09-24 with its first audited batch, so that guard has
 // no catalog left and was removed.
 test("graduated records (tables + functions + transactions + idocs + cds + enhancements + fiori + objects): every repository claim still carries a repoRef", () => {
-  for (const r of [...TABLE_VERIFICATION, ...FM_VERIFICATION, ...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C, ...TX_AUTO, ...IDOC_VERIFICATION, ...CDS_VERIFICATION, ...ENH_VERIFICATION, ...FIORI_VERIFICATION, ...OBJECT_VERIFICATION]) {
+  for (const r of [...TABLE_VERIFICATION, ...FM_VERIFICATION, ...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C, ...TX_VERIFICATION_D, ...TX_VERIFICATION_E, ...TX_AUTO, ...IDOC_VERIFICATION, ...CDS_VERIFICATION, ...ENH_VERIFICATION, ...FIORI_VERIFICATION, ...OBJECT_VERIFICATION]) {
     for (const e of r.evidence) {
       if (e.sourceType === "repository") assert.ok(e.repoRef, `${r.id}: repository evidence without repoRef`);
     }
@@ -119,7 +121,7 @@ const PURE_FILES = [
   "lib/evidence/depth.ts", "lib/evidence/validate.ts",
 ];
 const DATA_FILES = [
-  "data/verification/tables.ts", "data/verification/transactions.ts", "data/verification/transactions-b.ts", "data/verification/transactions-c.ts", "data/verification/transactions-auto.ts", "data/verification/functions.ts",
+  "data/verification/tables.ts", "data/verification/transactions.ts", "data/verification/transactions-b.ts", "data/verification/transactions-c.ts", "data/verification/transactions-d.ts", "data/verification/transactions-e.ts", "data/verification/transactions-auto.ts", "data/verification/functions.ts",
   "data/verification/idocs.ts", "data/verification/cds.ts", "data/verification/fiori.ts",
   "data/verification/enhancements.ts", "data/verification/objects.ts",
   "data/best-practices/pm.ts", "data/best-practices/pp-pi.ts", "data/best-practices/pm-processes.ts", "data/best-practices/pp-processes.ts", "data/best-practices/cross-processes.ts", "data/best-practices/pppi-processes.ts", "data/best-practices/pm-processes-2.ts",
@@ -135,5 +137,5 @@ test("pure modules and overlay files carry no value imports at all", () => {
 test("data/verification/index.ts imports exactly the ten files this suite loads", () => {
   const names = [...read("data/verification/index.ts").matchAll(/from\s+"\.\/([a-z-]+)"/g)]
     .map((m) => m[1]).sort();
-  assert.deepEqual(names, ["cds", "enhancements", "fiori", "functions", "idocs", "objects", "tables", "transactions", "transactions-auto", "transactions-b", "transactions-c"]);
+  assert.deepEqual(names, ["cds", "enhancements", "fiori", "functions", "idocs", "objects", "tables", "transactions", "transactions-auto", "transactions-b", "transactions-c", "transactions-d", "transactions-e"]);
 });

@@ -35,7 +35,7 @@ mkdirSync(RAW, { recursive: true });
 /* ------------------------------------------------------------------ the set */
 const read = (p: string) => readFileSync(p, "utf8");
 const authored = new Set(
-  [...(read("data/verification/transactions.ts") + read("data/verification/transactions-b.ts") + read("data/verification/transactions-c.ts")).matchAll(/^\s{4}id:\s*"tx:([^"]+)"/gm)].map((m) => m[1]),
+  [...(read("data/verification/transactions.ts") + read("data/verification/transactions-b.ts") + read("data/verification/transactions-c.ts") + read("data/verification/transactions-d.ts") + read("data/verification/transactions-e.ts")).matchAll(/^\s{4}id:\s*"tx:([^"]+)"/gm)].map((m) => m[1]),
 );
 // Every registry code without a researched record (transactions.ts / transactions-b.ts): the codes no
 // Simplification List item names, and the named ones the research chains have not reached yet. A

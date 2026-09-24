@@ -8,6 +8,8 @@ import { TABLE_VERIFICATION } from "./tables";
 import { TX_VERIFICATION } from "./transactions";
 import { TX_VERIFICATION_B } from "./transactions-b";
 import { TX_VERIFICATION_C } from "./transactions-c";
+import { TX_VERIFICATION_D } from "./transactions-d";
+import { TX_VERIFICATION_E } from "./transactions-e";
 import { TX_VERIFICATION_AUTO } from "./transactions-auto";
 import { FM_VERIFICATION } from "./functions";
 import { IDOC_BASIC_TYPES, IDOC_VERIFICATION } from "./idocs";
@@ -19,7 +21,7 @@ import { OBJECT_REGISTRY, OBJECT_VERIFICATION } from "./objects";
 // A researched record supersedes the generated evidence record for the same code
 // (transactions-auto.ts is regenerated, never hand-edited), so a research chain can
 // write any code without first deleting it from the generated shard.
-const RESEARCHED_TX = new Set([...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C].map((r) => r.id));
+const RESEARCHED_TX = new Set([...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C, ...TX_VERIFICATION_D, ...TX_VERIFICATION_E].map((r) => r.id));
 const TX_AUTO = TX_VERIFICATION_AUTO.filter((r) => !RESEARCHED_TX.has(r.id));
 
 const ALL: VerificationRecord[] = [
@@ -27,6 +29,8 @@ const ALL: VerificationRecord[] = [
   ...TX_VERIFICATION,
   ...TX_VERIFICATION_B,
   ...TX_VERIFICATION_C,
+  ...TX_VERIFICATION_D,
+  ...TX_VERIFICATION_E,
   ...TX_AUTO,
   ...FM_VERIFICATION,
   ...IDOC_VERIFICATION,
