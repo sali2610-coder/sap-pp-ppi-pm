@@ -196,7 +196,37 @@
    MM02 carry that record's S32OP Fiori Apps Library registration row verbatim
    as a context row (never counted toward level or depth; the batch-12 MC84
    precedent), and MDAB carries its documented Fiori negative in notes, since
-   its notes say fal-app was not run. */
+   its notes say fal-app was not run.
+   Batch 17 (research + adversarial audit 2026-09-24, written 2026-09-25;
+   access date stamped 2026-09-24): 6 audited records (MM03, MP38, MS01,
+   MS02, MS03, MS31), none refuted. MM03, MS01, MS02, MS03 and MS31 from
+   verdict.fixedRecord; MP38 from the draft (its verdict listed two optional
+   wording changes aimed at the draft's summary and gaps, which are not
+   record fields, so they change nothing written). Status sources point at
+   the new shared MM03_SIMPL_ITEM_2025, MS02_FAL, MS03_FAL and MS31_FAL
+   consts instead of the re-typed copies the verdicts carried; MS01 is
+   verification_required (release and source null) and MP38 carries evidence
+   only (no authored status, as audited). Writer corrections: reviewer fields
+   dropped (MS01 null, MS03); the MS01 notes' 'Old → New: unchanged →
+   verification_required' sentence recorded a refused draft, not a written
+   record (the point the MS31 auditor made on the same kind of sentence), so
+   it is reworded as a status weighed at research and not written; 'רק'
+   dropped where it bounded a source's content rather than a search (MS31
+   status.he and notes on item 10.4.26, the form the MS01, MS02 and MS03
+   auditors applied to the same phrase; MP38 evidence[1] and [2], written
+   with the count its own notes give, 'פעם אחת'), and the MM03 notes'
+   'בלבד' on item 6.7.4 written 'ולא ב-MM03'; the MS03 status.he bounded the
+   way the MS31 auditor bounded the same library wording (Published at
+   S32OP, a release list from S6OP, not Published in every release); the
+   MS02 'MD01-MD13' range written as the codes the item prints (MD01, MD02,
+   MD03, MD01N, MD11, MD12, MD13), as the MS01 auditor verified; the MS02
+   'MS02 נוקבת ... ואינה נוקבת' slip written 'מופיעה' (the item names the
+   code, not the reverse); item names added next to bare item numbers in the
+   notes of MM03, MS01, MS03 and MS31 (HOUSE-RULES §3.5). The notes of MP38,
+   MS01, MS03 and MS31 end with the sentence that the generated record in
+   transactions-auto.ts is superseded (MM03 and MS02 already said so); MS31
+   names the two generated context rows it does not carry (its tcode-catalog
+   row and an HCM Slovakia wage-type search record). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -2180,6 +2210,70 @@ const MM02_SIMPL_ITEM_2025: Evidence = {
     "נעשה 'in material master apps (e.g. MM01, MM02)', ומ-1610 ואילך: 'time-dependent, valid for material /article " +
     "and a country or multiple countries, functionality accessible only via FIORI apps, new data model'. הפריט " +
     "אינו נוקב במזהה אפליקציית Fiori. בפרק הפעולות הוא מפנה ל-KBA 2432527.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MM03_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 FPS01 · item 12.1.1 S4TWL - Material Type SERV",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט קובע: 'A new material type SERV (Service Materials) is created with reduced user departments and fields " +
+    "in the classical transactions: MM01/MM02/MM03.' המחלקות הנתמכות: Accounting, Purchasing, Basic Data, Sales; " +
+    "שדות שאינם רלוונטיים ל-SERV מוסתרים מהמסך ('The selected fields are hidden only from the material type " +
+    "\"Service Materials\", however, they are supported for other material types'). אותו נוסח מופיע ב-2023 FPS03, " +
+    "פריט 3.26. הפריט קובע שינוי במסך התצוגה של MM03 עבור סוג חומר SERV, לא הסרה או תחליף לטרנזקציה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MS02_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Fiori Apps Library · App MS02 'Execute LTP for Material' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MS02')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "ספריית האפליקציות הרשמית של Fiori רושמת את MS02 בשמה כאפליקציית SAP GUI 'Execute LTP for Material' (רכיב " +
+    "PP-MRP-BD), שמופיעה בכל המהדורות מ-S6OP (S/4HANA 1610) ועד S32OP (2025 FPS01), ללא predecessor וללא " +
+    "successor רשומים (שני השדות ריקים).",
+  verificationLevel: "sap_official_verified",
+};
+
+const MS03_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App MS03 'Long-term plng: singl-itm, singl-lvl' (SAP GUI), release S32OP (S/4HANA 2025 " +
+    "FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MS03')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "ספריית האפליקציות הרשמית של Fiori רושמת את MS03 כאפליקציית SAP GUI מפורסמת (Published), רכיב PP-MRP-BD, " +
+    "קטלוג טכני SAP_TC_SCM_PP_BE_APPS:S4PP, טרנזקציית GUI מובילה MS03; הרשומה מכסה מהדורות S6OP (1610) ועד S32OP " +
+    "(2025 FPS01), ולא רשומים בה predecessor או successor.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MS31_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "MS31: Create LTP Scenario (SAP GUI), Fiori Apps Library, S32OP",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MS31')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "ספריית האפליקציות הרשמית של Fiori רושמת את MS31 כאפליקציה 'Create LTP Scenario' מסוג SAP GUI, ברכיב " +
+    "PP-MRP-BD, בסטטוס Published, ללא predecessor או successor רשומים ('predecessors: -; successors: -'). רשימת " +
+    "השחרורים שברשומה משתרעת מ-S6OP (1610) ועד S32OP (2025 FPS01).",
   verificationLevel: "sap_official_verified",
 };
 
@@ -13256,5 +13350,586 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "שלה מספריית Fiori (MM02 כאפליקציית SAP GUI 'Change Material', סטטוס Published, S32OP) הועברה לכאן כלשונה, " +
       "והרשומה ההיא תיעדה 0 אפליקציות עם קוד מוביל MM02 במהדורה זו; שורות ההקשר האחרות שלה (רשומות החיפוש " +
       "'Periodic Actual Costing' ו-'Materials in Projects') לא הועברו.",
+  },
+  {
+    id: "tx:MM03",
+    evidence: [
+      MM03_SIMPL_ITEM_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 FPS01 · item 15.3.10 S4TWL - Material Valuation - Statistical " +
+          "moving average price",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט מתאר אפשרות אופציונלית בהסבה ל-S/4HANA לשנות את התנהגות הנעילה בתנועות סחורה כדי להגדיל תפוקה " +
+          "טרנזקציונית; לפי הפריט הבחירה בה 'is not mandatory' ו-'can not be un-done'. אם נבחרה, שדות SALKV ו-VERPR " +
+          "בטבלאות MBEW/EBEW/OBEW/QBEW אינם מתעדכנים עוד לחומרים בבקרת מחיר 'Standard', והציטוט הרלוונטי: 'the " +
+          "\"statistical\" moving average price and the value based on the \"statistical\" moving average price are no " +
+          "longer available on the user interface. This concerns the following transaction codes: MM01, MM02, MM03, " +
+          "CKM3 and MR21.' אותו נוסח מופיע גם ב-2023 FPS03, פריט 27.8. הפריט אינו קובע הסרה של MM03 עצמה, אלא " +
+          "היעדרות שדה תצוגה בה כאשר האפשרות נבחרה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App MM03 'Display Material' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MM03')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את MM03 כאפליקציה 'Display Material' מסוג SAP GUI, ברכיב " +
+          "LO-MD-MM (Material Master), במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Displaying Materials in Projects",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/fc05b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית בצד ECC (Single and Composite Roles (PFCG), versionId 6.18.latest) מציגה את MM03 בין " +
+          "פעולות התפקיד: 'Activities in the Project System Transaction Function MM03 Display Material Master Data'. " +
+          "אותו loio (fc05b753128eb44ce10000000a174cb4) מופיע גם בסקופ SAP_S4HANA_ON-PREMISE (2025 FPS01, versionId " +
+          "2025.001) תחת אותה כותרת 'Displaying Materials in Projects' ועם אותו סניפט 'MM03 Display Material Master " +
+          "Data', כך ש-MM03 מופיעה בתפקיד זה בשני הצדדים.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#MM03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tx-intel.ts#MM03",
+        claim:
+          "רשומת המאגר מתארת את MM03 כטרנזקציית תצוגה בלבד (display-only) של רשומת חומר מטבלאות " +
+          "MARA/MARC/MARD/MBEW/MVKE, מודול PP, ומציינת חלופת Fiori 'Manage Product Master (Material), Display'. זו " +
+          "רשומת הקשר פנימית של הפרויקט ואינה מקור SAP רשמי.",
+        verificationLevel: "repository_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "לפי שני פריטי S4TWL (2025 FPS01: 12.1.1 'S4TWL - Material Type SERV' ו-15.3.10 'S4TWL - Material Valuation - " +
+        "Statistical moving average price'; המקבילים ב-2023 FPS03: 3.26 ו-27.8), MM03 נזכרת במפורש בשני שינויי " +
+        "תצוגה: לחומרים מסוג SERV מוצגות פחות מחלקות ושדות במסך (המחלקות הנתמכות: Accounting, Purchasing, Basic " +
+        "Data, Sales); ואם בהסבה נבחרה האפשרות (אופציונלית ובלתי הפיכה) לשנות את התנהגות הנעילה בתנועות סחורה, " +
+        "המחיר הממוצע הנע הסטטיסטי (SALKV/VERPR) אינו מוצג עוד ב-MM03 לחומרים בבקרת מחיר Standard. הפריטים אינם " +
+        "קובעים הסרה, החלפה או הגבלה של הטרנזקציה עצמה; MM03 מופיעה בספריית Fiori בשם 'Display Material' (S32OP, " +
+        "Published) וברשומות חיפוש רשמיות בצד ECC וב-S/4HANA On-Premise בתפקיד 'Displaying Materials in Projects' " +
+        "(הסניפט: 'MM03 Display Material Master Data').",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MM03_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-MM03 לעיון בטוח בנתוני חומר. לחומרים מסוג SERV לוודא שהמחלקות והשדות המוסתרים (מעבר " +
+        "ל-Accounting, Purchasing, Basic Data, Sales) אינם נדרשים בתהליך העסקי הספציפי. אם בהסבה נבחרה אפשרות שינוי " +
+        "הנעילה בתנועות סחורה (S4TWL - Material Valuation - Statistical moving average price), לבדוק מול הצוות " +
+        "המקצועי שדוחות ותהליכים אינם נשענים על תצוגת ה-'statistical' moving average price ב-MM03 לחומרים בבקרת " +
+        "מחיר Standard; הבחירה אינה ניתנת לביטול.",
+    },
+    xrefs: ["tx:MM01", "tx:MM02", "table:MARA", "table:MARC", "table:MBEW"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שרצו ב-scripts/sap-help-search.mjs: 'MM03' בסקופ " +
+      "SAP_S4HANA_ON-PREMISE (21 תוצאות), 'Statistical moving average price' בסקופ SAP_S4HANA_ON-PREMISE (21 " +
+      "תוצאות, לא צוטט ישירות מעבר לפריט הפישוט), 'MM03 Display Material' בסקופ SAP_ERP (21 תוצאות, 1 מצוטטת). " +
+      "scripts/fal-app.mjs MM03 --release S32OP הוחזר ואושר (Display Material, SAP GUI, Published, LO-MD-MM); רשימת " +
+      "המהדורות שם כוללת גם S30OP (2023 FPS03). שני פריטי הפישוט נקראו ישירות מהקבצים המקומיים " +
+      "scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt; לא נקרא גוף עמוד נפרד דרך " +
+      "sap-help-body.mjs. חיפוש טקסט של MM03 בקובץ 2025 FPS01 מצא אותה רק בפריטים 12.1.1 ('S4TWL - Material Type " +
+      "SERV') ו-15.3.10 ('S4TWL - Material Valuation - Statistical moving average price'), ובתוך FIP_CALL_MM03 " +
+      "(טרנזקציה אחרת, פריט Fresh Item Procurement); פריט 'S4TWL - BOM, Routing, Production Version' אינו נוקב בה. " +
+      "פריט 'S4TWL - Material classification with commodity codes' (6.7.4) נוקב ב-'e.g. MM01, MM02' ולא ב-MM03, " +
+      "ולכן לא נכלל. הרשומה הקיימת ב-data/verification/transactions-auto.ts (id tx:MM03) היא טיוטה דטרמיניסטית " +
+      "ללא הכרעת מעמד, המבוססת בעיקר על ראיות מאגר וסניפט לא רלוונטי ('Periodic Actual Costing'); Old → New: " +
+      "רשומה זו מחליפה אותה. ה-loio המצוטט fc05b753128eb44ce10000000a174cb4 ('Displaying Materials in Projects') " +
+      "מופיע גם ב-SAP_ERP 6.18.latest וגם ב-SAP_S4HANA_ON-PREMISE 2025.001; ה-loio " +
+      "ff05b753128eb44ce10000000a174cb4 ('Materials in Projects', סניפט 'MM03 Display Material') הוא רשומה נפרדת " +
+      "שאינה מצוטטת כאן. אין WebSearch.",
+  },
+  {
+    id: "tx:MP38",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MP38",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את MP38 כ'ביצוע תחזית המונית', מודול PP, תחום 'תחזית'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MP38",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Retail Obsolete Transactions (Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, " +
+          "document version 1.36, item 13.15.55)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט מפרט טבלת טרנזקציות שאינן זמינות עוד ב-S/4HANA; MP38 אינו שורה בטבלה. הקוד מופיע בפריט פעם אחת, " +
+          "בשורת WC26 ('Batch Forecast'), בעמודת ההערה: 'batch transaction of MP38'. לפי סעיף 'How to Determine " +
+          "Relevancy', הפריט רלוונטי אם נעשה שימוש באחת הטרנזקציות המפורטות. הפריט אינו קובע דבר על מעמד MP38 עצמו.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Retail Obsolete Transactions (Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3, " +
+          "document version 1.35, item 60.34)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE24,
+        claim:
+          "אותו פריט במהדורת 2023 FPS03: MP38 אינו שורה בטבלת הטרנזקציות שאינן זמינות עוד. הקוד מופיע בפריט פעם " +
+          "אחת, בשורת WC26 ('Batch Forecast'), בעמודת ההערה: 'batch transaction of MP38'. הפריט אינו קובע דבר על " +
+          "מעמד MP38 עצמו.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · MP38, מהדורה S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MP38')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "fal-app.mjs MP38 --release S32OP מחזיר 'not in this release', ו-fal-app.mjs --tcode MP38 מחזיר 'leading " +
+          "app(s): none'. זהו ממצא שלילי מתועד בספריית Fiori בלבד, ואינו קובע מעמד לטרנזקציה.",
+        verificationLevel: "verification_required",
+      },
+    ],
+    xrefs: [],
+    lastVerifiedAt: DATE24,
+    notes:
+      "הטקסט המלא של פריט 'S4TWL - Retail Obsolete Transactions' נקרא ישירות מ-scratchpad/official/SIMPL_OP2025.pdf.txt " +
+      "(פריט 13.15.55) ומ-SIMPL_OP2023.pdf.txt (פריט 60.34). בכל אחד מהם MP38 מופיע פעם אחת, בשורת WC26 ('Batch " +
+      "Forecast') בעמודת ההערה: 'batch transaction of MP38'. חיפושים שבוצעו ב-sap-help-search.mjs: 'MP38 Execute " +
+      "Mass Forecast', 'Execute Mass Forecast', 'MP38', 'Material Forecast transaction MP38' (כולם בסקופ S/4HANA " +
+      "On-Premise, 21 תוצאות כל אחד, אף אחת לא נוקבת ב-MP38), וגם 'MP38' עם --product SAP_ERP (21 תוצאות, אף אחת " +
+      "לא נוקבת ב-MP38). fal-app.mjs MP38 --release S32OP: 'not in this release'; fal-app.mjs --tcode MP38: 'leading " +
+      "app(s): none'. לא נמצא מקור רשמי הקובע מעמד ל-MP38 עצמו, ולכן לא נכתב status. לא בוצעה בדיקה במערכת SAP " +
+      "חיה. המלצה: SE93 בסביבת היעד לאישור קיום/מצב הקוד, ומעקב אחרי גרסאות עתידיות של רשימת הפישוט. הרשומה שנוצרה " +
+      "אוטומטית ל-MP38 ב-data/verification/transactions-auto.ts מוחלפת ברשומה זו (ישן: ללא הכרעת מעמד, שני פריטי " +
+      "הפישוט כהקשר שתוכנו טרם נקרא; חדש: ללא הכרעת מעמד, תוכן הפריטים נקרא).",
+  },
+  {
+    id: "tx:MS01",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MS01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "מאגר הפרויקט (data/tcode-catalog.ts) רושם את MS01 במודול PP, תחום 'תכנון לטווח ארוך', עם השם האנגלי " +
+          "'Long-Term Planning - Total Planning Online'. זו רשומת קטלוג ואינה קובעת סטטוס S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MS01",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Performance Optimizations for MRP | Logistics (SAP ERP)",
+        url: "https://help.sap.com/docs/SAP_ERP/930f133a36a843318dc3347afe00a9d6/819f1a74147f4a9089132288e7c6ab3c.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Logistics, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "819f1a74147f4a9089132288e7c6ab3c) נוקבת בקוד MS01 בסניפט: '...with the read optimization is not possible in " +
+          "the following cases: Long-term planning: MSBT, MS01, MS02, and MS03...'. הרשומה מאשרת את קיומה של MS01 " +
+          "כטרנזקציית ECC (SAP ERP 6.0 EHP8) לתכנון לטווח ארוך.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Carrying Out MRP for Long-Term Planning | Production Planning and Control (SAP S/4HANA 2025 FPS01 " +
+          "On-Premise)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/af73b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף הנושא (נקרא דרך שירות התוכן, deliverable 40374808, loio af73b6535fe6b74ce10000000a174cb4, versionId " +
+          "2025.001) מתאר תחת הכותרת 'Carrying out total planning online': 'Starting from the Long-term Planning " +
+          "node, choose Long-term planning → Planning run → Online. The system branches to the initial screen for " +
+          "total planning...'. הדף אינו נוקב בקוד טרנזקציה; הקישור ל-MS01 הוא הסקה של הכותב מהשם ברשומת המאגר " +
+          "(Total Planning Online) ואינו נאמר במקור.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 10.4.26 " +
+          "S4TWL - BOM, Routing, Production Version",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט המלא (Application Component LO-MD-BOM, SAP Note 2267880) נקרא מהקובץ. הקוד MS01 מופיע בשדה 'Other " +
+          "Terms' (רשימת מונחי חיפוש) לצד MD01, MD02, MD03, MD01N, MD11, MD12, MD13, MS02, MS03, MS31, MS32, MS33 " +
+          "ועוד. תוכן הפריט (Reason and Prerequisites / Business Value / Solution / Required and Recommended " +
+          "Action(s)) עוסק בכך שמאז on-premise 1511 גרסת ייצור (Production Version) נדרשת עבור BOM לצורך פירוק BOM " +
+          "ב-MRP, יצירת הזמנת תכנון ויצירת הזמנת ייצור; הפריט אינו קובע לגבי MS01 החלפה, הסרה או שינוי מבני, " +
+          "והפעולה הנדרשת (הנוסח המודפס: 'pay attention reviewing and adjusting the BOMs before the migration to " +
+          "S/4Hana system') כללית לתהליכים המפורטים ולא ספציפית ל-MS01.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "אף רשומה רשמית של SAP S/4HANA שנבדקה אינה קובעת סטטוס ל-MS01: הנושא 'Carrying Out MRP for Long-Term " +
+        "Planning' (2025.001) מתאר תכנון כולל מקוון לטווח ארוך בלי לנקוב בקוד, ופריט הפישוט 'S4TWL - BOM, Routing, " +
+        "Production Version' מזכיר את MS01 ברשימת 'Other Terms' ואינו פוסק לגביה.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לפני מעבר ל-S/4HANA יש לוודא שקיימת גרסת ייצור (Production Version) תקינה לכל שילוב BOM/מסלול המשמש " +
+        "בתרחישי תכנון לטווח ארוך, בהתאם לפריט 'S4TWL - BOM, Routing, Production Version'; אם סוג פירוק BOM ב-ECC " +
+        "היה ריק או '1' (ולא '2'), לבדוק ולהתאים את ה-BOM-ים (טבלאות STPO/STAS) לפני ההרצה ב-S/4HANA, ולאמת את " +
+        "זמינות MS01 ב-SE93 או בהרצה במערכת S/4HANA.",
+    },
+    xrefs: ["tx:MS02", "tx:MS03", "tx:MD01"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "סטטוס unchanged על סמך evidence[2] (2025.001) נשקל בשלב המחקר ולא נכתב: המקור אינו מדפיס את MS01, וההתאמה " +
+      "לפי נתיב תפריט היא הסקה. לא בוצעה בדיקה במערכת SAP חיה; הממצאים מבוססים על scripts/sap-help-search.mjs, " +
+      "scripts/sap-help-body.mjs והקבצים המקומיים scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt. " +
+      "פריט 2023 FPS03 28.7 'S4TWL - BOM, Routing, Production Version' זהה בתוכנו לפריט 2025 FPS01 10.4.26 באותו " +
+      "שם (אותו אזכור של MS01 ברשימת Other Terms); לא נכלל כרשומת evidence נפרדת כדי לעמוד במגבלת 1-4 רשומות. node " +
+      "scripts/fal-app.mjs --tcode MS01 --release S32OP החזיר 'leading app(s): none; GUI app entry: none', ולכן אין " +
+      "יורש Fiori מאומת ל-MS01. הרשומה שנוצרה אוטומטית ל-MS01 ב-data/verification/transactions-auto.ts מוחלפת " +
+      "ברשומה זו (ישן: ללא הכרעת מעמד; חדש: verification_required).",
+  },
+  {
+    id: "tx:MS02",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MS02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מתארת את MS02 כ'תכנון לטווח ארוך - פריט בודד רב-רמתי', מודול PP, תחום 'תכנון לטווח ארוך'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MS02",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Performance Optimizations for MRP | Logistics",
+        url: "https://help.sap.com/docs/SAP_ERP/930f133a36a843318dc3347afe00a9d6/819f1a74147f4a9089132288e7c6ab3c.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Logistics, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "819f1a74147f4a9089132288e7c6ab3c) נוקבת בקוד MS02 בשמו בסניפט: 'read optimization is not possible in the " +
+          "following cases: Long-term planning: MSBT, MS01, MS02, and MS03 ...'. הסניפט מבסס אזכור בשם בהקשר של " +
+          "אופטימיזציית קריאה ב-MRP; הוא אינו קובע דבר לגבי עתיד הקוד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Long-Term Planning (PP-MP-LTP)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/7073b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הגוף שנקרא של הנושא הרשמי (S/4HANA 2025 FPS01, on-premise) מתאר את רכיב 'Long-Term Planning " +
+          "(PP-MP-LTP)': תכנון ייצור לטווח ארוך, סימולציות עם גרסאות של תוכנית הביקושים וסימולציה של תכנון לטווח " +
+          "קצר ובינוני, ומציין שהבסיס הוא נתוני התפעול (material master, BOMs, routings, work centers). הנושא אינו " +
+          "נוקב MS02 בשמה; הוא מראה שהרכיב שהקוד משרת מתועד במהדורה זו.",
+        verificationLevel: "supported_secondary_source",
+      },
+      MS02_FAL,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 10.4.26 " +
+          "S4TWL - BOM, Routing, Production Version",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (Reason and Prerequisites) קובע: 'Production versions are mandatory in S/4HANA. MRP, planned order " +
+          "creation, and production order creation only find a BOM and routing alternative if a production version " +
+          "is maintained for the BOM and routing alternative.' MS02 מופיעה ברשימת 'Other Terms' של הפריט (יחד עם " +
+          "MS01, MS03, MD01, MD02, MD03, MD01N, MD11, MD12, MD13, CS01, CS02 ועוד) ואינה מופיעה בשמה בגוף Reason and " +
+          "Prerequisites / Solution שנקרא. הפריט אינו קובע כי MS02 הוחלפה, שונתה או הוסרה; הוא קובע דרישה כללית " +
+          "(גרסת ייצור חובה) שחלה על MRP ותכנון לטווח ארוך באופן עקיף.",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 28.7 " +
+          "S4TWL - BOM, Routing, Production Version",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "אותו פריט (28.7) במהדורת 2023 FPS03 חוזר על אותו נוסח Reason/Solution ונוקב ב-MS02 באותה רשימת 'Other " +
+          "Terms'; בגוף הפריט שנקרא אין קביעה נפרדת לגבי MS02.",
+        verificationLevel: "supported_secondary_source",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MS02 (תכנון לטווח ארוך - פריט בודד רב-רמתי) רשומה כזמינה ב-S/4HANA On-Premise 2025 FPS01: ספריית " +
+        "אפליקציות Fiori (S32OP) מציגה אותה בשמה כאפליקציית SAP GUI 'Execute LTP for Material', בכל המהדורות " +
+        "מ-S/4HANA 1610 (S6OP) ועד 2025 FPS01, ללא predecessor וללא successor רשומים. פריט הפישוט 'S4TWL - BOM, " +
+        "Routing, Production Version' אינו קובע החלפה או ביטול של MS02; הוא נוקב בה ברשימת Other Terms וקובע " +
+        "דרישה כללית (גרסת ייצור חובה ל-MRP ותכנון) שחלה על תפעולה. רכיב 'Long-Term Planning (PP-MP-LTP)' מתועד " +
+        "באותה מהדורה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MS02_FAL,
+      recommendedAction:
+        "לשמר את MS02 בתהליך המעבר כטרנזקציית GUI זמינה ב-S/4HANA On-Premise 2025 FPS01; לוודא בפרויקט שגרסת " +
+        "ייצור (production version) מוגדרת לכל BOM/Routing רלוונטי לפני ההמרה, בהתאם לפריט 'S4TWL - BOM, " +
+        "Routing, Production Version', כדי שתכנון לטווח ארוך ב-MS02 ימצא חלופת BOM ו-Routing תקינה. לא בוצעה בדיקה " +
+        "במערכת SAP חיה; מומלץ אימות SE93 במערכת היעד לפני החלטה פרויקטלית סופית.",
+    },
+    xrefs: ["tx:MS01", "tx:MS03"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "הרישום ב-Registry (מודול PP, תחום 'תכנון לטווח ארוך', שם אנגלי 'Long-Term Planning - Single-Item " +
+      "Multi-Level') הוצלב עם simpl-tcode-index.json: 2023 FPS03 28.7 ו-2025 FPS01 10.4.26 'S4TWL - BOM, Routing, " +
+      "Production Version'. שני הפריטים נקראו בגוף המלא מ-scratchpad/official/SIMPL_OP2023.pdf.txt (שורה 36569) " +
+      "ו-SIMPL_OP2025.pdf.txt (שורה 53199): MS02 מופיעה ברשימת 'Other Terms' ואינה מופיעה בשמה בגוף Reason and " +
+      "Prerequisites / Solution; לכן שני הפריטים צוטטו כ-supported_secondary_source ולא כמקור הסטטוס. הסטטוס " +
+      "unchanged נסמך על ספריית Fiori (fal-app.mjs MS02 --release S32OP: אפליקציית SAP GUI 'Execute LTP for " +
+      "Material', מהדורות S6OP..S32OP, 0 predecessors, 0 successors) ועל נושא 'Long-Term Planning (PP-MP-LTP)' " +
+      "שגופו נקרא דרך sap-help-body.mjs ומראה שהרכיב מתועד ב-2025 FPS01 (אינו נוקב MS02 בשמה). חיפושים שהורצו " +
+      "(sap-help-search.mjs): 'Long-Term Planning Single-Item Multi-Level' (S/4HANA On-Premise, 21 תוצאות; אף " +
+      "רשומה לא נוקבת MS02 בשמה בסניפט), 'Overview of the Main Transaction Codes Long-Term Planning' (21 תוצאות, " +
+      "לא אותר דף 'Main Transaction Codes' מקביל לזה של CBP/MD11). רשומה רשמית הנוקבת MS02 בשמה אותרה רק בצד ECC " +
+      "('Performance Optimizations for MRP') ובספריית Fiori. xrefs (MS01, MS03) אומתו כקיימים " +
+      "ב-lib/route-manifest.generated.ts ('tcodes') ולא נחקרו ברשומה זו. לא בוצעה בדיקה במערכת SAP חיה. הרשומה " +
+      "מחליפה את הרשומה שנוצרה אוטומטית ל-MS02 ב-data/verification/transactions-auto.ts (ישן: ללא הכרעת מעמד → " +
+      "חדש: unchanged).",
+  },
+  {
+    id: "tx:MS03",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MS03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מתארת את MS03 כ'תכנון לטווח ארוך - פריט בודד חד-רמתי' (Long-Term Planning - Single-Item " +
+          "Single-Level), מודול PP, תחום 'תכנון לטווח ארוך'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MS03",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Performance Optimizations for MRP",
+        url: "https://help.sap.com/docs/SAP_ERP/930f133a36a843318dc3347afe00a9d6/819f1a74147f4a9089132288e7c6ab3c.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "דף העזרה הרשמי של SAP ERP (deliverable Logistics, versionId 6.18.latest, loio " +
+          "819f1a74147f4a9089132288e7c6ab3c) מונה את MS03 בסניפט בין טרנזקציות התכנון לטווח ארוך שבהן אופטימיזציית " +
+          "הקריאה של MRP אינה אפשרית: 'An optimization with the read optimization is not possible in the following " +
+          "cases: Long-term planning: MSBT, MS01, MS02, and MS03'. כלומר בצד ה-ECC MS03 משויכת בתיעוד לתכנון לטווח " +
+          "ארוך.",
+        verificationLevel: "sap_official_verified",
+      },
+      MS03_FAL,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - BOM, Routing, Production Version (SAP S/4HANA 2025 FPS01 Simplification List, item 10.4.26)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (רכיב LO-MD-BOM) עוסק בכך שב-S/4HANA production version הפכה לחובה עבור BOM וניתוב, ואינו קובע " +
+          "דבר על MS03 עצמו. MS03 מופיע ברשימת 'Other Terms' של מונחים קשורים ('...MRP, MD01, MD02, MD03, MD01N, " +
+          "MRP Live, MS01, MS02, MS03, MD40, MD41, MD42, CS01, CS02...'); בטקסט שחולץ לא נמצא אזכור שלו בגוף הפתרון " +
+          "או בפעולות הנדרשות. זהו אזכור בלבד, לא הכרעת מעמד לגבי MS03.",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - BOM, Routing, Production Version (SAP S/4HANA 2023 FPS03 Simplification List, item 28.7)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE24,
+        claim:
+          "גם גרסת 2023 FPS03 של אותו פריט (LO-MD-BOM) עוסקת בחובת production version ל-BOM וניתוב, ומזכירה את " +
+          "MS03 ברשימת 'Other Terms' ('...MD01N, MRP Live, MS01, MS02, MS03, MD40, MD41, MD42, CS01, CS02, MD11...'); " +
+          "בטקסט שחולץ לא נמצאה בגוף הפריט קביעה לגבי MS03 עצמו (לא הוחלף, לא הוסר, לא השתנה במפורש).",
+        verificationLevel: "supported_secondary_source",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MS03 (תכנון לטווח ארוך, פריט בודד חד-רמתי) רשומה בספריית האפליקציות הרשמית של Fiori כטרנזקציית SAP GUI " +
+        "בסטטוס Published ב-S/4HANA 2025 FPS01 On-Premise (S32OP), ברשימת מהדורות מ-S6OP (S/4HANA 1610) ועד " +
+        "S32OP, ללא predecessor או successor רשומים. שני פריטי הפישוט (S4TWL - BOM, Routing, Production Version, " +
+        "2025 FPS01 ו-2023 FPS03) עוסקים בחובת production version ל-BOM וניתוב, ומעבר לאזכור MS03 ברשימת מונחים " +
+        "קשורים אינם קובעים דבר על הטרנזקציה עצמה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MS03_FAL,
+      recommendedAction:
+        "לאמת ב-SE93 במערכת S/4HANA היעד שהטרנזקציה MS03 קיימת ופעילה (תוכנית ומסך), ולעקוב אחר ספריית Fiori Apps " +
+        "Library במהדורות הבאות; לא נדרשת פעולת החלפה כל עוד לא פורסם successor.",
+    },
+    xrefs: ["tx:MS01", "tx:MS02"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק: רשומת המאגר (tcode-catalog.ts#MS03); חיפוש help.sap.com בסקופ SAP_ERP ('MS03 long-term planning " +
+      "single-item single-level', 21 תוצאות, מצוטטת אחת: Performance Optimizations for MRP, שבה MS03 מופיעה בין " +
+      "מקרי התכנון לטווח ארוך שבהם אופטימיזציית הקריאה אינה אפשרית); חיפוש בסקופ SAP_S4HANA_ON-PREMISE " +
+      "('Long-Term Planning Single-Item Single-Level MS03', 21 תוצאות, באף אחת לא הופיע הקוד MS03 עצמו); fal-app.mjs " +
+      "MS03 --release S32OP (רשומה רשמית, Published, רכיב PP-MRP-BD, ללא successor); שני פריטי הפישוט 'S4TWL - BOM, " +
+      "Routing, Production Version' (2025 FPS01 10.4.26, 2023 FPS03 28.7) נקראו מ-scratchpad/official/SIMPL_OP2025.pdf.txt " +
+      "ו-SIMPL_OP2023.pdf.txt, ובשניהם MS03 מופיע ברשימת 'Other Terms' ללא קביעה על הקוד עצמו. ה-url של פריטי " +
+      "הפישוט הוא קובץ ה-PDF של רשימת הפישוט המתאימה. מעמד 'unchanged' נשען על ספריית Fiori Apps Library בלבד (טווח " +
+      "מהדורות S6OP עד S32OP ללא successor), לא על פריטי הפישוט. לא צוטט מספר SAP Note, כי מספר ה-Note של הפריט " +
+      "הכללי אינו ספציפי ל-MS03. לא בוצעה בדיקה במערכת SAP חיה. הרשומה שנוצרה אוטומטית ל-MS03 " +
+      "ב-data/verification/transactions-auto.ts מוחלפת ברשומה זו (ישן: ללא הכרעת מעמד; חדש: unchanged).",
+  },
+  {
+    id: "tx:MS31",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Creating and Changing the Planning Scenario (Production Planning and Control, SAP ERP 6.0 EHP8 Latest)",
+        url: "https://help.sap.com/docs/SAP_ERP/a0d3efbac8b14fc89b29bf47a1677c86/a973b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש ב-help.sap.com בהיקף SAP_ERP מציגה נושא בשם 'Creating and Changing the Planning Scenario' " +
+          "תחת התחום Production Planning and Control (PP); הקטע (snippet) מתאר את הפעולה 'Create Planning Scenario' " +
+          "דרך התפריט Long-Term Planning > Scenario > Create. הקטע אינו נוקב בקוד טרנזקציה; ההצמדה ל-MS31 נשענת על " +
+          "שם הפעולה (Create Planning Scenario) ואינה מודפסת ברשומה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Creating and Changing the Planning Scenario (Production Planning and Control, SAP S/4HANA On-Premise 2025 " +
+          "FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/a973b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio (a973b6535fe6b74ce10000000a174cb4) מוצג גם בהיקף SAP_S4HANA_ON-PREMISE, גרסה 2025 FPS01, עם " +
+          "אותה כותרת ואותו קטע; כלומר נושא העזרה של יצירת ושינוי תרחיש תכנון לטווח ארוך מתועד גם ב-S/4HANA " +
+          "On-Premise 2025 FPS01; הקטע אינו נוקב בקודי טרנזקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      MS31_FAL,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - BOM, Routing, Production Version (SAP S/4HANA 2025 FPS01 Simplification List, item 10.4.26; " +
+          "באותה כותרת ב-2023 FPS03, item 28.7)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט נקרא במלואו. לפי Reason and Prerequisites: 'Production versions are mandatory in S/4HANA. MRP, " +
+          "planned order creation, and production order creation only find a BOM and routing alternative if a " +
+          "production version is maintained for the BOM and routing alternative.' רשימת Other Terms של הפריט מונה " +
+          "עשרות מילות מפתח ובהן 'long-term planning' ו-'MS31, MS32, MS33' לצד MS01, MS02, MS03, C223 ועוד. גם " +
+          "בגרסת 2023 FPS03 (item 28.7) רשימת Other Terms מונה את MS31, MS32 ו-MS33 (SIMPL_OP2023.pdf.txt שורה " +
+          "36655). זהו אזכור מילת מפתח בלבד: גוף הפריט אינו קובע דבר על MS31 עצמה, ולכן אין כאן קביעת סטטוס עבורה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "ספריית האפליקציות של Fiori רושמת את MS31 ('Create LTP Scenario') כאפליקציית SAP GUI בסטטוס Published " +
+        "ב-S/4HANA 2025 FPS01 On-Premise (S32OP), ברשימת שחרורים מ-1610 (S6OP) ועד S32OP, ושדות ה-predecessor " +
+        "וה-successor שלה ריקים. נושא העזרה 'Creating and Changing the Planning Scenario' מופיע באותו loio ב-SAP " +
+        "ERP 6.0 EHP8 וב-S/4HANA On-Premise 2025 FPS01. פריט הפישוט 'S4TWL - BOM, Routing, Production Version' " +
+        "מזכיר את MS31 ברשימת Other Terms ואינו קובע עליה דבר.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MS31_FAL,
+      recommendedAction:
+        "אין פעולת הסבה ייעודית ל-MS31 לפי המקורות שנבדקו. לפי פריט הפישוט 'S4TWL - BOM, Routing, Production " +
+        "Version', גרסת ייצור היא חובה ל-MRP, ליצירת הזמנה מתוכננת וליצירת הזמנת ייצור; מומלץ לבדוק בבדיקות " +
+        "ההסבה גם תרחישי תכנון לטווח ארוך, שכן MS31 מופיעה ברשימת מילות המפתח של הפריט, אך הפריט אינו מפרט השפעה " +
+        "עליהם.",
+    },
+    xrefs: ["tx:MS01", "tx:MS32", "tx:MS33"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שרצו: 'MS31 Create Planning Scenario' בהיקף S/4HANA On-Premise (21 " +
+      "תוצאות) ובהיקף SAP_ERP (21 תוצאות, אותה רשומה באותו loio); 'Long-Term Planning Scenario Fiori app' (21 " +
+      "תוצאות, לא עלתה אפליקציית Fiori רשומה כ-successor); scripts/fal-app.mjs --tcode MS31 ו-scripts/fal-app.mjs " +
+      "MS31 --release S32OP (predecessors: -, successors: -). רשימות הפישוט נקראו במלואן מ-scratchpad/official " +
+      "(SIMPL_OP2025.pdf ו-SIMPL_OP2023.pdf): פריט 10.4.26 'S4TWL - BOM, Routing, Production Version' (2025 FPS01) " +
+      "מזכיר את MS31 ברשימת Other Terms. אותו פריט ברשימת 2023 FPS03 (item 28.7) מונה גם הוא את MS31, MS32 ו-MS33 " +
+      "ב-Other Terms (SIMPL_OP2023.pdf.txt שורה 36655; simpl-tcode-index.json). נושאי העזרה ב-help.sap.com אינם " +
+      "נוקבים בקוד MS31; ההצמדה אליהם נשענת על שם הפעולה בלבד. הפריט מפנה להערה 0002267880 העוסקת ב-BOM, Routing " +
+      "ו-Production Version באופן כללי ולא ב-MS31, ולכן לא צוטטה כ-sapNote. מקור הסטטוס הוא רשומת ה-Fiori Apps " +
+      "Library. הרשומה שנוצרה אוטומטית ל-MS31 ב-data/verification/transactions-auto.ts מוחלפת ברשומה זו (ישן: ללא " +
+      "הכרעת מעמד; חדש: unchanged); שורות ההקשר שלה מרשומת המאגר data/tcode-catalog.ts#MS31 ('יצירת תרחיש תכנון') " +
+      "ומרשומת החיפוש 'Evaluation of Certain Wage Types | HCM Local Version for Slovakia' (כותרתה עוסקת בסוגי שכר, " +
+      "והסניפט שלה מציג את MS31 לצד 'Meal allowance') לא הועברו.",
   },
 ];
