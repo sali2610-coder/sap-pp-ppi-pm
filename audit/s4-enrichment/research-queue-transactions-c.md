@@ -76,6 +76,38 @@ L5 105, verified 621, verif.req 1186, conflict 11, s4-appl 624. The remainder (L
 verified +6, verification_required -6, s4-appl +5) is chain B's concurrent batch in
 `transactions-b.ts` (LS24, VA01, FD31, FD32, FD33, QS34, QS42, UKM_BP).
 
+Batch 4 written 2026-09-25 (access date stamped 2026-09-25): 8 drafts audited, 8 written, none
+refuted. Two are codes the item 'S4TWL - Selected project financial planning and control
+functions' lists under 'Modernized topics' (`tx:CJ9D`, topic 'Copy Plan Version', and `tx:CJSG`,
+subsection 'WBS Element Groups', each `changed`); two are `compatibility_scope` (`tx:CJI3` from
+'S4TWL - Project Reporting', successor `tx:CJI3N`; `tx:CJSB` from 'S4TWL - Project System -
+Compatibility Scope without alternative', 'no alternative planned'); `tx:CJI3N` is `changed`
+from 'S4TWL - Navigation to Project Builder instead of special maintenance functions'
+(navigation from CJI3N opens CJ20N since 1511; the auditor replaced the draft's `unchanged`);
+and the three simulation codes the item 'S4TWL - Current simulation functions in project
+system' lists (`tx:CJV1`, `tx:CJV2`, `tx:CJV3`) are `changed`. Four were taken from
+`verdict.fixedRecord` (`tx:CJI3`, `tx:CJI3N`, `tx:CJSG`, `tx:CJV2`) and four were re-derived from
+the draft with the listed downgrades (`tx:CJ9D`, `tx:CJSB`, `tx:CJV1`, `tx:CJV3`). The records
+were generated from the audited JSON, not retyped into TypeScript: every downgrade and writer
+change was applied as an exact-once substring replacement (a miss aborts the run), every row of
+the eight generated records was checked to be either cited by the audited record (same URL or
+repoRef, plus the item number for Simplification List rows) or carried, and the written module
+was deep-compared against the expected objects, with `status.source` checked for identity with
+its evidence row and the 23 batch-1 to batch-3 records checked unchanged.
+
+Depth (`report-coverage.mjs --ids`, before and after): all eight moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified` with the authored
+status (six `changed`, two `compatibility_scope`). They stay at depth L1: none has a tx-intel /
+tx-detail record, so the page structure (3 authored facts needed for L2) is missing. Batch effect
+on the catalog totals (`npm run report:coverage -- --catalog transactions`): verified +8,
+verification_required -8, s4-appl +8, depth bands and conflict unchanged. Measured totals: 02:34
+L1 1279, L3 432, L4 2, L5 105, verified 621, verif.req 1186, conflict 11, s4-appl 624; 02:51 L1
+1279, L3 424, L4 2, L5 113, verified 629, verif.req 1178, conflict 11, s4-appl 632. The remainder
+(L3 -8, L5 +8), attributed by a per-id diff of the two `--ids` runs, is concurrent work in other
+shards: chain B batch 7 in `transactions-b.ts` (VA02, VA03, VA05, VA11, VA12, VA13, VA22, each L3
+to L5) and the correction batch in `transactions.ts` (MD50 L3 to L5; MB03 and ME21 changed their
+status token only).
+
 ## refuted
 
 - `tx:KSV5` (batch 1, 2026-09-25): refuted at the adversarial gate, not written; the generated
@@ -129,6 +161,8 @@ verified +6, verification_required -6, s4-appl +5) is chain B's concurrent batch
   `tx:CJ08`, `tx:CJ11`, `tx:CJ12`, `tx:CJ13`, `tx:CJ14`, `tx:CJ20`) were written.
 - Batch 3 (2026-09-25): none refuted. All eight audited drafts (`tx:CJ27`, `tx:CJ2A`,
   `tx:CJ2B`, `tx:CJ2D`, `tx:CJ30`, `tx:CJ48`, `tx:CJ49`, `tx:CJ8V`) were written.
+- Batch 4 (2026-09-25): none refuted. All eight audited drafts (`tx:CJ9D`, `tx:CJI3`, `tx:CJI3N`,
+  `tx:CJSB`, `tx:CJSG`, `tx:CJV1`, `tx:CJV2`, `tx:CJV3`) were written.
 
 ## conflicts
 
@@ -255,6 +289,51 @@ verified +6, verification_required -6, s4-appl +5) is chain B's concurrent batch
   and CJ8V's says 'ללא החלפה או הסרה', the wording the CJ14 auditor ruled beyond the item. The
   CJ27 and CJ8V auditors passed it (both item rows say the item names no replacement or
   removal), so both are written as audited. The same family ruling applies.
+- `tx:CJSB` · repository vs official label (batch 4, recorded by the researcher, confirmed by the
+  auditor): `data/tcode-catalog.ts#CJSB` (line 180) labels CJSB 'בחירה: אלמנטי WBS' / 'Selection:
+  WBS Elements', while the item 'S4TWL - Project Reporting' prints 'CJSB Select Key Figure and
+  Characteristic' under 'Executive Infosystem', and the items 'S4TWL - Project System -
+  Compatibility Scope without alternative' / '... with alternative' (2025 FPS01) and 'S4TWL -
+  Project System - Compatibility Scope' (2023 FPS03) print 'Select Key Figure and Characteristic
+  (CJSB)'. The status uses the official name; the repository row quotes the catalog verbatim, as
+  a quote must, and the CJSB notes say the catalog label needs a fix. Not fixed
+  (tcode-catalog.ts is outside this writer's files). What settles it: a FIX pass on
+  tcode-catalog.ts line 180 against the items.
+- `tx:CJSB` / `tx:CJI3` · title versus content inside one source, no status conflict (batch 4):
+  the item 'S4TWL - Project System - Compatibility Scope with alternative' prints the same lines
+  as 'S4TWL - Project System - Compatibility Scope without alternative' for both codes ('Select
+  Key Figure and Characteristic (CJSB): no alternative planned'; 'Project Actual Cost Line Items
+  (CJI3): consider using Project Actual Cost Line Items (CJI3N)'). The CJSB auditor's wording
+  for the researcher's conflict entry: 'כותרת פריט 10.1.64 היא 'with alternative', אך הוא מביא
+  עבור CJSB את אותה שורה 'no alternative planned' כמו פריט 10.1.63; זו אי התאמה בין כותרת
+  הפריט לתוכנו, לא סתירה לגבי מעמד CJSB.' `conflicting_sources` is not used, as audited; the
+  CJI3 record reports both items as printed and does not decide which one applies. What would
+  settle it: the text of SAP Note 3265838, or the Project Reporting row (ID 459) in the
+  compatibility matrix attached to SAP Note 2269324, both of which the items name.
+- `tx:CJV1` / `tx:CJV2` / `tx:CJV3` · status wording, audit inconsistency (batch 4): all three
+  rest on the item 'S4TWL - Current simulation functions in project system'. The CJV2 and CJV3
+  auditors cut wording that goes beyond the item: 'יצאו מתחום ה-compatibility scope' / 'הפריט
+  מסיר' and 'לא מוגבלת בזכויות שימוש' (CJV2), 'בתחילה' and a three-sentence status.he (CJV3), and
+  the ECC-row inference 'הטרנזקציה קיימת עם אותו תיאור גם בתפקיד המקביל' (CJV3). The CJV1
+  record carries the same patterns: its status.he says 'היו בתחילה חלק מ-compatibility scope'
+  and '... ולא מתחום ה-compatibility scope המוגבל' in three sentences, and its ECC row says 'מה
+  שמאשר את קיומה של CJV1 גם בתפקיד המקביל'. The CJV1 auditor passed them, so CJV1 is written as
+  audited. What settles it: one wording ruling for the family; if the CJV2 and CJV3 rulings
+  apply, re-word the CJV1 status.he and ECC row in a later batch (text only, the evidence
+  stands).
+- `tx:CJ9D` / `tx:CJ48` · continue-use wording, audit inconsistency across batches (batch 4):
+  the CJ9D auditor ruled 'ניתן להמשיך להשתמש ב-CJ9D ב-S/4HANA On-Premise' an overclaim, because
+  the item 'S4TWL - Selected project financial planning and control functions' lists CJ9D under
+  a modernized topic ('Copy Plan Version', modernized by the report 'Copy plan category for
+  projects') without a sentence that the transaction itself is part of the perpetual scope (the
+  CJ8V prose has one). The batch-3 CJ48 record, under the same item's 'PS Cash Management'
+  topic, opens its recommendedAction with 'ניתן להמשיך להשתמש ב-CJ48 ב-S/4HANA On-Premise.', and
+  its auditor passed it. The topics differ (CJ9D's is modernized by a separate report, CJ48's by
+  reading from the universal journal), so the ruling may not transfer; the batch-4 CJSG
+  continue-use line was written by its auditor for a subsection whose modernization is inside
+  the WBS element group transactions. What settles it: one ruling on continue-use wording for
+  the item's modernized topics; if the CJ9D ruling applies to CJ48, re-word its recommendedAction
+  (text only).
 
 ## writer deviations (batch 1, 2026-09-25)
 
@@ -385,3 +464,70 @@ verified +6, verification_required -6, s4-appl +5) is chain B's concurrent batch
    the 'Project Budgeting' records are dated that day.
 8. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
    test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 4, 2026-09-25)
+
+1. Status sources. Shared consts CJ9D_SIMPL2025, CJI3_SIMPL2025, CJI3N_SIMPL2025,
+   CJSB_SIMPL2025, CJSG_SIMPL2025, CJV1_SIMPL2025, CJV2_SIMPL2025 and CJV3_SIMPL2025, each the
+   record's own Simplification List row, used by identity in evidence[] and in status.source.
+   They replace the CJ9D and CJSB pointer strings ('evidence[1]', 'evidence[2]'), the CJI3N
+   placeholder object (claim '(bind to the shared const of evidence[4])'), the CJV2 shortened
+   re-typed copy (evidence[1]'s title, URL and fields with a one-sentence claim; the verdict set
+   it equal to evidence[1]) and the CJV3 shortened copy (claim 'ראה evidence[3]: ...'). The CJI3,
+   CJSG and CJV1 copies were deep-equal to their rows (CJV1 after the same two downgrades were
+   applied to both).
+2. CJV1 evidence[3], the SAP_ERP search record 'Maintaining and Displaying Project Structures'
+   (versionId 6.18.latest, loio 2606b753128eb44ce10000000a174cb4), had no `verificationLevel` in
+   the audited draft, which failed `tsc` (TS2741). It now carries `sap_official_verified`, the
+   level every row for that search record carries (the CJV2 and CJV3 records, the generated
+   records); the CJV1 auditor re-checked the record and its snippet. No lookup was re-run. The
+   file was rebuilt from the pre-batch copy with the fix in the build script.
+3. Downgrades whose targets are not record fields. The researcher's `gaps` and `conflicts`
+   lists do not ship with the records: CJ9D gaps[2] (the typo 'בהרשימת' and the wrong '(size=10
+   בכל שאילתה)'), the CJI3 gap-4 note on F2538 and CJV3 gaps[2] had nothing to change in the
+   records (the CJI3 claim already states the F2538 deprecation; the CJV3 notes already say
+   fal-app was not run for the app name). The CJSB conflicts[1] rewording is recorded in the
+   conflicts section above.
+4. CJV1 downgrade 3 asked to replace 'both' '&hellip;' entities; the claim carries one, which was
+   replaced with '...'.
+5. Optional downgrade applied: CJSB evidence[4] 'אותו פריט מופיע גם' became 'אותה קביעה מופיעה
+   גם' (in 2023 FPS03 the statement sits in one item, in 2025 FPS01 in two).
+6. CJV3 notes corrected against the repository (local file checks, no research lookup; the
+   batch-2 CJ07 precedent). The notes said the generated tx:CJV3 record held 'two PFCG rows
+   only' and that only the CJV2 generated record cited the item; `transactions-auto.ts` shows
+   five context rows for tx:CJV3 (tcode-catalog.ts#CJV3, both PFCG search records, the Fiori
+   Apps Library row, the item 'S4TWL - Current simulation functions in project system' as not
+   yet read). The Old → New line said 'four new rows' and listed three; it now says what was old
+   and what was added. The item line span '50513-50550' became '50513-50556': in
+   `scratchpad/official/SIMPL_OP2025.pdf.txt` the CJV3 line is 50551 and the transaction list
+   runs to 50555 (the CJV1 notes already give 50513-50556).
+7. Old → New lines (HOUSE-RULES §3.8) added before the closing sentence where the notes lacked
+   the generated record's finding: CJI3, CJI3N (labelled 'Old → New (רשומה דטרמיניסטית)',
+   because its notes already carry an Old → New line for the auditor's status change), CJV1 and
+   CJV2. CJ9D, CJSB, CJSG and CJV3 already carry their history.
+8. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the
+   item number for Simplification List rows) the audited record does not cite were carried over
+   verbatim (`context: true`, access date 2026-09-24): CJI3 (both 'Line Item Reports' search
+   records, 2025.001 and 6.18.latest, loio ae05b753128eb44ce10000000a174cb4, and the Fiori Apps
+   Library row 'Display Actual Costs and Revenues', now evidence[5]-[7]); CJI3N (the row for
+   'S4TWL - Project System - Compatibility Scope without alternative', now evidence[5], as its
+   verdict asked); CJV2 (the SAP_ERP 'Maintaining and Displaying Project Structures' search
+   record, now evidence[4]). In the CJI3N row only the generator's frame sentence ('...
+   טרם נקרא במחקר') was replaced, by 'הפריט מובא כאן כהקשר ולא שימש מקור למעמד ברשומה זו.' (the
+   batch-1 OKB9 precedent), because the notes record that the item was read in full. The CJI3
+   notes say 'fal-app.mjs לא הורץ' for the researcher; the carried Fiori row comes from the
+   generator's run, and the added notes sentence says so. The other five generated records are
+   fully covered by the audited rows.
+9. Taken as audited, not re-checked: the CJI3N ECC search-record claim quotes a longer snippet
+   ('... This report enhances the report Actual Line Items for Costs and Revenues (transaction
+   CJI3). ...') than the generated record and the draft ('... enhances the report Actual ...').
+   The extension comes from the auditor's fixedRecord, and no local copy of the search response
+   exists to compare it with. If a later audit finds the extension came from the page body and
+   not the snippet, the claim should say so.
+10. Kept as audited: the empty `xrefs: []` of CJSB, CJSG and CJV1 (this file and its siblings
+    already carry empty lists); release notation ('2025.001' on the CJI3 rows and status, '2025
+    FPS01' elsewhere, '2023.003' and '2023 FPS03' on the 2023 rows). No record carries
+    `aliases`, `reviewer` or `catalogPatch` (the CJSG and CJV2 drafts carried an empty
+    catalogPatch, which is not a VerificationRecord field; their fixedRecords dropped it).
+11. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
+    test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
