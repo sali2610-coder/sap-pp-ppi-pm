@@ -19,13 +19,13 @@ const QUEUE_MD = args.queueMd || `audit/s4-enrichment/research-queue-${catalog}.
 
 const COMMON = `Repo: ${REPO} (branch design/neo-correction-pass). Catalog: ${catalog}. Overlay file: data/verification/${FILE}. Access date to stamp: ${accessedAt}.
 READ FIRST and ONLY: audit/s4-enrichment/HOUSE-RULES.md (record shapes, validation rules, honesty rules, the scripted official channels: scripts/sap-help-search.mjs for help.sap.com search records, scripts/sap-help-body.mjs for a topic body, scripts/fal-app.mjs for the Fiori Apps Library). Open lib/evidence/types.ts or validate.ts only if a rule there is unclear. Look at one existing record in data/verification/${FILE} for the house style.
-HARD RULES: never invent a table field, parameter, Fiori ID, SAP Note number, release status or successor. Claims bounded by the search record title/snippet or a body you read with sap-help-body.mjs. A name no official record prints stays verification_required with the searches listed; never assert non-existence. Edition on-premise unless the source says otherwise. Hebrew professional copy (תחזוקה, no em dashes). xrefs only to ids that exist (HOUSE-RULES §1).`
+HARD RULES: never invent a table field, parameter, Fiori ID, SAP Note number, release status or successor. Claims bounded by the search record title/snippet or a body you read with sap-help-body.mjs. A name no official record prints stays verification_required with the searches listed; never assert non-existence. Edition on-premise unless the source says otherwise. Hebrew professional copy (תחזוקה, no em dashes). xrefs only to ids that exist (HOUSE-RULES §1). No reviewer field, and no personal name or e-mail address anywhere in a record: the overlay pages render record fields publicly.`
 
 const DRAFT = {
   type: 'object', required: ['id', 'record', 'summary', 'gaps'],
   properties: {
     id: { type: 'string' },
-    record: { type: 'object', description: 'a complete VerificationRecord object exactly as it should appear in the overlay (id, aliases?, status?, evidence[], xrefs?, notes?, reviewer, lastVerifiedAt). Evidence entries must carry sourceType, sourceTitle, url or repoRef, product, edition, release?, accessedAt, claim (he), verificationLevel.' },
+    record: { type: 'object', description: 'a complete VerificationRecord object exactly as it should appear in the overlay (id, aliases?, status?, evidence[], xrefs?, notes?, lastVerifiedAt; no reviewer field). Evidence entries must carry sourceType, sourceTitle, url or repoRef, product, edition, release?, accessedAt, claim (he), verificationLevel.' },
     summary: { type: 'string', description: 'he: what was verified and at which level' },
     gaps: { type: 'array', items: { type: 'string' }, description: 'what could not be verified and why' },
     conflicts: { type: 'array', items: { type: 'string' } },
