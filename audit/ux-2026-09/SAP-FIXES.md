@@ -268,3 +268,13 @@
 | טענה ומקור | שלושה פריטים ברשימת הפישוט 2025 FPS01, מצוטטים מהטקסט הרשמי: 11.1.7 'S4TWL - Data Model Changes in SD Pricing' ("table KONV has been replaced in its data persistency role by the new table PRCD_ELEMENTS"); 15.3.1 'S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)' ("Material document data will be stored in MATDOC only and not anymore in MKPF and MSEG"; הטבלאות קיימות כהגדרות DDIC); 6.1.4 'S4TWL - DATA MODEL CHANGES IN FIN' (טבלאות הסיכומים והאינדקס "were removed and replaced by identically-named DDL SQL views, called compatibility views"; רשימת הפריט מזוגת לכל טבלה: BSIS/BSAS/BSID/BSAD/BSIK/BSAK/GLT0 ל-_DDL, FAGLFLEXT/COSP/COSS ל-V_…_DDL). COEP נזכרת בפריט אך לא ברשימת ההחלפה ולכן לא סומנה |
 | מה שונה | `tx-intel.ts`, רשימות הטבלאות: KONV → PRCD_ELEMENTS ב-6 טרנזקציות SD; MATDOC נוסף לצד MKPF/MSEG ב-31 טרנזקציות; ACDOCA נוסף לצד טבלאות הסיכומים והאינדקס ב-38 טרנזקציות FI/CO. ה-s4Delta של כל טרנזקציה נושא את המשפט המצוטט והפריט. דבר לא נמחק מלבד KONV, שהוחלפה ב-PRCD_ELEMENTS (משפט ה-ECC שומר עליה) |
 | בדיקות | `tsc` 0 · `npm test` 211/211 |
+
+---
+
+## FIX-17 · MFP1 = יחידות אריזה מתוכננות בייצור חוזר, לא Product Cost Collector (אימות SAP S/4HANA, 2026-09-25)
+
+| שדה | ערך |
+|---|---|
+| טענה ומקור | שני פריטי הפישוט 'S4TWL - Handling Unit Management - Obsolete Transactions' (2023 FPS03 49.2, 2025 FPS01 13.2.16) קובעים ש-MFP1 או MFP2 הן הטרנזקציות במקום HUP1 ("transactions MFP1 or MFP2 should be used instead", הודעה VHUAP 039), ו-MFP1 יחד עם MFP11 עד MFP14 ו-MFPP1 יוצרות יחידות אריזה מתוכננות בייצור חוזר; ספריית ה-Fiori (S32OP) רושמת את MFP1 כיישום SAP GUI 'Create Planned Handling Units, Plan HUs to Repetitive Manufacturing - General'; עמוד 'Transaction Codes in Cost Object Controlling' (2025.001, גוף העמוד נקרא) מפרט ל-Product Cost Collector את KKF6N. הממצא עלה ברשומה `tx:MFP1` (שרשרת A, אצווה 16, `fa2ad880`) |
+| מה שונה | `tx-intel.ts#MFP1` תיאר את יצירת ה-Product Cost Collector (טרנזקציה אחרת, KKF6N). הרשומה נבנתה מחדש לפי דפוס FIX-14: תחום, תיאור, זמינות ב-S/4HANA ומקורות מהפריטים ומהספרייה בלבד; השדות ששיקפו את הטרנזקציה האחרת (טבלאות MKAL/KKAG/AUFK/COBRA, שגיאות, שיטות עבודה, דוגמאות, רצף עבודה) רוקנו ולא נכתבו מחדש מהזיכרון, והרשומה סומנה needs-verification. אין אזכור נוסף של MFP1 מחוץ לשכבת האימות |
+| בדיקות | `tsc` 0 · `npm test` 211/211 |
