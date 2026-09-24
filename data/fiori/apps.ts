@@ -585,13 +585,20 @@ FIORI_APPS.push(
     // Feature Comparison loio 5d2fbff31efc440b8200fbad95a68dfe), What's New 2025 FPS01 (loio
     // 77a5d29949fd4a7494731ff6b4152e6f), What's New 2021 (loios 7a645d9e5e7841af8a6309e117e3bedf,
     // 155d60bad23c421ca95ba64c68ce96fa: "new apps", title only).
-    id: "F1511A", slug: "create-maintenance-request-f1511a", name: "Create Maintenance Request", he: "יצירת בקשת אחזקה", module: "PM", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Create Maintenance Request, Feature Comparison - Request Maintenance and Create Maintenance Request) · What's New in SAP S/4HANA 2021, 2025 FPS01", lastReviewed: "2026-09-23",
+    // 2026-09-24: roles, business catalogs, OData and the leading GUI transaction copied from the SAP
+    // Fiori Apps Reference Library (scripts/fal-app.mjs F1511A, S32OP = S/4HANA 2025 FPS01, Published;
+    // S27OP = 2023 prints four of the five roles, without SAP_BR_MD_SPECIALIST_EAM, and one business
+    // catalog, SAP_EAM_BC_MREQ_MNG). Bare ids here; the R-ids, catalog titles, technical catalog
+    // SAP_TC_EAM_COMMON and S4CORE versions are in fiori:F1511A. Hebrew name moved to the house term
+    // (תחזוקה) and explain.technical rewritten, as the audit required.
+    id: "F1511A", slug: "create-maintenance-request-f1511a", name: "Create Maintenance Request", he: "יצירת בקשת תחזוקה", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Create Maintenance Request, Feature Comparison - Request Maintenance and Create Maintenance Request) · What's New in SAP S/4HANA 2021, 2025 FPS01 · SAP Fiori Apps Reference Library F1511A (scripts/fal-app.mjs, OData channel, S32OP = S/4HANA 2025 FPS01, isPublished=Published); on S27OP = S/4HANA 2023 the library prints the same leading GUI transaction IW21, technical catalog SAP_TC_EAM_COMMON and OData UI_MAINTWORKREQUESTOVW_V2 0001 / V4 group UI_PRIORITIZATION_PROFILE (S4CORE 108), with 4 of the 5 roles (no SAP_BR_MD_SPECIALIST_EAM) and business catalog SAP_EAM_BC_MREQ_MNG only", lastReviewed: "2026-09-24",
     purpose: "יצירת בקשות אחזקה: לפי התיעוד הרשמי, 'Create Maintenance Request With this app, you can create maintenance requests.'",
     problem: "",
-    explain: { beginner: "טופס שבו מבקשים עבודת אחזקה; הטיוטות נשמרות וניתן לצפות בהן דרך הכפתור My Drafts.", consultant: "What's New 2021 מונה את Create Maintenance Request בין 'new apps designed for this end-to-end process' של מודל השלבים (Phase Model) בתהליך האחזקה, לצד My Maintenance Requests ו-Screen Maintenance Requests (F4072). עמוד ההשוואה של 2025 FPS01 משווה אותו ל-Request Maintenance (F1511), שהוא יישום נפרד. הרשומה המתוחזקת F1511 נושאת את הכותרת Create Maintenance Request בלי מקור רשמי; ראו רשומת האימות fiori:F1511.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F1511A." },
-    role: "", catalog: "",
-    guiTx: [], relatedTables: [],
+    explain: { beginner: "טופס שבו מבקשים עבודת אחזקה; הטיוטות נשמרות וניתן לצפות בהן דרך הכפתור My Drafts.", consultant: "What's New 2021 מונה את Create Maintenance Request בין 'new apps designed for this end-to-end process' של מודל השלבים (Phase Model) בתהליך האחזקה, לצד My Maintenance Requests ו-Screen Maintenance Requests (F4072). עמוד ההשוואה של 2025 FPS01 משווה אותו ל-Request Maintenance (F1511), שהוא יישום נפרד. הרשומה המתוחזקת F1511 נושאת את הכותרת Create Maintenance Request בלי מקור רשמי; ראו רשומת האימות fiori:F1511.", technical: "SAP Fiori (SAPUI5) מעל שירות ה-OData UI_MAINTWORKREQUESTOVW_V2 (S4CORE 109) וקבוצת ה-V4 UI_PRIORITIZATION_PROFILE, עם קטלוג טכני SAP_TC_EAM_COMMON; התפקידים, הקטלוגים העסקיים וטרנזקציית ה-GUI המובילה IW21 נקראו מספריית ה-Fiori (S32OP). ב-S27OP (2023) הספרייה מדפיסה ארבעה מחמשת התפקידים (ללא SAP_BR_MD_SPECIALIST_EAM) וקטלוג עסקי אחד, SAP_EAM_BC_MREQ_MNG. ראו רשומת האימות fiori:F1511A." },
+    role: "SAP_BR_EMPLOYEE, SAP_BR_MAINTENANCE_PLANNER, SAP_BR_MAINTENANCE_TECHNICIAN, SAP_BR_MAINT_SUPERVISOR, SAP_BR_MD_SPECIALIST_EAM", catalog: "SAP_EAM_BC_MREQ_MNG, SAP_EAM_BC_TO_MNG",
+    odata: "UI_MAINTWORKREQUESTOVW_V2, UI_PRIORITIZATION_PROFILE",
+    guiTx: ["IW21"], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
     releaseInfo: "SAP S/4HANA 2021 (What's New 2021)",
     similar: [],
@@ -600,13 +607,21 @@ FIORI_APPS.push(
     // F0251A · PP-MRP 2025.001 (loio beea5a0c485340769ad37d33537ad962, "App ID: F0251A"; Feature
     // Comparison loio 0fc6b5b8da9d4138a73a65a46ee01038), What's New 2023 (loio
     // c106b41442594c6797aad29381a6b521, App New, J44, PP-FIO-MRP).
+    // 2026-09-24: roles, catalog, OData and the leading GUI transaction copied from the SAP Fiori Apps
+    // Reference Library (scripts/fal-app.mjs F0251A, S32OP = S/4HANA 2025 FPS01 and S27OP = 2023,
+    // Published): SAP_BR_MATL_PLNR_EXT_PROC R0100-21 and SAP_BR_PRODN_PLNR R0114, SAP_SCM_BC_MRPCOCKPIT,
+    // PP_MRP_MANAGE_MATERIAL_SRV 0001, leading MD04 with no related transaction. The name is not changed:
+    // the library calls the app 'Manage Material Coverage (Version 2)', help.sap.com 'Manage Material
+    // Coverage' (product decision, fiori:F0251A). The What's New 2023 body names the catalog
+    // SAP_SCM_BC_MRPCOCKPIT_MC; the library and the 2025 FPS01 app topic name SAP_SCM_BC_MRPCOCKPIT.
     id: "F0251A", slug: "manage-material-coverage-f0251a", name: "Manage Material Coverage", he: "ניהול כיסוי חומרים", module: "PP", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · Material Requirements Planning (PP-MRP) 2025.001 (Manage Material Coverage (F0251A), Feature Comparison for Managing Material Coverage) · What's New in SAP S/4HANA 2023", lastReviewed: "2026-09-23",
+    trust: "verified-docs", source: "SAP Help Portal · Material Requirements Planning (PP-MRP) 2025.001 (Manage Material Coverage (F0251A), Feature Comparison for Managing Material Coverage) · What's New in SAP S/4HANA 2023 · SAP Fiori Apps Reference Library (Apps('F0251A')/S32OP + S27OP, scripts/fal-app.mjs) + SAP Help Portal app documentation page (loio beea5a0c485340769ad37d33537ad962)", lastReviewed: "2026-09-24",
     purpose: "הצגה וניתוח של בעיות כיסוי בחומרים שנבחרו: לפי התיעוד הרשמי, 'With this app, you can display and analyze coverage issues that exist for selected materials.'",
     problem: "",
-    explain: { beginner: "מסך שבו מתכנן ה-MRP רואה אילו חומרים שנבחרו סובלים מבעיות כיסוי ומנתח אותן.", consultant: "לפי What's New 2023 היישום חדש (App New, פריט היקף J44, רכיב PP-FIO-MRP) והוא היורש של Manage Material Coverage (F0251), עם ממשק מבוסס Fiori elements. תיעוד PP-MRP לגרסת 2025 FPS01 מציין שהיישום עדיין אינו מכסה את כל ההיבטים של F0251, וטבלת ההשוואה שם מציבה אותו לצד Monitor Stock / Requirements List (MD04) ו-F0251.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F0251A." },
-    role: "", catalog: "",
-    guiTx: [], relatedTables: [],
+    explain: { beginner: "מסך שבו מתכנן ה-MRP רואה אילו חומרים שנבחרו סובלים מבעיות כיסוי ומנתח אותן.", consultant: "לפי What's New 2023 היישום חדש (App New, פריט היקף J44, רכיב PP-FIO-MRP) והוא היורש של Manage Material Coverage (F0251), עם ממשק מבוסס Fiori elements. תיעוד PP-MRP לגרסת 2025 FPS01 מציין שהיישום עדיין אינו מכסה את כל ההיבטים של F0251, וטבלת ההשוואה שם מציבה אותו לצד Monitor Stock / Requirements List (MD04) ו-F0251.", technical: "SAP Fiori elements מעל שירות ה-OData PP_MRP_MANAGE_MATERIAL_SRV, עם קטלוג טכני SAP_TC_SCM_PP_COMMON; התפקידים SAP_BR_MATL_PLNR_EXT_PROC ו-SAP_BR_PRODN_PLNR, הקטלוג העסקי SAP_SCM_BC_MRPCOCKPIT וטרנזקציית ה-GUI המובילה MD04 נקראו מספריית ה-Fiori (S32OP ו-S27OP). גוף רשומת What's New 2023 מציין את הקטלוג SAP_SCM_BC_MRPCOCKPIT_MC, ולכן יש לוודא את שם הקטלוג במערכת לפני הקצאה. ראו רשומת האימות fiori:F0251A." },
+    role: "SAP_BR_MATL_PLNR_EXT_PROC, SAP_BR_PRODN_PLNR", catalog: "SAP_SCM_BC_MRPCOCKPIT",
+    odata: "PP_MRP_MANAGE_MATERIAL_SRV",
+    guiTx: ["MD04"], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
     releaseInfo: "SAP S/4HANA 2023 (What's New 2023, App New)",
     similar: [],
@@ -616,15 +631,22 @@ FIORI_APPS.push(
     // 65074cb6e3be4f958e16d5c14d83e2a8), "App ID: F5460", SCM-APO-PPS-DS; What's New 2022 (loio
     // 10b3ef999b2245618091a7c467384129, App New, title only); PP/DS 2025.001 Chart Selector (loio
     // dd540abcec6c474692097a58e8ab5abb). Module PP = the area of the PP/DS deliverable, as F2176.
+    // 2026-09-24: roles, catalogs, OData and the leading GUI transaction copied from the SAP Fiori Apps
+    // Reference Library (scripts/fal-app.mjs F5460, S32OP = S/4HANA 2025 FPS01 and S27OP = 2023,
+    // Published): SAP_BR_PRODN_PLNR (leading) R0114 and SAP_BR_PRODN_PLNR_APS R0114-226,
+    // SAP_SCM_BC_APS_PROD_PLNG and SAP_SCM_BC_CAPA_PLAN, UI_SCM_ADVNCD_SCHEDG_BOARD 0001, leading
+    // /SAPAPO/CDPS0 with no related transaction. The library's release list starts at S22OP (2021 FPS01)
+    // while What's New 2022 marks the app App New; releaseInfo names both (fiori:F5460).
     id: "F5460", slug: "advanced-scheduling-board", name: "Advanced Scheduling Board", he: "לוח תזמון מתקדם", module: "PP", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2022, 2023 FPS02, 2025 FPS01 (Advanced Scheduling Board) · Production Planning and Detailed Scheduling (PP/DS) 2025.001", lastReviewed: "2026-09-23",
+    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2022, 2023 FPS02, 2025 FPS01 (Advanced Scheduling Board) · Production Planning and Detailed Scheduling (PP/DS) 2025.001 · SAP Fiori Apps Reference Library · F5460 · S32OP (SAP S/4HANA 2025 FPS01)", lastReviewed: "2026-09-24",
     purpose: "תכנון ותזמון מפורט של תכנית ייצור ישימה: לפי What's New 2022, 'Advanced Scheduling Board is a new application which supports Production Planner in creation and Detailed Scheduling of a feasible production plan.'",
     problem: "",
-    explain: { beginner: "לוח גרפי שבו מתכנן הייצור בונה ומתזמן תכנית ייצור שאפשר לבצע בפועל.", consultant: "לפי תיעוד PP/DS לגרסת 2025 FPS01 הלוח כולל ארבעה תרשימי Gantt ושני תרשימים רציפים בזמן, בהם Resource Chart, Product Chart, Order Chart, Operations Chart ו-Product Stock Visualization. What's New 2023 FPS02 ו-2025 FPS01 נוקבים ב-App ID F5460 וברכיב SCM-APO-PPS-DS, וב-2025 FPS01 היישום מקבל הרחבות.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori; ראו רשומת האימות fiori:F5460." },
-    role: "", catalog: "",
-    guiTx: [], relatedTables: [],
+    explain: { beginner: "לוח גרפי שבו מתכנן הייצור בונה ומתזמן תכנית ייצור שאפשר לבצע בפועל.", consultant: "לפי תיעוד PP/DS לגרסת 2025 FPS01 הלוח כולל ארבעה תרשימי Gantt ושני תרשימים רציפים בזמן, בהם Resource Chart, Product Chart, Order Chart, Operations Chart ו-Product Stock Visualization. What's New 2023 FPS02 ו-2025 FPS01 נוקבים ב-App ID F5460 וברכיב SCM-APO-PPS-DS, וב-2025 FPS01 היישום מקבל הרחבות.", technical: "SAP Fiori (SAPUI5) מעל שירות ה-OData UI_SCM_ADVNCD_SCHEDG_BOARD, עם קטלוג טכני SAP_TC_SCM_APS_COMMON; התפקיד המוביל SAP_BR_PRODN_PLNR ו-SAP_BR_PRODN_PLNR_APS, הקטלוגים העסקיים SAP_SCM_BC_APS_PROD_PLNG ו-SAP_SCM_BC_CAPA_PLAN וטרנזקציית ה-GUI המובילה /SAPAPO/CDPS0 נקראו מספריית ה-Fiori (S32OP ו-S27OP). ראו רשומת האימות fiori:F5460." },
+    role: "SAP_BR_PRODN_PLNR, SAP_BR_PRODN_PLNR_APS", catalog: "SAP_SCM_BC_APS_PROD_PLNG, SAP_SCM_BC_CAPA_PLAN",
+    odata: "UI_SCM_ADVNCD_SCHEDG_BOARD",
+    guiTx: ["/SAPAPO/CDPS0"], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
-    releaseInfo: "SAP S/4HANA 2022 (What's New 2022, App New)",
+    releaseInfo: "SAP S/4HANA 2022 (What's New 2022, App New); the Fiori Apps Library release list starts at S22OP (2021 FPS01), gap between the two sources not settled",
     similar: [],
   },
   {
@@ -632,13 +654,18 @@ FIORI_APPS.push(
     // af315b2ddb3e488eb3999f4ae144f0ed), deleted in What's New 2023 (loio
     // 22fd7c9f368f454fad5b3acfa5a26b6d) with Perform Maintenance Jobs (F5104A) and Report and
     // Repair Malfunction (F2023) as successors. s4OnPrem "no": not on the launchpad from 2023 on.
+    // 2026-09-24: role, catalog and GUI transactions copied from the SAP Fiori Apps Reference Library
+    // (scripts/fal-app.mjs W0020 --release S24OP = S/4HANA 2022, Deprecated, Web Dynpro): role
+    // SAP_BR_MAINTENANCE_TECHNICIAN R0090, catalog SAP_EAM_BC_JOB_MW, leading IW25, related IW41 / IW42 /
+    // IW44, OData '-' (odata left empty); empty Results on S32OP and S27OP. type stays the schema bucket
+    // Transactional (the library prints Web Dynpro).
     id: "W0020", slug: "confirm-jobs-w0020", name: "Confirm Jobs", he: "אישור עבודות", module: "PM", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2022 (Deprecation of Confirm Jobs) · What's New in SAP S/4HANA 2023 (Deletion of Confirm Jobs App)", lastReviewed: "2026-09-23",
+    trust: "verified-docs", source: "SAP Help Portal · What's New in SAP S/4HANA 2022 (Deprecation of Confirm Jobs) · What's New in SAP S/4HANA 2023 (Deletion of Confirm Jobs App) · SAP Fiori Apps Reference Library W0020 (scripts/fal-app.mjs, S24OP = S/4HANA 2022, Deprecated); empty Results on S32OP and S27OP", lastReviewed: "2026-09-24",
     purpose: "אישור עבודות (Confirm Jobs) בתחזוקת מפעל, יישום שנמחק: לפי What's New 2023, 'The Confirm Jobs app (W0020) has been deleted and is no longer available on the SAP Fiori launchpad.'",
     problem: "",
-    explain: { beginner: "אפליקציה לאישור עבודות שנמחקה מה-SAP Fiori launchpad; במקומה משתמשים ב-Perform Maintenance Jobs או ב-Report and Repair Malfunction.", consultant: "What's New 2022 מסווג את W0020 כ-App Deprecated (פריטי ההיקף BH1 ו-BJ2, רכיב PM) ומפנה ל-Perform Maintenance Jobs (F5104A); What's New 2023 מסווג אותה כ-App Deleted ומונה את Perform Maintenance Jobs (F5104A) ואת Report and Repair Malfunction (F2023) כיישומים יורשים. הרשומה המתוחזקת F2730 נושאת את הכותרת Confirm Jobs בלי מקור רשמי; ראו רשומת האימות fiori:F2730.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו; ראו רשומת האימות fiori:W0020." },
-    role: "", catalog: "",
-    guiTx: [], relatedTables: [],
+    explain: { beginner: "אפליקציה לאישור עבודות שנמחקה מה-SAP Fiori launchpad; במקומה משתמשים ב-Perform Maintenance Jobs או ב-Report and Repair Malfunction.", consultant: "What's New 2022 מסווג את W0020 כ-App Deprecated (פריטי ההיקף BH1 ו-BJ2, רכיב PM) ומפנה ל-Perform Maintenance Jobs (F5104A); What's New 2023 מסווג אותה כ-App Deleted ומונה את Perform Maintenance Jobs (F5104A) ואת Report and Repair Malfunction (F2023) כיישומים יורשים. הרשומה המתוחזקת F2730 נושאת את הכותרת Confirm Jobs בלי מקור רשמי; ראו רשומת האימות fiori:F2730.", technical: "לפי ספריית ה-Fiori (S24OP, SAP S/4HANA 2022, Deprecated): אפליקציית Web Dynpro עם התפקיד SAP_BR_MAINTENANCE_TECHNICIAN, הקטלוג העסקי SAP_EAM_BC_JOB_MW, הקטלוג הטכני SAP_TC_EAM_BE_APPS:S4EAM, טרנזקציית ה-GUI המובילה IW25 והקשורות IW41, IW42 ו-IW44; שדה ה-OData מודפס '-'. ב-S32OP וב-S27OP הספרייה לא החזירה רשומה. ראו רשומת האימות fiori:W0020." },
+    role: "SAP_BR_MAINTENANCE_TECHNICIAN", catalog: "SAP_EAM_BC_JOB_MW",
+    guiTx: ["IW25", "IW41", "IW42", "IW44"], relatedTables: [],
     ecc: "", s4OnPrem: "no", cloud: "unknown",
     releaseInfo: "",
     similar: [],
