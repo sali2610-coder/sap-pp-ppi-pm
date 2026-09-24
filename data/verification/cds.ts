@@ -45,7 +45,18 @@
    whose status.source is now null. Two more body exceptions, both read through
    scripts/sap-help-body.mjs: the What's New 2025 Maintenance Management row of
    cds:I_MaintNotificationItem (loio e666a336) and the What's New 2025 BOM row of
-   cds:I_BillOfMaterialItemAssgmt (loio c4aa65d5). */
+   cds:I_BillOfMaterialItemAssgmt (loio c4aa65d5).
+   Batch 8 (2026-09-24, DATE24): I_ObjectStatus, I_MaintenancePlan, I_MaintNotifActivity
+   and I_EquipmentTimeSegment re-verified and re-audited, merged in place; earlier
+   findings stay in notes (Old → New). cds:I_MaintenancePlan now carries an authored
+   verification_required status (release null, source null) in place of the derived
+   s4_native pill: the official deprecation cannot be authored until
+   cds:I_MaintenancePlanBasic enters the id universe (queue, batch 1). New const
+   EQUIP_TIMESEG_VDM_CLOUD_2608_BODY (DATE24) is the status source of
+   cds:I_EquipmentTimeSegment. More body exceptions, all read through
+   scripts/sap-help-body.mjs: the I_MaintenancePlanBasic VDM topic (loio 048dd351) and
+   four topics of cds:I_EquipmentTimeSegment (loio df16bfa3, 7b06bd53, c03993b6,
+   a18e976c). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE2 = "2026-09-02";
@@ -448,7 +459,7 @@ const WORKCENTER_TEXT_VDM_2023: Evidence = {
   verificationLevel: "sap_official_verified",
 };
 
-/** cds:I_EquipmentTimeSegment: the official record the status is bounded by (Cloud only). */
+/** cds:I_EquipmentTimeSegment: the 2026-09-15 snippet row, kept as history (evidence[0]). */
 const EQUIP_TIMESEG_VDM_CLOUD_2608: Evidence = {
   sourceType: "sap_help",
   sourceTitle: "Equipment Time Segment | Virtual Data Model and CDS Views",
@@ -461,6 +472,19 @@ const EQUIP_TIMESEG_VDM_CLOUD_2608: Evidence = {
   verificationLevel: "sap_official_verified",
 };
 
+/** cds:I_EquipmentTimeSegment: the topic body read on 2026-09-24 (batch 8); evidence[1] and the status source (Cloud only). */
+const EQUIP_TIMESEG_VDM_CLOUD_2608_BODY: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Equipment Time Segment | Virtual Data Model and CDS Views",
+  product: "SAP S/4HANA Cloud Public Edition",
+  edition: "public-cloud",
+  release: "2608.500",
+  url: "https://help.sap.com/docs/SAP_S4HANA_CLOUD/c0c54048d35849128be8e872df5bea6d/df16bfa3bbd84dbfaa9665fe4a39db62.html?locale=en-US&state=PRODUCTION&version=2608.500",
+  accessedAt: DATE24,
+  claim: "גוף נושא ה-VDM 'Equipment Time Segment' (חוברת Virtual Data Model and CDS Views, ‏SAP S/4HANA Cloud Public Edition 2608 Latest, ‏loio df16bfa3bbd84dbfaa9665fe4a39db62), שנקרא ב-2026-09-24 דרך scripts/sap-help-body.mjs, קובע: 'CDS View Name I_EQUIPMENTTIMESEG Analytical Data Category DIMENSION', ומטרה: 'This CDS view is designed to provide detailed information about equipment time segments, including their validity periods, associated work centers, maintenance planning details, and related technical and construction materials. It serves as a foundational data source for analyzing equipment usage and planning maintenance activities.' השאלות העסקיות שבגוף העמוד: 'What are the validity periods for specific equipment usage segments?', 'Which work centers are associated with particular equipment during specific time segments?', 'What are the maintenance planning details for equipment during its usage periods?', 'How is equipment hierarchically structured, including superordinate equipment relationships?', 'What construction materials are associated with specific equipment segments?', 'What are the technical object sort codes and manufacturer part numbers for equipment during specific periods?' ו-'How can changes in equipment time segments be tracked over time?'. תנאי מוקדם: תפקיד עם גישת קריאה לסוג ההגבלה 'IWERK (Maintenance Planning Plant)'. טבלת Important Fields מצמידה שם שדה לתיאור, ובין השאר: 'EQUIPMENT Equipment Number', 'VALIDITYSTARTDATE Valid-From Date', 'VALIDITYENDDATE Valid To Date', 'VALIDITYENDTIME Equipment usage period time stamp', 'EQUIPUSAGEPERIODSEQUENCENUMBER Consecutive numbering of EquipUsagePeriods on same day', 'NEXTEQUIPUSAGEPERIODSQNCNMBR Number of next EquipUsagePeriod on same day', 'SUPERORDINATEEQUIPMENT Superordinate Equipment', 'MAINTOBJECTLOCACCTASSGMTNMBR Location and account assignment for technical object', 'WORKCENTERINTERNALID Object ID of the Work Center' ו-'MAINTENANCEPLANNINGPLANT Maintenance Planning Plant'. גוף העמוד אינו מציג סטטוס שחרור, והשם הנקוב מסתיים ב-TIMESEG ולא ב-TIMESEGMENT. חיפוש מוצמד לגרסה 2602.500 החזיר את אותו loio בגרסה זו.",
+  verificationLevel: "sap_official_verified",
+};
+
 /** cds:I_MaintNotifActivity: the official record the status is bounded by (a different view name). */
 const MAINTNOTIF_ACTYDATA_VDM_2023: Evidence = {
   sourceType: "sap_help",
@@ -469,8 +493,8 @@ const MAINTNOTIF_ACTYDATA_VDM_2023: Evidence = {
   edition: "on-premise",
   release: "2023.latest",
   url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/503ed8d31fc94f53aa4f7d047cbb4870.html?locale=en-US&state=PRODUCTION&version=2023.latest",
-  accessedAt: DATE15,
-  claim: "תצוגת ה-VDM המתועדת לפעילויות הודעת אחזקה נקראת I_MaintNotificationActyData ולא I_MaintNotifActivity: רשומת החיפוש קובעת 'Maintenance Notification Activity Data CDS View Name I_MaintNotificationActyData Data Category Fact Status Released Data Extraction Type Delta-enabled, the extraction is based on field LastChangeDateTime'. לפי אותה רשומה התצוגה בנויה על האובייקטים העסקיים 'Maintenance notification activity', 'Maintenance notification item' ו-Maintenance notification, ובין המדדים והמאפיינים שהסניפט מונה: נתוני פעילות של הודעת אחזקה או הודעת שירות, מספר מיקום פונקציונלי, מספר ציוד ונתוני נזק. הסניפט מוסיף כי 'This CDS view does not have any input parameters', כי היא 'modeled for usage as a DataSource in Business Warehouse', וכי בתנאים המוקדמים נדרשות הרשאות להצגת פעילויות הודעת האחזקה בטרנזקציות IW65 ו-IW23.",
+  accessedAt: DATE24,
+  claim: "הנושא נוקב בשם I_MaintNotificationActyData לתצוגת ה-VDM המתועדת של פעילויות הודעת תחזוקה; השם I_MaintNotifActivity אינו מופיע ברשומת החיפוש. רשומת החיפוש קובעת 'Maintenance Notification Activity Data CDS View Name I_MaintNotificationActyData Data Category Fact Status Released Data Extraction Type Delta-enabled, the extraction is based on field LastChangeDateTime'. לפי אותה רשומה התצוגה בנויה על האובייקטים העסקיים 'Maintenance notification activity', 'Maintenance notification item' ו-Maintenance notification, ובין המדדים והמאפיינים שהסניפט מונה: נתוני פעילות של הודעת תחזוקה או הודעת שירות, מספר מיקום פונקציונלי, מספר ציוד ונתוני נזק. הסניפט מוסיף כי 'This CDS view does not have any input parameters', כי היא 'modeled for usage as a DataSource in Business Warehouse', וכי בתנאים המוקדמים נדרשות הרשאות להצגת פעילויות הודעת התחזוקה בטרנזקציות IW65 ו-IW23. בבדיקה חוזרת ב-2026-09-24 הסניפט מוסיף: 'Corresponding DataSource (Extractor) 0I_MAINTNOTIFICATIONACTYDATA'; תאריך רשומת החיפוש 2026-08-05.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -1182,22 +1206,13 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
     evidence: [
       {
         sourceType: "sap_help",
-        sourceTitle:
-          "What's New in SAP S/4HANA 2021 FPS01 (PDF, Document Version 1.0, 2022-02-23) | 2.1.1 CDS Views for " +
-          "Maintenance Management",
+        sourceTitle: "What's New in SAP S/4HANA 2021 FPS01 (PDF, Document Version 1.0, 2022-02-23) | 2.1.1 CDS Views for Maintenance Management",
         product: "SAP S/4HANA",
         edition: "on-premise",
         release: "2021.001",
         url: "https://help.sap.com/doc/b870b6ebcd2e4b5890f16f4b06827064/2021.001/en-US/WN_OP2021_FPS01_EN.pdf",
         accessedAt: DATE2,
-        claim:
-          "גוף המסמך (עמודים 6 עד 7, נקרא במלואו) קובע: 'The following CDS views have been deprecated as of SAP " +
-          "S/4HANA 2021' ובהן I_MaintenancePlan; 'These CDS views are no longer available by default and will be " +
-          "deleted as of SAP S/4HANA 2023 release. We strongly recommend replacing any deprecated CDS views with " +
-          "the successor at your earliest convenience'. טבלת Additional Details ממפה: Deprecated CDS View " +
-          "I_MaintenancePlan, Successor CDS View I_MaintenancePlanBasic. פרטים טכניים בעמוד: Type Changed, Scope " +
-          "Items 4HH, 4HI, BH1, BH2, BJ2, Application Component PM (Plant Maintenance), Valid as Of SAP S/4HANA " +
-          "2021 FPS01.",
+        claim: "גוף המסמך (עמודים 6 עד 7, נקרא במלואו בסבב אימות קודם) קובע: 'The following CDS views have been deprecated as of SAP S/4HANA 2021' ובהן I_MaintenancePlan; 'These CDS views are no longer available by default and will be deleted as of SAP S/4HANA 2023 release. We strongly recommend replacing any deprecated CDS views with the successor at your earliest convenience'. טבלת Additional Details ממפה: Deprecated CDS View I_MaintenancePlan, Successor CDS View I_MaintenancePlanBasic. פרטים טכניים בעמוד: Type Changed, Scope Items 4HH, 4HI, BH1, BH2, BJ2, Application Component PM (Plant Maintenance), Valid as Of SAP S/4HANA 2021 FPS01.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -1207,13 +1222,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2021.001",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/6ffb8fb9aee1469b9d4c506e1790da34.html?locale=en-US&state=PRODUCTION&version=2021.001",
-        accessedAt: DATE2,
-        claim:
-          "רשומת שירות החיפוש של SAP Help (loio 6ffb8fb9aee1469b9d4c506e1790da34, versionId 2021.001) מציגה את " +
-          "אותו פריט: 'The following CDS views have been deprecated as of SAP S/4HANA 2021', I_MaintenancePlan " +
-          "מנויה בין שלוש התצוגות, 'These CDS views are no longer available by default and will be deleted as of " +
-          "SAP S/4HANA 2023 release', וטבלת היורשים 'Deprecated CDS View / Successor CDS View: I_MaintenancePlan / " +
-          "I_MaintenancePlanBasic'. סוג הפריט ברשומה: CDS View Changed, מודול PM, פריטי היקף BH1, BH2, BJ2.",
+        accessedAt: DATE24,
+        claim: "חיפוש חוזר ב-2026-09-24 על 'I_MaintenancePlan' ועל 'I_MaintenancePlanBasic' מחזיר את אותה רשומה (loio 6ffb8fb9aee1469b9d4c506e1790da34, versionId 2021.001) עם תקצירים שכוללים: 'I_MaintenanceItemData I_MaintenancePlan I_MaintenancePlanData These CDS views are no longer available by default and will be deleted as of SAP S/4HANA 2023 release', וטבלת היורשים 'Deprecated CDS View / Successor CDS View: I_MaintenanceItemData / C_MaintenanceItemDEX, I_MaintenancePlan / I_MaintenancePlanBasic'. סוג הפריט ברשומה: CDS View Changed, מודול PM, פריטי היקף BH1, BH2, BJ2 - תוצאה זהה לאימות הקודם, ללא שינוי.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -1223,12 +1233,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2023.latest",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/048dd3513ed34ccc8ffc1a51bc906f7c.html?locale=en-US&state=PRODUCTION&version=2023.latest",
-        accessedAt: DATE2,
-        claim:
-          "עמוד ה-VDM לגרסת 2023 (loio 048dd3513ed34ccc8ffc1a51bc906f7c) מתעד את התצוגה היורשת: 'Maintenance Plan, " +
-          "CDS View Name I_MaintenancePlanBasic, Status Released, Purpose: This CDS view helps you view details of " +
-          "a maintenance plan', ומפנה ל-Supported Capabilities for CDS Views ולקריאת ערכי האנוטציה של התצוגה " +
-          "ביישום View Browser לבירור מקרי השימוש הנתמכים (כלשון תקציר הרשומה; גוף העמוד לא נקרא).",
+        accessedAt: DATE24,
+        claim: "גוף העמוד נקרא במלואו ב-2026-09-24 (loio 048dd3513ed34ccc8ffc1a51bc906f7c, deliverable 39118365): 'Maintenance Plan CDS View Name I_MaintenancePlanBasic Status Released Purpose This CDS view helps you view details of a maintenance plan.' העמוד מפרט שאלות עסקיות (תיאור, קטגוריה, תאריך יצירה/שינוי, יוצר/משנה, אסטרטגיית תחזוקה, מספר פריטי תחזוקה, פרמטרי תזמון), הרשאות תצוגה בטרנזקציות IP03 ו-IP16 לתוכניות שאינן תוכניות שירות, וב-CRMS4_MPLAN_DISPLAY לתוכניות שירות (MaintenancePlanCallObject = '5'), רשימת קטלוגים עסקיים (SAP_EAM_BC_MNTPLAN_DSP_PC, SAP_EAM_BC_MP_DSP_MP_PC, SAP_EAM_BC_MP_DSP_PC, SAP_EAM_BC_MP_MNG_PC, SAP_EAM_BC_MP_MP_DSP_PC, SAP_EAM_BC_MPLAN_MC, SAP_EAM_BC_MPLAN_MW_MC, SAP_EAM_BC_MPLANIT_MC, SAP_EAM_BC_MPLANIT_MW_MC), ושדות עיקריים: MaintenancePlan, MaintenancePlanDesc, MaintenanceStrategy, Equipment, FunctionalLocation, NumberOfMaintenanceItems, MaintenancePlanCategory, MaintenancePlanCallObject. העמוד מתעד את התצוגה היורשת I_MaintenancePlanBasic ולא את I_MaintenancePlan.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -1236,35 +1242,34 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         sourceTitle: "רשומת ההעשרה ומיפוי הטבלאות של תצוגות ה-CDS בפרויקט",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE2,
-        claim:
-          "המאגר ממפה את התצוגה למודול תחזוקת מפעל (PM) מעל טבלאות MPLA (ראש תוכנית אחזקה) ו-MPOS (פריטי תוכנית), " +
-          "עם שכבת צריכה C_MaintenancePlan ויישום Fiori 'Manage Maintenance Plans' (data/cds-map.ts:63); רשומת " +
-          "ההעשרה מסומנת verified עם מקורות טקסטואליים ללא קישור רשמי, ומתארת תצוגת Interface (Composite) עם " +
-          "associations _MaintenancePlanItem ו-_MaintenanceStrategy. הסימון אינו מתייחס לתיעוד ההסרה הרשמי ואינו " +
-          "מזכיר deprecated או יורש.",
+        accessedAt: DATE24,
+        claim: "המאגר ממפה את התצוגה למודול תחזוקת מפעל (PM) מעל טבלאות MPLA (ראש תוכנית תחזוקה) ו-MPOS (פריטי תוכנית), עם שכבת צריכה C_MaintenancePlan ויישום Fiori 'Manage Maintenance Plans' (data/cds-map.ts:63); רשומת ההעשרה מסומנת verified עם מקורות טקסטואליים ללא קישור רשמי, ומתארת תצוגת Interface (Composite) עם associations _MaintenancePlanItem ו-_MaintenanceStrategy. הסימון אינו מתייחס לתיעוד ההסרה הרשמי ואינו מזכיר deprecated או יורש.",
         verificationLevel: "repository_verified",
         repoRef: "data/cds-enrichment.ts#I_MaintenancePlan",
       },
     ],
+    status: {
+      status: "verification_required",
+      he: "התיעוד הרשמי (What's New 2021 FPS01) קובע ש-I_MaintenancePlan הוצאה משימוש (deprecated) והיורשת היא I_MaintenancePlanBasic (Status Released, אומת בעמוד ה-VDM 2023.latest); אולם cds:I_MaintenancePlanBasic אינה רשומה עדיין ביקום המזהים של הפרויקט (data/cds-map.ts / route manifest), ולכן לא ניתן לקבוע כאן status: deprecated/replaced עם successor תקין לפי כללי הסכמה.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: "להוסיף את cds:I_MaintenancePlanBasic ליקום המזהים (data/cds-map.ts, lib/route-manifest.generated.ts) ולתעד אותה כרשומת verification משלה; לאחר מכן לעדכן את הרשומה הזו ל-status: deprecated עם successor: cds:I_MaintenancePlanBasic. עד אז, כל פלט המציג 'חדש ב-S/4HANA' עבור I_MaintenancePlan מבוסס על מיפוי הפרויקט בלבד ואינו משקף את התיעוד הרשמי.",
+    },
     xrefs: [
-      "table:MPLA", "table:MPOS", "tx:IP01", "tx:IP02", "tx:IP03", "tx:IP10", "tx:IP30", "tx:IP24",
-      "fiori:F4072", "fiori:F2828",
+      "table:MPLA",
+      "table:MPOS",
+      "tx:IP01",
+      "tx:IP02",
+      "tx:IP03",
+      "tx:IP10",
+      "tx:IP30",
+      "tx:IP24",
+      "fiori:F4072",
+      "fiori:F2828",
     ],
-    lastVerifiedAt: DATE2,
-    notes:
-      "תיעוד SAP רשמי (What's New 2021 FPS01, גוף ה-PDF נקרא) קובע ש-I_MaintenancePlan הוצאה משימוש " +
-      "(deprecated) החל מ-SAP S/4HANA 2021, אינה זמינה כברירת מחדל ונמחקת החל ממהדורת 2023, והיורשת היא " +
-      "I_MaintenancePlanBasic (Status Released בעמוד ה-VDM לגרסת 2023). סטטוס deprecated לא נכתב ברשומה זו כי " +
-      "הסכימה דורשת יורש הקיים ביקום המזהים, ו-cds:I_MaintenancePlanBasic אינה רשומה עדיין ב-data/cds-map.ts " +
-      "(מקור רשימת ה-CDS ב-route manifest); עד להוספתה הסטטוס הנגזר מרשומת ההעשרה (חדש ב-S/4HANA) סותר את " +
-      "הראיות הרשמיות ויש ליישר אותו. עד לתיקון, הגלולה 'חדש ב-S/4HANA' המוצגת לרשומה זו נגזרת ממיפוי הפרויקט " +
-      "בלבד ואינה משקפת את התיעוד הרשמי. מה שלא אומת: עמוד VDM ייעודי ל-I_MaintenancePlan עצמה לא נמצא בשירות " +
-      "החיפוש לגרסאות 2023 ו-2025, בהתאם להודעת המחיקה; שם שכבת הצריכה C_MaintenancePlan שבמיפוי הפרויקט לא " +
-      "הופיע באף רשומה רשמית (עמודי תוכנית האחזקה שנמצאו: I_MaintenancePlanBasic, I_MaintenancePlanStdVH, " +
-      "C_MaintenancePlanDEX, I_MAINTENANCEPLANSCHEDULE, C_MaintPlanSchedgOvwQuery); שדות התצוגה, " +
-      "ה-associations והמיפוי ל-MPLA/MPOS נשענים על נתוני הפרויקט בלבד, ללא מערכת SAP חיה (חיבור sc4sap MCP " +
-      "נכשל). מהדורת S/4HANA Cloud Public Edition לא נבדקה.",
+    lastVerifiedAt: DATE24,
+    notes: "אימות חוזר ב-2026-09-24 של הרשומה הקיימת. רוצו 4 חיפושים ב-scripts/sap-help-search.mjs: 'I_MaintenancePlan' (21 תוצאות, בעיקר עמודי APIs for Maintenance Management עבור API_MAINTENANCEPLAN - זהו OData API נפרד מתצוגת ה-CDS I_MaintenancePlan, לא תחליף מתועד), 'I_MaintenancePlanBasic' (מאשר מחדש את טבלת ה-Deprecated/Successor מ-2021 FPS01 ואת עמוד ה-VDM ל-I_MaintenancePlanBasic ב-2023.latest), 'Maintenance Plan Virtual Data Model' ו-'I_MaintenancePlan CDS view' (21 תוצאות כל אחד, ללא עמוד VDM ייעודי ל-I_MaintenancePlan עצמה בגרסאות 2023/2025 - עקבי עם הודעת המחיקה מ-2021 FPS01). גוף עמוד ה-VDM של I_MaintenancePlanBasic (2023.latest) נקרא במלואו ב-2026-09-24 ומאשר Status Released. גוף ה-PDF של What's New 2021 FPS01 לא נקרא מחדש בסבב זה (נקרא ב-2026-09-02); החיפוש החוזר על אותו loio החזיר תקצירים שכוללים את אותם ציטוטים, והתקציר משתנה בין השאילתות. מה שלא אומת: עמוד VDM ייעודי ל-I_MaintenancePlan עצמה (לא אותר בשום גרסה שנבדקה, כמצופה לאור המחיקה); שם שכבת הצריכה C_MaintenancePlan שבמיפוי הפרויקט לא הופיע באף רשומה רשמית שנמצאה; שדות התצוגה, ה-associations והמיפוי ל-MPLA/MPOS ברשומת ההעשרה נשענים על נתוני הפרויקט בלבד, ללא מערכת SAP חיה. cds:I_MaintenancePlanBasic טרם נוספה ליקום המזהים - זו הסיבה לכך שהסטטוס כאן נשאר verification_required במקום deprecated עם successor. מהדורת S/4HANA Cloud Public Edition לא נבדקה. לא בוצעה בדיקה במערכת SAP חיה (חיבור sc4sap MCP נכשל בסביבה זו). עמודי תוכנית התחזוקה הרשמיים שנמצאו בסבב 2026-09-02: I_MaintenancePlanBasic, I_MaintenancePlanStdVH, C_MaintenancePlanDEX, I_MAINTENANCEPLANSCHEDULE, C_MaintPlanSchedgOvwQuery; הגלולה \"חדש ב-S/4HANA\" נגזרת ממיפוי הפרויקט וסותרת את התיעוד הרשמי. Old → New: ב-2026-09-02 ראיית ה-VDM של I_MaintenancePlanBasic נשענה על תקציר רשומת החיפוש (גוף העמוד לא נקרא), והתקציר הפנה גם ל-Supported Capabilities for CDS Views ולקריאת ערכי האנוטציה של התצוגה ביישום View Browser לבירור מקרי השימוש הנתמכים; ב-2026-09-24 נקרא גוף העמוד, והטענה בראיה תחומה לגוף זה. Old → New בסטטוס: עד סבב זה הרשומה לא נשאה סטטוס מוסמך, והבלוק הציג את הסטטוס הנגזר 'חדש ב-S/4HANA'; מסבב זה הבלוק מציג את הסטטוס המוסמך 'נדרש אימות נוסף' (verification_required).",
   },
   {
     id: "cds:I_ProductionOrder",
@@ -3161,6 +3166,7 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
     ],
     evidence: [
       EQUIP_TIMESEG_VDM_CLOUD_2608,
+      EQUIP_TIMESEG_VDM_CLOUD_2608_BODY,
       {
         sourceType: "sap_help",
         sourceTitle: "Archiving of Equipment (CS-BD/PM-EQM-EQ) | Data Archiving in Plant Maintenance and Customer Service (PM/CS)",
@@ -3168,8 +3174,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2025.001",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/7b06bd53d34ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
-        accessedAt: DATE15,
-        claim: "עמוד הארכוב הרשמי של 2025 FPS01 קובע: 'The archiving object for equipment PM_EQUI consists of the following tables: Table Short Text EQUI Equipment master data', ובהמשך הרשימה 'EQUZ Equipment time segments', 'ILOA Location and account assignment data for the maintenance object', 'IHSG Table of permits for Plant Maintenance with long texts', 'IHPA Partner'. זהו אישור רשמי לכך שב-SAP S/4HANA On-Premise ‏2025 FPS01 טבלת EQUZ היא טבלת פלחי הזמן של הציוד ושהיא חלק מאובייקט הארכוב PM_EQUI. הסניפט אינו נוקב בשום תצוגת CDS.",
+        accessedAt: DATE24,
+        claim: "עמוד הארכוב הרשמי של 2025 FPS01 קובע: 'The archiving object for equipment PM_EQUI consists of the following tables: Table Short Text EQUI Equipment master data', ובהמשך הרשימה 'EQUZ Equipment time segments', 'ILOA Location and account assignment data for the maintenance object', 'IHSG Table of permits for Plant Maintenance with long texts', 'IHPA Partner'. זהו אישור רשמי לכך שב-SAP S/4HANA On-Premise ‏2025 FPS01 טבלת EQUZ היא טבלת פלחי הזמן של הציוד ושהיא חלק מאובייקט הארכוב PM_EQUI. הסניפט אינו נוקב בשום תצוגת CDS. גוף העמוד, שנקרא ב-2026-09-24 דרך scripts/sap-help-body.mjs, מאשר את הרשימה ומוסיף בה 'EQKT Multilingual equipment short texts, long texts, and internal remarks' ו-'FLEET Fleet object-specific data for technical objects'.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -3179,8 +3185,19 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2023.latest",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/c03993b6d4a24f8e8731aed4cdb313a4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
-        accessedAt: DATE15,
-        claim: "נושא ה-VDM הרשמי 'Equipment Data' בחוברת Virtual Data Model and CDS Views של On-Premise קובע: 'Equipment Data CDS View Name I_EquipmentData Data Category Dimension Status Released Data Extraction Type Delta-enabled, the extraction is based on field LastChangeDateTime'. לפי הסניפט, בסעיף Constraints נכתב: 'As there is time dependency in this CDS view and the system creates time segments, different versions may exist for the equipment', ו-'An equipment version is valid until the value set in the Valid To Date field. This CDS view only contains the last valid equipment version of a given day'. כלומר תצוגה זו אינה מחזירה את מלוא היסטוריית פלחי הזמן אלא את הגרסה האחרונה התקפה ליום.",
+        accessedAt: DATE24,
+        claim: "נושא ה-VDM הרשמי 'Equipment Data' בחוברת Virtual Data Model and CDS Views של On-Premise קובע: 'Equipment Data CDS View Name I_EquipmentData Data Category Dimension Status Released Data Extraction Type Delta-enabled, the extraction is based on field LastChangeDateTime'. לפי הסניפט, בסעיף Constraints נכתב: 'As there is time dependency in this CDS view and the system creates time segments, different versions may exist for the equipment', ו-'An equipment version is valid until the value set in the Valid To Date field. This CDS view only contains the last valid equipment version of a given day'. כלומר תצוגה זו אינה מחזירה את מלוא היסטוריית פלחי הזמן אלא את הגרסה האחרונה התקפה ליום. גוף העמוד, שנקרא ב-2026-09-24 דרך scripts/sap-help-body.mjs, מאשר את שני הציטוטים מסעיף Constraints ומוסיף: 'Note Location, account assignment and installation fields are time-dependent', ‏'Corresponding DataSource (Extractor) 0I_EQUIPMENTDATA', ו-'This CDS view is modeled for usage as a DataSource in Business Warehouse. We recommend that you only use it for this purpose'; בתנאים המוקדמים: 'You have authorizations to display the relevant pieces of equipment in transactions IE03 and IH08'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Equipment Install/Dismantle History | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/a18e976c8a244478a79e3b4177d525dc.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE24,
+        claim: "נושא VDM נוסף של On-Premise שהוחזר בשאילתה 'Equipment Time Segment CDS View'. גוף העמוד, שנקרא ב-2026-09-24 דרך scripts/sap-help-body.mjs, קובע: 'CDS View Name I_EquipInstallationHistoryC Data Category Cube Status Released', ‏'Corresponding DataSource (Extractor) 0I_EQUIPINSTALLATIONHISTORYC', ושאלות עסקיות בהן 'How long the equipment has been installed in another equipment, a functional location, or in a combination of both?' ו-'How many times has the equipment been installed?'. העמוד מציין 'This CDS view is modeled for usage as a datasource in Business Warehouse. We recommend that you only use it for this purpose', דורש הרשאה 'to display the relevant pieces of equipment in transactions IE03 and IH08', ובסעיף Constraints: 'This CDS view contains records for equipment which has been installed at least once. It does not reflect the current installation location.' זו תצוגה אחרת בשם אחר (Cube לניתוח היסטוריית התקנה), ואין בה ראיה לשם I_EquipmentTimeSegment.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -3188,7 +3205,7 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         sourceTitle: "מיפוי תצוגות ה-CDS, רשומת ההעשרה וחוברת המיגרציה של PM בפרויקט",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE15,
+        accessedAt: DATE24,
         claim: "מיפוי הפרויקט מקשר את I_EquipmentTimeSegment ('מקטע זמן ציוד', מודול PM) לטבלה EQUZ. רשומת ההעשרה מסווגת אותה Interface (Basic) מעל EQUZ, עם מפתח מייצג 'Equipment + ValidityPeriod (usage period)', אסוציאציות _Equipment ו-_FunctionalLocation, דוגמת צריכה 'SELECT Equipment, EquipmentValidityStartDate, EquipmentValidityEndDate FROM I_EquipmentTimeSegment', וחלופת ECC 'טבלה EQUZ · נצפה דרך IE03 (היסטוריית שימוש/מקטעי זמן)'. הרשומה מסומנת 'verified' אך מקורותיה מחרוזות טקסט ללא קישור. חוברת המיגרציה של PM מתארת את EQUZ כ'פלח זמן של ציוד (התקנות/שיוך)' עם מפתח EQUNR + DATBI + EQLFN והשדות HEQUI ו-ILOAN, מסמנת s4Note 'ללא שינוי (תואם)' ו-s4AltTable 'EQUZ (זהה)', ומונה את מודולי הפונקציה EQUI_TIMESEGMENT_READ ו-EQUIPMENT_DISMANTLE.",
         verificationLevel: "repository_verified",
         repoRef: "data/cds-enrichment.ts#I_EquipmentTimeSegment",
@@ -3199,7 +3216,7 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
       he: "פלח זמן של ציוד (תחזוקת מפעל) ברובד ה-VDM, מעל טבלת EQUZ לפי מיפוי הפרויקט. תיעוד ה-VDM הרשמי של SAP S/4HANA Cloud Public Edition מכיל נושא בשם Equipment Time Segment בשתי גרסאות (2602 ו-2608), אך השם הטכני הנקוב בו הוא I_EQUIPMENTTIMESEG ולא I_EquipmentTimeSegment, והסניפט אינו מציג סטטוס שחרור. בתיעוד ה-VDM של On-Premise לא אותר נושא מקביל: העמוד הרשמי הקרוב ביותר הוא Equipment Data ‏(I_EquipmentData, ‏Data Category Dimension, ‏Status Released), שלפי הסניפט מחזיר רק את גרסת הציוד האחרונה התקפה ליום נתון. קיום התצוגה בשם המדויק שבמאגר, סטטוס השחרור שלה ורשימת השדות טרם אומתו.",
       edition: "public-cloud",
       release: "2608.500",
-      source: EQUIP_TIMESEG_VDM_CLOUD_2608,
+      source: EQUIP_TIMESEG_VDM_CLOUD_2608_BODY,
       recommendedAction: "לפני שימוש בשם I_EquipmentTimeSegment בקוד Z, בדוח או במסמך אפיון: לאמת במערכת היעד (יישום View Browser או ADT/SE11) את השם הטכני המדויק, את סטטוס השחרור ואת רשימת השדות, ולבדוק אם השם המתועד I_EQUIPMENTTIMESEG הוא אותו אובייקט. לניתוח היסטוריית ההתקנה והשיוך של ציוד ב-On-Premise אפשר לקרוא מ-EQUZ (מפתח EQUNR + DATBI + EQLFN) או להשתמש ב-EQUI_TIMESEGMENT_READ, מתוך מודעות לכך ש-I_EquipmentData מחזירה רק את הגרסה האחרונה התקפה ליום. את שמות השדות שברשומת ההעשרה (EquipmentValidityStartDate, EquipmentValidityEndDate) יש לאמת מול ה-DDL בפועל, מפני שהסניפט הרשמי נוקב בשמות VALIDITYENDTIME ו-NEXTEQUIPUSAGEPERIODSQNCNMBR.",
     },
     xrefs: [
@@ -3217,8 +3234,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
       "cds:I_Equipment",
       "cds:I_FunctionalLocation",
     ],
-    lastVerifiedAt: DATE15,
-    notes: "שיטה: scripts/sap-help-search.mjs על help.sap.com בשישה חיפושים ('I_EquipmentTimeSegment', 'Equipment Time Segment', 'Equipment Usage Period', 'Equipment Time Segment CDS View Name' במוצר On-Premise ובמוצר Cloud, 'I_EQUIPMENTTIMESEG', 'CDS Views for Maintenance Management equipment validity'), כולל סינון גרסה 2025.001 ו-2602.500, ושני חיפושי רשת מוגבלי-דומיין ל-help.sap.com/api.sap.com. גוף עמודי ה-Help אינו נשלף (מעטפת JavaScript), ולכן כל ציטוט מוגבל לכותרת ולסניפט של רשומת החיפוש. סתירת שמות פתוחה: הנושא הרשמי Equipment Time Segment בחוברת ה-VDM של Cloud Public Edition נוקב ב-'CDS View Name I_EQUIPMENTTIMESEG', שם המסתיים ב-TIMESEG ולא ב-TIMESEGMENT. באותה חוברת חלק מהנושאים מדפיסים שם בכתיב מעורב (I_Equipment, ‏I_EquipmentText, ‏I_EquipmentData) וחלקם באותיות רישיות בלבד (I_EQUIPMENTSTDVH, ‏I_MAINTEQUIPHIERARCHYNODE), ולכן אי אפשר להסיק מהסניפט את הכתיב המדויק; אפשר להסיק שהמחרוזת שונה מזו שבמאגר. משום כך לא נרשם I_EQUIPMENTTIMESEG כ-alias ולא נקבע לו מעמד של יורש: זהות שני השמות לא אומתה. ממצאים שליליים, מוגבלים לרשומות החיפוש שנשלפו: במוצר On-Premise לא הוחזר נושא VDM בשם Equipment Time Segment (לא ללא סינון גרסה ולא בסינון 2025.001), ובחלונות הסניפט שנשלפו מעמוד ה-What's New ‏'CDS Views for Maintenance Management' לגרסת 2025 FPS01 הופיעו תצוגות חדשות של Reference Equipment (בהן D_RefEquipmentExtendValidityP) וכן I_MaintObjectPhaseLogCube, ולא תצוגת פלח זמן של ציוד; רשימת התצוגות שבעמוד לא נקראה במלואה. מה שהסניפט הרשמי כן מוסר על התצוגה: 'Analytical Data Category ... DIMENSION', מטרה 'This CDS view is designed to provide detailed information about equipment time segments, including their validity periods, associated ... work centers, maintenance planning details, and related technical and construction materials', שאלות עסקיות 'What are the validity periods for specific equipment usage segments?', 'How can changes in equipment time segments be tracked over time?', 'Which work centers are associated with particular equipment during specific time segments?', ושדות 'VALIDITYENDTIME Equipment usage period time stamp' ו-'NEXTEQUIPUSAGEPERIODSQNCNMBR Number of next EquipUsagePeriod'. סטטוס שחרור לא הופיע באף חלון סניפט ולכן אינו נטען. סטייה פנימית במאגר: חוברת המיגרציה (data/sapData.pm.ts, ‏EQUZ) נוקבת ביישום 'Manage Technical Objects (F2079)' בעוד data/fiori/apps.ts רושם את Manage Technical Objects תחת F2730A; שני המזהים לא אומתו מול ספריית ה-Fiori בסבב זה ולכן אין xref ליישום. סיווג viewType 'Interface (Basic)', האסוציאציות והשדות שברשומת ההעשרה נשארים ברובד המאגר בלבד, והם אינם עולים בקנה אחד עם Data Category 'DIMENSION' שבסניפט הרשמי. מה חסר לשדרוג: נושא VDM ב-help.sap.com במוצר On-Premise שבו CDS View Name הוא I_EquipmentTimeSegment, או בדיקה במערכת היעד ב-View Browser או ב-ADT (חיבור ה-MCP למערכת SAP חיה אינו זמין לפי MANIFEST).",
+    lastVerifiedAt: DATE24,
+    notes: "סבב 2026-09-15: שיטה: scripts/sap-help-search.mjs על help.sap.com בשישה חיפושים ('I_EquipmentTimeSegment', 'Equipment Time Segment', 'Equipment Usage Period', 'Equipment Time Segment CDS View Name' במוצר On-Premise ובמוצר Cloud, 'I_EQUIPMENTTIMESEG', 'CDS Views for Maintenance Management equipment validity'), כולל סינון גרסה 2025.001 ו-2602.500, ושני חיפושי רשת מוגבלי-דומיין ל-help.sap.com/api.sap.com. גוף עמודי ה-Help אינו נשלף (מעטפת JavaScript), ולכן כל ציטוט מוגבל לכותרת ולסניפט של רשומת החיפוש. סתירת שמות פתוחה: הנושא הרשמי Equipment Time Segment בחוברת ה-VDM של Cloud Public Edition נוקב ב-'CDS View Name I_EQUIPMENTTIMESEG', שם המסתיים ב-TIMESEG ולא ב-TIMESEGMENT. באותה חוברת חלק מהנושאים מדפיסים שם בכתיב מעורב (I_Equipment, ‏I_EquipmentText, ‏I_EquipmentData) וחלקם באותיות רישיות בלבד (I_EQUIPMENTSTDVH, ‏I_MAINTEQUIPHIERARCHYNODE), ולכן אי אפשר להסיק מהסניפט את הכתיב המדויק; אפשר להסיק שהמחרוזת שונה מזו שבמאגר. משום כך לא נרשם I_EQUIPMENTTIMESEG כ-alias ולא נקבע לו מעמד של יורש: זהות שני השמות לא אומתה. ממצאים שליליים, מוגבלים לרשומות החיפוש שנשלפו: במוצר On-Premise לא הוחזר נושא VDM בשם Equipment Time Segment (לא ללא סינון גרסה ולא בסינון 2025.001), ובחלונות הסניפט שנשלפו מעמוד ה-What's New ‏'CDS Views for Maintenance Management' לגרסת 2025 FPS01 הופיעו תצוגות חדשות של Reference Equipment (בהן D_RefEquipmentExtendValidityP) וכן I_MaintObjectPhaseLogCube, ולא תצוגת פלח זמן של ציוד; רשימת התצוגות שבעמוד לא נקראה במלואה. מה שהסניפט הרשמי כן מוסר על התצוגה: 'Analytical Data Category ... DIMENSION', מטרה 'This CDS view is designed to provide detailed information about equipment time segments, including their validity periods, associated ... work centers, maintenance planning details, and related technical and construction materials', שאלות עסקיות 'What are the validity periods for specific equipment usage segments?', 'How can changes in equipment time segments be tracked over time?', 'Which work centers are associated with particular equipment during specific time segments?', ושדות 'VALIDITYENDTIME Equipment usage period time stamp' ו-'NEXTEQUIPUSAGEPERIODSQNCNMBR Number of next EquipUsagePeriod'. סטטוס שחרור לא הופיע באף חלון סניפט ולכן אינו נטען. סטייה פנימית במאגר: חוברת המיגרציה (data/sapData.pm.ts, ‏EQUZ) נוקבת ביישום 'Manage Technical Objects (F2079)' בעוד data/fiori/apps.ts רושם את Manage Technical Objects תחת F2730A; שני המזהים לא אומתו מול ספריית ה-Fiori בסבב זה ולכן אין xref ליישום. סיווג viewType 'Interface (Basic)', האסוציאציות והשדות שברשומת ההעשרה נשארים ברובד המאגר בלבד, והם אינם עולים בקנה אחד עם Data Category 'DIMENSION' שבסניפט הרשמי. מה חסר לשדרוג: נושא VDM ב-help.sap.com במוצר On-Premise שבו CDS View Name הוא I_EquipmentTimeSegment, או בדיקה במערכת היעד ב-View Browser או ב-ADT (חיבור ה-MCP למערכת SAP חיה אינו זמין לפי MANIFEST).\n\nאימות חוזר (2026-09-24), בתוספת לממצאי 2026-09-15 ולא במקומם. חיפושים ב-scripts/sap-help-search.mjs (שאילתה, מוצר, מספר רשומות): (1) 'I_EquipmentTimeSegment', ‏SAP_S4HANA_ON-PREMISE: 4 רשומות שאינן קשורות (למשל 'Display G/L Account Balances - Summary/Journal Entry Views' ו-'Defining External Document Systems'). (2) 'Equipment Time Segment', ‏SAP_S4HANA_ON-PREMISE: 21 רשומות; הראשונה 'Archiving of Equipment (CS-BD/PM-EQM-EQ)' ‏(2025.001) עם הסניפט 'EQUZ Equipment time segments', ובהמשך 'Checks (CS-BD/PM-EQM-EQ)', ‏'The Usage History', ‏'Equipment' (‏I_Equipment, VDM 2023 Latest) ו-'Equipment Data' (מקום 10). (3) 'Equipment Time Segment CDS View', ‏SAP_S4HANA_ON-PREMISE: 21 רשומות, בהן 'Equipment', ‏'Equipment Data', ‏'CDS Views for Maintenance Management' (What's New ‏2025.001), ‏'Text for Equipment' ו-'Equipment Install/Dismantle History' (‏I_EquipInstallationHistoryC). (4) 'Equipment Time Segment' עם --version 2025.001: ‏21 רשומות, הראשונה שוב עמוד הארכוב. (5) 'I_EQUIPMENTTIMESEG', ‏SAP_S4HANA_CLOUD: ‏5 רשומות, הראשונה 'Equipment Time Segment' ‏2608.500 (loio df16bfa3bbd84dbfaa9665fe4a39db62). (6) 'Equipment Time Segment', ‏SAP_S4HANA_CLOUD: ‏21 רשומות, הראשונה אותו נושא ב-2608.500. (7) אותה שאילתה עם --version 2602.500: ‏21 רשומות, הראשונה אותו loio בגרסה 2602.500. (8) 'Equipment Data', ‏SAP_S4HANA_ON-PREMISE: ‏21 רשומות, הראשונה 'Equipment Data' (‏c03993b6d4a24f8e8731aed4cdb313a4). בחיפושים שרצו לא אותר נושא VDM ב-On-Premise בשם 'Equipment Time Segment' או 'I_EquipmentTimeSegment'; זהו ממצא חיפוש תחום ולא קביעה שהתצוגה אינה קיימת במערכת. הנושא הרשמי שאותר בשם הזה שייך ל-SAP S/4HANA Cloud Public Edition, תחת השם הטכני I_EQUIPMENTTIMESEG. Old → New: ב-2026-09-15 נרשם שגוף עמודי ה-Help אינו נשלף; ב-2026-09-24 נקראו ארבעה גופי עמודים דרך scripts/sap-help-body.mjs (Equipment Time Segment ‏2608.500, ‏Archiving of Equipment ‏2025.001, ‏Equipment Data ‏2023.latest, ‏Equipment Install/Dismantle History ‏2023.latest), והציטוטים החדשים בראיות תחומים לגופים אלה. Old → New: בסניפט של 2026-09-15 הופיע 'VALIDITYENDTIME ... Equipment usage period time stamp' עם השמטה בין שם השדה לתיאור, והתיאור השני נקטע ל-'Number of next EquipUsagePeriod'; טבלת Important Fields שבגוף העמוד מצמידה 'VALIDITYENDTIME' ל-'Equipment usage period time stamp', והתיאור המלא הוא 'Number of next EquipUsagePeriod on same day'. הקבוע EQUIP_TIMESEG_VDM_CLOUD_2608 (‏2026-09-15) נשאר ראיה היסטורית בנוסחו, ולצדו שורה אחות מ-2026-09-24 מתוך גוף העמוד. Old → New בסטטוס: status, ‏edition, ‏release ו-he ו-recommendedAction ללא שינוי (verification_required, ‏public-cloud, ‏2608.500); source: ‏EQUIP_TIMESEG_VDM_CLOUD_2608 (‏2026-09-15) → השורה האחות מ-2026-09-24. המהדורה public-cloud נשמרת כי הרשומה הרשמית שהסטטוס נסמך עליה שייכת ל-Cloud Public Edition. הצעת טיוטה קודמת לאפס את release ו-source בוטלה: הסטטוס תחום לראיה רשמית שנקראה. ממצא חדש: I_EquipInstallationHistoryC (Cube, ‏Status Released, ‏On-Premise 2023 Latest) מכסה ניתוח היסטוריית התקנה ופירוק; היא אינה ביקום המזהים של הפרויקט (lib/route-manifest.generated.ts) ולכן אינה ב-xrefs, וגם I_EquipmentData אינה ביקום זה. שמות השדות ברשומת ההעשרה (EquipmentValidityStartDate, ‏EquipmentValidityEndDate) שונים כמחרוזת מהשמות שבגוף העמוד (VALIDITYSTARTDATE, ‏VALIDITYENDDATE); ההתאמה ביניהם לא אומתה. בדיקת scripts/fal-app.mjs --tcode IE03 החזירה את F2072 (Find Technical Object) לצד רשומת ה-GUI של IE03; הפלט אינו נוקב בתצוגה זו או בשירות OData המכיל אותה, ולכן לא נוספו צרכני Fiori או OData ולא נוסף xref ליישום. אף אחת מהרשומות שהוחזרו בחיפושים אלה אינה SAP Note, ‏KBA או פריט פישוט הנוקבים ב-I_EquipmentTimeSegment, ולא הוקלד אף מספר. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמה ב-data/verification/**. לא בוצעה בדיקה במערכת SAP חיה: חיבור ה-MCP sc4sap נכשל בסשן זה.",
   },
   {
     id: "cds:I_MaintNotifActivity",
@@ -3246,7 +3263,7 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         release: "2025.001",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6156bc8f0d324ad384cd1641a5145711/60adb6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
         accessedAt: DATE15,
-        claim: "עמוד הארכוב של הודעות האחזקה קובע: 'The archiving object PM_QMEL for maintenance notifications is composed of the following tables: Table Name Contents QMEL Notification header data QMFE Items QMMA Activities QMSM [...] Tasks QMUR Causes QMIH Maintenance data ILOA Location Data IHPA Partner PMLP Print log' (הסוגריים המרובעים מסמנים קטיעה בין קטעי הסניפט). כלומר בתיעוד הרשמי של S/4HANA 2025 FPS01 טבלת הפעילויות בהודעת אחזקה היא QMMA, QMSM היא טבלת המשימות ו-QMUR טבלת הסיבות: שלוש טבלאות נפרדות באותו אובייקט ארכוב.",
+        claim: "עמוד הארכוב של הודעות התחזוקה קובע: 'The archiving object PM_QMEL for maintenance notifications is composed of the following tables: Table Name Contents QMEL Notification header data QMFE Items QMMA Activities QMSM [...] Tasks QMUR Causes QMIH Maintenance data ILOA Location Data IHPA Partner PMLP Print log' (הסוגריים המרובעים מסמנים קטיעה בין קטעי הסניפט). כלומר בתיעוד הרשמי של S/4HANA 2025 FPS01 טבלת הפעילויות בהודעת תחזוקה היא QMMA, QMSM היא טבלת המשימות ו-QMUR טבלת הסיבות: שלוש טבלאות נפרדות באותו אובייקט ארכוב.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -3272,7 +3289,7 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
     ],
     status: {
       status: "verification_required",
-      he: "פעולות בהודעת אחזקה (תחזוקת מפעל) ברובד ה-VDM. בחיפוש בתיעוד SAP הרשמי לא נמצאה רשומה הנוקבת בשם I_MaintNotifActivity. השמות המתועדים לאותו תוכן הם I_MaintNotificationActyData - תצוגת חילוץ ל-BW בקטגוריית Fact ובמעמד Released לפי מדריך ה-VDM של On-Premise 2023 - ו-I_MaintNotifItemActivityTP_3, ששוחררה ל-Developer Extensibility ב-2025 במקום I_MaintNotifItemActivityTP_2 שסומנה Deprecated. לכן קיום תצוגה בשם המדויק שברשומה, מעמד השחרור שלה והשדות והאסוציאציות שברשומת ההעשרה נשארים פתוחים עד לבדיקה במערכת.",
+      he: "פעולות בהודעת תחזוקה (תחזוקת מפעל) ברובד ה-VDM. בחיפוש בתיעוד SAP הרשמי לא נמצאה רשומה הנוקבת בשם I_MaintNotifActivity. השמות המתועדים לאותו תוכן הם I_MaintNotificationActyData - תצוגת חילוץ ל-BW בקטגוריית Fact ובמעמד Released לפי מדריך ה-VDM של On-Premise 2023 - ו-I_MaintNotifItemActivityTP_3, ששוחררה ל-Developer Extensibility ב-2025 במקום I_MaintNotifItemActivityTP_2 שסומנה Deprecated. לכן קיום תצוגה בשם המדויק שברשומה, מעמד השחרור שלה והשדות והאסוציאציות שברשומת ההעשרה נשארים פתוחים עד לבדיקה במערכת.",
       edition: "on-premise",
       release: "2023.latest",
       source: MAINTNOTIF_ACTYDATA_VDM_2023,
@@ -3297,8 +3314,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
       "fm:BAPI_ALM_NOTIF_DATA_ADD",
       "fiori:F4604",
     ],
-    lastVerifiedAt: DATE15,
-    notes: "(1) חיפוש בשירות החיפוש של help.sap.com (On-Premise ו-Cloud Public Edition) וחיפוש מוגבל-דומיין לא החזירו עמוד שכותרתו או הסניפט שלו נוקבים בשם I_MaintNotifActivity; זו מסקנה תחומת-חיפוש ולא הוכחה שהתצוגה חסרה במערכת. (2) עמוד ה-VDM 'Maintenance Notification Activity Data' מתפרסם באותו loio (503ed8d31fc94f53aa4f7d047cbb4870) גם למהדורת SAP S/4HANA Cloud Public Edition 2608 (versionId 2608.500), שם הסניפט מוסיף את שאלת העסק 'What are the details of the maintenance notification activities?'. (3) לצד תצוגת הפעילויות מתועדות באותו מדריך גם I_MaintNotificationTaskData (משימות, loio 161e8aa6a3d14a1aba33a9e8f490b29b) ו-I_MaintNotificationCauseData (סיבות, loio 18187fc0a1814c4caef9bbcb0a10dcb1), שתיהן Fact / Released - כלומר SAP מפרידה פעילויות, משימות וסיבות לשלוש תצוגות ולא מאחדת אותן, בעוד מיפוי הפרויקט מאחד אותן לתצוגה אחת בכותרת 'פעולות/משימות בהודעה'. (4) רשימת הטבלאות של PM_QMEL מוחזרת במלואה מרשומת החיפוש של אותו loio (60adb6531de6b64ce10000000a174cb4) בשאילתה ממוקדת, עד QMUR Causes ומעבר לו; אותה רשימה מופיעה גם בעמוד המקביל להודעות שירות (SM_QMEL, loio 63adb6531de6b64ce10000000a174cb4, 2025.001). (5) ה-OData API להודעות אחזקה חושף ישות A_MaintNotifItemActivity: עמוד השירות 'Maintenance Notification' (deliverable 'APIs for Maintenance Management', loio f430cbb1950c4880810e27a8308db301) נוקב ב-'Maintenance Notification Item Activity (A_MaintNotifItemActivity) Allows you to create, read, and update a notification item activity' וגם ב-'This service is built using the CDS views based on notification, notification item, notification item cause, notification item activity and partner data via gateway service builder and SADL', בלי לנקוב בשמות תצוגות ה-CDS. עמוד הישות הייעודי 'Maintenance Notification Item Activity' (loio 4aaa8f5cc29e417b98f358c6f026fe0b) מונה 'Supported Operations: Read Notification Item Activity Create Notification Item Activity Update Notification Item Activity', ועמוד 2025 FPS01 'Operations for Maintenance Notifications' (loio 061b31b90a88432fad5e710aa9cd175c) נוקב בנתיב /sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintNotificationItemActivity. (6) גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript); כל ציטוט מוגבל לכותרת, ל-deliverable ולסניפט של רשומת החיפוש. ה-MCP של מערכת SAP חיה לא התחבר בסשן, ולכן לא בוצעה בדיקה במערכת. (7) הטבלה QMMA מסומנת בחוברת המיגרציה של הפרויקט (data/sapData.pm.ts) כ'ללא שינוי (תואם)' עם s4AltTable 'QMMA (זהה)', כך שאין כאן שאלת פישוט של מודל הנתונים אלא שאלת זהות ומעמד שחרור של תצוגת ה-CDS בלבד. (8) עמוד ה-VDM עצמו נוקב בטרנזקציות IW65 ו-IW23 כתנאי הרשאה להצגת פעילויות ההודעה; IW22/IW66/IW67/IW69 נרשמו כ-xref מרובד המאגר (שורת QMMA בחוברת ורשומת ההעשרה) ולא מהעמוד הרשמי.",
+    lastVerifiedAt: DATE24,
+    notes: "(1) חיפוש בשירות החיפוש של help.sap.com (On-Premise ו-Cloud Public Edition) וחיפוש מוגבל-דומיין לא החזירו עמוד שכותרתו או הסניפט שלו נוקבים בשם I_MaintNotifActivity; זו מסקנה תחומת-חיפוש ולא הוכחה שהתצוגה חסרה במערכת. (2) עמוד ה-VDM 'Maintenance Notification Activity Data' מתפרסם באותו loio (503ed8d31fc94f53aa4f7d047cbb4870) גם למהדורת SAP S/4HANA Cloud Public Edition 2608 (versionId 2608.500), שם הסניפט מוסיף את שאלת העסק 'What are the details of the maintenance notification activities?'. (3) לצד תצוגת הפעילויות מתועדות באותו מדריך גם I_MaintNotificationTaskData (משימות, loio 161e8aa6a3d14a1aba33a9e8f490b29b) ו-I_MaintNotificationCauseData (סיבות, loio 18187fc0a1814c4caef9bbcb0a10dcb1), שתיהן Fact / Released - כלומר SAP מפרידה פעילויות, משימות וסיבות לשלוש תצוגות ולא מאחדת אותן, בעוד מיפוי הפרויקט מאחד אותן לתצוגה אחת בכותרת 'פעולות/משימות בהודעה'. (4) רשימת הטבלאות של PM_QMEL מוחזרת במלואה מרשומת החיפוש של אותו loio (60adb6531de6b64ce10000000a174cb4) בשאילתה ממוקדת, עד QMUR Causes ומעבר לו; אותה רשימה מופיעה גם בעמוד המקביל להודעות שירות (SM_QMEL, loio 63adb6531de6b64ce10000000a174cb4, 2025.001). (5) ה-OData API להודעות תחזוקה חושף ישות A_MaintNotifItemActivity: עמוד השירות 'Maintenance Notification' (deliverable 'APIs for Maintenance Management', loio f430cbb1950c4880810e27a8308db301) נוקב ב-'Maintenance Notification Item Activity (A_MaintNotifItemActivity) Allows you to create, read, and update a notification item activity' וגם ב-'This service is built using the CDS views based on notification, notification item, notification item cause, notification item activity and partner data via gateway service builder and SADL', בלי לנקוב בשמות תצוגות ה-CDS. עמוד הישות הייעודי 'Maintenance Notification Item Activity' (loio 4aaa8f5cc29e417b98f358c6f026fe0b) מונה 'Supported Operations: Read Notification Item Activity Create Notification Item Activity Update Notification Item Activity', ועמוד 2025 FPS01 'Operations for Maintenance Notifications' (loio 061b31b90a88432fad5e710aa9cd175c) נוקב בנתיב /sap/opu/odata/sap/API_MAINTNOTIFICATION/MaintNotificationItemActivity. (6) גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript); כל ציטוט מוגבל לכותרת, ל-deliverable ולסניפט של רשומת החיפוש. ה-MCP של מערכת SAP חיה לא התחבר בסשן, ולכן לא בוצעה בדיקה במערכת. (7) הטבלה QMMA מסומנת בחוברת המיגרציה של הפרויקט (data/sapData.pm.ts) כ'ללא שינוי (תואם)' עם s4AltTable 'QMMA (זהה)', כך שאין כאן שאלת פישוט של מודל הנתונים אלא שאלת זהות ומעמד שחרור של תצוגת ה-CDS בלבד. (8) עמוד ה-VDM עצמו נוקב בטרנזקציות IW65 ו-IW23 כתנאי הרשאה להצגת פעילויות ההודעה; IW22/IW66/IW67/IW69 נרשמו כ-xref מרובד המאגר (שורת QMMA בחוברת ורשומת ההעשרה) ולא מהעמוד הרשמי. (9) אימות חוזר ב-2026-09-24: שלושה חיפושים ב-scripts/sap-help-search.mjs בסקופ SAP_S4HANA_ON-PREMISE ללא סינון גרסה: 'I_MaintNotifActivity' (12 רשומות), 'I_MaintNotificationActyData' (21 רשומות), 'Virtual Data Model Maintenance Notification Activity' (21 רשומות). אף רשומה אינה מדפיסה את המחרוזת I_MaintNotifActivity; הממצא הקודם נשאר ללא שינוי (Old → confirmed unchanged). נושא ה-VDM (loio 503ed8d31fc94f53aa4f7d047cbb4870, 2023.latest) מוצג בתאריך רשומה 2026-08-05 ונוקב גם ב-'Corresponding DataSource (Extractor) 0I_MAINTNOTIFICATIONACTYDATA'. גוף העמוד לא נקרא בסבב זה. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "cds:I_ObjectStatus",
@@ -3313,6 +3330,15 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: DATE15,
         claim: "ממצא שלילי תחום לחיפוש: בחמש עשרה שאילתות בשירות החיפוש של help.sap.com בסקופ SAP_S4HANA_ON-PREMISE ובשאילתה אחת בסקופ SAP_S4HANA_CLOUD, וכן בחיפוש רשת מוגבל לדומיינים הרשמיים, אף רשומה אינה נוקבת בתצוגת CDS בשם I_ObjectStatus בשדה CDS View Name. השאילתה בשם המדויק בסקופ On-Premise החזירה 21 רשומות שכולן אינן קשורות לנושא, בהן שתי רשומות של מדריך Data Migration לנדל\"ן (2025 FPS01, למשל loio a738f117c8bc45f0a96274f691706f87) שבסניפט שלהן מופיע אובייקט ההעברה 'User Status (S_OBJECTSTATUS)', עמודי לוקליזציה למלזיה עם סניפט ריק, וכן עמודי SAP S/4HANA Insurance for reinsurance management (2025.000); בסקופ Public Cloud היא החזירה שתי רשומות של APIs for Warehousing (2602.500) בלבד. חיפוש הרשת המוגבל החזיר את עמודי המבוא של ה-VDM ('Virtual Data Model and CDS Views in SAP S/4HANA') ולא עמוד ייעודי לתצוגה זו.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search (re-run 2026-09-24): \"I_ObjectStatus\" (SAP_S4HANA_ON-PREMISE), \"I_ObjectStatus\" (SAP_S4HANA_CLOUD), \"Individual Object Status CDS view JEST\" (SAP_S4HANA_ON-PREMISE)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "ממצא שלילי תחום לחיפוש, בדיקה חוזרת ב-2026-09-24 דרך scripts/sap-help-search.mjs: בשלוש שאילתות אף רשומה אינה נוקבת בתצוגת CDS בשם I_ObjectStatus בשדה CDS View Name. I_ObjectStatus בסקופ SAP_S4HANA_ON-PREMISE, 14 תוצאות: שתי רשומות Data Migration לנדל\"ן עם 'User Status (S_OBJECTSTATUS)' בסניפט, ארבעה עמודי לוקליזציה למלזיה עם סניפט ריק ושמונה עמודי SAP S/4HANA Insurance for reinsurance management (2025.000). I_ObjectStatus בסקופ SAP_S4HANA_CLOUD, 2 תוצאות: 'Assign Warehouse Order' ו-'Operations for Warehouse API' (APIs for Warehousing, 2602.500). 'Individual Object Status CDS view JEST' בסקופ SAP_S4HANA_ON-PREMISE, 21 תוצאות, שאף אחת מהן אינה נוקבת בשם I_ObjectStatus. הממצא השלילי זהה לבדיקת 2026-09-15, אף שמספר התוצאות לשאילתה בשם המדויק בסקופ On-Premise ירד מ-21 ל-14.",
         verificationLevel: "verification_required",
       },
       {
@@ -3361,7 +3387,7 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
     ],
     status: {
       status: "verification_required",
-      he: "תצוגת CDS לסטטוס אובייקט שהמאגר מציג כתצוגת Interface (Basic) מעל JEST ומקשר גם ל-JSTO. בתיעוד SAP הרשמי הנגיש (מדריך Virtual Data Model and CDS Views בגרסאות 2023 Latest ו-2025 FPS01, עמודי What's New לגרסאות 2021 עד 2025, סקופ On-Premise וסקופ Public Cloud) לא אותר נושא שבו CDS View Name הוא I_ObjectStatus. התצוגה המתועדת לסטטוס המערכת ולסטטוס המשתמש של פקודת ייצור או פקודת תהליך היא I_ManufacturingOrderStatus (Analytical Data Category: Fact), עם השדות StatusObject, StatusProfile, IsUserStatus, StatusIsActive ו-StatusIsInactive. בסניפטים הרשמיים שנצפו בבדיקה זו טבלת JEST נקובה במפורש כמקור נתוני הסטטוס בשתי תצוגות: I_MfgOrderWithStatus (נתוני כותרת הפקודה מעל AUFK ו-AFKO) ו-I_MfgOrderOperationWithStatus (נתוני פעולה מעל AFVC, AFVV ו-AFVU); ייתכנו תצוגות נוספות שסניפטן לא נצפה. קיומה של I_ObjectStatus, מצב השחרור שלה, סוג התצוגה, השדות והאסוציאציות שברשומת ההעשרה דורשים אימות במערכת היעד.",
+      he: "תצוגת CDS לסטטוס אובייקט שהמאגר מציג כתצוגת Interface (Basic) מעל JEST ומקשר גם ל-JSTO. בתיעוד SAP הרשמי הנגיש (מדריך Virtual Data Model and CDS Views בגרסאות 2023 Latest ו-2025 FPS01, עמודי What's New לגרסאות 2021 עד 2025, סקופ On-Premise וסקופ Public Cloud, וחיפוש חוזר ב-2026-09-24) לא אותר נושא שבו CDS View Name הוא I_ObjectStatus. התצוגה המתועדת לסטטוס המערכת ולסטטוס המשתמש של פקודת ייצור או פקודת תהליך היא I_ManufacturingOrderStatus (Analytical Data Category: Fact), עם השדות StatusObject, StatusProfile, IsUserStatus, StatusIsActive ו-StatusIsInactive. בסניפטים הרשמיים שנצפו בבדיקה זו טבלת JEST נקובה במפורש כמקור נתוני הסטטוס בשתי תצוגות: I_MfgOrderWithStatus (נתוני כותרת הפקודה מעל AUFK ו-AFKO) ו-I_MfgOrderOperationWithStatus (נתוני פעולה מעל AFVC, AFVV ו-AFVU); ייתכנו תצוגות נוספות שסניפטן לא נצפה. קיומה של I_ObjectStatus, מצב השחרור שלה, סוג התצוגה, השדות והאסוציאציות שברשומת ההעשרה דורשים אימות במערכת היעד.",
       edition: "on-premise",
       release: null,
       source: null,
@@ -3387,8 +3413,8 @@ export const CDS_VERIFICATION: VerificationRecord[] = [
       "tx:COR3",
       "tx:IW33",
     ],
-    lastVerifiedAt: DATE15,
-    notes: "שיטה: scripts/sap-help-search.mjs ב-2026-09-15, חמש עשרה שאילתות בסקופ SAP_S4HANA_ON-PREMISE ושאילתה אחת בסקופ SAP_S4HANA_CLOUD, בתוספת חיפוש רשת מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap. הממצא השלילי תחום לאינדקס החיפוש במועד הבדיקה ואינו קביעה שהתצוגה אינה קיימת במערכת. עמוד רשמי נוסף שאותר ולא נרשם כראיה נפרדת: What's New 'CDS Views for Discrete and Process Manufacturing' (loio d179056c52d24117a2fe1cbaf7025969, 2025.000), שבטבלת 'CDS Views Changed for Discrete and Process Manufacturing' מונה 'Manufacturing Order Status I_ManufacturingOrderStatus' ו-'Manufacturing Order with Status I_MfgOrderWithStatus' לצד 'Order Header I_Order'. שלוש התצוגות האלה אינן מזהים ביקום הפרויקט (data/cds-map.ts), ולכן אינן ב-xrefs ואינן נרשמות כיורשות. הסטטוס שהאפליקציה מציגה כיום לרשומה זו נגזר מ-lib/evidence/s4-status.ts#fromCdsEnrichment: 'חדש ב-S/4HANA' ברובד 'מאומת מול נתוני הפרויקט', מפני שרשומת ההעשרה מסומנת verified; הרשומה הזו מחליפה אותו בסטטוס מוסמך 'נדרש אימות נוסף', בהתאם לפריט בתור המחקר של הטבלאות (audit/s4-enrichment/research-queue-tables.md) שקבע ש-I_ObjectStatus מופיעה ב-data/cds-map.ts בלבד ללא רשומת VDM רשמית. הקביעה עקבית עם רשומות table:JEST ו-table:JSTO שכבר קיימות ב-data/verification/tables.ts ומציינות במפורש שלא נמצא עמוד VDM רשמי לתצוגה. שלוש פונקציות ניהול הסטטוס שנזכרות בהמלצה (STATUS_READ, STATUS_PROFILE_READ, USER_STATUS_CHECK) מקורן ביקום המזהים של הפרויקט ובהמלצה שכבר נרשמה ברשומת table:JEST, ולא במקור SAP רשמי שנקרא בבדיקה זו. סתירות פנימיות במאגר שלא הוכרעו: המפה מקשרת ל-JEST ו-JSTO בעוד טקסט ההעשרה מתאר את JEST בלבד; ההעשרה קובעת viewType 'Interface (Basic)' בעוד התצוגות הרשמיות הקרובות מסווגות 'Analytical Data Category Fact' (I_ManufacturingOrderStatus), 'Data Category Basic, Dimension' (I_MfgOrderWithStatus) ו-'Data Category Composite, Dimension' (I_MfgOrderOperationWithStatus); קוד ה-T של ההעשרה 'BSVX' אינו קיים במניפסט הטרנזקציות של הדאטהסט ולא אומת. tx:BS02, tx:BS22 ו-tx:BS23 אינם ב-xrefs מטעמי היקף בלבד. הקודים קיימים ב-lib/route-manifest.generated.ts, שהוא מראה של generateStaticParams של app/tcode/[code], ולכן יש להם דף באפליקציה; הנוסח ברשומות table:JEST ו-table:JSTO הקובע שאין להם דף אינו מדויק וראוי לתיקון שם. בדיקת נתיב ה-Business Accelerator Hub ב-2026-09-15: api.sap.com/cdsviews/I_ObjectStatus החזיר HTTP 200 עם מעטפת התחברות של 666 בייט, זהה בגודלה לנתיב הבקרה של שם שאינו קיים (I_ZZZNOTAVIEW, 666 בייט) ודומה לנתיב של תצוגה מתועדת (I_ManufacturingOrderStatus, 664 בייט), ולכן אינו ראיה לכאן או לכאן. גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript); כל ציטוט נלקח מכותרת ומסניפט של שירות החיפוש הרשמי. לא בוצעה בדיקה במערכת SAP חיה (חיבור ה-MCP של sc4sap נכשל, כמתועד ב-MANIFEST), ולא נטען שום מספר SAP Note או KBA. מה יאפשר שדרוג: נושא ב-help.sap.com שבו CDS View Name הוא I_ObjectStatus, עמוד cdsviews ב-api.sap.com שנקרא בפועל, או בדיקת ADT/SE11/View Browser במערכת היעד; אם התצוגה קיימת כתצוגה לא משוחררת, כתצוגת לקוח או בגרסה מאוחרת, יש לרשום זאת עם המקור.",
+    lastVerifiedAt: DATE24,
+    notes: "סבב 2026-09-24: שלוש שאילתות חוזרות דרך scripts/sap-help-search.mjs (\"I_ObjectStatus\" On-Premise, 14 תוצאות; \"I_ObjectStatus\" SAP_S4HANA_CLOUD, 2 תוצאות; \"Individual Object Status CDS view JEST\" On-Premise, 21 תוצאות) לא החזירו רשומה שבה CDS View Name הוא I_ObjectStatus; שלוש כתובות התצוגות האחיות החזירו HTTP 200. לא נקרא גוף עמוד ולא הורץ fal-app.mjs. שיטה: scripts/sap-help-search.mjs ב-2026-09-15, חמש עשרה שאילתות בסקופ SAP_S4HANA_ON-PREMISE ושאילתה אחת בסקופ SAP_S4HANA_CLOUD, בתוספת חיפוש רשת מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap. הממצא השלילי תחום לאינדקס החיפוש במועד הבדיקה ואינו קביעה שהתצוגה אינה קיימת במערכת. עמוד רשמי נוסף שאותר ולא נרשם כראיה נפרדת: What's New 'CDS Views for Discrete and Process Manufacturing' (loio d179056c52d24117a2fe1cbaf7025969, 2025.000), שבטבלת 'CDS Views Changed for Discrete and Process Manufacturing' מונה 'Manufacturing Order Status I_ManufacturingOrderStatus' ו-'Manufacturing Order with Status I_MfgOrderWithStatus' לצד 'Order Header I_Order'. שלוש התצוגות האלה אינן מזהים ביקום הפרויקט (data/cds-map.ts), ולכן אינן ב-xrefs ואינן נרשמות כיורשות. הסטטוס שהאפליקציה מציגה כיום לרשומה זו נגזר מ-lib/evidence/s4-status.ts#fromCdsEnrichment: 'חדש ב-S/4HANA' ברובד 'מאומת מול נתוני הפרויקט', מפני שרשומת ההעשרה מסומנת verified; הרשומה הזו מחליפה אותו בסטטוס מוסמך 'נדרש אימות נוסף', בהתאם לפריט בתור המחקר של הטבלאות (audit/s4-enrichment/research-queue-tables.md) שקבע ש-I_ObjectStatus מופיעה ב-data/cds-map.ts בלבד ללא רשומת VDM רשמית. הקביעה עקבית עם רשומות table:JEST ו-table:JSTO שכבר קיימות ב-data/verification/tables.ts ומציינות במפורש שלא נמצא עמוד VDM רשמי לתצוגה. שלוש פונקציות ניהול הסטטוס שנזכרות בהמלצה (STATUS_READ, STATUS_PROFILE_READ, USER_STATUS_CHECK) מקורן ביקום המזהים של הפרויקט ובהמלצה שכבר נרשמה ברשומת table:JEST, ולא במקור SAP רשמי שנקרא בבדיקה זו. סתירות פנימיות במאגר שלא הוכרעו: המפה מקשרת ל-JEST ו-JSTO בעוד טקסט ההעשרה מתאר את JEST בלבד; ההעשרה קובעת viewType 'Interface (Basic)' בעוד התצוגות הרשמיות הקרובות מסווגות 'Analytical Data Category Fact' (I_ManufacturingOrderStatus), 'Data Category Basic, Dimension' (I_MfgOrderWithStatus) ו-'Data Category Composite, Dimension' (I_MfgOrderOperationWithStatus); קוד ה-T של ההעשרה 'BSVX' אינו קיים במניפסט הטרנזקציות של הדאטהסט ולא אומת. tx:BS02, tx:BS22 ו-tx:BS23 אינם ב-xrefs מטעמי היקף בלבד. הקודים קיימים ב-lib/route-manifest.generated.ts, שהוא מראה של generateStaticParams של app/tcode/[code], ולכן יש להם דף באפליקציה; הנוסח ברשומות table:JEST ו-table:JSTO הקובע שאין להם דף אינו מדויק וראוי לתיקון שם. בדיקת נתיב ה-Business Accelerator Hub ב-2026-09-15: api.sap.com/cdsviews/I_ObjectStatus החזיר HTTP 200 עם מעטפת התחברות של 666 בייט, זהה בגודלה לנתיב הבקרה של שם שאינו קיים (I_ZZZNOTAVIEW, 666 בייט) ודומה לנתיב של תצוגה מתועדת (I_ManufacturingOrderStatus, 664 בייט), ולכן אינו ראיה לכאן או לכאן. גוף עמודי help.sap.com לא נקרא (מעטפת JavaScript); כל ציטוט נלקח מכותרת ומסניפט של שירות החיפוש הרשמי. לא בוצעה בדיקה במערכת SAP חיה (חיבור ה-MCP של sc4sap נכשל, כמתועד ב-MANIFEST), ולא נטען שום מספר SAP Note או KBA. מה יאפשר שדרוג: נושא ב-help.sap.com שבו CDS View Name הוא I_ObjectStatus, עמוד cdsviews ב-api.sap.com שנקרא בפועל, או בדיקת ADT/SE11/View Browser במערכת היעד; אם התצוגה קיימת כתצוגה לא משוחררת, כתצוגת לקוח או בגרסה מאוחרת, יש לרשום זאת עם המקור.",
   },
   {
     "id": "cds:I_MfgOrderComponent",

@@ -348,3 +348,89 @@ graduated, so `test/evidence-schema.test.ts` needed no change.
 - `cds:I_MRPMaterial`: no record prints I_MRPMaterial in its title or snippet across four queries on 2026-09-24 (On-Premise 21, SAP_S4HANA_CLOUD 8, 'I_MRPMaterial CDS View Name' 21, 'CDS Views for Material Requirements Planning' 21). The index page 'CDS Views for Material Requirements Planning' (loio `f458e8c9ad1848139b707e856bea1595`, 2023.latest): the body pulled through `scripts/sap-help-body.mjs` (deliverable 39118365) returned the title only, no view list, so it neither confirms nor rules out the name; next step: the topic tree of that page, or View Browser. Still open from batch 2: `data/cds-enrichment.ts` "verified" with URL-less sources vs the official I_ProductMRPArea / I_PRODUCTPLANTMRP; perfNotes F0247 vs the dataset's F0247A; C_MaterialCoverageNetwork and C_MRPMaterials unconfirmed.
 - `cds:I_RoutingOperationComponent`: same negative finding on 2026-09-24 (five queries). The Public Cloud exact-name count moved between same-day runs (9, 10, 11), so the record gives a range. The auditor noted that the current DEX-query snippet of the What's New row (0321ee78) does not begin with the 2026-09-15 quote 'New CDS views were released for Production Engineering under the Basic Routing Data area'; the pairing with I_ProdnRoutingCompAllocDEX and 'Technical Details Type New Functional Localization No localization' were found again. A later pass may re-read that page body. The batch 3 items stand.
 - `cds:I_BillOfMaterialItemAssgmt`: the base-table conflict stands (`data/cds-map.ts` MAPL vs `data/cds-enrichment.ts` MAST); no official source settles it. The I_MaterialBOMLink ↔ MAST link is an inference from its attributes (snippet names no table, body not read). The TOC page 'CDS Views for Bills of Material' (loio `66366bf1430f419c840161b4645e823d`) returned a title-only body. Maintain Bill of Material (F1813) is in `data/centers/fiori.ts` but not in `data/fiori/apps.ts`, so no Fiori xref. No live ADT or SE11 check (the sc4sap MCP did not connect).
+
+---
+
+# Batch 8 · 2026-09-24 (re-verification of I_ObjectStatus, I_MaintenancePlan, I_MaintNotifActivity, I_EquipmentTimeSegment)
+
+4 drafts audited, **4 written** into `data/verification/cds.ts` (`DATE24`), 0 refuted. All four
+ids already existed, so each was merged in place over its own record (no new id, no duplicate).
+No verdict carried a `fixedRecord`; each record was re-derived from its draft with every listed
+downgrade applied:
+
+- `cds:I_ObjectStatus`: the draft as audited ("change nothing else"): a new negative-search row
+  (`DATE24`, three queries, exact-name On-Premise count 21 → 14) as evidence[1]; status.he gains
+  "וחיפוש חוזר ב-2026-09-24"; the 2026-09-24 sentence is prepended to the notes; the other five
+  rows are byte-identical and keep `DATE15`.
+- `cds:I_MaintenancePlan`: evidence[0] (PDF) keeps `DATE2`; rows 1 to 3 re-stamped `DATE24`.
+  Row 2 now quotes the page body of loio `048dd351` (deliverable 39118365) with the auditor's
+  fixes: IP03 and IP16 as transactions (not "תעבורות") for non-service plans and
+  CRMS4_MPLAN_DISPLAY for service plans (MaintenancePlanCallObject = '5'); the nine business
+  catalogs listed verbatim instead of "SAP_EAM_BC_MP_* ודומיהם"; the closing "רק" sentence
+  replaced. Row 1 says "תקצירים שכוללים" (the snippet differs per query). Repository row:
+  "ראש תוכנית תחזוקה". The auditor's history line (the five maintenance-plan pages found on
+  2026-09-02, the derived pill) is appended to the notes.
+- `cds:I_MaintNotifActivity`: kept in place, as the verdict required. `lastVerifiedAt` →
+  `DATE24`; the shared const `MAINTNOTIF_ACTYDATA_VDM_2023` (used only by this record, as
+  evidence[0] and status.source) → `DATE24` with the re-check sentence appended
+  (0I_MAINTNOTIFICATIONACTYDATA, search-record date 2026-08-05); notes item (9) appended; the
+  optional אחזקה → תחזוקה fix applied to the const, evidence[2], status.he and notes item (5).
+- `cds:I_EquipmentTimeSegment`: new const `EQUIP_TIMESEG_VDM_CLOUD_2608_BODY` (`DATE24`, the
+  2608.500 topic body) is evidence[1] and `status.source`; `EQUIP_TIMESEG_VDM_CLOUD_2608`
+  (`DATE15`) stays as evidence[0]. The archiving row (7b06bd53) and the Equipment Data row
+  (c03993b6) gain their body sentences and `DATE24`; a new row for Equipment Install/Dismantle
+  History (I_EquipInstallationHistoryC, loio a18e976c, body read) is evidence[4]; the repository
+  row is re-stamped `DATE24`; the 2026-09-15 notes are kept (prefixed "סבב 2026-09-15:") and the
+  re-check follows after a blank line. No `reviewer` field.
+
+Writer-side deviations, all disclosed in the records or here:
+
+1. `cds:I_MaintenancePlan` status: the audited draft authors `verification_required` (release
+   null, source null). That goes against the batch 1 item below ("Do NOT author
+   verification_required as a stopgap"). The auditor judged the token valid and the record now
+   carries it: the block shows 'נדרש אימות נוסף' where it showed the derived 'חדש ב-S/4HANA',
+   which the official deprecation contradicts. Depth 4 → 2. The notes record this as Old → New.
+2. `cds:I_MaintenancePlan`: relative dates made absolute ("היום" ×4 → 2026-09-24, "24/9/2026" →
+   2026-09-24, "DATE2=2026-09-02" → 2026-09-02; a date constant name does not belong in
+   user-facing copy, the batch 7 precedent). The notes sentence "החזיר תקציר זהה" became
+   "החזיר תקצירים שכוללים את אותם ציטוטים, והתקציר משתנה בין השאילתות", the same auditor
+   finding that fixed row 1.
+3. `cds:I_MaintenancePlan` notes, HOUSE-RULES §3.8: row 2's 2026-09-02 snippet detail (the
+   pointer to Supported Capabilities for CDS Views and to reading the view's annotation values in
+   the View Browser app), which the body claim no longer carries, is kept in an Old → New
+   sentence. The downgrade for `gaps[0]` ("רק שהתיעוד עבורה הוסר") had nothing to apply to: `gaps`
+   is not a `VerificationRecord` field and the draft handed to the writer carried none. The notes
+   already state the missing page as a search-bounded negative ("לא אותר בשום גרסה שנבדקה").
+4. `cds:I_EquipmentTimeSegment` notes: the clause "ואיפוס היה מוריד את הרשומה מ-L3" was dropped
+   because it is wrong. `depthOf` (lib/evidence/depth.ts:131) caps any `verification_required`
+   status at depth 2, and report:coverage shows the record at depth 2 before and after this
+   merge. "(DATE15)" / "ב-DATE24" became "(2026-09-15)" / "מ-2026-09-24".
+5. `MAINTNOTIF_ACTYDATA_VDM_2023`: since the claim was being edited anyway (DATE24, appended
+   sentence, תחזוקה), its opening "נקראת I_MaintNotificationActyData ולא I_MaintNotifActivity"
+   was rewritten to the wording the auditor gave for that case: "הנושא נוקב בשם
+   I_MaintNotificationActyData ...; השם I_MaintNotifActivity אינו מופיע ברשומת החיפוש".
+6. Local re-reads behind the two repository rows stamped `DATE24`: `data/cds-map.ts:63` and
+   `:66`, `data/cds-enrichment.ts` (I_MaintenancePlan, I_EquipmentTimeSegment), and
+   `data/sapData.pm.ts` EQUZ (key EQUNR/DATBI/EQLFN, HEQUI/ILOAN, s4Note, s4AltTable, the two
+   FMs). All match the claims. `I_MaintenancePlanBasic`, `I_EquipInstallationHistoryC`,
+   `I_EquipmentData`, `I_ManufacturingOrderStatus` and `I_MaintNotificationActyData` are absent
+   from `data/cds-map.ts` and `lib/route-manifest.generated.ts`, as the records say.
+
+Gates: `tsc --noEmit` 0; `tsc -p tsconfig.test.json` 0; `npm test` 211/211;
+`report:coverage --catalog cds`: before 39 rows (L2 12, L3 2, L4 2, L5 23, verified 38,
+verif.req 1, s4-applicable 27, edition-specific 13); after 39 rows (L2 13, L3 2, L4 1, L5 23,
+verified 38, verif.req 1, s4-applicable 26, edition-specific 13). The only per-id change is
+`cds:I_MaintenancePlan`: depth 4 → 2, status s4_native (derived) → verification_required
+(authored). A structural diff against HEAD shows the other 35 records deep-equal. The catalog
+was already graduated, so `test/evidence-schema.test.ts` needed no change.
+
+## refuted
+
+- (none in this batch.)
+
+## conflicts
+
+- `cds:I_MaintenancePlan`: the deprecation is still official (What's New 2021 FPS01 PDF, read on 2026-09-02; loio `6ffb8fb9` re-checked on 2026-09-24; successor I_MaintenancePlanBasic, Status Released, body read, loio `048dd351`) and still cannot be authored. The fix from batch 1 stands: add an `I_MaintenancePlanBasic` row to `data/cds-map.ts`, run `npm run gen:routes`, then author `deprecated`, on-premise, release 2021.001, source = the PDF row, successor `cds:I_MaintenancePlanBasic`. When that happens, rewrite status.he and recommendedAction: both are written as developer to-dos (schema wording, file paths) rather than consultant guidance. `C_MaintenancePlan` (cds-map consumption layer) is still in no official record; Public Cloud was not checked.
+- `cds:I_ObjectStatus`: no official record names the view (three more queries on 2026-09-24). The exact-name On-Premise hit count moved from 21 to 14, so that count depends on the index state. The batch 3 items stand (JEST vs JEST+JSTO, BSVX, the "no page" wording in table:JEST and table:JSTO).
+- `cds:I_MaintNotifActivity`: same negative finding (three queries, 12/21/21). 2026-08-05 is the search record's date, not a documented change to the view; the body of loio `503ed8d3` was not read. The QMSM (enrichment) vs QMMA/QMSM/QMUR (cds-map) conflict stands.
+- `cds:I_EquipmentTimeSegment`: the name conflict stands. The only official topic is Public Cloud `I_EQUIPMENTTIMESEG` (2608.500 and 2602.500, body read, no release status), and no On-Premise topic was found in eight queries. The enrichment field names (EquipmentValidityStartDate/EndDate) do not match the body's VALIDITYSTARTDATE/VALIDITYENDDATE. `I_EquipInstallationHistoryC` (Cube, Released, 2023.latest) and `I_EquipmentData` are not in the id universe. The F2079 (`data/sapData.pm.ts`) vs F2730A (`data/fiori/apps.ts`) drift is unchanged. `fal-app --tcode IE03` returned F2072 (Find Technical Object), which does not name this view.
