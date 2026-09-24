@@ -27,14 +27,19 @@ export const FIORI_APPS: FioriApp[] = [
     similar: ["confirm-jobs", "manage-technical-objects"],
   },
   {
-    id: "F1511", slug: "create-maintenance-request", name: "Create Maintenance Request", he: "פתיחת בקשת אחזקה", module: "PM", type: "Transactional",
-    trust: "curated", source: SRC, lastReviewed: LV,
+    // F1511 · 2026-09-24: name, type, role, catalog, OData and GUI transactions copied from the
+    // SAP Fiori Apps Reference Library (scripts/fal-app.mjs F1511, S32OP = S/4HANA 2025 FPS01,
+    // Published; same role, catalogs, OData and GUI transactions on S27OP = 2023). The Hebrew
+    // name and the slug are kept; the curated name 'Create Maintenance Request' belongs to
+    // F1511A. The verification record fiori:F1511 carries the evidence.
+    id: "F1511", slug: "create-maintenance-request", name: "Request Maintenance", he: "פתיחת בקשת אחזקה", module: "PM", type: "Transactional",
+    trust: "verified-docs", source: "SAP Fiori Apps Reference Library F1511 (scripts/fal-app.mjs, OData channel, S32OP = S/4HANA 2025 FPS01, isPublished=Published); same role, catalogs, OData and GUI transactions on S27OP = S/4HANA 2023", lastReviewed: "2026-09-24",
     purpose: "פתיחת הודעת/בקשת אחזקה מהשטח על-ידי מפעיל או טכנאי, כולל אובייקט ייחוס ותיאור התקלה.",
     problem: "מפעילים בשטח צריכים לדווח תקלה מהר וממובייל, ללא הכרת IW21. אפליקציית self-service פשוטה מפחיתה חיכוך.",
     process: "בקשה/הודעה → פקודה",
-    explain: { beginner: "טופס פשוט לדווח תקלה מהטלפון.", consultant: "יוצר הודעת PM (סוג M1/M2) דרך OData; מתאים ל-self-service.", technical: "SAPUI5 מעל API_MAINTENANCENOTIFICATION." },
-    role: "SAP_BR_MAINTENANCE_TECHNICIAN", catalog: "SAP_EAM_BC_MAINT_WORKER",
-    odata: "API_MAINTENANCENOTIFICATION", cds: "C_MaintNotificationListReport", guiTx: ["IW21"],
+    explain: { beginner: "טופס פשוט לדווח תקלה מהטלפון.", consultant: "יוצר הודעת PM (סוג M1/M2) דרך OData; מתאים ל-self-service.", technical: "SAPUI5 (SAP Fiori) מעל שירות ה-OData EAM_NTF_CREATE, לפי ספריית ה-Fiori (S32OP); ראו רשומת האימות fiori:F1511." },
+    role: "SAP_BR_EMPLOYEE_MAINTENANCE", catalog: "SAP_EAM_BC_MREQ",
+    odata: "EAM_NTF_CREATE", cds: "C_MaintNotificationListReport", guiTx: ["IW21", "IW22", "IW23", "IW26", "IW27", "IW28"],
     relatedTables: ["QMEL", "QMIH"], relatedObjects: ["BAPI_ALM_NOTIF_CREATE"],
     ecc: "ECC: IW21.", s4OnPrem: "yes", cloud: "yes",
     commonErrors: ["סוג הודעה לא זמין למשתמש → בדוק הקצאת Catalog + סוגי הודעה מותרים."],
@@ -70,16 +75,19 @@ export const FIORI_APPS: FioriApp[] = [
     // the official record is Screen Maintenance Requests (Maintenance Management 2025.001,
     // loio 5ae0d3b492dc4df3a0eb1b8cad02cda3; Fiori Apps Reference Library appId=F4072;
     // What's New 2021 "App New"). The scheduling content this row used to carry belongs to
-    // apps the project has no record for (F2774 Mass Schedule Maintenance Plans, F5325
-    // Manage Maintenance Plans) and was NOT moved here. Fields the sources do not state are
-    // empty on purpose; the verification record fiori:F4072 carries the evidence.
+    // apps that had no record at the time (F2774 Mass Schedule Maintenance Plans, F5325
+    // Manage Maintenance Plans, both added later that day) and was NOT moved here.
+    // role/catalog/odata/guiTx filled 2026-09-24 from scripts/fal-app.mjs F4072 (S32OP =
+    // S/4HANA 2025 FPS01, Published; same role, catalog, OData and GUI transactions on
+    // S27OP = S/4HANA 2023); the verification record fiori:F4072 carries the full evidence
+    // including RIN notes and scope items.
     id: "F4072", slug: "screen-maintenance-requests", name: "Screen Maintenance Requests", he: "סינון וקבלת בקשות אחזקה", module: "PM", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Screen Maintenance Requests) · SAP Fiori Apps Reference Library F4072", lastReviewed: "2026-09-22",
+    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Screen Maintenance Requests) · SAP Fiori Apps Reference Library F4072 (S32OP/S27OP, scripts/fal-app.mjs)", lastReviewed: "2026-09-24",
     purpose: "סינון וקבלה של בקשות אחזקה (Maintenance Requests): לפי התיעוד הרשמי, 'With this app, you can screen and accept maintenance requests'.",
     problem: "",
-    explain: { beginner: "מסך שבו בוחנים בקשות אחזקה שנפתחו (למשל ב-Create Maintenance Request) ומקבלים אותן להמשך טיפול.", consultant: "לפי Maintenance Management 2025 FPS01 היישום מסנן ומקבל בקשות אחזקה; ב-SAP S/4HANA Cloud Public Edition 2608 הוא מסומן 'Old Version' לצד Manage Maintenance Notifications (F5777), עדות לענן הציבורי בלבד.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מהספרייה (העמוד נטען כ-app shell) ולכן אינם מוצגים; ראו רשומת האימות fiori:F4072." },
-    role: "", catalog: "",
-    guiTx: [], relatedTables: [],
+    explain: { beginner: "מסך שבו בוחנים בקשות אחזקה שנפתחו (למשל ב-Create Maintenance Request) ומקבלים אותן להמשך טיפול.", consultant: "לפי Maintenance Management 2025 FPS01 היישום מסנן ומקבל בקשות אחזקה; ב-SAP S/4HANA Cloud Public Edition 2608 הוא מסומן 'Old Version' לצד Manage Maintenance Notifications (F5777), עדות לענן הציבורי בלבד.", technical: "תפקיד SAP_BR_MAINT_SUPERVISOR (R0198), קטלוג עסקי SAP_EAM_BC_MREQ_DSP, קטלוג טכני SAP_TC_EAM_COMMON, שירות OData UI_MAINTWORKREQUESTOVW_V2 (S4CORE 109); ראו רשומת האימות fiori:F4072." },
+    role: "SAP_BR_MAINT_SUPERVISOR", catalog: "SAP_EAM_BC_MREQ_DSP",
+    odata: "UI_MAINTWORKREQUESTOVW_V2", guiTx: ["IW21", "IW22", "IW23", "IW28", "IW29"], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "yes",
     similar: [],
   },
@@ -87,16 +95,19 @@ export const FIORI_APPS: FioriApp[] = [
     // F2774 · added 2026-09-22 (master completion §12). Sources: Maintenance Management
     // 2025.001 (loio 12f60922946c4ec49807c81ad93d5ba4, "App ID: F2774"), What's New 1709
     // (loio ef815ff35f454fb389d17bbae8ac7250), What's New S/4HANA 100 (loio
-    // 6f39ce28d1e14e57adaf45dcf1beed30). Type is derived from the documented function (it
-    // schedules plans, i.e. creates call objects), not read from the Apps Library, whose page
-    // loads as a JS shell; role, catalog and OData are empty for the same reason.
+    // 6f39ce28d1e14e57adaf45dcf1beed30). Type, role, catalogs, OData and GUI transactions
+    // come from the SAP Fiori Apps Reference Library's public OData service
+    // (scripts/fal-app.mjs F2774, S32OP = S/4HANA 2025 FPS01, Published; same values on
+    // S27OP = S/4HANA 2023), read 2026-09-24. Until then the type was derived from the
+    // documented function and role, catalog and OData were empty, because the library page
+    // loads as a JS shell. IP30 is the library's leading transaction and IP30H a related one.
     id: "F2774", slug: "mass-schedule-maintenance-plans", name: "Mass Schedule Maintenance Plans", he: "תזמון המוני של תכניות תחזוקה", module: "PM", type: "Transactional",
-    trust: "verified-docs", source: "SAP Help Portal · Maintenance Management 2025.001 (Mass Schedule Maintenance Plans) · What's New in SAP S/4HANA 1709", lastReviewed: "2026-09-22",
+    trust: "verified-docs", source: "SAP Fiori Apps Reference Library F2774 (S32OP/S27OP, scripts/fal-app.mjs) · SAP Help Portal · Maintenance Management 2025.001 · What's New in SAP S/4HANA 1709", lastReviewed: "2026-09-24",
     purpose: "תזמון המוני של תכניות תחזוקה: לפי התיעוד הרשמי, 'With this app, you can schedule all maintenance plans that are due within a specific time frame'.",
     problem: "",
-    explain: { beginner: "מסך שבו מתכנן התחזוקה מתזמן בבת אחת את כל תכניות התחזוקה שמועדן חל בחלון זמן מסוים.", consultant: "לפי What's New in SAP S/4HANA (גרסה 100) היישום מיועד למתכנן התחזוקה ('As a maintenance planner, you can use this app to schedule all maintenance plans that are due within a specific time frame'), וזמין מ-S/4HANA 1709. תיעוד התזמון של 2025 FPS01 מתאר את טרנזקציית ה-GUI IP30H באותו שם ('Mass schedule maintenance plans (transaction IP30H)'); זהות השם אינה מוכיחה שהיישום עוטף את IP30H, ולכן IP30H אינה רשומה כטרנזקציית הרקע שלו.", technical: "תפקיד עסקי, קטלוג ושירות OData לא נקראו מספריית ה-Fiori (העמוד נטען כ-app shell) ולכן אינם מוצגים; ראו רשומת האימות fiori:F2774." },
-    role: "", catalog: "",
-    guiTx: [], relatedTables: [],
+    explain: { beginner: "מסך שבו מתכנן התחזוקה מתזמן בבת אחת את כל תכניות התחזוקה שמועדן חל בחלון זמן מסוים.", consultant: "לפי What's New in SAP S/4HANA (גרסה 100) היישום מיועד למתכנן התחזוקה ('As a maintenance planner, you can use this app to schedule all maintenance plans that are due within a specific time frame'), וזמין מ-S/4HANA 1709. לפי ספריית יישומי ה-Fiori (S32OP), IP30 היא טרנזקציית ה-GUI המובילה של היישום ו-IP30H טרנזקציה קשורה; תיעוד התזמון של 2025 FPS01 מתאר את IP30H באותו שם ('Mass schedule maintenance plans (transaction IP30H)'), ואין בכך קביעה שהיישום עוטף את הלוגיקה של IP30H.", technical: "תפקיד SAP_BR_MAINTENANCE_PLANNER (R0088), קטלוגים עסקיים SAP_EAM_BC_MPLAN ו-SAP_EAM_BC_SHMP_MNG, קטלוג טכני SAP_TC_EAM_COMMON ושירות OData APJ_JOB_MANAGEMENT_SRV (טכנולוגיית UI: SAP Fiori: Generic Job Scheduling Framework), לפי scripts/fal-app.mjs על S32OP ו-S27OP; ראו רשומת האימות fiori:F2774." },
+    role: "SAP_BR_MAINTENANCE_PLANNER", catalog: "SAP_EAM_BC_MPLAN, SAP_EAM_BC_SHMP_MNG",
+    odata: "APJ_JOB_MANAGEMENT_SRV", guiTx: ["IP30", "IP30H"], relatedTables: [],
     ecc: "", s4OnPrem: "yes", cloud: "unknown",
     releaseInfo: "SAP S/4HANA 1709 (What's New 1709)",
     similar: [],

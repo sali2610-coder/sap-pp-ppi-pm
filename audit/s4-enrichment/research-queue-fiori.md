@@ -55,6 +55,12 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
   Capacity - Fiori Apps Library' at Apps('F3289')/S21OP, 2602 Technical Details (App ID F3289,
   PP-CFS-CE-2CL), s4_native token, xrefs resolve. `fiori:F3289` stays derived from apps.ts
   (`fiori:F3951` still xrefs it, which resolves through the universe).
+- 2026-09-24 · batch 1 of the Fiori depth run (F2731, F1511, F2730, F2730A, F4072, F2774):
+  none refuted, none queued; all six written from their audited drafts and verdicts. The
+  F4072 and F2774 verdicts judged edits an interrupted run had left in the working tree
+  (reverted on 2026-09-24 and kept as `quarantine/fiori-partial-writer.diff` in the session
+  scratchpad); those edits were
+  rebuilt from that diff and the verdicts' downgrades applied on top.
 
 ## conflicts
 
@@ -218,6 +224,43 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
   every record `trust: curated` with the source string 'SAP Fiori Apps Library (curated)' and no
   URL; eight records now carry official evidence contradicting the curated id or name. The
   curated file is outside this overlay's write scope.
+- 2026-09-24 · library re-check through its public OData service (`scripts/fal-app.mjs`,
+  S32OP = 2025 FPS01, S27OP = 2023), audited and written:
+  - `fiori:F2731`: still open. `F2731` returns empty Results on S32OP and S27OP; `--tcode IW31`
+    on S32OP lists F2023, F2953, F5241 (Manage Maintenance Orders), IW31 and W0017, not F2731.
+    Re-keying or retiring the curated id stays a product decision.
+  - `fiori:F2730`: still open (conflicting_sources). `F2730` is empty on S32OP and S27OP;
+    `--tcode IW41` lists F5104A (Perform Maintenance Jobs) and IW41. `data/fiori/apps.ts#F2730`
+    unchanged.
+  - `fiori:F2730A`: still open (conflicting_sources). `F2730A` is empty on S32OP and S27OP;
+    `--tcode IE01` lists IE01 and W0029; W0028 was read directly (Display Technical Object, Web
+    Dynpro, SAP_BR_MAINTENANCE_TECHNICIAN, SAP_EAM_BC_TO_MW, leading IQ09) and added as evidence.
+    The draft's catalogPatch for F2730A (the curated role, catalog and OData) was not applied:
+    the id is not in the library, so the entry keeps its fields.
+  - `fiori:F1511`: curated side fixed in `data/fiori/apps.ts#F1511` from S32OP: name Request
+    Maintenance, role SAP_BR_EMPLOYEE_MAINTENANCE, catalog SAP_EAM_BC_MREQ, OData
+    EAM_NTF_CREATE, guiTx IW21 / IW22 / IW23 / IW26 / IW27 / IW28, trust verified-docs; Hebrew
+    name and slug kept. This settles the rename that the 2026-09-23 note left as a product
+    decision. `explain.technical` named API_MAINTENANCENOTIFICATION and now names
+    EAM_NTF_CREATE. Still open: the old name/id pairing in `data/centers/fiori.ts`
+    (create-maintenance-request row), `data/lifecycle.ts#IW21` and `data/tx-intel.ts` IW21 /
+    IW25; the library's successor link F1511 to F1511A (rows S32PCE and S37) has an undecided
+    On-Premise scope; `cds: C_MaintNotificationListReport` and `explain.consultant` (M1/M2)
+    stay curated and unverified.
+  - `fiori:F4072`: role SAP_BR_MAINT_SUPERVISOR, catalog SAP_EAM_BC_MREQ_DSP, OData
+    UI_MAINTWORKREQUESTOVW_V2 and guiTx IW21 / IW22 / IW23 / IW28 / IW29 filled in
+    `data/fiori/apps.ts#F4072` (same on S27OP); Hebrew name now 'סינון וקבלת בקשות תחזוקה'.
+    `purpose`, `explain.beginner` and `explain.consultant` still use the older term for
+    maintenance (outside the patch fields).
+  - `fiori:F2774`: role SAP_BR_MAINTENANCE_PLANNER, catalogs SAP_EAM_BC_MPLAN and
+    SAP_EAM_BC_SHMP_MNG, OData APJ_JOB_MANAGEMENT_SRV, guiTx IP30 (leading) and IP30H
+    (related) filled; `status.source` now points to the Maintenance Management 2025.001 row
+    (it was null). `cloud: unknown` is unchanged; the library's release list also names 2602
+    and 2608, which this pass did not assess.
+  - UI follow-up, not data: `components/neo-shell/reference/fiori-data.ts` renders any
+    non-empty guiTx as "יישום S/4HANA המחליף את ... ב-SAP GUI". The library's leading and
+    related transaction codes do not by themselves say "replaces" (F2774 and IP30H in
+    particular).
 
 ### Resolved 2026-09-21 (design audit round 2 · audit/ux-2026-09/SAP-FIXES.md)
 - F3364 `odata: API_PROCORDCONF` → `API_PROC_ORDER_CONFIRMATION_2_SRV` (also `data/centers/fiori.ts`). F3577 `API_PROCESSORDER_2` → `API_PROCESS_ORDER_2_SRV`. The app-id conflicts (F3364 vs CORK, F3577 vs F4587) remain open as recorded.
