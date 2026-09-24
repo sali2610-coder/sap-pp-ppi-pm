@@ -2857,7 +2857,7 @@ export const FM_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: DATE2,
         claim:
-          "רשומת הרישום: אובייקט BOR‏ BUS2116, ‏BAPI כותב (מחייב BAPI_TRANSACTION_COMMIT), ‏releasedStatus‏ " +
+          "רשומת הרישום: אובייקט BOR‏ BUS2116 (כך בשכבת ההעשרה עד 2026-09-24; עמוד Reference Objects הרשמי, 2025.001, loio 62d3b65334e6b54ce10000000a174cb4, מציב BUS0001 לפקודת תהליך, BUS2016 לאישור פקודת תהליך ו-BUS2116 לאישור פקודת ייצור), ‏BAPI כותב (מחייב BAPI_TRANSACTION_COMMIT), ‏releasedStatus‏ " +
           "'Released · RFC', תמיכת ECC ו-S/4 On-Premise, רצף Create ← Release ← Confirm ← Goods Movement ← " +
           "Commit.",
         verificationLevel: "repository_verified",
@@ -5943,7 +5943,7 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "'נדרש אימות', ולכן לא נכפלה כאן, והמזהה OP_API_PROCESS_ORDER_2_SRV_0001 לא נכתב כראיה. ממצאי מאגר שנמדדו " +
       "בהרצה ולא רק נקראו: (1) המיזוג ב-lib/bapi-registry.ts ‏(enrichAll, פריסה של קובץ ה-PM ואז PP-PI ואז " +
       "הסריקה) החליף עד 2026-09-21 עבור מזהה זה את רשומת ה-PP-PI במלואה ברשומת הסריקה, כך שערכי ה-PP-PI ‏(טרנזקציה COR3, " +
-      "טבלאות AFKO/AFPO/AFVC, אובייקט BOR‏ BUS2116 וסיכום הפרמטרים 'IMP NUMBER · EXP ORDER_OBJECTS · TAB " +
+      "טבלאות AFKO/AFPO/AFVC, אובייקט BOR‏ BUS2116 (כך בשכבת ההעשרה עד 2026-09-24; עמוד Reference Objects הרשמי, 2025.001, loio 62d3b65334e6b54ce10000000a174cb4, מציב BUS0001 לפקודת תהליך, BUS2016 לאישור פקודת תהליך ו-BUS2116 לאישור פקודת ייצור) וסיכום הפרמטרים 'IMP NUMBER · EXP ORDER_OBJECTS · TAB " +
       "RETURN') אינם מגיעים לרישום כלל. זהו אותו כשל מבני שכבר נרשם ברשומת fm:BAPI_ALM_ORDER_GET_DETAIL. (2) " +
       "בעקבותיו, אובייקט הרישום הממוזג נושא טבלאות וטרנזקציות שאינן שייכות לפקודת תהליך אלא לרשימות פעולות " +
       "ולמתכוני אב: טבלאות PLAS, ‏PLFL, ‏PLMZ, ‏MAPL, ‏FHMI, ‏PLZU, ‏TC60, ‏TCA01, ‏AFPO, ‏AFVC, ‏AFFH, ‏AFFL " +
@@ -6018,7 +6018,7 @@ export const FM_VERIFICATION: VerificationRecord[] = [
         product: "SAP ECC / SAP S/4HANA",
         edition: "on-premise",
         accessedAt: DATE21,
-        claim: "רשומת ההעשרה מתארת BAPI מסוג Read (קריאה בלבד, ללא SAVE או COMMIT) על אובייקט BOR‏ BUS2116, בזיקה " +
+        claim: "רשומת ההעשרה מתארת BAPI מסוג Read (קריאה בלבד, ללא SAVE או COMMIT) על אובייקט BOR‏ BUS2116 (כך בשכבת ההעשרה עד 2026-09-24; עמוד Reference Objects הרשמי, 2025.001, loio 62d3b65334e6b54ce10000000a174cb4, מציב BUS0001 לפקודת תהליך, BUS2016 לאישור פקודת תהליך ו-BUS2116 לאישור פקודת ייצור), בזיקה " +
                "ל-COOISPI ול-COHV ולטבלאות AFKO ו-AUFK, עם סיכום פרמטרים 'IMP PLANT, SELPROD… · TAB PROCESS_ORDERS, " +
                "RETURN', ‏releasedStatus‏ 'Released · RFC', ‏verificationStatus‏ verified-docs, תמיכת ECC ותמיכת S/4HANA " +
                "On-Premise 'yes' ותמיכת Cloud 'unknown'. מקור האימות הרשום למשפחה זו הוא 'SE37 metadata mirror " +
@@ -6091,7 +6091,7 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "selection ranges (order/plant/material) · OUT: order list, RETURN.' (bapi-enrichment.sweep.ts) " +
       "ו-'Selection → ORDER_OBJECTS' (function-intel.ts). לפי מיזוג הרישומים ב-lib/bapi-registry.ts שורה 215 " +
       "(enrichAll = spread של שלושת הקבצים) ערך הסריקה מחליף את ערך קובץ ה-PP-PI במלואו עבור מזהה זה, כך " +
-      "שהפירוט BUS2116‏/COOISPI‏/AFKO‏/AUFK שבקובץ ה-PP-PI אינו מגיע לטלאי הרישום. נרשם לקובץ התור. (5) רשומת " +
+      "שהפירוט BUS2116 (כך בשכבת ההעשרה עד 2026-09-24; עמוד Reference Objects הרשמי, 2025.001, loio 62d3b65334e6b54ce10000000a174cb4, מציב BUS0001 לפקודת תהליך, BUS2016 לאישור פקודת תהליך ו-BUS2116 לאישור פקודת ייצור)‏/COOISPI‏/AFKO‏/AUFK שבקובץ ה-PP-PI אינו מגיע לטלאי הרישום. נרשם לקובץ התור. (5) רשומת " +
       "הסריקה מצהירה מקור אימות 'SAP Help Portal — verified 2026-07-15', אך לא נמצא בהרצה זו עמוד Help ציבורי " +
       "הנוקב בשם ה-BAPI; מקור ה-PP-PI הוא מראת SE37, ערוץ Tier-3 לפי MANIFEST. מצב ה-Released הוא " +
       "repository_verified בלבד. (6) הסטטוס הנגזר שהאפליקציה הציגה לפני רשומה זו, לפי fromFuncRegistry על " +
@@ -6170,7 +6170,7 @@ export const FM_VERIFICATION: VerificationRecord[] = [
                "עם השדות ORDERID, OPERATION, YIELD, SCRAP, WORK ו-FIN_CONF, בטבלת GOODSMOVEMENTS לתנועות הנלוות ובפלטים " +
                "DETAIL_RETURN ו-RETURN, משייכת את המודול ל-COR6N, CORK ו-COGI ולטבלאות AFRU, AFKO ו-RESB, וקובעת 'זמין " +
                "ב-ECC' ו-'זמין ב-S/4HANA. חלופה: OData/Fiori Confirm Process Order'. הרישום המועשר " +
-               "data/bapi-enrichment.pppi.ts מוסיף אובייקט BOR BUS2116, סיווג BAPI כותב המחייב BAPI_TRANSACTION_COMMIT, " +
+               "data/bapi-enrichment.pppi.ts מוסיף אובייקט BOR BUS2116 (כך בשכבת ההעשרה עד 2026-09-24; עמוד Reference Objects הרשמי, 2025.001, loio 62d3b65334e6b54ce10000000a174cb4, מציב BUS0001 לפקודת תהליך, BUS2016 לאישור פקודת תהליך ו-BUS2116 לאישור פקודת ייצור), סיווג BAPI כותב המחייב BAPI_TRANSACTION_COMMIT, " +
                "releasedStatus 'Released · RFC', תמיכת ECC ו-S/4 On-Premise, ופרמטרים 'IMP POST_WRONG_ENTRIES · TAB " +
                "TIMETICKETS, GOODSMOVEMENTS, LINK_CONF_GOODSMOV, DETAIL_RETURN, RETURN' עם הטרנזקציות CORK ו-CORR. " +
                "הרישום data/bapi-enrichment.sweep.ts, הנטען אחרון ודורס את קודמו, רושם לאותו מודול 'IN: TIMETICKETS " +
@@ -16169,7 +16169,7 @@ export const FM_VERIFICATION: VerificationRecord[] = [
         product: "SAP ECC / SAP S/4HANA",
         edition: "on-premise",
         accessedAt: DATE24,
-        claim: "הרישום המועשר מתאר את BAPI_PROCORD_COMPLETE_TECH כ-BAPI לסגירה טכנית (TECO) של פקודות תהליך, פעולה Change, אובייקט עסקי BUS2116, פרמטרים 'TAB ORDERS, DETAIL_RETURN, RETURN', טבלאות AFKO ו-JEST, טרנזקציה COR2; מקור האימות 'se80.co.uk (SE37)', שאינו מקור SAP רשמי. ערכי RFC yes, commit yes ומעמד 'Released · RFC' הם ברירות מחדל של פונקציית def בקובץ ולא נתונים שנאספו מהמקור.",
+        claim: "הרישום המועשר מתאר את BAPI_PROCORD_COMPLETE_TECH כ-BAPI לסגירה טכנית (TECO) של פקודות תהליך, פעולה Change, אובייקט עסקי BUS2116 (כך בשכבת ההעשרה עד 2026-09-24; עמוד Reference Objects הרשמי, 2025.001, loio 62d3b65334e6b54ce10000000a174cb4, מציב BUS0001 לפקודת תהליך, BUS2016 לאישור פקודת תהליך ו-BUS2116 לאישור פקודת ייצור), פרמטרים 'TAB ORDERS, DETAIL_RETURN, RETURN', טבלאות AFKO ו-JEST, טרנזקציה COR2; מקור האימות 'se80.co.uk (SE37)', שאינו מקור SAP רשמי. ערכי RFC yes, commit yes ומעמד 'Released · RFC' הם ברירות מחדל של פונקציית def בקובץ ולא נתונים שנאספו מהמקור.",
         verificationLevel: "repository_verified",
         repoRef: "data/bapi-enrichment.pppi.ts#BAPI_PROCORD_COMPLETE_TECH",
       },

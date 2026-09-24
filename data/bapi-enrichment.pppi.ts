@@ -48,23 +48,26 @@ const HELP = "SAP Help Portal + SE37 metadata";
 
 // full verified records (used both to overlay existing derived records and to add missing ones)
 const ALL: SapFuncObject[] = [
-  def({ id: "BAPI_PROCORD_CREATE", op: "Create", write: true, proc: "Process Order", bor: "BUS2116", src: HELP,
+  // BOR object types (2026-09-24): Reference Objects · Production Planning and Control, 2025.001
+  // (loio 62d3b65334e6b54ce10000000a174cb4) lists BUS0001 Process Order, BUS2016 Process Order
+  // Confirmation and BUS2116 Production Order Confirmation; these entries carried BUS2116 until then.
+  def({ id: "BAPI_PROCORD_CREATE", op: "Create", write: true, proc: "Process Order", bor: "BUS0001", src: HELP,
     he: "יצירת פקודת תהליך (Process Order) — חומר, מפעל, סוג פקודה, כמות, גרסת ייצור.", en: "Create a process order.",
     params: "IMP ORDERDATA (material, plant, orderType, quantity, dates, prodVersion) · EXP RETURN, ORDER_NUMBER",
-    tx: ["COR1", "COR2", "COR3", "COR5"], tbl: ["AFKO", "AFPO", "AFVC", "RESB"], rel: PO_SEQ, seq: PO_SEQ, kw: ["process order", "פקודת תהליך", "BUS2116"] }),
-  def({ id: "BAPI_PROCORD_GET_DETAIL", op: "Read", write: false, proc: "Process Order", bor: "BUS2116", src: SD,
+    tx: ["COR1", "COR2", "COR3", "COR5"], tbl: ["AFKO", "AFPO", "AFVC", "RESB"], rel: PO_SEQ, seq: PO_SEQ, kw: ["process order", "פקודת תהליך", "BUS0001"] }),
+  def({ id: "BAPI_PROCORD_GET_DETAIL", op: "Read", write: false, proc: "Process Order", bor: "BUS0001", src: SD,
     he: "שליפת פרטי פקודת תהליך — קריאה בלבד.", en: "Output details of a process order.",
     params: "IMP NUMBER · EXP ORDER_OBJECTS · TAB RETURN", tx: ["COR3"], tbl: ["AFKO", "AFPO", "AFVC"], rel: PO_SEQ }),
-  def({ id: "BAPI_PROCORD_GET_LIST", op: "Read", write: false, proc: "Process Order", bor: "BUS2116", src: SD,
+  def({ id: "BAPI_PROCORD_GET_LIST", op: "Read", write: false, proc: "Process Order", bor: "BUS0001", src: SD,
     he: "רשימת פקודות תהליך לפי בחירה — קריאה בלבד.", en: "List process-order headers by selection.",
     params: "IMP PLANT, SELPROD… · TAB PROCESS_ORDERS, RETURN", tx: ["COOISPI", "COHV"], tbl: ["AFKO", "AUFK"], rel: PO_SEQ }),
-  def({ id: "BAPI_PROCORD_RELEASE", op: "Change", write: true, proc: "Process Order", bor: "BUS2116", src: "se80.co.uk (SE37)",
+  def({ id: "BAPI_PROCORD_RELEASE", op: "Change", write: true, proc: "Process Order", bor: "BUS0001", src: "se80.co.uk (SE37)",
     he: "שחרור פקודות תהליך (Release).", en: "Release process orders.",
     params: "TAB ORDERS (order numbers), DETAIL_RETURN, RETURN", tx: ["COR2"], tbl: ["AFKO", "JEST"], rel: PO_SEQ, seq: PO_SEQ }),
-  def({ id: "BAPI_PROCORD_COMPLETE_TECH", op: "Change", write: true, proc: "Process Order", bor: "BUS2116", src: "se80.co.uk (SE37)",
+  def({ id: "BAPI_PROCORD_COMPLETE_TECH", op: "Change", write: true, proc: "Process Order", bor: "BUS0001", src: "se80.co.uk (SE37)",
     he: "סגירה טכנית של פקודות תהליך (TECO).", en: "Technically complete process orders (TECO).",
     params: "TAB ORDERS, DETAIL_RETURN, RETURN", tx: ["COR2"], tbl: ["AFKO", "JEST"], rel: ["BAPI_PROCORD_CREATE", "BAPI_TRANSACTION_COMMIT"] }),
-  def({ id: "BAPI_PROCORDCONF_CREATE_TT", op: "Confirm", write: true, proc: "Process Order Confirmation", bor: "BUS2116", src: HELP,
+  def({ id: "BAPI_PROCORDCONF_CREATE_TT", op: "Confirm", write: true, proc: "Process Order Confirmation", bor: "BUS2016", src: HELP,
     he: "דיווח פקודת תהליך — Time Ticket (תפוקה, פסולת, פעילויות).", en: "Enter a process-order time-ticket confirmation.",
     params: "IMP POST_WRONG_ENTRIES · TAB TIMETICKETS, GOODSMOVEMENTS, LINK_CONF_GOODSMOV, DETAIL_RETURN, RETURN", tx: ["CORK", "CORR"], tbl: ["AFRU", "AFVC"], rel: ["BAPI_PROCORDCONF_CANCEL", "BAPI_GOODSMVT_CREATE", "BAPI_TRANSACTION_COMMIT"], seq: PO_SEQ,
     qa: "דיווח _TT (Time Ticket) — לא לבלבל עם _GETLIST. תנועות סחורה נלוות דרך GOODSMOVEMENTS. חובה COMMIT. ביטול: BAPI_PROCORDCONF_CANCEL." }),

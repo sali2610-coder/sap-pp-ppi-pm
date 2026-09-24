@@ -138,7 +138,7 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
       tables: [
         { he: "AUFK כותרת ההזמנה; AFKO כותרת הייצור; AFPO פריט; AFVC פעולות ושלבים; AFFL רצף; RESB רכיבים ורזרבציות.", xrefs: ["table:AUFK", "table:AFKO", "table:AFPO", "table:AFVC", "table:AFFL", "table:RESB"] },
         { he: "AFRU אישורי ייצור; JEST ו-JSTO סטטוסי מערכת ומשתמש.", xrefs: ["table:AFRU", "table:JEST", "table:JSTO"] },
-        { he: "האובייקט העסקי פקודת תהליך (BOR BUS2116 לפי שכבת ההעשרה של המאגר, טרם אושש ברשומה רשמית).", xrefs: ["obj:process-order"] },
+        { he: "האובייקט העסקי פקודת תהליך (BOR BUS0001 לפי עמוד Reference Objects הרשמי, 2025.001; שכבת ההעשרה של המאגר נשאה BUS2116 עד 2026-09-24, והעמוד מציב את BUS2116 לאישור פקודת ייצור).", xrefs: ["obj:process-order"] },
         { he: "עלות והתחשבנות: COBRB כללי התחשבנות, COSS ו-COSP סכומי עלות, ACDOCA הרישום הסופי.", xrefs: ["table:COBRB", "table:COSS", "table:COSP", "table:ACDOCA"] },
         { he: "תנועות החומר: MSEG ו-MKPF ב-ECC, ו-MATDOC ב-S/4HANA (MATDOC אינה במילון הפרויקט).", xrefs: ["table:MSEG", "table:MKPF", "obj:material-document"] },
       ],
@@ -326,7 +326,7 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         accessedAt: DATE,
         claim:
           "BAPI_PROCORD_CREATE, BAPI_PROCORD_GET_DETAIL, BAPI_PROCORD_GET_LIST, BAPI_PROCORD_RELEASE, " +
-          "BAPI_PROCORD_COMPLETE_TECH ו-BAPI_PROCORDCONF_CREATE_TT נושאים אובייקט BOR BUS2116, מסווגים כ-BAPI " +
+          "BAPI_PROCORD_COMPLETE_TECH ו-BAPI_PROCORDCONF_CREATE_TT נושאים אובייקט BOR BUS2116 (כך במאגר עד 2026-09-24; כעת BUS0001, ולאישור BUS2016, לפי עמוד Reference Objects הרשמי), מסווגים כ-BAPI " +
           "כותבים המחייבים BAPI_TRANSACTION_COMMIT, ומשויכים לטרנזקציות COR1 עד COR5, COR2, CORK ו-CORR " +
           "ולטבלאות AFKO, AFPO, AFVC, RESB, JEST ו-AFRU. הרצף הרשום: Create, Release, Confirm, Goods Movement, " +
           "Commit. ביטול דיווח דרך BAPI_PROCORDCONF_CANCEL.",
@@ -443,8 +443,8 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
       "לתהליך לא אותר ולכן ההפניה הרשמית היא עמוד התהליך. מזהי ה-Fiori F3577 ו-F3364 נשמרים כמזהי המאגר בלבד: " +
       "רשומות האימות מציינות שהתיעוד הרשמי נוקב ב-F4587, ב-F5323 וב-App ID CORK, ושלושתם אינם במילון הפרויקט. " +
       "הטבלאות MATDOC, AFFW, PLAF, MDKP, CKMLPP ו-KEKO, ותצוגת ה-CDS I_ManufacturingOrder, מופיעות ברשומות המאגר " +
-      "אך אינן במילון המזהים, ולכן הן נזכרות בטקסט בלבד. אובייקט ה-BOR BUS2116 מגיע משכבת ההעשרה של המאגר וטרם " +
-      "אושש ברשומה רשמית. לא בוצעה בדיקה במערכת SAP חיה.",
+      "אך אינן במילון המזהים, ולכן הן נזכרות בטקסט בלבד. אובייקט ה-BOR BUS2116 הגיע משכבת ההעשרה של המאגר; ב-2026-09-24 תוקן ל-BUS0001 לפי עמוד " +
+      "Reference Objects הרשמי (2025.001, loio 62d3b65334e6b54ce10000000a174cb4), שמציב את BUS2116 לאישור פקודת ייצור. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* ========================================== master recipe + prod version */

@@ -51,7 +51,8 @@ const get = async (u) => { const r = await fetch(base + u); const html = await r
 }
 {
   const p = await get("/neo/bapi/BAPI_PROCORD_GET_DETAIL/");
-  const need = ["COR3", "BUS2116", "AFKO", "AFPO", "AFVC"], miss = need.filter((x) => !p.t.includes(x));
+  // BOR object per Reference Objects (2025.001): BUS0001 = Process Order (FIX-13; BUS2116 until 2026-09-24)
+  const need = ["COR3", "BUS0001", "AFKO", "AFPO", "AFVC"], miss = need.filter((x) => !p.t.includes(x));
   check("SAP-7", p.status === 200 && !miss.length, { status: p.status, missing: miss });
 }
 {

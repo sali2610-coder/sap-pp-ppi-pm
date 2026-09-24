@@ -223,3 +223,16 @@
 | מה שונה | F1511 = Request Maintenance ו-F1511A = Create Maintenance Request (`258c628f`); F1814 הוא Sales Order (S/4HANA), ויישום ה-BOM הוא F1813 Maintain Bill Of Material (`0e1ca17d`); ב-tx-intel, ב-lifecycle וב-solutions: VA01 → F3893, OB52 → F2293, F-03 → F1579, F-04 → F1345, MSC1N/MSC3N → F2462, MB21/MB22 → F4839, MB23 → F5690, FBL3N → F2217, שמות F0711/F0712/F0842A/F1077 לפי הספרייה, ו-F0798/F0859/F1622/F3069/F0018/F0247/F1568 הוסרו היכן שהספרייה אינה מקשרת יישום (`a13460fa`); F2336 ו-F4072 ברשומות המרכז (`8a2f0b78`, `0e1ca17d`). ציטוטי מאגר מתוארכים קיבלו הערת תיקון |
 | מה לא שונה | F0843 (זהות היישום היא החלטת מוצר פתוחה ברשומה fiori:F0843); F0247 בקטלוג ובמרכז ממתין לאצוות Fiori 3 (F0247A, F0251). השיעורים שנוצרו מספרי הלימוד המוגנים (`mm-generated.ts` 12 צמדים, `ppds-generated.ts` 1) נושאים צימודים שגויים, למשל F2360 בתור Manage Purchase Requisitions (הספרייה וספר 7: Quality Engineer Overview): לא נגעתי, מדווח ב-BLOCKERS כהחלטת בעלים |
 | בדיקות | `tsc` 0 · `npm test` 212/212 בעץ נקי לכל commit |
+
+---
+
+## FIX-13 · אובייקט ה-BOR של פקודת תהליך: BUS0001, לא BUS2116 (אימות SAP S/4HANA, 2026-09-24)
+
+| שדה | ערך |
+|---|---|
+| מזהה | `data/bapi-enrichment.pppi.ts` (BAPI_PROCORD_CREATE / GET_DETAIL / GET_LIST / RELEASE / COMPLETE_TECH, BAPI_PROCORDCONF_CREATE_TT) · `data/academy/lessons/pp-generated.ts` · `data/best-practices/pppi-processes.ts` · ציטוטי מאגר ב-`data/verification/functions.ts` |
+| טענה | BUS0001 = Process Order, BUS2016 = Process Order Confirmation, BUS2116 = Production Order Confirmation |
+| מקור | Reference Objects · Production Planning and Control, 2025.001, loio `62d3b65334e6b54ce10000000a174cb4` (גוף העמוד נקרא ב-`scripts/sap-help-body.mjs`): "BUS1001 Material BUS1001002 Batch BUS2004 Planned Order BUS2005 Production Order BUS0001 Process Order BUS2116 Production Order Confirmation BUS2016 Process Order Confirmation BUS2038 Maintenance Notification BUS2007 Maintenance Order EQUI Equipment BUS0010 Functional Location"; זיהוי הצמדים נשען על העוגנים המוכרים באותה רשימה. אותו עמוד שימש ב-FIX-8c. הממצא עלה מאצוות האובייקטים (`obj:process-order`) |
+| מה שונה | שכבת ההעשרה: BUS2116 → BUS0001 (ולאישור BUS2016); המקור הקודם היה se80.co.uk ו-SD, לא מקור SAP רשמי. השיעור ושיטת העבודה עודכנו; ציטוטי המאגר ברשומות הפונקציות ובשיטת העבודה קיבלו הערת תיקון מתוארכת. שורת SAP-7 במטריצה (קבלה שנכתבה ב-FIX-7 על בסיס שכבת ההעשרה) קיבלה הערת תיקון, והבדיקה `astra-extra-check` מחפשת BUS0001 |
+| מה לא שונה | מחרוזות שאילתה היסטוריות ברשומות הפונקציות ('BAPIs for Process Order BUS2116' וכו') נשארו כתיעוד החיפוש שבוצע |
+| בדיקות | `tsc` 0 · `npm test` 211/211 |
