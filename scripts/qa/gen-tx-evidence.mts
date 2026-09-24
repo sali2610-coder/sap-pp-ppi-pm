@@ -37,13 +37,27 @@ const read = (p: string) => readFileSync(p, "utf8");
 const authored = new Set(
   [...(read("data/verification/transactions.ts") + read("data/verification/transactions-b.ts")).matchAll(/^\s{4}id:\s*"tx:([^"]+)"/gm)].map((m) => m[1]),
 );
-const rest: { id: string }[] = JSON.parse(read("audit/master-completion/tx-queue-rest.json")).rest;
+// Every registry code without a researched record (transactions.ts / transactions-b.ts): the codes no
+// Simplification List item names, and the named ones the research chains have not reached yet. A
+// researched record supersedes the generated one (data/verification/index.ts), so regenerating after
+// a chain batch simply drops the codes the chain has written.
 // Same syntax as lib/evidence/canonical.ts (tx): a registry name outside it cannot carry a record.
 const TX_SYNTAX = /^[A-Z0-9_\/-]{2,20}$/;
-const skippedSyntax = rest.map((r) => r.id.replace(/^tx:/, "")).filter((c) => !TX_SYNTAX.test(c));
-let codes = pilot ?? rest.map((r) => r.id.replace(/^tx:/, "")).filter((c) => !authored.has(c) && TX_SYNTAX.test(c));
+const SIMPL = JSON.parse(read("audit/master-completion/simpl-tcode-index.json"));
+const allCodes = [...txRegistry().keys()].sort();
+const skippedSyntax = allCodes.filter((c) => !TX_SYNTAX.test(c));
+let codes = pilot ?? allCodes.filter((c) => !authored.has(c) && TX_SYNTAX.test(c));
 if (limit) codes = codes.slice(0, limit);
-const simplLists = JSON.parse(read("audit/master-completion/simpl-tcode-index.json")).lists
+/** The two official lists, their extracted text (line numbers in simpl-tcode-index.json are 1-based
+ *  lines of these files) and their citation data. */
+const LISTS: Record<string, { title: string; release: string; url: string; version: string; lines: string[] }> = Object.fromEntries(
+  SIMPL.lists.map((l: any) => [l.key, {
+    title: String(l.title).replace(/[\u2013\u2014]/g, "-"), release: l.release, url: l.url,
+    version: (/document version ([\d.]+)/.exec(l.title || "") || [])[1] || "",
+    lines: read(`scratchpad/official/SIMPL_OP${l.key}.pdf.txt`).split("\n"),
+  }]),
+);
+const simplLists = SIMPL.lists
   .map((l: any) => { const v = /document version ([\d.]+)/.exec(l.title || ""); return `${l.release}${v ? ` גרסת מסמך ${v[1]}` : ""}`; }).join(", ");
 
 /* ------------------------------------------------------- repository sources */
@@ -216,17 +230,40 @@ async function build(code: string) {
     });
   }
 
+  // The Simplification List items that name the code, one row per item (2025 first), each quoting
+  // the exact line of the item text that prints the code. Context only: what the item rules for
+  // this code is left to a researcher.
+  const named: { key: string; item: string; title: string; lines: number[] }[] =
+    Object.entries(SIMPL.codes[code] || {}).flatMap(([key, items]: [string, any]) => (items as any[]).map((it) => ({ key, ...it })))
+      .sort((a, b) => b.key.localeCompare(a.key));
+  for (const it of named.slice(0, 3)) {
+    const L = LISTS[it.key];
+    const hit = (it.lines || []).map((n: number) => L.lines[n - 1] || "").find((ln: string) => tokenRe(code).test(ln));
+    if (!hit) continue;
+    const quote = dash(hit.replace(/\s+/g, " ").trim()).slice(0, 240);
+    if (RISKY.test(quote)) continue;
+    evidence.push({
+      sourceType: "simplification_item", sourceTitle: `${L.title} · item ${it.item} ${dash(it.title)}`,
+      url: L.url, product: "SAP S/4HANA", edition: "on-premise", release: L.release, accessedAt: "DATE",
+      claim: `פריט ${it.item} '${dash(it.title)}' ברשימת הפישוט הרשמית (${L.release}, גרסת מסמך ${L.version}) נוקב בקוד ${code} בשורה: '${quote}'. הפריט מובא כאן כהקשר בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר.`,
+      verificationLevel: "sap_official_verified",
+    });
+  }
+  const namedNote = named.length
+    ? `הקוד נזכר ב-${named.length} פריטים של רשימות הפישוט הרשמיות (${named.map((n) => `${LISTS[n.key].release} ${n.item}`).join(", ")}); מה שהפריטים קובעים לגבי הקוד טרם נקרא במחקר, ולכן לא נכתבה הכרעת מעמד. רשומה מחקרית תחליף רשומה זו כששרשרת המחקר תגיע לקוד (audit/master-completion/tx-chain-args*.json).`
+    : `אף פריט ברשימות הפישוט הרשמיות (${simplLists}) אינו נוקב בקוד (סריקה מלאה של הטקסט, scripts/qa/simpl-tcode-index.mjs); זה ממצא שלילי מתועד ולא הכרעה.`;
+
   const notes = [
     `רשומה שנוצרה באופן דטרמיניסטי (scripts/qa/gen-tx-evidence.mts, ${DATE}) ללא מודל שפה: כל טענה מועתקת מרשומת המאגר, מרשומות החיפוש של help.sap.com או מספריית האפליקציות של Fiori, ולא נכתבה הכרעת מעמד.`,
     `חיפושים: '${code}' בסקופ SAP_S4HANA_ON-PREMISE (${s4.total} רשומות, ${s4hits.length} מצוטטות), '${code}' בסקופ SAP_ERP (${erp.total} רשומות, ${erphits.length} מצוטטות); ספריית Fiori במהדורה S32OP: ${g ? "הטרנזקציה רשומה בה כאפליקציה" : "הטרנזקציה אינה רשומה בה כאפליקציה במהדורה זו"}, ${lead.apps.filter((a: any) => a.fioriId !== code).length} אפליקציות עם קוד מוביל ${code}.`,
-    `אף פריט ברשימות הפישוט הרשמיות (${simplLists}) אינו נוקב בקוד (סריקה מלאה של הטקסט, scripts/qa/simpl-tcode-index.mjs); זה ממצא שלילי מתועד ולא הכרעה.`,
+    namedNote,
     `מעמד S/4HANA לא נקבע ממקור רשמי: הפעולה שסוגרת היא SE93 במערכת היעד (קיום הקוד, התוכנית והמסך), או מקור רשמי הנוקב במעמד. לא בוצעה בדיקה במערכת SAP חיה.`,
   ].join(" ");
   // Every row of a generated record is context: it shows where the code appears and never
   // decides the record's level or depth (lib/evidence/types.ts, Evidence.context).
   for (const e of evidence) e.context = true;
   const official = evidence.filter((e) => e.verificationLevel === "sap_official_verified").length;
-  return { code, record: { id: `tx:${code}`, evidence, lastVerifiedAt: "DATE", notes }, official, s4hits: s4hits.length, erphits: erphits.length, gui: !!g, leading: leading.length };
+  return { code, record: { id: `tx:${code}`, evidence, lastVerifiedAt: "DATE", notes }, official, s4hits: s4hits.length, erphits: erphits.length, gui: !!g, leading: leading.length, named: named.length };
 }
 
 /* ------------------------------------------------------------------ driver */
@@ -260,8 +297,9 @@ const lit = (v: unknown, ind: string): string => {
 const header = `/* Project NEO · S/4HANA verification overlay · transactions, generated shard.
    ----------------------------------------------------------------------------
    GENERATED by scripts/qa/gen-tx-evidence.mts on ${DATE}. Do not hand-edit: regenerate.
-   One record per transaction code that no item of either official Simplification List
-   names and that no research chain has written (audit/master-completion/tx-queue-rest.json).
+   One record per transaction code no research chain has written yet: the codes no item of
+   either official Simplification List names, and the named codes the chains have not reached
+   (for those, the item line that prints the code is quoted as context).
    No language model wrote these records: every claim is a fixed Hebrew frame around values
    copied verbatim from the repository registry, help.sap.com search records that print the
    code, and the SAP Fiori Apps Reference Library (release S32OP = S/4HANA 2025 FPS01).
@@ -285,6 +323,7 @@ writeFileSync(INDEX_OUT, JSON.stringify({
   withGuiEntry: results.filter((r) => r.gui).length,
   withLeadingApps: results.filter((r) => r.leading > 0).length,
   withHelpHit: results.filter((r) => r.s4hits + r.erphits > 0).length,
+  namedBySimplificationList: results.filter((r) => r.named > 0).length,
   skippedIdSyntax: skippedSyntax,
   rows: results.map((r) => ({ code: r.code, official: r.official, s4: r.s4hits, erp: r.erphits, gui: r.gui, leading: r.leading })),
 }, null, 1));

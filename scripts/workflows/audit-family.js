@@ -43,7 +43,7 @@ for (const [bi, b] of (args.batches || []).entries()) {
   log(`batch ${bi + 1}/${args.batches.length}: audit x${queue.length} (${queue.map((q) => q.id).join(', ')})`)
   phase('Audit')
   const verdicts = await pipeline(queue,
-    (item) => agent(`${COMMON}\n\nYou are the INDEPENDENT ADVERSARIAL AUDITOR for the EXISTING record ${item.id} (${item.he || ''}). You did not write it; a main session wrote it on 2026-09-23 without any auditor, and your job is to try to REFUTE it. Default to refuted=true if uncertain. Hint: ${item.hint || ''}${args.commonHint ? ' ' + args.commonHint : ''}
+    (item) => agent(`${COMMON}\n\nREAD-ONLY ROLE: do not create, modify or delete any file in the repository (scratch files only under /tmp); return your result as the structured output only. You are the INDEPENDENT ADVERSARIAL AUDITOR for the EXISTING record ${item.id} (${item.he || ''}). You did not write it; a main session wrote it on 2026-09-23 without any auditor, and your job is to try to REFUTE it. Default to refuted=true if uncertain. Hint: ${item.hint || ''}${args.commonHint ? ' ' + args.commonHint : ''}
 Steps:
 (1) Read the record: grep -n 'id: "${item.id}"' data/verification/${FILE} and read the whole object (evidence, xrefs, status if any, notes). Note the DATE constants at the top of the file.
 (2) Provenance: the raw search results the writer saved are in ${args.rawDir}/<NAME>-*.json (NAME = the id without the "fm:" prefix; several files per id). Every English fragment quoted in a claim must exist in a title or snippet of one of those records, or of a record you fetch now. Quote-check mechanically (grep the fragment across the files).
