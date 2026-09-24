@@ -48,7 +48,23 @@
    material-bom fixedRecord had re-stamped its unchanged seed row 2026-09-24).
    One writer honesty fix, no new lookups: the material-bom notes keep the
    seed's findings (grouping source, STZU, CSAP_MAT_BOM_READ) as Old → New, as
-   the sibling verdicts ordered for theirs. Registry members unchanged. */
+   the sibling verdicts ordered for theirs. Registry members unchanged.
+   Objects batch 5 (2026-09-24, const DATE24): master-recipe, refuted in
+   batch 4, survived its re-audit (0 refuted) and supersedes its seed record.
+   It is the researcher draft with the verdict's one downgrade applied: the
+   type-4 condition in recommendedAction is credited to the item's Business
+   Process related information section, and the Required Action(s) section
+   is reported as listing type 4 without it. Writer changes as in batches 1
+   to 4: status.source points at the hoisted evidence const, dates use the
+   constants below, and the reviewer field was dropped. The C201 repository
+   row carries the draft's extended claim (C202 in after / similar /
+   together), read 2026-09-24, so it takes DATE24 rather than SEED_DATE. Two
+   writer honesty fixes, no new lookups: the recommendedAction clause on
+   what the replacement mostly affects is its own sentence credited to the
+   item as a whole, so the section credit does not reach it; and the notes
+   keep the seed's findings (grouping source, BAPI_RECIPE_CREATE outside the
+   function registry) as Old → New, re-checked against the route manifest.
+   Registry members unchanged. */
 import type { Evidence, RegistryEntry, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -444,6 +460,28 @@ const WKC_API_MFG_2025: Evidence = {
     "הציטוט מהתקציר: 'Work Center Technical name: API_WORK_CENTERS This service enables you to read, create " +
     "and update all details of a work center.' גוף הדף (נקרא דרך sap-help-body.mjs) מוסיף: 'It is based on " +
     "the OData protocol' ו-'This service is published on the SAP Business Accelerator Hub'.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* Official rows that also carry a record's status (status.source), objects batch 5. */
+const MRECIPE_MIGR_2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Master recipe",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/aa818997f3524905ab7bb863aceddb81.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "עמוד אובייקט ההעברה במדריך Data Migration של S/4HANA 2025 FPS01 מדפיס את Object Alias PP_MSTRRCP, " +
+    "Business Object Component PP-PI ו-Business Object Type 'Master data', עם הגדרה התואמת כמעט מילה במילה " +
+    "את עמוד ה-ERP ('A description of an enterprise-specific process in the process industry that doesn't " +
+    "relate to a specific order'). המבנים הנתמכים (In Scope): כותרת, שיוך חומר, פעולה, משאב משני לפעולה, " +
+    "הקצאת רכיבים לפעולה, שלב, משאב משני לשלב, הקצאת רכיבים לשלב, יחסי שלבים וטקסט ארוך. מחוץ להיקף (Out " +
+    "of Scope): מופעים מרובים של אותה הרכבת-פנטום ב-BOM בהקצאת רכיבים, שיוך מספרי שלב עוקב ממערכת קיימת או " +
+    "חוצי מונה-מתכון, וסגמנטציה. לאימות הנתונים העמוד מפנה לאפליקציה Data Migration Status, לאפליקציות " +
+    "Display Master Recipe (C203) ו-Manage Master Recipes (F5426) ולטרנזקציה Display Master Recipe (C203).",
   verificationLevel: "sap_official_verified",
 };
 
@@ -1937,25 +1975,130 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
       "הוחזרו 21 רשומות), 'Work Center simplification S4TWL' (--size 21, הוחזרו 21 רשומות, ללא פגיעה " +
       "רלוונטית). לא בוצעה בדיקה במערכת SAP חיה.",
   },
-  /* ---- seeds, second round, 2026-09-22 ------------------------------- */
+  /* ---- objects batch 5, audited records, 2026-09-24 ------------------- */
   {
     id: "obj:master-recipe",
     evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Recipe",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/0533a65ea373484ab21123dfa482ec37/d011b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "העמוד במדריך Recipe Management (PLM-RM) של S/4HANA 2025 FPS01 מגדיר מתכון אב כתיאור ספציפי-למפעל של " +
+          "תהליך ייצור (בהשוואה ל-Master recipe לפי ISA, תקן S88), הנגזר ממתכון כללי או ממתכון אתר או נוצר בלי " +
+          "תבנית; מתכוני אב מספקים את המידע הספציפי-לתהליך לתזמון מפורט ולייצור דרך הזמנות, אינם תלויים בתאריכים " +
+          "קונקרטיים ואינם כוללים פונקציות בקרת ציוד. העמוד ממליץ ליצור מתכוני אב ישירות מהמתכון הכללי או ממתכון " +
+          "האתר בעזרת פונקציית ה-transformation.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Recipe",
+        url:
+          "https://help.sap.com/docs/SAP_ERP/0ceda61afeae4ec5a3bb021661b342e7/9741b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "בצד ה-ECC, העמוד במדריך Master Recipes (PP-PI-MD) של SAP ERP 6.0 EHP8 קובע (לפי קטע רשומת החיפוש) " +
+          "ש'Master recipes are used as the basis for process orders', מגדיר את אובייקט העסק מתכון אב כתיאור של " +
+          "תהליך ספציפי-לארגון בתעשיות תהליך שאינו קשור להזמנה ספציפית, ומציין שבכותרת המתכון מקושרים מתכוני האב " +
+          "המשמשים לייצור לחומרים המיוצרים.",
+        verificationLevel: "sap_official_verified",
+      },
+      MRECIPE_MIGR_2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - ABAP-List-Based PI-Sheets (Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, " +
+          "item 9.3.14)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "פריט הפישוט (רכיב PP-PI-PMA-MGT, הערה קשורה 2268116 המודפסת בפריט) קובע שגיליונות PI מבוססי רשימת " +
+          "ABAP הושבתו בחלקם ב-S/4HANA on-premise, ושיעדי מתכון בקרה מסוג 1 צריכים להיות מוחלפים ביעדים מסוג X " +
+          "(Execution Sheets, S/4HANA 2023 ומעלה), או לפי סעיף Business Process related information ביעדים מסוג 4 " +
+          "(גיליונות PI מבוססי דפדפן) אם גרסת S/4HANA נמוכה מ-2023; סעיף הפעולות הנדרשות מונה את ההחלפה לסוג 4 " +
+          "תחת 'If you use browser-based PI Sheets'; הציטוט: 'This replacement mostly affects the used master " +
+          "recipes and process orders.' אותו משפט מופיע גם ברשימת הפישוט של 2023 FPS03 (פריט 30.8).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Master Recipes",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5426')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית אפליקציות ה-Fiori מדפיסה את F5426 'Manage Master Recipes' (רכיב PP-PI-MD-MRC, אפליקציה " +
+          "טרנזקציונלית מבוססת SAP Fiori elements, תפקיד SAP_BR_PRODN_ENG_PROC), זמינה מ-S/4HANA 2021 (S21OP) ועד " +
+          "S/4HANA 2025 FPS01 (S32OP, וגם Private Cloud), עם שירות OData V4 בקבוצה UI_MASTERRECIPE (S4CORE 109), " +
+          "ובלי טרנזקציית GUI מובילה או אפליקציה קודמת/יורשת מודפסות.",
+        verificationLevel: "sap_official_verified",
+      },
       {
         sourceType: "repository",
         sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, C201)",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: SEED_DATE,
+        accessedAt: DATE24,
         claim:
-          "רשומת C201 במאגר מונה את הטבלאות PLKO, PLPO, PLAS, PLMZ ו-MAPL ואת BAPI_RECIPE_CREATE.",
+          "רשומת C201 במאגר מונה את הטבלאות PLKO, PLPO, PLAS, PLMZ ו-MAPL ואת BAPI_RECIPE_CREATE, ומונה את C202 " +
+          "בין הטרנזקציות הבאות והדומות (after / similar / together).",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#C201",
       },
     ],
-    xrefs: ["table:PLKO", "table:MAPL", "tx:C201"],
-    lastVerifiedAt: SEED_DATE,
+    status: {
+      status: "unchanged",
+      he:
+        "מתכון האב ממשיך להתקיים ב-S/4HANA 2025 FPS01 כאובייקט נתוני אב (Object Alias PP_MSTRRCP, רכיב PP-PI) " +
+        "בהגדרה התואמת כמעט מילה במילה את עמוד ה-ERP, ומדריך ה-Data Migration מפנה לאימות לטרנזקציה Display " +
+        "Master Recipe (C203) ולאפליקציה Manage Master Recipes (F5426). הסטטוס חל על הגדרת אובייקט העסק; לפי " +
+        "הפריט 'S4TWL - ABAP-List-Based PI-Sheets', החלפת יעדי מתכון בקרה מסוג 1 משפיעה בעיקר על מתכוני האב " +
+        "והזמנות התהליך בשימוש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MRECIPE_MIGR_2025,
+      recommendedAction:
+        "בהסבה ל-S/4HANA להחליף יעדי מתכון בקרה מסוג 1 (גיליונות PI מבוססי רשימת ABAP) ביעדים מסוג X " +
+        "(Execution Sheets, S/4HANA 2023 ומעלה); לפי סעיף Business Process related information בפריט " +
+        "'S4TWL - ABAP-List-Based PI-Sheets', יעדים מסוג 4 (גיליונות PI מבוססי דפדפן) מיועדים לגרסאות הנמוכות " +
+        "מ-2023 (סעיף הפעולות הנדרשות מונה אותם בלי התנאי). לפי הפריט, ההחלפה משפיעה בעיקר על מתכוני האב " +
+        "והזמנות התהליך בשימוש. בהעברת נתונים לבדוק את מגבלות ה-Out of Scope במדריך ההעברה (מופעים מרובים של " +
+        "אותה הרכבת-פנטום ב-BOM בהקצאת רכיבים, מספרי שלב עוקב ממערכת קיימת או חוצי מונה-מתכון, סגמנטציה), " +
+        "ולאמת את הנתונים ב-Display Master Recipe (C203) או באפליקציה Manage Master Recipes (F5426).",
+    },
+    xrefs: ["table:PLKO", "table:PLPO", "table:MAPL", "tx:C201", "tx:C202", "tx:C203", "obj:process-order"],
+    lastVerifiedAt: DATE24,
     notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. BAPI_RECIPE_CREATE אינו ברישום הפונקציות של הפרויקט ולכן אינו חבר. אימות רשמי ממתין לפייפליין ה-objects.",
+      "Old → New: הרשומה הקודמת (seed מ-2026-09-22) החזיקה ראיה יחידה מסוג repository (data/tx-intel.ts#C201: " +
+      "PLKO, PLPO, PLAS, PLMZ, MAPL ו-BAPI_RECIPE_CREATE), בלי status; הראיה נשמרה ונוספו חמש ראיות רשמיות " +
+      "וסטטוס. הזרע קבע גם: מקור הקיבוץ הוא שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר; BAPI_RECIPE_CREATE " +
+      "אינו ברישום הפונקציות של הפרויקט ולכן אינו חבר. הממצא השני עדיין בתוקף: BAPI_RECIPE_CREATE אינו ביקום " +
+      "המזהים של הפרויקט (lib/route-manifest.generated.ts, נבדק ב-2026-09-24), וחברי הרישום לא שונו. שיטה: (1) " +
+      "ארבע שאילתות ל-scripts/sap-help-search.mjs: 'Master Recipe' עם --product SAP_S4HANA_ON-PREMISE (21 " +
+      "רשומות), 'Master Recipe' עם --product SAP_ERP (21 רשומות), 'Manage Master Recipes' (21 רשומות), 'PP - " +
+      "Master Recipe migration object' (21 רשומות). (2) שני גופי עמוד נקראו דרך scripts/sap-help-body.mjs: עמוד " +
+      "Master Recipe במדריך PLM-RM ועמוד אובייקט ההעברה 'Master recipe' (Data Migration). עמוד ה-ERP מצוטט לפי " +
+      "קטע רשומת החיפוש בלבד. (3) scripts/fal-app.mjs F5426 מול ספריית ה-Fiori. (4) הטקסט המחולץ של רשימות " +
+      "הפישוט (scratchpad/official/SIMPL_OP2025.pdf.txt, פריט 9.3.14; SIMPL_OP2023.pdf.txt, פריט 30.8) נקרא " +
+      "לפריט 'S4TWL - ABAP-List-Based PI-Sheets'. בפריט, סעיף Business Process related information מתנה את יעדי " +
+      "סוג 4 בגרסת S/4HANA הנמוכה מ-2023, ואילו סעיף Required and Recommended Action(s) מונה את ההחלפה לסוג 4 " +
+      "תחת 'If you use browser-based PI Sheets' בלי התנאי; שני הסעיפים מדווחים בראיה. C201 ו-C202 אינם מודפסים " +
+      "באף רשומה רשמית שנקראה; הם מבוססים על רשומת המאגר בלבד. לא אומת קוד BOR קלאסי למתכון אב (המקורות " +
+      "מדפיסים רק Object Alias PP_MSTRRCP). successor לא נקבע כי אין מקור הקובע החלפה של האובייקט. לא בוצעה " +
+      "בדיקה במערכת SAP חיה.",
   },
 ];
