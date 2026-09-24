@@ -14,7 +14,13 @@
    audit/s4-enrichment/research-queue-transactions-b.md.
    Batch 2 (research + adversarial audit 2026-09-24, written the same day): 7
    audited records for MM-PUR codes (ME27, ME28, ME2L, ME2M, ME2N, ME41, ME43);
-   tx:ME42 was refuted at the gate and sits in the research queue. */
+   tx:ME42 was refuted at the gate and sits in the research queue.
+   Batch 3 (research + adversarial audit 2026-09-24, written the same day): 8
+   audited records for the MM-PUR quotation codes, the purchase requisition
+   code, the MIGO goods-receipt code and the MK vendor-purchasing family (ME47,
+   ME48, ME49, ME51N, MIGO_GR, MK01, MK02, MK03); no record refuted. A sapNote
+   field is carried only where the validator allows it (me.sap.com url or
+   repoRef); note numbers printed by a Simplification List item stay in prose. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -391,6 +397,152 @@ const ME43_SIMPL2023: Evidence = {
     "(F1991)' ו-'Compare Supplier Quotations (F2324)', ומנחה לסגור (status 'Completed') RFQ שנוצרו " +
     "בטרנזקציות הישנות לפני המעבר לאפליקציות אלה. הפריט אינו קובע מיפוי 1:1 בין ME43 הספציפית לבין " +
     "אפליקציה יחידה מתוך החמש.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 3 status sources */
+
+const ME47_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 14.4.1 S4TWL - RFQ Simplified " +
+    "Transaction (MM-PUR-RFQ, SAP Note 2332710)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 14.4.1 (עמ' 1429-1430, Note Number מודפס כ-0002332710) קובע במפורש: 'The following transactions are " +
+    "deprecated in SAP S/4HANA: ME41 ME42 ME43 ME44 ME45 ME47 ME48 ME49 ME4B ME4C ME4L ME4M ME4N ME4S' " +
+    "(כלשונו), כאשר טבלת התיאורים הצמודה משייכת ל-ME47 את הפעולה 'Maintain'. הפריט מוסיף בסעיף Solution: " +
+    "'This means that the functionality is currently available in SAP S/4HANA but it is not considered as " +
+    "future technology and a functional equivalent is not available.' בסעיף Business Process Related " +
+    "Information: 'If you want to use functionality related to sourcing of goods and services, you can use " +
+    "the following apps: Manage RFQs (F2049), Monitor RFQ Items (F2425), Request for Quotation Types " +
+    "(F4149), Manage Supplier Quotations (F1991), Compare Supplier Quotations (F2324)', ולפני כן: 'Before " +
+    "you start to use Fiori apps mentioned above you need to close your open RFQs, that were created via old " +
+    "transactions, and set them to status \"Completed\".' הפריט אינו קובע יחס replacement/successor פורמלי " +
+    "חד-ערכי בין ME47 עצמה לאפליקציה בודדת; הוא מפנה לחמש האפליקציות כקבוצה לכלל תהליך ה-sourcing.",
+  verificationLevel: "sap_official_verified",
+};
+
+const ME48_SIMPL2023: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 38.7 S4TWL - RFQ Simplified " +
+    "Transaction (SAP Note 2332710)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2023 FPS03",
+  url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+  accessedAt: DATE24,
+  claim:
+    "הפריט קובע במפורש (עמ' 957-958, Note 2332710 כלשון המסמך): 'The following transactions are deprecated " +
+    "in SAP S/4HANA: ME41 ME42 ME43 ME44 ME45 ME47 ME48 ME49 ME4B ME4C ME4L ME4M ME4N ME4S' (כלשונו), " +
+    "כלומר ME48 מנויה בשמה, ובעמודת השמות המקבילה הפריט מדפיס עבורה 'Display' בלבד (השם המלא Display " +
+    "Quotation לקוח מרשומת המאגר data/tx-intel.ts#ME48). תחת Business Process Related Information הפריט " +
+    "מציע כחלופה עסקית לתהליכי sourcing את אפליקציות ה-Fiori 'Manage RFQs (F2049)', 'Monitor RFQ Items " +
+    "(F2425)', 'Request for Quotation Types (F4149)', 'Manage Supplier Quotations (F1991)' ו-'Compare " +
+    "Supplier Quotations (F2324)', ומנחה לסגור (status 'Completed') RFQ שנוצרו בטרנזקציות הישנות לפני " +
+    "המעבר לאפליקציות אלה. הפריט אינו קובע מיפוי 1:1 בין ME48 הספציפית לבין אפליקציה יחידה מתוך החמש.",
+  verificationLevel: "sap_official_verified",
+};
+
+const ME51N_FEATURE_COMPARISON_2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Feature Comparison for Managing and Creating Purchase Requisitions",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/b0eba26b711340eda3c39f6830c88da3.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  verificationLevel: "sap_official_verified",
+  claim:
+    "גוף הדף (נקרא במלואו דרך שירות התוכן) משווה בין שתי דרכי עבודה ליצירה/ניהול של דרישת רכש בודדת: " +
+    "'Manage Purchase Requisitions - Professional' (App ID F2229) לעומת עמודה שכותרתה 'Create Purchase " +
+    "Requisition - Advanced' המזוהה שם ב-App ID כ-'ME51N / ME52N'. הטבלה משווה יכולות בין השתיים שורה-שורה " +
+    "(למשל 'Create Purchase Requisition from Free-Text or Material: Yes / Yes') מבלי לסמן את עמודת " +
+    "ME51N/ME52N כמיושנת או כבטלה. הדף מתועד תחת S/4HANA on-premise 2025 FPS01 (version 2025.001) ומציג את " +
+    "ME51N/ME52N כדרך עבודה מתועדת ליצירה ולניהול של דרישת רכש בודדת, לצד אפליקציית ה-Fiori F2229.",
+};
+
+const MIGO_GR_GOODS_MOVEMENT_2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle:
+    "Goods Movement (MM-IM) (deliverable Materials Management (MM), topic loio 3b07b753128eb44ce10000000a174cb4)",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/3b07b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הסניפט מגרסת S/4HANA 2025 FPS01 (versionId 2025.001) קובע: 'With the transaction code MIGO_GO, the user " +
+    "can only post goods receipts for orders; with MIGO_GR, he or she can only post goods receipts from " +
+    "external procurement; and with MIGO_GI, he or she can only...' כלומר MIGO_GR הוא קוד טרנזקציה שמגביל " +
+    "את MIGO לרישום קבלת סחורה מרכש חיצוני בלבד. אותו loio מוחזר גם תחת productId SAP_ERP (חיפוש נפרד, " +
+    "אותה כתובת עם /docs/SAP_ERP/ ו-version 6.18.latest), כך שההגדרה מתועדת הן ב-ECC והן ב-S/4HANA " +
+    "On-Premise 2025 FPS01, ללא שינוי בין הגרסאות.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MK01_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+    "Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  verificationLevel: "sap_official_verified",
+  claim:
+    "הפריט (עמ' 136-138) חוזר על אותה קביעה בניסוח מעודכן: 'the specific transactions like XD01, XD02, XD03 " +
+    "or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03, etc. are not available in SAP S/4HANA. These " +
+    "will be redirected to transaction BP'. הטבלה 'Transactions not available in SAP S/4HANA on-premise " +
+    "edition' מפרטת תחת 'Transactions that get redirected to transaction BP' את MK01, MK02, MK03 (וגם MK05, " +
+    "MK06) לצד משפחות FD/VD/XD/FK/XK המקבילות.",
+};
+
+const MK02_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+    "Approach (LO-MD-BP, Business Impact Note 0002265093, p. 136-138)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט הפישוט (נקרא מקובץ ה-PDF הרשמי, Document Version 1.36) קובע כלשונו: 'the specific transactions " +
+    "like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03, etc. are not available " +
+    "in SAP S/4HANA. These will be redirected to transaction BP.' ובטבלה המצורפת, תחת הכותרת 'Transactions " +
+    "not available in SAP S/4HANA on-premise edition', רשומה השורה 'Transactions that get redirected to " +
+    "transaction BP: ... FK01, FK02, FK03, FK05, FK06, MK01, MK02, MK03, MK05, MK06, XK01, XK02, XK03 ...'. " +
+    "סעיף Symptom: 'system conversion to SAP S/4HANA, any of the releases'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MK03_SIMPL2023: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.19 S4TWL - Business Partner " +
+    "Approach (SAP Note 2265093)",
+  url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2023 FPS03",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (Note Number 2265093, עמ' 153-155) קובע כי ממשק המשתמש ב-S/4HANA הוא טרנזקציית BP וכי 'the " +
+    "specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03 " +
+    "etc. are not available in SAP S/4HANA on-premise'; בטבלת הטרנזקציות שברשומה, MK03 מופיעה תחת הכותרת " +
+    "'Transactions not available in SAP S/4HANA on-premise edition' ותחת 'Transactions that get redirected " +
+    "to transaction BP' (כלשונו: 'FD01,FD02,FD03, FK01,FK02,FK03,MAP1,MAP2,MAP3, MK01, MK02, MK03, ...'). " +
+    "כלומר הפריט קובע במפורש ש-MK03 אינה זמינה כטרנזקציית SAP GUI ב-S/4HANA on-premise ומנותבת לטרנזקציית " +
+    "BP; אין בפריט קביעה על אפליקציית Fiori חלופית.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -2481,5 +2633,948 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "deprecated עם successor: fiori:F2049 מאומת. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג. לא בוצעה " +
       "בדיקה במערכת SAP חיה; אין תשובה רשמית האם קיים כלי המרה אוטומטי (SUM) ספציפי ל-ME43 מעבר לפריט " +
       "הפישוט.",
+  },
+  {
+    id: "tx:ME47",
+    evidence: [
+      ME47_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 38.7 S4TWL - RFQ Simplified " +
+          "Transaction (MM-PUR-RFQ, SAP Note 2332710)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "פריט 38.7 (עמ' 957-958, Note Number 2332710) נוקב כמעט מילה במילה כפריט 14.4.1 ברשימת 2025 FPS01: " +
+          "אותה רשימת 14 הקודים 'The following transactions are deprecated in SAP S/4HANA' (הכוללת את ME47), " +
+          "אותו ניסוח 'a functional equivalent is not available', ואותה רשימת חמש האפליקציות תחת Business " +
+          "Process Related Information (Manage RFQs F2049, Monitor RFQ Items F2425, Request for Quotation Types " +
+          "F4149, Manage Supplier Quotations F1991, Compare Supplier Quotations F2324) עם אותה הנחיה לסגור RFQ " +
+          "פתוחים ('set them to status \"Completed\"') לפני מעבר לאפליקציות. נקרא מחילוץ ה-PDF השמור " +
+          "(scratchpad/official/SIMPL_OP2023.pdf.txt), לא הורד מחדש היום.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Quotation (MM-PUR) | Materials Management (MM) · SAP ERP",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/6cfdc7caaef746cd9c7543e32e7e87c0/9306b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד (Technical name: SAP_MM_PUR_QUOTATION; נקרא במלואו דרך " +
+          "help.sap.com/http.svc/deliverableMetadata ו-pagecontent, SAP ERP 6.0 EHP8 Latest) קובע: 'You can use " +
+          "the activities of this role to record and maintain the data submitted to you by a vendor in a " +
+          "quotation (e.g. prices, conditions, and terms of delivery) in your SAP System', ומפרט טבלת " +
+          "'Activities in Materials Management': 'Enter quotation ME47', 'Display quotation ME48', 'Quotation " +
+          "price comparison list ME49' (כלשונו). זהו המקור הרשמי הקובע ש-ME47 היא טרנזקציית הזנת ה-quotation " +
+          "הקלאסית ב-ECC, בהמשך ישיר ל-RFQ (ME41).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Quotation (MM-PUR) | Materials Management (MM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/9306b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio (9306b753128eb44ce10000000a174cb4) בתיעוד SAP S/4HANA 2025 FPS01 (versionId 2025.001), גוף " +
+          "העמוד נקרא במלואו דרך help.sap.com/http.svc/deliverableMetadata ו-pagecontent: אותו טקסט תפקיד " +
+          "(Technical name: SAP_MM_PUR_QUOTATION) ואותה טבלת 'Activities in Materials Management': 'Enter " +
+          "quotation ME47', 'Display quotation ME48', 'Quotation price comparison list ME49' (כלשונו). כלומר " +
+          "ME47 עדיין מתועדת כפעילות של התפקיד בתיעוד S/4HANA On-Premise 2025 FPS01; העמוד אינו אומר דבר על " +
+          "הפסקת שימוש עתידית.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · F1991 Manage Supplier Quotations, release S32OP (SAP S/4HANA 2025 FPS01, " +
+          "on-premise)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1991')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library לאפליקציה Manage Supplier Quotations (F1991), רכיב MM-FIO-PUR-RFQ, תפקיד " +
+          "SAP_BR_PURCHASER (R0128), business catalog SAP_PRC_BC_PURCHASER_PIR 'Purchasing - Source " +
+          "Assignment', OData MM_PUR_QTN_MAINTAIN_SRV 0001 (S4CORE 109), מציגה שדה 'GUI transactions: leading " +
+          "ME47; related ME48' (כלשונו); קשר קוד-לאפליקציה ספציפי וישיר, חזק יותר מהרשימה הקבוצתית בפריט " +
+          "הפישוט. השדות 'predecessors: -; successors: -' באותה רשומה אינם מגדירים יחס predecessor/successor " +
+          "פורמלי. F1991 מתועדת ברשימת הגרסאות on-premise מ-1610 (S6OP) ועד 2025 FPS01 (S32OP). F1991 אינה " +
+          "רשומה כיום בקטלוג data/fiori/apps.ts של הפרויקט.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: ME47_SIMPL2025,
+      he:
+        "פריט הפישוט הרשמי (14.4.1 ברשימת 2025 FPS01, 38.7 ברשימת 2023 FPS03, שני הטקסטים כמעט זהים) מונה את " +
+        "ME47 בשמה ברשימת 14 הטרנזקציות 'deprecated in SAP S/4HANA', וקובע שהפונקציונליות זמינה ב-S/4HANA אך " +
+        "אינה ארכיטקטורת היעד, וש-'a functional equivalent is not available' לגישת ה-RFQ/quotation הקלאסית עם " +
+        "שדה ספק חובה. הפריט מפנה ברמת תהליך לחמש אפליקציות Fiori (Manage RFQs F2049, Monitor RFQ Items F2425, " +
+        "Request for Quotation Types F4149, Manage Supplier Quotations F1991, Compare Supplier Quotations " +
+        "F2324), ללא הכרזה על יורשת בודדת ל-ME47 עצמה. עם זאת, רשומת ה-Fiori Apps Library של F1991 (S32OP) " +
+        "מציגה קשר קוד-ספציפי וישיר: 'GUI transactions: leading ME47; related ME48'; F1991 היא האפליקציה " +
+        "שה-GUI transaction המוביל שלה הוא ME47 עצמה, בניגוד לקבוצת האפליקציות הכללית שהפריט מציע. לכן " +
+        "הסטטוס נכתב fiori_alternative_available: הפונקציונליות זמינה כיום ב-S/4HANA On-Premise לפי לשון " +
+        "הפריט ('currently available'), ME47 עדיין מתועדת בעמוד התפקיד של S/4HANA 2025 FPS01, היא מסווגת " +
+        "deprecated בפריט הרשמי, וקיימת אפליקציית Fiori רשמית (F1991) שה-Fiori Apps Library עצמה קושרת אליה " +
+        "ישירות כטרנזקציית ה-GUI המובילה שלה.",
+      recommendedAction:
+        "לא לבסס תהליכי הזנת quotation חדשים, הדרכות או פיתוחים על ME47 במסלול ההמרה ל-S/4HANA On-Premise: " +
+        "הפריט הרשמי מסווג אותה deprecated ומציין שאין functional equivalent לגישה הקלאסית. לבחון מעבר " +
+        "ל-Manage Supplier Quotations (F1991), שה-Fiori Apps Library קושרת אליה ישירות כ-leading GUI " +
+        "transaction של ME47 (הפריט מונה באותה רשימה גם את Compare Supplier Quotations F2324). לסגור RFQ " +
+        "פתוחים שנוצרו בטרנזקציות הישנות (status Completed) לפני המעבר, כפי שהפריט מנחה. F1991 טרם רשומה " +
+        "בקטלוג ה-Fiori של הפרויקט (data/fiori/apps.ts); יש להוסיפה שם, ורק לאחר מכן לרשום xref/successor " +
+        "רשמיים אליה ברשומה זו. לקרוא SAP Note 2332710 (דורש S-user, לא נקרא כאן) לפני החלטת תהליך יעד " +
+        "קבועה, ולבדוק ב-SE93 במערכת היעד שהקוד עודנו קיים ומורשה.",
+    },
+    xrefs: ["tx:ME41", "tx:ME42", "tx:ME43", "tx:ME48", "tx:ME49", "tx:ME21N"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: (1) שני פריטי הפישוט הרשמיים (14.4.1 ברשימת 2025 FPS01, 38.7 ברשימת 2023 FPS03) מונים את " +
+      "ME47 בשמה ברשימת הטרנזקציות 'deprecated in SAP S/4HANA', עם אותו ציטוט 'the functionality is currently " +
+      "available in SAP S/4HANA but it is not considered as future technology and a functional equivalent is " +
+      "not available'. (2) גוף העמוד 'Maintain Quotation (MM-PUR)' נקרא במלואו בשני מוצרים דרך " +
+      "help.sap.com/http.svc/deliverableMetadata ו-pagecontent: SAP ERP 6.18.latest (loio " +
+      "9306b753128eb44ce10000000a174cb4) ו-SAP S/4HANA On-Premise 2025.001 (אותו loio), שניהם מאשרים 'Enter " +
+      "quotation ME47, Display quotation ME48, Quotation price comparison list ME49' באותו נוסח מדויק, מה " +
+      "שמבסס עמידה בשתי המהדורות; שני העמודים מצוטטים כשורות ראיה נפרדות. (3) scripts/fal-app.mjs F1991 " +
+      "--release S32OP אושר (והורץ שוב בכתיבה ב-2026-09-24 עם אותו פלט): F1991 (Manage Supplier Quotations) " +
+      "מתעדת GUI transaction מוביל ME47 (related ME48), ללא predecessor/successor פורמלי רשום, ורשימת " +
+      "הגרסאות on-premise מתחילה ב-1610 (S6OP). מה שלא אומת: (א) SAP Note 2332710, המצוטט בשני הפריטים, " +
+      "דורש S-user ולא נקרא; המספר מצוטט כפי שהודפס בפריט ואינו נישא בשדה sapNote. (ב) F2049, F2425, F4149, " +
+      "F2324 (שאר קבוצת חמש האפליקציות) לא נבדקו דרך fal-app.mjs לרשומה זו ואינן רשומות בקטלוג " +
+      "data/fiori/apps.ts; לכן אינן נכללות כ-xrefs או כ-successor, והפריט אינו מדרג אותן לפי קרבה ל-ME47 או " +
+      "ל-ME49. (ג) לא בוצעה בדיקת SE93 במערכת S/4HANA חיה שהקוד עדיין קיים; ה-MCP ל-ABAP (sc4sap) לא התחבר " +
+      "בסשן זה. (ד) קובץ ה-PDF של 2023 FPS03 נקרא מחילוץ pdftotext שמור בפרויקט " +
+      "(scratchpad/official/SIMPL_OP2023.pdf.txt), לא הורד מחדש היום; PDF 2025 FPS01 נקרא מאותו חילוץ שמור " +
+      "(SIMPL_OP2025.pdf.txt); רק כותרות ה-HTTP והעמודים הרשמיים נבדקו ב-2026-09-24. (ה) שדה status.source " +
+      "מצביע לרשומת evidence[0] (פריט הפישוט 2025 FPS01), כמוסכמת הקובץ. (ו) שדה status.successor " +
+      "(fiori:F1991) ו-xref fiori:F1991 הושמטו כי F1991 אינה עדיין בקטלוג data/fiori/apps.ts; יש להחילם רק " +
+      "לאחר מיזוג catalogPatch מלא (לפי FioriApp ב-lib/fiori/types.ts), אחרת ייכשל dangling-xref; הערכים " +
+      "התחומים לטיוטת ה-catalogPatch רשומים ב-audit/s4-enrichment/research-queue-transactions-b.md, ושדות " +
+      "purpose/problem/explain טרם נכתבו ממקור רשמי. לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה " +
+      "reviewer, כמוסכמת הקטלוג; עברה סבב ביקורת אדברסרית ב-2026-09-24, והורדות המבקר יושמו: תיקון טווח " +
+      "הגרסאות של F1991 ל-1610 (S6OP) ואילך, הסרת קווים מפרידים ארוכים, הוספת שורת ראיה לעמוד S/4HANA " +
+      "2025.001. בכתיבה צומצמו שלושה ניסוחים ללשון המקור: 'הקוד קיים ותקין להרצה' הוחלף בלשון הפריט " +
+      "('currently available'), ההשוואה בין F2324 ל-ME49 הוסרה (אין מקור המדרג את האפליקציות), וההנחיה " +
+      "לסגירה מתייחסת ל-RFQ פתוחים שנוצרו בטרנזקציות הישנות, כלשון הפריט.",
+  },
+  {
+    id: "tx:ME48",
+    evidence: [
+      ME48_SIMPL2023,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 14.4.1 S4TWL - RFQ Simplified " +
+          "Transaction (Sourcing and Contract Management, MM-PUR-RFQ)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "גרסת 2025 FPS01 של הפריט חוזרת על אותה רשימה במדויק (עמ' 1429-1430; מספר ה-Note מודפס שם " +
+          "כ-0002332710): 'The following transactions are deprecated in SAP S/4HANA: ME41 ME42 ME43 ME44 ME45 " +
+          "ME47 ME48 ME49 ME4B ME4C ME4L ME4M ME4N ME4S' (כלשונו), וגם כאן ME48 מנויה בשמה. הפריט מסביר " +
+          "שהגישה הקודמת ל-RFQ כללה שדה ספק חובה ומוגבל לספק אחד בלבד, ושהגישה החדשה מאפשרת שליחת RFQ שנוצר " +
+          "באפליקציית Fiori לפלטפורמות sourcing חיצוניות בלי לנקוב ספק מדויק; לגבי הטרנזקציות הקלאסיות (ME48 " +
+          "בכללן) נכתב במפורש: 'the functionality is currently available in SAP S/4HANA but it is not " +
+          "considered as future technology and a functional equivalent is not available' (כלשונו). בסעיף " +
+          "Business Process Related Information נכתב: 'If you want to use functionality related to sourcing " +
+          "of goods and services, you can use the following apps: Manage RFQs (F2049), Monitor RFQ Items " +
+          "(F2425), Request for Quotation Types (F4149), Manage Supplier Quotations (F1991), Compare Supplier " +
+          "Quotations (F2324)' (כלשונו); זו המלצה ברמת תהליך העסקי ולא הצהרה מפורשת שאפליקציה בודדת היא " +
+          "היורשת הפורמלית של ME48.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · Manage RFQs (F2049), release S32OP (SAP S/4HANA 2025 FPS01, on-premise)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2049')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library לאפליקציה Manage RFQs (F2049) מפרטת בשדה ה-GUI Transactions: 'leading " +
+          "ME41; related ME42, ME43' ובשדות 'predecessors: -; successors: -' (כלשונו; scripts/fal-app.mjs F2049 " +
+          "--release S32OP הורץ שוב בסבב הביקורת ב-2026-09-24); ME48 אינה מודפסת שם כלל, לא כ-leading ולא " +
+          "כ-related. כלומר ה-Fiori Apps Library אינה מקשרת את F2049 ל-ME48 באופן ישיר, אף שפריט הפישוט מונה " +
+          "את ME41 ואת ME48 יחד ברשימת ה-deprecated. F2049 אינה רשומה עדיין בקטלוג data/fiori/apps.ts של " +
+          "הפרויקט, ולכן אינה יכולה להירשם כ-successor הניתן לאימות ברמת xref בכל מקרה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tx-intel.ts#ME48",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר הקיימת (לפני ביקורת) מתארת את ME48 כ-'תצוגת הצעת מחיר (Display Quotation): צפייה " +
+          "במחירים ובתנאים שהזין ספק על RFQ, ללא עריכה' (פיסוק מותאם: במקור קו מפריד ארוך במקום הנקודתיים, " +
+          "התוכן ללא שינוי), טרנזקציית מסך קלאסי הקוראת EKKO/EKPO/KONP במצב display בלבד; שדה ה-s4 ברשומה " +
+          "קובע 'זמין ב-S/4HANA' ללא כל הפניה לפריט הפישוט או לחלופת Fiori, ושדה ה-fiori ריק. הרשומה מקשרת את " +
+          "הקוד ל-ME47 (before) ול-ME49, ME21N (after). אין ברשומה קביעה עצמאית לגבי הפסקת שימוש עתידית; זהו " +
+          "ניסוח שנכתב ללא הפניה לפריט הפישוט הרשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME48",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Quotation (MM-PUR) | Materials Management (MM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/9306b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (sap-help-search.mjs 'ME48 display quotation', --size 12, ללא --product; loio " +
+          "9306b753128eb44ce10000000a174cb4, versionId 2025.001) מדפיסה ב-snippet: 'Activities in Materials " +
+          "Management Activity Transaction Enter quotation ME47 Display quotation ME48 Quotation price " +
+          "comparison list ME49' ו-'Technical name: SAP_MM_PUR_QUOTATION' (כלשונו). כלומר תיעוד התפקיד " +
+          "ב-S/4HANA 2025 FPS01 עדיין מונה את ME48 כפעילות Display quotation, ופריט הפישוט הוא הודעת " +
+          "deprecation ולא הסרה. גוף העמוד לא נקרא לרשומה זו (snippet בלבד).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "General Display Functions in Purchasing (MM-PUR) | Materials Management (MM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/a806b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "אותו חיפוש (loio a806b753128eb44ce10000000a174cb4, versionId 2025.001) מדפיס ב-snippet את טבלת " +
+          "הפעילויות של התפקיד: 'Display purchase requisition ME53N Display purchase order ME23N Display RFQ " +
+          "ME43 Display quotation ME48' (כלשונו, מקוצר). גם עמוד זה בתיעוד S/4HANA 2025 FPS01 מונה את ME48 " +
+          "כפעילות Display quotation. גוף העמוד לא נקרא (snippet בלבד).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · F1991 Manage Supplier Quotations, release S32OP (SAP S/4HANA 2025 FPS01, " +
+          "on-premise)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1991')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "פלט scripts/fal-app.mjs F1991 --release S32OP (הורץ בכתיבה ב-2026-09-24; אותה רשומה נבדקה בסבב " +
+          "הביקורת של tx:ME47): Manage Supplier Quotations, רכיב MM-FIO-PUR-RFQ, תפקיד SAP_BR_PURCHASER " +
+          "(R0128), 'GUI transactions: leading ME47; related ME48', 'predecessors: -; successors: -' (כלשונו). " +
+          "כלומר ME48 מודפסת ברשומה כטרנזקציית GUI related של F1991, לא כ-leading, וללא יחס successor פורמלי. " +
+          "F1991 אינה רשומה בקטלוג data/fiori/apps.ts של הפרויקט.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      edition: "on-premise",
+      release: "2023 FPS03",
+      source: ME48_SIMPL2023,
+      he:
+        "שני פריטי הפישוט הרשמיים (38.7 ברשימת 2023 FPS03, 14.4.1 ברשימת 2025 FPS01) מונים את ME48 בשמה " +
+        "ברשימת הטרנזקציות ה-deprecated ומפנים ברמת תהליך העסקי לחמש אפליקציות Fiori של תחום ה-RFQ. רשומת " +
+        "Manage RFQs (F2049) ב-Fiori Apps Library מפרטת GUI transactions leading ME41 ו-related ME42/ME43, " +
+        "ו-ME48 אינה מודפסת בה; רשומת Manage Supplier Quotations (F1991) מפרטת 'leading ME47; related ME48', " +
+        "כלומר ME48 מופיעה שם כטרנזקציית GUI related, ללא יחס successor פורמלי. אף אחת מחמש האפליקציות אינה " +
+        "רשומה בקטלוג data/fiori/apps.ts של הפרויקט, ולכן לא נקבע successor. עמודי התפקיד הרשמיים של S/4HANA " +
+        "2025 FPS01 (Maintain Quotation (MM-PUR), General Display Functions in Purchasing (MM-PUR)) עדיין מונים " +
+        "את ME48 כפעילות Display quotation, כלומר מדובר בהודעת deprecation ולא בהסרה.",
+      recommendedAction:
+        "לא לבסס תהליכי בדיקת הצעות מחיר חדשים על ME48 במסלול ההמרה ל-S/4HANA On-Premise: הפריט הרשמי מסווג " +
+        "אותה 'deprecated'. לבחון מעבר לאפליקציות ה-Fiori שהפריט מפנה אליהן ברמת תהליך; הפריט אינו מדרג את " +
+        "חמש האפליקציות לפי קרבה ל-ME48, ואיזו מהן מכסה את תפקיד התצוגה/ההשוואה דורש אימות (fal-app.mjs לכל " +
+        "אחת ובדיקה במערכת). רשומת ה-Fiori Apps Library של Manage Supplier Quotations (F1991) מונה את ME48 " +
+        "כטרנזקציית GUI related, ואף אחת משתי הרשומות שנבדקו (F2049, F1991) אינה מגדירה יחס successor. יש " +
+        "להוסיף את חמש האפליקציות לקטלוג data/fiori/apps.ts ולקרוא SAP Note 2332710 (דורש S-user, לא נקרא " +
+        "כאן) לפני שניתן יהיה לקבוע successor רשמי לרשומה הזאת, ולבדוק ב-SE93 במערכת היעד שהקוד עודנו קיים " +
+        "ומורשה.",
+    },
+    xrefs: ["tx:ME41", "tx:ME43", "tx:ME47", "tx:ME49", "tx:ME21N"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: (1) שני פריטי הפישוט הרשמיים (38.7 ברשימת 2023 FPS03, 14.4.1 ברשימת 2025 FPS01, אותם קבצי PDF " +
+      "שכבר שימשו לרשומות tx:ME41 ו-tx:ME43 בקובץ זה) מונים את ME48 בשמה ברשימת 'deprecated in SAP " +
+      "S/4HANA', עם אותו ציטוט מילה במילה בשתי הגרסאות; בעמודת השמות המקבילה מודפס עבור ME48 'Display' בלבד. " +
+      "(2) scripts/fal-app.mjs F2049 --release S32OP הורץ ב-2026-09-24 (סבב הביקורת): GUI transactions " +
+      "leading ME41; related ME42, ME43; predecessors: -; successors: -; ME48 אינה מודפסת. (3) " +
+      "scripts/fal-app.mjs F1991 --release S32OP (נבדק בסבב הביקורת של tx:ME47 והורץ שוב בכתיבה " +
+      "ב-2026-09-24): 'GUI transactions: leading ME47; related ME48', 'predecessors: -; successors: -'. (4) " +
+      "sap-help-search.mjs 'ME48 display quotation' --size 12 ללא --product: 21 רשומות, שתיים מדפיסות " +
+      "'Display quotation ME48' ב-snippet (Maintain Quotation (MM-PUR) loio 9306b753128eb44ce10000000a174cb4; " +
+      "General Display Functions in Purchasing (MM-PUR) loio a806b753128eb44ce10000000a174cb4, שתיהן " +
+      "2025.001); גוף העמודים לא נקרא. מה שלא אומת: (א) F2425, F4149, F2324 (שאר האפליקציות שהפריט מציין) לא " +
+      "נבדקו דרך fal-app.mjs; אף אחת מחמש האפליקציות אינה רשומה בקטלוג data/fiori/apps.ts, ולכן אף אחת אינה " +
+      "נכללת כ-successor או xref, והפריט אינו מדרג אותן לפי קרבה לתפקיד ה-display/comparison של ME48. (ב) SAP " +
+      "Note 2332710, המצוטט בשני הפריטים, דורש S-user ולא נקרא; המספר מוזכר כפי שהודפס בגוף הפריט ואינו נישא " +
+      "בשדה sapNote נפרד. (ג) לא בוצעה בדיקת SE93 במערכת S/4HANA חיה שהקוד עדיין קיים ומורשה; ה-MCP ל-ABAP " +
+      "(sc4sap) לא היה זמין בסשן זה. לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת " +
+      "הקטלוג; עברה סבב ביקורת אדברסרי ב-2026-09-24 והורדות המבקר יושמו (ייחוס השם Display Quotation לרשומת " +
+      "המאגר, source משותף לפריט 2023, הסרת הדירוג הלא-מתועד של F2324/F1991, שורות ראיה לשני עמודי התפקיד " +
+      "של 2025.001, הסרת קו מפריד ארוך). שורת F1991 נוספה בכתיבה מפלט fal-app.mjs, כדי שהרשומה תהיה עקבית " +
+      "עם tx:ME47.",
+  },
+  {
+    id: "tx:ME49",
+    evidence: [
+      ME41_SIMPL2025,
+      ME43_SIMPL2023,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Quotation (MM-PUR) | Materials Management (MM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/9306b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (sap-help-search.mjs, 'ME49 price comparison list', --size 8) מציגה את הפריט 'Maintain " +
+          "Quotation (MM-PUR)' בגרסת S/4HANA 2025 FPS01 (versionId 2025.001) עם הסניפט 'Activities in " +
+          "Materials Management Activity Transaction Enter quotation ME47 Display quotation ME48 Quotation " +
+          "price comparison list ME49 …' (כלשונו); אותה רשומה בדיוק (אותו loio) חוזרת בחיפוש מקביל תחת " +
+          "--product SAP_ERP (versionId 6.18.latest) עם אותו סניפט. כלומר, ME49 עדיין מופיעה בטבלת הפעילויות " +
+          "של התפקיד SAP_MM_PUR_QUOTATION כ-'Quotation price comparison list', הן בתיעוד S/4HANA On-Premise " +
+          "2025 FPS01 והן בתיעוד ECC; הסניפט בלבד אינו קובע דבר על מצב הטרנזקציה במערכת או על הפסקת תמיכה " +
+          "עתידית.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL), רשומת ME49",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר (module MM, area 'רכש (Purchasing): הצעות מחיר (RFQ)') מתארת את ME49 כדוח 'Price " +
+          "Comparison List' המקבץ הצעות (quotations) לפי collective number ומדרג אותן לפי מחיר (reference " +
+          "quotation, mean value, market price, effective price); שדה fiori ברשומה ריק, ושדה s4 קובע: 'זמין " +
+          "ב-S/4HANA; Ariba Sourcing מספק award/scoring מתקדם כחלופה'; זהו ניסוח עצמאי של המאגר שאינו מפנה " +
+          "לפריט הפישוט הרשמי ואינו נושא מקור לטענת ה-Ariba. הרשומה מקשרת את הקוד ל-ME47, ME48 (before) " +
+          "ול-ME21N, ME11 (after) ולטבלאות EKKO, EKPO, KONP.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME49",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · F2049 Manage RFQs, release S32OP (SAP S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2049')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "פלט scripts/fal-app.mjs F2049 --release S32OP (הורץ מחדש בסבב הביקורת ב-2026-09-24): Manage RFQs, " +
+          "רכיב MM-FIO-PUR-RFQ, תפקיד SAP_BR_PURCHASER (R0128), 'GUI transactions: leading ME41; related ME42, " +
+          "ME43' ו-'predecessors: -; successors: -' (כלשונו). ME49 אינה מופיעה בשדה ה-GUI transactions, " +
+          "והרשומה אינה מגדירה יחס predecessor/successor. F2049 אינה רשומה בקטלוג data/fiori/apps.ts של " +
+          "הפרויקט.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "simplified",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: ME41_SIMPL2025,
+      he:
+        "ME49 (Price Comparison List) מופיעה בשמה, יחד עם ME41/ME42/ME43/ME44/ME45/ME47/ME48 ורשימות התצוגה " +
+        "(ME4B/ME4C/ME4L/ME4M/ME4N/ME4S), בפריט הפישוט הרשמי 'S4TWL - RFQ Simplified Transaction' (14.4.1 " +
+        "ברשימת S/4HANA 2025 FPS01, 38.7 ברשימת 2023 FPS03) תחת הכותרת 'deprecated in SAP S/4HANA', עם אותו " +
+        "ניסוח לגבי כלל הקבוצה: 'the functionality is currently available in SAP S/4HANA but it is not " +
+        "considered as future technology and a functional equivalent is not available'. הפריט אינו נוקב " +
+        "ב-ME49 בנפרד, ואינו מכריז על טרנזקציה או אפליקציית Fiori בודדת כיורשת ישירה שלה; רשומת ה-Fiori Apps " +
+        "Library של Manage RFQs (F2049, S32OP), המצורפת כשורת ראיה ברשומה זו, מפרטת בשדה 'GUI transactions' " +
+        "רק 'leading ME41; related ME42, ME43' (ME49 אינה מופיעה שם), כך שלא נמצא מקור רשמי המקשר את ME49 " +
+        "ספציפית לאפליקציית Fiori בודדת. במקביל, חיפוש נפרד ('ME49 price comparison list' / 'ME49 quotation " +
+        "price comparison') מראה שהטרנזקציה עדיין מתועדת בעמוד 'Maintain Quotation (MM-PUR)' של S/4HANA 2025 " +
+        "FPS01. לכן הסטטוס נכתב כפריט פישוט (simplified): הפונקציונליות זמינה כיום ב-S/4HANA On-Premise לפי " +
+        "לשון הפריט ('currently available'), ומסווגת 'deprecated' בפריט הפישוט הקבוצתי, ללא הצהרה רשמית על " +
+        "יורשת בודדת המאפשרת רישום שדה successor.",
+      recommendedAction:
+        "לא לבסס תהליכי השוואת הצעות מחיר חדשים על ME49 במסלול ההמרה ל-S/4HANA On-Premise: הפריט הרשמי מסווג " +
+        "אותה 'deprecated' כחלק מקבוצת ME4x ומציין שאין functional equivalent לגישה הקלאסית. לבחון את " +
+        "אפליקציות ה-Fiori שהפריט מפנה אליהן ברמת התהליך (Manage RFQs, Monitor RFQ Items, Manage Supplier " +
+        "Quotations, Compare Supplier Quotations, Request for Quotation Types) או פלטפורמת sourcing חיצונית " +
+        "(הפריט נוקב ב-SAP Ariba Sourcing כדוגמה), ולבדוק ב-SE93 במערכת היעד שהקוד עודנו קיים ומורשה טרם " +
+        "החלטה על תהליך יעד קבוע. אף אחת מחמש האפליקציות אינה עדיין רשומה בקטלוג ה-Fiori של הפרויקט " +
+        "(data/fiori/apps.ts); אין ברשומה זו קביעת successor.",
+    },
+    xrefs: ["tx:ME41", "tx:ME43", "tx:ME47", "tx:ME48", "tx:ME21N"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: (1) שני פריטי הפישוט הרשמיים (14.4.1 ברשימת 2025 FPS01, 38.7 ברשימת 2023 FPS03) מונים את " +
+      "ME49 בשמה ברשימת הטרנזקציות 'deprecated in SAP S/4HANA' של קבוצת ME4x, עם ההנחיה ברמת תהליך העסקי " +
+      "לאפליקציות Fiori (Manage RFQs F2049, Monitor RFQ Items F2425, Request for Quotation Types F4149, " +
+      "Manage Supplier Quotations F1991, Compare Supplier Quotations F2324), ללא קביעת מיפוי 1:1 ל-ME49 " +
+      "עצמה. (2) חיפוש נפרד באמצעות scripts/sap-help-search.mjs (שני חיפושים: 'ME49 price comparison list' " +
+      "ללא --product, ו-'ME49 quotation price comparison' עם --product SAP_ERP) מראה שהעמוד 'Maintain " +
+      "Quotation (MM-PUR)' (אותו loio בשתי הגרסאות) עדיין מציג את ME49 כטרנזקציה מתועדת הן בגרסת S/4HANA " +
+      "2025 FPS01 והן בתיעוד ECC; לא נקרא גוף העמוד המלא דרך sap-help-body.mjs מעבר לסניפט, כי הסניפט הספיק " +
+      "לקביעה שהקוד עדיין מתועד. (3) scripts/fal-app.mjs F2049 --release S32OP הורץ מחדש בביקורת " +
+      "ב-2026-09-24 ואישר ש-F2049 אינה מציגה את ME49 בשדה GUI transactions שלה (רק ME41/ME42/ME43) ואינה " +
+      "רשומה בקטלוג data/fiori/apps.ts של הפרויקט; מסקנה זו חלה במלואה גם על ME49 ולכן לא הוצג שדה " +
+      "successor. מה שלא אומת: (א) לא בוצעה בדיקה חיה ב-SE93 שהקוד קיים במערכת יעד (MCP ABAP לא זמין בסשן " +
+      "זה). (ב) לא נמצא מקור רשמי הקושר אפליקציית Fiori ספציפית כ-successor פורמלי ל-ME49; לכן לא נרשם שדה " +
+      "successor. (ג) SAP Note 2332710 (מודפס בגוף שני פריטי הפישוט) לא נקרא (דורש S-user). (ד) לא בוצעה " +
+      "בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג; עברה סבב ביקורת אדברסרית " +
+      "ב-2026-09-24, והורדות המבקר יושמו: הסרת קווים מפרידים ארוכים, 'מתועדת' במקום 'פעילה', לשון הפריט " +
+      "('currently available') במקום 'הקוד קיים ותקין להרצה', ושורת ראיה ל-F2049 ברשומה זו. בכתיבה נוסף: " +
+      "רשומת F1991 (Manage Supplier Quotations, fal-app.mjs S32OP, נבדקה לרשומת tx:ME47) מפרטת 'leading " +
+      "ME47; related ME48', ו-ME49 אינה מופיעה בה; F2425, F4149, F2324 לא נבדקו.",
+  },
+  {
+    id: "tx:ME51N",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - MM-PUR WebDynpro Applications (Simplification List for SAP S/4HANA 2023 - Feature Pack " +
+          "Stack 3, item 38.1)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "הפריט (עמ' 939-940 במסמך, SAP Note 2267445) עוסק בהסרת אפליקציות WebDynpro של MM ב-S/4HANA " +
+          "on-premise 1511 ואילך, ומציג טבלת מיפוי בין כל אפליקציית WebDynpro לתחליף שלה. עבור " +
+          "'MMPUR_SPPR_MAIN_APPL' (Purchase Requisition Processing) התחליף הרשום הוא: 'SAP GUI transaction " +
+          "ME51N, Fiori Application' (כלשונו). הפריט אינו קובע ל-ME51N עצמה סטטוס של deprecated, replaced או " +
+          "removed; הוא נוקב בה כיעד ההמשכיות של אפליקציית ה-WebDynpro שהוסרה, לא כטרנזקציה שעצמה מוחלפת.",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - MM-PUR WebDynpro Applications (Simplification List for SAP S/4HANA 2025 - Feature Pack " +
+          "Stack 1, item 14.2.7)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "הפריט המקביל (עמ' 1416-1417, מבוסס אותו SAP Note 2267445 כמו פריט 38.1 של 2023) חוזר על אותה " +
+          "קביעה: אפליקציות WebDynpro של MM אינן זמינות מ-S/4HANA on-premise 1511 ואילך, ועבור " +
+          "'MMPUR_SPPR_MAIN_APPL' (Purchase Requisition Processing) התחליף הרשום זהה: 'SAP GUI transaction " +
+          "ME51N, Fiori Application' (כלשונו). גם כאן אין קביעה על הפסקת השימוש ב-ME51N עצמה, רק אזכור כיעד " +
+          "ההמשכיות.",
+      },
+      ME51N_FEATURE_COMPARISON_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Purchase Requisition (MM-PUR)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/ed06b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "רשומת החיפוש (Materials Management (MM), S/4HANA on-premise 2025 FPS01, loio " +
+          "ed06b753128eb44ce10000000a174cb4) מתארת את התפקיד Process Purchase Requisition (MM-PUR), שם טכני " +
+          "SAP_MM_PUR_PURCHASEREQUISITION, ובקטע 'Activities in Materials Management' מונה: 'Create purchase " +
+          "requisition ME51N', 'Change purchase requisition ME52N', 'Display purchase requisition ME53N' (מתוך " +
+          "ה-snippet). הקטע מתעד את ME51N כפעילות בתפקיד ב-S/4HANA 2025 FPS01; לא נקרא גוף הדף המלא.",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Manage Purchase Requisition Professional (F2229), SAP Fiori Apps Reference Library, S/4HANA 2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2229')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "פלט fal-app.mjs F2229 --release S32OP: אפליקציה Transactional / SAP Fiori elements, רכיב " +
+          "MM-FIO-PUR-REQ-PRF, תפקיד SAP_BR_PURCHASER (R0128), קטלוג עסקי SAP_PRC_BC_PURCHASER_PR, intent " +
+          "PurchaseRequisition-maintain, OData MM_PUR_PR_PROFNL_MAINTAIN_SRV. בשדה GUI transactions: 'leading " +
+          "ME51N; related ME52N, ME53N' (כלשונו). ללא predecessors/successors רשומים. הרשומה מקשרת את ME51N " +
+          "לאפליקציית ה-Fiori כטרנזקציה המובילה, לא כטרנזקציה מוחלפת.",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#ME51N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME51N",
+        claim:
+          "רשומת המאגר מתעדת את ME51N כטרנזקציית Enjoy ליצירת דרישת רכש (טבלאות EBAN/EBKN), עם שדה s4: 'זמין " +
+          "במלואו ב-S/4HANA; Fiori Create Purchase Requisition / Self-Service Procurement. ME51 הישן " +
+          "deprecated' (כלשונו) ושדה fiori: 'Create Purchase Requisition - F1643 / Create Purchase Requisition " +
+          "Advanced' (במקור מקף ארוך). שדה ה-fiori לא אומת מול מקור רשמי במסגרת מחקר זה: מספר האפליקציה שאותר " +
+          "בפועל בחיפושי help.sap.com, בהשוואת Feature Comparison וב-Fiori Apps Library הוא F2229, לא F1643, כך " +
+          "שאין כאן קביעה מי משני המספרים נכון.",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "ME51N ממשיכה להיות מתועדת כטרנזקציה בשימוש ב-SAP S/4HANA on-premise 2025 FPS01 (version 2025.001): " +
+        "מופיעה כפעילות 'Create purchase requisition' בתפקיד העסקי Process Purchase Requisition (MM-PUR), " +
+        "ומופיעה כעמודת השוואה מלאה מול אפליקציית ה-Fiori Manage Purchase Requisitions - Professional (F2229) " +
+        "במסמך Feature Comparison, ללא סימון כמיושנת. שני פריטי 'S4TWL - MM-PUR WebDynpro Applications' (2023 " +
+        "FPS03 §38.1, 2025 FPS01 §14.2.7) מזכירים אותה רק כיעד ההמשכיות עבור אפליקציית WebDynpro שהוסרה " +
+        "(MMPUR_SPPR_MAIN_APPL), לא כטרנזקציה שעצמה מוחלפת.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: ME51N_FEATURE_COMPARISON_2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-ME51N ליצירת דרישות רכש ידניות; לשקול בהדרגה מעבר לאפליקציית Fiori 'Manage Purchase " +
+        "Requisitions - Professional' (F2229) בהתאם למפת הדרך של הלקוח.",
+    },
+    xrefs: ["tx:ME52N", "tx:ME53N", "tx:ME54N", "table:EBAN", "table:EBKN"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק: שאילתת sap-help-search.mjs 'ME51N Create Purchase Requisition' על SAP_S4HANA_ON-PREMISE (21 " +
+      "תוצאות; הרלוונטיות מ-2025.001 ומ-2023.latest), קריאת גוף הדף 'Feature Comparison for Managing and " +
+      "Creating Purchase Requisitions' דרך sap-help-body.mjs, רשומת החיפוש 'Process Purchase Requisition " +
+      "(MM-PUR)' (snippet בלבד, הגוף לא נקרא), fal-app.mjs F2229 (S32OP = 2025 FPS01, leading ME51N), ועיון " +
+      "בשני פריטי S4TWL 'MM-PUR WebDynpro Applications' (2023 FPS03 §38.1 עמ' 939-940, 2025 FPS01 §14.2.7 עמ' " +
+      "1416-1417) מתוך scratchpad/official. שדה ה-fiori ברשומת tx-intel.ts (F1643) אינו זהה ל-F2229 שאותר " +
+      "בפועל במקורות הרשמיים; ההבדל בין השניים לא נפתר כאן ונותר לבירור נפרד, ללא קביעה מי מהם נכון; F2229 " +
+      "אינו עדיין ב-data/fiori/apps.ts ולכן אין xref ל-fiori:F2229, ויש לתעד אותו שם לפני קביעת xref רשמי " +
+      "אליו. status source הוא ראיית ה-Feature Comparison. SAP Note 2267445 מודפס בשני הפריטים ומצוטט " +
+      "בפרוזה בלבד: שדה sapNote מחייב לפי כלל sap-note-format קישור me.sap.com או repoRef. ביקורת אדברסרית " +
+      "2026-09-24: הורדות הוחלו (source לסטטוס, שורת ראיה לדף התפקיד, תיקון טווח עמודים 2023, הסרת מקף " +
+      "ארוך, צמצום ניסוח ראיה 2). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג. לא בוצעה בדיקה במערכת " +
+      "SAP חיה.",
+  },
+  {
+    id: "tx:MIGO_GR",
+    evidence: [
+      MIGO_GR_GOODS_MOVEMENT_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Goods Movement (MM-IM) (deliverable Materials Management (MM), topic loio " +
+          "3e07b753128eb44ce10000000a174cb4)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/3e07b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט (אותה גרסה 2025.001) מציג טבלת פעילויות: 'Goods Movement MIGO Goods Issue MIGO_GI Goods " +
+          "Receipt from External Procurement MIGO_GR Goods Receipt for Order MIGO_GO Transfer Posting MB1B " +
+          "Cancel Material Document MBST Store Material Document MBSU Output Processing for Material Documents " +
+          "MB90'. הרשומה מציגה את MIGO_GR לצד MIGO ושאר הקודים המגבילים כפעילות מתועדת בגרסה הנוכחית, ולא " +
+          "מזכירה אותה כמוחלפת או מוסרת.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM (Simplification List for SAP S/4HANA 2025 - Feature " +
+          "Pack Stack 1, item 15.3.9; מקביל לפריט 27.6 ב-2023 FPS03, הבדלי עימוד בלבד)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "הפריט נוקב ברשימת קודי הטרנזקציה המוחלפים במלים: 'The following transactions for entering and " +
+          "displaying goods movements (material documents) called \"MB transactions\" - below, have been " +
+          "replaced by the single-screen generalized transaction MIGO or the BAPI's BAPI_GOODSMVT_CREATE and " +
+          "BAPI_GOODSMVT_CANCEL: MB01, MB02, MB03, MB04, MB05, MB0A, MB11, MB1A, MB1B, MB1C, MB31, MBNL, MBRL, " +
+          "MBSF, MBSL, MBST, MBSU and MBBM'; MIGO_GR אינו ברשימה הזו. השם 'MIGO_GR' מופיע בשדה 'Other Terms' " +
+          "בתחתית הפריט ('MIGO_GR, MIGO_GI, MIGO_ST, BAPI_GOODSMVT_CANCEL, NSDM_MESSAGES499, NSDM_MESSAGES-499, " +
+          "omcq; MMBE') בלבד, ללא קביעה לגבי מעמדו. הפריט אינו קובע ל-MIGO_GR מעמד של הוחלף, הוסר או " +
+          "deprecated; הוא קוד המגביל את MIGO, שאליה הפריט מפנה כפתרון ('Use transaction MIGO or MMBE in " +
+          "dialog').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Document Flow Consistency for Goods Receipt to Inbound Delivery (Simplification List for SAP " +
+          "S/4HANA 2025 - Feature Pack Stack 1, items 15.3.6 ו-15.3.12; טקסט הבדיקה זהה לפריט 27.3 ב-2023 " +
+          "FPS03, ששורת Application Component שלו מונה גם MM-IM-GR ו-LE-SHP-DL-LA)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "בתנאי הרלוונטיות של הבדיקה נכתב: 'Goods receipt postings or return delivery postings are done with " +
+          "reference to inbound deliveries using transaction MIGO. Check table MSEG for entries with " +
+          "VGART_MKPF = \"WE\", TCODE2_MKPF = MIGO_GR, VBELN_IM is not initial, and VBELP_IM is not initial'. " +
+          "כלומר MIGO_GR משמש כאן כערך זיהוי (TCODE2_MKPF) של רשומות MSEG שנוצרו דרך קבלת סחורה ב-MIGO מול " +
+          "תעודת משלוח נכנסת, לצורך בדיקת עקביות זרימת המסמכים (Document Flow Consistency) בהמרה ל-S/4HANA. " +
+          "הפריט אינו קובע דבר על זמינות MIGO_GR עצמה; הוא בודק את איכות הנתונים בתנועות שכבר נרשמו דרכה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tx-intel.ts#MIGO_GR",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מתארת את MIGO_GR כ'וריאנט של MIGO הממוקד בקליטת סחורה (Goods Receipt)' עם action 'Goods " +
+          "Receipt' מוגדר מראש, ושדה s4 קובע: 'זמין ב-S/4HANA. Fiori 'Goods Receipt for Purchase Order' היא " +
+          "החלופה.' (שדה fiori: 'Goods Receipt for Purchase Order'). שדה consultant מונה את המשפחה 'MIGO_GO (GI), " +
+          "MIGO_TR (transfer), MIGO_GS', בעוד שתי רשומות החיפוש הרשמיות שלעיל מגדירות את MIGO_GO כ-'Goods Receipt " +
+          "for Order' ואת MIGO_GI כ-'Goods Issue'; ייחוס GI ל-MIGO_GO במאגר אינו תואם את המקור הרשמי. שם " +
+          "אפליקציית ה-Fiori שבמאגר לא נבדק מול מקור רשמי במחקר זה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MIGO_GR",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MIGO_GR הוא קוד טרנזקציה המגביל את MIGO לקבלת סחורה מרכש חיצוני (Goods Receipt from External " +
+        "Procurement), מתועד באותה צורה ב-ECC וב-S/4HANA On-Premise 2025 FPS01. פריט הפישוט S4TWL - " +
+        "AVAILABILITY OF TRANSACTIONS IN MM-IM אינו כולל את MIGO_GR ברשימת קודי ה-MB המוחלפים, ומזכיר אותו רק " +
+        "בשדה Other Terms; פריט S4TWL - Document Flow Consistency for Goods Receipt to Inbound Delivery מזכיר " +
+        "אותו כערך שדה טכני (TCODE2_MKPF) בבדיקת עקביות נתונים, לא כקוד שמעמדו משתנה. אין אימות שהוא הוסר, " +
+        "הוחלף או שונה במעבר ל-S/4HANA.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MIGO_GR_GOODS_MOVEMENT_2025,
+      recommendedAction:
+        "להשאיר את MIGO_GR כקוד תקין של MIGO לתרחיש קבלת סחורה מרכש חיצוני; בבדיקות המרה ל-S/4HANA לבחון " +
+        "רשומות MSEG עם TCODE2_MKPF = MIGO_GR מול תעודות משלוח נכנסות, כנדרש בפריט Document Flow Consistency, " +
+        "ולוודא שדות VBELN_IM ו-VBELP_IM מלאים לפני קבלת הסחורה. פריט S4TWL - AVAILABILITY OF TRANSACTIONS IN " +
+        "MM-IM מייחס את מנגנון הנעילה המשופר (S/4HANA OP1610 ומעלה) ל-MIGO ול-BAPI_GOODSMVT_CREATE ואינו נוקב " +
+        "ב-MIGO_GR בהקשר זה; לתאם את ההנחיה עם רשומת tx:MIGO.",
+    },
+    xrefs: ["tx:MIGO", "tx:MB04", "table:MSEG", "table:MKPF"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: (א) שתי רשומות sap_help נפרדות (deliverable Materials Management (MM), 2025 FPS01) מגדירות " +
+      "MIGO_GR כ-'Goods Receipt from External Procurement', קוד המגביל את MIGO, מתועד לצד MIGO_GI/MIGO_GO; " +
+      "אותו loio מוחזר גם תחת productId SAP_ERP (6.18.latest). (ב) שני פריטי הפישוט נקראו במלואם מטקסט " +
+      "ה-PDF שחולץ (scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt): פריט 15.3.9 (2025) / " +
+      "27.6 (2023), Availability of Transactions in MM-IM, אינו כולל MIGO_GR ברשימת הקודים המוחלפים, רק " +
+      "ב-Other Terms; פריט 15.3.6/15.3.12 (2025) / 27.3 (2023), Document Flow Consistency, מזכיר MIGO_GR כערך " +
+      "שדה בתנאי בדיקה טכני, לא כקביעה על מעמד הקוד. טקסט הבדיקה זהה בין 2023 ל-2025; שורת Application " +
+      "Component שונה (2023 מונה גם MM-IM-GR ו-LE-SHP-DL-LA). שני פריטי 2025 (15.3.6 ו-15.3.12) זהים בתוכן " +
+      "ומצוטטים כרשומה אחת. (ג) רשומת מאגר ייעודית קיימת: data/tx-intel.ts#MIGO_GR (מצוטטת כשורת ראיה; שדה " +
+      "consultant שלה מייחס ל-MIGO_GO את GI, בניגוד לרשומות החיפוש הרשמיות); MIGO_GR מופיע גם כ-xref בתוך " +
+      "tx:MIGO (data/verification/transactions.ts) וב-data/verification/enhancements.ts. היסטוריה: טיוטת " +
+      "המחקר קבעה 'לא נמצאה רשומה ייעודית ל-MIGO_GR ב-data/**', קביעה שגויה שתוקנה בכתיבה (ישן → חדש). (ד) " +
+      "לא בוצע fal-app.mjs: במקורות הרשמיים שנקראו לא הוצג יישום Fiori עצמאי כתחליף ל-MIGO_GR, וההנחיה " +
+      "בפריט ('Use transaction MIGO or MMBE in dialog') מפנה ל-MIGO עצמה, שכבר מתועדת ברשומת tx:MIGO; שם " +
+      "האפליקציה שבמאגר ('Goods Receipt for Purchase Order') לא נבדק מול Fiori Apps Library (למשל " +
+      "fal-app.mjs --tcode MIGO_GR). ביקורת אדברסרית 2026-09-24: כל הכתובות " +
+      "נפתחות, שתי רשומות החיפוש אומתו מחדש בשני ה-scopes, כל הציטוטים מה-PDF אומתו מול הטקסט שחולץ; תוקנו " +
+      "כותרות המקור, ניסוח ה-'screen variant' והמלצה ללא מקור בנושא BDC. בכתיבה הוסרה המילה 'ופעילה' משורת " +
+      "הראיה השנייה (הסניפט מתעד פעילות ואינו מעיד על מצב הקוד במערכת). הרשומה אינה נושאת שדה reviewer, " +
+      "כמוסכמת הקטלוג. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:MK01",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.19 S4TWL - Business Partner " +
+          "Approach",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "הפריט (עמ' 153-155) קובע שב-SAP S/4HANA האובייקט המוביל היחיד לתחזוקת שותפים עסקיים, לקוחות וספקים " +
+          "הוא Business Partner (טרנזקציה BP): 'the specific transactions like XD01, XD02, XD03 or VD01, VD02, " +
+          "VD03/XK01, XK02, XK03 or MK01, MK02, MK03 etc. are not available in SAP S/4HANA on-premise'. בטבלת " +
+          "הטרנזקציות שאינן זמינות, תחת הכותרת 'Transactions that get redirected to transaction BP' מופיעים " +
+          "במפורש MK01, MK02, MK03.",
+      },
+      MK01_SIMPL2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintaining Vendor Master Jurisdiction Code (MM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8999cee59b7c44fdb53fbbb4d703f8e6/896bd0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        verificationLevel: "conflicting_sources",
+        claim:
+          "דף תפעולי תחת אותו מוצר ומהדורה בדיוק (SAP_S4HANA_ON-PREMISE, versionId 2025.001) כותב במפורש: 'You " +
+          "can also use transaction MK01 to create or MK02 to change' - בסתירה ישירה לפריט הפישוט. שני המקורות " +
+          "רשמיים ונשמרים כסתירה; ההסבר הסביר הוא סחף תיעוד של דף תפעולי (אותו דפוס שתועד ל-tx:MB01 / tx:MBST " +
+          "/ tx:MBRL בשרשרת זו), ופריט הפישוט S4TWL נשאר המקור הקובע לסטטוס. מה שיכריע: הפעלת MK01 במערכת SAP " +
+          "S/4HANA On-Premise חיה ובדיקה האם היא מנותבת ל-BP.",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business " +
+              "Partner Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE24,
+            verificationLevel: "sap_official_verified",
+            claim:
+              "'the specific transactions like ... or MK01, MK02, MK03, etc. are not available in SAP S/4HANA. " +
+              "These will be redirected to transaction BP'.",
+          },
+        ],
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#MK01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MK01",
+        claim:
+          "שדה s4 ברשומה הקיימת: 'חסומה ב-S/4HANA. הקמת קטע רכש של ספק מתבצעת דרך BP בתפקיד FLVN01 (Supplier)' " +
+          "- עקבי עם קביעת פריטי הפישוט שנקראו כעת (המאגר כבר קלט את המסקנה הנכונה עוד לפני מחקר זה).",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "MK01 אינה זמינה ב-SAP S/4HANA, מהדורת On-Premise; קריאה לטרנזקציה מנותבת ישירות למסך Business " +
+        "Partner (טרנזקציה BP). יצירת קטע הרכש (Purchasing View) של הספק מתבצעת ב-BP לאחר שה-Customer/Vendor " +
+        "Integration (CVI) הופעל והושלם; פריט הפישוט נוקב רק בטרנזקציה BP, ותפקיד השותף העסקי Supplier " +
+        "(FLVN01) מקורו ברשומת המאגר tx-intel.ts#MK01 בלבד.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MK01_SIMPL2025,
+      recommendedAction:
+        "יש להשתמש בטרנזקציה BP (תפקיד Supplier / FLVN01 לפי רשומת המאגר) במקום MK01 ליצירת קטע הרכש של ספק, " +
+        "ולוודא שה-CVI (Customer/Vendor Integration) הופעל והושלם לפני המרה ל-S/4HANA.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:MK02", "tx:MK03"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק מבוסס על קובץ: פריט הפישוט S4TWL - Business Partner Approach בשתי המהדורות (2023 FPS03 פריט " +
+      "3.19, 2025 FPS01 פריט 5.1.27), נקרא במלואו מ-scratchpad/official/SIMPL_OP2023.pdf.txt " +
+      "ו-SIMPL_OP2025.pdf.txt; שתיהן נוקבות ב-MK01 בטבלת הטרנזקציות שאינן זמינות ומנותבות ל-BP. חיפוש " +
+      "sap-help-search.mjs על 'Create Vendor Purchasing MK01' (--product SAP_S4HANA_ON-PREMISE) העלה דף " +
+      "תפעולי (2025.001) שממשיך להנחות MK01/MK02 (המשפט מופיע גם ב-snippet וגם בגוף הדף שנקרא דרך " +
+      "sap-help-body.mjs) - זהו סחף תיעוד ככל הנראה, לא הפרכה, ותועד כראיה נפרדת מסוג conflicting_sources. " +
+      "לא בוצע חיפוש fal-app.mjs: אף מקור רשמי שנקרא לא נקב Fiori app ייעודי ל-MK01 או ל-BP-Purchasing-View, " +
+      "רק את טרנזקציית BP עצמה - לכן אין successor מסוג fiori. לא בוצעה בדיקה במערכת SAP חיה. tx:XK01 " +
+      "ו-tx:FK01 (הטרנזקציות המקבילות למשפחת FK/XK שנזכרות באותם פריטים) אין להן רשומת overlay קיימת ולא " +
+      "נבנתה כזו כאן - מחוץ להיקף המשימה. ביקורת אדברסרית 2026-09-24: טווחי העמודים תוקנו (2023: 153-155, " +
+      "2025: 136-138), הטענה על גישה לנתוני LFM1 דרך BP הוסרה (אין לה מקור), FLVN01 מיוחס לרשומת המאגר " +
+      "בלבד, ושורת הסתירה מציינת מה יכריע. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MK02",
+    evidence: [
+      MK02_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.19 S4TWL - Business Partner " +
+          "Approach (LO-MD-BP, Business Impact Note 2265093, p. 153-158)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "אותו פריט ברשימת 2023 FPS03 קובע: 'the specific transactions like XD01, XD02, XD03 or VD01, VD02, " +
+          "VD03/XK01, XK02, XK03 or MK01, MK02, MK03 etc. are not available in SAP S/4HANA on-premise' ומפרט " +
+          "בטבלה 'Transactions not available in SAP S/4HANA on-premise edition', 'Transactions that get " +
+          "redirected to transaction BP: FD01,FD02,FD03, FK01,FK02,FK03,MAP1,MAP2,MAP3, MK01, MK02, MK03, ...'. " +
+          "סעיף Symptom: המרה מ-on-premise editions 1511, 1610, 1709, 1809, 1909, 2020, 2021, 2022.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintaining Vendor Master Jurisdiction Code (MM) | SAP ERP",
+        url: "https://help.sap.com/docs/SAP_ERP/3318ebc75ddc4d2994ca75b5fe521f24/896bd0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד (נקרא דרך שירות התוכן, sap-help-body.mjs, deliverable 23795521) מפרט תחת Procedure: 'From " +
+          "the SAP Easy Access screen, choose Logistics > Materials Management > Purchasing > Master Data > " +
+          "Vendor > Purchasing > Create/Change. You can also use transaction MK01 to create or MK02 to change. " +
+          "To maintain the jurisdiction code, choose Address or Control Data.' הסניפט של רשומת החיפוש אינו " +
+          "כולל את המשפט; הוא מאשר את MK02 כטרנזקציית שינוי ספק בצד הרכש ב-SAP ERP.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintaining Vendor Master Jurisdiction Code (MM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8999cee59b7c44fdb53fbbb4d703f8e6/896bd0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        verificationLevel: "conflicting_sources",
+        claim:
+          "אותו עמוד תפעולי בתיעוד SAP S/4HANA On-Premise (versionId 2025.001, loio " +
+          "896bd0531d8b4208e10000000a174cb4; מצוטט גם ברשומת tx:MK01) מדפיס ב-snippet של רשומת החיפוש " +
+          "(sap-help-search.mjs 'Create Vendor Purchasing MK01' --product SAP_S4HANA_ON-PREMISE, 21 רשומות): " +
+          "'You can also use transaction MK01 to create or MK02 to change' (כלשונו), בסתירה לפריט הפישוט הקובע " +
+          "ש-MK02 אינה זמינה ב-S/4HANA ומנותבת ל-BP. שני המקורות רשמיים ונשמרים כסתירה; ההסבר הסביר הוא סחף " +
+          "תיעוד של דף תפעולי (אותו דפוס שתועד ל-tx:MK01), ופריט הפישוט נשאר המקור הקובע לסטטוס. מה שיכריע: " +
+          "הפעלת MK02 במערכת SAP S/4HANA On-Premise חיה ובדיקה האם היא מנותבת ל-BP.",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business " +
+              "Partner Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE24,
+            verificationLevel: "sap_official_verified",
+            claim:
+              "'the specific transactions like ... or MK01, MK02, MK03, etc. are not available in SAP S/4HANA. " +
+              "These will be redirected to transaction BP'.",
+          },
+        ],
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MK02 ו-tx-intel.ts#MK02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "data/tcode-catalog.ts מגדיר את MK02 כמודול MM, 'שינוי ספק (רכש)', en 'Change Vendor (Purchasing)'; " +
+          "data/tx-intel.ts#MK02 קובע s4: 'חסומה ב-S/4HANA. עדכון נתוני רכש של ספק דרך BP.' (alternative: " +
+          "XK02, BP). תיאור המאגר בלבד, אינו מקור רשמי, אך עקבי עם פריט הפישוט שלעיל.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MK02",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "MK02 (שינוי ספק, תצוגת רכש) אינה זמינה ב-SAP S/4HANA on-premise; פריט הפישוט הרשמי 'S4TWL - Business " +
+        "Partner Approach' מונה את MK02 בפירוש הן ברשימת הטרנזקציות שאינן זמינות והן ברשימת הטרנזקציות " +
+        "המנותבות מחדש לטרנזקציה BP (Business Partner). תחזוקת נתוני ספק עוברת לטרנזקציית BP.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MK02_SIMPL2025,
+      recommendedAction:
+        "לתחזק ספקים דרך טרנזקציית BP; לפני המרה ל-S/4HANA לוודא Customer/Vendor Integration (CVI) מלא, ולא " +
+        "להסתמך על MK02 בפרוצדורות תפעוליות עתידיות.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:MK01", "tx:MK03"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "פריט הפישוט 'S4TWL - Business Partner Approach' (SAP Note 2265093, מודפס בפריט) נוקב ב-MK02 בשמה " +
+      "המפורש בשתי גרסאות הרשימה (2023 FPS03 פריט 3.19, 2025 FPS01 פריט 5.1.27), הן ברשימת הטרנזקציות שאינן " +
+      "זמינות והן ברשימת הטרנזקציות המנותבות ל-BP. הצד ECC נבדק בנפרד ואינו סותר: MK02 מתועדת שם כטרנזקציית " +
+      "שינוי ספק; הסניפט של עמוד SAP ERP אינו מכיל את משפט MK02, המשפט נקרא מגוף העמוד דרך שירות התוכן. לא " +
+      "בוצעה בדיקה במערכת SAP חיה לאימות התנהגות ה-redirect בפועל; לא אותרה Fiori app נפרדת עבור MK02 עצמה " +
+      "מעבר ליעד BP. מספר ה-Note מצוטט בכותרות ובפרוזה בלבד ולא בשדה sapNote: כלל sap-note-format מחייב " +
+      "קישור me.sap.com או repoRef. ביקורת אדברסרית 2026-09-24: הורדות הוחלו (source משותף לפריט 2025, " +
+      "הסרת קווים מפרידים ארוכים, ציטוט גוף העמוד במקום 'סניפט', תיקון רשומת המאגר, הסרת שם אפליקציה ללא " +
+      "מקור, טווח עמודים 153-158). בכתיבה נוספה שורת סתירה (conflicting_sources) לעמוד 'Maintaining Vendor " +
+      "Master Jurisdiction Code (MM)' בתיעוד S/4HANA 2025.001, שה-snippet שלו מדפיס 'MK02 to change', כמו " +
+      "ברשומת tx:MK01 באותה אצווה; לכן הרשומה מסומנת כסותרת עד לבדיקה במערכת חיה. הרשומה אינה נושאת שדה " +
+      "reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MK03",
+    evidence: [
+      MK03_SIMPL2023,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+          "Approach (SAP Note 2265093)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "גרסת 2025 FPS01 של אותו פריט פישוט (Note Number 2265093, עמ' 136-137) חוזרת על אותה קביעה במדויק: " +
+          "'the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, " +
+          "MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP', וברשימת " +
+          "'Transactions not available in SAP S/4HANA on-premise edition · Transactions that get redirected to " +
+          "transaction BP' מופיעה שוב 'MK01, MK02, MK03' (כלשונו). ברשימת 'Transactions that are obsolete' " +
+          "(MK12, MK18, MK19 וכו') MK03 אינה נכללת, כלומר הפריט מבחין בין הקוד המנותב (MK03) לבין קודים " +
+          "שהוגדרו obsolete ממש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tx-intel.ts#MK03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר הקיימת מתעדת את MK03 כטרנזקציית display (read-only) של קטע הרכש ברשומת אב ספק " +
+          "(LFA1+LFM1, ללא LFB1), ומציינת בשדה s4: 'חסומה ב-S/4HANA. הצגת נתוני רכש של ספק דרך BP' " +
+          "וב-alternative: 'BP'; עקבי עם הפריט הרשמי שקובע ניתוב לטרנזקציית BP.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MK03",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "פריט הפישוט S4TWL - Business Partner Approach (Note 2265093, זהה בשתי המהדורות שנבדקו) קובע ש-MK03 " +
+        "אינה זמינה יותר כטרנזקציית SAP GUI ב-S/4HANA on-premise ומנותבת לטרנזקציית BP (Business Partner), שם " +
+        "מתבצעת הצגת נתוני הרכש של הספק במסגרת ה-Business Partner Approach המחייב.",
+      edition: "on-premise",
+      release: "2023 FPS03",
+      source: MK03_SIMPL2023,
+      recommendedAction:
+        "לתעד למשתמשים ש-MK03 אינה זמינה ב-S/4HANA on-premise ולהפנות לטרנזקציית BP (תפקיד ספק/Purchasing) " +
+        "לצפייה בנתוני הרכש של הספק; לוודא שהמרת Customer/Vendor Integration (CVI) הושלמה לפני ההמרה, כנדרש " +
+        "בפריט.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:MK01", "tx:MK02", "tx:XK03", "tx:FK03"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שני פריטי הפישוט (2023 FPS03 §3.19, 2025 FPS01 §5.1.27, שניהם עם Note Number 2265093) קובעים במפורש " +
+      "ש-MK03 מנותבת לטרנזקציית BP, שהיא ממשק המשתמש לתחזוקת שותפים עסקיים ב-S/4HANA; לא נמצאה אפליקציית " +
+      "Fiori רשמית הנקובה עבור MK03 ספציפית (הפריט מדבר על ה-Business Partner Approach הכללי, לא על אפליקציית " +
+      "Fiori אחת), ולכן לא נקבע successor מסוג fiori. חיפושי sap-help-search.mjs נוספים ('MK03 display vendor " +
+      "purchasing', 'Business Partner Approach S4TWL', 'MK03 successor Fiori', בהיקף --product " +
+      "SAP_S4HANA_ON-PREMISE ו-SAP_ERP) לא העלו רשומה רשמית נפרדת המוקדשת ל-MK03 עצמה מעבר לשני פריטי הפישוט " +
+      "שצוטטו. חיפוש sap-help-search.mjs \"MK03\" (היקף ברירת המחדל SAP S/4HANA, --size 12) החזיר 21 תוצאות; " +
+      "אחת מהן, הדף \"Transactions: JIT Outbound\" (SAP S/4HANA 2025.001), מדפיסה בטבלת הטרנזקציות \"Process " +
+      "Vendor Master MK03\"; אין זו רשומה המוקדשת ל-MK03 ואין בה קביעה על זמינות המסך הקלאסי, ולכן אינה סותרת " +
+      "את הניתוב ל-BP. לא הופעל fal-app.mjs מכיוון שאין מועמד Fiori ID רשמי לבדוק. data/tcode-catalog.ts " +
+      "מוסיף רק תיאור קצר ('הצגת ספק (רכש)') ללא מידע נוסף על S/4. לא בוצעה בדיקה במערכת SAP חיה. הרשומה " +
+      "אינה נושאת שדה reviewer, כמוסכמת הקטלוג; עברה סבב ביקורת אדברסרית ב-2026-09-24 (כתובות, ציטוטים מול " +
+      "scratchpad/official, xrefs, רשומות המאגר).",
   },
 ];
