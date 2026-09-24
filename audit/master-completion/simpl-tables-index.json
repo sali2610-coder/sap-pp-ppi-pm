@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-22T13:33:25.809Z",
+ "generatedAt": "2026-09-24T17:41:58.199Z",
  "lists": [
   {
    "key": "2025",
@@ -335,8 +335,8 @@
      ]
     },
     {
-     "item": "5.2",
-     "title": "Logistics Information System (LIS)",
+     "item": "27.12",
+     "title": "S4TWL - CWM in SAP S/4HANA",
      "lines": [
       35856,
       35862
@@ -359,12 +359,32 @@
      ]
     },
     {
-     "item": "60.9",
-     "title": "S4TWL - Retail Additionals",
+     "item": "60.13",
+     "title": "S4TWL - Logistical Variant",
      "lines": [
-      69481,
-      69945,
-      71766
+      69481
+     ]
+    },
+    {
+     "item": "60.22",
+     "title": "S4TWL - Generic Article Harmonization",
+     "lines": [
+      69945
+     ]
+    },
+    {
+     "item": "60.45",
+     "title": "S4TWL - Segment Field Length Extension",
+     "lines": [
+      71766,
+      71767
+     ]
+    },
+    {
+     "item": "60.48",
+     "title": "S4TWL - Segmentation (Upgrade SAP S/4HANA 1709 to 1809)",
+     "lines": [
+      72067
      ]
     }
    ],
@@ -514,8 +534,8 @@
      ]
     },
     {
-     "item": "30.9",
-     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "item": "30.38",
+     "title": "S4TWL - Simplified Sourcing",
      "lines": [
       42422,
       42433,
@@ -532,12 +552,27 @@
      ]
     },
     {
-     "item": "60.9",
-     "title": "S4TWL - Retail Additionals",
+     "item": "56.25",
+     "title": "S4TWL - Oil & Gas inconsistency reports deprecation",
+     "lines": [
+      66784,
+      66873
+     ]
+    },
+    {
+     "item": "60.42",
+     "title": "S4TWL - Allocation Run Master Data",
      "lines": [
       71564,
       71565,
       71568
+     ]
+    },
+    {
+     "item": "60.47",
+     "title": "S4TWL - Season Active in Inventory Management",
+     "lines": [
+      71934
      ]
     }
    ],
@@ -712,8 +747,8 @@
   "MARM": {
    "2023": [
     {
-     "item": "5.2",
-     "title": "Logistics Information System (LIS)",
+     "item": "27.12",
+     "title": "S4TWL - CWM in SAP S/4HANA",
      "lines": [
       35560,
       35860,
@@ -758,10 +793,16 @@
      ]
     },
     {
-     "item": "5.2",
-     "title": "Logistics Information System (LIS)",
+     "item": "27.10",
+     "title": "S4TWL - Material Valuation Data Model Simplification in S/4HANA",
      "lines": [
-      35357,
+      35357
+     ]
+    },
+    {
+     "item": "27.12",
+     "title": "S4TWL - CWM in SAP S/4HANA",
+     "lines": [
       35569
      ]
     },
@@ -822,8 +863,8 @@
   "MCH1": {
    "2023": [
     {
-     "item": "60.9",
-     "title": "S4TWL - Retail Additionals",
+     "item": "60.26",
+     "title": "S4TWL - Retail Information System",
      "lines": [
       70185
      ]
@@ -842,8 +883,8 @@
   "MCHA": {
    "2023": [
     {
-     "item": "60.9",
-     "title": "S4TWL - Retail Additionals",
+     "item": "60.26",
+     "title": "S4TWL - Retail Information System",
      "lines": [
       70185
      ]
@@ -911,6 +952,15 @@
       65244,
       65256,
       65257
+     ]
+    },
+    {
+     "item": "56.25",
+     "title": "S4TWL - Oil & Gas inconsistency reports deprecation",
+     "lines": [
+      66779,
+      66814,
+      66868
      ]
     }
    ],
@@ -1052,6 +1102,15 @@
       65244,
       65256,
       65257
+     ]
+    },
+    {
+     "item": "56.25",
+     "title": "S4TWL - Oil & Gas inconsistency reports deprecation",
+     "lines": [
+      66780,
+      66815,
+      66869
      ]
     }
    ],
@@ -1285,8 +1344,8 @@
   "T438M": {
    "2023": [
     {
-     "item": "30.9",
-     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "item": "30.38",
+     "title": "S4TWL - Simplified Sourcing",
      "lines": [
       42625
      ]
@@ -1305,8 +1364,8 @@
   "T399X": {
    "2023": [
     {
-     "item": "30.9",
-     "title": "S4TWL - ANSI/ISA S95 Interface",
+     "item": "30.38",
+     "title": "S4TWL - Simplified Sourcing",
      "lines": [
       42450
      ]

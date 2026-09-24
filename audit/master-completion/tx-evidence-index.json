@@ -1,11 +1,11 @@
 {
  "generatedAt": "2026-09-24",
- "codes": 1738,
- "withOfficial": 1428,
- "withGuiEntry": 951,
- "withLeadingApps": 191,
- "withHelpHit": 1051,
- "namedBySimplificationList": 319,
+ "codes": 1730,
+ "withOfficial": 1420,
+ "withGuiEntry": 946,
+ "withLeadingApps": 188,
+ "withHelpHit": 1045,
+ "namedBySimplificationList": 311,
  "skippedIdSyntax": [
   "/UI2/INVALIDATE_GLOBAL_CACHES",
   "F.01"
@@ -1508,38 +1508,6 @@
    "leading": 0
   },
   {
-   "code": "CM01",
-   "official": 6,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 2
-  },
-  {
-   "code": "CM02",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CM31",
-   "official": 1,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "CM50",
-   "official": 2,
-   "s4": 0,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "CMOD",
    "official": 3,
    "s4": 2,
@@ -2060,22 +2028,6 @@
    "leading": 0
   },
   {
-   "code": "CO02",
-   "official": 8,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 2
-  },
-  {
-   "code": "CO03",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
-  },
-  {
    "code": "CO04",
    "official": 0,
    "s4": 0,
@@ -2111,14 +2063,6 @@
    "code": "CO08",
    "official": 3,
    "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CO09",
-   "official": 6,
-   "s4": 2,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -2238,14 +2182,6 @@
   {
    "code": "CO52",
    "official": 0,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "CO53",
-   "official": 2,
    "s4": 0,
    "erp": 0,
    "gui": false,
@@ -12149,7 +12085,7 @@
   },
   {
    "code": "SU22",
-   "official": 5,
+   "official": 6,
    "s4": 2,
    "erp": 1,
    "gui": false,

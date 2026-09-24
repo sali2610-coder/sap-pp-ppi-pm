@@ -16,7 +16,9 @@ const ids = JSON.parse(readFileSync("scratchpad/coverage-ids.json", "utf8"));
 const FAMILY = process.env.FAMILY || "transactions";
 const PREFIX = { transactions: "tx:", tables: "table:", functions: "fm:" }[FAMILY];
 const codes = ids[FAMILY].map((r) => r.id.slice(PREFIX.length));
-const HEAD = /^(\d+(?:\.\d+)+)\.?\s+(\S.{3,})$/;
+// The 2023 text extract glues many headings to their title ("12.10S4TWL - ...",
+// "10.2.10Default Transaction Types ..."): accept no space before an uppercase title.
+const HEAD = /^(\d+(?:\.\d+)+)\.?(?:\s+|(?=[A-Z]))(\S.{3,})$/;
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
 const out = { generatedAt: new Date().toISOString(), lists: LISTS.map(({ file, ...l }) => l), codes: {} };
 for (const L of LISTS) {
@@ -25,6 +27,10 @@ for (const L of LISTS) {
   const items = [];
   lines.forEach((ln, i) => {
     const m = ln.match(HEAD);
+    // a glued heading must still look like one: at most three levels and a title of
+    // two words or more (the table cross-reference "item 2.1.11.7Simplified" is not)
+    const glued = m && !/^\d+(?:\.\d+)+\.?\s/.test(ln);
+    if (glued && (m[1].split(".").length > 3 || m[2].trim().split(/\s+/).length < 2)) return;
     if (m && !/\.{4,}/.test(ln) && !/\s\d+\s*$/.test(m[2])) items.push({ n: m[1], title: m[2].trim(), start: i });
   });
   items.forEach((it, k) => { it.end = k + 1 < items.length ? items[k + 1].start : lines.length; });

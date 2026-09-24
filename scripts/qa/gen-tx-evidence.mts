@@ -169,6 +169,33 @@ const specificEnough = aboutTransaction;
 
 /* -------------------------------------------------------------- per code */
 type Ev = Record<string, unknown>;
+/** The Simplification List items that name the code, one row per item (2025 first), each quoting
+ *  the exact line of the item text that prints the code. Context only: what the item rules for
+ *  this code is left to a researcher. Shared by build() and --resimpl. */
+function simplRows(code: string) {
+  const rows: any[] = [];
+  const named: { key: string; item: string; title: string; lines: number[] }[] =
+    Object.entries(SIMPL.codes[code] || {}).flatMap(([key, items]: [string, any]) => (items as any[]).map((it) => ({ key, ...it })))
+      .sort((a, b) => b.key.localeCompare(a.key));
+  for (const it of named.slice(0, 3)) {
+    const L = LISTS[it.key];
+    const hit = (it.lines || []).map((n: number) => L.lines[n - 1] || "").find((ln: string) => tokenRe(code).test(ln));
+    if (!hit) continue;
+    const quote = dash(hit.replace(/\s+/g, " ").trim()).slice(0, 240);
+    if (RISKY.test(quote)) continue;
+    rows.push({
+      sourceType: "simplification_item", sourceTitle: `${L.title} · item ${it.item} ${dash(it.title)}`,
+      url: L.url, product: "SAP S/4HANA", edition: "on-premise", release: L.release, accessedAt: "DATE",
+      claim: `פריט ${it.item} '${dash(it.title)}' ברשימת הפישוט הרשמית (${L.release}, גרסת מסמך ${L.version}) נוקב בקוד ${code} בשורה: '${quote}'. הפריט מובא כאן כהקשר בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר.`,
+      verificationLevel: "sap_official_verified",
+    });
+  }
+  return { rows, named };
+}
+const namedNoteOf = (named: { key: string; item: string }[]) => named.length
+  ? `הקוד נזכר ב-${named.length} פריטים של רשימות הפישוט הרשמיות (${named.map((n) => `${LISTS[n.key].release} ${n.item}`).join(", ")}); מה שהפריטים קובעים לגבי הקוד טרם נקרא במחקר, ולכן לא נכתבה הכרעת מעמד. רשומה מחקרית תחליף רשומה זו כששרשרת המחקר תגיע לקוד (audit/master-completion/tx-chain-args*.json).`
+  : `אף פריט ברשימות הפישוט הרשמיות (${simplLists}) אינו נוקב בקוד (סריקה מלאה של הטקסט, scripts/qa/simpl-tcode-index.mjs); זה ממצא שלילי מתועד ולא הכרעה.`;
+
 async function build(code: string) {
   const r = reg.get(code);
   if (!r) return null;
@@ -248,28 +275,9 @@ async function build(code: string) {
     });
   }
 
-  // The Simplification List items that name the code, one row per item (2025 first), each quoting
-  // the exact line of the item text that prints the code. Context only: what the item rules for
-  // this code is left to a researcher.
-  const named: { key: string; item: string; title: string; lines: number[] }[] =
-    Object.entries(SIMPL.codes[code] || {}).flatMap(([key, items]: [string, any]) => (items as any[]).map((it) => ({ key, ...it })))
-      .sort((a, b) => b.key.localeCompare(a.key));
-  for (const it of named.slice(0, 3)) {
-    const L = LISTS[it.key];
-    const hit = (it.lines || []).map((n: number) => L.lines[n - 1] || "").find((ln: string) => tokenRe(code).test(ln));
-    if (!hit) continue;
-    const quote = dash(hit.replace(/\s+/g, " ").trim()).slice(0, 240);
-    if (RISKY.test(quote)) continue;
-    evidence.push({
-      sourceType: "simplification_item", sourceTitle: `${L.title} · item ${it.item} ${dash(it.title)}`,
-      url: L.url, product: "SAP S/4HANA", edition: "on-premise", release: L.release, accessedAt: "DATE",
-      claim: `פריט ${it.item} '${dash(it.title)}' ברשימת הפישוט הרשמית (${L.release}, גרסת מסמך ${L.version}) נוקב בקוד ${code} בשורה: '${quote}'. הפריט מובא כאן כהקשר בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר.`,
-      verificationLevel: "sap_official_verified",
-    });
-  }
-  const namedNote = named.length
-    ? `הקוד נזכר ב-${named.length} פריטים של רשימות הפישוט הרשמיות (${named.map((n) => `${LISTS[n.key].release} ${n.item}`).join(", ")}); מה שהפריטים קובעים לגבי הקוד טרם נקרא במחקר, ולכן לא נכתבה הכרעת מעמד. רשומה מחקרית תחליף רשומה זו כששרשרת המחקר תגיע לקוד (audit/master-completion/tx-chain-args*.json).`
-    : `אף פריט ברשימות הפישוט הרשמיות (${simplLists}) אינו נוקב בקוד (סריקה מלאה של הטקסט, scripts/qa/simpl-tcode-index.mjs); זה ממצא שלילי מתועד ולא הכרעה.`;
+  const { rows: simpl, named } = simplRows(code);
+  evidence.push(...simpl);
+  const namedNote = namedNoteOf(named);
 
   const notes = [
     `רשומה שנוצרה באופן דטרמיניסטי (scripts/qa/gen-tx-evidence.mts, ${DATE}) ללא מודל שפה: כל טענה מועתקת מרשומת המאגר, מרשומות החיפוש של help.sap.com או מספריית האפליקציות של Fiori, ולא נכתבה הכרעת מעמד.`,
@@ -286,6 +294,33 @@ async function build(code: string) {
 
 /* ------------------------------------------------------------------ driver */
 const results: any[] = [];
+/** --resimpl: no network. Load the committed records, drop the codes research has written since,
+ *  and rebuild only what simpl-tcode-index.json decides (the Simplification rows and the notes
+ *  sentence that names the items), keeping every other row and the original access date. */
+const RESIMPL = args.includes("--resimpl");
+let OUTDATE = DATE;
+if (RESIMPL) {
+  const { TX_VERIFICATION_AUTO } = await import("@/data/verification/transactions-auto");
+  OUTDATE = /const DATE = "([^"]+)"/.exec(read(OUT))![1];
+  const oldRows = new Map(JSON.parse(read(INDEX_OUT)).rows.map((x: any) => [x.code, x]));
+  const tok = (v: any) => (v === OUTDATE ? "DATE" : v);
+  const NOTE = /(?:הקוד נזכר ב-|אף פריט ברשימות הפישוט הרשמיות ).*?(?= מעמד S\/4HANA לא נקבע ממקור רשמי:)/;
+  for (const rec of TX_VERIFICATION_AUTO) {
+    const code = rec.id.slice(3);
+    if (authored.has(code)) continue;
+    const { rows, named } = simplRows(code);
+    const evidence = [...rec.evidence.filter((e: any) => e.sourceType !== "simplification_item").map((e: any) => ({ ...e, accessedAt: tok(e.accessedAt) })),
+      ...rows.map((e: any) => ({ ...e, context: true }))];
+    const before = rec.notes ?? "";
+    if (!NOTE.test(before)) throw new Error(`${code}: notes sentence not found`);
+    const notes = before.replace(NOTE, namedNoteOf(named));
+    const o: any = oldRows.get(code) || {};
+    results.push({ code, record: { id: rec.id, evidence, lastVerifiedAt: "DATE", notes }, official: evidence.filter((e: any) => e.verificationLevel === "sap_official_verified").length,
+      s4hits: o.s4 ?? 0, erphits: o.erp ?? 0, gui: !!o.gui, leading: o.leading ?? 0, named: named.length });
+  }
+  codes = results.map((x) => x.code);
+} else {
+
 const queue = [...codes];
 async function worker() {
   while (queue.length) {
@@ -295,6 +330,7 @@ async function worker() {
   }
 }
 await Promise.all(Array.from({ length: 4 }, worker));
+}
 results.sort((a, b) => a.code.localeCompare(b.code));
 
 if (pilot) {
@@ -314,7 +350,7 @@ const lit = (v: unknown, ind: string): string => {
 };
 const header = `/* Project NEO · S/4HANA verification overlay · transactions, generated shard.
    ----------------------------------------------------------------------------
-   GENERATED by scripts/qa/gen-tx-evidence.mts on ${DATE}. Do not hand-edit: regenerate.
+   GENERATED by scripts/qa/gen-tx-evidence.mts on ${OUTDATE}. Do not hand-edit: regenerate.
    One record per transaction code no research chain has written yet: the codes no item of
    either official Simplification List names, and the named codes the chains have not reached
    (for those, the item line that prints the code is quoted as context).
@@ -325,7 +361,7 @@ const header = `/* Project NEO · S/4HANA verification overlay · transactions, 
    A research chain that writes a code supersedes it (the generator skips authored codes). */
 import type { VerificationRecord } from "@/lib/evidence/types";
 
-const DATE = "${DATE}";
+const DATE = "${OUTDATE}";
 /** Types each record at its own boundary: one 1,400-element literal array makes TypeScript
  *  infer a union too large to represent (TS2590). */
 const R = (r: VerificationRecord): VerificationRecord => r;
@@ -336,7 +372,7 @@ ${results.map((r) => `  R(${lit(r.record, "  ")}),`).join("\n")}
 `;
 writeFileSync(OUT, header);
 writeFileSync(INDEX_OUT, JSON.stringify({
-  generatedAt: DATE, codes: results.length,
+  generatedAt: OUTDATE, codes: results.length,
   withOfficial: results.filter((r) => r.official > 0).length,
   withGuiEntry: results.filter((r) => r.gui).length,
   withLeadingApps: results.filter((r) => r.leading > 0).length,

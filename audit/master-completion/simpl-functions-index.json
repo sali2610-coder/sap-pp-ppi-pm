@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-22T13:33:26.527Z",
+ "generatedAt": "2026-09-24T17:41:58.897Z",
  "lists": [
   {
    "key": "2025",
@@ -212,7 +212,13 @@
      "item": "5.2",
      "title": "Logistics Information System (LIS)",
      "lines": [
-      35328,
+      35328
+     ]
+    },
+    {
+     "item": "27.12",
+     "title": "S4TWL - CWM in SAP S/4HANA",
+     "lines": [
       35620
      ]
     }
@@ -246,8 +252,8 @@
   "BAPI_MATERIAL_SAVEDATA": {
    "2023": [
     {
-     "item": "5.2",
-     "title": "Logistics Information System (LIS)",
+     "item": "27.12",
+     "title": "S4TWL - CWM in SAP S/4HANA",
      "lines": [
       35615
      ]
