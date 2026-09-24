@@ -28,12 +28,13 @@ import { CROSS_PROCESS_PRACTICES } from "../data/best-practices/cross-processes.
 import { PPPI_PROCESS_PRACTICES } from "../data/best-practices/pppi-processes.ts";
 import { PM_PROCESS_PRACTICES_2 } from "../data/best-practices/pm-processes-2.ts";
 import { CROSS_PROCESS_PRACTICES_2 } from "../data/best-practices/cross-processes-2.ts";
+import { CATALOG_PROCESS_PRACTICES } from "../data/best-practices/catalog-2026-09.ts";
 
 const REGISTRY = [...OBJECT_REGISTRY, ...IDOC_BASIC_TYPES];
 // Same precedence as data/verification/index.ts: a researched record supersedes the generated one.
 const RESEARCHED_TX = new Set([...TX_VERIFICATION, ...TX_VERIFICATION_B].map((r) => r.id));
 const TX_AUTO = TX_VERIFICATION_AUTO.filter((r) => !RESEARCHED_TX.has(r.id));
-const BPS = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES, ...PP_PROCESS_PRACTICES, ...CROSS_PROCESS_PRACTICES, ...PPPI_PROCESS_PRACTICES, ...PM_PROCESS_PRACTICES_2, ...CROSS_PROCESS_PRACTICES_2];
+const BPS = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES, ...PP_PROCESS_PRACTICES, ...CROSS_PROCESS_PRACTICES, ...PPPI_PROCESS_PRACTICES, ...PM_PROCESS_PRACTICES_2, ...CROSS_PROCESS_PRACTICES_2, ...CATALOG_PROCESS_PRACTICES];
 const ALL_RECORDS = [
   ...TABLE_VERIFICATION, ...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_AUTO, ...FM_VERIFICATION, ...IDOC_VERIFICATION,
   ...CDS_VERIFICATION, ...FIORI_VERIFICATION, ...ENH_VERIFICATION, ...OBJECT_VERIFICATION,
