@@ -17,7 +17,7 @@ import {
   bapiHref, cdsHref, enhHref, fioriHref, idocHref, objectHref, txHref,
 } from "@/components/neo-shell/reference/ref-links";
 import { makeId, nameOf, parseId } from "./canonical";
-import { conflictCount, derivedLevel, levelOf, pickStatus } from "./s4-status";
+import { conflictCount, decidingEvidence, derivedLevel, levelOf, pickStatus } from "./s4-status";
 import { depthInputFor, depthOf, successorOkFor, DEPTH_HE, type Catalog, type DepthInput } from "./depth";
 import {
   S4_STATUS_DOT, S4_STATUS_HE, VERIFICATION_DOT, VERIFICATION_HE,
@@ -146,18 +146,20 @@ export function evidenceBlock(
   const rec = recordFor(id);
   const status = pickStatus(rec?.status, derived);
   const evidence = rec?.evidence ?? [];
-  const level = evidence.length ? levelOf(evidence) : derivedLevel(status);
+  // Context rows are shown with the sources but never decide the level or the depth.
+  const deciding = decidingEvidence(evidence);
+  const level = deciding.length ? levelOf(deciding) : derivedLevel(status);
 
   const xrefs = [...new Set(rec?.xrefs ?? [])];
   const xrefsResolved = xrefs.filter((x) => resolvesInApp(x)).length;
-  const officialWithUrl = evidence.filter((e) => e.verificationLevel === "sap_official_verified" && !!e.url).length;
+  const officialWithUrl = deciding.filter((e) => e.verificationLevel === "sap_official_verified" && !!e.url).length;
   const lastVerifiedAt = rec?.lastVerifiedAt ?? maxIso(evidence.map((e) => e.lastVerifiedAt));
 
   const input = depthInputFor(catalog, {
     ...facts,
     status,
     level,
-    evidence: evidence.length,
+    evidence: deciding.length,
     officialWithUrl,
     xrefsResolved,
     xrefsTotal: xrefs.length,
@@ -189,10 +191,11 @@ export function evidenceBlock(
       release: e.release ?? null,
       accessedAt: e.accessedAt,
       edition: e.edition satisfies Edition,
+      ...(e.context ? { context: true } : {}),
     })),
     lastVerifiedAt,
     reviewer: rec?.reviewer ?? null,
-    conflicts: conflictCount(evidence),
+    conflicts: conflictCount(deciding),
     needsVerification: level === "verification_required" || status.status === "verification_required",
     depth: { level: depth, he: DEPTH_HE[depth] },
   };

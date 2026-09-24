@@ -73,7 +73,9 @@ const KINDS: readonly CanonicalKind[] = [
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const SYNTAX: Record<CanonicalKind, RegExp> = {
   table: /^[A-Z0-9_\/]{2,30}$/,
-  tx: /^[A-Z0-9_\/]{2,20}$/,
+  // A hyphen is legal in a transaction code: SAP S/4HANA 2025 FPS01 documentation (General Ledger
+  // Accounting, loio 6e60d7531a4d424de10000000a174cb4) prints "the alternative standard transaction F-02".
+  tx: /^[A-Z0-9_\/-]{2,20}$/,
   fm: /^[A-Z0-9_\/]{3,30}$/,
   "idoc:msg": /^[A-Z0-9_]{3,30}$/,
   "idoc:basic": /^[A-Z0-9_]{3,28}\d{2}$/,
@@ -246,7 +248,7 @@ export function validateRecords(records: VerificationRecord[], u: Universe): Pro
     const st = r.status;
     if (st?.successor && !validId(st.successor)) out.push({ rule: "bad-id-syntax", id, detail: `successor ${st.successor}` });
 
-    const level = levelOfEvidence(r.evidence);
+    const level = levelOfEvidence(r.evidence.filter((e) => !e.context));
     const kind = parse(id)?.kind;
 
     // 1. no-source
@@ -340,7 +342,7 @@ export function validateBestPractices(bps: BestPracticeLike[], u: Universe): Pro
       if (!validId(x)) out.push({ rule: "bad-id-syntax", id, detail: `xref ${x}` });
       else if (!resolveId(u, x)) out.push({ rule: "dangling-xref", id, detail: `xref ${x}` });
     }
-    const level = levelOfEvidence(b.evidence);
+    const level = levelOfEvidence(b.evidence.filter((e) => !e.context));
     // A practice is advice; advice with no source is exactly what this layer forbids.
     if (b.evidence.length === 0) out.push({ rule: "no-source", id, detail: "best practice without evidence" });
     const st = b.status;

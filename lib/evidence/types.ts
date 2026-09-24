@@ -83,6 +83,11 @@ export interface Evidence {
   conflictingEvidence?: Evidence[];
   /** Repository provenance when sourceType === "repository": "data/s4-impact.ts#MATDOC". */
   repoRef?: string;
+  /** A context row: it shows where the name appears (an official page that prints it, the
+   *  Fiori Apps Library entry) without deciding the record's S/4HANA status. It is listed
+   *  with the sources but never counted toward the record's verification level or depth,
+   *  so adding context can never lift a "verified" pill (set on generated records). */
+  context?: boolean;
 }
 
 /* ------------------------------------------------------- unified status */
@@ -319,7 +324,7 @@ export interface EvidenceBlockData {
   level: { key: VerificationLevel; he: string; dot: string };
   sources: {
     title: string; url: string | null; kind: SourceType; release: string | null;
-    accessedAt: string; edition: Edition;
+    accessedAt: string; edition: Edition; context?: boolean;
   }[];
   lastVerifiedAt: string | null;
   reviewer: string | null;

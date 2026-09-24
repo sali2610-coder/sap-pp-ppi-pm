@@ -96,6 +96,7 @@ export function EvidenceBlock({ e }: { e: EvidenceBlockData }) {
                   <span className="nev-t">{s.title}</span>
                 )}
                 <span className="nev-meta">{SOURCE_HE[s.kind]}</span>
+                {s.context ? <span className="nev-meta">הקשר בלבד, לא מכריע במעמד</span> : null}
                 {s.release ? <span className="nev-meta nev-num">{s.release}</span> : null}
                 <span className="nev-meta">
                   נגיש בתאריך <span className="nev-num">{s.accessedAt}</span>

@@ -28,6 +28,8 @@ const OUT = opt("--out") || "data/verification/transactions-auto.ts";
 const INDEX_OUT = "audit/master-completion/tx-evidence-index.json";
 const pilot = opt("--pilot")?.split(",").map((s) => s.trim().toUpperCase()).filter(Boolean);
 const limit = Number(opt("--limit") || 0);
+/** --from-raw: rebuild the records from the saved responses in --raw instead of fetching again. */
+const FROM_RAW = args.includes("--from-raw");
 mkdirSync(RAW, { recursive: true });
 
 /* ------------------------------------------------------------------ the set */
@@ -36,7 +38,10 @@ const authored = new Set(
   [...(read("data/verification/transactions.ts") + read("data/verification/transactions-b.ts")).matchAll(/^\s{4}id:\s*"tx:([^"]+)"/gm)].map((m) => m[1]),
 );
 const rest: { id: string }[] = JSON.parse(read("audit/master-completion/tx-queue-rest.json")).rest;
-let codes = pilot ?? rest.map((r) => r.id.replace(/^tx:/, "")).filter((c) => !authored.has(c));
+// Same syntax as lib/evidence/canonical.ts (tx): a registry name outside it cannot carry a record.
+const TX_SYNTAX = /^[A-Z0-9_\/-]{2,20}$/;
+const skippedSyntax = rest.map((r) => r.id.replace(/^tx:/, "")).filter((c) => !TX_SYNTAX.test(c));
+let codes = pilot ?? rest.map((r) => r.id.replace(/^tx:/, "")).filter((c) => !authored.has(c) && TX_SYNTAX.test(c));
 if (limit) codes = codes.slice(0, limit);
 const simplLists = JSON.parse(read("audit/master-completion/simpl-tcode-index.json")).lists
   .map((l: any) => { const v = /document version ([\d.]+)/.exec(l.title || ""); return `${l.release}${v ? ` גרסת מסמך ${v[1]}` : ""}`; }).join(", ");
@@ -63,12 +68,14 @@ async function getJson(url: string): Promise<any> {
   }
   return { __status: "failed" };
 }
-const ENT: Record<string, string> = { nbsp: " ", amp: "&", quot: '"', apos: "'", lt: "<", gt: ">", hellip: "...", ndash: "-", mdash: "-", rsquo: "'", lsquo: "'", rdquo: '"', ldquo: '"', reg: "(R)", trade: "(TM)", copy: "(C)" };
+const ENT: Record<string, string> = { nbsp: " ", amp: "&", quot: '"', apos: "'", lt: "<", gt: ">", hellip: "...", ndash: "-", mdash: "-", rsquo: "'", lsquo: "'", rdquo: '"', ldquo: '"', reg: "(R)", trade: "(TM)", copy: "(C)",
+  rarr: "→", larr: "←", harr: "↔", bull: "•", middot: "·", times: "×", deg: "°", sect: "§", laquo: "«", raquo: "»",
+  auml: "ä", ouml: "ö", uuml: "ü", Auml: "Ä", Ouml: "Ö", Uuml: "Ü", szlig: "ß", eacute: "é", egrave: "è", agrave: "à", ccedil: "ç" };
 const clean = (s: unknown) => String(s ?? "")
   .replace(/<[^>]+>/g, "")
   .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
   .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
-  .replace(/&([a-z]+);/gi, (m, n) => ENT[n.toLowerCase()] ?? m)
+  .replace(/&([a-z]+);/gi, (m, n) => ENT[n] ?? ENT[n.toLowerCase()] ?? m)
   .replace(/\s+/g, " ").replace(/(\.\.\.\s*){2,}/g, "... ").trim();
 async function helpSearch(q: string, product: string, size: number) {
   const p = new URLSearchParams({ area: "content", q, language: "en-US", state: "PRODUCTION", transtype: "standard", product, format: "json", from: "0", size: String(size) });
@@ -133,10 +140,17 @@ type Ev = Record<string, unknown>;
 async function build(code: string) {
   const r = reg.get(code);
   if (!r) return null;
-  const [s4, erp, lead, gui] = await Promise.all([
-    helpSearch(code, "SAP_S4HANA_ON-PREMISE", 20), helpSearch(code, "SAP_ERP", 10), falLeading(code), falGuiEntry(code),
-  ]);
-  writeFileSync(path.join(RAW, `${code.replace(/\//g, "_")}.json`), JSON.stringify({ code, fetched: DATE, s4, erp, lead, gui }, null, 1));
+  const rawFile = path.join(RAW, `${code.replace(/\//g, "_")}.json`);
+  let s4, erp, lead, gui;
+  if (FROM_RAW && existsSync(rawFile)) {
+    ({ s4, erp, lead, gui } = JSON.parse(readFileSync(rawFile, "utf8")));
+    for (const res of [s4, erp]) for (const x of res.records) { x.title = clean(x.title); x.deliverable = clean(x.deliverable); x.snippet = clean(x.snippet); }
+  } else {
+    [s4, erp, lead, gui] = await Promise.all([
+      helpSearch(code, "SAP_S4HANA_ON-PREMISE", 20), helpSearch(code, "SAP_ERP", 10), falLeading(code), falGuiEntry(code),
+    ]);
+    writeFileSync(rawFile, JSON.stringify({ code, fetched: DATE, s4, erp, lead, gui }, null, 1));
+  }
 
   const evidence: Ev[] = [];
   const file = primaryFile(code);
@@ -208,6 +222,9 @@ async function build(code: string) {
     `אף פריט ברשימות הפישוט הרשמיות (${simplLists}) אינו נוקב בקוד (סריקה מלאה של הטקסט, scripts/qa/simpl-tcode-index.mjs); זה ממצא שלילי מתועד ולא הכרעה.`,
     `מעמד S/4HANA לא נקבע ממקור רשמי: הפעולה שסוגרת היא SE93 במערכת היעד (קיום הקוד, התוכנית והמסך), או מקור רשמי הנוקב במעמד. לא בוצעה בדיקה במערכת SAP חיה.`,
   ].join(" ");
+  // Every row of a generated record is context: it shows where the code appears and never
+  // decides the record's level or depth (lib/evidence/types.ts, Evidence.context).
+  for (const e of evidence) e.context = true;
   const official = evidence.filter((e) => e.verificationLevel === "sap_official_verified").length;
   return { code, record: { id: `tx:${code}`, evidence, lastVerifiedAt: "DATE", notes }, official, s4hits: s4hits.length, erphits: erphits.length, gui: !!g, leading: leading.length };
 }
@@ -234,6 +251,7 @@ if (pilot) {
 /* ------------------------------------------------------------- serialise */
 const lit = (v: unknown, ind: string): string => {
   if (v === "DATE") return "DATE";
+  if (typeof v === "boolean") return String(v);
   if (typeof v === "string") return JSON.stringify(v);
   if (Array.isArray(v)) return `[\n${v.map((x) => `${ind}  ${lit(x, ind + "  ")},`).join("\n")}\n${ind}]`;
   if (v && typeof v === "object") return `{\n${Object.entries(v).map(([k, x]) => `${ind}  ${k}: ${lit(x, ind + "  ")},`).join("\n")}\n${ind}}`;
@@ -252,9 +270,12 @@ const header = `/* Project NEO · S/4HANA verification overlay · transactions, 
 import type { VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "${DATE}";
+/** Types each record at its own boundary: one 1,400-element literal array makes TypeScript
+ *  infer a union too large to represent (TS2590). */
+const R = (r: VerificationRecord): VerificationRecord => r;
 
 export const TX_VERIFICATION_AUTO: VerificationRecord[] = [
-${results.map((r) => `  ${lit(r.record, "  ")},`).join("\n")}
+${results.map((r) => `  R(${lit(r.record, "  ")}),`).join("\n")}
 ];
 `;
 writeFileSync(OUT, header);
@@ -264,6 +285,7 @@ writeFileSync(INDEX_OUT, JSON.stringify({
   withGuiEntry: results.filter((r) => r.gui).length,
   withLeadingApps: results.filter((r) => r.leading > 0).length,
   withHelpHit: results.filter((r) => r.s4hits + r.erphits > 0).length,
+  skippedIdSyntax: skippedSyntax,
   rows: results.map((r) => ({ code: r.code, official: r.official, s4: r.s4hits, erp: r.erphits, gui: r.gui, leading: r.leading })),
 }, null, 1));
 console.log(`${results.length} records -> ${OUT}; with an official row ${results.filter((r) => r.official > 0).length}; GUI entry in S32OP ${results.filter((r) => r.gui).length}; leading apps ${results.filter((r) => r.leading > 0).length}; help hits ${results.filter((r) => r.s4hits + r.erphits > 0).length}; raw -> ${RAW}`);

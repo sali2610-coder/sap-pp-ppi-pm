@@ -300,6 +300,9 @@ export const LEVEL_RANK: Record<VerificationLevel, number> = {
 
 /** Best tier present; any recorded conflict → conflicting_sources; none →
  *  verification_required. */
+/** The rows that decide a record's level and depth: context rows only show where a name appears. */
+export const decidingEvidence = (evidence: readonly Evidence[]): Evidence[] => evidence.filter((e) => !e.context);
+
 export function levelOf(evidence: Evidence[]): VerificationLevel {
   if (!evidence || evidence.length === 0) return "verification_required";
   if (evidence.some((e) => (e.conflictingEvidence?.length ?? 0) > 0 || e.verificationLevel === "conflicting_sources")) {
