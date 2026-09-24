@@ -27,7 +27,15 @@
    CL20N_SIMPL_ITEM, CL24N_SIMPL_ITEM_2025 and CL30N_WHATSNEW consts; the CL30N
    Fiori Apps Library row is kept as conflicting_sources ('(Deprecated)' name
    variant at S32OP that no other cited record confirms). tx:CM01 and tx:CM02
-   refuted at the gate and queued. */
+   refuted at the gate and queued.
+   Batch 6 (2026-09-24): 6 audited capacity-planning records (CM03, CM04, CM05,
+   CM07, CM21, CM25) from verdict.fixedRecord, all resting on the 2025 FPS01
+   item 'S4TWL - Graphical Planning Table' (CM21 also on its 2023 FPS03
+   counterpart); the unaudited tx:CM04 draft left by the interrupted previous
+   run was replaced by its audited version. Status sources point at the shared
+   CM03_SIMPL_ITEM, CM04_SIMPL_ITEM, CM07_SIMPL_ITEM, CM21_SIMPL_ITEM_2025 and
+   CM25_SIMPL_ITEM consts; CM05 carries evidence only (no authored status, as
+   audited). None refuted. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -932,6 +940,114 @@ const CL30N_WHATSNEW: Evidence = {
     "S/4HANA and SAP S/4HANA Cloud Private Edition', Valid as Of='2023 FPS03'. זהו שינוי מתועד בדף What's New, " +
     "ייחודי ל-CL30N, החל ממהדורת On-Premise 2023 FPS03.",
   verificationLevel: "sap_official_verified",
+};
+
+const CM03_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "S4TWL - Graphical Planning Table (SAP S/4HANA 2025 FPS01 Simplification List, item 9.5.4)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.5.4 (S4TWL - Graphical Planning Table, SAP Note 2268050, סעיף Exceptions) קובע במפורש: 'The following " +
+    "CM* transactions do not use graphical planning boards. Therefore, they are not part of SAP S/4HANA " +
+    "compatibility scope. CM01, CM02, CM03, CM04, CM05, CM07, CM26, CM28, CM34, CM35, CM37, CM38, CM50, CM53, " +
+    "CM56.' כלומר הפריט קובע ש-CM03 אינה מבוססת Gantt-Chart גרפי, ולכן אינה כפופה למגבלת ה-compatibility scope " +
+    "(הזמנית, בעלת תוקף פקיעה) שחלה על CM21/CM22/CM23/CM25 וכדומה; הפריט אינו קובע לגבי CM03 עצמה החלפה, הסרה או " +
+    "שינוי פונקציונלי, אלא הוצאה מרשימת הקוד הכפוף ל-compatibility scope.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CM04_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item 9.5.4 S4TWL - " +
+    "Graphical Planning Table (PP-CRP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.5.4 עוסק בלוח התכנון הגרפי (Graphical Planning Table / Gantt-Chart) בטרנזקציות CM* ומסמן שהוא חלק מ-SAP " +
+    "S/4HANA compatibility scope עם זכויות שימוש מוגבלות (סעיף Solution, הפניה ל-SAP Note 2269324). תחת הכותרת " +
+    "Exceptions נכתב במפורש: 'The following CM* transactions do not use graphical planning boards. Therefore, they " +
+    "are not part of SAP S/4HANA compatibility scope. CM01, CM02, CM03, CM04, CM05, CM07, CM26, CM28, CM34, CM35, " +
+    "CM37, CM38, CM50, CM53, CM56.' כלומר CM04 מנוי בפירוש כטרנזקציה שאינה כפופה למגבלת ה-compatibility scope " +
+    "שהפריט קובע לטרנזקציות עם לוח תכנון גרפי (CM21/CM22/CM23/CM25 וכד'); הפריט אינו קובע ל-CM04 סטטוס של החלפה, " +
+    "הפסקה או הגבלה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CM07_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item 9.5.4 S4TWL - " +
+    "Graphical Planning Table (PP-CRP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.5.4 (הערת SAP 0002268050, רכיב יישום PP-CRP) עוסק בלוח התכנון הגרפי (Graphical Planning Table / " +
+    "Gantt-Chart) בטרנזקציות CM* ומסמן שהוא חלק מ-SAP S/4HANA compatibility scope עם זכויות שימוש מוגבלות (סעיף " +
+    "Solution, הפניה ל-SAP Note 2269324, מזהה 451 במטריצת ה-compatibility). תחת הכותרת Exceptions נכתב במפורש: 'The " +
+    "following CM* transactions do not use graphical planning boards. Therefore, they are not part of SAP S/4HANA " +
+    "compatibility scope. CM01, CM02, CM03, CM04, CM05, CM07, CM26, CM28, CM34, CM35, CM37, CM38, CM50, CM53, " +
+    "CM56.' כלומר CM07 מנויה בפירוש כטרנזקציה שאינה כפופה למגבלת ה-compatibility scope שהפריט קובע לטרנזקציות עם " +
+    "לוח תכנון גרפי (CM21/CM22/CM23/CM25 וכד', וכן לוח התכנון הגרפי של MF50). בפריט לא נקבע ל-CM07 סטטוס של החלפה, " +
+    "הפסקה או הגבלה; הוא מוציא אותה מהמגבלה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CM21_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item 9.5.4 S4TWL - " +
+    "Graphical Planning Table (PP-CRP, SAP Note 2268050)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.5.4 (SAP Note 2268050) מדפיס תחת 'Other Terms': 'Gantt-Chart; Graphical Planning Board; Capacity " +
+    "Levelling; Transactions CM21, CM22, CM23, CM25, CM29, MF50; REO; DMC'. הוא קובע ש-'Transactions CM21, CM22, " +
+    "CM23, CM25, etc with graphical planning table are part of the SAP S/4HANA compatibility scope' עם זכויות שימוש " +
+    "מוגבלות (מפנה ל-SAP Note 2269324, מזהה 451), וכי 'Transactions CM* with graphical planning board can be " +
+    "replaced by one of the following modules: Capacity Planning and Scheduling CPS; Production Planning and " +
+    "Detailed Scheduling PP/DS'. תחת CPS מפורטות האפליקציות 'Manage Work Center Capacity' (F3289) לניטור עומסים, " +
+    "ו-'Capacity Planning Table (F3770)' או 'Capacity Planning Board (F3951)' לאיזון קיבולת בפועל. הפריט מציין " +
+    "רשימת חריגים (CM01, CM02, CM03, CM04, CM05, CM07, CM26, CM28, CM34, CM35, CM37, CM38, CM50, CM53, CM56) שאינן " +
+    "משתמשות בלוח הגרפי ולכן אינן ב-compatibility scope; CM21 אינה ברשימת החריגים הזו.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CM25_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition 2025 - " +
+    "Feature Pack Stack 1 (Document Version 1.36) · item 9.5.4 S4TWL - Graphical Planning Table, pp. 779-780",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  verificationLevel: "sap_official_verified",
+  claim:
+    "פריט הפישוט 9.5.4 S4TWL - Graphical Planning Table (הערה 0002268050, רכיב היישום PP-CRP) נקרא בטקסט המלא " +
+    "מ-scratchpad/official/SIMPL_OP2025.pdf.txt (שורות 43080-43170). תחת Other Terms מופיעים הקודים 'Transactions " +
+    "CM21, CM22, CM23, CM25, CM29, MF50'. בפרק Solution הפריט קובע במפורש: 'Transactions CM21, CM22, CM23, CM25, " +
+    "etc with graphical planning table are part of the SAP S/4HANA compatibility scope'. פרק Exceptions מונה את " +
+    "הקודים CM01, CM02, CM03, CM04, CM05, CM07, CM26, CM28, CM34, CM35, CM37, CM38, CM50, CM53, CM56 כטרנזקציות " +
+    "שאינן משתמשות בלוח תכנון גרפי ולכן אינן ב-compatibility scope הזה; CM25 אינה ברשימת החריגים. הפריט מסביר שלוח " +
+    "התכנון הגרפי (classic Gantt-chart control) של CM25 וטרנזקציות דומות פועל רק ב-SAP GUI ואינו תואם ל'Zero " +
+    "footprint' של S/4HANA, ולכן כפוף לזכויות שימוש מוגבלות ולתאריך תפוגה של ה-compatibility scope לפי הערה 2269324 " +
+    "(מזוהה שם תחת ID 451), ומציע כחלופה מודולית את Capacity Planning and Scheduling (CPS), הכוללת במפורש את 'App " +
+    "Manage Work Center Capacity (F3289)' לאיתור עומסי יתר, או Production Planning and Detailed Scheduling (PP/DS).",
 };
 
 export const TX_VERIFICATION: VerificationRecord[] = [
@@ -6978,5 +7094,504 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "FPS03) והסתירה סומנה בשורת ה-Fiori Apps Library כ-conflicting_sources. מה שיכריע: הערת SAP על CL30N " +
       "שתודפס ברשומה רשמית (אף רשומה מצוטטת אינה מדפיסה כזו, ולכן לא צוין מספר), או בדיקה במערכת 2025 FPS01 " +
       "חיה.",
+  },
+
+  /* ----------------------------------------------------- tx:CM03 */
+  {
+    id: "tx:CM03",
+    evidence: [
+      CM03_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Evaluate Capacity Planning",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/d724bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף דף התפקיד 'Evaluate Capacity Planning' (Technical name: SAP_PP-CAPA_PLAN_EVAL), שנקרא במלואו עם " +
+          "scripts/sap-help-body.mjs במהדורת On-Premise 2025 FPS01, מפרט תחת Activities את הפונקציה 'CM03 Capacity " +
+          "evaluation work center view: Pool' לצד CM01/CM02/CM04/CM05/CM07/CM50 עד CM55, במסגרת המשימה 'You execute " +
+          "capacity planning'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Evaluate Capacity Planning",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/d724bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "בצד ה-ECC (SAP ERP 6.0 EHP8), גוף דף התפקיד 'Evaluate Capacity Planning' (Technical name: " +
+          "SAP_PP-CAPA_PLAN_EVAL), שנקרא עם scripts/sap-help-body.mjs, מפרט את 'CM03 Capacity evaluation work " +
+          "center view: Pool' באותו נוסח ובאותה רשימת פעילויות כמו בדף המקביל של S/4HANA 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library: CM03 - Capac. planning, work center pool (SAP GUI, component PP-CRP-ALY)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CM03')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library (S32OP = SAP S/4HANA 2025 FPS01 On-Premise, נשלפה עם scripts/fal-app.mjs CM03 " +
+          "--release S32OP וגם עם --tcode CM03) מציגה את CM03 כאפליקציית SAP GUI בסטטוס Published, רכיב יישום " +
+          "PP-CRP-ALY (Capacity Evaluations), קטלוג טכני SAP_TC_SCM_PP_BE_APPS:S4PP, intent " +
+          "WorkCenterUtilization-displayPool, טרנזקציה מובילה CM03; שדות Predecessors ו-Successors ריקים (0 " +
+          "successors); רשימת ה-releases רציפה מ-S6OP (1610) ועד S32OP (2025 FPS01), ללא מהדורה שבה האפליקציה חסרה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CM03_SIMPL_ITEM,
+      he:
+        "CM03 (Capacity evaluation work center view: Pool; ב-Fiori Apps Library: Capac. planning, work center pool) " +
+        "נותרה זמינה ב-SAP S/4HANA On-Premise עד למהדורה 2025 FPS01: פריט הפישוט 9.5.4 'S4TWL - Graphical Planning " +
+        "Table' מוציא אותה במפורש מרשימת ה-CM* הכפופה ל-compatibility scope, כיוון שאינה מבוססת Gantt-Chart גרפי, " +
+        "ורשומת ה-Fiori Apps Library מציגה אותה כאפליקציית SAP GUI רציפה מ-1610 ועד 2025 FPS01 ללא קוד יורש. לא " +
+        "אותרה קביעה רשמית להחלפה, הסרה או שינוי פונקציונלי בקוד עצמו.",
+      recommendedAction:
+        "להמשיך להשתמש ב-CM03 להערכת קיבולת לפי מאגר (Pool); לפי פריט הפישוט היא אינה כפופה למגבלת ה-compatibility " +
+        "scope שחלה על טרנזקציות ה-Gantt-Chart הגרפיות, ואין צורך במעבר לאפליקציה חלופית בשלב זה.",
+    },
+    xrefs: [],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שבוצעו עם scripts/sap-help-search.mjs: 'CM03 Capacity Planning Pool' " +
+      "(ברירת מחדל SAP_S4HANA_ON-PREMISE, 21 תוצאות) ואותו חיפוש עם --product SAP_ERP (21 תוצאות); שניהם החזירו את " +
+      "רשומת התפקיד 'Evaluate Capacity Planning' (loio d724bf53d25ab64ce10000000a174cb4). גוף הדף נקרא עם " +
+      "scripts/sap-help-body.mjs הן על כתובת ה-2025 FPS01 והן על כתובת SAP_ERP 6.18.latest (אומת מחדש על ידי " +
+      "המבקר). פריט הפישוט S4TWL - Graphical Planning Table נקרא מהקובץ המקומי " +
+      "scratchpad/official/SIMPL_OP2025.pdf.txt (item 9.5.4, עמ' 779-780, סעיף Exceptions); הפריט מציין את CM03 " +
+      "בסעיף Exceptions כדי לשלול ממנה את מגבלת ה-compatibility scope, ואינו קובע דבר על שינוי, הסרה או החלפה של " +
+      "הקוד עצמו. scripts/fal-app.mjs הורץ עם 'CM03 --release S32OP' וגם עם '--tcode CM03'; שתי ההרצות מאששות " +
+      "אפליקציית SAP GUI רציפה מ-S6OP ועד S32OP ללא successor. לא נמצא Fiori id (F####) עבור CM03, ולכן לא נכלל " +
+      "xref לקטלוג ה-Fiori. סטטוס 'unchanged' נבחר משום שאין ראיה רשמית לשינוי פונקציונלי, הסרה או החלפה; אם תתגלה " +
+      "בעתיד הודעת SAP או פריט פישוט נוסף העוסק ב-CM03 עצמה יש לעדכן את הרשומה.",
+  },
+
+  /* ----------------------------------------------------- tx:CM04 */
+  {
+    id: "tx:CM04",
+    evidence: [
+      CM04_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Evaluate Capacity Planning",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/d724bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט של הנושא 'Evaluate Capacity Planning' בתיעוד S/4HANA On-Premise (2025.001) מדפיס תחת Activities " +
+          "את השורה 'CM04 Capacity evaluation work center view: Backlog' לצד CM01, CM02, CM03, CM05, CM07 ו-CM50, " +
+          "כלומר CM04 מופיעה ברשימת הטרנזקציות של נושא זה במהדורה זו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Evaluate Capacity Planning",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/d724bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio בהיקף SAP ERP (6.18.latest) מדפיס את אותה שורה 'CM04 Capacity evaluation work center view: " +
+          "Backlog', כלומר CM04 מופיעה באותו נושא גם בצד ECC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#CM04",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tx-intel.ts#CM04",
+        claim:
+          "הרשומה הפנימית מתעדת את CM04 כהערכת קיבולת בפיגור (Capacity Evaluation: Backlog), מ-CM01 family, ומציינת " +
+          "'s4: זמינה ב-S/4HANA'; זוהי רשומת מאגר פנימית ולא מקור רשמי.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "פריט הפישוט הרשמי 'S4TWL - Graphical Planning Table' (S/4HANA 2025 FPS01) מציין במפורש ש-CM04 אינה משתמשת " +
+        "בלוח תכנון גרפי, ולכן אינה חלק ממגבלת ה-compatibility scope שחלה על טרנזקציות כמו CM21/CM22/CM23/CM25. " +
+        "תיעוד הנושא 'Evaluate Capacity Planning' ל-2025 FPS01 (On-Premise) ולצד ECC מונה את CM04 ברשימת הטרנזקציות " +
+        "של הנושא.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CM04_SIMPL_ITEM,
+      recommendedAction:
+        "להמשיך להשתמש ב-CM04 להערכת קיבולת בפיגור; בשונה מטרנזקציות עם לוח תכנון גרפי (למשל CM21), CM04 אינה כפופה " +
+        "למגבלות ה-compatibility scope וזכויות השימוש המוגבלות של פריט הפישוט 'S4TWL - Graphical Planning Table'.",
+    },
+    xrefs: ["tx:CM01", "tx:CM02", "tx:CM05", "tx:CM21"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שבוצעו ב-scripts/sap-help-search.mjs: 'CM04 capacity' (ברירת מחדל " +
+      "SAP_S4HANA_ON-PREMISE, 21 תוצאות), 'Capacity Evaluation Backlog CM04' (21 תוצאות), ו-'CM04' עם --product " +
+      "SAP_ERP (21 תוצאות); בכולם ההיט המוביל היה 'Evaluate Capacity Planning' (loio " +
+      "d724bf53d25ab64ce10000000a174cb4). פריט הפישוט 9.5.4 'S4TWL - Graphical Planning Table' נקרא מהקובץ המקומי " +
+      "SIMPL_OP2025.pdf.txt (עמ' 779-780). הפריט המקביל בגרסת 2023 FPS03 (item 30.35, SIMPL_OP2023.pdf.txt) עוסק " +
+      "באותו נושא אך אינו מכיל סעיף Exceptions ואינו מזכיר את CM04; לכן לא נטען כאן דבר על סמך מהדורת 2023. " +
+      "scripts/fal-app.mjs --tcode CM04 מדפיס את רשומת ה-SAP GUI 'CM04 Capac. planning, work center backlog' עם 0 " +
+      "successors וללא deep link, כך שלא נוספה שורת fiori_library ולא צוין successor. לא נמצאה רשומה רשמית הקובעת " +
+      "ל-CM04 סטטוס של deprecated/replaced.",
+  },
+
+  /* ----------------------------------------------------- tx:CM05 */
+  {
+    id: "tx:CM05",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Graphical Planning Table (Simplification List for SAP S/4HANA 2025 Feature Pack Stack 1, item " +
+          "9.5.4)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "הפריט עוסק בטרנזקציות עם graphical planning board (CM21, CM22, CM23, CM25 וכו') הנכללות ב-compatibility " +
+          "scope; בסעיף 'Exceptions' הוא קובע במפורש: 'The following CM* transactions do not use graphical planning " +
+          "boards. Therefore, they are not part of SAP S/4HANA compatibility scope. CM01, CM02, CM03, CM04, CM05, " +
+          "CM07, CM26, CM28, CM34, CM35, CM37, CM38, CM50, CM53, CM56.' כלומר CM05 מוחרגת מנושא הפריט " +
+          "(compatibility scope של לוח התכנון הגרפי) בגלל שאינה משתמשת בלוח כזה כלל; הפריט אינו קובע דבר נוסף לגבי " +
+          "מעמד CM05 עצמה, זמינותה, או קוד יורש עבורה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Evaluate Capacity Planning",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/d724bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת חיפוש (loio d724bf53d25ab64ce10000000a174cb4) מדף תפקיד PFCG 'Evaluate Capacity Planning', מהדורה " +
+          "2025 FPS01: הקטע המצוטט מרשימת הפעילויות מדפיס 'CM04 Capacity evaluation work center view: Backlog CM05 " +
+          "Capacity evaluation work center view: Overload CM07 Variable capacity evaluation CM50 Extended " +
+          "evaluation: Work ...'; כלומר נכון למהדורת On-Premise 2025 FPS01, CM05 עדיין מודפסת ברשימת הפעילויות של " +
+          "תפקיד PFCG זה כהערכת קיבולת מסוג Overload ברמת מרכז עבודה. לא נקרא גוף הדף המלא (רק הקטע המוצג בתוצאת " +
+          "החיפוש).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Evaluate Capacity Planning",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/d724bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio (d724bf53d25ab64ce10000000a174cb4) קיים גם תחת היקף SAP ERP 6.0 EHP8 Latest, עם אותה שורת טקסט " +
+          "המדפיסה 'CM05 Capacity evaluation work center view: Overload'; כלומר CM05 מתועדת באותו אופן, כאותה " +
+          "פעילות תפקיד, גם בצד ה-ECC, ללא הבדל פונקציונלי מודפס בין הצדדים בקטע זה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library: CM05 Capacity plan.:Work center overload (SAP GUI)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CM05')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הרשומה נשלפה עם scripts/fal-app.mjs --tcode CM05 במהדורה S32OP (SAP S/4HANA 2025 FPS01 On-Premise): " +
+          "'CM05 Capacity plan.:Work center overload [SAP GUI]; GUI app entry: CM05 Capacity plan.:Work center " +
+          "overload (SAP GUI, successors 0)'. כלומר CM05 מוגדרת בספריית אפליקציות ה-Fiori כאפליקציית SAP GUI " +
+          "מפורסמת (leading app) במהדורה זו, ללא קוד יורש מודפס (0 successors); זוהי שלילה מתועדת, לא הכרעה על " +
+          "הפסקת שימוש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#CM05",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מתעדת את CM05 כטרנזקציית הערכת קיבולת (Capacity Evaluation) מתמחית בעומס-יתר (Overload) ברמת " +
+          "מרכז עבודה, בסיסה טבלאות KBED/KAKO/CRHD, בשרשרת CO01 → CM05 → CM21. שדה s4 ברשומה קובע 'זמינה ב-S/4HANA' " +
+          "ללא ציון מקור רשמי או מהדורה: קביעה תפעולית של המאגר, לא ראיה רשמית עצמאית.",
+        repoRef: "data/tx-intel.ts#CM05",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    xrefs: ["tx:CM01", "tx:CM21", "tx:CO01"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שבוצעו ב-scripts/sap-help-search.mjs: 'CM05 capacity evaluation' " +
+      "(SAP_S4HANA_ON-PREMISE, 21 תוצאות) ו-'CM05' עם --product SAP_ERP (21 תוצאות); שני החיפושים מחזירים את אותה " +
+      "רשומה מובילה (loio d724bf53d25ab64ce10000000a174cb4, 'Evaluate Capacity Planning') בשני הצדדים. פריט הפישוט " +
+      "S4TWL - Graphical Planning Table (2025 FPS01, item 9.5.4, עמ' 779-780 בקובץ המקומי " +
+      "scratchpad/official/SIMPL_OP2025.pdf.txt, שורות 43080-43170; אותו מיקום מאושר גם " +
+      "ב-audit/master-completion/simpl-tcode-index.json) מזכיר את CM05 ברשימת 'Exceptions': טרנזקציות שאינן משתמשות " +
+      "בלוח תכנון גרפי ולכן אינן נדונות בהיקף הפריט. זהו מקור רשמי, אך הוא אינו מכריע לגבי CM05 עצמה: אינו קובע " +
+      "שהיא הוחלפה, הוסרה, שונתה, או נותרה ללא שינוי, אלא שהיא מחוץ לנושא הפריט. scripts/sap-help-body.mjs לא " +
+      "הופעל: קטע החיפוש (snippet) הספיק כדי לתחום את הטענות ולא נדרשה קריאת גוף עמוד נוסף. scripts/fal-app.mjs " +
+      "הופעל פעמיים: '--tcode CM05' ו-'CM05 --release S32OP' (אותה תוצאה); הרשומה מציגה 0 successors, שלילה מתועדת " +
+      "בלבד. status הושמט: לפי כלל הפרויקט, קוד שפריט הפישוט אינו מכריע לגביו נשאר verification_required עם " +
+      "החיפושים הרשומים כאן; אין ברשומות הרשמיות שנקראו כל קביעה על טרנזקציית יורשת או אפליקציית Fiori חלופית " +
+      "ל-CM05, ולכן לא נקבע successor. tx:CM01 מופיע ב-xrefs כטרנזקציה קרובה מבחינה תפקודית (Capacity Evaluation: " +
+      "Load מול Overload) הקיימת ביקום ה-xrefs (route-manifest.generated.ts), אך תזכורת: tx:CM01 עצמה טרם נכתבה " +
+      "בקובץ הזה (רשומת אימות עבורה סורבה בשער וממתינה בתור, לפי ההערה בראש הקובץ); ה-xref מפנה לקוד הקיים ביקום, " +
+      "לא לרשומת אימות קיימת.",
+  },
+
+  /* ----------------------------------------------------- tx:CM07 */
+  {
+    id: "tx:CM07",
+    evidence: [
+      CM07_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Evaluate Capacity Planning",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/d724bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט מתעד תחת פעילויות התפקיד 'Evaluate Capacity Planning' בתיעוד S/4HANA On-Premise 2025 FPS01 את " +
+          "השורה 'CM07 Variable capacity evaluation' לצד CM01, CM02, CM04, CM05 ו-CM50 (כפי שהם מודפסים בסניפט), " +
+          "כלומר CM07 מופיעה בפעילויות תפקיד התקן SAP_PP-CAPA_PLAN_EVAL במהדורה זו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Evaluate Capacity Planning",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/d724bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio בהיקף SAP ERP 6.0 EHP8 מדפיס אותה שורה 'CM07 Variable capacity evaluation', כלומר CM07 מופיעה " +
+          "באותו תפקיד גם בצד ECC, באותה שורה כמו בתיעוד S/4HANA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CM07",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        repoRef: "data/tcode-catalog.ts#CM07",
+        claim:
+          "רשומת קטלוג הטרנזקציות הפנימית מתעדת את CM07 כ-'Capacity Planning: Variable Evaluation' (module PP, area " +
+          "תכנון קיבולת); זוהי רשומת מאגר פנימית ולא מקור רשמי.",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "פריט הפישוט הרשמי 9.5.4 (S4TWL - Graphical Planning Table, S/4HANA 2025 FPS01) מציין במפורש ש-CM07 אינה " +
+        "משתמשת בלוח תכנון גרפי, ולכן אינה חלק ממגבלת ה-compatibility scope שחלה על טרנזקציות כמו " +
+        "CM21/CM22/CM23/CM25 ועל לוח התכנון הגרפי של MF50. תיעוד התפקיד 'Evaluate Capacity Planning' ל-2025 FPS01 " +
+        "(On-Premise) ולצד ECC (6.0 EHP8) מציג את CM07 בשורה 'Variable capacity evaluation' בפעילויות התפקיד, באותה " +
+        "שורה בשני הצדדים.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CM07_SIMPL_ITEM,
+      recommendedAction:
+        "ניתן להמשיך להשתמש ב-CM07 להערכת קיבולת משתנה ללא מגבלת compatibility scope; אין צורך בפעולת מעבר ייעודית " +
+        "לקוד זה עצמו. יש להבחין בינו לבין טרנזקציות ה-CM* עם לוח תכנון גרפי (כגון CM21, CM25), שהן חלק " +
+        "מה-compatibility scope, ובין MF50, שבה רק לוח התכנון הגרפי כפוף ל-compatibility scope; תאריך התפוגה מפורט " +
+        "ב-SAP Note 2269324.",
+    },
+    xrefs: ["tx:CM01", "tx:CM02", "tx:CM05", "tx:CM21"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שבוצעו ב-scripts/sap-help-search.mjs: 'CM07 capacity planning " +
+      "variable evaluation' (ברירת מחדל SAP_S4HANA_ON-PREMISE, 21 תוצאות) ו-'CM07 Variable capacity evaluation' עם " +
+      "--product SAP_ERP (21 תוצאות); בשניהם ההיט המוביל היה 'Evaluate Capacity Planning' (loio " +
+      "d724bf53d25ab64ce10000000a174cb4). פריט הפישוט 9.5.4 נקרא מהקובץ המקומי SIMPL_OP2025.pdf.txt (עמ' 779-780), " +
+      "הכולל סעיף Exceptions המפרט את CM07 יחד עם CM01-CM05, CM26, CM28, CM34, CM35, CM37, CM38, CM50, CM53, CM56. " +
+      "הפריט המקביל במהדורת 2023 FPS03 (item 30.35, SIMPL_OP2023.pdf.txt, עמ' 809) עוסק באותו נושא אך אינו מכיל " +
+      "סעיף Exceptions ואינו מזכיר את CM07; לכן לא נטען כאן דבר על סמך מהדורת 2023, וה-status מוגבל למהדורת 2025 " +
+      "FPS01. scripts/fal-app.mjs --tcode CM07 מדפיס 'CM07 @ S32OP: leading app(s): none; GUI app entry: none'; אין " +
+      "רשומת Fiori Apps Library מובילה ל-CM07, ולכן לא נוספה שורת fiori_library ולא צוין successor (לא נדרש עבור " +
+      "status='unchanged'). האפליקציות F3289 (Manage Work Center Capacity), F3770 (Capacity Planning Table) ו-F3951 " +
+      "(Capacity Planning Board) שהפריט מזכיר במסגרת CPS מוצגות כחלופה לטרנזקציות CM* עם לוח תכנון גרפי, לא ל-CM07 " +
+      "שהוצאה מפורשות מהמגבלה; לכן לא צוינו כ-successor או כ-xref, כדי לא לרמז על קשר שהמקור לא קבע. לא נמצאה רשומה " +
+      "רשמית הקובעת ל-CM07 סטטוס deprecated, replaced או not_available.",
+  },
+
+  /* ----------------------------------------------------- tx:CM21 */
+  {
+    id: "tx:CM21",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 · item 30.35 S4TWL - Graphical Planning " +
+          "Table (PP-CRP, SAP Note 2268050)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (SAP Note 2268050, רכיב PP-CRP) עוסק בלוח התכנון הגרפי (Graphical Planning Table / Gantt) ומזכיר " +
+          "את CM21 במפורש: 'SAP offered basic capacity planning by means of transactions CM21, CM22, etc.'. הוא " +
+          "קובע ש-'Transactions CM21, CM22, CM23, CM25, etc with graphical planning table are still available in " +
+          "SAP S/4HANA on-premise edition, but not considered as the target architecture', וכי הלוח הגרפי הוא חלק " +
+          "מ-SAP S/4HANA compatibility scope עם זכויות שימוש מוגבלות (מפנה ל-SAP Note 2269324, מזהה 451 במטריצת " +
+          "התאימות). הפריט ממליץ לשקול מעבר לאפליקציות 'Manage Work Center Capacity', 'Capacity Scheduling Table' " +
+          "ו-'Capacity Scheduling Board' (זמינות החל ממהדורת On-Premise 1909 / Cloud 1908), או REO, או PP/DS משובץ.",
+        verificationLevel: "sap_official_verified",
+      },
+      CM21_SIMPL_ITEM_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Execute Capacity Planning (Single and Composite Roles (PFCG))",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/2225bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף התיעוד (נקרא עם scripts/sap-help-body.mjs, מהדורת S/4HANA On-Premise 2025 FPS01, versionId 2025.001, " +
+          "loio 2225bf53d25ab64ce10000000a174cb4) מפרט את פעילויות התפקיד SAP_PP_CAPA_PLAN ומדפיס את השורה: " +
+          "'Function Transaction CM21 Capacity leveling work center view - Capacity planning table'. כלומר CM21 " +
+          "מופיעה ברשימת הפעילויות של התפקיד בתיעוד מהדורת 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות המאגר: tcode-catalog.ts#CM21, troubleshooting.ts#capacity-overload, fiori/apps.ts#F3951",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "data/tcode-catalog.ts#CM21 מתעד את השם העברי 'איזון קיבולת: תכנון מפורט' והאנגלי 'Capacity Leveling: " +
+          "Detailed Planning' באזור 'תכנון קיבולת', מודול PP. data/troubleshooting.ts#capacity-overload מונה את " +
+          "CM21 בשדות analyzeTcodes ו-fix כטרנזקציית איזון (לצד CM01, CM25 ו-CR03) בתרחיש עומס יתר על מרכז עבודה; " +
+          "אין ברשומה זו קביעה על מעמד CM21 ב-S/4HANA. data/fiori/apps.ts#F3951 (Capacity Scheduling Board) מונה את " +
+          "CM21 בשדה guiTx לצד CM25 ומתאר 'תזמון גס ב-CM21/CM25' שהאפליקציה הגרפית (Gantt) משפרת; רשומה זו אינה " +
+          "קובעת את CM21 כ-predecessor או successor רשמי (ב-Fiori Apps Library, רשומת F3951 מדפיסה שדות GUI " +
+          "transaction ו-predecessors/successors ריקים; ראו notes).",
+        repoRef: "data/tcode-catalog.ts#CM21; data/troubleshooting.ts#capacity-overload; data/fiori/apps.ts#F3951",
+        verificationLevel: "repository_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      he:
+        "CM21 (איזון קיבולת, תצוגת מרכז עבודה עם לוח תכנון קיבולת) זמינה ב-SAP S/4HANA On-Premise ומופיעה ברשימת " +
+        "הפעילויות של תפקיד SAP_PP_CAPA_PLAN בתיעוד 2025 FPS01. פריטי הפישוט S4TWL - Graphical Planning Table (SAP " +
+        "Note 2268050) של 2023 FPS03 ו-2025 FPS01 קובעים שהלוח הגרפי (Gantt) שבו משתמשת CM21 הוא חלק מ-SAP S/4HANA " +
+        "compatibility scope עם זכויות שימוש מוגבלות (SAP Note 2269324, מזהה 451 במטריצת התאימות), ואינו ארכיטקטורת " +
+        "היעד; CM21 אינה ברשימת החריגים של הפריט, ולכן היא בהיקף התאימות.",
+      source: CM21_SIMPL_ITEM_2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-CM21 בתוך היקף התאימות (compatibility scope) ולעקוב אחר תאריך הפקיעה לפי SAP Note 2269324 " +
+        "(מזהה 451). לתכנן מעבר לאפליקציות שהפריט מציין כתחליף למשפחת CM*: Manage Work Center Capacity (F3289) " +
+        "לניטור עומסים, ו-Capacity Planning Table (F3770) או Capacity Planning Board (F3951) לאיזון בפועל, או " +
+        "להעריך מעבר ל-PP/DS משובץ לבעיות תזמון מורכבות. רשומת Fiori Apps Library של F3951 אינה מדפיסה קישור ישיר " +
+        "ל-CM21 (שדות GUI transaction ו-predecessors/successors ריקים), ולכן לא נקבע מחליף יחיד.",
+    },
+    xrefs: ["fiori:F3289", "fiori:F3951"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שבוצעו ב-scripts/sap-help-search.mjs: 'CM21 Capacity Leveling " +
+      "Detailed Planning' (ברירת מחדל SAP_S4HANA_ON-PREMISE, 21 תוצאות) ו-'Execute Capacity Planning' (loio " +
+      "2225bf53d25ab64ce10000000a174cb4, versionId 2025.001). הקשר ECC מגיע מרשימת הפישוט 2025 עצמה: 'In SAP ECC, " +
+      "SAP offered basic capacity planning by means of transactions CM21, CM22, CM25, etc.'. גופי דף נקראו עם " +
+      "scripts/sap-help-body.mjs עבור 'Capacity Leveling (PP-CRP-LVL)' (אינו מזכיר את CM21 בשמה ולכן אינו מצוטט) " +
+      "ועבור 'Execute Capacity Planning' (מזכיר את CM21 בשורה מפורשת, evidence[2]). scripts/fal-app.mjs הופעל על " +
+      "F3951 כדי לבדוק קישור GUI transaction ל-CM21: 'GUI transactions: leading -; related -' ו-'predecessors: -; " +
+      "successors: -', ולכן לא נקבע successor. פער לבדיקת עורך: audit/master-completion/simpl-tcode-index.json " +
+      "מייחס לשורות 42097, 42099 ו-42141 ב-SIMPL_OP2023.pdf.txt את הכותרת 'S4TWL - ANSI/ISA S95 Interface', פריט " +
+      "30.9, אך הטקסט באותן שורות הוא פריט 30.35 'S4TWL - Graphical Planning Table' (אותו SAP Note 2268050 כמו פריט " +
+      "9.5.4 ב-2025 FPS01). הציטוט מבוסס על הטקסט שנקרא בפועל. F3770 ('Capacity Planning Table') אינו קיים " +
+      "ב-data/fiori/apps.ts ולכן הוא מוזכר בפרוזה בלבד ולא כ-xref. סבב ביקורת (2026-09-24): הוסרו קווים ארוכים, " +
+      "התיאור 'ברמת הזמנת ייצור' הוחלף בתיאור 'תצוגת מרכז עבודה' מגוף התיעוד, והניסוח 'טרנזקציה פעילה ותקפה' רוכך.",
+  },
+
+  /* ----------------------------------------------------- tx:CM25 */
+  {
+    id: "tx:CM25",
+    aliases: ["CM25 (Variable capacity leveling: Online)"],
+    evidence: [
+      CM25_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Execute Capacity Planning",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/2225bf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "רשומת החיפוש (loio 2225bf53d25ab64ce10000000a174cb4, PFCG Role 'Execute Capacity Planning', SAP S/4HANA " +
+          "2025 FPS01) מציגה ב-snippet את השורה 'CM25 Variable capacity leveling: Online' בתוך רשימת הטרנזקציות של " +
+          "התפקיד, לצד CM23 ו-CM40. הדבר מאשר ש-CM25 מוגדרת בתפקיד PFCG תקני ב-S/4HANA On-Premise 2025 FPS01 תחת " +
+          "השם 'Variable capacity leveling: Online', ומראה שהקוד מופיע בתפקיד תקני בגרסה זו.",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CM25 ו-domains.ts#pppi-capacity-planning",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CM25",
+        claim:
+          "הרשומה ב-tcode-catalog.ts מזהה את CM25 כ'תכנון קיבולת: איזון גרפי' (Capacity Planning: Leveling " +
+          "(Graphical)), מודול PP, תחום 'תכנון קיבולת'. רשומת התחום pppi-capacity-planning ב-domains.ts כוללת את " +
+          "CM25 ברשימת ה-tcodes של תהליך איזון הקיבולת, יחד עם CM01, CM21, CM07 ו-CM50.",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "CM25 (תכנון קיבולת: איזון גרפי), יחד עם קבוצת הטרנזקציות המבוססות על לוח תכנון גרפי (Gantt-chart, כגון " +
+        "CM21-CM23, CM29; ב-MF50 רק לוח התכנון הגרפי כפוף ל-scope), נכללת ב-SAP S/4HANA compatibility scope: זמינה " +
+        "בגרסת On-Premise אך כפופה לזכויות שימוש מוגבלות ולתאריך תפוגה לפי הערה 2269324, מכיוון שלוח התכנון הגרפי " +
+        "שלה פועל רק ב-SAP GUI ואינו תואם לדרישת Zero footprint של S/4HANA.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CM25_SIMPL_ITEM,
+      recommendedAction:
+        "לתעד את היקף השימוש הנוכחי ב-CM25 ובקבוצת ה-CM* המבוססת על לוח תכנון גרפי, ולבחון מעבר הדרגתי, לפני תפוגת " +
+        "ה-compatibility scope, למודול Capacity Planning and Scheduling (CPS, הכולל את האפליקציה Manage Work Center " +
+        "Capacity F3289 לזיהוי עומסי יתר) או ל-Production Planning and Detailed Scheduling (PP/DS); הפריט הרשמי " +
+        "אינו מייעד אפליקציית Fiori יחידה כמחליפה ישירה של CM25 עצמה.",
+    },
+    xrefs: ["tx:CM21", "fiori:F3289"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "הליד מהאינדקס simpl-tcode-index.json ל-2023 (שורות 42099 ו-42142 ב-scratchpad/official/SIMPL_OP2023.pdf.txt) " +
+      "תויג בטעות כפריט 30.9 S4TWL - ANSI/ISA S95 Interface. השורות שייכות בפועל לפריט 30.35 S4TWL - Graphical " +
+      "Planning Table (2023 FPS03, הערה 2268050), הקובע: 'Transactions CM21, CM22, CM23, CM25, etc with graphical " +
+      "planning table are still available in SAP S/4HANA on-premise edition, but not considered as the target " +
+      "architecture' ומשייך את Graphical Planning Table ל-compatibility scope; הדבר עקבי עם פריט 9.5.4 ב-2025 ואינו " +
+      "סותר אותו. פריט 30.9 עצמו (שורות 39835-39859, רכיב LO-S95) נבדק ואינו מזכיר את CM25 (Old: ליד 30.9 → New: " +
+      "30.35). בדיקת scripts/fal-app.mjs --tcode CM25 --release S32OP החזירה תוצאה שלילית מתועדת: 'leading app(s): " +
+      "none; GUI app entry: none', כלומר אין ב-Fiori Apps Library רשומת אפליקציה שמובילה במפורש מ-CM25 בשחרור זה. " +
+      "לא בוצעה בדיקה חיה במערכת SAP (sc4sap MCP לא זמין בסשן זה).",
   },
 ];
