@@ -15,7 +15,13 @@
    CO55) carrying the 2025 FPS01 / 2023 FPS03 Simplification List items read
    from the local PDFs plus help.sap.com bodies read through the portal content
    service where the record says so; IW37 / CO55 from verdict.fixedRecord, the
-   other four from the drafts with the auditors' downgrades applied verbatim. */
+   other four from the drafts with the auditors' downgrades applied verbatim.
+   Batch 4 (2026-09-24): 5 audited records; tx:COHVPI (written in the
+   interrupted previous run) re-worded per its verdict so the ECC/S4 comparison
+   is bounded to the identical search snippet; CO60, COPC, CORZ and CPC1 from
+   verdict.fixedRecord (status sources point at the shared CO60_SIMPL_ITEM and
+   CORZ_FAL consts; CPC1 verification_required; COPC evidence only). tx:C223
+   refuted at the gate and queued. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -771,6 +777,73 @@ const CO55_SIMPL_ITEM: Evidence = {
     "של גיליונות PI מבוססי דפדפן (עמ' 641). הפריט אינו מכריז על הסרת CO55 ואינו נוקב ביורש ברמת " +
     "טרנזקציה; ההפניה קדימה היא ל-Execution Sheets ול-SAP Digital Manufacturing ('mid-to long-term'). " +
     "מספרי SAP Notes 3156433, 3156434, 3413777, 3417131, 3413719 ו-397504 מופיעים כלשונם בגוף הפריט.",
+  verificationLevel: "sap_official_verified",
+};
+
+const COHVPI_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Mass Processing: Process Orders - SAP Fiori Apps Reference Library (App ID COHVPI, release S32OP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('COHVPI')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ספריית האפליקציות (scripts/fal-app.mjs COHVPI --release S32OP) מכניסה את COHVPI תחת השם " +
+    "'Mass Processing: Process Orders', סוג UI 'SAP GUI', סטטוס 'Published', רכיב PP-PI-POR (Process " +
+    "Order), תפקיד עסקי SAP_BR_PRODN_SUPERVISOR_PROC (Production Supervisor - Process Manufacturing) " +
+    "וקטלוג עסקי SAP_SCM_BC_PROC_ORD_MGMT ('Production Control (Process) - Order Management'). שדה " +
+    "ה-releases מפרט זמינות רציפה מ-S6OP (1610) דרך S30OP (2023 FPS03) ועד S32OP (2025 FPS01), ושדות " +
+    "predecessors ו-successors שניהם ריקים: הרשומה אינה נוקבת ביורש או בקודם.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CO60_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item " +
+    "9.3.18 S4TWL - Browser-based Process Instruction-Sheets/Electronic Work Instructions " +
+    "(PP-PI-PMA-PMC), pp. 636-644",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.3.18 (רכיב PP-PI-PMA-PMC; SAP Note 2268070 מודפס בטבלת ההערות של הפריט כ-0002268070, הקובץ " +
+    "SIMPL_OP2025.pdf גרסת מסמך 1.36 נקרא מקומית במלואו) נוקב ב-CO60 בשמה: תחת 'Transactions (no call or " +
+    "clone in custom code)' מופיעה השורה 'CO60 Find PI Sheet' (עמ' 641) לצד CO55, CO60E, CO60XT, CO64 " +
+    "ו-CO67, וב-'Other Terms' (עמ' 637): 'Packages COPOC, CMX_POC, CMX_PII, Transactions CO55, CO60, " +
+    "CO60E, CO60XT, CO64, CO67'. על תקפות הפונקציה הפריט קובע: 'The functionality of browser-based PI " +
+    "sheets (PP-PI) and browser-based work instructions (PP-SFC) is still available in SAP S/4HANA. But " +
+    "it is not considered as future technology' (עמ' 637); 'Browser-based PI Sheets and work instructions " +
+    "(PP-SFC) only run in SAP GUI for Windows' ואינם רצים ב-SAP GUI for HTML או ב-SAP Fiori (עמ' 640); " +
+    "'With SAP S/4HANA 2023, SAP delivered browser-based XStep-based Execution Sheets' שרצות גם ב-SAP GUI " +
+    "for HTML (עמ' 640); ובסעיף Custom Code: 'Make sure that with end of support of the compatibility " +
+    "scope item' אין קוד לקוח שקורא, משכפל או שומר נתונים של CO60 ושל שאר הטרנזקציות ברשימה (עמ' 641). " +
+    "הפריט אינו מכריז על הסרת CO60 ואינו נוקב ביורש ברמת קוד טרנזקציה; ההפניה קדימה היא ל-Execution " +
+    "Sheets ול-SAP Digital Manufacturing ('mid-to long-term').",
+  verificationLevel: "sap_official_verified",
+};
+
+const CORZ_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library: CORZ - Confirm Time Event - Process Order Phase (SAP GUI, component " +
+    "PP-PI-POR-OPC)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CORZ')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ה-Fiori Apps Library (S32OP = SAP S/4HANA 2025 FPS01 On-Premise) מציגה את CORZ עצמה כאפליקציית " +
+    "SAP GUI בשם Confirm Time Event - Process Order Phase, סטטוס Published, רכיב יישום PP-PI-POR-OPC, " +
+    "קטלוג טכני SAP_TC_SCM_PP_BE_APPS:S4PP, intent ProcessOrderConfirmation-createTimeEvent; שדות " +
+    "ה-Predecessors וה-Successors ריקים; רשימת ה-releases מראה פרסום רציף מ-S6OP (1610) ועד S32OP (2025 " +
+    "FPS01), ללא הפסקה. לפי הרשומה הרשמית CORZ אינה מוחלפת וממשיכה להתפרסם כטרנזקציית SAP GUI לכל אורך " +
+    "S/4HANA On-Premise עד המהדורה העדכנית שנבדקה.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -5905,5 +5978,519 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "SAP_MMKT_PI_SHFLR_OPR 'to view and maintain PI sheets'; גופו לא נקרא וטכנולוגיית ה-UI שלו לא נבדקה, " +
       "ולכן הקביעה שאין רשימת עבודה חלופית מחוץ ל-SAP GUI for Windows מוגבלת לרשימות הפישוט ולנושא " +
       "'Browser-Based Process Management Applications'.",
+  },
+  {
+    id: "tx:COHVPI",
+    evidence: [
+      COHVPI_FAL,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Mass Processing of Process and Production Orders (Production Planning and Control, SAP S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/1b05b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט שהוחזר בחיפוש (scripts/sap-help-search.mjs) על נושא זה, בגרסת S/4HANA 2025 FPS01 (loio " +
+          "1b05b753128eb44ce10000000a174cb4), קובע: 'The following documentation on mass processing relates " +
+          "to the transactions COHV (Mass Processing Production Orders) and COHVPI (Mass Processing Process " +
+          "Orders), which replace the transactions CO28 ...'. כלומר לפי S/4HANA 2025 FPS01, COHVPI היא " +
+          "טרנזקציית העיבוד ההמוני לרשומה של הזמנות תהליך, וירשה בעבר את מקום CO28 (יחס היסטורי, ללא ציון " +
+          "מועד המעבר).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Mass Processing of Process and Production Orders (Production Planning - Process Industries (PP-PI), SAP ERP 6.0 EHP8)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/698b19fa88b846359bc611f11184c810/1b05b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio (1b05b753128eb44ce10000000a174cb4) מוחזר גם בחיפוש על SAP_ERP, עם אותו סניפט: הנושא " +
+          "מתעד את COHV ו-COHVPI כטרנזקציות העיבוד ההמוני, 'which replace the transactions CO28...', כלומר " +
+          "הסניפט של הנושא זהה בשני המוצרים (אותו loio); גוף הנושא לא נקרא, ולכן ההשוואה מוגבלת לסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "S4TWL - Selection by characteristics in mass processing of orders (SAP S/4HANA 2025 FPS01 Simplification List, item 13.12.6; זהה ל-2023 FPS03, item 52.6)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (רכיב IS-MP-PP, מפנה ל-SAP Note 2381891 בשדה Related Notes) קובע במפורש: 'As of SAP S/4HANA 1610, the feature " +
+          "selection by characteristics in mill specific transaction /SAPMP/PP_COHV is merged into " +
+          "transactions for Mass processing of Production orders (COHV) and Mass Processing of Process " +
+          "Orders (COHVPI)', ומוסיף: 'Customers using transaction /SAPMP/PP_COHV in the past now need to " +
+          "shift to transaction COHV and/or COHVPI instead. Please refer SAP note 2358159.' כלומר הפריט אינו " +
+          "מסמן את COHVPI כמוסרת, משתנה מבנית או מוגבלת: הוא קובע ש-COHVPI (יחד עם COHV) היא יעד ההעברה " +
+          "עבור משתמשי הטרנזקציה הספציפית לתעשיית המתכת/נייר /SAPMP/PP_COHV, ושהיכולת שלה לבחירה לפי מאפיינים " +
+          "(characteristics) כבר משולבת בה מאז S/4HANA 1610. הרלוונטיות מותנית בהפעלת Business Function " +
+          "DIMP_SDUD (Discrete Indus. - Mill Products), הנבדקת בפועל רק דרך SFW_BROWSER במערכת חיה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      edition: "on-premise",
+      release: "2025.001",
+      source: COHVPI_FAL,
+      he:
+        "COHVPI (Mass Processing: Process Orders, מודול PP-PI, רכיב PP-PI-POR) היא טרנזקציית SAP GUI קיימת " +
+        "וזמינה ב-SAP S/4HANA 2025 FPS01 לפי ספריית אפליקציות ה-Fiori, שמראה זמינות רציפה מ-S/4HANA 1610 " +
+        "ועד 2025 FPS01 ללא יורש (successor) וללא קודם (predecessor) רשומים. נושא העזרה 'Mass Processing of " +
+        "Process and Production Orders' מוחזר באותו loio ובאותו סניפט הן ב-SAP ERP 6.0 EHP8 והן ב-SAP S/4HANA 2025 FPS01, " +
+        "ומגדיר את COHV ו-COHVPI כטרנזקציות העיבוד ההמוני להזמנות ייצור ותהליך בהתאמה. פריט הפישוט 13.12.6 " +
+        "(זהה ל-52.6 ב-2023 FPS03) מוסיף רק שמאז S/4HANA 1610 שולבה ב-COHVPI (וב-COHV) גם יכולת הבחירה לפי " +
+        "מאפיינים (characteristics) שהייתה בעבר ייחודית לטרנזקציית התעשייה הספציפית /SAPMP/PP_COHV (Mill " +
+        "Products), ושמשתמשי אותה טרנזקציה עוברים ל-COHV/COHVPI; הפריט אינו קובע ל-COHVPI עצמה שינוי, הגבלה " +
+        "או הוצאה משימוש.",
+      recommendedAction:
+        "להמשיך להשתמש ב-COHVPI כטרנזקציית SAP GUI לעיבוד המוני של הזמנות תהליך; ספריית ה-Fiori אינה מפרטת " +
+        "אפליקציית Fiori חלופית עבורה (predecessors/successors ריקים ברשומה שנקראה). לקוחות שהשתמשו בעבר " +
+        "בטרנזקציית התעשייה הספציפית /SAPMP/PP_COHV (רלוונטי רק אם Business Function DIMP_SDUD פעילה) " +
+        "נדרשים לעבור ל-COHV ו/או COHVPI, לפי SAP Note 2358159 (לא נקרא כאן, מוזכר בפריט הפישוט בלבד).",
+    },
+    xrefs: ["tx:COHV", "tx:COR1", "tx:COR2", "tx:COR3", "table:AUFK", "table:AFKO", "table:AFPO", "obj:process-order"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: (1) נבדק המאגר - COHVPI מופיעה ב-data/tcode-catalog.ts (מודול PP-PI, תחום 'הזמנות תהליך') " +
+      "וכ-xref קיים בשתי רשומות אימות אחרות (COR2, COR3); אין לה רשומת tx-detail, function-intel או " +
+      "verification קודמת משלה, ולכן הסטטוס הנגזר שהאפליקציה הציגה עד כה היה 'נדרש אימות נוסף'. (2) שלוש " +
+      "שאילתות ב-scripts/sap-help-search.mjs: 'COHVPI Mass Processing Process Orders' (S/4HANA On-Premise, " +
+      "21 תוצאות), 'Mass Processing of Process Orders COHVPI' (SAP_ERP, 21 תוצאות) ו-'Mass Processing of " +
+      "Manufacturing Orders with Characteristic Selection' (עלה כתוצאה בחיפוש הראשון). לא נקרא גוף נושא " +
+      "דרך scripts/sap-help-body.mjs: הסניפטים ששתי החיפושים החזירו (זהים ב-loio, שונים בגרסה) הספיקו לביסוס " +
+      "הטענות. (3) scripts/fal-app.mjs COHVPI --release S32OP הוחזר במלואו (ראו evidence[0]); " +
+      "scripts/fal-app.mjs --tcode COHVPI אישש שהיא מופיעה כ-'leading app' תחת אותו App ID. לא בוצע WebSearch. " +
+      "פריט הפישוט 52.6/13.12.6 הוא ליד (lead) שמוזכר בהינט המשימה; נקרא במלואו משני קובצי ה-PDF המקומיים " +
+      "(scratchpad/official/SIMPL_OP2023.pdf.txt שורה 61014, scratchpad/official/SIMPL_OP2025.pdf.txt שורה " +
+      "69185) ונקבע במפורש שהוא עוסק במיזוג יכולת מ-/SAPMP/PP_COHV אל COHV/COHVPI, ולא בשינוי, הגבלה או " +
+      "הסרה של COHVPI עצמה; לכן status.source מצביע על ראיית ה-Fiori Library (evidence[0]) ולא על פריט " +
+      "הפישוט, ופריט הפישוט משמש כ-evidence תומך בלבד. SAP Note 2358159 (מוזכר בפריט הפישוט כהפניה למעבר " +
+      "ממש /SAPMP/PP_COHV) לא נקרא: אינו זמין דרך help.sap.com search/body. אין הבחנה בפריט הפישוט לגבי " +
+      "Public Cloud; COHVPI לא נבדקה בטווח S/4HANA Cloud. ה-MCP המקומי sc4sap לא התחבר בסשן, ולכן לא בוצעה " +
+      "בדיקה חיה במערכת SAP: קיום/הרשאות COHVPI במערכת CBC, הפעלת Business Function DIMP_SDUD, ותהליך עבודה " +
+      "בפועל דורשים אימות במערכת SAP חיה.",
+  },
+  /* ----------------------------------------------------- tx:CO60 */
+  {
+    id: "tx:CO60",
+    evidence: [
+      CO60_SIMPL_ITEM,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (Document Version 1.35) · item 30.39 " +
+          "S4TWL - Browser-based Process Instruction-Sheets/Electronic Work Instructions (PP-PI-PMA-PMC), pp. " +
+          "823-834; item 30.9 S4TWL - ANSI/ISA S95 Interface (LO-S95), p. 751",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "ברשימת 2023 FPS03 המחרוזת CO60 מופיעה באותו פריט המקביל ל-9.3.18 (30.39): 'CO60 Find PI Sheet' תחת " +
+          "'Transactions (no call or clone in custom code)' (עמ' 828) וב-'Other Terms': 'Packages COPOC, " +
+          "CMX_POC, CMX_PII, Transactions CO55, CO60, CO60E, CO60XT, CO64, CO67' (עמ' 834), בנוסח זהה לפריט " +
+          "9.3.18 של 2025 FPS01: 'still available in SAP S/4HANA. But it is not considered as future " +
+          "technology' (עמ' 823). פריט 30.9 (LO-S95; SAP Note 2268117 מופיע כלשונו בפריט; עמ' 751; מקבילו " +
+          "ב-2025 FPS01 הוא פריט 9.3.3, עמ' 608) נקרא כפי שדרש הרמז במשימה, וקובע רק 'Usage of the ANSI /ISA " +
+          "S95 interface is not possible in S/4HANA. Use MES Integration or the POI Interface instead'; הוא " +
+          "אינו נוקב באף קוד טרנזקציה, ובכלל זה CO60. פריט 30.9/9.3.3 הוא אזכור בלבד (mention) ואינו פוסק דבר " +
+          "לגבי CO60; הפסיקה על CO60 נשענת אך ורק על פריט 30.39/9.3.18.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Browser-Based Process Management Applications | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/47523da0fdb1450fb2178282ed6b34b2.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף הנושא נקרא במלואו דרך שירות התוכן של הפורטל (deliverable 40374808, build 1779) וקובע: 'the " +
+          "browser-based PI sheets, work instructions, and process manufacturing cockpits cannot be displayed " +
+          "or maintained with UI technologies like SAP GUI for Java or the SAP GUI for HTML. The maintenance " +
+          "transactions for browser-based applications like CO60 / CO60XT (maintenance of PI sheets/work " +
+          "instructions) cannot be called from user interface technologies like the SAP Fiori launchpad. The " +
+          "SAP Fiori launchpad would open these transactions using SAP GUI for HTML'. לעומת זאת: 'The " +
+          "maintenance transaction for execution sheets (CMX_XSH_OBJ_WORKLIST) can be called from user " +
+          "interface technologies like the SAP Fiori launchpad'. העמוד נוקב ב-CO60 במפורש כדוגמה לטרנזקציית " +
+          "תחזוקה מבוססת דפדפן שאינה קריאה מה-Fiori launchpad; הוא אינו קובע שהטרנזקציה הוסרה ואינו נוקב ביורש " +
+          "Fiori ל-CO60 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ספריית הקודים וקטלוג הטרנזקציות של הפרויקט - רשומות CO60",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "data/tcode-directory.ts מגדיר את CO60 כ-'מרשם בקרה' (מודול PP-PI, תיאור 'Find/maintain control " +
+          "recipe.', מילת מפתח 'control recipe'), ואילו data/tcode-catalog.ts נותן לה שם אנגלי 'Find PI Sheet' " +
+          "('חיפוש גיליון PI', תחום 'גיליונות PI'). data/troubleshooting-ext2.ts (תרחיש pi-sheet-incomplete) " +
+          "ו-data/best-practices/pppi-processes.ts משבצים את CO60 לצד CO53 (הצגת מרשם) ו-CO54 (הודעות תהליך) " +
+          "כטרנזקציית עיבוד גיליון PI. אין רשומת tx-intel, lifecycle או ecc-s4 ל-CO60, ולכן הסטטוס הנגזר " +
+          "שהאפליקציה מציגה כרגע הוא 'נדרש אימות נוסף' (depth 1).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-directory.ts#CO60",
+      },
+    ],
+    status: {
+      status: "restricted",
+      secondary: ["deprecated"],
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CO60_SIMPL_ITEM,
+      he:
+        "טרנזקציה CO60 (Find PI Sheet, מרשם בקרה/חיפוש גיליון PI מבוסס דפדפן, PP-PI-PMA-PMC) פועלת ב-S/4HANA " +
+        "לפי פריט הפישוט 9.3.18 (2025 FPS01) ו-30.39 (2023 FPS03), אך שתיהן מגדירות אותה 'still available... " +
+        "but not considered as future technology' וברשימת הטרנזקציות שאין לקרוא או לשכפל בקוד לקוח, בהיקף " +
+        "התאימות (compatibility scope). גיליונות PI מבוססי דפדפן, וכך גם CO60, רצים רק ב-SAP GUI for Windows " +
+        "ואינם ניתנים לפתיחה מה-Fiori launchpad, לפי תיעוד העזרה שנקרא. הפריטים אינם מכריזים על הסרת CO60 " +
+        "ואינם נוקבים ביורש ברמת קוד טרנזקציה; ההפניה קדימה היא ל-Execution Sheets (מ-S/4HANA 2023, טרנזקציית " +
+        "התחזוקה CMX_XSH_OBJ_WORKLIST לפי אותו תיעוד עזרה) ול-SAP Digital Manufacturing בטווח הבינוני-ארוך, " +
+        "אך אף אחד מהם אינו רשום בפרויקט ולכן אינו יכול לשמש successor מאומת.",
+      recommendedAction:
+        "לשמר את השימוש ב-CO60 רק בתחנות עם SAP GUI for Windows, ולהעריך מעבר ל-Execution Sheets (יעדי XStep " +
+        "מסוג X) שנתמכים גם ב-SAP GUI for HTML ופתוחים מה-Fiori launchpad. בהמרה לבצע את בדיקת הקוד שהפריט " +
+        "9.3.18/30.39 דורש: לוודא שאין קריאה או שכפול של CO60/RCOPOC_CO60E בקוד לקוח ואין שמירה ישירה לטבלאות " +
+        "POC_DB_* של גיליונות PI מבוססי דפדפן.",
+    },
+    xrefs: ["tx:CO55", "tx:CO53", "tx:CO54", "tx:COR2", "tx:C201", "obj:process-order", "obj:master-recipe", "bp:process-order-process", "bp:master-recipe-process", "bp:process-industries-plan-to-produce"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: node scripts/sap-help-search.mjs עם השאילתות 'CO60 Find PI Sheet' (SAP_S4HANA_ON-PREMISE) " +
+      "ו-'Find PI Sheet transaction CO60' (--product SAP_ERP) ב-2026-09-24, קריאת גוף שני נושאים דרך " +
+      "scripts/sap-help-body.mjs ('MiniApp: Worklist for PI Sheets' ו-'Browser-Based Process Management " +
+      "Applications'), node scripts/fal-app.mjs --tcode CO60 (התוצאה: 'leading app(s): none' ב-S32OP, כלומר " +
+      "אין אפליקציית Fiori שמובילה מ-CO60), וקריאה מקומית מלאה של שני קובצי רשימת הפישוט " +
+      "(SIMPL_OP2025.pdf.txt, SIMPL_OP2023.pdf.txt ב-scratchpad/official/) לאיתור כל מופעי המחרוזת CO60 " +
+      "בהקשרן. הפריט 30.9/9.3.3 (ANSI/ISA S95) הוא רק אזכור ברמז המשימה ואינו נוקב ב-CO60 כלל; אין לו נפקות " +
+      "סטטוס. לא נמצאה אפליקציית Fiori חלופית רשמית ל-CO60 (successor נשאר לא מאומת: CMX_XSH_OBJ_WORKLIST " +
+      "ו-Execution Sheets אינם רשומים בפרויקט). לא בוצעה בדיקה במערכת SAP חיה. ביקורת נגדית 2026-09-24: " +
+      "שלוש כתובות ה-URL נבדקו (HTTP 200, help.sap.com), רשומת החיפוש (loio " +
+      "47523da0fdb1450fb2178282ed6b34b2, versionId 2025.001) וגוף הנושא אומתו מחדש, fal-app --tcode CO60 " +
+      "החזיר none, עמודי הפריטים ברשימות הפישוט אומתו מול הטקסט המקומי (9.3.18 עמ' 636-644, 30.39 עמ' " +
+      "823-834, 30.9 עמ' 751, 9.3.3 עמ' 608).",
+  },
+  /* ----------------------------------------------------- tx:COPC */
+  {
+    id: "tx:COPC",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1, item 6.7.7 'S4TWL - Electronic " +
+          "Payment Integration for China'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (רכיב XX-CSC-CN-EPIC, הערה 3087756) עוסק ב'Cash Operations for China (COPC)': פתרון ניהול " +
+          "מזומנים סיני שיצא משלב הפיתוח והוצא משימוש (deprecated) החל מ-S/4HANA 2023, ומוחלף ב-Cash and " +
+          "Liquidity Management (FIN-FSCM-CLM). ה-'COPC' כאן הוא ראשי תיבות של פונקציית פיננסים, לא הטרנזקציה " +
+          "tx:COPC; הפריט אינו נוקב בטרנזקציה COPC ואינו עוסק ב-PP-PI.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deprecation of Cash Operations for China (COPC)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/851e53f518ef4c6482d3cf9c43ab4495.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE24,
+        claim:
+          "נושא העזרה (S/4HANA 2023, רכיב FI-LOC-EPI-CN) קובע ש-Cash Operations for China (COPC) הוצא משימוש " +
+          "(Deprecated, Valid as Of SAP S/4HANA 2023) ושהפונקציות שלו הוחלפו ב-Cash and Liquidity Management " +
+          "(FIN-FSCM-CLM). מדובר בפתרון פיננסי לסין, לא בטרנזקציה tx:COPC של PP-PI; הנושא אינו נוקב בקוד " +
+          "טרנזקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1, item 9.5.18 'S4TWL - Production " +
+          "Campaign (ERP)'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "פריט זה (רכיב PP-PI-PCM, הערה 2270216) עוסק בפונקציונליות Production Campaign, שנשארת בטווח התאימות " +
+          "(compatibility scope) עם הטרנזקציות CPCN, PCA1, PCA2, PCA3, PCCO ('Backend transactions CPCN, PCA1, " +
+          "PCA2, PCA3 and PCCO are still available'), ומ-S/4HANA 2023 זמין פתרון מותאם דרך אפליקציית Fiori " +
+          "'Manage Production Campaign' (F7260), שאיתו הפונקציונליות הופכת לחלק מהטווח הקבוע (perpetual scope). " +
+          "שדה 'Other Terms' מציין 'Package COPC; Transactions CPCN, PCA1, PCA2, PCA3, PCCO', כלומר COPC כאן " +
+          "הוא שם חבילת פיתוח (development package) המכילה את חמש הטרנזקציות שצוינו, לא הטרנזקציה tx:COPC (PI " +
+          "Sheet: Browser); הפריט אינו נוקב ב-COPC כקוד טרנזקציה ואינו קובע לגביה מאום.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Browser-Based Process Management Applications",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/47523da0fdb1450fb2178282ed6b34b2.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הנושא (אותו loio 47523da0 מופיע גם במוצר SAP ERP, versionId 6.18.latest, לפי " +
+          "scripts/sap-help-search.mjs --product SAP_ERP) מתאר את משפחת האפליקציות מבוססות הדפדפן (גיליונות PI, " +
+          "הוראות עבודה, לוחות בקרת מפעיל תהליך): הן רצות רק ב-SAP GUI for Windows, ו'The maintenance " +
+          "transactions for browser-based applications like CO60 / CO60XT (maintenance of PI sheets/work " +
+          "instructions) cannot be called from user interface technologies like the SAP Fiori launchpad'. הגוף " +
+          "נוקב מפורשות רק ב-CO60 ו-CO60XT כטרנזקציות התחזוקה; אינו מזכיר את COPC בשם, ואינו קובע לגביה סטטוס. " +
+          "משמש כאן כהקשר כללי למשפחת גיליונות ה-PI מבוססי הדפדפן שאליה שייכת COPC לפי הקטלוג, לא כמקור לקביעת " +
+          "סטטוס.",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#COPC",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "הקטלוג המקומי מגדיר את COPC כמודול PP-PI, שם אנגלי 'PI Sheet: Browser', אזור 'גיליונות PI' (שם עברי " +
+          "'דפדפן גיליון PI'); ללא BAPI/IDoc/CDS מקושרים ברישום זה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#COPC",
+      },
+    ],
+    xrefs: ["tx:CO55", "tx:COPI", "tx:CO60"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "COPC הוזכרה כרמז (lead) בשני פריטי פישוט (2023 FPS03: 11.1, 30.9-אינדקס שגוי לפריט 30.16 ולא 30.9; " +
+      "2025 FPS01: 6.7.7, 9.5.18), אך שתי הבדיקות (חיפוש ה-JSON וקריאת גוף הנושאים דרך " +
+      "scripts/sap-help-search.mjs ו-scripts/sap-help-body.mjs, וקריאת שני קובצי הפישוט המלאים " +
+      "ב-scratchpad/official/) מראות ששני האזכורים הם התנגשות שמות: פריט 6.7.7/11.1 עוסק ב-Cash Operations " +
+      "for China (ראשי תיבות COPC, תחום פיננסים), ופריט 9.5.18/30.16 מזכיר 'Package COPC' כשם חבילת פיתוח " +
+      "המכילה את הטרנזקציות CPCN/PCA1/PCA2/PCA3/PCCO, לא את הטרנזקציה COPC (PI Sheet: Browser) של " +
+      "PP-PI-PMA. חיפושים נוספים שרצו (כולם דרך scripts/sap-help-search.mjs, size 12, מוצר " +
+      "SAP_S4HANA_ON-PREMISE ו-SAP_ERP): 'COPC transaction PI sheet browser', 'Browser-Based PI Sheets " +
+      "transactions COPC', 'PI Sheet Browser selection transaction code', 'Display browser-based PI sheet " +
+      "transaction', וחיפוש מדויק '\"COPC\"' בשני המוצרים (21 תוצאות בכל חיפוש) לא החזירו אף רשומה שמדפיסה את " +
+      "המחרוזת COPC ככותרת טרנזקציה או בסניפט בהקשר PP-PI; נושאי העזרה של PI Sheets/Worklist מתארים את " +
+      "הפונקציות בשמות תפריט ('Worklist - Maintain', 'Display PI sheet', 'Process PI Sheet') ולא בקוד " +
+      "טרנזקציה בן ארבע אותיות, כפי שנצפה גם ברשומת tx:CO55. אין רשומת אינדקס simpl-tcode-index.json שגויה " +
+      "נוספת שנבדקה מעבר לתיקון פריט 30.9->30.16 (2023). קודי CO69, OPMC, CO56, CO58, CO59, CO60XT " +
+      "ו-CMX_XSH_OBJ_WORKLIST אינם ביקום המזהים של הפרויקט ולכן אינם ב-xrefs. ביקורת (2026-09-24): שתי " +
+      "ההפניות לפריטי הפישוט הופנו ל-PDF של 2025 FPS01 (הטיוטה הצביעה על קישורי 2023), ונושא העזרה " +
+      "'Deprecation of Cash Operations for China (COPC)' (2023.000) נוסף כשורה נפרדת. לא בוצעה בדיקה חיה " +
+      "במערכת SAP (ה-MCP המקומי לא זמין בסשן): קיום הטרנזקציה COPC במערכת CBC, תוכנית ה-ABAP שמאחוריה והבדל " +
+      "מדויק שלה מול COPI (PI Sheet: Maintain) נשארים לאימות במערכת חיה. accessedAt = 2026-09-24 לכל " +
+      "המקורות.",
+  },
+  /* ----------------------------------------------------- tx:CORZ */
+  {
+    id: "tx:CORZ",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CORZ",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "מאגר הפרויקט (data/tcode-catalog.ts) רושם את CORZ במודול PP-PI, אזור 'אישורים', עם השם האנגלי " +
+          "Process Order: Time Event Confirmation והשם העברי אישור אירוע זמן להזמנת תהליך; זו רשומת קטלוג בלבד " +
+          "ואינה קובעת סטטוס S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CORZ",
+      },
+      CORZ_FAL,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Documentary Batches in Production (help.sap.com, Batch Management LO-BM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4eb099dbc8a6435c9b36a854a7e05522/36ffb753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "קטע החיפוש בדף עדכני ל-SAP S/4HANA 2025 FPS01 On-Premise (loio 36ffb753128eb44ce10000000a174cb4, " +
+          "versionId 2025.001) מונה בין טרנזקציות האישור להזמנת תהליך את Enter Time Event (CORZ), לצד COR6N, " +
+          "CORK, CORS ו-CORT; נקראו רק כותרת וקטע (snippet), גוף הדף לא נשלף.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · items " +
+          "9.3.16 'S4TWL - Process Messages' (עמ' 630) ו-9.3.17 'S4TWL - Control Recipes/Instructions' (עמ' " +
+          "633); המקבילות ב-2023 FPS03 הן פריטים 30.18 (עמ' 768) ו-30.19 (עמ' 772)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "שני הפריטים קובעים תחת Business Process related information: 'No influence on business processes " +
+          "expected as long as you continue to use process messages / control recipes/instructions', ומוסיפים: " +
+          "'It is also possible to use the built-in features of SAP S/4HANA for production execution, that is: " +
+          "Transactions CORK, COR6N, CORZ; Apps for the production operator role SAP_BR_PRODN_OPTR_PROC' (פריט " +
+          "Process Messages מסיים את הרשימה ב-'And so on'; פריט Control Recipes/Instructions מסיים אותה " +
+          "ב-SAP_BR_PRODN_OPTR_PROC). הפריטים מזכירים את CORZ כדוגמה לטרנזקציית ליבה זמינה, חלופה לתרחיש " +
+          "ה-compatibility scope של process messages/control recipes מול MES חיצוני; אין בהם הצהרה על ביטול, " +
+          "שינוי או יורש ל-CORZ עצמה. פריט 30.9 'S4TWL - ANSI/ISA S95 Interface' ב-2023 FPS03 (עמ' 751) נקרא " +
+          "במלואו ואינו מזכיר CORZ כלל; שיוך CORZ לפריט 30.9 (כפי שמופיע " +
+          "ב-audit/master-completion/simpl-tcode-index.json ובברייף המשימה) אינו נתמך בטקסט הקובץ, ותוקן כאן " +
+          "ל-30.18/30.19.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CORZ_FAL,
+      he:
+        "CORZ (Confirm Time Event - Process Order Phase) ממשיכה להתקיים כטרנזקציית SAP GUI לאישור אירוע זמן " +
+        "להזמנת תהליך גם ב-SAP S/4HANA 2025 FPS01 On-Premise, ללא יורש או אפליקציית Fiori חלופית ברשומת " +
+        "ה-Fiori Apps Library; שני פריטי הפישוט מזכירים אותה כדוגמה לחלופה מובנית מול תרחיש MES מבוסס process " +
+        "messages/control recipes, לא כטרנזקציה שהשתנתה או שיש לה יורש.",
+      recommendedAction:
+        "אין צורך בפעולת הסבה: להמשיך להשתמש ב-CORZ לאישור אירועי זמן להזמנת תהליך; ברשומת ה-Fiori Apps " +
+        "Library אין יורש רשום, וברשימות הפישוט 2023 FPS03 ו-2025 FPS01 אין הכרזה על ביטול או שינוי לטרנזקציה " +
+        "עצמה.",
+    },
+    xrefs: ["tx:CORK", "tx:COR6N", "tx:CORS", "tx:CORT", "table:AFRU"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "חיפושים שהורצו: sap-help-search.mjs \"CORZ\" (--product ברירת מחדל S/4HANA On-Premise, 21 תוצאות), " +
+      "\"Process Order Time Event Confirmation\" (S/4HANA On-Premise, 21 תוצאות), \"CORZ time event " +
+      "confirmation\" (--product SAP_ERP, 21 תוצאות, מאמת שהתיאור זהה גם בצד ECC 6.18.latest); fal-app.mjs " +
+      "--tcode CORZ ו-fal-app.mjs CORZ --release S32OP (רשומת האפליקציה המלאה). לא הורץ גוף דף עם " +
+      "sap-help-body.mjs מכיוון שהכותרות והקטעים הספיקו לביסוס הטענות; לא בוצע WebSearch. לא בוצעה בדיקה " +
+      "חיה במערכת SAP (ה-MCP המקומי sc4sap לא זמין בסשן זה): קיום הקוד במערכת CBC בפועל, הרשאות תפקיד " +
+      "SAP_BR_PRODN_OPTR_PROC וזמינות בפועל דורשים אימות במערכת חיה. תוקנה בזאת טעות שיוך בין " +
+      "הברייף/האינדקס לבין תוכן ה-PDF: פריט 30.9 (S95 Interface) ב-2023 FPS03 אינו מכיל את המחרוזת CORZ; " +
+      "המחרוזת מופיעה בפועל בפריטים 30.18 ו-30.19 (Process Messages / Control Recipes-Instructions, כותרות " +
+      "בקובץ הטקסט '30.18S4TWL' / '30.19S4TWL' ללא רווח אחרי המספר, שורות 40486 ו-40626), המקבילים " +
+      "ל-9.3.16/9.3.17 ב-2025 FPS01. ביקורת עצמאית (2026-09-24) אישרה מחדש: כתובות URL נפתחות, רשומת ה-FAL " +
+      "ב-S32OP תואמת מילה במילה, רשומת החיפוש (loio/versionId/snippet) קיימת, כל ה-xrefs קיימים " +
+      "ב-route-manifest.",
+  },
+  /* ----------------------------------------------------- tx:CPC1 */
+  {
+    id: "tx:CPC1",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CPC1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "data/tcode-catalog.ts רושם את CPC1 במודול PP-PI, אזור 'נתוני תהליך', עם השם העברי 'תיעוד נתוני " +
+          "תהליך: מסמכים' והשם האנגלי 'Process Data Documentation: Documents'. זו רשומת קטלוג בלבד וללא תימוכין " +
+          "ממקור רשמי שנבדק היום.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CPC1",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 12.11 S4TWL - ACTIVITY-BASED " +
+          "COSTING (CO-OM-ABC), p. 361",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (פריט 12.11, רכיב יישום CO-OM-ABC, עמ' 361) קובע לגבי משפחת טרנזקציות תחזוקת המחזורים (cycles) " +
+          "ל-Indirect Activity Allocation את הציטוט: 'The same applies to the transactions to maintain cycles " +
+          "so CPV1-3 are covered by KSV1-3, CPP1-3 by KSU1-3 and CPC1-3 by KSC1-3'. כלומר CPC1 בפריט זה הוא " +
+          "טרנזקציה לתחזוקת מחזור (cycle) של הקצאת פעילות עקיפה במודול CO-OM-ABC (Activity-Based Costing), ולא " +
+          "הטרנזקציה שהמאגר מייחס ל-PP-PI. הפריט נקרא במלואו בטקסט המקומי ואינו נוקב בשם 'Process Data " +
+          "Documentation' או במודול PP-PI.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.5.2 S4TWL - ACTIVITY-BASED " +
+          "COSTING (CO-OM-ABC), pp. 320-323",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (מתחיל בעמ' 320, רכיב יישום CO-OM-ABC; המשפט המצוטט בעמ' 322-323) חוזר על אותו ציטוט מילה " +
+          "במילה: 'CPC1-3 by KSC1-3', באותו הקשר של תחזוקת מחזורי הקצאת פעילות עקיפה ל-Activity-Based Costing. " +
+          "הפריט נקרא במלואו בטקסט המקומי ואין בו אזכור ל-PP-PI, ל-'Process Data Documentation' או " +
+          "למסמכים/ארכיון אופטי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Data Documentation",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/098abf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "נושא העזרה (deliverable 'Production Planning and Control', loio 098abf53f106b44ce10000000a174cb4) " +
+          "מאשר ש-'Process Data Documentation' הוא רכיב של PP-PI. הגוף נקרא במלואו דרך שירות התוכן: ארכוב Order " +
+          "records ו-Batch records בארכיון אופטי, עם קישור לנושא 'Optical Archiving of Batch Records'. הגוף " +
+          "אינו מדפיס שום קוד טרנזקציה לפונקציה הזאת; מסלול גישה או שם טרנזקציה אינם מוזכרים.",
+        verificationLevel: "supported_secondary_source",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      he:
+        "הקוד CPC1 מודפס במקורות הרשמיים שנבדקו כטרנזקציית CO-OM-ABC לתחזוקת מחזור הקצאת פעילות עקיפה, בעוד " +
+        "המאגר משייך אותו ל-PP-PI (תיעוד נתוני תהליך: מסמכים). שום מקור רשמי שנבדק אינו קושר את הקוד " +
+        "לפונקציית PP-PI-PDO, ולכן מעמד הרשומה כפי שהמאגר מגדיר אותה דורש אימות.",
+      recommendedAction:
+        "לאמת במערכת SAP חיה (SE93 או הפעלת הקוד) איזו פונקציה נפתחת תחת CPC1 ולתקן את " +
+        "data/tcode-catalog.ts#CPC1 בהתאם; אם הקוד הוא טרנזקציית CO, לבחון את פריט 'S4TWL - ACTIVITY-BASED " +
+        "COSTING' ואת KSC1 כטרנזקציה המכסה.",
+    },
+    xrefs: [],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. הממצא המרכזי: שני פריטי הפישוט שמזכירים 'CPC1' (2023 FPS03 פריט " +
+      "12.11, 2025 FPS01 פריט 6.5.2, שניהם 'S4TWL - ACTIVITY-BASED COSTING', רכיב יישום CO-OM-ABC) עוסקים " +
+      "בטקסט זהה בטרנזקציית תחזוקת מחזור הקצאת פעילות עקיפה ב-CO-OM-ABC (Activity-Based Costing): CPC1-3 " +
+      "מכוסות לפי הפריט ב-KSC1-3, ו-CPC5 מוחלפת ב-KSC5 (הפריטים אינם מזכירים CPC7-9/CPCB). חיפוש עצמאי נוסף " +
+      "('CPC1' בהיקף SAP_S4HANA_ON-PREMISE ובהיקף SAP_ERP, 21 תוצאות בכל אחד) מאשר זאת: נושא 'Controlling " +
+      "and Project System' (loio a4e7cc53a8b77214e10000000a174cb4, אותו loio ב-SAP_ERP 6.18.latest " +
+      "וב-2025.001) מפרט בגוף גרסת 2025.001 'Indirect activity allocation (transactions KSC1, KSC2, KSC3, " +
+      "KSC5, CPC1, CPC2, CPC3, CPC5, ...)', כלומר הפונקציה רשומה גם ב-ECC וגם ב-S/4HANA On-Premise ללא " +
+      "סימון הסרה בנושא זה. לא נמצא אף מקור רשמי (לא בפריטי הפישוט, לא בנושא 'Process Data Documentation', " +
+      "לא בחיפוש 'Process Data Documentation CPC1', 21 תוצאות ללא נושא PDO הנוקב בקוד) שמקשר את הקוד CPC1 " +
+      "לפונקציה PP-PI-PDO 'Process Data Documentation: Documents' שהמאגר רושם. לכן זו נראית התנגשות מזהה " +
+      "(code collision) בין רשומת הקטלוג של הפרויקט לבין מה שכל מקור רשמי שנבדק מתאר תחת הקוד CPC1: אין " +
+      "ביסוס רשמי לכך שה-CPC1 שבפרויקט (PP-PI) הוא אותה טרנזקציה שהפריטים דנים בה (CO-OM-ABC), ולכן שני " +
+      "הפריטים אינם פוסקים לגבי הקוד כפי שהמאגר מגדיר אותו, וה-status נקבע verification_required. לא נקבע " +
+      "successor: KSC1 מתועד כמכסה רק ביחס לפונקציית ה-CO, לא ביחס לרשומת ה-PP-PI של הפרויקט, ו-KSC1 אינו " +
+      "קיים ביקום המזהים (lib/route-manifest.generated.ts) ולכן לא יכול לשמש xref או successor בכל מקרה. " +
+      "xrefs הושאר ריק: לא אותר קוד טרנזקציה, טבלה, BAPI או אובייקט רשום שקשור ישירות לפונקציית ה-PDO " +
+      "הספציפית הזו ביקום המזהים של הפרויקט. תיקון מומלץ למאגר (לא בוצע כאן, מחוץ לתפקיד המחקר): לבדוק מחדש " +
+      "את מקור הנתונים של data/tcode-catalog.ts#CPC1, ואם אין מקור רשמי התומך בשיוך PP-PI, לסמן 'דורש " +
+      "אימות' או לתקן את הרשומה. הערת ביקורת: audit/master-completion/simpl-tcode-index.json משייך את שורת " +
+      "ה-CPC1 של 2023 לפריט 12.9 'S4TWL - TECHNICAL CHANGES IN CONTROLLING' בטעות (הכותרת 12.11 מודפסת " +
+      "בטקסט ללא רווח, '12.11S4TWL'); הפריט הנכון הוא 12.11.",
   },
 ];
