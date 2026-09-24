@@ -736,3 +736,87 @@ graduated out of the repository-only foundation guard, so no test change.
   L2 10, L3 12, L4 3, L5 15; 28 verified, 12 conflicting, 30 S/4-applicable. Edition-specific went
   from 1 to 4 (the three new Public Cloud rows). No record changed depth, level or status.
 - No live SAP check was performed.
+
+# Batch 7 · written 2026-09-25 (access date stamped 2026-09-24, const DATE24)
+
+5 drafts audited: **4 written**, **1 refuted**. Written ids: `enh:exit:IWO10012`,
+`enh:exit:IWO10018`, `enh:exit:QQMA0014`, `enh:exit:CONFPM01`. All four deepen records that already
+existed; no new id. IWO10012, IWO10018 and QQMA0014 come from the auditor's `fixedRecord`; CONFPM01
+had no `fixedRecord` and is the audited draft with the verdict downgrades applied. The catalog was
+already graduated out of the repository-only foundation guard, so no test change.
+
+## refuted
+
+- `enh:exit:QQMA0001`: refuted at the second-round gate. The auditor confirmed all nine first-round
+  problems fixed: row 5 is bounded to the Public Cloud body read (loio
+  `211d0924bec64fdc89388d4aa82e66ca`, 2608.500), the Create Maintenance Request row is gone, the old
+  notes are an exact prefix of the new notes, and the six search counts reproduce. The repair added
+  a `reviewer` field holding a personal e-mail address. No record in `data/verification/**` has a
+  reviewer field, the review it names did not happen, and `lib/evidence/resolve.ts` passes
+  `reviewer` to the UI, so the address would ship in the static export. Not written; the live
+  record (2026-09-02) stays. To unblock: resubmit the same draft without `reviewer`. No other change
+  was asked for.
+
+## conflicts
+
+- `enh:exit:IWO10012`: both repository conflicts are unchanged (`data/exits.ts` 'ברירות מחדל לפעולת
+  פקודה'; PM workbook customCode row 26 'בדיקת אישורי עבודה (Permits)'). The suggested catalog name
+  now reads 'הזמנת תחזוקה: טיפול בעדיפות בכותרת המרכזית' (house rule 7); the batch-1 line above keeps
+  the old wording as history.
+- `enh:exit:IWO10018`: repository conflicts unchanged (workbook row 27, `data/workbenches-ext.ts`,
+  `data/tx-intel.ts` IA01 to IA12). Search-count drift: 'IWO10018' on SAP_S4HANA_ON-PREMISE returned
+  9 records for the researcher and 8 on the auditor's re-run of 2026-09-25 (index drift, stated in
+  the notes).
+- `enh:exit:QQMA0014`: repository conflicts unchanged (`data/exits.ts` name 'ברירות מחדל להודעה',
+  `data/domain-detail.ts`; QQMA0025 still absent from `data/exits.ts`).
+- `enh:exit:CONFPM01`: the `data/exits.ts` conflict (checks on confirmation against the official
+  'Determine customer-specific default values') is still open. Cross-record fix: the draft said
+  WORKORDER_CONFIRM was found on no official page checked, but `enh:badi:WORKORDER_CONFIRM` cites the
+  R/3 Enterprise 4.70 PP release notes (help.sap.com PDF, `legacy_context_only`) that name it. The
+  CONFPM01 negative is now bounded to S/4HANA pages and points at that record.
+
+## open verification
+
+- `enh:exit:IWO10009`: candidate evidence row. The QQMA0014 auditor re-read 'BAdI: Customer Check
+  for Save Event' (EAM_ORDER_CHECK_SAVE_EVENT, loio `ff45fb54ff7e4cd581c415e61bc931af`, 2025.001,
+  PM-WOC-MO) and confirmed it is a maintenance-order save BAdI. No file in `data/verification/**`
+  records it yet; the QQMA0014 record mentions it only as a Save BAdI documented for maintenance
+  orders, without the name. A later IWO10009 pass can add it as evidence, not as a successor.
+- `enh:exit:CONFPM01`: the version-stamped Simplification List was not checked for CONFPM01
+  (`scratchpad/official/`, `audit/master-completion/simpl-tcode-index.json`); no such item came up in
+  the help.sap.com searches. Private Cloud: no dedicated source was checked.
+- Live system checks are still open for all four: SMOD/CMOD components and EXIT_ function modules
+  (IWO10012; IWO10018 with CI_AUFK in SE11; QQMA0014 with EXIT_SAPMIWO0_020; CONFPM01), and SE18 for
+  WORKORDER_CONFIRM in maintenance-order confirmations.
+
+## writer deviations, batch 7
+
+- `enh:exit:IWO10012` `evidence[3].claim` and `notes`: 'גוף העמוד נקרא במלואו' became 'טקסט גוף
+  העמוד נקרא ... (התרשים האינטראקטיבי שבעמוד לא נקרא)', and the absence statements are bounded to
+  the text read. Same page (loio `533228e1e854433ab16d013f161ca509`) and same reason as the batch-6
+  customer-exit deviation. No new lookup was run.
+- `enh:exit:IWO10012` `notes`: 'אין מקור רשמי הממפה את IWO10012 אליו' became 'לא נמצא מקור רשמי
+  ...' (house rule 3.2: a documented negative, not a non-existence claim).
+- `enh:exit:IWO10018` `notes`: the `fixedRecord` says the 2026-09-02 finding stays detailed below,
+  but it dropped parts of it. Restored from the live record (house rule 8): workbook row 27, the fix
+  recommendations for the workbook and `data/tx-intel.ts`, the ERP 7.0 'Use of User Data' body
+  reading (reworded without 'רק', as the auditor required for the same page's snippet), and the
+  'Extensibility for Maintenance Order (Version 2) API' finding (loio
+  `221fe759ed294021a2a249ff04ddde83`), which backs the 'API של ההזמנה' part of `recommendedAction`.
+  The SAP PRESS sentence was not restored; evidence row 5 carries it. The pipeline tag 'חוקר
+  enh:exit:IWO10018' was removed, as the IWO10012 auditor required for the same kind of text.
+- `enh:exit:CONFPM01` `notes`: restored from the live record: the SMOD check line, the list of
+  derived repository files, the recommendation to add CONFPM02, CONFPM04 and CONFPM05 to the
+  catalog, and the PP (CO11N/COR6N) and SE18 point for WORKORDER_CONFIRM. The WORKORDER_CONFIRM
+  negative is bounded to S/4HANA (see conflicts). 'היום' became '2026-09-24'; the pipeline tag
+  'העמקה מרובד 3' was removed.
+- Not applied: the CONFPM01 verdict's `gaps[4]` and `summary` downgrades target researcher output
+  that the overlay does not store; the gap is carried under open verification above.
+- Unchanged rows were kept byte for byte (deep comparison against the pre-write file): IWO10012
+  rows 1, 2, 5, 6; IWO10018 rows 1, 5, 6; QQMA0014 rows 1 to 4 and 6 plus `status.source`; CONFPM01
+  rows 1 to 3 and 5. The other 36 records are unchanged.
+- Coverage (`npm run report:coverage -- --catalog enhancements`), before and after: 40 records,
+  L2 10, L3 12, L4 3, L5 15; 28 verified, 12 conflicting, 30 S/4-applicable. Edition-specific went
+  from 4 to 6 (the new Public Cloud rows on IWO10012 and CONFPM01). No record changed depth, level
+  or status.
+- No live SAP check was performed.

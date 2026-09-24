@@ -69,7 +69,20 @@
    Writer deviations: IWO10009 carries no reviewer field (no record in data/verification/** has one,
    and several records' notes say so); customer-exit bounds its absence statements to the text body
    read, because the user-exit auditor found an interactive diagram on the same page (loio
-   533228e1e854433ab16d013f161ca509) that sap-help-body.mjs does not return. */
+   533228e1e854433ab16d013f161ca509) that sap-help-body.mjs does not return.
+   Batch 7 (written 2026-09-25, access-stamped 2026-09-24, const DATE24): four audited deepenings of
+   existing records (IWO10012, IWO10018, QQMA0014, CONFPM01). IWO10012, IWO10018 and QQMA0014 are
+   the auditor's fixedRecord; CONFPM01 is the draft with the verdict downgrades applied. Each gains
+   one row: the Public Cloud Extensibility page (2608.500) for IWO10012, Find Maintenance Orders (Key
+   User) for IWO10018, 'Objects Released for Developer Extensibility in Quality Management'
+   (2023.000) for QQMA0014, and the Public Cloud page 'Extensibility: Maintenance Order Operation
+   Confirmation' for CONFPM01. No status token, successor or xref changed; rows not re-read keep
+   their original DATE. Writer deviations, listed in the queue file: the IWO10012 Extensibility claims
+   are bounded to the text body read (same page and diagram as batch 6); notes history that the
+   IWO10018 and CONFPM01 drafts dropped was restored from the live records; the CONFPM01
+   WORKORDER_CONFIRM negative is bounded to S/4HANA pages, because enh:badi:WORKORDER_CONFIRM cites
+   the R/3 Enterprise 4.70 release notes that name the BAdI. enh:exit:QQMA0001 was refuted at the
+   gate and is queued, not written. */
 import type { VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
@@ -196,8 +209,19 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2025.001",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/efc7922405fd4d56b7571930c5eaa798/50c7b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
-        accessedAt: DATE,
-        claim: "תיעוד ההזמנות (CS-SE/PM-WOC-MO) לגרסת 2025 FPS01 עדיין מונה customer exits ממשפחת IWO1 לפעולת ההזמנה: 'You can use customer exit IWO10015 to request input options in a user data field' ו-'You can use customer exit IWO10016 to run your own checks for the user data fields', ומפנה ל-Tools, ABAP Workbench, Utilities, Enhancements, Definition. הסניפט שהוחזר אינו נוקב ב-IWO10012; אותו עמוד (loio 50c7b65334e6b54ce10000000a174cb4) מפורסם גם בספריית SAP ERP 6.18.",
+        accessedAt: DATE24,
+        claim: "תיעוד ההזמנות (CS-SE/PM-WOC-MO) לגרסת 2025 FPS01 עדיין מונה customer exits ממשפחת IWO1 לפעולת ההזמנה: 'You can use customer exit IWO10015 to request input options in a user data field' ו-'You can use customer exit IWO10016 to run your own checks for the user data fields', ומפנה ל-Tools, ABAP Workbench, Utilities, Enhancements, Definition. הסניפט שהוחזר אינו נוקב ב-IWO10012; אותו עמוד (loio 50c7b65334e6b54ce10000000a174cb4) מפורסם גם בספריית SAP ERP 6.18. הסניפט נקרא שוב ב-2026-09-24 והוא זהה לציטוט הקודם; אינו נוקב ב-IWO10012.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Extensibility | Extend and Integrate Your SAP S/4HANA Cloud Public Edition",
+        product: "SAP S/4HANA Cloud Public Edition",
+        edition: "public-cloud",
+        release: "2608.500",
+        url: "https://help.sap.com/docs/SAP_S4HANA_CLOUD/0f69f8fb28ac4bf48d2b57b9637e81fa/533228e1e854433ab16d013f161ca509.html?locale=en-US&state=PRODUCTION&version=2608.500",
+        accessedAt: DATE24,
+        claim: "טקסט גוף העמוד נקרא דרך scripts/sap-help-body.mjs (התרשים האינטראקטיבי שבעמוד לא נקרא). לפי העמוד ('consists of the following options'), ההרחבה ב-SAP S/4HANA Cloud Public Edition כוללת שלוש אפשרויות: Key User Extensibility (Released object types: BAdIs, CDS views), Developer Extensibility (BAdIs, classes, interfaces, CDS views, behavior definitions, authorization objects) ו-Side-by-Side Extensibility (BAPIs, IDocs, OData APIs, SOAP APIs, events, ב-SAP BTP). טקסט גוף העמוד שנקרא אינו מזכיר Customer Exits קלאסיים (SMOD/CMOD). זו עדות כללית על מסגרת ה-Extensibility ב-Public Cloud; הטקסט שנקרא אינו דן ב-IWO10012 או בהזמנת תחזוקה, ואינו קובע מפורשות שהטכניקה הקלאסית אינה זמינה שם. היעדר אזכור הוא ממצא תחום (bounded negative), לא הצהרת אי-זמינות.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -231,18 +255,18 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "enh:badi:WORKORDER_UPDATE",
       "enh:technique:customer-exit",
     ],
-    lastVerifiedAt: DATE,
-    notes: "מה שאומת מול help.sap.com: הטקסט הקצר של IWO10012 הוא 'Maintenance order: Priority treatment on central header' (עמוד Develop Enhancements בספריית SAP 4.6C, נקרא במלואו; בגרסה הגרמנית של אותו עמוד: 'IH-Auftrag: Prioritätsbehandlung auf Kopf Zentral'). אלו העמודים הרשמיים היחידים שנמצאו הנוקבים בשם ההרחבה, והם מתקופת R/3, לכן נרשמו במהדורה 'ecc' וגרסה 4.6C. שני תיאורי המאגר (data/exits.ts: 'ברירות מחדל לפעולת פקודה'; חוברת PM, גיליון Custom Code: 'בדיקת אישורי עבודה (Permits)') אינם תואמים לטקסט הרשמי; לפי אותו עמוד, Permits הם IWO10007 ובדיקת שמירה היא IWO10009. שם עברי מוצע לתיקון הקטלוג: 'הזמנת אחזקה: טיפול בעדיפות בכותרת המרכזית'. לא נמצא עמוד S/4HANA (On-Premise, 100 עד 2025.001) או SAP ERP 6.18 הנוקב ב-IWO10012 בכותרת או בסניפט, בחיפושים שבוצעו ב-2026-09-02 (IWO10012; IWO10012 maintenance order operation default values; customer exits maintenance order IWO10009 IWO10012; Enhancements Maintenance Order SMOD customer exits IWO1; Priority in the maintenance order header; Develop Enhancements standard enhancements Plant Maintenance Customer Service). תיעוד ההזמנות לגרסת 2025 FPS01 מונה חברים אחרים במשפחה (IWO10011, IWO10015, IWO10016, IWO10029), ואין בכך ראיה על IWO10012 עצמו. לכן לא נכתב סטטוס S/4HANA: קיום ההרחבה ב-SMOD במערכת S/4HANA, שם מודול הפונקציה של ה-Exit, פרמטריו ומעמדו בקטלוג הפישוט דורשים אימות במערכת SAP או פריט פישוט חתום-גרסה (ה-MCP של sc4sap לא התחבר במושב זה; קטלוג הפישוט ו-SAP Notes חסומים בהתחברות S-user). המלצת 'העדף BAdI' וה-BAdI WORKORDER_UPDATE הם רובד מאגר; עמודי What's New (SAP S/4HANA 2022 SPS03 ו-2023) מתארים את WORKORDER_UPDATE כ-BAdI 'to further process or prohibit changes to orders', אך אין מקור רשמי הממפה את IWO10012 אליו, ולכן לא נרשם יורש. הראיה מעמוד Use of User Data נכללת רק כהקשר משפחתי ב-S/4HANA 2025.001.",
+    lastVerifiedAt: DATE24,
+    notes: "היסטוריה (2026-09-02 → 2026-09-24). מה שאומת מול help.sap.com: הטקסט הקצר של IWO10012 הוא 'Maintenance order: Priority treatment on central header' (עמוד Develop Enhancements בספריית SAP 4.6C, נקרא במלואו; בגרסה הגרמנית של אותו עמוד: 'IH-Auftrag: Prioritätsbehandlung auf Kopf Zentral'). אלו העמודים הרשמיים היחידים שנמצאו הנוקבים בשם ההרחבה, והם מתקופת R/3, לכן נרשמו במהדורה 'ecc' וגרסה 4.6C. שני תיאורי המאגר (data/exits.ts: 'ברירות מחדל לפעולת פקודה'; חוברת PM, גיליון Custom Code: 'בדיקת אישורי עבודה (Permits)') אינם תואמים לטקסט הרשמי; לפי אותו עמוד, Permits הם IWO10007 ובדיקת שמירה היא IWO10009. שם עברי מוצע לתיקון הקטלוג: 'הזמנת תחזוקה: טיפול בעדיפות בכותרת המרכזית'. ממצא 2026-09-02: לא נמצא עמוד S/4HANA (On-Premise, 100 עד 2025.001) או SAP ERP 6.18 הנוקב ב-IWO10012 בכותרת או בסניפט, בחיפושים IWO10012; IWO10012 maintenance order operation default values; customer exits maintenance order IWO10009 IWO10012; Enhancements Maintenance Order SMOD customer exits IWO1; Priority in the maintenance order header; Develop Enhancements standard enhancements Plant Maintenance Customer Service. חדש (2026-09-24): שלוש שאילתות נוספות ב-scripts/sap-help-search.mjs. 'IWO10012' (SAP_S4HANA_ON-PREMISE, 7 תוצאות): אף כותרת או סניפט אינם נוקבים ב-IWO10012; התוצאה הראשונה היא Use of User Data שכבר ברשומה. 'IWO10012 priority treatment central header maintenance order' (SAP_S4HANA_ON-PREMISE, 21 תוצאות): אף כותרת או סניפט אינם נוקבים ב-IWO10012; התוצאה 'Preparing PM/CS Orders for the CMC' (2025.001, loio 13f8c353b677b44ce10000000a174cb4) מציינת בסניפט 'The Priority field on the Create Order: Initial Screen and on the Header Data tabstrip on the Create XX order: Central Header screen is not used by the CMC functions'. היא עוסקת בשדה Priority בכותרת המרכזית אך אינה נוקבת ב-IWO10012, ולכן לא נכנסה כראיה. 'customer exits classic extensibility Public Cloud key user developer' (SAP_S4HANA_CLOUD, 21 תוצאות): הובילה לעמוד Extensibility (2608.500) שנוסף כראיה. טקסט גופו נקרא (התרשים האינטראקטיבי שבעמוד לא נקרא) ומונה Key User, Developer ו-Side-by-Side Extensibility ללא אזכור Customer Exits קלאסיים (SMOD/CMOD). זהו ממצא תחום על מסגרת ההרחבה ב-Public Cloud, לא קביעה על IWO10012, ולכן אינו מבסס authored status. תיעוד ההזמנות לגרסת 2025 FPS01 מונה חברים אחרים במשפחה (IWO10011, IWO10015, IWO10016, IWO10029), ואין בכך ראיה על IWO10012 עצמו. לכן לא נכתב סטטוס S/4HANA (כולל Private Cloud, שאין לגביה מקור נפרד מ-On-Premise ברשומה): קיום ההרחבה ב-SMOD במערכת S/4HANA, שם מודול הפונקציה של ה-Exit, פרמטריו ומעמדו בקטלוג הפישוט דורשים אימות במערכת SAP או פריט פישוט חתום-גרסה (ה-MCP של sc4sap לא התחבר; קטלוג הפישוט ו-SAP Notes חסומים בהתחברות S-user). המלצת 'העדף BAdI' וה-BAdI WORKORDER_UPDATE הם רובד מאגר; עמודי What's New (SAP S/4HANA 2022 SPS03 ו-2023) מתארים את WORKORDER_UPDATE כ-BAdI 'to further process or prohibit changes to orders', אך לא נמצא מקור רשמי הממפה את IWO10012 אליו, ולכן לא נרשם יורש. הראיה מעמוד Use of User Data נכללת רק כהקשר משפחתי ב-S/4HANA 2025.001. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "enh:exit:IWO10018",
     status: {
       status: "verification_required",
-      he: "Customer Exit של תחזוקת מפעל לשדות משתמש בכותרת הזמנת התחזוקה. שמה ותפקידה של ההרחבה מאומתים מול ספריית SAP הרשמית לגרסה R/3 4.6C בלבד ('IWO10018 IH-Auftrag: User-Felder am Auftragskopf'). באף רשומת חיפוש של help.sap.com ל-S/4HANA On-Premise (2025 FPS01 וגרסאות קודמות) לא מופיע השם IWO10018 בכותרת או בסניפט; גוף העמודים לא נקרא. לכן זמינות ההרחבה ב-S/4HANA, מבנה ה-CI_AUFK ומודולי ה-EXIT_ שלה טרם אומתו. מה שכן מתועד ב-S/4HANA 2025 FPS01: שדות ייעודיים ללקוח בכותרת ההזמנה (שינוי המוני, פונקציה עסקית LOG_EAM_CI_12) ושדות לקוח דרך Key User Extensibility בהקשר העסקי Asset Management: Maintenance Order (EAMS_ORD).",
+      he: "Customer Exit של תחזוקת מפעל לשדות משתמש בכותרת הזמנת התחזוקה. שמה ותפקידה של ההרחבה מאומתים מול ספריית SAP הרשמית לגרסה R/3 4.6C ('IWO10018 IH-Auftrag: User-Felder am Auftragskopf'); לא נמצא מקור רשמי מאוחר יותר הנוקב בשם. באף רשומת חיפוש של help.sap.com ל-S/4HANA On-Premise (2025 FPS01 וגרסאות קודמות) או ל-SAP ERP 6.18 לא מופיע השם IWO10018 בכותרת או בסניפט. לכן זמינות ההרחבה ב-S/4HANA (SMOD), מבנה ה-CI_AUFK ומודולי ה-EXIT_ שלה טרם אומתו. מה שכן מתועד ב-S/4HANA 2025 FPS01: שדות ייעודיים ללקוח בכותרת ההזמנה (שינוי המוני, פונקציה עסקית LOG_EAM_CI_12) ושדות לקוח דרך Key User Extensibility בהקשר העסקי Asset Management: Maintenance Order (EAMS_ORD), הן ביישום Manage Maintenance Orders והן ביישום Find Maintenance Orders.",
       edition: "on-premise",
       release: null,
       source: null,
-      recommendedAction: "לאמת במערכת S/4HANA חיה ב-SMOD (קיום ההרחבה IWO10018 ורכיביה: מודולי EXIT_ ומסך המשנה), ב-CMOD (פרויקט פעיל) וב-SE11 (מבנה CI_AUFK). להסבה: לשדות לקוח חדשים בהזמנה להעדיף את הנתיב המתועד ב-S/4HANA, Custom Fields בהקשר העסקי EAMS_ORD, כך שהשדות זמינים ביישום Manage Maintenance Orders וב-API של ההזמנה; לפיתוחי ECC קיימים לבדוק ב-ATC/SCMON; לוגיקת ולידציה של שדות הלקוח ניתן לשקול להעביר ל-BAdI WORKORDER_UPDATE, ואילו למסך המשנה עצמו לא נמצא במאגר או במקור רשמי תחליף BAdI. אין להציג את ההרחבה כזמינה או כמוחלפת ב-S/4HANA לפני בדיקת SMOD.",
+      recommendedAction: "לאמת במערכת S/4HANA חיה ב-SMOD (קיום ההרחבה IWO10018 ורכיביה: מודולי EXIT_ ומסך המשנה), ב-CMOD (פרויקט פעיל) וב-SE11 (מבנה CI_AUFK). להסבה: לשדות לקוח חדשים בהזמנה להעדיף את הנתיב המתועד ב-S/4HANA, Custom Fields בהקשר העסקי EAMS_ORD, כך שהשדות זמינים ביישומי Manage Maintenance Orders ו-Find Maintenance Orders וב-API של ההזמנה; לפיתוחי ECC קיימים לבדוק ב-ATC/SCMON; לוגיקת ולידציה של שדות הלקוח ניתן לשקול להעביר ל-BAdI WORKORDER_UPDATE, ואילו למסך המשנה עצמו לא נמצא במאגר או במקור רשמי תחליף BAdI. אין להציג את ההרחבה כזמינה או כמוחלפת ב-S/4HANA לפני בדיקת SMOD.",
     },
     evidence: [
       {
@@ -263,8 +287,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2025.001",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/77c07c8d30664260a0b3ff864e6b5e78/adf6ac3fb6624eb3b934e145f6aed4d7.html?locale=en-US&state=PRODUCTION&version=2025.001",
-        accessedAt: DATE,
-        claim: "תיעוד הפונקציה העסקית Enterprise Asset Management Part 12 ל-S/4HANA 2025 FPS01 קובע: 'You can perform a mass change in maintenance orders for additional order header data and customer-specific fields', ו-'The additional fields are located on various tab pages that correspond to the tab pages when processing the order header'. הסניפט מאשר שקיימים ב-S/4HANA שדות ייעודיים ללקוח בכותרת הזמנת התחזוקה; הוא אינו נוקב בשם IWO10018.",
+        accessedAt: DATE24,
+        claim: "תיעוד הפונקציה העסקית Enterprise Asset Management Part 12 ל-S/4HANA 2025 FPS01 קובע: 'You can perform a mass change in maintenance orders for additional order header data and customer-specific fields', ו-'The additional fields are located on various tab pages that correspond to the tab pages when processing the order header'. גוף העמוד (נקרא מחדש ב-2026-09-24) מאשר שקיימים ב-S/4HANA שדות ייעודיים ללקוח בכותרת הזמנת התחזוקה; הוא אינו נוקב בשם IWO10018.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -274,8 +298,19 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2025.001",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/0b67655d18b7494baa813f1fa6caffb2.html?locale=en-US&state=PRODUCTION&version=2025.001",
-        accessedAt: DATE,
-        claim: "לפי הסניפט, ניתן להוסיף שדות ליישום Manage Maintenance Orders בהרחבת Key User: 'You can add fields to the following UI elements using key user adaptation', בהקשר העסקי 'Asset Management: Maintenance Order (EAMS_ORD)', לצד ההקשרים Maintenance Plan (EAMS_MPLA) ו-Maintenance Item (EAMS_MPOS). זהו הנתיב המתועד ב-S/4HANA לשדות לקוח בהזמנת תחזוקה ב-Fiori; הסניפט אינו מתייחס ל-Customer Exits.",
+        accessedAt: DATE24,
+        claim: "לפי גוף העמוד (נקרא מחדש ב-2026-09-24), ניתן להוסיף שדות ליישום Manage Maintenance Orders בהרחבת Key User: 'You can add fields to the following UI elements using key user adaptation', בהקשר העסקי 'Asset Management: Maintenance Order (EAMS_ORD)'; בתרחישים העסקיים של היישום מופיעים גם ההקשרים Maintenance Plan (EAMS_MPLA) ו-Maintenance Item (EAMS_MPOS). זהו הנתיב המתועד ב-S/4HANA לשדות לקוח בהזמנת תחזוקה ב-Fiori; העמוד אינו מתייחס ל-Customer Exits.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "App Extensibility: Find Maintenance Orders (Key User) | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/a4dd584ee92142e5836c001f1007cd91.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim: "גוף העמוד (נקרא ב-2026-09-24 דרך sap-help-body.mjs) מפרט הוספת Custom Fields ליישום Find Maintenance Orders בהקשר העסקי Asset Management: Maintenance Order (EAMS_ORD), בלשוניות General Information, Operations, Organizational Data ו-Account Assignment של פרטי ההזמנה ובמסנני הרשימה, וכן Additional Standard Fields. העמוד אינו מזכיר Customer Exits או IWO10018.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -311,8 +346,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "tx:SE11",
       "table:AUFK",
     ],
-    lastVerifiedAt: DATE,
-    notes: "סתירה פנימית במאגר שהמקור הרשמי מכריע: data/exits.ts מתאר את IWO10018 כשדות לקוח בכותרת ההזמנה (תואם לשם הרשמי ב-4.6C), בעוד גיליון ה-Custom Code של חוברת ה-PM (data/sapData.pm.ts, שורה 27 בגיליון) מתאר 'בדיקת/הרחבת רכיבים' ו-data/workbenches-ext.ts מתאר 'בדיקות בעת שחרור (REL)'; שני התיאורים האחרונים אינם תואמים לשם הרשמי ומומלץ לתקנם (החוברת מתוקנת רק במקור ה-xlsx). ספר SAP PRESS במאגר, Configuring Plant Maintenance in SAP S/4HANA (data/library/book1, פרק 9), מונה את ההרחבה כ-IWO10018: User fields in order header, בהתאמה לשם הרשמי ב-4.6C; זהו מקור Tier-2 ואינו מעיד על זמינות ב-S/4HANA. בנוסף, data/tx-intel.ts משייך את IWO10018 לטרנזקציות רשימות משימות (IA01, IA02, IA06, IA08, IA11, IA12) בשדה userExits; לפי המקור הרשמי זו הרחבת כותרת הזמנה (IW31/IW32) ולא הרחבת רשימת משימות, ומומלץ לתקן. העמוד 'Use of User Data' של S/4HANA 2025 FPS01 עולה בחיפוש על IWO10018, אך גוף הגרסה שנקראה (ERP 7.0) מזכיר רק את IWO10015 ו-IWO10016 לשדות המשתמש בפעולה, ולכן לא צוטט. הנושא 'Extensibility for Maintenance Order (Version 2) API' (APIs for Maintenance Management, 2025 FPS01, loio 221fe759ed294021a2a249ff04ddde83) מאשר את ההקשר EAMS_ORD גם לישות MaintenanceOrder ב-API. סתירת מזהי ה-Fiori F2731/F5241 ליישום Manage Maintenance Orders נותרה פתוחה ברשומות אחרות, ולכן לא נוסף כאן xref ליישום. חיבור ה-SAP MCP החי לא היה זמין בסשן זה; בדיקת SMOD/CMOD/SE11 לא בוצעה.",
+    lastVerifiedAt: DATE24,
+    notes: "היסטוריה (2026-09-02 → 2026-09-24). ממצא קודם (2026-09-02): נותר מפורט להלן, ללא שינוי במסקנה. חדש (2026-09-24): הורצו מחדש ארבעה חיפושים בשירות הרשמי: (1) 'IWO10018' בהיקף ברירת המחדל SAP_S4HANA_ON-PREMISE: 9 תוצאות (8 בהרצה חוזרת ב-2026-09-25), אף אחת אינה נוקבת ב-IWO10018 בכותרת או בסניפט (התוצאה הראשונה, 'Use of User Data', 2025.001, loio 50c7b65334e6b54ce10000000a174cb4, מזכירה את IWO10015/IWO10016 ולא את IWO10018; זהה למצב שתועד ב-2026-09-02); (2) 'IWO10018 user fields order header customer exit' עם --product SAP_ERP: 21 תוצאות, ללא IWO10018 בכותרת או בסניפט (התוצאות הרלוונטיות ביותר: 'Use of User Data' ERP 6.18, ושורת 'Special Business Cases in Declarations' עם EXIT_SAPLV50E_* שאינם קשורים); (3) 'maintenance order header user fields Key User Extensibility custom fields': 21 תוצאות, כולל יישום Key User חדש שלא צוטט קודם: 'App Extensibility: Find Maintenance Orders (Key User)' (2025.001, loio a4dd584ee92142e5836c001f1007cd91), שנוסף כראיה נפרדת לעיל כתוספת הקשר לנתיב ה-Key User (לא כאישור ל-IWO10018 עצמה); (4) 'Simplification maintenance order customer exit header': 21 תוצאות, אף אחת אינה פריט Simplification List או עמוד הנוקב ב-IWO10018; ההתאמות הקרובות ביותר ('Maintenance Order: Changing the Header Notification in the Object List', What's New 1709/100) עוסקות בהודעת כותרת ברשימת אובייקטים ולא בהרחבת IWO10018. גופי העמודים Enterprise Asset Management Part 12, Manage Maintenance Orders (Key User) ו-Find Maintenance Orders (Key User) נקראו דרך sap-help-body.mjs; אף אחד מהם אינו נוקב ב-IWO10018. לא נמצאה רשומת What's New, Simplification Item, SAP Note או KBA הנוקבת ב-IWO10018 או ב-EXIT_ המתאים לה. סתירה פנימית במאגר שהמקור הרשמי מכריע (ללא שינוי): data/exits.ts מתאר את IWO10018 כשדות לקוח בכותרת ההזמנה (תואם לשם הרשמי ב-4.6C), בעוד גיליון ה-Custom Code של חוברת ה-PM (data/sapData.pm.ts, שורה 27 בגיליון) מתאר 'בדיקת/הרחבת רכיבים' ו-data/workbenches-ext.ts מתאר 'בדיקות בעת שחרור (REL)'; שני התיאורים האחרונים אינם תואמים לשם הרשמי ומומלץ לתקנם (החוברת מתוקנת רק במקור ה-xlsx). data/tx-intel.ts משייך את IWO10018 לטרנזקציות רשימות משימות (IA01, IA02, IA06, IA08, IA11, IA12) בשדה userExits; לפי המקור הרשמי זו הרחבת כותרת הזמנה (IW31/IW32) ולא הרחבת רשימת משימות, ומומלץ לתקן. ממצאי 2026-09-02 נוספים (ללא שינוי): גוף הגרסה שנקראה של 'Use of User Data' (ERP 7.0) מזכיר את IWO10015 ו-IWO10016 לשדות המשתמש בפעולה ולא את IWO10018, ולכן לא צוטט; הנושא 'Extensibility for Maintenance Order (Version 2) API' (APIs for Maintenance Management, 2025 FPS01, loio 221fe759ed294021a2a249ff04ddde83) מאשר את ההקשר EAMS_ORD גם לישות MaintenanceOrder ב-API. אין xref ליישום Fiori: מזהי ה-Fiori F2731/F5241 ליישום Manage Maintenance Orders נותרו בסתירה פתוחה ברשומות אחרות. חיבור ה-SAP MCP החי לא היה זמין בסשן זה; בדיקת SMOD/CMOD/SE11 לא בוצעה; לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "enh:exit:QQMA0001",
@@ -390,10 +425,12 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
   },
   {
     id: "enh:exit:QQMA0014",
-    aliases: ["EXIT_SAPMIWO0_020"],
+    aliases: [
+      "EXIT_SAPMIWO0_020",
+    ],
     status: {
       status: "verification_required",
-      he: "הרחבת לקוח (SMOD) לבדיקות לפני שמירת הודעה, לפי הספרייה הרשמית של R/3 4.6C. לא נמצא דף help.sap.com לגרסת S/4HANA (סט התיעוד 2025 FPS01 ומהדורות What's New) הנוקב ב-QQMA0014, ורשימת המוצרים ב-KBA 2553412 ('SAP S/4HANA all versions') אינה הצהרת זמינות או שינוי, ולכן הפסיקה נשארת 'נדרש אימות נוסף'.",
+      he: "הרחבת לקוח (SMOD) לבדיקות לפני שמירת הודעה, לפי הספרייה הרשמית של R/3 4.6C. לא נמצא דף help.sap.com לגרסת S/4HANA (סט התיעוד 2025 FPS01, מהדורות What's New ורשימות הפישוט) הנוקב ב-QQMA0014 או במודול הפונקציה EXIT_SAPMIWO0_020, ורשימת המוצרים ב-KBA 2553412 ('SAP S/4HANA all versions') אינה הצהרת זמינות או שינוי. חיפוש נוסף (2026-09-24) אחר BAdI חלופי לבדיקות לפני שמירת הודעה לא העלה תוצאה: BAdI לאירוע Save שעלה בחיפוש מתועד לפקודות תחזוקה ולא להודעות, ולכן לא נרשם כאן; שני ה-BAdI שנמצאו במפורש להודעות איכות, QN_CHECK_BEFORE_DEL_HEADER ו-QN_CHECK_BEFORE_DEL_ITEM, מופעלים במחיקה לוגית ולא בשמירה. הפסיקה נשארת 'נדרש אימות נוסף'.",
       edition: "on-premise",
       release: null,
       source: {
@@ -407,7 +444,7 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         claim: "עמוד ספרייה סטטי מדור קודם (saphelp_46c, ללא loio/versionId; נפתח דרך הפניה ל-?no_cache=true), נקרא במלואו: עמוד הספרייה הרשמי (R/3 4.6C) מונה את ההרחבה QQMA0014 כ-'Checks before saving notification'. ערכי ברירת מחדל בעת הוספת הודעה שייכים להרחבה נפרדת באותו עמוד: QQMA0025 'Default values when adding notification'; שותף ברירת מחדל ל-QQMA0019 'Default partner when adding notification'.",
         verificationLevel: "sap_official_verified",
       },
-      recommendedAction: "לתקן את שם הרשומה ותיאורה בקטלוג ההרחבות לפי התיעוד הרשמי (בדיקות לפני שמירת הודעה; מודול פונקציה EXIT_SAPMIWO0_020 לפי כותרת ה-KBA). לפני התחייבות בפרויקט: לאמת ב-SMOD/CMOD במערכת היעד שההרחבה קיימת ופעילה, לבדוק את הקוד ב-ATC/SCMON לפי המלצת הבלופרינט, ולבדוק אילו מסלולי יצירה מפעילים אותה, שכן לפי כותרת ה-KBA יצירת הודעה דרך BAPI_QUALNOT_CREATE אינה קוראת ל-Exit.",
+      recommendedAction: "לתקן את שם הרשומה ותיאורה בקטלוג ההרחבות לפי התיעוד הרשמי (בדיקות לפני שמירת הודעה; מודול פונקציה EXIT_SAPMIWO0_020 לפי כותרת ה-KBA). לפני התחייבות בפרויקט: לאמת ב-SMOD/CMOD במערכת היעד שההרחבה קיימת ופעילה, לבדוק את הקוד ב-ATC/SCMON לפי המלצת הבלופרינט, ולבדוק אילו מסלולי יצירה מפעילים אותה (BAPI_QUALNOT_CREATE אינו קורא לה, לפי כותרת ה-KBA). לחלופת clean-core: נכון לגרסאות שנבדקו, לא אותר BAdI רשמי שמחליף את בדיקת ה-Save עבור הודעות; QN_CHECK_BEFORE_DEL_HEADER/ITEM (2023) מיועדים לבדיקות בעת מחיקה לוגית ואינם תחליף פונקציונלי לבדיקת השמירה.",
     },
     evidence: [
       {
@@ -455,6 +492,17 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "sap_official_verified",
       },
       {
+        sourceType: "sap_help",
+        sourceTitle: "Objects Released for Developer Extensibility in Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f296651f454c4284ade361292c633d69/ea86d066e03b4b2ca0c2c0457cc98714.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE24,
+        claim: "העמוד נקרא במלואו (deliverableMetadata + pagecontent, לא מעטפת JS). ברשימת האובייקטים שנוספו לפיתוח משוחרר (developer extensibility) ל-QM ב-S/4HANA 2023 מופיעים שני BAdI חדשים: 'Execution of Checks Before Logical Deletion of Quality Notifications' (QN_CHECK_BEFORE_DEL_HEADER) ו-'Execution of Checks Before Logical Deletion of Quality Notification Items' (QN_CHECK_BEFORE_DEL_ITEM), שניהם 'New' ומיועדים לבדיקות נוספות בעת מחיקה לוגית של הודעת איכות/פריט הודעה. העמוד אינו מזכיר QQMA0014 ואינו מגדיר BAdI לבדיקות בעת שמירה (Save); אירוע ה-Trigger המתועד לשני ה-BAdI הוא מחיקה, לא שמירה, כך שאין לראות בהם יורש פונקציונלי של QQMA0014.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
         sourceType: "repository",
         sourceTitle: "גיליון customCode של בלופרינט PM ('Custom Code Check · User Exits / BAdIs', SAP_PM_ECC6_to_S4_Migration.xlsx), שורה 19",
         product: "SAP ECC / SAP S/4HANA",
@@ -481,8 +529,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "fm:BAPI_ALM_NOTIF_CREATE",
       "cds:I_MaintenanceNotification",
     ],
-    lastVerifiedAt: DATE,
-    notes: "שם הרשומה בקטלוג ('ברירות מחדל להודעה') אינו נתמך באף מקור. העמוד הרשמי (ספריית R/3 4.6C, אנגלית וגרמנית), כותרת KBA 2553412, שורת הבלופרינט ושני ספרי SAP PRESS שבמאגר (Configuring Plant Maintenance §9.3.4 ו-Plant Maintenance Business User Guide §10.4.4, סעיף 'Customer Exits': 'customized data checks when saving orders (IWO10009) or notifications (QQMA0014)') מתארים את QQMA0014 כבדיקות לפני שמירת הודעה; ההרחבה לערכי ברירת מחדל בהוספת הודעה היא QQMA0025 לפי אותו עמוד רשמי, ו-QQMA0025 אינה קיימת ב-data/exits.ts ובמניפסט המסלולים (השם מופיע כמחרוזת בלבד ברשימת ההרחבות של data/domain-detail.ts, שורה 74). גם data/workbenches-ext.ts מתאר את QQMA0014 כבדיקות לפני שמירה, בעוד data/domain-detail.ts חוזר על 'ברירות מחדל'. מומלץ לתקן ב-data/exits.ts את he, purpose, trigger, example ו-object (EXIT_SAPMIWO0_020 לפי כותרת ה-KBA) ואת domain-detail.ts. סטטוס S/4HANA מכריע לא נכתב, והרשומה נושאת 'נדרש אימות נוסף' במפורש: לא נמצא דף help.sap.com לגרסת S/4HANA הנוקב ב-QQMA0014 (12 שאילתות בכלי החיפוש הרשמי ושתי שאילתות WebSearch מוגבלות-דומיין, 2026-09-02); הראיה היחידה להקשר S/4HANA היא רשימת המוצרים ב-KBA ('SAP S/4HANA all versions'), שאינה בדומיין Tier-1 ואינה הצהרת זמינות או שינוי. הראיה הרשמית לגרסת 2022 מתעדת BAdI לערכי ברירת מחדל בהודעות איכות בלבד ואינה יורש של QQMA0014. מה שחסר לסטטוס: דף Help או פריט פישוט חתום-גרסה הקובע קיום, שינוי או החלפה של QQMA0014 ב-S/4HANA, ואימות ב-SMOD/CMOD במערכת היעד.",
+    lastVerifiedAt: DATE24,
+    notes: "שם הרשומה בקטלוג ('ברירות מחדל להודעה') אינו נתמך באף מקור. העמוד הרשמי (ספריית R/3 4.6C, אנגלית וגרמנית), כותרת KBA 2553412, שורת הבלופרינט ושני ספרי SAP PRESS שבמאגר (Configuring Plant Maintenance §9.3.4 ו-Plant Maintenance Business User Guide §10.4.4, סעיף 'Customer Exits': 'customized data checks when saving orders (IWO10009) or notifications (QQMA0014)') מתארים את QQMA0014 כבדיקות לפני שמירת הודעה; ההרחבה לערכי ברירת מחדל בהוספת הודעה היא QQMA0025 לפי אותו עמוד רשמי, ו-QQMA0025 אינה קיימת ב-data/exits.ts ובמניפסט המסלולים (השם מופיע כמחרוזת בלבד ברשימת ההרחבות של data/domain-detail.ts, שורה 74). גם data/workbenches-ext.ts מתאר את QQMA0014 כבדיקות לפני שמירה, בעוד data/domain-detail.ts חוזר על 'ברירות מחדל'. מומלץ לתקן ב-data/exits.ts את he, purpose, trigger, example ו-object (EXIT_SAPMIWO0_020 לפי כותרת ה-KBA) ואת domain-detail.ts. הראיה הרשמית לגרסת 2022 מתעדת BAdI לערכי ברירת מחדל בהודעות איכות ואינה יורש של QQMA0014. סבב מחקר נוסף (2026-09-24, עומק 2, יעד sap_official_verified): הורצו 5 שאילתות חדשות בכלי החיפוש הרשמי - 'QQMA0014', 'EXIT_SAPMIWO0_020', 'NOTIF_EVENT_SAVE', 'customer exit maintenance notification enhancement spot', 'quality notification check before saving BAdI' - וגם סבב עם --product SAP_ERP; נקראו שני גופי עמוד נוספים. אף רשומת S/4HANA שהחזיר שירות החיפוש אינה נוקבת ב-QQMA0014 או ב-EXIT_SAPMIWO0_020. הממצא החדש: עמוד 'Objects Released for Developer Extensibility in Quality Management' (S/4HANA 2023) מתעד שני BAdI חדשים למחיקה לוגית של הודעת איכות (QN_CHECK_BEFORE_DEL_HEADER / QN_CHECK_BEFORE_DEL_ITEM); מאחר שאלה מופעלים במחיקה ולא בשמירה, אין לראות בהם יורש ל-QQMA0014, וזה נרשם כפער מפורש ולא כסטטוס. BAdI לאירוע Save שעלה בחיפוש מתועד לפקודות תחזוקה ולא להודעות; הוא רלוונטי לרשומה enh:exit:IWO10009 ולא נוסף לכאן. סטטוס S/4HANA מכריע לא נכתב, והרשומה נושאת 'נדרש אימות נוסף' במפורש: לא נמצא דף help.sap.com לגרסת S/4HANA הנוקב ב-QQMA0014 (12 שאילתות בכלי החיפוש הרשמי ושתי שאילתות WebSearch מוגבלות-דומיין ב-2026-09-02, וסבב נוסף של 5-6 שאילתות ב-2026-09-24); הראיה היחידה להקשר S/4HANA היא רשימת המוצרים ב-KBA ('SAP S/4HANA all versions'), שאינה בדומיין Tier-1 ואינה הצהרת זמינות או שינוי. מה שחסר לסטטוס: דף Help או פריט פישוט חתום-גרסה הקובע קיום, שינוי או החלפה של QQMA0014 ב-S/4HANA, ואימות ב-SMOD/CMOD במערכת היעד (MCP של sc4sap לא זמין במושב זה). לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "enh:exit:CONFPM01",
@@ -518,6 +566,17 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/7d6c7de7b9234747978552d4ca44466b.html?locale=en-US&state=PRODUCTION&version=2023.latest",
         accessedAt: DATE,
         claim: "ב-S/4HANA On-Premise (2023 Latest) מתועד שירות OData לאישורי הזמנות תחזוקה: 'Technical name: API_MAINTORDERCONFIRMATION. This synchronous inbound service enables you to create new maintenance order confirmations and cancel confirmations'. רשומת החיפוש אינה מזכירה Customer Exits; היא מובאת כהקשר S/4HANA לערוץ יצירת אישורים שאינו עובר דרך מסכי IW41/IW42.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Extensibility: Maintenance Order Operation Confirmation | Overview of Changes in Extensibility Objects, SAP S/4HANA Cloud Public Edition",
+        product: "SAP S/4HANA Cloud",
+        edition: "public-cloud",
+        release: "2608.500",
+        url: "https://help.sap.com/docs/SAP_S4HANA_CLOUD/f9ba73d1b8c543c2bd2ba1666271af86/fba520fc50964a04bf1ee385d2496ed1.html?locale=en-US&state=PRODUCTION&version=2608.500",
+        accessedAt: DATE24,
+        claim: "גוף העמוד (נקרא ב-2026-09-24 דרך scripts/sap-help-body.mjs, SAP S/4HANA Cloud Public Edition 2608 Latest) קובע: 'As a key user, you can extend the OData service API_MAINTORDERCONFIRMATION according to your business needs... using the business context Maintenance Order Operation Confirmation...'; בטבלת הישויות מופיעה הישות MaintOrderConfirmation עם Business Context 'Maintenance Order Confirmation (EAMS_AFRU)'. זהו מנגנון Key User Extensibility (הוספת Custom Fields ב-OData) עבור נתוני אישור הזמנת תחזוקה ב-Public Cloud; העמוד אינו מזכיר Customer Exits, BAdI, ואת CONFPM01 בשמה, ואינו עוסק בולידציה/ברירות מחדל אלא בהוספת שדות מותאמים. מובא כהקשר נפרד ומתויג ל-Public Cloud בלבד: אין בו קביעה על מעמד CONFPM01.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -557,8 +616,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "table:AFRU",
       "fiori:F2730",
     ],
-    lastVerifiedAt: DATE,
-    notes: "אין סטטוס מחובר: בחיפושי help.sap.com שבוצעו (CONFPM01, CONFPM02, CONFPM05, customer exit confirmation maintenance order, Develop Enhancements, Confirmation List) לא אותר עמוד של SAP S/4HANA On-Premise או של SAP ERP 6.0 EHP8 המזכיר את CONFPM01 בשמה; המקור הרשמי היחיד לתיאורה הוא ספריית SAP לגרסה 4.6C. זמינות ההרחבה ב-S/4HANA ושמות ה-Function Exits שלה דורשים אימות ב-SMOD במערכת (ה-MCP ל-ABAP לא היה זמין). סתירה פתוחה: המאגר (data/exits.ts, וברשומות הנגזרות ב-data/domain-detail.ts, data/transactions.ts, data/consultant-notes.ts, data/troubleshooting.ts, data/centers/debugging.ts, data/process-guides.ts) מציג את CONFPM01 כבדיקות באישור; לפי SAP היא לערכי ברירת מחדל, ובדיקות הקלט הן CONFPM02 ו-CONFPM04 (ו-CONFPM05 לתוספות בשמירה). מומלץ לתקן את שם הרשומה, המטרה והדוגמה, ולהוסיף את CONFPM02, CONFPM04 ו-CONFPM05 לקטלוג. BAdI WORKORDER_CONFIRM כתחליף Clean Core: לא נמצא עמוד רשמי המזכיר אותו בשמו, ובמאגר הוא משויך ל-PP (CO11N/COR6N); הפעלתו באישור הזמנת תחזוקה דורשת אימות ב-SE18, ולכן לא נרשם כאן successor.",
+    lastVerifiedAt: DATE24,
+    notes: "היסטוריה (2026-09-02 → 2026-09-24). ממצא 2026-09-02: אין סטטוס מחובר; בחיפושי help.sap.com שבוצעו (CONFPM01, CONFPM02, CONFPM05, customer exit confirmation maintenance order, Develop Enhancements, Confirmation List) לא אותר עמוד של SAP S/4HANA On-Premise או של SAP ERP 6.0 EHP8 המזכיר את CONFPM01 בשמה; המקור הרשמי היחיד לתיאורה הוא ספריית SAP לגרסה 4.6C. זמינות ההרחבה ב-S/4HANA ושמות ה-Function Exits שלה דורשים אימות ב-SMOD במערכת (ה-MCP ל-ABAP לא היה זמין). סתירה פתוחה: המאגר (data/exits.ts, וברשומות הנגזרות ב-data/domain-detail.ts, data/transactions.ts, data/consultant-notes.ts, data/troubleshooting.ts, data/centers/debugging.ts, data/process-guides.ts) מציג את CONFPM01 כבדיקות באישור; לפי SAP היא לערכי ברירת מחדל, ובדיקות הקלט הן CONFPM02 ו-CONFPM04 (ו-CONFPM05 לתוספות בשמירה). מומלץ לתקן את שם הרשומה, המטרה והדוגמה, ולהוסיף את CONFPM02, CONFPM04 ו-CONFPM05 לקטלוג. BAdI WORKORDER_CONFIRM כתחליף Clean Core: במאגר הוא משויך ל-PP (CO11N/COR6N); הפעלתו באישור הזמנת תחזוקה דורשת אימות ב-SE18, ולכן לא נרשם כאן successor. חדש (2026-09-24): חמישה חיפושים ממוקדים דרך scripts/sap-help-search.mjs: 'CONFPM01' (SAP_S4HANA_ON-PREMISE, 18 תוצאות: אף אחת אינה נוקבת ב-CONFPM01 בכותרת או בסניפט; הקרובות ביותר עוסקות ב-CONFPP05/CONFPP07 של PP-SFC), 'WORKORDER_CONFIRM BAdI' (SAP_S4HANA_ON-PREMISE, 21 תוצאות: אף תוצאה אינה נוקבת ב-WORKORDER_CONFIRM או ב-CONFPM01), 'customer exit CONFPM01 maintenance order confirmation' (SAP_S4HANA_ON-PREMISE, 21 תוצאות: התגלה עמוד 'Preparation and Customizing' 2025 FPS01 עם נתיב IMG 'Enhancements in Order Confirmation → Customer Specific Input Checks When Saving', אך גוף העמוד (נקרא) עוסק ב-EXIT_SAPLCORF_105/CONFPP05 של PP-SFC, לא ב-PM וב-CONFPM01), 'key user extensibility maintenance order confirmation' (SAP_S4HANA_CLOUD, 21 תוצאות: איתר את עמוד ה-Public Cloud Extensibility שנוסף כראיה רביעית), 'released extension points maintenance order confirmation cloud' (SAP_S4HANA_CLOUD, 21 תוצאות: 'Objects Released for Developer Extensibility in Maintenance Management' 2308.500; גוף העמוד נקרא, מונה CDS Views ו-Business Object Interface לנתוני הזמנת תחזוקה, ללא BAdI או Customer Exit הקשור לאישור/ולידציה; לא נוסף כראיה כי אינו נוגע ל-CONFPM01). שני גופי עמוד נקראו במלואם (Preparation and Customizing; Extensibility: Maintenance Order Operation Confirmation). אף חיפוש לא הניב עמוד רשמי S/4HANA או SAP ERP הנוקב ב-CONFPM01 בשמה מעבר לספריית 4.6C הקיימת; הסתירה מול data/exits.ts (המתאר CONFPM01 כבדיקות באישור, בעוד SAP מתאר אותה כערכי ברירת מחדל, ובדיקות הקלט הן CONFPM02/CONFPM04) נותרה פתוחה וללא פתרון. הפרדת מהדורות: On-Premise: עמוד ה-IMG של 2025 FPS01 שנקרא (PP-SFC, CONFPP05) מתעד את טכניקת ה-Customer Exit (SMOD/CMOD) באישורי ייצור, לא ב-PM ולא ב-CONFPM01; Private Cloud: לא נבדק מקור ייעודי; Public Cloud: לא נמצא נתיב Customer Exit קלאסי בחיפושים שבוצעו; המנגנון המתועד לנתוני אישור הזמנת תחזוקה הוא Key User Extensibility על OData API_MAINTORDERCONFIRMATION (Custom Fields, הקשר עסקי EAMS_AFRU), שהוא הוספת שדות ולא ולידציה/ברירת מחדל, ולכן אינו נרשם כ-successor או כ-clean-core alternative ל-CONFPM01 עצמה. BAdI WORKORDER_CONFIRM (רובד המאגר, data/exits.ts) לא אותר באף עמוד S/4HANA רשמי שנבדק ב-2026-09-24 או ב-2026-09-02 (הרשומה enh:badi:WORKORDER_CONFIRM מצטטת את הערות השחרור של SAP R/3 Enterprise 4.70 הנוקבות בו, ברמת legacy_context_only); לכן אינו נרשם כ-xref מאומת רשמית (נשאר כ-xref כי רשומת המאגר data/exits.ts#CONFPM01 מפנה אליו, אך אינו נרשם כ-successor). לא נכתב authored status: הראיה החדשה אינה נוגעת ל-CONFPM01 עצמה, וסתירת המאגר נותרה ללא הכרעה רשמית. לא בוצעה בדיקה במערכת SAP חיה: קיום EXIT_ / SMOD-CMOD עבור CONFPM01 ב-S/4HANA וזמינות ה-BAdI WORKORDER_CONFIRM דורשים אימות במערכת.",
   },
   {
     id: "enh:exit:IPRM0001",
