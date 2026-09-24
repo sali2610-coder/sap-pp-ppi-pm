@@ -171,3 +171,45 @@ Gates: `tsc --noEmit` 0; `tsc -p tsconfig.test.json` 0; `npm test` 212/212;
 
 - `cds:I_MfgOrderComponent` — NO OFFICIAL PAGE names the bare view (about 12 query variants, On-Premise default / 2025.001 / 2022.latest, Public Cloud). Documented siblings: `I_MfgOrderComponentWithStatus` (loio `775ef9dc39f848348e7b2a4930f4dced`, New in 2023), `I_MfgOrderOperationComponent` (loio `d821563df8ef4ecb9a5fedc2bacda6fe`, Dimension), `I_MfgOrderComponentLongText` (loio `701eda41fac8429e939290e3a2a401f9`); none is in the id universe, so none is an xref. Enrichment key, associations and the AFFH mapping are unsupported; module tag PP-PI neither supported nor refuted. Needs SE11 / ADT / View Browser.
 - `cds:I_ProductSalesData` — NO OFFICIAL PAGE names the view (8 variants, both scopes); search counts are unstable (5 to 7 on-prem, varying titles), only the negative finding reproduces. Documented neighbour `I_ProductSalesDelivery` (loio `dede052460194546a9ac1ceb4a983738`) has no `data/cds-map.ts` row; adding one would make it xref-able. `data/cds-map.ts` module tag PP-PI and the Fiori-id-less "Manage Product Master Data" remain repository drift. Needs a VDM topic, a read api.sap.com cdsviews page, or a live system check.
+
+---
+
+# Batch 5 · 2026-09-24 (re-verification of four verification_required views)
+
+4 drafts audited, **4 written** into `data/verification/cds.ts` (`DATE24`), 0 refuted. All four
+ids already existed, so each was merged in place over its own record (no new id, no duplicate).
+`cds:I_ProductSalesData` was written from its auditor's `fixedRecord` (status.he reworded, one
+re-verification paragraph appended with the auditor's count downgrade already applied). The other
+three verdicts carried no `fixedRecord`; they were re-derived from the researchers' drafts with
+every listed downgrade applied:
+
+- `cds:I_MfgOrderComponent`: only `lastVerifiedAt` and one appended notes sentence changed;
+  `status.source` and evidence[0] stay the `MFGORDERCOMP_WITHSTATUS_VDM_2023` const and every
+  `accessedAt` stays `DATE22`. The optional downgrade (single quotes around both queries) was applied.
+- `cds:I_Routing`: evidence[0] re-stamped `DATE24` (body of loio 8c9e297f read through
+  `scripts/sap-help-body.mjs`; Public Cloud exact-name search Old → New, 2 records on 2026-09-14,
+  0 on 2026-09-24); two new `verification_required` search rows (loio 8573b810, loio 32d6ac68);
+  the three 2026-09-14 rows keep `DATE14`. The optional header-comment line was added, since this
+  record is now the one exception to the header's "body text is never quoted (JS shell)".
+- `cds:I_RoutingOperation`: one new 2026-09-24 negative-search row (`DATE24`) that lists the hit
+  count of every query (5, 21, 21; HOUSE-RULES §3.3) and names the PM views without the misleading
+  "Maintenance Task List Operation:" label; the notes paragraph was reworded the same way.
+
+Every earlier finding, evidence row, status and xref is kept (history rule 8). A structural diff
+against HEAD shows the other 35 records deep-equal. No `reviewer` field. The catalog was already
+graduated, so `test/evidence-schema.test.ts` needed no change.
+
+Gates: `tsc --noEmit` 0; `tsc -p tsconfig.test.json` 0; `npm test` 211/211;
+`report:coverage --catalog cds` unchanged at 39 rows (L2 11, L3 3, L4 2, L5 23, verified 37,
+verif.req 2, s4-applicable 28): all four records stay at `verification_required`.
+
+## refuted
+
+- (none in this batch.)
+
+## conflicts
+
+- `cds:I_Routing`: still no official page names the view (four more queries on 2026-09-24, On-Premise and Public Cloud). The Public Cloud exact-name result went from 2 records to 0 between runs, so that count depends on the index state. The batch 2 items stand.
+- `cds:I_RoutingOperation`: same negative finding on 2026-09-24 (three queries). The repository drift noted in batch 2 (`data/domain-detail.ts` and `data/transactions.ts` write "I_RoutingHeader / I_RoutingOperation") was not re-checked this round.
+- `cds:I_MfgOrderComponent`: evidence[2] attributes "Application Component PP-VDM (Virtual Data Model in PP) Valid as Of SAP S/4HANA 2023" and "CDS View New BJ5 BJ8 PP-PI-POR PP-SFC PP-VDM" to the snippet; the auditor found both strings in the page body (`scripts/sap-help-body.mjs`, 2026-09-24). The claim is supported and was left worded as a snippet claim; a later pass may cite the body instead.
+- `cds:I_ProductSalesData`: the exact-name hit count keeps moving (6 in two auditor runs on 2026-09-24, 7 in earlier runs, varying titles), so the record gives a range, not a number. The batch 4 items stand.
