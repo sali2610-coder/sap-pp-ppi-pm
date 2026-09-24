@@ -1017,3 +1017,111 @@ change.
   from 7 to 10 (the new Public Cloud rows on PPCO0007, CONFPP01 and CONFPP05). A per-record `--ids`
   comparison shows no record changed depth, level or status.
 - No live SAP check was performed.
+
+# Batch 10 · written 2026-09-25 (access date stamped 2026-09-24, const DATE24)
+
+5 drafts audited: **5 written**, **0 refuted**. Written ids: `enh:badi:WORKORDER_CONFIRM`,
+`enh:exit:PCSD0002`, `enh:exit:SAPLV01Z`, `enh:exit:MBCF0002`, `enh:badi:MB_MIGO_BADI`. All five
+deepen records that already existed; no new id. No verdict carried a `fixedRecord`: each record is the
+audited draft with the verdict downgrades applied (WORKORDER_CONFIRM 2, PCSD0002 10, SAPLV01Z 4,
+MBCF0002 3, MB_MIGO_BADI 1). The catalog was already graduated out of the repository-only foundation
+guard, so no test change.
+
+## refuted
+
+- None in this batch.
+
+## conflicts
+
+- `enh:exit:PCSD0002`: the repository conflict is unchanged. `data/exits.ts#PCSD0002` ('בדיקת פריט
+  BOM', validation or completion of BOM items on save, BADI_BOM_CHANGES as the S/4 path) and workbook
+  row 11 ('ברירות מחדל לפריטי עץ מוצר') still contradict the documented 'Customer fields in item' (the
+  component check belongs to PCSD0005). The 2026-09-24 re-check found the loio under the PLM and
+  Document Management deliverables. Neither query returned the cited Bill of Material (LO-MD-BOM) URL
+  segment (the auditor measured it at HTTP 200, a JavaScript shell), so the cited URL stays and the
+  record says it was not re-returned.
+- `enh:exit:SAPLV01Z`: the repository conflict is unchanged. The catalog has key SAPLV01Z, purpose
+  'קביעת אצווה', CO11N/COR6N/VL02N and a 'VB_BD_*' successor. The documentation has enhancement
+  SAPLV1ZN, for batch classification and batch master fields at goods receipt.
+- `enh:badi:WORKORDER_CONFIRM`: there is still no authored status; the displayed one is derived from
+  the `data/exits.ts` ECC-vs-S/4 block, and the notes now say so. Official S/4HANA pages (On-Premise
+  2023, Public Cloud 2302 and 2608.500) name `BD_WORKORDER_CONFIRM` and not the classic BAdI. No source
+  read states how the two relate, and `BD_WORKORDER_CONFIRM` is not an id in the universe, so there is
+  no xref and no successor.
+- `enh:exit:MBCF0002`: the derived 'changed' status (from the exits.ts block 'ב-S/4 תנועות ל-MATDOC;
+  BAdI MB_MIGO_BADI') is replaced by an authored `verification_required`. The pairing with
+  MB_MIGO_BADI and the 'Post Goods Movement' Fiori label stay repository-only.
+
+## open verification
+
+- `enh:badi:WORKORDER_CONFIRM`: SE18 in the target system (definition, IF_EX_WORKORDER_CONFIRM,
+  methods), whether the BAdI fires for IW41/IW42, and how it relates to BD_WORKORDER_CONFIRM. Private
+  Cloud: no dedicated source checked.
+- `enh:exit:PCSD0002`: SMOD for the components (the EXIT_SAPLCSDI_002/003 assignment), SE18 for
+  BADI_BOM_CHANGES, and Public Cloud availability of PCSD0002.
+- `enh:exit:SAPLV01Z`: SMOD/CMOD/SE37 for SAPLV1ZN and EXIT_SAPLV01Z_014. The name SAPLV1ZN was not
+  queried under SAP_S4HANA_CLOUD, so the Public Cloud negative rests on topical queries. A name query
+  in that scope would tighten it.
+- `enh:exit:MBCF0002`: SMOD/CMOD for MBCF0002 and EXIT_SAPMM07M_001; SE18 for MB_MIGO_BADI. Count
+  drift as recorded: 'MBCF0002' 7 to 21; 'EXIT_SAPMM07M_001' 12, 13 and 15 (the auditor saw 12 and 13
+  only, and did not refute 15); 'MB_MIGO_BADI' 4 to 6.
+- `enh:badi:MB_MIGO_BADI`: SE18/SE19 in the target system. Private Cloud was not searched separately.
+  'BADI_MMIM_CHECK_MATDOC_ITEM' under SAP_S4HANA_CLOUD gave 18 to 19.
+- No live SAP check was performed. The sc4sap MCP failed to connect in this session too.
+
+## writer deviations, batch 10
+
+- `enh:exit:SAPLV01Z`, search scope. `scripts/sap-help-search.mjs` line 38 sets
+  `opt("product", "SAP_S4HANA_ON-PREMISE")` as the default (unchanged since commit 0477bc7d,
+  2026-09-01). So the two runs the draft labels 'ללא --product' or 'ללא סינון מוצר' ('SAPLV1ZN' and
+  'customer exit classic extensibility not available S/4HANA Cloud') were On-Premise-scoped.
+  `status.he` now reads 'בהיקף ברירת המחדל של כלי החיפוש (SAP_S4HANA_ON-PREMISE)', and its Public Cloud
+  negative is attributed to the SAP_S4HANA_CLOUD-scoped queries instead of the SAPLV1ZN run. Both notes
+  entries state the scope, and the notes' Public Cloud line adds that the query list has no SAPLV1ZN
+  query under SAP_S4HANA_CLOUD. This is the same class of error that refuted PPCO0001 in batch 9. Here
+  it was fixed by rewording, because every corrected statement follows from the draft's own query list
+  and the script source. No lookup was re-run.
+- `enh:badi:WORKORDER_CONFIRM`: the repository row and the R/3 4.70 PDF row keep `accessedAt` DATE
+  (2026-09-02) and are byte-identical to the live record, RLM mark included. The draft stamped them
+  2026-09-24, but its notes say this round read two Public Cloud bodies and search snippets, and they
+  do not mention re-reading either source. Rows 3 to 7 carry DATE24.
+- `enh:exit:PCSD0002`:
+  - The Workflow and Validate BOM rows follow the verdict's first option: DATE21 and the full existing
+    claims, byte for byte.
+  - The repository row is restored verbatim together with its `conflictingEvidence` row. The draft had
+    also shortened that nested claim, dropping 'התיעוד אינו מייחס ל-PCSD0002 בדיקת רכיבים או ברירות
+    מחדל'. Both rows keep DATE21.
+  - The mandated sentences use single quotes (house style) where the verdict text had double quotes.
+  - 'של הטיוטה הקיימת שכבר יושבת בעץ העבודה' became 'של הרשומה הקיימת' (the page is public).
+  - An Old → New sentence was added. The kept 2026-09-21 gap (5) says the 2408.1 page was left out
+    because the record was On-Premise only; the sentence reconciles that with the new Public Cloud
+    row.
+  - In `recommendedAction`, 'אף אחד מהעמודים הרשמיים' became 'אף אחד מהעמודים הרשמיים שצוטטו' (house
+    rule 3.2/3.3).
+  - The three em dashes in the new notes became colons. The only em dashes left in the record are in
+    the verbatim deliverable name 'Logistics — General (LO)' in the restored Workflow row, which the
+    verdict said to keep.
+- `enh:exit:MBCF0002`: the query 'Post Goods Movement extensibility BAdI' now states its scope
+  (SAP_S4HANA_ON-PREMISE). Both of its hits are SAP_S4HANA_ON-PREMISE URLs, and the auditor re-ran it in
+  that scope. 'כי אף רשומה רשמית אינה נוקבת' became 'כי אף רשומה רשמית שנבדקה אינה נוקבת'.
+- `enh:badi:MB_MIGO_BADI`: the live RLM marks in `recommendedAction` are kept, as the verdict allowed.
+  `status.he`, `recommendedAction` and the notes head were rebuilt on the live strings and asserted
+  equal to the draft after RLM normalisation. That includes the draft's own relabel 'שיטה:' to
+  'שיטה (2026-09-14):'.
+- Unchanged content kept byte for byte (deep comparison against the pre-write file):
+  - the other 35 records;
+  - WORKORDER_CONFIRM rows 1 and 2;
+  - PCSD0002 rows 2, 3 and 5 (with `conflictingEvidence`), `status.he`, and the full 2026-09-21 notes
+    (now an exact prefix);
+  - SAPLV01Z rows 1 to 4 and the repository row (row 2 without the appended sentence, per the
+    verdict);
+  - MBCF0002 rows 1 to 5, with the 2026-09-14 notes an exact suffix;
+  - all six MB_MIGO_BADI rows.
+- Coverage (`npm run report:coverage -- --catalog enhancements`), before and after: 40 records.
+  - Depth: L2 10 to 11, L3 12 to 12, L4 3 to 2, L5 15 to 15.
+  - Verified 28 to 28; conflicting 12 to 12; S/4-applicable 30 to 29; edition-specific 10 to 13.
+  - Per record (`--ids`): MBCF0002 went from depth 4 to 2, and from the derived status 'changed' to an
+    authored 'verification_required'. This is the verdict's intended effect.
+  - WORKORDER_CONFIRM, PCSD0002 and SAPLV01Z now count as edition-specific (their new Public Cloud
+    rows). No other record changed depth, level or status.
+- No live SAP check was performed.
