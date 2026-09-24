@@ -258,3 +258,13 @@
 | מקורות | Simplification List 2025 FPS01, פריט 11.1.9 'S4TWL - SD Simplified Data Models': "Elimination of status tables VBUK, VBUP: Status fields have been moved to the corresponding header and item tables - VBAK and VBAP for sales documents, LIKP and LIPS for deliveries, VBRK for billing documents" · Universal Journal: FAQ, 2025.001, loio `8b8e5695c4dc4749a706f9fa2f6bda92`: "the former G/L-only table BSEG still exists as it is needed to store the source documents that serve as the basis for journal entries into table ACDOCA" (הממצא עלה באצוות שיטות העבודה 3) |
 | מה שונה | `tx-intel.ts`: VBUK/VBUP הוצאו מרשימות הטבלאות של 15 טרנזקציות SD (VA01, VA03, VA05, VA23, VA25, VKM3, VKM4, VL00, VL01N, VL02N, VL03N, VL04, VL06G, VL06O, VL06P), וה-s4Delta של כל אחת נושא את משפט ה-ECC/S/4HANA עם הפריט; שש אזכורים בטקסט קיבלו את הצד. `verified-objects.ts`: BSEG אינה "Compatibility" ו-ACDOCA אינה "מחליפה BKPF/BSEG" |
 | בדיקות | `tsc` 0 · `npm test` 211/211 |
+
+---
+
+## FIX-16 · טבלאות ECC ברשימות הטבלאות של tx-intel: הצד של S/4HANA (אימות SAP S/4HANA, 2026-09-24)
+
+| שדה | ערך |
+|---|---|
+| טענה ומקור | שלושה פריטים ברשימת הפישוט 2025 FPS01, מצוטטים מהטקסט הרשמי: 11.1.7 'S4TWL - Data Model Changes in SD Pricing' ("table KONV has been replaced in its data persistency role by the new table PRCD_ELEMENTS"); 15.3.1 'S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)' ("Material document data will be stored in MATDOC only and not anymore in MKPF and MSEG"; הטבלאות קיימות כהגדרות DDIC); 6.1.4 'S4TWL - DATA MODEL CHANGES IN FIN' (טבלאות הסיכומים והאינדקס "were removed and replaced by identically-named DDL SQL views, called compatibility views"; רשימת הפריט מזוגת לכל טבלה: BSIS/BSAS/BSID/BSAD/BSIK/BSAK/GLT0 ל-_DDL, FAGLFLEXT/COSP/COSS ל-V_…_DDL). COEP נזכרת בפריט אך לא ברשימת ההחלפה ולכן לא סומנה |
+| מה שונה | `tx-intel.ts`, רשימות הטבלאות: KONV → PRCD_ELEMENTS ב-6 טרנזקציות SD; MATDOC נוסף לצד MKPF/MSEG ב-31 טרנזקציות; ACDOCA נוסף לצד טבלאות הסיכומים והאינדקס ב-38 טרנזקציות FI/CO. ה-s4Delta של כל טרנזקציה נושא את המשפט המצוטט והפריט. דבר לא נמחק מלבד KONV, שהוחלפה ב-PRCD_ELEMENTS (משפט ה-ECC שומר עליה) |
+| בדיקות | `tsc` 0 · `npm test` 211/211 |
