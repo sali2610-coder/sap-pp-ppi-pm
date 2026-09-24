@@ -20,7 +20,15 @@
    code, the MIGO goods-receipt code and the MK vendor-purchasing family (ME47,
    ME48, ME49, ME51N, MIGO_GR, MK01, MK02, MK03); no record refuted. A sapNote
    field is carried only where the validator allows it (me.sap.com url or
-   repoRef); note numbers printed by a Simplification List item stay in prose. */
+   repoRef); note numbers printed by a Simplification List item stay in prose.
+   Batch 4 (re-audit 2026-09-24, written the same day): tx:ME42, refuted in
+   batch 2 and re-drafted, written from verdict.fixedRecord as `restricted`
+   (F2049 is not in data/fiori/apps.ts, so no successor can resolve); no
+   record refuted. The status source is the shared ME42_SIMPL2025 const (the
+   2025 FPS01 item row, also evidence[1]) instead of the shortened re-typed
+   copy the verdict carried. Writer corrections: reviewer field dropped (house
+   convention); an audit-trail sentence and the sentence that the generated
+   tx:ME42 record in transactions-auto.ts is superseded appended to notes. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -543,6 +551,43 @@ const MK03_SIMPL2023: Evidence = {
     "to transaction BP' (כלשונו: 'FD01,FD02,FD03, FK01,FK02,FK03,MAP1,MAP2,MAP3, MK01, MK02, MK03, ...'). " +
     "כלומר הפריט קובע במפורש ש-MK03 אינה זמינה כטרנזקציית SAP GUI ב-S/4HANA on-premise ומנותבת לטרנזקציית " +
     "BP; אין בפריט קביעה על אפליקציית Fiori חלופית.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 4 status source (2026-09-24): tx:ME42, the 2025 FPS01 item row, shared by evidence[1] and
+   status.source */
+
+const ME42_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+    "2025 - Feature Pack Stack 1 (Document Version 1.36) · item 14.4.1 S4TWL - RFQ Simplified Transaction " +
+    "(MM-PUR-RFQ, Sourcing and Contract Management), pp. 1429-1431",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 14.4.1 'S4TWL - RFQ Simplified Transaction' (Application Component: MM-PUR-RFQ; Related Notes: " +
+    "0002332710 'S4TWL-RFQ Simplified Transaction') נושא נוסח זהה לפריט 38.7 ברשימת 2023 FPS03: אותו טקסט " +
+    "Reason and Prerequisites/Solution (RFQ עם שדה ספק חובה והגבלה לספק אחד, מול RFQ שנוצר באפליקציית Fiori " +
+    "ונשלח לפלטפורמות sourcing חיצוניות; REQOTE ו-QUOTES מוחלפים ב-cXML), ואותה קביעה: '...the functionality " +
+    "is currently available in SAP S/4HANA but it is not considered as future technology and a functional " +
+    "equivalent is not available'. אחר כך: 'The following transactions are deprecated in SAP S/4HANA' ואחריה " +
+    "טבלה של 14 קודים עם תיאור: ME41 Create, ME42 Change, ME43 Display, ME44 Maintain Supplement, ME45 " +
+    "Release, ME47 Maintain, ME48 Display, ME49 Price Comparison List, ME4B, ME4C, ME4L, ME4M, ME4N, ME4S " +
+    "(דוחות RFQs by Requirement Tracking Number / Material Group / Vendor / Material / RFQ Number / per " +
+    "Collective Number); ME42 מופיעה בשורה 'Change'. תחת Business Process Related Information הפריט מדפיס: " +
+    "'If you want to use functionality related to sourcing of goods and services, you can use the following " +
+    "apps: Manage RFQs (F2049), Monitor RFQ Items (F2425), Request for Quotation Types (F4149), Manage " +
+    "Supplier Quotations (F1991), Compare Supplier Quotations (F2324)', ומוסיף: 'Before you start to use " +
+    "Fiori apps mentioned above you need to close your open RFQs, that were created via old transactions, and " +
+    "set them to status \"Completed\"'. תחת Required and Recommended Action(s) נקוב התפקיד SAP_BR_PURCHASER " +
+    "(Purchaser) עבור Manage RFQs ו-Monitor RFQ Items (וגם F1991, F2324), ו-SAP_BR_BUYER (Strategic Buyer) " +
+    "עבור Request for Quotation Types. הפריט אינו ממפה טרנזקציה בודדת לאפליקציה בודדת ואינו קובע גרסת הסרה. " +
+    "עמודים: תחילת הפריט בעמ' 1429, רשימת הטרנזקציות והאפליקציות בעמ' 1430, שורת SAP_BR_BUYER בעמ' 1431. " +
+    "כתובת קובץ ה-PDF החזירה HTTP 200 ב-2026-09-24; הטקסט נקרא מחילוץ pdftotext השמור בפרויקט.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -3576,5 +3621,163 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "מוסיף רק תיאור קצר ('הצגת ספק (רכש)') ללא מידע נוסף על S/4. לא בוצעה בדיקה במערכת SAP חיה. הרשומה " +
       "אינה נושאת שדה reviewer, כמוסכמת הקטלוג; עברה סבב ביקורת אדברסרית ב-2026-09-24 (כתובות, ציטוטים מול " +
       "scratchpad/official, xrefs, רשומות המאגר).",
+  },
+  {
+    id: "tx:ME42",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 - Feature Pack Stack 3 (Document Version 1.35, 2025-02-25) · item 38.7 S4TWL - RFQ Simplified " +
+          "Transaction (MM-PUR-RFQ), pp. 957-959",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "פריט 38.7 'S4TWL - RFQ Simplified Transaction' (Application Components: MM-PUR-RFQ; Related Notes: " +
+          "2332710 'S4TWL-RFQ Simplified Transaction', Business Impact). תחת Reason and Prerequisites: הקונספט " +
+          "הקודם התבסס על RFQ עם שדה ספק חובה ועם הגבלה לספק אחד בכל RFQ, מגבלה שאינה מתאימה לתרחישי sourcing כגון " +
+          "Sourcing with SAP Ariba Sourcing. תחת Solution: קונספט חדש מאפשר לשלוח RFQ שנוצר באפליקציית Fiori " +
+          "לפלטפורמות sourcing חיצוניות בלי לנקוב בספק מדויק; ה-IDoc-ים REQOTE ו-QUOTES מוחלפים בהודעות cXML. הפריט " +
+          "קובע: 'Following IDOCS and transactions related to RFQ are not considered as the target architecture. " +
+          "This means that the functionality is currently available in SAP S/4HANA but it is not considered as " +
+          "future technology and a functional equivalent is not available'. אחר כך: 'The following transactions are " +
+          "deprecated in SAP S/4HANA' ואחריה טבלה של 14 קודים עם תיאור: ME41 Create, ME42 Change, ME43 Display, " +
+          "ME44 Maintain Supplement, ME45 Release, ME47 Maintain, ME48 Display, ME49 Price Comparison List, ME4B, " +
+          "ME4C, ME4L, ME4M, ME4N, ME4S (דוחות RFQs by Requirement Tracking Number / Material Group / Vendor / " +
+          "Material / RFQ Number / per Collective Number); ME42 מופיעה בשורה 'Change'. תחת Business Process Related " +
+          "Information הפריט מדפיס: 'If you want to use functionality related to sourcing of goods and services, " +
+          "you can use the following apps: Manage RFQs (F2049), Monitor RFQ Items (F2425), Request for Quotation " +
+          "Types (F4149), Manage Supplier Quotations (F1991), Compare Supplier Quotations (F2324)', ומוסיף: 'Before " +
+          "you start to use Fiori apps mentioned above you need to close your open RFQs, that were created via old " +
+          "transactions, and set them to status \"Completed\"'. תחת Required and Recommended Action(s) נקוב התפקיד " +
+          "SAP_BR_PURCHASER (Purchaser) עבור Manage RFQs, Monitor RFQ Items, Manage Supplier Quotations ו-Compare " +
+          "Supplier Quotations, והתפקיד SAP_BR_BUYER (Strategic Buyer) עבור Request for Quotation Types. הפריט אינו " +
+          "ממפה טרנזקציה בודדת לאפליקציה בודדת ואינו קובע גרסת הסרה. עמודים: תחילת הפריט בעמ' 957, רשימת הטרנזקציות " +
+          "והאפליקציות בעמ' 958, סוף רשימת התפקידים בעמ' 959.",
+        verificationLevel: "sap_official_verified",
+      },
+      ME42_SIMPL2025,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage RFQs (F2049) · SAP Fiori Apps Reference Library · S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2049')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "פלט scripts/fal-app.mjs F2049 --release S32OP: 'Manage RFQs | Transactional / SAP Fiori elements | " +
+          "Published | component MM-FIO-PUR-RFQ'; תפקיד SAP_BR_PURCHASER (R0128, Purchaser); business catalog " +
+          "SAP_PRC_BC_PURCHASER_PIR 'Purchasing - Source Assignment'; technical catalog SAP_TC_PRC_COMMON; intent " +
+          "RequestForQuotation-manage; OData MM_PUR_RFQ_MAINTAIN_SRV 0001 (S4CORE 109); 'GUI transactions: leading " +
+          "ME41; related ME42, ME43'. רשימת ה-releases המודפסת כוללת גרסאות on-premise מ-S6OP=1610 ועד S32OP=2025 " +
+          "FPS01 (וכן S36=2602, S37=2608); predecessors ו-successors: לא הודפסו ('-'); RIN notes כפי שהודפסו: " +
+          "3493254 (Front-End Server), 3671888 (Back-End Server). הבהרה: scripts/fal-app.mjs --tcode ME42 --release " +
+          "S32OP מחזיר 'leading app(s): none; GUI app entry: none', משום ש-ME42 היא טרנזקציה קשורה (related) של " +
+          "F2049 ולא טרנזקציה מובילה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process RFQ (MM-PUR)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8a57feade137489098f59374c06f1e0e/c306b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "סניפט תוצאת החיפוש (deliverable: Materials Management (MM), loio c306b753128eb44ce10000000a174cb4) " +
+          "מדפיס: 'Technical name: SAP_MM_PUR_RFQ' ובטבלת הפעילויות: 'Create RFQ ME41 Change RFQ ME42 Display RFQ " +
+          "ME43 Maintain RFQ supplement ME44 Release RFQ ME45'. כלומר תיעוד התפקיד במהדורת 2025 FPS01 ממשיך למנות " +
+          "את ME42 כפעילות 'Change RFQ'. גוף העמוד לא נקרא; רק הסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process RFQ (MM-PUR)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/6cfdc7caaef746cd9c7543e32e7e87c0/c306b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio בהיקף SAP ERP (versionId 6.18.latest): הסניפט מדפיס את אותה שורת פעילויות 'Create RFQ ME41 " +
+          "Change RFQ ME42 Display RFQ ME43 Maintain RFQ supplement ME44 Release RFQ ME45', כלומר בצד ECC ME42 היא " +
+          "טרנזקציית MM-PUR לשינוי RFQ. גוף העמוד לא נקרא; רק הסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (tx-intel.ts), רשומת ME42",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "שדה descHe (כלשונו, המקף הארוך הוחלף בפסיק): 'שינוי בקשה להצעת מחיר (RFQ) קיימת, עדכון פריטים, ספקים, " +
+          "deadline או כמויות לפני שליחה/השלמה.'; שדה descTech כלשונו: 'שינוי מסמך RFQ (category A) ב-EKKO/EKPO. " +
+          "תיעוד שינויים. מסך קלאסי.'; שדה s4: 'זמין ב-S/4HANA; Ariba Sourcing חלופה אסטרטגית.', בלי אזכור פריט " +
+          "הפישוט. נמדד ב-2026-09-24 דרך scripts/alias-loader.mjs (לא בדפדפן): txDetail('ME42') מחזיר " +
+          "s4.disposition 'available', supersededBy ריק, risk 'low', trust 'partial', ו-txStatusMap()['ME42'] מחזיר " +
+          "'unchanged'. שני פריטי הפישוט מונים את ME42 ברשימת 'deprecated in SAP S/4HANA'; זהו סחף מאגר, מחוץ לטווח " +
+          "משימה זו.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME42",
+      },
+    ],
+    status: {
+      status: "restricted",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: ME42_SIMPL2025,
+      he:
+        "ME42 ('Change' ברשימת הפריט, שינוי RFQ קיים) נמנית בפריט הפישוט 'S4TWL - RFQ Simplified Transaction' " +
+        "(פריט 38.7 ברשימת 2023 FPS03, פריט 14.4.1 ברשימת 2025 FPS01, אותו נוסח) ברשימת הטרנזקציות 'deprecated in " +
+        "SAP S/4HANA', לצד ME41, ME43, ME44, ME45, ME47, ME48, ME49 ושישה דוחות ME4x נוספים; הפריט קובע " +
+        "שהפונקציונליות זמינה כיום אך אינה ארכיטקטורת יעד. הפריט מפנה לאפליקציות Fiori לתהליכי sourcing, ובראשן " +
+        "Manage RFQs (F2049), שרשומתה בספריית ה-Fiori מונה את ME42 כטרנזקציית GUI קשורה (leading: ME41). מזהה " +
+        "F2049 אינו בקטלוג ה-Fiori של הפרויקט (data/fiori/apps.ts), ולכן לא ניתן לרשום אותו כ-successor בסכימה; " +
+        "מסיבה זו, ומכיוון שהפריט עצמו קובע 'a functional equivalent is not available', הסטטוס נרשם כ'מוגבל' " +
+        "(restricted) ולא כ'הוצאה משימוש' עם יורש. תיעוד התפקיד 'Process RFQ (MM-PUR)' במהדורת 2025 FPS01 עדיין " +
+        "מונה את ME42 כפעילות 'Change RFQ'.",
+      recommendedAction:
+        "לא לבסס תהליכי sourcing חדשים על ME42 ב-S/4HANA On-Premise, משום שפריט הפישוט מסמן אותה כמחוץ " +
+        "לארכיטקטורת היעד. לתהליכי sourcing חדשים לבחון את Manage RFQs (F2049) ואת האפליקציות הנוספות שהפריט " +
+        "מונה: F2425, F1991 ו-F2324 בתפקיד SAP_BR_PURCHASER (כמו F2049), ו-Request for Quotation Types (F4149) " +
+        "בתפקיד SAP_BR_BUYER; לפני המעבר לאפליקציות יש לסגור RFQ פתוחים שנוצרו בטרנזקציות הישנות ולהעבירם לסטטוס " +
+        "Completed, כפי שהפריט דורש. את המשך השימוש ב-ME42 לתרחישי RFQ קלאסיים מומלץ לבחון מול SAP Note 2332710 " +
+        "('S4TWL-RFQ Simplified Transaction'), שלא נקראה כאן (דורשת S-user). במערכת היעד לוודא ב-SE93 שהקוד קיים, " +
+        "ולבדוק את שדה s4 ברשומת tx-intel.ts#ME42, שאינו משקף כרגע את פריט הפישוט.",
+    },
+    xrefs: ["tx:ME41", "tx:ME43", "tx:ME47", "tx:ME48", "tx:ME49"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה שאומת: (1) שני פריטי הפישוט (38.7 ברשימת 2023 FPS03, עמ' 957-959; 14.4.1 ברשימת 2025 FPS01, עמ' " +
+      "1429-1431) מונים את ME42 בשורה 'Change' בטבלת 14 הטרנזקציות 'deprecated in SAP S/4HANA', באותו נוסח; " +
+      "הטקסט נקרא מחילוצי pdftotext השמורים בפרויקט (scratchpad/official/SIMPL_OP2023.pdf.txt, " +
+      "SIMPL_OP2025.pdf.txt), ושתי כתובות ה-PDF החזירו HTTP 200 ב-2026-09-24. (2) בשני הפריטים, תחת Business " +
+      "Process Related Information, מודפסות האפליקציות Manage RFQs (F2049), Monitor RFQ Items (F2425), Request " +
+      "for Quotation Types (F4149), Manage Supplier Quotations (F1991), Compare Supplier Quotations (F2324), " +
+      "והדרישה לסגור RFQ פתוחים מהטרנזקציות הישנות לסטטוס Completed לפני המעבר. (3) עמוד 'Process RFQ (MM-PUR)' " +
+      "(loio c306b753128eb44ce10000000a174cb4) נבדק כסניפט חיפוש בלבד בשני ההיקפים (S/4HANA 2025.001, SAP ERP " +
+      "6.18.latest), ומדפיס 'Change RFQ ME42' בטבלת הפעילויות. (4) scripts/fal-app.mjs F2049 --release S32OP: " +
+      "Manage RFQs, SAP_BR_PURCHASER (R0128), OData MM_PUR_RFQ_MAINTAIN_SRV 0001, 'GUI transactions: leading " +
+      "ME41; related ME42, ME43'. (5) scripts/fal-app.mjs --tcode ME42 --release S32OP החזיר 'leading app(s): " +
+      "none; GUI app entry: none'; הבדיקה מכסה רק אפליקציות שבהן ME42 מובילה. ME42 מודפסת ברשומת F2049 בספריית " +
+      "ה-Fiori כטרנזקציית GUI קשורה (related), לצד ME43; הטרנזקציה המובילה היא ME41. (6) txDetail('ME42') נמדד " +
+      "ב-2026-09-24 דרך scripts/alias-loader.mjs (לא בדפדפן): s4.disposition 'available', supersededBy ריק, " +
+      "risk 'low', trust 'partial'; txStatusMap()['ME42'] = 'unchanged'. סחף מול פריט הפישוט, מתועד בראיית " +
+      "repository ומחוץ לטווח המשימה. (7) fiori:F2049 אינה ב-data/fiori/apps.ts (0 הופעות), ולכן אינה ב-xrefs " +
+      "ואינה successor. מה שלא אומת: (א) SAP Note 2332710 דורשת S-user ולא נקראה; מספרה מצוטט כפי שהודפס בפריט " +
+      "ואינו נישא בשדה sapNote. (ב) לא בוצעה קריאת גוף מלא (sap-help-body.mjs) לעמוד help.sap.com; רק סניפטים. " +
+      "(ג) ה-MCP ל-ABAP (sc4sap) לא היה זמין בסשן, ולכן אין בדיקת SE93. (ד) נמצאה אפליקציית Fiori שהפריט מונה " +
+      "(Manage RFQs F2049) ושרשומתה מונה את ME42 כקשורה; לא נמצא מיפוי אחד-לאחד של ME42 לאפליקציה או ל-API " +
+      "במקורות שנבדקו. לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג; הטיוטה " +
+      "נדחתה בשער הביקורת האדברסרית בסבב 2 (2026-09-24), תוקנה ועברה ביקורת חוזרת באותו יום, ושתי הורדות המבקר " +
+      "(F4149 בתפקיד SAP_BR_BUYER ב-recommendedAction; 'לתהליכי sourcing' ב-status.he) כלולות ברשומה. הרשומה " +
+      "מחליפה את הרשומה שנוצרה אוטומטית ל-ME42 ב-data/verification/transactions-auto.ts.",
   },
 ];
