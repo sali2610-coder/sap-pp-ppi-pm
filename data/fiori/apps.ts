@@ -207,67 +207,93 @@ export const FIORI_APPS: FioriApp[] = [
 
   // ── Sprint Fiori-1 — 5 verified apps (F-IDs confirmed via SAP Fiori Apps Library) ──
   {
+    // F4604 · 2026-09-24: catalog and OData copied from the SAP Fiori Apps Reference Library
+    // (scripts/fal-app.mjs F4604, S32OP = S/4HANA 2025 FPS01, Published; same role, catalogs, primary
+    // OData service and GUI transactions on S27OP = 2023); the role was already the library's. odata is
+    // the library's PrimaryODataServiceName (the other three services are in fiori:F4604). guiTx is
+    // empty because the library prints '-' for leading and related GUI transactions; IW28/IW38 stay in
+    // problem, ecc and the record's xrefs. Name, type and the other fields keep their curated values
+    // (explain.consultant still names API_MaintenanceOrder).
     id: "F4604", slug: "manage-maintenance-notifications-orders", name: "Manage Maintenance Notifications and Orders", he: "ניהול הודעות ופקודות אחזקה", module: "PM", type: "Transactional",
-    trust: "curated", source: "SAP Fiori Apps Library + SAP Help Portal (verified F-ID)", lastReviewed: LV2,
+    trust: "verified-docs", source: "SAP Fiori Apps Reference Library F4604 (scripts/fal-app.mjs, OData channel, S32OP = S/4HANA 2025 FPS01, isPublished=Published); same role, catalogs, primary OData service and empty GUI transactions on S27OP = S/4HANA 2023", lastReviewed: "2026-09-24",
     purpose: "ניהול משולב של הודעות ופקודות אחזקה המעובדות בשלבים (phase-based) — צפייה בהודעות שנבדקו ואושרו, סינון לפי סוג אובייקט ביצוע, עדיפות, תת-שלב, הקצאת חשבון ומקבלי עלות.",
     problem: "מתכנן אחזקה צריך מבט אחד על הודעות + פקודות לאורך שלבי העיבוד, במקום לפצל בין IW28 (הודעות) ל-IW38 (פקודות). האפליקציה מאחדת את שני העולמות בזרימת phase-based.",
     process: "הודעה → סינון/אישור → פקודה → שלבים → ביצוע",
     explain: { beginner: "רשימה אחת שמנהלת גם תקלות שדווחו וגם את עבודת התיקון.", consultant: "phase-based processing מעל אובייקט ALM; מבוסס OData (API_MaintenanceOrder).", technical: "SAPUI5 List Report/Object Page; Backend = ALM Order + Notification. CDS: בקרוב (טרם אומת)." },
-    role: "SAP_BR_MAINTENANCE_PLANNER", catalog: "SAP_EAM_BC_MAINT_PLANNER",
-    odata: "API_MaintenanceOrder", guiTx: ["IW28", "IW38"], relatedTables: ["QMEL", "AUFK", "AFIH"], relatedObjects: ["BAPI_ALM_ORDER_MAINTAIN"],
+    role: "SAP_BR_MAINTENANCE_PLANNER", catalog: "SAP_EAM_BC_MNTWRK_MNG",
+    odata: "UI_MAINTWRKREQ_ORD_MANAGE", guiTx: [], relatedTables: ["QMEL", "AUFK", "AFIH"], relatedObjects: ["BAPI_ALM_ORDER_MAINTAIN"],
     ecc: "ECC: IW28/IW38 (SAP GUI נפרדים, ללא זרימת phase-based).", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA (On-Prem + Public Cloud)",
     commonErrors: ["האפליקציה לא מציגה הודעות → בדוק שסוג ההודעה משתייך ל-phase-based processing ושה-Business Role/Catalog הוקצו.", "OData 403 → הרשאה חסרה לסוג הפקודה/הודעה."],
     troubleshooting: "בדוק הקצאת Business Role, את ה-Catalog ב-Launchpad Content Manager, ואת /IWFND/ERROR_LOG לשגיאות OData.",
     similar: ["manage-maintenance-orders", "create-maintenance-request", "confirm-jobs"],
   },
   {
+    // F0251 · 2026-09-24: role (the library's leading role) and OData copied from the SAP Fiori Apps
+    // Reference Library (scripts/fal-app.mjs F0251, S32OP = S/4HANA 2025 FPS01, Published; same on
+    // S27OP = 2023); catalog unchanged. guiTx MD04/MD07 stays curated: the library prints '-' for
+    // leading and related GUI transactions. The secondary roles and the retail catalog the library
+    // also prints are listed in the verification record fiori:F0251.
     id: "F0251", slug: "manage-material-coverage", name: "Manage Material Coverage", he: "ניהול כיסוי חומרים", module: "PP", type: "Transactional",
-    trust: "curated", source: "SAP Fiori Apps Library + SAP Help Portal (verified F-ID + catalog)", lastReviewed: LV2,
+    trust: "verified-docs", source: "SAP Fiori Apps Reference Library, F0251 @ S32OP (S/4HANA 2025 FPS01), fetched via scripts/fal-app.mjs", lastReviewed: "2026-09-24",
     purpose: "טיפול במחסורים של חומר בודד ב-MRP Cockpit — הצגת מקטעי דרישות נטו וסגמנטים ייחודיים (לקוח/פרויקט/רכש ישיר), ופעולות תיקון על הפריטים שנבחרו ב-Monitor Material Coverage.",
     problem: "מתכנן MRP צריך לפתור חוסרים ברמת החומר הבודד מהר, עם המלצות פעולה, במקום ניתוח ידני ב-MD04. חלק ממשפחת MRP Cockpit.",
     process: "MRP Run → Monitor (F0247) → Manage (F0251) → פעולת תיקון",
     explain: { beginner: "מסך שמראה מתי יחסר חומר ומה לעשות כדי לכסות.", consultant: "חלק מ-MRP Cockpit; catalog SAP_SCM_BC_MRPCOCKPIT; gateway project PP_MRP_COCKPIT.", technical: "SAPUI5 מעל gateway project PP_MRP_COCKPIT; קורא מתוצאות ה-MRP (MDKP/MDTB). CDS: בקרוב (טרם אומת)." },
-    role: "SAP_BR_MRP_CONTROLLER", catalog: "SAP_SCM_BC_MRPCOCKPIT",
-    odata: "PP_MRP_COCKPIT", guiTx: ["MD04", "MD07"], relatedTables: ["MDKP", "MDTB"],
+    role: "SAP_BR_PRODN_PLNR", catalog: "SAP_SCM_BC_MRPCOCKPIT",
+    odata: "PP_MRP_COCKPIT_SRV", guiTx: ["MD04", "MD07"], relatedTables: ["MDKP", "MDTB"],
     ecc: "ECC: MD04 (רשימת מלאי/דרישות) / MD07 (מבט קולקטיבי).", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA (On-Prem + Public Cloud)",
     commonErrors: ["לא ניתן להזין MRP Controller/Plant/MRP Area → בעיה ידועה בגרסאות Fiori מוקדמות; בדוק SAP Notes לגרסת ה-FES.", "אין נתונים → הפעל תחילה Monitor Material Coverage (F0247) והגדר סינון."],
     similar: ["monitor-material-coverage-net-segments", "manage-production-orders"],
   },
   {
+    // F0247A · 2026-09-24: roles, OData and GUI transactions copied from the SAP Fiori Apps Reference
+    // Library (scripts/fal-app.mjs F0247A, S32OP = S/4HANA 2025 FPS01, Published: roles
+    // SAP_BR_MATL_PLNR_EXT_PROC R0100-21 and SAP_BR_PRODN_PLNR R0114, OData 0001 on S4CORE 109,
+    // leading MB53). The name is not changed: the library's catalog calls the app 'Monitor Material
+    // Coverage (Version 2)' while help.sap.com calls it 'Monitor Material Coverage - Net Segments'; that
+    // conflict is a product decision (fiori:F0247A, conflicting_sources).
     id: "F0247A", slug: "monitor-material-coverage-net-segments", name: "Monitor Material Coverage - Net Segments", he: "ניטור כיסוי חומרים — מקטעי נטו", module: "PP", type: "Transactional",
-    trust: "curated", source: "SAP Fiori Apps Library + SAP Help Portal (verified F-ID + catalog)", lastReviewed: LV2,
+    trust: "verified-docs", source: "SAP Fiori Apps Library (Apps('F0247A')/S32OP + S27OP, scripts/fal-app.mjs) + SAP Help Portal app documentation page (loio 5d0feac5e1c447f2a2bab0976215f3b2)", lastReviewed: "2026-09-24",
     purpose: "ניטור מצב המחסור של חומרים לאורך מקטעי הדרישות נטו — נקודת הכניסה של MRP Cockpit לזיהוי חוסרים לפני צלילה ל-Manage Material Coverage.",
     problem: "מתכנן MRP צריך תמונת-על של כל החומרים הבעייתיים ב-MRP Area שלו, עם עמודות וסינונים לזיהוי מהיר, במקום סריקת MD07 ידנית.",
     process: "MRP Run → Monitor (F0247) → drill ל-Manage (F0251)",
     explain: { beginner: "רשימה של כל החומרים שעומדים להיגמר.", consultant: "משפחת MRP Cockpit; catalog SAP_SCM_BC_MRPCOCKPIT; מזין את F0251.", technical: "SAPUI5 מעל MRP Cockpit gateway; קורא תוצאות MRP. CDS: בקרוב (טרם אומת)." },
-    role: "SAP_BR_MRP_CONTROLLER", catalog: "SAP_SCM_BC_MRPCOCKPIT",
-    guiTx: ["MD07", "MD04"], relatedTables: ["MDKP", "MDTB"],
+    role: "SAP_BR_MATL_PLNR_EXT_PROC, SAP_BR_PRODN_PLNR", catalog: "SAP_SCM_BC_MRPCOCKPIT",
+    odata: "PP_MRP_AOR_SRV, PP_MRP_MATERIAL_COVERAGE_POVER_SRV_, PP_MRP_MATERIAL_COVERAGE_SRV", guiTx: ["MB53", "MD04", "MD06", "MD07", "MS06", "MS07"], relatedTables: ["MDKP", "MDTB"],
     ecc: "ECC: MD07 (מבט קולקטיבי) / MD04.", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA (On-Prem + Public Cloud)",
     commonErrors: ["רשימה ריקה → בדוק הרשאות ל-MRP Area/Plant והפעלת MRP Run עדכני."],
     similar: ["manage-material-coverage", "manage-production-orders"],
   },
   {
+    // F3951 · 2026-09-24: role and catalog match the SAP Fiori Apps Reference Library and the OData
+    // services were copied from it (scripts/fal-app.mjs F3951, S32OP and S27OP, Published). guiTx
+    // CM21/CM25 stays curated: the library prints '-' for leading and related GUI transactions (open
+    // decision, see fiori:F3951).
     id: "F3951", slug: "capacity-scheduling-board", name: "Capacity Scheduling Board", he: "לוח תזמון קיבולת", module: "PP", type: "Transactional",
-    trust: "curated", source: "SAP Fiori Apps Library + SAP Community (verified F-ID + role + catalog)", lastReviewed: LV2,
+    trust: "verified-docs", source: "SAP Fiori Apps Reference Library F3951 (scripts/fal-app.mjs, xsodata channel, S32OP = S/4HANA 2025 FPS01, isPublished=Published; PP_MNTR_WRKCTR_SRV 0001, PP_MRP_AOR_SRV 0001); same role, catalog and OData on S27OP = S/4HANA 2023; library prints no leading/related GUI transaction code for F3951 on either release; curated guiTx CM21/CM25 kept, conflict unresolved", lastReviewed: "2026-09-24",
     purpose: "תזמון קיבולת גרפי (Gantt) — מתזמן הייצור צופה במרכזי עבודה עם לוחות זמנים על גרף לפי מוצר, סטטוס תזמון, מפעל ו-MRP Area, ומבצע Dispatch/Deallocate ותזמון-מחדש של פעולות.",
     problem: "תזמון גס ב-CM21/CM25 קשה לתפעול ויזואלי. הלוח נותן מבט Gantt אינטראקטיבי עם תזמון סופי (finite) ואיזון עומסים.",
     process: "פקודה משוחררת → Dispatch ללוח → תזמון-מחדש → ביצוע",
     explain: { beginner: "לוח גרפי שמסדר איזו עבודה רצה על איזו מכונה ומתי.", consultant: "role SAP_BR_PRODN_PLNR מ-catalog SAP_SCM_BC_CFS; דורש SAP liveCache; רק פקודות עם 'Relevant to Finite Scheduling' במרכז העבודה מוצגות.", technical: "אפליקציית Gantt מבוססת liveCache. OData/CDS: בקרוב (טרם אומת)." },
     role: "SAP_BR_PRODN_PLNR", catalog: "SAP_SCM_BC_CFS",
-    guiTx: ["CM21", "CM25"], relatedTables: ["AFKO", "AFVC", "CRHD"],
+    odata: "PP_MNTR_WRKCTR_SRV, PP_MRP_AOR_SRV", guiTx: ["CM21", "CM25"], relatedTables: ["AFKO", "AFVC", "CRHD"],
     ecc: "ECC: CM21/CM25 (Capacity Leveling, ללא Gantt אינטראקטיבי).", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA (דורש liveCache)",
     commonErrors: ["פקודות לא מופיעות בלוח → סמן 'Relevant to Finite Scheduling' במרכז העבודה.", "הלוח ריק/שגיאה → ודא ש-SAP liveCache מותקן ופעיל."],
     similar: ["production-scheduling-board", "manage-production-orders"],
   },
   {
+    // F2176 · 2026-09-24: catalog, OData and GUI transactions copied from the SAP Fiori Apps Reference
+    // Library (scripts/fal-app.mjs F2176, S32OP = S/4HANA 2025 FPS01, Published; same on S27OP = 2023):
+    // leading /SAPAPO/CDPS0 and related /SAPAPO/CDPS1-3 and /SAPAPO/RPT replace the curated CM21/CO03.
+    // Role and name unchanged (the library prints the same).
     id: "F2176", slug: "production-scheduling-board", name: "Production Scheduling Board", he: "לוח תזמון ייצור", module: "PP", type: "Transactional",
-    trust: "curated", source: "SAP Fiori Apps Library + SAP Help Portal (verified F-ID)", lastReviewed: LV2,
+    trust: "verified-docs", source: "SAP Fiori Apps Library (F2176, S32OP = S/4HANA 2025 FPS01; PPDS_RES_SCHEDULE 0001): https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2176')/S32OP", lastReviewed: "2026-09-24",
     purpose: "אופטימיזציה ותכנון מפורט של לוח המשאבים ותאריכי/שעות הפקודות תוך התחשבות בזמינות משאבים ורכיבים — לוח תזמון ייצור מתקדם (PP/DS).",
     problem: "תזמון מפורט הדורש התחשבות בו-זמנית במשאב וברכיבים אינו נוח ב-GUI. הלוח נותן תכנון אינטראקטיבי עם בדיקות זמינות.",
     process: "פקודה מתוכננת → תזמון על משאב → בדיקת זמינות רכיבים → קיבוע",
     explain: { beginner: "לוח מתקדם שמסדר ייצור לפי זמינות מכונות וחומרים.", consultant: "יכולת PP/DS (Manufacturing for planning and scheduling); מתזמן ייצור.", technical: "לוח מבוסס PP/DS מעל liveCache. OData/CDS: בקרוב (טרם אומת)." },
-    role: "SAP_BR_PRODN_PLNR", catalog: "SAP_SCM_BC_CFS",
-    guiTx: ["CM21", "CO03"], relatedTables: ["AFKO", "AFVC", "CRHD"],
+    role: "SAP_BR_PRODN_PLNR", catalog: "SAP_SCM_BC_CAPA_PLAN",
+    odata: "PPDS_RES_SCHEDULE", guiTx: ["/SAPAPO/CDPS0", "/SAPAPO/CDPS1", "/SAPAPO/CDPS2", "/SAPAPO/CDPS3", "/SAPAPO/RPT"], relatedTables: ["AFKO", "AFVC", "CRHD"],
     ecc: "ECC/APO: לוח תזמון מפורט (DS Board) — ב-S/4 חלק מ-PP/DS.", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA Manufacturing for planning and scheduling (PP/DS)",
     commonErrors: ["הלוח לא נטען → ודא הפעלת PP/DS ו-liveCache.", "פעולות חסרות → בדוק שהמשאב רלוונטי לתזמון סופי."],
     similar: ["capacity-scheduling-board", "manage-process-orders"],
@@ -275,14 +301,19 @@ export const FIORI_APPS: FioriApp[] = [
 
   // ── Sprint Fiori-2 — 3 verified apps (F-IDs + roles confirmed via Fiori Apps Library / Help Portal) ──
   {
+    // F3289 · 2026-09-24: OData and GUI transaction copied from the SAP Fiori Apps Reference Library
+    // (scripts/fal-app.mjs F3289, S32OP and S27OP, Published): leading CM01 with an empty related
+    // list, so CM07 left guiTx (it stays in ecc and in the record's xrefs). Role and catalog match the
+    // library. type stays Transactional: FioriType takes one value and the library prints
+    // 'Transactional, Analytical'.
     id: "F3289", slug: "manage-work-center-capacity", name: "Manage Work Center Capacity", he: "ניהול קיבולת מרכז עבודה", module: "PP", type: "Transactional",
-    trust: "curated", source: "SAP Fiori Apps Library + SAP Community (verified F-ID + role + catalog)", lastReviewed: LV2,
+    trust: "verified-docs", source: "SAP Fiori Apps Reference Library F3289 (scripts/fal-app.mjs, OData channel, S32OP = S/4HANA 2025 FPS01, isPublished=Published); same role, catalog, OData services and leading GUI transaction on S27OP = S/4HANA 2023; library ApplicationType prints 'Transactional, Analytical', stored as Transactional because FioriType has one value", lastReviewed: "2026-09-24",
     purpose: "אפליקציית worklist לניהול עומס הקיבולת על מרכזי עבודה וזיהוי מצבי עומס-יתר — המתכנן רואה מרכזי עבודה לפי סינון, עם מצבים קריטיים מודגשים וגרף ניצולת בעמודת Utilization.",
     problem: "הערכת קיבולת ב-CM01/CM07 טקסטואלית וקשה לתפעול. האפליקציה נותנת worklist ויזואלי עם התרעה על עומס-יתר לאורך אופק ההערכה, לניצול טוב יותר של הקיבולות הזמינות.",
     process: "פקודות משוחררות → עומס על מרכז עבודה → זיהוי עומס-יתר → איזון",
     explain: { beginner: "מסך שמראה אילו מכונות עמוסות מדי ומתי.", consultant: "role SAP_BR_PRODN_PLNR מ-catalog SAP_SCM_BC_CFS; עובד רק למרכזי עבודה של PP (לא PM). זמין מ-S/4HANA Cloud 2002.", technical: "worklist מבוסס Fiori מעל נתוני קיבולת. OData/CDS: בקרוב (טרם אומת)." },
     role: "SAP_BR_PRODN_PLNR", catalog: "SAP_SCM_BC_CFS",
-    guiTx: ["CM01", "CM07"], relatedTables: ["CRHD", "KAKO"],
+    odata: "PP_CFS_CAPEVAL_SRV / PP_MRP_AOR_SRV", guiTx: ["CM01"], relatedTables: ["CRHD", "KAKO"],
     ecc: "ECC: CM01/CM07 (הערכת קיבולת, ללא גרף ניצולת אינטראקטיבי).", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA (On-Prem + Public Cloud 2002+)",
     commonErrors: ["מרכז עבודה לא מופיע → האפליקציה תומכת רק במרכזי עבודה של PP, לא PM.", "אין נתוני עומס → ודא שקיימות פקודות/דרישות קיבולת רלוונטיות."],
     similar: ["capacity-scheduling-board", "production-scheduling-board"],

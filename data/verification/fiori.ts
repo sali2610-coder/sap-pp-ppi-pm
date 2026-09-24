@@ -26,7 +26,11 @@
    into data/fiori/apps.ts. Second batch the same day: F5325, F2336, F3577,
    F3364, F1576 and F0843 (library values copied into data/fiori/apps.ts for
    F5325 and F2336; F3577 and F3364 return no library record on S32OP/S27OP,
-   and the library assigns F1576 to Supplier Evaluation Response). */
+   and the library assigns F1576 to Supplier Evaluation Response). Third batch the same day:
+   F4604, F0251, F0247A, F3951, F2176 and F3289 (library values copied into data/fiori/apps.ts
+   for all six; F0247A keeps its curated name, because help.sap.com and the library's catalog
+   name disagree, and now carries conflicting_sources; F3951 and F0251 keep their curated GUI
+   transactions where the library prints none). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
@@ -293,12 +297,14 @@ const F3951_APP_TOPIC: Evidence = {
   edition: "on-premise",
   release: "2025.001",
   url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/063ae12de0c74b01b6fd49c78e895564.html?locale=en-US&state=PRODUCTION&version=2025.001",
-  accessedAt: DATE,
+  accessedAt: DATE24,
   claim:
-    "תיעוד Production Planning and Control לגרסת 2025 FPS01 מתעד את היישום Capacity Scheduling Board: 'This app " +
-    "was previously known as Monitor Work Center Schedules'; 'You can use this app to plan optimum utilization of " +
-    "pacemaker work centers by matching their capacities with those of the orders that have to be dispatched'; " +
-    "'Pacemaker work centers are critical as they help determine the schedule of an order'.",
+    "עמוד היישום המלא (נקרא דרך sap-help-body.mjs, deliverable 40374808, loio 063ae12de0c74b01b6fd49c78e895564) פותח: " +
+    "'This app was previously known as Monitor Work Center Schedules. With this app, you get an overview of the " +
+    "operations performed at your work centers by visualizing their schedules over a time period. Pacemaker work " +
+    "centers are critical as they help determine the schedule of an order.' רשימת Key Features כוללת Dispatch, " +
+    "Deallocate ו-Reschedule של פעולה; Component for Customer Incidents: PP-CFS-GNT; Supported Device Types: Desktop, " +
+    "Tablet.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -657,6 +663,76 @@ const F5325_FAL_S32OP: Evidence = {
     "Maintenance). רשומת S27OP (2023) הציגה אותו תפקיד מוביל, אותם קטלוגים ואותן טרנזקציות GUI, עם שירות OData יחיד " +
     "(UI_MAINTENANCE_PLAN על S4COREOP 108), והתפקיד SAP_BR_MD_SPECIALIST_EAM אינו מודפס שם. הקודמים F3622, F5009 " +
     "ו-W0026 אינם ביקום המזהים של הפרויקט ולכן אינם ב-xrefs.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* ----------------------- 2026-09-24 batch 3: status sources (see records) */
+
+const F0247A_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Monitor Material Coverage (Version 2) - SAP Fiori Apps Reference Library (Apps('F0247A')/S32OP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0247A')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ספריית ה-Fiori (S32OP = 2025 FPS01, scripts/fal-app.mjs) מציגה את F0247A כ-'Monitor Material Coverage " +
+    "(Version 2)', Transactional / SAP Fiori elements, סטטוס Published, רכיב PP-FIO-MRP; תפקידים " +
+    "SAP_BR_MATL_PLNR_EXT_PROC (R0100-21) ו-SAP_BR_PRODN_PLNR (R0114); קטלוג עסקי SAP_SCM_BC_MRPCOCKPIT, קטלוג טכני " +
+    "SAP_TC_SCM_PP_COMMON; intent MRPMaterial-monitorSegment; שירותי OData PP_MRP_AOR_SRV, " +
+    "PP_MRP_MATERIAL_COVERAGE_POVER_SRV_ ו-PP_MRP_MATERIAL_COVERAGE_SRV (כולם S4CORE 109); טרנזקציית GUI מובילה MB53, " +
+    "קשורות MD04/MD06/MD07/MS06/MS07; backend S4CORE 109 SP 0001, UI UIS4H 109; קודמת: F0247 'Monitor Material " +
+    "Coverage - Net Segments'; אין יורשת; RIN notes 3493254 (Front-End) ו-3671888 (Back-End); קישור התיעוד מפנה " +
+    "ל-loio 5d0feac5e1c447f2a2bab0976215f3b2.",
+  verificationLevel: "sap_official_verified",
+};
+
+const F2176_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Production Scheduling Board - SAP Fiori Apps Library, structured record (F2176, S32OP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2176')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "node scripts/fal-app.mjs F2176 --release S32OP מחזיר את רשומת ה-xsodata המובנית (לא מעטפת JS): 'AppName': " +
+    "'Production Scheduling Board', 'Description': 'An application to monitor and schedule the capacity of production " +
+    "resources', 'ApplicationType': 'Transactional', 'UITechnology': 'SAP Fiori (SAPUI5)', 'ApplicationComponent': " +
+    "'SCM-APO-PPS-DS' (Detailed Scheduling), 'isPublished': 'Published' תחת ReleaseName 'S/4HANA 2025 FPS01'. " +
+    "SplitBusinessRole: 'BusinessRoleName': 'SAP_BR_PRODN_PLNR' (RoleID R0114, Production Planner, isLeading X). " +
+    "SplitBusinessCatalog: 'BusinessCatalogName': 'SAP_SCM_BC_CAPA_PLAN' ('Capacity - Capacity Planning'). " +
+    "SplitTechnicalCatalogs: 'SAP_TC_SCM_APS_COMMON'. SplitAdditionalIntents: SemanticObject 'CRPResource', " +
+    "SemanticAction 'schedule'. RequiredODataServices/ODataServices: TechnicalName 'PPDS_RES_SCHEDULE', Version " +
+    "'0001', SoftwareComponentName 'S4CORE 109'. fuzzy.LeadingTransactionCodes: '/SAPAPO/CDPS0'; " +
+    "fuzzy.TransactionCodes (related): '/SAPAPO/CDPS1, /SAPAPO/CDPS2, /SAPAPO/CDPS3, /SAPAPO/RPT'. " +
+    "RetrofittedSWCBackend 'S4CORE 109 - SP 0001' / RetrofittedSWCUI 'UIS4H 109 - SP 0001', " +
+    "ProductVersionOfficialNameBackend 'SAP S/4HANA 2025'. NumberofPredecessors 0, NumberofSuccessors 0 " +
+    "(PredecessorDetails ו-Successors ריקים). AppDocumentationLink מפנה לנושא help.sap.com עם loio " +
+    "E5A89957C59F6C10E10000000A441470, גרסה 2025.001.",
+  verificationLevel: "sap_official_verified",
+};
+
+const F3289_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "SAP Fiori Apps Reference Library: Manage Work Center Capacity (F3289), S/4HANA 2025 FPS01",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3289')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת הספרייה ל-F3289 על S32OP (2025 FPS01), שנקראה דרך ערוץ ה-OData הרשמי (scripts/fal-app.mjs, לא ה-JS shell): " +
+    "AppName ו-EnglishTitle 'Manage Work Center Capacity', Published, ApplicationType 'Transactional, Analytical', " +
+    "UITechnology 'SAP Fiori elements', ApplicationComponent PP-CFS-CE (Capacity Evaluation). תפקיד עסקי מוביל " +
+    "(isLeading) SAP_BR_PRODN_PLNR (R0114, Production Planner). קטלוג עסקי SAP_SCM_BC_CFS (Production Planning - " +
+    "Capacity Evaluation); קטלוג טכני SAP_TC_SCM_PP_COMMON. שני שירותי OData: PP_CFS_CAPEVAL_SRV גרסה 0001 " +
+    "ו-PP_MRP_AOR_SRV גרסה 0001, שניהם S4CORE 109. Semantic Object/Action WorkCenter/evaluateCapacity. טרנזקציית GUI " +
+    "מובילה CM01; רשימת הטרנזקציות הקשורות (related) ריקה. NumberofPredecessors=0, NumberofSuccessors=0: אין יחסי " +
+    "החלפה רשומים. ScopeItems: 31L 'Production Capacity Evaluation'. הודעות RIN: 3493254 (Front-End), 3671888 " +
+    "(Back-End). AppDocumentationLink נושא את אותו loio (74e3356c89914b1495667e7d1f76eb23) כמו רשומת ה-sap_help " +
+    "הראשונה למעלה, כלומר אותו עמוד תיעוד.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -2030,16 +2106,56 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "sap_official_verified",
       },
       {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Manage Maintenance Notifications and Orders (F4604), S/4HANA 2025 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4604')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת הספרייה ל-F4604 על S32OP (2025 FPS01), שנקראה דרך ערוץ ה-OData של הספרייה (scripts/fal-app.mjs, לא מעטפת " +
+          "ה-JavaScript): AppName 'Manage Maintenance Notifications and Orders', isPublished Published, ApplicationType " +
+          "Transactional, UITechnology 'SAP Fiori (SAPUI5)', ApplicationComponent PM-FIO (Fiori User Interface (UI) for " +
+          "PM). תפקיד עסקי SAP_BR_MAINTENANCE_PLANNER (R0088, Maintenance Planner). קטלוג עסקי SAP_EAM_BC_MNTWRK_MNG ('EAM " +
+          "- Maintenance Work Management'); קטלוג טכני SAP_TC_EAM_COMMON. Semantic Object/Action: MaintenanceOrder-plan. " +
+          "שירות ה-OData הראשי (PrimaryODataServiceName) הוא UI_MAINTWRKREQ_ORD_MANAGE גרסה 0001; הספרייה מדפיסה ארבעה " +
+          "שירותים: EAM_OBJPG_MAINTENANCEORDER_SRV, EAM_OBJPG_MAINTNOTIFICATION_SRV, UI_MAINTWORKREQUESTOVW_V2 " +
+          "ו-UI_MAINTWRKREQ_ORD_MANAGE (כולם 0001, S4CORE 109). טרנזקציות GUI: leading '-', related '-'. predecessors '-', " +
+          "successors '-' (NumberofPredecessors=0, NumberofSuccessors=0). הודעות RIN: 3493254 (Front-End Server), 3671888 " +
+          "(Back-End Server). Backend S4CORE 109 SP 0001 (SAP S/4HANA 2025); UI UIS4H 109 SP 0001.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Manage Maintenance Notifications and Orders (F4604), S/4HANA 2023",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4604')/S27OP",
+        accessedAt: DATE24,
+        claim:
+          "אותה שאילתה על S27OP (2023) מחזירה Published, Transactional, SAP Fiori (SAPUI5) ו-PM-FIO, עם אותו תפקיד " +
+          "SAP_BR_MAINTENANCE_PLANNER (R0088), אותו קטלוג עסקי SAP_EAM_BC_MNTWRK_MNG, קטלוג טכני SAP_TC_EAM_COMMON, intent " +
+          "MaintenanceOrder-plan ואותם ארבעה שירותי OData (כולם 0001, S4CORE 108; שירות ראשי UI_MAINTWRKREQ_ORD_MANAGE). " +
+          "טרנזקציות GUI: leading '-', related '-'; predecessors '-', successors '-'. Backend S4CORE 108 SP 0000 (SAP " +
+          "S/4HANA 2023); UI UIS4HOP1 900 SP 0000. הודעות RIN: 3336823 (Front-End Server), 3351047 (Back-End Server). רשימת " +
+          "המהדורות שהספרייה מדפיסה: S21OP=2021 עד S32OP=2025 FPS01 (תווית On-Premise מודפסת מ-S29OP ואילך), S29PCE עד " +
+          "S32PCE (Private Cloud), וכן S36=2602 ו-S37=2608 ללא תווית מהדורה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
         sourceType: "repository",
         sourceTitle: "רשומת ה-Fiori המתוחזקת של הפרויקט (FIORI_APPS)",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE,
+        accessedAt: DATE24,
         claim:
-          "הרשומה המתוחזקת (trust: curated) נושאת את המזהה F4604 בשם Manage Maintenance Notifications and Orders, " +
-          "מודול PM, סוג Transactional, טרנזקציות GUI מקבילות IW28 ו-IW38 וטבלאות QMEL, AUFK, AFIH. פרטי התפקיד " +
-          "SAP_BR_MAINTENANCE_PLANNER, הקטלוג SAP_EAM_BC_MAINT_PLANNER ושירות ה-OData‏ API_MaintenanceOrder מקורם " +
-          "ברשומה בלבד ולא אותרו בסניפטים הרשמיים שנבדקו.",
+          "עד 2026-09-24 הרשומה המתוחזקת data/fiori/apps.ts#F4604 (trust: curated) נשאה את המזהה F4604 בשם Manage " +
+          "Maintenance Notifications and Orders, מודול PM, סוג Transactional, טבלאות QMEL, AUFK, AFIH, תפקיד " +
+          "SAP_BR_MAINTENANCE_PLANNER, קטלוג SAP_EAM_BC_MAINT_PLANNER, odata API_MaintenanceOrder ו-guiTx IW28, IW38. השם, " +
+          "הסוג והתפקיד תואמים לשתי רשומות הספרייה לעיל; הקטלוג, שירות ה-OData ו-guiTx שונים מהערכים שהספרייה מחזירה. " +
+          "ב-2026-09-24 הועתקו לרשומה המתוחזקת ערכי הספרייה לקטלוג, ל-OData ול-guiTx.",
         verificationLevel: "repository_verified",
         repoRef: "data/fiori/apps.ts#F4604",
       },
@@ -2047,35 +2163,55 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
     status: {
       status: "s4_native",
       he:
-        "אפליקציית SAP Fiori לניהול הודעות ופקודות תחזוקת מפעל המעובדות לפי שלבים (phase-based). בתיעוד Maintenance " +
-        "Management של SAP S/4HANA On-Premise 2025 FPS01 (2025.001) היא מתועדת כאפליקציה פעילה, וב-What's New in SAP " +
-        "S/4HANA 2021 היא רשומה כ-Type: New (‏Scope Items 4HH/4HI, רכיב PM, Version: SAP S/4HANA 2021). לפי העמוד " +
-        "הרשמי, הודעות ופקודות שמודל השלבים אינו מופעל עבורן אינן זמינות באפליקציה.",
+        "אפליקציית SAP Fiori (Transactional, SAPUI5) לניהול הודעות ופקודות תחזוקה המעובדות לפי שלבים (phase-based), מודול " +
+        "PM. בתיעוד Maintenance Management של SAP S/4HANA On-Premise 2025 FPS01 (2025.001) יש לה עמוד אפליקציה, וב-What's " +
+        "New in SAP S/4HANA 2021 היא רשומה כ-Type: New (‏Scope Items 4HH/4HI, רכיב PM, Version: SAP S/4HANA 2021). ספריית " +
+        "ה-Fiori Apps מחזירה Published הן על 2025 FPS01 (S32OP) והן על 2023 (S27OP), עם תפקיד עסקי " +
+        "SAP_BR_MAINTENANCE_PLANNER, קטלוג עסקי SAP_EAM_BC_MNTWRK_MNG וארבעה שירותי OData; הספרייה אינה מדפיסה לה GUI " +
+        "Transaction Code מוביל או קשור, ולא Predecessor או Successor. לפי העמוד הרשמי, הודעות ופקודות שמודל השלבים אינו " +
+        "מופעל עבורן אינן זמינות באפליקציה.",
       edition: "on-premise",
       release: "2025.001",
       source: F4604_APP_TOPIC,
       recommendedAction:
         "להגדיר את F4604 כמסך העבודה של מתכנן התחזוקה רק לאחר הפעלת מודל השלבים בקסטומיזציה לסוגי ההודעה והפקודה " +
-        "הרלוונטיים; רשומות שאינן phase-based אינן מוצגות בה, ולכן נשארות ב-IW28/IW38 או באפליקציות Find. לפני הקצאת " +
-        "הרשאות יש לאמת תפקיד עסקי, קטלוג ושירות OData מול ספריית ה-Fiori או מערכת חיה, כי פרטים אלה אינם נתמכים " +
-        "בסניפטים הרשמיים שנבדקו.",
+        "הרלוונטיים; רשומות שאינן phase-based אינן מוצגות בה. לבסס את הקצאת ההרשאות על ערכי הספרייה (תפקיד " +
+        "SAP_BR_MAINTENANCE_PLANNER, קטלוג עסקי SAP_EAM_BC_MNTWRK_MNG) ולאמת אותם במערכת; ערכים אלה הועתקו ב-2026-09-24 " +
+        "ל-data/fiori/apps.ts#F4604. הספרייה אינה מדפיסה Leading או Related GUI Transaction Code עבור F4604; IW28/IW38 " +
+        "מקורם ברשומה המתוחזקת בלבד ונשארים כקישורי ניווט, לא כמיפוי רשמי.",
     },
-    xrefs: ["tx:IW28", "tx:IW38", "tx:IW34", "tx:IW31", "table:QMEL", "table:AUFK", "table:AFIH", "fm:BAPI_ALM_ORDER_MAINTAIN", "fiori:F5104A", "fiori:F5241"],
-    lastVerifiedAt: DATE,
+    xrefs: [
+      "tx:IW28", "tx:IW38", "tx:IW34", "tx:IW31", "table:QMEL", "table:AUFK", "table:AFIH",
+      "fm:BAPI_ALM_ORDER_MAINTAIN", "fiori:F5104A", "fiori:F5241",
+    ],
+    lastVerifiedAt: DATE24,
     notes:
       "שיטה: scripts/sap-help-search.mjs בארבע שאילתות על SAP_S4HANA_ON-PREMISE (השם באנגלית, המזהה F4604, " +
-      "'phase-based', ושאילתה נעוצה לגרסת 2021.000) ושאילתה אחת על SAP_S4HANA_CLOUD, וכן חיפוש רשת מוגבל-דומיין. " +
-      "המזהה F4604 והשם מופיעים יחד בסניפטים רשמיים (2023.002, 2025.001), ולכן השם הקטוע 'Orders' שבאינדקס הדק " +
-      "(data/library/fiori-apps.json) הוא פגם באינדקס ולא סתירה מול SAP. כתובת ספריית ה-Fiori ‏(appId=F4604) הוחזרה " +
-      "בחיפוש תחת שם האפליקציה, אך גוף העמוד הוא יישום JS ולא נקרא, ולכן אינה רשומה כראיה. תיעוד Public Cloud " +
-      "(2608.500) מציג אף הוא 'App ID: F4604' לאותו שם; הרשומה נשמרת במהדורת On-Premise. הסניפטים הרשמיים מצמידים " +
-      "לאפליקציה את Manage Maintenance Orders ‏(F5241), Find Maintenance Orders ‏(F2175) ו-Find Maintenance Orders and " +
-      "Operations ‏(F2173); שלושתן אינן קיימות ב-data/fiori/apps.ts ולכן אינן ב-xrefs (סתירת F2731 מול F5241 פתוחה " +
-      "בתור ה-Fiori). יכולת ההמלצות מבוססות ה-AI מוצהרת בסניפט 2025.001 עבור SAP S/4HANA Cloud Private Edition בלבד " +
-      "ואינה נטענת כאן למהדורת On-Premise. ה-BAdI‏ EAM_CROSS_APP_NAV_CONTROL נזכר רשמית (2023.002) עבור F2175 ו-F4604 " +
-      "אך אינו קיים ב-data/exits.ts. אפליקציית שלב הסינון Screen Maintenance Requests אינה ב-xrefs: התיעוד הרשמי " +
-      "(Maintenance Management 2025.001) מזהה אותה כ-F4072, בעוד הרשומה המתוחזקת data/fiori/apps.ts#F4072 נושאת את " +
-      "השם Schedule Maintenance Plans; הסתירה נרשמה לתור ה-Fiori. ‏accessedAt לפי תאריך מחזור האיסוף (2026-09-02). תוספת 2026-09-23: fiori:F5241 נכנס לקטלוג ונוסף כאן כקישור; F2175 ו-F2173 עדיין אינם בקטלוג.",
+      "'phase-based', ושאילתה נעוצה לגרסת 2021.000) ושאילתה אחת על SAP_S4HANA_CLOUD, וכן חיפוש רשת מוגבל-דומיין. המזהה " +
+      "F4604 והשם מופיעים יחד בסניפטים רשמיים (2023.002, 2025.001), ולכן השם הקטוע 'Orders' שבאינדקס הדק " +
+      "(data/library/fiori-apps.json) הוא פגם באינדקס ולא סתירה מול SAP. תיעוד Public Cloud (2608.500) מציג אף הוא 'App " +
+      "ID: F4604' לאותו שם; הרשומה נשמרת במהדורת On-Premise. הסניפטים הרשמיים מצמידים לאפליקציה את Manage Maintenance " +
+      "Orders ‏(F5241), Find Maintenance Orders ‏(F2175) ו-Find Maintenance Orders and Operations ‏(F2173); F2175 " +
+      "ו-F2173 אינן קיימות ב-data/fiori/apps.ts ולכן אינן ב-xrefs (בנוסח 2026-09-02: שלושתן, כולל F5241, לא היו בקטלוג; " +
+      "סתירת F2731 מול F5241 נרשמה בתור ה-Fiori). יכולת ההמלצות מבוססות ה-AI מוצהרת בסניפט 2025.001 עבור SAP S/4HANA " +
+      "Cloud Private Edition בלבד ואינה נטענת כאן למהדורת On-Premise. ה-BAdI‏ EAM_CROSS_APP_NAV_CONTROL נזכר רשמית " +
+      "(2023.002) עבור F2175 ו-F4604 אך אינו קיים ב-data/exits.ts. אפליקציית שלב הסינון Screen Maintenance Requests " +
+      "אינה ב-xrefs: התיעוד הרשמי (Maintenance Management 2025.001) מזהה אותה כ-F4072, בעוד הרשומה המתוחזקת " +
+      "data/fiori/apps.ts#F4072 נשאה בנוסח 2026-09-02 את השם Schedule Maintenance Plans (תוקן ב-2026-09-22); הסתירה " +
+      "נרשמה לתור ה-Fiori. ‏accessedAt לפי תאריך מחזור האיסוף (2026-09-02). תוספת 2026-09-23: fiori:F5241 נכנס לקטלוג " +
+      "ונוסף כאן כקישור; F2175 ו-F2173 עדיין אינם בקטלוג. עדכון 2026-09-24: אומת מול ספריית ה-Fiori Apps דרך " +
+      "scripts/fal-app.mjs (ערוץ ה-OData, S32OP=2025 FPS01 ו-S27OP=2023), בשיטת F2336 מאותו יום; שתי רשומות " +
+      "fiori_library נוספו אחרי ארבע ראיות ה-sap_help, שנשמרו ללא שינוי. Old → New: הרשומה הקודמת קבעה שהתפקיד, הקטלוג " +
+      "ושירות ה-OData מקורם ברשומה המתוחזקת בלבד ולא אותרו בסניפטים רשמיים, וכתובת הספרייה (appId=F4604) לא נרשמה כראיה " +
+      "כי מעטפת ה-JS לא נקראה → ערוץ ה-OData של הספרייה מחזיר תפקיד זהה (SAP_BR_MAINTENANCE_PLANNER), קטלוג עסקי " +
+      "SAP_EAM_BC_MNTWRK_MNG, ארבעה שירותי OData (ראשי UI_MAINTWRKREQ_ORD_MANAGE), ו-'-' ב-leading/related GUI " +
+      "transactions. ספריית ה-Fiori מדפיסה כ-App Documentation Link את outputlink topic " +
+      "d8a94ddd0c514780a9836aa04524f96f, שמפנה (301) לעמוד הקנוני של F4604_APP_TOPIC. catalogPatch: role " +
+      "SAP_BR_MAINTENANCE_PLANNER, catalog SAP_EAM_BC_MNTWRK_MNG, odata UI_MAINTWRKREQ_ORD_MANAGE " +
+      "(ה-PrimaryODataServiceName של הספרייה, כמו ב-F2336; שלושת השירותים האחרים רשומים בראיות), guiTx ריק לפי ה-'-' " +
+      "שהספרייה מדפיסה, type Transactional ו-name ללא שינוי; ה-patch הוחל ב-2026-09-24 על data/fiori/apps.ts#F4604. " +
+      "IW28/IW38 נשארים בטקסט ה-problem וה-ecc המתוחזק, שמחוץ ל-patch. explain.consultant ב-data/fiori/apps.ts#F4604 " +
+      "עדיין מציין 'API_MaintenanceOrder' וסותר את שדה odata לאחר ה-patch. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* --------------------------------------------------------- fiori:F0251 */
@@ -2125,29 +2261,71 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
           "הרשומה בלבד; דף הספרייה נטען כאפליקציית JavaScript, ולכן פרטי התפקיד, הקטלוג ושירות ה-OData לא נקראו ממנו).",
         verificationLevel: "sap_official_verified",
       },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Material Coverage (F0251) - SAP Fiori Apps Reference Library, release S32OP (SAP S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0251')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ספריית היישומים (נשלפה בכלי scripts/fal-app.mjs F0251) מציגה את F0251 כ-Published ב-S32OP (S/4HANA 2025 " +
+          "FPS01): AppName 'Manage Material Coverage', ApplicationType 'Transactional', UITechnology 'SAP Fiori (SAPUI5)', " +
+          "ApplicationComponent PP-FIO-MRP. תפקידים: SAP_BR_PRODN_PLNR (Production Planner, isLeading=X), " +
+          "SAP_BR_MATL_PLNR_EXT_PROC (Material Planner - External Procurement), SAP_BR_RPLNMT_SPCLST_DC_RFM (Replenishment " +
+          "Specialist - Distribution Center (Retail)). קטלוגים עסקיים: SAP_SCM_BC_MRPCOCKPIT ('Production Planning - MRP " +
+          "Cockpit') ו-SAP_RFM_BC_DC_RPLNMT ('Retail Replenishment - Distribution Center'); קטלוג טכני " +
+          "SAP_TC_SCM_PP_COMMON. Semantic Object/Action: MRPMaterial/manage (ומיפוי נוסף MRPPlanningSegment/manage). שירות " +
+          "OData: PP_MRP_COCKPIT_SRV גרסה 0001 (NameSpace ODATA_PP_MRP, S4CORE 109). backend: S4CORE 109 - SP 0001 (SAP " +
+          "S/4HANA 2025); UI: UIS4H 109 - SP 0001. שדות GUI transactions (leading/related) מוצגים כ-'-' ברשומה זו. רשימת " +
+          "המהדורות כוללת משלוחי wave מ-W3 (Delivery Q1/2014) ועד W13 (Delivery Q3/2016) ומהדורות On-Premise מ-S3OP (1511) " +
+          "ועד S32OP, לצד רשומות PCE ו-S36/S37. NumberofSuccessors=1, NumberofPredecessors=0; היורשת: F0251A 'Manage " +
+          "Material Coverage (Version 2)'. RIN notes: 3493254 (Front-End Server), 3671888 (Back-End Server), 2352789 (BOM, " +
+          "General Note). AppDocumentationLink מפנה ל-topic 09CD1556D22C0033E10000000A44538D בגרסה 2025.001.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Material Coverage (F0251) - SAP Fiori Apps Reference Library, release S27OP (SAP S/4HANA 2023)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0251')/S27OP",
+        accessedAt: DATE24,
+        claim:
+          "אותה רשומה נשלפה גם ל-S27OP (S/4HANA 2023): Published, אותו שם, תפקידים, קטלוגים ושירות OData " +
+          "(PP_MRP_COCKPIT_SRV 0001, S4CORE 108), אותה יורשת F0251A; RIN notes לגרסה זו: 3336823 (Front-End Server), " +
+          "3351047 (Back-End Server), 2352789 (BOM, General Note).",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     status: {
       status: "changed",
       he:
-        "היישום Manage Material Coverage (F0251) זמין ומתועד ב-SAP S/4HANA 2025 FPS01 במהדורת On-Premise, בתוך קטלוג " +
-        "MRP Cockpit‏ (SAP_SCM_BC_MRPCOCKPIT). מאז S/4HANA 2023 קיים לו יורש, Manage Material Coverage (F0251A), " +
-        "שהתיעוד מציג כחלופה שניתן להשתמש בה, ובמקביל SAP קובעת ש-F0251 'will remain available until further notice'. " +
-        "היישום אינו חדש ב-S/4HANA: הוא מתועד כבר ב-SAP Fiori 1.0 for SAP ERP (2017), ולכן הסטטוס הנגזר במאגר (חדש " +
-        "ב-S/4HANA) מפריז. בחיפושים שבוצעו לא נמצאה הצהרת הוצאה משימוש (deprecation) או פריט פישוט ל-F0251 עצמו; " +
-        "רשומות ההוצאה משימוש שנמצאו ב-PP-MRP נוגעות ליישומי Monitor (F2101).",
+        "היישום Manage Material Coverage (F0251) זמין ומתועד ב-SAP S/4HANA 2025 FPS01 במהדורת On-Premise, בתוך קטלוג MRP " +
+        "Cockpit‏ (SAP_SCM_BC_MRPCOCKPIT), וספריית ה-Fiori מציגה אותו כ-Published ב-S32OP וב-S27OP עם תפקיד מוביל " +
+        "SAP_BR_PRODN_PLNR ושירות OData‏ PP_MRP_COCKPIT_SRV. מאז S/4HANA 2023 קיים לו יורש, Manage Material Coverage " +
+        "(F0251A), שהתיעוד מציג כחלופה שניתן להשתמש בה, ובמקביל SAP קובעת ש-F0251 'will remain available until further " +
+        "notice'. היישום אינו חדש ב-S/4HANA: הוא מתועד כבר ב-SAP Fiori 1.0 for SAP ERP (2017-07), ורשימת המהדורות בספרייה " +
+        "כוללת משלוחי wave מ-Delivery Q1/2014; לכן הסטטוס הנגזר במאגר (חדש ב-S/4HANA) מפריז. בחיפושים שבוצעו לא נמצאה " +
+        "הצהרת הוצאה משימוש (deprecation) או פריט פישוט ל-F0251 עצמו; רשומות ההוצאה משימוש שנמצאו ב-PP-MRP נוגעות ליישומי " +
+        "Monitor (F2101).",
       edition: "on-premise",
       release: "2025.001",
       source: F0251_APP_TOPIC,
       recommendedAction:
-        "להמשיך להשתמש ב-F0251 בסביבות On-Premise שבהן הוא כבר פרוס, ולבחון את F0251A (Fiori elements) לפריסות חדשות " +
-        "רק לאחר בדיקה שהתכונות הנדרשות מכוסות בו. לא לסמן את F0251 כהוצא משימוש ללא רשומת What's New או פריט פישוט " +
-        "שקובעים זאת. במאגר: להוסיף רשומה ל-F0251A ב-data/fiori/apps.ts כדי שניתן יהיה להצביע עליו כיורש; לנרמל את " +
-        "שם שירות ה-OData ב-data/fiori/apps.ts#F0251 ל-PP_MRP_COCKPIT_SRV לפי דף App Implementation; ולתקן בחוברת " +
-        "המקור (xlsx) את שורות CO24 ו-MD04 בגיליון 'מדריך טרנזקציות ודוחות ייצור' המכנות את F0251 'Monitor Material " +
-        "Coverage - Net Segments', בעוד שהמזהה הרשמי של יישום ה-Monitor הוא F0247A.",
+        "ה-catalogPatch הוחל ב-2026-09-24 על data/fiori/apps.ts#F0251: role SAP_BR_PRODN_PLNR (התפקיד המוביל בספרייה), " +
+        "catalog SAP_SCM_BC_MRPCOCKPIT (ללא שינוי), odata PP_MRP_COCKPIT_SRV, guiTx ללא שינוי (הספרייה אינה מפרטת " +
+        "טרנזקציית GUI מובילה או קשורה; MD04/MD07 נותרים כידע מאגר עד לאימות), וכן source ותאריך סקירה. להמשיך להשתמש " +
+        "ב-F0251 בסביבות On-Premise שבהן הוא כבר פרוס, ולבחון את F0251A (Fiori elements) לפריסות חדשות רק לאחר בדיקה " +
+        "שהתכונות הנדרשות מכוסות בו. לא לסמן את F0251 כהוצא משימוש ללא רשומת What's New או פריט פישוט שקובעים זאת. לתקן " +
+        "בחוברת המקור (xlsx) את שורות CO24 ו-MD04 בגיליון 'מדריך טרנזקציות ודוחות ייצור' המכנות את F0251 'Monitor " +
+        "Material Coverage - Net Segments', בעוד שהמזהה הרשמי של יישום ה-Monitor הוא F0247A.",
+      successor: "fiori:F0251A",
     },
     xrefs: ["fiori:F0247A", "tx:MD04", "tx:MD07", "tx:MD01N", "fiori:F0251A"],
-    lastVerifiedAt: DATE,
+    lastVerifiedAt: DATE24,
     notes:
       "גוף דפי ה-Help לא נקרא (מעטפת JavaScript); כל טענה תחומה לכותרת ולתקציר של רשומת החיפוש הרשמית (loio " +
       "09cd1556d22c0033e10000000a44538d, c106b41442594c6797aad29381a6b521, d5e491523e65c04ae10000000a44176d, " +
@@ -2155,7 +2333,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "(https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/fe39e10a9a864a8f8dc9537704f0fa13/97e51a560e030033e10000000a44538d.html?locale=en-US&state=PRODUCTION&version=2025.001) " +
       "מונה בתקצירו את appId=F0251, את שירות ה-OData‏ PP_MRP_COCKPIT_SRV (1), את קטלוג הדוגמה SAP_SCM_BC_MRPCOCKPIT " +
       "ואת הדרישה להרשאות Back-End (התקציר נקטע אחרי required for changing; פירוט האובייקטים לא נקרא); " +
-      "data/fiori/apps.ts#F0251 כותב PP_MRP_COCKPIT ללא הסיומת _SRV. רשומות רשמיות נוספות שנמצאו ולא נכנסו לרשימת " +
+      "data/fiori/apps.ts#F0251 כתב עד 2026-09-24 PP_MRP_COCKPIT ללא הסיומת _SRV. רשומות רשמיות נוספות שנמצאו ולא נכנסו לרשימת " +
       "הראיות: דף F0251A לגרסת 2025 FPS01 ‏(loio beea5a0c485340769ad37d33537ad962) הקובע 'this app does not yet fully " +
       "cover all aspects of the current Manage Material Coverage (F0251) app'; רשומות What's New 2025 ‏(Accept Planning " +
       "Result of MRP Run, loio 3720a102615c4e409d545c039c60837d; Rescheduling Proposals for MRP Elements, loio " +
@@ -2168,7 +2346,18 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "כאן מחוברת ל-On-Premise בלבד, ומהדורת Public Cloud לא נכללה בראיות. לא אומתו בסשן זה: התפקיד " +
       "SAP_BR_MRP_CONTROLLER, הקשר ל-CDS I_MRPMaterial ‏(data/cds-enrichment.ts:428, טענת מאגר בלבד) והטבלאות " +
       "MDKP/MDTB. סתירה פנימית במאגר: data/sapData.pppi.ts (שורות CO24 ו-MD04 בגיליון 'מדריך טרנזקציות ודוחות ייצור') " +
-      "מכנה את F0251 'Monitor Material Coverage - Net Segments'. תוספת 2026-09-23: F0251A נכנס לקטלוג ונוסף כאן כקישור, כך שהפעולה המומלצת להוסיף אותו לקטלוג בוצעה. המעמד נשאר changed.",
+      "מכנה את F0251 'Monitor Material Coverage - Net Segments'. תוספת 2026-09-23: F0251A נכנס לקטלוג ונוסף כאן כקישור, כך שהפעולה המומלצת להוסיף אותו לקטלוג בוצעה. המעמד נשאר changed." +
+      " תוספת 2026-09-24: הורצו scripts/fal-app.mjs F0251 (ברירת מחדל S32OP) ו-scripts/fal-app.mjs F0251 --release " +
+      "S27OP; שתי הרשומות חזרו Published עם נתונים מובנים (תפקידים, קטלוגים, OData, RIN notes, יורשת), ונוספו כשתי " +
+      "שורות fiori_library. Old: שורת S8OP (כותרת בלבד, מעטפת JavaScript) → New: שורות S32OP ו-S27OP דרך fal-app.mjs; " +
+      "שורת S8OP נשמרת לתיעוד ההיסטוריה. שדה AppDocumentationLink ברשומת הספרייה מפנה לאותו loio " +
+      "09cd1556d22c0033e10000000a44538d של F0251_APP_TOPIC. שינוי 2026-09-24: status changed נשמר; role " +
+      "SAP_BR_MRP_CONTROLLER → SAP_BR_PRODN_PLNR; odata PP_MRP_COCKPIT → PP_MRP_COCKPIT_SRV (catalogPatch, הוחל על " +
+      "data/fiori/apps.ts#F0251). שדה guiTx בקטלוג (MD04, MD07) נשאר ללא שינוי: הספרייה מציגה leading/related כ-'-', " +
+      "וזהו היעדר פירוט ולא קביעה. לא הורצו חיפושי sap-help-search נוספים בסשן זה; התיעוד הקיים (F0251_APP_TOPIC, רשומת " +
+      "What's New 2023, רשומת Fiori 1.0) נשמר. לא הועתקו ל-data/fiori/apps.ts#F0251 התפקידים המשניים והקטלוג המשני " +
+      "SAP_RFM_BC_DC_RPLNMT (ה-catalogPatch מעתיק את התפקיד המוביל ואת קטלוג MRP Cockpit). לא אומתו בסשן זה: רשימת " +
+      "ה-ScopeItems שהחזירה הספרייה, שדות CDS I_MRPMaterial והטבלאות MDKP/MDTB. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* -------------------------------------------------------- fiori:F0247A */
@@ -2239,29 +2428,83 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
           "אינו ראיה למהדורת On-Premise.",
         verificationLevel: "sap_official_verified",
       },
+      F0247A_FAL_S32OP,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Monitor Material Coverage (Version 2) - SAP Fiori Apps Reference Library (Apps('F0247A')/S27OP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0247A')/S27OP",
+        accessedAt: DATE24,
+        claim:
+          "אותה רשומה בספריית ה-Fiori תחת S27OP (2023) מציגה את F0247A באותו שם 'Monitor Material Coverage (Version 2)', " +
+          "אותם תפקידים וקטלוגים, אותה טרנזקציית GUI מובילה MB53 וקשורות MD04/MD06/MD07/MS06/MS07, ואותה קודמת F0247. " +
+          "שירותי ה-OData מודפסים כאן כ-PP_MRP_AOR_SRV, PP_MRP_MATERIAL_COVERAGE_POVER_SRV (ללא הקו התחתון הסופי שמופיע " +
+          "ב-S32OP) ו-PP_MRP_MATERIAL_COVERAGE_SRV, כולם S4CORE 108; backend S4CORE 108 SP 0000, רכיב UI UIS4HOP1 900; RIN " +
+          "notes 3336823 (Front-End) ו-3351047 (Back-End). רשימת הגרסאות שהרשומה מדפיסה מתחילה ב-S12OP (1809).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Monitor Material Coverage - Net Segments (Fashion and Segmentation)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/fe39e10a9a864a8f8dc9537704f0fa13/5d0feac5e1c447f2a2bab0976215f3b2.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד התיעוד (גוף הדף נקרא דרך scripts/sap-help-body.mjs; loio 5d0feac5e1c447f2a2bab0976215f3b2, אותו loio " +
+          "שספריית ה-Fiori מציגה כקישור התיעוד של F0247A) נושא כותרת 'Monitor Material Coverage - Net Segments (Fashion and " +
+          "Segmentation)' וקובע: 'With this app, you can monitor all the materials in a selected area of responsibility... " +
+          "You can use this app for segmented materials and articles.' זמין לתפקידים SAP_BR_PRODN_PLNR (Production Planner) " +
+          "ו-SAP_BR_DEMAND_PLANNER_RFM (Demand Planner (Retail)); מנווט ל-Monitor Stock/Requirement List (Generic " +
+          "Material); הניווט ל-Manage Material Coverage אינו נתמך לחומרים וארטיקלים מסוגמנים. הכותרת שומרת את הניסוח 'Net " +
+          "Segments' שרשימת הקטלוג של ספריית ה-Fiori אינה משתמשת בו עבור F0247A.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת ה-Fiori המתוחזקת של הפרויקט",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "עד 2026-09-24 רשומת המאגר (trust: curated) רשמה את F0247A בשם 'Monitor Material Coverage - Net Segments' עם role " +
+          "SAP_BR_MRP_CONTROLLER, catalog SAP_SCM_BC_MRPCOCKPIT ו-guiTx MD07/MD04, ללא שדה OData. ספריית ה-Fiori (S32OP " +
+          "ו-S27OP) מדפיסה את התפקידים SAP_BR_MATL_PLNR_EXT_PROC ו-SAP_BR_PRODN_PLNR, שלושה שירותי OData וטרנזקציה מובילה " +
+          "MB53, ושם קטלוג 'Monitor Material Coverage (Version 2)'; הקטלוג העסקי זהה. התפקיד SAP_BR_MRP_CONTROLLER אינו " +
+          "מופיע באף אחד משני המקורות הרשמיים שנקראו. ב-2026-09-24 הועתקו לרשומת המאגר התפקידים, שירותי ה-OData וטרנזקציות " +
+          "ה-GUI שהספרייה מדפיסה; השם נשאר 'Monitor Material Coverage - Net Segments', כבעמודי help.sap.com, והסתירה מול שם " +
+          "הקטלוג בספרייה פתוחה.",
+        verificationLevel: "conflicting_sources",
+        repoRef: "data/fiori/apps.ts#F0247A",
+        conflictingEvidence: [F0247A_FAL_S32OP],
+      },
     ],
     status: {
       status: "s4_native",
       he:
-        "אפליקציית SAP Fiori של MRP Cockpit, מתועדת במדריך Material Requirements Planning (PP-MRP) של SAP S/4HANA 2025 " +
-        "FPS01 במהדורת On-Premise ומשויכת לקטלוג העסקי SAP_SCM_BC_MRPCOCKPIT. המזהה F0247A מאושר לצד השם ברשומת " +
-        "What's New לגרסת 2025, בטבלת ההשוואה של PP-MRP 2025.001 ובעמוד האפליקציה של המהדורה הציבורית (App ID: " +
-        "F0247A). לפי What's New 2021, אפליקציית 'Net Segments' הקודמת סומנה Obsolete והוסרה מה-launchpad, והיורשות " +
-        "מבוססות SAP Fiori elements; רשומה זו מתייחסת ליורשת F0247A בלבד. המקבילות ב-SAP GUI לפי טבלת ההשוואה " +
-        "הרשמית של PP-MRP: MD06 ו-MD07; במאגר גם MD04.",
+        "אפליקציית SAP Fiori של MRP Cockpit, מאושרת כמפורסמת (Published) בספריית ה-Fiori הרשמית הן ב-S32OP (2025 FPS01) " +
+        "והן ב-S27OP (2023), עם רכיב PP-FIO-MRP, קטלוג עסקי SAP_SCM_BC_MRPCOCKPIT ושלושה שירותי OData. קיימת סתירה בין " +
+        "ערוצים רשמיים סביב השם: עמודי help.sap.com (What's New 2025, טבלת Feature Comparison, עמוד המהדורה הציבורית) " +
+        "מכנים את F0247A 'Monitor Material Coverage - Net Segments', ואילו רשימת הקטלוג של ספריית ה-Fiori מכנה אותו " +
+        "'Monitor Material Coverage (Version 2)' ומצמידה את השם 'Net Segments' לקודמת F0247; עם זאת, עמוד התיעוד שהספרייה " +
+        "עצמה מקשרת ל-F0247A נושא כותרת 'Monitor Material Coverage - Net Segments (Fashion and Segmentation)'. תפקידים, " +
+        "קטלוג טכני, OData וטרנזקציות GUI (MB53 מובילה; MD04/MD06/MD07/MS06/MS07 קשורות) אושרו כעת מול הספרייה עצמה, לא " +
+        "רק מול תקצירי חיפוש.",
       edition: "on-premise",
       release: "2025.001",
-      source: F0247A_APP_TOPIC,
+      source: F0247A_FAL_S32OP,
       recommendedAction:
-        "להשתמש במזהה F0247A ובשם 'Monitor Material Coverage - Net Segments' בכל רישום של אפליקציית הניטור של MRP " +
-        "Cockpit, וליישר את ההפניות ל-F0247 ברובד המתוחזק (data/centers/fiori.ts, data/lifecycle.ts, " +
-        "data/solutions.ts) למזהה F0247A, תוך ציון שעמוד App Extensibility במדריך PP-MRP 2025.001 עדיין נוקב ב-F0247 " +
-        "ושאין סניפט רשמי המצמיד את שני המזהים. שורות ה-blueprint ב-data/sapData.pppi.ts המצמידות את שם הניטור למזהה " +
-        "F0251 (רשמית: Manage Material Coverage) נרשמות כסתירה בתור המחקר; הדאטהסט נוצר מהחוברות ואינו נערך ידנית. " +
-        "לצטט את עמוד PP-MRP 2025.001 לתפקוד ולקטלוג; תפקיד, OData ו-CDS לא אומתו מול מקור רשמי ונשארים ברובד המאגר.",
+        "שדות role/catalog/odata/guiTx ב-data/fiori/apps.ts#F0247A הוצמדו ב-2026-09-24 לערכים שספריית ה-Fiori מדפיסה " +
+        "ב-S32OP. את סתירת השם בין 'Net Segments' (help.sap.com ועמוד התיעוד המקושר) ל-'(Version 2)' (רשימת הקטלוג של " +
+        "הספרייה) יש לפתור כהחלטת מוצר לפני שינוי שם היישום בקטלוג המתוחזק; סתירת השם וסתירת התפקיד מול הרשומה המתוחזקת " +
+        "רשומות ב-audit/s4-enrichment/research-queue-fiori.md. לשמור את F0247 כאליאס; הספרייה מדפיסה אותו כקודמת של " +
+        "F0247A.",
     },
-    xrefs: ["tx:MD04", "tx:MD06", "tx:MD07", "fiori:F0251"],
-    lastVerifiedAt: DATE,
+    xrefs: ["tx:MD04", "tx:MD06", "tx:MD07", "fiori:F0251", "fiori:F0251A"],
+    lastVerifiedAt: DATE24,
     notes:
       "שיטה: scripts/sap-help-search.mjs בשש שאילתות (השם המלא, F0247A, F0247, 'obsolete removed', שאילתות גרסה " +
       "1909/2020, והשם עם --product SAP_S4HANA_CLOUD), חיפוש רשת מוגבל-דומיין וניסיון גישה ישיר לספריית ה-Fiori. " +
@@ -2282,7 +2525,18 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "SAP_BR_MRP_CONTROLLER, gateway, OData, CDS) לא אומתו מול מקור רשמי; שדה ה-technical ברשומה מכיל ניסוח זמני " +
       "לגבי CDS ('טרם אומת') שיש להחליף בניסוח כן. (6) סתירות מאגר: data/sapData.pppi.ts מצמיד את השם 'Monitor " +
       "Material Coverage - Net Segments' למזהה F0251; data/centers/fiori.ts, data/lifecycle.ts ו-data/solutions.ts " +
-      "משתמשים ב-F0247. ל-MD01N אין הפניה ב-xrefs כי הסניפטים מדברים על 'MRP run' בלי לנקוב בטרנזקציה.",
+      "משתמשים ב-F0247. ל-MD01N אין הפניה ב-xrefs כי הסניפטים מדברים על 'MRP run' בלי לנקוב בטרנזקציה." +
+      " תוספת 2026-09-24 (לרשומה מ-2026-09-02): שלוש ראיות רשמיות חדשות, שתיים מספריית ה-Fiori (S32OP ו-S27OP, " +
+      "scripts/fal-app.mjs) ואחת מעמוד תיעוד שגופו נקרא (scripts/sap-help-body.mjs), ושורת מאגר בסימון " +
+      "conflicting_sources. הרשומה הקודמת ציינה שהספרייה היא מעטפת JavaScript ושירותי ה-xsodata מחזירים 400/404; הפעם " +
+      "השירות הציבורי xsodata החזיר תוצאה מלאה בשתי הגרסאות. אין שינוי בסטטוס s4_native; ה-source בשדה status מצביע כעת " +
+      "על שורת הספרייה S32OP (קודם F0247A_APP_TOPIC). היסטוריה: הממצא הקודם (חוסר ראיות ספרייה, תפקיד/OData לא מאומתים) " +
+      "→ חדש (תפקיד/קטלוג/OData/GUI מאומתים מול הספרייה, אך סתירת שם חדשה נפתחה). ישן: אף סניפט אינו מצמיד F0247 " +
+      "ל-F0247A (האליאס קריאה) → חדש: ספריית ה-Fiori (S32OP ו-S27OP) מדפיסה את F0247 Monitor Material Coverage - Net " +
+      "Segments כקודמת של F0247A. status.he ו-recommendedAction אינם קובעים עובדה חד-משמעית לגבי השם התקני; הסתירה " +
+      "מתועדת בשורת המאגר (conflicting_sources) ובשורות ה-evidence הרשמיות, ואינה מוכרעת ב-status. ב-2026-09-24 הועתקו " +
+      "ל-data/fiori/apps.ts#F0247A התפקידים, שירותי ה-OData וטרנזקציות ה-GUI שהספרייה מדפיסה ב-S32OP; שם היישום לא " +
+      "שונה. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* --------------------------------------------------------- fiori:F3951 */
@@ -2297,11 +2551,47 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2023.002",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/f8533e55baea483b95f40bf666d9a9ad.html?locale=en-US&state=PRODUCTION&version=2023.002",
-        accessedAt: DATE,
+        accessedAt: DATE24,
         claim:
-          "רשומת ה-What's New לגרסת 2023 FPS02 מאשרת את מזהה היישום בפרטים הטכניים: 'Technical Object Name App ID: " +
-          "F3951', 'Scope Item 3LQ (Production Capacity Leveling)', 'Type Changed' (הרשומה מתארת שינוי ביישום קיים); " +
-          "התוכן העסקי המצוין: 'the legend for orders are now changed to a blue palette'.",
+          "רשומת ה-What's New לגרסת 2023 FPS02 מאשרת את מזהה היישום בפרטים הטכניים: 'Technical Object Name App ID: F3951', " +
+          "'Scope Item 3LQ (Production Capacity Leveling)', 'Type Changed'; התוכן העסקי המצוין: 'the legend for orders are " +
+          "now changed to a blue palette'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Capacity Scheduling Board - SAP Fiori Apps Reference Library (S32OP = S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3951')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-xsodata של ספריית ה-Fiori (scripts/fal-app.mjs F3951, found=true) עבור S32OP (ReleaseName 'S/4HANA 2025 " +
+          "FPS01') מדפיסה: AppName 'Capacity Scheduling Board', ApplicationType 'Transactional', UITechnology 'SAP Fiori " +
+          "(SAPUI5)', ApplicationComponent 'PP-CFS-GNT' (Monitor Work Center Schedule Gantt view), isPublished 'Published'. " +
+          "תפקיד מוביל SAP_BR_PRODN_PLNR (R0114, Production Planner). קטלוג עסקי SAP_SCM_BC_CFS 'Production Planning - " +
+          "Capacity Evaluation'; קטלוג טכני SAP_TC_SCM_PP_COMMON. RequiredODataServices: PP_MNTR_WRKCTR_SRV 0001 " +
+          "ו-PP_MRP_AOR_SRV 0001 (S4CORE 109). SemanticObject/Action: WorkCenter / monitorSchedules. RetrofittedSWCBackend " +
+          "'S4CORE 109 - SP 0001'; RetrofittedSWCUI 'UIS4H 109 - SP 0001'. NumberofPredecessors=0, NumberofSuccessors=0: " +
+          "הספרייה אינה רושמת יישום קודם או מחליף. GUI transactions: 'leading -; related -'. AppDocumentationLink מפנה " +
+          "ל-topic 063ae12de0c74b01b6fd49c78e895564. Notes (RIN): 3493254 (Front-End Server) ו-3671888 (Back-End Server). " +
+          "ScopeItems: 3LQ 'Production Capacity Leveling'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Capacity Scheduling Board - SAP Fiori Apps Reference Library (S27OP = S/4HANA 2023)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3951')/S27OP",
+        accessedAt: DATE24,
+        claim:
+          "אותה רשומה עבור S27OP (ReleaseName 'S/4HANA 2023', found=true) חוזרת עם אותם ערכים: תפקיד SAP_BR_PRODN_PLNR, " +
+          "קטלוג עסקי SAP_SCM_BC_CFS, קטלוג טכני SAP_TC_SCM_PP_COMMON, אותם שני שירותי OData (PP_MNTR_WRKCTR_SRV, " +
+          "PP_MRP_AOR_SRV, גרסה 0001) תחת S4CORE 108; isPublished 'Published'; GUI transactions: 'leading -; related -'; " +
+          "Notes (RIN): 3336823 (Front-End Server) ו-3351047 (Back-End Server).",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -2311,84 +2601,71 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2025.001",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/96592cfe7187429c9a69fda4e6976c50.html?locale=en-US&state=PRODUCTION&version=2025.001",
-        accessedAt: DATE,
+        accessedAt: DATE24,
         claim:
-          "עמוד Capacity Planning לגרסת 2025 FPS01 מונה דרישת קדם: 'Install SAP liveCache (which is the HANA component " +
-          "SAP LCA (also called LCAPPS- or liveCache Applications plugin) for Capacity Scheduling Table and Capacity " +
-          "Scheduling Board apps', וכן 'Set the work center capacity to finite scheduling to get the capacity " +
-          "requirements of the orders'; היישום מתואר כ-'Gives you an overview of the operations performed at your work " +
-          "centers and a visual representation of the schedules over a time period'.",
-        verificationLevel: "sap_official_verified",
-      },
-      {
-        sourceType: "fiori_library",
-        sourceTitle: "Capacity Scheduling Board - SAP Fiori Apps Reference Library",
-        product: "SAP S/4HANA",
-        edition: "on-premise",
-        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F3951')/S22OP",
-        accessedAt: DATE,
-        claim:
-          "SAP Fiori Apps Reference Library מפרסמת רשומה בשם Capacity Scheduling Board שכתובתה נושאת את המזהה " +
-          "Apps('F3951'). גוף הדף הוא מעטפת JavaScript ולא נקרא: תפקיד עסקי, קטלוג טכני ושירותי OData של היישום לא " +
-          "אומתו מול הספרייה.",
+          "עמוד Capacity Planning לגרסת 2025 FPS01 מונה דרישת קדם: 'Install SAP liveCache (which is the HANA component SAP " +
+          "LCA (also called LCAPPS- or liveCache Applications plugin) for Capacity Scheduling Table and Capacity Scheduling " +
+          "Board apps', וכן 'Set the work center capacity to finite scheduling to get the capacity requirements of the " +
+          "orders'; היישום מתואר כ-'Gives you an overview of the operations performed at your work centers and a visual " +
+          "representation of the schedules over a time period'.",
         verificationLevel: "sap_official_verified",
       },
     ],
     status: {
       status: "s4_native",
       he:
-        "יישום Fiori של S/4HANA לתזמון קיבולת גרפי במרכזי עבודה קובעי קצב (pacemaker), מתועד בגרסת 2025 FPS01 תחת " +
-        "Production Planning and Control; לשעבר Monitor Work Center Schedules. מזהה היישום F3951 ופריט ההיקף 3LQ " +
-        "(Production Capacity Leveling) מופיעים ברשומת ה-What's New לגרסת 2023 FPS02.",
+        "יישום Fiori של S/4HANA לתזמון קיבולת גרפי (Gantt) במרכזי עבודה קובעי קצב (pacemaker), מתועד בגרסת 2025 FPS01 תחת " +
+        "Production Planning and Control ומפורסם (Published) ב-SAP Fiori Apps Reference Library ב-S32OP וב-S27OP; לשעבר " +
+        "Monitor Work Center Schedules. מזהה היישום F3951 ופריט ההיקף 3LQ (Production Capacity Leveling) מופיעים ברשומת " +
+        "ה-What's New לגרסת 2023 FPS02 וברשומת הספרייה.",
       edition: "on-premise",
       release: "2025.001",
       source: F3951_APP_TOPIC,
       recommendedAction:
-        "להעדיף את היישום לתזמון גרפי (Gantt) של פעולות במרכזי עבודה קובעי קצב כחלופה הגרפית ל-CM21/CM25 בתרחישים " +
-        "חדשים (שיוך זה נשען על רשומות המאגר; אין הכרזת החלפה רשמית); לפני ההפעלה לוודא התקנת SAP liveCache (SAP LCA " +
-        "/ LCAPPS) והגדרת קיבולת סופית (finite scheduling) במרכזי העבודה, ולאמת במערכת את התפקיד והקטלוג שהוקצו " +
-        "למשתמשים.",
+        "להעדיף את היישום לתזמון גרפי (Gantt) של פעולות במרכזי עבודה קובעי קצב כחלופה הגרפית ל-CM21/CM25 בתרחישים חדשים " +
+        "(שיוך זה נשען על רשומות המאגר; הספרייה אינה מדפיסה קוד GUI מוביל או קשור ל-F3951); לפני ההפעלה לוודא התקנת SAP " +
+        "liveCache (SAP LCA / LCAPPS) והגדרת קיבולת סופית (finite scheduling) במרכזי העבודה, ולאמת בסביבת S/4HANA את " +
+        "התפקיד SAP_BR_PRODN_PLNR ואת שני שירותי ה-OData (PP_MNTR_WRKCTR_SRV, PP_MRP_AOR_SRV) שהוקצו למשתמשים.",
     },
     xrefs: [
       "tx:CM21", "tx:CM25", "tx:CM01", "table:CRHD", "table:KAKO", "table:AFVC", "fiori:F3289",
       "cds:I_WorkCenterCapacity",
     ],
-    lastVerifiedAt: DATE,
+    lastVerifiedAt: DATE24,
     notes:
-      "המזהה F3951, שם היישום וכתובת הספרייה הרשמית אומתו מול help.sap.com ומול SAP Fiori Apps Reference Library. " +
-      "רכיב היישום PP-CFS-SCH (Capacity Scheduling) מופיע ברשומות What's New 2022 (loio " +
-      "ff48005f013e4ddf900a56dcd0092d2b) ו-2023 FPS03 (loio 5725869ed3af4b029cf6335154ed07f1); שינוי השם מ-Monitor " +
-      "Work Center Schedules מתועד ב-What's New 2021 (loio da7f859ccb984e7ba8d79076d390c6e4); תמיכה בתעשייה תהליכית " +
-      "(Process industry) נוספה לפי What's New 2020 (loio 04954c60c551476881c9eaf28161729b), נקודה רלוונטית ל-PP-PI. " +
-      "היישום מתועד גם ב-SAP S/4HANA Cloud Public Edition (What's New 2508, loio b3dfa98f72334a8985c185bd1e5740d6, " +
-      "ו-2608, loio d8c4a7f6d57a4f9bb62041bc8473cae4). לא אומתו במקור רשמי: התפקיד SAP_BR_PRODN_PLNR, הקטלוג " +
-      "SAP_SCM_BC_CFS ושירות ה-OData/CDS שברשומת המאגר (data/fiori/apps.ts#F3951); סעיף F3951 בספר 7 " +
-      "(data/library/book7/ch5.sections.json) אינו נוקב בתפקיד, ומשפט SAP_BR_PRODN_PLNR שבחילוץ שייך ליישום הקודם " +
-      "F6798 Capacity Evaluation. סתירה במאגר: data/lifecycle.ts#CM21, data/transactions.ts (CM01), " +
+      "עדכון 2026-09-24: F3951 נבדק מול SAP Fiori Apps Reference Library דרך scripts/fal-app.mjs בשני שחרורים (S32OP, " +
+      "S27OP); שתי הקריאות החזירו found=true עם JSON מובנה ואפשרו לאמת את התפקיד SAP_BR_PRODN_PLNR והקטלוג " +
+      "SAP_SCM_BC_CFS שברשומת המאגר data/fiori/apps.ts#F3951, ואת שירותי ה-OData PP_MNTR_WRKCTR_SRV ו-PP_MRP_AOR_SRV " +
+      "(במאגר השדה technical כתוב כרגע כ-'טרם אומת'). עמוד היישום (loio 063ae12de0c74b01b6fd49c78e895564) נקרא דרך " +
+      "sap-help-body.mjs. אין predecessor/successor ברשומת הספרייה (NumberofPredecessors=0, NumberofSuccessors=0). " +
+      "סתירת מאגר: הספרייה מדפיסה 'leading -; related -' ל-F3951 בשני השחרורים, בעוד data/fiori/apps.ts#F3951 מציג " +
+      "guiTx: ['CM21','CM25']; השיוך נשען על רשומת המאגר בלבד, ה-xrefs וה-guiTx לא הוסרו, וההחלטה נותרת למוביל הפרויקט. " +
+      "ה-catalogPatch הוחל ב-2026-09-24 על data/fiori/apps.ts#F3951 (odata PP_MNTR_WRKCTR_SRV, PP_MRP_AOR_SRV; source; " +
+      "trust), ו-guiTx נשאר CM21/CM25. לא בוצעה בדיקה במערכת SAP חיה. היסטוריה (Old → New): Old: שורת fiori_library " +
+      "S22OP (externalViewer/#/detail/Apps('F3951')/S22OP) נרשמה כמעטפת JavaScript, ותפקיד/קטלוג/OData לא אומתו; New: " +
+      "xsodata S32OP/S27OP אימת אותם. Old: שורת עמוד היישום (F3951_APP_TOPIC) נשענה על תקציר רשומת החיפוש (2026-09-02) " +
+      "וציטטה ממנו גם 'You can use this app to plan optimum utilization of pacemaker work centers by matching their " +
+      "capacities with those of the orders that have to be dispatched'; New: הציטוטים בשורה נלקחו מגוף הדף שנקרא " +
+      "ב-2026-09-24. הערות קודמות (נשמרות): המזהה F3951, שם היישום וכתובת הספרייה הרשמית אומתו מול help.sap.com ומול " +
+      "SAP Fiori Apps Reference Library. רכיב היישום PP-CFS-SCH (Capacity Scheduling) מופיע ברשומות What's New 2022 " +
+      "(loio ff48005f013e4ddf900a56dcd0092d2b) ו-2023 FPS03 (loio 5725869ed3af4b029cf6335154ed07f1); שינוי השם " +
+      "מ-Monitor Work Center Schedules מתועד ב-What's New 2021 (loio da7f859ccb984e7ba8d79076d390c6e4); תמיכה בתעשייה " +
+      "תהליכית (Process industry) נוספה לפי What's New 2020 (loio 04954c60c551476881c9eaf28161729b), נקודה רלוונטית " +
+      "ל-PP-PI. היישום מתועד גם ב-SAP S/4HANA Cloud Public Edition (What's New 2508, loio " +
+      "b3dfa98f72334a8985c185bd1e5740d6, ו-2608, loio d8c4a7f6d57a4f9bb62041bc8473cae4). סעיף F3951 בספר 7 " +
+      "(data/library/book7/ch5.sections.json) אינו נוקב בתפקיד, ומשפט SAP_BR_PRODN_PLNR שבחילוץ שייך ליישום הקודם F6798 " +
+      "Capacity Evaluation. סתירה במאגר: data/lifecycle.ts#CM21, data/transactions.ts (CM01), " +
       "data/pppi-master-data-facets.ts ו-data/academy/lessons/pp-generated.ts מתייגים את היישום כ-'(PP-DS)', " +
       "ו-data/domain-detail.ts (תחום הקיבולת של PP-PI) מפנה ל-'PP-DS Planning Board' / 'PP-DS Scheduling Board' בלי " +
-      "לנקוב בשם היישום; המקורות הרשמיים משייכים אותו לרכיב PP-CFS ולפריט ההיקף 3LQ, לא ל-PP/DS (שם הלוח שם הוא " +
-      "Advanced Scheduling Board / DS Planning Board). אף מקור רשמי שנראה אינו מכריז על CM21/CM25 כמוחלפות על ידי " +
-      "היישום; ההצגה כחלופת Fiori ל-CM21/CM25 נשענת על רשומות המאגר בלבד.",
+      "לנקוב בשם היישום; המקורות הרשמיים משייכים אותו לרכיב PP-CFS ולפריט ההיקף 3LQ, לא ל-PP/DS. אף מקור רשמי שנראה " +
+      "אינו מכריז על CM21/CM25 כמוחלפות על ידי היישום; ההצגה כחלופת Fiori ל-CM21/CM25 נשענת על רשומות המאגר בלבד.",
   },
 
   /* --------------------------------------------------------- fiori:F2176 */
   {
     id: "fiori:F2176",
     evidence: [
-      {
-        sourceType: "fiori_library",
-        sourceTitle: "Production Scheduling Board - Fiori Apps Library",
-        product: "SAP S/4HANA",
-        edition: "on-premise",
-        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/?appId=F2176",
-        accessedAt: DATE,
-        claim:
-          "ספריית SAP Fiori Apps Reference Library הרשמית רושמת את מזהה היישום F2176 תחת השם 'Production Scheduling " +
-          "Board' (כותרת העמוד כפי שהוחזרה בחיפוש מוגבל-דומיין). גוף העמוד (תפקיד עסקי, קטלוג, שירות OData, זמינות " +
-          "לפי מהדורה) הוא מעטפת JavaScript ולא נקרא; המזהה והשם בלבד מאומתים כאן.",
-        verificationLevel: "sap_official_verified",
-      },
+      F2176_FAL_S32OP,
       F2176_APP_TOPIC,
       {
         sourceType: "sap_help",
@@ -2419,24 +2696,40 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
           "בתקציר קודמות לשם היישום המילים 'Process industry', אך שיוך העמודה לשורה זו לא אומת ללא גוף העמוד.",
         verificationLevel: "sap_official_verified",
       },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/fiori/apps.ts#F2176 (הקטלוג המתוחזק)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "עד 2026-09-24 הרשומה המתוחזקת הציגה role 'SAP_BR_PRODN_PLNR' (תואם לספרייה), catalog 'SAP_SCM_BC_CFS' ו-guiTx " +
+          "['CM21','CO03']. שני הערכים האחרונים לא תאמו את מה שהספרייה מדווחת (catalog 'SAP_SCM_BC_CAPA_PLAN', leading " +
+          "tcode '/SAPAPO/CDPS0'); ב-2026-09-24 הועתקו לרשומה ערכי הספרייה. ראו notes.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/fiori/apps.ts#F2176",
+      },
     ],
     status: {
       status: "s4_native",
       he:
-        "יישום Fiori של PP/DS ב-S/4HANA: מדריך PP/DS לגרסת 2025 FPS01 מתעד אותו כיישום לתכנון ואופטימיזציה של לוח " +
-        "המשאבים ושל תאריכי ושעות ההזמנות (order dates and times, כלשון המקור) תוך התחשבות בזמינות משאבים ורכיבים, " +
-        "והוא רשום כפריט What's New של SAP S/4HANA 1610 תחת Fiori Apps in PP/DS. יישום Fiori זה לא היה קיים ב-ECC; " +
-        "לפי נתוני הפרויקט (data/fiori/apps.ts#F2176) המקבילה הקלאסית היא לוח התזמון המפורט (DS Board) של APO.",
+        "יישום Fiori של PP/DS ב-S/4HANA (רכיב SCM-APO-PPS-DS, Detailed Scheduling), מפורסם (Published) בגרסת S32OP לפי " +
+        "ספריית ה-Fiori Apps הרשמית. לפי הרשומה המובנית: תפקיד עסקי מוביל SAP_BR_PRODN_PLNR, קטלוג עסקי " +
+        "SAP_SCM_BC_CAPA_PLAN, קטלוג טכני SAP_TC_SCM_APS_COMMON, שירות OData PPDS_RES_SCHEDULE 0001 על גבי S4CORE 109. " +
+        "אין קודמים או יורשים רשומים (NumberofPredecessors/Successors = 0). יישום Fiori זה לא היה קיים ב-ECC; לפי נתוני " +
+        "הפרויקט המקבילה הקלאסית היא לוח התזמון המפורט (DS Board) של APO.",
       edition: "on-premise",
       release: "2025.001",
-      source: F2176_APP_TOPIC,
+      source: F2176_FAL_S32OP,
       recommendedAction:
-        "לתכנון מפורט (finite) של קווי המילוי והריאקטורים ב-CBC: להעריך את היישום מול Capacity Scheduling Board " +
-        "(F3951) בהתאם להיקף ה-PP/DS שמופעל במערכת. לפני הקצאה למשתמשים לאמת בסביבת S/4HANA את הפעלת PP/DS, את " +
-        "התפקיד העסקי, הקטלוג ושירות ה-OData, שלא אומתו מול הספרייה הרשמית.",
+        "לתכנון מפורט (finite) של קווי המילוי והריאקטורים ב-CBC: להעריך את היישום מול Capacity Scheduling Board (F3951) " +
+        "בהתאם להיקף ה-PP/DS שמופעל במערכת. ה-catalogPatch הוחל ב-2026-09-24 על data/fiori/apps.ts#F2176: catalog " +
+        "SAP_SCM_BC_CAPA_PLAN (במקום SAP_SCM_BC_CFS), odata PPDS_RES_SCHEDULE ו-guiTx לפי ספריית ה-Fiori (/SAPAPO/CDPS0 " +
+        "כמובילה; /SAPAPO/CDPS1-3 ו-/SAPAPO/RPT כקשורות) במקום CM21/CO03, שאינם ברשימה שהספרייה מדפיסה ליישום זה. לפני " +
+        "הקצאה למשתמשים ב-CBC לאמת בסביבה חיה שה-PP/DS מופעל ושהתפקיד SAP_BR_PRODN_PLNR הוקצה.",
     },
-    xrefs: ["fiori:F3951", "tx:CM21", "tx:CO03", "table:AFKO", "table:AFVC", "table:CRHD", "fiori:F5460"],
-    lastVerifiedAt: DATE,
+    xrefs: ["fiori:F3951", "fiori:F5460", "table:AFKO", "table:AFVC", "table:CRHD"],
+    lastVerifiedAt: DATE24,
     notes:
       "1) הספרייה הרשמית אישרה מזהה ושם בלבד; התפקיד SAP_BR_PRODN_PLNR, הקטלוג SAP_SCM_BC_CFS, שירות OData/CDS " +
       "והזמינות ב-Public Cloud שברשומת data/fiori/apps.ts#F2176 נותרו ברמת נתוני הפרויקט ולא אומתו מול הספרייה (גוף " +
@@ -2454,7 +2747,22 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       "מזהה שאינו ביקום הפרויקט. לא נמצאה רשומה רשמית המכריזה על החלפה או הוצאה משימוש של F2176, ולכן לא נרשם יורש. " +
       "6) אי-עקביות במאגר: data/library/wm-textbook/ch09.ts:39 ו-data/academy/lessons/wm-generated.ts משייכים את " +
       "F2176 לפרק חלקי חילוף PM/EWM, בעוד המקור הרשמי ממקם אותו ב-PP/DS. 7) שדה explain.technical ברשומת apps.ts " +
-      "מנסח את שכבת ה-OData/CDS כפריט עתידי במקום כ'לא אומת'; כדאי לתקן את הניסוח. תוספת 2026-09-23: Advanced Scheduling Board נכנס לקטלוג כ-fiori:F5460 ונוסף כאן כקישור; לא נמצאה רשומה רשמית הקובעת החלפה של F2176.",
+      "מנסח את שכבת ה-OData/CDS כפריט עתידי במקום כ'לא אומת'; כדאי לתקן את הניסוח. תוספת 2026-09-23: Advanced Scheduling Board נכנס לקטלוג כ-fiori:F5460 ונוסף כאן כקישור; לא נמצאה רשומה רשמית הקובעת החלפה של F2176." +
+      " עדכון 2026-09-24 (fal-app.mjs, שתי ריצות S32OP ו-S27OP): בניגוד לרשומות קודמות בקובץ זה שציינו כי גוף עמוד " +
+      "הספרייה הוא מעטפת JavaScript שאינה נקראת, node scripts/fal-app.mjs מחזיר רשומת xsodata מובנית מלאה (לא מעטפת JS) " +
+      "עבור F2176 בשתי המהדורות. ב-S27OP התפקיד, הקטלוגים, שירות ה-OData וקודי ה-GUI זהים; משתנים רכיבי התוכנה (S4CORE " +
+      "108 - SP 0000 / UIS4HOP1 900 - SP 0000 מול S4CORE 109 - SP 0001 / UIS4H 109 - SP 0001) ומספרי ה-RIN. ממצא מרכזי: " +
+      "קטלוג הפרויקט (data/fiori/apps.ts#F2176) רשם עד 2026-09-24 catalog 'SAP_SCM_BC_CFS' ו-guiTx ['CM21','CO03'], " +
+      "בעוד הספרייה הרשמית מדווחת catalog 'SAP_SCM_BC_CAPA_PLAN' ו-leading tcode '/SAPAPO/CDPS0' (עם related " +
+      "/SAPAPO/CDPS1-3, /SAPAPO/RPT); אלה קודי SAPAPO (APO), לא CM21/CO03 של ECC/S4 הקלאסי. קודים אלה אינם ביקום ה-xref " +
+      "של הפרויקט (lib/route-manifest.generated.ts) ולכן לא נוספו כ-xref; tx:CM21 ו-tx:CO03 הוסרו מה-xrefs, כי מקורם " +
+      "ב-guiTx של רשומת המאגר והספרייה אינה מדפיסה אותם ליישום זה. ה-catalogPatch הוחל ב-2026-09-24 על " +
+      "data/fiori/apps.ts#F2176 (catalog, odata, guiTx, source, trust). לא נמצא קודם או יורש רשמי " +
+      "(NumberofPredecessors=NumberofSuccessors=0), ולכן לא נרשם successor. Old → New: שורת הספרייה הקלאסית " +
+      "(externalViewer/?appId=F2176, כותרת 'Production Scheduling Board - Fiori Apps Library') אימתה מזהה ושם דרך חיפוש " +
+      "מוגבל-דומיין ('גוף העמוד הוא מעטפת JavaScript ולא נקרא'); היא הוחלפה ברשומת ה-xsodata המובנית של S32OP, שקוראת " +
+      "role/catalog/OData/guiTx בפועל. fiori:F5460 (Advanced Scheduling Board) נשאר xref ניווט; הספרייה לא מכריזה עליו " +
+      "כיורש F2176. לא בוצעה בדיקה במערכת SAP חיה; הפעלת PP/DS והקצאת התפקיד לא אומתו.",
   },
 
   /* -------------------------------------------------------- fiori:F5104A */
@@ -3113,15 +3421,37 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
         claim: "רשומת What's New לגרסת 2023 מציגה בפרטים הטכניים 'App Changed 3LQ PP-CFS-CE SAP S/4HANA 2023'.",
         verificationLevel: "sap_official_verified",
       },
+      F3289_FAL_S32OP,
       {
-        sourceType: "repository",
-        sourceTitle: "הקטלוג המתוחזק של יישומי ה-Fiori בפרויקט (FIORI_APPS)",
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Manage Work Center Capacity (F3289), S/4HANA 2023",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE22,
+        release: "2023.000",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3289')/S27OP",
+        accessedAt: DATE24,
         claim:
-          "רשומת המאגר מצמידה ליישום את הטרנזקציות CM01 ו-CM07 (guiTx) ומתארת את מצב ECC כ-'CM01/CM07 (הערכת " +
-          "קיבולת, ללא גרף ניצולת אינטראקטיבי)', בסימון אמון 'curated'.",
+          "רשומת הספרייה ל-F3289 על S27OP (2023), שנקראה באותו ערוץ: אותו AppName/EnglishTitle, Published, ApplicationType " +
+          "'Transactional, Analytical', UITechnology 'SAP Fiori elements', ApplicationComponent PP-CFS-CE. אותו תפקיד מוביל " +
+          "SAP_BR_PRODN_PLNR (R0114), אותו קטלוג עסקי SAP_SCM_BC_CFS וקטלוג טכני SAP_TC_SCM_PP_COMMON. אותם שני שירותי " +
+          "OData PP_CFS_CAPEVAL_SRV ו-PP_MRP_AOR_SRV גרסה 0001, כאן על S4CORE 108. אותה טרנזקציית GUI מובילה CM01, ורשימת " +
+          "ה-related ריקה. NumberofPredecessors=0, NumberofSuccessors=0. אותו ScopeItem 31L 'Production Capacity " +
+          "Evaluation'. הודעות RIN שונות לגרסה זו: 3336823 (Front-End), 3351047 (Back-End). לפיכך תפקיד, קטלוגים, שירותי " +
+          "OData וטרנזקציית ה-GUI המובילה זהים בשתי המהדורות (S32OP, S27OP).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת ה-Fiori המתוחזקת של הפרויקט (FIORI_APPS), רשומת F3289",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "עד 2026-09-24 רשומת המאגר (trust: curated) נשאה role SAP_BR_PRODN_PLNR ו-catalog SAP_SCM_BC_CFS, זהים לרשומת " +
+          "הספרייה הרשמית; guiTx נשא CM01 ו-CM07 (הספרייה מדפיסה CM01 כמובילה, ורשימת ה-related ריקה); שדה odata לא היה " +
+          "קיים והתיעוד הפנימי סימן את ה-OData וה-CDS כטרם אומתו; type היה 'Transactional', לעומת 'Transactional, " +
+          "Analytical' שהספרייה מדפיסה. relatedTables CRHD/KAKO לא אומתו מול רשומת הספרייה (הספרייה אינה מדפיסה טבלאות). " +
+          "ב-2026-09-24 הועתקו לרשומה odata ו-guiTx לפי הספרייה; type נשאר 'Transactional' כי FioriType מקבל ערך אחד.",
         verificationLevel: "repository_verified",
         repoRef: "data/fiori/apps.ts#F3289",
       },
@@ -3129,37 +3459,56 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
     status: {
       status: "s4_native",
       he:
-        "יישום Fiori של S/4HANA להצגת הקיבולות של מרכזי עבודה והעומס עליהם ולניהול משמרות לאורך אופק ההערכה, " +
-        "מתועד בגרסת 2025 FPS01 תחת Production Planning and Control. What's New 2020 ו-2021 רושמים אותו כיישום חדש " +
-        "ברכיב PP-CFS-CE ובפריט ההיקף 31L; What's New 2023 רושם אותו תחת 3LQ, ולכן שיוך פריט ההיקף אינו אחיד " +
-        "במקורות של SAP. בפרויקט הוא מוצמד ל-CM01/CM07 של ECC לפי רשומת המאגר בלבד.",
+        "F3289 היא אפליקציית Fiori Elements של S/4HANA: 'Manage Work Center Capacity', להצגת הקיבולות והעומס על מרכזי " +
+        "עבודה ולניהול משמרות. ספריית יישומי ה-Fiori (ערוץ ה-OData הרשמי) מציגה Published הן על S32OP (2025 FPS01) והן על " +
+        "S27OP (2023), עם תפקיד עסקי מוביל SAP_BR_PRODN_PLNR, קטלוג עסקי SAP_SCM_BC_CFS, קטלוג טכני SAP_TC_SCM_PP_COMMON, " +
+        "שני שירותי OData (PP_CFS_CAPEVAL_SRV, PP_MRP_AOR_SRV) וטרנזקציית GUI מובילה CM01, ללא predecessor/successor " +
+        "רשומים. תיעוד ה-Help Portal ל-2025 FPS01 (אותו loio שמדפיסה רשומת הספרייה) מתאר את השימוש העסקי. What's New " +
+        "2020/2021 משייכים את האפליקציה לפריט היקף 31L (PP-CFS-CE), ו-What's New 2023 מציין 'App Changed' תחת 3LQ; רשומת " +
+        "הספרייה, על שתי המהדורות שנבדקו, מדפיסה את ScopeItem 31L.",
       edition: "on-premise",
       release: "2025.001",
-      source: F3289_APP_TOPIC,
+      source: F3289_FAL_S32OP,
       recommendedAction:
-        "להשתמש ביישום להצגת העומס מול הקיבולת במרכזי עבודה ולניהול משמרות, לצד CM01/CM07 (הצימוד ל-CM01/CM07 " +
-        "נשען על רשומת המאגר; לא נמצאה הכרזת החלפה של SAP). לאמת במערכת את פריט ההיקף שהופעל (31L או 3LQ), את " +
-        "התפקיד העסקי ואת הקטלוג שהוקצו למשתמשים.",
+        "להשתמש ביישום F3289 להצגת עומס מול קיבולת במרכזי עבודה ולניהול משמרות; תפקיד SAP_BR_PRODN_PLNR, קטלוג עסקי " +
+        "SAP_SCM_BC_CFS, קטלוג טכני SAP_TC_SCM_PP_COMMON, שירותי OData PP_CFS_CAPEVAL_SRV ו-PP_MRP_AOR_SRV, וטרנזקציית " +
+        "GUI מובילה CM01, לפי רשומת הספרייה שהתקבלה ב-2026-09-24 על S32OP ו-S27OP כאחד. לאמת במערכת חיה את פריט ההיקף " +
+        "שהופעל בפועל (31L או 3LQ) ואת ההרשאות ל-CRHD/KAKO, ששניהם עדיין ללא ראיה רשמית ישירה.",
     },
     xrefs: ["tx:CM01", "tx:CM07", "table:CRHD", "table:KAKO", "fiori:F3951"],
-    lastVerifiedAt: DATE22,
+    lastVerifiedAt: DATE24,
     notes:
-      "נוסף 2026-09-22 כטיוטה מחודשת לרשומה שנדחתה ב-2026-09-02: הציטוט 'View the capacity requirement and " +
-      "available capacity for work centers. Reschedule the operation start and end date if required' הוסר, כי אינו " +
-      "מופיע באף קטע חיפוש וגוף הדף הוא מעטפת JavaScript. סתירה בשיוך פריט ההיקף: What's New 2020 (loio " +
-      "2acb634615974535b4fabdc710937599) ו-2021 (loio 7b61621545224d24be7b20624523dcdf) נוקבים ב-'31L PP-CFS-CE'; " +
-      "What's New 2023 (loio ce274262f5584b0f9049022063100935, 2023.000) מציג 'App Changed 3LQ PP-CFS-CE'; What's " +
-      "New של Cloud 2408.2 (loio a16c230ccde2438c93f700e0e5565124, 2408.07) מתייג את קבוצת יישומי Capacity " +
-      "Planning, ובהם Manage Work Center Capacity, כ-'Scope Item 3LQ (Production Capacity Leveling) 31L (Production " +
-      "Capacity Evaluation)'. הרכיב PP-CFS-CE עקבי בכל הרשומות. המזהה F3289 אינו מופיע בקטעי החיפוש של " +
-      "On-Premise; הוא מופיע בכתובת SAP Fiori Apps Library בכותרת 'Manage Work Center Capacity - Fiori Apps " +
-      "Library' (https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F3289')/S21OP, " +
-      "גוף הדף לא נקרא) וברשומות What's New של Cloud Public Edition, למשל 2602 (loio " +
-      "ddbe768b47ca46b39d466cb7315c1081, 2602.00): 'App ID: F3289 New 31L PP-CFS-CE' ו-'Application Component " +
-      "PP-CFS-CE-2CL (Capacity Evaluation)'. לא אומתו במקור של SAP: התפקיד SAP_BR_PRODN_PLNR, הקטלוג " +
-      "SAP_SCM_BC_CFS, הטבלאות CRHD/KAKO, הזמינות מ-Cloud 2002 והטענה שהיישום תומך רק במרכזי עבודה של PP ולא PM " +
-      "(data/fiori/apps.ts#F3289); קטע What's New של Cloud 2408.2 מזכיר הצגת תאריכי פעולה של פקודות אחזקה ביישומי " +
-      "Capacity Planning, ולכן טענת ה-PP בלבד דורשת בדיקה. לא בוצעה בדיקה במערכת SAP חיה.",
+      "מה נבדק ב-2026-09-24: הרצת scripts/fal-app.mjs F3289 מול ערוץ ה-OData הרשמי של ספריית ה-Fiori (לא JS shell) על " +
+      "S32OP (2025 FPS01) ועל S27OP (2023) החזירה שתי רשומות Published זהות בתוכן (role, catalog, OData services, GUI " +
+      "מוביל, ScopeItem 31L), עם מספרי RIN וגרסת S4CORE שונים כצפוי. זה מיישב שני פערים שנשארו פתוחים ברשומה שנרשמה " +
+      "ב-2026-09-22 (מזהה F3289 לא הופיע בקטעי חיפוש help.sap.com, ותפקיד/קטלוג/טבלאות לא אומתו מול מקור רשמי): מזהה " +
+      "F3289 מאושר כעת ישירות מהספרייה כ-App ID רשמי ומפורסם, ותפקיד+קטלוג עסקי תואמים במדויק את מה שרשומת המאגר כבר " +
+      "נשאה (SAP_BR_PRODN_PLNR, SAP_SCM_BC_CFS); קטלוג טכני, שני שירותי OData, וטרנזקציית GUI מובילה (CM01; CM07 אינה " +
+      "ברשימה שהספרייה מדפיסה) הם תוספת חדשה. עדיין לא אומתו מול מקור רשמי: הטבלאות CRHD/KAKO (הספרייה אינה מדפיסה " +
+      "טבלאות), הזמינות מ-Cloud 2002 והטענה שהיישום תומך רק במרכזי עבודה של PP ולא PM (data/fiori/apps.ts#F3289 " +
+      "המקורי); אלה נשארות בגדר claims לא מאומתים ולא הוסרו, רק לא נכללו בסטטוס. סתירת פריט ההיקף בין What's New (31L " +
+      "ב-2020/2021, 3LQ 'Changed' ב-2023) מול ScopeItems של הספרייה (31L בשתי המהדורות) לא הוכרעה. לא בוצעה בדיקה " +
+      "במערכת SAP חיה. History (Old → New): הרשומה מ-2026-09-22 סימנה role/catalog/CRHD/KAKO/Cloud-2002/PP-only כלא " +
+      "מאומתים ב-notes; ב-2026-09-24 role ו-catalog אומתו מול ספריית ה-Fiori והתווספו odata + technical catalog + guiTx " +
+      "מדויק (CM01), ואילו CRHD/KAKO/Cloud-2002/PP-only עדיין לא אומתו. ה-catalogPatch הוחל ב-2026-09-24 על " +
+      "data/fiori/apps.ts#F3289 (odata, guiTx CM01, source, trust); type נשאר Transactional כי FioriType מקבל ערך אחד, " +
+      "והספרייה מדפיסה 'Transactional, Analytical'. שורת המאגר מ-2026-09-22 (guiTx CM01/CM07 ותיאור ECC) הוחלפה בשורת " +
+      "המאגר המתוארכת. הערות קודמות (2026-09-22, נשמרות): נוסף 2026-09-22 כטיוטה מחודשת לרשומה שנדחתה ב-2026-09-02: " +
+      "הציטוט 'View the capacity requirement and available capacity for work centers. Reschedule the operation start " +
+      "and end date if required' הוסר, כי אינו מופיע באף קטע חיפוש וגוף הדף הוא מעטפת JavaScript. סתירה בשיוך פריט " +
+      "ההיקף: What's New 2020 (loio 2acb634615974535b4fabdc710937599) ו-2021 (loio 7b61621545224d24be7b20624523dcdf) " +
+      "נוקבים ב-'31L PP-CFS-CE'; What's New 2023 (loio ce274262f5584b0f9049022063100935, 2023.000) מציג 'App Changed " +
+      "3LQ PP-CFS-CE'; What's New של Cloud 2408.2 (loio a16c230ccde2438c93f700e0e5565124, 2408.07) מתייג את קבוצת " +
+      "יישומי Capacity Planning, ובהם Manage Work Center Capacity, כ-'Scope Item 3LQ (Production Capacity Leveling) 31L " +
+      "(Production Capacity Evaluation)'. הרכיב PP-CFS-CE עקבי בכל הרשומות. המזהה F3289 אינו מופיע בקטעי החיפוש של " +
+      "On-Premise; הוא מופיע בכתובת SAP Fiori Apps Library בכותרת 'Manage Work Center Capacity - Fiori Apps Library' " +
+      "(https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F3289')/S21OP, גוף הדף לא " +
+      "נקרא) וברשומות What's New של Cloud Public Edition, למשל 2602 (loio ddbe768b47ca46b39d466cb7315c1081, 2602.00): " +
+      "'App ID: F3289 New 31L PP-CFS-CE' ו-'Application Component PP-CFS-CE-2CL (Capacity Evaluation)'. לא אומתו במקור " +
+      "של SAP: התפקיד SAP_BR_PRODN_PLNR, הקטלוג SAP_SCM_BC_CFS, הטבלאות CRHD/KAKO, הזמינות מ-Cloud 2002 והטענה שהיישום " +
+      "תומך רק במרכזי עבודה של PP ולא PM (data/fiori/apps.ts#F3289); קטע What's New של Cloud 2408.2 מזכיר הצגת תאריכי " +
+      "פעולה של פקודות תחזוקה ביישומי Capacity Planning, ולכן טענת ה-PP בלבד דורשת בדיקה. לא בוצעה בדיקה במערכת SAP " +
+      "חיה.",
   },
 
   /* ---- 2026-09-23 batch: official App IDs that the records above already named (F5241, F2072,

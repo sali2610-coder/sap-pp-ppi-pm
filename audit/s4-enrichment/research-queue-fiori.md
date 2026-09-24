@@ -73,6 +73,30 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
   applied" instead of "apply it". Commit 8f7273dd (another session, 19:56:40, message about
   F4072 only) swept these overlay and catalog edits into history before the gates ran; its
   content equals the writer's tree byte for byte.
+- 2026-09-24 · batch 3 of the Fiori depth run (F4604, F0251, F0247A, F3951, F2176, F3289):
+  none refuted, none queued. F0247A, F3951 and F3289 were written from their auditors'
+  `fixedRecord`; F4604, F0251 and F2176 from their drafts with every listed downgrade applied
+  (the optional ones included). No lookup was re-run. Writer normalisations beyond the lists:
+  (1) the catalog patches were applied in the same change, so every repository row and
+  `recommendedAction` that described the curated values in the present tense is dated
+  ('עד 2026-09-24 ...', 'ה-catalogPatch הוחל ...'), the defect class the F4604 auditor flagged,
+  applied also to F0247A, F2176, F0251 and F3289; (2) the F3951 and F0251 library rows carry
+  `release` 2025.001 / 2023.000 (HOUSE-RULES §1, as for F3364 in batch 2) instead of '2025 FPS01
+  (S32OP)' / '2023 (S27OP)' / '2025 FPS01 (On-Premise)' / '2023'; (3) `reviewer` dropped from
+  F0247A, F3951 and F3289 (house policy); (4) F0247A keeps all four existing inline sap_help
+  rows (the verdict named three; 'Deprecated Apps in Material Requirements Planning', 2021, is
+  the fourth) and its xrefs follow the draft and the downgrade text (MD04, MD06, MD07, F0251,
+  F0251A): the fixedRecord's `tx:MD01N` was not added, because the kept notes of that record
+  say no F0247A source names MD01N; (5) F3289 and F2176 keep their previous notes after the new
+  text (§3.8), F3289 with 'פקודות תחזוקה' for the older term; (6) the F4604 notes now date the
+  F4072 name sentence (the curated F4072 was corrected on 2026-09-22); (7) `F3951_APP_TOPIC`
+  carries the body-read claim (DATE24) and the record notes keep the old snippet quote as
+  Old → New; (8) catalog `role` / `odata` strings hold bare names (F0247A roles and three OData
+  services, F2176 PPDS_RES_SCHEDULE), with R-ids and versions kept in the record and in the
+  entry comment; (9) the F3289 auditor's §3.2 reading ('only' wording) was applied to the rest
+  of that record (notes, repository row) and to 'יחיד' in the F2176 status; the F0251 notes say
+  the secondary roles and the retail catalog were not copied to apps.ts, instead of 'not
+  verified' (the library rows print them).
 
 ## conflicts
 
@@ -324,6 +348,59 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
     the manifest. SAP_MM_BC_GOODS_MVT, API_MATERIAL_DOCUMENT_SRV and I_MaterialDocumentItem are
     printed by none of the three library records read. The three em dashes in the repository
     row are verbatim quotes of tx-intel strings, kept as quotes.
+- 2026-09-24 · batch 3, same channel (`scripts/fal-app.mjs` on S32OP and S27OP), audited and
+  written; library values copied into `data/fiori/apps.ts` for all six (trust verified-docs,
+  lastReviewed 2026-09-24, provenance comment on each entry):
+  - `fiori:F0247A`: now `conflicting_sources` (depth L5 to L3). Name: help.sap.com (What's New
+    2025, Feature Comparison 2025.001, Public Cloud 2608, and the documentation page the library
+    links, loio `5d0feac5e1c447f2a2bab0976215f3b2`, 'Monitor Material Coverage - Net Segments
+    (Fashion and Segmentation)') against the library's catalog name 'Monitor Material Coverage
+    (Version 2)'; the library prints 'Monitor Material Coverage - Net Segments' for the
+    predecessor F0247. The curated name was not changed (product decision). Role: the curated
+    SAP_BR_MRP_CONTROLLER appears in neither official source read (library:
+    SAP_BR_MATL_PLNR_EXT_PROC and SAP_BR_PRODN_PLNR; documentation page: SAP_BR_PRODN_PLNR and
+    SAP_BR_DEMAND_PLANNER_RFM); settled on the curated side, `data/fiori/apps.ts#F0247A` now
+    carries the two library roles, the three S32OP OData services and guiTx MB53 (leading),
+    MD04, MD06, MD07, MS06, MS07. Still open: the name decision; F0247 has no catalog entry
+    (alias only); MB53, MS06 and MS07 have no route in the manifest (guiTx only, no xref);
+    `explain.technical` keeps its provisional CDS wording.
+  - `fiori:F4604`: catalog SAP_EAM_BC_MNTWRK_MNG and OData UI_MAINTWRKREQ_ORD_MANAGE (the
+    library's primary service; the other three are in the record) in `data/fiori/apps.ts#F4604`;
+    guiTx emptied because the library prints '-' for leading and related GUI transactions (as
+    the F4604 audit approved). For the lead: the F3951 and F0251 audits of the same batch kept
+    the curated GUI transactions where the library prints '-' (absence is not a verdict, §3.3),
+    so one policy should be chosen for all three. Still open: `explain.consultant` names
+    API_MaintenanceOrder and now contradicts odata; `explain.technical` keeps its provisional CDS
+    wording; the Hebrew name, `purpose` and `problem` use the older term for maintenance (outside
+    the patch fields); F2175 / F2173 not in the catalog; BAdI EAM_CROSS_APP_NAV_CONTROL not in
+    `data/exits.ts`; F4072 (Screen Maintenance Requests, curated name fixed 2026-09-22) is not
+    linked from F4604 yet.
+  - `fiori:F0251`: role SAP_BR_MRP_CONTROLLER to SAP_BR_PRODN_PLNR (library lead) and OData
+    PP_MRP_COCKPIT to PP_MRP_COCKPIT_SRV in `data/fiori/apps.ts#F0251`; guiTx MD04 / MD07 kept
+    (library '-'). Still open: secondary roles SAP_BR_MATL_PLNR_EXT_PROC /
+    SAP_BR_RPLNMT_SPCLST_DC_RFM and catalog SAP_RFM_BC_DC_RPLNMT not copied; `explain` still
+    names gateway project PP_MRP_COCKPIT; `process` and `commonErrors` call the monitor app
+    F0247; the `data/sapData.pppi.ts` CO24 / MD04 rows (xlsx fix) unchanged; I_MRPMaterial and
+    MDKP / MDTB unverified.
+  - `fiori:F3951`: OData PP_MNTR_WRKCTR_SRV, PP_MRP_AOR_SRV filled in
+    `data/fiori/apps.ts#F3951`; role and catalog confirmed. Open conflict: the library prints no
+    GUI transaction (leading and related '-') on S32OP and S27OP while the curated guiTx
+    CM21 / CM25 stays (product decision). Still open: the '(PP-DS)' labels in
+    `data/lifecycle.ts#CM21`, `data/transactions.ts` (CM01), `data/pppi-master-data-facets.ts`
+    and `data/academy/lessons/pp-generated.ts`; `explain.technical` provisional wording.
+  - `fiori:F2176`: catalog SAP_SCM_BC_CFS to SAP_SCM_BC_CAPA_PLAN, OData PPDS_RES_SCHEDULE and
+    guiTx CM21 / CO03 to /SAPAPO/CDPS0 (leading), /SAPAPO/CDPS1, /SAPAPO/CDPS2, /SAPAPO/CDPS3,
+    /SAPAPO/RPT in `data/fiori/apps.ts#F2176`; tx:CM21 and tx:CO03 left the record's xrefs (the
+    /SAPAPO/ codes have no route in the manifest, so no xref). Still open: `cloud: yes`
+    unverified; the WM textbook and academy lesson that place F2176 under PM/EWM; `ecc` and
+    `explain.technical` curated; the fiori-data.ts UI line shows the /SAPAPO/ codes as related
+    SAP GUI transactions (UI follow-up above).
+  - `fiori:F3289`: OData PP_CFS_CAPEVAL_SRV / PP_MRP_AOR_SRV and guiTx CM01 in
+    `data/fiori/apps.ts#F3289` (CM07 is not in the library list; it stays in `ecc` and in the
+    xrefs); type stays Transactional although the library prints 'Transactional, Analytical'
+    (FioriType takes one value; a schema decision if both should show). Still open: scope item
+    31L (library, What's New 2020 / 2021) against 3LQ (What's New 2023); CRHD / KAKO, Cloud 2002
+    and the PP-only claim in `explain.consultant` / `commonErrors` unverified.
 
 ### Resolved 2026-09-21 (design audit round 2 · audit/ux-2026-09/SAP-FIXES.md)
 - F3364 `odata: API_PROCORDCONF` → `API_PROC_ORDER_CONFIRMATION_2_SRV` (also `data/centers/fiori.ts`). F3577 `API_PROCESSORDER_2` → `API_PROCESS_ORDER_2_SRV`. The app-id conflicts (F3364 vs CORK, F3577 vs F4587) remain open as recorded.
