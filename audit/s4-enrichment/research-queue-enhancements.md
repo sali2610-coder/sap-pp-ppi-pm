@@ -908,3 +908,112 @@ repository-only foundation guard, so no test change.
   L2 10, L3 12, L4 3, L5 15; 28 verified, 12 conflicting, 30 S/4-applicable. Edition-specific went
   from 6 to 7 (the ITOB0001 Public Cloud row). No record changed depth, level or status.
 - No live SAP check was performed.
+
+# Batch 9 · written 2026-09-25 (access date stamped 2026-09-24, const DATE24)
+
+5 drafts audited: **4 written**, **1 refuted**. Written ids: `enh:exit:PPCO0007`,
+`enh:exit:PPCO0021`, `enh:exit:CONFPP01`, `enh:exit:CONFPP05`. All four deepen records that already
+existed; no new id. PPCO0007 comes from the auditor's `fixedRecord`; PPCO0021 is the minimal in-place
+edit its verdict asked for (`lastVerifiedAt` DATE21 to DATE24, one re-check sentence appended to
+`notes`, every `accessedAt` left on DATE21); CONFPP01 is the audited draft with the two verdict
+downgrades applied; CONFPP05 is the audited draft (clean verdict) with the writer deviations listed
+below. The catalog was already graduated out of the repository-only foundation guard, so no test
+change.
+
+## refuted
+
+- `enh:exit:PPCO0001`: refuted at the second-round gate. Not written; the live record (2026-09-14)
+  stays. Problems:
+  1. Wrong search scope on a published negative. `gaps[0]` says 'חיפוש 'EXIT_SAPLCOZF_001' בלי סינון
+     מוצר' and notes (א) says 'אותה שאילתה ללא סינון מוצר'. Neither search was unfiltered:
+     `scripts/sap-help-search.mjs` line 38 sets `opt("product", "SAP_S4HANA_ON-PREMISE")` as the
+     default, and the run header prints '· SAP_S4HANA_ON-PREMISE ·'. This is the same class of error
+     that got round 1 refused.
+  2. The draft says the On-Premise-default count varies 'לפי --size' (16 to 19 by page size). The
+     auditor's re-runs on 2026-09-24/25 gave 17 at `--size 12`, 18 at `--size 20` and 17 at
+     `--size 25`; the previous auditor got 16 at 12 and 25, and 19 at 20. The same `--size` gives
+     different totals across runs, so the drift is run-to-run noise, not caused by `--size`. The 16
+     to 19 range holds; the causal wording does not.
+  3. Minor: notes (ב) summarizes the 21 Public Cloud hits as 'עמודי PP, עלויות ייצור ו-Production
+     Accounting'. The list also has R&D/Engineering (Controlling the BOM Explosion), Finance
+     (Engineer-to-Order), Supply Chain (Serial Numbers in Production Orders), APIs for Manufacturing
+     (Attachments for Production Order) and What's New 2208 (Process Production Versions). The
+     'למשל' examples are accurate; the category summary should say 'בעיקר'.
+  4. What the auditor checked and found holding (keep it in the resubmission): the three round-1
+     history items restored word for word (the PPCO001 five-digit sentence, the SUPPORT_CONTENT 'User
+     exists and BADIs of production order' sentence, and 'as is the existing customer exit PPCO0001'
+     in `recommendedAction`); `status.source.claim` identical to `evidence[0].claim`;
+     `conflictingEvidence[0]` back to the current text with `accessedAt` 2026-09-14; the Public Cloud
+     `EXIT_SAPLCOZF_001` counts (8/7/8) inside the stated 4 to 8; queries (ב) and (ג) under
+     SAP_S4HANA_CLOUD at 21 records each; no snippet in the three Public Cloud queries names
+     PPCO0001, `EXIT_SAPLCOBT_001`, `EXIT_SAPLCOZF_001` or WORKORDER_UPDATE (checked with `--json`);
+     the 'Extensibility' snippet lists Key User / Developer / Side-by-Side; the On-Premise-default
+     `EXIT_SAPLCOZF_001` results do not mention `EXIT_SAPLCOZF_001`; the absence is worded as a
+     documented negative and no Public Cloud status is asserted; the Public/Private Cloud sentences in
+     `status.he` and `recommendedAction` are bounded 'not verified' statements; no successor, no SAP
+     Note, xrefs unchanged, no reviewer, personal name or e-mail.
+  To unblock: resubmit the same draft with the scope stated as SAP_S4HANA_ON-PREMISE (the script
+  default) in `gaps[0]` and notes (א), the count drift described as run-to-run (16 to 19) without
+  'לפי --size', and 'בעיקר' in the notes (ב) category summary.
+
+## conflicts
+
+- `enh:exit:PPCO0007`: the repository conflict is unchanged. `data/exits.ts#PPCO0007` ('שינוי סטטוס
+  פקודה', release/TECO, MES message example, no function-exit name) against the 4.6C page 'Exit when
+  saving production order' with `EXIT_SAPLCOZV_001` (check or change header fields on save). Derived
+  records still to fix: `data/domain-detail.ts:369` ('PPCO0007 (סטטוס)'), `data/centers/debugging.ts`,
+  and the COR2 xref in `data/verification/transactions.ts`. The three 2026-09-24 searches returned no
+  title or snippet naming PPCO0007 on either side.
+- `enh:exit:CONFPP05`: the repository conflict is unchanged (`data/exits.ts#CONFPP05` 'תנועות סחורה
+  באישור', Backflush/GR, CO11N/COR6N, against the documented confirmation-variance Workflow exit).
+  `status.he` now bounds the 'unchanged' status to SAP S/4HANA On-Premise; Public Cloud availability
+  stays unverified.
+- `enh:exit:CONFPP01`: the repository row stays `verification_required` (input validation before
+  posting, COR6N / process orders, WORKORDER_CONFIRM as the Clean Core target: none of them on an
+  official page checked). The PCo guide's two include names (ZXCOFU06, ZXCOFU11) are still
+  unresolved inside the source itself.
+- `enh:exit:PPCO0021`: unchanged. Three repository layers still describe the exit three ways; the
+  2026-09-24 re-check (11, 21 and 21 records) returned no title or snippet naming PPCO0021.
+
+## open verification
+
+- `enh:exit:PPCO0007`: SMOD/CMOD for PPCO0007 and `EXIT_SAPLCOZV_001` in the target system,
+  including whether it fires for process orders (COR1/COR2), and the current function-exit
+  interface. Private Cloud: no dedicated source checked. Public Cloud: the Extensibility page's text
+  body names no classic customer exit; its interactive diagram was not read.
+- `enh:exit:PPCO0021`: SMOD/CMOD/SE37 for existence, short text, components and calling point.
+- `enh:exit:CONFPP01`: SMOD/SE37/CMOD (components, the `EXIT_SAPLCORF_101` interface, the include
+  name) and ATC/SCMON usage. Search-count drift: 'EXIT_SAPLCORF_101' on SAP_S4HANA_ON-PREMISE
+  returned 12 for the researcher and 16, 13, 13 and 14 on the auditor's four re-runs of 2026-09-25;
+  the record states the 12 to 16 range. The Public Cloud 'Extensibility' row is snippet-only (body
+  not read in this record). Private Cloud: no dedicated source checked.
+- `enh:exit:CONFPP05`: SMOD/SE37 for the `EXIT_SAPLCORF_105` interface (whether goods-movement data
+  reaches it); availability in Public Cloud and Private Cloud; SE18 for WORKORDER_GOODSMVT.
+- No live SAP check was performed. The sc4sap MCP failed to connect in this session too.
+
+## writer deviations, batch 9
+
+- `enh:exit:CONFPP05` row 5 (Public Cloud 'Extensibility', 2608.500): 'העמוד אינו נוקב ב-...' became
+  'טקסט הגוף שנקרא אינו נוקב ב-...', and '(התרשים האינטראקטיבי שבעמוד לא נקרא)' follows the
+  body-read clause. The new `recommendedAction` sentence now opens 'טקסט הגוף של עמוד
+  ה-Extensibility'. Same page (loio `533228e1e854433ab16d013f161ca509`) and the same bounding the
+  PPCO0007 auditor required in this batch and the batch-6/7 writers applied to customer-exit and
+  IWO10012. No new lookup was run.
+- `enh:exit:CONFPP05` `notes`: 'כי אף מקור אינו מקשר' became 'כי אף מקור שנבדק אינו מקשר' (house rule
+  3.2/3.3: a documented negative, not a statement about every source).
+- `enh:exit:CONFPP01` `notes`: 'אין מקור רשמי הנוקב' and 'ואין מקור הקובע' became 'לא נמצא מקור רשמי
+  הנוקב' and 'ולא נמצא מקור הקובע' (same rule, same change the batch-7 writer made for IWO10012).
+  The verdict downgrade was applied as written: 'במוצר SAP_S4HANA_ON-PREMISE בין 12 ל-16 תוצאות
+  (המספר השתנה בין הרצות חוזרות)'.
+- Unchanged rows were kept byte for byte (deep comparison against the pre-write file): PPCO0007 rows
+  1 to 3 and the repository row with its `conflictingEvidence`; CONFPP01 rows 1 to 3 and the
+  repository row; CONFPP05 rows 1 to 4 and `status.source`; PPCO0021 everything except
+  `lastVerifiedAt` and the appended `notes` sentence. The live notes survive verbatim inside the new
+  notes of all four records (PPCO0007 under 'ממצא קודם (2026-09-14)', CONFPP05 after 'היסטוריה
+  (2026-09-14)', CONFPP01 and PPCO0021 as exact prefixes). The other 36 records are deep-equal to the
+  pre-write file.
+- Coverage (`npm run report:coverage -- --catalog enhancements`), before and after: 40 records,
+  L2 10, L3 12, L4 3, L5 15; 28 verified, 12 conflicting, 30 S/4-applicable. Edition-specific went
+  from 7 to 10 (the new Public Cloud rows on PPCO0007, CONFPP01 and CONFPP05). A per-record `--ids`
+  comparison shows no record changed depth, level or status.
+- No live SAP check was performed.
