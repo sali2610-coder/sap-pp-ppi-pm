@@ -75,6 +75,68 @@ practices); `scratchpad/validate-bp-file.mjs` prints the same 10 bp-slug `dangli
 hits as in batch 1 (calibration-process and refurbishment-process, reduced universe) and
 none for the new record; both `tsc` gates clean; `npm test` 212/212.
 
+Batch 3 written 2026-09-24 (access date stamped 2026-09-24): 3 drafts audited, 3 written
+(`order-to-cash-process`, `period-end-closing-process`, `logistics-to-finance-postings-process`,
+all module Cross), none refuted, so nothing was added under refuted. No verdict carried a
+fixedRecord: the writer applied the listed downgrades to the researcher drafts (the drafts'
+on-disk copies were checked field by field against the audited drafts; each replacement
+matched exactly once, modulo the RLM marks the drafts carry before Latin tokens). Rows
+added by the downgrades: order-to-cash +1 (`data/s4-objects.ts#MKPF`); period-end +11 (the
+2025 FPS01 item 6.1.4 'S4TWL - Data Model Changes in FIN'; the Fiori library rows of KKAO,
+KKAS, KKS1, KKS2, KO88, CO88 and KOB1 copied from `data/verification/transactions-auto.ts`
+without the generated record's `context` flag, each with '(אומת ברשומת tx:X)';
+`data/troubleshooting-ext2.ts#order-teco-wip`; `data/tcode-catalog.ts#KKAX`;
+`data/domain-detail.ts#pppi-variance`); logistics +2 (`data/sapData.pm.ts#PM:MSEG`,
+`data/troubleshooting-ext2.ts#acdoca-coep-mismatch`). Before writing, the writer re-ran the
+help.sap.com searches for all 32 help.sap.com URLs of the three records (all found verbatim:
+30 by title, the ERP 'The Document Concept' 6.17.latest record through the draft's own SAP_ERP
+query, 'Universal Journal: FAQ' under the FI-GL deliverable through the 'Universal Journal'
+query), re-read the bodies the downgrades rely on (Universal Journal: FAQ; Production Cost
+Posting in Financial Accounting; Period-End Closing - Maintenance Orders, version 100; the
+Product Cost by Order scenario page; Transaction Codes in Cost Object Controlling; Settlement in
+Product Cost by Order or Period), re-ran `scripts/fal-app.mjs` at S32OP for F3893, F0869A,
+F0867A, F0798, F1345, F0711, F2005, F4568, F4857, F4597, F3683, F1077 and F3664, and re-read
+every cited repository record against its claim. Writer deviations beyond the listed
+downgrades: (1) `data/tcode-catalog.ts` changed after the research (commit 48e7d9ac,
+2026-09-24 20:57, titles corrected from the Fiori library): KKAS now reads 'Calculate Work in
+Process - Product Cost Collectors' and KKAX 'Calculate Work In Process - Order - Single', so the
+new catalog row carries the current titles and the period-end notes keep the old catalog
+conflict as history (Old → New) instead of an open conflict; (2) period-end roles[1]: the
+verdict's pairing of each catalog with a role is not printed by the library (the F3683 record
+lists roles and catalogs as separate lists), so both catalogs are named with their titles, the
+line says the library assigns no catalog to a role, and the F3683 claim now says so and carries
+'EAM - Work Order Management'; (3) the new 6.1.4 row places the quoted sentences on printed
+page 160 of the extracted text (the item starts on p. 159; 'Page | 159' is that page's footer),
+not on p. 159; (4) the whole pppi-variance part of the period-end domains row (master data and
+migration, both in `data/domain-detail.ts#pppi-variance`) moved to the new domain-detail row,
+which also carries the eccS4 text 'QA: סטיות + CO-PA + ACDOCA' that migration[3] relies on;
+(5) period-end antiPatterns[2] no longer says 'אחרי התמחור' (no source): it follows the scenario
+page (routing changed, then WIP calculated; scrap cannot be calculated); (6) the period-end
+settlement claim now carries 'default rule PP2 (Production Material Periodic Settlement)' (body
+re-read), which masterData[0] names; (7) period-end outputs[4] links tx:CO88 instead of tx:KOB3,
+per the verdict's instruction not to present KOB3 as the settlement-line report; (8) period-end
+trigger[1] lost its first attribution prefix, which the verdict's replacement repeated; (9)
+logistics: the 15.3.1 claim now carries the hybrid-table sentence ('will still be used to store
+the material master data attributes', 'the on-the-fly aggregation of actual stock quantities')
+that tables[1] relies on; step 10 is split into two sentences; eccToS4[5] keeps 'הדיווח עובר
+ל-ACDOCA' attributed to the repository records, since the FAQ does not say it; checks[4] uses one
+attribution clause; the notes list the FAQ body among the bodies read; (10) order-to-cash: notes
+'הרשומות מתאימות' (plural after the verdict's list); the `data/processes.ts#o2c` claim now quotes
+the map's test verbatim ('חשבונית → רישום FI (ACDOCA)' for 'חשבונית ← רישום FI'); the verdict's
+'gaps text' and 'conflicts entry' are not fields of the draft record, so their corrected wording
+went into the conflicts entries below; (11) the file header's 'kpis in every record below' now
+names the exception (order-to-cash-process, kpis from the official Order-to-Cash Performance
+page), and two date constants were added for copied rows (`DATE_TB_02`, tables.ts DATE2, MBEW
+migration object; `DATE_FM_14`, functions.ts DATE14, API_MATERIAL_DOCUMENT). Coverage
+(`report:coverage --catalog best-practices`): total 25 → 28, L2 25 → 28, verified 24 → 27,
+conflict 1 → 1. Gates: the validator on the full registered universe prints 0 problems (28
+practices); `scratchpad/validate-bp-file.mjs` prints 53 `dangling-xref` hits, all bp slugs
+registered in `cross-processes.ts`, `cross-processes-2.ts`, `pm-processes-2.ts`,
+`pp-processes.ts` and `pppi-processes.ts` that its reduced universe does not load (10 from the
+earlier batches, 43 from the new records), and no other rule; both `tsc` gates clean; `npm test`
+211/211 (one test fewer than batch 2 because commit e936351a removed the objects foundation
+guard).
+
 ## refuted
 
 - `bp:breakdown-maintenance-process` (batch 1, 2026-09-24): refuted at the gate, not
@@ -231,3 +293,36 @@ none for the new record; both `tsc` gates clean; `npm test` 212/212.
   future'), so a 2025 FPS01 row would put both sides on the same release. What would settle
   the practical question: a check in the target system of MB11 and IW8W with movement types
   313/315 on a refurbishment order.
+- `bp:order-to-cash-process`, repository against Simplification List (disclosed in notes, no
+  `conflicting_sources` row): `data/tx-intel.ts` lists VBUK and VBUP in the tables of VA01,
+  VA03, VA05, VA25, VL01N, VL02N and VL06O, and the index tables VAPMA (VA05) and VAKPA (VA25);
+  'S4TWL - SD Simplified Data Models' (2025 FPS01 Simplification List, item 11.1.9) says VBUK
+  and VBUP were eliminated (status fields moved to VBAK/VBAP, LIKP/LIPS and VBRK) and the index
+  tables VAKPA, VAPMA, VLKPA, VLPMA, VRKPA and VRPMA were eliminated. The tx-intel lists fit the
+  ECC side only. What would settle it: an edition split of those `tables` fields in
+  `data/tx-intel.ts` (not a best-practices file, not edited here).
+- `bp:period-end-closing-process`, official against official (disclosed in notes; not marked
+  `conflicting_sources` at the gate, the auditor accepted the notes disclosure): 'Transaction
+  Codes in Cost Object Controlling' (2025.001, loio ebc64252eaa43507e10000000a441470; body
+  re-read 2026-09-24) prints 'KKA0' both for 'Change cutoff period' and for 'WIP calculation -
+  collective processing', while the Fiori library (row copied from `tx:KKAO`) and the
+  repository give KKAO 'Calculate Work in Process - Collective'. The same page lists KKS5 for
+  collective variance calculation and not KKS1 (the page says the list is not necessarily
+  complete); the library calls KKS1 'Run Variance Calculation - Orders - By Lot'. What would
+  settle it: SE93 in the target system for KKA0, KKAO, KKS1 and KKS5. A re-audit may mark the
+  transaction-list row `conflicting_sources` against the KKAO library row. Closed on
+  2026-09-24 (history kept in the record's notes): `data/tcode-catalog.ts` titled KKAX 'WIP
+  Calculation for Product Cost Collector' and KKAS 'WIP Calculation: Collective Processing
+  (Sales Order)' against the official list and the library; commit 48e7d9ac corrected both
+  titles from the library.
+- `bp:logistics-to-finance-postings-process`, repository against repository, settled by an
+  official page: `data/s4-impact.ts#BSEG` says BSEG 'עדיין קיים' and `data/verified-objects.ts`
+  (BSEG) says 'BSEG כ-Compatibility'. The body of 'Universal Journal: FAQ' (2025.001, loio
+  8b8e5695c4dc4749a706f9fa2f6bda92, read through `scripts/sap-help-body.mjs` 2026-09-24) says
+  'the former G/L-only table BSEG still exists as it is needed to store the source documents
+  that serve as the basis for journal entries into table ACDOCA' and that BKPF 'remains
+  unchanged'. This supports s4-impact and contradicts the verified-objects wording, which needs
+  a correction in `data/verified-objects.ts` (not a best-practices file, not edited here). Open
+  gap in the same record: the Simplification List item prints the DDL sources NSDM_DDL_MKPF /
+  NSDM_DDL_MSEG and `data/s4-impact.ts` names the views NSDM_V_MKPF / NSDM_V_MSEG; the link
+  between the two names was not verified.
