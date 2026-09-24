@@ -230,6 +230,9 @@ const DELTA_CHANGED_RE = new RegExp(`${CHANGED_RE.source}|בוטלו|עברו ל
 // no change is not a change signal: 110 tx-intel deltas read that way, and the
 // page showed "משתנה ב-S/4HANA" above a delta saying the code is kept.
 const KEPT_RE = /^(נשמרת|נשמר|זמינה|קיימת)(?=[\s;,.(])/;
+// "ללא שינוי" / "אין שינוי" say the opposite of a change: drop them before
+// looking for change words (IB01's delta reads "EQST/STKO/STPO ללא שינוי").
+const unNegated = (t: string) => t.replace(/(ללא|אין|בלי)\s+שינוי(ים)?/g, "");
 
 function buildS4(code: string, intel: (typeof TX_INTEL)[string] | undefined, authored: (typeof TRANSACTIONS)[number] | undefined): TxS4 {
   const note = clean(intel?.s4) || clean(authored?.eccS4?.changed);
@@ -249,7 +252,7 @@ function buildS4(code: string, intel: (typeof TX_INTEL)[string] | undefined, aut
     disposition = "superseded"; risk = "high"; trust = "verified";
   } else if (note && OBSOLETE_RE.test(note)) {
     disposition = "superseded"; risk = "high"; trust = "partial";
-  } else if ((delta && !(KEPT_RE.test(delta) && !DELTA_CHANGED_RE.test(delta))) || (note && CHANGED_RE.test(note))) {
+  } else if ((delta && !(KEPT_RE.test(delta) && !DELTA_CHANGED_RE.test(unNegated(delta)))) || (note && CHANGED_RE.test(unNegated(note)))) {
     disposition = "changed"; risk = "medium"; trust = intel?.verified === "verified" ? "verified" : "partial";
   } else if (note || unchanged) {
     disposition = "available"; risk = "low"; trust = intel?.verified === "verified" ? "verified" : "partial";
