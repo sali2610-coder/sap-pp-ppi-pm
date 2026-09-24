@@ -131,23 +131,41 @@ const dash = (s: string) => s.replace(/[–—]/g, "-");
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
 function tokenRe(code: string) { return new RegExp(`(^|[^A-Z0-9_/])${esc(code)}(?![A-Z0-9_])`); }
 function fragmentAround(text: string, code: string): string | null {
-  const m = tokenRe(code).exec(text);
-  if (!m) return null;
-  const at = m.index + m[1].length;
+  // Prefer the occurrence that is about the transaction (see aboutTransaction below).
+  const re = new RegExp(tokenRe(code).source, "g");
+  let at = -1;
+  for (let m; (m = re.exec(text)); ) {
+    const i = m.index + m[1].length;
+    if (at < 0) at = i;
+    if (/(transactions?|t-codes?|tcodes?|transaction codes?|transaktion(en)?)\b[^.;:!?]{0,40}$/i.test(text.slice(Math.max(0, i - 60), i))) { at = i; break; }
+  }
+  if (at < 0) return null;
   let a = Math.max(0, at - 90), b = Math.min(text.length, at + code.length + 90);
   while (a > 0 && text[a - 1] !== " ") a--;
   while (b < text.length && text[b] !== " ") b++;
   return `${a > 0 ? "... " : ""}${text.slice(a, b).trim()}${b < text.length ? " ..." : ""}`.replace(/(\.\.\.\s*){2,}/g, "... ").trim();
 }
-/** A pure-letter code (SCOT, SARA) can collide with a word or acronym: accept it only when the
- *  text around it names a transaction. Codes with a digit, slash or underscore are specific. */
-function specificEnough(code: string, text: string): boolean {
-  if (!/^[A-Z]+$/.test(code)) return true;
-  const m = tokenRe(code).exec(text);
-  if (!m) return false;
-  const around = text.slice(Math.max(0, m.index - 80), m.index + code.length + 80);
-  return /(transaction|t-code|tcode|transaktion)/i.test(around);
+/** Is this occurrence about the TRANSACTION? A code string also names company codes, wage types,
+ *  partner procedures and sample values (AB01 is all of these in the 2025 FPS01 docs), so every
+ *  code, not only pure-letter ones, needs one of:
+ *   (a) a transaction word before it in the same clause ("using transaction AB01",
+ *       "the transaction code ABAW or AB01", "transactions IA01, IA02, IA03"), or
+ *   (b) a run of at least three registry transaction codes around it (a transaction list). */
+const TX_WORD = /(transactions?|t-codes?|tcodes?|transaction codes?|transaktion(en)?)\b[^.;:!?]{0,40}$/i;
+const KNOWN = new Set([...txRegistry().keys()]);
+function aboutTransaction(code: string, text: string): boolean {
+  const re = new RegExp(tokenRe(code).source, "g");
+  for (let m; (m = re.exec(text)); ) {
+    const at = m.index + m[1].length;
+    if (TX_WORD.test(text.slice(Math.max(0, at - 60), at))) return true;
+    const around = text.slice(Math.max(0, at - 50), at + code.length + 50);
+    const listed = (around.match(/[A-Z][A-Z0-9_\/-]{1,19}/g) || []).filter((t) => KNOWN.has(t) && t !== code);
+    if (new Set(listed).size >= 2) return true;
+  }
+  return false;
 }
+/** Kept for the call sites: a quote is used only when it is about the transaction. */
+const specificEnough = aboutTransaction;
 
 /* -------------------------------------------------------------- per code */
 type Ev = Record<string, unknown>;

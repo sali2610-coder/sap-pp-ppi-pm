@@ -1,11 +1,11 @@
 {
  "generatedAt": "2026-09-24",
- "codes": 1739,
- "withOfficial": 1491,
- "withGuiEntry": 952,
- "withLeadingApps": 192,
- "withHelpHit": 1245,
- "namedBySimplificationList": 320,
+ "codes": 1738,
+ "withOfficial": 1428,
+ "withGuiEntry": 951,
+ "withLeadingApps": 191,
+ "withHelpHit": 1051,
+ "namedBySimplificationList": 319,
  "skippedIdSyntax": [
   "/UI2/INVALIDATE_GLOBAL_CACHES",
   "F.01"
@@ -45,8 +45,8 @@
   },
   {
    "code": "/SCWM/ADPROD",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -61,16 +61,16 @@
   },
   {
    "code": "/SCWM/PACK",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 0,
    "gui": true,
    "leading": 2
   },
   {
    "code": "/SCWM/PI_COUNT",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -117,8 +117,8 @@
   },
   {
    "code": "/SCWM/TO_CONF",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -197,8 +197,8 @@
   },
   {
    "code": "AB01",
-   "official": 6,
-   "s4": 2,
+   "official": 5,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -237,8 +237,8 @@
   },
   {
    "code": "ABAVN",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -293,8 +293,8 @@
   },
   {
    "code": "AIAB",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -325,8 +325,8 @@
   },
   {
    "code": "AL01",
-   "official": 2,
-   "s4": 2,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -357,8 +357,8 @@
   },
   {
    "code": "AR01",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 1
@@ -437,9 +437,9 @@
   },
   {
    "code": "BAPI",
-   "official": 3,
+   "official": 4,
    "s4": 0,
-   "erp": 0,
+   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -485,9 +485,9 @@
   },
   {
    "code": "BP",
-   "official": 4,
-   "s4": 0,
-   "erp": 0,
+   "official": 7,
+   "s4": 2,
+   "erp": 1,
    "gui": true,
    "leading": 3
   },
@@ -506,14 +506,6 @@
    "erp": 1,
    "gui": true,
    "leading": 0
-  },
-  {
-   "code": "C223",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
   },
   {
    "code": "C223PI",
@@ -581,17 +573,17 @@
   },
   {
    "code": "CA21",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CA22",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -613,9 +605,9 @@
   },
   {
    "code": "CA32",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -629,9 +621,9 @@
   },
   {
    "code": "CA51",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -677,33 +669,33 @@
   },
   {
    "code": "CA85",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
   },
   {
    "code": "CA90",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CA95",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "CA96",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -725,9 +717,9 @@
   },
   {
    "code": "CAT3",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -741,24 +733,24 @@
   },
   {
    "code": "CAT5",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "CAT6",
-   "official": 2,
-   "s4": 2,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "CAT7",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -781,9 +773,9 @@
   },
   {
    "code": "CATS_DA",
-   "official": 1,
+   "official": 0,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -797,8 +789,8 @@
   },
   {
    "code": "CJ01",
-   "official": 6,
-   "s4": 2,
+   "official": 5,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -813,8 +805,8 @@
   },
   {
    "code": "CJ03",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -837,9 +829,9 @@
   },
   {
    "code": "CJ08",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
+   "official": 4,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 1
   },
@@ -861,9 +853,9 @@
   },
   {
    "code": "CJ13",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
+   "official": 3,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 1
   },
@@ -901,8 +893,8 @@
   },
   {
    "code": "CJ2A",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -917,9 +909,9 @@
   },
   {
    "code": "CJ2D",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -949,17 +941,17 @@
   },
   {
    "code": "CJ33",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CJ34",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -989,9 +981,9 @@
   },
   {
    "code": "CJ38",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1005,16 +997,16 @@
   },
   {
    "code": "CJ3B",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CJ40",
-   "official": 9,
-   "s4": 2,
+   "official": 8,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 3
@@ -1029,14 +1021,6 @@
   },
   {
    "code": "CJ42",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "CJ43",
    "official": 2,
    "s4": 1,
    "erp": 1,
@@ -1044,18 +1028,26 @@
    "leading": 0
   },
   {
+   "code": "CJ43",
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
+   "gui": false,
+   "leading": 0
+  },
+  {
    "code": "CJ44",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CJ45",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1069,9 +1061,9 @@
   },
   {
    "code": "CJ47",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1085,9 +1077,9 @@
   },
   {
    "code": "CJ49",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1101,9 +1093,9 @@
   },
   {
    "code": "CJ8G",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1125,9 +1117,9 @@
   },
   {
    "code": "CJ9BS",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -1141,9 +1133,9 @@
   },
   {
    "code": "CJ9CS",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -1165,17 +1157,17 @@
   },
   {
    "code": "CJ9F",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CJ9FS",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1229,25 +1221,25 @@
   },
   {
    "code": "CJE0",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CJE1",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CJE2",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1269,9 +1261,9 @@
   },
   {
    "code": "CJE5",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1317,17 +1309,17 @@
   },
   {
    "code": "CJI9",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CJIA",
-   "official": 1,
-   "s4": 0,
-   "erp": 0,
+   "official": 3,
+   "s4": 1,
+   "erp": 1,
    "gui": true,
    "leading": 0
   },
@@ -1349,9 +1341,9 @@
   },
   {
    "code": "CJV1",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1365,8 +1357,8 @@
   },
   {
    "code": "CJV3",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -1405,9 +1397,9 @@
   },
   {
    "code": "CK13N",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1469,8 +1461,8 @@
   },
   {
    "code": "CKM3N",
-   "official": 7,
-   "s4": 2,
+   "official": 6,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 1
@@ -1493,9 +1485,9 @@
   },
   {
    "code": "CL01",
-   "official": 4,
+   "official": 3,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1517,32 +1509,32 @@
   },
   {
    "code": "CM01",
-   "official": 7,
-   "s4": 2,
+   "official": 6,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 2
   },
   {
    "code": "CM02",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CM31",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "CM50",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -1557,32 +1549,32 @@
   },
   {
    "code": "CMP9",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN01",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN02",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN03",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -1605,40 +1597,40 @@
   },
   {
    "code": "CN08",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN09",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN11",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN12",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN13",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -1653,9 +1645,9 @@
   },
   {
    "code": "CN21",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
+   "official": 4,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1669,24 +1661,24 @@
   },
   {
    "code": "CN23",
-   "official": 7,
-   "s4": 2,
+   "official": 6,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 2
   },
   {
    "code": "CN24",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN24N",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -1701,25 +1693,25 @@
   },
   {
    "code": "CN27",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN28",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN29",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1781,8 +1773,8 @@
   },
   {
    "code": "CN43N",
-   "official": 4,
-   "s4": 2,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -1805,9 +1797,9 @@
   },
   {
    "code": "CN45",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1877,9 +1869,9 @@
   },
   {
    "code": "CN49N",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1949,17 +1941,17 @@
   },
   {
    "code": "CN60",
-   "official": 7,
-   "s4": 2,
+   "official": 6,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CN61",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -2029,9 +2021,9 @@
   },
   {
    "code": "CNE2",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -2085,9 +2077,9 @@
   },
   {
    "code": "CO04",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -2101,8 +2093,8 @@
   },
   {
    "code": "CO06",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -2117,8 +2109,8 @@
   },
   {
    "code": "CO08",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -2133,8 +2125,8 @@
   },
   {
    "code": "CO12",
-   "official": 4,
-   "s4": 2,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -2173,9 +2165,9 @@
   },
   {
    "code": "CO1F",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -2221,16 +2213,16 @@
   },
   {
    "code": "CO44",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "CO46",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -2277,9 +2269,9 @@
   },
   {
    "code": "CO88",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -2317,9 +2309,9 @@
   },
   {
    "code": "CON2",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -2333,8 +2325,8 @@
   },
   {
    "code": "COOISPI",
-   "official": 5,
-   "s4": 2,
+   "official": 3,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -2389,9 +2381,9 @@
   },
   {
    "code": "COR6",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -2405,25 +2397,25 @@
   },
   {
    "code": "COR7",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "COR7_PC",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "COR8",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -2461,8 +2453,8 @@
   },
   {
    "code": "CORO",
-   "official": 1,
-   "s4": 0,
+   "official": 2,
+   "s4": 1,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -2477,16 +2469,16 @@
   },
   {
    "code": "CORS",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CORT",
-   "official": 4,
-   "s4": 1,
+   "official": 3,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 1
@@ -2501,9 +2493,9 @@
   },
   {
    "code": "CR01",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
+   "official": 4,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -2565,41 +2557,41 @@
   },
   {
    "code": "CR11",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CR12",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CR13",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CR15",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
   },
   {
    "code": "CR60",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -2629,8 +2621,8 @@
   },
   {
    "code": "CRC3",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -2693,8 +2685,8 @@
   },
   {
    "code": "CS06",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -2757,16 +2749,16 @@
   },
   {
    "code": "CS15",
-   "official": 5,
+   "official": 4,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 1
   },
   {
    "code": "CS20",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -2789,8 +2781,8 @@
   },
   {
    "code": "CS23",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -2805,32 +2797,32 @@
   },
   {
    "code": "CS40",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CS41",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CS42",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "CS80",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -2877,16 +2869,16 @@
   },
   {
    "code": "DB02",
-   "official": 2,
-   "s4": 2,
+   "official": 1,
+   "s4": 1,
    "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "DB12",
-   "official": 2,
-   "s4": 2,
+   "official": 1,
+   "s4": 1,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -2949,9 +2941,9 @@
   },
   {
    "code": "F-04",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 3,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 1
   },
@@ -2965,8 +2957,8 @@
   },
   {
    "code": "F-30",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -2989,9 +2981,9 @@
   },
   {
    "code": "F-44",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 1,
+   "erp": 0,
    "gui": false,
    "leading": 1
   },
@@ -3061,8 +3053,8 @@
   },
   {
    "code": "FAGL_FC_VAL",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -3077,8 +3069,8 @@
   },
   {
    "code": "FAGLF101",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -3165,17 +3157,17 @@
   },
   {
    "code": "FB11",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "FB12",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 1
   },
@@ -3189,16 +3181,16 @@
   },
   {
    "code": "FB1K",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "FB1S",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -3229,9 +3221,9 @@
   },
   {
    "code": "FB65",
-   "official": 5,
+   "official": 4,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -3261,9 +3253,9 @@
   },
   {
    "code": "FBD1",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -3285,16 +3277,16 @@
   },
   {
    "code": "FBE1",
-   "official": 4,
-   "s4": 1,
+   "official": 3,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 2
   },
   {
    "code": "FBL1H",
-   "official": 2,
-   "s4": 2,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -3309,24 +3301,24 @@
   },
   {
    "code": "FBL3H",
-   "official": 2,
-   "s4": 2,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "FBL3N",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "FBL5H",
-   "official": 2,
-   "s4": 2,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -3349,8 +3341,8 @@
   },
   {
    "code": "FBN1",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -3373,6 +3365,30 @@
   },
   {
    "code": "FBS1",
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
+   "gui": true,
+   "leading": 0
+  },
+  {
+   "code": "FBV0",
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
+   "gui": true,
+   "leading": 0
+  },
+  {
+   "code": "FBV1",
+   "official": 2,
+   "s4": 1,
+   "erp": 1,
+   "gui": false,
+   "leading": 0
+  },
+  {
+   "code": "FBV2",
    "official": 3,
    "s4": 1,
    "erp": 1,
@@ -3380,41 +3396,17 @@
    "leading": 0
   },
   {
-   "code": "FBV0",
-   "official": 3,
-   "s4": 2,
+   "code": "FBV3",
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
-   "code": "FBV1",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FBV2",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "FBV3",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "FBV4",
-   "official": 5,
-   "s4": 2,
+   "official": 3,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 2
@@ -3469,16 +3461,16 @@
   },
   {
    "code": "FD01",
-   "official": 6,
-   "s4": 2,
+   "official": 5,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
   },
   {
    "code": "FD02",
-   "official": 6,
-   "s4": 2,
+   "official": 5,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -3613,9 +3605,9 @@
   },
   {
    "code": "FK03",
-   "official": 4,
+   "official": 3,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -3669,24 +3661,24 @@
   },
   {
    "code": "FSP0",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "FSS0",
-   "official": 4,
-   "s4": 2,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "FV50",
-   "official": 6,
-   "s4": 2,
+   "official": 5,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -3709,9 +3701,9 @@
   },
   {
    "code": "GR55",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -3725,8 +3717,8 @@
   },
   {
    "code": "GRR3",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -3765,8 +3757,8 @@
   },
   {
    "code": "HUMO",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -3829,9 +3821,9 @@
   },
   {
    "code": "IA08",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -3869,8 +3861,8 @@
   },
   {
    "code": "IB01",
-   "official": 4,
-   "s4": 2,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -3885,33 +3877,33 @@
   },
   {
    "code": "IB03",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "IB11",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "IB12",
-   "official": 3,
+   "official": 2,
    "s4": 1,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "IB13",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -3925,16 +3917,16 @@
   },
   {
    "code": "IB52",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
   },
   {
    "code": "IB53",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -3989,9 +3981,9 @@
   },
   {
    "code": "IE10",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -4013,9 +4005,9 @@
   },
   {
    "code": "IE37",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -4029,8 +4021,8 @@
   },
   {
    "code": "IH01",
-   "official": 4,
-   "s4": 2,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -4477,9 +4469,9 @@
   },
   {
    "code": "IW29",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 3,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 1
   },
@@ -4573,8 +4565,8 @@
   },
   {
    "code": "IW44",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 1
@@ -4605,9 +4597,9 @@
   },
   {
    "code": "IW49N",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -4725,9 +4717,9 @@
   },
   {
    "code": "IW73",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -4757,25 +4749,25 @@
   },
   {
    "code": "KA02",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 3,
+   "s4": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "KA03",
-   "official": 4,
+   "official": 3,
    "s4": 1,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "KA06",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -4821,24 +4813,24 @@
   },
   {
    "code": "KB13N",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
+   "official": 3,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "KB14N",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
+   "official": 3,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "KB15N",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -4853,8 +4845,8 @@
   },
   {
    "code": "KB23N",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -4869,9 +4861,9 @@
   },
   {
    "code": "KB33N",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
+   "official": 3,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -4901,32 +4893,32 @@
   },
   {
    "code": "KE21N",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "KE24",
-   "official": 6,
+   "official": 5,
    "s4": 1,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "KE25",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "KE30",
-   "official": 10,
-   "s4": 2,
+   "official": 9,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 3
@@ -4989,9 +4981,9 @@
   },
   {
    "code": "KEPM",
-   "official": 6,
+   "official": 5,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5013,8 +5005,8 @@
   },
   {
    "code": "KGI2",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -5069,22 +5061,30 @@
   },
   {
    "code": "KKF1",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "KKF2",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "KKF3",
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
+   "gui": true,
+   "leading": 0
+  },
+  {
+   "code": "KKF6N",
    "official": 2,
    "s4": 1,
    "erp": 0,
@@ -5092,26 +5092,18 @@
    "leading": 0
   },
   {
-   "code": "KKF6N",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "KKS1",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
+   "official": 3,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "KKS2",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5125,25 +5117,25 @@
   },
   {
    "code": "KL02",
-   "official": 3,
+   "official": 2,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "KL03",
-   "official": 5,
+   "official": 4,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 2
   },
   {
    "code": "KO01",
-   "official": 6,
-   "s4": 1,
-   "erp": 1,
+   "official": 4,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 3
   },
@@ -5165,9 +5157,9 @@
   },
   {
    "code": "KO04",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5229,8 +5221,8 @@
   },
   {
    "code": "KOB1",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -5261,25 +5253,25 @@
   },
   {
    "code": "KOH1",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 1
   },
   {
    "code": "KOH2",
-   "official": 1,
+   "official": 0,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "KOH3",
-   "official": 1,
+   "official": 0,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -5373,9 +5365,9 @@
   },
   {
    "code": "KSB2",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5469,8 +5461,8 @@
   },
   {
    "code": "KSU5",
-   "official": 6,
-   "s4": 2,
+   "official": 5,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -5509,25 +5501,25 @@
   },
   {
    "code": "LB01",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "LB02",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "LB03",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5541,9 +5533,9 @@
   },
   {
    "code": "LB11",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5565,9 +5557,9 @@
   },
   {
    "code": "LH01",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5621,8 +5613,8 @@
   },
   {
    "code": "LI11N",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -5661,9 +5653,9 @@
   },
   {
    "code": "LI20",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5677,16 +5669,16 @@
   },
   {
    "code": "LL01",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "LM00",
-   "official": 4,
-   "s4": 2,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -5717,9 +5709,9 @@
   },
   {
    "code": "LP24",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5757,9 +5749,9 @@
   },
   {
    "code": "LS03N",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5813,9 +5805,9 @@
   },
   {
    "code": "LS26",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5869,9 +5861,9 @@
   },
   {
    "code": "LT04",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5893,9 +5885,9 @@
   },
   {
    "code": "LT07",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -5917,41 +5909,41 @@
   },
   {
    "code": "LT0R",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "LT10",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "LT11",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "LT12",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "LT13",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -6005,9 +5997,9 @@
   },
   {
    "code": "LT23",
-   "official": 3,
+   "official": 2,
    "s4": 1,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -6029,9 +6021,9 @@
   },
   {
    "code": "LT25N",
-   "official": 1,
+   "official": 0,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -6149,8 +6141,8 @@
   },
   {
    "code": "LU01",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -6197,9 +6189,9 @@
   },
   {
    "code": "LX03",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -6349,9 +6341,9 @@
   },
   {
    "code": "LX23",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -6485,9 +6477,9 @@
   },
   {
    "code": "MB25",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -6517,8 +6509,8 @@
   },
   {
    "code": "MB54",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -6541,9 +6533,9 @@
   },
   {
    "code": "MB5M",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -6837,9 +6829,9 @@
   },
   {
    "code": "MD05",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -6853,8 +6845,8 @@
   },
   {
    "code": "MD07",
-   "official": 5,
-   "s4": 2,
+   "official": 3,
+   "s4": 0,
    "erp": 1,
    "gui": false,
    "leading": 1
@@ -6909,8 +6901,8 @@
   },
   {
    "code": "MD20",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -6925,9 +6917,9 @@
   },
   {
    "code": "MD21",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -6941,9 +6933,9 @@
   },
   {
    "code": "MD41",
-   "official": 4,
+   "official": 3,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -6957,48 +6949,48 @@
   },
   {
    "code": "MD44",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MD45",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MD46",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MD47",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MD48",
-   "official": 4,
-   "s4": 2,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MD50",
-   "official": 6,
-   "s4": 2,
+   "official": 5,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -7029,9 +7021,9 @@
   },
   {
    "code": "MD63",
-   "official": 4,
+   "official": 3,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -7045,17 +7037,17 @@
   },
   {
    "code": "MD73",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MD74",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 1
   },
@@ -7085,9 +7077,9 @@
   },
   {
    "code": "MDAB",
-   "official": 3,
+   "official": 4,
    "s4": 0,
-   "erp": 0,
+   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -7109,9 +7101,9 @@
   },
   {
    "code": "MDLD",
-   "official": 0,
+   "official": 1,
    "s4": 0,
-   "erp": 0,
+   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -7141,25 +7133,25 @@
   },
   {
    "code": "ME03",
-   "official": 3,
+   "official": 2,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "ME05",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "ME0M",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -7213,9 +7205,9 @@
   },
   {
    "code": "ME1M",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -7245,16 +7237,16 @@
   },
   {
    "code": "ME2C",
-   "official": 5,
-   "s4": 2,
+   "official": 3,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 1
   },
   {
    "code": "ME2J",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -7277,25 +7269,25 @@
   },
   {
    "code": "ME2S",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "ME2W",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "ME31",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -7397,30 +7389,14 @@
   },
   {
    "code": "ME55",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 3,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 1
   },
   {
    "code": "ME56",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "ME57",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "ME58",
    "official": 3,
    "s4": 1,
    "erp": 1,
@@ -7428,9 +7404,25 @@
    "leading": 0
   },
   {
+   "code": "ME57",
+   "official": 3,
+   "s4": 1,
+   "erp": 1,
+   "gui": true,
+   "leading": 0
+  },
+  {
+   "code": "ME58",
+   "official": 2,
+   "s4": 0,
+   "erp": 1,
+   "gui": true,
+   "leading": 0
+  },
+  {
    "code": "ME59N",
-   "official": 7,
-   "s4": 2,
+   "official": 6,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 3
@@ -7445,25 +7437,25 @@
   },
   {
    "code": "ME61",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
   },
   {
    "code": "ME63",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "ME64",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -7477,16 +7469,16 @@
   },
   {
    "code": "ME6H",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
   },
   {
    "code": "ME80FN",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": false,
    "leading": 1
@@ -7501,9 +7493,9 @@
   },
   {
    "code": "ME9E",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -7517,9 +7509,9 @@
   },
   {
    "code": "ME9L",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -7597,25 +7589,25 @@
   },
   {
    "code": "MF50",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
+   "official": 3,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MF51",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MF52",
-   "official": 1,
+   "official": 0,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -7661,8 +7653,8 @@
   },
   {
    "code": "MFP1",
-   "official": 4,
-   "s4": 1,
+   "official": 3,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -7677,17 +7669,17 @@
   },
   {
    "code": "MI02",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MI03",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 1
   },
@@ -7701,24 +7693,24 @@
   },
   {
    "code": "MI07",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MI20",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "MI21",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -7749,8 +7741,8 @@
   },
   {
    "code": "MIR5",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 1
@@ -7877,8 +7869,8 @@
   },
   {
    "code": "MM60",
-   "official": 4,
-   "s4": 2,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": false,
    "leading": 1
@@ -7941,8 +7933,8 @@
   },
   {
    "code": "MP32",
-   "official": 3,
-   "s4": 2,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -7997,9 +7989,9 @@
   },
   {
    "code": "MR51",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 3,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 1
   },
@@ -8037,16 +8029,16 @@
   },
   {
    "code": "MS01",
-   "official": 4,
-   "s4": 1,
+   "official": 3,
+   "s4": 0,
    "erp": 1,
    "gui": false,
    "leading": 0
   },
   {
    "code": "MS02",
-   "official": 5,
-   "s4": 1,
+   "official": 4,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -8061,8 +8053,8 @@
   },
   {
    "code": "MS04",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -8229,8 +8221,8 @@
   },
   {
    "code": "OBA7",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -8245,8 +8237,8 @@
   },
   {
    "code": "OBYC",
-   "official": 6,
-   "s4": 2,
+   "official": 5,
+   "s4": 1,
    "erp": 0,
    "gui": false,
    "leading": 1
@@ -8285,9 +8277,9 @@
   },
   {
    "code": "OKEON",
-   "official": 1,
+   "official": 0,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -8485,9 +8477,9 @@
   },
   {
    "code": "PA03",
-   "official": 3,
+   "official": 2,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -8501,8 +8493,8 @@
   },
   {
    "code": "PA10",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -8557,8 +8549,8 @@
   },
   {
    "code": "PA51",
-   "official": 2,
-   "s4": 2,
+   "official": 1,
+   "s4": 1,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -8589,16 +8581,16 @@
   },
   {
    "code": "PA63",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "PA64",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -8629,32 +8621,32 @@
   },
   {
    "code": "PB10",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "PB20",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "PB30",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "PB40",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -8669,9 +8661,9 @@
   },
   {
    "code": "PB60",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -8693,16 +8685,16 @@
   },
   {
    "code": "PC00",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "PC10",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -8917,16 +8909,16 @@
   },
   {
    "code": "PP02",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "PP03",
-   "official": 3,
-   "s4": 2,
+   "official": 1,
+   "s4": 0,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -9061,8 +9053,8 @@
   },
   {
    "code": "PRGN_COMPRESS_TIMES",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -9141,17 +9133,17 @@
   },
   {
    "code": "PT_QTA00",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "PT01",
-   "official": 3,
+   "official": 2,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -9165,9 +9157,9 @@
   },
   {
    "code": "PT03",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -9221,8 +9213,8 @@
   },
   {
    "code": "PU00",
-   "official": 2,
-   "s4": 2,
+   "official": 1,
+   "s4": 1,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -9237,8 +9229,8 @@
   },
   {
    "code": "PU03",
-   "official": 2,
-   "s4": 2,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -9277,25 +9269,25 @@
   },
   {
    "code": "QA01",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "QA02",
-   "official": 4,
+   "official": 3,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "QA03",
-   "official": 6,
+   "official": 5,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 2
   },
@@ -9317,9 +9309,9 @@
   },
   {
    "code": "QA07",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -9349,17 +9341,17 @@
   },
   {
    "code": "QA12",
-   "official": 4,
+   "official": 3,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "QA13",
-   "official": 4,
+   "official": 3,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -9373,9 +9365,9 @@
   },
   {
    "code": "QA16",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -9661,9 +9653,9 @@
   },
   {
    "code": "QE11",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -9685,9 +9677,9 @@
   },
   {
    "code": "QE51N",
-   "official": 5,
+   "official": 4,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 1
   },
@@ -9797,8 +9789,8 @@
   },
   {
    "code": "QI03",
-   "official": 6,
-   "s4": 2,
+   "official": 5,
+   "s4": 1,
    "erp": 0,
    "gui": true,
    "leading": 1
@@ -9845,8 +9837,8 @@
   },
   {
    "code": "QM02",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -9973,17 +9965,17 @@
   },
   {
    "code": "QPR4",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "QPR5",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -9997,9 +9989,9 @@
   },
   {
    "code": "QPR7",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -10077,6 +10069,14 @@
   },
   {
    "code": "QS28",
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
+   "gui": true,
+   "leading": 0
+  },
+  {
+   "code": "QS31",
    "official": 3,
    "s4": 1,
    "erp": 1,
@@ -10084,17 +10084,9 @@
    "leading": 0
   },
   {
-   "code": "QS31",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "QS32",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -10133,9 +10125,9 @@
   },
   {
    "code": "QS38",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -10149,8 +10141,8 @@
   },
   {
    "code": "QS42",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -10261,33 +10253,33 @@
   },
   {
    "code": "RSUSR002",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "RSUSR008_009_NEW",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "RSUSR100",
-   "official": 1,
+   "official": 0,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "RSUSR200",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -10397,9 +10389,9 @@
   },
   {
    "code": "S_ALR_87012284",
-   "official": 6,
-   "s4": 1,
-   "erp": 1,
+   "official": 4,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 3
   },
@@ -10421,9 +10413,9 @@
   },
   {
    "code": "S_ALR_87013533",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -10477,8 +10469,8 @@
   },
   {
    "code": "S000",
-   "official": 2,
-   "s4": 2,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -10493,9 +10485,9 @@
   },
   {
    "code": "SACF",
-   "official": 2,
+   "official": 3,
    "s4": 2,
-   "erp": 0,
+   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -10509,8 +10501,8 @@
   },
   {
    "code": "SAINT",
-   "official": 3,
-   "s4": 1,
+   "official": 4,
+   "s4": 2,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -10581,9 +10573,9 @@
   },
   {
    "code": "SBGRFCMON",
-   "official": 3,
+   "official": 2,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -10653,8 +10645,8 @@
   },
   {
    "code": "SCCL",
-   "official": 2,
-   "s4": 1,
+   "official": 3,
+   "s4": 2,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -10781,9 +10773,9 @@
   },
   {
    "code": "SE03",
-   "official": 3,
+   "official": 2,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -10941,8 +10933,8 @@
   },
   {
    "code": "SE33",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -11005,8 +10997,8 @@
   },
   {
    "code": "SE40",
-   "official": 2,
-   "s4": 2,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -11333,8 +11325,8 @@
   },
   {
    "code": "SM01",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -11357,9 +11349,9 @@
   },
   {
    "code": "SM02",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -11413,8 +11405,8 @@
   },
   {
    "code": "SM20",
-   "official": 2,
-   "s4": 2,
+   "official": 1,
+   "s4": 1,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -11549,8 +11541,8 @@
   },
   {
    "code": "SM61",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -11709,14 +11701,6 @@
   },
   {
    "code": "SMT1",
-   "official": 2,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SMT2",
    "official": 1,
    "s4": 1,
    "erp": 0,
@@ -11724,9 +11708,17 @@
    "leading": 0
   },
   {
+   "code": "SMT2",
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
+   "gui": false,
+   "leading": 0
+  },
+  {
    "code": "SMX",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -11781,8 +11773,8 @@
   },
   {
    "code": "SOLE",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -11805,33 +11797,33 @@
   },
   {
    "code": "SP01",
-   "official": 6,
+   "official": 5,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "SP02",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
+   "official": 4,
+   "s4": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "SP11",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "SP12",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -11877,9 +11869,9 @@
   },
   {
    "code": "SSO2",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -11925,9 +11917,9 @@
   },
   {
    "code": "ST05",
-   "official": 3,
+   "official": 2,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -12005,9 +11997,9 @@
   },
   {
    "code": "STAD",
-   "official": 2,
+   "official": 3,
    "s4": 2,
-   "erp": 0,
+   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -12045,8 +12037,8 @@
   },
   {
    "code": "STMS_QA",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -12117,9 +12109,9 @@
   },
   {
    "code": "SU05",
-   "official": 3,
+   "official": 2,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -12325,17 +12317,17 @@
   },
   {
    "code": "SWI1",
-   "official": 5,
+   "official": 4,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "SWI5",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -12357,9 +12349,9 @@
   },
   {
    "code": "SWU2",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
+   "official": 2,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -12429,8 +12421,8 @@
   },
   {
    "code": "V/05",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -12669,41 +12661,41 @@
   },
   {
    "code": "VA51",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VA52",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VA53",
-   "official": 3,
-   "s4": 2,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VA88",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "VB11",
-   "official": 4,
+   "official": 3,
    "s4": 2,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -12789,8 +12781,8 @@
   },
   {
    "code": "VD02",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -12845,8 +12837,8 @@
   },
   {
    "code": "VD53",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -12909,9 +12901,9 @@
   },
   {
    "code": "VF05N",
-   "official": 2,
+   "official": 1,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -12933,33 +12925,33 @@
   },
   {
    "code": "VF21",
-   "official": 4,
-   "s4": 2,
+   "official": 2,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 1
   },
   {
    "code": "VF22",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VF23",
-   "official": 5,
-   "s4": 2,
+   "official": 3,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 1
   },
   {
    "code": "VF24",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -12997,24 +12989,24 @@
   },
   {
    "code": "VG01",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VG02",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VG03",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -13141,8 +13133,8 @@
   },
   {
    "code": "VK33",
-   "official": 4,
-   "s4": 2,
+   "official": 2,
+   "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -13157,9 +13149,9 @@
   },
   {
    "code": "VKM3",
-   "official": 4,
+   "official": 3,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -13173,9 +13165,9 @@
   },
   {
    "code": "VKM5",
-   "official": 4,
+   "official": 3,
    "s4": 0,
-   "erp": 1,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -13245,40 +13237,40 @@
   },
   {
    "code": "VL06D",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VL06F",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VL06G",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 1
   },
   {
    "code": "VL06I",
-   "official": 5,
-   "s4": 1,
+   "official": 4,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VL06L",
-   "official": 2,
-   "s4": 1,
+   "official": 1,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -13293,8 +13285,8 @@
   },
   {
    "code": "VL06P",
-   "official": 3,
-   "s4": 1,
+   "official": 2,
+   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 1
@@ -13325,8 +13317,8 @@
   },
   {
    "code": "VL10A",
-   "official": 5,
-   "s4": 2,
+   "official": 4,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 1
@@ -13341,24 +13333,24 @@
   },
   {
    "code": "VL10C",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VL10D",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
   },
   {
    "code": "VL10E",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -13373,8 +13365,8 @@
   },
   {
    "code": "VL10H",
-   "official": 4,
-   "s4": 2,
+   "official": 3,
+   "s4": 1,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -13461,9 +13453,9 @@
   },
   {
    "code": "VL41",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -13605,8 +13597,8 @@
   },
   {
    "code": "VOV8",
-   "official": 5,
-   "s4": 2,
+   "official": 3,
+   "s4": 0,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -13629,9 +13621,9 @@
   },
   {
    "code": "VT02N",
-   "official": 4,
-   "s4": 2,
-   "erp": 1,
+   "official": 1,
+   "s4": 0,
+   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -13645,9 +13637,9 @@
   },
   {
    "code": "VT04",
-   "official": 3,
-   "s4": 2,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -13685,16 +13677,16 @@
   },
   {
    "code": "VT16",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
   {
    "code": "VT20",
-   "official": 1,
-   "s4": 1,
+   "official": 0,
+   "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -13733,9 +13725,9 @@
   },
   {
    "code": "VTFA",
-   "official": 2,
-   "s4": 1,
-   "erp": 1,
+   "official": 0,
+   "s4": 0,
+   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -13845,8 +13837,8 @@
   },
   {
    "code": "WF_EXTSRV",
-   "official": 3,
-   "s4": 2,
+   "official": 2,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -13917,8 +13909,8 @@
   },
   {
    "code": "XK03",
-   "official": 6,
-   "s4": 2,
+   "official": 5,
+   "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
