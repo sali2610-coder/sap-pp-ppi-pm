@@ -894,7 +894,7 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
       ],
       transactions: [
         { he: "MSC1N יצירה, MSC2N שינוי, MSC3N תצוגה, MSC4N מסמכי שינוי.", xrefs: ["tx:MSC1N", "tx:MSC2N", "tx:MSC3N", "tx:MSC4N"] },
-        { he: "סיווג ובחירה: CL20N, CL24N ו-CL30N; CL6O לרשימת אובייקטים לפי מחלקה.", xrefs: ["tx:CL20N", "tx:CL24N", "tx:CL30N", "tx:CL6O"] },
+        { he: "סיווג ובחירה: CL20N, CL24N ו-CL30N. CL6O (Plus-Minus Object Display) אינה זמינה ב-S/4HANA מאז 1511, לפי פריט הפישוט 'S4TWL - Classification'.", xrefs: ["tx:CL20N", "tx:CL24N", "tx:CL30N", "tx:CL6O"] },
         { he: "מעקב ותנועות: MB56 למעקב שימוש, MB51 לרשימת תנועות, MMBE ו-MB52 למצב מלאי.", xrefs: ["tx:MB56", "tx:MB51", "tx:MMBE", "tx:MB52"] },
         { he: "Fiori לפי רשומת המאגר: Manage Batches. רשומת האימות מציינת שהתיעוד הרשמי של 2025 FPS01 נוקב באפליקציה בשם זה עם App ID F2462, מזהה שאינו במילון הפרויקט.", xrefs: ["fiori:F1576"] },
       ],
