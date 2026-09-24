@@ -35,7 +35,16 @@
    run was replaced by its audited version. Status sources point at the shared
    CM03_SIMPL_ITEM, CM04_SIMPL_ITEM, CM07_SIMPL_ITEM, CM21_SIMPL_ITEM_2025 and
    CM25_SIMPL_ITEM consts; CM05 carries evidence only (no authored status, as
-   audited). None refuted. */
+   audited). None refuted.
+   Batch 7 (2026-09-24): tx:C223, refuted in batch 4 and re-drafted, written
+   from the draft with its auditor's one downgrade (the evidence[0] title says
+   'באותה כותרת' for the 2023 FPS03 item instead of 'זהה'); status source =
+   the shared C223_FAL const. Writer corrections: status s4_native (label 'חדש
+   ב-S/4HANA') written as unchanged, the COHVPI / CORZ / CK11N pattern, since an
+   SAP ERP 6.18 search record prints C223; the Data Migration row titled
+   'Production version | Data Migration' (verbatim record title and
+   deliverable); the F2568 facts attributed to the library records that print
+   them. The generated tx:C223 record in transactions-auto.ts is superseded. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -1048,6 +1057,27 @@ const CM25_SIMPL_ITEM: Evidence = {
     "footprint' של S/4HANA, ולכן כפוף לזכויות שימוש מוגבלות ולתאריך תפוגה של ה-compatibility scope לפי הערה 2269324 " +
     "(מזוהה שם תחת ID 451), ומציע כחלופה מודולית את Capacity Planning and Scheduling (CPS), הכוללת במפורש את 'App " +
     "Manage Work Center Capacity (F3289)' לאיתור עומסי יתר, או Production Planning and Detailed Scheduling (PP/DS).",
+};
+
+/* ---------------------- batch 7 (2026-09-24) status source, shared with evidence[2] */
+
+const C223_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "C223: Manage Production Versions (SAP GUI), Fiori Apps Library, S32OP",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('C223')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ה-FAL עבור C223 (SAP GUI, רכיב PP-PI-MD) מוגדרת Published בגרסת S/4HANA 2025 FPS01 On-Premise " +
+    "(S32OP), עם התפקידים SAP_BR_PRODN_ENG_DISC ו-SAP_BR_PRODN_ENG_PROC, וללא predecessor או successor רשומים " +
+    "('predecessors: -; successors: -'). רשימת ה-releases שברשומה רציפה מ-S6OP=1610 דרך S9OP=1709 ועד " +
+    "S32OP=2025 FPS01. בנוסף קיימת אפליקציית Fiori elements נפרדת F2568 'Manage Production Versions' (רשומה " +
+    "נפרדת בספרייה, Apps('F2568')/S32OP: רכיב PP-PEO, OData MPE_MANAGE_PRODVER_SRV) שהטרנזקציה המובילה שלה היא " +
+    "C223; גם בה אין predecessor או successor רשומים, כך שאין קשר successor רשמי בין השתיים. F2568 אינה רשומה " +
+    "ב-data/fiori/apps.ts ולכן אינה מצוטטת כ-xref.",
+  verificationLevel: "sap_official_verified",
 };
 
 export const TX_VERIFICATION: VerificationRecord[] = [
@@ -7593,5 +7623,90 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "30.35). בדיקת scripts/fal-app.mjs --tcode CM25 --release S32OP החזירה תוצאה שלילית מתועדת: 'leading app(s): " +
       "none; GUI app entry: none', כלומר אין ב-Fiori Apps Library רשומת אפליקציה שמובילה במפורש מ-CM25 בשחרור זה. " +
       "לא בוצעה בדיקה חיה במערכת SAP (sc4sap MCP לא זמין בסשן זה).",
+  },
+
+  /* ----------------------------------------------------- tx:C223 */
+  {
+    id: "tx:C223",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - BOM, Routing, Production Version (SAP S/4HANA 2025 FPS01 Simplification List, item 10.4.26; " +
+          "באותה כותרת ב-2023 FPS03, item 28.7)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הפריט קובע ש'Production versions are mandatory in S/4HANA': MRP, יצירת הזמנה מתוכננת ויצירת הזמנת ייצור " +
+          "מוצאות חלופת BOM ו-Routing רק אם קיימת גרסת ייצור מתוחזקת ('MRP, planned order creation, and production " +
+          "order creation only find a BOM and routing alternative if a production version is maintained'). קוד " +
+          "הטרנזקציה C223 מופיע רק ברשימת 'Other Terms' של הפריט, לצד MM01, MM02 ואחרים; גוף הפריט אינו קובע " +
+          "החלפה, הסרה או שינוי של C223 עצמה, ולכן זהו אזכור בלבד ולא פסיקה על סטטוס הטרנזקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production version | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/7616dd5674514f31ad3b7e1db5bba0cd.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "המדריך מציין שלאימות נתוני גרסת ייצור לאחר מיגרציה ניתן להשתמש ב-'App: Manage Production Versions (C223)' " +
+          "או בטרנזקציה 'Maintain Production Versions (C223)' (לצד Display Material MM03, מסך MRP 4). כלומר במדריך " +
+          "2025 FPS01, C223 מוצעת כאפליקציה וכטרנזקציית GUI תקפות לאימות גרסאות ייצור לאחר מיגרציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      C223_FAL,
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#C223",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מגדירה את C223 כ'תחזוקת גרסת ייצור' (Maintain Production Version), מודול PP, תחום 'מסלולי " +
+          "ייצור'; תואם לשם שבמקורות הרשמיים.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#C223",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "C223 (תחזוקת גרסת ייצור) מתועדת ב-FAL כ-Published ב-SAP S/4HANA on-premise 2025 FPS01 (S32OP), ללא " +
+        "predecessor או successor, ברשימת releases רציפה מ-1610. פריט ה-S4TWL 'BOM, Routing, Production Version' " +
+        "קובע שגרסת ייצור היא חובה ב-S/4HANA, אך אינו קובע החלפה או שינוי של הטרנזקציה C223 עצמה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: C223_FAL,
+      recommendedAction:
+        "להמשיך להשתמש ב-C223 לתחזוקת גרסאות ייצור, ולוודא לפני המרה שקיימת גרסת ייצור מתוחזקת לכל חומר שעובר MRP " +
+        "והזמנות ייצור, שכן לפי פריט ה-S4TWL גרסת ייצור היא חובה ב-S/4HANA. אפליקציית Fiori elements F2568 מבוססת " +
+        "על אותה טרנזקציה מובילה, אך אינה רשומה כ-successor.",
+    },
+    xrefs: ["tx:C201", "tx:C202", "tx:C203", "tx:MM02", "table:MKAL", "table:MAST"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "נבדק: sap-help-search ('C223 production version') הניב את מדריך Data Migration 2025.001 (loio " +
+      "7616dd5674514f31ad3b7e1db5bba0cd) שמציע את C223 כאפליקציה וכטרנזקציה לאימות גרסאות ייצור לאחר מיגרציה. " +
+      "fal-app.mjs C223 --release S32OP מאשר Published, ללא predecessor או successor; fal-app.mjs --tcode C223 " +
+      "--release S32OP מונה גם את F2568 (Fiori elements) כאפליקציה שמובילה מ-C223, ו-fal-app.mjs F2568 --release " +
+      "S32OP מראה שגם לה אין predecessor או successor, כך שאין קשר successor רשמי ביניהן; F2568 לא נוספה כ-xref כי " +
+      "אינה קיימת ב-data/fiori/apps.ts. פריט S4TWL 'BOM, Routing, Production Version' (2025 FPS01 item 10.4.26) " +
+      "נקרא בטקסט המלא (scratchpad/official/SIMPL_OP2025.pdf.txt, שורות 53199-53288): הוא עוסק בחובת גרסת ייצור, " +
+      "ו-C223 מופיע בו ברשימת Other Terms (שורה 53228, המופע היחיד של המחרוזת בקובץ). ברשימת 2023 FPS03 הפריט " +
+      "באותה כותרת הוא item 28.7 ו-C223 מופיע ב-Other Terms שלו (SIMPL_OP2023.pdf.txt שורה 36655, לפי " +
+      "simpl-tcode-index.json); גופי שני הפריטים לא הושוו זה לזה. סטטוס: הטיוטה נשאה s4_native, שהתווית שלו 'חדש " +
+      "ב-S/4HANA' מתארת אובייקט ללא מקבילה ישירה ב-ECC; אף מקור שנבדק אינו קובע זאת, ורשומת החיפוש של SAP ERP 6.0 " +
+      "EHP8 'Transactions' (SAP for Automotive, versionId 6.18.latest, loio 4ce6c353b677b44ce10000000a174cb4) " +
+      "מדפיסה בסניפט 'You can also maintain the production version in transaction C223'. לכן נכתב unchanged, כנוהג " +
+      "הרשומות COHVPI, CORZ ו-CK11N (Published ב-FAL, ללא successor) (Old: s4_native → New: unchanged). הרשומה " +
+      "מחליפה את הרשומה שנוצרה אוטומטית ל-C223 ב-data/verification/transactions-auto.ts. לא בוצעה בדיקה במערכת " +
+      "SAP חיה.",
   },
 ];
