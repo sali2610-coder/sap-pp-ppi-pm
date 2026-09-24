@@ -256,7 +256,45 @@
    Changes | Batch Management (LO-BM)' verbatim as a context row (the batch-12
    MC84 precedent), and MSC1 and MSC3 carry its documented Fiori negative
    (S32OP, 0 apps with the leading code), since fal-app was not run on those
-   codes. */
+   codes.
+   Batch 19 (research + adversarial audit, written 2026-09-25; the new rows of
+   MB03, MB1B, MB31 and ME21 stamped 2026-09-25, the MD50 rows keep the audited
+   2026-09-24): 5 audited records (MD50, MB03, MB1B, MB31, ME21); tx:ME22
+   refuted at the gate and queued (its 2026-09-02 record stays as written). MD50
+   (refuted in batch 15, re-drafted) and MB03 from verdict.fixedRecord; MB1B,
+   MB31 and ME21 from the drafts with their auditors' downgrades applied, each
+   anchor matched exactly once. MB03, MB1B, MB31 and ME21 supersede their own
+   records in place: the existing evidence rows stay as the file had them
+   (U+200F marks included) except where a verdict re-words one (the MB03
+   lifecycle.ts row, the ME21 Non-Assigned Purchasing Functions claim and
+   TX_INTEL title), and each old finding is kept in notes as Old → New. Status
+   sources point at the new shared MB03_SIMPL, MB1B_SIMPL2023, MB31_SIMPL2025,
+   ME21_SIMPL2025 and MD50_SIMPL_ITEM_2025 consts instead of the marker strings
+   or re-typed copies the verdicts and drafts carried; the MB03 and MB1B 2025
+   FPS01 rows spread MB1C_SIMPL2025 (same document, item and fields). Writer
+   corrections: the SIMPL2023_MMIM title prints the en dash of the 2023 PDF
+   title ('2023 – Feature Pack Stack 3', scratchpad/official/SIMPL_OP2023.pdf.txt
+   line 12), which also changes the MB01_SIMPL, MB02_SIMPL and MIGO_SIMPL
+   titles (punctuation only); the ME21_ENJOY em dash written as a semicolon
+   (the const serves tx:ME21 alone, the condition its auditor set); the
+   internal pointer '(evidence[0])' dropped from the ME21 2025 FPS01 claim, its
+   'באותו קובץ transactions-b.ts' written as the file path, the notes em dash
+   the verdict's list missed written as a comma, and InfoUpdate called a topic,
+   not a role, in its status.he; the MB1B notes label '(טיוטת תיקון זו)'
+   written '(תיקון זה)', its spaced hyphen written as a colon and its verbless
+   last clause given a subject; item names added next to bare item numbers
+   (MB03 status.he and notes, MB1B status.he and notes, MB31 status.he and
+   recommendedAction; HOUSE-RULES §3.5), and the MB31 status.he 'וקודמו'
+   written 'ובאותו נוסח' (the fix its auditor made in the evidence claim); the
+   MB03 lifecycle.ts row bounded to the wording it describes ('בנוסח זה') and
+   the F1077 rename dropped from its recommendedAction, since
+   data/lifecycle.ts#MB03 already prints 'Material Documents Overview (F1077)'
+   (a13460fa, 2026-09-24; s4:false and 'הוסר' remain), noted in its notes; the
+   MD50 repository row's title and repoRef name data/tx-intel.ts#MD50, which
+   its claim cites (the MD02 / MDAB form); MD50 carries its generated record's
+   S32OP Fiori Apps Library row and its SAP ERP 6.18 search row 'Sales Orders
+   with Delay Times' verbatim as context rows (the batch-12 / 16 / 18
+   precedent), and its notes say so. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -265,6 +303,7 @@ const DATE3 = "2026-09-07";
 const DATE21 = "2026-09-21";
 const DATE22 = "2026-09-22";
 const DATE24 = "2026-09-24";
+const DATE25 = "2026-09-25";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -272,7 +311,7 @@ const DATE24 = "2026-09-24";
 const SIMPL2023_MMIM = (claim: string, accessedAt: string = DATE2): Evidence => ({
   sourceType: "simplification_item",
   sourceTitle:
-    "Simplification List for SAP S/4HANA 2023 — Feature Pack Stack 3 · item 27.6 S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM (MM-IM-GF)",
+    "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 · item 27.6 S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM (MM-IM-GF)",
   product: "SAP S/4HANA",
   edition: "on-premise",
   release: "2023 FPS03",
@@ -426,7 +465,7 @@ const ME21_ENJOY: Evidence = {
   claim:
     "'The Enjoy purchase order (transactions ME21N, ME22N, ME23N) replaces the previous purchase order " +
     "(transactions ME21, ME22, ME23)'; ובהמשך הסניפט: 'However, you can still use transactions ME21, ME22 and " +
-    "ME23, and there are no functional limitations' — הטרנזקציות הקלאסיות עדיין שמישות.",
+    "ME23, and there are no functional limitations'; הטרנזקציות הקלאסיות עדיין שמישות.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -2418,6 +2457,112 @@ const OPL8_SIMPL_ITEM_2025: Evidence = {
   verificationLevel: "sap_official_verified",
 };
 
+/* batch 19 (2026-09-25): status sources shared between evidence[] and status.source, and the tx:MB03
+   2025 FPS01 row built on MB1C_SIMPL2025 (same document, item and fields; claim and access date differ) */
+
+const MB03_SIMPL: Evidence = SIMPL2023_MMIM(
+  "פריט 27.6 קובע כלשונו שטרנזקציות ה-MB, ובהן MB03 (הרשימה המלאה: MB01, MB02, MB03, MB04, MB05, MB0A, MB11, " +
+    "MB1A, MB1B, MB1C, MB31, MBNL, MBRL, MBSF, MBSL, MBST, MBSU, MBBM), 'have been replaced by the single-screen " +
+    "generalized transaction MIGO or the BAPI's BAPI_GOODSMVT_CREATE and BAPI_GOODSMVT_CANCEL'. קוד הטרנזקציה " +
+    "עדיין קיים ('do still exist as transaction codes') אך קריאה מהתפריט מעלה הודעת שגיאה ('calling these " +
+    "transaction codes from the menu has the consequence that an error message is raised'), ו-'The transaction " +
+    "codes will be deprecated in the near future'. בפרק הפתרון נקבע במפורש עבור MB03: 'Replace customer coding " +
+    "using the transactions MB02 and MB03 by making use of function module MIGO_DIALOG'. מספרי SAP Note 2210569 " +
+    "ו-2319579 מופיעים כלשונם בגוף המסמך (עמ' 644-646 ב-PDF).",
+  DATE25,
+);
+
+const MB03_SIMPL2025: Evidence = {
+  ...MB1C_SIMPL2025,
+  accessedAt: DATE25,
+  claim:
+    "פריט 15.3.9 של מהדורת 2025 FPS01 חוזר על אותו ניסוח (עמ' 1486-1487 ב-PDF): MB03 נמנית ברשימת טרנזקציות ה-MB " +
+    "שהוחלפו ב-MIGO חד-המסך או ב-BAPI_GOODSMVT_CREATE / BAPI_GOODSMVT_CANCEL; קוד הטרנזקציה עדיין קיים אך קריאה " +
+    "מהתפריט מעלה הודעת שגיאה, וקודי הטרנזקציה 'will be deprecated in the near future'. בפרק הפתרון: 'Replace " +
+    "customer coding using the transactions MB02 and MB03 by making use of function module MIGO_DIALOG'. SAP Note " +
+    "2210569 מופיע כלשונו (בכתיב 0002210569).",
+};
+
+const MB1B_SIMPL2023: Evidence = SIMPL2023_MMIM(
+  "MB1B נמנית בפירוש בין טרנזקציות ה-MB (MB01, MB02, MB03, MB04, MB05, MB0A, MB11, MB1A, MB1B, MB1C, MB31, " +
+    "MBNL, MBRL, MBSF, MBSL, MBST, MBSU, MBBM) שלפי הטקסט הרשמי 'have been replaced by the single-screen " +
+    "generalized transaction MIGO or the BAPI's BAPI_GOODSMVT_CREATE and BAPI_GOODSMVT_CANCEL'. הטקסט מוסיף: " +
+    "'These transaction do still exist as transaction codes but calling these transaction codes from the menu has " +
+    "the consequence that an error message is raised', 'These transaction codes shall not be used in customer " +
+    "coding especially with S/4HANA OP1610 and higher' (בשל מנגנון נעילה ישן, ראו הערה 2319579), ו-'The " +
+    "transaction codes will be deprecated in the near future'. בסעיף הפתרון: 'Use transaction MIGO or MMBE in " +
+    "dialog', והחלפת קוד לקוח שקורא ל-MB1B (ברשימת הקודים המפורשת) ב-BAPI_GOODSMVT_CREATE. SAP Note 2210569 " +
+    "('Obsolete Material inventory management transactions') מופיע כלשונו בגוף המסמך (עמ' 645). מקור: קובץ ה-PDF " +
+    "הרשמי שנקרא מקומית מ-scratchpad/official/SIMPL_OP2023.pdf.txt.",
+  DATE25,
+);
+
+const MB31_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 · item 15.3.9 S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM (MM-IM-GF, p. 1486)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE25,
+  claim:
+    "פריט 15.3.9 (Application Component MM-IM-GF, נוסחו זהה לפריט 27.6 מ-2023 FPS03) חוזר על אותה קביעה עבור " +
+    "מהדורת 2025 FPS01: טרנזקציות ה-MB, ובהן MB31 במפורש ברשימה (MB01, MB02, MB03, MB04, MB05, MB0A, MB11, MB1A, " +
+    "MB1B, MB1C, MB31, MBNL, MBRL, MBSF, MBSL, MBST, MBSU, MBBM), 'have been replaced by the single-screen " +
+    "generalized transaction MIGO or the BAPI's BAPI_GOODSMVT_CREATE and BAPI_GOODSMVT_CANCEL'. הקודים קיימים " +
+    "כטרנזקציה אך קריאה מהתפריט מעלה שגיאה, ואין להשתמש בהם בקוד לקוח ('These transaction codes shall not be used " +
+    "in customer coding'), ו-'The transaction codes will be deprecated in the near future'. SAP Note 0002210569 " +
+    "מופיע כלשונו בגוף הפריט. פריט זה הוא המקור הרשמי המעודכן ביותר (2025 FPS01, on-premise) שנמצא עבור MB31 בסבב " +
+    "זה. מקור: scratchpad/official/SIMPL_OP2025.pdf.txt, שורות 84113-84166 (כותרת הפריט וגוף ה-Note).",
+  verificationLevel: "sap_official_verified",
+};
+
+const ME21_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 14.2.8 S4TWL - Classic MM-PUR GUI Transactions replacement (MM-PUR-GF), pp. 1418-1419",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE25,
+  claim:
+    "פריט 14.2.8 ברשימת הפישוט הרשמית של SAP S/4HANA 2025 FPS01 (רכיב יישום MM-PUR-GF; SIMPL_OP2025.pdf.txt שורות " +
+    "80469-80482) מונה את ME21 ראשונה בטבלה שכותרתה 'Transactions are NO longer supported in SAP S/4HANA " +
+    "on-premise edition', לצד ME22, ME23, ME24, ME25, ME27, ME28, ME51, ME52, ME53, ME54, ME59, MR01 ו-MR1M, " +
+    "ובטבלה הסמוכה 'BAPIs are NO longer supported in SAP S/4HANA on-premise edition' את BAPI_PO_CREATE, " +
+    "BAPI_REQUISITION_CREATE ו-BAPI_PO_GETDETAIL. תיאור הפריט בלשונו: 'Classic SAP ERP Materials Management (MM) " +
+    "transactions and BAPIs for the business objects Purchase Order, Purchase Requisition, and Supplier Invoice " +
+    "have been replaced by the corresponding transactions and BAPIs made available with SAP R/3 Enterprise 4.70. " +
+    "With SAP S/4HANA, on-premise, these classic MM transactions and BAPIs are NO longer supported. The " +
+    "replacements that are available since SAP R/3 Enterprise 4.70 shall be used.'; תחת Business Process related " +
+    "information: 'No influence on business processes expected.'; ותחת Required and Recommended Action(s): 'See " +
+    "SAP notes: 1803189: FAQ: End of Support of ME21, ME51, and BAPI_PO_CREATE etc.' ו-'144081: Replacing MR01 / " +
+    "Functions of MR1M (Release 4.6)'. הפריט אינו נוקב בטרנזקציה עוקבת ספציפית ל-ME21: ההחלפה מנוסחת למשפחה כולה, " +
+    "ומחליפתה הספציפית (ME21N) נקובה בנפרד בעמוד Enjoy Purchase Order.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MD50_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.5.2 S4TWL - MRP in HANA (PP-MRP)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "הפריט 'S4TWL - MRP in HANA' ברשימת הפישוט 2025 FPS01 קובע: 'Classic MRP (transactions MD01, MD02, MD03, " +
+    "MD40, MD41, MD42, MD43, MD50, MD51 and jobs RMMRP000, RMMPS000) are still available in SAP S/4HANA but MRP " +
+    "live (transaction MD01N) is considered the future technology. Classic MRP transactions are not part of the " +
+    "compatibility pack. An end-of-life date for the classic MRP has not yet been defined.' תחת 'Differences " +
+    "Between MRP live and classic MRP' הפריט מציין: 'Multi-level, make-to-order planning (transaction MD50) is " +
+    "not optimized for HANA.'",
+  verificationLevel: "sap_official_verified",
+};
+
 export const TX_VERIFICATION: VerificationRecord[] = [
   /* ----------------------------------------------------- tx:MIGO */
   {
@@ -2848,8 +2993,10 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         accessedAt: DATE,
         claim:
           "lifecycle.ts מסמנת את MB03 כ-Obsolete‏, s4:false ‏('הוסר'), Fiori‏ 'Display Material Documents " +
-          "(F1077)', חלופות 'MIGO / MB51', תחום פישוט MM-IM, השפעה Low. קביעת הסרה זו אינה נתמכת באף מקור רשמי, " +
-          "אינה נוקבת במזהה פריט פישוט או SAP Note, וסותרת את tx-intel ואת נוהלי SAP Help ‏2025.001 העדכניים.",
+          "(F1077)', חלופות 'MIGO / MB51', תחום פישוט MM-IM, השפעה Low." +
+          " פריטי הפישוט 27.6 (2023 FPS03) ו-15.3.9 (2025 FPS01) שבראיות רשומה זו תומכים בהחלפה ב-MIGO, אך לא בסימון " +
+          "s4:false ('הוסר'): לפי הפריטים קוד הטרנזקציה עדיין קיים, וקריאה שלו מהתפריט מעלה הודעת שגיאה. שם האפליקציה " +
+          "F1077 בנוסח זה אינו השם הרשמי (Material Documents Overview).",
         verificationLevel: "verification_required",
         repoRef: "data/lifecycle.ts#MB03",
       },
@@ -2866,29 +3013,33 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "repository_verified",
         repoRef: "audit/repair/LIFECYCLE_EVIDENCE_REQUIRED.md",
       },
+      MB03_SIMPL,
+      MB03_SIMPL2025,
     ],
     status: {
-      status: "unchanged",
+      status: "replaced",
+      successor: "tx:MIGO",
       edition: "on-premise",
-      release: "2025.001",
-      source: MB03_EXG_DISPLAY,
+      release: "2023 FPS03",
+      source: MB03_SIMPL,
       he:
-        "טרנזקציית MB03 (הצגת מסמך חומר) עדיין מתועדת בתיעוד הרשמי של SAP S/4HANA 2025 FPS01 במהדורת On-Premise: " +
-        "התיעוד מנחה במפורש לבחור בטרנזקציה MB03 להצגת מסמך חומר, והיא זו שנקראת גם להצגת מסמכי חומר מהארכיון. " +
-        "אין הצהרת הסרה בתיעוד הציבורי שנבדק, אך בתיעוד ה-Exchanges קיימת הצהרה נקודתית שלפיה MIGO מחליפה את " +
-        "MB01/MB02/MB03/MBST לקבלות טובין באזור זה; לא נמצאה בחיפושים שבוצעו הצהרת מחליף כלל-מערכתית או פריט " +
-        "פישוט. הדרך המודרנית לעבודה שוטפת היא MIGO ואפליקציית Fiori בשם Material Documents Overview (מזהה " +
-        "F1077). שימו לב: פונקציונליות Documentary Batches אינה תומכת בטרנזקציות MB*, ובהן MB03 — זו מגבלה " +
-        "פונקציונלית נקודתית ולא סטטוס הסרה. בפרויקט קיימת סתירה פנימית מול data/lifecycle.ts המסמנת את MB03 " +
-        "כ-Obsolete, וקביעת הסרה תדרוש אסמכתה מקטלוג פריטי הפישוט.",
+        "הוחלפה. טרנזקציית MB03 (הצגת מסמך חומר) נמנית עם משפחת טרנזקציות ה-MB שהוחלפה בטרנזקציה MIGO ובפונקציות " +
+        "BAPI_GOODSMVT_CREATE / BAPI_GOODSMVT_CANCEL. קוד הטרנזקציה עדיין קיים במערכת, אך קריאה שלו מהתפריט מעלה " +
+        "הודעת שגיאה, ו-SAP מציינת שהקודים יוצאו משימוש בעתיד הקרוב. בקוד לקוח יש להחליף שימוש ב-MB02 וב-MB03 במודול " +
+        "הפונקציה MIGO_DIALOG. אותו ניסוח חוזר בפריט 15.3.9 'S4TWL - Availability of Transactions in MM-IM' ברשימת " +
+        "הפישוט למהדורת 2025 FPS01. הטרנזקציות הישנות משתמשות במנגנון נעילה ישן (מ-OP1610 ומעלה), כך שרישום מקבילי " +
+        "מולן ומול MIGO עלול ליצור אי-עקביות מלאי. שימו לב: דפי SAP Help 2025.001 שבראיות עדיין מזכירים את MB03 (נוהל " +
+        "הצגת נתוני Exchanges, והצגת מסמכי חומר מהארכיון הקוראת ל-MB03), ולכן יש לאמת במערכת היעד את התנהגות הקוד " +
+        "בפועל. הצהרת ה-Exchanges בדף Goods Receipt (MIGO) ומגבלת ה-Documentary Batches הן הצהרות ממוקדות-יכולת " +
+        "נפרדות, לא מקור הסטטוס.",
       recommendedAction:
-        "להתייחס ל-MB03 כזמינה (הצגה בלבד) לפי SAP Help ‏2025.001; להציג את MIGO ואת אפליקציית Fiori‏ " +
-        "Material Documents Overview‏ (F1077) כנתיב המודרני. אין לפרסם את קביעת lifecycle.ts ‏(Obsolete/s4:false) " +
-        "ללא מזהה פריט פישוט או הצהרת הסרה רשמית; לתקן ב-lifecycle.ts את שם האפליקציה F1077 ל-Material Documents " +
-        "Overview.",
+        "לעדכן את תצוגת MB03 בפרויקט מ'זמינה ללא שינוי' ל'הוחלפה': קוד הטרנזקציה קיים אך קריאה מהתפריט מעלה הודעת " +
+        "שגיאה. להציג את MIGO ואת אפליקציית Fiori Material Documents Overview (F1077) כנתיב המודרני, ולהנחות מפתחים " +
+        "להחליף קריאות ל-MB03 (וכן ל-MB02) במודול הפונקציה MIGO_DIALOG. ליישר בהתאם את data/lifecycle.ts " +
+        "ו-data/tx-intel.ts (התיקון נתמך כעת בפריט פישוט), ולסמן שם הוחלפה ולא הוסר, כי קוד הטרנזקציה עדיין קיים.",
     },
     xrefs: ["tx:MB01", "tx:MB02", "tx:MBST", "tx:MB51", "tx:MIGO"],
-    lastVerifiedAt: DATE2,
+    lastVerifiedAt: DATE25,
     notes:
       "שיטה: scripts/sap-help-search.mjs בשלוש וריאציות שאילתה (SAP_S4HANA_ON-PREMISE, תוצאות מלאות — ללא צורך " +
       "ב-fallback ענן), חיפוש רשת מוגבל-דומיין לשם האפליקציה F1077, ורובד Tier-2 מהמאגר. הסטטוס 'ללא שינוי' נשען " +
@@ -2898,7 +3049,20 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "S-user), או מספר SAP Note — אין כזה בנתוני המאגר המאומתים ואף מספר לא הוקלד מהזיכרון. בשונה מ-MB01 (רישום), " +
       "MB03 היא תצוגה בלבד — עקבי עם כך שהתיעוד הנוכחי עדיין קורא לה. הערה צולבת: פריט הפישוט 27.6 (המצוטט " +
       "ברשומות tx:MB01/tx:MB02/tx:MBST) מונה גם את MB03 במשפחת הקודים שהוחלפו — מתח רשמי-מול-רשמי שנרשם בקובץ " +
-      "התור. ‏fiori:F1077 אינו מזהה בדאטהסט (data/fiori/apps.ts) ולכן אינו ב-xrefs.",
+      "התור. ‏fiori:F1077 אינו מזהה בדאטהסט (data/fiori/apps.ts) ולכן אינו ב-xrefs." +
+      " 2026-09-25: תיקון ממצא (Old → New): עד כה הרשומה קבעה status='unchanged' על סמך היעדר הצהרת הסרה " +
+      "כלל-מערכתית, וסימנה את פריט 27.6 'S4TWL - Availability of Transactions in MM-IM' כ'מתח רשמי-מול-רשמי שנרשם " +
+      "בקובץ התור' בלבד מבלי לאמץ אותו. בבדיקה חוזרת נקרא גם פריט 15.3.9 באותו שם במהדורת 2025 FPS01, המאשר את אותה " +
+      "קביעה במהדורה מאוחרת יותר וכולל הנחיה מפורשת להחליף קוד לקוח ב-MB02/MB03 במודול MIGO_DIALOG, כפי שכבר צוטט " +
+      "עבור tx:MB02. לפיכך הסטטוס עודכן ל-'replaced' עם עוקבת tx:MIGO, עקבי עם ההכרעה שכבר ננקטה ברשומות האחיות " +
+      "tx:MB01/tx:MB02/tx:MBST על אותו טקסט פריט. פריטי הפישוט 27.6 / 15.3.9 מספקים את מזהה פריט הפישוט שמסמך " +
+      "התיקון (קבוצה A) דרש. שורת lifecycle.ts עודכנה (Old: 'קביעת הסרה זו אינה נתמכת באף מקור רשמי, אינה נוקבת " +
+      "במזהה פריט פישוט או SAP Note, וסותרת את tx-intel ואת נוהלי SAP Help 2025.001 העדכניים'; New: הפריטים תומכים " +
+      "בהחלפה ב-MIGO אך לא בסימון s4:false, כי קוד הטרנזקציה עדיין קיים). הראיות, ה-xrefs וההערות הקודמות (עד לשורה " +
+      "זו) נשמרו במלואן ולא נמחקו. 2026-09-25: הרשומה data/lifecycle.ts#MB03 תוקנה ב-a13460fa (2026-09-24): שם " +
+      "האפליקציה F1077 הוא כעת Material Documents Overview, ו-s4:false והנוסח 'הוסר' נותרו בה; שורת ה-repository " +
+      "בראיות מתארת את הנוסח שלפני התיקון (Old → New), ולכן ההנחיה לתקן שם את שם האפליקציה לא נכללה " +
+      "ב-recommendedAction. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* ------------------------------------------------------------ tx:MB11 */
@@ -3217,11 +3381,43 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "repository_verified",
         repoRef: "audit/repair/LIFECYCLE_EVIDENCE_REQUIRED.md",
       },
+      MB1B_SIMPL2023,
+      {
+        ...MB1C_SIMPL2025,
+        accessedAt: DATE25,
+        claim:
+          "אותה קביעה חוזרת ברשימת הפישוט ל-SAP S/4HANA 2025 FPS1: MB1B נמנית בפירוש ברשימת קודי ה-MB ('MB01, MB02, " +
+          "MB03, MB04, MB05, MB0A, MB11, MB1A, MB1B, MB1C, MB31, MBNL, MBRL, MBSF, MBSL, MBST, MBSU and MBBM') שהוחלפו " +
+          "ב-MIGO או ב-BAPI_GOODSMVT_CREATE/BAPI_GOODSMVT_CANCEL; הקוד עדיין קיים אך קריאה מהתפריט מעלה שגיאה, והוא " +
+          "'will be deprecated in the near future'. בסעיף הפתרון מופיעה שוב הנחיית 'Use transaction MIGO or MMBE in " +
+          "dialog' והחלפת קוד לקוח שקורא ל-MB1B ב-BAPI_GOODSMVT_CREATE. SAP Note 0002210569 מופיע כלשונו בגוף המסמך " +
+          "(עמ' 1486). מקור: קובץ ה-PDF הרשמי שנקרא מקומית מ-scratchpad/official/SIMPL_OP2025.pdf.txt.",
+      },
     ],
+    status: {
+      status: "replaced",
+      successor: "tx:MIGO",
+      edition: "on-premise",
+      release: "2023 FPS03",
+      source: MB1B_SIMPL2023,
+      he:
+        "MB1B (העברת מלאי, Transfer Posting) נמנית בפירוש בין טרנזקציות ה-MB שהוחלפו ב-S/4HANA בטרנזקציית המסך האחד " +
+        "MIGO או ב-BAPI_GOODSMVT_CREATE/BAPI_GOODSMVT_CANCEL, לפי רשימת הפישוט הרשמית של SAP S/4HANA 2023 Feature " +
+        "Pack Stack 3 (פריט 27.6, S4TWL - Availability of Transactions in MM-IM, SAP Note 2210569); אותה קביעה חוזרת " +
+        "באותו ניסוח ברשימת הפישוט ל-2025 FPS01 (פריט 15.3.9 באותו שם). קוד הטרנזקציה עדיין קיים, אך קריאה שלו " +
+        "מהתפריט מעלה הודעת שגיאה, ו-SAP מודיעה שהוא מיועד ליציאה משימוש. עם זאת, דפי ה-Help של 2025 FPS01 (טבלת " +
+        "הפעילויות של MM-IM ונוהל קבלנות המשנה בתחזוקת מפעל) עדיין מתעדים את MB1B לצד MIGO; זו סתירה בתיעוד ואינה " +
+        "ראיית זמינות, וההתנהגות במערכת היעד דורשת אימות במערכת SAP.",
+      recommendedAction:
+        "להשתמש ב-MIGO (העברת מלאי דרך Transfer Posting/MIGO_TR) לכל תנועות ההעברה; קוד לקוח או Batch Input שקורא " +
+        "ל-MB1B יש להחליף ב-BAPI_GOODSMVT_CREATE. אין לרשום במקביל דרך MB1B ודרך MIGO/ה-BAPI, בגלל הבדלי מנגנון " +
+        "הנעילה (SAP Note 2319579). ליישר את שדה ה-s4 ב-data/tx-intel.ts ואת סטטוס ה-Obsolete ב-data/lifecycle.ts עם " +
+        "הקביעה הרשמית המדויקת (הוחלפה; הקוד קיים אך קריאה מהתפריט מעלה שגיאה), בדומה לרשומות tx:MB1A ו-tx:MB1C.",
+    },
     xrefs: [
       "tx:MB01", "tx:MIGO", "tx:MB1A", "tx:MB1C", "tx:MB11", "tx:MB31", "tx:MBST", "fiori:F0843",
     ],
-    lastVerifiedAt: DATE2,
+    lastVerifiedAt: DATE25,
     notes:
       "סתירת מחזור חיים באותה תבנית של MB01, שלא יושבה במקור רשמי פומבי הנוקב ב-MB1B עצמה. מה שאומת מול " +
       "help.sap.com ‏(On-Premise 2025.001): התיעוד עדיין מונה את MB1B כפעילות ה-Transfer Posting, מציע MIGO " +
@@ -3235,7 +3431,15 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "ב-lifecycle מול F0843 ב-tx-intel) פתוחה; F1061 אינו קיים ב-data/fiori/apps.ts ולכן אינו ב-xrefs. הערת " +
       "אצווה: פריט הפישוט 27.6 (רשומות tx:MB01/tx:MB02/tx:MBST) מונה גם את MB1B במשפחת הקודים שהוחלפו — נרשם " +
       "בקובץ התור." +
-      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-20 (audit/ux-2026-09/SAP-FIXES.md, 3ca3418d); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-20 (audit/ux-2026-09/SAP-FIXES.md, 3ca3418d); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New)." +
+      " 2026-09-25 (תיקון זה): אומת מקור רשמי המיישב את הפער שתועד לעיל: רשימת הפישוט ל-SAP S/4HANA 2023 FPS3 (פריט " +
+      "27.6 'S4TWL - Availability of Transactions in MM-IM', עמ' 645, SAP Note 2210569, נקרא מקומית " +
+      "מ-scratchpad/official/SIMPL_OP2023.pdf.txt) ורשימת הפישוט ל-2025 FPS01 (פריט 15.3.9 באותו שם, עמ' 1486, נקרא " +
+      "מקומית מ-scratchpad/official/SIMPL_OP2025.pdf.txt) מונות את MB1B במפורש בין קודי ה-MB שהוחלפו " +
+      "ב-MIGO/BAPI_GOODSMVT_CREATE. Old → New: הרשומה עוברת מ'לא נכתב סטטוס' (ללא מקור רשמי הנוקב ב-MB1B) לסטטוס " +
+      "replaced עם יורש tx:MIGO, מבוסס על שני פריטי הפישוט הללו. סתירת מקורות המאגר (data/tx-intel.ts מול " +
+      "data/lifecycle.ts) ומחלוקת מזהה ה-Fiori (F1061 מול F0843) נותרות פתוחות ואינן מיושבות בעדכון זה, והן עדיין " +
+      "דורשות החלטת ניסוח UI נפרדת.",
   },
 
   /* ------------------------------------------------------------ tx:MB1C */
@@ -3350,6 +3554,28 @@ export const TX_VERIFICATION: VerificationRecord[] = [
     evidence: [
       MB31_DOC_BATCHES,
       {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 · item 27.6 S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM (MM-IM-GF, pp. 644-645)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE25,
+        claim:
+          "פריט 27.6 (Application Component MM-IM-GF) מונה את MB31 במפורש ברשימת טרנזקציות ה-MB (MB01, MB02, MB03, " +
+          "MB04, MB05, MB0A, MB11, MB1A, MB1B, MB1C, MB31, MBNL, MBRL, MBSF, MBSL, MBST, MBSU, MBBM) שלגביהן נכתב: " +
+          "'have been replaced by the single-screen generalized transaction MIGO or the BAPI's BAPI_GOODSMVT_CREATE and " +
+          "BAPI_GOODSMVT_CANCEL'. הקודים עדיין קיימים כטרנזקציות אך קריאה מהתפריט מעלה הודעת שגיאה, ו-'The transaction " +
+          "codes will be deprecated in the near future'. הפתרון הרשמי בפריט: 'Use transaction MIGO or MMBE in dialog', " +
+          "ולקוד לקוח: 'Replace customer coding using the transaction codes MB01, MB04, MB05, MB0A, MB11, MB1A, MB1B, " +
+          "MB1C, MB31, MBNL, MBRL, MBSF, MBSL and MBSU ... by make use of function module BAPI_GOODSMVT_CREATE'. SAP " +
+          "Note 2210569 ('Obsolete Material inventory management transactions') מופיע כלשונו בגוף הפריט; מקור: " +
+          "scratchpad/official/SIMPL_OP2023.pdf.txt, שורות 34653-34715 (כותרת הפריט וגוף ה-Note).",
+        verificationLevel: "sap_official_verified",
+      },
+      MB31_SIMPL2025,
+      {
         sourceType: "sap_help",
         sourceTitle: "Goods Movement (MM-IM) | Materials Management (MM)",
         product: "SAP S/4HANA",
@@ -3430,35 +3656,44 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       status: "replaced",
       successor: "tx:MIGO",
       edition: "on-premise",
-      release: "2025.001",
-      source: MB31_DOC_BATCHES,
+      release: "2025 FPS01",
+      source: MB31_SIMPL2025,
       he:
-        "MB31 (קליטת תוצרת מהזמנת ייצור או הזמנת תהליך, סוג תנועה 101) אינה נתמכת עוד לפי התיעוד הרשמי: הוא קובע " +
-        "שטרנזקציות MB*, ובהן MB31 במפורש, אינן נתמכות, ושתנועות סחורה עבור קטגוריות ההזמנה השונות — ובכללן " +
-        "הזמנות ייצור ותהליך — נרשמות בטרנזקציה MIGO. ברשימת הפעילויות הרשמית של MM-IM, קליטת תוצרת להזמנה " +
-        "משויכת ל-MIGO_GO. קיימת גם אפליקציית Fiori בשם Post Goods Receipt for Production Order ‏(App ID: F3110 " +
-        "לפי סניפט רשמי). רלוונטי לזרימות ייצור בתעשיות תהליכיות (PP-PI) וב-PP.",
+        "MB31 (קליטת תוצרת מהזמנת ייצור או הזמנת תהליך, סוג תנועה 101) אינה נתמכת עוד לפי התיעוד הרשמי: פריט הפישוט " +
+        "S4TWL - Availability of Transactions in MM-IM (15.3.9 ברשימת 2025 FPS01, ובאותו נוסח פריט 27.6 ברשימת 2023 " +
+        "FPS03) קובע במפורש ש-MB31, לצד שאר טרנזקציות ה-MB, הוחלפה בטרנזקציית המסך האחד MIGO או " +
+        "ב-BAPI_GOODSMVT_CREATE/BAPI_GOODSMVT_CANCEL, שהקודים יוצאו משימוש בעתיד הקרוב, ושאין להשתמש בהם בקוד לקוח. " +
+        "עמוד Documentary Batches ‏(LO-BM) הרשמי מוסיף שקליטת תוצרת להזמנה נרשמת ב-MIGO. ברשימת הפעילויות הרשמית של " +
+        "MM-IM, קליטת תוצרת להזמנה משויכת ל-MIGO_GO. קיימת גם אפליקציית Fiori בשם Post Goods Receipt for Production " +
+        "Order (App ID: F3110 לפי סניפט רשמי). רלוונטי לזרימות ייצור בתעשיות תהליכיות (PP-PI) וב-PP.",
       recommendedAction:
         "ליישר את data/tx-intel.ts (רשומת MB31): להחליף את הניסוח 'זמינה כ-legacy' בסטטוס הוחלפה ב-MIGO/MIGO_GO, " +
-        "בהתאם ל-Help הרשמי ול-data/lifecycle.ts. את מזהה אפליקציית ה-Fiori‏ F0843 שבקוד הקיים להשאיר כטעון אימות " +
-        "עד שיימצא מקור רשמי הנוקב בו; מזהה האפליקציה לקבלת טובין מהזמנת ייצור אושש רשמית כ-F3110.",
+        "בהתאם לפריט הפישוט S4TWL - Availability of Transactions in MM-IM (15.3.9, 2025 FPS01) ול-data/lifecycle.ts. " +
+        "את מזהה אפליקציית ה-Fiori F0843 שבקוד הקיים להשאיר כטעון אימות עד שיימצא מקור רשמי הנוקב בו; מזהה האפליקציה " +
+        "לקבלת טובין מהזמנת ייצור אושש רשמית כ-F3110.",
     },
     xrefs: [
       "tx:MB01", "tx:MIGO", "tx:MB1A", "tx:MB1B", "tx:MB1C", "tx:MB02", "tx:MB03", "tx:MB11",
       "tx:MBST", "obj:material-document",
     ],
-    lastVerifiedAt: DATE2,
+    lastVerifiedAt: DATE25,
     notes:
       "הסטטוס 'הוחלף' מעוגן בשני דפי 2025 FPS01 רשמיים: עמוד Documentary Batches ‏(LO-BM) שהסניפט שלו נוקב " +
       "ב-MB31 בין טרנזקציות MB* שאינן נתמכות וקובע שתנועות לקטגוריות הזמנה נרשמות ב-MIGO, ועמוד Goods Movement ‏" +
       "(MM-IM) המשייך את קבלת התוצרת להזמנה ל-MIGO_GO. הקביעה ש'הפונקציה העסקית של MB31 נישאת ב-MIGO_GO/MIGO' " +
-      "היא סינתזה של שתי הראיות עם נתוני המאגר — לא ציטוט של עמוד יחיד (MB31 אינה נזכרת בעמוד הפעילויות). אזהרת " +
+      "היא סינתזה של שתי הראיות עם נתוני המאגר, לא ציטוט של עמוד יחיד (MB31 אינה נזכרת בעמוד הפעילויות). אזהרת " +
       "יושרה שנשמרה: משפט 'not supported' יושב בעמוד ניהול מלאי/אצוות, לא בעמוד פישוט ייעודי; פריט הפישוט הגלובלי " +
-      "ל-MB* ומספר ה-SAP Note שלו חסומים ב-S-user והמספר אינו בנתוני המאגר המאומתים — לפי כלל אל-תנחש לא צוטט " +
+      "ל-MB* ומספר ה-SAP Note שלו חסומים ב-S-user והמספר אינו בנתוני המאגר המאומתים: לפי כלל אל-תנחש לא צוטט " +
       "מספר ברשומה זו. חיפוש SAP_S4HANA_CLOUD לא נדרש. מזהה ה-Fiori‏ F0843 ‏(Post Goods Movement) לא אושש באף " +
       "סניפט רשמי שנשלף ונשאר טעון אימות; שם האפליקציה 'Post Goods Receipt for Production Order' ומזההּ F3110 " +
       "אוששו רשמית. תיקון מאגר מומלץ: יישור tx-intel מול lifecycle, סוגר את מחלוקת קבוצה A ‏(תבנית MB01)." +
-      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-18, FIX-20 (audit/ux-2026-09/SAP-FIXES.md, ce8b9f8c, 3ca3418d); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-18, FIX-20 (audit/ux-2026-09/SAP-FIXES.md, ce8b9f8c, 3ca3418d); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New)." +
+      " 2026-09-25 (Old → New): status.source הועבר מ-Documentary Batches in Inventory Management (LO-BM), release " +
+      "2025.001, אל פריט הפישוט S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM, פריט 15.3.9 (2025 FPS01), ונוספה " +
+      "ראיה מקבילה מפריט 27.6 (2023 FPS03). הממצא הקודם שפריט הפישוט הגלובלי ל-MB* ומספר ה-SAP Note שלו חסומים " +
+      "ב-S-user הוחלף: שני הפריטים נקראו מקובצי ה-PDF הרשמיים של רשימות הפישוט, שניהם מונים את MB31 במפורש ומדפיסים " +
+      "את SAP Note 2210569 (Obsolete Material inventory management transactions); המספר מצוטט מגוף הפריט ולא הומצא. " +
+      "לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* ------------------------------------------------------------ tx:MBST */
@@ -3593,7 +3828,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         accessedAt: DATE2,
         claim:
           "תיעוד S/4HANA 2025 FPS01 עדיין מונה 'Create purchase order ME21' (וכן ME22 ו-ME23) תחת Non-Assigned " +
-          "Purchasing Functions — הטרנזקציות הקלאסיות עדיין מתועדות כקיימות במהדורה.",
+          "Purchasing Functions; הטרנזקציות הקלאסיות עדיין מתועדות במהדורה.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -3623,7 +3858,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       },
       {
         sourceType: "repository",
-        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL) — רשומת ME21N",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL), רשומת ME21N",
         product: "SAP S/4HANA",
         edition: "on-premise",
         accessedAt: DATE2,
@@ -3634,33 +3869,68 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#ME21N",
       },
+      ME21_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (Document Version 1.35) · item 38.2 S4TWL - Classic MM-PUR GUI Transactions replacement (MM-PUR-GF), pp. 941-942",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט מופיע כבר ברשימת הפישוט של SAP S/4HANA 2023 FPS03 כפריט 38.2 (SIMPL_OP2023.pdf.txt שורות " +
+          "49407-49436), באותה טבלה 'Transactions are NO longer supported in SAP S/4HANA on-premise edition' עם ME21 " +
+          "ראשונה ברשימה (לצד ME22, ME23, ME24, ME25, ME27, ME28, ME51-ME54, ME59, MR01, MR1M) ובאותו נוסח תיאור מילה " +
+          "במילה כמו פריט 14.2.8 של 2025 FPS01, כולל הפניה ל-SAP Note 1803189. כלומר מעמדה של ME21 כטרנזקציה קלאסית " +
+          "שאינה נתמכת ב-S/4HANA On-Premise נשמר ללא שינוי בין מהדורת 2023 FPS03 למהדורת 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     status: {
-      status: "replaced",
+      status: "simplified",
       successor: "tx:ME21N",
       edition: "on-premise",
-      release: "2025.001",
-      source: ME21_ENJOY,
+      release: "2025 FPS01",
+      source: ME21_SIMPL2025,
       he:
-        "הוחלפה בטרנזקציית המסך האחוד ME21N ‏(Enjoy). לפי התיעוד הרשמי של SAP S/4HANA 2025 FPS01, הטרנזקציה " +
-        "הקלאסית ME21 עדיין קיימת וניתנת לשימוש, אך היא מתועדת כפונקציה קונבנציונלית שאינה משויכת לתהליך " +
-        "הסטנדרטי, ואינה המסלול המומלץ ליצירת הזמנות רכש.",
+        "ME21 (Create purchase order, יצירת הזמנת רכש קלאסית) מכוסה בפריט הפישוט הרשמי S4TWL - Classic MM-PUR GUI " +
+        "Transactions replacement (14.2.8 ברשימת 2025 FPS01, 38.2 ברשימת 2023 FPS03): הטרנזקציות הקלאסיות של MM-PUR, " +
+        "וביניהן ME21 בשמה וראשונה ברשימה, 'are NO longer supported' ב-SAP S/4HANA On-Premise. בנפרד, עמוד Enjoy " +
+        "Purchase Order הרשמי נוקב ב-ME21N כמחליפתה הישירה ('replaces the previous purchase order'); תיעוד התפקיד " +
+        "Non-Assigned Purchasing Functions ונושא ה-InfoUpdate במהדורת 2025 FPS01 עדיין מונים את ME21, וזו גרירת תיעוד " +
+        "ולא הצהרת תמיכה. עמוד Enjoy Purchase Order באותה מהדורה עדיין קובע 'you can still use transactions ME21, " +
+        "ME22 and ME23, and there are no functional limitations'; זמינות קוד הטרנזקציה ותמיכת SAP הן שתי שאלות " +
+        "נפרדות, ויש לאמת במערכת.",
       recommendedAction:
-        "ליצור הזמנות רכש ב-ME21N או באפליקציית Fiori המתאימה. אין לבסס תהליכים חדשים על ME21 הקלאסית; תהליכים " +
-        "ישנים שמסתמכים עליה מומלץ להעביר ל-ME21N.",
+        "לא לבסס תהליכים, הקלטות batch input או קוד לקוח חדשים על ME21 ב-S/4HANA On-Premise, ולהתייחס אליה כטרנזקציה " +
+        "שאינה נתמכת לפי פריט הפישוט. ליצור הזמנות רכש ב-ME21N או באפליקציית Fiori המתאימה. בהמרה: לקרוא את הפריט " +
+        "בקטלוג Simplification Item ואת SAP Note 1803189 בגישת S-user, ולסרוק קוד לקוח ווריאנטים של batch input " +
+        "שקוראים ל-ME21.",
     },
     xrefs: ["tx:ME21N", "tx:ME22", "tx:ME23", "tx:ME22N", "tx:ME23N", "tx:ME25", "tx:ME24"],
-    lastVerifiedAt: DATE2,
+    lastVerifiedAt: DATE25,
     notes:
-      "הסטטוס 'הוחלף' עם היורשת ME21N נתמך ישירות בשני דפי help.sap.com רשמיים במהדורה הנוכחית (2025 FPS01 / " +
-      "‏2025.001): עמוד Enjoy Purchase Order ‏('replaces the previous purchase order (transactions ME21, ME22, " +
-      "ME23)') והערת האובייקטים התלויים של Financial Operations ‏('ME21N and ME22N transactions replaced the " +
-      "previous ME21 and ME22'). ניואנס מחזור החיים יושב: ME21 הוחלפה אך לא הוסרה — אותה מהדורה עדיין מונה אותה " +
-      "תחת Non-Assigned Purchasing Functions ומתארת את התנהגות ה-InfoUpdate שלה, ועמוד ה-Enjoy קובע שעדיין ניתן " +
-      "להשתמש בה. אף מקור רשמי פומבי שנמצא אינו קובע הסרה, גרסת הסרה או פריט פישוט ל-ME21; קטלוג פריטי הפישוט " +
-      "ו-SAP Notes דורשים התחברות S-user, ולכן לא צוטט מספר (כלל אל-תנחש). ‏accessedAt משקף את מועד הגישה בפועל " +
-      "של שירות החיפוש (2026-09-02). ‏Tier-2: רשומת ME21N במאגר כבר מסמנת את ME21 כ-obsolete/deprecated — עקבי " +
-      "עם ההצהרות הרשמיות.",
+      "ממצא קודם (Old), לפני 2026-09-25: הסטטוס 'הוחלף' עם היורשת ME21N נתמך ישירות בשני דפי help.sap.com רשמיים " +
+      "במהדורה הנוכחית (2025 FPS01 / 2025.001): עמוד Enjoy Purchase Order ('replaces the previous purchase order " +
+      "(transactions ME21, ME22, ME23)') והערת האובייקטים התלויים של Financial Operations ('ME21N and ME22N " +
+      "transactions replaced the previous ME21 and ME22'). ניואנס מחזור החיים יושב: ME21 הוחלפה אך לא הוסרה: אותה " +
+      "מהדורה עדיין מונה אותה תחת Non-Assigned Purchasing Functions ומתארת את התנהגות ה-InfoUpdate שלה, ועמוד " +
+      "ה-Enjoy קובע שעדיין ניתן להשתמש בה. accessedAt המקורי משקף את מועד הגישה בפועל של שירות החיפוש (2026-09-02). " +
+      "Tier-2: רשומת ME21N במאגר כבר מסמנת את ME21 כ-obsolete/deprecated, עקבי עם ההצהרות הרשמיות. 2026-09-25 Old → " +
+      "New: הממצא הקודם קבע 'אף מקור רשמי פומבי שנמצא אינו קובע הסרה, גרסת הסרה או פריט פישוט ל-ME21; קטלוג פריטי " +
+      "הפישוט ו-SAP Notes דורשים התחברות S-user, ולכן לא צוטט מספר'; ממצא זה בוטל: פריט הפישוט S4TWL - Classic " +
+      "MM-PUR GUI Transactions replacement נמצא וקיים בשתי המהדורות (14.2.8 ב-2025 FPS01, SIMPL_OP2025.pdf.txt " +
+      "שורות 80469/80482; 38.2 ב-2023 FPS03, SIMPL_OP2023.pdf.txt שורות 49407/49436), מונה את ME21 בשמה בטבלת 'NO " +
+      "longer supported', ומפנה ל-SAP Note 1803189. הסטטוס עודכן מ-'replaced' ל-'simplified' בהתאם לנוסח הפריט " +
+      "ולעקביות עם tx:ME24 ו-tx:ME25 בקובץ data/verification/transactions-b.ts, שכבר קיבלו את אותו טיפול לאותו פריט " +
+      "פישוט בדיוק. ה-successor tx:ME21N נשמר כי הוא נתמך ישירות (לא בהיסק) על ידי עמוד Enjoy Purchase Order, " +
+      "בניגוד ל-ME24 שבו לא צוטטה מחליפה ספציפית. שדה sapNote לא הוזן: מספר 1803189 מודפס בגוף הפריט עצמו (לא הוקלד " +
+      "מהזיכרון), אך תוכן ההערה לא נקרא (דורש S-user). קריאת הכותב על שורת Non-Assigned Purchasing Functions: זו " +
+      "גרירת תיעוד תפקיד, לא הצהרת תמיכה, ואינה סותרת את פריט הפישוט; טענת השורה קוצרה בהתאם (Old: 'הטרנזקציות " +
+      "הקלאסיות עדיין מתועדות כקיימות במהדורה'; New: 'הטרנזקציות הקלאסיות עדיין מתועדות במהדורה'). לא בוצעה בדיקת " +
+      "מערכת SAP חיה.",
   },
 
   /* ------------------------------------------------------------ tx:ME22 */
@@ -14699,5 +14969,136 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "הפישוט של 2025 כללו גם טענות על 2023 FPS03 → New: שורות נפרדות ל-2023 FPS03 עם ה-URL של SIMPL_OP2023.pdf. " +
       "הרשומה שנוצרה אוטומטית ל-OPL8 ב-data/verification/transactions-auto.ts מוחלפת ברשומה זו (ישן: ללא הכרעת " +
       "מעמד; חדש: changed); שורת ההקשר שלה מרשומת המאגר data/tcode-catalog.ts#OPL8 לא הועברה, כאמור.",
+  },
+
+  /* ------------------------------------------------------------ tx:MD50 */
+  {
+    id: "tx:MD50",
+    evidence: [
+      MD50_SIMPL_ITEM_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "MRP Live: Incompatible Changes | Material Requirements Planning (PP-MRP)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/fe39e10a9a864a8f8dc9537704f0fa13/1d4ee5514ec5c90ae10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד (versionId 2025.001, loio 1d4ee5514ec5c90ae10000000a44176d, נקרא דרך sap-help-body.mjs) קובע תחת " +
+          "'Processes Not Supported by MRP Live': 'Multi-level, make-to-order planning (transaction MD50) is not " +
+          "optimized for MRP Live. Multi-level, make-to-order planning was a performance measure only which is no " +
+          "longer necessary. Use MRP Live for the top-level material and include the BOM components in planning.' אותו " +
+          "נושא, עם אותו loio, מפורסם גם בסקופ SAP ERP (versionId 6.18.latest), כלומר העמוד מתעד את MRP Live ואינו פריט " +
+          "פישוט של S/4HANA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transaction Codes for MRP (PP-MRP)",
+        url: "https://help.sap.com/docs/SAP_ERP/85d3fce10e264972a0155c8b46ecf93b/f3a9ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש בסקופ SAP ERP (6.0 EHP8 Latest, versionId 6.18.latest, loio f3a9ce5314894208e10000000a174cb4) " +
+          "מציגה בסניפט את השורה 'MD50 Multi-level, make-to-order planning' ברשימת קודי הטרנזקציות של MRP ב-ECC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MD50 ו-tx-intel.ts#MD50",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-MD50 את הכותרת 'תכנון ייצור-להזמנה רב-רמתי' (Make-to-Order Planning - " +
+          "Multi-Level), מודול PP, תחום 'תכנון דרישות חומר'; רשומת data/tx-intel.ts#MD50 מתארת אותה כ'תכנון דרישות חומר " +
+          "(MRP) / Make-to-Order'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MD50; data/tx-intel.ts#MD50",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Sales Orders with Delay Times | Business Package for Production Supervisor 1.4",
+        url: "https://help.sap.com/docs/SAP_ERP/5366c1154ae5450eb1f6f63f3bf4abd2/23cdb65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Business Package for Production Supervisor 1.4, 6.0 EHP8 Latest, versionId 6.18.latest, " +
+          "loio 23cdb65334e6b54ce10000000a174cb4) נוקבת בקוד MD50 בסניפט: 'You can carry out a multilevel planning run " +
+          "for the sales order (transaction MD50 in the backend system) by choosing the Sales Order Planning function " +
+          "key. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App MD50 'Sales order planning' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MD50')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את MD50 כאפליקציה 'Sales order planning' מסוג SAP GUI (SAP GUI) " +
+          "במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "simplified",
+      he:
+        "פריט הפישוט 'S4TWL - MRP in HANA' מונה את MD50 בין טרנזקציות ה-MRP הקלאסיות שעדיין זמינות ב-SAP S/4HANA, " +
+        "כאשר MRP Live (MD01N) נחשב הטכנולוגיה העתידית; טרנזקציות ה-MRP הקלאסיות אינן חלק מחבילת התאימות, וטרם הוגדר " +
+        "תאריך סיום חיים ל-MRP הקלאסי. בין ההבדלים בין MRP Live ל-MRP הקלאסי הפריט מציין ש-MD50 'is not optimized for " +
+        "HANA'.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MD50_SIMPL_ITEM_2025,
+      recommendedAction:
+        "ניתן להמשיך להשתמש ב-MD50 לתכנון רב-רמתי לייצור-להזמנה, תוך תיעוד שהטרנזקציה אינה מותאמת ל-HANA. לבחון עם " +
+        "הלקוח את ההנחיה בעמוד העזרה 'MRP Live: Incompatible Changes': להריץ MRP Live (MD01N) עבור החומר העליון " +
+        "ולכלול את רכיבי ה-BOM בתכנון. לפני ההסבה לבדוק מימושי BAdI קיימים שמשפיעים על קריאת הנתונים של ה-MRP הקלאסי " +
+        "(ראו הערות).",
+    },
+    xrefs: ["tx:MD01N", "tx:MD51", "tx:MD01"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) רשימת הפישוט 2025 FPS01 (גרסת מסמך 1.36), פריט 9.5.2 'S4TWL - MRP in HANA', נקראה מהטקסט שחולץ " +
+      "ל-scratchpad/official/SIMPL_OP2025.pdf.txt (שורות 35772-35798) מתוך ה-PDF בכתובת help.sap.com המצוטטת; משפט " +
+      "הזמינות ומשפט 'not optimized for HANA' הועתקו כלשונם. (2) רשימת הפישוט 2023 FPS03 (גרסת מסמך 1.35, " +
+      "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf), פריט 30.2 'S4TWL - " +
+      "MRP in HANA' (שורות 38922-39100 של SIMPL_OP2023.pdf.txt): הנוסח שם שונה: 'Classic MRP is still available in " +
+      "SAP S/4HANA. MRP lists are part of the SAP S/4HANA compatibility scope, which comes with limited usage " +
+      "rights.' משפט הזמינות שם אינו כולל את רשימת טרנזקציות ה-MRP הקלאסיות שמופיעה בפריט 2025, והפריט אינו כולל את " +
+      "המשפט שטרנזקציות ה-MRP הקלאסיות אינן חלק מחבילת התאימות ואינו נוקב בתאריך סיום חיים; הפריט מציין גם כאן " +
+      "'Multi-level, make-to-order planning (transaction MD50) is not optimized for HANA.' (3) BAdI, לפי 'S4TWL - " +
+      "MRP in HANA' ברשימה 2023 FPS03 (פריט 30.2, שורה 39085 ואילך): 'Existing BAdI implementations which influence " +
+      "the data reading process of the classic MRP (e.g. BAdI MD_CHANGE_MRP_DATA) will or won't be supported in " +
+      "S4HANA depending on the used planning transactions: If the planning transactions are not optimized for HANA " +
+      "(like MD50, MD51 or all Long-Term-Planning (LTP) planning transactions), then the classic BAdIs/extension " +
+      "with their implementations will still be supported.' ההיקף הוא מימושי BAdI שמשפיעים על קריאת הנתונים של " +
+      "ה-MRP הקלאסי. (4) גוף העמוד 'MRP Live: Incompatible Changes' (2025.001) נקרא דרך scripts/sap-help-body.mjs, " +
+      "והציטוט על MD50 הועתק ממנו. חיפושים דרך scripts/sap-help-search.mjs: 'MRP Live: Incompatible Changes' בסקופ " +
+      "SAP_ERP (21 רשומות; אותו loio 1d4ee5514ec5c90ae10000000a44176d מופיע ב-6.18.latest), 'MD50 multi-level " +
+      "make-to-order planning' בסקופ SAP_ERP (21 רשומות; איתר את 'Transaction Codes for MRP (PP-MRP)'). (5) ספריית " +
+      "Fiori: לפי הרשומה שנוצרה ב-data/verification/transactions-auto.ts, MD50 רשום בספרייה כאפליקציה 'Sales order " +
+      "planning' מסוג SAP GUI במהדורה S32OP; scripts/fal-app.mjs לא הורץ מחדש בסבב זה, ולכן הנתון מובא כהפניה למקור " +
+      "ולא כעובדה שאומתה ברשומה זו. (6) המאגר: data/tcode-catalog.ts#MD50 ו-data/tx-intel.ts#MD50 תואמים. אין מקור " +
+      "הנוקב בטרנזקציה או באפליקציה מחליפה ל-MD50, ולכן אין שדה successor; MD01N מופיע כ-xref וכגישה חלופית שהמקור " +
+      "מציע. Old → New: הרשומה שנוצרה ב-transactions-auto.ts הביאה את פריט הפישוט כהקשר ללא הכרעת מעמד; כעת המעמד " +
+      "'simplified' (2025 FPS01), בעקביות עם tx:MD01 הנשען על אותו פריט. הרשומה שנוצרה ב-transactions-auto.ts " +
+      "מוחלפת ברשומה זו. שורת ההקשר שלה מספריית Fiori (MD50 כאפליקציית SAP GUI 'Sales order planning', סטטוס " +
+      "Published, S32OP) ורשומת החיפוש שלה 'Sales Orders with Delay Times | Business Package for Production " +
+      "Supervisor 1.4' (SAP_ERP, 6.18.latest) הועברו לכאן כלשונן כשורות הקשר, שאינן נספרות לרמת האימות או לעומק; " +
+      "הרשומה ההיא תיעדה גם 0 אפליקציות עם קוד מוביל MD50 במהדורה זו. שאר שורותיה (שני פריטי הפישוט, רשומת החיפוש " +
+      "'MRP Live: Incompatible Changes' ושתי רשומות המאגר) מכוסות בשורות הראיה ובסעיפים (1)-(4) ו-(6) שלמעלה ולא " +
+      "הועברו. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 ];
