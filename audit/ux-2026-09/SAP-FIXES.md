@@ -318,3 +318,13 @@
 | תבנית כרטיסי Fiori | `centers/fiori.ts#mk`: שורת ה-QA "X מחליף את <טרנזקציה>" הופיעה בכל כרטיס; ספריית ה-Fiori מצמידה יישומים לטרנזקציות (leading / related) ואינה קובעת החלפה (עקרון FIX-12), ולכן הנוסח הוא עכשיו "X לצד <טרנזקציה>" |
 | מה לא שונה | רשומת הקטלוג `data/fiori/apps.ts#F0843` ("Post Goods Movement", "מחליף MIGO"): בתור ה-Fiori היא מסומנת כהחלטת מוצר/סכמה, כי MIGO אינו תואם לתחביר `fiori:` ולא ניתן לרשום את Post Goods Movement תחת מזהה משלו בלי שינוי סכמה (BLOCKERS) |
 | בדיקות | `tsc` 0 · `npm test` 211/211 |
+
+---
+
+## FIX-21 · CO01, CO11N, CO03, C201: יישומי Fiori שהספרייה אינה מצמידה (אימות SAP S/4HANA, 2026-09-25)
+
+| שדה | ערך |
+|---|---|
+| מקור | `fal-app.mjs --tcode` ב-S32OP: CO01 = יישום SAP GUI 'Create Production Order' בלי יורש; CO11N = 'Confirm Production Order Operation' בלי יורש; CO03 מוביל את Production Order Object Page (F2261); Manage Production Orders (F2336) מקושר ל-CO02, CO05, CO05N, CO09, COHV, COOIS ואחרות, לא ל-CO01. F3069 (Confirm Production Operation) אינו ב-S32OP; הרשומה `tx:CO11N` מוצאת אותו ברשומות Cloud Public Edition 2608.500 בלבד. C201: מדריך ה-Data Migration (אובייקט Master recipe) מונה את Manage Master Recipes (F5426); אף מקור אינו קושר את I_Routing / I_RoutingOperation למתכוני אב |
+| מה שונה | `tx-intel.ts`: CO11N (`fiori` רוקן, `s4` בנוסח הספרייה ועם תיוג F3069 כ-Cloud), CO01 (`fiori` "Create Production Order (תחליפי…)" רוקן, `s4Delta` בלי "חלופת F2336"), CO03 (`s4`: Production Order Object Page), C201 (`s4Delta`: F5426 במקום טענת ה-CDS). `transactions.ts`: CO01 (שני שדות Fiori רוקנו), CO11N (שדה השורה רוקן; `eccS4.fiori` מתויג F3069, SAP S/4HANA Cloud Public Edition) |
+| בדיקות | `tsc` 0 · `npm test` 211/211 |
