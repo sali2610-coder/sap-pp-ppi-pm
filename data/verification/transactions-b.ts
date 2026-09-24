@@ -59,7 +59,23 @@
    (QDV3, QE51N, QGA1, QGP1, QI03, QM10, QM50); tx:QM13 refuted and queued. Six
    taken from verdict.fixedRecord, QI03 re-derived from the draft with the eight
    listed downgrades. Every status source is a shared const (the record's own
-   evidence row); no reviewer field. */
+   evidence row); no reviewer field.
+   Batch 9 (research + adversarial audit 2026-09-25, written the same day, access
+   date stamped 2026-09-25): 8 audited records for the QM inspection-method and
+   code-group display codes, the WM quant display, the FI-AR / FIN-FSCM credit
+   management codes and the sales-order code (QS34, QS42, LS24, FD31, FD32, FD33,
+   UKM_BP, VA01); no record refuted. All eight taken from verdict.fixedRecord.
+   Every status source is a shared const (the record's own evidence row); FD31
+   carries no status (the item names it in the relevance indicator and not in
+   the example lists). Writer corrections: the QS42 Fiori Apps Library row
+   release aligned from 'S32OP' to '2025 FPS01' (its status release), the word
+   'רק' ('only') dropped twice and two absolute negatives bounded to the sources
+   read; Old → New completed in every record's notes with the value
+   report-coverage measured before the write; the context rows of the generated
+   records that the audited records left out were carried over verbatim with
+   their 2026-09-24 access date (QS34 4, QS42 2, LS24 3, UKM_BP 2), so
+   superseding the generated records drops no source; VA01 keeps DATE24 on its
+   restored ECC row; no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -1277,6 +1293,147 @@ const QM50_SIMPL2025: Evidence = {
     "אותו נוסח ואותה טבלה חוזרים בגרסת 2025 FPS01 (פריט 9.6.1): שורת QM50, Time Line Display of Quality " +
     "Notifications, רכיב QM-QN, אפליקציית Fiori Nonconformance Detailed Analytics (F3583), תחת הכותרת 'For " +
     "the following transactions you can use Fiori Apps to cover the main functionality'.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 9 status sources (2026-09-25): one evidence row per record, shared by evidence[] and
+   status.source (QS34, QS42, LS24, FD32, FD33, UKM_BP, VA01; FD31 carries no status) */
+
+const QS34_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 9.6.2 " +
+    "S4TWL - Redundant Transactions in QM (SAP Note 2338215)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "הפריט מפרט את QS34 (רכיב QM-PT-BD) תחת הכותרת 'The following transactions are replaced by corresponding " +
+    "Fiori apps and are therefore not available in the SAP Fiori launchpad for SAP S/4HANA (but can be " +
+    "called directly with SAP GUI)' (כלשונו), בשורת הטבלה: 'QS34 Display inspection method version QM-PT-BD " +
+    "Fiori app Inspection Method' (כלשונו). כלומר: הטרנזקציה עצמה אינה מוסרת, אך אינה זמינה ב-SAP Fiori " +
+    "launchpad ב-S/4HANA; ניתן להפעילה ישירות דרך SAP GUI, והחלופה בממשק Fiori היא אפליקציה בשם 'Inspection " +
+    "Method'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QS42_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · QS42 Display Code Groups (SAP GUI), release S32OP (SAP S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('QS42')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "רשומת ה-Fiori Apps Library של QS42 (Display Code Groups, UI Technology: SAP GUI, Published) קיימת בגרסה " +
+    "S32OP (SAP S/4HANA 2025 FPS01, On-Premise), עם רכיב QM-PT-BD-CAT, GUI transaction מוביל QS42, ותחת " +
+    "predecessors/successors: '-' (לא רשום successor). רשימת הגרסאות ברשומה כוללת גרסאות On-Premise מ-S6OP " +
+    "(1610) ועד S32OP, בהן S30OP (2023 FPS03) ו-S31OP (2025), וגרסאות Private Cloud מ-S29PCE (2023 FPS02) " +
+    "ועד S32PCE (2025 FPS01); הרשימה אינה רציפה (אחרי S14OP=1809 FPS02 מופיעה S17OP=1909 FPS02).",
+  verificationLevel: "sap_official_verified",
+};
+
+const LS24_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.15.6 " +
+    "S4TWL - Segmentation (from 1809 onwards)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "פריט 'S4TWL - Segmentation (from 1809 onwards)' ברשימת הפישוט של 2025 FPS01 (גרסת מסמך 1.36) מונה את " +
+    "ההבדלים בין SAP ERP ל-SAP S/4HANA בתחום ה-Segmentation, ובהם לגבי LS24: 'In SAP S/4HANA the transaction " +
+    "LS24 doesn't support the \"Refresh\" button anymore'. הפריט אינו קובע לגבי LS24 החלפה, הסרה או " +
+    "successor. אותו משפט מופיע גם בפריט 'S4TWL - Segmentation' באותו מסמך ובפריט 'S4TWL - Segmentation " +
+    "(from 1809 onwards)' ברשימת הפישוט של 2023 FPS03 (גרסת מסמך 1.35), בניסוח זהה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const FD32_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.3.1 " +
+    "S4TWL - Credit Management",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 6.3.1 'S4TWL - Credit Management' ברשימת הפישוט הרשמית ל-SAP S/4HANA 2025 FPS01 (גרסת מסמך 1.36) " +
+    "קובע במפורש לגבי FD32, בטבלה 'Examples for replaced transactions in SAP S/4HANA': 'For the maintenance " +
+    "of the credit account master data, transaction FD32 is replaced by transaction UKM_BP.' אותו פריט מונה " +
+    "את FD32 גם ברשימה 'Transactions not available in SAP S/4HANA' כ-'FD32 - Change Customer Credit " +
+    "Management (but FD33 still available for Migration checks)', כלומר הטרנזקציה עצמה אינה זמינה ב-S/4HANA " +
+    "ותפקידה עבר במפורש לטרנזקציה UKM_BP.",
+  verificationLevel: "sap_official_verified",
+};
+
+const FD33_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.3.1 " +
+    "S4TWL - Credit Management",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "גוף הפריט 'S4TWL - Credit Management' (זהה בתוכנו לפריט 11.1.5 באותו מסמך) קובע ש-'Credit Management " +
+    "(FI-AR-CR) is not available as part of SAP S/4HANA', ותחת 'A & C' (שימוש ב-FI-AR-CR) מונה בעמודה " +
+    "'Transactions not available in SAP S/4HANA' את השורה 'FD32 - Change Customer Credit Management (but " +
+    "FD33 still available for Migration checks)'. הפריט אינו קובע ש-FD33 הוחלף או הוסר; שורה סמוכה קובעת " +
+    "שלתחזוקת נתוני אב של חשבון אשראי 'transaction FD32 is replaced by transaction UKM_BP', ואינה מתייחסת " +
+    "לתפקיד ההצגה של FD33.",
+  verificationLevel: "sap_official_verified",
+};
+
+const UKM_BP_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App UKM_BP 'Manage Business Partner - Credit Profile' (SAP GUI), release S32OP " +
+    "(S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('UKM_BP')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "ספריית ה-Fiori Apps הרשמית רושמת את הרשומה UKM_BP 'Manage Business Partner - Credit Profile' (סוג SAP " +
+    "GUI, רכיב FIN-FSCM-CR) כ-'Deprecated' במהדורת S/4HANA 2025 FPS01 (S32OP), ללא אפליקציית יורש רשומה. " +
+    "באותה ספרייה, בין האפליקציות המובילות עם קוד הטרנזקציה UKM_BP מופיעה גם F4596 'Manage Credit Accounts' " +
+    "(SAP Fiori elements).",
+  verificationLevel: "sap_official_verified",
+};
+
+const VA01_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.12.7 " +
+    "S4TWL - Fast entry of characteristic values in sales document",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט 'S4TWL - Fast entry of characteristic values in sales document' (רכיב IS-MP-SD, עמ' 1206; באותה " +
+    "כותרת ברשימת 2023 FPS03 כפריט 52.7) נקרא במלואו. הציטוט: 'As of SAP S/4HANA 1610, the fast entry of " +
+    "characteristic values functionality from tab page 'Fast data entry' is merged into tab page " +
+    "'Configuration' in sales document transactions like VA01, VA02, and VA03.' לפי הפריט הוא 'possibly " +
+    "relevant' כש-Business Function DIMP_SDUD (Discrete Indus. - Mill Products) פעילה, ו-'relevant' " +
+    "כשמשתמשים בלשונית 'Fast data entry' ב-VA01, VA02, VA03, VA11, VA12, VA13, VA21, VA22, VA23, VA41, VA42 " +
+    "או VA43. הפעולה הנדרשת: הגדרות Customizing לקונפיגורציית פריט תעודת מכירה, עם הפניה ל-SAP note 2319234; " +
+    "את לשונית Configuration ניתן לקבוע כלשונית הכניסה במסך הסקירה דרך Fcode 'UECO' בהגדרת 'Define Sales " +
+    "Document types' (VOV8). הפריט אינו נוקב במחליף ל-VA01.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -7635,5 +7792,950 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "הכרעת מעמד; ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה; חדש: " +
       "fiori_alternative_available). לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת " +
       "הקטלוג.",
+  },
+  {
+    id: "tx:QS34",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#QS34",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את QS34 כ'הצגת שינויי שיטת בדיקה' (Display Inspection Method Changes), מודול " +
+          "QM, תחום 'נתוני אב QM'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#QS34",
+      },
+      QS34_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (Document Version 1.35) · item " +
+          "34.2 S4TWL - Redundant Transactions in QM (SAP Note 2338215)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט S4TWL (הערה 2338215) חוזר גם ברשימת הפישוט של 2023 FPS03 (פריט 34.2), באותה טבלה ובאותו " +
+          "ניסוח: 'QS34 Display inspection method version QM-PT-BD Fiori app Inspection Method' (כלשונו), " +
+          "תחת אותה כותרת-משנה שמצהירה שהטרנזקציות ברשימה 'can be called directly with SAP GUI' חרף ההסרה " +
+          "מה-launchpad. שני מסמכי הפישוט (2023 FPS03 ו-2025 FPS01) מציגים את אותה שורה עבור QS34.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · Inspection Method (S/4HANA) (F0311A), release S32OP (SAP S/4HANA 2025 FPS01, " +
+          "on-premise)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0311A')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת ה-Fiori Apps Library לאפליקציה Inspection Method (S/4HANA) (F0311A, סוג Fact sheet / SAP " +
+          "Fiori elements, קטלוגים עסקיים SAP_QM_BC_INSP_METHODS, SAP_QM_BC_INSP_METHODS_DSP, " +
+          "SAP_QM_BC_INSP_PLANNING ו-SAP_QM_BC_RESULT_RECG, שירות OData QM_INSPMETHOD_OBJECTPAGE_SRV) מפרטת " +
+          "בשדה GUI Transactions: 'leading QS34; related QS38' (כלשונו). רשומה בספרייה החל מ-1610 (S6OP) ועד " +
+          "2025 FPS01 (S32OP), עם predecessor F0311 (Inspection Method, ERP) ו-successor ריק. זהו המקור " +
+          "שמזהה את שם האפליקציה 'Inspection Method' שאליה מפנה פריט הפישוט; F0311A טרם רשומה " +
+          "ב-data/fiori/apps.ts של הפרויקט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Information Sheet on Transferring QM Inspection Methods | Quality Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/7d67b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Quality Management, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "7d67b65334e6b54ce10000000a174cb4) נוקבת בקוד QS34 בסניפט: 'No Transactions Create QS31 Change " +
+          "QS33 Display QS34 Delete QS35 Other Programs Reports for post load verification and analyzing of " +
+          "data ... transferred ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "QM - Inspection method | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/5c89400c4e64456183d467d426aae1a1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "5c89400c4e64456183d467d426aae1a1) נוקבת בקוד QS34 בסניפט: 'Activity Transaction Code Change QS33 " +
+          "Display QS34 ... Inspection Method Name Display Inspection Method (app ID QS34) " +
+          "BAPI_QMTB_SAVEREPLICA Accessing ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Information Sheet on Transferring QM Inspection Methods | Quality Management (QM)",
+        url: "https://help.sap.com/docs/SAP_ERP/250374f0514e4e0f9057066374265eba/7d67b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Quality Management (QM), 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "7d67b65334e6b54ce10000000a174cb4) נוקבת בקוד QS34 בסניפט: 'No Transactions Create QS31 Change " +
+          "QS33 Display QS34 Delete QS35 Other Programs Reports for post load verification and analyzing of " +
+          "data ... transferred ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App QS34 'Display Inspection Method' (SAP GUI), release S32OP (S/4HANA 2025 " +
+          "FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('QS34')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את QS34 כאפליקציה 'Display Inspection Method' מסוג SAP " +
+          "GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "פריט הפישוט 'S4TWL - Redundant Transactions in QM' (SAP Note 2338215, זהה במילותיו ב-2023 FPS03 " +
+        "וב-2025 FPS01) קובע ש-QS34 (בפריט: Display inspection method version) אינה זמינה ב-SAP Fiori " +
+        "launchpad ב-S/4HANA ומוחלפת באפליקציית Fiori בשם 'Inspection Method', אך ניתן להפעיל אותה ישירות " +
+        "דרך SAP GUI: הקוד עצמו אינו מוסר או מבוטל. אפליקציית ה-Fiori המקבילה, ככל הנראה F0311A (Inspection " +
+        "Method (S/4HANA), לפי ספריית האפליקציות הרשמית ש-QS34 רשומה בה כ-leading GUI transaction), אינה " +
+        "עדיין רשומה במאגר ה-Fiori המקומי של הפרויקט (data/fiori/apps.ts), ולכן לא נקבעת כאן כ-successor " +
+        "מאומת.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QS34_SIMPL2025,
+      recommendedAction:
+        "להוסיף את F0311A (Inspection Method (S/4HANA)) למאגר data/fiori/apps.ts, ולאחר מכן לשקול עדכון " +
+        "רשומה זו עם successor: fiori:F0311A; עד אז, בסביבת S/4HANA On-Premise יש לצפות שהקוד QS34 יעבוד " +
+        "ב-SAP GUI אך לא יופיע ב-launchpad.",
+    },
+    xrefs: ["tx:QS31", "tx:QS33", "tx:QS35", "tx:QS38"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה שאומת: (1) שני פריטי הפישוט (34.2 ב-2023 FPS03, 9.6.2 ב-2025 FPS01, SAP Note 2338215, זהים " +
+      "במילותיהם) מפרטים במפורש את QS34 ברשימת הטרנזקציות שאינן זמינות ב-Fiori launchpad ב-S/4HANA ומוחלפות " +
+      "באפליקציית Fiori בשם 'Inspection Method', תוך ציון מפורש שהטרנזקציה ניתנת להפעלה ישירה ב-SAP GUI: זו " +
+      "קביעה על אי-זמינות ב-launchpad, לא הסרה או ביטול הקוד. (2) scripts/fal-app.mjs --tcode QS34 --release " +
+      "S32OP ו-scripts/fal-app.mjs F0311A --release S32OP אישרו שהאפליקציה Inspection Method (S/4HANA) " +
+      "(F0311A) רושמת QS34 כ-leading GUI transaction (related QS38), עם predecessor F0311 (ERP) וללא " +
+      "successor פורמלי. מה שלא אומת: (א) F0311A אינה רשומה עדיין ב-data/fiori/apps.ts, לכן לא נקבע " +
+      "xref/successor אליה כאן (successor חייב להתקיים ב-universe); לפיכך status נקבע " +
+      "כ-fiori_alternative_available ו-source הוא שורת פריט הפישוט של 2025 FPS01. (ב) החיפוש " +
+      "scripts/sap-help-search.mjs 'QS34 inspection method' (SAP_S4HANA_ON-PREMISE, 21 תוצאות) החזיר את " +
+      "הרשומה 'QM - Inspection method' (Data Migration, 2025.001, loio 9a4d6211ef8c4c2ebc7afd05c1059b02), " +
+      "שהתקציר שלה מציג 'Display Inspection Method Version (QS34)' ו-'App: Display Inspection Methods " +
+      "(F0311A)'; גוף העמוד לא נקרא ולא צוטט כאן. (ג) קבצי ה-PDF נקראו מחילוצי pdftotext השמורים בפרויקט " +
+      "(scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt). (ד) פער שם: רשומת המאגר קוראת " +
+      "ל-QS34 'Display Inspection Method Changes', ואילו המקורות הרשמיים מציגים 'Display inspection method " +
+      "version' (רשימת הפישוט, תקציר help.sap.com) ו-'Display Inspection Method' (ספריית ה-Fiori); הכותרת " +
+      "במאגר דורשת אימות מול SE93. (ה) קיימת כבר רשומה שנוצרה אוטומטית ל-tx:QS34 ב-transactions-auto.ts (ללא " +
+      "הכרעת מעמד); רשומה מחקרית זו מחליפה אותה דרך מנגנון ה-supersede הקיים ב-data/verification/index.ts " +
+      "(ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה; חדש: " +
+      "fiori_alternative_available); ארבע שורות ההקשר שלה שאינן מצוטטות כאן (שתי רשומות 'Information Sheet " +
+      "on Transferring QM Inspection Methods', בצד S/4HANA ובצד ה-ECC, רשומת Data Migration נוספת בשם 'QM - " +
+      "Inspection method' עם loio 5c89400c4e64456183d467d426aae1a1, ורשומת ספריית ה-Fiori של QS34) הועתקו " +
+      "כלשונן כשורות context, שאינן נספרות ברמת האימות. לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה " +
+      "reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QS42",
+    evidence: [
+      QS42_FAL_S32OP,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 9.6.2 S4TWL - Redundant " +
+          "transactions in QM",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (וכן המקבילה שלו ברשימת 2023 FPS03, פריט 34.2) מציג טבלה של טרנזקציות ש'will not be " +
+          "provided anymore in SAP S/4HANA', ובה השורה: Transaction QS45 ('Display catalog', רכיב QM-PT-BD) " +
+          "עם Alternative QS42. כלומר הפריט קובע במפורש כי QS45 היא הטרנזקציה המוסרת, ו-QS42 רשומה בעמודת " +
+          "Alternative שלה; הפריט אינו קובע דבר על הסרה, הגבלה או שינוי של QS42 עצמה, ומציין אותה כחלופה. " +
+          "(ציטוט מדויק: 'QS45 Display catalog QM-PT-BD QS42'.)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Object classification - Code group (QPGR) | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/5efde0cc76c64feaa18bfc503bb8a9ce.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש (snippet) ממדריך Data Migration לגרסת 2025 FPS01 קובעת, לגבי אובייקט ההגירה Code " +
+          "group (QPGR): 'You also have the option of validating your data in the back end using the " +
+          "following transaction: Transaction: Display Catalog (QS42)' וכן 'In addition, you can also use " +
+          "the following app or apps: App: Display Code Groups (QS42)'. כלומר בגרסת 2025.001 התיעוד מפנה " +
+          "לטרנזקציה QS42 לאימות הנתונים ב-back end. גוף העמוד הוא מעטפת JavaScript ולא נקרא, ולכן הטענה " +
+          "תחומה בכותרת וב-snippet של רשומת החיפוש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#QS42",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את QS42 כ'הצגת קטלוג', מודול QM, תחום 'קטלוגים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#QS42",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Catalog code group and code | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/062c0e9fd0c946a8ba3edcd728b6b0b6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "062c0e9fd0c946a8ba3edcd728b6b0b6) נוקבת בקוד QS42 בסניפט: 'Activity Transaction Code Edit QS41 " +
+          "Display QS42 ... Function Catalog Code Group Edit Code Groups (app ID QS41) BAPI_QPGR_SAVEREPLICA " +
+          "Accessing ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "QS42 (הצגת קטלוג/הצגת קבוצות קוד) ממשיכה להתקיים כטרנזקציית SAP GUI רגילה ב-SAP S/4HANA On-Premise, " +
+        "ומתועדת ב-Fiori Apps Library עד גרסת 2025 FPS01 (S32OP) ללא successor. פריט הפישוט 'S4TWL - " +
+        "Redundant Transactions in QM' (2023 FPS03 §34.2 / 2025 FPS01 §9.6.2) מציין את QS42 כתחליף " +
+        "(Alternative) לטרנזקציה המוסרת QS45, ואינו קובע לגביה שינוי, הגבלה או הסרה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: QS42_FAL_S32OP,
+      recommendedAction:
+        "להמשיך להשתמש ב-QS42 להצגת קבוצות קוד/קטלוג כרגיל; אם קיים שימוש בטרנזקציה המוסרת QS45, לעבור אליה " +
+        "כתחליף הרשמי לפי פריט הפישוט. במקורות שנקראו לא נמצאה אינדיקציה רשמית להחלפה עתידית של QS42 עצמה; " +
+        "מומלץ לבדוק במערכת S/4HANA חיה שהטרנזקציה עדיין נגישה בתפריט הרלוונטי לפני קונברסיה.",
+    },
+    xrefs: ["tx:QS41", "tx:QS51", "table:QPGR", "table:QPCD"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נבדק בפועל מול קבצי ה-Simplification Lists המחולצים (scratchpad/official/SIMPL_OP2025.pdf.txt שורות " +
+      "45020-45110, SIMPL_OP2023.pdf.txt שורות 45170-45260), מול fal-app.mjs QS42 (ומול --tcode QS42) ומול " +
+      "sap-help-search.mjs (3 חיפושים: 'QS42 Display Catalog' על SAP_S4HANA_ON-PREMISE ועל SAP_ERP, " +
+      "'Redundant transactions in QM S4TWL'). QS45 עצמה אינה קיימת ב-lib/route-manifest.generated.ts ולכן לא " +
+      "נכללת כ-xref (נזכרת בפרוזה בלבד). לא בוצעה בדיקה במערכת SAP חיה. במקורות שנקראו לא נמצא מקור רשמי " +
+      "הקורא ל-QS42 'deprecated' או קובע לה successor; אם ייחשף בעתיד פריט פישוט חדש שדן ב-QS42 עצמה, יש " +
+      "לעדכן את הרשומה ולציין כאן Old → New. רשומה זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:QS42 " +
+      "ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, verification_required לפי report-coverage.mjs --ids, " +
+      "נמדד לפני הכתיבה; חדש: unchanged); שתי שורות ההקשר שלה שאינן מצוטטות כאן (רשומת המאגר " +
+      "tcode-catalog.ts#QS42 ורשומת Data Migration 'Catalog code group and code') הועתקו כלשונן כשורות " +
+      "context, שאינן נספרות ברמת האימות. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:LS24",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#LS24",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את LS24 כ'ניהול מחסן (WM) - תצוגת bin/quant' (Display Quants for Material), " +
+          "מודול WM: תצוגת quants לפי חומר מתוך LQUA, כולל batch, GR date ו-stock category.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#LS24",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Displaying WM Stock Overview | Retail",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/ba165f54380c033de10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (תיעוד Retail, 2025 FPS01, versionId 2025.001, loio " +
+          "ba165f54380c033de10000000a441470) מתארת שימוש ב-LS24 להצגת סקירת מלאי ייעודית ל-WM, שבה רואים " +
+          "איזה article נמצא באיזה storage location ובאיזה storage bin; מתוך הסניפט: 'You can display a " +
+          "WM-specific stock overview using transaction LS24. You can see which article is located in which " +
+          "storage location and in which storage bin.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App LS24 'Display Quants for Material' (SAP GUI), release S32OP (S/4HANA " +
+          "2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('LS24')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות של Fiori רושמת את LS24 כאפליקציית SAP GUI בשם 'Display Quants for Material' " +
+          "במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס Published, רכיב LE-WM, קטלוג טכני " +
+          "SAP_TC_SCM_LE_BE_APPS:S4SCM; ברשומה לא מופיעות אפליקציות predecessor או successor.",
+        verificationLevel: "sap_official_verified",
+      },
+      LS24_SIMPL2025,
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#LS24",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-LS24 את הכותרת האנגלית 'Display Quants for Material'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#LS24",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Retail",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/0cc9ea57875cbd12e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Retail, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "0cc9ea57875cbd12e10000000a4450e5) נוקבת בקוד LS24 בסניפט: '... VA02, VA03, VA11, VA12, VA13, " +
+          "VA21, VA22, VA23, VA41, VA42, VA43) Bin Stock per Material (LS24 ... ) Total Stock per Material " +
+          "(LS26) WM Stock (LX02) Related Information Characteristic Values ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Displaying WM Stock Overview | Segmentation (LO-SGT)",
+        url: "https://help.sap.com/docs/SAP_ERP/349992fb60854a62a264d716ad5c8f54/ba165f54380c033de10000000a441470.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Segmentation (LO-SGT), 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "ba165f54380c033de10000000a441470) נוקבת בקוד LS24 בסניפט: 'Displaying WM Stock Overview Use You " +
+          "can display a WM-specific stock overview using transaction LS24. You can see which article is " +
+          "located in which storage location and in which storage bin. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "לפי פריט הפישוט S4TWL - Segmentation, הטרנזקציה LS24 (Display Quants for Material) אינה תומכת יותר " +
+        "בכפתור ה-Refresh ב-SAP S/4HANA; היא רשומה בספריית ה-Fiori כאפליקציית SAP GUI בסטטוס Published " +
+        "במהדורת 2025 FPS01, והפריט אינו קובע לגביה החלפה או הסרה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: LS24_SIMPL2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-LS24 לתחקור מלאי WM ברמת quant לפי חומר, בלי להסתמך על כפתור ה-Refresh במסך; " +
+        "במקורות שנקראו לא צוין successor או אפליקציית Fiori מחליפה. מומלץ לבדוק את התנהגות המסך במערכת היעד.",
+    },
+    xrefs: ["tx:LS22", "tx:LS26", "tx:LX02"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מחקר ממוקד שממשיך את הרשומה שנוצרה אוטומטית ב-data/verification/transactions-auto.ts " +
+      "(scripts/qa/gen-tx-evidence.mts, 2026-09-24), שם שלושת אזכורי הפישוט צוטטו בלי הכרעה. נקראו שלוש " +
+      "השורות בקובצי הטקסט שחולצו מה-PDF (scratchpad/official/SIMPL_OP2025.pdf.txt שורות 74168 ו-74528, " +
+      "scratchpad/official/SIMPL_OP2023.pdf.txt שורות 71477-71478); הניסוח זהה בשני המסמכים, כולל המילה " +
+      "'anymore'. לא נמצא מקור רשמי הקובע סטטוס replaced/deprecated/not_available עבור LS24; הרשומה הזו " +
+      "מחליפה את tx:LS24 שב-transactions-auto.ts (ישן: ללא הכרעת מעמד, ולפני הכתיבה הציג report-coverage.mjs " +
+      "--ids סטטוס נגזר 'unchanged' ברמת repository_verified; חדש: changed); שלוש שורות ההקשר שלה שאינן " +
+      "מצוטטות כאן (tcode-catalog.ts#LS24, 'Characteristic Values in Application Documents' ו-'Displaying WM " +
+      "Stock Overview' בצד ה-ECC) הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות. לא בוצעה בדיקה " +
+      "במערכת SAP חיה (למשל SE93). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:FD31",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 18.1 S4TWL - Credit " +
+          "Management (SAP Note 2270544)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט נוקב ב-FD31 במשפט האינדיקציה לשימוש ב-Credit Management הקלאסי (FI-AR-CR): 'You are using " +
+          "transaction FD31 or FD32 to maintain credit account master data (this data is stored in table " +
+          "KNKK & KNKA)'. רשימות הדוגמאות של הפריט ('Here are some examples for such cases') נוקבות בהחלפה " +
+          "של FD32: 'For the maintenance of the credit account master data, transaction FD32 is replaced by " +
+          "transaction UKM_BP', וברשימת 'Transactions not available in SAP S/4HANA': 'FD32 - Change Customer " +
+          "Credit Management (but FD33 still available for Migration checks)'. FD31 אינו מופיע ברשימות " +
+          "הדוגמאות, ולכן הפריט אינו קובע במפורש מה מעמדו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.3.1 S4TWL - Credit " +
+          "Management (SAP Note 2270544)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "אותו נוסח חוזר בגרסת 2025 FPS01: FD31 נזכר במשפט האינדיקציה המשותף עם FD32 ('You are using " +
+          "transaction FD31 or FD32 to maintain credit account master data'). רשימות הדוגמאות ('Here are " +
+          "some examples for such cases') נוקבות בהחלפת FD32 ב-UKM_BP ('transaction FD32 is replaced by " +
+          "transaction UKM_BP') ומציבות את FD32 ברשימת 'Transactions not available in SAP S/4HANA' ('FD32 - " +
+          "Change Customer Credit Management (but FD33 still available for Migration checks)'). FD31 אינו " +
+          "מופיע ברשימות הדוגמאות גם בגרסה זו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FD31",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מגדירה את FD31 כ-Create Customer Credit Management (יצירת ניהול אשראי לקוח), מודול " +
+          "SD, תחום 'אשראי'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FD31",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: s4-objects.ts#Credit Management",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר קובעת ברמת המסגרת הכללית (לא ברמת קוד ספציפי) שה-Credit Management הקלאסי (FI-AR " +
+          "Credit Management) הוחלף ב-FSCM Credit Management; היא אינה נוקבת ב-FD31 עצמו ואינה קובעת סטטוס " +
+          "עבור טרנזקציה ספציפית.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/s4-objects.ts#Credit Management",
+      },
+    ],
+    xrefs: ["tx:FD32", "tx:FD33", "tx:UKM_BP"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "לא הוגדר status: הפריט 'S4TWL - Credit Management' (SAP Note 2270544, מופיע גם ב-2023 FPS03 פריט " +
+      "39.12 וב-2025 FPS01 פריט 11.1.5 באותו נוסח) מביא רשימות דוגמאות ('Here are some examples for such " +
+      "cases') שבהן FD32 מוחלף ב-UKM_BP ומופיע ברשימת הטרנזקציות שאינן זמינות ב-S/4HANA, ו-FD33 מצוין כזמין " +
+      "לבדיקות מיגרציה. FD31 מופיע במשפט האינדיקציה המשותף ('You are using transaction FD31 or FD32...') " +
+      "ואינו נזכר ברשימות הדוגמאות. זהו רמז ולא פסק דין על FD31 עצמו: לא ידוע ממקור רשמי אם FD31 (יצירה) " +
+      "זמין ב-S/4HANA. חיפושים שרצו ב-scripts/sap-help-search.mjs בסקופ SAP_S4HANA_ON-PREMISE: 'FD31' (21 " +
+      "תוצאות, ללא רשומה רשמית העוסקת ב-FD31 עצמו), 'Create Customer Credit Management' (21 תוצאות, ללא " +
+      "רשומה העוסקת ב-FD31). לא בוצעה בדיקה במערכת SAP חיה. FD31 נותר verification_required עד שיימצא מקור " +
+      "רשמי הקובע את מעמדו במפורש. רשומה זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:FD31 " +
+      "ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, verification_required לפי report-coverage.mjs --ids, " +
+      "נמדד לפני הכתיבה; חדש: עדיין ללא הכרעת מעמד, אחרי קריאת גוף הפריט). הרשומה אינה נושאת שדה reviewer, " +
+      "כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:FD32",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FD32",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את FD32 כ'שינוי ניהול אשראי לקוח', מודול SD, תחום 'אשראי'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FD32",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Making Settings in FI-AR SAP ERP 2004 | Configuration Guide SAP Credit Management",
+        url: "https://help.sap.com/docs/SAP_ERP/16b1ed1b770d486eadffe4fea3ec8781/b34c195466432b18e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Configuration Guide SAP Credit Management, SAP ERP 6.0 EHP8, versionId " +
+          "6.18.latest) נוקבת בקוד FD32 בסניפט: 'For technical reasons, with transaction FD32 (Credit " +
+          "Management), enter a master data record for each customer for which an FI summary ...', כלומר " +
+          "הקוד מתועד בצד ה-ECC כטרנזקציית ניהול אשראי ברמת לקוח; באותו סניפט מוזכר ניהול האשראי המקורי " +
+          "(FI-AR-CR).",
+        verificationLevel: "sap_official_verified",
+      },
+      FD32_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item " +
+          "18.1 S4TWL - Credit Management",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 18.1 'S4TWL - Credit Management' ברשימת הפישוט הרשמית ל-SAP S/4HANA 2023 FPS03 (גרסת מסמך " +
+          "1.35) מנוסח באותו אופן וקובע לגבי FD32, בטבלה 'Examples for replaced transactions in SAP " +
+          "S/4HANA': 'For the maintenance of the credit account master data, transaction FD32 is replaced by " +
+          "transaction UKM_BP', ומראה שהקביעה עקבית לפחות מ-2023 FPS03 ועד 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "לפי פריט S4TWL - Credit Management ברשימות הפישוט הרשמיות (2023 FPS03 ו-2025 FPS01), FD32 (שינוי " +
+        "ניהול אשראי לקוח, FI-AR-CR) אינה זמינה ב-SAP S/4HANA On-Premise; המקור הרשמי קובע במפורש שתחזוקת " +
+        "נתוני האב של חשבון האשראי עוברת לטרנזקציה UKM_BP (SAP Credit Management, FIN-FSCM-CR).",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: FD32_SIMPL2025,
+      recommendedAction:
+        "בהמרת מערכת ל-S/4HANA יש להעביר את תחזוקת נתוני האב של חשבון האשראי מ-FD32 לטרנזקציה UKM_BP (SAP " +
+        "Credit Management, FIN-FSCM-CR). לפי פריט הפישוט, ההגירה מ-FI-AR-CR ל-FIN-FSCM-CR בנוף חד-מערכתי " +
+        "נתמכת בכלים ש-SAP מספקת ב-IMG; פעולות ה-IMG של SAP Credit Management מרוכזות בנתיב Financial Supply " +
+        "Chain Management > Credit Management.",
+      successor: "tx:UKM_BP",
+    },
+    xrefs: ["tx:UKM_BP", "tx:FD31"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "הרשומה הדטרמיניסטית הקודמת (data/verification/transactions-auto.ts#tx:FD32) הביאה את פריטי הפישוט " +
+      "כהקשר בלבד ולא קבעה מעמד (ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה; " +
+      "חדש: replaced, successor tx:UKM_BP); מחקר זה קרא את גוף הפריטים " +
+      "(scratchpad/official/SIMPL_OP2025.pdf.txt, scratchpad/official/SIMPL_OP2023.pdf.txt) ואיתר משפט מפורש " +
+      "הנוקב בקוד FD32 וקובע החלפה בטרנזקציה UKM_BP, עקבי בשתי המהדורות (2023 FPS03 ו-2025 FPS01). אותו פריט " +
+      "מונה את FD32 גם ברשימת 'Transactions not available in SAP S/4HANA', עם ההערה ש-FD33 נשארת זמינה " +
+      "לבדיקות הגירה. פריטי הכפל 11.1.5 (2025 FPS01) ו-39.12 (2023 FPS03) נבדקו בקבצי הטקסט המחולצים וחוזרים " +
+      "מילה במילה על המשפט על FD32 ועל שורת FD32 ברשימת Transactions not available in SAP S/4HANA. " +
+      "fal-app.mjs לא הופעל, ולא נבחנה חלופת Fiori ל-UKM_BP. לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה " +
+      "נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:FD33",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FD33",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את FD33 כ'הצגת ניהול אשראי לקוח', מודול SD, תחום 'אשראי'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FD33",
+      },
+      FD33_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item " +
+          "18.1 S4TWL - Credit Management",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "גוף הפריט 'S4TWL - Credit Management' (זהה בתוכנו לפריט 39.12 באותו מסמך) מונה בעמודה " +
+          "'Transactions not available in SAP S/4HANA' את השורה 'FD32 - Change Customer Credit Management " +
+          "(but FD33 still available for Migration checks)', כמו ברשימת 2025 FPS01. הפריט אינו קובע ש-FD33 " +
+          "הוחלף או הוסר; הוא קובע שהקוד נותר זמין לבדיקות הגירה (Migration checks).",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "restricted",
+      he:
+        "לפי פריט הפישוט 'S4TWL - Credit Management' (2023 FPS03 ו-2025 FPS01), FI-AR-CR אינו זמין ב-S/4HANA " +
+        "והמקבילה היא FIN-FSCM-CR; ברשימת הטרנזקציות שאינן זמינות הפריט מציין ש-FD33 נותר זמין לבדיקות הגירה " +
+        "(Migration checks). הפריט אינו קובע ש-FD33 הוחלף, הוסר או קיבל יורש.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: FD33_SIMPL2025,
+      recommendedAction:
+        "לאמת ב-SE93 במערכת היעד שהקוד, התוכנית והמסך קיימים; לבדוק את היקף השימוש בו בהקשר של בדיקות ההגירה " +
+        "מ-FI-AR-CR, ולכוון את השימוש השוטף לניהול האשראי מבוסס השותף העסקי (UKM_BP / FIN-FSCM-CR).",
+    },
+    xrefs: ["tx:FD32", "tx:UKM_BP"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "רשומה מחקרית: נקרא גוף פריט הפישוט 'S4TWL - Credit Management' בטקסט המחולץ " +
+      "(scratchpad/official/SIMPL_OP2025.pdf.txt, SIMPL_OP2023.pdf.txt). ארבעת מופעי הפריט (2025 FPS01: " +
+      "6.3.1, 11.1.5; 2023 FPS03: 18.1, 39.12) זהים בתוכנם, ומוצגים כשתי ראיות, אחת לכל מהדורה. ישן → חדש: " +
+      "רשומת הקשר דטרמיניסטית ללא הכרעת מעמד (transactions-auto.ts, 2026-09-24; verification_required לפי " +
+      "report-coverage.mjs --ids, נמדד לפני הכתיבה) → restricted לפי גוף הפריט ('but FD33 still available " +
+      "for Migration checks'). יורש (UKM_BP) נקוב בפריט עבור FD32 (תחזוקה) ולא עבור FD33 (הצגה), ולכן לא " +
+      "נכתב successor. חיפושים שתועדו ברשומה הקודמת: 'FD33' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות, 0 " +
+      "מצוטטות), 'FD33' בסקופ SAP_ERP (21 רשומות, 0 מצוטטות); ספריית Fiori במהדורה S32OP: 0 אפליקציות עם קוד " +
+      "מוביל FD33. לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:UKM_BP",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#UKM_BP",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את UKM_BP כ'נתוני אב שותף עסקי (ניהול אשראי)', מודול SD, תחום 'אשראי'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#UKM_BP",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Business Partner: Credit Profile (UKM_BP) | Financial Operations",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/adcdbc559a994c4097a928c148e6dfcb.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת עזרה רשמית בשם 'Maintain Business Partner: Credit Profile (UKM_BP)' (Financial Operations, " +
+          "S/4HANA 2025 FPS01) מתעדת את UKM_BP כטרנזקציית SAP GUI לתחזוקת פרופיל האשראי של שותף עסקי, " +
+          "ומציינת שבסביבת SAP Fiori launchpad קיים מקביל: אפליקציית Manage Credit Accounts.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Credit Management (SAP S/4HANA 2023 FPS03 Simplification List, items 18.1 and 39.12; זהה " +
+          "במהות ל-2025 FPS01 6.3.1 ו-11.1.5)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (סעיף 'How to Determine Relevancy', אינדיקטור B, שימוש ב-SAP Credit Management/FIN-FSCM-CR) " +
+          "קובע במפורש: 'You are using transaction BP or UKM_BP to maintain credit account master data (this " +
+          "data is stored in table UKMBP_CMS_SGM & UKMBP_CMS)'. בהמשך, בטבלת הדוגמאות לטרנזקציות שהוחלפו " +
+          "('Examples for replaced transactions in SAP S/4HANA'), הפריט קובע: 'For the maintenance of the " +
+          "credit account master data, transaction FD32 is replaced by transaction UKM_BP.' כלומר UKM_BP " +
+          "אינו הקוד שהוחלף; הוא הכלי (יחד עם BP) שאליו FD32 (FI-AR-CR הישן) הוחלף לצורך תחזוקת נתוני אב " +
+          "אשראי תחת SAP Credit Management (FIN-FSCM-CR). הפריט אינו קובע דבר על הסרה או שינוי מבני של " +
+          "UKM_BP עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      UKM_BP_FAL_S32OP,
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F4596 'Manage Credit Accounts', release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4596')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "האפליקציה F4596 'Manage Credit Accounts' (SAP Fiori elements, סטטוס Published, רכיב " +
+          "FIN-FIO-CCD-CR) משויכת לתפקיד SAP_BR_CREDIT_CONTROLLER ול-business catalog " +
+          "SAP_SFIN_BC_CR_CREDIT_ACC, משתמשת בשירות OData UI_CRDTMGMTACCOUNT_MANAGE, וקוד הטרנזקציה המוביל " +
+          "שלה הוא UKM_BP. F4596 אינה רשומה כיום ב-data/fiori/apps.ts, ולכן לא נוספה כ-xref או כ-successor.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Display Additional Information (UKM_ADDINFOS_DISPLAY) | Financial Operations",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/85023a2b39ab4c6ea6b3a784b2b20340.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Financial Operations, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "85023a2b39ab4c6ea6b3a784b2b20340) נוקבת בקוד UKM_BP בסניפט: '... business partner in the Manage " +
+          "Business Partner - Credit Profile app, or with transaction UKM_BP. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Ensuring Data Protection | Configuration Guide SAP Credit Management",
+        url: "https://help.sap.com/docs/SAP_ERP/16b1ed1b770d486eadffe4fea3ec8781/4d91f58e9a2614b1e10000000a42189c.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Configuration Guide SAP Credit Management, 6.0 EHP8 Latest, versionId " +
+          "6.18.latest, loio 4d91f58e9a2614b1e10000000a42189c) נוקבת בקוד UKM_BP בסניפט: '... can delete the " +
+          "master data for a business partner manually per credit segment in transaction UKM_BP. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "פריט הפישוט S4TWL - Credit Management (2023 FPS03 18.1; זהה במהות ב-2025 FPS01 6.3.1 ו-11.1.5) קובע " +
+        "ש-UKM_BP (יחד עם BP) הוא הכלי לתחזוקת נתוני אב אשראי תחת SAP Credit Management (FIN-FSCM-CR), " +
+        "ושהטרנזקציה הישנה FD32 (FI-AR-CR) הוחלפה בו, לא להיפך. בנפרד, ספריית Fiori Apps Library מציגה את " +
+        "רשומת UKM_BP עצמה (SAP GUI) כ-'Deprecated' במהדורת S32OP (S/4HANA 2025 FPS01), עם אפליקציית Fiori " +
+        "מקבילה F4596 'Manage Credit Accounts' (SAP Fiori elements, Published).",
+      edition: "on-premise",
+      release: "2025.001",
+      source: UKM_BP_FAL_S32OP,
+      recommendedAction:
+        "לאשר שנתוני אב האשראי מתוחזקים דרך UKM_BP/BP (SAP Credit Management, FIN-FSCM-CR) ולא דרך FD32 " +
+        "הישן; לבדוק שימוש נוכחי בטרנזקציית UKM_BP בממשק SAP GUI ולבחון מעבר לאפליקציית Fiori F4596 Manage " +
+        "Credit Accounts (תפקיד SAP_BR_CREDIT_CONTROLLER, business catalog SAP_SFIN_BC_CR_CREDIT_ACC), מאחר " +
+        "שרשומת ה-SAP GUI של UKM_BP מסומנת Deprecated בספריית ה-Fiori Apps; לאמת קיום ותפקוד UKM_BP במערכת " +
+        "היעד ב-SE93.",
+    },
+    xrefs: ["tx:FD32", "tx:BP"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: פריט הפישוט S4TWL - Credit Management נקרא ישירות מהטקסט המחולץ " +
+      "(scratchpad/official/SIMPL_OP2023.pdf.txt, פריטים 18.1 ו-39.12; SIMPL_OP2025.pdf.txt, פריטים 6.3.1 " +
+      "ו-11.1.5; כל המופעים זהים במהות מבחינת התוכן הרלוונטי ל-UKM_BP). sap-help-search.mjs 'UKM_BP maintain " +
+      "credit account master data' (--product SAP_S4HANA_ON-PREMISE, 21 תוצאות) ו-'UKM_BP' (--product " +
+      "SAP_ERP, 21 תוצאות) אישרו שהקוד קיים ומתועד גם ב-ECC (SAP Financial Supply Chain Management, " +
+      "FIN-FSCM) וגם ב-S/4HANA. fal-app.mjs UKM_BP (S32OP) החזיר את הרשומה עצמה כ-Deprecated ללא יורש; " +
+      "fal-app.mjs --tcode UKM_BP (S32OP) החזיר כאפליקציה מובילה נוספת את F4596 Manage Credit Accounts; " +
+      "fal-app.mjs F4596 (S32OP) אישר את התפקיד, ה-business catalog, שירות ה-OData והסטטוס Published. F4596 " +
+      "אינה רשומה ב-data/fiori/apps.ts, ולכן לא נכללה כ-successor/xref, בדומה לתקדים tx:QM50/F3583 " +
+      "ו-tx:QA32/F2343. xrefs כוללים tx:FD32 (הקוד שהוחלף לפי הפריט) ו-tx:BP (הטרנזקציה השנייה שהפריט מזכיר " +
+      "לצד UKM_BP); שניהם קיימים ב-lib/route-manifest.generated.ts. רשומה זו מחליפה, מבחינת עומק, את הרשומה " +
+      "הגנרית context-only ב-transactions-auto.ts#UKM_BP (שם נכתב במפורש שהכרעת המעמד טרם נקראה; ישן: " +
+      "verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה; חדש: " +
+      "fiori_alternative_available); שתי שורות ההקשר שלה שאינן מצוטטות כאן ('Display Additional Information " +
+      "(UKM_ADDINFOS_DISPLAY)' ו-'Ensuring Data Protection') הועתקו כלשונן כשורות context, שאינן נספרות ברמת " +
+      "האימות. לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer.",
+  },
+  {
+    id: "tx:VA01",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#VA01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את VA01 כ'מכירות - הזמנות לקוח', מודול SD.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VA01",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VA01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-VA01 את הכותרת האנגלית 'Create Sales Order'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VA01",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Sales Documents | Sales",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/04b81d8f3787485f99b8600b35ac8d06.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Sales, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "04b81d8f3787485f99b8600b35ac8d06) נוקבת בקוד VA01 בסניפט: 'App IDs: VA21, VA41, VA31, VA01 This " +
+          "app comes with different tiles or functions that are embedded in other apps.', ובהמשכו 'Create " +
+          "Sales Orders - VA01'. הסניפט מונה את VA01 בין ה-App IDs של הנושא בתיעוד S/4HANA 2025 FPS01 " +
+          "On-Premise ואינו מזכיר החלפה או הסרה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Retail",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/0cc9ea57875cbd12e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Retail, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "0cc9ea57875cbd12e10000000a4450e5) נוקבת בקוד VA01 בסניפט: '... the following list of " +
+          "transactions: Stock Overview (RWBE) ATP Overview in Sales Documents (VA01, VA02, VA03, VA11 ... , " +
+          "VA02, VA03) VBAP Sales Inquiry (VA11, VA12, VA13) VBAP Sales Quotation ...'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintaining Customer Tax Indicator | United States",
+        url: "https://help.sap.com/docs/SAP_ERP/3318ebc75ddc4d2994ca75b5fe521f24/746bd0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (United States, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "746bd0531d8b4208e10000000a174cb4) נוקבת בקוד VA01 בסניפט: 'You can also use the following " +
+          "transactions: Sales To create To change Order VA01 VA02 Inquiry VA11 VA12 Quotation VA21 VA22 " +
+          "...'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App VA01 'Create Credit Memo Requests - W/o Preceding Document, Create " +
+          "Customer Return Without Reference - VA01, Create Debit Memo Requests - W/o Preceding Document, " +
+          "Create Sales Orders, Create Sales Orders - Intercompany, Create Sales Orders - VA01' (SAP GUI), " +
+          "release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('VA01')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את VA01 כאפליקציה 'Create Credit Memo Requests - W/o " +
+          "Preceding Document, Create Customer Return Without Reference - VA01, Create Debit Memo Requests - " +
+          "W/o Preceding Document, Create Sales Orders, Create Sales Orders - Intercompany, Create Sales " +
+          "Orders - VA01' מסוג SAP GUI במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'; fal-app.mjs " +
+          "מדפיס עבור רשומה זו successors 0.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F1708 'Manage Customer Returns' (SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1708')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F1708 " +
+          "'Manage Customer Returns' (SAP Fiori elements, 'Published') עם קוד הטרנזקציה המוביל VA01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F3893 'Manage Sales Orders - Version 2' (SAP Fiori elements), release " +
+          "S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3893')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F3893 " +
+          "'Manage Sales Orders - Version 2' (SAP Fiori elements, 'Published') עם קוד הטרנזקציה המוביל VA01.",
+        verificationLevel: "sap_official_verified",
+      },
+      VA01_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item " +
+          "13.13.13 S4TWL - OGSD - Infosheet",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט 'S4TWL - OGSD - Infosheet' (רכיב IS-OIL-DS-OGSD) עוסק באפליקציית OGSD 'Infosheet', המגדירה " +
+          "מסכים בתוך Telesales למשתמשי VA01, VA02 וטרנזקציות דומות תחת IS-OIL-DS-OGSD. הפריט קובע: 'OGSD " +
+          "application \"Infosheet\" is discontinued in SAP S/4HANA', וכן: 'Other business or order types " +
+          "processed by VA01 etc. were not affected by Infosheets nor are they affected once a migration to " +
+          "SAP S/4HANA has taken place.' להמשך הפונקציונליות הפריט מפנה ל-customer extensions ב-SAPMV45A / " +
+          "transaction VA01. הפריט אינו קובע מעמד ל-VA01 עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item " +
+          "13.13.15 S4TWL - OGSD - Sales Logistics Cockpit",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט 'S4TWL - OGSD - Sales Logistics Cockpit' (רכיב IS-OIL-DS-OGSD) מתאר את Sales Logistics " +
+          "Cockpit של OGSD, המצמצם את הצורך לעבוד 'with a more extensive screen like the ones in VA01, VA02, " +
+          "VA03 or similar', וקובע: 'The Sales Logistics Cockpit is discontinued in SAP S/4HANA'. VA01 מוזכר " +
+          "כנקודת השוואה; הפריט אינו קובע מעמד ל-VA01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item " +
+          "13.13.31 S4TWL - OGSD - Formroutines Telesales",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט 'S4TWL - OGSD - Formroutines Telesales' (רכיב IS-OIL-DS-OGSD) מונה את 'Transaction VA01' " +
+          "במונחים הנלווים, מתאר Dialogue Settings למסכי OGSD 'inside sales transaction VA01, VA02 etc.', " +
+          "וקובע: 'The Formroutines for Telesales are discontinued in SAP S/4HANA'. הפריט אינו קובע מעמד " +
+          "ל-VA01 עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "פריט הפישוט 'S4TWL - Fast entry of characteristic values in sales document' (רשימת 2025 FPS01 פריט " +
+        "13.12.7; ברשימת 2023 FPS03 פריט 52.7) קובע שהחל מ-SAP S/4HANA 1610 ההזנה המהירה של ערכי מאפיינים " +
+        "מלשונית 'Fast data entry' מוזגה ללשונית 'Configuration' בטרנזקציות תעודות מכירה כמו VA01, VA02 " +
+        "ו-VA03. הפריט אינו נוקב במחליף ל-VA01.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: VA01_SIMPL2025,
+      recommendedAction:
+        "לבדוק אם נעשה שימוש בלשונית 'Fast data entry' ב-VA01 או בטרנזקציות האחרות שהפריט מונה; הפריט " +
+        "רלוונטי ככל הנראה כש-Business Function DIMP_SDUD (Discrete Indus. - Mill Products) פעילה (בדיקה " +
+        "ב-SFW_BROWSER תחת DIMP). אם כן, לבצע את הגדרות ה-Customizing לקונפיגורציית פריט תעודת מכירה לפי SAP " +
+        "Note 2319234, ולשקול הגדרת Fcode 'UECO' כלשונית הכניסה במסך הסקירה דרך 'Define Sales Document " +
+        "types' (VOV8). לאמת ב-SE93 במערכת היעד את קיום VA01.",
+    },
+    xrefs: ["table:VBAK", "table:VBAP", "tx:VA02", "tx:VA03", "tx:VOV8"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) המאגר: data/tx-intel.ts#VA01, data/tcode-catalog.ts#VA01. (2) help.sap.com: 'VA01' בסקופ " +
+      "SAP_S4HANA_ON-PREMISE (21 רשומות) ובסקופ SAP_ERP (21 רשומות), 'VA01 Create Sales Order Fiori app' " +
+      "בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות); בביקורת 2026-09-25 החיפוש 'Create Sales Documents VA01' " +
+      "מחזיר את רשומת Create Sales Documents (loio 04b81d8f3787485f99b8600b35ac8d06) ואת Characteristic " +
+      "Values in Application Documents (loio 0cc9ea57875cbd12e10000000a4450e5). (3) ספריית Fiori, " +
+      "fal-app.mjs --tcode VA01 במהדורה S32OP: VA01 רשום כאפליקציית SAP GUI (successors 0), ו-F1708 ו-F3893 " +
+      "מובילות בקוד VA01. F1708 ו-F3893 אינן ב-data/fiori/apps.ts, ולכן הן מצוטטות כ-evidence ללא xref; " +
+      "הספרייה אינה מציגה אותן כמחליפות של VA01. (4) רשימת הפישוט 2025 FPS01 (גרסת מסמך 1.36), טקסט מחולץ: " +
+      "הפריטים 13.12.7, 13.13.13, 13.13.15 ו-13.13.31 (ברשימת 2023 FPS03: 52.7, 57.5, 57.3, 57.7) נקראו " +
+      "במלואם. פריט 13.12.7 מתאר שינוי בתוך VA01 (מיזוג לשונית 'Fast data entry' ללשונית 'Configuration'); " +
+      "שלושת פריטי OGSD מתארים הפסקה של אפליקציות OGSD (Infosheet, Sales Logistics Cockpit, Formroutines " +
+      "Telesales) ומזכירים את VA01 כטרנזקציית האירוח או כנקודת השוואה. status 'changed' מוגבל לשינוי שפריט " +
+      "13.12.7 קובע; אף מקור רשמי שנקרא אינו נוקב במחליף ל-VA01. היסטוריה: הרשומה הגנרית " +
+      "ב-transactions-auto.ts (2026-09-24, ללא הכרעת מעמד; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס " +
+      "נגזר 'changed' ברמת repository_verified) → רשומה מחקרית עם status 'changed' (2026-09-25); שורות " +
+      "ה-evidence הרשמיות של הרשומה הגנרית נשמרו. לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה " +
+      "reviewer, כמוסכמת הקטלוג.",
   },
 ];
