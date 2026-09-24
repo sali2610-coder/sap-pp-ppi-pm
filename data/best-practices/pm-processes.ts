@@ -35,7 +35,7 @@ export const PM_PROCESS_PRACTICES: BestPracticeLike[] = [
       "ליצירה תוכניתית קיימים ה-BAPI (BAPI_ALM_NOTIF_CREATE, DATA_ADD, SAVE) ו-API_MAINTNOTIFICATION המשוחרר.",
     steps: [
       {
-        he: "לפתוח את ההודעה עם אובייקט ייחוס (ציוד או מיקום פונקציונלי), תיאור התקלה, וסוג הודעה מתאים: M1 תקלה, M2 בקשה, M3 פעילות. בשטח: Create Maintenance Request או Report and Repair Malfunction; ב-GUI: IW21.",
+        he: "לפתוח את ההודעה עם אובייקט ייחוס (ציוד או מיקום פונקציונלי), תיאור התקלה, וסוג הודעה מתאים (בתקן SAP): M1 בקשה, M2 תקלה, M3 פעילות. בשטח: Create Maintenance Request או Report and Repair Malfunction; ב-GUI: IW21.",
         xrefs: ["tx:IW21", "fiori:F1511", "fiori:F2023", "table:QMEL"],
       },
       {
@@ -89,7 +89,7 @@ export const PM_PROCESS_PRACTICES: BestPracticeLike[] = [
         "לתעד תקלה או בקשת עבודה על אובייקט טכני באופן מובנה (אובייקט ייחוס, תיאור, קודי קטלוג, משימות), " +
         "כנקודת הכניסה לתהליך התחזוקה וכמקור לניתוח תקלות ולפקודות תחזוקה.",
       trigger: [
-        { he: "תקלה בשטח או בקשת עבודה מהמפעיל: הודעת תקלה (M1), בקשת תחזוקה (M2) או דיווח פעילות (M3)." },
+        { he: "תקלה בשטח או בקשת עבודה מהמפעיל: הודעת תקלה (M2), בקשת תחזוקה (M1) או דיווח פעילות (M3)." },
         { he: "תהליך תקלת חירום (Emergency Breakdown) מהיישום Report and Repair Malfunction של הטכנאי.", xrefs: ["fiori:F2023"] },
       ],
       preconditions: [
@@ -176,7 +176,7 @@ export const PM_PROCESS_PRACTICES: BestPracticeLike[] = [
         accessedAt: DATE,
         claim:
           "זרימת התהליך: תקלה/בקשה, הודעה (IW21), פריטים/סיבות (QMFE/QMUR), המרה לפקודה, סגירת הודעה; טבלאות QMEL, " +
-          "QMFE, QMUR, QMMA; טרנזקציות IW21 עד IW29; סוגי הודעה M1 תקלה, M2 בקשה, M3 פעילות; קודי קטלוג לניתוח Pareto; " +
+          "QMFE, QMUR, QMMA; טרנזקציות IW21 עד IW29; סוגי הודעה M1 תקלה, M2 בקשה, M3 פעילות (כך נכתב במאגר עד 2026-09-24; תוקן לפי help.sap.com 2025.001 ל-M1 בקשה, M2 תקלה, M3 פעילות); קודי קטלוג לניתוח Pareto; " +
           "תקלות: קוד פגם לא זמין (פרופיל קטלוג), הודעה לא נסגרת (פקודה ופריטים פתוחים).",
         verificationLevel: "repository_verified",
         repoRef: "data/domains.ts#pm-notifications",

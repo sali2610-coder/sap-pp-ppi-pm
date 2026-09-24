@@ -75,7 +75,7 @@ export const DOMAIN_DETAIL: Record<string, DomainDetail> = {
     badis: ["NOTIF_EVENT_SAVE", "NOTIF_EVENT_POST", "WORKORDER_UPDATE (במעבר להזמנה)"],
     qa: ["Positive: M1 עם ציוד + פריט פגם + סיבה → שמירה.", "Negative: סוג הודעה ללא פרופיל קטלוג → קודים לא זמינים.", "Integration: הודעה → הזמנה (יורשת אובייקט+מרכז עלות).", "Regression: סגירת הודעה מעדכנת PMIS."],
     incidents: ["קודי קטלוג לא מופיעים — פרופיל קטלוג לא משויך לסוג.", "לא ניתן לסגור — משימות פתוחות.", "אובייקט ייחוס שגוי — ציוד לא קיים/חסום."],
-    scenario: "בארגון: מפעיל פותח הודעת תקלה M1 על 'ממלאת #2 — דליפה'. רכז אחזקה מוסיף קוד פגם (דליפה) + סיבה (אטם בלוי), ממיר לפקודה דחופה; הניתוח מצביע על אטמים כגורם חוזר.",
+    scenario: "בארגון: מפעיל פותח הודעת תקלה M2 על 'ממלאת #2 — דליפה'. רכז אחזקה מוסיף קוד פגם (דליפה) + סיבה (אטם בלוי), ממיר לפקודה דחופה; הניתוח מצביע על אטמים כגורם חוזר.",
     fiori: ["Create Maintenance Request", "Process Maintenance Notification", "Find Maintenance Notifications"],
     migration: "QMEL/QMFE/QMUR נשמרים. QA: ודא קודי קטלוג, מעבר להזמנה, ואנליטיקה (CDS C_MaintNotification).",
     eccS4: { unchanged: "מודל QMEL/QMFE/QMUR זהה.", changed: "UX ל-Fiori; זרימה מובנית להזמנה.", fiori: "Create Maintenance Request", cds: "C_MaintNotificationListReport", migration: "ודא קודי קטלוג + מעבר להזמנה." } },

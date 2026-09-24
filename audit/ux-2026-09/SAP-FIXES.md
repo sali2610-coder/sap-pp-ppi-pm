@@ -197,3 +197,17 @@
 | מה לא שונה | לא נוצרו רשומות ל-F2774 / F5325 בתיקון הזה (דרשו מחקר ואימות נפרדים). **עדכון 2026-09-22:** שתיהן נוספו מאוחר יותר באותו יום לקטלוג ולשכבת האימות (fiori:F2774 Mass Schedule Maintenance Plans, fiori:F5325 Manage Maintenance Plans), כל שדה מתוך קטע רשמי של SAP Help. לא נקבע successor ל-F4072 (F5777 מתועד לענן הציבורי בלבד) |
 | בדיקות | `npm test` · `gen:routes` + `check:routes` · crawl (0 dead links) בשערי הסיום |
 | מגבלה | תפקיד/קטלוג/OData של F4072 לא נקראו מהספרייה (app shell) |
+
+---
+
+## FIX-11 · סוגי ההודעה M1/M2/M3 ו-IW24 / IW25 / IW26 / IW51 (אימות SAP S/4HANA, 2026-09-24)
+
+| שדה | ערך |
+|---|---|
+| מזהה | `data/tx-intel.ts` (IW21, IW24, IW25, IW26, IW51) · `data/domains.ts#pm-notifications` · `data/domain-detail.ts` · `data/pm-master-data-facets.ts` · `data/knowledge/object-intel.ts#T352B` · `data/academy/lessons/pm-generated.ts` (שיעור ההודעות, כולל שאלת תרגול) · `data/best-practices/pm-processes.ts` · `data/verification/tables.ts` (ציטוט מאגר מתוארך) |
+| טענה | סוגי ההודעה בתקן SAP: M1 = Maintenance Request, M2 = Malfunction Report, M3 = Activity Report. המאגר כתב M1 = תקלה ו-M2 = בקשה (ו-object-intel: M2 פעילות, M3 בקשה). IW24 = Create PM Malfunction Report, IW25 = Create PM Activity Report, IW26 = Create Maintenance Request, IW51 = Create Service Notification-General |
+| Release / Edition | SAP S/4HANA On-Premise 2025 FPS01 (2025.001); Fiori Apps Library S32OP |
+| מקורות | help.sap.com, Changing the Notification Type (Notifications CS-CM-SN/PM-WOC-MN, 2025.001), loio `b0e2855487f92257e10000000a44176d`: "Maintenance Requests (M1) Malfunction Reports (M2) Activity Reports (M3)"; אותו רצף בעמוד אובייקט ההגירה "PM - Maintenance notification" (Data Migration 2025.001, loio `71b5125d83124e369aea0167e539af4f`) · Fiori Apps Library (scripts/fal-app.mjs --tcode, S32OP): IW24 / IW25 / IW26 / IW51 כרשומות SAP GUI בשמות שלמעלה, בלי יורש · Book 9 (מקור אנגלי): "create a normal maintenance request with notification type M1 but accidentally selected notification type M2 for malfunction reports" |
+| מה שונה | tx-intel: IW25 ו-IW26 נשאו כל אחת את התוכן של השנייה; התוכן הוחלף ביניהן והאותיות תוקנו. זנב IW26 (מסך בחירה, זרימה, דיבאג, דוגמאות) תיאר דיווח תקלה, ולכן לא עבר ל-IW25 (התוכן הזה קיים ב-IW24). IW24: M1 → M2, שדה ה-Fiori ריק (F2929 הוא Record Defects של QM), F2023 מתואר לפי קישורי הספרייה (IW31 מובילה, IW21/IW22/IW32/IW41). IW26: Fiori = Request Maintenance (F1511), שהספרייה מונה את IW26 בין טרנזקציות ה-GUI שלו; F2974 אינו בספרייה והוסר. IW21: אותיות, וצימוד F1511A/F1511. IW51: שדות הראש תיארו הודעת תחזוקה ונכתבו מחדש כהודעת שירות, בהתאם לזנב הרשומה עצמה ולספרייה. בשאר הקבצים: האותיות בלבד, וציטוטי מאגר מתוארכים קיבלו הערת תיקון במקום שכתוב |
+| מה לא שונה | `data/academy/lessons/pmu-generated.ts` נוצר מ-`data/library/pmu-textbook` (ספר מוגן), ושכבות העברית של ספרים 1 ו-8 כותבות את אותו מיפוי הפוך: לא נגעתי בספרים, מדווח כממצא הדורש החלטת בעלים. המודול של IW51 נשאר PM (שינוי מודול משפיע על ניווט) |
+| בדיקות | `tsc --noEmit` 0 · `npm test` 212/212 · סריקת המיפוי ההפוך מחוץ לספרים: נותרו רק שני ציטוטים מתוארכים ו-pmu-generated |
