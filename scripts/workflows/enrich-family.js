@@ -55,6 +55,15 @@ Steps: (1) read what the repository already holds for this record (grep the id /
 Checks: every url resolves (curl -sI or curl -s | head) and its host is allowlisted; help.sap.com URLs carry a real loio and the versionId/release matches the JSON record (re-run scripts/sap-help-search.mjs to confirm the title exists); every claim is supported by the cited title/snippet (no body-text claims); status token is in the S4Status union; status has source+edition+release; replaced/deprecated/not_available only with a resolvable successor or none stated; no invented SAP Note numbers (a note number must appear in the cited source or a repoRef); sourceType matches the URL; no certainty language on verification_required; Hebrew is professional; xrefs exist in the universe. If the draft carries catalogPatch, re-run scripts/fal-app.mjs for that id and confirm every value verbatim (refute on any invented value). Produce downgrades (mechanical fixes) or refute.
 Draft:\n${JSON.stringify(draft)}`,
     { label: `verify:${item.id}`, phase: 'Verify', schema: VERDICT, effort: 'high' }).then((verdict) => ({ draft, verdict }))) : null,
+  // One repair round for a refused draft: fix every listed problem (drop what cannot be sourced),
+  // then a fresh audit. Still refused afterwards means queued with both rounds' problems.
+  (r, item) => {
+    if (!r || !r.verdict || !r.verdict.refuted) return r
+    return agent(`${COMMON}\n\nYou are the REPAIRER for ${item.id}. An adversarial auditor REFUSED the draft below. Return a corrected draft that resolves EVERY listed problem: keep only claims bounded by a search-record title/snippet or a body read with scripts/sap-help-body.mjs; copy url/loio/versionId verbatim from search records; drop any URL, quote, status, successor, SAP Note number or xref you cannot source; when the status is not supported, omit it or author verification_required with the searches listed. Add nothing unsourced.\nAuditor problems:\n${JSON.stringify(r.verdict.problems)}\nAuditor downgrades:\n${JSON.stringify(r.verdict.downgrades || [])}\nRefused draft:\n${JSON.stringify(r.draft)}`,
+      { label: `repair:${item.id}`, phase: 'Verify', schema: DRAFT, effort: 'high' })
+      .then((fixed) => fixed ? agent(`${COMMON}\n\nYou are the ADVERSARIAL AUDITOR for the REPAIRED draft of ${item.id}. The first draft was refused for the problems listed; check each is resolved and that the repair added nothing unsourced. Same checks as a first audit (URLs resolve on allowlisted hosts, loio/versionId match a search record, claims bounded by title/snippet or a read body, status token valid with source+edition+release, successor resolves, no invented SAP Note, xrefs exist, Hebrew style). Default to refuted=true if uncertain.\nFirst-round problems:\n${JSON.stringify(r.verdict.problems)}\nRepaired draft:\n${JSON.stringify(fixed)}`,
+        { label: `reverify:${item.id}`, phase: 'Verify', schema: VERDICT, effort: 'high' }).then((v2) => ({ draft: fixed, verdict: v2 })) : r)
+  },
 )
 
 const drafts = results.map((r, i) => ({ item: queue[i], draft: r && r.draft, verdict: r && r.verdict })).filter((x) => x.verdict)

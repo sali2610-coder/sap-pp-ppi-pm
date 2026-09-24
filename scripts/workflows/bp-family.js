@@ -4,6 +4,7 @@ export const meta = {
   phases: [
     { title: 'Research', detail: 'one researcher per process: repository records first, then official SAP sources, structured BestPracticeLike draft' },
     { title: 'Verify', detail: 'one adversarial auditor per draft: every SAP name, URL, xref and claim' },
+    { title: 'Repair', detail: 'a refused draft gets one repair round against the auditor problems, then a fresh audit' },
     { title: 'Write', detail: 'single writer per batch appends survivors to the catalog file, registers it once, runs validator, tsc, tests, coverage' },
   ],
 }
@@ -46,14 +47,23 @@ for (const [bi, b] of (args.batches || []).entries()) {
   const queue = b.queue
   log(`batch ${bi + 1}/${args.batches.length}: processes x${queue.length} (${queue.map((q) => q.slug).join(', ')})`)
   phase('Research')
+  // An item may carry the draft (and verdict) of an interrupted or earlier run: those stages are skipped.
   const pairs = await pipeline(queue,
-    (item) => agent(`${COMMON}\n\nYou are the RESEARCHER for the process record "${item.slug}" (${item.he} / ${item.en}, module ${item.module}). Brief: ${item.brief}
+    (item) => item.draft ? Promise.resolve(item.draft) : agent(`${COMMON}\n\nYou are the RESEARCHER for the process record "${item.slug}" (${item.he} / ${item.en}, module ${item.module}). Brief: ${item.brief}
 Steps: (1) repository first: collect every record that documents this process (domains, tx registry entries with their he/en, tx-intel, function-intel, bapi enrichment, fiori apps, cds map, troubleshooting incidents, consultant notes, existing best practices and verification overlays, and the relevant book chapters); note the exact repoRef of each; (2) official sources: 4-8 targeted queries on the official lookup tool (the process name, its S/4HANA Fiori apps, its business objects, "What's New", the simplification item names the repository already cites, "scope item" only to confirm what a record prints); (3) build the full BestPracticeLike record following the brief and the 21-field mapping; steps in order (>= 6), every step carrying the ids it names; process.* lines each with the ids they name; evidence >= 5 (repository rows with repoRef; official rows with url/loio/versionId verbatim from the JSON; book rows as sap_press_book / supported_secondary_source with the section id); xrefs >= 10 and only ids that resolve (check with grep in lib/route-manifest.generated.ts, data/fiori/apps.ts, data/exits.ts, data/enhancements.ts, data/verification/objects.ts OBJECT_REGISTRY, data/best-practices/*.ts slugs); lastVerifiedAt "${accessedAt}", reviewer "Project NEO research pipeline (researcher + adversarial auditor), ${accessedAt}"; (4) gaps: every field you omitted and why. Return the draft.`,
-      { label: `research:${item.slug}`, phase: 'Research', schema: DRAFT, model: 'sonnet', effort: 'medium' }),
-    (draft, item) => draft ? agent(`${COMMON}\n\nYou are the ADVERSARIAL AUDITOR for the process record "${item.slug}". Try to REFUTE this draft. Default to refuted=true if uncertain.
+      { label: `research:${item.slug}`, phase: 'Research', schema: DRAFT, effort: 'high' }),
+    (draft, item) => draft ? (item.verdict ? Promise.resolve({ draft, verdict: item.verdict }) : agent(`${COMMON}\n\nYou are the ADVERSARIAL AUDITOR for the process record "${item.slug}". Try to REFUTE this draft. Default to refuted=true if uncertain.
 Checks: every SAP name in every field appears in a cited repository record (open the repoRef and confirm) or in a cited official search record (re-run the lookup tool and confirm the title/snippet prints it); every url is on an allowlisted host and resolves (curl -sI), and its loio/versionId matches a search record; every claim is bounded by the title/snippet or the record it cites (no body-text claims, no marketing); no scope item, SAP Note or KBA number without a cited record printing it; every xref resolves (grep the universe files); steps are supported by the sources and in a defensible order; the ECC and S/4HANA sides are attributed; no certainty language; Hebrew professional, no em dashes, "תחזוקה"; module is PM | PP | PP-PI | Cross; process.reference is official or null; a field with no source is omitted rather than filled. Produce downgrades (mechanical fixes) or refute.
 Draft:\n${JSON.stringify(draft)}`,
-      { label: `verify:${item.slug}`, phase: 'Verify', schema: VERDICT, effort: 'high' }).then((verdict) => ({ draft, verdict })) : null,
+      { label: `verify:${item.slug}`, phase: 'Verify', schema: VERDICT, effort: 'high' }).then((verdict) => ({ draft, verdict }))) : null,
+    // one repair round for a refused draft, then a fresh audit of the repaired draft
+    (r, item) => {
+      if (!r || !r.verdict || !r.verdict.refuted) return r
+      return agent(`${COMMON}\n\nYou are the REPAIRER for the process record "${item.slug}". An adversarial auditor REFUSED the draft below. Produce a corrected draft that resolves EVERY problem listed: cite an evidence row (repoRef opened and confirmed, or an official search record with url/loio/versionId verbatim) for every SAP name you keep, and DROP any name, field, scope item, role or claim you cannot source; omit unsupported fields (kpis, roles, reference) instead of filling them; process.reference is an official help.sap.com process page from a search record, or null. Do not add new unsourced material. Keep what the auditor confirmed.\nAuditor problems:\n${JSON.stringify(r.verdict.problems)}\nAuditor downgrades:\n${JSON.stringify(r.verdict.downgrades || [])}\nRefused draft:\n${JSON.stringify(r.draft)}`,
+        { label: `repair:${item.slug}`, phase: 'Repair', schema: DRAFT, effort: 'high' })
+        .then((fixed) => fixed ? agent(`${COMMON}\n\nYou are the ADVERSARIAL AUDITOR for the REPAIRED process record "${item.slug}". The first draft was refused for the problems listed; check that each is resolved and that the repair introduced nothing unsourced. Default to refuted=true if uncertain. Apply the same checks as a first audit (every SAP name cited, URLs from search records and resolving, xrefs resolve, no invented scope item or role, claims bounded, Hebrew style).\nFirst-round problems:\n${JSON.stringify(r.verdict.problems)}\nRepaired draft:\n${JSON.stringify(fixed)}`,
+          { label: `reverify:${item.slug}`, phase: 'Repair', schema: VERDICT, effort: 'high' }).then((v2) => ({ draft: fixed, verdict: v2, firstVerdict: r.verdict })) : r)
+    },
   )
   const drafts = pairs.map((r, i) => ({ item: queue[i], draft: r && r.draft, verdict: r && r.verdict })).filter((x) => x.verdict)
   const survivors = drafts.filter((x) => !x.verdict.refuted)
@@ -72,6 +82,6 @@ Audited records:\n${JSON.stringify(survivors.map((x) => ({ slug: x.item.slug, dr
   } else {
     log('nothing survived verification - nothing written')
   }
-  results.push({ batch: bi + 1, written: survivors.map((x) => x.item.slug), refused: refused.map((x) => x.item.slug), lost, writeReport })
+  results.push({ batch: bi + 1, written: survivors.map((x) => x.item.slug), refused: refused.map((x) => ({ slug: x.item.slug, problems: x.verdict.problems })), lost, writeReport })
 }
 return { batches: results.length, written: results.reduce((a, r) => a + r.written.length, 0), results }
