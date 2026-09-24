@@ -61,6 +61,18 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
   (reverted on 2026-09-24 and kept as `quarantine/fiori-partial-writer.diff` in the session
   scratchpad); those edits were
   rebuilt from that diff and the verdicts' downgrades applied on top.
+- 2026-09-24 · batch 2 of the Fiori depth run (F5325, F2336, F3577, F3364, F1576, F0843):
+  none refuted, none queued. F3577 was written from its auditor's `fixedRecord`; the other
+  five from their drafts with every listed downgrade applied (the optional ones included,
+  after the writer re-ran `scripts/fal-app.mjs` and `scripts/sap-help-body.mjs` for the
+  values they add). Writer normalisations beyond the lists: the F3364 library rows carry
+  `release` 2025.001 / 2023.000 instead of S32OP / S27OP (HOUSE-RULES §1, as the F3577
+  verdict required for the same rows), and its two empty-result rows sit at
+  `verification_required` like the F2731 and F3577 empty-result rows; `reviewer` was dropped
+  from F5325 and F0843 (house policy above); F2336 `recommendedAction` says the patch "was
+  applied" instead of "apply it". Commit 8f7273dd (another session, 19:56:40, message about
+  F4072 only) swept these overlay and catalog edits into history before the gates ran; its
+  content equals the writer's tree byte for byte.
 
 ## conflicts
 
@@ -261,6 +273,57 @@ verified / 1 verification_required / 0 conflicting; after 20 records, L2 2 / L3 
     non-empty guiTx as "יישום S/4HANA המחליף את ... ב-SAP GUI". The library's leading and
     related transaction codes do not by themselves say "replaces" (F2774 and IP30H in
     particular).
+- 2026-09-24 · batch 2, same channel (`scripts/fal-app.mjs` on S32OP and S27OP), audited and
+  written:
+  - `fiori:F5325`: curated side filled in `data/fiori/apps.ts#F5325` from S32OP: roles
+    SAP_BR_MAINTENANCE_PLANNER (lead) and SAP_BR_MD_SPECIALIST_EAM, catalogs SAP_EAM_BC_MPLAN
+    and SAP_EAM_BC_MP_MNG, OData /SSB/SMART_BUSINESS_RUNTIME_SRV, C_MAINTPLANACTVSYSTSTATUSQ_CDS
+    and UI_MAINTENANCE_PLAN (S27OP prints the lead role and UI_MAINTENANCE_PLAN only), guiTx
+    IP01 (leading) to IP06 and IP16; `status.source` now points to the library row. Still open:
+    F5356 (Manage Maintenance Items) and the predecessors F3622 / F5009 / W0026 are not in the
+    catalog (no xref or successor possible); `cloud: unknown` unchanged although the library's
+    release list also names S36 = 2602 and S37 = 2608. `explain.technical` and
+    `explain.consultant` were rewritten with the audited text, outside the patch field list,
+    because the old technical text said role, catalog and OData "are not displayed".
+  - `fiori:F2336`: the 2026-09-02 conflict above (role, OData) is settled on the curated side:
+    `data/fiori/apps.ts#F2336` now carries SAP_BR_PRODN_SUPERVISOR_DISC,
+    SAP_SCM_BC_PRODN_ORD_MNTR, PP_MPE_ORDER_MANAGE and the library's twelve GUI transactions
+    (CO02 leading; CO01 is not in the library list), trust verified-docs. Still open:
+    `explain.consultant` there still says "מבוסס API_PRODUCTION_ORDER_2" and now contradicts
+    the odata field (outside the patch fields, no audited replacement text); `cds:
+    I_ProductionOrder`, `relatedTables` and the `problem` / `ecc` mentions of CO01 stay curated;
+    `data/centers/fiori.ts#manage-production-orders` still carries SAP_PP_BC_PRODN_ORDER /
+    SAP_BR_PRODN_OPERATOR_DISC / API_PRODUCTION_ORDER_2 / 'CO01 / CO02 / COOIS'. CO05, CO0R5,
+    CO20, CO21, CO22, CO23 and CO26 have no route in the manifest, so they are in guiTx but not
+    in xrefs.
+  - `fiori:F3577`: `F3577` is empty on S32OP and S27OP. F4587 on S32OP prints role
+    SAP_BR_PRODN_SUPERVISOR_PROC, catalog SAP_SCM_BC_PROC_ORD_MGMT, OData
+    PP_PROCESS_ORDER_MANAGE_SRV (with PP_MPE_AOR) and no GUI transactions; the curated F3577
+    fields (SAP_BR_PRODN_OPERATOR_PROC, SAP_PP_BC_PROCESS_ORDER, API_PROCESS_ORDER_2_SRV) match
+    none of them. `data/fiori/apps.ts#F4587` still has empty role / catalog (not patched in this
+    batch, its own record was not re-audited). `--tcode COR2` and `--tcode COID` not run.
+    Re-keying F3577 to F4587 stays a product decision.
+  - `fiori:F3364`: `F3364` is empty on S32OP and S27OP; `--tcode COR6N` on S32OP leads only
+    with the GUI entry 'Confirm Process Order Phase' (ProcessOrderConfirmation /
+    createTimeTicket). The related TransactionCodes list is searchable per app only: F4587 on
+    S32OP prints no GUI transactions (leading and related '-'); F5323 was not run. CORK still
+    does not fit the `fiori:` id shape.
+  - `fiori:F1576`: the library assigns F1576 to Supplier Evaluation Response (SLC-EVL,
+    SLC_QUESTIONNAIRE_RESPONSE_SRV) on S32OP and S27OP; Manage Batches is F2462 (leading MSC1N,
+    related MSC2N / MSC3N, LO_BM_BATCH_SRV). The record now authors `verification_required`
+    (source null), so the derived s4_native no longer shows; depth went L3 to L2. Re-keying
+    F1576 to F2462 in apps.ts, `data/centers/fiori.ts`, `data/solutions.ts`, tx-intel MSC1N /
+    MSC3N and the textbooks is a product decision. `data/fiori/apps.ts#F2462` still has empty
+    role / catalog although the library prints 19 roles and 5 business catalogs for it.
+  - `fiori:F0843`: the library confirms F0843 = Post Goods Receipt for Purchasing Document
+    (roles incl. SAP_BR_WAREHOUSE_CLERK, catalogs SAP_MM_BC_IM_GR_PROCESS /
+    SAP_MM_BC_IM_PROCESS, OData MMIM_GR4PO_DL_SRV / MMIM_MATERIAL_DATA_SRV, leading MB01,
+    related MB0A / MB1A / MB1C / MIGO / MIGO_GR) and MIGO = 'Goods Movement, Post Goods
+    Movement' (SAP GUI). Library values not copied to `data/fiori/apps.ts#F0843` (the entry
+    still describes Post Goods Movement; product decision, as for F2730A). MB0A has no route in
+    the manifest. SAP_MM_BC_GOODS_MVT, API_MATERIAL_DOCUMENT_SRV and I_MaterialDocumentItem are
+    printed by none of the three library records read. The three em dashes in the repository
+    row are verbatim quotes of tx-intel strings, kept as quotes.
 
 ### Resolved 2026-09-21 (design audit round 2 · audit/ux-2026-09/SAP-FIXES.md)
 - F3364 `odata: API_PROCORDCONF` → `API_PROC_ORDER_CONFIRMATION_2_SRV` (also `data/centers/fiori.ts`). F3577 `API_PROCESSORDER_2` → `API_PROCESS_ORDER_2_SRV`. The app-id conflicts (F3364 vs CORK, F3577 vs F4587) remain open as recorded.

@@ -152,7 +152,7 @@ export const FIORI_APPS: FioriApp[] = [
     trust: "verified-docs", source: "SAP Fiori Apps Reference Library F2336 (scripts/fal-app.mjs, OData channel, S32OP = S/4HANA 2025 FPS01, isPublished=Published); same role, catalogs, primary OData service and GUI transactions on S27OP = S/4HANA 2023", lastReviewed: "2026-09-24",
     purpose: "ניהול פקודות ייצור בדיד — יצירה, שחרור, מעקב וסגירה.",
     problem: "CO01/CO02/COOIS מפוזרים. Fiori מרכז את ניהול פקודות הייצור.",
-    explain: { beginner: "מנהלים את הזמנות הייצור.", consultant: "מבוסס API_PRODUCTION_ORDER_2.", technical: "List Report/Object Page מעל I_ProductionOrder." },
+    explain: { beginner: "מנהלים את הזמנות הייצור.", consultant: "שירות ה-OData של היישום לפי ספריית ה-Fiori (S32OP): PP_MPE_ORDER_MANAGE.", technical: "List Report/Object Page מעל I_ProductionOrder." },
     role: "SAP_BR_PRODN_SUPERVISOR_DISC", catalog: "SAP_SCM_BC_PRODN_ORD_MNTR",
     odata: "PP_MPE_ORDER_MANAGE", cds: "I_ProductionOrder", guiTx: ["CO02", "CO05", "CO05N", "CO09", "CO0R5", "CO20", "CO21", "CO22", "CO23", "CO26", "COHV", "COOIS"],
     relatedTables: ["AUFK", "AFKO", "AFPO"], ecc: "ECC: CO01/CO02.", s4OnPrem: "yes", cloud: "yes",
@@ -347,8 +347,9 @@ FIORI_APPS.push(
 
 // ── 2026-09-23 · official App IDs the verification evidence already names ──
 // (audit/s4-enrichment/research-queue-fiori.md, "conflicts" and "Cross-cutting"). Written like
-// F2774 / F5325: trust "verified-docs", only fields a help.sap.com search snippet supports,
-// everything else empty. Where the official title is already a curated slug (F2731, F2730,
+// F2774 / F5325 were on 2026-09-22 (both since enriched from scripts/fal-app.mjs on 2026-09-24):
+// trust "verified-docs", only fields a help.sap.com search snippet supports, everything else
+// empty. Where the official title is already a curated slug (F2731, F2730,
 // F3577, F1576, F1511, F0251) the new slug carries the id. Type is derived from the
 // documented function, not read from the Apps Library (its pages load as JS shells);
 // "Transactional" is also the schema bucket for the two Web Dynpro apps W0028 / W0029.
