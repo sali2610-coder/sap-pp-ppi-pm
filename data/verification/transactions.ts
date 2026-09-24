@@ -21,6 +21,12 @@
    is bounded to the identical search snippet; CO60, COPC, CORZ and CPC1 from
    verdict.fixedRecord (status sources point at the shared CO60_SIMPL_ITEM and
    CORZ_FAL consts; CPC1 verification_required; COPC evidence only). tx:C223
+   refuted at the gate and queued.
+   Batch 5 (2026-09-24): 4 audited records (CK11N, CL20N, CL24N, CL30N) from
+   verdict.fixedRecord; status sources point at the shared CK11N_FAL,
+   CL20N_SIMPL_ITEM, CL24N_SIMPL_ITEM_2025 and CL30N_WHATSNEW consts; the CL30N
+   Fiori Apps Library row is kept as conflicting_sources ('(Deprecated)' name
+   variant at S32OP that no other cited record confirms). tx:CM01 and tx:CM02
    refuted at the gate and queued. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
@@ -844,6 +850,87 @@ const CORZ_FAL: Evidence = {
     "ה-Predecessors וה-Successors ריקים; רשימת ה-releases מראה פרסום רציף מ-S6OP (1610) ועד S32OP (2025 " +
     "FPS01), ללא הפסקה. לפי הרשומה הרשמית CORZ אינה מוחלפת וממשיכה להתפרסם כטרנזקציית SAP GUI לכל אורך " +
     "S/4HANA On-Premise עד המהדורה העדכנית שנבדקה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CK11N_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library: CK11N - Create Material Cost Estimates (SAP GUI, component CO-PC-PCP)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CK11N')/S32OP",
+  accessedAt: DATE24,
+  claim:
+    "רשומת ה-Fiori Apps Library (scripts/fal-app.mjs CK11N --release S32OP; S32OP = SAP S/4HANA 2025 FPS01 " +
+    "On-Premise) מציגה את CK11N כאפליקציית SAP GUI בשם 'Create Material Cost Estimates', סטטוס Published, רכיב " +
+    "יישום CO-PC-PCP, תפקיד עסקי SAP_BR_INVENTORY_ACCOUNTANT (Cost Accountant - Inventory), קטלוגים עסקיים " +
+    "SAP_SFIN_BC_IA_MCE / SAP_SFIN_BC_IA_MCE_NPA. שדה ה-releases מפרט זמינות רציפה מ-S10OP (1709 FPS01) ועד " +
+    "S32OP (2025 FPS01), ושדות Predecessors ו-Successors שניהם ריקים: הרשומה אינה נוקבת ביורש או בקודם.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CL20N_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 10.4.9 " +
+    "S4TWL - Classification (CA-CL)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט נקרא במלואו (הקובץ המקומי scratchpad/official/SIMPL_OP2025.pdf.txt, שורות סביב 52115-52200, ומקבילו " +
+    "הזהה בנוסחו ברשימת 2023 FPS03, פריט 28.5, scratchpad/official/SIMPL_OP2023.pdf.txt שורות סביב 36110-36230; " +
+    "רכיב היישום הנקוב בשניהם: CA-CL). הוא קובע שהטרנזקציה CL20 (Assign Object to Classes) הוסרה: 'Transaction " +
+    "not available since SAP S/4HANA on-premise edition 1511', ובטבלת 'Available alternative transactions and " +
+    "reports' רושם במפורש את CL20N (Assign Object to Classes) כטרנזקציה החלופית הזמינה במקומה, לצד CL22N ו-CL24N " +
+    "עבור CL22 ו-CL24 שהוסרו. הפריט אינו רושם את CL20N עצמה כטרנזקציה שהוסרה או שהשתנתה בשמה; הוא מציין שינוי " +
+    "כללי לקבוצת טרנזקציות הסיווג (הסרת User Defined Data Type למאפיינים, נטרול Rename Characteristic, הסתרת " +
+    "Parameter Effectivity, הגבלת ייבוא Batch לשרת ההצגה בלבד) בלי לפרט אילו מהשינויים האלה חלים דווקא על CL20N " +
+    "לעומת CL22N/CL24N.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CL24N_SIMPL_ITEM_2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "S4TWL - Classification (Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, item 10.4.9)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (10.4.9, רכיב CA-CL) חוזר על אותו תוכן: שתי כותרות טבלה נפרדות, 'Transaction not available since SAP " +
+    "S/4HANA on-premise edition 1511' ו-'Available alternative transactions and reports', שבהן CL24 (Assign " +
+    "Objects to One Class) רשום בטור הראשון והקוד CL24N (Assign Objects / Classes to Class) מופיע באותה שורה בטור " +
+    "השני כחלופה הזמינה. גם כאן אין ציון ש-CL24N עצמה הוסרה או שונתה מבחינה פונקציונלית.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CL30N_WHATSNEW: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle:
+    "Create Link to Manage Change Records App from Transaction CL30N – Find Objects in Classes (What's New in " +
+    "SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2023 FPS03)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2023.003",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/e52f8f2b15ad4a95a12fa4175786adc6.html?locale=en-US&state=PRODUCTION&version=2023.003",
+  accessedAt: DATE24,
+  claim:
+    "גוף הדף (versionId 2023.003, loio e52f8f2b15ad4a95a12fa4175786adc6, deliverable 'What's New in SAP S/4HANA " +
+    "and SAP S/4HANA Cloud Private Edition 2023 FPS03', נקרא במלואו דרך שירות התוכן ואומת שוב על ידי המבקר) מתעד " +
+    "תוספת פונקציונלית ל-CL30N עצמה: 'You can create a link from the transaction CL30N – Find Objects in Classes " +
+    "to the Manage Change Records app by enabling the execute button with transaction /PLMI/CR_NAV_CL30N.' פרטי " +
+    "היישום: הגדרה ב-CL30N תחת Environment → Define function, Cat=T (transaction), Function=/PLMI/CR_NAV_CL30N; " +
+    "לאחר מכן בחירת רשומת שינוי מתוצאות החיפוש ו-Execute פותחת אותה ב-Manage Change Records app. שדות טכניים: " +
+    "Type=New, Application Component=PLM-CR (Change Record), Technical Object Name=F2097, Availability='SAP " +
+    "S/4HANA and SAP S/4HANA Cloud Private Edition', Valid as Of='2023 FPS03'. זהו שינוי מתועד בדף What's New, " +
+    "ייחודי ל-CL30N, החל ממהדורת On-Premise 2023 FPS03.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -6492,5 +6579,404 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "אימות' או לתקן את הרשומה. הערת ביקורת: audit/master-completion/simpl-tcode-index.json משייך את שורת " +
       "ה-CPC1 של 2023 לפריט 12.9 'S4TWL - TECHNICAL CHANGES IN CONTROLLING' בטעות (הכותרת 12.11 מודפסת " +
       "בטקסט ללא רווח, '12.11S4TWL'); הפריט הנכון הוא 12.11.",
+  },
+
+  /* ----------------------------------------------------- tx:CK11N */
+  {
+    id: "tx:CK11N",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CK11N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "מאגר הפרויקט (data/tcode-catalog.ts) רושם את CK11N במודול CO, אזור 'תמחיר מוצר', עם השם העברי 'יצירת " +
+          "אומדן עלות חומר עם מבנה כמותי' והשם האנגלי 'Create Material Cost Estimate with Quantity Structure'. זו " +
+          "רשומת קטלוג בלבד ואינה קובעת סטטוס S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CK11N",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Cost Estimate with Quantity Structure (help.sap.com, Controlling (CO))",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/3395d7531a4d414de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "נושא העזרה העדכני ל-SAP S/4HANA 2025 FPS01 On-Premise (loio 3395d7531a4d414de10000000a174cb4, versionId " +
+          "2025.001, אותו topic id המודפס גם ברשומת ה-Fiori Apps Library של CK11N כ-docs link) מתאר את המסך 'Create " +
+          "Material Cost Estimate with Quantity Structure' ואת הנתיב 'Accounting > Controlling > Product Cost " +
+          "Controlling > Product Cost Planning > Material Costing > Cost Estimate with Quantity Structure > Create'; " +
+          "נקראו רק כותרת וקטע (snippet), גוף הדף לא נשלף.",
+        verificationLevel: "sap_official_verified",
+      },
+      CK11N_FAL,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 6.5.9 " +
+          "S4TWL - Reporting/Analytics in Controlling (Application Component CO-OM-IS), pp. 339-341; טקסט זהה " +
+          "בתוכנו לפריט 12.16 (לא 12.9) של Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3, pp. " +
+          "372-375",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (רכיב יישום CO-OM-IS; המקביל ב-2023 FPS03 מוסיף גם CO-PA-IS/CO-PC-IS) עוסק בדיווח/אנליטיקה " +
+          "ב-Controlling לאחר מעבר ל-Universal Journal, וקובע תחת זמינות טרנזקציות: 'Transaction not available in " +
+          "SAP S/4HANA on-premise edition 1511 → All transactions available, but are making use of compatibility " +
+          "views'. בסעיף Required and Recommended Action(s) מופיע הציטוט: 'Please ensure that the transactions " +
+          "such as CK11N (create standard cost estimate), CO01-CO03 (create/change/display production order) and " +
+          "CR01-CR03 (create/change/display process order) are calling ABAP List Views rather than the old Report " +
+          "Writer reports. To do this, choose transaction OKN0, select the tab \"Report Selection\" and ensure that " +
+          "the flags \"Flexible itemization\", \"Flexible cost component report\" and \"Flexible cost display\" are " +
+          "active.' הפריט אינו מכריז על ביטול, שינוי מבני או יורש ל-CK11N עצמה; הוא רק דורש אימות הגדרת דיווח " +
+          "(OKN0) בעת ההסבה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CK11N_FAL,
+      he:
+        "CK11N (יצירת אומדן עלות חומר עם מבנה כמותי) ממשיכה להתקיים כטרנזקציית SAP GUI פעילה ב-SAP S/4HANA " +
+        "On-Premise עד 2025 FPS01 (S32OP) ברשומת ה-Fiori Apps Library, ללא יורש או אפליקציית Fiori חלופית רשומה, " +
+        "ונושא העזרה התואם (2025.001) מתאר את אותו מסך ונתיב תפריט ללא שינוי מבני. פריט הפישוט 'Reporting/Analytics " +
+        "in Controlling' (זהה בשני המסמכים) מזכיר את CK11N כדוגמה לטרנזקציה שיש לוודא לגביה, ב-OKN0, שהיא מפיקה " +
+        "ABAP List Views במקום דוחות Report Writer ישנים; זו דרישת תצורת דיווח בעת ההסבה, לא ביטול או שינוי " +
+        "לטרנזקציה עצמה.",
+      recommendedAction:
+        "להמשיך להשתמש ב-CK11N ליצירת אומדני עלות חומר עם מבנה כמותי; בעת פרויקט הסבה לוודא ב-OKN0 (לשונית Report " +
+        "Selection) שהדגלים Flexible itemization, Flexible cost component report ו-Flexible cost display פעילים, " +
+        "כנדרש בפריט הפישוט 'Reporting/Analytics in Controlling', כדי שהדיווח ייקרא מ-ABAP List Views ולא מדוחות " +
+        "Report Writer ישנים.",
+    },
+    xrefs: ["tx:CK13N", "tx:CK24", "table:MBEW"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. הרשומה במאגר (tcode-catalog.ts) רושמת מודול CO, ולא PP כפי שצוין ברמז " +
+      "המשימה. חיפושים שהורצו: sap-help-search.mjs 'CK11N' (--product ברירת מחדל S/4HANA On-Premise, 21 תוצאות), " +
+      "'Creating Material Cost Estimates' (21 תוצאות, מניבה את התוצאה המדויקת של נושא העזרה שנבחר), ללא WebSearch; " +
+      "fal-app.mjs CK11N --tcode ו--release S32OP; קריאת שני קטעי הפישוט המלאים בקובצי הטקסט המקומיים " +
+      "(SIMPL_OP2023.pdf.txt סביב שורה 20407, SIMPL_OP2025.pdf.txt סביב שורה 18689). ממצא מרכזי: " +
+      "audit/master-completion/simpl-tcode-index.json משייך את אזכור CK11N ב-2023 FPS03 לפריט 12.9 'S4TWL - " +
+      "TECHNICAL CHANGES IN CONTROLLING'; קריאה ישירה של קובץ הטקסט מראה ששורת האזכור (20407) נמצאת בפועל תחת " +
+      "פריט 12.16 'S4TWL - Reporting/Analytics in Controlling' (הכותרת מודפסת בקובץ ללא רווח כ-'12.16S4TWL', כפי " +
+      "הנראה מקור הטעות באינדקס), הזהה בתוכנו לפריט 6.5.9 ב-2025 FPS01, אותו סוג טעות שנמצא קודם עבור tx:CPC1. " +
+      "אומת על ידי המבקר: שני הפריטים זהים בגוף הטקסט למעט שורת רכיבי היישום, שבירת שורות ו-'CO01-CO03' לעומת " +
+      "'CO01CO03'. דורש אימות במערכת חיה: התנהגות בפועל של CK11N בסביבת CBC (הרשאות, Report Selection ב-OKN0), " +
+      "ותאריך תוקף ה-RIN notes 3493254/3671888 המודפסים ברשומת ה-FAL (לא נקראו במלואם, רק צוטטו כשדה מהרשומה).",
+  },
+
+  /* ----------------------------------------------------- tx:CL20N */
+  {
+    id: "tx:CL20N",
+    evidence: [
+      CL20N_SIMPL_ITEM,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Library, CL20N @ S32OP (SAP S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CL20N')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-FAL (scripts/fal-app.mjs CL20N) מדפיסה AppName/EnglishTitle: 'Assign Object to Classes " +
+          "(Deprecated), Manage Object Assignments', ApplicationType/UITechnology 'SAP GUI', isPublished " +
+          "'Published', CrossProductStackStatus 'RELEASED', NumberofSuccessors 0 (predecessors: -; successors: -). " +
+          "הקטלוג העסקי SAP_PLM_BC_CLF ('Tools - Classification Handling'), רכיב היישום CA-CL-CL. הרשומה מפורסמת " +
+          "ברציפות מ-S6OP (1610) ועד S32OP (2025 FPS01) (וברשימת הגרסאות מופיעים גם S36=2602 ו-S37=2608), כלומר " +
+          "האפליקציה/הטרנזקציה עדיין זמינה וקוראת ל-CL20N בגרסה הנוכחית, אך כותרתה נושאת את התווית 'Deprecated' " +
+          "בלי שנרשם מחליף (successor count 0).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Classification (deliverable: Defense Forces & Public Security)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/b4e911a8e3504d24876c4bfcb42c4704/a3c0cc5340487214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (loio a3c0cc5340487214e10000000a174cb4, היקף SAP_S4HANA_ON-PREMISE 2025.001, שאילתה 'CL20N " +
+          "Assignment of Object to Classes', 21 תוצאות) מדפיסה בסניפט: 'Assign Object to Class (transaction CL20N)' " +
+          "לצד 'Assign Objects/Classes to Class application (transaction CL24N)'. הסניפט בלבד נקרא (לא הגוף המלא); " +
+          "הוא מאשר ש-CL20N מוכרת כטרנזקציית סיווג פעילה בתיעוד S/4HANA On-Premise 2025 FPS01, ובסניפט שנקרא אין " +
+          "סימון הסרה או שינוי שם.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Classification (deliverable: Defense Forces & Public Security)",
+        url: "https://help.sap.com/docs/SAP_ERP/83ae2fb47d3f45099dc6d121b0a7706c/a3c0cc5340487214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio (a3c0cc5340487214e10000000a174cb4) עולה גם בהיקף SAP_ERP 6.18.latest (שאילתה 'Classification " +
+          "transaction CL20N', 21 תוצאות) ומדפיס בסניפט: 'to Class application (transaction CL24N) Assign Object " +
+          "to Class (transaction CL20N)'. הסניפט בלבד נקרא; הוא מאשר ש-CL20N מוכרת בתיעוד צד ה-ECC (SAP ERP 6.0 " +
+          "EHP8), ובסניפט שנקרא אין סימון הסרה או שינוי שם.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "changed",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CL20N_SIMPL_ITEM,
+      he:
+        "CL20N היא הטרנזקציה הפעילה לשיוך אובייקט למחלקות סיווג הן ב-ECC והן ב-S/4HANA On-Premise 2025 FPS01, " +
+        "ומשמשת כחלופה הרשומה במפורש לטרנזקציה CL20 שהוסרה החל מגרסת S/4HANA On-Premise 1511. עם זאת, ב-SAP Fiori " +
+        "Apps Library כותרת הרשומה עצמה נושאת את התווית 'Deprecated' בלי שנרשם מחליף (successor count אפס), כך " +
+        "שבמקורות הרשמיים שנבדקו (פריט הפישוט, ה-FAL, סניפטי help.sap.com) לא נרשם מחליף ולא נקבע מועד הסרה.",
+      recommendedAction:
+        "להמשיך להשתמש ב-CL20N לשיוך אובייקטים למחלקות בגרסה הנוכחית; לעקוב מעת לעת אחרי SAP Fiori Apps Library " +
+        "(scripts/fal-app.mjs CL20N) לבדוק אם נרשם מחליף רשמי לתווית ה-Deprecated, ולבחון בעת המרה בפועל את פריט " +
+        "'S4TWL - Classification' לגבי מגבלות הסיווג הכלליות (User Defined Data Type, Rename Characteristic, " +
+        "Parameter Effectivity, ייבוא Batch).",
+    },
+    xrefs: ["tx:CL01", "tx:CL02", "tx:CL03", "tx:CL24N", "tx:CL30N", "tx:CT04", "fm:BAPI_OBJCL_CREATE"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שרצו: 'CL20N Assignment of Object to Classes' " +
+      "(SAP_S4HANA_ON-PREMISE, 21 תוצאות) ו-'Classification transaction CL20N' (SAP_ERP, 21 תוצאות); שני פריטי " +
+      "הפישוט (2023 FPS03 §28.5, 2025 FPS01 §10.4.9 'S4TWL - Classification', שניהם ברכיב CA-CL ובאותו נוסח) " +
+      "נקראו במלואם מהקבצים המקומיים ב-scratchpad/official/; scripts/fal-app.mjs CL20N נבדק ישירות מול ה-Fiori " +
+      "Apps Library. status.source הוא פריט הפישוט (מגדיר את הרציפות מ-CL20 הישנה); ה-FAL מספק את תווית " +
+      "ה-Deprecated. לא נמצא successor רשום באף מקור, ולכן לא נקבע status='deprecated' (הכלל " +
+      "replacement-no-successor דורש מחליף בר-פתרון). data/tx-intel.ts#CL20N (המאגר) מתאר תוכן דומה (שיוך " +
+      "אובייקטים למחלקה, קשר ל-CL01/CT04/CL24N/CL30N) ותואם למקורות הרשמיים; לא אותרה סתירה בין המאגר לבין " +
+      "המקורות שנבדקו. ביקורת יריבה 2026-09-24: שתי כתובות ה-URL מחזירות 200, ה-loio אומת בשני ההיקפים, ערכי " +
+      "ה-FAL אומתו מילה במילה, כל ה-xrefs קיימים ב-lib/route-manifest.generated.ts (tcodes/bapiFm).",
+  },
+
+  /* ----------------------------------------------------- tx:CL24N */
+  {
+    id: "tx:CL24N",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CL24N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "data/tcode-catalog.ts רושם את CL24N במודול PP-PI, אזור 'מערכת מחלקות', עם השם העברי 'שיוך מחלקות' והשם " +
+          "האנגלי 'Class Assignments'. זו רשומת קטלוג בלבד וללא תימוכין ממקור רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CL24N",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Classification (Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3, item 28.5)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE24,
+        claim:
+          "הפריט (28.5, רכיב CA-CL) קובע שהטרנזקציות של הסיווג עברו חידוש (renovated) החל מ-SAP S/4HANA on-premise " +
+          "1511 ('transactions of the Classification are renovated so that transactions may have changed " +
+          "functionality or may be completely removed'), עם רשימה כללית: סוג נתונים מוגדר-משתמש 031 למאפיינים " +
+          "הוסר, פונקציית Rename Characteristic בוטלה, Parameter Effectivity הוסתר, ו-batch import הוגבל לפעולה " +
+          "מעמדת העבודה (presentation server) בלבד. בטבלת 'Transaction not available since SAP S/4HANA on-premise " +
+          "edition 1511 / Available alternative transactions and reports' הקוד CL24 (Assign Objects to One Class) " +
+          "מופיע כטרנזקציה שהוסרה, ומולו כטרנזקציה החלופית הזמינה מופיע CL24N בשם 'Assign Objects / Classes to " +
+          "Class'. הפריט אינו מציין ש-CL24N עצמה הוסרה או הוחלפה; הוא מציג אותה כטרנזקציה החלופית שנותרה זמינה.",
+        verificationLevel: "sap_official_verified",
+      },
+      CL24N_SIMPL_ITEM_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Assortment List",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/5507a8b592ea4caf86487201a44b0e74/f03f6c52001f294fe10000000a445394.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "קטע החיפוש מתעד ש-'You use Assign Objects/Classes to Class (transaction CL24N) to assign an article to " +
+          "the class number with the class type Material', ומוסיף ש-CL24N משמשת גם לשיוך ערך מאפיין מרשימת ערכים " +
+          "אפשריים שהוגדרה ב-CT04. מאשר קיום ושימוש בטרנזקציה CL24N בצד ה-ECC (SAP ERP, versionId 6.18.latest).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Classification",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/b4e911a8e3504d24876c4bfcb42c4704/a3c0cc5340487214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "קטע החיפוש מזכיר במפורש את 'the ... Classes to Class application (transaction CL24N)' לצד 'Assign Object " +
+          "to Class (transaction CL20N)', כחלק ממערכת הסיווג המשמשת לשיוך classes ל-force element ב-SAP S/4HANA " +
+          "2025 FPS01. מאשר שהטרנזקציה CL24N מתועדת וקיימת גם בצד S/4HANA on-premise 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CL24N_SIMPL_ITEM_2025,
+      he:
+        "CL24N (שיוך אובייקטים/מחלקות ל-Class) קיימת ומתועדת הן ב-SAP ERP 6.18.latest (ECC) והן ב-SAP S/4HANA " +
+        "on-premise 2025 FPS01. רשימת הפישוט 'S4TWL - Classification' (28.5 / 10.4.9) אינה מציינת ש-CL24N עצמה " +
+        "הוסרה או שונתה: היא מוצגת שם כטרנזקציה החלופית הזמינה במקום הקוד הישן CL24 שהוסר. שינויים אחרים " +
+        "שמתוארים בפריט (הסרת סוג נתונים 031, ביטול Rename Characteristic, הסתרת Parameter Effectivity, הגבלת " +
+        "batch import) מתייחסים לקבוצת טרנזקציות הסיווג ככלל ואינם מיוחסים במפורש ל-CL24N.",
+      recommendedAction:
+        "להמשיך להשתמש ב-CL24N לשיוך אובייקטים למחלקות ב-S/4HANA on-premise; אם נעשה שימוש בפונקציונליות הכללית " +
+        "שהוגבלה (batch import, Rename Characteristic, Parameter Effectivity, סוג נתונים 031), לבדוק בנפרד את " +
+        "ההשפעה מול פריט הפישוט 'S4TWL - Classification' ולתעד ב-CT04 בהתאם.",
+    },
+    xrefs: ["tx:CL20N", "tx:CT04", "tx:CL6O"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. ה-status מבוסס על כך שרשימת הפישוט מציגה את CL24N כחלופה הזמינה במקום CL24 " +
+      "שהוסר, ולא על היגד מפורש 'CL24N ללא שינוי פונקציונלי'; ה-source מצביע על פריט הפישוט 2025 FPS01 (10.4.9), " +
+      "שמציג את CL24N כחלופה הזמינה ל-CL24. חיפושים: sap-help-search 'CL24N' (S/4HANA scope, 2025.001) ו-'CL24N' " +
+      "--product SAP_ERP (6.18.latest). CL6R (Direct Input for Classes) רשומה באותו פריט כלא זמינה מאז 1511 ללא " +
+      "חלופה, ולכן אינה מומלצת לתיעוד.",
+  },
+
+  /* ----------------------------------------------------- tx:CL30N */
+  {
+    id: "tx:CL30N",
+    aliases: ["CL30N (Find Objects in Classes)"],
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 (Document Version 1.35) · item 28.5 " +
+          "S4TWL - Classification (CA-CL), pp. 674-676; ואותו פריט ברשימת הפישוט של 2025 FPS01 (Document Version " +
+          "1.36) · item 10.4.9 S4TWL - Classification, pp. 927-928",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "פריט S4TWL - Classification (הערה 2267878, מודפסת בכותרת הפריט בשני הקבצים) נקרא בטקסט מלא בשני הקבצים " +
+          "המקומיים (SIMPL_OP2023.pdf ו-SIMPL_OP2025.pdf, זהים בתוכן). הפריט קובע ש-'With SAP S/4HANA, on-premise " +
+          "edition 1511 transactions of the Classification are renovated so that transactions may have changed " +
+          "functionality or may be completely removed', ומפרט שינויים כלליים: הוסר סוג הנתונים User Defined Data " +
+          "Type (031) למאפיינים, הושבתה פונקציית שינוי שם מאפיין (Rename Characteristic), הוסתר Parameter " +
+          "Effectivity, והוגבל batch import לשרת ההצגה (presentation server) בלבד; אלה תוארו כחלים על " +
+          "'transactions of the Classification' באופן כללי, ללא ייחוס מפורש ל-CL30N. בטבלה שכותרותיה 'Transaction " +
+          "not available since SAP S/4HANA on-premise edition 1511' ו-'Available alternative transactions and " +
+          "reports' מופיע הקוד CL30 (Find Objects in Classes) בטור הקודים שאינם זמינים, ולצדו CL30N (Find Objects " +
+          "in Classes, אותו שם פונקציונלי) בטור החלופות הזמינות. כלומר CL30N עצמה אינה מופיעה בטור הקודים שאינם " +
+          "זמינים; היא מוזכרת רק כחלופה הזמינה ל-CL30. הפריט אינו מייחס ל-CL30N באופן ישיר אף אחד מהשינויים " +
+          "הפונקציונליים שפורטו לעיל.",
+        verificationLevel: "sap_official_verified",
+      },
+      CL30N_WHATSNEW,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Classifications (Cross-Application Components (CA))",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/849930ca4c3349b5a117bf279a72b34f/f786c4535cdeb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש של help.sap.com למדריך Create Classifications, מהדורת S/4HANA On-Premise 2025 FPS01 " +
+          "(versionId 2025.001, loio f786c4535cdeb44ce10000000a174cb4), מונה בטבלת הפעילויות: 'Activities in the " +
+          "Classification System Transaction Activity ... Classification CL30N Find objects in classes CL31 Find by " +
+          "class type ...'. כלומר CL30N מתועדת כטרנזקציית 'Find objects in classes' גם במהדורת 2025 FPS01, ולא רק " +
+          "ב-2023 FPS03. אותו loio מופיע גם במוצר SAP ERP (versionId 6.18.latest, כתובת " +
+          "https://help.sap.com/docs/SAP_ERP/cf37e689fcbb4b67a4197897e0622b5f/f786c4535cdeb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest) " +
+          "עם אותה שורת טבלה 'Classification CL30N Find objects in classes'; כלומר CL30N מתועדת באותו אופן גם " +
+          "ב-SAP ERP 6.0 EHP8, ללא הבדל בשם הפונקציונלי בין הצדדים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: troubleshooting.ts#batch-determination-fail",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת פתרון התקלות 'batch-determination-fail' (PP-PI) מונה את CL30N בשדה analyzeTcodes כטרנזקציית ניתוח " +
+          "בעת בעיית קביעת אצווה, לצד CU70/MSC3N/COR6N; אין ברשומה זו כל קביעה לגבי מעמד CL30N ב-S/4HANA, רק שימוש " +
+          "תפעולי שוטף.",
+        repoRef: "data/troubleshooting.ts#batch-determination-fail",
+        verificationLevel: "repository_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library: CL30N - Find Objects in Classes / Find Objects in Classes (Deprecated) (SAP GUI, " +
+          "component CA-CL-CL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CL30N')/S32OP",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library (S32OP = SAP S/4HANA 2025 FPS01 On-Premise, נשלפה עם scripts/fal-app.mjs " +
+          "CL30N --release S32OP וגם דרך --tcode CL30N) מציגה את CL30N כאפליקציית SAP GUI בסטטוס Published, רכיב " +
+          "יישום CA-CL-CL (Classification), קטלוג עסקי SAP_PLM_BC_CLF 'Tools - Classification Handling', intent " +
+          "Classification-findObjectsInClasses, טרנזקציה מובילה CL30N, תפקידים SAP_BR_ADMINISTRATOR_RCP_DEV, " +
+          "SAP_BR_BOM_ENGINEER, SAP_BR_BOM_ENG_CUST_ORDER, SAP_BR_MAINTENANCE_PLANNER, SAP_BR_MD_SPECIALIST_EAM; " +
+          "שדות Predecessors ו-Successors ריקים; רשימת ה-releases רציפה מ-S6OP (1610) ועד S32OP (2025 FPS01) " +
+          "וכוללת גם S36 (2602) ו-S37 (2608). עם זאת, ברשומת S32OP מודפסים שני שמות לאפליקציה: 'Find Objects in " +
+          "Classes' ו-'Find Objects in Classes (Deprecated)', בעוד שרשומת S30OP (2023 FPS03) מדפיסה שם יחיד 'Find " +
+          "Objects in Classes'. סימון ה-(Deprecated) בשם עומד בסתירה לתיעוד Create Classifications 2025.001 " +
+          "(evidence[2]) המונה את CL30N כפעילות רגילה, ואף רשומה רשמית מצוטטת אינה מדפיסה קוד יורש או הערת SAP " +
+          "המסבירה אותו; מה שיכריע: הערת SAP על CL30N שתודפס ברשומה רשמית, או בדיקה במערכת 2025 FPS01 חיה.",
+        verificationLevel: "conflicting_sources",
+      },
+    ],
+    status: {
+      status: "changed",
+      edition: "on-premise",
+      release: "2023 FPS03",
+      source: CL30N_WHATSNEW,
+      he:
+        "CL30N (Find Objects in Classes) מתועדת ב-SAP S/4HANA On-Premise גם במהדורה 2025 FPS01 (מדריך Create " +
+        "Classifications) ומופיעה ברשימת הפישוט רק כחלופה הזמינה לקוד CL30, שאינו זמין מאז מהדורה 1511. השינוי " +
+        "המתועד ל-CL30N עצמה הוא תוספת פונקציונלית: החל ממהדורת On-Premise 2023 FPS03 ניתן לקשר מ-CL30N ישירות " +
+        "ל-Manage Change Records app (Technical Object Name F2097, רכיב PLM-CR) דרך Environment → Define function " +
+        "עם הטרנזקציה /PLMI/CR_NAV_CL30N. לצד זאת, רשומת ה-Fiori Apps Library ל-2025 FPS01 (S32OP) מדפיסה " +
+        "לאפליקציית ה-SAP GUI גם את השם 'Find Objects in Classes (Deprecated)' ללא קוד יורש; סימון זה אינו מאושש " +
+        "באף רשומה רשמית אחרת שנבדקה ודורש אימות.",
+      recommendedAction:
+        "להמשיך להשתמש ב-CL30N; במידת הצורך להפעיל את הקישור ל-Manage Change Records app (החל מ-2023 FPS03) דרך " +
+        "Environment → Define function עם /PLMI/CR_NAV_CL30N. לפני תכנון פרישה של הקוד יש לאמת את סימון " +
+        "ה-(Deprecated) שמדפיסה רשומת ה-Fiori Apps Library ל-2025 FPS01, שכן לא צוין קוד יורש באף רשומה שנבדקה.",
+    },
+    xrefs: [],
+    lastVerifiedAt: DATE24,
+    notes:
+      "לא בוצעה בדיקה במערכת SAP חיה. חיפושים שבוצעו ב-scripts/sap-help-search.mjs: 'CL30N Find Objects in " +
+      "Classes' (ברירת מחדל SAP_S4HANA_ON-PREMISE, 21 תוצאות) ואותו חיפוש עם --product SAP_ERP (21 תוצאות); גוף " +
+      "דף ה-What's New 2023 FPS03 נקרא עם scripts/sap-help-body.mjs (ואומת שוב בביקורת); פריט הפישוט S4TWL - " +
+      "Classification נקרא מהקבצים המקומיים SIMPL_OP2023.pdf.txt (item 28.5, pp. 674-676) ו-SIMPL_OP2025.pdf.txt " +
+      "(item 10.4.9, pp. 927-928), טקסט זהה. פריט הפישוט עצמו אינו מייחס ל-CL30N שינוי פונקציונלי ישיר; היא " +
+      "מוזכרת בו רק כחלופה הזמינה ל-CL30 שאינו זמין מאז 1511. הקוד CL30 אינו קיים ביקום ה-xrefs (אין tx:CL30 " +
+      "ב-route-manifest.generated.ts), ולכן לא צוין כ-xref ולא כ-successor הפוך; fiori:F2097 אינו קיים " +
+      "ב-data/fiori/apps.ts ולכן נזכר בפרוזה בלבד. הרצות scripts/fal-app.mjs: '--tcode CL30N', 'CL30N --release " +
+      "S32OP', 'CL30N --release S30OP'. ממצא סותר: רשומת S32OP מדפיסה שני שמות, 'Find Objects in Classes' ו-'Find " +
+      "Objects in Classes (Deprecated)', ללא predecessor/successor, בעוד S30OP מדפיסה שם יחיד; מדריך Create " +
+      "Classifications 2025.001 מונה את CL30N כפעילות רגילה. הסטטוס נותר 'changed' (source: דף ה-What's New 2023 " +
+      "FPS03) והסתירה סומנה בשורת ה-Fiori Apps Library כ-conflicting_sources. מה שיכריע: הערת SAP על CL30N " +
+      "שתודפס ברשומה רשמית (אף רשומה מצוטטת אינה מדפיסה כזו, ולכן לא צוין מספר), או בדיקה במערכת 2025 FPS01 " +
+      "חיה.",
   },
 ];
