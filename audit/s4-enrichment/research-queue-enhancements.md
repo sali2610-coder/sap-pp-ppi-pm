@@ -820,3 +820,91 @@ already graduated out of the repository-only foundation guard, so no test change
   from 4 to 6 (the new Public Cloud rows on IWO10012 and CONFPM01). No record changed depth, level
   or status.
 - No live SAP check was performed.
+
+# Batch 8 · written 2026-09-25 (access date stamped 2026-09-24, const DATE24)
+
+5 drafts audited: **5 written**, **0 refuted**. Written ids: `enh:exit:IPRM0001`,
+`enh:exit:ITOB0001`, `enh:exit:IEQM0001`, `enh:badi:NOTIF_EVENT_SAVE`, `enh:badi:BADI_EAM_TOB`. All
+five deepen records that already existed; no new id. ITOB0001 and NOTIF_EVENT_SAVE come from the
+auditor's `fixedRecord`; IPRM0001, IEQM0001 and BADI_EAM_TOB had no `fixedRecord` and are the audited
+draft with the verdict downgrades applied. The catalog was already graduated out of the
+repository-only foundation guard, so no test change.
+
+## refuted
+
+- (none in this batch.)
+
+## conflicts
+
+- `enh:exit:IPRM0001`: the repository conflict is still open. `data/exits.ts` (inferred) and the
+  derived `data/domain-detail.ts`, `data/process-guides.ts` and `data/troubleshooting.ts` attribute
+  scheduling to IPRM0001; PM workbook rows 42/43 and the official 'Optimizing the Scheduling' body
+  attribute planned dates to IPRM0002 and IPRM0005. The 2026-09-24 body readings of 'Optimizing the
+  Maintenance Plan' and 'Optimizing the Scheduling' (2025.001 and 6.18.latest, same wording on both
+  sides) do not name IPRM0001. That is a bounded negative for these two pages, so the scheduling role
+  stays a repository hypothesis.
+- `enh:exit:ITOB0001`: successor-name drift unchanged (`data/exits.ts` BADI_EAM_TOB, inferred, against
+  workbook rows 3/8/13 BADI_EAM_TECHNICAL_OBJECT; neither name on help.sap.com after the 2026-09-24
+  re-run). The three new rows (BADI_EAM_ITOB_BAPI_CUST_FIELDS; EAM_TECHNOBJECT_FIELD_CONTROL on
+  2025.001 and on Public Cloud 2608.500) are context only. No official source names a replacement for
+  ITOB0001.
+- `enh:exit:IEQM0001`: the dependent-record fixes are still open (`data/exits.ts#IEQM0001`,
+  `data/domain-detail.ts:46`, `data/academy/lessons/pm-generated.ts:230`,
+  `data/workbenches-ext.ts:164`).
+- Aliases, for a follow-up pass: 'IPRM0001 (תזמון תכנית)' repeats the unverified scheduling reading,
+  and 'IEQM0001 (מסך נוסף לציוד)' repeats the repository name the official sources contradict. Both
+  verdicts kept the aliases unchanged, so they were not touched here.
+- `enh:badi:NOTIF_EVENT_SAVE`: the batch-1 line above says BADI_QQM_NOTIF_EVENT_SAVE_CLD is documented
+  'for Public Edition 2608 only'. The auditor rejected that 'only' (HOUSE-RULES §3.2). The record now
+  says the BAdI is documented on the Public Cloud 2608 page and that on-premise availability stays to
+  be verified: the What's New 2022 body and the 2025 FPS01 'Extensibility for Quality Notification
+  Apps' body (loio `b392cc6291ea442a8c7636f05284dd24`) name no such BAdI, and an on-premise search for
+  the name (21 records) returned no page naming it. Method 'SAVE' in `data/exits.ts` is still
+  unverified.
+- `enh:badi:BADI_EAM_TOB`: two unverified names for one idea, unchanged after the 2026-09-24 re-run
+  ('BADI_EAM_TOB' on SAP_S4HANA_ON-PREMISE: 4 fuzzy hits; 'BADI_EAM_TECHNICAL_OBJECT' on SAP_ERP: 21;
+  the broad query: 21; none names either). The first SAP_ERP hit, 'Business Add-Ins' (Technical
+  Objects CS-BD/PM-EQM, 6.16.latest, loio `077abb53707db44ce10000000a174cb4`), documents BADI_CCM_*
+  and BADI_MPL_IWB, not the name.
+
+## open verification
+
+- `enh:exit:IPRM0001`: SMOD/CMOD for the enhancement components and EXIT_ function modules. Private
+  Cloud: no dedicated source checked. Public Cloud: search snippets only, no evidence. The literal
+  'EXIT_SAPLIPRM_001' search count drifts (12, and 13 on a re-run).
+- `enh:exit:ITOB0001`: SMOD/CMOD. No official S/4HANA page names ITOB0001, so its S/4HANA status
+  stays derived from the repository block.
+- `enh:exit:IEQM0001`: SE37/SMOD, including the EXIT_SAPLIEL2_002 pairing. No S/4HANA On-Premise page
+  names IEQM0001.
+- `enh:badi:NOTIF_EVENT_SAVE`: SE18/SE19 for the BAdI, the interface IF_EX_NOTIF_EVENT_SAVE and the
+  method names; BADI_QQM_NOTIF_EVENT_SAVE_CLD availability on-premise and in Private Cloud (the
+  search tool has no Private Edition product id).
+- `enh:badi:BADI_EAM_TOB`: SE18 for BADI_EAM_TOB and BADI_EAM_TECHNICAL_OBJECT.
+- No live SAP check was performed. The sc4sap MCP failed to connect in this session too.
+
+## writer deviations, batch 8
+
+- `enh:exit:ITOB0001` row 7 (Public Cloud, 2608.500): the verdict required the writer to re-fetch the
+  body before writing the `fixedRecord` claim. One `scripts/sap-help-body.mjs` run on the row's URL
+  (deliverable 41170281, 2,306 bytes) confirmed every quoted element: 'Field Control for Technical
+  Object (EAM_TECHNOBJECT_FIELD_CONTROL)', Equipment (EAMS_EQUI), Functional Location (EAMS_FL), the
+  Custom Fields and Custom Logic apps, and 'The usage of the value help of a custom field is not
+  supported.' The body names no ITOB0001, SMOD or CMOD. The writer ran no other lookup.
+- `enh:exit:IPRM0001` `notes`: the optional drift note was applied. 'EXIT_SAPLIPRM_001' now reads
+  '12 תוצאות (13 בהרצה חוזרת)'. No other wording changed. The 2026-09-02 notes survive as the
+  'ממצא 2026-09-02' paragraph with the draft's one inserted parenthetical (the derived files), and
+  both `conflictingEvidence` rows keep DATE.
+- `enh:exit:IEQM0001` `notes`: the optional accuracy note was applied to the appended paragraph. The
+  'Customer Exit IMRC0001' page (loio `396cb65334e6b54ce10000000a174cb4`) is listed under Customer
+  Service (CS) at 2025.001 and, in the 'IEQM0001' query, under Maintenance Management at 2023.latest.
+- Unchanged rows were kept byte for byte (deep comparison against the pre-write file): IPRM0001
+  `conflictingEvidence` (both rows); ITOB0001 rows 1 to 4; IEQM0001 all six rows and its
+  `conflictingEvidence` row; NOTIF_EVENT_SAVE rows 2 to 5 and `status`; BADI_EAM_TOB rows 1 to 6,
+  `recommendedAction` and `xrefs`. The live notes are an exact prefix of the new notes for ITOB0001,
+  IEQM0001 and BADI_EAM_TOB. For NOTIF_EVENT_SAVE the passage through the KBA sentence is kept
+  exactly and the rest is the `fixedRecord` text. The other 35 records are deep-equal to the
+  pre-write file.
+- Coverage (`npm run report:coverage -- --catalog enhancements`), before and after: 40 records,
+  L2 10, L3 12, L4 3, L5 15; 28 verified, 12 conflicting, 30 S/4-applicable. Edition-specific went
+  from 6 to 7 (the ITOB0001 Public Cloud row). No record changed depth, level or status.
+- No live SAP check was performed.

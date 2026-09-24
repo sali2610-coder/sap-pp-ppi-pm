@@ -82,7 +82,18 @@
    IWO10018 and CONFPM01 drafts dropped was restored from the live records; the CONFPM01
    WORKORDER_CONFIRM negative is bounded to S/4HANA pages, because enh:badi:WORKORDER_CONFIRM cites
    the R/3 Enterprise 4.70 release notes that name the BAdI. enh:exit:QQMA0001 was refuted at the
-   gate and is queued, not written. */
+   gate and is queued, not written.
+   Batch 8 (written 2026-09-25, access-stamped 2026-09-24, const DATE24): five audited deepenings of
+   existing records (IPRM0001, ITOB0001, IEQM0001, NOTIF_EVENT_SAVE, BADI_EAM_TOB). ITOB0001 and
+   NOTIF_EVENT_SAVE are the auditor's fixedRecord; IPRM0001, IEQM0001 and BADI_EAM_TOB are the audited
+   draft with the verdict downgrades applied. IPRM0001 now quotes the page bodies of 'Optimizing the
+   Maintenance Plan' and 'Optimizing the Scheduling' (2025.001 and 6.18.latest) instead of their
+   snippets and gains the SAP ERP 'Optimizing the Scheduling' row. ITOB0001 gains three context rows
+   (Technical Objects on the Web User Interface, and App Extensibility: Change Technical Object for
+   2025.001 and for Public Cloud 2608.500). The NOTIF_EVENT_SAVE Public Cloud row is now bounded to the
+   body read. BADI_EAM_TOB gains the 2026-09-24 search re-run and the SAP ERP 6.16 'Business Add-Ins'
+   body as verification_required rows. IEQM0001 changes in notes and lastVerifiedAt only. No status
+   token, successor or xref changed; rows not re-read keep their original DATE; nothing was refuted. */
 import type { VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
@@ -630,8 +641,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2025.001",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f7d969cde600466b96094e772632c3f3/17a9ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
-        accessedAt: DATE,
-        claim: "עמוד ה-Maintenance Planning של S/4HANA 2025 FPS01 קובע: 'The table describes how you can use customer exits to adjust the functions of the maintenance plan to better meet the individual requirements of your company'. הסניפט שהוחזר משירות החיפוש מונה את IPRM0003 (שדות לקוח לפריט התחזוקה, לשונית 'Customer exit: Item') ואת IPRM0004 (EXIT_SAPLIPWP3_004, בדיקות לקוח בשמירת תוכנית תחזוקה). שירות החיפוש החזיר את העמוד לשאילתה 'IPRM0001', אך IPRM0001 עצמו אינו מופיע בסניפט; שורת הטבלה שלו לא נראתה.",
+        accessedAt: DATE24,
+        claim: "גוף העמוד 'Optimizing the Maintenance Plan' ב-S/4HANA 2025 FPS01 (נקרא דרך sap-help-body.mjs) קובע: 'The table describes how you can use customer exits to adjust the functions of the maintenance plan to better meet the individual requirements of your company'. הטבלה בגוף העמוד מונה את IPRM0003 ('You can define your own fields for the maintenance item using this customer exit. The fields appear on the tab Customer exit: Item in the maintenance plan or maintenance item') ואת IPRM0004 ('Function module: EXIT_SAPLIPWP3_004', 'You can define your own checks for saving maintenance plans using this customer exit'), ומפנה לעמוד 'Optimizing Scheduling'. IPRM0001 אינו נזכר בגוף העמוד שנקרא.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -641,8 +652,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         release: "2025.001",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f7d969cde600466b96094e772632c3f3/05a9ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
-        accessedAt: DATE,
-        claim: "עמוד התאמת התזמון של S/4HANA 2025 FPS01 מייחס את קביעת המועדים המתוכננים ל-IPRM0002: 'You can use this customer exit to specify the next planned dates for performance-based and time-based maintenance plans. This exit consists of several function modules' (בהם EXIT_SAPLIPM5_002 לתוכניות מבוססות זמן), ואת מועדי תוכניות אסטרטגיה מבוססות ביצועים ל-IPRM0005. לתוכניות מונים מרובים העמוד מונה את ה-BAdIs ‏IPRM_MCP_DATE_I_PAST ו-IPRM_CHECK_UPD_SCHED. IPRM0001 אינו נזכר בסניפט שהוחזר.",
+        accessedAt: DATE24,
+        claim: "גוף העמוד 'Optimizing the Scheduling' ב-S/4HANA 2025 FPS01 (נקרא דרך sap-help-body.mjs) מתאר טבלה של Customer Exits ו-BAdIs להתאמת המועדים שהמערכת מחשבת לתוכניות תחזוקה. הטבלה מונה את IPRM0002 ('You can use this customer exit to specify the next planned dates for performance-based and time-based maintenance plans. This exit consists of several function modules', עם EXIT_SAPLIPM5_001 ו-EXIT_SAPLIPM5_002), את מודול הפונקציה MEASURE_POINT_UPD_PYEAR (שינוי הביצוע השנתי המוערך של המונה בתוכניות מבוססות ביצועים), את IPRM0005 (מועדים לתוכניות אסטרטגיה מבוססות ביצועים), ואת ה-BAdIs לתוכניות מונים מרובים IPRM_MCP_SCHE_CHANGE, IPRM_CHECK_UPD_SCHED, DI_WPS_PLAN_EXT_DATE, IPRM_MCP_DATE_I_PAST ו-IPRM_MCP_UPD_CALLOBJ. IPRM0001 אינו נזכר בגוף העמוד שנקרא.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -652,8 +663,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         edition: "ecc",
         release: "6.18.latest",
         url: "https://help.sap.com/docs/SAP_ERP/11825b10747e4ee4b91ecc1dba612536/17a9ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
-        accessedAt: DATE,
-        claim: "אותו נושא (loio זהה) מופיע גם בתיעוד SAP ERP 6.0 EHP8 עם אותו סניפט: IPRM0004 ‏(EXIT_SAPLIPWP3_004) לבדיקות בשמירת תוכנית תחזוקה ו-IPRM0003 לשדות לקוח בפריט התחזוקה. טבלת ה-Customer Exits של תוכנית התחזוקה מתועדת באותה כותרת ב-ECC וב-S/4HANA 2025 FPS01; גם כאן IPRM0001 אינו מופיע בסניפט.",
+        accessedAt: DATE24,
+        claim: "גוף העמוד באותו loio בתיעוד SAP ERP 6.0 EHP8 (נקרא דרך sap-help-body.mjs) זהה בנוסחו לגרסת S/4HANA 2025 FPS01: הטבלה מונה את IPRM0003 (שדות לקוח לפריט התחזוקה, לשונית 'Customer exit: Item') ואת IPRM0004 ('Function module: EXIT_SAPLIPWP3_004', בדיקות לקוח בשמירת תוכנית תחזוקה). טבלת ה-Customer Exits של תוכנית התחזוקה מתועדת באותה כותרת בצד ה-ECC ובצד S/4HANA. IPRM0001 אינו נזכר בגוף העמוד שנקרא.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -661,8 +672,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         sourceTitle: "קטלוג ההרחבות בשם של הפרויקט (EXITS), רשומת IPRM0001",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE,
-        claim: "הקטלוג מתאר את IPRM0001 כ-'תזמון תכנית אחזקה': 'התערבות בלוגיקת תזמון תכנית אחזקה (חישוב מועדי קריאה)', טריגר 'בעת תזמון (IP10/IP30)', ניפוי דרך CMOD, ובלוק ECC מול S/4HANA: 'נתמך' / 'העדף BAdI לתזמון'. הרשומה מסומנת inferred: true, כלומר התיאור הוסק ולא אומת מול מקור. אותו ייחוס (IPRM0001 = תזמון) חוזר גם ב-data/domain-detail.ts, data/process-guides.ts ו-data/troubleshooting.ts; ב-data/transactions.ts (IP01) וב-data/troubleshooting-ext2.ts ההרחבה רק רשומה ברשימת ה-exits, ללא תיאור תזמון.",
+        accessedAt: DATE24,
+        claim: "הקטלוג מתאר את IPRM0001 כ-'תזמון תכנית אחזקה': 'התערבות בלוגיקת תזמון תכנית אחזקה (חישוב מועדי קריאה)', טריגר 'בעת תזמון (IP10/IP30)', ניפוי דרך CMOD, ובלוק ECC מול S/4HANA: 'נתמך' / 'העדף BAdI לתזמון'. הרשומה מסומנת inferred: true, כלומר התיאור הוסק ולא אומת מול מקור. אותו ייחוס (IPRM0001 = תזמון) חוזר גם ב-data/domain-detail.ts, data/process-guides.ts ו-data/troubleshooting.ts; ב-data/transactions.ts (IP01) וב-data/troubleshooting-ext2.ts ההרחבה רק רשומה ברשימת ה-exits, ללא תיאור תזמון. בבדיקת 2026-09-24 גוף שני עמודי help.sap.com שנקראו אינו נוקב ב-IPRM0001, ולכן התיאור 'תזמון' נשאר השערה של המאגר.",
         verificationLevel: "verification_required",
         repoRef: "data/exits.ts#IPRM0001",
         conflictingEvidence: [
@@ -689,6 +700,17 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
           },
         ],
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Optimizing the Scheduling | Maintenance Planning (CS-AG/PM-PRM-MP)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/11825b10747e4ee4b91ecc1dba612536/05a9ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim: "גוף העמוד 'Optimizing the Scheduling' בתיעוד SAP ERP 6.0 EHP8 (אותו loio, נקרא דרך sap-help-body.mjs) זהה בנוסחו לגרסת S/4HANA 2025 FPS01: הטבלה מונה את IPRM0002 (EXIT_SAPLIPM5_001, EXIT_SAPLIPM5_002), את מודול הפונקציה MEASURE_POINT_UPD_PYEAR, את IPRM0005 ואת ה-BAdIs לתוכניות מונים מרובים IPRM_MCP_SCHE_CHANGE, IPRM_CHECK_UPD_SCHED, DI_WPS_PLAN_EXT_DATE, IPRM_MCP_DATE_I_PAST ו-IPRM_MCP_UPD_CALLOBJ. ייחוס המועדים המתוכננים ל-IPRM0002 ול-IPRM0005 מתועד אפוא באותו נוסח בצד ה-ECC ובצד S/4HANA. IPRM0001 אינו נזכר בגוף העמוד שנקרא.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     xrefs: [
       "enh:technique:customer-exit",
@@ -705,8 +727,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "fiori:F4072",
       "enh:exit:IMRC0001",
     ],
-    lastVerifiedAt: DATE,
-    notes: "אף רשומה רשמית שנשלפה (שירות החיפוש של SAP Help, S/4HANA 2025 FPS01 ו-SAP ERP 6.0 EHP8) אינה מזכירה את IPRM0001 בכותרת או בסניפט; גוף העמודים אינו נגיש ללא דפדפן, ולכן תפקיד ההרחבה, מודולי הפונקציה שלה וסטטוס S/4HANA שלה לא אומתו. קיימת סתירה במאגר: data/exits.ts מייחס ל-IPRM0001 את לוגיקת התזמון, בעוד גיליון הקוד המותאם של חוברת ההגירה מתאר אותה כהרחבת לקוח כללית לתוכניות תחזוקה ומייחס את התזמון ל-IPRM0002; העמוד הרשמי 'Optimizing the Scheduling' מייחס אף הוא את המועדים המתוכננים ל-IPRM0002 ו-IPRM0005. לא הוגדר סטטוס מחברי: אין מקור רשמי ל-IPRM0001, ואין יורש מאומת (ה-BAdIs שהעמוד הרשמי מונה, IPRM_MCP_DATE_I_PAST ו-IPRM_CHECK_UPD_SCHED, אינם בקטלוג הפרויקט; BADI_EAM_EXIT_DUE_DT שנזכר ב-domain-detail לא נמצא בתיעוד שנשלף). אימות נדרש: SMOD/CMOD במערכת חיה (רכיבי ההרחבה IPRM0001 ומודולי EXIT_ שלה), או קריאת טבלת העמוד 'Optimizing the Maintenance Plan' בדפדפן. עד אז יש לקרוא את התיאור 'תזמון' כהשערה של המאגר.",
+    lastVerifiedAt: DATE24,
+    notes: "היסטוריה (2026-09-02 → 2026-09-24). ממצא 2026-09-02: אף רשומה רשמית שנשלפה (שירות החיפוש של SAP Help, S/4HANA 2025 FPS01 ו-SAP ERP 6.0 EHP8) אינה מזכירה את IPRM0001 בכותרת או בסניפט; גוף העמודים אינו נגיש ללא דפדפן, ולכן תפקיד ההרחבה, מודולי הפונקציה שלה וסטטוס S/4HANA שלה לא אומתו. קיימת סתירה במאגר: data/exits.ts מייחס ל-IPRM0001 את לוגיקת התזמון (וכך גם data/domain-detail.ts, data/process-guides.ts ו-data/troubleshooting.ts), בעוד גיליון הקוד המותאם של חוברת ההגירה מתאר אותה כהרחבת לקוח כללית לתוכניות תחזוקה ומייחס את התזמון ל-IPRM0002; העמוד הרשמי 'Optimizing the Scheduling' מייחס אף הוא את המועדים המתוכננים ל-IPRM0002 ו-IPRM0005. לא הוגדר סטטוס מחברי: אין מקור רשמי ל-IPRM0001, ואין יורש מאומת (ה-BAdIs שהעמוד הרשמי מונה, IPRM_MCP_DATE_I_PAST ו-IPRM_CHECK_UPD_SCHED, אינם בקטלוג הפרויקט; BADI_EAM_EXIT_DUE_DT שנזכר ב-domain-detail לא נמצא בתיעוד שנשלף). אימות נדרש: SMOD/CMOD במערכת חיה (רכיבי ההרחבה IPRM0001 ומודולי EXIT_ שלה), או קריאת טבלת העמוד 'Optimizing the Maintenance Plan' בדפדפן. עד אז יש לקרוא את התיאור 'תזמון' כהשערה של המאגר. חדש (2026-09-24): ההנחה 'גוף העמודים אינו נגיש ללא דפדפן' הוחלפה בקריאת גוף בפועל דרך scripts/sap-help-body.mjs של ארבעה עמודים: 'Optimizing the Maintenance Plan' (loio 17a9ce5314894208e10000000a174cb4) ו-'Optimizing the Scheduling' (loio 05a9ce5314894208e10000000a174cb4), שניהם ב-S/4HANA 2025 FPS01 (2025.001) וב-SAP ERP 6.0 EHP8 (6.18.latest); הנוסח זהה בין המהדורות. טבלת 'Optimizing the Maintenance Plan' מונה את IPRM0003 ואת IPRM0004 (EXIT_SAPLIPWP3_004). טבלת 'Optimizing the Scheduling' מונה את IPRM0002 (EXIT_SAPLIPM5_001, EXIT_SAPLIPM5_002), את מודול הפונקציה MEASURE_POINT_UPD_PYEAR, את IPRM0005 ואת ה-BAdIs IPRM_MCP_SCHE_CHANGE, IPRM_CHECK_UPD_SCHED, DI_WPS_PLAN_EXT_DATE, IPRM_MCP_DATE_I_PAST ו-IPRM_MCP_UPD_CALLOBJ. IPRM0001 אינו נזכר בגוף שני העמודים שנקראו, בשתי המהדורות; זהו ממצא שלילי מתועד לגבי עמודים אלה, לא קביעה לגבי קיום ההרחבה או תפקידה. חיפושים שרצו דרך scripts/sap-help-search.mjs: 'IPRM0001' (SAP_S4HANA_ON-PREMISE, 21 תוצאות; אף כותרת או סניפט אינם נוקבים ב-IPRM0001; בין הכותרות 'Example Customer Exit IPRM0002 (1)', '(2)', '(3)', 'Example Customer Exit IPRM0005' ו-'Customer Exit IMRC0001'); 'IPRM0001' (SAP_ERP, 21 תוצאות; אותה תמונה ב-6.18.latest); מחרוזת החיפוש המילולית 'EXIT_SAPLIPRM_001' (SAP_S4HANA_ON-PREMISE, 12 תוצאות (13 בהרצה חוזרת); אף כותרת או סניפט אינם נוקבים ב-IPRM0001 או במחרוזת זו); 'key user extensibility maintenance plan' (SAP_S4HANA_CLOUD, 21 תוצאות; עמודי App Extensibility ו-API Extensibility של Public Cloud לתוכניות ולפריטי תחזוקה, למשל 'App Extensibility: Manage Maintenance Items App and Manage Maintenance Plans App' (2402.500) ו-'Extensibility for Maintenance Plan API'; אף כותרת או סניפט אינם נוקבים ב-IPRM0001, ולכן לא נוספו כראיה ולא נרשמו כ-successor או כחלופת clean core). הפרדת מהדורות: On-Premise ו-ECC נבדקו בגוף העמודים לעיל; Private Cloud: לא נבדק מקור ייעודי; Public Cloud: רק סניפטים של חיפוש, ללא ראיה ל-IPRM0001. לא נכתב סטטוס מחברי ולא יורש. הסתירה במאגר (data/exits.ts מול data/sapData.pm.ts#IPRM0001) נותרה פתוחה. לא בוצעה בדיקה במערכת SAP חיה: רכיבי ההרחבה IPRM0001 ומודולי ה-EXIT_ שלה דורשים אימות ב-SMOD/CMOD במערכת.",
   },
   {
     id: "enh:exit:ITOB0001",
@@ -753,6 +775,39 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         claim: "‏What's New ל-2025 FPS01 מכריז על BAdI חדש, 'BAdI for Functional Location (BADI_ASM_MD_FUNCLOC)', ש-'allows you to add custom validations while creating or updating' מיקומים פונקציונליים; לפי התקציר המימוש נוצר ב-Customizing תחת Master Data in Plant Maintenance and Customer Service, Technical Objects, Functional Locations, והעמוד נוקב ב-IL02, באפליקציית Web Dynpro‏ Process Technical Object (W0029) וב-API למיקום פונקציונלי. התקציר אינו מזכיר את ITOB0001; העמוד מובא כהקשר לכיוון ההרחבה המודרני לוולידציות של מיקומים פונקציונליים בלבד, לא של ציוד.",
         verificationLevel: "sap_official_verified",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technical Objects on the Web User Interface (PM-EQM) | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/12573553b57be647e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim: "הקשר בלבד, לא טענת יורש. גוף העמוד נקרא דרך scripts/sap-help-body.mjs. תחת 'Displaying Customer-Specific Fields': 'If you edit equipment or functional locations on the SAP Web user interface, you can display customer-specific fields that you have created in the customer namespace... You can use the Business Add-In BAdI: Modification of Data in BAPIs for Technical Objects (BADI_EAM_ITOB_BAPI_CUST_FIELDS) to check and adjust field values that are transferred in your customer-specific fields using the appropriate BAPIs.' לפי לשון העמוד, ה-BAdI בודק ומתאים ערכים של שדות לקוח בציוד ובמיקום פונקציונלי המועברים דרך BAPIs; העמוד אינו מתאר אותו כוולידציה כללית של אובייקט טכני בשמירה. אותו loio מאונדקס גם תחת SAP ERP 6.18 (Plant Maintenance (PM)) עם אותו תקציר. העמוד אינו נוקב ב-ITOB0001 ואינו קובע יחס החלפה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "App Extensibility: Change Technical Object | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/cae1af52ad8743cda5e339e5ad051d7c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim: "הקשר בלבד, לא טענת יורש. גוף העמוד נקרא דרך scripts/sap-help-body.mjs (2025 FPS01): 'As a key user, you can extend the Change Technical Object app according to your business needs.' בטבלת Custom Logic העמוד מונה את 'Field Control for Technical Object (EAM_TECHNOBJECT_FIELD_CONTROL)' בהקשרים העסקיים Equipment (EAMS_EQUI) ו-Functional Location (EAMS_FL), לשימוש 'Change the properties of technical order header fields without changing the standard logic', עם ההערה 'This BAdI does not support changing field properties on the initial screen.' טכנולוגיית ה-UI הנקובה בעמוד לאפליקציה היא FPM (WebDynpro). ה-BAdI עוסק בבקרת מאפייני שדות כותרת, לא בוולידציה או בהשלמת נתונים בשמירה. העמוד אינו נוקב ב-ITOB0001 ואינו קובע יחס החלפה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "App Extensibility: Change Technical Object | Asset Management",
+        product: "SAP S/4HANA Cloud",
+        edition: "public-cloud",
+        release: "2608.500",
+        url: "https://help.sap.com/docs/SAP_S4HANA_CLOUD/2dfa044a255f49e89a3050daf3c61c11/cae1af52ad8743cda5e339e5ad051d7c.html?locale=en-US&state=PRODUCTION&version=2608.500",
+        accessedAt: DATE24,
+        claim: "אותו loio (cae1af52ad8743cda5e339e5ad051d7c) מאונדקס תחת SAP S/4HANA Cloud Public Edition, versionId 2608.500, בפרק Asset Management. גוף העמוד בגרסה זו נקרא דרך scripts/sap-help-body.mjs: הוא מונה את 'Field Control for Technical Object (EAM_TECHNOBJECT_FIELD_CONTROL)' בהקשרים Equipment (EAMS_EQUI) ו-Functional Location (EAMS_FL), מפנה לאפליקציות Custom Fields ו-Custom Logic, ומוסיף ש-'The usage of the value help of a custom field is not supported.' העמוד אינו נוקב ב-ITOB0001 ואינו עוסק ב-Customer Exits (SMOD/CMOD).",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     xrefs: [
       "enh:technique:customer-exit",
@@ -772,8 +827,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "fm:BAPI_FUNCLOC_CREATE",
       "fiori:F2730A",
     ],
-    lastVerifiedAt: DATE,
-    notes: "קיום ההרחבה ITOB0001 מאומת מול תיעוד SAP רשמי רק בקורפוס SAP ERP (הקשר IS-U ו-IQ01); בקורפוס S/4HANA On-Premise לא אותר אזכור, ולכן לא נקבע כאן מעמד S/4HANA מחובר: המעמד הנגזר 'משתנה ב-S/4HANA' נשען על הערת 'העדף BAdI BADI_EAM_TOB' ברשומת המאגר בלבד. שם ה-BAdI היורש אינו מאומת: קטלוג ההרחבות נוקב BADI_EAM_TOB (inferred), גיליון ה-Custom Code של בלופרינט PM (data/sapData.pm.ts, customCode שורות 3, 8, 13) נוקב BADI_EAM_TECHNICAL_OBJECT, ואף אחד משני השמות לא הופיע בחיפוש SAP Help; ה-BAdI היחיד שאותר רשמית לוולידציות של אובייקט טכני הוא BADI_ASM_MD_FUNCLOC (2025 FPS01, מיקומים פונקציונליים בלבד), ואינו קיים כרשומה ביקום הפרויקט. אותו גיליון בלופרינט (customCode שורה 1) מסווג את ITOB0001 'User Exit' במעמד 'To review' עם ההמלצה 'בדוק ב-Custom Code Migration (SCMON/ATC); שקול מעבר ל-BAdI/Enhancement Spot מודרני', בעוד הקטלוג מסווג 'Customer Exit'. סיווג ההרחבה כ-SMOD הוא קריאת המאגר והבלופרינט, לא לשון help.sap.com (התקציר הרשמי נוקב 'enhancement' בלבד). רכיבי ההרחבה (מודולי EXIT_, מסכים) לא אומתו ודורשים SMOD במערכת; העמוד ב-S/4HANA 2025 FPS01 הנוקב ב-ITOB0002 (Automatic Creation of Equipment, Customer Service, loio f47cc1536ca9b54ce10000000a174cb4) נוגע להרחבה אחות ואינו ראיה ל-ITOB0001.",
+    lastVerifiedAt: DATE24,
+    notes: "קיום ההרחבה ITOB0001 מאומת מול תיעוד SAP רשמי רק בקורפוס SAP ERP (הקשר IS-U ו-IQ01); בקורפוס S/4HANA On-Premise לא אותר אזכור, ולכן לא נקבע כאן מעמד S/4HANA מחובר: המעמד הנגזר 'משתנה ב-S/4HANA' נשען על הערת 'העדף BAdI BADI_EAM_TOB' ברשומת המאגר בלבד. שם ה-BAdI היורש אינו מאומת: קטלוג ההרחבות נוקב BADI_EAM_TOB (inferred), גיליון ה-Custom Code של בלופרינט PM (data/sapData.pm.ts, customCode שורות 3, 8, 13) נוקב BADI_EAM_TECHNICAL_OBJECT, ואף אחד משני השמות לא הופיע בחיפוש SAP Help; ה-BAdI היחיד שאותר רשמית לוולידציות של אובייקט טכני הוא BADI_ASM_MD_FUNCLOC (2025 FPS01, מיקומים פונקציונליים בלבד), ואינו קיים כרשומה ביקום הפרויקט. אותו גיליון בלופרינט (customCode שורה 1) מסווג את ITOB0001 'User Exit' במעמד 'To review' עם ההמלצה 'בדוק ב-Custom Code Migration (SCMON/ATC); שקול מעבר ל-BAdI/Enhancement Spot מודרני', בעוד הקטלוג מסווג 'Customer Exit'. סיווג ההרחבה כ-SMOD הוא קריאת המאגר והבלופרינט, לא לשון help.sap.com (התקציר הרשמי נוקב 'enhancement' בלבד). רכיבי ההרחבה (מודולי EXIT_, מסכים) לא אומתו ודורשים SMOD במערכת; העמוד ב-S/4HANA 2025 FPS01 הנוקב ב-ITOB0002 (Automatic Creation of Equipment, Customer Service, loio f47cc1536ca9b54ce10000000a174cb4) נוגע להרחבה אחות ואינו ראיה ל-ITOB0001. 2026-09-24: חיפושים נוספים בשירות החיפוש הרשמי (\"BADI_EAM_TOB\" ו-\"BADI_EAM_TECHNICAL_OBJECT\" עם --product SAP_S4HANA_ON-PREMISE, \"App Extensibility Create Technical Object\", \"technical object extensibility key user equipment functional location\" עם --product SAP_S4HANA_CLOUD) לא החזירו כותרת או תקציר הנוקבים ב-ITOB0001 או ב-BADI_EAM_TOB. נקראו שלושה גופי עמוד דרך scripts/sap-help-body.mjs: 'Technical Objects on the Web User Interface (PM-EQM)' (2025.001, מאונדקס גם ב-SAP ERP 6.18) נוקב ב-BADI_EAM_ITOB_BAPI_CUST_FIELDS לבדיקה והתאמה של שדות לקוח המועברים דרך BAPIs; 'App Extensibility: Change Technical Object' (2025.001 On-Premise ו-2608.500 Public Cloud) נוקב ב-EAM_TECHNOBJECT_FIELD_CONTROL לבקרת מאפייני שדות כותרת בהקשרים Equipment ו-Functional Location. אף עמוד אינו נוקב ב-ITOB0001, ואף מקור רשמי אינו קובע יחס החלפה בין ITOB0001 לבין BADI_ASM_MD_FUNCLOC, BADI_EAM_ITOB_BAPI_CUST_FIELDS או EAM_TECHNOBJECT_FIELD_CONTROL; אלה BAdIs רשמיים בתחום סמוך בלבד, ושלושתם כבר מתועדים ברשומת enh:badi:BADI_EAM_TOB. לכן לא נוסף status מחברי. לא בוצעה בדיקה במערכת SAP חיה (SMOD/CMOD).",
   },
   {
     id: "enh:exit:IEQM0001",
@@ -872,8 +927,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "fiori:F2730A",
       "cds:I_Equipment",
     ],
-    lastVerifiedAt: DATE,
-    notes: "מה אומת: IEQM0001 היא הרחבה (Enhancement) של תחזוקת מפעל בתחום הציוד, ותיאורה במקורות SAP הוא 'Additional checks when installing equipment at functional locations' (ספריית SAP 4.6C, עמוד שנקרא במלואו; רשומות SAP ERP 6.0 EHP8; נספח A.4 של הספר). השם והמטרה ברשומת המאגר ('מסך נוסף לציוד', subscreen) אינם נתמכים באף מקור, ולכן רמת הרשומה היא 'מקורות סותרים' עד שיתוקנו data/exits.ts#IEQM0001 (שם, מטרה, טריגר, דוגמה, debugging), data/domain-detail.ts:46 ('IEQM0001 (מסך נוסף לציוד)'), data/academy/lessons/pm-generated.ts:230 ('Exit: מסך נוסף לציוד' בתווית trust 'verified-docs' שאין לה עמוד Help תואם) ו-data/workbenches-ext.ts:164 (מכנה אותה BAdI לאימות ב-SE18; לפי SAP ERP זו הרחבה עם יציאת לקוח אחת, לא BAdI). לאחר התיקון ניתן להוריד את ראיית המאגר ל-repository_verified ורמת הרשומה תעלה ל'מאומת מול תיעוד SAP רשמי'. מה חסר לסטטוס S/4HANA: אף עמוד Help של S/4HANA On-Premise שהוחזר בחיפושים (IEQM0001, IEQM0001 to IEQM0007, EXIT_SAPLIEL2_002, customer exits technical objects) אינו נוקב ב-IEQM0001; רק הספר (Tier-2) מונה אותה כזמינה ב-S/4HANA Asset Management, ולפי המניפסט ספר אינו מקור יחיד לסטטוס. לכן לא נכתב סטטוס, והסטטוס הנגזר 'משתנה' (מבלוק ECC מול S/4HANA של הרשומה, inferred) נשאר כפי שהוא ומבוסס על התיאור השגוי; בדיקת SE37/SMOD במערכת חיה לא בוצעה (חיבור sc4sap MCP לא היה זמין). ערך edition 'ecc' בראיית 4.6C מציין ספריית R/3 מתקופת ECC ואינו תיעוד ECC 6.0; לעמוד זה אין loio או versionId (עמוד helpdata סטטי), והוא מצוטט לפי גוף העמוד שנקרא. שם מודול היציאה EXIT_SAPLIEL2_002 מופיע בסניפט הרשמי ללא צימוד מפורש ל-IEQM0001, אין לו מזהה בדאטהסט ולכן אינו ב-xrefs; גם IEQM0002 עד IEQM0007, ILOM0001, ITOB0003, האפליקציה Find Technical Object (F2072) ו-BAPI_EQMT_INSTALLFL אינם מזהים בני פענוח במאגר. הרשומה מסתמכת על סניפטים של שירות החיפוש ועל עמוד ספרייה סטטי; גופי עמודי help.sap.com/docs אינם נשלפים.",
+    lastVerifiedAt: DATE24,
+    notes: "מה אומת: IEQM0001 היא הרחבה (Enhancement) של תחזוקת מפעל בתחום הציוד, ותיאורה במקורות SAP הוא 'Additional checks when installing equipment at functional locations' (ספריית SAP 4.6C, עמוד שנקרא במלואו; רשומות SAP ERP 6.0 EHP8; נספח A.4 של הספר). השם והמטרה ברשומת המאגר ('מסך נוסף לציוד', subscreen) אינם נתמכים באף מקור, ולכן רמת הרשומה היא 'מקורות סותרים' עד שיתוקנו data/exits.ts#IEQM0001 (שם, מטרה, טריגר, דוגמה, debugging), data/domain-detail.ts:46 ('IEQM0001 (מסך נוסף לציוד)'), data/academy/lessons/pm-generated.ts:230 ('Exit: מסך נוסף לציוד' בתווית trust 'verified-docs' שאין לה עמוד Help תואם) ו-data/workbenches-ext.ts:164 (מכנה אותה BAdI לאימות ב-SE18; לפי SAP ERP זו הרחבה עם יציאת לקוח אחת, לא BAdI). לאחר התיקון ניתן להוריד את ראיית המאגר ל-repository_verified ורמת הרשומה תעלה ל'מאומת מול תיעוד SAP רשמי'. מה חסר לסטטוס S/4HANA: אף עמוד Help של S/4HANA On-Premise שהוחזר בחיפושים (IEQM0001, IEQM0001 to IEQM0007, EXIT_SAPLIEL2_002, customer exits technical objects) אינו נוקב ב-IEQM0001; רק הספר (Tier-2) מונה אותה כזמינה ב-S/4HANA Asset Management, ולפי המניפסט ספר אינו מקור יחיד לסטטוס. לכן לא נכתב סטטוס, והסטטוס הנגזר 'משתנה' (מבלוק ECC מול S/4HANA של הרשומה, inferred) נשאר כפי שהוא ומבוסס על התיאור השגוי; בדיקת SE37/SMOD במערכת חיה לא בוצעה (חיבור sc4sap MCP לא היה זמין). ערך edition 'ecc' בראיית 4.6C מציין ספריית R/3 מתקופת ECC ואינו תיעוד ECC 6.0; לעמוד זה אין loio או versionId (עמוד helpdata סטטי), והוא מצוטט לפי גוף העמוד שנקרא. שם מודול היציאה EXIT_SAPLIEL2_002 מופיע בסניפט הרשמי ללא צימוד מפורש ל-IEQM0001, אין לו מזהה בדאטהסט ולכן אינו ב-xrefs; גם IEQM0002 עד IEQM0007, ILOM0001, ITOB0003, האפליקציה Find Technical Object (F2072) ו-BAPI_EQMT_INSTALLFL אינם מזהים בני פענוח במאגר. הרשומה מסתמכת על סניפטים של שירות החיפוש ועל עמוד ספרייה סטטי; גופי עמודי help.sap.com/docs אינם נשלפים. אימות חוזר (2026-09-24), ללא שינוי בראיות, ב-xrefs או ברמת הרשומה: שלוש שאילתות נוספות בשירות החיפוש הרשמי: 'IEQM0001' (SAP_S4HANA_ON-PREMISE, 6 עד 7 רשומות בהרצות שונות, אף אחת אינה נוקבת ב-IEQM0001 בכותרת או בסניפט); 'Customer Exit IEQM0001' (SAP_S4HANA_ON-PREMISE, 21 רשומות, ללא עמוד הנוקב ב-IEQM0001); ואותה שאילתה ב-SAP_ERP (21 רשומות, ביניהן 'Connection' ו-'Device Management Attachment' שכבר בראיות הרשומה, ללא ממצא חדש). עמוד ייעודי 'Customer Exit IMRC0001' (loio 396cb65334e6b54ce10000000a174cb4) מתועד בחבילת Customer Service (CS) של SAP S/4HANA 2025 FPS01, ובשאילתת 'IEQM0001' הוא עלה באותו loio גם תחת Maintenance Management בגרסה 2023.latest; בשאילתת 'Customer Exit IEQM0001' עלו עמודים ייעודיים ליציאות אחרות (למשל 'Customer Exit MILLOC01'); עמוד מקביל ל-IEQM0001 לא אותר. שאילתה רביעית ב-SAP_S4HANA_CLOUD ('equipment customer exit S/4HANA Cloud extensibility', 21 רשומות) החזירה עמודי Public Cloud כלליים, המובאים כאן כהקשר בלבד ולא כראיה: 'Technical Object Replication: Extensibility' (Public Cloud, loio 76288fa8ebbc41c78cb19d5413f16b2a, 2608.500), שהסניפט שלו: 'Add custom fields ... with Custom Fields app. Implement mapping BAdIs for extension fields with the Custom Logic app', ו-'Handle Your Extensions' (Public Cloud, loio be44d6b8f0944c0c81107e34e7232fff, 2608.500), שהסניפט שלו: 'two extensibility options in SAP S/4HANA Cloud: Key User Extensibility through built-in capabilities Developer Extensibility'. אף אחד משני העמודים אינו נוקב ב-IEQM0001 או בהרחבת IEQM כלשהי, ולכן אינם מצוטטים כחלופה או כיורש. התיקונים ברשומות התלויות (data/exits.ts#IEQM0001, data/domain-detail.ts:46, data/academy/lessons/pm-generated.ts:230, data/workbenches-ext.ts:164) עדיין פתוחים. בדיקת SE37/SMOD במערכת SAP חיה לא בוצעה גם הפעם: חיבור ה-MCP ל-ABAP (sc4sap) נכשל בסשן זה.",
   },
   {
     id: "enh:exit:IMRC0001",
@@ -1091,8 +1146,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         edition: "public-cloud",
         release: "2608.500",
         url: "https://help.sap.com/docs/SAP_S4HANA_CLOUD/d1e58be39d884a0dbf75a7526a9acbf4/fc8dfd714048409fb544921b94278a55.html?locale=en-US&state=PRODUCTION&version=2608.500",
-        accessedAt: DATE,
-        claim: "עמוד ה-BAdIs של ניהול איכות ב-SAP S/4HANA Cloud Public Edition (2608) מונה 'Check/Change Notification When Saving (BADI_QQM_NOTIF_EVENT_SAVE_CLD)' בהקשר העסקי Notification_Header (Quality Notification), בלשון הסניפט: 'Retrieve and change notification data when the notification [...] is saved' (ההשמטה היא של שירות החיפוש). זהו BAdI מוכן לענן לאירוע שמירת הודעת איכות במהדורה הציבורית; העמוד אינו נוקב בשם NOTIF_EVENT_SAVE.",
+        accessedAt: DATE24,
+        claim: "עמוד ה-BAdIs של ניהול איכות ב-SAP S/4HANA Cloud Public Edition (2608), שגופו נקרא במלואו בסבב 2026-09-24, מונה בטבלת ה-BAdIs של ה-Custom Logic app את 'Check/Change Notification When Saving (BADI_QQM_NOTIF_EVENT_SAVE_CLD)' בהקשר העסקי Notification_Header (Quality Notification), עם התיאור המלא: 'Retrieve and change notification data when the notification is saved'. זהו BAdI מוכן לענן לאירוע שמירת הודעת איכות, המתועד בעמוד זה של Public Edition; העמוד אינו נוקב בשם NOTIF_EVENT_SAVE או IF_EX_NOTIF_EVENT_SAVE. אותו עמוד מונה לצדו גם 'Process Data After Saving Notification (BADI_QQM_NOTIF_EVENT_POST_CLD)' ו-'Set Default Values and Default Partners When Creating a Notification (BADI_QQM_NOTIF_DEFAULT_VAL_CLD)', שני BAdIs נוספים לענן להודעת איכות שאינם NOTIF_EVENT_SAVE.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -1170,8 +1225,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "fiori:F1511",
       "fiori:F2023",
     ],
-    lastVerifiedAt: DATE,
-    notes: "לא נמצא עמוד ציבורי ב-help.sap.com או ב-api.sap.com הנוקב בשם NOTIF_EVENT_SAVE בכותרת או בסניפט, לא ב-S/4HANA On-Premise ולא ב-SAP ERP; קיום ה-BAdI, הממשק IF_EX_NOTIF_EVENT_SAVE ושם המתודה נשענים על רובד המאגר בלבד ודורשים אימות ב-SE18 במערכת. שם המתודה 'SAVE' ברשומת המאגר חשוד: כותרת KBA 2302851 (סביבת SAP ERP, support.sap.com) נוקבת עבור ה-BAdI האח NOTIF_EVENT_POST בפרמטר IV_DELETE, והתקציר הנגיש שלה מונה את הממשק IF_EX_NOTIF_EVENT_POST ואת המתודה CHECK_DATA_AT_POST; לא נגזרת מכך מסקנה על NOTIF_EVENT_SAVE. KBA 3127355 (סביבה: iMRO 6.0 by HCL for S/4HANA) מכיל את המחרוזת notif_event_save במקטע Keywords בלבד ואינו ראיה לסטטוס. מספרי ה-KBA (2302851, 3127355) מובאים כפי שהופיעו בכותרות התקצירים הציבוריים ב-support.sap.com (userapps), שאינו דומיין מותר לראיה; me.sap.com/notes החזיר 401 ללא S-user ולכן לא נרשמו כראיה ואינם תומכים בסטטוס. המקבילה המוכנה לענן BADI_QQM_NOTIF_EVENT_SAVE_CLD מתועדת ב-Public Edition (2608) להודעות איכות; ב-On-Premise תועדו ב-What's New 2022 רק BADI_QQM_NOTIF_DEFAULT_VAL_CLD ו-BADI_QQM_NOTIF_EVENT_POST_CLD, והסניפט של העמוד המקביל ל-2025 FPS01 (Extensibility for Quality Notification Apps, loio b392cc6291ea442a8c7636f05284dd24) אינו מציג את שם ה-SAVE_CLD, ולכן זמינותו ב-On-Premise נשארת לאימות. להודעות תחזוקה (PM-WOC-MN) העמודים הרשמיים שנמצאו מתעדים BAdIs ברמת אפליקציות Fiori (EAMS_NTF) ולא BAdI לאירוע שמירה. הסטטוס נכתב ידנית כ-verification_required (מקור: רובד המאגר) כדי שהמפה לא תציג 'משתנה' לצד פיל אימות רשמי: רמת האימות הרשמית של הרשומה משקפת את החלופות המתועדות ולא את ה-BAdI עצמו.",
+    lastVerifiedAt: DATE24,
+    notes: "לא נמצא עמוד ציבורי ב-help.sap.com או ב-api.sap.com הנוקב בשם NOTIF_EVENT_SAVE בכותרת או בסניפט, לא ב-S/4HANA On-Premise ולא ב-SAP ERP; קיום ה-BAdI, הממשק IF_EX_NOTIF_EVENT_SAVE ושם המתודה נשענים על רובד המאגר בלבד ודורשים אימות ב-SE18 במערכת. שם המתודה 'SAVE' ברשומת המאגר חשוד: כותרת KBA 2302851 (סביבת SAP ERP, support.sap.com) נוקבת עבור ה-BAdI האח NOTIF_EVENT_POST בפרמטר IV_DELETE, והתקציר הנגיש שלה מונה את הממשק IF_EX_NOTIF_EVENT_POST ואת המתודה CHECK_DATA_AT_POST; לא נגזרת מכך מסקנה על NOTIF_EVENT_SAVE. KBA 3127355 (סביבה: iMRO 6.0 by HCL for S/4HANA) מכיל את המחרוזת notif_event_save במקטע Keywords בלבד ואינו ראיה לסטטוס. מספרי ה-KBA (2302851, 3127355) מובאים כפי שהופיעו בכותרות התקצירים הציבוריים ב-support.sap.com (userapps), שאינו דומיין מותר לראיה; me.sap.com/notes החזיר 401 ללא S-user ולכן לא נרשמו כראיה ואינם תומכים בסטטוס. סבב מחקר נוסף (2026-09-24, עומק 2, יעד sap_official_verified): הורצו ארבע שאילתות חדשות דרך scripts/sap-help-search.mjs: 'NOTIF_EVENT_SAVE' (SAP_S4HANA_ON-PREMISE, 20-21 תוצאות בהרצות חוזרות; אף תוצאה אינה נוקבת בשם), 'IF_EX_NOTIF_EVENT_SAVE' (SAP_S4HANA_ON-PREMISE, 8 תוצאות; אף תוצאה רלוונטית), 'BAdI Notification Save quality maintenance' (SAP_S4HANA_ON-PREMISE, 21 תוצאות; חזר על BADI_QQM_NOTIF_EVENT_POST_CLD ועל BAdIs אחרים להודעות תחזוקה ואיכות, אף אחד לא בשם NOTIF_EVENT_SAVE), ו-'NOTIF_EVENT_SAVE' עם --product SAP_ERP (21 תוצאות; שתיים מהן, 'Save Event' ו-'Review-and-Save Event', נבדקו כמועמדות אפשריות). גוף העמוד 'Save Event' (SAP_ERP 6.06.latest, loio 51cfdc53b5ef424de10000000a174cb4) נקרא במלואו והתברר כלא-קשור: הוא מתאר את המתודה raiseSaveEvent לאפליקציות Self-Service המשתתפות בתרחישי Guided Procedures (GP), ולא BAdI להודעות תחזוקה או איכות, ולכן לא נוסף כראיה. בנוסף נקרא במלואו גוף עמוד ה-BAdIs לניהול איכות ב-Public Cloud 2608 (הראיה הראשונה למעלה): הטקסט המלא מאשר שהציטוט 'Retrieve and change notification data when the notification is saved' שלם, ושאין בעמוד אזכור לשם NOTIF_EVENT_SAVE או לממשק IF_EX_NOTIF_EVENT_SAVE. שום עמוד רשמי חדש לא נמצא עבור השם הקלאסי; הסטטוס נשאר verification_required. המקבילה המוכנה לענן BADI_QQM_NOTIF_EVENT_SAVE_CLD מתועדת בעמוד Public Edition (2608, דרך Custom Logic app) להודעות איכות; גוף עמוד ה-What's New ל-2022 (On-Premise) מונה את BADI_QQM_NOTIF_DEFAULT_VAL_CLD ואת BADI_QQM_NOTIF_EVENT_POST_CLD ואינו מונה את BADI_QQM_NOTIF_EVENT_SAVE_CLD; גוף העמוד המקביל ל-2025 FPS01 (Extensibility for Quality Notification Apps, loio b392cc6291ea442a8c7636f05284dd24) מתאר Custom Fields ו-UI adaptation ואינו מונה BAdIs; וחיפוש השם BADI_QQM_NOTIF_EVENT_SAVE_CLD ב-SAP_S4HANA_ON-PREMISE (21 תוצאות) לא החזיר עמוד הנוקב בו. לכן זמינותו ב-On-Premise נשארת לאימות. לא בוצע בסבב זה חיפוש נפרד ב-Private Cloud (המוצר אינו מזהה מוצר בכלי החיפוש הרשמי), ולכן זמינות BADI_QQM_NOTIF_EVENT_SAVE_CLD ב-Private Cloud נותרת בלתי מבוררת. להודעות תחזוקה (PM-WOC-MN, להבדיל מהודעות איכות QM) העמודים הרשמיים שנמצאו מתעדים BAdIs ברמת אפליקציות Fiori (EAMS_NTF, App Extensibility: Create Maintenance Request) ולא BAdI לאירוע שמירה בשם דומה ל-NOTIF_EVENT_SAVE. הסטטוס נכתב ידנית כ-verification_required (מקור: רובד המאגר) כדי שהמפה לא תציג 'משתנה' לצד פיל אימות רשמי: רמת האימות הרשמית של הרשומה משקפת את החלופות המתועדות (BAdIs מוכני-ענן להודעת איכות) ולא את ה-BAdI הקלאסי עצמו. לא בוצעה בדיקה במערכת SAP חיה: קיום ה-BAdI NOTIF_EVENT_SAVE, הממשק IF_EX_NOTIF_EVENT_SAVE ושם המתודה דורשים אימות ב-SE18/SE19 במערכת יעד.",
   },
   {
     id: "enh:badi:BADI_EAM_TOB",
@@ -1238,10 +1293,30 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         claim: "הקשר בלבד (לא טענת יורש): פריט What's New 2025 FPS01, שנקרא במלואו במסמך ה-PDF הרשמי WN_OP2025_FPS01_EN.pdf (סעיף 3.1.15), מציג BAdI חדש 'BAdI for Functional Location (BADI_ASM_MD_FUNCLOC)' להוספת ולידציות מותאמות ביצירה ובעדכון של מיקום פונקציונלי (נתוני בסיס, כתובת, אחריות יצרן, שותפים) דרך IL01/IL02, האפליקציה Process Technical Object (W0029), ה-API‏ API_FUNCTIONALLOCATION, האפליקציה Migrate Your Data (F3473) וה-BAPIs‏ BAPI_FUNCLOC_CREATE / BAPI_FUNCLOC_CHANGE. רכיב יישום PM-EQM-FL, זמינות 'SAP S/4HANA Cloud Private Edition and SAP S/4HANA', תקף מ-2025 FPS01. באותו מסמך (סעיף 3.1.16) מתועד גם BAdI‏ Validation of Reference Equipment (ASM_BADI_REFEQ_VALIDATION) לציוד ייחוס בלבד. השם BADI_EAM_TOB אינו מופיע במסמך.",
         verificationLevel: "sap_official_verified",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "help.sap.com search, סבב אימות חוזר: \"BADI_EAM_TOB\" (SAP_S4HANA_ON-PREMISE), \"BADI_EAM_TECHNICAL_OBJECT\" (SAP_ERP), \"Technical Object BAdI enhancement equipment functional location\" (SAP_S4HANA_ON-PREMISE)",
+        product: "SAP S/4HANA / SAP ERP",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "ממצא שלילי חוזר: השאילתה \"BADI_EAM_TOB\" ב-SAP_S4HANA_ON-PREMISE החזירה 4 התאמות מטושטשות, השאילתה \"BADI_EAM_TECHNICAL_OBJECT\" ב-SAP_ERP החזירה 21 רשומות והשאילתה ההקשרית הרחבה ב-SAP_S4HANA_ON-PREMISE החזירה 21 רשומות; אף רשומה אינה נוקבת בשם BADI_EAM_TOB או BADI_EAM_TECHNICAL_OBJECT בכותרת או בתקציר. בשאילתה הרחבה הופיעה בין השאר הרשומה 'Enterprise Asset Management Part 3', שתקצירה נוקב 'Business Add-Ins (BAdIs) for Lists in Plant Maintenance', ללא השם המבוקש. היעדר מהתיעוד אינו הוכחת אי-קיום של הגדרת BAdI במערכת.",
+        verificationLevel: "verification_required",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Add-Ins | Technical Objects (CS-BD/PM-EQM) | SAP ERP 6.0 EHP6 on HANA, versionId 6.16.latest (loio 077abb53707db44ce10000000a174cb4)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.16.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/f0e0dd7850e64947aa66a647f8d3af09/077abb53707db44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.16.latest",
+        accessedAt: DATE24,
+        claim: "הקשר בלבד (ממצא שלילי): העמוד הוחזר ראשון בחיפוש \"BADI_EAM_TECHNICAL_OBJECT\" ב-SAP_ERP, וגופו נקרא במלואו דרך sap-help-body.mjs. הוא מתעד BAdIs של רכיב Configuration Control (משפחת BADI_CCM_*, למשל BADI_CCM_DISMANT_CHK ו-BADI_CCM_INSTALL_CHK לבדיקות בפירוק ובהתקנה של ציוד) וכן את BADI_MPL_IWB. השמות BADI_EAM_TOB ו-BADI_EAM_TECHNICAL_OBJECT אינם מופיעים בגוף העמוד. היעדר מעמוד זה אינו הוכחת אי-קיום.",
+        verificationLevel: "verification_required",
+      },
     ],
     status: {
       status: "verification_required",
-      he: "BAdI שמוצג במאגר כהרחבה המרכזית לאובייקטים טכניים (ציוד ומיקום פונקציונלי) ב-S/4HANA, בשם שלא נמצא לו תיעוד ב-SAP Help באף גרסה (S/4HANA On-Premise או SAP ERP). המאגר עצמו נושא שני שמות שונים לאותו רעיון (BADI_EAM_TOB בקטלוג ההרחבות, BADI_EAM_TECHNICAL_OBJECT בחוברת המיגרציה), ורשומת הקטלוג מסומנת inferred. ה-BAdIs לאובייקטים טכניים ששמם מתועד ב-SAP Help הם BADI_EAM_ITOB_BAPI_CUST_FIELDS ‏(שדות לקוח בערוץ ה-BAPI), EAM_TECHNOBJECT_FIELD_CONTROL ‏(בקרת שדות באפליקציות Fiori) ו-BADI_ASM_MD_FUNCLOC ‏(ולידציות למיקום פונקציונלי, 2025 FPS01); אין מקור רשמי הקושר בין אחד מהם לשם שבמאגר.",
+      he: "BAdI שמוצג במאגר כהרחבה המרכזית לאובייקטים טכניים (ציוד ומיקום פונקציונלי) ב-S/4HANA, בשם שלא נמצא לו תיעוד ב-SAP Help באף גרסה (S/4HANA On-Premise או SAP ERP), גם לאחר סבב אימות חוזר ב-2026-09-24. המאגר עצמו נושא שני שמות שונים לאותו רעיון (BADI_EAM_TOB בקטלוג ההרחבות, BADI_EAM_TECHNICAL_OBJECT בחוברת המיגרציה), ורשומת הקטלוג מסומנת inferred. ה-BAdIs לאובייקטים טכניים ששמם מתועד ב-SAP Help הם BADI_EAM_ITOB_BAPI_CUST_FIELDS ‏(שדות לקוח בערוץ ה-BAPI), EAM_TECHNOBJECT_FIELD_CONTROL ‏(בקרת שדות באפליקציות Fiori) ו-BADI_ASM_MD_FUNCLOC ‏(ולידציות למיקום פונקציונלי, 2025 FPS01); אין מקור רשמי הקושר בין אחד מהם לשם שבמאגר.",
       edition: "on-premise",
       release: null,
       source: null,
@@ -1264,8 +1339,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "fm:BAPI_FUNCLOC_CREATE",
       "fm:BAPI_FUNCLOC_CHANGE",
     ],
-    lastVerifiedAt: DATE,
-    notes: "מה חסר בדיוק: עמוד רשמי (help.sap.com / api.sap.com) הנוקב בשם BADI_EAM_TOB או BADI_EAM_TECHNICAL_OBJECT, או בדיקת SE18 במערכת חיה. מה נבדק בפועל: שש שאילתות בשירות החיפוש של SAP Help בשני המוצרים (אפס נוקבות בשם), WebSearch מוגבל לדומיינים רשמיים (ללא תוצאה לשם), ושלושה מסמכי What's New רשמיים (2020, 2022 SPS03, 2025 FPS01) שנקראו כטקסט מלא ללא מופע. הראיות הרשמיות ברשומה הן הקשר בלבד: הן מאמתות אילו BAdIs לאובייקטים טכניים מתועדים ב-S/4HANA 2025 FPS01, לא את השם שבמאגר, ולכן הסטטוס נשאר verification_required והרמה הרשמית של הרשומה אינה מאמתת את קיום ה-BAdI. הסיווג verification_required ולא conflicting_sources: רשומת המאגר מסומנת inferred: true והבלופרינט מסמן 'To review', כך שאף מקור במאגר אינו טוען לאימות (אותו כלל כמו ברשומות ה-FM המסומנות inferred). לא נוסף alias בין שני השמות, כי זהותם לא אומתה. W0029 ו-F3473 הנזכרים במסמך 2025 FPS01 אינם קיימים בקטלוג ה-Fiori של הפרויקט ולכן לא קושרו. ITOB0001 נשאר Customer Exit בתוקף לפי המאגר; המלצת ההעדפה של BADI_EAM_TOB ברשומת ITOB0001 (data/exits.ts) מצביעה על שם לא מאומת ויש לתקן אותה יחד עם רשומה זו.",
+    lastVerifiedAt: DATE24,
+    notes: "מה חסר בדיוק: עמוד רשמי (help.sap.com / api.sap.com) הנוקב בשם BADI_EAM_TOB או BADI_EAM_TECHNICAL_OBJECT, או בדיקת SE18 במערכת חיה. מה נבדק בפועל: שש שאילתות בשירות החיפוש של SAP Help בשני המוצרים (אפס נוקבות בשם), WebSearch מוגבל לדומיינים רשמיים (ללא תוצאה לשם), ושלושה מסמכי What's New רשמיים (2020, 2022 SPS03, 2025 FPS01) שנקראו כטקסט מלא ללא מופע. הראיות הרשמיות ברשומה הן הקשר בלבד: הן מאמתות אילו BAdIs לאובייקטים טכניים מתועדים ב-S/4HANA 2025 FPS01, לא את השם שבמאגר, ולכן הסטטוס נשאר verification_required והרמה הרשמית של הרשומה אינה מאמתת את קיום ה-BAdI. הסיווג verification_required ולא conflicting_sources: רשומת המאגר מסומנת inferred: true והבלופרינט מסמן 'To review', כך שאף מקור במאגר אינו טוען לאימות (אותו כלל כמו ברשומות ה-FM המסומנות inferred). לא נוסף alias בין שני השמות, כי זהותם לא אומתה. W0029 ו-F3473 הנזכרים במסמך 2025 FPS01 אינם קיימים בקטלוג ה-Fiori של הפרויקט ולכן לא קושרו. ITOB0001 נשאר Customer Exit בתוקף לפי המאגר; המלצת ההעדפה של BADI_EAM_TOB ברשומת ITOB0001 (data/exits.ts) מצביעה על שם לא מאומת ויש לתקן אותה יחד עם רשומה זו. סבב אימות חוזר ב-2026-09-24: שלוש שאילתות נוספות (\"BADI_EAM_TOB\" ב-SAP_S4HANA_ON-PREMISE, 4 התאמות מטושטשות; \"BADI_EAM_TECHNICAL_OBJECT\" ב-SAP_ERP, 21 רשומות; שאילתה הקשרית רחבה ב-SAP_S4HANA_ON-PREMISE, 21 רשומות), אף אחת אינה נוקבת בשני השמות; גוף העמוד Business Add-Ins (Technical Objects CS-BD/PM-EQM, 6.16.latest) נקרא ומתעד BAdIs של Configuration Control (BADI_CCM_*) ואת BADI_MPL_IWB, לא את השם המבוקש. הסטטוס לא השתנה.",
   },
   {
     id: "enh:badi:WORKORDER_CONFIRM",
