@@ -52,7 +52,14 @@
    drafted (its rows first read 2026-09-24 keep DATE24); the other eight are
    taken from verdict.fixedRecord. Every status source is a shared const (the
    record's own evidence row); the QC20 item rows carry the SAP Note number in
-   prose only, without a sapNote field; no reviewer field. */
+   prose only, without a sapNote field; no reviewer field.
+   Batch 8 (research + adversarial audit 2026-09-25, written the same day, access
+   date stamped 2026-09-25): 7 audited records for QM sampling-procedure,
+   results-recording, evaluation, quality-info-record and notification codes
+   (QDV3, QE51N, QGA1, QGP1, QI03, QM10, QM50); tx:QM13 refuted and queued. Six
+   taken from verdict.fixedRecord, QI03 re-derived from the draft with the eight
+   listed downgrades. Every status source is a shared const (the record's own
+   evidence row); no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -1139,6 +1146,137 @@ const QC21_SIMPL2025: Evidence = {
     "on-premise. לגבי תעודות הוא קובע: 'No WebDynpro application available. However, existing QM " +
     "transactions are still available, such as QC20, QC21'. הפריט אינו מבטל, מחליף או מגביל את QC21; הוא " +
     "מציין אותה כטרנזקציה קיימת שמשמשת חלופה לשירות ה-ITS שהוסר עבור תעודות.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 8 status sources (2026-09-25): one evidence row per record, shared by evidence[] and
+   status.source (QDV3, QE51N, QGA1, QGP1, QI03, QM10, QM50) */
+
+const QDV3_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 9.6.2 S4TWL - Redundant " +
+    "Transactions in QM (SAP Note 0002338215)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "הפריט מפרט את QDV3 (רכיב QM-PT-BD-SPL) ברשימת \"The following transactions are replaced by corresponding " +
+    "Fiori apps and are therefore not available in the SAP Fiori launchpad for SAP S/4HANA (but can be " +
+    "called directly with SAP GUI)\" (כלשונו), עם השורה: 'QDV3 Display sampling procedure QM-PT-BD-SPL Fiori " +
+    "app Sampling Procedure' (כלשונו): כלומר הטרנזקציה אינה זמינה ב-SAP Fiori launchpad אך ניתנת להפעלה " +
+    "ישירה ב-SAP GUI.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QE51N_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App QE51N 'Record Inspection Results - Hierarchical Worklist' (SAP GUI), release " +
+    "S32OP (S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('QE51N')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "ספריית האפליקציות הרשמית של Fiori רושמת את QE51N כאפליקציה 'Record Inspection Results - Hierarchical " +
+    "Worklist' מסוג SAP GUI במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס Published, ברכיב QM-IM-RR, ומשייכת " +
+    "אותה לקטלוגים העסקיים SAP_QM_BC_RESULT_RECG ו-SAP_QM_BC_CALIBRATIONS.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QGA1_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.1 " +
+    "S4TWL - Removed Navigation to Transactions for Evaluations in QM (SAP Note 2340996)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "הפריט נקרא במלואו (לא רק הכותרת). לשון הפריט: 'The following transactions won't work properly by " +
+    "accessing them in SAP GUI for HTML via the SAP Fiori launchpad. QGA1, QM50 and QGP1 can be replaced " +
+    "with Fiori Apps, QST05 is not available.' טבלת ה-Business Process Related Information מפרטת עבור QGA1: " +
+    "'Display quality score time line', רכיב QM-QC-IS, ומולה אפליקציית Fiori 'Inspection Lot Detailed " +
+    "Analytics (F3273)'. הפריט אינו קובע שהטרנזקציה הוסרה מהמערכת; הוא מתאר תקלה בגישה אליה דרך SAP GUI for " +
+    "HTML בתוך ה-Fiori launchpad, מציין שניתן להחליפה באפליקציות Fiori, ומציג את F3273 ככיסוי הפונקציונליות " +
+    "העיקרית.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QGP1_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 9.6.1 S4TWL - Removed Navigation " +
+    "to Transactions for Evaluations in QM (SAP Note 2340996)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (רכיב יישום QM) חוזר על אותו נוסח: 'The following transactions won’t work properly by accessing " +
+    "them in SAP GUI for HTML via the SAP Fiori launchpad. QGA1, QM50 and QGP1 can be replaced with Fiori " +
+    "Apps, QST05 is not available', ובטבלת ה-Business Process Related Information מפרט במפורש עבור QGP1: " +
+    "'Results history for task list characteristic' (QM-QC-IS) מול אפליקציית Fiori 'Results History (F2428)'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QI03_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.2 " +
+    "S4TWL - Redundant Transactions in QM, p. 813",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 9.6.2 קובע ישירות (לא רק מזכיר) שהטרנזקציות ברשימה, כולל QI03 ('Display q-info record - " +
+    "procurement', רכיב QM-PT-RP-PRC), הן 'replaced by corresponding Fiori apps and are therefore not " +
+    "available in the SAP Fiori launchpad for SAP S/4HANA (but can be called directly with SAP GUI)'; " +
+    "האלטרנטיבה הרשומה בטבלה עבור QI03 היא 'Fiori app Quality Info Records Procurement'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QM10_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "SAP Fiori Apps Reference Library · QM10 Change Quality Notifications - Worklist (SAP GUI, S32OP)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('QM10')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "רשומת ה-Fiori Apps Reference Library עבור QM10 מציגה יישום SAP GUI בשם 'Change Quality Notifications - " +
+    "Worklist', בסטטוס Published, ברכיב QM-QN (Quality Notifications), עבור SAP S/4HANA 2025 FPS01 (S32OP); " +
+    "הקטלוג העסקי SAP_QM_BC_NOTIFICATIONS ('QM - Notifications'), התפקיד SAP_BR_QUALITY_ENGINEER, וה-GUI " +
+    "transaction המוביל הוא QM10 עצמו. בתצוגת S32OP מוצג 'predecessors: -; successors: -', ורשימת המהדורות " +
+    "שהספרייה מציגה כוללת On-Premise מ-S6OP=1610 ועד S32OP=2025 FPS01 (ללא S15OP ו-S16OP), לצד מהדורות PCE " +
+    "ומהדורות S36=2602 ו-S37=2608; שדה ה-successors נקרא בתצוגת S32OP בלבד.",
+  verificationLevel: "sap_official_verified",
+};
+
+const QM50_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "S4TWL - Removed Navigation to Transactions for Evaluations in QM (Simplification List for SAP S/4HANA " +
+    "2025 - Feature Pack Stack 1, document version 1.36, item 9.6.1)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "אותו נוסח ואותה טבלה חוזרים בגרסת 2025 FPS01 (פריט 9.6.1): שורת QM50, Time Line Display of Quality " +
+    "Notifications, רכיב QM-QN, אפליקציית Fiori Nonconformance Detailed Analytics (F3583), תחת הכותרת 'For " +
+    "the following transactions you can use Fiori Apps to cover the main functionality'.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -6822,5 +6960,680 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "sap-help-search.mjs ('QC21 Maintain Certificate Profile', 'QC21', 'ITS services in QM') לא החזירו רשומה " +
       "שמצטטת את QC21 ישירות; זו תוצאה שלילית מתועדת, לא הכרעה. לא בוצעה בדיקה במערכת SAP חיה; אימות מלא דורש " +
       "SE93 במערכת היעד. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QDV3",
+    evidence: [
+      QDV3_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 34.2 S4TWL - Redundant " +
+          "Transactions in QM (SAP Note 2338215)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim:
+          "גרסת 2023 FPS03 של אותו פריט (הפריט מתחיל בעמ' 874; שורת QDV3 בעמ' 875) חוזרת על אותה שורה במדויק: " +
+          "'QDV3 Display sampling procedure QM-PT-BD-SPL Fiori app Sampling Procedure' (כלשונו), תחת אותה " +
+          "כותרת-משנה שמצהירה שהטרנזקציות ברשימה זו 'can be called directly with SAP GUI' חרף ההסרה מה-launchpad; " +
+          "אין ניסוח נוסף ספציפי ל-QDV3 מעבר לשורה זו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · Display Sampling Procedure (F2255), release S32OP (SAP S/4HANA 2025 FPS01, " +
+          "on-premise)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2255')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת ה-Fiori Apps Library לאפליקציה Display Sampling Procedure (F2255, קטגוריה SAP Fiori elements, " +
+          "קטלוג עסקי SAP_QM_BC_BASIC_DATA/SAP_QM_BC_BASIC_DATA_DSP, OData QM_SAMPLINGPROC_OBJECTPAGE_SRV) מפרטת " +
+          "בשדה GUI Transactions: 'leading QDV3; related -' (כלשונו), וזמינה מגרסה 1610 (S6OP) ועד 2025 FPS01 " +
+          "(S32OP) ללא predecessor/successor רשום.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#QDV3",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "הרשומה הקיימת במאגר מתארת את QDV3 כטרנזקציית הצגה (read-only) של תוכנית דגימה (Sampling Plan, טבלאות " +
+          "QDPS/QDPV), ומציינת בשדה s4 'זמין ב-S/4HANA ללא שינוי... ניתן להחליף בדוחות/אפליקציות הצגה כלליות'; " +
+          "ניסוח זה אינו מזכיר את פריט הפישוט או את F2255, וכינוי 'Sampling Plan' אינו תואם את 'Display sampling " +
+          "procedure' שבפריט הרשמי; ראו notes.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QDV3",
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "פריט הפישוט (S4TWL - Redundant Transactions in QM) מציין ש-QDV3 (Display sampling procedure, הצגת נוהל " +
+        "דגימה) אינה זמינה ב-SAP Fiori launchpad ב-S/4HANA ומוחלפת באפליקציית Fiori בשם 'Sampling Procedure', אך " +
+        "ניתן להפעיל אותה ישירות דרך SAP GUI. האפליקציה המקבילה, ככל הנראה F2255 (Display Sampling Procedure), " +
+        "אינה עדיין רשומה במאגר ה-Fiori המקומי של הפרויקט, ולכן לא נקבעת כאן כ-successor מאומת.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QDV3_SIMPL2025,
+      recommendedAction:
+        "להוסיף את F2255 (Display Sampling Procedure) למאגר data/fiori/apps.ts, ולאחר מכן לשקול עדכון רשומה זו " +
+        "עם successor: fiori:F2255, ולתקן את שדה s4 ואת כינוי 'Sampling Plan' ברשומת tx-intel.ts#QDV3 כך שיתאימו " +
+        "לפריט הפישוט.",
+    },
+    xrefs: ["tx:QDV1", "tx:QDV2"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה שאומת: (1) שני פריטי הפישוט (34.2 ב-2023 FPS03, 9.6.2 ב-2025 FPS01, זהים במילותיהם) מפרטים במפורש את " +
+      "QDV3 ברשימת הטרנזקציות שאינן זמינות ב-Fiori launchpad ומוחלפות באפליקציית Fiori בשם 'Sampling " +
+      "Procedure', תוך ציון מפורש שהטרנזקציה ניתנת להפעלה ישירה ב-SAP GUI. (2) scripts/fal-app.mjs F2255 " +
+      "--release S32OP אישר שהאפליקציה Display Sampling Procedure רושמת QDV3 כ-leading GUI transaction, ללא " +
+      "predecessor/successor פורמלי. מה שלא אומת: (א) F2255 אינה רשומה עדיין ב-data/fiori/apps.ts, לכן לא נקבע " +
+      "xref/successor אליה כאן (successor חייב להתקיים ב-universe); לפיכך status נקבע " +
+      "כ-fiori_alternative_available ו-source הוא שורת פריט הפישוט של 2025 FPS01. (ב) לא נמצא עמוד " +
+      "help.sap.com נפרד (What's New / Product Assistance) שמזכיר את QDV3 ישירות מעבר לפריט הפישוט; חיפוש " +
+      "'QDV3 sampling procedure' (--size 8, scope ברירת המחדל SAP_S4HANA_ON-PREMISE) החזיר 21 תוצאות, אף אחת " +
+      "מהן לא עסקה ישירות ב-QDV3 עצמה. (ג) לא בוצעה בדיקת SE93 במערכת S/4HANA חיה שהקוד עדיין קיים. (ד) קובצי " +
+      "ה-PDF נקראו מחילוצי pdftotext השמורים בפרויקט (scratchpad/official/SIMPL_OP2025.pdf.txt " +
+      "ו-SIMPL_OP2023.pdf.txt). (ה) קיים פער מול הרשומה הקיימת ב-data/tx-intel.ts#QDV3: שדה s4 אינו מזכיר את " +
+      "ההסרה מה-launchpad, והרשומה מכנה את QDV3 'Display Sampling Plan' בעוד הפריט הרשמי מדפיס 'Display " +
+      "sampling procedure'; מוזכר כפער ולא תוקן כאן. לא בוצעה בדיקה במערכת SAP חיה. רשומה מחקרית זו מחליפה את " +
+      "הרשומה שנוצרה אוטומטית ל-tx:QDV3 ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, ולפני כתיבתה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified; חדש: " +
+      "fiori_alternative_available). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QE51N",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#QE51N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את QE51N כ'רישום תוצאות / Results Recording Worklist', מודול QM.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QE51N",
+      },
+      QE51N_FAL_S32OP,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.2 " +
+          "'S4TWL - Redundant Transactions in QM' (SAP Note 2338215)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "הפריט קובע כי הטרנזקציה QE51 (Results recording worklist) 'will not be provided anymore in SAP " +
+          "S/4HANA', ורושם בטבלה את QE51N בעמודת ה-Alternative שלה (שורת הטבלה: Transaction QE51, Text 'Results " +
+          "recording worklist', Alternative QE51N). הפריט אינו קובע דבר לגבי הסרה, שינוי או החלפה של QE51N עצמה: " +
+          "הוא ממנה אותה כטרנזקציית ההמשך שאליה יש לעבור מ-QE51.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.2 " +
+          "'S4TWL - Redundant Transactions in QM' (SAP Note 2338215)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט S4TWL (הערה 2338215) מופיע גם ברשימת הפישוט של 2023 FPS03 (פריט 34.2), באותה טבלה ובאותו " +
+          "ניסוח: QE51 מוסרת, QE51N מוגדרת כ-Alternative שלה. שני מסמכי הפישוט (2023 FPS03 ו-2025 FPS01) עקביים " +
+          "ואינם קובעים דבר שלילי על QE51N עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "QE51N מתועדת כזמינה ב-SAP S/4HANA On-Premise: ספריית האפליקציות של Fiori רושמת אותה כאפליקציית SAP GUI " +
+        "בסטטוס Published במהדורת 2025 FPS01 (S32OP). פריט S4TWL 'Redundant Transactions in QM' (הערה 2338215, " +
+        "מופיע הן ב-2023 FPS03 והן ב-2025 FPS01) מטפל בהסרת הטרנזקציה הישנה QE51 ומגדיר את QE51N כחלופה שאליה " +
+        "עוברים; הוא אינו קובע הסרה, שינוי או החלפה של QE51N עצמה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QE51N_FAL_S32OP,
+      recommendedAction:
+        "להמשיך להשתמש ב-QE51N (רשימת עבודה היררכית לרישום תוצאות) לרישום תוצאות בדיקה; במידה וקיים עדיין שימוש " +
+        "בטרנזקציה הישנה QE51, יש להעביר את התהליך ל-QE51N בהתאם לפריט 'S4TWL - Redundant Transactions in QM' " +
+        "ברשימות הפישוט 2025 FPS01 ו-2023 FPS03.",
+    },
+    lastVerifiedAt: DATE25,
+    notes:
+      "מחקר עבור tx:QE51N: הרשומה הקודמת (data/verification/transactions-auto.ts) נוצרה דטרמיניסטית עם 5 ראיות " +
+      "מסומנות context בלבד, ללא הכרעת מעמד, כי תוכן פריטי הפישוט טרם נקרא (ישן: לפני כתיבת רשומה זו הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified; חדש: unchanged). במחקר " +
+      "הנוכחי נקראו שני פריטי הפישוט (2025 FPS01 9.6.2, 2023 FPS03 34.2, שניהם 'S4TWL - Redundant Transactions " +
+      "in QM' ומפנים להערת SAP 2338215) ישירות מהטקסט המחולץ (scratchpad/official/SIMPL_OP2025.pdf.txt סביב " +
+      "שורות 45020-45050, SIMPL_OP2023.pdf.txt סביב שורות 45156-45210): הטבלה הרשמית מפרטת ארבע טרנזקציות " +
+      "מוסרות (QE51, QS45, QCYF, QCYT) עם עמודת Alternative מקבילה (QE51N, QS42, SE71, גישה דרך SO10 בהתאמה): " +
+      "כלומר QE51 (לא QE51N) היא הטרנזקציה המוסרת, ו-QE51N היא החלופה הרשמית. חיפושי sap-help-search בביטויים " +
+      "'QE51N Results Recording Worklist' ו-'QE51N' לא החזירו תוצאה רלוונטית נוספת (רוב הפגיעות היו רעש עם " +
+      "ME51N). ביקורת 2026-09-25: הרצה מחודשת של scripts/fal-app.mjs QE51N --release S32OP הדפיסה 'Record " +
+      "Inspection Results - Hierarchical Worklist | SAP GUI | Published' ואת אותו קישור Apps('QE51N')/S32OP; " +
+      "fal-app.mjs --tcode QE51N מונה גם את F2689 'Record Results for Inspection Points' כאפליקציה מובילה. לא " +
+      "בוצעה בדיקה במערכת SAP חיה. לא נכתבו xrefs: table:QALS/QAMR/QAVE ו-fiori:F2689 אינם במאגר המזהים " +
+      "החוקיים (לא ב-ROUTE_MANIFEST ולא ב-data/fiori/apps.ts). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QGA1",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#QGA1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את QGA1 כ'הערכת איכות / Quality Score & Evaluation', מודול QM: הערכה גרפית/אנליטית של " +
+          "מנת בדיקה, ניתוח quality score ותוצאות ברמת הלוט (חלק מסדרת QGA1/QGA2/QGA3).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QGA1",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#QGA1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-QGA1 את הכותרת האנגלית 'Quality Control Chart for Inspection Lot' ואת " +
+          "האזור 'דיווח/ניתוח'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#QGA1",
+      },
+      QGA1_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.3 " +
+          "S4TWL - Removed Navigation to Transactions for Evaluations in QM (SAP Note 2340996)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim:
+          "הגרסה המקבילה מ-2023 FPS03 (פריט 34.3) נקראה במלואה ונוסחה זהה: 'The following transactions won't work " +
+          "properly by accessing them in SAP GUI for HTML via the SAP Fiori launchpad. QGA1, QM50 and QGP1 can be " +
+          "replaced with Fiori Apps, QST05 is not available.' טבלת ה-Business Process Related Information מפרטת " +
+          "עבור QGA1 'Display quality score time line', רכיב QM-QC-IS, ומולה אפליקציית Fiori 'Inspection Lot " +
+          "Detailed Analytics (F3273)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F3273 'Inspection Lot Detailed Analytics', release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3273')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori מציגה את F3273 'Inspection Lot Detailed Analytics' כאפליקציה מפורסמת " +
+          "(Published), טרנזקציונלית/אנליטית (SAP Fiori Analysis Path Framework), ברכיב QM-QC-IS, בתפקידים " +
+          "SAP_BR_QUALITY_ENGINEER / SAP_BR_QUALITY_MANAGER, בקטלוג העסקי SAP_QM_BC_ANALYTICS, עם שירותי OData " +
+          "BSANLY_APF_RUNTIME_SRV ו-QM_INSPLOTDEF_ANALYZE_SRV, זמינה החל מ-S/4HANA 1809 (S12OP) ועד 2025 FPS01 " +
+          "(S32OP), ללא GUI transaction מוביל רשום.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "פריט הפישוט 'S4TWL - Removed Navigation to Transactions for Evaluations in QM' (2025 FPS01 9.6.1, וגם " +
+        "2023 FPS03 34.3) קובע שניווט ל-QGA1 דרך SAP GUI for HTML בתוך ה-Fiori launchpad אינו פועל כראוי, ומציין " +
+        "את F3273 'Inspection Lot Detailed Analytics' ככיסוי הפונקציונליות של הצגת ציר הזמן של quality score. " +
+        "לפי הפריט QGA1 'can be replaced with Fiori Apps', אך הוא אינו קובע שהטרנזקציה הוסרה מהמערכת.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QGA1_SIMPL2025,
+      recommendedAction:
+        "להשתמש באפליקציית Fiori F3273 'Inspection Lot Detailed Analytics' (תפקידי Quality Engineer / Quality " +
+        "Manager) לניתוח ציר הזמן של quality score במקום ניווט ל-QGA1 דרך ה-launchpad; שימוש ישיר ב-SAP GUI " +
+        "קלאסי ב-QGA1 אינו נשלל על ידי הפריט. אין לקבוע ש-QGA1 הוסר בפועל ללא בדיקה במערכת יעד (SE93).",
+    },
+    xrefs: ["tx:QM50", "tx:QGP1"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "המקור הרשמי המרכזי הוא פריט הפישוט S4TWL 'Removed Navigation to Transactions for Evaluations in QM' " +
+      "(SAP Note 2340996), שנקרא במלואו בשתי גרסאותיו (2025 FPS01 פריט 9.6.1 ו-2023 FPS03 פריט 34.3), ובשתיהן " +
+      "F3273 נקוב מול QGA1. הפריט נוקב ב-QGA1 במפורש וקובע שהבעיה היא ניווט דרך SAP GUI for HTML ב-launchpad; " +
+      "הוא אינו קובע הסרה של הטרנזקציה. F3273 אומת בספריית Fiori הרשמית (fal-app.mjs, S32OP) כפרסום פעיל. " +
+      "אפליקציית F3273 אינה קיימת ב-data/fiori/apps.ts ולכן לא צורפה כ-xref; היא מוזכרת בפרוזה בלבד. חיפושי " +
+      "help.sap.com: 'QGA1' ב-SAP_S4HANA_ON-PREMISE החזיר 13 רשומות, אף אחת אינה עמוד ייעודי ל-QGA1; העמוד " +
+      "'Transactions for Control Charts' (loio bf65b6531de6b64ce10000000a174cb4, 2025.001) הוחזר, והסניפט שלו " +
+      "נוקב ב-QGC1, QGC2, QGC3 ואינו נוקב ב-QGA1; גוף העמוד לא נקרא. בוצע גם חיפוש ב-SAP_ERP ו-'Quality " +
+      "Control Chart Inspection Lot'. הכותרת האנגלית בקטלוג המאגר (Quality Control Chart for Inspection Lot) " +
+      "אינה נתמכת במקור רשמי: פריט הפישוט מתאר את QGA1 כ-Display quality score time line, וסניפט עמוד " +
+      "Transactions for Control Charts משייך Control charts for inspection lots ל-QGC1. לא בוצעה בדיקה במערכת " +
+      "SAP חיה; קביעה סופית לגבי זמינות QGA1 בפועל (SE93) דורשת אימות במערכת יעד. רשומה מחקרית זו מחליפה את " +
+      "הרשומה שנוצרה אוטומטית ל-tx:QGA1 ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, ולפני כתיבתה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified; חדש: " +
+      "fiori_alternative_available). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QGP1",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 34.3 S4TWL - Removed Navigation " +
+          "to Transactions for Evaluations in QM",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (רכיבי יישום QM-IM, QM, QM-QN, QM-QC-IS) קובע כי 'The following transactions won’t work properly " +
+          "by accessing them in SAP GUI for HTML via the SAP Fiori launchpad. QGA1, QM50 and QGP1 can be replaced " +
+          "with Fiori Apps' וברשימת ה-Business Process Related Information מפרט: QGP1 = 'Results history for task " +
+          "list characteristic' (רכיב QM-QC-IS), אפליקציית Fiori חלופית 'Results History (F2428)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      QGP1_SIMPL2025,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "F2428: Results History (Fiori Apps Library, S32OP = SAP S/4HANA 2025 FPS01, On-Premise)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2428')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת האפליקציה F2428 'Results History' (סוג Transactional/SAP Fiori elements, סטטוס Published, רכיב " +
+          "QM-FIO-IM) מדפיסה את QGP1 כטרנזקציית GUI 'related' (הטרנזקציה המובילה היא QGA4), OData " +
+          "QM_RESULT_HISTORY_SRV, זמינה מ-S9OP (1709) ועד S32OP (2025 FPS01), ללא predecessor/successor רשום עבור " +
+          "F2428 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts, שורת QGP1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "המאגר המקומי מגדיר את QGP1 במודול QM, אזור 'דיווח/ניתוח', עם השם האנגלי 'Print Inspection Instruction' " +
+          "(בעברית 'הדפסת הוראת בדיקה'). שני פריטי ה-S4TWL הרשמיים מתארים את QGP1 כ-'Results history for task list " +
+          "characteristic' (QM-QC-IS); השם במאגר אינו תואם את נוסח הפריט ודורש אימות ותיקון בנתוני המאגר.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#QGP1",
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "שני פריטי הפישוט 'S4TWL - Removed Navigation to Transactions for Evaluations in QM' (2023 FPS03 §34.3, " +
+        "2025 FPS01 §9.6.1) קובעים שהגישה ל-QGP1 דרך SAP GUI for HTML ב-Fiori launchpad אינה פועלת כראוי, וכי " +
+        "הפונקציונליות (Results history for task list characteristic) ניתנת להחלפה באפליקציית Fiori 'Results " +
+        "History' (F2428); הפריטים אינם מציגים את הטרנזקציה עצמה כמוסרת או כ-deprecated.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: QGP1_SIMPL2025,
+      recommendedAction:
+        "להשתמש באפליקציית Fiori F2428 (Results History) כערוץ העבודה ב-launchpad; בשימוש ב-QGP1 דרך SAP GUI יש " +
+        "לבדוק במערכת את ההתנהגות, שכן הפריט קובע שהגישה דרך SAP GUI for HTML ב-launchpad אינה פועלת כראוי. " +
+        "F2428 טרם נרשמה ב-data/fiori/apps.ts, ולכן אין כעת xref הניתן לאימות; יש להוסיף רשומה עבור F2428 (מקור: " +
+        "fal-app.mjs F2428 --release S32OP) ואז לעדכן רשומה זו עם xref ל-fiori:F2428.",
+    },
+    xrefs: [],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה שאומת: (1) שני פריטי הפישוט 'S4TWL - Removed Navigation to Transactions for Evaluations in QM' (2023 " +
+      "FPS03 §34.3, 2025 FPS01 §9.6.1), זהים כמעט מילה במילה, מונים את QGP1 בשמה בטבלת ה-Business Process " +
+      "Related Information ומצביעים על 'Results History (F2428)' כאפליקציית Fiori החלופית לתפקוד; ציטוט מדויק " +
+      "צורף בכל רשומת עדות. (2) scripts/fal-app.mjs F2428 --release S32OP: F2428 מדפיסה את QGP1 כטרנזקציית GUI " +
+      "'related' (leading הוא QGA4), קיימת מ-1709 ועד 2025 FPS01. (3) המאגר המקומי (tcode-catalog.ts) מאשר " +
+      "מודול ואזור בלבד; השם האנגלי במאגר (Print Inspection Instruction) אינו תואם את הטקסט 'Results history " +
+      "for task list characteristic' שמדפיסים שני הפריטים, ונדרש תיקון נפרד בנתוני המאגר. מה שלא אומת: (א) " +
+      "F2428 אינה רשומה עדיין ב-data/fiori/apps.ts, ולכן לא נכנסה כ-xref, כדי לא ליצור dangling-xref. (ב) SAP " +
+      "Note 2340996 (מודפס בשני הפריטים) לא נקרא; הוא דורש S-user, והמספר מובא בכותרת ובפרוזה בלבד ולא בשדה " +
+      "sapNote. (ג) לא נבדק אם QGP1 עצמה deprecated; הפריטים עוסקים בגישה דרך ה-launchpad בלבד. (ד) לא בוצעה " +
+      "בדיקה במערכת SAP חיה. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:QGP1 ב-transactions-auto.ts " +
+      "(ישן: ללא הכרעת מעמד, ולפני כתיבתה הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת " +
+      "repository_verified; חדש: fiori_alternative_available). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QI03",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#QI03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את QI03 כ'ניהול ספקים / Q-Info Record', מודול QM: טרנזקציית הצגה בלבד (read-only) של " +
+          "רשומת מידע איכות (QINF), המשמשת לאימות סטטוס שחרור ספק-חומר לפני יצירת PO ולביקורת.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QI03",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#QI03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-QI03 את הכותרת האנגלית 'Display Quality Info Record (Procurement)', " +
+          "תחום 'רשומות מידע איכות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#QI03",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "QM - Quality info record",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/8427c17adbeb4a84a1a0784aa63c586c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001) נוקבת בסניפט: 'App: " +
+          "Manage Quality Info Records (F2256A) Change Quality Info Record - Procurement (QI02) Display Quality " +
+          "Info Record - Procurement (QI03 ...'; כלומר תיעוד help.sap.com הנוכחי (2025 FPS01) ממשיך לציין את QI03 " +
+          "בשמו לצד אפליקציית ה-Fiori F2256A.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App QI03 'Display Quality Info Record - Procurement' (SAP GUI), release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('QI03')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את QI03 עצמו כאפליקציה 'Display Quality Info Record - " +
+          "Procurement' מסוג SAP GUI (SAP GUI), קטלוג טכני SAP_TC_QM_BE_APPS:S4QM, בסטטוס 'Published' במהדורת " +
+          "S32OP (S/4HANA 2025 FPS01), רכיב QM-PT-RP-PRC; רשימת המהדורות שלו נמשכת מ-S6OP (1610) עד S32OP, ללא " +
+          "S15OP-S17OP (1909), ללא predecessor או successor רשומים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F2256 'Display Quality Info Record for Procurement' (SAP Fiori elements), " +
+          "release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2256')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F2256 'Display " +
+          "Quality Info Record for Procurement' (SAP Fiori elements, OData QM_INFOREC_PROC_OBJECTPAGE_SRV, בסטטוס " +
+          "'Published') עם קוד הטרנזקציה המוביל QI03 ותפקידי SAP_BR_QUALITY_ENGINEER / SAP_BR_QUALITY_PLANNER. " +
+          "הספרייה רושמת ל-F2256 את F2256A 'Manage Quality Info Records' כ-successor. פריטי הפישוט אינם נוקבים " +
+          "במזהה אפליקציה, ולכן הזיקה בין F2256 לחלופה 'Fiori app Quality Info Records Procurement' לא אומתה במקור " +
+          "רשמי. F2256 ו-F2256A אינם רשומים בקטלוג ה-Fiori המקומי (data/fiori/apps.ts), ולכן לא נקבעו כ-successor.",
+        verificationLevel: "sap_official_verified",
+      },
+      QI03_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.2 " +
+          "S4TWL - Redundant Transactions in QM, p. 874",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 34.2, באותו ניסוח כמו הפריט המקביל ב-2025 FPS01, קובע ש-QI03 ('Display q-info record procurement', " +
+          "רכיב QM-PT-RP-PRC) הוא בין הטרנזקציות ה'replaced by corresponding Fiori apps and are therefore not " +
+          "available in the SAP Fiori launchpad for SAP S/4HANA (but can be called directly with SAP GUI)', עם " +
+          "אלטרנטיבה 'Fiori app Quality Info Records Procurement'; כלומר הקביעה עקבית בין 2023 FPS03 ל-2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "restricted",
+      he:
+        "פריטי הפישוט 'S4TWL - Redundant Transactions in QM' (2025 FPS01 §9.6.2 ו-2023 FPS03 §34.2, בניסוח זהה) " +
+        "קובעים ש-QI03 אינו זמין ב-Fiori launchpad הסטנדרטי של S/4HANA לטובת אפליקציית Fiori מקבילה, אך ניתן " +
+        "להפעיל אותו ישירות ב-SAP GUI. ספריית ה-Fiori הרשמית מאשרת שהטרנזקציה עצמה עדיין רשומה ומפורסמת עד S32OP " +
+        "(S/4HANA 2025 FPS01), ושקיימת אפליקציית Fiori elements F2256 המובילה עם אותו קוד טרנזקציה QI03.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: QI03_SIMPL2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-QI03 דרך SAP GUI לפי הצורך. לעבודה דרך ה-Fiori launchpad, לבחון את Display Quality Info " +
+        "Record for Procurement (F2256), המובילה עם QI03 בספריית ה-Fiori, ואת Manage Quality Info Records " +
+        "(F2256A), שהספרייה רושמת כ-successor של F2256 ושתיעוד Data Migration במהדורת 2025 FPS01 מציין לצד QI03. " +
+        "שתיהן אינן בקטלוג ה-Fiori של הפרויקט, ולכן אינן רשומות כ-xref.",
+    },
+    xrefs: ["tx:QI01", "tx:QI02"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "רשומה זו מחליפה את הרשומה המחוללת אוטומטית עבור tx:QI03 ב-data/verification/transactions-auto.ts " +
+      "(context בלבד, ללא הכרעת מעמד; ישן: לפני כתיבת רשומה זו הציג report-coverage.mjs --ids סטטוס נגזר " +
+      "'unchanged' ברמת repository_verified; חדש: restricted). חיפושים שבוצעו ב-scripts/sap-help-search.mjs: " +
+      "'QI03 Redundant Transactions in QM' (--product SAP_S4HANA_ON-PREMISE, 21 תוצאות), 'Quality Info Records " +
+      "Procurement Fiori app' (21 תוצאות), 'S4TWL Redundant Transactions in QM' (21 תוצאות, לא נמצא עמוד " +
+      "help.sap.com ייעודי לפריט עצמו; הפריט נקרא מתוך scratchpad/official/SIMPL_OP2025.pdf.txt " +
+      "ו-SIMPL_OP2023.pdf.txt, שהם חילוץ טקסט מלא של קובצי ה-PDF הרשמיים המצוטטים לעיל בכתובת " +
+      "help.sap.com/doc/.../SIMPL_OP*.pdf). הופעלו scripts/fal-app.mjs עבור QI03 ועבור F2256 (--release " +
+      "S32OP). פריטי הפישוט אינם נוקבים במזהה אפליקציה; הזיקה בין החלופה 'Fiori app Quality Info Records " +
+      "Procurement' לבין F2256 או F2256A לא אומתה במקור רשמי, ו-F2256 ו-F2256A אינם רשומים " +
+      "ב-data/fiori/apps.ts. לא בוצעה בדיקה במערכת SAP חיה; קביעת ה-'restricted' מבוססת על נוסח הפריטים " +
+      "הרשמיים ועל ספריית ה-Fiori, לא על הנחה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QM10",
+    evidence: [
+      QM10_FAL_S32OP,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 · item 9.6.4 S4TWL - QM WEB Workplace " +
+          "(MiniApps) based on ITS Services",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פריט 9.6.4 (רכיב QM, SAP Note 2270129) עוסק ב-MiniApps מבוססי ITS/mySAP Workplace ברכיב QM; הפתרון " +
+          "בפריט: 'SAP Internet Transaction Server (ITS) and mySAP Workplace are not available within SAP S/4HANA. " +
+          "Therefore the MiniApps that are based on these techniques are not available within SAP S/4HANA' " +
+          "(כלשונו), והחלופה: 'the corresponding QM transactions in SAP GUI for HTML'. הרשימה 'Transaction not " +
+          "available in SAP S/4HANA on-premise edition 1511' מונה את IQS8WP, IQS9WP, QA32WP, QE09WP, QPQA32, " +
+          "QPQGC1, QPQM10, QPQM13, QM10WP ('QM10 - Call from Workplace/MiniApp'), QM13WP, QPIQS8, QPIQS9, " +
+          "WAO_QA32WP, WAO_QM10WP, WAO_QM13WP, WAO_QPQA32, WAO_QPQM10, WAO_QPQM13. כלומר הפריט קובע אי-זמינות עבור " +
+          "הקוד QM10WP (הקריאה ל-QM10 מ-Workplace/MiniApp) ועבור WAO_QM10WP ('QM10 - Call from " +
+          "Workplace/MiniApp'), לא עבור הטרנזקציה QM10 עצמה, שאינה מופיעה כקוד בעמודת הקודים של הרשימה (QM10 מופיע " +
+          "רק בעמודת התיאור של שורות QM10WP ו-WAO_QM10WP).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 · item 34.7 S4TWL - QM WEB Workplace " +
+          "(MiniApps) based on ITS Services",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 34.7 (רכיב QM, SAP Note 2270129) הוא הגרסה המוקדמת יותר של אותו S4TWL; אותה רשימת 'Transaction not " +
+          "available in SAP S/4HANA on-premise edition 1511' חוזרת כלשונה (IQS8WP, IQS9WP, QA32WP, QE09WP, QPQA32, " +
+          "QPQGC1, QPQM10, QPQM13, QM10WP, QM13WP, QPIQS8, QPIQS9, WAO_QA32WP ואילך), כלומר גם כאן הפריט חל על " +
+          "QM10WP (המשתנה מבוסס Workplace/MiniApp), לא על הטרנזקציה QM10 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#QM10",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "הרשומה הפנימית מתעדת את QM10 כדוח-רשימה (List transaction, 'Worklist') להודעות איכות (QMEL) מבוסס SAP " +
+          "List Viewer (ALV), עם ניווט ל-QM02/QM03 ומעקב ב-QM11/QM12; שדה s4 ברשומה טוען 'זמין ב-S/4HANA. " +
+          "אפליקציית Fiori Manage Quality Notifications מחליפה את חוויית ה-worklist'. טענת ה-'מחליפה' היא טענת " +
+          "מאגר בלבד ולא אומתה במקור רשמי; פירוט החיפושים בהערות.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QM10",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "הטרנזקציה QM10 (Change Quality Notifications - Worklist, רשימת עבודה להודעות איכות) מתועדת כזמינה ב-SAP " +
+        "S/4HANA: ספריית ה-Fiori Apps מציגה אותה כיישום SAP GUI בסטטוס Published עבור מהדורת S/4HANA 2025 FPS01 " +
+        "(S32OP), עם 'successors: -'. פריטי הרשימה S4TWL - QM WEB Workplace (MiniApps) based on ITS Services " +
+        "(2023 FPS03 §34.7 ו-2025 FPS01 §9.6.4), שמזכירים QM10 בעמודת התיאור של השורות QM10WP ו-WAO_QM10WP, חלים " +
+        "על הגרסה מבוססת ה-ITS/Workplace ולא על הטרנזקציה QM10 עצמה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QM10_FAL_S32OP,
+      recommendedAction:
+        "להמשיך ולהשתמש ב-QM10 כרשימת עבודה (worklist) יומית להודעות איכות; לוודא הקצאת התפקיד " +
+        "SAP_BR_QUALITY_ENGINEER והרשאה לקטלוג SAP_QM_BC_NOTIFICATIONS למשתמשים המתפעלים אותה. אין להסתמך על " +
+        "QM10WP / WAO_QM10WP (משתני ITS/Workplace), שאינם זמינים ב-S/4HANA לפי פריטי ה-S4TWL.",
+    },
+    xrefs: ["table:QMEL", "tx:QM02", "tx:QM03", "tx:QM11"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נבדק: ספריית ה-Fiori Apps (fal-app.mjs QM10 --release S32OP) מציגה את QM10 עצמו כ-Published ב-2025 " +
+      "FPS01 עם 'successors: -'. שני פריטי ה-S4TWL שמופיעים ב-Simplification Lists נקראו במלואם (מקובץ הטקסט " +
+      "שחולץ מראש ב-scratchpad/official/); הם קובעים אי-זמינות עבור הגרסה מבוססת ITS/mySAP Workplace (QM10WP, " +
+      "WAO_QM10WP) בלבד, ואינם נוקבים ב-QM10 כקוד שאינו זמין. טענת המאגר הפנימי ('Fiori app Manage Quality " +
+      "Notifications מחליף') לא נמצאה במקור רשמי ולכן לא שולבה ב-status ולא נבנה עבורה xref. חיפושים: " +
+      "sap-help-search 'Manage Quality Notifications' (SAP_S4HANA_ON-PREMISE, 21 רשומות; הרשומה המובילה " +
+      "'Managing Quality Notification', PLM, loio 14cb795540729c46e10000000a441470, אינה עמוד אפליקציה); " +
+      "fal-app --tcode QM10 --release S32OP: אפליקציה מובילה אחת (QM10 עצמו), 0 successors; " +
+      "data/fiori/apps.ts: 0 התאמות. זהו ממצא שלילי מתועד ולא הכחשה. לא בוצעה בדיקה במערכת SAP חיה. רשומה " +
+      "מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:QM10 ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, ולפני " +
+      "כתיבתה הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified; חדש: unchanged). " +
+      "הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QM50",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#QM50",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את QM50 כ'רשימת עבודה: משימות הודעה' (Worklist: Notification Tasks), מודול QM, תחום " +
+          "'הודעות איכות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#QM50",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Removed Navigation to Transactions for Evaluations in QM (Simplification List for SAP S/4HANA " +
+          "2023 - Feature Pack Stack 3, document version 1.35, item 34.3)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (פריט 34.3, Solution Description) קובע: 'The following transactions won’t work properly by " +
+          "accessing them in SAP GUI for HTML via the SAP Fiori launchpad. QGA1, QM50 and QGP1 can be replaced " +
+          "with Fiori Apps, QST05 is not available.' בטבלת Business Process Related Information ('For the " +
+          "following transactions you can use Fiori Apps to cover the main functionality') שורת QM50: Time Line " +
+          "Display of Quality Notifications, רכיב QM-QN, אפליקציית Fiori Nonconformance Detailed Analytics (F3583).",
+        verificationLevel: "sap_official_verified",
+      },
+      QM50_SIMPL2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Nonconformance Detailed Analytics",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/f72892c8b5344157a7ec8ffd385dfd1c.html?locale=en-US&state=PRODUCTION&version=1909.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1909.000",
+        accessedAt: DATE25,
+        claim:
+          "רשומת 'What's New in SAP S/4HANA 1909' מתעדת את התכונה 'Nonconformance Detailed Analytics' כחדשה " +
+          "מ-1909, לפי התקציר: מאפשרת לנתח פגמים שנרשמו עם או בלי הודעות, לפי זמן, מאפייני בדיקה, מפעל וכו'; רכיב " +
+          "היישום QM-QC-IS, Scope Item 2V0 (SAP Fiori Analytical Apps for Quality Management). התקציר מאשר את קיום " +
+          "האפליקציה ואת ייעודה הכללי, לא את הזיהוי כ-F3583 (זה מגיע מספריית ה-Fiori).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F3583 'Nonconformance Detailed Analytics', release S32OP (SAP S/4HANA 2025 " +
+          "FPS01, On-Premise)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3583')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת Fiori Apps Library למזהה F3583 (S32OP) מציגה אותה כאפליקציית Transactional/Analytical מסוג SAP " +
+          "Fiori: Analysis Path Framework (APF), סטטוס Published, רכיב QM-QC-IS, תפקידים SAP_BR_QUALITY_ENGINEER " +
+          "ו-SAP_BR_QUALITY_MANAGER, business catalog SAP_QM_BC_ANALYTICS ('QM - Analytics'), intent " +
+          "Defect-analyzeDetails, שירותי OData BSANLY_APF_RUNTIME_SRV ו-QM_NOTIF_ANALYZE_SRV; שדה ה-GUI " +
+          "transactions (leading/related) ריק, predecessors ו-successors שניהם ריקים. F3583 אינה רשומה כיום " +
+          "ב-data/fiori/apps.ts (רישום ה-Fiori של הפרויקט), ולכן לא נוספה כ-xref.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "פריט הפישוט S4TWL - Removed Navigation to Transactions for Evaluations in QM (2023 FPS03 פריט 34.3 " +
+        "ו-2025 FPS01 פריט 9.6.1) קובע ש-QM50 (Time Line Display of Quality Notifications) לא יעבוד כראוי בגישה " +
+        "דרך SAP GUI for HTML ב-Fiori launchpad, ושתי הגרסאות ממפות אותו לאפליקציית Fiori Nonconformance " +
+        "Detailed Analytics (F3583). הפריט אינו קובע שהקוד הוסר ואינו מתייחס לשימוש בו ב-SAP GUI for Windows.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: QM50_SIMPL2025,
+      recommendedAction:
+        "לפני ההמרה לבדוק שימוש בניווט ל-QM50 דרך SAP GUI for HTML ב-Fiori launchpad, ולתכנן מעבר לאפליקציית " +
+        "F3583 Nonconformance Detailed Analytics (תפקידים SAP_BR_QUALITY_ENGINEER, SAP_BR_QUALITY_MANAGER; " +
+        "business catalog SAP_QM_BC_ANALYTICS). הפריט אינו מתייחס לשימוש ב-QM50 ב-SAP GUI for Windows; יש לאמת " +
+        "במערכת היעד (SE93).",
+    },
+    xrefs: [],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: פריט הפישוט S4TWL - Removed Navigation to Transactions for Evaluations in QM נקרא ישירות " +
+      "מהטקסט המחולץ (scratchpad/official/SIMPL_OP2023.pdf.txt, פריט 34.3; SIMPL_OP2025.pdf.txt, פריט 9.6.1). " +
+      "שתי הגרסאות (2023 FPS03 34.3, 2025 FPS01 9.6.1) ממפות את QM50 ל-F3583, ושתיהן מציגות את QM50 כ-Time " +
+      "Line Display of Quality Notifications ברכיב QM-QN. רשומת המאגר data/tcode-catalog.ts#QM50 מתארת את QM50 " +
+      "כ-Worklist: Notification Tasks, ואילו שני פריטי הפישוט הרשמיים מציגים אותו כ-Time Line Display of " +
+      "Quality Notifications (QM-QN); הכותרת במאגר דורשת תיקון או אימות ב-SE93. sap-help-search.mjs 'QM50 " +
+      "Worklist Notification Tasks' ו-'Nonconformance Detailed Analytics QM' (--product SAP_S4HANA_ON-PREMISE) " +
+      "אימתו את קיום התכונה מ-What's New 1909; sap-help-search.mjs 'QM50' (--product SAP_ERP, 21 תוצאות) לא " +
+      "החזיר רשומת ECC ייעודית ל-QM50 עצמו; ממצא שלילי מתועד, לא הכרעה. fal-app.mjs F3583 (S32OP, S30OP) אישר " +
+      "את פרטי האפליקציה. fal-app.mjs --tcode QM50 --release S32OP החזיר: leading app(s): none; GUI app entry: " +
+      "none; ממצא שלילי מתועד, לא הכרעה. F3583 אינה רשומה ב-data/fiori/apps.ts, ולכן לא נכללה כ-successor ולא " +
+      "כ-xref; היא מוזכרת בפרוזה בלבד ב-status.he וב-recommendedAction, בדומה לתקדים tx:QA32 עם F2343. xrefs " +
+      "נותר ריק. רשומה זו מחליפה, מבחינת עומק, את הרשומה הגנרית ב-transactions-auto.ts#QM50 (context בלבד, ללא " +
+      "הכרעת מעמד; ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה; חדש: " +
+      "fiori_alternative_available). לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת " +
+      "הקטלוג.",
   },
 ];
