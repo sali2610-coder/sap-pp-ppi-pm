@@ -665,3 +665,74 @@ The catalog was already graduated out of the repository-only foundation guard, s
   VOFM occurrence, in the OGSD Classic Interfaces item. The notes state the drafted path did not
   exist and that the scan is not cited as evidence.
 - No live SAP check was performed (sc4sap MCP: Connection closed).
+
+# Batch 6 · written 2026-09-25 (access date stamped 2026-09-24, const DATE24)
+
+5 drafts audited: **5 written**, **0 refuted**. Written ids: `enh:technique:user-exit`,
+`enh:technique:customer-exit`, `enh:technique:explicit-enhancement`, `enh:technique:field-exit`,
+`enh:exit:IWO10009`. All five deepen records that already existed; no new id. user-exit,
+customer-exit and IWO10009 come from the auditor's `fixedRecord`; explicit-enhancement and
+field-exit are the audited draft with the verdict downgrades applied. The catalog was already
+graduated out of the repository-only foundation guard, so no test change.
+
+## refuted
+
+- (none in this batch.)
+
+## conflicts
+
+- `enh:technique:user-exit`: the batch-3 `conflicting_sources` repository row (PM workbook "User
+  Exit" against `data/exits.ts` "Customer Exit" for the same ten names) is still open. The new
+  Public Cloud row (Extensibility, loio `533228e1e854433ab16d013f161ca509`, 2608.500) does not
+  settle it: the page text read names no User Exit, SMOD or CMOD, which is a bounded negative.
+- `Handle Your Extensions` (loio `be44d6b8f0944c0c81107e34e7232fff`, 2608.500) is read two ways in
+  this batch. The customer-exit auditor dropped it, because its "two extensibility options" line and
+  the note "Side-by-Side Extensibility through SAP BTP is not supported" belong to a test data
+  refresh app page. The explicit-enhancement auditor kept it as `evidence[5]` (the claim says it is
+  that app's page), and the explicit-enhancement `recommendedAction` names Key User and Developer
+  Extensibility as the two options that page lists. Both texts match the body read; the
+  Extensibility page (loio `533228e1e854433ab16d013f161ca509`) lists three options. To settle it,
+  a later pass can re-point the explicit-enhancement Public Cloud sentence to the Extensibility
+  page. Not changed here, because the auditor approved the sentence as written.
+- Verbatim repository quotes that break Hebrew house rule 7 remain in rows this batch did not
+  touch: `enh:technique:user-exit` `evidence[4].claim` and `notes` quote the
+  `data/enhancements.ts#user-exit` sentence 'נתמך אך לא מומלץ ... Clean Core מעדיף BAdI/Extension
+  Point' with its em dash, and `enh:technique:explicit-enhancement` `evidence[4].claim` quotes
+  'ENHANCEMENT-POINT בעיבוד הזמנת ...' with the word the house rules replace by "תחזוקה". The
+  field-exit record shows the fix pattern (a colon in place of the em dash, disclosed as adjusted
+  punctuation). The user-exit deepening allowed no other edit, so both stay for a follow-up.
+
+## open verification
+
+- The interactive diagram on the Extensibility page (loio `533228e1e854433ab16d013f161ca509`) is
+  not returned by `scripts/sap-help-body.mjs`. Every absence statement about that page in
+  user-exit and customer-exit is bounded to the text body.
+- SAP S/4HANA Cloud Private Edition standing of user-exit, customer-exit, explicit-enhancement and
+  field-exit: no Private Edition product id was found in the search service
+  (`SAP_S4HANA_PRIVATE_CLOUD`, `SAP_S4HANA_CLOUD_PRIVATE`, `SAP_S4HANA_CLOUD_PRIVATE_EDITION`
+  returned 0 records for 'field exit').
+- Live system checks are still open: SMOD, CMOD and SPAU for the customer exits, `RZ11` for
+  `abap/fieldexit` with an `RSMODPRF` run, and `EXIT_SAPLCOIH_009` for IWO10009.
+
+## writer deviations, batch 6
+
+- `enh:exit:IWO10009`: the `fixedRecord` field `reviewer: "researcher"` was not written. No record
+  in `data/verification/**` carries `reviewer`, several records' notes state that convention, and
+  the evidence block would render it as a reviewer label ("סוקר: researcher").
+- `enh:technique:customer-exit`: the absence statements about the Extensibility page are bounded to
+  the text body read in `status.he`, `recommendedAction`, `evidence[5].claim` and `notes`
+  ("טקסט גוף העמוד שנקרא", "התרשים האינטראקטיבי שבעמוד לא נקרא"). Reason: the user-exit auditor
+  re-fetched the same page (deliverable 41170545) and found an interactive diagram the script does
+  not return. No new lookup was run for this.
+- `enh:technique:explicit-enhancement`: the optional notes downgrade was applied ('כל אחת החזירה
+  21 רשומות בעמוד התוצאות של הסקריפט').
+- `enh:technique:user-exit`: the new row is the 6th evidence row, per the `fixedRecord` (the draft
+  note said 5th; the record held 5 rows, the repository conflict row included).
+- Unchanged rows were kept byte for byte from the file: customer-exit rows 1 to 5, user-exit rows 1
+  to 5, explicit-enhancement rows 1 to 5 and `status.source` (all DATE21), IWO10009 rows 1, 2 and 6
+  (DATE). Where a rewritten string kept an unchanged span, the file's U+200F marks in that span
+  were carried over; the audited JSON had none.
+- Coverage (`npm run report:coverage -- --catalog enhancements`), before and after: 40 records,
+  L2 10, L3 12, L4 3, L5 15; 28 verified, 12 conflicting, 30 S/4-applicable. Edition-specific went
+  from 1 to 4 (the three new Public Cloud rows). No record changed depth, level or status.
+- No live SAP check was performed.

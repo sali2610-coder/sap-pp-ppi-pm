@@ -57,13 +57,26 @@
    applied (neither verdict carried a fixedRecord). Both carry an authored "unchanged" status bounded
    to documentation continuity: the technique is documented on the SAP ERP and S/4HANA 2025 FPS01
    sides and no official source found describes a change. vofm keeps its repository row at
-   verification_required for the Access Key, BAdI-preference and PP-example parts. */
+   verification_required for the Access Key, BAdI-preference and PP-example parts.
+   Batch 6 (written 2026-09-25, access-stamped 2026-09-24, const DATE24): five audited deepenings of
+   existing records (user-exit, customer-exit, explicit-enhancement, field-exit, IWO10009), each the
+   auditor's fixedRecord, or the draft with the verdict downgrades applied where no fixedRecord was
+   given (explicit-enhancement, field-exit). user-exit, customer-exit and explicit-enhancement each
+   gain one SAP S/4HANA Cloud Public Edition row (2608.500) whose claim is bounded to the page text
+   read with scripts/sap-help-body.mjs; none of those pages names the classic technique, which is
+   recorded as a bounded negative and changes no status. IWO10009 gains the What's New 2022 SPS03
+   row and the 2023 body reading; field-exit re-stamps its four rows after the 2026-09-24 re-check.
+   Writer deviations: IWO10009 carries no reviewer field (no record in data/verification/** has one,
+   and several records' notes say so); customer-exit bounds its absence statements to the text body
+   read, because the user-exit auditor found an interactive diagram on the same page (loio
+   533228e1e854433ab16d013f161ca509) that sap-help-body.mjs does not return. */
 import type { VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
 const DATE14 = "2026-09-14";
 const DATE21 = "2026-09-21";
 const DATE22 = "2026-09-22";
+const DATE24 = "2026-09-24";
 
 export const ENH_VERIFICATION: VerificationRecord[] = [
   {
@@ -99,8 +112,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         product: "SAP S/4HANA",
         edition: "on-premise",
         release: "2025.001",
-        accessedAt: DATE,
-        claim: "תיעוד Orders (CS-SE/PM-WOC-MO) לגרסת S/4HANA 2025 FPS01 עדיין מתאר Customer Exits של הזמנת התחזוקה (IWO10015 ו-IWO10016 מופיעות גם ברשימת 4.6C שבראיה הקודמת): 'You can use customer exit IWO10015 to request input options in a user data field' ו-'You can use customer exit IWO10016 to run your own checks for the user data fields', עם הפניה ל-Tools > ABAP Workbench > Utilities > Enhancements > Definition. IWO10009 עצמה אינה נזכרת ברשומה זו.",
+        accessedAt: DATE24,
+        claim: "תיעוד Orders (CS-SE/PM-WOC-MO) לגרסת S/4HANA 2025 FPS01 (סניפט רשומת החיפוש, נקרא שוב ב-2026-09-24 בשאילתת 'IWO10009') מתאר Customer Exits של הזמנת התחזוקה (IWO10015 ו-IWO10016 מופיעות גם ברשימת 4.6C שבראיה הקודמת): 'You can use customer exit IWO10015 to request input options in a user data field' ו-'You can use customer exit IWO10016 to run your own checks for the user data fields', עם הפניה ל-Tools > ABAP Workbench > Utilities > Enhancements > Definition. IWO10009 אינה נזכרת בסניפט; גוף העמוד לא נקרא.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -110,8 +123,19 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         product: "SAP S/4HANA",
         edition: "on-premise",
         release: "2023.000",
-        accessedAt: DATE,
-        claim: "What's New in SAP S/4HANA 2023‏: 'The Business Add-In WORKORDER_UPDATE, which you can use to further process or prohibit changes to orders, has been enhanced with a new BAdI implementation'. הרשומה אינה קובעת ש-WORKORDER_UPDATE מחליף את IWO10009 ואינה מונה שמות מתודות.",
+        accessedAt: DATE24,
+        claim: "What's New in SAP S/4HANA 2023‏: 'The Business Add-In WORKORDER_UPDATE, which you can use to further process or prohibit changes to orders, has been enhanced with a new BAdI implementation'. גוף העמוד (נקרא ב-2026-09-24) מציין את מימוש ה-BAdI CO_SPLIT_COMPONENT_POST_GI ואת המתודה COMP_RQMT_DATE_TIME_SET, תחת רכיב היישום PP-SFC-EXE ופריט ההיקף BJ5 (Make-to-Stock Production - Discrete Manufacturing). הרשומה אינה קובעת ש-WORKORDER_UPDATE מחליף את IWO10009 ואינה מזכירה הזמנת תחזוקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "BAdI for Further Processing Changes to Orders | What's New in SAP S/4HANA 2022 SPS03",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/86956eb2f92146db85b12838f4affeb8.html?locale=en-US&state=PRODUCTION&version=2022.003",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.003",
+        accessedAt: DATE24,
+        claim: "What's New in SAP S/4HANA 2022 SPS03: 'The Business Add-In WORKORDER_UPDATE, which you can use to further process or prohibit changes to orders, has been enhanced with a new method COMP_RQMT_DATE_TIME_SET'. גוף העמוד (נקרא ב-2026-09-24) משייך את השינוי לרכיב היישום PP-SFC-EXE ולפריט ההיקף BJ5 (Make-to-Stock Production - Discrete Manufacturing). הרשומה אינה מזכירה הזמנת תחזוקה או את IWO10009.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -137,8 +161,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "table:AUFK",
       "table:AFIH",
     ],
-    lastVerifiedAt: DATE,
-    notes: "חיפוש בשירות החיפוש הרשמי של SAP Help (scripts/sap-help-search.mjs, המוצרים SAP_S4HANA_ON-PREMISE ו-SAP_ERP) אינו מחזיר אף עמוד שמזכיר את IWO10009 או את EXIT_SAPLCOIH_009 בכותרת או בסניפט. שם ההרחבה מאומת מעמודי הרשימה של ספריית SAP 4.6C ב-help.sap.com (אנגלית וגרמנית) בלבד, ומשפחת ה-Customer Exits של הזמנת התחזוקה (IWO10011, IWO10015, IWO10016, IWO10029) מתועדת במדריך Orders של S/4HANA 2025 FPS01. לכן לא נכתב מעמד S/4HANA רשמי לרשומה זו: המעמד הנגזר לפי המיפוי של בלוק ECC מול S/4HANA ברשומת המאגר הוא 'משתנה ב-S/4HANA' (קיימת הערת שינוי). WORKORDER_UPDATE מתועד ב-What's New 2023 כ-BAdI לעיבוד או לחסימת שינויים בהזמנות, אך אף עמוד רשמי אינו קובע שהוא מחליף את IWO10009, ולכן לא הוגדר יורש ולא נלקחו שמות מתודות. עמוד Logistics‏ 'Enterprise Asset Management Part 4'‏ (loio 3346ac67364447a3ba2f4efa65b8c014, 2025.001) מתאר 'Customer enhancements converted to BAdIs' עבור IMRC0001 עד IMRC0003 (נקודות מדידה); הסניפט הגלוי אינו כולל את IWO10009 וגוף העמוד אינו נקרא. אימות של הרכיב EXIT_SAPLCOIH_009 ושל הפעלתו בשמירה דורש בדיקה ב-SMOD ו-CMOD במערכת S/4HANA חיה.",
+    lastVerifiedAt: DATE24,
+    notes: "היסטוריה (2026-09-02 → 2026-09-24). ממצא קודם (2026-09-02): חיפוש בשירות החיפוש הרשמי של SAP Help (scripts/sap-help-search.mjs, המוצרים SAP_S4HANA_ON-PREMISE ו-SAP_ERP) לא החזיר עמוד שמזכיר את IWO10009 או את EXIT_SAPLCOIH_009 בכותרת או בסניפט. לא נכתב מעמד S/4HANA מאומת: המעמד הנגזר לפי המיפוי של בלוק ECC מול S/4HANA ברשומת המאגר (data/exits.ts) היה 'משתנה ב-S/4HANA' (קיימת הערת שינוי), והוא נשאר ברובד המאגר. עמוד Logistics 'Enterprise Asset Management Part 4'‏ (loio 3346ac67364447a3ba2f4efa65b8c014, 2025.001) תואר לפי הסניפט כ-'Customer enhancements converted to BAdIs' עבור IMRC0001 עד IMRC0003 (נקודות מדידה); הסניפט לא כלל את IWO10009 וגוף העמוד לא נקרא. רשומת What's New 2023 צוטטה אז לפי הסניפט בלבד, עם הערה שאינה מונה שמות מתודות. חדש (2026-09-24): גוף העמוד של What's New 2023 נקרא דרך scripts/sap-help-body.mjs ומציין את CO_SPLIT_COMPONENT_POST_GI ואת COMP_RQMT_DATE_TIME_SET, ולכן ההערה הקודמת תוקנה בראיה המתאימה; נוספה ראיה נפרדת לעמוד What's New 2022 SPS03 (loio 86956eb2f92146db85b12838f4affeb8, 2022.003), שגם גופו נקרא. חיפושים שבוצעו ב-2026-09-24: 'IWO10009' (SAP_S4HANA_ON-PREMISE, 8 תוצאות בהרצת החוקר ו-9 בהרצה החוזרת של המבקר באותו יום: שלוש מ-Orders (CS-SE/PM-WOC-MO) 2025.001 שהסניפטים שלהן מזכירים את IWO10015, IWO10016, IWO10029 ו-IWO10011, והיתר ללא סניפט מתחומים אחרים); 'WORKORDER_UPDATE BAdI order changes' (SAP_S4HANA_ON-PREMISE, 21 תוצאות); 'maintenance order customer check saving exit' (SAP_ERP, 21 תוצאות); 'customer exits classic extensibility restriction' (SAP_S4HANA_CLOUD, 21 תוצאות); 'extensibility classic customer exits SAP GUI' (SAP_S4HANA_ON-PREMISE, 21 תוצאות). אף תוצאה אינה נוקבת ב-IWO10009 או ב-EXIT_SAPLCOIH_009 בכותרת או בסניפט, ואף תוצאה אינה קובעת ש-WORKORDER_UPDATE מחליף את IWO10009. עמודי WORKORDER_UPDATE שנבדקו: What's New 2023 ו-What's New 2022 SPS03 (גוף נקרא, PP-SFC-EXE), 'Check Production Order Release' (Production Engineering and Operations for Complex Assembly, loio 356578be84de41f2b78b1f36a98b0615, 2025.001, סניפט בלבד: יישום WORKORDER_UPDATE דרך SE18), וכן 'Check Projects for Parameter Effectivity' ו-'Check the Sequence of Network Activities' (אותו מדריך, 2025.001, סניפט: בדיקת autyp '20' לרשת). עמודי What's New שנבדקו משויכים ל-PP-SFC-EXE ולפריט ההיקף BJ5, ועמודי Complex Assembly לרשת פרויקט (autyp '20') או לשחרור הזמנת ייצור; אף אחד מהם אינו מזכיר הזמנת תחזוקה או את IWO10009 בכותרת, בסניפט או בגוף שנקרא. יתר תוצאות WORKORDER_UPDATE באותו חיפוש (למשל 'Order Split' ב-What's New 2023, 'BAdI Implementations for Online Check', עמוד Field Logistics ב-2023.003, 'Individual Object List' ב-Production Orders (PP-SFC)) נקראו ברמת הסניפט בלבד ואינן נוקבות ב-IWO10009. באותו חיפוש הופיעה גם 'BAdI: Evaluation of Maintenance Order Data Including Buffer' (What's New 2023 FPS02, loio 6bf41002c3dc4701aa525d0de9094417, 2023.002); הסניפט שלה עוסק בנתוני הזמנת תחזוקה אך אינו נוקב ב-WORKORDER_UPDATE או ב-IWO10009, וגוף העמוד לא נקרא. עמוד 'Enterprise Asset Management Part 4' הופיע בחיפוש זה עם סניפט על BAPI_ALM_ORDER_MAINTAIN ו-BAPI_ALM_ORDER_GET_DETAIL, ללא IWO10009; גוף העמוד לא נקרא. שם ההרחבה מאומת מעמודי הרשימה של ספריית SAP 4.6C, אנגלית וגרמנית (נקראו ב-2026-09-02); חמשת החיפושים של 2026-09-24 לא החזירו עמוד נוסף הנוקב ב-IWO10009, ומשפחת ה-Customer Exits של הזמנת התחזוקה מתועדת בסניפטים של Orders (CS-SE/PM-WOC-MO) 2025.001; סניפט 'Use of User Data' נקרא שוב ב-2026-09-24 והסניפט שלו זהה לציטוט הקודם. לכן לא נכתב authored status ולא הוגדר יורש; הקביעה ש-WORKORDER_UPDATE היא חלופת Clean Core ל-IWO10009 נשארת ברובד המאגר (data/exits.ts). לא בוצעה בדיקה במערכת SAP חיה: קיום EXIT_SAPLCOIH_009 ב-SMOD/CMOD והפעלתו בשמירת הזמנת תחזוקה דורשים אימות במערכת.",
   },
   {
     id: "enh:exit:IWO10012",
@@ -2081,18 +2105,26 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         + "ל-ECC: לא נמצאו פריט פישוט, הערת הסרה או הכרזת יורש לטכניקה כולה, ומנגד עמוד ה-Customer Exits עצמו "
         + "מציג הגירה ל-Business Add-Ins ככיוון. הסטטוס הנגזר שהאפליקציה מציגה כיום, 'משתנה ב-S/4HANA', נשען על "
         + "שורת המאגר 'נתמך; מועדף BAdI.' (data/enhancements.ts#customer-exit) שאין לה מקור רשמי, ולכן נרשם כאן "
-        + "סטטוס לאימות במקומו.",
+        + "סטטוס לאימות במקומו."
+        + " לגבי SAP S/4HANA Cloud Public Edition: עמוד ה-Extensibility הרשמי (גרסה 2608.500) מונה שלוש אפשרויות "
+        + "הרחבה, Key User Extensibility, Developer Extensibility דרך ה-ABAP Environment ו-Side-by-Side "
+        + "Extensibility דרך SAP BTP, והמונחים Customer Exit, SMOD ו-CMOD אינם מופיעים בטקסט גוף העמוד שנקרא "
+        + "(התרשים האינטראקטיבי שבעמוד לא נקרא); זהו ממצא על עמוד אחד ושלוש שאילתות חיפוש, לא קביעת אי-זמינות. מעמד "
+        + "הטכניקה ב-SAP S/4HANA Cloud Private Edition לא נבדק בנפרד.",
       edition: "on-premise",
       release: null,
       source: null,
       recommendedAction: "בהיקף מיגרציה: לאתר את פרויקטי ה-CMOD הפעילים ואת מודולי ה-EXIT_ שהם מפעילים (CMOD לפרויקטים, SMOD "
-        + "לתיעוד ההרחבה) ולהריץ עליהם Custom Code Migration/ATC לפני ההמרה. לכל הרחבה קיימת לבדוק בתיעוד "
-        + "היישום הספציפי בגרסת היעד אם SAP מספקת BAdI מקביל, ולהעדיף אותו: בתחזוקת מפעל, עמוד פונקציית העסק "
-        + "LOG_EAM_CI_4 שברשומת הראיה החמישית קובע שהרחבות לקוח מסוימות הומרו ל-BAdIs, ומצמיד ל-IMRC0001 את "
-        + "'BAdI: Filling of Customer Fields for Measuring Points and ... Documents'. לפיתוח חדש להעדיף "
-        + "Business Add-Ins דרך SE18/SE19 ואת הרחבת ה-Key User; ראו ברשומות enh:technique:new-badi "
-        + "ו-enh:technique:key-user-extensibility בקטלוג זה, הנושאות ראיות משלהן. אין להסיק מרשומה זו שהרחבת "
-        + "לקוח קיימת הוסרה או נפסלה; מעמדה במערכת היעד נבדק בתיעוד ההרחבה ב-SMOD ובכלי התאמת השינויים שלאחר "
+        + "לתיעוד ההרחבה) ולהריץ עליהם Custom Code Migration/ATC לפני ההמרה. לכל הרחבה קיימת לבדוק בתיעוד היישום "
+        + "הספציפי בגרסת היעד אם SAP מספקת BAdI מקביל, ולהעדיף אותו: בתחזוקת מפעל, עמוד פונקציית העסק LOG_EAM_CI_4 "
+        + "שברשומת הראיה החמישית קובע שהרחבות לקוח מסוימות הומרו ל-BAdIs, ומצמיד ל-IMRC0001 את 'BAdI: Filling of "
+        + "Customer Fields for Measuring Points and ... Documents'. לפיתוח חדש להעדיף Business Add-Ins דרך "
+        + "SE18/SE19 ואת הרחבת ה-Key User; ראו ברשומות enh:technique:new-badi "
+        + "ו-enh:technique:key-user-extensibility בקטלוג זה, הנושאות ראיות משלהן. בסביבת SAP S/4HANA Cloud Public "
+        + "Edition, עמוד ה-Extensibility שצוטט כאן מתאר את מסלולי ההרחבה Key User Extensibility, Developer "
+        + "Extensibility ו-Side-by-Side Extensibility ואינו מזכיר את CMOD או SMOD בטקסט שנקרא ממנו; לפני תכנון "
+        + "הרחבה על בסיס Customer Exit בסביבה זו יש לאמת את זמינותה בתיעוד היישום הספציפי. אין להסיק מרשומה זו "
+        + "שהרחבת לקוח קיימת הוסרה או נפסלה; מעמדה במערכת היעד נבדק בתיעוד ההרחבה ב-SMOD ובכלי התאמת השינויים שלאחר "
         + "השדרוג (SPAU).",
     },
     evidence: [
@@ -2190,6 +2222,26 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
           + "ב-S/4HANA. גוף העמוד לא נקרא.",
         verificationLevel: "sap_official_verified",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Extensibility | Extend and Integrate Your SAP S/4HANA Cloud Public Edition",
+        url: "https://help.sap.com/docs/SAP_S4HANA_CLOUD/0f69f8fb28ac4bf48d2b57b9637e81fa/533228e1e854433ab16d013f161ca509.html?locale=en-US&state=PRODUCTION&version=2608.500",
+        product: "SAP S/4HANA Cloud Public Edition",
+        edition: "public-cloud",
+        release: "2608.500",
+        accessedAt: DATE24,
+        claim: "רשומת שירות החיפוש הרשמית למוצר SAP S/4HANA Cloud Public Edition (deliverable 'Extend and Integrate Your "
+          + "SAP S/4HANA Cloud Public Edition', versionId 2608.500, loio 533228e1e854433ab16d013f161ca509, כותרת "
+          + "'Extensibility'); טקסט גוף העמוד נקרא דרך scripts/sap-help-body.mjs (התרשים האינטראקטיבי שבעמוד לא "
+          + "נקרא): 'Extensibility in SAP S/4HANA Cloud Public Edition consists of the following options: Key User "
+          + "Extensibility through built-in capabilities Developer Extensibility through the SAP S/4HANA Cloud ABAP "
+          + "Environment Side-by-Side Extensibility through SAP BTP'. בטבלת ההשוואה שבעמוד, שורת 'Released object "
+          + "types' מונה: 'BAdIs, CDS views BAdIs, classes, interfaces, CDS views, behavior definitions, "
+          + "authorization objects BAPIs, IDocs, OData APIs, SOAP APIs, events'. המונחים Customer Exit, SMOD ו-CMOD "
+          + "אינם מופיעים בטקסט גוף העמוד שנקרא; זהו ממצא על עמוד זה ואינו קובע את מעמד הטכניקה ב-SAP S/4HANA Cloud "
+          + "Public Edition.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     xrefs: [
       "enh:technique:user-exit",
@@ -2206,38 +2258,55 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "tx:SE19",
       "tx:IK11",
     ],
-    lastVerifiedAt: DATE21,
-    notes: "שיטה: תשע שאילתות ב-scripts/sap-help-search.mjs תחת המוצר SAP_S4HANA_ON-PREMISE, וחיפוש רשת אחד "
-      + "מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap. מה שאומת: "
-      + "קיומה והגדרתה של הטכניקה בערכת התיעוד של S/4HANA On-Premise, שמות נושאי המשנה (ובהם 'Exit Types'), "
-      + "כיוון ההגירה ל-Business Add-Ins, הימצאות הרחבות לקוח פעילות בתיעוד 2025 FPS01 בתחזוקת מפעל ובתעשיות "
-      + "תהליכיות, והמרתן של הרחבות תחזוקת מפעל מסוימות ל-BAdIs במסגרת פונקציית העסק LOG_EAM_CI_4. רשומות "
-      + "רשמיות נוספות שנראו ולא צוטטו כראיה: 'Use of User Data' (Orders CS-SE/PM-WOC-MO, 2025.001, loio "
-      + "50c7b65334e6b54ce10000000a174cb4) שאומר 'You can use customer exit IWO10016 to run your own checks "
-      + "for the user data fields'; ההרחבה IWO10016 אינה קיימת בקטלוג ההרחבות של הפרויקט (data/exits.ts) ולכן "
-      + "לא נרשם אליה xref. 'Including Customer-Specific Screens on Tab Pages' (2025.001, loio "
-      + "b0d8c353b677b44ce10000000a174cb4) המורה להציג את רכיבי הרחבת הלקוח WTY00002 דרך SMOD ולהפעיל את "
-      + "הפרויקט. 'Customer Exit MILLOC01' (Production Orders PP-SFC, 2025.001, loio "
-      + "c5cec353b677b44ce10000000a174cb4): 'Before you can use the customer exit, you must create a customer "
-      + "project in transaction CMOD'. שתי רשומות Workflow בגרסת 2025.001 המצמידות מודולי Function Exit "
-      + "להרחבות PP המוכרות לפרויקט (EXIT_SAPLCORF_105 ל-CONFPP05, loio cc6cb6531de6b64ce10000000a174cb4; "
-      + "EXIT_SAPLCOBT_001 ל-PPCO0001, loio c66cb6531de6b64ce10000000a174cb4). 'Comparison of Classic BAdIs "
-      + "with Previous Techniques' (RE-FX, 2025.001, loio eb3e7ceb940e11d295df0000e82de14a) המונה את חסרונות "
-      + "SMOD/CMOD ('This enhancement technique assumes a two-tiered system infrastructure'), ו-'Classic "
-      + "BAdIs' (RE-FX, 2025.001, loio e6d54d3c596f0b26e10000000a11402f). מה שלא אומת: רשימת סוגי ה-Exit "
-      + "המלאה (Function, Screen, Menu, Field, Documentation) בגוף עמוד 'Exit Types', שלא נקרא; מעמד הטכניקה "
-      + "ב-SAP S/4HANA Cloud Public Edition (לא הורצה שאילתה תחת אותו מוצר); קיומו או היעדרו של פריט פישוט "
-      + "ייעודי (Simplification Item Catalog דורש התחברות S-user לפי MANIFEST); וכל בדיקה במערכת SAP חיה "
-      + "(חיבור ה-MCP ל-ABAP לא היה זמין בסשן זה, ולכן CMOD, SMOD ו-SPAU לא נבדקו). הסתייגות גרסה: ערכת "
-      + "התיעוד 'Changing the SAP Standard (BC)', שהיא המקור הרשמי היחיד שנמצא להגדרת הטכניקה עצמה, מופיעה "
-      + "בשירות החיפוש רק תחת versionId 1709.latest של המוצר SAP S/4HANA On-Premise; בשאילתות שהורצו לא "
-      + "הוחזרה גרסה חדשה יותר שלה, וזה ממצא תחום בשאילתות ולא קביעה שהעמוד הוסר מגרסאות מאוחרות. ליד שלא "
-      + "צוטט: חיפוש הרשת החזיר את עמוד ABAP Keyword Documentation 7.51 בהקשר CALL CUSTOMER-FUNCTION, ומנוע "
-      + "החיפוש סיכם ממנו שהפעלת הרחבות דרך CMOD 'obsolete'; העמוד עצמו לא נקרא, הוא תיעוד שפת ABAP ואינו "
-      + "מתפרסם תחת מוצר S/4HANA עם edition, ולכן אינו ראיה כאן. הערת כתיבה: בעת כתיבת הרשומה נבדק מחדש שם "
-      + "ה-BAdI שבראיה החמישית, והסניפט מחזיר אותו ארוך יותר מן הצורה שצוינה בביקורת ('Measuring Points and "
-      + "... Documents' ולא 'Measuring Po'), ולכן נכתבה כאן הצורה הארוכה שנמדדה בפועל. מוסכמה: הרשומה אינה "
-      + "נושאת שדה reviewer, כמו כל תשעת קבצי data/verification/**.",
+    lastVerifiedAt: DATE24,
+    notes: "שיטה (סבב 2026-09-21): תשע שאילתות ב-scripts/sap-help-search.mjs תחת המוצר SAP_S4HANA_ON-PREMISE, וחיפוש "
+      + "רשת אחד מוגבל ל-help.sap.com, api.sap.com, fioriappslibrary.hana.ondemand.com ו-fal.cloud.sap. שיטה (סבב "
+      + "2026-09-24): שלוש שאילתות ב-scripts/sap-help-search.mjs תחת המוצר SAP_S4HANA_CLOUD ('developer "
+      + "extensibility classic enhancement techniques not released', 'extensibility model key user developer "
+      + "side-by-side SAP S/4HANA Cloud', 'SMOD CMOD classic customer exit not available Cloud'; 21 רשומות לכל "
+      + "אחת), וטקסט הגוף של עמוד 'Extensibility' (loio 533228e1e854433ab16d013f161ca509) נקרא דרך "
+      + "scripts/sap-help-body.mjs; התרשים האינטראקטיבי שבעמוד לא נקרא. שאילתת ביקורת 'Customer Exits' תחת אותו "
+      + "מוצר החזירה 21 רשומות: עשר מהן מ-deliverable 'Integration with SAP Field Service and Asset Management', "
+      + "שבהן המונח 'customer exit' מתאר נקודות הרחבה של תרשימי אינטגרציה ולא את טכניקת SMOD/CMOD, והיתר רשומות "
+      + "שכותרותיהן אינן עוסקות בטכניקה (Receivables Management, India, South Korea, Australia, New Zealand, "
+      + "Master Data); אף אחת לא צוטטה כראיה. הרשומה 'Handle Your Extensions' (Manage Your SAP S/4HANA Cloud "
+      + "Public Edition, 2608.500, loio be44d6b8f0944c0c81107e34e7232fff) נקראה בגוף: היא מתארת אפליקציה של שירות "
+      + "test data refresh, והמשפט 'SAP differentiates between two extensibility options' וההערה 'Side-by-Side "
+      + "Extensibility through SAP BTP is not supported' חלים בהקשר אותה אפליקציה; לכן לא צוטטה כראיה לטכניקה. מה "
+      + "שאומת: קיומה והגדרתה של הטכניקה בערכת התיעוד של S/4HANA On-Premise, שמות נושאי המשנה (ובהם 'Exit "
+      + "Types'), כיוון ההגירה ל-Business Add-Ins, הימצאות הרחבות לקוח פעילות בתיעוד 2025 FPS01 בתחזוקת מפעל "
+      + "ובתעשיות תהליכיות, והמרתן של הרחבות תחזוקת מפעל מסוימות ל-BAdIs במסגרת פונקציית העסק LOG_EAM_CI_4; ובסבב "
+      + "2026-09-24: עמוד ה-Extensibility של SAP S/4HANA Cloud Public Edition (2608.500) מונה שלוש אפשרויות הרחבה "
+      + "(Key User, Developer, Side-by-Side), והמונחים Customer Exit, SMOD ו-CMOD אינם מופיעים בטקסט גוף העמוד "
+      + "שנקרא; זהו ממצא על עמוד אחד ושלוש שאילתות ולא קביעת אי-זמינות, ולכן לא נכתב סטטוס נגזר ל-Public Cloud. "
+      + "רשומות רשמיות נוספות שנראו ולא צוטטו כראיה: 'Use of User Data' (Orders CS-SE/PM-WOC-MO, 2025.001, loio "
+      + "50c7b65334e6b54ce10000000a174cb4) שאומר 'You can use customer exit IWO10016 to run your own checks for "
+      + "the user data fields'; ההרחבה IWO10016 אינה קיימת בקטלוג ההרחבות של הפרויקט (data/exits.ts) ולכן לא נרשם "
+      + "אליה xref. 'Including Customer-Specific Screens on Tab Pages' (2025.001, loio "
+      + "b0d8c353b677b44ce10000000a174cb4) המורה להציג את רכיבי הרחבת הלקוח WTY00002 דרך SMOD ולהפעיל את הפרויקט. "
+      + "'Customer Exit MILLOC01' (Production Orders PP-SFC, 2025.001, loio c5cec353b677b44ce10000000a174cb4): "
+      + "'Before you can use the customer exit, you must create a customer project in transaction CMOD'. שתי "
+      + "רשומות Workflow בגרסת 2025.001 המצמידות מודולי Function Exit להרחבות PP המוכרות לפרויקט "
+      + "(EXIT_SAPLCORF_105 ל-CONFPP05, loio cc6cb6531de6b64ce10000000a174cb4; EXIT_SAPLCOBT_001 ל-PPCO0001, loio "
+      + "c66cb6531de6b64ce10000000a174cb4). 'Comparison of Classic BAdIs with Previous Techniques' (RE-FX, "
+      + "2025.001, loio eb3e7ceb940e11d295df0000e82de14a) המונה את חסרונות SMOD/CMOD ('This enhancement technique "
+      + "assumes a two-tiered system infrastructure'), ו-'Classic BAdIs' (RE-FX, 2025.001, loio "
+      + "e6d54d3c596f0b26e10000000a11402f). מה שלא אומת: רשימת סוגי ה-Exit המלאה (Function, Screen, Menu, Field, "
+      + "Documentation) בגוף עמוד 'Exit Types', שלא נקרא; מעמד הטכניקה ב-SAP S/4HANA Cloud Public Edition (Old: "
+      + "'לא הורצה שאילתה תחת אותו מוצר' → New: שלוש שאילתות וגוף עמוד אחד, ללא אזכור הטכניקה וללא קביעה רשמית); "
+      + "מעמד הטכניקה ב-SAP S/4HANA Cloud Private Edition (לפי הערת scripts/sap-help-search.mjs אין מזהה מוצר "
+      + "נפרד ל-Private Edition בשירות החיפוש, ולא נבדק בנפרד); קיומו או היעדרו של פריט פישוט ייעודי "
+      + "(Simplification Item Catalog דורש התחברות S-user לפי MANIFEST); וכל בדיקה במערכת SAP חיה (חיבור ה-MCP "
+      + "ל-ABAP לא היה זמין, ולכן CMOD, SMOD ו-SPAU לא נבדקו לא ב-On-Premise ולא ב-Cloud). הסתייגות גרסה: ערכת "
+      + "התיעוד 'Changing the SAP Standard (BC)', שהיא המקור הרשמי היחיד שנמצא להגדרת הטכניקה עצמה, מופיעה בשירות "
+      + "החיפוש רק תחת versionId 1709.latest של המוצר SAP S/4HANA On-Premise; בשאילתות שהורצו לא הוחזרה גרסה חדשה "
+      + "יותר שלה, וזה ממצא תחום בשאילתות ולא קביעה שהעמוד הוסר מגרסאות מאוחרות. ליד שלא צוטט: חיפוש הרשת החזיר "
+      + "את עמוד ABAP Keyword Documentation 7.51 בהקשר CALL CUSTOMER-FUNCTION, ומנוע החיפוש סיכם ממנו שהפעלת "
+      + "הרחבות דרך CMOD 'obsolete'; העמוד עצמו לא נקרא, הוא תיעוד שפת ABAP ואינו מתפרסם תחת מוצר S/4HANA עם "
+      + "edition, ולכן אינו ראיה כאן. הערת כתיבה: בעת כתיבת הרשומה נבדק מחדש שם ה-BAdI שבראיה החמישית, והסניפט "
+      + "מחזיר אותו ארוך יותר מן הצורה שצוינה בביקורת ('Measuring Points and ... Documents' ולא 'Measuring Po'), "
+      + "ולכן נכתבה כאן הצורה הארוכה שנמדדה בפועל. מוסכמה: הרשומה אינה נושאת שדה reviewer, כמו כל תשעת קבצי "
+      + "data/verification/**.",
   },
   {
     id: "enh:technique:classic-badi",
@@ -2676,7 +2745,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         + "הרחבות לקוח שהוטמעו בנקודות שהגדירה SAP 'can be made ineffective', והתיעוד ממליץ בתוקף שלא להשתמש "
         + "בנקודות ENHANCEMENT-POINT ו-ENHANCEMENT-SECTION שסיפקה SAP להרחבות לקוח, ומציע במקומן BAdI או נקודות "
         + "הרחבה משתמעות. ההגבלה נוסחה בתיעוד לגבי נקודות שסיפקה SAP; הסניפטים אינם אומרים דבר על נקודות הרחבה "
-        + "מפורשות שהלקוח מגדיר בתוכניות שלו.",
+        + "מפורשות שהלקוח מגדיר בתוכניות שלו."
+        + " עבור SAP S/4HANA Cloud Public Edition לא נמצא עמוד רשמי הנוקב בטכניקה זו; ראו הערות.",
       edition: "on-premise",
       release: "2025.001",
       source: {
@@ -2702,10 +2772,12 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       },
       recommendedAction: "לפני הטמעת לוגיקה בנקודת הרחבה מפורשת שסיפקה SAP בתחזוקת מפעל או בתעשיות תהליכיות, לבחון תחילה את "
         + "החלופות שהתיעוד עצמו מונה: BAdI או נקודת הרחבה משתמעת לאותו תהליך. עמוד Business Function של S/4HANA "
-        + "2025 FPS01 ממליץ שלא להשתמש בנקודות שסיפקה SAP להרחבות לקוח. הרחבות קיימות בנקודות כאלה יש לתעד "
-        + "ולבדוק מחדש אחרי כל שדרוג או Support Package, מכיוון שאותו תיעוד אינו מתחייב ליציבות הנקודות בקוד "
-        + "המקור ומציין שהרחבה כזו עלולה לאבד תוקף. איתור הנקודות הקיימות והמימושים שלהן (SE80, SE19) והשפעת "
-        + "מתגי Business Function על ההרחבה דורשים בדיקה במערכת S/4HANA.",
+        + "2025 FPS01 ממליץ שלא להשתמש בנקודות שסיפקה SAP להרחבות לקוח. הרחבות קיימות בנקודות כאלה יש לתעד ולבדוק "
+        + "מחדש אחרי כל שדרוג או Support Package, מכיוון שאותו תיעוד אינו מתחייב ליציבות הנקודות בקוד המקור ומציין "
+        + "שהרחבה כזו עלולה לאבד תוקף. איתור הנקודות הקיימות והמימושים שלהן (SE80, SE19) והשפעת מתגי Business "
+        + "Function על ההרחבה דורשים בדיקה במערכת S/4HANA On-Premise. ב-SAP S/4HANA Cloud Public Edition, לבחון "
+        + "תחילה את Key User Extensibility ואת Developer Extensibility ב-SAP S/4HANA Cloud ABAP Environment, שתי "
+        + "אפשרויות ההרחבה שעמוד Handle Your Extensions מונה; זמינות נקודת הרחבה מפורשת שם לא אומתה.",
     },
     evidence: [
       {
@@ -2799,6 +2871,23 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "conflicting_sources",
         repoRef: "data/enhancements.ts#explicit-enhancement",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Handle Your Extensions | Manage Your SAP S/4HANA Cloud Public Edition",
+        url: "https://help.sap.com/docs/SAP_S4HANA_CLOUD/a630d57fc5004c6383e7a81efee7a8bb/be44d6b8f0944c0c81107e34e7232fff.html?locale=en-US&state=PRODUCTION&version=2608.500",
+        product: "SAP S/4HANA Cloud Public Edition",
+        edition: "public-cloud",
+        release: "2608.500",
+        accessedAt: DATE24,
+        claim: "עמוד Handle Your Extensions (loio be44d6b8f0944c0c81107e34e7232fff, 2608 Latest) מתעד את האפליקציה "
+          + "Handle Your Extensions של שירות test data refresh ב-SAP S/4HANA Cloud Public Edition. בגוף העמוד (נקרא "
+          + "דרך scripts/sap-help-body.mjs) נכתב: 'SAP differentiates between two extensibility options in SAP "
+          + "S/4HANA Cloud: Key User Extensibility through built-in capabilities' ו-'Developer Extensibility through "
+          + "the SAP S/4HANA Cloud ABAP Environment', ובהערה: 'Side-by-Side Extensibility through SAP BTP is not "
+          + "supported'. העמוד אינו נוקב ב-ENHANCEMENT-POINT או ב-ENHANCEMENT-SECTION, ואינו קובע אם הטכניקה זמינה או "
+          + "חסומה ב-Public Cloud.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     xrefs: [
       "enh:technique:implicit-enhancement",
@@ -2811,7 +2900,7 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "tx:SE20",
       "tx:SE18",
     ],
-    lastVerifiedAt: DATE21,
+    lastVerifiedAt: DATE24,
     notes: "מה נבדק בפועל (2026-09-21): שאילתות בשירות החיפוש הרשמי של SAP Help דרך scripts/sap-help-search.mjs "
       + "בשני המוצרים ABAP_PLATFORM_NEW ו-SAP_S4HANA_ON-PREMISE, וחיפוש רשת מוגבל לדומיינים המותרים. המוצר "
       + "ABAP_PLATFORM_NEW הוא זה שמחזיק את מדריך Enhancement Framework; המוצר SAP_S4HANA_ON-PREMISE אינו "
@@ -2843,7 +2932,16 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       + "אינו ריק) ברמת 'נדרש אימות נוסף'; הסטטוס המחובר כאן הוא 'מוגבל ב-S/4HANA', ורמת האימות של הרשומה "
       + "תיקרא 'מקורות סותרים' בגלל שורת המאגר, לפי אותה מוסכמה שננקטה באצווה 2 של קטלוג זה. ה-MCP ל-ABAP לא "
       + "היה זמין בהרצה זו ולא בוצעה בדיקה במערכת SAP חיה; איתור נקודות ההרחבה המפורשות הקיימות בתוכניות PM "
-      + "ו-PP-PI, מימושיהן ומצב המתגים שלהן דורש בדיקה ב-SE80 וב-SE19 במערכת.",
+      + "ו-PP-PI, מימושיהן ומצב המתגים שלהן דורש בדיקה ב-SE80 וב-SE19 במערכת."
+      + " סבב 2026-09-24: ארבע שאילתות ב-scripts/sap-help-search.mjs במוצר SAP_S4HANA_CLOUD ('explicit "
+      + "enhancement options', 'extensibility model classic ABAP customer exit', 'in-app extensibility key user', "
+      + "'classic extensibility not supported SAP S/4HANA Cloud'). כל אחת החזירה 21 רשומות בעמוד התוצאות של "
+      + "הסקריפט, ואף רשומה אינה נוקבת בכותרת או בסניפט ב-ENHANCEMENT-POINT או ב-ENHANCEMENT-SECTION (החיפוש חזר "
+      + "ונספר ב-2026-09-24). גוף העמוד Handle Your Extensions (Manage Your SAP S/4HANA Cloud Public Edition, "
+      + "loio be44d6b8f0944c0c81107e34e7232fff, versionId 2608.500, deliverable 41170528) נקרא דרך "
+      + "scripts/sap-help-body.mjs: זהו עמוד אפליקציה של שירות test data refresh, והמשפט על שתי אפשרויות ההרחבה "
+      + "מופיע בו כרקע. היעדר אזכור של הטכניקה בעמוד זה הוא ממצא שלילי מתועד ולא הכרעה על זמינות, ולכן המעמד "
+      + "המחובר נשאר מעוגן ב-On-Premise 2025.001. Private Cloud לא נבדק בנפרד בסבב זה, ולא בוצעה בדיקה במערכת חיה.",
   },
   {
     id: "enh:technique:implicit-enhancement",
@@ -3040,13 +3138,15 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       status: "verification_required",
       he: "טכניקת הרחבה ותיקה ברמת שדה קלט במסך dynpro. המקור הרשמי היחיד שנמצא ומתעד את הטכניקה עצמה הוא העמוד "
         + "'Field exits' באוסף Support Content של help.sap.com, והוא קובע שהטכנולוגיה מושבתת כברירת מחדל מאז "
-        + "NetWeaver 6.10 ומיושנת מאז SAP Basis 4.6a. אותו עמוד אינו משויך למערך תיעוד של מוצר S/4HANA ואינו "
-        + "נושא גרסת S/4HANA. בשאילתות שנבדקו בשירות החיפוש הרשמי תחת המוצר SAP S/4HANA On-Premise, אף אחת "
-        + "מהרשומות שהוחזרו (עד 21 לשאילתה) אינה מזכירה field exit בכותרת או בסניפט, וזהו ממצא תחום של חיפוש "
-        + "ולא הוכחת היעדר. בתיעוד ABAP platform לגרסת 2025 FPS01 הטכניקה נזכרת בשני עמודי כלים בלבד (מגבלת מצב "
-        + "דיבוג בדיבאגר, ותכונת שדה בכלי Screen Analysis) ללא הגדרה, ללא אופן מימוש וללא קביעת מעמד. לכן מעמד "
-        + "הטכניקה ב-S/4HANA, כלומר זמינות, תמיכה והמלצה, אינו נקבע ברשומה זו ודורש אימות במערכת היעד ובמקור "
-        + "רשמי ייעודי.",
+        + "NetWeaver 6.10 ומיושנת מאז SAP Basis 4.6a. אותו עמוד אינו משויך למערך תיעוד של מוצר S/4HANA ואינו נושא "
+        + "גרסת S/4HANA. בשאילתות שנבדקו בשירות החיפוש הרשמי תחת המוצר SAP S/4HANA On-Premise, אף אחת מהרשומות "
+        + "שהוחזרו (עד 21 לשאילתה) אינה מזכירה field exit בכותרת או בסניפט, וזהו ממצא תחום של חיפוש ולא הוכחת "
+        + "היעדר. ב-2026-09-24 חיפושים חוזרים תחת SAP S/4HANA On-Premise (כולל שאילתות ממוקדות ל-ABAP Cloud ולהרחבת "
+        + "משתמש מפתח) ותחת SAP S/4HANA Cloud Public Edition (השאילתה field exit) לא החזירו, בין 21 הרשומות לכל "
+        + "שאילתה, אף רשומה שמזכירה field exit בכותרת או בסניפט. בתיעוד ABAP platform לגרסת 2025 FPS01 הטכניקה "
+        + "נזכרת בשני עמודי כלים בלבד (מגבלת מצב דיבוג בדיבאגר, ותכונת שדה בכלי Screen Analysis) ללא הגדרה, ללא "
+        + "אופן מימוש וללא קביעת מעמד. לכן מעמד הטכניקה ב-S/4HANA, כלומר זמינות, תמיכה והמלצה, אינו נקבע ברשומה זו "
+        + "ודורש אימות במערכת היעד ובמקור רשמי ייעודי.",
       edition: "on-premise",
       release: null,
       source: null,
@@ -3069,7 +3169,7 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         product: "Support Content",
         edition: "on-premise",
         release: "1.0 (אוסף Support Content, deliverable ABAP Development)",
-        accessedAt: DATE21,
+        accessedAt: DATE24,
         claim: "העמוד 'Field exits' במדריך ABAP Development שבאוסף Support Content של help.sap.com (loio 3353525738, "
           + "גרסה 1.0, תאריך 2026-07-01) הוא העמוד הרשמי היחיד שנמצא ומתעד את הטכניקה. ארבעה חלונות סניפט שהוחזרו "
           + "בארבע שאילתות נפרדות: (1) 'Field exit technology is deactivated by default since NetWeaver 6.10 and "
@@ -3099,7 +3199,7 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         product: "ABAP platform",
         edition: "on-premise",
         release: "202510.001 (ABAP platform 2025 FPS01)",
-        accessedAt: DATE21,
+        accessedAt: DATE24,
         claim: "בתיעוד ABAP platform לגרסת 2025 FPS01 (versionId 202510.001, loio 4917c5f1a2e314d3e10000000a42189b, "
           + "תאריך 2026-07-27), נושא 'Layout of the User Interface' במדריך ABAP Test and Analysis Tools קובע "
           + "בסניפט: 'Debugging mode is not possible for conversion or field exits'. זו ההתייחסות היחידה ל-field "
@@ -3115,7 +3215,7 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         product: "ABAP platform",
         edition: "on-premise",
         release: "202510.001 (ABAP platform 2025 FPS01)",
-        accessedAt: DATE21,
+        accessedAt: DATE24,
         claim: "באותו מערך תיעוד ובאותה גרסה (loio 8dad1fbc3c094a77aeb0b1e46d44d1cd, תאריך 2026-07-27), נושא 'Screen "
           + "Analysis' קובע בסניפט: 'You use the Screen Analysis tool to display the current runtime "
           + "representation of screens' וכן 'Special Attr Special Attr. contains information about conversion "
@@ -3129,12 +3229,13 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         sourceTitle: "קובץ טכניקות ההרחבה של הפרויקט, רשומת field-exit",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE21,
-        claim: "רשומת הטכניקה במאגר מגדירה 'ולידציה ברמת שדה מסך (ישן מאוד) — כמעט לא בשימוש כיום', מתארת את המימוש "
-          + "כ-'הוגדר דרך CMOD/Field Exit; הוחלף ע\"י screen logic/BAdI', מסווגת ECC כ-'Legacy; נדיר' ו-S/4HANA "
-          + "כ-'מיושן — אל תשתמש; העדף BAdI/validation', רושמת את הטרנזקציה CMOD בלבד ונושאת את ההערה 'מיושן — "
-          + "נכלל לשלמות היסטורית בלבד'. כיוון הרשומה (טכנולוגיה מיושנת) תואם את העמוד הרשמי; ההיגד 'הוחלף ע\"י "
-          + "screen logic/BAdI' אינו נתמך באף מקור רשמי שנמצא ולכן נשאר ברמת המאגר.",
+        accessedAt: DATE24,
+        claim: "רשומת הטכניקה במאגר (data/enhancements.ts#field-exit) מגדירה 'ולידציה ברמת שדה מסך (ישן מאוד): כמעט לא "
+          + "בשימוש כיום', מתארת את המימוש כ-'הוגדר דרך CMOD/Field Exit; הוחלף ע\"י screen logic/BAdI', מסווגת ECC "
+          + "כ-'Legacy; נדיר' ו-S/4HANA כ-'מיושן: אל תשתמש; העדף BAdI/validation', רושמת את הטרנזקציה CMOD בלבד "
+          + "ונושאת את ההערה 'מיושן: נכלל לשלמות היסטורית בלבד' (הציטוטים מובאים בפיסוק מותאם: המקף הארוך שבמקור "
+          + "הוחלף בנקודתיים). כיוון הרשומה (טכנולוגיה מיושנת) תואם את העמוד הרשמי; ההיגד 'הוחלף ע\"י screen "
+          + "logic/BAdI' אינו נתמך באף מקור רשמי שנמצא ולכן נשאר ברמת המאגר.",
         verificationLevel: "repository_verified",
         repoRef: "data/enhancements.ts#field-exit",
       },
@@ -3150,7 +3251,7 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "tx:RZ10",
       "tx:RZ11",
     ],
-    lastVerifiedAt: DATE21,
+    lastVerifiedAt: DATE24,
     notes: "שיטה (2026-09-21): למעלה מעשרים שאילתות ב-scripts/sap-help-search.mjs על פני שישה מערכי מוצר "
       + "(SAP_S4HANA_ON-PREMISE, SAP_S4HANA_CLOUD, SAP_ERP, ABAP_PLATFORM, ABAP_PLATFORM_NEW, "
       + "SUPPORT_CONTENT) ושני חיפושי רשת מוגבלים ל-help.sap.com. מה שאומת מול המקור, כולו מעמוד אחד ('Field "
@@ -3190,7 +3291,20 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       + "הסטטוס המחובר כאן הוא verification_required כדי שלא תיטען המשכיות מ-ECC ל-S/4HANA שאין לה מקור. גוף "
       + "עמודי help.sap.com לא נקרא באף שלב (מעטפת JavaScript; curl ל-loio 3353525738 החזיר 1,160 בתים ללא "
       + "גוף, וכך גם עמוד abapdocu_latest_index_htm/abapcall_customer-function.htm), ה-MCP ל-ABAP לא היה זמין "
-      + "(Connection closed), ולא בוצעה בדיקה במערכת SAP חיה.",
+      + "(Connection closed), ולא בוצעה בדיקה במערכת SAP חיה."
+      + " עדכון 2026-09-24: הורצו שלוש שאילתות נוספות ב-scripts/sap-help-search.mjs עם size 21: 'field exit ABAP "
+      + "Cloud' ו-'field exit key user extensibility' תחת SAP_S4HANA_ON-PREMISE, ו-'field exit' תחת "
+      + "SAP_S4HANA_CLOUD (Public Edition). בשלושתן אף אחת מ-21 הרשומות שהוחזרו אינה מזכירה field exit בכותרת או "
+      + "בסניפט; זהו ממצא תחום של חיפוש ולא הוכחת היעדר. שלוש רשומות help.sap.com שבראיות חזרו באותו יום בחיפוש "
+      + "עם URL זהה: 'Field exits' (שאילתה 'field exits' תחת SUPPORT_CONTENT), 'Layout of the User Interface' "
+      + "(שאילתה 'debugging mode conversion field exits' תחת ABAP_PLATFORM_NEW) ו-'Screen Analysis' (loio "
+      + "8dad1fbc3c094a77aeb0b1e46d44d1cd, שאילתה 'Screen Analysis user field exits' תחת ABAP_PLATFORM_NEW, "
+      + "והסניפט שוב מכיל 'user field exits'); רשומת המאגר נקראה מחדש ללא שינוי בתוכן. לכן עודכן רק accessedAt, "
+      + "ותוכן הראיות נשמר; בציטוטי המאגר הוחלף המקף הארוך בנקודתיים. מזהי המוצר SAP_S4HANA_PRIVATE_CLOUD, "
+      + "SAP_S4HANA_CLOUD_PRIVATE ו-SAP_S4HANA_CLOUD_PRIVATE_EDITION החזירו 0 רשומות בסקריפט בשאילתה 'field "
+      + "exit', ולא זוהה מזהה מוצר ייעודי למהדורת Private Cloud. לא נקרא גוף עמוד ב-sap-help-body.mjs, לא הורץ "
+      + "חיפוש חדש תחת Simplification Item או RIN, והסטטוס verification_required לא השתנה. לא בוצעה בדיקה במערכת "
+      + "SAP חיה.",
   },
   {
     id: "enh:technique:bte",
@@ -3567,6 +3681,28 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
           },
         ],
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Extensibility | Extend and Integrate Your SAP S/4HANA Cloud Public Edition",
+        url: "https://help.sap.com/docs/SAP_S4HANA_CLOUD/0f69f8fb28ac4bf48d2b57b9637e81fa/533228e1e854433ab16d013f161ca509.html?locale=en-US&state=PRODUCTION&version=2608.500",
+        product: "SAP S/4HANA Cloud Public Edition",
+        edition: "public-cloud",
+        release: "2608.500",
+        accessedAt: DATE24,
+        claim: "עמוד ה-Extensibility (loio 533228e1e854433ab16d013f161ca509, גרסה 2608 Latest): טקסט גוף העמוד נקרא "
+          + "באמצעות sap-help-body.mjs (התרשים האינטראקטיבי שבעמוד לא נקרא) וקובע: 'Extensibility in SAP S/4HANA "
+          + "Cloud Public Edition consists of the following options: Key User Extensibility through built-in "
+          + "capabilities, Developer Extensibility through the SAP S/4HANA Cloud ABAP Environment, Side-by-Side "
+          + "Extensibility through SAP BTP'. הטבלה המשווה בעמוד מפרטת 'Released object types' לכל אפשרות: 'BAdIs, CDS "
+          + "views' עבור Key User Extensibility, ו-'BAdIs, classes, interfaces, CDS views, behavior definitions, "
+          + "authorization objects' עבור Developer Extensibility; Side-by-Side נשען על 'BAPIs, IDocs, OData APIs, "
+          + "SOAP APIs, events'. העמוד קובע גם ש-'SAP software updates don't depend on extensions from customers or "
+          + "partners' וש-'extensions in the SAP S/4HANA Cloud Public Edition core don't affect upgrades, they're "
+          + "upgrade-proof'. טקסט גוף העמוד שנקרא אינו נוקב במילים 'User Exit', 'Customer Exit', 'SMOD' או 'CMOD', לא "
+          + "בטבלת האובייקטים המשוחררים ולא בטקסט הרץ; זהו ממצא תחום בהיקף הטקסט שנקרא, ואינו קביעה של SAP על "
+          + "אי-זמינות הטכניקה הקלאסית ב-Public Cloud Edition.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     xrefs: [
       "enh:technique:customer-exit",
@@ -3580,7 +3716,7 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "tx:SPDD",
       "tx:SPAU",
     ],
-    lastVerifiedAt: DATE21,
+    lastVerifiedAt: DATE24,
     notes: "שיטה (2026-09-21): שאילתות חוזרות ב-scripts/sap-help-search.mjs מול המוצרים SAP_S4HANA_ON-PREMISE "
       + "ו-SAP_ERP, ובהן שאילתות מסוננות לגרסה 2025.001, חיפוש רשת אחד מוגבל ל-help.sap.com, ומסמך PDF רשמי "
       + "אחד שהורד ונסרק: 'Custom Code Migration Guide for SAP S/4HANA 2025 Feature Package Stack 01' (How-to "
@@ -3614,7 +3750,20 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       + "— Clean Core מעדיף BAdI/Extension Point' אינו נתמך במקור SAP שאותר, ולכן הסטטוס המחובר כאן שונה "
       + "ממנו. הערת קטלוג נוספת: קטלוג ההרחבות בשם אינו מכיל אף רשומה מסוג 'User Exit', ולכן דף הטכניקה מציג "
       + "אפס הרחבות בשם משויכות. הרשומה אינה נושאת שדה reviewer, בהתאם למוסכמה בכל קבצי data/verification/**. "
-      + "ה-MCP ל-ABAP לא היה זמין בסשן; בדיקת SMOD, SE38, SE18 או SPAU במערכת חיה לא בוצעה.",
+      + "ה-MCP ל-ABAP לא היה זמין בסשן; בדיקת SMOD, SE38, SE18 או SPAU במערכת חיה לא בוצעה."
+      + " עדכון (2026-09-24, העמקה, ניסיון להגיע לעומק 4): נוספו 4 חיפושים נוספים ב-scripts/sap-help-search.mjs "
+      + "('user exits S/4HANA Cloud extensibility' ללא סינון מוצר, 'classic extensibility BAdI user exit SAP "
+      + "S/4HANA Cloud Public Edition' עם --product SAP_S4HANA_CLOUD, 'SMOD CMOD user exit restricted objects "
+      + "extensibility' ו-'restricted development objects classic ABAP' עם --product SAP_S4HANA_CLOUD; בכל חיפוש "
+      + "הוחזרו 21 רשומות, ואף אחת מהן אינה נוקבת ב-User Exit, SMOD או CMOD בכותרת או בסניפט), וקריאת טקסט הגוף "
+      + "של עמוד 'Extensibility' תחת Extend and Integrate Your SAP S/4HANA Cloud Public Edition (2608 Latest) עם "
+      + "scripts/sap-help-body.mjs; התרשים האינטראקטיבי שבעמוד לא נקרא. מה שאומת: שלוש אפשרויות ההרחבה של Public "
+      + "Cloud Edition (Key User, Developer, Side-by-Side) וטיפוסי האובייקטים המשוחררים לכל אחת; הטקסט שנקרא אינו "
+      + "כולל User Exit, SMOD או CMOD ברשימה. מה שלא אומת: קביעה רשמית מפורשת לפיה הטכניקה הקלאסית חסומה, מוגבלת "
+      + "או בלתי זמינה ב-Public Cloud (העדרה מהטבלה הוא ממצא תחום, לא קביעת SAP); מעמד הטכניקה ב-Private Cloud "
+      + "Edition; וחלופת Clean Core בשם עבור Application-Specific User Exits ספציפית. לכן לא נוסף status חדש ולא "
+      + "הורחב recommendedAction; הסתירה הקיימת מול קטלוג ההרחבות בשם (repository, conflicting_sources) לא נפתרה. "
+      + "ה-MCP ל-ABAP לא היה זמין; בדיקה במערכת SAP חיה לא בוצעה גם בסבב הזה.",
   },
   {
     id: "enh:exit:CONFPP01",
