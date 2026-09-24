@@ -153,7 +153,9 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
           // ...and always open the group holding the current page, so the active
           // item can never be hidden behind a collapsed header. This also keeps
           // future groups correct without another hard-coded id.
-          : (g.id === "modules" || g.id === "library" || g.id === "knowledge"
+          // The ACC-6 bridge back into Project NEO ("neo") is open by default too:
+          // a way home hidden behind a collapsed header is not a way home.
+          : (g.id === "neo" || g.id === "modules" || g.id === "library" || g.id === "knowledge"
              || g.items.some((it) => path.startsWith(it.href)));
         return (
           <div key={g.id} className="mt-2">
