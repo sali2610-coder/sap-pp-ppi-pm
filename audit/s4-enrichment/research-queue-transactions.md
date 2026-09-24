@@ -94,6 +94,40 @@ conflict 4 → 4, s4-applicable 567 → 567; `tx:C223` L3 → L5, repository_ver
 sap_official_verified, derived 'changed' → authored 'unchanged'. The generated `tx:C223` record
 in `transactions-auto.ts` is superseded (data/verification/index.ts and the tests filter
 researched ids out of the shard). Gates: both `tsc` runs clean; `npm test` 212/212.
+Batch 8 written 2026-09-24 (access date stamped 2026-09-24): 2 audited records written
+(`tx:CM01`, `tx:CM02`, both refuted in batch 5 and re-drafted), 0 refuted. CM01 from
+`verdict.fixedRecord`; CM02 from the draft (its verdict carried no `fixedRecord`, no blocking
+problem and one optional downgrade, keep the inferential status.he wording and do not
+strengthen it, which the draft already satisfies). Status sources point at the shared
+`CM01_SIMPL_ITEM` and `CM02_SIMPL_ITEM` consts (CM01 downgrade 1; both inline copies were
+asserted identical to evidence[0] before the swap), so the stub claim '(same object as
+evidence[0]; ...)' the CM01 auditor flagged never reaches the file. CM01 downgrade 2 (the F3289
+wording that follows the item's 'shows if there are any capacity overloads ... can be used to
+change shifts and adapt capacity') was already in the fixedRecord. Writer deviations: (1)
+`reviewer: "researcher"` dropped from CM01 (house convention); (2) the CM01 recommendedAction
+cited item 9.5.4 twice by bare number: the first mention now names it ('פריט הפישוט 'S4TWL -
+Graphical Planning Table' (9.5.4)'), the second reads 'הפריט' (HOUSE-RULES §3.5, the batch-6
+CM03 precedent); (3) both notes end with the sentence that the generated record in
+`transactions-auto.ts` is superseded (the C223 form); (4) the tx:CM05 notes sentence 'tx:CM01
+עצמה טרם נכתבה בקובץ הזה ...', false after this batch, keeps its text and gains a dated update
+(Old: טרם נכתבה → New: נכתבה); no other CM05 field touched. Re-checked at write, matching the
+audited text: SIMPL_OP2025.pdf.txt item 9.5.4 (lines 43080-43180, pp. 779-780: note
+0002268050, the Gantt list, Other Terms, Exceptions, Solution, the F3289 / F3770 / F3951
+sentences); `sap-help-body` on both role-page URLs (deliverables 40374639 and 23795470,
+identical body text: SAP_PP-CAPA_PLAN_EVAL, CM01 to CM05, CM07, CM50 to CM55);
+`sap-help-search` 'CM01 Capacity evaluation work center view Load' in both scopes (21 hits
+each, top hit 'Evaluate Capacity Planning', snippet as claimed); `fal-app CM01`, `fal-app F3289`,
+`--tcode CM01` and `--tcode CM02` at S32OP (output as quoted); xrefs tx:CM01 / tx:CM07 /
+tx:CM21 in the route manifest, F3289 in `data/fiori/apps.ts`; repoRefs
+`data/tcode-catalog.ts#CM01` and `data/tx-intel.ts#CM02` present. The TS was emitted
+mechanically from the audited JSON and round-tripped (the loaded records deep-equal the audited
+ones plus the listed deviations). Coverage (`report:coverage --catalog transactions`, plus a
+per-id diff of `--ids` before / after in which only `tx:CM01` and `tx:CM02` moved): L3 486 →
+484, L5 56 → 58, L1 1275 → 1275, L4 1 → 1, verified 566 → 566, verification-required 1248 →
+1248, conflict 4 → 4, s4-applicable 567 → 567; `tx:CM01` L3 → L5, repository_verified →
+sap_official_verified, derived 'changed' → authored 'unchanged'; `tx:CM02` L3 → L5,
+repository_verified → sap_official_verified, derived 'unchanged' → authored 'unchanged'.
+Gates: both `tsc` runs clean; `npm test` 212/212.
 
 ## refuted
 
@@ -104,6 +138,7 @@ researched ids out of the shard). Gates: both `tsc` runs clean; `npm test` 212/2
 - `tx:CM02` (batch 5, 2026-09-24): refuted at the gate, not written. (1) evidence[0].url is fabricated (https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2025/en-US/SIMPL_OP2025.pdf mixes the 2023 doc id with a /2025/ path; HEAD returns HTTP 403, GET returns the 1160-byte portal shell, not a PDF); the house URL for every other 2025 row is https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf (application/pdf, 10,585,218 bytes); (2) the claim 'זהה מהותית ב-2023 FPS03, סעיף 30.35' is unsupported: scratchpad/official/SIMPL_OP2023.pdf.txt item 30.35 (lines 42067-42160) has no 'Exceptions' section and never prints CM02 (the only CM02 hit in the 2023 text is WACM02 at line 32678); the 2023 text instead says 'Transactions CM* will be replaced by apps like "Manage Work Center Capacity"'; audit/master-completion/simpl-tcode-index.json lists CM02 under 2025 only (item 9.5.4, line 43137); (3) status 'unchanged' with status.source null (fails status-no-edition-release); (4) sourceTitle of evidence[1] and evidence[2] not verbatim: scripts/sap-help-search.mjs returns 'Evaluate Capacity Planning' for loio d724bf53d25ab64ce10000000a174cb4 in both scopes (versionId 2025.001 and 6.18.latest); the suffix '(Single and Composite Roles, PFCG)', followed by an em dash and 'SAP S/4HANA 2025 FPS01', is invented and carries that em dash; (5) evidence[1] and evidence[2] claims exceed the snippet ('... Activities Function Transaction CM01 Capacity evaluation work center view: Load CM02 Capacity evaluation wo' truncated, plus CM04/CM05/CM07/CM50 rows): 'Orders', 'CM03 ...' and 'CM51-54' are not printed and no body was fetched with scripts/sap-help-body.mjs ('Orders' is supported only by the repository row data/tx-intel.ts#CM02); (6) five em dashes in the draft (two sourceTitles, two claims, notes, gaps); (7) recommendedAction names a Fiori app 'Evaluate Capacity' (What's New 2023) with no evidence row and no listed search; (8) the draft did not run scripts/fal-app.mjs: `node scripts/fal-app.mjs --tcode CM02` at S32OP prints 'leading app(s): CM02 Capac. planning, work center orders [SAP GUI]; GUI app entry: CM02 Capac. planning, work center orders (SAP GUI, successors 0)', a documented negative (0 successors) that belongs in notes (no deep link printed for the GUI entry, so no fiori_library row); (9) minor: house rows for the 2025 list use release '2025 FPS01' (the draft uses '2025.001', both accepted), and the summary phrase 'מקור = ראיית פריט הפישוט' should read 'המקור: פריט הפישוט'. Re-draft with the house 2025 PDF URL, the 2025-only item 9.5.4 attribution (no 2023 §30.35 claim), status.source = the simplification row, verbatim titles, snippet-bounded claims, zero em dashes and the fal-app negative in notes.
 - (none in batch 6, 2026-09-24: all 6 audited drafts, CM03, CM04, CM05, CM07, CM21 and CM25, survived verification and were written from `verdict.fixedRecord`. CM01 and CM02 from batch 5 are still open; CM05 / CM07 xref `tx:CM01` / `tx:CM02` as manifest codes, not as overlay records.)
 - (none in batch 7, 2026-09-24: the one audited draft, `tx:C223`, survived verification and was written; this closes the batch-4 `tx:C223` entry above. CM01 and CM02 from batch 5 are still open.)
+- (none in batch 8, 2026-09-24: both audited drafts, `tx:CM01` and `tx:CM02`, survived verification and were written; this closes the batch-5 `tx:CM01` / `tx:CM02` entries above.)
 
 ## conflicts
 
@@ -148,6 +183,11 @@ researched ids out of the shard). Gates: both `tsc` runs clean; `npm test` 212/2
 - cross-cutting (batch 6): the 2023 FPS03 item 30.35 has no Exceptions section and names none of CM03, CM04, CM05, CM07 (SIMPL_OP2023.pdf.txt lines 42067-42145 print CM21, CM22, CM23, CM25 and CM29 and no other CM code; re-checked at write), so the `unchanged` statuses are bounded to 2025 FPS01. Depth: CM03, CM07 and CM25 have no `data/transactions.ts` / `tx-intel` structural facts and stay at L1 at sap_official_verified; CM04 and CM21 reach L5, CM05 L4. SAP Note 2269324 (compatibility-scope expiry, matrix ID 451) is quoted from the item text only; the note itself was not read. Not done for any of the six: a live SAP check (sc4sap MCP connection closed at session start).
 
 - `tx:C223` (batch 7, 2026-09-24): `data/tx-intel.ts#C223` `s4Delta` says 'ב-S/4HANA גרסת ייצור נדרשת ברוב תרחישי הייצור (שלא כמו ECC שבו הייתה אופציונלית במקרים מסוימים)', softer than the official item 10.4.26 (2025 FPS01) 'S4TWL - BOM, Routing, Production Version' ('Production versions are mandatory in S/4HANA'). That populated `s4Delta` is what made the builder derive 'changed' (the batch-2 cross-cutting heuristic); the authored `unchanged` now overrides it. `tx-intel#C223` (`fiori`) and `data/transactions.ts#C223` name 'Manage Production Versions', the library name of F2568 (Fiori elements, leading transaction C223, no predecessor or successor, no successor relation to C223). F2568 is absent from `data/fiori/apps.ts`, so the record carries no `fiori:` xref; adding F2568 to the Fiori catalog would let it link. Not done: a live SAP check.
+
+- `tx:CM01` (batch 8, 2026-09-24): `data/tx-intel.ts#CM01` (`s4Delta`) says 'נשמרת ב-S/4HANA; החלופות המודרניות הן Manage Work Center Capacity (F3289) ו-Capacity Scheduling Board (F3951, role SAP_BR_PRODN_PLNR, דורש liveCache)'. The official sources read support F3289 as an app leading with CM01 (FAL S32OP 'GUI transactions: leading CM01', no predecessor or successor) but not F3951: `fal-app --tcode CM01` lists F3289 and F3770 'Capacity Scheduling Table' and no F3951 (whose own record prints 'GUI transactions: leading -; related -', batch 6); item 9.5.4 names F3289, F3770 and F3951 as CPS apps for the CM* transactions with a graphical planning board, while CM01 sits in its Exceptions list; no source read prints the liveCache requirement. The populated `s4Delta` is what made the builder derive 'changed' for CM01 (the batch-2 cross-cutting heuristic); the authored `unchanged` now overrides it. F3770 is absent from `data/fiori/apps.ts` (prose only); its library name 'Capacity Scheduling Table' (also the 2023 FPS03 item's wording) differs from the 2025 FPS01 item's 'Capacity Planning Table (F3770)', the same naming split batch 6 logged for F3951.
+- `tx:CM01` / `tx:CM02` (batch 8): the 2023 FPS03 item 30.35 'S4TWL - Graphical Planning Table' prints the general sentence 'Transactions CM* will be replaced by apps like "Manage Work Center Capacity", "Capacity Scheduling Table", and "Capacity Scheduling Board" in SAP S/4HANA' (SIMPL_OP2023.pdf.txt line 42106), has no Exceptions section and prints neither code (the only 2023 hits are WACM01 / WACM02 at line 32678); the 2025 FPS01 item 9.5.4 (same note 2268050) narrows it to 'Transactions CM* with graphical planning board can be replaced by one of the following modules' (SIMPL_OP2025.pdf.txt line 43156) and lists both codes under Exceptions. Treated as the later edition of the same item, not as `conflicting_sources`: both statuses are bounded to 2025 FPS01, the CM03 / CM04 / CM07 stance of batch 6. The CM02 notes say so; the CM01 notes do not mention the 2023 item.
+- `tx:CM02` (batch 8): no `fiori_library` row. `fal-app --tcode CM02` prints no deep link for the GUI entry (the reason the record gives), while app mode (`fal-app CM02 --release S32OP`, the form the CM01 / CM03 rows cite) prints one, and the generated shard record carried Apps('CM02')/S32OP; a follow-up read of that app record would add the row (CM02 is already at L5).
+- `tx:CM05` (batch 8): its notes said tx:CM01 had not been written yet; the sentence is kept and followed by a dated update (Old → New). The batch-6 consistency decision (CM05 without an authored status while CM01, CM02, CM03, CM04 and CM07 carry `unchanged` from the same Exceptions sentence) is still open and now spans six codes. Not done for CM01 / CM02: a live SAP check (sc4sap MCP not connected in this session).
 
 ## IP30 / IP30H decision (2026-09-22, design-audit continuation §18)
 
