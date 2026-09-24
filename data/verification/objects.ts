@@ -36,7 +36,19 @@
    (house rule: never "only"), planned-order notes keep the seed's catalog-gap
    finding (PLAF, BAPI_PLANNEDORDER_CHANGE) as Old → New, and the task-list
    notes put the seed's BAPI_TASKLIST_CREATE sentence in the past tense
-   (fm:BAPI_TASKLIST_CREATE now has a record). Registry members unchanged. */
+   (fm:BAPI_TASKLIST_CREATE now has a record). Registry members unchanged.
+   Objects batch 4 (2026-09-24, const DATE24): production-order, material-bom
+   and work-center are superseded by their audited records, each written from
+   its verdict's fixedRecord; master-recipe was refuted and keeps its seed
+   record (queued in audit/s4-enrichment/research-queue-objects.md). Writer
+   changes as in batches 1 to 3: work-center status.source points at the
+   hoisted evidence const, dates use the constants below, the reviewer fields
+   (material-bom, work-center) and the null aliases field (material-bom) were
+   dropped, and the restored seed rows keep SEED_DATE and their text (the
+   material-bom fixedRecord had re-stamped its unchanged seed row 2026-09-24).
+   One writer honesty fix, no new lookups: the material-bom notes keep the
+   seed's findings (grouping source, STZU, CSAP_MAT_BOM_READ) as Old → New, as
+   the sibling verdicts ordered for theirs. Registry members unchanged. */
 import type { Evidence, RegistryEntry, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -413,6 +425,25 @@ const PLORD_API_WN2021: Evidence = {
     "שינוי ומחיקה של הזמנות מתוכננות. רשומת What's New 2021 מסווגת אותו כ-Changed: ה-API הורחב לקריאת נתוני " +
     "כותרת, Available As Of SAP S/4HANA 2021. ה-API נמצא ב-SAP API Business Hub ורכיב היישום שלו PP-ES. " +
     "ה-Additional Details ממליצים להשתמש בשירות Planned Order ב-OData גרסה 4 לניהול הזמנות מתוכננות.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* Official rows that also carry a record's status (status.source), objects batch 4. */
+const WKC_API_MFG_2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Work Center (deliverable: APIs for Manufacturing)",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/62ec4758c3f90a02e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "הדף 'Work Center' במדריך APIs for Manufacturing (SAP S/4HANA 2025 FPS01) מתעד את ה-API‏ API_WORK_CENTERS: " +
+    "קריאה, יצירה ועדכון של פרטי מרכז עבודה, כולל ה-entity להקצאת מרכז עלות (A_WorkCenterCostCenter); " +
+    "הציטוט מהתקציר: 'Work Center Technical name: API_WORK_CENTERS This service enables you to read, create " +
+    "and update all details of a work center.' גוף הדף (נקרא דרך sap-help-body.mjs) מוסיף: 'It is based on " +
+    "the OData protocol' ו-'This service is published on the SAP Business Accelerator Hub'.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -1630,10 +1661,71 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
       "בקטלוג, לא טענה על SAP.' שני המזהים עדיין אינם ב-lib/route-manifest.generated.ts. לא בוצעה בדיקה " +
       "במערכת SAP חיה.",
   },
-  /* ---- seeds, second round, 2026-09-22 ------------------------------- */
+  /* ---- objects batch 4, audited records, 2026-09-24 ------------------- */
   {
     id: "obj:production-order",
     evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Order (SAP S/4HANA, deliverable: Production Planning and Control)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/9fa5153c2a6b495f8b3a8d1cbc26bbb8.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד עזרה בשם 'Production Order' מתוך ה-deliverable Production Planning and Control קיים עבור SAP " +
+          "S/4HANA 2025 FPS01; לפי הקטע, שינויים בפקודת ייצור במערכת S/4HANA מסונכרנים עם MES באמצעות " +
+          "פונקציות DRF.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Order (APIs for Manufacturing, technical name A_ProductionOrder_2)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/e76b570c36764ae9a1cc4747a3c144b7.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד (נקרא דרך sap-help-body.mjs) מתאר את A_ProductionOrder_2 כ-node הכותרת של פקודת הייצור " +
+          "ומפרט, בין השאר, את שדות הסטטוס OrderIsCreated, OrderIsReleased, OrderIsPrinted, OrderIsConfirmed, " +
+          "OrderIsPartiallyConfirmed, OrderIsDelivered, OrderIsTechnicallyCompleted, OrderIsClosed " +
+          "ו-OrderIsDeleted.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Order Header (CDS View I_ProductionOrder, Virtual Data Model and CDS Views)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/c6c3a06854a44d9383b32946f008b1b8.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש של תצוגת ה-CDS 'Production Order Header' (שם טכני I_ProductionOrder) קובעת שהתצוגה " +
+          "'represents the SAP object type ProductionOrder (BusinessObject)', והקטע מציין שהיא שולפת נתוני כותרת " +
+          "של פקודת ייצור מהטבלאות AUFK ו-AFKO.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Production Orders (Fiori Apps Library, F2336, S32OP = SAP S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2336')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library עבור F2336 'Manage Production Orders' (Status: Published, קומפוננטה " +
+          "PP-FIO-SFC) מופיעה מ-S9OP (1709) ועד S32OP (2025 FPS01); טרנזקציית ה-GUI המובילה שהספרייה מציגה היא " +
+          "CO02 (קשורות: CO05, CO09, CO20, COOIS ועוד), ושירותי ה-OData כוללים את PP_MPE_ORDER_MANAGE 0001 " +
+          "(S4CORE 109) ואת V4 group PP_MPE_AOR_SRV.",
+        verificationLevel: "sap_official_verified",
+      },
       {
         sourceType: "repository",
         sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, CO01 / CO02)",
@@ -1641,19 +1733,80 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: SEED_DATE,
         claim:
-          "רשומת CO01 במאגר מונה את הטבלאות AUFK, AFKO, AFPO, AFVC, RESB ו-AFVV ואת BAPI_PRODORD_CREATE; רשומת CO02 מוסיפה את JEST ו-JCDS ואת BAPI_PRODORD_CHANGE, BAPI_PRODORD_RELEASE ו-BAPI_PRODORD_COMPLETE_TECH.",
+          "רשומת CO01 במאגר מונה את הטבלאות AUFK, AFKO, AFPO, AFVC, RESB ו-AFVV ואת BAPI_PRODORD_CREATE; רשומת " +
+          "CO02 מוסיפה את JEST ו-JCDS ואת BAPI_PRODORD_CHANGE, BAPI_PRODORD_RELEASE " +
+          "ו-BAPI_PRODORD_COMPLETE_TECH.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#CO01",
       },
     ],
-    xrefs: ["table:AFKO", "table:AFPO", "tx:CO01", "cds:I_ProductionOrder"],
-    lastVerifiedAt: SEED_DATE,
+    xrefs: ["table:AUFK", "table:AFKO", "table:AFPO", "tx:CO01", "tx:CO02", "cds:I_ProductionOrder", "fiori:F2336"],
+    lastVerifiedAt: DATE24,
     notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. אף אחד מ-BAPI_PRODORD_* אינו ברישום הפונקציות של הפרויקט, וגם AFVV אינה בקטלוג; לכן לאובייקט אין חבר מסוג פונקציה. אימות רשמי ממתין לפייפליין ה-objects.",
+      "Old → New: הרשומה נשענה על שורת מאגר אחת (data/tx-intel.ts#CO01); AFVV אינה בקטלוג ואף אחד " +
+      "מ-BAPI_PRODORD_* אינו ברישום הפונקציות, ולכן אין לאובייקט חבר מסוג פונקציה. עכשיו נוספו 4 מקורות " +
+      "רשמיים. חיפושים שבוצעו (sap-help-search.mjs, SAP_S4HANA_ON-PREMISE): 'production order' (21 תוצאות), " +
+      "'I_ProductionOrder' (21), 'Manage Production Orders app' (21), 'Production Order simplification' (21, " +
+      "ללא פריט S4TWL שעוסק בפקודת הייצור עצמה; שלילה מתועדת, לא קביעה). גוף עמוד שנקרא דרך " +
+      "sap-help-body.mjs: עמוד ה-API A_ProductionOrder_2. F2336 נקרא דרך fal-app.mjs. לא הוגדר status " +
+      "(verification_required) כי אף מקור שנקרא לא מכריז סטטוס עם release. לא נטען מזהה BOR ברשומה זו. לא " +
+      "בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "obj:material-bom",
     evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP - Material BOM (Data Migration guide, SAP S/4HANA 2025 FPS01)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/4348363aafa4419986ee8839f4b27218.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד אובייקט המיגרציה 'PP - Material BOM' (נקרא בגוף מלא) קובע כי אובייקט העסק הקשור הוא 'Material " +
+          "BOM', מסוג Business Object Type: Master data, עם הגדרה 'A bill of material created with reference to " +
+          "a material master' שיכולה לכלול פריטים מקטגוריות שונות, כגון פריטי מלאי, לא-מלאי, מסמך וטקסט; רכיב " +
+          "PP-BD; שם אובייקט המיגרציה הטכני S4_PP_MATERIAL_BOM; קריטריון הבחירה שואב מטבלת MAST; מודול הפונקציה " +
+          "של המיגרציה CNV_PE_S4_PP_MATERIAL_BOM_ECN משתמש ב-APIs‏ CSAI_BOM_MAINTAIN ו-CSAP_MAT_BOM_MAINTAIN; יעד " +
+          "הניווט המוגדר של אפליקציית ה-Fiori הוא F1813 'Maintain Bill Of Material'; קודי הטרנזקציה " +
+          "לאימות/צפייה המצוינים הם CS02 (שינוי) ו-CS03 (הצגה).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "F1813 Maintain Bill Of Material (Fiori Apps Library, S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1813')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library עבור F1813 (מצב S32OP = SAP S/4HANA 2025 FPS01) מציינת: אפליקציית " +
+          "Transactional / SAP Fiori elements ברכיב PLM-FIO-BOM, קטלוגים עסקיים הכוללים את SAP_PLM_BC_BOM " +
+          "ו-SAP_PLM_BC_MBOM, קטלוג טכני SAP_TC_PLM_COMMON, שירות OData BILLOFMATERIALV2_SRV 0001 (backend " +
+          "S4CORE 109), קוד טרנזקציה מוביל CS01 (קשורים CS02, CS03), יורש F1813A 'Maintain Bill Of Material " +
+          "(Version 2)', והיסטוריית השחרורים שלה מתחילה ב-S6OP = SAP S/4HANA 1610 וממשיכה עד S32OP = 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material BOM on the Web UI (Web User Interface of SAP Product Lifecycle Management, 2025 FPS01)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/add30a34af294d51a0ccd83db28791f9/1dc6e4f41e4c4a528c3793dd1f061018.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד (נקרא דרך sap-help-body.mjs) מציין שב-Web UI של SAP PLM ניתן להציג, ליצור ולשנות עצי מוצר " +
+          "לחומר, בדגש על עצי מוצר חד-רמתיים; השוואת עצי מוצר, שינויים מרוכזים, הקצאת מפעלים, פיצוץ עץ מוצר, " +
+          "שינוי קבוצות BOM ודפדפן עץ המוצר מופיעים כפונקציות של מערכת ה-Back-end; עצי מוצר וריאנטיים (Variant " +
+          "material BOMs) והקצאה לרכיבי פרויקט מ-cProjects מופיעים כתכונות של ה-Back-end של S/4HANA שאינן " +
+          "זמינות ב-Web UI.",
+        verificationLevel: "supported_secondary_source",
+      },
       {
         sourceType: "repository",
         sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, CS01 / CS02)",
@@ -1661,16 +1814,130 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: SEED_DATE,
         claim:
-          "רשומת CS01 במאגר מונה את הטבלאות MAST, STKO, STPO ו-STAS ואת BAPI_MATERIAL_BOM_GROUP_CREATE ו-CSAP_MAT_BOM_CREATE; רשומת CS02 מוסיפה את STZU ואת CSAP_MAT_BOM_MAINTAIN.",
+          "רשומת CS01 במאגר מונה את הטבלאות MAST, STKO, STPO ו-STAS ואת BAPI_MATERIAL_BOM_GROUP_CREATE " +
+          "ו-CSAP_MAT_BOM_CREATE; רשומת CS02 מוסיפה את STZU ואת CSAP_MAT_BOM_MAINTAIN.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#CS01",
       },
     ],
-    xrefs: ["table:MAST", "table:STKO", "tx:CS01", "fm:CSAP_MAT_BOM_CREATE"],
-    lastVerifiedAt: SEED_DATE,
+    xrefs: [
+      "table:MAST", "table:STKO", "table:STPO", "table:STAS", "tx:CS01", "tx:CS02", "tx:CS03",
+      "fm:CSAP_MAT_BOM_MAINTAIN", "fm:CSAP_MAT_BOM_CREATE",
+    ],
+    lastVerifiedAt: DATE24,
     notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. STZU אינה בקטלוג. CSAP_MAT_BOM_READ נוסף מרישום הפונקציות (קריאת עץ מוצר לחומר). אימות רשמי ממתין לפייפליין ה-objects.",
+      "Old → New: הזרע (2026-09-22) נשען על שורת מאגר אחת (data/tx-intel.ts#CS01) וקבע: מקור הקיבוץ הוא " +
+      "שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר; STZU אינה בקטלוג; CSAP_MAT_BOM_READ נוסף כחבר " +
+      "מרישום הפונקציות (קריאת עץ מוצר לחומר). כיום table:STZU קיים ב-lib/route-manifest.generated.ts, אך " +
+      "לא נוסף ל-xrefs או לחברי הרישום בשלב זה. עכשיו נוספו שלוש שורות ראיה מ-help.sap.com ומספריית " +
+      "ה-Fiori. חיפושים שבוצעו ב-sap-help-search.mjs: 'Material BOM S/4HANA' (21 תוצאות), 'Bill of Material " +
+      "API S/4HANA OData' (21 תוצאות), 'Manage BOMs Fiori app' (21 תוצאות), 'Bill of Material master data " +
+      "overview' (21 תוצאות), 'S4TWL Bill of Material' (21 תוצאות, ללא פריט פישוט רשמי בשם עבור עץ מוצר " +
+      "לחומר). לא אותר פריט S4TWL/Simplification Item רשמי הנוגע ישירות לעץ מוצר לחומר; זהו היעדר בתוצאות " +
+      "חיפוש בלבד, לא קביעה שאין שינוי (כלל §3). מזהה BOR רשמי לא אותר: עמוד המיגרציה מציין רק 'Related " +
+      "Business Object: Material BOM' כטקסט, ללא קוד BOR פורמלי, ולכן לא נטען שדה BOR. fiori:F1813 אומת דרך " +
+      "fal-app.mjs (כולל שירות ה-OData והיסטוריית שחרורים החל מ-S6OP = 1610) אך אינו קיים כרגע " +
+      "ב-data/fiori/apps.ts של הפרויקט, ולכן לא נכלל כ-xref (כלל §1); זהו פער בקטלוג ה-Fiori של הפרויקט, לא " +
+      "טענה על SAP. לא נקבע status מאושר: אף מקור רשמי שנקרא אינו קובע במפורש שהאובייקט 'ללא שינוי' או " +
+      "'S/4-native' כטענת מחזור חיים; לכן הרשומה נותרה ללא status וממתינה לאימות נוסף. STZU, " +
+      "BAPI_MATERIAL_BOM_GROUP_CREATE ו-CSAP_MAT_BOM_READ לא צוטטו מחדש כאן משום שלא נמצא עבורם מקור רשמי " +
+      "חדש בסבב הזה; ראיית ה-repoRef הקודמת (data/tx-intel.ts#CS01) נשמרה לצורך המשכיות (כלל §8). לא בוצעה " +
+      "בדיקה במערכת SAP חיה.",
   },
+  {
+    id: "obj:work-center",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, CR01 / CR02)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: SEED_DATE,
+        claim: "רשומת CR01 במאגר מונה את הטבלאות CRHD, CRCA, CRCO ו-CRTX; רשומת CR02 מוסיפה את KAKO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CR01",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Work Center (deliverable: Work Centers (PP-BD-WKC))",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/d74941cf210b44768dc074ce2f243890/d184b8535c39b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הדף 'Work Center' במדריך Work Centers (PP-BD-WKC), SAP S/4HANA 2025 FPS01, מתאר מרכז עבודה כנתוני אב: " +
+          "הוא נוצר עבור מפעל ומזוהה במפתח, וקטגוריית מרכז העבודה קובעת אילו נתונים ניתן לתחזק בו; הציטוט " +
+          "מהתקציר: 'Operations are carried out at a work center ... A work center is created for a plant and is " +
+          "identified by a key.'",
+        verificationLevel: "sap_official_verified",
+      },
+      WKC_API_MFG_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "CDS Views for Basic Work Center Data (What's New in SAP S/4HANA and SAP S/4HANA Cloud Private Edition " +
+          "2025)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/21cd2fa6d9dd4855a02f7edc83dcfe22.html?locale=en-US&state=PRODUCTION&version=2025.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.000",
+        accessedAt: DATE24,
+        claim:
+          "הדף (גוף מלא, לא רק תקציר) מונה את I_WorkCenter תחת 'CDS Views Changed for Basic Work Center Data' " +
+          "(עודכן עם הוספת שדות ב-SAP S/4HANA 2025, רכיב יישום PP-VDM Virtual Data Model in PP, Valid as Of " +
+          "2025); הציטוט: 'CDS Views Changed for Basic Work Center Data Name Technical Name Details Work Center " +
+          "I_WorkCenter Work Center'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Work Center Capacity (F3289), Fiori Apps Reference Library, S32OP = SAP S/4HANA 2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3289')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-Fiori Apps Library לאפליקציה F3289 'Manage Work Center Capacity' (Published, PP-CFS-CE) מציגה " +
+          "תפקיד SAP_BR_PRODN_PLNR, קטלוג עסקי SAP_SCM_BC_CFS, שירותי OData‏ PP_CFS_CAPEVAL_SRV ו-PP_MRP_AOR_SRV, " +
+          "וטרנזקציית GUI מובילה CM01; רכיב היישום המודפס הוא PP-CFS-CE (Capacity Evaluation) וה-intent הוא " +
+          "WorkCenter-evaluateCapacity.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "released_api_available",
+      he:
+        "עבור מרכז העבודה קיים API OData רשמי משוחרר, API_WORK_CENTERS, המאפשר קריאה, יצירה ועדכון של פרטי מרכז " +
+        "עבודה כולל הקצאת מרכז עלות; מתועד תחת APIs for Manufacturing עבור SAP S/4HANA 2025 FPS01, on-premise.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: WKC_API_MFG_2025,
+      recommendedAction:
+        "להשתמש ב-API_WORK_CENTERS לאינטגרציה עם מרכזי עבודה; לוודא במערכת חיה את גרסת השירות ואת הפעלתו לפני " +
+        "שימוש בפרויקט.",
+    },
+    xrefs: ["table:CRHD", "table:KAKO", "tx:CR01", "cds:I_WorkCenter", "fiori:F3289"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "ישן (SEED): מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. הרשומות " +
+      "אינן מונות BAPI; לכן אין חבר מסוג פונקציה. אימות רשמי ממתין לפייפליין ה-objects. → חדש (2026-09-24): " +
+      "אומתו רשמית נתוני-אב של מרכז עבודה (Work Centers PP-BD-WKC), ה-API‏ API_WORK_CENTERS (APIs for " +
+      "Manufacturing, גוף הדף נקרא) ו-CDS View I_WorkCenter (What's New 2025, גוף מלא נקרא). האפליקציה F3289 " +
+      "משויכת ברשומת ה-Apps Library לרכיב PP-CFS-CE (Capacity Evaluation) ולתפקיד SAP_BR_PRODN_PLNR. לא " +
+      "נמצאה אפליקציית 'Manage Work Centers' עם מזהה F משויך רשמי בחיפושים שרצו ('Manage Work Centers app', " +
+      "'Manage Work Centers F'); נותרה ללא ציטוט. לא נטען מזהה BOR: אף מקור רשמי שנקרא אינו מדפיס אחד. לא " +
+      "נמצא פריט S4TWL/פישוט ספציפי המצהיר במפורש שמבנה מרכז העבודה 'ללא שינוי' לעומת ECC; לכן לא נקבע status " +
+      "של unchanged, רק released_api_available המבוסס על ה-API. חיפושים שרצו: 'Work Center' (S/4HANA " +
+      "on-premise, --size 21, הוחזרו 21 רשומות), 'Work Center' (--product SAP_ERP, --size 21, הוחזרו 21 " +
+      "רשומות), 'Manage Work Centers app' (--size 21, הוחזרו 21 רשומות), 'I_WorkCenter CDS view' (--size 21, " +
+      "הוחזרו 21 רשומות), 'Work Center simplification S4TWL' (--size 21, הוחזרו 21 רשומות, ללא פגיעה " +
+      "רלוונטית). לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  /* ---- seeds, second round, 2026-09-22 ------------------------------- */
   {
     id: "obj:master-recipe",
     evidence: [
@@ -1690,25 +1957,5 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
     lastVerifiedAt: SEED_DATE,
     notes:
       "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. BAPI_RECIPE_CREATE אינו ברישום הפונקציות של הפרויקט ולכן אינו חבר. אימות רשמי ממתין לפייפליין ה-objects.",
-  },
-  {
-    id: "obj:work-center",
-    evidence: [
-      {
-        sourceType: "repository",
-        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, CR01 / CR02)",
-        product: "SAP S/4HANA",
-        edition: "on-premise",
-        accessedAt: SEED_DATE,
-        claim:
-          "רשומת CR01 במאגר מונה את הטבלאות CRHD, CRCA, CRCO ו-CRTX; רשומת CR02 מוסיפה את KAKO.",
-        verificationLevel: "repository_verified",
-        repoRef: "data/tx-intel.ts#CR01",
-      },
-    ],
-    xrefs: ["table:CRHD", "table:KAKO", "tx:CR01", "cds:I_WorkCenter"],
-    lastVerifiedAt: SEED_DATE,
-    notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. הרשומות אינן מונות BAPI; לכן אין חבר מסוג פונקציה. אימות רשמי ממתין לפייפליין ה-objects.",
   },
 ];
