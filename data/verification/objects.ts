@@ -11,7 +11,17 @@
    hoisted evidence const, dates use the constants below, and the process-order
    draft's reviewer field was dropped (no overlay record carries one). Registry
    members are unchanged. The catalog left the repository-only foundation guard
-   in test/evidence-schema.test.ts in the same change. */
+   in test/evidence-schema.test.ts in the same change.
+   Objects batch 2 (2026-09-24, const DATE24): batch, maintenance-plan,
+   equipment and functional-location are superseded by their audited records
+   (0 refuted). equipment and functional-location are their verdicts'
+   fixedRecord; batch and maintenance-plan are the researcher drafts with the
+   verdicts' downgrades applied. Writer changes as in batch 1 (hoisted
+   status.source, date constants, maintenance-plan reviewer field dropped); the
+   two restored seed rows (tx-intel IP01, IL01) keep SEED_DATE and their text.
+   One registry change, ordered by the batch verdict: the obj:batch member
+   fiori:F1576 (the library's Supplier Evaluation Response) became fiori:F2462
+   (Manage Batches). */
 import type { Evidence, RegistryEntry, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -36,7 +46,7 @@ export const OBJECT_REGISTRY: RegistryEntry[] = [
      verify, never as facts the members prove. */
   {
     id: "obj:maintenance-notification",
-    he: "הודעת אחזקה",
+    he: "הודעת תחזוקה",
     en: "Maintenance Notification",
     members: [
       "table:QMEL", "table:QMFE", "table:QMMA", "table:QMSM", "table:QMUR",
@@ -47,7 +57,7 @@ export const OBJECT_REGISTRY: RegistryEntry[] = [
   },
   {
     id: "obj:maintenance-order",
-    he: "פקודת אחזקה",
+    he: "פקודת תחזוקה",
     en: "Maintenance Order",
     members: [
       "table:AUFK", "table:AFIH", "table:AFKO", "table:AFVC", "table:AFRU", "table:RESB", "table:ILOA",
@@ -73,12 +83,12 @@ export const OBJECT_REGISTRY: RegistryEntry[] = [
     en: "Batch",
     members: [
       "table:MCH1", "table:MCHA", "tx:MSC1N", "tx:MSC2N", "tx:MSC3N",
-      "fm:BAPI_BATCH_CREATE", "fm:BAPI_BATCH_GET_DETAIL", "cds:I_Batch", "fiori:F1576",
+      "fm:BAPI_BATCH_CREATE", "fm:BAPI_BATCH_GET_DETAIL", "cds:I_Batch", "fiori:F2462",
     ],
   },
   {
     id: "obj:maintenance-plan",
-    he: "תוכנית אחזקה",
+    he: "תוכנית תחזוקה",
     en: "Maintenance Plan",
     members: [
       "table:MPLA", "table:MPOS", "table:MHIS", "table:MHIO",
@@ -126,7 +136,7 @@ export const OBJECT_REGISTRY: RegistryEntry[] = [
   },
   {
     id: "obj:maintenance-task-list",
-    he: "רשימת משימות אחזקה",
+    he: "רשימת משימות תחזוקה",
     en: "Maintenance Task List",
     members: [
       "table:PLKO", "table:PLPO", "table:PLAS", "table:PLMZ",
@@ -261,6 +271,64 @@ const PROCORD_F4587_FAL: Evidence = {
     "SAP_SCM_BC_PROC_ORD_MGMT; intent ProcessOrder-manage; שירותי OData: PP_MPE_AOR, " +
     "PP_PROCESS_ORDER_MANAGE_SRV, וקבוצת שירות V4 PP_MPE_AOR_SRV (S4CORE 109). גרסאות: מ-S18OP (2020) " +
     "ועד S37 (2608).",
+  verificationLevel: "sap_official_verified",
+};
+
+/* Official rows that also carry a record's status (status.source), objects batch 2. */
+const BATCH_F2462_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "SAP Fiori Apps Reference Library: Manage Batches (F2462), S/4HANA 2025 FPS01",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2462')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "רשומת הספרייה ל-F2462 על S32OP (2025 FPS01), שנקראה דרך scripts/fal-app.mjs: 'Manage Batches', " +
+    "Transactional, SAP Fiori elements, Published, רכיב LO-BM-FIO (Fiori UI for Batch Management). שירות " +
+    "OData‏ LO_BM_BATCH_SRV (S4CORE 109), intent Batch-displayList, ובין הקטלוגים העסקיים " +
+    "SAP_SCM_BC_BATCH_MGMT ו-SAP_SCM_BC_BATCH_DSP. טרנזקציית GUI מובילה MSC1N; טרנזקציות קשורות MSC2N " +
+    "ו-MSC3N; אין אפליקציות קודמות או יורשות. זוהי רשומת הספרייה של 'Manage Batches' בגרסה זו.",
+  verificationLevel: "sap_official_verified",
+};
+const MPLAN_F5325_FAL: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Fiori Apps Library: F5325 Manage Maintenance Plans (S32OP, SAP S/4HANA 2025 FPS01 on-premise)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5325')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "לפי scripts/fal-app.mjs על S32OP (SAP S/4HANA 2025 FPS01), F5325 Manage Maintenance Plans הוא יישום " +
+    "Transactional מסוג SAP Fiori elements בסטטוס Published, ברכיב היישום PM-FIO-PRM-MP (Fiori UI for PM " +
+    "Maintenance Plans), עם התפקידים SAP_BR_MAINTENANCE_PLANNER ו-SAP_BR_MD_SPECIALIST_EAM, הקטלוגים " +
+    "העסקיים SAP_EAM_BC_MPLAN ו-SAP_EAM_BC_MP_MNG, הקטלוג הטכני SAP_TC_EAM_COMMON וה-intent‏ " +
+    "MaintenancePlan-manage. טרנזקציית ה-GUI המובילה היא IP01 והקשורות IP02/IP03/IP04/IP05/IP06/IP16. " +
+    "שירותי ה-OData המודפסים: UI_MAINTENANCE_PLAN (0001, S4COREOP 109), C_MAINTPLANACTVSYSTSTATUSQ_CDS " +
+    "(0001, S4COREOP 109) ו-/SSB/SMART_BUSINESS_RUNTIME_SRV (0001, S4COREOP 109). הגרסה הראשונה הרשומה " +
+    "היא S24OP (2022); הקודמים הרשומים: F3622 Find Maintenance Plans, F5009 Find Maintenance Plans - " +
+    "Service ו-W0026 Manage Maintenance Plan and Item List; לא רשום successor.",
+  verificationLevel: "sap_official_verified",
+};
+const FLOC_DEF_S4_2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Functional Location | Technical Objects (CS-BD/PM-EQM), SAP S/4HANA 2025 FPS01",
+  url:
+    "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e98c7c41bbe8439e90daa5c114a7573b/bed5b853dcfcb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE24,
+  claim:
+    "גוף העמוד (נקרא דרך sap-help-body.mjs) מגדיר את המיקום הפונקציונלי כאובייקט עסקי שהוא יחידה ארגונית " +
+    "(organizational unit) בלוגיסטיקה, המבנה את אובייקטי התחזוקה של החברה לפי קריטריונים פונקציונליים, " +
+    "תהליכיים או מרחביים ומייצג את המקום שבו מבוצעת משימת תחזוקה; הציטוט: 'The business object " +
+    "functional location is an organizational unit within Logistics'. כל מיקום פונקציונלי מוגדר ומנוהל " +
+    "ברכיב Plant Maintenance (PM) ברשומת אב נפרדת, עם תוויות היררכיות. קבוצות הנתונים ברשומת האב: נתוני " +
+    "מיקום ותחזוקה, ונתוני שותפים (למשל supplier, purchaser, responsible employee). פונקציות נוספות " +
+    "המודפסות: נקודות מדידה, מונים ומסמכי מדידה, Approval, טקסט רב-לשוני, סיווג (classification), ניהול " +
+    "מסמכים וניהול כתובות.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -630,34 +698,170 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
       "(sap-help-body.mjs) לא נקרא, וכל טענות ה-Help מבוססות על כותרת וסניפט בלבד. לא נמצא פריט " +
       "Simplification List שנוקב בהזמנת תהליך. לא בוצעה בדיקה במערכת SAP חיה.",
   },
-  /* ---- seeds, 2026-09-22 ------------------------------------------------ */
+  /* ---- objects batch 2, audited records, 2026-09-24 ------------------- */
   {
     id: "obj:batch",
     evidence: [
+      BATCH_F2462_FAL,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item " +
+          "5.1.8 S4TWL - Logistics Batch Management",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "פריט 5.1.8 'S4TWL - Logistics Batch Management' (רכיב LO-BM-MD) ברשימת הפישוט 2025 FPS01 קובע " +
+          "שהטרנזקציות MSC1, MSC2, MSC3 ו-MSC4 אינן זמינות ב-SAP S/4HANA, on-premise edition 1511, ושהמקבילות " +
+          "הפונקציונליות הן MSC1N (Create Batch), MSC2N (Change Batch), MSC3N (Display Batch) ו-MSC4N (Display " +
+          "Change Documents for Batch). לפי סעיף Business Process related information אין השפעה על התהליך " +
+          "העסקי, ויש להשתמש בקודים החלופיים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reference Objects (Production Planning and Control)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/62d3b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט של דף 'Reference Objects' (Production Planning and Control, 2025.001) מונה 'BUS1001002 " +
+          "Batch' לצד BUS1001 Material, BUS2004 Planned Order ו-BUS0001 Process Order, ברשימת האובייקטים " +
+          "העסקיים הזמינים כאובייקט ייחוס להערות משמרת (shift notes); זהו המקור הרשמי שמצמיד את BUS1001002 לשם " +
+          "Batch.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Batch (Virtual Data Model and CDS Views)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/ef1cd6cd9fb6418bb311b2b8e37b6b1e.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד (נקרא באמצעות scripts/sap-help-body.mjs) מציג: Technical Name I_Batch, View Type " +
+          "Composite, Release Status Released; התצוגה בנויה על אובייקט העסקים Batch, וזמינה רק עם הרשאה " +
+          "M_MATE_CHG לחומר האצווה ופעילות \"03\". העמוד מונה שאלות עסקיות שהתצוגה עונה עליהן, בהן מועד פקיעת " +
+          "חיי המדף, איתור הספק של האצווה והמפעלים שבהם נעשה שימוש באצווה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Batch API (APIs for Logistics Cross Topics)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e1841426f60f4e50913ec9a64aba8332/3d366e68d53345b4bad055ec8fe85d6e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "הסניפט של 'Operations for Batch API' (APIs for Logistics Cross Topics, 2025.001) מונה פעולות על " +
+          "הישות Batch בשירות API_BATCH_SRV: Query Batch ב-GET, Create Batch ב-POST ו-Change Batch ב-PATCH, עם " +
+          "כתובות לדוגמה <host>/sap/opu/odata/SAP/API_BATCH_SRV/Batch. הסניפט אינו מציין סטטוס שחרור לשירות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Supplier Evaluation Response (F1576), S/4HANA 2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1576')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת הספרייה F1576 ב-S32OP היא Supplier Evaluation Response (רכיב SLC-EVL, OData‏ " +
+          "SLC_QUESTIONNAIRE_RESPONSE_SRV), ללא טרנזקציות GUI מובילות או קשורות.",
+        verificationLevel: "sap_official_verified",
+      },
       {
         sourceType: "repository",
         sourceTitle: "שכבת ההעשרה של BAPI האצוות (data/bapi-enrichment.pppi.ts)",
-        product: "SAP S/4HANA",
+        product: "SAP ECC / SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: SEED_DATE,
+        accessedAt: DATE24,
         claim:
-          "רשומת BAPI_BATCH_CREATE במאגר נושאת bor: BUS1001002 (Batch; תוקן ב-2026-09-21 מ-BUS1001_BATCH על סמך " +
-          "Reference Objects · Production Planning and Control, loio 62d3b65334e6b54ce10000000a174cb4, 2025.001, " +
-          "ראו SAP-FIXES FIX-8c) ומשויכת ל-MSC1N / MSC2N / MSC3N ולטבלאות MCH1 / MCHA; תצוגת CDS‏ I_Batch ויישום " +
-          "Fiori‏ F1576 (Manage Batches).",
+          "רשומת BAPI_BATCH_CREATE במאגר נושאת bor: BUS1001002 ותהליך 'Batch Management', משויכת ל-MSC1N " +
+          "ולטבלאות MCH1 / MCHA / MCHB ומפנה ל-BAPI_BATCH_GET_DETAIL, שבמאגר משויכת ל-MSC3N ולטבלאות MCH1 / " +
+          "MCHA.",
         verificationLevel: "repository_verified",
         repoRef: "data/bapi-enrichment.pppi.ts#BAPI_BATCH_CREATE",
       },
     ],
-    xrefs: ["table:MCH1", "tx:MSC1N", "fm:BAPI_BATCH_CREATE", "cds:I_Batch", "fiori:F1576"],
-    lastVerifiedAt: SEED_DATE,
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "ניהול אצוות (Batch, אובייקט עסקי BUS1001002) זמין ב-SAP S/4HANA 2025 FPS01 On-Premise באפליקציית " +
+        "Fiori‏ Manage Batches (F2462, רכיב LO-BM-FIO, OData‏ LO_BM_BATCH_SRV), לצד הטרנזקציות שמופיעות " +
+        "ברשומת האפליקציה כטרנזקציית ה-GUI המובילה (MSC1N) וכטרנזקציות קשורות (MSC2N, MSC3N). תיעוד ה-API " +
+        "מתאר את שירות ה-OData‏ API_BATCH_SRV, ועמוד ה-CDS (2023.latest) מציג את I_Batch בסטטוס Released.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: BATCH_F2462_FAL,
+      recommendedAction:
+        "להציג את BUS1001002 כמזהה האובייקט העסקי Batch, כפי שהוא מופיע ברשימת Reference Objects, ואת F2462 " +
+        "(Manage Batches) כמזהה ה-Fiori לפי הספרייה, במקום F1576 שהספרייה מזהה כ-Supplier Evaluation " +
+        "Response (SLC-EVL). בהסבה מ-ECC, לפי 'S4TWL - Logistics Batch Management', להחליף שימוש ב-MSC1 / " +
+        "MSC2 / MSC3 / MSC4 ב-MSC1N / MSC2N / MSC3N / MSC4N. לפעולות API להפנות ל-API_BATCH_SRV, ולצריכת " +
+        "נתונים לתצוגת CDS‏ I_Batch.",
+    },
+    xrefs: ["table:MCH1", "table:MCHA", "tx:MSC1N", "tx:MSC2N", "tx:MSC3N", "fm:BAPI_BATCH_CREATE", "fm:BAPI_BATCH_GET_DETAIL", "cds:I_Batch", "fiori:F2462"],
+    lastVerifiedAt: DATE24,
     notes:
-      "רשומת זרע: BUS1001002 הוא היחיד מששת מזהי ה-BOR שכבר נסמך על רשומה רשמית (FIX-8c); שאר האימות ממתין " +
-      "לפייפליין ה-objects.",
+      "Old → New: רשומת הזרע (2026-09-22, repoRef data/bapi-enrichment.pppi.ts#BAPI_BATCH_CREATE) קשרה את " +
+      "האצווה ל-F1576 (Manage Batches) ונשאה xref fiori:F1576; הספרייה מזהה את F1576 כ-Supplier Evaluation " +
+      "Response ואת Manage Batches כ-F2462, ולכן ה-xref הוחלף ל-fiori:F2462 ושורת המאגר נכתבה מחדש בלי " +
+      "הטענה על F1576. שיטה: fal-app.mjs על F2462 ועל F1576 (S32OP); שלושה חיפושים " +
+      "ב-scripts/sap-help-search.mjs בהיקף SAP_S4HANA_ON-PREMISE: 'API_BATCH_SRV Batch' (21 תוצאות, בהן " +
+      "Operations for Batch API), 'Batch business object BUS1001002' (21 תוצאות, בהן Reference Objects), " +
+      "'I_Batch CDS view' (21 תוצאות, בהן Batch, loio ef1cd6cd9fb6418bb311b2b8e37b6b1e); גוף עמוד אחד נקרא " +
+      "עם sap-help-body.mjs (I_Batch); פריט 5.1.8 נקרא מטקסט רשימת הפישוט 2025 FPS01 שחולץ " +
+      "ב-scratchpad/official/SIMPL_OP2025.pdf.txt, לאחר שאותר דרך " +
+      "audit/master-completion/simpl-tcode-index.json (MSC1N / MSC2N / MSC3N נקובים בפריט 5.1.8 ב-2025 " +
+      "ובפריט 3.3 ב-2023 FPS03). חבר ה-registry עודכן מ-fiori:F1576 ל-fiori:F2462 (Old → New). לא בוצעה " +
+      "בדיקה במערכת SAP חיה.",
   },
   {
     id: "obj:maintenance-plan",
     evidence: [
+      MPLAN_F5325_FAL,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deletion of Manage Maintenance Plan and Item List App (What's New in SAP S/4HANA 2023 FPS01)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/0e83f36ad7914324976ddc9db47621fc.html?locale=en-US&state=PRODUCTION&version=2023.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת What's New של SAP S/4HANA 2023 FPS01 מציינת שהיישום Manage Maintenance Plan and Item List " +
+          "(W0026) נמחק ואינו זמין עוד ב-Fiori launchpad ('has been deleted and is no longer available on the " +
+          "SAP Fiori launchpad').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Maintenance Plans (What's New in SAP S/4HANA 2022)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/a784971bbee742b2bc491a97583a3621.html?locale=en-US&state=PRODUCTION&version=2022.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.000",
+        accessedAt: DATE24,
+        claim:
+          "רשומת What's New של SAP S/4HANA 2022 מתארת את היישום Manage Maintenance Plans: מתכנן התחזוקה יכול " +
+          "להציג, ליצור, לשנות, לתזמן, להפעיל ולמחוק תכניות תחזוקה ('view, create, change, schedule, activate, " +
+          "and delete maintenance plans'), Valid as Of SAP S/4HANA 2022.",
+        verificationLevel: "sap_official_verified",
+      },
       {
         sourceType: "repository",
         sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, IP01 / IP10 / IP30) ורשומת tx:IP30H",
@@ -666,45 +870,233 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
         accessedAt: SEED_DATE,
         claim:
           "רשומות IP01 / IP02 / IP03 / IP10 / IP30 במאגר משייכות את תוכנית האחזקה לטבלאות MPLA (כותרת), MPOS " +
-          "(פריטים), MHIS (היסטוריית תזמון) ו-MHIO (אובייקטי קריאה), ל-IP41 / IP42 (תוכנית מחזור יחיד / אסטרטגיה), " +
-          "ל-BAPI_MAINTENANCEPLAN_CREATE ולתצוגת CDS‏ I_MaintenancePlan; IP30H נרשמה ב-2026-09-22 כנתיב התזמון " +
-          "ההמוני של S/4HANA (tx:IP30H). מזהה ה-BOR‏ BUS2093 שהתדריך מונה לתוכנית האחזקה מופיע במאגר רק כמזהה ה-BOR " +
-          "של BAPI_RESERVATION_CREATE1 (שמורה, data/bapi-enrichment.pppi.ts), ואף רשומה במאגר אינה קושרת אותו " +
-          "לתוכנית אחזקה; הוא טרם אומת מול רשומה רשמית.",
+          "(פריטים), MHIS (היסטוריית תזמון) ו-MHIO (אובייקטי קריאה), ל-IP41 / IP42 (תוכנית מחזור יחיד / " +
+          "אסטרטגיה), ל-BAPI_MAINTENANCEPLAN_CREATE ולתצוגת CDS‏ I_MaintenancePlan; IP30H נרשמה ב-2026-09-22 " +
+          "כנתיב התזמון ההמוני של S/4HANA (tx:IP30H). מזהה ה-BOR‏ BUS2093 שהתדריך מונה לתוכנית האחזקה מופיע " +
+          "במאגר רק כמזהה ה-BOR של BAPI_RESERVATION_CREATE1 (שמורה, data/bapi-enrichment.pppi.ts), ואף רשומה " +
+          "במאגר אינה קושרת אותו לתוכנית אחזקה; הוא טרם אומת מול רשומה רשמית.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#IP01",
       },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: cds-map.ts#I_MaintenancePlan",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר ממפה את תצוגת ה-CDS‏ I_MaintenancePlan (צריכה: C_MaintenancePlan) למודול PM, לטבלאות " +
+          "MPLA/MPOS ולשם היישום Manage Maintenance Plans.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/cds-map.ts#I_MaintenancePlan",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: bapi-enrichment.pm.ts#BAPI_MAINTENANCEPLAN_CREATE",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מציינת ש-BAPI_MAINTENANCEPLAN_CREATE 'אינו קיים' ומפנה במקומו ל-FM‏ " +
+          "MPLAN_CREATE/MPLAN_CHANGE (או לטרנזקציות IP01/IP41/IP42), בעוד רשומת הרישום של obj:maintenance-plan " +
+          "מונה את fm:BAPI_MAINTENANCEPLAN_CREATE כחבר; זו סתירה פנימית במאגר שלא טופלה במשימה זו (ראו notes).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pm.ts#BAPI_MAINTENANCEPLAN_CREATE",
+      },
     ],
-    xrefs: ["table:MPLA", "table:MPOS", "tx:IP01", "tx:IP30H", "cds:I_MaintenancePlan"],
-    lastVerifiedAt: SEED_DATE,
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "ב-SAP S/4HANA 2025 FPS01 (on-premise) זמין היישום Fiori‏ Manage Maintenance Plans (F5325), רכיב " +
+        "היישום PM-FIO-PRM-MP, קטלוגים עסקיים SAP_EAM_BC_MPLAN ו-SAP_EAM_BC_MP_MNG, על שירות ה-OData‏ " +
+        "UI_MAINTENANCE_PLAN. W0026 (Manage Maintenance Plan and Item List) רשום בספריית Fiori כקודם של " +
+        "F5325 (F5325 זמין מ-S/4HANA 2022, S24OP), ולפי What's New של 2023 FPS01 הוא נמחק מה-Fiori launchpad.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MPLAN_F5325_FAL,
+      recommendedAction:
+        "בממשק המשתמש להפנות משתמשים ליישום Manage Maintenance Plans (F5325) ולא ל-W0026, שלפי What's New של " +
+        "SAP S/4HANA 2023 FPS01 נמחק ואינו זמין עוד ב-Fiori launchpad; ספריית ה-Fiori משייכת ל-F5325 את " +
+        "טרנזקציית ה-GUI המובילה IP01 ואת הטרנזקציות הקשורות IP02/IP03. לוודא בגרסת היעד את הקטלוגים העסקיים " +
+        "SAP_EAM_BC_MPLAN ו-SAP_EAM_BC_MP_MNG ואת התפקיד SAP_BR_MAINTENANCE_PLANNER. שדה ה-BAPI ברשומת " +
+        "האובייקט דורש בירור נפרד (ראו notes).",
+    },
+    xrefs: ["fiori:F5325", "table:MPLA", "table:MPOS", "tx:IP01", "tx:IP30H", "cds:I_MaintenancePlan"],
+    lastVerifiedAt: DATE24,
     notes:
-      "רשומת זרע: BUS2093 נרשם כמזהה לאימות בלבד (מקור: התדריך), לא כעובדה. תיקון 2026-09-23: נוסח קודם קבע " +
-      "שהמזהה אינו מופיע במאגר, אך הוא מופיע בו כ-BOR של שמורה; ראו obj:reservation. אימות רשמי ממתין לפייפליין ה-objects.",
+      "נבדק: F5325 Manage Maintenance Plans דרך scripts/fal-app.mjs (S32OP); שתי רשומות help.sap.com: " +
+      "What's New 2023 FPS01 על מחיקת W0026 מה-launchpad (loio 0e83f36ad7914324976ddc9db47621fc, 2023.001) " +
+      "ו-What's New 2022 על Manage Maintenance Plans (loio a784971bbee742b2bc491a97583a3621, 2022.000); " +
+      "מיפוי ה-CDS‏ I_MaintenancePlan במאגר. חיפושים שהורצו ב-sap-help-search.mjs (size 12, ללא סינון " +
+      "מוצר): 'Maintenance Plan S/4HANA' (21 תוצאות), 'Maintenance Plan Simplification Item' (21 תוצאות, " +
+      "רשומות What's New ו-Business Functions של Simplified Management of EAM Functions), 'S4TWL " +
+      "Scheduling of Maintenance Plan' (21 תוצאות), 'Manage Maintenance Plans app' (21 תוצאות) " +
+      "ו-'Deprecation of Manage Maintenance Plan and Item List App' (21 תוצאות). פריט הפישוט 'S4TWL - " +
+      "Scheduling of Maintenance Plan' (PM-PRM) נוגע לתזמון (IP30/IP30H) ומתועד ברשומות הטרנזקציה tx:IP30 " +
+      "ו-tx:IP30H; רשומה זו אינה מצטטת אותו ואינה קובעת דבר על מבנה MPLA/MPOS. BOR: מזהה ה-BOR‏ BUS2093 " +
+      "מהתדריך טרם אומת מול רשומה רשמית; במאגר הוא מופיע כ-BOR של BAPI_RESERVATION_CREATE1 (שמורה) בלבד. " +
+      "פער פתוח: bapi-enrichment.pm.ts קובעת ש-BAPI_MAINTENANCEPLAN_CREATE 'אינו קיים' ומפנה ל-FM‏ " +
+      "MPLAN_CREATE, בעוד רשומת הרישום מחזיקה את fm:BAPI_MAINTENANCEPLAN_CREATE כחבר; לא נמצא מקור רשמי " +
+      "שמדפיס FM או BAPI ליצירת תכנית תחזוקה, והסתירה דורשת תיקון נפרד. Old → New: רשומת הזרע (2026-09-22) " +
+      "קבעה: 'BUS2093 נרשם כמזהה לאימות בלבד (מקור: התדריך), לא כעובדה. תיקון 2026-09-23: נוסח קודם קבע " +
+      "שהמזהה אינו מופיע במאגר, אך הוא מופיע בו כ-BOR של שמורה; ראו obj:reservation. אימות רשמי ממתין " +
+      "לפייפליין ה-objects.' שורת הראיה של הזרע (data/tx-intel.ts#IP01) נשמרה ללא שינוי; עכשיו נוספו שורות " +
+      "רשמיות מספריית Fiori ומ-help.sap.com וסטטוס fiori_alternative_available. לא בוצעה בדיקה במערכת SAP " +
+      "חיה.",
   },
-  /* ---- seeds, second round, 2026-09-22 ------------------------------- */
   {
     id: "obj:equipment",
     evidence: [
       {
-        sourceType: "repository",
-        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, IE01 / IE02)",
+        sourceType: "sap_help",
+        sourceTitle: "Transactions (Logistics — General (LO))",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/bcd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: SEED_DATE,
+        release: "2025.001",
+        accessedAt: DATE24,
         claim:
-          "רשומת IE01 במאגר מונה את הטבלאות EQUI, EQKT, EQUZ, ILOA ו-EQBS ואת BAPI_EQUI_CREATE; רשומת IE02 מונה את אותן טבלאות ואת BAPI_EQUI_CHANGE, BAPI_EQUI_INSTALL ו-BAPI_EQUI_DISMANTLE.",
+          "בפרק Warranty Objects של דף הטרנזקציות (Warranty Processing, Logistics General) מופיעים IE01, IE02, " +
+          "IE03 ליצירה, שינוי והצגה של ציוד (\"Create, change and display equipment\"), לצד IL01-IL03 למיקום " +
+          "פונקציונלי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Renaming of Apps in Maintenance Management (What's New in SAP S/4HANA and SAP S/4HANA Cloud Private " +
+          "Edition 2025)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/c9959e6129174269adf7632bb60c4ed8.html?locale=en-US&state=PRODUCTION&version=2025.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.000",
+        accessedAt: DATE24,
+        claim:
+          "הטופיק (Application Component PM) מפרט שינוי שמות של יישומי ציוד: IE01 (Create Equipment - Plant), " +
+          "IE03 (Display Equipment), IE05 (Change Equipment - List View), IE08 (Create Equipment - Customer), " +
+          "לצורכי עקביות ובהירות: \"this change had no effect on app functionalities\". אין בכך קביעה על סטטוס " +
+          "האובייקט ציוד עצמו, רק על שמות היישומים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Library: F2072 Find Technical Object @ S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2072')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת ה-FAL של F2072 (Find Technical Object, S32OP = S/4HANA 2025 FPS01) מציינת טרנזקציית GUI " +
+          "מובילה IE03, קודמים F0226 (Equipment), F0227 (Functional Location), W0011 ו-W0012, קטלוגים עסקיים " +
+          "SAP_EAM_BC_TO, SAP_EAM_BC_TO_DSP, SAP_EAM_BC_TO_MW ו-SAP_EAM_BC_TO_TMS (לצד קטלוגי EHS ו-SOM), " +
+          "קטלוג טכני SAP_TC_EAM_COMMON ושירות OData‏ EAM_OBJPG_TECHNICALOBJECT_SRV. ה-intent הוא " +
+          "MaintenanceObject-displayFactSheet, כלומר הצגת אובייקט תחזוקה (ציוד או מיקום פונקציונלי).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Equipment (APIs for Maintenance Management)",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/d1e3c797d3f44120b552d0e64680e445.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "התיעוד של APIs for Maintenance Management מפרט את שירות ה-OData‏ API_EQUIPMENT עם פעולות GET, POST " +
+          "ו-PATCH על ה-entity Equipment (קריאה, יצירה, עדכון) ועל EquipmentLongText, כלומר API_EQUIPMENT " +
+          "מתועד ב-help.sap.com כשירות לניהול נתוני ציוד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר הקיימת: data/tx-intel.ts#IE01 / #IE02 / #IE03",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת IE01 במאגר מונה את הטבלאות EQUI, EQKT, EQUZ, ILOA ו-EQBS ואת BAPI_EQUI_CREATE " +
+          "ו-BAPI_EQMT_CREATE; רשומת IE02 מונה את אותן טבלאות ואת BAPI_EQUI_CHANGE, BAPI_EQUI_INSTALL, " +
+          "BAPI_EQUI_DISMANTLE ו-BAPI_EQMT_MODIFY; BAPI_EQUI_GETDETAIL מופיע ברשומת IE03. EQBS, " +
+          "BAPI_EQMT_CREATE, BAPI_EQMT_MODIFY ו-BAPI_EQUI_DISMANTLE אינם בקטלוג הפרויקט.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#IE01",
       },
     ],
-    xrefs: ["table:EQUI", "table:EQKT", "tx:IE01", "fm:BAPI_EQUI_CREATE", "cds:I_Equipment"],
-    lastVerifiedAt: SEED_DATE,
+    xrefs: ["table:EQUI", "table:EQKT", "tx:IE01", "tx:IE02", "tx:IE03", "fm:BAPI_EQUI_CREATE", "fiori:F2072", "cds:I_Equipment"],
+    lastVerifiedAt: DATE24,
     notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. שמות שהרשומות מונות ואינם בקטלוג: EQBS, BAPI_EQMT_CREATE, BAPI_EQMT_MODIFY, BAPI_EQUI_DISMANTLE. לכן אינם חברים. אימות רשמי ממתין לפייפליין ה-objects.",
+      "סטטוס לא נקבע: לא נמצא מקור רשמי שקובע במפורש שאובייקט הציוד (Equipment) כמכלול \"ללא שינוי\" או " +
+      "\"S/4-native\" במהדורה מפורשת. המקורות שנמצאו עוסקים בשינוי שמות יישומים (ללא השפעה פונקציונלית), " +
+      "ביישום F2072 שרשומת ה-FAL מציינת את F0226 (Equipment) כאחד מקודמיו, ובתיעוד שירות ה-OData‏ " +
+      "API_EQUIPMENT. לכן הסטטוס נשאר verification_required. חיפושים שבוצעו (sap-help-search.mjs, " +
+      "--product SAP_S4HANA_ON-PREMISE): 'Equipment master data S/4HANA Asset Management' (21 תוצאות), " +
+      "'Equipment IE01 IE02 IE03' (21 תוצאות), 'Manage Equipment app S/4HANA' (21 תוצאות), 'Equipment " +
+      "API_EQUIPMENT OData' (21 תוצאות), 'S4TWL Equipment simplification' (21 תוצאות, ללא פריט ייעודי " +
+      "לציוד). מזהה BOR לא נמצא ברשומה הקיימת או בחיפושים ולכן לא נטען. ממצא קודם (SEED): הרשומות מונות גם " +
+      "EQBS, BAPI_EQMT_CREATE, BAPI_EQMT_MODIFY ו-BAPI_EQUI_DISMANTLE שאינם בקטלוג, ולכן אינם חברים. לא " +
+      "בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "obj:functional-location",
     evidence: [
+      FLOC_DEF_S4_2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Functional location | Technical Objects (CS-BD/PM-EQM), SAP ERP 6.0 EHP8 Latest",
+        url:
+          "https://help.sap.com/docs/SAP_ERP/f0e0dd7850e64947aa66a647f8d3af09/bed5b853dcfcb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio (bed5b853dcfcb44ce10000000a174cb4) מתפרסם בתיעוד SAP ERP 6.0 EHP8. גוף העמוד (נקרא דרך " +
+          "sap-help-body.mjs) מדפיס את אותה הגדרה, 'The business object functional location is an " +
+          "organizational unit within Logistics', ואת אותן קבוצות נתונים ברשומת האב. בהשוואת שני הגופים נמצאו " +
+          "הבדלי ניסוח: דוגמה אחרת (Clarification Plant בעמוד ECC, wastewater treatment plant בעמוד S/4HANA) " +
+          "והפונקציה 'Permits' בעמוד ECC במקום 'Approval' בעמוד S/4HANA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Functional Location | APIs for Maintenance Management, SAP S/4HANA 2025 FPS01",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9a02a02d849d4b38a7320d94a71d2a22/b6a1e644059f4d53b11201b9c0aaefd7.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד (נקרא דרך sap-help-body.mjs) מתאר את שירות ה-OData API_FUNCTIONALLOCATION ('Technical " +
+          "name: API_FUNCTIONALLOCATION'): קריאה, יצירה ועדכון של נתוני אב של מיקום פונקציונלי, מחיקה של שיוך " +
+          "מחלקה (class assignment), יצירה, קריאה ועדכון המוניים וצירוף מסמכים; 'The service is based on OData " +
+          "protocol and can be consumed by external systems and user interfaces'. הישויות: " +
+          "A_FunctionalLocation ולצדה ישויות לטקסט ארוך, שותף, אחריות (warranty), מחלקה, מאפייני מחלקה, ערכי " +
+          "מאפיינים ונתוני Linear Asset Management. השירות בנוי על CDS views המבוססים על טבלאות נתוני האב של " +
+          "מיקום פונקציונלי, טקסט ארוך, business partner, מחלקה, מאפיינים, ערכים ואחריות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Process Technical Object (W0029), S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('W0029')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "לפי הרשומה שנקראה דרך scripts/fal-app.mjs (ערוץ ה-OData של הספרייה): W0029 'Process Technical " +
+          "Object' היא אפליקציית Web Dynpro בסטטוס Published, רכיב EP-PCT-MAN-MW, תפקיד " +
+          "SAP_BR_MAINTENANCE_PLANNER, קטלוג עסקי SAP_EAM_BC_TO, קטלוג טכני SAP_TC_EAM_BE_APPS:S4EAM, intent " +
+          "MaintenanceObject-create, ללא שירות OData רשום. טרנזקציית GUI מובילה IE01 וטרנזקציות GUI קשורות " +
+          "IE02, IE03, IL01, IL02, IL03. רשימת הגרסאות כוללת את S3OP (S/4HANA 1511) ואת S32OP (2025 FPS01); " +
+          "predecessor ו-successor אינם רשומים.",
+        verificationLevel: "sap_official_verified",
+      },
       {
         sourceType: "repository",
         sourceTitle: "מודיעין הטרנזקציות של הפרויקט (data/tx-intel.ts, IL01 / IL02)",
@@ -712,16 +1104,62 @@ export const OBJECT_VERIFICATION: VerificationRecord[] = [
         edition: "on-premise",
         accessedAt: SEED_DATE,
         claim:
-          "רשומת IL01 במאגר מונה את הטבלאות IFLOT, IFLOTX, ILOA ו-IHPA ואת BAPI_FUNCLOC_CREATE; רשומת IL02 מונה את אותן טבלאות ואת BAPI_FUNCLOC_CHANGE.",
+          "רשומת IL01 במאגר מונה את הטבלאות IFLOT, IFLOTX, ILOA ו-IHPA ואת BAPI_FUNCLOC_CREATE; רשומת IL02 " +
+          "מונה את אותן טבלאות ואת BAPI_FUNCLOC_CHANGE.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#IL01",
       },
+      {
+        sourceType: "repository",
+        sourceTitle: "מפת ה-CDS של הפרויקט (data/cds-map.ts, I_FunctionalLocation)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר ממפה את ה-CDS view I_FunctionalLocation למיקום פונקציונלי במודול PM, עם הטבלאות IFLOT " +
+          "ו-ILOA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/cds-map.ts#I_FunctionalLocation",
+      },
     ],
-    xrefs: ["table:IFLOT", "tx:IL01", "fm:BAPI_FUNCLOC_CREATE", "cds:I_FunctionalLocation"],
-    lastVerifiedAt: SEED_DATE,
+    status: {
+      status: "unchanged",
+      he:
+        "לפי עמוד ההגדרה (loio bed5b853dcfcb44ce10000000a174cb4) שנקרא בשתי הגרסאות, המיקום הפונקציונלי נשאר " +
+        "ב-SAP S/4HANA 2025 FPS01 אובייקט עסקי המנוהל ברכיב Plant Maintenance ברשומת אב נפרדת, עם אותה הגדרה " +
+        "ואותן קבוצות נתונים כמו ב-SAP ERP 6.0 EHP8; הבדל הניסוח המודפס ברשימת הפונקציות הוא 'Permits' בעמוד " +
+        "ECC מול 'Approval' בעמוד S/4HANA.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: FLOC_DEF_S4_2025,
+      recommendedAction:
+        "להעביר את המיקומים הפונקציונליים כנתוני אב של PM תוך שמירה על מבנה התוויות ההיררכי; לאינטגרציות " +
+        "לבחון את שירות ה-OData API_FUNCTIONALLOCATION המתועד ב-2025 FPS01. IL01, IL02 ו-IL03 מופיעות ברשומת " +
+        "W0029 בספריית Fiori כטרנזקציות GUI קשורות. זמינות BAPI_FUNCLOC_CREATE ושאר פונקציות ה-BAPI למיקום " +
+        "פונקציונלי בגרסת היעד דורשת בדיקה במערכת SAP. לא בוצעה בדיקה במערכת SAP חיה.",
+    },
+    xrefs: ["table:IFLOT", "table:ILOA", "tx:IL01", "tx:IL02", "tx:IL03", "fm:BAPI_FUNCLOC_CREATE", "cds:I_FunctionalLocation", "fiori:W0029"],
+    lastVerifiedAt: DATE24,
     notes:
-      "מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. IFLOTX, IHPA ו-BAPI_FUNCLOC_CHANGE אינם בקטלוג ולכן אינם חברים. IFLOS נוסף מרשומת fm:FUNC_LOCATION_LABEL_READ בתור. אימות רשמי ממתין לפייפליין ה-objects.",
+      "Old → New: הרשומה הקודמת (2026-09-22) נשענה על שורת המאגר data/tx-intel.ts#IL01 בלבד, ללא סטטוס, עם " +
+      "הממצא 'מקור הקיבוץ: שדות האובייקטים הקשורים ברשומות הטרנזקציה במאגר. לא נטען מזהה BOR. IFLOTX, IHPA " +
+      "ו-BAPI_FUNCLOC_CHANGE אינם בקטלוג ולכן אינם חברים. IFLOS נוסף מרשומת fm:FUNC_LOCATION_LABEL_READ " +
+      "בתור. אימות רשמי ממתין לפייפליין ה-objects.' הרשומה החדשה שומרת את שורת המאגר ללא שינוי, מוסיפה " +
+      "ארבע ראיות רשמיות (הגדרת האובייקט ב-S/4HANA 2025 FPS01 וב-SAP ERP 6.0 EHP8, שירות " +
+      "API_FUNCTIONALLOCATION, רשומת W0029), שורת מאגר מ-data/cds-map.ts שמגבה את ההפניה " +
+      "ל-I_FunctionalLocation, וסטטוס unchanged שמקורו בעמוד ההגדרה של S/4HANA. חברי הקיבוץ " +
+      "ב-OBJECT_REGISTRY לא שונו. לא נטען מזהה BOR: אף מקור שנקרא אינו מדפיס אחד. בטקסט המחולץ של " +
+      "Simplification List 2025 FPS01 נמצא הפריט 'S4TWL - Batch Input for Enterprise Asset Management " +
+      "(EAM)'; הוא אינו מצוטט כראיה ואינו משמש מקור לסטטוס. חיפושים שבוצעו ב-help.sap.com " +
+      "(sap-help-search.mjs): 'Functional location definition business object' (S/4HANA on-premise, 21 " +
+      "תוצאות, העמוד bed5b853 ראשון), 'functional location' עם --product SAP_ERP (21 תוצאות, אותו loio " +
+      "בגרסה 6.18.latest ראשון), 'API_FUNCTIONALLOCATION' (21 תוצאות; עמוד Operations for Functional " +
+      "Location ודפי המשנה Read/Create/Update, ללא עמוד השירות b6a1e644) ו-'Functional Location " +
+      "API_FUNCTIONALLOCATION' (21 תוצאות, עמוד השירות b6a1e644 בגרסה 2025.001 בתוצאה השישית). גופי " +
+      "העמודים נקראו דרך sap-help-body.mjs: הגדרת האובייקט ב-S/4HANA, הגדרת האובייקט ב-ECC ועמוד השירות. " +
+      "W0029 נקראה דרך fal-app.mjs עם --release S32OP. לא בוצעה בדיקה במערכת SAP חיה.",
   },
+  /* ---- seeds, second round, 2026-09-22 ------------------------------- */
   {
     id: "obj:measuring-point",
     evidence: [
