@@ -43,10 +43,20 @@
    MCVA, MCXB, MCXC); tx:MCXA refuted and queued. Five taken from
    verdict.fixedRecord, XK02 and MCVA re-derived from the draft with the listed
    downgrades. Every status source is a shared const (the record's own item row);
-   no reviewer field. */
+   no reviewer field.
+   Batch 7 (research + adversarial audit 2026-09-25, written the same day, access
+   date stamped 2026-09-25): 9 audited records for QMIS analyses, the MSC*N batch
+   master codes and QM inspection-lot and certificate codes (MCXA, MCXX, MSC1N,
+   MSC2N, MSC3N, MSC4N, QA32, QC20, QC21); no record refuted. tx:MCXA, refuted in
+   batch 6, was re-drafted and re-audited with no problem and is written as
+   drafted (its rows first read 2026-09-24 keep DATE24); the other eight are
+   taken from verdict.fixedRecord. Every status source is a shared const (the
+   record's own evidence row); the QC20 item rows carry the SAP Note number in
+   prose only, without a sapNote field; no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
+const DATE25 = "2026-09-25";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -918,6 +928,217 @@ const MCXC_SIMPL2025: Evidence = {
     "לגבי 'is not the target architecture' ולגבי 'The transactions will be removed in the SAP Fiori " +
     "launchpad for SAP S/4HANA'. גם כאן מוצגת קבוצת אפליקציות QM Analytics (F3239, F3273, F3383, F3382, " +
     "F2428, F3584, F3583) ללא שיוך פרטני ל-MCXC.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 7 status sources (2026-09-25): one evidence row per record, shared by evidence[] and
+   status.source (MCXA, MCXX, MSC1N, MSC2N, MSC3N, MSC4N, QA32, QC20, QC21) */
+
+const MCXA_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.8 " +
+    "S4TWL - Quality Management Information System (QMIS)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.6.8 'S4TWL - Quality Management Information System (QMIS)' (רכיב יישום QM-QC-IS, הערת Business " +
+    "Impact 0002270193) נוקב ב-MCXA פעמיים: ברשימת Other Terms וברשימה 'The following transactions are " +
+    "replaced by corresponding Fiori apps in QM Analytics'. כל אחת משתי הרשימות מונה 36 קודים (12 MCO*, 12 " +
+    "MCV*, 12 MCX*), ו-MCXA ביניהם. הפריט קובע: 'The Quality Management Information System (QMIS) based on " +
+    "Logistics Information System (LIS) is part of the SAP S/4HANA compatibility scope, which comes with " +
+    "limited usage rights', מפנה ל-SAP note 2269324 לפרטי היקף התאימות ומועד התפוגה שלו, ומציין שבמטריצת " +
+    "התאימות המצורפת לה QMIS מבוסס LIS מופיע תחת ID 473. עוד נקבע ש-QMIS 'is not the target architecture " +
+    "(functionality available in SAP S/4HANA but not considered as future technology)' ו-'The transactions " +
+    "will be removed in the SAP Fiori launchpad for SAP S/4HANA.' טבלת QM Analytics בפריט מונה שבע " +
+    "אפליקציות: Inspection Lot Analytics Last 365 Days F3239, Inspection Lot Detailed Analytics F3273, " +
+    "Characteristic Analytics Last 365 Days F3383, Characteristic Detailed Analytics F3382, Results History " +
+    "F2428, Nonconformance Analytics Last 365 Days F3584, Nonconformance Detailed Analytics F3583. הפריט " +
+    "אינו משייך את MCXA לאפליקציה מסוימת אחת.",
+  verificationLevel: "sap_official_verified",
+  conflictingEvidence: [
+    {
+      sourceType: "fiori_library",
+      sourceTitle:
+        "Fiori Apps Library · App MCXA 'Inspection Lot KPIs - Overview by Material' (SAP GUI), release S32OP " +
+        "(S/4HANA 2025 FPS01)",
+      url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MCXA')/S32OP",
+      product: "SAP S/4HANA",
+      edition: "on-premise",
+      release: "2025.001",
+      accessedAt: DATE24,
+      claim:
+        "פלט scripts/fal-app.mjs MCXA --release S32OP: ספריית אפליקציות Fiori רושמת את MCXA בשם 'Inspection Lot " +
+        "KPIs - Overview by Material', מסוג SAP GUI, בסטטוס Published, רכיב QM-QC-IS (Information System), קטלוג " +
+        "טכני SAP_TC_QM_BE_APPS:S4QM, intent InspectionLot-displayKPIOverviewByMaterial, 'GUI transactions: " +
+        "leading MCXA; related MCXA', ללא predecessors וללא successors, והערות RIN 3493254 (Front-End Server) " +
+        "ו-3671888 (Back-End Server). רשימת המהדורות כוללת את S32OP (2025 FPS01 On-Premise) ומהדורות On-Premise " +
+        "קודמות החל מ-S6OP (1610). הרישום במהדורה העדכנית עומד במתח עם הנוסח בלשון עתיד בפריט 9.6.8, 'The " +
+        "transactions will be removed in the SAP Fiori launchpad for SAP S/4HANA'; הפריט אינו נוקב מועד להסרה.",
+      verificationLevel: "sap_official_verified",
+    },
+  ],
+};
+
+const MCXX_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.8 " +
+    "S4TWL - Quality Management Information System (QMIS)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (Application Component QM-QC-IS, SAP Note 0002270193) קובע כלשונו: 'The Quality Management " +
+    "Information System (QMIS) based on Logistics Information System (LIS) is part of the SAP S/4HANA " +
+    "compatibility scope, which comes with limited usage rights' וכי 'is not the target architecture'. תחת " +
+    "'Other Terms' ובשורת ההחלפה מופיע MCXX בשורה 'MCXP MCXV MCXX MCXD MCXB MCXM MCXK MCXI MCXG MCXE MCXC " +
+    "MCXA'. הפריט ממשיך: 'The following transactions are replaced by corresponding Fiori apps in QM " +
+    "Analytics' ומכסה את אותה שורת קודים, ומסיים: 'The transactions will be removed in the SAP Fiori " +
+    "launchpad for SAP S/4HANA'. הפניה ל-SAP Note 2269324 (מטריצת compatibility scope, ID 473) לתוקף ולפרטים " +
+    "נוספים. הפריט אינו משייך אפליקציית Fiori ספציפית ל-MCXX; הוא מפנה לעמוד 'QM Analytics' ב-help.sap.com " +
+    "ומונה אפליקציות QM Analytics לפי קטגוריות ניתוח (בדיקות, מאפיינים, אי-התאמות).",
+  verificationLevel: "sap_official_verified",
+};
+
+const MSC1N_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Fiori Apps Library · App MSC1N 'Create Batch' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MSC1N')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "ספריית אפליקציות ה-Fiori (scripts/fal-app.mjs MSC1N --release S32OP) רושמת את MSC1N כאפליקציית SAP GUI " +
+    "בשם 'Create Batch', סטטוס 'Published', רכיב יישום LO-BM, קטלוג עסקי SAP_SCM_BC_BATCH_MGMT ('Batch " +
+    "Management - Batches'), תפקידים SAP_BR_PRODN_SUPERVISOR_PROC ו-SAP_BR_QUALITY_TECHNICIAN, וללא " +
+    "predecessors וללא successors רשומים ('predecessors: -; successors: -'). רשימת ה-releases שבפלט כוללת את " +
+    "S6OP (1610) ועד S32OP (2025 FPS01) ברצף.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MSC2N_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+    "2025 – Feature Pack Stack 1 · item 5.1.8 S4TWL - Logistics Batch Management",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (עמ' 104-105, רכיב LO-BM-MD, הערה 0002267298) קובע כי הטרנזקציות MSC1, MSC2, MSC3 ו-MSC4 אינן " +
+    "זמינות ב-SAP S/4HANA on-premise edition 1511, ומפרט את המקבילה הפונקציונלית; הציטוט: 'The functional " +
+    "equivalent in SAP S/4HANA, on-premise edition 1511 are the following transactions: MSC1N Create Batch, " +
+    "MSC2N Change Batch, MSC3N Display Batch, MSC4N Display Change Documents for Batch.' הפריט מוסיף שהמעבר " +
+    "לקודי ה-MSC*N הומלץ כבר מאז מהדורה 4.6A. ביחס ל-MSC2N עצמה הפריט אינו קובע הגבלה או הוצאה משימוש; הוא " +
+    "מציין אותה בשמה כטרנזקציית ההמשך.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MSC3N_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.8 " +
+    "S4TWL - Logistics Batch Management",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "פריט 5.1.8 'S4TWL - Logistics Batch Management' (Application Component LO-BM-MD, Note 2267298) קובע " +
+    "במפורש לגבי MSC3N: הטרנזקציות הישנות MSC1, MSC2, MSC3, MSC4 אינן זמינות ב-SAP S/4HANA On-Premise 1511 " +
+    "ואילך, וה'functional equivalent' שלהן הן MSC1N, MSC2N, MSC3N ו-MSC4N; ציטוט מדויק: 'The following " +
+    "transactions related to Logistics Batch Management are not available in SAP S/4HANA, on-premise edition " +
+    "1511: MSC1, MSC2, MSC3 and MSC4. The functional equivalent in SAP S/4HANA, on-premise edition 1511 are " +
+    "the following transactions: MSC1N Create Batch, MSC2N Change Batch, MSC3N Display Batch, MSC4N Display " +
+    "Change Documents for Batch'. הפריט מוסיף שכבר מגרסת 4.6A הומלץ להשתמש בקודי MSC*N, ושאין השפעה על " +
+    "התהליך העסקי מעבר לשימוש בקוד המומלץ. כלומר: MSC3N עצמו אינו מוסר או מוחלף; הוא הקוד שממשיך לשמש (ולא " +
+    "הוקם מחדש) לתצוגת אצווה ב-S/4HANA, בעוד שהקוד הישן MSC3 (ללא N) הוסר.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MSC4N_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "Fiori Apps Library · App MSC4N 'Display Batch Changes' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MSC4N')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "ספריית האפליקציות של Fiori רושמת את MSC4N כאפליקציית SAP GUI בשם 'Display Batch Changes', בסטטוס " +
+    "Published, רכיב LO-BM (Batch Management), תפקידים SAP_BR_PRODN_SUPERVISOR_PROC " +
+    "ו-SAP_BR_QUALITY_TECHNICIAN, קטלוג טכני SAP_TC_SCM_PP_BE_APPS:S4PP, קטלוג עסקי SAP_SCM_BC_BATCH_MGMT " +
+    "'Batch Management - Batches', intent Batch-displayChanges, טרנזקציית GUI מובילה MSC4N. רשימת המהדורות " +
+    "בספרייה כוללת את S6OP (1610) עד S32OP (2025 FPS01, המהדורה העדכנית ל-On-Premise), וכן גרסאות PCE. " +
+    "predecessor ו-successor אינם רשומים ('-').",
+  verificationLevel: "sap_official_verified",
+};
+
+const QA32_F2343_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App F2343 'Manage Inspection Lots' (SAP Fiori elements), release S32OP (SAP " +
+    "S/4HANA 2025 FPS01, On-Premise)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2343')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "רשומת Fiori Apps Library ל-F2343 מציגה אפליקציה טרנזקציונית 'Manage Inspection Lots' (SAP Fiori " +
+    "elements), סטטוס Published, רכיב QM-FIO-IM, תפקידים SAP_BR_MAINTENANCE_PLANNER, SAP_BR_QUALITY_ENGINEER " +
+    "ו-SAP_BR_QUALITY_TECHNICIAN, business catalogs SAP_EAM_BC_INSPCHKLST ו-SAP_QM_BC_INSPECTION_LOT, intent " +
+    "InspectionLot-manage, OData QM_INSPLOTMNG_SRV, GUI transactions: leading QA32; related QA03, QA33. שדה " +
+    "ה-releases כולל את S32OP (2025 FPS01, On-Premise).",
+  verificationLevel: "sap_official_verified",
+};
+
+const QC20_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.6 " +
+    "S4TWL - ITS services in QM",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 9.6.6 (SAP Note 2270126, 'S4TWL - ITS services in QM') קובע ששירותי ה-ITS של QM ל-Internet " +
+    "Application Components (IAC) אינם זמינים ב-S/4HANA On-Premise ('the ITS services for the Internet " +
+    "Application Components (IAC) in QM are not available within SAP S/4HANA, on-premise edition 1511'). " +
+    "לעניין תעודות איכות הפריט קובע: 'Certificates: No WebDynpro application available. However, existing QM " +
+    "transactions are still available, such as QC20, QC21'. הפריט אינו מטיל שינוי על QC20 ומונה אותו כחלופה " +
+    "הזמינה לאחר הסרת שירותי ה-ITS/IAC (הטבלה בפריט מונה, בין היתר, את QC40, QC40A, QC42, QEW01, QEW01V, " +
+    "QMW1, QISR, QISRW).",
+  verificationLevel: "sap_official_verified",
+};
+
+const QC21_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.6 " +
+    "S4TWL - ITS services in QM",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט 'S4TWL - ITS services in QM' קובע ששירותי ITS עבור IAC ב-QM (למשל QC40) אינם זמינים ב-SAP S/4HANA " +
+    "on-premise. לגבי תעודות הוא קובע: 'No WebDynpro application available. However, existing QM " +
+    "transactions are still available, such as QC20, QC21'. הפריט אינו מבטל, מחליף או מגביל את QC21; הוא " +
+    "מציין אותה כטרנזקציה קיימת שמשמשת חלופה לשירות ה-ITS שהוסר עבור תעודות.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -5764,5 +5985,842 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "(2025.latest), תווית 'ניתוח ספקים' הוסרה מהסטטוס. הרשומה הדטרמיניסטית tx:MCXC ב-transactions-auto.ts " +
       "מוחלפת ברשומה זו (ישן: ללא הכרעת מעמד, verification_required לפי report-coverage.mjs --ids; חדש: " +
       "compatibility_scope). לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MCXA",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MCXA",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מתארת את MCXA כ'ניתוח מנות בדיקה QM' (QM Inspection Lots Analysis), מודול QM, תחום " +
+          "'דיווח/ניתוח'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MCXA",
+      },
+      MCXA_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.1 " +
+          "S4TWL - Quality Management Information System (QMIS)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 34.1 'S4TWL - Quality Management Information System (QMIS)' (רכיב יישום QM-QC-IS, הערת Business " +
+          "Impact 2270193) נוקב ב-MCXA פעמיים: ברשימה שבגוף הפריט 'The following transactions are replaced by " +
+          "corresponding Fiori apps in QM Analytics' וברשימת Other Terms שבסוף הפריט, אחרי טבלת אפליקציות QM " +
+          "Analytics. כל אחת משתי הרשימות מונה 36 קודים (12 MCO*, 12 MCV*, 12 MCX*), ו-MCXA ביניהם. הנוסח זהה " +
+          "לפריט 9.6.8 ב-2025 FPS01 בנקודות הבאות: QMIS מבוסס LIS 'is part of the SAP S/4HANA compatibility scope, " +
+          "which comes with limited usage rights' (SAP note 2269324, ID 473), 'is not the target architecture', " +
+          "ו-'The transactions will be removed in the SAP Fiori launchpad for SAP S/4HANA.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Quality Evaluations (QMIS)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/e30db753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (sap-help-search.mjs 'Quality Management Information System QMIS', סקופ " +
+          "SAP_S4HANA_ON-PREMISE; דליברבל Single and Composite Roles (PFCG), versionId 2025.001, loio " +
+          "e30db753128eb44ce10000000a174cb4, תאריך 2026-02-24) מציגה בתקציר 'Technical name: SAP_QM_QC_QMIS' " +
+          "ו-'The single role Quality Evaluations (QMIS) covers functions for displaying key figures and " +
+          "evaluations for original documents in … the QM component'. זה תקציר בלבד; גוף העמוד לא נקרא. התקציר " +
+          "אינו נוקב ב-MCXA.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "פריט 9.6.8 'S4TWL - Quality Management Information System (QMIS)' ברשימת הפישוט 2025 FPS01 מציב את QMIS " +
+        "מבוסס LIS בהיקף התאימות של SAP S/4HANA עם זכויות שימוש מוגבלות, קובע שאינו ארכיטקטורת היעד, ונוקב " +
+        "ב-MCXA בין 36 הטרנזקציות שמוחלפות באפליקציות QM Analytics ושיוסרו מ-SAP Fiori launchpad. ספריית " +
+        "אפליקציות Fiori עדיין רושמת את MCXA ב-S32OP כאפליקציית SAP GUI בסטטוס Published; זהו מתח בין המקורות, " +
+        "לא סתירה מוכחת.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MCXA_SIMPL2025,
+      recommendedAction:
+        "לסמן את MCXA כפונקציונליות בהיקף תאימות עם זכויות שימוש מוגבלות ולבדוק ב-SAP note 2269324 (ID 473) את " +
+        "מועד התפוגה של היקף התאימות; לתכנן מעבר לאפליקציות QM Analytics שהפריט מונה, למשל Inspection Lot " +
+        "Analytics Last 365 Days (F3239) ו-Inspection Lot Detailed Analytics (F3273); לבדוק במערכת היעד (SE93 " +
+        "ותוכן ה-Launchpad) אם MCXA עדיין זמינה ב-Launchpad. לא בוצעה בדיקה במערכת SAP חיה.",
+    },
+    xrefs: ["tx:MCVA", "tx:QA32", "tx:QA33"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "שיטה: (1) במאגר, MCXA מופיעה ב-data/tcode-catalog.ts (מודול QM, 'דיווח/ניתוח') " +
+      "וב-data/library/qm-textbook/ch18.ts (הקשר הדרכה, לא ראיה). (2) חיפוש 'MCXA' ב-sap-help-search.mjs בסקופ " +
+      "SAP_S4HANA_ON-PREMISE: 21 רשומות, 0 צוטטו. (3) חיפוש 'Quality Management Information System QMIS' באותו " +
+      "סקופ: 21 רשומות; צוטט תקציר אחד (Quality Evaluations (QMIS)); sap-help-body.mjs לא הופעל ולכן אין ציטוט " +
+      "מגוף עמוד. (4) פריטי הפישוט 'S4TWL - Quality Management Information System (QMIS)' (9.6.8 ב-2025 FPS01, " +
+      "34.1 ב-2023 FPS03) נקראו מהטקסט המחולץ ב-scratchpad/official/. (5) scripts/fal-app.mjs MCXA --release " +
+      "S32OP הופעל ישירות. היסטוריה: הרשומה האוטומטית tx:MCXA ב-data/verification/transactions-auto.ts הביאה " +
+      "את אותם מקורות כהקשר בלבד וללא הכרעת מעמד (verification_required לפי report-coverage.mjs --ids, נמדד " +
+      "לפני הכתיבה) → רשומה זו קובעת compatibility_scope לפי פריט 9.6.8. טיוטה קודמת קבעה conflicting_sources " +
+      "ומנתה כ-34 טרנזקציות → המבקר הוריד ל-compatibility_scope, והספירה תוקנה ל-36 לפי שני הפריטים. ביקורת " +
+      "סבב ראשון טענה שלפריט 34.1 ב-2023 FPS03 אין סעיף Other Terms, והטיוטה המתוקנת כתבה זאת → בפועל הסעיף " +
+      "מופיע בסוף הפריט, אחרי טבלת האפליקציות, עם אותם 36 קודים כולל MCXA. המתח: רשימת הפישוט אומרת " +
+      "שהטרנזקציות יוסרו מ-SAP Fiori launchpad (לשון עתיד, בלי מועד), וספריית Fiori רושמת את MCXA כ-Published " +
+      "ב-S32OP בלי successor. מה שיכריע: בדיקה במערכת S/4HANA 2025 FPS01 (SE93 ותוכן קטלוג " +
+      "SAP_TC_QM_BE_APPS:S4QM ב-Launchpad). אפליקציות F3239, F3273, F3383, F3382, F2428, F3584, F3583 נזכרות " +
+      "בפרוזה בלבד ואינן xref. לא בוצעה בדיקה במערכת SAP חיה. ביקורת אדברסרית חוזרת (2026-09-25) אישרה את " +
+      "הטיוטה המתוקנת ללא בעיות וללא הורדות. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MCXX",
+    evidence: [
+      MCXX_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.1 " +
+          "S4TWL - Quality Management Information System (QMIS)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט הקודם באותה סדרה (Application Component QM-QC-IS) נוקב ב-MCXX פעמיים, בשורה 'MCVC MCVA MCXP MCXV " +
+          "MCXX MCXD MCXB MCXM MCXK MCXI MCXG' (שורות 45104 ו-45153 בטקסט המחולץ), ונושא נוסח זהה לגבי הקבוצה " +
+          "כולה: חלק מ-compatibility scope עם זכויות שימוש מוגבלות, אינו target architecture, מוחלף באפליקציות QM " +
+          "Analytics ויוסר מה-launchpad. הנוסח זהה בשתי גרסאות רשימת הפישוט (2023 FPS03, 2025 FPS01); גם כאן אין " +
+          "מיפוי 1:1 ל-MCXX.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App MCXX 'KPIs - Defects by Material' (SAP GUI), release S32OP (SAP S/4HANA 2025 " +
+          "FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MCXX')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori (scripts/fal-app.mjs MCXX --release S32OP) רושמת את MCXX עצמה " +
+          "כאפליקציה 'KPIs - Defects by Material' מטכנולוגיית SAP GUI, בסטטוס Published, רכיב QM-QN (Quality " +
+          "Notifications), תחת קטלוג טכני SAP_TC_QM_BE_APPS:S4QM, intent Material-displayKPIDefects, GUI " +
+          "transaction מובילה ומקושרת MCXX. רשימת ה-releases כוללת את S6OP (1610) עד S32OP (2025 FPS01, המהדורה " +
+          "העדכנית On-Premise), ללא גרסאות 1909. אין predecessors ואין successors רשומים (שני השדות ריקים). RIN " +
+          "notes: 3493254 (Front-End Server), 3671888 (Back-End Server).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MCXX",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מסווגת את MCXX במודול QM, תחום 'דיווח/ניתוח', שם עברי 'מדדי ביצוע: פגמים לפי חומר', שם " +
+          "אנגלי 'KPIs - Defects by Material'; זהו סיווג מבנה פרויקטלי, לא ראיה רשמית. התווית תואמת את השם הרשמי " +
+          "בספריית Fiori.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MCXX",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "MCXX נמנה עם קודי QMIS (מבוסס LIS) שהפריט 'S4TWL - Quality Management Information System (QMIS)' (2025 " +
+        "FPS01 §9.6.8, ובנוסח זהה ב-2023 FPS03 §34.1) מגדיר כחלק מ-compatibility scope עם זכויות שימוש מוגבלות " +
+        "ולא כארכיטקטורת היעד (SAP Note 2269324, ID 473). אותו פריט קובע שהטרנזקציות ברשימה, כולל MCXX, מוחלפות " +
+        "באפליקציות Fiori של QM Analytics ויוסרו מ-SAP Fiori launchpad, בלי לשייך אפליקציה מסוימת ל-MCXX; ספריית " +
+        "Fiori רושמת את MCXX עצמו (SAP GUI, 'KPIs - Defects by Material') כ-Published ב-S32OP ללא successor.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MCXX_SIMPL2025,
+      recommendedAction:
+        "לבדוק ב-SAP Note 2269324 (מטריצת compatibility scope, מזהה 473) את תוקף הזכויות המוגבלות, ולתכנן מעבר " +
+        "לאפליקציית QM Analytics המתאימה לדיווח על פגמים לפי חומר (מתוך הקבוצה שהפריט מפנה אליה, לדוגמה " +
+        "Nonconformance Analytics), לאחר בדיקת התאמה פונקציונלית פרטנית, מכיוון שאף מקור רשמי לא קבע מיפוי ישיר " +
+        "בין MCXX לאפליקציה ספציפית מביניהן. לאמת ב-SE93 במערכת יעד שהטרנזקציה עדיין פעילה שם; לא בוצעה בדיקה " +
+        "במערכת SAP חיה.",
+    },
+    xrefs: ["tx:MCXA", "tx:MCXB", "tx:MCXC", "tx:MCVA"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "שיטה: (1) grep במאגר: data/tcode-catalog.ts (סיווג QM/דיווח-ניתוח, תואם לשם הרשמי בספריית Fiori; " +
+      "אי-התאמה לשם 'QM Notifications Analysis' שסופק כרמז למחקר צוינה ולא נעשה בה שימוש), " +
+      "data/verification/transactions-auto.ts (רשומה אוטומטית קיימת ל-tx:MCXX, כל שדותיה context:true, ללא " +
+      "הכרעת מעמד; רשומה זו מחליפה אותה; ישן: verification_required לפי report-coverage.mjs --ids, חדש: " +
+      "compatibility_scope), lib/route-manifest.generated.ts (MCXX קיימת ב-tcodes). (2) חיפושי " +
+      "sap-help-search.mjs: 'MCXX' עם --product SAP_S4HANA_ON-PREMISE (21 תוצאות, 0 פגיעה ב-MCXX, כולן " +
+      "HCM/Retail/אבטחה), 'MCXX' עם --product SAP_ERP (21 תוצאות, 0 פגיעה, MCSX/כלליות), 'KPIs Defects by " +
+      "Material QM Analytics' (21 תוצאות, כולל עמוד 'Quality Management' הכללי, 'Standard Analyses: Quality " +
+      "Management Information System' ו-'Nonconformance Analytics' מ-What's New 1909, ללא פגיעה ישירה ב-MCXX). " +
+      "מסקנה: החיפושים לא החזירו עמוד תיעוד ייעודי ל-MCXX, לא ב-S/4HANA On-Premise ולא ב-ECC; ממצא שלילי " +
+      "מתועד, לא קביעה שעמוד כזה אינו קיים. לא הורץ sap-help-body.mjs, כי אף סניפט חיפוש לא נגע ב-MCXX ישירות. " +
+      "(3) node scripts/fal-app.mjs MCXX --release S32OP: רשומה מלאה (ראו evidence[2]) כולל רכיב QM-QN, קטלוג " +
+      "SAP_TC_QM_BE_APPS:S4QM, intent Material-displayKPIDefects; פרטים מלאים יותר מהרשומה האוטומטית הקודמת " +
+      "(שם, סוג וסטטוס בלבד). (4) שני פריטי הפישוט נקראו במלואם: scratchpad/official/SIMPL_OP2025.pdf.txt " +
+      "שורות 45806-45880 ו-SIMPL_OP2023.pdf.txt שורות 45061-45155 (אינדקס: " +
+      "audit/master-completion/simpl-tcode-index.json מפנה ל-MCXX תחת 34.1/2023 ו-9.6.8/2025). מה שלא אומת: " +
+      "(א) SAP Note 2269324 ו-2270193 לא נקראו בנפרד, דורשים S-user. (ב) לא אומתה אפליקציית Fiori ספציפית " +
+      "שנועדה כתחליף 1:1 ל-MCXX מתוך קבוצת אפליקציות QM Analytics שהפריט מונה (F3239, F3273, F3383, F3382, " +
+      "F2428, F3584, F3583); אף אחת מהן אינה ב-data/fiori/apps.ts, ולכן לא נרשם successor או xref ל-fiori:*. " +
+      "(ג) לא בוצעה בדיקה במערכת SAP חיה (SE93/הרצת MCXX בפועל). (ד) הרמז 'QM Notifications Analysis' שסופק " +
+      "למחקר אינו תואם את tcode-catalog.ts ('KPIs - Defects by Material') ואת השם הרשמי ב-Fiori Apps Library; " +
+      "ייתכן שמדובר בבלבול עם MCVA ('QM Notifications: Overview' לפי תווית המאגר, ראה tx:MCVA). הרשומה אינה " +
+      "נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MSC1N",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Logistics Batch Management (SAP S/4HANA 2025 Feature Pack Stack 1 Simplification List, item " +
+          "5.1.8, Application Component LO-BM-MD)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פריט S4TWL - Logistics Batch Management קובע כי בהמרה ל-S/4HANA on-premise edition 1511 הטרנזקציות " +
+          "הישנות MSC1, MSC2, MSC3 ו-MSC4 אינן זמינות עוד, וכי 'The functional equivalent in SAP S/4HANA, " +
+          "on-premise edition 1511 are the following transactions: MSC1N Create Batch MSC2N Change Batch MSC3N " +
+          "Display Batch MSC4N Display Change Documents for Batch'. הפריט מוסיף כי החל ממהדורה 4.6A תחזוקת רשומת " +
+          "האצווה נבנתה מחדש והוקצתה לקודי ה-N, ושכבר אז הומלץ להשתמש בהם ('Already at this point in time it was " +
+          "recommended to use the new transaction codes (MSC*N)'). לגבי MSC1N עצמו הפריט אינו קובע החלפה, הסרה או " +
+          "שינוי: הוא מוזכר כשקול הפונקציונלי, ולא כקוד המושפע.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Batch Data (Single and Composite Roles (PFCG))",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/a976b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (loio a976b6535fe6b74ce10000000a174cb4, versionId 2025.001) מציגה בסניפט: " +
+          "'Activities in Batch Management Transaction Activity MSC1N Create Batch MSC2N Change Batch MSC3N " +
+          "Display Batch MSC4N Display Changes MSC5N Mass Processing MSC6N ...'. לפי הסניפט, MSC1N מתועד בתפקידי " +
+          "ה-PFCG של S/4HANA 2025 FPS01 כטרנזקציית 'Create Batch' ברשימת הפעילויות של ניהול אצוות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Batch Data (Single and Composite Roles (PFCG))",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/a976b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "אותה רשומת חיפוש, בסקופ SAP_ERP (6.0 EHP8 Latest, versionId 6.18.latest, loio זהה), מציגה סניפט זהה: " +
+          "'Activities in Batch Management Transaction Activity MSC1N Create Batch MSC2N Change Batch MSC3N " +
+          "Display Batch MSC4N Display Changes MSC5N Mass Processing MSC6N ...'. בצד ה-ECC (SAP ERP 6.0 EHP8) " +
+          "MSC1N מופיע כ-'Create Batch' ברשימת הפעילויות של ניהול אצוות.",
+        verificationLevel: "sap_official_verified",
+      },
+      MSC1N_FAL_S32OP,
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MSC1N (Create Batch) ממשיכה להתקיים ב-S/4HANA on-premise בלי שינוי שנמצא לו מקור רשמי. פריט הפישוט " +
+        "S4TWL - Logistics Batch Management (5.1.8 ברשימת 2025 FPS01, 3.3 ברשימת 2023 FPS03) מסיר את הקודים " +
+        "הישנים MSC1, MSC2, MSC3 ו-MSC4 ומציין את MSC1N כשקול הפונקציונלי שלהם, הקיים מאז מהדורה 4.6A. ספריית " +
+        "אפליקציות ה-Fiori מציגה אותה כאפליקציית SAP GUI בסטטוס Published עד S/4HANA 2025 FPS01, ללא יורש רשום.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MSC1N_FAL_S32OP,
+      recommendedAction:
+        "לא נדרשת פעולת המרה עבור MSC1N עצמו. יש להחליף כל שימוש קיים בקודים הישנים MSC1, MSC2, MSC3 ו-MSC4 " +
+        "(תפריטים, CALL TRANSACTION, תפקידים) בקודי ה-N המקבילים (MSC1N, MSC2N, MSC3N, MSC4N), לפי פריט הפישוט " +
+        "S4TWL - Logistics Batch Management.",
+    },
+    xrefs: [
+      "tx:MSC2N",
+      "tx:MSC3N",
+      "tx:MSC4N",
+      "table:MCH1",
+      "table:MCHA",
+      "fiori:F2462",
+      "fm:BAPI_BATCH_CREATE",
+      "cds:I_Batch",
+    ],
+    lastVerifiedAt: DATE25,
+    notes:
+      "רשומות המאגר: data/tx-intel.ts#MSC1N נותנת מודול QM ותחום 'ניהול אצוות (Batch Management)'; " +
+      "data/tcode-catalog.ts#MSC1N נותנת מודול PP-PI, תחום 'אצוות' וכותרת אנגלית 'Create Batch'. פריט הפישוט " +
+      "S4TWL - Logistics Batch Management נקרא במלואו בשתי רשימות הפישוט הרשמיות (2025 FPS01 פריט 5.1.8, 2023 " +
+      "FPS03 פריט 3.3, באותו נוסח): הוא עוסק בהסרת MSC1/MSC2/MSC3/MSC4, ואת MSC1N הוא מזכיר כשקול הפונקציונלי. " +
+      "Old → New: רשומה גנרית קודמת (data/verification/transactions-auto.ts#MSC1N, נוצרה ב-2026-09-24 ללא " +
+      "הכרעת מעמד; לפני כתיבת רשומה זו הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת " +
+      "repository_verified) מוחלפת ברשומה זו; חדש: unchanged. לא בוצעה בדיקה במערכת SAP חיה; תפקידי ה-PFCG " +
+      "והקטלוגים נלקחו מפלט הכלים הרשמיים (sap-help-search.mjs, fal-app.mjs) ולא מקריאת גוף עמוד. הרשומה אינה " +
+      "נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MSC2N",
+    evidence: [
+      MSC2N_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 – Feature Pack Stack 3 · item 3.3 S4TWL - Logistics Batch Management",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 3.3 (עמ' 127-128, אותו רכיב LO-BM-MD והערה 2267298) מדפיס נוסח זהה לזה שבפריט 5.1.8 ברשימת 2025 " +
+          "FPS01: MSC1, MSC2, MSC3, MSC4 אינן זמינות ב-on-premise edition 1511, והמקבילה הפונקציונלית היא " +
+          "MSC1N/MSC2N/MSC3N/MSC4N. שני הפריטים מדפיסים את אותה קביעה מילה במילה; MSC2N מופיעה בשניהם כמקבילה " +
+          "הפונקציונלית, ואף אחד מהם אינו קובע לגביה החלפה או הוצאה משימוש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App MSC2N 'Change Batch' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MSC2N')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את MSC2N כאפליקציה 'Change Batch' מסוג SAP GUI, סטטוס " +
+          "Published, ברכיב LO-BM (Batch Management), עם תפקידים SAP_BR_PRODN_SUPERVISOR_PROC (R0115-11) " +
+          "ו-SAP_BR_QUALITY_TECHNICIAN (R0134), קטלוג עסקי SAP_SCM_BC_BATCH_MGMT וקטלוג טכני " +
+          "SAP_TC_SCM_PP_BE_APPS:S4PP; טרנזקציית ה-GUI המובילה והקשורה היא MSC2N עצמה, ורשימת המהדורות משתרעת " +
+          "מ-S6OP (1610) ועד S32OP (2025 FPS01) ללא predecessor/successor רשומים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Creating Batch Master Records | Extended Warehouse Management (EWM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/6f1076bd3394434e8891bbbaceb41575.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Extended Warehouse Management (EWM), S/4HANA On-Premise 2025 FPS01, versionId " +
+          "2025.001, loio 6f1076bd3394434e8891bbbaceb41575) מציגה בסניפט: 'You can change batch master records in " +
+          "the Change Batch app (transaction MSC2N).' כלומר MSC2N מתועדת בשמה כטרנזקציה שמאחורי אפליקציית Change " +
+          "Batch בתיעוד S/4HANA 2025 FPS01; הטענה תחומה בסניפט, גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "s4_native",
+      he:
+        "פריט הפישוט 'S4TWL - Logistics Batch Management' (5.1.8 ברשימת 2025 FPS01, 3.3 ברשימת 2023 FPS03, שני " +
+        "הפריטים בנוסח זהה) קובע כי MSC1, MSC2, MSC3 ו-MSC4 אינן זמינות ב-SAP S/4HANA on-premise edition 1511, " +
+        "ומציין את MSC2N בשמה כמקבילה הפונקציונלית לטרנזקציית MSC2 שאינה זמינה עוד: 'MSC2N Change Batch'. ספריית " +
+        "האפליקציות הרשמית של Fiori מאשרת ש-MSC2N היא אפליקציית SAP GUI קטלוגית (Published) עם תפקידים וקטלוג " +
+        "עסקי, לאורך רצף מהדורות on-premise מ-1610 ועד 2025 FPS01, ותיעוד S/4HANA 2025 FPS01 מתאר אותה כטרנזקציה " +
+        "שמאחורי אפליקציית Change Batch. אף מקור רשמי שנבדק בסבב זה אינו קובע לגבי MSC2N עצמה הגבלה, שינוי מבני " +
+        "או הוצאה משימוש.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MSC2N_SIMPL2025,
+      recommendedAction:
+        "להמשיך לעבוד עם MSC2N (אפליקציית Change Batch) לתחזוקת נתוני אצווה, ולוודא בפרויקט ההמרה שקוד מותאם " +
+        "וממשקים אינם עדיין קוראים לטרנזקציות הישנות MSC1/MSC2/MSC3/MSC4 שאינן זמינות ב-S/4HANA on-premise; יש " +
+        "להסב קריאות כאלה ל-MSC1N/MSC2N/MSC3N/MSC4N לפי הצורך. מומלץ לאמת ב-SE93 במערכת היעד שהקוד פעיל ושתפקידי " +
+        "ה-Fiori (SAP_BR_PRODN_SUPERVISOR_PROC, SAP_BR_QUALITY_TECHNICIAN) מוקצים כנדרש, שכן לא בוצעה בדיקה " +
+        "במערכת SAP חיה בסבב זה.",
+    },
+    xrefs: ["tx:MSC1N", "tx:MSC3N", "tx:MSC4N"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "שיטה: (1) grep על MSC2N במאגר: data/tcode-catalog.ts#MSC2N מסווג אותה במודול PP-PI, אזור 'אצוות', שם " +
+      "אנגלי 'Change Batch' (סיווג פרויקטלי, לא ראיה רשמית); data/sap-notes.ts ו-data/troubleshooting-ext.ts " +
+      "מזכירים MSC2N בהקשרי תחזוקת מאפייני אצווה ותהליכי איכות; data/cds-enrichment.ts#eccAlternative מציין " +
+      "MSC1N/MSC2N/MSC3N כחלופת ECC לטבלאות MCH1/MCHA. רשומה זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:MSC2N " +
+      "ב-data/verification/transactions-auto.ts (2026-09-24, ללא הכרעת מעמד; רשומות המאגר tx-intel.ts#MSC2N " +
+      "במודול QM ו-tcode-catalog.ts#MSC2N, וסניפטים רשמיים מ-Single and Composite Roles (PFCG) ומ-Retail); ישן " +
+      "→ חדש: ללא מעמד (לפני כתיבת רשומה זו הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת " +
+      "repository_verified) → s4_native. (2) חיפושים דרך scripts/sap-help-search.mjs: 'MSC2N Change Batch' " +
+      "(ברירת מחדל S/4HANA On-Premise, 21 תוצאות, כמה מדפיסות MSC2N בסניפט במפורש, כולל התוצאה שצוטטה); לא " +
+      "הורצו חיפושים נוספים עם --product SAP_ERP, וההיסק על הצד ECC (זמינות עד 1511) נשען על פריט הפישוט עצמו " +
+      "ולא על חיפוש ECC נפרד. לא הורץ sap-help-body.mjs; הסניפטים הספיקו לקביעת הטענות. (3) שני פריטי הפישוט " +
+      "(2025 FPS01 §5.1.8, 2023 FPS03 §3.3) נקראו במלואם מהטקסט המחולץ " +
+      "ב-scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt. (4) node scripts/fal-app.mjs MSC2N " +
+      "--release S32OP הריץ בהצלחה והחזיר רשומה מלאה (Published, SAP GUI, roles, קטלוגים, רצף מהדורות מ-S6OP " +
+      "עד S32OP, ללא predecessor/successor). מה שלא אומת: (א) מבנה השדות המלא של מסך MSC2N או הטבלה מאחוריו. " +
+      "(ב) SAP Note 2267298 (מודפס בגוף שני פריטי הפישוט) לא נקרא בנפרד (דורש S-user). (ג) tx:MSC1, tx:MSC2, " +
+      "tx:MSC3, tx:MSC4 ו-tx:MSC1N/MSC3N/MSC4N עצמן לא נחקרו בסבב זה; נכללו כ-xref בלבד כי הם מופיעים " +
+      "ב-lib/route-manifest.generated.ts. (ד) לא בוצעה בדיקה במערכת SAP חיה; אין אימות SE93 לרישום התוכנית " +
+      "מאחורי MSC2N. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MSC3N",
+    evidence: [
+      MSC3N_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 3.3 " +
+          "S4TWL - Logistics Batch Management",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 3.3 'S4TWL - Logistics Batch Management' (Application Component LO-BM-MD, Note 2267298) בגרסת 2023 " +
+          "FPS03 נוקב באותו נוסח מילה במילה כמו הפריט המקביל ב-2025 FPS01: MSC1, MSC2, MSC3, MSC4 אינם זמינים " +
+          "ב-S/4HANA On-Premise 1511 ואילך, ו-MSC3N ('Display Batch') הוא ה-'functional equivalent' של MSC3 שממשיך " +
+          "לשמש, ללא השפעה על התהליך העסקי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Batch Data | Single and Composite Roles (PFCG)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/a976b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Single and Composite Roles (PFCG), 2025 FPS01, versionId 2025.001, loio " +
+          "a976b6535fe6b74ce10000000a174cb4, תאריך פרסום 2026-02-24) מציגה את MSC3N ברשימת הפעילויות של Batch " +
+          "Management עם התיאור 'MSC3N Display Batch', כלומר MSC3N מופיע ברשימת הפעילויות של Batch Management " +
+          "בתיעוד התפקידים (PFCG) של S/4HANA On-Premise 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App MSC3N 'Display Batch' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MSC3N')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את MSC3N כאפליקציית SAP GUI 'Display Batch' בסטטוס Published, " +
+          "ברכיב LO-BM (Batch Management), עם קטלוג טכני SAP_TC_SCM_PP_BE_APPS:S4PP; היא מופיעה ברציפות מגרסת S6OP " +
+          "(S/4HANA 1610) ועד S32OP (2025 FPS01), ושדות predecessors ו-successors ריקים, כלומר הספרייה אינה רושמת " +
+          "קוד מחליף ל-MSC3N עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MSC3N (תצוגת אצווה) הוא הקוד המומלץ לתצוגת נתוני אצווה מאז גרסת 4.6A, ופריט הפישוט נוקב בו כקוד שמשמש " +
+        "ב-SAP S/4HANA On-Premise; פריט הפישוט S4TWL - Logistics Batch Management קובע שהקוד הישן MSC3 (ללא N) " +
+        "הוסר וש-MSC3N הוא ה'functional equivalent' שלו, ואינו קובע כל שינוי או החלפה עבור MSC3N עצמו.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: MSC3N_SIMPL2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-MSC3N לתצוגת אצווה; אם קיימת עדיין תלות בקוד הישן MSC3 (ללא N), לעדכן לפי פריט הפישוט " +
+        "אל MSC3N.",
+    },
+    xrefs: ["tx:MSC1N", "tx:MSC2N", "tx:MSC4N", "tx:MSC3", "table:MCH1", "table:MCHA"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "החוקר קרא את פריט הפישוט עצמו (לא רק את הכותרת) בשני הקטעים המקומיים שהוצאו " +
+      "מ-scratchpad/official/SIMPL_OP2025.pdf.txt (שורות 5388-5433) ו-SIMPL_OP2023.pdf.txt (שורות 7916-7963): " +
+      "הפריט דן בארבעת הקודים הישנים MSC1-MSC4 ולא ב-MSC3N; MSC3N מוזכר בו כ-functional equivalent שממשיך " +
+      "לשמש. הרצת שני חיפושי sap-help-search (MSC3N Display Batch, סקופ SAP_S4HANA_ON-PREMISE ו-SAP_ERP, 21 " +
+      "תוצאות כל אחד) החזירה בשני הסקופים את עמוד ה-PFCG ‏Maintain Batch Data, שנוקב ב-MSC3N Display Batch " +
+      "ברשימת הפעילויות (S/4HANA ‏2025.001; ECC ‏6.18.latest). הרצת fal-app.mjs MSC3N --release S32OP אישרה " +
+      "זמינות רציפה מ-1610 עד 2025 FPS01 ללא predecessor/successor. לא בוצעה בדיקה במערכת SAP חיה; אין ראיה " +
+      "ל-Fiori app מספרי (F-id) ייעודי ל-MSC3N מעבר לעטיפת ה-SAP GUI ברשימת האפליקציות. רשומה מחקרית זו מחליפה " +
+      "את הרשומה שנוצרה אוטומטית ל-tx:MSC3N ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, ולפני כתיבתה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified; חדש: unchanged). הרשומה אינה " +
+      "נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MSC4N",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.8 S4TWL - Logistics Batch " +
+          "Management (LO-BM-MD)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פריט 5.1.8 'S4TWL - Logistics Batch Management' (רכיב יישום LO-BM-MD, עמ' 104, Document Version 1.36) " +
+          "קובע: 'The following transactions related to Logistics Batch Management are not available in SAP " +
+          "S/4HANA, on-premise edition 1511: MSC1, MSC2, MSC3 and MSC4. The functional equivalent in SAP S/4HANA, " +
+          "on-premise edition 1511 are the following transactions: MSC1N Create Batch, MSC2N Change Batch, MSC3N " +
+          "Display Batch, MSC4N Display Change Documents for Batch. As of Release 4.6A, the maintenance of batch " +
+          "master data has been completely reworked and assigned to new transaction codes.' לעניין התהליך העסקי " +
+          "נכתב: 'No influence on the business process'. הפריט עוסק בקודים MSC1/MSC2/MSC3/MSC4 שאינם זמינים " +
+          "ב-S/4HANA, ומונה את MSC4N (Display Change Documents for Batch) כתחליף הפונקציונלי ל-MSC4; הפריט מציין " +
+          "שקודי MSC*N הומלצו לשימוש כבר מאז מהדורה 4.6A. Related Note 0002267298 מודפס בפריט. אותו נוסח מופיע גם " +
+          "ברשימת 2023 FPS03, פריט 3.3.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Batch Data | Single and Composite Roles (PFCG)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/a976b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Single and Composite Roles (PFCG), SAP S/4HANA 2025 FPS01, versionId 2025.001, " +
+          "loio a976b6535fe6b74ce10000000a174cb4, כותרת Maintain Batch Data) מונה את MSC4N ברשימת הפעילויות: " +
+          "'Activities in Batch Management Transaction Activity MSC1N Create Batch MSC2N Change Batch MSC3N " +
+          "Display Batch MSC4N Display Changes MSC5N Mass Processing MSC6N ...'.",
+        verificationLevel: "sap_official_verified",
+      },
+      MSC4N_FAL_S32OP,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Batch Data | Single and Composite Roles (PFCG)",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/a976b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "בתיעוד SAP ERP 6.0 EHP8 (versionId 6.18.latest) אותה רשומה מונה את MSC4N Display Changes ברשימת " +
+          "הפעילויות של ניהול אצוות: 'Activities in Batch Management Transaction Activity MSC1N Create Batch MSC2N " +
+          "Change Batch MSC3N Display Batch MSC4N Display Changes MSC5N Mass Processing MSC6N ...'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MSC4N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "הקטלוג הפנימי (data/tcode-catalog.ts#MSC4N) מגדיר את MSC4N כטרנזקציית PP-PI, אזור 'אצוות', שם עברי " +
+          "'הצגת מסמכי שינוי לאצווה' ושם אנגלי 'Display Change Documents for Batch'. רשומת data/tx-intel.ts#MSC4N " +
+          "משייכת אותו למודול QM, אזור 'ניהול אצוות (Batch Management)'; שני התיוגים נשמרים כפי שהם במאגר.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MSC4N",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "MSC4N (Display Change Documents for Batch) מתועד הן ב-SAP ECC (תיעוד התפקידים של SAP ERP 6.0 EHP8) והן " +
+        "ב-SAP S/4HANA On-Premise. פריט הפישוט 'S4TWL - Logistics Batch Management' (2025 FPS01, סעיף 5.1.8) " +
+        "מונה אותו כתחליף הפונקציונלי ל-MSC4 שאינו זמין ב-S/4HANA, וספריית האפליקציות של Fiori רושמת אותו " +
+        "כאפליקציית SAP GUI בסטטוס Published עד S32OP (2025 FPS01), ללא successor.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MSC4N_FAL_S32OP,
+      recommendedAction:
+        "לאתר במערכת המקור שימוש בקודים הישנים MSC1/MSC2/MSC3/MSC4 (תפריטים, תפקידים, קוד לקוח) ולהפנות אותם " +
+        "לקודי ה-N המקבילים, ובהם MSC4N במקום MSC4, לפי הפריט 'S4TWL - Logistics Batch Management'. לאמת במערכת " +
+        "היעד את הקצאת MSC4N לתפקידים הרלוונטיים.",
+    },
+    xrefs: ["tx:MSC1N", "tx:MSC2N", "tx:MSC3N"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) הפריט 'S4TWL - Logistics Batch Management' נקרא בטקסט המחולץ של רשימת 2025 FPS01 " +
+      "(scratchpad/official/SIMPL_OP2025.pdf.txt, שורות 5388-5433, פריט 5.1.8, עמ' 104) ושל 2023 FPS03 " +
+      "(SIMPL_OP2023.pdf.txt, שורות 7916-7971, פריט 3.3); הנוסח זהה. (2) node scripts/sap-help-search.mjs " +
+      "\"MSC4N\" --size 12 --json (סקופ SAP_S4HANA_ON-PREMISE): 21 רשומות; מצוטטת הרשומה 'Maintain Batch Data' " +
+      "(loio a976b6535fe6b74ce10000000a174cb4, versionId 2025.001). (3) אותו חיפוש עם --product SAP_ERP: 21 " +
+      "רשומות; מצוטטת אותה רשומה (versionId 6.18.latest) כשורת ECC נפרדת. (4) node scripts/fal-app.mjs MSC4N " +
+      "--release S32OP: Published, LO-BM, ללא predecessor וללא successor; רשימת המהדורות מתחילה ב-S6OP (1610) " +
+      "ומגיעה עד S32OP ל-On-Premise, וכוללת גם גרסאות PCE ואת S36 (2602) ו-S37 (2608). status.source הוא שורת " +
+      "ה-fiori_library (evidence[2]). לא נקבע successor, כי אף מקור אינו רושם כזה. תיוג המודול במאגר אינו אחיד " +
+      "(tcode-catalog.ts: PP-PI; tx-intel.ts: QM); הרכיב ב-FAL הוא LO-BM. לא בוצעה בדיקה במערכת SAP חיה. רשומה " +
+      "מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:MSC4N ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, " +
+      "ולפני כתיבתה הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified; חדש: " +
+      "unchanged). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QA32",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services (Simplification List for SAP S/4HANA 2023 - " +
+          "Feature Pack Stack 3, item 34.7)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (עמ' 882-883) קובע ש-SAP Internet Transaction Server (ITS) ו-mySAP Workplace אינם זמינים ב-SAP " +
+          "S/4HANA, ולכן ה-MiniApps המבוססים עליהם אינם זמינים; כחלופה הוא מפנה לטרנזקציות ה-QM המקבילות ב-SAP GUI " +
+          "for HTML או לאפליקציות Web Dynpro בתפקיד SAP_SR_QUALITY_INSPECT_5. ברשימת 'Transaction not available in " +
+          "SAP S/4HANA on-premise edition 1511' מופיעים, בין היתר, QA32WP ('QA32 - Call from Workplace/MiniApp'), " +
+          "QPQA32 ('QM MiniApp Selection Variant'), WAO_QA32WP ('QA32 -Call from Workplace/MiniApp') ו-WAO_QPQA32 " +
+          "('QM iView Selection Variant Insp.Lot'). QA32 מופיע בטקסט התיאור של QA32WP ו-WAO_QA32WP, ולא כקוד נפרד " +
+          "ברשימה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services (Simplification List for SAP S/4HANA 2025 - " +
+          "Feature Pack Stack 1, item 9.6.4)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "אותו נוסח חוזר בגרסת 2025 FPS01 (עמ' 817-818): ITS ו-mySAP Workplace אינם זמינים ב-SAP S/4HANA ולכן " +
+          "ה-MiniApps אינם זמינים. ברשימת 'Transaction not available in SAP S/4HANA on-premise edition 1511' " +
+          "מופיעים QA32WP ('QA32 Call from Workplace/MiniApp'), QPQA32 ('QM MiniApp Selection Variant'), " +
+          "WAO_QA32WP ('QA32 -Call from Workplace/MiniApp') ו-WAO_QPQA32 ('QM iView Selection Variant Insp.Lot'); " +
+          "QA32 מופיע בטקסט התיאור של QA32WP ו-WAO_QA32WP, ולא כקוד נפרד ברשימה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Edit Inspection Lot - Transaction",
+        url: "https://help.sap.com/docs/SAP_ERP/2ff9f2a003194e3b93e8201a0b44618f/76c2b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש (Business Package for Quality Inspector 1.3, SAP ERP 6.0 EHP8) מתעדת iView בשם 'Edit " +
+          "Inspection Lot' מסוג ITS/SAP GUI for HTML, ומציינת את QA32 כמקור הנתונים שלו ('Data origin Transaction: " +
+          "QA32'), לפי תקציר רשומת החיפוש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App QA32 'Process Inspection Lots - Worklist' (SAP GUI), release S32OP (SAP " +
+          "S/4HANA 2025 FPS01, On-Premise)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('QA32')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת Fiori Apps Library למזהה 'QA32' מציגה אותו כאפליקציית SAP GUI בשם 'Process Inspection Lots - " +
+          "Worklist', סטטוס Published, רכיב QM-PT-BD, תפקידים SAP_BR_QUALITY_ENGINEER, SAP_BR_QUALITY_MANAGER " +
+          "ו-SAP_BR_QUALITY_TECHNICIAN, business catalog SAP_QM_BC_INSP_LOT_MNTRG, intent " +
+          "InspectionLot-changeWorklist, GUI transaction מוביל QA32. שדה ה-releases כולל את S32OP (2025 FPS01, " +
+          "On-Premise); predecessors ו-successors שניהם ריקים ('-'). חיפוש לפי tcode QA32 ב-S32OP מחזיר ארבע " +
+          "אפליקציות מובילות: F2343 Manage Inspection Lots, F2360 Quality Engineer Overview, F2361 Quality " +
+          "Technician Overview ו-QA32 עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      QA32_F2343_FAL_S32OP,
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "QA32 רשומה בספריית ה-Fiori במהדורה S32OP (SAP S/4HANA 2025 FPS01) כאפליקציית SAP GUI בשם Process " +
+        "Inspection Lots - Worklist ללא אפליקציה מחליפה רשומה, ואפליקציית ה-Fiori F2343 Manage Inspection Lots " +
+        "רשומה כמובילה עם הקוד QA32. פריט הפישוט S4TWL - QM WEB Workplace (MiniApps) based on ITS Services נוקב " +
+        "ב-QA32WP, ב-WAO_QA32WP ובווריאנטי הבחירה QPQA32 ו-WAO_QPQA32, ולא ב-QA32 כקוד נפרד.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QA32_F2343_FAL_S32OP,
+      recommendedAction:
+        "לפני ההמרה לבדוק שימוש ב-QA32WP, ב-WAO_QA32WP ובווריאנטי QPQA32 / WAO_QPQA32 (MiniApps ו-ITS של QM) " +
+        "ולתכנן חלופה לפי הפריט: טרנזקציות ה-QM ב-SAP GUI for HTML או אפליקציות Web Dynpro. לבחון את F2343 " +
+        "Manage Inspection Lots (תפקידים SAP_BR_QUALITY_ENGINEER, SAP_BR_QUALITY_TECHNICIAN, " +
+        "SAP_BR_MAINTENANCE_PLANNER) כממשק Fiori לעבודה עם מנות בדיקה לצד QA32.",
+    },
+    xrefs: ["tx:QA33", "tx:QA03"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: פריט הפישוט S4TWL - QM WEB Workplace (MiniApps) based on ITS Services נקרא ישירות מהטקסט " +
+      "המחולץ (scratchpad/official/SIMPL_OP2023.pdf.txt, פריט 34.7, עמ' 882-883; SIMPL_OP2025.pdf.txt, פריט " +
+      "9.6.4, עמ' 817-818). הקודים בפריט שבשמם מופיע QA32 הם QA32WP, WAO_QA32WP, QPQA32 ו-WAO_QPQA32; לא QA32 " +
+      "כקוד נפרד. fal-app.mjs רץ שלוש פעמים ב-S32OP: '--tcode QA32' (ארבע אפליקציות מובילות: F2343, F2360 " +
+      "Quality Engineer Overview, F2361 Quality Technician Overview ו-QA32), 'QA32' (רשומת ה-GUI, successors " +
+      "ריק) ו-'F2343'. F2343, F2360 ו-F2361 אינם רשומים ב-data/fiori/apps.ts ולכן אינם ב-xrefs. " +
+      "sap-help-search.mjs 'Edit Inspection Lot Transaction QA32' (--product SAP_ERP, 21 תוצאות) החזיר את " +
+      "רשומת ה-ECC; לא נקרא גוף עמוד ב-sap-help-body.mjs, הטענה תחומה בתקציר. tx:QA33 ו-tx:QA03 נכללו כ-xrefs " +
+      "לפי שורת 'related' ברשומת F2343 ונמצאו ב-lib/route-manifest.generated.ts. תיקון מביקורת: Old → New: " +
+      "מקור הסטטוס הצביע על כתובת F2343 עם טענה על רשומת ה-GUI של QA32 → שתי שורות fiori_library נפרדות, " +
+      "והסטטוס מצביע על שורת F2343; נוסח 'אך ורק' ושם עברי שאינו מודפס במקור הוסרו. לא בוצעה בדיקה במערכת SAP " +
+      "חיה. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:QA32 ב-transactions-auto.ts (ישן: ללא הכרעת " +
+      "מעמד, ולפני כתיבתה הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified; חדש: " +
+      "fiori_alternative_available). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QC20",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#QC20",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את QC20 כ'יצירת תעודות איכות לאספקות' (Create Quality Certificates - For Deliveries), " +
+          "מודול QM, תחום 'תעודות איכות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#QC20",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App QC20 'Create Quality Certificates - For Deliveries' (SAP GUI / SAP GUI), " +
+          "release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('QC20')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות של Fiori (scripts/fal-app.mjs QC20 --release S32OP) רושמת את QC20 בסטטוס 'Published', " +
+          "סוג UI 'SAP GUI / SAP GUI', רכיב QM-CA-MD (Basic Data for Quality Certificates), תפקיד " +
+          "SAP_BR_QUALITY_TECHNICIAN (R0134), קטלוג עסקי SAP_QM_BC_CERT_OUTGOING, GUI transactions: leading QC20. " +
+          "רשימת ה-releases כוללת את S6OP (1610) ועד S32OP (2025 FPS01), בנוסף ל-PCE מ-S29PCE; S15OP ו-S16OP " +
+          "(1909, 1909 FPS01) אינם מופיעים ברשימה. predecessor/successor אינם רשומים ('predecessors: -; " +
+          "successors: -'). RIN notes: 3493254, 3671888.",
+        verificationLevel: "sap_official_verified",
+      },
+      QC20_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.6 " +
+          "S4TWL - ITS services in QM",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 34.6 (SAP Note 2270126, אותה כותרת) חוזר על אותו נוסח בגרסה מוקדמת יותר של הרשימה: 'Certificates: " +
+          "No WebDynpro application available. However, existing QM transactions are still available, such as " +
+          "QC20, QC21'. הנוסח עקבי בין 2023 FPS03 ל-2025 FPS01: QC20 מוזכר כטרנזקציה קיימת וזמינה, לא כמוחלפת או " +
+          "מוסרת.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "QC20 נשאר זמין ב-SAP S/4HANA On-Premise, ופריט הפישוט אינו מטיל עליו שינוי. פריט הפישוט 'S4TWL - ITS " +
+        "services in QM' (SAP Note 2270126) מסיר את שירותי ה-ITS/IAC הישנים של QM, ולעניין תעודות איכות קובע " +
+        "שאין אפליקציית WebDynpro חלופית וש-'existing QM transactions are still available, such as QC20, QC21'. " +
+        "ספריית אפליקציות Fiori רושמת את QC20 בסטטוס Published כאפליקציית SAP GUI ב-S32OP (2025 FPS01), ללא " +
+        "predecessor או successor.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: QC20_SIMPL2025,
+      recommendedAction:
+        "אין צורך בפעולת מיגרציה עבור QC20 עצמו: הטרנזקציה זמינה ב-S/4HANA On-Premise (2025 FPS01) ורשומה " +
+        "כאפליקציה בספריית Fiori. מה שהוסר הם שירותי ה-ITS/IAC הנפרדים (למשל QC40), לא QC20.",
+    },
+    xrefs: ["tx:QC21"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נקראו שני הפריטים המלאים מתוך רשימות הפישוט שחולצו ב-scratchpad/official/SIMPL_OP2025.pdf.txt (שורה " +
+      "45477) ו-SIMPL_OP2023.pdf.txt (שורה 45672), לפי audit/master-completion/simpl-tcode-index.json, והורץ " +
+      "scripts/fal-app.mjs QC20 --release S32OP. חיפושים ב-scripts/sap-help-search.mjs ('S4TWL - ITS services " +
+      "in QM', '2270126', 'ITS services in QM QC20', 'Create Quality Certificates Deliveries', סקופ " +
+      "SAP_S4HANA_ON-PREMISE) לא החזירו רשומה שמצטטת את QC20 בשמו; מספר תוצאות לא נרשם. הרשומה מחליפה את " +
+      "הרשומה האוטומטית ב-data/verification/transactions-auto.ts (ישן: ללא הכרעת מעמד, verification_required " +
+      "לפי report-coverage.mjs --ids → חדש: unchanged לפי הפריט 'S4TWL - ITS services in QM'). לא בוצעה בדיקה " +
+      "במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:QC21",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#QC21",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את QC21 כ'תחזוקת פרופיל תעודה' (Maintain Certificate Profile), מודול QM, תחום 'תעודות " +
+          "איכות'. תיאור זה אינו תואם לשם הרשמי בספריית Fiori (Create Quality Certificate - For Inspection Lot) " +
+          "ודורש תיקון במאגר.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#QC21",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App QC21 'Create Quality Certificate - For Inspection Lot' (SAP GUI), release " +
+          "S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('QC21')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את QC21 כאפליקציית SAP GUI בשם 'Create Quality Certificate - " +
+          "For Inspection Lot', בסטטוס Published, ברכיב QM-CA-MD, עם טרנזקציית GUI מובילה QC21 וקטלוג עסקי " +
+          "SAP_QM_BC_CERT_OUTGOING. רשימת המהדורות של הרשומה נפתחת ב-S6OP (1610) ומגיעה עד S32OP (2025 FPS01), " +
+          "וכוללת גם מהדורות Private Cloud. S15OP ו-S16OP (1909, 1909 FPS01) אינן מופיעות בה. הספרייה אינה מציגה " +
+          "predecessor או successor.",
+        verificationLevel: "sap_official_verified",
+      },
+      QC21_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.6 " +
+          "S4TWL - ITS services in QM",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט (S4TWL - ITS services in QM) ברשימת הפישוט של 2023 FPS03 חוזר על אותה קביעה: 'existing QM " +
+          "transactions are still available, such as QC20, QC21', כחלופה לשירותי ה-ITS שהוסרו עבור תעודות (QC40 " +
+          "ודומיו). אין בפריט קביעה נוספת לגבי QC21.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "QC21 (בספריית Fiori: 'Create Quality Certificate - For Inspection Lot', יצירת תעודת איכות למנת בדיקה) " +
+        "נשארת זמינה ב-SAP S/4HANA on-premise. הפריט 'S4TWL - ITS services in QM' ב-2023 FPS03 וב-2025 FPS01 " +
+        "מציין אותה כטרנזקציה קיימת, וספריית Fiori מציגה אותה כאפליקציית SAP GUI בסטטוס Published עד S32OP, ללא " +
+        "predecessor וללא successor.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: QC21_SIMPL2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-QC21 ליצירת תעודת איכות למנת בדיקה ב-S/4HANA on-premise, ולא להסתמך על שירותי ה-ITS " +
+        "הישנים לתעודות (למשל QC40) שהוסרו לפי אותו פריט. יש לתקן את תיאור הקוד ב-data/tcode-catalog.ts, שאינו " +
+        "תואם לשם הרשמי בספריית Fiori. לפני המרת המערכת, לאמת ב-SE93 במערכת היעד את קיום הטרנזקציה, התוכנית " +
+        "והמסך.",
+    },
+    xrefs: ["tx:QC20"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מחקר QM/QC21. היסטוריה: הרשומה הדטרמיניסטית (data/verification/transactions-auto.ts) איתרה את שני פריטי " +
+      "'S4TWL - ITS services in QM' (2023 FPS03, 2025 FPS01) כמזכירים את QC21, אך לא קבעה מעמד (ישן: " +
+      "verification_required לפי report-coverage.mjs --ids; חדש: unchanged). מחקר זה קרא את שני הפריטים " +
+      "(scratchpad/official/SIMPL_OP2023.pdf.txt סביב שורה 45672, SIMPL_OP2025.pdf.txt סביב שורה 45477). שניהם " +
+      "עוסקים בהסרת שירותי ITS עבור IAC (למשל QC40) ומזכירים את QC20 ו-QC21 כטרנזקציות קיימות שמשמשות חלופה, " +
+      "לא כטרנזקציות שהפריט משנה. אי-התאמה בשם: המאגר מתאר את QC21 כ-'Maintain Certificate Profile', וספריית " +
+      "Fiori (S32OP) מציגה 'Create Quality Certificate - For Inspection Lot' (Old → New); השם הרשמי הוא " +
+      "המחייב, ותיאור המאגר ממתין לתיקון. fal-app.mjs QC21 --release S32OP: SAP GUI, Published, QM-CA-MD, ללא " +
+      "predecessor או successor; רשימת המהדורות מ-S6OP עד S32OP אינה כוללת את S15OP ו-S16OP. חיפושי " +
+      "sap-help-search.mjs ('QC21 Maintain Certificate Profile', 'QC21', 'ITS services in QM') לא החזירו רשומה " +
+      "שמצטטת את QC21 ישירות; זו תוצאה שלילית מתועדת, לא הכרעה. לא בוצעה בדיקה במערכת SAP חיה; אימות מלא דורש " +
+      "SE93 במערכת היעד. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
   },
 ];
