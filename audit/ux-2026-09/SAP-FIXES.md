@@ -247,3 +247,14 @@
 | מה שונה | `tcode-catalog.ts`: 65 כותרות (למשל IB01 'Create Material Serial Number' → 'Create Equipment BOM', IW64 עד IW67 פעילויות ומשימות ולא הודעות, FCH5, בלוק LX/LT של WM, QA05/QA06, QG*, QP08, QPV2, VB31/VB41, VL51/VL52) קיבלו את כותרת הספרייה ותרגום עברי (`48e7d9ac`). `tx-intel.ts`: 16 רשומות עומק שתיארו טרנזקציה אחרת נבנו מחדש ממה שהמקורות תומכים בו בלבד (כותרת הספרייה וזמינות; לרשימות ההודעות מיפוי הטבלאות QMMA/QMSM של FIX-2): IW64, IW65, IW66, QGA2, QGA3 (`3ae1fde8`), IK07, LT02, LT09, LT0A, LX09, QS22 עד QS25 (שהוסטו באחד), QM13, KSV5 (חלוקה ולא הקצאה). שדות ששיקפו את הטרנזקציה הלא נכונה (שגיאות, שיטות עבודה, דוגמאות) רוקנו במקום להיכתב מחדש מהזיכרון, והרשומות סומנו needs-verification. הרשומות שנוצרו אוטומטית מצטטות את הטקסט המתוקן (`--resimpl`) |
 | מה לא שונה | כותרות שהן שם אחר לאותה טרנזקציה; רשומות שבהן הפער היה רק ניסוח |
 | בדיקות | `tsc` 0 · `npm test` 211/211 |
+
+---
+
+## FIX-15 · VBUK/VBUP ו-BSEG לפי הצד (ECC מול S/4HANA) (אימות SAP S/4HANA, 2026-09-24)
+
+| שדה | ערך |
+|---|---|
+| טענה | ב-S/4HANA טבלאות הסטטוס VBUK/VBUP בוטלו ושדות הסטטוס עברו ל-VBAK/VBAP, LIKP/LIPS ו-VBRK; BSEG עדיין קיימת לשמירת מסמכי המקור של רשומות היומן ב-ACDOCA, ו-BKPF נשארת ללא שינוי |
+| מקורות | Simplification List 2025 FPS01, פריט 11.1.9 'S4TWL - SD Simplified Data Models': "Elimination of status tables VBUK, VBUP: Status fields have been moved to the corresponding header and item tables - VBAK and VBAP for sales documents, LIKP and LIPS for deliveries, VBRK for billing documents" · Universal Journal: FAQ, 2025.001, loio `8b8e5695c4dc4749a706f9fa2f6bda92`: "the former G/L-only table BSEG still exists as it is needed to store the source documents that serve as the basis for journal entries into table ACDOCA" (הממצא עלה באצוות שיטות העבודה 3) |
+| מה שונה | `tx-intel.ts`: VBUK/VBUP הוצאו מרשימות הטבלאות של 15 טרנזקציות SD (VA01, VA03, VA05, VA23, VA25, VKM3, VKM4, VL00, VL01N, VL02N, VL03N, VL04, VL06G, VL06O, VL06P), וה-s4Delta של כל אחת נושא את משפט ה-ECC/S/4HANA עם הפריט; שש אזכורים בטקסט קיבלו את הצד. `verified-objects.ts`: BSEG אינה "Compatibility" ו-ACDOCA אינה "מחליפה BKPF/BSEG" |
+| בדיקות | `tsc` 0 · `npm test` 211/211 |
