@@ -169,6 +169,31 @@ const specificEnough = aboutTransaction;
 
 /* -------------------------------------------------------------- per code */
 type Ev = Record<string, unknown>;
+/** The repository rows (registry title and the catalog's English title): local data only, shared
+ *  by build() and --resimpl. */
+function repoRows(code: string): Ev[] {
+  const r = reg.get(code)!;
+  const rows: Ev[] = [];
+  const file = primaryFile(code);
+  const he = dash(r.he || r.area || "");
+  rows.push({
+    sourceType: "repository", sourceTitle: `רשומת המאגר: ${file.replace("data/", "")}#${code}`,
+    product: "SAP ECC / SAP S/4HANA", edition: "on-premise", accessedAt: "DATE",
+    claim: `רשומת המאגר מתארת את ${code} כ'${he}', מודול ${r.module}${r.area && dash(r.area) !== he ? `, תחום '${dash(r.area)}'` : ""}.`,
+    verificationLevel: "repository_verified", repoRef: `${file}#${code}`,
+  });
+  const en = catEn.get(code);
+  if (en && file !== "data/tcode-catalog.ts") {
+    rows.push({
+      sourceType: "repository", sourceTitle: `רשומת המאגר: tcode-catalog.ts#${code}`,
+      product: "SAP ECC / SAP S/4HANA", edition: "on-premise", accessedAt: "DATE",
+      claim: `קטלוג הטרנזקציות של המאגר נותן ל-${code} את הכותרת האנגלית '${dash(en)}'.`,
+      verificationLevel: "repository_verified", repoRef: `data/tcode-catalog.ts#${code}`,
+    });
+  }
+  return rows;
+}
+
 /** The Simplification List items that name the code, one row per item (2025 first), each quoting
  *  the exact line of the item text that prints the code. Context only: what the item rules for
  *  this code is left to a researcher. Shared by build() and --resimpl. */
@@ -211,24 +236,7 @@ async function build(code: string) {
     writeFileSync(rawFile, JSON.stringify({ code, fetched: DATE, s4, erp, lead, gui }, null, 1));
   }
 
-  const evidence: Ev[] = [];
-  const file = primaryFile(code);
-  const he = dash(r.he || r.area || "");
-  evidence.push({
-    sourceType: "repository", sourceTitle: `רשומת המאגר: ${file.replace("data/", "")}#${code}`,
-    product: "SAP ECC / SAP S/4HANA", edition: "on-premise", accessedAt: "DATE",
-    claim: `רשומת המאגר מתארת את ${code} כ'${he}', מודול ${r.module}${r.area && dash(r.area) !== he ? `, תחום '${dash(r.area)}'` : ""}.`,
-    verificationLevel: "repository_verified", repoRef: `${file}#${code}`,
-  });
-  const en = catEn.get(code);
-  if (en && file !== "data/tcode-catalog.ts") {
-    evidence.push({
-      sourceType: "repository", sourceTitle: `רשומת המאגר: tcode-catalog.ts#${code}`,
-      product: "SAP ECC / SAP S/4HANA", edition: "on-premise", accessedAt: "DATE",
-      claim: `קטלוג הטרנזקציות של המאגר נותן ל-${code} את הכותרת האנגלית '${dash(en)}'.`,
-      verificationLevel: "repository_verified", repoRef: `data/tcode-catalog.ts#${code}`,
-    });
-  }
+  const evidence: Ev[] = repoRows(code);
 
   const pick = (res: typeof s4, max: number) => {
     const seen = new Set<string>(); const out: any[] = [];
@@ -295,8 +303,8 @@ async function build(code: string) {
 /* ------------------------------------------------------------------ driver */
 const results: any[] = [];
 /** --resimpl: no network. Load the committed records, drop the codes research has written since,
- *  and rebuild only what simpl-tcode-index.json decides (the Simplification rows and the notes
- *  sentence that names the items), keeping every other row and the original access date. */
+ *  and rebuild what local data decides (the registry rows, the Simplification rows and the notes
+ *  sentence that names the items), keeping the help.sap.com / Fiori rows and the access date. */
 const RESIMPL = args.includes("--resimpl");
 let OUTDATE = DATE;
 if (RESIMPL) {
@@ -309,7 +317,10 @@ if (RESIMPL) {
     const code = rec.id.slice(3);
     if (authored.has(code)) continue;
     const { rows, named } = simplRows(code);
-    const evidence = [...rec.evidence.filter((e: any) => e.sourceType !== "simplification_item").map((e: any) => ({ ...e, accessedAt: tok(e.accessedAt) })),
+    // registry rows and Simplification rows are rebuilt from local data; the help.sap.com and
+    // Fiori library rows (network) are kept as they were read
+    const evidence = [...repoRows(code).map((e: any) => ({ ...e, context: true })),
+      ...rec.evidence.filter((e: any) => e.sourceType !== "simplification_item" && e.sourceType !== "repository").map((e: any) => ({ ...e, accessedAt: tok(e.accessedAt) })),
       ...rows.map((e: any) => ({ ...e, context: true }))];
     const before = rec.notes ?? "";
     if (!NOTE.test(before)) throw new Error(`${code}: notes sentence not found`);
