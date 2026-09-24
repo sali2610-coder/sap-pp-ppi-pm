@@ -36,7 +36,14 @@
    (its re-audit after the repair round listed no downgrade), OMS2 re-derived from
    the draft with the four listed downgrades. Every status source is a shared
    const (the record's own evidence row) instead of the pointer string, the
-   placeholder or the shortened copy the verdicts carried; no reviewer field. */
+   placeholder or the shortened copy the verdicts carried; no reviewer field.
+   Batch 6 (research + adversarial audit 2026-09-24, written 2026-09-25, access
+   date stamped 2026-09-24): 7 audited records for the material number length
+   code, the XK central vendor family and QMIS analyses (OMSL, XK01, XK02, XK03,
+   MCVA, MCXB, MCXC); tx:MCXA refuted and queued. Five taken from
+   verdict.fixedRecord, XK02 and MCVA re-derived from the draft with the listed
+   downgrades. Every status source is a shared const (the record's own item row);
+   no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -755,6 +762,162 @@ const OMS2_HELP_2025: Evidence = {
     "בסניפט את הרצף 'Define Attributes of Material Types (transaction OMS2) General Control, Retail Master " +
     "Data...', כלומר מאשרת ש-OMS2 (הגדרת תכונות סוגי חומר) קיימת ומתועדת בתיעוד הרשמי לגרסת S/4HANA 2025 " +
     "FPS01 On-Premise. הטענה מוגבלת לסניפט; גוף העמוד לא נקרא.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 6 status sources (2026-09-25): one evidence row per record, shared by evidence[] and
+   status.source (OMSL, XK01, XK02, XK03, MCVA, MCXB, MCXC) */
+
+const OMSL_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.5 S4TWL - Material Number " +
+    "Field Length Extension",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 5.1.5 (מתחיל בעמ' 95; ציטוט OMSL בעמ' 101; SAP Note 0002267140 מודפס בפריט) קובע, בפרק 'System " +
+    "Settings to Activate the Extended Material Number Functionality', שהרחבת שדה מספר החומר ל-40 תווים " +
+    "כבויה כברירת מחדל, ושתי הגדרות נדרשות להפעלתה: הפעלת השדות המורחבים דרך ה-IMG או דרך טרנזקציית FLETS " +
+    "(לתחזוקת הטבלה נדרשת קבוצת ההרשאות FLE, אובייקט S_TABU_DIS), ושינוי פורמט מספר החומר. הציטוט: " +
+    "'Transaction OMSL allows a customer-specific settings regarding the material number field length. Here " +
+    "the settings need to be adapted to allow a field length of more than 18 characters.' הפריט מציג את OMSL " +
+    "כטרנזקציית ה-Customizing להתאמת אורך שדה מספר החומר בתהליך ההפעלה, ואינו קובע לגביה החלפה, הגבלה או " +
+    "הוצאה משימוש.",
+  verificationLevel: "sap_official_verified",
+};
+
+const XK01_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+    "Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "הפריט (עמ' 136-138, Document Version 1.36) קובע: 'The user interface for SAP S/4HANA is transaction BP. " +
+    "There is no specific user interface for customer/vendor like known from SAP Business Suite (the " +
+    "specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03, " +
+    "etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.)'. בטבלה " +
+    "'Transactions not available in SAP S/4HANA on-premise edition', תחת 'Transactions that get redirected " +
+    "to transaction BP', מופיעה XK01 בשמה (לצד XK02, XK03, XK05, XK06); היא אינה ברשימה 'Transactions that " +
+    "are obsolete: MK12, MK18, MK19, XD07, XK07, V+21, V+22, V+23'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const XK02_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+    "S4TWL - Business Partner Approach (SAP Note 2265093)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 5.1.27 'S4TWL - Business Partner Approach' ברשימת הפישוט ל-S/4HANA 2025 FPS01 (SAP Note 2265093, " +
+    "עמ' 136-138) קובע: 'the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, " +
+    "XK03 or MK01, MK02, MK03, etc. are not available in SAP S/4HANA. These will be redirected to " +
+    "transaction BP.' בטבלה 'Transactions not available in SAP S/4HANA on-premise edition', XK02 מופיעה תחת " +
+    "'Transactions that get redirected to transaction BP' (לצד XK01, XK03, XK05, XK06); הרשימה הנפרדת " +
+    "'Transactions that are obsolete: MK12, MK18, MK19, XD07, XK07, V+21, V+22, V+23' אינה כוללת את XK02. " +
+    "סעיף Symptom: 'You are doing a system conversion to SAP S/4HANA, any of the releases.'",
+  verificationLevel: "sap_official_verified",
+};
+
+const XK03_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+    "S4TWL - Business Partner Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט הפישוט 'S4TWL - Business Partner Approach' ברשימת הפישוט הרשמית (2025 FPS01, גרסת מסמך 1.36, עמ' " +
+    "136-138) קובע במפורש: 'the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, " +
+    "XK03 or MK01, MK02, MK03, etc. are not available in SAP S/4HANA. These will be redirected to " +
+    "transaction BP.' הטבלה שבפריט מונה את XK03 בשורה 'Transactions not available in SAP S/4HANA on-premise " +
+    "edition' תחת הכותרת 'Transactions that get redirected to transaction BP', לצד XK01, XK02, XK05, XK06 " +
+    "ומשפחות FD/VD/XD/FK/MK המקבילות.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MCVA_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.8 " +
+    "S4TWL - Quality Management Information System (QMIS)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.6.8 'S4TWL - Quality Management Information System (QMIS)' (Application Component QM-QC-IS, SAP " +
+    "Note 2270193) קובע כי מערכת המידע לניהול איכות (QMIS) המבוססת על Logistics Information System (LIS), " +
+    "הכוללת את משפחת הטרנזקציות MCOx/MCVx/MCXx, היא חלק מ-compatibility scope של SAP S/4HANA עם זכויות שימוש " +
+    "מוגבלות (לפי SAP Note 2269324, מזוהה שם תחת ID 473) ואינה ה-target architecture. הפריט נוקב בקוד MCVA " +
+    "במפורש פעמיים: תחת רשימת הטרנזקציות ה'מוחלפות ב-Fiori apps מקבילים ב-QM Analytics' ('MCVZ MCVP MCVX " +
+    "MCVD MCVB MCVM MCVK MCVI MCVG MCVE MCVC MCVA') וגם תחת 'Other Terms'. הפריט קובע שהטרנזקציות הללו " +
+    "'יוסרו מה-Fiori launchpad עבור SAP S/4HANA', ומפרט שבע אפליקציות Fiori בקטגוריית QM Analytics " +
+    "(Inspection Lot Analytics Last 365 Days F3239, Inspection Lot Detailed Analytics F3273, Characteristic " +
+    "Analytics Last 365 Days F3383, Characteristic Detailed Analytics F3382, Results History F2428, " +
+    "Nonconformance Analytics Last 365 Days F3584, Nonconformance Detailed Analytics F3583) כקבוצת החלפה " +
+    "כללית לכל 36 הטרנזקציות יחד; הפריט אינו קובע מיפוי 1:1 בין MCVA הספציפית לבין אחת מהאפליקציות הללו.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MCXB_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.8 " +
+    "S4TWL - Quality Management Information System (QMIS)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "הפריט 'S4TWL - Quality Management Information System (QMIS)' נוקב ב-MCXB ברשימת הקודים ('MCXP MCXV MCXX " +
+    "MCXD MCXB MCXM MCXK MCXI MCXG MCXE MCXC MCXA') וקובע לגבי הקבוצה כולה: 'The Quality Management " +
+    "Information System (QMIS) based on Logistics Information System (LIS) is part of the SAP S/4HANA " +
+    "compatibility scope, which comes with limited usage rights'. לפרטי התפוגה הוא מפנה ל-SAP Note 2269324, " +
+    "שבמטריצת התאימות שלו ה-QMIS מופיע תחת מזהה 473. עוד נכתב: 'is not the target architecture', ו-'The " +
+    "following transactions are replaced by corresponding Fiori apps in QM Analytics ... The transactions " +
+    "will be removed in the SAP Fiori launchpad for SAP S/4HANA'. הפריט מונה אפליקציות QM Analytics בשלוש " +
+    "קטגוריות (Inspection lot analytics, Characteristic analytics, Nonconformance analytics), כל אחת עם מזהה " +
+    "אפליקציה (למשל Characteristic Analytics Last 365 Days‏ F3383, Characteristic Detailed Analytics‏ F3382, " +
+    "Results History‏ F2428), עבור קבוצת הקודים כולה, בלי לשייך אפליקציה מסוימת ל-MCXB.",
+  verificationLevel: "sap_official_verified",
+};
+
+const MCXC_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.8 " +
+    "S4TWL - Quality Management Information System (QMIS)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE24,
+  claim:
+    "אותו פריט 'S4TWL - Quality Management Information System (QMIS)' ברשימת 2025 FPS01 נוקב ב-MCXC פעמיים: " +
+    "בשדה Other Terms וברשימה שאחרי 'The following transactions are replaced by corresponding Fiori apps in " +
+    "QM Analytics'. הנוסח זהה לגבי compatibility scope עם זכויות שימוש מוגבלות (SAP Note 2269324, ID 473), " +
+    "לגבי 'is not the target architecture' ולגבי 'The transactions will be removed in the SAP Fiori " +
+    "launchpad for SAP S/4HANA'. גם כאן מוצגת קבוצת אפליקציות QM Analytics (F3239, F3273, F3383, F3382, " +
+    "F2428, F3584, F3583) ללא שיוך פרטני ל-MCXC.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -4737,5 +4900,869 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "ואינו מתאר את מצב הקוד). רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:OMS2 " +
       "ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, verification_required; חדש: unchanged). הרשומה אינה נושאת " +
       "שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:OMSL",
+    evidence: [
+      OMSL_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.22 S4TWL - Material Number " +
+          "Field Length Extension",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "פריט 3.22 (מתחיל בעמ' 162; ציטוט OMSL בעמ' 169; SAP Note 2267140 מודפס בפריט) הוא הפריט המקביל בגרסה " +
+          "הקודמת, ונוסח הפרק 'System Settings to Activate the Extended Material Number Functionality' בו זהה לזה " +
+          "שבפריט 5.1.5, כולל הציטוט: 'Transaction OMSL allows a customer-specific settings regarding the material " +
+          "number field length.' כך ש-OMSL מוזכרת בשמה בתהליך ההפעלה בשתי רשימות פישוט עוקבות (2023 FPS03 ו-2025 " +
+          "FPS01); גם כאן הפריט אינו קובע דבר לגבי OMSL עצמה מעבר לתפקידה בתהליך.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Configure Material Number Length and Format (PEO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/68af7d1184344c55859b9cd38b6c9b56.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (Production Engineering and Operations for Complex Assembly, גרסה 2025 FPS01, loio " +
+          "68af7d1184344c55859b9cd38b6c9b56) מציגה בסניפט: 'In your PEO system, launch transaction OMSL. Set the " +
+          "material number length to the same value as defined in your ERP system.' כלומר OMSL מוזכרת בשמה " +
+          "כטרנזקציה שמפעילים במערכת PEO כדי לקבוע את אורך מספר החומר זהה להגדרה במערכת ה-ERP. הטענה תחומה בסניפט; " +
+          "גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#OMSL",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "המאגר מסווג את OMSL במודול MM, אזור 'קונפיגורציה', שם אנגלי 'Define Material Number Length'; זהו סיווג " +
+          "פרויקטלי פנימי ולא ראיה רשמית, ומצוטט כדי לתעד את ההקשר שבו הפרויקט מציג את הטרנזקציה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#OMSL",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "טרנזקציית OMSL (הגדרת אורך מספר חומר) מוזכרת בשמה כטרנזקציית ה-Customizing להתאמת אורך שדה מספר החומר " +
+        "ב-S/4HANA On-Premise 2025 FPS01, בפריט הפישוט 5.1.5 'S4TWL - Material Number Field Length Extension' " +
+        "ובתיעוד PEO מאותה גרסה, ואותו ציטוט חוזר בפריט המקביל 3.22 בגרסת 2023 FPS03. אף אחד מהמקורות אינו קובע " +
+        "לגבי OMSL החלפה, הגבלה או הוצאה משימוש; בתיעוד S/4HANA היא מתוארת כחלק מהתהליך להפעלת הרחבת שדה מספר " +
+        "החומר ל-40 תווים, שכבויה כברירת מחדל.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: OMSL_SIMPL2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-OMSL להגדרת אורך ופורמט מספר החומר, ולזכור שהרחבת השדה ל-40 תווים אינה מופעלת כברירת " +
+        "מחדל: ההפעלה דורשת הפעלת השדות המורחבים דרך ה-IMG או דרך FLETS (לתחזוקת הטבלה ב-FLETS נדרשת קבוצת " +
+        "ההרשאות FLE, אובייקט S_TABU_DIS), וכן עדכון ההגדרה ב-OMSL. מומלץ לבצע סקר ממשקים וקוד מותאם שמניחים " +
+        "אורך של 18 תווים לפני הפעלת ההרחבה, כמתואר בפריט 'S4TWL - Material Number Field Length Extension', " +
+        "ולאמת ב-SE93 במערכת היעד שהטרנזקציה פעילה, שכן לא בוצעה בדיקה במערכת SAP חיה.",
+    },
+    xrefs: ["tx:OMS2", "tx:MM01", "tx:MM02", "tx:MM03"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: (1) grep על OMSL במאגר: data/tcode-catalog.ts מסווג אותה במודול MM, אזור קונפיגורציה, שם אנגלי " +
+      "'Define Material Number Length'; data/library/book3-full.json (הערת מומחה, לא מקור רשמי) מתאר את אותו " +
+      "תהליך הפעלה. (2) חיפושים דרך scripts/sap-help-search.mjs: 'OMSL material number format' ו-'Define " +
+      "Output Format of Material Number' (S/4HANA On-Premise) איתרו את מסמך ה-PEO שמזכיר OMSL בשמה; 'Define " +
+      "Output Format of Material Number OMSL' ו-'OMSL transaction material number' (--product SAP_ERP) החזירו " +
+      "21 רשומות כל אחד, ואף אחת מהן אינה מדפיסה את OMSL בכותרת או בסניפט (שלילה מתועדת, לא קביעה שהשם אינו " +
+      "קיים ב-ECC). (3) שני פריטי הפישוט (2023 FPS03 §3.22 מעמ' 162, ציטוט OMSL בעמ' 169; 2025 FPS01 §5.1.5 " +
+      "מעמ' 95, ציטוט OMSL בעמ' 101) נקראו מהטקסט המחולץ ב-scratchpad/official/. לא הורץ sap-help-body.mjs; " +
+      "טענת ה-PEO תחומה בסניפט. (4) ביקורת 2026-09-24: הרצת 'node scripts/fal-app.mjs --tcode OMSL' הדפיסה " +
+      "'OMSL @ S32OP: leading app(s): none; GUI app entry: none'. פתוח: שם OMSL בצד ה-ECC נשען על סיווג המאגר " +
+      "בלבד; מבנה המסך וטבלת ה-Customizing שמאחורי OMSL לא נבדקו; SAP Note 2267140 לא נקרא בנפרד (דורש " +
+      "S-user); FLETS אינה ב-lib/route-manifest.generated.ts ולכן מוזכרת בפרוזה בלבד. לא בוצעה בדיקה במערכת " +
+      "SAP חיה. ביקורת אדברסרית 2026-09-24: מספרי העמודים תוקנו (2025 FPS01: הפריט מתחיל בעמ' 95 וציטוט OMSL " +
+      "בעמ' 101; 2023 FPS03: הפריט מתחיל בעמ' 162 וציטוט OMSL בעמ' 169), השוואת הנוסח בין המהדורות הוגבלה לפרק " +
+      "'System Settings to Activate the Extended Material Number Functionality', קבוצת ההרשאות FLE יוחסה " +
+      "לתחזוקת הטבלה ב-FLETS כלשון המקור, הסדר הקשיח בין שתי ההגדרות הוסר (המקור מונה אותן כרשימה), 'טרנזקציה " +
+      "פעילה' ו'ממשיכה לשמש' הוסרו, ומקור הסטטוס הופנה לשורת הראיה של הפריט 'S4TWL - Material Number Field " +
+      "Length Extension' (2025 FPS01). רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:OMSL " +
+      "ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, verification_required לפי report-coverage.mjs --ids; חדש: " +
+      "unchanged). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:XK01",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#XK01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר משייכת את XK01 למודול MM, לאזור ניהול נתוני האב של ספקים (Central Vendor Master). שדה " +
+          "descTech מתאר טרנזקציה מרכזית המעדכנת את LFA1 (כללי), LFB1 (קוד חברה) ו-LFM1 (ארגון רכש), מבוססת קבוצת " +
+          "חשבונות (Account Group). שדה s4 רושם שהטרנזקציה חסומה ב-S/4HANA, שהקמת ספק מתבצעת דרך טרנזקציה BP " +
+          "במסגרת Business Partner Approach, ושנתוני LFA1/LFB1/LFM1 מתוחזקים דרך CVI (Customer-Vendor " +
+          "Integration). אלה טענות המאגר, לא מקור רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#XK01",
+      },
+      XK01_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.19 S4TWL - Business Partner " +
+          "Approach",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הפריט באותו שם ברשימת 2023 FPS03 (עמ' 153-155) קובע: 'The user interface for SAP S/4HANA is transaction " +
+          "BP. There is no specific user interface for customer/vendor like known from SAP Business Suite (the " +
+          "specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03 " +
+          "etc. are not available in SAP S/4HANA on-premise)'. בטבלה, תחת 'Transactions that get redirected to " +
+          "transaction BP', מודפס '... XK01, XK06, XK07, XK02, XK03'. הפריט מוסיף: 'Only SAP Business Suite " +
+          "customer with C/V integration in place can move to SAP S/4HANA, on-premise(Conversion approach)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Partners",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/bfd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "דף תפעולי בתיעוד Warranty Claim Processing (deliverable Maintenance Management, versionId 2025.001, " +
+          "loio bfd8c353b677b44ce10000000a174cb4) מנחה בסעיף Activities: 'Choose transactions XK01, XK02, XK03 to " +
+          "create, change and display vendors/creditors.' המשפט מופיע בסניפט של רשומת החיפוש ובגוף הדף שנקרא דרך " +
+          "sap-help-body.mjs. הוא סותר את פריט הפישוט 'S4TWL - Business Partner Approach' באותה מהדורה, הקובע " +
+          "ש-XK01 אינה זמינה ומנותבת ל-BP. שני המקורות רשמיים ונשמרים כסתירה; הסבר אפשרי הוא סחף תיעוד בדף " +
+          "התפעולי, והדבר לא הוכרע. מה שיכריע: הפעלת XK01 במערכת SAP S/4HANA On-Premise חיה ובדיקה האם היא מנותבת " +
+          "ל-BP.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+              "Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE24,
+            claim:
+              "'the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, " +
+              "MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.'",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Customizing for Stock Transfer",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/240fcdcc71c640ea9aa9691500b34889/b5a2cf8b170c40d6bfda2523c7bda7d7.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "דף Customizing בתיעוד הלוקליזציה להודו (deliverable India, versionId 2025.001, loio " +
+          "b5a2cf8b170c40d6bfda2523c7bda7d7) מנחה, בשלב שיוך ספק למפעל השולח: 'Execute transaction XK01 and " +
+          "provide the vendor, company code, and purchasing organization details'. המשפט מופיע בסניפט של רשומת " +
+          "החיפוש ובגוף הדף שנקרא דרך sap-help-body.mjs. הוא סותר את פריט הפישוט 'S4TWL - Business Partner " +
+          "Approach' באותה מהדורה. שני המקורות רשמיים ונשמרים כסתירה, והדבר לא הוכרע. מה שיכריע: הפעלת XK01 במערכת " +
+          "SAP S/4HANA On-Premise חיה ובדיקה האם היא מנותבת ל-BP.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+              "Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE24,
+            claim:
+              "'the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, " +
+              "MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.'",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "לפי פריט הפישוט 'S4TWL - Business Partner Approach' (2025 FPS01), XK01 (יצירת ספק, מרכזי) אינה זמינה " +
+        "ב-SAP S/4HANA On-Premise וקריאה אליה מנותבת לטרנזקציה BP. דפי עזרה תפעוליים באותה מהדורה (2025.001) " +
+        "עדיין מנחים להשתמש ב-XK01; ייתכן שמדובר בסחף תיעוד. הסתירה לא הוכרעה ומתועדת בשורות conflicting_sources.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: XK01_SIMPL2025,
+      recommendedAction:
+        "ליצור, לשנות ולהציג ספקים ב-S/4HANA On-Premise דרך טרנזקציה BP במקום XK01. לפני המרה בגישת Conversion " +
+        "לוודא שה-Customer/Vendor Integration (CVI) פעיל, שכן פריט הפישוט מתנה את המעבר ב-C/V integration. לאמת " +
+        "במערכת היעד את הניתוב בפועל ל-BP, כי לא בוצעה בדיקה במערכת SAP חיה.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:XK02", "tx:XK03", "tx:FK01", "tx:MK01"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: (1) מאגר: data/tx-intel.ts#XK01 (מודול, אזור, descTech, s4). השם האנגלי 'Create Vendor " +
+      "(Centrally)' והשם העברי 'יצירת ספק (מרכזי)' מקורם ב-data/tcode-catalog.ts:1753, לא ב-tx-intel.ts. אין " +
+      "ברשומת tx-intel.ts#XK01 תפקיד FLVN01, ולכן לא נקוב תפקיד BP בהמלצה. (2) פריטי פישוט נקראו " +
+      "מ-scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt לפי האינדקס " +
+      "audit/master-completion/simpl-tcode-index.json (חמישה אזכורים): 5.1.27 ו-3.19 כשורות Evidence. פריט " +
+      "5.1.30 'S4TWL - Business Partner Approach for SAP MDG' (2025 FPS01, עמ' 143) מתועד בהערות; הוא מדפיס: " +
+      "'The SAP MDG ERP Customer and Vendor Like User Interfaces (UI) copy the look and feel of SAP ERP based " +
+      "maintenance transactions for customer and vendor master data (for example XD01, XD02, XK01, XK03, and " +
+      "so on). These old SAP ERP-based transactions are replaced by transaction BP.' הפריט 'S4TWL - Specific " +
+      "fields on Business Partner' (2025 FPS01 פריט 13.14.1; 2023 FPS03 פריט 59.7) מונה את XK01 תחת " +
+      "'Transaction not available in SAP S/4HANA' בהקשר שדות US Federal Financials. (3) חיפוש רשמי: node " +
+      "scripts/sap-help-search.mjs \"XK01\" --size 12 --json (scope SAP_S4HANA_ON-PREMISE) החזיר 21 רשומות, כולן " +
+      "2025.001. שני דפים תפעוליים מנחים להשתמש ב-XK01 ונקראו במלואם דרך sap-help-body.mjs, ושניהם מתועדים " +
+      "כשורות conflicting_sources: 'Partners' (Maintenance Management, loio bfd8c353b677b44ce10000000a174cb4) " +
+      "ו-'Customizing for Stock Transfer' (India, loio b5a2cf8b170c40d6bfda2523c7bda7d7). סניפטים נוספים " +
+      "שמדפיסים את XK01: 'Maintaining Master Data' (SAP Oil & Gas PRA: 'Maintain Owner Info - XK01'), " +
+      "'Processing of Maintenance Orders with Warranty-Related Items' ו-'Processing of Service Orders with " +
+      "Warranty-Related Items' (PLM: 'vendor master (XK01, 02, 03)'). החיפוש החזיר גם את 'Transactions' " +
+      "(Logistics General) ואת 'Transaction Codes for VMS' (Automotive), שהסניפט שלהם מתחיל ב-XK02 ואינו מדפיס " +
+      "את XK01. כלומר פריטי הפישוט קובעים את ההכרעה, ודפי עזרה תפעוליים באותה מהדורה עדיין מזכירים את XK01; " +
+      "הסתירה לא הוכרעה. מה שיכריע: הפעלת XK01 במערכת SAP S/4HANA On-Premise חיה ובדיקה האם היא מנותבת ל-BP. " +
+      "(4) לא הורץ scripts/fal-app.mjs: אף מקור שנקרא לא נוקב באפליקציית Fiori עבור XK01. (5) לא נקרא SAP Note " +
+      "2265093 (מודפס בפריטי הפישוט; דורש S-user). היסטוריה: רשומה אוטומטית " +
+      "ב-data/verification/transactions-auto.ts (ללא הכרעת מעמד: שורות הקשר מהמאגר, מסניפטים של help.sap.com " +
+      "ומפריטי הפישוט; לפני כתיבת רשומה זו הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת " +
+      "repository_verified) → רשומה זו (replaced, successor tx:BP, עם שתי שורות conflicting_sources). טיוטה " +
+      "קודמת נדחתה בביקורת על השמטת הדפים הסותרים, טענת עקביות, מקפים ארוכים, release של status, source " +
+      "כמחרוזת, שם תפקיד ללא מקור ושיוך שם אנגלי ל-tx-intel.ts; בביקורת השנייה נוספה שורה לדף ההודי, רוככה " +
+      "קביעת סחף התיעוד והוסרה המלצה ללא מקור על קוד מותאם. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג. לא " +
+      "בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:XK02",
+    evidence: [
+      XK02_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.19 S4TWL - Business Partner " +
+          "Approach (SAP Note 2265093)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "אותו פריט ברשימת 2023 FPS03 (עמ' 153-155) קובע: 'the specific transactions like XD01, XD02, XD03 or " +
+          "VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03 etc. are not available in SAP S/4HANA " +
+          "on-premise', ללא המשפט 'These will be redirected to transaction BP' שמופיע במהדורת 2025. בטבלה " +
+          "'Transactions not available in SAP S/4HANA on-premise edition', תחת 'Transactions that get redirected " +
+          "to transaction BP', מודפסת הרשימה (כלשונה): 'FD01,FD02,FD03, FK01,FK02,FK03,MAP1,MAP2,MAP3, MK01, MK02, " +
+          "MK03, V-03,V-04,V-05,V-06,V-07,V-08,V-09, V-11, VAP1, VAP2, VAP3, VD01, VD02,VD03, XD01, XD02, XD03, " +
+          "XK01, XK06, XK07, XK02, XK03', ולצידה 'Transactions that are obsolete: FD06, FK06, MK06, MK12, MK18, " +
+          "MK19, VD06, XD06, V+21, V+22, V+23'. הרשימות שונות ממהדורת 2025 FPS01: ב-2023 XK07 ברשימת הניתוב ל-BP " +
+          "ו-XK05 אינה מופיעה, וב-2025 XK07 ברשימת ה-obsolete. XK02 מופיעה ברשימת הניתוב ל-BP בשתי המהדורות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 13.14.1 S4TWL - Specific fields " +
+          "on Business Partner (SAP Note 2270420)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "פריט 13.14.1 (Application Component PSM-FG, עמ' 1274-1275) מדפיס תחת הכותרת 'Transaction not available " +
+          "in SAP S/4HANA' את הרשימה 'FK01 FK02 FK03 XK01 XK02 XK03 FD01 FD02 FD03 XD01 XD02 XD03' (כלשונה), " +
+          "וקובע: 'Business Partner transaction 'BP' is now used to create, change or display customer or vendor " +
+          "data' ו-'The business process is not affected, only a different transaction needs to be used'. הפריט " +
+          "מפנה לפריט Business Partner Approach בשמו: 'Refer to the simplification item for business partner for " +
+          "general information (Business Partner Approach)'. ההקשר שלו הוא שדות ייעודיים ל-US Federal Financials.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 15.3.5 S4TWL - Blocked customer " +
+          "or supplier in Inventory Management (SAP Note 2516223)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "פריט 15.3.5 (עמ' 1473-1474) קובע בסעיף 'Required and Recommended Action(s)' שנתונים הקשורים ללקוח או " +
+          "ספק חסומים 'shall be archived or deleted before converting or upgrading to SAP S/4HANA 1709 (and " +
+          "above)', ממשיך 'Furthermore, blocked customers and suppliers shall be removed from plant and storage " +
+          "location data', ומנחה: 'The assignment of a blocked supplier to a plant can be removed via transaction " +
+          "XK02 -> Purchasing data -> Extras -> Additional Purchasing Data.' (כלשונו). סעיף התיאור של הפריט מוסיף: " +
+          "'In case of an upgrade from 1511/1610/1709 to 1709-FPS01 or higher, please read note 2629400'. במסלול " +
+          "שדרוג כזה מערכת המקור היא כבר SAP S/4HANA (1511/1610/1709), ולכן ההנחיה להשתמש ב-XK02 עומדת במתח מול " +
+          "פריט Business Partner Approach, שחל על 'system conversion to SAP S/4HANA, any of the releases' וקובע " +
+          "ש-XK02 אינה זמינה ב-S/4HANA ומנותבת ל-BP. הפריט אינו מציין באיזו מערכת מופעלת XK02. השורה נשמרת כחלק " +
+          "מקבוצת המקורות הסותרים; מה שיכריע: הפעלת XK02 במערכת SAP S/4HANA on-premise חיה ובדיקה האם היא מנותבת " +
+          "ל-BP, וקריאת SAP Note 2629400 (דורש S-user).",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+              "S4TWL - Business Partner Approach (SAP Note 2265093)",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE24,
+            claim:
+              "'the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, " +
+              "MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.'",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Partners",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/bfd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (sap-help-search.mjs 'XK02' --size 20, loio bfd8c353b677b44ce10000000a174cb4, versionId " +
+          "2025.001) מדפיסה בסניפט: 'Choose transactions XK01, XK02, XK03 to create, change and display " +
+          "vendors/creditors' (כלשונו). כלומר עמוד בתיעוד SAP S/4HANA On-Premise 2025.001 עדיין מפנה ל-XK02 לשינוי " +
+          "ספק, בסתירה לפריט Business Partner Approach. גוף העמוד לא נקרא; הטענה מוגבלת לסניפט. מה שיכריע: הפעלת " +
+          "XK02 במערכת SAP S/4HANA on-premise חיה ובדיקה האם היא מנותבת ל-BP.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+              "S4TWL - Business Partner Approach (SAP Note 2265093)",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE24,
+            claim:
+              "'the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, " +
+              "MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.'",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transactions",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/bcd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש (sap-help-search.mjs 'XK02' --size 20, loio bcd8c353b677b44ce10000000a174cb4, versionId " +
+          "2025.001) מדפיסה בסניפט: ', XK02, XK03 Create, change and display supplier (creditor) centrally' " +
+          "(כלשונו). עמוד נוסף בתיעוד SAP S/4HANA On-Premise 2025.001 שמציג את XK02 כטרנזקציה לשינוי ספק מרכזי, " +
+          "בסתירה לפריט Business Partner Approach. גוף העמוד לא נקרא; הטענה מוגבלת לסניפט. מה שיכריע: הפעלת XK02 " +
+          "במערכת SAP S/4HANA on-premise חיה ובדיקה האם היא מנותבת ל-BP.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+              "S4TWL - Business Partner Approach (SAP Note 2265093)",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE24,
+            claim:
+              "'the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, " +
+              "MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.'",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tx-intel.ts#XK02 ו-data/tcode-catalog.ts#XK02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "data/tx-intel.ts#XK02 משייכת את XK02 למודול MM, בתחום ניהול נתוני אב של ספקים (Central Vendor Master), " +
+          "ומציינת בשדה s4: 'חסומה ב-S/4HANA. שינוי ספק מתבצע דרך BP. שדות LFA1/LFB1/LFM1 מתוחזקים דרך CVI.'; " +
+          "data/tcode-catalog.ts#XK02 נותן לה את הכותרת האנגלית 'Change Vendor (Centrally)'. תיאור המאגר בלבד, " +
+          "אינו מקור רשמי; עקבי עם פריטי הפישוט שלעיל.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#XK02",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "XK02 (שינוי ספק מרכזי) אינה זמינה ב-SAP S/4HANA on-premise לפי פריט הפישוט 'S4TWL - Business Partner " +
+        "Approach' (SAP Note 2265093), שמונה אותה ברשימת הטרנזקציות המנותבות לטרנזקציה BP בשתי מהדורות הרשימה " +
+        "(2025 FPS01 ו-2023 FPS03); פריט 'S4TWL - Specific fields on Business Partner' מונה אותה תחת " +
+        "'Transaction not available in SAP S/4HANA'. עמודי Help של S/4HANA 2025.001 שעדיין מזכירים את XK02 נרשמו " +
+        "כמקורות סותרים. תחזוקת הספק עוברת לטרנזקציית BP.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: XK02_SIMPL2025,
+      recommendedAction:
+        "לתחזק ספקים דרך טרנזקציית BP; לפני המרה ל-S/4HANA לוודא Customer/Vendor Integration (CVI) מלא. קוד לקוח " +
+        "שיוצר או משנה נתוני ספק בכתיבה ישירה לטבלאות שב-piece list SI_MD_BP יש להתאים ל-API של Business Partner " +
+        "(CVI_EI_ADAPTER, או CL_MD_BP_MAINTAIN אם כבר בשימוש), לפי סעיף Custom Code Adaption בפריט Business " +
+        "Partner Approach. הסרת שיוך ספק חסום למפעל, שפריט 'S4TWL - Blocked customer or supplier in Inventory " +
+        "Management' מתעד כפעולה דרך XK02, יש לתכנן לפני ההמרה או השדרוג ולאמת במערכת באיזה שלב ובאיזו מערכת היא " +
+        "מתבצעת.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:XK01", "tx:XK03"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מקור ההכרעה: פריט הפישוט 'S4TWL - Business Partner Approach' (SAP Note 2265093) בשתי מהדורות (2025 " +
+      "FPS01 פריט 5.1.27, עמ' 136-138; 2023 FPS03 פריט 3.19, עמ' 153-155), שנקראו מחילוץ הטקסט של הפרויקט " +
+      "(scratchpad/official/SIMPL_OP2025.pdf.txt, SIMPL_OP2023.pdf.txt). הנוסח ורשימות הטרנזקציות שונים בין " +
+      "המהדורות (ראו evidence[1]); XK02 ברשימת הניתוב ל-BP בשתיהן. פריט 'S4TWL - Specific fields on Business " +
+      "Partner' (SAP Note 2270420; 2025 FPS01 פריט 13.14.1, עמ' 1274-1275) מונה את XK02 תחת 'Transaction not " +
+      "available in SAP S/4HANA'; פריט 59.7 באותו שם ברשימת 2023 FPS03 (עמ' 1355-1356) מדפיס את אותה רשימת " +
+      "קודים, כל קוד בשורה נפרדת. פריט 'S4TWL - Blocked customer or supplier in Inventory Management' (SAP " +
+      "Note 2516223; 2025 FPS01 פריט 15.3.5, עמ' 1473-1474; פריט 27.2 באותו שם ברשימת 2023 FPS03 מדפיס את אותו " +
+      "משפט XK02) מנחה הסרת שיוך ספק חסום למפעל דרך XK02 ומזכיר מסלול שדרוג מ-1511/1610/1709, ולכן נרשם כמקור " +
+      "במתח מול פריט Business Partner Approach. חיפוש sap-help-search.mjs 'XK02' --size 20 (ללא דגל product, " +
+      "הורץ מחדש בסבב התיקון 2026-09-24) החזיר 21 רשומות, כולן SAP S/4HANA בגרסה 2025.001, ובסניפט של כל אחת " +
+      "מודפס XK02: 'Partners' (loio bfd8c353b677b44ce10000000a174cb4), 'Transactions' (loio " +
+      "bcd8c353b677b44ce10000000a174cb4), 'Transaction Codes for VMS' (loio 81dcc353b677b44ce10000000a174cb4, " +
+      "סניפט ', XK02 Create, Change Supplier (Vendor) Centrally'), ו-18 עמודי תפקידים 'Master Data Governance " +
+      "for Supplier/Customer: Specialist/Requester'; 16 מהם מדפיסים 'XK02 Change Vendor (Centrally)' בהקשר " +
+      "'transactions, which are necessary for the CVI implementation', ושניים (loio " +
+      "060619494dfa4ae1b8e4b4017c1254c5, 433f0a2508934b119a88f31cd170c9ff) מדפיסים 'XK02 Change vendor " +
+      "(centrally)' בהקשר 'as they are called by the CVI implementation'. 'Partners' ו-'Transactions' נרשמו " +
+      "כשורות conflicting_sources מול פריט 5.1.27, באותו דפוס של tx:MK02; גוף העמודים לא נקרא. הסטטוס replaced " +
+      "עם tx:BP נשמר לפי פריט הפישוט; ההכרעה בסתירה דורשת בדיקה במערכת חיה. fal-app.mjs --tcode XK02 --release " +
+      "S32OP החזיר 'leading app(s): none; GUI app entry: none', ולכן אין successor מסוג fiori:. מספרי SAP " +
+      "Notes 2265093, 2270420, 2516223 ו-2629400 מודפסים בגוף הפריטים ומצוטטים בפרוזה בלבד; שדה sapNote לא " +
+      "הוזן (me.sap.com דורש S-user). הצד ECC מתועד כאן רק דרך רשומת המאגר. xrefs (tx:BP, tx:XK01, tx:XK03) " +
+      "קיימים ב-lib/route-manifest.generated.ts. לא בוצעה בדיקה במערכת SAP חיה. היסטוריה, ביקורת אדברסרית " +
+      "2026-09-24 (ישן → חדש): הטיוטה טענה שחיפושי Help לא סתרו את ההכרעה ולא רשמה סתירה → נוספו שורות " +
+      "conflicting_sources ל-'Partners' ול-'Transactions' ופריט 15.3.5 סומן כחלק מהסתירה; שורת 2023 טענה נוסח " +
+      "זהה ל-2025 → תוקן לפי ההבדלים בפועל והציטוט תוקן; שורת 13.14.1 ערבבה שתי מהדורות → הוגבלה ל-2025 " +
+      "והאזכור של 2023 עבר לכאן; ההמלצה על CALL TRANSACTION הוחלפה בנוסח סעיף Custom Code Adaption. ביקורת " +
+      "שנייה 2026-09-24: תיאור 18 עמודי התפקידים פוצל לפי הסניפטים בפועל (16 ו-2). רשומה מחקרית זו מחליפה את " +
+      "הרשומה שנוצרה אוטומטית ל-tx:XK02 ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, ולפני כתיבתה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'changed' ברמת repository_verified; חדש: replaced, יורש tx:BP). " +
+      "הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:XK03",
+    evidence: [
+      XK03_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.30 " +
+          "S4TWL - Business Partner Approach for SAP MDG",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "פריט הפישוט 'S4TWL - Business Partner Approach for SAP MDG' (עמ' 143-144), שעוסק בהשפעת גישת ה-Business " +
+          "Partner על ממשקי SAP MDG Central Governance, נוקב ב-XK03 כדוגמה ('for example XD01, XD02, XK01, XK03, " +
+          "and so on') וקובע: 'These old SAP ERP-based transactions are replaced by transaction BP.' הפריט עצמו " +
+          "עוסק בהחלפת ממשקי MDG (BS_OVP_CU_CL / BS_OVP_SP_VL) בממשקי BS_OVP_CU / BS_OVP_SP; קביעת 'replaced by " +
+          "transaction BP' מתייחסת לטרנזקציות ה-ERP שהממשקים חיקו, ותואמת את ניסוח פריט 'S4TWL - Business Partner " +
+          "Approach'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#XK03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מתארת את XK03 כהצגה (read-only) של רשומת אב ספק מרכזית, מודול MM, תחום 'ניהול נתוני אב, " +
+          "ספקים (Central Vendor Master)'; הכותרת האנגלית 'Display Vendor (Centrally)' מופיעה " +
+          "ב-data/tcode-catalog.ts#XK03. סיווג פרויקטלי בלבד, לא ראיה רשמית לגבי מעמד S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#XK03",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Partners | Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/bfd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Maintenance Management, versionId 2025.001) היא נושא של Warranty Claim Processing: " +
+          "'Master records have to exist in the system for all warranty partners in Warranty Claim Processing...', " +
+          "ובסניפט: 'Activities Choose transactions XK01, XK02, XK03 to create, change and display " +
+          "vendors/creditors.' ניסוח זה אינו מתיישב עם פריט הפישוט 'S4TWL - Business Partner Approach', שקובע " +
+          "ש-XK03 אינה זמינה ומנותבת ל-BP; אי-ההתאמה בין שני המקורות הרשמיים לא נפתרה בסבב זה (ראו notes).",
+        verificationLevel: "conflicting_sources",
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "פריט הפישוט 'S4TWL - Business Partner Approach' (2025 FPS01) מונה את XK03 (Display Vendor (Centrally)) " +
+        "ברשימת הטרנזקציות שאינן זמינות ב-SAP S/4HANA On-Premise ומנותבות לטרנזקציית BP, ופריט 'S4TWL - Business " +
+        "Partner Approach for SAP MDG' קובע כי טרנזקציות ERP אלה 'are replaced by transaction BP'. נושא תיעוד " +
+        "נפרד של Warranty Claim Processing ('Partners', Maintenance Management, 2025.001) עדיין מזכיר את " +
+        "XK01/XK02/XK03, ואי-ההתאמה לא נפתרה בסבב זה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: XK03_SIMPL2025,
+      recommendedAction:
+        "להשתמש בטרנזקציית BP (Business Partner) עם התפקיד המתאים לספק להצגת נתוני אב של ספק במקום XK03, ולוודא " +
+        "בפרויקט ההמרה שה-Customer/Vendor Integration (CVI) מיושם במלואו, כתנאי מעבר הנדרש בפריט הפישוט 'S4TWL - " +
+        "Business Partner Approach'. יש לבדוק קוד מותאם, דוחות Z וקיצורי דרך בתפריטים שמניחים XK03 כטרנזקציה " +
+        "עצמאית, ולעדכנם בהתאם. אי-ההתאמה מול נושא ה-Warranty Claim Processing 'Partners' (Maintenance " +
+        "Management, 2025.001) טרם נפתרה; מומלץ לאמת ב-SE93 במערכת יעד חיה אם הקוד מנותב ל-BP, שכן לא בוצעה " +
+        "בדיקה במערכת SAP חיה בסבב זה.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:XK01", "tx:XK02"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: (1) grep על XK03 במאגר: data/verification/transactions-auto.ts מכיל רשומה מיוצרת אוטומטית (ללא " +
+      "הכרעת מעמד, הקשר בלבד) עם ציטוטי sap_help של נושא 'Partners' (Maintenance Management 2025.001; " +
+      "Logistics, SAP ERP 6.18.latest) ואזכורי פריטי הפישוט; data/verification/transactions-b.ts מכיל xref " +
+      "בלבד ל-tx:XK03 (מרשומת tx:MK03), ללא רשומה משלה. (2) חיפושים דרך scripts/sap-help-search.mjs: 'XK03 " +
+      "Display Vendor Centrally' (21 תוצאות, ברירת מחדל S/4HANA On-Premise) העלה בעיקר נושאי תפקידי SAP MDG " +
+      "(Specialist/Requester לספק וללקוח) המזכירים XK03 ברשימת טרנזקציות של תפקיד הרשאה, לא כטענת זמינות; " +
+      "חיפוש האודיט 'Partners warranty claim XK03' החזיר את נושא 'Partners' (Maintenance Management, 2025.001) " +
+      "כלשונו. (3) node scripts/fal-app.mjs --tcode XK03 --release S32OP: 'leading app(s): none; GUI app " +
+      "entry: none'. הפלט ריק בגרסה זו (ממצא שלילי מתועד, לא קביעת היעדר); פריטי הפישוט שנקראו מפנים " +
+      "לטרנזקציית BP. (4) פריטי פישוט נוספים שנקראו מ-scratchpad/official/: 'S4TWL - Business Partner " +
+      "Approach' (2023 FPS03, 3.19, עמ' 154-155) נושא את אותה טבלה עם השורה 'Transactions that get redirected " +
+      "to transaction BP' הכוללת את XK03; 'S4TWL - Specific fields on Business Partner' (2023 FPS03, 59.7, עמ' " +
+      "1355-1356; 2025 FPS01, 13.14.1, עמ' 1274-1275; רכיב PSM-FG) מונה את XK03 בטבלה 'Transaction not " +
+      "available in SAP S/4HANA' וקובע ש-'Business Partner transaction BP is now used to create, change or " +
+      "display customer or vendor data', ללא שורת ניתוב. הם לא נכתבו כשורות evidence נפרדות. (5) קונפליקט לא " +
+      "פתור: נושא 'Partners' (Maintenance Management, 2025.001), העוסק בשותפי אחריות ב-Warranty Claim " +
+      "Processing, עדיין מנוסח כאילו XK01/XK02/XK03 זמינות; ייתכן תוכן שיורי שלא עודכן, אך הדבר לא נקבע ממקור " +
+      "רשמי. (6) לא בוצעה בדיקה במערכת SAP חיה; לא נקראו בנפרד SAP Note 2265093 (מודפס בפריט 'S4TWL - Business " +
+      "Partner Approach for SAP MDG') ו-SAP Note 2270420 (מודפס בפריט 'S4TWL - Specific fields on Business " +
+      "Partner'), שכן הם דורשים S-user. לאימות: SE93 במערכת יעד, ופתרון הסתירה מול נושא ה-Partners. הרשומה " +
+      "מחליפה עבור tx:XK03 את הרשומה האוטומטית ב-transactions-auto.ts (שהייתה ללא הכרעת מעמד). לפני כתיבתה " +
+      "הציג report-coverage.mjs --ids עבור tx:XK03 סטטוס נגזר 'unchanged' ברמת repository_verified (ישן); חדש: " +
+      "replaced, יורש tx:BP. ביקורת אדברסרית 2026-09-24: פריטי הפישוט מצוטטים בשמם, הטענה על ניסוח טבלאי זהה " +
+      "בכל הפריטים הוסרה, נושא 'Partners' מתואר כנושא של Warranty Claim Processing, ה-release של שורות רשימת " +
+      "הפישוט יושר ל-2025 FPS01, ופלט fal-app הריק נוסח כממצא שלילי מתועד. הרשומה אינה נושאת שדה reviewer, " +
+      "כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MCVA",
+    evidence: [
+      MCVA_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.1 " +
+          "S4TWL - Quality Management Information System (QMIS)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הפריט הקודם באותה סדרה (Application Component QM-QC-IS) קובע נוסח זהה ל-9.6.8: QMIS מבוסס LIS, כולל את " +
+          "MCVA, הוא חלק מ-compatibility scope עם זכויות שימוש מוגבלות ואינו target architecture; MCVA נוקבת בשורה " +
+          "'MCVC MCVA MCXP MCXV MCXX MCXD MCXB MCXM MCXK MCXI MCXG' וגם תחת 'Other Terms'. עקביות הנוסח על פני שתי " +
+          "גרסאות רשימת פישוט עוקבות (2023 FPS03, 2025 FPS01) מחזקת שמדובר בעמדה יציבה של SAP ולא באזכור חד-פעמי, " +
+          "אך גם כאן אין מיפוי 1:1 ל-MCVA ספציפית.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App MCVA 'Inspection Lot KPIs - Overview by Supplier' (SAP GUI), release S32OP " +
+          "(SAP S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MCVA')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori (scripts/fal-app.mjs MCVA --release S32OP) רושמת את MCVA עצמה " +
+          "כאפליקציה 'Inspection Lot KPIs - Overview by Supplier' מטכנולוגיית SAP GUI, בסטטוס Published, רכיב " +
+          "QM-QC-IS, תחת קטלוג טכני SAP_TC_QM_BE_APPS:S4QM, intent InspectionLot-displayKPIOverviewBySupplier, GUI " +
+          "transaction מובילה ומקושרת MCVA. רשימת ה-releases ב-fal כוללת את S6OP (1610) עד S14OP (1809 FPS02) ואת " +
+          "S18OP (2020) עד S32OP (2025 FPS01, המהדורה העדכנית On-Premise); מהדורות 1909 אינן מופיעות ברשימה. אין " +
+          "predecessors ואין successors רשומים (שני השדות ריקים ב-fal). RIN notes: 3493254 (Front-End Server), " +
+          "3671888 (Back-End Server).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MCVA",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מסווגת את MCVA במודול QM, תחום 'דיווח/ניתוח', שם עברי 'הודעות QM: סקירה', שם אנגלי 'QM " +
+          "Notifications: Overview'; זהו סיווג מבנה פרויקטלי, לא ראיה רשמית. התווית 'QM Notifications: Overview' " +
+          "אינה תואמת את השם הרשמי ב-Fiori Apps Library ('Inspection Lot KPIs - Overview by Supplier') ואת טבלה " +
+          "18.1 בספר הלימוד שבמאגר (data/library/book5-full.json: בשורת Supplier, עמודת Inspection Lot, Overview " +
+          "הוא MCVA, וסקירת ההודעות לספק היא MCVZ), ולכן התווית ב-data/tcode-catalog.ts דורשת תיקון.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MCVA",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "טרנזקציית MCVA מופיעה ב-Fiori Apps Library בשם Inspection Lot KPIs - Overview by Supplier (SAP GUI, " +
+        "רכיב QM-QC-IS); התווית במאגר ('הודעות QM: סקירה') אינה תואמת את השם הרשמי. הספרייה מתעדת אותה כאפליקציה " +
+        "מפורסמת (Published) במהדורות S6OP (1610) עד S32OP (SAP S/4HANA 2025 FPS01, המהדורה העדכנית הזמינה " +
+        "On-Premise), למעט 1909, שאינה ברשימת ה-releases, ללא predecessor או successor רשומים. במקביל, שני פריטי " +
+        "S4TWL עוקבים ('S4TWL - Quality Management Information System (QMIS)', 2023 FPS03 §34.1 ו-2025 FPS01 " +
+        "§9.6.8) מגדירים את כל משפחת ה-QMIS (כולל MCVA בפירוש) כחלק מ-compatibility scope עם זכויות שימוש " +
+        "מוגבלות (SAP Note 2269324, ID 473), שאינו target architecture, וקובעים שהטרנזקציות הללו יוסרו מה-Fiori " +
+        "launchpad. שני המקורות אינם סותרים: MCVA נותרת פונקציונלית ומתועדת רשמית, אך אינה בכיוון הפיתוח העתידי. " +
+        "אף מקור רשמי שנבדק אינו קובע successor ספציפי ל-MCVA; פריטי הפישוט מציגים קבוצת אפליקציות QM Analytics " +
+        "כללית לכל 36 הטרנזקציות המוזכרות יחד, לא מיפוי אחד-לאחד.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MCVA_SIMPL2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-MCVA לסקירת מדדי מנות בדיקה (Inspection Lot KPIs) לפי ספק במידת הצורך, מאחר שהיא מתועדת " +
+        "כ-Published ב-Fiori Apps Library נכון ל-2025 FPS01, אך לא להשקיע בפיתוח Z-קוד או תלות חדשה סביבה: פריטי " +
+        "ה-S4TWL מסמנים אותה כחלק מ-compatibility scope שאינו target architecture. מומלץ לבחון מול הצוות העסקי " +
+        "את אפליקציות QM Analytics שהפריט מציג (לדוגמה Inspection Lot Analytics Last 365 Days F3239, Inspection " +
+        "Lot Detailed Analytics F3273, Characteristic Analytics Last 365 Days F3383, Nonconformance Analytics " +
+        "Last 365 Days F3584, Nonconformance Detailed Analytics F3583) כתחליף אפשרי לצורכי הדיווח, לאחר בדיקת " +
+        "התאמה פונקציונלית פרטנית, מכיוון שאף מקור רשמי לא קבע מיפוי ישיר בין MCVA לאפליקציה ספציפית מביניהן. " +
+        "לעקוב אחרי תוקף ה-compatibility scope לפי SAP Note 2269324 (דורש S-user, לא נקרא בסבב זה) ולאמת ב-SE93 " +
+        "במערכת יעד שהטרנזקציה עדיין פעילה שם; לא בוצעה בדיקה במערכת SAP חיה.",
+    },
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: (1) grep במאגר: data/tcode-catalog.ts (סיווג QM/דיווח-ניתוח), data/library/qm-textbook/ch18.ts " +
+      "ו-data/library/book5-full.json (טבלת 18.1 Standard Analyses ב-QM, מציגה MCVA כ-Overview בשורת Supplier " +
+      "תחת עמודת Inspection Lot (הודעות לספק: MCVZ/MCVP/MCVX) ולצידה MCVC/MCVE/MCVG/MCVI/MCVK/MCVM כתת-אנליזות " +
+      "מקבילות), data/verification/transactions-auto.ts (רשומה אוטומטית קיימת ל-tx:MCVA, כל שדותיה " +
+      "context:true, ללא הכרעת מעמד; הרשומה הזו מחליפה אותה), lib/route-manifest.generated.ts (MCVA קיימת " +
+      "ב-tcodes, מאפשרת xref עתידי במידת הצורך). (2) שלושה חיפושי sap-help-search.mjs: 'MCVA quality " +
+      "management information system' (21 תוצאות, ללא פגיעה ב-MCVA עצמה, כולן על Batch Management/FS-PM), 'QM " +
+      "Notifications Overview MCVA' (21 תוצאות, עמודי QM כלליים ללא MCVA בפירוש), 'MCVA' עם --product SAP_ERP " +
+      "(21 תוצאות, ללא פגיעה, כולן MCA/MCHA). מסקנה: שלושת החיפושים לא החזירו עמוד תיעוד ייעודי ל-MCVA, לא " +
+      "ב-S/4HANA On-Premise ולא ב-ECC; זהו ממצא שלילי מתועד, לא קביעה שעמוד כזה אינו קיים. חיפוש רביעי 'QM " +
+      "Analytics Fiori' אימת את הקשר הכללי לקטגוריית QM Analytics (What's New 1909, scope item 2V0) ללא פגיעה " +
+      "ב-MCVA עצמה. (3) scripts/fal-app.mjs MCVA --release S32OP: החזיר רשומה מלאה (ראו evidence[2]); לא הורץ " +
+      "sap-help-body.mjs כי אף סניפט חיפוש לא נגע ב-MCVA ישירות ולא היה גוף עמוד רלוונטי לקרוא מעבר למה " +
+      "שה-snippet/fal כבר סיפקו. (4) שני פריטי הפישוט 'S4TWL - Quality Management Information System (QMIS)' " +
+      "(2025 FPS01 §9.6.8, 2023 FPS03 §34.1) נקראו במלואם מ-scratchpad/official/SIMPL_OP2025.pdf.txt (שורות " +
+      "45806-45877) ו-SIMPL_OP2023.pdf.txt (שורות 45061-45155). מה שלא אומת: (א) SAP Note 2269324 (מפרט את " +
+      "מטריצת ה-compatibility scope ותוקפה) ו-SAP Note 2270193 לא נקראו בנפרד, דורשים S-user. (ב) לא אומת אם " +
+      "קיימת אפליקציית Fiori ספציפית שנועדה כתחליף 1:1 ל-MCVA (Overview by Supplier) לעומת שאר הניתוחים " +
+      "הסטנדרטיים לספק (MCVB עד MCVZ); הפריטים מדברים על כל 36 הטרנזקציות כקבוצה אחת מול 7 אפליקציות יחד. (ג) " +
+      "לא בוצעה בדיקה במערכת SAP חיה (SE93/הרצת MCVA בפועל). (ד) התווית במאגר (data/tcode-catalog.ts#MCVA: " +
+      "הודעות QM: סקירה) סותרת את השם הרשמי ב-Fiori Apps Library (Inspection Lot KPIs - Overview by Supplier) " +
+      "ואת טבלה 18.1 בספר; נדרש תיקון רשומת המאגר. המידע מבוסס כולו על רשימות פישוט רשמיות שנקראו במלואן ועל " +
+      "פלט מדויק של scripts/fal-app.mjs; אין נתון מומצא. ביקורת אדברסרית 2026-09-24: מספר הטרנזקציות תוקן ל-36 " +
+      "(שלוש שורות של 12 בכל פריט), שמות האפליקציות הועתקו כלשונם ('Last 365 Days'), רשימת ה-releases תוארה " +
+      "כפי שהודפסה (מהדורות 1909 אינן בה), תיאור MCVA הותאם לשם הרשמי 'Inspection Lot KPIs - Overview by " +
+      "Supplier' במקום תווית המאגר, והקו המפריד הארוך הוסר. בכתיבה: ניסוח השלילה בסעיף (2) הוגבל לתוצאות " +
+      "החיפושים, שם הפריט נוסף בסעיף (4), ורכיב QM-QC-IS נוסף לשורת ספריית ה-Fiori לפי פלט fal-app.mjs שהמבקר " +
+      "הריץ מחדש. לפני כתיבת רשומה זו הציג report-coverage.mjs --ids עבור tx:MCVA את הרמה " +
+      "verification_required (ישן); חדש: compatibility_scope. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MCXB",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MCXB",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את MCXB כ'ניתוח תוצאות בדיקה QM', מודול QM, תחום 'דיווח/ניתוח'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MCXB",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App MCXB 'Inspection Characteristic KPIs - By Material' (SAP GUI), release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MCXB')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות של Fiori רושמת את MCXB כאפליקציה 'Inspection Characteristic KPIs - By Material' " +
+          "בסטטוס Published, מסוג SAP GUI, קטלוג טכני SAP_TC_QM_BE_APPS:S4QM, רכיב QM-QC-IS (Information System), " +
+          "טרנזקציית GUI מובילה MCXB. רשימת הגרסאות המודפסת כוללת את 1610 עד 2025 FPS01 (S32OP), בלי גרסאות 1909. " +
+          "השדות predecessors ו-successors ריקים ('predecessors: -; successors: -'), ולכן הספרייה אינה נוקבת " +
+          "באפליקציה יורשת.",
+        verificationLevel: "sap_official_verified",
+      },
+      MCXB_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.1 " +
+          "S4TWL - Quality Management Information System (QMIS)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "הפריט 'S4TWL - Quality Management Information System (QMIS)' נוקב ב-MCXB ברשימת הקודים ('MCVC MCVA MCXP " +
+          "MCXV MCXX MCXD MCXB MCXM MCXK MCXI MCXG') ומביא את אותו נוסח לגבי הקבוצה כולה: QMIS מבוסס LIS הוא חלק " +
+          "מ-compatibility scope (SAP Note 2269324, מזהה 473), 'The following transactions are replaced by " +
+          "corresponding Fiori apps in QM Analytics' ו-'The transactions will be removed in the SAP Fiori " +
+          "launchpad for SAP S/4HANA'. הפריט מונה את אותן אפליקציות QM Analytics לפי קטגוריות, בלי לשייך אפליקציה " +
+          "מסוימת ל-MCXB.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "MCXB נמנה עם קודי QMIS (מבוסס LIS) שהפריט 'S4TWL - Quality Management Information System (QMIS)' (2025 " +
+        "FPS01) מגדיר כחלק מ-compatibility scope עם זכויות שימוש מוגבלות ולא כארכיטקטורת היעד. אותו פריט קובע " +
+        "שהטרנזקציות מוחלפות באפליקציות Fiori של QM Analytics ויוסרו מ-SAP Fiori launchpad, בלי לשייך אפליקציה " +
+        "מסוימת ל-MCXB; ספריית Fiori רושמת את MCXB (SAP GUI) כ-Published ב-S32OP ללא successor.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MCXB_SIMPL2025,
+      recommendedAction:
+        "לבדוק ב-SAP Note 2269324 (מטריצת compatibility scope, מזהה 473) את תאריך התפוגה, ולתכנן מעבר לאפליקציות " +
+        "QM Analytics שהפריט מונה (למשל בקטגוריית Characteristic analytics). את האפליקציה החלופית ל-MCXB עצמו יש " +
+        "לאמת מול תהליך הדיווח בפועל, כי אף מקור רשמי שנקרא אינו משייך אפליקציה ל-MCXB.",
+    },
+    xrefs: [],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שני הפריטים 'S4TWL - Quality Management Information System (QMIS)' (2023 FPS03 ו-2025 FPS01) נקראו " +
+      "במלואם מהטקסט המחולץ scratchpad/official/SIMPL_OP2023.pdf.txt ו-SIMPL_OP2025.pdf.txt. שניהם נוקבים " +
+      "ב-MCXB, אך קובעים מעמד לקבוצת קודי QMIS כולה ולא לקוד בודד. חיפושים: sap-help-search.mjs 'Quality " +
+      "Management Information System QMIS compatibility scope' (SAP_S4HANA_ON-PREMISE, 21 רשומות, 0 מצוטטות; " +
+      "בהן 'Quality Evaluations (QMIS)', שאינה נוקבת ב-MCXB) ו-'MCXB' (21 רשומות, 0 מצוטטות, נושאי HR " +
+      "ופיננסים). fal-app.mjs MCXB --release S32OP רץ בהצלחה: MCXB רשום כאפליקציית SAP GUI בסטטוס Published, " +
+      "successors ריק. אפליקציות QM Analytics שהפריט מונה (למשל F3383, F3382, F2428) אינן " +
+      "ב-data/fiori/apps.ts, ולכן לא נרשמו successor או xref ל-fiori:*. לא נבדק קשר תפעולי לקודים אחרים במשפחה " +
+      "(MCXA, MCXC וכו'), ולכן אין xrefs. לא בוצעה בדיקה במערכת SAP חיה; SE93 במערכת היעד יאשר את קיום " +
+      "הטרנזקציה בפועל. ביקורת אדברסרית 2026-09-24: נוספה רמת האימות לשורת ספריית ה-Fiori, רשימת הגרסאות תוארה " +
+      "כפי שהודפסה (בלי 1909), מזהי אפליקציות QM Analytics שהפריט מונה נוספו לשורת הפריט, הפריטים מצוטטים " +
+      "בשמם, ומשפט על טבלאות שאף מקור מצוטט אינו מדפיס הוסר. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית " +
+      "ל-tx:MCXB ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, verification_required לפי report-coverage.mjs " +
+      "--ids; חדש: compatibility_scope). הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
+  },
+  {
+    id: "tx:MCXC",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.1 " +
+          "S4TWL - Quality Management Information System (QMIS)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "פריט 'S4TWL - Quality Management Information System (QMIS)' (2023 FPS03) קובע: 'The Quality Management " +
+          "Information System (QMIS) based on Logistics Information System (LIS) is part of the SAP S/4HANA " +
+          "compatibility scope, which comes with limited usage rights', ומפנה ל-SAP Note 2269324 (ID 473 במטריצת " +
+          "התאימות). MCXC מופיע ברשימה שאחרי המשפט 'The following transactions are replaced by corresponding Fiori " +
+          "apps in QM Analytics', והפריט מוסיף: 'The transactions will be removed in the SAP Fiori launchpad for " +
+          "SAP S/4HANA'. הפריט מציג קבוצת אפליקציות QM Analytics (F3239, F3273, F3383, F3382, F2428, F3584, F3583) " +
+          "בלי לשייך אפליקציה מסוימת לכל טרנזקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      MCXC_SIMPL2025,
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App MCXC 'Inspection Lot KPIs - Quantity Overview by Material' (SAP GUI), release " +
+          "S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('MCXC')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות של Fiori רושמת את MCXC כאפליקציית SAP GUI בשם 'Inspection Lot KPIs - Quantity " +
+          "Overview by Material', בסטטוס Published במהדורה S32OP (2025 FPS01), רכיב QM-QC-IS, קטלוג טכני " +
+          "SAP_TC_QM_BE_APPS:S4QM, intent InspectionLot-displayKPIQuantityOverviewByMaterial. הרשומה אינה מציגה " +
+          "predecessor או successor.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#MCXC",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "הקטלוג הפנימי מגדיר את MCXC כטרנזקציית QM, אזור 'דיווח/ניתוח', שם אנגלי 'QM Vendor Analysis (Inspection " +
+          "Lots)' ושם עברי 'ניתוח ספקים QM (מנות בדיקה)'. התווית הזו שונה מהכותרת הרשמית בספריית Fiori ('Quantity " +
+          "Overview by Material'), ולכן מושא הניתוח דורש בדיקה ב-SE93 או בתפריט במערכת.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#MCXC",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "פריט 'S4TWL - Quality Management Information System (QMIS)' קובע ש-QMIS מבוסס LIS הוא חלק " +
+        "מ-compatibility scope עם זכויות שימוש מוגבלות ואינו ארכיטקטורת היעד, ומונה את MCXC (בספריית Fiori: " +
+        "'Inspection Lot KPIs - Quantity Overview by Material') בין הטרנזקציות שמוחלפות באפליקציות Fiori ב-QM " +
+        "Analytics ויוסרו מה-SAP Fiori launchpad. הפריט אינו משייך אפליקציה מסוימת ל-MCXC.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: MCXC_SIMPL2025,
+      recommendedAction:
+        "לבדוק את תוקף ה-compatibility scope ב-SAP Note 2269324 (ID 473); לבחור במערכת היעד את אפליקציית QM " +
+        "Analytics המתאימה לשימוש בפועל מתוך הקבוצה שהפריט מונה, ולאמת ב-SE93 את מושא הדוח (לפי חומר או לפי " +
+        "ספק), שכן תווית המאגר והכותרת הרשמית שונות.",
+    },
+    xrefs: ["tx:MCXA", "tx:MCXB", "tx:MCXX", "tx:MCVA"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "מה נבדק: (1) הפריט 'S4TWL - Quality Management Information System (QMIS)' נקרא בטקסט המחולץ של שתי " +
+      "רשימות הפישוט (scratchpad/official/SIMPL_OP2023.pdf.txt ו-SIMPL_OP2025.pdf.txt). האינדקס " +
+      "audit/master-completion/simpl-tcode-index.json רושם את MCXC תחת פריט 34.1 ב-2023 FPS03 (שורות 45105 " +
+      "ו-45154) ותחת פריט 9.6.8 ב-2025 FPS01 (שורות 45825 ו-45847). (2) node scripts/fal-app.mjs MCXC: רשומה " +
+      "ב-S32OP בסטטוס Published, 'Inspection Lot KPIs - Quantity Overview by Material', ללא predecessor וללא " +
+      "successor. (3) node scripts/sap-help-search.mjs \"MCXC\" --json (ברירת מחדל size 10, סקופ " +
+      "SAP_S4HANA_ON-PREMISE): 10 רשומות, אף אחת אינה עוסקת ב-MCXC, 0 מצוטטות. (4) אותו חיפוש עם --product " +
+      "SAP_ERP: 16 רשומות, אף אחת אינה עוסקת ב-MCXC, 0 מצוטטות. לא נקבע successor, כי הפריט וספריית Fiori אינם " +
+      "משייכים ל-MCXC אפליקציה מסוימת. תיקון מול טיוטה קודמת: כתובת ה-PDF של 2025 הוחלפה בכתובת הרשמית " +
+      "(2025.latest), תווית 'ניתוח ספקים' הוסרה מהסטטוס. הרשומה הדטרמיניסטית tx:MCXC ב-transactions-auto.ts " +
+      "מוחלפת ברשומה זו (ישן: ללא הכרעת מעמד, verification_required לפי report-coverage.mjs --ids; חדש: " +
+      "compatibility_scope). לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת הקטלוג.",
   },
 ];
