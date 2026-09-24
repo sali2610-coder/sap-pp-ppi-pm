@@ -10,7 +10,12 @@
    foundation seed was replaced by its full record. Every claim is bounded by
    the snippet, the PDF page read, or the named repository record; auditor
    downgrades applied in full; no record carries a reviewer field. Open
-   conflicts live in audit/s4-enrichment/research-queue-transactions.md. */
+   conflicts live in audit/s4-enrichment/research-queue-transactions.md.
+   Batch 3 (2026-09-24): 6 audited records (IP19, IW37, IW49, CL6O, CO54,
+   CO55) carrying the 2025 FPS01 / 2023 FPS03 Simplification List items read
+   from the local PDFs plus help.sap.com bodies read through the portal content
+   service where the record says so; IW37 / CO55 from verdict.fixedRecord, the
+   other four from the drafts with the auditors' downgrades applied verbatim. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -18,6 +23,7 @@ const DATE2 = "2026-09-02";
 const DATE3 = "2026-09-07";
 const DATE21 = "2026-09-21";
 const DATE22 = "2026-09-22";
+const DATE24 = "2026-09-24";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -596,6 +602,177 @@ const C201_STATUS_SRC: Evidence = {
 };
 
 /* ---------------------------------------------------------------- records */
+
+/* ---------------------- batch 3 (2026-09-24) status sources, shared with evidence[0] */
+
+const IP19_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item " +
+    "4.1.10 S4TWL - SAP Graphics in EAM Transactions (PM)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 4.1.10 ברשימת הפישוט של SAP S/4HANA 2025 FPS01 (רכיב יישום PM; הערת Business Impact 0002482659 " +
+    "'Usage of SAP Business Graphics' כפי שמופיעה בטבלת ה-Related Notes של הפריט; הקובץ " +
+    "SIMPL_OP2025.pdf, גרסת מסמך 1.36, md5 c1ccf8ebcd92d51fdc80e4b4873f3b73, נקרא מקומית במלואו, עמוד " +
+    "83) קובע בלשונו: 'The graphical output in Enterprise Asset Management transactions using SAP " +
+    "Business Graphics, e.g. in transaction IP19, is not available in SAP S/4HANA. Generally SAP " +
+    "Business Graphics used in Plant Maintenance applications are no longer supported in SAP S/4HANA. " +
+    "The attached pdf gives some of the examples where these charts are used'; תחת Business Process " +
+    "related information: 'No influence on business processes expected'; ותחת Required and Recommended " +
+    "Action(s): 'Please use the tabular display options'. כלומר הפריט אינו מבטל את IP19 ואינו נוקב " +
+    "ביורש: הוא קובע שהפלט הגרפי שלה ב-SAP Business Graphics אינו זמין ב-S/4HANA ומפנה לתצוגות הטבלאיות. " +
+    "הקובץ המצורף לפריט ('attached pdf') אינו חלק מה-PDF הציבורי ולא נקרא, וגוף ההערה 2482659 דורש כניסת " +
+    "S-user ולא נקרא.",
+  verificationLevel: "sap_official_verified",
+};
+
+const IW37_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item " +
+    "4.1.7 S4TWL - Changes In List Reports For Order and Notification (PM-WOC-MO), p. 80",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 4.1.7 ברשימת הפישוט הרשמית של SAP S/4HANA 2025 FPS01 (הקובץ SIMPL_OP2025.pdf, גרסת מסמך 1.36, " +
+    "1,514 עמודים, הורד ונקרא מקומית בטקסט מלא; הפריט בעמ' 80, רכיב יישום PM-WOC-MO; הערת Business " +
+    "Impact 0002270108 'Changes In List Reports For Order and Notification' בטבלת Related Notes של " +
+    "הפריט) נוקב ב-IW37 בשמה. תחת Description: 'Within Enterprise Asset Management we plan to " +
+    "discontinue IW37, IW49 in a future release. It is recommend to use transaction IW37n, IW49n " +
+    "instead' [כך במקור], ותחת Required and Recommended Action(s): 'In case you use the transaction " +
+    "IW37, IW49, please use IW37n or IW49n instead'. הפריט קובע 'No influence on business processes " +
+    "expected', ומציב כתנאי מוקדם להרצת דוחות הרשימה להזמנות ולהודעות ב-S/4HANA את 'the performance " +
+    "improvements described in notes 393393 and 551133', עם הרצת הדוחות 'QM_PHASE_FILL' " +
+    "ו-'RIAFVC_IPHAS_FILL' לפני ההסבה ('before the ugrade to SAP S/4HANA if not done yet', שגיאת הכתיב " +
+    "במקור). הפריט אינו מכריז שהטרנזקציה הוסרה ואינו נוקב במהדורת יעד להפסקתה; המחרוזת IW37 מופיעה בכל " +
+    "הקובץ בשלוש שורות בלבד, כולן בפריט הזה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const IW49_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (Document Version 1.36) · item " +
+    "4.1.7 S4TWL - Changes In List Reports For Order and Notification (PM-WOC-MO)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 4.1.7 ברשימת הפישוט הרשמית של SAP S/4HANA 2025 FPS01 (רכיב יישום PM-WOC-MO; הערת Business " +
+    "Impact 0002270108 'Changes In List Reports For Order and Notification', כפי שמופיעה בטבלת ה-Related " +
+    "Notes של הפריט; עמוד 80 של המסמך שהורד ונקרא מקומית) קובע בלשונו תחת Description: 'Prerequisite for " +
+    "executing the list reports for orders and notifications in SAP S/4HANA are the performance " +
+    "improvements described in notes 393393 and 551133. The reports listed there need to be executed. " +
+    "Within Enterprise Asset Management we plan to discontinue IW37, IW49 in a future release. It is " +
+    "recommend to use transaction IW37n, IW49n instead' [כך במקור]; תחת Business Process related " +
+    "information: 'No influence on business processes expected'; ותחת Required and Recommended " +
+    "Action(s): 'Implement the notes if needed and run the reports QM_PHASE_FILL and RIAFVC_IPHAS_FILL " +
+    "before the ugrade to SAP S/4HANA if not done yet' [כך במקור] ו-'In case you use the transaction " +
+    "IW37, IW49, please use IW37n or IW49n instead'. כלומר הפריט אינו מסיר את IW49 ואינו מחליף אותה " +
+    "במהדורה זו: הוא מודיע על כוונה להפסיקה במהדורה עתידית ומפנה במפורש ל-IW49N כטרנזקציה המומלצת " +
+    "במקומה. הפריט אינו נוקב במהדורת ההפסקה או בתאריכה ואינו מזכיר אפליקציית Fiori.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CL6O_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 Feature Pack Stack 1 (Document Version 1.36) · item 10.4.9 " +
+    "S4TWL - Classification (CA-CL)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 10.4.9 ‏(רכיב יישום CA-CL, עמודים 927 עד 929; הערת Business Impact הנקובה במסמך: 0002267878 " +
+    "'Classification') קובע: 'With SAP S/4HANA, on-premise edition 1511 transactions of the " +
+    "Classification are renovated so that transactions may have changed functionality or may be " +
+    "completely removed within SAP Product Lifecycle Management (SAP PLM)'. בטבלה שכותרת העמודה השמאלית " +
+    "שלה היא 'Transaction not available since SAP S/4HANA on-premise edition 1511' והימנית 'Available " +
+    "alternative transactions and reports' מופיעה השורה 'CL6O Plus-Minus Object Display' (עמוד 929), " +
+    "ובעמודת החלופות מול הרצף CL6D, CL6M, CL6O מופיעים שלושה מקפים ('- - -') אחרי 'CL6BN Object List' " +
+    "(החלופה של CL6B), כלומר לא נקובה ל-CL6O שום טרנזקציה או דוח חלופיים; ההתאמה בין העמודות נקראת לפי " +
+    "סדר השורות בטבלה. 'Required and Recommended Action(s)': 'No special actions required.'; 'Custom " +
+    "Code related information': 'SAP note: 2213569' (המספר מופיע כלשונו בגוף המסמך). הפריט אינו מציין " +
+    "תאריך הסרה מאוחר יותר ואינו מזכיר אפליקציית Fiori.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CO54_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+    "Edition 2025 - Feature Pack Stack 1 · item 9.3.16 S4TWL - Process Messages (PP-PI-PMA-MSG)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.3.16 (רכיב יישום PP-PI-PMA-MSG, SAP Note 2270231 מסוג Business Impact כפי שהודפס בפריט, עמ' " +
+    "630-633 ב-PDF) נוקב בטרנזקציה בשמה בשורת Other Terms: 'Process Management; PI Sheet; Transactions " +
+    "CO54, CO54XT'. הפריט קובע: 'Usage of process messages in conjunction with browser-based PI sheets " +
+    "(PP-PI) and work instructions (PP-SFC) is part of the compatibility scope', 'This usage comes with " +
+    "limited usage rights' (SAP Note 2269324, פריט היקף תאימות 'item ID 455', כלשון הפריט), ואילו 'The " +
+    "usage of process messages is possible in conjunction with Manufacturing Execution Connect (classic) " +
+    "or in conjunction with Execution Sheets. This usage is not part of the compatibility scope'. עוד " +
+    "נכתב: 'No influence on business processes expected as long as you continue to use process " +
+    "messages', 'Immediate action is not required', 'Process messages in conjunction with browser-based " +
+    "PI sheets/work instructions (PP-SFC) can be used until the expiry date of the compatibility pack " +
+    "license', וכי ניתן להשתמש גם ביכולות המובנות של S/4HANA לביצוע ייצור: 'Transactions CORK, COR6N, " +
+    "CORZ' ו-'Apps for the production operator role SAP_BR_PRODN_OPTR_PROC'; 'New process order " +
+    "integration capabilities will be offered with new SOAP and OData APIs' ו-'Process orders " +
+    "confirmations can be received from a MES, that is SAP Digital Manufacturing, with new OData APIs'. " +
+    "בסעיף Further information (עמ' 632): Manufacturing Execution Connect (classic) הוצג ב-S/4HANA 2022 " +
+    "FPS2 ותומך בהודעות תהליך (PP-PI-PMA-MSG) יחד עם ממשק PI-PCS בסוגי יעד 2 ו-3, ואילו סוג יעד 4 (PI " +
+    "Sheets מבוססי-דפדפן) שייך להיקף התאימות; עמ' 633 חוזר גם על הקביעות 'The listed content of the " +
+    "compatibility scope is not further supported after the end of usage rights', תום התמיכה ב-PI Sheets " +
+    "מבוססי ABAP list (SAP Note 2268116) וסעיף Custom Code Check / Adaption (SAP Note 2268070), המצוטטים " +
+    "בראיה של רשימת 2023. הפריט אינו קובע שהטרנזקציה CO54 הוסרה או הוחלפה: היא נזכרת כמונח חיפוש של " +
+    "הפריט, וההגבלה חלה על תרחיש השימוש (הודעות תהליך עם PI Sheet מבוסס-דפדפן) ולא על קוד הטרנזקציה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CO55_SIMPL_ITEM: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item " +
+    "9.3.18 S4TWL - Browser-based Process Instruction-Sheets/Electronic Work Instructions " +
+    "(PP-PI-PMA-PMC), pp. 636-644",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE24,
+  claim:
+    "פריט 9.3.18 (רכיב PP-PI-PMA-PMC; SAP Note 2268070 מודפס בטבלת ההערות של הפריט כ-0002268070) נוקב " +
+    "ב-CO55 בשמה: תחת 'Transactions (no call or clone in custom code)' מופיע 'CO55 Worklist for " +
+    "Maintaining PI Sheets' לצד CO60, CO60E, CO60XT, CO64 ו-CO67 (עמ' 641), תחת 'Programs (no call or " +
+    "clone in custom code)' מופיע 'RCOPOC_CO55 Worklist for Maintaining PI Sheets' (עמ' 642), וב-'Other " +
+    "Terms': 'Packages COPOC, CMX_POC, CMX_PII, Transactions CO55, CO60, CO60E, CO60XT, CO64, CO67' (עמ' " +
+    "637). על תקפות הפונקציה הפריט קובע: 'The functionality of browser-based PI sheets (PP-PI) and " +
+    "browser-based work instructions (PP-SFC) is still available in SAP S/4HANA. But it is not " +
+    "considered as future technology' (עמ' 637); 'Browser-based PI Sheets and work instructions (PP-SFC) " +
+    "only run in SAP GUI for Windows' ו-'cannot run in SAP GUI for HTML or SAP Fiori' (עמ' 640); 'With " +
+    "SAP S/4HANA 2023, SAP delivered browser-based XStep-based Execution Sheets' ש-'can be displayed and " +
+    "maintained using SAP GUI for Windows and SAP GUI for HTML' (עמ' 640); ובסעיף Custom Code: 'Make " +
+    "sure that with end of support of the compatibility scope item' אין קוד לקוח שמעביר או שומר נתונים " +
+    "של גיליונות PI מבוססי דפדפן (עמ' 641). הפריט אינו מכריז על הסרת CO55 ואינו נוקב ביורש ברמת " +
+    "טרנזקציה; ההפניה קדימה היא ל-Execution Sheets ול-SAP Digital Manufacturing ('mid-to long-term'). " +
+    "מספרי SAP Notes 3156433, 3156434, 3413777, 3417131, 3413719 ו-397504 מופיעים כלשונם בגוף הפריט.",
+  verificationLevel: "sap_official_verified",
+};
 
 export const TX_VERIFICATION: VerificationRecord[] = [
   /* ----------------------------------------------------- tx:MIGO */
@@ -4716,5 +4893,1017 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "'מאומת' רק משום ש-s4Delta אינו ריק, בעוד הטקסט אומר 'המבנה PLKO/PLPO ללא שינוי'; הרשומה המחברת " +
       "מכריעה 'ללא שינוי' על סמך המקור הרשמי. תאריך accessedAt = 2026-09-07 לפי תאריך הבאץ'; ריצת הכלי " +
       "בפועל הודפסה 2026-09-08, והאימות האדברסרי חזר על החיפושים והוריד את ה-PDF ב-2026-09-14.",
+  },
+
+  /* ----------------------------------------------------- tx:IP19 */
+  {
+    id: "tx:IP19",
+    aliases: ["IP19 (Maintenance Plan Scheduling Overview and Simulation)"],
+    evidence: [
+      IP19_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Scheduling Overview and Simulation | Maintenance Planning (CS-AG/PM-PRM-MP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f7d969cde600466b96094e772632c3f3/52d5c2537d3ab74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד במהדורת 2025 FPS01 (נקרא במלואו דרך שירות התוכן של פורטל ה-Help, deliverable 40374650 " +
+          "build 1779) מונה את סוגי סקירת התזמון 'Call history', 'Scheduling overview and simulation' " +
+          "ו-'Scheduling overview as a list', וקובע שבסקירת התזמון והסימולציה 'you can select one of the " +
+          "following display variants: As a table in the SAP List Viewer Tabular with additional navigation " +
+          "tree'; לתצוגה עם עץ הניווט: 'Release, skip, and fix maintenance calls; set and reset deletion flags " +
+          "for maintenance plans; activate and deactivate maintenance plans. Change between simulation mode " +
+          "and overview mode'. וריאנט תצוגה גרפי אינו מופיע בגוף העמוד במהדורה זו, ועמוד 'Displaying " +
+          "Scheduling Overview or Simulation Directly' (loio 8fa8ce5314894208e10000000a174cb4, אותו " +
+          "deliverable, נקרא במלואו) מורה: 'Select the display variant: tabular or tabular with navigation " +
+          "tree'. שני העמודים אינם נוקבים בקוד הטרנזקציה IP19; הקישור לקוד נשען על פריט הפישוט (ראיה 1), על " +
+          "טבלת מסמכי השינוי (ראיה 3) ועל הערות השחרור של ECC 6.0 (ראו notes).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Change Documents | Maintenance Planning (CS-AG/PM-PRM-MP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f7d969cde600466b96094e772632c3f3/f1a8ce5314894208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "סניפט רשומת החיפוש וגוף העמוד (נקרא במלואו דרך שירות התוכן, 2025 FPS01) נוקבים ב-IP19 בטבלת הפעולות " +
+          "שמעדכנות מסמכי שינוי בתוכניות תחזוקה (עמודות: תוכנית מחזור יחיד זמן/ביצועים, תוכנית אסטרטגיה " +
+          "זמן/ביצועים, תוכנית מונים מרובים): לפעולה 'Release' (שדה TSABR) מופיעות השורות 'IP10 X X X X X IP30 " +
+          "X X X X X IP19 X X X X X'; לפעולה 'Ignore' (שדה TSTAT) השורות 'IP10 X X X X X IP19 X X X X X'; " +
+          "ולפעולה 'Fix' (TSTAT) השורות 'IP10 X Not relevant X Not relevant Not relevant IP19 X Not relevant X " +
+          "Not relevant Not relevant', כלומר קיבוע רלוונטי בתוכניות מבוססות זמן בלבד. כלומר בתיעוד S/4HANA " +
+          "On-Premise 2025 FPS01 IP19 היא טרנזקציה פעילה שממנה משחררים, מדלגים ומקבעים קריאות תחזוקה, ופעולות " +
+          "אלה נרשמות במסמכי שינוי. אותו loio קיים גם בתיעוד SAP ERP 6.0 EHP8 (6.18.latest, רשומת חיפוש תחת " +
+          "SAP_ERP); גוף גרסת ה-ERP של עמוד זה לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Scheduling Overview and Simulation | Maintenance Planning (CS-AG/PM-PRM-MP) (SAP ERP 6.0 EHP8)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/11825b10747e4ee4b91ecc1dba612536/52d5c2537d3ab74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו loio (52d5c2537d3ab74ce10000000a174cb4) בתיעוד SAP ERP 6.0 EHP8 (גוף העמוד נקרא במלואו דרך " +
+          "שירות התוכן, deliverable 23795294 build 533, '6.0 EHP8 Latest') מונה שלושה וריאנטים לסקירת התזמון " +
+          "והסימולציה: 'In a graphic as a Gantt diagram As a table in the SAP List Viewer As a table in an " +
+          "additional navigation tree', ומפרט: 'Scheduling overview and simulation: graphic (Gantt diagram) " +
+          "The graphical scheduling overview consists of the following components: Graphical display of the " +
+          "simulation of maintenance schedules Graphical representation of the capacity load Detail " +
+          "screen(s)'. עמוד ההמשך 'Scheduling Overview and Simulation: Working with the Graphic' (loio " +
+          "a1a8ce5314894208e10000000a174cb4, 6.18.latest, נקרא במלואו) מתאר את בלוקי הצבע של מועדי הקריאה " +
+          "וההזמנות ואת גרף העומס: 'The system displays a business graphic of the capacity load for the period " +
+          "of time you specified. You can display the capacity load in 2D or 3D'. זהו בסיס ה-ECC של הפונקציה " +
+          "הגרפית שפריט הפישוט מתייחס אליה; אותו עמוד המשך אינו קיים ב-deliverable של S/4HANA 2025 FPS01 " +
+          "(שירות התוכן החזיר HTTP 404 ל-loio זה ב-deliverable 40374650 build 1779 של גרסה 2025.001, וחיפוש " +
+          "ה-Help מחזיר אותו רק תחת SAP_ERP). העמוד אינו נוקב ב-IP19.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL), רשומת IP19",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רובד Tier-2 מסמן את IP19 כ'קיים ב-S/4HANA; קיימות אפליקציות Fiori לסקירת תזמון' (verified), נוקב " +
+          "ב-'Schedule Maintenance Plans' בשדה fiori וב-s4Delta: 'נשמרת ב-S/4HANA; דשבורד Fiori Maintenance " +
+          "Planning Overview (F2828) נותן תמונת תכנון מודרנית', ומשייך את הטרנזקציה לטבלאות MHIS ו-MPLA. " +
+          "הרשומה אינה מזכירה את פריט הפישוט ואת אי-זמינות הפלט הגרפי; הצימודים ל-'Schedule Maintenance Plans' " +
+          "ול-F2828 הם אוצרות המאגר ואינם נתמכים ברשומה רשמית שנמצאה עבור IP19.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IP19",
+      },
+    ],
+    status: {
+      status: "restricted",
+      secondary: ["simplified"],
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: IP19_SIMPL_ITEM,
+      he:
+        "טרנזקציית IP19 (סקירת תזמון וסימולציה של תוכניות תחזוקה; לפי הערות השחרור של ECC 6.0 שמה שונה אז " +
+        "מ-'Graphical Maintenance Plan Scheduling Overview and Simulation' ל-'Maintenance Plan Scheduling " +
+        "Overview and Simulation' עם הוספת התצוגות הטבלאיות) ממשיכה להתקיים ב-SAP S/4HANA On-Premise: תיעוד " +
+        "Maintenance Planning של 2025 FPS01 נוקב בה בטבלת מסמכי השינוי (שחרור, דילוג וקיבוע של קריאות " +
+        "תחזוקה), הרול SAP_PM_PRM_MAIN_PLANS_SCHEDULE מונה 'Maintenance scheduling overview (graphical, " +
+        "list)' בין פעילויותיו, ולפי כותרת תוצאת חיפוש רשת, ספריית יישומי ה-Fiori מחזיקה רשומה 'Maintenance " +
+        "scheduling overview' תחת appId=IP19 (גוף העמוד הוא app shell שלא נקרא). עם זאת, פריט הפישוט 4.1.10 " +
+        "'S4TWL - SAP Graphics in EAM Transactions' (2025 FPS01; אותו נוסח בפריט 29.12 של רשימת 2023 FPS03) " +
+        "קובע שהפלט הגרפי ב-SAP Business Graphics, 'e.g. in transaction IP19', אינו זמין ב-S/4HANA ומורה " +
+        "להשתמש בתצוגות הטבלאיות. תיעוד ה-Help של 2025 FPS01 תואם: וריאנט הגאנט שמתועד ב-SAP ERP 6.0 EHP8 " +
+        "('In a graphic as a Gantt diagram') נעדר מעמוד 'Scheduling Overview and Simulation' של S/4HANA, " +
+        "שמונה רק 'As a table in the SAP List Viewer' ו-'Tabular with additional navigation tree'. לכן " +
+        "הסטטוס 'מוגבל ב-S/4HANA' עם פריט הפישוט כקריאה משנית; אין הצהרת הוצאה משימוש ואין יורש רשמי.",
+      recommendedAction:
+        "בהמרה: לוודא שמשתמשי IP19 עוברים לווריאנטים הטבלאיים (ALV או טבלה עם עץ ניווט) כהוראת הפריט, ולבדוק " +
+        "וריאנטי בחירה שמורים (Customizing 'Set list editing' לסקירת התזמון) שמפנים לתצוגה הגרפית; להתאים " +
+        "חומרי הדרכה ושמות בתפריטים. לסקירה אנליטית ב-S/4HANA לבחון את 'Maintenance Plan Scheduling " +
+        "Overview' (App ID W0192, CDS C_MaintPlanSchedgOvwQuery) המתועד ב-Maintenance Management 2025 FPS01, " +
+        "בלי להציגו כיורש: אף מקור רשמי אינו מכריז על החלפה. במאגר: לעדכן את s4Delta ואת שדה fiori ברשומת " +
+        "tx-intel של IP19 כך שיזכירו את פריט הפישוט ואת אי-זמינות הפלט הגרפי ולהסיר את הצימוד הלא מתועד " +
+        "ל-'Schedule Maintenance Plans'; לתקן את אינדקס הפריטים " +
+        "(audit/master-completion/simpl-tcode-index.json) שמשייך את אזכור IP19 ברשימת 2023 לפריט 29.9 במקום " +
+        "29.12.",
+    },
+    xrefs: ["tx:IP24", "tx:IP10", "tx:IP30", "tx:IP15", "tx:IP16", "table:MPLA", "table:MPOS", "table:MHIS", "table:MHIO", "cds:I_MaintenancePlan", "fm:SCHEDULING_HISTORY_READ", "obj:maintenance-plan", "bp:preventive-maintenance-process"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה (2026-09-24): scripts/sap-help-search.mjs ב-13 שאילתות On-Premise ('IP19 Maintenance " +
+      "Scheduling Overview', 'Maintenance Scheduling Overview graphical', 'IP19', 'SAP Graphics in EAM " +
+      "Transactions', 'Changes In List Reports For Order and Notification', 'maintenance scheduling " +
+      "overview graphic list IP24', 'Scheduling overview maintenance plans graphic list transaction', " +
+      "'Scheduling Overview and Simulation', 'Displaying Scheduling Overview or Simulation Directly', " +
+      "'Scheduling Overview and Simulation Working with the Graphic', 'SAP Graphics not available EAM " +
+      "transactions Gantt', 'Maintenance Planning Overview F2828', 'Maintenance Plan Scheduling Overview'; " +
+      "8 או 6 תוצאות נשלפו מכל שאילתה, השירות מדווח total 21) ושתיים על SAP_ERP ('IP19 maintenance " +
+      "scheduling overview', 'maintenance scheduling overview graphic'); קריאה מלאה של 11 גופי עמודים דרך " +
+      "שירות התוכן של הפורטל (deliverableMetadata ואז pagecontent); קריאה מקומית מלאה של שני קובצי רשימת " +
+      "הפישוט (SIMPL_OP2025.pdf גרסת מסמך 1.36, md5 c1ccf8ebcd92d51fdc80e4b4873f3b73; SIMPL_OP2023.pdf " +
+      "גרסת מסמך 1.35, md5 909c6e9087b009e809c116d3c6cf2eec); הורדה וקריאה של הערות השחרור PM של ECC 6.0 " +
+      "(help.sap.com/doc/3b20fc4a5ffa4e79b77bec20d88fa2dc/6.00.29/en-US/Chapter_16__PM_Plant_MaintenanceE_(2).PDF, " +
+      "14 עמודים, HTTP 200); חיפוש רשת מוגבל-דומיין לספריית ה-Fiori; בדיקת HTTP חיה לכל כתובת מצוטטת " +
+      "(200). לא בוצעה בדיקה במערכת SAP חיה (sc4sap לא התחבר). מדידות על רשימות הפישוט: ברשימת 2023 FPS03 " +
+      "IP19 נזכרת בפריט 29.12 'S4TWL - SAP Graphics in EAM Transactions' (עמוד 729 לפי תוכן העניינים, רכיב " +
+      "PM, הערה 2482659, אותו נוסח כמו 4.1.10 של 2025), ולא בפריט 29.9 'S4TWL - Changes In List Reports " +
+      "For Order and Notification' כפי שאינדקס הפרויקט (audit/master-completion/simpl-tcode-index.json) " +
+      "מציין: פריט 29.9 (רכיבים PM-WOC-MN, PM-WOC-MO, PM; הערה 2270108) עוסק בהערות הביצועים 393393 " +
+      "ו-551133, בדוחות QM_PHASE_FILL ו-RIAFVC_IPHAS_FILL ובכוונה להפסיק את IW37 ו-IW49 לטובת IW37N " +
+      "ו-IW49N, ואינו מזכיר את IP19; השיוך השגוי נובע מכותרות 29.10 עד 29.12 שנדפסות בתמצית הטקסט ללא רווח " +
+      "('29.12S4TWL') ולכן לא זוהו כפריטים. פריט 4.1.7 של רשימת 2025 (המקבילה של 29.9) גם הוא אינו מזכיר " +
+      "את IP19. הערות השחרור של ECC 6.0, סעיף 16.5.1.1 'Graphical Maintenance Scheduling Overview and " +
+      "Simulation (Changed)': 'As of SAP ECC 6.0 (SAP_APPL 600), you can use the tabular display and the " +
+      "tabular display with navigation tree for the maintenance plan scheduling overview and simulation " +
+      "(transaction IPI9) [כך במקור] as an alternative to the graphical display' ו-'Due to the enhancement " +
+      "of the transaction IP19, the description Graphical Maintenance Plan Scheduling Overview and " +
+      "Simulation was changed to Maintenance Plan Scheduling Overview and Simulation'; כלומר התצוגות " +
+      "הטבלאיות שאליהן מפנה פריט הפישוט קיימות ב-IP19 מאז ECC 6.0. תיעוד S/4HANA נוסף שנמצא ולא נכלל " +
+      "כראיה: הרול 'Scheduling of Maintenance Plans' (loio f267b65334e6b54ce10000000a174cb4, Maintenance " +
+      "Management 2025.001, גוף העמוד נקרא במלואו: 'Scheduling a maintenance plan Deadline monitoring " +
+      "Maintenance scheduling overview (graphical, list)'; אינו נוקב בקוד); 'Process Scheduling Overview " +
+      "and Simulation' (loio b9a8ce5314894208e10000000a174cb4, 2025.001, נקרא במלואו: מונה 'Calling Up " +
+      "Directly', 'From the Maintenance Plan', 'Using List Editing', 'Simulating Changes', 'Scheduling " +
+      "Overview as List', בעוד סניפט גרסת ERP 6.18.latest של אותו loio מונה גם 'Working with the Graphic', " +
+      "'Shifting the Call in the Graphic', 'Changing the Call in the Graphic'); עמוד הסקירה 'Maintenance " +
+      "Planning (CS-AG/PM-PRM-MP)' ב-Maintenance Management 2025.001 (loio " +
+      "16adb853dcfcb44ce10000000a174cb4, נקרא במלואו) עדיין מונה תחת Additional Functions 'Scheduling " +
+      "overview and simulation In a graphic as a Gantt diagram As a table in the SAP List Viewer As a " +
+      "table in an additional navigation tree', וסניפט 'Displaying a Scheduling Overview from the " +
+      "Maintenance Plan' (loio 92a8ce5314894208e10000000a174cb4, 2025.001) עדיין אומר 'If you display the " +
+      "graphical scheduling overview or simulation directly'; משפטים אלה נותרו מנוסח ה-ERP ואינם תואמים את " +
+      "עמוד הנושא של אותה מהדורה. אי-העקביות מתועדת כאן ולא נפתרה, ולכן השאלה אם תרשים הגאנט עצמו עדיין " +
+      "נטען ב-IP19 ב-S/4HANA 2025 FPS01 או רק פלט ה-SAP Business Graphics (גרף העומס) נותרת 'דורש אימות " +
+      "במערכת SAP'; הסטטוס 'מוגבל' תקף בשני המקרים. 'Renaming of Apps in Maintenance Management' (What's " +
+      "New 2025, loio c9959e6129174269adf7632bb60c4ed8, גוף העמוד נקרא במלואו) מונה 30 קודים ששמם שונה; " +
+      "IP19 ו-IP24 אינם ביניהם. 'Maintenance Plan Scheduling Overview' (loio " +
+      "2a63f2a0afc24eef88a9b8f86027dc6a, Maintenance Management 2025.001, נקרא במלואו): 'App ID: W0192 " +
+      "With this app, you can view maintenance plan scheduling details based on the defined selection " +
+      "criteria', מבוסס CDS 'C_MaintPlanSchedgOvwQuery'; העמוד אינו מזכיר את IP19, והמזהה W0192 אינו " +
+      "ב-data/fiori/apps.ts ולכן אין לו xref. ספריית ה-Fiori: רשומה בשם 'Maintenance scheduling overview' " +
+      "תחת fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/?appId=IP19 (HTTP 200, גוף app shell " +
+      "שלא נקרא; הכותרת מתוצאת חיפוש הרשת). F2828 (Maintenance Planning Overview) שברשומת tx-intel קיים " +
+      "במאגר אך לא צורף כ-xref: מיפויו ל-IP19 הוא אוצרות המאגר, ורשומת What's New 1809 (loio " +
+      "1ee3b37c9ff64c3aa4c523de5987470f) מתארת אותו כיישום תכנון וניטור ולא כיורש של IP19. IP19 מופיעה " +
+      "ברישום הרוחבי (TCODE_CATALOG: 'סקירת תזמון תחזוקה (גרף)') ובתחום pm-maintenance-planning, אך לא " +
+      "ברשומות הטרנזקציות המקוריות (data/transactions.ts) ולא בבלופרינטים. הסטטוס הנגזר שהאפליקציה מציגה " +
+      "היום ל-IP19 הוא 'משתנה ב-S/4HANA' (הבונה מעלה 'changed' לכל רשומת tx-intel עם s4Delta מאוכלס, " +
+      "ב-trust 'verified'); הרשומה הזו מחליפה אותו ב'מוגבל ב-S/4HANA' עם פריט פישוט כקריאה משנית, ובמסך " +
+      "הטרנזקציה הכותרת תהיה 'מוגבל ב-S/4HANA' על disposition 'changed'. accessedAt = 2026-09-24 לכל " +
+      "הראיות (תאריך הגישה בפועל).",
+  },
+
+  /* ----------------------------------------------------- tx:IW37 */
+  {
+    id: "tx:IW37",
+    aliases: ["IW37 (Change Operations)"],
+    evidence: [
+      IW37_SIMPL_ITEM,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 (Document Version 1.35) · item 29.9 " +
+          "S4TWL - Changes In List Reports For Order and Notification (PM-WOC-MN, PM-WOC-MO, PM), pp. 726-727",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "רשימת הפישוט של SAP S/4HANA 2023 FPS03 (הקובץ SIMPL_OP2023.pdf, גרסת מסמך 1.35 מ-2025-02-25, 1,482 " +
+          "עמודים, נקראה מקומית בטקסט מלא) נושאת את אותו פריט כסעיף 29.9 בעמ' 726-727, באותו נוסח: 'Within " +
+          "Enterprise Asset Management we plan to discontinue IW37, IW49 in a future release. It is recommend " +
+          "to use transaction IW37n, IW49n instead' ו-'In case you use the transaction IW37, IW49, please use " +
+          "IW37n or IW49n instead', וכן 'No influence on business processes expected'. ההבדלים בין המהדורות: " +
+          "2023 רושמת 'Application Components:PM-WOC-MN, PM-WOC-MO, PM' ואילו 2025 רושמת 'Application " +
+          "Component: PM-WOC-MO' בלבד; מספר ההערה נכתב ב-2023 כ-2270108 ללא אפסים מובילים; ותיאור ההערה בטבלת " +
+          "Related Notes נכתב ב-2023 כ-'S4TWL - Changes In List Reports For Order and Notification' ואילו " +
+          "ב-2025 ללא הקידומת S4TWL. כלומר הכוונה להפסיק את IW37 וההמלצה לעבור ל-IW37N עומדות ללא שינוי לפחות " +
+          "ממהדורת 2023 FPS03 ועד 2025 FPS01. המחרוזת IW37 מופיעה בכל הקובץ בשלוש שורות בלבד, כולן בפריט הזה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Linear Data in Reports | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/2807244d6b50403682bfb72dce26e428.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש של help.sap.com למדריך Maintenance Management של SAP S/4HANA On-Premise 2025 FPS01 " +
+          "(versionId 2025.001, loio 2807244d6b50403682bfb72dce26e428, תאריך 2026-02-24) מונה בסניפט את דוחות " +
+          "הרשימה שבהם מוצגים נתונים ליניאריים: 'Maintenance Order IW38, IW39, IW72, IW73 Maintenance Order " +
+          "(Multilevel) IW40 Order Operation IW37, IW49 Maintenance Order and Operation IW37N, IW49N (only " +
+          "available [...] in software component EA-APPL)' (הסניפט מקוצר במקום המסומן). IW37 נמנית אפוא " +
+          "במהדורה זו, לצד IW49, כדוח הרשימה ברמת פעולת ההזמנה ('Order Operation'), בנפרד מ-IW37N/IW49N ברמת " +
+          "'Maintenance Order and Operation'; הסניפט אינו קובע דבר על הוצאה משימוש או על יורשת. אותו loio " +
+          "מופיע גם במוצר SAP ERP (deliverable 'Plant Maintenance (PM)', versionId 6.18.latest, כתובת " +
+          "https://help.sap.com/docs/SAP_ERP/61f8c51bfee94fa78c8835db685249eb/2807244d6b50403682bfb72dce26e428.html) " +
+          "עם אותה טבלה בסניפט, ושם הביטוי '(only available in software component EA-APPL)' מופיע ברצף; כלומר " +
+          "IW37 מתועדת באותו אופן ב-SAP ERP 6.0 EHP8.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL), רשומת IW37",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רובד Tier-2 מסמן את IW37 כ-'זמינה אך מומלץ IW37N' (verified) ומתאר אותה כ'גרסה ישנה (לא-list)' " +
+          "שקדמה ל-IW37N. שדה obsolete של הרשומה מונה את הקוד עצמו ('IW37'), שבונה tx-detail מדלג עליו במכוון " +
+          "(קוד אינו יורש של עצמו), ושדה s4Delta אומר 'נשמרת ב-S/4HANA; חלופות Fiori לניהול עומס - " +
+          "F3289/F3951'. מפני שקיים שדה s4Delta, הבונה מסווג את הטרנזקציה כיום כ-'משתנה ב-S/4HANA' (changed, " +
+          "risk medium, trust verified), וזה הסטטוס הנגזר שהאפליקציה מציגה (scratchpad/coverage-ids.json: " +
+          "status changed, level repository_verified, depth 3). הרשומה משייכת ל-IW37 את הטבלאות " +
+          "AFVC/AFVV/AFKO, את BAPI_ALM_ORDER_MAINTAIN, את ה-BAdI WORKORDER_UPDATE, את ההרחבות " +
+          "IWO10009/CYPP0001 ואת אובייקטי ההרשאה I_AUART/I_IWERK/I_VORG_ORD; אף אחד מהשיוכים האלה לא נמצא " +
+          "במקור רשמי, ו-F3289/F3951 הן אפליקציות קיבולת של PP שהתיעוד הרשמי אינו מקשר ל-IW37. אין ל-IW37 " +
+          "רשומה ב-data/lifecycle.ts, ב-data/transactions.ts (רובד authored) או ב-data/s4-objects.ts.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IW37",
+      },
+    ],
+    status: {
+      status: "deprecated",
+      secondary: ["simplified"],
+      successor: "tx:IW37N",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: IW37_SIMPL_ITEM,
+      he:
+        "טרנזקציית IW37 (Change Operations, דוח הרשימה לשינוי פעולות של הזמנות תחזוקה) מכוסה בפריט הפישוט " +
+        "הרשמי 4.1.7 'S4TWL - Changes In List Reports For Order and Notification' (PM-WOC-MO) ברשימת הפישוט " +
+        "של SAP S/4HANA 2025 FPS01, ובאותו נוסח בפריט 29.9 של רשימת 2023 FPS03. הטרנזקציה זמינה ב-S/4HANA " +
+        "On-Premise: מדריך Maintenance Management של 2025 FPS01 מונה אותה, לצד IW49, כדוח הרשימה ברמת 'Order " +
+        "Operation' בטבלת הדוחות המציגים נתונים ליניאריים, בנפרד מ-IW37N/IW49N. עם זאת SAP מודיעה בפריט: 'we " +
+        "plan to discontinue IW37, IW49 in a future release' וממליצה 'to use transaction IW37n, IW49n " +
+        "instead', בלי לנקוב במהדורת יעד ובלי להכריז על הסרה, ומציינת שאין השפעה צפויה על התהליך העסקי. לכן " +
+        "הסטטוס הוא 'לא אסטרטגי ב-S/4HANA' עם IW37N (Change Orders and Operations, דוח הרשימה המשולב להזמנות " +
+        "ולפעולות) כיורשת המקושרת, ופריט הפישוט כקריאה משנית. רשומות What's New רשמיות ממהדורות 1809 FPS02 " +
+        "עד 2025 FPS01 מוסיפות יכולות ל-IW37N (שינוי גורף, שדות משתמש, ביטול הסטטוס Do Not Execute, הזמנות " +
+        "תחזוקה לחיוב) ואינן נוקבות ב-IW37, בהתאם לכיוון הזה. אף מקור רשמי שנמצא אינו ממנה אפליקציית Fiori " +
+        "כיורשת של IW37.",
+      recommendedAction:
+        "לפי הפריט: בכל מקום שבו משתמשים ב-IW37 (וב-IW49 להצגה) לעבור ל-IW37N (ול-IW49N), כולל וריאנטים של " +
+        "בחירה, תפריטי משתמש, תפקידים (I_TCODE) והנחיות עבודה פנימיות; אין השפעה צפויה על התהליך העסקי. לפני " +
+        "ההסבה ל-S/4HANA: ליישם במידת הצורך את ההערות 393393 ו-551133 ולהריץ את הדוחות QM_PHASE_FILL " +
+        "ו-RIAFVC_IPHAS_FILL, כדרישת הפריט (תוכן ההערות לא נקרא כאן; דורש אימות במערכת SAP). במאגר: לתקן את " +
+        "הסטטוס הנגזר 'משתנה ב-S/4HANA' המוצג כיום ל'לא אסטרטגי' עם יורשת IW37N; ברשומת " +
+        "data/tx-intel.ts#IW37 לשקול להעביר את 'IW37' משדה obsolete של הרשומה עצמה לשדה obsolete של רשומת " +
+        "IW37N (כך הבונה יפיק יחס יורש מוצהר ולא ידלג עליו), ולהחליף בשדה s4Delta את ההפניה ל-F3289/F3951 " +
+        "(אפליקציות קיבולת של PP ללא קישור רשמי ל-IW37) בהפניה לפריט הפישוט ול-IW37N. למשתמשי Fiori: הנתיב " +
+        "המתועד לעבודה עם רשימות הזמנות ופעולות הוא האפליקציות Manage Maintenance Orders (F5241), Manage " +
+        "Maintenance Notifications and Orders (F4604) ו-Find Maintenance Orders and Operations (ללא רשומה " +
+        "בקטלוג המאגר); הן נרשמות כחלופות מתועדות בלבד ולא כיורשות.",
+    },
+    xrefs: ["tx:IW37N", "tx:IW49", "tx:IW49N", "tx:IW38", "tx:IW32", "tx:IW31", "tx:IW41", "table:AFVC", "table:AFKO", "table:AUFK", "fm:BAPI_ALM_ORDER_MAINTAIN", "enh:badi:WORKORDER_UPDATE", "enh:exit:IWO10009", "cds:I_MaintenanceOrder", "fiori:F5241", "fiori:F4604"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: scripts/sap-help-search.mjs בתשע שאילתות ב-2026-09-24 ('IW37'; 'Change Operations IW37 " +
+      "maintenance order list'; 'Changes In List Reports For Order and Notification'; 'IW37' בסקופ " +
+      "SAP_ERP; 'Selection of Order Operations change display IW37 IW49'; 'Changing and Displaying Order " +
+      "and Operation Lists IW37N'; 'operation list change IW37 hold operations work list'; 'Change " +
+      "Operations transaction IW37'; 'What's New IW37 IW49 operation list'; 21 תוצאות לכל שאילתה), חיפוש " +
+      "רשת מוגבל לדומיינים הרשמיים (ספריית ה-Fiori לא החזירה רשומה ל-appId=IW37; חיפוש '2270108' לא החזיר " +
+      "עמוד ציבורי), שני קובצי Simplification List רשמיים שהורדו ונקראו במלואם (SIMPL_OP2025.pdf: " +
+      "10,585,218 בתים, 1,514 עמודים, גרסת מסמך 1.36; SIMPL_OP2023.pdf: 10,174,700 בתים, 1,482 עמודים, " +
+      "גרסת מסמך 1.35; גודל הקבצים המקומיים זהה ל-Content-Length שהכתובות הרשמיות מחזירות; הפקה " +
+      "ב-pdftotext -layout: 70,529 ו-76,533 שורות), בדיקת HTTP חיה לכל כתובת מצוטטת (200), ורובד Tier-2 " +
+      "מהמאגר. גוף עמודי ה-Help לא נקרא: המעטפת מחזירה 1,160 בתים של JavaScript, וניסיון קריאה דרך שירות " +
+      "התוכן של הפורטל (http.svc/deliverableMetadata) החזיר 'Invalid input parameter' בפרמטרים שנוסו; לכן " +
+      "כל טענה מעמודי Help תחומה לכותרת, לדליברבל ולסניפט של רשומת החיפוש. רשומות רשמיות נוספות שנמצאו ולא " +
+      "נכללו כראיות: 'Holding a Plant Maintenance (PM) Order' (Logistics Execution, 2025.001, loio " +
+      "faa9cf535b804808e10000000a174cb4), שסניפטו מונה בטבלת Work list 'Operation list - change IW37 - The " +
+      "Change Operations - Selection of Order Operations screen RIAFVC20' ו-'Operation list - display " +
+      "IW49', ומתאר שניתן להשהות פעולות 'from the PM order work list (IW37)'; 'Operation Account " +
+      "Assignment' (Finance, 2025.001, loio 9bb499bb5d794b35b23d438eb28d7079): 'Operations: Selection of " +
+      "order operations (change, display) IW37, IW49' בין הטרנזקציות שבהן זמינה הקצאת חשבון ברמת פעולה. " +
+      "שלושת ה-loio האלה (2807244d..., faa9cf53..., 9bb499bb...) מופיעים גם במוצר SAP ERP 6.0 EHP8 " +
+      "(versionId 6.18.latest) באותו נוסח, ולכן מעמד ה-ECC של IW37 הוא טרנזקציית רשימה סטנדרטית ומתועדת; " +
+      "שם התוכנית RIAFVC20 נשען על סניפט בלבד. רשומות What's New שמזכירות IW37N ולא IW37: 'Order and " +
+      "Operation List: Mass Change' (1809 FPS02, loio 3af6386d6117494d8b3d8cc476ee5ee8), 'Maintenance " +
+      "Order: Cancelation of System Status Do not Execute' (2020 FPS02, loio " +
+      "f7d433f42ea8430c85bb488b27e23b84), 'EAM Inspection Checklists' (2021, loio " +
+      "efbe41b505c74ad8bcadffec475bacf3), 'Order and Operation List: Processing User Fields' (2023, loio " +
+      "69c73ffb302c4118bbb1cd61d39a242e), 'Mass Change for Billable Maintenance Orders' (2025 FPS01, loio " +
+      "093dd40d9e174a9fa0d814caf4ca13b8). רשומות Help התומכות בנתיב ה-Fiori שב-recommendedAction: 'Mass " +
+      "Changes for Maintenance Orders and Operations' (Maintenance Management, 2025.001, loio " +
+      "521cbb3e5a574bdcadc89ea6a8ed8f64), שסניפטה קובע 'The following app allows you to perform mass " +
+      "changes on maintenance order operations: Find Maintenance Orders and Operations' ומונה 'Manage " +
+      "Maintenance Orders (F5241) Find Maintenance Orders (F2175)'; ו-'Working with Billable Maintenance " +
+      "Orders in List Views' (Orders CS-SE/PM-WOC-MO, 2025.001, loio 1e20f71ea1904df98d7d1386ddb73436): " +
+      "'SAP Fiori apps for processing maintenance orders such as Find Maintenance Orders and Operations'. " +
+      "F2175 ו-Find Maintenance Orders and Operations אינן בקטלוג המאגר ולכן לא קושרו. מספרי ההערות " +
+      "0002270108, 393393 ו-551133 מצוטטים מתוך ה-PDF ולא הוזנו בשדה sapNote (אין קישור me.sap.com/notes " +
+      "נגיש ואין repoRef); תוכנן לא נקרא. xrefs: הקישורים ל-AFVC/AFKO/AUFK, ל-BAPI_ALM_ORDER_MAINTAIN, " +
+      "ל-WORKORDER_UPDATE ול-IWO10009 הם שיוכי Tier-2 (tx-intel, exits.ts) ולא מיפוי רשמי; AFVV ו-CYPP0001 " +
+      "שברשומת tx-intel אינם ביקום המאגר ולכן לא קושרו; F3289/F3951 שבשדה s4Delta לא קושרו (אפליקציות " +
+      "קיבולת PP ללא קישור רשמי ל-IW37); F5241/F4604 קושרו כנתיבי Fiori מתועדים לרשימות הזמנות, לא " +
+      "כיורשות. הסטטוס נכתב deprecated עם successor ו-secondary simplified לפי התקדים של tx:IP30 (פריט " +
+      "4.1.2, אותה לשון 'plan to discontinue'). לא בוצעה בדיקה במערכת SAP חיה. אימות אדברסרי 2026-09-24: " +
+      "כל הכתובות 200 בדומיין מאושר; ציטוטי ה-PDF, מספרי העמודים, גרסאות המסמך, מספרי העמודים הכוללים " +
+      "וגודלי הקבצים אומתו מול הקבצים המקומיים; loio/versionId אומתו מחדש; לוגיקת הבונה " +
+      "(components/neo-shell/data/tx-detail.ts) והשורה ב-scratchpad/coverage-ids.json אומתו; " +
+      "validateRecords מול היקום המלא החזיר אפס בעיות.",
+  },
+
+  /* ----------------------------------------------------- tx:IW49 */
+  {
+    id: "tx:IW49",
+    evidence: [
+      IW49_SIMPL_ITEM,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Linear Data in Reports | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/2807244d6b50403682bfb72dce26e428.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד נקרא במלואו דרך שירות התוכן של הפורטל (deliverable_id 40374871, build 1780, 5,671 תווים). " +
+          "טבלת 'Report / Transaction' של הפונקציה Linear Data in Reports במדריך Maintenance Management ל-2025 " +
+          "FPS01 מונה תחת 'Order Operation' את 'IW37, IW49' ותחת 'Maintenance Order and Operation' את 'IW37N, " +
+          "IW49N (only available in software component EA-APPL)', לצד 'Maintenance Order: IW38, IW39, IW72, " +
+          "IW73', 'Maintenance Order (Multilevel): IW40' ו-'Confirmation: IW47'. העמוד קובע: 'You can use " +
+          "linear data as selection criteria and display the result lists with linear data in the following " +
+          "reports' ו-'The SAP List Viewer is available for displaying and formatting the lists with linear " +
+          "data. You can store information on the column setup, sort criteria, and filter conditions in " +
+          "layouts'. כלומר IW49 מתועדת ב-2025 FPS01 כדוח רשימה פעיל ברמת פעולת ההזמנה, ו-IW49N היא דוח ההזמנה " +
+          "והפעולה המשולב, שהעמוד מתנה ברכיב התוכנה EA-APPL. העמוד אינו מזכיר הוצאה משימוש של IW49.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Holding a Plant Maintenance (PM) Order | Logistics Execution (LE)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9609b5f9e9304ef6850945b359a1f5d4/faa9cf535b804808e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף העמוד נקרא במלואו דרך שירות התוכן של הפורטל (deliverable_id 40374609, build 1779, 1,911 תווים). " +
+          "טבלת 'Work list / Transaction / Program' קובעת: 'Operation list - display | IW49 – The Display " +
+          "Operations: Selection of Order Operations screen | RIAFVC20' ולצדה 'Operation list – change | IW37 " +
+          "– The Change Operations – Selection of Order Operations screen | RIAFVC20', כלומר שתי רשימות " +
+          "הפעולות רצות על אותה תוכנית ABAP, RIAFVC20, ושם המסך המתועד של IW49 ב-2025 FPS01 הוא 'Display " +
+          "Operations: Selection of Order Operations'. העמוד מוסיף: 'The standard SAP PM order work lists " +
+          "allow operations and components to be held and released' ו-'The following work lists allow you to " +
+          "display the hold flag on operations'. העמוד עוסק בפונקציית ה-Hold של RLM (כלשון העמוד) ואינו קובע " +
+          "דבר על עתידה של IW49.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Linear Data in Reports | Plant Maintenance (PM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/61f8c51bfee94fa78c8835db685249eb/2807244d6b50403682bfb72dce26e428.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש של תיעוד SAP ERP 6.0 EHP8 (מדריך Plant Maintenance (PM), versionId 6.18.latest, אותו " +
+          "loio כמו עמוד ה-S/4HANA) מביאה את אותה טבלת דוחות: 'Maintenance Order IW38, IW39, IW72, IW73 " +
+          "Maintenance Order (Multilevel) IW40 Order Operation IW37, IW49 … Maintenance Order and Operation " +
+          "IW37N, IW49N (only available in software component EA-APPL) Maintenance Item IP17, IP18 " +
+          "Confirmation IW47'. כלומר IW49 היא דוח רשימת פעולות ההזמנה הקיים כבר ב-ECC 6.0, וגם IW49N מתועדת שם " +
+          "באותה התניה על EA-APPL; ההבחנה בין IW49 ל-IW49N אינה חדשה ב-S/4HANA. גוף העמוד במהדורת ERP לא נקרא; " +
+          "הטענה מוגבלת לסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL) - רשומת IW49",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת tx-intel ל-IW49 (module PM, area 'דוחות וניהול רשימות - פעולות') מתארת 'הצגת רשימת פעולות " +
+          "תחזוקה (Display List of Operations)' ברמת פעולה (AFVC/AFVV) ממספר הזמנות, לתכנון עומסי עבודה וניתוח " +
+          "backlog; s4: 'זמינה ב-S/4HANA. מומלצות אפליקציות Fiori לתכנון תחזוקה ו-resource scheduling', fiori: " +
+          "'Find Maintenance Orders', obsolete ריק, verified: 'verified', ו-s4Delta המציין שהיא נשמרת " +
+          "ב-S/4HANA ומפנה לחלופות Fiori לניהול עומס, Manage Work Center Capacity (F3289) ו-Capacity " +
+          "Scheduling Board (F3951). מפני שקיים שדה s4Delta, בונה tx-detail מסווג את הטרנזקציה כ'משתנה " +
+          "ב-S/4HANA' (changed, risk medium, trust verified), ומפת הסטטוס הנגזרת (lib/evidence/s4-status.ts) " +
+          "מציגה 'changed' ממקור tx-intel; אף רשומת tx-intel אחרת אינה מונה את IW49 ב-obsolete. הרשומה אינה " +
+          "מזכירה את פריט הפישוט ואינה נוקבת ב-IW49N כיורשת; ה-BAPI שברשומה, BAPI_ALM_ORDER_GET_LIST, אינו " +
+          "קיים ביקום המזהים של המאגר (הקיים הוא BAPI_ALM_ORDERHEAD_GET_LIST).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#IW49",
+      },
+    ],
+    status: {
+      status: "deprecated",
+      secondary: ["simplified"],
+      successor: "tx:IW49N",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: IW49_SIMPL_ITEM,
+      he:
+        "טרנזקציית IW49 (Display Operations: Selection of Order Operations, דוח רשימת פעולות ההזמנה על " +
+        "תוכנית RIAFVC20) מכוסה בפריט הפישוט הרשמי 4.1.7 'S4TWL - Changes In List Reports For Order and " +
+        "Notification' (PM-WOC-MO) ברשימת הפישוט של SAP S/4HANA 2025 FPS01, ובפריט 29.9 באותו נוסח ברשימת " +
+        "2023 FPS03: הטרנזקציה זמינה ב-S/4HANA On-Premise 2025 FPS01 (היא מתועדת בטבלת הדוחות של Linear Data " +
+        "in Reports, בטבלת רשימות העבודה של Holding a Plant Maintenance (PM) Order, בטבלת הטרנזקציות של " +
+        "Operation Account Assignment ובתנאי ההרשאה של תצוגת ה-CDS I_MaintOrderOperation_DEX), אך SAP מודיעה " +
+        "'we plan to discontinue IW37, IW49 in a future release' וממליצה 'use transaction IW37n, IW49n " +
+        "instead'. הפריט אינו נוקב במהדורת ההפסקה, קובע 'No influence on business processes expected' ואינו " +
+        "ממנה אפליקציית Fiori. לכן הסטטוס הוא 'לא אסטרטגי ב-S/4HANA' כלשון הפריט, כמו tx:IP30 שנכתבה על " +
+        "הצהרת כוונת הפסקה מאותו סוג, עם IW49N (רשומת קטלוג קיימת במאגר עם דף משלה) כיורשת המקושרת ופריט " +
+        "הפישוט כקריאה משנית; ההפסקה עצמה טרם בוצעה במהדורה המתועדת.",
+      recommendedAction:
+        "לפי הפריט: לפני השדרוג ל-S/4HANA ליישם את ההערות הנדרשות ולהריץ את הדוחות QM_PHASE_FILL " +
+        "ו-RIAFVC_IPHAS_FILL אם טרם בוצעו; להחליף שימוש ב-IW49 ב-IW49N (ובמקביל IW37 ב-IW37N) בתפריטים, " +
+        "בתפקידים, בווריאנטים של בחירה ובעבודות רקע, בזכירה שהתיעוד מתנה את IW37N/IW49N ברכיב התוכנה EA-APPL " +
+        "כלשון העמוד. במאגר: להוסיף ל-data/tx-intel.ts (IW49) הפניה לפריט הפישוט ול-IW49N כיורשת, ולתקן את " +
+        "שם ה-BAPI ל-BAPI_ALM_ORDERHEAD_GET_LIST או להסירו; הסטטוס הנגזר 'משתנה ב-S/4HANA' המוצג כיום נובע " +
+        "רק מקיום שדה s4Delta ולא מהצהרה רשמית, ורשומת האימות הזו מחליפה אותו. למשתמשי Fiori: האפליקציה " +
+        "המתועדת לרשימת הזמנות ופעולות היא Find Maintenance Orders and Operations (F2173), שאינה בקטלוג " +
+        "ה-Fiori של המאגר ולכן אינה מקושרת; היא חלופה מתועדת ולא היורשת שהפריט ממנה.",
+    },
+    xrefs: ["tx:IW49N", "tx:IW37", "tx:IW37N", "tx:IW33", "tx:IW38", "tx:IW39", "tx:IW40", "tx:IW47", "table:AFVC", "table:AFKO", "table:AUFK"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: scripts/sap-help-search.mjs בתשע שאילתות מול SAP_S4HANA_ON-PREMISE (IW49 display operations; " +
+      "IW49N orders and operations; Changes In List Reports For Order and Notification; Display Orders and " +
+      "Operations IW49N; IW37 IW49 IW37N IW49N discontinue; Find Maintenance Orders and Operations; IW49N; " +
+      "displaying operations list editing maintenance order; Changing and Displaying Order and Operation " +
+      "Lists עם version 2025.001) ואחת מול SAP_ERP (IW49 operations list), שני חיפושי רשת מוגבלים " +
+      "לדומיינים הרשמיים, קריאת שני פריטי הפישוט מקובצי הטקסט המקומיים של הרשימות " +
+      "(scratchpad/official/SIMPL_OP2025.pdf.txt שורות 4150-4182, Document Version 1.36; " +
+      "SIMPL_OP2023.pdf.txt שורות 38660-38700, Document Version 1.35 מ-2025-02-25, עמודים 726-727: פריט " +
+      "29.9 'S4TWL - Changes In List Reports For Order and Notification' עם Application Components " +
+      "PM-WOC-MN, PM-WOC-MO, PM והערה 2270108, באותו נוסח מילה במילה, כולל 'we plan to discontinue IW37, " +
+      "IW49 in a future release' ו-'In case you use the transaction IW37, IW49, please use IW37n or IW49n " +
+      "instead'), וקריאה מלאה של חמישה גופי עמודים דרך שירות התוכן של הפורטל (deliverableMetadata ואז " +
+      "pagecontent). עמודים רשמיים נוספים ל-2025.001 הנוקבים ב-IW49 ואינם ברשימת הראיות: 'Operation " +
+      "Account Assignment' (loio 9bb499bb5d794b35b23d438eb28d7079, מופיע במדריכי Logistics ו-Finance; גוף " +
+      "נקרא במלואו, 2,338 תווים: Business Function LOG_EAM_OLC, 'Available As Of SAP S/4HANA, on-premise " +
+      "edition 1511', רכיב PM-WOC-MO-OLC, ובטבלת הטרנזקציות 'Operations: Selection of order operations " +
+      "(change, display) IW37, IW49'); 'Maintenance Order Operation Data' במדריך Virtual Data Model and " +
+      "CDS Views (loio 18610efa4d9e49bbba55a03a762ad524; גוף נקרא במלואו, 3,216 תווים: CDS View Name " +
+      "I_MaintOrderOperation_DEX, Status Released, מיועדת לשימוש כ-DataSource ב-BW, ותנאי מוקדם 'You have " +
+      "authorizations to display the relevant maintenance order operations in transactions IW33 and IW49' " +
+      "על השדות I_KOSTL, I_INGRP, I_IWERK, I_SWERK, I_BEGRP ו-I_AUART; הגרסה המסומנת Deprecated באותו " +
+      "מדריך היא loio 593e11eb7b4a486fa948041cf837a994 ב-2023.latest; התצוגה אינה ביקום ה-CDS של המאגר " +
+      "ולכן אינה ב-xrefs); 'Selecting Logbook Data' במדריך PLM (loio e2e7c353b677b44ce10000000a174cb4, " +
+      "סניפט: 'This option uses the operation selection report IW49 to select data into the logbook'); " +
+      "'Inspection Rounds' במדריך Maintenance Management (loio 1065bd534f22b44ce10000000a174cb4, סניפט: " +
+      "'In order lists and operation lists (IW37N/IW49N), you can select operations by searching for " +
+      "functional locations and equipment in the operations'); ו-'Changing and Displaying Order and " +
+      "Operation Lists' במדריך Orders (CS-SE/PM-WOC-MO) (loio 4fcab65334e6b54ce10000000a174cb4, 2025.001; " +
+      "גוף נקרא במלואו, 1,390 תווים: נתיבי התפריט 'Operation List → Change/Display' ו-'Order- and " +
+      "Operation Lists → Change/Display' בלי קודי טרנזקציה). ספריית ה-Fiori הקלאסית מחזירה HTTP 200 (מעטפת " +
+      "JavaScript בלי גוף) לכתובת externalViewer/?appId=IW49, וחיפוש רשת מוגבל לדומיין החזיר אותה בכותרת " +
+      "'Display Operations - SAP Fiori Apps Reference Library'; לא נרשמה כראיה כי הכותרת מגיעה מתוצאת " +
+      "חיפוש ולא מעמוד שנקרא, ולכתובת appId=IW49N לא הוחזרה כותרת. tx:IW49N קיימת במאגר כרשומת קטלוג " +
+      "(data/tcode-catalog.ts: 'Display Orders and Operations', 'הצגת הזמנות ופעולות') ובמניפסט הנתיבים, " +
+      "אך אין לה רשומת tx-intel ואין לה עדיין רשומת אימות; היורשת מקושרת על סמך לשון הפריט בלבד. רשומות " +
+      "What's New 'Deprecation of Manage Maintenance Order List App' (2022) ו-'Deletion of Manage Order " +
+      "List App' (2023 FPS01, loio fa214493e8fd4b6796c8ff94c578d1eb) נוקבות ביורשות Find Maintenance " +
+      "Orders (F2175) ו-Find Maintenance Orders and Operations (F2173); זו אפליקציית Fiori, לא IW49, ואין " +
+      "להסיק ממנה על הטרנזקציה. F2173 אינה ב-data/fiori/apps.ts ולכן אינה ב-xrefs; F3289 ו-F3951 " +
+      "(מ-s4Delta של tx-intel) הן אפליקציות PP במאגר ואף מקור רשמי אינו קושר אותן ל-IW49, ולכן לא נוספו. " +
+      "ה-xref לטבלאות AFVC, AFKO ו-AUFK ולטרנזקציות IW33, IW38, IW39, IW40 ו-IW47 הוא עוגן ניווט משורות " +
+      "הטבלאות הרשמיות (Linear Data in Reports, VDM) ומשכבת המאגר, לא קביעה על מקור הנתונים של הדוח. ספרי " +
+      "SAP PRESS במאגר (Book 1 פרקים 3 ו-9, Book 9 פרק 8, pm-textbook פרק 3) מונים 'פעולות (IW37, IW49)' " +
+      "ו-'רשימת הזמנות/פעולות משולבת (IW37N, IW49N)' בין רשימות ה-PM, הקשר Tier-2 בלבד. לא נרשמו SAP Note " +
+      "או KBA כשדות: המספרים 2270108, 393393 ו-551133 מצוטטים כפי שהם מודפסים בפריט ולא נקראו (ערוץ " +
+      "ה-Notes חסום ב-S-user). accessedAt = 2026-09-24, התאריך שהדפיס כלי החיפוש בפועל.",
+  },
+
+  /* ----------------------------------------------------- tx:CL6O */
+  {
+    id: "tx:CL6O",
+    aliases: ["CL6O (Plus-Minus Object Display)", "CL6O (סקירת אובייקטים)"],
+    evidence: [
+      CL6O_SIMPL_ITEM,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 Feature Pack Stack 3 (Document Version 1.35) · item 28.5 " +
+          "S4TWL - Classification (CA-CL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "פריט 28.5 ‏(Application Components: CA-CL, עמודים 674 עד 678; הערת Business Impact הנקובה במסמך: " +
+          "2267878 'S4TWL - Classification') נושא את אותו נוסח: 'With SAP S/4HANA, on-premise edition 1511 " +
+          "transactions of the Classification are renovated so that transactions may have changed " +
+          "functionality or may be completely removed within SAP Product Lifecycle Management (SAP PLM)'. " +
+          "בטבלת 'Transaction not available since SAP S/4HANA on-premise edition 1511' מול 'Available " +
+          "alternative transactions and reports' השורה בעמוד 676 נקראת בפריסת העמוד במלואה: 'CL6O Plus-Minus " +
+          "Object Display -', כלומר CL6O רשומה כלא זמינה ומקף בלבד בעמודת החלופה; בשורות הסמוכות CL6B מקבלת את " +
+          "CL6BN ‏(Object List) ו-CL2B את O1CL ‏(Class Types). 'Required and Recommended Action(s)': 'No " +
+          "special actions required.'; 'Custom Code related information': 'SAP note:2213569' (עמוד 678, כלשונו " +
+          "במסמך).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Classifications | Cross-Application Components (CA)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/849930ca4c3349b5a117bf279a72b34f/f786c4535cdeb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "עמוד התפקיד Create Classifications ‏(Technical name: SAP_CA_CL_MAINTAIN, 2025 FPS01) נקרא במלואו " +
+          "דרך שירות התוכן של הפורטל (deliverable_id 40374515, buildNo 1779; 1,324 תווים). טבלת 'Activities in " +
+          "the Classification System' שלו מונה תחת 'Reporting Functions' את 'CL6AN Class list (ALV)', 'CL6A " +
+          "Class list', 'CL6D Class without superior', 'CL6C Class hierarchy', 'CL6BN Object list (ALV)', " +
+          "'CL6B Object list', 'CL60 Object comparison' ו-'CL2A Classification status', ותחת 'Classification' " +
+          "את 'CL30N Find objects in classes'. המחרוזת CL6O אינה מופיעה בגוף העמוד, וגם לא הביטוי 'Plus-Minus' " +
+          "או 'Object Overview'. הגרסה המקבילה בסקופ SAP ERP ‏(6.18.latest, deliverable_id 23795156, buildNo " +
+          "541) זהה תו לתו, כך שגם היא אינה נוקבת ב-CL6O. זהו ממצא שלילי תחום לעמוד הזה; CL60 ‏(עם אפס) היא " +
+          "טרנזקציה אחרת, 'Object comparison'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג הטרנזקציות המאומת של הפרויקט (TCODE_CATALOG) ושכבות המאגר הנוקבות ב-CL6O",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "בסיס Tier-2: ‏data/tcode-catalog.ts רושם את CL6O כ-'Object Overview' ‏/ 'סקירת אובייקטים', מודול " +
+          "PP-PI, תחום 'מערכת מחלקות', בלי שדה S/4 ובלי מקור; אין ל-CL6O רשומה ב-data/tx-intel.ts ולא " +
+          "ב-data/transactions.ts, ולכן הסטטוס הנגזר שהאפליקציה מציגה היום (לפי קריאת " +
+          "components/neo-shell/data/tx-detail.ts) הוא 'לא קיים תיעוד מאומת במאגר' ברמת אמון 'needs'. רשומות " +
+          "tx-intel של CL01 ו-CL02 מונות את CL6O בשדה alternative ו-CL30N בשדה similar; " +
+          "data/troubleshooting.ts ‏(char-batch-classification-missing) ו-data/troubleshooting-ext.ts " +
+          "‏(batch-valuation-class-mismatch) מנחים להשתמש ב-CL6O לרשימת אצוות לפי מחלקה, ל-reclassification " +
+          "ולעבודת רקע תקופתית; data/best-practices/pppi-processes.ts ‏(batch-management-process) מקשר אליה " +
+          "כ'רשימת אובייקטים לפי מחלקה'. הכותרת 'Object Overview' אינה נתמכת באף מקור רשמי שנבדק: שתי רשימות " +
+          "הפישוט קוראות לטרנזקציה 'Plus-Minus Object Display'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CL6O",
+      },
+    ],
+    status: {
+      status: "legacy_ecc_only",
+      secondary: ["simplified"],
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CL6O_SIMPL_ITEM,
+      he:
+        "טרנזקציה CL6O ‏(Plus-Minus Object Display, מערכת המחלקות CA-CL) רשומה בפריט הפישוט הרשמי 'S4TWL - " +
+        "Classification' ‏(10.4.9 ברשימת 2025 FPS01, 28.5 ברשימת 2023 FPS03) בעמודה 'Transaction not " +
+        "available since SAP S/4HANA on-premise edition 1511', ובעמודת 'Available alternative transactions " +
+        "and reports' מופיע מולה מקף בלבד: SAP אינה נוקבת בטרנזקציה, בדוח או באפליקציית Fiori שמחליפים אותה. " +
+        "לכן הסטטוס הוא 'ECC בלבד': הטרנזקציה שייכת לעולם ECC ואינה זמינה ב-S/4HANA On-Premise מאז 1511, " +
+        "והפריט עצמו הוא הקריאה המשנית. הסטטוס 'לא זמין ב-S/4HANA' לא נכתב כי כללי השכבה דורשים לו יורש " +
+        "מקושר, והמקור הרשמי לא נוקב ביורש; שיוך CL6BN ‏(Object List) ל-CL6O היה המצאה, שכן הפריט מצמיד אותה " +
+        "ל-CL6B בלבד. עמוד התפקיד Create Classifications של 2025 FPS01 מונה דוחות רשימת אובייקטים והשוואת " +
+        "אובייקטים (CL6BN, CL6B, CL60) בלי לנקוב ב-CL6O.",
+      recommendedAction:
+        "לפי הפריט: 'No special actions required' בהמרה. במאגר: להתייחס ל-CL6O כטרנזקציית ECC בלבד ולא לתכנן " +
+        "עליה תרחישי S/4HANA; לתקן את הכותרת ב-data/tcode-catalog.ts מ-'Object Overview' ל-'Plus-Minus " +
+        "Object Display' (סקירת אובייקטים פלוס-מינוס); לסמן בעברית 'ECC בלבד' את שלבי CL6O " +
+        "ב-data/troubleshooting.ts ‏(char-batch-classification-missing), ב-data/troubleshooting-ext.ts " +
+        "‏(batch-valuation-class-mismatch, כולל צעד המניעה 'Job ל-CL6O') וב-batch-management-process, ולהסיר " +
+        "את CL6O משדות alternative ו-similar של CL01, CL02 ו-CL30N ב-tx-intel או לסמנם כהקשר ECC. איזה דוח " +
+        "מכסה ב-S/4HANA את צורך תצוגת הפלוס-מינוס דורש אימות במערכת SAP: המקור הרשמי אינו נוקב בחלופה, " +
+        "ותיעוד התפקיד מונה רק את CL6BN, CL6B ו-CL60 כדוחות אובייקטים.",
+    },
+    xrefs: ["tx:CL01", "tx:CL02", "tx:CL03", "tx:CL20N", "tx:CL24N", "tx:CL30N", "tx:CT04", "tx:MSC2N", "tx:MSC3N", "table:MCHA", "table:MCH1", "fm:BAPI_OBJCL_CREATE", "cds:I_Batch", "fiori:F1576", "bp:batch-management-process"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה (2026-09-24): scripts/sap-help-search.mjs בחמש שאילתות בסקופ On-Premise ‏('CL6O object " +
+      "overview classification', 'Classification System CA-CL simplification S/4HANA', 'CL6O', 'Activities " +
+      "in the Classification System transaction object list', 'Plus-Minus Object Display') ובשתיים בסקופ " +
+      "SAP_ERP ‏('CL6O object overview', 'Plus-Minus Object Display'); אף רשומת חיפוש אינה נוקבת ב-CL6O " +
+      "בכותרת או בסניפט, והרשומות היחידות של מערכת המחלקות הן שני עמודי התפקיד (Create Classifications, " +
+      "loio f786c4535cdeb44ce10000000a174cb4; Display Classification Data, loio " +
+      "e9e4e4535dd4414de10000000a174cb4, SAP_CA_CL_DISPLAY), שגופם נקרא במלואו בשני הסקופים דרך " +
+      "http.svc/deliverableMetadata ואחריו http.svc/pagecontent; עמוד Display Classification Data ‏(460 " +
+      "תווים) מונה 'CL6AN, CL6A, CL30N, CL6BN, CL6B, CL60' בלבד. הרשומה 'Object Overview' של SAP ERP " +
+      "‏(PP-PI, loio f104b753128eb44ce10000000a174cb4) עוסקת בסקירת אובייקטים של הזמנות תהליך ואינה קשורה " +
+      "ל-CL6O; היא לא צוטטה. שני חיפושי רשת מוגבלי-דומיין החזירו עמודי Support Content של help.sap.com " +
+      "(CL6BN, CL6AN, CT04, CL30N); העמוד CL6BN ‏(3363507276) נשלף כמעטפת בלי גוף, וסיכום מנוע החיפוש שקרא " +
+      "ל-CL6O 'Object Comparison' בלבל אותה עם CL60 ולא שימש מקור. רשימות הפישוט: SIMPL_OP2025.pdf ‏(1,514 " +
+      "עמודים, md5 c1ccf8ebcd92d51fdc80e4b4873f3b73) ו-SIMPL_OP2023.pdf ‏(1,482 עמודים, md5 " +
+      "909c6e9087b009e809c116d3c6cf2eec), זהים לרשום ב-audit/master-completion/simpl-tcode-index.json, " +
+      "נקראו בפריסת עמוד (pdftotext -layout) בעמודים 927 עד 929 ו-674 עד 678; ברשימת 2025 טבלת הפריט " +
+      "מחולצת כעמודות שבורות ולכן ההתאמה CL6O ↔ מקף נקראת לפי סדר השורות (שלושה מקפים אחרי CL6BN מול CL6D, " +
+      "CL6M, CL6O), וברשימת 2023 השורה מודפסת שלמה. מדריך ההמרה CONV_OP2025.pdf ו-What's New 2025 FPS01 " +
+      "ו-2021 (WN_OP2025_FPS01_EN.pdf, WN_OP2021_EN.pdf) אינם מזכירים CL6O. עמדת ECC: לא נמצא עמוד רשמי " +
+      "בסקופ SAP ERP הנוקב ב-CL6O (עמודי התפקיד זהים בשני הסקופים ואינם מונים אותה); קיומה לפני S/4HANA " +
+      "נשען על נוסח הפריט 'not available since SAP S/4HANA on-premise edition 1511' ועל רישום המאגר, ודורש " +
+      "אימות במערכת ECC ‏(SE93). מזהה Fiori: אין; הפריט ועמודי התפקיד אינם מזכירים אפליקציה. בחירת הטוקן: " +
+      "'not_available' דורש בכללי השכבה יורש מקושר ו-SAP לא נוקבת ביורש, 'simplified' היה ממעיט (הפריט " +
+      "מסיר את הטרנזקציה, לא רק מזכיר אותה), ולכן 'legacy_ecc_only' עם 'simplified' כקריאה משנית; ה-UI " +
+      "מציג legacy_ecc_only כ'הוסרה' בתרשים ה-ERD וכ'superseded' בעמוד הטרנזקציה. מספרי ההערות 2267878 " +
+      "ו-2213569 מובאים כפי שהם מודפסים בפריט ולא הוקלדו מהזיכרון; גופן לא נקרא (דורש כניסת S-user). " +
+      "accessedAt = תאריך ריצת הכלים בפועל. הרשומה אינה נושאת שדה reviewer: אף רשומה " +
+      "ב-data/verification/** אינה נושאת אותו. לא בוצעה בדיקה חיה במערכת SAP: חיבור ה-MCP של sc4sap נכשל " +
+      "בתחילת הסשן.",
+  },
+
+  /* ----------------------------------------------------- tx:CO54 */
+  {
+    id: "tx:CO54",
+    evidence: [
+      CO54_SIMPL_ITEM,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private " +
+          "Edition 2023 - Feature Pack Stack 3 · item 30.18 S4TWL - Process Messages (PP-PI-PMA-MSG)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "אותו פריט ברשימת הפישוט של 2023 FPS3 (פריט 30.18, PP-PI-PMA-MSG, SAP Note 2270231 כפי שהודפס, עמ' " +
+          "768-772; גרסת מסמך 1.35 מיום 2025-02-25) נושא את אותה שורת Other Terms: 'Process Management; PI " +
+          "Sheet; Transactions CO54, CO54XT' (עמ' 772) ואת אותה קביעת היקף התאימות (עמ' 769; SAP Note 2269324, " +
+          "'item ID 455'). נוסח 2023 מנסח את החלופה כך: 'The usage of process messages in conjunction with " +
+          "linking process control systems/other external systems is possible using Manufacturing Execution " +
+          "Connect (classic). This usage is not part of the compatibility scope', ומביא בעמ' 772 את אותם " +
+          "סעיפים המופיעים גם בנוסח 2025 (עמ' 633): 'The listed content of the compatibility scope is not " +
+          "further supported after the end of usage rights'; 'The support of ABAP list-based PI Sheets " +
+          "(PP-PI-PMA-MGT - control recipe destination type 1 - Transfer to an ABAP list-based PI sheet) has " +
+          "already ended. For details, see SAP Note 2268116'; ובסעיף Custom Code Check / Adaption, לאחר מעבר " +
+          "מ-PI Sheets מבוססי-דפדפן לפתרון עוקב כגון SAP Digital Manufacturing: 'Check your custom code for " +
+          "usage of usage of process messages' (כך במקור), 'Clean up your custom code that makes use of " +
+          "process messages', ולוודא שעם תום התמיכה בהיקף התאימות 'no data is saved (insert or update) through " +
+          "browser-based PI Sheets/work instructions (PP-SFC) through process messages with any custom code' " +
+          "(SAP Note 2268070). גם כאן אין קביעה שהטרנזקציה עצמה הוסרה או הוחלפה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Message Monitoring | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/1dd5bd53e3acb64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Production Planning and Control, S/4HANA On-Premise 2025 FPS01, תאריך " +
+          "2026-02-24, loio 1dd5bd53e3acb64ce10000000a174cb4) מתעדת את מוניטור הודעות התהליך במהדורה הנוכחית: " +
+          "'The message monitor is a tool which enables you to display all pr' (הסניפט נקטע כאן), 'To achieve " +
+          "truly reliable process management and documentation, it is essential that all created process " +
+          "messages reach their destinations', ומונה את תתי-הנושאים 'Sending messages Deleting messages " +
+          "Display of Process Message Lists Message Detail Display Process Message Logs Message Processing in " +
+          "the Monitor'. הסניפט אינו מדפיס את קוד הטרנזקציה CO54; גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Message Monitoring | Process Management (PP-PI-PMA)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/4560a9d24fef480fa127472cca3733b8/1dd5bd53e3acb64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "אותו עמוד (loio 1dd5bd53e3acb64ce10000000a174cb4) קיים גם בתיעוד SAP ERP 6.0 EHP8 (גרסה " +
+          "6.18.latest) תחת המדריך Process Management (PP-PI-PMA), עם אותן קביעות: 'The message monitor is a " +
+          "tool which enables you to display all pr' ו-'it is essential that all created process messages " +
+          "reach their destinations'. זהו בסיס ה-ECC של הטרנזקציה; העמוד אינו אומר דבר על S/4HANA. בחיפוש " +
+          "במוצר SAP_ERP ('process message monitor CO54', 21 תוצאות) אף סניפט אינו מדפיס את הקוד CO54; רשומות " +
+          "ECC סמוכות מדפיסות קודים אחרים בלבד: 'Process Message Creation' (CO69, CO57) ו-'Accessing ABAP " +
+          "List-Based PI Sheets' (CO56, CO58).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג הטרנזקציות ורשומת הטרנזקציה של הפרויקט - CO54",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת data/transactions.ts: מודול PP-PI, נושא 'אינטגרציית MES', כותרת 'ניטור הודעות תהליך', מטרה " +
+          "'עיבוד הודעות תהליך שחזרו מ-MES/רצפה', tables ['AFKO'], funcs ['PPCC1'], שדה fiori ללא ערך, ללא " +
+          "בלוק eccS4; data/tcode-catalog.ts: 'Process Messages: Process Message Monitor' / 'מוניטור הודעות " +
+          "תהליך' (תחום 'הודעות תהליך'); data/tcode-directory.ts: 'ניטור הודעות תהליך' / 'Process message " +
+          "monitor.'. אין רשומת TX_INTEL ואין רשומת lifecycle ל-CO54, ולכן הבונה " +
+          "(components/neo-shell/data/tx-detail.ts, buildS4) גוזר disposition 'unknown' ברמת אמון 'needs', " +
+          "והאפליקציה מציגה כיום 'נדרש אימות נוסף' עם ההסבר 'לא קיים תיעוד מאומת במאגר' (inferred). " +
+          "data/bapi-enrichment.pppi.ts#PPCC1 מסמן את PPCC1 כ-'requires-verification' ('אינו מודול פונקציה; " +
+          "מהותו לא אומתה במקור רשמי') ומפנה לניטור ההודעות ב-CO54. הטבלה AFKO שברשומה היא כותרת ההזמנה; " +
+          "הרשומה הרשמית של ה-CDS View ‏I_ProcessMessage (Virtual Data Model and CDS Views, 2023.latest) מזהה " +
+          "את טבלת הודעות התהליך כ-COMH, שאינה מופיעה ברשומת המאגר.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/transactions.ts#CO54; data/tcode-catalog.ts#CO54; data/tcode-directory.ts#CO54; data/bapi-enrichment.pppi.ts#PPCC1; components/neo-shell/data/tx-detail.ts#buildS4",
+      },
+    ],
+    status: {
+      status: "simplified",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CO54_SIMPL_ITEM,
+      he:
+        "טרנזקציה CO54 (מוניטור הודעות תהליך, Process Message Monitor, ניהול תהליך PP-PI בתעשיות תהליכיות) " +
+        "נזכרת בשמה בפריט הפישוט הרשמי 'S4TWL - Process Messages' (PP-PI-PMA-MSG) ברשימת הפישוט של SAP " +
+        "S/4HANA 2025 FPS1 (פריט 9.3.16) וברשימת 2023 FPS3 (פריט 30.18), בשורת Other Terms: 'Transactions " +
+        "CO54, CO54XT'. הפריט אינו מסיר ואינו מחליף את הטרנזקציה: הוא קובע ששימוש בהודעות תהליך יחד עם PI " +
+        "Sheets מבוססי-דפדפן (PP-PI) והוראות עבודה (PP-SFC) נמצא בהיקף התאימות (compatibility scope) עם " +
+        "זכויות שימוש מוגבלות עד תאריך תום רישיון חבילת התאימות (SAP Note 2269324, 'item ID 455', כלשון " +
+        "הפריט), בעוד ששימוש בהודעות תהליך יחד עם Manufacturing Execution Connect (classic) או עם Execution " +
+        "Sheets אינו חלק מהיקף התאימות. תיעוד S/4HANA On-Premise 2025 FPS01 ממשיך לתעד את מוניטור הודעות " +
+        "התהליך (Process Message Monitoring), ורשומות נוספות באותה מהדורה נוקבות בווריאנט CO54XT להוראות " +
+        "עבודה ול-Execution Sheets (ראו הערות). לא נמצא מקור רשמי הנוקב ביורש לטרנזקציה או באפליקציית Fiori " +
+        "חלופית; הפריט מונה כיכולות מובנות לביצוע ייצור את CORK, COR6N, CORZ ואת אפליקציות התפקיד " +
+        "SAP_BR_PRODN_OPTR_PROC, ומפנה ל-SOAP/OData APIs חדשים ול-SAP Digital Manufacturing כחלופות " +
+        "לאינטגרציית MES.",
+      recommendedAction:
+        "להשאיר את CO54 כמסך הניטור, התיקון והשליחה החוזרת של הודעות התהליך ב-S/4HANA On-Premise ולסווגה " +
+        "כפריט פישוט, לא כמוצאת משימוש: אין במקור הרשמי יורש או תאריך סיום לטרנזקציה עצמה. בתכנון ההמרה " +
+        "למפות את תרחישי השימוש לפי סוג היעד: הודעות תהליך שמקורן ב-PI Sheets מבוססי-דפדפן (סוג יעד 4) " +
+        "נמצאות בהיקף התאימות (פריט 455), ולכן לבדוק את תאריך תום זכויות השימוש ב-SAP Note 2269324 ולתכנן " +
+        "מעבר ל-Execution Sheets, ל-Manufacturing Execution Connect (classic) או ל-SAP Digital " +
+        "Manufacturing; הודעות תהליך מ-MES דרך ממשק PI-PCS (סוגי יעד 2 ו-3) עם MEC (classic) אינן בהיקף " +
+        "התאימות. לבצע את בדיקת הקוד המותאם שהפריט דורש (שימוש בהודעות תהליך בקוד לקוח, SAP Note 2268070) " +
+        "ולוודא שאין הסתמכות על PI Sheets מבוססי ABAP list, שתמיכתם הסתיימה (SAP Note 2268116). לעדכן את " +
+        "רובד הפרויקט: להוסיף רשומת tx-intel ל-CO54 (כיום הבונה גוזר 'לא קיים תיעוד מאומת במאגר'), להסיר את " +
+        "ההסתמכות על PPCC1 כשם אובייקט, ולשקול את COMH כטבלת הודעות התהליך לפי רשומת I_ProcessMessage (הטבלה " +
+        "אינה ביקום המזהים של הפרויקט).",
+    },
+    xrefs: ["tx:CO53", "tx:CO55", "tx:CO57", "tx:CO60", "tx:CORK", "tx:COR6N", "tx:CORZ", "tx:COR2", "table:AFKO", "fm:PPCC1"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: scripts/sap-help-search.mjs בשאילתות 'CO54 process message monitor', 'Process Message " +
+      "Monitor', 'CO54', 'S4TWL Process Messages simplification', 'ANSI/ISA S95 interface process " +
+      "messages', 'process messages What's New', 'process messages Fiori app', 'process message PI-PCS " +
+      "interface control recipe MES', 'I_ProcessMessage process message CDS view', 'COMH process message " +
+      "header table', 'CO54XT', 'Manufacturing Execution Connect classic process messages' " +
+      "(SAP_S4HANA_ON-PREMISE, 21 תוצאות כל אחת), 'process message monitor CO54' במוצר SAP_ERP ו-'process " +
+      "message monitor' במוצר SAP_S4HANA_CLOUD; חיפוש רשת מוגבל-דומיין על fioriappslibrary / fal.cloud.sap " +
+      "/ help.sap.com; והורדת שני קובצי ה-PDF הרשמיים של רשימת הפישוט: SIMPL_OP2025.pdf (10,585,218 בתים, " +
+      "1,514 עמודים, Document Version 1.36 כפי שהודפס) ו-SIMPL_OP2023.pdf (10,174,700 בתים, 1,482 עמודים, " +
+      "גרסה 1.35 מיום 2025-02-25), עם קריאה מלאה של פריט 9.3.16 (עמ' 630-633) ופריט 30.18 (עמ' 768-772). " +
+      "המחרוזת CO54 מופיעה בכל אחד מהקבצים פעם אחת בלבד, בשורת Other Terms של פריט Process Messages (עמ' " +
+      "630 ב-2025, עמ' 772 ב-2023); באותה דרך פריט 9.3.17 'S4TWL - Control Recipes/Instructions' (2025, " +
+      "עמ' 633) נוקב ב-'CO53, CO53XT' בשורת Other Terms, ליד לרשומת tx:CO53. הליד השני מקובץ התור, פריט " +
+      "30.9 'S4TWL - ANSI/ISA S95 Interface' (2023 FPS3, עמ' 751; מקבילו 9.3.3 ב-2025 FPS1, עמ' 608; רכיב " +
+      "LO-S95, SAP Note 2268117), נקרא במלואו ואינו נוקב ב-CO54 ולא בשום קוד טרנזקציה; הוא קובע רק 'Usage " +
+      "of the ANSI /ISA S95 interface is not possible in S/4HANA. Use MES Integration or the POI Interface " +
+      "instead' ו-'Use the POI interface or the MES interface to connect SAP S/4HANA to an MES system or a " +
+      "planning system', ולכן אינו ראיה לסטטוס הטרנזקציה. הסטטוס 'פריט פישוט' נבחר על פי התקדים של MD01 " +
+      "ו-MD04: מקור רשמי נוקב בטרנזקציה בשמה בפריט פישוט, אך אינו מסמן אותה כמוסרת או מוחלפת, ולכן אין " +
+      "יורש ברשומה; היקף התאימות חל על תרחיש השימוש (הודעות תהליך עם PI Sheets מבוססי-דפדפן) ונמסר בהסבר " +
+      "ולא כדגל נפרד. רשומות רשמיות נוספות שנראו ולא צורפו כראיות (2025.001 אלא אם צוין אחרת): 'Worklist " +
+      "for Execution Sheets' (Production Orders (PP-SFC), loio 79707a5aa5a24ba2b5da5845487b4ed9) שהסניפט " +
+      "שלו נוקב ב-'process message monitor transaction CO54XT' וב-'monitor transaction CO53XT'; 'Worklist " +
+      "for Work Instructions' (loio 5e00b753128eb44ce10000000a174cb4): 'In the process message monitor " +
+      "(transaction CO54XT), you will find notes on errors that have occurred'; 'Browser-Based Process " +
+      "Management Applications' (loio 47523da0fdb1450fb2178282ed6b34b2): 'The maintenance transactions for " +
+      "browser-based applications like CO60/CO60XT (maintenance of PI sheets/work instructions) cannot be " +
+      "called from user interface technologies like the SAP Fiori launchpad' ו-'Execution sheets are new " +
+      "browser-based process management applications'; 'Process Management (PP-PI-PMA)' (loio " +
+      "c387bf53f106b44ce10000000a174cb4): 'process management comprises the message monitor and the " +
+      "control recipe monitor tools'; 'Accessing the Message Monitor' (loio " +
+      "2388bf53f106b44ce10000000a174cb4, קיים גם ב-SAP ERP 6.18): 'On the Process Management screen, " +
+      "choose Message Message monitor'; 'Carrying Out Separate Goods Issue Posting' (Logistics General, " +
+      "loio af26bd534f22b44ce10000000a174cb4): נתיב התפריט 'Logistics Production - Process Process " +
+      "Management Message Message Monitor' והמסך 'Process Message Monitor: Initial Screen'; תפקיד PFCG " +
+      "'Edit Process Message' SAP_PP_PI_PROC_MESSAGE_EXP (loio 4525bf53d25ab64ce10000000a174cb4, גם ב-SAP " +
+      "ERP 6.06): 'You can use this role to call up the process message monitor'; 'Process Message " +
+      "Creation' (loio 0c88bf53f106b44ce10000000a174cb4) הנוקב ב-CO69 וב-CO57; רשומת ה-CDS View 'Process " +
+      "Message' (Virtual Data Model and CDS Views, 2023.latest, loio cf5b2e1e721c4e4ea7aca9224afd428a): " +
+      "'CDS View Name I_ProcessMessage ... helps to select process messages (table COMH)', ו-'CDS Views " +
+      "for Production Operations' (What's New in SAP S/4HANA 2022, loio dc636740588c48faba8fe41404025229) " +
+      "המסמנת את I_ProcessMessage כחדשה. אף סניפט רשמי של S/4HANA אינו מדפיס את הקוד CO54 לבדו; הקוד מודפס " +
+      "רק ב-PDF של רשימת הפישוט, ובסניפטים מודפס הווריאנט CO54XT. חיפוש ספריית ה-Fiori ('process message' " +
+      "PP-PI app) החזיר אפליקציות שאינן קשורות (Process Physical Inventory, Monitor Message Flows F1435 " +
+      "ועוד), ולכן לא נרשמה חלופת Fiori; חיפוש הענן הציבורי החזיר רק ניטור הודעות AIF ולא את מוניטור " +
+      "הודעות התהליך של PP-PI, ולא נטענת מכך מסקנה על מהדורת הענן הציבורי. גופי דפי ה-Help לא נקראו: שירות " +
+      "התוכן של הפורטל (http.svc/deliverableMetadata) החזיר 'Invalid input parameter' בכל וריאנט פרמטרים " +
+      "שנוסה ב-2026-09-24, ומעטפת הדף (index-_Fe4m-PC.js) אינה מכילה את שמות השירותים; WebFetch מחזיר " +
+      "מעטפת ללא גוף. CO54XT, CO69, O13C, COMH, TC50 ו-I_ProcessMessage אינם ביקום המזהים ולכן אינם " +
+      "ב-xrefs; fm:PPCC1 נכלל רק כקישור המאגר הקיים, עם הסתייגות רשומת bapi-enrichment. מספרי ה-SAP Notes " +
+      "נמסרים רק כפי שהודפסו ב-PDF, בלי קריאת גוף ה-Note (דורש S-user); תאריך תום זכויות השימוש בהיקף " +
+      "התאימות אינו ידוע כאן. לא בוצעה בדיקה במערכת SAP חיה (ה-MCP‏ sc4sap לא התחבר: 'MCP error -32000: " +
+      "Connection closed'). הרשומה כתובה ללא שדה reviewer, לפי מוסכמת הקבצים ב-data/verification/**. ריצות " +
+      "החיפוש וההורדות בוצעו ב-2026-09-24, והוא גם תאריך ה-accessedAt שהוטבע.",
+  },
+
+  /* ----------------------------------------------------- tx:CO55 */
+  {
+    id: "tx:CO55",
+    evidence: [
+      CO55_SIMPL_ITEM,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (Document Version 1.35) · item " +
+          "30.39 S4TWL - Browser-based Process Instruction-Sheets/Electronic Work Instructions " +
+          "(PP-PI-PMA-PMC), pp. 823-834; item 30.9 S4TWL - ANSI/ISA S95 Interface (LO-S95), p. 751",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE24,
+        claim:
+          "ברשימת 2023 FPS03 המחרוזת CO55 מופיעה שלוש פעמים, כולן בפריט 30.39: 'CO55 Worklist for Maintaining " +
+          "PI Sheets' תחת 'Transactions (no call or clone in custom code)' (עמ' 828), 'RCOPOC_CO55 Worklist " +
+          "for Maintaining PI Sheets' תחת 'Programs' (עמ' 830) ו-'Transactions CO55, CO60, CO60E, CO60XT, " +
+          "CO64, CO67' ב-'Other Terms' (עמ' 834). נוסח הפריט זהה לפריט 9.3.18 של 2025 FPS01: 'still available " +
+          "in SAP S/4HANA. But it is not considered as future technology' (עמ' 823), 'Starting with SAP R/3 " +
+          "4.6 C, formerly used ABAP-list based process instruction sheets have been replaced by browser-based " +
+          "PI sheets (see SAP Note 397504)' ו-'In SAP S/4HANA, ABAP-list based PI Sheets are no longer " +
+          "supported' (עמ' 826-827). פריט 30.9 (LO-S95; SAP Note 2268117 מופיע כלשונו בפריט; עמ' 751) נקרא כפי " +
+          "שדרשה ההפניה במאגר: הוא קובע 'Usage of the ANSI /ISA S95 interface is not possible in S/4HANA. Use " +
+          "MES Integration or the POI Interface instead' ואינו נוקב באף קוד טרנזקציה, ובכלל זה CO55; ייחוס " +
+          "האזכור לפריט 30.9 באינדקס master-completion של הפרויקט הוא שגיאת מיפוי, האזכורים נמצאים בפריט 30.39.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Worklist for Processing PI Sheets | Process Management (PP-PI-PMA)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.0 EHP8 (6.18.latest)",
+        url: "https://help.sap.com/docs/SAP_ERP/4560a9d24fef480fa127472cca3733b8/968bbf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "גוף הנושא נקרא במלואו דרך שירות התוכן של הפורטל (deliverable 23795355, build 541) וקובע: 'To call " +
+          "up the worklist for maintaining PI sheets, proceed as follows: In the SAP menu, choose Logistics -> " +
+          "Production - Process -> Process Management -> PI Sheet -> Worklist - Maintain', עם וריאנט הבחירה " +
+          "SAP&PI_WL_WRK, וריאנט התצוגה 0PI_WL_WRK ופרמטר המשתמש PI_VAR_WL_WRK, והפונקציות 'Display PI sheet', " +
+          "'Process PI Sheet' ו-'Print as PDF'. הנושא אינו מדפיס את הקוד CO55; הזיהוי של 'Worklist - Maintain' " +
+          "עם CO55 נשען על השורה 'CO55 Worklist for Maintaining PI Sheets' ברשימות הפישוט. אותו loio מפורסם " +
+          "בנוסח זהה גם במדריך Production Planning and Control של SAP S/4HANA 2025 FPS01 (versionId 2025.001, " +
+          "deliverable 40374808, build 1779), כך שהפונקציה מתועדת בשתי המהדורות. נושא ECC נוסף באותו מדריך, " +
+          "'Accessing ABAP List-Based PI Sheets' (loio 6789bf53f106b44ce10000000a174cb4, נקרא במלואו), קובע " +
+          "'As of Release 4.6C, there are a number of different transactions in the PI Sheet menu that you can " +
+          "use to select PI sheets' ומייחד את CO56 ו-CO58 לגיליונות מבוססי ABAP-list בלבד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Browser-Based Process Management Applications | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/47523da0fdb1450fb2178282ed6b34b2.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף הנושא נקרא במלואו (deliverable 40374808, build 1779) וקובע: 'SAP GUI for Windows is the only " +
+          "technology that provides the required functionality to generate and update the HTML content of the " +
+          "mentioned browser-based applications'; 'the browser-based PI sheets, work instructions, and process " +
+          "manufacturing cockpits cannot be displayed or maintained with UI technologies like SAP GUI for Java " +
+          "or the SAP GUI for HTML. The maintenance transactions for browser-based applications like CO60 / " +
+          "CO60XT (maintenance of PI sheets/work instructions) cannot be called from user interface " +
+          "technologies like the SAP Fiori launchpad'; ולעומתן 'The maintenance transaction for execution " +
+          "sheets (CMX_XSH_OBJ_WORKLIST) can be called from user interface technologies like the SAP Fiori " +
+          "launchpad. The SAP Fiori launchpad would open this transaction using SAP GUI for HTML'. העמוד נוקב " +
+          "ב-CO60 וב-CO60XT כדוגמאות ולא ב-CO55; המגבלה מנוסחת על כלל יישומי הניהול מבוססי הדפדפן, ש-CO55 " +
+          "(רשימת העבודה לתחזוקת גיליונות PI) נמנית עמם לפי רשימת הפישוט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Execution Sheets | What's New in SAP S/4HANA 2023 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/2cd8e1d26dde44db978d2de29a32d4a3.html?locale=en-US&state=PRODUCTION&version=2023.001",
+        accessedAt: DATE24,
+        claim:
+          "גוף הנושא נקרא במלואו דרך שירות התוכן של הפורטל (deliverable 33925102, build 790; רכיב PP-PI-PMA, " +
+          "פריטי scope‏ 2UG, 3L7, 3OK, BJ5, BJ8) וקובע: 'Easy migration by exchanging the leading control " +
+          "recipe or instruction destinations (destination type = 4) against XStep destinations of (new) " +
+          "destination type 'X'', וב-'Effects on Customizing': 'To generate execution sheets, you need to " +
+          "maintain new destinations of type X' דרך 'Maintain Destination (transaction CMX_XSH_DEST_SETUP)' " +
+          "תחת Production Planning for Process Industries -> Process Management -> Destinations. הנושא אינו " +
+          "נוקב ב-CO55 ואינו מגדיר יורש ברמת טרנזקציה; הוא מתעד את נתיב המעבר מגיליונות PI מבוססי דפדפן " +
+          "ל-Execution Sheets שהמלצת הפעולה ברשומה זו נשענת עליו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "ספריית הקודים וקטלוג הטרנזקציות של הפרויקט - רשומות CO55",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רובד Tier-2 דל וסותר בשם: data/tcode-directory.ts מגדיר את CO55 כ-'PI Sheet' עם התיאור 'Maintain PI " +
+          "sheet.' (מודול PP-PI, מילות מפתח 'PI sheet', 'גליון תהליך'), ואילו data/tcode-catalog.ts מכנה אותה " +
+          "'Self-Defined Maintenance of Process Messages' (תחום 'הודעות תהליך'), כותרת שאינה תואמת את השם " +
+          "ברשימות הפישוט, 'Worklist for Maintaining PI Sheets'. data/troubleshooting-ext2.ts (תרחיש " +
+          "pi-sheet-incomplete) ו-data/qa-center.ts משבצים את CO55 לצד CO54, CO60 ו-CO53 בבדיקת גיליון PI " +
+          "פתוח. אין רשומת tx-intel, lifecycle או ecc-s4 ל-CO55, ולכן הסטטוס הנגזר שהאפליקציה מציגה הוא 'נדרש " +
+          "אימות נוסף' (depth 1).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-directory.ts#CO55",
+      },
+    ],
+    status: {
+      status: "restricted",
+      secondary: ["deprecated"],
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CO55_SIMPL_ITEM,
+      he:
+        "טרנזקציה CO55 (Worklist for Maintaining PI Sheets, תוכנית RCOPOC_CO55) היא רשימת העבודה של מפעיל " +
+        "התהליך לתחזוקת גיליונות הוראות תהליך (PI Sheets) מבוססי דפדפן בתעשיות תהליכיות (PP-PI-PMA). לפי " +
+        "פריט הפישוט 9.3.18 ברשימת SAP S/4HANA 2025 FPS01 הפונקציה 'still available in SAP S/4HANA' אך 'not " +
+        "considered as future technology', והיא מוגבלת טכנולוגית: גיליונות PI מבוססי דפדפן רצים רק ב-SAP GUI " +
+        "for Windows ולא ב-SAP GUI for HTML או ב-SAP Fiori, ותיעוד 2025 FPS01 קובע שטרנזקציות התחזוקה שלהם " +
+        "אינן ניתנות לקריאה מה-Fiori Launchpad. הפריט מונה את CO55 ברשימת הטרנזקציות שאין לקרוא או לשכפל " +
+        "בקוד לקוח, מזכיר 'end of support of the compatibility scope item' ומפנה קדימה ל-Execution Sheets " +
+        "(מ-S/4HANA 2023; טרנזקציית התחזוקה CMX_XSH_OBJ_WORKLIST לפי תיעוד העזרה) ול-SAP Digital " +
+        "Manufacturing בטווח הבינוני והארוך, אך אינו מסמן את CO55 כמוסרת ואינו נוקב ביורש ברמת קוד טרנזקציה. " +
+        "לכן הסטטוס הוא 'מוגבל ב-S/4HANA' עם קריאה משנית 'לא אסטרטגי', וללא successor: CMX_XSH_OBJ_WORKLIST " +
+        "ו-Execution Sheets אינם רשומות בפרויקט. ב-ECC (SAP ERP 6.0 EHP8) הפונקציה מתועדת באותו נושא עזרה " +
+        "('PI Sheet -> Worklist - Maintain'); הרשימה מציינת שגיליונות מבוססי דפדפן החליפו את גיליונות " +
+        "ה-ABAP-list החל מ-R/3 4.6C, בעוד CO56 ו-CO58 (ABAP-list) הושבתו ב-S/4HANA.",
+      recommendedAction:
+        "לשמר את CO55 בתהליך רצפת הייצור של PP-PI רק בתחנות עם SAP GUI for Windows, ולהעריך מעבר ל-Execution " +
+        "Sheets (יעדים מסוג X, טרנזקציית ה-IMG CMX_XSH_DEST_SETUP לפי What's New 2023 FPS01) שרצים גם ב-SAP " +
+        "GUI for HTML. בהמרה לבצע את בדיקת הקוד שהפריט דורש: אין קריאה או שכפול של CO55 / RCOPOC_CO55 בקוד " +
+        "לקוח ואין שמירה ישירה לטבלאות POC_DB_*, ולעבור ל-HTML5 generation mode לפי SAP Notes 3156433 " +
+        "ו-3156434 כלשון הפריט. במאגר: לתקן את הכותרת האנגלית של CO55 ב-data/tcode-catalog.ts ('Self-Defined " +
+        "Maintenance of Process Messages') לשם 'Worklist for Maintaining PI Sheets', ולתקן את אינדקס " +
+        "master-completion שמייחס את האזכור ברשימת 2023 לפריט 30.9 במקום 30.39.",
+    },
+    xrefs: ["tx:CO60", "tx:CO53", "tx:CO54", "tx:COR2", "tx:C201", "obj:process-order", "obj:master-recipe", "bp:process-order-process", "bp:master-recipe-process", "bp:process-industries-plan-to-produce"],
+    lastVerifiedAt: DATE24,
+    notes:
+      "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs ב-2026-09-24 ('CO55 PI sheet', " +
+      "'Maintain PI Sheet browser-based process instruction sheet', 'Execution Sheets browser-based PI " +
+      "sheets migration', 'ANSI/ISA S95 interface process management', 'Worklist for PI Sheets " +
+      "transactions PI Sheet menu process management', 'self-defined maintenance process messages', " +
+      "'Functions in Browser-Based PI Sheets', 'Worklist for Maintaining PI Sheets CO55' ו-'CO55' על " +
+      "SAP_S4HANA_ON-PREMISE ועל SAP_ERP), חיפוש רשת מוגבל-דומיין (help.sap.com, api.sap.com, " +
+      "fioriappslibrary, fal.cloud.sap), הורדה מחדש של שני קובצי ה-PDF של רשימות הפישוט (2023 FPS03: 1482 " +
+      "עמודים, Document Version 1.35; 2025 FPS01: 1514 עמודים, Document Version 1.36) וקריאת גופי נושאים " +
+      "דרך שירות התוכן של הפורטל (deliverableMetadata + pagecontent). אף רשומת חיפוש של help.sap.com אינה " +
+      "מדפיסה את המחרוזת CO55 בכותרת או בסניפט, בשני המוצרים; זהות הקוד ('Worklist for Maintaining PI " +
+      "Sheets', תוכנית RCOPOC_CO55) נשענת על שתי רשימות הפישוט בלבד, ותיעוד העזרה מתאר את הפונקציה בשם " +
+      "התפריט 'Worklist - Maintain'. גופים שנקראו במלואם, וכל ציטוט מהם מופיע בטקסט שהוחזר: 'Process " +
+      "Instruction Sheets (PI Sheets)' (loio d588bf53f106b44ce10000000a174cb4, 2025.001 וגם 6.18.latest): " +
+      "'In SAP S/4HANA, only PI sheets of type Browser-Based PI Sheet can be created and maintained. The " +
+      "creation and maintenance of ABAP list-based PI sheets is not possible'; 'Worklist for PI Sheets' " +
+      "(loio 0b8bbf53f106b44ce10000000a174cb4, 2025.001): 'The following transactions are available for a " +
+      "specific PI sheet selection: Worklist - Maintain, Worklist - Complete, Worklist - Check' ו-'the " +
+      "process operator is responsible for maintaining them'; תפקיד 'Maintain PI Sheet' " +
+      "SAP_PP_PI_PI_SHEET_EXP (loio 5424bf53d25ab64ce10000000a174cb4, 2025.001): 'You can use this role to " +
+      "call up the worklist for maintaining PI sheets'; 'Optical Archiving of PI Sheets and Work " +
+      "Instructions' (PP-SFC, loio 1317b753128eb44ce10000000a174cb4, 2025.001) הנוקב ב-'Find PI Sheets " +
+      "(CO60)' ו-'Find Work Instructions (CO60XT)'; 'Process Management (PP-PI-PMA)' (loio " +
+      "c387bf53f106b44ce10000000a174cb4, 2025.001); ו-What's New 2023 FPS01 'Execution Sheets' (loio " +
+      "2cd8e1d26dde44db978d2de29a32d4a3, versionId 2023.001, PP-PI-PMA, scope items 2UG, 3L7, 3OK, BJ5, " +
+      "BJ8): 'Easy migration by exchanging the leading control recipe or instruction destinations " +
+      "(destination type = 4) against XStep destinations of (new) destination type X' ו-'Maintain " +
+      "Destination (transaction CMX_XSH_DEST_SETUP)'. Fiori: חיפוש הרשת המוגבל לספריית האפליקציות לא החזיר " +
+      "אפליקציה לגיליונות PI או ל-Execution Sheets, ודפי fal/fioriappslibrary הם מעטפות JS; לכן אין " +
+      "secondary 'קיימת חלופת Fiori', ותיעוד 2025 FPS01 אף קובע שטרנזקציות התחזוקה מבוססות הדפדפן אינן " +
+      "ניתנות לקריאה מה-Fiori Launchpad. הקודים CO64, CO67, CO60E, CO60XT, CO56, CO58, " +
+      "CMX_XSH_OBJ_WORKLIST ו-CMX_XSH_DEST_SETUP אינם קיימים ביקום המזהים של הפרויקט ולכן אינם ב-xrefs " +
+      "ואינם successor. ה-BAdIs שהפריט מונה (BADI_CMX_POC_ASYNC_SIGN, BADI_CMX_POC_DYN_SIGN_STRAT, " +
+      "BADI_CMX_POC_REASON_VAL_CHG) ונקודות ההרחבה (ES_RCOPOC_WKLT, ES_SSAPLCMX_PII_CP_SRV_DST_PMC) אינם " +
+      "ב-data/exits.ts או ב-data/enhancements.ts. ה-MCP המקומי sc4sap לא התחבר בסשן, ולכן לא בוצעה בדיקה " +
+      "חיה במערכת SAP: קיום הקוד במערכת CBC, מצב יעדי מרשם הבקרה (סוג 1, 4 או X) ומצב ה-HTML generation " +
+      "mode דורשים אימות במערכת SAP. הסטטוס הנגזר שהאפליקציה מציגה היום ל-CO55 הוא 'נדרש אימות נוסף' (אין " +
+      "רשומת tx-intel); הרשומה המחברת מכריעה 'מוגבל' על סמך לשון הפריט 'still available' יחד עם מגבלת " +
+      "ה-UI, ו'לא אסטרטגי' נשאר קריאה משנית כי אין יורש ברמת טרנזקציה ביקום. תיקונים למאגר שנמדדו היום: " +
+      "(1) data/tcode-catalog.ts מכנה את CO55 'Self-Defined Maintenance of Process Messages', כותרת שאין " +
+      "לה תימוכין באף מקור רשמי שנבדק, בעוד data/tcode-directory.ts ורשימות הפישוט מתארות תחזוקת גיליון " +
+      "PI; (2) audit/master-completion/simpl-tcode-index.json מייחס את אזכור CO55 ברשימת 2023 FPS03 לפריט " +
+      "30.9 (S95), בעוד בקובץ ה-PDF שנקרא היום פריט 30.9 משתרע על עמ' 751 בלבד ואינו נוקב באף קוד, ושלושת " +
+      "האזכורים נמצאים בפריט 30.39 (עמ' 828, 830, 834); שורת 'Other Terms' נמצאת בסוף הפריט ב-2023 (עמ' " +
+      "834) ובתחילתו ב-2025 (עמ' 637). accessedAt = 2026-09-24 לכל המקורות. הערת ביקורת (2026-09-24): " +
+      "חיפוש 'Worklist for Processing PI Sheets' על שני המוצרים החזיר גם את הנושא 'PI Sheet Worklist' " +
+      "(loio 107aa72e7f404018917a0df251243c62, 2025.001 וגם 6.18.latest) שסניפטו מזכיר תפקיד mid market‏ " +
+      "SAP_MMKT_PI_SHFLR_OPR 'to view and maintain PI sheets'; גופו לא נקרא וטכנולוגיית ה-UI שלו לא נבדקה, " +
+      "ולכן הקביעה שאין רשימת עבודה חלופית מחוץ ל-SAP GUI for Windows מוגבלת לרשימות הפישוט ולנושא " +
+      "'Browser-Based Process Management Applications'.",
   },
 ];
