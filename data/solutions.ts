@@ -75,7 +75,7 @@ export const SOLUTIONS: Solution[] = [
   { slug: "bom", domain: "PP", he: "עץ מוצר", title: "Bill of Materials", keywords: ["bom", "עץ מוצר", "components", "רכיבים", "structure", "where used"],
     process: "מבנה מוצר לייצור — רכיבים, כמויות, גרסאות; בסיס לפיצוץ MRP ולצריכה.",
     eccTcodes: ["CS01", "CS02", "CS03", "CS15"], s4Alt: "נתמך; Fiori 'Manage BOM'; CDS I_BillOfMaterial.",
-    fiori: ["Manage Bills of Material (F1814)"], tables: ["MAST", "STKO", "STPO", "STAS"], cds: ["I_BillOfMaterial", "I_BillOfMaterialItem"], apis: ["API_BILL_OF_MATERIAL_SRV"], bapis: ["CSAP_MAT_BOM_MAINTAIN", "CSAP_MAT_BOM_READ"], exits: ["PCSD0002"], incidents: ["bom-explosion-no-components"], complexity: "Medium" },
+    fiori: ["Maintain Bill Of Material (F1813)"], tables: ["MAST", "STKO", "STPO", "STAS"], cds: ["I_BillOfMaterial", "I_BillOfMaterialItem"], apis: ["API_BILL_OF_MATERIAL_SRV"], bapis: ["CSAP_MAT_BOM_MAINTAIN", "CSAP_MAT_BOM_READ"], exits: ["PCSD0002"], incidents: ["bom-explosion-no-components"], complexity: "Medium" },
   { slug: "procurement", domain: "MM", he: "רכש (Procure-to-Pay)", title: "Procurement (P2P)", keywords: ["purchase", "רכש", "procurement", "PO", "requisition", "invoice", "P2P", "vendor"],
     process: "רכש מקצה-לקצה — דרישה, הזמנת רכש, קבלה, חשבונית ותשלום.",
     eccTcodes: ["ME51N", "ME21N", "MIGO", "MIRO"], s4Alt: "נתמך; ספק=BP; Fiori procurement; MM-IM/MATDOC.",

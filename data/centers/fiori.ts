@@ -25,7 +25,7 @@ export const FIORI_APPS: CenterItem[] = [
   mk("confirm-jobs", "PM", "אישור עבודות אחזקה", "Confirm Jobs", "IW41 / IW42", "F2730", "SAP_EAM_BC_MAINT_WORKER", "SAP_BR_MAINTENANCE_TECHNICIAN", "API_MAINTENANCEORDERCONF", "—", "Tile לטכנאי; תומך מובייל לאישור בשטח.", "x"),
   mk("manage-technical-objects", "PM", "ניהול אובייקטים טכניים", "Manage Technical Objects", "IE01 / IL01 / IH08", "F2730A", "SAP_EAM_BC_TECH_OBJ", "SAP_BR_MAINTENANCE_PLANNER", "API_FUNCTIONALLOCATION / API_EQUIPMENT", "I_Equipment / I_FunctionalLocation", "Catalog לאובייקטים טכניים; כולל list+detail.", "x"),
   // corrected 2026-09-22: F4072 is Screen Maintenance Requests (official), not a scheduling app
-  mk("screen-maintenance-requests", "PM", "סינון וקבלת בקשות אחזקה", "Screen Maintenance Requests", "—", "F4072", "לא נקרא מהספרייה (app shell)", "לא נקרא מהספרייה (app shell)", "לא נקרא מהספרייה (app shell)", "—", "סינון וקבלה של בקשות אחזקה לפי Maintenance Management 2025 FPS01; תזמון תכניות אחזקה מתועד תחת F2774 / F5325 (אין להן רשומה בפרויקט).", ""),
+  mk("screen-maintenance-requests", "PM", "סינון וקבלת בקשות תחזוקה", "Screen Maintenance Requests", "IW21 / IW22 / IW23 / IW28 / IW29", "F4072", "SAP_EAM_BC_MREQ_DSP", "SAP_BR_MAINT_SUPERVISOR", "UI_MAINTWORKREQUESTOVW_V2", "—", "סינון וקבלה של בקשות תחזוקה לפי Maintenance Management 2025 FPS01; תזמון תכניות תחזוקה מתועד תחת F2774 / F5325 (לשתיהן רשומות אימות בפרויקט). תפקיד, קטלוג, OData וטרנזקציות GUI מספריית ה-Fiori (scripts/fal-app.mjs F4072, S32OP).", ""),
   mk("monitor-material-coverage", "PP", "ניטור כיסוי חומר (MRP)", "Monitor Material Coverage", "MD04 / MD01N", "F0247", "SAP_MM_BC_MATL_PLANNER", "SAP_BR_PRODN_PLNR_DISC", "API_MATERIAL_STOCK / PP planning", "C_MRPMaterials / stock-requirements CDS", "מחליף MD04; כולל Net Segments + פתרון בעיות.", "x"),
   // F2336 · 2026-09-24: GUI transactions, catalog, role and OData from the SAP Fiori Apps Reference
   // Library (scripts/fal-app.mjs F2336, S32OP), as in data/fiori/apps.ts#F2336; the library does not list CO01.
@@ -34,5 +34,8 @@ export const FIORI_APPS: CenterItem[] = [
   mk("confirm-process-order", "PP-PI", "אישור הזמנת תהליך", "Confirm Process Order", "COR6N", "F3364", "SAP_PP_BC_PROCESS_ORDER", "SAP_BR_PRODN_OPERATOR_PROC", "API_PROC_ORDER_CONFIRMATION_2_SRV", "—", "אישור שלבים + Backflush + GR מה-Launchpad.", "x"),
   mk("manage-batches", "PP-PI", "ניהול אצוות", "Manage Batches", "MSC1N / MSC2N / MSC3N", "F1576", "SAP_LO_BC_BATCH", "SAP_BR_WAREHOUSE_CLERK", "API_BATCH", "I_Batch", "Catalog לאצוות + Batch Information Cockpit.", "x"),
   mk("post-goods-movement", "PP", "תנועות סחורה", "Post Goods Movement", "MIGO / MB31", "F0843", "SAP_MM_BC_GOODS_MVT", "SAP_BR_WAREHOUSE_CLERK", "API_MATERIAL_DOCUMENT_SRV", "I_MaterialDocumentItem", "מחליף MIGO; תנועות נרשמות ל-MATDOC.", "x"),
-  mk("manage-bom", "PP", "ניהול עצי מוצר", "Manage Bills of Material", "CS01 / CS02 / CS03", "F1814", "SAP_PP_BC_BOM", "SAP_BR_BOM_ENGINEER", "API_BILLOFMATERIAL", "I_BillOfMaterial", "Catalog ל-BOM; כולל where-used.", "x"),
+  // F1813 · 2026-09-24: the entry named F1814, which the SAP Fiori Apps Reference Library lists as
+  // "Sales Order (S/4HANA)"; the BOM app for CS01 (leading) and CS02/CS03 (related) is F1813 "Maintain
+  // Bill Of Material" (scripts/fal-app.mjs F1813, S32OP). Slug kept so the route keeps working.
+  mk("manage-bom", "PP", "ניהול עצי מוצר", "Maintain Bill Of Material", "CS01 / CS02 / CS03", "F1813", "SAP_PLM_BC_BOM", "SAP_BR_BOM_ENGINEER", "BILLOFMATERIALV2_SRV", "I_BillOfMaterial", "Catalog SAP_PLM_BC_BOM לפי ספריית ה-Fiori.", "x"),
 ];

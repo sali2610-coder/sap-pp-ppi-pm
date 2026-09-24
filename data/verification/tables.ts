@@ -3306,8 +3306,8 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       "נתוני המאגר בלבד (data/cds-map.ts, data/cds-enrichment.ts) ולא נטען סטטוס 'קיים API משוחרר'. סניפט " +
       "הארכוב כותב 'STOP BOM items', ככל הנראה שגיאת כתיב של STPO בעמוד המקורי; חלק זה לא צוטט. פערים: פירוט " +
       "שדות DDIC‏ (SE11) לא אומת מול מערכת חיה (חיבור sc4sap נכשל) ונשאר ברמת אימות המאגר; לא צוטט מספר SAP " +
-      "Note כי אף אחד לא הופיע בסניפטים או בנתוני מאגר מאומתים; המאגר נוקב ב-'Manage Bills of Material (F1814)' " +
-      "(data/solutions.ts, data/centers/fiori.ts) אך המזהה אינו ב-data/fiori/apps.ts ולא אומת מול ספריית Fiori, " +
+      "Note כי אף אחד לא הופיע בסניפטים או בנתוני מאגר מאומתים; המאגר נקב ב-'Manage Bills of Material (F1814)' " +
+      "(data/solutions.ts, data/centers/fiori.ts) אך המזהה אינו ב-data/fiori/apps.ts ולא אומת מול ספריית Fiori (תוקן ב-2026-09-24 ל-F1813 Maintain Bill Of Material; הספרייה רושמת את F1814 כ-'Sales Order (S/4HANA)'), " +
       "ולכן אין xref ל-Fiori; רשומות החיפוש נוקבות גם באפליקציות F6863 (Mass Maintenance of Bills of Material " +
       "Headers) ו-F6578 (Mass Maintenance of Bills of Material Items) ובעמודי API רשמיים ('Bill of Material | " +
       "APIs for Product Lifecycle Management', ישות MaterialBOM של API_BILL_OF_MATERIAL_SRV;v=2, loio " +

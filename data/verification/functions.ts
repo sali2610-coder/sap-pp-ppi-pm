@@ -11039,7 +11039,7 @@ export const FM_VERIFICATION: VerificationRecord[] = [
       "'Maintain Bill Of Material - SAP Fiori Apps Reference Library' בכתובת " +
       "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F1813')/S21OP; " +
       "F1813 אינו קיים ב-data/fiori/apps.ts ולכן אין xref ל-Fiori, בעקביות עם רשומת table:STKO (שם המאגר " +
-      "נוקב 'Manage Bills of Material (F1814)' ללא אימות). הבלופרינט כותב 'Manage Bills of Material' בשדה " +
+      "נקב 'Manage Bills of Material (F1814)' ללא אימות; תוקן ב-2026-09-24 ל-F1813 Maintain Bill Of Material, אחרי שספריית ה-Fiori רשמה את F1814 כ-'Sales Order (S/4HANA)'). הבלופרינט כותב 'Manage Bills of Material' בשדה " +
       "fioriApp, שם שאינו תואם את השם הרשמי Maintain Bill of Material. (9) אורך מספר החומר: הרשומה " +
       "'Material Field Length Extension for IS-OIL Downstream' (What's New in SAP S/4HANA, versionId 100, " +
       "loio c7eddd705d5048aea51e5ddc48d7f28e) קובעת 'With extended material number activation, in relevant " +
