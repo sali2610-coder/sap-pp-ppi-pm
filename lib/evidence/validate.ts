@@ -332,7 +332,7 @@ export function validateBestPractices(bps: BestPracticeLike[], u: Universe): Pro
     if (!validId(id)) out.push({ rule: "bad-id-syntax", id, detail: "slug" });
     const pr = b.process;
     const lines = pr
-      ? [pr.trigger, pr.preconditions, pr.masterData, pr.roles, pr.transactions, pr.tables, pr.integrationPoints,
+      ? [pr.trigger, pr.preconditions, pr.masterData, pr.roles, pr.transactions, pr.tables, pr.integrationPoints, pr.interfaces,
          pr.outputs, pr.exceptions, pr.controls, pr.kpis, pr.eccToS4, pr.migration].flatMap((l) => l || [])
       : [];
     const xrefs = [...b.xrefs, ...b.steps.flatMap((s) => s.xrefs || []), ...lines.flatMap((l) => l.xrefs || [])];

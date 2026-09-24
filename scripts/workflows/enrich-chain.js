@@ -6,7 +6,7 @@ export const meta = {
   ],
 }
 
-// args: { accessedAt, functionsCommonHint?, batches: [{ catalog, queue: [{id, he, hint}] }] }
+// args: { accessedAt, functionsCommonHint?, file?, queueMd?, batches: [{ catalog, queue: [{id, he, hint}] }] }
 // Batches run strictly one after another, so only one pipeline ever writes an
 // overlay at a time. A batch that throws is recorded and the chain moves on:
 // its items stay in the queue for a re-run instead of stalling the rest.
@@ -19,7 +19,7 @@ for (const [i, b] of (args.batches || []).entries()) {
     const common = b.catalog === 'functions' && args.functionsCommonHint ? ' ' + args.functionsCommonHint : ''
     const queue = b.queue.map((q) => ({ ...q, hint: (q.hint || '') + common }))
     const r = await workflow({ scriptPath: 'scripts/workflows/enrich-family.js' }, {
-      catalog: b.catalog, batch: queue.length, accessedAt: args.accessedAt, queue,
+      catalog: b.catalog, batch: queue.length, accessedAt: args.accessedAt, queue, file: b.file || args.file, queueMd: b.queueMd || args.queueMd,
     })
     results.push({ i, catalog: b.catalog, ids: b.queue.map((q) => q.id), written: r?.written ?? 0, queued: r?.queued ?? 0, lost: r?.lost ?? 0 })
     log(`batch ${i + 1} done: written ${r?.written ?? 0}, refused ${r?.queued ?? 0}, lost ${r?.lost ?? 0}`)

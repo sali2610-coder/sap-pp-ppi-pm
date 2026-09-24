@@ -12,6 +12,7 @@ import { ENHANCEMENTS } from "../data/enhancements.ts";
 import { buildUniverse, resolveId, validateBestPractices, validateRecords, validateRegistry } from "../lib/evidence/validate.ts";
 import { TABLE_VERIFICATION } from "../data/verification/tables.ts";
 import { TX_VERIFICATION } from "../data/verification/transactions.ts";
+import { TX_VERIFICATION_B } from "../data/verification/transactions-b.ts";
 import { FM_VERIFICATION } from "../data/verification/functions.ts";
 import { IDOC_BASIC_TYPES, IDOC_VERIFICATION } from "../data/verification/idocs.ts";
 import { CDS_VERIFICATION } from "../data/verification/cds.ts";
@@ -30,7 +31,7 @@ import { CROSS_PROCESS_PRACTICES_2 } from "../data/best-practices/cross-processe
 const REGISTRY = [...OBJECT_REGISTRY, ...IDOC_BASIC_TYPES];
 const BPS = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES, ...PP_PROCESS_PRACTICES, ...CROSS_PROCESS_PRACTICES, ...PPPI_PROCESS_PRACTICES, ...PM_PROCESS_PRACTICES_2, ...CROSS_PROCESS_PRACTICES_2];
 const ALL_RECORDS = [
-  ...TABLE_VERIFICATION, ...TX_VERIFICATION, ...FM_VERIFICATION, ...IDOC_VERIFICATION,
+  ...TABLE_VERIFICATION, ...TX_VERIFICATION, ...TX_VERIFICATION_B, ...FM_VERIFICATION, ...IDOC_VERIFICATION,
   ...CDS_VERIFICATION, ...FIORI_VERIFICATION, ...ENH_VERIFICATION, ...OBJECT_VERIFICATION,
 ];
 

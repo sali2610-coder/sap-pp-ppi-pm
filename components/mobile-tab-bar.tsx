@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Home, Library, Search, Menu, X, ChevronDown, Boxes, Wrench, GraduationCap, BookOpen, Sparkles, Workflow, Network, Compass, HelpCircle, Table2, Terminal, Braces, Database, LayoutGrid } from "lucide-react";
+import { Home, Library, Search, Menu, X, ChevronDown, Boxes, Wrench, GraduationCap, BookOpen, Sparkles, Workflow, Network, Compass, HelpCircle, Table2, Terminal, Braces, Database, LayoutGrid, Rocket } from "lucide-react";
 import { CentersSheet } from "@/components/centers-sheet";
 
 // light haptic where supported (Android/Chrome); no-op on iOS Safari — harmless.
@@ -27,6 +27,8 @@ const MODULES: Row[] = [
 /* ============ More sheet — grouped, progressive disclosure ============ */
 const GROUPS: { key: string; label: string; open: boolean; items: Row[] }[] = [
   { key: "main", label: "ראשי", open: true, items: [
+    // ACC-6 bridge: one tap back into the NEO shell from any legacy route.
+    { href: "/neo/", icon: Rocket, label: "Project NEO" },
     { href: "/", icon: Home, label: "בית" },
     { href: "/library/", icon: Library, label: "ספרייה" },
     { href: "/knowledge/", icon: BookOpen, label: "מרכז ידע" },

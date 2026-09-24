@@ -121,6 +121,7 @@ const PROFILE_FIELDS: { key: keyof Omit<NonNullable<BestPractice["process"]>, "p
   { key: "transactions", label: "טרנזקציות ויישומי Fiori" },
   { key: "tables", label: "טבלאות ואובייקטים" },
   { key: "integrationPoints", label: "נקודות אינטגרציה" },
+  { key: "interfaces", label: "ממשקים (BAPI, IDoc, API)" },
   { key: "outputs", label: "תוצרים" },
   { key: "exceptions", label: "חריגים" },
   { key: "controls", label: "בקרות" },

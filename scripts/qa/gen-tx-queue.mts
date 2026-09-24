@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { txRegistry } from "@/lib/tx-registry";
 
 const authored = new Set(
-  [...readFileSync("data/verification/transactions.ts", "utf8").matchAll(/^\s{4}id:\s*"tx:([^"]+)"/gm)].map((m) => m[1]),
+  [...(readFileSync("data/verification/transactions.ts", "utf8") + readFileSync("data/verification/transactions-b.ts", "utf8")).matchAll(/^\s{4}id:\s*"tx:([^"]+)"/gm)].map((m) => m[1]),
 );
 const index = JSON.parse(readFileSync("audit/master-completion/simpl-tcode-index.json", "utf8"));
 const lists: Record<string, string> = Object.fromEntries(index.lists.map((l: any) => [l.key, l.release]));

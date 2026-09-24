@@ -6,6 +6,7 @@
 import type { CanonicalId, RegistryEntry, VerificationRecord } from "@/lib/evidence/types";
 import { TABLE_VERIFICATION } from "./tables";
 import { TX_VERIFICATION } from "./transactions";
+import { TX_VERIFICATION_B } from "./transactions-b";
 import { FM_VERIFICATION } from "./functions";
 import { IDOC_BASIC_TYPES, IDOC_VERIFICATION } from "./idocs";
 import { CDS_VERIFICATION } from "./cds";
@@ -16,6 +17,7 @@ import { OBJECT_REGISTRY, OBJECT_VERIFICATION } from "./objects";
 const ALL: VerificationRecord[] = [
   ...TABLE_VERIFICATION,
   ...TX_VERIFICATION,
+  ...TX_VERIFICATION_B,
   ...FM_VERIFICATION,
   ...IDOC_VERIFICATION,
   ...CDS_VERIFICATION,

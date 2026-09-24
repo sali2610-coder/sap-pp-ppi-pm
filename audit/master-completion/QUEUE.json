@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T12:41:06.082Z",
+  "generatedAt": "2026-09-24T05:25:29.931Z",
   "source": "report-coverage --ids + data/verification/*.ts",
   "families": {
     "tables": {
@@ -2248,110 +2248,28 @@
     },
     "functions": {
       "universe": 142,
-      "authored": 62,
-      "missing": 80,
+      "authored": 142,
+      "missing": 0,
       "depth": {
-        "L2": 59,
-        "L3": 50,
-        "L5": 30,
-        "L4": 1,
+        "L2": 85,
+        "L3": 6,
+        "L5": 41,
+        "L4": 8,
         "L1": 2
       },
       "level": {
-        "sap_official_verified": 51,
-        "conflicting_sources": 8,
-        "repository_verified": 52,
-        "verification_required": 31
+        "sap_official_verified": 120,
+        "conflicting_sources": 14,
+        "repository_verified": 4,
+        "verification_required": 4
       },
       "status": {
-        "verification_required": 59,
-        "unchanged": 24,
-        "released_api_available": 30,
-        "not_applicable": 7,
-        "restricted": 22
+        "verification_required": 85,
+        "unchanged": 15,
+        "released_api_available": 36,
+        "restricted": 6
       },
-      "missingIds": [
-        "fm:BAPI_MEASUREMENTPOINT_GETLIST",
-        "fm:BAPI_MPID_CREATE",
-        "fm:BAPI_OBJCL_CREATE",
-        "fm:BAPI_PLANNEDORDER_CREATE",
-        "fm:BAPI_PLANNEDORDER_GET_DETAIL",
-        "fm:BAPI_PR_CREATE",
-        "fm:BAPI_PROCORD_COMPLETE_TECH",
-        "fm:BAPI_PROCORD_RELEASE",
-        "fm:BAPI_PROCORDCONF_CANCEL",
-        "fm:BAPI_PRODVERS_CREATE_REPLACE",
-        "fm:BAPI_REQUISITION_GETDETAIL",
-        "fm:BAPI_RESERVATION_CREATE1",
-        "fm:BAPI_ROUTING_CREATE",
-        "fm:BAPI_ROUTING_GETDETAIL",
-        "fm:BAPI_TASKLIST_CREATE",
-        "fm:BAPI_TRANSACTION_ROLLBACK",
-        "fm:CR_TEXT_READ",
-        "fm:CR_WORK_CENTER_READ",
-        "fm:CS_BOM_EXPL_FLO_RC1",
-        "fm:CS_BOM_EXPL_MAT_RC1",
-        "fm:CS_BT_BOM_HEADER_READ",
-        "fm:CSAP_BOM_ITEM_MAINTAIN",
-        "fm:CSAP_MAT_BOM_CREATE",
-        "fm:CSAP_MAT_BOM_MAINTAIN",
-        "fm:CSAP_MAT_BOM_READ",
-        "fm:CY_CAPACITY_HEADER_READ",
-        "fm:CY_CAPACITY_LOAD",
-        "fm:DIMENSION_GET",
-        "fm:EQUI_TIMESEGMENT_READ",
-        "fm:EQUIPMENT_DISMANTLE",
-        "fm:EQUIPMENT_TEXT_READ",
-        "fm:FUNC_LOCATION_LABEL_READ",
-        "fm:ILOA_INHERIT_FROM_FUNCLOC",
-        "fm:ILOA_READ",
-        "fm:ILOA_UPDATE",
-        "fm:ISCHED_CALL_GENERATE",
-        "fm:ISU_FUNCLOC_GETLIST",
-        "fm:K_COSTS_READ",
-        "fm:K_ORDER_SETTLEMENT",
-        "fm:K_SETTLEMENT_RULE_READ",
-        "fm:MAINTENANCE_ITEM_READ",
-        "fm:MAINTENANCE_PLAN_SCHEDULE",
-        "fm:MAKT_SINGLE_READ",
-        "fm:MARA_SINGLE_READ",
-        "fm:MARC_SINGLE_READ",
-        "fm:MATERIAL_UNIT_CONVERSION",
-        "fm:MD_CONVERT_MATERIAL_UNIT",
-        "fm:MEASUREM_DOCUM_RFC_SINGLE_001",
-        "fm:MEASUREMENT_POINT_READ",
-        "fm:NOTIF_ACTIVITY_READ",
-        "fm:NOTIF_CAUSE_READ",
-        "fm:NOTIF_ITEM_READ",
-        "fm:NOTIF_TASK_READ",
-        "fm:ORDER_TYPE_READ",
-        "fm:PM_NOTIFICATION_TYPE_READ",
-        "fm:PRIORITY_DETERMINE",
-        "fm:QPK1_CATALOG_READ",
-        "fm:QPK1_CODE_TEXT_READ",
-        "fm:QPK1_CODEGROUP_READ",
-        "fm:QPK1_INSPCHAR_READ",
-        "fm:RESERVATION_READ",
-        "fm:RFC_READ_TABLE",
-        "fm:SCHEDULING_HISTORY_READ",
-        "fm:SERIAL_NUMBER_CREATE",
-        "fm:SERNR_ADD_TO_DOCUMENT",
-        "fm:STATUS_CHANGE_EXTERN",
-        "fm:STATUS_CHANGE_INTERN",
-        "fm:STATUS_OBJECT_CREATE",
-        "fm:STATUS_PROFILE_READ",
-        "fm:STATUS_READ",
-        "fm:STATUS_TEXT_READ",
-        "fm:STATUS_USER_CHANGE",
-        "fm:STRUCTURE_INDICATOR_READ",
-        "fm:T352_READ",
-        "fm:UNIT_CONVERSION_SIMPLE",
-        "fm:USER_STATUS_CHECK",
-        "fm:USER_STATUS_TEXT_READ",
-        "fm:VB_BATCH_DETAIL_GET",
-        "fm:VB_BATCH_VERIFY",
-        "fm:VIEW_MAINTENANCE_CALL"
-      ],
+      "missingIds": [],
       "shallowAuthored": [
         {
           "id": "fm:ACCOUNT_ASSIGNMENT_READ",
@@ -2429,14 +2347,69 @@
           "level": "conflicting_sources"
         },
         {
+          "id": "fm:BAPI_MEASUREMENTPOINT_GETLIST",
+          "depth": 2,
+          "level": "conflicting_sources"
+        },
+        {
+          "id": "fm:BAPI_MPID_CREATE",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:BAPI_PLANNEDORDER_CREATE",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:BAPI_PLANNEDORDER_GET_DETAIL",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:BAPI_PROCORD_COMPLETE_TECH",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
           "id": "fm:BAPI_PROCORD_CREATE",
           "depth": 4,
           "level": "sap_official_verified"
         },
         {
+          "id": "fm:BAPI_PROCORD_RELEASE",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:BAPI_PRODVERS_CREATE_REPLACE",
+          "depth": 2,
+          "level": "conflicting_sources"
+        },
+        {
+          "id": "fm:BAPI_REQUISITION_GETDETAIL",
+          "depth": 4,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:BAPI_ROUTING_GETDETAIL",
+          "depth": 2,
+          "level": "conflicting_sources"
+        },
+        {
+          "id": "fm:BAPI_TASKLIST_CREATE",
+          "depth": 2,
+          "level": "conflicting_sources"
+        },
+        {
           "id": "fm:BAPI_TRANSACTION_COMMIT",
           "depth": 1,
           "level": "repository_verified"
+        },
+        {
+          "id": "fm:BAPI_TRANSACTION_ROLLBACK",
+          "depth": 1,
+          "level": "sap_official_verified"
         },
         {
           "id": "fm:CARO_TASKLIST_READ",
@@ -2494,6 +2467,16 @@
           "level": "sap_official_verified"
         },
         {
+          "id": "fm:CR_TEXT_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:CR_WORK_CENTER_READ",
+          "depth": 2,
+          "level": "conflicting_sources"
+        },
+        {
           "id": "fm:CR_WORKCENTER_READ",
           "depth": 2,
           "level": "sap_official_verified"
@@ -2509,9 +2492,289 @@
           "level": "sap_official_verified"
         },
         {
+          "id": "fm:CS_BOM_EXPL_FLO_RC1",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:CS_BOM_EXPL_MAT_RC1",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:CS_BT_BOM_HEADER_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
           "id": "fm:CVI_VENDOR_TO_BP_CONVERT",
           "depth": 2,
           "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:CY_CAPACITY_HEADER_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:CY_CAPACITY_LOAD",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:EQUI_TIMESEGMENT_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:EQUIPMENT_TEXT_READ",
+          "depth": 4,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:FUNC_LOCATION_LABEL_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:ILOA_INHERIT_FROM_FUNCLOC",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:ILOA_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:ILOA_UPDATE",
+          "depth": 4,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:ISCHED_CALL_GENERATE",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:ISU_FUNCLOC_GETLIST",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:K_COSTS_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:K_ORDER_SETTLEMENT",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:K_SETTLEMENT_RULE_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:MAINTENANCE_ITEM_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:MAINTENANCE_PLAN_SCHEDULE",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:MAKT_SINGLE_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:MARA_SINGLE_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:MARC_SINGLE_READ",
+          "depth": 4,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:MATERIAL_UNIT_CONVERSION",
+          "depth": 4,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:MD_CONVERT_MATERIAL_UNIT",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:MEASUREM_DOCUM_RFC_SINGLE_001",
+          "depth": 3,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:MEASUREMENT_POINT_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:NOTIF_ACTIVITY_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:NOTIF_CAUSE_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:NOTIF_ITEM_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:NOTIF_TASK_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:ORDER_TYPE_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:PM_NOTIFICATION_TYPE_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:PRIORITY_DETERMINE",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:QPK1_CATALOG_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:QPK1_CODE_TEXT_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:QPK1_CODEGROUP_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:QPK1_INSPCHAR_READ",
+          "depth": 4,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:RESERVATION_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:RFC_READ_TABLE",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:SCHEDULING_HISTORY_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:SERIAL_NUMBER_CREATE",
+          "depth": 2,
+          "level": "conflicting_sources"
+        },
+        {
+          "id": "fm:SERNR_ADD_TO_DOCUMENT",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:STATUS_CHANGE_EXTERN",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:STATUS_CHANGE_INTERN",
+          "depth": 3,
+          "level": "verification_required"
+        },
+        {
+          "id": "fm:STATUS_OBJECT_CREATE",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:STATUS_PROFILE_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:STATUS_READ",
+          "depth": 3,
+          "level": "verification_required"
+        },
+        {
+          "id": "fm:STATUS_TEXT_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:STATUS_USER_CHANGE",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:STRUCTURE_INDICATOR_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:T352_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:UNIT_CONVERSION_SIMPLE",
+          "depth": 4,
+          "level": "repository_verified"
+        },
+        {
+          "id": "fm:USER_STATUS_CHECK",
+          "depth": 2,
+          "level": "verification_required"
+        },
+        {
+          "id": "fm:USER_STATUS_TEXT_READ",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:VB_BATCH_DETAIL_GET",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:VB_BATCH_VERIFY",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fm:VIEW_MAINTENANCE_CALL",
+          "depth": 3,
+          "level": "verification_required"
         }
       ]
     },
@@ -2537,18 +2800,17 @@
       "missing": 2,
       "depth": {
         "L5": 23,
-        "L3": 5,
-        "L2": 9,
+        "L3": 3,
+        "L2": 11,
         "L4": 2
       },
       "level": {
-        "sap_official_verified": 35,
-        "verification_required": 2,
-        "repository_verified": 2
+        "sap_official_verified": 37,
+        "verification_required": 2
       },
       "status": {
-        "s4_native": 29,
-        "verification_required": 9,
+        "s4_native": 27,
+        "verification_required": 11,
         "deprecated": 1
       },
       "missingIds": [
@@ -2629,29 +2891,26 @@
       ]
     },
     "fiori": {
-      "universe": 20,
-      "authored": 19,
-      "missing": 1,
+      "universe": 34,
+      "authored": 34,
+      "missing": 0,
       "depth": {
         "L2": 2,
-        "L5": 11,
-        "L3": 6,
-        "L1": 1
+        "L5": 12,
+        "L3": 5,
+        "L1": 15
       },
       "level": {
         "conflicting_sources": 7,
-        "sap_official_verified": 12,
-        "repository_verified": 1
+        "sap_official_verified": 27
       },
       "status": {
-        "verification_required": 2,
-        "s4_native": 16,
-        "not_available": 1,
+        "verification_required": 4,
+        "s4_native": 27,
+        "not_available": 2,
         "changed": 1
       },
-      "missingIds": [
-        "fiori:F3289"
-      ],
+      "missingIds": [],
       "shallowAuthored": [
         {
           "id": "fiori:F2731",
@@ -2674,6 +2933,16 @@
           "level": "sap_official_verified"
         },
         {
+          "id": "fiori:F2774",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:F5325",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
           "id": "fiori:F3577",
           "depth": 3,
           "level": "conflicting_sources"
@@ -2692,37 +2961,94 @@
           "id": "fiori:F0843",
           "depth": 3,
           "level": "conflicting_sources"
+        },
+        {
+          "id": "fiori:F5241",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:F2072",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:W0029",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:W0028",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:F8669",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:F4587",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:F5323",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:F2462",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:F1511A",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:F0251A",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:F5460",
+          "depth": 1,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "fiori:W0020",
+          "depth": 1,
+          "level": "sap_official_verified"
         }
       ]
     },
     "enhancements": {
       "universe": 40,
-      "authored": 38,
-      "missing": 2,
+      "authored": 40,
+      "missing": 0,
       "depth": {
-        "L3": 14,
+        "L3": 12,
         "L2": 10,
-        "L5": 13,
+        "L5": 15,
         "L4": 3
       },
       "level": {
         "conflicting_sources": 12,
-        "sap_official_verified": 25,
-        "repository_verified": 3
+        "sap_official_verified": 27,
+        "repository_verified": 1
       },
       "status": {
-        "unchanged": 11,
+        "unchanged": 13,
         "verification_required": 10,
         "replaced": 1,
         "restricted": 1,
-        "changed": 13,
         "s4_native": 1,
+        "changed": 11,
         "simplified": 3
       },
-      "missingIds": [
-        "enh:technique:enhancement-spot",
-        "enh:technique:vofm"
-      ],
+      "missingIds": [],
       "shallowAuthored": [
         {
           "id": "enh:technique:user-exit",
@@ -2852,17 +3178,17 @@
       ]
     },
     "objects": {
-      "universe": 6,
-      "authored": 6,
+      "universe": 16,
+      "authored": 16,
       "missing": 0,
       "depth": {
-        "L2": 6
+        "L2": 16
       },
       "level": {
-        "repository_verified": 6
+        "repository_verified": 16
       },
       "status": {
-        "verification_required": 6
+        "verification_required": 16
       },
       "missingIds": [],
       "shallowAuthored": [
@@ -2895,22 +3221,72 @@
           "id": "obj:maintenance-plan",
           "depth": 2,
           "level": "repository_verified"
+        },
+        {
+          "id": "obj:equipment",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "obj:functional-location",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "obj:measuring-point",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "obj:maintenance-task-list",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "obj:reservation",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "obj:planned-order",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "obj:production-order",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "obj:material-bom",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "obj:master-recipe",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "obj:work-center",
+          "depth": 2,
+          "level": "repository_verified"
         }
       ]
     },
     "best-practices": {
-      "universe": 17,
-      "authored": 17,
+      "universe": 22,
+      "authored": 22,
       "missing": 0,
       "depth": {
-        "L2": 17
+        "L2": 22
       },
       "level": {
-        "repository_verified": 2,
-        "sap_official_verified": 15
+        "repository_verified": 4,
+        "sap_official_verified": 18
       },
       "status": {
-        "verification_required": 17
+        "verification_required": 22
       },
       "missingIds": [],
       "shallowAuthored": [
@@ -2998,6 +3374,31 @@
           "id": "bp:plant-maintenance-end-to-end",
           "depth": 2,
           "level": "sap_official_verified"
+        },
+        {
+          "id": "bp:order-settlement-process",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "bp:quality-inspection-in-production",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "bp:material-staging-and-reservation",
+          "depth": 2,
+          "level": "sap_official_verified"
+        },
+        {
+          "id": "bp:sales-demand-to-production",
+          "depth": 2,
+          "level": "repository_verified"
+        },
+        {
+          "id": "bp:procure-to-pay-for-maintenance",
+          "depth": 2,
+          "level": "sap_official_verified"
         }
       ]
     }
@@ -3006,377 +3407,5 @@
     "fm:PPCC1",
     "idoc:basic:MATMAS05",
     "idoc:basic:LOIPRO01"
-  ],
-  "transactions_triage": {
-    "unauthored": 1785,
-    "namedInOfficialList": 364,
-    "notNamedInEitherList": 1421,
-    "note": "named = a lead with an official citation (the item names the code), not a verdict. notNamed = documented negative search in both official lists; status stays as derived until a record reads a source."
-  },
-  "transactions_named_queue": [
-    "AB01",
-    "AFAB",
-    "AS91",
-    "C223",
-    "CJ20N",
-    "CJ40",
-    "CK11N",
-    "CKM3N",
-    "CM01",
-    "CO02",
-    "CO03",
-    "CO53",
-    "COHV",
-    "COOIS",
-    "COOISPI",
-    "COR4",
-    "CORK",
-    "CR01",
-    "CS01",
-    "CS02",
-    "F110",
-    "FAGLB03",
-    "FAGLL03",
-    "FB03",
-    "FB50",
-    "FB60",
-    "FB65",
-    "FB70",
-    "FB75",
-    "FD01",
-    "FD02",
-    "FD03",
-    "FK01",
-    "FK02",
-    "FK03",
-    "IP19",
-    "IW37",
-    "IW49",
-    "KA01",
-    "KA06",
-    "KB21N",
-    "KB31N",
-    "KB33N",
-    "KE24",
-    "KE30",
-    "KEPM",
-    "KKS1",
-    "KP06",
-    "KSU1",
-    "KSU5",
-    "KSV1",
-    "KSV5",
-    "LS24",
-    "MB04",
-    "MB05",
-    "MB22",
-    "MBRL",
-    "MD01N",
-    "MD02",
-    "MD03",
-    "MD07",
-    "MD11",
-    "MD12",
-    "MD13",
-    "MD50",
-    "MD51",
-    "MDBT",
-    "ME21N",
-    "ME24",
-    "ME25",
-    "ME27",
-    "ME28",
-    "ME41",
-    "ME42",
-    "ME43",
-    "ME47",
-    "ME48",
-    "ME49",
-    "ME51N",
-    "MF50",
-    "MFP1",
-    "MIGO_GR",
-    "MK01",
-    "MK02",
-    "MK03",
-    "MM01",
-    "MM02",
-    "MM03",
-    "MMBE",
-    "MMBE_OLD",
-    "MMPV",
-    "MSC1N",
-    "MSC2N",
-    "MSC3N",
-    "MSC4N",
-    "QA32",
-    "QDV3",
-    "QE51N",
-    "QGA1",
-    "QGP1",
-    "QI03",
-    "QM10",
-    "QM13",
-    "VA01",
-    "VA02",
-    "VA03",
-    "VA05",
-    "VA11",
-    "VA12",
-    "VA13",
-    "VA21",
-    "VA22",
-    "VA23",
-    "VA41",
-    "VA42",
-    "VA43",
-    "VD01",
-    "VD02",
-    "VD03",
-    "VK11",
-    "VKM3",
-    "VKM4",
-    "VL09",
-    "VOV8",
-    "XD01",
-    "XD02",
-    "XD03",
-    "XK01",
-    "XK02",
-    "XK03",
-    "CT04",
-    "CR03",
-    "CO09",
-    "CM21",
-    "CL20N",
-    "CL24N",
-    "CL30N",
-    "MSC1",
-    "MSC2",
-    "MSC3",
-    "CM50",
-    "CM02",
-    "CM04",
-    "CM05",
-    "CO54",
-    "MM17",
-    "MB56",
-    "MD41",
-    "MDAB",
-    "CO55",
-    "CO60",
-    "SM37",
-    "SM36",
-    "SP01",
-    "SICF",
-    "SARA",
-    "SLG1",
-    "SWI1",
-    "SWIA",
-    "SWU3",
-    "SWI5",
-    "SWUD",
-    "SE11",
-    "SE16N",
-    "SE38",
-    "SE80",
-    "SE24",
-    "SE93",
-    "SE71",
-    "SFP",
-    "SCI",
-    "SM30",
-    "SM34",
-    "SU01",
-    "PFCG",
-    "SU25",
-    "SXMB_MONI",
-    "SOAMANAGER",
-    "/IWFND/MAINT_SERVICE",
-    "SRT_MONI",
-    "AB08",
-    "ABST2",
-    "AFAR",
-    "AJAB",
-    "AJRW",
-    "BAPI",
-    "CAT2",
-    "CJ01",
-    "CJ02",
-    "CJ03",
-    "CJ06",
-    "CJ07",
-    "CJ08",
-    "CJ11",
-    "CJ12",
-    "CJ13",
-    "CJ14",
-    "CJ20",
-    "CJ27",
-    "CJ2A",
-    "CJ2B",
-    "CJ2D",
-    "CJ30",
-    "CJ48",
-    "CJ49",
-    "CJ8V",
-    "CJ9D",
-    "CJI3",
-    "CJI3N",
-    "CJSB",
-    "CJSG",
-    "CJV1",
-    "CJV2",
-    "CJV3",
-    "CJV4",
-    "CJV5",
-    "CJV6",
-    "CKM3",
-    "CKMLCP",
-    "CKMLCPAVR",
-    "CL6O",
-    "CM03",
-    "CM07",
-    "CM25",
-    "CM31",
-    "CMP9",
-    "CN04",
-    "CN05",
-    "CN19",
-    "CN21",
-    "CN22",
-    "CN23",
-    "CN24",
-    "CN24N",
-    "CN41",
-    "CN60",
-    "CN65",
-    "CNMM",
-    "COHVPI",
-    "COPC",
-    "CORZ",
-    "CPC1",
-    "DBACOCKPIT",
-    "F111",
-    "FAGLFLEXT",
-    "FB50L",
-    "FD31",
-    "FD32",
-    "FD33",
-    "FI01",
-    "FI02",
-    "FI03",
-    "FI12",
-    "FV50",
-    "FV60",
-    "FV70",
-    "KA02",
-    "KA03",
-    "KB11N",
-    "KB13N",
-    "KB14N",
-    "KB15N",
-    "KB23N",
-    "KSII",
-    "MC74",
-    "MC75",
-    "MC81",
-    "MC82",
-    "MC83",
-    "MC84",
-    "MC85",
-    "MC86",
-    "MC87",
-    "MC88",
-    "MC89",
-    "MC93",
-    "MC94",
-    "MC95",
-    "MCVA",
-    "MCXA",
-    "MCXB",
-    "MCXC",
-    "MCXX",
-    "MD43",
-    "MD47",
-    "ME2L",
-    "ME2M",
-    "ME2N",
-    "MK05",
-    "MK06",
-    "MP38",
-    "MR21",
-    "MS01",
-    "MS02",
-    "MS03",
-    "MS31",
-    "MS32",
-    "MS33",
-    "OAAQ",
-    "OB22",
-    "OBYC",
-    "OKB9",
-    "OKKP",
-    "OMS2",
-    "OMSL",
-    "OPL8",
-    "OSS1",
-    "PA30",
-    "PA40",
-    "PA48",
-    "PB10",
-    "PB20",
-    "PB30",
-    "PB40",
-    "PB50",
-    "PEST",
-    "PSV1",
-    "PSV2",
-    "QC20",
-    "QC21",
-    "QM50",
-    "QS34",
-    "QS42",
-    "SAINT",
-    "SAS",
-    "SCC4",
-    "SCC5",
-    "SCMA",
-    "SCUM",
-    "SD11",
-    "SE06",
-    "SE16",
-    "SE43",
-    "SE95",
-    "SM01",
-    "SM31",
-    "SNOTE",
-    "SNRO",
-    "SP02",
-    "SP11",
-    "SP12",
-    "SPAU",
-    "SPDD",
-    "ST03N",
-    "SU22",
-    "SU3",
-    "SUCOMP",
-    "SWEL",
-    "SWO1",
-    "SWU2",
-    "UKM_BP",
-    "VBO1",
-    "VC/2",
-    "VD05",
-    "VD06",
-    "VKM1",
-    "VKM5",
-    "VL06I",
-    "VL32N",
-    "VL60",
-    "VOFM",
-    "XD05",
-    "XD06",
-    "XD07"
   ]
 }

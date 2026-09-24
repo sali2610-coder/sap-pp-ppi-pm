@@ -253,6 +253,8 @@ export interface BpProcessProfile {
   /** Tables, business objects and CDS views (ids link). */
   tables?: BpProcessLine[];
   integrationPoints?: BpProcessLine[];
+  /** BAPIs, function modules, IDocs, OData/CDS-based APIs the process calls or emits (ids link). */
+  interfaces?: BpProcessLine[];
   outputs?: BpProcessLine[];
   exceptions?: BpProcessLine[];
   controls?: BpProcessLine[];
