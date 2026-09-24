@@ -103,13 +103,13 @@ export const PM_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "אובייקט ייחוס: ציוד או מיקום פונקציונלי, שממנו יורשים המיקום ומרכז העלות.", xrefs: ["table:EQUI", "table:IFLOT"] },
       ],
       roles: [
-        { he: "טכנאי תחזוקה (SAP_BR_MAINTENANCE_TECHNICIAN): פתיחת בקשות ודיווח תקלות ביישומי Create Maintenance Request ו-Report and Repair Malfunction.", xrefs: ["fiori:F1511", "fiori:F2023"] },
+        { he: "טכנאי תחזוקה (SAP_BR_MAINTENANCE_TECHNICIAN): פתיחת בקשות ודיווח תקלות ביישומי Create Maintenance Request ו-Report and Repair Malfunction.", xrefs: ["fiori:F1511A", "fiori:F2023"] },
         { he: "מתכנן תחזוקה (SAP_BR_MAINTENANCE_PLANNER): סינון, קבלה וניהול הודעות ופקודות ביישום Manage Maintenance Notifications and Orders.", xrefs: ["fiori:F4604"] },
       ],
       transactions: [
         { he: "IW21 יצירה, IW22 שינוי, IW23 תצוגה.", xrefs: ["tx:IW21", "tx:IW22", "tx:IW23"] },
-        { he: "IW24, IW28 ו-IW29: רשימות הודעות ועיבוד המוני.", xrefs: ["tx:IW24", "tx:IW28", "tx:IW29"] },
-        { he: "Fiori: Create Maintenance Request, Report and Repair Malfunction, Screen Maintenance Requests, Manage Maintenance Notifications and Orders.", xrefs: ["fiori:F1511", "fiori:F2023", "fiori:F4072", "fiori:F4604"] },
+        { he: "IW24 יצירת דיווח תקלה (Create PM Malfunction Report); IW28 ו-IW29: רשימות הודעות ועיבוד המוני.", xrefs: ["tx:IW24", "tx:IW28", "tx:IW29"] },
+        { he: "Fiori: Create Maintenance Request, Report and Repair Malfunction, Screen Maintenance Requests, Manage Maintenance Notifications and Orders.", xrefs: ["fiori:F1511A", "fiori:F2023", "fiori:F4072", "fiori:F4604"] },
       ],
       tables: [
         { he: "QMEL כותרת ההודעה; QMFE פריטים; QMUR סיבות; QMMA פעילויות; QMSM משימות.", xrefs: ["table:QMEL", "table:QMFE", "table:QMUR", "table:QMMA", "table:QMSM"] },
@@ -226,7 +226,7 @@ export const PM_PROCESS_PRACTICES: BestPracticeLike[] = [
         edition: "on-premise",
         accessedAt: DATE,
         claim:
-          "Create Maintenance Request (F1511) ו-Report and Repair Malfunction (F2023) בתפקיד SAP_BR_MAINTENANCE_TECHNICIAN; " +
+          "Create Maintenance Request (F1511A; המזהה תוקן 2026-09-24 מ-F1511, שהוא Request Maintenance לפי ספריית ה-Fiori) ו-Report and Repair Malfunction (F2023) בתפקיד SAP_BR_MAINTENANCE_TECHNICIAN; " +
           "Manage Maintenance Notifications and Orders (F4604) בתפקיד SAP_BR_MAINTENANCE_PLANNER; Screen Maintenance " +
           "Requests (F4072) לסינון וקבלת בקשות לפי התיעוד הרשמי (תוקן 2026-09-22).",
         verificationLevel: "repository_verified",

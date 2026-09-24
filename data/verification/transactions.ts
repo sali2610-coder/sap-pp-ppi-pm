@@ -3230,7 +3230,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "לתקן במאגר את צימוד השם למזהה: 'Create Maintenance Request' הוא F1511A ולא F1511 " +
         "(data/lifecycle.ts#IW21, data/tx-intel.ts#IW21).",
     },
-    xrefs: ["tx:IW22", "tx:IW23", "tx:IW28", "tx:IW31", "table:QMEL", "fm:BAPI_ALM_NOTIF_CREATE", "cds:I_MaintenanceNotification", "fiori:F1511", "fiori:F4604", "enh:badi:NOTIF_EVENT_SAVE", "enh:exit:QQMA0001"],
+    xrefs: ["tx:IW22", "tx:IW23", "tx:IW28", "tx:IW31", "table:QMEL", "fm:BAPI_ALM_NOTIF_CREATE", "cds:I_MaintenanceNotification", "fiori:F1511", "fiori:F1511A", "fiori:F4604", "enh:badi:NOTIF_EVENT_SAVE", "enh:exit:QQMA0001"],
     lastVerifiedAt: DATE3,
     notes:
       "שיטה: scripts/sap-help-search.mjs בשש שאילתות (On-Premise, 21 תוצאות כל אחת) וחיפוש רשת מוגבל-דומיין " +
@@ -3247,7 +3247,11 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "מוזכרת בסניפט. האפליקציה W0003 (Process Maintenance Notification (Planner)) שנקבה רשומת ה-Data " +
       "Migration אינה במאגר ולכן אינה מקושרת. שכבת ה-lifecycle במאגר גוזרת כיום 'ללא שינוי' עם דגל חלופת " +
       "Fiori על בסיס 'Create Maintenance Request (F1511)'; הרשומה כאן מחליפה את הגזירה במקור רשמי ומסמנת את " +
-      "צימוד השם למזהה לתיקון. accessedAt = 2026-09-07 (תאריך הגישה לרשומות החיפוש).",
+      "צימוד השם למזהה לתיקון. accessedAt = 2026-09-07 (תאריך הגישה לרשומות החיפוש). " +
+      "עדכון 2026-09-24: F1511A נכנסה ל-data/fiori/apps.ts ב-2026-09-23 ונוספה כאן ל-xrefs (ספריית ה-Fiori, " +
+      "scripts/fal-app.mjs F1511A על S32OP: 'Create Maintenance Request', טרנזקציית GUI מובילה IW21, קודמת F1511); " +
+      "שם F1511 בקטלוג תוקן ל-'Request Maintenance' (fiori:F1511), וצימוד 'Create Maintenance Request (F1511)' " +
+      "בשכבת ה-lifecycle תוקן ל-F1511A. ישן: 'F1511A אינה קיימת ב-data/fiori/apps.ts' → חדש: קיימת ומקושרת.",
   },
 
   /* ----------------------------------------------------- tx:IW22 */

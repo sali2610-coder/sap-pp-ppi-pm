@@ -55,8 +55,8 @@ function s4Of(a: FioriApp) {
   const headline = critical.length
     ? `היישום נשען על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
     : a.guiTx.length
-      ? `יישום S/4HANA המחליף את ${a.guiTx.join(" · ")} ב-SAP GUI.`
-      : "יישום S/4HANA. לא צוינה בתיעוד טרנזקציית SAP GUI מקבילה.";
+      ? `יישום S/4HANA. טרנזקציות SAP GUI קשורות: ${a.guiTx.join(" · ")}.`
+      : "יישום S/4HANA. לא צוינה בתיעוד טרנזקציית SAP GUI קשורה.";
   return { tables, critical, tone, headline };
 }
 
@@ -135,11 +135,11 @@ export function fioriDir(): RefDir {
     icon: "layoutGrid",
     lede:
       `${nf.format(FIORI_APPS.length)} יישומי SAP Fiori המתועדים בפרויקט: מזהה יישום, תפקיד עסקי, קטלוג, ` +
-      `שירות OData, תצוגת CDS והטרנזקציות ב-SAP GUI שכל יישום מחליף. זהו הצד של S/4HANA מול ` +
+      `שירות OData, תצוגת CDS והטרנזקציות ב-SAP GUI הקשורות לכל יישום (מובילה או קשורה, כפי שספריית ה-Fiori מציינת). זהו הצד של S/4HANA מול ` +
       `מסכי ה-ECC שבתיעוד הטכני.`,
     stats: [
       { v: FIORI_APPS.length, l: "יישומים", i: "layoutGrid" },
-      { v: uniq(FIORI_APPS.flatMap((a) => a.guiTx)).length, l: "טרנזקציות GUI מוחלפות", i: "terminal" },
+      { v: uniq(FIORI_APPS.flatMap((a) => a.guiTx)).length, l: "טרנזקציות GUI קשורות", i: "terminal" },
       { v: uniq(FIORI_APPS.map((a) => a.role)).length, l: "תפקידים עסקיים", i: "users" },
       { v: uniq(FIORI_APPS.map((a) => a.catalog)).length, l: "קטלוגים", i: "keyRound" },
       { v: count((r) => r.caps.includes("odata")), l: "עם שירות OData", i: "plug" },
@@ -181,9 +181,9 @@ export function fioriDetail(slug: string): RefDetail | null {
   /* --- S/4 plate ------------------------------------------------------- */
   const s4Facts: RefFact[] = [
     {
-      label: "טרנזקציות SAP GUI שהיישום מחליף",
+      label: "טרנזקציות SAP GUI קשורות",
       codes: a.guiTx.length ? a.guiTx.map((c) => ({ t: c, href: txHref(c) })) : undefined,
-      absent: "לא צוינה בתיעוד טרנזקציית SAP GUI מקבילה ליישום זה.",
+      absent: "לא צוינה בתיעוד טרנזקציית SAP GUI קשורה ליישום זה.",
     },
     { label: "המצב ב-ECC", text: clean(a.ecc), absent: "לא צוין בתיעוד מצב ECC ליישום זה." },
     {
