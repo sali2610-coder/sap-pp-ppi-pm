@@ -10,7 +10,7 @@
    existing data/verification/*.ts entry; a quote from a page body was read
    through scripts/sap-help-body.mjs. Official sources that disagree stay side
    by side as conflicting_sources. A field no source documents is left out on
-   purpose (kpis in both records below): the page renders the gap by name.
+   purpose (kpis in every record below): the page renders the gap by name.
    Drafts the auditor refuted are queued in
    audit/s4-enrichment/research-queue-best-practices.md, not written. */
 import type { BestPracticeLike } from "@/lib/evidence/types";
@@ -19,6 +19,7 @@ const DATE = "2026-09-24";
 /** accessedAt values kept from the verification entries reused below. */
 const DATE_TX_21 = "2026-09-21"; // data/verification/transactions.ts DATE21 (IP30_SIMPL_ITEM, tx:IP30 / tx:IP30H)
 const DATE_TX_02 = "2026-09-02"; // data/verification/transactions.ts DATE2 (MB11_SIMPL, tx:MB11)
+const DATE_TB_15 = "2026-09-15"; // data/verification/tables.ts DATE4 (QMAT_INSPECTION_SETUP, table:QMAT)
 
 export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
   /* ============================================================= calibration */
@@ -1164,5 +1165,563 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "313/315, שבו העמוד מפנה לטרנזקציות השיפוץ; לבדיקה במערכת היעד. הקוד OMWC נזכר רק כלשונו בתקרית " +
       "refurbishment-order ואינו ב-lib/route-manifest.generated.ts, ולכן אינו xref; MATDOC אינה במילון הפרויקט " +
       "ולכן מוזכרת רק בפרוזה. kpis ו-migration הושמטו כי אין להם מקור. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  /* ================================================== quality in procurement */
+  {
+    slug: "quality-in-procurement-process",
+    he: "איכות ברכש: בדיקת קבלת סחורה",
+    en: "Quality in procurement: goods receipt inspection",
+    module: "Cross",
+    summary: "איכות ברכש היא הענף של ניהול האיכות שבודק חומר בעת קבלה מספק. מפתח הבקרה ל-QM ברכש ברשומת אב החומר " +
+      "קובע אם בעת יצירת הצעת מחיר או הזמנת רכש נבדקת רשומת מידע איכותי (Quality Info Record) לצירוף חומר-ספק; " +
+      "הגדרת הבדיקה (Inspection Setup) בתצוגת ה-QM קובעת אם קבלת הטובין יוצרת מנת בדיקה. לפי רשומת QA11 של " +
+      "הפרויקט, החלטת השימוש מפעילה רישום מלאי ממלאי הבדיקה ל-unrestricted, חסום או גריטה ומחשבת quality score; " +
+      "לפי פריט ההיקף הרשמי 1FM, תוצאת הבדיקה מפעילה עיבוד המשך כמו החזרה לספק באיכות לקויה. בהערכת הספק, " +
+      "קריטריון המשנה Goods Receipt מעריך את איכות החומר שהספק מספק, עם בדיקה בעת קבלת הטובין.",
+    context: "לפי מודיעין הטרנזקציות של הפרויקט, QI01 יוצרת את רשומת המידע האיכותי (טבלת QINF) שנבדקת ביצירת " +
+      "הזמנת רכש (ME21N) וקובעת היתר רכש, סטטוס שחרור, תוקף וחסימת GR/הזמנה; MIGO מבצעת את קבלת הטובין ותומכת " +
+      "בסוג מלאי QI (מלאי בדיקה) לצד מלאי חופשי וחסום. QA32 היא רשימת העבודה של בודק האיכות למנות הבדיקה, QE51N " +
+      "רשימת העבודה לרישום תוצאות, ו-QA11 רושמת את החלטת השימוש. תקרית qm-procurement-blocks-gr-or-invoice של " +
+      "מרכז התקלות מתעדת חסימת GR או חשבונית כשרשומת המידע האיכותי חסרה, לא משוחררת או פג תוקפה. העמוד הרשמי " +
+      "'Editing the Inspection Setup' (Quality Management, 2025 FPS01) קובע שהגדרת הבדיקה בתצוגת ה-QM של רשומת " +
+      "אב החומר היא תנאי ליצירת מנת בדיקה, ושסימון מלאי הבדיקה (Stock indicator) קובע אם הכמות נרשמת למלאי " +
+      "בדיקה או למלאי חופשי. עמוד פריט ההיקף הרשמי 'Quality Management in Procurement' (1FM) קובע: 'This scope " +
+      "item describes quality inspection in procurement. Quality inspection may be relevant when a material is " +
+      "received from a supplier.' וגם 'The result of the inspection triggers further processing, such as return " +
+      "to the supplier for inadequate quality.'",
+    steps: [
+      {
+        he: "להגדיר את מפתח הבקרה ל-QM ברכש ואת הגדרת הבדיקה (Inspection Setup) בתצוגת ה-QM של רשומת אב החומר; " +
+          "בלי הגדרת בדיקה לחומר לא נוצרות מנות בדיקה לתנועות המלאי הרלוונטיות ל-QM, לפי העמוד הרשמי 'Editing " +
+          "the Inspection Setup'.",
+        xrefs: ["table:QMAT"],
+      },
+      {
+        he: "כשנדרש שחרור ספק או הסכם הבטחת איכות: ליצור רשומת מידע איכותי (Quality Info Record) ב-QI01, הכוללת " +
+          "סטטוס שחרור, תוקף וחסימת רכש/GR לצירוף חומר-ספק; לתחזק ב-QI02 ולצפות ב-QI03, לפי אובייקט ההגירה " +
+          "הרשמי 'QM - Quality info record' ורשומת QI01.",
+        xrefs: ["tx:QI01", "tx:QI02", "tx:QI03"],
+      },
+      {
+        he: "ביצירת הזמנת רכש ב-ME21N: המערכת בודקת אם רשומת מידע איכותי נדרשת וקיימת לצירוף החומר-ספק, לפי מפתח " +
+          "הבקרה; לפי רשומת QI01, בלי שחרור תקף המערכת יכולה לחסום את יצירת ההזמנה, תלוי בהגדרת מפתח הבקרה.",
+        xrefs: ["tx:ME21N", "tx:QI01"],
+      },
+      {
+        he: "בקבלת הטובין ב-MIGO: אם הוגדרה בדיקה בעת קבלת טובין לחומר, המערכת יוצרת מנת בדיקה ברישום הקבלה " +
+          "(העמוד הרשמי 'Goods Receipt When Quality Management (QM) is Active'); כשסימון מלאי הבדיקה (Stock " +
+          "indicator) פעיל, הכמות נרשמת למלאי בדיקה ולא למלאי חופשי ('Editing the Inspection Setup').",
+        xrefs: ["tx:MIGO", "table:QMAT"],
+      },
+      {
+        he: "לאתר את מנת הבדיקה ברשימת העבודה QA32, בסינון לפי מפעל, חומר, סטטוס או תאריך.",
+        xrefs: ["tx:QA32"],
+      },
+      {
+        he: "לרשום תוצאות לכל מאפיין מול המפרט ב-QE51N; המערכת משווה למפרט וקובעת accepted/rejected.",
+        xrefs: ["tx:QE51N"],
+      },
+      {
+        he: "לרשום החלטת שימוש ב-QA11. לפי רשומת QA11: שחרור למלאי חופשי, חסימה או גריטה, חישוב quality score " +
+          "והפעלת follow-up actions; לפי פריט ההיקף 1FM: עיבוד המשך כמו החזרה לספק באיכות לקויה.",
+        xrefs: ["tx:QA11"],
+      },
+      {
+        he: "בתוצאה לקויה: לפתוח הודעת איכות מסוג Q1 (complaint against vendor) ב-QM01 ולעבד אותה (tasks, " +
+          "activities, סטטוס) ב-QM02. בהערכת הספק, לפי העמוד הרשמי 'Subcriterion': קריטריון המשנה Goods Receipt " +
+          "מעריך את איכות החומר שהספק מספק, עם בדיקה בעת קבלת הטובין; ציון ה-QM key quality figure שמחושב ב-QM " +
+          "ומועבר להערכת הספק ב-MM שייך לקריטריון המשנה Complaints/Rejection Level, שמעריך פגמים שנמצאו אחרי " +
+          "בדיקת הקבלה, למשל ברצפת הייצור.",
+        xrefs: ["tx:QM01", "tx:QM02"],
+      },
+      {
+        he: "אם GR או חשבונית חסומים בגלל סטטוס QM של הספק: לבדוק את רשומת המידע האיכותי ב-QI03 (וב-QI06, שהתקרית " +
+          "נוקבת בו בלי כותרת ושאינו במילון הפרויקט), את מפתח הבקרה מול QM System של הספק ואת תוקף השחרור, " +
+          "ולשחרר או להאריך ב-QI01/QI02, לפי תקרית qm-procurement-blocks-gr-or-invoice.",
+        xrefs: ["tx:QI03", "tx:QI01", "tx:QI02"],
+      },
+    ],
+    antiPatterns: [
+      "מפתח בקרה שדורש שחרור ספק בלי רשומת מידע איכותי משוחררת ובתוקף לצירוף החומר-ספק: GR או חשבונית נחסמים, לפי " +
+        "תקרית qm-procurement-blocks-gr-or-invoice.",
+      "רשומת מידע איכותי עם תוקף שחרור שפג, בלי ניטור יזום של תאריכי התפוגה: GR או חשבונית נחסמים באמצע תהליך " +
+        "הרכש, לפי אותה תקרית.",
+      "חומר בלי הגדרת בדיקה (Inspection Setup) בתצוגת ה-QM: לא נוצרת מנת בדיקה, ובלי סימון מלאי הבדיקה הכמות " +
+        "נרשמת למלאי חופשי, לפי העמוד הרשמי 'Editing the Inspection Setup'.",
+      "מנות בדיקה פתוחות בלי מעקב ב-QA32: הכמות נשארת במלאי הבדיקה עד להחלטת שימוש.",
+      "רישום החלטת שימוש בלי Selected Set, קודי UD ו-quality score procedure מוגדרים, שרשומת QA11 מונה כתנאים " +
+        "מוקדמים.",
+    ],
+    checks: [
+      "חיובי: חומר עם מפתח בקרה ל-QM ברכש ורשומת מידע איכותי משוחררת ובתוקף מאפשר יצירת הזמנת רכש וקבלת טובין.",
+      "שלילי: רשומת מידע איכותי חסרה או לא משוחררת חוסמת GR או חשבונית, לפי תקרית " +
+        "qm-procurement-blocks-gr-or-invoice.",
+      "אינטגרציה: קבלה לחומר עם הגדרת בדיקה בעת קבלת טובין יוצרת מנת בדיקה, ועם סימון מלאי הבדיקה הכמות נרשמת " +
+        "למלאי בדיקה ולא למלאי חופשי.",
+      "רגרסיה: החלטת שימוש ב-QA11 מבצעת רישום מלאי ממלאי הבדיקה (unrestricted/blocked/scrap) ומחשבת quality " +
+        "score, לפי רשומת QA11.",
+    ],
+    process: {
+      purpose: "לבדוק את איכות החומר המתקבל מספק לפני שחרורו לשימוש, לקבוע את גורל הכמות במלאי בהחלטת השימוש, " +
+        "ולספק להערכת הספק את נתוני האיכות שקריטריוני המשנה Goods Receipt ו-Complaints/Rejection Level מעריכים.",
+      trigger: [
+        {
+          he: "הזמנת רכש לחומר שמפתח הבקרה ל-QM ברכש שלו דורש רשומת מידע איכותי.",
+          xrefs: ["tx:ME21N", "tx:QI01"],
+        },
+        {
+          he: "קבלת טובין (MIGO) לחומר שהוגדרה לו בדיקה בעת קבלת טובין.",
+          xrefs: ["tx:MIGO"],
+        },
+      ],
+      preconditions: [
+        {
+          he: "תצוגת QM בחומר עם מפתח בקרה ל-QM ברכש והגדרת בדיקה (Inspection Setup), לפי העמודים הרשמיים " +
+            "'Editing the Inspection Setup' ו-'QM - Quality info record'.",
+          xrefs: ["table:QMAT"],
+        },
+        {
+          he: "כשנדרש: רשומת מידע איכותי (Quality Info Record) משוחררת ובתוקף לצירוף החומר-ספק.",
+          xrefs: ["tx:QI01"],
+        },
+        {
+          he: "Selected Set, קודי UD ו-quality score procedure מוגדרים, לפי רשומת QA11 של מודיעין הטרנזקציות.",
+          xrefs: ["tx:QA11"],
+        },
+      ],
+      masterData: [
+        {
+          he: "תצוגת QM, מפתח הבקרה ל-QM ברכש והגדרת הבדיקה ברשומת אב החומר.",
+          xrefs: ["table:QMAT"],
+        },
+        {
+          he: "רשומת מידע איכותי (Quality Info Record) לצירוף חומר-ספק: סטטוס שחרור, תוקף, חסימת רכש/GR.",
+        },
+        {
+          he: "מאסטר ספק: אובייקט ההגירה 'QM - Quality info record' תלוי בהגירה קודמת של Product ו-Supplier.",
+        },
+      ],
+      roles: [
+        {
+          he: "לפי רשומת QI01: מהנדס איכות ספקים (SQE), רכש ומנהל QM.",
+          xrefs: ["tx:QI01"],
+        },
+        {
+          he: "לפי רשומות QA32, QE51N ו-QA11: QA Inspector; לפי רשומות QA32 ו-QA11 גם מהנדס איכות, ולפי רשומת " +
+            "QE51N גם טכנאי מעבדה ובודק איכות.",
+          xrefs: ["tx:QA32", "tx:QE51N", "tx:QA11"],
+        },
+        {
+          he: "לפי רשומת ME21N: קניין (Buyer).",
+          xrefs: ["tx:ME21N"],
+        },
+        {
+          he: "לפי רשומת QM01: מהנדס איכות ואחראי תלונות.",
+          xrefs: ["tx:QM01"],
+        },
+      ],
+      transactions: [
+        {
+          he: "רשומת מידע איכותי: QI01 יצירה, QI02 שינוי, QI03 תצוגה. Fiori: Manage Quality Info Records in " +
+            "Procurement לפי רשומת QI01; Manage Quality Info Records (F2256A) לפי עמוד ה-Data Migration הרשמי. " +
+            "אין מזהה Fiori מאומת בקטלוג הפרויקט, ולכן אין קישור.",
+          xrefs: ["tx:QI01", "tx:QI02", "tx:QI03"],
+        },
+        {
+          he: "הזמנת רכש: ME21N; קבלת טובין: MIGO.",
+          xrefs: ["tx:ME21N", "tx:MIGO"],
+        },
+        {
+          he: "מנת בדיקה: QA32 רשימת עבודה (Fiori לפי הרשומה: Manage Inspection Lots); תוצאות: QE51N (Record " +
+            "Inspection Results); החלטת שימוש: QA11 (Record Usage Decision). שמות ה-Fiori לפי רשומות מודיעין " +
+            "הטרנזקציות, בלי מזהה מאומת בקטלוג הפרויקט.",
+          xrefs: ["tx:QA32", "tx:QE51N", "tx:QA11"],
+        },
+        {
+          he: "הודעת איכות סוג Q1 (complaint against vendor): QM01 יצירה, QM02 עיבוד; Fiori לפי הרשומות: Manage " +
+            "Quality Notifications.",
+          xrefs: ["tx:QM01", "tx:QM02"],
+        },
+      ],
+      tables: [
+        {
+          he: "QMAT: הגדרת הבדיקה לחומר, לפי רשומת QA32 ורשומת האימות של table:QMAT ('Editing the Inspection " +
+            "Setup').",
+          xrefs: ["table:QMAT"],
+        },
+        {
+          he: "QINF (רשומת המידע האיכותי, לפי רשומת QI01) ו-QALS, QAVE, QAMR (מנת בדיקה, החלטת שימוש ותוצאות " +
+            "מאפיינים, לפי רשומת QA32); QINF, QALS, QAVE ו-QAMR אינן במילון הפרויקט (dangling-xref) ולכן " +
+            "מוזכרות בפרוזה בלבד.",
+        },
+        {
+          he: "QMEL, כותרת הודעת האיכות, לפי רשומות QM01 ו-QM02.",
+          xrefs: ["table:QMEL"],
+        },
+        {
+          he: "EKKO/EKPO להזמנת הרכש, לפי רשומת ME21N; אינן במילון הפרויקט ולכן מוזכרות בפרוזה בלבד.",
+        },
+        {
+          he: "מסמך החומר שקבלת הטובין יוצרת.",
+          xrefs: ["obj:material-document"],
+        },
+      ],
+      integrationPoints: [
+        {
+          he: "רכש אל QM: מפתח הבקרה ל-QM ברכש ברשומת אב החומר קובע אם נבדקת רשומת מידע איכותי בהצעת מחיר או " +
+            "בהזמנת רכש ('QM - Quality info record'); הגדרת בדיקה בעת קבלת טובין קובעת אם הקבלה יוצרת מנת בדיקה " +
+            "('Goods Receipt When Quality Management (QM) is Active').",
+          xrefs: ["tx:ME21N", "tx:MIGO", "table:QMAT"],
+        },
+        {
+          he: "QM אל מלאי: לפי רשומת QA11, החלטת השימוש מפעילה stock postings ממלאי הבדיקה ל-unrestricted, " +
+            "blocked או scrap.",
+          xrefs: ["tx:QA11"],
+        },
+        {
+          he: "QM אל הערכת ספק, לפי העמוד הרשמי 'Subcriterion': קריטריון המשנה Goods Receipt מעריך את איכות החומר " +
+            "שהספק מספק, עם בדיקה בעת קבלת הטובין; ה-QM key quality figure שמחושב ב-QM ומועבר להערכת הספק ב-MM " +
+            "שייך לקריטריון המשנה Complaints/Rejection Level, שמעריך פגמים שנמצאו אחרי בדיקת הקבלה, למשל ברצפת " +
+            "הייצור.",
+        },
+      ],
+      interfaces: [
+        {
+          he: "לפי רשומות QA32 ו-QA11: BAPI_INSPLOT_GETLIST ו-BAPI_INSPLOT_SETUSAGEDECISION; לפי רשומת QE51N: " +
+            "BAPI_INSPOPER_RECORDRESULTS; לפי רשומת QM02: BAPI_QUALNOT_CHANGEDESCR; לפי רשומת ME21N: " +
+            "BAPI_PO_CREATE1. אינם במילון הפרויקט (fm:) ולכן אינם מקושרים.",
+        },
+        {
+          he: "לפי רשומת MIGO: BAPI_GOODSMVT_CREATE לרישום תנועות המלאי ברקע.",
+          xrefs: ["fm:BAPI_GOODSMVT_CREATE"],
+        },
+      ],
+      outputs: [
+        {
+          he: "רשומת מידע איכותי עם סטטוס שחרור ותוקף.",
+          xrefs: ["tx:QI01"],
+        },
+        {
+          he: "מנת בדיקה (QALS, לא במילון הפרויקט) עם תוצאות והערכה לכל מאפיין.",
+          xrefs: ["tx:QA32", "tx:QE51N"],
+        },
+        {
+          he: "החלטת שימוש, רישום מלאי ממלאי הבדיקה ו-quality score; מסמך החומר של קבלת הטובין.",
+          xrefs: ["tx:QA11", "obj:material-document"],
+        },
+        {
+          he: "הודעת איכות סוג Q1 (complaint against vendor) בתוצאה לקויה.",
+          xrefs: ["tx:QM01", "table:QMEL"],
+        },
+      ],
+      exceptions: [
+        {
+          he: "GR או חשבונית חסומים כי רשומת המידע האיכותי חסרה, לא משוחררת או פג תוקפה (תקרית " +
+            "qm-procurement-blocks-gr-or-invoice); תיקון לפי התקרית: יצירה או שחרור ב-QI01/QI02, התאמת מפתח " +
+            "הבקרה ל-QM System של הספק, הארכת תוקף השחרור.",
+          xrefs: ["tx:QI01", "tx:QI02", "tx:QI03"],
+        },
+        {
+          he: "מנת בדיקה לא נוצרה בקבלה: לא נערכה הגדרת בדיקה לחומר בתצוגת ה-QM, לפי העמוד הרשמי 'Editing the " +
+            "Inspection Setup'.",
+          xrefs: ["table:QMAT"],
+        },
+        {
+          he: "כמות שנשארת במלאי בדיקה: לא נרשמה החלטת שימוש למנת הבדיקה.",
+          xrefs: ["tx:QA32", "tx:QA11"],
+        },
+      ],
+      controls: [
+        {
+          he: "ניטור תוקף רשומות המידע האיכותי, כי תוקף שפג חוסם GR או חשבונית לפי תקרית " +
+            "qm-procurement-blocks-gr-or-invoice.",
+          xrefs: ["tx:QI03"],
+        },
+        {
+          he: "התאמת מפתח הבקרה ל-QM System בפועל של הספק, לפי אותה תקרית.",
+          xrefs: ["tx:QI01"],
+        },
+        {
+          he: "מעקב שוטף אחרי מנות בדיקה פתוחות ברשימת העבודה QA32, עד להחלטת שימוש.",
+          xrefs: ["tx:QA32"],
+        },
+      ],
+      eccToS4: [
+        {
+          he: "לפי רשומות TX_INTEL של QI01, MIGO, QA32 ו-QA11: הטרנזקציות זמינות ב-S/4HANA (QI01: ה-tcode הקלאסי " +
+            "נשמר; QA11: הלוגיקה והטבלאות נשמרות).",
+          xrefs: ["tx:QI01", "tx:MIGO", "tx:QA32", "tx:QA11"],
+        },
+        {
+          he: "בתיעוד ה-Data Migration של S/4HANA 2025 FPS01 מופיעה האפליקציה Manage Quality Info Records " +
+            "(F2256A) לאימות הנתונים; אין מזהה מאומת בקטלוג ה-Fiori של הפרויקט ולכן אין קישור.",
+        },
+        {
+          he: "ב-S/4HANA מסמכי החומר נשמרים ב-MATDOC, לפי רשומת matdoc-read-through-compatibility.",
+          xrefs: ["bp:matdoc-read-through-compatibility"],
+        },
+      ],
+      migration: [
+        {
+          he: "אובייקט העסק 'QM - Quality info record' (Object Alias QM_QINF_2) בתיעוד ה-Data Migration הרשמי " +
+            "ל-2025 FPS01, עם תבנית S_QINF לנתוני הכותרת ו-S_QINF_LTEXT לתיאור המורחב; תלוי בהגירה קודמת של " +
+            "Product ו-Supplier; אפליקציות לאימות: Manage Quality Info Records (F2256A), QI02, QI03.",
+          xrefs: ["tx:QI02", "tx:QI03"],
+        },
+      ],
+      reference: {
+        title: "Quality Management in Procurement",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4c6c3c99e6e94a92a626f424add61cba/51daf79fe0384e6385d141616fc3585c.html?locale=en-US&state=PRODUCTION&version=100",
+        verificationLevel: "sap_official_verified",
+        note: "העמוד הוא רשומת What's New ב-SAP S/4HANA ולא עמוד תהליך מלא. הוא מדפיס 'Technical Name of Scope " +
+          "Item 1FM', 'Availability SAP S/4HANA 1709' ורכיב יישום QM, ומתאר: 'This scope item describes quality " +
+          "inspection in procurement. Quality inspection may be relevant when a material is received from a " +
+          "supplier. The result of the inspection triggers further processing, such as return to the supplier " +
+          "for inadequate quality.'",
+      },
+    },
+    xrefs: [
+      "tx:QI01", "tx:QI02", "tx:QI03", "tx:QA32", "tx:QA11", "tx:QE51N", "tx:QM01", "tx:QM02", "tx:ME21N", "tx:MIGO",
+      "table:QMAT", "table:QMEL", "obj:material-document", "fm:BAPI_GOODSMVT_CREATE",
+      "bp:matdoc-read-through-compatibility",
+    ],
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת QI01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "QI01 יוצרת רשומת מידע איכותי (טבלת QINF) לצירוף חומר-ספק, שולטת בהיתר הזמנת רכש, סטטוס שחרור " +
+          "(release until), חסימה ל-GR/הזמנה ומספר תעודת ספק, ונבדקת בעת יצירת PO ב-ME21N; בלי שחרור תקף המערכת " +
+          "יכולה לחסום יצירת PO, תלוי בהגדרת מפתח הבקרה ('QM proc. active' ו-'release required'). משתמשים: " +
+          "מהנדס איכות ספקים (SQE), רכש, מנהל QM. ב-S/4HANA: זמינה, ה-tcode הקלאסי נשמר, וקיימת אפליקציית Fiori " +
+          "'Manage Quality Info Records in Procurement'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QI01",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת QA32",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "QA32 היא רשימת העבודה למנות בדיקה, עם סינון לפי plant/material/status/date ומעבר לרישום תוצאות " +
+          "(QE51N) ולהחלטת שימוש (QA11); טבלאות QALS, QAVE, QAMR; BAPI_INSPLOT_GETLIST " +
+          "ו-BAPI_INSPLOT_SETUSAGEDECISION; משתמשים: QA Inspector, מהנדס איכות; ב-S/4HANA זמינה, עם אפליקציית " +
+          "Fiori 'Manage Inspection Lots'. לפי techExample של הרשומה, יצירת מנה נגזרת מהגדרות QMAT לחומר/מפעל; " +
+          "לפי prodTips: מנות בדיקה פתוחות חוסמות מלאי ויש לנטר את הרשימה יומית, ובלי רישום החלטת שימוש המלאי " +
+          "נשאר ב-QI.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QA32",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת QA11",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "QA11 רושמת את החלטת השימוש: קוד UD, stock postings ממלאי האיכות ל-unrestricted/חסום/גריטה, חישוב " +
+          "quality score והפעלת follow-up actions; תנאים מוקדמים: selected set ו-UD codes מוגדרים ו-quality " +
+          "score procedure; BAPI_INSPLOT_SETUSAGEDECISION; ב-S/4HANA זמינה, הלוגיקה והטבלאות נשמרות, עם " +
+          "אפליקציית Fiori 'Record Usage Decision'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QA11",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת QE51N",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "QE51N היא רשימת העבודה לרישום תוצאות לכל מאפיין; המערכת משווה למפרט וקובעת accepted/rejected; " +
+          "BAPI_INSPOPER_RECORDRESULTS; ב-S/4HANA זמינה, עם אפליקציית Fiori 'Record Inspection Results'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QE51N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת QM01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "QM01 יוצרת הודעת איכות מסוג Q1 (complaint against vendor), Q2 (customer complaint) או Q3 " +
+          "(internal problem); טבלת הכותרת QMEL; התהליך: QM01 פתיחת הודעה, tasks/activities, QM02 עדכון, סגירה; " +
+          "משתמשים: מהנדס איכות, אחראי תלונות; ב-S/4HANA זמינה, עם אפליקציית Fiori 'Manage Quality " +
+          "Notifications'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QM01",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת QM02",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "QM02 מעבדת הודעת איכות קיימת: items, tasks, activities, שינוי סטטוס וסגירה; טבלה QMEL; " +
+          "BAPI_QUALNOT_CHANGEDESCR; ב-S/4HANA זמינה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QM02",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת ME21N",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ME21N יוצרת הזמנת רכש ושומרת בטבלאות EKKO/EKPO, עם BAPI_PO_CREATE1 לרקע; התהליך: PR, הזמנת רכש " +
+          "(ME21N), אישור, קבלת טובין (MIGO), קבלת חשבונית (MIRO), תשלום; משתמשים: קניין (Buyer); זמינה במלואה " +
+          "ב-S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#ME21N",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL): רשומת MIGO",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "MIGO רושמת תנועות מלאי כולל קבלה מ-PO, תומכת ב-stock type unrestricted/QI/blocked, ומשתמשת " +
+          "ב-BAPI_GOODSMVT_CREATE לרקע; זמינה במלואה ב-S/4HANA.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#MIGO",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: qm-procurement-blocks-gr-or-invoice",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "GR או חשבונית להזמנת רכש חסומים כי בקרת QM ברכש מדווחת שהספק/חומר לא משוחרר לפעולה: רשומת מידע " +
+          "איכותי חסרה או לא משוחררת, QM System של הספק נמוך מהנדרש במפתח הבקרה, תקופת השחרור פגה, או Block " +
+          "function במפתח הבקרה בלי תנאי מוקדם. ניתוח: QI03, QI06, ME23N, טבלה QINF; תיקון: יצירה/שחרור רשומת " +
+          "מידע איכותי (QI01/QI02) לתקופה תקפה, התאמת מפתח הבקרה ל-QM System של הספק, הארכת release-until.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext.ts#qm-procurement-blocks-gr-or-invoice",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "שיטת עבודה בפרויקט: matdoc-read-through-compatibility",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "ב-S/4HANA כותרת ופריטי מסמך החומר מאוחדים בטבלה אחת, MATDOC; MKPF ו-MSEG נשארות לקריאה בלבד דרך " +
+          "תצוגות תאימות.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/best-practices/pp-pi.ts#matdoc-read-through-compatibility",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Editing the Inspection Setup | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/fa55b853dcfcb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_TB_15,
+        claim: "העמוד הרשמי לגרסת 2025 FPS01 קובע 'Editing the Inspection Setup Use You must edit the inspection " +
+          "setup to be able to create inspection lots for a material. Inspection lots are created for all goods " +
+          "movements that are relevant to QM' ו-'In the material master, you define which goods movements are " +
+          "relevant to QM'. שאילתות נוספות על אותה רשומה בדיוק (אותו loio ואותו versionId) החזירו מאותו עמוד גם " +
+          "'Procedure In the Quality Management view of the material master, choose Inspection Setup', 'To " +
+          "check the consistency of your data, choose Check again. If the entries are consistent, choose " +
+          "Continue. The Quality Management view of the material master is displayed again', 'Stock indicator " +
+          "When a goods movement takes place, the quantity of the material to be posted is posted to inspection " +
+          "stock' ו-'If you do not set this indicator, the material quantity is posted to unrestricted-use " +
+          "stock'. כלומר הגדרת הבדיקה לחומר היא תנאי ליצירת מנת בדיקה, היא נערכת בתצוגת ניהול האיכות של רשומת " +
+          "אב החומר, והיא מתועדת ככזו בגרסת 2025 FPS01 של S/4HANA On-Premise.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Quality Management in Procurement | What's New in SAP S/4HANA",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "100",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4c6c3c99e6e94a92a626f424add61cba/51daf79fe0384e6385d141616fc3585c.html?locale=en-US&state=PRODUCTION&version=100",
+        accessedAt: DATE,
+        claim: "עמוד ה-What's New הרשמי 'Quality Management in Procurement' קובע: 'This scope item describes " +
+          "quality inspection in procurement. Quality inspection may be relevant when a material is received " +
+          "from a supplier. The result of the inspection triggers further processing, such as return to the " +
+          "supplier for inadequate quality.' ומדפיס Technical Name of Scope Item: 1FM; Availability: SAP " +
+          "S/4HANA 1709; Application Component: QM.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Goods Receipt When Quality Management (QM) is Active | Inventory Management and Inventory " +
+          "(MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/d363bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "העמוד הרשמי לגרסת 2025 FPS01 מבחין בין 'Quality Management in Material Procurement' (אם פעיל, " +
+          "ניתן להגדיר ברשומת אב החומר שנדרש אישור קבלת תעודה, והמערכת מציגה תיבת אישור בקבלת טובין להזמנה) " +
+          "לבין 'Quality Management in Material Inspection' ('If an inspection at the time of goods receipt has " +
+          "been defined for the material, the system automatically creates an inspection lot when the goods " +
+          "receipt is posted').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Subcriterion | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/ce77b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "העמוד הרשמי לגרסת 2025 FPS01 מתעד את קריטריוני המשנה האוטומטיים של הערכת הספק (Vendor " +
+          "Evaluation). Goods Receipt: 'This subcriterion is used to evaluate the quality of the material that " +
+          "the vendor delivers. Quality inspection takes place at the time of goods receipt.' " +
+          "Complaints/Rejection Level: 'This subcriterion is used to evaluate whether the materials delivered " +
+          "by the vendor are regularly found to be faulty subsequent to incoming inspection (for example, on " +
+          "the shop-floor) ... The score (QM key quality figure) is calculated in QM Quality Management and the " +
+          "data passed on to MM Vendor Evaluation.' כלומר ה-QM key quality figure שייך לקריטריון " +
+          "Complaints/Rejection Level, לא לקריטריון Goods Receipt.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "QM - Quality info record | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/8427c17adbeb4a84a1a0784aa63c586c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "אובייקט ההגירה הרשמי לגרסת 2025 FPS01 (Object Alias QM_QINF_2) קובע: 'If a supplier release or a " +
+          "quality assurance agreement is required for a material, you must create a quality information " +
+          "record... When a quotation or purchase order is created, the system checks whether a quality info " +
+          "record is required and available for the combination of material and supplier... The execution of " +
+          "this check depends on the setting of the QM in procurement control key in the material master " +
+          "record.' תבניות ההגירה: Header Data (S_QINF), Detailed Description (S_QINF_LTEXT); אפליקציות לאימות: " +
+          "Manage Quality Info Records (F2256A), QI02, QI03. תנאים מוקדמים לפי העמוד: 'Product, mandatory' " +
+          "ו-'Supplier, mandatory' חייבים להיות מתוחזקים או מוגרים קודם.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 5 בספריית הפרויקט (SAP PRESS, Quality Management with SAP S/4HANA), פרק 4 'Integrating " +
+          "with Materials Management', סעיפים 4.1.2 'Control Key for Quality Management in Procurement' ו-4.2.1 " +
+          "'Goods Receipt in Procurement: Inspection Type 01'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE,
+        claim: "הפרק מתעד את מפתח הבקרה ל-QM ברכש ואת תהליך העסק של קבלת טובין ברכש; הספר משמש כאן להפניית קריאה " +
+          "בלבד (קישור צולב לקורא) ואינו מקור לטענה חדשה.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book5.json#4.1.2",
+      },
+    ],
+    lastVerifiedAt: DATE,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor + repairer), 2026-09-24",
+    notes: "רשומת המידע האיכותי (Quality Info Record) והטבלאות QINF, QALS, QAVE, QAMR, EKKO ו-EKPO אינן במילון " +
+      "הפרויקט (dangling-xref) ולכן מוזכרות בפרוזה בלבד. QI06 מוזכר בתקרית qm-procurement-blocks-gr-or-invoice " +
+      "בלי כותרת מתועדת ואינו במילון הטרנזקציות (dangling-xref), ולכן מוזכר בפרוזה בלבד. BAPI_INSPLOT_GETLIST, " +
+      "BAPI_INSPLOT_SETUSAGEDECISION, BAPI_INSPOPER_RECORDRESULTS, BAPI_QUALNOT_CHANGEDESCR ו-BAPI_PO_CREATE1 " +
+      "אינם במילון ה-fm: של הפרויקט ולכן אינם מקושרים. אפליקציות ה-Fiori (כולל F2256A) אינן בקטלוג ה-Fiori של " +
+      "הפרויקט ולכן מוזכרות בשמן בלבד. עמוד ה-reference הוא רשומת What's New של SAP S/4HANA 1709 שמדפיסה את " +
+      "פריט ההיקף 1FM, ולא עמוד תהליך מלא. החזרה לספק מתועדת בעמוד 1FM; רשומת QA11 מתעדת unrestricted, חסום " +
+      "וגריטה. שדה ה-kpis הושמט: לא אותר במאגר או בחיפושים הרשמיים מדד מוגדר לתהליך זה. לא בוצעה בדיקה במערכת " +
+      "SAP חיה.",
   },
 ];

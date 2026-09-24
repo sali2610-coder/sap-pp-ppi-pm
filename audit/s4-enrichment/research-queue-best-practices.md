@@ -33,6 +33,48 @@ the full registered universe prints 0 problems; `scratchpad/validate-bp-file.mjs
 does not load (the same script prints 53 such hits for `cross-processes-2.ts`); both
 `tsc` gates clean; `npm test` 212/212.
 
+Batch 2 written 2026-09-24 (access date stamped 2026-09-24): 3 drafts audited, 1 written
+(`quality-in-procurement-process`, module Cross) from the researcher's draft with the
+verdict's two text downgrades applied (each replacement matched exactly once): the
+'QM - Quality info record | Data Migration' claim now carries the page's prerequisites
+('Product, mandatory', 'Supplier, mandatory') that masterData[2] and migration[0] rely on,
+and roles[1] attributes each user to its tx-intel record (QA Inspector to QA32/QE51N/QA11,
+מהנדס איכות to QA32/QA11, טכנאי מעבדה and בודק איכות to QE51N). 2 refuted
+(`procure-to-pay-process`, `physical-inventory-process`). Gate-policy decision (verdict
+downgrade 3): the four official URLs no overlay holds ('Quality Management in Procurement',
+What's New, version 100, loio 51daf79fe0384e6385d141616fc3585c; 'Goods Receipt When Quality
+Management (QM) is Active', loio d363bd534f22b44ce10000000a174cb4; 'Subcriterion', loio
+ce77b6535fe6b74ce10000000a174cb4; 'QM - Quality info record', Data Migration, loio
+8427c17adbeb4a84a1a0784aa63c586c; the last three 2025.001) stay `sap_official_verified`
+under HOUSE-RULES §3 and the task's honesty rule 2 (URL copied verbatim from a search
+record), the treatment the calibration and refurbishment records already have. Before
+writing, the writer re-ran `scripts/sap-help-search.mjs` for each (url, loio and versionId
+came back verbatim) and re-read all four bodies through `scripts/sap-help-body.mjs` (every
+quoted phrase present, including 'Product , mandatory Supplier , mandatory', S_QINF,
+S_QINF_LTEXT, F2256A, QI02, QI03 and the Complaints/Rejection Level wording).
+`scratchpad/check-bp-official.mjs`, which enforces the older overlay-only rule of
+BP-PROCESS-BRIEF §2 and is not one of the required gates, moves from 121 urls / 12 not in
+an overlay to 127 / 17 (the 1FM URL counts twice: evidence row and process.reference);
+adding overlay entries was out of scope, since the writer may not touch
+`data/verification/*.ts`. The 'Editing the Inspection Setup' row is byte-identical to
+`data/verification/tables.ts` QMAT_INSPECTION_SETUP (checked field by field; accessedAt
+DATE4 = 2026-09-15, kept as `DATE_TB_15`). Writer deviations beyond the listed downgrades:
+step 9 no longer calls QI06 'רשימה' (the one record that names it, the incident, gives it no
+title); tables[1] and notes now say QAVE and QAMR are not in the dictionary either, and
+tables[3] and notes say the same of EKKO/EKPO (all four checked unresolvable); the QA32
+evidence claim now carries the record's techExample (QMAT) and prodTips (open lots block
+stock; without a usage decision the stock stays in QI), which tables[0], antiPatterns[3],
+exceptions[2] and controls[2] rely on; `tx:QI02` (resolvable, named in steps 2 and 9,
+transactions[0], exceptions[0] and migration[0]) is now an xref there and at record level,
+and migration[0] also xrefs `tx:QI03`; the file header reads 'kpis in every record below'.
+Every uppercase SAP token of the new record appears in one of its evidence rows. The record
+has no `conflicting_sources` row, so nothing was added under conflicts. Coverage
+(`report:coverage --catalog best-practices`): total 24 → 25, L2 24 → 25, verified 23 → 24,
+conflict 1 → 1. Gates: the validator on the full registered universe prints 0 problems (25
+practices); `scratchpad/validate-bp-file.mjs` prints the same 10 bp-slug `dangling-xref`
+hits as in batch 1 (calibration-process and refurbishment-process, reduced universe) and
+none for the new record; both `tsc` gates clean; `npm test` 212/212.
+
 ## refuted
 
 - `bp:breakdown-maintenance-process` (batch 1, 2026-09-24): refuted at the gate, not
@@ -75,6 +117,82 @@ does not load (the same script prints 53 such hits for `cross-processes-2.ts`); 
   through `scripts/fal-app.mjs`), CO88 described only as its cited rows describe it, the
   TECO / reservation conflict disclosed, the row-2 sentence moved out of that claim, IW28
   cited through `data/transactions.ts#IW28`, and gap statements in notes.
+- `bp:procure-to-pay-process` (batch 2, 2026-09-24): refuted at the gate, not written; the
+  draft is not in the repository. (1) BLOCKER, ECC/S/4HANA attribution (rule 6) and a gap in
+  field 17: step 6 ('הקבלה כותבת מסמך חומר (MKPF/MSEG)'), outputs[2] ('מסמך חומר של הקבלה
+  (MKPF/MSEG)') and tables[1] (MKPF and MSEG as 'מסמך החומר של הקבלה', adding that the P2P
+  map 'מונה ... גם את MATDOC') name no side, and for S/4HANA they contradict evidence the
+  repository already holds: `data/verification/tables.ts` MKPF_SIMPL2025 (line 533, used by
+  table:MKPF) cites 'S4TWL - Data Model in Inventory Management' (2025 FPS01 Simplification
+  List, item 15.3.1): 'Material document data will be stored in MATDOC only and not anymore
+  in MKPF and MSEG'; MSEG_ARCHIVING (line 83) and the table:MSEG row add that compatibility
+  with the old tables comes through CDS compatibility views. The only source of the MKPF/MSEG
+  wording, the tx-intel MIGO record ('כותבת MKPF/MSEG'), carries no edition. eccToS4 leaves
+  out this data-model change, the largest S/4HANA change on the goods-receipt step, and
+  names only the MB11 transaction-availability item. (2) Minor, negative search overstated
+  in notes: the notes say the 'Procurement of Direct Materials' search returned What's New
+  records for the item 'במהדורות 1709 עד 2023' and 'לא עמוד תהליך למהדורת 2025'; a re-run
+  (21 hits) shows the item's own records at 1709, 1809, '100', 1909.000 (J45) and 2020.000
+  (J45), the 2023.000 hits are other topics ('Enterprise Search Function for Customer Fields
+  in Supplier Invoices', 'Purchase Requisition Events'), and a 2025.001 page titled
+  'Procurement' (loio 56be0913bd224e218bbd83308039fafb) appears in the results without
+  mention. (3) Minor, inherited wording: the MB03 official row keeps 'בדפים שצוטטו ברשומה זו'
+  from tx:MB03, but this record cites one MB03 page, so 'this record' points at the wrong
+  record. (4) Minor: tables[3] names 'BSIK פריטי ספק פתוחים' without a side, while the cited
+  FBL1N record says that in S/4HANA the line items come from ACDOCA through compatibility
+  views. Verified by the auditor and reusable on re-draft: all 16 first-round problems are
+  closed (ME51N row sourceTitle 'Process Purchase Requisition (MM-PUR)' and accessedAt
+  2026-09-24 as in transactions-b.ts:3089; MARA, BUT000, CVI, BAPI_REQUISITION_GETDETAIL,
+  the ME21/ME25 prose, F0842A, F1077, 'Stock Transport Order' and 'זמינות במלואן' removed;
+  the 'היחידה' claim about MB03 removed; the F0843 identity carried by the copied
+  F0843_PGR_TOPIC row; both bp: xrefs added; the P2P incidents linked, one repoRef each);
+  every official row except the new one keeps the url, sourceTitle, release and accessedAt
+  of its `data/verification` source; the new 'Procurement in SAP S/4HANA' row matches a live
+  search record (loio 287eb65334e6b54ce10000000a174cb4, versionId 2025.001) and its body
+  (deliverable 40374862, build 1807) contains every quote; every uppercase SAP token appears
+  in an evidence claim; book3 sections 5.4, 7.3.1 and 12.2 exist; the claims of the seven
+  troubleshooting rows match their entries; validator 0 problems, `tsc` clean, no em dash.
+  Re-draft with MKPF/MSEG attributed to ECC and an S/4HANA line that cites 'S4TWL - Data
+  Model in Inventory Management' by name (MKPF_SIMPL2025 copied verbatim, MSEG_ARCHIVING for
+  the compatibility views), that change added to eccToS4, the search notes corrected to the
+  releases listed above plus the 2025.001 'Procurement' page, the MB03 wording re-pointed to
+  its own source, and BSIK attributed to ECC with the FBL1N record's ACDOCA note for S/4HANA.
+- `bp:physical-inventory-process` (batch 2, 2026-09-24): refuted at the gate, not written;
+  the draft is not in the repository. (1) BLOCKER, unsourced claim introduced by the repair:
+  step 6 ('קריאה מהן מנותבת לתצוגת CDS, וכתיבה אליהן אינה משפיעה'), antiPatterns[4] ('פעולת
+  כתיבה כזו אינה משפיעה'), checks[3] ('דרך הניתוב לתצוגת CDS ... וקוד שכותב לטבלאות אלה
+  הוסר') and eccToS4[2] ('קריאה מהן מנותבת לתצוגת CDS') say that reads from MKPF/MSEG are
+  redirected to a CDS view and that writes to them have no effect, but no evidence row of the
+  record prints this. The row copied from the 2025 FPS01 Simplification List (MKPF_SIMPL2025,
+  'S4TWL - Data Model in Inventory Management', item 15.3.1) prints only 'do still exist in
+  S/4HANA as DDIC definition as well as database object'; the MSEG_ARCHIVING row prints only
+  the MATDOC replacement sentence; the table:MSEG repository row speaks only of NSDM_V_MSEG
+  and SUM. The 'redirected ... to the assigned CDS view' and 'such write operations are
+  without any effect' wording lives only in a second row of `data/verification/tables.ts`
+  table:MKPF (2023 FPS03 Simplification List, item 27.5 'S4TWL - Data Model in Inventory
+  Management', SIMPL_OP2023.pdf), which the draft does not cite; eccToS4[2] also pins the
+  statement to '2025 FPS01, פריט 15.3.1', whose copied text does not contain it. (2) Wrong
+  count in the summary: '23 רשומות evidence (14 רשמיות, 7 מהמאגר, 2 מספרים)', while the
+  record carries 12 sap_official_verified (6 sap_help + 6 fiori_library), 9
+  repository_verified and 2 supported_secondary_source. Verified by the auditor and reusable
+  on re-draft: all 12 first-round problems are resolved; 7 steps, as the summary says;
+  F0379A labels only 'Manage Physical Inventory Documents'; F3197, F4550 and F5430 each have
+  their own fal-app row, re-fetched at S32OP with names, roles, OData services and GUI
+  leading/related transactions matching the claims word for word; 'Schedule Physical
+  Inventory Document Creation' tied only to `data/books/book3.json#7.4.2`, whose section id
+  and title exist; MI20 and MI31 backed by `data/tcode-catalog.ts` lines 986/988 and by FAL
+  rows copied word for word from `data/verification/transactions-auto.ts` (tx:MI20,
+  tx:MI31); NSDM_V_MKPF removed; cds:I_MaterialDocumentItem backed by `data/cds-map.ts` line
+  46 plus the WN2021 row, word for word the entry at `data/verification/cds.ts` line 185;
+  MB52 and MMBE split into two rows, each matching `data/tx-intel.ts`; both 'Physical
+  Inventory Process' URLs (S/4HANA 2025.001 and SAP_ERP 6.18.latest, loio
+  2761bd534f22b44ce10000000a174cb4) come back from `scripts/sap-help-search.mjs` and their
+  `scripts/sap-help-body.mjs` text contains every quoted phrase, as does the F0379A body;
+  validator (full best-practices universe) 0 problems, 16 xrefs resolved, no em dash, no
+  certainty words, no 'אחזקה'. Re-draft with the redirect / no-effect sentence either
+  dropped or cited through the 2023 FPS03 item 27.5 row copied verbatim with its own release
+  (eccToS4[2] re-pinned to that release), and the summary's evidence count corrected to 12
+  official, 9 repository and 2 secondary, or removed.
 
 ## conflicts
 
