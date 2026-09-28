@@ -57,12 +57,18 @@ Draft:\n${JSON.stringify(draft)}`,
     { label: `verify:${item.id}`, phase: 'Verify', schema: VERDICT, effort: 'high' }).then((verdict) => ({ draft, verdict }))) : null,
   // One repair round for a refused draft: fix every listed problem (drop what cannot be sourced),
   // then a fresh audit. Still refused afterwards means queued with both rounds' problems.
-  (r, item) => {
-    if (!r || !r.verdict || !r.verdict.refuted) return r
-    return agent(`${COMMON}\n\nREAD-ONLY ROLE: do not create, modify or delete any file in the repository (scratch files only under /tmp); return your result as the structured output only. You are the REPAIRER for ${item.id}. An adversarial auditor REFUSED the draft below. Return a corrected draft that resolves EVERY listed problem: keep only claims bounded by a search-record title/snippet or a body read with scripts/sap-help-body.mjs; copy url/loio/versionId verbatim from search records; drop any URL, quote, status, successor, SAP Note number or xref you cannot source; when the status is not supported, omit it or author verification_required with the searches listed. Add nothing unsourced.\nAuditor problems:\n${JSON.stringify(r.verdict.problems)}\nAuditor downgrades:\n${JSON.stringify(r.verdict.downgrades || [])}\nRefused draft:\n${JSON.stringify(r.draft)}`,
+  // args.repairRounds (default 1) allows further rounds while the audit still refuses.
+  async (r0, item) => {
+    const once = (r) => agent(`${COMMON}\n\nREAD-ONLY ROLE: do not create, modify or delete any file in the repository (scratch files only under /tmp); return your result as the structured output only. You are the REPAIRER for ${item.id}. An adversarial auditor REFUSED the draft below. Return a corrected draft that resolves EVERY listed problem: keep only claims bounded by a search-record title/snippet or a body read with scripts/sap-help-body.mjs; copy url/loio/versionId verbatim from search records; drop any URL, quote, status, successor, SAP Note number or xref you cannot source; when the status is not supported, omit it or author verification_required with the searches listed. Add nothing unsourced.\nAuditor problems:\n${JSON.stringify(r.verdict.problems)}\nAuditor downgrades:\n${JSON.stringify(r.verdict.downgrades || [])}\nRefused draft:\n${JSON.stringify(r.draft)}`,
       { label: `repair:${item.id}`, phase: 'Verify', schema: DRAFT, effort: 'high' })
       .then((fixed) => fixed ? agent(`${COMMON}\n\nREAD-ONLY ROLE: do not create, modify or delete any file in the repository (scratch files only under /tmp); return your result as the structured output only. You are the ADVERSARIAL AUDITOR for the REPAIRED draft of ${item.id}. The first draft was refused for the problems listed; check each is resolved and that the repair added nothing unsourced. Same checks as a first audit (URLs resolve on allowlisted hosts, loio/versionId match a search record, claims bounded by title/snippet or a read body, status token valid with source+edition+release, successor resolves, no invented SAP Note, xrefs exist, Hebrew style). Default to refuted=true if uncertain.\nFirst-round problems:\n${JSON.stringify(r.verdict.problems)}\nRepaired draft:\n${JSON.stringify(fixed)}`,
         { label: `reverify:${item.id}`, phase: 'Verify', schema: VERDICT, effort: 'high' }).then((v2) => ({ draft: fixed, verdict: v2 })) : r)
+    let r = r0
+    for (let round = 0; round < (args.repairRounds || 1); round++) {
+      if (!r || !r.verdict || !r.verdict.refuted) return r
+      r = await once(r)
+    }
+    return r
   },
 )
 
