@@ -119,6 +119,64 @@ in progress in `transactions-b.ts` (XD01 and XD02 from L3 `repository_verified` 
 `conflicting_sources`; XD03, VL09 and VOV8 from L3 to L5; VL06I, VL32N and VOFM from
 `verification_required` to `sap_official_verified`).
 
+Batch 3 written 2026-09-28 (research and adversarial audit the same day; access and verification
+dates stamped 2026-09-25, as the chain arguments set them): 8 drafts audited, 8 written, none
+refuted. FI document, posting and customer-master codes: `tx:FB03` is `unchanged` from its Fiori
+Apps Library row (S32OP), with 'S4TWL - Currencies in Universal Journal' naming it as a display
+channel for the Universal Journal currencies (the item does not address its status); `tx:FB50`,
+`tx:FB50L`, `tx:FB60`, `tx:FB65`, `tx:FB70` and `tx:FB75` are `changed` from 'S4TWL - Removal of
+D/C Indicator from Editing Options' (the 'D/C indicator as +/- sign' editing option can no longer
+be used in Enjoy transactions after a conversion or upgrade to S/4HANA 1809 or higher), and
+`tx:FB65` keeps the 2025.001 page 'Editing Options – Single-Screen Transaction' as
+`conflictingEvidence`; `tx:FD01` is `replaced` (successor `tx:BP`) from 'S4TWL - Business Partner
+Approach', with the 2025.001 page 'Settings in Customer/Vendor Master Data' kept as a
+`conflicting_sources` row. Six were taken from `verdict.fixedRecord` (`tx:FB03`, `tx:FB50`,
+`tx:FB50L`, `tx:FB60`, `tx:FB70`, `tx:FB75`) and two were re-derived from the draft with the
+listed downgrades (`tx:FB65`, one downgrade; `tx:FD01`, seven). `tx:FB60` and `tx:FB65` went
+through a repair round first: `tx:FB60` was refuted in round one for the status token `s4_native`
+(rendered 'חדש ב-S/4HANA', while FB60 exists in ECC), an 'אך ורק' claim, two em dashes and two
+country labels that no title or snippet prints; `tx:FB65` for a 2023 FPS03 PDF URL that returns
+403, a status source that was a context row, a conflicting official page named in the notes but
+not recorded as evidence, and wording and title fixes. Both passed re-verification.
+
+Same generation discipline as batches 1 and 2: the drafts and verdicts were read from this run's
+workflow journal (the research, repair, verify and re-verify results the writer task relays) and
+generated from there; every downgrade and writer change was applied as an exact-count substring
+replacement (a miss aborts the run); every row of the eight generated records was checked to be
+either cited by the audited record (same URL or repoRef, plus the item number for Simplification
+List rows) or carried; the written module was deep-compared with the generated objects,
+`status.source` checked for identity with its evidence row and for an equal release, and the
+sixteen batch 1 and 2 records checked unchanged. The rule engine (`validateRecords`) reports no
+problem for the eight records. `tsc --noEmit` (app and test configs) and `npm test` (211 of 211)
+pass.
+
+Depth (`report-coverage.mjs --ids`, before 14:01 and after 14:09, unchanged at 14:16):
+
+| id | before | after |
+|---|---|---|
+| `tx:FB03` | L3 `repository_verified`, derived 'unchanged' | L5 `sap_official_verified`, authored `unchanged` |
+| `tx:FB50` | L3 `repository_verified`, derived 'changed' | L5 `sap_official_verified`, authored `changed` |
+| `tx:FB60` | L3 `repository_verified`, derived 'changed' | L5 `sap_official_verified`, authored `changed` |
+| `tx:FB70` | L3 `repository_verified`, derived 'changed' | L5 `sap_official_verified`, authored `changed` |
+| `tx:FB75` | L3 `repository_verified`, derived 'changed' | L5 `sap_official_verified`, authored `changed` |
+| `tx:FB65` | L3 `repository_verified`, derived 'changed' | L3 `conflicting_sources`, authored `changed` |
+| `tx:FD01` | L3 `repository_verified`, derived 'replaced' | L3 `conflicting_sources`, authored `replaced` |
+| `tx:FB50L` | L1 `verification_required` | L1 `sap_official_verified`, authored `changed` |
+
+FB65 and FD01 stay at L3 because L4 needs a record without a conflict. FB50L stays at L1 for the
+batch 1 reason: it has no entry in `data/tx-intel.ts`, so the page structure (3 authored facts
+needed for L2) is missing. Batch effect on the catalog totals (`npm run report:coverage --
+--catalog transactions`): L3 -5, L5 +5, verified -1, verification_required -1, conflict +2,
+s4-appl +1. Measured totals: 14:01 L1 1279, L2 2, L3 410, L4 4, L5 123, verified 683, verif.req
+1117, conflict 18, legacy 5, s4-appl 679, edition 5; 14:09 (and 14:16) L1 1279, L2 2, L3 401, L4
+4, L5 132, verified 685, verif.req 1113, conflict 20, legacy 5, s4-appl 683, edition 5. The
+remainder (L3 -4, L5 +4, verified +3, verification_required -3, s4-appl +3), attributed by a
+per-id diff of the two `--ids` runs, is concurrent work in another shard: chain B batch 10
+(`transactions-b.ts`, in progress at 14:09 and committed as e90b8f2c at 14:13; AS91, F110,
+FAGLB03 and FAGLL03 from L3 `repository_verified` to L5; AJAB, F111 and FAGLFLEXT from
+`verification_required` to `sap_official_verified`). After the batch 3 write, `tsc --noEmit`
+(both configs) and `npm test` (211 of 211) were re-run on the tree with that commit and pass.
+
 ## refuted
 
 - Batch 1 (2026-09-28): none refuted. All nine audited drafts (`tx:VA21`, `tx:VD03`, `tx:VD05`,
@@ -157,6 +215,9 @@ in progress in `transactions-b.ts` (XD01 and XD02 from L3 `repository_verified` 
   `data/fiori/apps.ts`, so the xrefs are `tx:AFAR` and `table:BSEG` only. Until a re-draft
   passes, AFAB keeps its generated record (L3 `repository_verified`, derived 'unchanged' from
   `data/tx-intel.ts`).
+- Batch 3 (2026-09-28): none refuted. All eight audited drafts (`tx:FB03`, `tx:FB50`, `tx:FB50L`,
+  `tx:FB60`, `tx:FB65`, `tx:FB70`, `tx:FB75`, `tx:FD01`) were written; `tx:FB60` and `tx:FB65`
+  after a repair round (see the batch 3 summary above).
 
 ## conflicts
 
@@ -321,6 +382,74 @@ in progress in `transactions-b.ts` (XD01 and XD02 from L3 `repository_verified` 
   'Change Customer Account Group: Initial Screen'. The writer aligned the notes with the claim.
   What settles it: a re-read of the page body at the next XD07 audit, if the word order is in
   doubt.
+- `tx:FD01` · official vs official (batch 3, recorded by the researcher, confirmed by the
+  auditor): 'S4TWL - Business Partner Approach' (2023 FPS03 item 3.19, document version 1.35; 2025
+  FPS01 item 5.1.27, document version 1.36) lists FD01 under 'Transactions that get redirected to
+  transaction BP' and not under 'Transactions that are obsolete', and 'S4TWL - Specific fields on
+  Business Partner' (2023 FPS03 item 59.7, 2025 FPS01 item 13.14.1, component PSM-FG) lists it
+  under 'Transaction not available in SAP S/4HANA'. The 2025.001 help page 'Settings in
+  Customer/Vendor Master Data' (loio e1d2a810235c4f1dbd215011729d4d48, body read; deliverable
+  Invoicing, and the same loio is published under the Hungary deliverable at 2025.001 and as an
+  SAP ERP 6.18.latest page) tells users to open customer master data from SAP Easy Access,
+  'Create/Change (transaction code FD01 or FD02)'. The page row is kept as `conflicting_sources`;
+  the status (`replaced`, successor `tx:BP`) rests on the 2025 FPS01 item. The auditor notes that
+  the menu path may be text carried forward from ECC and that a redirect to BP would reconcile
+  both. What settles it: running FD01 or SE93 on an SAP S/4HANA On-Premise system, or an official
+  update of the page. This is the question of the `tx:VD03` vs `tx:VD01` / `tx:VD02` entry above:
+  FD01 now marks such a page as conflicting, as chain B does for VD01, VD02, XD01 and XD02, while
+  the VD03 audit kept one as context; the one Business Partner family rule asked for there covers
+  FD01 too.
+- `tx:FD01` · repository vs official (batch 3, recorded by the researcher and the auditor):
+  `data/lifecycle.ts#FD01` (line 46) gives FD01 `status: "Obsolete"`, `s4: false`, `alt: "BP"`,
+  while both items list FD01 among the codes redirected to BP and not under 'Transactions that are
+  obsolete'. The record's repository row (context) states the mismatch; the file header says its
+  rows are authored from Simplification knowledge, with no per-row source. Not fixed (outside this
+  writer's files). What settles it: a FIX pass on the lifecycle.ts FD01 entry against the item.
+- `tx:FB65` and the D/C-indicator family · official vs official (batch 3, raised by the FB65
+  auditor in round one, confirmed at re-verification): the item 'S4TWL - Removal of D/C Indicator
+  from Editing Options' (2025 FPS01 item 6.1.13, Note Number 0002865285; 2023 FPS03 item 15.8,
+  2865285) says the 'D/C indicator as +/- sign' cannot be used in Enjoy transactions after a
+  conversion or upgrade to S/4HANA 1809 or higher and that the correction removes it from the
+  editing options screen, while the 2025.001 search record 'Editing Options – Single-Screen
+  Transaction' (General Ledger Accounting (FI-GL), loio 4a60d7531a4d424de10000000a174cb4; snippet
+  only, body not read) still lists 'D/C indicator as +/- sign' among the special options for
+  single-screen transactions, without naming a code. Kept on `tx:FB65` as `conflictingEvidence`
+  (level `conflicting_sources`). The same page bears on the five other records of the batch that
+  rest on the item (`tx:FB50`, `tx:FB50L`, `tx:FB60`, `tx:FB70`, `tx:FB75`); their audits did not
+  raise it, so they stay `sap_official_verified`: an audit inconsistency within the family. What
+  settles it: the page body (sap-help-body.mjs), then SAP Note 2865285 (S-user login, outside the
+  permitted channels) or the Editing Options screen of an Enjoy transaction on an S/4HANA system
+  at 1809 or later with the correction applied; then one ruling for the six records.
+- `tx:FB50` · notes vs item text, audit inconsistency (batch 3, found by the writer): the FB50
+  fixedRecord notes said the 2023 FPS03 item 15.8 lists the affected transactions without FB70,
+  FB75, FV70 and FV75. The FB50L, FB60, FB65, FB70 and FB75 auditors each checked the 2023 list
+  against the extracted text and quote all twelve codes, and the generated index rows
+  (`transactions-auto.ts`, item 15.8) show where the line breaks: FB50's row quotes 'The affected
+  transactions are: FB50, FB50L, FV50, FV50L, FB60, FB65, FV60, FV65,' and the FB70 and FB75 rows
+  quote the next line, 'FB70, FB75, FV70, FV75.'. The writer replaced the parenthetical with
+  '(אותו Symptom/Solution ואותה רשימת טרנזקציות מושפעות)'. No lookup was repeated. What settles
+  it: the next FB50 audit confirms the notes.
+- `tx:FB03` · repository wording vs official (batch 3, raised by the auditor):
+  `data/tx-intel.ts#FB03` (line 157) places FB03 under 'ניהול ספר ראשי / הצגת מסמכים', while the
+  Fiori Apps Library (S32OP) lists FB03 for AP, AR, AA and other roles besides GL; the record's
+  status text uses the module FI instead, and the tx-intel row is carried as context. The same
+  entry names 'Display Journal Entries - In T-Account View (F3664)' as its Fiori app; no official
+  source read in this batch confirms it, so the record names it in the notes and not as a
+  successor or in recommendedAction. Not fixed. What settles it: a FIX pass on the tx-intel.ts
+  FB03 area, and fal-app.mjs F3664 if a Fiori alternative is to be named.
+- `tx:FB03` vs `tx:FB60` · recommendedAction firmness, audit inconsistency (batch 3, found by the
+  writer): the FB03 auditor refused 'ניתן להמשיך להשתמש ב-FB03 ... ללא צורך בהמרה' and asked for
+  the hedged `tx:VK11` wording ('המקורות שנקראו אינם מצביעים על פעולת המרה'), while the FB60
+  fixedRecord opens its recommendedAction with 'להמשיך להשתמש ב-FB60 לרישום חשבוניות ספק ללא הזמנת
+  רכש' (and the batch 2 `tx:AB08` record with 'ניתן להמשיך להשתמש ב-AB08'). Written as audited.
+  What settles it: one wording rule for records whose sources show continued availability.
+- D/C-indicator family · SAP Note number padding, audit inconsistency (batch 3, found by the
+  writer): the 2025 FPS01 item prints 'Note Number 0002865285' and the 2023 FPS03 item '2865285'
+  (the FB70 auditor's finding, applied to FB70). FB50 and FB70 print the padded form on their 2025
+  rows; FB50L (evidence[0], status.he) and FB65 (evidence[4], status.he) write '2865285' for the
+  2025 row; FB60 writes 'SAP Note 0002865285' in its 2025 row and '2865285' in recommendedAction.
+  Each auditor accepted its form. Written as audited; no record sets `sapNote`. What settles it:
+  one convention (the number as the cited source prints it) at the next audit of the family.
 
 ## writer deviations (batch 1, 2026-09-28)
 
@@ -459,3 +588,94 @@ in progress in `transactions-b.ts` (XD01 and XD02 from L3 `repository_verified` 
 12. The first `report-coverage.mjs --ids` run wrote `coverage-ids.json` to the repository root
     (the script's default path); it was moved to the scratchpad, and the later run used
     `IDS_OUT`.
+
+## writer deviations (batch 3, 2026-09-28)
+
+1. Source of the audited JSON. The drafts and verdicts were read from this run's workflow journal
+   (the research results for FB03, FB50, FB50L, FB70, FB75 and FD01 and the repair results for
+   FB60 and FB65; the verify results, and the re-verify results for FB60 and FB65), the objects
+   the writer task relays, and matched against the relayed text before generating (problem and
+   downgrade counts per id, the two ids without `fixedRecord`, the pointer strings in
+   `status.source`).
+2. Status sources. Shared consts FB03_FAL_S32OP, FB50_SIMPL2025, FB50L_SIMPL2025, FB60_SIMPL2025,
+   FB65_SIMPL2025, FB70_SIMPL2025, FB75_SIMPL2025 and FD01_SIMPL2025, each the record's own row,
+   used by identity in evidence[] and in status.source. They replace the pointer strings
+   'evidence[1] (Fiori Apps Library, App FB03, release S32OP)' (FB03), 'evidence[3]' (FB50),
+   'evidence[0]' (FB50L), 'evidence[4] (simplification_item, item 6.1.13, 2025 FPS01)' (FB65),
+   'evidence[5]' (FB70), 'evidence[2]' (FB75) and 'evidence[1] (FD01_SIMPL2025, item 5.1.27 S4TWL
+   - Business Partner Approach)' (FD01, downgrade 0), and the FB60 copy, which was deep-equal to
+   its evidence[3]. Each status.release equals its source row's release.
+3. FB65 `sapNote` (writer correction; the auditor had not raised it). The draft set `sapNote:
+   "2865285"` on both item rows (help.sap.com PDF URLs, no repoRef); the rule engine reports
+   `sap-note-format` twice for that shape ('carries neither a me.sap.com/notes url nor a repoRef',
+   checked on the generated object before writing). The two fields were removed; the number stays
+   in the claim prose, as FB50, FB50L, FB60 and FB70 carry it, and the FB65 notes say why.
+4. FB50 notes (writer correction, see conflicts): the 2023 FPS03 list parenthetical.
+5. 'Only' words (writer correction, HOUSE-RULES §3.2). The FB60 round-one auditor ('אך ורק'), the
+   FB65 auditor ('בלבד') and the FB70 auditor ('אך ורק') removed exclusivity words from sentences
+   that describe what an item says. The same pattern stood in three places the FB03 and FB50L
+   audits did not flag: the FB03 notes ('שניהם מזכירים FB03 רק כערוץ תצוגה', 'המוזכר ברשומת המאגר
+   tx-intel.ts בלבד') and the FB50L notes ('שניהם עוסקים אך ורק בהסרת'). The word was dropped and
+   nothing else in those sentences changed. Left as written where the word describes the research
+   or the record's own use of a source ('לא רק כותרת', 'רק כהקשר מצוטט', 'נבדק רק דרך', 'FB50
+   בלבד' for a snippet that names FB50 and not FB50L, 'רק בחלופה BP' in the FD01 downgrade).
+6. FD01, beyond the seven downgrades: (a) notes: '(deliverable Hungary, loio
+   e1d2a810235c4f1dbd215011729d4d48, versionId 2025.001)' became '(deliverable Invoicing, ...;
+   אותו loio מופיע גם תחת deliverable Hungary)', following the auditor's finding that the search
+   record for the cited URL prints deliverable 'Invoicing' (downgrade 1 corrected only the row
+   title and claim); (b) notes: the sentence saying the Portugal and security-guide pages were not
+   included as evidence rows now says they did not serve as status evidence, that the Portugal
+   page is a carried context row (downgrade 6) and that the other page is not cited; (c)
+   evidence[6].claim: after downgrade 5 the audited tail ', אך אינה מהווה כשלעצמה מקור רשמי'
+   followed the new clause about the item and read as if it described the item, so the claim was
+   re-punctuated into three sentences ('... 'Business Partner Approach'. הרשומה תואמת את המסקנה רק
+   בחלופה BP; ... ולא ברשימת ה-obsolete. הרשומה אינה מהווה כשלעצמה מקור רשמי.') and the spaced
+   hyphen before 'תואמת' dropped, with the auditor's words kept; (d) a third generated row carried
+   beyond the two that downgrade 6 names: 'Settings in Customer/Vendor Master Data | Hungary'
+   (2025.001, deliverable path d266c51af49d463abcc0b6603fddd13c), the same loio as the conflicting
+   row under a different URL; by the shard rule (a row counts as cited when its URL or repoRef is)
+   it is not cited, and it backs the 'Hungary' wording that status.he and recommendedAction keep;
+   as a context row it lifts nothing; (e) the downgrade 2 sentence was appended after the claim's
+   last sentence.
+7. FB60: the carried-rows sentence in the notes quotes the carried rows' titles verbatim ('Title |
+   Deliverable'), because the round-one auditor objected to country labels in the FB60 notes; the
+   carried rows are verbatim generated rows.
+8. Content preservation. Rows of the generated records whose source the audited record does not
+   cite were carried over verbatim (`context: true`, access date 2026-09-24), 25 rows: FB03 7
+   (`tx-intel.ts#FB03`, `tcode-catalog.ts#FB03`; the search records 'Feature Comparison for
+   Managing G/L Journal Entries', 'Supplier Invoice in Finance' and 'Processing Assignments'
+   (SAP_ERP); the Fiori Apps Library rows for F2935 and F5236); FB50 4 (`tx-intel.ts#FB50`;
+   'Feature Comparison for Posting G/L Journal Entries'; 'Screen Variant' (Financial Operations,
+   2025.001); item 15.8); FB50L 3 (the two 'FI - Ledger group specific open item (tax line)
+   (Customer-specific)' Data Migration records; 'Replacement of Parallel Accounts' (SAP_ERP));
+   FB60 4 ('BAdI: ODN Based on Reporting Country for Invoices in Financial Accounting
+   (BADI_ODN_FI_PLANTS_ABROAD)'; the two 'Transactions Prepared for the Use of QR-Bills' records;
+   item 15.8); FB65 2 ('BAdI: Modify ODN Value and Legal Timestamp for Scenarios in Financial
+   Accounting (BADI_FI_AD_ODN_MODIFY)', 'Branch Code Assignments' (Thailand)); FB75 2 ('Branch
+   Code Assignments' (Thailand), 'Including Sub-Business Unit IDs of Government Agencies in B2G
+   Invoices' (Singapore)); FD01 3 (`tx-intel.ts#FD01`, 'Master Data in FI Outgoing Invoices and SD
+   Billing Documents' (Portugal), and the row in 6d). In the two Simplification List rows (FB50
+   and FB60, item 15.8) only the generator's frame sentence ('... טרם נקרא במחקר') was replaced,
+   by 'הפריט מובא כאן כהקשר ולא שימש מקור למעמד ברשומה זו.' (the batch 1 sentence), because both
+   records document that the item text was read. The three rows the FB70 fixedRecord carried are
+   deep-equal to their generated twins. Every other generated row shares its URL or repoRef (and
+   item number) with an audited row.
+9. Old → New lines and history (HOUSE-RULES §3.8). FB65 and FB75 lacked an explicit line; each now
+   names the derived status and tier measured before the write ('changed', `repository_verified`)
+   and the carried rows. FD01 got the downgrade 6 line verbatim plus a carried-rows sentence.
+   FB03, FB50, FB50L and FB60 already carried their history and got one sentence on the carried
+   rows; FB70 already carried both.
+10. Taken as audited, not normalized: release notation ('2025.001' for the FB03 and FB60 status,
+    '2025 FPS01' elsewhere); note-number padding (see conflicts); the 2026-09-25 access and
+    verification dates, although the research ran on 2026-09-28 (several notes say so); FB60's
+    'להמשיך להשתמש' (see conflicts); the SE93 check in the FB75 recommendedAction, a name the FB70
+    auditor removed from FB70's recommendedAction because no cited record prints it and the FB75
+    auditor left; scratchpad paths and line ranges inside notes and some claims; the FB03 notes'
+    mention of F3664, which the carried repository row backs and no official source read here does
+    (the notes say so); the en dash in 'Editing Options – Single-Screen Transaction' (SAP's title,
+    not an em dash); the spaced hyphens in the FD01 notes. No record carries `reviewer`, a
+    personal name or an e-mail address.
+11. No foundation-guard change: `transactions-d.ts` is in the graduated repoRef test in
+    `test/evidence-schema.test.ts`, and the FOUNDATION_RECORDS guard no longer exists.
+12. Both `report-coverage.mjs --ids` runs wrote to the scratchpad through `IDS_OUT`; nothing was
+    written to the repository root.
