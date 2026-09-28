@@ -169,6 +169,66 @@ transactions`): verified 667 → 675, verification_required 1133 → 1125, s4-ap
 bands (L1 1279, L2 2, L3 410, L4 4, L5 123), conflict 18, legacy 5 and edition 5 unchanged. No
 other per-id change in that window.
 
+Batch 4 written 2026-09-28 (research and adversarial audit 2026-09-28, access date stamped
+2026-09-25): 8 drafts audited, 8 written, none refuted. Seven are SAP Business Workflow codes that
+the item 'ABAPTWL - Change of authorization checks SAP Business Workflow' lists (from SAP_BASIS
+756 the S_PROGRAM check of the listed workflow transactions and reports is replaced by a check on
+S_WF_ADM with the fields WF_GROUP and ACTVT; the item names no removal and no successor):
+`tx:SWEL`, `tx:SWI5`, `tx:SWIA`, `tx:SWU2`, `tx:SWU3` and `tx:SWUD` are `changed`, and `tx:SWI1`
+is `simplified` (see the audit inconsistency below); `tx:SWU3` also cites 'ABAPTWL - Change of
+workflow system user and workflow system jobs' (SWU3 is where the runtime status shows after the
+switch to SAP_WFRT and the SAP_WORKFLOW jobs). `tx:BAPI` is `unchanged` from the 2025.001 page
+'BAPIs for the Transaction Manager' (Treasury and Risk Management), which names transaction BAPI
+and the BAPI Explorer; the 29 simplification items that print 'BAPI' use it for the interface
+technique or a function module name. All eight were taken from `verdict.fixedRecord` and
+generated from the audited JSON as in batches 1 to 3: every writer change applied as an
+exact-once replacement (a miss aborts), every row of the eight generated records checked to be
+cited by the written record or carried, the written module deep-compared with the expected
+objects, the 23 batch 1 to 3 records checked unchanged, and `status.source` checked for identity
+with its row. Every audited evidence row is kept unchanged and in order; no status token,
+edition, release, recommendedAction or xref of an audited record changed.
+
+Writer changes (also named in the file header): the `status.source` pointers ('evidence[4]',
+'evidence[3]', 'evidence[1]', 'evidence[3] (item 3.1.23 ...)'), the SWI5 and SWUD copies with a
+placeholder claim and the SWU2 and BAPI full copies replaced by shared consts, each the record's
+own row; in the SWIA status.he the 'only' wording removed ('השינוי הוא במודל ההרשאה בלבד',
+HOUSE-RULES §3.2), the clause that the S_WF_ADM fields enable a separation between display and
+change ('המאפשרים הפרדה בין תצוגה לשינוי') dropped, because the SWEL audit ruled that the item
+does not say so, and '(זהה ב-2023 FPS03 וב-2025 FPS01)' reworded to '(מופיע ברשימות 2023 FPS03
+ו-2025 FPS01)', because the SWI1 audit ruled that the two item texts match in substance, not word
+for word; the 'only' in the SWIA notes removed ('הפריט קובע שינוי אובייקט הרשאה בלבד'); the SWI1
+notes ('שני פריטי הפישוט (2025 FPS01 3.1.23, 2023 FPS03 2.31)') and the SWU3 notes ('נשען על
+פריט 3.1.23', 'פריט 3.1.17 מובא כראיה תומכת') name the items instead of bare numbers (§3.5); an
+Old → New line added to SWEL, which also keeps the generated record's Fiori Apps Library negative
+(S32OP: 0 apps with leading code SWEL); five rows of the generated records that the audited
+records left out carried over as context rows with their 2026-09-24 access date (SWEL: 'Using
+Event Traces', Integration Guide for Integration with SAP Marketing Cloud, 2025.001; SWI1:
+'Handling Errors in the Approval Request Process', SAP GRC Business Partner Screening for SAP
+HANA, 2025.latest, and 'Troubleshooting for Flexible Workflow', Statutory Reporting, 2025.001,
+which the SWI1 audit named as an omission; SWU2 and SWUD: the 2023 FPS03 row of 'ABAPTWL - Change
+of authorization checks SAP Business Workflow', whose 'not yet read' frame sentence was replaced,
+because the research read that item). The SWU3 fixedRecord already carried its three search rows
+and the BAPI fixedRecord its two item rows (5.1.5 and 5.1.14, frame sentence replaced by the
+audit); both were checked against the generated rows (verbatim, or the generated claim with
+exactly the frame sentence replaced). The notes sentences about the carried rows were reworded to
+match: SWEL ('2 מצוטטות' became '2 מצוטטות כראיה'), SWI1 ('לא צוטטו ברשומה' became 'שלא צוטטו
+כראיה'), SWU2 ('לא נוסף כשורת ראיה נפרדת' became a sentence saying the row was carried), and a
+carried-row sentence was added to each of the four. No record carries a `reviewer` field, a
+`sapNote` field, a personal name or an e-mail address, and none has an em dash. Kept as audited:
+the literal 'only' statements that describe research scope or page content rather than what a
+source means (SWI5 notes 'רק תקצירה בפריט'; SWIA notes 'ואינה מכילה SWIA, רק
+SWI1/SWI11/SWI13/SWI2_*/SWI5') and the SWI5 recommendation 'ולא להסתמך על S_PROGRAM בלבד'; the
+SWU3 `xrefs: []` (six records of this shard already carry one); the list of scanned items by
+number in the BAPI notes (a scan list, not a citation).
+
+Depth (`report-coverage.mjs --ids`, before 14:19 and after 14:30): all eight moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified` with an authored
+status (six `changed`, one `simplified`, one `unchanged`). They stay at L1 (no tx-intel /
+tx-detail page structure). Catalog totals (`npm run report:coverage -- --catalog transactions`):
+verified 685 → 693, verification_required 1113 → 1105, s4-appl 683 → 691; depth bands (L1 1279,
+L2 2, L3 401, L4 4, L5 132), conflict 20, legacy 5 and edition 5 unchanged. No other per-id change
+in that window.
+
 ## refuted
 
 - Batch 1 (audit 2026-09-25, written 2026-09-28): none refuted. All eight audited drafts
@@ -197,6 +257,9 @@ other per-id change in that window.
   Until then the generated record in transactions-auto.ts stays in effect (no authored status).
 - Batch 3 (audit 2026-09-28, written 2026-09-28): none refuted. All eight audited drafts
   (`tx:SICF`, `tx:SLG1`, `tx:SM01`, `tx:SM31`, `tx:SM36`, `tx:SM37`, `tx:SNOTE`, `tx:SNRO`)
+  were written.
+- Batch 4 (audit 2026-09-28, written 2026-09-28): none refuted. All eight audited drafts
+  (`tx:SWEL`, `tx:SWI1`, `tx:SWI5`, `tx:SWIA`, `tx:SWU2`, `tx:SWU3`, `tx:SWUD`, `tx:BAPI`)
   were written.
 
 ## conflicts
@@ -281,3 +344,22 @@ other per-id change in that window.
   literal location and count statements were kept, as was 'צד ECC נשען על מדריך אבטחה
   תעשייתי-ספציפי אחד (SAP Oil & Gas / SAP Mining) בלבד' in the SICF notes. What settles it: the
   same ruling asked for in batch 2.
+- Audit inconsistency on the status token (batch 4): seven records rest on the same item,
+  'ABAPTWL - Change of authorization checks SAP Business Workflow', and each audit approved its
+  own token, but `tx:SWI1` carries `simplified` (its audit noted the UI label 'פריט פישוט
+  (Simplification Item)') while `tx:SWEL`, `tx:SWI5`, `tx:SWIA`, `tx:SWU2`, `tx:SWU3` and
+  `tx:SWUD` carry `changed`. The writer kept each audited token. What settles it: one ruling on
+  the token for the codes this item lists, applied to all seven in a later correction batch.
+- Audit inconsistency on the wording of the same item (batch 4): (1) the SWI1 audit replaced
+  'תוכנו זהה' with 'תואם בעיקרו' for its 2023 FPS03 row, because that item prints note 2979517
+  (not 0002979517) and a different related-note description, while the SWIA fixedRecord keeps the
+  unscoped '(זהה בנוסחו)' in its 2023 FPS03 row and 'עם נוסח זהה' in its notes (the SWEL, SWU2
+  and SWU3 statements are scoped to one section or to the code and do not conflict); (2) the SWEL
+  audit removed the claim that S_WF_ADM enables a separation between display and change, as not
+  printed by the item, which the SWIA fixedRecord kept in its status.he; (3) the release stamp of
+  the same PDF rows differs: '2025.001' and '2023.003' (SWEL), '2025.001' (SWU2, SWUD), '2025
+  FPS01' and '2023 FPS03' (SWI1, SWI5, SWIA, SWU3), as it already does between batch 1 records.
+  The writer changed only the SWIA status.he, which had to change anyway (§3.2), and left the
+  audited evidence claims and notes as approved. What settles it: one ruling on each point,
+  applied in a later correction batch (wording and release format only; the tokens and the
+  evidence stand).
