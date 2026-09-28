@@ -319,7 +319,26 @@
    Solution-section range 'CO01-3, COR1-3 and KKBC_ORD' that the tx:COR1 and
    tx:CO01 audits verified word for word, since the range covers COR2; every
    new accessedAt / lastVerifiedAt is a DATE constant (DATE25; CO11N keeps
-   DATE3, as its auditor asked). */
+   DATE3, as its auditor asked).
+   Batch 21 (research + adversarial audit, written 2026-09-28; access date
+   stamped 2026-09-25): tx:ME22, refuted in batches 19 and 20 and re-drafted,
+   written from the draft with its auditor's downgrades applied (the verdict
+   carried no fixedRecord), superseding its 2026-09-02 record in place. Its
+   status source is the new shared ME22_SIMPL2025 const (ME21_SIMPL2025 spread
+   with its own claim, the ME23_SIMPL2025 form; its title, url, release and
+   date checked equal to the draft's row); DATE25 already existed and is
+   reused. The kept evidence rows stay as the file had them (U+200F marks
+   included) except the em dashes the draft replaced: the ME22_ENJOY claim
+   (a colon, as the verdict asked; the const serves tx:ME22 alone), the e27eb
+   'Changing, Canceling, and Blocking Purchase Orders (ME22)', 'SLS:
+   Constraints' and Non-Assigned Purchasing Functions claims (semicolons) and
+   the two repository titles (commas). Writer corrections: the verdict's
+   optional downgrade applied, status 'replaced' written 'simplified'
+   (successor tx:ME22N kept), so ME21, ME22 and ME23 carry one token for item
+   'S4TWL - Classic MM-PUR GUI Transactions replacement', and the notes
+   sentence on the status says so (Old → New); the status.he trimmed to two
+   sentences (the auditor's non-blocking note) by dropping its clause on
+   conflicting_sources, which the notes already carry. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -504,7 +523,7 @@ const ME22_ENJOY: Evidence = {
   accessedAt: DATE2,
   claim:
     "'The Enjoy purchase order (transactions ME21N, ME22N, ME23N) replaces the previous purchase order " +
-    "(transactions ME21, ME22, ME23)' — ‏ME22N נקובה כמחליפתה של ME22; הסניפט מוסיף שהטרנזקציות הקלאסיות עדיין " +
+    "(transactions ME21, ME22, ME23)': ‏ME22N נקובה כמחליפתה של ME22; הסניפט מוסיף שהטרנזקציות הקלאסיות עדיין " +
     "שמישות ('However, you can still use transactions ME21, ME22 and ME23').",
   verificationLevel: "sap_official_verified",
 };
@@ -2610,6 +2629,25 @@ const ME23_SIMPL2025: Evidence = {
     "ומחליפתה הספציפית (ME23N) נקובה בנפרד בעמוד Enjoy Purchase Order.",
 };
 
+/* batch 21 (2026-09-25 access date): the tx:ME22 status source; same document, item, fields and date as
+   ME21_SIMPL2025, its own claim */
+
+const ME22_SIMPL2025: Evidence = {
+  ...ME21_SIMPL2025,
+  claim:
+    "פריט 14.2.8 ברשימת הפישוט של SAP S/4HANA 2025 FPS01 (Application Component: MM-PUR-GF; הערת Business Impact " +
+    "0002267449 'Classic MM-PUR GUI Transactions replacement', כפי שהודפסה) מונה את ME22 בשמה בטבלה 'Transactions " +
+    "are NO longer supported in SAP S/4HANA on-premise edition', לצד ME21, ME23, ME24, ME25, ME27, ME28, ME51, " +
+    "ME52, ME53, ME54, ME59, MR01 ו-MR1M. ה-Description בלשונו: 'Classic SAP ERP Materials Management (MM) " +
+    "transactions and BAPIs for the business objects Purchase Order, Purchase Requisition, and Supplier Invoice " +
+    "have been replaced by the corresponding transactions and BAPIs made available with SAP R/3 Enterprise 4.70. " +
+    "With SAP S/4HANA, on-premise, these classic MM transactions and BAPIs are NO longer supported. The " +
+    "replacements that are available since SAP R/3 Enterprise 4.70 shall be used.' תחת Required and Recommended " +
+    "Action(s) מודפסות ההערות '1803189: FAQ: End of Support of ME21, ME51, and BAPI_PO_CREATE etc.' ו-'144081: " +
+    "Replacing MR01 / Functions of MR1M (Release 4.6)'; ההערות לא נקראו. הפריט אינו נוקב בטרנזקציה עוקבת ספציפית " +
+    "ל-ME22 ואינו קובע גרסת הסרה.",
+};
+
 export const TX_VERIFICATION: VerificationRecord[] = [
   /* ----------------------------------------------------- tx:MIGO */
   {
@@ -3987,6 +4025,27 @@ export const TX_VERIFICATION: VerificationRecord[] = [
     id: "tx:ME22",
     evidence: [
       ME22_ENJOY,
+      ME22_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (Document Version 1.35) · item 38.2 S4TWL - Classic MM-PUR GUI Transactions replacement (MM-PUR-GF), pp. 941-942",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט מופיע ברשימת הפישוט של SAP S/4HANA 2023 FPS03 כפריט 38.2 (Application Components: MM-PUR-GF; " +
+          "הערת Business Impact 2267449 'S4TWL - Classic MM-PUR GUI Transactions replacement', כפי שהודפסה). ME22 " +
+          "מנויה בעמ' 941 בטבלה 'Transactions are NO longer supported in SAP S/4HANA on-premise edition' (ME21, " +
+          "ME22, ME23, ME24, ME25, ובעמ' 942 ME27, ME28, ME51, ME52, ME53, ME54, ME59, MR01, MR1M), וה-Description " +
+          "זהה בנוסחו: 'With SAP S/4HANA, on-premise, these classic MM transactions and BAPIs are NO longer " +
+          "supported. The replacements that are available since SAP R/3 Enterprise 4.70 shall be used.' הפריט מפנה " +
+          "ל-SAP Notes 1803189 ו-144081 (כפי שהודפסו, לא נקראו). מעמדה של ME22 בפריט זהה במהדורת 2023 FPS03 " +
+          "ובמהדורת 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
       {
         sourceType: "sap_help",
         sourceTitle: "Changing a Purchase Order (ME22) | Sourcing and Procurement",
@@ -4009,8 +4068,8 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/e27eb65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
         accessedAt: DATE2,
         claim:
-          "קיים נושא ייעודי ל-ME22 בתיעוד S/4HANA הנוכחי ('You can change, cancel, and block purchase orders') " +
-          "— הטרנזקציה הקלאסית נותרת מתועדת.",
+          "קיים נושא ייעודי ל-ME22 בתיעוד S/4HANA הנוכחי ('You can change, cancel, and block purchase orders'); " +
+          "הטרנזקציה הקלאסית נותרת מתועדת.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -4022,7 +4081,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         url: SLS_CONSTRAINTS_URL,
         accessedAt: DATE2,
         claim:
-          "הזמנות רכש קיבוציות 'can only be edited using transactions ME22 and ME22N' — תרחיש ה-Retail " +
+          "הזמנות רכש קיבוציות 'can only be edited using transactions ME22 and ME22N'; תרחיש ה-Retail " +
           "ב-S/4HANA עדיין מתעד עבודה ב-ME22 לצד ME22N.",
         verificationLevel: "sap_official_verified",
       },
@@ -4037,7 +4096,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         claim:
           "התפקיד ששמו הטכני SAP_MM_PUR_ADDITIONAL_FUNC ‏('Non-Assigned Purchasing Functions', פעילויות נוספות " +
           "שאינן מכוסות בתפקידים אחרים) מכסה הזמנות רכש קונבנציונליות: Create Purchase Order‏ ME21, ‏Change " +
-          "Purchase Order‏ ME22 — הטרנזקציה הקלאסית קיימת אך מחוץ לפעילויות המשויכות הסטנדרטיות.",
+          "Purchase Order‏ ME22; הטרנזקציה הקלאסית קיימת אך מחוץ לפעילויות המשויכות הסטנדרטיות.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -4056,19 +4115,22 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       },
       {
         sourceType: "repository",
-        sourceTitle: "שכבת מחזור החיים של הפרויקט — רשומת ME22",
+        sourceTitle: "שכבת מחזור החיים של הפרויקט, רשומת ME22",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE2,
+        accessedAt: DATE25,
         claim:
-          "רשומת המאגר מסמנת את ME22 כ-Obsolete עם s4:false, חלופה ME22N, וטקסט הגירה 'הוסר' — טענת הזמינות " +
-          "(s4:false) סותרת את התיעוד הרשמי של 2025 FPS01 לעיל; טענת היורשת (ME22N) תואמת אותו.",
+          "רשומת המאגר, בנוסח שאחרי FIX-24, מסמנת את ME22 כ-Deprecated עם s4:false, חלופה ME22N, וטקסט הגירה המצטט " +
+          "את פריט הפישוט 'S4TWL - Classic MM-PUR GUI Transactions replacement' (2025 FPS01 14.2.8) ואת 'are NO " +
+          "longer supported' ב-S/4HANA On-Premise. טענת היורשת (ME22N) תואמת את דף Enjoy Purchase Order, וטקסט " +
+          "ההגירה תואם את פריט הפישוט לעיל; ערך s4:false תואם את הצהרת 'NO longer supported' בפריט הפישוט אך לא את " +
+          "נהלי ME22 המתועדים במהדורת 2025.001, ולכן אינו מוכרע כאן.",
         verificationLevel: "repository_verified",
         repoRef: "data/lifecycle.ts#ME22",
       },
       {
         sourceType: "repository",
-        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL) — רשומת ME22N",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL), רשומת ME22N",
         product: "SAP S/4HANA",
         edition: "on-premise",
         accessedAt: DATE2,
@@ -4080,36 +4142,50 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       },
     ],
     status: {
-      status: "replaced",
+      status: "simplified",
       successor: "tx:ME22N",
       edition: "on-premise",
-      release: "2025.001",
-      source: ME22_ENJOY,
+      release: "2025 FPS01",
+      source: ME22_SIMPL2025,
       he:
-        "ME22N ‏(Enjoy) מחליפה את ME22 לפי תיעוד SAP‏: 'ME21N, ME22N, ME23N replaces the previous purchase order " +
-        "(ME21, ME22, ME23)'. אין בתיעוד הרשמי עדות להסרתה: נהלי ME22 עדיין מתועדים ב-2025 FPS01, וב-Retail " +
-        "עריכת הזמנות קולקטיביות מתועדת כאפשרית רק ב-ME22 או ב-ME22N. הטרנזקציה הקלאסית משויכת לתפקיד " +
-        "SAP_MM_PUR_ADDITIONAL_FUNC (פונקציות רכש שאינן משויכות), ופריטים שמתוחזקים בה אינם נכללים " +
-        "ב-Organizational Change. לא נמצא בחיפושים שבוצעו מקור רשמי הקובע שהיא אינה זמינה.",
+        "פריט הפישוט S4TWL - Classic MM-PUR GUI Transactions replacement (14.2.8 ברשימת 2025 FPS01, 38.2 ברשימת " +
+        "2023 FPS03) מונה את ME22 בטבלה 'Transactions are NO longer supported in SAP S/4HANA on-premise edition' " +
+        "וקובע שהטרנזקציות הקלאסיות 'have been replaced'; הפריט אינו נוקב בעוקבת ספציפית, ודף Enjoy Purchase Order " +
+        "נוקב ב-ME22N כמחליפה. זוהי הצהרת תמיכה, ומולה עומדות הצהרת השמישות באותו דף Enjoy במהדורת 2025.001 ('you " +
+        "can still use transactions ME21, ME22 and ME23'), העריכה ב-ME22 או ב-ME22N המתועדת ב-SLS: Constraints, " +
+        "ונהלי ME22 שעדיין מתועדים ב-Sourcing and Procurement; יש לאמת במערכת היעד.",
       recommendedAction:
-        "לתקן את data/lifecycle.ts: לשנות s4 ל-true ולנסח 'הוחלפה ב-ME22N, עדיין זמינה ומתועדת ב-S/4HANA " +
-        "On-Premise' במקום 'הוסר' (מבוסס תיעוד רשמי; בדיקת Simplification Item עדיין פתוחה); להנחות משתמשים " +
-        "לעבוד ב-ME22N (או Manage Purchase Orders ב-Fiori) ולהשאיר את ME22 לתרחישי legacy/Retail בלבד. אותו " +
-        "תיקון נדרש ב-ME21 (אותו דפוס, data/lifecycle.ts#ME21).",
+        "רשומת data/lifecycle.ts#ME22 כבר תוקנה ב-FIX-24 (Deprecated, חלופה ME22N, טקסט הגירה המצטט את פריט הפישוט " +
+        "S4TWL - Classic MM-PUR GUI Transactions replacement במקום 'הוסר'), ואין לשנותה עוד על סמך רשומה זו. " +
+        "להנחות משתמשים לעבוד ב-ME22N. ערך s4 ברשומת המאגר יוכרע רק לאחר אימות: בדיקת ME22 במערכת S/4HANA היעד " +
+        "וקריאת SAP Note 1803189 בגישת S-user, כולל תרחיש ה-Retail של הזמנות קיבוציות המתועד ב-SLS: Constraints.",
     },
     xrefs: ["tx:ME21", "tx:ME22N", "tx:ME23"],
-    lastVerifiedAt: DATE2,
+    lastVerifiedAt: DATE25,
     notes:
-      "שיטה: scripts/sap-help-search.mjs על SAP_S4HANA_ON-PREMISE ‏('ME22 Change Purchase Order', ‏'Non-Assigned " +
-      "Purchasing Functions conventional purchase order') ורובד Tier-2 מהמאגר; כל הטענות הרשמיות תחומות בכותרות " +
-      "ובסניפטים של רשומות החיפוש, והמהדורה 2025.001 היא ה-versionId שהוחזר על כל רשומה. הסטטוס 'הוחלף' מותר כי " +
-      "עמוד רשמי (Enjoy Purchase Order) נוקב ב-ME21N/ME22N/ME23N כמחליפות; 'לא זמין' אינו נתמך — התיעוד הנוכחי " +
-      "עדיין מתעד נהלי ME22. מסקנת אי-ההסרה נשענת על ההצהרה הפונקציונלית של SLS: Constraints ‏('can only be " +
-      "edited using transactions ME22 and ME22N') ועל סניפט Further Details — לא על עצם קיום נוהל בתיעוד. נותר " +
-      "לא מאומת: פריט הפישוט / ה-SAP Note הפורמליים שמסווגים את מעמד ME22 ‏(SIC ו-me.sap.com/notes דורשים " +
-      "התחברות S-user לפי audit/s4-enrichment/MANIFEST.md) — לא צוטט מספר מסיבה זו. ‏accessedAt רוענן ל-2026-09-02, " +
-      "מועד ההרצה בפועל." +
-      " 2026-09-25: הרשומות במאגר (data/lifecycle.ts) תוקנו לפי FIX-24 (audit/ux-2026-09/SAP-FIXES.md, e7427842); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
+      "שיטה (2026-09-02): scripts/sap-help-search.mjs על SAP_S4HANA_ON-PREMISE ‏('ME22 Change Purchase Order', " +
+      "'Non-Assigned Purchasing Functions conventional purchase order') ורובד Tier-2 מהמאגר; טענות ה-sap_help " +
+      "תחומות בכותרות ובסניפטים של רשומות החיפוש, והמהדורה 2025.001 היא ה-versionId שהוחזר על כל רשומה. עדכון " +
+      "(2026-09-25): נוספו שתי שורות simplification_item המצטטות את רשימות הפישוט הרשמיות בקובצי ה-PDF: " +
+      "SIMPL_OP2025.pdf (Document Version 1.36, פריט 14.2.8, עמ' 1418-1419) ו-SIMPL_OP2023.pdf (Document Version " +
+      "1.35, פריט 38.2, עמ' 941-942); שתי הכתובות החזירו ב-2026-09-25 ‏HTTP 200 ‏application/pdf לבקשת HEAD, " +
+      "והטקסט נקרא מהחילוץ שב-scratchpad/official ‏(SIMPL_OP2025.pdf.txt סביב שורות 80431-80475, " +
+      "SIMPL_OP2023.pdf.txt סביב שורות 49376-49440). מספרי ה-SAP Notes ‏(2267449, 1803189, 144081) מובאים כפי " +
+      "שהודפסו בפריט ולא נקראו; 144081 עוסקת לפי כותרתה ב-MR01/MR1M ולא ב-ME22. גוף הדף Enjoy Purchase Order " +
+      "‏(loio 8082cf535b804808e10000000a174cb4, versionId 2025.001) נקרא במלואו ב-scripts/sap-help-body.mjs " +
+      "ב-2026-09-28, ובו 'However, you can still use transactions ME21, ME22 and ME23, and there are no functional " +
+      "limitations'; טענת שורת ה-Enjoy עצמה נשארת תחומה בסניפט. Old → New: הרשומה הקודמת קבעה 'replaced' על בסיס " +
+      "דף Enjoy Purchase Order בלבד, ציינה שפריט הפישוט וה-SAP Note המסווגים את ME22 לא אומתו (SIC ו-me.sap.com " +
+      "דורשים S-user), והמליצה לשנות s4 ל-true ולנסח 'עדיין זמינה'. כעת הסטטוס עודכן מ-'replaced' ל-'simplified' " +
+      "עם העוקבת ME22N, ומקורו פריט הפישוט ברשימת 2025 FPS01, הטיפול ש-tx:ME21 ו-tx:ME23 קיבלו לאותו פריט; פער " +
+      "'פריט הפישוט לא אומת' נסגר. שורת data/lifecycle.ts#ME22 תיארה קודם את הנוסח שלפני FIX-24 (Obsolete, טקסט " +
+      "הגירה 'הוסר', וסומנה כסותרת את התיעוד הרשמי); כעת היא מתארת את הנוסח הנוכחי (Deprecated, s4:false, חלופה " +
+      "ME22N, טקסט הגירה המצטט את פריט הפישוט), ו-recommendedAction אינו מבקש עוד לתקן את טקסט הרשומה. לא נבחר " +
+      "not_available: הפריט קובע 'NO longer supported' ואינו קובע אי-זמינות. מתח בין הצהרת התמיכה בפריט הפישוט " +
+      "לבין דף Enjoy, SLS: Constraints ‏('can only be edited using transactions ME22 and ME22N') ונהלי ME22 " +
+      "המתועדים ב-Sourcing and Procurement במהדורת 2025.001. זוהי הצהרת תמיכה מול נוכחות ושמישות בתיעוד, ולכן לא " +
+      "נרשם כ-conflicting_sources, כמו ב-tx:ME21 וב-tx:ME25. מה יכריע: בדיקת ME22 במערכת S/4HANA היעד וקריאת SAP " +
+      "Note 1803189 בגישת S-user. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* ------------------------------------------------------------ tx:ME23 */
