@@ -178,6 +178,45 @@ s4-appl +4, edition +2, depth bands and conflict unchanged. Measured totals: 13:
 L2 2, L3 414, L4 3, L5 120, verified 661, verif.req 1142, conflict 15, s4-appl 661, edition 5. A
 per-id diff of the two `--ids` runs shows no other id changed in that window.
 
+Batch 7 written 2026-09-28 (access date stamped 2026-09-25, as the chain's args set it; research and
+audit ran on 2026-09-28): 8 drafts audited, 8 written, none refuted, no new repository conflict. The
+eight are the BASIS spool, TemSe, modification-adjustment, workload-monitor and own-user-profile
+codes: `tx:SP02` (`unchanged`, the 2025 FPS01 help topic 'Allowance Wage Types', HCM Local Version
+for the United Arab Emirates, which tells the reader to run SP02), `tx:SP11` and `tx:SP12`
+(`unchanged`, the SAP Printing Guide topic 'Displaying and Managing TemSe Objects', 1709.latest,
+body read), `tx:SPDD` (`unchanged`, 'Installing Upgrades, Support Packages, and Enhancement
+Packages', Changing the SAP Standard, 1709.latest), `tx:ST03N` (`unchanged`, 'Troubleshooting
+Using Central Monitoring Functions', Connectivity, 1709.latest), `tx:SU3` (`unchanged`, 'User
+Management', SAP NetWeaver AS for ABAP Security Guide, 1709.latest, body read), `tx:SP01`
+(authored `verification_required`) and `tx:SPAU` (no status block: the items that name it use it
+as a tool, the batch-6 SCC4/SE06/SE16 precedent). Every Simplification List string 'SP01', 'SP02',
+'SP11' and 'SP12' that the index matched is a Support Package level, not the transaction. Six were
+taken from `verdict.fixedRecord` (`tx:SP01`, `tx:SP02`, `tx:SP11`, `tx:SP12`, `tx:SPAU`,
+`tx:SU3`); `tx:SPDD` was re-derived from the draft with its three listed downgrades, and
+`tx:ST03N` was taken from the draft (its verdict lists no problem and no downgrade). The audited
+JSON was parsed from the writer's task prompt as the session transcript records it, not retyped:
+every writer change was applied as an exact-once substring replacement (a miss aborts the run),
+every row of the eight generated records was checked to be either cited by the audited record (same
+URL or repoRef, plus the item number for Simplification List rows) or carried, apart from the
+Support Package false positives the audits dropped on purpose (writer deviations, item 4), and the
+written module was deep-compared against the expected objects, with `status.source` checked for
+identity with its evidence row and the 47 batch-1 to batch-6 records checked unchanged against HEAD.
+
+Depth (`report-coverage.mjs --ids`, before and after): all eight moved from L1
+`verification_required` to L1 `sap_official_verified`: `tx:SP02`, `tx:SP11`, `tx:SP12`,
+`tx:SPDD`, `tx:ST03N` and `tx:SU3` with the authored `unchanged`, `tx:SP01` with the authored
+`verification_required`, and `tx:SPAU` with the derived `verification_required`. All eight stay
+at depth L1: none has a tx-intel / tx-detail record, so the page structure (3 authored facts needed
+for L2) is missing. Batch effect on the catalog totals (`npm run report:coverage -- --catalog
+transactions`): verified +8, verification_required -8, s4-appl +6; depth bands, conflict and
+edition unchanged. Measured totals: 13:41 L1 1279, L2 2, L3 410, L4 4, L5 123, verified 667,
+verif.req 1133, conflict 18, s4-appl 668, edition 5, a table run that preceded chain E's batch-3
+write (its eight ids, SICF to SNRO, are already `sap_official_verified` in the `--ids` baseline
+half a minute later and account for verified +8 and s4-appl +5); the `--ids` baseline this batch is
+measured against: verified 675, verif.req 1125, s4-appl 673, depth bands as above; 13:54 L1 1279,
+L2 2, L3 410, L4 4, L5 123, verified 683, verif.req 1117, conflict 18, s4-appl 679, edition 5. A
+per-id diff of the two `--ids` runs shows no other id changed in that window.
+
 ## refuted
 
 - `tx:KSV5` (batch 1, 2026-09-25): refuted at the adversarial gate, not written; the generated
@@ -895,5 +934,75 @@ per-id diff of the two `--ids` runs shows no other id changed in that window.
    List reading beyond the local line checks in items 3, 6 and 7 and the SCC5 backup sentence ('To be
    on the safe side, keep a system backup from before deleting the data.', `SIMPL_OP2025.pdf.txt`
    lines 28558-28559), which the SCC5 recommendedAction paraphrases.
+10. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
+    test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 7, 2026-09-28)
+
+1. Where the audited JSON came from. Six entries carry a `verdict.fixedRecord` (SP01, SP02, SP11,
+   SP12, SPAU, SU3); SPDD and ST03N do not. The JSON was parsed from the writer's task prompt as the
+   session transcript records it (8 ids, none refuted), so nothing was retyped. SPDD: the draft with
+   the verdict's three downgrades applied as worded (status.he now 'הוספת שדות Append ו-Include
+   מ-MKPF/MSEG לטבלה MATDOC בהמרת מערכת, לפני הרצת תכנית המרת MM-IM'; 'S4TWL - Data Model Changes
+   in SD Pricing' now '(2023 FPS03 ו-2025 FPS01)'; the extended Old → New sentence, see item 3).
+   ST03N: the draft as audited.
+2. Status sources. Shared consts SP02_HELP2025, SP11_HELP1709, SP12_HELP1709, SPDD_HELP1709,
+   ST03N_HELP1709 and SU3_HELP1709, each the record's own row, used by identity in evidence[] and in
+   status.source. They replace the SP02 and SP11 pointer strings ('evidence[1]'), the SP12, SPDD and
+   ST03N copies (each checked deep-equal to its row before the swap) and the SU3 placeholder object
+   (claim '(same shared const as evidence[1])'; title, URL, release and level checked equal to its
+   row). SP01 keeps `source: null` with its authored `verification_required`; SPAU has no status.
+3. SPDD Old → New, a deviation from the verdict's wording. The verdict asked the notes to say that
+   the generated record's search record 'Adjustment Category: Without Modification Assistant' and its
+   row for 'S4TWL - Data Model Changes in SD Pricing' are not carried into the record. Under the house
+   content-preservation practice (every earlier batch, and the SP01 and SU3 verdicts of this batch)
+   both rows were carried over as context rows instead, together with the two other left-out
+   generated rows ('S4TWL - SD Simplified Data Models' and 'S4TWL - FS-RI - Ensuring the
+   functionality of the Extension Service', 2025 FPS01), and the Old → New sentence says so. The rest
+   of the verdict's sentence (the file the old record lives in, the two rows named with release and
+   loio) is kept as worded.
+4. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the item
+   number for Simplification List rows) the audited record does not cite were carried over
+   (`context: true`, access date 2026-09-24): SPAU (the search record 'Specifics for Adjusting
+   Repository Objects with Transaction SPAU' at 1709.latest and the 2023 FPS03 row for 'S4TWL -
+   Annexing Solution for Israel'; now evidence[4]-[5]); SPDD (the search record 'Adjustment Category:
+   Without Modification Assistant' at 1709.latest and the 2025 FPS01 rows for 'S4TWL - Data Model
+   Changes in SD Pricing', 'S4TWL - SD Simplified Data Models' and 'S4TWL - FS-RI - Ensuring the
+   functionality of the Extension Service'; evidence[4]-[7]); ST03N (the 2025 FPS01 rows for 'S4TWL -
+   Removal of obsolete Data Modeler (SD11) content', 'S4TWL - REPLACED TRANSACTION CODES AND PROGRAMS
+   IN FIN' and 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING'; evidence[5]-[7]). The
+   notes of all three say so. Not carried, as the audits decided: the rows whose matched string is a
+   Support Package level and not the transaction (SP01: the 'What's New in SAP S/4HANA 1909 FPS02'
+   search record, where the string is 'SAP_ABA 75E SP01', and items 3.1.5, 5.1.4 and 6.3.1; SP02:
+   items 3.1.5, 6.1.9 and 6.1.16; SP11: items 5.1.4 and 3.7). The SP01, SP02 and SP11 notes record
+   the dismissal. The SP12 and SU3 fixedRecords already carry every generated row.
+5. Frame sentences. In the seven carried item rows the generator's sentence 'הפריט מובא כאן כהקשר
+   בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר.' was replaced by
+   what holds, bounded by audited text of this batch: SPAU 42.3 by the SPAU fixedRecord's 2025 FPS01
+   row (same wording in 2023 FPS03, as its auditor confirmed); the SPDD 'SD Pricing' and 'SD
+   Simplified Data Models' rows by the draft notes (the SPDD mentions were cross-checked and no item
+   decides a change), which the auditor confirmed; the SPDD FS-RI row by the same item's quote in the
+   SPAU fixedRecord; the three ST03N rows by the ST03N draft notes, which quote each line and passed
+   the audit with no problem.
+6. ST03N item 6.5.13 title. The generator cut the title at the PDF line break ('S4TWL - PROFIT AND
+   LOSS PLANNING AND PROFIT CENTER'); it was completed to '... PROFIT CENTER PLANNING' in the
+   sourceTitle and the claim, as the audited ST03N draft names the item (status.he and notes). No
+   Simplification List text was read for it.
+7. Other writer edits. The empty SP12 `aliases: []` and the empty ST03N `xrefs: []` dropped (the
+   batch-3 CJ48 and batch-6 SE16 precedent); one SPAU notes phrase, '(כמו SCC4, SE06 ו-SE16 בשארד
+   זה)', became '(כמו ברשומות SCC4, SE06 ו-SE16)', since notes render publicly and 'shard' is pipeline
+   jargon. No fact changed.
+8. Kept as audited, not normalized: the 'רק' / 'בלבד' wording the auditors passed (SP02 status.he,
+   SU3 notes, the SPDD notes on the FS-RI item; the batch-6 precedent); release notation ('2025
+   FPS01' / '2023 FPS03' on Simplification List rows, versionIds on help rows); the ST03N evidence
+   order (help rows before the repository row); the repository paths in notes (scratchpad/official,
+   simpl-tcode-index.json), as in earlier batches; the verbatim SAP grammar in the SP01 'Checking
+   Space Usage in TemSe' quote ('It is display in the header data'); the TSP01 table name in the SP01
+   notes, which its auditor attributes to the search record 'Spool Consistency Check' (no URL in the
+   verdict, so no row was added). No record carries `reviewer`, a personal name or an e-mail address.
+9. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call and no Simplification
+   List reading. The xrefs were checked against `lib/route-manifest.generated.ts` (tcodes SP01,
+   SP02, SP11, SP12, SPAD, SPAM, SPAU, SPDD, SE95, SU01, PFCG, SU2; objects MKPF, MSEG) and the schema
+   test resolves them.
 10. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
     test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
