@@ -313,6 +313,58 @@ problems (35 practices); both `tsc` gates clean; `npm test` 211/211;
 (`report:coverage --catalog best-practices`): unchanged, total 35, L2 33, L5 2, verified 32, conflict
 3, s4-appl 2, edition 4 (the five records carry no authored status, so they stay at L2).
 
+Backfill 2026-09-28, catalog run 2 of 2 (same constant `DATE28`): 5 audited re-drafts, 5 replaced in
+place at their positions (`project-system-process`, `ewm-warehouse-process`,
+`ibp-ppds-integration-process`, `procure-to-pay-process`, `physical-inventory-process`), none
+refuted, so nothing was added under refuted. Added fields, as the item briefs named them:
+`process.kpis` on all five (5, 6, 5, 6 and 8 lines) and `process.migration` on procure-to-pay (9
+lines from items 5.1.27, 14.2.8, 14.2.6, 15.3.1, 6.1.4, 14.1.1, 14.1.2 and 14.2.5 of the 2025 FPS01
+list); evidence 38 → 47, 48 → 59, 42 → 50, 45 → 62 and 36 → 43; xrefs 45 → 46 on project-system
+(tx:CNE5, the verdict's optional item) and 44 → 56 on procure-to-pay (the draft's tx:BP, XK01, MK01,
+FK01, ME21, ME22, ME23, ME24, ME25, ME27, SPDD and PFCG). The audited drafts were taken from the
+workflow journal (the JSON of the writer's task) and compared field by field with the file before
+the edit, which inserted only: a load of the module afterwards equals the expected records, shows
+every old field, step, process line, xref and evidence row unchanged, and the eight other records
+unchanged in value and order. No removal. One old sentence edited, ordered by its verdict: the
+opening of the project-system notes now reads '... שגופם נקרא ב-sap-help-body בגרסה של 2026-09-24
+(2025.001, ...' (an insertion; the 6 pages read on 2026-09-28 are covered by its Old → New
+sentence). Downgrades applied, each replacement matched once: project-system kpis[0] ('והעמוד מגדיר
+את BCWS', so ACWP is not shown as part of the page's quoted field list), kpis[1] (CNE5 is one of the
+progress analysis reports the roles page lists, not 'the entry point'), kpis[4] (F2513 compares plan
+with actual and also displays baseline costs); EWM kpis[2] ends after the quoted sentence (the
+advice 'ב-On-Premise אין להסתמך עליהם' is gone); IBP kpis[4] (the measured forecast is a key figure
+named in the profile and may be the one sent as PIR) and its notes history sentence in the file's
+Old → New form; procure-to-pay migration[4] (the structure compatibility is created with extend
+views, not rebuilt) and migration[5] (the replacement happens in the add-on installation of SAP
+Simple Finance with SUM); physical inventory: the W0058 Fiori-library claim lists S36 (2602) and S37
+(2608) too, kpis[5] places the 'Physical Inventory Difference in Percent' filter in the page's Tip
+under Recipients, and the W0058 page row is titled 'Physical Inventory Analysis (App ID: W0058) |
+Inventory Management and Inventory (MM-IM)' to keep it apart from the process-page row. Optional
+verdict items: tx:CNE5 taken; the move of physical-inventory kpis line 8 into `process.controls` not
+taken, because the backfill adds only the fields its brief names and controls is not one of them
+(the line stays in kpis, where it says it is a criteria-based alert and not an aggregate measure).
+Writer deviations beyond the verdicts: (1) procure-to-pay reviewer: the draft replaced '...,
+2026-09-24' with '..., 2026-09-28'; the writer kept the old string and appended '; backfill
+(researcher + adversarial auditor), 2026-09-28', as on the other nine backfilled records; (2) file
+header: the kpis sentence now says the two backfill batches added kpis to the ten records that
+lacked them, a paragraph describes this batch, and the `DATE28` comment names the ten records. New
+rows are stamped `DATE28`, except the two CNE5 rows of project-system copied verbatim from
+`data/verification/transactions-auto.ts#tx:CNE5`, which keep `DATE` (2026-09-24). The writer ran no
+search, page-body or fal-app call. Open gaps the records keep: no target value for any measure; no
+ECC-side KPI for procure to pay, and none for physical inventory beyond the document statistics; the
+measure names of F5123, F5122 and F4969 are printed in no official source read; F9020, F6991, F2513,
+F7441, W0058, F4024, F5123, F5122 and F4969 are not in `data/fiori/apps.ts` and stay in prose; the
+SAP Note numbers printed inside the simplification items were not read; the old procure-to-pay row
+of item 15.3.1 (copied from `table:MKPF`) keeps sourceType 'sap_help' although it cites a
+Simplification List item (kept verbatim); IBP business roles stay undocumented. Gates:
+`scratchpad/validate-bp-file.mjs` prints 96 `dangling-xref` hits, all bp slugs registered in files
+its reduced universe does not load, the same list as before the write, and no other rule; the
+validator on the full registered universe prints 0 problems (35 practices); both `tsc` gates clean;
+`npm test` 211/211; `scratchpad/check-bp-repoRef.mjs` 524 repoRefs, none missing; no em dash.
+Coverage (`report:coverage --catalog best-practices`): total 35, L2 33 and L5 2 unchanged; verified
+32 → 31 and conflict 3 → 4, because project-system-process now carries the `conflicting_sources` row
+of the two EAC definitions (see conflicts); s4-appl 2 and edition 4 unchanged.
+
 ## refuted
 
 - `bp:breakdown-maintenance-process` (batch 1, 2026-09-24): refuted at the gate, not
@@ -870,3 +922,37 @@ problems (35 practices); both `tsc` gates clean; `npm test` 211/211;
   'Analyzing Maintenance Order Costs' (2025.001, loio 2ba9ba8c384a42bb9c243f5bd58b330a) speaks of the
   Actual Cost Analysis app. The researcher and the auditor treat it as a name difference; the record
   prints both names.
+- `bp:project-system-process`, EAC defined by two official pages (written as `conflicting_sources`
+  on the 'Progress Analysis Values' row in the 2026-09-28 backfill of
+  `data/best-practices/catalog-2026-09.ts`): 'Values in Progress Analysis' (S/4HANA 2025.001 and SAP
+  ERP 6.18.latest, loio 8103c453f57eb44ce10000000a174cb4, both bodies read, same text) defines EAC =
+  total planned costs / CPI, while 'Progress Analysis Values' (2025.001, loio
+  1ddfc353b677b44ce10000000a174cb4, body read) adds ETC = (BCWS - BCWP) / CPI and defines EAC = ACWP
+  + ETC. kpis[0] and kpis[2] keep both; the record's coverage level is now conflict. What would
+  settle it: the EAC column of the standard progress analysis report (CNE5) in the target system.
+- `bp:procure-to-pay-process`, ME28, repository against Simplification List (disclosed in
+  migration[2] and notes, no `conflicting_sources` row; 2026-09-28 backfill): step 5 and the
+  transactions line present ME28 as the collective PO release, after `data/tx-intel.ts#ME29N`, while
+  'S4TWL - Classic MM-PUR GUI Transactions replacement' (2025 FPS01, item 14.2.8) lists ME28 among
+  the transactions 'NO longer supported in SAP S/4HANA on-premise edition';
+  `data/verification/transactions-b.ts#tx:ME28` records status simplified, the Fiori Apps Library
+  marks ME28 'Deprecated' at S32OP, and the role SAP_MM_PUR_PO_RELEASE (2025 FPS01) still lists it.
+  The old lines were not rewritten (content preservation). What would settle it: ME28 in the target
+  S/4HANA system and SAP Note 1803189 (printed in the item, not read). Second item in the same
+  record: 'KPI: Purchase Requisition Average Approval Time' (2025.001, loio
+  70bbc8570c470e2be10000000a441470) names purchase requisitions in its title while its calculation
+  rule counts from shopping-cart creation to purchase-order creation; kpis[0] quotes the page as it
+  is. What would settle it: the app's implementation page (loio 8bfecf5794c2501de10000000a4450e5,
+  reported by the researcher, not read).
+- `bp:physical-inventory-process`, consuming app of the situation template
+  MAN_PHYSICAL_INVENTORY_MONITOR, official against official by release (disclosed in
+  integrationPoints[3] and notes, no `conflicting_sources` row; 2026-09-28 backfill): 'Physical
+  Inventory Monitoring' (2025.001, loio 725963824d3449c09c143d688e2c1b4f, body read) names Manage
+  Physical Inventory Documents as the consuming app, while the What's New page 'Physical Inventory -
+  Inventory Count and Adjustment (BML)' (2020.000, loio b96e1fbb26de4d87bce74ccd56621884) introduces
+  the template in 'Physical Inventory Document Overview'; no source read ties that name to F0379A.
+  What would settle it: the Fiori Apps Library entry of F0379A for the 2020 release, or the 2020 app
+  documentation. Related, not a contradiction: the record names scope items BML and OML (What's New
+  2020 and 2021), and the What's New 2023 page of Physical Inventory Analysis (loio
+  c8c4177b9a174c6fb34162ab1c9de444) adds 4LU; `process.reference` was not changed in the backfill
+  and the SAP Best Practices Explorer was not read.

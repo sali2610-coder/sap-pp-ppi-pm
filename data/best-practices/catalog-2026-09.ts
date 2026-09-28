@@ -10,11 +10,12 @@
    existing data/verification/*.ts entry; a quote from a page body was read
    through scripts/sap-help-body.mjs. Official sources that disagree stay side
    by side as conflicting_sources. A field no source documents is left out on
-   purpose (kpis in every record below except order-to-cash-process, whose kpis
-   come from the official Order-to-Cash Performance page,
-   embedded-analytics-process and breakdown-maintenance-process, whose kpis come
-   from the repository's domain records, and the five records of the
-   2026-09-28 backfill named below): the page renders the gap by name. Two
+   purpose: the page renders the gap by name. kpis were at first left out of
+   every record except order-to-cash-process, whose kpis come from the official
+   Order-to-Cash Performance page, and embedded-analytics-process and
+   breakdown-maintenance-process, whose kpis come from the repository's domain
+   records; the two 2026-09-28 backfill batches named below added them to the
+   ten other records from the official pages they cite. Two
    records carry an authored status (embedded-analytics-process,
    ibp-ppds-integration-process); its source is the same object as the official
    evidence row it names (EA_STATUS_SOURCE, PPDS_STATUS_SOURCE below).
@@ -39,7 +40,26 @@
    and are stamped DATE28, the day they were read. Earlier lines and rows are
    kept verbatim, except one notes sentence of period-end-closing-process that
    its verdict replaced; each record's notes carry the history (Old → New) and
-   its reviewer keeps the earlier string before the backfill's. */
+   its reviewer keeps the earlier string before the backfill's.
+
+   Backfill 2026-09-28, second batch (same roles, same rules):
+   project-system-process, ewm-warehouse-process, ibp-ppds-integration-process,
+   procure-to-pay-process and physical-inventory-process gain process.kpis, and
+   procure-to-pay-process also process.migration (items of the 2025 FPS01
+   Simplification List). The kpis lines record what official pages print
+   (project system: the progress analysis values and the Project Cost Overview
+   variance; EWM: the Warehouse KPIs - Operations app, the measurement services
+   and the Warehouse Cockpit; IBP and PP/DS: the Plan Monitor key figures,
+   Monitor Production Plan Performance and the IBP forecast error measures;
+   procure to pay: the procurement KPI apps, Invoice Processing Analysis and
+   Days Payable Outstanding; physical inventory: Physical Inventory Analysis,
+   the document statistics and the physical inventory monitoring situation) and
+   add no target value; a line that ties a measure to the process by inference
+   says so. New rows are stamped DATE28, except the two CNE5 rows of
+   project-system-process copied from data/verification/transactions-auto.ts,
+   which keep DATE. Earlier lines and rows are kept verbatim; the one earlier
+   sentence edited is the opening of the project-system-process notes, which its
+   verdict dates to the 2026-09-24 reading. */
 import type { BestPracticeLike } from "@/lib/evidence/types";
 
 const DATE = "2026-09-24";
@@ -65,7 +85,7 @@ const DATE_FI_23 = "2026-09-23"; // data/verification/fiori.ts DATE23 (Advanced 
 // batch 5: fiori:F1511A, fiori:F5241 and fiori:W0020)
 /** accessedAt of the rows the 2026-09-28 backfill read itself (page bodies, search records, Fiori Apps
  *  Library, the extracted Simplification List text, repository records) and lastVerifiedAt of the
- *  five backfilled records. */
+ *  ten backfilled records (both batches). */
 const DATE28 = "2026-09-28";
 
 /** Authored status sources: each is the same object as the official evidence row it names. */
@@ -6142,6 +6162,42 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
           "(loio 9d4c36eef8a941419716c377e4a564f3) נוקב בפריט ה-Scope ‏1NT 'Project Financial Control'; עמוד פריט " +
           "ה-Scope עצמו ב-SAP Best Practices Explorer לא נקרא.",
       },
+      kpis: [
+        {
+          he: "ECC ו-S/4HANA, ניתוח התקדמות (Progress Analysis): הדוחות התקניים מגדירים Planned POC ו-Actual POC " +
+            "באחוזים, והעמוד מגדיר את BCWS (Planned POC כפול העלות הכוללת), BCWP (Actual POC כפול העלות הכוללת), " +
+            "ACWP (עלויות שנצברו עד תאריך), סטיית לוח זמנים SV = BCWP - BCWS, סטיית עלות CV = BCWP - ACWP, מדד ערך " +
+            "CPI = BCWP / ACWP ו-EAC = total planned costs / CPI; הבסיס נקבע ב-Customizing של Project System: תכנון " +
+            "עלויות מאושר או התקציב (עמוד 'Values in Progress Analysis', SAP ERP 6.18.latest ו-S/4HANA 2025.001).",
+          xrefs: ["tx:CNE5"],
+        },
+        {
+          he: "הדוח CNE5 'Progress Analysis: Structure Overview' הוא אחד מדוחות ניתוח ההתקדמות שעמוד התפקידים " +
+            "'Progress Information System' (S/4HANA 2025.001) מונה בין פעילויות Project System, וספריית ה-Fiori " +
+            "רושמת אותו כאפליקציית SAP GUI ב-S32OP; לפי עמוד 'Progress Analysis' הערכים נקבעים בכל עת או כחלק מעבודת " +
+            "סגירת התקופה המתוכננת ב-Schedule Manager.",
+          xrefs: ["tx:CNE5", "bp:period-end-closing-process"],
+        },
+        {
+          he: "הגדרה חלופית במקור רשמי שני: עמוד 'Progress Analysis Values' (S/4HANA 2025.001) מוסיף ETC = (BCWS - " +
+            "BCWP) / CPI ומגדיר EAC = ACWP + ETC, בעוד שעמוד 'Values in Progress Analysis' מגדיר EAC = total planned " +
+            "costs / CPI; שתי ההגדרות נשמרות זו לצד זו (conflicting_sources), וההכרעה היא בדיקת עמודת EAC בדוח התקני " +
+            "במערכת היעד.",
+          xrefs: ["tx:CNE5"],
+        },
+        {
+          he: "S/4HANA: היישום האנליטי Project Cost Overview ‏(F6991, תפקיד Project Financial Controller) מציג " +
+            "בעמודה Variance את ההפרש בין עלויות קטגוריית התכנון לעלויות בפועל במטבע הגלובלי, מצטבר לפי היררכיית " +
+            "הפרויקט או לכל אובייקט הקצאת חשבון, כולל פקודות ייצור ופקודות תחזוקה עם הקצאת חשבון בכותרת; לפי עמוד " +
+            "היישום רק התחשבנויות משולחים חיצוניים נכללות, כדי להציג את עלות הפרויקט המלאה (S/4HANA 2025.001).",
+          xrefs: ["obj:maintenance-order", "obj:production-order", "table:ACDOCA"],
+        },
+        {
+          he: "S/4HANA, יישום קודם: Project Cost Report ‏(F2513, Deprecated) משווה עלות מתוכננת לעלות בפועל, מציג גם " +
+            "עלויות Baseline, ומחשב סטייה לפי אחת משתי קטגוריות תכנון; לפי עמוד היישום הוא אינו כולל עלויות של " +
+            "פקודות משויכות, והעמוד ממליץ לעבור ליישום Project Cost Overview (S/4HANA 2025.001).",
+        },
+      ],
     },
     xrefs: [
       "tx:CJ20N", "tx:CJ01", "tx:CJ02", "tx:CJ03", "tx:CJ06", "tx:CN21", "tx:CN22", "tx:CJ40", "tx:CJ30", "tx:CJ32",
@@ -6150,7 +6206,7 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "table:AFVC", "table:JEST", "table:COSP", "table:COSS", "table:COBRA", "table:COBRB", "table:ILOA",
       "table:ACDOCA", "fm:K_ORDER_SETTLEMENT", "fm:K_SETTLEMENT_RULE_READ", "obj:maintenance-order",
       "obj:production-order", "obj:planned-order", "bp:order-settlement-process", "bp:period-end-closing-process",
-      "bp:maintenance-order-process", "bp:production-order-process",
+      "bp:maintenance-order-process", "bp:production-order-process", "tx:CNE5",
     ],
     evidence: [
       {
@@ -6660,12 +6716,135 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book7.json#F6991",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Values in Progress Analysis | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/8103c453f57eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio 8103c453f57eb44ce10000000a174cb4, הגוף נקרא: 'The following fields are defined in the standard " +
+          "progress analysis reports: Planned POC in percent Actual POC in percent BCWS BCWP Cost variance (CV) " +
+          "Schedule variance (SV) Value index (CPI) Estimated costs at completion (EAC)'; 'SV = BCWP - BCWS', 'CV = " +
+          "BCWP - ACWP', 'CPI = BCWP /ACWP', 'EAC = total planned costs / CPI'; הבסיס: 'You use either an approved " +
+          "cost plan or the budget'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Values in Progress Analysis | Project System (PS)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/5ecdd9085d344e6693e65fc60c3b5b0f/8103c453f57eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE28,
+        claim: "loio 8103c453f57eb44ce10000000a174cb4 בסקופ SAP_ERP (SAP ERP 6.0 EHP8), הגוף נקרא: אותה רשימת שדות " +
+          "בדוחות ניתוח ההתקדמות התקניים (Planned POC, Actual POC, BCWS, BCWP, CV, SV, CPI, EAC) ואותן נוסחאות כמו " +
+          "בעמוד S/4HANA 2025.001.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Progress Analysis | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/73b7b6531de6b64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio 73b7b6531de6b64ce10000000a174cb4, הגוף נקרא: 'Progress analysis is the tool you use to " +
+          "determine planned and actual project progress values, and to compare the two sets of data'; 'You can " +
+          "determine the relevant values at any time or as part of the period-end closing work that you plan in the " +
+          "Schedule Manager'; שימוש פנימי 'to identify schedule and cost variances promptly'; טבלת שאלות ומדדים: " +
+          "Planned POC, BCWS, Actual POC, BCWP, ACWP, SV, CV, CPI ו-EAC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Progress Analysis Values | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/1ddfc353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio 1ddfc353b677b44ce10000000a174cb4, הגוף נקרא: מגדיר Planned POC, Actual POC, BCWS, BCWP, ACWP, " +
+          "SV ו-CV כמו העמוד 'Values in Progress Analysis', ומוסיף 'ETC = (BCWS - BCWP) / CPI' ו-'EAC = ACWP + ETC'; " +
+          "העמוד 'Values in Progress Analysis' (loio 8103c453f57eb44ce10000000a174cb4) מגדיר 'EAC = total planned " +
+          "costs / CPI'. שתי הגדרות רשמיות שונות ל-EAC; ההכרעה: עמודת EAC בדוח התקני במערכת היעד.",
+        verificationLevel: "conflicting_sources",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Project Cost Overview | Project System (PS) (Key Features, Variance Calculation)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/1448cfa991784030b1a4a39f425cfd1c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio 1448cfa991784030b1a4a39f425cfd1c, הגוף נקרא שוב: 'Display variances of planned and actual costs " +
+          "in global currency'; 'The differences between the planned category costs and the actual costs (in global " +
+          "currencies) are displayed in the column Variance'; בתצוגה המצטברת 'The variance is also displayed in an " +
+          "aggregated way'; 'Only the settlements from external senders are considered in the overview'; תנאי: תפקיד " +
+          "Project Financial Controller.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Project Cost Report (Deprecated) | Project System (PS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4dd8cb7b1c484b4b93af84d00f60fdb8/e0ef91efe26d4a27be7df2a53d8302b3.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio e0ef91efe26d4a27be7df2a53d8302b3, הגוף נקרא: 'monitor project costs by comparing plan costs " +
+          "with actual costs'; 'Configure two cost planning categories and use one category for calculation of " +
+          "variance'; 'This app does not consider costs of assigned orders'; 'We recommend that you switch to the " +
+          "successor app Project Cost Overview as soon as possible'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CNE5",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim: "רשומת המאגר מתארת את CNE5 כ'ניתוח התקדמות' (Progress Analysis), מודול PS.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CNE5",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Progress Information System | Single and Composite Roles (PFCG)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/1106b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE,
+        claim: "רשומת החיפוש הרשמית (Single and Composite Roles (PFCG), 2025 FPS01 (Feb 2026), versionId 2025.001, " +
+          "loio 1106b753128eb44ce10000000a174cb4) נוקבת בקוד CNE5 בסניפט: 'Activities in the Project System " +
+          "Transaction Function CNE5 Progress Analysis: Structure Overview S_ALR_87015124 Progress Analysis: Project " +
+          "Hierarchy ...'. (אומת ברשומת tx:CNE5)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App CNE5 'Progress Analysis - Structure Overview' (SAP GUI), release " +
+          "S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CNE5')/S32OP",
+        accessedAt: DATE,
+        claim: "ספריית האפליקציות הרשמית של Fiori רושמת את CNE5 כאפליקציה 'Progress Analysis - Structure Overview' " +
+          "מסוג SAP GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. (אומת ברשומת tx:CNE5)",
+        verificationLevel: "sap_official_verified",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
-    notes: "רשומת תהליך: מבוססת על רשומות המאגר הנקובות, על 15 עמודי help.sap.com שגופם נקרא ב-sap-help-body " +
-      "(2025.001, 2023.001 ו-2020.000; העמוד 'PM - Maintenance order' נשען על תקציר החיפוש בלבד), על ספריית " +
-      "ה-Fiori (fal-app, S32OP) ועל רשימת הפישוט 2025 FPS01. חיפושים שרצו (scripts/sap-help-search.mjs, " +
+    lastVerifiedAt: DATE28,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24; backfill (researcher + adversarial auditor), 2026-09-28",
+    notes: "רשומת תהליך: מבוססת על רשומות המאגר הנקובות, על 15 עמודי help.sap.com שגופם נקרא ב-sap-help-body בגרסה " +
+      "של 2026-09-24 (2025.001, 2023.001 ו-2020.000; העמוד 'PM - Maintenance order' נשען על תקציר החיפוש בלבד), על " +
+      "ספריית ה-Fiori (fal-app, S32OP) ועל רשימת הפישוט 2025 FPS01. חיפושים שרצו (scripts/sap-help-search.mjs, " +
       "2026-09-24): 'Project Financial Control', 'Project Logistics Control', 'Project System structures " +
       "project definition WBS element network', 'availability control budget project WBS', 'settlement WBS " +
       "element project settlement rule', 'orders assigned to WBS element maintenance order project', " +
@@ -6677,7 +6856,20 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "BAPI_BUS2001_GET_STATUS) לא אותרו בחיפוש רשמי ונשארים לאימות ב-SE37. PROJ, ‏PRPS, ‏RPSCO, ‏BPGE, ‏BPJA " +
       "ו-ACDOCP אינן במילון הפרויקט; אין ביישומי ה-Fiori של המאגר יישום PS ולכן אין קישורי fiori:, ואין תצוגת " +
       "CDS של PS במאגר. KPIs לא נרשמו: אף מקור אינו מגדיר מדד לתהליך. עמוד פריט ה-Scope ‏1NT לא נקרא. לא בוצעה " +
-      "בדיקה במערכת SAP חיה.",
+      "בדיקה במערכת SAP חיה." +
+      " עדכון 2026-09-28 (Old → New): Old: 'KPIs לא נרשמו: אף מקור אינו מגדיר מדד לתהליך'. New: process.kpis (5 " +
+      "שורות) נשען על העמודים הרשמיים 'Values in Progress Analysis' (S/4HANA 2025.001 ו-SAP ERP 6.18.latest), " +
+      "'Progress Analysis', 'Progress Analysis Values', 'Project Cost Overview' ו-'Project Cost Report (Deprecated)' " +
+      "(2025.001), שגופם נקרא דרך sap-help-body, ועל רשומת tx:CNE5 (tcode-catalog, עמוד התפקידים 'Progress " +
+      "Information System' וספריית ה-Fiori, שהועתקו כלשונם מ-data/verification/transactions-auto.ts, accessedAt " +
+      "2026-09-24). נוספו 9 שורות ראיה; שאר הרשומה הועתק כלשונו. חיפושים (help.sap.com, 2026-09-28, 21 רשומות כל " +
+      "אחד): 'Project Cost Overview', 'Project Budget Report', 'key figures project information system', 'Project " +
+      "Cost Report', 'Monitor Projects', 'budget utilization project', 'project variance plan actual', 'Overall " +
+      "Project Cost variance KPI', ו-'Values in Progress Analysis' בסקופ SAP_ERP. סתירה פתוחה: שני עמודים רשמיים " +
+      "מגדירים EAC בשתי נוסחאות (total planned costs / CPI לעומת ACWP + ETC); שתיהן נשמרות, וההכרעה היא בדיקת הדוח " +
+      "התקני במערכת היעד. אלה מדדים שהמסמכים מגדירים, בלי ערך יעד; עמודי Commercial Project Management ו-BI Content " +
+      "('Project KPI' ועוד) שעלו בחיפוש שייכים לרכיב אחר ולא שימשו. F6991 ו-F2513 אינם בקטלוג ה-Fiori של הפרויקט " +
+      "ומופיעים בפרוזה בלבד.",
   },
   /* =========================================================== ewm warehouse */
   {
@@ -6959,6 +7151,53 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         {
           he: "ניטור שוטף של עבודה פתוחה ותורים במוניטור המחסן.",
           xrefs: ["tx:/SCWM/MON"],
+        },
+      ],
+      kpis: [
+        {
+          he: "Warehouse KPIs - Operations ‏(F4024, דף סקירה אנליטי ב-Fiori elements; תפקיד " +
+            "SAP_BR_WAREHOUSE_CLERK_EWM, קטלוג SAP_SCM_BC_EWM_MON, OData‏ /SCWM/WAREHOUSE_KPIS_SRV לפי ספריית " +
+            "ה-Fiori ‏S32OP), תיעוד EWM ‏2025 FPS01, מדדי היציאה: מספר פריטי הזמנת מסירה יוצאת (ODO) לפי סטטוס " +
+            "ניפוק; פריטים ללא ניפוק לפי Ship-To Party ולפי מועד ניפוק מתוכנן; פריטים באיחור ללא ניפוק לפי Ship-To " +
+            "Party; פריטים חסומים, פריטים ללא משימות ליקוט ופריטים עם שיוך גל לא שלם, כל אלה לפי מועד ניפוק מתוכנן; " +
+            "ופריטים עם ניפוק לפי מועד ניפוק בפועל. מסנני הכרטיסים: מחסן, סוג תהליך מחסן, סוג ODO, תאריך יצירת ODO " +
+            "ותאריכי ניפוק מתוכנן ובפועל.",
+        },
+        {
+          he: "באותו יישום, מדדי משימות והזמנות מחסן: מספר משימות המחסן הפתוחות לפי Activity Area, לפי זמן איחור " +
+            "בשעות, לפי קטגוריית תהליך מחסן ולפי סוג תהליך מחסן; משימות ליקוט פתוחות ומשימות אחסון פתוחות לפי " +
+            "Activity Area; הזמנות מחסן פתוחות והזמנות מחסן מאושרות לפי Queue. המסננים: Activity Area, סוג תהליך " +
+            "מחסן ותאריכי יצירה, אישור וסגירה מתוכננת של המשימה (ולהזמנת המחסן: יצירה, אישור ו-Latest Start). " +
+            "מהכרטיסים ומדוחות ה-Drill-Down מנווטים ל-Process Warehouse Tasks - Picking ‏(F3880), ל-Putaway ‏(F4150) " +
+            "ול-Run Outbound Process.",
+        },
+        {
+          he: "מדדי עומס עבודה חזוי באותו יישום (משך ב-FTE, משקל, נפח, צריכת קיבולת ומספר פריטים, עם Drill-Down לפי " +
+            "Activity Area ושלב תהליך): לפי העמוד הם תקפים ללקוחות SAP S/4HANA Cloud Private Edition, והעמוד קובע " +
+            "'The EWM customers on SAP S/4HANA cannot access this functionality'.",
+        },
+        {
+          he: "יישומי ניתוח מסוג SAP Smart Business generic drill down ו-Overview Page, לפי ספריית ה-Fiori ‏(S32OP, " +
+            "קטלוג SAP_SCM_BC_EWM_MON, תפקיד SAP_BR_WAREHOUSE_CLERK_EWM): Analyze Warehouse Task ‏(F5123, מ-2021), " +
+            "Analyzer Warehouse Order ‏(F5122, מ-2021) ו-Warehouse Outbound Delivery Orders ‏(F4969, מ-2020), על " +
+            "שירותי OData‏ C_EWM_WAREHOUSETASKQ_2_CDS, ‏C_EWM_WAREHOUSEORDERQ_2_CDS ו-C_EWM_OUTBDELIVORDADJQ_2_CDS. " +
+            "לפי ספר 7 בספריית הפרויקט F5122 מציג לעומק את ה-KPIs של משימות המחסן, עם סינון לפי Queue, ‏Activity " +
+            "Area וסטטוס הזמנת המחסן; שמות המדדים עצמם ביישומים אלה אינם מודפסים במקור רשמי שנקרא.",
+        },
+        {
+          he: "Measurement Services (תיעוד EWM ‏2025 FPS01): מדדי מחסן שהלקוח מגדיר על בסיס Basic Measurement " +
+            "Services ‏(BMS) של SAP, כ-Tailored ‏(TMS) וכ-Calculated ‏(CMS) Measurement Services, ומריץ בתוכנית " +
+            "Start Measurement Services. דוגמאות העמוד: מסירות יוצאות שיצאו מהמחסן באיחור, מסמכי ספירה פתוחים ישנים " +
+            "מ-5 ימים, מספר ה-HU בקבלה, והזמנות מחסן לעובד (BMS 'Number of Warehouse Orders' חלקי 'Number of " +
+            "Processors'). לכל מדד ספים עליון ותחתון וקודי חריגה שמפעילים Workflow או Alert; התוצאות משמשות את " +
+            "מוניטור המחסן, את Labor Management, את ה-Warehouse Cockpit ואת תוכן ה-BI‏ 0WM.",
+          xrefs: ["tx:/SCWM/MON"],
+        },
+        {
+          he: "Warehouse Cockpit ועמוד Analytics (תיעוד EWM ‏2025 FPS01): ה-Cockpit מציג גרפית את ה-Measurement " +
+            "Services ואת האובייקטים באיחור (משימות מחסן, הזמנות מחסן וגלים באיחור) וסדרות זמן של משימות והזמנות " +
+            "מחסן, וחריגה מספי המדד מפעילה חריגה לפי קודי החריגה ב-Customizing. תוכן ה-BI של EWM כולל בין השאר את " +
+            "מקורות הנתונים 0WM_WT, ‏0WM_WO, ‏0WM_DLVI_IN, ‏0WM_DLVI_OUT, ‏0WM_EWL ו-0WM_MS_RESULT.",
         },
       ],
       eccToS4: [
@@ -7657,9 +7896,158 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book6.json#9.2",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Warehouse KPIs - Operations | Extended Warehouse Management (EWM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/9576ccb7c6b44c16afc20c3df7a28101.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 9576ccb7c6b44c16afc20c3df7a28101) מונה את ה-KPIs של היישום: מספרי פריטי ODO לפי " +
+          "סטטוס ניפוק, ללא ניפוק, באיחור, חסומים, ללא משימות ליקוט ועם שיוך גל לא שלם; משימות מחסן פתוחות לפי " +
+          "Activity Area, זמן איחור, קטגוריית תהליך וסוג תהליך; משימות ליקוט ואחסון פתוחות; הזמנות מחסן פתוחות " +
+          "ומאושרות לפי Queue; ומדדי עומס חזוי, שלפי העמוד תקפים ל-SAP S/4HANA Cloud Private Edition ('The EWM " +
+          "customers on SAP S/4HANA cannot access this functionality').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F4024 'Warehouse KPIs - Operations' (Analytical / SAP Fiori elements: " +
+          "Overview Page), release S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4024')/S32OP",
+        accessedAt: DATE28,
+        claim: "ספריית היישומים (S32OP) רושמת את F4024 בתפקיד SAP_BR_WAREHOUSE_CLERK_EWM, בקטלוג SAP_SCM_BC_EWM_MON " +
+          "'EWM - Monitoring', רכיב SCM-EWM-FIO, עם OData‏ /SCWM/WAREHOUSE_KPIS_SRV ושירותי C_EWM_*_CDS, בלי " +
+          "טרנזקציה מובילה; זמין מ-1909 (S15OP) ועד 2025 FPS01, On-Premise ו-Private Cloud.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F5123 'Analyze Warehouse Task' (Analytical / SAP Smart Business " +
+          "generic drill down app), release S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5123')/S32OP",
+        accessedAt: DATE28,
+        claim: "ספריית היישומים (S32OP) רושמת את F5123 בתפקיד SAP_BR_WAREHOUSE_CLERK_EWM, בקטלוג SAP_SCM_BC_EWM_MON, " +
+          "עם OData‏ /SSB/SMART_BUSINESS_RUNTIME_SRV ו-C_EWM_WAREHOUSETASKQ_2_CDS; זמין מ-2021 (S21OP).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F5122 'Analyzer Warehouse Order' (Analytical / SAP Fiori elements: " +
+          "Overview Page), release S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5122')/S32OP",
+        accessedAt: DATE28,
+        claim: "ספריית היישומים (S32OP) רושמת את F5122 בתפקיד SAP_BR_WAREHOUSE_CLERK_EWM, בקטלוג SAP_SCM_BC_EWM_MON, " +
+          "עם OData‏ /SSB/SMART_BUSINESS_RUNTIME_SRV ו-C_EWM_WAREHOUSEORDERQ_2_CDS; זמין מ-2021 (S21OP).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F4969 'Warehouse Outbound Delivery Orders' (Analytical / SAP Smart " +
+          "Business generic drill down app), release S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4969')/S32OP",
+        accessedAt: DATE28,
+        claim: "ספריית היישומים (S32OP) רושמת את F4969 בתפקיד SAP_BR_WAREHOUSE_CLERK_EWM, בקטלוג SAP_SCM_BC_EWM_MON, " +
+          "עם OData‏ /SSB/SMART_BUSINESS_RUNTIME_SRV ו-C_EWM_OUTBDELIVORDADJQ_2_CDS; זמין מ-2020 (S18OP).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Measurement Services | Extended Warehouse Management (EWM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/80cacb53ad377114e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 80cacb53ad377114e10000000a174cb4): 'You use this function to define your own " +
+          "warehouse key figures supported by the system'; מדדים מוגדרים כ-TMS ו-CMS על בסיס BMS ומורצים בתוכנית " +
+          "Start Measurement Services; דוגמאות: מסירות יוצאות שיצאו באיחור, מסמכי ספירה פתוחים ישנים מ-5 ימים, מספר " +
+          "HU בקבלה, הזמנות מחסן לעובד; ספים, קודי חריגה, Workflow ו-Alert; שימוש במוניטור המחסן, ב-Labor " +
+          "Management, ב-Warehouse Cockpit ובתוכן BI‏ 0WM.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Warehouse Cockpit | Extended Warehouse Management (EWM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/7dcacb53ad377114e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 7dcacb53ad377114e10000000a174cb4): ה-Cockpit מציג גרפית מדדי מחסן ואובייקטי Easy " +
+          "Graphics Framework; האובייקטים המסופקים: Measurement Services, אובייקטי MFS, משימות מחסן, הזמנות מחסן " +
+          "וגלים באיחור, וסדרות זמן של משימות והזמנות מחסן; חריגה מספי המדד מפעילה חריגה לפי Define Exception Codes.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Analytics | Extended Warehouse Management (EWM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/4faad6375b7b4b27e10000000a42189b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 4faad6375b7b4b27e10000000a42189b): 'You use Analytics to measure and optimize " +
+          "business processes'; מרכיבים: BI Content ו-BI Content Extensions (למשל Warehouse Performance Dashboard), " +
+          "מקורות נתונים 0WM_* (בהם 0WM_WT, ‏0WM_WO, ‏0WM_DLVI_IN, ‏0WM_DLVI_OUT, ‏0WM_EWL, ‏0WM_MS_RESULT), Easy " +
+          "Graphics Framework, Measurement Services שמחשבים KPIs למחסן, ו-Warehouse Management Monitor.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Warehouse KPIs - Operations | What's New in SAP S/4HANA 1909",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1909.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/c65363fb0bb2431e8eb72726767db9ba.html?locale=en-US&state=PRODUCTION&version=1909.000",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio c65363fb0bb2431e8eb72726767db9ba): היישום חדש ב-SAP S/4HANA 1909, רכיב SCM-EWM-FIO, " +
+          "ו-'Scope Item Not applicable'; היישום מציג כרטיסי KPI לפקיד המחסן, למשל מספר משימות המחסן הפתוחות לתאריך " +
+          "הנוכחי.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 7 בספריית הפרויקט (SAP Fiori Apps for SAP S/4HANA: The Quick Reference Guide), פרק 4 " +
+          "'Inventory and Warehouse Management', סעיף F4024 'Warehouse KPIs – Operations'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim: "הסעיף מתאר את F4024 כיישום אנליטי לפקיד המחסן עם כרטיסי ODO (לפי סטטוס ניפוק, ללא ניפוק, ללא משימות " +
+          "ליקוט) ומשימות מחסן פתוחות (לפי סוג תהליך, Activity Area, איחור בשעות) וניווט ל-F1704, ‏F3880 ו-F4150; " +
+          "הפניית קריאה בלבד.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book7.json#F4024",
+      },
+      {
+        sourceType: "sap_press_book",
+        sourceTitle: "ספר 7 בספריית הפרויקט (SAP Fiori Apps for SAP S/4HANA: The Quick Reference Guide), פרק 4 " +
+          "'Inventory and Warehouse Management', סעיף F5122 'Analyzer Warehouse Order'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim: "הסעיף קובע ש-'Warehouse tasks have specific KPIs assigned to them' ושהיישום מציג אותם לעומק עם " +
+          "Drill-Down, בסינון לפי Queue, מחסן, הזמנת מחסן, Activity Area וסטטוס; יישום לפקיד המחסן מ-SAP S/4HANA " +
+          "2021. הפניית קריאה בלבד.",
+        verificationLevel: "supported_secondary_source",
+        repoRef: "data/books/book7.json#F5122",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    lastVerifiedAt: DATE28,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24; backfill (researcher + adversarial auditor), 2026-09-28",
     notes: "רשומת תהליך: נבנתה מעמודי תיעוד EWM ו-EWM Integration לגרסת 2025 FPS01 שגופם נקרא (Warehouse Request, " +
       "Goods Receipt, Creation of Warehouse Tasks for Putaway, Goods Issue, Warehouse Order, Outbound " +
       "Processing, EWM Integration, Advanced Production Integration, Outbound Delivery Process), מפריטי רשימת " +
@@ -7670,7 +8058,19 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "ברשומות What's New ולא נבדק דף ה-Best Practices שלהם. מדדי KPI לא תועדו במקורות ולכן הושמטו. הדרישה " +
       "ל-LOG_LE_INTEGRATION מובאת כלשון עמוד EWM Integration, והתחולה שלה על EWM מוטמע דורשת אימות במערכת. בשלב " +
       "הכתיבה (2026-09-24) נקראו גם גופי העמודים P3 ו-'Direct Transfer Migration Approach for EWM in SAP " +
-      "S/4HANA', ו-F4150 נקרא בספריית ה-Fiori (S32OP). לא בוצעה בדיקה במערכת SAP חיה.",
+      "S/4HANA', ו-F4150 נקרא בספריית ה-Fiori (S32OP). לא בוצעה בדיקה במערכת SAP חיה." +
+      " New (2026-09-28): נוסף process.kpis (6 שורות) מעמודי help.sap.com רשמיים (2025.001) שגופם נקרא דרך " +
+      "scripts/sap-help-body.mjs: Warehouse KPIs - Operations, ‏Measurement Services, ‏Warehouse Cockpit " +
+      "ו-Analytics, ומעמוד What's New 1909 של Warehouse KPIs - Operations, לצד ספריית ה-Fiori (S32OP) ל-F4024, " +
+      "‏F5123, ‏F5122 ו-F4969 ולצד ספר 7; המשפט 'מדדי KPI לא תועדו במקורות ולכן הושמטו' נכון לנוסח 2026-09-24. " +
+      "F4024, ‏F5123, ‏F5122 ו-F4969 אינם ב-data/fiori/apps.ts ולכן אין xref fiori:. חיפושים " +
+      "(scripts/sap-help-search.mjs, SAP_S4HANA_ON-PREMISE): 'Warehouse KPIs - Operations', 'Analyze Warehouse " +
+      "Task', 'Analyzer Warehouse Order KPI', 'Warehouse Outbound Delivery Orders analytical', 'EWM measurement " +
+      "services warehouse monitor'. שמות המדדים ב-F5123, ‏F5122 ו-F4969 אינם מודפסים במקור רשמי שנקרא (אין קישור " +
+      "תיעוד בספריית ה-Fiori), ולכן השורה מתארת את היישומים ולא מדדים. מדדי העומס החזוי ב-F4024 מתועדים כתקפים " +
+      "ל-Private Edition בלבד לפי העמוד. מדדי Labor Management לא נחקרו ואינם נרשמים. קוד טרנזקציה ל-Warehouse " +
+      "Cockpit ולתוכנית Start Measurement Services אינו מודפס בעמודים שנקראו ואינו נרשם. עמוד What's New 1909 מדפיס " +
+      "'Scope Item Not applicable' ליישום. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   /* ====================================================== embedded analytics */
   {
@@ -9099,6 +9499,50 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
             "PP/DS Restricted').",
         },
       ],
+      kpis: [
+        {
+          he: "S/4HANA 2025 FPS01, צד PP/DS: היישום האנליטי F9020 Monitor Production Plan Performance (תפקיד " +
+            "SAP_BR_PRODN_PLNR_APS, רכיב SCM-APO-PPS-ANA) מציג שישה מדדי קיבולת משאב: Resource Idle Time, ‏Resource " +
+            "Load, ‏Resource Production Time, ‏Resource Setup Time ו-Resource Capacity (בשעות), ו-Capacity " +
+            "Utilization (%). לפי עמוד What's New היישום גוזר את ההקשר מסשן ה-PP/DS הפעיל והמדדים מחושבים על סשן " +
+            "הסימולציה הנוכחי, כך שהמתכנן בוחן את השפעת שינויי התכנון, התזמון והאופטימיזציה בזמן העבודה (עמוד What's " +
+            "New 2025 FPS01 וספריית ה-Fiori, S32OP; F9020 אינו בקטלוג ה-Fiori של הפרויקט).",
+          xrefs: ["obj:work-center"],
+        },
+        {
+          he: "S/4HANA, צד PP/DS: לפי עמוד 'Plan Monitor' (2025 FPS01) ה-Plan Monitor קובע את איכות מצב התכנון " +
+            "הנוכחי, משווה גרסאות תכנון וסימולציה ומשווה תקופות, ומעריך את ה-key figures שהוגדרו כ-key figure " +
+            "variants ב-key figure schema עם ניקוד (scores) לפי כללי חישוב או צבירה סטנדרטית. מדדי המשאב לפי 'Key " +
+            "Figures for Resources' (2025 FPS01): Resource capacity, ‏Resource load, ‏Resource free time, ‏Resource " +
+            "production time, ‏Resource setup time, משך פעולות ברוטו ונטו (סכום וממוצע), מספר פעולות לפי מצב " +
+            "(started, deallocated, fixed, released, confirmed, partially confirmed) וכמות פחת מאושרת של מוצר הפלט " +
+            "הראשי.",
+          xrefs: ["obj:work-center"],
+        },
+        {
+          he: "S/4HANA, צד PP/DS, עמידה במועדים לאורך קשרי pegging לפי 'Key Figures for Order Assignment' (2025 " +
+            "FPS01): Number of backward edges (delays), ‏Number of forward edges, ‏Total delays, ‏Maximum delay, " +
+            "‏Quantity lateness, ‏On-time quantity, ‏Sum time buffer ו-Quantity time buffer; לפי העמוד Maximum delay " +
+            "מעריך רק עיכובים שיש להם alert לפי ההגדרה ב-product master.",
+          xrefs: ["obj:planned-order", "obj:production-order"],
+        },
+        {
+          he: "S/4HANA, צד PP/DS, זמני הזמנה ל-location product לפי 'Key Figures for Order Times' (2023.latest; " +
+            "תוצאות החיפוש הציגו את העמוד בגרסה זו בלבד): lead time, ‏production time, ‏WIP time, ‏wait time, ‏lay " +
+            "time ו-setup time, כל אחד כסכום (Product) או כממוצע (Order) להזמנות שה-main output product שלהן הוא " +
+            "ה-location product.",
+          xrefs: ["obj:planned-order", "obj:production-order"],
+        },
+        {
+          he: "SAP IBP (ענן ציבורי, 2608), צד תכנון הביקוש: לפי עמוד 'Error Measures in the Manage Forecast Error " +
+            "Calculations App', ‏Forecast Accuracy הוא ההופכי של MAPE או WMAPE לפי הבחירה (MAPE של 30% הוא דיוק " +
+            "תחזית של 70%), לצד MPE, ‏MAPE, ‏MAD, ‏WMAPE ו-Calculated Bias (נטיית התחזית להיות גבוהה או נמוכה מדי). " +
+            "לפי עמוד 'Forecast Error Calculations in Demand Planning' המדדים מנטרים את התחזית בפועל (תחזית " +
+            "האלגוריתם בתוספת שינויים ידניים) מול המכירות בפועל ומשמשים להגדרת יעדי דיוק לסוגי מוצרים. הקשר לתהליך " +
+            "הוא הסקה של המחקר: התחזית שנמדדת היא key figure שמוגדר בפרופיל החישוב, והיא עשויה להיות התחזית שהתהליך " +
+            "מעביר ל-S/4HANA כ-PIR; העמודים אינם מזכירים את האינטגרציה.",
+        },
+      ],
       eccToS4: [
         {
           he: "ECC: PP-DS היה רכיב נפרד ב-SCM/APO שחובר ב-CIF למערכת ה-ERP (data/ecc-s4.ts#pp-ds). S/4HANA: PP/DS מוטמע " +
@@ -9863,9 +10307,138 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book10.json#6.3.1",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Monitor Production Plan Performance | What's New in SAP S/4HANA and SAP S/4HANA Cloud Private " +
+          "Edition 2025 FPS01",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/8928e12b5f9948109f715d5d97c799d1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 8928e12b5f9948109f715d5d97c799d1, ‏2025.001, נקרא דרך scripts/sap-help-body.mjs " +
+          "ב-2026-09-28): 'The Monitor Production Plan Performance application provides production planners with " +
+          "real time visibility into key performance indicators (KPIs) relevant to production planning'; 'The app " +
+          "automatically derives its operational context from the active PP/DS application session'; 'six key " +
+          "performance indicators for resource capacity related KPIs': Resource Idle Time (Hours), Resource Load " +
+          "(Hours), Resource Production Time (Hours), Resource Setup Time (Hours), Resource Capacity (Hours), " +
+          "Capacity Utilization (%); 'App ID: F9020', רכיב SCM-APO-PPS-ANA, 'Valid as Of 2025 FPS01', ‏'Scope Item " +
+          "Not applicable'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F9020 'Monitor Production Plan Performance', release S32OP (S/4HANA " +
+          "2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F9020')/S32OP",
+        accessedAt: DATE28,
+        claim: "ספריית ה-Fiori (scripts/fal-app.mjs F9020, ‏2026-09-28) רושמת את F9020 'Monitor Production Plan " +
+          "Performance', ‏Analytical / SAP Fiori (SAPUI5), ‏Published, רכיב SCM-APO-PPS-ANA (Analytics in PP/DS), " +
+          "תפקיד SAP_BR_PRODN_PLNR_APS (Production Planner - Advanced Planning), קטלוג עסקי " +
+          "SAP_SCM_BC_APS_PROD_PLNG, קבוצת שירות OData V4 UI_SCM_PPDSPRODUCTIONPLANKPIS, בלי טרנזקציית GUI מובילה, " +
+          "בגרסאות S32OP ו-S32PCE (2025 FPS01).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Plan Monitor | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/f64fc95360267614e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio f64fc95360267614e10000000a174cb4, ‏2025.001, נקרא דרך sap-help-body ב-2026-09-28): " +
+          "ה-Plan Monitor משמש ל-'Determine the quality of the current planning situation', להשוואת גרסאות תכנון " +
+          "וסימולציה ולהשוואת תקופות; 'The plan monitor evaluates the key figures for a plan in relation to specific " +
+          "objects, versions and periods, and assigns scores to the results', עם כללי חישוב משלך או צבירות סטנדרטיות " +
+          "(sum, mean value).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Key Figures for Resources | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/ea4fc95360267614e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio ea4fc95360267614e10000000a174cb4, ‏2025.001, נקרא דרך sap-help-body ב-2026-09-28) " +
+          "מונה את מדדי ה-Plan Monitor מסוג Resource: Number of operations (כולל לפי started, deallocated, fixed, " +
+          "released, confirmed, partially confirmed), Resource capacity ('Total time in which the resources are " +
+          "available'), Resource load ('Total time in which the resources are occupied'), Resource free time, " +
+          "Resource production time, Resource setup time, משכי פעולה ברוטו ונטו (סכום וממוצע), ו-Confirmed operation " +
+          "scrap quantity / Confirmed scrap quantity.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Key Figures for Order Assignment | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/0b50c95360267614e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 0b50c95360267614e10000000a174cb4, ‏2025.001, נקרא דרך sap-help-body ב-2026-09-28): " +
+          "מדדי Plan Monitor להזמנות הקשורות ב-pegging relationship: Number of backward edges (delays), Number of " +
+          "forward edges, Total delays, Sum time buffer, Quantity lateness, On-time quantity, Quantity time buffer " +
+          "ו-Maximum delay; 'Only those delays will be evaluated that have an alert corresponding to the definition " +
+          "in the product master'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Key Figures for Order Times | Production Planning and Detailed Scheduling (PP/DS)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f899ce30af9044299d573ea30b533f1c/0e50c95360267614e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 0e50c95360267614e10000000a174cb4, ‏2023.latest, נקרא דרך sap-help-body " +
+          "ב-2026-09-28): 'Key figures in the Plan Monitor that are related to order durations for specific location " +
+          "products': Product/Order lead time, Product/Order production time, Product/Order WIP time, Product/Order " +
+          "wait time, Product/Order lay time ו-Product/Order setup time, כסכום (Product) או כממוצע (Order) להזמנות " +
+          "שה-main output product שלהן הוא אחד מה-location products.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Forecast Error Calculations in Demand Planning | SAP Integrated Business Planning",
+        product: "SAP Integrated Business Planning",
+        edition: "public-cloud",
+        release: "2608",
+        url: "https://help.sap.com/docs/SAP_INTEGRATED_BUSINESS_PLANNING/1a63df8166d448d3b286fecb01077b07/aa55779bf47d4845a0d9c613f4db3e4f.html?locale=en-US&state=PRODUCTION&version=2608",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio aa55779bf47d4845a0d9c613f4db3e4f, SAP IBP 2608, נקרא דרך sap-help-body " +
+          "ב-2026-09-28): 'Forecast error calculations help you gain insight into the forecasting accuracy of the " +
+          "planning areas in your responsibility'; מתכנן הביקוש יכול 'Calculate forecast accuracy at any aggregate " +
+          "planning level' ו-'Define appropriate forecast accuracy goals for various types of products'; המדדים " +
+          "ביישום Manage Forecast Error Calculations - Demand Planning נועדו 'To monitor the accuracy of the actual " +
+          "forecast', כלומר תחזית האלגוריתם בתוספת השינויים הידניים, מול נתוני המכירות בפועל; החישוב רץ כ-Forecast " +
+          "Error Calculation job.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Error Measures in the Manage Forecast Error Calculations App | Integrated Business Planning " +
+          "Based on I_SAPIBP2",
+        product: "SAP Integrated Business Planning",
+        edition: "public-cloud",
+        release: "2608",
+        url: "https://help.sap.com/docs/SAP_INTEGRATED_BUSINESS_PLANNING/c1fb60cb1e9c49d99ada277ae57e9e6c/1820bd572801bb38e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2608",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 1820bd572801bb38e10000000a44147b, SAP IBP 2608, נקרא דרך sap-help-body ב-2026-09-28) " +
+          "מונה את מדדי השגיאה ביישום Manage Forecast Error Calculations - Demand Planning: MPE, MAPE, MSE, RMSE, " +
+          "MAD, MASE, WMAPE, TE, SPEC, TAE ועוד; 'Forecast Accuracy The inverse of forecast error measure MAPE or " +
+          "WMAPE, depending on your choice. If, for example, the MAPE value is 30%, then the forecast accuracy is " +
+          "70%'; ‏'Calculated Bias The tendency of forecasts to be too high or too low'.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    lastVerifiedAt: DATE28,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24; backfill (researcher + adversarial auditor), 2026-09-28",
     notes: "רשומת תהליך. הזרימה נגזרת מעמודי help.sap.com של PP/DS ושל SAP IBP שנקראו במלואם ב-2026-09-24 דרך " +
       "scripts/sap-help-body.mjs (למעט 'Deleting Master Data', שנשען על סניפט בלבד; גוף העמוד 'Production " +
       "Planning and Detailed Scheduling (PP/DS) | LO' נקרא בשלב הכתיבה, 2026-09-24), מפריטי הפישוט 9.5.1 " +
@@ -9889,7 +10462,26 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "תועדו. Scope Item לא אותר (עמוד 'Best Practice - Demand Planning (7JF)' נמצא אך שייך ל-Service Parts " +
       "Planning, SCM-APO-SPP, ולכן לא נרשם). שילוב IBP מבוסס הזמנות (OBP/RTI) מוזכר ברמת עמוד 'Data Integration " +
       "Using Core Interface for RTI' בלבד; העמודים 'Production Planning Integration Based on Orders' לא נקראו. " +
-      "לא בוצעה בדיקה במערכת SAP חיה.",
+      "לא בוצעה בדיקה במערכת SAP חיה." +
+      " עדכון 2026-09-28 (Old → New): המשפט \"kpis הושמט: אף מקור שנקרא אינו מגדיר מדד לתהליך\" לעיל נכון לנוסח " +
+      "2026-09-24; כעת process.kpis מבוסס על עמודי PP/DS 'Plan Monitor', 'Key Figures for Resources', 'Key Figures " +
+      "for Order Assignment' (2025.001) ו-'Key Figures for Order Times' (2023.latest), על עמוד What's New 'Monitor " +
+      "Production Plan Performance' (2025.001) ועל ספריית ה-Fiori ל-F9020 (S32OP), ועל עמודי SAP IBP 2608 'Forecast " +
+      "Error Calculations in Demand Planning' ו-'Error Measures in the Manage Forecast Error Calculations App'; כל " +
+      "הגופים נקראו דרך scripts/sap-help-body.mjs. חיפושים שרצו ב-2026-09-28 (scripts/sap-help-search.mjs, ‏21 " +
+      "רשומות כל אחד, SAP_S4HANA_ON-PREMISE אלא אם צוין): 'PP/DS key figures evaluation', 'PP/DS alert monitor', " +
+      "'capacity utilization PP/DS resource', 'PP/DS optimizer objective function', 'Plan Monitor key figure " +
+      "schema', 'Monitor Capacity Utilization app PP/DS', 'Key Figures for Order Times Plan Monitor', 'Key Figures " +
+      "for Resources Plan Monitor', 'Key Figures for Pegging Relationships', ו-'forecast error measures MAPE' בסקופ " +
+      "SAP_INTEGRATED_BUSINESS_PLANNING. המדדים הם מדדי הערכה שהמסמכים מגדירים; אף מקור לא מגדיר ערך יעד, ולכן לא " +
+      "נרשם יעד. שיוך ה-orders בעמודי ה-Plan Monitor ל-obj:planned-order ו-obj:production-order, ושיוך המשאבים " +
+      "ל-obj:work-center דרך המיפוי Work centers→resources, הם הסקה של המחקר. קישור מדדי דיוק התחזית של IBP לתהליך " +
+      "האינטגרציה הוא הסקה: העמודים אינם מזכירים את העברת ה-PIR. לא נרשמו: יישום Monitor Capacity Utilization (עמודי " +
+      "What's New 1610 ו-100 הופיעו בחיפוש בלבד, גוף לא נקרא), 'Resource Utilization Chart', 'Key Figures for " +
+      "Stocks' (סניפט בלבד), ‏'Objective Function' של ה-PP/DS Optimizer (קריטריוני אופטימיזציה ולא מדדי ביצוע), " +
+      "ועמוד IBP 'Forecast Error Measures' (loio 32c42ccaf908426d9a32060de0dfedde) שנקרא אך שייך ל-Forecast Error " +
+      "Profiles בהקשר תכנון מלאי. F9020 אינו בקטלוג ה-Fiori של הפרויקט ומופיע בפרוזה בלבד. לא נבדקו מדדים בצד " +
+      "ECC/APO. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   /* ================================================ breakdown maintenance */
   {
@@ -11753,6 +12345,42 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
           xrefs: ["fm:BAPI_GOODSMVT_CREATE"],
         },
       ],
+      kpis: [
+        {
+          he: "אישור דרישה, S/4HANA 2025 FPS01 (KPI: Purchase Requisition Average Approval Time): לפי גוף העמוד, " +
+            "ממוצע הימים מיצירת shopping cart ועד יצירת הזמנת רכש, מהשנה הקודמת ועד היום, בארבעה מדדים לפי טווח ערך " +
+            "(Days Low-Cost, Days Medium-Cost, Days Hi-Cost, ו-Days V Hi-Cost כמדד הראשי); KPI מסוג minimizing, " +
+            "drill down לפי ספק, קבוצת חומרים, קבוצת רכש וארגון רכש.",
+        },
+        {
+          he: "אישור הזמנה, S/4HANA 2025 FPS01 (Purchase Order Average Approval Time, App ID F7441; אינו בקטלוג " +
+            "ה-Fiori של הפרויקט): 'Average Approval Time = Total time taken for creating the purchase orders / " +
+            "number of purchase order items', מהשנה הקודמת ועד היום; תצוגות לפי ספק, קבוצת חומרים, קבוצת רכש, ארגון " +
+            "רכש וקוד חברה; KPI מסוג Minimizing.",
+        },
+        {
+          he: "מעקב אספקה, S/4HANA 2025 FPS01 (KPI: Overdue Purchase Order Items): מספר פריטי הזמנת רכש שתאריך " +
+            "האספקה שלהם עבר ומספר הפריטים שטרם סופקו; drill down לפי ספק, מפעל, קבוצת רכש, קטגוריית רכש וקבוצת " +
+            "חומרים; פרמטר: תקופת הערכה בימים; KPI מסוג minimizing.",
+        },
+        {
+          he: "זמן אספקה, S/4HANA 2025 FPS01 (KPI: Purchase Order Average Delivery Time Weighted (In Days)): זמן " +
+            "האספקה הממוצע של הזמנות לספקים, לפי זמני האספקה הקודמים של הזמנות הרכש; drill down לפי ספק, קבוצת " +
+            "חומרים, מפעל וקטגוריית רכש; KPI מסוג minimizing.",
+        },
+        {
+          he: "חשבוניות, S/4HANA 2025 FPS01 (Invoice Processing Analysis, מעל CDS C_APINVOICEPROCGANALYSIS): סך סכום " +
+            "החשבוניות שנרשמו ומספר שורות הפריט, לפי חודש, ספק, משתמש וסטטוס עיבוד: Free for Payment (פריט פתוח ללא " +
+            "חסימת תשלום), Cleared, Blocked (פריט פתוח עם חסימת תשלום) ו-Parked. העמוד אינו מגדיר ערך יעד.",
+        },
+        {
+          he: "תשלום, S/4HANA 2025 FPS01 (Days Payable Outstanding, מעל CDS C_APDAYSPAYOUTST; KPI ID " +
+            ".SAP.AP.DPOKPI): לכל חודש, סכום המכפלות של סכום כל חשבונית ששולמה במספר הימים בין תאריך הרישום לתאריך " +
+            "הקיזוז שלה, חלקי סך סכום החשבוניות האלה; באריח ה-DPO של החודשים ה-12, ה-11 וה-10 לפני החודש הנוכחי, " +
+            "ובראש האפליקציה 365 הימים האחרונים; drill down לפי קוד חברה, ספק ומדינת הספק. ערכי היעד והסף בעמוד " +
+            "התצורה מוצגים כדוגמה.",
+        },
+      ],
       eccToS4: [
         {
           he: "S/4HANA, לפי רשומות tx-intel: ME51N, ME21N, MIGO ו-MIRO זמינות ב-S/4HANA; ME51 ו-ME21 הישנות " +
@@ -11820,6 +12448,74 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
           xrefs: ["tx:F110", "tx:FBL1N", "table:ACDOCA"],
         },
       ],
+      migration: [
+        {
+          he: "ספקים, לפי 'S4TWL - Business Partner Approach' (2025 FPS01, 5.1.27): בדיקות ה-pre-check וההמרה עצמה " +
+            "בודקות ש-Customer Vendor Integration (CVI) הוכנס במלואו, ו-'A system where the CVI is not in place will " +
+            "be declined for the transition'. ב-S/4HANA הספק שהתהליך רוכש ממנו ומשלם לו מתוחזק דרך Business Partner, " +
+            "ו-XK01, MK01 ו-FK01 מנותבות ל-BP.",
+          xrefs: ["tx:BP", "tx:XK01", "tx:MK01", "tx:FK01"],
+        },
+        {
+          he: "צעדי ההכנה ב-ECC לפי אותו פריט: Conversion Pre-Checks, הפעלת Business Function CA_BP_SOA, בדיקת " +
+            "customizing של CVI (BP Role Category, Number Assignments), בדיקת עקביות נתוני האב " +
+            "ב-CVI_MIGRATION_PRECHK וניקוי נתוני הספקים; סנכרון דרך Synchronization Cockpit (MDS_LOAD_COCKPIT); אחרי " +
+            "ההמרה הפעלת post processing בכיוון Business Partner אל Customer/Vendor.",
+          xrefs: ["tx:BP"],
+        },
+        {
+          he: "טרנזקציות ו-BAPIs קלאסיים, לפי 'S4TWL - Classic MM-PUR GUI Transactions replacement' (2025 FPS01, " +
+            "14.2.8): ב-S/4HANA On-Premise הטרנזקציות ME21, ME22, ME23, ME24, ME25, ME27, ME28, ME51, ME52, ME53, " +
+            "ME54, ME59, MR01 ו-MR1M וה-BAPIs BAPI_PO_CREATE, BAPI_REQUISITION_CREATE ו-BAPI_PO_GETDETAIL 'are NO " +
+            "longer supported', ויש להשתמש בחלופות הזמינות מאז SAP R/3 Enterprise 4.70. הפריט מציין " +
+            "ש-BAPI_PO_GETDETAIL1 עשויה לצרוך יותר זמן, ומציע BAdI ME_BAPI_PO_CUST (method TEXT_OUTPUT) כשאין צורך " +
+            "בטקסטים. ME28, המוצגת בשלב 5 לפי רשומת tx-intel, מנויה בפריט; רשומת האימות tx:ME28 מסמנת אותה simplified.",
+          xrefs: ["tx:ME21", "tx:ME22", "tx:ME23", "tx:ME24", "tx:ME25", "tx:ME27", "tx:ME28"],
+        },
+        {
+          he: "פלט הזמנת רכש, לפי 'S4TWL - Output Management Adoption in Purchase Order' (2025 FPS01, 14.2.6): " +
+            "ב-S/4HANA פועל Output Management חדש מבוסס BRF+ ו-Adobe Forms, ו-NAST עדיין נתמך להזמנות חדשות; הבחירה " +
+            "ב-'Manage Activation of Object Type' (החל מ-OP1809), ושדרוג אינו משנה את הבחירה הקודמת. לפי הפריט, בלי " +
+            "תצורת לקוח לפתרון החדש 'it will not be possible to print purchase orders or to send purchase orders via " +
+            "e-mail or XML'. הערוצים בפתרון החדש: PRINT, EMAIL, XML ו-IDOC.",
+        },
+        {
+          he: "מסמכי חומר של הקבלה, לפי 'S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)' (2025 FPS01, 15.3.1, " +
+            "עמ' 1463-1465): שדות לקוח ב-APPEND או INCLUDE על MKPF ו-MSEG מוספים ל-MATDOC בשלב ACT_UPG ‏(SPDD), לפני " +
+            "שתוכנית ההמרה של MM-IM מעבירה את הנתונים מ-MKPF ו-MSEG ל-MATDOC, אחרת נתוני השדות אובדים; CI_COBL " +
+            "ב-MSEG דורש את הערה 2240878 לפני תחילת הגירת הנתונים; תאימות המבנה בין MKPF/MSEG ל-proxy view שלהן " +
+            "נוצרת מיד אחרי ההמרה באמצעות extend views (הערה 2242679); תצוגות לקוח על MKPF/MSEG מוסבות ל-MATDOC.",
+          xrefs: [
+            "table:MKPF", "table:MSEG", "tx:SPDD", "obj:material-document", "bp:matdoc-read-through-compatibility",
+          ],
+        },
+        {
+          he: "פריטי ספק ותשלום, לפי 'S4TWL - DATA MODEL CHANGES IN FIN' (2025 FPS01, 6.1.4): טבלאות הסיכומים " +
+            "והאינדקס, ובהן BSIK ו-BSAK, מוחלפות בתצוגות תאימות בשם זהה; לפי הפריט ההחלפה מתבצעת בהתקנת ה-add-on של " +
+            "SAP Simple Finance באמצעות SUM, והנתונים נשמרים בטבלאות גיבוי (BSIK_BCK, BSAK_BCK); גישת כתיבה מוסרת " +
+            "מקוד לקוח; טבלאות נוספות הוחלפו חלקית ב-Universal Journal (ACDOCA); צעדי תצורה חובה ב-General Ledger, " +
+            "Asset Accounting, Account-Based CO-PA ו-Cash Management לפי IMG 'Migration from SAP ERP to SAP " +
+            "Accounting powered by SAP HANA'.",
+          xrefs: ["table:ACDOCA"],
+        },
+        {
+          he: "הרשאות אימות חשבונית, לפי 'S4TWL - Authorization Concept for Supplier Invoice' (2025 FPS01, 14.1.1): " +
+            "משתמשי חשבוניות ספק צריכים בנוסף את אובייקט הכותרת M_RECH_BUK (קוד חברה) לצד M_RECH_WRK (מפעל); " +
+            "בתפקידים הנגזרים מתפקידי התקן מתחזקים את הרמות הארגוניות ומחוללים מחדש פרופילים ב-PFCG, ובתפקיד שנבנה " +
+            "עצמאית מוסיפים את האובייקט ידנית, 'once SAP S/4HANA is available'.",
+          xrefs: ["tx:PFCG"],
+        },
+        {
+          he: "ארכוב חשבוניות ספק, לפי 'S4TWL - Supplier Invoice New Archiving' (2025 FPS01, 14.1.2): מימושי BAdI " +
+            "בדוחות הארכוב הישנים RM08RARC ו-RM08RADE אינם נתמכים; הדוחות החדשים RM08RW47 ו-RM08RD47 משתמשים " +
+            "ב-ARC_MM_REBEL_WRITE וב-ARC_MM_REBEL_CHECK, שיש לממש מחדש.",
+        },
+        {
+          he: "תמחור ברכש, לפי 'S4TWL - Pricing Data Model Simplification' (2025 FPS01, 14.2.5): הפריט מפנה ל-'Data " +
+            "Model Changes in SD Pricing' וקובע 'On a basic level, this information is also relevant for the pricing " +
+            "in procurement'; ה-pre-checks נמסרים עם הערה 2188735.",
+        },
+      ],
       reference: {
         title: "Procurement in SAP S/4HANA (Sourcing and Procurement, SAP S/4HANA 2025 FPS01)",
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/287eb65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
@@ -11837,7 +12533,8 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "enh:exit:MBCF0002", "enh:badi:MB_MIGO_BADI", "bp:bapi-commit-discipline", "bp:goods-movement-process",
       "bp:procure-to-pay-for-maintenance", "obj:material-document", "cds:I_MaterialDocumentItem",
       "bp:matdoc-read-through-compatibility", "bp:logistics-to-finance-postings-process",
-      "bp:quality-in-procurement-process", "tx:FB60", "tx:FBZP", "tx:OBYC",
+      "bp:quality-in-procurement-process", "tx:FB60", "tx:FBZP", "tx:OBYC", "tx:BP", "tx:XK01", "tx:MK01", "tx:FK01",
+      "tx:ME21", "tx:ME22", "tx:ME23", "tx:ME24", "tx:ME25", "tx:ME27", "tx:SPDD", "tx:PFCG",
     ],
     evidence: [
       {
@@ -12474,9 +13171,314 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book3.json#12.3.1",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "KPI: Purchase Requisition Average Approval Time | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/70bbc8570c470e2be10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד נקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs (loio 70bbc8570c470e2be10000000a441470, " +
+          "versionId 2025.001, deliverable 40374862, build 1807): 'This KPI identifies the average time it takes to " +
+          "create a purchase order from a shopping cart. It measures it in days and calculates over the time period " +
+          "from the previous year to date'; ארבעה מדדים 'Days Low-Cost, Days Medium-Cost, Days Hi-Cost, and Days V " +
+          "Hi-Cost (Main Measure)'; 'Calculation rule: The average approval time for different value ranges (low, " +
+          "medium, high, and very high) is calculated from the difference of days between shopping-cart and " +
+          "purchase-order creation'; drill down לפי ספק, קבוצת חומרים, קבוצת רכש, ארגון רכש, מסמך ומגמה; 'KPI type: " +
+          "minimizing'. כותרת ה-KPI מדברת על דרישת רכש, וכלל החישוב בגוף העמוד מנוסח על shopping cart.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Purchase Order Average Approval Time | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/c9050cbd5ba74f66b65e8008f6939d7b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד נקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs (loio c9050cbd5ba74f66b65e8008f6939d7b, " +
+          "versionId 2025.001): 'App ID: F7441'; 'you can identify the average time taken to approve a purchase " +
+          "order from time of its creation. It measures the average creation time from the previous year to date'; " +
+          "'Average Approval Time = Total time taken for creating the purchase orders / number of purchase order " +
+          "items'; תצוגות: By Supplier, By Material Group, By Purchasing Group, By Purchasing Organization, By " +
+          "Company Code, Document, Trend by Supplier; 'KPI type: Minimizing'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "KPI: Overdue Purchase Order Items | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/72441c5550708a05e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד נקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs (loio 72441c5550708a05e10000000a441470, " +
+          "versionId 2025.001): 'This KPI calculates the number of purchase order items with delivery dates in the " +
+          "past and those yet to be delivered. The KPI also helps to analyze the delivery dates of purchase order " +
+          "items sent to the supplier'; drill down לפי ספק, מפעל, קבוצת רכש, קטגוריית רכש, קבוצת חומרים ומסמך; 'KPI: " +
+          "minimizing'; פרמטרי קלט: מטבע תצוגה ותקופת הערכה בימים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "KPI: Purchase Order Average Delivery Time Weighted (In Days) | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/3ecec254da4ded05e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד נקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs (loio 3ecec254da4ded05e10000000a4450e5, " +
+          "versionId 2025.001): 'The analytical app displays the Key Performance Indicator (KPI) Purchase Order " +
+          "Average Delivery Time. You can use this KPI to specify the average delivery time of orders to the " +
+          "suppliers'; 'Calculation rule: The app is used to analyze the delivery time of suppliers based on the " +
+          "previous delivery time of the purchase orders'; drill down לפי ספק, קבוצת חומרים, מפעל, קטגוריית רכש " +
+          "ומסמך; 'KPI type: minimizing'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Invoice Processing Analysis | Financial Operations",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/1e8a8854c46ee75ee10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד נקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs (loio 1e8a8854c46ee75ee10000000a44176d, " +
+          "versionId 2025.001, deliverable 40374865, build 1779): 'With this app you can view the total amount of " +
+          "posted invoices and the total number of posted line items'; תצוגה לפי חודש, ספק, משתמש וסטטוס עיבוד: " +
+          "'Free for Payment (open line items with no payment block) Cleared (cleared line items) Blocked (open line " +
+          "items with payment block) Parked (parked line items)'; 'This app uses the C_APINVOICEPROCGANALYSIS CDS " +
+          "view'; ניווט ל-Display Supplier Balances ול-Manage Supplier Line Items; רכיב FI-FIO-AP.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Days Payable Outstanding | Financial Operations",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/74888854c46ee75ee10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד נקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs (loio 74888854c46ee75ee10000000a44176d, " +
+          "versionId 2025.001, deliverable 40374865, build 1779): 'With this app you can drill down to check the top " +
+          "10 suppliers with the highest or the lowest days payable outstanding. You can view the result in a chart " +
+          "or a table according to company code, supplier, country of the supplier, and timeline'; ניתוח ל-12 " +
+          "החודשים האחרונים ולפי קוד חברה; 'This app uses the C_APDAYSPAYOUTST CDS view'; ניווט ל-Days Payable " +
+          "Outstanding - Detailed Analysis, Display Supplier Balances ו-Manage Supplier Line Items; רכיב FI-FIO-AP.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Calculation Logic: Days Payable Outstanding | Financial Operations",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/e4da7e58be12a007e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד נקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs (loio e4da7e58be12a007e10000000a441470, " +
+          "versionId 2025.001): באריח שלושה מספרים, ה-DPO בחודש ה-12, ה-11 וה-10 לפני החודש הנוכחי; לכל חודש 'The " +
+          "app finds all the paid invoices in a month. For each such invoice, the app multiplies the invoice amount " +
+          "by the number of days between the posting and the clearing date of the invoice. The app adds up the " +
+          "product from each multiplication. The app divides the sum by the total amount of all these invoices'; " +
+          "בפינה העליונה אותו חישוב על 365 הימים האחרונים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Configuration Settings: Days Payable Outstanding | Financial Operations",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/6d680e5439a61f6ee10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד נקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs (loio 6d680e5439a61f6ee10000000a441470, " +
+          "versionId 2025.001): 'KPI ID: .SAP.AP.DPOKPI KPI Description: Days Payable Outstanding Goal Type: Range'; " +
+          "'Evaluation ID: .SAP.AP.DPO.LAST12MONTH'; ערכי יעד וסף מוצגים כדוגמה ('This table shows some example " +
+          "values'); drill down לפי קוד חברה, ציר זמן ו-10 הספקים עם ה-DPO הגבוה והנמוך ביותר, עם המדד הראשי 'Days " +
+          "Payables Outstanding'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+          "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 5.1.27 S4TWL - Business Partner " +
+          "Approach (LO-MD-BP), pp. 136-139",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הטקסט נקרא מחילוץ ה-PDF (scratchpad/official/SIMPL_OP2025.pdf.txt). 'In SAP S/4HANA, Business " +
+          "Partner is the leading object and single entry point to maintain Business Partner, Customer and Supplier " +
+          "(formerly known as Vendor) master data'; 'The pre-checks for and the technical Conversion procedure of " +
+          "SAP S/4HANA itself check whether the Customer Vendor Integration (CVI) is completely introduced. A system " +
+          "where the CVI is not in place will be declined for the transition'; FK01, FK02, FK03, MK01, MK02, MK03, " +
+          "XK01, XK02, XK03 ואחרות 'get redirected to transaction BP'. צעדי Prepare ב-ERP: Conversion Pre-Checks, " +
+          "'Activate Business Function CA_BP_SOA', בדיקת CVI customizing (BP Role Category, Number Assignments), " +
+          "'Check master data consistency using CVI_MIGRATION_PRECHK', וניקוי נתוני לקוח וספק; Synchronization דרך " +
+          "Synchronization Cockpit (MDS_LOAD_COCKPIT); אחרי ההמרה: 'you have to activate the post processing for " +
+          "direction Business Partner a Customer /Vendor' (כך בטקסט המחולץ). הערת Business Impact בטבלת הפריט: " +
+          "0002265093.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+          "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 14.2.8 S4TWL - Classic MM-PUR GUI " +
+          "Transactions replacement (MM-PUR-GF), pp. 1418-1419",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הטקסט נקרא מחילוץ ה-PDF. 'Classic SAP ERP Materials Management (MM) transactions and BAPIs for the " +
+          "business objects Purchase Order, Purchase Requisition, and Supplier Invoice have been replaced by the " +
+          "corresponding transactions and BAPIs made available with SAP R/3 Enterprise 4.70. With SAP S/4HANA, " +
+          "on-premise, these classic MM transactions and BAPIs are NO longer supported'. טבלת 'Transactions are NO " +
+          "longer supported in SAP S/4HANA on-premise edition': ME21, ME22, ME23, ME24, ME25, ME27, ME28, ME51, " +
+          "ME52, ME53, ME54, ME59, MR01, MR1M; טבלת ה-BAPIs: BAPI_PO_CREATE, BAPI_REQUISITION_CREATE, " +
+          "BAPI_PO_GETDETAIL. Business Process: 'No influence on business processes expected'. Required and " +
+          "Recommended Action(s): הפניה ל-SAP Notes 1803189 ו-144081 (לא נקראו), ו-'Specific data retrieval using " +
+          "BAPI_PO_GETDETAIL1 compared to BAPI_PO_GETDETAIL is limited and hence new BAPI_PO_GETDETAIL1 may consume " +
+          "more time. To improve response time, use BAdI me_bapi_po_cust method text_output if text data retrieval " +
+          "is not required'. הערת Business Impact: 0002267449.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+          "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 14.2.6 S4TWL - Output Management " +
+          "Adoption in Purchase Order (MM-PUR-PO), pp. 1415-1416",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הטקסט נקרא מחילוץ ה-PDF. 'With SAP S/4HANA a new Output Management approach is in place'; התצורה 'is " +
+          "based on BRF+', ו-'the target architecture is based on Adobe Document Server and Adobe Forms only'; " +
+          "'Nevertheless Output management based on NAST is still supported for new documents in purchase order'; " +
+          "הזמנות שהועברו ממערכת קודמת עם פלט NAST 'can be processed with the new and with NAST technology'; הפתרון " +
+          "החדש תומך רק בערוצים 'PRINT, EMAIL, XML (for Ariba Network Integration) and IDOC (for on premise)'; החל " +
+          "מ-OP1809 ההגדרה ב-'Cross-Application components -> Output Control -> Manage Activation of Object Type', " +
+          "ו-'The NAST based output management is now the default solution, but a system upgrade will not change the " +
+          "previous selected output management'; 'In cases where there is not customer specific configuration for " +
+          "the new output management for purchase orders, it will not be possible to print purchase orders or to " +
+          "send purchase orders via e-mail or XML'. הערת Business Impact: 0002267444.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+          "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 15.3.1 S4TWL - DATA MODEL IN INVENTORY " +
+          "MANAGEMENT (MM-IM), pp. 1463-1465",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הטקסט נקרא מחילוץ ה-PDF (קטע Solution ו-'1. Customer Appends'). שדות לקוח ב-APPEND או INCLUDE על " +
+          "MKPF ו-MSEG: 'In case of a system conversion all these customer fields in such APPENDs or INCLUDEs need " +
+          "to be appended to table MATDOC during the ACT_UPG phase (SPDD). It has to be done in any case before the " +
+          "MM-IM converison program will be executed which move the data from MKPF and MSEG to MATDOC otherwise data " +
+          "in customer fields gets lost' (כך במקור); שדות MKPF לתת-המבנה NSDM_S_HEADER ושדות MSEG ל-NSDM_S_ITEM; " +
+          "התאימות בין הטבלה ל-proxy view נבנית 'directly after system conversion by creating extend views, see note " +
+          "2242679'; ה-include CI_COBL ב-MSEG דורש את הערה 2240878 'before the data migration starts in the ACT_UPG " +
+          "phase (SPDD); otherwise you may loose data'; שדות בשם זהה ב-MKPF וב-MSEG עם תוכן שונה מטופלים 'before " +
+          "migration from ERP 6.0 to S/4HANA'; תצוגות לקוח על MKPF/MSEG 'will never return any record' ויש להסב אותן " +
+          "ל-MATDOC או ל-DDL source חדש; SAP Notes 2194618 ו-2197392 מספקות בדיקה במהדורת המקור לאיתור בעיות APPEND.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+          "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 6.1.4 S4TWL - DATA MODEL CHANGES IN " +
+          "FIN (FI-GL), pp. 159-167",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הטקסט נקרא מחילוץ ה-PDF. 'totals and application index tables were removed and replaced by " +
+          "identically-named DDL SQL views, called compatibility views'; 'This replacement takes place during the " +
+          "add-on installation of SAP Simple Finance using SUM – related data is secured into backup tables' (בטבלת " +
+          "הפריט BSIK עם BSIK_DDL ו-BSIK_BCK, BSAK עם BSAK_DDL ו-BSAK_BCK); 'The compatibility views ensure database " +
+          "SELECTs work as before. However, write access (INSERT, UPDATE, DELETE, MODIFY) was removed from SAP " +
+          "standard, or has to be removed from custom code'; טבלאות נוספות 'were (partially) replaced by Universal " +
+          "Journal (ACDOCA)'; 'There are mandatory configuration steps in General Ledger, Asset Accounting, " +
+          "Account-Based CO-PA, and Cash Management (if used). For detailed information, refer to IMG -> Migration " +
+          "from SAP ERP to SAP Accounting powered by SAP HANA', עם הפניה למדריך בהערה 2332030. הערת Business Impact: " +
+          "0002270333. (המקף בציטוט הוא מקף קצר במקור.)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+          "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 14.1.1 S4TWL - Authorization Concept " +
+          "for Supplier Invoice (MM-IV-GF), pp. 1407-1408",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הטקסט נקרא מחילוץ ה-PDF. הקונספט החדש מוסיף אובייקט הרשאה בכותרת: 'Check header data against the " +
+          "header authorization object (M_RECH_BUK)' לקוד החברה, לצד 'Check item data against the item authorization " +
+          "object (M_RECH_WRK)' למפעל; Required and Recommended Action(s): 'You must edit the user roles. Users " +
+          "working with supplier invoices, additionally need the authorizations based on M_RECH_BUK'; בתפקידים " +
+          "הנגזרים מתפקידי התקן: תחזוקת הרמות הארגוניות של M_RECH_BUK ו-'Regenerate the profiles related to the " +
+          "roles using PFCG'; בתפקיד שנבנה עצמאית 'you must manually insert the authorization object M_RECH_BUK into " +
+          "the role. You can do this preliminary work once SAP S/4HANA is available'. הערת Business Impact: " +
+          "0002271189.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+          "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 14.1.2 S4TWL - Supplier Invoice New " +
+          "Archiving (MM-IV-GF), pp. 1408-1409",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הטקסט נקרא מחילוץ ה-PDF. 'With upgade to 1809 ILM Integration is fully supported' (כך במקור); 'BAdI " +
+          "Implementations used in the old archiving reports (RM08RARC, RM08RADE) are no longer supported. The new " +
+          "archiving reports (RM08RW47, RM08RD47) use other BAdIs (ARC_MM_REBEL_WRITE, ARC_MM_REBEL_CHECK) which " +
+          "need to be newly implemented'. הערת Business Impact: 0002578291.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private " +
+          "Edition 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 14.2.5 S4TWL - Pricing Data Model " +
+          "Simplification (SD-BF-PR), pp. 1414-1415",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הטקסט נקרא מחילוץ ה-PDF. הפריט מפנה ל-'Data Model Changes in SD Pricing' וקובע: 'On a basic level, " +
+          "this information is also relevant for the pricing in procurement'; Business Process ו-Required Action " +
+          "מפנים לאותו פריט SD; תחת Conversion pre-checks: 'Pre-checks delivered with Note 2188735'. הערת Business " +
+          "Impact: 0002267442.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת האימות של הפרויקט: tx:ME28 (transactions-b.ts)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim: "הרשומה קובעת ל-ME28 סטטוס simplified (2025 FPS01) לפי 'S4TWL - Classic MM-PUR GUI Transactions " +
+          "replacement', ללא successor רשמי; ספריית ה-Fiori רושמת את ME28 ב-S32OP בסטטוס 'Deprecated', ותיעוד התפקיד " +
+          "SAP_MM_PUR_PO_RELEASE של 2025 FPS01 ושל SAP ERP 6.0 EHP8 עדיין מונה 'Release purchase order ME28'. הפעולה " +
+          "המומלצת ברשומה: לא לבסס תהליכים חדשים או קוד לקוח על ME28 ב-S/4HANA On-Premise ולבדוק במערכת חיה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verification/transactions-b.ts#tx:ME28",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    lastVerifiedAt: DATE28,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24; backfill (researcher + adversarial auditor), 2026-09-28",
     notes: "הרשומה מתעדת את הזרימה הכללית של רכש עד תשלום; הווריאנטים המקושרים הם procure-to-pay-for-maintenance " +
       "ו-goods-movement-process, והרישום החשבונאי המפורט ב-logistics-to-finance-postings-process. טיוטה חוזרת " +
       "אחרי הדחייה של 2026-09-24: (1) MKPF/MSEG מיוחסות ל-ECC בכל מקום (שלב 6, tables[1], outputs[2]), וצד " +
@@ -12513,7 +13515,24 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "(Post Goods Receipt for Purchasing Document); הסתירה מתועדת ומוכרעת ברשומת fiori:F0843. kpis ו-migration " +
       "הושמטו: אף מקור שנקרא אינו מגדיר מדדי P2P או פרק הגירה לתהליך הכללי; סעיפי 12.4 בספר 3 (למשל 12.4.7 Days " +
       "Payable Outstanding) נושאים כותרות של אנליטיקה, אך תוכנם לא נקרא ולכן לא נכתבו מדדים. לא בוצעה בדיקה " +
-      "במערכת SAP חיה.",
+      "במערכת SAP חיה." +
+      " עדכון 2026-09-28 (backfill, תוכן קודם הועתק כלשונו): המשפט 'kpis ו-migration הושמטו' שלעיל מוחלף. kpis: שש " +
+      "שורות S/4HANA 2025 FPS01 מגופי עמודי help.sap.com שנקראו דרך sap-help-body.mjs (KPI: Purchase Requisition " +
+      "Average Approval Time, Purchase Order Average Approval Time, KPI: Overdue Purchase Order Items, KPI: Purchase " +
+      "Order Average Delivery Time Weighted (In Days), Invoice Processing Analysis, Days Payable Outstanding עם " +
+      "Calculation Logic ו-Configuration Settings); חיפושים (SAP_S4HANA_ON-PREMISE, 21 תוצאות לכל אחד): 'Days " +
+      "Payable Outstanding', 'Overdue Purchase Order Items', 'Purchase Order Average Delivery Time', 'Invoice " +
+      "Processing Time', 'Procurement Overview', 'Purchase Requisition Average Approval Time', 'Off-Contract Spend', " +
+      "'Invoice Processing Analysis'. F7441, C_APINVOICEPROCGANALYSIS ו-C_APDAYSPAYOUTST אינם במילון הפרויקט " +
+      "ומוזכרים בפרוזה. גוף KPI: Purchase Requisition Average Approval Time מנסח את החישוב על shopping cart ולא על " +
+      "דרישת רכש; השורה מביאה את הניסוח כפי שהוא. לא נמצא מדד P2P מתועד לצד ה-ECC, ולכן אין שורת kpis ל-ECC. " +
+      "migration: שמונה פריטי פישוט מרשימת 2025 FPS01 (מסמך 1.36) שנקראו בטקסט המחולץ: Business Partner Approach, " +
+      "Classic MM-PUR GUI Transactions replacement, Output Management Adoption in Purchase Order, DATA MODEL IN " +
+      "INVENTORY MANAGEMENT (MM-IM), DATA MODEL CHANGES IN FIN, Authorization Concept for Supplier Invoice, Supplier " +
+      "Invoice New Archiving, Pricing Data Model Simplification. מספרי ה-SAP Notes מובאים כפי שהודפסו בפריטים ולא " +
+      "נקראו. סתירה פתוחה: שלב 5 ושורת transactions מציגים את ME28 לשחרור קולקטיבי לפי רשומת tx-intel, ו-'S4TWL - " +
+      "Classic MM-PUR GUI Transactions replacement' מונה את ME28 בין הטרנזקציות שאינן נתמכות ב-S/4HANA On-Premise " +
+      "(רשומת האימות tx:ME28: simplified); השורות הקודמות לא נוסחו מחדש בעדכון זה. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   /* =================================================== physical inventory */
   {
@@ -12889,6 +13908,59 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
           he: "תיעוד סיבת ההפרש: best practice ברשומת MI07; סיבה לכל פריט לפי העמוד 'Posting Inventory " +
             "Differences'; ב-F0379A סיבה לפי ההגדרות.",
           xrefs: ["tx:MI07"],
+        },
+      ],
+      kpis: [
+        {
+          he: "Physical Inventory Analysis (אפליקציית Web Dynpro, מזהה W0058, תיעוד S/4HANA 2025 FPS01): לפי עמוד " +
+            "האפליקציה היא מנתחת את ספירות המלאי בחברה 'to identify opportunities for process improvement', עם " +
+            "drill-down עד פריט מסמך הספירה. מדדי הערך (Measures) שהעמוד מונה: Difference Value (ערך כמות ההפרש " +
+            "במטבע קוד החברה), Book Value (ערך המלאי במערכת לפני הספירה), Counted Quantity Value, Number of Items, " +
+            "ו-Maximum Difference Value ו-Minimum Difference Value (הערך המוחלט המרבי והמזערי של ההפרש בצבירה " +
+            "הנוכחית). העמוד אינו מגדיר ערכי יעד.",
+        },
+        {
+          he: "Physical Inventory Analysis, מדדי הכמות וערך המכירה (אותו עמוד): Book Quantity (כמות בספרים מיד לפני " +
+            "הספירה), Counted Quantity, Difference Quantity ('Counted quantity minus book quantity') ו-Quantity in " +
+            "Unit of Entry; למלאי בהערכת מחיר מכירה Sales Price Book Value, Sales Price Counted Value ו-Sales Price " +
+            "Difference Value.",
+        },
+        {
+          he: "פילוח המדדים לפי שלבי התהליך: עמוד W0058 מונה בין הממדים את Difference Reason, Is Item Counted, Is " +
+            "Difference Posted, Is Item Recounted, Is Zero Count, Cycle Count Type, Posting Block ו-Book Inventory " +
+            "Freeze, כך ש-Number of Items ו-Difference Value ניתנים להצגה לפי סיבת הפרש, לפי פריטים שנספרו מחדש או " +
+            "לפי פריטים שהפרשם נרשם. יחס כגון שיעור הפריטים בספירה חוזרת אינו מודפס בעמוד כמדד; חישובו מהמדדים " +
+            "והממדים הוא הסקה ולא נוסח העמוד.",
+        },
+        {
+          he: "סטטיסטיקת מסמך הספירה (העמוד 'Physical Inventory Process', באותו נוסח ב-SAP ERP 6.0 EHP8 וב-S/4HANA " +
+            "2025 FPS01): 'the statistics list how many document items are open, counted, posted (inventory " +
+            "differences), recounted, or deleted'. זו ספירת פריטים ברמת המסמך, בשני הצדדים, ולא מדד ניהולי עם יעד.",
+        },
+        {
+          he: "Manage Physical Inventory Documents (F0379A, S/4HANA 2025 FPS01): לפי הפרק 'How to Review Counting " +
+            "Progress' בעמוד האפליקציה, 'The information for Counting Progress and Posting Progress is shown in " +
+            "addition as a graphical bar', ואפשר לצמצם את הרשימה לפי count status כגון Not Counted או Partially " +
+            "Counted.",
+        },
+        {
+          he: "תבנית המצב MAN_PHYSICAL_INVENTORY_MONITOR (העמוד 'Physical Inventory Monitoring', 2025 FPS01, " +
+            "האפליקציה הצורכת Manage Physical Inventory Documents): מצב נוצר בהרצת batch כשקיים פריט מסמך ספירה שלא " +
+            "נרשם 'and the quantity difference exceeds the defined threshold'; הסף מוגדר כמסנן על השדה Difference " +
+            "Value, ולפי הערת Tip בסעיף Recipients של העמוד אפשר להגדיר מסנן גם לפי 'Physical Inventory Difference " +
+            "in Percent' (הפרש יחסי באחוזים). ערך הסף נקבע בהגדרת סוג המצב ואינו מוגדר בעמוד.",
+        },
+        {
+          he: "נתוני ההקשר שתבנית MAN_PHYSICAL_INVENTORY_MONITOR לוכדת לפריט (אותו עמוד, סעיף Capture Data Context) " +
+            "כוללים, בין השאר, 'Count Adjustments Last 12 Months', 'Adjusted Quantity Last 12 Months', 'Days Since " +
+            "Last Count' ו-'Turnover Since Last Count'. אלה שדות הקשר של מופע המצב, זמינים ללכידה כשמעקב המופעים " +
+            "מופעל, ולא אריחי KPI.",
+        },
+        {
+          he: "תורי עבודה פתוחים (העמוד 'How to Identify Open Physical Inventory Document Items Ready to Be Counted " +
+            "or Ready to Be Posted', 2025 FPS01): התבנית מועתקת לסוג מצב עם מסננים, למשל פריטים שטרם נספרו עם " +
+            "Planned Count Date בשלושת הימים הבאים, או פריטים שנספרו ולא נרשמו ולא נספרו מחדש; זו התראה לפי " +
+            "קריטריונים ולא מדד מצטבר.",
         },
       ],
       eccToS4: [
@@ -13485,9 +14557,123 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book3.json#7.6.5",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Physical Inventory Analysis (App ID: W0058) | Inventory Management and Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/eac456f95b65469d8943bd5b8ce3d021.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio eac456f95b65469d8943bd5b8ce3d021, נקרא דרך scripts/sap-help-body.mjs): 'App ID: " +
+          "W0058'; 'With this app you can analyze physical inventory in your company to identify opportunities for " +
+          "process improvement'; 'Generic drill-down up to the individual physical inventory document item'. בין " +
+          "הממדים: Difference Reason, Is Item Counted, Is Item Deleted, Is Difference Posted, Is Item Recounted, Is " +
+          "Zero Count, Cycle Count Type, Posting Block, Book Inventory Freeze. בסעיף Measures ('Each measure " +
+          "displays a value according to the current filter and drill-down'): Book Value, Difference Value ('Value " +
+          "of difference quantity in company currency'), Number of Items, Maximum Difference Value, Minimum " +
+          "Difference Value, Counted Quantity Value, Book Quantity, Counted Quantity, Quantity in Unit of Entry, " +
+          "Difference Quantity ('Counted quantity minus book quantity'), Sales Price Book Value, Sales Price Counted " +
+          "Value, Sales Price Difference Value.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App W0058 'Physical Inventory Analysis', release S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('W0058')/S32OP",
+        accessedAt: DATE28,
+        claim: "scripts/fal-app.mjs W0058: Web Dynpro, Published; רכיב MM-IM-VDM-PI; תפקידים " +
+          "SAP_BR_INVENTORY_MANAGER ו-SAP_BR_INVENTORY_MGR_RFM; קטלוג עסקי SAP_PRC_BC_IM_ANLYTS_QUERY 'Materials " +
+          "Management - Inventory Analytics Queries'; intent " +
+          "PhysicalInventoryDocument-analyzePhysicalInventoryItems; GUI מובילה MI01; קודמת F2913 'Physical Inventory " +
+          "Analysis (Design Studio)'; רשימת המהדורות כוללת את S9OP (1709) ועד S32OP (2025 FPS01) ו-S32PCE, ובנוסף " +
+          "S36 (2602) ו-S37 (2608).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Physical Inventory Monitoring | Inventory Management and Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/725963824d3449c09c143d688e2c1b4f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 725963824d3449c09c143d688e2c1b4f): 'Situation Template ID: " +
+          "MAN_PHYSICAL_INVENTORY_MONITOR Consuming App: Manage Physical Inventory Documents'; התבנית מיידעת 'about " +
+          "physical inventory document items that exceed the defined physical inventory tolerances'; Trigger Type " +
+          "Batch, 'an unposted physical inventory document item exists in which the quantity difference exceeds the " +
+          "defined threshold'; 'You can enter a filter for the Difference Value field with your threshold for " +
+          "differences'; 'You can use the Physical Inventory Difference in Percent field to define a filter based on " +
+          "the relative difference as a percentage'; Member Functions: Inventory Manager, Plant Manager, Warehouse " +
+          "Clerk. בנתוני ההקשר (Capture Data Context) מופיעים, בין השאר, 'Count Adjustments Last 12 Months', " +
+          "'Adjusted Quantity Last 12 Months', 'Days Since Last Count', 'Turnover Since Last Count'; לפי העמוד מעקב " +
+          "המופעים אינו מופעל כברירת מחדל.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "How to Identify Open Physical Inventory Document Items Ready to Be Counted or Ready to Be " +
+          "Posted | Inventory Management and Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/e9712f246f724947ae3581866af9847e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio e9712f246f724947ae3581866af9847e): מעתיקים את התבנית MAN_PHYSICAL_INVENTORY_MONITOR " +
+          "באפליקציה Manage Situation Types; דוגמה A מסננת 'Is counted Exclude X' ו-'Planned Count Date Next 3 " +
+          "days'; דוגמה B מסננת 'Is counted Equal to X', 'Is difference posted Exclude X' ו-'Is recounted Exclude " +
+          "X'; מההתראה מגיעים ל-Manage Physical Inventory Documents, ובין הפעולות 'Select Recount if there is a " +
+          "significant deviation between the counted quantity and the book quantity for an item' ו-'Select Post'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Physical Inventory Documents | Inventory Management and Inventory (MM-IM), הפרק 'How to " +
+          "Review Counting Progress'",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/24177b5796d40322e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 24177b5796d40322e10000000a44147b), הפרק 'How to Review Counting Progress': 'If " +
+          "necessary, restrict the search criteria with a specific count status, such as Not Counted or Partially " +
+          "Counted'; 'The information for Counting Progress and Posting Progress is shown in addition as a graphical " +
+          "bar'; 'Check the items where there is a difference between the counted quantity and posted quantity'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Physical Inventory Process | Inventory Management and Inventory (MM-IM)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/96bf9ad642cf4b26a29595e3d573fb8c/2761bd534f22b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE28,
+        claim: "צד ECC: גוף העמוד בתיעוד SAP ERP 6.0 EHP8 (אותו loio, נקרא שוב ב-2026-09-28) נושא את המשפט 'display " +
+          "statistics for the physical inventory document; the statistics list how many document items are open, " +
+          "counted, posted (inventory differences), recounted, or deleted', באותו נוסח כמו בתיעוד S/4HANA 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Physical Inventory Analysis | What's New in SAP S/4HANA 2023",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/c8c4177b9a174c6fb34162ab1c9de444.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio c8c4177b9a174c6fb34162ab1c9de444): 'Usability of the data analysis has been improved " +
+          "by the introduction of the new Valuation Type field'; 'Type Changed'; 'Scope Item BML ( Physical " +
+          "Inventory - Inventory Count and Adjustment ); 4LU ( Physical Inventory - Cycle Counting )'; 'Application " +
+          "Component MM-IM-VDM-PI ( VDM Physical Inventory )'; 'Valid as Of SAP S/4HANA 2023'.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    lastVerifiedAt: DATE28,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24; backfill (researcher + adversarial auditor), 2026-09-28",
     notes: "טיוטה מחודשת אחרי סירוב 2026-09-24: משפט הניתוב לתצוגת CDS והכתיבה חסרת ההשפעה מיוחס עכשיו רק לפריט " +
       "27.5 ברשימת הפישוט 2023 FPS03, שהועתק מילה במילה מרשומת table:MKPF; שורת 2025 FPS01 (פריט 15.3.1) מצוטטת " +
       "רק לקיום הטבלאות כהגדרת DDIC ולשמירה ב-MATDOC. סתירה בשם MI20: טבלת הפעולות בעמוד 'Physical Inventory " +
@@ -13501,6 +14687,18 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "ו-BAPI_MATPHYSINV_POSTDIFF אינם במילון הפונקציות; F0379A, F3197, F4550 ו-F5430 אינם בקטלוג " +
       "data/fiori/apps.ts; MI08, MI10, MI11 ו-MICN אינם במילון הטרנזקציות; לכן כולם בפרוזה בלבד. שדה kpis הושמט: " +
       "אף מקור שנקרא אינו מגדיר מדד לתהליך. לא אותרה במאגר תקרית troubleshooting לתהליך הספירה. מעמד S/4HANA של " +
-      "MI20 ו-MI31 לא נקבע ממקור רשמי. לא בוצעה בדיקה במערכת SAP חיה.",
+      "MI20 ו-MI31 לא נקבע ממקור רשמי. לא בוצעה בדיקה במערכת SAP חיה." +
+      " עדכון 2026-09-28 (Old → New): המשפט 'שדה kpis הושמט: אף מקור שנקרא אינו מגדיר מדד לתהליך' נכון לנוסח " +
+      "2026-09-24; עכשיו process.kpis כולל שמונה שורות מעמודים רשמיים שנקראו דרך scripts/sap-help-body.mjs " +
+      "ו-scripts/fal-app.mjs: אפליקציית Physical Inventory Analysis (W0058) ומדדיה, סטטיסטיקת המסמך בעמוד 'Physical " +
+      "Inventory Process' (ECC ו-S/4HANA), פסי Counting Progress ו-Posting Progress ב-F0379A, ותבנית המצב " +
+      "MAN_PHYSICAL_INVENTORY_MONITOR עם עמוד ההתראות על פריטים פתוחים. אף עמוד אינו מגדיר ערכי יעד, ויחס כגון שיעור " +
+      "ספירה חוזרת אינו מודפס כמדד. צד ECC: מעבר לסטטיסטיקת המסמך לא נמצא מקור רשמי שמגדיר מדד; העמוד 'Reporting in " +
+      "Physical Inventory (MM-IM)' (2025 FPS01, loio 4a07b753128eb44ce10000000a174cb4) מונה טרנזקציות דיווח ואינו " +
+      "מגדיר מדדים. W0058 אינה בקטלוג data/fiori/apps.ts ולכן בפרוזה. עמוד התבנית ב-2025 FPS01 נוקב ב-Manage " +
+      "Physical Inventory Documents כאפליקציה הצורכת של MAN_PHYSICAL_INVENTORY_MONITOR, בעוד רשומת What's New 2020 " +
+      "מציבה את התבנית ב-Physical Inventory Document Overview; המקורות אינם קובעים ששני השמות הם אותה אפליקציה. " +
+      "What's New 2023 לאפליקציית Physical Inventory Analysis מדפיס את scope items BML ו-4LU ('Physical Inventory - " +
+      "Cycle Counting'); שדה reference לא שונה בעדכון זה. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 ];
