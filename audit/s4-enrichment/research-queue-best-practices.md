@@ -533,3 +533,15 @@ procure-to-pay-for-maintenance), and no other rule; both `tsc` gates clean; `npm
   adopted the library title for MI20 (commit 48e7d9ac: Old 'Print List of Differences' → New
   'Process Physical Inventory Count Results') and keeps 'Process List of Differences' for MI07. What
   would settle it: the transaction texts of MI20 and MI07 in SE93 of the target system.
+- `bp:plan-to-produce-discrete`, the scope item behind `process.reference`, official against
+  official by release (disclosed in reference.note and notes, no `conflicting_sources` row;
+  written in the 2026-09-25 backfill of `data/best-practices/pp-processes.ts`): the reference
+  is the What's New page 'Make-to-Stock Production - Discrete Manufacturing (BJ5)' (1909.000,
+  loio df4ef977909a47e293b3762935ec44d8), a delta page for scope item BJ5; the What's New
+  page 'Make-to-Stock Production – Discrete Manufacturing (7UV)' (2025.001, loio
+  170b234ade3c4cdd8d12e052320a89b6) documents a scope item of the same name on PP/DS
+  (SCM-APO-PPS). The statement that BJ5 appears in What's New records up to 2023 rests on the
+  researcher's search results, which are not attached as evidence rows (the record says so).
+  Neither page describes the chain through settlement. What would settle it: the 2023 BJ5
+  search record added as an evidence row (url, loio and versionId verbatim), and the SAP Best
+  Practices Explorer fact sheets of BJ5 and 7UV for S/4HANA 2025 (not read).
