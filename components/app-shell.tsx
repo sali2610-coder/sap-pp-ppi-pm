@@ -88,7 +88,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // /neo renders its own chrome (Project NEO shell) — no global header, rail,
   // tab bar or footer. Two-armed on purpose: a bare startsWith("/neo") would
   // also swallow a future /neon… or /neo-lab route.
-  const bare = path === "/neo" || path.startsWith("/neo/");
+  // The redesign direction boards (/design/redesign-2026/*) are self-contained
+  // specimens; the legacy chrome around them would distort what they compare.
+  const bare = path === "/neo" || path.startsWith("/neo/") || path.startsWith("/design/redesign-2026/");
 
   // Clears the API key the old chat page left in localStorage. Deleting that
   // page removed the code but not the stored credential, which stays readable

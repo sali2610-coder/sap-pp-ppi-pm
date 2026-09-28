@@ -2,6 +2,9 @@
    Each family is split into a Hebrew and a Latin instance with its own unicode-range, so a
    page downloads only the subsets its text needs; CSS stacks them per character:
    font-family: var(--f-x-he), var(--f-x-lat), <system fallback>.
+   next/font gives each instance a metric-matched Arial fallback face by default. On the
+   Hebrew instances it would sit before the Latin face and catch every Latin letter, so
+   it is switched off there; the Latin instance keeps it, last in the stack.
    next/font needs literal option values, hence the repeated ranges. */
 import localFont from "next/font/local";
 
@@ -13,6 +16,7 @@ export const plexHe = localFont({
     { path: "./plex-sans-hebrew/ibm-plex-sans-hebrew-hebrew-700-normal.woff2", weight: "700" },
   ],
   variable: "--f-plex-he",
+  adjustFontFallback: false,
   display: "swap",
   declarations: [{ prop: "unicode-range", value: "U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F" }],
 });
@@ -44,6 +48,7 @@ export const frankHe = localFont({
   src: "./frank-ruhl-libre/frank-ruhl-libre-hebrew-wght-normal.woff2",
   weight: "300 900",
   variable: "--f-frank-he",
+  adjustFontFallback: false,
   display: "swap",
   declarations: [{ prop: "unicode-range", value: "U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F" }],
 });
@@ -61,6 +66,7 @@ export const assistantHe = localFont({
   src: "./assistant/assistant-hebrew-wght-normal.woff2",
   weight: "200 800",
   variable: "--f-assistant-he",
+  adjustFontFallback: false,
   display: "swap",
   declarations: [{ prop: "unicode-range", value: "U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F" }],
 });
