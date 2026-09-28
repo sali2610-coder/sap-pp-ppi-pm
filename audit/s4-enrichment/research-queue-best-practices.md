@@ -733,3 +733,50 @@ procure-to-pay-for-maintenance), and no other rule; both `tsc` gates clean; `npm
   and dismantle is API_EQUIPMENT with InstallEquipment and DismantleEquipment). What would settle
   it: SE37 in the target system, then a correction of the losing repository layer (not a
   best-practices file, not edited here).
+- `bp:quality-inspection-in-production`, stock relevance of an in-process (origin 03) inspection
+  lot, official against repository (disclosed in notes as an open conflict, no
+  `conflicting_sources` row; written in the 2026-09-28 backfill of
+  `data/best-practices/cross-processes-2.ts`): 'Inspections During Production' (S/4HANA 2025.001
+  and SAP ERP 6.18.latest, loio 1f14c453f57eb44ce10000000a174cb4, bodies read 2026-09-28, now the
+  record's `process.reference`) says a lot for an inspection during production is not stock
+  relevant and allows no stock postings, while `data/troubleshooting-ext.ts#qm-inprocess-results-missing`,
+  which the record's context, `steps[6]` and `process.exceptions[2]` follow, describes a batch left
+  in inspection stock, and `steps[4]` and `process.outputs[1]` describe the usage-decision stock
+  posting without naming an origin. The API page 'Inspection Lot' (2025.001) allows stock postings
+  for origins 01, 04, 05, 08 and 09 only. What would settle it: a test in the target system with an
+  active origin-03 inspection type on a released process order, checking where the order's batch is
+  posted before the usage decision; then a correction of the incident record (not a best-practices
+  file, not edited here) or an origin qualifier on the record lines in a later edit.
+- `bp:quality-inspection-in-production`, availability of MCXA, official against official (carried
+  as `conflictingEvidence` on the item 9.6.8 row, copied verbatim from the overlay row
+  MCXA_SIMPL2025 of `data/verification/transactions-b.ts#tx:MCXA`; the record's level is therefore
+  `conflicting_sources` since the 2026-09-28 backfill): 'S4TWL - Quality Management Information
+  System (QMIS)' (SIMPL_OP2025, document version 1.36) says 'The transactions will be removed in the
+  SAP Fiori launchpad for SAP S/4HANA', while the Fiori Apps Library row of MCXA at S32OP lists the
+  SAP GUI app as Published. The item names no removal date. What would settle it: the MCXA entry in a
+  later Fiori Apps Library release, or the launchpad catalogs of the target system.
+- `bp:sales-demand-to-production`, the Sales Order Fulfillment KPI, official against official
+  (disclosed in notes and in two evidence rows, no `conflicting_sources` row; written in the
+  2026-09-28 backfill): 'Configuration Settings: Sales Order Fulfillment' (2025.001, loio
+  72f69653ecd2f37ae10000000a44176d, body read 2026-09-28) defines the KPI 'Sales Order Fulfillment
+  Issues' (Goal Type: Minimizing) for the app, while the search snippet of 'Deletion of Sales Order
+  Fulfillment App' (What's New in SAP S/4HANA 2022, loio f4133a2213de466c81d5a465a3354a77) says the
+  app is obsolete and was deleted from the Sales - Sales Order Processing business catalog. The
+  record leaves the KPI out of `process.kpis`. What would settle it: the app's entry in the Fiori
+  Apps Library at S32OP (neither row prints an app id) or the catalogs of the target system.
+- `bp:order-settlement-process`, the collective settlement run for maintenance orders, repository
+  against repository, now with official rows (disclosed in notes since 2026-09-22 and in
+  `process.interfaces[1]` since the 2026-09-28 backfill; the same repository split is listed above
+  under `bp:breakdown-maintenance-process`): `data/domains.ts#pm-settlement` names CO88 for the
+  collective run, the blueprint names 'KO88/KO8G', and `data/tx-intel.ts#KO8G` describes KO8G for
+  internal orders. The backfill added 'Settlement Methods' (2025.001, loio
+  4687d0531d8b4208e10000000a174cb4, body read 2026-09-28), which names Run Settlement - Actual
+  (F4568) or KO88 for individual settlement of orders and Schedule Overhead Accounting Jobs (F3767)
+  with the template 'Actual Settlement: Orders (SAP)' or KO8GH for collective settlement, and
+  'Settlement of an Order' (2025.001, loio ccc9b65334e6b54ce10000000a174cb4, body read 2026-09-28),
+  which adds the CO report program RKO7KO8G for maintenance and service orders (order category 30);
+  the blueprint (`data/sapData.pm.ts#PM:COSP`) names RKO7KO88 as the program of KO88. KO8GH,
+  RKO7KO8G, F4568 and F3767 are not in the project dictionary. What would settle it: a test of
+  KO8GH (or F3767) and of CO88 and KO8G on PM orders in the target system, then a correction of
+  `data/domains.ts#pm-settlement` and `data/tx-intel.ts#KO8G` (not best-practices files, not edited
+  here); the two official rows can also serve the breakdown entry above on its next audit.
