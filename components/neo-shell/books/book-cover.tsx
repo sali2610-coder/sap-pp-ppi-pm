@@ -163,7 +163,7 @@ export function BookCover({
             <span className="nb-cov-type">
               <span className="nb-cov-foil" />
               {r.kicker && <span className="nb-cov-kick" lang="en">{r.kicker}</span>}
-              <span className="nb-cov-subj" lang={b.titleHe ? "he" : "en"}>{r.subject}</span>
+              <span className="nb-cov-subj" lang={b.titleHe ? "he" : "en"} aria-hidden="true">{r.subject}</span>
               {r.platform && (
                 <span className="nb-cov-plat" lang={b.titleHe ? "he" : "en"}>{r.platform}</span>
               )}
@@ -177,7 +177,7 @@ export function BookCover({
 
             <span className="nb-cov-rule" />
             <span className="nb-cov-pub">
-              <span>{b.publisher ?? "ללא מוציא לאור במטא-דאטה"}</span>
+              <span>{b.publisher ?? "מוציא לאור לא מתועד"}</span>
               <span className="nb-cov-pg">
                 {b.pages === null ? "עמודים לא מתועדים" : `${nf.format(b.pages)} עמ׳`}
               </span>

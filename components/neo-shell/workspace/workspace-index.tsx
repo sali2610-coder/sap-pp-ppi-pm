@@ -21,14 +21,17 @@ const nf = new Intl.NumberFormat("he-IL");
 
 export function WorkspaceIndex({ chapters }: { chapters: ChapterMeta[] }) {
   return (
+    // Closed by default (design audit §7: the hero, the counts, the index cards
+    // and the chapter bar stacked up to ~17,000px). The running SectionNav below
+    // is the always-visible index; these cards open on demand, nothing removed.
     <nav className="nw-idx" aria-label="פרקי המודול">
-      <p className="nw-idx-h">
-        <span className="nw-idx-k">מה יש בעמוד הזה</span>
+      <details className="nw-idx-d">
+      <summary className="nw-idx-h">
+        <span className="nw-idx-k">תוכן העמוד · {nf.format(chapters.length)} פרקים</span>
         <span className="nw-idx-s">
-          {nf.format(chapters.length)} פרקים. כל אחד מהם נבנה מהמילון של המודול. מה שהמילון אינו מחזיק,
-          לא מופיע כאן.
+          לחיצה פותחת את כרטיסי הפרקים.
         </span>
-      </p>
+      </summary>
       <ol className="nw-idx-l nm-seq">
         {chapters.map((c) => (
           <li key={c.id} className="nm-rise">
@@ -47,6 +50,7 @@ export function WorkspaceIndex({ chapters }: { chapters: ChapterMeta[] }) {
           </li>
         ))}
       </ol>
+      </details>
     </nav>
   );
 }

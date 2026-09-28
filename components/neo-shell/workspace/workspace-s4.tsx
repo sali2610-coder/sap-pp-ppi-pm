@@ -54,9 +54,9 @@ const FIRST = 4;
  *  worded line — a VALUE — because that is what it is: a statement about the
  *  provenance of the sentence next to it. */
 const TRUST_WHY: Record<string, string> = {
-  verified: "ידע Simplification List מתוחזק בפרויקט",
-  partial: "נגזר מעמודת ה-S/4 של המילון. מומלץ אימות מול SAP",
-  needs: "הפרויקט אינו מחזיק הכרעה לטבלה הזאת",
+  verified: "מבוסס על Simplification List המתוחזק בפרויקט",
+  partial: "נגזר מעמודת S/4HANA בתיעוד; נדרש אימות נוסף מול SAP",
+  needs: "לא קיימת הכרעה בתיעוד לטבלה זו",
 };
 
 export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
@@ -105,10 +105,9 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       icon={<TriangleAlert size={17} strokeWidth={1.75} />}
       lede={
         <>
-          S/4HANA היא ההקשר הקדימה של המודול, ולא הערת שוליים להשוואה. מתוך{" "}
-          <b className="nw-sap">{nf.format(d.counts.tables)}</b> הטבלאות הייחודיות של המודול,{" "}
-          <b className="nw-sap">{nf.format(changed.length)}</b> מסומנות כמשתנות מהותית, וכל אחת מהן
-          מופיעה כאן במלואה, עם המקור שממנו ההכרעה מגיעה.
+          מתוך <b className="nw-sap">{nf.format(d.counts.tables)}</b> הטבלאות הייחודיות של המודול,{" "}
+          <b className="nw-sap">{nf.format(changed.length)}</b> מסומנות כמשתנות מהותית במעבר ל-S/4HANA.
+          כל אחת מהן מוצגת כאן במלואה, עם מקור ההכרעה.
         </>
       }
       lead={
@@ -162,7 +161,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
           <p className="nw-s4trust">
             <BadgeCheck size={13} strokeWidth={1.75} aria-hidden="true" />
             מקור ההכרעה: <b className="nw-sap">{nf.format(d.s4x.trust.verified)}</b> מאומת ·{" "}
-            <b className="nw-sap">{nf.format(d.s4x.trust.partial)}</b> נגזר מהמילון ·{" "}
+            <b className="nw-sap">{nf.format(d.s4x.trust.partial)}</b> נגזר מהתיעוד ·{" "}
             <b className="nw-sap">{nf.format(d.s4x.trust.needs)}</b> נדרש אימות SAP
           </p>
         </div>
@@ -173,7 +172,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         id={`${meta.id}-moves`}
         icon={<TriangleAlert size={13} strokeWidth={1.75} />}
         title="הטבלאות שמשתנות מהותית"
-        note="כל שורה כאן היא טבלה שהפרויקט מסמן כבעלת סיכון גבוה או בינוני במעבר. הניסוח הוא של המקור: לא נוסח מחדש ולא הושלם היכן שהמקור שותק."
+        note="כל שורה היא טבלה שהפרויקט מסמן בסיכון גבוה או בינוני במעבר. הניסוח מובא מהמקור כלשונו."
       >
         {changed.length ? (
           <>
@@ -184,7 +183,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
             </ul>
             {changed.length > FIRST ? (
               <button type="button" className="nu-btn2" aria-expanded={all} onClick={() => setAll((v) => !v)}>
-                {all ? "הצג רק את הראשונות" : `הצג את כל ${nf.format(changed.length)} הטבלאות המשתנות`}
+                {all ? "הצגת הראשונות בלבד" : `הצגת כל ${nf.format(changed.length)} הטבלאות המשתנות`}
               </button>
             ) : null}
           </>
@@ -199,11 +198,11 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
           id={`${meta.id}-sic`}
           icon={<FileText size={13} strokeWidth={1.75} />}
           title={sic.title}
-          note={`${nf.format(sic.rows.length)} פריטי Simplification שהתכנון של המודול רשם בעצמו, עם מספרי ה-SAP Note שלו. מוצג מילה במילה.`}
+          note={`${nf.format(sic.rows.length)} פריטי Simplification מתיעוד המודול, עם מספרי SAP Note כפי שנרשמו במקור. מוצג כלשונו.`}
         >
           <WorkspaceSheet
             sheet={sic}
-            lede="כל פריט כאן נכתב בגיליון המקורי של הפרויקט. הקטגוריה, ה-Note וההמלצה הם של המקור: לא נוסחו מחדש ולא הושלמו."
+            lede="כל פריט מובא מהגיליון המקורי של הפרויקט: הקטגוריה, ה-SAP Note וההמלצה, כלשונם."
           />
         </Sub>
       ) : null}
@@ -212,8 +211,8 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       <Sub
         id={`${meta.id}-verdict`}
         icon={<Layers size={13} strokeWidth={1.75} />}
-        title="ההכרעה של התכנון עצמו"
-        note={`חלוקת עמודת ה-S/4HANA של המילון על ${nf.format(d.counts.tables)} הטבלאות הייחודיות. זו קריאה שנייה של אותה עמודה, והיא נשמרת לצד פילוח הסיכון ולא ממוזגת אליו.`}
+        title="הכרעת התיעוד לפי עמודת S/4HANA"
+        note={`חלוקת עמודת S/4HANA בתיעוד על ${nf.format(d.counts.tables)} הטבלאות הייחודיות, לצד פילוח הסיכון.`}
       >
         <ul className="nw-verdicts">
           {split.map((s) => (
@@ -231,8 +230,8 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         </ul>
         <p className="nw-fine">
           {notKept.length
-            ? `${nf.format(notKept.length)} טבלאות אינן מסומנות כ"נשמר". כולן מופיעות בטבלת העבודה שמתחת, ומסומנות שם באותה הכרעה.`
-            : "המילון אינו מסמן אף טבלה של המודול כמוחלפת או כמוסרת."}
+            ? `${nf.format(notKept.length)} טבלאות אינן מסומנות "ללא שינוי". כולן מופיעות בטבלת העבודה שמתחת, עם אותה הכרעה.`
+            : "התיעוד מסמן את כל טבלאות המודול ללא שינוי."}
         </p>
       </Sub>
 
@@ -241,8 +240,8 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         <Sub
           id={`${meta.id}-notes`}
           icon={<FileText size={13} strokeWidth={1.75} />}
-          title="הפניות SAP שהפרויקט מחזיק"
-          note="אלה המזהים שנרשמו בידע ה-Simplification המתוחזק של הפרויקט עבור טבלאות המודול. מספר Note שאינו קיים בפרויקט אינו מומצא כאן, ולכן הרשימה קצרה מהמלאי האמיתי של SAP."
+          title="הפניות SAP Note בפרויקט"
+          note="המזהים שנרשמו ב-Simplification List המתוחזק בפרויקט עבור טבלאות המודול. הרשימה כוללת רק מזהים שקיימים בתיעוד הפרויקט."
         >
           <ul className="nw-notes">
             {d.s4x.notes.map((n) => (
@@ -256,9 +255,9 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
 
       {/* ------------------------------------- what the blueprint left empty */}
       <p className="nw-fine">
-        עמודות המקור במודול הזה: הערת S/4 על {nf.format(d.s4x.has.note)} טבלאות · טבלה או טרנזקציה חלופית
-        על {nf.format(d.s4x.has.alt)} · הערת SUM על {nf.format(d.s4x.has.sum)} · אפליקציית Fiori על{" "}
-        {nf.format(d.s4x.has.fiori)}. עמודה שהתכנון השאיר ריקה מוצגת כריקה, ולא מושלמת ממקור אחר.
+        עמודות המקור במודול זה: הערת S/4HANA על {nf.format(d.s4x.has.note)} טבלאות · טבלה או טרנזקציה חלופית
+        על {nf.format(d.s4x.has.alt)} · הערת SUM על {nf.format(d.s4x.has.sum)} · יישום Fiori על{" "}
+        {nf.format(d.s4x.has.fiori)}. עמודה ריקה במקור מוצגת כריקה.
       </p>
     </Chapter>
   );
@@ -293,20 +292,20 @@ function Move({ r }: { r: WsS4Row }) {
 
       {/* What changes. The loudest sentence in the block, on purpose. */}
       <p className="nw-move-w">
-        {r.changed || r.s4Note || "הפרויקט אינו מחזיק ניסוח למה שמשתנה בטבלה הזאת."}
+        {r.changed || r.s4Note || "לא קיים בתיעוד ניסוח של השינוי בטבלה זו."}
       </p>
       {r.why ? <p className="nw-move-y">{r.why}</p> : null}
 
       <dl className="nw-move-kv">
         {r.changed && r.s4Note && r.changed !== r.s4Note ? (
           <div>
-            <dt>הערת המילון</dt>
+            <dt>הערת התיעוד</dt>
             <dd>{r.s4Note}</dd>
           </div>
         ) : null}
         {r.s4Alt ? (
           <div>
-            <dt>חלופה כפי שנוסחה</dt>
+            <dt>חלופה לפי התיעוד</dt>
             <dd className="nw-sap">{r.s4Alt}</dd>
           </div>
         ) : null}
@@ -318,7 +317,7 @@ function Move({ r }: { r: WsS4Row }) {
         ) : null}
         {r.fiori ? (
           <div>
-            <dt>יורש Fiori</dt>
+            <dt>יישום Fiori עוקב</dt>
             <dd className="nw-sap">{r.fiori}</dd>
           </div>
         ) : null}

@@ -42,8 +42,8 @@ export const MODES: Record<AiMode, ModeDef> = {
     id: "library",
     href: "/library/ask/",
     title: "שאל את הספרייה",
-    tagline: "תשובות מהספרים שלך בלבד, עם הפניה מדויקת",
-    promise: "אחפש בספרי ה-SAP שלך ואענה ממקורות מאומתים בלבד. אם התשובה לא נמצאת בספרים — אומר זאת במקום לנחש.",
+    tagline: "תשובות מספרי הספרייה בלבד, עם הפניה מדויקת למקור",
+    promise: "התשובות נשענות על ספרי ה-SAP שבספרייה בלבד, עם הפניה למקור. כשאין מקור מאומת בספרים, המערכת מציינת זאת במקום לנחש.",
     // Left undefined so diagram intent detection can still pick a visual
     // profile; all of those are grounded, so the promise holds either way.
     task: undefined,
@@ -79,7 +79,7 @@ export const MODES: Record<AiMode, ModeDef> = {
     href: "/chat/",
     title: "יועץ SAP",
     tagline: "ארכיטקטורה, יישום, אבחון תקלות ופיתוח",
-    promise: "אני יועץ SAP. אפשר לשאול על ארכיטקטורה, יישום, אינטגרציה, ABAP, Fiori, BTP, אבחון תקלות ושיטות עבודה. כשמשהו דורש אימות מול המערכת או מקור רשמי — אומר זאת.",
+    promise: "ייעוץ SAP כללי: ארכיטקטורה, יישום, אינטגרציה, ABAP, Fiori, BTP, אבחון תקלות ושיטות עבודה. כשנושא דורש אימות מול המערכת או מקור רשמי, המערכת מציינת זאת.",
     task: "SAP_CONSULT",
     accent: "#7c3aed",
     starters: [

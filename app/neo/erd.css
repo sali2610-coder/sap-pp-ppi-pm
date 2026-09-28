@@ -347,6 +347,26 @@ html[data-theme="dark"] .ne {
   background: var(--m, var(--ink-3));
   flex: none;
 }
+/* The relation in words (design audit S7-ERD-5). */
+.ne-cnv-note { margin-block: 0 var(--sp-2); max-inline-size: 72ch; }
+.ne-join-say { margin: 2px 0 4px; font-size: var(--t-xs); line-height: 1.55; color: var(--ink-2); }
+/* The literal token for a relation the dictionary records without a
+   cardinality (design audit §11 ERD): monospace, muted, never a colour that
+   reads as a status. */
+.ne-cnv {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  line-height: 1.4;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+  border: 1px dashed color-mix(in srgb, var(--ink-2) 55%, transparent);
+  border-radius: 6px;
+  padding: 1px 6px;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.ne-join-say b { font-weight: 700; color: var(--ink-1); }
 .ne-rel > i {
   flex: none;
   inline-size: 18px !important;
@@ -753,11 +773,16 @@ html[data-theme="dark"] .ne {
 
 /* Open the real object page. Present only on the table you are looking at, so
    the map stays a map. */
-.ne-node-go { opacity: 0; transition: opacity var(--dur-fast) linear; cursor: pointer; }
+/* While hidden the affordance is also NOT hit-testable: on touch there is no
+   hover, and an invisible corner that navigates away on tap is a trap, not an
+   affordance. pointer-events comes back exactly when the reveal does — and a
+   keyboard focus reveals it too, so focus never lands on an invisible control. */
+.ne-node-go { opacity: 0; pointer-events: none; transition: opacity var(--dur-fast) linear; cursor: pointer; }
 .ne-node-go rect { fill: color-mix(in srgb, var(--ms) 16%, var(--surface)); stroke: var(--ms); stroke-width: 1; }
 .ne-node-go path { fill: none; stroke: var(--ms); stroke-width: 1.6; stroke-linecap: round; }
 .ne-node:hover .ne-node-go,
-.ne-node[data-lvl="0"] .ne-node-go { opacity: 1; }
+.ne-node[data-lvl="0"] .ne-node-go,
+.ne-node-go:focus-visible { opacity: 1; pointer-events: auto; }
 .ne-node-go:focus-visible { outline: none; }
 .ne-node-go:focus-visible rect { stroke: var(--brand); stroke-width: 2.5; }
 
@@ -1188,7 +1213,11 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-none { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); font-style: italic; }
 
 .ne-joins { display: grid; gap: var(--sp-3); }
-.ne-joins > li { display: grid; gap: 5px; padding-inline-start: var(--sp-3); border-inline-start: 3px solid var(--hairline); }
+/* The gutter rule on a relation row is a hairline, not an accent: it groups the
+   row and carries one piece of meaning, because a relation whose cardinality
+   the dictionary does not state switches it to dashed. Kept at 2px so it reads
+   as a rule rather than a coloured tab. */
+.ne-joins > li { display: grid; gap: 5px; padding-inline-start: var(--sp-3); border-inline-start: 2px solid var(--hairline); }
 .ne-joins > li[data-kind="unstated"] { border-inline-start-style: dashed; }
 .ne-join-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
 .ne-join-go {
@@ -1471,6 +1500,8 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
      that used to sit here never applied. They are in the viewport media query
      below instead, which is the only place that can reach .ne itself. */
   .ne-body { grid-template-columns: minmax(0, 1fr); }
+  /* The overview's two-column rule lives at the END of this sheet (same
+     specificity, later wins), so its narrow override sits right after it. */
   .ne-stage { block-size: 58svh; min-block-size: 20rem; }
   .ne-insp {
     grid-template-rows: auto auto;
@@ -1502,7 +1533,69 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
    PHONE · the open card is the surface, and getting back out is one tap
    ========================================================================== */
 
+/* ==========================================================================
+   PRESENTATION MODE (design audit S6-3) · a meeting room, not a desk
+   Focus mode + fullscreen are the workspace's own; this sheet adds the type:
+   the inspector's tokens step up one size, the card labels grow a little
+   (the card boxes are fixed, so names keep their size and the fit floor of
+   100% carries them), the minimap steps aside and a short legend sits on the
+   stage. Nothing is hidden that a presenter would need: fit, zoom, the
+   picker and the inspector all stay.
+   ========================================================================== */
+.ne[data-present="1"] {
+  --t-micro: .875rem;
+  --t-xs: .95rem;
+  --t-sm: 1.02rem;
+  --t-body: 1.08rem;
+  --t-h2: 1.3rem;
+}
+.ne[data-present="1"] .ne-node-he { font-size: 13px; }
+.ne[data-present="1"] .ne-node-k, .ne[data-present="1"] .ne-node-fk { font-size: 12px; }
+.ne[data-present="1"] .ne-node-mod, .ne[data-present="1"] .ne-node-z { font-size: 11.5px; }
+.ne[data-present="1"] .ne-mod-he { font-size: 19px; }
+.ne[data-present="1"] .ne-mod-en { font-size: 14px; }
+.ne[data-present="1"] .ne-mini { display: none; }
+.ne-legend {
+  position: absolute; inset-inline: 10px; inset-block-end: 10px; z-index: 3;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px;
+  padding: 8px 14px;
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--surface) 93%, transparent);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-2);
+  font-size: var(--t-xs); color: var(--ink-2);
+  pointer-events: none;
+}
+.ne-legend-h { font-weight: 700; color: var(--ink-1); margin-inline-end: 6px; }
+.ne-legend-i { display: inline-flex; align-items: center; gap: 7px; }
+.ne-legend-i i { inline-size: 28px; block-size: 0; border-block-start: 2.5px solid var(--ink-2); }
+.ne-legend-i i[data-kind="unstated"] { border-block-start-style: dashed; opacity: .55; }
+.ne-legend-i b { inline-size: 11px; block-size: 11px; border-radius: 3px; background: var(--ms, var(--ink-3)); }
+
+/* PHONE ENTRY AND FOCUS (design audit S6-4). Rendered only on a phone (the
+   workspace reads the same 640px query) and drawn only here: a desktop never
+   sees them. */
+.ne-phone { display: none; }
+
 @media (max-width: 640px) {
+  .ne-phone {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px;
+    min-inline-size: 0;
+    padding: 8px var(--sp-3);
+    border-block-end: 1px solid var(--hairline);
+    background: var(--surface);
+  }
+  .ne-phone-h {
+    flex: 1 1 10rem; margin: 0; min-inline-size: 0;
+    font-size: var(--t-xs); line-height: 1.5; color: var(--ink-2);
+  }
+  .ne-phone-btn, .ne-phone-up { min-block-size: var(--c-tap, 2.75rem); }
+  .ne-phone-btn:disabled { opacity: .55; cursor: default; }
+  .ne-phone-up { margin-inline-start: auto; }
+  /* The list replaces the shrunk map: the stage is not drawn until the reader
+     asks for the full map or opens a module. The inspector below it stays. */
+  .ne[data-plist="1"] .ne-stage { display: none; }
+
   /* The stage grows: an opened table is a card with a field list in it, and it
      has to be read without pinching. */
   .ne-stage { block-size: 66svh; min-block-size: 24rem; }
@@ -1573,8 +1666,11 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne {
   --erd-mod-mm:    #2f81f7;
   --erd-mod-pp:    #9b5de5;
-  --erd-mod-pppi:  #6d28d9;
-  --erd-mod-pm:    #f97316;
+  /* 2026-09-21 (design audit §5): PM and PP-PI take the product's own module
+     hues so a module reads the same on a card, in a table and on the map.
+     Literal in both themes: they are fills under white text here. */
+  --erd-mod-pppi:  #1d4ed8;
+  --erd-mod-pm:    #0f766e;
   --erd-mod-cs:    #14b8a6;
   --erd-mod-sd:    #22c55e;
   --erd-mod-fi:    #ef4444;
@@ -1614,13 +1710,16 @@ html[data-theme="dark"] .ne {
 .ne-node-s4[data-risk="high"] rect { fill: #dc2626; }
 .ne-node-s4 text {
   font-family: var(--font-mono);
-  font-size: 8px; font-weight: 800;
+  font-size: 10px; font-weight: 800;
   fill: #451a03;
 }
+/* Dark brown on the red high-risk fill was near-invisible; the badge keeps its
+   risk colours in both themes, so the text contrast is fixed per-fill. */
+.ne-node-s4[data-risk="high"] text { fill: #fef2f2; }
 
 /* The click affordance, quiet until the pointer is on the node. */
 .ne-node-hint {
-  font-size: 9px; font-weight: 700;
+  font-size: 10px; font-weight: 700;
   fill: var(--ink-3);
   opacity: 0;
   transition: opacity 160ms var(--ease-out-expo);
@@ -1665,3 +1764,33 @@ html[data-theme="dark"] .ne {
   opacity: .78;
 }
 .ne-edge[data-cross="1"] .ne-edge-cap { fill: var(--erd-cross); stroke: var(--erd-cross); }
+
+/* ---------------------------------------------------------------------------
+   Design audit (2026-09-21): narrower inspector on the overview, the mode chip,
+   the canonical status word on nodes and in the inspector, focus mode. */
+.ne[data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr) 19rem; }
+@media (min-width: 2000px) { .ne[data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr) 22rem; } }
+.ne[data-insp="0"][data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr); }
+/* A NARROW WORKSPACE IS ONE COLUMN AT THE OVERVIEW TOO. The two-column rule
+   above outranks the container query's `.ne-body` rule by specificity, so on
+   a 390px phone it put a 19rem inspector beside an 86px stage and the two
+   overlapped (measured 2026-09-22: columns "86px 304px"). Same selector, same
+   specificity, later in the sheet — this one wins where the container is
+   narrow. */
+@container ne (max-width: 900px) {
+  .ne[data-level="overview"] .ne-body { grid-template-columns: minmax(0, 1fr); }
+}
+.ne-modechip { display: inline-flex; align-items: center; gap: var(--sp-2); margin: var(--sp-2) 0 0; font-size: var(--t-micro); color: var(--ink-2); }
+.ne-modechip-k { color: var(--ink-3); }
+.ne-modechip b { font-weight: 650; color: var(--ink-1); }
+.ne-node-s4[data-k="replaced"] rect { fill: var(--sec-transactions, #1d5fd0); }
+.ne-node-s4[data-k="replaced"] text { fill: #eff6ff; }
+.ne-node-s4[data-k="not_available"] rect, .ne-node-s4[data-k="legacy_ecc_only"] rect { fill: #dc2626; }
+.ne-node-s4[data-k="not_available"] text, .ne-node-s4[data-k="legacy_ecc_only"] text { fill: #fef2f2; }
+.ne-node-s4[data-k="verification_required"] rect { fill: #94a3b8; }
+.ne-node-s4[data-k="verification_required"] text { fill: #0f172a; }
+.ne-node-s4[data-k="s4_native"] rect { fill: #0e7f8c; }
+.ne-node-s4[data-k="s4_native"] text { fill: #ecfeff; }
+.ne-node-s4 text { font-family: var(--font-sans, inherit); font-size: 9.5px; font-weight: 700; }
+.ne-s4-canon { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin: 0 0 var(--sp-2); }
+.ne-s4-canon em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }

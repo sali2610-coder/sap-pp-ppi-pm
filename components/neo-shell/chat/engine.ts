@@ -79,11 +79,11 @@ export function phaseOf(live: LiveState): Phase {
  */
 export function phaseLabel(live: LiveState): string {
   switch (phaseOf(live)) {
-    case "sending": return "שולח את השאלה…";
-    case "retrieved": return "מכין תשובה…";
-    case "writing": return "כותב תשובה…";
+    case "sending": return "שליחת השאלה…";
+    case "retrieved": return "הכנת התשובה…";
+    case "writing": return "כתיבת התשובה…";
     case "finishing":
-      return live.stage === "validating" ? "מאמת את התשובה מול המקורות…" : "מסיים…";
+      return live.stage === "validating" ? "אימות התשובה מול המקורות…" : "סיום…";
   }
 }
 

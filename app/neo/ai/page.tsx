@@ -21,7 +21,7 @@ import { LibraryChat } from "@/components/neo-shell/chat/library-chat";
 // indexable page missing from the sitemap.
 export const metadata = {
   title: "שאל את הספרייה · Project NEO",
-  description: "שיחה עם הספרייה הדיגיטלית של NEO. תשובות מבוססות על הספרים בלבד, עם הפניה לפרק ולסעיף.",
+  description: "שאלות על ספרי SAP שבספריית Project NEO. התשובות מבוססות על הספרים בלבד, עם הפניה לספר, לפרק ולסעיף.",
   robots: { index: false, follow: false },
 };
 

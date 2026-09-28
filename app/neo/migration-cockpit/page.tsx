@@ -12,8 +12,8 @@ import { migTotals } from "@/components/neo-shell/s4/s4-data";
 export function generateMetadata() {
   const t = migTotals();
   return {
-    title: "קוקפיט מיגרציה · Project NEO",
-    description: `${t.objects} אובייקטי הגירה, ${t.eccTables} טבלאות ECC, רצף טעינה מחושב, ${t.errors} דפוסי שגיאה ו-${t.checklist} צעדי ביצוע.`,
+    title: "קוקפיט המעבר · Project NEO",
+    description: `${t.objects} אובייקטי מעבר, ${t.eccTables} טבלאות מקור ב-ECC, רצף טעינה מחושב, ${t.errors} דפוסי שגיאה ו-${t.checklist} צעדי ביצוע.`,
     robots: { index: false, follow: false },
   };
 }

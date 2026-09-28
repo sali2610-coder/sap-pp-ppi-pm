@@ -33,7 +33,7 @@ export function WorkspaceHero({ d }: { d: WsData }) {
   // because the dictionary genuinely holds two different counts.
   const stats: { n: number; l: string; sub?: string }[] = [
     { n: d.counts.topics, l: "נושאים" },
-    { n: d.counts.rows, l: "שורות מילון", sub: `${nf.format(d.counts.tables)} טבלאות ייחודיות` },
+    { n: d.counts.rows, l: "רשומות תיעוד", sub: `${nf.format(d.counts.tables)} טבלאות ייחודיות` },
     { n: d.counts.fields, l: "שדות מתועדים", sub: `${nf.format(d.counts.pk)} PK · ${nf.format(d.counts.fk)} FK` },
     {
       n: d.counts.funcEntries,
@@ -55,7 +55,7 @@ export function WorkspaceHero({ d }: { d: WsData }) {
     { n: d.counts.tcodes, l: "טרנזקציות" },
     { n: d.counts.edges, l: "קשרים ממודלים" },
     { n: d.counts.cds, l: "CDS Views" },
-    { n: d.counts.fiori, l: "Fiori Apps" },
+    { n: d.counts.fiori, l: "יישומי Fiori" },
   ];
 
   return (
@@ -89,11 +89,11 @@ export function WorkspaceHero({ d }: { d: WsData }) {
           Three destinations, ranked, all of them real generated routes. The
           primary one is not an editorial pick: it is the table the dictionary
           models the most neighbours for, and it says so. */}
-      <nav className="nw-go nm-rise" aria-label="מאיפה מתחילים">
+      <nav className="nw-go nm-rise" aria-label="נקודות כניסה למודול">
         {d.entry ? (
           <OriginLink className="nu-btn" href={d.entry.href} origin={() => origin(d.entry!.n)}>
             <i className="nw-cls" style={{ "--o": d.entry.obj } as React.CSSProperties} aria-hidden="true" />
-            התחילו מ־<span className="nw-sap">{d.entry.n}</span>
+            התחלה מ-<span className="nw-sap">{d.entry.n}</span>
             <ArrowLeft className="nu-arw" size={15} strokeWidth={2} aria-hidden="true" />
           </OriginLink>
         ) : null}
@@ -102,12 +102,12 @@ export function WorkspaceHero({ d }: { d: WsData }) {
           מודל הנתונים המלא
         </Link>
         <Link className="nu-link" href="/neo/transactions/" prefetch={false}>
-          מרשם הטרנזקציות
+          קטלוג הטרנזקציות
           <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
         </Link>
         {d.entry ? (
           <span className="nw-go-why">
-            הטבלה המקושרת ביותר במודול, עם <span className="nw-sap">{nf.format(d.entry.deg)}</span> שכנים ישירים במילון.
+            הטבלה המקושרת ביותר במודול, עם <span className="nw-sap">{nf.format(d.entry.deg)}</span> טבלאות מקושרות ישירות בתיעוד.
           </span>
         ) : null}
       </nav>

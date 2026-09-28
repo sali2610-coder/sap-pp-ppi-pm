@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ bookId: s
   return {
     title: d ? `${d.book.titleHe || d.book.titleEn} · מרכז הספר · Project NEO` : "מרכז הספר · Project NEO",
     description: d
-      ? `${d.book.chapters} פרקים ו-${d.book.sections} תת-פרקים, והדרך אל הקורא הקיים של Project NEO.`
+      ? `${d.book.chapters} פרקים ו-${d.book.sections} תת-פרקים: תוכן העניינים, המשך קריאה והקישור לתיעוד הטכני.`
       : undefined,
     robots: { index: false, follow: false },
   };

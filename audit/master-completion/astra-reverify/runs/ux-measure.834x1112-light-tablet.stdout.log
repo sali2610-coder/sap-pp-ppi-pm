@@ -1,0 +1,32 @@
+home: http=200 pageOv=0 canvasOv=0 canvasW=834 h=3058 dim=0(min 1) zoom=- errs=0 :: div.nh-mid.nm-par +50
+pm: http=200 pageOv=0 canvasOv=0 canvasW=834 h=18911 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +536
+pp-pi: http=200 pageOv=0 canvasOv=0 canvasW=834 h=18266 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +536
+domains: http=200 pageOv=0 canvasOv=0 canvasW=834 h=6467 dim=0(min 1) zoom=- errs=0
+domain-floc: http=200 pageOv=0 canvasOv=0 canvasW=834 h=4857 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +914
+s4-center: http=200 pageOv=0 canvasOv=0 canvasW=834 h=10551 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +161
+readiness: http=200 pageOv=0 canvasOv=0 canvasW=834 h=8638 dim=0(min 1) zoom=100% errs=0
+cockpit: http=200 pageOv=0 canvasOv=0 canvasW=834 h=8759 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +275
+erd: http=200 pageOv=0 canvasOv=0 canvasW=834 h=1941 dim=0(min 1) zoom=66% errs=0
+studio: http=200 pageOv=0 canvasOv=0 canvasW=834 h=959 dim=0(min 1) zoom=111% errs=0
+tables: http=200 pageOv=0 canvasOv=0 canvasW=834 h=22842 dim=0(min 1) zoom=- errs=0
+table-afko: http=200 pageOv=0 canvasOv=0 canvasW=834 h=8226 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +565
+object-mara: http=200 pageOv=0 canvasOv=0 canvasW=834 h=9034 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +805
+bp-record: http=200 pageOv=0 canvasOv=0 canvasW=834 h=20201 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +190
+transactions: http=200 pageOv=0 canvasOv=0 canvasW=834 h=23460 dim=0(min 1) zoom=- errs=0
+bapis: http=200 pageOv=0 canvasOv=0 canvasW=834 h=20128 dim=0(min 1) zoom=- errs=0
+bapi-alm-conf: http=200 pageOv=0 canvasOv=0 canvasW=834 h=3489 dim=0(min 1) zoom=- errs=0
+idocs: http=200 pageOv=0 canvasOv=0 canvasW=834 h=3465 dim=0(min 1) zoom=- errs=0
+cds: http=200 pageOv=0 canvasOv=0 canvasW=834 h=9011 dim=0(min 1) zoom=- errs=0
+fiori: http=200 pageOv=0 canvasOv=0 canvasW=834 h=8139 dim=0(min 1) zoom=- errs=0
+enhancements: http=200 pageOv=0 canvasOv=0 canvasW=834 h=3525 dim=0(min 1) zoom=- errs=0 :: table.nxr-compare-t +103
+books: http=200 pageOv=0 canvasOv=0 canvasW=834 h=6640 dim=0(min 1) zoom=- errs=0
+reader: http=200 pageOv=0 canvasOv=0 canvasW=834 h=30098 dim=0(min 1) zoom=- errs=0
+ask-library: http=200 pageOv=0 canvasOv=0 canvasW=834 h=1357 dim=0(min 1) zoom=- errs=0
+chat: http=200 pageOv=0 canvasOv=0 canvasW=834 h=1291 dim=0(min 1) zoom=- errs=0
+knowledge: http=200 pageOv=0 canvasOv=0 canvasW=834 h=8302 dim=0(min 1) zoom=- errs=0
+academy: http=200 pageOv=0 canvasOv=0 canvasW=834 h=2094 dim=0(min 1) zoom=- errs=0
+certification: http=200 pageOv=0 canvasOv=0 canvasW=834 h=961 dim=0(min 1) zoom=- errs=0
+incidents: http=200 pageOv=0 canvasOv=0 canvasW=834 h=8836 dim=0(min 1) zoom=- errs=0
+incident-cogi: http=200 pageOv=0 canvasOv=0 canvasW=834 h=1772 dim=0(min 1) zoom=- errs=0
+centers: http=200 pageOv=0 canvasOv=0 canvasW=834 h=2304 dim=0(min 1) zoom=- errs=0
+best-practices: http=200 pageOv=0 canvasOv=0 canvasW=834 h=8932 dim=0(min 1) zoom=- errs=0

@@ -35,6 +35,7 @@
              S/4HANA.
    ========================================================================== */
 
+import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import {
   AppWindow, ArrowLeft, ArrowUpLeft, BadgeCheck, BookOpen, Boxes, Cable,
@@ -44,6 +45,8 @@ import {
 import { RISK_COLOR } from "@/lib/s4";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { CopyId } from "../copy-id";
+import { EvidenceBlock } from "../evidence/evidence-block";
 import { MOD_HE, REL_HE, relVar, tableSummary, type TableDetail } from "./tables-detail";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -51,9 +54,9 @@ const nf = new Intl.NumberFormat("he-IL");
 const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--mod-pppi)" };
 
 const TRUST_WHY: Record<string, string> = {
-  verified: "ידע Simplification List מתוחזק בפרויקט",
-  partial: "נגזר מעמודת ה-S/4 של המילון. מומלץ אימות מול SAP",
-  needs: "המאגר אינו מחזיק הכרעה לטבלה הזאת",
+  verified: "מבוסס על ידע Simplification List המתוחזק בפרויקט",
+  partial: "נגזר מעמודת ה-S/4HANA בתיעוד המקור. נדרש אימות במערכת SAP",
+  needs: "לא קיימת הכרעה מאומתת לטבלה זו במאגר",
 };
 
 /* ---------------------------------------------------------------- pieces */
@@ -63,8 +66,8 @@ const TRUST_WHY: Record<string, string> = {
 function Missing({ what }: { what: string }) {
   return (
     <p className="nxb-missing">
-      <b>אין מידע מאומת במאגר</b>
-      <span>המאגר של Project NEO אינו מחזיק {what} עבור הטבלה הזאת.</span>
+      <b>לא קיים תיעוד מאומת במאגר</b>
+      <span>המאגר אינו כולל {what} עבור טבלה זו.</span>
     </p>
   );
 }
@@ -118,12 +121,18 @@ export function TableDetailView({ t }: { t: TableDetail }) {
   // ONE list drives the numbering and the jump nav, so a section can never be
   // numbered 04 in the page and 03 in the nav.
   const nav: [string, string][] = [
-    ["nxb-s4", "המעבר ל-S/4HANA"],
-    ["nxb-own", t.rows.length > 1 ? "רשומות המילון" : "רשומת המילון"],
+    // FIELDS AND RELATIONS FIRST (design audit S7-TBL-1): the table's own
+    // structure begins right under the header, ~0.7 screen from the top at
+    // 1363 (it began 2.3 screens down, behind the S/4 plate and the
+    // ownership section). The canonical S/4 status stays in the header, so
+    // the main answer still precedes its sources (S7-TBL-4); the S/4 plate
+    // and the evidence block follow the structure.
     ["nxb-fields", "שדות ומפתחות"],
     ["nxb-rel", "קשרים ו-JOIN"],
+    ["nxb-s4", "המעבר ל-S/4HANA"],
+    ["nxb-own", t.rows.length > 1 ? "רשומות התיעוד" : "רשומת התיעוד"],
     ["nxb-tx", "טרנזקציות"],
-    ["nxb-cds", "תצוגות CDS"],
+    ["nxb-cds", "CDS Views"],
     ["nxb-if", "ממשקים ו-Fiori"],
     ["nxb-sib", "טבלאות באותו נושא"],
     ["nxb-books", "ספרים והפניות"],
@@ -141,7 +150,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           its filters, a module workspace, the ERD, a search. With no memory it
           falls back to /neo/tables/, which is this page's real parent. */}
       <SmartReturn
-        fallback={{ href: "/neo/tables/", label: "טבלאות" }}
+        fallback={{ href: "/neo/tables/", label: "טבלאות SAP" }}
         hint="לא נשמר מסלול הגעה בביקור הזה"
       />
 
@@ -158,12 +167,15 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         </p>
 
         <div className="nxb-title">
-          <h1 className="nxb-name nx-sap">
-            <span className="nxb-cls" aria-hidden="true" />
-            {t.name}
-          </h1>
+          <div className="nxt-codeline">
+            <h1 className="nxb-name nx-sap">
+              <span className="nxb-cls" aria-hidden="true" />
+              {t.name}
+            </h1>
+            <CopyId value={t.name} label="העתקת שם הטבלה" compact />
+          </div>
           <div className="nxb-names">
-            <p className="nxb-he">{t.he || "אין מידע מאומת במאגר. המילון אינו מחזיק תיאור עברי לטבלה הזאת."}</p>
+            <p className="nxb-he">{t.he || "לא קיים תיעוד מאומת במאגר: אין תיאור עברי לטבלה זו."}</p>
             {t.en ? <p className="nxb-en nx-sap">{t.en}</p> : null}
           </div>
         </div>
@@ -177,7 +189,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
               <em>{MOD_HE[mod]}</em>
               <span className="nxb-mod-n">
                 {nf.format(t.rows.filter((r) => r.mod === mod).length)}
-                {t.rows.filter((r) => r.mod === mod).length === 1 ? " רשומת מילון" : " רשומות מילון"}
+                {t.rows.filter((r) => r.mod === mod).length === 1 ? " רשומת תיעוד" : " רשומות תיעוד"}
               </span>
             </li>
           ))}
@@ -190,8 +202,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         {t.shared ? (
           <p className="nxb-shared">
             <Layers size={14} strokeWidth={1.75} aria-hidden="true" />
-            שני התכנונים מתעדים את הטבלה הזאת. לכל מודול נושא, טרנזקציות ושדות משלו; שתי הרשומות מוצגות
-            זו לצד זו ולא מאוחדות לאחת.
+            הטבלה מתועדת בשני המודולים, PM ו-PP-PI. לכל מודול נושא, טרנזקציות ושדות משלו, ושתי הרשומות
+            מוצגות זו לצד זו.
           </p>
         ) : null}
 
@@ -205,7 +217,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             <dd>
               {t.pk.length
                 ? t.pk.map((f) => <span key={f} className="nx-sap">{f}</span>)
-                : <em>אין מידע מאומת במאגר. המילון אינו מסמן מפתח ראשי</em>}
+                : <em>לא קיים תיעוד מאומת במאגר: לא סומן מפתח ראשי</em>}
             </dd>
           </div>
           <div data-k="FK">
@@ -213,11 +225,23 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             <dd>
               {t.fk.length
                 ? t.fk.map((f) => <span key={f} className="nx-sap">{f}</span>)
-                : <em>אין מידע מאומת במאגר. המילון אינו מסמן מפתח זר</em>}
+                : <em>לא קיים תיעוד מאומת במאגר: לא סומן מפתח זר</em>}
             </dd>
           </div>
         </dl>
 
+        {/* THE ANSWER FIRST (design audit S7-TBL-4 / ACC-3): the canonical
+            S/4HANA status in the header — the same pill the S/4 section and
+            the evidence block carry — before any source is shown. */}
+        <p className="nxb-stand-h">
+          <StatusPill status={t.evidence.status.key} label={t.evidence.status.label} dot={t.evidence.status.dot} />
+          {!t.s4.impacted ? (
+            <a className="nu-link" href="#nxb-s4">
+              פירוט המעבר ל-S/4HANA
+              <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
+            </a>
+          ) : null}
+        </p>
         {/* S/4HANA badge — the one place brand red appears on this page. */}
         {t.s4.impacted ? (
           <p className="nxb-s4flag">
@@ -227,7 +251,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             <b>הטבלה משתנה מהותית ב-S/4HANA</b>
             {t.s4.changed ? <span>{t.s4.changed}</span> : null}
             <a className="nu-link" href="#nxb-s4">
-              מה בדיוק משתנה
+              הצגת פירוט השינוי
               <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
             </a>
           </p>
@@ -242,7 +266,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             [s.rels, "קשרים ממודלים"],
             [s.joins, "ניסוחי JOIN"],
             [s.tx, "טרנזקציות"],
-            [s.cds, "תצוגות CDS"],
+            [s.cds, "CDS Views"],
             [s.funcs, "BAPI · FM · IDoc"],
           ] as [number, string][]).map(([v, l]) => (
             <span className="nxb-stat" key={l}>
@@ -255,12 +279,12 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         <div className="nxb-cta">
           <Link className="nu-btn" href={t.objectHref} prefetch={false}>
             <Boxes size={15} strokeWidth={1.75} aria-hidden="true" />
-            עמוד האובייקט המלא
+            פתיחת עמוד האובייקט
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
           <Link className="nu-btn2" href={t.erdHref} prefetch={false}>
             <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />
-            הצג במודל הנתונים
+            הצגה במודל הנתונים
           </Link>
           <Link className="nu-btn2" href="/neo/tables/" prefetch={false}>
             <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
@@ -278,11 +302,15 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             </Link>
           ))}
         </div>
+        <p className="nxb-cta-note">
+          עמוד הטבלה (כאן): השדות, המפתחות, הקשרים ומעמד ה-S/4HANA של הטבלה מתוך הבלופרינט. עמוד האובייקט: אותה טבלה
+          בהקשר הרחב שלה: תהליכים, טרנזקציות, פונקציות, תקלות וספרים.
+        </p>
 
         <p className="nxb-rank">
           {t.deg
             ? <>לפי מספר הקשרים הממודלים, {t.name} מדורגת <b>{nf.format(t.rank)}</b> מתוך {nf.format(t.total)} טבלאות במאגר.</>
-            : <>המאגר אינו רושם אף קשר ER לטבלה הזאת, מתוך {nf.format(t.total)} טבלאות מתועדות.</>}
+            : <>לא קיים במאגר קשר ER לטבלה זו, מתוך {nf.format(t.total)} טבלאות מתועדות.</>}
         </p>
 
       </header>
@@ -293,121 +321,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           numbers below. */}
       <SectionNav sections={nav.map(([id, label]) => ({ id, label }))} />
 
-      {/* ================================================= 2. S/4HANA */}
-      <Sec
-        id="nxb-s4"
-        n={num["nxb-s4"]}
-        icon={<TriangleAlert size={16} strokeWidth={1.75} />}
-        eyebrow="ECC ➔ S/4HANA"
-        title="מה קורה לטבלה במעבר"
-        lede="קודם ההכרעה של הפרויקט ומאיפה היא מגיעה, ואחריה מה שכל תכנון כתב בעצמו, מילה במילה. הכרעה שאין לפרויקט, כתוב שאין."
-      >
-        <div className="nxb-stand" data-risk={t.s4.risk} data-impact={t.s4.impacted ? "1" : "0"}>
-          <p className="nxb-stand-h">
-            <span className="nu-status" style={{ "--s": RISK_COLOR[t.s4.risk] } as React.CSSProperties}>
-              {t.s4.riskHe}
-            </span>
-            {t.s4.note ? <span className="nu-chip is-sap">{t.s4.note}</span> : null}
-          </p>
-          {t.s4.changed
-            ? <p className="nxb-stand-w">{t.s4.changed}</p>
-            : (
-              <p className="nxb-stand-w nxb-stand-none">
-                אין מידע מאומת במאגר לגבי מה שמשתנה בטבלה הזאת ב-S/4HANA.
-              </p>
-            )}
-          {t.s4.why ? <p className="nxb-stand-y">{t.s4.why}</p> : null}
-          {t.s4.tcodes.length || t.s4.cds.length ? (
-            <dl className="nxb-kv">
-              {t.s4.tcodes.length ? (
-                <div>
-                  <dt>טרנזקציות לבדיקה</dt>
-                  <dd>{t.s4.tcodes.map((c) => <span key={c} className="nu-chip is-sap">{c}</span>)}</dd>
-                </div>
-              ) : null}
-              {t.s4.cds.length ? (
-                <div>
-                  <dt>תצוגות תאימות</dt>
-                  <dd>{t.s4.cds.map((c) => <span key={c} className="nu-chip is-sap">{c}</span>)}</dd>
-                </div>
-              ) : null}
-            </dl>
-          ) : null}
-          <p className="nxb-stand-t">
-            <BadgeCheck size={12} strokeWidth={1.75} aria-hidden="true" />
-            {t.s4.trustHe} · {TRUST_WHY[t.s4.trust]}
-          </p>
-        </div>
-
-        <h3 className="nxb-h3">
-          <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />
-          מה שהתכנון כתב, מילה במילה
-        </h3>
-        {t.s4.rows.length ? (
-          <div className="nxb-s4rows">
-            {t.s4.rows.map((r, i) => (
-              <article key={`${r.mod}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
-                <header>
-                  <span className="nxb-row-bar" aria-hidden="true" />
-                  <b>{r.mod} · {MOD_HE[r.mod]}</b>
-                  {r.topic ? <em>{r.topic}</em> : null}
-                </header>
-                {r.note ? <p className="nxb-quote">{r.note}</p> : null}
-                {r.altTable || r.altTcode ? (
-                  <dl className="nxb-kv">
-                    {r.altTable ? (<div><dt>טבלה / שדה חלופיים</dt><dd className="nx-sap">{r.altTable}</dd></div>) : null}
-                    {r.altTcode ? (<div><dt>טרנזקציה חלופית</dt><dd className="nx-sap">{r.altTcode}</dd></div>) : null}
-                  </dl>
-                ) : null}
-                {r.sum ? <p className="nxb-sum"><b>SUM</b>{r.sum}</p> : null}
-              </article>
-            ))}
-          </div>
-        ) : (
-          <Missing what="הערת מעבר ל-S/4HANA" />
-        )}
-      </Sec>
-
-      {/* ============================================== 3. WHO OWNS IT */}
-      <Sec
-        id="nxb-own"
-        n={num["nxb-own"]}
-        icon={<Boxes size={16} strokeWidth={1.75} />}
-        eyebrow={t.rows.length > 1 ? "בעלות ותיעוד" : "בעלות"}
-        title={
-          t.rows.length > 1
-            ? `${nf.format(t.rows.length)} רשומות מילון לאותה טבלה`
-            : "השורה שהתכנון כתב על הטבלה"
-        }
-        lede="הנושא שאליו הטבלה משויכת, הטרנזקציות שנרשמו לה והמקור שממנו התיעוד נלקח. הכול כפי שנכתב, בלי מיזוג בין המודולים."
-      >
-        <div className="nxb-rows">
-          {t.rows.map((r, i) => (
-            <article className="nxb-row" key={`${r.mod}-${r.topicIdx}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
-              <header>
-                <span className="nxb-row-bar" aria-hidden="true" />
-                <b>{r.mod} · {MOD_HE[r.mod]}</b>
-                <em>{r.topic || "ללא נושא"}</em>
-              </header>
-              <dl className="nxb-kv">
-                <div>
-                  <dt>שדות ברשומה</dt>
-                  <dd className="nx-sap">{nf.format(r.fields)}</dd>
-                </div>
-                <div>
-                  <dt>טרנזקציות, כלשונן</dt>
-                  <dd className="nx-sap">{r.tcodesRaw || "אין מידע מאומת במאגר"}</dd>
-                </div>
-                {r.fiori ? (<div><dt>אפליקציית Fiori</dt><dd className="nx-sap">{r.fiori}</dd></div>) : null}
-                {r.helpLbl ? (<div><dt>מקור</dt><dd>{r.helpLbl}</dd></div>) : null}
-              </dl>
-              {r.guide ? <p className="nxb-guide">{r.guide}</p> : null}
-            </article>
-          ))}
-        </div>
-      </Sec>
-
-      {/* =================================================== 4. FIELDS */}
+      {/* =================================================== 2. FIELDS */}
       <Sec
         id="nxb-fields"
         n={num["nxb-fields"]}
@@ -416,8 +330,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         title={`${nf.format(s.fields)} שדות · ${nf.format(s.pk)} שדות PK · ${nf.format(s.fk)} שדות FK`}
         lede={
           <>
-            עמודת המפתח היא של המילון עצמו, על ארבעת ערכיה: <b>PK</b>, <b>FK</b>, <b>PK/FK</b> ו-<b>-</b>.
-            שדה שמסומן <b>PK/FK</b> הוא גם ראשי וגם זר, וכך הוא מסומן כאן. סדר השורות הוא סדר התכנון.
+            עמודת המפתח נקראת מתיעוד המקור על ארבעת ערכיה: <b>PK</b>, <b>FK</b>, <b>PK/FK</b> ו-<b>-</b>.
+            שדה המסומן <b>PK/FK</b> הוא מפתח ראשי וגם מפתח זר. סדר השורות הוא סדר תיעוד המקור.
           </>
         }
       >
@@ -453,7 +367,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                         </td>
                         <th scope="row" className="nx-sap nxb-ftech">{f.tech}</th>
                         <td data-l="תיאור">
-                          {f.he || f.en || <span className="nxb-none">אין מידע מאומת במאגר</span>}
+                          {f.he || f.en || <span className="nxb-none">לא קיים תיעוד מאומת במאגר</span>}
                           {f.he && f.en ? <em className="nxb-fen nx-sap">{f.en}</em> : null}
                         </td>
                         <td data-l="סוג" className="nx-sap">{f.dt || "–"}</td>
@@ -471,7 +385,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         )}
       </Sec>
 
-      {/* ================================================ 5. RELATIONS */}
+      {/* ================================================ 3. RELATIONS */}
       <Sec
         id="nxb-rel"
         n={num["nxb-rel"]}
@@ -480,8 +394,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         title={`${nf.format(s.rels)} קשרים ממודלים · ${nf.format(s.joins)} ניסוחי JOIN`}
         lede={
           <>
-            כיוון הקשר נקרא מתוך המילון: <b>בן</b> הוא טבלה שנושאת מפתח זר אל {t.name}, ו<b>אב</b> הוא
-            טבלה ש-{t.name} מפנה אליה. עוצמת הקשר מוצגת כפי שנכתבה, וכאשר לא נכתבה, כתוב שלא נכתבה.
+            כיוון הקשר נקרא מתיעוד המקור: <b>בן</b> הוא טבלה הנושאת מפתח זר אל {t.name}, ו<b>אב</b> הוא
+            טבלה ש-{t.name} מפנה אליה. הקרדינליות מוצגת כפי שנרשמה; כאשר לא נרשמה, הדבר מצוין.
           </>
         }
       >
@@ -491,8 +405,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
               <p className="nxb-warn">
                 <TriangleAlert size={14} strokeWidth={1.75} aria-hidden="true" />
                 {s.contested === 1 ? "טבלה אחת מופיעה" : `${nf.format(s.contested)} טבלאות מופיעות`} כאן
-                פעמיים, כבן וכאב. זו אינה כפילות: שני התכנונים רושמים את אותו קשר בכיוונים הפוכים. שתי
-                הרשומות נשמרות; הכרעה ביניהן תהיה המצאה.
+                פעמיים, כבן וכאב: שני המודולים רושמים את אותו קשר בכיוונים הפוכים. שתי הרשומות נשמרות
+                כלשונן.
               </p>
             ) : null}
             <ul className="nxb-rels">
@@ -517,7 +431,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                       // the value it is. A chip has no hover and no pointer.
                       <span className="nu-chip is-sap">{r.name}</span>
                     )}
-                    <em>{r.he || "אין מידע מאומת במאגר"}</em>
+                    <em>{r.he || "לא קיים תיעוד מאומת במאגר"}</em>
                   </span>
                   <span className="nxb-rel-card">
                     <i aria-hidden="true" />
@@ -528,7 +442,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                     {r.joins.map((j, i) =>
                       j.join
                         ? <code className="nxb-join" key={`${j.mod}-${i}`} dir="ltr">{j.join}</code>
-                        : <span className="nxb-none" key={`${j.mod}-${i}`}>{j.mod}: אין ניסוח JOIN במאגר</span>,
+                        : <span className="nxb-none" key={`${j.mod}-${i}`}>{j.mod}: לא קיים ניסוח JOIN במאגר</span>,
                     )}
                   </span>
                 </li>
@@ -546,8 +460,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
               {nf.format(t.dangling.length)} קשרים אל טבלאות שאינן במאגר
             </h3>
             <p className="nxb-note">
-              התכנון רושם את הקשרים האלה, אך את הטבלה שבצד השני הוא אינו מתעד. הם מופיעים כרשומה ולא
-              כקישור. קצה שלא נבדק לא ייפתח כאילו נבדק.
+              תיעוד המקור רושם קשרים אלה, אך אינו מתעד את הטבלה שבצד השני. הם מוצגים כרשומה בלבד,
+              ללא קישור.
             </p>
             <ul className="nxb-dangle-l">
               {t.dangling.map((d, i) => (
@@ -564,14 +478,136 @@ export function TableDetailView({ t }: { t: TableDetail }) {
 
         <p className="nxb-links">
           <Link className="nu-link" href={t.erdHref} prefetch={false}>
-            הקשרים במפת ה-ER המלאה
+            הצגת הקשרים במודל הנתונים
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
           <Link className="nu-link" href={t.objectHref} prefetch={false}>
-            מפת הקשרים סביב {t.name}
+            הצגת מפת הקשרים סביב {t.name}
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
         </p>
+      </Sec>
+
+      {/* ================================================= 4. S/4HANA */}
+      <Sec
+        id="nxb-s4"
+        n={num["nxb-s4"]}
+        icon={<TriangleAlert size={16} strokeWidth={1.75} />}
+        eyebrow="ECC → S/4HANA"
+        title="השפעת המעבר ל-S/4HANA על הטבלה"
+        lede="תחילה הכרעת הפרויקט ומקורה, ואחריה הערות תיעוד המקור של כל מודול, כלשונן. כאשר אין הכרעה, הדבר מצוין במפורש."
+      >
+        <div className="nxb-stand" data-risk={t.s4.risk} data-impact={t.s4.impacted ? "1" : "0"}>
+          <p className="nxb-stand-h">
+            {/* ONE status vocabulary. The pill is the canonical S/4HANA status
+                from lib/evidence, the same key the evidence block below, the
+                tables catalog rows and the search results render. The risk
+                word follows it as a plain chip: risk says how much attention
+                the migration needs, it is not what happens to the table. */}
+            <StatusPill status={t.evidence.status.key} label={t.evidence.status.label} dot={t.evidence.status.dot} />
+            <span className="nu-chip" style={{ color: `color-mix(in srgb, ${RISK_COLOR[t.s4.risk]} 62%, var(--ink-1))` }}>
+              {t.s4.riskHe}
+            </span>
+            {t.s4.note ? <span className="nu-chip is-sap">{t.s4.note}</span> : null}
+          </p>
+          {t.s4.changed
+            ? <p className="nxb-stand-w">{t.s4.changed}</p>
+            : (
+              <p className="nxb-stand-w nxb-stand-none">
+                לא קיים תיעוד מאומת במאגר לגבי השינוי בטבלה זו ב-S/4HANA.
+              </p>
+            )}
+          {t.s4.why ? <p className="nxb-stand-y">{t.s4.why}</p> : null}
+          {t.s4.tcodes.length || t.s4.cds.length ? (
+            <dl className="nxb-kv">
+              {t.s4.tcodes.length ? (
+                <div>
+                  <dt>טרנזקציות לבדיקה</dt>
+                  <dd>{t.s4.tcodes.map((c) => <span key={c} className="nu-chip is-sap">{c}</span>)}</dd>
+                </div>
+              ) : null}
+              {t.s4.cds.length ? (
+                <div>
+                  <dt>תצוגות תאימות</dt>
+                  <dd>{t.s4.cds.map((c) => <span key={c} className="nu-chip is-sap">{c}</span>)}</dd>
+                </div>
+              ) : null}
+            </dl>
+          ) : null}
+          <p className="nxb-stand-t">
+            <BadgeCheck size={12} strokeWidth={1.75} aria-hidden="true" />
+            {t.s4.trustHe} · {TRUST_WHY[t.s4.trust]}
+          </p>
+        </div>
+
+        <EvidenceBlock e={t.evidence} />
+
+        <h3 className="nxb-h3">
+          <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />
+          הערות תיעוד המקור, כלשונן
+        </h3>
+        {t.s4.rows.length ? (
+          <div className="nxb-s4rows">
+            {t.s4.rows.map((r, i) => (
+              <article key={`${r.mod}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
+                <header>
+                  <span className="nxb-row-bar" aria-hidden="true" />
+                  <b>{r.mod} · {MOD_HE[r.mod]}</b>
+                  {r.topic ? <em>{r.topic}</em> : null}
+                </header>
+                {r.note ? <p className="nxb-quote">{r.note}</p> : null}
+                {r.altTable || r.altTcode ? (
+                  <dl className="nxb-kv">
+                    {r.altTable ? (<div><dt>טבלה / שדה חלופיים</dt><dd className="nx-sap">{r.altTable}</dd></div>) : null}
+                    {r.altTcode ? (<div><dt>טרנזקציה חלופית</dt><dd className="nx-sap">{r.altTcode}</dd></div>) : null}
+                  </dl>
+                ) : null}
+                {r.sum ? <p className="nxb-sum"><b>SUM</b>{r.sum}</p> : null}
+              </article>
+            ))}
+          </div>
+        ) : (
+          <Missing what="הערת מעבר ל-S/4HANA" />
+        )}
+      </Sec>
+
+      {/* ============================================== 5. WHO OWNS IT */}
+      <Sec
+        id="nxb-own"
+        n={num["nxb-own"]}
+        icon={<Boxes size={16} strokeWidth={1.75} />}
+        eyebrow={t.rows.length > 1 ? "בעלות ותיעוד" : "בעלות"}
+        title={
+          t.rows.length > 1
+            ? `${nf.format(t.rows.length)} רשומות תיעוד לאותה טבלה`
+            : "רשומת התיעוד של הטבלה"
+        }
+        lede="הנושא שאליו הטבלה משויכת, הטרנזקציות שנרשמו לה ומקור התיעוד, כלשונם ובנפרד לכל מודול."
+      >
+        <div className="nxb-rows">
+          {t.rows.map((r, i) => (
+            <article className="nxb-row" key={`${r.mod}-${r.topicIdx}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
+              <header>
+                <span className="nxb-row-bar" aria-hidden="true" />
+                <b>{r.mod} · {MOD_HE[r.mod]}</b>
+                <em>{r.topic || "ללא נושא"}</em>
+              </header>
+              <dl className="nxb-kv">
+                <div>
+                  <dt>שדות ברשומה</dt>
+                  <dd className="nx-sap">{nf.format(r.fields)}</dd>
+                </div>
+                <div>
+                  <dt>טרנזקציות, כלשונן</dt>
+                  <dd className="nx-sap">{r.tcodesRaw || "לא קיים תיעוד מאומת במאגר"}</dd>
+                </div>
+                {r.fiori ? (<div><dt>יישום Fiori</dt><dd className="nx-sap">{r.fiori}</dd></div>) : null}
+                {r.helpLbl ? (<div><dt>מקור</dt><dd>{r.helpLbl}</dd></div>) : null}
+              </dl>
+              {r.guide ? <p className="nxb-guide">{r.guide}</p> : null}
+            </article>
+          ))}
+        </div>
       </Sec>
 
       {/* ============================================= 6. TRANSACTIONS */}
@@ -580,12 +616,12 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         n={num["nxb-tx"]}
         icon={<Terminal size={16} strokeWidth={1.75} />}
         eyebrow="טרנזקציות"
-        title={`${nf.format(s.tx)} טרנזקציות שהמאגר קושר לטבלה`}
+        title={`${nf.format(s.tx)} טרנזקציות המקושרות לטבלה במאגר`}
         lede={
           s.tx ? (
             <>
-              {nf.format(s.txLinked)} מהן מתועדות במרשם הטרנזקציות ונפתחות לעמוד מלא. השאר מוצגות
-              כערך: הקוד נרשם בתכנון, ואין לו עמוד במרשם.
+              {nf.format(s.txLinked)} מהן מתועדות בקטלוג הטרנזקציות ונפתחות לעמוד מלא. השאר מוצגות
+              כערך בלבד: הקוד נרשם בתיעוד המקור, אך אין לו עמוד בקטלוג.
             </>
           ) : undefined
         }
@@ -604,7 +640,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                   <span className="nxb-txflat">
                     <span className="nu-chip is-sap">{x.code}</span>
                     <ModTag mods={x.mods} />
-                    <em>אין עמוד במרשם</em>
+                    <em>אין עמוד בקטלוג</em>
                   </span>
                 )}
               </li>
@@ -615,7 +651,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         )}
         <p className="nxb-links">
           <Link className="nu-link" href="/neo/transactions/" prefetch={false}>
-            מרשם הטרנזקציות
+            קטלוג הטרנזקציות
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
         </p>
@@ -626,9 +662,9 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         id="nxb-cds"
         n={num["nxb-cds"]}
         icon={<Sigma size={16} strokeWidth={1.75} />}
-        eyebrow="תצוגות CDS"
-        title="מה קורא את הטבלה ב-S/4HANA"
-        lede="מיפוי מתוחזק של טבלה קלאסית לתצוגת CDS משוחררת. תצוגה מופיעה כאן רק כשהטבלה הזאת נמצאת בה, ולצידה שאר הטבלאות שהיא קוראת."
+        eyebrow="CDS Views"
+        title="תצוגות CDS הקוראות את הטבלה ב-S/4HANA"
+        lede="מיפוי מתוחזק בין הטבלה לתצוגות CDS משוחררות. תצוגת CDS מופיעה כאן רק כאשר הטבלה נכללת בה, ולצידה שאר הטבלאות שהתצוגה קוראת."
       >
         {t.cds.length ? (
           <ul className="nxb-cds">
@@ -645,7 +681,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         )}
         <p className="nxb-links">
           <Link className="nu-link" href="/neo/cds/" prefetch={false}>
-            מרשם ה-CDS של הפרויקט
+            קטלוג תצוגות CDS
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
         </p>
@@ -658,14 +694,14 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         icon={<Cable size={16} strokeWidth={1.75} />}
         eyebrow="ממשקים"
         title={`${nf.format(t.funcs.length)} BAPI · FM · IDoc · ${nf.format(t.progs.length)} תוכניות`}
-        lede="השם והתיאור הם של המאגר, כולל ממשקי Zetes ו-Daymax שהתכנון רשם. עמודת המודול מראה איזה תכנון רשם את האובייקט."
+        lede="השם והתיאור נקראים מהמאגר, כולל ממשקי Zetes ו-Daymax שנרשמו בתיעוד המקור. תג המודול מציין באיזה מודול נרשם האובייקט."
       >
         {t.funcs.length ? (
           <ul className="nxb-funcs">
             {t.funcs.map((f) => (
               <li key={f.name}>
                 <b className="nx-sap">{f.name}</b>
-                <em>{f.he || "אין מידע מאומת במאגר"}</em>
+                <em>{f.he || "לא קיים תיעוד מאומת במאגר"}</em>
                 <ModTag mods={f.mods} />
               </li>
             ))}
@@ -683,7 +719,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             {t.progs.map((p) => (
               <li key={p.name}>
                 <b className="nx-sap">{p.name}</b>
-                <em>{p.he || "אין מידע מאומת במאגר"}</em>
+                <em>{p.he || "לא קיים תיעוד מאומת במאגר"}</em>
                 <ModTag mods={p.mods} />
               </li>
             ))}
@@ -694,33 +730,33 @@ export function TableDetailView({ t }: { t: TableDetail }) {
 
         <h3 className="nxb-h3">
           <AppWindow size={14} strokeWidth={1.75} aria-hidden="true" />
-          אפליקציות Fiori
+          יישומי Fiori
         </h3>
         {t.fiori.length ? (
           <ul className="nxb-funcs">
             {t.fiori.map((f, i) => (
               <li key={`${f.mod}-${i}`}>
                 <b className="nx-sap">{f.app}</b>
-                <em>כפי שנרשם בתכנון</em>
+                <em>כפי שנרשם בתיעוד המקור</em>
                 <ModTag mods={[f.mod]} />
               </li>
             ))}
           </ul>
         ) : (
-          <Missing what="אפליקציית Fiori" />
+          <Missing what="יישום Fiori" />
         )}
 
         <p className="nxb-links">
           <Link className="nu-link" href="/neo/bapi/" prefetch={false}>
-            מרשם ה-BAPI וה-FM
+            קטלוג BAPI ו-FM
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
           <Link className="nu-link" href="/neo/idoc/" prefetch={false}>
-            מרשם ה-IDoc
+            קטלוג IDoc
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
           <Link className="nu-link" href="/neo/fiori-apps/" prefetch={false}>
-            מרשם אפליקציות Fiori
+            קטלוג יישומי Fiori
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
         </p>
@@ -733,7 +769,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         icon={<Workflow size={16} strokeWidth={1.75} />}
         eyebrow="אובייקטים קשורים"
         title={`${nf.format(s.siblings)} טבלאות תחת אותו נושא במאגר`}
-        lede="הקיבוץ הוא של התכנון עצמו: אלה הטבלאות שנכתבו תחת אותו נושא, ולא הערכה של דמיון ביניהן."
+        lede="הקיבוץ נקרא מתיעוד המקור: הטבלאות המתועדות תחת אותו נושא."
       >
         {t.siblings.length ? (
           <ul className="nxb-sibs">
@@ -743,7 +779,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                   <Link className="nu-card nxb-sibcard" href={sb.href} prefetch={false}>
                     <i className="nxb-rel-cls" aria-hidden="true" />
                     <b className="nx-sap">{sb.name}</b>
-                    <em>{sb.he || "אין מידע מאומת במאגר"}</em>
+                    <em>{sb.he || "לא קיים תיעוד מאומת במאגר"}</em>
                     <span className="nxb-dim">{sb.topic}</span>
                     <ArrowUpLeft className="nxb-txarw" size={14} strokeWidth={1.75} aria-hidden="true" />
                   </Link>
@@ -751,7 +787,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                   <span className="nxb-sibflat">
                     <i className="nxb-rel-cls" aria-hidden="true" />
                     <span className="nu-chip is-sap">{sb.name}</span>
-                    <em>{sb.he || "אין מידע מאומת במאגר"}</em>
+                    <em>{sb.he || "לא קיים תיעוד מאומת במאגר"}</em>
                     <span className="nxb-dim">{sb.topic}</span>
                   </span>
                 )}
@@ -772,8 +808,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         title="ספרים המכסים את המודול"
         lede={
           <>
-            הקישור כאן הוא <b>ברמת המודול</b>. אינדקס הספרייה של הפרויקט הוא ברמת פרק ואין בו מיפוי של
-            טבלה לפרק, ולכן לא נטען שספר מסוים מכסה את <span className="nx-sap">{t.name}</span> עצמה.
+            הקישור הוא <b>ברמת המודול</b>: אינדקס הספרייה בנוי לפי פרקים, ללא מיפוי בין
+            <span className="nx-sap">{t.name}</span> לפרק מסוים.
           </>
         }
       >
@@ -810,10 +846,10 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         <p className="nxb-links">
           <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
             <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
-            הספרייה הדיגיטלית
+            ספריית SAP
           </Link>
           <Link className="nu-link" href="/neo/books/" prefetch={false}>
-            מדף הספרים של NEO
+            ספרי SAP
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
           <Link className="nu-link" href="/neo/knowledge/" prefetch={false}>
@@ -826,8 +862,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       <footer className="nxb-foot">
         <p>
           <Database size={13} strokeWidth={1.75} aria-hidden="true" />
-          המקור הוא שני קובצי התכנון של הפרויקט ומיפויי ה-CDS וה-S/4 שלו. שדה שהמאגר שותק לגביו מוצג
-          כ«אין מידע מאומת במאגר» ולא מולא בערך סביר.
+          המקור: שני קובצי תיעוד המקור של הפרויקט ומיפויי ה-CDS וה-S/4HANA שלו. שדה שאינו מתועד מוצג
+          כ&quot;לא קיים תיעוד מאומת במאגר&quot;.
         </p>
         <p className="nxb-credit">
           <KeyRound size={13} strokeWidth={1.75} aria-hidden="true" />

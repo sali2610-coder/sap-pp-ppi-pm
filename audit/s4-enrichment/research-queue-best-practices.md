@@ -1,0 +1,958 @@
+# Research queue · best-practices catalog (process records, S/4HANA enrichment)
+
+Kept by the single writer for `data/best-practices/catalog-2026-09.ts` (export
+`CATALOG_PROCESS_PRACTICES`). One entry per process record refuted at the
+adversarial-verification gate, and one entry per official-source conflict that a
+written record carries.
+
+Batch 1 written 2026-09-24 (access date stamped 2026-09-24): 3 drafts audited, 2 written
+(`calibration-process`, `refurbishment-process`) from the repaired drafts with every
+listed downgrade applied (each replacement matched exactly once in the draft text),
+1 refuted (`breakdown-maintenance-process`). The file was created in this batch and
+registered in `data/best-practices/index.ts`, `test/evidence-schema.test.ts` and
+`test/evidence-xref.test.ts` the way `CROSS_PROCESS_PRACTICES_2` is (import + spread
+into BPS; like `cross-processes-2.ts` it is not listed in DATA_FILES). Before writing,
+the writer re-ran the help.sap.com searches for every official URL of both records (all
+found verbatim in a 2025.001 or 2025.000 search record) and re-read the page bodies
+quoted by the downgrades (Creation of a Calibration Order, Test Equipment Management,
+Calibration Order, Record Inspection Results). Writer deviations beyond the listed
+downgrades: the calibration context and notes got the same origin-14 / standard type 14
+wording as the fields the verdict named; calibration step 4 now also xrefs `tx:QE51N`
+(named by the downgrade text); refurbishment step 9, eccToS4[0] and the record xrefs
+now carry `fm:BAPI_ALM_ORDER_MAINTAIN` (named in those lines, printed by the cited
+'Enterprise Asset Management Part 4' page); the refurbishment KO88 claim says 'מציין
+Order settlement ואינו נוקב בטרנזקציה' instead of 'מציין רק' (house rule: never "only");
+the refurbishment MB11 row and notes say 'מקוצר' (condensed) instead of 'מועתק' (copied),
+because the claim is a condensed subset of the MB11_SIMPL entry; the refurbishment notes
+got the verdict's MB11-conflict wording as well. Coverage (`report:coverage --catalog
+best-practices`): total 22 → 24, L2 22 → 24, verified 22 → 23, conflict 0 → 1 (the
+calibration record carries two `conflicting_sources` rows). Gates: the validator run on
+the full registered universe prints 0 problems; `scratchpad/validate-bp-file.mjs` prints
+10 `dangling-xref` hits, all bp slugs registered in `pm-processes-2.ts` /
+`cross-processes-2.ts` that its reduced universe (pm.ts, pp-pi.ts, pm-processes.ts)
+does not load (the same script prints 53 such hits for `cross-processes-2.ts`); both
+`tsc` gates clean; `npm test` 212/212.
+
+Batch 2 written 2026-09-24 (access date stamped 2026-09-24): 3 drafts audited, 1 written
+(`quality-in-procurement-process`, module Cross) from the researcher's draft with the
+verdict's two text downgrades applied (each replacement matched exactly once): the
+'QM - Quality info record | Data Migration' claim now carries the page's prerequisites
+('Product, mandatory', 'Supplier, mandatory') that masterData[2] and migration[0] rely on,
+and roles[1] attributes each user to its tx-intel record (QA Inspector to QA32/QE51N/QA11,
+מהנדס איכות to QA32/QA11, טכנאי מעבדה and בודק איכות to QE51N). 2 refuted
+(`procure-to-pay-process`, `physical-inventory-process`). Gate-policy decision (verdict
+downgrade 3): the four official URLs no overlay holds ('Quality Management in Procurement',
+What's New, version 100, loio 51daf79fe0384e6385d141616fc3585c; 'Goods Receipt When Quality
+Management (QM) is Active', loio d363bd534f22b44ce10000000a174cb4; 'Subcriterion', loio
+ce77b6535fe6b74ce10000000a174cb4; 'QM - Quality info record', Data Migration, loio
+8427c17adbeb4a84a1a0784aa63c586c; the last three 2025.001) stay `sap_official_verified`
+under HOUSE-RULES §3 and the task's honesty rule 2 (URL copied verbatim from a search
+record), the treatment the calibration and refurbishment records already have. Before
+writing, the writer re-ran `scripts/sap-help-search.mjs` for each (url, loio and versionId
+came back verbatim) and re-read all four bodies through `scripts/sap-help-body.mjs` (every
+quoted phrase present, including 'Product , mandatory Supplier , mandatory', S_QINF,
+S_QINF_LTEXT, F2256A, QI02, QI03 and the Complaints/Rejection Level wording).
+`scratchpad/check-bp-official.mjs`, which enforces the older overlay-only rule of
+BP-PROCESS-BRIEF §2 and is not one of the required gates, moves from 121 urls / 12 not in
+an overlay to 127 / 17 (the 1FM URL counts twice: evidence row and process.reference);
+adding overlay entries was out of scope, since the writer may not touch
+`data/verification/*.ts`. The 'Editing the Inspection Setup' row is byte-identical to
+`data/verification/tables.ts` QMAT_INSPECTION_SETUP (checked field by field; accessedAt
+DATE4 = 2026-09-15, kept as `DATE_TB_15`). Writer deviations beyond the listed downgrades:
+step 9 no longer calls QI06 'רשימה' (the one record that names it, the incident, gives it no
+title); tables[1] and notes now say QAVE and QAMR are not in the dictionary either, and
+tables[3] and notes say the same of EKKO/EKPO (all four checked unresolvable); the QA32
+evidence claim now carries the record's techExample (QMAT) and prodTips (open lots block
+stock; without a usage decision the stock stays in QI), which tables[0], antiPatterns[3],
+exceptions[2] and controls[2] rely on; `tx:QI02` (resolvable, named in steps 2 and 9,
+transactions[0], exceptions[0] and migration[0]) is now an xref there and at record level,
+and migration[0] also xrefs `tx:QI03`; the file header reads 'kpis in every record below'.
+Every uppercase SAP token of the new record appears in one of its evidence rows. The record
+has no `conflicting_sources` row, so nothing was added under conflicts. Coverage
+(`report:coverage --catalog best-practices`): total 24 → 25, L2 24 → 25, verified 23 → 24,
+conflict 1 → 1. Gates: the validator on the full registered universe prints 0 problems (25
+practices); `scratchpad/validate-bp-file.mjs` prints the same 10 bp-slug `dangling-xref`
+hits as in batch 1 (calibration-process and refurbishment-process, reduced universe) and
+none for the new record; both `tsc` gates clean; `npm test` 212/212.
+
+Batch 3 written 2026-09-24 (access date stamped 2026-09-24): 3 drafts audited, 3 written
+(`order-to-cash-process`, `period-end-closing-process`, `logistics-to-finance-postings-process`,
+all module Cross), none refuted, so nothing was added under refuted. No verdict carried a
+fixedRecord: the writer applied the listed downgrades to the researcher drafts (the drafts'
+on-disk copies were checked field by field against the audited drafts; each replacement
+matched exactly once, modulo the RLM marks the drafts carry before Latin tokens). Rows
+added by the downgrades: order-to-cash +1 (`data/s4-objects.ts#MKPF`); period-end +11 (the
+2025 FPS01 item 6.1.4 'S4TWL - Data Model Changes in FIN'; the Fiori library rows of KKAO,
+KKAS, KKS1, KKS2, KO88, CO88 and KOB1 copied from `data/verification/transactions-auto.ts`
+without the generated record's `context` flag, each with '(אומת ברשומת tx:X)';
+`data/troubleshooting-ext2.ts#order-teco-wip`; `data/tcode-catalog.ts#KKAX`;
+`data/domain-detail.ts#pppi-variance`); logistics +2 (`data/sapData.pm.ts#PM:MSEG`,
+`data/troubleshooting-ext2.ts#acdoca-coep-mismatch`). Before writing, the writer re-ran the
+help.sap.com searches for all 32 help.sap.com URLs of the three records (all found verbatim:
+30 by title, the ERP 'The Document Concept' 6.17.latest record through the draft's own SAP_ERP
+query, 'Universal Journal: FAQ' under the FI-GL deliverable through the 'Universal Journal'
+query), re-read the bodies the downgrades rely on (Universal Journal: FAQ; Production Cost
+Posting in Financial Accounting; Period-End Closing - Maintenance Orders, version 100; the
+Product Cost by Order scenario page; Transaction Codes in Cost Object Controlling; Settlement in
+Product Cost by Order or Period), re-ran `scripts/fal-app.mjs` at S32OP for F3893, F0869A,
+F0867A, F0798, F1345, F0711, F2005, F4568, F4857, F4597, F3683, F1077 and F3664, and re-read
+every cited repository record against its claim. Writer deviations beyond the listed
+downgrades: (1) `data/tcode-catalog.ts` changed after the research (commit 48e7d9ac,
+2026-09-24 20:57, titles corrected from the Fiori library): KKAS now reads 'Calculate Work in
+Process - Product Cost Collectors' and KKAX 'Calculate Work In Process - Order - Single', so the
+new catalog row carries the current titles and the period-end notes keep the old catalog
+conflict as history (Old → New) instead of an open conflict; (2) period-end roles[1]: the
+verdict's pairing of each catalog with a role is not printed by the library (the F3683 record
+lists roles and catalogs as separate lists), so both catalogs are named with their titles, the
+line says the library assigns no catalog to a role, and the F3683 claim now says so and carries
+'EAM - Work Order Management'; (3) the new 6.1.4 row places the quoted sentences on printed
+page 160 of the extracted text (the item starts on p. 159; 'Page | 159' is that page's footer),
+not on p. 159; (4) the whole pppi-variance part of the period-end domains row (master data and
+migration, both in `data/domain-detail.ts#pppi-variance`) moved to the new domain-detail row,
+which also carries the eccS4 text 'QA: סטיות + CO-PA + ACDOCA' that migration[3] relies on;
+(5) period-end antiPatterns[2] no longer says 'אחרי התמחור' (no source): it follows the scenario
+page (routing changed, then WIP calculated; scrap cannot be calculated); (6) the period-end
+settlement claim now carries 'default rule PP2 (Production Material Periodic Settlement)' (body
+re-read), which masterData[0] names; (7) period-end outputs[4] links tx:CO88 instead of tx:KOB3,
+per the verdict's instruction not to present KOB3 as the settlement-line report; (8) period-end
+trigger[1] lost its first attribution prefix, which the verdict's replacement repeated; (9)
+logistics: the 15.3.1 claim now carries the hybrid-table sentence ('will still be used to store
+the material master data attributes', 'the on-the-fly aggregation of actual stock quantities')
+that tables[1] relies on; step 10 is split into two sentences; eccToS4[5] keeps 'הדיווח עובר
+ל-ACDOCA' attributed to the repository records, since the FAQ does not say it; checks[4] uses one
+attribution clause; the notes list the FAQ body among the bodies read; (10) order-to-cash: notes
+'הרשומות מתאימות' (plural after the verdict's list); the `data/processes.ts#o2c` claim now quotes
+the map's test verbatim ('חשבונית → רישום FI (ACDOCA)' for 'חשבונית ← רישום FI'); the verdict's
+'gaps text' and 'conflicts entry' are not fields of the draft record, so their corrected wording
+went into the conflicts entries below; (11) the file header's 'kpis in every record below' now
+names the exception (order-to-cash-process, kpis from the official Order-to-Cash Performance
+page), and two date constants were added for copied rows (`DATE_TB_02`, tables.ts DATE2, MBEW
+migration object; `DATE_FM_14`, functions.ts DATE14, API_MATERIAL_DOCUMENT). Coverage
+(`report:coverage --catalog best-practices`): total 25 → 28, L2 25 → 28, verified 24 → 27,
+conflict 1 → 1. Gates: the validator on the full registered universe prints 0 problems (28
+practices); `scratchpad/validate-bp-file.mjs` prints 53 `dangling-xref` hits, all bp slugs
+registered in `cross-processes.ts`, `cross-processes-2.ts`, `pm-processes-2.ts`,
+`pp-processes.ts` and `pppi-processes.ts` that its reduced universe does not load (10 from the
+earlier batches, 43 from the new records), and no other rule; both `tsc` gates clean; `npm test`
+211/211 (one test fewer than batch 2 because commit e936351a removed the objects foundation
+guard).
+
+Batch 4 written 2026-09-24 (access date stamped 2026-09-24): 4 drafts audited, 4 written
+(`project-system-process`, `ewm-warehouse-process` and `embedded-analytics-process`, module Cross;
+`ibp-ppds-integration-process`, module PP), none refuted, so nothing was added under refuted. No
+verdict carried a fixedRecord: the writer applied every listed downgrade to the researcher drafts,
+loaded from the workflow journal (research results of wf_d9aa0357-e61, whose step, evidence and xref
+counts match the auditors' counts: 11/33/44, 9/46/40, 10/43/27 and 10/41/60); each replacement matched
+exactly once, with RLM marks ignored when locating the text. Both optional downgrades were taken: the
+project-system 6.1.4 row is now byte-identical to the first `table:COSP` row of
+`data/verification/tables.ts` (DATE4 = 2026-09-15, kept as `DATE_TB_15`) plus '(אומת ברשומת
+table:COSP)', and the EWM reference stays on the Warehouse Request page, with a note that it is the
+definition page shared by inbound and outbound processing. Rows added by the downgrades:
+project-system +5 (the CJ40 / CJ8G row and the incidents row each split in two;
+`data/function-intel.ts#K_ORDER_SETTLEMENT`, `data/function-intel.ts#K_SETTLEMENT_RULE_READ`,
+`data/tcode-catalog.ts#IW31`); ewm +2 (Fiori library F4150; What's New 2022 'Direct Transfer
+Migration Approach for EWM in SAP S/4HANA'); embedded-analytics +2 (the incidents row and the
+transformation row each split in two); ibp +1 (`data/books/book4.json#11.1`). Before writing, the
+writer re-ran `scripts/fal-app.mjs F4150 --release S32OP` (both roles, both catalogs and the leading
+/SCWM/MON, as the new row states), re-ran the search 'Direct Transfer Migration Approach for EWM in
+SAP S/4HANA' (url, loio c6ee329bf90545f6ae838b0100f2bbf2 and versionId 2022.000 came back verbatim),
+re-read through `scripts/sap-help-body.mjs` the bodies of that page, of P3 (loio
+9a862211cdd44d6ea5beedecbaee7204: 'CO01 or COR1', 'Release the manufacturing order', 'CO02 or COR2'),
+of the LO page 'Production Planning and Detailed Scheduling (PP/DS)' (loio
+e01f0742705a4b97bfca4157949873fc: 'with certain restrictions'), of 'Production Planning Integration
+Based on Key Figures' (IBP 2608: 'in a regularly scheduled planning run') and of 'Staging Table
+Migration Approach for EWM in SAP S/4HANA', read items 10.1.50, 9.5.1, 15.5.2, 9.2.1 and 4.1.13 in
+`scratchpad/official/SIMPL_OP2025.pdf.txt`, re-read every repository record behind a new row
+(function-intel K_ORDER_SETTLEMENT and K_SETTLEMENT_RULE_READ, tcode-catalog IW31, IW32, KO8G and
+CO88, tx-intel CJ40, troubleshooting settlement-error, maint-order-budget and acdoca-coep-mismatch,
+s4-transformation LESSONS) and confirmed book4 sections 11.1 to 11.3 and every other cited book
+section. Every official row that ends in '(אומת ברשומת X)' was compared with its overlay row: the
+url, title, release and accessedAt match, and the claim is the overlay claim (F0539: with a longer
+tag naming the F0286A row of the same record) or its verbatim leading part (for /SCWM/TO_CONF the
+quoted snippet is closed where it was cut). Writer deviations beyond the listed downgrades: (1) project-system summary: the replaced
+span is one phrase longer than the verdict's, so 'לפי כלל ההתחשבנות' is not repeated; (2) the new
+CJ40 row also carries the record's process line (CJ20N, CJ40, CJ30, actuals, CJI3), which the
+verdict's context text relies on, and its s4Delta sentence on the COSP / COSS compatibility views
+(eccToS4[3]); (3) the 'S4TWL - Project Reporting' row now also quotes 'These Fiori apps are hence
+deprecated as of SAP S/4HANA 2023', the sentence behind the verdict's eccToS4[2] wording; (4) the
+notes' new parenthetical is merged with the release list; (5) ewm: the Direct Transfer row quotes
+the page body, because the search snippet breaks off before 'approach'; the WM item row now quotes
+'which comes with limited usage rights', which antiPatterns[4] relies on; the notes record the
+writer's reads; (6) embedded-analytics: steps[9] also names MCI7 (its xref) and renders the item's
+'should be used rather than transaction COOIS' as 'מומלץ להשתמש ... במקום COOIS';
+preconditions[1] keeps SAP_BR_EMPLOYEE as the general prerequisite in an added sentence;
+exceptions[5] got the steps[8] softening in its own wording; (7) ibp: the LO body was re-read, so
+that row (which is also the status source) quotes the full sentence and the notes say so; the
+notes' '(טיוטת חוקר)' label is dropped; the 9.5.1 row quotes the item's prerequisite ('Target
+release is SAP S/4HANA 1809. Source release is SAP S/4HANA 1610 or SAP S/4HANA 1709') instead of
+'1809 ומעלה'; the key-figures row quotes 'in a regularly scheduled planning run', which steps[4]
+now says; the tx-intel MD61 and domains rows now print MD63 (the MD61 record's `similar` list and
+the domains records' `tcodes`), because steps[2] and transactions[1] name MD63 and no claim printed
+it; migration[0] says 'במקרה זה' instead of repeating 'אם הם ממומשים'; (8) file: the header's kpis
+sentence also names embedded-analytics-process (kpis from the repository's domain records) and
+the two authored statuses; three date constants were added (`DATE_TB_01`, `DATE_TX_07`,
+`DATE_FI_23`) and the comments of `DATE_TX_21`, `DATE_TX_02`, `DATE_TB_15` and `DATE_FM_14` list the
+rows they now also date; the two status sources are shared consts (`EA_STATUS_SOURCE`,
+`PPDS_STATUS_SOURCE`, typed `BestPracticeLike["evidence"][number]`, so the type import stays the only
+import), each the same object as its evidence row. Documented negatives left in notes on purpose:
+the zero-hit query 'BAPI_BUS2054_CREATE_MULTI' (project-system) and the 'Best Practice - Demand
+Planning (7JF)' hit that belongs to SCM-APO-SPP and is not recorded as a scope item (ibp).
+Coverage (`report:coverage --catalog best-practices`): total 28 → 32, L2 28 → 30, L5 0 → 2, verified
+27 → 31, conflict 1 → 1, s4-appl 0 → 2, edition 0 → 1 (the IBP record's public-cloud sources).
+Gates: the validator on the full registered universe prints 0 problems (32 practices);
+`scratchpad/validate-bp-file.mjs` prints 80 `dangling-xref` hits, all bp slugs registered in files
+its reduced universe does not load (53 from the earlier batches; 27 from the new records:
+confirmation-process, goods-movement-process, maintenance-order-process,
+material-staging-and-reservation, mrp-process, order-settlement-process, plan-to-produce-discrete,
+production-order-process, sales-demand-to-production), and no other rule; both `tsc` gates clean;
+`npm test` 211/211.
+
+Batch 5 written 2026-09-24 (access date stamped 2026-09-24): 3 re-drafted records audited, 3 written
+(`breakdown-maintenance-process`, module PM; `procure-to-pay-process` and
+`physical-inventory-process`, module Cross), none refuted, so nothing was added under refuted; the
+three refusals below are closed by these re-drafts. No verdict carried a fixedRecord, and the
+breakdown verdict listed no downgrade (its one minor note, the token RETURN in steps[10], needs no
+change). The drafts were loaded from the researchers' last on-disk JSON copies after checking them
+against the audited drafts: step, anti-pattern, check, xref and evidence counts and the line count
+of every profile field are equal (11/6/5/48/62, 10/7/7/44/45, 7/6/5/21/34), and 127 sampled passages
+of the audited drafts, among them every string a downgrade replaces, occur verbatim. procure-to-pay:
+all 8 listed downgrades applied, each replacement matched exactly once: exceptions[7] and the
+incident row now carry the record's 'verify SE91' caveat on M8147; interfaces[3] says the system
+tries to post EDI invoices automatically and errors go to manual processing; the MB03 row is the
+verbatim tx:MB03 claim with the em dash replaced by a semicolon and the '(אומת ברשומת tx:MB03; ...)'
+tag; the tautology 'PO שלא שוחרר ממתין לשחרור' is gone from steps[4] and exceptions[1] ('שחרור PO
+ב-ME29N נכשל:'); checks[5] says the function-intel QA scenario was written for goods issue 261 and
+is applied to a receipt; the context's book-3 sentence is bounded by the section titles (chapters 5,
+6, 7 and 12). physical-inventory: all 12 listed downgrades applied: IKPF/ISEG no longer assigned to
+header and items (context, tables[1]); MIBC is the ABC analysis and MICN the batch input for cycle
+counting per 'Cycle Counting (MM-IM)' (steps[1], trigger[1], transactions[1]), and the MI01
+repository row quotes the record's own wording ('חלופות: MICN/MI31 ל-batch creation, cycle counting
+(MIBC)'); the MAN_PHYSICAL_INVENTORY_MONITOR template is attached to 'Physical Inventory Document
+Overview', with a note that no source read ties that name to F0379A; checks[1] and exceptions[2]
+state the tolerance rule as a restriction on the user when a document or its items exceed the user
+group's tolerance; roles[1] lost 'בלבד'. Rows added by the downgrades: physical-inventory +2, both
+copied from `data/verification/transactions-auto.ts` without the generated record's `context` flag
+and with '(אומת ברשומת tx:X)': 'Cycle Counting (MM-IM) | Materials Management (MM)' (2025.001, loio
+3207b753128eb44ce10000000a174cb4, tx:MIBC) and the Fiori library row of MI07 'Post Physical
+Inventory Document' (S32OP, tx:MI07), which now backs the MI07 title named in notes; evidence 34 →
+36 (23 official: 16 sap_help and 7 fiori_library; 10 repository; 3 books). The writer ran no new
+search, page-body or fal-app call (no verdict marks a value unverified); it re-read the repository
+wording the downgrades quote (the tx-intel MI01 alternatives; the incident's error text, which pairs
+M8147 with 'PRD not possible verify SE91') and compared every official row with the overlays: each
+copied row keeps the url, title, release and accessedAt of its overlay entry, and the 22 URLs no
+overlay holds are search-record URLs whose bodies the researchers read and the auditors re-fetched
+(breakdown 8, counting the reference and one conflicting row; procure-to-pay 4 and
+physical-inventory 10, each counting the reference), so `scratchpad/check-bp-official.mjs` (the
+older overlay-only rule, not a required gate) moves from 312 urls / 120 not in an overlay to 381 /
+142. Writer deviations beyond the listed downgrades: (1) procure-to-pay exceptions[1]: the verdict
+says 'keep the three errors', but the draft line lists two (release code outside the authorization,
+no strategy for the PO); both are kept, and the ME29N record's third error ('PO כבר משוחרר') was not
+added; (2) the MB03 claim follows the verdict's text, without the RLM mark the overlay carries
+before 'MB03'; (3) file: the header's kpis sentence also names breakdown-maintenance-process
+(MTTR/MTBF from `data/domains.ts#pm-breakdown`), and the comments of `DATE_TX_02`, `DATE_TB_15`,
+`DATE_FM_14`, `DATE_TB_01`, `DATE_TX_07` and `DATE_FI_23` list the rows they now also date; no
+constant was added, and the ten earlier records are byte-identical. Every uppercase SAP token of the
+new records appears in one of their evidence rows, except RETURN (a BAPI parameter, accepted by the
+auditor), the composites QMEL/QMIH and BH1/BH2/BJ2 (each part printed) and EWM (a product name,
+linked through bp:ewm-warehouse-process). Coverage (`report:coverage --catalog best-practices`):
+total 32 → 35, L2 30 → 33, L5 2 → 2, verified 31 → 33, conflict 1 → 2 (the breakdown record carries
+two `conflicting_sources` rows), s4-appl 2 → 2, edition 1 → 1. Gates: the validator on the full
+registered universe prints 0 problems (35 practices); `scratchpad/validate-bp-file.mjs` prints 95
+`dangling-xref` hits, all bp slugs registered in files its reduced universe does not load (80 from
+the earlier batches; 15 from the new records: confirmation-process, maintenance-order-process,
+order-settlement-process, preventive-maintenance-process, goods-movement-process,
+procure-to-pay-for-maintenance), and no other rule; both `tsc` gates clean; `npm test` 211/211.
+
+Backfill 2026-09-28, catalog run 1 of 2 (access date stamped 2026-09-28, new constant `DATE28`): 5
+audited re-drafts, 5 replaced in place at their positions (`calibration-process`,
+`refurbishment-process`, `quality-in-procurement-process`, `period-end-closing-process`,
+`logistics-to-finance-postings-process`), none refuted, so nothing was added under refuted. Added
+fields, as the item briefs named them: `process.kpis` on all five (5, 1, 7, 6 and 5 lines) and
+`process.migration` on refurbishment (4 lines from items 15.3.9, 15.3.1, 15.3.2, 15.3.3 and 15.3.10
+of the 2025 FPS01 list); evidence 18 → 28, 14 → 20, 16 → 24, 40 → 49 and 32 → 40. The audited
+drafts were taken verbatim from the writer's task and compared field by field with the file before
+the edit, which inserted only: a load of the module afterwards shows every old field, step, process
+line, xref and evidence row unchanged, and the eight other records unchanged in value. One removal,
+ordered by its verdict with a reason: the period-end notes sentence 'פערים גלויים: kpis הושמט, אין
+מקור שמגדיר מדדים; ...' now reads 'פערים גלויים: אין תצוגת CDS מאומתת לסגירת תקופה במילון הפרויקט;
+אף מקור אינו מגדיר יעד מספרי או מדד לזמן סגירת התקופה עצמה.', because it contradicted the new kpis;
+the 2026-09-24 omission stays in that record's Old → New section. Downgrades applied, each
+replacement matched once: calibration kpis[0] and kpis[4] say that filtering on inspection type 14
+or lot origin 14 is an inference, kpis[3] says the page documents no way to isolate calibration
+characteristics, kpis[0] also links bp:quality-inspection-in-production, the notes say that record
+holds the fal-app output of F3239, and the PFCG role 'Calibration Information'
+(SAP_QM_IT_CALIB_INFO) has its own sap_help row (2025.001, loio d40db753128eb44ce10000000a174cb4);
+refurbishment kpis[0] opens with 'מדד מעקב ברמת הפקודה (לא KPI ניהולי)'; quality in procurement
+kpis[5] names the business role Purchaser (SAP_BR_PURCHASER) with the catalog
+SAP_BCR_MM_PUR_STRATEGY, and the Supplier Evaluation by Quality (Inspection Lot) row quotes the page
+for it (the verdict's optional edit, taken); the period-end F4603 claim lists both catalogs and the
+F3567 claim both roles and both catalogs; logistics took the verdict's fixedRecord (kpis 6 → 5
+lines: F1422 and MB5L merged, the Deferred Summarization context, the F3749 ratio wording, 'LO-LIS'
+instead of 'Inventory Controlling') and its notes replacement. Writer deviations beyond the
+verdicts: (1) quality in procurement notes: the draft rewrote the old sentence 'שדה ה-kpis הושמט:
+לא אותר במאגר או בחיפושים הרשמיים מדד מוגדר לתהליך זה.' in place; the writer kept the old notes
+verbatim and appended the update as 'עדכון 2026-09-28 (Old → New)'; (2) reviewer on all five: the
+old string is kept and '; backfill (researcher + adversarial auditor), 2026-09-28' appended, instead
+of the drafts' replacement that dropped '+ repairer' (the refurbishment verdict asked to keep the
+history); (3) calibration: one repository row added,
+`data/best-practices/cross-processes-2.ts#quality-inspection-in-production`, so that F3239, which
+the verdict's notes sentence names, is carried by a cited record, and the notes sentence on the PFCG
+role names its new row; (4) logistics notes: '(F1956)' dropped from the sentence on apps seen in
+search but not read, because no cited record prints that id; (5) file header: the kpis sentence
+names the five records, a backfill paragraph was added, and `DATE28` dates the new rows and
+`lastVerifiedAt`. The writer ran no search, page-body or fal-app call. Open gaps the records keep: no
+calibration-specific KPI (ten searches); no Fiori analytical app or KPI tile for refurbishment (its
+one line is an order-level status display); no target value for any measure; quality in procurement
+leaves out the 'Goal Type Minimizing' that its Key Figures and Mean Quality Score configuration pages
+print; the SAP Note numbers printed inside the simplification items were not written. Gates:
+`scratchpad/validate-bp-file.mjs` prints 96 `dangling-xref` hits, all bp slugs registered in files
+its reduced universe does not load (the 95 from before plus bp:quality-inspection-in-production on
+calibration kpis[0]), and no other rule; the validator on the full registered universe prints 0
+problems (35 practices); both `tsc` gates clean; `npm test` 211/211;
+`scratchpad/check-bp-repoRef.mjs` 520 repoRefs, none missing; no em dash. Coverage
+(`report:coverage --catalog best-practices`): unchanged, total 35, L2 33, L5 2, verified 32, conflict
+3, s4-appl 2, edition 4 (the five records carry no authored status, so they stay at L2).
+
+Backfill 2026-09-28, catalog run 2 of 2 (same constant `DATE28`): 5 audited re-drafts, 5 replaced in
+place at their positions (`project-system-process`, `ewm-warehouse-process`,
+`ibp-ppds-integration-process`, `procure-to-pay-process`, `physical-inventory-process`), none
+refuted, so nothing was added under refuted. Added fields, as the item briefs named them:
+`process.kpis` on all five (5, 6, 5, 6 and 8 lines) and `process.migration` on procure-to-pay (9
+lines from items 5.1.27, 14.2.8, 14.2.6, 15.3.1, 6.1.4, 14.1.1, 14.1.2 and 14.2.5 of the 2025 FPS01
+list); evidence 38 → 47, 48 → 59, 42 → 50, 45 → 62 and 36 → 43; xrefs 45 → 46 on project-system
+(tx:CNE5, the verdict's optional item) and 44 → 56 on procure-to-pay (the draft's tx:BP, XK01, MK01,
+FK01, ME21, ME22, ME23, ME24, ME25, ME27, SPDD and PFCG). The audited drafts were taken from the
+workflow journal (the JSON of the writer's task) and compared field by field with the file before
+the edit, which inserted only: a load of the module afterwards equals the expected records, shows
+every old field, step, process line, xref and evidence row unchanged, and the eight other records
+unchanged in value and order. No removal. One old sentence edited, ordered by its verdict: the
+opening of the project-system notes now reads '... שגופם נקרא ב-sap-help-body בגרסה של 2026-09-24
+(2025.001, ...' (an insertion; the 6 pages read on 2026-09-28 are covered by its Old → New
+sentence). Downgrades applied, each replacement matched once: project-system kpis[0] ('והעמוד מגדיר
+את BCWS', so ACWP is not shown as part of the page's quoted field list), kpis[1] (CNE5 is one of the
+progress analysis reports the roles page lists, not 'the entry point'), kpis[4] (F2513 compares plan
+with actual and also displays baseline costs); EWM kpis[2] ends after the quoted sentence (the
+advice 'ב-On-Premise אין להסתמך עליהם' is gone); IBP kpis[4] (the measured forecast is a key figure
+named in the profile and may be the one sent as PIR) and its notes history sentence in the file's
+Old → New form; procure-to-pay migration[4] (the structure compatibility is created with extend
+views, not rebuilt) and migration[5] (the replacement happens in the add-on installation of SAP
+Simple Finance with SUM); physical inventory: the W0058 Fiori-library claim lists S36 (2602) and S37
+(2608) too, kpis[5] places the 'Physical Inventory Difference in Percent' filter in the page's Tip
+under Recipients, and the W0058 page row is titled 'Physical Inventory Analysis (App ID: W0058) |
+Inventory Management and Inventory (MM-IM)' to keep it apart from the process-page row. Optional
+verdict items: tx:CNE5 taken; the move of physical-inventory kpis line 8 into `process.controls` not
+taken, because the backfill adds only the fields its brief names and controls is not one of them
+(the line stays in kpis, where it says it is a criteria-based alert and not an aggregate measure).
+Writer deviations beyond the verdicts: (1) procure-to-pay reviewer: the draft replaced '...,
+2026-09-24' with '..., 2026-09-28'; the writer kept the old string and appended '; backfill
+(researcher + adversarial auditor), 2026-09-28', as on the other nine backfilled records; (2) file
+header: the kpis sentence now says the two backfill batches added kpis to the ten records that
+lacked them, a paragraph describes this batch, and the `DATE28` comment names the ten records. New
+rows are stamped `DATE28`, except the two CNE5 rows of project-system copied verbatim from
+`data/verification/transactions-auto.ts#tx:CNE5`, which keep `DATE` (2026-09-24). The writer ran no
+search, page-body or fal-app call. Open gaps the records keep: no target value for any measure; no
+ECC-side KPI for procure to pay, and none for physical inventory beyond the document statistics; the
+measure names of F5123, F5122 and F4969 are printed in no official source read; F9020, F6991, F2513,
+F7441, W0058, F4024, F5123, F5122 and F4969 are not in `data/fiori/apps.ts` and stay in prose; the
+SAP Note numbers printed inside the simplification items were not read; the old procure-to-pay row
+of item 15.3.1 (copied from `table:MKPF`) keeps sourceType 'sap_help' although it cites a
+Simplification List item (kept verbatim); IBP business roles stay undocumented. Gates:
+`scratchpad/validate-bp-file.mjs` prints 96 `dangling-xref` hits, all bp slugs registered in files
+its reduced universe does not load, the same list as before the write, and no other rule; the
+validator on the full registered universe prints 0 problems (35 practices); both `tsc` gates clean;
+`npm test` 211/211; `scratchpad/check-bp-repoRef.mjs` 524 repoRefs, none missing; no em dash.
+Coverage (`report:coverage --catalog best-practices`): total 35, L2 33 and L5 2 unchanged; verified
+32 → 31 and conflict 3 → 4, because project-system-process now carries the `conflicting_sources` row
+of the two EAC definitions (see conflicts); s4-appl 2 and edition 4 unchanged.
+
+## refuted
+
+- `bp:breakdown-maintenance-process` (batch 1, 2026-09-24): refuted at the gate, not
+  written. (1) BLOCKER, wrong app name for F1511: step 1, the roles line, the Fiori
+  transactions line and evidence row 11 call F1511 'Create Maintenance Request'. The
+  overlay `data/verification/fiori.ts#fiori:F1511` settles from two help.sap.com 2025.001
+  records and the Fiori library title that F1511 is 'Request Maintenance'; 'Create
+  Maintenance Request' is F1511A (`data/fiori/apps.ts#F1511A`). The same overlay marks the
+  `apps.ts#F1511` repository claim (role SAP_BR_MAINTENANCE_TECHNICIAN, catalog, OData) as
+  verification_required, while the draft's row 11 labels that repoRef repository_verified
+  and repeats the role. (2) The technical role names SAP_BR_MAINTENANCE_TECHNICIAN and
+  SAP_BR_MAINTENANCE_PLANNER are stated as settled facts, but the overlays for
+  fiori:F2023, fiori:F4604, fiori:F5104A and fiori:F1511 say they come from the curated
+  record only and must be checked against the Fiori library; notes and gaps are silent.
+  (3) CO88 is described as the collective run ('KO88 (בודד) או CO88 (מרוכז)', 'KO88
+  התחשבנות בודדת, CO88 מרוכזת') with no cited row saying so: `data/tcode-catalog.ts#CO88`
+  (repeated in `data/verification/transactions-auto.ts` tx:CO88) titles it 'Actual
+  Settlement: Production/Process Orders', the cited K_ORDER_SETTLEMENT row lists KO88 and
+  KO8G, not CO88, and settlement-error only says 'KO88/CO88 מסיימים בשגיאה'. (4) Two cited
+  repository records contradict each other on TECO and reservations (step 6 and the
+  pm-corrective row: TECO closes open reservations; exceptions line 3 and the teco-blocked
+  row: open reservations or movements block TECO); the record states both, one without
+  attribution, and does not disclose the conflict. (5) Evidence row 2 (repoRef
+  `data/process-guides.ts#pm-corrective`) ends with a sentence about other records ('Confirm
+  Jobs' corrected in fiori:F2730 / fiori:F5104A) that the repoRef does not bound. (6) Minor:
+  'IW28 רשימת הודעות' has no cited row (the description sits in
+  `data/transactions.ts#IW28`, which no evidence row cites). (7) Minor: notes carry a
+  pipeline change log of a draft that was never published instead of gap statements.
+  Verified by the auditor and reusable on re-draft: process.reference null with the reason
+  in notes; BH1 no longer claimed as the process's scope item (only the F5104A scope items
+  listed); YA01 / YA02 attributed to the Configuring Phase Control Codes row with the caveat
+  that the page does not call YA01 the breakdown order type; F5241 no longer tied to
+  SAP_BR_MAINTENANCE_PLANNER; one evidence row per troubleshooting record and per Fiori
+  app, each repository claim matching its record; the 8 official rows byte-identical to
+  overlay entries in fiori:F4604, fiori:F5104A (x3), fiori:F2730, fm:BAPI_ALM_ORDER_MAINTAIN,
+  fm:BAPI_ALM_CONF_CREATE and fm:STATUS_PROFILE_READ; bp:maintenance-order-process and
+  bp:confirmation-process exist; 9 steps, 45 xrefs, 36 evidence rows; no em or en dashes
+  and no certainty words in the body. Re-draft with F1511 = Request Maintenance and
+  F1511A = Create Maintenance Request, the role names marked curated-only (or confirmed
+  through `scripts/fal-app.mjs`), CO88 described only as its cited rows describe it, the
+  TECO / reservation conflict disclosed, the row-2 sentence moved out of that claim, IW28
+  cited through `data/transactions.ts#IW28`, and gap statements in notes. Closed in batch 5
+  (2026-09-24): re-drafted, re-audited without refusal, and written.
+- `bp:procure-to-pay-process` (batch 2, 2026-09-24): refuted at the gate, not written; the
+  draft is not in the repository. (1) BLOCKER, ECC/S/4HANA attribution (rule 6) and a gap in
+  field 17: step 6 ('הקבלה כותבת מסמך חומר (MKPF/MSEG)'), outputs[2] ('מסמך חומר של הקבלה
+  (MKPF/MSEG)') and tables[1] (MKPF and MSEG as 'מסמך החומר של הקבלה', adding that the P2P
+  map 'מונה ... גם את MATDOC') name no side, and for S/4HANA they contradict evidence the
+  repository already holds: `data/verification/tables.ts` MKPF_SIMPL2025 (line 533, used by
+  table:MKPF) cites 'S4TWL - Data Model in Inventory Management' (2025 FPS01 Simplification
+  List, item 15.3.1): 'Material document data will be stored in MATDOC only and not anymore
+  in MKPF and MSEG'; MSEG_ARCHIVING (line 83) and the table:MSEG row add that compatibility
+  with the old tables comes through CDS compatibility views. The only source of the MKPF/MSEG
+  wording, the tx-intel MIGO record ('כותבת MKPF/MSEG'), carries no edition. eccToS4 leaves
+  out this data-model change, the largest S/4HANA change on the goods-receipt step, and
+  names only the MB11 transaction-availability item. (2) Minor, negative search overstated
+  in notes: the notes say the 'Procurement of Direct Materials' search returned What's New
+  records for the item 'במהדורות 1709 עד 2023' and 'לא עמוד תהליך למהדורת 2025'; a re-run
+  (21 hits) shows the item's own records at 1709, 1809, '100', 1909.000 (J45) and 2020.000
+  (J45), the 2023.000 hits are other topics ('Enterprise Search Function for Customer Fields
+  in Supplier Invoices', 'Purchase Requisition Events'), and a 2025.001 page titled
+  'Procurement' (loio 56be0913bd224e218bbd83308039fafb) appears in the results without
+  mention. (3) Minor, inherited wording: the MB03 official row keeps 'בדפים שצוטטו ברשומה זו'
+  from tx:MB03, but this record cites one MB03 page, so 'this record' points at the wrong
+  record. (4) Minor: tables[3] names 'BSIK פריטי ספק פתוחים' without a side, while the cited
+  FBL1N record says that in S/4HANA the line items come from ACDOCA through compatibility
+  views. Verified by the auditor and reusable on re-draft: all 16 first-round problems are
+  closed (ME51N row sourceTitle 'Process Purchase Requisition (MM-PUR)' and accessedAt
+  2026-09-24 as in transactions-b.ts:3089; MARA, BUT000, CVI, BAPI_REQUISITION_GETDETAIL,
+  the ME21/ME25 prose, F0842A, F1077, 'Stock Transport Order' and 'זמינות במלואן' removed;
+  the 'היחידה' claim about MB03 removed; the F0843 identity carried by the copied
+  F0843_PGR_TOPIC row; both bp: xrefs added; the P2P incidents linked, one repoRef each);
+  every official row except the new one keeps the url, sourceTitle, release and accessedAt
+  of its `data/verification` source; the new 'Procurement in SAP S/4HANA' row matches a live
+  search record (loio 287eb65334e6b54ce10000000a174cb4, versionId 2025.001) and its body
+  (deliverable 40374862, build 1807) contains every quote; every uppercase SAP token appears
+  in an evidence claim; book3 sections 5.4, 7.3.1 and 12.2 exist; the claims of the seven
+  troubleshooting rows match their entries; validator 0 problems, `tsc` clean, no em dash.
+  Re-draft with MKPF/MSEG attributed to ECC and an S/4HANA line that cites 'S4TWL - Data
+  Model in Inventory Management' by name (MKPF_SIMPL2025 copied verbatim, MSEG_ARCHIVING for
+  the compatibility views), that change added to eccToS4, the search notes corrected to the
+  releases listed above plus the 2025.001 'Procurement' page, the MB03 wording re-pointed to
+  its own source, and BSIK attributed to ECC with the FBL1N record's ACDOCA note for S/4HANA.
+  Closed in batch 5 (2026-09-24): re-drafted, re-audited without refusal, and written.
+- `bp:physical-inventory-process` (batch 2, 2026-09-24): refuted at the gate, not written;
+  the draft is not in the repository. (1) BLOCKER, unsourced claim introduced by the repair:
+  step 6 ('קריאה מהן מנותבת לתצוגת CDS, וכתיבה אליהן אינה משפיעה'), antiPatterns[4] ('פעולת
+  כתיבה כזו אינה משפיעה'), checks[3] ('דרך הניתוב לתצוגת CDS ... וקוד שכותב לטבלאות אלה
+  הוסר') and eccToS4[2] ('קריאה מהן מנותבת לתצוגת CDS') say that reads from MKPF/MSEG are
+  redirected to a CDS view and that writes to them have no effect, but no evidence row of the
+  record prints this. The row copied from the 2025 FPS01 Simplification List (MKPF_SIMPL2025,
+  'S4TWL - Data Model in Inventory Management', item 15.3.1) prints only 'do still exist in
+  S/4HANA as DDIC definition as well as database object'; the MSEG_ARCHIVING row prints only
+  the MATDOC replacement sentence; the table:MSEG repository row speaks only of NSDM_V_MSEG
+  and SUM. The 'redirected ... to the assigned CDS view' and 'such write operations are
+  without any effect' wording lives only in a second row of `data/verification/tables.ts`
+  table:MKPF (2023 FPS03 Simplification List, item 27.5 'S4TWL - Data Model in Inventory
+  Management', SIMPL_OP2023.pdf), which the draft does not cite; eccToS4[2] also pins the
+  statement to '2025 FPS01, פריט 15.3.1', whose copied text does not contain it. (2) Wrong
+  count in the summary: '23 רשומות evidence (14 רשמיות, 7 מהמאגר, 2 מספרים)', while the
+  record carries 12 sap_official_verified (6 sap_help + 6 fiori_library), 9
+  repository_verified and 2 supported_secondary_source. Verified by the auditor and reusable
+  on re-draft: all 12 first-round problems are resolved; 7 steps, as the summary says;
+  F0379A labels only 'Manage Physical Inventory Documents'; F3197, F4550 and F5430 each have
+  their own fal-app row, re-fetched at S32OP with names, roles, OData services and GUI
+  leading/related transactions matching the claims word for word; 'Schedule Physical
+  Inventory Document Creation' tied only to `data/books/book3.json#7.4.2`, whose section id
+  and title exist; MI20 and MI31 backed by `data/tcode-catalog.ts` lines 986/988 and by FAL
+  rows copied word for word from `data/verification/transactions-auto.ts` (tx:MI20,
+  tx:MI31); NSDM_V_MKPF removed; cds:I_MaterialDocumentItem backed by `data/cds-map.ts` line
+  46 plus the WN2021 row, word for word the entry at `data/verification/cds.ts` line 185;
+  MB52 and MMBE split into two rows, each matching `data/tx-intel.ts`; both 'Physical
+  Inventory Process' URLs (S/4HANA 2025.001 and SAP_ERP 6.18.latest, loio
+  2761bd534f22b44ce10000000a174cb4) come back from `scripts/sap-help-search.mjs` and their
+  `scripts/sap-help-body.mjs` text contains every quoted phrase, as does the F0379A body;
+  validator (full best-practices universe) 0 problems, 16 xrefs resolved, no em dash, no
+  certainty words, no 'אחזקה'. Re-draft with the redirect / no-effect sentence either
+  dropped or cited through the 2023 FPS03 item 27.5 row copied verbatim with its own release
+  (eccToS4[2] re-pinned to that release), and the summary's evidence count corrected to 12
+  official, 9 repository and 2 secondary, or removed. Closed in batch 5 (2026-09-24):
+  re-drafted, re-audited without refusal, and written.
+
+## conflicts
+
+- `bp:calibration-process`, Manage Inspection Lots: the app page 'Manage Inspection Lots |
+  Quality Management' (2025.001, loio ecfae2574096f432e10000000a441470) prints 'App ID:
+  F2343'; the What's New page 'Harmonized Document Management' (2025.000, loio
+  12330e3d87e74b849f14f9fb943d51bc) prints 'Manage Inspection Lots (App ID: F1243)'.
+  Written as `conflicting_sources`. What would settle it: `node scripts/fal-app.mjs F2343`
+  and `F1243` at S32OP. A further official record seen in a search snippet, 'Harmonized
+  Document Management | Quality Management' (2025.001, loio
+  338b1d7a7bb541dab49827afc7697528), lists 'F1685A: Record Inspection Results F2343: Manage
+  Inspection Lots F2345: Manage Usage Decisions' and can be added as a supporting row on the
+  next audit. None of F2343, F1243, F2345, F1685A or F168A is in `data/fiori/apps.ts`, so
+  the record carries no fiori: xref.
+- `bp:calibration-process`, Record Inspection Results: the app page (2025.001, loio
+  d010ce7fa4fc40b48bf4eeccc2002c3a) prints 'App ID: F1685A'; the same What's New page
+  (2025.000) prints 'Record Inspection Results (App ID: F168A)'. Written as
+  `conflicting_sources`; settle with `node scripts/fal-app.mjs F1685A` and `F168A`, and the
+  HDM Quality Management page above. Related repository conflict (already in the fiori
+  overlay): `data/library/qm-textbook/ch18.ts:1363` attributes F2731 to Manage Usage
+  Decisions, while the official app page prints F2345 (row at verification_required inside
+  `fiori:F2731`).
+- `bp:refurbishment-process`, MB11 availability: 'Additional Movement Types | Maintenance
+  Management' (2025.001, loio d9f8c353b677b44ce10000000a174cb4) names MB11 (goods issue) and
+  IW8W (goods receipt) as the standard refurbishment transactions and allows MIGO for
+  261/101 only, not for 313/315; Simplification List 2023 FPS1-3 item 27.6 'S4TWL -
+  AVAILABILITY OF TRANSACTIONS IN MM-IM' (row MB11_SIMPL of `tx:MB11`) lists MB11 among the
+  MB transactions replaced by MIGO or BAPI_GOODSMVT_CREATE, whose menu call raises an error.
+  The availability of MB11 itself is disputed between the sources, and the practical impact
+  centres on the 313/315 path, where the page points to the refurbishment transactions and
+  MIGO is not available. Both rows stay `sap_official_verified`, the same treatment as the
+  overlay `tx:MB11` (which records this as a lifecycle conflict). Reusable on re-audit:
+  `audit/master-completion/simpl-tcode-index.json` lists MB11 under the same item in the 2025
+  FPS01 list (item 15.3.9, `scratchpad/official/SIMPL_OP2025.pdf.txt` lines 84132-84159,
+  printed page 1486, same wording plus 'The transaction codes will be deprecated in the near
+  future'), so a 2025 FPS01 row would put both sides on the same release. What would settle
+  the practical question: a check in the target system of MB11 and IW8W with movement types
+  313/315 on a refurbishment order.
+- `bp:order-to-cash-process`, repository against Simplification List (disclosed in notes, no
+  `conflicting_sources` row): `data/tx-intel.ts` lists VBUK and VBUP in the tables of VA01,
+  VA03, VA05, VA25, VL01N, VL02N and VL06O, and the index tables VAPMA (VA05) and VAKPA (VA25);
+  'S4TWL - SD Simplified Data Models' (2025 FPS01 Simplification List, item 11.1.9) says VBUK
+  and VBUP were eliminated (status fields moved to VBAK/VBAP, LIKP/LIPS and VBRK) and the index
+  tables VAKPA, VAPMA, VLKPA, VLPMA, VRKPA and VRPMA were eliminated. The tx-intel lists fit the
+  ECC side only. What would settle it: an edition split of those `tables` fields in
+  `data/tx-intel.ts` (not a best-practices file, not edited here).
+- `bp:period-end-closing-process`, official against official (disclosed in notes; not marked
+  `conflicting_sources` at the gate, the auditor accepted the notes disclosure): 'Transaction
+  Codes in Cost Object Controlling' (2025.001, loio ebc64252eaa43507e10000000a441470; body
+  re-read 2026-09-24) prints 'KKA0' both for 'Change cutoff period' and for 'WIP calculation -
+  collective processing', while the Fiori library (row copied from `tx:KKAO`) and the
+  repository give KKAO 'Calculate Work in Process - Collective'. The same page lists KKS5 for
+  collective variance calculation and not KKS1 (the page says the list is not necessarily
+  complete); the library calls KKS1 'Run Variance Calculation - Orders - By Lot'. What would
+  settle it: SE93 in the target system for KKA0, KKAO, KKS1 and KKS5. A re-audit may mark the
+  transaction-list row `conflicting_sources` against the KKAO library row. Closed on
+  2026-09-24 (history kept in the record's notes): `data/tcode-catalog.ts` titled KKAX 'WIP
+  Calculation for Product Cost Collector' and KKAS 'WIP Calculation: Collective Processing
+  (Sales Order)' against the official list and the library; commit 48e7d9ac corrected both
+  titles from the library.
+- `bp:logistics-to-finance-postings-process`, repository against repository, settled by an
+  official page: `data/s4-impact.ts#BSEG` says BSEG 'עדיין קיים' and `data/verified-objects.ts`
+  (BSEG) says 'BSEG כ-Compatibility'. The body of 'Universal Journal: FAQ' (2025.001, loio
+  8b8e5695c4dc4749a706f9fa2f6bda92, read through `scripts/sap-help-body.mjs` 2026-09-24) says
+  'the former G/L-only table BSEG still exists as it is needed to store the source documents
+  that serve as the basis for journal entries into table ACDOCA' and that BKPF 'remains
+  unchanged'. This supports s4-impact and contradicts the verified-objects wording, which needs
+  a correction in `data/verified-objects.ts` (not a best-practices file, not edited here). Open
+  gap in the same record: the Simplification List item prints the DDL sources NSDM_DDL_MKPF /
+  NSDM_DDL_MSEG and `data/s4-impact.ts` names the views NSDM_V_MKPF / NSDM_V_MSEG; the link
+  between the two names was not verified.
+- `bp:project-system-process`, repository against Simplification List (disclosed in notes, no
+  `conflicting_sources` row): `data/tx-intel.ts#CJ20N` lists CJ01, CJ02, CJ06, CN21 and CN22 as
+  obsolete, while 'S4TWL - Simplification of maintenance transactions' (2025 FPS01 Simplification
+  List, item 10.1.60) says these maintenance transactions are part of the compatibility scope and,
+  enhanced with SAP S/4HANA 2020 FPS2 (field extensibility), part of the perpetual scope. The record
+  follows the item. In the same repository record the process line reads 'תקצוב (CJ40)/תכנון',
+  while the CJ40 record and the catalog make CJ40 planning and CJ30 budgeting; the record uses CJ40
+  for planning and CJ30 for budgeting. BAPI_BUS2054_CREATE and BAPI_BUS2001_GET_STATUS, listed in
+  the same record, were not found in an official search and stay for verification in SE37. What
+  would settle it: SE93 for the five codes in the target system, and an edition split of the
+  `obsolete` list in `data/tx-intel.ts` (not a best-practices file, not edited here).
+- `bp:ewm-warehouse-process`, repository against Simplification List (disclosed in eccToS4[5] and
+  in the tcode-catalog row, no `conflicting_sources` row): `data/ecc-s4.ts#ewm` and
+  `data/lifecycle.ts#LT03` (and the s4Delta of tx-intel LT01 and LT12) describe the whole of classic
+  WM as compatibility scope, while 'S4TWL - Warehouse Management (WM)' (2025 FPS01, item 15.5.2)
+  says Stock Room Management reuses major parts of LE-WM and can be used beyond 2025, and that
+  WM-TRM, WM-LSR, WM-VAS, WM-YM, WM-CD, WM-TFM-CP and WM-DWM are the compatibility-scope parts,
+  'which comes with limited usage rights' (SAP note 2269324). Second item: `data/tcode-catalog.ts`
+  titles /SCWM/ADGI 'Adjust Goods Issue (EWM)', while the Fiori library (S32OP, row copied from
+  `tx:/SCWM/ADGI`) calls it 'Post Goods Issue - Unplanned'; the record uses the library title. What
+  would settle it: corrected texts in those repository records and a corrected catalog title (not
+  best-practices files, not edited here).
+- `bp:embedded-analytics-process`, repository against Simplification List (disclosed in notes, no
+  `conflicting_sources` row): the s4Delta of `data/tx-intel.ts#MCI7` and `#MCI8` says PMIS/LIS is
+  compatibility scope, while 'S4TWL - LIS in EAM' (2025 FPS01, item 4.1.13) does not use that term
+  for PMIS; the term appears in 'S4TWL - Logistic Information System in PP' (item 9.2.1) for the
+  shop floor information system (ID 452 of the matrix). The record attributes each statement to
+  its source. Related: `data/fiori/apps.ts#F3289` keeps type 'Transactional' while the library
+  prints 'Transactional, Analytical' (the apps.ts entry records the gap itself). What would settle
+  it: the compatibility matrix attached to SAP Note 2269324, then a correction of the tx-intel
+  s4Delta (not a best-practices file, not edited here).
+- `bp:breakdown-maintenance-process`, TECO and reservations, repository against official (written as
+  `conflicting_sources` on the `data/troubleshooting.ts#teco-blocked` row): teco-blocked lists open
+  confirmations and 'רזרבציות/תנועות פתוחות' as TECO blockers and `data/tx-intel.ts#IW32` names open
+  confirmations and PRs, while `data/process-guides.ts#pm-corrective` says TECO closes open
+  reservations. The ECC page 'Technical Completion of an Order' (SAP ERP 6.0 EHP8, 6.18.latest, loio
+  bac9b65334e6b54ce10000000a174cb4, body read) says the existing reservations are cleared, the
+  purchase requisitions are flagged for deletion and confirmations can still be entered after TECO
+  unless a user status forbids them; the S/4HANA 2025 FPS01 page 'Maintenance Order System Statuses'
+  (loio fffdec9b483b4f7f8347e797a6641acd, body read) does not mention reservations. What would
+  settle it: a TECO test in the target S/4HANA system on an order with an open reservation, an open
+  purchase requisition and an unconfirmed operation, then a correction of the repository records
+  (not best-practices files, not edited here).
+- `bp:breakdown-maintenance-process`, collective settlement run, repository against repository
+  (written as `conflicting_sources` on the `data/domains.ts#pm-settlement` row): pm-settlement says
+  settlement runs 'ב-KO88 (בודד) או CO88 (מרוכז)', while `data/tcode-catalog.ts#CO88` ('Actual
+  Settlement: Production/Process Orders') and `data/tx-intel.ts#CO88` describe CO88 for production
+  and process orders, and `data/tx-intel.ts#KO88` and `data/function-intel.ts#K_ORDER_SETTLEMENT`
+  name KO8G for the collective run. No official page read names a settlement transaction for
+  maintenance orders ('Settle the Maintenance Order' describes the Web UI). What would settle it: an
+  official page that names the collective settlement transaction for maintenance orders, or a test
+  of KO8G and CO88 on PM orders in the target system; then a correction of
+  `data/domains.ts#pm-settlement` (not a best-practices file, not edited here).
+- `bp:breakdown-maintenance-process`, default order type for repair work, repository against
+  repository (disclosed in exceptions[6] and notes, no `conflicting_sources` row):
+  `data/domains.ts#pm-maintenance-orders` and `data/process-guides.ts#pm-corrective` give PM01 to
+  repair, while `data/best-practices/pm-processes-2.ts#maintenance-order-process` lists PM02 as the
+  breakdown type. The official 'Maintenance Order Types' page (2025.001) describes order types by
+  business process, not by key. What would settle it: the order-type Customizing of the target
+  system; the record leaves the key to the project.
+- `bp:procure-to-pay-process`, the identity of F0843, repository against official (disclosed in
+  notes, settled in the overlay `fiori:F0843`, no `conflicting_sources` row): `data/fiori/apps.ts`
+  pairs F0843 with 'Post Goods Movement', `data/tx-intel.ts#MIGO` pairs 'Post Goods Receipt for
+  Purchasing Document' with F0843A, and the P2P map (`data/processes.ts#p2p`) names 'Post Goods
+  Movement' for the goods-receipt step, while the official page (2025.001, loio
+  9ddf815494758c4ce10000000a4450e5) prints 'Post Goods Receipt for Purchasing Document App ID:
+  F0843'. The record follows the official page and names F0843A in prose only. What would settle it:
+  `node scripts/fal-app.mjs F0843` and `F0843A` at S32OP, then corrections in `data/fiori/apps.ts`,
+  `data/tx-intel.ts` and `data/processes.ts` (not best-practices files, not edited here).
+- `bp:physical-inventory-process`, the titles of MI20 and MI07, official against official (disclosed
+  in notes, no `conflicting_sources` row): the activity table of 'Physical Inventory (MM-IM)' (SAP
+  ERP 6.0 EHP8 6.18.latest and S/4HANA 2025.001, loio 4407b753128eb44ce10000000a174cb4, bodies read)
+  calls MI20 'Print List of Differences' and MI07 'Process List of Differences'; the Fiori Apps
+  Library at S32OP lists MI20 as 'Process Physical Inventory Count Results' and MI07 as 'Post
+  Physical Inventory Document' (rows copied from `tx:MI20` and `tx:MI07`). `data/tcode-catalog.ts`
+  adopted the library title for MI20 (commit 48e7d9ac: Old 'Print List of Differences' → New
+  'Process Physical Inventory Count Results') and keeps 'Process List of Differences' for MI07. What
+  would settle it: the transaction texts of MI20 and MI07 in SE93 of the target system.
+- `bp:plan-to-produce-discrete`, the scope item behind `process.reference`, official against
+  official by release (disclosed in reference.note and notes, no `conflicting_sources` row;
+  written in the 2026-09-25 backfill of `data/best-practices/pp-processes.ts`): the reference
+  is the What's New page 'Make-to-Stock Production - Discrete Manufacturing (BJ5)' (1909.000,
+  loio df4ef977909a47e293b3762935ec44d8), a delta page for scope item BJ5; the What's New
+  page 'Make-to-Stock Production – Discrete Manufacturing (7UV)' (2025.001, loio
+  170b234ade3c4cdd8d12e052320a89b6) documents a scope item of the same name on PP/DS
+  (SCM-APO-PPS). The statement that BJ5 appears in What's New records up to 2023 rests on the
+  researcher's search results, which are not attached as evidence rows (the record says so).
+  Neither page describes the chain through settlement. What would settle it: the 2023 BJ5
+  search record added as an evidence row (url, loio and versionId verbatim), and the SAP Best
+  Practices Explorer fact sheets of BJ5 and 7UV for S/4HANA 2025 (not read).
+- `bp:maintenance-notification-process`, the English title of IW24, official against repository
+  (disclosed in the `tx:IW24` evidence row, no `conflicting_sources` row; written in the
+  2026-09-28 backfill of `data/best-practices/pm-processes.ts`): the Fiori Apps Library row at
+  S32OP, copied into the overlay `data/verification/transactions-auto.ts#tx:IW24`, lists IW24 as
+  'Create PM Malfunction Report' (SAP GUI, Published); `data/tcode-catalog.ts#IW24` and
+  `data/tx-intel.ts#IW24` give 'Create Malfunction Report'. `process.transactions[1]` uses the
+  library title. What would settle it: the transaction text of IW24 in SE93 of the target system,
+  then an alignment of `data/tcode-catalog.ts` (not a best-practices file, not edited here).
+- `bp:maintenance-notification-process`, BAPI_ALM_NOTIF_TASK_ADD and BAPI_ALM_NOTIF_LIST_FILTER,
+  repository against repository (disclosed in `process.interfaces[3]` and its evidence row, no xref,
+  no `conflicting_sources` row): `data/bapi-enrichment.pm.ts` marks both names invalid-name (tasks
+  are added through BAPI_ALM_NOTIF_DATA_ADD with table NOTIFTASK; the LIST family is split by
+  criterion), while `data/function-intel.ts` lists both as existing; the overlays
+  `fm:BAPI_ALM_NOTIF_TASK_ADD` and `fm:BAPI_ALM_NOTIF_LIST_FILTER` are verification_required. What
+  would settle it: SE37 in the target system, then a correction of `data/function-intel.ts` (not a
+  best-practices file, not edited here).
+- `bp:maintenance-notification-process`, the OData service name, repository against official (not
+  carried by the record, which names only the official API_MAINTNOTIFICATION; raised in the
+  researcher's conflict list): `data/function-intel.ts#BAPI_ALM_NOTIF_CREATE` still names the
+  S/4HANA alternative 'OData API_MAINTENANCENOTIFICATION', while the official pages 'Operations for
+  Maintenance Notifications' (2025.001) and 'Maintenance Notification Function Import'
+  (2023.latest) print API_MAINTNOTIFICATION; the overlays `fm:BAPI_ALM_NOTIF_CREATE` and
+  `fm:BAPI_ALM_NOTIF_GET_DETAIL` record the mismatch. The researcher attributed the long name to
+  `data/fiori/apps.ts#F1511`; that record now carries odata EAM_NTF_CREATE, so the remaining
+  occurrence is in function-intel.ts. What would settle it: nothing further on the SAP side; the
+  open action is a correction of `data/function-intel.ts` (not a best-practices file, not edited
+  here).
+- `bp:ecc-to-s4hana-migration-process`, the class of the maintenance plan migration object,
+  repository against official (disclosed in notes and as a pointer at the end of
+  `process.masterData[2]` and `process.migration[2]`, no `conflicting_sources` row; written in
+  the 2026-09-28 backfill of `data/best-practices/cross-processes.ts`): the page 'PM -
+  Maintenance plan | Data Migration' (2025.001, loio 60a36b24c79d4629b04fa59c409154f5, body read
+  2026-09-28) prints 'Business Object Type Master data' and 'Migration Approach Direct Transfer -
+  ERP', with MPLAN_CREATE in the Function Module column of the step 'Create Maintenance Plan';
+  `data/migration-cockpit.ts#maintplan` has `cat: "Transactional"` and `trust:
+  "needs-verification"`. What would settle it: a correction of `data/migration-cockpit.ts` (not a
+  best-practices file, not edited here); the record's pointer and notes paragraph can then go.
+- `bp:confirmation-process`, the input table of BAPI_ALM_CONF_CREATE and the parameter names of
+  BAPI_PROCORDCONF_CREATE_TT, repository against repository (disclosed in
+  `process.interfaces[0]`, `process.migration[2]` and the function-intel and bapi-enrichment
+  evidence rows, no `conflicting_sources` row; restated in the 2026-09-28 backfill of
+  `data/best-practices/cross-processes.ts`): `data/function-intel.ts#BAPI_ALM_CONF_CREATE` names
+  the input table CONFIRMATIONS, `data/bapi-enrichment.pm.ts` names TIMETICKETS
+  (BAPI_ALM_TIMECONFIRMATION); the overlay `fm:BAPI_PROCORDCONF_CREATE_TT` records that the
+  repository layers disagree on that BAPI's parameter names. No official record read so far
+  prints either signature. What would settle it: SE37 in the target system, then a correction of
+  the repository record that loses (not a best-practices file, not edited here).
+- `bp:confirmation-process`, the Fiori ids F2730 and F3364, repository against official
+  (disclosed in notes since 2026-09-22 and in `process.eccToS4[2]` and `[3]`; the 2026-09-28
+  backfill added the Fiori Apps Library row of F5104A at S32OP, which lists W0020 Confirm Jobs as
+  a predecessor): `data/fiori/apps.ts` gives 'Confirm Jobs' as F2730 and 'Confirm Process Order'
+  as F3364, while 'Deletion of Confirm Jobs App' (2023.000) names the deleted Confirm Jobs app
+  W0020, and 'Feature Comparison for Process Orders' (2025.001) places Confirm Process Order
+  Operation (COR6N) in F4587 and F5323. What would settle it: `node scripts/fal-app.mjs F2730` and
+  `F3364` at S32OP, then a correction of `data/fiori/apps.ts` (not a best-practices file, not
+  edited here).
+- `bp:process-order-process` and `bp:process-industries-plan-to-produce`, what LOIPRO carries,
+  repository against official (written in the 2026-09-28 backfill of
+  `data/best-practices/pppi-processes.ts`; no `conflicting_sources` row): the learning line of
+  `data/domains.ts#pppi-mes-integration` reads 'LOIPRO = IDoc העברת מסלול/מתכון למערכת חיצונית',
+  while the SAP Digital Manufacturing Integration Guide (2502) lists 'LOIPRO05 (production and
+  process orders)' and 'POI IDocs' (SAP ERP 6.18) gives LOIPRO as the message type of
+  'Production/Process orders'; the overlay `idoc:msg:LOIPRO` records the same conflict. The
+  plan-to-produce line now follows the official sources and names the domain record as
+  contradicted; the process-order line keeps its attributed wording and its notes disclose it.
+  What would settle it: a correction of `data/domains.ts` (not a best-practices file, not edited
+  here), after which `process-order-process` `process.integrationPoints[0]` can be re-worded.
+- `bp:process-industries-plan-to-produce`, the PI-PCS BAPI names, repository against official
+  (disclosed in `process.interfaces[7]`): `data/domains.ts#pppi-mes-integration` names
+  BAPI_CONTROL_RECIPE_GETLIST and BAPI_PROCESS_MESSAGE_CREATEMULT; the page 'Technical
+  Communication | Production Planning and Control' (2025.001, loio
+  0672b6535fe6b74ce10000000a174cb4, body read 2026-09-28) prints BAPI_CONTROL_RECIPE_GET_LIST and
+  BAPI_PROCESS_MESSAGE_CREATE; the search for BAPI_PROCESS_MESSAGE_CREATEMULT (21 records) prints
+  the name in no title or snippet, and the search for BAPI_CONTROL_RECIPE_GETLIST (9 records)
+  returns that page with the GET_LIST spelling. What would settle it: SE37 in the target system,
+  then a correction of `data/domains.ts` (not edited here).
+- `bp:master-recipe-process`, BAPI_PRODVERS_CREATE_REPLACE, repository against repository
+  (disclosed in `process.interfaces[1]` and, after the 2026-09-28 verdict, in `steps[8]`):
+  `data/bapi-enrichment.sweep.ts` marks the name invalid and points to C223 or
+  CM_FV_PROD_VERS_MAINTAIN, `data/function-intel.ts` describes an existing module; the overlay
+  `fm:BAPI_PRODVERS_CREATE_REPLACE` stays `verification_required`. Officially, 'PP - Production
+  version | Data Migration' (2025 FPS01) prints FV_PROD_VERS_MAINTAIN_MULTI for 'Create Production
+  Version', and the OData V4 service API_PRODUCTION_VERSION is documented as new in 2022. What
+  would settle it: SE37 in the target system, then a correction of the repository record that
+  loses (not a best-practices file, not edited here).
+- `bp:batch-management-process`, whether BAPI_BATCH_CREATE classifies the batch, repository
+  against repository (disclosed in `process.interfaces[0]`): `data/bapi-enrichment.pppi.ts`
+  says 'סיווג נעשה בנפרד', `data/bapi-enrichment.sweep.ts` says 'כולל סיווג (Class Type 023)';
+  no official record read names the module (overlay `fm:BAPI_BATCH_CREATE`). What would settle
+  it: SE37 in the target system, then a correction of the losing repository record.
+- `bp:process-order-process`, `bp:batch-management-process` and
+  `bp:process-industries-plan-to-produce`, the repository Fiori ids F3577 and F1576, repository
+  against official (disclosed in each record's notes and eccToS4 line): the overlays record
+  that the official sources name Manage Process Orders F4587 (with F5323 for the operations) and
+  Manage Batches F2462, and that F3577 and F1576 appear in no official record. F4587, F5323 and
+  F2462 now resolve in `data/fiori/apps.ts` and are linked beside the old ids since the
+  2026-09-28 backfill. What would settle it: a decision in `data/fiori/apps.ts` to retire or
+  alias F3577 and F1576 (not a best-practices file, not edited here).
+- `bp:maintenance-order-process`, the IDoc type that carries a released maintenance order to an
+  MES, official against official (disclosed in `process.interfaces[7]` and notes, no
+  `conflicting_sources` row; written in the 2026-09-28 backfill of
+  `data/best-practices/pm-processes-2.ts`): 'Maintenance Order | Production Planning and Control'
+  (S/4HANA 2025.001 and SAP ERP 6.18.latest, loio 34a22e04c4f34e8bb92f842486066b70, bodies read
+  2026-09-28) prints 'IDoc IORDER_01', while 'Setting Up DRF Integration for MES Processes'
+  (2025.001, loio 667aa2e1747d49aeab7a8c36402d6163) lists 'Maintenance order 468_1 468_1
+  IORDER01'. Neither spelling is in `IDOC_BASIC_TYPES`, so the record names both in prose. What
+  would settle it: WE30 in the target system (the DRF page's own advice for the latest IDoc
+  version), then an `idoc:basic:` entry in `data/verification/idocs.ts` (not a best-practices
+  file, not edited here).
+- `bp:maintenance-order-process`, the input table of BAPI_ALM_CONF_CREATE, repository against
+  repository (restated in `process.interfaces[1]` and in the function-intel and bapi-enrichment
+  evidence rows of the 2026-09-28 backfill; the same conflict is listed above under
+  `bp:confirmation-process`): CONFIRMATIONS in `data/function-intel.ts#BAPI_ALM_CONF_CREATE`,
+  TIMETICKETS (BAPI_ALM_TIMECONFIRMATION) in `data/bapi-enrichment.pm.ts#BAPI_ALM_CONF_CREATE`. The
+  record writes no signature and asks for the BAPI signature to be checked in the target system.
+  What would settle it: SE37 in the target system, then a correction of the losing repository
+  record (not a best-practices file, not edited here).
+- `bp:maintenance-order-process`, the Fiori id of Manage Maintenance Orders, repository against
+  official (disclosed in `process.transactions[4]` and notes since 2026-09-22; the 2026-09-28
+  backfill links F5241 beside F2731 and keeps the old finding in notes): `data/fiori/apps.ts`
+  pairs 'Manage Maintenance Orders' with F2731, which the overlay `fiori:F2731` marks for further
+  verification, while 'Creating a Maintenance Order' (2025.001) and the Fiori Apps Library row of
+  F5241 at S32OP (copied from `obj:maintenance-order`) print F5241 for that name. What would settle
+  it: a decision in `data/fiori/apps.ts` to retire or alias F2731 (not a best-practices file, not
+  edited here).
+- `bp:preventive-maintenance-process`, BAPI_MAINTENANCEPLAN_CREATE, repository against repository
+  (disclosed in `steps[10]`, `process.interfaces[6]` and notes; written in the 2026-09-28 backfill
+  of `data/best-practices/pm-processes-2.ts`, no `conflicting_sources` row in the record): the
+  overlay `fm:BAPI_MAINTENANCEPLAN_CREATE` stays verification_required and records (in a
+  `conflicting_sources` row) that `data/bapi-enrichment.pm.ts` and the academy lesson
+  `data/academy/lessons/pm-generated.ts` say the name does not exist (pointing to MPLAN_CREATE)
+  while `data/function-intel.ts`, `data/domain-detail.ts`, `data/transactions.ts` and
+  `data/sapData.pm.ts` present it as existing; no official page read names it. Officially, 'PM - Maintenance plan |
+  Data Migration' (2025.001) prints MPLAN_CREATE for the step 'Create Maintenance Plan', and the
+  OData service API_MAINTENANCEPLAN creates plans. What would settle it: SE37 in the target system,
+  then a correction of the losing repository layers (not best-practices files, not edited here).
+- `bp:preventive-maintenance-process`, the CDS view of the maintenance plan, repository against
+  official (disclosed since the 2026-09-28 backfill in `process.tables[3]`, `process.eccToS4[4]`
+  and a repository evidence row citing `data/verification/cds.ts#cds:I_MaintenancePlan`;
+  `steps[9]` and the record-level xrefs still link cds:I_MaintenancePlan): the repository
+  presents I_MaintenancePlan as the plan's CDS view, while What's New 2021 FPS01 lists it among
+  the views deprecated as of S/4HANA 2021 (to be deleted as of 2023), successor
+  I_MaintenancePlanBasic; the overlay stays verification_required because the successor id is not
+  in the project universe. What would settle it: adding cds:I_MaintenancePlanBasic to
+  `data/cds-map.ts` and the route manifest (the overlay's recommended action), then re-pointing
+  the three lines in a later edit.
+- `bp:plant-maintenance-end-to-end`, the technical name of the maintenance order OData API
+  successor, official against official (disclosed in the 'Maintenance Order (Deprecated)'
+  evidence row, `process.interfaces[1]` and notes; written in the 2026-09-28 backfill of
+  `data/best-practices/pm-processes-2.ts`): 'Maintenance Order (Version 2)' (2025.001, loio
+  c1457e0e539740a29932fbdcf36fea3c, body read 2026-09-28) names API_MAINTENANCEORDER_0002, while
+  'Maintenance Order (Deprecated)' (2025.001, loio d3f02cfccf00407ab9776ea2ec2030d3, body read
+  2026-09-28) recommends 'Maintenance Order (Version 2) ( API_MaintenanceOrder_002 )'. The record
+  writes the Version 2 page's name. What would settle it: the API's entry on SAP Business
+  Accelerator Hub (a JavaScript shell for the scripted channels) or the service catalog of the
+  target system.
+- `bp:plant-maintenance-end-to-end` and `bp:maintenance-order-process`, API_MAINTENANCEORDER as
+  the current OData service, repository against official (disclosed in `process.interfaces[1]` of
+  the end-to-end record; written in the 2026-09-28 backfill): `data/processes.ts#maintenance-management`
+  names API_MAINTENANCEORDER at the order step and `data/function-intel.ts#BAPI_ALM_ORDER_MAINTAIN`
+  gives 'OData API_MAINTENANCEORDER' as the S/4HANA alternative, while 'Maintenance Order
+  (Deprecated)' (2025.001) prints 'Technical name: API_MAINTENANCEORDER' and 'This API was
+  deprecated with SAP S/4HANA 2023'. What would settle it: nothing further on the SAP side; the
+  open action is a correction of `data/processes.ts` and `data/function-intel.ts` (not
+  best-practices files, not edited here).
+- `bp:technical-objects-process`, the Fiori id of Manage Technical Objects, repository against
+  official (disclosed in `process.transactions[4]` and notes; the overlay `fiori:F2730A` records
+  the conflict): `data/fiori/apps.ts` carries F2730A for 'Manage Technical Objects', which no
+  official source read prints; the apps the 2025 FPS01 documentation names for technical objects
+  are F2072, W0029, W0028 and F8669, in the catalog since 2026-09-24 and linked in the record since
+  the 2026-09-28 backfill. What would settle it: a decision in `data/fiori/apps.ts` to retire or
+  alias F2730A (not a best-practices file, not edited here).
+- `bp:technical-objects-process`, the spelling of the read BAPIs for equipment and functional
+  location, official against repository (disclosed in the simplification-list evidence row since
+  2026-09-22, no `conflicting_sources` row): 'S4TWL - Batch Input for Enterprise Asset Management
+  (EAM)' (SIMPL_OP2025, Document Version 1.36) prints BAPI_EQUI_GET_DETAIL and
+  BAPI_FUNCLOC_GET_DETAIL, while the repository, the overlays and the record's interfaces lines
+  spell BAPI_EQUI_GETDETAIL and BAPI_FUNCLOC_GETDETAIL. What would settle it: SE37 in the target
+  system; if the list's spelling is a typo, nothing changes in the repository.
+- `bp:technical-objects-process`, BAPI_EQMT_INSTALL and the install/dismantle BAPI names,
+  repository against repository (disclosed in `process.interfaces[2]` since the 2026-09-28
+  backfill): `data/bapi-enrichment.pm.ts` marks BAPI_EQMT_INSTALL invalid-name and points to
+  BAPI_EQUI_INSTALL (pair BAPI_EQUI_DISMANTLE), while the overlay `fm:BAPI_EQMT_INSTALL` stays
+  verification_required with contradicting repository layers; no official record read names
+  BAPI_EQUI_INSTALL, BAPI_EQUI_DISMANTLE or BAPI_EQMT_INSTALL (the official channel for install
+  and dismantle is API_EQUIPMENT with InstallEquipment and DismantleEquipment). What would settle
+  it: SE37 in the target system, then a correction of the losing repository layer (not a
+  best-practices file, not edited here).
+- `bp:quality-inspection-in-production`, stock relevance of an in-process (origin 03) inspection
+  lot, official against repository (disclosed in notes as an open conflict, no
+  `conflicting_sources` row; written in the 2026-09-28 backfill of
+  `data/best-practices/cross-processes-2.ts`): 'Inspections During Production' (S/4HANA 2025.001
+  and SAP ERP 6.18.latest, loio 1f14c453f57eb44ce10000000a174cb4, bodies read 2026-09-28, now the
+  record's `process.reference`) says a lot for an inspection during production is not stock
+  relevant and allows no stock postings, while `data/troubleshooting-ext.ts#qm-inprocess-results-missing`,
+  which the record's context, `steps[6]` and `process.exceptions[2]` follow, describes a batch left
+  in inspection stock, and `steps[4]` and `process.outputs[1]` describe the usage-decision stock
+  posting without naming an origin. The API page 'Inspection Lot' (2025.001) allows stock postings
+  for origins 01, 04, 05, 08 and 09 only. What would settle it: a test in the target system with an
+  active origin-03 inspection type on a released process order, checking where the order's batch is
+  posted before the usage decision; then a correction of the incident record (not a best-practices
+  file, not edited here) or an origin qualifier on the record lines in a later edit.
+- `bp:quality-inspection-in-production`, availability of MCXA, official against official (carried
+  as `conflictingEvidence` on the item 9.6.8 row, copied verbatim from the overlay row
+  MCXA_SIMPL2025 of `data/verification/transactions-b.ts#tx:MCXA`; the record's level is therefore
+  `conflicting_sources` since the 2026-09-28 backfill): 'S4TWL - Quality Management Information
+  System (QMIS)' (SIMPL_OP2025, document version 1.36) says 'The transactions will be removed in the
+  SAP Fiori launchpad for SAP S/4HANA', while the Fiori Apps Library row of MCXA at S32OP lists the
+  SAP GUI app as Published. The item names no removal date. What would settle it: the MCXA entry in a
+  later Fiori Apps Library release, or the launchpad catalogs of the target system.
+- `bp:sales-demand-to-production`, the Sales Order Fulfillment KPI, official against official
+  (disclosed in notes and in two evidence rows, no `conflicting_sources` row; written in the
+  2026-09-28 backfill): 'Configuration Settings: Sales Order Fulfillment' (2025.001, loio
+  72f69653ecd2f37ae10000000a44176d, body read 2026-09-28) defines the KPI 'Sales Order Fulfillment
+  Issues' (Goal Type: Minimizing) for the app, while the search snippet of 'Deletion of Sales Order
+  Fulfillment App' (What's New in SAP S/4HANA 2022, loio f4133a2213de466c81d5a465a3354a77) says the
+  app is obsolete and was deleted from the Sales - Sales Order Processing business catalog. The
+  record leaves the KPI out of `process.kpis`. What would settle it: the app's entry in the Fiori
+  Apps Library at S32OP (neither row prints an app id) or the catalogs of the target system.
+- `bp:order-settlement-process`, the collective settlement run for maintenance orders, repository
+  against repository, now with official rows (disclosed in notes since 2026-09-22 and in
+  `process.interfaces[1]` since the 2026-09-28 backfill; the same repository split is listed above
+  under `bp:breakdown-maintenance-process`): `data/domains.ts#pm-settlement` names CO88 for the
+  collective run, the blueprint names 'KO88/KO8G', and `data/tx-intel.ts#KO8G` describes KO8G for
+  internal orders. The backfill added 'Settlement Methods' (2025.001, loio
+  4687d0531d8b4208e10000000a174cb4, body read 2026-09-28), which names Run Settlement - Actual
+  (F4568) or KO88 for individual settlement of orders and Schedule Overhead Accounting Jobs (F3767)
+  with the template 'Actual Settlement: Orders (SAP)' or KO8GH for collective settlement, and
+  'Settlement of an Order' (2025.001, loio ccc9b65334e6b54ce10000000a174cb4, body read 2026-09-28),
+  which adds the CO report program RKO7KO8G for maintenance and service orders (order category 30);
+  the blueprint (`data/sapData.pm.ts#PM:COSP`) names RKO7KO88 as the program of KO88. KO8GH,
+  RKO7KO8G, F4568 and F3767 are not in the project dictionary. What would settle it: a test of
+  KO8GH (or F3767) and of CO88 and KO8G on PM orders in the target system, then a correction of
+  `data/domains.ts#pm-settlement` and `data/tx-intel.ts#KO8G` (not best-practices files, not edited
+  here); the two official rows can also serve the breakdown entry above on its next audit.
+- `bp:refurbishment-process`, MB11 availability, update of the entry above (2026-09-28 backfill of
+  `data/best-practices/catalog-2026-09.ts`): the backfill added the 2025 FPS01 row of 'S4TWL -
+  AVAILABILITY OF TRANSACTIONS IN MM-IM' (item 15.3.9, printed page 1486, read from
+  `scratchpad/official/SIMPL_OP2025.pdf.txt`), as the entry above suggested, and the new
+  `process.migration[0]` repeats the conflict. Both sides are now on the same release: 'Additional
+  Movement Types' (2025.001) names MB11 as the standard refurbishment goods-issue transaction, while
+  item 15.3.9 lists MB11 among the MB transactions replaced by MIGO or BAPI_GOODSMVT_CREATE (menu call
+  raises an error) and tells custom code that calls MB11 to use BAPI_GOODSMVT_CREATE. The item does
+  not name refurbishment. Still disclosed in notes and in the lines, no `conflicting_sources` row.
+  What would settle it: unchanged, a check in the target system of MB11 and IW8W with movement types
+  313/315 on a refurbishment order.
+- `bp:quality-in-procurement-process`, app id of Supplier Evaluation by Quality (Inspection Lot),
+  official against official (reported by the 2026-09-28 backfill researcher, not re-read by the
+  writer; the record names the app without an id): the search snippets of the What's New pages
+  'Deprecation of Analytics Apps' (2021.000, loio 64ffe073dc364a0fa45cb213218695d7; 2022.000, loio
+  21699bbeaed14f12ae302b38a6a97777) give F2309 as the deprecated app and F2309A as its successor,
+  while 'App Implementation: Supplier Evaluation by Quality' (2025.001, loio
+  907b5258b46f0c46e10000000a441470) links to the Fiori Apps Library with appId=F2309. The app page the
+  record cites (loio a4a44a58ef4fa107e10000000a441470) prints no id and calls the app the successor
+  of 'Supplier Evaluation by Quality (Inspection Lot) (Deprecated)'. What would settle it:
+  `node scripts/fal-app.mjs F2309A --release S32OP` and `F2309`; the id can then go into the kpis
+  line, and into a fiori: xref once it is in `data/fiori/apps.ts`.
+- `bp:logistics-to-finance-postings-process`, inventory turnover defined differently by three
+  official sources (written in the 2026-09-28 backfill; each definition sits on its own kpis line
+  with its source, none is preferred, no `conflicting_sources` row): 'KPI: Inventory Turnover'
+  (FI-GL, 2025.001, loio 4457bf783d874e2e935e73293afe8ea9) divides the recognized revenue by the
+  average inventory; 'Inventory KPI Analysis' (F3749, MM-IM, 2025.001, loio
+  e130f15007c94eae9d65f8af9d541d00) bases Inventory Turnover Changes on the relationship between
+  consumption quantity and average stock quantity; 'Inventory Turnover' (LO-LIS, SAP ERP 6.18.latest,
+  loio 8810c453f57eb44ce10000000a174cb4) calls it the ratio of cumulative usage to average stock
+  level. The record's kpis also keep, as a difference of calculation method, that F3749 values stock
+  at the current material price while F1422 reports values for a key date. Nothing to settle in SAP:
+  a report has to name the definition it uses.
+- `bp:period-end-closing-process`, app name of F3567, official against official (disclosed in the
+  F3567 evidence row of the 2026-09-28 backfill, no `conflicting_sources` row): the Fiori Apps Library
+  at S32OP names F3567 'Actual Maintenance Cost Analysis', while its documentation topic (loio
+  9a423967879e4b99bf8a55b0719370b9) is titled 'Actual Cost Analysis' in the official search, and
+  'Analyzing Maintenance Order Costs' (2025.001, loio 2ba9ba8c384a42bb9c243f5bd58b330a) speaks of the
+  Actual Cost Analysis app. The researcher and the auditor treat it as a name difference; the record
+  prints both names.
+- `bp:project-system-process`, EAC defined by two official pages (written as `conflicting_sources`
+  on the 'Progress Analysis Values' row in the 2026-09-28 backfill of
+  `data/best-practices/catalog-2026-09.ts`): 'Values in Progress Analysis' (S/4HANA 2025.001 and SAP
+  ERP 6.18.latest, loio 8103c453f57eb44ce10000000a174cb4, both bodies read, same text) defines EAC =
+  total planned costs / CPI, while 'Progress Analysis Values' (2025.001, loio
+  1ddfc353b677b44ce10000000a174cb4, body read) adds ETC = (BCWS - BCWP) / CPI and defines EAC = ACWP
+  + ETC. kpis[0] and kpis[2] keep both; the record's coverage level is now conflict. What would
+  settle it: the EAC column of the standard progress analysis report (CNE5) in the target system.
+- `bp:procure-to-pay-process`, ME28, repository against Simplification List (disclosed in
+  migration[2] and notes, no `conflicting_sources` row; 2026-09-28 backfill): step 5 and the
+  transactions line present ME28 as the collective PO release, after `data/tx-intel.ts#ME29N`, while
+  'S4TWL - Classic MM-PUR GUI Transactions replacement' (2025 FPS01, item 14.2.8) lists ME28 among
+  the transactions 'NO longer supported in SAP S/4HANA on-premise edition';
+  `data/verification/transactions-b.ts#tx:ME28` records status simplified, the Fiori Apps Library
+  marks ME28 'Deprecated' at S32OP, and the role SAP_MM_PUR_PO_RELEASE (2025 FPS01) still lists it.
+  The old lines were not rewritten (content preservation). What would settle it: ME28 in the target
+  S/4HANA system and SAP Note 1803189 (printed in the item, not read). Second item in the same
+  record: 'KPI: Purchase Requisition Average Approval Time' (2025.001, loio
+  70bbc8570c470e2be10000000a441470) names purchase requisitions in its title while its calculation
+  rule counts from shopping-cart creation to purchase-order creation; kpis[0] quotes the page as it
+  is. What would settle it: the app's implementation page (loio 8bfecf5794c2501de10000000a4450e5,
+  reported by the researcher, not read).
+- `bp:physical-inventory-process`, consuming app of the situation template
+  MAN_PHYSICAL_INVENTORY_MONITOR, official against official by release (disclosed in
+  integrationPoints[3] and notes, no `conflicting_sources` row; 2026-09-28 backfill): 'Physical
+  Inventory Monitoring' (2025.001, loio 725963824d3449c09c143d688e2c1b4f, body read) names Manage
+  Physical Inventory Documents as the consuming app, while the What's New page 'Physical Inventory -
+  Inventory Count and Adjustment (BML)' (2020.000, loio b96e1fbb26de4d87bce74ccd56621884) introduces
+  the template in 'Physical Inventory Document Overview'; no source read ties that name to F0379A.
+  What would settle it: the Fiori Apps Library entry of F0379A for the 2020 release, or the 2020 app
+  documentation. Related, not a contradiction: the record names scope items BML and OML (What's New
+  2020 and 2021), and the What's New 2023 page of Physical Inventory Analysis (loio
+  c8c4177b9a174c6fb34162ab1c9de444) adds 4LU; `process.reference` was not changed in the backfill
+  and the SAP Best Practices Explorer was not read.

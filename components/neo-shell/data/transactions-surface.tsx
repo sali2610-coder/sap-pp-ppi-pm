@@ -48,6 +48,7 @@ import { facetsOf, presentFacets } from "@/lib/tx-facets";
 import { toggleTxFavorite, useRecentTx, useTxFavorites } from "@/lib/tx-prefs";
 import { SmartReturn, consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
+import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 
 const nf = new Intl.NumberFormat("he-IL");
 const PAGE = 120;
@@ -84,11 +85,21 @@ type TxListState = {
 type View = "all" | "popular" | "deep" | "fav" | "recent";
 
 const VIEWS: { v: View; he: string }[] = [
-  { v: "all", he: "כל המאגר" },
+  { v: "all", he: "כל הקטלוג" },
   { v: "popular", he: "הנפוצות" },
   { v: "deep", he: "מתועדות לעומק" },
   { v: "fav", he: "מועדפים" },
   { v: "recent", he: "נצפו לאחרונה" },
+];
+
+// Same control order as the other six catalogs (design audit S7-CAT-8):
+// search · view · sort. "Relevance" is the order the list always had (search
+// score, else depth then popularity, else the view's own order).
+type Sort = "rel" | "code" | "module";
+const SORTS: { s: Sort; he: string }[] = [
+  { s: "rel", he: "רלוונטיות" },
+  { s: "code", he: "קוד הטרנזקציה" },
+  { s: "module", he: "מודול" },
 ];
 
 /* --------------------------------------------------------------- matching
@@ -117,11 +128,10 @@ function fuzzyScore(hay: string, query: string): number {
 
 /* -------------------------------------------------------------------- row */
 
-function Row({ t, fav, onOpen, landed }: { t: RegistryTx; fav: boolean; onOpen: (code: string) => void; landed?: boolean }) {
+function Row({ t, fav, onOpen, landed, st }: { t: RegistryTx; fav: boolean; onOpen: (code: string) => void; landed?: boolean; st?: string }) {
   const deep = t.depth === "deep";
   const intel = TX_INTEL[t.code];
   const fiori = intel?.fiori?.trim() || "";
-  const pop = txPopularity(t.code);
   const f = facetsOf(t.code);
   return (
     <li
@@ -166,13 +176,19 @@ function Row({ t, fav, onOpen, landed }: { t: RegistryTx; fav: boolean; onOpen: 
         </span>
 
         <span className="nxd-nums">
+          {/* The canonical S/4HANA standing first — the same word, colour and
+              glyph the code's page renders (design audit S5-2 / ACC-3) — then
+              how deeply the registry documents the code. */}
+          {st ? <StatusPill status={st} /> : null}
           <span className="nu-status" style={{ "--s": deep ? "var(--status-done)" : "var(--status-not-started)" } as React.CSSProperties}>
             {deep ? "מתועדת לעומק" : "מאומתת"}
           </span>
-          {fiori ? <span className="nu-chip"><AppWindow size={11} strokeWidth={1.75} /><span className="nx-sr">יורש Fiori </span>{fiori}</span> : null}
-          {pop > 0 ? <span className="nu-chip"><Flame size={11} strokeWidth={1.75} /><span className="nx-sr">הפניות מתוך המאגר </span>{nf.format(pop)}</span> : null}
+          {/* LESS METADATA ON THE CARD (design audit S7-CAT-2): the code, its
+              meaning, where it is used and its S/4 standing. The Fiori
+              successor stays because it is a door; the topic says "when";
+              the reference count and the second facet moved to the page. */}
+          {fiori ? <span className="nu-chip"><AppWindow size={11} strokeWidth={1.75} /><span className="nx-sr">יישום Fiori עוקב </span>{fiori}</span> : null}
           {f.topics[0] ? <span className="nu-chip">{f.topics[0]}</span> : null}
-          {f.objects[0] ? <span className="nu-chip">{f.objects[0]}</span> : null}
         </span>
 
         <span className="nxd-go" aria-hidden="true"><ArrowLeft size={15} strokeWidth={2} /></span>
@@ -182,7 +198,7 @@ function Row({ t, fav, onOpen, landed }: { t: RegistryTx; fav: boolean; onOpen: 
         type="button"
         className="nu-ghost nxd-ctx nxd-star"
         aria-pressed={fav}
-        aria-label={fav ? `הסר את ${t.code} מהמועדפים` : `הוסף את ${t.code} למועדפים`}
+        aria-label={fav ? `הסרת ${t.code} מהמועדפים` : `הוספת ${t.code} למועדפים`}
         onClick={() => toggleTxFavorite(t.code)}
       >
         <Star size={13} strokeWidth={1.75} />
@@ -194,7 +210,7 @@ function Row({ t, fav, onOpen, landed }: { t: RegistryTx; fav: boolean; onOpen: 
 
 /* ---------------------------------------------------------------- surface */
 
-export function TransactionsSurface() {
+export function TransactionsSurface({ status }: { status?: Record<string, string> }) {
   const reg = useMemo(() => txRegistry(), []);
   const all = useMemo(() => [...reg.values()], [reg]);
   const stats = useMemo(() => registryStats(), []);
@@ -209,6 +225,7 @@ export function TransactionsSurface() {
   const recent = useRecentTx();
 
   const [view, setView] = useState<View>("all");
+  const [sort, setSort] = useState<Sort>("rel");
   const [q, setQ] = useState("");
   const [mod, setMod] = useState("");
   const [topic, setTopic] = useState("");
@@ -246,8 +263,10 @@ export function TransactionsSurface() {
           a.code.localeCompare(b.code),
       );
     }
+    if (sort === "code") rows = [...rows].sort((a, b) => a.code.localeCompare(b.code));
+    else if (sort === "module") rows = [...rows].sort((a, b) => a.module.localeCompare(b.module) || a.code.localeCompare(b.code));
     return rows;
-  }, [all, reg, view, favs, recent, popular, mod, topic, obj, fiori, q]);
+  }, [all, reg, view, favs, recent, popular, mod, topic, obj, fiori, q, sort]);
 
   const shown = list.slice(0, limit);
   const dirty = !!q || !!mod || !!topic || !!obj || fiori;
@@ -268,8 +287,8 @@ export function TransactionsSurface() {
       mod,
       topic,
       obj,
-      fiori ? "יש יורש Fiori" : "",
-      q.trim() ? `חיפוש «${q.trim()}»` : "",
+      fiori ? "עם יישום Fiori עוקב" : "",
+      q.trim() ? `חיפוש "${q.trim()}"` : "",
       view === "all" ? "" : VIEWS.find((v) => v.v === view)?.he || "",
     ].filter(Boolean);
     const state: TxListState = {
@@ -280,7 +299,7 @@ export function TransactionsSurface() {
     rememberOrigin({
       to: txHref(code),
       href: "/neo/transactions/",
-      label: "טרנזקציות",
+      label: "טרנזקציות SAP",
       detail: parts.join(" · "),
       surface: SURFACE,
       state,
@@ -334,11 +353,11 @@ export function TransactionsSurface() {
   const surfaceMod = mod || undefined;
 
   const emptyCopy: Record<View, { t: string; h: string }> = {
-    all: { t: "אין טרנזקציה במאגר שעונה על הסינון", h: "החיפוש עובר על הקוד, השם העברי, השם האנגלי, האזור והמודול, ולא על טקסט חופשי." },
-    popular: { t: "אין התאמה בין הנפוצות", h: "«נפוצות» נגזר מספירת ההפניות בתוך המאגר עצמו, לא מהערכה." },
-    deep: { t: "אין התאמה בין המתועדות לעומק", h: `${nf.format(stats.deep)} קודים מתועדים לעומק כעמודי Wiki מלאים.` },
-    fav: { t: "אין מועדפים עדיין", h: "סמן «מועדף» על שורה כאן או בעמוד הטרנזקציה. הרשימה נשמרת במכשיר." },
-    recent: { t: "לא נצפו טרנזקציות עדיין", h: "כל טרנזקציה שתפתח תופיע כאן, באותה רשימה שעמודי הטרנזקציה עצמם כותבים אליה." },
+    all: { t: "לא נמצאו טרנזקציות התואמות לסינון שנבחר", h: "החיפוש מכסה קוד טרנזקציה, שם עברי, שם אנגלי, אזור ומודול." },
+    popular: { t: "לא נמצאו תוצאות בין הטרנזקציות הנפוצות", h: "רשימת הנפוצות נגזרת מספירת ההפניות בתוך המאגר." },
+    deep: { t: "לא נמצאו תוצאות בין הטרנזקציות המתועדות לעומק", h: `${nf.format(stats.deep)} טרנזקציות מתועדות לעומק בעמוד מלא.` },
+    fav: { t: "אין מועדפים עדיין", h: "סימון \"מועדף\" בשורה או בעמוד הטרנזקציה מוסיף אותה לכאן. הרשימה נשמרת במכשיר זה." },
+    recent: { t: "לא נצפו טרנזקציות עדיין", h: "כל טרנזקציה שנפתחה תופיע כאן. הרשימה נשמרת במכשיר זה." },
   };
 
   return (
@@ -357,35 +376,19 @@ export function TransactionsSurface() {
           for it is a filter you miss. */}
       <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
-        <span className="nx-eyebrow">מרשם טרנזקציות · Transaction Registry</span>
+        <span className="nx-eyebrow">קטלוג טרנזקציות · Transaction Catalog</span>
         {/* Was the bare word "טרנזקציות", which is the category and not this
             surface. The eyebrow already calls it a registry; the title agrees. */}
-        <h1 className="nx-h1">מרשם הטרנזקציות</h1>
+        <h1 className="nx-h1">טרנזקציות SAP</h1>
         <p className="nx-lede">
-          רישום קנוני אחד: {nf.format(stats.total)} טרנזקציות SAP מאומתות מ-{nf.format(modules.length)} מודולים,
+          {nf.format(stats.total)} טרנזקציות SAP מאומתות מ-{nf.format(modules.length)} מודולים בקטלוג אחד,
           {/* The lede used to end by printing the raw route /neo/transactions/
               at the reader. A URL is plumbing, not product copy, and the reader
               is already standing on it. The sentence now ends where it means. */}
-          {" "}מתוכן {nf.format(stats.deep)} מתועדות לעומק. כל שורה נפתחת לעמוד הטרנזקציה המלא שלה.
+          {" "}מתוכן {nf.format(stats.deep)} מתועדות לעומק. כל שורה נפתחת לעמוד הטרנזקציה המלא.
         </p>
       </header>
 
-      <section className="nx-card nxd-stats nm-rise nm-once" aria-label="מספרי המאגר">
-        {[
-          { v: stats.total, l: "טרנזקציות במאגר", i: <Terminal size={14} strokeWidth={1.75} /> },
-          { v: stats.deep, l: "מתועדות לעומק", i: <Layers size={14} strokeWidth={1.75} /> },
-          { v: stats.light, l: "רשומות אימות", i: <Search size={14} strokeWidth={1.75} /> },
-          { v: modules.length, l: "מודולים", i: <SlidersHorizontal size={14} strokeWidth={1.75} /> },
-          { v: facets.topics.length, l: "נושאים מסווגים", i: <Flame size={14} strokeWidth={1.75} /> },
-          { v: facets.objects.length, l: "אובייקטים עסקיים", i: <AppWindow size={14} strokeWidth={1.75} /> },
-        ].map((s) => (
-          <div key={s.l} className="nxd-stat">
-            <span className="nxd-stat-i" aria-hidden="true">{s.i}</span>
-            <b>{nf.format(s.v)}</b>
-            <span>{s.l}</span>
-          </div>
-        ))}
-      </section>
 
       <div className="nxd-tools nm-fade nm-once">
         <div className="nxd-field">
@@ -398,7 +401,7 @@ export function TransactionsSurface() {
             aria-label="חיפוש טרנזקציות"
           />
           {q ? (
-            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="נקה חיפוש">
+            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
               <X size={13} strokeWidth={2} />
             </button>
           ) : null}
@@ -425,6 +428,13 @@ export function TransactionsSurface() {
             </button>
           ))}
         </div>
+
+        <label className="nxd-sort">
+          <span>מיון</span>
+          <select value={sort} onChange={(e) => { setSort(e.target.value as Sort); setLimit(PAGE); }}>
+            {SORTS.map((x) => <option key={x.s} value={x.s}>{x.he}</option>)}
+          </select>
+        </label>
       </div>
 
       <div className="nxd-facets nm-fade nm-once">
@@ -448,7 +458,7 @@ export function TransactionsSurface() {
             aria-pressed={fiori}
             onClick={() => { setFiori((f) => !f); setLimit(PAGE); }}
           >
-            <AppWindow size={13} strokeWidth={1.75} />יש יורש Fiori
+            <AppWindow size={13} strokeWidth={1.75} />עם יישום Fiori עוקב
           </button>
           <button
             type="button"
@@ -499,10 +509,27 @@ export function TransactionsSurface() {
         ) : null}
       </div>
 
+      <section className="nx-card nxd-stats nxd-stats--after nm-rise nm-once" aria-label="מספרי המאגר">
+        {[
+          { v: stats.total, l: "טרנזקציות במאגר", i: <Terminal size={14} strokeWidth={1.75} /> },
+          { v: stats.deep, l: "מתועדות לעומק", i: <Layers size={14} strokeWidth={1.75} /> },
+          { v: stats.light, l: "רשומות אימות", i: <Search size={14} strokeWidth={1.75} /> },
+          { v: modules.length, l: "מודולים", i: <SlidersHorizontal size={14} strokeWidth={1.75} /> },
+          { v: facets.topics.length, l: "נושאים מסווגים", i: <Flame size={14} strokeWidth={1.75} /> },
+          { v: facets.objects.length, l: "אובייקטים עסקיים", i: <AppWindow size={14} strokeWidth={1.75} /> },
+        ].map((s) => (
+          <div key={s.l} className="nxd-stat">
+            <span className="nxd-stat-i" aria-hidden="true">{s.i}</span>
+            <b>{nf.format(s.v)}</b>
+            <span>{s.l}</span>
+          </div>
+        ))}
+      </section>
+
       <p className="nxd-count nm-fade nm-once" aria-live="polite">
         <b>{nf.format(list.length)}</b> תוצאות
         {view === "all" && !dirty ? <> מתוך {nf.format(stats.total)}</> : null}
-        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>נקה סינון</button></> : null}
+        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 
       {list.length === 0 ? (
@@ -510,19 +537,19 @@ export function TransactionsSurface() {
           <p><b>{emptyCopy[view].t}</b></p>
           <p className="nx-muted">{emptyCopy[view].h}</p>
           <div className="nxd-none-a">
-            {dirty ? <button type="button" className="nu-btn" onClick={reset}>נקה את הסינון</button> : null}
-            {view !== "all" ? <button type="button" className="nu-btn2" onClick={() => onView("all")}>הצג את כל המאגר</button> : null}
+            {dirty ? <button type="button" className="nu-btn" onClick={reset}>ניקוי הסינון</button> : null}
+            {view !== "all" ? <button type="button" className="nu-btn2" onClick={() => onView("all")}>הצגת כל הקטלוג</button> : null}
           </div>
         </div>
       ) : (
         <>
           <ul className="nxd-list">
-            {shown.map((t) => <Row key={t.code} t={t} fav={favs.includes(t.code)} onOpen={onOpen} landed={t.code === back?.code} />)}
+            {shown.map((t) => <Row key={t.code} t={t} fav={favs.includes(t.code)} onOpen={onOpen} landed={t.code === back?.code} st={status?.[t.code]} />)}
           </ul>
           {list.length > shown.length ? (
             <div className="nxd-page">
               <button type="button" className="nu-btn2" onClick={() => setLimit((n) => n + PAGE)}>
-                הצג עוד {nf.format(Math.min(PAGE, list.length - shown.length))}
+                הצגת {nf.format(Math.min(PAGE, list.length - shown.length))} נוספות
                 <span className="nxd-page-n">· נותרו {nf.format(list.length - shown.length)}</span>
               </button>
             </div>
@@ -531,8 +558,8 @@ export function TransactionsSurface() {
       )}
 
       <p className="nxd-foot nm-fade nm-once">
-        המאגר מאחד ארבעה מקורות מאומתים לרישום אחד, ללא כפילויות. קוד ללא כותרת אנגלית מוצג בלעדיה
-        {" "}מפני שהיא אינה קיימת במקור, ולא הומצאה כאן.
+        הקטלוג מאחד ארבעה מקורות מאומתים לרשימה אחת, ללא כפילויות. קוד ללא כותרת אנגלית במקור
+        {" "}מוצג בלעדיה.
       </p>
     </div>
   );

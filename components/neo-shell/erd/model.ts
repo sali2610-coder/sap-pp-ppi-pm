@@ -172,7 +172,7 @@ export const relVar = (k: RelKind) =>
 export const REL_HE: Record<RelKind, string> = {
   "1-1": "1:1",
   "n-1": "N:1",
-  unstated: "לא מצוין",
+  unstated: "קרדינליות לא צוינה",
 };
 
 export const MOD_VAR: Record<ModuleKey, string> = {
@@ -181,8 +181,8 @@ export const MOD_VAR: Record<ModuleKey, string> = {
 };
 
 export const MOD_HE: Record<ModuleKey, string> = {
-  PM: "אחזקת מפעל · PM",
-  "PP-PI": "ייצור תהליכי · PP-PI",
+  PM: "תחזוקת מפעל",
+  "PP-PI": "תעשיות תהליכיות",
 };
 
 /* ------------------------------------------------------------- the reading */

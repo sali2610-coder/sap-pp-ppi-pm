@@ -1,0 +1,3163 @@
+{
+  "generatedAt": "2026-09-21T17:41:53.308Z",
+  "head": "1eac50cb",
+  "fileCount": 574,
+  "files": [
+    {
+      "path": "data/books/book1.json",
+      "bytes": 24549,
+      "sha256": "e714d9441729ea49989ec7d70040a0e5afc66a5318f4fa034f0447b91bb5d094"
+    },
+    {
+      "path": "data/books/book10.json",
+      "bytes": 33120,
+      "sha256": "a2e262ffdd4a759686531e06748dbc4c5acf4d326906ae208fde959fb29f35a3"
+    },
+    {
+      "path": "data/books/book11.json",
+      "bytes": 6733,
+      "sha256": "0ef040adcac8d841a86315ec80d35a72f411a592fc611ecd55651d708f684b89"
+    },
+    {
+      "path": "data/books/book2.json",
+      "bytes": 72998,
+      "sha256": "74b40400437277a67493a45a310d0d3768cb49971a248b9957243300b0ba37fd"
+    },
+    {
+      "path": "data/books/book3.json",
+      "bytes": 60978,
+      "sha256": "45bd5d12eb5d2c5e179ae975e9ca79c145001010ca5664e19de7dd8f2ad427b9"
+    },
+    {
+      "path": "data/books/book4.json",
+      "bytes": 38221,
+      "sha256": "dfec55d89005d8648ab85f269c002e63c12653873c2f8a2b6265bd14c3f20abb"
+    },
+    {
+      "path": "data/books/book5.json",
+      "bytes": 71406,
+      "sha256": "ff1aee6a9acdd7c95ad71a29332d4fbf2013aae2d9f29d0eb4a99a89b512ad6b"
+    },
+    {
+      "path": "data/books/book6.json",
+      "bytes": 13685,
+      "sha256": "ab2d7ddb2c5455b2d463028b5a64a0eb8d507e0a04e54423c04aec157fe98618"
+    },
+    {
+      "path": "data/books/book7.json",
+      "bytes": 127962,
+      "sha256": "6ac2dcaa26db5abab106d22d9f869638dd55883f319b17e62e30b5a31f8f6a40"
+    },
+    {
+      "path": "data/books/book8.json",
+      "bytes": 27374,
+      "sha256": "3390ae581421c0808ef3ee85e7d3ce4c9a7e61a2b9a2d38f70d6e4c5add9fc28"
+    },
+    {
+      "path": "data/books/book9.json",
+      "bytes": 35974,
+      "sha256": "7b6ed892797c69005ed647617e9f37bc4122f5fc0017867a6951208000b31679"
+    },
+    {
+      "path": "data/library-content-he.ts",
+      "bytes": 38913,
+      "sha256": "354e1c34c97fa907df4bd8f532153d13d0fafd891e41c956aac02648bdad8131"
+    },
+    {
+      "path": "data/library-content.json",
+      "bytes": 157351,
+      "sha256": "d92b7f1eb07bcfca2215d8398a10b48432dac0d886283a86a5b7cd7e169c3a07"
+    },
+    {
+      "path": "data/library-raw.json",
+      "bytes": 12648,
+      "sha256": "7c5f21decedcf0ff936c1d5aca08dcd32d87208bd213b48636d503a69a1f18da"
+    },
+    {
+      "path": "data/library.ts",
+      "bytes": 21562,
+      "sha256": "6fbb88e6e0f4326b65423277b80cd3b63d30f9d2b5343ac4b2a137a32f2b7652"
+    },
+    {
+      "path": "data/library/academy-index.ts",
+      "bytes": 12031,
+      "sha256": "5e3200a87cc4fe948f7e7a809c9548ae64d438e9df0b35b3b9284be53febfa59"
+    },
+    {
+      "path": "data/library/book1-figures.json",
+      "bytes": 65796,
+      "sha256": "6d7dfcb482086ba5335a3e0ce41646c5623b0cd390c135b4d7c380ff150a7813"
+    },
+    {
+      "path": "data/library/book1-full.json",
+      "bytes": 1691140,
+      "sha256": "b8ad80cf218f25cf095c8315ee5f24aeb81da2b72922d48ae98f499df17664b5"
+    },
+    {
+      "path": "data/library/book1-index.json",
+      "bytes": 47588,
+      "sha256": "0799cbf46dab81b279058cef4a31b67eb062b83d142cd057587e962fe36d5091"
+    },
+    {
+      "path": "data/library/book1/ch1.sections.json",
+      "bytes": 90469,
+      "sha256": "1b7d66f69faf819d5311059c55ca11bfadcc6d636a7ef6e222efb6ff480c9baf"
+    },
+    {
+      "path": "data/library/book1/ch2.sections.json",
+      "bytes": 35635,
+      "sha256": "f48c51fdd918ce13af395840ec3c20a8af5b1289a6a54dfc5d09c54b11456457"
+    },
+    {
+      "path": "data/library/book1/ch3.sections.json",
+      "bytes": 82090,
+      "sha256": "37c4067d2d5b7656f62780a2132daa227bea418a86a72970ad73c17f2045a16b"
+    },
+    {
+      "path": "data/library/book1/ch4.sections.json",
+      "bytes": 109288,
+      "sha256": "3fd22d981c5c1e1e12f1649af331ae25653553718930a20dd3299b6900ffddca"
+    },
+    {
+      "path": "data/library/book1/ch5.sections.json",
+      "bytes": 226304,
+      "sha256": "f73f3370b7d80a32817fe75c74d29293676e927b3988dd64f4c047fb7dbfd9c2"
+    },
+    {
+      "path": "data/library/book1/ch6.sections.json",
+      "bytes": 25242,
+      "sha256": "52c7b095f77dd168b41219c95e8a22b692066a048beef88b24d311b2aad31a81"
+    },
+    {
+      "path": "data/library/book1/ch7.sections.json",
+      "bytes": 199003,
+      "sha256": "aab54663274d666477666322fa307098c28bd63c87615e7bc44ba9bd62c67e3d"
+    },
+    {
+      "path": "data/library/book1/ch8.sections.json",
+      "bytes": 49199,
+      "sha256": "5b14f8498939ac8d2d2bd9922380e2a13225dd51b014923770a54eaf365fe7f2"
+    },
+    {
+      "path": "data/library/book1/ch9.sections.json",
+      "bytes": 127860,
+      "sha256": "73791b1d48848c050bcdf0d5de5d822c67294a0ebbfcbbdeba4121175ec1ba28"
+    },
+    {
+      "path": "data/library/book1/he/ch1.json",
+      "bytes": 52085,
+      "sha256": "715e6d6648c57df653acae21ebdb75fc24fa27cff7f859f59ff6c39666e4aeb9"
+    },
+    {
+      "path": "data/library/book1/he/ch2.json",
+      "bytes": 29739,
+      "sha256": "b3e3c9c7544efc30576580eedd6f704f3245496b397e7d47096637c5cecde4e5"
+    },
+    {
+      "path": "data/library/book1/he/ch3.json",
+      "bytes": 43779,
+      "sha256": "e7092c217292b338b5d69cd4a1183efe8ae7ae7ac0a9acb4b131137b100eafec"
+    },
+    {
+      "path": "data/library/book1/he/ch4.json",
+      "bytes": 46456,
+      "sha256": "a4a030d9d9a5aca196f79a42dc422d4bdbee644485b356a8bdec435e5f1a98fd"
+    },
+    {
+      "path": "data/library/book1/he/ch5.json",
+      "bytes": 182489,
+      "sha256": "28a23c9fe4c120e5763ae3829ac58928049b41f0dc353425a1f6b7cfe3f5a805"
+    },
+    {
+      "path": "data/library/book1/he/ch6.json",
+      "bytes": 29370,
+      "sha256": "8fd258c38a93540875d88f76e5f86470c2dc0d2b77ecf03467f9ece73f15790e"
+    },
+    {
+      "path": "data/library/book1/he/ch7.json",
+      "bytes": 179668,
+      "sha256": "258feeebb3c6dacea4c83c99441b7db230c373b3c6447bbc0782ffe675fd4dd8"
+    },
+    {
+      "path": "data/library/book1/he/ch8.json",
+      "bytes": 83655,
+      "sha256": "341bb84a741d63d83a3b59677761fc04e27736d0419d87c8496657614e6d391f"
+    },
+    {
+      "path": "data/library/book1/he/ch9.json",
+      "bytes": 117695,
+      "sha256": "b6d8aad1bac1f2d6b3e2d121a27a2f1aaa1a59eaa722e0690635e66e6df4894a"
+    },
+    {
+      "path": "data/library/book1/manifest.json",
+      "bytes": 1649,
+      "sha256": "4d15881f65b948889ccb8e5a7674dcab92041e14cf64817b0d386a46c297e21c"
+    },
+    {
+      "path": "data/library/book1/raw/ch1.json",
+      "bytes": 89982,
+      "sha256": "b6c412233c34463f87c656f1c3bcd8a54a749d46fe457916bdbb76a7dea4d2c6"
+    },
+    {
+      "path": "data/library/book1/raw/ch2.json",
+      "bytes": 37765,
+      "sha256": "dcf3fcd909d002d7335c1ab03bb9c40952feacaded31202b12cc7309f449e44c"
+    },
+    {
+      "path": "data/library/book1/raw/ch3.json",
+      "bytes": 82323,
+      "sha256": "2641212ccb12ea98196df5ea11d1186e357a48371b5ccaaf47fc41226429e611"
+    },
+    {
+      "path": "data/library/book1/raw/ch4.json",
+      "bytes": 108822,
+      "sha256": "ff2e852e899acbcd05c7003f4a90214399bf941a0f3738936c3a3e60cdfb8840"
+    },
+    {
+      "path": "data/library/book1/raw/ch5.json",
+      "bytes": 227229,
+      "sha256": "bd448e4889dd5404c668d007dd42ed44597ac20595a38e4b28a5dc1996154a4e"
+    },
+    {
+      "path": "data/library/book1/raw/ch6.json",
+      "bytes": 26342,
+      "sha256": "a8a338fcaad8561e251a7ac6d6bd4816fe9539536df04c056818c9548b7077ba"
+    },
+    {
+      "path": "data/library/book1/raw/ch7.json",
+      "bytes": 198472,
+      "sha256": "47e45e6a7cfc9b3322d9020478f797def425cfcb68c0de7687b0eac745c914a6"
+    },
+    {
+      "path": "data/library/book1/raw/ch8.json",
+      "bytes": 47016,
+      "sha256": "d3dd65b95de33abdfb9f6833f11d8744845fe4a2e0918d9ad813f6296f0d6779"
+    },
+    {
+      "path": "data/library/book1/raw/ch9.json",
+      "bytes": 233922,
+      "sha256": "b24c0c7b6343b35157597711cfcab26cf337a63c4ea4758bc057fcbcab58113d"
+    },
+    {
+      "path": "data/library/book10-full.json",
+      "bytes": 1386381,
+      "sha256": "9c0261e86c790a5e65ece0e23f7bf0fbf3177294b0a1c8077563abb209d7c55f"
+    },
+    {
+      "path": "data/library/book10-index.json",
+      "bytes": 79506,
+      "sha256": "3157ec1e6a6ce7439001a6d4ff51928e605ba495acef1457d872900aa5593526"
+    },
+    {
+      "path": "data/library/book10/ch1.sections.json",
+      "bytes": 81923,
+      "sha256": "4a603a9abd8809c15a3e70f134e8b8cc9100a1c5958cb8d8902a00a129113f9f"
+    },
+    {
+      "path": "data/library/book10/ch10.sections.json",
+      "bytes": 64176,
+      "sha256": "eaac02f00537ac1f49499ae476eed01573e91e6672ffcfd1a76e84d14e9dd51d"
+    },
+    {
+      "path": "data/library/book10/ch11.sections.json",
+      "bytes": 175353,
+      "sha256": "6d5836c4e1c9c12b015a0173f99eac2250e2e13f464ef091097396757fec62a2"
+    },
+    {
+      "path": "data/library/book10/ch2.sections.json",
+      "bytes": 41621,
+      "sha256": "e9e7ab822dde971304058004cd78800fc8e74909e98bf0cd51db626bce53dd53"
+    },
+    {
+      "path": "data/library/book10/ch3.sections.json",
+      "bytes": 54109,
+      "sha256": "e042dbec6bfb0bdb86dabeb1afb8721cf26edf79e6fa0dc71ecbb35b066fd56e"
+    },
+    {
+      "path": "data/library/book10/ch4.sections.json",
+      "bytes": 124067,
+      "sha256": "0ee64fd3d61dd4fca8798f0465f74949f6251a59b834947b6963c8265c63ddbd"
+    },
+    {
+      "path": "data/library/book10/ch5.sections.json",
+      "bytes": 57594,
+      "sha256": "45ec64fd5123035e260ef1d1d5f61b7540f290a6cd266ec7759b2104bb4693b6"
+    },
+    {
+      "path": "data/library/book10/ch6.sections.json",
+      "bytes": 35663,
+      "sha256": "93bb71eb38372307c0d8ea79f179d317c47326207826691432384144ce7d0cb1"
+    },
+    {
+      "path": "data/library/book10/ch7.sections.json",
+      "bytes": 36972,
+      "sha256": "04a86b0fa0e839d3faf537a7b16b9971bc74af8519fa5cb10346ec94c10d4d3f"
+    },
+    {
+      "path": "data/library/book10/ch8.sections.json",
+      "bytes": 31525,
+      "sha256": "bd7d9ddbf42a4a50b950b6bbdcdf538eadc878ced51010da23cd8f1686da2b79"
+    },
+    {
+      "path": "data/library/book10/ch9.sections.json",
+      "bytes": 49355,
+      "sha256": "9c74439588e74f0d1090fa2bec1673e3d3cfdb55be6d9d9191317063ba25781d"
+    },
+    {
+      "path": "data/library/book10/he/ch1.json",
+      "bytes": 66077,
+      "sha256": "830c41e0c48bdb29818bf931cc836b309b4897ca18ed0ad17a5fb53d898d22a9"
+    },
+    {
+      "path": "data/library/book10/he/ch10.json",
+      "bytes": 58184,
+      "sha256": "7645c4dcd412901f0301d9dacad30133abd4833c9b7ca2e2a3abb4a691f0a4db"
+    },
+    {
+      "path": "data/library/book10/he/ch11.json",
+      "bytes": 46868,
+      "sha256": "34076c0f1b7339a95f7d0c47c76b56ffe67a0a074ef469a61e6da36ac8fa4619"
+    },
+    {
+      "path": "data/library/book10/he/ch2.json",
+      "bytes": 53151,
+      "sha256": "2584de8fae88e72f73fd85e89e95a80208efab793d8d01820c35523f4378427b"
+    },
+    {
+      "path": "data/library/book10/he/ch3.json",
+      "bytes": 51415,
+      "sha256": "99c9f1d6fd14c4f033accebeaa261bc1afb1be1936be56d0819c7311abda1499"
+    },
+    {
+      "path": "data/library/book10/he/ch4.json",
+      "bytes": 134779,
+      "sha256": "c59bf9639a1e0f3f4714e87520433d6523ea005c72ca4c5d4ce1acd7d3585d62"
+    },
+    {
+      "path": "data/library/book10/he/ch5.json",
+      "bytes": 57339,
+      "sha256": "871dee9465d0b3b7011f98da73cb3ac62186c2b8b01db252be02bfb6e853635e"
+    },
+    {
+      "path": "data/library/book10/he/ch6.json",
+      "bytes": 46243,
+      "sha256": "307ffd519f94f7d6778dcb1b4c7aef62bce8700a3a6afcd42241ce29c2f6e294"
+    },
+    {
+      "path": "data/library/book10/he/ch7.json",
+      "bytes": 33419,
+      "sha256": "39467fdb10ef1de324172f4e2ff409d65c9abe8696a1712cae65ddd60e09492e"
+    },
+    {
+      "path": "data/library/book10/he/ch8.json",
+      "bytes": 43986,
+      "sha256": "3a4d73beb08a273fcd9b8ebe8a019854eb2cfef3ab36832c68139894354425fb"
+    },
+    {
+      "path": "data/library/book10/he/ch9.json",
+      "bytes": 54026,
+      "sha256": "0fa4cf13170f027ed1dc157317e752ce48c17f3d36aad1888b1f23de7d94cb48"
+    },
+    {
+      "path": "data/library/book10/manifest.json",
+      "bytes": 1938,
+      "sha256": "51778fe421e64c1c61398ea3b558151753d18e3e9e480a0d56f85b2f94ba2912"
+    },
+    {
+      "path": "data/library/book10/raw/ch1.json",
+      "bytes": 80926,
+      "sha256": "c32527ff234f17116ed6fb98a7fd28fab1b9e7f64f76d5ba82f5b085abd7c1a1"
+    },
+    {
+      "path": "data/library/book10/raw/ch10.json",
+      "bytes": 64737,
+      "sha256": "0366b0971a3b8076b9c1c70415b763d40d08bdb2538b530ef56a1b216000fad9"
+    },
+    {
+      "path": "data/library/book10/raw/ch11.json",
+      "bytes": 175013,
+      "sha256": "2fe71e170503ab958c943422e1b6cd8430c961ff89ded309ffc0759589b4ecab"
+    },
+    {
+      "path": "data/library/book10/raw/ch2.json",
+      "bytes": 40887,
+      "sha256": "a7e013be7318d7ab25b0cdc677c892ae08ddbc2e67b781e3b53c4682372c5d1c"
+    },
+    {
+      "path": "data/library/book10/raw/ch3.json",
+      "bytes": 53641,
+      "sha256": "0585de1b3107111123f2a37fb5bafa8d3af0efb572674cf221feb6e52554b457"
+    },
+    {
+      "path": "data/library/book10/raw/ch4.json",
+      "bytes": 120781,
+      "sha256": "65c6527f1bc8bc5f6f16e1bebb9f77be40c5404e49116e4f4cd62aeb64a68012"
+    },
+    {
+      "path": "data/library/book10/raw/ch5.json",
+      "bytes": 56645,
+      "sha256": "097052977ea1b1603a41d1ca37ce32c943fbfb71c01c3d540de05a2243ba35db"
+    },
+    {
+      "path": "data/library/book10/raw/ch6.json",
+      "bytes": 35049,
+      "sha256": "2964b9fb0642fca889945a98b83a1920b97908aa4a5119ae5eadc9f373a4a450"
+    },
+    {
+      "path": "data/library/book10/raw/ch7.json",
+      "bytes": 38770,
+      "sha256": "bbb9e6e0370774fe35f9d43ec5d32825f0f17f55924e990c7cbe36d91be1e038"
+    },
+    {
+      "path": "data/library/book10/raw/ch8.json",
+      "bytes": 30818,
+      "sha256": "a3be689038c114c9c95577bc329d6014c4d6ec7c0322920a515302e562ce9619"
+    },
+    {
+      "path": "data/library/book10/raw/ch9.json",
+      "bytes": 50391,
+      "sha256": "02abb3590dd9934bbcdbb0ee80da2ce1505144df9b1ba7404f8bde0d676673ab"
+    },
+    {
+      "path": "data/library/book11-full.json",
+      "bytes": 350417,
+      "sha256": "931fd48f9fe7bab848886b2b6fa53c70a0111732765c6468a582ef7dcbaf72d3"
+    },
+    {
+      "path": "data/library/book11-index.json",
+      "bytes": 29809,
+      "sha256": "b4450f4172f379b9093a85c68fe9106339dd629d44e081e03a394ffaef1a5432"
+    },
+    {
+      "path": "data/library/book11/ch1.sections.json",
+      "bytes": 14752,
+      "sha256": "cd228a1987474fbb4ef256c837bb7f527cb06d83c1113bedb8d6707612a4a1d7"
+    },
+    {
+      "path": "data/library/book11/ch2.sections.json",
+      "bytes": 11488,
+      "sha256": "b3215b0c7027658c51f6c5fb69fcc5ec0978363045ab338ae17c9697baa7e300"
+    },
+    {
+      "path": "data/library/book11/ch3.sections.json",
+      "bytes": 9406,
+      "sha256": "bb878fb2bc353274ab8d9a18fa0d166b245c8d399de780c220e1178032e719da"
+    },
+    {
+      "path": "data/library/book11/ch4.sections.json",
+      "bytes": 12032,
+      "sha256": "a0e6127b066a43c0600b965886dd2f8a613d816c8319270478ecc581f330943f"
+    },
+    {
+      "path": "data/library/book11/ch5.sections.json",
+      "bytes": 10752,
+      "sha256": "66d1d51a41e48ea52c337bcdf45355245bc7830af4609f12b1209303952129ab"
+    },
+    {
+      "path": "data/library/book11/ch6.sections.json",
+      "bytes": 11662,
+      "sha256": "e1f62e531dbaaa967a30ff72fbf0f5fd4d54d3b2571b3e1d01fee46dd5c306a5"
+    },
+    {
+      "path": "data/library/book11/ch7.sections.json",
+      "bytes": 11520,
+      "sha256": "92fc16f52b94e7349ac0caef2a3100019e3219816ee3a2fdfb8f6cdc8ba44215"
+    },
+    {
+      "path": "data/library/book11/ch8.sections.json",
+      "bytes": 10791,
+      "sha256": "37182b506ae387a78789a28df8cb0264c7fa7d43a7300bc8e8c34bf4ed28adf2"
+    },
+    {
+      "path": "data/library/book11/ch9.sections.json",
+      "bytes": 18641,
+      "sha256": "464a67751d04c6e57eef8423869a5a3a8dd832770475b5bae5caf42a2e78b21f"
+    },
+    {
+      "path": "data/library/book11/he/ch1.json",
+      "bytes": 42336,
+      "sha256": "ceb5fd65c37ed75ba2ce344b731b46acea461b7131e5a4a6c226af59cd911ac0"
+    },
+    {
+      "path": "data/library/book11/he/ch2.json",
+      "bytes": 27232,
+      "sha256": "50cdf82259c88d71098561df54213197c8aa9e97ce8cb6dc6dc6e892e84bc0e9"
+    },
+    {
+      "path": "data/library/book11/he/ch3.json",
+      "bytes": 20427,
+      "sha256": "dd5ef2e8ae3c291527b2bdf478f1a1afc0e296dabfdbf8ee3b5456ae912095ef"
+    },
+    {
+      "path": "data/library/book11/he/ch4.json",
+      "bytes": 23826,
+      "sha256": "8d5fe669eedb5a226d23ffc6b769de24da49f3de77d6c2469047d06faafc24c6"
+    },
+    {
+      "path": "data/library/book11/he/ch5.json",
+      "bytes": 22279,
+      "sha256": "258da88b34ee1a1fc13ec25f54177f8dbe93a865e6a3f74db4a3b79bbf800546"
+    },
+    {
+      "path": "data/library/book11/he/ch6.json",
+      "bytes": 22585,
+      "sha256": "c573084801b64b8f5375f810084520be8cb00427984d7779ce687365512e8053"
+    },
+    {
+      "path": "data/library/book11/he/ch7.json",
+      "bytes": 27288,
+      "sha256": "c18454519de963405c29b089a51f4070cccdaf024b0c5ebf7f6eea6a97f16d84"
+    },
+    {
+      "path": "data/library/book11/he/ch8.json",
+      "bytes": 31147,
+      "sha256": "9a6c01798e1c3e48ebcd2fd0d7c0471711979b2d57f57efa3fb0346861a32fbf"
+    },
+    {
+      "path": "data/library/book11/he/ch9.json",
+      "bytes": 23379,
+      "sha256": "162e1bc622fdbdcbe10f308749b37a52cd59ffb8975de598240befdd0713d641"
+    },
+    {
+      "path": "data/library/book11/manifest.json",
+      "bytes": 1762,
+      "sha256": "43dc67caa13101e33f150d90ee4e072d0a02aa02b34c30aefb56ff14b367d44d"
+    },
+    {
+      "path": "data/library/book11/raw/ch1.json",
+      "bytes": 14361,
+      "sha256": "b11e9b36e9fa9025da7b84ef4375cb3bd7237518220d1e36c441bf7e026759e0"
+    },
+    {
+      "path": "data/library/book11/raw/ch2.json",
+      "bytes": 11176,
+      "sha256": "494f2e24461a15700fe8b330563f97199ebf3c23f91993a2fbe4f9aac81b2f4b"
+    },
+    {
+      "path": "data/library/book11/raw/ch3.json",
+      "bytes": 9700,
+      "sha256": "c45210e1b9615397f24f2d2d1eca5933d1d0474310c7d54aacb6ecfa5463f5c8"
+    },
+    {
+      "path": "data/library/book11/raw/ch4.json",
+      "bytes": 12354,
+      "sha256": "c56f81e414c365a5abcd7d59ac65e989237955ccb2e2ecc2cdb8af8445a972fb"
+    },
+    {
+      "path": "data/library/book11/raw/ch5.json",
+      "bytes": 11171,
+      "sha256": "2ed7ae379afe15086c4493e67300e48eefb97e8b079315b785ee588e8ddff26f"
+    },
+    {
+      "path": "data/library/book11/raw/ch6.json",
+      "bytes": 11935,
+      "sha256": "f4c9e660429dc7573c9677da48b2a7a8bf602e8d2e70f94a6f27095eb857a324"
+    },
+    {
+      "path": "data/library/book11/raw/ch7.json",
+      "bytes": 11778,
+      "sha256": "fca6be4daaa06d38e6541bc8ce03b5773d7f0852f9dd451b926fb3aff9635826"
+    },
+    {
+      "path": "data/library/book11/raw/ch8.json",
+      "bytes": 10620,
+      "sha256": "a482dbefdd1950a96940c5f101ecfaf9fd3e2d6dc06894e28523374053bf170d"
+    },
+    {
+      "path": "data/library/book11/raw/ch9.json",
+      "bytes": 19025,
+      "sha256": "f838d7c701d207adc8b71b2e9fba48e7c9306805f50588b9662d0d1013a3a81b"
+    },
+    {
+      "path": "data/library/book2-figures.json",
+      "bytes": 110886,
+      "sha256": "a28c2e33bfcab26ea61c28d557d8fc1d68d0e24e7843631a461591cf0f775507"
+    },
+    {
+      "path": "data/library/book2-full.json",
+      "bytes": 3127433,
+      "sha256": "cfb89b1434a5c711f4a6928d75f8edd9aff416ff91d44aacafc4807e26eebc46"
+    },
+    {
+      "path": "data/library/book2-index.json",
+      "bytes": 171219,
+      "sha256": "a97fc55c75b9c2604245b0c995865eebdec2f1669af4755bcc2e953cd104f397"
+    },
+    {
+      "path": "data/library/book2/ch1.sections.json",
+      "bytes": 48605,
+      "sha256": "6cc220593251dec573df412729db32fa87390db349d54c6d6c02ef47b96c764b"
+    },
+    {
+      "path": "data/library/book2/ch10.sections.json",
+      "bytes": 138805,
+      "sha256": "3be22fe93563955ab3749fc90af5cdda83fd03b8e4b245b290daee4f9d68b850"
+    },
+    {
+      "path": "data/library/book2/ch11.sections.json",
+      "bytes": 124244,
+      "sha256": "c49e65fcf669d76762bebcef4b10f688b2841b69b060bb035bf211405ce2f1ac"
+    },
+    {
+      "path": "data/library/book2/ch12.sections.json",
+      "bytes": 110796,
+      "sha256": "de77cd1dfb3410e8e5563e79d356e72a33630e9c244eb44fa15205ff49e675e7"
+    },
+    {
+      "path": "data/library/book2/ch13.sections.json",
+      "bytes": 184069,
+      "sha256": "51d48188941dd7b09c1d2226c2e88b03815c00b36080213bc3f30ebaa153dbeb"
+    },
+    {
+      "path": "data/library/book2/ch14.sections.json",
+      "bytes": 134301,
+      "sha256": "ec524d83f4c39fcf486b06c63ea707d89b36a14e88e19f16924833777b4a86e9"
+    },
+    {
+      "path": "data/library/book2/ch15.sections.json",
+      "bytes": 28259,
+      "sha256": "78ade2ac077f739907e00654c54e08681701d68190a91670b78150af8dd7e74d"
+    },
+    {
+      "path": "data/library/book2/ch2.sections.json",
+      "bytes": 20682,
+      "sha256": "f5ef288eaad4272f82b634dec656b3049087c920e3cb7aee1aed4e75e71c247a"
+    },
+    {
+      "path": "data/library/book2/ch3.sections.json",
+      "bytes": 95661,
+      "sha256": "c77fb25850ef739749e578a7728aa0d290a0ffc78a77d6cb7852a0f9f4d7bc98"
+    },
+    {
+      "path": "data/library/book2/ch4.sections.json",
+      "bytes": 74887,
+      "sha256": "603fd6e04d0509962b97ab8dc93cdb1d498fb93bb5fe0b5cbdee59530822e173"
+    },
+    {
+      "path": "data/library/book2/ch5.sections.json",
+      "bytes": 29297,
+      "sha256": "7d99c74a9b37089410a0da7de53478071126890550a128035dbedbf94c94bcba"
+    },
+    {
+      "path": "data/library/book2/ch6.sections.json",
+      "bytes": 146149,
+      "sha256": "80f63880b3ba9dad6d07389c364f3ea1d17923e11ad5465416ad20a8c2dc4f8c"
+    },
+    {
+      "path": "data/library/book2/ch7.sections.json",
+      "bytes": 95728,
+      "sha256": "829d68814851848ec9c14f2d58e96f87fe2b78ceb3805396f2e77e801555bfcd"
+    },
+    {
+      "path": "data/library/book2/ch8.sections.json",
+      "bytes": 103719,
+      "sha256": "231d62e183af876f00c85be5980867a3927272f04578da8a98d49247795b64ab"
+    },
+    {
+      "path": "data/library/book2/ch9.sections.json",
+      "bytes": 98062,
+      "sha256": "1fa13b7fe4b2e89e3c5ac37da51dff8a0d954baa87babe0541c3d99da9c4c8f7"
+    },
+    {
+      "path": "data/library/book2/he/ch1.json",
+      "bytes": 46416,
+      "sha256": "643f00a7083fc4eff6d4de637c4dba95b86593e383267e3e26cb20a1a792fe6a"
+    },
+    {
+      "path": "data/library/book2/he/ch10.json",
+      "bytes": 167595,
+      "sha256": "2a242030b7230725dac2336b32180e9f371f53e4e42ff1de0719ff74e9a82646"
+    },
+    {
+      "path": "data/library/book2/he/ch11.json",
+      "bytes": 140509,
+      "sha256": "a2de03d953e937ceab787426d74a177ba69c8b5b42defa0d3e3d56c80c443097"
+    },
+    {
+      "path": "data/library/book2/he/ch12.json",
+      "bytes": 128179,
+      "sha256": "dc25047cba9c24dd4a600d2f7a8b77306bbf1c6432c2fa7e54da9d29eec8005a"
+    },
+    {
+      "path": "data/library/book2/he/ch13.json",
+      "bytes": 221525,
+      "sha256": "4791ee2a0b49a7daea2b69ea6cce6b8beec761806e7d84de4d2dc329513fadab"
+    },
+    {
+      "path": "data/library/book2/he/ch14.json",
+      "bytes": 82321,
+      "sha256": "3aebd76ad3500250053349421ac67037dc642c7e93dd2598d16fb8e656d6354b"
+    },
+    {
+      "path": "data/library/book2/he/ch15.json",
+      "bytes": 26508,
+      "sha256": "56e2d3755ca516a6b36aba77a43ab6628a14ebdc5c507d811b6d88dc124d796d"
+    },
+    {
+      "path": "data/library/book2/he/ch2.json",
+      "bytes": 37775,
+      "sha256": "030600d4889f433a0e0bd887a2e1426f7db84dfa1d31c0286d38a642bb967863"
+    },
+    {
+      "path": "data/library/book2/he/ch3.json",
+      "bytes": 136591,
+      "sha256": "8d58acb76a30e518120ca53aaaaacab3ae20e3de02720a1f9f06bc3773bfe7a4"
+    },
+    {
+      "path": "data/library/book2/he/ch4.json",
+      "bytes": 98829,
+      "sha256": "3e18260c9d2253ffe21ccc42924cda716953164e9fbe6e8d2676384161512318"
+    },
+    {
+      "path": "data/library/book2/he/ch5.json",
+      "bytes": 77409,
+      "sha256": "b195c0a9a9226bacf53f3d94f20ad217b70c997ad2ff6280ca88faf6c33f63cb"
+    },
+    {
+      "path": "data/library/book2/he/ch6.json",
+      "bytes": 160796,
+      "sha256": "ddbab05cee39c73c801be369bbd5149e9064df8f74957a949eed9843a39b7336"
+    },
+    {
+      "path": "data/library/book2/he/ch7.json",
+      "bytes": 123282,
+      "sha256": "7770c9baade7ef8fb7e76065c3988699fd8440a1a57c66661e04a135f81fc784"
+    },
+    {
+      "path": "data/library/book2/he/ch8.json",
+      "bytes": 146485,
+      "sha256": "d0fda7744c014319cdeebdfcccfd3592539f71374805cf0f5989918d394dfa4c"
+    },
+    {
+      "path": "data/library/book2/he/ch9.json",
+      "bytes": 120931,
+      "sha256": "bac22640dbfe32b10bbfb28996d7d16672351e5da9cb3f0e631ab48a0016813e"
+    },
+    {
+      "path": "data/library/book2/manifest.json",
+      "bytes": 2699,
+      "sha256": "b56ae20bc388e63248947d7936050e3bc2dd1e10e97d7a113b4b6b17c2173c9b"
+    },
+    {
+      "path": "data/library/book2/raw/ch1.json",
+      "bytes": 49506,
+      "sha256": "d4c796cdb0d54c16906400b10778b976e6e5afea17c5497573f5595fe0f1dcd0"
+    },
+    {
+      "path": "data/library/book2/raw/ch10.json",
+      "bytes": 135436,
+      "sha256": "b146ec006bf1cf7784a2a964b6ef3e11028b954cff1a1821d6b45ceb7a6d48c2"
+    },
+    {
+      "path": "data/library/book2/raw/ch11.json",
+      "bytes": 122452,
+      "sha256": "3631b33fbc1a12352bcb2e81af3206eeaa15fb95ab68a1a5b4e53ef8e8826f5e"
+    },
+    {
+      "path": "data/library/book2/raw/ch12.json",
+      "bytes": 108977,
+      "sha256": "dd6d3836136f7e25f639744a7d0dc613e5a36e7a1e46da4b202fe242d5c2d378"
+    },
+    {
+      "path": "data/library/book2/raw/ch13.json",
+      "bytes": 178751,
+      "sha256": "d44e6d20f6ceab16e7134ce9ec87175305d02a38c3fa172b3a84e2719fb155f6"
+    },
+    {
+      "path": "data/library/book2/raw/ch14.json",
+      "bytes": 135181,
+      "sha256": "403f418608ea3a2170b78196a6104e11de77598d338bc47cc7f9265f19551848"
+    },
+    {
+      "path": "data/library/book2/raw/ch15.json",
+      "bytes": 471586,
+      "sha256": "93a739471c9a9426db930946db29d9bfbf75514e5fa068f631004188ec7ceb29"
+    },
+    {
+      "path": "data/library/book2/raw/ch2.json",
+      "bytes": 20522,
+      "sha256": "ff85203db9bf5d338a87a9775c9762e5e93511728c9457afbbed034b9fdb1c37"
+    },
+    {
+      "path": "data/library/book2/raw/ch3.json",
+      "bytes": 93533,
+      "sha256": "4a08073981a98c80e8b0dac19d2da57350426bf66fdb3e8d383b173b02d9dd9d"
+    },
+    {
+      "path": "data/library/book2/raw/ch4.json",
+      "bytes": 74165,
+      "sha256": "eccc8ec3f3fdd9aa5081327294ddc3bb719ca5f7efbe60a0eb07d3893f0cb0df"
+    },
+    {
+      "path": "data/library/book2/raw/ch5.json",
+      "bytes": 28966,
+      "sha256": "f5b6816fa70fce736bb78ecee08b0c85914678840a8b992014cd3b40a0a4444e"
+    },
+    {
+      "path": "data/library/book2/raw/ch6.json",
+      "bytes": 144005,
+      "sha256": "f2ae8858e129a00bcd671d385909cb3c399aa563dbc1adc5e0e25156500c8b6d"
+    },
+    {
+      "path": "data/library/book2/raw/ch7.json",
+      "bytes": 94750,
+      "sha256": "3fcce84ffaf59af0d99efa8e8d3863930b6b812abf6846fcd7d566b2b5593625"
+    },
+    {
+      "path": "data/library/book2/raw/ch8.json",
+      "bytes": 101516,
+      "sha256": "b1d3ede4c962d932ea681cc824d283ed05f7686253a38d0702d2aa8c3276da74"
+    },
+    {
+      "path": "data/library/book2/raw/ch9.json",
+      "bytes": 97138,
+      "sha256": "c6b72be8cedf2f75be950e1044b26bf6ce15e309857fcebd790f871583523544"
+    },
+    {
+      "path": "data/library/book3-figures.json",
+      "bytes": 63613,
+      "sha256": "a78ea5d2dbf6217830f4585a5c77ebfdb68ea7b976c3f09a24e086eaac2dd150"
+    },
+    {
+      "path": "data/library/book3-full.json",
+      "bytes": 2444835,
+      "sha256": "b35c737c49816766e887bedef4865df1e0f1e9493d826d710d5afb39da587f9c"
+    },
+    {
+      "path": "data/library/book3-index.json",
+      "bytes": 129605,
+      "sha256": "e8ed0f1a9bf727cef437df28e92f86240384c337323a8d0c1abb43241291bca4"
+    },
+    {
+      "path": "data/library/book3/ch1.sections.json",
+      "bytes": 53737,
+      "sha256": "d5d5d19e8eac3718f21404649d4075d52b22bf8774f848648827ae17c2dc4284"
+    },
+    {
+      "path": "data/library/book3/ch10.sections.json",
+      "bytes": 44661,
+      "sha256": "4e522cdd61d44c2dd6c7e30a0f13f6fd09e91afac16e596950870fe8f17211eb"
+    },
+    {
+      "path": "data/library/book3/ch11.sections.json",
+      "bytes": 54406,
+      "sha256": "576a048b57afce2bd2e28893e78c20cff5bef5f0cb031d934b7dd18c9b974c5a"
+    },
+    {
+      "path": "data/library/book3/ch12.sections.json",
+      "bytes": 105997,
+      "sha256": "d9ecd7e5d669d7b3b36d7957d7491060837b3ccddfcf90dfd4f9a0ab164b7a3a"
+    },
+    {
+      "path": "data/library/book3/ch13.sections.json",
+      "bytes": 36392,
+      "sha256": "20a0156bf4beb2cae0200773f1c67a1597197a5c348b8e848e16fa30fe1eec24"
+    },
+    {
+      "path": "data/library/book3/ch14.sections.json",
+      "bytes": 88599,
+      "sha256": "67bb245738b3d17dda40098413e57a509c72999b1b205a491edb2cbe201d9fd5"
+    },
+    {
+      "path": "data/library/book3/ch15.sections.json",
+      "bytes": 43812,
+      "sha256": "9f971ed0c971ecdcff349ebe32d652953c2d16c885a42ab4d4c9b7726a5082da"
+    },
+    {
+      "path": "data/library/book3/ch16.sections.json",
+      "bytes": 80738,
+      "sha256": "a661483dd6a29d997ddb67707b3fddd284b6570b62c977299f471087e0d04cb6"
+    },
+    {
+      "path": "data/library/book3/ch17.sections.json",
+      "bytes": 34049,
+      "sha256": "d049e24cf3b0a618892f34ecb7f5a455d79c3bcb794287fdf851ab0dda25eb24"
+    },
+    {
+      "path": "data/library/book3/ch18.sections.json",
+      "bytes": 7752,
+      "sha256": "be896fcf2122aa18f79b311fa3378fd6158b7ebd84f55f55162ba4a260a152a4"
+    },
+    {
+      "path": "data/library/book3/ch2.sections.json",
+      "bytes": 76794,
+      "sha256": "29d63da48ab71a5806468d5c2e0b6efb8f39482a310c0a36750952c861c41a61"
+    },
+    {
+      "path": "data/library/book3/ch3.sections.json",
+      "bytes": 32541,
+      "sha256": "53b9560b9646d90a38cd5e9cb024d46f18f3f64b2d72a0e0708e9d38139ccbf6"
+    },
+    {
+      "path": "data/library/book3/ch4.sections.json",
+      "bytes": 67402,
+      "sha256": "a504571e55a23a0f2b9d59662dd1e5a806dc93376357f86a4600e91c50723bde"
+    },
+    {
+      "path": "data/library/book3/ch5.sections.json",
+      "bytes": 89944,
+      "sha256": "e1fa652251bab5b1287e35b6a6d1d94f79cc5086768ef281b3ec49ad3e5e1fd4"
+    },
+    {
+      "path": "data/library/book3/ch6.sections.json",
+      "bytes": 92131,
+      "sha256": "b0f9d4bb8c5a7c545ca1a0253c346e795a0052f92edeb3bce42ec7b21ccbb624"
+    },
+    {
+      "path": "data/library/book3/ch7.sections.json",
+      "bytes": 130914,
+      "sha256": "029dcdecff8ab3d53ce309e5225aa5d33faaaecc604113d012f203b429551010"
+    },
+    {
+      "path": "data/library/book3/ch8.sections.json",
+      "bytes": 51692,
+      "sha256": "d21412297617029d1f0db23437ed7a63aaf0b1ef87d3fa5deb086c616d648699"
+    },
+    {
+      "path": "data/library/book3/ch9.sections.json",
+      "bytes": 42171,
+      "sha256": "a9fb0ebe46e2172eaa4ea152337e90dbc20091e7183a84284abdea77c759a012"
+    },
+    {
+      "path": "data/library/book3/he/ch1.json",
+      "bytes": 50262,
+      "sha256": "c42037cce8022646103bf8ffba6275c7fee8e59f891e50357fd80451b23fbff7"
+    },
+    {
+      "path": "data/library/book3/he/ch10.json",
+      "bytes": 100984,
+      "sha256": "7aa0faa1944674b50f22f49afa7be52f3b7f3db4e1f98766cb9c3c19131591d3"
+    },
+    {
+      "path": "data/library/book3/he/ch11.json",
+      "bytes": 62524,
+      "sha256": "f7f757d72bab8148701d49ee405f44393adabf89adc3828abf21e116502a549f"
+    },
+    {
+      "path": "data/library/book3/he/ch12.json",
+      "bytes": 123176,
+      "sha256": "3d0c7404e3e39dab9788a5b239067e9b1349e98456f20682330288ea1ba6bd61"
+    },
+    {
+      "path": "data/library/book3/he/ch13.json",
+      "bytes": 68937,
+      "sha256": "7e812b403b09721370a7a5c90ef1b1303609dc5608587a19fa41b6d6ae291d07"
+    },
+    {
+      "path": "data/library/book3/he/ch14.json",
+      "bytes": 82691,
+      "sha256": "65fb14d27bd037d3807cad4e642e23eb42f9e2e0ed05260dc8c0cd524fa937da"
+    },
+    {
+      "path": "data/library/book3/he/ch15.json",
+      "bytes": 54818,
+      "sha256": "8d0f061184c01415ba2f14ff2966e25841cd70842e72845a8a9e06ec127f5c85"
+    },
+    {
+      "path": "data/library/book3/he/ch16.json",
+      "bytes": 81096,
+      "sha256": "6b1ac7bb6cc976e7c8086eac180563274b510b9d00cde506f2e417cb0960d7a2"
+    },
+    {
+      "path": "data/library/book3/he/ch17.json",
+      "bytes": 47382,
+      "sha256": "f0dd310bc980de5220e88f49e806622d4ca12afc14a9ed29ef4e975ce166559b"
+    },
+    {
+      "path": "data/library/book3/he/ch18.json",
+      "bytes": 9951,
+      "sha256": "44ae3b750cefece95d6af60dce83179e98040683b92091221894fa96bd5562a2"
+    },
+    {
+      "path": "data/library/book3/he/ch2.json",
+      "bytes": 81644,
+      "sha256": "5ed7bceeb260de513f6c1e08fc83ffcfffcc31e58e300cf2d65fb0460356ca7d"
+    },
+    {
+      "path": "data/library/book3/he/ch3.json",
+      "bytes": 36217,
+      "sha256": "36b7f0b5695ad959ecfcd96577070d69a695d90206034f1d465a7e3364ae68fa"
+    },
+    {
+      "path": "data/library/book3/he/ch4.json",
+      "bytes": 67698,
+      "sha256": "9151f1180368e9d288a63d244a94cd88e35f93f79592367d07b4ec9c39a986c4"
+    },
+    {
+      "path": "data/library/book3/he/ch5.json",
+      "bytes": 82393,
+      "sha256": "6ed0847efb77cc1907e554368469608a6ff2d2d7fc931623da78186a5cf4dbd3"
+    },
+    {
+      "path": "data/library/book3/he/ch6.json",
+      "bytes": 107503,
+      "sha256": "8c00144a1bc44b00e0ef6f926129f4f2129f2253690b85dc2095b65d278cb74f"
+    },
+    {
+      "path": "data/library/book3/he/ch7.json",
+      "bytes": 118468,
+      "sha256": "56ec4e75ea27db9f84ce3d9cc8410b7bd510f9aaadb1fed66ac52f7a9d5c2f09"
+    },
+    {
+      "path": "data/library/book3/he/ch8.json",
+      "bytes": 83296,
+      "sha256": "365f06a8a3cfd08169a451a21c7f9003e7790618bf25b73a70fcf7b4d2af9338"
+    },
+    {
+      "path": "data/library/book3/he/ch9.json",
+      "bytes": 70806,
+      "sha256": "dc6c45c9c139b330661b1962d7dfc4e0cc0464dabcbba822b629f36ab2cef4d7"
+    },
+    {
+      "path": "data/library/book3/manifest.json",
+      "bytes": 3150,
+      "sha256": "84fb59be08bb2f3eba2482ab8f19ec9ce1446b3b750417656f7f43252c1a63ad"
+    },
+    {
+      "path": "data/library/book3/raw/ch1.json",
+      "bytes": 52918,
+      "sha256": "dec87ffe598915895945422be3c2355064f2ae388d32956d8c4aca19afd15074"
+    },
+    {
+      "path": "data/library/book3/raw/ch10.json",
+      "bytes": 42546,
+      "sha256": "5f7dcedb9013b6d01c95d35857422a4c7f1a769c01c3ee52ae05afa878cc6dde"
+    },
+    {
+      "path": "data/library/book3/raw/ch11.json",
+      "bytes": 54769,
+      "sha256": "36a1b56c7523c759564c0aa52d3f559a23d5b751384994d8f5e14b580b21cc01"
+    },
+    {
+      "path": "data/library/book3/raw/ch12.json",
+      "bytes": 103505,
+      "sha256": "98f46a32529474f7da65cb01f4639bbf97746f31939963c37cb83c3ee2480297"
+    },
+    {
+      "path": "data/library/book3/raw/ch13.json",
+      "bytes": 34660,
+      "sha256": "d9a48b678dfaf174e6d2a8d688560300192bd22bb292a19f9384d001129d949a"
+    },
+    {
+      "path": "data/library/book3/raw/ch14.json",
+      "bytes": 87899,
+      "sha256": "98a3e077ee9f3f9137be9b1a9d1ba35ace6028cf71203aae030314db383e466b"
+    },
+    {
+      "path": "data/library/book3/raw/ch15.json",
+      "bytes": 43745,
+      "sha256": "b85f70c9953f0ec69297fd87a63ae37c34f417432bfd9715c71812e5413a0566"
+    },
+    {
+      "path": "data/library/book3/raw/ch16.json",
+      "bytes": 78636,
+      "sha256": "6516c5ab9f1c226742052c05a3acd8df40476d14faf10c5f2f551a6e2c777f41"
+    },
+    {
+      "path": "data/library/book3/raw/ch17.json",
+      "bytes": 34426,
+      "sha256": "938488e48d319653ee6fb997bd248ad6fb0d3c1323fe44474954b609266dcfb1"
+    },
+    {
+      "path": "data/library/book3/raw/ch18.json",
+      "bytes": 16779,
+      "sha256": "3a69375c35bfecdb7dcdeb29608d12563ef777457fc1d942d6bfd46d82cfa794"
+    },
+    {
+      "path": "data/library/book3/raw/ch2.json",
+      "bytes": 75361,
+      "sha256": "31d675704acd66cb6e93b310a96d938763117c3533c637fe91758ebe0de4e07d"
+    },
+    {
+      "path": "data/library/book3/raw/ch3.json",
+      "bytes": 32204,
+      "sha256": "4b4cf71b2e0d738fead3926fbaea72aa3158367b87eea92ab5046aca661436ec"
+    },
+    {
+      "path": "data/library/book3/raw/ch4.json",
+      "bytes": 67659,
+      "sha256": "7050cc7dee3a38cb931bb8bd075c179114eb80b0927c391c089e05e9eaf3a21f"
+    },
+    {
+      "path": "data/library/book3/raw/ch5.json",
+      "bytes": 89447,
+      "sha256": "57907fd51a6ce228736208e3ddcc58e134068729251d6eca06e53f156b6e300d"
+    },
+    {
+      "path": "data/library/book3/raw/ch6.json",
+      "bytes": 89543,
+      "sha256": "e50af2fae45c75b7580095d12d1986f103061e6b5b4c6fe5ab192bd87eebf493"
+    },
+    {
+      "path": "data/library/book3/raw/ch7.json",
+      "bytes": 129437,
+      "sha256": "5671172fa9f07f2ac32d943e829a9e63dbb74bed28c4a434f7b7a7e902e5a279"
+    },
+    {
+      "path": "data/library/book3/raw/ch8.json",
+      "bytes": 50679,
+      "sha256": "1b3791dc7268b20f65033c39ec14c0662147293bd39f3912d779da855b31a8ab"
+    },
+    {
+      "path": "data/library/book3/raw/ch9.json",
+      "bytes": 41004,
+      "sha256": "c35eb4f931d78fc13901577625b49d5532f4f5c7d58b7fc106c0e02481a7b5fa"
+    },
+    {
+      "path": "data/library/book4-figures.json",
+      "bytes": 61934,
+      "sha256": "656c1ba5dd6d53902ab90c47a7c05c76adf0fcda30be2d8057d1fa898d73c9c9"
+    },
+    {
+      "path": "data/library/book4-full.json",
+      "bytes": 1811221,
+      "sha256": "fe48c3b55383c51db39fb3cc1e5537be0fbb1dea9602ec037e8e0f1c13481795"
+    },
+    {
+      "path": "data/library/book4-index.json",
+      "bytes": 67020,
+      "sha256": "aeb09d34ed668c98a93b19a56115ef12ce9a62c3a08dbf9312c35893f45fd5ab"
+    },
+    {
+      "path": "data/library/book4/ch1.sections.json",
+      "bytes": 55404,
+      "sha256": "b33a66ef5742bfbae6485028d0d73ecf9b86134cd1f07f06051062e032b25c85"
+    },
+    {
+      "path": "data/library/book4/ch10.sections.json",
+      "bytes": 59023,
+      "sha256": "6399734b2bb10a30ae6fcaef30ff563773c71a5f7683e214d03f1c3b1e380f4f"
+    },
+    {
+      "path": "data/library/book4/ch11.sections.json",
+      "bytes": 16940,
+      "sha256": "d113475641e60468a0a6f5cc68d4a1bd0d41cce83af9b7c3df61ca4f035743d0"
+    },
+    {
+      "path": "data/library/book4/ch2.sections.json",
+      "bytes": 111157,
+      "sha256": "f8dea3fb3f9364b24331126764da6d90ddc81ba51720eff63c28c1758e46b6ac"
+    },
+    {
+      "path": "data/library/book4/ch3.sections.json",
+      "bytes": 106870,
+      "sha256": "71314950a49fb933037560c046887d8d9512caea1caff27ae5d9bf0bb62b768b"
+    },
+    {
+      "path": "data/library/book4/ch4.sections.json",
+      "bytes": 64411,
+      "sha256": "0109e11482f06d2a02f7398f017bcef1a50f0dfda9887b30541b7ea2100515b6"
+    },
+    {
+      "path": "data/library/book4/ch5.sections.json",
+      "bytes": 228768,
+      "sha256": "ef9191770b88d1ef86c0e75cfc938e84830896ad809b9219b5627ee6c8d4045c"
+    },
+    {
+      "path": "data/library/book4/ch6.sections.json",
+      "bytes": 183796,
+      "sha256": "b154586718cc92a90d08e354dbfad7fc0c2b1028443433dd009e5d0a5b3d2c7e"
+    },
+    {
+      "path": "data/library/book4/ch7.sections.json",
+      "bytes": 31736,
+      "sha256": "2ad5039b04fa988ea42ed8f3fb711eb64c6a4740d9c11d1a5599023d7e465abd"
+    },
+    {
+      "path": "data/library/book4/ch8.sections.json",
+      "bytes": 122938,
+      "sha256": "f0d94f9e649083caa43ef9e3470cea77131fd7222f1e977d823a3171d0540783"
+    },
+    {
+      "path": "data/library/book4/ch9.sections.json",
+      "bytes": 44390,
+      "sha256": "6c88ca82a91aa067d7bfa7eb5ffdd61044ab1039477a6599faad082c542a5268"
+    },
+    {
+      "path": "data/library/book4/he/ch1.json",
+      "bytes": 54016,
+      "sha256": "06194e1b336ca00bb1e0bbd390a3f0242beb9042206edb5ab3e27c3c108ef755"
+    },
+    {
+      "path": "data/library/book4/he/ch10.json",
+      "bytes": 46687,
+      "sha256": "8d8fd69492d842b4a6664b0afdaed5244bc1288492ce729fc3f463eb6497f69f"
+    },
+    {
+      "path": "data/library/book4/he/ch11.json",
+      "bytes": 14566,
+      "sha256": "ac563d9765f8b3eb0a1f469c4f4235c50c57dafdc65cc4048a43482d20815194"
+    },
+    {
+      "path": "data/library/book4/he/ch2.json",
+      "bytes": 104492,
+      "sha256": "75407e2a3e487762d9b3703919d7b56579c82257b805b4015fb56a4f3a079419"
+    },
+    {
+      "path": "data/library/book4/he/ch3.json",
+      "bytes": 98473,
+      "sha256": "0dad35d7792a881827d25610b0fa573b6b1fbb00c69fa44be8628d86f9e06b7d"
+    },
+    {
+      "path": "data/library/book4/he/ch4.json",
+      "bytes": 56060,
+      "sha256": "b57e51b3227b827e9dd4732caeb9f3ca581107f0fc425d22fd29e6ab2e42546b"
+    },
+    {
+      "path": "data/library/book4/he/ch5.json",
+      "bytes": 165709,
+      "sha256": "75dd56b9b926baa3726528a1e093ed9dbffeaf307dde8fd1b4d5323483025e1f"
+    },
+    {
+      "path": "data/library/book4/he/ch6.json",
+      "bytes": 96791,
+      "sha256": "6647050c4f54f9a13747dc11995545b4a1f87ea96be1c218344ed3eded13d8cb"
+    },
+    {
+      "path": "data/library/book4/he/ch7.json",
+      "bytes": 33396,
+      "sha256": "21dbf663588bc3788d7b7e826493356b9081d08b40c45863b19a95020299bba2"
+    },
+    {
+      "path": "data/library/book4/he/ch8.json",
+      "bytes": 97583,
+      "sha256": "92767ac154ca31b50566036390e6c00bc8df078158a2f37affb6b163d1625621"
+    },
+    {
+      "path": "data/library/book4/he/ch9.json",
+      "bytes": 33019,
+      "sha256": "f27f47409f6eb0b6d3668bd05f58364987a260f615aa2415990712ff35c897be"
+    },
+    {
+      "path": "data/library/book4/manifest.json",
+      "bytes": 1912,
+      "sha256": "f63aaf1e8c9b9edec1737d4f4532b121063f2325fb1c89a1cc6a2c03f69f66fc"
+    },
+    {
+      "path": "data/library/book4/raw/ch1.json",
+      "bytes": 59102,
+      "sha256": "e495532e7709b94da360844a014e6deadcb301ec6ac16c6b85d647f5eae16238"
+    },
+    {
+      "path": "data/library/book4/raw/ch10.json",
+      "bytes": 60792,
+      "sha256": "da4a49ba3ce6e2beeab12b590b874fe7a801629233a754b671798e5a8ab68d3b"
+    },
+    {
+      "path": "data/library/book4/raw/ch11.json",
+      "bytes": 19563,
+      "sha256": "94c221558c3819bae64f1ac0c91ac9f68e4255fc9720c7c739ed8ee4552b2067"
+    },
+    {
+      "path": "data/library/book4/raw/ch2.json",
+      "bytes": 109932,
+      "sha256": "148f63a63872fee065611acc82f7f860c1c39404569ea50bd32d34ed279b6455"
+    },
+    {
+      "path": "data/library/book4/raw/ch3.json",
+      "bytes": 105511,
+      "sha256": "86daf9359c6318219988faa7148be318a749fd807110ce123101bf496c3666f8"
+    },
+    {
+      "path": "data/library/book4/raw/ch4.json",
+      "bytes": 64107,
+      "sha256": "3fa0b2b0e352cc06889414debc3b418678a01eeb859c160ba262cf3ac2eba42a"
+    },
+    {
+      "path": "data/library/book4/raw/ch5.json",
+      "bytes": 226820,
+      "sha256": "ee97dba036bd7b06466f6dc789f4bb14055c7bae912001352f956391533e9f1d"
+    },
+    {
+      "path": "data/library/book4/raw/ch6.json",
+      "bytes": 184068,
+      "sha256": "6b12d43d8cbd03c10def46ab905ca9c69ac83d2cd755c83b72178d8c25003023"
+    },
+    {
+      "path": "data/library/book4/raw/ch7.json",
+      "bytes": 32596,
+      "sha256": "94ad09c6a0e6a55210803fe4841f56ab6b1da663eb0b32932b3425ca58c0e733"
+    },
+    {
+      "path": "data/library/book4/raw/ch8.json",
+      "bytes": 121031,
+      "sha256": "581e5e93b3f061ea9c276e61d968ec8084548db6e38a0ec84079d004c7299b78"
+    },
+    {
+      "path": "data/library/book4/raw/ch9.json",
+      "bytes": 44719,
+      "sha256": "617f2bd3384621132fe3600c248c2d46c97249fcafea80698abdef02ee2d0a74"
+    },
+    {
+      "path": "data/library/book5-figures.json",
+      "bytes": 107265,
+      "sha256": "0cf573d1899a11c6df17ac3ddb09830701dbb6a538423d767a9b6c402f033742"
+    },
+    {
+      "path": "data/library/book5-full.json",
+      "bytes": 2867148,
+      "sha256": "72542e7d489f8ab16482590d86b85bcb6212b24909c232b748cefb4ab59ec72e"
+    },
+    {
+      "path": "data/library/book5-index.json",
+      "bytes": 171648,
+      "sha256": "52ee740495d67c410113b7c60800e89f32bb0a8f16db2861d253f9bf335107c5"
+    },
+    {
+      "path": "data/library/book5/ch1.sections.json",
+      "bytes": 51204,
+      "sha256": "3564d53553a5f8078667c677db2e3f06c66bfc88d1c99efe8fa28bfb3da8b41d"
+    },
+    {
+      "path": "data/library/book5/ch10.sections.json",
+      "bytes": 41740,
+      "sha256": "9e74d949d3277018bb25046018faab9f1d083bfeb3fec8a192906e98261e1bf3"
+    },
+    {
+      "path": "data/library/book5/ch11.sections.json",
+      "bytes": 35550,
+      "sha256": "e88e35c0be6c65a49850d318d0be726dc443136e3d04136692cff63260eed6c8"
+    },
+    {
+      "path": "data/library/book5/ch12.sections.json",
+      "bytes": 102385,
+      "sha256": "7f8b67d7fdb6a133c5fb32009e17544f2737df291333e946bb3eabbc2b1c6315"
+    },
+    {
+      "path": "data/library/book5/ch13.sections.json",
+      "bytes": 36490,
+      "sha256": "2d7feb91e66fa00e3d7fb08a795de3245f8aafe0a5fc5773f7e5f54fde18d127"
+    },
+    {
+      "path": "data/library/book5/ch14.sections.json",
+      "bytes": 42610,
+      "sha256": "42c68ed83de66c775c48225ea1ceeede4c13f18fe4e5836d3eeae9eadf92f91b"
+    },
+    {
+      "path": "data/library/book5/ch15.sections.json",
+      "bytes": 54742,
+      "sha256": "a200de36f7e2d9e874e66e0aa7c3cc018d09c7315cbc5ad04836568f5c333acd"
+    },
+    {
+      "path": "data/library/book5/ch16.sections.json",
+      "bytes": 82162,
+      "sha256": "bf258782e4ffb618310edc124d77dff6f9ec6082a1b53d5b3d1df1276c0721b9"
+    },
+    {
+      "path": "data/library/book5/ch17.sections.json",
+      "bytes": 21492,
+      "sha256": "7befef23471ab8716caa1c23bb9f3aa7936b2986c8c2bae39ae384a59508bb8a"
+    },
+    {
+      "path": "data/library/book5/ch18.sections.json",
+      "bytes": 75160,
+      "sha256": "eca923764715f169ef6d796827b1471bd0b8f68242678b24db5c7497f04eef05"
+    },
+    {
+      "path": "data/library/book5/ch19.sections.json",
+      "bytes": 50257,
+      "sha256": "43166be9541f678c3524b7c7860ae3e6f310844abfd5e6f0b5849cec776b841c"
+    },
+    {
+      "path": "data/library/book5/ch2.sections.json",
+      "bytes": 90778,
+      "sha256": "50e1cb244a1edac63a7e18abcc9485a954e190e9c5a9eea916a0d374a0b833ea"
+    },
+    {
+      "path": "data/library/book5/ch20.sections.json",
+      "bytes": 91569,
+      "sha256": "ece7ff282bda11e718ba7b530b759feaa5652ed10b21037c6562ad01cb0fdfd7"
+    },
+    {
+      "path": "data/library/book5/ch3.sections.json",
+      "bytes": 200495,
+      "sha256": "d52776ae7221c433daa4a5faa8632e4cd3e8ba54923739c2e050d225abe01cce"
+    },
+    {
+      "path": "data/library/book5/ch4.sections.json",
+      "bytes": 58087,
+      "sha256": "e2cb4cf544514218c80c96bc8da6351606042e71977e91c7af6a032038b9a878"
+    },
+    {
+      "path": "data/library/book5/ch5.sections.json",
+      "bytes": 40751,
+      "sha256": "8493a67ad5467b7f7ebcd2c4cd908a48209ecb6ea05025f2a5c1ee44f7741123"
+    },
+    {
+      "path": "data/library/book5/ch6.sections.json",
+      "bytes": 16501,
+      "sha256": "ed3857a119bfe4bf25c467044d62cd3016124b598f7169faf4c87af3bb397109"
+    },
+    {
+      "path": "data/library/book5/ch7.sections.json",
+      "bytes": 65051,
+      "sha256": "30d498774873e1982bfe6f9e1e23f5bc3b1f8284f4593f94fcd0aa7f16da4c8d"
+    },
+    {
+      "path": "data/library/book5/ch8.sections.json",
+      "bytes": 29152,
+      "sha256": "5f7bfadf929fdc77e6de394a85efc5c98445707b739421cd5db0b553df2c6be6"
+    },
+    {
+      "path": "data/library/book5/ch9.sections.json",
+      "bytes": 135173,
+      "sha256": "6906e17912ec80c53333834d35cdcbc8db92ab940bca32bc8a8ddd845852930c"
+    },
+    {
+      "path": "data/library/book5/he/ch1.json",
+      "bytes": 68049,
+      "sha256": "70127eabf831d8d9a53f0900963012466ac44a2e9ac1d655b875f7c57e6964d8"
+    },
+    {
+      "path": "data/library/book5/he/ch10.json",
+      "bytes": 63758,
+      "sha256": "552ea1356965d156baac2ad831b6b70403b8c1c176240f416667dfa04b178172"
+    },
+    {
+      "path": "data/library/book5/he/ch11.json",
+      "bytes": 39902,
+      "sha256": "7ba0fbb75195e710acef7f40d28646aa4a41208bd0374ca13e8cb2ef71efaf56"
+    },
+    {
+      "path": "data/library/book5/he/ch12.json",
+      "bytes": 115620,
+      "sha256": "f441b0a23f8b0d026e5c249ebe72cba1356f499ab356c811a30c1c341849e9ea"
+    },
+    {
+      "path": "data/library/book5/he/ch13.json",
+      "bytes": 42549,
+      "sha256": "29d425044cb0ff0b602d2ab10ca2d276a07f734373b0b40c1161af9f8d1e346a"
+    },
+    {
+      "path": "data/library/book5/he/ch14.json",
+      "bytes": 66321,
+      "sha256": "155e17124d5d7e6ef9d605d9334b520158ce94ead627a1d594a17dca56363e58"
+    },
+    {
+      "path": "data/library/book5/he/ch15.json",
+      "bytes": 89893,
+      "sha256": "0e1aaac9154e3f8167fa14fc4f45bf5dc1bcda2f40d33b057de44e8009eb1033"
+    },
+    {
+      "path": "data/library/book5/he/ch16.json",
+      "bytes": 109630,
+      "sha256": "191e572a490ea8166e455902bb47b42616e16939831cedb3b0bccd093a6b501b"
+    },
+    {
+      "path": "data/library/book5/he/ch17.json",
+      "bytes": 28793,
+      "sha256": "64d93c83a0cf0e32fb19f3395167160176393681b7c8b64baed83e3a9bcaeaab"
+    },
+    {
+      "path": "data/library/book5/he/ch18.json",
+      "bytes": 125898,
+      "sha256": "2fb3daacbd5cfc514fd9574a5ee6b8c91dd6d8250492d254ca0aa6cf0b908788"
+    },
+    {
+      "path": "data/library/book5/he/ch19.json",
+      "bytes": 57308,
+      "sha256": "b257cb51772ccaa5b329ab019992de03b551f99532d16c54d5645c6df50683ce"
+    },
+    {
+      "path": "data/library/book5/he/ch2.json",
+      "bytes": 103520,
+      "sha256": "5e7d6eaef83f24074599be4bc4b23d64fa216144d456a907c106b44f97458ca7"
+    },
+    {
+      "path": "data/library/book5/he/ch20.json",
+      "bytes": 88489,
+      "sha256": "209a1df8be06adbe6e0bacf5a22404aaa16453b59b5298580ccb61d3f29c03fb"
+    },
+    {
+      "path": "data/library/book5/he/ch3.json",
+      "bytes": 130679,
+      "sha256": "2c839d8a188e783acd0ce9c49c70ac5cc5d0b2e6ba6a56ff0301d0fa2cd85739"
+    },
+    {
+      "path": "data/library/book5/he/ch4.json",
+      "bytes": 77459,
+      "sha256": "3d51b6e71c269407e7193de4f3e61ad6185d963a78a4ea774886719a45701c51"
+    },
+    {
+      "path": "data/library/book5/he/ch5.json",
+      "bytes": 40722,
+      "sha256": "45bf0311229cd47867c987176e75520e672b3ec085b50d93d6a0dcb754dda1d6"
+    },
+    {
+      "path": "data/library/book5/he/ch6.json",
+      "bytes": 25644,
+      "sha256": "30b81638dd2f5ad40bb0d7dc0a4217f52d1ba5a267fb52ac7b4108583cdc7f83"
+    },
+    {
+      "path": "data/library/book5/he/ch7.json",
+      "bytes": 98359,
+      "sha256": "754239d417a50c7cd74978fb4adb360cdba130fb1bb3859e076411ec8320eb70"
+    },
+    {
+      "path": "data/library/book5/he/ch8.json",
+      "bytes": 50781,
+      "sha256": "cd4dbeb20f8933765b4568f519451f8f99cf3919383ef27811f3454f199d137b"
+    },
+    {
+      "path": "data/library/book5/he/ch9.json",
+      "bytes": 141437,
+      "sha256": "8f249f22cb09bb7c7446f1bab7ec1990dc3828314d1037dc5321a891a5b98219"
+    },
+    {
+      "path": "data/library/book5/manifest.json",
+      "bytes": 3426,
+      "sha256": "4d2ff8700ffac20a71f1bd9a09bce4680aba23bb5aaf3c0a0c8be0be51a00afb"
+    },
+    {
+      "path": "data/library/book5/raw/ch1.json",
+      "bytes": 54043,
+      "sha256": "fb6434c7d89a7105035e37ad404dab0a416de9835b03361ef23dc66e0df5dfa4"
+    },
+    {
+      "path": "data/library/book5/raw/ch10.json",
+      "bytes": 41576,
+      "sha256": "f0f60f3639fb52c1f0cb43a9f9ee473ab5178a1d50512054dd063f0639ad585b"
+    },
+    {
+      "path": "data/library/book5/raw/ch11.json",
+      "bytes": 35696,
+      "sha256": "fdc49cc62f1718c0784dbe2f2a0919762a584a2f3bece1b73148c986d8fa1077"
+    },
+    {
+      "path": "data/library/book5/raw/ch12.json",
+      "bytes": 100070,
+      "sha256": "15b9dc494f8b7dc2a5447fec93894ed3152874c7a0375b66554921bb2f8210f9"
+    },
+    {
+      "path": "data/library/book5/raw/ch13.json",
+      "bytes": 37003,
+      "sha256": "22cb3927e5042aff924220616e9ad65b56b17ed1bd1db4a98fedd59db2d03c72"
+    },
+    {
+      "path": "data/library/book5/raw/ch14.json",
+      "bytes": 41830,
+      "sha256": "0fc45e0822fa2cdbf492b76bc7cd2865b08c06be12eb69e03f9199ec0e9ba8f0"
+    },
+    {
+      "path": "data/library/book5/raw/ch15.json",
+      "bytes": 53416,
+      "sha256": "adbb4055e6d9bfe0e342eeb06d7e8d9f2211840f88ebafd77c4282fa611ed8ea"
+    },
+    {
+      "path": "data/library/book5/raw/ch16.json",
+      "bytes": 80347,
+      "sha256": "4846e29405ad0500d6d27c24998904b51c8a360c6d624c3c6c090f1981a5192b"
+    },
+    {
+      "path": "data/library/book5/raw/ch17.json",
+      "bytes": 21846,
+      "sha256": "e8761354c0cf7752674f9827ae3bc1915bafc96c5e6c710b672a593112a73256"
+    },
+    {
+      "path": "data/library/book5/raw/ch18.json",
+      "bytes": 71994,
+      "sha256": "4544b994f8c0279340af8bb26dca8092dd17295086ac850ff8e25dbca75bc0db"
+    },
+    {
+      "path": "data/library/book5/raw/ch19.json",
+      "bytes": 50213,
+      "sha256": "25b22380a3055d2580e1ff3ef7ceb332fd6857faf3755341478136224c4f3d3b"
+    },
+    {
+      "path": "data/library/book5/raw/ch2.json",
+      "bytes": 91116,
+      "sha256": "9acee10d50213b8099a99c560da2f1fe9f4159133434e90b0811d3a5beec8ec5"
+    },
+    {
+      "path": "data/library/book5/raw/ch20.json",
+      "bytes": 91445,
+      "sha256": "c495aed660d85159c1f6bdb7dda7e6ba3704305fcdc144eeee5b4a5bab7e0210"
+    },
+    {
+      "path": "data/library/book5/raw/ch3.json",
+      "bytes": 198696,
+      "sha256": "9aed814cf88375b7d4149a228646aa324326f540a39e35daf4e3b6942895067e"
+    },
+    {
+      "path": "data/library/book5/raw/ch4.json",
+      "bytes": 56980,
+      "sha256": "6986e3f8acfe1ab6b85d3fefb0ca666d3b4276321d91952e5cd6e1c94c0d7697"
+    },
+    {
+      "path": "data/library/book5/raw/ch5.json",
+      "bytes": 41851,
+      "sha256": "a5b3f9848e9bfda86cc31b7c7e563ef7194114999dedf69e2a2ddc76a9a42847"
+    },
+    {
+      "path": "data/library/book5/raw/ch6.json",
+      "bytes": 16756,
+      "sha256": "74eedf20744026a68ad7689baa573531e00d49e775d43f0bc04736a430bccb10"
+    },
+    {
+      "path": "data/library/book5/raw/ch7.json",
+      "bytes": 65210,
+      "sha256": "09b1d2c77b7e60b6a101422419e4aaaaef9fa352eb2c6f07332a897484bb4541"
+    },
+    {
+      "path": "data/library/book5/raw/ch8.json",
+      "bytes": 29576,
+      "sha256": "a4a86939bb6ed4ef4326795381f4c8b960265c5facd353f92a73852be667504f"
+    },
+    {
+      "path": "data/library/book5/raw/ch9.json",
+      "bytes": 131898,
+      "sha256": "0b1208c6560c36b081677c2164b46122b6f547a2f1ef4e0f0852198e25af7f89"
+    },
+    {
+      "path": "data/library/book6-figures.json",
+      "bytes": 83555,
+      "sha256": "c8552419f184673c9281d7128d3868d7a05c0d06cde407376249fd3561e3db61"
+    },
+    {
+      "path": "data/library/book6-full.json",
+      "bytes": 998310,
+      "sha256": "121cc5e7bdac51a61721cd31c746c9bf53557014ad5a9a3bb681c53860a5a520"
+    },
+    {
+      "path": "data/library/book6-index.json",
+      "bytes": 30384,
+      "sha256": "2505a5dcb94a3fe2bd1dc31140068a2fbc611b7fb4595eeedd101fb371552e8f"
+    },
+    {
+      "path": "data/library/book6/ch1.sections.json",
+      "bytes": 62374,
+      "sha256": "29676ffd0f9384709b4b71650a922ec030571ea4c139228e25528a737d45405f"
+    },
+    {
+      "path": "data/library/book6/ch10.sections.json",
+      "bytes": 36607,
+      "sha256": "2fca8d38e781e3d6fb39e5004c6822453af3b65f557ff3571c074eb81f4a3320"
+    },
+    {
+      "path": "data/library/book6/ch2.sections.json",
+      "bytes": 107107,
+      "sha256": "22e15e7adcf515f8b63ca99e92ec7711fd7beddc6ba31348c00b5982a9d59c94"
+    },
+    {
+      "path": "data/library/book6/ch3.sections.json",
+      "bytes": 90130,
+      "sha256": "d6e31cc27503e54347bff8b75f384eca899c228b9e83bbdb10fe46f7ac3760e8"
+    },
+    {
+      "path": "data/library/book6/ch4.sections.json",
+      "bytes": 109775,
+      "sha256": "786188e51874d6922fce41e41f80298f103ac7315d8c0ca3610c23567e8e17a8"
+    },
+    {
+      "path": "data/library/book6/ch5.sections.json",
+      "bytes": 56227,
+      "sha256": "a51df8bac50b36185b5910629b3b38e0d72c56f6463d6dca5586e8084bc35374"
+    },
+    {
+      "path": "data/library/book6/ch6.sections.json",
+      "bytes": 72235,
+      "sha256": "7953dd4e3e94300c43ee6e3abc07b464d4b5b7fd2cd1301608134e527bdb5d69"
+    },
+    {
+      "path": "data/library/book6/ch7.sections.json",
+      "bytes": 46803,
+      "sha256": "c98226b9d53fcfceab1dfe5a5e0c0297e6984c381f6ac55285a19a57df620f69"
+    },
+    {
+      "path": "data/library/book6/ch8.sections.json",
+      "bytes": 34752,
+      "sha256": "ebed7a5ea80a8762cf0d20a61d2d16e05f6014aaa697628aa3257ff9a5c28c95"
+    },
+    {
+      "path": "data/library/book6/ch9.sections.json",
+      "bytes": 41638,
+      "sha256": "bdc55f525870b4cefe9c93ee506496fa6fbd21b89bc090da0d6f3954d74d8e8d"
+    },
+    {
+      "path": "data/library/book6/he/ch1.json",
+      "bytes": 68249,
+      "sha256": "78b9ae5d29c84d0e1d2eef15fbdffa396ec41befb94fa99aeaca4e6d75629b11"
+    },
+    {
+      "path": "data/library/book6/he/ch10.json",
+      "bytes": 19256,
+      "sha256": "a9b3e044a3d0d6d729f3030bbf261a0d399b95fe39cefe4fb29d5a0c028eacbb"
+    },
+    {
+      "path": "data/library/book6/he/ch2.json",
+      "bytes": 63387,
+      "sha256": "f39527c5f3a251e923dde89917064a09408b77385604b6c0cddf9fe0dfaf06f7"
+    },
+    {
+      "path": "data/library/book6/he/ch3.json",
+      "bytes": 42117,
+      "sha256": "added68d91a1c17baa34d116ed2e5f36fe550bf3f5d972894a1c3c1fae23904c"
+    },
+    {
+      "path": "data/library/book6/he/ch4.json",
+      "bytes": 45862,
+      "sha256": "7eb56999fa861585f93e2f093f77d39f38e4e5ec78d8e74f198ff8f94981c92f"
+    },
+    {
+      "path": "data/library/book6/he/ch5.json",
+      "bytes": 23664,
+      "sha256": "1fdbce827f4e9ea91263def8b126f758b66ad01856bafff0e2d60dd9b58cb309"
+    },
+    {
+      "path": "data/library/book6/he/ch6.json",
+      "bytes": 34394,
+      "sha256": "358c86917111d85804a3e7a133adffa8ef7598dfb52b87b50b6c29e1528efb6f"
+    },
+    {
+      "path": "data/library/book6/he/ch7.json",
+      "bytes": 19688,
+      "sha256": "9f599cee9e54c38895b7328b2479c59b595d99366e93f7e1be3e60131fddd4e3"
+    },
+    {
+      "path": "data/library/book6/he/ch8.json",
+      "bytes": 17655,
+      "sha256": "04a470777d8c082d8f1418a130480ccf7883d544aa505207dd9d62b248f4ce86"
+    },
+    {
+      "path": "data/library/book6/he/ch9.json",
+      "bytes": 17721,
+      "sha256": "0858de9f17e15bef628d20719e2e123ef92c26237839af0adc69942907086d5d"
+    },
+    {
+      "path": "data/library/book6/manifest.json",
+      "bytes": 1767,
+      "sha256": "8de793de6d14b1896d6e813daf6f6a348906fa7721b488471a44cde519d7e5ba"
+    },
+    {
+      "path": "data/library/book6/raw/ch1.json",
+      "bytes": 62165,
+      "sha256": "4d44b6009078a7b784c2328d7ba81d626c7bfde2c7c175ba4c403e8aca016771"
+    },
+    {
+      "path": "data/library/book6/raw/ch10.json",
+      "bytes": 36115,
+      "sha256": "fe4058d5a69eea500b316e12c3b25c7e4f810b800145b41bc6248fe7ec35a046"
+    },
+    {
+      "path": "data/library/book6/raw/ch2.json",
+      "bytes": 105872,
+      "sha256": "42f4a5182e51d8d5801ea705487c235aac3cf74933962b0a09b6ac1712e83e3b"
+    },
+    {
+      "path": "data/library/book6/raw/ch3.json",
+      "bytes": 89394,
+      "sha256": "e3f67afaf339699df86ea1ae03b2e67ac3f3a338817c3e92f2362047c6452622"
+    },
+    {
+      "path": "data/library/book6/raw/ch4.json",
+      "bytes": 109572,
+      "sha256": "dc31e1c60b92cb03568efec52133730b6d5ef2c775371b5db78ee2cf0c3dab79"
+    },
+    {
+      "path": "data/library/book6/raw/ch5.json",
+      "bytes": 56986,
+      "sha256": "aeb2b8c823d35629d0f709aa9427e115c7b23f2da5324f313d8edd3721bbb5f5"
+    },
+    {
+      "path": "data/library/book6/raw/ch6.json",
+      "bytes": 71689,
+      "sha256": "0ad7091c0b9ea4e09bf000fb6963abf5441e79032cb4fa517fdab99fb557b761"
+    },
+    {
+      "path": "data/library/book6/raw/ch7.json",
+      "bytes": 46341,
+      "sha256": "428a2608ad14ba05ca136261f6ddacc2dca7800707870bcbbe5d78c0561021ac"
+    },
+    {
+      "path": "data/library/book6/raw/ch8.json",
+      "bytes": 34650,
+      "sha256": "a195fadd55d27c1e9ad317641622c561d111af56214722c31d371b5d1c9815e9"
+    },
+    {
+      "path": "data/library/book6/raw/ch9.json",
+      "bytes": 41770,
+      "sha256": "60634de448e60701471ca04a36fa0fcadb58450db701b102bcb044953e1342e1"
+    },
+    {
+      "path": "data/library/book7-figures.json",
+      "bytes": 137,
+      "sha256": "059f50fbd92a792e896b3ed6eee5ac46052dc3de71990dbe7364b300bc261e10"
+    },
+    {
+      "path": "data/library/book7-full.json",
+      "bytes": 3860431,
+      "sha256": "4ad3fdbd3da40de41c61f0df28c7876bab0c35b0fb566c12c8a94d4e88106b3c"
+    },
+    {
+      "path": "data/library/book7-index.json",
+      "bytes": 591498,
+      "sha256": "4019cd43d3f2c4d182dc7906126e26a696972bb0b875c14c5708535a726d0e2a"
+    },
+    {
+      "path": "data/library/book7/ch1.sections.json",
+      "bytes": 818566,
+      "sha256": "83f729174b441c952aa4549950565ffb92e1b0362d32b7a3d0d9d4d98ef60a1a"
+    },
+    {
+      "path": "data/library/book7/ch10.sections.json",
+      "bytes": 26078,
+      "sha256": "e22206aea3d4a3d04317fc9967deb4db6bf5bf229efd2874072a937af00521ff"
+    },
+    {
+      "path": "data/library/book7/ch11.sections.json",
+      "bytes": 72484,
+      "sha256": "696aacff8d3c2b34dcd40c37f5b7b56e3978c7b1604f74e77792836c569a452d"
+    },
+    {
+      "path": "data/library/book7/ch12.sections.json",
+      "bytes": 66,
+      "sha256": "a12260a733923837beb857feeccc28ad97fea82934eac5242bfd5b1e4d741a27"
+    },
+    {
+      "path": "data/library/book7/ch2.sections.json",
+      "bytes": 174242,
+      "sha256": "5b393c70806ae2eef24b1ae88ea0426f61528c7bfd3d819d9a1f5e3de19f4d41"
+    },
+    {
+      "path": "data/library/book7/ch3.sections.json",
+      "bytes": 312102,
+      "sha256": "00f37e7061a61a1e3a5078b56e742cfa06c36ca3e1f7fe724fd7aefd115c14d7"
+    },
+    {
+      "path": "data/library/book7/ch4.sections.json",
+      "bytes": 108348,
+      "sha256": "664bd9a29cc475ee7c485258376ae4a8a1b429c5ab1daacae4f8cacb08b554e1"
+    },
+    {
+      "path": "data/library/book7/ch5.sections.json",
+      "bytes": 189387,
+      "sha256": "79ef7170f9136179448bb9008b0d3e21d298abf80f87f354f7ef8050ae603709"
+    },
+    {
+      "path": "data/library/book7/ch6.sections.json",
+      "bytes": 78272,
+      "sha256": "8fbf7e72ed644c7c530a77960768e26256b1fc17b3806159a433f8128ff8530b"
+    },
+    {
+      "path": "data/library/book7/ch7.sections.json",
+      "bytes": 353624,
+      "sha256": "39267e3bd6dff377f3915df63992486a45da77cc1dabcea79be2003a4fed706a"
+    },
+    {
+      "path": "data/library/book7/ch8.sections.json",
+      "bytes": 51014,
+      "sha256": "232ddc82a2ac31139ed88eef49454dce084740ec82edf745262f1ca3501d8224"
+    },
+    {
+      "path": "data/library/book7/ch9.sections.json",
+      "bytes": 26102,
+      "sha256": "e8e0fed3ddf6809125ff7727dbc19d3bda71b07a7611ee87087b8e08307ec315"
+    },
+    {
+      "path": "data/library/book7/he/ch1.json",
+      "bytes": 403846,
+      "sha256": "e164b7d5cdd6d7b12ed7b0322201508840cf6b48d360624afbe545fa195dcd2b"
+    },
+    {
+      "path": "data/library/book7/he/ch10.json",
+      "bytes": 26194,
+      "sha256": "4d980329769b62ac4b5f7b4a2eec9b70530ec55f65caa9c3ef219dd2a7ad7e65"
+    },
+    {
+      "path": "data/library/book7/he/ch11.json",
+      "bytes": 70022,
+      "sha256": "42911b5a2157137da90609526a7eedac6aefdfc3a7abc1cced1f0c119ffde192"
+    },
+    {
+      "path": "data/library/book7/he/ch2.json",
+      "bytes": 188885,
+      "sha256": "cf98db6e9b27e6715677ce9a5a20e8a528579e984afc6f9e90435d45c148e155"
+    },
+    {
+      "path": "data/library/book7/he/ch3.json",
+      "bytes": 314140,
+      "sha256": "734f77dd037a6b58b825de3d06562f6de6878162b46e9bdf9ece625e5b2e07be"
+    },
+    {
+      "path": "data/library/book7/he/ch4.json",
+      "bytes": 106460,
+      "sha256": "9314c69e7a34d357b59277f6e5cd80dfd07ba465917678f74766cce180836c41"
+    },
+    {
+      "path": "data/library/book7/he/ch5.json",
+      "bytes": 179643,
+      "sha256": "f45b5f1e6142fdd606079ff8cb313e6e2de81beac024e5be491918629c7e6760"
+    },
+    {
+      "path": "data/library/book7/he/ch6.json",
+      "bytes": 69365,
+      "sha256": "ca371edf34ec9b9c977d66d09a7147c3cf0d5ef26ec32e016bec29527b84b299"
+    },
+    {
+      "path": "data/library/book7/he/ch7.json",
+      "bytes": 314733,
+      "sha256": "cd3230fed139d22a9716e55692741cf00fee2934d0a1bfa4725164fbc1d25590"
+    },
+    {
+      "path": "data/library/book7/he/ch8.json",
+      "bytes": 48981,
+      "sha256": "5216c9d7e43dfe05563f96bb3bcf1a8e7853f5256483240c022313fae35100c1"
+    },
+    {
+      "path": "data/library/book7/he/ch9.json",
+      "bytes": 26026,
+      "sha256": "db94f69860ce9bdd45c245c00541b04f27a8ac1958bb2b0b2f217b6e8fbb7649"
+    },
+    {
+      "path": "data/library/book7/manifest.json",
+      "bytes": 2065,
+      "sha256": "4d8bd867d5abde2a14f7588ab2376c46f60ddfae4ebcb94166f153b3980314a6"
+    },
+    {
+      "path": "data/library/book7/raw/ch1.json",
+      "bytes": 727104,
+      "sha256": "4c4bd47246b2f5c7a671f283a2924ff965f45603cd08e88b5d74453d81e41955"
+    },
+    {
+      "path": "data/library/book7/raw/ch10.json",
+      "bytes": 23208,
+      "sha256": "01b0e8d81f4ae81ad58bab629c8f4eab8214cd7f6a6c80ad47b80d07a6798aba"
+    },
+    {
+      "path": "data/library/book7/raw/ch11.json",
+      "bytes": 61720,
+      "sha256": "aa084626307fe7d9595da73624a1f27ffd1996f286fce5df600f22fe5bdbae02"
+    },
+    {
+      "path": "data/library/book7/raw/ch12.json",
+      "bytes": 9328,
+      "sha256": "e4a7263088e47371784991ab76ea268d6f1ff7d7b230bbe3ef508beb83ede2c7"
+    },
+    {
+      "path": "data/library/book7/raw/ch2.json",
+      "bytes": 155076,
+      "sha256": "fbdb2f11f37eff92aae0173b6df8c81c27557bc01d3ed31c0033f988f619d712"
+    },
+    {
+      "path": "data/library/book7/raw/ch3.json",
+      "bytes": 266362,
+      "sha256": "fc06901bfc7578ea48e4364c0376d18a2add21beb452bd55013044c9e03c416b"
+    },
+    {
+      "path": "data/library/book7/raw/ch4.json",
+      "bytes": 93282,
+      "sha256": "6942309f6328059ed83957e03c9eeab6e2e07387868471c7471a1754790de0f4"
+    },
+    {
+      "path": "data/library/book7/raw/ch5.json",
+      "bytes": 170161,
+      "sha256": "17dcf8d2942e6bc05dc922e8f5fa97d4e95c658406bb01260d88a98cebacb8ca"
+    },
+    {
+      "path": "data/library/book7/raw/ch6.json",
+      "bytes": 72004,
+      "sha256": "b9805924467ee7ac491d60c80259d7d6e0cf10d236c50d798b49998fe97ff95b"
+    },
+    {
+      "path": "data/library/book7/raw/ch7.json",
+      "bytes": 316772,
+      "sha256": "46d730fe9de364cccaff6662f69fa6a55f3df6b175a030806485edc467b57f4f"
+    },
+    {
+      "path": "data/library/book7/raw/ch8.json",
+      "bytes": 46425,
+      "sha256": "96e22071226da200212d4b1db935e4a9aaa5a4598b5858820f8900f1b6a0e4f9"
+    },
+    {
+      "path": "data/library/book7/raw/ch9.json",
+      "bytes": 23188,
+      "sha256": "8e99e5509f851e7d5db83ab95bba9b5928a58178c2ed606d919e8216875ba9d1"
+    },
+    {
+      "path": "data/library/book8-full.json",
+      "bytes": 1344913,
+      "sha256": "cd067d0e9a715dfcf0cc6db92bdb1b95dc000f0760f1848300bc99b4bbf0b289"
+    },
+    {
+      "path": "data/library/book8-index.json",
+      "bytes": 172764,
+      "sha256": "33ec87ef592542dea39388ef308e1b220fd1516e3720481c20931691d8ba34a7"
+    },
+    {
+      "path": "data/library/book8/manifest.json",
+      "bytes": 1691,
+      "sha256": "3d3ffd8f80e3382c500a2186ac257221262df9cfacc6ad009601cf30df947f8b"
+    },
+    {
+      "path": "data/library/book9-full.json",
+      "bytes": 1841317,
+      "sha256": "570cd46e7bc93278583b0090dfcd3cf8cd8c236e8531e19c81461bfc98a17fac"
+    },
+    {
+      "path": "data/library/book9-index.json",
+      "bytes": 102771,
+      "sha256": "8a3b1eeba79ccdd760a375c07bc4c3c864da920b00aeebee0bb82f19a499c99f"
+    },
+    {
+      "path": "data/library/book9/ch1.sections.json",
+      "bytes": 47616,
+      "sha256": "f1e99f0c25231421d937b380c4629c16b7ac8640da65da35d86bd5f3f7814dab"
+    },
+    {
+      "path": "data/library/book9/ch10.sections.json",
+      "bytes": 104449,
+      "sha256": "add0fb55d8d54ad096f5553ea0c283c29253ea0fd05263933184538b210dee1c"
+    },
+    {
+      "path": "data/library/book9/ch2.sections.json",
+      "bytes": 20017,
+      "sha256": "28205d14bcaaedd8911a68fd70199f23f1a11f7b9a004a0f8515ee4281ae7001"
+    },
+    {
+      "path": "data/library/book9/ch3.sections.json",
+      "bytes": 127799,
+      "sha256": "2afe6a87efe1ec195aaed525128505fa069d92660f37ba4c088a63757f5e4492"
+    },
+    {
+      "path": "data/library/book9/ch4.sections.json",
+      "bytes": 136547,
+      "sha256": "d74eecb87d67a1066fad45c5eb0d96b2d6b5cdae578ac8a8f12e64e56425a08b"
+    },
+    {
+      "path": "data/library/book9/ch5.sections.json",
+      "bytes": 91389,
+      "sha256": "889f690e8d13f637cb2986a922b17078539965e10111fb4b11cdc45fc3bacd05"
+    },
+    {
+      "path": "data/library/book9/ch6.sections.json",
+      "bytes": 108861,
+      "sha256": "97905081a1a678e593ce92f742efc2f2014a2becb8e5d297fc12dcc222256ec5"
+    },
+    {
+      "path": "data/library/book9/ch7.sections.json",
+      "bytes": 96912,
+      "sha256": "83cb7295de64daae0a4e942e4a818712cde9bfe7407c9e42510a56e6b86a2907"
+    },
+    {
+      "path": "data/library/book9/ch8.sections.json",
+      "bytes": 87847,
+      "sha256": "3ebee64eca5360ccbba3682342bc2a62c7404059db11067335920218585a4aa0"
+    },
+    {
+      "path": "data/library/book9/ch9.sections.json",
+      "bytes": 94169,
+      "sha256": "f1d6460a3a4ab9d31d861a22bc4e770a1c2961a6f9806f8bf8d2a48f8889f1d8"
+    },
+    {
+      "path": "data/library/book9/he/ch1.json",
+      "bytes": 47584,
+      "sha256": "8a92dc7ded0cbdcab02e77df613d728f043b6b1585d69b98dc2c7c9fb7d8ad1a"
+    },
+    {
+      "path": "data/library/book9/he/ch10.json",
+      "bytes": 110170,
+      "sha256": "31cd9c7fc173e78bae026e0f7e7632521e3bd9eb9191178b8c2492a5ced3d3eb"
+    },
+    {
+      "path": "data/library/book9/he/ch2.json",
+      "bytes": 26711,
+      "sha256": "e1e536943510b759ae5fe2e953db90d3239039eebdb3baa6084eaf74e08e495c"
+    },
+    {
+      "path": "data/library/book9/he/ch3.json",
+      "bytes": 112319,
+      "sha256": "26b00bc6cdaf89769cdeec8ccb2d82cf999311e8a3f2962ad7396e6fd6d1e2d4"
+    },
+    {
+      "path": "data/library/book9/he/ch4.json",
+      "bytes": 190764,
+      "sha256": "93781ff156c045251613870b6c11c78cdedee89eb71d4e26d40f239020a45e8b"
+    },
+    {
+      "path": "data/library/book9/he/ch5.json",
+      "bytes": 85827,
+      "sha256": "7012b202c48a20537122cbc32dd9a72a55c565fc68966643af110bc1b4d80c63"
+    },
+    {
+      "path": "data/library/book9/he/ch6.json",
+      "bytes": 164417,
+      "sha256": "1b2899977b101683dcd4fcbfade9c76c7ad97c1d4be0927bc4b26a0bb0553a24"
+    },
+    {
+      "path": "data/library/book9/he/ch7.json",
+      "bytes": 81601,
+      "sha256": "84944a23d866fffb1ceefe753da0e3f8b3a61e1eaa7cdf8bf7a0a96aeecf1718"
+    },
+    {
+      "path": "data/library/book9/he/ch8.json",
+      "bytes": 58388,
+      "sha256": "1d849a10fd3971bab36f576aea865d568c648eccbae0d794569b3d0e85f791de"
+    },
+    {
+      "path": "data/library/book9/he/ch9.json",
+      "bytes": 63943,
+      "sha256": "515d7189b62d627ce01ff14915df43202fd786f493682da76001d36ab5ba1b72"
+    },
+    {
+      "path": "data/library/book9/manifest.json",
+      "bytes": 1770,
+      "sha256": "8d4c5325bcbe0ed4145c095ece6ee21cd3b4a78e8c2a596f58bd37065ef1acc5"
+    },
+    {
+      "path": "data/library/book9/raw/ch1.json",
+      "bytes": 48033,
+      "sha256": "00f56b77244da546f9f914604cb02e28c2329284d576593554d8faa3bd82fc6e"
+    },
+    {
+      "path": "data/library/book9/raw/ch10.json",
+      "bytes": 103202,
+      "sha256": "73abedaa0cc8837f5593e7fa014aea6de48699a484b1728566a77b05d29d3241"
+    },
+    {
+      "path": "data/library/book9/raw/ch2.json",
+      "bytes": 19972,
+      "sha256": "2a36fa8ae8387b5c4f037b216ddd5fa113e13022083d0799e6dc4703c0a84179"
+    },
+    {
+      "path": "data/library/book9/raw/ch3.json",
+      "bytes": 125082,
+      "sha256": "dd2051757e9fddffab99cfbad1e6b216153f92da1660626fc6b859992ce103b6"
+    },
+    {
+      "path": "data/library/book9/raw/ch4.json",
+      "bytes": 131729,
+      "sha256": "2c0d7fc48984e06511817f38f721e7b053f42667ef58f95a9e58f6b5b1df3a1d"
+    },
+    {
+      "path": "data/library/book9/raw/ch5.json",
+      "bytes": 90991,
+      "sha256": "6ea85abd21264091628ba0e490cab8549f3cc32888bf1ca83c1b1ee98ccdaf62"
+    },
+    {
+      "path": "data/library/book9/raw/ch6.json",
+      "bytes": 105274,
+      "sha256": "a79eb24d35a93cbd4c945b53451b0371da9770618d25b54085faafbdee1b759f"
+    },
+    {
+      "path": "data/library/book9/raw/ch7.json",
+      "bytes": 97303,
+      "sha256": "5b3b3991614984cddb24715ae06b2fc9d47cbefc539a004dd40ffc98cec943c3"
+    },
+    {
+      "path": "data/library/book9/raw/ch8.json",
+      "bytes": 87371,
+      "sha256": "cbd97f78a32728d66786f1f43f5dc202699c0a86d42d52f202376c99a70ce253"
+    },
+    {
+      "path": "data/library/book9/raw/ch9.json",
+      "bytes": 94107,
+      "sha256": "339f6cdd80832fecd667226bf9d099dd7275ae4b0b1b6ee7f3056f95d9815f60"
+    },
+    {
+      "path": "data/library/fiori-apps.json",
+      "bytes": 102557,
+      "sha256": "1dc93fd44be516b78b2a44f2e25ae1399e6668fefb3550df9f7c94695b3ee586"
+    },
+    {
+      "path": "data/library/foundations-titles.json",
+      "bytes": 2,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "path": "data/library/foundations-toc.json",
+      "bytes": 2,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "path": "data/library/mm-textbook/ch01.ts",
+      "bytes": 84704,
+      "sha256": "8d040248a9cd2c4ec9951a1cebc56ceec6d53d098f5ef19e8891766375092bed"
+    },
+    {
+      "path": "data/library/mm-textbook/ch02.ts",
+      "bytes": 101265,
+      "sha256": "fcdf16f81a2c82cab7837cbe7f544ca0f0db593e42232b5fe3b6b897d4610ded"
+    },
+    {
+      "path": "data/library/mm-textbook/ch03.ts",
+      "bytes": 67825,
+      "sha256": "71e489e9cd2460bf795413261310b0e06a3210f2cafdce25ceee654fd73808a7"
+    },
+    {
+      "path": "data/library/mm-textbook/ch04.ts",
+      "bytes": 85960,
+      "sha256": "396a94bbc4eb90316c63633b3424c25c289cd22f6aebf402784cecbf82d8e956"
+    },
+    {
+      "path": "data/library/mm-textbook/ch05.ts",
+      "bytes": 103774,
+      "sha256": "51c2df042801b37d742122368de1045cc65bc4692846b57ea2737b43b95639f7"
+    },
+    {
+      "path": "data/library/mm-textbook/ch06.ts",
+      "bytes": 180299,
+      "sha256": "cf9ead92bdff674a3d15c12b0b9ab1cbe1ff0208e701c67424aab0d8035a55f7"
+    },
+    {
+      "path": "data/library/mm-textbook/ch07.ts",
+      "bytes": 133995,
+      "sha256": "31713f9eed21c1275330794e74c5eb1a4f698c57baa0ddf51280a65b886fedbd"
+    },
+    {
+      "path": "data/library/mm-textbook/ch08.ts",
+      "bytes": 119154,
+      "sha256": "e1ee01b0e07d3ce6c4e26c24688d923ed281d243b9de6c11fe121aa174a66b12"
+    },
+    {
+      "path": "data/library/mm-textbook/ch09.ts",
+      "bytes": 113393,
+      "sha256": "20c43a2fa409ecacb203db8209618fe4d2cf2b4cb94f748b7acdfb103f0e1b6e"
+    },
+    {
+      "path": "data/library/mm-textbook/ch10.ts",
+      "bytes": 127972,
+      "sha256": "f5dc2da194e4c26bbb274599c7f9bc906dc7ff5bc91c003335a780c0da9139c7"
+    },
+    {
+      "path": "data/library/mm-textbook/ch11.ts",
+      "bytes": 102482,
+      "sha256": "762e398ad557739855c6242cef4de2426b46c555df66dfc8ec83ca260344d85c"
+    },
+    {
+      "path": "data/library/mm-textbook/ch12.ts",
+      "bytes": 132192,
+      "sha256": "1df6f13781293c8e05140e1d71e63bb250d3abe0c7c837a944d3d64abad41e40"
+    },
+    {
+      "path": "data/library/mm-textbook/ch13.ts",
+      "bytes": 97147,
+      "sha256": "19dbe333521715a539a1381151f1a911b84f83083630a7698ce71a4a7600443e"
+    },
+    {
+      "path": "data/library/mm-textbook/ch14.ts",
+      "bytes": 84065,
+      "sha256": "604bc7224784beabf301afc0baaf13dafee6ed4e36796a99bed6bc10be8f6b54"
+    },
+    {
+      "path": "data/library/mm-textbook/ch15.ts",
+      "bytes": 108312,
+      "sha256": "52116132d0525fc256b39b6217ef4ec665319dbfc0e757dd45c12dad87b83bcc"
+    },
+    {
+      "path": "data/library/mm-textbook/ch16.ts",
+      "bytes": 84132,
+      "sha256": "376863504dcf10de5463a42b6ca9a8ebef44409d4b7d782eb0aac4247d37165d"
+    },
+    {
+      "path": "data/library/mm-textbook/ch17.ts",
+      "bytes": 64110,
+      "sha256": "e9edbca41badf98c416b135871efc1d4bf0f35991a8d3525c5145706843fcce2"
+    },
+    {
+      "path": "data/library/mm-textbook/ch18.ts",
+      "bytes": 23966,
+      "sha256": "987fe14b3bb33f4bb0ef2047f96834f165ad54380304781dd8f853f5fe28d4ca"
+    },
+    {
+      "path": "data/library/mm-textbook/index.ts",
+      "bytes": 1456,
+      "sha256": "b1f8b2a208fbde16b3b67a84754715c89fce723f41b2d84f66d0269ba113406e"
+    },
+    {
+      "path": "data/library/mm-textbook/types.ts",
+      "bytes": 38,
+      "sha256": "60d7519c203ef347ab2a00001c1fc263ea841754d5d5f0727f79e09553ec52c4"
+    },
+    {
+      "path": "data/library/mm-titles.json",
+      "bytes": 606,
+      "sha256": "ff24530a5ac4d61dde9bb9b47cead86472f195b1454bc9ab7013fb8751129b35"
+    },
+    {
+      "path": "data/library/mm-toc.json",
+      "bytes": 20574,
+      "sha256": "78eba29061e451cb7d0c3757d1266aa08c23d9a3b870135945eadd2ca6cd5da8"
+    },
+    {
+      "path": "data/library/pm-textbook/ch01.ts",
+      "bytes": 70474,
+      "sha256": "d60393631f370bbf172d94f44912618e3207a65877e9d04bcd3c8c732995205f"
+    },
+    {
+      "path": "data/library/pm-textbook/ch02.ts",
+      "bytes": 60190,
+      "sha256": "63949bbe2a90463dbecc5e866ba768352eb26b70fd9849a0b16fbb42662f0b44"
+    },
+    {
+      "path": "data/library/pm-textbook/ch03.ts",
+      "bytes": 108011,
+      "sha256": "a13661860b868b5f84d360b15bc13e7f11958c4fb636c1932e08734708ca1148"
+    },
+    {
+      "path": "data/library/pm-textbook/ch04.ts",
+      "bytes": 96686,
+      "sha256": "3f30151b4d2076780054d0fdc2193d7e3a3dc5e536c4c62f583a5212defeadd0"
+    },
+    {
+      "path": "data/library/pm-textbook/ch05.ts",
+      "bytes": 142966,
+      "sha256": "178c29ddab94a881d73afb534f2f5a82e41c16e76507d9152fc67c192a3b8786"
+    },
+    {
+      "path": "data/library/pm-textbook/ch06.ts",
+      "bytes": 80861,
+      "sha256": "78c887c709885ca4995c4247305e73313708c3e98adf6eb645209e4a99f46b48"
+    },
+    {
+      "path": "data/library/pm-textbook/ch07.ts",
+      "bytes": 108171,
+      "sha256": "342752e28eab19c9ed84c2fc845a99ff92916ad31dcd4b159049e4bdbbdb74d0"
+    },
+    {
+      "path": "data/library/pm-textbook/ch08.ts",
+      "bytes": 72219,
+      "sha256": "4ca17e0d9b40510bdc9e29b76909c3ab23dc9c79ac0ea62d79eb27628dfc1704"
+    },
+    {
+      "path": "data/library/pm-textbook/ch09.ts",
+      "bytes": 117272,
+      "sha256": "d85aac186c5c2071cd09a4b9691eebb5a183c3718f50714c84af4668eef0df86"
+    },
+    {
+      "path": "data/library/pm-textbook/index.ts",
+      "bytes": 1051,
+      "sha256": "91cc429befc4e43a2da4c1f406cd7eff7f000637a06227840bb6dbc36a359afe"
+    },
+    {
+      "path": "data/library/pm-textbook/types.ts",
+      "bytes": 106,
+      "sha256": "6a817fd32104d9c44d99459b92486eaf8dfdc9376dd7a536e2e2645db3bb1ffa"
+    },
+    {
+      "path": "data/library/pm-toc.json",
+      "bytes": 7093,
+      "sha256": "2025fd9401fece2d59b88445df5cb87541123346c8d05830f90e0fc6f8f342e1"
+    },
+    {
+      "path": "data/library/pmbug-titles.json",
+      "bytes": 328,
+      "sha256": "54e98303fe5e62ce9e9cd28c785ee866d06b0d164ffd4a8fefd9630a1c51769c"
+    },
+    {
+      "path": "data/library/pmbug-toc.json",
+      "bytes": 13775,
+      "sha256": "e2928f94326c2a3fdec08241e051a5b68c1fb4949f592a8213c9e73c78f39b2b"
+    },
+    {
+      "path": "data/library/pmu-textbook/ch01.ts",
+      "bytes": 68806,
+      "sha256": "9e21626a97d07e6b98dd334470adbc85d0de16aa22ba50d9ec89f5997ab4bdd9"
+    },
+    {
+      "path": "data/library/pmu-textbook/ch02.ts",
+      "bytes": 46302,
+      "sha256": "4b5c75b1a252f30f90fe4468b5106618f8a6404a1069bdc206daf287c59c2b53"
+    },
+    {
+      "path": "data/library/pmu-textbook/ch03.ts",
+      "bytes": 147441,
+      "sha256": "2d4822d218e986f5b14e8ffbb1a0e82bd1adbb583b93efd8b9dd977f2cd05013"
+    },
+    {
+      "path": "data/library/pmu-textbook/ch04.ts",
+      "bytes": 198509,
+      "sha256": "b7c5fbd63ca1c3ceb9e007f6dc7b0aff1c85cb6223e6e7d9f9f4c2572b76e7e5"
+    },
+    {
+      "path": "data/library/pmu-textbook/ch05.ts",
+      "bytes": 123867,
+      "sha256": "b9bfb74edbdfdb6f94b4cdd2af94a78457f192b069668e6aaae0899f319b570f"
+    },
+    {
+      "path": "data/library/pmu-textbook/ch06.ts",
+      "bytes": 184601,
+      "sha256": "027cc120ca3f183a92bef179c82a8f2ade7202b49a441cadef59963e5b92d1e3"
+    },
+    {
+      "path": "data/library/pmu-textbook/ch07.ts",
+      "bytes": 109512,
+      "sha256": "b98e2e629d7f13342daca9d87247c4104afeb559eb40d4f06dd52849d48609a4"
+    },
+    {
+      "path": "data/library/pmu-textbook/ch08.ts",
+      "bytes": 92193,
+      "sha256": "335e7d6dd12cf13c863d3796c914acb0d2050e76bf5cf0e11e27136d026ac7dd"
+    },
+    {
+      "path": "data/library/pmu-textbook/ch09.ts",
+      "bytes": 80349,
+      "sha256": "f117f11ec4fe4dcc5a2a047f85bd3e7fb2d8f1553c1310f5919df8cde15f9708"
+    },
+    {
+      "path": "data/library/pmu-textbook/ch10.ts",
+      "bytes": 152914,
+      "sha256": "03a5c16114190fc4a69afcb1994b70d082e0f1f4ea79e9aa3d073e4f013c5c5a"
+    },
+    {
+      "path": "data/library/pmu-textbook/index.ts",
+      "bytes": 1110,
+      "sha256": "459c7f57b2579cd8c275ac2ebd83b069176a932f36c59cd373b527e0e0c79563"
+    },
+    {
+      "path": "data/library/pmu-textbook/types.ts",
+      "bytes": 38,
+      "sha256": "60d7519c203ef347ab2a00001c1fc263ea841754d5d5f0727f79e09553ec52c4"
+    },
+    {
+      "path": "data/library/pp-knowledge.ts",
+      "bytes": 24182,
+      "sha256": "6e4258ad11d403f2be42a26d23bd2b346b016b1190aaad6a43ce259443fb99da"
+    },
+    {
+      "path": "data/library/pp-objects.json",
+      "bytes": 7329,
+      "sha256": "9729384c140a43c8aa0f78a15d1ea5aad8e1f165ee822c4ef7660babdadaaeea"
+    },
+    {
+      "path": "data/library/pp-quality.ts",
+      "bytes": 30284,
+      "sha256": "e9a34ad211db6e08587374d9c40104300b8c436af7174e4b9ffbdbf1c734cda0"
+    },
+    {
+      "path": "data/library/pp-textbook/ch01.ts",
+      "bytes": 49398,
+      "sha256": "7c2868be1f82c6da9a71355915ab4c6d5b9aa75459b64541260acec934af6781"
+    },
+    {
+      "path": "data/library/pp-textbook/ch02.ts",
+      "bytes": 55879,
+      "sha256": "41591e7f705b0610f76df340f9fddd3a86eea59bb97c575ba6a6dc3a0f16bd6a"
+    },
+    {
+      "path": "data/library/pp-textbook/ch03.ts",
+      "bytes": 105410,
+      "sha256": "3c228ba911952ddd5b322d33d5fcde7aa458081a0688bc3aa0ae6d7c50545ebf"
+    },
+    {
+      "path": "data/library/pp-textbook/ch04.ts",
+      "bytes": 103645,
+      "sha256": "5495cf52ba2bfaedd99021b70811ac73c2f42241e4623ccca2fb31096739347c"
+    },
+    {
+      "path": "data/library/pp-textbook/ch05.ts",
+      "bytes": 113757,
+      "sha256": "04346b4e09165fc4c2d757b46850107a94d628729cb1641c51bbea20e9e1277a"
+    },
+    {
+      "path": "data/library/pp-textbook/ch06.ts",
+      "bytes": 112331,
+      "sha256": "7287c246c52a1b7952c7b9c631fe886140d575f3ef6ca9f4bb2348a6f8a4ba03"
+    },
+    {
+      "path": "data/library/pp-textbook/ch07.ts",
+      "bytes": 105152,
+      "sha256": "28ec9db430639d6727afb95ed8368d755bb91d075408a502779c4c7f72b8d6c9"
+    },
+    {
+      "path": "data/library/pp-textbook/ch08.ts",
+      "bytes": 106805,
+      "sha256": "eb416f0ed911aec9d5ce58414db4cde0a21d0ac6752049ade1339afc284cd839"
+    },
+    {
+      "path": "data/library/pp-textbook/ch09.ts",
+      "bytes": 103857,
+      "sha256": "195bdbca334d6ac03a5b272183d35fdd6ce8956bf5e16d526c717c7d3d9858e7"
+    },
+    {
+      "path": "data/library/pp-textbook/ch10.ts",
+      "bytes": 120572,
+      "sha256": "5a2ebdd6c11219bf818b78de0ba8f6d0b2e62935fc87317c77a65275e5b77e1e"
+    },
+    {
+      "path": "data/library/pp-textbook/ch11.ts",
+      "bytes": 119286,
+      "sha256": "cc27d50c64da6d410537be9581b6a8bb3d5c5f6789252b5cde6e9e71827f42bf"
+    },
+    {
+      "path": "data/library/pp-textbook/ch12.ts",
+      "bytes": 108512,
+      "sha256": "07d755dc1788a7ff9da85ff3f05ce21fd07a340a195f7799bae22b3a698e893d"
+    },
+    {
+      "path": "data/library/pp-textbook/ch13.ts",
+      "bytes": 116562,
+      "sha256": "5026e3991d9af19450c0bd2d6e4224544e3df83acdbe00e19d20c52fcf277cc3"
+    },
+    {
+      "path": "data/library/pp-textbook/ch14.ts",
+      "bytes": 105781,
+      "sha256": "1b8f7e2eab830e1100751329e6cf0b3a3404745ee89b8d74258aee30ded00c93"
+    },
+    {
+      "path": "data/library/pp-textbook/ch15.ts",
+      "bytes": 91521,
+      "sha256": "c5678a75af25101fc2c79c8d159798d8c624da6bd20a14f2e18d6dd5400ea841"
+    },
+    {
+      "path": "data/library/pp-textbook/index.ts",
+      "bytes": 1344,
+      "sha256": "48ee7aae517346391a4461c6a188915d25b6589a22ebaf289ee1a9626771fc3f"
+    },
+    {
+      "path": "data/library/pp-textbook/types.ts",
+      "bytes": 2428,
+      "sha256": "674259dded6646f1ece10bdf5c17384c66ca2b96675197f3b2936b062de4fc16"
+    },
+    {
+      "path": "data/library/pp-toc.json",
+      "bytes": 33497,
+      "sha256": "752d08fbe02f40bddea7889d310048d4b12ec1b7e041d3fdfac8672737af89e0"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch01.ts",
+      "bytes": 58527,
+      "sha256": "0e5e1b4387e3c39ae2c12984dac99e300fc25405be126ce75e7bf324fde8c329"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch02.ts",
+      "bytes": 102818,
+      "sha256": "8bd2ceb7d0afaa1bd46d5c51c3902101b4964f72e9a6b45e2585a342553cb6e0"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch03.ts",
+      "bytes": 112606,
+      "sha256": "31473314147345828ea056b9331bd52b6c5b45e04f537bb223bfada8ad7166a1"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch04.ts",
+      "bytes": 94456,
+      "sha256": "c423e29cbb39af6abca37959541663b1c8fa4f1f88c300610560425cae64c069"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch05.ts",
+      "bytes": 175734,
+      "sha256": "bf7bcfaebc4ac7b82265428584260ec32beb49714c90cf33e7a583bebfede615"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch06.ts",
+      "bytes": 122341,
+      "sha256": "d16612e570749ee340134e50619bd465c3fe55c8e35c970d66233485181cde83"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch07.ts",
+      "bytes": 56173,
+      "sha256": "c6916f996a7fa3dffcd40e640ae3d746e4187437717f63cbdcab932b75570687"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch08.ts",
+      "bytes": 108281,
+      "sha256": "bd289367e441b3bd756a3a24a598b815392350bf3b6c8d5620c41f7f73fbc178"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch09.ts",
+      "bytes": 60235,
+      "sha256": "7f965a40ab50abd4f703d004360a2ddfddf7d985269021a73d7d09f3f95db0b9"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch10.ts",
+      "bytes": 83501,
+      "sha256": "cd1d8fb4202441deb4d629a58984bc3b19478c2ae72a88ff1f467e5d5f30a1aa"
+    },
+    {
+      "path": "data/library/ppds-textbook/ch11.ts",
+      "bytes": 42679,
+      "sha256": "2cbaed5240f4bc57516a602b7ae9635d03e0896edf5fe37d4a7baf42d8a5602d"
+    },
+    {
+      "path": "data/library/ppds-textbook/index.ts",
+      "bytes": 1150,
+      "sha256": "73c1329dd663adf6573859dd567246868b10fddadc0719b3437d579a4729258c"
+    },
+    {
+      "path": "data/library/ppds-textbook/types.ts",
+      "bytes": 38,
+      "sha256": "60d7519c203ef347ab2a00001c1fc263ea841754d5d5f0727f79e09553ec52c4"
+    },
+    {
+      "path": "data/library/ppds-titles.json",
+      "bytes": 353,
+      "sha256": "582050ce940e16c227c5668e735f21717ca5e7a29372a1d5ebe8f8a3aa7042ba"
+    },
+    {
+      "path": "data/library/ppds-toc.json",
+      "bytes": 10176,
+      "sha256": "834affcf47fd38cdabd57799f940f216b5299953fe3c3ba7c2ea8226ed4b0ff9"
+    },
+    {
+      "path": "data/library/qm-textbook/ch01.ts",
+      "bytes": 95321,
+      "sha256": "c02bdebde6f31df824b45deee0cd76959fbeb84ebc5354f819b083d929aa9691"
+    },
+    {
+      "path": "data/library/qm-textbook/ch02.ts",
+      "bytes": 140403,
+      "sha256": "1b978620bb864172a0ee58c637eb1fa673fc44689b219ee4e23002775d114b73"
+    },
+    {
+      "path": "data/library/qm-textbook/ch03.ts",
+      "bytes": 113199,
+      "sha256": "1759bd3a934e028f4e4c7f6975ba1012a2d94187adb3f4f2ebef0b0f5746f21b"
+    },
+    {
+      "path": "data/library/qm-textbook/ch04.ts",
+      "bytes": 90671,
+      "sha256": "783f1b8aed86bedc11fa2751725afbb8fc53aee557a9616c929584d077c43ed2"
+    },
+    {
+      "path": "data/library/qm-textbook/ch05.ts",
+      "bytes": 66898,
+      "sha256": "f00d1e61d192a950214ee91fd014bdeca84d6244910834de4ded692dff3950af"
+    },
+    {
+      "path": "data/library/qm-textbook/ch06.ts",
+      "bytes": 52869,
+      "sha256": "15a1e24465eb55abbee131ff99ce12632670bdb9f11f3623662a3965c9320cfb"
+    },
+    {
+      "path": "data/library/qm-textbook/ch07.ts",
+      "bytes": 128201,
+      "sha256": "e25bf928ff08f51615513a5021a8349cf7ce53fc0ed63257104436aa9bc5640c"
+    },
+    {
+      "path": "data/library/qm-textbook/ch08.ts",
+      "bytes": 79159,
+      "sha256": "4f61108398363ff9101e1bd6c3a43b715669e58466c10ac45283e76504258b98"
+    },
+    {
+      "path": "data/library/qm-textbook/ch09.ts",
+      "bytes": 156192,
+      "sha256": "bc43d89fbc668892e335a5bae8f93f4d54f2befbe71e8a79bb45de280339af6a"
+    },
+    {
+      "path": "data/library/qm-textbook/ch10.ts",
+      "bytes": 104155,
+      "sha256": "d1fa43c880d23fe629f3e01c7ce7829b0c6a32bc9d821c1900233f97eb61830a"
+    },
+    {
+      "path": "data/library/qm-textbook/ch11.ts",
+      "bytes": 64071,
+      "sha256": "abab39c690804fbf01e8d4039771a96f8de1af1db195e1a5371f8edb286c6b06"
+    },
+    {
+      "path": "data/library/qm-textbook/ch12.ts",
+      "bytes": 140582,
+      "sha256": "f322790cdccbcf20d5c6408d18854a66970e14b882c8a9d4b4d17b393c4508be"
+    },
+    {
+      "path": "data/library/qm-textbook/ch13.ts",
+      "bytes": 71864,
+      "sha256": "cc6f072bb358e01678c75e7f5a088184ca8a20e1e09f2f724ec125995078cc46"
+    },
+    {
+      "path": "data/library/qm-textbook/ch14.ts",
+      "bytes": 99856,
+      "sha256": "dc7e8bca4cf1105c86cb154afe495cdd40b682eb5ed24612ca2b5a97b494e7f9"
+    },
+    {
+      "path": "data/library/qm-textbook/ch15.ts",
+      "bytes": 130534,
+      "sha256": "936b1326eb2995891f260d8c77f01919e2bd5fd50386fb5eb64c0bee85c1d5d4"
+    },
+    {
+      "path": "data/library/qm-textbook/ch16.ts",
+      "bytes": 135404,
+      "sha256": "ea4cc84e78bb6e544668e4fb0345efaf5059b47bc84d06bc473e1fafaeab1a3b"
+    },
+    {
+      "path": "data/library/qm-textbook/ch17.ts",
+      "bytes": 56309,
+      "sha256": "1c18be740199efc55c6418c9174aba3a22b7264f0ef20b2152561eb52d8a370c"
+    },
+    {
+      "path": "data/library/qm-textbook/ch18.ts",
+      "bytes": 164953,
+      "sha256": "c7c77f7dad4ccd6cd90b2156367106c25a35b235dc6602c6e4f25a266c83070d"
+    },
+    {
+      "path": "data/library/qm-textbook/ch19.ts",
+      "bytes": 81899,
+      "sha256": "acf480e856c003126df1a5df947e09b2167f9f588a90723742dd5467da9d7099"
+    },
+    {
+      "path": "data/library/qm-textbook/ch20.ts",
+      "bytes": 119758,
+      "sha256": "37b3583b5b67fdce3b660e4cc367f92932b232865ef4ffd5b0cc583b81bb5818"
+    },
+    {
+      "path": "data/library/qm-textbook/index.ts",
+      "bytes": 1546,
+      "sha256": "6e95eb8653863b47ccf4b5247955ee1c13d5207ac1f5f6edbd9453642194b42b"
+    },
+    {
+      "path": "data/library/qm-textbook/types.ts",
+      "bytes": 38,
+      "sha256": "60d7519c203ef347ab2a00001c1fc263ea841754d5d5f0727f79e09553ec52c4"
+    },
+    {
+      "path": "data/library/qm-titles.json",
+      "bytes": 672,
+      "sha256": "1d03421f5e90e7c7c4fe62d01a7cb445b362b55d8d514708bfbd6858f3662c66"
+    },
+    {
+      "path": "data/library/qm-toc.json",
+      "bytes": 26011,
+      "sha256": "d29730540b1050ccf17773f6fb5965d60c39481ef76f7ec6dc3cf0c6594c3329"
+    },
+    {
+      "path": "data/library/sop-textbook/ch01.ts",
+      "bytes": 98593,
+      "sha256": "feb48c523dab83eb110acbc67baa23550f1821def66570d28efc9db6f55fe5af"
+    },
+    {
+      "path": "data/library/sop-textbook/ch02.ts",
+      "bytes": 87399,
+      "sha256": "fdd36be65c4c94380d466cdce3f3310ceae9ece746ca9cde38686a0cf4900a7e"
+    },
+    {
+      "path": "data/library/sop-textbook/ch03.ts",
+      "bytes": 89552,
+      "sha256": "cf9cdac0eb1f0c0721eb50666b21c5d3978bcce4d11d6eac42a6a4dbcbab735b"
+    },
+    {
+      "path": "data/library/sop-textbook/ch04.ts",
+      "bytes": 179518,
+      "sha256": "dc01bc118e60e0b3f319220dfd5c9d031d53363835ff84dad09e84caa8dbe3c4"
+    },
+    {
+      "path": "data/library/sop-textbook/ch05.ts",
+      "bytes": 108732,
+      "sha256": "0a969b38847cffc71efb2928bcdcf3393eb87becf23b8d7b19433581669204a3"
+    },
+    {
+      "path": "data/library/sop-textbook/ch06.ts",
+      "bytes": 93046,
+      "sha256": "940303f01ce87da119fa94f570950d6fd5b967ff48679b545db9709b399a0812"
+    },
+    {
+      "path": "data/library/sop-textbook/ch07.ts",
+      "bytes": 71760,
+      "sha256": "e62cdf2eadd5eb876a67f336f4f55b2aff2a583c2bf0f4474b4686e6ea8d6345"
+    },
+    {
+      "path": "data/library/sop-textbook/ch08.ts",
+      "bytes": 70432,
+      "sha256": "d55b3bbd63d7aec8e6b9b1c482de5138ba210018d610f74a9a4c4e916f220c99"
+    },
+    {
+      "path": "data/library/sop-textbook/ch09.ts",
+      "bytes": 113498,
+      "sha256": "d141b82f84ee11bdecbfe6a6c82577e0853f3a68ce7b76ee6c695f024ef6e408"
+    },
+    {
+      "path": "data/library/sop-textbook/ch10.ts",
+      "bytes": 104849,
+      "sha256": "53d620c03c195bc5b937a5ef6833ca383d2edddb3d5290bb96fb48f2758a1803"
+    },
+    {
+      "path": "data/library/sop-textbook/ch11.ts",
+      "bytes": 101154,
+      "sha256": "7677bee442a81bd80be160d8b7e35b43f090c88c983af67dbbcf658624594b7b"
+    },
+    {
+      "path": "data/library/sop-textbook/ch12.ts",
+      "bytes": 87990,
+      "sha256": "e79c8b94e6763320bf4cd6e7b75dc8696ac3ec3abe01c234d861595aa788da02"
+    },
+    {
+      "path": "data/library/sop-textbook/ch13.ts",
+      "bytes": 61079,
+      "sha256": "fec58714506c1b1a4f8cc8b9e4cbcbc93bcf9a720323a68d431eb10eb993bff4"
+    },
+    {
+      "path": "data/library/sop-textbook/ch14.ts",
+      "bytes": 74828,
+      "sha256": "e5c97560cc48a50fd00771872d8065c99bb0e6d83d2cb439938bea3a3d81e8e4"
+    },
+    {
+      "path": "data/library/sop-textbook/ch15.ts",
+      "bytes": 67572,
+      "sha256": "e71e17f0aa971541f13826f1b828fdb2f807d0c3a52e5b76c4833710cb3b0732"
+    },
+    {
+      "path": "data/library/sop-textbook/index.ts",
+      "bytes": 1330,
+      "sha256": "b589321c7411069e47f34bca41ee2dc12e67d707775219052c72f30431a2ee60"
+    },
+    {
+      "path": "data/library/sop-textbook/types.ts",
+      "bytes": 38,
+      "sha256": "60d7519c203ef347ab2a00001c1fc263ea841754d5d5f0727f79e09553ec52c4"
+    },
+    {
+      "path": "data/library/sop-titles.json",
+      "bytes": 554,
+      "sha256": "02f0ca8e1518c9fd9fd70102adc7a2e9013c09b99390183567c0a5b5b3dbd6d4"
+    },
+    {
+      "path": "data/library/sop-toc.json",
+      "bytes": 13219,
+      "sha256": "805707a8939b283bab89e12c451f091dff11a7fdc46d3afa2e9ed0ef84a52c48"
+    },
+    {
+      "path": "data/library/wm-textbook/ch01.ts",
+      "bytes": 76464,
+      "sha256": "20b822a5b0cb9ee985a81b2ffcf49df0852b2f45147b3c48eae43c152da8ae8c"
+    },
+    {
+      "path": "data/library/wm-textbook/ch02.ts",
+      "bytes": 88550,
+      "sha256": "b27031e7a45ffcfd5aeb62ea0c1f6ff40e922f5501916698c7b4d48ceaec2d42"
+    },
+    {
+      "path": "data/library/wm-textbook/ch03.ts",
+      "bytes": 65626,
+      "sha256": "9639868aa10e204a2216698e2cc21fe110038ef6e46594da105467d4999cfbe2"
+    },
+    {
+      "path": "data/library/wm-textbook/ch04.ts",
+      "bytes": 72548,
+      "sha256": "285a57cf77d5f2a386fe0f556c865fa800af9d3c0c123c11ef58bd9b308a8f26"
+    },
+    {
+      "path": "data/library/wm-textbook/ch05.ts",
+      "bytes": 42938,
+      "sha256": "9bf1154d05493a14e05fd29d1dd0619e93e3561b4bcdb02aaa90a469a03a17df"
+    },
+    {
+      "path": "data/library/wm-textbook/ch06.ts",
+      "bytes": 59296,
+      "sha256": "9d3d2e08b56e0a7863d2be1c43883a8d7ad7e5200c6c9be6028bbcfdaa00ccf3"
+    },
+    {
+      "path": "data/library/wm-textbook/ch07.ts",
+      "bytes": 41026,
+      "sha256": "1c93c409af57883d45a7b76bc176b24fff2956e7d8e59e799a93b549f6cb788c"
+    },
+    {
+      "path": "data/library/wm-textbook/ch08.ts",
+      "bytes": 44646,
+      "sha256": "250a7ffee993f9e05ef45bebdbc792a2238200228ee1ec58f243ec57b4569488"
+    },
+    {
+      "path": "data/library/wm-textbook/ch09.ts",
+      "bytes": 44630,
+      "sha256": "0d352385669b4dc0fbc4abe75fd759a435230f485a7f94b2e8ccc2c19262d839"
+    },
+    {
+      "path": "data/library/wm-textbook/ch10.ts",
+      "bytes": 45370,
+      "sha256": "b6587f405bb3171b235295b4b1d3c567d330be55d2b9c01c889af89762c62438"
+    },
+    {
+      "path": "data/library/wm-textbook/index.ts",
+      "bytes": 1100,
+      "sha256": "1b08f6a9960d8e241f851e1acda29b35980614bd715f08c775e668ce1af8bd44"
+    },
+    {
+      "path": "data/library/wm-textbook/types.ts",
+      "bytes": 38,
+      "sha256": "60d7519c203ef347ab2a00001c1fc263ea841754d5d5f0727f79e09553ec52c4"
+    },
+    {
+      "path": "data/library/wm-titles.json",
+      "bytes": 344,
+      "sha256": "23b05a0f54d0f3776169315ee53ac03c88c2da50649d7ef60ba65d7e41aaa362"
+    },
+    {
+      "path": "data/library/wm-toc.json",
+      "bytes": 5158,
+      "sha256": "1e57cb44bcef70d82e3f39b1a409942bb205b0341ef6b5273147c7f0464fd886"
+    }
+  ],
+  "books": [
+    {
+      "id": "book1",
+      "title": {
+        "en": "Configuring Plant Maintenance in SAP S/4HANA",
+        "he": ""
+      },
+      "titleHe": "",
+      "pages": 729,
+      "chapters": 9,
+      "translatedChapters": 9,
+      "sections": 140,
+      "sectionsWithEn": 140,
+      "sectionsWithHe": 140,
+      "enChars": 887191,
+      "heChars": 486478,
+      "paragraphsEn": 140,
+      "paragraphsHe": 671,
+      "inlineImages": 0,
+      "markdownTables": 0,
+      "links": 19,
+      "figuresFile": 9,
+      "chapterFilesInDir": 28,
+      "metaChapters": 9,
+      "metaSections": 140
+    },
+    {
+      "id": "book2",
+      "title": {
+        "en": "Production Planning with SAP S/4HANA",
+        "he": ""
+      },
+      "titleHe": "",
+      "pages": 1087,
+      "chapters": 15,
+      "translatedChapters": 15,
+      "sections": 496,
+      "sectionsWithEn": 496,
+      "sectionsWithHe": 496,
+      "enChars": 1331046,
+      "heChars": 1072367,
+      "paragraphsEn": 496,
+      "paragraphsHe": 1510,
+      "inlineImages": 0,
+      "markdownTables": 0,
+      "links": 5,
+      "figuresFile": 15,
+      "chapterFilesInDir": 46,
+      "metaChapters": 15,
+      "metaSections": 496
+    },
+    {
+      "id": "book3",
+      "title": {
+        "en": "Sourcing and Procurement with SAP S/4HANA",
+        "he": ""
+      },
+      "titleHe": "",
+      "pages": 709,
+      "chapters": 18,
+      "translatedChapters": 18,
+      "sections": 374,
+      "sectionsWithEn": 374,
+      "sectionsWithHe": 374,
+      "enChars": 1052633,
+      "heChars": 869998,
+      "paragraphsEn": 374,
+      "paragraphsHe": 1403,
+      "inlineImages": 0,
+      "markdownTables": 78,
+      "links": 77,
+      "figuresFile": 18,
+      "chapterFilesInDir": 55,
+      "metaChapters": 18,
+      "metaSections": 374
+    },
+    {
+      "id": "book4",
+      "title": {
+        "en": "PP/DS with SAP S/4HANA",
+        "he": ""
+      },
+      "titleHe": "",
+      "pages": 639,
+      "chapters": 11,
+      "translatedChapters": 11,
+      "sections": 195,
+      "sectionsWithEn": 195,
+      "sectionsWithHe": 195,
+      "enChars": 976622,
+      "heChars": 574096,
+      "paragraphsEn": 195,
+      "paragraphsHe": 654,
+      "inlineImages": 0,
+      "markdownTables": 12,
+      "links": 2,
+      "figuresFile": 11,
+      "chapterFilesInDir": 34,
+      "metaChapters": 11,
+      "metaSections": 195
+    },
+    {
+      "id": "book5",
+      "title": {
+        "en": "Quality Management with SAP S/4HANA",
+        "he": ""
+      },
+      "titleHe": "",
+      "pages": 939,
+      "chapters": 20,
+      "translatedChapters": 20,
+      "sections": 502,
+      "sectionsWithEn": 502,
+      "sectionsWithHe": 502,
+      "enChars": 1221880,
+      "heChars": 1019847,
+      "paragraphsEn": 502,
+      "paragraphsHe": 1685,
+      "inlineImages": 0,
+      "markdownTables": 18,
+      "links": 4,
+      "figuresFile": 20,
+      "chapterFilesInDir": 61,
+      "metaChapters": 20,
+      "metaSections": 502
+    },
+    {
+      "id": "book6",
+      "title": {
+        "en": "Integrating Warehouse Management in SAP S/4HANA",
+        "he": ""
+      },
+      "titleHe": "",
+      "pages": 1341,
+      "chapters": 10,
+      "translatedChapters": 10,
+      "sections": 88,
+      "sectionsWithEn": 88,
+      "sectionsWithHe": 88,
+      "enChars": 629899,
+      "heChars": 257270,
+      "paragraphsEn": 88,
+      "paragraphsHe": 552,
+      "inlineImages": 0,
+      "markdownTables": 9,
+      "links": 0,
+      "figuresFile": 10,
+      "chapterFilesInDir": 31,
+      "metaChapters": 10,
+      "metaSections": 88
+    },
+    {
+      "id": "book7",
+      "title": {
+        "en": "SAP Fiori Apps for SAP S/4HANA: The Quick Reference Guide",
+        "he": ""
+      },
+      "titleHe": "",
+      "pages": 685,
+      "chapters": 12,
+      "translatedChapters": 11,
+      "sections": 1689,
+      "sectionsWithEn": 1689,
+      "sectionsWithHe": 1689,
+      "enChars": 1892130,
+      "heChars": 1300030,
+      "paragraphsEn": 1689,
+      "paragraphsHe": 1712,
+      "inlineImages": 0,
+      "markdownTables": 0,
+      "links": 7,
+      "figuresFile": 12,
+      "chapterFilesInDir": 36,
+      "metaChapters": 12,
+      "metaSections": 1692
+    },
+    {
+      "id": "book8",
+      "title": {
+        "en": "Plant Maintenance with SAP S/4HANA — Business User Guide",
+        "he": "אחזקת מפעל ב-SAP S/4HANA — מדריך למשתמש העסקי"
+      },
+      "titleHe": "",
+      "pages": null,
+      "chapters": 10,
+      "translatedChapters": 0,
+      "sections": 271,
+      "sectionsWithEn": 0,
+      "sectionsWithHe": 0,
+      "enChars": 0,
+      "heChars": 0,
+      "paragraphsEn": 0,
+      "paragraphsHe": 0,
+      "inlineImages": 0,
+      "markdownTables": 0,
+      "links": 0,
+      "figuresFile": 0,
+      "chapterFilesInDir": 1,
+      "metaChapters": 10,
+      "metaSections": 271
+    },
+    {
+      "id": "book9",
+      "title": {
+        "en": "Plant Maintenance with SAP S/4HANA: Business User Guide",
+        "he": ""
+      },
+      "titleHe": "",
+      "pages": 669,
+      "chapters": 10,
+      "translatedChapters": 10,
+      "sections": 271,
+      "sectionsWithEn": 271,
+      "sectionsWithHe": 271,
+      "enChars": 850033,
+      "heChars": 611858,
+      "paragraphsEn": 271,
+      "paragraphsHe": 806,
+      "inlineImages": 0,
+      "markdownTables": 0,
+      "links": 19,
+      "figuresFile": 0,
+      "chapterFilesInDir": 31,
+      "metaChapters": 10,
+      "metaSections": 271
+    },
+    {
+      "id": "book10",
+      "title": {
+        "en": "Sales and Operations Planning with SAP IBP",
+        "he": ""
+      },
+      "titleHe": "",
+      "pages": 923,
+      "chapters": 11,
+      "translatedChapters": 11,
+      "sections": 211,
+      "sectionsWithEn": 211,
+      "sectionsWithHe": 211,
+      "enChars": 711759,
+      "heChars": 422643,
+      "paragraphsEn": 211,
+      "paragraphsHe": 688,
+      "inlineImages": 0,
+      "markdownTables": 0,
+      "links": 4,
+      "figuresFile": 0,
+      "chapterFilesInDir": 34,
+      "metaChapters": 11,
+      "metaSections": 211
+    },
+    {
+      "id": "book11",
+      "title": {
+        "en": "Prerequisites for SAP S/4HANA End-to-End Implementation Training",
+        "he": ""
+      },
+      "titleHe": "",
+      "pages": 193,
+      "chapters": 9,
+      "translatedChapters": 9,
+      "sections": 77,
+      "sectionsWithEn": 77,
+      "sectionsWithHe": 77,
+      "enChars": 97309,
+      "heChars": 138149,
+      "paragraphsEn": 77,
+      "paragraphsHe": 296,
+      "inlineImages": 0,
+      "markdownTables": 0,
+      "links": 3,
+      "figuresFile": 0,
+      "chapterFilesInDir": 28,
+      "metaChapters": 9,
+      "metaSections": 77
+    }
+  ],
+  "totals": {
+    "books": 11,
+    "chapters": 135,
+    "sections": 4314,
+    "sectionsWithHe": 4043,
+    "enChars": 9650502,
+    "heChars": 6752736,
+    "figures": 95
+  }
+}

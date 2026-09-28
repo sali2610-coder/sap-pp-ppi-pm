@@ -10,12 +10,15 @@
 // own placement rules still win.
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
+// The selection pickers (bank, level, length) are the runner's; their sheet
+// comes along so the entry asks the same three questions in the same clothes.
+import "@/app/neo/cert.css";
 import { certData } from "@/components/neo-shell/learn/cert-data";
 import { CertSurface } from "@/components/neo-shell/learn/cert-surface";
 
 export const metadata = {
-  title: "הסמכה · Project NEO",
-  description: "מנגנון ההערכה העצמית של הפרויקט: מה נמדד, מה לא, ומה הוא אינו מתיימר להיות.",
+  title: "תרגול ובדיקת ידע · Project NEO",
+  description: "הערכת ידע עצמית על בסיס התיעוד המאומת של הפרויקט: מאגרי שאלות, רמות קושי ותוצאות שנשמרות במכשיר. אינה הסמכה רשמית של SAP.",
   robots: { index: false, follow: false },
 };
 

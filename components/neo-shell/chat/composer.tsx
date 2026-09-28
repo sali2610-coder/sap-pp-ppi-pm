@@ -87,7 +87,7 @@ export function Composer({
             dir="auto"
           />
           {busy ? (
-            <button type="button" className="nu-btn nxq-send" onClick={onStop} aria-label="עצור את התשובה">
+            <button type="button" className="nu-btn nxq-send" onClick={onStop} aria-label="עצירת התשובה">
               <Square size={15} strokeWidth={2.4} aria-hidden="true" />
             </button>
           ) : (
@@ -96,7 +96,7 @@ export function Composer({
               className="nu-btn nxq-send"
               onClick={onSend}
               disabled={!canSend}
-              aria-label="שלח שאלה"
+              aria-label="שליחת שאלה"
             >
               <ArrowUp size={17} strokeWidth={2.4} aria-hidden="true" />
             </button>

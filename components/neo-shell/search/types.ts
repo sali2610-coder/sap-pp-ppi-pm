@@ -22,13 +22,14 @@ export type CmdKind =
   | "chapter"
   | "flow"
   | "guide"
+  | "bp"
   | "incident";
 
 /** A record the rail's own `ShellData.search` index does not carry, produced at
  *  build time by search/command-index.ts. Short keys: this payload is inlined
  *  into the HTML of every page in the namespace. */
 export interface CmdExtraRecord {
-  k: "chapter" | "flow" | "guide";
+  k: "chapter" | "flow" | "guide" | "bp";
   /** Title — always a real title from the dataset. */
   t: string;
   /** Short context — the Hebrew line the dataset already carries. */
@@ -117,6 +118,9 @@ export interface CmdRecord {
    *  committing to it. Absent when the project has no page for the record, in
    *  which case the row says so instead of pretending. */
   dest?: string;
+  /** The canonical S/4HANA status key of the record, when it has one — drawn
+   *  as the same pill its page renders (design audit ACC-3). */
+  st?: string;
   /** Lowercased title. Built once on the client, never shipped. */
   lt: string;
   /** Lowercased everything else (context, relationship, module). */

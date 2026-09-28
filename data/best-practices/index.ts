@@ -1,0 +1,30 @@
+/* Project NEO · best practices — the registry.
+   The record shape lives in lib/evidence/types.ts (BestPracticeLike) so the
+   pure rule engine can validate it; this module gives it its public name and
+   merges the module files. Throws at module load on a duplicate slug. */
+import type { BestPracticeLike } from "@/lib/evidence/types";
+import { PM_BEST_PRACTICES } from "./pm";
+import { PPPI_BEST_PRACTICES } from "./pp-pi";
+import { PM_PROCESS_PRACTICES } from "./pm-processes";
+import { PP_PROCESS_PRACTICES } from "./pp-processes";
+import { CROSS_PROCESS_PRACTICES } from "./cross-processes";
+import { PPPI_PROCESS_PRACTICES } from "./pppi-processes";
+import { PM_PROCESS_PRACTICES_2 } from "./pm-processes-2";
+import { CROSS_PROCESS_PRACTICES_2 } from "./cross-processes-2";
+import { CATALOG_PROCESS_PRACTICES } from "./catalog-2026-09";
+
+export type BestPractice = BestPracticeLike;
+
+export const BEST_PRACTICES: BestPractice[] = (() => {
+  const merged = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES, ...PP_PROCESS_PRACTICES, ...CROSS_PROCESS_PRACTICES, ...PPPI_PROCESS_PRACTICES, ...PM_PROCESS_PRACTICES_2, ...CROSS_PROCESS_PRACTICES_2, ...CATALOG_PROCESS_PRACTICES];
+  const seen = new Set<string>();
+  for (const b of merged) {
+    if (seen.has(b.slug)) throw new Error(`data/best-practices: duplicate slug ${b.slug}`);
+    seen.add(b.slug);
+  }
+  return merged;
+})();
+
+export const bpSlugs = (): string[] => BEST_PRACTICES.map((b) => b.slug);
+export const bpBySlug = (slug: string): BestPractice | undefined =>
+  BEST_PRACTICES.find((b) => b.slug === slug);

@@ -43,6 +43,8 @@
    rather than pushing the rest of the header off screen — and the full text
    stays available as the accessible name. */
 .nx-app .nxr-t {
+  /* Brand red on the light ground measured 4.33:1 at 13px; one step darker. */
+  color: color-mix(in srgb, currentColor 80%, var(--ink-1));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

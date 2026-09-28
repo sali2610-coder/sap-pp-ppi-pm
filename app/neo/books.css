@@ -148,6 +148,29 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-lede { font-size: 1.0625rem; line-height: 1.62; color: var(--ink-2); max-inline-size: 64ch; }
 .nb-note { font-size: var(--t-xs); line-height: 1.7; color: var(--ink-3); max-inline-size: 78ch; }
 .nb-note--wide { max-inline-size: none; }
+/* S7-LIB-4 · the coverage and metadata explanations, unified behind one
+   disclosure under the coverage line. The notes keep their full wording. */
+.nb-more { max-inline-size: 78ch; min-inline-size: 0; }
+.nb-more > summary {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  min-block-size: var(--c-tap, 2.75rem);
+  cursor: pointer; list-style: none;
+  font-size: var(--t-xs); font-weight: 600; color: var(--ink-2);
+  border-radius: 6px;
+}
+.nb-more > summary::-webkit-details-marker { display: none; }
+.nb-more > summary::before {
+  content: ""; flex: none;
+  inline-size: .5em; block-size: .5em;
+  border-inline-end: 1.5px solid currentColor; border-block-end: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-20%);
+  transition: transform .18s ease;
+}
+.nb-more[open] > summary::before { transform: rotate(-135deg) translateY(-10%); }
+.nb-more > summary:hover { color: var(--ink-1); }
+.nb-more > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nb-more-b { display: grid; gap: var(--sp-2); padding-block: var(--sp-1) var(--sp-2); }
+@media (prefers-reduced-motion: reduce) { .nb-more > summary::before { transition: none; } }
 
 .nb-stats { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); }
 .nb-stat { display: grid; gap: 2px; }
@@ -328,7 +351,8 @@ html[data-theme="dark"] .nb-shelf::after {
   font-size: clamp(1.125rem, 1.6cqi, 1.5rem);
   font-weight: 700;
   letter-spacing: -.02em;
-  color: var(--m);
+  /* Module hue at 18px bold measured 4.19:1 (not yet "large" text); mixed toward ink. */
+  color: color-mix(in srgb, var(--m) 78%, var(--ink-1));
   line-height: 1.1;
 }
 .nb-shelf-he { font-size: var(--t-sm); font-weight: 600; color: var(--ink-1); }
@@ -1398,7 +1422,7 @@ html[data-theme="dark"] .nb-slot::after {
   margin-block-start: 2px;
 }
 .nb-card-n i { inline-size: 1px; block-size: 9px; background: var(--hairline); flex: none; }
-.nb-card-k { font-size: var(--t-micro); color: var(--ink-3); }
+.nb-card-k { font-size: var(--t-xs); color: var(--ink-3); }
 /* The touch-visible half of the bookmark: the same sentence the hover label
    carries, printed where no pointer is needed to read it. */
 .nb-card-res {

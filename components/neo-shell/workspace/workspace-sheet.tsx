@@ -78,8 +78,8 @@ export function WorkspaceSheet({ sheet, lede }: { sheet: WsSheet; lede: string }
       {sheet.rows.length > FIRST ? (
         <button type="button" className="nu-btn2" aria-expanded={all} onClick={() => setAll((v) => !v)}>
           {all
-            ? "הצג רק את הראשונות"
-            : `הצג את כל ${nf.format(sheet.rows.length)} השורות של «${sheet.title}»`}
+            ? "הצגת הראשונות בלבד"
+            : `הצגת כל ${nf.format(sheet.rows.length)} השורות של «${sheet.title}»`}
         </button>
       ) : null}
     </div>

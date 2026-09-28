@@ -31,6 +31,7 @@ import { Footer } from "@/components/Footer";
 import { LangSwitch } from "@/components/lang-switch";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { playClick } from "@/lib/sound";
+import { Rocket } from "lucide-react";
 
 // Slim, neutral top bar (Design System v2). Hairline + faint brand accent line;
 // primary navigation lives in the persistent left knowledge tree, not here.
@@ -51,6 +52,17 @@ function Header() {
             now takes its name from the logo image, which is the standard pattern. */}
         <Link prefetch={false} href="/" onClick={() => playClick()} className="shrink-0 transition-transform hover:scale-[1.01]">
           <SiteLogo tone="dark" size="lg" wordmark="sm+" />
+        </Link>
+        {/* ACC-6 bridge: the legacy chrome had no way back into Project NEO, so
+            a link out of the library or a compatibility page felt like leaving
+            the product. One pill, same brand red as the NEO shell, on every
+            legacy route; the sidebar and the mobile "more" sheet carry the same
+            destinations. The frozen library reader itself is untouched. */}
+        <Link prefetch={false} href="/neo/" onClick={() => playClick()} data-neo-bridge
+          className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-brand/30 bg-brand/[.06] px-2.5 text-[13px] font-extrabold text-brand transition-colors hover:bg-brand/[.12] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:px-3"
+          aria-label="חזרה ל-Project NEO">
+          <Rocket className="size-4" aria-hidden="true" />
+          <span dir="ltr" className="hidden sm:inline">Project NEO</span>
         </Link>
         <div className="mx-auto min-w-0 max-w-2xl flex-1">
           <OmniSearch />

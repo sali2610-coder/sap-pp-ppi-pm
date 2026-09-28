@@ -1,0 +1,200 @@
+OK   desktop: scroller=main rail@[217,106,106,-4715] withFilter@[217,106,106,-4715] pressedVisible=---- errs=0
+OK   phone: scroller=main rail@[245,114,114,114] withFilter@[245,114,114,114] pressedVisible=---- errs=0
+{
+  "desktop": {
+    "scroller": "main",
+    "noFilter": [
+      {
+        "at": "table-top",
+        "rail": {
+          "top": 217,
+          "bottom": 330,
+          "onScreen": true
+        },
+        "tableTop": 0,
+        "tableBottom": 3984,
+        "pressed": null
+      },
+      {
+        "at": "+900",
+        "rail": {
+          "top": 106,
+          "bottom": 220,
+          "onScreen": true
+        },
+        "tableTop": -900,
+        "tableBottom": 3084,
+        "pressed": null
+      },
+      {
+        "at": "+2500",
+        "rail": {
+          "top": 106,
+          "bottom": 220,
+          "onScreen": true
+        },
+        "tableTop": -3400,
+        "tableBottom": 584,
+        "pressed": null
+      },
+      {
+        "at": "+6000",
+        "rail": {
+          "top": -4715,
+          "bottom": -4602,
+          "onScreen": false
+        },
+        "tableTop": -8522,
+        "tableBottom": -4538,
+        "pressed": null
+      }
+    ],
+    "filterPressed": "",
+    "withFilter": [
+      {
+        "at": "table-top",
+        "rail": {
+          "top": 217,
+          "bottom": 330,
+          "onScreen": true
+        },
+        "tableTop": 0,
+        "tableBottom": 3984,
+        "pressed": null
+      },
+      {
+        "at": "+900",
+        "rail": {
+          "top": 106,
+          "bottom": 220,
+          "onScreen": true
+        },
+        "tableTop": -900,
+        "tableBottom": 3084,
+        "pressed": null
+      },
+      {
+        "at": "+2500",
+        "rail": {
+          "top": 106,
+          "bottom": 220,
+          "onScreen": true
+        },
+        "tableTop": -3400,
+        "tableBottom": 584,
+        "pressed": null
+      },
+      {
+        "at": "+6000",
+        "rail": {
+          "top": -4715,
+          "bottom": -4602,
+          "onScreen": false
+        },
+        "tableTop": -8522,
+        "tableBottom": -4538,
+        "pressed": null
+      }
+    ],
+    "consoleErrors": 0,
+    "ok": true
+  },
+  "phone": {
+    "scroller": "main",
+    "noFilter": [
+      {
+        "at": "table-top",
+        "rail": {
+          "top": 245,
+          "bottom": 428,
+          "onScreen": true
+        },
+        "tableTop": 0,
+        "tableBottom": 14173,
+        "pressed": null
+      },
+      {
+        "at": "+900",
+        "rail": {
+          "top": 114,
+          "bottom": 297,
+          "onScreen": true
+        },
+        "tableTop": -900,
+        "tableBottom": 13273,
+        "pressed": null
+      },
+      {
+        "at": "+2500",
+        "rail": {
+          "top": 114,
+          "bottom": 297,
+          "onScreen": true
+        },
+        "tableTop": -3400,
+        "tableBottom": 10773,
+        "pressed": null
+      },
+      {
+        "at": "+6000",
+        "rail": {
+          "top": 114,
+          "bottom": 297,
+          "onScreen": true
+        },
+        "tableTop": -9400,
+        "tableBottom": 4773,
+        "pressed": null
+      }
+    ],
+    "filterPressed": "",
+    "withFilter": [
+      {
+        "at": "table-top",
+        "rail": {
+          "top": 245,
+          "bottom": 428,
+          "onScreen": true
+        },
+        "tableTop": 0,
+        "tableBottom": 14173,
+        "pressed": null
+      },
+      {
+        "at": "+900",
+        "rail": {
+          "top": 114,
+          "bottom": 297,
+          "onScreen": true
+        },
+        "tableTop": -900,
+        "tableBottom": 13273,
+        "pressed": null
+      },
+      {
+        "at": "+2500",
+        "rail": {
+          "top": 114,
+          "bottom": 297,
+          "onScreen": true
+        },
+        "tableTop": -3400,
+        "tableBottom": 10773,
+        "pressed": null
+      },
+      {
+        "at": "+6000",
+        "rail": {
+          "top": 114,
+          "bottom": 297,
+          "onScreen": true
+        },
+        "tableTop": -9400,
+        "tableBottom": 4773,
+        "pressed": null
+      }
+    ],
+    "consoleErrors": 0,
+    "ok": true
+  }
+}

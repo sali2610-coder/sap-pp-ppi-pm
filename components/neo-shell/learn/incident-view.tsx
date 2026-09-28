@@ -27,7 +27,7 @@ import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { learnModVar } from "./mod";
 import type { CodeRef, IncidentRow } from "./incidents-data";
 
-const ABSENT = "לא קיים מידע מאומת במאגר";
+const ABSENT = "לא קיים תיעוד מאומת במאגר";
 
 const IMPACT_HE: Record<string, string> = {
   BLOCKING: "חוסם עבודה",
@@ -100,11 +100,11 @@ export function IncidentView({ r }: { r: IncidentRow }) {
       data-surface="incident"
       style={{ "--m": learnModVar(r.module) } as React.CSSProperties}
     >
-      <SmartReturn fallback={{ href: "/neo/incidents/", label: "קטלוג התקלות" }} />
+      <SmartReturn fallback={{ href: "/neo/incidents/", label: "תקלות ופתרון בעיות" }} />
 
       <header className="nxv-head">
         <span className="nx-modbar" aria-hidden="true" />
-        <span className="nx-eyebrow">קטלוג התקלות · {r.moduleHe || r.module}</span>
+        <span className="nx-eyebrow">תקלות ופתרון בעיות · {r.moduleHe || r.module}</span>
         <div className="nxv-title">
           <h1 className="nxv-h1">{r.he}</h1>
         </div>
@@ -120,7 +120,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
             </span>
           ) : (
             <span className="nu-status" style={{ "--s": "var(--status-not-started)" } as React.CSSProperties}>
-              השפעה לא תויגה במקור
+              ללא תג השפעה
             </span>
           )}
           <span className="nu-chip is-sap">{r.slug}</span>
@@ -128,55 +128,23 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         {r.impact && r.impact !== r.impactKind ? <p className="nxv-lede">{r.impact}</p> : null}
       </header>
 
-      {/* ------------------------------------------------- THE S/4HANA PLATE */}
-      {r.hasS4 ? (
-        <section className="nxv-s4" data-s4="1" aria-labelledby="i-s4">
-          <div className="nxv-s4-top">
-            <span className="nx-eyebrow">S/4HANA · {n("s4")}</span>
-            <h2 className="nxv-s4-h" id="i-s4">התקלה הזו מתנהגת אחרת ב-ECC ו-ב-S/4HANA</h2>
-          </div>
-          <div className="nxv-s4-two">
-            <div className="nxv-s4-c">
-              <span className="nxv-l">ECC 6.0</span>
-              {r.ecc ? <p>{r.ecc}</p> : <Absent what="התנהגות ב-ECC" />}
-            </div>
-            <div className="nxv-s4-c">
-              <span className="nxv-l">S/4HANA</span>
-              {r.s4 ? <p>{r.s4}</p> : <Absent what="התנהגות ב-S/4HANA" />}
-            </div>
-          </div>
-        </section>
-      ) : (
-        <section className="nxv-sec" aria-labelledby="i-s4">
-          <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-s4">ECC ↔ S/4HANA</h2>
-            <em className="nxv-sec-n">{n("s4")}</em>
-          </div>
-          <Absent what="הפרדה בין התנהגות ב-ECC לבין S/4HANA ברשומה הזו" />
-          <p className="nx-muted">
-            הרשומה נכתבה בלי להפריד בין הגרסאות. אין להסיק מכך שההתנהגות זהה: יש לאמת מול המערכת.
-          </p>
-        </section>
-      )}
-
       {/* ------------------------------------------------------------ SYMPTOM */}
       <section className="nxv-sec" aria-labelledby="i-sym">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Stethoscope size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="i-sym">מה המשתמש רואה</h2>
+          <h2 className="nx-h2" id="i-sym">סימפטום</h2>
           <em className="nxv-sec-n">{n("symptom")}</em>
         </div>
         {r.symptom ? <p className="nxv-v">{r.symptom}</p> : <Absent what="סימפטום" />}
         {r.error ? (
           <div className="nxv-fact">
-            <span className="nxv-l">הודעת השגיאה, כפי שנרשמה</span>
+            <span className="nxv-l">הודעת השגיאה</span>
             <code className="nxv-code">{r.error}</code>
           </div>
         ) : null}
         {r.techCause ? (
           <div className="nxv-fact">
-            <span className="nxv-l">שורש טכני</span>
+            <span className="nxv-l">סיבת שורש טכנית</span>
             <p className="nxv-v">{r.techCause}</p>
           </div>
         ) : null}
@@ -201,13 +169,13 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         <section className="nxv-sec" aria-labelledby="i-dx">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><Search size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-dx">איך מאבחנים</h2>
+            <h2 className="nx-h2" id="i-dx">אבחון</h2>
             <em className="nxv-sec-n">{n("diagnose")}</em>
           </div>
 
           {r.tcodes.length ? (
             <div className="nxv-fact">
-              <span className="nxv-l">טרנזקציות לניתוח</span>
+              <span className="nxv-l">טרנזקציות לאבחון</span>
               <div className="nxv-refs">
                 {r.tcodes.map((c) => <Ref key={`tx-${c.code}`} r={c} kind="tcode" />)}
               </div>
@@ -225,14 +193,14 @@ export function IncidentView({ r }: { r: IncidentRow }) {
 
           {r.debugEntry.length ? (
             <div className="nxv-fact">
-              <span className="nxv-l">נקודות כניסה לניתוח</span>
+              <span className="nxv-l">נקודות כניסה ל-Debug</span>
               <ul className="nxv-ul">{r.debugEntry.map((d) => <li key={d}>{d}</li>)}</ul>
             </div>
           ) : null}
 
           {r.breakpoints.length ? (
             <div className="nxv-fact">
-              <span className="nxv-l">Breakpoints קונקרטיים</span>
+              <span className="nxv-l">Breakpoints</span>
               <ul className="nxv-ul">{r.breakpoints.map((d) => <li key={d} className="nx-sap">{d}</li>)}</ul>
             </div>
           ) : null}
@@ -244,12 +212,12 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         <section className="nxv-sec" aria-labelledby="i-hk">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><Puzzle size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-hk">הרחבות וממשקים מעורבים</h2>
+            <h2 className="nx-h2" id="i-hk">הרחבות וממשקים</h2>
             <em className="nxv-sec-n">{n("hooks")}</em>
           </div>
           {r.exits.length ? (
             <div className="nxv-fact">
-              <span className="nxv-l">Exits · BAdIs</span>
+              <span className="nxv-l">User Exits · BAdIs</span>
               <div className="nxv-chips">
                 {r.exits.map((e) => <span key={e} className="nu-chip is-sap">{e}</span>)}
               </div>
@@ -257,7 +225,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
           ) : null}
           {r.funcs.length ? (
             <div className="nxv-fact">
-              <span className="nxv-l">Function Modules · BAPIs</span>
+              <span className="nxv-l">BAPI ו-FM</span>
               <div className="nxv-chips">
                 {r.funcs.map((e) => <span key={e} className="nu-chip is-sap">{e}</span>)}
               </div>
@@ -271,7 +239,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         <section className="nxv-sec" aria-labelledby="i-fx">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><ListChecks size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-fx">התיקון, לפי הסדר</h2>
+            <h2 className="nx-h2" id="i-fx">צעדי התיקון</h2>
             <em className="nxv-sec-n">{n("fix")}</em>
           </div>
           <ol className="nxv-ol">
@@ -285,7 +253,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         <section className="nxv-sec" aria-labelledby="i-pv">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><ShieldCheck size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-pv">איך מונעים שזה יחזור</h2>
+            <h2 className="nx-h2" id="i-pv">צעדי מניעה</h2>
             <em className="nxv-sec-n">{n("prevent")}</em>
           </div>
           <ul className="nxv-ul">
@@ -294,12 +262,45 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         </section>
       ) : null}
 
+      {/* ------------------------------------------------- THE S/4HANA PLATE — after symptom, diagnosis and fix
+          (design audit §7, 2026-09-21): the reader sees what they see first. */}
+      {r.hasS4 ? (
+        <section className="nxv-s4" data-s4="1" aria-labelledby="i-s4">
+          <div className="nxv-s4-top">
+            <span className="nx-eyebrow">S/4HANA · {n("s4")}</span>
+            <h2 className="nxv-s4-h" id="i-s4">התנהגות התקלה ב-ECC וב-S/4HANA</h2>
+          </div>
+          <div className="nxv-s4-two">
+            <div className="nxv-s4-c">
+              <span className="nxv-l">ECC 6.0</span>
+              {r.ecc ? <p>{r.ecc}</p> : <Absent what="התנהגות ב-ECC" />}
+            </div>
+            <div className="nxv-s4-c">
+              <span className="nxv-l">S/4HANA</span>
+              {r.s4 ? <p>{r.s4}</p> : <Absent what="התנהגות ב-S/4HANA" />}
+            </div>
+          </div>
+        </section>
+      ) : (
+        <section className="nxv-sec" aria-labelledby="i-s4">
+          <div className="nxv-sec-h">
+            <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
+            <h2 className="nx-h2" id="i-s4">ECC ו-S/4HANA</h2>
+            <em className="nxv-sec-n">{n("s4")}</em>
+          </div>
+          <Absent what="הבחנה בין ECC ל-S/4HANA" />
+          <p className="nx-muted">
+            הרשומה אינה מבחינה בין הגרסאות. נדרש אימות נוסף במערכת לפני הסקה שההתנהגות זהה.
+          </p>
+        </section>
+      )}
+
       {/* ---------------------------------------------------------- SCENARIO */}
       {r.scenario ? (
         <section className="nxv-sec" aria-labelledby="i-sc">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><Quote size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-sc">איך זה נראה בארגון</h2>
+            <h2 className="nx-h2" id="i-sc">תרחיש לדוגמה</h2>
             <em className="nxv-sec-n">{n("scenario")}</em>
           </div>
           <p className="nxv-quote">{r.scenario}</p>
@@ -310,21 +311,21 @@ export function IncidentView({ r }: { r: IncidentRow }) {
       <section className="nxv-sec" aria-labelledby="i-nt">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Info size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="i-nt">איתור SAP Note</h2>
+          <h2 className="nx-h2" id="i-nt">איתור SAP Notes</h2>
           <em className="nxv-sec-n">{n("notes")}</em>
         </div>
         {r.notes.length || r.oss.length ? (
           <>
             <p className="nx-muted">
-              מילות חיפוש בלבד. הפרויקט אינו שומר מספרי SAP Note ואינו ממציא אותם: יש לחפש איתן ב-SAP for Me
-              {" "}ולאמת את המספר שמתקבל.
+              מילות חיפוש ל-SAP for Me. הקטלוג אינו כולל מספרי SAP Note; יש לאמת את ה-Note שנמצא
+              {" "}לפני יישום.
             </p>
             <div className="nxv-chips">
               {[...r.notes, ...r.oss].map((k) => <span key={k} className="nu-chip">{k}</span>)}
             </div>
           </>
         ) : (
-          <Absent what="מילות חיפוש ל-SAP Note ברשומה הזו" />
+          <Absent what="מילות חיפוש ל-SAP Notes" />
         )}
       </section>
 
@@ -332,14 +333,13 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            מקור: <span className="nx-sap">data/troubleshooting.ts</span>: ידע תמיכה כתוב, לא בדיקה חיה
-            {" "}במערכת SAP ולא תור תמיכה. כל צעד טעון אימות בסביבה לפני ביצוע בייצור.
+            מקור: <span className="nx-sap">data/troubleshooting.ts</span>: תיעוד פתרון בעיות מאומת, שאינו
+            {" "}בדיקה חיה במערכת SAP. כל צעד טעון אימות בסביבת בדיקות לפני ביצוע בייצור.
           </span>
         </p>
         {totalRefs ? (
           <p>
-            {linked} מתוך {totalRefs} הקודים שהרשומה מונה נפתרו לעמוד קיים בפרויקט; השאר מוצגים כערך,
-            {" "}כי אין להם עמוד ולא הומצא להם אחד.
+            {linked} מתוך {totalRefs} הקודים ברשומה מקושרים לעמוד בפרויקט; השאר מוצגים כערך.
           </p>
         ) : null}
       </div>

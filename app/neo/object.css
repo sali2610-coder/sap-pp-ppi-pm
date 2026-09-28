@@ -112,14 +112,14 @@
   background: currentColor;
   opacity: .6;
 }
-.no-eye a { color: inherit; }
+.no-eye a { color: inherit; display: inline-flex; align-items: center; min-block-size: 1.5rem; }
 .no-eye a:hover { color: var(--ink-1); }
 
 .no-mega {
   display: flex;
   align-items: center;
   gap: var(--sp-3);
-  font-size: clamp(1.9rem, 6cqi, 3.2rem);
+  font-size: clamp(1.9rem, 5cqi, 2.5rem);
   line-height: 1.05;
   letter-spacing: -0.03em;
   font-weight: 700;
@@ -446,7 +446,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
    DICTIONARY ROWS — the dual identity
    ========================================================================== */
 
-.no-rows { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+.no-rows { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
 .no-row {
   display: grid;
   gap: var(--sp-3);
@@ -546,7 +546,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
 
 .no-rel-name { display: grid; gap: 2px; grid-template-columns: 8px 1fr; align-items: center; min-inline-size: 0; }
 .no-rel-cls { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--o); }
-.no-rel-name a { grid-column: 2; font-family: var(--font-mono); direction: ltr; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
+.no-rel-name a { grid-column: 2; font-family: var(--font-mono); direction: ltr; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); display: inline-flex; align-items: center; min-block-size: 1.5rem; }
 .no-rel-name a:hover { color: var(--brand); }
 .no-rel-name em { grid-column: 2; font-size: var(--t-micro); color: var(--ink-3); font-style: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .no-rel-card {
@@ -589,6 +589,8 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   overflow-x: auto;
   white-space: pre;
 }
+/* a phone wraps the join instead of scrolling it: a scroller that cannot take focus is unreachable by keyboard (axe) */
+@media (max-width: 720px) { .no-join { white-space: pre-wrap; overflow-wrap: anywhere; overflow-x: visible; } }
 
 .no-dangle { display: grid; gap: var(--sp-3); }
 .no-dangle-l { display: grid; gap: var(--sp-2); }
@@ -738,7 +740,7 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
    TRANSACTIONS · FLOW · S/4
    ========================================================================== */
 
-.no-tx { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+.no-tx { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
 .no-tx-g {
   padding: var(--sp-3);
   border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
@@ -1201,8 +1203,10 @@ html[data-theme="dark"] .no-core-r {
 }
 
 .nol-lane {
-  font: 700 10px sans-serif;
-  letter-spacing: 1.5px;
+  /* Hebrew captions since the correction pass: 11px floor, and the wide Latin
+     tracking came down — 1.5px between Hebrew glyphs reads as broken words. */
+  font: 700 var(--t-micro) sans-serif;
+  letter-spacing: 0.4px;
   fill: var(--ink-3);
 }
 
@@ -1495,8 +1499,8 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
   font-size: var(--t-micro); color: var(--ink-3);
 }
 .nod-vf { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; }
-.nod-vf[data-v="verified"] { color: var(--status-done); }
-.nod-vf[data-v="needs-verification"] { color: var(--status-in-analysis); }
+.nod-vf[data-v="verified"] { color: color-mix(in srgb, var(--status-done) 62%, var(--ink-1)); }
+.nod-vf[data-v="needs-verification"] { color: color-mix(in srgb, var(--status-in-analysis) 62%, var(--ink-1)); }
 .nod-src-l { display: inline-flex; align-items: center; gap: 4px; unicode-bidi: plaintext; }
 
 /* A SELF-REFERENCE reuses the dangling block's shape — same "listed, not drawn"

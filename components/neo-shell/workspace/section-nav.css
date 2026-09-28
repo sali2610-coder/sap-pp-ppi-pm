@@ -55,6 +55,10 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   display: flex;
   align-items: center;
   gap: var(--sp-3);
+  /* The bar takes the width it is given, never the width of its chips: the
+     reel below scrolls, so the bar's minimum is zero. Without this the flex
+     item's min-content travelled up the tree and widened the whole scene. */
+  min-inline-size: 0;
   min-block-size: var(--c-tap);
   padding-block: var(--sp-2);
   margin-inline: calc(-1 * var(--nxs-pad));
@@ -120,6 +124,10 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   gap: var(--sp-2);
   flex: 1 1 auto;
   min-inline-size: 0;
+  /* Size containment on the inline axis: the reel contributes no intrinsic
+     width to any ancestor, so seven chips can never push a page sideways.
+     It still grows to fill the bar through flex-grow. */
+  contain: inline-size;
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-inline: contain;

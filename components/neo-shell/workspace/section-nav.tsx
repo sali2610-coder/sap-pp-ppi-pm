@@ -392,7 +392,7 @@ export function SectionNav({
           type="button"
           className="nxs-next"
           onClick={() => goSection(next.id)}
-          aria-label={`לפרק הבא: ${next.label}`}
+          aria-label={`מעבר לפרק הבא: ${next.label}`}
         >
           <span className="nxs-next-k" aria-hidden="true">הבא</span>
           <span className="nxs-next-t" aria-hidden="true">{next.label}</span>

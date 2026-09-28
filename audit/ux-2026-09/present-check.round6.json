@@ -1,0 +1,80 @@
+{
+  "erd": {
+    "before": {
+      "zoom": "61%",
+      "xs": ".8125rem"
+    },
+    "on": {
+      "present": "1",
+      "focus": "1",
+      "legend": true,
+      "legendItems": 4,
+      "legendText": "מפת 15 המודולים1:1N:1N:Nקרדינליות לא צוינה",
+      "miniHidden": true,
+      "xs": ".95rem",
+      "railHidden": true,
+      "fullscreen": true,
+      "zoom": "100%"
+    },
+    "after": {
+      "present": "0",
+      "focus": null,
+      "legend": false
+    },
+    "ok": true
+  },
+  "studio": {
+    "start": {
+      "nodes": 16,
+      "layer": "שכבה: נתוני אב16 מתוך 56 טבלאות המודול",
+      "role": "הסטודיו מסביר ארכיטקטורה בשכבות: אזורים, סוגי אובייקטים ומעמ",
+      "zoom": "116%",
+      "labelPx": 11.84,
+      "labelOnScreen": 13.7,
+      "pressedZones": 1
+    },
+    "next": {
+      "nodes": 22,
+      "zoom": "59%",
+      "layer": "שכבה: נתוני אב · תכנון22 מתוך 56 טבלאות המודול"
+    },
+    "all": {
+      "nodes": 56,
+      "zoom": "47%",
+      "layer": "כל השכבות56 מתוך 56 טבלאות המודול"
+    },
+    "present": {
+      "present": "1",
+      "focus": "1",
+      "zoom": "90%",
+      "xs": ".95rem"
+    },
+    "exit": "0",
+    "ok": true
+  },
+  "home": {
+    "count": 3,
+    "links": 3,
+    "items": [
+      {
+        "n": "105",
+        "l": "טבלאות SAP",
+        "href": "/neo/tables/"
+      },
+      {
+        "n": "148",
+        "l": "טרנזקציות",
+        "href": "/neo/transactions/"
+      },
+      {
+        "n": "14",
+        "l": "מסומנות לשינוי במעבר",
+        "href": "/neo/s4hana/"
+      }
+    ],
+    "ok": true
+  },
+  "consoleErrors": 0,
+  "errs": []
+}
+PRESENT-CHECK OK

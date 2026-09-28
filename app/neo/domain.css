@@ -37,13 +37,15 @@
 .ndm-sap { unicode-bidi: isolate; color: var(--ink-2); }
 .ndm-back {
   color: var(--m); font: inherit; text-decoration: none;
+  display: inline-block; min-block-size: 1.5rem; line-height: 1.5rem;
   border-block-end: 1px solid color-mix(in srgb, var(--m) 40%, transparent);
 }
 .ndm-back:hover { border-block-end-color: var(--m); }
 
 .ndm-h1 {
   margin: 0;
-  font-size: clamp(1.8rem, 4.2vw, 3rem);
+  /* A reading screen's title: up to 40px (design audit §4), not the gate's. */
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
   font-weight: 700; line-height: 1.08; letter-spacing: -.025em;
   text-wrap: balance;
 }
@@ -88,16 +90,16 @@
 
 /* DEPTH BADGE — the honest distinction between a full record and a base one. */
 .ndm-depth {
-  font-size: .66rem; font-weight: 700; letter-spacing: .04em;
+  font-size: .75rem; font-weight: 700; letter-spacing: .04em;
   padding: .14rem .42rem; border-radius: 999px; white-space: nowrap;
 }
 .ndm-depth[data-deep="1"] {
-  color: var(--status-done);
+  color: color-mix(in srgb, var(--status-done) 62%, var(--ink-1));
   background: color-mix(in srgb, var(--status-done) 12%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--status-done) 30%, transparent);
 }
 .ndm-depth[data-deep="0"] {
-  color: var(--ink-3);
+  color: var(--ink-2);
   background: var(--surface-2);
   box-shadow: inset 0 0 0 1px var(--hairline);
 }
@@ -216,19 +218,56 @@
 
 /* ------------------------------------------------------------------- flow */
 
-.ndm-flow { display: grid; gap: .5rem; margin: 0; padding: 0; list-style: none; }
-.ndm-flow li { display: flex; align-items: flex-start; gap: .65rem; }
-.ndm-flow-n {
-  flex: none; inline-size: 1.55rem; block-size: 1.55rem; border-radius: .55rem;
+/* S7-DOM-2 · the flow as a compact row of numbered stations. Each station is
+   one `flow` entry of the record; the row wraps, so a 390px phone reads it as
+   a two-column ladder and a wide screen as one line. Reading direction is the
+   page's (RTL): the first station sits on the right and the arrow in each gap
+   points to the next one. The detailed chain below stays the long form. */
+.ndm-steps {
+  --stp: 10.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--stp), 1fr));
+  gap: .55rem 1rem;
+  margin: 0; padding: 0; list-style: none;
+  min-inline-size: 0;
+}
+.ndm-step {
+  position: relative;
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .55rem; align-items: start;
+  min-inline-size: 0; min-block-size: 3.4rem;
+  padding: .6rem .7rem;
+  border-radius: .75rem;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-inline-start: 3px solid color-mix(in srgb, var(--m) 55%, transparent);
+}
+.ndm-step-n {
+  inline-size: 1.55rem; block-size: 1.55rem; border-radius: .55rem;
   display: grid; place-items: center;
   font-family: var(--font-mono); font-size: .72rem; font-weight: 700;
   color: var(--m);
   background: color-mix(in srgb, var(--m) 12%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 28%, transparent);
 }
-.ndm-flow-b { display: grid; gap: 1px; }
-.ndm-flow-b b { font-size: .82rem; color: var(--ink-1); unicode-bidi: isolate; }
-.ndm-flow-b em { font-style: normal; font-size: .87rem; line-height: 1.55; color: var(--ink-2); }
+.ndm-step-b { display: grid; gap: 2px; min-inline-size: 0; }
+.ndm-step-b b { font-size: .8rem; color: var(--ink-1); unicode-bidi: isolate; overflow-wrap: anywhere; }
+.ndm-step-b em { font-style: normal; font-size: .85rem; line-height: 1.5; color: var(--ink-2); overflow-wrap: anywhere; }
+.ndm-step:not(:last-child)::after {
+  content: "←";
+  position: absolute; inset-inline-end: -1rem; inset-block-start: 50%;
+  inline-size: 1rem; transform: translateY(-50%);
+  text-align: center; font-size: .75rem; color: var(--ink-3); opacity: .7;
+  pointer-events: none;
+}
+.ndm-step-more {
+  display: inline-flex; align-items: center; gap: .3rem;
+  inline-size: fit-content; min-block-size: 2.25rem;
+  font-size: .8rem; font-weight: 600; color: var(--m); text-decoration: none;
+}
+.ndm-step-more:hover { text-decoration: underline; }
+.ndm-step-more:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 480px) { .ndm-steps { --stp: 8.5rem; gap: .5rem .85rem; } }
 
 .ndm-chain { margin: 0; padding: 0 0 0 0; list-style: none; display: flex; flex-wrap: wrap; gap: .4rem; }
 .ndm-chain li {
@@ -302,7 +341,8 @@
   padding-inline-start: .75rem;
   border-inline-start: 3px solid var(--t, var(--ink-3));
 }
-.ndm-s4 li b { font-size: .78rem; font-weight: 700; color: var(--t, var(--ink-2)); }
+.ndm-s4 li b { font-size: .78rem; font-weight: 700; color: color-mix(in srgb, var(--t, var(--ink-2)) 62%, var(--ink-1)); }
+html[data-theme="dark"] .ndm-s4 li b { color: color-mix(in srgb, var(--t, var(--ink-2)) 65%, #fff); }
 .ndm-s4 li span { font-size: .88rem; line-height: 1.68; color: var(--ink-2); }
 
 /* -------------------------------------------------------------- siblings */
@@ -331,3 +371,17 @@
   .ndm-sec { padding-inline: .95rem; }
   .ndm-sec-n { position: static; }
 }
+
+/* Local search and module filter on the hub (design audit §7, 2026-09-21). */
+.ndm-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .9rem; margin-block-start: 1.1rem; }
+.ndm-find {
+  display: flex; align-items: center; gap: .5rem; flex: 1 1 18rem; min-inline-size: 0;
+  padding: .45rem .7rem; border: 1px solid var(--hairline); border-radius: .7rem; background: var(--surface);
+  color: var(--ink-3);
+}
+.ndm-find:focus-within { border-color: var(--m, var(--brand)); color: var(--ink-1); }
+.ndm-find input { flex: 1 1 auto; min-inline-size: 0; border: 0; background: transparent; font: inherit; color: var(--ink-1); outline: none; }
+.ndm-modchips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.ndm-modchips .nu-tab em { font-style: normal; margin-inline-start: .3rem; color: var(--ink-3); }
+.ndm-count { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin: .8rem 0 0; font-size: .86rem; color: var(--ink-3); }
+.ndm-none { padding: 1.2rem; display: grid; gap: .8rem; justify-items: start; margin-block-start: 1rem; }

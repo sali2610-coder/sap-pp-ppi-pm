@@ -18,7 +18,7 @@
 // control comes back here rather than to a computed parent. This file renders
 // no prose, fetches nothing, and wraps no reader.
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpLeft, BookOpen, Bookmark, Layers, LayoutList, PlayCircle, Table2, X } from "lucide-react";
 import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
@@ -180,6 +180,9 @@ export function BookQuickView({
   }, []);
 
   const t = b.titleHe || b.titleEn;
+  /* Component-scoped id, like every other id in this family — a hardcoded
+     document id inside a component is one render away from a duplicate. */
+  const entryTitleId = useId();
   const r = resolveResume(b, reading);
   const line = resumeLine(r);
   const done = r.read >= b.chapters && b.chapters > 0;
@@ -194,7 +197,7 @@ export function BookQuickView({
         className="nb-sheet"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="nb-entry-t"
+        aria-labelledby={entryTitleId}
         ref={sheetRef}
       >
         {/* Outside the scrolling body on purpose: on a phone the panel is a
@@ -242,7 +245,7 @@ export function BookQuickView({
             {b.kindLabel && <><i aria-hidden="true" />{b.kindLabel}</>}
           </p>
 
-          <h2 className="nb-sheet-t" id="nb-entry-t">{t}</h2>
+          <h2 className="nb-sheet-t" id={entryTitleId}>{t}</h2>
           {b.titleHe && <p className="nb-sheet-t2 nb-sap">{b.titleEn}</p>}
 
           <dl className="nb-facts">
@@ -267,7 +270,7 @@ export function BookQuickView({
             <div className="nb-resume">
               <p className="nb-resume-h">
                 <Bookmark size={14} strokeWidth={1.75} aria-hidden="true" />
-                המשך מהמקום האחרון
+                המשך מהמיקום האחרון
               </p>
               <p className="nb-resume-l">{line}</p>
               <OriginLink
@@ -277,22 +280,22 @@ export function BookQuickView({
                 onClick={() => noteHandoff(b.id, r.chapter, r.section)}
               >
                 <PlayCircle size={15} strokeWidth={1.75} aria-hidden="true" />
-                {r.neoExact ? "חזרה לתת-הפרק" : "חזרה לפרק"}
+                {r.neoExact ? "המשך קריאה בתת-הפרק" : "המשך קריאה בפרק"}
               </OriginLink>
               <p className="nb-fine">
                 {r.section
-                  ? "המיקום נשמר עד רמת תת-הפרק, והקורא של NEO נוחת עליו."
-                  : "נשמר פרק בלבד. תת-פרק נשמר רק כשהקריאה בפועל הגיעה לאחד."}
+                  ? "המיקום נשמר ברמת תת-הפרק, והקורא נפתח בו."
+                  : "נשמר פרק בלבד; תת-פרק נשמר במהלך הקריאה."}
                 {/* §6 — the offset is REPORTED and never resumed from: the
                     locations a reader can be sent to are a chapter and a
                     subchapter, so the landing is at that grain and the sentence
                     says so rather than implying a pixel. */}
-                {resumeScrollLine(r) && <> {resumeScrollLine(r)} הנחיתה עצמה היא ברמת תת-הפרק.</>}
+                {resumeScrollLine(r) && <> {resumeScrollLine(r)} הפתיחה היא ברמת תת-הפרק.</>}
               </p>
             </div>
           ) : (
             <p className="nb-fine nb-resume-none">
-              אין מיקום קריאה שמור לספר הזה. אחרי פתיחה ראשונה בקורא, המקום האחרון יופיע כאן.
+              התחל לקרוא. המיקום יישמר במכשיר הזה.
             </p>
           )}
 
@@ -303,14 +306,14 @@ export function BookQuickView({
             origin={() => origin(t)}
           />
 
-          <section className="nb-link" aria-label="החיבור למילון NEO">
-            <h3 className="nb-h3">החיבור ל-Project NEO</h3>
+          <section className="nb-link" aria-label="הקישור לתיעוד הטכני">
+            <h3 className="nb-h3">התיעוד הטכני ב-Project NEO</h3>
             {b.dict ? (
               <>
                 <Link className="nb-dict" href={b.dict.href} prefetch={false}>
                   <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
                   <span className="nb-dict-t">
-                    מילון <span className="nb-sap">{b.dict.code}</span> · {b.dict.he}
+                    תיעוד טכני <span className="nb-sap">{b.dict.code}</span> · {b.dict.he}
                   </span>
                   <span className="nb-dict-n nb-sap">
                     {nf.format(b.dict.tables)} טבלאות · {nf.format(b.dict.fields)} שדות
@@ -326,7 +329,7 @@ export function BookQuickView({
               <Link className="nb-dict" href={b.near.href} prefetch={false}>
                 <Layers size={15} strokeWidth={1.75} aria-hidden="true" />
                 <span className="nb-dict-t">{b.near.label}</span>
-                <span className="nb-dict-n nb-sap">{nf.format(b.near.n)} אפליקציות מלאות</span>
+                <span className="nb-dict-n nb-sap">{nf.format(b.near.n)} יישומי Fiori</span>
                 <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
               </Link>
             )}
@@ -340,7 +343,7 @@ export function BookQuickView({
               onClick={() => noteHandoff(b.id, null, null)}
             >
               <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
-              פתח את הספר בקורא
+              פתיחת הספר בקורא
             </OriginLink>
             <OriginLink className="nu-btn2" href={b.hubHref} origin={() => origin(t)}>
               <LayoutList size={15} strokeWidth={1.75} aria-hidden="true" />
@@ -349,11 +352,11 @@ export function BookQuickView({
           </div>
           <p className="nb-fine">
             הקריאה נפתחת בקורא של Project NEO בכתובת <span className="nb-sap">{neoReadHref(b.id)}</span>.
-            הקורא הקנוני של הפרויקט,{" "}
+            הספר זמין גם בקורא של הספרייה הדיגיטלית:{" "}
             <Link className="nu-link" href={b.href} prefetch={false}>
               <span className="nb-sap">{b.href}</span>
             </Link>
-            , ממשיך לפעול ללא שינוי: העמוד הזה אינו עוטף אף אחד מהשניים.
+            .
           </p>
         </div>
       </div>

@@ -9,6 +9,7 @@ import { PROCESS_MAPS, type ProcessMap } from "@/data/processes";
 import { tcodeHref } from "@/lib/tcode-search";
 import { tableByName } from "@/lib/knowledge-graph";
 import { incidentBySlug } from "@/data/troubleshooting";
+import { noteBySlug } from "@/data/sap-notes";
 import { Highlight } from "@/components/highlight";
 
 const DC: Record<string, string> = { MM: "#0891b2", SD: "#db2777", "PP-PI": "#6d28d9", QM: "#0d9488", PM: "#f97316" };
@@ -41,6 +42,7 @@ export function ProcessFlowExplorer() {
 
   const tbl = (t: string) => (tableByName(t) ? `/object/${encodeURIComponent(t)}/` : "");
   const inc = (i: string) => (incidentBySlug(i) ? `/resolution/${i}/` : "");
+  const note = (n: string) => (noteBySlug(n) ? `/sap-notes/${n}/` : "");
 
   const container = { hidden: {}, show: { transition: { staggerChildren: reduce ? 0 : 0.05 } } };
   const item = { hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 14 }, show: { opacity: 1, y: 0, transition: reduce ? { duration: 0 } : { type: "spring" as const, stiffness: 260, damping: 24 } } };
@@ -107,6 +109,7 @@ export function ProcessFlowExplorer() {
                             {st.fiori && <Field label="Fiori"><Chips items={st.fiori} q={q} tone="#7c3aed" /></Field>}
                             {st.interfaces && <Field label="ממשקים"><Chips items={st.interfaces} q={q} tone="#0d9488" /></Field>}
                             {st.incidents && st.incidents.length > 0 && <Field label="תקלות"><Chips items={st.incidents} hrefFn={inc} q={q} tone="#dc2626" /></Field>}
+                            {st.notes && st.notes.length > 0 && <Field label="מקרי SAP Notes"><Chips items={st.notes} hrefFn={note} q={q} tone="#b45309" /></Field>}
                             {st.test && <div className="sm:col-span-2"><p className="rounded-lg bg-fuchsia-50 px-2.5 py-1.5 text-[11px] font-semibold text-fuchsia-800">QA: <Highlight text={st.test} query={q} /></p></div>}
                           </div>
                         </motion.div>

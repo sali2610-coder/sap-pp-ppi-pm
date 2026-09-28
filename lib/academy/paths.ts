@@ -11,7 +11,7 @@ export interface PathChapter { title: string; lessons: { title: string; slug?: s
 export interface LearningPath { module: string; title: string; titleEn?: string; color: string; chapters: PathChapter[]; currentChapter: number }
 // PM flagship path (real chapter structure; the pilot lesson lives in "ביצוע אחזקה").
 export const PM_PATH: LearningPath = {
-  module: "PM", title: "אחזקת מפעל", titleEn: "Plant Maintenance", color: "#f97316", currentChapter: 3,
+  module: "PM", title: "תחזוקת מפעל", titleEn: "Plant Maintenance", color: "#f97316", currentChapter: 3,
   chapters: [
     { title: "יסודות PM", lessons: [{ title: "מבנה ארגון האחזקה", slug: "pm-org-structure", minutes: 10, level: "בסיסי" }, { title: "מחזור חיי אחזקה", slug: "pm-maintenance-lifecycle", minutes: 10, level: "בסיסי" }] },
     { title: "נתוני אב", lessons: [{ title: "אב חומר וחלקי חילוף", slug: "pm-material", minutes: 12, level: "בסיסי" }, { title: "עץ מוצר אחזקה (BOM)", slug: "pm-bom", minutes: 12, level: "בסיסי" }, { title: "רשימות פעולות (Task Lists)", slug: "pm-task-list", minutes: 12, level: "בינוני" }, { title: "מרכזי עבודה", slug: "pm-work-center", minutes: 10, level: "בינוני" }, { title: "שותף עסקי (Business Partner)", slug: "pm-business-partner", minutes: 10, level: "בינוני" }] },

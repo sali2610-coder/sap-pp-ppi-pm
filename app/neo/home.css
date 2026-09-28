@@ -186,7 +186,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nh-index-l { font-weight: 700; }
 /* The number is secondary now, and it says so. */
-.nh-index-n { opacity: .5; font-size: .72em; font-variant-numeric: tabular-nums; }
+.nh-index-n { color: var(--ink-3); font-size: .8em; font-variant-numeric: tabular-nums; } /* was opacity .5 at .72em: 2.52:1 at 8.6px (axe) */
 /* The subject line only has room on a wide bar. */
 .nh-index-f { display: none; }
 @container (min-width: 62rem) {
@@ -482,7 +482,13 @@ html .nx-app .nx-canvas:has(> .nh) {
   padding: .9rem 1rem;
   background: color-mix(in oklab, var(--scene-raised) 62%, transparent);
   min-inline-size: 0;
+  /* A door, not a figure (design audit S7-HOME-4): each number opens the
+     catalog it counts. */
+  color: inherit; text-decoration: none;
+  transition: background .18s ease;
 }
+.nh-stat:hover { background: color-mix(in oklab, var(--scene-raised) 82%, transparent); }
+.nh-stat:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
 .nh-stat > b {
   font-size: clamp(1.15rem, 2.4cqi, 1.7rem);
   font-weight: 780;
@@ -821,7 +827,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 /* The 19, as cards. */
 .nh-shared {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
   gap: .7rem;
   margin-block-end: 1rem;
 }
@@ -919,7 +925,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 
 .nh-two {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
   gap: clamp(1.5rem, 3.5cqi, 3rem);
   align-items: start;
 }
@@ -1035,11 +1041,21 @@ html .nx-app .nx-canvas:has(> .nh) {
 /* STATUS colour, in the one form the design system allows: a small filled dot
    immediately followed by its word. The card, its edge and its bar stay
    neutral. */
-.nh-impcol-k { display: flex; align-items: center; gap: .4rem; font-size: .82rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-impcol-k {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .82rem;
+  /* 13.1px normal weight measured 4.29:1 on --scene-ink-2 in the light scene
+     (final audit, 2026-09-22). Mixing toward the scene's strongest ink clears
+     4.5:1 and keeps the label below the number it labels. */
+  color: color-mix(in srgb, var(--scene-ink-2, var(--ink-2)) 55%, var(--scene-ink, var(--ink-1)));
+}
 .nh-impcol-k > i { inline-size: .5rem; block-size: .5rem; border-radius: 50%; flex: none; }
 .nh-impcol[data-k="kept"] .nh-impcol-k > i { background: var(--status-done); }
+.nh-impcol[data-k="adapted"] .nh-impcol-k > i { background: var(--status-in-analysis); }
 .nh-impcol[data-k="replaced"] .nh-impcol-k > i { background: var(--status-in-conversion); }
-.nh-impcol[data-k="removed"] .nh-impcol-k > i { background: var(--status-not-started); }
+.nh-impcol[data-k="removed"] .nh-impcol-k > i { background: var(--status-removed); }
 .nh-impcol > b { font-size: clamp(1.6rem, 3.2cqi, 2.4rem); font-weight: 800; line-height: 1; color: var(--scene-ink, var(--ink-1)); }
 .nh-impcol-p { font-size: .76rem; color: var(--scene-ink-3, var(--ink-3)); }
 
@@ -1059,7 +1075,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-hot-k { display: flex; align-items: center; gap: .35rem; font-size: .7rem; color: var(--scene-ink-2, var(--ink-2)); }
 .nh-hot-k > i { inline-size: .45rem; block-size: .45rem; border-radius: 50%; flex: none; }
 .nh-hot-k[data-k="replaced"] > i { background: var(--status-in-conversion); }
-.nh-hot-k[data-k="removed"] > i { background: var(--status-not-started); }
+.nh-hot-k[data-k="removed"] > i { background: var(--status-removed); }
 .nh-hot-he { color: var(--scene-ink-2, var(--ink-2)); overflow-wrap: anywhere; }
 .nh-hot-note {
   grid-column: 1 / -1;
@@ -1249,7 +1265,7 @@ html .nx-app .nx-canvas:has(> .nh) {
    than as the drawing itself. */
 .nhn-key {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
   gap: var(--sp-5);
   margin-block-start: var(--sp-6);
   list-style: none; padding: 0;
@@ -1543,6 +1559,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--vc) 42%, transparent);
 }
 [data-scene="s4"] .nh-impcol[data-k="kept"]     { --vc: var(--scene-cool, #22d3ee); }
+[data-scene="s4"] .nh-impcol[data-k="adapted"]  { --vc: var(--scene-cool, #22d3ee); }
 [data-scene="s4"] .nh-impcol[data-k="replaced"] { --vc: var(--scene-hot, #ff6f57); }
 [data-scene="s4"] .nh-impcol[data-k="removed"]  { --vc: var(--scene-ink-3); }
 /* A zero band is drawn as a real zero rather than hidden — the dictionary
@@ -1744,3 +1761,20 @@ html[data-theme="dark"] #nh-5[data-scene="pppi-full"] {
    number nobody can read is not carrying identity anywhere. The hue keeps the
    card edge on every scene; only the value changes. */
 .nz-count { color: var(--scene-ink); }
+
+/* THE WORK-PATH GRID (content pass, 2026-08).
+   Three primary entries — PM, PP-PI, S/4HANA readiness — as one row of the
+   existing .nh-mod cards. Layout only; the card itself is untouched. */
+.nh-paths {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-4);
+  align-items: stretch;
+}
+.nh-paths .nh-mod { height: 100%; }
+@media (max-width: 1080px) {
+  .nh-paths { grid-template-columns: 1fr; }
+}
+
+/* a11y sample 2026-09-21: the text link in the gate measured 4.2:1 on the deep scene. */
+.nh-gate-in .nu-link { color: var(--scene-ink, #fff); }

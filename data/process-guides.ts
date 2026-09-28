@@ -43,9 +43,9 @@ export const PROCESS_GUIDES: ProcessGuide[] = [
     troubleshootFlow: ["לא ניתן לשחרר? → בדוק היתרים (IW32 Permits) + בדיקת זמינות", "אישור נכשל? → בדוק סטטוס REL + תקופת רישום (OB52/MMRV)", "עלות תקועה? → בדוק כלל התחשבנות + תקופת CO"],
     debugPath: ["SU53 להרשאה", "ST22 ל-dump", "breakpoint ב-BAdI WORKORDER_UPDATE (שמירה)", "EXIT_SAPLCOIH_009 (IWO10009) לבדיקות שחרור"],
     exits: ["IWO10009", "CONFPM01", "WORKORDER_UPDATE", "QQMA0001"],
-    fiori: ["Create Maintenance Request", "Manage Maintenance Orders", "Confirm Jobs"],
+    fiori: ["Create Maintenance Request", "Manage Maintenance Orders", "Perform Maintenance Jobs (F5104A)"],
     scenario: "בארגון: ממלאת נעצרת → טכנאי פותח M2 (Malfunction Start), רכז ממיר ל-PM01 עם החלפת ראש מילוי (רכיב מלאי) + כיול (שירות→PR). אישור שעות + Malfunction End, TECO, התחשבנות למרכז עלות הקו. MCI7 מראה MTBF.",
-    eccS4: { unchanged: "מחזור הודעה→פקודה→אישור→התחשבנות זהה.", changed: "UX ל-Fiori; עלויות ל-ACDOCA; מדדי אמינות ב-Embedded Analytics.", fiori: "Manage Maintenance Orders / Confirm Jobs", simplification: "Universal Journal (עלויות).", migration: "QA: מחזור מלא + התחשבנות ל-ACDOCA + מדדי MTTR/MTBF." } },
+    eccS4: { unchanged: "מחזור הודעה→פקודה→אישור→התחשבנות זהה.", changed: "UX ל-Fiori; עלויות ל-ACDOCA; מדדי אמינות ב-Embedded Analytics.", fiori: "Manage Maintenance Orders / Perform Maintenance Jobs (F5104A)", simplification: "Universal Journal (עלויות).", migration: "QA: מחזור מלא + התחשבנות ל-ACDOCA + מדדי MTTR/MTBF." } },
   {
     slug: "pm-preventive", module: "PM", title: "Preventive Maintenance (Plan→Call→Order)", he: "אחזקה מונעת — מקצה לקצה",
     summary: "תכנון וביצוע אחזקה מונעת: אסטרטגיה, תכנית, פריט+רשימת פעולות, תזמון, ניטור מועדים אוטומטי, ויצירת פקודות במועד.",

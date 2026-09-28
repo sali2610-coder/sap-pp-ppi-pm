@@ -1,0 +1,141 @@
+// Evidence foundation · schema rules over every overlay file and the best
+// practices. Loads with `node --experimental-strip-types --test` and NO alias
+// loader: the rule engine is pure, the overlay files carry type-only imports,
+// and the id universe comes from the alias-free generated manifest.
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { ROUTE_MANIFEST } from "../lib/route-manifest.generated.ts";
+import { FIORI_APPS } from "../data/fiori/apps.ts";
+import { EXITS } from "../data/exits.ts";
+import { ENHANCEMENTS } from "../data/enhancements.ts";
+import {
+  RULES, buildUniverse, validateBestPractices, validateRecords, validateRegistry, type Problem,
+} from "../lib/evidence/validate.ts";
+import { TABLE_VERIFICATION } from "../data/verification/tables.ts";
+import { TX_VERIFICATION } from "../data/verification/transactions.ts";
+import { TX_VERIFICATION_B } from "../data/verification/transactions-b.ts";
+import { TX_VERIFICATION_C } from "../data/verification/transactions-c.ts";
+import { TX_VERIFICATION_D } from "../data/verification/transactions-d.ts";
+import { TX_VERIFICATION_E } from "../data/verification/transactions-e.ts";
+import { TX_VERIFICATION_AUTO } from "../data/verification/transactions-auto.ts";
+import { FM_VERIFICATION } from "../data/verification/functions.ts";
+import { IDOC_BASIC_TYPES, IDOC_VERIFICATION } from "../data/verification/idocs.ts";
+import { CDS_VERIFICATION } from "../data/verification/cds.ts";
+import { FIORI_VERIFICATION } from "../data/verification/fiori.ts";
+import { ENH_VERIFICATION } from "../data/verification/enhancements.ts";
+import { OBJECT_REGISTRY, OBJECT_VERIFICATION } from "../data/verification/objects.ts";
+import { PM_BEST_PRACTICES } from "../data/best-practices/pm.ts";
+import { PPPI_BEST_PRACTICES } from "../data/best-practices/pp-pi.ts";
+import { PM_PROCESS_PRACTICES } from "../data/best-practices/pm-processes.ts";
+import { PP_PROCESS_PRACTICES } from "../data/best-practices/pp-processes.ts";
+import { CROSS_PROCESS_PRACTICES } from "../data/best-practices/cross-processes.ts";
+import { CROSS_PROCESS_PRACTICES_2 } from "../data/best-practices/cross-processes-2.ts";
+import { CATALOG_PROCESS_PRACTICES } from "../data/best-practices/catalog-2026-09.ts";
+import { PPPI_PROCESS_PRACTICES } from "../data/best-practices/pppi-processes.ts";
+import { PM_PROCESS_PRACTICES_2 } from "../data/best-practices/pm-processes-2.ts";
+
+const REGISTRY = [...OBJECT_REGISTRY, ...IDOC_BASIC_TYPES];
+// Same precedence as data/verification/index.ts: a researched record supersedes the generated one.
+const RESEARCHED_TX = new Set([...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C, ...TX_VERIFICATION_D, ...TX_VERIFICATION_E].map((r) => r.id));
+const TX_AUTO = TX_VERIFICATION_AUTO.filter((r) => !RESEARCHED_TX.has(r.id));
+const BPS = [...PM_BEST_PRACTICES, ...PPPI_BEST_PRACTICES, ...PM_PROCESS_PRACTICES, ...PP_PROCESS_PRACTICES, ...CROSS_PROCESS_PRACTICES, ...PPPI_PROCESS_PRACTICES, ...PM_PROCESS_PRACTICES_2, ...CROSS_PROCESS_PRACTICES_2, ...CATALOG_PROCESS_PRACTICES];
+const ALL_RECORDS = [
+  ...TABLE_VERIFICATION, ...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C, ...TX_VERIFICATION_D, ...TX_VERIFICATION_E, ...TX_AUTO, ...FM_VERIFICATION, ...IDOC_VERIFICATION,
+  ...CDS_VERIFICATION, ...FIORI_VERIFICATION, ...ENH_VERIFICATION, ...OBJECT_VERIFICATION,
+];
+
+const universe = () => buildUniverse({
+  manifest: ROUTE_MANIFEST,
+  fioriIds: FIORI_APPS.map((a) => a.id),
+  exitNames: EXITS.map((e) => ({ name: e.name, kind: e.kind })),
+  techniqueSlugs: ENHANCEMENTS.map((e) => e.slug),
+  registry: REGISTRY,
+  bpSlugs: BPS.map((b) => b.slug),
+});
+
+const fmt = (ps: Problem[]): string =>
+  ps.slice(0, 8).map((p) => `  ${p.rule} · ${p.id} · ${p.detail}`).join("\n");
+
+test("every schema rule holds over the overlays, the registries and the best practices", () => {
+  const u = universe();
+  const problems: Problem[] = [
+    ...validateRecords(ALL_RECORDS, u),
+    ...validateRegistry(REGISTRY, u),
+    ...validateBestPractices(BPS, u),
+  ];
+  for (const rule of RULES) {
+    const hit = problems.filter((p) => p.rule === rule);
+    assert.equal(hit.length, 0, `rule ${rule} violated:\n${fmt(hit)}`);
+  }
+});
+
+// The fiori catalog graduated on 2026-09-02. The F2731/F5241 lesson now lives
+// in the data: an app id that no official record names stays
+// verification_required (F2731, F3364), and every level above that must be
+// carried by an official library/help URL, never by the curated apps.ts entry.
+const OFFICIAL_HOSTS = ["help.sap.com", "api.sap.com", "fioriappslibrary.hana.ondemand.com", "fal.cloud.sap"];
+const hostOf = (u: string | undefined): string | null => { try { return u ? new URL(u).hostname : null; } catch { return null; } };
+
+test("the honest fiori path: a level above verification_required needs an official library/help URL", () => {
+  for (const r of FIORI_VERIFICATION) {
+    assert.ok(r.evidence.length > 0, `${r.id} has no evidence`);
+    const aboveFloor = r.evidence.some((e) => e.verificationLevel !== "verification_required");
+    if (aboveFloor) {
+      const official = r.evidence.some(
+        (e) => (e.sourceType === "fiori_library" || e.sourceType === "sap_help") && OFFICIAL_HOSTS.includes(hostOf(e.url) ?? ""),
+      );
+      assert.ok(official, `${r.id}: no official library/help url behind its verified evidence`);
+    }
+    for (const e of r.evidence) {
+      if (e.verificationLevel === "sap_official_verified") {
+        assert.ok(OFFICIAL_HOSTS.includes(hostOf(e.url) ?? ""), `${r.id}: sap_official_verified without an official url (${e.sourceTitle})`);
+      }
+    }
+  }
+});
+
+// The tables catalog graduated to Tier-1 on 2026-09-01; the functions,
+// transactions, idocs, cds, enhancements and fiori catalogs on 2026-09-02
+// (their per-catalog data commits carry sap_official_verified claims and
+// authored statuses, all checked by validateRecords above). The objects
+// catalog, the last one under the repository-only foundation guard,
+// graduated on 2026-09-24 with its first audited batch, so that guard has
+// no catalog left and was removed.
+test("graduated records (tables + functions + transactions + idocs + cds + enhancements + fiori + objects): every repository claim still carries a repoRef", () => {
+  for (const r of [...TABLE_VERIFICATION, ...FM_VERIFICATION, ...TX_VERIFICATION, ...TX_VERIFICATION_B, ...TX_VERIFICATION_C, ...TX_VERIFICATION_D, ...TX_VERIFICATION_E, ...TX_AUTO, ...IDOC_VERIFICATION, ...CDS_VERIFICATION, ...ENH_VERIFICATION, ...FIORI_VERIFICATION, ...OBJECT_VERIFICATION]) {
+    for (const e of r.evidence) {
+      if (e.sourceType === "repository") assert.ok(e.repoRef, `${r.id}: repository evidence without repoRef`);
+    }
+  }
+});
+
+/* ------------------------------------------------- loader-free guard */
+
+const root = new URL("..", import.meta.url);
+const read = (p: string) => readFileSync(fileURLToPath(new URL(p, root)), "utf8");
+
+const PURE_FILES = [
+  "lib/evidence/types.ts", "lib/evidence/canonical.ts", "lib/evidence/s4-status.ts",
+  "lib/evidence/depth.ts", "lib/evidence/validate.ts",
+];
+const DATA_FILES = [
+  "data/verification/tables.ts", "data/verification/transactions.ts", "data/verification/transactions-b.ts", "data/verification/transactions-c.ts", "data/verification/transactions-d.ts", "data/verification/transactions-e.ts", "data/verification/transactions-auto.ts", "data/verification/functions.ts",
+  "data/verification/idocs.ts", "data/verification/cds.ts", "data/verification/fiori.ts",
+  "data/verification/enhancements.ts", "data/verification/objects.ts",
+  "data/best-practices/pm.ts", "data/best-practices/pp-pi.ts", "data/best-practices/pm-processes.ts", "data/best-practices/pp-processes.ts", "data/best-practices/cross-processes.ts", "data/best-practices/pppi-processes.ts", "data/best-practices/pm-processes-2.ts",
+];
+
+test("pure modules and overlay files carry no value imports at all", () => {
+  for (const p of [...PURE_FILES, ...DATA_FILES]) {
+    const bad = read(p).split("\n").filter((l) => /^import\s/.test(l) && !/^import\s+type\b/.test(l));
+    assert.deepEqual(bad, [], `${p} has value imports:\n${bad.join("\n")}`);
+  }
+});
+
+test("data/verification/index.ts imports exactly the ten files this suite loads", () => {
+  const names = [...read("data/verification/index.ts").matchAll(/from\s+"\.\/([a-z-]+)"/g)]
+    .map((m) => m[1]).sort();
+  assert.deepEqual(names, ["cds", "enhancements", "fiori", "functions", "idocs", "objects", "tables", "transactions", "transactions-auto", "transactions-b", "transactions-c", "transactions-d", "transactions-e"]);
+});

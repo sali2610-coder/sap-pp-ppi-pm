@@ -29,7 +29,7 @@ export const PRIMARY_MODULE: Record<string, string> = {
 };
 
 export const MODULE_HE: Record<string, string> = {
-  MM: "ניהול חומרים / מלאי", "PP-PI": "ייצור תהליכי", PP: "תכנון ייצור", PM: "תחזוקת מפעל",
+  MM: "ניהול חומרים / מלאי", "PP-PI": "תעשיות תהליכיות", PP: "תכנון ייצור", PM: "תחזוקת מפעל",
   QM: "ניהול איכות", SD: "מכירות והפצה", FI: "הנהלת חשבונות", CO: "בקרת עלויות",
   BATCH: "ניהול אצוות", CLASS: "מערכת סיווג", HR: "משאבי אנוש", BW: "Analytics", CS: "שירות לקוחות",
 };

@@ -33,19 +33,19 @@ const nf = new Intl.NumberFormat("he-IL");
 const ABOUT: Record<WsSheet["key"], { icon: React.ReactNode; lede: string }> = {
   config: {
     icon: <Settings2 size={13} strokeWidth={1.75} />,
-    lede: "לכל אובייקט קונפיגורציה: הטרנזקציה, נתיב ה-SPRO, ההסבר הפונקציונלי ומילון המונחים, כפי שנכתבו בגיליון.",
+    lede: "לכל אובייקט קונפיגורציה: הטרנזקציה, נתיב ה-SPRO, ההסבר הפונקציונלי ורשימת המונחים, כפי שנכתבו בגיליון.",
   },
   customCode: {
     icon: <Blocks size={13} strokeWidth={1.75} />,
-    lede: "בדיקת הקוד המותאם: User Exits ו-BAdIs, עם סטטוס הבדיקה וההמלצה למעבר ל-S/4 שנרשמו בגיליון.",
+    lede: "בדיקת הקוד המותאם: User Exits ו-BAdIs, עם סטטוס הבדיקה וההמלצה למעבר ל-S/4HANA כפי שנרשמו בגיליון.",
   },
   tools: {
     icon: <Wrench size={13} strokeWidth={1.75} />,
-    lede: "ערכת הכלים של המיישם וה-Basis: מה כל כלי עושה, מה קורה לו ב-S/4HANA ומה היורש שלו ב-Launchpad.",
+    lede: "ערכת הכלים של המיישם ושל Basis: תפקיד כל כלי, מצבו ב-S/4HANA והיישום העוקב ב-Fiori Launchpad, כפי שנרשמו בגיליון.",
   },
   ppvs: {
     icon: <GitCompareArrows size={13} strokeWidth={1.75} />,
-    lede: "ההשוואה שהתכנון עצמו ערך בין ייצור בדיד לייצור תהליכי. הרשומה שמסבירה למה המודול הזה הוא PP-PI.",
+    lede: "השוואה מתיעוד הפרויקט בין ייצור בדיד (PP) לתעשיות תהליכיות (PP-PI), עם הנימוק לבחירה ב-PP-PI למודול זה.",
   },
   simplification: { icon: null, lede: "" },
   tcodesDir: { icon: null, lede: "" },
@@ -66,10 +66,9 @@ export function WorkspaceBuild({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       icon={<Settings2 size={17} strokeWidth={1.75} />}
       lede={
         <>
-          מעבר לטבלאות SAP, התכנון של המודול מחזיק{" "}
-          <b className="nw-sap">{nf.format(sheets.length)}</b> גיליונות עבודה נוספים ובהם{" "}
-          <b className="nw-sap">{nf.format(rows)}</b> רשומות. הם מוצגים כאן מילה במילה, בלי סיכום ובלי
-          פרשנות.
+          מעבר לטבלאות SAP, תיעוד המודול כולל{" "}
+          <b className="nw-sap">{nf.format(sheets.length)}</b> גיליונות נוספים ובהם{" "}
+          <b className="nw-sap">{nf.format(rows)}</b> רשומות. הגיליונות מוצגים כלשונם.
         </>
       }
     >

@@ -14,7 +14,7 @@ export function generateMetadata() {
   const t = s4ObjectTotals();
   return {
     title: "מרכז S/4HANA · Project NEO",
-    description: `${t.total} אובייקטים שהשתנו במעבר מ-ECC ל-S/4HANA: מה היה, מה קיים, מה זה עושה לקוד המותאם, ומה לבדוק.`,
+    description: `${t.total} אובייקטים מתועדים במעבר מ-ECC ל-S/4HANA: המצב ב-ECC, המצב ב-S/4HANA, ההשפעה על הקוד המותאם ונקודות לבדיקה.`,
     robots: { index: false, follow: false },
   };
 }

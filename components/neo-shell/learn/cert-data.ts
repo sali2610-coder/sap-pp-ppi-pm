@@ -57,9 +57,9 @@ export interface CertData {
 }
 
 const MODULES: { id: CertModule; he: string; from: string }[] = [
-  { id: "PM", he: "אחזקת מפעל", from: "כל טבלאות ה-PM במילון הפרויקט" },
-  { id: "PP-PI", he: "ייצור תהליכי", from: "כל טבלאות ה-PP-PI במילון הפרויקט" },
-  { id: "PP", he: "ליבת ייצור", from: "תת-קבוצת ליבת הייצור מתוך טבלאות ה-PP-PI" },
+  { id: "PM", he: "תחזוקת מפעל", from: "כל טבלאות ה-PM בקטלוג הטבלאות של הפרויקט" },
+  { id: "PP-PI", he: "תעשיות תהליכיות", from: "כל טבלאות ה-PP-PI בקטלוג הטבלאות של הפרויקט" },
+  { id: "PP", he: "תכנון ייצור", from: "תת-קבוצה של טבלאות הליבה של PP מתוך טבלאות ה-PP-PI" },
 ];
 
 const LEVELS: Level[] = [1, 2, 3, 4];

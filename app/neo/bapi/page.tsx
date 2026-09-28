@@ -19,9 +19,9 @@ import { bapiDir } from "@/components/neo-shell/reference/bapi-data";
 // derives the sitemap from out/ and its only exclusion mechanism is a page
 // declaring content="noindex" itself.
 export const metadata = {
-  title: "BAPIs ו-Function Modules · Project NEO",
+  title: "BAPIs ומודולי פונקציה · Project NEO",
   description:
-    "הרישום הקנוני של אובייקטי הפונקציה במעטפת NEO: מודול, משמעות, טבלאות וטרנזקציות מקושרות ומעמד ב-S/4HANA.",
+    "קטלוג BAPI ו-FM של Project NEO: מודול, משמעות, טבלאות וטרנזקציות מקושרות ומעמד ב-S/4HANA.",
   robots: { index: false, follow: false },
 };
 

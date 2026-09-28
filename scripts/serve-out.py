@@ -19,6 +19,8 @@ class H(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a):
         pass
 
-with socketserver.TCPServer(("", 4173), H) as httpd:
-    print("serving out/ on 4173", flush=True)
+import os
+PORT = int(os.environ.get("PORT", "4173"))
+with socketserver.TCPServer(("", PORT), H) as httpd:
+    print(f"serving out/ on {PORT}", flush=True)
     httpd.serve_forever()

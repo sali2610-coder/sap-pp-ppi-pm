@@ -21,6 +21,8 @@
 
 import { ALL_TABLES } from "@/data/sapData";
 import { cdsForTable } from "@/data/cds-map";
+import { evidenceBlock, fromBlueprintClass } from "@/lib/evidence";
+import { s4ClassOf } from "@/lib/s4-class";
 import { ZONES, zoneOf } from "@/lib/studio-graph";
 import { objVarFor } from "../nav-data";
 import { tableDetailNames, tableHref } from "./tables-detail";
@@ -112,6 +114,7 @@ export function tablesData(): NeoTablesData {
         s4Alt: t.s4AltTable || "",
         s4Tcode: t.s4AltTcode || "",
         sum: t.sumNote || "",
+        status: { key: "", label: "", dot: "", derived: true },
         href: generated.has(t.tableName) ? tableHref(t.tableName) : null,
         objHref: generated.has(t.tableName) ? `/neo/object/${encodeURIComponent(t.tableName)}/` : null,
         hay: "",
@@ -137,6 +140,22 @@ export function tablesData(): NeoTablesData {
   }
 
   const rows = [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
+
+  // ONE status per table. The claim is resolved exactly as tables-detail.ts
+  // resolves it for the page: the authored overlay record when one exists,
+  // otherwise the blueprint's own S/4 column (first non-empty note, first
+  // non-empty replacement table). A row therefore shows the pill its page
+  // shows, and the catalog can never say "replaced" where the page says
+  // "unchanged".
+  for (const r of rows) {
+    const e = evidenceBlock(
+      `table:${r.name}`,
+      fromBlueprintClass(s4ClassOf({ s4Note: r.s4 }), r.s4Alt),
+      { hasHe: !!r.he, structural: 0 },
+      "tables",
+    );
+    r.status = { key: e.status.key, label: e.status.label, dot: e.status.dot, derived: e.status.derived };
+  }
 
   // Built once, here, so a keystroke on the client is a substring test and never
   // a string build across 100+ rows.

@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-09-21",
+  "head": "1eac50cb",
+  "baselineFiles": 574,
+  "identical": 574,
+  "changed": [],
+  "missing": [],
+  "added": [],
+  "roots": [
+    "data/books",
+    "data/library"
+  ],
+  "verdict": "ZERO_CONTENT_LOSS"
+}

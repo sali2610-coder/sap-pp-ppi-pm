@@ -127,7 +127,8 @@ html[data-theme="dark"] .nu-btn { color: #0b0e11; }
 /* --- link: leaves for another route. the arrow is the signal -------------- */
 .nu-link {
   background: transparent;
-  color: var(--_m);
+  /* Brand red on the light ground measured 4.36:1 at 13px; a step toward ink. */
+  color: color-mix(in srgb, var(--_m) 86%, var(--ink-1));
   border: 0;
   padding: 0.35rem 0;
   border-radius: 0.25rem;
@@ -186,7 +187,8 @@ html[data-theme="dark"] .nu-btn { color: #0b0e11; }
 /* --- status: a STATE. dot + word, per the form rule ----------------------- */
 .nu-status {
   display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.6875rem; font-weight: 650; color: var(--ink-2);
+  /* 12px: a state word is a label, not prose, but 11px was below every floor. */
+  font-size: 0.75rem; font-weight: 650; color: var(--ink-2);
   cursor: default;
 }
 .nu-status::before {
@@ -195,6 +197,11 @@ html[data-theme="dark"] .nu-btn { color: #0b0e11; }
   background: var(--s, var(--status-not-started));
   flex: none;
 }
+/* With a glyph (components/neo-shell/evidence/status-pill.tsx) the shape
+   carries the state's colour and the dot steps aside: shape + colour + word,
+   never colour alone (design audit S5-3). */
+.nu-status--g::before { display: none; }
+.nu-status--g > svg { flex: none; color: var(--s, var(--ink-3)); }
 
 /* --- card: a whole selectable region -------------------------------------- */
 .nu-card {
@@ -301,3 +308,7 @@ a.nu-card:active, button.nu-card:active { transform: translateY(0); box-shadow: 
    is the right answer there (6.9:1) and forcing white dropped it to 3.05:1.
    Same control, opposite correction — which is exactly why this is measured per
    theme instead of reasoned about once. */
+
+/* Interactive chips are targets: 24px minimum (WCAG 2.5.8; a11y sample 2026-09-21).
+   Static chips keep their height. */
+.nx-app a.nu-chip, .nx-app button.nu-chip { min-block-size: 1.5rem; }

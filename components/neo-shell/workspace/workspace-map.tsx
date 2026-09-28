@@ -76,8 +76,7 @@ export function WorkspaceMap({
       icon={<Compass size={17} strokeWidth={1.75} />}
       lede={
         <>
-          לפי נושא, לפי שלב בתהליך או לפי מחלקת אובייקט: שלוש קריאות של אותו מילון. בחירה כאן מצמצמת
-          את טבלת העבודה בפרק הבא, ולא פותחת מסך נוסף.
+          לפי נושא, לפי התהליך העסקי או לפי מחלקת אובייקט. בחירה כאן מסננת את טבלת העבודה בפרק הבא.
         </>
       }
       lead={
@@ -133,6 +132,14 @@ export function WorkspaceMap({
               </li>
             ))}
           </ul>
+          {/* Design audit §7: after choosing a topic, the results are a chapter
+              away. The button names the count and jumps to the filtered table. */}
+          {topic != null && d.topics.some((t) => t.idx === topic) ? (
+            <a className="nu-btn nw-rank-go" href="#nw-tbl">
+              הצג {nf.format(d.topics.find((t) => t.idx === topic)!.tables)} טבלאות של הנושא
+              <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" style={{ transform: "rotate(-90deg)" }} />
+            </a>
+          ) : null}
           <p className="nw-fine">
             אורך הפס הוא מספר הטבלאות בנושא מול הנושא הרחב ביותר במודול, שמחזיק {nf.format(d.maxTopicTables)} טבלאות.
           </p>
@@ -167,18 +174,18 @@ export function WorkspaceMap({
                     <i className="nw-cls" aria-hidden="true" />
                     <b className="nw-sap">{s.code}</b>
                     <span className="nw-step-he">{s.label}</span>
-                    <em>לא במילון של המודול</em>
+                    <em>לא מתועד במודול</em>
                   </div>
                 )}
               </li>
             ))}
           </ol>
           <p className="nw-fine">
-            שרשרת התהליך מגיעה ממפת התהליכים של הפרויקט. {nf.format(d.flow.length)} שלבים,{" "}
+            שרשרת התהליך מגיעה ממפת התהליכים של הפרויקט: {nf.format(d.flow.length)} צעדים,{" "}
             {flowGaps === 0
-              ? "כולם מתועדים במילון של המודול"
-              : `${nf.format(flowGaps)} מהם ללא טבלה במילון של המודול`}
-            . שלב מתועד נפתח בעמוד האובייקט המלא שלו.
+              ? "כולם מתועדים בתיעוד המודול"
+              : `${nf.format(flowGaps)} מהם ללא טבלה בתיעוד המודול`}
+            . צעד מתועד נפתח בעמוד האובייקט המלא שלו.
           </p>
         </div>
       ) : null}
@@ -210,8 +217,8 @@ export function WorkspaceMap({
             ))}
           </ul>
           <p className="nw-fine">
-            המחלקה נגזרת משם הטבלה באותה מפה שממנה נבנים גם ה-ERD ועמוד הבית, כך שטבלה מסווגת אותו דבר בכל
-            המערכת. {nf.format(d.counts.tables)} טבלאות ייחודיות מחולקות ל-{nf.format(d.zones.length)} מחלקות.
+            מחלקת האובייקט נגזרת משם הטבלה, באותו סיווג המשמש גם את ה-ERD ואת מסך הבית.{" "}
+            {nf.format(d.counts.tables)} טבלאות ייחודיות מחולקות ל-{nf.format(d.zones.length)} מחלקות.
           </p>
         </div>
       ) : null}

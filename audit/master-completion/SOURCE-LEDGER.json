@@ -1,0 +1,7 @@
+{
+  "note": "Official sources read in full from a local copy. Records cite the URL; the md5 identifies the exact document read.",
+  "sources": [
+    { "title": "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1", "documentVersion": "1.36", "release": "2025 FPS01", "url": "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf", "pdfMd5": "c1ccf8ebcd92d51fdc80e4b4873f3b73", "localText": "scratchpad/official/SIMPL_OP2025.pdf.txt", "itemHeadingsParsed": 894 },
+    { "title": "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3", "documentVersion": "1.35", "release": "2023 FPS03", "url": "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf", "pdfMd5": "909c6e9087b009e809c116d3c6cf2eec", "localText": "scratchpad/official/SIMPL_OP2023.pdf.txt", "itemHeadingsParsed": 506 }
+  ]
+}

@@ -1,0 +1,460 @@
+PASS 01-shell-home desktop/dark console=0
+PASS 01-shell-home desktop/dark overflow=0
+PASS 01-shell-home desktop/dark h1 count=1 "מפת הידעל-SAP S/4HANA"
+PASS 01-shell-home desktop/dark clipped=[]
+WARN 01-shell-home desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 03-s4hana desktop/dark console=0
+PASS 03-s4hana desktop/dark overflow=0
+PASS 03-s4hana desktop/dark h1 count=1 "השינויים במעבר מ-ECC ל-S/4HANA"
+PASS 03-s4hana desktop/dark clipped=[]
+WARN 03-s4hana desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","פונקציונלית נשמרת — אך מודל הנתונים, חוו","דקס פריטים פתוחים — ח-ן ראשי ECC טבלת א"]
+PASS 03-s4-readiness desktop/dark console=0
+PASS 03-s4-readiness desktop/dark overflow=0
+PASS 03-s4-readiness desktop/dark h1 count=1 "מוכנות ל-S/4HANA לפי מודול"
+PASS 03-s4-readiness desktop/dark clipped=[]
+WARN 03-s4-readiness desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ויות פקודות ייצור/אחזקה עובר ל-ACDOCA; ד","P-DS בתוך S/4HANA — ללא מערכת APO נפרדת;"]
+PASS 03-migration-cockpit desktop/dark console=0
+PASS 03-migration-cockpit desktop/dark overflow=0
+PASS 03-migration-cockpit desktop/dark h1 count=1 "אובייקטי המעבר ורצף הטעינה"
+PASS 03-migration-cockpit desktop/dark clipped=[]
+WARN 03-migration-cockpit desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ות / יתרות תוכנית אחזקה Maintenance Plan","דים ל ציוד תוכנית אחזקה בסיס למבנה האחז"]
+PASS 04-pm desktop/dark console=0
+PASS 04-pm desktop/dark overflow=0
+PASS 04-pm desktop/dark h1 count=1 "תחזוקת מפעלPM"
+PASS 04-pm desktop/dark clipped=[]
+WARN 04-pm desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ות 03 עצי מוצר של אחזקה (BOM) 5 טבלאות ·","15 שדות 06 הודעות אחזקה (Notifications) "]
+PASS 05-pp-pi desktop/dark console=0
+PASS 05-pp-pi desktop/dark overflow=0
+PASS 05-pp-pi desktop/dark h1 count=1 "תעשיות תהליכיותPP-PI"
+PASS 05-pp-pi desktop/dark clipped=[]
+WARN 05-pp-pi desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ר כלליים אב חומר — MATNR הורחב מ-18 ל-4","K CR01CR02+1 1 2 1– לא הוכרע במקור פתיח"]
+PASS 06-erd desktop/dark console=0
+PASS 06-erd desktop/dark overflow=0
+PASS 06-erd desktop/dark h1 count=1 "מודל הנתונים · כל המודולים"
+PASS 06-erd desktop/dark clipped=[]
+WARN 06-erd desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ב-ERD PP-PI ייצור – תעשיית תהליך Product"," תהליך Production – Process Indu… 15 / 5"]
+PASS 07-domain-model desktop/dark console=0
+PASS 07-domain-model desktop/dark overflow=0
+PASS 07-domain-model desktop/dark h1 count=1 "התחומים העסקיים של PM ו-PP-PI"
+PASS 07-domain-model desktop/dark clipped=[]
+WARN 07-domain-model desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","טנדרטית של פעולות אחזקה — מרכזי עבודה, ז","ת של פעולות אחזקה — מרכזי עבודה, זמנים, "]
+PASS 07-domain desktop/dark console=0
+PASS 07-domain desktop/dark overflow=0
+PASS 07-domain desktop/dark h1 count=1 "רשימות פעולות (Task Lists)"
+PASS 07-domain desktop/dark clipped=[]
+WARN 07-domain desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","טנדרטית של פעולות אחזקה — מרכזי עבודה, ז","ת של פעולות אחזקה — מרכזי עבודה, זמנים, "]
+PASS 07-centers desktop/dark console=0
+PASS 07-centers desktop/dark overflow=0
+PASS 07-centers desktop/dark h1 count=1 "מרכזי הידע של הפרויקט"
+PASS 07-centers desktop/dark clipped=[]
+WARN 07-centers desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 07-studio desktop/dark console=0
+PASS 07-studio desktop/dark overflow=0
+PASS 07-studio desktop/dark h1 count=1 "Architecture Studio"
+PASS 07-studio desktop/dark clipped=[]
+WARN 07-studio desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","יקטי קריאת תכנית האחזקה MHIS היסטוריית ת","וריית תזמון תכנית אחזקה MPLA כותרת תכנית"]
+PASS 08-object desktop/dark console=0
+PASS 08-object desktop/dark overflow=0
+PASS 08-object desktop/dark h1 count=1 "AUFK"
+PASS 08-object desktop/dark clipped=[]
+WARN 08-object desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","אובייקט מורד הזרם – 1:1 – N:1 N:1 T399X ","ט מורד הזרם – 1:1 – N:1 N:1 T399X PP-PI "]
+PASS 09-tables desktop/dark console=0
+PASS 09-tables desktop/dark overflow=0
+PASS 09-tables desktop/dark h1 count=1 "טבלאות SAP"
+PASS 09-tables desktop/dark clipped=[]
+WARN 09-tables desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"," מפעל כותרת פקודת אחזקה (PM) ביצוע · 7. ","אמצעי ייצור (PRT) — מבוסס מרכז עבודה נתו"]
+PASS 10-table-detail desktop/dark console=0
+PASS 10-table-detail desktop/dark overflow=0
+PASS 10-table-detail desktop/dark h1 count=1 "AUFK"
+PASS 10-table-detail desktop/dark clipped=[]
+WARN 10-table-detail desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","CHAR 4 PM PP-PI – KTEXT תיאור הפק\"ע Or","ible cost center – – PM FK WERKS מפעל"]
+PASS 11-transactions desktop/dark console=0
+PASS 11-transactions desktop/dark overflow=0
+PASS 11-transactions desktop/dark h1 count=1 "טרנזקציות SAP"
+PASS 11-transactions desktop/dark clipped=[]
+WARN 11-transactions desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ntory Management) — תנועות טובין Goods M","ntory Management) — תנועות טובין מתועדת "]
+PASS 12-tx-detail desktop/dark console=0
+PASS 12-tx-detail desktop/dark overflow=0
+PASS 12-tx-detail desktop/dark h1 count=1 "IW31"
+PASS 12-tx-detail desktop/dark clipped=[]
+WARN 12-tx-detail desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","aintenance Order) — מסמך תכנון וביצוע עב","נהל עבודה · מתכנן אחזקה מסך והרצה זרימה "]
+PASS 13-bapi desktop/dark console=0
+PASS 13-bapi desktop/dark overflow=0
+PASS 13-bapi desktop/dark h1 count=1 "BAPIs ומודולי פונקציה"
+PASS 13-bapi desktop/dark clipped=[]
+WARN 13-bapi desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","יווח פעולה בהזמנת אחזקה (PM) — זמנים/פעי","בהזמנת אחזקה (PM) — זמנים/פעילויות. דורש"]
+PASS 14-idoc desktop/dark console=0
+PASS 14-idoc desktop/dark overflow=0
+PASS 14-idoc desktop/dark h1 count=1 "IDocs"
+PASS 14-idoc desktop/dark clipped=[]
+WARN 14-idoc desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","rol Record) כותרת — שותף, סוג הודעה, Bas","ords) תוכן ההודעה — מקטעים (segments) הי"]
+PASS 15-cds desktop/dark console=0
+PASS 15-cds desktop/dark overflow=0
+PASS 15-cds desktop/dark h1 count=1 "CDS Views"
+PASS 15-cds desktop/dark clipped=[]
+WARN 15-cds desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","e · מורכב עץ מוצר — כותרת נתוני אב טבלאו","e · בסיסי עץ מוצר — פריטים נתוני אב טבלא"]
+PASS 16-fiori desktop/dark console=0
+PASS 16-fiori desktop/dark overflow=0
+PASS 16-fiori desktop/dark h1 count=1 "יישומי SAP Fiori"
+PASS 16-fiori desktop/dark clipped=[]
+WARN 16-fiori desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","יטור כיסוי חומרים — מקטעי נטו Monitor Ma","קציוני פתיחת בקשת אחזקה Create Maintenan"]
+PASS 17-enhancements desktop/dark console=0
+PASS 17-enhancements desktop/dark overflow=0
+PASS 17-enhancements desktop/dark h1 count=1 "טכניקות הרחבה"
+PASS 17-enhancements desktop/dark clipped=[]
+WARN 17-enhancements desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ירועים (בעיקר FI) — P/S interfaces. BTE ","עצמים מהדור הקודם — מבוססת ממשק, ניתנת ל"]
+PASS 18-knowledge desktop/dark console=0
+PASS 18-knowledge desktop/dark overflow=0
+PASS 18-knowledge desktop/dark h1 count=1 "מרכז הידע"
+PASS 18-knowledge desktop/dark clipped=[]
+WARN 18-knowledge desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ישות עסקית במערכת — חומר, ציוד, פקודה. מ","חסן רשומות עסקיות — שורות ועמודות. ABAP "]
+PASS 18-concept desktop/dark console=0
+PASS 18-concept desktop/dark overflow=0
+PASS 18-concept desktop/dark h1 count=1 "אובייקט"
+PASS 18-concept desktop/dark clipped=[]
+WARN 18-concept desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ישות עסקית במערכת — חומר, ציוד, פקודה. מ","בלאות, נגזר ממבני מילון ומנוהל דרך טרנזק"]
+PASS 19-incidents desktop/dark console=0
+PASS 19-incidents desktop/dark overflow=0
+PASS 19-incidents desktop/dark h1 count=1 "תקלות ופתרון בעיות"
+PASS 19-incidents desktop/dark clipped=[]
+WARN 19-incidents desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","kflush אישור נכשל — תקופה סגורה לא ניתן "," אינה פתוחה פקודת אחזקה לא משתחררת לחיצה"]
+PASS 20-academy desktop/dark console=0
+PASS 20-academy desktop/dark overflow=0
+PASS 20-academy desktop/dark h1 count=1 "SAP Academy"
+PASS 20-academy desktop/dark clipped=[]
+WARN 20-academy desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","-User תחזוקת מפעל — מדריך משתמש Plant Ma","Plant Maintenance — Business User 10 פרק"]
+PASS 21-certification desktop/dark console=0
+PASS 21-certification desktop/dark overflow=0
+PASS 21-certification desktop/dark h1 count=1 "הסמכה"
+PASS 21-certification desktop/dark clipped=[]
+WARN 21-certification desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 22-books desktop/dark console=0
+PASS 22-books desktop/dark overflow=0
+PASS 22-books desktop/dark h1 count=1 "ספריית SAP11 ספרים"
+PASS 22-books desktop/dark clipped=[]
+WARN 22-books desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ם פתיחה בקורא PM אחזקת מפעל ב-SAP S/4HA","פעל ב-SAP S/4HANA — מדריך למשתמש העסקי 0"]
+PASS 23-book-hub desktop/dark console=0
+PASS 23-book-hub desktop/dark overflow=0
+PASS 23-book-hub desktop/dark h1 count=1 "Production Planning with SAP S/4HANA"
+PASS 23-book-hub desktop/dark clipped=[]
+WARN 23-book-hub desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 24-reader desktop/dark console=0
+PASS 24-reader desktop/dark overflow=0
+PASS 24-reader desktop/dark h1 count=1 "פרק 3Discrete Manufacturing Configuration"
+FAIL 24-reader desktop/dark clipped=["A:Production Planning with SAP S","BUTTON:פרק 3 · Discrete Manufacturing"]
+WARN 24-reader desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ים בתהליכים שונים — חומרי גלם, מוצרים חצ"," חשובות מאוד ל-PP — מנקודת מבט תכנון ובי"]
+PASS 25-ask-library desktop/dark console=0
+PASS 25-ask-library desktop/dark overflow=0
+FAIL 25-ask-library desktop/dark h1 count=0 "undefined"
+PASS 25-ask-library desktop/dark clipped=[]
+WARN 25-ask-library desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 26-chat desktop/dark console=0
+PASS 26-chat desktop/dark overflow=0
+PASS 26-chat desktop/dark h1 count=1 "NEO AI"
+PASS 26-chat desktop/dark clipped=[]
+WARN 26-chat desktop/dark signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 01-shell-home desktop/light console=0
+PASS 01-shell-home desktop/light overflow=0
+PASS 01-shell-home desktop/light h1 count=1 "מפת הידעל-SAP S/4HANA"
+PASS 01-shell-home desktop/light clipped=[]
+WARN 01-shell-home desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 03-s4hana desktop/light console=0
+PASS 03-s4hana desktop/light overflow=0
+PASS 03-s4hana desktop/light h1 count=1 "השינויים במעבר מ-ECC ל-S/4HANA"
+PASS 03-s4hana desktop/light clipped=[]
+WARN 03-s4hana desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","פונקציונלית נשמרת — אך מודל הנתונים, חוו","דקס פריטים פתוחים — ח-ן ראשי ECC טבלת א"]
+PASS 03-s4-readiness desktop/light console=0
+PASS 03-s4-readiness desktop/light overflow=0
+PASS 03-s4-readiness desktop/light h1 count=1 "מוכנות ל-S/4HANA לפי מודול"
+PASS 03-s4-readiness desktop/light clipped=[]
+WARN 03-s4-readiness desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ויות פקודות ייצור/אחזקה עובר ל-ACDOCA; ד","P-DS בתוך S/4HANA — ללא מערכת APO נפרדת;"]
+PASS 03-migration-cockpit desktop/light console=0
+PASS 03-migration-cockpit desktop/light overflow=0
+PASS 03-migration-cockpit desktop/light h1 count=1 "אובייקטי המעבר ורצף הטעינה"
+PASS 03-migration-cockpit desktop/light clipped=[]
+WARN 03-migration-cockpit desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ות / יתרות תוכנית אחזקה Maintenance Plan","דים ל ציוד תוכנית אחזקה בסיס למבנה האחז"]
+PASS 04-pm desktop/light console=0
+PASS 04-pm desktop/light overflow=0
+PASS 04-pm desktop/light h1 count=1 "תחזוקת מפעלPM"
+PASS 04-pm desktop/light clipped=[]
+WARN 04-pm desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ות 03 עצי מוצר של אחזקה (BOM) 5 טבלאות ·","15 שדות 06 הודעות אחזקה (Notifications) "]
+PASS 05-pp-pi desktop/light console=0
+PASS 05-pp-pi desktop/light overflow=0
+PASS 05-pp-pi desktop/light h1 count=1 "תעשיות תהליכיותPP-PI"
+PASS 05-pp-pi desktop/light clipped=[]
+WARN 05-pp-pi desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ר כלליים אב חומר — MATNR הורחב מ-18 ל-4","K CR01CR02+1 1 2 1– לא הוכרע במקור פתיח"]
+PASS 06-erd desktop/light console=0
+PASS 06-erd desktop/light overflow=0
+PASS 06-erd desktop/light h1 count=1 "מודל הנתונים · כל המודולים"
+PASS 06-erd desktop/light clipped=[]
+WARN 06-erd desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ב-ERD PP-PI ייצור – תעשיית תהליך Product"," תהליך Production – Process Indu… 15 / 5"]
+PASS 07-domain-model desktop/light console=0
+PASS 07-domain-model desktop/light overflow=0
+PASS 07-domain-model desktop/light h1 count=1 "התחומים העסקיים של PM ו-PP-PI"
+PASS 07-domain-model desktop/light clipped=[]
+WARN 07-domain-model desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","טנדרטית של פעולות אחזקה — מרכזי עבודה, ז","ת של פעולות אחזקה — מרכזי עבודה, זמנים, "]
+PASS 07-domain desktop/light console=0
+PASS 07-domain desktop/light overflow=0
+PASS 07-domain desktop/light h1 count=1 "רשימות פעולות (Task Lists)"
+PASS 07-domain desktop/light clipped=[]
+WARN 07-domain desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","טנדרטית של פעולות אחזקה — מרכזי עבודה, ז","ת של פעולות אחזקה — מרכזי עבודה, זמנים, "]
+PASS 07-centers desktop/light console=0
+PASS 07-centers desktop/light overflow=0
+PASS 07-centers desktop/light h1 count=1 "מרכזי הידע של הפרויקט"
+PASS 07-centers desktop/light clipped=[]
+WARN 07-centers desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 07-studio desktop/light console=0
+PASS 07-studio desktop/light overflow=0
+PASS 07-studio desktop/light h1 count=1 "Architecture Studio"
+PASS 07-studio desktop/light clipped=[]
+WARN 07-studio desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","יקטי קריאת תכנית האחזקה MHIS היסטוריית ת","וריית תזמון תכנית אחזקה MPLA כותרת תכנית"]
+PASS 08-object desktop/light console=0
+PASS 08-object desktop/light overflow=0
+PASS 08-object desktop/light h1 count=1 "AUFK"
+PASS 08-object desktop/light clipped=[]
+WARN 08-object desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","אובייקט מורד הזרם – 1:1 – N:1 N:1 T399X ","ט מורד הזרם – 1:1 – N:1 N:1 T399X PP-PI "]
+PASS 09-tables desktop/light console=0
+PASS 09-tables desktop/light overflow=0
+PASS 09-tables desktop/light h1 count=1 "טבלאות SAP"
+PASS 09-tables desktop/light clipped=[]
+WARN 09-tables desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"," מפעל כותרת פקודת אחזקה (PM) ביצוע · 7. ","אמצעי ייצור (PRT) — מבוסס מרכז עבודה נתו"]
+PASS 10-table-detail desktop/light console=0
+PASS 10-table-detail desktop/light overflow=0
+PASS 10-table-detail desktop/light h1 count=1 "AUFK"
+PASS 10-table-detail desktop/light clipped=[]
+WARN 10-table-detail desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","CHAR 4 PM PP-PI – KTEXT תיאור הפק\"ע Or","ible cost center – – PM FK WERKS מפעל"]
+PASS 11-transactions desktop/light console=0
+PASS 11-transactions desktop/light overflow=0
+PASS 11-transactions desktop/light h1 count=1 "טרנזקציות SAP"
+PASS 11-transactions desktop/light clipped=[]
+WARN 11-transactions desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ntory Management) — תנועות טובין Goods M","ntory Management) — תנועות טובין מתועדת "]
+PASS 12-tx-detail desktop/light console=0
+PASS 12-tx-detail desktop/light overflow=0
+PASS 12-tx-detail desktop/light h1 count=1 "IW31"
+PASS 12-tx-detail desktop/light clipped=[]
+WARN 12-tx-detail desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","aintenance Order) — מסמך תכנון וביצוע עב","נהל עבודה · מתכנן אחזקה מסך והרצה זרימה "]
+PASS 13-bapi desktop/light console=0
+PASS 13-bapi desktop/light overflow=0
+PASS 13-bapi desktop/light h1 count=1 "BAPIs ומודולי פונקציה"
+PASS 13-bapi desktop/light clipped=[]
+WARN 13-bapi desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","יווח פעולה בהזמנת אחזקה (PM) — זמנים/פעי","בהזמנת אחזקה (PM) — זמנים/פעילויות. דורש"]
+PASS 14-idoc desktop/light console=0
+PASS 14-idoc desktop/light overflow=0
+PASS 14-idoc desktop/light h1 count=1 "IDocs"
+PASS 14-idoc desktop/light clipped=[]
+WARN 14-idoc desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","rol Record) כותרת — שותף, סוג הודעה, Bas","ords) תוכן ההודעה — מקטעים (segments) הי"]
+PASS 15-cds desktop/light console=0
+PASS 15-cds desktop/light overflow=0
+PASS 15-cds desktop/light h1 count=1 "CDS Views"
+PASS 15-cds desktop/light clipped=[]
+WARN 15-cds desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","e · מורכב עץ מוצר — כותרת נתוני אב טבלאו","e · בסיסי עץ מוצר — פריטים נתוני אב טבלא"]
+PASS 16-fiori desktop/light console=0
+PASS 16-fiori desktop/light overflow=0
+PASS 16-fiori desktop/light h1 count=1 "יישומי SAP Fiori"
+PASS 16-fiori desktop/light clipped=[]
+WARN 16-fiori desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","יטור כיסוי חומרים — מקטעי נטו Monitor Ma","קציוני פתיחת בקשת אחזקה Create Maintenan"]
+PASS 17-enhancements desktop/light console=0
+PASS 17-enhancements desktop/light overflow=0
+PASS 17-enhancements desktop/light h1 count=1 "טכניקות הרחבה"
+PASS 17-enhancements desktop/light clipped=[]
+WARN 17-enhancements desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ירועים (בעיקר FI) — P/S interfaces. BTE ","עצמים מהדור הקודם — מבוססת ממשק, ניתנת ל"]
+PASS 18-knowledge desktop/light console=0
+PASS 18-knowledge desktop/light overflow=0
+PASS 18-knowledge desktop/light h1 count=1 "מרכז הידע"
+PASS 18-knowledge desktop/light clipped=[]
+WARN 18-knowledge desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ישות עסקית במערכת — חומר, ציוד, פקודה. מ","חסן רשומות עסקיות — שורות ועמודות. ABAP "]
+PASS 18-concept desktop/light console=0
+PASS 18-concept desktop/light overflow=0
+PASS 18-concept desktop/light h1 count=1 "אובייקט"
+PASS 18-concept desktop/light clipped=[]
+WARN 18-concept desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ישות עסקית במערכת — חומר, ציוד, פקודה. מ","בלאות, נגזר ממבני מילון ומנוהל דרך טרנזק"]
+PASS 19-incidents desktop/light console=0
+PASS 19-incidents desktop/light overflow=0
+PASS 19-incidents desktop/light h1 count=1 "תקלות ופתרון בעיות"
+PASS 19-incidents desktop/light clipped=[]
+WARN 19-incidents desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","kflush אישור נכשל — תקופה סגורה לא ניתן "," אינה פתוחה פקודת אחזקה לא משתחררת לחיצה"]
+PASS 20-academy desktop/light console=0
+PASS 20-academy desktop/light overflow=0
+PASS 20-academy desktop/light h1 count=1 "SAP Academy"
+PASS 20-academy desktop/light clipped=[]
+WARN 20-academy desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","-User תחזוקת מפעל — מדריך משתמש Plant Ma","Plant Maintenance — Business User 10 פרק"]
+PASS 21-certification desktop/light console=0
+PASS 21-certification desktop/light overflow=0
+PASS 21-certification desktop/light h1 count=1 "הסמכה"
+PASS 21-certification desktop/light clipped=[]
+WARN 21-certification desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 22-books desktop/light console=0
+PASS 22-books desktop/light overflow=0
+PASS 22-books desktop/light h1 count=1 "ספריית SAP11 ספרים"
+PASS 22-books desktop/light clipped=[]
+WARN 22-books desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ם פתיחה בקורא PM אחזקת מפעל ב-SAP S/4HA","פעל ב-SAP S/4HANA — מדריך למשתמש העסקי 0"]
+PASS 23-book-hub desktop/light console=0
+PASS 23-book-hub desktop/light overflow=0
+PASS 23-book-hub desktop/light h1 count=1 "Production Planning with SAP S/4HANA"
+PASS 23-book-hub desktop/light clipped=[]
+WARN 23-book-hub desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 24-reader desktop/light console=0
+PASS 24-reader desktop/light overflow=0
+PASS 24-reader desktop/light h1 count=1 "פרק 3Discrete Manufacturing Configuration"
+FAIL 24-reader desktop/light clipped=["A:Production Planning with SAP S","BUTTON:פרק 3 · Discrete Manufacturing"]
+WARN 24-reader desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר","ים בתהליכים שונים — חומרי גלם, מוצרים חצ"," חשובות מאוד ל-PP — מנקודת מבט תכנון ובי"]
+PASS 25-ask-library desktop/light console=0
+PASS 25-ask-library desktop/light overflow=0
+FAIL 25-ask-library desktop/light h1 count=0 "undefined"
+PASS 25-ask-library desktop/light clipped=[]
+WARN 25-ask-library desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 26-chat desktop/light console=0
+PASS 26-chat desktop/light overflow=0
+PASS 26-chat desktop/light h1 count=1 "NEO AI"
+PASS 26-chat desktop/light clipped=[]
+WARN 26-chat desktop/light signal words: ["11 שאל את הספרייה — ידע ולמידה 4 מרכז הי","8 תקלות 156 הסמכה — כלים 1 Architecture ","chitecture Studio — עוזר SAP 1 NEO AI — ","עוזר SAP 1 NEO AI — אחרונים מוצמדים הקשר"]
+PASS 01-shell-home phone/dark console=0
+PASS 01-shell-home phone/dark overflow=0
+PASS 01-shell-home phone/dark h1 count=1 "מפת הידעל-SAP S/4HANA"
+PASS 01-shell-home phone/dark clipped=[]
+PASS 03-s4hana phone/dark console=0
+PASS 03-s4hana phone/dark overflow=0
+PASS 03-s4hana phone/dark h1 count=1 "השינויים במעבר מ-ECC ל-S/4HANA"
+PASS 03-s4hana phone/dark clipped=[]
+WARN 03-s4hana phone/dark signal words: ["פונקציונלית נשמרת — אך מודל הנתונים, חוו","דקס פריטים פתוחים — ח-ן ראשי ECC טבלת א","ms. S/4HANA בוטלה — הנתונים ב-ACDOCA; קי","מת אינדקס לקוחות — פתוחים ECC אינדקס A","ומת אינדקס ספקים — פתוחים ECC אינדקס A","CO. S/4HANA בוטלה — עלויות ב-ACDOCA (acc"]
+PASS 03-s4-readiness phone/dark console=0
+PASS 03-s4-readiness phone/dark overflow=0
+PASS 03-s4-readiness phone/dark h1 count=1 "מוכנות ל-S/4HANA לפי מודול"
+PASS 03-s4-readiness phone/dark clipped=[]
+WARN 03-s4-readiness phone/dark signal words: ["ויות פקודות ייצור/אחזקה עובר ל-ACDOCA; ד","P-DS בתוך S/4HANA — ללא מערכת APO נפרדת;"," פנימי. רלוונטי לייצור תהליכי מורכב (PP","ease for Delivery — מהיר ומבוסס Fiori. ","r. SIMPLIFICATION— השפעת המעבר: מינימל","סת S/4. אובייקטי אחזקה Plant Maintenanc"]
+PASS 03-migration-cockpit phone/dark console=0
+PASS 03-migration-cockpit phone/dark overflow=0
+PASS 03-migration-cockpit phone/dark h1 count=1 "אובייקטי המעבר ורצף הטעינה"
+PASS 03-migration-cockpit phone/dark clipped=[]
+WARN 03-migration-cockpit phone/dark signal words: ["ות / יתרות תוכנית אחזקה Maintenance Plan","דים ל ציוד תוכנית אחזקה בסיס למבנה האחז","חזקה בסיס למבנה האחזקה. בנק Bank 1 · ב","אי מקדים ל תוכנית אחזקה מותקן במיקום פו","ך ACDOCA. תוכנית אחזקה Maintenance Plan","רך RFC, ללא קבצים — מבוסס תוכן מובנה. מ"]
+PASS 04-pm phone/dark console=0
+PASS 04-pm phone/dark overflow=0
+PASS 04-pm phone/dark h1 count=1 "תחזוקת מפעלPM"
+PASS 04-pm phone/dark clipped=[]
+WARN 04-pm phone/dark signal words: ["ות 03 עצי מוצר של אחזקה (BOM) 5 טבלאות ·","15 שדות 06 הודעות אחזקה (Notifications) ","לאות · 19 שדות 11 אחזקה מונעת ותוכניות 6"," כותרת מסמך חומר — מאוחדת ל-MATDOC. MKP"," פריטי מסמך חומר — הנתונים מאוחסנים כעת"," AFIH כותרת פקודת אחזקה (PM) 07 6 1 PK ·"]
+PASS 05-pp-pi phone/dark console=0
+PASS 05-pp-pi phone/dark overflow=0
+PASS 05-pp-pi phone/dark h1 count=1 "תעשיות תהליכיותPP-PI"
+PASS 05-pp-pi phone/dark clipped=[]
+WARN 05-pp-pi phone/dark signal words: ["ר כלליים אב חומר — MATNR הורחב מ-18 ל-4","R01 CR02 +1 1 2 1 – לא הוכרע במקור פתיחת","R11 CR12 +1 2 1 1 – ללא שינוי פתיחת הפיר"," QP01 QP02 +1 2 1 – – ללא שינוי פתיחת הפ","P01 QP02 +1 2 1 – – ללא שינוי פתיחת הפיר"," 07 5 1 PK · 1 FK – 2 1 – – הוחלף פתיחת "]
+PASS 06-erd phone/dark console=0
+PASS 06-erd phone/dark overflow=0
+PASS 06-erd phone/dark h1 count=1 "מודל הנתונים · כל המודולים"
+FAIL 06-erd phone/dark clipped=["H1:מודל הנתונים · כל המודולים"]
+WARN 06-erd phone/dark signal words: ["ב-ERD PP-PI ייצור – תעשיית תהליך Product"," תהליך Production – Process Indu… 15 / 5","ion – Process Indu… 15 / 59 טבלאות ב-ERD","י) 20 PP-PI ייצור – תעשיית תהליך 15 PM ת"]
+PASS 07-domain-model phone/dark console=0
+PASS 07-domain-model phone/dark overflow=0
+PASS 07-domain-model phone/dark h1 count=1 "התחומים העסקיים של PM ו-PP-PI"
+PASS 07-domain-model phone/dark clipped=[]
+WARN 07-domain-model phone/dark signal words: ["טנדרטית של פעולות אחזקה — מרכזי עבודה, ז","ת של פעולות אחזקה — מרכזי עבודה, זמנים, ","ם, חומרים והוראות — לשימוש חוזר בפקודות "," בפקודות ובתכניות אחזקה מונעת. סוגים: כל","רשומה מלאה אישורי אחזקה (Confirmation) M","onfirmation אישור אחזקה (Confirmation) מ"]
+PASS 07-domain phone/dark console=0
+PASS 07-domain phone/dark overflow=0
+PASS 07-domain phone/dark h1 count=1 "רשימות פעולות (Task Lists)"
+PASS 07-domain phone/dark clipped=[]
+WARN 07-domain phone/dark signal words: ["טנדרטית של פעולות אחזקה — מרכזי עבודה, ז","ת של פעולות אחזקה — מרכזי עבודה, זמנים, ","ם, חומרים והוראות — לשימוש חוזר בפקודות "," בפקודות ובתכניות אחזקה מונעת. סוגים: כל","ומרים שיוך לתכנית אחזקה ייצור פקודות מהת","ות = תבנית פעולות אחזקה לשימוש חוזר — מר"]
+PASS 07-centers phone/dark console=0
+PASS 07-centers phone/dark overflow=0
+PASS 07-centers phone/dark h1 count=1 "מרכזי הידע של הפרויקט"
+PASS 07-centers phone/dark clipped=[]
+PASS 07-studio phone/dark console=0
+PASS 07-studio phone/dark overflow=0
+PASS 07-studio phone/dark h1 count=1 "Architecture Studio"
+PASS 07-studio phone/dark clipped=[]
+WARN 07-studio phone/dark signal words: ["יקטי קריאת תכנית האחזקה MHIS היסטוריית ת","וריית תזמון תכנית אחזקה MPLA כותרת תכנית"," MPLA כותרת תכנית אחזקה ונתוני תזמון MPO","ן MPOS פריט תכנית אחזקה PLKO כותרת רשימת"," AFIH כותרת פקודת אחזקה (PM) AFKO נתוני "," QMEL כותרת הודעת אחזקה QMFE פריטי הודעת"]
+PASS 08-object phone/dark console=0
+PASS 08-object phone/dark overflow=0
+PASS 08-object phone/dark h1 count=1 "AUFK"
+PASS 08-object phone/dark clipped=[]
+WARN 08-object phone/dark signal words: ["אובייקט מורד הזרם – 1:1 – N:1 N:1 T399X ","ט מורד הזרם – 1:1 – N:1 N:1 T399X PP-PI "," AFIH כותרת פקודת אחזקה (PM) 1:1 PM AFIH","יקטי קריאת תכנית האחזקה N:1 PM MHIO.AUFN","V מרכז עלות אחראי – 4 WERKS מפעל CHAR 4 ",") CHAR 4 PM PP-PI – KTEXT תיאור הפק\"ע Or"]
+PASS 09-tables phone/dark console=0
+PASS 09-tables phone/dark overflow=0
+PASS 09-tables phone/dark h1 count=1 "טבלאות SAP"
+PASS 09-tables phone/dark clipped=[]
+WARN 09-tables phone/dark signal words: [" מפעל כותרת פקודת אחזקה (PM) ביצוע · 7. ","אמצעי ייצור (PRT) — מבוסס מרכז עבודה נתו"," · 3. עצי מוצר של אחזקה (BOM) שדות 4 שדו","אמצעי ייצור (PRT) — מבוסס חומר נתוני אב "," · 3. עצי מוצר של אחזקה (BOM) · 2. עץ מו","יקטי קריאת תכנית האחזקה תכנון · 11. אחזק"]
+PASS 10-table-detail phone/dark console=0
+PASS 10-table-detail phone/dark overflow=0
+PASS 10-table-detail phone/dark h1 count=1 "AUFK"
+PASS 10-table-detail phone/dark clipped=[]
+WARN 10-table-detail phone/dark signal words: [") CHAR 4 PM PP-PI – KTEXT תיאור הפק\"ע Or","sible cost center – – PM FK WERKS מפעל P","ble cost center – – PM FK WERKS מפעל Pla"," AFIH כותרת פקודת אחזקה (PM) 1:1 PM AFIH","יקטי קריאת תכנית האחזקה N:1 PM MHIO.AUFN","Order פקודת ייצור — כותרת AFKO · AUFK I_"]
+PASS 11-transactions phone/dark console=0
+PASS 11-transactions phone/dark overflow=0
+PASS 11-transactions phone/dark h1 count=1 "טרנזקציות SAP"
+PASS 11-transactions phone/dark clipped=[]
+WARN 11-transactions phone/dark signal words: ["ntory Management) — תנועות טובין Goods M","ntory Management) — תנועות טובין מתועדת ","rchasing Document — F0843A הפניות מתוך ה"," רכש (Purchasing) — הזמנות רכש Create Pu"," רכש (Purchasing) — הזמנות רכש מתועדת לע"," Order (Advanced) — F0842A הפניות מתוך ה"]
+PASS 12-tx-detail phone/dark console=0
+PASS 12-tx-detail phone/dark overflow=0
+PASS 12-tx-detail phone/dark h1 count=1 "IW31"
+PASS 12-tx-detail phone/dark clipped=[]
+WARN 12-tx-detail phone/dark signal words: ["aintenance Order) — מסמך תכנון וביצוע עב","נהל עבודה · מתכנן אחזקה מסך והרצה זרימה "," AFIH כותרת פקודת אחזקה (PM) יציב ללא שי"," רכש (Purchasing) — הקצאה והמרה השלב הבא","ntory Management) — תנועות טובין השלב הב","1 PM תכנון תחזוקה — מסלולי עבודה לתחזוקה"]
+PASS 13-bapi phone/dark console=0
+PASS 13-bapi phone/dark overflow=0
+PASS 13-bapi phone/dark h1 count=1 "BAPIs ומודולי פונקציה"
+FAIL 13-bapi phone/dark clipped=["A:BAPI_MATERIAL_BOM_GROUP_CREATE","A:CSAP_MAT_BOM_CREATEPMתחזוקת מפ"]
+WARN 13-bapi phone/dark signal words: ["יווח פעולה בהזמנת אחזקה (PM) — זמנים/פעי","בהזמנת אחזקה (PM) — זמנים/פעילויות. דורש","er operation (PM) — times/activities. Re"," Status) של הודעת אחזקה — לא סטטוס המערכ","s) של הודעת אחזקה — לא סטטוס המערכת. Cha","השלמת/סגירת הודעה — קובע סטטוס מערכת NOC"]
+PASS 14-idoc phone/dark console=0
+PASS 14-idoc phone/dark overflow=0
+PASS 14-idoc phone/dark h1 count=1 "IDocs"
+PASS 14-idoc phone/dark clipped=[]
+WARN 14-idoc phone/dark signal words: ["rol Record) כותרת — שותף, סוג הודעה, Bas","ords) תוכן ההודעה — מקטעים (segments) הי"," נכנס שגיאת יישום — ה-IDoc התקבל אך עיבו","נכנס ממתין לעיבוד — ב-queue / scheduler ","29 יוצא שגיאת ALE — Partner Profile חסר/"," יוצא מוכן לשליחה — לא נשלח עדיין אין ou"]
+PASS 15-cds phone/dark console=0
+PASS 15-cds phone/dark overflow=0
+PASS 15-cds phone/dark h1 count=1 "CDS Views"
+PASS 15-cds phone/dark clipped=[]
+WARN 15-cds phone/dark signal words: ["e · מורכב עץ מוצר — כותרת נתוני אב טבלאו","e · בסיסי עץ מוצר — פריטים נתוני אב טבלא","ace · מורכב הודעת אחזקה איכות טבלאות קלא","ace · מורכב פקודת אחזקה ביצוע טבלאות קלא","ce · מורכב תוכנית אחזקה תכנון טבלאות קלא"," בסיסי פריט הודעת אחזקה איכות טבלאות קלא"]
+PASS 16-fiori phone/dark console=0
+PASS 16-fiori phone/dark overflow=0
+PASS 16-fiori phone/dark h1 count=1 "יישומי SAP Fiori"
+PASS 16-fiori phone/dark clipped=[]
+WARN 16-fiori phone/dark signal words: ["יטור כיסוי חומרים — מקטעי נטו Monitor Ma","קציוני פתיחת בקשת אחזקה Create Maintenan","יוני אישור עבודות אחזקה Confirm Jobs · S","יוני ניהול פקודות אחזקה Manage Maintenan","נליטי סקירת תכנון אחזקה Maintenance Plan","ליטי תזמון תכניות אחזקה Schedule Mainten"]
+PASS 17-enhancements phone/dark console=0
+PASS 17-enhancements phone/dark overflow=0
+PASS 17-enhancements phone/dark h1 count=1 "טכניקות הרחבה"
+PASS 17-enhancements phone/dark clipped=[]
+WARN 17-enhancements phone/dark signal words: ["ירועים (בעיקר FI) — P/S interfaces. BTE ","עצמים מהדור הקודם — מבוססת ממשק, ניתנת ל",") ו-CMOD (פרויקט) — Function/Screen/Menu","דה מסך (ישן מאוד) — כמעט לא בשימוש כיום.","יגות ברשומה מיושן — אל תשתמש; העדף BAdI/","routine/FM/method — ללא הכנה מצד SAP. הר"]
+PASS 18-knowledge phone/dark console=0
+PASS 18-knowledge phone/dark overflow=0
+PASS 18-knowledge phone/dark h1 count=1 "מרכז הידע"
+PASS 18-knowledge phone/dark clipped=[]
+WARN 18-knowledge phone/dark signal words: ["ישות עסקית במערכת — חומר, ציוד, פקודה. מ","חסן רשומות עסקיות — שורות ועמודות. ABAP ","ית שדות ללא אחסון — להעברת נתונים בין תו","עות העסקית של שדה — תווית, טקסט עזרה, תי","ממשק להפעלה חוזרת — לוגיקה עסקית/קריאות.","PI) לאובייקט עסקי — יצירה/שינוי/קריאה. ק"]
+PASS 18-concept phone/dark console=0
+PASS 18-concept phone/dark overflow=0
+PASS 18-concept phone/dark h1 count=1 "אובייקט"
+PASS 18-concept phone/dark clipped=[]
+WARN 18-concept phone/dark signal words: ["ישות עסקית במערכת — חומר, ציוד, פקודה. מ","בלאות, נגזר ממבני מילון ומנוהל דרך טרנזק"]
+PASS 19-incidents phone/dark console=0
+PASS 19-incidents phone/dark overflow=0
+PASS 19-incidents phone/dark h1 count=1 "תקלות ופתרון בעיות"
+PASS 19-incidents phone/dark clipped=[]
+WARN 19-incidents phone/dark signal words: ["kflush אישור נכשל — תקופה סגורה לא ניתן "," אינה פתוחה פקודת אחזקה לא משתחררת לחיצה"," השגיאה Status 51 — Application document"," ניתן לסגור הודעת אחזקה סגירת הודעה (NOC","תנועת סחורה נכשלת — מלאי GI/GR ב-MIGO נד","ודעת השגיאה M7021 — חוסר מלאי / Deficit "]
+PASS 20-academy phone/dark console=0
+PASS 20-academy phone/dark overflow=0
+PASS 20-academy phone/dark h1 count=1 "SAP Academy"
+PASS 20-academy phone/dark clipped=[]
+WARN 20-academy phone/dark signal words: ["-User תחזוקת מפעל — מדריך משתמש Plant Ma","Plant Maintenance — Business User 10 פרק"]
+PASS 21-certification phone/dark console=0
+PASS 21-certification phone/dark overflow=0
+PASS 21-certification phone/dark h1 count=1 "הסמכה"
+PASS 21-certification phone/dark clipped=[]
+PASS 22-books phone/dark console=0
+PASS 22-books phone/dark overflow=0
+PASS 22-books phone/dark h1 count=1 "ספריית SAP11 ספרים"
+PASS 22-books phone/dark clipped=[]
+WARN 22-books phone/dark signal words: ["ם פתיחה בקורא PM אחזקת מפעל ב-SAP S/4HA","פעל ב-SAP S/4HANA — מדריך למשתמש העסקי 0","העסקי 08 PM 08 PM אחזקת מפעל ב-SAP S/4HA"," with SAP S/4HANA — Business User Guide ","עמודים לא מתועדים אחזקת מפעל ב-SAP S/4HA","פעל ב-SAP S/4HANA — מדריך למשתמש העסקי "]
+PASS 23-book-hub phone/dark console=0
+PASS 23-book-hub phone/dark overflow=0
+PASS 23-book-hub phone/dark h1 count=1 "Production Planning with SAP S/4HANA"
+PASS 23-book-hub phone/dark clipped=[]
+PASS 24-reader phone/dark console=0
+PASS 24-reader phone/dark overflow=0
+PASS 24-reader phone/dark h1 count=1 "פרק 3Discrete Manufacturing Configuration"
+FAIL 24-reader phone/dark clipped=["BUTTON:פרק 3 · Discrete Manufacturing"]
+WARN 24-reader phone/dark signal words: ["ים בתהליכים שונים — חומרי גלם, מוצרים חצ"," חשובות מאוד ל-PP — מנקודת מבט תכנון ובי","מש ביצירת אב חומר — למשל תצוגת Purchasin","AP IMG • Logistics—General • Material Ma","ט בתצוגות; בתחתית — שדה Price Control לב","וגות ה-PP הנדרשות — שכן חומר ללא תצוגת M"]
+PASS 25-ask-library phone/dark console=0
+PASS 25-ask-library phone/dark overflow=0
+FAIL 25-ask-library phone/dark h1 count=0 "undefined"
+PASS 25-ask-library phone/dark clipped=[]
+PASS 26-chat phone/dark console=0
+PASS 26-chat phone/dark overflow=0
+PASS 26-chat phone/dark h1 count=1 "NEO AI"
+PASS 26-chat phone/dark clipped=[]
+8 FAILURES

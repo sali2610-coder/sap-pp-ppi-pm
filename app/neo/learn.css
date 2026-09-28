@@ -336,7 +336,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
 
 /* A module VALUE inside a chip: ring + tint + leading line. */
 .nx-app .nxl-mod, .nx-app .nxv-mod {
-  color: var(--m);
+  color: color-mix(in srgb, var(--m) 80%, var(--ink-1)); /* axe: pure --m on its own 10% tint measured 4.31-4.38 for PP and PM */
   background: color-mix(in srgb, var(--m) 10%, transparent);
   border-color: color-mix(in srgb, var(--m) 26%, transparent);
 }
@@ -345,7 +345,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
   background: var(--m);
 }
 .nx-app .nxl-mod em, .nx-app .nxv-mod em {
-  font-style: normal; font-weight: 600; color: var(--ink-3);
+  font-style: normal; font-weight: 600; color: var(--ink-2); /* ink-3 on the module tint: 4.39:1 (axe) */
   padding-inline-start: 3px;
 }
 
@@ -363,7 +363,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
 
 .nx-app .nxl-courses {
   display: grid; gap: var(--sp-4);
-  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
 }
 .nx-app .nxl-course {
   position: relative; overflow: hidden;
@@ -387,7 +387,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
   font-weight: 700; color: var(--ink-1); margin: 0;
 }
 .nx-app .nxl-course-en {
-  font-size: var(--t-micro); color: var(--ink-3);
+  font-size: var(--t-xs); color: var(--ink-3);
   direction: ltr; unicode-bidi: isolate;
 }
 .nx-app .nxl-course-n {
@@ -429,7 +429,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
 }
 [dir="ltr"] .nx-app .nxl-bar-f { transform-origin: left center; }
 .nx-app .nxl-course-idle {
-  font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he);
+  font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he);
 }
 .nx-app .nxl-course-a { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-block-start: auto; }
 /* A signpost, not a control: the whole card is already the link, so this row
@@ -593,7 +593,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
 }
 .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--brand-dark); }
 html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--ink-1); }
-.nx-app .nxv-s4-two { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxv-s4-two { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .nx-app .nxv-s4-c {
   display: grid; gap: var(--sp-2); align-content: start;
   padding: var(--sp-4);
@@ -633,7 +633,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 
 /* ---------------------------------------------------- 10.4 NAMED FACTS */
 
-.nx-app .nxv-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxv-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .nx-app .nxv-fact { display: grid; gap: var(--sp-2); align-content: start; min-inline-size: 0; }
 .nx-app .nxv-l {
   font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
@@ -724,7 +724,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
   font-weight: 750; color: var(--ink-1); margin: 0;
 }
 .nx-app .nxb-claim p { margin: 0; font-size: var(--t-body); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 74ch; }
-.nx-app .nxb-two { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxb-two { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .nx-app .nxb-yes, .nx-app .nxb-no {
   display: grid; gap: var(--sp-2); align-content: start;
   padding: var(--sp-4);
@@ -749,7 +749,49 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
    action takes it. Nothing else on this surface does. */
 .nx-app .nxl .nu-btn.nxl-primary { --_m: var(--brand); }
 
-.nx-app .nxb-banks { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); }
+/* ------------------------------------------------------------------------
+   CERTIFICATION ENTRY (design audit S7-CERT-2)
+   The three questions first — bank, level, length — in the runner's own
+   pickers (app/neo/cert.css), one primary action, and the long form folded
+   behind two disclosures. Nothing was removed; it moved one tap away.
+   ------------------------------------------------------------------------ */
+.nx-app .nxb-setup { display: grid; gap: var(--sp-2); }
+.nx-app .nxb-setup .nce-pick { margin-bottom: var(--sp-1); }
+.nx-app .nxb-setup .nce-pick-h { color: var(--ink-2); }
+.nx-app .nxb-setup .nce-pick-hint { font-weight: 400; color: var(--ink-3); }
+.nx-app .nxb-setup .nce-go { margin-top: var(--sp-2); }
+.nx-app .nxb-setup-n { font-size: var(--t-xs); line-height: 1.6; max-inline-size: 46ch; }
+.nx-app .nxb-none-l { margin: 0; font-size: var(--t-sm); line-height: var(--lh-he); }
+
+.nx-app .nxl-more {
+  min-inline-size: 0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+.nx-app .nxl-more > summary {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2);
+  min-block-size: var(--c-tap, 2.75rem);
+  padding: var(--sp-2) var(--sp-4);
+  cursor: pointer; list-style: none;
+  font-size: var(--t-sm); font-weight: 700; color: var(--ink-1);
+  border-radius: var(--r-md);
+}
+.nx-app .nxl-more > summary::-webkit-details-marker { display: none; }
+.nx-app .nxl-more > summary svg { flex: none; color: var(--ink-3); transition: transform .18s ease; }
+.nx-app .nxl-more[open] > summary svg { transform: rotate(180deg); }
+.nx-app .nxl-more > summary em {
+  font-style: normal; font-weight: 400; font-size: var(--t-xs); color: var(--ink-3);
+  margin-inline-start: auto;
+}
+.nx-app .nxl-more > summary:hover { background: color-mix(in srgb, var(--ink-1) 4%, transparent); }
+.nx-app .nxl-more > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nx-app .nxl-more-b { display: grid; gap: var(--sp-4); padding: 0 var(--sp-4) var(--sp-4); min-inline-size: 0; }
+.nx-app .nxl-more-b .nxb-claim h3 { margin: 0; font-size: var(--t-h3, 1.05rem); color: var(--ink-1); }
+.nx-app .nxl-more-b .nxb-two h4 { margin: 0 0 var(--sp-2); font-size: var(--t-sm); color: var(--ink-1); }
+@media (prefers-reduced-motion: reduce) { .nx-app .nxl-more > summary svg { transition: none; } }
+
+.nx-app .nxb-banks { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
 .nx-app .nxb-bank {
   position: relative; overflow: hidden;
   display: grid; gap: var(--sp-3); align-content: start;
@@ -1176,7 +1218,7 @@ html[data-theme="dark"] .nx-app .nxb-yes { background: color-mix(in srgb, var(--
   padding: 0.55rem 0.9rem;
   border-radius: calc(var(--r-sm) - 3px);
   white-space: nowrap;
-  color: var(--ink-3);
+  color: var(--ink-2);
   font-weight: 600;
   transition: background var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast);
 }
@@ -1191,6 +1233,9 @@ html[data-theme="dark"] .nx-app .nxb-yes { background: color-mix(in srgb, var(--
   box-shadow: var(--elev-2);
   font-weight: 750;
 }
+/* In the dark theme the knowledge hue is a light blue; white on it measured
+   2.2:1, so the selected tab reads in ink instead. */
+html[data-theme="dark"] .nx-app .nxl-bodies .nu-tab.nxl-bodytab[aria-selected="true"] { color: #0f1a2b; }
 .nx-app .nxl-bodies .nxl-bodytab-i { display: grid; place-items: center; opacity: .9; }
 .nx-app .nxl-bodies .nu-tab.nxl-bodytab b {
   font-family: var(--font-mono); font-size: 10px; direction: ltr;
@@ -1199,8 +1244,10 @@ html[data-theme="dark"] .nx-app .nxb-yes { background: color-mix(in srgb, var(--
   background: color-mix(in srgb, currentColor 16%, transparent);
 }
 .nx-app .nxl-bodies .nu-tab.nxl-bodytab[aria-selected="true"] b {
-  background: rgb(255 255 255 / .22); color: #fff;
+  /* a dark wash, not a white one: white on white-lifted blue measured 3.57:1 at 10px (axe) */
+  background: rgb(0 0 0 / .3); color: #fff;
 }
+html[data-theme="dark"] .nx-app .nxl-bodies .nu-tab.nxl-bodytab[aria-selected="true"] b { background: rgb(255 255 255 / .3); color: #0f1a2b; }
 
 /* The work-topic row carries the topic's own accent on its mark, exactly as a
    concept row carries the object hue. One language, two bodies. */
@@ -1210,3 +1257,15 @@ html[data-theme="dark"] .nx-app .nxb-yes { background: color-mix(in srgb, var(--
   .nx-app .nxl-bodies { inline-size: 100%; }
   .nx-app .nxl-bodies .nu-tab.nxl-bodytab { flex: 1 1 0; justify-content: center; }
 }
+
+/* Design audit §7 (2026-09-21): the academy's opening line and start control,
+   the lesson's exposure note and local table of contents. */
+.nxl-what { max-inline-size: 72ch; }
+.nxl-what a, .nxs-exposure a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
+.nxl-start { margin: var(--sp-3) 0 0; }
+.nxs-exposure { margin-block-start: var(--sp-2); }
+.nxs-toc { margin: var(--sp-5) 0; padding: var(--sp-3) var(--sp-4); border: 1px solid var(--hairline); border-radius: var(--r-md, .8rem); background: var(--surface); }
+.nxs-toc ol { margin: var(--sp-2) 0 0; padding-inline-start: 1.2rem; display: grid; gap: .3rem; columns: 2; }
+.nxs-toc li { font-size: var(--t-sm); }
+.nxs-toc a { color: var(--ink-1); text-decoration: none; }
+.nxs-toc a:hover { color: var(--brand); text-decoration: underline; }

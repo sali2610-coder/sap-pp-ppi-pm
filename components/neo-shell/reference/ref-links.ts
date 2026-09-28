@@ -135,7 +135,7 @@ export function standingOf(name: string): TableStanding {
     name,
     he: tableHe(name),
     href: objectHref(name),
-    note: s.impact?.changed || "המילון אינו מציין הערת S/4 לטבלה זו: נדרש אימות במערכת SAP.",
+    note: s.impact?.changed || "לא קיימת הערת S/4HANA לטבלה זו בתיעוד הטכני: נדרש אימות נוסף במערכת SAP.",
     status: {
       he: s.trust === "needs" ? TRUST_HE.needs : RISK_HE[s.risk],
       color: RISK_COLOR[s.risk] || RISK_COLOR.none,
@@ -166,7 +166,7 @@ export const nf = new Intl.NumberFormat("he-IL");
 
 /** "12 מתוך 18 שדות מלאים" — counted from the record itself, never a target. */
 export const completeness = (known: number, total: number): string =>
-  total > 0 ? `${nf.format(known)}/${nf.format(total)} שדות מאומתים ברשומה` : "";
+  total > 0 ? `${nf.format(known)}/${nf.format(total)} שדות מתועדים ברשומה` : "";
 
 export const clean = (s?: string): string => (s || "").trim();
 export const uniq = (a: (string | undefined)[] | undefined): string[] =>

@@ -13,6 +13,7 @@
 // Everything below is verbatim dataset content. Where the dataset is silent the
 // card says "לא קיים מידע מאומת" rather than filling the gap.
 
+import { useEffect, useRef } from "react";
 import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
 import { ArrowUpLeft, X } from "lucide-react";
 import {
@@ -41,11 +42,45 @@ export function ErdSheet({
   const parents = edges.filter((e) => e.c === t.n);
   const children = edges.filter((e) => e.p === t.n);
 
+  /* Dialog contract, same as the books quick-view: focus moves INTO the card
+     when it opens and Tab wraps inside it. Escape stays with the workspace's
+     own ladder, which already closes the sheet — a second handler here would
+     double-step it. */
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    cardRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const root = cardRef.current;
+      if (!root) return;
+      const items = [...root.querySelectorAll<HTMLElement>("a[href], button:not([disabled])")]
+        .filter((el) => el.tabIndex !== -1 && el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const at = document.activeElement;
+      if (!e.shiftKey && at === last) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && (at === first || !root.contains(at))) { e.preventDefault(); last.focus(); }
+    };
+    document.addEventListener("keydown", onKey, true);
+    return () => document.removeEventListener("keydown", onKey, true);
+  }, []);
+
   return (
-    <div className="ne-sheet" role="dialog" aria-modal="true" aria-label={`כרטיס הטבלה ${t.n}`} onClick={onClose}>
+    /* The scrim closes on the PRESS that starts on it — a text selection that
+       begins inside the card and ends over the scrim used to fire a click on
+       the wrapper and dismiss the sheet mid-read. */
+    <div
+      className="ne-sheet"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`כרטיס הטבלה ${t.n}`}
+      onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
       <div
         className="ne-card2 nu-card"
-        onClick={(e) => e.stopPropagation()}
+        ref={cardRef}
+        tabIndex={-1}
         style={{ "--m": modVar(t.m), "--o": t.o } as React.CSSProperties}
       >
         <header className="ne-c2-h">
@@ -56,18 +91,18 @@ export function ErdSheet({
             <span className="nu-chip">{ZONE_HE[t.z] || t.z}</span>
             {t.ms.length > 1 ? <span className="nu-chip">משותפת · {t.ms.join(" · ")}</span> : null}
           </div>
-          <p>{t.he || t.en || "לא קיים מידע מאומת"}</p>
+          <p>{t.he || t.en || "לא קיים תיעוד מאומת במאגר"}</p>
           {t.he && t.en ? <small>{t.en}</small> : null}
           <div className="ne-c2-act">
             {t.pg ? (
               <OriginLink className="nu-btn" href={`/neo/object/${t.n}/`} origin={() => origin(t.n)}>
-                עמוד האובייקט המלא
+                פתיחת עמוד האובייקט
                 <ArrowUpLeft size={14} strokeWidth={1.9} aria-hidden="true" className="nu-arw" />
               </OriginLink>
             ) : (
-              <span className="ne-c2-nopage">אין לטבלה הזו עמוד אובייקט: הכרטיס הזה הוא הרשומה המלאה</span>
+              <span className="ne-c2-nopage">לטבלה זו אין עמוד אובייקט. כרטיס זה מציג את הרשומה המלאה.</span>
             )}
-            <button type="button" className="nu-ghost ne-c2-x" onClick={onClose} aria-label="סגור">
+            <button type="button" className="nu-ghost ne-c2-x" onClick={onClose} aria-label="סגירה">
               <X size={17} strokeWidth={2} aria-hidden="true" />
             </button>
           </div>
@@ -90,7 +125,7 @@ export function ErdSheet({
                     <tr key={f[0]} data-k={f[3]}>
                       <td className="nx-sap">{f[0]}</td>
                       <td>
-                        {f[2] || "—"}
+                        {f[2] || "–"}
                         {f[1] ? <em>{f[1]}</em> : null}
                       </td>
                       <td>{f[3] !== "-" ? <span className="nu-chip" data-k={f[3]}>{f[3]}</span> : null}</td>
@@ -99,11 +134,11 @@ export function ErdSheet({
                 </tbody>
               </table>
             ) : (
-              <p className="ne-none">לא קיים מידע מאומת על שדות הטבלה.</p>
+              <p className="ne-none">לא קיים תיעוד מאומת במאגר על שדות הטבלה.</p>
             )}
             {t.fn > t.f.length ? (
               <p className="ne-note">
-                מוצגים {nf.format(t.f.length)} מתוך {nf.format(t.fn)} השדות שהמערך מתעד.
+                מוצגים {nf.format(t.f.length)} מתוך {nf.format(t.fn)} השדות המתועדים.
               </p>
             ) : null}
           </section>
@@ -120,7 +155,7 @@ export function ErdSheet({
                 ) : null}
               </>
             ) : (
-              <p className="ne-none">לא קיים מידע מאומת · דורש אימות במערכת SAP</p>
+              <p className="ne-none">לא קיים תיעוד מאומת במאגר · נדרש אימות במערכת SAP</p>
             )}
 
             <h3>טרנזקציות</h3>
@@ -133,10 +168,10 @@ export function ErdSheet({
                 ))}
               </ul>
             ) : (
-              <p className="ne-none">לא קיים מידע מאומת</p>
+              <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>
             )}
 
-            <h3>BAPIs / מודולי פונקציה</h3>
+            <h3>BAPI ו-FM</h3>
             {t.fu.length ? (
               <ul className="ne-chips">
                 {t.fu.map((f) => (
@@ -146,7 +181,7 @@ export function ErdSheet({
                 ))}
               </ul>
             ) : (
-              <p className="ne-none">לא קיים מידע מאומת</p>
+              <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>
             )}
 
             <h3>CDS Views</h3>
@@ -159,11 +194,11 @@ export function ErdSheet({
                 ))}
               </ul>
             ) : (
-              <p className="ne-none">לא קיים מידע מאומת</p>
+              <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>
             )}
 
-            <h3>Fiori</h3>
-            {t.fi ? <p className="ne-s4">{t.fi}</p> : <p className="ne-none">לא קיים מידע מאומת</p>}
+            <h3>יישומי Fiori</h3>
+            {t.fi ? <p className="ne-s4">{t.fi}</p> : <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>}
 
             {t.g ? (
               <>
@@ -176,7 +211,7 @@ export function ErdSheet({
           <section>
             <h3>טבלאות אב · {nf.format(parents.length)}</h3>
             <RelList list={parents} self={t.n} tByName={tByName} onGo={onGo} />
-            <h3>טבלאות צאצא · {nf.format(children.length)}</h3>
+            <h3>טבלאות בן · {nf.format(children.length)}</h3>
             <RelList list={children} self={t.n} tByName={tByName} onGo={onGo} />
           </section>
         </div>
@@ -196,8 +231,15 @@ function RelList({
   tByName: Map<string, ErdTable>;
   onGo: (n: string) => void;
 }) {
-  if (!list.length) return <p className="ne-none">לא קיים מידע מאומת</p>;
+  if (!list.length) return <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>;
   return (
+    <>
+    {list.some((e) => !e.cd) ? (
+      <p className="ne-note ne-cnv-note">
+        קשר המסומן <span className="nx-sap">CARDINALITY_NOT_VERIFIED</span> נרשם במילון הפרויקט בלי יחס כמותי; ‏PK/FK או
+        Association לא אומתו מול מקור SAP רשמי. הקו מצויר מקווקו כתלות מתועדת ולא כיחס מחייב.
+      </p>
+    ) : null}
     <ul className="ne-joins">
       {list.map((e) => {
         const other = e.p === self ? e.c : e.p;
@@ -209,8 +251,10 @@ function RelList({
                 {other}
               </button>
               <span className="ne-card nx-sap">{e.cd || REL_HE[e.k as RelKind]}</span>
+              {!e.cd ? <code className="ne-cnv" aria-hidden="true">CARDINALITY_NOT_VERIFIED</code> : null}
               {o ? <span className="nu-chip">{o.m}</span> : null}
             </div>
+            {!e.cd ? <p className="ne-join-say">קרדינליות לא צוינה בתיעוד.</p> : null}
             {e.ds ? <p className="ne-join-d">{e.ds}</p> : null}
             {e.j.map((j, i) =>
               j.j ? (
@@ -227,5 +271,6 @@ function RelList({
         );
       })}
     </ul>
+    </>
   );
 }

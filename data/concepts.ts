@@ -58,7 +58,7 @@ export const CONCEPTS: Concept[] = [
   { slug: "production-order", title: "Production Order", he: "פקודת ייצור (בדיד)", group: "PM/PP",
     biz: "הוראת ייצור לתעשייה בדידה (Discrete) — כמות, מסלול, רכיבים.", tech: "AUFK/AFKO/AFPO/AFVC; מבוססת Routing; סטטוס CRTD→REL→CNF→TECO.", ecc: "CO01-CO03.", s4: "קיים; CDS I_ProductionOrder/I_ManufacturingOrder + Fiori.", examples: ["הרכבת מוצר"], related: ["process-order", "work-center"] },
   { slug: "process-order", title: "Process Order", he: "פקודת תהליך", group: "PM/PP",
-    biz: "הוראת ייצור לתעשייה תהליכית (PP-PI) — מתכון, מרשם בקרה, אצוות.", tech: "AUFK/AFKO/AFPO; מבוססת מתכון אב; מרשם בקרה ל-MES; Batch.", ecc: "COR1-COR3.", s4: "קיים; OData API_PROCESSORDER_2 + Fiori.", examples: ["ייצור משקה"], related: ["production-order", "resource", "process-order"] },
+    biz: "הוראת ייצור לתעשייה תהליכית (PP-PI) — מתכון, מרשם בקרה, אצוות.", tech: "AUFK/AFKO/AFPO; מבוססת מתכון אב; מרשם בקרה ל-MES; Batch.", ecc: "COR1-COR3.", s4: "קיים; OData API_PROCESS_ORDER_2_SRV + Fiori.", examples: ["ייצור משקה"], related: ["production-order", "resource", "process-order"] },
   { slug: "lock-object", title: "Lock Object", he: "אובייקט נעילה", group: "Code",
     biz: "מונע עדכון מקביל של אותה רשומה ע\"י שני משתמשים — שלמות נתונים.", tech: "אובייקט מילון (SE11, שם E*) מייצר ENQUEUE_/DEQUEUE_ FMs; נעילה לוגית ב-Enqueue Server.", ecc: "סטנדרטי.", s4: "ללא שינוי מהותי.", examples: ["EQEQUI (נעילת ציוד)", "EAUFK (נעילת פקודה)"], related: ["table", "function-module"] },
   { slug: "number-range", title: "Number Range", he: "טווח מספרים", group: "Data",

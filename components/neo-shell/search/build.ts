@@ -24,13 +24,14 @@ export const KINDS: { k: CmdKind; he: string; icon: string }[] = [
   { k: "field", he: "שדה", icon: "Database" },
   { k: "tcode", he: "טרנזקציה", icon: "Terminal" },
   { k: "bapi", he: "BAPI", icon: "Plug" },
-  { k: "func", he: "Function Module", icon: "SquareFunction" },
+  { k: "func", he: "מודול פונקציה", icon: "SquareFunction" },
   { k: "cds", he: "CDS View", icon: "Sigma" },
-  { k: "fiori", he: "Fiori App", icon: "LayoutGrid" },
+  { k: "fiori", he: "יישום Fiori", icon: "LayoutGrid" },
   { k: "flow", he: "תהליך", icon: "Workflow" },
   { k: "chapter", he: "פרק", icon: "BookMarked" },
   { k: "book", he: "ספר", icon: "BookOpen" },
-  { k: "guide", he: "מדריך", icon: "ScrollText" },
+  { k: "guide", he: "מושג", icon: "ScrollText" },
+  { k: "bp", he: "שיטת עבודה", icon: "ClipboardCheck" },
   { k: "incident", he: "תקלה", icon: "AlertTriangle" },
 ];
 
@@ -57,6 +58,7 @@ export const KIND_SHAPE: Record<CmdKind, CmdShape> = {
   chapter: "doc",
   book: "doc",
   guide: "doc",
+  bp: "doc",
   incident: "doc",
 };
 
@@ -137,6 +139,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         obj: o?.obj,
         objHe: o ? extra.zone[o.zone] : undefined,
         ctx: r.obj,
+        st: r.st,
       });
       continue;
     }
@@ -153,6 +156,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         href,
         mod: own?.[1] || undefined,
         rel: own?.[0] || undefined,
+        st: r.st,
       });
       continue;
     }
@@ -168,6 +172,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         mod: own?.[1] || undefined,
         rel: own?.[0] || undefined,
         ctx: own?.[0],
+        st: r.st,
       });
       continue;
     }
@@ -183,6 +188,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         // of the 39 CDS views in the command surface walked the reader out of
         // NEO. The map arrives already gated by ref-links; "" means no page.
         href: extra.cds[r.t] || null,
+        st: r.st,
       });
       continue;
     }
@@ -197,6 +203,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         // slug and sent all 20 apps to the legacy site. `extra.fiori` now holds
         // the resolved /neo/ destination, or "" when no page exists.
         href: extra.fiori[r.t] || r.href,
+        st: r.st,
       });
       continue;
     }

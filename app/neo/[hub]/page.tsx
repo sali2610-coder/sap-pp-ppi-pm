@@ -61,7 +61,7 @@ export default async function NeoHub({ params }: { params: Promise<{ hub: string
       </header>
 
       {c.stats.length ? (
-        <section className="nx-card nx-grid" aria-label="מספרים">
+        <section className="nx-card nx-grid" aria-label="נתונים מסכמים">
           {c.stats.map((s) => (
             <div key={s.label} className="nx-stat">
               <b>{nf.format(s.value)}</b>
@@ -72,8 +72,8 @@ export default async function NeoHub({ params }: { params: Promise<{ hub: string
       ) : null}
 
       {c.tables.length ? (
-        <section className="nx-card" aria-label="טבלאות" style={{ display: "grid", gap: "var(--sp-3)" }}>
-          <h2 className="nx-h2">טבלאות</h2>
+        <section className="nx-card" aria-label="טבלאות SAP" style={{ display: "grid", gap: "var(--sp-3)" }}>
+          <h2 className="nx-h2">טבלאות SAP</h2>
           <NeoTableList rows={c.tables} />
         </section>
       ) : null}

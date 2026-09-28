@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ family: s
   const { family } = await params;
   const f = centerFamily(family);
   return {
-    title: f ? `${f.he} · מרכזי ידע · Project NEO` : "מרכז ידע",
+    title: f ? `${f.he} · מרכז הידע · Project NEO` : "מרכז הידע · Project NEO",
     description: f?.lede,
     robots: { index: false, follow: false },
   };

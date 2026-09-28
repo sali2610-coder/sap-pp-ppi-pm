@@ -19,7 +19,7 @@ export interface AiContext {
 }
 
 const MODULE_ROUTES: [RegExp, string, string][] = [
-  [/^\/pp-pi/, "PP-PI", "יועץ PP-PI (ייצור תהליכי)"],
+  [/^\/pp-pi/, "PP-PI", "יועץ PP-PI (תעשיות תהליכיות)"],
   [/^\/pp(\/|$)/, "PP", "יועץ תכנון ייצור"],
   [/^\/(pm|maintenance)(\/|$)/, "PM", "יועץ תחזוקת מפעל"],
   [/^\/(mm|procurement)(\/|$)/, "MM", "יועץ רכש ומלאי"],

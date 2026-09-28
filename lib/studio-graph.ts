@@ -157,19 +157,35 @@ export function layoutZoned(visible: Set<string>, hh: SHetero): { nodes: LNode[]
   const colX = new Map<Zone, number>(); used.forEach((z, i) => colX.set(z.id, i * COLW));
   const byZone = new Map<Zone, string[]>();
   for (const id of present) { const z = zoneOf(id); if (!byZone.has(z)) byZone.set(z, []); byZone.get(z)!.push(id); }
+  // ONE LAYER ON STAGE (design audit S7-STU-1): when a single zone is visible
+  // its tables are laid out as a grid rather than one tall column, so the fit
+  // lands near 100% and the labels are legible at the first glance. With
+  // several zones the zone-per-column picture is unchanged.
+  const single = used.length === 1;
+  const singleN = single ? (byZone.get(used[0].id) || []).length : 0;
+  // Fewer, taller columns: the stage is wider than it is tall only by a
+  // little once the side panels are open, and a 16-table layer measured
+  // 89% at 4 columns (10.5px labels) against ~120% at 3.
+  const cols = single ? Math.max(1, Math.ceil(Math.sqrt(singleN / 2.5))) : 1;
+  const rowsPer = single ? Math.max(1, Math.ceil(singleN / cols)) : 0;
   let maxRows = 0;
   const nodes: LNode[] = [];
   for (const z of used) {
     const list = (byZone.get(z.id) || []).sort();
-    maxRows = Math.max(maxRows, list.length);
-    list.forEach((id, i) => { const n = hh.nodes.get(id)!; const [w, nh] = nodeSize(n, hh); nodes.push({ ...n, w, h: nh, x: colX.get(z.id)! + COLW / 2, y: HDR + 14 + i * (NH + GAP) + 20 }); });
+    maxRows = Math.max(maxRows, single ? rowsPer : list.length);
+    list.forEach((id, i) => {
+      const n = hh.nodes.get(id)!; const [w, nh] = nodeSize(n, hh);
+      const col = single ? Math.floor(i / rowsPer) : 0;
+      const row = single ? i % rowsPer : i;
+      nodes.push({ ...n, w, h: nh, x: colX.get(z.id)! + col * COLW + COLW / 2, y: HDR + 14 + row * (NH + GAP) + 20 });
+    });
   }
   const pos = new Map(nodes.map((n) => [n.id, n]));
   const pairs = new Map<string, [string, string]>();
   for (const id of present) for (const b of hh.adj.get(id) || []) if (present.has(b)) { const k = id < b ? `${id}|${b}` : `${b}|${id}`; pairs.set(k, id < b ? [id, b] : [b, id]); }
   const edges: LEdge[] = [...pairs].map(([k, [a, b]]) => { const na = pos.get(a)!, nb = pos.get(b)!; return { id: k, from: a, to: b, points: [{ x: na.x, y: na.y }, { x: nb.x, y: nb.y }] }; });
-  const bands: ZoneBand[] = used.map((z) => ({ id: z.id, he: z.he, c: z.c, x: colX.get(z.id)!, w: COLW }));
-  return { nodes, edges, bands, width: used.length * COLW || 200, height: HDR + 14 + maxRows * (NH + GAP) + 60 };
+  const bands: ZoneBand[] = used.map((z) => ({ id: z.id, he: z.he, c: z.c, x: colX.get(z.id)!, w: COLW * (single ? cols : 1) }));
+  return { nodes, edges, bands, width: (single ? cols : used.length) * COLW || 200, height: HDR + 14 + maxRows * (NH + GAP) + 60 };
 }
 
 export const FLOWS: Record<string, { label: string; code: string }[]> = {

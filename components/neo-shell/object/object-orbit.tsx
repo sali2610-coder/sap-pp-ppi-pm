@@ -58,7 +58,7 @@ const REL_VAR: Record<string, string> = {
   "n-1": "var(--rel-n-1)",
   unstated: "var(--rel-inferred)",
 };
-const REL_HE: Record<string, string> = { "1-1": "1:1", "n-1": "N:1", unstated: "עוצמה לא מצוינת" };
+const REL_HE: Record<string, string> = { "1-1": "1:1", "n-1": "N:1", unstated: "קרדינליות לא מצוינת" };
 
 /* ------------------------------------------------------------- geometry */
 
@@ -292,7 +292,7 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
       <div className="no-orbit-bar">
         <span className="no-orbit-title">
           <GitBranch size={14} strokeWidth={1.75} aria-hidden="true" />
-          היכן האובייקט יושב בשרשרת
+          מיקום האובייקט בשרשרת התהליך
         </span>
 
         <div className="no-seg" role="group" aria-label="סינון לפי כיוון הקשר">
@@ -437,7 +437,7 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
                       mismatch and then throws the subtree away. */}
                   <title>
                     {`${k.name} ${k.dir === "parent" ? "נמצאת במעלה הזרם של" : "נמצאת במורד הזרם של"} ${name}${
-                      k.card ? ` · ${k.card}` : " · התיעוד לא רשם עוצמה לקשר הזה"
+                      k.card ? ` · ${k.card}` : " · התיעוד לא רשם קרדינליות לקשר זה"
                     }`}
                   </title>
                   <path className="no-edge-l" d={curve(a, b)} />
@@ -586,14 +586,14 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
                 {active.card || REL_HE[active.kind]}
               </span>
               <Link className="nu-btn2 no-read-go" href={`/neo/object/${active.name}/`} prefetch={false}>
-                פתח את {active.name}
+                פתיחת {active.name}
                 <ArrowUpLeft size={13} strokeWidth={1.75} aria-hidden="true" />
               </Link>
             </div>
             {active.contested ? (
               <p className="no-read-warn">
-                שני התכנונים רושמים את הקשר הזה בשני הכיוונים. כל אחד מציב צד אחר כבעל
-                המפתח הראשי. שתי הרשומות נשמרות ומוצגות, ואף אחת לא נבחרה על פני השנייה.
+                תיעוד PM ותיעוד PP-PI רושמים את הקשר הזה בשני הכיוונים. כל אחד מציב צד אחר כבעל
+                המפתח הראשי. שתי הרשומות מוצגות ללא הכרעה.
               </p>
             ) : null}
             {active.he ? <p className="no-read-he">{active.he}</p> : null}
@@ -630,7 +630,7 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
           </>
         ) : (
           <p className="no-read-idle">
-            בחר טבלה במפה כדי לראות את ניסוח ה־JOIN המדויק כפי שהתיעוד מחזיק אותו.
+            בחירת טבלה במפה מציגה את ניסוח ה-JOIN כפי שנרשם בתיעוד.
             {name} מדורגת {rank} מתוך {total} טבלאות לפי מספר הקשרים הממודלים.
           </p>
         )}
@@ -640,10 +640,10 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
         {(["1-1", "n-1", "unstated"] as const).map((k) => (
           <li key={k} style={{ "--r": REL_VAR[k] } as React.CSSProperties} data-kind={k}>
             <i aria-hidden="true" />
-            {k === "unstated" ? "קשר ללא עוצמה מצוינת בתיעוד" : REL_HE[k]}
+            {k === "unstated" ? "קשר ללא קרדינליות בתיעוד" : REL_HE[k]}
           </li>
         ))}
-        <li>התג על הקו הוא הניסוח המילולי של התיעוד. מקף על מסגרת מקווקוות פירושו שלא נרשמה עוצמה.</li>
+        <li>התג על הקו הוא הקרדינליות כפי שנרשמה בתיעוד. מקף על מסגרת מקווקוות מציין שלא נרשמה קרדינליות.</li>
       </ul>
     </div>
   );

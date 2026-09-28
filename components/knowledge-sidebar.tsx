@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   Home, Wrench, FlaskConical, GitBranch, Table, Terminal, Plug, Cable, Sigma,
   LayoutGrid, Puzzle, BrainCircuit, Library, AlertTriangle, Award, GraduationCap,
-  Compass, Sparkles, MessageSquare, PanelLeftClose, PanelLeftOpen, ChevronDown,
+  Compass, Sparkles, MessageSquare, PanelLeftClose, PanelLeftOpen, ChevronDown, Rocket,
 } from "lucide-react";
 import { playClick } from "@/lib/sound";
 
@@ -27,6 +27,13 @@ const moduleChildren = (base: string): Child[] => MODULE_SECTIONS.map(([slug, la
 // Docs-portal information architecture — knowledge tree, not a workbook.
 // Grouped sections instead of nested tab bars. Real routes only.
 const NAV: Group[] = [
+  // ACC-6 bridge: the NEO shell is the product; these legacy pages stay for
+  // compatibility and the frozen library reader. The way back must be one click
+  // from every legacy route, and the books have a NEO shelf of their own.
+  { id: "neo", label: "Project NEO", items: [
+    { href: "/neo/", icon: Rocket, label: "הקוקפיט של NEO" },
+    { href: "/neo/books/", icon: Library, label: "מדף הספרים ב-NEO" },
+  ]},
   { id: "modules", label: "מודולים", items: [
     { href: "/pm/", icon: Wrench, label: "אחזקה · PM", children: moduleChildren("/pm/") },
     { href: "/pp-pi/", icon: FlaskConical, label: "ייצור · PP-PI", children: moduleChildren("/pp-pi/") },
@@ -146,7 +153,9 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
           // ...and always open the group holding the current page, so the active
           // item can never be hidden behind a collapsed header. This also keeps
           // future groups correct without another hard-coded id.
-          : (g.id === "modules" || g.id === "library" || g.id === "knowledge"
+          // The ACC-6 bridge back into Project NEO ("neo") is open by default too:
+          // a way home hidden behind a collapsed header is not a way home.
+          : (g.id === "neo" || g.id === "modules" || g.id === "library" || g.id === "knowledge"
              || g.items.some((it) => path.startsWith(it.href)));
         return (
           <div key={g.id} className="mt-2">

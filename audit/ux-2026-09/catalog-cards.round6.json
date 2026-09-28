@@ -1,0 +1,73 @@
+{
+  "cat2": {
+    "rows": 30,
+    "maxChips": 2,
+    "avgChips": 1.6,
+    "statusPills": 30,
+    "popChip": false,
+    "ok": true
+  },
+  "cat3": {
+    "rows": 90,
+    "withOp": 87,
+    "withCommit": 43,
+    "sample": "סוג פעולה מחיקה | דורש COMMIT | טבלאות מקושרות 1 | טרנזקציות 3 | רמת מורכבות בינוני",
+    "ok": true
+  },
+  "cat6": {
+    "rows": 20,
+    "leadRows": 20,
+    "first": {
+      "lead": "ניטור כיסוי חומרים — מקטעי נטו",
+      "code": "F0247A",
+      "body": "תפקיד: SAP_BR_MRP_CONTROLLER",
+      "href": "/neo/fiori-apps/monitor-material-coverage-net-segments/"
+    },
+    "detail": {
+      "h1": "ניטור כיסוי חומרים — מקטעי נטו",
+      "code": "F0247A",
+      "copy": true
+    },
+    "ok": true
+  },
+  "cat5": {
+    "list": "/neo/cds/I_Batch/",
+    "detail": {
+      "chain": true,
+      "from": 2,
+      "via": "I_Batch",
+      "to": 2,
+      "preCopy": 1,
+      "pre": 1
+    },
+    "ok": true
+  },
+  "cat7": {
+    "open": true,
+    "rows": 13,
+    "cols": 6,
+    "pills": 13,
+    "links": 13,
+    "overflowX": "auto",
+    "ok": true
+  },
+  "tbl": {
+    "fieldsTop": 924,
+    "relTop": 1750,
+    "s4Top": 2538,
+    "screens": 0.99,
+    "headerStatus": "ללא שינוי ב-S/4HANA",
+    "headerStatusTop": 488,
+    "evidenceTop": 2904,
+    "navOrder": [
+      "01שדות ומפתחות",
+      "02קשרים ו-JOIN",
+      "03המעבר ל-S/4HANA",
+      "04רשומות התיעוד",
+      "05טרנזקציות"
+    ],
+    "ok": true
+  },
+  "consoleErrors": 0
+}
+CATALOG-CARDS OK

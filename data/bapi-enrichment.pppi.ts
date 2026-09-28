@@ -48,29 +48,32 @@ const HELP = "SAP Help Portal + SE37 metadata";
 
 // full verified records (used both to overlay existing derived records and to add missing ones)
 const ALL: SapFuncObject[] = [
-  def({ id: "BAPI_PROCORD_CREATE", op: "Create", write: true, proc: "Process Order", bor: "BUS2116", src: HELP,
+  // BOR object types (2026-09-24): Reference Objects · Production Planning and Control, 2025.001
+  // (loio 62d3b65334e6b54ce10000000a174cb4) lists BUS0001 Process Order, BUS2016 Process Order
+  // Confirmation and BUS2116 Production Order Confirmation; these entries carried BUS2116 until then.
+  def({ id: "BAPI_PROCORD_CREATE", op: "Create", write: true, proc: "Process Order", bor: "BUS0001", src: HELP,
     he: "יצירת פקודת תהליך (Process Order) — חומר, מפעל, סוג פקודה, כמות, גרסת ייצור.", en: "Create a process order.",
     params: "IMP ORDERDATA (material, plant, orderType, quantity, dates, prodVersion) · EXP RETURN, ORDER_NUMBER",
-    tx: ["COR1", "COR2", "COR3", "COR5"], tbl: ["AFKO", "AFPO", "AFVC", "RESB"], rel: PO_SEQ, seq: PO_SEQ, kw: ["process order", "פקודת תהליך", "BUS2116"] }),
-  def({ id: "BAPI_PROCORD_GET_DETAIL", op: "Read", write: false, proc: "Process Order", bor: "BUS2116", src: SD,
+    tx: ["COR1", "COR2", "COR3", "COR5"], tbl: ["AFKO", "AFPO", "AFVC", "RESB"], rel: PO_SEQ, seq: PO_SEQ, kw: ["process order", "פקודת תהליך", "BUS0001"] }),
+  def({ id: "BAPI_PROCORD_GET_DETAIL", op: "Read", write: false, proc: "Process Order", bor: "BUS0001", src: SD,
     he: "שליפת פרטי פקודת תהליך — קריאה בלבד.", en: "Output details of a process order.",
     params: "IMP NUMBER · EXP ORDER_OBJECTS · TAB RETURN", tx: ["COR3"], tbl: ["AFKO", "AFPO", "AFVC"], rel: PO_SEQ }),
-  def({ id: "BAPI_PROCORD_GET_LIST", op: "Read", write: false, proc: "Process Order", bor: "BUS2116", src: SD,
+  def({ id: "BAPI_PROCORD_GET_LIST", op: "Read", write: false, proc: "Process Order", bor: "BUS0001", src: SD,
     he: "רשימת פקודות תהליך לפי בחירה — קריאה בלבד.", en: "List process-order headers by selection.",
     params: "IMP PLANT, SELPROD… · TAB PROCESS_ORDERS, RETURN", tx: ["COOISPI", "COHV"], tbl: ["AFKO", "AUFK"], rel: PO_SEQ }),
-  def({ id: "BAPI_PROCORD_RELEASE", op: "Change", write: true, proc: "Process Order", bor: "BUS2116", src: "se80.co.uk (SE37)",
+  def({ id: "BAPI_PROCORD_RELEASE", op: "Change", write: true, proc: "Process Order", bor: "BUS0001", src: "se80.co.uk (SE37)",
     he: "שחרור פקודות תהליך (Release).", en: "Release process orders.",
     params: "TAB ORDERS (order numbers), DETAIL_RETURN, RETURN", tx: ["COR2"], tbl: ["AFKO", "JEST"], rel: PO_SEQ, seq: PO_SEQ }),
-  def({ id: "BAPI_PROCORD_COMPLETE_TECH", op: "Change", write: true, proc: "Process Order", bor: "BUS2116", src: "se80.co.uk (SE37)",
+  def({ id: "BAPI_PROCORD_COMPLETE_TECH", op: "Change", write: true, proc: "Process Order", bor: "BUS0001", src: "se80.co.uk (SE37)",
     he: "סגירה טכנית של פקודות תהליך (TECO).", en: "Technically complete process orders (TECO).",
     params: "TAB ORDERS, DETAIL_RETURN, RETURN", tx: ["COR2"], tbl: ["AFKO", "JEST"], rel: ["BAPI_PROCORD_CREATE", "BAPI_TRANSACTION_COMMIT"] }),
-  def({ id: "BAPI_PROCORDCONF_CREATE_TT", op: "Confirm", write: true, proc: "Process Order Confirmation", bor: "BUS2116", src: HELP,
+  def({ id: "BAPI_PROCORDCONF_CREATE_TT", op: "Confirm", write: true, proc: "Process Order Confirmation", bor: "BUS2016", src: HELP,
     he: "דיווח פקודת תהליך — Time Ticket (תפוקה, פסולת, פעילויות).", en: "Enter a process-order time-ticket confirmation.",
     params: "IMP POST_WRONG_ENTRIES · TAB TIMETICKETS, GOODSMOVEMENTS, LINK_CONF_GOODSMOV, DETAIL_RETURN, RETURN", tx: ["CORK", "CORR"], tbl: ["AFRU", "AFVC"], rel: ["BAPI_PROCORDCONF_CANCEL", "BAPI_GOODSMVT_CREATE", "BAPI_TRANSACTION_COMMIT"], seq: PO_SEQ,
     qa: "דיווח _TT (Time Ticket) — לא לבלבל עם _GETLIST. תנועות סחורה נלוות דרך GOODSMOVEMENTS. חובה COMMIT. ביטול: BAPI_PROCORDCONF_CANCEL." }),
   def({ id: "BAPI_PROCORDCONF_GETLIST", op: "Read", write: false, proc: "Process Order Confirmation", src: SD,
     he: "רשימת דיווחים לפקודות תהליך — קריאה בלבד. (שם: GETLIST, ללא קו תחתון לפני LIST).", en: "List of process-order confirmations (read-only).",
-    params: "IMP selection · TAB CONF_LIST, RETURN", tx: ["COConf"], tbl: ["AFRU"], rel: ["BAPI_PROCORDCONF_CREATE_TT"] }),
+    params: "IMP selection · TAB CONF_LIST, RETURN", tx: ["COR6", "COR6N", "CORK", "CORS", "CORT"], tbl: ["AFRU"], rel: ["BAPI_PROCORDCONF_CREATE_TT"] }),
   def({ id: "BAPI_PROCORDCONF_CANCEL", op: "Change", write: true, proc: "Process Order Confirmation", src: "tcodesearch.com (SE37)",
     he: "ביטול דיווח פקודת תהליך.", en: "Cancel a process-order confirmation.",
     params: "TAB CONFIRMATIONS, DETAIL_RETURN, RETURN", tx: ["CORS"], tbl: ["AFRU"], rel: ["BAPI_PROCORDCONF_CREATE_TT", "BAPI_TRANSACTION_COMMIT"] }),
@@ -87,7 +90,7 @@ const ALL: SapFuncObject[] = [
   def({ id: "BAPI_MATERIAL_BOM_GROUP_CREATE", op: "Create", write: true, proc: "Bill of Material", src: SD,
     he: "יצירת קבוצת עצי-מוצר לחומר (BOM group).", en: "Create a material BOM group.",
     params: "IMP ALL_ERROR · TAB BOMGROUP, VARIANTS, ITEMS, RETURN", tx: ["CS01"], tbl: ["STKO", "STPO", "MAST"], rel: ["CSAP_MAT_BOM_MAINTAIN", "BAPI_TRANSACTION_COMMIT"] }),
-  def({ id: "BAPI_BATCH_CREATE", op: "Create", write: true, proc: "Batch Management", bor: "BUS1001_BATCH", src: SD,
+  def({ id: "BAPI_BATCH_CREATE", op: "Create", write: true, proc: "Batch Management", bor: "BUS1001002", src: SD,
     he: "יצירת אצווה (סיווג נעשה בנפרד).", en: "Create a batch (classification handled separately).",
     params: "IMP MATERIAL, PLANT, BATCH, BATCHATTRIBUTES · TAB RETURN · EXP BATCH", tx: ["MSC1N"], tbl: ["MCH1", "MCHA", "MCHB"], rel: ["BAPI_BATCH_GET_DETAIL", "BAPI_TRANSACTION_COMMIT"] }),
   def({ id: "BAPI_BATCH_GET_DETAIL", op: "Read", write: false, proc: "Batch Management", src: SD,
@@ -132,8 +135,28 @@ Object.assign(PPPI_ENRICHMENT, {
     "אינו קיים. אין BAPI לקריאת מסלול. ליצירה: BAPI_ROUTING_CREATE · לקריאה: טבלאות PLKO·PLPO·MAPL·PLAS.",
     "Does not exist. No routing-read BAPI. Create: BAPI_ROUTING_CREATE · read: tables PLKO/PLPO/MAPL/PLAS.",
     ["BAPI_ROUTING_CREATE"]),
-  BOMMAT: bad("BOMMAT", "שם מבנה/טבלה של נתוני BOM — אינו FM. טבלאות אמת: STKO·STPO·MAST.", "A BOM data structure/table name, not an FM. Real tables: STKO/STPO/MAST.", ["CSAP_MAT_BOM_MAINTAIN"]),
-  PPCC1: bad("PPCC1", "קוד טרנזקציה — אינו FM.", "A transaction code, not an FM.", []),
+  // 2026-09-21 (design audit round 2): BOMMAT is the material-BOM IDoc message type
+  // (SAP Help 2025 FPS01: 'Message type: BOMMAT … Basis type: BOMMAT01 … New basis
+  // type BOMMAT03'; 'Logical Message BOMMAT IDoc Type BOMMAT07'). Not an FM, not a
+  // table name. Classified IDoc by lib/object-intel; record idoc:msg:BOMMAT.
+  BOMMAT: {
+    verificationStatus: "verified-docs", confidence: "high", lastVerified: "2026-09-21",
+    verificationSource: "SAP Help Portal — Distributing BOM Data within ID PDM; Technical Information: Bill of Materials (2025 FPS01)",
+    shortDescriptionHe: "סוג הודעת IDoc להפצת עצי מוצר של חומר (Material BOM) ב-ALE — סוגים בסיסיים BOMMAT01/BOMMAT03/BOMMAT07. אינו FM. טבלאות היעד: STKO·STPO·MAST.",
+    shortDescriptionEn: "IDoc message type for distributing material BOMs via ALE (basic types BOMMAT01/BOMMAT03/BOMMAT07). Not an FM. Target tables STKO/STPO/MAST.",
+    relatedObjects: ["CSAP_MAT_BOM_MAINTAIN"],
+    qaNotes: "סוג הודעה ולא מודול פונקציה: לניטור WE02/BD87, לפרופיל השותף WE20; הפצה ידנית ב-BD30 לפי התיעוד הרשמי.",
+  },
+  // 2026-09-21: no official record names PPCC1 (Help search returned only /SAPAPO/PPC1
+  // and PPC* codes). The blueprint lists it as 'PPCC1 (PP-PI message)'; every repository
+  // source agrees it is not a function module, none establishes what it is.
+  PPCC1: {
+    verificationStatus: "requires-verification", confidence: "low", lastVerified: "2026-09-21",
+    shortDescriptionHe: "מזהה מהבלופרינט ('PPCC1 (PP-PI message)') בהקשר הודעות תהליך — אינו מודול פונקציה; מהותו לא אומתה במקור רשמי.",
+    shortDescriptionEn: "Blueprint identifier ('PPCC1 (PP-PI message)') in the process-message context — not a function module; nature unverified in official sources.",
+    relatedObjects: [],
+    qaNotes: "לא נמצא מקור רשמי הנוקב ב-PPCC1 (חיפוש Help ב-2026-09-21). אין להסתמך עליו כשם אובייקט; הודעות תהליך מנוטרות ב-CO54.",
+  },
   "Control Recipe": bad("Control Recipe", "מושג עסקי/IDoc של PP-PI (מתכון בקרה) — אינו FM ניתן לקריאה.", "A PP-PI business object / IDoc (control recipe), not a callable FM.", []),
   RFC_READ_TABLE: {
     verificationStatus: "internal-unsupported", confidence: "high", verificationSource: SD, lastVerified: LV,

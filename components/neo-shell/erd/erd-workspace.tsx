@@ -46,18 +46,19 @@
 //   OBJECT  --obj-*  the class marker on a node.
 //   BRAND   --brand  focus ring and the minimap viewport. Never a data category.
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowRight, Boxes, ChevronDown, Crosshair, Filter, Keyboard, Layers, Link2, Map as MapIcon,
-  Maximize, Maximize2, Minimize, Minus, PanelRightClose, PanelRightOpen, Plus, RotateCcw, Scan,
+  Focus, Maximize, Maximize2, Minimize, Minus, PanelRightClose, PanelRightOpen, Plus, Presentation, RotateCcw, Scan,
   Search, Share2, SlidersHorizontal, Target, Workflow, X,
 } from "lucide-react";
 import {
   ANALYSIS, LEVEL_HE, MODULE_ORDER, REL_HE, REL_ORDER, S4_RISK_HE, S4_TRUST_HE, ZONE_HE, modVar,
-  type Analysis, type ErdCatalog, type ErdEdgeOut, type ErdTable, type Level, type ModCode,
+  type Analysis, type ErdCatalog, type ErdEdgeOut, type ErdS4K, type ErdTable, type Level, type ModCode,
   type RelKind,
 } from "./erd-types";
+import { useShellFocus } from "../focus";
 import {
   SmartReturn, consumeReturn, rememberOrigin, useReturnPacket,
 } from "@/components/neo-shell/nav-context";
@@ -72,6 +73,24 @@ import {
 const SKEY = "neo:erd:v3";
 const TWEEN = 460;
 const PAD = 52;
+/** PRESENTATION MODE (design audit S6-3): an automatic fit never lands below
+ *  this zoom, so a module read from across a meeting room keeps legible
+ *  titles; the presenter pans to the rest instead of squinting at all of it. */
+const PRESENT_MIN_K = 1;
+
+/** PHONE. The workspace on a ≤640px viewport — the same breakpoint erd.css
+ *  uses for its phone rules. Read through an external store so the server
+ *  render and the first client render agree (both "not a phone") and the real
+ *  answer arrives on the client without a state write in an effect. */
+const PHONE_MQ = "(max-width: 640px)";
+const subPhone = (cb: () => void) => {
+  if (typeof window === "undefined") return () => {};
+  const mq = window.matchMedia(PHONE_MQ);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+const getPhone = () => typeof window !== "undefined" && window.matchMedia(PHONE_MQ).matches;
+const getPhoneServer = () => false;
 
 /* ------------------------------------------------------------- the open card
 
@@ -166,6 +185,21 @@ interface Saved {
   mode?: Analysis;
 }
 
+/* The node badge word for a canonical S/4HANA status (design audit §5). The
+   five words the audit asked for, plus "חדשה" for objects that only exist in
+   S/4HANA. "unchanged" gets no badge; a derived "verification_required" gets
+   none either (it would badge most of the map), an AUTHORED one does. */
+const S4_WORD: Record<string, string> = {
+  changed: "משתנה", simplified: "משתנה", restricted: "משתנה", compatibility_scope: "משתנה",
+  fiori_alternative_available: "משתנה", released_api_available: "משתנה", deprecated: "משתנה",
+  replaced: "מוחלפת", not_available: "הוסרה", legacy_ecc_only: "הוסרה", s4_native: "חדשה",
+};
+function s4Word(k: ErdS4K): string | null {
+  if (k.k === "verification_required") return k.a ? "נדרש אימות" : null;
+  return S4_WORD[k.k] || null;
+}
+const s4BadgeW = (k: ErdS4K): number => 10 + (s4Word(k) || "").length * 6.4;
+
 export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const router = useRouter();
 
@@ -228,6 +262,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
    *  event, never by the click, so the button can never desync from the browser
    *  when the user leaves fullscreen with Escape or with the system control. */
   const [full, setFull] = useState(false);
+  /* PRESENTATION MODE (design audit S6-3): focus mode plus the real
+     fullscreen, larger type in the inspector and on the canvas (erd.css
+     [data-present]), a legibility floor on every automatic fit, the minimap
+     out of the way and a short legend on the stage. One switch, one exit
+     (Esc, or the same button). Declared here, above fitTo, which reads it. */
+  const [present, setPresent] = useState(false);
   /** The analysis lens the reader asked for. The lens actually IN FORCE is
    *  derived below — a module with no recorded object chain cannot answer the
    *  business-flow question, and falling back is a reading of the data, not a
@@ -298,6 +338,13 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
   const level: Level = !M ? "overview" : sel ? "table" : group ? "group" : "module";
   const isMap = level === "overview";
+
+  /* PHONE ENTRY (design audit S6-4). On a phone the overview is a LIST of
+     modules, not the fifteen-module map shrunk until it fits; the full map is
+     one tap away for the reader who wants it. `phoneMap` is that choice. */
+  const phone = useSyncExternalStore(subPhone, getPhone, getPhoneServer);
+  const [phoneMap, setPhoneMap] = useState(false);
+  const phoneList = phone && isMap && !phoneMap;
 
   /** The modules on screen. One unless the reader has added more. */
   const mods = useMemo(
@@ -721,41 +768,42 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (camHist.current.length > 24) camHist.current.shift();
   }, []);
 
-  /** The zoom below which a node stops being a table and becomes a rectangle.
-   *  The card sets its name at 15px, so under roughly 0.72 it renders below
-   *  11px and the graph is no longer readable without zooming — which is the
-   *  specific complaint. Entering a module used to land at 0.47. */
-  const LEGIBLE_K = 0.72;
+  /** The box the last AUTOMATIC fit framed, or null once the reader has moved
+   *  the camera themselves. The stage's ResizeObserver re-frames this box when
+   *  a panel opens or closes, and leaves a hand-placed camera alone. */
+  const autoBox = useRef<{ x: number; y: number; w: number; h: number } | null>(null);
 
   const fitTo = useCallback(
-    (b: { x: number; y: number; w: number; h: number }, floor = 0) => {
+    (b: { x: number; y: number; w: number; h: number }) => {
       const st = stage.current;
       if (!st) return;
       const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
-      // A floor is applied on ENTRY, never to the explicit fit control: if the
-      // reader asks to see everything, they get everything, however small.
-      const k = clampK(floor ? Math.max(raw, floor) : raw);
+      autoBox.current = b;
+      const k = clampK(present ? Math.max(raw, PRESENT_MIN_K) : raw);
       glide({
         k,
         x: (st.clientWidth - b.w * k) / 2 - b.x * k,
         y: (st.clientHeight - b.h * k) / 2 - b.y * k,
       });
     },
-    [glide],
+    [glide, present],
   );
 
   /** The toolbar's fit: a true fit, no floor. */
   const fit = useCallback(() => fitTo(bboxRef.current), [fitTo]);
 
-  /** ARRIVAL. Fit the graph, but never below legibility.
+  /** ARRIVAL. A true fit to the space the stage actually has: the space left
+   *  after the rail, the inspector and the toolbar.
    *
-   *  A pure fit-to-bbox is right for a control the reader pressed and wrong for
-   *  a view they were handed: with seventeen nodes it resolves to 47% and every
-   *  table title lands at about 7px. So entry keeps the fit's framing and
-   *  refuses to go under LEGIBLE_K; where the whole graph cannot be shown at a
-   *  readable size the canvas stays pannable and the minimap carries the rest,
-   *  which is how the old graph behaves. */
-  const fitOnEnter = useCallback(() => fitTo(bboxRef.current, LEGIBLE_K), [fitTo]);
+   *  This used to keep a legibility floor of 0.72, on the reasoning that a
+   *  module opened at 47% sets its table titles below 11px. The design audit
+   *  of 2026-09-14 measured the consequence: the module map opened at 72% with
+   *  cards cut off at the edges, while the toolbar's own fit (51%) put the
+   *  whole map on screen. Clipped content is content the reader cannot reach;
+   *  small content is content they can zoom into, and the zoom controls, the
+   *  minimap and the keyboard are all there for that. So arrival now frames
+   *  exactly what the fit control frames. */
+  const fitOnEnter = useCallback(() => fitTo(bboxRef.current), [fitTo]);
 
   /** Soft camera — centre plus a gentle zoom toward the table. The studio's
    *  focusOn, same numbers. */
@@ -765,6 +813,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       const p = live.pos.get(name);
       if (!st || !p) return;
       const kk = clampK(k ?? Math.min(1.35, Math.max(view.current.k, 0.95)));
+      // A camera the reader aimed at a table: a later resize clamps, never refits.
+      autoBox.current = null;
       glide({ k: kk, x: st.clientWidth / 2 - p.x * kk, y: st.clientHeight / 2 - p.y * kk });
     },
     [live.pos, glide],
@@ -846,11 +896,43 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     fitTo(bboxOf(live.pos, sizeMap, only));
   }, [sel, adj, live.pos, sizeMap, fitTo]);
 
+  /** Frame the sub-process: the group's tables plus their one-step ring, which
+   *  is exactly what the group filter leaves on the picture. */
+  const fitGroup = useCallback(() => {
+    if (!groupRing || !groupRing.size) return;
+    fitTo(bboxOf(live.pos, sizeMap, groupRing));
+  }, [groupRing, live.pos, sizeMap, fitTo]);
+
+  /* PHONE FOCUS (design audit S6-4). On a phone the picture is never shrunk
+     until everything fits: choosing a table re-frames the camera on that table
+     and its neighbours, and choosing a sub-process re-frames on the group. A
+     desktop keeps the other rule — filters and selection never move the camera
+     on their own. The callbacks are read through refs so the two effects key
+     on the reader's choice, not on every layout tick. */
+  const fitSelRef = useRef(fitSelection);
+  const fitGroupRef = useRef(fitGroup);
+  useEffect(() => {
+    fitSelRef.current = fitSelection;
+    fitGroupRef.current = fitGroup;
+  });
+  useEffect(() => {
+    if (!phone || isMap || !sel || open) return;
+    const id = window.setTimeout(() => fitSelRef.current(), 90);
+    return () => window.clearTimeout(id);
+  }, [phone, isMap, sel, open]);
+  useEffect(() => {
+    if (!phone || isMap || !group || sel) return;
+    const id = window.setTimeout(() => fitGroupRef.current(), 90);
+    return () => window.clearTimeout(id);
+  }, [phone, isMap, group, sel]);
+
   const zoomAt = useCallback(
     (mult: number, px?: number, py?: number) => {
       const st = stage.current;
       if (!st) return;
       cancelAnimationFrame(anim.current);
+      // A zoom the reader chose: from here on a resize clamps, it does not refit.
+      autoBox.current = null;
       const cx = px ?? st.clientWidth / 2;
       const cy = py ?? st.clientHeight / 2;
       const v = view.current;
@@ -938,12 +1020,20 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const openTable = useCallback(
     (name: string) => {
       const t = tByName.get(name);
-      if (t?.pg === 1) {
+      /* On the module map the hit-test hands over a MODULE code, not a table.
+         Without this guard a double-click there fell through to setSheet with
+         a name no table matches — an invisible dialog that ate the next
+         Escape. A module double-click now does what a click does: enter it. */
+      if (!t) {
+        if (isMap && mByCode.has(name as ModCode)) openModule(name as ModCode);
+        return;
+      }
+      if (t.pg === 1) {
         rememberOrigin(makeOrigin(name));
         router.push(`/neo/object/${name}/`);
       } else setSheet(name);
     },
-    [tByName, router, makeOrigin],
+    [tByName, router, makeOrigin, isMap, mByCode, openModule],
   );
 
   /* ------------------------------------------------------- narrowing, counted
@@ -962,9 +1052,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (rel.size < REL_ORDER.length) {
       out.push({ id: "rel", he: `סוגי קשר · ${rel.size} מתוך ${REL_ORDER.length}`, off: () => setRel(new Set(REL_ORDER)) });
     }
-    if (strong) out.push({ id: "strong", he: "קשרים חזקים", off: () => setStrong(false) });
+    if (strong) out.push({ id: "strong", he: "קשרים עם JOIN", off: () => setStrong(false) });
     if (sharedOnly) out.push({ id: "shared", he: "טבלאות משותפות", off: () => setSharedOnly(false) });
-    if (!iso) out.push({ id: "iso", he: "בלי טבלאות ללא קשר", off: () => setIso(true) });
+    if (!iso) out.push({ id: "iso", he: "הסתרת טבלאות ללא קשרים", off: () => setIso(true) });
     return out;
   }, [group, rel, strong, sharedOnly, iso]);
 
@@ -1026,6 +1116,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
    *  server and the first client render agree, and the control is simply not
    *  drawn where the API does not exist. */
   const [fsOk, setFsOk] = useState(false);
+  // Focus mode (design audit §3): the canvas alone, shell hidden, Escape or
+  // the pinned control exits. Page-scoped; nothing persisted.
+  const [shellFocus, setShellFocus] = useState(false);
+  // Leaving focus (Esc, or the exit button) also ends a presentation.
+  const exitShellFocus = useCallback(() => { setShellFocus(false); setPresent(false); }, []);
+  useShellFocus(shellFocus, exitShellFocus);
   useEffect(() => {
     const d = document as FsDoc;
     const el = root.current as FsEl | null;
@@ -1055,6 +1151,21 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (fsNow()) done((document.exitFullscreen ?? d.webkitExitFullscreen)?.call(document));
     else done((el.requestFullscreen ?? el.webkitRequestFullscreen)?.call(el));
   }, [fsNow]);
+
+  /** PRESENTATION MODE, in and out (design audit S6-3). Focus mode hides the
+   *  shell, fullscreen takes the browser chrome, the [data-present] attribute
+   *  raises the type and floors the fit, and the same button or Esc undoes
+   *  all of it. Fullscreen is asked for only where the browser allows it. */
+  const enterPresent = useCallback(() => {
+    setPresent(true);
+    setShellFocus(true);
+    if (fsOk && !fsNow()) toggleFull();
+  }, [fsOk, fsNow, toggleFull]);
+  const exitPresent = useCallback(() => {
+    setPresent(false);
+    setShellFocus(false);
+    if (fsNow()) toggleFull();
+  }, [fsNow, toggleFull]);
 
   /** Entering or leaving fullscreen is an explicit act with a much larger or
    *  much smaller stage on the other side of it, so the picture is re-framed
@@ -1120,6 +1231,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         /* noop */
       }
     }, 450);
+    // The pending write dies with the workspace: without this cleanup a 450ms
+    // timer could fire after navigation and write against an unmounted tree.
+    return () => {
+      if (saveT.current) clearTimeout(saveT.current);
+    };
   }, [mod, showAll, rel, strong, sharedOnly, iso, depth, insp, mini, sel, mode]);
 
   /* ------------------------------------------------------- initial framing */
@@ -1139,18 +1255,27 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       setMod(t.ms[0] ?? t.m);
       setSel(t.n);
     });
+    let refit = 0;
     const ro = new ResizeObserver(() => {
       view.current = clampView(view.current, bboxRef.current, st.clientWidth, st.clientHeight);
       paint();
+      // A panel opening or closing changes the space the graph has. While the
+      // camera is still where an automatic fit put it, fit again to the new
+      // space (the audit's request); a camera the reader has moved is theirs.
+      const box = autoBox.current;
+      if (!box) return;
+      window.clearTimeout(refit);
+      refit = window.setTimeout(() => { if (autoBox.current === box) fitTo(box); }, 90);
     });
     ro.observe(st);
     window.addEventListener("orientationchange", paint);
     return () => {
       cancelAnimationFrame(raf);
+      window.clearTimeout(refit);
       ro.disconnect();
       window.removeEventListener("orientationchange", paint);
     };
-  }, [data.tables, paint]);
+  }, [data.tables, paint, fitTo]);
 
   /** Every change of PICTURE re-frames, once, after its commit. Filters and
    *  selection never move the camera on their own — the view you set is the
@@ -1172,6 +1297,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         // A RETURN wins over the fit: the reader is coming back to a zoom and a
         // pan they chose, and re-fitting the picture would throw both away.
         camWanted.current = null;
+        autoBox.current = null;
         const st = stage.current;
         view.current = clampView(want, bboxRef.current, st?.clientWidth || 800, st?.clientHeight || 560);
         paint();
@@ -1346,6 +1472,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         const dx = now.x - prev.x;
         const dy = now.y - prev.y;
         moved += Math.abs(dx) + Math.abs(dy);
+        if (dx || dy) autoBox.current = null;
         view.current = clamp({ ...view.current, x: view.current.x + dx, y: view.current.y + dy });
         paint();
         return;
@@ -1510,8 +1637,15 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     const svg = e.currentTarget;
     if (!st) return;
     const r = svg.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width) * picture.w;
-    const y = ((e.clientY - r.top) / r.height) * picture.h;
+    /* The minimap renders with preserveAspectRatio="meet" inside a fixed 4:3
+       box, so the picture is letterboxed whenever its aspect ratio differs.
+       A linear clientX->picture.w mapping ignored the bars and sent the camera
+       to the wrong place; map through the real scale and centring offsets. */
+    const s = Math.min(r.width / picture.w, r.height / picture.h);
+    const offX = (r.width - picture.w * s) / 2;
+    const offY = (r.height - picture.h * s) / 2;
+    const x = Math.min(Math.max((e.clientX - r.left - offX) / s, 0), picture.w);
+    const y = Math.min(Math.max((e.clientY - r.top - offY) / s, 0), picture.h);
     const k = view.current.k;
     cancelAnimationFrame(anim.current);
     view.current = clamp({ k, x: st.clientWidth / 2 - x * k, y: st.clientHeight / 2 - y * k });
@@ -1605,6 +1739,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       // closest(), so a second one here would swallow every canvas click.
       data-opencard={openT ? "1" : "0"}
       data-mode={isMap ? "" : mode}
+      data-plist={phoneList ? "1" : "0"}
+      data-present={present ? "1" : "0"}
     >
       <header className="ne-bar">
         {/* IDENTITY IN TWO LINES, NOT FOUR. The return, the ladder, the title
@@ -1637,7 +1773,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
           </div>
           <div className="ne-bar-t">
             <p className="ne-eye">
-              מודל נתונים
+              מודל הנתונים
               <i aria-hidden="true" />
               <span className="nx-sap">ENTITY RELATIONSHIP</span>
             </p>
@@ -1646,6 +1782,18 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               {M
                 ? `${nf.format(scopeCount)} טבלאות · ${nf.format(edgeCount)} קשרים${M.purpose ? ` · ${M.purpose}` : ""}`
                 : `${nf.format(data.stats.modules)} מודולים · ${nf.format(data.stats.memberships)} שיוכי טבלה · ${nf.format(data.stats.tables)} טבלאות · ${nf.format(data.stats.edges)} קשרים`}
+            </p>
+            {/* Which of the three modes the reader is in, always stated (design
+                audit §7): overview, selection, or relation analysis. */}
+            <p className="ne-modechip" aria-live="polite">
+              <span className="ne-modechip-k">מצב</span>
+              <b>
+                {isMap
+                  ? "סקירה · כל המודולים"
+                  : sel
+                    ? (lens.id !== "focus" ? `ניתוח קשרים · ${lens.he}` : "בחירה") + ` · ${sel}`
+                    : `דפדוף במודול ${M?.code ?? ""}`}
+              </b>
             </p>
           </div>
         </div>
@@ -1658,12 +1806,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 type="search"
                 value={q}
                 onChange={(ev) => setQ(ev.target.value)}
-                placeholder="חפש טבלה · תיאור · טרנזקציה"
+                placeholder="שם טבלה · תיאור · טרנזקציה"
                 aria-label="חיפוש טבלה בתרשים"
                 dir="auto"
               />
               {q ? (
-                <button type="button" className="nu-ghost ne-x" onClick={() => setQ("")} aria-label="נקה חיפוש">
+                <button type="button" className="nu-ghost ne-x" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
                   <X size={13} strokeWidth={2.2} aria-hidden="true" />
                 </button>
               ) : null}
@@ -1683,7 +1831,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     >
                       <i className="ne-row-bar" aria-hidden="true" />
                       <b className="nx-sap">{n.n}</b>
-                      <em>{n.he || n.en || "—"}</em>
+                      <em>{n.he || n.en || "–"}</em>
                       <span className="nx-sap">{degOf(n.n)}</span>
                     </button>
                   </li>
@@ -1695,7 +1843,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
         <div className="ne-view" role="group" aria-label="תצוגה">
           <div className="ne-group">
-            <button type="button" className="nu-ghost" onClick={() => zoomAt(1 / 1.22)} aria-label="התרחק">
+            <button type="button" className="nu-ghost" onClick={() => zoomAt(1 / 1.22)} aria-label="הקטנת התצוגה">
               <Minus size={16} strokeWidth={2} aria-hidden="true" />
             </button>
             <button
@@ -1706,12 +1854,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             >
               {zoomPct}%
             </button>
-            <button type="button" className="nu-ghost" onClick={() => zoomAt(1.22)} aria-label="התקרב">
+            <button type="button" className="nu-ghost" onClick={() => zoomAt(1.22)} aria-label="הגדלת התצוגה">
               <Plus size={16} strokeWidth={2} aria-hidden="true" />
             </button>
           </div>
           <div className="ne-group">
-            <button type="button" className="nu-ghost" onClick={fit} aria-label="התאם הכול למסך">
+            <button type="button" className="nu-ghost" onClick={fit} aria-label="התאמת התרשים למסך">
               <Maximize2 size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
             <button
@@ -1719,7 +1867,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               className="nu-ghost"
               onClick={fitSelection}
               disabled={!sel}
-              aria-label="התאם לבחירה ולשכניה"
+              aria-label="התאמה לטבלה שנבחרה ולשכנותיה"
             >
               <Crosshair size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
@@ -1728,18 +1876,40 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               className="nu-ghost"
               onClick={() => sel && zoomInto(sel)}
               disabled={!sel}
-              aria-label="זום אל הטבלה הנבחרת"
+              aria-label="הגדלה אל הטבלה שנבחרה"
             >
               <Scan size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
-            <button type="button" className="nu-ghost" onClick={reset} aria-label="אפס תצוגה ומסננים">
+            <button type="button" className="nu-ghost" onClick={reset} aria-label="איפוס התצוגה והמסננים">
               <RotateCcw size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
           </div>
           <div className="ne-group">
+            {/* PRESENTATION (design audit S6-3): focus + fullscreen + larger
+                type + legend, for a meeting room. */}
+            <button
+              type="button"
+              className="nu-ghost"
+              onClick={present ? exitPresent : enterPresent}
+              aria-pressed={present}
+              aria-label={present ? "יציאה ממצב הצגה" : "מצב הצגה: מסך מלא, טקסט גדול ומקרא, לחדר ישיבות"}
+              title={present ? "יציאה ממצב הצגה · Esc" : "מצב הצגה"}
+            >
+              <Presentation size={15} strokeWidth={1.8} aria-hidden="true" />
+            </button>
             {/* FULLSCREEN. The real API on the workspace root, so the controls
                 come with the picture. Its pressed state is read from the
                 browser, never from this click. */}
+            <button
+              type="button"
+              className="nu-ghost"
+              onClick={() => setShellFocus((v) => !v)}
+              aria-pressed={shellFocus}
+              aria-label={shellFocus ? "יציאה ממצב מיקוד" : "מצב מיקוד: הסתרת הניווט והפקדים הכלליים"}
+              title={shellFocus ? "יציאה ממצב מיקוד · Esc" : "מצב מיקוד"}
+            >
+              <Focus size={15} strokeWidth={1.8} aria-hidden="true" />
+            </button>
             {fsOk ? (
               <button
                 type="button"
@@ -1747,8 +1917,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 data-fs={full ? "1" : "0"}
                 onClick={toggleFull}
                 aria-pressed={full}
-                aria-label={full ? "צא ממסך מלא" : "מסך מלא"}
-                title={full ? "צא ממסך מלא · Esc" : "מסך מלא"}
+                aria-label={full ? "יציאה ממסך מלא" : "מסך מלא"}
+                title={full ? "יציאה ממסך מלא · Esc" : "מסך מלא"}
               >
                 {full ? (
                   <Minimize size={15} strokeWidth={1.8} aria-hidden="true" />
@@ -1762,8 +1932,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               className="nu-ghost"
               onClick={() => setMini((v) => !v)}
               aria-pressed={mini}
-              aria-label={mini ? "הסתר את המפה המוקטנת" : "הצג את המפה המוקטנת"}
-              title={mini ? "הסתר את המפה המוקטנת" : "הצג את המפה המוקטנת"}
+              aria-label={mini ? "הסתרת המפה המוקטנת" : "הצגת המפה המוקטנת"}
+              title={mini ? "הסתרת המפה המוקטנת" : "הצגת המפה המוקטנת"}
             >
               <MapIcon size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
@@ -1772,7 +1942,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               className="nu-ghost"
               onClick={() => setInsp((v) => !v)}
               aria-pressed={insp}
-              aria-label={insp ? "סגור את פאנל הפרטים" : "פתח את פאנל הפרטים"}
+              aria-label={insp ? "סגירת חלונית הפרטים" : "פתיחת חלונית הפרטים"}
             >
               {insp ? (
                 <PanelRightClose size={15} strokeWidth={1.8} aria-hidden="true" />
@@ -1846,8 +2016,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             <section className="ne-pop-sc">
               <p className="ne-pop-h">היקף התרשים</p>
               <p className="ne-pop-say">
-                בהשוואה בין מודולים ההיקף נקבע לפי ה-ERD המרכזי של כל מודול. כדי לבחור היקף,
-                חזרו למודול אחד.
+                בהשוואה בין מודולים ההיקף נקבע לפי ה-ERD המרכזי של כל מודול. בחירת היקף אחר
+                אפשרית במודול יחיד בלבד.
               </p>
               <div className="ne-pop-w">
                 <button type="button" className="nu-filter" onClick={() => setExtra(new Set())}>
@@ -1868,7 +2038,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                   aria-pressed={showAll}
                   disabled={!M.more.length}
                   onClick={() => setShowAll(true)}
-                  title={M.more.length ? "כל טבלאות המודול במילון" : "אין למודול טבלאות נוספות במילון"}
+                  title={M.more.length ? "כל טבלאות המודול בתיעוד" : "אין למודול טבלאות נוספות בתיעוד"}
                 >
                   כל המודול · {M.core.length + M.more.length}
                 </button>
@@ -1923,8 +2093,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     aria-pressed={extra.has(m.code)}
                     aria-label={
                       extra.has(m.code)
-                        ? `הסר את ${m.code} מההשוואה`
-                        : `הוסף את ${m.code} להשוואה עם ${mod}`
+                        ? `הסרת ${m.code} מההשוואה`
+                        : `הוספת ${m.code} להשוואה עם ${mod}`
                     }
                     onClick={() =>
                       setExtra((prev) => {
@@ -1963,8 +2133,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                   disabled={a.id === "flow" && !flowReady}
                   title={
                     a.id === "flow" && !flowReady
-                      ? "לא קיים מידע מאומת בפרויקט. המודול הזה אינו מחזיק שרשרת אובייקטים עסקיים."
-                      : `${a.en} — ${a.d}`
+                      ? "לא קיים תיעוד מאומת במאגר: למודול זה אין שרשרת אובייקטים עסקיים."
+                      : `${a.en} · ${a.d}`
                   }
                   onClick={() => {
                     setMode(a.id);
@@ -1979,7 +2149,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 className="nu-filter"
                 aria-pressed={focus}
                 disabled={!sel}
-                title="מסדר את השכנות סביב הטבלה הנבחרת. שאר המודל נשאר על המפה, מעומעם."
+                title="סידור השכנות סביב הטבלה שנבחרה. שאר המודל נשאר בתרשים, מעומעם."
                 onClick={() => setFocus((v) => !v)}
               >
                 <Target size={12} strokeWidth={2} aria-hidden="true" />
@@ -2077,10 +2247,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                       className="nu-filter"
                       aria-pressed={strong}
                       onClick={() => setStrong((v) => !v)}
-                      title="רק קשרים שמילון ה-PM/PP-PI מתעד להם ניסוח JOIN מלא"
+                      title="רק קשרים שבתיעוד נרשם להם ניסוח JOIN"
                     >
                       <Filter size={12} strokeWidth={1.9} aria-hidden="true" />
-                      קשרים חזקים
+                      קשרים עם JOIN
                     </button>
                   </div>
                 </section>
@@ -2093,13 +2263,13 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                       className="nu-filter"
                       aria-pressed={sharedOnly}
                       onClick={() => setSharedOnly((v) => !v)}
-                      title="טבלאות שיותר ממודול אחד מחזיק ב-ERD שלו"
+                      title="טבלאות הנכללות ב-ERD של יותר ממודול אחד"
                     >
                       <Share2 size={12} strokeWidth={1.9} aria-hidden="true" />
                       משותפות
                     </button>
                     <button type="button" className="nu-filter" aria-pressed={iso} onClick={() => setIso((v) => !v)}>
-                      ללא קשר
+                      הצגת טבלאות ללא קשרים
                     </button>
                   </div>
                 </section>
@@ -2127,16 +2297,16 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     </button>
                   </div>
                   {mode !== "focus" ? (
-                    <p className="ne-pop-say">עומק ההדגשה שייך לעדשת המיקוד. שאר העדשות קובעות את ההיקף שלהן מהקשרים עצמם.</p>
+                    <p className="ne-pop-say">עומק ההדגשה חל על עדשת המיקוד בלבד. שאר העדשות קובעות את היקפן לפי הקשרים עצמם.</p>
                   ) : null}
                 </section>
 
                 <footer className="ne-pop-f">
                   <button type="button" className="nu-btn2" onClick={clearFilters} disabled={!narrowings.length}>
-                    נקה מסננים
+                    ניקוי המסננים
                   </button>
                   <button type="button" className="nu-ghost" onClick={() => setPop(null)}>
-                    סגור
+                    סגירה
                   </button>
                 </footer>
               </div>
@@ -2153,7 +2323,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     type="button"
                     className="nu-filter ne-fnow-x"
                     aria-pressed
-                    title={`בטל · ${n.he}`}
+                    title={`ביטול · ${n.he}`}
                     onClick={n.off}
                   >
                     {n.he}
@@ -2165,8 +2335,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
           </>
         ) : (
           <p className="ne-fhint">
-            בחר מודול כדי לפתוח את מודל הנתונים שלו. כל קו במפה הוא מספר קשרי הטבלאות שנמדדו בין
-            שני המודולים: לא דירוג.
+            בחירת מודול פותחת את מודל הנתונים שלו. כל קו במפה מציין את מספר קשרי הטבלאות בין
+            שני המודולים.
           </p>
         )}
 
@@ -2177,16 +2347,78 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             <i aria-hidden="true" />
             <span>{(ANALYSIS.find((a) => a.id === modeInfo) ?? lens).d}</span>
             {(ANALYSIS.find((a) => a.id === modeInfo) ?? lens).needsSel && !sel ? (
-              <b>בחר טבלה כדי להפעיל את העדשה</b>
+              <b>בחירת טבלה מפעילה את העדשה</b>
             ) : null}
-            <button type="button" className="nu-ghost ne-x" onClick={() => setModeInfo(null)} aria-label="סגור הסבר">
+            <button type="button" className="nu-ghost ne-x" onClick={() => setModeInfo(null)} aria-label="סגירת ההסבר">
               <X size={13} strokeWidth={2.2} aria-hidden="true" />
             </button>
           </p>
         ) : null}
       </div>
 
+      {shellFocus ? (
+        <button type="button" className="nu-btn nx-focus-exit" onClick={exitShellFocus}>
+          <Focus size={14} strokeWidth={1.9} aria-hidden="true" />
+          יציאה ממצב מיקוד
+        </button>
+      ) : null}
       <div className="ne-body">
+        {/* PHONE ENTRY (design audit S6-4). At the overview a 390px screen used
+            to get the whole module map shrunk until it fitted, which is a map
+            nobody can read. On a phone the map is not drawn until asked for:
+            the inspector below already lists the modules, so a module opens
+            with one tap from that list, and the full map is one tap away here.
+            Inside a module the second bar moves between the whole module and
+            the focused neighbourhood of the chosen table or sub-process. Both
+            bars are phone-only by CSS; a desktop never renders them. */}
+        {phone && isMap ? (
+          <div className="ne-phone" role="group" aria-label="מפת המודולים בנייד">
+            {phoneMap ? (
+              <button type="button" className="nu-btn2 ne-phone-btn" onClick={() => setPhoneMap(false)}>
+                <Boxes size={14} strokeWidth={1.9} aria-hidden="true" />
+                חזרה לרשימת המודולים
+              </button>
+            ) : (
+              <>
+                <p className="ne-phone-h">
+                  בנייד המודול נפתח מהרשימה שלמטה; המפה המלאה של {data.stats.modules} המודולים זמינה לפי בקשה.
+                </p>
+                <button type="button" className="nu-btn2 ne-phone-btn" onClick={() => setPhoneMap(true)}>
+                  <MapIcon size={14} strokeWidth={1.9} aria-hidden="true" />
+                  הצגת המפה המלאה
+                </button>
+              </>
+            )}
+          </div>
+        ) : null}
+        {phone && M ? (
+          <div className="ne-phone ne-phone--focus" role="group" aria-label="מיקוד התצוגה">
+            <button
+              type="button"
+              className="nu-btn2 ne-phone-btn"
+              disabled={!sel}
+              onClick={fitSelection}
+              title={sel ? "הטבלה הנבחרת ושכנותיה" : "בחירת טבלה ברשימה או במפה"}
+            >
+              <Crosshair size={13} strokeWidth={2} aria-hidden="true" />
+              {sel ? `מיקוד · ${sel}` : "מיקוד בטבלה נבחרת"}
+            </button>
+            {group ? (
+              <button type="button" className="nu-btn2 ne-phone-btn" onClick={fitGroup} title="תת-התהליך הנבחר">
+                <Layers size={13} strokeWidth={2} aria-hidden="true" />
+                {group.v}
+              </button>
+            ) : null}
+            <button type="button" className="nu-btn2 ne-phone-btn" onClick={fit} title="התאמת המודול כולו למסך">
+              <Maximize size={13} strokeWidth={2} aria-hidden="true" />
+              המודול כולו
+            </button>
+            <button type="button" className="nu-ghost ne-phone-up" onClick={toOverview}>
+              <ArrowRight size={13} strokeWidth={2} aria-hidden="true" />
+              כל המודולים
+            </button>
+          </div>
+        ) : null}
         {/* --------------------------------------------------------- THE STAGE */}
         <div
           className="ne-stage"
@@ -2204,15 +2436,15 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             <div className="ne-openbar" role="group" aria-label="הטבלה הפתוחה">
               <span className="ne-openbar-id">
                 <b className="nx-sap">{openT.n}</b>
-                <em>{openT.he || openT.en || "—"}</em>
+                <em>{openT.he || openT.en || "–"}</em>
               </span>
               <span className="ne-openbar-lens">{lens.he}</span>
               <button
                 type="button"
                 className="nu-ghost"
                 onClick={fitSelection}
-                aria-label="התאם לטבלה ולשכניה"
-                title="התאם לטבלה ולשכניה"
+                aria-label="התאמה לטבלה ולשכנותיה"
+                title="התאמה לטבלה ולשכנותיה"
               >
                 <Crosshair size={15} strokeWidth={1.8} aria-hidden="true" />
               </button>
@@ -2227,6 +2459,26 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
                 חזרה לתצוגה הקודמת
               </button>
+            </div>
+          ) : null}
+          {/* THE SHORT LEGEND of presentation mode (design audit S6-3): what is
+              on the stage, the relation kinds and the module colours, in the
+              words the inspector and the keys sheet already use. */}
+          {present ? (
+            <div className="ne-legend" role="note" aria-label="מקרא">
+              <span className="ne-legend-h">{M ? `${M.code} · ${M.he}` : `מפת ${data.stats.modules} המודולים`}</span>
+              {REL_ORDER.map((k) => (
+                <span key={k} className="ne-legend-i">
+                  <i data-kind={k} aria-hidden="true" />
+                  {REL_HE[k]}
+                </span>
+              ))}
+              {[...mods].map((m) => (
+                <span key={m} className="ne-legend-i" style={{ "--ms": modVar(m) } as React.CSSProperties}>
+                  <b aria-hidden="true" />
+                  <span className="nx-sap">{m}</span>
+                </span>
+              ))}
             </div>
           ) : null}
           <svg
@@ -2273,7 +2525,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                       <title>
                         {isMap
                           ? `${e.p} ↔ ${e.c}: ${e.n} קשרי טבלאות`
-                          : `${e.p} → ${e.c} · ${rec?.cd || REL_HE[(rec?.k ?? "unstated") as RelKind]}${rec?.ds ? ` — ${rec.ds}` : ""}`}
+                          : `${e.p} → ${e.c} · ${rec?.cd || REL_HE[(rec?.k ?? "unstated") as RelKind]}${rec?.ds ? ` · ${rec.ds}` : ""}`}
                       </title>
                       <path className="ne-edge-p" data-edge={e.i} d={pathD(g)} />
                       {!isMap ? (
@@ -2339,7 +2591,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           onDoubleClick={() => openModule(m.code)}
                           style={{ "--m": modVar(m.code), "--ms": modVar(m.code), "--o": "var(--obj-master)" } as React.CSSProperties}
                         >
-                          <title>{`${m.code} — ${m.he}${m.purpose ? `. ${m.purpose}` : ""}`}</title>
+                          <title>{`${m.code} · ${m.he}${m.purpose ? `. ${m.purpose}` : ""}`}</title>
                           <rect className="ne-node-h" x={-W / 2 - 5} y={-H / 2 - 5} width={W + 10} height={H + 10} rx={16} />
                           <rect className="ne-node-r" x={-W / 2} y={-H / 2} width={W} height={H} rx={12} />
                           <rect className="ne-node-mb" x={W / 2 - 11} y={-H / 2 + 10} width={5} height={H - 20} rx={2.5} />
@@ -2451,7 +2703,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                             {t.n}
                           </text>
                           <text className="ne-node-he" x={px} y={oy + 65} textAnchor="start">
-                            {cut(t.he || t.en || "—", isOpen ? 30 : 25)}
+                            {cut(t.he || t.en || "–", isOpen ? 30 : 25)}
                           </text>
                           {!isOpen ? (
                             <>
@@ -2476,19 +2728,25 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                   the same thing into s4v, so the badge is that
                                   and nothing else, and it carries the risk
                                   colour rather than one flat amber. */}
-                              {t.s4v && (t.s4v.r === "high" || t.s4v.r === "medium") ? (
+                              {/* Design audit §5 (2026-09-21): the badge is a WORD from the
+                                  canonical vocabulary (משתנה / מוחלפת / הוסרה / נדרש אימות /
+                                  חדשה), the same status the table page and the catalog show,
+                                  not a colour alone. "נשמרת" is the quiet default and gets
+                                  no badge, so the map stays readable. */}
+                              {s4Word(t.s4k) ? (
                                 <g
                                   className="ne-node-s4"
-                                  data-risk={t.s4v.r}
-                                  transform={`translate(${ow / 2 - 34} ${oy + 12})`}
+                                  data-risk={t.s4v?.r || "medium"}
+                                  data-k={t.s4k.k}
+                                  transform={`translate(${ow / 2 - s4BadgeW(t.s4k) - 8} ${oy + 12})`}
                                 >
-                                  <rect width={26} height={13} rx={3} />
-                                  <text x={13} y={10} textAnchor="middle">S/4</text>
+                                  <rect width={s4BadgeW(t.s4k)} height={13} rx={3} />
+                                  <text x={s4BadgeW(t.s4k) / 2} y={10} textAnchor="middle">{s4Word(t.s4k)}</text>
                                 </g>
                               ) : null}
                               {/* The affordance the old node shows on hover. */}
                               <text className="ne-node-hint" x={px} y={oh + oy - 10} textAnchor="start">
-                                לחץ ↡
+                                לחיצה ↡
                               </text>
                             </>
                           ) : (
@@ -2514,14 +2772,14 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                         {cut(f[0], 18)}
                                       </text>
                                       <text className="ne-open-t nx-sap" x={-ow / 2 + 18} y={yr} textAnchor="start">
-                                        {cut(f[1] || "—", 12)}
+                                        {cut(f[1] || "–", 12)}
                                       </text>
                                     </g>
                                   );
                                 })
                               ) : (
                                 <text className="ne-open-none" x={px} y={rowTop} textAnchor="start">
-                                  לא קיים מידע מאומת בפרויקט על שדות הטבלה
+                                  לא קיים תיעוד מאומת במאגר על שדות הטבלה
                                 </text>
                               )}
                               <line className="ne-open-rule" x1={-ow / 2 + 12} x2={ow / 2 - 12} y1={ruleY} y2={ruleY} />
@@ -2540,7 +2798,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                 </g>
                               ) : (
                                 <text className="ne-open-none" x={px} y={ruleY + 20} textAnchor="start">
-                                  S/4HANA · לא קיים מידע מאומת בפרויקט
+                                  S/4HANA · לא קיים תיעוד מאומת במאגר
                                 </text>
                               )}
                             </g>
@@ -2560,7 +2818,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                             data-open="1"
                             role="button"
                             tabIndex={0}
-                            aria-label={t.pg ? `פתח את עמוד האובייקט ${t.n}` : `פתח את כרטיס הטבלה ${t.n}`}
+                            aria-label={t.pg ? `פתיחת עמוד האובייקט ${t.n}` : `פתיחת כרטיס הטבלה ${t.n}`}
                           >
                             <rect x={-ow / 2 + 8} y={oy + 32} width={30} height={22} rx={6} />
                             <path d="M0 0 L-6 -6 M0 0 L0 -5 M0 0 L-5 0" transform={`translate(${-ow / 2 + 26} ${oy + 46})`} />
@@ -2622,8 +2880,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             {isMap
               ? " לחיצה על מודול פותחת את מודל הנתונים שלו"
               : open
-                ? " לחיצה נוספת על הכרטיס מחזירה בדיוק לתצוגה הקודמת"
-                : " לחיצה על טבלה פותחת אותה בגרף"}
+                ? " לחיצה נוספת על הכרטיס מחזירה לתצוגה הקודמת"
+                : " לחיצה על טבלה פותחת אותה בתרשים"}
           </p>
         </div>
 
@@ -2684,23 +2942,23 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
           <div className="ne-sheet-b nu-card" onClick={(e) => e.stopPropagation()}>
             <header>
               <h2>קיצורי מקלדת ומקרא</h2>
-              <button type="button" className="nu-ghost" onClick={() => setKeys(false)} aria-label="סגור">
+              <button type="button" className="nu-ghost" onClick={() => setKeys(false)} aria-label="סגירה">
                 <X size={16} strokeWidth={2} aria-hidden="true" />
               </button>
             </header>
             <dl className="ne-sheet-k">
               {[
-                ["לחיצה", "פתיחת הטבלה בגרף: שדות מפתח, PK/FK והכרעת S/4 · במפה: פתיחת המודול"],
-                ["לחיצה שנייה", "סגירת הכרטיס וחזרה בדיוק לתצוגה הקודמת"],
+                ["לחיצה", "פתיחת הטבלה בתרשים: שדות מפתח, PK/FK והכרעת S/4HANA · במפה: פתיחת המודול"],
+                ["לחיצה שנייה", "סגירת הכרטיס וחזרה לתצוגה הקודמת"],
                 ["לחיצה כפולה", "מעבר לעמוד האובייקט המלא"],
                 ["רווח", "מרכוז הפריט הנבחר"],
                 ["Enter", "פתיחת עמוד האובייקט הנבחר"],
-                ["Esc", "סגירת הכרטיס · חזרה לתצוגה קודמת · שלב אחורה בסולם"],
-                ["F / D / L / I / B", "עדשות: מיקוד · תלויות · שושלת · השפעה · זרימה עסקית"],
-                ["+ / −", "זום פנימה / החוצה"],
-                ["0", "התאמת הכול למסך"],
-                ["חצים", "הזזת הקנבס"],
-                ["Ctrl + גלגלת", "זום אל הסמן · גלילה רגילה תמיד נשארת של העמוד"],
+                ["Esc", "סגירת הכרטיס · חזרה לתצוגה הקודמת · חזרה רמה אחת בתרשים"],
+                ["F / D / L / I / B", "עדשות: מיקוד · תלויות · מקור הנתונים · השפעה · זרימה עסקית"],
+                ["+ / −", "הגדלה / הקטנה"],
+                ["0", "התאמת התרשים למסך"],
+                ["חצים", "הזזת התרשים"],
+                ["Ctrl + גלגלת", "הגדלה סביב הסמן · גלילה רגילה גוללת את העמוד"],
               ].map(([k, v]) => (
                 <div key={k}>
                   <dt>{v}</dt>
@@ -2719,7 +2977,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               ))}
               <li data-kind="unstated" style={{ "--e": "var(--ink-3)" } as React.CSSProperties}>
                 <i aria-hidden="true" />
-                קשר שהמילון רשם בלי עוצמה: מקווקו
+                קשר שנרשם בתיעוד ללא קרדינליות: קו מקווקו
               </li>
               <li className="ne-legend-k">
                 <span className="ne-lg-pk" aria-hidden="true" />
@@ -2733,16 +2991,16 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 <span className="ne-lg-card" aria-hidden="true">
                   N:1
                 </span>
-                תג העוצמה על הקו הוא הניסוח המילולי של מערך הנתונים: 1:1 · 1:N · N:1 · N:N. מקף על
-                מסגרת מקווקוות פירושו שהמערך לא רשם עוצמה, ולא הושלמה כזאת.
+                תג הקרדינליות על הקו מוצג כלשונו מהמאגר: 1:1 · 1:N · N:1 · N:N. מקף על
+                מסגרת מקווקוות מציין שלא נרשמה קרדינליות.
               </li>
             </ul>
             <p className="ne-note">
-              כל מודול, טבלה, קשר, עוצמה והצהרת S/4 בתרשים נקראים מילה במילה מתוך מערך הנתונים של
-              הארגון. איפה שהמערך שותק, המסך אומר זאת במפורש ולא משלים ניחוש.
+              כל מודול, טבלה, קשר, קרדינליות והצהרת S/4HANA בתרשים נקראים כלשונם מהמאגר. היכן שאין
+              תיעוד, הדבר מצוין במפורש.
             </p>
             <button type="button" className="nu-btn2" onClick={() => setKeys(false)}>
-              סגור
+              סגירה
             </button>
           </div>
         </div>

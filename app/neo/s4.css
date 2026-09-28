@@ -19,6 +19,12 @@
 
 .ns4 {
   --s: var(--ink-3);
+  /* The section bar bleeds by its own padding; on a 390px phone that pushed the
+     scene to 427px and the canvas scrolled sideways (screen matrix 2026-09-21). */
+  min-inline-size: 0; overflow-x: clip;
+  /* Auto margins made the scene fit-content; on a 390px phone that meant 427px.
+     Explicit: the track, capped at the reading width. */
+  inline-size: min(78rem, 100%);
   padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem) 5rem;
   max-inline-size: 78rem;
   margin-inline: auto;
@@ -34,7 +40,7 @@
   color: var(--ink-3);
 }
 .ns4-h1 {
-  margin: 0; font-size: clamp(1.8rem, 4.2vw, 3rem);
+  margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.5rem);
   font-weight: 700; line-height: 1.08; letter-spacing: -.025em; text-wrap: balance;
 }
 .ns4-lede { margin: .8rem 0 0; max-inline-size: 68ch; font-size: .97rem; line-height: 1.68; color: var(--ink-2); }
@@ -86,7 +92,12 @@
 }
 .ns4-h2 { margin: 0; font-size: 1.18rem; font-weight: 700; letter-spacing: -.015em; }
 .ns4-sec-s { margin: .25rem 0 0; font-size: .84rem; line-height: 1.6; color: var(--ink-3); max-inline-size: 72ch; }
-.ns4-sec-b { display: grid; gap: 1rem; }
+.ns4-sec-b { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+/* Every list here that is a grid takes a shrinkable track unless its own rule
+   sets columns (zero specificity, so any class rule wins): an implicit track
+   took the widest item's min-content and cut the Migration Cockpit steps at a
+   320px desktop window (400% zoom). */
+:where(.ns4) :where(ul, ol) { grid-template-columns: minmax(0, 1fr); }
 
 .ns4-h3 {
   display: flex; align-items: center; gap: .45rem; margin: 0 0 .6rem;
@@ -115,9 +126,13 @@
 .ns4-rel, .ns4-wave-b { unicode-bidi: isolate; }
 
 .ns4-risk {
-  font-size: .66rem; font-weight: 700; white-space: nowrap;
+  font-size: .72rem; font-weight: 700; white-space: nowrap;
   padding: .12rem .4rem; border-radius: 5px;
-  color: var(--r, var(--ink-3));
+  /* Coloured text on its own tint measured 2.1:1; darkened towards the ink
+     (lightened on the dark theme below) to clear 4.5:1. The 60% mix measured
+     exactly 4.5:1 at 11.5px once the sampler could read oklab colours, which
+     is the boundary rather than a pass, so it leans further (2026-09-22). */
+  color: color-mix(in srgb, var(--r, var(--ink-3)) 45%, var(--ink-1));
   background: color-mix(in srgb, var(--r, var(--ink-3)) 10%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r, var(--ink-3)) 30%, transparent);
 }
@@ -125,11 +140,11 @@
    a stated limit of the project's own knowledge. */
 .ns4-trust {
   margin-inline-start: auto;
-  font-size: .64rem; font-weight: 600; white-space: nowrap;
-  padding: .12rem .4rem; border-radius: 5px; color: var(--ink-3);
+  font-size: .8125rem; font-weight: 600; white-space: nowrap;
+  padding: .12rem .4rem; border-radius: 5px; color: var(--ink-2);
   border: 1px solid var(--hairline);
 }
-.ns4-trust[data-t="needs-verification"] { border-style: dashed; color: var(--status-in-analysis, #d97706); }
+.ns4-trust[data-t="needs-verification"] { border-style: dashed; color: color-mix(in srgb, var(--status-in-analysis, #d97706) 40%, var(--ink-1)); }
 
 .ns4-lbl {
   display: inline-block; min-inline-size: 4.6rem;
@@ -224,10 +239,10 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 
 /* ------------------------------------------------------------ generic rows */
 
-.ns4-rows, .ns4-errs, .ns4-topics, .ns4-mods-list { margin: 0; padding: 0; list-style: none; display: grid; gap: .65rem; }
+.ns4-rows, .ns4-errs, .ns4-topics, .ns4-mods-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: .65rem; }
 .ns4-rows > li, .ns4-errs > li, .ns4-topics > li {
   padding: .8rem .95rem; border-radius: .8rem;
-  background: var(--surface-2); border: 1px solid var(--hairline);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
   border-inline-start: 3px solid var(--r, var(--s));
 }
 .ns4-rows > li header, .ns4-errs > li header, .ns4-topics > li header {
@@ -246,8 +261,8 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-topics > li { border-inline-start-color: var(--s); }
 .ns4-topic-en { font-size: .74rem; color: var(--ink-3); unicode-bidi: isolate; }
 .ns4-topic-st {
-  font-size: .66rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px; white-space: nowrap;
-  color: var(--s); background: color-mix(in srgb, var(--s) 12%, transparent);
+  font-size: .72rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px; white-space: nowrap;
+  color: color-mix(in srgb, var(--s) 45%, var(--ink-1)); background: color-mix(in srgb, var(--s) 12%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--s) 30%, transparent);
 }
 .ns4-topic-area { margin-inline-start: auto; }
@@ -264,14 +279,14 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-arch { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
 .ns4-arch-c {
   padding: .95rem 1.05rem; border-radius: .9rem;
-  background: var(--surface-2); border: 1px solid var(--hairline);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
   border-block-start: 3px solid var(--s);
 }
 .ns4-arch-h { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
 .ns4-arch-layer { font-size: .74rem; font-weight: 700; color: var(--ink-3); }
 .ns4-arch-st {
-  font-size: .66rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px;
-  color: var(--s); background: color-mix(in srgb, var(--s) 12%, transparent);
+  font-size: .72rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px;
+  color: color-mix(in srgb, var(--s) 45%, var(--ink-1)); background: color-mix(in srgb, var(--s) 12%, transparent);
 }
 .ns4-arch-pair {
   display: flex; flex-wrap: wrap; align-items: center; gap: .4rem;
@@ -282,8 +297,8 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-sg { margin: .6rem 0 0; padding: 0; list-style: none; display: grid; gap: .35rem; }
 .ns4-sg li { display: grid; grid-template-columns: 3.4rem 1fr; gap: .5rem; align-items: baseline; }
 .ns4-sg li b { font-size: .68rem; font-weight: 700; letter-spacing: .03em; }
-.ns4-sg li[data-k="stay"] b { color: var(--status-done, #16a34a); }
-.ns4-sg li[data-k="gone"] b { color: var(--status-blocked, #dc2626); }
+.ns4-sg li[data-k="stay"] b { color: color-mix(in srgb, var(--status-done, #16a34a) 40%, var(--ink-1)); }
+.ns4-sg li[data-k="gone"] b { color: color-mix(in srgb, var(--status-blocked, #dc2626) 40%, var(--ink-1)); }
 .ns4-sg li span { font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
 
 /* ------------------------------------------------------------- readiness */
@@ -291,17 +306,19 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-mods { margin: 0; padding: 0; list-style: none; display: grid; gap: .7rem; }
 .ns4-mods > li {
   padding: .85rem 1rem; border-radius: .85rem;
-  background: var(--surface-2); border: 1px solid var(--hairline);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
   border-inline-start: 3px solid var(--s);
 }
 .ns4-mods > li header { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
 .ns4-mods > li header b { font-size: .95rem; color: var(--ink-1); }
 .ns4-mod-code { font-size: .72rem; color: var(--ink-3); unicode-bidi: isolate; }
 .ns4-band { unicode-bidi: isolate; }
-.ns4-score {
+.ns4-score, .nx-app .ns4-score.nx-sap {
   margin-inline-start: auto;
+  /* Ink, not the status hue: green at 16.8px measured 3.2:1. */
+  color: var(--ink-1);
   font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700;
-  color: var(--s); font-variant-numeric: tabular-nums;
+   font-variant-numeric: tabular-nums;
 }
 .ns4-bar {
   margin-block-start: .5rem; block-size: 6px; border-radius: 999px;
@@ -324,7 +341,7 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-waves { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
 .ns4-wave {
   padding: .8rem .9rem; border-radius: .85rem;
-  background: var(--surface-2); border: 1px solid var(--hairline);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
 }
 .ns4-wave-l { margin: 0; padding: 0; list-style: none; display: grid; gap: .4rem; }
 .ns4-wave-l li {
@@ -344,14 +361,14 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-dep[data-tone="fwd"] li { color: var(--ink-3); border-style: dashed; }
 .ns4-free {
   display: flex; align-items: center; gap: .3rem;
-  margin: .5rem 0 0; font-size: .8rem; color: var(--status-done, #16a34a);
+  margin: .5rem 0 0; font-size: .8rem; color: color-mix(in srgb, var(--status-done, #16a34a) 45%, var(--ink-1));
 }
 
 /* ------------------------------------------------------------- steps */
 
 .ns4-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
 .ns4-steps li { display: flex; gap: .6rem; align-items: flex-start; }
-.ns4-steps li > span:last-child { display: grid; gap: 1px; }
+.ns4-steps li > span:last-child { display: grid; gap: 1px; min-inline-size: 0; overflow-wrap: anywhere; }
 .ns4-steps li b { font-size: .87rem; color: var(--ink-1); font-weight: 600; }
 .ns4-steps li em { font-style: normal; font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
 .ns4-step-n {
@@ -366,7 +383,7 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 .ns4-cut { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
 .ns4-cut-p {
   padding: .85rem .95rem; border-radius: .85rem;
-  background: var(--surface-2); border: 1px solid var(--hairline);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
 }
 
 /* ------------------------------------------------------------- weights */
@@ -380,14 +397,63 @@ a.ns4-obj-n:hover { border-block-end-color: var(--s); }
 
 .ns4-credit {
   display: flex; align-items: center; gap: .4rem;
-  margin: 2rem 0 0; font-size: .78rem; color: var(--ink-3);
+  margin: 2rem 0 0; font-size: .8125rem; color: var(--ink-2);
 }
 
 @media (max-width: 720px) {
   .ns4 { padding-inline: .9rem; }
   .ns4-sec { padding-inline: .95rem; }
   .ns4-sec-n { position: static; }
-  .ns4-objs, .ns4-arch, .ns4-cut, .ns4-waves { grid-template-columns: 1fr; }
+  .ns4-objs, .ns4-arch, .ns4-cut, .ns4-waves { grid-template-columns: minmax(0, 1fr); }
   .ns4-ba > div { grid-template-columns: 1fr; gap: .1rem; }
   .ns4-weights li { grid-template-columns: 1fr 4rem 2rem; }
 }
+
+/* ---------------------------------------------------------------------------
+   Design audit §7 (2026-09-21): catalogue filter, grouped details, the action
+   on every change, the cockpit's wave → card anchors and :target highlight. */
+.ns4-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .9rem; margin-block-end: .7rem; }
+.ns4-find {
+  display: flex; align-items: center; gap: .5rem; flex: 1 1 18rem; min-inline-size: 0;
+  padding: .45rem .7rem; border: 1px solid var(--scene-hair, var(--hairline)); border-radius: .7rem;
+  background: var(--scene-raised, var(--surface)); color: var(--ink-3);
+}
+.ns4-find:focus-within { border-color: var(--scene-accent, var(--brand)); color: var(--ink-1); }
+.ns4-find input { flex: 1 1 auto; min-inline-size: 0; border: 0; background: transparent; font: inherit; color: var(--ink-1); outline: none; }
+.ns4-chipsrow { display: flex; flex-wrap: wrap; gap: .4rem; }
+.ns4-chipsrow .nu-tab em { font-style: normal; margin-inline-start: .3rem; color: var(--ink-3); }
+.ns4-count { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin: 0 0 .9rem; font-size: .86rem; color: var(--ink-3); }
+.ns4-none { padding: 1.2rem; display: grid; gap: .8rem; justify-items: start; background: var(--scene-raised, var(--surface)); }
+.ns4-group-d > summary { list-style: none; cursor: pointer; }
+.ns4-group-d > summary::-webkit-details-marker { display: none; }
+.ns4-group-d > summary:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--scene-raised, var(--surface)), 0 0 0 4px var(--scene-accent, var(--brand)); border-radius: .5rem; }
+.ns4-h3-hint { margin-inline-start: .6rem; font-size: .72rem; font-weight: 600; color: var(--ink-3); }
+.ns4-h3-hint::after { content: " ▾"; }
+.ns4-group-d[open] > summary .ns4-h3-hint::after { content: " ▴"; }
+.ns4-act { margin-inline-start: auto; font-size: .82rem; white-space: nowrap; }
+.ns4-act--none { color: var(--ink-3); font-size: .8125rem; }
+.ns4-wave-a { display: grid; gap: 1px; color: inherit; text-decoration: none; border-radius: .4rem; }
+.ns4-wave-a:hover b, .ns4-wave-a:focus-visible b { color: var(--scene-accent, var(--brand)); text-decoration: underline; }
+.ns4-dep li a {
+  /* One dependency per line, so the row is a target of its own rather than a
+     link inside a sentence: 24px minimum box (design audit S10-3). */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 1.5rem;
+  min-inline-size: 1.5rem;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--scene-hair, var(--hairline));
+  text-underline-offset: 3px;
+}
+.ns4-dep li a:hover { text-decoration-color: currentColor; }
+.ns4-obj { scroll-margin-block-start: calc(var(--nxs-pad, 0px) + 4.5rem); }
+.ns4-obj:target { box-shadow: 0 0 0 2px var(--scene-raised, var(--surface)), 0 0 0 4px var(--s); }
+
+/* Dark theme: the same chips lighten towards white instead (a11y sample 2026-09-21). */
+html[data-theme="dark"] .ns4-risk { color: color-mix(in srgb, var(--r, var(--ink-3)) 45%, #fff); }
+html[data-theme="dark"] .ns4-topic-st, html[data-theme="dark"] .ns4-arch-st { color: color-mix(in srgb, var(--s) 45%, #fff); }
+html[data-theme="dark"] .ns4-free { color: color-mix(in srgb, var(--status-done, #16a34a) 45%, #fff); }
+.ns4-act { color: var(--scene-accent, var(--brand)); }
+html[data-theme="dark"] .ns4-abap-k { color: var(--scene-ink); }

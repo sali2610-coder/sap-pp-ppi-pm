@@ -1,0 +1,20 @@
+{
+  "topicCta": {
+    "visible": 1,
+    "text": "הצג 6 טבלאות של הנושא"
+  },
+  "afterCtaTableTop": 122,
+  "railSticky": {
+    "top": 339,
+    "bottom": 452,
+    "onScreen": true
+  },
+  "domains": {
+    "before": 39,
+    "afterQuery": 5,
+    "countLine": "5 מתוך 39 תחומים · «ציוד» ניקוי הסינון",
+    "emptyText": "לא נמצאו תחומים מתאימים. נסה חיפוש אחר או נקה מסננים."
+  },
+  "tablesEmpty": "לא נמצאו טבלאות מתאימות. נסה חיפוש אחר או נקה מסננים.",
+  "consoleErrors": 0
+}

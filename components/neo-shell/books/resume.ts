@@ -83,7 +83,7 @@ export function resolveResume(b: BookCard, r: BookReading | undefined): Resume {
  *  bar. Absent unless the reader really wrote one for this book. */
 export function resumeScrollLine(r: Resume): string | null {
   if (r.scroll === null) return null;
-  return `הקורא שמר גם את מיקום הגלילה: כ-${Math.round(r.scroll * 100)}% לאורך הטקסט.`;
+  return `נשמר גם מיקום הגלילה: כ-${Math.round(r.scroll * 100)}% מהטקסט.`;
 }
 
 /** The one-line context under "המשך מהמקום האחרון". Never a promise: when only

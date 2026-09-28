@@ -75,7 +75,7 @@ export const DOMAIN_DETAIL: Record<string, DomainDetail> = {
     badis: ["NOTIF_EVENT_SAVE", "NOTIF_EVENT_POST", "WORKORDER_UPDATE (במעבר להזמנה)"],
     qa: ["Positive: M1 עם ציוד + פריט פגם + סיבה → שמירה.", "Negative: סוג הודעה ללא פרופיל קטלוג → קודים לא זמינים.", "Integration: הודעה → הזמנה (יורשת אובייקט+מרכז עלות).", "Regression: סגירת הודעה מעדכנת PMIS."],
     incidents: ["קודי קטלוג לא מופיעים — פרופיל קטלוג לא משויך לסוג.", "לא ניתן לסגור — משימות פתוחות.", "אובייקט ייחוס שגוי — ציוד לא קיים/חסום."],
-    scenario: "בארגון: מפעיל פותח הודעת תקלה M1 על 'ממלאת #2 — דליפה'. רכז אחזקה מוסיף קוד פגם (דליפה) + סיבה (אטם בלוי), ממיר לפקודה דחופה; הניתוח מצביע על אטמים כגורם חוזר.",
+    scenario: "בארגון: מפעיל פותח הודעת תקלה M2 על 'ממלאת #2 — דליפה'. רכז אחזקה מוסיף קוד פגם (דליפה) + סיבה (אטם בלוי), ממיר לפקודה דחופה; הניתוח מצביע על אטמים כגורם חוזר.",
     fiori: ["Create Maintenance Request", "Process Maintenance Notification", "Find Maintenance Notifications"],
     migration: "QMEL/QMFE/QMUR נשמרים. QA: ודא קודי קטלוג, מעבר להזמנה, ואנליטיקה (CDS C_MaintNotification).",
     eccS4: { unchanged: "מודל QMEL/QMFE/QMUR זהה.", changed: "UX ל-Fiori; זרימה מובנית להזמנה.", fiori: "Create Maintenance Request", cds: "C_MaintNotificationListReport", migration: "ודא קודי קטלוג + מעבר להזמנה." } },
@@ -132,9 +132,9 @@ export const DOMAIN_DETAIL: Record<string, DomainDetail> = {
     qa: ["Positive: אישור חלקי + סופי → עלות בפועל מתעדכנת.", "Negative: פקודה לא משוחררת → אישור נחסם.", "Integration: GI חומר באישור → צריכת RESB + עלות.", "Regression: ביטול אישור (IW45) מהפך עלות/מלאי."],
     incidents: ["לא ניתן לאשר — סטטוס לא REL/תקופה סגורה.", "עלות לא נרשמה — CRCO/סוג פעילות.", "מלאי שלילי — GI ללא מלאי.", "אישור כפול — חוסר בקרת כמות."],
     scenario: "בארגון: טכנאי מאשר 4 שעות + צריכת 2 אטמים ב-IW41 על פקודת אחזקת ממלאת. העלות (שעות×תעריף מרכז עלות + חומרים) נצברת בפקודה; לאחר השלמה — TECO.",
-    fiori: ["Confirm Jobs", "My Maintenance Jobs"],
+    fiori: ["Perform Maintenance Jobs (F5104A)"],
     migration: "AFRU נשמר. QA: אישור + עלות (ל-ACDOCA) + צריכת מלאי (MATDOC) לאחר המרה.",
-    eccS4: { unchanged: "מודל AFRU זהה.", changed: "UX ל-Fiori + מובייל לטכנאי.", fiori: "Confirm Jobs", migration: "QA: אישור + עלות + מלאי." } },
+    eccS4: { unchanged: "מודל AFRU זהה.", changed: "UX ל-Fiori + מובייל לטכנאי.", fiori: "Perform Maintenance Jobs (F5104A)", migration: "QA: אישור + עלות + מלאי." } },
   "pm-settlement": {
     purpose: "התחשבנות מעבירה עלויות פקודה ליעד (מרכז עלות/נכס/הזמנה) לפי כלל התחשבנות. מנקה את הפקודה ומשייכת עלות לבעלים העסקי. בלי התחשבנות העלות 'תקועה' בפקודה.",
     diagram: ["צבירת עלויות (אישורים/חומרים)", "הגדרת כלל התחשבנות", "הרצת התחשבנות (KO88)", "העברה ליעד", "בדיקת יתרה 0", "סגירה עסקית (CLSD)"],
@@ -233,7 +233,7 @@ export const DOMAIN_DETAIL: Record<string, DomainDetail> = {
     scenario: "בארגון: תחזית ל-200K בקבוקים מוזנת כ-PIR. MRP Live מפצץ ל-תרכיז, בקבוקים, מכסים ותוויות — יוצר הזמנות מתוכננות לייצור ודרישות רכש לחומרי אריזה לפי זמני אספקה של הספקים.",
     fiori: ["Monitor Material Coverage", "Manage Material Coverage", "Display MRP Master Data Issues"],
     migration: "MDKP/PLAF נשמרים. QA: השווה MD01→MD01N, ביצועים, וכיסוי חומרים; תרחישי subcontracting.",
-    eccS4: { unchanged: "תוצרי תכנון (הזמנות מתוכננות) זהים.", changed: "MRP Live על HANA — מהיר, רץ ברמת חומר.", replaced: "MD01 קלאסי → MD01N.", deprecated: "MRP List (MD05) פחות מרכזי; פרמטרים מסוימים לא נתמכים.", fiori: "Monitor Material Coverage", simplification: "MRP in S/4HANA (MRP Live).", migration: "QA: כיסוי + ביצועים + תאימות תרחישים." } },
+    eccS4: { unchanged: "תוצרי תכנון (הזמנות מתוכננות) זהים.", changed: "MRP Live על HANA — מהיר, רץ ברמת חומר. MD01 הקלאסית עדיין זמינה ואינה חלק מחבילת התאימות, ו-MRP Live (MD01N) נחשבת לטכנולוגיית העתיד (פריט הפישוט 'S4TWL - MRP in HANA').", deprecated: "MRP List (MD05) פחות מרכזי; פרמטרים מסוימים לא נתמכים.", fiori: "Monitor Material Coverage", simplification: "MRP in S/4HANA (MRP Live).", migration: "QA: כיסוי + ביצועים + תאימות תרחישים." } },
   "pppi-mps": {
     purpose: "MPS מייצב פריטים קריטיים (מוצרי גמר/צווארי בקבוק) בתכנון נפרד ומבוקר לפני MRP, כדי שתנודות בדרישת רכיבים לא יערערו את תכנית האב.",
     diagram: ["סימון פריט MPS (M*)", "הרצת MPS (MD41)", "ייצוב + Firming", "אישור תכנית אב", "MRP לרכיבים", "המרה לפקודות"],
@@ -373,7 +373,7 @@ export const DOMAIN_DETAIL: Record<string, DomainDetail> = {
     scenario: "בארגון: פקודת תהליך לייצור 50K בקבוקים. שחרור בודק זמינות תרכיז (aATP), שולח הוראות לבקר הקו (מרשם בקרה), הקו מדווח כמויות חזרה (הודעות תהליך), GR לאצווה, התחשבנות למלאי.",
     fiori: ["Create Process Order", "Manage Process Orders", "Confirm Process Order"],
     migration: "AUFK/AFKO/AFPO נשמרים. QA: מחזור פקודת תהליך מלא + מרשם בקרה + התחשבנות ל-ACDOCA.",
-    eccS4: { unchanged: "מודל AUFK/AFKO/AFPO זהה.", changed: "OData API_PROCESSORDER_2; PP-DS/aATP; UX Fiori.", fiori: "Manage Process Orders", cds: "I_ManufacturingOrder", migration: "QA: מחזור מלא + מרשם בקרה + התחשבנות." } },
+    eccS4: { unchanged: "מודל AUFK/AFKO/AFPO זהה.", changed: "OData API_PROCESS_ORDER_2_SRV; PP-DS/aATP; UX Fiori.", fiori: "Manage Process Orders", cds: "I_ManufacturingOrder", migration: "QA: מחזור מלא + מרשם בקרה + התחשבנות." } },
   "pppi-confirmations": {
     purpose: "אישור פקודת תהליך מדווח ביצוע — שלבים, כמויות תוצר/פסולת, זמנים, Backflush ו-GR. מעדכן עלות בפועל, מלאי וזמינות, ומאפשר סטיות והתחשבנות.",
     diagram: ["פקודה משוחררת", "ביצוע שלב", "אישור (COR6N)", "Backflush רכיבים", "GR תוצר לאצווה", "סטיות + התחשבנות"],

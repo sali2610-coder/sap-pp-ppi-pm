@@ -192,9 +192,9 @@ function Academy({ body }: { body: AcademyBody }) {
       })}
       {hasRefs && (
         <div className="nr-refs">
-          <Refs label="טבלאות" value={refs.tables} />
+          <Refs label="טבלאות SAP" value={refs.tables} />
           <Refs label="טרנזקציות" value={refs.tcodes} />
-          <Refs label="אפליקציות Fiori" value={refs.fiori} />
+          <Refs label="יישומי Fiori" value={refs.fiori} />
         </div>
       )}
     </>
@@ -237,7 +237,7 @@ function Figures({
             type="button"
             className="nr-infig-b"
             onClick={() => onOpen(index)}
-            aria-label={`הגדל את האיור מעמוד ${fig.page}`}
+            aria-label={`הגדלת האיור מעמוד ${fig.page}`}
           >
             <Image
               src={fig.file}
@@ -256,8 +256,8 @@ function Figures({
             <span className="nu-chip is-sap" dir="ltr">p. {fig.page}</span>
             <span className="nr-infig-note">
               {placed
-                ? "המיקום נגזר מעמוד המקור של הסריקה. בנתוני הספר אין שיוך איור לתת-פרק."
-                : "לסריקה הזו אין עמוד שניתן לשבץ לפיו, ולכן היא בסוף הפרק."}
+                ? "המיקום משוער לפי עמוד המקור של הסריקה; במאגר אין שיוך איור לתת-פרק."
+                : "לסריקה זו אין עמוד מקור לשיבוץ, ולכן היא מוצגת בסוף הפרק."}
             </span>
           </figcaption>
         </figure>
@@ -280,7 +280,7 @@ export function FigureTail({
     <section className="nr-tailfigs" aria-label="איורים ללא שיבוץ בטקסט">
       <h2 className="nr-figs-h">
         <ImageIcon size={14} strokeWidth={1.9} aria-hidden="true" />
-        איורים שלא ניתן היה לשבץ בגוף הפרק
+        איורים ללא שיבוץ בגוף הפרק
       </h2>
       <Figures figures={figures} onOpen={onOpen} placed={false} />
     </section>
@@ -341,20 +341,20 @@ export function SectionBlock({
         <h3 className="nr-sec-t">{section.title}</h3>
         <span className="nr-sec-meta">
           {section.page !== null && <span className="nu-chip">עמ׳ {section.page}</span>}
-          {both && <span className="nu-chip" title="לתת-פרק הזה יש טקסט בעברית ומקור באנגלית">HE · EN</span>}
+          {both && <span className="nu-chip" title="לתת-פרק זה קיימים תרגום לעברית ומקור באנגלית">HE · EN</span>}
           <span className="nu-chip is-sap">{index + 1}/{count}</span>
         </span>
       </header>
 
       <div className="nr-prose" data-bi={view === "spread" ? "1" : undefined}>
         {!body ? (
-          <p className="nr-none">אין תוכן מורחב לתת-פרק זה במאגר הספר.</p>
+          <p className="nr-none">לתת-פרק זה לא קיים תוכן במאגר.</p>
         ) : body.format === "academy" ? (
           <>
             <Academy body={body} />
             {lang === "en" && (
               <p className="nr-langnote">
-                הספר הזה כתוב בעברית בלבד במאגר, ואין לו מקור אנגלי לתת-הפרק הזה.
+                ספר זה קיים במאגר בעברית בלבד, ללא מקור באנגלית.
               </p>
             )}
           </>
@@ -378,15 +378,15 @@ export function SectionBlock({
             {lang === "both" && (
               <p className="nr-langnote">
                 {onlyLang === "he"
-                  ? "לתת-הפרק הזה קיים במאגר הטקסט העברי בלבד."
-                  : "לתת-הפרק הזה קיים במאגר המקור באנגלית בלבד, בלי תרגום."}
+                  ? "לתת-פרק זה קיים במאגר טקסט בעברית בלבד."
+                  : "לתת-פרק זה קיים במאגר המקור באנגלית בלבד, ללא תרגום."}
               </p>
             )}
           </>
         ) : body.snippet ? (
           <p className="nr-p nr-snip">{body.snippet}</p>
         ) : (
-          <p className="nr-none">אין תוכן מורחב לתת-פרק זה במאגר הספר.</p>
+          <p className="nr-none">לתת-פרק זה לא קיים תוכן במאגר.</p>
         )}
       </div>
 

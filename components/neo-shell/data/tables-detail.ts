@@ -36,6 +36,9 @@
 import { LIBRARY } from "@/data/library";
 import { BOOK_IDENTITY } from "@/lib/book-identity";
 import { RISK_HE, TRUST_HE, s4For } from "@/lib/s4";
+import { s4ClassOf } from "@/lib/s4-class";
+import { evidenceBlock, fromBlueprintClass } from "@/lib/evidence";
+import type { EvidenceBlockData } from "@/lib/evidence/types";
 import type { ModuleKey } from "../types";
 import { txDetailCodes } from "./tx-detail";
 import {
@@ -190,6 +193,8 @@ export interface TableDetail {
   fiori: { app: string; mod: ModuleKey }[];
   books: TdBook[];
   s4: TdS4;
+  /** The unified evidence block: status, verification tier, sources, depth. */
+  evidence: EvidenceBlockData;
   /** Tables documented under the SAME blueprint topic. A derivation from the
    *  dictionary's own grouping, not a similarity judgement. */
   siblings: { name: string; he: string; topic: string; obj: string; href: string | null }[];
@@ -436,6 +441,19 @@ export function tableDetail(raw: string): TableDetail | null {
     fiori: rows.filter((r) => r.fiori).map((r) => ({ app: r.fiori, mod: r.mod })),
     books: booksFor(node.mods),
     s4: standingOf(rows, name),
+    // The unified evidence block. The derived claim is the blueprint's own S/4
+    // verdict (first non-empty note across the dictionary rows, the same read
+    // standingOf performs); structural depth counts the fields documented with
+    // a data type and a length. Nothing here is invented.
+    evidence: evidenceBlock(
+      `table:${name}`,
+      fromBlueprintClass(
+        s4ClassOf({ s4Note: rows.map((r) => r.s4Note).find(Boolean) || "" }),
+        rows.map((r) => r.s4AltTable).find(Boolean) || "",
+      ),
+      { hasHe: !!node.he, structural: fields.filter((f) => f.dt && f.len).length },
+      "tables",
+    ),
     siblings,
     deg: node.deg,
     rank: degreeRank().get(name) || 0,

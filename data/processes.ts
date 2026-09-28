@@ -10,6 +10,7 @@ export interface ProcStep {
   fiori?: string[];
   interfaces?: string[];
   incidents?: string[];   // troubleshooting slugs
+  notes?: string[];       // SAP-notes catalog slugs (data/sap-notes.ts), not incidents
   test?: string;
 }
 export interface ProcessMap {
@@ -40,9 +41,9 @@ export const PROCESS_MAPS: ProcessMap[] = [
     ] },
   { slug: "plan-to-produce", he: "תכנון לייצור (Plan-to-Produce)", title: "Plan-to-Produce", domain: "PP-PI", summary: "מתחזית/MRP דרך פקודה, ביצוע, GR ועד התחשבנות — ייצור תהליכי/בדיד.",
     steps: [
-      { he: "ניהול ביקוש (PIR)", tcodes: ["MD61", "MD62"], tables: ["PBIM", "PBED"], fiori: ["Manage PIRs"], incidents: ["pir-strategy"], test: "PIR גרסה 00 מזין MRP." },
+      { he: "ניהול ביקוש (PIR)", tcodes: ["MD61", "MD62"], tables: ["PBIM", "PBED"], fiori: ["Manage PIRs"], incidents: ["mrp-no-planned-orders"], test: "PIR גרסה 00 מזין MRP." },
       { he: "MRP", tcodes: ["MD01N", "MD04"], tables: ["MDKP", "PLAF"], fiori: ["Monitor Material Coverage"], interfaces: ["—"], incidents: ["mrp-no-planned-orders", "no-production-version"], test: "MRP יוצר הזמנות מתוכננות; גרסת ייצור." },
-      { he: "פקודת ייצור/תהליך", tcodes: ["CO01", "COR1"], tables: ["AUFK", "AFKO", "AFPO"], fiori: ["Manage Process/Production Orders"], interfaces: ["API_PROCESSORDER_2", "LOIPRO IDoc"], incidents: ["process-order-no-control-recipe"], test: "המרה+שחרור; מרשם בקרה ל-MES." },
+      { he: "פקודת ייצור/תהליך", tcodes: ["CO01", "COR1"], tables: ["AUFK", "AFKO", "AFPO"], fiori: ["Manage Process/Production Orders"], interfaces: ["API_PROCESS_ORDER_2_SRV", "LOIPRO IDoc"], incidents: ["process-order-no-control-recipe"], test: "המרה+שחרור; מרשם בקרה ל-MES." },
       { he: "ביצוע + אישור", tcodes: ["CO11N", "COR6N", "COGI"], tables: ["AFRU", "RESB", "AFFW"], fiori: ["Confirm Production/Process Order"], interfaces: ["Process messages (MES)"], incidents: ["cogi-stuck", "ru505-backflush-stock", "phase-confirm-sequence"], test: "אישור+Backflush; COGI נקי." },
       { he: "קבלת תוצר (GR)", tcodes: ["MIGO", "MB31"], tables: ["MATDOC", "MCH1"], fiori: ["Post Goods Movement"], incidents: ["char-batch-classification-missing"], test: "GR 101 לאצווה עם תפוגה." },
       { he: "התחשבנות + סטיות", tcodes: ["KKS2", "CO88"], tables: ["COBRB", "ACDOCA", "CKMLPP"], fiori: ["Run Settlement"], incidents: ["settlement-error", "variance-missing"], test: "WIP→Variance→Settlement ל-ACDOCA." },
@@ -51,7 +52,7 @@ export const PROCESS_MAPS: ProcessMap[] = [
     steps: [
       { he: "יצירת מנת בדיקה", tcodes: ["QA32"], tables: ["QALS"], fiori: ["Manage Inspection Lots"], interfaces: ["—"], incidents: ["qm-no-inspection-lot"], test: "GR/ייצור יוצר lot לפי סוג בדיקה." },
       { he: "רישום תוצאות", tcodes: ["QE11"], tables: ["QAMR", "QASR"], fiori: ["Record Inspection Results"], incidents: ["qm-results-out-of-spec", "qm-inspection-plan-version"], test: "ערכים מול spec; חריגה→דחייה." },
-      { he: "החלטת שימוש (UD)", tcodes: ["QA11"], tables: ["QAVE"], fiori: ["Make Usage Decision"], incidents: ["qm-ud-blocked", "qm-ud-stock-block"], test: "UD משחרר/חוסם מלאי." },
+      { he: "החלטת שימוש (UD)", tcodes: ["QA11"], tables: ["QAVE"], fiori: ["Make Usage Decision"], incidents: ["qm-ud-blocked"], notes: ["qm-ud-stock-block"], test: "UD משחרר/חוסם מלאי." },
       { he: "תעודה/הודעת איכות", tcodes: ["QC20", "QM01"], tables: ["QMEL"], fiori: ["Quality Certificates"], incidents: ["qm-notification-q2", "qm-cert-not-generated"], test: "COA למשלוח; Q-notification לפגם." },
     ] },
   { slug: "maintenance-management", he: "ניהול אחזקה (EAM)", title: "Maintenance Management", domain: "PM", summary: "מהודעה/תכנית דרך פקודה, ביצוע, אישור ועד התחשבנות.",
@@ -59,7 +60,7 @@ export const PROCESS_MAPS: ProcessMap[] = [
       { he: "הודעה / תכנית מונעת", tcodes: ["IW21", "IP30"], tables: ["QMEL", "MPLA", "MHIS"], fiori: ["Create Maintenance Request"], incidents: ["plan-no-orders", "downtime-not-recorded"], test: "הודעת תקלה / IP30 יוצר פקודה במועד." },
       { he: "פקודת אחזקה", tcodes: ["IW31", "IW32"], tables: ["AUFK", "AFIH", "AFVC"], fiori: ["Create Maintenance Order"], interfaces: ["API_MAINTENANCEORDER"], incidents: ["order-wont-release", "permit-not-auto-assigned", "equipment-not-in-order"], test: "PM01 עם פעולה+רכיב; היתרים; שחרור." },
       { he: "חלפים (PM-MM)", tcodes: ["IW32", "ME53N", "MIGO"], tables: ["RESB", "EBAN"], fiori: ["Process Purchase Requisitions"], incidents: ["pm-cost-no-activity-type"], test: "רכיב מלאי→GI; לא-מלאי→PR." },
-      { he: "ביצוע + אישור", tcodes: ["IW41", "IW42"], tables: ["AFRU"], fiori: ["Confirm Jobs"], incidents: ["confirm-period-closed"], test: "אישור שעות+חומרים; TECO." },
+      { he: "ביצוע + אישור", tcodes: ["IW41", "IW42"], tables: ["AFRU"], fiori: ["Perform Maintenance Jobs (F5104A)"], incidents: ["confirm-period-closed"], test: "אישור שעות+חומרים; TECO." },
       { he: "התחשבנות", tcodes: ["KO88"], tables: ["COBRB", "ACDOCA"], fiori: ["Run Settlement"], incidents: ["settlement-error", "teco-blocked"], test: "התחשבנות למרכז עלות (ACDOCA)." },
     ] },
 ];

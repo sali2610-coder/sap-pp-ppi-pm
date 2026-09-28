@@ -87,46 +87,66 @@ export function NeoDock() {
 
   const open = panel !== "none";
 
+  // The resolved theme, read from the document so the bar can name it without
+  // owning the switch's state. Hebrew words only; nothing shown before hydration.
+  const [themeNow, setThemeNow] = useState<string>("");
+  useEffect(() => {
+    const root = document.documentElement;
+    const read = () => setThemeNow(root.getAttribute("data-theme") === "dark" ? "לילה" : root.getAttribute("data-theme") === "light" ? "יום" : "");
+    read();
+    const mo = new MutationObserver(read);
+    mo.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => mo.disconnect();
+  }, []);
+
   return (
     <>
       <div className="nxk" data-open={open ? "1" : "0"}>
-        {/* Appearance sits FIRST and is always expanded. גופן and שאל את NEO
-            open panels; this one has to answer "which mode am I in" from across
-            the room, so it is the one control that shows its state inline. */}
-        <ThemeSwitch />
-        <span className="nxk-sep" aria-hidden="true" />
+        {/* ONE display menu (design audit §3, 2026-09-22): appearance, font
+            and size live in the same panel. The bar still answers "which mode am
+            I in" from across the room: the button carries the resolved theme. */}
         <button
           type="button"
-          className="nxk-b"
+          className="nxk-b nxk-b--display"
           aria-expanded={panel === "type"}
-          aria-label="בחירת גופן וגודל טקסט"
+          aria-label={`הגדרות תצוגה: מראה, גופן וגודל טקסט${themeNow ? ` (כעת ${themeNow})` : ""}`}
           onClick={() => setPanel((p) => (p === "type" ? "none" : "type"))}
         >
           <Type className="ico" size={15} aria-hidden="true" />
-          <span>גופן</span>
+          <span>תצוגה</span>
+          {themeNow ? <em className="nxk-b-state">{themeNow}</em> : null}
         </button>
         <button
           type="button"
           className="nxk-b nxk-b--ask"
           aria-expanded={panel === "ask"}
-          aria-label="שאל את NEO על העמוד הזה"
+          aria-label="עזרה בעמוד הזה: ההקשר הנוכחי ושתי סביבות השאלות"
           onClick={() => setPanel((p) => (p === "ask" ? "none" : "ask"))}
         >
           <Sparkles className="ico" size={15} aria-hidden="true" />
-          <span>שאל את NEO</span>
+          {/* THREE NAMES, THREE THINGS (design audit S7-AI-4): "עזרה בעמוד"
+              is this panel — the current page's context and the way to the
+              two assistants; "עזרה מהספרייה" answers from the books; "שיחה
+              כללית" is the open SAP conversation. */}
+          <span>עזרה בעמוד</span>
         </button>
       </div>
 
-      {open && <button type="button" className="nxk-scrim" aria-label="סגור" onClick={() => setPanel("none")} />}
+      {open && <button type="button" className="nxk-scrim" aria-label="סגירת החלונית" onClick={() => setPanel("none")} />}
 
       {panel === "type" && (
-        <section className="nxk-p nxk-p--type" role="dialog" aria-modal="false" aria-label="גופן וגודל טקסט">
+        <section className="nxk-p nxk-p--type" role="dialog" aria-modal="false" aria-label="הגדרות תצוגה: מראה, גופן וגודל טקסט">
           <header className="nxk-p-h">
-            <h2>גופן וגודל</h2>
-            <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגור" onClick={() => setPanel("none")}>
+            <h2>תצוגה: מראה, גופן וגודל טקסט</h2>
+            <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגירת חלונית התצוגה" onClick={() => setPanel("none")}>
               <X className="ico" size={16} aria-hidden="true" />
             </button>
           </header>
+
+          <fieldset className="nxk-set nxk-set--theme">
+            <legend>מראה</legend>
+            <ThemeSwitch />
+          </fieldset>
 
           <p className="nxk-note">
             הבחירה נשמרת במכשיר הזה וחלה על כל מסכי NEO. הגופנים מותקנים במערכת ההפעלה,
@@ -173,7 +193,7 @@ export function NeoDock() {
           </fieldset>
 
           <button type="button" className="nu-btn2 nxk-reset" onClick={() => set({ face: "system", size: "md" })}>
-            חזרה לברירת המחדל של NEO
+            איפוס לברירת המחדל של NEO
           </button>
         </section>
       )}
@@ -194,11 +214,11 @@ export function NeoDock() {
           data-scene="ai"
           role="dialog"
           aria-modal="false"
-          aria-label="שאל את NEO"
+          aria-label="עזרה בעמוד הזה"
         >
           <header className="nxk-p-h">
-            <h2>שאל את NEO</h2>
-            <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגור" onClick={() => setPanel("none")}>
+            <h2>עזרה בעמוד הזה</h2>
+            <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגירת חלונית העזרה" onClick={() => setPanel("none")}>
               <X className="ico" size={16} aria-hidden="true" />
             </button>
           </header>
@@ -210,21 +230,20 @@ export function NeoDock() {
           </div>
 
           <p className="nxk-note">
-            העוזר הכללי של NEO עדיין לא מחובר למנוע מענה. כדי לא להציג תשובה שאין מאחוריה
-            מקור מאומת, הוא אינו עונה כאן. שתי הסביבות שכן עונות פתוחות למטה, ושתיהן יקבלו
-            את ההקשר שמוצג למעלה.
+            חלונית זו מציגה את ההקשר הנוכחי בלבד ואינה עונה על שאלות. שאלות נענות באחת
+            משתי הסביבות שלמטה.
           </p>
 
           <div className="nxk-go">
             <Link className="nu-btn nxk-go-a" href="/neo/ai/" prefetch={false} onClick={() => setPanel("none")}>
               <BookOpen className="ico" size={16} aria-hidden="true" />
-              שאל את הספרייה
-              <em>תשובות מתוך 11 הספרים, עם מקורות</em>
+              עזרה מהספרייה
+              <em>שאל את הספרייה · תשובות מתוך 11 הספרים, עם מקורות</em>
             </Link>
             <Link className="nu-btn2 nxk-go-a" href="/neo/chat/" prefetch={false} onClick={() => setPanel("none")}>
               <MessageSquare className="ico" size={16} aria-hidden="true" />
-              צ׳אט NEO כללי
-              <em>שאלות SAP כלליות, ללא מקורות מהפרויקט</em>
+              שיחה כללית
+              <em>NEO AI · שאלות SAP כלליות, ללא מקורות מהפרויקט</em>
             </Link>
           </div>
         </section>

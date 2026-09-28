@@ -100,7 +100,7 @@ export function Live({ live, question, askedIn, scope, mode, who }: {
                 {draft}
                 <span className="nxq-caret-live" aria-hidden="true" />
               </p>
-              <span className="nxq-draft-tag">טיוטה. הטקסט הסופי מוחלף אחרי בדיקת הביסוס.</span>
+              <span className="nxq-draft-tag">טיוטה: הטקסט הסופי יוצג לאחר בדיקת הביסוס מול המקורות.</span>
             </div>
           ) : (
             // Reserves roughly the space the answer will take, so nothing jumps

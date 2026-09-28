@@ -16,7 +16,7 @@ export default function Page() {
       <CenterHeader
         eyebrow="מרכז הידע · SAP Notes Center"
         title="מרכז SAP Notes — נתיבי פתרון"
-        sub={`${SAP_NOTES.length} נושאי פתרון ל-PM/PP/PP-PI לפי רכיב SAP (Application Component) ומילות חיפוש מאומתות ל-OSS — תסמין, שורש, רלוונטיות ECC↔S/4 ושלבי פתרון. ללא מספרי Note מומצאים: חיפוש לפי מילות מפתח + רכיב באתר ה-Launchpad.`}
+        sub={`${SAP_NOTES.length} נושאי פתרון ל-PM/PP/PP-PI לפי רכיב SAP (Application Component) ומילות חיפוש מאומתות ל-OSS — תסמין, שורש, רלוונטיות ECC↔S/4 ושלבי פתרון. חיפוש לפי מילות מפתח + רכיב באתר ה-Launchpad.`}
         accent={ACC}
       />
 

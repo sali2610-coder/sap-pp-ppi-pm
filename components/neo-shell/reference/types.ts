@@ -23,6 +23,8 @@
    can look complete: the surface prints `לא קיים מידע מאומת במאגר` instead.
    ========================================================================== */
 
+import type { EvidenceBlockData } from "@/lib/evidence/types";
+
 /** The lucide glyphs the directories are allowed to use. A string key rather
  *  than a component so the server-side builders stay plain `.ts` modules with no
  *  React import, and the client surface owns the one icon map. */
@@ -37,6 +39,10 @@ export interface RefStatus {
   he: string;
   /** A CSS colour expression — `var(--status-*)` or a RISK_COLOR value. */
   color: string;
+  /** The canonical S4Status key when the status comes from lib/evidence — the
+   *  row pill then draws the same glyph the detail page's evidence block does.
+   *  Absent on trust / depth statuses, which are not S/4 standings. */
+  key?: string;
 }
 
 /** How the project data disposes of a record with respect to S/4HANA.
@@ -137,6 +143,29 @@ export interface RefTableStanding {
   status: RefStatus;
 }
 
+/** THE CHAIN a record sits in — what feeds it and what consumes it — drawn
+ *  as three columns with arrows (design audit S7-CAT-5: table → view →
+ *  consumer). Every entry is a real record with its real route or null. */
+export interface RefChain {
+  fromLabel: string;
+  from: RefCode[];
+  via: { code: string; he: string };
+  toLabel: string;
+  to: RefCode[];
+  /** Printed under the chain when either side is empty. */
+  note?: string;
+}
+
+/** A COMPARISON TABLE over a directory's records (design audit S7-CAT-7:
+ *  enhancement techniques by usage, limits and S/4 standing). Cells are
+ *  plain text or a status pill; every row links to its record. */
+export interface RefCompare {
+  title: string;
+  lede: string;
+  columns: string[];
+  rows: { code: string; he: string; href: string; cells: (string | { status: RefStatus })[] }[];
+}
+
 /** One full detail screen. Every directory builds this same object, so the five
  *  screens cannot drift from each other. */
 export interface RefDetail {
@@ -145,6 +174,9 @@ export interface RefDetail {
   eyebrow: string;
   /** The technical identity. Monospace, LTR-isolated. */
   code: string;
+  /** "name": the page title is the Hebrew name and the code sits under it
+   *  with its copy control (design audit S7-CAT-6, Fiori). */
+  lead?: "name";
   he: string;
   en: string;
   /** What to say when `en` is empty. Only the directories whose records really
@@ -161,6 +193,11 @@ export interface RefDetail {
   /** "12/18 עובדות מאומתות" — computed from the record, never a target. */
   completeness: string;
   s4: RefS4;
+  /** The unified evidence block: status, verification tier, sources, depth.
+   *  A type-only import, so this file stays structural. */
+  evidence?: EvidenceBlockData;
+  /** The record's place between its sources and its consumers. */
+  chain?: RefChain;
   sections: RefSection[];
   /** Where the record came from. Empty when the dataset stores no source. */
   sources: string[];
@@ -198,6 +235,11 @@ export interface RefRow {
   href: string;
   /** Technical identity — monospace, LTR. */
   name: string;
+  /** "name": the row leads with the Hebrew name (the business action) and
+   *  carries the technical id as a chip — the Fiori directory, where the app
+   *  IS the action and F2731 is how it is filed (design audit S7-CAT-6).
+   *  Absent: the code leads, as every other directory. */
+  lead?: "name";
   he: string;
   en: string;
   /** Module keys. Two entries means the record is documented under both. */
@@ -244,4 +286,6 @@ export interface RefDir {
   foot: string;
   /** Rendered when a filter combination matches nothing. */
   emptyNote: string;
+  /** A comparison table over the directory, behind a disclosure. */
+  compare?: RefCompare;
 }

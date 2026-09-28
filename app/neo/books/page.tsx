@@ -8,8 +8,8 @@ import { booksData } from "@/components/neo-shell/books/books-data";
 import { BookShelf } from "@/components/neo-shell/books/book-shelf";
 
 export const metadata = {
-  title: "ספרים · Project NEO",
-  description: "מדף הספרים של Project NEO: אחד עשר ספרי SAP כאובייקטים, והדרך מהם אל המילון הטכני.",
+  title: "ספריית SAP · Project NEO",
+  description: "ספריית SAP של Project NEO: ספרי SAP לפי מודול, תוכן העניינים של כל ספר והקישור לתיעוד הטכני.",
   robots: { index: false, follow: false },
 };
 
@@ -50,16 +50,13 @@ export default function NeoBooks() {
             span is what rises out of it. The structure is the primitive's
             contract and cannot be flattened. */}
         <h1 className="nb-mega nm-kin">
-          <span><span>{d.totals.books} ספרי SAP</span></span>
-          <span><span className="nb-mega-2">מקצועיים.</span></span>
+          <span><span>ספריית SAP</span></span>
+          <span><span className="nb-mega-2">{d.totals.books} ספרים</span></span>
         </h1>
         <p className="nb-lede">
-          {nf.format(d.totals.chapters)} פרקים ו־{nf.format(d.totals.sections)} תת-פרקים,
-          פרושים על {d.totals.modules} מודולים של SAP. כל כריכה כאן משורטטת מהמטא-דאטה של
-          הספר עצמו: המודול הוא צבע הכריכה, הכותרת היא הכותרת האמיתית, ומספר העמודים הוא
-          זה שמופיע במאגר. אין תמונות עטיפה בפרויקט, ולכן גם לא הומצאה אחת.
-          כרטיס הספר פותח את תוכן העניינים האמיתי עד רמת תת-הפרק, וכל שורה בו נכנסת
-          לקורא הקיים של Project NEO.
+          {nf.format(d.totals.chapters)} פרקים ו-{nf.format(d.totals.sections)} תת-פרקים
+          ב-{d.totals.modules} מודולים של SAP. כרטיס הספר מציג את תוכן העניינים עד רמת
+          תת-הפרק, וכל שורה בו נפתחת בקורא של Project NEO.
         </p>
 
         <div className="nb-stats nm-seq">
@@ -77,19 +74,26 @@ export default function NeoBooks() {
           ))}
         </div>
 
-        {d.totals.pagesMissing > 0 && (
-          <p className="nb-note">
-            {d.totals.pagesMissing === 1
-              ? "לספר אחד אין ספירת עמודים במטא-דאטה, והוא אינו נספר בסכום העמודים. הכרטיס שלו אומר זאת במפורש במקום להציג אפס."
-              : `ל-${d.totals.pagesMissing} ספרים אין ספירת עמודים במטא-דאטה, והם אינם נספרים בסכום העמודים.`}
-          </p>
-        )}
       </header>
 
-      <section className="nb-dictbar nm-rise nm-once" aria-label="כיסוי המילון הטכני">
+      </div>
+
+      <BookShelf data={d} />
+
+      {/* COVERAGE AND METADATA, IN ONE PLACE (design audit S7-LIB-4), placed
+          AFTER the shelf (S7-LIB-2): the books are what the reader came for, so
+          the covers start under the masthead, and the coverage statement follows
+          them. Measured before this move: first cover at 907px on a 936px
+          screen. The line
+          carries the two numbers; the module links stay in the open; the three
+          explanations — which books have a technical twin, which book has no
+          page count, which two books are one guide in two schemas — sit behind
+          one disclosure, word for word. */}
+      <section className="nb-dictbar nm-rise nm-once" aria-label="כיסוי התיעוד הטכני">
         <p className="nb-dictbar-t">
           <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
-          המילון הטכני של NEO מתעד שני מודולים מתוך {d.totals.modules}
+          התיעוד הטכני של Project NEO מכסה {d.dictModules.length} מודולים מתוך {d.totals.modules};
+          {" "}{d.totals.withDict} מתוך {d.totals.books} הספרים שייכים למודול מתועד.
         </p>
         <div className="nb-dictbar-l">
           {d.dictModules.map((m) => (
@@ -106,19 +110,29 @@ export default function NeoBooks() {
             </Link>
           ))}
         </div>
-        <p className="nb-note">
-          {d.totals.withDict} מתוך {d.totals.books} הספרים נשענים על מודול שיש לו מילון טכני.
-          בכרטיס של כל ספר אחר כתוב במפורש שאין לו כיסוי במילון, במקום קישור שרומז אחרת.
-        </p>
+        <details className="nb-more">
+          <summary>הסבר על הכיסוי והמטא-נתונים</summary>
+          <div className="nb-more-b">
+            <p className="nb-note">
+              {d.totals.withDict} מתוך {d.totals.books} הספרים שייכים למודול שיש לו תיעוד טכני במאגר.
+              בכרטיס של שאר הספרים מצוין שלמודול שלהם לא קיים תיעוד טכני.
+            </p>
+            {d.totals.pagesMissing > 0 && (
+              <p className="nb-note">
+                {d.totals.pagesMissing === 1
+                  ? "לספר אחד אין ספירת עמודים במטא-דאטה, והוא אינו נכלל בסכום העמודים."
+                  : `ל-${d.totals.pagesMissing} ספרים אין ספירת עמודים במטא-דאטה, והם אינם נכללים בסכום העמודים.`}
+              </p>
+            )}
+            {d.twinNote && <p className="nb-note">{d.twinNote}</p>}
+          </div>
+        </details>
       </section>
-      </div>
-
-      <BookShelf data={d} />
-
-      {d.twinNote && <p className="nb-note nb-note--wide nm-fade">{d.twinNote}</p>}
 
       <footer className="nb-foot nm-fade">
-        <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
+        {/* The button names the DIGITAL LIBRARY — the canonical /library/ site,
+            not this shelf. It used to link back to the page it sits on. */}
+        <Link className="nu-btn2" href="/library/" prefetch={false}>
           <Library size={15} strokeWidth={1.75} aria-hidden="true" />
           הספרייה הדיגיטלית
         </Link>

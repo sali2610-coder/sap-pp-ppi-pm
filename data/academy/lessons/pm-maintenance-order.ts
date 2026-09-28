@@ -2,7 +2,7 @@ import type { Lesson } from "@/lib/academy/lesson-types";
 
 // Pilot lesson (P2). Authored from standard, documented SAP PM knowledge. Technical
 // blocks reference real, verified objects (BAPI_ALM_ORDER_MAINTAIN is verified-docs in
-// the BAPI registry; AUFK/AFIH/AFVC/RESB, IW31/32/38, Fiori F2018 are standard). Prose
+// the BAPI registry; AUFK/AFIH/AFVC/RESB, IW31/32/38, Fiori F5241 are standard; F2018 was corrected on 2026-09-25: the Fiori Apps Library prints it as Purchase Requisition No Touch Rate). Prose
 // is "curated". Nothing invented — no fabricated SAP Notes.
 const LV = "2026-07-15";
 const HELP = "SAP Help Portal — Plant Maintenance (S/4HANA)";
@@ -50,7 +50,7 @@ export const PM_MAINTENANCE_ORDER: Lesson = {
       { code: "IW38", label: "רשימת פקודות", href: "/tcode/IW38/" },
     ] },
     { kind: "fiori", trust: "verified-docs", source: "SAP Fiori Apps Library", lastReviewed: LV, refs: [
-      { code: "F2018", label: "Manage Maintenance Orders", href: "/fiori-apps/" },
+      { code: "F5241", label: "Manage Maintenance Orders", href: "/fiori-apps/" },
     ] },
     { kind: "spro", trust: "curated", md: "Plant Maintenance → Maintenance and Service Processing → Maintenance and Service Orders → **Functions and Settings for Order Types** — הגדרת סוג פקודה (PM01), טווח מספרים ופרופיל שחרור." },
     { kind: "objects", trust: "verified-docs", source: "SAP Help + BAPI registry", lastReviewed: LV, note: "נדרש BAPI_TRANSACTION_COMMIT לאחר קריאה מוצלחת.", refs: [
@@ -69,7 +69,7 @@ export const PM_MAINTENANCE_ORDER: Lesson = {
     { kind: "quiz", trust: "curated", items: [
       { question: "מהי הפעולה הסוגרת טכנית את פקודת האחזקה?", options: [{ text: "שחרור (REL)" }, { text: "TECO — Technical Completion", correct: true }, { text: "מחיקה" }], explain: "TECO סוגר טכנית את הפקודה ומאפשר סגירת עלויות; CLSD סוגר עסקית." },
     ] },
-    { kind: "summary", trust: "verified-docs", source: HELP, lastReviewed: LV, md: "פקודת אחזקה = מסמך ביצוע PM. מחזור: הודעה → פקודה → שחרור → דיווח → TECO. טבלאות ליבה AUFK/AFIH/AFVC/RESB · T-Codes IW31/32/38 · Fiori F2018 · API BAPI_ALM_ORDER_MAINTAIN (נדרש COMMIT)." },
+    { kind: "summary", trust: "verified-docs", source: HELP, lastReviewed: LV, md: "פקודת אחזקה = מסמך ביצוע PM. מחזור: הודעה → פקודה → שחרור → דיווח → TECO. טבלאות ליבה AUFK/AFIH/AFVC/RESB · T-Codes IW31/32/38 · Fiori F5241 · API BAPI_ALM_ORDER_MAINTAIN (נדרש COMMIT)." },
   ],
 };
 

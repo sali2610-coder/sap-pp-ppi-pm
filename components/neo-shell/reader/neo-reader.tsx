@@ -51,6 +51,7 @@ import {
   RotateCcw,
   ScanLine,
   Sun,
+  SlidersHorizontal,
 } from "lucide-react";
 import type { SectionBody } from "@/lib/library/book";
 import { loadChapterBodies } from "@/lib/library/book";
@@ -72,6 +73,7 @@ import { FigureTail, SectionBlock } from "./section-body";
 import { planFigures, type PlacedFigure } from "./figures";
 import { canStep, LANG_HE, LANG_NOTE, LANGS, LEAD_HE, MEASURE_HE, SIZE_HE, useReaderPrefs } from "./prefs";
 import { scrollHost, useReducedMotion } from "./env";
+import { useShellFocus } from "../focus";
 
 /* --------------------------------------------------------------- scrolling */
 
@@ -193,6 +195,10 @@ function openingLine(book: NRBook, o: Opening): string | null {
 export function NeoReader({ book }: { book: NRBook }) {
   const reduced = useReducedMotion();
   const { prefs, set, step, reset } = useReaderPrefs();
+  // Focus mode now also hides the shell (rail, top bar, dock), not only the
+  // reader's own chrome (design audit §3). The reader keeps its exit control.
+  const exitFocus = useCallback(() => set("focus", false), [set]);
+  useShellFocus(!!prefs.focus, exitFocus);
 
   const ids = useMemo(() => [book.id], [book.id]);
   const reading = useReading(ids);
@@ -238,6 +244,7 @@ export function NeoReader({ book }: { book: NRBook }) {
      is also the more honest rule for memory — merely landing on a page is not a
      "last location". */
   const [moved, setMoved] = useState(false);
+  const [adv, setAdv] = useState(false);
   const markMoved = useCallback(() => setMoved(true), []);
 
   const stored = useMemo(
@@ -612,7 +619,7 @@ export function NeoReader({ book }: { book: NRBook }) {
       <div className="nr" ref={rootRef} style={{ "--m": book.mod } as React.CSSProperties}>
         <SmartReturn fallback={{ href: book.hubHref, label: "מרכז הספר" }} />
         <p className="nr-none">
-          לספר {book.titleHe || book.titleEn} אין פרקים בקובץ הספר, ולכן אין מה לקרוא כאן.
+          לספר {book.titleHe || book.titleEn} לא קיימים פרקים במאגר.
         </p>
       </div>
     );
@@ -685,14 +692,14 @@ export function NeoReader({ book }: { book: NRBook }) {
               className="nu-filter nr-mark"
               data-on={marked ? "1" : undefined}
               aria-pressed={marked}
-              aria-label={marked ? "הסר סימנייה מהמיקום הזה" : "סמן את המיקום הזה בסימנייה"}
+              aria-label={marked ? "הסרת הסימנייה מהמיקום הנוכחי" : "הוספת סימנייה במיקום הנוכחי"}
               onClick={mark}
               title={
                 marked
-                  ? `סימנייה מונחת כאן${secTitle ? `: ${secTitle}` : ""}. לחיצה מסירה אותה.`
+                  ? `סימנייה במיקום הנוכחי${secTitle ? `: ${secTitle}` : ""}. לחיצה מסירה אותה.`
                   : chapter.sections.length
-                    ? "הנח סימנייה על תת-הפרק הנוכחי"
-                    : "הנח סימנייה על הפרק: לפרק זה אין תת-פרקים בנתוני הספר"
+                    ? "הוספת סימנייה לתת-הפרק הנוכחי"
+                    : "הוספת סימנייה לפרק: לפרק זה אין תת-פרקים במאגר"
               }
             >
               {marked
@@ -732,25 +739,10 @@ export function NeoReader({ book }: { book: NRBook }) {
               aria-pressed={prefs.focus}
               aria-label="מצב מיקוד"
               onClick={() => set("focus", !prefs.focus)}
-              title="מצב מיקוד: פחות סביבה, אותו טקסט"
+              title="מצב מיקוד: הסתרת רכיבי הממשק סביב הטקסט"
             >
               <Focus size={14} strokeWidth={1.9} aria-hidden="true" />
               <span className="nr-tool-l">מיקוד</span>
-            </button>
-            <button
-              type="button"
-              className="nu-filter"
-              data-on={prefs.lens && !reduced ? "1" : undefined}
-              aria-pressed={prefs.lens && !reduced}
-              aria-label="עדשת קריאה"
-              disabled={reduced}
-              onClick={() => set("lens", !prefs.lens)}
-              title={reduced
-                ? "עדשת הקריאה מושבתת כי המערכת מבקשת פחות תנועה"
-                : "עדשת קריאה: מבודדת חלון קריאה קצר; להגדלה השתמש בגודל הטקסט"}
-            >
-              <ScanLine size={14} strokeWidth={1.9} aria-hidden="true" />
-              <span className="nr-tool-l">עדשה</span>
             </button>
             <span className="nr-steps" role="group" aria-label="גודל טקסט">
               <button
@@ -758,7 +750,7 @@ export function NeoReader({ book }: { book: NRBook }) {
                 className="nu-ghost"
                 onClick={() => step("size", -1)}
                 disabled={!canStep(prefs, "size", -1)}
-                aria-label="הקטן טקסט"
+                aria-label="הקטנת הטקסט"
                 title={`גודל טקסט: ${SIZE_HE[prefs.size]}`}
               >
                 <AArrowDown size={16} strokeWidth={1.9} aria-hidden="true" />
@@ -768,19 +760,53 @@ export function NeoReader({ book }: { book: NRBook }) {
                 className="nu-ghost"
                 onClick={() => step("size", 1)}
                 disabled={!canStep(prefs, "size", 1)}
-                aria-label="הגדל טקסט"
+                aria-label="הגדלת הטקסט"
                 title={`גודל טקסט: ${SIZE_HE[prefs.size]}`}
               >
                 <AArrowUp size={16} strokeWidth={1.9} aria-hidden="true" />
               </button>
             </span>
+            {/* BASIC AND ADVANCED (design audit S7-LIB-5): what a reader
+                touches every time — bookmark, language, focus, text size —
+                stays on the bar; the finer settings — lens, column width,
+                leading, paper tone, reset — sit behind one toggle. Nothing was
+                removed; the group opens in place. */}
+            <button
+              type="button"
+              className="nu-filter nr-tool-min nr-adv-b"
+              aria-expanded={adv}
+              aria-controls="nr-adv"
+              data-on={adv ? "1" : undefined}
+              onClick={() => setAdv((v) => !v)}
+              title="הגדרות מתקדמות: עדשת קריאה, רוחב הטור, רווח שורות, גוון נייר, איפוס"
+            >
+              <SlidersHorizontal size={14} strokeWidth={1.9} aria-hidden="true" />
+              <span className="nr-tool-l">עוד</span>
+            </button>
+            {adv ? (
+              <span className="nr-adv" id="nr-adv" role="group" aria-label="הגדרות מתקדמות">
+            <button
+              type="button"
+              className="nu-filter"
+              data-on={prefs.lens && !reduced ? "1" : undefined}
+              aria-pressed={prefs.lens && !reduced}
+              aria-label="עדשת קריאה"
+              disabled={reduced}
+              onClick={() => set("lens", !prefs.lens)}
+              title={reduced
+                ? "עדשת הקריאה מושבתת כאשר במערכת מופעלת העדפה לתנועה מופחתת"
+                : "עדשת קריאה: הדגשת רצועת קריאה קצרה ועמעום שאר העמוד"}
+            >
+              <ScanLine size={14} strokeWidth={1.9} aria-hidden="true" />
+              <span className="nr-tool-l">עדשה</span>
+            </button>
             <span className="nr-steps nr-steps--wide" role="group" aria-label="רוחב הטור">
               <button
                 type="button"
                 className="nu-ghost"
                 onClick={() => step("measure", -1)}
                 disabled={!canStep(prefs, "measure", -1)}
-                aria-label="הצר את הטור"
+                aria-label="הצרת הטור"
                 title={`רוחב הטור: ${MEASURE_HE[prefs.measure]}`}
               >
                 <Minus size={15} strokeWidth={2} aria-hidden="true" />
@@ -791,7 +817,7 @@ export function NeoReader({ book }: { book: NRBook }) {
                 className="nu-ghost"
                 onClick={() => step("measure", 1)}
                 disabled={!canStep(prefs, "measure", 1)}
-                aria-label="הרחב את הטור"
+                aria-label="הרחבת הטור"
                 title={`רוחב הטור: ${MEASURE_HE[prefs.measure]}`}
               >
                 <Plus size={15} strokeWidth={2} aria-hidden="true" />
@@ -816,7 +842,7 @@ export function NeoReader({ book }: { book: NRBook }) {
               aria-pressed={prefs.paper}
               aria-label="גוון נייר"
               onClick={() => set("paper", !prefs.paper)}
-              title="גוון נייר: חם יותר, רק על משטח הקריאה"
+              title="גוון נייר: רקע חם יותר למשטח הקריאה"
             >
               <Sun size={14} strokeWidth={1.9} aria-hidden="true" />
               <span className="nr-tool-l">נייר</span>
@@ -825,11 +851,13 @@ export function NeoReader({ book }: { book: NRBook }) {
               type="button"
               className="nu-ghost nr-tool-min"
               onClick={reset}
-              title="אפס את הגדרות הקריאה"
-              aria-label="אפס את הגדרות הקריאה"
+              title="איפוס הגדרות התצוגה: גודל טקסט, רוחב טור, רווח שורות, גוון נייר, שפה, מיקוד ועדשה. התקדמות הקריאה והסימניות נשמרות"
+              aria-label="איפוס הגדרות התצוגה, ללא מחיקת התקדמות הקריאה"
             >
               <RotateCcw size={14} strokeWidth={1.9} aria-hidden="true" />
             </button>
+              </span>
+            ) : null}
           </div>
         </div>
 
@@ -840,7 +868,7 @@ export function NeoReader({ book }: { book: NRBook }) {
       {resumeLine && !resumed && !moved && (
         <div className="nr-resume" role="status">
           <span className="nr-resume-t">
-            הפעם הקודמת הסתיימה כאן: <b>{resumeLine}</b>
+            המיקום האחרון שנשמר: <b>{resumeLine}</b>
           </span>
           <span className="nr-resume-a">
             <button
@@ -855,12 +883,11 @@ export function NeoReader({ book }: { book: NRBook }) {
               className="nu-btn2"
               onClick={() => { goTo(chapter.n, null); setResumed(true); }}
             >
-              התחל את הפרק מחדש
+              קריאת הפרק מההתחלה
             </button>
           </span>
           <span className="nr-resume-n">
-            הפרק כבר פתוח; הכפתור מדלג אל תת-הפרק עצמו. המיקום נשמר ברמת פרק ותת-פרק בלבד: אין כאן שחזור מדויק של
-            מיקום גלילה, והקורא לא יבטיח מה שאינו יכול לקיים.
+            המיקום נשמר ברמת פרק ותת-פרק, לא ברמת מיקום הגלילה.
           </span>
         </div>
       )}
@@ -886,7 +913,7 @@ export function NeoReader({ book }: { book: NRBook }) {
               <p className="nr-ch-m">
                 {chapter.sections.length
                   ? `${n(chapter.sections.length)} תת-פרקים`
-                  : "אין תת-פרקים בנתוני הספר לפרק זה"}
+                  : "לפרק זה אין תת-פרקים במאגר"}
                 {chapter.startPage !== null && ` · מתחיל בעמ׳ ${n(chapter.startPage)}`}
                 {` · פרק ${n(progress.chapterOrdinal)} מתוך ${n(book.chapters.length)}`}
               </p>
@@ -901,11 +928,11 @@ export function NeoReader({ book }: { book: NRBook }) {
               <p className="nr-figline">
                 <Images size={14} strokeWidth={1.9} aria-hidden="true" />
                 <span>
-                  {n(plan.ordered.length)} איורים סרוקים בפרק, משובצים בגוף הטקסט לפי עמוד המקור שלהם
-                  {plan.tail.length > 0 && ` · ${n(plan.tail.length)} מהם בסוף הפרק, בלי שיבוץ`}
+                  {n(plan.ordered.length)} איורים סרוקים בפרק, משובצים בטקסט לפי עמוד המקור
+                  {plan.tail.length > 0 && ` · ${n(plan.tail.length)} מהם בסוף הפרק, ללא שיבוץ`}
                 </span>
                 <button type="button" className="nu-ghost nr-figline-b" onClick={() => setFigAt(0)}>
-                  פתח את כל האיורים
+                  הצגת כל האיורים
                 </button>
               </p>
             )}
@@ -922,9 +949,9 @@ export function NeoReader({ book }: { book: NRBook }) {
                 holds no prose. */}
             {ready && pack.failed && (
               <div className="nr-err" role="alert">
-                <p>לא הצלחתי לקרוא את קובץ הפרק מהמאגר. הכותרות למטה הן מבנה הספר עצמו, בלי גוף הטקסט.</p>
+                <p>טעינת גוף הפרק מהמאגר נכשלה. הכותרות שלמטה הן מבנה הפרק בלבד, ללא גוף הטקסט.</p>
                 <button type="button" className="nu-btn2" onClick={() => setReload((v) => v + 1)}>
-                  נסה שוב
+                  ניסיון חוזר
                 </button>
               </div>
             )}
@@ -947,7 +974,7 @@ export function NeoReader({ book }: { book: NRBook }) {
 
             {chapter.sections.length === 0 ? (
               <p className="nr-none">
-                בנתוני הספר אין תת-פרקים לפרק הזה. זהו מצב אמיתי במאגר, לא תקלה: ולכן לא הומצאו כאן סעיפים.
+                לפרק זה אין תת-פרקים במאגר.
               </p>
             ) : (
               chapter.sections.map((s, i) => (
@@ -984,12 +1011,12 @@ export function NeoReader({ book }: { book: NRBook }) {
 
             <footer className="nr-foot">
               <p>
-                הטקסט, הפרקים ותת-הפרקים נקראים ממאגר הספרים של הפרויקט. הקורא הקנוני של הפרויקט ממשיך לפעול ללא שינוי:
+                התוכן נקרא ממאגר הספרים של Project NEO. הספר זמין גם בקורא של הספרייה הדיגיטלית:
                 {" "}
                 <Link className="nu-link" href={book.libraryHref} prefetch={false}>{book.libraryHref}</Link>
               </p>
               <p>
-                {book.publisher ?? "ללא מוציא לאור במטא-דאטה"}
+                {book.publisher ?? "מוציא לאור לא מתועד"}
                 {book.pages === null ? " · עמודים לא מתועדים" : ` · ${n(book.pages)} עמ׳`}
                 {` · ${n(book.chapters.length)} פרקים · ${n(book.totalSections)} תת-פרקים`}
               </p>
@@ -1062,7 +1089,7 @@ export function NeoReader({ book }: { book: NRBook }) {
       {prefs.focus && (
         <button type="button" className="nu-btn nr-unfocus" onClick={() => set("focus", false)}>
           <Focus size={14} strokeWidth={1.9} aria-hidden="true" />
-          צא ממצב מיקוד
+          יציאה ממצב מיקוד
         </button>
       )}
 

@@ -17,6 +17,7 @@
 // Every control is a class from app/neo/ui.css. There is no button chrome
 // defined for this panel.
 
+import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
 import {
   ArrowUpLeft, Crosshair, Expand, Focus, GitBranch, KeyRound, Link2, Terminal,
@@ -64,7 +65,7 @@ export function ErdInspector({
             {nf.format(hits.length)} טבלאות ברשימה
             {q ? (
               <button type="button" className="nu-ghost" onClick={onClearQ}>
-                מסונן לפי “{q}” · נקה
+                מסונן לפי &quot;{q}&quot; · ניקוי
               </button>
             ) : null}
           </p>
@@ -80,7 +81,7 @@ export function ErdInspector({
                 >
                   <i className="ne-row-bar" aria-hidden="true" />
                   <b className="nx-sap">{n.n}</b>
-                  <em>{n.he || n.en || "—"}</em>
+                  <em>{n.he || n.en || "–"}</em>
                   <span className="nx-sap">{degOf(n.n)}</span>
                 </button>
               </li>
@@ -89,14 +90,16 @@ export function ErdInspector({
         </div>
       ) : null}
 
-      <div className="ne-detail" aria-live="polite">
+      {/* No aria-live here: the panel is driven by HOVER, and a live region on
+          it re-announced the whole panel on every mouse pass over the canvas. */}
+      <div className="ne-detail">
         {active ? (
           <>
             <header className="ne-det-h" style={{ "--o": active.o, "--m": modVar(active.m) } as React.CSSProperties}>
               <i aria-hidden="true" />
               <b className="nx-sap">{active.n}</b>
               {peek ? <span className="nu-chip">תצוגה מקדימה</span> : null}
-              <p>{active.he || active.en || "המערך אינו מחזיק תיאור לטבלה הזו."}</p>
+              <p>{active.he || active.en || "לא קיים תיאור מאומת לטבלה זו במאגר."}</p>
               {active.he && active.en ? <small>{active.en}</small> : null}
             </header>
 
@@ -108,7 +111,7 @@ export function ErdInspector({
                   origin={() => origin(active.n)}
                   style={{ "--m": modVar(active.m) } as React.CSSProperties}
                 >
-                  עמוד האובייקט
+                  פתיחת עמוד האובייקט
                   <ArrowUpLeft size={14} strokeWidth={1.9} aria-hidden="true" className="nu-arw" />
                 </OriginLink>
               ) : (
@@ -118,17 +121,17 @@ export function ErdInspector({
                   style={{ "--m": modVar(active.m) } as React.CSSProperties}
                   onClick={() => onOpen(active.n)}
                 >
-                  כרטיס הטבלה
+                  פתיחת כרטיס הטבלה
                   <Expand size={14} strokeWidth={1.9} aria-hidden="true" className="nu-arw" />
                 </button>
               )}
               <button type="button" className="nu-btn2" onClick={() => onExpand(active.n)}>
                 <Expand size={14} strokeWidth={1.8} aria-hidden="true" />
-                הרחב לקריאה
+                הרחבה לקריאה
               </button>
               <button type="button" className="nu-btn2" onClick={() => onCentre(active.n)}>
                 <Crosshair size={14} strokeWidth={1.8} aria-hidden="true" />
-                מרכז בתרשים
+                מרכוז בתרשים
               </button>
             </div>
 
@@ -153,7 +156,7 @@ export function ErdInspector({
                   <i aria-hidden="true" />
                   <button type="button" className="nu-ghost ne-det-modgo" onClick={() => onModule(m)}>
                     {m}
-                    {m === active.m ? " · מודול הבית" : ""}
+                    {m === active.m ? " · המודול הראשי" : ""}
                   </button>
                   <em>{data.modules.find((x) => x.code === m)?.he || ""}</em>
                 </li>
@@ -180,7 +183,7 @@ export function ErdInspector({
                     ))}
                   </ul>
                 ) : (
-                  <p className="ne-none">המערך אינו מסמן מפתח ראשי לטבלה הזו.</p>
+                  <p className="ne-none">לא סומן מפתח ראשי לטבלה זו במאגר.</p>
                 )}
               </div>
               <div>
@@ -197,7 +200,7 @@ export function ErdInspector({
                     ))}
                   </ul>
                 ) : (
-                  <p className="ne-none">המערך אינו מסמן מפתח זר לטבלה הזו.</p>
+                  <p className="ne-none">לא סומן מפתח זר לטבלה זו במאגר.</p>
                 )}
               </div>
             </div>
@@ -210,15 +213,18 @@ export function ErdInspector({
                     {active.f.slice(0, 8).map((f) => (
                       <tr key={f[0]} data-k={f[3]}>
                         <td className="nx-sap">{f[0]}</td>
-                        <td>{f[2] || f[1] || "—"}</td>
+                        <td>{f[2] || f[1] || "–"}</td>
                         <td>{f[3] !== "-" ? <span className="nu-chip" data-k={f[3]}>{f[3]}</span> : null}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                {active.fn > 8 ? (
+                {/* "More" counts against the rows actually shown, not against a
+                    fixed 8 — the payload may hold fewer than 8 rows while the
+                    documented total (fn) is far larger. */}
+                {active.fn > Math.min(8, active.f.length) ? (
                   <button type="button" className="nu-ghost ne-more" onClick={() => onExpand(active.n)}>
-                    עוד {nf.format(active.fn - 8)} שדות: פתח את הכרטיס המלא
+                    עוד {nf.format(active.fn - Math.min(8, active.f.length))} שדות: פתיחת הכרטיס המלא
                   </button>
                 ) : null}
               </div>
@@ -242,6 +248,12 @@ export function ErdInspector({
 
             <div className="ne-blk">
               <h3>ECC → S/4HANA</h3>
+              {/* The canonical status first (the same word the table page and the
+                  catalog show), then the dictionary's own sentence. */}
+              <p className="ne-s4-canon">
+                <StatusPill status={active.s4k.k} label={active.s4k.l} dot={active.s4k.d} />
+                <em>{active.s4k.a ? "לפי רשומת אימות" : "לפי עמודת S/4HANA בבלופרינט"}</em>
+              </p>
               {active.s4 ? (
                 <>
                   <p className="ne-s4">{active.s4}</p>
@@ -252,7 +264,7 @@ export function ErdInspector({
                   ) : null}
                 </>
               ) : (
-                <p className="ne-none">לא קיים מידע מאומת · דורש אימות במערכת SAP</p>
+                <p className="ne-none">לא קיים תיעוד מאומת במאגר · נדרש אימות במערכת SAP</p>
               )}
             </div>
 
@@ -261,6 +273,13 @@ export function ErdInspector({
                 <GitBranch size={13} strokeWidth={2} aria-hidden="true" />
                 {nf.format(activeEdges.length)} קשרים
               </h3>
+              {activeEdges.some((e) => !e.cd) ? (
+                <p className="ne-note ne-cnv-note">
+                  קשר המסומן <span className="nx-sap">CARDINALITY_NOT_VERIFIED</span> נרשם במילון הפרויקט עם הורה, ילד ושדות
+                  ה-JOIN כשהם קיימים, בלי יחס כמותי; ‏PK/FK או Association לא אומתו מול מקור SAP רשמי. הקו מצויר מקווקו כתלות
+                  מתועדת ולא כיחס מחייב.
+                </p>
+              ) : null}
               {activeEdges.length ? (
                 <ul className="ne-joins">
                   {activeEdges.map((e) => {
@@ -274,8 +293,26 @@ export function ErdInspector({
                             {other}
                           </button>
                           <span className="ne-card nx-sap">{e.cd || REL_HE[e.k as RelKind]}</span>
+                          {!e.cd ? (
+                            <code className="ne-cnv" aria-hidden="true">CARDINALITY_NOT_VERIFIED</code>
+                          ) : null}
                           {e.x ? <span className="ne-ct">חוצה מודול</span> : null}
                         </div>
+                        {/* IN WORDS (design audit S7-ERD-5): which side is the
+                            source and which depends on it. Read off the
+                            dataset's own parent/child, nothing inferred. */}
+                        <p className="ne-join-say">
+                          {isParent ? (
+                            <><b className="nx-sap">{active.n}</b> היא המקור (צד המפתח הראשי); <b className="nx-sap">{other}</b> תלויה בה דרך מפתח זר.</>
+                          ) : (
+                            <><b className="nx-sap">{other}</b> היא המקור (צד המפתח הראשי); <b className="nx-sap">{active.n}</b> תלויה בה דרך מפתח זר.</>
+                          )}
+                          {e.cd ? (
+                            <> קרדינליות מתועדת: <span className="nx-sap">{e.cd}</span>.</>
+                          ) : (
+                            <> קרדינליות לא צוינה בתיעוד.</>
+                          )}
+                        </p>
                         {e.ds ? <p className="ne-join-d">{e.ds}</p> : null}
                         {e.j.map((j, i) => (
                           <div className="ne-join-s" key={i} style={{ "--m": modVar(j.m) } as React.CSSProperties}>
@@ -306,7 +343,7 @@ export function ErdInspector({
                 </ul>
               ) : (
                 <p className="ne-none">
-                  אין לטבלה הזו קשר ממודל בתחום התצוגה הנוכחי. היא מתועדת, אך היא עומדת לבדה בתרשים.
+                  לטבלה זו אין קשר ממודל בתחום התצוגה הנוכחי.
                 </p>
               )}
             </div>
@@ -317,7 +354,7 @@ export function ErdInspector({
               <Focus size={15} strokeWidth={1.75} aria-hidden="true" />
               {M.code} · {M.he}
             </h2>
-            {M.purpose ? <p>{M.purpose}</p> : <p className="ne-none">לא קיים מידע מאומת על מטרת המודול.</p>}
+            {M.purpose ? <p>{M.purpose}</p> : <p className="ne-none">לא קיים תיעוד מאומת במאגר על ייעוד המודול.</p>}
             {M.flow.length ? (
               <div className="ne-blk">
                 <h3>הזרימה העסקית</h3>
@@ -349,7 +386,7 @@ export function ErdInspector({
                 <dd className="nx-sap">{nf.format(M.core.length)}</dd>
               </div>
               <div>
-                <dt>טבלאות נוספות במילון</dt>
+                <dt>טבלאות נוספות בתיעוד</dt>
                 <dd className="nx-sap">{nf.format(M.more.length)}</dd>
               </div>
               <div>
@@ -365,13 +402,13 @@ export function ErdInspector({
                 <dd className="nx-sap">{nf.format(M.objects.length)}</dd>
               </div>
               <div>
-                <dt>נושאים במילון</dt>
+                <dt>נושאים בתיעוד</dt>
                 <dd className="nx-sap">{nf.format(M.topics.length)}</dd>
               </div>
             </dl>
             <p className="ne-note">
-              רחף כדי להציץ, לחץ כדי לבחור. הטבלה הנבחרת נשארת גלויה ודומיננטית, הקשרים הישירים שלה
-              מתחזקים, והשאר נשאר גלוי אך עמום.
+              ריחוף מציג תצוגה מקדימה, לחיצה בוחרת. הטבלה שנבחרה מודגשת יחד עם קשריה הישירים,
+              ושאר התרשים מעומעם.
             </p>
           </div>
         ) : (
@@ -381,9 +418,9 @@ export function ErdInspector({
               מפת המודולים
             </h2>
             <p>
-              {nf.format(data.stats.modules)} מודולים עסקיים, {nf.format(data.stats.memberships)} שיוכי
-              טבלה ל-ERD ו-{nf.format(data.stats.tables)} טבלאות מובחנות. בחר מודול כדי לפתוח את מודל
-              הנתונים שלו: ומשם נושא, אובייקט וטבלה.
+              {nf.format(data.stats.modules)} מודולי SAP, {nf.format(data.stats.memberships)} שיוכי
+              טבלה ל-ERD ו-{nf.format(data.stats.tables)} טבלאות. בחירת מודול פותחת את מודל הנתונים
+              שלו, ומשם נושא, אובייקט עסקי וטבלה.
             </p>
             <ul className="ne-modlist">
               {MODULE_ORDER.map((code) => {
@@ -407,11 +444,11 @@ export function ErdInspector({
                 <dd className="nx-sap">{nf.format(data.stats.edges)}</dd>
               </div>
               <div>
-                <dt>עוצמה מצוינת</dt>
+                <dt>עם קרדינליות</dt>
                 <dd className="nx-sap">{nf.format(data.stats.stated)}</dd>
               </div>
               <div>
-                <dt>ללא עוצמה</dt>
+                <dt>ללא קרדינליות</dt>
                 <dd className="nx-sap">{nf.format(data.stats.unstated)}</dd>
               </div>
               <div>
@@ -432,8 +469,8 @@ export function ErdInspector({
               </div>
             </dl>
             <p className="ne-note">
-              {nf.format(data.stats.unstated)} מתוך {nf.format(data.stats.edges)} הקשרים נרשמו במערך
-              בלי עוצמה. הם מצוירים מקווקו ומסומנים ככאלה: לא הושלמה להם עוצמה שלא נכתבה.
+              {nf.format(data.stats.unstated)} מתוך {nf.format(data.stats.edges)} הקשרים נרשמו במאגר
+              ללא קרדינליות. הם מצוירים בקו מקווקו ומסומנים ככאלה.
             </p>
           </div>
         )}

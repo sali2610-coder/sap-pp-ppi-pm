@@ -20,6 +20,8 @@
 
 import { CDS_VIEWS, type CdsView } from "@/data/cds-map";
 import { CDS_ENRICHMENT, type CdsEnrichment } from "@/data/cds-enrichment";
+import { evidenceBlock, fromCdsEnrichment } from "@/lib/evidence";
+import { canonStatus } from "./canon";
 import { FIORI_APPS } from "@/data/fiori/apps";
 import { registry } from "@/lib/bapi-registry";
 import { zoneOf } from "@/lib/studio-graph";
@@ -28,7 +30,7 @@ import { MOD_HE } from "../mod-var";
 import {
   bapiHref, cdsHref, clean, completeness, fioriHref, nf, standings, uniq,
 } from "./ref-links";
-import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus } from "./types";
+import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus, RefChain } from "./types";
 
 const VIEW_TYPE_HE: Record<string, string> = {
   "Interface (Basic)": "Interface · בסיסי",
@@ -55,7 +57,7 @@ const appsFor = (view: string) =>
     (a.cds || "").split(/[\s/,]+/).map((x) => x.trim()).includes(view));
 
 const kindOf = (v: CdsView): string =>
-  VIEW_TYPE_HE[enrichOf(v.view)?.viewType || ""] || "לא צוין במאגר";
+  VIEW_TYPE_HE[enrichOf(v.view)?.viewType || ""] || "לא מתועד במאגר";
 
 /* ----------------------------------------------------------- S/4 standing */
 
@@ -65,9 +67,25 @@ function s4Of(v: CdsView) {
   const impacted = tables.filter((t) => t.impacted);
   const tone: RefRow["s4"]["tone"] = critical.length ? "changed" : "replacement";
   const headline = critical.length
-    ? `התצוגה יושבת מעל ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
-    : `שכבת ה-VDM של S/4HANA מעל ${v.tables.join(", ")}.`;
+    ? `תצוגת ה-CDS נשענת על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
+    : `שכבת ה-VDM של S/4HANA מעל הטבלאות הקלאסיות ${v.tables.join(", ")}.`;
   return { tables, critical, impacted, tone, headline };
+}
+
+/** The unified evidence block of a view: the derived claim reads the
+ *  enrichment record's own verified flag; structural depth counts the mapped
+ *  classic tables and the enrichment's view type and representative key. ONE
+ *  function for the row and the page, so the two cannot drift. */
+function evidenceOf(v: CdsView, e: ReturnType<typeof enrichOf>) {
+  return evidenceBlock(
+    `cds:${v.view}`,
+    fromCdsEnrichment(e).status,
+    {
+      hasHe: !!v.he,
+      structural: (v.tables.length ? 1 : 0) + (e?.viewType ? 1 : 0) + (e?.keyField ? 1 : 0),
+    },
+    "cds",
+  );
 }
 
 /* --------------------------------------------------------------- the rows */
@@ -90,19 +108,16 @@ function rowOf(v: CdsView): RefRow {
     en: "",
     mods: [v.module],
     kind: kindOf(v),
-    group: ZONE_HE[zoneOf(v.tables[0] || "")] || "ללא מחלקה",
+    group: ZONE_HE[zoneOf(v.tables[0] || "")] || "ללא מחלקת אובייקט במאגר",
     nums: [
       { i: "table", sr: "טבלאות קלאסיות ", v: nf.format(v.tables.length) },
       { i: "gitBranch", sr: "אסוציאציות ", v: nf.format(e?.associations?.length || 0) },
-      { i: "appWindow", sr: "אפליקציות Fiori ", v: nf.format(appsFor(v.view).length + (v.fiori ? 1 : 0)) },
+      { i: "appWindow", sr: "יישומי Fiori ", v: nf.format(appsFor(v.view).length + (v.fiori ? 1 : 0)) },
     ],
-    s4: {
-      tone: s4.tone,
-      status: s4.critical.length
-        ? { he: "מעל טבלה שמשתנה", color: "var(--status-in-conversion)" }
-        : { he: "שכבת S/4 מעל ECC", color: "var(--status-done)" },
-      text: s4.headline,
-    },
+    // ONE status per record (design audit S5-2 / ACC-3): the resolver's answer,
+    // the same the detail page's evidence block renders. The table-impact
+    // reading stays in `tone` and `text`.
+    s4: { tone: s4.tone, status: canonStatus(evidenceOf(v, e)), text: s4.headline },
     caps,
     rank: v.tables.length,
     hay: [v.view, v.he, v.module, v.tables.join(" "), v.consumption, v.fiori, e?.purposeDeep, e?.keyField]
@@ -123,22 +138,22 @@ export function cdsDir(): RefDir {
   return {
     id: "cds",
     surface: "neo:cds",
-    eyebrow: "עיון · Reference",
-    title: "תצוגות CDS",
+    eyebrow: "קטלוג CDS Views · CDS Catalog",
+    title: "CDS Views",
     icon: "sigma",
     lede:
-      `${nf.format(CDS_VIEWS.length)} תצוגות CDS משוחררות שהפרויקט מיפה אל הטבלאות הקלאסיות שהן מחליפות. ` +
-      `זהו הצד של S/4HANA במילון: כל שורה אומרת איזו טבלת ECC היא מכסה, איזו שכבת Consumption יושבת מעליה ` +
-      `ואיזו אפליקציית Fiori צורכת אותה: ומה מעמד הטבלה הקלאסית עצמה במעבר.`,
+      `${nf.format(CDS_VIEWS.length)} תצוגות CDS של S/4HANA שתיעוד הפרויקט ממפה אל הטבלאות הקלאסיות שהן מכסות. ` +
+      `לכל תצוגה מוצגים טבלאות ה-ECC שהיא מכסה, שכבת ה-Consumption שמעליה, יישום ה-Fiori שצורך אותה ` +
+      `ומעמד הטבלה הקלאסית במעבר ל-S/4HANA.`,
     stats: [
       { v: CDS_VIEWS.length, l: "תצוגות CDS", i: "sigma" },
       { v: uniq(CDS_VIEWS.flatMap((v) => v.tables)).length, l: "טבלאות קלאסיות מכוסות", i: "table" },
       { v: count((r) => r.caps.includes("deep")), l: "עם רשומת העשרה", i: "bookOpen" },
       { v: count((r) => r.caps.includes("consumption")), l: "עם שכבת Consumption", i: "layoutGrid" },
-      { v: count((r) => r.caps.includes("fiori")), l: "עם אפליקציית Fiori", i: "appWindow" },
+      { v: count((r) => r.caps.includes("fiori")), l: "עם יישום Fiori", i: "appWindow" },
       { v: count((r) => r.caps.includes("abap")), l: "עם דוגמת ABAP", i: "fileCode" },
       { v: CDS_VIEWS.filter((v) => (CDS_ENRICHMENT[v.view]?.associations?.length || 0) > 0).length, l: "עם אסוציאציות מתועדות", i: "gitBranch" },
-      { v: count((r) => r.s4.tone === "changed"), l: "מעל טבלה שמשתנה ב-S/4", i: "arrowLeft" },
+      { v: count((r) => r.s4.tone === "changed"), l: "מעל טבלה שמשתנה ב-S/4HANA", i: "arrowLeft" },
     ],
     rows,
     mods: [...byMod.entries()].sort((a, b) => b[1] - a[1])
@@ -146,21 +161,20 @@ export function cdsDir(): RefDir {
     kinds: [...byKind.entries()].sort((a, b) => b[1] - a[1]).map(([id, n]) => ({ id, he: id, n })),
     kindsLabel: "סוג תצוגה (VDM)",
     caps: [
-      { id: "deep", he: "רשומת העשרה מלאה", n: count((r) => r.caps.includes("deep")) },
-      { id: "consumption", he: "יש Consumption", n: count((r) => r.caps.includes("consumption")) },
-      { id: "fiori", he: "יש Fiori", n: count((r) => r.caps.includes("fiori")) },
-      { id: "abap", he: "יש דוגמת ABAP", n: count((r) => r.caps.includes("abap")) },
+      { id: "deep", he: "עם רשומת העשרה", n: count((r) => r.caps.includes("deep")) },
+      { id: "consumption", he: "עם שכבת Consumption", n: count((r) => r.caps.includes("consumption")) },
+      { id: "fiori", he: "עם יישום Fiori", n: count((r) => r.caps.includes("fiori")) },
+      { id: "abap", he: "עם דוגמת ABAP", n: count((r) => r.caps.includes("abap")) },
       { id: "impact", he: "מעל טבלה מושפעת", n: count((r) => r.caps.includes("impact")) },
     ].filter((c) => c.n > 0),
     groupLabel: "לפי מחלקת אובייקט",
     rankLabel: "מספר טבלאות מכוסות",
     searchPlaceholder: "שם תצוגה · משמעות · טבלה קלאסית · Consumption · Fiori",
     foot:
-      "המיפוי בין תצוגה לטבלאות קלאסיות הוא מיפוי מאומת ידנית בקובצי הפרויקט, לא תוצר של גזירה אוטומטית. " +
-      "מחרוזות annotation שאינן ודאיות מתוארות ברמת המושג ולא נכתבות כטקסט מדויק.",
+      "המיפוי בין תצוגת CDS לטבלאות הקלאסיות נלקח מתיעוד הפרויקט. " +
+      "אנוטציות שאינן ודאיות מתוארות ברמת המושג בלבד.",
     emptyNote:
-      "החיפוש עובר על שם התצוגה, המשמעות, הטבלאות הקלאסיות, שכבת ה-Consumption ואפליקציית ה-Fiori: כולם ערכים " +
-      "אמיתיים מקובצי הפרויקט.",
+      "החיפוש מתבצע על שם התצוגה, המשמעות, הטבלאות הקלאסיות, שכבת ה-Consumption ויישום ה-Fiori שבתיעוד.",
   };
 }
 
@@ -180,7 +194,7 @@ export function cdsDetail(name: string): RefDetail | null {
       label: "הטבלאות הקלאסיות שהתצוגה מכסה",
       codes: s4.tables.map((t) => ({ t: t.name, href: t.href })),
     },
-    { label: "החלופה הקלאסית ב-ECC", text: clean(e?.eccAlternative), absent: "המאגר אינו מציין את המסלול הקלאסי המקביל לתצוגה הזו." },
+    { label: "החלופה הקלאסית ב-ECC", text: clean(e?.eccAlternative), absent: "לא קיים תיעוד מאומת במאגר לחלופה הקלאסית ב-ECC לתצוגה זו." },
   ];
   if (v.consumption) {
     s4Facts.push({
@@ -188,7 +202,7 @@ export function cdsDetail(name: string): RefDetail | null {
       codes: [{ t: v.consumption, href: cdsHref(v.consumption) }],
     });
   }
-  if (v.fiori) s4Facts.push({ label: "אפליקציית Fiori שהמיפוי מציין", text: v.fiori });
+  if (v.fiori) s4Facts.push({ label: "יישום Fiori לפי המיפוי", text: v.fiori });
 
   /* --- sections -------------------------------------------------------- */
   const sections: RefSection[] = [];
@@ -196,10 +210,10 @@ export function cdsDetail(name: string): RefDetail | null {
   sections.push({
     id: "what",
     icon: "sigma",
-    title: "מה התצוגה נותנת",
+    title: "תפקיד התצוגה",
     facts: [
       { label: "מטרה", text: clean(e?.purposeDeep) || v.he },
-      { label: "סוג תצוגה (VDM)", text: clean(e?.viewType), absent: "המאגר אינו מסווג את סוג התצוגה." },
+      { label: "סוג תצוגה (VDM)", text: clean(e?.viewType), absent: "סוג התצוגה לא צוין בתיעוד." },
       { label: "מפתח מייצג", codes: e?.keyField ? [{ t: e.keyField }] : undefined, absent: "לא צוין מפתח מייצג ברשומה." },
       { label: "מודול", text: `${v.module}${MOD_HE[v.module] ? ` · ${MOD_HE[v.module]}` : ""}` },
     ],
@@ -213,7 +227,7 @@ export function cdsDetail(name: string): RefDetail | null {
   if (e?.perfNotes?.length) model.push({ label: "הערות ביצועים", bullets: e.perfNotes });
   if (e?.abapConsumption) model.push({ label: "צריכה ב-ABAP", pre: e.abapConsumption });
   if (model.length) {
-    sections.push({ id: "model", icon: "fileCode", title: "המודל והצריכה", facts: model });
+    sections.push({ id: "model", icon: "fileCode", title: "מבנה התצוגה והצריכה", facts: model });
   }
 
   /* who consumes it */
@@ -224,7 +238,7 @@ export function cdsDetail(name: string): RefDetail | null {
       code: a.id,
       he: a.he || a.name,
       mod: a.module,
-      reason: "אפליקציית Fiori שצורכת את התצוגה",
+      reason: "יישום Fiori שצורך את התצוגה",
     });
   }
   for (const o of funcs) {
@@ -233,16 +247,16 @@ export function cdsDetail(name: string): RefDetail | null {
       code: o.technicalName,
       he: o.shortDescriptionHe,
       mod: o.primaryModule,
-      reason: "ממשק פונקציה שהרשומה שלו מפנה לתצוגה",
+      reason: "אובייקט פונקציה שרשומתו מפנה לתצוגה",
     });
   }
   sections.push({
     id: "consumers",
     icon: "appWindow",
-    title: "מי צורך את התצוגה",
+    title: "צרכני התצוגה",
     note: cards.length ? `${nf.format(cards.length)} רשומות` : undefined,
     cards,
-    empty: "אין במאגר רשומת Fiori או ממשק פונקציה שמפנה לתצוגה הזו.",
+    empty: "לא קיימת בתיעוד רשומת Fiori או אובייקט פונקציה שמפנה לתצוגה זו.",
   });
 
   // The ECC alternative is deliberately NOT parsed into T-Code links. The field
@@ -260,9 +274,26 @@ export function cdsDetail(name: string): RefDetail | null {
     e?.verified === "verified"
       ? { he: "רשומה מאומתת", color: "var(--status-done)" }
       : e
-        ? { he: "דורש אימות", color: "var(--status-not-started)" }
+        ? { he: "נדרש אימות נוסף", color: "var(--status-not-started)" }
         : { he: "מיפוי בלבד: ללא רשומת העשרה", color: "var(--status-in-analysis)" },
   ];
+
+  /* THE CHAIN (design audit S7-CAT-5): classic tables → this view → what
+     consumes it. The same records the sections below list, drawn as one line
+     so the relation reads at a glance. */
+  const chain: RefChain = {
+    fromLabel: "טבלאות קלאסיות שהתצוגה קוראת",
+    from: s4.tables.map((t) => ({ t: t.name, href: t.href, he: t.he })),
+    via: { code: v.view, he: v.he },
+    toLabel: "מי צורך את התצוגה",
+    to: [
+      ...(v.consumption ? [{ t: v.consumption, href: cdsHref(v.consumption), he: "תצוגת צריכה (Consumption)" }] : []),
+      ...cards.map((c) => ({ t: c.code, href: c.href, he: c.he, mod: c.mod })),
+    ],
+    note: !s4.tables.length || !(v.consumption || cards.length)
+      ? "צד ריק בשרשרת = לא קיימת בתיעוד רשומה בצד זה; לא הושלם בניחוש."
+      : undefined,
+  };
 
   return {
     kind: "cds",
@@ -272,6 +303,7 @@ export function cdsDetail(name: string): RefDetail | null {
     en: "",
     mod: v.module,
     modHe: MOD_HE[v.module] || "",
+    chain,
     chips: uniq([clean(e?.viewType), v.consumption ? `Consumption · ${v.consumption}` : ""]),
     statuses,
     completeness: completeness(checks.filter(Boolean).length, checks.length),
@@ -281,16 +313,18 @@ export function cdsDetail(name: string): RefDetail | null {
       statuses: [
         ...statuses,
         s4.critical.length
-          ? { he: "מעל טבלה שמשתנה מהותית", color: "var(--status-in-conversion)" }
+          ? { he: "נשענת על טבלה שמשתנה מהותית", color: "var(--status-in-conversion)" }
           : { he: "שכבת S/4HANA מעל ECC", color: "var(--status-done)" },
       ],
       facts: s4Facts,
       tables: s4.tables,
     },
+    // The unified evidence block — the same call the catalog row makes.
+    evidence: evidenceOf(v, e),
     sections,
     sources: uniq(e?.sources || []),
     foot:
-      "המיפוי תצוגה↔טבלאות והרשומה המורחבת נכתבו ואומתו ידנית בקובצי הפרויקט. מעמד ה-S/4 של כל טבלה קלאסית " +
-      "נלקח משכבת ה-S/4 המשותפת של האתר, ולא נכתב מחדש כאן.",
+      "המיפוי בין התצוגה לטבלאות והרשומה המורחבת נלקחו מתיעוד הפרויקט. מעמד ה-S/4HANA של כל טבלה קלאסית " +
+      "נלקח משכבת ה-S/4HANA המשותפת של Project NEO.",
   };
 }

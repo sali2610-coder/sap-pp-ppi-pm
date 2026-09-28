@@ -38,13 +38,13 @@ export function WorkspaceOps({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       icon={<Terminal size={17} strokeWidth={1.75} />}
       lede={
         <>
-          המילון של המודול מחזיק <b className="nw-sap">{nf.format(d.counts.tcodes)}</b> קודי טרנזקציה.
-          כאן הם מדורגים לפי כמה טבלאות מצביעות על כל אחד. זו מידת תיעוד, לא מידת שימוש בפועל.
+          תיעוד המודול כולל <b className="nw-sap">{nf.format(d.counts.tcodes)}</b> קודי טרנזקציה, מדורגים
+          לפי מספר הטבלאות שמפנות לכל קוד. הדירוג משקף היקף תיעוד בלבד.
         </>
       }
       lead={
         <Link className="nu-link" href="/neo/transactions/" prefetch={false}>
-          המרשם המלא של הטרנזקציות
+          קטלוג הטרנזקציות המלא
           <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
         </Link>
       }
@@ -52,8 +52,8 @@ export function WorkspaceOps({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       <Sub
         id={`${meta.id}-rank`}
         icon={<Terminal size={13} strokeWidth={1.75} />}
-        title="הקודים שהמודול נשען עליהם"
-        note="אורך הפס הוא מספר הטבלאות במילון שמצביעות על הקוד, מול הקוד המצוטט ביותר במודול."
+        title="קודי הטרנזקציה המתועדים ביותר"
+        note="אורך הפס הוא מספר הטבלאות בתיעוד שמפנות לקוד, ביחס לקוד המתועד ביותר במודול."
       >
         <ul className="nw-rank nw-rank--tight">
           {d.tcodes.map((t) => (
@@ -78,17 +78,17 @@ export function WorkspaceOps({ d, meta }: { d: WsData; meta: ChapterMeta }) {
           id={`${meta.id}-dir`}
           icon={<ScrollText size={13} strokeWidth={1.75} />}
           title={dir.title}
-          note={`${nf.format(dir.rows.length)} רשומות מהתכנון של המודול. לכל קוד ההסבר הפונקציונלי, השינוי המבני ב-S/4HANA והיורש ב-Fiori.`}
+          note={`${nf.format(dir.rows.length)} רשומות מתיעוד המודול. לכל קוד: ההסבר הפונקציונלי, השינוי ב-S/4HANA והיישום העוקב ב-Fiori.`}
         >
           <WorkspaceSheet
             sheet={dir}
-            lede="הגיליון מוצג מילה במילה, בסדר שנכתב. עמודה שהמקור השאיר ריקה אינה מודפסת."
+            lede="הגיליון מוצג כלשונו ובסדר המקורי. עמודה ריקה במקור אינה מוצגת."
           />
         </Sub>
       ) : (
         <p className="nw-fine">
-          התכנון של המודול הזה אינו מחזיק מדריך טרנזקציות נפרד. הקודים שלמעלה הם כל מה שהמילון קושר
-          לטבלאות שלו.
+          תיעוד המודול אינו כולל מדריך טרנזקציות נפרד. הקודים שלמעלה הם כל הטרנזקציות שהתיעוד קושר
+          לטבלאות המודול.
         </p>
       )}
     </Chapter>

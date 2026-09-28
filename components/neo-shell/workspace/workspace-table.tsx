@@ -74,12 +74,12 @@ export function WorkspaceTable({
   if (!rows.length) {
     return (
       <div className="nw-empty">
-        <p>אף שורה במילון של המודול אינה עונה על הסינון הנוכחי.</p>
+        <p>לא נמצאו תוצאות התואמות לסינון שנבחר.</p>
         <p className="nw-fine">
-          המילון מחזיק {nf.format(total)} שורות. הסינון מצמצם; הוא אינו מסתיר חוסר בנתונים.
+          התיעוד כולל {nf.format(total)} רשומות. הסינון מצמצם את הרשימה בלבד.
         </p>
         <button type="button" className="nu-btn2" onClick={onClear}>
-          נקה סינון
+          איפוס הסינון
         </button>
       </div>
     );
@@ -89,7 +89,7 @@ export function WorkspaceTable({
     <div className="nw-tblwrap">
       <table className="nw-tbl">
         <caption className="nw-sr">
-          טבלת העבודה של המודול · {nf.format(rows.length)} שורות מתוך {nf.format(total)}
+          טבלת העבודה של המודול · {nf.format(rows.length)} רשומות מתוך {nf.format(total)}
         </caption>
         <thead>
           <tr>
@@ -240,7 +240,7 @@ export function WorkspaceTable({
                             </ul>
                           ) : (
                             <p className="nw-fine">
-                              המילון אינו מסמן שדה מפתח לשורה הזאת. {r.f} שדות מתועדים בסך הכול.
+                              התיעוד אינו מסמן שדה מפתח לרשומה זו. {r.f} שדות מתועדים בסך הכול.
                             </p>
                           )}
                         </section>
@@ -267,14 +267,14 @@ export function WorkspaceTable({
                                     <b className="nw-sap">{rel.table}</b>
                                   )}
                                   <span className="nu-chip is-sap">{rel.card || "ללא ציון"}</span>
-                                  {rel.inside ? null : <span className="nw-out">מחוץ למילון המודול</span>}
+                                  {rel.inside ? null : <span className="nw-out">מחוץ לתיעוד המודול</span>}
                                   <span className="nw-join-d">{rel.desc}</span>
                                   <code className="nw-sap">{rel.join}</code>
                                 </li>
                               ))}
                             </ul>
                           ) : (
-                            <p className="nw-fine">המילון אינו מחזיק קשר ER לשורה הזאת.</p>
+                            <p className="nw-fine">לא קיים קשר ER בתיעוד לרשומה זו.</p>
                           )}
                         </section>
 
@@ -291,7 +291,7 @@ export function WorkspaceTable({
                               ))}
                             </ul>
                           ) : (
-                            <p className="nw-fine">אין רשומת ממשק לשורה הזאת.</p>
+                            <p className="nw-fine">לא קיימת רשומת ממשק לרשומה זו.</p>
                           )}
                           {r.tc.length > 2 ? (
                             <p className="nw-alltc">
@@ -304,11 +304,11 @@ export function WorkspaceTable({
                         </section>
 
                         <section>
-                          <h3>ECC ↔ S/4HANA</h3>
-                          <p className="nw-s4note">{r.s4Note || "המילון אינו מחזיק הערת S/4HANA לשורה הזאת."}</p>
+                          <h3>ECC → S/4HANA</h3>
+                          <p className="nw-s4note">{r.s4Note || "לא קיימת הערת S/4HANA בתיעוד לרשומה זו."}</p>
                           {r.s4Alt ? (
                             <p className="nw-fine">
-                              חלופה כפי שהמילון מנסח אותה: <span className="nw-sap">{r.s4Alt}</span>
+                              חלופה לפי התיעוד: <span className="nw-sap">{r.s4Alt}</span>
                             </p>
                           ) : null}
                           {r.sum ? <p className="nw-fine">SUM · {r.sum}</p> : null}

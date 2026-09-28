@@ -198,7 +198,11 @@ export interface HomeData {
   /** Largest table count over all topics — the density scale reference. */
   maxTopicTables: number;
   flows: FlowChain[];
-  migration: { kept: number; replaced: number; removed: number };
+  /** Counts of the MARKED verdicts only, labelled by lib/s4-class S4_HE:
+   *  1 = מותאם, 2 = הוחלף, 3 = הוסר. The 0 bucket is deliberately absent — it
+   *  mixes "ללא שינוי" with tables whose note states no verdict, and a count
+   *  that cannot tell those apart must not be labelled "kept". */
+  migration: { adapted: number; replaced: number; removed: number };
   migrationRows: MigrationRow[];
   zones: { id: Zone; he: string; n: number }[];
 }
@@ -270,7 +274,7 @@ function moduleOf(m: SAPModuleData, key: ModuleKey, mergedTotal: number): HomeMo
   return {
     key,
     code: key,
-    he: key === "PM" ? "אחזקת מפעל" : "ייצור תהליכי",
+    he: key === "PM" ? "תחזוקת מפעל" : "תעשיות תהליכיות",
     en: key === "PM" ? "Plant Maintenance" : "Production Planning · Process Industries",
     href: key === "PM" ? "/neo/pm/" : "/neo/pp-pi/",
     m: MOD_VAR[key],
@@ -333,7 +337,7 @@ function chainOf(m: SAPModuleData, key: ModuleKey): FlowChain {
   });
   return {
     key,
-    he: key === "PM" ? "אחזקת מפעל" : "ייצור תהליכי",
+    he: key === "PM" ? "תחזוקת מפעל" : "תעשיות תהליכיות",
     m: MOD_VAR[key],
     steps: out,
     direct: out.filter((s) => s.link && !s.link.via).length,
@@ -461,13 +465,16 @@ export function homeData(): HomeData {
     axis("טרנזקציה ממופה", (d) => d.t > 0),
     axis("קשר ER ממודל", (d) => d.r > 0),
     axis("תצוגת CDS", (d) => cdsForTable(d.n).length > 0),
-    axis("אפליקציית Fiori", (d) => rowsOf(d.n).some((o) => !!(o.table.fioriApp || "").trim())),
+    axis("יישום Fiori", (d) => rowsOf(d.n).some((o) => !!(o.table.fioriApp || "").trim())),
   ];
 
+  // The buckets follow s4ByTable above: 1 = changed/מותאם, 2 = replaced/הוחלף,
+  // 3 = removed/הוסר. The previous shape counted s===1 as "replaced" and
+  // s===2 as "removed" — one class off the source's own vocabulary.
   const migration = {
-    kept: dots.filter((d) => d.s === 0).length,
-    replaced: dots.filter((d) => d.s === 1).length,
-    removed: dots.filter((d) => d.s === 2).length,
+    adapted: dots.filter((d) => d.s === 1).length,
+    replaced: dots.filter((d) => d.s === 2).length,
+    removed: dots.filter((d) => d.s === 3).length,
   };
 
   const migrationRows: MigrationRow[] = dots

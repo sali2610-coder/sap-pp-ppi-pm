@@ -120,7 +120,7 @@ export const DOMAINS: Domain[] = [
     tables: ["QMEL", "QMFE", "QMUR", "QMMA"],
     tcodes: ["IW21", "IW22", "IW23", "IW24", "IW28", "IW29"],
     bapis: ["BAPI_ALM_NOTIF_CREATE", "BAPI_ALM_NOTIF_DATA_ADD"],
-    learning: ["סוגי הודעה: M1 תקלה, M2 בקשה, M3 פעילות", "QMEL כותרת, QMFE פריטים, QMUR סיבות, QMMA פעולות", "קודי קטלוג (Catalog Profile) מאפשרים ניתוח Pareto של תקלות", "IW28/IW29 = רשימות עבודה להמונים"],
+    learning: ["סוגי הודעה (בתקן SAP): M1 בקשה, M2 תקלה, M3 פעילות", "QMEL כותרת, QMFE פריטים, QMUR סיבות, QMMA פעולות", "קודי קטלוג (Catalog Profile) מאפשרים ניתוח Pareto של תקלות", "IW28/IW29 = רשימות עבודה להמונים"],
     trouble: [{ issue: "קוד פגם לא זמין", fix: "בדוק Catalog Profile בסוג הודעה/סוג ציוד" }, { issue: "הודעה לא נסגרת", fix: "סגור פקודה מקושרת ופריטים פתוחים" }],
   },
   {

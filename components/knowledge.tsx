@@ -21,7 +21,11 @@ export function CenterHeader({ eyebrow, title, sub, accent }: { eyebrow: string;
     <header className="relative mb-5 scroll-mt-24 overflow-hidden rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-2)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-surface/60 sm:mb-7 sm:p-7" dir="rtl">
       <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: accent }} />
       <span className="pointer-events-none absolute -left-10 -top-10 size-40 rounded-full opacity-[0.06] blur-2xl" style={{ background: accent }} aria-hidden />
-      <span className="eyebrow mb-2 inline-flex items-center rounded-full px-2.5 py-1" style={{ color: accent, background: accent + "12" }}>{eyebrow}</span>
+      {/* The eyebrow keeps the family hue as its tint and the bar beside it, but
+          takes its text colour from the ink scale: no single opaque accent clears
+          4.5:1 on both the light and the dark surface (accessibility review,
+          2026-09-22). */}
+      <span className="eyebrow mb-2 inline-flex items-center rounded-full px-2.5 py-1 text-ink-2" style={{ background: accent + "12" }}>{eyebrow}</span>
       <h1 className="text-balance text-[26px] font-extrabold leading-[1.12] tracking-tight text-ink-1 sm:text-3xl">{title}</h1>
       <p className="mt-2 max-w-3xl text-[13.5px] leading-relaxed text-ink-3 sm:text-sm">{sub}</p>
     </header>

@@ -47,6 +47,8 @@ import { txLeadingInto, txPopularity, txRecommend } from "@/lib/tx-intel";
 import { facetsOf } from "@/lib/tx-facets";
 import { tcodeIntel } from "@/lib/object-intel";
 import { s4For } from "@/lib/s4";
+import { evidenceBlock, fromTxDisposition } from "@/lib/evidence";
+import type { CanonicalId, EvidenceBlockData, S4Status } from "@/lib/evidence/types";
 import { tableNames } from "@/components/neo-shell/object/object-data";
 
 /** The exact set app/neo/object/[name] generates. Built once per module load. */
@@ -146,6 +148,8 @@ export interface TxDetail {
   cds: string[];
 
   s4: TxS4;
+  /** The unified evidence block: status, verification tier, sources, depth. */
+  evidence: EvidenceBlockData;
   neighbours: TxRef[];
   issues: TxIssue[];
   /** How many of the 14 named facts the dataset actually answers. Honest
@@ -157,9 +161,9 @@ export interface TxDetail {
 /* ------------------------------------------------------------- small maps */
 
 const MODULE_HE: Record<string, string> = {
-  PM: "אחזקה",
-  PP: "ייצור",
-  "PP-PI": "ייצור תהליכי",
+  PM: "תחזוקת מפעל",
+  PP: "תכנון ייצור",
+  "PP-PI": "תעשיות תהליכיות",
   QM: "איכות",
   MM: "חומרים",
   SD: "מכירות",
@@ -219,6 +223,16 @@ function supersededIndex(): Map<string, string[]> {
 // ("verified") or from reading a note ("partial").
 const OBSOLETE_RE = /\bobsolete\b|deprecat|לא זמינה|אינה זמינה|אינה קיימת|הוסרה|בוטלה|removed|no longer/i;
 const CHANGED_RE = /שונת|שינוי|שינויים|החליפ|הוחלפ|מוחלפת|replaced|changed|העדף|ממליצה|מומלצת/i;
+// Data-model deltas quote the Simplification List ("not anymore in MKPF and
+// MSEG", VBUK/VBUP "בוטלו … עברו ל-VBAK/VBAP"): change words for a delta only.
+const DELTA_CHANGED_RE = new RegExp(`${CHANGED_RE.source}|בוטלו|עברו ל|not anymore`, "i");
+// A delta that opens by saying the code is kept ("נשמרת ב-S/4HANA …") and names
+// no change is not a change signal: 110 tx-intel deltas read that way, and the
+// page showed "משתנה ב-S/4HANA" above a delta saying the code is kept.
+const KEPT_RE = /^(נשמרת|נשמר|זמינה|קיימת)(?=[\s;,.(])/;
+// "ללא שינוי" / "אין שינוי" say the opposite of a change: drop them before
+// looking for change words (IB01's delta reads "EQST/STKO/STPO ללא שינוי").
+const unNegated = (t: string) => t.replace(/(ללא|אין|בלי)\s+שינוי(ים)?/g, "");
 
 function buildS4(code: string, intel: (typeof TX_INTEL)[string] | undefined, authored: (typeof TRANSACTIONS)[number] | undefined): TxS4 {
   const note = clean(intel?.s4) || clean(authored?.eccS4?.changed);
@@ -238,7 +252,7 @@ function buildS4(code: string, intel: (typeof TX_INTEL)[string] | undefined, aut
     disposition = "superseded"; risk = "high"; trust = "verified";
   } else if (note && OBSOLETE_RE.test(note)) {
     disposition = "superseded"; risk = "high"; trust = "partial";
-  } else if (delta || (note && CHANGED_RE.test(note))) {
+  } else if ((delta && !(KEPT_RE.test(delta) && !DELTA_CHANGED_RE.test(unNegated(delta)))) || (note && CHANGED_RE.test(unNegated(note)))) {
     disposition = "changed"; risk = "medium"; trust = intel?.verified === "verified" ? "verified" : "partial";
   } else if (note || unchanged) {
     disposition = "available"; risk = "low"; trust = intel?.verified === "verified" ? "verified" : "partial";
@@ -247,10 +261,10 @@ function buildS4(code: string, intel: (typeof TX_INTEL)[string] | undefined, aut
   }
 
   const HE: Record<S4Disposition, string> = {
-    superseded: "יש יורש ב-S/4HANA",
+    superseded: "קיימת טרנזקציה עוקבת ב-S/4HANA",
     changed: "משתנה ב-S/4HANA",
     available: "זמינה ב-S/4HANA",
-    unknown: "לא קיים מידע מאומת",
+    unknown: "לא קיים תיעוד מאומת במאגר",
   };
 
   return { disposition, he: HE[disposition], note, delta, replaces, supersededBy, fiori, unchanged, migration: clean(authored?.eccS4?.migration), cds, risk, trust };
@@ -320,7 +334,7 @@ function neighboursFor(code: string, reg: RegistryTx): TxRef[] {
   // 1. the authored relationship graph, in the order the engine ranks it
   for (const r of txRecommend(code, 8)) push(r.code, r.reason);
   // 2. what the graph says leads INTO this code
-  for (const c of txLeadingInto(code).slice(0, 4)) push(c, "מוביל לכאן");
+  for (const c of txLeadingInto(code).slice(0, 4)) push(c, "מובילה לכאן");
   // 3. only if the graph is silent: the registry's own grouping. Labelled as
   //    grouping, not as a process relation, because that is all it is.
   if (out.length < 4) {
@@ -349,6 +363,35 @@ function issuesFor(code: string, intel: (typeof TX_INTEL)[string] | undefined, a
  *  NEO surface is allowed to link at. */
 export const txDetailCodes = (): string[] => registryCodes();
 
+/** The canonical S/4HANA status of EVERY registry code, keyed by code, from
+ *  the same derived claim the detail page's evidence block resolves (an
+ *  authored overlay record wins where one exists). Built once per process;
+ *  read by the transactions list and by the shell's search index, so a row or
+ *  a result never says what the page does not (design audit S5-2 / ACC-3).
+ *  Facts feed only the depth score, not the status, so none are passed. */
+let txStatusCache: Record<string, S4Status> | null = null;
+export function txStatusMap(): Record<string, S4Status> {
+  if (txStatusCache) return txStatusCache;
+  const out: Record<string, S4Status> = {};
+  for (const code of registryCodes()) {
+    const intel = TX_INTEL[code];
+    const authored = TRANSACTIONS.find((t) => t.code.toUpperCase() === code);
+    const s4 = buildS4(code, intel, authored);
+    out[code] = evidenceBlock(
+      `tx:${code}`,
+      fromTxDisposition(
+        s4.disposition,
+        s4.trust,
+        s4.supersededBy[0] ? (`tx:${s4.supersededBy[0]}` as CanonicalId) : undefined,
+      ),
+      {},
+      "transactions",
+    ).status.key;
+  }
+  txStatusCache = out;
+  return out;
+}
+
 export function txDetail(rawCode: string): TxDetail | null {
   const code = clean(rawCode).toUpperCase();
   const reg = registryTx(code);
@@ -361,6 +404,7 @@ export function txDetail(rawCode: string): TxDetail | null {
   const authoredTables = uniq([...list(intel?.tables), ...list(authored?.tables)]);
   const tables = tablesFor(code, authoredTables);
   const s4 = buildS4(code, intel, authored);
+  const bapis = uniq([...list(intel?.bapis), ...list(authored?.funcs)]);
 
   // Exits: the transaction's own list, plus the enhancement catalog's reverse
   // claim (an Exit record that names this T-Code). Both are dataset facts.
@@ -400,7 +444,7 @@ export function txDetail(rawCode: string): TxDetail | null {
     topics: facets.topics,
     objects: uniq([...facets.objects, ...list(authored?.objects)]),
     tables,
-    bapis: uniq([...list(intel?.bapis), ...list(authored?.funcs)]),
+    bapis,
     exits,
     badis: list(intel?.badis),
     enhancements: list(intel?.enhancements),
@@ -408,11 +452,43 @@ export function txDetail(rawCode: string): TxDetail | null {
     cds: uniq([...list(intel?.cds), ...(s4.cds ? [s4.cds] : [])]),
 
     s4,
+    // The unified evidence block. The derived claim is the same disposition the
+    // S/4 plate shows; the successor is the declared supersededBy relation,
+    // already the code of a generated transaction page. Structural depth counts
+    // the authored facts: purpose, process, tables, BAPIs.
+    evidence: evidenceBlock(
+      `tx:${code}`,
+      fromTxDisposition(
+        s4.disposition,
+        s4.trust,
+        s4.supersededBy[0] ? (`tx:${s4.supersededBy[0]}` as CanonicalId) : undefined,
+      ),
+      {
+        hasHe: !!clean(reg.he),
+        structural: [purpose, process, tables.length > 0, bapis.length > 0].filter(Boolean).length,
+      },
+      "transactions",
+    ),
     neighbours: neighboursFor(code, reg),
     issues: issuesFor(code, intel, authored),
     known: 0,
     total: 0,
   };
+
+  // One S/4 vocabulary per page (design audit round 2): when an authored overlay
+  // record exists, the plate headline is the canonical label the evidence block
+  // shows, and the disposition follows it so colour and headline agree. A
+  // verification_required claim keeps the derived disposition (the dataset's
+  // own words still stand) and only relabels the headline.
+  const canon = detail.evidence.status;
+  if (!canon.derived) {
+    const disp: S4Disposition | undefined =
+      canon.key === "unchanged" || canon.key === "s4_native" || canon.key === "not_applicable" ? "available"
+      : canon.key === "replaced" || canon.key === "not_available" || canon.key === "legacy_ecc_only" ? "superseded"
+      : canon.key === "verification_required" ? undefined
+      : "changed";
+    detail.s4 = { ...detail.s4, he: canon.label, disposition: disp ?? detail.s4.disposition };
+  }
 
   // The 14 facts the brief names, counted honestly: a fact is "known" only when
   // the dataset actually answers it. The screen prints both numbers, so a thin

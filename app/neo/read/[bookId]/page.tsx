@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ bookId: s
   return {
     title: title ? `${title} · קריאה · Project NEO` : "קריאה · Project NEO",
     description: d
-      ? `${d.chapters.length} פרקים ו-${d.totalSections} תת-פרקים, נקראים ממאגר הספרים של הפרויקט.`
+      ? `${d.chapters.length} פרקים ו-${d.totalSections} תת-פרקים בקורא של Project NEO.`
       : undefined,
     robots: { index: false, follow: false },
   };

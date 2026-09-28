@@ -101,7 +101,7 @@ export interface DomainCard {
 
 /* ---------------------------------------------------------------- helpers */
 
-const MOD_HE: Record<string, string> = { PM: "אחזקת מפעל · PM", "PP-PI": "ייצור תהליכי · PP-PI" };
+const MOD_HE: Record<string, string> = { PM: "תחזוקת מפעל · PM", "PP-PI": "תעשיות תהליכיות · PP-PI" };
 
 const clean = (s?: string) => (s || "").trim();
 
@@ -110,14 +110,14 @@ const clean = (s?: string) => (s || "").trim();
  *  and the plan. The labels are the ones components/ecc-s4-block already uses,
  *  so the two renderings of the same dataset say the same words. */
 const S4_ROWS: { key: keyof EccS4; he: string; tone: DomS4Row["tone"] }[] = [
-  { key: "unchanged", he: "ללא שינוי — נשאר זהה", tone: "stays" },
+  { key: "unchanged", he: "ללא שינוי", tone: "stays" },
   { key: "changed", he: "משתנה ב-S/4HANA", tone: "changes" },
   { key: "replaced", he: "מוחלף", tone: "replaced" },
   { key: "deprecated", he: "הוסר או אינו אסטרטגי", tone: "gone" },
-  { key: "fiori", he: "אפליקציית Fiori", tone: "new" },
+  { key: "fiori", he: "יישום Fiori", tone: "new" },
   { key: "cds", he: "תצוגת CDS", tone: "new" },
   { key: "simplification", he: "פריט Simplification", tone: "plan" },
-  { key: "migration", he: "השפעת מיגרציה ובדיקות", tone: "plan" },
+  { key: "migration", he: "השפעת המעבר ובדיקות", tone: "plan" },
 ];
 
 const s4Rows = (e?: EccS4): DomS4Row[] =>

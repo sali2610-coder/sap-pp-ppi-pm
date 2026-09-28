@@ -35,6 +35,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { flushSync } from "react-dom";
 import {
   useCallback, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState,
+  useSyncExternalStore,
 } from "react";
 import { mark } from "@/components/defer-mount";
 import { consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
@@ -45,6 +46,7 @@ import {
 import { modVar, secVar } from "../mod-var";
 import { PreviewPanel } from "../preview";
 import { ContextPane, PinnedPane, RecentPane, ShelfTabs } from "../shelf";
+import { useFavorites } from "@/lib/prefs";
 import { MobileSheet, MobileTabs } from "../mobile-nav";
 import { pushRecentObject, relTime, setLayout, useLayout, useRecent } from "../store";
 import type { ModuleKey, NavItem, RailMode, ShelfTab, ShellData } from "../types";
@@ -54,6 +56,22 @@ import type { CmdKind, CmdRecord, CommandExtra } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
 const PREVIEW_DELAY = 260;
+
+/* A desktop window narrower than 40rem (a phone-width window, or a desktop
+   browser at 400% zoom, which is the WCAG reflow case) defaults to the peek
+   rail: the expanded rail left the content 110px at 390px and 40px at 320px,
+   and even the compact one left 252px at 320px, narrower than any phone
+   layout. Peek gives the canvas the full width and slides the rail in on
+   hover of its edge strip or when focus enters it. Only the default changes;
+   a mode the user chose is kept, and the device still decides the shell
+   (lib/device.ts). */
+const NARROW_Q = "(max-width: 40rem)";
+const subscribeNarrow = (cb: () => void) => {
+  const m = window.matchMedia(NARROW_Q);
+  m.addEventListener("change", cb);
+  return () => m.removeEventListener("change", cb);
+};
+const isNarrow = () => window.matchMedia(NARROW_Q).matches;
 
 /* --------------------------------------------------------------- returning
 
@@ -101,7 +119,8 @@ export function NeoShellClient({
      setState inside an effect. A group with no entry is open — that is the
      default, and it is the server snapshot too. */
   const layout = useLayout();
-  const mode: RailMode = layout.mode ?? "expanded";
+  const narrow = useSyncExternalStore(subscribeNarrow, isNarrow, () => false);
+  const mode: RailMode = layout.mode ?? (narrow ? "peek" : "expanded");
   const open = layout.open;
   const setMode = useCallback((m: RailMode) => setLayout({ mode: m }), []);
 
@@ -119,6 +138,11 @@ export function NeoShellClient({
   const [sheet, setSheet] = useState(false);
 
   const { names: recent, seen } = useRecent();
+  // The shelf collapses to one line while nothing has been opened or pinned
+  // (design audit §3: an empty shelf took a large slice of the rail).
+  const favs = useFavorites();
+  const [shelfOpen, setShelfOpen] = useState(false);
+  const shelfEmpty = !shelfOpen && recent.length === 0 && favs.length === 0;
 
   /* -------------------------------------------------------------- refs */
   const appRef = useRef<HTMLDivElement>(null);
@@ -239,7 +263,12 @@ export function NeoShellClient({
       return;
     }
     ind.dataset.off = "0";
-    const y = el.offsetTop;
+    // Summed up to the pill's own offsetParent: in the compact rail the item's
+    // offsetParent is its .nx-group, so a bare offsetTop was group-relative and
+    // parked the pill beside the first group. Offsets, not rects, so a FLIP
+    // transform in flight cannot skew it.
+    let y = 0;
+    for (let n: HTMLElement | null = el; n && n !== ind.offsetParent; n = n.offsetParent as HTMLElement | null) y += n.offsetTop;
     ind.style.setProperty("--y", `${y}px`);
     ind.style.setProperty("--h", `${el.offsetHeight}px`);
     ind.style.setProperty("--m", el.dataset.mod ? modVar(el.dataset.mod) : "var(--brand)");
@@ -267,7 +296,13 @@ export function NeoShellClient({
   useEffect(() => {
     const on = () => raf(syncInd);
     window.addEventListener("resize", on);
-    return () => window.removeEventListener("resize", on);
+    // The groups settle after the first layout pass (a compact rail is restored
+    // after hydration: their padding and hairline arrive ~40ms later) and no
+    // window resize fires for that; measured, the pill was left 24px above the
+    // current item. Border-box, because only padding and border change.
+    const ro = new ResizeObserver(on);
+    scrollRef.current?.querySelectorAll(".nx-group").forEach((g) => ro.observe(g, { box: "border-box" }));
+    return () => { window.removeEventListener("resize", on); ro.disconnect(); };
   }, [syncInd]);
 
   /* -------------------------------------------------------- rail tint
@@ -641,7 +676,7 @@ export function NeoShellClient({
       data-live={searching && live ? "1" : "0"}
       style={searching && searchMod ? ({ "--sm": modVar(searchMod) } as React.CSSProperties) : undefined}
     >
-      <a href="#main" className="nx-skip">דלג לתוכן</a>
+      <a href="#main" className="nx-skip">מעבר לתוכן הראשי</a>
 
       {/* ------------------------------------------------------- the rail */}
       <aside
@@ -655,7 +690,7 @@ export function NeoShellClient({
         <span className="nx-rail-edge" ref={edgeRef} aria-hidden="true" />
 
         <div className="nx-rail-head" ref={headRef}>
-          <Link prefetch={false} href="/neo/" className="nx-glyph" aria-label="SAP by Sali · Project NEO">
+          <Link prefetch={false} href="/neo/" className="nx-glyph" aria-label="Project NEO: מעבר למסך הבית">
             <i /><i /><i />
           </Link>
           <span className="nx-lock">
@@ -665,7 +700,7 @@ export function NeoShellClient({
           <button
             type="button"
             className="nx-iconbtn nx-collapse"
-            aria-label={mode === "compact" ? "הרחב ניווט" : "כווץ ניווט"}
+            aria-label={mode === "compact" ? "הרחבת הניווט" : "כיווץ הניווט"}
             aria-pressed={mode === "compact"}
             onClick={() => changeMode(mode === "compact" ? "expanded" : "compact")}
           >
@@ -676,9 +711,9 @@ export function NeoShellClient({
         {/* Search grows out of the same slot the quick action lives in, and it
             filters the very list underneath it before it ever escalates. */}
         <div className="nx-rail-cmd" ref={cmdRef}>
-          <button type="button" className="nx-railq" onClick={() => changeMode("search")}>
+          <button type="button" className="nx-railq" aria-label="חיפוש בניווט ובתיעוד" onClick={() => changeMode("search")}>
             <span className="nx-railq-i"><Ico name="Search" size={15} /></span>
-            <span className="nx-railq-l">חפש בניווט ובתיעוד</span>
+            <span className="nx-railq-l">חיפוש בניווט ובתיעוד</span>
             <kbd>⌘K</kbd>
           </button>
           <div className="nx-railsrch" aria-hidden={!searching}>
@@ -691,8 +726,8 @@ export function NeoShellClient({
                 value={query}
                 onChange={(e) => applyQuery(e.target.value)}
                 onKeyDown={onFieldKey}
-                placeholder="טבלה · טרנזקציה · BAPI · ספר"
-                aria-label="חיפוש בניווט ובמילון"
+                placeholder="טבלה, שדה, טרנזקציה, BAPI או ספר"
+                aria-label="חיפוש בניווט ובתיעוד הטכני"
                 role="combobox"
                 aria-expanded={searching}
                 aria-controls="nxc-list"
@@ -703,7 +738,7 @@ export function NeoShellClient({
               <button
                 type="button"
                 className="nx-iconbtn nx-iconbtn--xs"
-                aria-label="סגור חיפוש"
+                aria-label="סגירת החיפוש"
                 tabIndex={searching ? 0 : -1}
                 onClick={closeSearch}
               >
@@ -717,7 +752,7 @@ export function NeoShellClient({
             <p className="nx-srch-meta nx-sr" aria-live="polite">
               {q
                 ? `${nf.format(result.total)} רשומות · ${hits} מתוך ${data.navItemCount} יעדי ניווט`
-                : `${data.navItemCount} יעדי ניווט · האינדקס המלא בלוח הפקודות`}
+                : `${data.navItemCount} יעדי ניווט · האינדקס המלא זמין בחלון החיפוש`}
             </p>
           </div>
         </div>
@@ -767,7 +802,7 @@ export function NeoShellClient({
                     data-group={g.id}
                     aria-expanded={isOpen}
                     aria-controls={`nx-grp-${g.id}`}
-                    aria-label={`${isOpen ? "כווץ" : "הרחב"} ${g.label}`}
+                    aria-label={`${isOpen ? "כיווץ" : "הרחבת"} הקבוצה ${g.label}`}
                     onClick={() => toggleGroup(g.id)}
                   >
                     <span className="nx-chev"><Ico name="ChevronDown" size={12} /></span>
@@ -815,7 +850,13 @@ export function NeoShellClient({
           })}
         </div>
 
-        <div className="nx-shelf" ref={shelfRef} data-shelf={shelf}>
+        <div className="nx-shelf" ref={shelfRef} data-shelf={shelf} data-empty={shelfEmpty ? "1" : undefined}>
+          {shelfEmpty ? (
+            <button type="button" className="nx-shelf-empty" onClick={() => setShelfOpen(true)}>
+              עדיין לא נפתח אובייקט
+              <span className="nx-shelf-empty-a">הצגת המדף</span>
+            </button>
+          ) : null}
           <ShelfTabs tab={shelf} onTab={setShelf} tabsRef={shelfTabsRef} indRef={shelfIndRef} />
           {/* All three panes stay mounted and are toggled with `hidden`, exactly
               as the prototype did: going from display:none back to displayed is
@@ -845,7 +886,7 @@ export function NeoShellClient({
           <button
             type="button"
             className="nx-iconbtn"
-            aria-label={mode === "context" ? "חזור לעץ הניווט" : "עבור למצב הקשר"}
+            aria-label={mode === "context" ? "חזרה לעץ הניווט" : "מעבר למצב הקשר"}
             aria-pressed={mode === "context"}
             onClick={() => changeMode(mode === "context" ? "expanded" : "context")}
           >
@@ -859,7 +900,7 @@ export function NeoShellClient({
       <button
         type="button"
         className="nx-railedge"
-        aria-label="הצג ניווט"
+        aria-label="הצגת הניווט"
         tabIndex={mode === "peek" ? 0 : -1}
         onClick={() => changeMode("expanded")}
       >
@@ -872,7 +913,7 @@ export function NeoShellClient({
           <button
             type="button"
             className="nx-iconbtn"
-            aria-label="הצג או הסתר ניווט"
+            aria-label="הצגה או הסתרה של הניווט"
             onClick={() => changeMode(mode === "hidden" || mode === "peek" ? "expanded" : "hidden")}
           >
             <Ico name="PanelLeft" size={16} />
@@ -894,14 +935,14 @@ export function NeoShellClient({
           </nav>
           <button type="button" className="nx-cmdbar" onClick={() => changeMode("search")}>
             <Ico name="Search" size={15} />
-            <span className="nx-ph">חפש טבלה, טרנזקציה, BAPI, ספר…</span>
+            <span className="nx-ph">חיפוש: טבלה, שדה, טרנזקציה, BAPI או ספר</span>
             <kbd>⌘K</kbd>
           </button>
           <div className="nx-topbar-tools">
             <button
               type="button"
               className="nx-iconbtn"
-              aria-label="מצב הצצה לניווט"
+              aria-label="מעבר למצב הצצה: הניווט נפתח בריחוף בלבד"
               aria-pressed={mode === "peek"}
               onClick={() => changeMode(mode === "peek" ? "expanded" : "peek")}
             >
@@ -918,6 +959,15 @@ export function NeoShellClient({
         </header>
 
         <main id="main" className="nx-canvas">{children}</main>
+
+        {/* The mandatory footer credit, on the MOBILE shell. On desktop it
+            lives in the rail foot; on a phone the rail never renders, and 12
+            of 21 surfaces had no visible credit at all (the deferred open item
+            from the release record). Surfaces that already end with their own
+            credit line suppress this one via :has() in rail.css. */}
+        <p className="nx-mcredit" data-shell="mobile-only">
+          Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding
+        </p>
 
         <MobileTabs
           navOpen={sheet}

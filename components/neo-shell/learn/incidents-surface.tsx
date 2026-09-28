@@ -49,7 +49,7 @@ type View = "all" | "s4" | "prevent";
 
 const VIEWS: { v: View; he: string }[] = [
   { v: "all", he: "כל הקטלוג" },
-  { v: "s4", he: "מפרידות ECC ↔ S/4HANA" },
+  { v: "s4", he: "עם הבחנה בין ECC ל-S/4HANA" },
   { v: "prevent", he: "עם צעדי מניעה" },
 ];
 
@@ -76,7 +76,7 @@ function Row({ r, impactHe, onOpen }: { r: IncidentRow; impactHe: string; onOpen
           <span className="nxl-t1">
             <b>{r.he}</b>
           </span>
-          <span className="nxl-desc">{r.symptom || "לא קיים מידע מאומת במאגר"}</span>
+          <span className="nxl-desc">{r.symptom || "לא קיים תיעוד מאומת במאגר"}</span>
           <span className="nxl-meta">
             <span className="nu-chip nxl-mod">
               <i aria-hidden="true" />
@@ -138,7 +138,7 @@ function Row({ r, impactHe, onOpen }: { r: IncidentRow; impactHe: string; onOpen
           ) : (
             <>
               <span className="nxl-side-l">הודעת השגיאה</span>
-              <span className="nxl-side-v">לא קיים מידע מאומת במאגר</span>
+              <span className="nxl-side-v">לא קיים תיעוד מאומת במאגר</span>
             </>
           )}
         </span>
@@ -195,7 +195,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
     rememberOrigin({
       to: `/neo/incidents/${slug}/`,
       href: "/neo/incidents/",
-      label: "קטלוג התקלות",
+      label: "תקלות ופתרון בעיות",
       detail: parts.join(" · "),
       surface: SURFACE,
       state,
@@ -242,21 +242,21 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
       <header className="nxl-head">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
         <span className="nx-eyebrow">ידע ולמידה</span>
-        <h1 className="nx-h1">קטלוג התקלות</h1>
+        <h1 className="nx-h1">תקלות ופתרון בעיות</h1>
         <p className="nx-lede">
-          {nf.format(totals.incidents)} תקלות מתועדות ב-{nf.format(totals.modules)} מודולים: סימפטום,
-          {" "}סיבות שורש, טרנזקציות לאבחון, טבלאות לבדיקה וצעדי תיקון. כל שורה נפתחת לרשומה המלאה שלה.
+          קטלוג של {nf.format(totals.incidents)} תקלות מתועדות ב-{nf.format(totals.modules)} מודולים: סימפטום,
+          {" "}סיבות שורש, טרנזקציות לאבחון, טבלאות לבדיקה וצעדי תיקון. כל תקלה נפתחת לרשומה המלאה.
         </p>
       </header>
 
-      <section className="nx-card nxl-stats" aria-label="מספרי הקטלוג">
+      <section className="nx-card nxl-stats" aria-label="סיכום הקטלוג">
         {[
           { v: totals.incidents, l: "תקלות בקטלוג", i: <Bug size={14} strokeWidth={1.75} /> },
           { v: totals.tcodes, l: "טרנזקציות אבחון", i: <Terminal size={14} strokeWidth={1.75} /> },
           { v: totals.tables, l: "טבלאות לבדיקה", i: <TableIcon size={14} strokeWidth={1.75} /> },
           { v: totals.withFix, l: "עם צעדי תיקון", i: <ListChecks size={14} strokeWidth={1.75} /> },
           { v: totals.withPrevention, l: "עם צעדי מניעה", i: <ShieldCheck size={14} strokeWidth={1.75} /> },
-          { v: totals.withS4, l: "מפרידות ECC ↔ S/4", i: <Sparkles size={14} strokeWidth={1.75} /> },
+          { v: totals.withS4, l: "עם הבחנה בין ECC ל-S/4HANA", i: <Sparkles size={14} strokeWidth={1.75} /> },
         ].map((s) => (
           <div key={s.l} className="nxl-stat">
             <span className="nxl-stat-i" aria-hidden="true">{s.i}</span>
@@ -277,7 +277,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
             aria-label="חיפוש תקלות"
           />
           {q ? (
-            <button type="button" className="nu-ghost nxl-clear" onClick={() => setQ("")} aria-label="נקה חיפוש">
+            <button type="button" className="nu-ghost nxl-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
               <X size={13} strokeWidth={2} />
             </button>
           ) : null}
@@ -339,19 +339,19 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
       <p className="nxl-count" aria-live="polite">
         <b>{nf.format(list.length)}</b> תקלות
         {view === "all" && !dirty ? <> מתוך {nf.format(totals.incidents)}</> : null}
-        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>נקה סינון</button></> : null}
+        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 
       {list.length === 0 ? (
         <div className="nx-card nxl-none">
-          <p><b>אין תקלה בקטלוג שעונה על הסינון</b></p>
+          <p><b>לא נמצאו תוצאות התואמות לסינון שנבחר</b></p>
           <p className="nx-muted">
-            החיפוש עובר על הכותרת, הסימפטום, הודעת השגיאה, סיבות השורש, צעדי התיקון והמניעה, ועל קודי
-            {" "}הטרנזקציות והטבלאות שהרשומה מונה: ולא על טקסט חופשי.
+            החיפוש מכסה את הכותרת, הסימפטום, הודעת השגיאה, סיבות השורש, צעדי התיקון והמניעה, וקודי
+            {" "}הטרנזקציות והטבלאות שברשומה.
           </p>
           <div className="nxl-none-a">
-            {dirty ? <button type="button" className="nu-btn" onClick={reset}>נקה את הסינון</button> : null}
-            {view !== "all" ? <button type="button" className="nu-btn2" onClick={() => onView("all")}>הצג את כל הקטלוג</button> : null}
+            {dirty ? <button type="button" className="nu-btn" onClick={reset}>ניקוי הסינון</button> : null}
+            {view !== "all" ? <button type="button" className="nu-btn2" onClick={() => onView("all")}>הצגת כל הקטלוג</button> : null}
           </div>
         </div>
       ) : (
@@ -364,7 +364,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
           {list.length > shown.length ? (
             <div className="nxl-page">
               <button type="button" className="nu-btn2" onClick={() => setLimit((n) => n + PAGE)}>
-                הצג עוד {nf.format(Math.min(PAGE, list.length - shown.length))}
+                הצגת עוד {nf.format(Math.min(PAGE, list.length - shown.length))}
                 <span className="nxl-page-n">· נותרו {nf.format(list.length - shown.length)}</span>
               </button>
             </div>
@@ -374,12 +374,12 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
 
       <div className="nxl-foot">
         <p>
-          תווית ההשפעה היא התג שהרשומה עצמה נושאת: היא לא חושבה כאן ולא דורגה מחדש.
-          {" "}{nf.format(totals.incidents - rows.filter((r) => r.impactKind).length)} רשומות אינן נושאות תג, והן מסומנות «לא תויג במקור».
+          תווית ההשפעה נלקחת מהרשומה כפי שתועדה.
+          {" "}{nf.format(totals.incidents - rows.filter((r) => r.impactKind).length)} רשומות ללא תג מסומנות «ללא תג השפעה».
         </p>
         <p>
-          מקור: <span className="nx-sap">data/troubleshooting.ts</span>: ידע תמיכה כתוב. אינו תור תמיכה חי,
-          {" "}אינו מחובר למערכת SAP, ואינו כולל מספרי SAP Note: רק מילות חיפוש לאיתורם.
+          מקור: <span className="nx-sap">data/troubleshooting.ts</span>: תיעוד פתרון בעיות מאומת, שאינו מחובר
+          {" "}למערכת SAP. הרשומות כוללות מילות חיפוש ל-SAP Notes, ללא מספרי Note.
         </p>
       </div>
     </div>

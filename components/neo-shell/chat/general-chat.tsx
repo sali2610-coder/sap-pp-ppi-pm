@@ -56,7 +56,7 @@ const DOES: string[] = M.capabilities;
  */
 const DOES_NOT = [
   "אין גישה חיה ל-SAP Help, ל-SAP Notes או ל-SAP Community",
-  "אין חיבור למערכת SAP שלך ואין הרצה של דבר בתוכה",
+  "אין חיבור למערכת SAP של הארגון ואין הרצת פעולות בה",
   "נשלחת השאלה בלבד. נתוני הפרויקט אינם מצורפים לשיחה",
   "אין ניווט באתר ואין פתיחת מסכים מתוך השיחה",
 ];
@@ -74,6 +74,20 @@ export function GeneralChat() {
 
   const idle = !turns.length && !pending;
   const markState = pending ? (live?.preview ? "writing" : "thinking") : "idle";
+
+  const composer = (
+    <Composer
+      value={draft}
+      onChange={setDraft}
+      onSend={() => send(draft)}
+      onStop={stop}
+      busy={busy}
+      scope={scope}
+      placeholder="שאלה על טבלה, טרנזקציה או תהליך ב-SAP"
+      hint={HINT}
+      autoFocusKey={focusKey}
+    />
+  );
 
   /* NEO'S OWN GROUND. See the note in library-chat: the two assistants used to
      share one canvas and were distinguishable only by their h1.
@@ -95,9 +109,13 @@ export function GeneralChat() {
         <div className="nxg-head-text nm-rise nm-once">
           <span className="nxq-eyebrow">
             <Terminal size={13} strokeWidth={2} aria-hidden="true" />
-            עוזר כללי · אינו משטח הספרייה
+            NEO AI · לא מוגבל לספרייה · רמת ביסוס בכל תשובה
           </span>
-          <h1 className="nxq-h1">צ׳אט NEO</h1>
+          {/* The name says what it is (design audit S7-AI-4): a general
+              conversation, distinct from the library help and from the
+              page-help panel. NEO AI stays the assistant's name, on the
+              eyebrow. */}
+          <h1 className="nxq-h1">שיחה כללית על SAP</h1>
           <p className="nxq-lede">{M.tagline}</p>
         </div>
         {turns.length ? (
@@ -119,6 +137,10 @@ export function GeneralChat() {
         <ShieldAlert size={14} strokeWidth={2} aria-hidden="true" />
         <span>{CONSULT_DISCLAIMER}</span>
       </div>
+
+      {/* THE QUESTION FIELD FIRST while the conversation is empty (design
+          audit S7-AI-1); under the turns once there are any. */}
+      {idle ? composer : null}
 
       <div className="nxq-thread">
         {idle ? (
@@ -158,17 +180,7 @@ export function GeneralChat() {
         <div ref={endRef} className="nxq-end" aria-hidden="true" />
       </div>
 
-      <Composer
-        value={draft}
-        onChange={setDraft}
-        onSend={() => send(draft)}
-        onStop={stop}
-        busy={busy}
-        scope={scope}
-        placeholder="שאל את עוזר NEO על SAP…"
-        hint={HINT}
-        autoFocusKey={focusKey}
-      />
+      {!idle ? composer : null}
     </div>
   );
 }
@@ -178,22 +190,22 @@ export function GeneralChat() {
 /** The empty state: what it is, what it is not, and four real starting points. */
 function Intro({ onPick }: { onPick: (q: string) => void }) {
   return (
-    <section className="nxg-intro" aria-label="על המשטח הזה">
+    <section className="nxg-intro" aria-label="מבוא">
       <div className="nxg-intro-top">
         <NeoMark size={68} className="nxg-intro-mark" />
         <div>
           <h2 className="nxg-intro-h">{WHO}</h2>
           <p className="nxg-intro-p">
-            שיחה כללית על SAP. המשטח הזה אינו מוגבל לספרי הפרויקט ואינו מבטיח ציטוט מהם:
-            כשמצורפים מקורות הם מוצגים תחת התשובה, וכשאין, התשובה מסומנת כידע כללי.
-            לשאלה על החומר שבספרים יש מסך נפרד, «שאל את הספרייה».
+            שיחה כללית על SAP: ארכיטקטורה, יישום, אינטגרציה ואבחון תקלות.
+            התשובות מבוססות על ידע כללי. כאשר נמצאו מקורות בספרייה הם מוצגים מתחת לתשובה,
+            ואחרת התשובה מסומנת כידע כללי. לשאלות על ספרי הספרייה משמש המסך שאל את הספרייה.
           </p>
         </div>
       </div>
 
       <div className="nxg-cols nm-seq">
         <div className="nxg-col nm-rise nm-once" data-tone="does">
-          <h3 className="nxg-col-h">מה יש כאן היום</h3>
+          <h3 className="nxg-col-h">יכולות זמינות</h3>
           <ul className="nxg-col-list">
             {DOES.map((d) => (
               <li key={d} className="nxg-col-i">
@@ -204,7 +216,7 @@ function Intro({ onPick }: { onPick: (q: string) => void }) {
           </ul>
         </div>
         <div className="nxg-col nm-rise nm-once" data-tone="not" style={{ "--nm-i": 1 } as React.CSSProperties}>
-          <h3 className="nxg-col-h">מה אין כאן</h3>
+          <h3 className="nxg-col-h">מגבלות</h3>
           <ul className="nxg-col-list">
             {DOES_NOT.map((d) => (
               <li key={d} className="nxg-col-i">
@@ -219,10 +231,11 @@ function Intro({ onPick }: { onPick: (q: string) => void }) {
       <div className="nxq-starters">
         <span className="nxq-starters-t">
           <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
-          אפשר להתחיל מ
+          שאלות לדוגמה
         </span>
         <div className="nxq-starters-row nm-seq">
-          {M.starters.map((s, i) => (
+          {/* A few openers, not a wall (design audit §7). */}
+          {M.starters.slice(0, 4).map((s, i) => (
             <button
               key={s.label}
               type="button"

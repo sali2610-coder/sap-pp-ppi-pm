@@ -268,7 +268,7 @@ export function BookShelf({ data }: { data: BooksData }) {
         <section className="nb-cont nm-rise nm-once" style={{ "--m": selected.mod } as React.CSSProperties} aria-label="המשך קריאה">
           <p className="nb-cont-e">
             <Bookmark size={14} strokeWidth={1.75} aria-hidden="true" />
-            המשך מהמקום האחרון
+            המשך מהמיקום האחרון
           </p>
           <p className="nb-cont-t">{selected.titleHe || selected.titleEn}</p>
           <p className="nb-cont-l">{selectedLine}</p>
@@ -280,7 +280,7 @@ export function BookShelf({ data }: { data: BooksData }) {
               onClick={() => noteHandoff(selected.id, selectedResume.chapter, selectedResume.section)}
             >
               <PlayCircle size={15} strokeWidth={1.75} aria-hidden="true" />
-              {selectedResume.neoExact ? "חזרה לתת-הפרק" : "חזרה לפרק"}
+              {selectedResume.neoExact ? "המשך קריאה בתת-הפרק" : "המשך קריאה בפרק"}
             </OriginLink>
             <button
               type="button"
@@ -459,7 +459,7 @@ export function BookShelf({ data }: { data: BooksData }) {
                         onClick={() => noteHandoff(b.id, r.chapter, r.section)}
                       >
                         <BookOpen size={14} strokeWidth={1.75} aria-hidden="true" />
-                        פתח בקורא
+                        פתיחה בקורא
                       </OriginLink>
                     </li>
                   );

@@ -1,0 +1,61 @@
+{
+  "erdOverview": {
+    "level": "overview",
+    "inspW": 304,
+    "modeChip": "מצבסקירה · כל המודולים"
+  },
+  "urlAfterModuleClick": "http://localhost:4196/neo/erd/",
+  "erdModule": {
+    "level": "module",
+    "badges": {
+      "משתנה": 4
+    },
+    "modeChip": "מצבדפדוף במודול PP",
+    "hasS4Only": false,
+    "canon": null
+  },
+  "shellBefore": {
+    "focus": null,
+    "rail": true,
+    "dock": true,
+    "top": true
+  },
+  "focusButtons": 1,
+  "shellFocusOn": {
+    "focus": "1",
+    "rail": false,
+    "dock": false,
+    "top": false
+  },
+  "shellAfterEsc": {
+    "focus": null,
+    "rail": true,
+    "dock": true,
+    "top": true
+  },
+  "readerFocusOn": {
+    "focus": "1",
+    "rail": false,
+    "dock": false,
+    "top": false
+  },
+  "readerFocusOff": {
+    "focus": null,
+    "rail": true,
+    "dock": true,
+    "top": true
+  },
+  "studioFocusOn": {
+    "focus": "1",
+    "rail": false,
+    "dock": false,
+    "top": false
+  },
+  "studioFocusOff": {
+    "focus": null,
+    "rail": true,
+    "dock": true,
+    "top": true
+  },
+  "consoleErrors": 0
+}

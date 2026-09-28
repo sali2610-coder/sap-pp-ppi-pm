@@ -140,7 +140,7 @@ export const TCODE_DIRECTORY: TcodeDir[] = [
   d("CO53", "PP-PI", "ניטור מרשמי בקרה", "Control recipe monitor.", ["control recipe", "MES", "מרשם בקרה"]),
   d("CO54", "PP-PI", "ניטור הודעות תהליך", "Process message monitor.", ["process message", "MES"]),
   d("CO55", "PP-PI", "PI Sheet", "Maintain PI sheet.", ["PI sheet", "גליון תהליך"]),
-  d("CO60", "PP-PI", "מרשם בקרה", "Find/maintain control recipe.", ["control recipe"]),
+  d("CO60", "PP-PI", "חיפוש גיליון PI", "Find PI Sheet.", ["PI sheet"]),
   /* ===== PM (directory, beyond deep) ===== */
   d("IE01", "PM", "יצירת ציוד", "Create equipment.", ["equipment", "ציוד", "EQUI"]),
   d("IE02", "PM", "שינוי ציוד", "Change equipment.", ["equipment"]),

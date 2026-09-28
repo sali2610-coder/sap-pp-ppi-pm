@@ -1,0 +1,1051 @@
+{
+  "generatedAt": "2026-09-22",
+  "rule": "A relation whose blueprint row carries no cardinality is CARDINALITY_NOT_VERIFIED: the ERD draws it dashed with 'קרדינליות לא צוינה בתיעוד', the object graph marks it data-card=unstated, and nothing fills it in.",
+  "modules": {
+    "PM": {
+      "relations": 121,
+      "withCardinality": 121,
+      "withoutCardinality": 0,
+      "missing": []
+    },
+    "PP-PI": {
+      "relations": 129,
+      "withCardinality": 0,
+      "withoutCardinality": 129,
+      "missing": [
+        {
+          "child": "MAKT",
+          "join": "FROM MAKT JOIN MARA ON MAKT.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARC",
+          "join": "FROM MARC JOIN MARA ON MARC.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARM",
+          "join": "FROM MARM JOIN MARA ON MARM.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MEAN",
+          "join": "FROM MEAN JOIN MARA ON MEAN.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MBEW",
+          "join": "FROM MBEW JOIN MARA ON MBEW.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MVKE",
+          "join": "FROM MVKE JOIN MARA ON MVKE.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MLAN",
+          "join": "FROM MLAN JOIN MARA ON MLAN.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MLGN",
+          "join": "FROM MLGN JOIN MARA ON MLGN.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MCH1",
+          "join": "FROM MCH1 JOIN MARA ON MCH1.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MAST",
+          "join": "FROM MAST JOIN MARA ON MAST.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T134",
+          "join": "FROM MARA JOIN T134 ON MARA.MTART = T134.MTART",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T023",
+          "join": "FROM MARA JOIN T023 ON MARA.MATKL = T023.MATKL",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MAKT JOIN MARA ON MAKT.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MARC JOIN MARA ON MARC.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARD",
+          "join": "FROM MARD JOIN MARC ON MARD.MATNR = MARC.MATNR AND MARD.WERKS = MARC.WERKS",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MDMA",
+          "join": "FROM MDMA JOIN MARC ON MDMA.MATNR = MARC.MATNR AND MDMA.WERKS = MARC.WERKS",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "QMAT",
+          "join": "FROM QMAT JOIN MARC ON QMAT.MATNR = MARC.MATNR AND QMAT.WERKS = MARC.WERKS",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MAPL",
+          "join": "FROM MAPL JOIN MARC ON MAPL.MATNR = MARC.MATNR AND MAPL.WERKS = MARC.WERKS",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MKAL",
+          "join": "FROM MKAL JOIN MARC ON MKAL.MATNR = MARC.MATNR AND MKAL.WERKS = MARC.WERKS",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T438M",
+          "join": "FROM MARC JOIN T438M ON MARC.DISMM = T438M.DISMM",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARC",
+          "join": "FROM MARD JOIN MARC ON MARD.MATNR = MARC.MATNR AND MARD.WERKS = MARC.WERKS",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MARM JOIN MARA ON MARM.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T006",
+          "join": "FROM MARM JOIN T006 ON MARM.MEINH = T006.MSEHI",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MEAN JOIN MARA ON MEAN.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MBEW JOIN MARA ON MBEW.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MVKE JOIN MARA ON MVKE.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MLAN JOIN MARA ON MLAN.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MLGN JOIN MARA ON MLGN.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MLGT",
+          "join": "FROM MLGT JOIN MLGN ON MLGT.MATNR = MLGN.MATNR AND MLGT.LGNUM = MLGN.LGNUM",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MLGN",
+          "join": "FROM MLGT JOIN MLGN ON MLGT.MATNR = MLGN.MATNR AND MLGT.LGNUM = MLGN.LGNUM",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARC",
+          "join": "FROM MDMA JOIN MARC ON MDMA.MATNR = MARC.MATNR AND MDMA.WERKS = MARC.WERKS",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARC",
+          "join": "FROM QMAT JOIN MARC ON QMAT.MATNR = MARC.MATNR AND QMAT.WERKS = MARC.WERKS",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MCH1 JOIN MARA ON MCH1.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MCHA",
+          "join": "FROM MCHA JOIN MCH1 ON MCHA.MATNR = MCH1.MATNR AND MCHA.CHARG = MCH1.CHARG",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MCH1",
+          "join": "FROM MCHA JOIN MCH1 ON MCHA.MATNR = MCH1.MATNR AND MCHA.CHARG = MCH1.CHARG",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARM",
+          "join": "FROM MARM JOIN T006 ON MARM.MEINH = T006.MSEHI",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MAST JOIN MARA ON MAST.MATNR = MARA.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "STKO",
+          "join": "FROM STKO JOIN MAST ON STKO.STLNR = MAST.STLNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "KDST",
+          "join": "FROM KDST JOIN MAST ON KDST.MATNR = MAST.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MAST",
+          "join": "FROM STKO JOIN MAST ON STKO.STLNR = MAST.STLNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "STPO",
+          "join": "FROM STPO JOIN STKO ON STPO.STLNR = STKO.STLNR AND STPO.STLTY = STKO.STLTY",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "STAS",
+          "join": "FROM STAS JOIN STKO ON STAS.STLNR = STKO.STLNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "STZU",
+          "join": "FROM STZU JOIN STKO ON STZU.STLNR = STKO.STLNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "STKO",
+          "join": "FROM STPO JOIN STKO ON STPO.STLNR = STKO.STLNR AND STPO.STLTY = STKO.STLTY",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "STPU",
+          "join": "FROM STPU JOIN STPO ON STPU.STLKN = STPO.STLKN",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "STKO",
+          "join": "FROM STAS JOIN STKO ON STAS.STLNR = STKO.STLNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "STKO",
+          "join": "FROM STZU JOIN STKO ON STZU.STLNR = STKO.STLNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "STPO",
+          "join": "FROM STPU JOIN STPO ON STPU.STLKN = STPO.STLKN",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MAST",
+          "join": "FROM KDST JOIN MAST ON KDST.MATNR = MAST.MATNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MAPL",
+          "join": "FROM PLKO JOIN MAPL ON PLKO.PLNTY = MAPL.PLNTY AND PLKO.PLNNR = MAPL.PLNNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLAS",
+          "join": "FROM PLAS JOIN PLKO ON PLAS.PLNTY = PLKO.PLNTY AND PLAS.PLNNR = PLKO.PLNNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLFL",
+          "join": "FROM PLFL JOIN PLKO ON PLFL.PLNNR = PLKO.PLNNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLZU",
+          "join": "FROM PLZU JOIN PLKO ON PLZU.PLNNR = PLKO.PLNNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "TCA01",
+          "join": "FROM PLKO JOIN TCA01 ON PLKO.PROFIDNETZ = TCA01.PROFIDNETZ",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLAS",
+          "join": "FROM PLPO JOIN PLAS ON PLPO.PLNTY = PLAS.PLNTY AND PLPO.PLNNR = PLAS.PLNNR AND PLPO.PLNKN = PLAS.PLNKN",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLMZ",
+          "join": "FROM PLMZ JOIN PLPO ON PLMZ.PLNKN = PLPO.PLNKN",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLMK",
+          "join": "FROM PLMK JOIN PLPO ON PLMK.PLNKN = PLPO.PLNKN",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "FHMI",
+          "join": "FROM FHMI JOIN PLPO ON FHMI.PLNKN = PLPO.PLNKN",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "TC60",
+          "join": "FROM PLPO JOIN TC60 ON PLPO.STEUS = TC60.STEUS",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "TC22",
+          "join": "FROM PLPO JOIN TC22 ON PLPO.STEUS = TC22.STEUS",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLPO",
+          "join": "FROM PLPO JOIN PLAS ON PLPO.PLNTY = PLAS.PLNTY AND PLPO.PLNNR = PLAS.PLNNR AND PLPO.PLNKN = PLAS.PLNKN",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLKO",
+          "join": "FROM PLAS JOIN PLKO ON PLAS.PLNTY = PLKO.PLNTY AND PLAS.PLNNR = PLKO.PLNNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLKO",
+          "join": "FROM PLFL JOIN PLKO ON PLFL.PLNNR = PLKO.PLNNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLPO",
+          "join": "FROM PLMZ JOIN PLPO ON PLMZ.PLNKN = PLPO.PLNKN",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLPO",
+          "join": "FROM PLMK JOIN PLPO ON PLMK.PLNKN = PLPO.PLNKN",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLKO",
+          "join": "FROM PLKO JOIN MAPL ON PLKO.PLNTY = MAPL.PLNTY AND PLKO.PLNNR = MAPL.PLNNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARC",
+          "join": "FROM MAPL JOIN MARC ON MAPL.MATNR = MARC.MATNR AND MAPL.WERKS = MARC.WERKS",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLPO",
+          "join": "FROM FHMI JOIN PLPO ON FHMI.PLNKN = PLPO.PLNKN",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRFH",
+          "join": "FROM FHMI JOIN CRFH ON FHMI.FHMNR = CRFH.FHMNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLKO",
+          "join": "FROM PLZU JOIN PLKO ON PLZU.PLNNR = PLKO.PLNNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLPO",
+          "join": "FROM PLPO JOIN TC60 ON PLPO.STEUS = TC60.STEUS",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLKO",
+          "join": "FROM PLKO JOIN TCA01 ON PLKO.PROFIDNETZ = TCA01.PROFIDNETZ",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARC",
+          "join": "FROM MKAL JOIN MARC ON MKAL.MATNR = MARC.MATNR AND MKAL.WERKS = MARC.WERKS",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRTX",
+          "join": "FROM CRTX JOIN CRHD ON CRTX.OBJID = CRHD.OBJID AND CRTX.OBJTY = CRHD.OBJTY",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRCO",
+          "join": "FROM CRCO JOIN CRHD ON CRCO.OBJID = CRHD.OBJID AND CRCO.OBJTY = CRHD.OBJTY",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRCA",
+          "join": "FROM CRCA JOIN CRHD ON CRCA.OBJID = CRHD.OBJID AND CRCA.OBJTY = CRHD.OBJTY",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRVD_A",
+          "join": "FROM CRVD_A JOIN CRHD ON CRVD_A.OBJID = CRHD.OBJID",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRHD",
+          "join": "FROM CRTX JOIN CRHD ON CRTX.OBJID = CRHD.OBJID AND CRTX.OBJTY = CRHD.OBJTY",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRHD",
+          "join": "FROM CRCO JOIN CRHD ON CRCO.OBJID = CRHD.OBJID AND CRCO.OBJTY = CRHD.OBJTY",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CSLA",
+          "join": "FROM CSLA JOIN CRCO ON CSLA.LSTAR = CRCO.LSTAR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRHD",
+          "join": "FROM CRCA JOIN CRHD ON CRCA.OBJID = CRHD.OBJID AND CRCA.OBJTY = CRHD.OBJTY",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "KAKO",
+          "join": "FROM KAKO JOIN CRCA ON KAKO.KAPID = CRCA.KAPID",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRCA",
+          "join": "FROM KAKO JOIN CRCA ON KAKO.KAPID = CRCA.KAPID",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "KAZT",
+          "join": "FROM KAZT JOIN KAKO ON KAZT.KAPID = KAKO.KAPID",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "FHMI",
+          "join": "FROM FHMI JOIN CRFH ON FHMI.FHMNR = CRFH.FHMNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRHD",
+          "join": "FROM CRVD_A JOIN CRHD ON CRVD_A.OBJID = CRHD.OBJID",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "CRCO",
+          "join": "FROM CSLA JOIN CRCO ON CSLA.LSTAR = CRCO.LSTAR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "KAKO",
+          "join": "FROM KAZT JOIN KAKO ON KAZT.KAPID = KAKO.KAPID",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFKO",
+          "join": "FROM AFKO JOIN AUFK ON AFKO.AUFNR = AUFK.AUFNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T399X",
+          "join": "FROM AUFK JOIN T399X ON AUFK.WERKS = T399X.WERKS AND AUFK.AUART = T399X.AUART",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T003O",
+          "join": "FROM AUFK JOIN T003O ON AUFK.AUART = T003O.AUART",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "JEST",
+          "join": "FROM JEST JOIN AUFK ON JEST.OBJNR = AUFK.OBJNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "JSTO",
+          "join": "FROM JSTO JOIN AUFK ON JSTO.OBJNR = AUFK.OBJNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AUFK",
+          "join": "FROM AFKO JOIN AUFK ON AFKO.AUFNR = AUFK.AUFNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFPO",
+          "join": "FROM AFPO JOIN AFKO ON AFPO.AUFNR = AFKO.AUFNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFVC",
+          "join": "FROM AFVC JOIN AFKO ON AFVC.AUFPL = AFKO.AUFPL",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "RESB",
+          "join": "FROM RESB JOIN AFKO ON RESB.AUFNR = AFKO.AUFNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFRU",
+          "join": "FROM AFRU JOIN AFKO ON AFRU.AUFNR = AFKO.AUFNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFFH",
+          "join": "FROM AFFH JOIN AFKO ON AFFH.AUFPL = AFKO.AUFPL",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFFL",
+          "join": "FROM AFFL JOIN AFKO ON AFFL.AUFPL = AFKO.AUFPL",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFKO",
+          "join": "FROM AFPO JOIN AFKO ON AFPO.AUFNR = AFKO.AUFNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFKO",
+          "join": "FROM AFVC JOIN AFKO ON AFVC.AUFPL = AFKO.AUFPL",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFKO",
+          "join": "FROM RESB JOIN AFKO ON RESB.AUFNR = AFKO.AUFNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFKO",
+          "join": "FROM AFRU JOIN AFKO ON AFRU.AUFNR = AFKO.AUFNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFKO",
+          "join": "FROM AFFH JOIN AFKO ON AFFH.AUFPL = AFKO.AUFPL",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AFKO",
+          "join": "FROM AFFL JOIN AFKO ON AFFL.AUFPL = AFKO.AUFPL",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MARA JOIN T134 ON MARA.MTART = T134.MTART",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T134T",
+          "join": "FROM T134T JOIN T134 ON T134T.MTART = T134.MTART",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T134",
+          "join": "FROM T134T JOIN T134 ON T134T.MTART = T134.MTART",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARA",
+          "join": "FROM MARA JOIN T023 ON MARA.MATKL = T023.MATKL",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T023T",
+          "join": "FROM T023T JOIN T023 ON T023T.MATKL = T023.MATKL",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T023",
+          "join": "FROM T023T JOIN T023 ON T023T.MATKL = T023.MATKL",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AUFK",
+          "join": "FROM AUFK JOIN T399X ON AUFK.WERKS = T399X.WERKS AND AUFK.AUART = T399X.AUART",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "TCK03",
+          "join": "FROM T399X JOIN TCK03 ON T399X.KLVARP = TCK03.KLVAR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T399X",
+          "join": "FROM T399X JOIN TCK03 ON T399X.KLVARP = TCK03.KLVAR",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "MARC",
+          "join": "FROM MARC JOIN T438M ON MARC.DISMM = T438M.DISMM",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AUFK",
+          "join": "FROM AUFK JOIN T003O ON AUFK.AUART = T003O.AUART",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "TCO01",
+          "join": "FROM TCO01 JOIN T003O ON TCO01.AUART = T003O.AUART",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "T003O",
+          "join": "FROM TCO01 JOIN T003O ON TCO01.AUART = T003O.AUART",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "JEST",
+          "join": "FROM JEST JOIN TJ30 ON JEST.STAT = TJ30.ESTAT",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "TJ30T",
+          "join": "FROM TJ30T JOIN TJ30 ON TJ30T.STSMA = TJ30.STSMA AND TJ30T.ESTAT = TJ30.ESTAT",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "TJ30",
+          "join": "FROM TJ30T JOIN TJ30 ON TJ30T.STSMA = TJ30.STSMA AND TJ30T.ESTAT = TJ30.ESTAT",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "EKKO",
+          "join": "FROM EKKO JOIN BUT000 ON EKKO.LIFNR = BUT000.PARTNER",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "PLPO",
+          "join": "FROM PLPO JOIN TC22 ON PLPO.STEUS = TC22.STEUS",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "TJ30",
+          "join": "FROM JEST JOIN TJ30 ON JEST.STAT = TJ30.ESTAT",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AUFK",
+          "join": "FROM JEST JOIN AUFK ON JEST.OBJNR = AUFK.OBJNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "TJ02T",
+          "join": "FROM JEST JOIN TJ02T ON JEST.STAT = TJ02T.ISTAT",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "AUFK",
+          "join": "FROM JSTO JOIN AUFK ON JSTO.OBJNR = AUFK.OBJNR",
+          "fkField": "",
+          "pkField": "",
+          "role": "child",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        },
+        {
+          "child": "JEST",
+          "join": "FROM JEST JOIN TJ02T ON JEST.STAT = TJ02T.ISTAT",
+          "fkField": "",
+          "pkField": "",
+          "role": "parent",
+          "status": "CARDINALITY_NOT_VERIFIED"
+        }
+      ]
+    }
+  }
+}

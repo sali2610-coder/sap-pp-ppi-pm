@@ -1174,8 +1174,8 @@ html[data-theme="dark"] .bg-brand-soft .text-rose-900 { color: #fda4af; }
   --t-h2: 1.125rem;      --t-h2-lh: 1.3;       --t-h2-tr: -0.012em;
   --t-body: 0.875rem;    --t-body-lh: 1.6;
   --t-sm: 0.8125rem;
-  --t-xs: 0.75rem;
-  --t-micro: 0.6875rem;
+  --t-xs: 0.8125rem;      /* 13px — design audit §4: secondary text floor */
+  --t-micro: 0.75rem;     /* 12px — was 11px */
   --lh-he: 1.75;         /* Hebrew needs more leading than Latin at one size */
 
   /* --- motion additions ---------------------------------------------------- */
@@ -1348,6 +1348,15 @@ html[data-device="phone"] .nx-app .nx-main { grid-column: 1 / -1; grid-template-
   overflow: auto; overscroll-behavior: contain; min-block-size: 0;
   padding: var(--sp-6);
   display: grid; align-content: start; gap: var(--sp-5);
+  /* The one content column may never be wider than the canvas. A grid track
+     defaults to `auto`, whose minimum is the min-content of what sits in it, so
+     a page whose section strip carried seven chips resolved the track to
+     1,243px inside a 1,083px canvas and the whole scene scrolled sideways (the
+     design audit measured 1,296 against 1,073 on the migration cockpit).
+     minmax(0, 1fr) makes the track shrink with the canvas; anything wider than
+     that then scrolls inside its own box, never the page. */
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
   transition: opacity var(--dur-base) var(--ease-out-expo);
 }
 .nx-app[data-searching="1"] .nx-canvas { opacity: .38; }
@@ -1393,7 +1402,14 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
 .nx-glyph i:nth-child(3) { block-size: 7px; opacity: .42; }
 .nx-lock { display: grid; line-height: 1.2; min-inline-size: 0; }
 .nx-lock b { font-size: var(--t-sm); letter-spacing: -.012em; white-space: nowrap; }
-.nx-lock span { font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
+.nx-lock span {
+  /* The product name under the wordmark. --ink-3 measured 3.8:1 at 12px in the
+     accessibility sample (design audit S10-1); ink-2 clears the 4.5:1 line
+     without changing the hierarchy. */
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
 .nx-collapse { margin-inline-start: auto; }
 
 .nx-iconbtn {
@@ -1695,9 +1711,10 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   background: var(--surface-2); border: 1px solid var(--c-hair);
   font-family: var(--font-mono); font-size: 10px; direction: ltr; color: var(--ink-2);
 }
-.nx-who-t { display: grid; line-height: 1.2; min-inline-size: 0; }
-.nx-who-t b { font-size: var(--t-micro); }
-.nx-who-t span { font-size: 10px; color: var(--ink-3); }
+.nx-who-t { display: grid; line-height: 1.2; min-inline-size: 0; color: var(--ink-2); }
+.nx-who-t b { font-size: var(--t-micro); color: var(--ink-1); }
+/* The credit is mandatory on every page, so it reads: 11px at ink-2 (was 10px at ink-3, 3.8:1). */
+.nx-who-t span { font-size: 11px; color: var(--ink-2); }
 .nx-rail-foot .nx-iconbtn { margin-inline-start: auto; }
 
 /* --------------------------------------------------------- 6. THE STATES */
@@ -1741,6 +1758,12 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
 }
 [dir="ltr"] .nx-app[data-nav="hidden"] .nx-rail,
 [dir="ltr"] .nx-app[data-nav="peek"] .nx-rail { transform: translateX(-100%); }
+/* HIDDEN has no reveal on focus (peek does, below), so its links must leave the
+   tab order once the slide-out ends: keyboard focus was landing off-screen. */
+.nx-app[data-nav="hidden"] .nx-rail {
+  visibility: hidden;
+  transition: transform 520ms var(--c-spring), visibility 0s linear 520ms;
+}
 .nx-railedge {
   display: none; position: absolute; inset-block: 0; inset-inline-start: 0;
   inline-size: var(--c-peek-w); z-index: 21; background: transparent;
@@ -1835,6 +1858,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   background: var(--surface); min-inline-size: 0;
 }
 .nx-crumbs { display: flex; align-items: center; gap: 4px; font-size: var(--t-xs); color: var(--ink-3); min-inline-size: 0; }
+.nx-crumbs a { display: inline-flex; align-items: center; min-block-size: 1.5rem; }
 .nx-crumbs a:hover { color: var(--ink-1); }
 .nx-crumbs .nx-cur { color: var(--ink-1); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nx-cmdbar {
@@ -2038,3 +2062,26 @@ html[data-theme="dark"] .nx-app {
   --sec-centers: #6fb4f5;
   --sec-studio: #6fb0d8;
 }
+
+/* Focus mode (design audit §3, 2026-09-21): a page (reader, ERD, Studio) asks
+   for the canvas alone. Page-scoped attribute set by components/neo-shell/focus.ts;
+   never persisted, so leaving the page restores the shell. The page shows its
+   own exit control and Escape exits. */
+/* (0,4,0) on purpose: the rail-mode rules in rail.css are (0,3,0) and load
+   later, so a plain (0,3,0) rule here tied and lost on source order. */
+.nx-app[data-focus="1"][data-focus] { --nx-rail-col: 0px; }
+/* The rail and the top bar carry data-shell="desktop-only", which the device
+   gate above forces to display:flex !important at (0,2,1); these are (0,4,0)
+   and !important, so focus wins on desktop and stays harmless on phones. */
+.nx-app[data-focus="1"] > .nx-rail[data-shell] { display: none !important; }
+.nx-app[data-focus="1"][data-focus] .nx-main { grid-column: 1 / -1; grid-template-rows: minmax(0, 1fr); }
+.nx-app[data-focus="1"] .nx-main > .nx-topbar[data-shell] { display: none !important; }
+.nx-app[data-focus="1"][data-focus] .nxk { display: none; }
+.nx-focus-exit {
+  position: fixed; z-index: 66;
+  inset-block-end: max(0.75rem, env(safe-area-inset-bottom)); inset-inline-start: 0.75rem;
+}
+
+/* One line under a knowledge gate saying what this gate is for, next to the
+   two sibling gates (design audit §7, 2026-09-21). */
+.nx-gate-note { margin: .55rem 0 0; max-inline-size: 72ch; font-size: var(--t-xs, .8125rem); color: var(--ink-3); line-height: 1.6; }

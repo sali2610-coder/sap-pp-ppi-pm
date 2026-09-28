@@ -1,0 +1,346 @@
+{
+ "base": "http://localhost:4196",
+ "SAP-1": {
+  "ok": true,
+  "status": 200,
+  "simplification": true,
+  "ristra20": true,
+  "successorIP30H": true
+ },
+ "SAP-2": {
+  "ok": true,
+  "status": [
+   200,
+   200
+  ],
+  "taskShowsQMSM": true,
+  "activityShowsQMMA": true,
+  "oldMixedClaim": false
+ },
+ "SAP-3": {
+  "ok": true,
+  "status": 200,
+  "QA08": true,
+  "MM01": true
+ },
+ "SAP-4": {
+  "ok": true,
+  "status": 200,
+  "TXTSH": true,
+  "TXTMD": true
+ },
+ "SAP-5": {
+  "ok": true,
+  "status": {
+   "bapi": 200,
+   "idocBOMMAT": 200,
+   "idoc": 200
+  },
+  "bapiStats": [
+   "142 אובייקטי פונקציה",
+   "59 BAPIs",
+   "83 מודולי פונקציה (FM)",
+   "130 מתועדים לעומק",
+   "57 רשומות מאומתות",
+   "23 חוצי מודולים",
+   "3 משתנים ב-S/4HANA",
+   "23 עם תצוגת CDS מקבילה"
+  ],
+  "idocStats": [
+   "3 סוגי הודעה במאגר",
+   "3 רשומות פיזיות",
+   "7 קודי סטטוס מתועדים",
+   "4 טרנזקציות ניטור",
+   "1 מודולים"
+  ]
+ },
+ "SAP-6": {
+  "ok": true,
+  "status": [
+   200,
+   200
+  ],
+  "customerExitNamesCMOD": true,
+  "legacyCMODpointsToNeo": true,
+  "legacyImplicitPointsToNeo": true
+ },
+ "SAP-7": {
+  "ok": true,
+  "status": 200,
+  "missing": []
+ },
+ "SAP-8": {
+  "ok": true,
+  "status": [
+   200,
+   200
+  ],
+  "getlistShowsCOR6N_CORK": true,
+  "batchShowsBUS1001002": true,
+  "oldNamesOutsideEvidence": {}
+ },
+ "S9-1": {
+  "ok": true,
+  "neoSourceHits": [],
+  "legacyOpeners": {
+   "/sap-notes/": {
+    "status": 200,
+    "lede": "23 נושאי פתרון ל-PM/PP/PP-PI לפי רכיב SAP (Application Component) ומילות חיפוש מאומתות ל-O",
+    "builtNote": false
+   },
+   "/knowledge/": {
+    "status": 200,
+    "lede": "שכבת הידע המקצועית של NEO — מאורגנת לפי מה שאתה צריך לעשות, לא לפי סוג טכני. התחל בחיפוש, ",
+    "builtNote": false
+   }
+  }
+ },
+ "S11-1": {
+  "ok": true,
+  "count": "1 מתוך 105 טבלאות · ניקוי הסינון",
+  "rows": 1
+ },
+ "S11-2": {
+  "ok": true,
+  "empty": true,
+  "buttons": [
+   "הצגת כל הטבלאות",
+   "ניקוי החיפוש בלבד"
+  ],
+  "afterShowAll": {
+   "count": "105 מתוך 105 טבלאות",
+   "query": ""
+  },
+  "consoleErrors": 0
+ },
+ "S11-3": {
+  "ok": true,
+  "chip": "01שדות ומפתחות",
+  "top": 118,
+  "active": "true",
+  "consoleErrors": 0
+ },
+ "S11-4": {
+  "ok": true,
+  "lanesNodes": 11,
+  "round1": 21,
+  "consoleErrors": 0
+ },
+ "S11-5": {
+  "ok": true,
+  "afterKey0": {
+   "zoom": "61%",
+   "nodes": 15,
+   "outside": 0
+  }
+ },
+ "APPX-4": {
+  "ok": true,
+  "opening": {
+   "zoom": "61%",
+   "nodes": 15,
+   "outside": 0
+  },
+  "fit": {
+   "zoom": "61%",
+   "nodes": 15,
+   "outside": 0
+  }
+ },
+ "S7-ERD-2": {
+  "ok": true,
+  "at1363": {
+   "zoom": "61%",
+   "nodes": 15,
+   "outside": 0
+  },
+  "at1100": {
+   "zoom": "65%",
+   "nodes": 15,
+   "outside": 0
+  },
+  "backTo1363": {
+   "zoom": "61%",
+   "nodes": 15,
+   "outside": 0
+  },
+  "consoleErrors": 0
+ },
+ "S7-CAT-8": {
+  "ok": true,
+  "toolbarOrder": [
+   "search",
+   "view",
+   "sort"
+  ],
+  "identicalAcross7": true,
+  "perCatalog": {
+   "/neo/tables/": "search>view>sort",
+   "/neo/transactions/": "search>view>sort",
+   "/neo/bapi/": "search>view>sort",
+   "/neo/idoc/": "search>view>sort",
+   "/neo/cds/": "search>view>sort",
+   "/neo/fiori-apps/": "search>view>sort",
+   "/neo/enhancements/": "search>view>sort"
+  }
+ },
+ "S7-CAT-4": {
+  "ok": true,
+  "blockOrder": [
+   "h1",
+   "tools",
+   "filters",
+   "count",
+   "list"
+  ],
+  "identicalAcross7": true,
+  "perCatalog": {
+   "/neo/tables/": "h1>tools>filters>count>list",
+   "/neo/transactions/": "h1>tools>filters>count>list",
+   "/neo/bapi/": "h1>tools>filters>count>list",
+   "/neo/idoc/": "h1>tools>filters>count>list",
+   "/neo/cds/": "h1>tools>filters>count>list",
+   "/neo/fiori-apps/": "h1>tools>filters>count>list",
+   "/neo/enhancements/": "h1>tools>filters>count>list"
+  }
+ },
+ "S7-HOME-3": {
+  "ok": true,
+  "lede": "פלטפורמת ידע מקצועית למודולי PM ו-PP-PI: אובייקטים עסקיים, טבלאות, טרנזקציות, קשרי נתונים והמעבר מ-ECC ל-S/4HANA. זמינה במלואה גם ללא חיבור לרשת.",
+  "sentences": 2,
+  "structureWordsInOpener": [],
+  "secondarySections": 3
+ },
+ "S7-AI-3": {
+  "ok": true,
+  "/neo/ai/": {
+   "limitsHeading": false,
+   "advisory": "התשובות נכתבות מתוך ספרי SAP שבספרייה: הסבר, סיכום, השוואה, תרשים והפניה למקור המדויק"
+  },
+  "/neo/chat/": {
+   "limitsHeading": true,
+   "advisory": "התשובות מבוססות על ידע כללי ויש לאמת מזהים ומספרי Note מול מקור רשמי"
+  }
+ },
+ "S7-LIB-3": {
+  "ok": true,
+  "freshProfile": 0,
+  "afterReadingBook2": [
+   {
+    "text": "המשך קריאה בתת-הפרק",
+    "primary": true
+   }
+  ],
+  "consoleErrors": 0
+ },
+ "KEEP-1": {
+  "ok": true,
+  "brand": "#d62027",
+  "canvas": [
+   239,
+   231,
+   218
+  ],
+  "card": [
+   231,
+   243,
+   245
+  ],
+  "warm": 21,
+  "canvasLum": 0.909,
+  "cardLum": 0.944
+ },
+ "KEEP-2": {
+  "ok": true,
+  "h1": "AFKO",
+  "hebrewInHeader": true
+ },
+ "KEEP-3": {
+  "ok": true,
+  "linksPerSection": {
+   "rel": 9,
+   "tx": 8,
+   "if": 3,
+   "books": 7
+  },
+  "docRecordChars": 557
+ },
+ "KEEP-4": {
+  "ok": true,
+  "lanes": 3,
+  "nodes": 11,
+  "unstatedCards": 10
+ },
+ "KEEP-5": {
+  "ok": true,
+  "block": true,
+  "status": "לא אסטרטגי ב-S/4HANA",
+  "sources": 6,
+  "needsFlag": null
+ },
+ "KEEP-6": {
+  "ok": true,
+  "covers": 11,
+  "depth": 22,
+  "consoleErrors": 0
+ },
+ "S7-LIB-1": {
+  "ok": true,
+  "covers": 11,
+  "depth": 22
+ },
+ "ACC-6": {
+  "ok": true,
+  "desktop first-visit welcome dialog": true,
+  "desktop /library/": {
+   "href": "/neo/",
+   "w": 127,
+   "h": 36
+  },
+  "desktop /knowledge/": {
+   "href": "/neo/",
+   "w": 127,
+   "h": 36
+  },
+  "desktop /tables/": {
+   "href": "/neo/",
+   "w": 127,
+   "h": 36
+  },
+  "desktop /sap-notes/": {
+   "href": "/neo/",
+   "w": 127,
+   "h": 36
+  },
+  "desktop click": {
+   "landed": "/neo/",
+   "consoleErrors": 0
+  },
+  "phone first-visit welcome dialog": true,
+  "phone /library/": {
+   "href": "/neo/",
+   "w": 38,
+   "h": 36
+  },
+  "phone /knowledge/": {
+   "href": "/neo/",
+   "w": 38,
+   "h": 36
+  },
+  "phone /tables/": {
+   "href": "/neo/",
+   "w": 38,
+   "h": 36
+  },
+  "phone /sap-notes/": {
+   "href": "/neo/",
+   "w": 38,
+   "h": 36
+  },
+  "phone click": {
+   "landed": "/neo/",
+   "consoleErrors": 0
+  }
+ },
+ "failed": []
+}

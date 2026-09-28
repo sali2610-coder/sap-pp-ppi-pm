@@ -103,7 +103,7 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
             </ol>
           ) : (
             <p className="no-none">
-              התיעוד אינו מסמן שדה מפתח ראשי ל־{name}. זה מצב של המקור, ולא נגזר משם השדה.
+              התיעוד אינו מסמן שדה מפתח ראשי ל-{name}.
             </p>
           )}
         </section>
@@ -153,15 +153,15 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
       <div className="no-tw">
         <table className="no-table">
           <caption className="no-cap">
-            איחוד השדות שכל תכנון מתעד לטבלה, בסדר שנכתב. עמודת המודול מראה מי תיעד את השדה. שדה שתועד
-            במודול אחד בלבד נשמר ומסומן ככזה. מוצגים {nf.format(rows.length)} מתוך {nf.format(fields.length)}.
+            איחוד השדות שכל מודול מתעד לטבלה, בסדר המקורי. עמודת המודול מציינת באיזה מודול תועד השדה.
+            מוצגים {nf.format(rows.length)} מתוך {nf.format(fields.length)}.
           </caption>
           <thead>
             <tr>
               <th scope="col" className="no-c-k">מפתח</th>
               <th scope="col">שדה</th>
               <th scope="col">תיאור</th>
-              <th scope="col">EN</th>
+              <th scope="col">אנגלית</th>
               <th scope="col">טיפוס</th>
               <th scope="col">אורך</th>
               <th scope="col">מודול</th>
@@ -179,7 +179,7 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
                 </td>
                 <th scope="row" className="nx-sap" data-l="שדה">{f.tech}</th>
                 <td data-l="תיאור">{f.he || "–"}</td>
-                <td className="nx-sap no-dim" data-l="EN">{f.en || "–"}</td>
+                <td className="nx-sap no-dim" data-l="אנגלית">{f.en || "–"}</td>
                 <td className="nx-sap" data-l="טיפוס">{f.dt || "–"}</td>
                 <td className="nx-sap" data-l="אורך">{f.len || "–"}</td>
                 <td data-l="מודול">

@@ -64,7 +64,7 @@ export const ECC_S4_TOPICS: EccS4Topic[] = [
   { slug: "production-order-s4", title: "Production / Process Orders", he: "פקודות ייצור/תהליך", area: "PP", status: "Unchanged",
     ecc: "CO01-CO03 (ייצור בדיד), COR1-COR3 (תהליך); טבלאות AUFK/AFKO/AFPO/AFVC.",
     s4: "מבנה נתונים זהה ברובו; נוספים Fiori + OData APIs; שילוב PP-DS/aATP.",
-    fioriCds: "Fiori 'Manage Production Orders', OData API_PRODUCTION_ORDER_2 / API_PROCESSORDER_2; CDS I_ProductionOrder / I_ManufacturingOrder.",
+    fioriCds: "Fiori 'Manage Production Orders', OData API_PRODUCTION_ORDER_2 / API_PROCESS_ORDER_2_SRV; CDS I_ProductionOrder / I_ManufacturingOrder.",
     simplification: "—",
     impact: "מינימלי במבנה; שכבת קריאה/אנליטיקה דרך CDS.",
     note: "AUFK/AFKO/AFPO נשמרות; שמות CDS אמת מול גרסת S/4." },

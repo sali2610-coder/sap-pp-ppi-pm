@@ -63,13 +63,13 @@ export function ObjectDepth({ e }: { e: TableEnrichment }) {
       ) : null}
 
       {e.primaryKey?.length ? (
-        <Block icon={<KeyRound size={13} strokeWidth={2} />} title="שדות המפתח ומה הם אומרים">
+        <Block icon={<KeyRound size={13} strokeWidth={2} />} title="שדות המפתח ומשמעותם">
           <List items={e.primaryKey} tone="pk" />
         </Block>
       ) : null}
 
       {e.foreignKeys?.length ? (
-        <Block icon={<Link2 size={13} strokeWidth={2} />} title="מפתחות זרים: לאן הטבלה מצביעה">
+        <Block icon={<Link2 size={13} strokeWidth={2} />} title="מפתחות זרים וקשרים">
           <List items={e.foreignKeys} tone="fk" />
         </Block>
       ) : null}
@@ -113,7 +113,7 @@ export function ObjectDepth({ e }: { e: TableEnrichment }) {
       ) : null}
 
       {e.debugExample ? (
-        <Block icon={<Bug size={13} strokeWidth={2} />} title="איך בודקים את זה במערכת">
+        <Block icon={<Bug size={13} strokeWidth={2} />} title="בדיקה במערכת (Debug)">
           <p className="nod-p">{e.debugExample}</p>
         </Block>
       ) : null}
@@ -124,7 +124,7 @@ export function ObjectDepth({ e }: { e: TableEnrichment }) {
           {e.verified ? (
             <span className="nod-vf" data-v={e.verified}>
               <BadgeCheck size={12} strokeWidth={2.25} aria-hidden="true" />
-              {e.verified === "verified" ? "מאומת מול DDIC ותיעוד SAP" : "דורש אימות מול SAP"}
+              {e.verified === "verified" ? "מאומת מול DDIC ותיעוד SAP" : "נדרש אימות נוסף מול SAP"}
             </span>
           ) : null}
           {e.sources?.length ? (

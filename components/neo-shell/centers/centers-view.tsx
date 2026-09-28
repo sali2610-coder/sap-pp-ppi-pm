@@ -16,7 +16,23 @@
 import Link from "next/link";
 import { ArrowLeft, Layers, ListTree, Sparkles } from "lucide-react";
 import type { CenterItem } from "@/components/topic-center";
+import { CopyId } from "../copy-id";
 import { CENTER_FAMILIES, centerTotals, type CenterFamily } from "./centers-data";
+
+/** The toolkit items are templates and checklists. "Copy template" (design audit
+ *  §7) hands the whole item over as plain text: title, purpose line, then every
+ *  section with its lines, steps numbered. Nothing is rewritten. */
+const templateText = (it: CenterItem): string => [
+  `${it.he} · ${it.title}`,
+  it.sub,
+  "",
+  ...it.sections.flatMap((s) => {
+    const lines = s.type === "text"
+      ? [s.text || ""]
+      : (s.items || []).map((x, i) => (s.type === "steps" ? `${i + 1}. ${x}` : `- ${x}`));
+    return [s.title, ...lines, ""];
+  }),
+].join("\n");
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -33,9 +49,12 @@ export function CentersHub() {
         </p>
         <h1 className="nct-h1">מרכזי הידע של הפרויקט</h1>
         <p className="nct-lede">
-          {t.families} מרכזים, {nf.format(t.items)} נושאים ו־{nf.format(t.sections)} מקטעי תוכן.
-          כל נושא נכתב כיחידת עבודה: מטרה, מתי להשתמש, צ׳ק ליסט, מלכודות נפוצות ואימות.
-          {" "}{t.withS4} מהנושאים נושאים הכרעת מעבר ל־<span className="nct-sap">S/4HANA</span> מאומתת.
+          {t.families} מרכזים, {nf.format(t.items)} נושאים ו-{nf.format(t.sections)} מקטעי תוכן.
+          כל נושא נכתב כיחידת עבודה: מטרה, מתי להשתמש, רשימת בדיקה, מלכודות נפוצות ואימות.
+          {" "}{t.withS4} מהנושאים כוללים הכרעת מעבר מתועדת ל-<span className="nct-sap">S/4HANA</span>.
+        </p>
+        <p className="nx-gate-note">
+          כאן: איך עושים. <b>מרכז הידע</b> מסביר מה זה (מושגי SAP), <b>התחומים העסקיים</b> מראים איפה זה קורה בתהליך.
         </p>
       </header>
 
@@ -56,7 +75,7 @@ export function CentersHub() {
             <span className="nct-fam-lede">{f.lede}</span>
             <span className="nct-fam-go">
               <ArrowLeft size={14} strokeWidth={2} aria-hidden="true" />
-              פתח את המרכז
+              פתיחת המרכז
             </span>
           </Link>
         ))}
@@ -74,7 +93,7 @@ export function CenterFamilyView({ fam }: { fam: CenterFamily }) {
       <header className="nct-hero">
         <p className="nct-eye">
           <ListTree size={13} strokeWidth={2} aria-hidden="true" />
-          מרכז ידע
+          מרכז הידע
           <i aria-hidden="true" />
           <span className="nct-sap" dir="ltr">{fam.en}</span>
         </p>
@@ -127,6 +146,7 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
         <div className="nct-hero-tags">
           {item.module ? <span className="nct-tag nct-tag--mod">{item.module}</span> : null}
           {item.tag ? <span className="nct-tag">{item.tag}</span> : null}
+          {fam.id === "toolkit" ? <CopyId value={templateText(item)} label="העתק תבנית" /> : null}
         </div>
       </header>
 
@@ -168,17 +188,17 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
             "no change" rather than as "not documented". It says which. */}
         {item.eccS4 ? (
           <section className="nct-sec nct-s4">
-            <h2 className="nct-sec-h"><i aria-hidden="true" />ECC ← S/4HANA</h2>
+            <h2 className="nct-sec-h"><i aria-hidden="true" />המעבר ל-S/4HANA</h2>
             <p className="nct-s4-changed">{item.eccS4.changed}</p>
             {item.eccS4.migration ? (
-              <p className="nct-p"><b>המעבר: </b>{item.eccS4.migration}</p>
+              <p className="nct-p"><b>השפעת המעבר: </b>{item.eccS4.migration}</p>
             ) : null}
           </section>
         ) : (
           <section className="nct-sec nct-s4 nct-s4--none">
-            <h2 className="nct-sec-h"><i aria-hidden="true" />ECC ← S/4HANA</h2>
+            <h2 className="nct-sec-h"><i aria-hidden="true" />המעבר ל-S/4HANA</h2>
             <p className="nct-p nct-none">
-              לנושא הזה לא תועדה הכרעת מעבר במאגר. הריק כאן מכוון, ואינו אומר שאין שינוי.
+              לנושא זה לא קיימת הכרעת מעבר מתועדת במאגר. נדרש אימות נוסף בהתאם לגרסת המערכת.
             </p>
           </section>
         )}
@@ -186,7 +206,7 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
 
       <p className="nct-foot">
         <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
-        התוכן מוצג כפי שנכתב במאגר הפרויקט. לא נוסחו כאן עובדות SAP חדשות.
+        התוכן מוצג כפי שנכתב בתיעוד הפרויקט.
       </p>
     </article>
   );

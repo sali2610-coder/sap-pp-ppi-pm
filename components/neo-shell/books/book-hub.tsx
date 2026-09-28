@@ -141,7 +141,7 @@ export function BookHub({ d }: { d: BookHubData }) {
 
   return (
     <div className="nb nb-hub" style={{ "--m": b.mod } as React.CSSProperties}>
-      <nav className="nb-crumb" aria-label="מיקום">
+      <nav className="nb-crumb" aria-label="מסלול ניווט">
         <SmartReturn fallback={{ href: "/neo/books/", label: "מדף הספרים" }} className="nb-crumb-back" />
         <span className="nu-chip is-sap">{b.module}</span>
         <span className="nu-chip">{b.moduleHe}</span>
@@ -179,7 +179,7 @@ export function BookHub({ d }: { d: BookHubData }) {
               {b.pages === null ? "עמודים לא מתועדים" : `${nf.format(b.pages)} עמ׳`}
             </span>
             {b.figures !== null && <span className="nu-chip is-sap">{nf.format(b.figures)} איורים</span>}
-            <span className="nu-chip">{b.publisher ?? "ללא מוציא לאור במטא-דאטה"}</span>
+            <span className="nu-chip">{b.publisher ?? "מוציא לאור לא מתועד"}</span>
           </div>
 
           {/* §4 — WHAT IS INDEXED, AND FROM WHERE. Two separate facts that are
@@ -188,10 +188,10 @@ export function BookHub({ d }: { d: BookHubData }) {
               what the table of contents below can do, so it is stated. */}
           <p className="nb-fine nb-hub-src">
             {b.pages === null
-              ? `אין ספירת עמודים במטא-דאטה של הספר הזה, ולכן אינה מוצגת. במאגר מתועדים ${b.chapters} פרקים ו-${nf.format(b.sections)} תת-פרקים.`
+              ? `לספר זה אין ספירת עמודים במטא-דאטה. במאגר מתועדים ${b.chapters} פרקים ו-${nf.format(b.sections)} תת-פרקים.`
               : `${nf.format(b.pages)} עמודים לפי המטא-דאטה של הספר; במאגר מתועדים ${b.chapters} פרקים ו-${nf.format(b.sections)} תת-פרקים.`}
             {" "}
-            המקור הוא מרשם הספרים של Project NEO, אותו מרשם שהקורא עצמו קורא ממנו.
+            המקור: מאגר הספרים של Project NEO.
           </p>
 
           <p
@@ -224,10 +224,10 @@ export function BookHub({ d }: { d: BookHubData }) {
               B · פתיחת הספר: the reader from the top of the book.
               The canonical reader at /library/<id>/ is neither removed nor
               reimplemented; it is named as itself, below. */}
-          <div className="nb-modes" aria-label="דרכי הכניסה לספר">
+          <div className="nb-modes" aria-label="אפשרויות קריאה">
             {line && (
               <div className="nb-mode">
-                <p className="nb-mode-k">א · המשך קריאה</p>
+                <p className="nb-mode-k">המשך קריאה</p>
                 <OriginLink
                   className="nu-btn"
                   href={r.neoHref}
@@ -245,7 +245,7 @@ export function BookHub({ d }: { d: BookHubData }) {
               </div>
             )}
             <div className="nb-mode">
-              <p className="nb-mode-k">{line ? "ב · פתיחת הספר" : "פתיחת הספר"}</p>
+              <p className="nb-mode-k">{line ? "פתיחת הספר מההתחלה" : "פתיחת הספר"}</p>
               <OriginLink
                 className={line ? "nu-btn2" : "nu-btn"}
                 href={neoReadHref(b.id)}
@@ -253,20 +253,20 @@ export function BookHub({ d }: { d: BookHubData }) {
                 onClick={() => noteHandoff(b.id, null, null)}
               >
                 <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
-                פתח בקורא של NEO
+                פתיחה בקורא
               </OriginLink>
               <p className="nb-fine">
-                משטח הקריאה של Project NEO: תוכן העניינים, מפת ההתקדמות, מצב מיקוד, גודל הטקסט ורוחב הטור.
+                הקורא של Project NEO כולל תוכן עניינים, מפת התקדמות, מצב מיקוד והגדרות תצוגה.
                 {b.chapters > 0
-                  ? ` הפתיחה היא בפרק ${b.chapterRows[0]?.n ?? 1}, אלא אם נשמר מיקום קודם.`
-                  : " לספר הזה אין פרקים במאגר, והקורא יאמר זאת במפורש."}
+                  ? ` הקריאה נפתחת בפרק ${b.chapterRows[0]?.n ?? 1}, אלא אם נשמר מיקום קודם.`
+                  : " לספר זה לא קיימים פרקים במאגר."}
               </p>
             </div>
           </div>
 
           {!line && (
             <p className="nb-fine">
-              אין מיקום קריאה שמור לספר הזה. המיקום נשמר ברגע שקוראים בו בפועל.
+              לספר זה אין מיקום קריאה שמור. המיקום נשמר במהלך הקריאה.
             </p>
           )}
 
@@ -278,10 +278,10 @@ export function BookHub({ d }: { d: BookHubData }) {
           <p className="nb-fine nb-hub-alt">
             <Link className="nu-link" href={b.href} prefetch={false}>
               <ChevronRight className="nu-arw" size={13} strokeWidth={1.75} aria-hidden="true" />
-              הקורא הקנוני של הפרויקט
+              הקורא של הספרייה הדיגיטלית
             </Link>
             {" "}
-            <span className="nb-sap">{b.href}</span>: ממשיך לפעול ללא שינוי.
+            <span className="nb-sap">{b.href}</span>.
             {!b.exact && b.exactNote ? ` ${b.exactNote}` : ""}
           </p>
         </div>
@@ -296,14 +296,14 @@ export function BookHub({ d }: { d: BookHubData }) {
         origin={({ open }) => leaving(open)}
       />
 
-      <section className="nb-link nm-rise nm-once" aria-label="החיבור למילון NEO">
-        <h2 className="nb-h3">החיבור ל-Project NEO</h2>
+      <section className="nb-link nm-rise nm-once" aria-label="הקישור לתיעוד הטכני">
+        <h2 className="nb-h3">התיעוד הטכני ב-Project NEO</h2>
         {b.dict ? (
           <>
             <Link className="nb-dict" href={b.dict.href} prefetch={false}>
               <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
               <span className="nb-dict-t">
-                מילון <span className="nb-sap">{b.dict.code}</span> · {b.dict.he}
+                תיעוד טכני <span className="nb-sap">{b.dict.code}</span> · {b.dict.he}
               </span>
               <span className="nb-dict-n nb-sap">
                 {nf.format(b.dict.tables)} טבלאות · {nf.format(b.dict.fields)} שדות
@@ -319,16 +319,16 @@ export function BookHub({ d }: { d: BookHubData }) {
           <Link className="nb-dict" href={b.near.href} prefetch={false}>
             <Layers size={15} strokeWidth={1.75} aria-hidden="true" />
             <span className="nb-dict-t">{b.near.label}</span>
-            <span className="nb-dict-n nb-sap">{nf.format(b.near.n)} אפליקציות מלאות</span>
+            <span className="nb-dict-n nb-sap">{nf.format(b.near.n)} יישומי Fiori</span>
             <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
           </Link>
         )}
       </section>
 
       {d.shelf.length > 0 && (
-        <section className="nb-link nm-rise nm-once" aria-label="ספרים נוספים במדף">
+        <section className="nb-link nm-rise nm-once" aria-label="ספרים נוספים במודול">
           <h2 className="nb-h3">
-            על אותו מדף
+            ספרים נוספים במודול
             <span>
               <span className="nb-sap">{d.module.code}</span> · {d.module.he}
             </span>

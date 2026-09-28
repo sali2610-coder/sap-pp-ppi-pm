@@ -92,7 +92,7 @@ export const REL_HE: Record<RelKind, string> = {
   "1-1": "1:1",
   "n-1": "N:1",
   "n-n": "N:N",
-  unstated: "עוצמה לא מצוינת",
+  unstated: "קרדינליות לא צוינה",
 };
 
 export const REL_ORDER: RelKind[] = ["1-1", "n-1", "n-n", "unstated"];
@@ -105,9 +105,10 @@ export const ZONE_HE: Record<string, string> = {
   Integration: "שכבת אינטגרציה",
 };
 
-/** The progressive ladder. Nothing dumps every node at once: the overview is 13
- *  module nodes, a module is its curated ERD, a group narrows to one topic or
- *  one business object, and a table is the ego view plus the detail panel. */
+/** The progressive ladder. Nothing dumps every node at once: the overview is
+ *  the MODULE_ORDER module nodes, a module is its curated ERD, a group narrows
+ *  to one topic or one business object, and a table is the ego view plus the
+ *  detail panel. */
 export type Level = "overview" | "module" | "group" | "table";
 
 export const LEVEL_HE: Record<Level, string> = {
@@ -147,35 +148,35 @@ export const ANALYSIS: AnalysisDef[] = [
     id: "focus",
     he: "מיקוד",
     en: "Focus",
-    d: "מדגיש את הטבלה שנבחרה ואת שכנותיה הישירות (אב + צאצא) ומעמעם את השאר. הגרף אף פעם לא נעלם.",
+    d: "הדגשת הטבלה שנבחרה ושכנותיה הישירות (אב ובן), ועמעום שאר התרשים.",
     needsSel: true,
   },
   {
     id: "dep",
     he: "תלויות",
     en: "Dependencies",
-    d: "כל שרשרת התלויות של הטבלה, מעלה ומטה, לאורך המודל כולו, לפי הקשרים שהמילון מתעד.",
+    d: "כל שרשרת התלויות של הטבלה, במעלה הזרם ובמורד הזרם, לפי הקשרים המתועדים במודל הנתונים.",
     needsSel: true,
   },
   {
     id: "lineage",
-    he: "שושלת",
+    he: "מקור הנתונים",
     en: "Lineage",
-    d: "מאיפה הנתונים מגיעים: כל הטבלאות שנמצאות במעלה הזרם ומחזיקות את המפתח הראשי.",
+    d: "מקור הנתונים: כל הטבלאות במעלה הזרם שמחזיקות את המפתח הראשי.",
     needsSel: true,
   },
   {
     id: "impact",
     he: "השפעה",
     en: "Impact",
-    d: "מה יושפע משינוי בטבלה: כל מה שנמצא במורד הזרם ומחזיק אליה מפתח זר. הכרעות S/4HANA מסומנות היכן שהפרויקט מחזיק אותן.",
+    d: "השפעת שינוי בטבלה: כל הטבלאות במורד הזרם שמחזיקות אליה מפתח זר. הכרעות S/4HANA מסומנות היכן שהן קיימות במאגר.",
     needsSel: true,
   },
   {
     id: "flow",
     he: "זרימה עסקית",
     en: "Business Flow",
-    d: "כיוון הזרימה לאורך שרשרת האובייקטים העסקיים של המודול, כפי שהיא רשומה בפרויקט. פעיל גם ללא בחירת טבלה.",
+    d: "כיוון הזרימה לאורך שרשרת האובייקטים העסקיים של המודול, כפי שנרשמה במאגר. פעיל גם ללא בחירת טבלה.",
     needsSel: false,
   },
 ];
@@ -189,6 +190,10 @@ export const ANALYSIS: AnalysisDef[] = [
    partial = derived from the dictionary's own S/4 column, and a table with no
    standing at all carries NO record here — the UI then says
    "לא קיים מידע מאומת בפרויקט" instead of guessing. */
+
+/** The canonical S/4HANA status token, its Hebrew label, and whether an
+ *  authored overlay record decided it (1) or the blueprint derivation did (0). */
+export interface ErdS4K { k: string; l: string; a: 0 | 1; d: string }
 
 export interface ErdS4 {
   /** Risk, verbatim from the resolver. */
@@ -245,6 +250,8 @@ export interface ErdTable {
    *  none. Never a placeholder — null is the honest answer and the UI prints
    *  it as one. */
   s4v: ErdS4 | null;
+  /** Canonical status for the node badge and the inspector (design audit §5). */
+  s4k: ErdS4K;
 }
 
 export interface ErdEdgeOut {

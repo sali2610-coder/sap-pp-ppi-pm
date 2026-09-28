@@ -27,6 +27,7 @@
    ========================================================================== */
 
 import { ACADEMY, type AcademyModule } from "@/lib/academy/model";
+import { neoLessonHref } from "./lesson-links";
 
 export interface AcademyLessonRow {
   slug: string;
@@ -74,9 +75,11 @@ export interface AcademyData {
   totals: { courses: number; chapters: number; lessons: number; minutes: number; blocks: number; levels: number };
 }
 
-/** Where the authored lesson body is already rendered. Gated on `hasLesson`, so
- *  this can only ever point at a page generateStaticParams actually built. */
-const lessonHref = (slug: string) => `/academy/lesson/${slug}/`;
+/** Where a lesson is read INSIDE Project NEO. Gated on `hasLesson` below, the
+ *  same gate app/neo/academy/[courseId]/[slug]/ applies in neoLessonParams, so
+ *  this only ever points at a page that was built. The directory used to send
+ *  the reader to the pre-NEO /academy/lesson/ route, which swaps the shell, the
+ *  navigation and the look mid-task (design audit, section 8). */
 
 /** Level order as the paths themselves use it: easiest first. A level the data
  *  introduces that is not on this list still appears — it sorts last rather
@@ -99,7 +102,7 @@ function courseOf(m: AcademyModule): AcademyCourseRow {
       hasLesson: l.hasLesson,
       blocks: l.requiredBlocks ?? 0,
       prereq: l.prereq ?? "",
-      href: l.hasLesson ? lessonHref(l.slug) : "",
+      href: l.hasLesson ? neoLessonHref(m.moduleId, l.slug) : "",
     }));
     return {
       index: ch.index,

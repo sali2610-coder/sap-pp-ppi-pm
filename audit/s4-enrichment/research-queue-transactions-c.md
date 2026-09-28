@@ -1,0 +1,1451 @@
+# Research queue · transactions catalog, shard C (S/4HANA enrichment)
+
+Kept by the single writer for `data/verification/transactions-c.ts`. One line per id that was
+refuted or deferred at the adversarial-verification gate, and one line per repository
+conflict the audited records surfaced.
+
+Batch 1 written 2026-09-25 (access date stamped 2026-09-25): 8 drafts audited, 7 written,
+1 refuted (`tx:KSV5`). Five were taken from `verdict.fixedRecord` (`tx:KSU5`, `tx:KSV1`,
+`tx:CJ01`, `tx:CJ02`, `tx:CJ03`) and two were re-derived from the draft with the listed
+downgrades applied (`tx:OKB9`, `tx:OKKP`). No record carries a `reviewer` field (house
+convention across the overlay files). The records were generated from the audited JSON, not
+retyped, and deep-compared against it after insertion.
+
+Depth (`report-coverage.mjs --ids`, before and after): `tx:KSU5` moved from L3
+`repository_verified` with the derived status 'changed' to L5 `sap_official_verified` with the
+authored `unchanged`; `tx:KSV1` from L3 `repository_verified` (derived 'unchanged') to L5
+`sap_official_verified` (authored `unchanged`). `tx:OKB9`, `tx:CJ01`, `tx:CJ02` and `tx:CJ03`
+moved from `verification_required` to `sap_official_verified` with the authored `changed`, and
+`tx:OKKP` from `verification_required` to `sap_official_verified` with the authored status
+`verification_required`. These five stay at depth L1: none has a tx-intel / tx-detail record,
+so the page structure (3 authored facts needed for L2) is missing. Batch effect on the catalog
+totals (`npm run report:coverage -- --catalog transactions`): L3 -2, L5 +2, verified +5,
+verification_required -5, s4-appl +4, conflict 0. Measured totals: 00:54 L3 451, L5 86,
+verified 583, verif.req 1225, conflict 10, s4-appl 589; 01:05 L3 444, L5 93, verified 591,
+verif.req 1216, conflict 11, s4-appl 597. The remainder is chain B's concurrent batch in
+`transactions-b.ts` (MSC1N, MSC2N, MSC3N, MSC4N, QA32, MCXA, MCXX, QC20, QC21).
+
+Batch 2 written 2026-09-25 (access date stamped 2026-09-25): 8 drafts audited, 8 written, none
+refuted. The eight are the PS project-definition, WBS-element and structure-planning codes the
+item 'S4TWL - Simplification of maintenance transactions' lists (`tx:CJ06`, `tx:CJ07`,
+`tx:CJ08`, `tx:CJ11`, `tx:CJ12`, `tx:CJ13`, `tx:CJ14`, `tx:CJ20`), each written as `changed`.
+Five were taken from `verdict.fixedRecord` (`tx:CJ08`, `tx:CJ11`, `tx:CJ12`, `tx:CJ14`,
+`tx:CJ20`) and three were re-derived from the draft with the listed downgrades (`tx:CJ06`,
+`tx:CJ07`, `tx:CJ13`). The records were generated from the audited JSON, not retyped: every
+downgrade was applied as an exact-once substring replacement (a miss aborts the run), and the
+written module was deep-compared against the expected objects, with `status.source` checked for
+identity with its evidence row.
+
+Depth (`report-coverage.mjs --ids`, before and after): all eight moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified` with the authored
+`changed`. They stay at depth L1: none has a tx-intel / tx-detail record, so the page structure
+(3 authored facts needed for L2) is missing. Batch effect on the catalog totals
+(`npm run report:coverage -- --catalog transactions`): verified +8, verification_required -8,
+s4-appl +8, depth bands and conflict unchanged. Measured totals: 01:25 L1 1279, L3 443, L4 2,
+L5 94, verified 596, verif.req 1211, conflict 11, s4-appl 600; 01:35 L1 1279, L3 437, L4 2,
+L5 100, verified 605, verif.req 1202, conflict 11, s4-appl 609. The remainder (L3 -6, L5 +6,
+verified +1, verification_required -1, s4-appl +1) is chain B's concurrent batch in
+`transactions-b.ts` (QDV3, QE51N, QGA1, QGP1, QI03, QM10, QM50).
+
+Batch 3 written 2026-09-25 (access date stamped 2026-09-25): 8 drafts audited, 8 written, none
+refuted. Four are the planning-board and structure-planning codes the item 'S4TWL -
+Simplification of maintenance transactions' lists (`tx:CJ27`, `tx:CJ2A`, `tx:CJ2B`, `tx:CJ2D`,
+each `changed`); three are the payment-planning and period-close codes the item 'S4TWL -
+Selected project financial planning and control functions' lists under 'Modernized topics'
+(`tx:CJ48`, `tx:CJ49`, `tx:CJ8V`, each `changed`); and `tx:CJ30` carries no status, because the
+item 'S4TWL - Hierarchy Graphics in Project Systems' names CJ30 only as an indicator and says
+the transactions themselves are not part of it, so all six CJ30 rows are context rows. Seven
+were taken from `verdict.fixedRecord` (`tx:CJ27`, `tx:CJ2A`, `tx:CJ2B`, `tx:CJ30`, `tx:CJ48`,
+`tx:CJ49`, `tx:CJ8V`) and one was re-derived from the draft with the two listed downgrades
+(`tx:CJ2D`). The records were generated from the audited JSON, not retyped: every change was
+applied as an exact-once substring replacement (a miss aborts the run), every URL was matched
+against the generated shard and the generator's cached search records, the two CJ2B context
+rows the auditor carried were deep-compared with their generated twins, and the written module
+was deep-compared against the expected objects, with `status.source` checked for identity with
+its evidence row and the 15 batch-1 and batch-2 records checked unchanged.
+
+Depth (`report-coverage.mjs --ids`, before and after): seven moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified` with the authored
+`changed`; `tx:CJ30` stays L1 `verification_required` (no status, context rows only, as
+audited). All eight stay at depth L1: none has a tx-intel / tx-detail record, so the page
+structure (3 authored facts needed for L2) is missing. Batch effect on the catalog totals
+(`npm run report:coverage -- --catalog transactions`): verified +7, verification_required -7,
+s4-appl +7, depth bands and conflict unchanged. Measured totals: 01:53 L1 1279, L3 434, L4 2,
+L5 103, verified 608, verif.req 1199, conflict 11, s4-appl 612; 02:09 L1 1279, L3 432, L4 2,
+L5 105, verified 621, verif.req 1186, conflict 11, s4-appl 624. The remainder (L3 -2, L5 +2,
+verified +6, verification_required -6, s4-appl +5) is chain B's concurrent batch in
+`transactions-b.ts` (LS24, VA01, FD31, FD32, FD33, QS34, QS42, UKM_BP).
+
+Batch 4 written 2026-09-25 (access date stamped 2026-09-25): 8 drafts audited, 8 written, none
+refuted. Two are codes the item 'S4TWL - Selected project financial planning and control
+functions' lists under 'Modernized topics' (`tx:CJ9D`, topic 'Copy Plan Version', and `tx:CJSG`,
+subsection 'WBS Element Groups', each `changed`); two are `compatibility_scope` (`tx:CJI3` from
+'S4TWL - Project Reporting', successor `tx:CJI3N`; `tx:CJSB` from 'S4TWL - Project System -
+Compatibility Scope without alternative', 'no alternative planned'); `tx:CJI3N` is `changed`
+from 'S4TWL - Navigation to Project Builder instead of special maintenance functions'
+(navigation from CJI3N opens CJ20N since 1511; the auditor replaced the draft's `unchanged`);
+and the three simulation codes the item 'S4TWL - Current simulation functions in project
+system' lists (`tx:CJV1`, `tx:CJV2`, `tx:CJV3`) are `changed`. Four were taken from
+`verdict.fixedRecord` (`tx:CJI3`, `tx:CJI3N`, `tx:CJSG`, `tx:CJV2`) and four were re-derived from
+the draft with the listed downgrades (`tx:CJ9D`, `tx:CJSB`, `tx:CJV1`, `tx:CJV3`). The records
+were generated from the audited JSON, not retyped into TypeScript: every downgrade and writer
+change was applied as an exact-once substring replacement (a miss aborts the run), every row of
+the eight generated records was checked to be either cited by the audited record (same URL or
+repoRef, plus the item number for Simplification List rows) or carried, and the written module
+was deep-compared against the expected objects, with `status.source` checked for identity with
+its evidence row and the 23 batch-1 to batch-3 records checked unchanged.
+
+Depth (`report-coverage.mjs --ids`, before and after): all eight moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified` with the authored
+status (six `changed`, two `compatibility_scope`). They stay at depth L1: none has a tx-intel /
+tx-detail record, so the page structure (3 authored facts needed for L2) is missing. Batch effect
+on the catalog totals (`npm run report:coverage -- --catalog transactions`): verified +8,
+verification_required -8, s4-appl +8, depth bands and conflict unchanged. Measured totals: 02:34
+L1 1279, L3 432, L4 2, L5 105, verified 621, verif.req 1186, conflict 11, s4-appl 624; 02:51 L1
+1279, L3 424, L4 2, L5 113, verified 629, verif.req 1178, conflict 11, s4-appl 632. The remainder
+(L3 -8, L5 +8), attributed by a per-id diff of the two `--ids` runs, is concurrent work in other
+shards: chain B batch 7 in `transactions-b.ts` (VA02, VA03, VA05, VA11, VA12, VA13, VA22, each L3
+to L5) and the correction batch in `transactions.ts` (MD50 L3 to L5; MB03 and ME21 changed their
+status token only).
+
+Batch 5 written 2026-09-28 (access date stamped 2026-09-25, as the chain's args set it; the chain
+was interrupted by the weekly limit and resumed on 2026-09-28, and part of the audit ran that day):
+9 drafts audited, 8 written, 1 refuted (`tx:KSV5`, second round). The eight are the PS network,
+scheduling, structure-overview, change-document and project-procurement codes: `tx:CN22` and
+`tx:CN23` (`changed`, 'S4TWL - Simplification of maintenance transactions'; CN22 also cites 'S4TWL -
+Production Resources and Tools functions for projects'), `tx:CN24` and `tx:CN24N` (`changed`, 'S4TWL
+- Simplification of Date Planning Transactions'), `tx:CN41` (`changed`, 'S4TWL - Navigation to
+Project Builder instead of special maintenance functions'), `tx:CN60` (`unchanged`) and `tx:CN65`
+(`compatibility_scope`, successor `tx:CN60`), both from 'S4TWL - Project Reporting', and `tx:CNMM`
+(`changed`, 'S4TWL - Selected Logistics Capabilities'). Six were taken from `verdict.fixedRecord`
+(`tx:CN23`, `tx:CN24`, `tx:CN41`, `tx:CN60`, `tx:CN65`, `tx:CNMM`) and two were re-derived from the
+draft with the listed downgrades (`tx:CN22`, `tx:CN24N`). The records were generated from the
+audited JSON, not retyped into TypeScript: every downgrade and writer change was applied as an
+exact-once substring replacement (a miss aborts the run), every row of the eight generated records
+was checked to be either cited by the audited record (same URL or repoRef, plus the item number for
+Simplification List rows) or carried, and the written module was deep-compared against the expected
+objects, with `status.source` checked for identity with its evidence row and the 31 batch-1 to
+batch-4 records checked unchanged.
+
+Depth (`report-coverage.mjs --ids`, before and after): all eight moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified` with the authored status
+(six `changed`, one `unchanged`, one `compatibility_scope`). They stay at depth L1: none has a
+tx-intel / tx-detail record, so the page structure (3 authored facts needed for L2) is missing.
+`tx:KSV5` is unchanged (L3 `repository_verified`, derived 'changed', generated record live). Batch
+effect on the catalog totals (`npm run report:coverage -- --catalog transactions`): verified +8,
+verification_required -8, s4-appl +8, depth bands and conflict unchanged. Measured totals: 12:35 L1
+1279, L2 2, L3 414, L4 3, L5 120, verified 639, verif.req 1164, conflict 15, s4-appl 642; 12:40 L1
+1279, L2 2, L3 414, L4 3, L5 120, verified 647, verif.req 1156, conflict 15, s4-appl 650. A per-id
+diff of the two `--ids` runs shows no other id changed in that window. An earlier reading at 12:23
+(L2 0, L3 424, L4 2, L5 113, verified 629, verif.req 1178, conflict 11, s4-appl 632) differs from the
+12:35 one by concurrent work in other shards after the 12:10 relaunch (not attributed per id; the
+writer's before/after pair is the 12:35 and 12:40 readings).
+
+Batch 6 written 2026-09-28 (access date stamped 2026-09-25, as the chain's args set it; research and
+audit ran on 2026-09-28): 8 drafts audited, 8 written, none refuted. The eight are the BASIS
+archiving, client-administration, scheduling, transport-setup, data-browser, area-menu and
+modification-browser codes: `tx:SARA` (`unchanged`, 'S4TWL - Specific PS archiving transactions',
+which names SARA the designated central-archiving alternative to the PS-specific archiving
+transactions), `tx:SCMA` (`compatibility_scope`, 'S4TWL - Schedule Manager'; no successor, since
+SAP Advanced Financial Closing has no canonical id), `tx:SE43` (`unchanged`, the 2025 FPS01 help
+topic 'Accessing the Chain-Liability Area Menu'; the item 'S4TWL - Handling Oil & Gas obsolete
+t-codes Oil' names SE43 the successor of O300), `tx:SE95` (`unchanged`, 'ABAPTWL - SSCR license key
+procedure is no longer supported'), `tx:SCC5` (authored `verification_required`), and `tx:SCC4`,
+`tx:SE06` and `tx:SE16` (no status block: no source read decides one; every SE06 row is a context
+row). All eight were taken from `verdict.fixedRecord`; the SE43 notes, which its fixedRecord left as
+'(unchanged from draft)', come from the draft. The audited JSON was parsed from the writer's task
+prompt as the session transcript records it, not retyped: every writer change was applied as an
+exact-once substring replacement (a miss aborts the run), every row of the eight generated records
+was checked to be either cited by the audited record (same URL or repoRef, plus the item number for
+Simplification List rows) or carried, each carried row was compared with its generated twin (only
+the edits listed below differ), and the written module was deep-compared against the expected
+objects, with `status.source` checked for identity with its evidence row and the 39 batch-1 to
+batch-5 records checked unchanged.
+
+Depth (`report-coverage.mjs --ids`, before and after): seven moved from L1 `verification_required`
+to L1 `sap_official_verified`: `tx:SARA`, `tx:SE43` and `tx:SE95` with the authored `unchanged`,
+`tx:SCMA` with the authored `compatibility_scope`, `tx:SCC5` with the authored
+`verification_required`, and `tx:SCC4` and `tx:SE16` with the derived `verification_required`.
+`tx:SE06` stays L1 `verification_required` (all four of its rows are context rows). All eight stay
+at depth L1: none has a tx-intel / tx-detail record, so the page structure (3 authored facts needed
+for L2) is missing. `tx:SCC4` and `tx:SE16` now count in the report's edition column, because each
+cites a row from the 'SAP S/4HANA Cloud Private Edition 2023 FP2' administration guide marked
+`private-cloud` (the report counts a record whose sources include a cloud edition; the status
+edition stays on-premise). Batch effect on the catalog totals
+(`npm run report:coverage -- --catalog transactions`): verified +7, verification_required -7,
+s4-appl +4, edition +2, depth bands and conflict unchanged. Measured totals: 13:04 L1 1279, L2 2, L3
+414, L4 3, L5 120, verified 654, verif.req 1149, conflict 15, s4-appl 657, edition 3; 13:17 L1 1279,
+L2 2, L3 414, L4 3, L5 120, verified 661, verif.req 1142, conflict 15, s4-appl 661, edition 5. A
+per-id diff of the two `--ids` runs shows no other id changed in that window.
+
+Batch 7 written 2026-09-28 (access date stamped 2026-09-25, as the chain's args set it; research and
+audit ran on 2026-09-28): 8 drafts audited, 8 written, none refuted, no new repository conflict. The
+eight are the BASIS spool, TemSe, modification-adjustment, workload-monitor and own-user-profile
+codes: `tx:SP02` (`unchanged`, the 2025 FPS01 help topic 'Allowance Wage Types', HCM Local Version
+for the United Arab Emirates, which tells the reader to run SP02), `tx:SP11` and `tx:SP12`
+(`unchanged`, the SAP Printing Guide topic 'Displaying and Managing TemSe Objects', 1709.latest,
+body read), `tx:SPDD` (`unchanged`, 'Installing Upgrades, Support Packages, and Enhancement
+Packages', Changing the SAP Standard, 1709.latest), `tx:ST03N` (`unchanged`, 'Troubleshooting
+Using Central Monitoring Functions', Connectivity, 1709.latest), `tx:SU3` (`unchanged`, 'User
+Management', SAP NetWeaver AS for ABAP Security Guide, 1709.latest, body read), `tx:SP01`
+(authored `verification_required`) and `tx:SPAU` (no status block: the items that name it use it
+as a tool, the batch-6 SCC4/SE06/SE16 precedent). Every Simplification List string 'SP01', 'SP02',
+'SP11' and 'SP12' that the index matched is a Support Package level, not the transaction. Six were
+taken from `verdict.fixedRecord` (`tx:SP01`, `tx:SP02`, `tx:SP11`, `tx:SP12`, `tx:SPAU`,
+`tx:SU3`); `tx:SPDD` was re-derived from the draft with its three listed downgrades, and
+`tx:ST03N` was taken from the draft (its verdict lists no problem and no downgrade). The audited
+JSON was parsed from the writer's task prompt as the session transcript records it, not retyped:
+every writer change was applied as an exact-once substring replacement (a miss aborts the run),
+every row of the eight generated records was checked to be either cited by the audited record (same
+URL or repoRef, plus the item number for Simplification List rows) or carried, apart from the
+Support Package false positives the audits dropped on purpose (writer deviations, item 4), and the
+written module was deep-compared against the expected objects, with `status.source` checked for
+identity with its evidence row and the 47 batch-1 to batch-6 records checked unchanged against HEAD.
+
+Depth (`report-coverage.mjs --ids`, before and after): all eight moved from L1
+`verification_required` to L1 `sap_official_verified`: `tx:SP02`, `tx:SP11`, `tx:SP12`,
+`tx:SPDD`, `tx:ST03N` and `tx:SU3` with the authored `unchanged`, `tx:SP01` with the authored
+`verification_required`, and `tx:SPAU` with the derived `verification_required`. All eight stay
+at depth L1: none has a tx-intel / tx-detail record, so the page structure (3 authored facts needed
+for L2) is missing. Batch effect on the catalog totals (`npm run report:coverage -- --catalog
+transactions`): verified +8, verification_required -8, s4-appl +6; depth bands, conflict and
+edition unchanged. Measured totals: 13:41 L1 1279, L2 2, L3 410, L4 4, L5 123, verified 667,
+verif.req 1133, conflict 18, s4-appl 668, edition 5, a table run that preceded chain E's batch-3
+write (its eight ids, SICF to SNRO, are already `sap_official_verified` in the `--ids` baseline
+half a minute later and account for verified +8 and s4-appl +5); the `--ids` baseline this batch is
+measured against: verified 675, verif.req 1125, s4-appl 673, depth bands as above; 13:54 L1 1279,
+L2 2, L3 410, L4 4, L5 123, verified 683, verif.req 1117, conflict 18, s4-appl 679, edition 5. A
+per-id diff of the two `--ids` runs shows no other id changed in that window.
+
+Batch 8 written 2026-09-28 (access date stamped 2026-09-25, as the chain's args set it; research and
+audit ran on 2026-09-28): 8 drafts audited, 8 written, none refuted. The eight are the ABAP
+workbench, data-browser and SAPscript codes: `tx:SD11` (`restricted`, 'S4TWL - Removal of obsolete
+Data Modeler (SD11) content', which removes the content shown in SD11, not the transaction),
+`tx:SE11` (`unchanged`, the 2025 FPS01 help topic 'Using Customer-Specific Data in Adobe Forms'),
+`tx:SE24` (`unchanged`, the 2025 FPS01 help topic 'Configuring Activity Types', Payroll Control
+Center: Manage Payroll Activities), `tx:SE71` (`unchanged`, 'Editing Application Forms Using
+Existing Technologies', 2023 Latest), `tx:SE16N` (authored `verification_required`), and `tx:SAS`,
+`tx:SCI` and `tx:SE38` (no status block: the SAS items expand SAS as Status and Action Schema, and
+the items that name SCI and SE38 use them as tools; every SAS and SE38 row is a context row). Seven
+were taken from `verdict.fixedRecord`; `tx:SE16N` was re-derived from the draft with its one listed
+downgrade (the notes' account of the 'SE16N' search). The audited JSON was parsed from the writer's
+task prompt as the session transcript records it, not retyped: every writer change was applied as
+an exact-once substring replacement (a miss aborts the run), every row of the eight generated
+records was checked to be either cited by the audited record (same URL or repoRef, plus the item
+number for Simplification List rows) or carried, each carried row was compared with its generated
+twin (only the edits listed below differ), and the written module was deep-compared against the
+expected objects, with `status.source` checked for identity with its evidence row and the 55
+batch-1 to batch-7 records checked unchanged against HEAD.
+
+Depth (`report-coverage.mjs --ids`, before and after): six moved from L1 `verification_required`
+to L1 `sap_official_verified`: `tx:SE11`, `tx:SE24` and `tx:SE71` with the authored `unchanged`,
+`tx:SD11` with the authored `restricted`, `tx:SE16N` with the authored `verification_required`,
+and `tx:SCI` with the derived `verification_required`. `tx:SAS` and `tx:SE38` stay L1
+`verification_required` (every row of both is a context row). All eight stay at depth L1: none has
+a tx-intel / tx-detail record, so the page structure (3 authored facts needed for L2) is missing.
+Batch effect on the catalog totals (`npm run report:coverage -- --catalog transactions`): verified
++6, verification_required -6, s4-appl +4; depth bands, conflict and edition unchanged. Measured
+totals: 14:18 L1 1279, L2 2, L3 401, L4 4, L5 132, verified 685, verif.req 1113, conflict 20,
+s4-appl 683, edition 5; 14:37 L1 1279, L2 2, L3 401, L4 4, L5 132, verified 699, verif.req 1099,
+conflict 20, s4-appl 695, edition 5. The rest of the difference (verified +8, verif.req -8,
+s4-appl +8) matches chain E's batch 4 in `transactions-e.ts` (SWEL, SWI1, SWI5, SWIA, SWU2, SWU3,
+SWUD, BAPI, committed 14:35; all eight are now L1 `sap_official_verified` with a decided status);
+chain D's batch 3 (FB03 to FD01, committed 14:20) also landed in the window. The `--ids` baseline
+file was removed from the shared scratchpad before the second run, so the other ids were not
+diffed one by one; the eight batch ids were read from the baseline before it went.
+
+Batch 9 written 2026-09-28 (access date stamped 2026-09-25, as the chain's args set it; research and
+audit ran on 2026-09-28): 8 drafts audited, 7 written, 1 refuted (`tx:PA40`). The seven are the
+user-administration, authorization-default-value, company-address, time-sheet and HR master-data
+codes: `tx:SU01` (`changed`, 'S4TWL - Business User Management': the business user is an SU01 user
+with a one-to-one relation to its business partner, and transaction BP can no longer assign users to
+business partners), `tx:SUCOMP` (`unchanged`, the same item: the company address is maintained
+through User Management and is not part of TBZ_V_EEWA_SRC), `tx:SU22` and `tx:SU25` (`unchanged`,
+the 2025 help topic 'Default Authorization Values and PFCG Roles', 2025.000), `tx:CAT2`
+(`unchanged`, 'S4TWL - CATSXT': CAT2 and CATSDB related transactions continue to be supported),
+`tx:PA48` (`unchanged`, 'S4TWL - HCM Obsolete Packages': PA48 stays available, an explicit exception
+to the obsolete packages), and `tx:PA30` (no status block: the items that name it describe it as a
+maintenance path and name no status). All seven were taken from `verdict.fixedRecord`. The audited
+JSON was parsed from the writer's task prompt as the session transcript records it, not retyped:
+every writer change was applied as an exact-once substring replacement or a checked structural edit
+(a miss aborts the run), every row of the seven generated records was checked to be either cited by
+the audited record (same URL or repoRef, plus the item number for Simplification List rows) or
+carried, each carried row was compared with its generated twin (only the edits listed below differ),
+and the written module was deep-compared against the expected objects, with `status.source` checked
+for identity with its evidence row and the 63 batch-1 to batch-8 records checked unchanged against
+the pre-batch file (equal to HEAD).
+
+Depth (`report-coverage.mjs --ids`, before and after): all seven moved from L1
+`verification_required` to L1 `sap_official_verified`: `tx:SU01` with the authored `changed`,
+`tx:SU22`, `tx:SU25`, `tx:SUCOMP`, `tx:CAT2` and `tx:PA48` with the authored `unchanged`, and
+`tx:PA30` with the derived `verification_required`. `tx:PA40` stays L1 `verification_required` (its
+generated record stays live). All seven stay at depth L1: none has a tx-intel / tx-detail record, so
+the page structure (3 authored facts needed for L2) is missing. Batch effect on the catalog totals
+(`npm run report:coverage -- --catalog transactions`): verified +7, verification_required -7,
+s4-appl +6 (PA30 has no decided status); depth bands, conflict and edition unchanged. Measured
+totals: 15:09 L1 1279, L2 2, L3 396, L4 4, L5 137, verified 716, verif.req 1081, conflict 21,
+s4-appl 710, edition 5; 15:17 L1 1279, L2 2, L3 396, L4 4, L5 137, verified 723, verif.req 1074,
+conflict 21, s4-appl 716, edition 5. A per-id diff of the two `--ids` runs shows exactly the seven
+batch ids changed in that window. The `--ids` files were written to the session scratchpad
+(`IDS_OUT`), not to the repository root.
+
+Batch 10 written 2026-09-28 (research and audit ran on 2026-09-28; the rows keep the access dates the
+audited drafts give them: 2026-09-25 for the KSV5 research rows, 2026-09-24 for its three carried
+context rows, 2026-09-28 for PA40): 2 drafts audited, 2 written, none refuted. They are the two ids
+refuted at earlier gates: `tx:KSV5` (third round; refuted in batches 1 and 5) and `tx:PA40` (second
+round; refuted in batch 9). `tx:KSV5` is `restricted` from 'S4TWL - ACTIVITY-BASED COSTING' (2025
+FPS01: no change where version 0 is used, an error message where a delta version is used, allocations
+in parallel Activity-Based Costing no longer supported, CPV5 replaced by KSV5); `tx:PA40` carries an
+authored `verification_required` ('S4TWL - Conversion of Employees to Business Partners' and 'S4TWL -
+Business User Management' name it as an example of local HR data maintenance; 'S4TWL - General HCM
+Approach within SAP S/4HANA' places SAP ERP HCM in the compatibility scope without naming PA40).
+Neither verdict carried a `fixedRecord`; both records were re-derived from the draft with the listed
+downgrades. The audited JSON was parsed from the writer's task prompt as the session transcript
+records it, not retyped: every downgrade and writer change was applied as an exact-once substring
+replacement or a checked structural edit (a miss aborts the run), every row of the two generated
+records was checked to be either cited by the audited record (same URL or repoRef, plus the item
+number for Simplification List rows) or carried, the carried rows were checked deep-equal to their
+generated twins, and the written module was deep-compared against the expected objects, with
+`status.source` checked for identity with its evidence row and the 70 batch-1 to batch-9 records
+checked unchanged against the pre-batch file (equal to HEAD).
+
+Depth (`report-coverage.mjs --ids`, before and after): `tx:KSV5` moved from L3 `repository_verified`
+with the derived 'changed' (generated record) to L5 `sap_official_verified` with the authored
+`restricted`; `tx:PA40` moved from L1 `verification_required` to L1 `sap_official_verified` with the
+authored `verification_required`. PA40 stays at depth L1: it has no tx-intel / tx-detail record, so
+the page structure (3 authored facts needed for L2) is missing. Batch effect on the catalog totals
+(`npm run report:coverage -- --catalog transactions`): L3 -1, L5 +1, verified +1,
+verification_required -1; s4-appl, conflict, legacy and edition unchanged. Measured totals: 17:48 L1
+1279, L2 3, L3 382, L4 5, L5 149, verified 739, verif.req 1055, conflict 24, legacy 6, s4-appl 732,
+edition 5; 17:54 L1 1279, L2 3, L3 381, L4 5, L5 150, verified 740, verif.req 1054, conflict 24,
+legacy 6, s4-appl 732, edition 5. A per-id diff of the two `--ids` runs shows exactly the two batch
+ids changed in that window. The `--ids` files were written to the session scratchpad (`IDS_OUT`), not
+to the repository root.
+
+## refuted
+
+- `tx:KSV5` (batch 1, 2026-09-25): refuted at the adversarial gate, not written; the generated
+  record in `transactions-auto.ts` stays live (L3 `repository_verified`, derived 'changed').
+  Auditor problems, verbatim:
+  1. The status token contradicts its own source and its own he text. The record says status
+     'unchanged' (the page shows 'ללא שינוי ב-S/4HANA' in the 'keeps' group). But status.he and
+     the cited item (SIMPL_OP2025.pdf.txt lines 17625-17639, p. 322) say KSV5 changes only when
+     version 0 is used; with a delta version the system issues an error, and parallel ABC
+     allocations are no longer supported. The item is typed 'Business Impact' and adds a
+     conversion-check error (FI_GL_08) for ABC delta versions. That is a restriction on how
+     KSV5 works in S/4HANA, so the right token is 'restricted' ('מוגבל ב-S/4HANA'). 'unchanged'
+     only fits the version-0 case.
+  2. recommendedAction adds a step the item never states: 'להעביר את מחזורי החלוקה לגרסה 0 לפני
+     ההסבה'. The item (lines 17614-17623 and the Required Action) offers only these options: if
+     you can work without delta versions, delete the delta-version data in ECC according to
+     note 3126356, or skip the error in the conversion check and do not map the delta versions
+     to a ledger. Its required action is 'Activate Operational Activity Based Costing. Check
+     existing roles and adjust assigned transactions if necessary.' Moving cycles to version 0
+     does not appear in the item.
+  3. recommendedAction misstates the TKA09 check. It says 'השדה TKA09-REFVS מפנה לגרסת ייחוס
+     (גרסת דלתא)', which reads as if the reference version is the delta version. The item
+     (lines 17597-17599) says a CO version whose TKA09-REFVS points to a reference version is
+     the delta version, and that an empty TKA09-REFVS means delta versions are not in use. The
+     TKA00-COABC wording should also give the values the item prints (1 or 2, 'Component Active
+     for Parallel Calculation' / '... and Integrated Calcluation').
+  4. This repeats the round-1 problem of citing an uncited source, now inside the
+     simplification row. The claim (and its copy in status.source) ends with 'המשפט על CPV5
+     ו-KSV5 מופיע באותו נוסח גם ברשימת 2023 FPS03, פריט 12.11 (עמ' 360)', but the row's url is
+     the 2025 PDF only. The 2023 fact is correct (SIMPL_OP2023.pdf.txt line 19682 '12.11S4TWL -
+     ACTIVITY-BASED COSTING', line 19777 'transaction CPV5 has been replaced by KSV5
+     (distribution),', page 360). The 2023 URL
+     https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf
+     returns 206 application/pdf. Still, a claim must be bounded by the source its own row cites.
+  5. Verified OK in that round (keep on re-draft): the search record re-ran (KSV5, S4
+     on-premise scope) with title 'Controlling and Project System', deliverable Public Sector
+     Management, versionId 2025.001, loio a4e7cc53a8b77214e10000000a174cb4, URL identical, and
+     the quoted snippet is present verbatim. FAL KSV5 S32OP re-ran: SAP GUI, Published,
+     CO-OM-CCA, technical catalog SAP_TC_FIN_CO_BE_APPS:S4FIN, intent
+     CostCenter-executeActlDistribution, predecessors and successors '-'. All three quotes from
+     item 6.5.2 are verbatim on p. 322, and TKA00-COABC and TKA09-REFVS are printed on p. 321.
+     The 2025 PDF URL returns application/pdf. tx:KSV1 is in ROUTE_MANIFEST.
+     data/tcode-catalog.ts line 707 matches. No em dashes, no certainty words and no SAP Note
+     field in the record. There is no duplicate-id issue, because data/verification/index.ts
+     filters tx:KSV5 out of transactions-auto.ts once a researched record exists.
+  Re-draft: take the token from the auditor ('restricted', see also the status-token conflict
+  below), limit recommendedAction to the item's own options and required action, state the
+  TKA09-REFVS / TKA00-COABC checks as the item prints them, and move the 2023 FPS03 sentence
+  to its own 2023 row.
+- Batch 2 (2026-09-25): none refuted. All eight audited drafts (`tx:CJ06`, `tx:CJ07`,
+  `tx:CJ08`, `tx:CJ11`, `tx:CJ12`, `tx:CJ13`, `tx:CJ14`, `tx:CJ20`) were written.
+- Batch 3 (2026-09-25): none refuted. All eight audited drafts (`tx:CJ27`, `tx:CJ2A`,
+  `tx:CJ2B`, `tx:CJ2D`, `tx:CJ30`, `tx:CJ48`, `tx:CJ49`, `tx:CJ8V`) were written.
+- Batch 4 (2026-09-25): none refuted. All eight audited drafts (`tx:CJ9D`, `tx:CJI3`, `tx:CJI3N`,
+  `tx:CJSB`, `tx:CJSG`, `tx:CJV1`, `tx:CJV2`, `tx:CJV3`) were written.
+- `tx:KSV5` (batch 5, second round, 2026-09-28): refuted again at the adversarial gate, not written;
+  the generated record in `transactions-auto.ts` stays live (L3 `repository_verified`, derived
+  'changed'). The re-draft fixed the four batch-1 problems (status now `restricted`); it was refuted
+  for content and history loss. The second-round draft is not on disk in this repository:
+  `scratchpad/pipeline/tx3C-args.json` holds the first-round draft and verdict. Auditor problems,
+  verbatim:
+  1. All four first-round problems are fixed, and I checked each one again. (1) The status is now
+     'restricted', which matches SIMPL_OP2025.pdf.txt p. 322: 'Where version 0 is used, there will
+     be no change. Where a delta version is used, the system will issue an error message.' The
+     status.he text and status.source agree with it. (2) The step about moving cycles to version 0
+     is gone. The two options (delete the delta-version data as the note says, or skip the error
+     and do not map the versions to a ledger) and the Required Action ('Activate Operational
+     Activity Based Costing. Check existing roles and adjust assigned transactions if necessary.')
+     match lines 17614-17665. (3) The TKA09-REFVS and TKA00-COABC 1/2 wording now matches lines
+     17583-17599, including SAP's own spelling 'Calcluation'. (4) The 2023 sentence is out of the
+     row claim and status.source. Its facts check out: SIMPL_OP2023.pdf.txt line 19777 sits before
+     'Page | 360' at line 19779, item 12.11, document version 1.35, and the URL returns 206
+     application/pdf.
+  2. Checked again today with no problems found. sap-help-search 'KSV5' in the S4 on-premise scope
+     returns 'Controlling and Project System', Public Sector Management, versionId 2025.001, loio
+     a4e7cc53..., with the same URL and the quoted substring verbatim. The SAP_ERP scope gives the
+     same loio at 6.18.latest with the URL the notes give. fal-app KSV5 S32OP shows SAP GUI,
+     Published, CO-OM-CCA, SAP_TC_FIN_CO_BE_APPS:S4FIN, CostCenter-executeActlDistribution, and '-'
+     for both predecessors and successors. The 2025 PDF returns 206 application/pdf. KSV1 is in
+     lib/route-manifest.generated.ts. tcode-catalog.ts line 707 matches. 'restricted' is a valid
+     token, and it has an edition, a release and an official source. The record has no reviewer
+     field, no SAP Note number, no em dash and no certainty words. Using '2025 FPS01' as the release
+     matches 35 other simplification rows in transactions-c.ts.
+  3. BLOCKING, content and history loss. The repaired record replaces the generated tx:KSV5 in
+     data/verification/transactions-auto.ts, at line 36154. data/verification/index.ts line 25
+     filters the old record out once this one exists, so every row the draft does not keep
+     disappears from the public page. The draft drops the repository row 'רשומת המאגר:
+     tx-intel.ts#KSV5' (repoRef data/tx-intel.ts#KSV5, which exists). It also drops the official
+     ECC-side sap_help row (SAP_ERP, edition ecc, 6.18.latest) and the official simplification_item
+     row for 2023 FPS03, item 12.11. The draft lists those last two only as prose in notes. The
+     sibling researched records in transactions-c.ts (tx:KSV1 and tx:KSU5) copy these context rows
+     verbatim with context: true and accessedAt DATE24. They also add a history line in notes:
+     'רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית... (ישן: ...; חדש: ...)'. The KSV5 draft has
+     neither. That breaks HOUSE-RULES §3.8 ('History is kept... Old → New') and the rule that
+     content may never shrink. The draft's history line covers only its own first draft and never
+     mentions the generated record it replaces.
+  4. Minor accuracy gap in recommendedAction: the item makes both options depend on 'If you can
+     work without delta versions after the S/4 conversion' (line 17614). The draft goes straight
+     from 'אם כן' to 'לבחור אחת משתי הדרכים' and leaves out that condition.
+  5. Non-blocking consistency note for the orchestrator: tx:KSV1 and tx:KSU5 in transactions-c.ts
+     cite the same item and the same version-0 / delta-version sentence, but carry status
+     'unchanged'. After this record, KSV5 carries 'restricted'. Either the siblings get re-audited
+     on the same grounds or the difference gets explained. It is not a defect in this record.
+  Re-draft (third round): keep the second-round content, which the auditor passed, and add what
+  problems 3 and 4 ask. Carry over verbatim, as context rows (`context: true`, access date
+  2026-09-24), the generated record's rows the draft leaves out: `data/tx-intel.ts#KSV5` (it reads
+  'חלוקת עלויות (Distribution)', which agrees with the official topic, so the KSU*/KSV* swap noted
+  under conflicts does not touch this row), the SAP_ERP 6.18.latest 'Controlling and Project
+  System' search record and the 2023 FPS03 row for item 12.11 'S4TWL - ACTIVITY-BASED COSTING'
+  (its 'not yet read' frame sentence replaced, the item having been read). Add a notes line for
+  the superseded generated record (Old → New, HOUSE-RULES §3.8), and restore the item's condition
+  'If you can work without delta versions after the S/4 conversion' before the two options in
+  recommendedAction. A writer can do the carrying mechanically (the batch-1 KSV1 and KSU5
+  pattern) if the orchestrator hands over the second-round draft with a verdict that lists these
+  as downgrades.
+- Batch 8 (2026-09-28): none refuted. All eight audited drafts (`tx:SAS`, `tx:SCI`, `tx:SD11`,
+  `tx:SE11`, `tx:SE16N`, `tx:SE24`, `tx:SE38`, `tx:SE71`) were written.
+- `tx:PA40` (batch 9, 2026-09-28): refuted at the adversarial gate, not written; the generated
+  record in `transactions-auto.ts` stays live (L1 `verification_required`). The draft is not on disk
+  in this repository; the verdict below is the one handed to the writer. Auditor problems, verbatim:
+  1. The draft breaks the build. Four simplification_item rows carry a sapNote field: 7.1.11 and
+     19.20 ('2340095'), 8.1.6 and 2.32 ('2570961'). Each of these rows has a help.sap.com PDF url and
+     no repoRef. lib/evidence/validate.ts lines 221-225 raise 'sap-note-format' whenever a sapNote has
+     neither a me.sap.com/notes url nor a repoRef, and test/evidence-schema.test.ts fails the build on
+     any hit. House precedent agrees: transactions-c.ts has 0 sapNote fields, and transactions-b.ts
+     line 5228 and the FB65 notes in transactions-d.ts explain that note numbers go only in claim text
+     and titles. The numbers are already printed in the claims, so the field is redundant.
+  2. recommendedAction links two separate statements in item 7.1.31 as if they were one. It asks the
+     reader to check the Compatibility Scope matrix (SAP Note 2269324) to decide whether PA40 use is
+     SAP ERP HCM or 'HR mini master maintenance for non-HR processes'. Item 7.1.31 treats the non-HR
+     infotype usage separately: it says that usage 'is independent from the compatibility scope' and
+     refers to SAP Note 3369920, not 2269324. The item never uses the words 'HR mini master' (that term
+     comes from 8.1.6 and 2.32). The action therefore points to the wrong note for half of its question
+     and joins two items into a claim that neither item makes.
+  3. Minor, not blocking. The fiori_library row records a negative result (an empty result for one
+     release, and 'leading app(s): none' from the --tcode lookup) at sap_official_verified. Its
+     sourceTitle 'Fiori Apps Library · PA40 @ S32OP' is not a record title, because no record exists.
+     The house precedent for FB65 in transactions-d.ts records the same kind of empty --tcode result in
+     notes and not as an evidence row. The claim itself is worded correctly as a documented negative.
+  4. Resolved from round 1, re-verified: status is now verification_required with release and source
+     both null, which is allowed. Item 7.1.31 appears as a context row, and its three quotes are
+     verbatim at SIMPL_OP2025.pdf.txt lines 27873-27920 (Application Component PA-BC; SAP Note 2269324
+     is printed there). The 8.1.6 component is CA-GTF-BUM (line 28733). The 19.20 components are PY-XX,
+     PA-BC (2023 line 25895). The 2.32 components are BC-SEC-USR-ADM, CA-HR-S4 (2023 line 5665). The
+     PA40 quotes in 7.1.11, 8.1.6, 19.20 and 2.32 are verbatim. The simpl-tcode-index lists only these
+     four items for PA40. The ERP row now quotes the two snippet fragments exactly as the re-run search
+     record prints them (loio 98744653bcd8e447e10000000a441470, 6.18.latest). The Object Manager row
+     matches loio cc38e153a217424de10000000a174cb4 / 2023.latest, and its snippet quote is verbatim.
+     Both searches return total 21, and the notes report 21/21. The fal-app output 'PA40 @ S32OP: not
+     in this release (empty Results)' and '--tcode PA40' output 'leading app(s): none; GUI app entry:
+     none' are reproduced exactly. FAL release is 2025.001. All accessedAt values are 2026-09-25.
+     'אינפוטיפ 0000', the 'active' claim, the extra field and the Fiori verdict are gone. The
+     repository row matches data/tcode-catalog.ts line 1096. xref tx:PA30 is in ROUTE_MANIFEST.tcodes.
+     The only dash is an en dash inside the verbatim 7.1.31 quote; no em dashes. No certainty-language
+     hits. No personal names or reviewer field.
+  Re-draft (second round): keep the content the auditor passed (problem 4: the status
+  `verification_required` with release and source null, item 7.1.31 as a context row, the quotes
+  from 7.1.11, 8.1.6, 19.20 and 2.32, the ERP and Object Manager rows, the repository row and the
+  xref tx:PA30). Drop the four `sapNote` fields and leave the numbers in the claim text as the items
+  print them (problem 1, the batch-1 CJ02 and batch-5 CNMM precedent). Bound recommendedAction by
+  item 7.1.31's own two statements: the Compatibility Scope matrix (SAP Note 2269324) for SAP ERP
+  HCM use, and the non-HR infotype usage, which the item says 'is independent from the compatibility
+  scope' and refers to SAP Note 3369920; keep 'HR mini master' attributed to 'S4TWL - Business User
+  Management' (problem 2). Move the empty Fiori Apps Library result into notes as a documented
+  negative (the transactions-d FB65 precedent) instead of an evidence row (problem 3). A writer can
+  apply these mechanically if the orchestrator hands over the draft with a verdict that lists them
+  as downgrades.
+- Batch 10 (2026-09-28): none refuted. Both audited drafts were written: `tx:KSV5` (third round) and
+  `tx:PA40` (second round). This closes the `tx:KSV5` entries of batches 1 and 5 and the `tx:PA40`
+  entry of batch 9 above: the re-drafts carry what those entries asked for (KSV5: the three context
+  rows, the Old → New line for the generated record and the item's condition before the two options;
+  PA40: no `sapNote` field, recommendedAction bounded by item 7.1.31's two statements, the empty Fiori
+  Apps Library result in notes), and their auditors passed them.
+
+## conflicts
+
+- `tx:KSU5` · repository vs official (batch 1): `data/tx-intel.ts#KSU5` (line 298) describes
+  KSU5 as 'ביצוע חלוקה (Distribution) בפועל' that keeps the original cost element, while the
+  official topic 'Controlling and Project System' (2025.001) lists KSU5 under Assessment and
+  KSV5 under Distribution, the item 'S4TWL - ACTIVITY-BASED COSTING' prints 'transaction CPP5
+  by KSU5 (assessment)', and `data/tcode-catalog.ts#KSU5` ('Execute Actual Assessment') and
+  `data/tcode-directory.ts#KSU5` ('Run assessment cycle.') agree with the official sources.
+  Recorded by the researcher, confirmed by the auditor, not fixed (tx-intel.ts is outside this
+  writer's files). What settles it: a repository fix of the tx-intel.ts KSU5 entry against
+  the official topic.
+- `tx:KSV1` · repository vs official (batch 1, found by the writer while carrying over the
+  tx-intel context row; not audited): `data/tx-intel.ts#KSV1` (line 299) describes KSV1 as
+  'הגדרת מחזור הקצאה (Create Assessment Cycle)', while the official topic 'Controlling and
+  Project System' lists KSV1 under Distribution, the item 'S4TWL - ACTIVITY-BASED COSTING'
+  prints 'CPV1-3 are covered by KSV1-3', and `data/tcode-catalog.ts#KSV1` gives 'Create Actual
+  Distribution Cycle'. With the KSU5 entry above, the tx-intel.ts content for the assessment
+  (KSU*) and distribution (KSV*) families looks swapped. Not fixed; the KSV1 notes say so. What
+  settles it: the same repository fix, checked code by code against the official topic.
+- `tx:KSU5` / `tx:KSV1` / `tx:KSV5` · status token, audit inconsistency (batch 1): all three
+  rest on the same wording of 'S4TWL - ACTIVITY-BASED COSTING' ('Where version 0 is used, there
+  will be no change. Where a delta version is used, the system will issue an error message.').
+  The KSU5 and KSV1 auditors accepted `unchanged` with that qualifier in status.he; the KSV5
+  auditor refuted `unchanged` for the same wording and asked for `restricted`. KSU5 and KSV1
+  are written as audited. What settles it: one ruling at the KSV5 re-audit that applies to all
+  three codes; if `restricted` wins, KSU5 and KSV1 are re-pointed in a later batch (status
+  token only, the evidence stands).
+- `tx:CJ01` / `tx:CJ02` / `tx:CJ03` · repository wording (batch 1): `data/tcode-catalog.ts`
+  (lines 113-115) labels the three codes 'יצירת / שינוי / הצגת מבנה תחתית עבודה (WBS)'. The
+  CJ01 auditor flagged 'מבנה תחתית עבודה' as a mistranslation of WBS (the standard Hebrew term
+  is 'מבנה פירוק עבודה'). The CJ01 record uses 'מבנה פירוק עבודה' in its own words; the CJ02
+  and CJ03 repository rows quote the catalog label verbatim, as a quote must. Not fixed
+  (tcode-catalog.ts is outside this writer's files).
+- `tx:CJ01` / `tx:CJ02` / `tx:CJ03` · label variance, no status conflict (batch 1): the item
+  'S4TWL - Simplification of maintenance transactions' lists 'Create / Change / Display Work
+  Breakdown Structure'; the Fiori Apps Library lists the SAP GUI apps as 'Create Project' /
+  'Change Project' / 'Display Project'. Both labels are official; the CJ01 notes record it.
+- `tx:CJ20` · official snippet not yet read, possible conflict (batch 2): the generated record
+  cited the search record 'Commercial Project Inception & Lean Staffing 2 | SAP Professional
+  Services' (2025.001, loio 951512968e16425a91953f6a25e2e769), whose snippet reads
+  'Transaction CJ20 replaced with the addition of User Fields. ...'. The researcher left it out
+  of the evidence because the snippet alone does not show what was replaced (a field addition
+  or the transaction itself); the auditor accepted the record without it. The writer carried
+  it over as a context row (verbatim, access date 2026-09-24) so the source stays visible; it
+  does not decide the status, which rests on item 10.1.60 ('changed', perpetual scope from
+  2020 FPS2). What settles it: read the body with `sap-help-body.mjs` and bound a claim to it.
+  If the body says CJ20 itself is replaced, the status goes back to audit
+  (`conflicting_sources` against item 10.1.60 until one reading wins).
+- `tx:CJ14` · repository vs official label (batch 2, raised by the auditor):
+  `data/tcode-catalog.ts#CJ14` (line 122) labels CJ14 'הצגת אלמנט WBS (קלטי עלות/פעילות)' /
+  'Display WBS Element (Cost/Activity Inputs)', while the item 'S4TWL - Simplification of
+  maintenance transactions' prints 'CJ14 Display WBS Element (From DMS)'. The status uses the
+  official label; the repository row quotes the catalog verbatim, as a quote must. Not fixed
+  (tcode-catalog.ts is outside this writer's files). What settles it: a separate FIX pass on
+  the catalog entry against the item.
+- `tx:CJ2A` / `tx:CJ2D` · repository vs official label (batch 2, raised by the CJ20 auditor;
+  these two records are not in this batch): `data/tcode-catalog.ts` (lines 126 and 128) labels
+  CJ2A 'הצגת לוח תכנון פרויקט' / 'Display Project Planning Board' and CJ2D 'לוח תכנון פרויקט
+  (יצירה)' / 'Project Planning Board (Create)', while the PFCG search record 'Maintaining and
+  Displaying Project Structures' (2025.001 and 6.18.latest, loio
+  2606b753128eb44ce10000000a174cb4) prints 'CJ2D Structure Planning: Create Project' and 'CJ2A
+  Structure Planning: Display Project' in the snippet the CJ20 record cites. For the CJ2A and
+  CJ2D records to settle when the chain reaches them.
+- `tx:CJ03` / `tx:CJ06` / `tx:CJ07` · status wording, audit inconsistency (batch 2): the CJ14
+  auditor ruled that 'פעיל ב-S/4HANA' and 'ללא סילוק או החלפה של הפונקציונליות' go beyond the
+  item, which prints neither, and replaced them with 'הפריט אינו קובע הסרה או החלפה של הקוד'.
+  The CJ07 status.he carries both phrases (as does the batch-1 CJ03 record), and the CJ06
+  status.he says 'ללא החלפה או הסרה'; their auditors passed them, so they are written as
+  audited. For CJ03 and CJ07, 'פעיל' has some support in the Fiori Apps Library (Published in
+  S32OP), which CJ14 lacks. What settles it: one wording ruling for the family. If the CJ14
+  ruling applies, re-word the CJ03, CJ06 and CJ07 status.he in a later batch (text only, the
+  evidence stands).
+- `tx:CJ08` · label variance, no status conflict (batch 2): the search record 'Project
+  Period-End Closing: Individual Processing' (Single and Composite Roles (PFCG), 2025.001)
+  prints 'CJ08 Overhead: Individual Commitment Processing', while the item, the Fiori Apps
+  Library and the repository give 'Display Project Definition'. Not cited and not checked; the
+  CJ08 notes record it.
+- `tx:CJ20` · label variance, no status conflict (batch 2): the repository gives 'Special
+  Maintenance Functions: Structure'; the official labels are 'Structure Planning: Change
+  Project' (PFCG snippet), 'Change Structure Planning' (Fiori Apps Library) and 'Structure
+  planning' (item). The CJ20 notes record it.
+- `tx:CJ2A` / `tx:CJ2D` · repository vs official label (batch 3; the batch-2 entry above is now
+  recorded on the record side): both records state the difference in their notes and rest on
+  the official labels. The repository label of CJ2A ('הצגת לוח תכנון פרויקט' / 'Display Project
+  Planning Board', `data/tcode-catalog.ts` line 126) is, in the same official sources, the label
+  of CJ2C (PFCG snippet 'CJ2C Project Planning Board: Display Project', item line 'CJ2C Display
+  project planning board'); CJ2A's official labels are 'Structure Planning: Display Project'
+  (PFCG), 'Display Structure Planning' (Fiori Apps Library) and 'Display structure planning'
+  (item). The repository label of CJ2D ('לוח תכנון פרויקט (יצירה)' / 'Project Planning Board
+  (Create)', line 128) matches the label the PFCG snippet gives CJ27 ('Project Planning Board:
+  Create Project'); CJ2D's official labels are 'Structure Planning: Create Project' (PFCG),
+  'Create Project' (Fiori Apps Library) and 'Structure planning' (item). The repository rows
+  quote the catalog verbatim, as a quote must. CJ2C has no entry in `data/tcode-catalog.ts` and
+  is not in the route manifest, so no record can carry it as an xref (CJ27 and CJ2B name it in
+  prose only). Not fixed (tcode-catalog.ts is outside this writer's files). What settles it: a
+  FIX pass on tcode-catalog.ts lines 126 and 128 against those sources.
+- `tx:CJ2A` · PFCG role name without a cited source (batch 3, found by the writer, not raised
+  in the audit): the audited rows for the search record 'Display Project Structures'
+  (2025.001 and 6.18.latest, loio b705b753128eb44ce10000000a174cb4) named the role technical
+  name 'SAP_PS_STRUCT_DISPL'. The quoted snippet does not print it, the record's notes say no
+  body was read, and the generator's cached search record for the same loio (2026-09-24)
+  carries the same snippet without it. That breaks HOUSE-RULES §3.1 (the pattern the CJ49
+  auditor removed for 'SAP_PS_PAYMENTS_PLAN'). The name was dropped from both rows and the
+  CJ2A notes say it remains to be checked. What settles it: read the body with
+  `sap-help-body.mjs`; if the body prints the technical name, a later batch may cite it with
+  the body as its source.
+- `tx:CJ30` · label variance, no status (batch 3): the PFCG search record 'Project Budgeting'
+  prints 'CJ30 Create Original Budget' (the auditor notes the snippet columns may be mixed),
+  the Fiori Apps Library gives 'Edit Original Budget - Projects' with intent
+  'Project-changeOriginalProjectBudget', and `data/tcode-catalog.ts#CJ30` gives 'שינוי תקציב
+  מקורי של פרויקט' / 'Change Project Original Budget'. The CJ30 notes record that the PFCG
+  label is unconfirmed. What settles it: read the 'Project Budgeting' body.
+- `tx:CJ30` · no status source yet (batch 3): the Simplification List index
+  (`audit/master-completion/simpl-tcode-index.json`) lists one item that names CJ30, 'S4TWL -
+  Hierarchy Graphics in Project Systems' (2025, line 50781), and that item says the
+  transaction itself is not part of it; the search record 'Central Budgeting for Projects | Central Finance'
+  (2025.001) prints 'Therefore, you can only use transaction CJ30 in display mode in the source
+  system.', a Central Finance scenario sentence kept as a context row, not a status. CJ30 stays
+  without an authored status. What settles it: an official record that states the S/4HANA
+  status of CJ30, or SE93 in the target system.
+- `tx:CJ27` / `tx:CJ8V` · status wording, audit inconsistency (batch 3, continues the batch-2
+  entry for CJ03, CJ06 and CJ07): CJ27's status.he ends 'ללא החלפה או הסרה של הפונקציונליות'
+  and CJ8V's says 'ללא החלפה או הסרה', the wording the CJ14 auditor ruled beyond the item. The
+  CJ27 and CJ8V auditors passed it (both item rows say the item names no replacement or
+  removal), so both are written as audited. The same family ruling applies.
+- `tx:CJSB` · repository vs official label (batch 4, recorded by the researcher, confirmed by the
+  auditor): `data/tcode-catalog.ts#CJSB` (line 180) labels CJSB 'בחירה: אלמנטי WBS' / 'Selection:
+  WBS Elements', while the item 'S4TWL - Project Reporting' prints 'CJSB Select Key Figure and
+  Characteristic' under 'Executive Infosystem', and the items 'S4TWL - Project System -
+  Compatibility Scope without alternative' / '... with alternative' (2025 FPS01) and 'S4TWL -
+  Project System - Compatibility Scope' (2023 FPS03) print 'Select Key Figure and Characteristic
+  (CJSB)'. The status uses the official name; the repository row quotes the catalog verbatim, as
+  a quote must, and the CJSB notes say the catalog label needs a fix. Not fixed
+  (tcode-catalog.ts is outside this writer's files). What settles it: a FIX pass on
+  tcode-catalog.ts line 180 against the items.
+- `tx:CJSB` / `tx:CJI3` · title versus content inside one source, no status conflict (batch 4):
+  the item 'S4TWL - Project System - Compatibility Scope with alternative' prints the same lines
+  as 'S4TWL - Project System - Compatibility Scope without alternative' for both codes ('Select
+  Key Figure and Characteristic (CJSB): no alternative planned'; 'Project Actual Cost Line Items
+  (CJI3): consider using Project Actual Cost Line Items (CJI3N)'). The CJSB auditor's wording
+  for the researcher's conflict entry: 'כותרת פריט 10.1.64 היא 'with alternative', אך הוא מביא
+  עבור CJSB את אותה שורה 'no alternative planned' כמו פריט 10.1.63; זו אי התאמה בין כותרת
+  הפריט לתוכנו, לא סתירה לגבי מעמד CJSB.' `conflicting_sources` is not used, as audited; the
+  CJI3 record reports both items as printed and does not decide which one applies. What would
+  settle it: the text of SAP Note 3265838, or the Project Reporting row (ID 459) in the
+  compatibility matrix attached to SAP Note 2269324, both of which the items name.
+- `tx:CJV1` / `tx:CJV2` / `tx:CJV3` · status wording, audit inconsistency (batch 4): all three
+  rest on the item 'S4TWL - Current simulation functions in project system'. The CJV2 and CJV3
+  auditors cut wording that goes beyond the item: 'יצאו מתחום ה-compatibility scope' / 'הפריט
+  מסיר' and 'לא מוגבלת בזכויות שימוש' (CJV2), 'בתחילה' and a three-sentence status.he (CJV3), and
+  the ECC-row inference 'הטרנזקציה קיימת עם אותו תיאור גם בתפקיד המקביל' (CJV3). The CJV1
+  record carries the same patterns: its status.he says 'היו בתחילה חלק מ-compatibility scope'
+  and '... ולא מתחום ה-compatibility scope המוגבל' in three sentences, and its ECC row says 'מה
+  שמאשר את קיומה של CJV1 גם בתפקיד המקביל'. The CJV1 auditor passed them, so CJV1 is written as
+  audited. What settles it: one wording ruling for the family; if the CJV2 and CJV3 rulings
+  apply, re-word the CJV1 status.he and ECC row in a later batch (text only, the evidence
+  stands).
+- `tx:CJ9D` / `tx:CJ48` · continue-use wording, audit inconsistency across batches (batch 4):
+  the CJ9D auditor ruled 'ניתן להמשיך להשתמש ב-CJ9D ב-S/4HANA On-Premise' an overclaim, because
+  the item 'S4TWL - Selected project financial planning and control functions' lists CJ9D under
+  a modernized topic ('Copy Plan Version', modernized by the report 'Copy plan category for
+  projects') without a sentence that the transaction itself is part of the perpetual scope (the
+  CJ8V prose has one). The batch-3 CJ48 record, under the same item's 'PS Cash Management'
+  topic, opens its recommendedAction with 'ניתן להמשיך להשתמש ב-CJ48 ב-S/4HANA On-Premise.', and
+  its auditor passed it. The topics differ (CJ9D's is modernized by a separate report, CJ48's by
+  reading from the universal journal), so the ruling may not transfer; the batch-4 CJSG
+  continue-use line was written by its auditor for a subsection whose modernization is inside
+  the WBS element group transactions. What settles it: one ruling on continue-use wording for
+  the item's modernized topics; if the CJ9D ruling applies to CJ48, re-word its recommendedAction
+  (text only).
+
+- `tx:KSU5` / `tx:KSV1` / `tx:KSV5` · status token (batch 5, continues the batch-1 entry): the
+  second-round KSV5 auditor accepted `restricted` for the wording of 'S4TWL - ACTIVITY-BASED
+  COSTING' that KSU5 and KSV1 carry as `unchanged` ('Where version 0 is used, there will be no
+  change. Where a delta version is used, the system will issue an error message.') and raised the
+  siblings as a non-blocking note (KSV5 problem 5 under refuted). KSV5 itself is still unwritten
+  (refuted for content loss), so the page shows its generated record. KSU5 and KSV1 were not
+  re-pointed in this batch: the writer does not change audited records outside the batch. What
+  settles it: re-audit KSU5 and KSV1 against the KSV5 ruling; if it holds, re-point both to
+  `restricted` (status token and status text only, the evidence stands), together with the KSV5
+  re-draft.
+- `tx:CN22` · search-hit description against the deliverable (batch 5): the CN22 auditor's re-run
+  of 'CN22' (SAP_S4HANA_ON-PREMISE, 2026-09-28) found 'none is a PFCG page' and named 'Maintaining
+  and Displaying Project Structures' among the Project System activity tables. In the CN23 record
+  of this batch the search record for that topic (loio 2606b753128eb44ce10000000a174cb4) carries
+  the deliverable 'Single and Composite Roles (PFCG)'. The CN22 notes, as audited, call the hits
+  activity tables, which is true of their content, and keep 'ובאותם דפי PFCG' in the xrefs
+  sentence; both statements hold, and the researcher's first wording ('דפי PFCG ותפקידים') was not
+  wrong for that topic. The auditor also records that the search service returned different hits
+  between runs. No status impact. What settles it: nothing for the status; a later wording pass may
+  name the deliverable next to the topic.
+- `tx:CN22` / `tx:CN41` / `tx:CN60` / `tx:CN65` · cross-edition sentences inside a one-edition row
+  (batch 5), audit inconsistency with batch 1: the batch-1 KSV5 auditor ruled that a 2023 FPS03 sentence
+  inside a row whose url is the 2025 PDF breaks the rule that a claim is bounded by its own row's
+  source (batch-1 KSV5 problem 4). The batch-5 auditors passed the same pattern: the CN22 row for
+  item 10.1.59 (2025 url) says the 2023 FPS03 item 32.12 repeats the wording (lines 43960-44001);
+  the CN41 item-row titles name the 2023 items 32.2 and 32.11; the CN60 and CN65 rows for the 2023
+  item 32.9 end with a comparison to 2025 FPS01. Written as audited. For CN22 and CN41 the 2023
+  item now also has its own context row (carried from the generated record, 2023 url), so the 2023
+  source is cited in the record. What settles it: one ruling on cross-edition comparison
+  sentences; if the batch-1 ruling applies, move each sentence to the row of its own edition (text
+  only).
+- `tx:CN24N` · value variance inside one source (batch 5, raised by the auditor): the What's New
+  page 'Navigation from SAP GUI Transactions to SAP Fiori Applications for Project Planning and
+  Scheduling' (loio b47ad8390d2f4d5d9bfa9268d0c03bde, 2022.002) shows Type 'Change' and Application
+  Component 'PS-DAT (Dates)' in its visible Technical Details table, while a hidden WN export row in
+  the same page prints Type 'New' and component PS-ST-OPR-NET. The CN24N record quotes the visible
+  table, as audited, and the CN24 record gives 'PS-DAT: Dates' from the same page. No status
+  impact.
+- `tx:CN41` · continue-use wording (batch 5, continues the batch-4 CJ9D / CJ48 entry): the CN41
+  recommendedAction, written by its auditor, opens 'ניתן להמשיך להשתמש ב-CN41 לדיווח על מבנה
+  הפרויקט ב-S/4HANA On-Premise.' Neither item it cites says CN41 is in the perpetual scope ('S4TWL -
+  Navigation to Project Builder instead of special maintenance functions' changes the navigation
+  target, 'S4TWL - Selected Project System Interfaces' makes the MPX functions unavailable); the
+  support is the Fiori Apps Library listing (Published, S32OP). The CJ9D ruling asked for an
+  explicit perpetual-scope sentence before such wording. Written as audited; the same family
+  ruling applies.
+- `tx:SARA` / `tx:SCC4` / `tx:SCC5` / `tx:SCMA` / `tx:SE06` / `tx:SE43` / `tx:SE95` · cross-edition
+  sentences inside a one-edition row (batch 6, continues the batch-5 entry): the SARA rows for
+  'S4TWL - Specific PS archiving transactions', 'S4TWL - PS&S SARA Reports' and 'S4TWL - SRM
+  Product Master' (2025 url) say the 2023 FPS03 list prints the same item; the SCC4 rows for items
+  8.1.1 and 8.1.3 (2025 url) say they repeat the 2023 items 2.10 and 2.33; the SCC5 row for item
+  2.33, the SE95 row for item 2.10 and the SE43 row for item 56.7 (2023 url) compare the wording
+  with 2025 FPS01, and the SE43 row for item 13.13.24 (2025 url) reads its table against the 2023
+  one; the SCMA row for item 8.10 (2023 url) compares it with item 6.1.29; the SE06 row for item
+  2.10 names the 2025 item 8.1.1. Written as audited. In every record but SARA the other
+  edition's item also has its own row; the SARA auditor checked the 2023 items 32.13, 33.1 and 3.2
+  in the extracted text, but they have no row. What settles it: the family ruling the batch-5
+  entry asks for.
+- `tx:SCC4` / `tx:SE16` · one source, two levels and two product strings (batch 6, audit
+  inconsistency): the search record 'Transaction List | Administration Guide to Implementation of
+  SAP S/4HANA Cloud Private Edition 2023 FP2 with SAP Best Practices' (loio
+  c82002ffc780463abb71074e63b03736, versionId 2023) is a snippet-only row in both records and marked
+  `private-cloud` in both, but it is cited at `supported_secondary_source` with the product 'SAP
+  S/4HANA Cloud Private Edition' in SCC4 and at `sap_official_verified` with the product 'SAP
+  S/4HANA' in SE16. Written as audited. No status impact (neither record has a status block). What
+  settles it: one ruling on the level of a snippet-only row from this guide, then one product string.
+- `tx:SCC4` / `tx:SE06` / `tx:SE16` against `tx:SCC5` · status shape, audit inconsistency (batch 6):
+  the SCC5 auditor added an authored `verification_required` status block (source null, the searches
+  in its text), citing the tx:OKKP shape; the SCC4, SE06 and SE16 auditors left their records without
+  a status block, as tx:CJ30 in batch 3, so their pages show the derived `verification_required`.
+  Both shapes pass the schema. Written as audited. What settles it: one ruling on whether a
+  researched record with no deciding status source carries an authored `verification_required`
+  block that lists its searches.
+- `tx:SCMA` · repository vs official label (batch 6, found by the writer, not raised by the
+  auditor): `data/tcode-catalog.ts#SCMA` (line 1351) files SCMA under module BASIS, while the item
+  'S4TWL - Schedule Manager' prints the application component CA-GTF-SCM (with FI-GL-GL-G in the
+  2023 FPS03 list) and the Fiori Apps Library row gives CA-GTF-SCM (Schedule Manager). Label
+  variance, no status conflict. What settles it: a repository fix of the tcode-catalog module,
+  outside this writer's files.
+- `tx:SE11` / `tx:SE16N` · index labels (batch 8; the SE16N case raised by its researcher, the SE11
+  case found by the writer): `audit/master-completion/simpl-tcode-index.json` labels subsection
+  headings of 'S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)' as items ('1.3' for SE16N, '1.3.3'
+  for SE11). In the extracted 2025 FPS01 text, SE11's line 83081 sits under item 15.3.1 (heading at
+  line 82435), subsection '1.3.3 Customer views using aggregated stock quantity data' (line 83020),
+  before item 15.3.2 (line 83087); in the 2023 FPS03 text, line 34644 sits under item 27.5 (line
+  33818), subsection 1.3.3 (line 34594), before item 27.6 (line 34653). The generated tx:SE11 record
+  carried the label as 'item 1.3.3', with the 2025 heading run into the next line ('...quantity
+  dataCustomer views having at least'), and the audited SE11 record called the subsection an item.
+  Both records now name the enclosing item. What settles it: the index generator attributes each
+  line to the enclosing S4TWL / ABAPTWL item heading (the subsection as a second field) and the
+  generated records are regenerated; other codes' generated records may carry the same label.
+- `tx:SE11` / `tx:SE16N` / `tx:SE38` · repository module variance (batch 8, found by the writer):
+  `data/tcode-directory.ts` files the three codes under ABAP, `data/tcode-catalog.ts` under BASIS
+  (lines 1366, 1373 and 1387), and each record quotes both rows verbatim. SE24, SE71 and SCI read
+  ABAP in both files. Label variance, no status impact. What settles it: one repository ruling on
+  the module of the ABAP workbench codes, outside this writer's files.
+- `tx:SCI` against `tx:SE16` / `tx:SE38` / `tx:SAS` · context flag on rows that use the code as a
+  tool, audit inconsistency (batch 8): the SCI auditor kept the two 'ABAPTWL - End of Support for
+  Pool Tables' rows (2025 FPS01 2.1.1, 2023 FPS03 2.17), which name SCI only as the tool for a
+  relevancy check, as non-context official rows, so they lift SCI to `sap_official_verified`. The
+  batch-6 SE16 record marks its row for the same item 2.1.1 as context, the SE38 auditor made every
+  SE38 row a context row (a 2025.001 help topic that names SE38 as a tool included), which leaves
+  SE38 at `verification_required`, and the SAS auditor ruled that rows establishing nothing about
+  the code must be context rows (and set its three item rows to `verification_required`, where
+  other records keep read item rows at `sap_official_verified` with `context: true`). Written as
+  audited, except the SCI row for 'S4TWL - External Interfaces in PP' (a string match on the
+  application component LO-SCI), which the writer made a context row; SCI's level does not change.
+  What settles it: one ruling on whether a row that names the code only as a tool counts toward
+  the record's level, then one pass over SCI, SE16, SE38 and the SPAU / SCC4 / SE06 precedent.
+- `tx:SU25` · search-record deliverable (batch 9, found by the writer): the audited ECC row carried
+  the title 'Transporting Check Indicators and Field Values | User and Role Administration of
+  Application Server ABAP' with the SAP_ERP URL (deliverable path 142f8559883b4c11966ebfb99dd61164,
+  versionId 6.05.latest, loio 2061fe49eb94604890f0dba774c77ab9). The generated records copy the search
+  record's deliverable title verbatim (scripts/qa/gen-tx-evidence.mts, line 259), and every generated
+  row under that deliverable path (the generated tx:SU25 row for this URL, 'Trace for Authorization
+  Checks', 'Transporting Authorization Components' and others) prints 'Claims Management'; the name
+  'User and Role Administration of Application Server ABAP' belongs to the S/4HANA 1709.latest record
+  of the same loio (deliverable path c6e6d078ab99452db94ed7b3b7bbcccf, seen in this batch's research
+  log). The writer aligned the title to 'Claims Management' and dropped the claim's clause 'באותה סדרת
+  תיעוד של ניהול משתמשים ותפקידים', which rested on the other name. No status impact. What settles it:
+  nothing further; the label is the one SAP's search service prints.
+- `tx:CAT2` · Fiori app id (batch 9, found by the writer): the item 'S4TWL - CATSXT' prints the App
+  ID F307A for 'My Timesheet' version 4 (as the audited record quotes it and its auditor checked in
+  the extracted text), while the Fiori Apps Library rows carried from the generated record list F3074A
+  'My Timesheet (S/4HANA / Version 4)' with the leading transaction CAT2 (S32OP). Whether F307A is
+  F3074A was not checked; the CAT2 notes say so, and neither id is cited as successor or xref. What
+  settles it: `node scripts/fal-app.mjs F307A --release S32OP` (an empty result would point to a
+  misprint in the item).
+- `tx:SU22` / `tx:SU25` · bracketed completion of one snippet (batch 9, audit inconsistency): the
+  SU22 auditor ruled the completion 'transfer the defa[ult values]' invented text and ended the quote
+  at 'transfer the defa'; the SU25 auditor passed the same completion of the same search record
+  ('Default Authorization Values and PFCG Roles', loio 2376dddba97e4bcf91f900e9a0097504). The writer
+  ended the SU25 quote at 'transfer the defa' too, so both records quote the snippet as it prints. No
+  status impact.
+- `tx:SU01` against `tx:SUCOMP` · 'not replaced' paraphrase (batch 9, audit inconsistency): the
+  SUCOMP auditor struck 'SUCOMP אינה מוחלפת, מוסרת או משתנה' as an inference from silence; the SU01
+  auditor passed 'SU01 אינה מוחלפת או מבוטלת', which rests on the item's sentence 'Business users can
+  still be managed using transaction SU01, Central User Administration or identity management
+  systems.' Written as audited: the SU01 paraphrase has a positive sentence of the item behind it.
+  What settles it: nothing, unless a family ruling bans 'not replaced' paraphrases outright.
+- `tx:KSU5` / `tx:KSV1` / `tx:KSV5` · status token (batch 10, continues the batch-1 and batch-5
+  entries): `tx:KSV5` is now written with `restricted`, and its third-round auditor raised the
+  siblings again as a note for the orchestrator: tx:KSV1 and tx:KSU5 cite the same version-0 /
+  delta-version sentence of 'S4TWL - ACTIVITY-BASED COSTING' with `unchanged`. KSU5 and KSV1 were not
+  re-pointed in this batch: the writer does not change audited records outside the batch. The pages
+  now show the same item wording under two tokens. What settles it: re-audit KSU5 and KSV1 against the
+  KSV5 ruling; if it holds, re-point both to `restricted` (status token and status text only, the
+  evidence stands), otherwise record in their notes why they differ.
+
+## writer deviations (batch 1, 2026-09-25)
+
+1. Status sources. The KSU5 and CJ01 verdict copies were deep-equal to evidence[0] and now
+   reference it by identity. The KSV1 verdict carried a shortened re-typed copy of the 2025
+   item row with a different claim; it is replaced by evidence[2] itself (the full row, which
+   also carries the pre-check text the verdict added). The OKB9 pointer string "evidence[2]",
+   the CJ02 pointer string "evidence[3] (simplification_item, item 10.1.60)" and the CJ03
+   placeholder object (claim "(same object as evidence[3]; ...)") are replaced by the rows they
+   name. Shared consts: KSU5_SIMPL2025, KSV1_SIMPL2025, OKB9_SIMPL2025, CJ01_SIMPL2025,
+   CJ02_SIMPL2025, CJ03_SIMPL2025.
+2. Reviewer fields dropped from KSV1, OKB9 and CJ03 (house convention; the audit trail lives in
+   the notes and in this file).
+3. CJ02 evidence[3] `sapNote: "2270246"` dropped: the sap-note-format rule needs a
+   me.sap.com/notes url or a repoRef. The number stays in the row title and in status.he, as
+   the item prints it (0002270246); same as the CM31 precedent in transactions.ts batch 9.
+4. Content preservation. Context rows of the generated records that the audited records left
+   out were carried over verbatim (`context: true`, access date 2026-09-24): KSU5 (Fiori Apps
+   Library 'Run Overhead Allocation - Cost Centers - Actual', the SAP_ERP 6.18.latest
+   'Controlling and Project System' record, tx-intel.ts#KSU5), KSV1 (Fiori Apps Library 'Create
+   Distribution Cycles - Cost Centers - Actual', the SAP_ERP 6.18.latest record,
+   tx-intel.ts#KSV1), OKB9 ('CO Account Determination' 2025.001, 'Clearing of Open Items from
+   Previous Year(s)' 6.18.latest, the 2025 item 'S4TWL - Profitability Analysis',
+   tcode-catalog.ts#OKB9) and CJ03 (the SAP_ERP 6.18.latest PFCG record). This is the rule the
+   CJ01 and CJ02 auditors applied; context rows never count toward level or depth. In the OKB9
+   Profitability Analysis row only the generator's frame sentence ('... טרם נקרא במחקר') was
+   replaced, by 'הפריט מובא כאן כהקשר ולא שימש מקור למעמד ברשומה זו.', because the
+   researcher's notes record that the item mentions OKB9 incidentally. No lookup was re-run.
+5. OKB9 downgrades: (1) applied, the notes quote reads 'e. g. from OKB9'; (3) optional,
+   applied, status.he cut to two sentences with the verdict's content; (2) optional, not
+   applied: evidence[3].release stays '2025.001', like the Fiori library rows of CJ01, CJ02 and
+   CJ03 in this batch and the generated records.
+6. OKKP downgrade (optional tightening of the ECC row) applied verbatim.
+7. Notes: a superseded-record sentence (Old → New, HOUSE-RULES §3.8) was appended to KSU5,
+   KSV1, OKB9 and CJ03; the CJ01, CJ02 and OKKP notes already carry their history. The KSV1
+   notes also record the tx-intel.ts#KSV1 conflict above.
+8. No foundation-guard change: `transactions-c.ts` is already covered by the graduated
+   repoRef test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 2, 2026-09-25)
+
+1. Status sources. Shared consts CJ06_SIMPL2025, CJ07_SIMPL2025, CJ08_SIMPL2025,
+   CJ11_SIMPL2025, CJ12_SIMPL2025, CJ13_SIMPL2025, CJ14_SIMPL2025 and CJ20_SIMPL2025, each the
+   record's own item-10.1.60 row, used by identity in evidence[] and in status.source. They
+   replace the CJ07 and CJ12 pointer strings, the CJ08 and CJ11 objects whose claim was an
+   instruction to the writer, and the CJ06, CJ13, CJ14 and CJ20 full copies (deep-equal to
+   their evidence rows). All access and verification dates use DATE25; the carried context
+   rows keep DATE24.
+2. Reviewer fields dropped (CJ07 carried 'researcher'; the CJ11, CJ12 and CJ14 drafts carried a
+   personal address). House convention, and records may carry no personal name or address.
+3. Handoff text kept out of the records. The CJ12 fixedRecord notes ("Same notes as the draft.
+   Writer: ...") were not copied: the draft notes were used, with the closing sentence (which
+   said status.source stayed null until a writer replaced it) rewritten to describe the shared
+   const. The CJ13 notes sentence addressed to the writer ('לכותב: ...') was rewritten the same
+   way.
+4. CJ07 notes corrected against the repository (local file checks, no research lookup). The
+   notes said CJ07 is in the route-manifest `apps` list; `lib/route-manifest.generated.ts`
+   lists CJ07 under `tcodes` only. They also said no earlier VerificationRecord exists for
+   tx:CJ07; the generated record exists in `transactions-auto.ts`. Both statements were
+   corrected, and an Old → New sentence (HOUSE-RULES §3.8) was added before the closing
+   sentence.
+5. CJ12 notes: 'הסניפט הנגיש עוצר אחרי CJ03 ולפני שהוא מגיע ל-CJ11/CJ12/CJ13 ברשימה'
+   presupposed that the unread page body lists CJ11 to CJ13. Reworded to 'עוצר אחרי CJ03 ואינו
+   נוקב ב-CJ11/CJ12/CJ13' (honesty rule 2).
+6. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the
+   item number for Simplification List rows) the audited record does not cite were carried
+   over verbatim (`context: true`, access date 2026-09-24): CJ12 (Fiori Apps Library F0292
+   'Change WBS Element Status', its own deep link) and CJ20 (the 'SAP Professional Services'
+   search record, see conflicts). The CJ20 notes sentence that said the snippet was not
+   included now says it was carried as context only and points at this file. The other six
+   generated records are fully covered by the audited rows. The CJ08 F0290A row supersedes the
+   generated F0290A row (same deep link); the generated claim's 'Published' is not repeated in
+   the audited claim.
+7. Optional downgrades. Applied: the CJ06 anchoring sentence (the item row now also quotes the
+   list lines for CJ01, CJ02, CJ03, CJ07 and CJ08, so every CJ06 xref is tied to a cited row)
+   and the CJ13 recommendedAction wording. Not applied: the CJ07 release option; the item row
+   keeps '2025 FPS01' like the sibling item rows, and status.release stays '2025.001' as
+   audited, like CJ03 and CJ06.
+8. Not applied across the batch: citing PDF pages instead of the scratch path and line numbers
+   was asked only by the CJ20 auditor. The CJ06, CJ07, CJ11, CJ13 and CJ14 item rows keep the
+   scratch path and line range as audited, like the batch-1 CJ03 row.
+9. No foundation-guard change: `transactions-c.ts` is already covered by the graduated
+   repoRef test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 3, 2026-09-25)
+
+1. Status sources. Shared consts CJ27_SIMPL2025, CJ2A_SIMPL2025, CJ2B_SIMPL2025,
+   CJ2D_SIMPL2025, CJ48_SIMPL2025, CJ49_SIMPL2025 and CJ8V_SIMPL2025, each the record's own
+   Simplification List row, used by identity in evidence[] and in status.source. They replace
+   the CJ27 and CJ8V placeholder objects (claim '(same object as evidence[N]; ...)'), the CJ2A
+   pointer string 'evidence[0] (CJ2A_SIMPL2025)', the CJ2B object {"$ref": "evidence[4]"}, the
+   CJ49 placeholder string '<evidence[1]: ...>', and the CJ2D and CJ48 re-typed copies (same
+   fields and claim text as their rows). CJ30 has no status, so it has no const.
+2. CJ2A PFCG role name dropped (see conflicts): 'תפקיד PFCG בשם טכני SAP_PS_STRUCT_DISPL' in
+   evidence[1] became 'Single and Composite Roles (PFCG)' (the record's deliverable), and
+   ', SAP_PS_STRUCT_DISPL' left evidence[2]. One notes sentence says the role name remains to be
+   checked. No lookup was re-run: the check used the quoted snippet, the record's own notes and
+   the generator's cached search record.
+3. CJ30 notes. The fixedRecord listed the searches as 'CJ30' (21 records), 'Project Budgeting'
+   and 'CJ30 original budget'. The researcher's log (the draft) lists 'CJ30 Change Original
+   Budget', 'CJ30' and 'Project Budgeting Fiori app CJ30' (S/4HANA on-premise) and 'CJ30
+   original budget' (SAP_ERP). The record now lists the logged query strings, keeps the one
+   count the audit gave (21) and says the other three counts were not logged.
+4. CJ49 evidence[3].sourceTitle: 'Planned Payments · Single and Composite Roles (PFCG) · SAP
+   ERP 6.0 EHP8 Latest' became 'Planned Payments | Single and Composite Roles (PFCG)', the search
+   record title in house style (HOUSE-RULES §1: the title verbatim) and the same title as the
+   carried CJ48 row with the same URL. Product, release and claim still name SAP ERP 6.0 EHP8.
+5. CJ48: the fixedRecord's empty `aliases: []` dropped (an empty list carries nothing; no other
+   record in this file has aliases). Its notes had no history line, so an Old → New sentence
+   (HOUSE-RULES §3.8) was added together with the carried-row sentence below.
+6. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the
+   item number for Simplification List rows) the audited record does not cite were carried
+   over verbatim (`context: true`, access date 2026-09-24): CJ2A (`tcode-catalog.ts#CJ2A` and
+   the S/4HANA and SAP_ERP search records 'Maintaining and Displaying Project Structures', loio
+   2606b753128eb44ce10000000a174cb4, now evidence[4]-[6]; the CJ2A notes say so) and CJ48 (the
+   SAP_ERP 'Planned Payments' search record, 6.18.latest, now evidence[4]). The CJ2B
+   fixedRecord already carried its two generated context rows ('Maintaining Dates in Projects'
+   S/4HANA, 'Disabling the Automatic Cost Determination in Maintenance Orders'); both were
+   deep-compared with the generated rows and match. The other five generated records are fully
+   covered by the audited rows.
+7. As audited, not normalized: release notation. CJ2A's item row carries release '2025.001'
+   where the sibling item rows carry '2025 FPS01', and CJ8V's status.release is '2025.001'
+   while its source row says '2025 FPS01' (the CJ8V auditor kept it 'as in the siblings'); the
+   CJ48 and CJ49 auditors set status.release to the source row's '2025 FPS01'. Both notations
+   name S/4HANA 2025 FPS01. Also as audited: the CJ30 fixedRecord stamps 2026-09-25 on all six
+   rows, including the three kept from the generated record (repository, Central Finance, Fiori
+   Apps Library); the researcher's 'CJ30' search and the auditor's re-runs of fal-app.mjs and
+   the 'Project Budgeting' records are dated that day.
+8. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
+   test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 4, 2026-09-25)
+
+1. Status sources. Shared consts CJ9D_SIMPL2025, CJI3_SIMPL2025, CJI3N_SIMPL2025,
+   CJSB_SIMPL2025, CJSG_SIMPL2025, CJV1_SIMPL2025, CJV2_SIMPL2025 and CJV3_SIMPL2025, each the
+   record's own Simplification List row, used by identity in evidence[] and in status.source.
+   They replace the CJ9D and CJSB pointer strings ('evidence[1]', 'evidence[2]'), the CJI3N
+   placeholder object (claim '(bind to the shared const of evidence[4])'), the CJV2 shortened
+   re-typed copy (evidence[1]'s title, URL and fields with a one-sentence claim; the verdict set
+   it equal to evidence[1]) and the CJV3 shortened copy (claim 'ראה evidence[3]: ...'). The CJI3,
+   CJSG and CJV1 copies were deep-equal to their rows (CJV1 after the same two downgrades were
+   applied to both).
+2. CJV1 evidence[3], the SAP_ERP search record 'Maintaining and Displaying Project Structures'
+   (versionId 6.18.latest, loio 2606b753128eb44ce10000000a174cb4), had no `verificationLevel` in
+   the audited draft, which failed `tsc` (TS2741). It now carries `sap_official_verified`, the
+   level every row for that search record carries (the CJV2 and CJV3 records, the generated
+   records); the CJV1 auditor re-checked the record and its snippet. No lookup was re-run. The
+   file was rebuilt from the pre-batch copy with the fix in the build script.
+3. Downgrades whose targets are not record fields. The researcher's `gaps` and `conflicts`
+   lists do not ship with the records: CJ9D gaps[2] (the typo 'בהרשימת' and the wrong '(size=10
+   בכל שאילתה)'), the CJI3 gap-4 note on F2538 and CJV3 gaps[2] had nothing to change in the
+   records (the CJI3 claim already states the F2538 deprecation; the CJV3 notes already say
+   fal-app was not run for the app name). The CJSB conflicts[1] rewording is recorded in the
+   conflicts section above.
+4. CJV1 downgrade 3 asked to replace 'both' '&hellip;' entities; the claim carries one, which was
+   replaced with '...'.
+5. Optional downgrade applied: CJSB evidence[4] 'אותו פריט מופיע גם' became 'אותה קביעה מופיעה
+   גם' (in 2023 FPS03 the statement sits in one item, in 2025 FPS01 in two).
+6. CJV3 notes corrected against the repository (local file checks, no research lookup; the
+   batch-2 CJ07 precedent). The notes said the generated tx:CJV3 record held 'two PFCG rows
+   only' and that only the CJV2 generated record cited the item; `transactions-auto.ts` shows
+   five context rows for tx:CJV3 (tcode-catalog.ts#CJV3, both PFCG search records, the Fiori
+   Apps Library row, the item 'S4TWL - Current simulation functions in project system' as not
+   yet read). The Old → New line said 'four new rows' and listed three; it now says what was old
+   and what was added. The item line span '50513-50550' became '50513-50556': in
+   `scratchpad/official/SIMPL_OP2025.pdf.txt` the CJV3 line is 50551 and the transaction list
+   runs to 50555 (the CJV1 notes already give 50513-50556).
+7. Old → New lines (HOUSE-RULES §3.8) added before the closing sentence where the notes lacked
+   the generated record's finding: CJI3, CJI3N (labelled 'Old → New (רשומה דטרמיניסטית)',
+   because its notes already carry an Old → New line for the auditor's status change), CJV1 and
+   CJV2. CJ9D, CJSB, CJSG and CJV3 already carry their history.
+8. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the
+   item number for Simplification List rows) the audited record does not cite were carried over
+   verbatim (`context: true`, access date 2026-09-24): CJI3 (both 'Line Item Reports' search
+   records, 2025.001 and 6.18.latest, loio ae05b753128eb44ce10000000a174cb4, and the Fiori Apps
+   Library row 'Display Actual Costs and Revenues', now evidence[5]-[7]); CJI3N (the row for
+   'S4TWL - Project System - Compatibility Scope without alternative', now evidence[5], as its
+   verdict asked); CJV2 (the SAP_ERP 'Maintaining and Displaying Project Structures' search
+   record, now evidence[4]). In the CJI3N row only the generator's frame sentence ('...
+   טרם נקרא במחקר') was replaced, by 'הפריט מובא כאן כהקשר ולא שימש מקור למעמד ברשומה זו.' (the
+   batch-1 OKB9 precedent), because the notes record that the item was read in full. The CJI3
+   notes say 'fal-app.mjs לא הורץ' for the researcher; the carried Fiori row comes from the
+   generator's run, and the added notes sentence says so. The other five generated records are
+   fully covered by the audited rows.
+9. Taken as audited, not re-checked: the CJI3N ECC search-record claim quotes a longer snippet
+   ('... This report enhances the report Actual Line Items for Costs and Revenues (transaction
+   CJI3). ...') than the generated record and the draft ('... enhances the report Actual ...').
+   The extension comes from the auditor's fixedRecord, and no local copy of the search response
+   exists to compare it with. If a later audit finds the extension came from the page body and
+   not the snippet, the claim should say so.
+10. Kept as audited: the empty `xrefs: []` of CJSB, CJSG and CJV1 (this file and its siblings
+    already carry empty lists); release notation ('2025.001' on the CJI3 rows and status, '2025
+    FPS01' elsewhere, '2023.003' and '2023 FPS03' on the 2023 rows). No record carries
+    `aliases`, `reviewer` or `catalogPatch` (the CJSG and CJV2 drafts carried an empty
+    catalogPatch, which is not a VerificationRecord field; their fixedRecords dropped it).
+11. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
+    test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 5, 2026-09-28)
+
+1. Where the audited JSON came from. The CN22 draft and the CN23, CN24, CN65 and CNMM fixedRecords
+   were loaded from the chain's args file (`scratchpad/pipeline/tx3C-args.json`, batch 0) and checked
+   against the audited JSON handed to the writer. The args file holds the stale first-round CN24N
+   draft (the Project Schedule reading), so the second-round CN24N draft and the CN41 and CN60
+   fixedRecords (new in this run) were copied from the audited JSON. Checks: the CN60 copy equals
+   the draft with the verdict's downgrades applied, plus one wording change the fixedRecord carries
+   beyond the list (evidence[1] 'חוזר על אותה קביעה כבר במהדורת 2023 FPS03:' became 'מביא:'); every
+   CN41 field the verdict did not touch equals the draft, the quoted item text in both item rows is
+   the draft's, and status.source equals evidence[5]; every CN24N field outside the repaired claims,
+   status text and notes equals the first-round draft.
+2. Status sources. Shared consts CN22_SIMPL2025, CN23_SIMPL2025, CN24_SIMPL2025, CN24N_SIMPL2025,
+   CN41_SIMPL2025, CN60_SIMPL2025, CN65_SIMPL2025 and CNMM_SIMPL2025, each the record's own
+   Simplification List row, used by identity in evidence[] and in status.source. They replace the
+   CN22 re-typed copy (evidence[3] without its claim, which would also fail tsc), the CN23
+   placeholder string ('CN23_SIMPL2025 (the evidence[4] object above, ...)'), the CN24N prose string
+   ('evidence[2] (item 10.1.53, ...) ו-evidence[3] (What's New 2022 FPS02)'; the What's New
+   reference stays in status.he, as the verdict says), the CN60 and CN65 pointer strings
+   ('evidence[0]'), and the CN24, CN41 and CNMM copies (deep-equal to their rows).
+3. CNMM `sapNote: "2267384"` dropped from the item row (and so from status.source): the
+   sap-note-format rule needs a me.sap.com/notes url or a repoRef, and the row cites the
+   help.sap.com PDF. The number stays in the claim ('הערת SAP 2267384'), as the item prints it
+   (0002267384). The CN41 auditor asked for the same on its two item rows (done in its
+   fixedRecord); the CNMM auditor did not raise it. Same as the batch-1 CJ02 precedent.
+4. CN65 status.he: '(2025 FPS01 10.1.50, 10.1.63, 10.1.64; 2023 FPS03 32.9)' became the four item
+   names with their numbers ('S4TWL - Project Reporting' (10.1.50), 'S4TWL - Project System -
+   Compatibility Scope without alternative' (10.1.63) and 'S4TWL - Project System - Compatibility
+   Scope with alternative' (10.1.64) in 2025 FPS01, 'S4TWL - Project System - Compatibility Scope'
+   (32.9) in 2023 FPS03). HOUSE-RULES §3.5 asks for items by name, never by a bare number; the CNMM
+   auditor enforced it in this batch, the CN65 auditor did not raise it. The names are those the
+   record's own item rows print; no fact changed.
+5. Corrections against the repository and the extracted text (local file checks, no research
+   lookup; the batch-2 CJ07 and batch-4 CJV3 precedent). The CN23 notes said twice that the
+   generated record held 'שש שורות הקשר'; `transactions-auto.ts` shows seven rows for tx:CN23, and
+   the notes' own itemization adds up to seven (1 + 2 + 1 + 2 + 1), so both became 'שבע'. The CN22
+   row for item 10.1.60 cited lines 50662-50747 and reports the 'Required and Recommended Action(s)'
+   section as empty; that heading is line 50748 of `scratchpad/official/SIMPL_OP2025.pdf.txt` (the
+   item ends there, 10.1.61 starts at 50750), so the span became 50662-50748, the span the CN23
+   audit gives for the same item.
+6. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the item
+   number for Simplification List rows) the audited record does not cite were carried over
+   (`context: true`, access date 2026-09-24): CN22 (the What's New search records 'Project System:
+   Small Enhancements as Part of Customer Connection 2020' at 2020.001 and 1809.006 and 'Project
+   System: Small Enhancements as Part of Customer Connection Program 2020' at SAP_ERP 6.17.latest,
+   and the 2023 FPS03 row for item 32.12; now evidence[4]-[7]); CN23 (the Fiori Apps Library rows
+   F0288A 'Network (S/4HANA)' and F0289A 'Network Activity (S/4HANA)'; evidence[5]-[6]); CN41 (the
+   2023 FPS03 row for item 32.2; evidence[6]); CN60 (the SAP_ERP What's New search record 'Addition
+   of Selection Fields in Transaction CN60', 6.18.latest, and its Fiori Apps Library row 'Change
+   Documents Overview', both as the verdict asked, and the rows for the items 'S4TWL - Project
+   System - Compatibility Scope without alternative' and 'S4TWL - Project System - Compatibility
+   Scope with alternative'; evidence[4]-[7]). Each record's notes say so; CN60 also got an Old →
+   New line (its notes had none). The CN24, CN24N, CN65 and CNMM generated records are fully
+   covered by the audited rows.
+7. Frame sentences. In the four carried item rows the generator's sentence 'הפריט מובא כאן כהקשר
+   בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר.' was replaced,
+   because the records show the items were read. The batch-1 replacement ('הפריט מובא כאן כהקשר
+   ולא שימש מקור למעמד ברשומה זו.') did not fit two of them, since CN22's status text cites item
+   32.12 and CN60's cites 10.1.64. The replacements say what holds for each row: CN22 32.12
+   'הפריט נקרא במחקר (שורות 43960-44001 בטקסט המחולץ של רשימת 2023 FPS03); מה שהוא קובע לגבי הקוד
+   מסוכם בשורת פריט 10.1.59 ברשומה זו.'; CN41 32.2 'זהו אותו משפט שמביא פריט 10.1.27 באותו שם
+   ברשימת 2025 FPS01, המצוטט בשורת הראיה שלו ברשומה זו.'; CN60 10.1.63 and 10.1.64 'הפריט נקרא
+   במחקר (שורות 50847-50950 / 50988-51030 בטקסט המחולץ); מקור המעמד ברשומה זו הוא הפריט 'S4TWL -
+   Project Reporting'.' The spans were checked against the extracted text (10.1.63 starts at line
+   50847, 10.1.64 at 50988; the 2023 CN22 quote ends at 44001).
+8. CN23 notes. The Old → New line said 'ושורות ה-Fiori הצטמצמו לאפליקציית ה-SAP GUI המאושררת
+   בלבד', which is no longer true once the F0288A and F0289A rows are carried; it now says the
+   re-confirmed Fiori row is the SAP GUI app's, and one sentence says the two rows were carried,
+   were not re-checked and are not a status source. What settles them: `fal-app.mjs F0288A
+   --release S32OP` and the same for F0289A, and a ruling whether either app is an alternative for
+   CN23 (the library lists no successor for CN23; neither id is in `data/fiori/apps.ts`, so no
+   xref).
+9. Downgrades whose targets are not record fields: CN22 `gaps[3]` (the PFCG wording) and the CN23
+   warning about its draft `gaps` (em dashes, 'באופן רשמי') have nothing to change in the records;
+   no gap text was copied into a record. The CN24N verdict's 'summary and conflicts' are not record
+   fields either.
+10. Kept as audited, not normalized: release notation (audited item rows '2025.001' in CN23, CN24, CN60 and
+    CN65, '2025 FPS01' in CN22, CN24N, CN41 and CNMM; status.release '2025.001' in CN24, CN24N, CN60
+    and CN65, '2025 FPS01' in CN22, CN23, CN41 and CNMM); the line spans of item 10.1.53 (CN24
+    50103-50154, CN24N 50100-50155; in the extracted text the heading is line 50103 and the list
+    ends at 50154); the two title styles for loio b47ad8390d2f4d5d9bfa9268d0c03bde ('... | What's
+    New in SAP S/4HANA 2022 FPS02' in CN24, '... (What's New in SAP S/4HANA 2022 FPS02)' in CN24N);
+    the lowercase 'cn22' in the CN22 notes, the snippet's own spelling ('transaction cn22'); CNMM
+    has no xrefs (its verdict dropped the empty list). No record carries `aliases`, `reviewer`, a
+    personal name or an e-mail address.
+11. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call, and no Simplification
+    List reading beyond the local line checks in items 5 and 7.
+12. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
+    test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 6, 2026-09-28)
+
+1. Where the audited JSON came from. All eight entries carry a `verdict.fixedRecord`; the JSON was
+   parsed from the writer's task prompt as the session transcript records it (8 ids, none refuted),
+   so nothing was retyped. The SE43 fixedRecord marks its notes '(unchanged from draft)' and gives
+   its status source the claim '(same object as evidence[1]; bind by const reference in the TS
+   file)'; the draft notes and the evidence[1] row were used, as its verdict says.
+2. Status sources. Shared consts SARA_SIMPL2025, SCMA_SIMPL2025, SE43_HELP2025 and SE95_SIMPL2025,
+   each the record's own row, used by identity in evidence[] and in status.source. They replace the
+   SARA re-typed copy (same title and URL as the 'S4TWL - Specific PS archiving transactions' row,
+   with a shortened claim), the SCMA pointer string ('evidence[1]'), the SE43 placeholder object, and
+   the SE95 copy (deep-equal to its 'ABAPTWL - SSCR license key procedure is no longer supported'
+   row). SCC5 keeps `source: null` with its authored `verification_required`.
+3. SE43 notes, line spans (local check of the extracted text, no research lookup; the batch-5 CN22
+   precedent). The draft gave 'S4TWL - SAP Travel Management in SAP S/4HANA Suite' as 'שורות
+   כ-21955-22328' (2025 FPS01) and 'שורות כ-14048-14342' (2023 FPS03) while saying the item was read
+   in full. In `scratchpad/official/SIMPL_OP2025.pdf.txt` item 6.7.10 runs from line 21955 to 22327
+   (6.7.11 starts at 22328); in `SIMPL_OP2023.pdf.txt` item 8.4 runs from line 14048 to 14484 (8.5
+   starts at 14485; SE43 is at line 14337). The spans became '21955-22327' and '14048-14484'. The
+   Oil & Gas spans (71095-71260 and 65021-65160) run a few lines past their items (71247 and 65157)
+   and were left as audited.
+4. SE16: the empty `aliases: []` dropped (the batch-3 CJ48 precedent), and one notes clause
+   re-worded: "ו---tcode SE16 החזיר" (the Hebrew prefix glued to the flag) became "והרצה עם --tcode
+   SE16 החזירה". No fact changed.
+5. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the item
+   number for Simplification List rows) the audited record does not cite were carried over
+   (`context: true`, access date 2026-09-24): SE16 (the search records 'Configure URLs in Emails
+   When Frontend and Backend Are Separate' at 2025.latest, 'Replication of Notes | Claim' at
+   2025.001 and 'Performing an SQL Trace | Quality Management (QM)' at SAP_ERP 6.18.latest, and the
+   rows for items 5.1.14 and 6.4.33; now evidence[5]-[9]); SE43 (the search records 'Accounting
+   Logics in Financial Products Subledger' at 2025.latest, 'Customer-Specific Enhancements | Sales'
+   at 2025.001 and 'Foreclosures | Israel' at SAP_ERP 6.18.latest, and the rows for 'S4TWL - SAP
+   Travel Management in SAP S/4HANA Suite', items 6.7.10 and 8.4; evidence[5]-[9]). Both notes say
+   so; the SE16 notes also got the supersession line. The SARA, SCC4 and SCMA fixedRecords already
+   carry their generated rows (SARA and SCMA re-confirmed by their auditors and stamped 2026-09-25;
+   the three SCC4 rows at 2026-09-24 equal their generated twins); the SCC5, SE06 and SE95
+   generated records are fully covered.
+6. Frame sentences. In the four carried item rows the generator's sentence 'הפריט מובא כאן כהקשר
+   בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר.' was replaced by
+   what holds for each row. SE16 items 5.1.14 and 6.4.33 are not among the 14 items the researcher
+   read: 'הפריט אינו בין 14 הפריטים שנקראו לרשומה זו: מה שהוא קובע לגבי הקוד טרם נקרא, והוא מובא
+   כהקשר ולא כמקור למעמד.' SE43 items 6.7.10 and 8.4 were read (draft notes, passed by the auditor):
+   'הפריט נקרא במחקר (שורות 21955-22327 / 14048-14484 ...): SE43 מופיע בטבלת קודי טרנזקציה של הפריט
+   שחולצה מה-PDF בסדר עמודות, ולא שוחזר לאיזה קוד מקור שורת SE43 משויכת; לכן הפריט אינו משמש מקור
+   למעמד ברשומה זו.' The column-order extraction was checked at both SE43 lines (22219 and 14337).
+7. SE16 item 5.1.14 title. The generator cut the title at the PDF line break ('S4TWL -
+   Differentiation Category Dependent FS Datasets Not Available in'); it was completed to '... Not
+   Available in S/4HANA' in the sourceTitle and in the claim, as `SIMPL_OP2025.pdf.txt` prints it
+   (lines 5694-5695, and the table of contents at line 178).
+8. Kept as audited, not normalized: status.he of three sentences in SCMA and SE95 (house precedent:
+   KSV1, CJV1, CN22, CN24N); release notation ('2025.001' on the SCMA and SE95 item rows, '2025 FPS01'
+   elsewhere; the SARA status.release '2025.001' against its source row's '2025 FPS01', which its
+   auditor called non-blocking); the 'רק' / 'בלבד' wording the auditors passed (SE06 notes, SE43
+   evidence[3], the SCC5 and SE95 notes on the generated record); the SCMA empty `xrefs` list; the
+   verbatim English quotes that contain 'always' (SCC5 evidence[1], SE16 evidence[2]: the certainty
+   rule applies to low-tier records, and both records are `sap_official_verified`); the SCC4
+   'Transaction List' row's 'לצד SCC3 ו-SCC1', framed as the snippet (the SCC5 audit confirms from
+   the page body that the page lists SCC1 and SCC3). No record carries `reviewer`, a personal name or
+   an e-mail address.
+9. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call, and no Simplification
+   List reading beyond the local line checks in items 3, 6 and 7 and the SCC5 backup sentence ('To be
+   on the safe side, keep a system backup from before deleting the data.', `SIMPL_OP2025.pdf.txt`
+   lines 28558-28559), which the SCC5 recommendedAction paraphrases.
+10. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
+    test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 7, 2026-09-28)
+
+1. Where the audited JSON came from. Six entries carry a `verdict.fixedRecord` (SP01, SP02, SP11,
+   SP12, SPAU, SU3); SPDD and ST03N do not. The JSON was parsed from the writer's task prompt as the
+   session transcript records it (8 ids, none refuted), so nothing was retyped. SPDD: the draft with
+   the verdict's three downgrades applied as worded (status.he now 'הוספת שדות Append ו-Include
+   מ-MKPF/MSEG לטבלה MATDOC בהמרת מערכת, לפני הרצת תכנית המרת MM-IM'; 'S4TWL - Data Model Changes
+   in SD Pricing' now '(2023 FPS03 ו-2025 FPS01)'; the extended Old → New sentence, see item 3).
+   ST03N: the draft as audited.
+2. Status sources. Shared consts SP02_HELP2025, SP11_HELP1709, SP12_HELP1709, SPDD_HELP1709,
+   ST03N_HELP1709 and SU3_HELP1709, each the record's own row, used by identity in evidence[] and in
+   status.source. They replace the SP02 and SP11 pointer strings ('evidence[1]'), the SP12, SPDD and
+   ST03N copies (each checked deep-equal to its row before the swap) and the SU3 placeholder object
+   (claim '(same shared const as evidence[1])'; title, URL, release and level checked equal to its
+   row). SP01 keeps `source: null` with its authored `verification_required`; SPAU has no status.
+3. SPDD Old → New, a deviation from the verdict's wording. The verdict asked the notes to say that
+   the generated record's search record 'Adjustment Category: Without Modification Assistant' and its
+   row for 'S4TWL - Data Model Changes in SD Pricing' are not carried into the record. Under the house
+   content-preservation practice (every earlier batch, and the SP01 and SU3 verdicts of this batch)
+   both rows were carried over as context rows instead, together with the two other left-out
+   generated rows ('S4TWL - SD Simplified Data Models' and 'S4TWL - FS-RI - Ensuring the
+   functionality of the Extension Service', 2025 FPS01), and the Old → New sentence says so. The rest
+   of the verdict's sentence (the file the old record lives in, the two rows named with release and
+   loio) is kept as worded.
+4. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the item
+   number for Simplification List rows) the audited record does not cite were carried over
+   (`context: true`, access date 2026-09-24): SPAU (the search record 'Specifics for Adjusting
+   Repository Objects with Transaction SPAU' at 1709.latest and the 2023 FPS03 row for 'S4TWL -
+   Annexing Solution for Israel'; now evidence[4]-[5]); SPDD (the search record 'Adjustment Category:
+   Without Modification Assistant' at 1709.latest and the 2025 FPS01 rows for 'S4TWL - Data Model
+   Changes in SD Pricing', 'S4TWL - SD Simplified Data Models' and 'S4TWL - FS-RI - Ensuring the
+   functionality of the Extension Service'; evidence[4]-[7]); ST03N (the 2025 FPS01 rows for 'S4TWL -
+   Removal of obsolete Data Modeler (SD11) content', 'S4TWL - REPLACED TRANSACTION CODES AND PROGRAMS
+   IN FIN' and 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING'; evidence[5]-[7]). The
+   notes of all three say so. Not carried, as the audits decided: the rows whose matched string is a
+   Support Package level and not the transaction (SP01: the 'What's New in SAP S/4HANA 1909 FPS02'
+   search record, where the string is 'SAP_ABA 75E SP01', and items 3.1.5, 5.1.4 and 6.3.1; SP02:
+   items 3.1.5, 6.1.9 and 6.1.16; SP11: items 5.1.4 and 3.7). The SP01, SP02 and SP11 notes record
+   the dismissal. The SP12 and SU3 fixedRecords already carry every generated row.
+5. Frame sentences. In the seven carried item rows the generator's sentence 'הפריט מובא כאן כהקשר
+   בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר.' was replaced by
+   what holds, bounded by audited text of this batch: SPAU 42.3 by the SPAU fixedRecord's 2025 FPS01
+   row (same wording in 2023 FPS03, as its auditor confirmed); the SPDD 'SD Pricing' and 'SD
+   Simplified Data Models' rows by the draft notes (the SPDD mentions were cross-checked and no item
+   decides a change), which the auditor confirmed; the SPDD FS-RI row by the same item's quote in the
+   SPAU fixedRecord; the three ST03N rows by the ST03N draft notes, which quote each line and passed
+   the audit with no problem.
+6. ST03N item 6.5.13 title. The generator cut the title at the PDF line break ('S4TWL - PROFIT AND
+   LOSS PLANNING AND PROFIT CENTER'); it was completed to '... PROFIT CENTER PLANNING' in the
+   sourceTitle and the claim, as the audited ST03N draft names the item (status.he and notes). No
+   Simplification List text was read for it.
+7. Other writer edits. The empty SP12 `aliases: []` and the empty ST03N `xrefs: []` dropped (the
+   batch-3 CJ48 and batch-6 SE16 precedent); one SPAU notes phrase, '(כמו SCC4, SE06 ו-SE16 בשארד
+   זה)', became '(כמו ברשומות SCC4, SE06 ו-SE16)', since notes render publicly and 'shard' is pipeline
+   jargon. No fact changed.
+8. Kept as audited, not normalized: the 'רק' / 'בלבד' wording the auditors passed (SP02 status.he,
+   SU3 notes, the SPDD notes on the FS-RI item; the batch-6 precedent); release notation ('2025
+   FPS01' / '2023 FPS03' on Simplification List rows, versionIds on help rows); the ST03N evidence
+   order (help rows before the repository row); the repository paths in notes (scratchpad/official,
+   simpl-tcode-index.json), as in earlier batches; the verbatim SAP grammar in the SP01 'Checking
+   Space Usage in TemSe' quote ('It is display in the header data'); the TSP01 table name in the SP01
+   notes, which its auditor attributes to the search record 'Spool Consistency Check' (no URL in the
+   verdict, so no row was added). No record carries `reviewer`, a personal name or an e-mail address.
+9. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call and no Simplification
+   List reading. The xrefs were checked against `lib/route-manifest.generated.ts` (tcodes SP01,
+   SP02, SP11, SP12, SPAD, SPAM, SPAU, SPDD, SE95, SU01, PFCG, SU2; objects MKPF, MSEG) and the schema
+   test resolves them.
+10. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
+    test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 8, 2026-09-28)
+
+1. Where the audited JSON came from. Seven entries carry a `verdict.fixedRecord` (SAS, SCI, SD11,
+   SE11, SE24, SE38, SE71); SE16N does not. The JSON was parsed from the writer's task prompt as the
+   session transcript records it (8 ids, none refuted), so nothing was retyped. SE16N: the draft
+   with the verdict's one downgrade applied as worded (the notes' parenthesis on the
+   SAP_S4HANA_ON-PREMISE 'SE16N' search now says that on the re-run all 21 records print SE16N,
+   names the two cited ones and says none decides a status); every other SE16N field as drafted.
+2. Status sources. Shared consts SD11_SIMPL2025, SE11_HELP2025, SE24_HELP2025 and SE71_HELP2023,
+   each the record's own row, used by identity in evidence[] and in status.source. They replace the
+   SD11 placeholder object (claim '(same object as evidence[1]; reference the named const in the TS
+   file)'; title, URL, release and level checked equal to its row), the SE11 and SE71 copies (each
+   checked deep-equal to its row before the swap) and the SE24 pointer string ('evidence[2] ...;
+   writer: shared const'). SE16N keeps `source: null` with its authored `verification_required`;
+   SAS, SCI and SE38 have no status.
+3. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the item
+   number for Simplification List rows) the audited record does not cite were carried over
+   (`context: true`, access date 2026-09-24), seventeen in all: SCI (the tcode-catalog row); SD11
+   (both 'Description of the BAPI Interface' search records, Sourcing and Procurement 2025.001 and
+   Materials Management (MM) 6.18.latest); SE11 (the search records 'Maintain Logical System', SAP
+   Credit Management Configuration Guide 2025.001, and 'Editing Custom Fields', SAP Treasury and
+   Risk Management 6.18.latest, and the 2025 FPS01 and 2023 FPS03 rows for the subsection 'Customer
+   views using aggregated stock quantity data', see item 4); SE38 (the tcode-catalog row, the search
+   records 'Migrating Existing Configuration Parameter' and 'Enabling Nested Loop Optimization',
+   Statutory Reporting 2025.001, and 'Creating Boleto DME File', 6.18.latest, and the 2025 FPS01 rows
+   for 'S4TWL - Business Partner BUT000/Header Level Time Dependency' and 'S4TWL - CM: CCTR CPE
+   Commodity Code Harmonization'); SE71 (the tcode-catalog row, the search records 'Checks Previous
+   to Printing in SAPscript', HCM Local Version for Spain, and 'Printing JIT Calls', JIT Inbound,
+   both 2025.001, and the 2023 FPS03 row for 'S4TWL - Redundant Transactions in QM'). The SAS
+   fixedRecord cites all four generated rows; the SE16N draft and the SE24 fixedRecord had already
+   carried theirs. The generated SE71 'Letters | Real Estate (RE)' row is the audited 'Letters' row
+   (same URL), so it was not carried twice. Frame sentences: in the carried item rows the generator's
+   'not yet read' sentence was replaced by what holds, bounded by audited text of this batch: the two
+   SE38 rows by the SE38 fixedRecord notes (all nine items read, SE38 named only as a procedural step
+   for a companion migration or conversion report, no status decided); the SE71 2023 FPS03 row by
+   the SE71 fixedRecord title ('אותו טקסט גם ב-2023 FPS03, item 34.2') and its auditor's check of
+   item 34.2; the two SE11 rows by the SE11 fixedRecord and draft (SE11 named as a where-used tool).
+   Each note says which rows were carried.
+4. SE11 subsection, a deviation from 'no Simplification List reading'. The generated SE11 rows
+   labelled 'Customer views using aggregated stock quantity data' as 'item 1.3.3' (the 2025 title
+   run into the next line), and the audited SE11 text called it an item; the batch's SE16N audit had
+   shown that the index labels subsections of the MM-IM data-model item as items. To label the two
+   carried rows the writer read only the numbered headings around the indexed lines (2025 FPS01:
+   lines 82435, 82998, 83005, 83017, 83020, 83087; 2023 FPS03: lines 33818, 34571, 34584, 34591,
+   34594, 34653), no body text. Result: a subsection 1.3.3 of item 15.3.1 (2025) and 27.5 (2023)
+   'S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)'. Changed accordingly: the two carried rows'
+   titles and claims; in the audited text, the sentence in the 'S4TWL - Material Valuation -
+   Statistical moving average price' row, status.he and recommendedAction now name the subsection
+   inside its item instead of calling it an item; the notes gained an index-correction sentence. The
+   2023 item is written '(MM-IM)' as the list's table of contents prints it (its heading line reads
+   '(MMIM)'). No claim about SE11 changed. Logged under conflicts.
+5. SCI row for 'S4TWL - External Interfaces in PP' made a context row (`context: true`). Its own
+   claim says the match is the application component LO-SCI and 'לא ראיה לגבי הטרנזקציה עצמה';
+   the SAS auditor's rule in this batch is that such rows stay context rows. SCI's level does not
+   change (the two 'ABAPTWL - End of Support for Pool Tables' rows stay non-context, as audited).
+   Logged under conflicts.
+6. History lines. Old → New lines added to the SAS, SCI, SD11 and SE11 notes (HOUSE-RULES §3.8);
+   the SE71 sentence 'רשומה זו מיועדת להחליפה בקובץ transactions-c.ts' (future tense, pipeline text)
+   became an Old → New line, with the live-check sentence moved to the end; the SE38 notes, which
+   already had one, gained a sentence listing the six carried rows. The SD11 verdict asked to remove
+   the researcher's sentence about replacing the generated draft; that sentence is gone, and the
+   added line is the past-tense history line the house rule asks for, not that sentence.
+7. Other writer edits. The empty SE24 `aliases: []` dropped (the batch-3 CJ48 and batch-7 SP12
+   precedent); one SAS notes clause, 'והחזרנו 21 רשומות בכל אחד' ('we returned 21 records in
+   each'), became 'וכל אחד מהם החזיר 21 רשומות'. No fact changed.
+8. Kept as audited, not normalized: the SAS item rows at `verification_required` (context rows, no
+   effect on the level); the first-person plural in the SAS notes and claims ('קראנו', 'ערכנו'); the
+   'רק' / 'בלבד' wording the auditors passed; release notation ('2025.001' / '2023.003' on the SAS,
+   SD11, SE11, SE24 and SE71 item rows, '2025 FPS01' / '2023 FPS03' on the others); the verbatim en
+   dash in the SE11 quote from 'S4TWL - Material Valuation - Statistical moving average price'
+   ('which SE11 cannot handle – such as dynamic programming'; an en dash from the source, not an em
+   dash); the SE71 row title 'Letters' (the search-record title); the scratchpad and index paths in
+   notes, as in earlier batches; the SE11 status source 'Using Customer-Specific Data in Adobe
+   Forms' (loio 9fb1137309e44e509584da8a4af01387), which its auditor added from a re-run search and
+   the writer did not re-run (its deliverable path 17feb3b2115d4b62a194d424bf594077 also appears in
+   generated records). No record carries `reviewer`, a personal name or an e-mail address.
+9. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call; the only Simplification
+   List access is the heading check in item 4. The xrefs were checked against
+   `lib/route-manifest.generated.ts` (tcodes SE11, SE16, SE16H, SE37, SE80) and the schema test
+   resolves them; the repoRefs of the carried catalog rows (SCI, SE38, SE71) were checked against
+   `data/tcode-catalog.ts`.
+10. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
+    test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 9, 2026-09-28)
+
+1. Where the audited JSON came from. All seven entries carry a `verdict.fixedRecord`; the JSON was
+   parsed from the writer's task prompt as the session transcript records it (7 audited ids and 1
+   refuted, `tx:PA40`), so nothing was retyped.
+2. Status sources. Shared consts SU01_SIMPL2025, SU22_HELP2025, SU25_HELP2025, SUCOMP_SIMPL2025,
+   CAT2_SIMPL2025 and PA48_SIMPL2025, each the record's own row, used by identity in evidence[] and in
+   status.source. They replace the SU01 and SU22 pointer strings ('evidence[2]', 'evidence[1]'; the
+   rows checked to carry the status release and edition), the SUCOMP and CAT2 placeholder objects
+   (claims 'SAME CONST AS evidence[5] (SUCOMP_SIMPL2025): the writer uses the object reference, not a
+   copy' and '(same object as evidence[1]; the writer uses a shared const)'; every other field checked
+   equal to its row) and the SU25 and PA48 copies (each checked deep-equal to its row before the swap).
+   PA30 has no status.
+3. PA48 `sapNote` fields dropped. The fixedRecord kept `sapNote: "3224319"` on both item rows and on
+   the status-source copy. Each row has a help.sap.com PDF url and no repoRef, so `sap-note-format`
+   (lib/evidence/validate.ts, the rule the PA40 refutation of this batch names) would fail the build.
+   The number stays in the claim text as the items print it ('הערה רלוונטית 0003224319', '3224319'),
+   the batch-1 CJ02 and batch-5 CNMM precedent. Its empty `xrefs: []` was dropped too (the batch-7
+   ST03N precedent).
+4. SU25 ECC row title aligned to its search record: 'Transporting Check Indicators and Field Values
+   | Claims Management' instead of '... | User and Role Administration of Application Server ABAP', and
+   the claim's closing clause 'באותה סדרת תיעוד של ניהול משתמשים ותפקידים' dropped; the rest of the
+   claim, the URL, loio and versionId are unchanged. The check was local: the generated tx:SU25 row for
+   the same URL and the other generated rows under that deliverable path. No lookup was re-run. Logged
+   under conflicts; the SU25 notes gained one sentence that records the alignment.
+5. SU25 status-source quote. 'and transfer the defa[ult values]' became 'and transfer the defa', as
+   the snippet prints it and as the SU22 fixedRecord quotes the same search record (its auditor ruled
+   the bracketed completion invented text). Since the status source is the evidence row by identity,
+   the one edit covers both. Logged under conflicts.
+6. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the item
+   number for Simplification List rows) the audited record does not cite were carried over (`context:
+   true`, access date 2026-09-24), nine in all: SU22 (the search records 'Roles and Authorizations',
+   Enterprise Content Management, and 'Label Reviewer', Recipe Development, both 2025.001); SU25 (the
+   search records 'Follow-on Activities after SAP Fiori Upgrade' and 'Adjust the Upgraded SAP Fiori
+   Apps', SAP Fiori Overview, 2025.001, and the 2023 FPS03 row for item 34.4 'S4TWL - Authorization
+   Objects in QM', which the audited 2025 row names only in its title); CAT2 (the search records
+   'Enhancements for Lean Staffing and Forecasting', Professional Services 2025.001 and SAP for
+   Professional Services 6.18.latest, and the Fiori Apps Library rows F3074 'My Timesheet (Version 3)'
+   and F3074A 'My Timesheet (S/4HANA / Version 4)', both with the leading transaction CAT2 at S32OP).
+   The SU01, SUCOMP and PA30 fixedRecords already carried every generated row, and the PA48 fixedRecord
+   cites all three. Frame sentence: in the carried SU25 34.4 row the generator's 'not yet read'
+   sentence was replaced by what holds, bounded by audited text of this batch (the SU25 fixedRecord:
+   'אותו נוסח מופיע בפריט 34.4', the item decides nothing about SU25's status; its auditor checked that
+   item 34.4 contains the SU25 sentence). Each record's notes say which rows were carried.
+7. CAT2 notes. The audited notes say fal-app.mjs was not run in the research; the carried Fiori Apps
+   Library rows come from the generated record's run. One sentence records them, and one more says that
+   the item prints F307A for 'My Timesheet' version 4 and that whether it is F3074A was not checked.
+   Logged under conflicts.
+8. History lines. Old → New lines added to the SU25, SUCOMP, CAT2 and PA48 notes (HOUSE-RULES §3.8),
+   in the batch-8 wording; SU01, SU22 and PA30 already had one ('ישן → חדש', 'ישן ← חדש', 'Old → New'),
+   kept as written.
+9. Kept as audited, not normalized: the release notation ('2025 FPS01' / '2023 FPS03' on the SU01,
+   SU22, SU25, SUCOMP and PA30 item rows, '2025.001' / '2023.003' on the CAT2 and PA48 item rows); the
+   page ranges and parenthetical notes in item-row titles ('pp. 527-528', '(זהה ב-2023 FPS03 כפריט
+   34.4)', 'עמ' 490-492'); the 'רק' / 'בלבד' wording the auditors passed (translations of the items'
+   'only', and the generator's frame sentence in the two PA30 context rows, which its auditor kept on
+   purpose); the title-only sourceTitle of the two CAT2 search rows ('Data Transfer to cProjects',
+   'Valuation Date for Overhead Rates and Activity Allocation'); the scratchpad paths and line numbers
+   in notes and claims, as in earlier batches; SE93 in the SUCOMP notes (the generated-record wording).
+   No record carries `reviewer`, a personal name or an e-mail address; 'Label Reviewer' in the SU22
+   context row is a SAP page title.
+10. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call and no Simplification
+    List reading. Two local reads settled values: the SU25 deliverable (item 4, from the generated
+    records) and the SU22 ECC snippet 'For production use, we strongly recommend that you build brand
+    new roles using the authorization default values from transaction SU22' (the SU22 audit log of this batch),
+    which confirms the audited quote. The xrefs (tx:SU02, tx:BP, tx:SU24, tx:SU25, tx:SU22_COMPARE,
+    tx:PFCG, tx:SU01, tx:SCUM, tx:CAT3, tx:PA20, tx:PA40) were checked against
+    `lib/route-manifest.generated.ts` and the schema test resolves them; the repoRefs
+    (tcode-directory.ts#SU01 and #SU25, tcode-catalog.ts#SU01, #SU22, #SU25, #SUCOMP, #CAT2, #PA30,
+    #PA48) were checked against the repository rows their claims quote.
+11. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef test
+    in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry. Gates: `tsc --noEmit` exit 0,
+    `tsc --noEmit -p tsconfig.test.json` exit 0, `npm test` 211 pass / 0 fail (the five evidence-schema
+    tests included).
+
+## writer deviations (batch 10, 2026-09-28)
+
+1. Where the audited JSON came from. Neither entry carries a `verdict.fixedRecord`; the JSON was parsed
+   from the writer's task prompt as the session transcript records it (2 audited ids, none refuted), so
+   nothing was retyped. Both records are the researcher's draft with the verdict's downgrades.
+2. KSV5 downgrades. `const DATE28 = "2026-09-28"` added next to DATE24 and DATE25, and lastVerifiedAt
+   written as DATE28; the accessedAt values written through the file's constants as the draft dates
+   them (DATE25 for the four research rows, DATE24 for the three carried context rows). The third
+   downgrade (drop the last gap, 'ה-validator לא הורץ על הרשומה המתוקנת...', once the gates run green)
+   needed no edit: the draft handed to the writer has no gaps field and its notes do not carry that
+   sentence. The gates ran green on the written record (item 8).
+3. KSV5 status source. Shared const KSV5_SIMPL2025, the record's own 2025 FPS01 item row (evidence[2]),
+   used by identity in evidence[] and in status.source; the draft's status.source was checked
+   deep-equal to that row before the swap.
+4. PA40 downgrade. The verdict's first option, word for word: the last sentence of recommendedAction
+   reads 'כאשר HCM Integration פעיל, לתזמן את /SHCM/RH_SYNC_BUPA_FROM_EMPL כעבודת רקע קבועה לפי
+   הפריט S4TWL - Business User Management.' instead of attributing the conditional scheduling to both
+   items. The second option (adding the 7.1.11 scheduling quote to that row's claim) was not taken: it
+   would add a quote this writer did not read.
+5. PA40 content preservation. The two rows of the generated record whose URL the audited record does
+   not cite were carried over verbatim (`context: true`, access date 2026-09-24): the search records
+   'Relation Between Preliminary Registration and Employee Hiring' (loio
+   ceaae956ac2a0950e10000000a44147b) and 'Working with Event Employee Hiring - Preliminary
+   Registration' (loio 3cb851562ab9de21e10000000a4450e5), both HCM Local Version for Brazil, 2025.001.
+   The other five generated rows (tcode-catalog.ts#PA40, the ECC What's New search record, items
+   7.1.11, 8.1.6 and 2.32) are cited by the audited rows. KSV5 needed no carrying: its draft cites four
+   generated rows and carries the other three verbatim (checked deep-equal).
+6. PA40 history line. The draft's Old → New line covers its own first draft only. One notes passage,
+   inserted before the closing 'לא בוצעה בדיקה במערכת SAP חיה.', records the superseded generated
+   record (HOUSE-RULES §3.8, in the KSV5 draft's wording: 'ישן: ללא הכרעת מעמד, שורות הקשר בלבד; חדש:
+   verification_required מחובר...'), the two carried rows and the rows the audited record covers. This
+   is the gap the batch-5 KSV5 auditor ruled blocking for KSV5; the PA40 auditor did not raise it.
+7. Kept as audited, not normalized: the generator's frame sentence in the carried KSV5 row for the 2023
+   FPS03 item 12.11 ('מה הוא קובע לגבי הקוד ... טרם נקרא במחקר'), which the batch-5 re-draft note asked
+   to replace; the third-round draft carried the row verbatim and its auditor checked it word for word
+   (the batch-9 PA30 precedent: a frame sentence the auditor kept stays), and the status rests on the
+   2025 item 6.5.2, which the record quotes. The PA40 row for item 7.1.31 without `context: true` (the
+   batch-9 verdict called it a context row; the second-round draft and its auditor keep it as a counted
+   row; the record's level is `sap_official_verified` either way). The release notation ('2025 FPS01' /
+   '2023 FPS03' on the item rows, versionIds on the search rows); the bare item numbers in the KSV5
+   notes (its status text names the item); the 'בלבד' / 'רק' wording the auditors passed; the scratchpad
+   paths in notes. No record carries `reviewer`, a personal name or an e-mail address ('PA40 @ S32OP'
+   in the PA40 notes is the fal-app output).
+8. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call and no Simplification List
+   reading. Local checks only: the xrefs (tx:KSV1, tx:PA30) resolve in `lib/route-manifest.generated.ts`
+   and CPV5 is absent from it (the KSV5 notes name CPV5 in prose for that reason); the repoRefs
+   (tcode-catalog.ts#KSV5 line 707, tx-intel.ts#KSV5 line 300, tcode-catalog.ts#PA40 line 1096) match
+   the rows that quote them. No foundation-guard change: `transactions-c.ts` is already covered by the
+   graduated repoRef test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry. Gates:
+   `tsc --noEmit` exit 0, `tsc --noEmit -p tsconfig.test.json` exit 0, `npm test` 211 pass / 0 fail (the
+   evidence-schema tests included), `npm run report:coverage -- --catalog transactions` exit 0.

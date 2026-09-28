@@ -57,7 +57,7 @@ export function MobileSheet({
         <div className="nx-msheet-h">
           <Ico name="LayoutGrid" size={16} />
           <span>ניווט</span>
-          <button type="button" className="nx-iconbtn" style={{ marginInlineStart: "auto" }} aria-label="סגור" onClick={onClose}>
+          <button type="button" className="nx-iconbtn" style={{ marginInlineStart: "auto" }} aria-label="סגירת הניווט" onClick={onClose}>
             <Ico name="X" size={16} />
           </button>
         </div>

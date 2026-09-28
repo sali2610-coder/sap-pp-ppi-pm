@@ -35,6 +35,7 @@
 // out of the dataset, and a family with no dataset behind it is declared in
 // `gaps` rather than filled with plausible rows.
 
+import { TRANSACTIONS } from "@/data/transactions";
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import { moduleTables, overviewStats } from "@/lib/module-portal";
 import { ZONES } from "@/lib/studio-graph";
@@ -44,6 +45,7 @@ import { FIORI_APPS } from "@/data/fiori/apps";
 import { LIBRARY } from "@/data/library";
 import { DOMAINS } from "@/data/domains";
 import { CONCEPTS } from "@/data/concepts";
+import { BEST_PRACTICES } from "@/data/best-practices";
 import { bapiHref, cdsHref, fioriHref, idocHref, txHref } from "../reference/ref-links";
 import { MOD_HE } from "../mod-var";
 import type { SAPModuleData } from "@/lib/types";
@@ -107,6 +109,14 @@ function ownership(): { fn: CommandExtra["fn"]; tx: CommandExtra["tx"] } {
   }
 
   const tx: CommandExtra["tx"] = {};
+  // A code the project documents in its own catalog but that the blueprint
+  // does not carry still has a page, so it gets its destination here. Without
+  // this the palette printed "no dedicated page" for IP30H, which had one
+  // (final audit, 2026-09-22).
+  for (const t of TRANSACTIONS) {
+    const href = txHref(t.code) || "";
+    if (href && !txTables.has(t.code)) tx[t.code] = ["", t.module, href];
+  }
   for (const [code, tables] of txTables) {
     const list = [...tables].sort();
     // Three names, then an honest count of the rest — never a rounded "many".
@@ -127,8 +137,8 @@ function ownership(): { fn: CommandExtra["fn"]; tx: CommandExtra["tx"] } {
  *  module result is the module's real size. */
 function modules(): CmdModuleRecord[] {
   return ([
-    ["PM", "אחזקה · PM", PM_DATA, "/neo/pm/"],
-    ["PP-PI", "ייצור · PP-PI", PPPI_DATA, "/neo/pp-pi/"],
+    ["PM", "PM · תחזוקת מפעל", PM_DATA, "/neo/pm/"],
+    ["PP-PI", "PP-PI · תעשיות תהליכיות", PPPI_DATA, "/neo/pp-pi/"],
   ] as [string, string, SAPModuleData, string][]).map(([key, label, data, href]) => {
     const st = overviewStats(data);
     return {
@@ -174,7 +184,10 @@ function chapters(): CmdExtraRecord[] {
         k: "chapter",
         t: c.he || c.en,
         s: clip(c.bodyHe || c.en, 96),
-        href: "/neo/books/",
+        // Record-level destination: the reader itself, opened on this chapter —
+        // the same `?c=` contract the book hub uses. A chapter hit that landed
+        // on the shelf made the reader re-find what the palette already knew.
+        href: `/neo/read/${b.id}/?c=${c.n}`,
         mod: b.module,
         rel: c.page ? `${title} · פרק ${c.n} · עמ׳ ${c.page}` : `${title} · פרק ${c.n}`,
       });
@@ -184,23 +197,41 @@ function chapters(): CmdExtraRecord[] {
 }
 
 function flows(): CmdExtraRecord[] {
+  // Every DOMAINS slug is exactly what /neo/domain/[slug]/generateStaticParams
+  // builds from (domainSlugs maps the same array), so each hit lands on its own
+  // domain page instead of the generic ERD.
   return DOMAINS.map((d) => ({
     k: "flow" as const,
     t: d.he,
     s: clip(d.summary, 96),
-    href: "/neo/erd/",
+    href: `/neo/domain/${d.slug}/`,
     mod: d.module,
     rel: `${d.flow.length} שלבים · ${d.tables.length} טבלאות · ${d.tcodes.length} טרנזקציות`,
   }));
 }
 
 function guides(): CmdExtraRecord[] {
+  // Same contract as flows(): /neo/knowledge/[slug]/ generates from these very
+  // slugs (conceptSlugs), so a concept hit opens the concept, not the index.
   return CONCEPTS.map((c) => ({
     k: "guide" as const,
     t: c.he,
     s: clip(c.biz, 96),
-    href: "/neo/knowledge/",
+    href: `/neo/knowledge/${c.slug}/`,
     rel: `${c.title} · ${c.group}`,
+  }));
+}
+
+function bestPractices(): CmdExtraRecord[] {
+  // Same contract again: /neo/best-practices/[slug]/ generates from bpSlugs(),
+  // which maps this very array, so a hit opens the practice itself.
+  return BEST_PRACTICES.map((b) => ({
+    k: "bp" as const,
+    t: b.he,
+    s: clip(b.summary, 96),
+    href: `/neo/best-practices/${encodeURIComponent(b.slug)}/`,
+    mod: b.module === "Cross" ? undefined : b.module,
+    rel: `${b.steps.length} צעדים · ${b.evidence.length} מקורות`,
   }));
 }
 
@@ -223,7 +254,7 @@ export function commandIndex(): CommandExtra {
   for (const v of CDS_VIEWS) cds[v.view] = cdsHref(v.view) || "";
 
   cached = {
-    recs: [...chapters(), ...flows(), ...guides()],
+    recs: [...chapters(), ...flows(), ...guides(), ...bestPractices()],
     mods: modules(),
     fields: fields(),
     fn,
@@ -237,7 +268,7 @@ export function commandIndex(): CommandExtra {
     gaps: [
       {
         he: "אובייקט",
-        why: "אין ישות «אובייקט» נפרדת בנתוני הפרויקט: אובייקט מילון הוא הטבלה עצמה, ולכן תוצאות «טבלה» נפתחות לעמוד האובייקט המלא ב-/neo/object.",
+        why: "אין רשומת «אובייקט» נפרדת בנתוני הפרויקט: האובייקט הוא טבלת SAP עצמה, ולכן תוצאה מסוג «טבלה» נפתחת בעמוד האובייקט המלא.",
       },
     ],
   };

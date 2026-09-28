@@ -18,7 +18,7 @@ import { idocDir, idocReference } from "@/components/neo-shell/reference/idoc-da
 export const metadata = {
   title: "IDocs · Project NEO",
   description:
-    "סוגי הודעת IDoc שהמאגר מתעד, לצד האנטומיה של ההודעה, מדריך הסטטוסים המאומת וטרנזקציות הניטור.",
+    "קטלוג IDoc של Project NEO: סוגי הודעת IDoc מתועדים, מבנה ה-IDoc, קודי הסטטוס וטרנזקציות הניטור.",
   robots: { index: false, follow: false },
 };
 
