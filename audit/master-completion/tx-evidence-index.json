@@ -1,11 +1,11 @@
 {
  "generatedAt": "2026-09-24",
- "codes": 1718,
- "withOfficial": 1408,
- "withGuiEntry": 937,
- "withLeadingApps": 186,
- "withHelpHit": 1036,
- "namedBySimplificationList": 299,
+ "codes": 1419,
+ "withOfficial": 1110,
+ "withGuiEntry": 800,
+ "withLeadingApps": 139,
+ "withHelpHit": 820,
+ "namedBySimplificationList": 0,
  "skippedIdSyntax": [
   "/UI2/INVALIDATE_GLOBAL_CACHES",
   "F.01"
@@ -22,14 +22,6 @@
   {
    "code": "/IWFND/ERROR_LOG",
    "official": 2,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "/IWFND/MAINT_SERVICE",
-   "official": 5,
    "s4": 2,
    "erp": 0,
    "gui": false,
@@ -196,22 +188,6 @@
    "leading": 0
   },
   {
-   "code": "AB01",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "AB08",
-   "official": 4,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "ABAON",
    "official": 4,
    "s4": 2,
@@ -244,14 +220,6 @@
    "leading": 0
   },
   {
-   "code": "ABST2",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "ABT1N",
    "official": 4,
    "s4": 2,
@@ -276,22 +244,6 @@
    "leading": 0
   },
   {
-   "code": "AFAB",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 1
-  },
-  {
-   "code": "AFAR",
-   "official": 5,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "AIAB",
    "official": 3,
    "s4": 1,
@@ -305,22 +257,6 @@
    "s4": 1,
    "erp": 1,
    "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "AJAB",
-   "official": 5,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "AJRW",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
    "leading": 0
   },
   {
@@ -412,14 +348,6 @@
    "leading": 0
   },
   {
-   "code": "AS91",
-   "official": 8,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
-  },
-  {
    "code": "AW01N",
    "official": 3,
    "s4": 1,
@@ -431,14 +359,6 @@
    "code": "BALE",
    "official": 3,
    "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "BAPI",
-   "official": 4,
-   "s4": 0,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -708,14 +628,6 @@
    "leading": 0
   },
   {
-   "code": "CAT2",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 2
-  },
-  {
    "code": "CAT3",
    "official": 0,
    "s4": 0,
@@ -786,142 +698,6 @@
    "erp": 1,
    "gui": true,
    "leading": 2
-  },
-  {
-   "code": "CJ01",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ02",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ03",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ06",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ07",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ08",
-   "official": 4,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 1
-  },
-  {
-   "code": "CJ11",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ12",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 1
-  },
-  {
-   "code": "CJ13",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 1
-  },
-  {
-   "code": "CJ14",
-   "official": 1,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "CJ20",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ20N",
-   "official": 10,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 3
-  },
-  {
-   "code": "CJ27",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ2A",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ2B",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ2D",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ30",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
   },
   {
    "code": "CJ31",
@@ -1004,14 +780,6 @@
    "leading": 0
   },
   {
-   "code": "CJ40",
-   "official": 8,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 3
-  },
-  {
    "code": "CJ41",
    "official": 2,
    "s4": 1,
@@ -1068,22 +836,6 @@
    "leading": 0
   },
   {
-   "code": "CJ48",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ49",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "CJ88",
    "official": 4,
    "s4": 2,
@@ -1094,14 +846,6 @@
   {
    "code": "CJ8G",
    "official": 1,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJ8V",
-   "official": 2,
    "s4": 0,
    "erp": 0,
    "gui": true,
@@ -1134,14 +878,6 @@
   {
    "code": "CJ9CS",
    "official": 0,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "CJ9D",
-   "official": 1,
    "s4": 0,
    "erp": 0,
    "gui": false,
@@ -1268,22 +1004,6 @@
    "leading": 0
   },
   {
-   "code": "CJI3",
-   "official": 6,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJI3N",
-   "official": 5,
-   "s4": 0,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "CJI4",
    "official": 3,
    "s4": 1,
@@ -1320,70 +1040,6 @@
    "official": 3,
    "s4": 1,
    "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJSB",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "CJSG",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJV1",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJV2",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJV3",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJV4",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJV5",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CJV6",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1452,38 +1108,6 @@
    "leading": 0
   },
   {
-   "code": "CKM3",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CKM3N",
-   "official": 6,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
-  },
-  {
-   "code": "CKMLCP",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CKMLCPAVR",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "CL01",
    "official": 3,
    "s4": 2,
@@ -1516,14 +1140,6 @@
    "leading": 0
   },
   {
-   "code": "CMP9",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "CN01",
    "official": 3,
    "s4": 1,
@@ -1543,22 +1159,6 @@
    "code": "CN03",
    "official": 3,
    "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CN04",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CN05",
-   "official": 6,
-   "s4": 2,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -1600,54 +1200,6 @@
    "official": 3,
    "s4": 1,
    "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CN19",
-   "official": 1,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "CN21",
-   "official": 4,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CN22",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CN23",
-   "official": 6,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 2
-  },
-  {
-   "code": "CN24",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CN24N",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -1697,14 +1249,6 @@
    "s4": 0,
    "erp": 0,
    "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "CN41",
-   "official": 6,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
    "leading": 0
   },
   {
@@ -1908,24 +1452,8 @@
    "leading": 0
   },
   {
-   "code": "CN60",
-   "official": 6,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "CN61",
    "official": 0,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "CN65",
-   "official": 3,
    "s4": 0,
    "erp": 0,
    "gui": false,
@@ -2000,14 +1528,6 @@
    "official": 3,
    "s4": 1,
    "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "CNMM",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -2772,14 +2292,6 @@
    "leading": 0
   },
   {
-   "code": "DBACOCKPIT",
-   "official": 4,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "F-02",
    "official": 5,
    "s4": 2,
@@ -2876,22 +2388,6 @@
    "leading": 0
   },
   {
-   "code": "F110",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
-  },
-  {
-   "code": "F111",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "F150",
    "official": 4,
    "s4": 0,
@@ -2916,27 +2412,11 @@
    "leading": 0
   },
   {
-   "code": "FAGLB03",
-   "official": 9,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 3
-  },
-  {
    "code": "FAGLF101",
    "official": 2,
    "s4": 1,
    "erp": 0,
    "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "FAGLFLEXT",
-   "official": 4,
-   "s4": 0,
-   "erp": 1,
-   "gui": false,
    "leading": 0
   },
   {
@@ -2946,14 +2426,6 @@
    "erp": 0,
    "gui": true,
    "leading": 1
-  },
-  {
-   "code": "FAGLL03",
-   "official": 9,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 3
   },
   {
    "code": "FB01",
@@ -2974,14 +2446,6 @@
   {
    "code": "FB02",
    "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 2
-  },
-  {
-   "code": "FB03",
-   "official": 8,
    "s4": 2,
    "erp": 1,
    "gui": true,
@@ -3047,54 +2511,6 @@
    "code": "FB1S",
    "official": 2,
    "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FB50",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "FB50L",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "FB60",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "FB65",
-   "official": 4,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FB70",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "FB75",
-   "official": 5,
-   "s4": 2,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -3316,60 +2732,12 @@
    "leading": 0
   },
   {
-   "code": "FD01",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FD02",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FD03",
-   "official": 4,
-   "s4": 0,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "FD10N",
    "official": 3,
    "s4": 0,
    "erp": 1,
    "gui": true,
    "leading": 1
-  },
-  {
-   "code": "FD31",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FD32",
-   "official": 4,
-   "s4": 0,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FD33",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
   },
   {
    "code": "FEBA",
@@ -3404,64 +2772,8 @@
    "leading": 0
   },
   {
-   "code": "FI01",
-   "official": 7,
-   "s4": 2,
-   "erp": 0,
-   "gui": true,
-   "leading": 2
-  },
-  {
-   "code": "FI02",
-   "official": 5,
-   "s4": 2,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "FI03",
-   "official": 4,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FI12",
-   "official": 8,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 2
-  },
-  {
    "code": "FINS_RECON_RECONCILE",
    "official": 0,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FK01",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FK02",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FK03",
-   "official": 3,
    "s4": 0,
    "erp": 0,
    "gui": false,
@@ -3529,30 +2841,6 @@
    "s4": 0,
    "erp": 1,
    "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "FV50",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "FV60",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "FV70",
-   "official": 3,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
    "leading": 0
   },
   {
@@ -4596,38 +3884,6 @@
    "leading": 0
   },
   {
-   "code": "KA01",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "KA02",
-   "official": 3,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "KA03",
-   "official": 3,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "KA06",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "KAH1",
    "official": 3,
    "s4": 2,
@@ -4655,70 +3911,6 @@
    "code": "KANK",
    "official": 2,
    "s4": 1,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "KB11N",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
-  },
-  {
-   "code": "KB13N",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "KB14N",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "KB15N",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "KB21N",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 1
-  },
-  {
-   "code": "KB23N",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "KB31N",
-   "official": 6,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
-  },
-  {
-   "code": "KB33N",
-   "official": 3,
-   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -4756,28 +3948,12 @@
    "leading": 0
   },
   {
-   "code": "KE24",
-   "official": 5,
-   "s4": 1,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "KE25",
    "official": 0,
    "s4": 0,
    "erp": 0,
    "gui": false,
    "leading": 0
-  },
-  {
-   "code": "KE30",
-   "official": 9,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 3
   },
   {
    "code": "KE31",
@@ -4833,14 +4009,6 @@
    "s4": 0,
    "erp": 0,
    "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "KEPM",
-   "official": 5,
-   "s4": 2,
-   "erp": 0,
-   "gui": true,
    "leading": 0
   },
   {
@@ -4943,14 +4111,6 @@
    "code": "KKF6N",
    "official": 2,
    "s4": 1,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "KKS1",
-   "official": 3,
-   "s4": 0,
    "erp": 0,
    "gui": true,
    "leading": 0
@@ -5148,14 +4308,6 @@
    "leading": 0
   },
   {
-   "code": "KP06",
-   "official": 6,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 1
-  },
-  {
    "code": "KP26",
    "official": 4,
    "s4": 2,
@@ -5260,14 +4412,6 @@
    "leading": 0
   },
   {
-   "code": "KSII",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "KSPI",
    "official": 2,
    "s4": 1,
@@ -5292,14 +4436,6 @@
    "leading": 0
   },
   {
-   "code": "KSU1",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "KSU2",
    "official": 3,
    "s4": 1,
@@ -5316,22 +4452,6 @@
    "leading": 0
   },
   {
-   "code": "KSU5",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "KSV1",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "KSV2",
    "official": 3,
    "s4": 1,
@@ -5342,14 +4462,6 @@
   {
    "code": "KSV3",
    "official": 3,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "KSV5",
-   "official": 5,
    "s4": 1,
    "erp": 1,
    "gui": true,
@@ -5648,14 +4760,6 @@
    "official": 1,
    "s4": 0,
    "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "LS24",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
    "gui": true,
    "leading": 0
   },
@@ -6420,104 +5524,8 @@
    "leading": 0
   },
   {
-   "code": "MC81",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC82",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC83",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC84",
-   "official": 3,
-   "s4": 0,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC85",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC86",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC87",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC88",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC89",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "MC90",
    "official": 0,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC93",
-   "official": 1,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC94",
-   "official": 1,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MC95",
-   "official": 1,
    "s4": 0,
    "erp": 0,
    "gui": false,
@@ -6604,70 +5612,6 @@
    "leading": 0
   },
   {
-   "code": "MCVA",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MCXA",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MCXB",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MCXC",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MCXX",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MD01N",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MD02",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MD03",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "MD05",
    "official": 1,
    "s4": 0,
@@ -6678,38 +5622,6 @@
   {
    "code": "MD06",
    "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
-  },
-  {
-   "code": "MD07",
-   "official": 3,
-   "s4": 0,
-   "erp": 1,
-   "gui": false,
-   "leading": 1
-  },
-  {
-   "code": "MD11",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MD12",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MD13",
-   "official": 7,
    "s4": 2,
    "erp": 1,
    "gui": true,
@@ -6772,22 +5684,6 @@
    "leading": 0
   },
   {
-   "code": "MD41",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MD43",
-   "official": 3,
-   "s4": 0,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "MD44",
    "official": 2,
    "s4": 0,
@@ -6812,33 +5708,9 @@
    "leading": 0
   },
   {
-   "code": "MD47",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "MD48",
    "official": 2,
    "s4": 0,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MD50",
-   "official": 5,
-   "s4": 1,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MD51",
-   "official": 6,
-   "s4": 2,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -6916,24 +5788,8 @@
    "leading": 0
   },
   {
-   "code": "MDAB",
-   "official": 4,
-   "s4": 0,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "MDAC",
    "official": 1,
-   "s4": 0,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MDBT",
-   "official": 4,
    "s4": 0,
    "erp": 1,
    "gui": false,
@@ -7196,14 +6052,6 @@
    "leading": 0
   },
   {
-   "code": "ME42",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "ME52N",
    "official": 4,
    "s4": 2,
@@ -7428,14 +6276,6 @@
    "leading": 0
   },
   {
-   "code": "MF50",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "MF51",
    "official": 1,
    "s4": 0,
@@ -7489,14 +6329,6 @@
    "s4": 0,
    "erp": 0,
    "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MFP1",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
    "leading": 0
   },
   {
@@ -7620,22 +6452,6 @@
    "leading": 0
   },
   {
-   "code": "MK05",
-   "official": 2,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MK06",
-   "official": 3,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "MKVZ",
    "official": 1,
    "s4": 0,
@@ -7649,30 +6465,6 @@
    "s4": 2,
    "erp": 1,
    "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MM01",
-   "official": 10,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 3
-  },
-  {
-   "code": "MM02",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MM03",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
    "leading": 0
   },
   {
@@ -7692,14 +6484,6 @@
    "leading": 0
   },
   {
-   "code": "MM17",
-   "official": 8,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 2
-  },
-  {
    "code": "MM50",
    "official": 0,
    "s4": 0,
@@ -7714,30 +6498,6 @@
    "erp": 1,
    "gui": false,
    "leading": 1
-  },
-  {
-   "code": "MMBE",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MMBE_OLD",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MMPV",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
   },
   {
    "code": "MMRV",
@@ -7788,14 +6548,6 @@
    "leading": 0
   },
   {
-   "code": "MP38",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "MP80",
    "official": 1,
    "s4": 0,
@@ -7810,14 +6562,6 @@
    "erp": 1,
    "gui": true,
    "leading": 2
-  },
-  {
-   "code": "MR21",
-   "official": 10,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 3
   },
   {
    "code": "MR22",
@@ -7868,30 +6612,6 @@
    "leading": 0
   },
   {
-   "code": "MS01",
-   "official": 3,
-   "s4": 0,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MS02",
-   "official": 4,
-   "s4": 0,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MS03",
-   "official": 4,
-   "s4": 0,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "MS04",
    "official": 2,
    "s4": 0,
@@ -7905,94 +6625,6 @@
    "s4": 1,
    "erp": 1,
    "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MS31",
-   "official": 4,
-   "s4": 1,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MS32",
-   "official": 4,
-   "s4": 1,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MS33",
-   "official": 4,
-   "s4": 1,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MSC1",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MSC1N",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
-  },
-  {
-   "code": "MSC2",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MSC2N",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MSC3",
-   "official": 4,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "MSC3N",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "MSC4N",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "OAAQ",
-   "official": 5,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
    "leading": 0
   },
   {
@@ -8026,14 +6658,6 @@
    "erp": 0,
    "gui": true,
    "leading": 1
-  },
-  {
-   "code": "OB22",
-   "official": 4,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
   },
   {
    "code": "OB41",
@@ -8076,14 +6700,6 @@
    "leading": 0
   },
   {
-   "code": "OBYC",
-   "official": 5,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 1
-  },
-  {
    "code": "OIAN",
    "official": 0,
    "s4": 0,
@@ -8108,26 +6724,10 @@
    "leading": 0
   },
   {
-   "code": "OKB9",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "OKEON",
    "official": 0,
    "s4": 0,
    "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "OKKP",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -8159,22 +6759,6 @@
    "code": "OMJJ",
    "official": 0,
    "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "OMS2",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "OMSL",
-   "official": 4,
-   "s4": 2,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -8236,14 +6820,6 @@
    "leading": 0
   },
   {
-   "code": "OPL8",
-   "official": 4,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "OPPE",
    "official": 0,
    "s4": 0,
@@ -8280,14 +6856,6 @@
    "official": 0,
    "s4": 0,
    "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "OSS1",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -8348,22 +6916,6 @@
    "leading": 0
   },
   {
-   "code": "PA30",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "PA40",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "PA41",
    "official": 0,
    "s4": 0,
@@ -8374,14 +6926,6 @@
   {
    "code": "PA42",
    "official": 0,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "PA48",
-   "official": 2,
    "s4": 0,
    "erp": 0,
    "gui": false,
@@ -8455,46 +6999,6 @@
    "code": "PACT",
    "official": 0,
    "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "PB10",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "PB20",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "PB30",
-   "official": 3,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "PB40",
-   "official": 3,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "PB50",
-   "official": 3,
-   "s4": 1,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -8604,14 +7108,6 @@
    "leading": 0
   },
   {
-   "code": "PEST",
-   "official": 4,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "PFAC",
    "official": 3,
    "s4": 2,
@@ -8622,14 +7118,6 @@
   {
    "code": "PFAL",
    "official": 3,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "PFCG",
-   "official": 6,
    "s4": 2,
    "erp": 1,
    "gui": false,
@@ -8918,22 +7406,6 @@
   {
    "code": "PSOG",
    "official": 0,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "PSV1",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "PSV2",
-   "official": 2,
    "s4": 0,
    "erp": 0,
    "gui": false,
@@ -9244,14 +7716,6 @@
    "leading": 0
   },
   {
-   "code": "QA32",
-   "official": 9,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 3
-  },
-  {
    "code": "QA33",
    "official": 4,
    "s4": 2,
@@ -9305,22 +7769,6 @@
    "s4": 0,
    "erp": 0,
    "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "QC20",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "QC21",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
    "leading": 0
   },
   {
@@ -9452,14 +7900,6 @@
    "leading": 0
   },
   {
-   "code": "QDV3",
-   "official": 4,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 1
-  },
-  {
    "code": "QE01",
    "official": 4,
    "s4": 2,
@@ -9516,14 +7956,6 @@
    "leading": 0
   },
   {
-   "code": "QE51N",
-   "official": 4,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 1
-  },
-  {
    "code": "QE71",
    "official": 3,
    "s4": 1,
@@ -9553,14 +7985,6 @@
    "s4": 0,
    "erp": 0,
    "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "QGA1",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
    "leading": 0
   },
   {
@@ -9596,14 +8020,6 @@
    "leading": 0
   },
   {
-   "code": "QGP1",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "QGP2",
    "official": 1,
    "s4": 0,
@@ -9626,14 +8042,6 @@
    "erp": 0,
    "gui": true,
    "leading": 0
-  },
-  {
-   "code": "QI03",
-   "official": 5,
-   "s4": 1,
-   "erp": 0,
-   "gui": true,
-   "leading": 1
   },
   {
    "code": "QI04",
@@ -9692,14 +8100,6 @@
    "leading": 0
   },
   {
-   "code": "QM10",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "QM11",
    "official": 1,
    "s4": 0,
@@ -9710,14 +8110,6 @@
   {
    "code": "QM12",
    "official": 1,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "QM13",
-   "official": 3,
    "s4": 0,
    "erp": 0,
    "gui": true,
@@ -9753,14 +8145,6 @@
    "s4": 0,
    "erp": 0,
    "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "QM50",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
    "leading": 0
   },
   {
@@ -9940,14 +8324,6 @@
    "leading": 0
   },
   {
-   "code": "QS34",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
-  },
-  {
    "code": "QS35",
    "official": 4,
    "s4": 2,
@@ -9976,14 +8352,6 @@
    "official": 4,
    "s4": 2,
    "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "QS42",
-   "official": 4,
-   "s4": 1,
-   "erp": 0,
    "gui": true,
    "leading": 0
   },
@@ -10340,14 +8708,6 @@
    "leading": 0
   },
   {
-   "code": "SAINT",
-   "official": 4,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SAIS",
    "official": 1,
    "s4": 0,
@@ -10372,24 +8732,8 @@
    "leading": 0
   },
   {
-   "code": "SARA",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 1
-  },
-  {
    "code": "SARFC",
    "official": 0,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SAS",
-   "official": 3,
    "s4": 0,
    "erp": 0,
    "gui": false,
@@ -10444,22 +8788,6 @@
    "leading": 0
   },
   {
-   "code": "SCC4",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SCC5",
-   "official": 0,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SCC7",
    "official": 0,
    "s4": 0,
@@ -10508,27 +8836,11 @@
    "leading": 0
   },
   {
-   "code": "SCI",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SCID",
    "official": 0,
    "s4": 0,
    "erp": 0,
    "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SCMA",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
    "leading": 0
   },
   {
@@ -10588,22 +8900,6 @@
    "leading": 0
   },
   {
-   "code": "SCUM",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SD11",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SE01",
    "official": 3,
    "s4": 2,
@@ -10620,14 +8916,6 @@
    "leading": 0
   },
   {
-   "code": "SE06",
-   "official": 3,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SE09",
    "official": 3,
    "s4": 2,
@@ -10638,14 +8926,6 @@
   {
    "code": "SE10",
    "official": 3,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SE11",
-   "official": 6,
    "s4": 2,
    "erp": 1,
    "gui": false,
@@ -10684,26 +8964,10 @@
    "leading": 0
   },
   {
-   "code": "SE16",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SE16H",
    "official": 0,
    "s4": 0,
    "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SE16N",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -10744,14 +9008,6 @@
    "official": 0,
    "s4": 0,
    "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SE24",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -10812,14 +9068,6 @@
    "leading": 0
   },
   {
-   "code": "SE38",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SE38N",
    "official": 0,
    "s4": 0,
@@ -10848,14 +9096,6 @@
    "official": 1,
    "s4": 1,
    "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SE43",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -10940,14 +9180,6 @@
    "leading": 0
   },
   {
-   "code": "SE71",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SE72",
    "official": 1,
    "s4": 0,
@@ -10993,14 +9225,6 @@
    "s4": 2,
    "erp": 1,
    "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "SE80",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
    "leading": 0
   },
   {
@@ -11060,22 +9284,6 @@
    "leading": 0
   },
   {
-   "code": "SE93",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SE95",
-   "official": 3,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SE97",
    "official": 3,
    "s4": 2,
@@ -11088,14 +9296,6 @@
    "official": 1,
    "s4": 1,
    "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SFP",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -11116,14 +9316,6 @@
    "leading": 0
   },
   {
-   "code": "SICF",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SICK",
    "official": 0,
    "s4": 0,
@@ -11140,14 +9332,6 @@
    "leading": 0
   },
   {
-   "code": "SLG1",
-   "official": 10,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 3
-  },
-  {
    "code": "SLICENSE",
    "official": 3,
    "s4": 2,
@@ -11160,14 +9344,6 @@
    "official": 0,
    "s4": 0,
    "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SM01",
-   "official": 3,
-   "s4": 1,
-   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -11268,30 +9444,6 @@
    "leading": 0
   },
   {
-   "code": "SM30",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SM31",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SM34",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SM35",
    "official": 3,
    "s4": 2,
@@ -11306,22 +9458,6 @@
    "erp": 0,
    "gui": false,
    "leading": 0
-  },
-  {
-   "code": "SM36",
-   "official": 8,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 3
-  },
-  {
-   "code": "SM37",
-   "official": 9,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 3
   },
   {
    "code": "SM38",
@@ -11572,32 +9708,8 @@
    "leading": 0
   },
   {
-   "code": "SNOTE",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SNRO",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SO70",
    "official": 3,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SOAMANAGER",
-   "official": 6,
    "s4": 2,
    "erp": 1,
    "gui": false,
@@ -11636,38 +9748,6 @@
    "leading": 0
   },
   {
-   "code": "SP01",
-   "official": 5,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SP02",
-   "official": 4,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SP11",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SP12",
-   "official": 2,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SPAD",
    "official": 3,
    "s4": 2,
@@ -11678,30 +9758,6 @@
   {
    "code": "SPAM",
    "official": 2,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SPAU",
-   "official": 5,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SPDD",
-   "official": 5,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SRT_MONI",
-   "official": 4,
    "s4": 2,
    "erp": 0,
    "gui": false,
@@ -11736,14 +9792,6 @@
    "official": 3,
    "s4": 2,
    "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "ST03N",
-   "official": 5,
-   "s4": 2,
-   "erp": 0,
    "gui": false,
    "leading": 0
   },
@@ -11916,14 +9964,6 @@
    "leading": 0
   },
   {
-   "code": "SU01",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SU01D",
    "official": 0,
    "s4": 0,
@@ -11988,14 +10028,6 @@
    "leading": 0
   },
   {
-   "code": "SU22",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SU22_COMPARE",
    "official": 0,
    "s4": 0,
@@ -12012,26 +10044,10 @@
    "leading": 0
   },
   {
-   "code": "SU25",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SU2X",
    "official": 0,
    "s4": 0,
    "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SU3",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
    "gui": false,
    "leading": 0
   },
@@ -12046,14 +10062,6 @@
   {
    "code": "SU56",
    "official": 3,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SUCOMP",
-   "official": 5,
    "s4": 2,
    "erp": 1,
    "gui": false,
@@ -12140,92 +10148,12 @@
    "leading": 0
   },
   {
-   "code": "SWEL",
-   "official": 4,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "SWETYPV",
    "official": 3,
    "s4": 2,
    "erp": 1,
    "gui": false,
    "leading": 0
-  },
-  {
-   "code": "SWI1",
-   "official": 4,
-   "s4": 2,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SWI5",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SWIA",
-   "official": 3,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SWO1",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SWU2",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SWU3",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SWUD",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "SXMB_MONI",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "UKM_BP",
-   "official": 8,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
   },
   {
    "code": "V_RA",
@@ -12308,22 +10236,6 @@
    "leading": 0
   },
   {
-   "code": "VA01",
-   "official": 9,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 2
-  },
-  {
-   "code": "VA02",
-   "official": 9,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 2
-  },
-  {
    "code": "VA02N",
    "official": 0,
    "s4": 0,
@@ -12332,52 +10244,12 @@
    "leading": 0
   },
   {
-   "code": "VA03",
-   "official": 10,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 3
-  },
-  {
-   "code": "VA05",
-   "official": 9,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 3
-  },
-  {
    "code": "VA05N",
    "official": 2,
    "s4": 1,
    "erp": 1,
    "gui": false,
    "leading": 0
-  },
-  {
-   "code": "VA11",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "VA12",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "VA13",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
   },
   {
    "code": "VA14L",
@@ -12390,30 +10262,6 @@
   {
    "code": "VA15",
    "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
-  },
-  {
-   "code": "VA21",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "VA22",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "VA23",
-   "official": 7,
    "s4": 2,
    "erp": 1,
    "gui": true,
@@ -12466,30 +10314,6 @@
    "erp": 0,
    "gui": true,
    "leading": 0
-  },
-  {
-   "code": "VA41",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "VA42",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "VA43",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 1
   },
   {
    "code": "VA45",
@@ -12564,14 +10388,6 @@
    "leading": 0
   },
   {
-   "code": "VBO1",
-   "official": 2,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "VBO2",
    "official": 0,
    "s4": 0,
@@ -12586,14 +10402,6 @@
    "erp": 0,
    "gui": false,
    "leading": 0
-  },
-  {
-   "code": "VC/2",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 1
   },
   {
    "code": "VCH1",
@@ -12612,49 +10420,9 @@
    "leading": 1
   },
   {
-   "code": "VD01",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "VD02",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "VD03",
-   "official": 4,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "VD04",
    "official": 0,
    "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "VD05",
-   "official": 1,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "VD06",
-   "official": 3,
-   "s4": 1,
    "erp": 0,
    "gui": false,
    "leading": 0
@@ -12908,14 +10676,6 @@
    "leading": 0
   },
   {
-   "code": "VK11",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "VK11N",
    "official": 0,
    "s4": 0,
@@ -12977,38 +10737,6 @@
    "s4": 0,
    "erp": 1,
    "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "VKM1",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "VKM3",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "VKM4",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "VKM5",
-   "official": 3,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
    "leading": 0
   },
   {
@@ -13100,14 +10828,6 @@
    "leading": 1
   },
   {
-   "code": "VL06I",
-   "official": 4,
-   "s4": 0,
-   "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "VL06L",
    "official": 1,
    "s4": 0,
@@ -13136,14 +10856,6 @@
    "official": 1,
    "s4": 0,
    "erp": 0,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "VL09",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
    "gui": true,
    "leading": 0
   },
@@ -13244,14 +10956,6 @@
    "leading": 0
   },
   {
-   "code": "VL32N",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
    "code": "VL33N",
    "official": 5,
    "s4": 2,
@@ -13311,14 +11015,6 @@
    "code": "VL52",
    "official": 2,
    "s4": 0,
-   "erp": 1,
-   "gui": true,
-   "leading": 0
-  },
-  {
-   "code": "VL60",
-   "official": 7,
-   "s4": 2,
    "erp": 1,
    "gui": true,
    "leading": 0
@@ -13396,14 +11092,6 @@
    "leading": 0
   },
   {
-   "code": "VOFM",
-   "official": 5,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
    "code": "VOTXN",
    "official": 3,
    "s4": 2,
@@ -13431,14 +11119,6 @@
    "code": "VOV7",
    "official": 3,
    "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "VOV8",
-   "official": 3,
-   "s4": 0,
    "erp": 1,
    "gui": false,
    "leading": 0
@@ -13678,78 +11358,6 @@
   {
    "code": "WF_EXTSRV",
    "official": 2,
-   "s4": 1,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "XD01",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "XD02",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "XD03",
-   "official": 7,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 1
-  },
-  {
-   "code": "XD05",
-   "official": 1,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "XD06",
-   "official": 3,
-   "s4": 1,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "XD07",
-   "official": 1,
-   "s4": 0,
-   "erp": 0,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "XK01",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "XK02",
-   "official": 6,
-   "s4": 2,
-   "erp": 1,
-   "gui": false,
-   "leading": 0
-  },
-  {
-   "code": "XK03",
-   "official": 5,
    "s4": 1,
    "erp": 1,
    "gui": false,
