@@ -1775,7 +1775,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             <p className="ne-eye">
               מודל הנתונים
               <i aria-hidden="true" />
-              <span className="nx-sap">ENTITY RELATIONSHIP</span>
+              תרשים ישויות וקשרים
             </p>
             <h1 className="ne-h1">{M ? `${M.code} · ${M.he}` : "מודל הנתונים · כל המודולים"}</h1>
             <p className="ne-sub">
@@ -2133,7 +2133,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                   disabled={a.id === "flow" && !flowReady}
                   title={
                     a.id === "flow" && !flowReady
-                      ? "לא קיים תיעוד מאומת במאגר: למודול זה אין שרשרת אובייקטים עסקיים."
+                      ? "אין תיעוד מאומת במאגר: למודול זה אין שרשרת אובייקטים עסקיים."
                       : `${a.en} · ${a.d}`
                   }
                   onClick={() => {
@@ -2381,7 +2381,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             ) : (
               <>
                 <p className="ne-phone-h">
-                  בנייד המודול נפתח מהרשימה שלמטה; המפה המלאה של {data.stats.modules} המודולים זמינה לפי בקשה.
+                  בנייד המודול נפתח מהרשימה שלמטה, ואפשר גם להציג את המפה המלאה של {data.stats.modules} המודולים.
                 </p>
                 <button type="button" className="nu-btn2 ne-phone-btn" onClick={() => setPhoneMap(true)}>
                   <MapIcon size={14} strokeWidth={1.9} aria-hidden="true" />
@@ -2779,7 +2779,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                 })
                               ) : (
                                 <text className="ne-open-none" x={px} y={rowTop} textAnchor="start">
-                                  לא קיים תיעוד מאומת במאגר על שדות הטבלה
+                                  אין תיעוד מאומת במאגר על שדות הטבלה
                                 </text>
                               )}
                               <line className="ne-open-rule" x1={-ow / 2 + 12} x2={ow / 2 - 12} y1={ruleY} y2={ruleY} />
@@ -2798,7 +2798,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                 </g>
                               ) : (
                                 <text className="ne-open-none" x={px} y={ruleY + 20} textAnchor="start">
-                                  S/4HANA · לא קיים תיעוד מאומת במאגר
+                                  S/4HANA · אין תיעוד מאומת במאגר
                                 </text>
                               )}
                             </g>
@@ -2950,7 +2950,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               {[
                 ["לחיצה", "פתיחת הטבלה בתרשים: שדות מפתח, PK/FK והכרעת S/4HANA · במפה: פתיחת המודול"],
                 ["לחיצה שנייה", "סגירת הכרטיס וחזרה לתצוגה הקודמת"],
-                ["לחיצה כפולה", "מעבר לעמוד האובייקט המלא"],
+                ["לחיצה כפולה", "מעבר לעמוד האובייקט"],
                 ["רווח", "מרכוז הפריט הנבחר"],
                 ["Enter", "פתיחת עמוד האובייקט הנבחר"],
                 ["Esc", "סגירת הכרטיס · חזרה לתצוגה הקודמת · חזרה רמה אחת בתרשים"],
@@ -2996,8 +2996,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               </li>
             </ul>
             <p className="ne-note">
-              כל מודול, טבלה, קשר, קרדינליות והצהרת S/4HANA בתרשים נקראים כלשונם מהמאגר. היכן שאין
-              תיעוד, הדבר מצוין במפורש.
+              מקור: מאגר הפרויקט. חוסר בתיעוד מסומן בתרשים.
             </p>
             <button type="button" className="nu-btn2" onClick={() => setKeys(false)}>
               סגירה

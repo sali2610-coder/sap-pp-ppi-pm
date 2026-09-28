@@ -133,7 +133,7 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
           <span className="nxd-he">
             {r.lead === "name"
               ? (r.group ? `תפקיד: ${r.group}` : "לא צוין תפקיד עסקי במאגר")
-              : (r.he || "לא קיים תיעוד מאומת במאגר")}
+              : (r.he || "אין תיעוד מאומת במאגר")}
           </span>
           <span className="nxd-sub">
             {r.en ? <span className="nxd-en" dir="ltr">{r.en}</span> : null}
@@ -190,7 +190,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
   const sorts = useMemo(() => {
     const out: { s: Sort; he: string }[] = [{ s: "name", he: "שם טכני" }];
     if (dir.rankLabel) out.push({ s: "rank", he: dir.rankLabel });
-    out.push({ s: "s4", he: "משתנה ב-S/4HANA תחילה" });
+    out.push({ s: "s4", he: "המשתנים ב-S/4HANA קודם" });
     return out;
   }, [dir.rankLabel]);
 
@@ -314,7 +314,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
     >
       <SmartReturn
         fallback={{ href: "/neo/", label: "Project NEO" }}
-        hint="לא נשמר מסלול הגעה בביקור הזה"
+        hint="אין עמוד קודם בביקור הזה"
       />
 
       <header className="nxd-head">
@@ -451,7 +451,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
 
       {rows.length === 0 ? (
         <div className="nx-card nxd-none">
-          <p><b>לא נמצאו רשומות מתאימות. נסה חיפוש אחר או נקה מסננים.</b></p>
+          <p><b>לא נמצאו רשומות מתאימות. אפשר לשנות את החיפוש או לנקות את המסננים.</b></p>
           <p className="nx-muted">{dir.emptyNote}</p>
           <div className="nxd-none-a">
             <button type="button" className="nu-btn" onClick={reset}>הצגת כל הרשומות</button>

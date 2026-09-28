@@ -166,14 +166,14 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
     },
     {
       id: "reference",
-      label: "עיון · Reference",
+      label: "עיון",
       items: [
         { id: "tables", label: "טבלאות SAP", icon: "Table", count: ALL_TABLES.length, countLabel: "טבלאות" },
         { id: "erd", href: "/neo/erd/", label: "מודל הנתונים · ERD", icon: "GitBranch", count: modelStats().edges, countLabel: "קשרים" },
         { id: "transactions", label: "טרנזקציות", icon: "Terminal", count: registryStats().total, countLabel: "טרנזקציות" },
         { id: "bapi", label: "BAPI ו-FM", icon: "Plug", count: funcRegistry().length, countLabel: "אובייקטי פונקציה" },
-        { id: "idoc", label: "IDocs", icon: "Cable", count: idocMessageTypes().length, countLabel: "סוגי הודעה" },
-        { id: "cds", label: "CDS Views", icon: "Sigma", count: CDS_VIEWS.length, countLabel: "תצוגות CDS" },
+        { id: "idoc", label: "IDoc", icon: "Cable", count: idocMessageTypes().length, countLabel: "סוגי הודעה" },
+        { id: "cds", label: "תצוגות CDS", icon: "Sigma", count: CDS_VIEWS.length, countLabel: "תצוגות CDS" },
         { id: "fiori-apps", label: "יישומי Fiori", icon: "LayoutGrid", count: FIORI_APPS.length, countLabel: "יישומים" },
         { id: "enhancements", label: "הרחבות", icon: "Puzzle", count: ENHANCEMENTS.length, countLabel: "טכניקות" },
       ],

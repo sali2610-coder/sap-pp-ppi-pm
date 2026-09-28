@@ -68,7 +68,7 @@ export const bpHref = (slug: string): string => `/neo/best-practices/${encodeURI
 function derivedClaim(): S4StatusClaim {
   return {
     status: "verification_required",
-    he: "רשומת שיטת העבודה אינה נושאת תביעת מעמד S/4HANA עצמאית; קביעת המעמד ממתינה לאימות מול תיעוד SAP רשמי בשלב האיסוף.",
+    he: "לשיטה זו אין מעמד S/4HANA משלה; המעמד ייקבע אחרי אימות מול תיעוד SAP רשמי.",
     edition: "on-premise",
     release: null,
     source: null,

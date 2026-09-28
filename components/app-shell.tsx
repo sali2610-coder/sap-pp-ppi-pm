@@ -68,10 +68,10 @@ function Header() {
           <OmniSearch />
         </div>
         {/* creator signature — premium product mark, not an ad. Always in the header. */}
-        <div dir="ltr" className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap text-[13px] font-semibold leading-none md:flex"
-          aria-label="Built by Sali Halif">
-          <span className="text-ink-3">Built by</span>
-          <b className="font-extrabold tracking-tight text-brand">Sali&nbsp;Halif</b>
+        <div className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap text-[13px] font-semibold leading-none md:flex"
+          aria-label="פיתוח: סאלי חליף">
+          <span className="text-ink-3">פיתוח:</span>
+          <b className="font-extrabold tracking-tight text-brand">סאלי&nbsp;חליף</b>
         </div>
         <div className="shrink-0">
           <ThemeSwitch />

@@ -40,7 +40,7 @@ import { TxActions } from "./tx-actions";
 
 const nf = new Intl.NumberFormat("he-IL");
 
-const NONE = "לא קיים תיעוד מאומת במאגר";
+const NONE = "אין תיעוד מאומת במאגר";
 
 /* ------------------------------------------------------------ primitives */
 
@@ -132,7 +132,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
     <article className="nxt" data-surface="transaction" style={{ "--m": m } as React.CSSProperties}>
       <SmartReturn
         fallback={{ href: "/neo/transactions/", label: "טרנזקציות SAP" }}
-        hint="לא נשמר מסלול הגעה בביקור הזה"
+        hint="אין עמוד קודם בביקור הזה"
       />
 
       {/* ------------------------------------------------------ 1. IDENTITY */}
@@ -232,7 +232,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
             </Fact>
           ) : null}
           {t.cds.length ? (
-            <Fact label="CDS Views">
+            <Fact label="תצוגות CDS">
               <ul className="nxt-codes">{t.cds.map((c) => <li key={c} className="nu-chip is-sap">{c}</li>)}</ul>
             </Fact>
           ) : null}
@@ -405,8 +405,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           </p>
         ) : null}
         <p>
-          כל שדה בעמוד זה נלקח מהמאגר המאומת של הפרויקט. שדה שאינו מתועד אינו מוצג, או מסומן במפורש
-          {" "}&quot;{NONE}&quot;. מספר SAP Note מוצג רק כאשר הוא קיים ברשומה עצמה.
+          מקור: המאגר המאומת של הפרויקט. שדה שלא תועד מסומן בעמוד או אינו מוצג.
         </p>
       </footer>
     </article>

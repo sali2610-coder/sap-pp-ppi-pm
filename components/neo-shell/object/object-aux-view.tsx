@@ -379,7 +379,7 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
         {!v.ecc && !v.s4 ? (
           <p className="no-silent">
             <ShieldQuestion size={14} strokeWidth={1.75} aria-hidden="true" />
-            {" "}לא קיים תיעוד מאומת במאגר לזמינות האובייקט ב-ECC או ב-S/4HANA. נדרש אימות נוסף.
+            {" "}אין תיעוד מאומת במאגר לזמינות האובייקט ב-ECC או ב-S/4HANA. נדרש אימות נוסף.
           </p>
         ) : null}
       </Sec>

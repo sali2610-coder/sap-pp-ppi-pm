@@ -82,7 +82,7 @@ export function WorkspaceOps({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         >
           <WorkspaceSheet
             sheet={dir}
-            lede="הגיליון מוצג כלשונו ובסדר המקורי. עמודה ריקה במקור אינה מוצגת."
+            lede="הגיליון מוצג בסדר המקורי. עמודה ריקה במקור אינה מוצגת."
           />
         </Sub>
       ) : (

@@ -188,8 +188,8 @@ export function BookHub({ d }: { d: BookHubData }) {
               what the table of contents below can do, so it is stated. */}
           <p className="nb-fine nb-hub-src">
             {b.pages === null
-              ? `לספר זה אין ספירת עמודים במטא-דאטה. במאגר מתועדים ${b.chapters} פרקים ו-${nf.format(b.sections)} תת-פרקים.`
-              : `${nf.format(b.pages)} עמודים לפי המטא-דאטה של הספר; במאגר מתועדים ${b.chapters} פרקים ו-${nf.format(b.sections)} תת-פרקים.`}
+              ? `לספר זה אין ספירת עמודים במטא-נתונים. במאגר מתועדים ${b.chapters} פרקים ו-${nf.format(b.sections)} תת-פרקים.`
+              : `${nf.format(b.pages)} עמודים לפי המטא-נתונים של הספר; במאגר מתועדים ${b.chapters} פרקים ו-${nf.format(b.sections)} תת-פרקים.`}
             {" "}
             המקור: מאגר הספרים של Project NEO.
           </p>

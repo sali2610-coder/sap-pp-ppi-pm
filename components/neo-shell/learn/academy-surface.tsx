@@ -75,7 +75,7 @@ function CourseCard({ c, onOpen }: { c: AcademyCourseRow; onOpen: (id: string) =
           <span className="nxl-num"><b>{nf.format(c.totals.chapters)}</b><span>פרקים</span></span>
           <span className="nxl-num"><b>{nf.format(c.totals.lessons)}</b><span>שיעורים</span></span>
           <span className="nxl-num"><b>{nf.format(c.totals.blocks)}</b><span>יחידות תוכן</span></span>
-          <span className="nxl-num"><b data-text="1">{hoursHe(c.totals.minutes)}</b><span>אורך מוצהר</span></span>
+          <span className="nxl-num"><b data-text="1">{hoursHe(c.totals.minutes)}</b><span>משך לפי הקורס</span></span>
         </span>
 
         <span className="nxl-meta">
@@ -158,7 +158,7 @@ export function AcademySurface({ data }: { data: AcademyData }) {
         </p>
         {/* Design audit §7: open with what the reader will learn and one way in. */}
         <p className="nx-gate-note nxl-what">
-          מה תלמד: מודלי הנתונים של PM ו-PP-PI, הטרנזקציות והתהליכים העסקיים, והמעבר מ-ECC ל-S/4HANA — קורס אחר קורס, שיעור אחר שיעור. צפייה בשיעור נרשמת כחשיפה; הבנה נבדקת ב<Link href="/neo/certification/" prefetch={false}>תרגול ובדיקת ידע</Link>.
+          מה לומדים כאן: מודלי הנתונים של PM ו-PP-PI, טרנזקציות ותהליכים עסקיים, והמעבר מ-ECC ל-S/4HANA. צפייה בשיעור נרשמת כהתקדמות, ואת ההבנה בודקים ב<Link href="/neo/certification/" prefetch={false}>תרגול ובדיקת ידע</Link>.
         </p>
         {!cont && courses.length ? (
           <p className="nxl-start">
@@ -220,7 +220,7 @@ export function AcademySurface({ data }: { data: AcademyData }) {
           { v: nf.format(totals.chapters), l: "פרקים", t: false, i: <Layers size={14} strokeWidth={1.75} /> },
           { v: nf.format(totals.lessons), l: "שיעורים", t: false, i: <BookOpen size={14} strokeWidth={1.75} /> },
           { v: nf.format(totals.blocks), l: "יחידות תוכן", t: false, i: <Blocks size={14} strokeWidth={1.75} /> },
-          { v: hoursHe(totals.minutes), l: "אורך מוצהר", t: true, i: <Clock size={14} strokeWidth={1.75} /> },
+          { v: hoursHe(totals.minutes), l: "משך לפי הקורס", t: true, i: <Clock size={14} strokeWidth={1.75} /> },
           { v: nf.format(totals.levels), l: "רמות", t: false, i: <Layers size={14} strokeWidth={1.75} /> },
         ].map((s) => (
           <div key={s.l} className="nxl-stat">
@@ -292,11 +292,11 @@ export function AcademySurface({ data }: { data: AcademyData }) {
 
       <div className="nxl-foot">
         <p>
-          «אורך מוצהר» ו«רמה» הם השדות שהקורס מגדיר לכל שיעור.
+          «משך לפי הקורס» ו«רמה» הם השדות שהקורס מגדיר לכל שיעור.
           {" "}«יחידות תוכן» הוא מספר יחידות התוכן שהשיעור דורש להשלמה.
         </p>
         <p>
-          ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
+          ההתקדמות נשמרת במכשיר בלבד ואינה מסונכרנת.
         </p>
       </div>
     </div>

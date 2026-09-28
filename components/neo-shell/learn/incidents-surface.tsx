@@ -76,7 +76,7 @@ function Row({ r, impactHe, onOpen }: { r: IncidentRow; impactHe: string; onOpen
           <span className="nxl-t1">
             <b>{r.he}</b>
           </span>
-          <span className="nxl-desc">{r.symptom || "לא קיים תיעוד מאומת במאגר"}</span>
+          <span className="nxl-desc">{r.symptom || "אין תיעוד מאומת במאגר"}</span>
           <span className="nxl-meta">
             <span className="nu-chip nxl-mod">
               <i aria-hidden="true" />
@@ -138,7 +138,7 @@ function Row({ r, impactHe, onOpen }: { r: IncidentRow; impactHe: string; onOpen
           ) : (
             <>
               <span className="nxl-side-l">הודעת השגיאה</span>
-              <span className="nxl-side-v">לא קיים תיעוד מאומת במאגר</span>
+              <span className="nxl-side-v">אין תיעוד מאומת במאגר</span>
             </>
           )}
         </span>
@@ -374,11 +374,10 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
 
       <div className="nxl-foot">
         <p>
-          תווית ההשפעה נלקחת מהרשומה כפי שתועדה.
-          {" "}{nf.format(totals.incidents - rows.filter((r) => r.impactKind).length)} רשומות ללא תג מסומנות «ללא תג השפעה».
+          {nf.format(totals.incidents - rows.filter((r) => r.impactKind).length)} רשומות ללא תג מסומנות «ללא תג השפעה».
         </p>
         <p>
-          מקור: <span className="nx-sap">data/troubleshooting.ts</span>: תיעוד פתרון בעיות מאומת, שאינו מחובר
+          מקור: קטלוג התקלות של הפרויקט: תיעוד פתרון בעיות מאומת, שאינו מחובר
           {" "}למערכת SAP. הרשומות כוללות מילות חיפוש ל-SAP Notes, ללא מספרי Note.
         </p>
       </div>

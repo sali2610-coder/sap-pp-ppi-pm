@@ -364,7 +364,7 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         <div className="nxv-meta">
           <span className="nu-chip nxv-mod"><i aria-hidden="true" />{course.module}</span>
           <span className="nu-chip">{lesson.level}</span>
-          <span className="nu-chip"><Clock size={11} strokeWidth={1.75} />{nf.format(lesson.minutes)} דק׳ (אורך מוצהר)</span>
+          <span className="nu-chip"><Clock size={11} strokeWidth={1.75} />{nf.format(lesson.minutes)} דק׳ (משך לפי הקורס)</span>
           <span className="nu-chip"><Blocks size={11} strokeWidth={1.75} />{nf.format(kinds.length)} יחידות תוכן</span>
           {trust ? (
             <span className="nu-status" style={{ "--s": trust.s } as React.CSSProperties} title={lesson.source}>
@@ -399,7 +399,7 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         ) : (
           <p className="nx-muted">
             יחידת תוכן נספרת כשהיא מוצגת במסך.
-            {" "}ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>).
+            {" "}ההתקדמות נשמרת במכשיר בלבד.
           </p>
         )}
         {/* Exposure is not understanding (design audit §7): the count above is
@@ -448,17 +448,16 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         <p className="nxv-src">
           <ShieldCheck size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            מקור: מאגר השיעורים של SAP Academy (<span className="nx-sap">data/academy/lessons</span>).
-            {" "}התוכן מוצג כפי שנכתב.
+            מקור: מאגר השיעורים של SAP Academy.
           </span>
         </p>
         <p>
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
-          {" "}הגרסה הקודמת של השיעור, במעטפת ובתפריט הישנים:{" "}
+          {" "}השיעור זמין גם{" "}
           <Link className="nu-link" href={academyLessonHref(lesson.slug)} prefetch={false}>
-            פתיחה במסך הלמידה הקודם
+            במסך הלמידה הקודם
           </Link>
-          . ההתקדמות משותפת לשני המסכים.
+          , וההתקדמות משותפת.
         </p>
       </div>
     </div>

@@ -8,6 +8,7 @@ import { SiteLogo } from "@/components/site-logo";
 import { homeData, type HomeData } from "@/components/neo-shell/home/home-data";
 import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-scene";
 import { HomeNet } from "@/components/neo-shell/home/home-net";
+import { CmdKey } from "@/components/neo-shell/cmd-key";
 
 // ROOT CUTOVER. `/` 307s here, so this page is the site's public landing page
 // and MUST be indexable. The other noindex declarations under app/neo/ stay
@@ -62,7 +63,7 @@ function ModuleCard({ d, i }: { d: HomeData; i: 0 | 1 }) {
         <span><b className="nh-sap">{nf.format(mo.fields)}</b><em>שדות</em></span>
         <span><b className="nh-sap">{nf.format(mo.tcodes)}</b><em>טרנזקציות</em></span>
         <span><b className="nh-sap">{nf.format(mo.funcs)}</b><em>BAPI · FM · IDoc</em></span>
-        <span><b className="nh-sap">{nf.format(mo.cds)}</b><em>CDS Views</em></span>
+        <span><b className="nh-sap">{nf.format(mo.cds)}</b><em>תצוגות CDS</em></span>
         <span><b className="nh-sap">{nf.format(mo.fiori)}</b><em>יישומי Fiori</em></span>
       </span>
       <span className="nh-mod-share">
@@ -144,9 +145,9 @@ export default function NeoHome() {
           <SiteLogo tone="dark" size="lg" className="nh-brand nm-rise nm-once" />
 
           <p className="nh-eye nh-eye--gate">
-            SAP Enterprise Knowledge Platform
-            <i aria-hidden="true" />
             CBC Israel
+            <i aria-hidden="true" />
+            PM · PP-PI · S/4HANA
           </p>
 
           <h1 className="nh-mega nm-kin" id="nh-1-h">
@@ -154,9 +155,9 @@ export default function NeoHome() {
             <span><span>ל-<span className="nh-sap">SAP S/4HANA</span></span></span>
           </h1>
           <p className="nh-lede nh-lede--gate">
-            פלטפורמת ידע מקצועית למודולי <span className="nh-sap">PM</span> ו-<span className="nh-sap">PP-PI</span>:
+            תיעוד מקצועי למודולי <span className="nh-sap">PM</span> ו-<span className="nh-sap">PP-PI</span>:
             אובייקטים עסקיים, טבלאות, טרנזקציות, קשרי נתונים והמעבר מ-<span className="nh-sap">ECC</span> ל-
-            <span className="nh-sap">S/4HANA</span>. זמינה במלואה גם ללא חיבור לרשת.
+            <span className="nh-sap">S/4HANA</span>.
           </p>
           <div className="nh-stats nm-seq">
             {stats.map(([n, l, href]) => (
@@ -184,7 +185,7 @@ export default function NeoHome() {
             </Link>
             <Link className="nu-btn2" href="/neo/academy/" prefetch={false}>
               <GraduationCap size={15} strokeWidth={1.75} aria-hidden="true" />
-              המשך ללמוד
+              המשך הלמידה
             </Link>
             <Link className="nu-link" href="/neo/erd/" prefetch={false}>
               <GitBranch size={14} strokeWidth={1.75} aria-hidden="true" />
@@ -295,7 +296,7 @@ export default function NeoHome() {
 
           <div className="nh-out nm-rise">
             <p className="nh-out-t">
-              הסיווג המלא עם החלופות המתועדות: בקוקפיט המעבר.
+              הסיווג המלא והחלופות המתועדות נמצאים בקוקפיט המעבר.
             </p>
             <div className="nh-cta">
               <Link className="nu-btn" href="/neo/migration-cockpit/" prefetch={false}>
@@ -324,7 +325,7 @@ export default function NeoHome() {
             <p className="nh-eye nm-fade">איתור<i aria-hidden="true" />טבלה, טרנזקציה, אובייקט</p>
             <h2 className="nh-h2 nm-kin" id="nh-4-h">
               <span><span>מחפשים אובייקט מסוים?</span></span>
-              <span><span className="nh-dim">חיפוש גלובלי בכל עמודי הפלטפורמה: Ctrl+K</span></span>
+              <span><span className="nh-dim"><span className="nh-sap"><CmdKey /></span> פותח חיפוש מכל עמוד</span></span>
             </h2>
           </div>
 

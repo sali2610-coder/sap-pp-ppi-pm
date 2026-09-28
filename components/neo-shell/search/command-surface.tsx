@@ -128,7 +128,7 @@ function Row({
              aria-activedescendant, and Enter on the row already performs the
              same action (goResult loads the context before it navigates). */
           tabIndex={-1}
-          aria-label={`טעינת ההקשר של ${r.ctx} למדף ההקשר`}
+          aria-label={`הצגת ${r.ctx} במדף ההקשר`}
           onClick={(e) => { e.stopPropagation(); onContext(r.ctx!); }}
         >
           <Ico name="Layers" size={12} />
@@ -153,7 +153,7 @@ function Detail({
     return (
       <div className="nxc-detail-empty">
         <span className="nxc-detail-mark" aria-hidden="true"><Ico name="Command" size={18} /></span>
-        <p>בחירת תוצאה תציג את ההקשר המלא שלה.</p>
+        <p>בחירת תוצאה תציג את ההקשר שלה.</p>
       </div>
     );
   }
@@ -333,15 +333,15 @@ export function CommandSurface({
               <>
                 <b>{nf.format(result.total)}</b> תוצאות עבור <span className="nxc-q">{q}</span>
                 <span className="nxc-head-sep">·</span>
-                <b>{nf.format(navHits)}</b> מתוך {nf.format(navTotal)} יעדי ניווט
+                <b>{nf.format(navHits)}</b> מתוך {nf.format(navTotal)} פריטי ניווט
               </>
             ) : result.browse && onlyMeta ? (
               <>
-                <b>{nf.format(result.total)}</b> רשומות מסוג {onlyMeta.he} · הקלדה מצמצמת את הרשימה
+                <b>{nf.format(result.total)}</b> רשומות מסוג {onlyMeta.he} · אפשר להקליד כדי לסנן
               </>
             ) : (
               <>
-                <b>{nf.format(indexTotal)}</b> רשומות באינדקס · <b>{nf.format(navTotal)}</b> יעדי ניווט · הקלדה מסננת את הרשימה
+                <b>{nf.format(indexTotal)}</b> רשומות באינדקס · <b>{nf.format(navTotal)}</b> פריטי ניווט · אפשר להקליד כדי לסנן
               </>
             )}
           </p>
@@ -377,7 +377,7 @@ export function CommandSurface({
               </div>
             ) : (
               <p className="nxc-scope-hint">
-                התוצאות נקראות מנתוני הפרויקט: טבלאות, שדות, טרנזקציות, אובייקטי פונקציה, ספרים ותהליכים.
+                החיפוש כולל טבלאות, שדות, טרנזקציות, BAPI ו-FM, ספרים ותהליכים.
               </p>
             )}
 
@@ -421,7 +421,7 @@ export function CommandSurface({
           >
             {!live ? (
               <div className="nxc-idle">
-                <p className="nxc-idle-h">תוכן האינדקס: בחירת משפחה מציגה את כל הרשומות שלה</p>
+                <p className="nxc-idle-h">מה יש באינדקס: בחירת סוג מציגה את כל הרשומות שלו</p>
                 <ul className="nxc-idle-grid">
                   {idle.map((x) => (
                     <li key={x.k}>
@@ -440,14 +440,14 @@ export function CommandSurface({
                   ))}
                 </ul>
                 <p className="nxc-idle-f">
-                  {nf.format(indexTotal)} רשומות, כולן מנתוני הפרויקט.
+                  {nf.format(indexTotal)} רשומות באינדקס.
                 </p>
               </div>
             ) : result.sections.length === 0 ? (
               <p className="nxc-none">
                 לא נמצאו תוצאות עבור «{q}»
-                {modOnly ? ` במודול ${modLabel(modOnly)}` : ""}. החיפוש עובר על כל האינדקס,{" "}
-                {nf.format(indexTotal)} רשומות מנתוני הפרויקט.
+                {modOnly ? ` במודול ${modLabel(modOnly)}` : ""}. החיפוש כולל את כל{" "}
+                {nf.format(indexTotal)} הרשומות באינדקס.
               </p>
             ) : (
               result.sections.map((sec, si) => {
@@ -503,7 +503,7 @@ export function CommandSurface({
         <footer className="nxc-foot">
           <span className="nxc-keys">
             <span><kbd>↑</kbd><kbd>↓</kbd> מעבר</span>
-            <span><kbd>Home</kbd><kbd>End</kbd> קצוות</span>
+            <span><kbd>Home</kbd><kbd>End</kbd> ראשון ואחרון</span>
             <span><kbd>Enter</kbd> פתיחה</span>
             <span><kbd>Esc</kbd> סגירה</span>
           </span>

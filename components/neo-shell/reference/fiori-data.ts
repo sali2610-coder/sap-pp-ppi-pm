@@ -33,7 +33,7 @@ const TYPE_HE: Record<string, string> = {
 
 const TRUST: Record<string, RefStatus> = {
   "verified-docs": { he: "אומת מול תיעוד SAP", color: "var(--status-done)" },
-  curated: { he: "רשומה מתוחזקת ידנית", color: "var(--status-in-analysis)" },
+  curated: { he: "רשומה שנערכה ידנית", color: "var(--status-in-analysis)" },
   "needs-review": { he: "נדרשת סקירה", color: "var(--status-not-started)" },
 };
 
@@ -130,7 +130,7 @@ export function fioriDir(): RefDir {
   return {
     id: "fiori-apps",
     surface: "neo:fiori-apps",
-    eyebrow: "קטלוג יישומי Fiori · Fiori Catalog",
+    eyebrow: "קטלוג יישומי Fiori",
     title: "יישומי SAP Fiori",
     icon: "layoutGrid",
     lede:
@@ -164,8 +164,7 @@ export function fioriDir(): RefDir {
     rankLabel: "היקף הכיסוי",
     searchPlaceholder: "מזהה F · שם · תפקיד · קטלוג · OData · טרנזקציית GUI",
     foot:
-      "מזהי היישומים, התפקידים והקטלוגים נלקחו מקובץ ה-Fiori של הפרויקט, המציין לכל רשומה את מקורה " +
-      "ואת מועד הסקירה האחרון. מספרי SAP Note מופיעים רק כאשר הם קיימים ברשומה.",
+      "מקור: קובץ ה-Fiori של הפרויקט.",
     emptyNote:
       "החיפוש מתבצע על המזהה, השם בעברית ובאנגלית, התפקיד, הקטלוג, שירות ה-OData והטרנזקציות המוחלפות שבתיעוד.",
   };
@@ -321,7 +320,6 @@ export function fioriDetail(slug: string): RefDetail | null {
     sections,
     sources: uniq([a.source, ...(a.notes || []).map((n) => n.label)]),
     foot:
-      "כל שדה בעמוד זה נלקח מרשומת היישום בקובץ ה-Fiori של הפרויקט, כולל רמת האמון והמקור שלה. " +
-      "שדה ללא תיעוד מסומן במפורש.",
+      "מקור: רשומת היישום בקובץ ה-Fiori של הפרויקט. שדה שלא תועד מסומן בעמוד.",
   };
 }

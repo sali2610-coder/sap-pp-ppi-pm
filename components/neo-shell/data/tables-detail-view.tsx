@@ -66,7 +66,7 @@ const TRUST_WHY: Record<string, string> = {
 function Missing({ what }: { what: string }) {
   return (
     <p className="nxb-missing">
-      <b>לא קיים תיעוד מאומת במאגר</b>
+      <b>אין תיעוד מאומת במאגר</b>
       <span>המאגר אינו כולל {what} עבור טבלה זו.</span>
     </p>
   );
@@ -132,7 +132,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
     ["nxb-s4", "המעבר ל-S/4HANA"],
     ["nxb-own", t.rows.length > 1 ? "רשומות התיעוד" : "רשומת התיעוד"],
     ["nxb-tx", "טרנזקציות"],
-    ["nxb-cds", "CDS Views"],
+    ["nxb-cds", "תצוגות CDS"],
     ["nxb-if", "ממשקים ו-Fiori"],
     ["nxb-sib", "טבלאות באותו נושא"],
     ["nxb-books", "ספרים והפניות"],
@@ -151,7 +151,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           falls back to /neo/tables/, which is this page's real parent. */}
       <SmartReturn
         fallback={{ href: "/neo/tables/", label: "טבלאות SAP" }}
-        hint="לא נשמר מסלול הגעה בביקור הזה"
+        hint="אין עמוד קודם בביקור הזה"
       />
 
       {/* ==================================================== 1. IDENTITY */}
@@ -175,7 +175,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             <CopyId value={t.name} label="העתקת שם הטבלה" compact />
           </div>
           <div className="nxb-names">
-            <p className="nxb-he">{t.he || "לא קיים תיעוד מאומת במאגר: אין תיאור עברי לטבלה זו."}</p>
+            <p className="nxb-he">{t.he || "אין תיעוד מאומת במאגר: אין תיאור עברי לטבלה זו."}</p>
             {t.en ? <p className="nxb-en nx-sap">{t.en}</p> : null}
           </div>
         </div>
@@ -217,7 +217,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             <dd>
               {t.pk.length
                 ? t.pk.map((f) => <span key={f} className="nx-sap">{f}</span>)
-                : <em>לא קיים תיעוד מאומת במאגר: לא סומן מפתח ראשי</em>}
+                : <em>אין תיעוד מאומת במאגר: לא סומן מפתח ראשי</em>}
             </dd>
           </div>
           <div data-k="FK">
@@ -225,7 +225,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             <dd>
               {t.fk.length
                 ? t.fk.map((f) => <span key={f} className="nx-sap">{f}</span>)
-                : <em>לא קיים תיעוד מאומת במאגר: לא סומן מפתח זר</em>}
+                : <em>אין תיעוד מאומת במאגר: לא סומן מפתח זר</em>}
             </dd>
           </div>
         </dl>
@@ -266,7 +266,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             [s.rels, "קשרים ממודלים"],
             [s.joins, "ניסוחי JOIN"],
             [s.tx, "טרנזקציות"],
-            [s.cds, "CDS Views"],
+            [s.cds, "תצוגות CDS"],
             [s.funcs, "BAPI · FM · IDoc"],
           ] as [number, string][]).map(([v, l]) => (
             <span className="nxb-stat" key={l}>
@@ -303,8 +303,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           ))}
         </div>
         <p className="nxb-cta-note">
-          עמוד הטבלה (כאן): השדות, המפתחות, הקשרים ומעמד ה-S/4HANA של הטבלה מתוך הבלופרינט. עמוד האובייקט: אותה טבלה
-          בהקשר הרחב שלה: תהליכים, טרנזקציות, פונקציות, תקלות וספרים.
+          כאן: שדות, מפתחות, קשרים ומעמד S/4HANA לפי הבלופרינט. בעמוד האובייקט: אותה טבלה בהקשר של
+          תהליכים, טרנזקציות, פונקציות, תקלות וספרים.
         </p>
 
         <p className="nxb-rank">
@@ -330,7 +330,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         title={`${nf.format(s.fields)} שדות · ${nf.format(s.pk)} שדות PK · ${nf.format(s.fk)} שדות FK`}
         lede={
           <>
-            עמודת המפתח נקראת מתיעוד המקור על ארבעת ערכיה: <b>PK</b>, <b>FK</b>, <b>PK/FK</b> ו-<b>-</b>.
+            עמודת המפתח לפי תיעוד המקור, על ארבעת ערכיה: <b>PK</b>, <b>FK</b>, <b>PK/FK</b> ו-<b>-</b>.
             שדה המסומן <b>PK/FK</b> הוא מפתח ראשי וגם מפתח זר. סדר השורות הוא סדר תיעוד המקור.
           </>
         }
@@ -350,7 +350,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                     <th scope="col">מפתח</th>
                     <th scope="col">שדה טכני</th>
                     <th scope="col">תיאור</th>
-                    <th scope="col">סוג</th>
+                    <th scope="col">סוג נתונים</th>
                     <th scope="col">אורך</th>
                     <th scope="col">מודול</th>
                   </tr>
@@ -367,10 +367,10 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                         </td>
                         <th scope="row" className="nx-sap nxb-ftech">{f.tech}</th>
                         <td data-l="תיאור">
-                          {f.he || f.en || <span className="nxb-none">לא קיים תיעוד מאומת במאגר</span>}
+                          {f.he || f.en || <span className="nxb-none">אין תיעוד מאומת במאגר</span>}
                           {f.he && f.en ? <em className="nxb-fen nx-sap">{f.en}</em> : null}
                         </td>
-                        <td data-l="סוג" className="nx-sap">{f.dt || "–"}</td>
+                        <td data-l="סוג נתונים" className="nx-sap">{f.dt || "–"}</td>
                         <td data-l="אורך" className="nx-sap">{f.len || "–"}</td>
                         <td data-l="מודול"><ModTag mods={f.mods} /></td>
                       </tr>
@@ -394,8 +394,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         title={`${nf.format(s.rels)} קשרים ממודלים · ${nf.format(s.joins)} ניסוחי JOIN`}
         lede={
           <>
-            כיוון הקשר נקרא מתיעוד המקור: <b>בן</b> הוא טבלה הנושאת מפתח זר אל {t.name}, ו<b>אב</b> הוא
-            טבלה ש-{t.name} מפנה אליה. הקרדינליות מוצגת כפי שנרשמה; כאשר לא נרשמה, הדבר מצוין.
+            כיוון הקשר לפי תיעוד המקור: <b>בן</b> הוא טבלה הנושאת מפתח זר אל {t.name}, ו<b>אב</b> הוא
+            טבלה ש-{t.name} מפנה אליה. כאשר לא נרשמה קרדינליות, הדבר מצוין.
           </>
         }
       >
@@ -405,8 +405,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
               <p className="nxb-warn">
                 <TriangleAlert size={14} strokeWidth={1.75} aria-hidden="true" />
                 {s.contested === 1 ? "טבלה אחת מופיעה" : `${nf.format(s.contested)} טבלאות מופיעות`} כאן
-                פעמיים, כבן וכאב: שני המודולים רושמים את אותו קשר בכיוונים הפוכים. שתי הרשומות נשמרות
-                כלשונן.
+                פעמיים, כבן וכאב: שני המודולים רושמים את אותו קשר בכיוונים הפוכים. שתי הרשומות
+                מוצגות.
               </p>
             ) : null}
             <ul className="nxb-rels">
@@ -431,7 +431,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                       // the value it is. A chip has no hover and no pointer.
                       <span className="nu-chip is-sap">{r.name}</span>
                     )}
-                    <em>{r.he || "לא קיים תיעוד מאומת במאגר"}</em>
+                    <em>{r.he || "אין תיעוד מאומת במאגר"}</em>
                   </span>
                   <span className="nxb-rel-card">
                     <i aria-hidden="true" />
@@ -514,7 +514,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             ? <p className="nxb-stand-w">{t.s4.changed}</p>
             : (
               <p className="nxb-stand-w nxb-stand-none">
-                לא קיים תיעוד מאומת במאגר לגבי השינוי בטבלה זו ב-S/4HANA.
+                אין תיעוד מאומת במאגר לגבי השינוי בטבלה זו ב-S/4HANA.
               </p>
             )}
           {t.s4.why ? <p className="nxb-stand-y">{t.s4.why}</p> : null}
@@ -544,7 +544,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
 
         <h3 className="nxb-h3">
           <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />
-          הערות תיעוד המקור, כלשונן
+          הערות תיעוד המקור
         </h3>
         {t.s4.rows.length ? (
           <div className="nxb-s4rows">
@@ -582,7 +582,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             ? `${nf.format(t.rows.length)} רשומות תיעוד לאותה טבלה`
             : "רשומת התיעוד של הטבלה"
         }
-        lede="הנושא שאליו הטבלה משויכת, הטרנזקציות שנרשמו לה ומקור התיעוד, כלשונם ובנפרד לכל מודול."
+        lede="הנושא שאליו הטבלה משויכת, הטרנזקציות שנרשמו לה ומקור התיעוד, בנפרד לכל מודול."
       >
         <div className="nxb-rows">
           {t.rows.map((r, i) => (
@@ -598,8 +598,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                   <dd className="nx-sap">{nf.format(r.fields)}</dd>
                 </div>
                 <div>
-                  <dt>טרנזקציות, כלשונן</dt>
-                  <dd className="nx-sap">{r.tcodesRaw || "לא קיים תיעוד מאומת במאגר"}</dd>
+                  <dt>טרנזקציות</dt>
+                  <dd className="nx-sap">{r.tcodesRaw || "אין תיעוד מאומת במאגר"}</dd>
                 </div>
                 {r.fiori ? (<div><dt>יישום Fiori</dt><dd className="nx-sap">{r.fiori}</dd></div>) : null}
                 {r.helpLbl ? (<div><dt>מקור</dt><dd>{r.helpLbl}</dd></div>) : null}
@@ -662,9 +662,9 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         id="nxb-cds"
         n={num["nxb-cds"]}
         icon={<Sigma size={16} strokeWidth={1.75} />}
-        eyebrow="CDS Views"
+        eyebrow="תצוגות CDS"
         title="תצוגות CDS הקוראות את הטבלה ב-S/4HANA"
-        lede="מיפוי מתוחזק בין הטבלה לתצוגות CDS משוחררות. תצוגת CDS מופיעה כאן רק כאשר הטבלה נכללת בה, ולצידה שאר הטבלאות שהתצוגה קוראת."
+        lede="מיפוי של הפרויקט בין הטבלה לתצוגות CDS משוחררות. תצוגת CDS מופיעה כאן רק כאשר הטבלה נכללת בה, ולצידה שאר הטבלאות שהתצוגה קוראת."
       >
         {t.cds.length ? (
           <ul className="nxb-cds">
@@ -694,14 +694,14 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         icon={<Cable size={16} strokeWidth={1.75} />}
         eyebrow="ממשקים"
         title={`${nf.format(t.funcs.length)} BAPI · FM · IDoc · ${nf.format(t.progs.length)} תוכניות`}
-        lede="השם והתיאור נקראים מהמאגר, כולל ממשקי Zetes ו-Daymax שנרשמו בתיעוד המקור. תג המודול מציין באיזה מודול נרשם האובייקט."
+        lede="השם והתיאור מתוך המאגר, כולל ממשקי Zetes ו-Daymax שנרשמו בתיעוד המקור. תג המודול מציין באיזה מודול נרשם האובייקט."
       >
         {t.funcs.length ? (
           <ul className="nxb-funcs">
             {t.funcs.map((f) => (
               <li key={f.name}>
                 <b className="nx-sap">{f.name}</b>
-                <em>{f.he || "לא קיים תיעוד מאומת במאגר"}</em>
+                <em>{f.he || "אין תיעוד מאומת במאגר"}</em>
                 <ModTag mods={f.mods} />
               </li>
             ))}
@@ -719,7 +719,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             {t.progs.map((p) => (
               <li key={p.name}>
                 <b className="nx-sap">{p.name}</b>
-                <em>{p.he || "לא קיים תיעוד מאומת במאגר"}</em>
+                <em>{p.he || "אין תיעוד מאומת במאגר"}</em>
                 <ModTag mods={p.mods} />
               </li>
             ))}
@@ -769,7 +769,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         icon={<Workflow size={16} strokeWidth={1.75} />}
         eyebrow="אובייקטים קשורים"
         title={`${nf.format(s.siblings)} טבלאות תחת אותו נושא במאגר`}
-        lede="הקיבוץ נקרא מתיעוד המקור: הטבלאות המתועדות תחת אותו נושא."
+        lede="הקיבוץ לפי תיעוד המקור: הטבלאות המתועדות תחת אותו נושא."
       >
         {t.siblings.length ? (
           <ul className="nxb-sibs">
@@ -779,7 +779,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                   <Link className="nu-card nxb-sibcard" href={sb.href} prefetch={false}>
                     <i className="nxb-rel-cls" aria-hidden="true" />
                     <b className="nx-sap">{sb.name}</b>
-                    <em>{sb.he || "לא קיים תיעוד מאומת במאגר"}</em>
+                    <em>{sb.he || "אין תיעוד מאומת במאגר"}</em>
                     <span className="nxb-dim">{sb.topic}</span>
                     <ArrowUpLeft className="nxb-txarw" size={14} strokeWidth={1.75} aria-hidden="true" />
                   </Link>
@@ -787,7 +787,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                   <span className="nxb-sibflat">
                     <i className="nxb-rel-cls" aria-hidden="true" />
                     <span className="nu-chip is-sap">{sb.name}</span>
-                    <em>{sb.he || "לא קיים תיעוד מאומת במאגר"}</em>
+                    <em>{sb.he || "אין תיעוד מאומת במאגר"}</em>
                     <span className="nxb-dim">{sb.topic}</span>
                   </span>
                 )}
@@ -862,8 +862,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       <footer className="nxb-foot">
         <p>
           <Database size={13} strokeWidth={1.75} aria-hidden="true" />
-          המקור: שני קובצי תיעוד המקור של הפרויקט ומיפויי ה-CDS וה-S/4HANA שלו. שדה שאינו מתועד מוצג
-          כ&quot;לא קיים תיעוד מאומת במאגר&quot;.
+          מקור: שני קובצי תיעוד המקור של הפרויקט ומיפויי ה-CDS וה-S/4HANA שלו. שדה שלא תועד מסומן בעמוד.
         </p>
         <p className="nxb-credit">
           <KeyRound size={13} strokeWidth={1.75} aria-hidden="true" />

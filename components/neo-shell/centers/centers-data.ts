@@ -76,7 +76,7 @@ export const CENTER_FAMILIES: CenterFamily[] = [
   { id: "abap", he: "כלי ABAP", en: "ABAP Tooling",
     lede: "כלי פיתוח וניתוח ABAP לעבודת היועץ הטכני.", items: ABAP_TOOLS },
   { id: "debugging", he: "אבחון תקלות", en: "Debugging",
-    lede: "נתיבי אבחון: מהסימפטום, דרך הראיות, אל הסיבה.", items: DEBUGGINGS },
+    lede: "נתיבי אבחון מהסימפטום ועד הסיבה.", items: DEBUGGINGS },
   { id: "toolkit", he: "ערכת היועץ", en: "Consultant Toolkit",
     lede: "תבניות עבודה: ראיון, סדנה, בלופרינט, QA, Cutover, Hypercare ו-Go-Live.", items: TOOLKIT },
   { id: "playbooks", he: "מדריכי יישום", en: "Implementation Playbooks",

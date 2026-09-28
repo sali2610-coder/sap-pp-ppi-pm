@@ -339,7 +339,7 @@ export function ObjectLanes({ name }: { name: string }) {
 
       <div className="nol-foot">
         <span className="nol-blast">
-          רדיוס השפעה (Blast radius): <b className="nx-sap">{g.upstream.length}</b> במעלה הזרם
+          היקף השפעה: <b className="nx-sap">{g.upstream.length}</b> במעלה הזרם
           {" · "}<b className="nx-sap">{g.downstream.length}</b> במורד הזרם
         </span>
         {(upMore > 0 || downMore > 0 || exp) && (

@@ -74,9 +74,9 @@ export function WorkspaceTable({
   if (!rows.length) {
     return (
       <div className="nw-empty">
-        <p>לא נמצאו תוצאות התואמות לסינון שנבחר.</p>
+        <p>לא נמצאו רשומות שתואמות לסינון.</p>
         <p className="nw-fine">
-          התיעוד כולל {nf.format(total)} רשומות. הסינון מצמצם את הרשימה בלבד.
+          התיעוד כולל {nf.format(total)} רשומות.
         </p>
         <button type="button" className="nu-btn2" onClick={onClear}>
           איפוס הסינון
@@ -323,7 +323,7 @@ export function WorkspaceTable({
                             origin={() => origin(r.n)}
                             onClick={() => pushRecentObject(r.n)}
                           >
-                            עמוד האובייקט המלא של <span className="nw-sap">{r.n}</span>
+                            עמוד האובייקט של <span className="nw-sap">{r.n}</span>
                             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
                           </OriginLink>
                         </section>

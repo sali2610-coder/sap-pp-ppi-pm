@@ -109,7 +109,7 @@ export function GeneralChat() {
         <div className="nxg-head-text nm-rise nm-once">
           <span className="nxq-eyebrow">
             <Terminal size={13} strokeWidth={2} aria-hidden="true" />
-            NEO AI · לא מוגבל לספרייה · רמת ביסוס בכל תשובה
+            NEO AI · שאלות SAP כלליות · כל תשובה מציינת על מה היא מבוססת
           </span>
           {/* The name says what it is (design audit S7-AI-4): a general
               conversation, distinct from the library help and from the

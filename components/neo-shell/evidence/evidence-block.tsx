@@ -11,7 +11,7 @@
      · A successor with no generated page renders as a value (.nu-chip.is-sap),
        never as a link that opens nothing.
      · A record at verification_required says «נדרש אימות נוסף» out loud, and
-       when it holds no source at all it says «לא קיים תיעוד מאומת במאגר».
+       when it holds no source at all it says «אין תיעוד מאומת במאגר».
      · Sources are capped at 6 visible; the rest are counted, not hidden.
      · Nothing here invents a fact: every string arrives from the block data.
    ========================================================================== */
@@ -112,7 +112,7 @@ export function EvidenceBlock({ e }: { e: EvidenceBlockData }) {
       {e.needsVerification ? (
         <p className="nev-warn">
           נדרש אימות נוסף מול תיעוד SAP או מערכת S/4HANA לפני החלטת מעבר.
-          {e.sources.length === 0 ? " לא קיים תיעוד מאומת במאגר עבור רשומה זו." : ""}
+          {e.sources.length === 0 ? " אין תיעוד מאומת במאגר עבור רשומה זו." : ""}
         </p>
       ) : null}
 

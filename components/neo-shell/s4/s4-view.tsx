@@ -111,7 +111,7 @@ function Chips({ items }: { items: S4Link[] }) {
 const Credit = () => (
   <p className="ns4-credit">
     <Cable size={13} strokeWidth={1.75} aria-hidden="true" />
-    {" "}התוכן מוצג כפי שנכתב בתיעוד הפרויקט.
+    {" "}מקור: תיעוד הפרויקט.
   </p>
 );
 
@@ -138,7 +138,7 @@ export function S4HanaCenter() {
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
       <Hero
-        eyebrow="מרכז S/4HANA · TRANSFORMATION"
+        eyebrow="מרכז S/4HANA"
         icon={<Rocket size={13} strokeWidth={2} aria-hidden="true" />}
         title="השינויים במעבר מ-ECC ל-S/4HANA"
         lede={
@@ -333,7 +333,7 @@ export function S4ReadinessCenter() {
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
       <Hero
-        eyebrow="כיסוי תיעוד למעבר · READINESS COVERAGE"
+        eyebrow="כיסוי תיעוד למעבר"
         icon={<Gauge size={13} strokeWidth={2} aria-hidden="true" />}
         title="כיסוי תיעוד למעבר ל-S/4HANA לפי מודול"
         lede={
@@ -459,7 +459,7 @@ export function MigrationCockpit() {
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
       <Hero
-        eyebrow="קוקפיט המעבר · MIGRATION COCKPIT"
+        eyebrow="קוקפיט המעבר"
         icon={<Truck size={13} strokeWidth={2} aria-hidden="true" />}
         title="אובייקטי המעבר ורצף הטעינה"
         lede={

@@ -285,7 +285,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       .reduce((a, s) => a + s.rows.length, 0);
 
     const plan: (Omit<ChapterMeta, "n"> & { key: string })[] = [
-      { key: "map", id: "nw-map", kicker: "מפת המודול", title: "מפת המודול: נושאים, תהליך עסקי ומחלקות אובייקט", count: data.counts.topics, countLabel: "נושאים" },
+      { key: "map", id: "nw-map", kicker: "מפת המודול", title: "נושאים ותהליך", count: data.counts.topics, countLabel: "נושאים" },
       // The one chapter the page is really for. It is marked here, once, and the
       // running bar reads the flag — nothing about S/4HANA is hard-coded into a
       // component that five other screens also use.
@@ -297,11 +297,11 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       // table and the S/4HANA chapter stay open.
       { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "הטרנזקציות שהתיעוד קושר למודול", count: data.counts.tcodes, countLabel: "טרנזקציות", collapsed: true },
       { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "קשרי הנתונים של המודול עם שאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים", collapsed: true },
-      { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "ממשקים, תצוגות CDS ויישומי Fiori של המודול", count: data.counts.funcEntries, countLabel: "רשומות ממשק", collapsed: true },
+      { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "ממשקים, CDS ו-Fiori", count: data.counts.funcEntries, countLabel: "רשומות ממשק", collapsed: true },
       ...(buildRows
-        ? [{ key: "build", id: "nw-build", kicker: "קונפיגורציה וכלים", title: "קונפיגורציה, קוד מותאם וכלי יישום", count: buildRows, countLabel: "רשומות בגיליונות", collapsed: true }]
+        ? [{ key: "build", id: "nw-build", kicker: "קונפיגורציה וכלים", title: "קונפיגורציה וקוד מותאם", count: buildRows, countLabel: "רשומות בגיליונות", collapsed: true }]
         : []),
-      { key: "learn", id: "nw-learn", kicker: "ידע ופעילות", title: "ספרים, קורסים ופעילות אחרונה", count: data.books.length + data.courses.length, countLabel: "ספרים וקורסים", collapsed: true },
+      { key: "learn", id: "nw-learn", kicker: "ידע ופעילות", title: "ספרים וקורסים", count: data.books.length + data.courses.length, countLabel: "ספרים וקורסים", collapsed: true },
     ];
 
     // Every chapter stands on the module's own scene. It costs nothing visually
@@ -386,9 +386,9 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
         icon={<Table2 size={17} strokeWidth={1.75} />}
         lede={
           <>
-            {nf.format(data.counts.rows)} רשומות תיעוד על {nf.format(data.counts.tables)} טבלאות ייחודיות,{" "}
-            {nf.format(data.counts.fields)} שדות מתועדים. שם הטבלה פותח את עמוד האובייקט המלא; החץ בסוף
-            השורה פותח את פירוט הרשומה כאן, באותו עמוד.
+            {nf.format(data.counts.rows)} רשומות תיעוד על {nf.format(data.counts.tables)} טבלאות שונות,{" "}
+            {nf.format(data.counts.fields)} שדות מתועדים. לחיצה על שם טבלה פותחת את עמוד האובייקט, והחץ
+            פותח פירוט בשורה.
           </>
         }
       >

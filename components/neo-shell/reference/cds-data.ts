@@ -138,12 +138,12 @@ export function cdsDir(): RefDir {
   return {
     id: "cds",
     surface: "neo:cds",
-    eyebrow: "קטלוג CDS Views · CDS Catalog",
-    title: "CDS Views",
+    eyebrow: "קטלוג תצוגות CDS",
+    title: "תצוגות CDS",
     icon: "sigma",
     lede:
       `${nf.format(CDS_VIEWS.length)} תצוגות CDS של S/4HANA שתיעוד הפרויקט ממפה אל הטבלאות הקלאסיות שהן מכסות. ` +
-      `לכל תצוגה מוצגים טבלאות ה-ECC שהיא מכסה, שכבת ה-Consumption שמעליה, יישום ה-Fiori שצורך אותה ` +
+      `לכל תצוגה מוצגות טבלאות ה-ECC שהיא מכסה, שכבת ה-Consumption שמעליה, יישום ה-Fiori שצורך אותה ` +
       `ומעמד הטבלה הקלאסית במעבר ל-S/4HANA.`,
     stats: [
       { v: CDS_VIEWS.length, l: "תצוגות CDS", i: "sigma" },
@@ -194,7 +194,7 @@ export function cdsDetail(name: string): RefDetail | null {
       label: "הטבלאות הקלאסיות שהתצוגה מכסה",
       codes: s4.tables.map((t) => ({ t: t.name, href: t.href })),
     },
-    { label: "החלופה הקלאסית ב-ECC", text: clean(e?.eccAlternative), absent: "לא קיים תיעוד מאומת במאגר לחלופה הקלאסית ב-ECC לתצוגה זו." },
+    { label: "החלופה הקלאסית ב-ECC", text: clean(e?.eccAlternative), absent: "אין תיעוד מאומת במאגר לחלופה הקלאסית ב-ECC לתצוגה זו." },
   ];
   if (v.consumption) {
     s4Facts.push({
@@ -291,7 +291,7 @@ export function cdsDetail(name: string): RefDetail | null {
       ...cards.map((c) => ({ t: c.code, href: c.href, he: c.he, mod: c.mod })),
     ],
     note: !s4.tables.length || !(v.consumption || cards.length)
-      ? "צד ריק בשרשרת = לא קיימת בתיעוד רשומה בצד זה; לא הושלם בניחוש."
+      ? "צד ריק בשרשרת: אין לו רשומה בתיעוד."
       : undefined,
   };
 
@@ -324,7 +324,6 @@ export function cdsDetail(name: string): RefDetail | null {
     sections,
     sources: uniq(e?.sources || []),
     foot:
-      "המיפוי בין התצוגה לטבלאות והרשומה המורחבת נלקחו מתיעוד הפרויקט. מעמד ה-S/4HANA של כל טבלה קלאסית " +
-      "נלקח משכבת ה-S/4HANA המשותפת של Project NEO.",
+      "מקור: תיעוד הפרויקט. מעמד S/4HANA של הטבלאות הקלאסיות: שכבת ה-S/4HANA המשותפת של Project NEO.",
   };
 }

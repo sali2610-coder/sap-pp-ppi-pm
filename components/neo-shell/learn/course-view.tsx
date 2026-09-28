@@ -238,19 +238,19 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            מקור המבנה: מסלולי הלמידה של SAP Academy (<span className="nx-sap">lib/academy/model.ts</span>).
+            מקור המבנה: מסלולי הלמידה של SAP Academy.
             {" "}אורך ורמה הם שדות שהמסלול מגדיר לכל שיעור.
           </span>
         </p>
         <p>
           שיעור נחשב מושלם כשכל יחידות התוכן שהוא דורש נקראו.
-          {" "}ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
+          {" "}ההתקדמות נשמרת במכשיר בלבד ואינה מסונכרנת.
         </p>
         <p>
-          השיעורים נפתחים בתוך Project NEO (<span className="nx-sap">/neo/academy/{c.id}/</span>).
-          {" "}אותו שיעור זמין גם במסך הלמידה הקודם,{" "}
+          השיעורים נפתחים בתוך Project NEO.
+          {" "}אותו שיעור זמין גם{" "}
           <Link className="nu-link" href="/academy/" prefetch={false}>
-            <span className="nx-sap">/academy/</span>
+            במסך הלמידה הקודם
           </Link>
           , וההתקדמות משותפת לשני המסכים.
         </p>

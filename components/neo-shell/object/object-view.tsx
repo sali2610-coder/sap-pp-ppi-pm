@@ -47,7 +47,7 @@ const TRUST_WHY: Record<string, string> = {
 /** The one empty state on the page. It names the dataset that is silent instead
  *  of apologising, so the absence is auditable. */
 function Silent({ what }: { what: string }) {
-  return <p className="no-silent">לא קיים תיעוד מאומת במאגר עבור {what} של אובייקט זה.</p>;
+  return <p className="no-silent">אין תיעוד מאומת במאגר עבור {what} של אובייקט זה.</p>;
 }
 
 /** A SECTION of the object page.
@@ -276,7 +276,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         title={v.rows.length > 1 ? `${v.rows.length} רשומות תיעוד לאותה טבלה` : "ההקשר העסקי"}
         lede={
           v.rows.length > 1
-            ? "אותה טבלה פיזית מתועדת יותר מפעם אחת. כל כרטיס הוא רשומה אחת בתיעוד המקורי, עם הנושא, הטרנזקציות וההערות שלה, כלשונן."
+            ? "אותה טבלה פיזית מתועדת יותר מפעם אחת. כל כרטיס הוא רשומה אחת בתיעוד המקורי, עם הנושא, הטרנזקציות וההערות שלה."
             : "הרשומה שתיעוד המודול כולל עבור הטבלה: הנושא שאליו היא משויכת, הטרנזקציות שנרשמו לה וההערות הנלוות."
         }
       >
@@ -327,7 +327,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           v.neighbours.length ? (
             <>
               {v.name} מדורגת <b>{nf.format(v.rank)}</b> מתוך {nf.format(v.total)} טבלאות לפי מספר
-              הקשרים הממודלים. בחירת טבלה במפה מציגה את פרטי הקשר כפי שנרשמו בתיעוד.
+              הקשרים הממודלים. בחירת טבלה במפה מציגה את פרטי הקשר מהתיעוד.
             </>
           ) : undefined
         }
@@ -353,8 +353,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         lede={
           v.neighbours.length ? (
             <>
-              כיוון הקשר נקרא מהתיעוד: <b>בן</b> הוא טבלה הנושאת מפתח זר אל {v.name}, ו<b>אב</b> הוא
-              טבלה ש-{v.name} מפנה אליה. הקרדינליות מוצגת כפי שנרשמה; קשר ללא קרדינליות מסומן ככזה.
+              כיוון הקשר לפי התיעוד: <b>בן</b> הוא טבלה הנושאת מפתח זר אל {v.name}, ו<b>אב</b> הוא
+              טבלה ש-{v.name} מפנה אליה. קשר ללא קרדינליות מסומן ככזה.
             </>
           ) : undefined
         }
@@ -513,7 +513,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         icon={<Terminal size={16} strokeWidth={1.75} />}
         eyebrow="טרנזקציות"
         title="הטרנזקציות שהתיעוד קושר לטבלה"
-        lede="הקודים מוצגים לפי הרשומה שבה נרשמו, ולצידם המחרוזת המקורית כלשונה."
+        lede="הקודים מוצגים לפי הרשומה שבה נרשמו, ולצידם המחרוזת המקורית."
       >
         {v.tcodes.some((t) => t.codes.length) ? (
           <div className="no-tx">
@@ -600,7 +600,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           </p>
           <p className="no-stand-w">
             {v.s4.changed ||
-              "לא קיים בתיעוד ניסוח מפורש של השינוי בטבלה זו ב-S/4HANA. הערות המקור מופיעות מתחת, כלשונן."}
+              "לא קיים בתיעוד ניסוח מפורש של השינוי בטבלה זו ב-S/4HANA. הערות המקור מופיעות מתחת."}
           </p>
           {v.s4.why ? <p className="no-stand-y">{v.s4.why}</p> : null}
           {v.s4.tcodes.length || v.s4.cds.length ? (
@@ -637,7 +637,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
 
         <h3 className="no-h3">
           <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />
-          הערות התיעוד המקורי, כלשונן
+          הערות התיעוד המקורי
         </h3>
         {v.rows.some((r) => r.s4Note || r.s4AltTable || r.s4AltTcode || r.sumNote) ? (
           <div className="no-s4">
@@ -686,7 +686,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         icon={<Sigma size={16} strokeWidth={1.75} />}
         eyebrow="תצוגות CDS"
         title="תצוגות CDS מעל הטבלה ב-S/4HANA"
-        lede="מיפוי מתוחזק של טבלה קלאסית לתצוגת CDS משוחררת. תצוגה מופיעה כאן רק כשהטבלה הזאת נמצאת בה, ולצידה שאר הטבלאות שהיא קוראת."
+        lede="מיפוי של הפרויקט מטבלה קלאסית לתצוגת CDS משוחררת. תצוגה מופיעה כאן רק כשהטבלה הזאת נמצאת בה, ולצידה שאר הטבלאות שהיא קוראת."
       >
         {v.cds.length ? (
           <ul className="no-cds">
@@ -831,8 +831,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         title="ספרים המכסים את המודול"
         lede={
           <>
-            השיוך הוא <b>ברמת המודול</b>: אינדקס הספרייה אינו ממפה טבלאות לפרקים, ולכן אין כאן טענה
-            שספר מסוים מכסה את <span className="nx-sap">{v.name}</span>.
+            השיוך הוא <b>ברמת המודול</b>: אינדקס הספרייה אינו ממפה טבלאות לפרקים.
           </>
         }
       >

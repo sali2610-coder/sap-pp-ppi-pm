@@ -105,7 +105,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       icon={<TriangleAlert size={17} strokeWidth={1.75} />}
       lede={
         <>
-          מתוך <b className="nw-sap">{nf.format(d.counts.tables)}</b> הטבלאות הייחודיות של המודול,{" "}
+          מתוך <b className="nw-sap">{nf.format(d.counts.tables)}</b> הטבלאות השונות של המודול,{" "}
           <b className="nw-sap">{nf.format(changed.length)}</b> מסומנות כמשתנות מהותית במעבר ל-S/4HANA.
           כל אחת מהן מוצגת כאן במלואה, עם מקור ההכרעה.
         </>
@@ -172,7 +172,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         id={`${meta.id}-moves`}
         icon={<TriangleAlert size={13} strokeWidth={1.75} />}
         title="הטבלאות שמשתנות מהותית"
-        note="כל שורה היא טבלה שהפרויקט מסמן בסיכון גבוה או בינוני במעבר. הניסוח מובא מהמקור כלשונו."
+        note="כל שורה היא טבלה שהפרויקט מסמן בסיכון גבוה או בינוני במעבר."
       >
         {changed.length ? (
           <>
@@ -198,7 +198,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
           id={`${meta.id}-sic`}
           icon={<FileText size={13} strokeWidth={1.75} />}
           title={sic.title}
-          note={`${nf.format(sic.rows.length)} פריטי Simplification מתיעוד המודול, עם מספרי SAP Note כפי שנרשמו במקור. מוצג כלשונו.`}
+          note={`${nf.format(sic.rows.length)} פריטי Simplification מתיעוד המודול, עם מספרי SAP Note.`}
         >
           <WorkspaceSheet
             sheet={sic}
@@ -212,7 +212,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         id={`${meta.id}-verdict`}
         icon={<Layers size={13} strokeWidth={1.75} />}
         title="הכרעת התיעוד לפי עמודת S/4HANA"
-        note={`חלוקת עמודת S/4HANA בתיעוד על ${nf.format(d.counts.tables)} הטבלאות הייחודיות, לצד פילוח הסיכון.`}
+        note={`חלוקת עמודת S/4HANA בתיעוד על ${nf.format(d.counts.tables)} הטבלאות השונות, לצד פילוח הסיכון.`}
       >
         <ul className="nw-verdicts">
           {split.map((s) => (
@@ -241,7 +241,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
           id={`${meta.id}-notes`}
           icon={<FileText size={13} strokeWidth={1.75} />}
           title="הפניות SAP Note בפרויקט"
-          note="המזהים שנרשמו ב-Simplification List המתוחזק בפרויקט עבור טבלאות המודול. הרשימה כוללת רק מזהים שקיימים בתיעוד הפרויקט."
+          note="המזהים שנרשמו ב-Simplification List של הפרויקט עבור טבלאות המודול. הרשימה כוללת רק מזהים שקיימים בתיעוד הפרויקט."
         >
           <ul className="nw-notes">
             {d.s4x.notes.map((n) => (

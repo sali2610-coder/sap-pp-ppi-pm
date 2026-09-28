@@ -136,7 +136,7 @@ export function enhDir(): RefDir {
   return {
     id: "enhancements",
     surface: "neo:enhancements",
-    eyebrow: "קטלוג הרחבות · Enhancement Catalog",
+    eyebrow: "קטלוג הרחבות",
     title: "טכניקות הרחבה",
     icon: "puzzle",
     lede:
@@ -272,7 +272,7 @@ export function enhDetail(slug: string): RefDetail | null {
   ];
 
   const statuses: RefStatus[] = [
-    { he: "רשומה מתוחזקת ידנית", color: "var(--status-in-analysis)" },
+    { he: "רשומה שנערכה ידנית", color: "var(--status-in-analysis)" },
   ];
   if (e.note) statuses.push({ he: "קיימת הסתייגות", color: "var(--status-not-started)" });
 

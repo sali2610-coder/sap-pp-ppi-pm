@@ -11,7 +11,7 @@ import { RefSurface } from "@/components/neo-shell/reference/ref-surface";
 import { cdsDir } from "@/components/neo-shell/reference/cds-data";
 
 export const metadata = {
-  title: "CDS Views · Project NEO",
+  title: "תצוגות CDS · Project NEO",
   description:
     "תצוגות CDS של S/4HANA ב-Project NEO: הטבלאות הקלאסיות שכל תצוגה מכסה, שכבת ה-Consumption, יישום ה-Fiori ומעמד הטבלה במעבר ל-S/4HANA.",
   robots: { index: false, follow: false },

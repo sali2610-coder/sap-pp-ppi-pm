@@ -4,6 +4,7 @@ import "@/app/neo/learn.css";
 import { notFound } from "next/navigation";
 import { ConceptView } from "@/components/neo-shell/learn/concept-view";
 import { conceptDetail, conceptSlugs } from "@/components/neo-shell/learn/knowledge-data";
+import { excerpt } from "@/lib/seo";
 
 // Static export: every concept in the source becomes a real file, and
 // `dynamicParams = false` makes anything outside that list a build-time 404
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     // Assembled from source fields only. Nothing is written here that is not
     // already on the page.
     title: `${c.he} · ${c.title} · Project NEO`,
-    description: [c.he, c.title, c.groupHe, c.biz].filter(Boolean).join(" · ").slice(0, 180),
+    description: excerpt([c.he, c.title, c.groupHe, c.biz].filter(Boolean).join(" · "), 180),
     robots: { index: false, follow: false },
   };
 }

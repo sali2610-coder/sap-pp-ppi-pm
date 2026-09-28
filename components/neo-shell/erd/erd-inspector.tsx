@@ -264,7 +264,7 @@ export function ErdInspector({
                   ) : null}
                 </>
               ) : (
-                <p className="ne-none">לא קיים תיעוד מאומת במאגר · נדרש אימות במערכת SAP</p>
+                <p className="ne-none">אין תיעוד מאומת במאגר · נדרש אימות במערכת SAP</p>
               )}
             </div>
 
@@ -354,7 +354,7 @@ export function ErdInspector({
               <Focus size={15} strokeWidth={1.75} aria-hidden="true" />
               {M.code} · {M.he}
             </h2>
-            {M.purpose ? <p>{M.purpose}</p> : <p className="ne-none">לא קיים תיעוד מאומת במאגר על ייעוד המודול.</p>}
+            {M.purpose ? <p>{M.purpose}</p> : <p className="ne-none">אין תיעוד מאומת במאגר על ייעוד המודול.</p>}
             {M.flow.length ? (
               <div className="ne-blk">
                 <h3>הזרימה העסקית</h3>

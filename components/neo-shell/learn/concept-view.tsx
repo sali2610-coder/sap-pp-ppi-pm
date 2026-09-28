@@ -26,7 +26,7 @@ import { ArrowLeft, BookOpen, Info, Lightbulb, Link2, Sparkles, Terminal, Table 
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import type { ConceptRef, ConceptRow } from "./knowledge-data";
 
-const ABSENT = "לא קיים תיעוד מאומת במאגר";
+const ABSENT = "אין תיעוד מאומת במאגר";
 
 function Absent({ what }: { what: string }) {
   return (
@@ -147,10 +147,6 @@ export function ConceptView({ c }: { c: ConceptRow }) {
         </div>
         {c.examples.length ? (
           <>
-            <p className="nx-muted">
-              דוגמה שמזוהה כטבלת SAP או כטרנזקציה בקטלוג נפתחת לעמוד שלה. דוגמה אחרת
-              {" "}(אלמנט נתונים, מודול פונקציה, תבנית) מוצגת כערך ללא קישור.
-            </p>
             <div className="nxv-refs">
               {c.examples.map((r) => <Ref key={`${r.kind}-${r.label}`} r={r} />)}
             </div>
@@ -180,7 +176,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            מקור: <span className="nx-sap">data/concepts.ts</span>: תיעוד SAP מאומת, שאינו נקרא ממערכת חיה.
+            מקור: מאגר המושגים של הפרויקט: תיעוד SAP מאומת, שאינו מגיע ממערכת חיה.
             {" "}נדרש אימות במערכת לפני יישום.
           </span>
         </p>

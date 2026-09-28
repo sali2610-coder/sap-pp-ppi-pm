@@ -118,14 +118,14 @@ export function PinnedPane({
           </li>
         ))}
       </ul>
-      <p className="nx-shelf-note">{rows.length} אובייקטים מוצמדים · בחירה טוענת את ההקשר המלא</p>
+      <p className="nx-shelf-note">{rows.length} אובייקטים מוצמדים · בחירה טוענת את ההקשר</p>
     </>
   );
 }
 
 export function ContextPane({ ctx, onOpen }: { ctx: ObjectContext | null; onOpen: (name: string) => void }) {
   if (!ctx) {
-    return <p className="nx-empty">אין הקשר טעון. בחירת טבלה מהעמוד או מהמדף תטען לכאן את ההקשר המלא שלה.</p>;
+    return <p className="nx-empty">אין הקשר טעון. בחירת טבלה מהעמוד או מהמדף תטען לכאן את ההקשר שלה.</p>;
   }
   return (
     <div className="nx-ctx">

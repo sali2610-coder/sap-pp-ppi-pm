@@ -42,8 +42,6 @@ export default function NeoBooks() {
       <div className="nb-open nb-scene nm-scene" data-scene="deep">
       <header className="nb-mast nm-rise nm-once">
         <p className="nb-eye">
-          CBC ISRAEL · PROJECT NEO
-          <i aria-hidden="true" />
           מדף הספרים
         </p>
         {/* Kinetic type, per motion.css: the outer span is the mask, the inner
@@ -120,8 +118,8 @@ export default function NeoBooks() {
             {d.totals.pagesMissing > 0 && (
               <p className="nb-note">
                 {d.totals.pagesMissing === 1
-                  ? "לספר אחד אין ספירת עמודים במטא-דאטה, והוא אינו נכלל בסכום העמודים."
-                  : `ל-${d.totals.pagesMissing} ספרים אין ספירת עמודים במטא-דאטה, והם אינם נכללים בסכום העמודים.`}
+                  ? "לספר אחד אין ספירת עמודים במטא-נתונים, והוא אינו נכלל בסכום העמודים."
+                  : `ל-${d.totals.pagesMissing} ספרים אין ספירת עמודים במטא-נתונים, והם אינם נכללים בסכום העמודים.`}
               </p>
             )}
             {d.twinNote && <p className="nb-note">{d.twinNote}</p>}

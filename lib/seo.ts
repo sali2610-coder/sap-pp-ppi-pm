@@ -57,6 +57,11 @@ export function twitter(title: string, description: string): Metadata["twitter"]
   return { card: "summary_large_image", title, description, images: [OG_IMAGE] };
 }
 
+/** Cut a description on a word boundary and mark the cut with "…", so a
+ *  snippet never ends mid-word. Text within the limit is returned as is. */
+export const excerpt = (raw: string, max: number) =>
+  raw.length > max ? raw.slice(0, max).replace(/\s+\S*$/, "") + "…" : raw;
+
 /**
  * Per-page title + description for the knowledge routes.
  *
@@ -77,7 +82,7 @@ export function pageMeta(o: { he?: string; title?: string; module?: string; blur
   // Meta descriptions are truncated by search engines around 155-160 chars.
   // Cut on a word boundary so the snippet never ends mid-word.
   const raw = (o.blurb || "").replace(/\s+/g, " ").trim();
-  const description = raw.length > 155 ? raw.slice(0, 155).replace(/\s+\S*$/, "") + "…" : raw || undefined;
+  const description = excerpt(raw, 155) || undefined;
   return {
     title: heading || undefined,
     description,

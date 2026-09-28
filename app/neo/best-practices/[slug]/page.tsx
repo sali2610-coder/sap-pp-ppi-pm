@@ -6,6 +6,7 @@ import "@/app/neo/best-practices.css";
 import { notFound } from "next/navigation";
 import { BpDetailView } from "@/components/neo-shell/best-practices/bp-view";
 import { bpDetail, bpSlugs } from "@/components/neo-shell/best-practices/bp-data";
+import { excerpt } from "@/lib/seo";
 
 // Static export: every practice in the registry becomes a real file, and
 // `dynamicParams = false` makes anything outside that list a build-time 404.
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     // Assembled from record fields only. Nothing is written here that is not
     // already on the page.
     title: `${d.he} · שיטות עבודה מומלצות · Project NEO`,
-    description: [d.he, d.en, d.summary].filter(Boolean).join(" · ").slice(0, 180),
+    description: excerpt([d.he, d.en, d.summary].filter(Boolean).join(" · "), 180),
     robots: { index: false, follow: false },
   };
 }

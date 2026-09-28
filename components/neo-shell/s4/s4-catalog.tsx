@@ -97,7 +97,7 @@ export function S4Catalog({ objs }: { objs: S4ObjView[] }) {
 
       {shown.length === 0 ? (
         <div className="nx-card ns4-none">
-          <p><b>לא נמצאו אובייקטים מתאימים. נסה חיפוש אחר או נקה מסננים.</b></p>
+          <p><b>לא נמצאו אובייקטים מתאימים. אפשר לשנות את החיפוש או לנקות את המסננים.</b></p>
           <button type="button" className="nu-btn2" onClick={clear}>הצגת כל האובייקטים</button>
         </div>
       ) : null}

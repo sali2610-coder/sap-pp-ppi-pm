@@ -45,16 +45,16 @@ export function CentersHub() {
       <header className="nct-hero">
         <p className="nct-eye">
           <Layers size={13} strokeWidth={2} aria-hidden="true" />
-          מרכזי ידע · CENTERS
+          מרכזי עבודה
         </p>
-        <h1 className="nct-h1">מרכזי הידע של הפרויקט</h1>
+        <h1 className="nct-h1">מרכזי העבודה של הפרויקט</h1>
         <p className="nct-lede">
           {t.families} מרכזים, {nf.format(t.items)} נושאים ו-{nf.format(t.sections)} מקטעי תוכן.
           כל נושא נכתב כיחידת עבודה: מטרה, מתי להשתמש, רשימת בדיקה, מלכודות נפוצות ואימות.
           {" "}{t.withS4} מהנושאים כוללים הכרעת מעבר מתועדת ל-<span className="nct-sap">S/4HANA</span>.
         </p>
         <p className="nx-gate-note">
-          כאן: איך עושים. <b>מרכז הידע</b> מסביר מה זה (מושגי SAP), <b>התחומים העסקיים</b> מראים איפה זה קורה בתהליך.
+          הסברי מושגים נמצאים ב<b>מרכז הידע</b>, שלבי ביצוע ורשימות בדיקה ב<b>מרכזי העבודה</b>, והמיקום בתהליך ב<b>תחומים העסקיים</b>.
         </p>
       </header>
 
@@ -146,7 +146,7 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
         <div className="nct-hero-tags">
           {item.module ? <span className="nct-tag nct-tag--mod">{item.module}</span> : null}
           {item.tag ? <span className="nct-tag">{item.tag}</span> : null}
-          {fam.id === "toolkit" ? <CopyId value={templateText(item)} label="העתק תבנית" /> : null}
+          {fam.id === "toolkit" ? <CopyId value={templateText(item)} label="העתקת התבנית" /> : null}
         </div>
       </header>
 
@@ -206,7 +206,7 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
 
       <p className="nct-foot">
         <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
-        התוכן מוצג כפי שנכתב בתיעוד הפרויקט.
+        מקור: תיעוד הפרויקט.
       </p>
     </article>
   );

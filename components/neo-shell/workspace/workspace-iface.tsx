@@ -54,8 +54,8 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       icon={<Cable size={17} strokeWidth={1.75} />}
       lede={
         <>
-          <b className="nw-sap">{nf.format(d.counts.funcEntries)}</b> רשומות ממשק בתיעוד, המצטמצמות
-          ל-<b className="nw-sap">{nf.format(d.counts.funcObjects)}</b> אובייקטים לאחר נרמול השמות.
+          <b className="nw-sap">{nf.format(d.counts.funcEntries)}</b> רשומות ממשק בתיעוד, שהן{" "}
+          <b className="nw-sap">{nf.format(d.counts.funcObjects)}</b> אובייקטים שונים.
           לצידן <b className="nw-sap">{nf.format(d.counts.cds)}</b> תצוגות CDS ו-
           <b className="nw-sap">{nf.format(d.counts.fiori)}</b> יישומי Fiori שהתיעוד מציין בשם.
         </>
@@ -108,7 +108,7 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
             </p>
           </>
         ) : (
-          <p className="nw-fine">לא קיים תיעוד מאומת במאגר לאובייקטי ממשק במודול זה.</p>
+          <p className="nw-fine">אין תיעוד מאומת במאגר לאובייקטי ממשק במודול זה.</p>
         )}
       </Sub>
 
@@ -117,7 +117,7 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         id={`${meta.id}-cds`}
         icon={<Sigma size={13} strokeWidth={1.75} />}
         title="תצוגות CDS מעל טבלאות המודול"
-        note="מיפוי מתוחזק של טבלה קלאסית לתצוגת CDS משוחררת ב-S/4HANA. תצוגה מופיעה רק כשאחת מטבלאות המודול נמצאת בה."
+        note="מיפוי של הפרויקט מטבלה קלאסית לתצוגת CDS משוחררת ב-S/4HANA. תצוגה מופיעה רק כשאחת מטבלאות המודול נמצאת בה."
       >
         {d.cds.length ? (
           <>
@@ -140,7 +140,7 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
               </button>
             ) : null}
             <Link className="nu-link" href="/neo/cds/" prefetch={false}>
-              קטלוג CDS Views המלא
+              קטלוג תצוגות CDS המלא
               <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
             </Link>
           </>

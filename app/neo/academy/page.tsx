@@ -14,7 +14,7 @@ import { AcademySurface } from "@/components/neo-shell/learn/academy-surface";
 
 export const metadata = {
   title: "SAP Academy · Project NEO",
-  description: "מסלולי הלמידה של SAP Academy: קורסים, פרקים ושיעורים לפי מודול, עם רמה ואורך מוצהרים.",
+  description: "מסלולי הלמידה של SAP Academy: קורסים, פרקים ושיעורים לפי מודול, עם רמה ומשך לפי הקורס.",
   robots: { index: false, follow: false },
 };
 

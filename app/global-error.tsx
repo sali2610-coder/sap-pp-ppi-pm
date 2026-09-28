@@ -17,9 +17,9 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
             <div style={{ textAlign: "start" }}><div style={{ fontSize: 13, fontWeight: 800, color: "#1e293b" }}>SAP by Sali</div><div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Project NEO</div></div>
           </div>
           <h1 style={{ fontSize: 20, fontWeight: 800, marginTop: 20 }}>שגיאה בטעינת היישום</h1>
-          <p style={{ fontSize: 14, color: "#64748b", marginTop: 6 }}>טען מחדש כדי להמשיך.</p>
+          <p style={{ fontSize: 14, color: "#64748b", marginTop: 6 }}>אפשר לנסות שוב. אם הבעיה חוזרת, אפשר לחזור לדף הבית.</p>
           <div style={{ marginTop: 16, display: "flex", gap: 8, justifyContent: "center" }}>
-            <button onClick={() => reset()} style={{ background: "#d62027", color: "#fff", border: 0, borderRadius: 12, padding: "10px 18px", fontWeight: 800, fontSize: 14 }}>נסה שוב</button>
+            <button onClick={() => reset()} style={{ background: "#d62027", color: "#fff", border: 0, borderRadius: 12, padding: "10px 18px", fontWeight: 800, fontSize: 14 }}>ניסיון נוסף</button>
             <button onClick={() => { try { window.location.assign("/"); } catch { /* noop */ } }} style={{ background: "#fff", color: "#334155", border: "2px solid #e2e8f0", borderRadius: 12, padding: "10px 18px", fontWeight: 700, fontSize: 14 }}>לדף הבית</button>
           </div>
         </div>

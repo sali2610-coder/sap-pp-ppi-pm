@@ -167,7 +167,7 @@ function s4Of(o: SapFuncObject) {
         ? `האובייקט נשען על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
         : o.s4OnPremSupport === "yes"
           ? "לפי הרשומה, האובייקט זמין ב-S/4HANA On-Premise."
-          : "לא קיים תיעוד מאומת במאגר על מעמד האובייקט ב-S/4HANA.");
+          : "אין תיעוד מאומת במאגר על מעמד האובייקט ב-S/4HANA.");
 
   return { tone, headline, tables, critical, intel };
 }
@@ -262,14 +262,14 @@ export function bapiDir(): RefDir {
   return {
     id: "bapi",
     surface: "neo:bapi",
-    eyebrow: "קטלוג BAPI ו-FM · Function Catalog",
-    title: "BAPIs ומודולי פונקציה",
+    eyebrow: "קטלוג BAPI ו-FM",
+    title: "BAPI ומודולי פונקציה",
     icon: "plug",
     lede:
       `${nf.format(fnRows.length)} אובייקטי פונקציה (BAPI ו-FM) מקטלוג הפרויקט: כל אחד מהם מתועד על טבלת SAP ` +
       `בתחזוקת מפעל (PM) או בתעשיות תהליכיות (PP-PI), או נוסף כרשומה מאומתת. לכל אובייקט מוצגים המודול, ` +
       `המשמעות, הטבלאות והטרנזקציות המקושרות ומעמדו ב-S/4HANA לפי התיעוד.` +
-      (concepts ? ` לצדם ${nf.format(concepts)} מושגים תהליכיים שהבלופרינט מונה בעמודת הפונקציות; הם מסומנים ככאלה ואינם נספרים כפונקציות.` : ""),
+      (concepts ? ` בנוסף מוצגים ${nf.format(concepts)} מושגים תהליכיים מעמודת הפונקציות בבלופרינט, שאינם נספרים כפונקציות.` : ""),
     stats: [
       { v: fnRows.length, l: "אובייקטי פונקציה", i: "plug" },
       { v: byKind.get("BAPI") || 0, l: "BAPIs", i: "shieldCheck" },
@@ -299,7 +299,7 @@ export function bapiDir(): RefDir {
     rankLabel: "מספר טבלאות מקושרות",
     searchPlaceholder: "שם טכני · משמעות · טבלה · טרנזקציה · מודול",
     foot:
-      "הקטלוג נגזר מטבלאות SAP המתועדות של PM ו-PP-PI ומשכבות ההעשרה המאומתות של הפרויקט. אובייקט שלא אומת מול " +
+      "הקטלוג נגזר מטבלאות SAP המתועדות של PM ו-PP-PI ומהרשומות המורחבות של הפרויקט. אובייקט שלא אומת מול " +
       "SE37 או BAPI Explorer מסומן ככזה במפורש.",
     emptyNote:
       "החיפוש מתבצע על השם הטכני, המשמעות, המודול, הטבלאות והטרנזקציות של הרשומות בקטלוג.",
@@ -505,7 +505,7 @@ export function bapiDetail(id: string): RefDetail | null {
     title: "אובייקטים קשורים",
     note: cards.length ? `${nf.format(cards.length)} רשומות` : undefined,
     cards,
-    empty: "לא קיים תיעוד מאומת במאגר על אובייקטים קשורים לרשומה זו.",
+    empty: "אין תיעוד מאומת במאגר על אובייקטים קשורים לרשומה זו.",
   });
 
   /* reading */
@@ -574,7 +574,7 @@ export function bapiDetail(id: string): RefDetail | null {
       facts: s4Facts,
       tables: s4.tables.length ? s4.tables : undefined,
       warn: s4.tone === "unknown"
-        ? "לא קיים תיעוד מאומת במאגר על מעמד האובייקט ב-S/4HANA. נדרש אימות נוסף מול SE37, BAPI Explorer או תיעוד SAP לפני החלטת מעבר."
+        ? "אין תיעוד מאומת במאגר על מעמד האובייקט ב-S/4HANA. נדרש אימות נוסף מול SE37, BAPI Explorer או תיעוד SAP לפני החלטת מעבר."
         : undefined,
     },
     // The unified evidence block — the same call the catalog row makes.
@@ -582,7 +582,6 @@ export function bapiDetail(id: string): RefDetail | null {
     sections,
     sources: uniq([o.verificationSource, o.lastVerified ? `נבדק לאחרונה ${o.lastVerified}` : ""]),
     foot:
-      "כל שדה בעמוד זה נלקח מקטלוג הפרויקט ומשכבת ההעשרה המאומתת שלו. שדה ללא תיעוד אינו מוצג, או מסומן " +
-      "«לא קיים תיעוד מאומת במאגר». מספרי SAP Note מופיעים רק כאשר הם קיימים ברשומה עצמה.",
+      "מקור: קטלוג הפרויקט ושכבת ההעשרה המאומתת שלו. שדה שלא תועד מסומן בעמוד או אינו מוצג.",
   };
 }

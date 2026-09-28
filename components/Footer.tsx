@@ -14,9 +14,9 @@ export function Footer() {
           Footer keeps only the platform line + offline status. */}
       <div className="container-app flex flex-col items-center gap-2 pt-5 pb-24 sm:flex-row sm:justify-between sm:gap-4">
         <p className="text-center text-xs text-muted-foreground/80 sm:text-start">
-          Built by <b className="font-bold text-brand">Sali Halif</b>
+          פותח על ידי <b className="font-bold text-brand">סאלי חליף</b>
           <span className="mx-1.5 text-muted-foreground/40">·</span>
-          Project NEO • SAP Knowledge Platform
+          Project NEO
           <span className="mx-1.5 text-muted-foreground/40">·</span>
           <Link href="/privacy/" className="font-medium text-muted-foreground hover:text-brand hover:underline">מדיניות פרטיות</Link>
         </p>

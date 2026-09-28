@@ -83,7 +83,7 @@ const MORE = pick(MORE_IDS);
 const M = MODES.library;
 
 /** The voice above every answer on this surface. */
-const WHO = "מומחה הספרים";
+const WHO = "עוזר הספרייה";
 
 const HINT = "Enter לשליחה · Shift+Enter לשורה חדשה";
 
@@ -158,7 +158,7 @@ export function LibraryChat() {
                 <b>{CORPUS.sections.toLocaleString("he-IL")}</b> סעיפים במאגר
               </>
             ) : (
-              "לא קיים תיעוד מאומת במאגר"
+              "אין תיעוד מאומת במאגר"
             )}
           </p>
         </div>
@@ -286,7 +286,7 @@ function Welcome({ scope, onPick, onAction, onOpenScope }: {
           <p className="nxq-w-p">
             {CORPUS.books > 0
               ? "התשובות נכתבות מתוך ספרי SAP שבספרייה: הסבר, סיכום, השוואה, תרשים והפניה למקור המדויק."
-              : "לא קיים תיעוד מאומת במאגר. ללא ספרים במאגר אין מקור לתשובה."}
+              : "אין תיעוד מאומת במאגר. ללא ספרים במאגר אין מקור לתשובה."}
           </p>
           <ul className="nxq-caps">
             {M.capabilities.map((cap) => (

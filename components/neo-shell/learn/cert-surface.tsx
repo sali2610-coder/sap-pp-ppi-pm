@@ -191,8 +191,7 @@ export function CertSurface({ data }: { data: CertData }) {
             <span className="nx-eyebrow">היקף ההערכה</span>
             <h3 id="ce-claim">מה נמדד ומה אינו נמדד</h3>
             <p>
-              ההערכה בודקת שליטה במודל הנתונים המתועד של הפרויקט. היא אינה הסמכה רשמית של SAP
-              {" "}ואינה תחליף לה.
+              ההערכה בודקת שליטה במודל הנתונים המתועד של הפרויקט.
             </p>
             <div className="nxb-two">
               <div className="nxb-yes">
@@ -297,8 +296,8 @@ export function CertSurface({ data }: { data: CertData }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            המאגרים נבנים מהתיעוד הטכני המאומת של הפרויקט (<span className="nx-sap">lib/cert/generate.ts</span>);
-            {" "}התוצאות נשמרות במכשיר (<span className="nx-sap">neo:cert</span>). הנתונים אינם נקראים ממערכת SAP חיה.
+            המאגרים נבנים מהתיעוד הטכני המאומת של הפרויקט;
+            {" "}התוצאות נשמרות במכשיר. הנתונים אינם מגיעים ממערכת SAP חיה.
           </span>
         </p>
         <p>

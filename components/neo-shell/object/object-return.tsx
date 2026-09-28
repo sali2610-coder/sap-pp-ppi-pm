@@ -20,7 +20,7 @@ export function ObjectReturn() {
       // memory of the route in it lands on the table dictionary — the page's
       // real parent — rather than on the NEO home.
       fallback={{ href: "/neo/tables/", label: "טבלאות SAP" }}
-      hint="לא נשמר מסלול הגעה בביקור הזה"
+      hint="אין עמוד קודם בביקור הזה"
     />
   );
 }

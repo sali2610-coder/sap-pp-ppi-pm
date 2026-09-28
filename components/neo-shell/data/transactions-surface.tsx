@@ -354,7 +354,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
 
   const emptyCopy: Record<View, { t: string; h: string }> = {
     all: { t: "לא נמצאו טרנזקציות התואמות לסינון שנבחר", h: "החיפוש מכסה קוד טרנזקציה, שם עברי, שם אנגלי, אזור ומודול." },
-    popular: { t: "לא נמצאו תוצאות בין הטרנזקציות הנפוצות", h: "רשימת הנפוצות נגזרת מספירת ההפניות בתוך המאגר." },
+    popular: { t: "לא נמצאו תוצאות בין הטרנזקציות הנפוצות", h: "הנפוצות: לפי מספר ההפניות במאגר." },
     deep: { t: "לא נמצאו תוצאות בין הטרנזקציות המתועדות לעומק", h: `${nf.format(stats.deep)} טרנזקציות מתועדות לעומק בעמוד מלא.` },
     fav: { t: "אין מועדפים עדיין", h: "סימון \"מועדף\" בשורה או בעמוד הטרנזקציה מוסיף אותה לכאן. הרשימה נשמרת במכשיר זה." },
     recent: { t: "לא נצפו טרנזקציות עדיין", h: "כל טרנזקציה שנפתחה תופיע כאן. הרשימה נשמרת במכשיר זה." },
@@ -376,16 +376,16 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
           for it is a filter you miss. */}
       <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
-        <span className="nx-eyebrow">קטלוג טרנזקציות · Transaction Catalog</span>
+        <span className="nx-eyebrow">קטלוג טרנזקציות</span>
         {/* Was the bare word "טרנזקציות", which is the category and not this
             surface. The eyebrow already calls it a registry; the title agrees. */}
         <h1 className="nx-h1">טרנזקציות SAP</h1>
         <p className="nx-lede">
-          {nf.format(stats.total)} טרנזקציות SAP מאומתות מ-{nf.format(modules.length)} מודולים בקטלוג אחד,
+          {nf.format(stats.total)} טרנזקציות SAP מ-{nf.format(modules.length)} מודולים בקטלוג אחד;
           {/* The lede used to end by printing the raw route /neo/transactions/
               at the reader. A URL is plumbing, not product copy, and the reader
               is already standing on it. The sentence now ends where it means. */}
-          {" "}מתוכן {nf.format(stats.deep)} מתועדות לעומק. כל שורה נפתחת לעמוד הטרנזקציה המלא.
+          {" "}{nf.format(stats.deep)} מהן מתועדות לעומק. כל שורה נפתחת לעמוד הטרנזקציה.
         </p>
       </header>
 
@@ -558,7 +558,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
       )}
 
       <p className="nxd-foot nm-fade nm-once">
-        הקטלוג מאחד ארבעה מקורות מאומתים לרשימה אחת, ללא כפילויות. קוד ללא כותרת אנגלית במקור
+        הקטלוג מאחד את מקורות הפרויקט לרשימה אחת, בלי כפילויות. קוד ללא כותרת אנגלית במקור
         {" "}מוצג בלעדיה.
       </p>
     </div>

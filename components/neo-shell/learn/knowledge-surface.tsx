@@ -100,7 +100,7 @@ function CenterCard({ c, onOpen }: { c: CenterRow; onOpen: (slug: string) => voi
         <span className="nxl-side" data-s4={c.s4 ? "1" : "0"}>
           <span className="nxl-side-l">S/4HANA</span>
           <span className="nxl-side-v">
-            {c.s4Text || "לא קיים תיעוד מאומת במאגר"}
+            {c.s4Text || "אין תיעוד מאומת במאגר"}
           </span>
           <span className="nu-status" data-tone={c.s4 ? "done" : "idle"}>
             {c.s4 ? "השפעת מעבר מתועדת" : "ללא תיעוד מעבר"}
@@ -125,7 +125,7 @@ function Row({ c, onOpen }: { c: ConceptRow; onOpen: (slug: string) => void }) {
                 term IS the human name, so it is not printed twice. */}
             {c.title.toLowerCase() !== c.he.toLowerCase() ? <em>{c.title}</em> : null}
           </span>
-          <span className="nxl-desc">{c.biz || "לא קיים תיעוד מאומת במאגר"}</span>
+          <span className="nxl-desc">{c.biz || "אין תיעוד מאומת במאגר"}</span>
           <span className="nxl-meta">
             <span className="nu-chip">{c.groupHe}</span>
             {c.examples.length ? (
@@ -147,7 +147,7 @@ function Row({ c, onOpen }: { c: ConceptRow; onOpen: (slug: string) => void }) {
 
         <span className="nxl-side" data-s4={c.s4Changed ? "1" : "0"}>
           <span className="nxl-side-l">S/4HANA</span>
-          <span className="nxl-side-v">{c.s4 || "לא קיים תיעוד מאומת במאגר"}</span>
+          <span className="nxl-side-v">{c.s4 || "אין תיעוד מאומת במאגר"}</span>
           <span
             className="nu-status"
             style={{ "--s": c.s4Changed ? "var(--status-in-conversion)" : "var(--status-done)" } as React.CSSProperties}
@@ -273,13 +273,11 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
         <span className="nx-eyebrow">ידע ולמידה</span>
         <h1 className="nx-h1">מרכז הידע</h1>
         <p className="nx-lede">
-          {nf.format(totals.all)} רשומות בשני גופי ידע: {nf.format(totals.concepts)} מושגי SAP,
-          לכל אחד הסבר עסקי, הסבר טכני והשוואה בין ECC ל-S/4HANA, ולצידם
-          {" "}{nf.format(totals.centers)} נושאי עבודה ב-{nf.format(totals.families)} מרכזים
-          {" "}({nf.format(totals.sections)} מקטעי תוכן).
+          {nf.format(totals.all)} רשומות: {nf.format(totals.concepts)} מושגי SAP (הסבר עסקי, הסבר טכני והשוואת
+          ECC ל-S/4HANA) ו-{nf.format(totals.centers)} נושאי עבודה ב-{nf.format(totals.families)} מרכזים.
         </p>
         <p className="nx-gate-note">
-          שלושה שערים, שלושה תפקידים: <b>מרכז הידע</b> מסביר מה זה (מושגים ונושאי עבודה); <b>מרכזי הידע</b> מסבירים איך עושים (יחידות עבודה עם רשימת בדיקה); <b>התחומים העסקיים</b> מראים איפה זה קורה בתהליך של PM ו-PP-PI.
+          הסברי מושגים נמצאים ב<b>מרכז הידע</b>, שלבי ביצוע ורשימות בדיקה ב<b>מרכזי העבודה</b>, והמיקום בתהליך ב<b>תחומים העסקיים</b>.
         </p>
       </header>
 
@@ -425,13 +423,12 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
           </p>
         ) : (
           <p>
-            החלוקה נגזרת מניסוח המושג: מושג ששורת ה-S/4HANA שלו נפתחת במילים «ללא שינוי» נספר תחת «ללא שינוי מתועד»,
-            {" "}וכל מושג אחר תחת «שינוי מתועד ב-S/4HANA».
+            «ללא שינוי מתועד»: לא נמצא תיעוד לשינוי. נדרש אימות לפני שמסיקים שאין שינוי.
           </p>
         )}
         <p>
-          מקור: <span className="nx-sap">{isWork ? "data/centers/*" : "data/concepts.ts"}</span>: תיעוד SAP מאומת,
-          {" "}שאינו נקרא ממערכת חיה. נדרש אימות במערכת לפני יישום.
+          מקור: {isWork ? "מרכזי העבודה של הפרויקט" : "מאגר המושגים של הפרויקט"}: תיעוד SAP מאומת,
+          {" "}שאינו מגיע ממערכת חיה. נדרש אימות במערכת לפני יישום.
         </p>
         {isWork ? (
           <p>

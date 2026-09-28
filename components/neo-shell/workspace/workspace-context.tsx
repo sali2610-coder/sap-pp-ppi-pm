@@ -51,7 +51,7 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
       <Sub
         id="nw-rl-card"
         icon={<Network size={13} strokeWidth={1.75} />}
-        title="קרדינליות הקשרים כפי שנרשמה"
+        title="קרדינליות הקשרים"
       >
         <p className="nw-relline">
           {d.rel.cards.length ? (
@@ -67,8 +67,7 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
             </>
           ) : (
             <>
-              תיעוד המודול אינו מציין קרדינליות לאף אחד מ-{nf.format(d.rel.edges)} הקשרים. הקשר נרשם ללא
-              קרדינליות, וכך הוא מוצג.
+              תיעוד המודול אינו מציין קרדינליות לאף אחד מ-{nf.format(d.rel.edges)} הקשרים.
             </>
           )}
         </p>
@@ -78,7 +77,7 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
         id="nw-rl-hubs"
         icon={<Share2 size={13} strokeWidth={1.75} />}
         title="הטבלאות המקושרות ביותר"
-        note="מספר הטבלאות המקושרות ישירות לכל טבלה לפי התיעוד. שם הטבלה פותח את עמוד האובייקט המלא."
+        note="מספר הטבלאות המקושרות ישירות לכל טבלה לפי התיעוד. שם הטבלה פותח את עמוד האובייקט."
       >
         <ul className="nw-rank nw-rank--tight">
           {d.rel.hubs.map((h) => (

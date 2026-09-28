@@ -290,7 +290,7 @@ export function booksData(): BooksData {
       exact,
       exactNote: exact
         ? null
-        : "מזהי הערכים בספר זה הם מזהי יישומי Fiori ולא מספרי סעיף, ולכן קורא הספרייה הדיגיטלית פותח את הפרק ולא את הערך עצמו.",
+        : "בספר זה קורא הספרייה הדיגיטלית נפתח בפרק ולא בערך.",
       chapterRows: rows,
       dict,
       dictNote: note,
@@ -374,7 +374,7 @@ export function booksData(): BooksData {
     ],
     twinNote:
       twins.length === 2
-        ? `${twins[0]} ו-${twins[1]} הם אותו מדריך משתמש עסקי בשני מבני נתונים שונים, ולכן מוצגים כשני ספרים נפרדים.`
+        ? `${twins[0]} ו-${twins[1]} הם אותו מדריך משתמש עסקי בשני מבנים, ולכן הוא מוצג פעמיים.`
         : null,
   };
 }

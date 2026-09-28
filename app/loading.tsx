@@ -20,7 +20,7 @@ export default function Loading() {
         <div className="mt-3 h-1 w-40 overflow-hidden rounded-full bg-surface-2">
           <div className="skeleton h-full w-full" />
         </div>
-        <p className="mt-3 text-[12px] font-medium text-ink-3">טוען את נוף ה-SAP…</p>
+        <p className="mt-3 text-[12px] font-medium text-ink-3">טעינה…</p>
       </div>
     </div>
   );

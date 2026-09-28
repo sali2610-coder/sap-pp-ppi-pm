@@ -120,7 +120,7 @@ export function NeoDock() {
           type="button"
           className="nxk-b nxk-b--ask"
           aria-expanded={panel === "ask"}
-          aria-label="עזרה בעמוד הזה: ההקשר הנוכחי ושתי סביבות השאלות"
+          aria-label="עזרה בעמוד: ההקשר הנוכחי והיכן אפשר לשאול"
           onClick={() => setPanel((p) => (p === "ask" ? "none" : "ask"))}
         >
           <Sparkles className="ico" size={15} aria-hidden="true" />
@@ -149,8 +149,7 @@ export function NeoDock() {
           </fieldset>
 
           <p className="nxk-note">
-            הבחירה נשמרת במכשיר הזה וחלה על כל מסכי NEO. הגופנים מותקנים במערכת ההפעלה,
-            ולכן נטענים מיידית וללא חיבור לרשת.
+            הבחירה נשמרת במכשיר הזה וחלה על כל מסכי NEO.
           </p>
 
           <fieldset className="nxk-set">
@@ -230,15 +229,14 @@ export function NeoDock() {
           </div>
 
           <p className="nxk-note">
-            חלונית זו מציגה את ההקשר הנוכחי בלבד ואינה עונה על שאלות. שאלות נענות באחת
-            משתי הסביבות שלמטה.
+            כאן מוצג ההקשר של העמוד. לשאלות יש שתי אפשרויות:
           </p>
 
           <div className="nxk-go">
             <Link className="nu-btn nxk-go-a" href="/neo/ai/" prefetch={false} onClick={() => setPanel("none")}>
               <BookOpen className="ico" size={16} aria-hidden="true" />
               עזרה מהספרייה
-              <em>שאל את הספרייה · תשובות מתוך 11 הספרים, עם מקורות</em>
+              <em>שאל את הספרייה · תשובות מספרי הספרייה, עם מקורות</em>
             </Link>
             <Link className="nu-btn2 nxk-go-a" href="/neo/chat/" prefetch={false} onClick={() => setPanel("none")}>
               <MessageSquare className="ico" size={16} aria-hidden="true" />

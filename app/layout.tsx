@@ -12,7 +12,7 @@ const BING = process.env.NEXT_PUBLIC_BING_VERIFICATION;
 const SITE = "https://sapbysali.app";
 const AUTHOR = "Sali Halif";
 const DESC =
-  "Interactive SAP PP, PP-PI and PM knowledge platform including architecture explorer, table explorer, business processes, SAP learning resources and enterprise documentation.";
+  "מאגר ידע מקצועי בעברית ל-SAP PM ו-PP-PI: טבלאות, טרנזקציות, תהליכים עסקיים, ERD, ספרים והמעבר מ-ECC ל-S/4HANA.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: "SAP by Sali | Project NEO",
     description: DESC,
     locale: "he_IL",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "SAP by Sali — Project NEO · Interactive SAP Knowledge Platform" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "SAP by Sali · Project NEO · מאגר ידע ל-SAP" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -89,7 +89,7 @@ const JSON_LD = {
       "@type": "Organization",
       "@id": `${SITE}/#org`,
       name: "SAP by Sali",
-      alternateName: "Project NEO — SAP Knowledge Platform",
+      alternateName: "Project NEO · SAP Knowledge Platform",
       url: SITE,
       logo: `${SITE}/icon-512.png`,
       founder: { "@id": `${SITE}/#person` },
@@ -105,7 +105,7 @@ const JSON_LD = {
     {
       "@type": "WebApplication",
       "@id": `${SITE}/#app`,
-      name: "Project NEO — SAP by Sali",
+      name: "Project NEO · SAP by Sali",
       url: SITE,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",

@@ -136,7 +136,7 @@ export function WorkspaceMap({
               away. The button names the count and jumps to the filtered table. */}
           {topic != null && d.topics.some((t) => t.idx === topic) ? (
             <a className="nu-btn nw-rank-go" href="#nw-tbl">
-              הצג {nf.format(d.topics.find((t) => t.idx === topic)!.tables)} טבלאות של הנושא
+              הצגת {nf.format(d.topics.find((t) => t.idx === topic)!.tables)} טבלאות הנושא
               <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" style={{ transform: "rotate(-90deg)" }} />
             </a>
           ) : null}
@@ -185,7 +185,7 @@ export function WorkspaceMap({
             {flowGaps === 0
               ? "כולם מתועדים בתיעוד המודול"
               : `${nf.format(flowGaps)} מהם ללא טבלה בתיעוד המודול`}
-            . צעד מתועד נפתח בעמוד האובייקט המלא שלו.
+            . צעד מתועד נפתח בעמוד האובייקט שלו.
           </p>
         </div>
       ) : null}
@@ -217,8 +217,8 @@ export function WorkspaceMap({
             ))}
           </ul>
           <p className="nw-fine">
-            מחלקת האובייקט נגזרת משם הטבלה, באותו סיווג המשמש גם את ה-ERD ואת מסך הבית.{" "}
-            {nf.format(d.counts.tables)} טבלאות ייחודיות מחולקות ל-{nf.format(d.zones.length)} מחלקות.
+            מחלקת האובייקט נקבעת לפי שם הטבלה.{" "}
+            {nf.format(d.counts.tables)} טבלאות שונות מחולקות ל-{nf.format(d.zones.length)} מחלקות.
           </p>
         </div>
       ) : null}

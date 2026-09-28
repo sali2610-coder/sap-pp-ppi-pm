@@ -264,7 +264,7 @@ function buildS4(code: string, intel: (typeof TX_INTEL)[string] | undefined, aut
     superseded: "קיימת טרנזקציה עוקבת ב-S/4HANA",
     changed: "משתנה ב-S/4HANA",
     available: "זמינה ב-S/4HANA",
-    unknown: "לא קיים תיעוד מאומת במאגר",
+    unknown: "אין תיעוד מאומת במאגר",
   };
 
   return { disposition, he: HE[disposition], note, delta, replaces, supersededBy, fiori, unchanged, migration: clean(authored?.eccS4?.migration), cds, risk, trust };

@@ -91,7 +91,7 @@ export function ErdSheet({
             <span className="nu-chip">{ZONE_HE[t.z] || t.z}</span>
             {t.ms.length > 1 ? <span className="nu-chip">משותפת · {t.ms.join(" · ")}</span> : null}
           </div>
-          <p>{t.he || t.en || "לא קיים תיעוד מאומת במאגר"}</p>
+          <p>{t.he || t.en || "אין תיעוד מאומת במאגר"}</p>
           {t.he && t.en ? <small>{t.en}</small> : null}
           <div className="ne-c2-act">
             {t.pg ? (
@@ -134,7 +134,7 @@ export function ErdSheet({
                 </tbody>
               </table>
             ) : (
-              <p className="ne-none">לא קיים תיעוד מאומת במאגר על שדות הטבלה.</p>
+              <p className="ne-none">אין תיעוד מאומת במאגר על שדות הטבלה.</p>
             )}
             {t.fn > t.f.length ? (
               <p className="ne-note">
@@ -155,7 +155,7 @@ export function ErdSheet({
                 ) : null}
               </>
             ) : (
-              <p className="ne-none">לא קיים תיעוד מאומת במאגר · נדרש אימות במערכת SAP</p>
+              <p className="ne-none">אין תיעוד מאומת במאגר · נדרש אימות במערכת SAP</p>
             )}
 
             <h3>טרנזקציות</h3>
@@ -168,7 +168,7 @@ export function ErdSheet({
                 ))}
               </ul>
             ) : (
-              <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>
+              <p className="ne-none">אין תיעוד מאומת במאגר</p>
             )}
 
             <h3>BAPI ו-FM</h3>
@@ -181,10 +181,10 @@ export function ErdSheet({
                 ))}
               </ul>
             ) : (
-              <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>
+              <p className="ne-none">אין תיעוד מאומת במאגר</p>
             )}
 
-            <h3>CDS Views</h3>
+            <h3>תצוגות CDS</h3>
             {t.cds.length ? (
               <ul className="ne-chips">
                 {t.cds.map((c) => (
@@ -194,11 +194,11 @@ export function ErdSheet({
                 ))}
               </ul>
             ) : (
-              <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>
+              <p className="ne-none">אין תיעוד מאומת במאגר</p>
             )}
 
             <h3>יישומי Fiori</h3>
-            {t.fi ? <p className="ne-s4">{t.fi}</p> : <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>}
+            {t.fi ? <p className="ne-s4">{t.fi}</p> : <p className="ne-none">אין תיעוד מאומת במאגר</p>}
 
             {t.g ? (
               <>
@@ -231,7 +231,7 @@ function RelList({
   tByName: Map<string, ErdTable>;
   onGo: (n: string) => void;
 }) {
-  if (!list.length) return <p className="ne-none">לא קיים תיעוד מאומת במאגר</p>;
+  if (!list.length) return <p className="ne-none">אין תיעוד מאומת במאגר</p>;
   return (
     <>
     {list.some((e) => !e.cd) ? (

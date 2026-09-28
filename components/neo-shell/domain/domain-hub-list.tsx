@@ -134,7 +134,7 @@ export function DomainHubList({ cards }: { cards: DomainCard[] }) {
         </section>
       )) : (
         <div className="nx-card ndm-none">
-          <p><b>לא נמצאו תחומים מתאימים. נסה חיפוש אחר או נקה מסננים.</b></p>
+          <p><b>לא נמצאו תחומים מתאימים. אפשר לשנות את החיפוש או לנקות את המסננים.</b></p>
           <button type="button" className="nu-btn2" onClick={clear}>הצגת כל התחומים</button>
         </div>
       )}

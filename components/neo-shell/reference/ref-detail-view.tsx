@@ -41,11 +41,11 @@ import { MOD_HE, modVar } from "../mod-var";
 import { Glyph } from "./icons";
 import type { RefDetail, RefFact, RefSection, RefStatus, RefCode } from "./types";
 
-const NONE = "לא קיים תיעוד מאומת במאגר";
+const NONE = "אין תיעוד מאומת במאגר";
 
 const DIR_HE: Record<string, string> = {
   bapi: "קטלוג BAPI ו-FM",
-  cds: "קטלוג CDS Views",
+  cds: "קטלוג תצוגות CDS",
   idoc: "קטלוג IDoc",
   "fiori-apps": "קטלוג יישומי Fiori",
   enhancements: "קטלוג הרחבות",
@@ -192,7 +192,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
     <article className="nxt nxr-rec" data-surface={d.kind} style={{ "--m": m } as React.CSSProperties}>
       <SmartReturn
         fallback={{ href: `/neo/${d.kind}/`, label: DIR_HE[d.kind] || "קטלוג" }}
-        hint="לא נשמר מסלול הגעה בביקור הזה"
+        hint="אין עמוד קודם בביקור הזה"
       />
 
       {/* ------------------------------------------------------ 1. IDENTITY */}

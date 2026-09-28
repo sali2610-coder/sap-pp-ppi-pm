@@ -81,7 +81,7 @@ function rowOf(r: IdocRecordData): RefRow {
     : r.intel?.s4 && r.intel?.ecc ? "compare" : "unknown";
   const text = critical.length
     ? `סוג ההודעה נשען על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
-    : clean(r.intel?.s4) || "לא קיים תיעוד מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
+    : clean(r.intel?.s4) || "אין תיעוד מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
 
   const caps: string[] = [];
   if (r.intel) caps.push("deep");
@@ -124,8 +124,8 @@ export function idocDir(): RefDir {
   return {
     id: "idoc",
     surface: "neo:idoc",
-    eyebrow: "קטלוג IDoc · IDoc Catalog",
-    title: "IDocs",
+    eyebrow: "קטלוג IDoc",
+    title: "הודעות IDoc",
     icon: "cable",
     lede:
       `${nf.format(rows.length)} סוגי הודעת IDoc המתועדים על טבלאות SAP בתחזוקת מפעל (PM) ובתעשיות ` +
@@ -152,7 +152,7 @@ export function idocDir(): RefDir {
     rankLabel: "מספר טבלאות מקושרות",
     searchPlaceholder: "סוג הודעה · משמעות · טבלה · טרנזקציה",
     foot:
-      "הרשומות הפיזיות, קודי הסטטוס וטרנזקציות הניטור נלקחו כלשונם מרשומת האינטגרציה המאומתת של הפרויקט.",
+      "מקור: רשומת האינטגרציה המאומתת של הפרויקט.",
     emptyNote:
       "המאגר מתעד מספר קטן של סוגי הודעה, ולכן ייתכן שחיפוש לא יחזיר תוצאות.",
   };
@@ -203,7 +203,7 @@ export function idocDetail(name: string): RefDetail | null {
 
   const headline = critical.length
     ? `סוג ההודעה נשען על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
-    : clean(intel?.s4) || "לא קיים תיעוד מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
+    : clean(intel?.s4) || "אין תיעוד מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
 
   const s4Facts: RefFact[] = [
     { label: "הערת S/4HANA ברשומה", text: clean(intel?.s4), absent: "לא קיימת הערת S/4HANA ברשומה לסוג הודעה זה." },
@@ -354,7 +354,7 @@ export function idocDetail(name: string): RefDetail | null {
       facts: s4Facts,
       tables: tables.length ? tables : undefined,
       warn: tone === "unknown"
-        ? "לא קיים תיעוד מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA. נדרש אימות נוסף במערכת SAP (WE30, WE20 או תיעוד ALE) לפני החלטת מעבר."
+        ? "אין תיעוד מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA. נדרש אימות נוסף במערכת SAP (WE30, WE20 או תיעוד ALE) לפני החלטת מעבר."
         : undefined,
     },
     // The unified evidence block: the derived claim reads the intel record's
@@ -365,7 +365,7 @@ export function idocDetail(name: string): RefDetail | null {
     sections,
     sources: [],
     foot:
-      "הרשומה נבנתה מהתיעוד המאומת של הפרויקט על אובייקטי פונקציה ו-IDoc. מבנה ה-IDoc וקודי הסטטוס " +
+      "מקור: התיעוד המאומת של הפרויקט על אובייקטי פונקציה ו-IDoc. מבנה ה-IDoc וקודי הסטטוס " +
       "משותפים לכל סוגי ההודעה ומוצגים בעמוד קטלוג IDoc.",
   };
 }

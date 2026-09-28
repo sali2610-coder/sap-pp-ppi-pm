@@ -32,10 +32,10 @@ export default function RouteError({ error, reset }: { error: Error & { digest?:
         </div>
         <div className="mx-auto mt-6 grid size-12 place-items-center rounded-2xl bg-amber-50 text-amber-500"><AlertTriangle className="size-6" /></div>
         <h1 className="mt-3 text-xl font-extrabold text-ink-1">משהו השתבש בטעינת העמוד</h1>
-        <p className="mt-1.5 text-sm leading-relaxed text-ink-3">אפשר לנסות שוב — הנתונים נטענים מקומית. אם זה חוזר, חזור לקוקפיט.</p>
+        <p className="mt-1.5 text-sm leading-relaxed text-ink-3">אפשר לנסות שוב. אם הבעיה חוזרת, אפשר לחזור לדף הבית.</p>
         <div className="mt-5 flex justify-center gap-2">
-          <button onClick={() => reset()} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-extrabold text-brand-foreground shadow-sm shadow-brand/25 active:scale-95"><RotateCcw className="size-4" />נסה שוב</button>
-          <Link href="/" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-hairline px-4 py-2.5 text-sm font-bold text-ink-2 hover:border-brand/40 hover:text-brand active:scale-95"><Home className="size-4" />לקוקפיט</Link>
+          <button onClick={() => reset()} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-extrabold text-brand-foreground shadow-sm shadow-brand/25 active:scale-95"><RotateCcw className="size-4" />ניסיון נוסף</button>
+          <Link href="/" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-hairline px-4 py-2.5 text-sm font-bold text-ink-2 hover:border-brand/40 hover:text-brand active:scale-95"><Home className="size-4" />לדף הבית</Link>
         </div>
       </div>
     </div>

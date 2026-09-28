@@ -162,7 +162,7 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
               <th scope="col">שדה</th>
               <th scope="col">תיאור</th>
               <th scope="col">אנגלית</th>
-              <th scope="col">טיפוס</th>
+              <th scope="col">סוג נתונים</th>
               <th scope="col">אורך</th>
               <th scope="col">מודול</th>
             </tr>
@@ -180,7 +180,7 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
                 <th scope="row" className="nx-sap" data-l="שדה">{f.tech}</th>
                 <td data-l="תיאור">{f.he || "–"}</td>
                 <td className="nx-sap no-dim" data-l="אנגלית">{f.en || "–"}</td>
-                <td className="nx-sap" data-l="טיפוס">{f.dt || "–"}</td>
+                <td className="nx-sap" data-l="סוג נתונים">{f.dt || "–"}</td>
                 <td className="nx-sap" data-l="אורך">{f.len || "–"}</td>
                 <td data-l="מודול">
                   <span className="no-modtag">

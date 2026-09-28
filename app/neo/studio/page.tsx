@@ -10,7 +10,7 @@ import { StudioView } from "@/components/neo-shell/studio/studio-view";
 
 export const metadata = {
   title: "Architecture Studio · Project NEO",
-  description: "תצוגה גרפית של ארכיטקטורת SAP: טבלאות, טרנזקציות, BAPIs, IDocs, CDS Views ויישומי Fiori, והקשרים ביניהם.",
+  description: "תצוגה גרפית של ארכיטקטורת SAP: טבלאות, טרנזקציות, BAPI, IDoc, תצוגות CDS ויישומי Fiori, והקשרים ביניהם.",
   robots: { index: false, follow: false },
 };
 

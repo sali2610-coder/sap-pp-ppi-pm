@@ -8,8 +8,8 @@ import "@/app/neo/centers.css";
 import { CentersHub } from "@/components/neo-shell/centers/centers-view";
 
 export const metadata = {
-  title: "מרכזי ידע · Project NEO",
-  description: "מרכזי הידע של הפרויקט: בלופרינטים, הגדרות, תרחישי ייצור, הרשאות, אינטגרציה, מעבר ל-S/4HANA ועוד.",
+  title: "מרכזי עבודה · Project NEO",
+  description: "מרכזי העבודה של הפרויקט: בלופרינטים, הגדרות, תרחישי ייצור, הרשאות, אינטגרציה, מעבר ל-S/4HANA ועוד.",
   robots: { index: false, follow: false },
 };
 

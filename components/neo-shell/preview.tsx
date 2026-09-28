@@ -66,7 +66,7 @@ function PlainBody({ p }: { p: PlainPreview }) {
         ) : (
           /* The honest state. A guessed number here would be indistinguishable
              from a real one, which is exactly why it is never printed. */
-          <span className="nx-pv-none"><b>—</b>אין ספירה מגובה בנתוני הפרויקט</span>
+          <span className="nx-pv-none"><b>—</b>אין מספר בנתוני הפרויקט</span>
         )}
       </div>
       {p.sample.length ? (

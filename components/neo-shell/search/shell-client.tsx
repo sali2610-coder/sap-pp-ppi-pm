@@ -52,6 +52,7 @@ import { pushRecentObject, relTime, setLayout, useLayout, useRecent } from "../s
 import type { ModuleKey, NavItem, RailMode, ShelfTab, ShellData } from "../types";
 import { KINDS, buildIndex, runQuery } from "./build";
 import { CommandSurface } from "./command-surface";
+import { CmdKey } from "../cmd-key";
 import type { CmdKind, CmdRecord, CommandExtra } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -714,7 +715,7 @@ export function NeoShellClient({
           <button type="button" className="nx-railq" aria-label="חיפוש בניווט ובתיעוד" onClick={() => changeMode("search")}>
             <span className="nx-railq-i"><Ico name="Search" size={15} /></span>
             <span className="nx-railq-l">חיפוש בניווט ובתיעוד</span>
-            <kbd>⌘K</kbd>
+            <kbd><CmdKey /></kbd>
           </button>
           <div className="nx-railsrch" aria-hidden={!searching}>
             <div className="nx-srch-f">
@@ -751,8 +752,8 @@ export function NeoShellClient({
                 command surface header; this is the live region announcing them. */}
             <p className="nx-srch-meta nx-sr" aria-live="polite">
               {q
-                ? `${nf.format(result.total)} רשומות · ${hits} מתוך ${data.navItemCount} יעדי ניווט`
-                : `${data.navItemCount} יעדי ניווט · האינדקס המלא זמין בחלון החיפוש`}
+                ? `${nf.format(result.total)} רשומות · ${hits} מתוך ${data.navItemCount} פריטי ניווט`
+                : `${data.navItemCount} פריטי ניווט · האינדקס המלא זמין בחלון החיפוש`}
             </p>
           </div>
         </div>
@@ -835,7 +836,7 @@ export function NeoShellClient({
                             <span className="nx-navitem-i"><Ico name={it.icon} size={16} /></span>
                             <span className="nx-navitem-l">{it.label}</span>
                             {it.count === null ? (
-                              <span className="nx-navitem-n nx-navitem-n--none" title="אין ספירה מגובה בנתוני הפרויקט">—</span>
+                              <span className="nx-navitem-n nx-navitem-n--none" title="אין מספר בנתוני הפרויקט">—</span>
                             ) : (
                               <span className="nx-navitem-n">{nf.format(it.count)}</span>
                             )}
@@ -853,8 +854,8 @@ export function NeoShellClient({
         <div className="nx-shelf" ref={shelfRef} data-shelf={shelf} data-empty={shelfEmpty ? "1" : undefined}>
           {shelfEmpty ? (
             <button type="button" className="nx-shelf-empty" onClick={() => setShelfOpen(true)}>
-              עדיין לא נפתח אובייקט
-              <span className="nx-shelf-empty-a">הצגת המדף</span>
+              עדיין לא נפתחו אובייקטים
+              <span className="nx-shelf-empty-a">הצגת האחרונים והמוצמדים</span>
             </button>
           ) : null}
           <ShelfTabs tab={shelf} onTab={setShelf} tabsRef={shelfTabsRef} indRef={shelfIndRef} />
@@ -879,7 +880,7 @@ export function NeoShellClient({
           <span className="nx-who">
             <span className="nx-avatar" aria-hidden="true">SH</span>
             <span className="nx-who-t">
-              <b>Sali Halif</b>
+              <b>סאלי חליף</b>
               <span>Web Coding</span>
             </span>
           </span>
@@ -936,7 +937,7 @@ export function NeoShellClient({
           <button type="button" className="nx-cmdbar" onClick={() => changeMode("search")}>
             <Ico name="Search" size={15} />
             <span className="nx-ph">חיפוש: טבלה, שדה, טרנזקציה, BAPI או ספר</span>
-            <kbd>⌘K</kbd>
+            <kbd><CmdKey /></kbd>
           </button>
           <div className="nx-topbar-tools">
             <button

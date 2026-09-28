@@ -53,7 +53,7 @@ export function DomainsHub() {
       <header className="ndm-hero">
         <p className="ndm-eye">
           <Boxes size={13} strokeWidth={2} aria-hidden="true" />
-          תחומים עסקיים · BUSINESS DOMAINS
+          תחומים עסקיים
         </p>
         <h1 className="ndm-h1">התחומים העסקיים של PM ו-PP-PI</h1>
         <p className="ndm-lede">
@@ -63,7 +63,7 @@ export function DomainsHub() {
           תקלות מהשטח, תרחיש מהמפעל והכרעת מעבר ל-S/4HANA.
         </p>
         <p className="nx-gate-note">
-          כאן: איפה זה קורה בתהליך. <b>מרכז הידע</b> מסביר מה זה (מושגי SAP), <b>מרכזי הידע</b> מסבירים איך עושים (יחידות עבודה).
+          הסברי מושגים נמצאים ב<b>מרכז הידע</b>, שלבי ביצוע ורשימות בדיקה ב<b>מרכזי העבודה</b>, והמיקום בתהליך ב<b>תחומים העסקיים</b>.
         </p>
         <div className="ndm-stats">
           {([
@@ -86,7 +86,7 @@ export function DomainsHub() {
           <p className="ndm-gap">
             <ShieldQuestion size={14} strokeWidth={1.75} aria-hidden="true" />
             {" "}{t.domains - t.deep} תחומים כוללים רשומת בסיס בלבד, והם מסומנים כך בכרטיס ובעמוד.
-            לרשומה המלאה שלהם לא קיים תיעוד מאומת במאגר.
+            לרשומה המלאה שלהם אין תיעוד מאומת במאגר.
           </p>
         ) : null}
       </header>
@@ -185,7 +185,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
             <ShieldQuestion size={14} strokeWidth={1.75} aria-hidden="true" />
             {" "}לתחום זה קיימת במאגר רשומת בסיס: זרימה, טבלאות, טרנזקציות, BAPIs, נקודות למידה ותקלות.
             לרשומה המלאה (נתוני אב, User Exits ו-BAdIs, תרחישי בדיקה, תרחיש מהמפעל והכרעת מעבר)
-            לא קיים תיעוד מאומת במאגר.
+            אין תיעוד מאומת במאגר.
           </p>
         ) : null}
       </header>
@@ -197,7 +197,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         icon={<Route size={15} strokeWidth={1.75} />}
         eyebrow="תהליך"
         title="הזרימה העסקית"
-        lede={`${nf.format(v.flow.length)} שלבים, כפי שתועדו במאגר.`}
+        lede={`${nf.format(v.flow.length)} שלבים.`}
       >
         {/* A COMPACT STEP DIAGRAM (design audit S7-DOM-2). The same steps the
             record holds, in the same order, drawn as a row of numbered stations
@@ -292,7 +292,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           icon={<Puzzle size={15} strokeWidth={1.75} />}
           eyebrow="פיתוח"
           title="נקודות הרחבה"
-          lede="User Exits ו-BAdIs כפי שתועדו במאגר."
+          lede="User Exits ו-BAdIs."
         >
           {v.exits.length ? (<><h3 className="ndm-h3">User Exits</h3><Bullets items={v.exits} /></>) : null}
           {v.badis.length ? (<><h3 className="ndm-h3">BAdIs</h3><Bullets items={v.badis} /></>) : null}
@@ -314,7 +314,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           icon={<BadgeCheck size={15} strokeWidth={1.75} />}
           eyebrow="איכות"
           title="תרחישי בדיקה"
-          lede="Positive · Negative · Integration · Regression, כפי שנוסחו במאגר."
+          lede="Positive · Negative · Integration · Regression."
         >
           <Bullets items={v.qa} />
         </Sec>
@@ -358,7 +358,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         icon={<GitBranch size={15} strokeWidth={1.75} />}
         eyebrow="מעבר"
         title="המעבר ל-S/4HANA"
-        lede={v.s4.length ? "הכרעת המעבר כפי שתועדה במאגר, שורה לכל היבט." : undefined}
+        lede={v.s4.length ? "הכרעת המעבר, שורה לכל היבט." : undefined}
       >
         {v.s4.length ? (
           <ul className="ndm-s4">
@@ -404,7 +404,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
 
       <p className="ndm-credit">
         <Cable size={13} strokeWidth={1.75} aria-hidden="true" />
-        {" "}התוכן מוצג כפי שנכתב בתיעוד הפרויקט.
+        {" "}מקור: תיעוד הפרויקט.
       </p>
     </article>
   );

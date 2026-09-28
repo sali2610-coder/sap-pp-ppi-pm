@@ -27,9 +27,9 @@ export default function NotFound() {
         </div>
         <p className="mt-6 bg-gradient-to-b from-brand to-brand-dark bg-clip-text text-6xl font-black tracking-tighter text-transparent">404</p>
         <h1 className="mt-1 text-2xl font-extrabold text-ink-1">העמוד לא נמצא</h1>
-        <p className="mt-1.5 text-sm leading-relaxed text-ink-3">ייתכן שהקישור השתנה או שהאובייקט הועבר. חזור לקוקפיט או חקור את נוף ה-SAP.</p>
+        <p className="mt-1.5 text-sm leading-relaxed text-ink-3">ייתכן שהקישור השתנה.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <Link href="/" className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-extrabold text-brand-foreground shadow-sm shadow-brand/25 active:scale-95"><Home className="size-4" />לקוקפיט</Link>
+          <Link href="/" className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-extrabold text-brand-foreground shadow-sm shadow-brand/25 active:scale-95"><Home className="size-4" />לדף הבית</Link>
           <Link href="/studio/" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-hairline px-4 py-2.5 text-sm font-bold text-ink-2 hover:border-brand/40 hover:text-brand active:scale-95"><Compass className="size-4" />סטודיו ארכיטקטורה</Link>
           <Link href="/apps/" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-hairline px-4 py-2.5 text-sm font-bold text-ink-2 hover:border-brand/40 hover:text-brand active:scale-95"><LayoutGrid className="size-4" />אפליקציות</Link>
         </div>

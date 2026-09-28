@@ -27,7 +27,7 @@ import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { learnModVar } from "./mod";
 import type { CodeRef, IncidentRow } from "./incidents-data";
 
-const ABSENT = "לא קיים תיעוד מאומת במאגר";
+const ABSENT = "אין תיעוד מאומת במאגר";
 
 const IMPACT_HE: Record<string, string> = {
   BLOCKING: "חוסם עבודה",
@@ -333,7 +333,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            מקור: <span className="nx-sap">data/troubleshooting.ts</span>: תיעוד פתרון בעיות מאומת, שאינו
+            מקור: קטלוג התקלות של הפרויקט: תיעוד פתרון בעיות מאומת, שאינו
             {" "}בדיקה חיה במערכת SAP. כל צעד טעון אימות בסביבת בדיקות לפני ביצוע בייצור.
           </span>
         </p>

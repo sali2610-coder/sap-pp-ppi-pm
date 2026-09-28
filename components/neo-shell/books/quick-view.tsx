@@ -295,7 +295,7 @@ export function BookQuickView({
             </div>
           ) : (
             <p className="nb-fine nb-resume-none">
-              התחל לקרוא. המיקום יישמר במכשיר הזה.
+              המיקום יישמר במכשיר הזה מהרגע שמתחילים לקרוא.
             </p>
           )}
 
@@ -351,7 +351,7 @@ export function BookQuickView({
             </OriginLink>
           </div>
           <p className="nb-fine">
-            הקריאה נפתחת בקורא של Project NEO בכתובת <span className="nb-sap">{neoReadHref(b.id)}</span>.
+            הקריאה נפתחת בקורא של Project NEO.
             הספר זמין גם בקורא של הספרייה הדיגיטלית:{" "}
             <Link className="nu-link" href={b.href} prefetch={false}>
               <span className="nb-sap">{b.href}</span>

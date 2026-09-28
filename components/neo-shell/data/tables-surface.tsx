@@ -83,7 +83,7 @@ const CAPS: { id: Cap; he: string }[] = [
   { id: "s4", he: "הוחלף ב-S/4HANA" },
   { id: "cds", he: "עם תצוגת CDS" },
   { id: "fiori", he: "עם יישום Fiori" },
-  { id: "hub", he: "צומת קשרים (6+)" },
+  { id: "hub", he: "צומת קשרים (6 ומעלה)" },
   { id: "shared", he: "משותפת לשני המודולים" },
 ];
 
@@ -207,7 +207,7 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
         type="button"
         className="nu-ghost nxd-ctx"
         onClick={() => openContext(r.name)}
-        aria-label={`טעינת ההקשר של ${r.name} למדף הניווט`}
+        aria-label={`הצגת ${r.name} במדף ההקשר`}
       >
         <Layers size={13} strokeWidth={1.75} />
         <span>הקשר</span>
@@ -369,19 +369,19 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
           is a filter you miss, and this surface is a tool before it is a page. */}
       <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
-        <span className="nx-eyebrow">תיעוד טכני · Data Dictionary</span>
+        <span className="nx-eyebrow">תיעוד טכני</span>
         {/* "טבלאות SAP" named a category rather than this surface — every SAP
             screen in the product is about SAP tables. The eyebrow above already
             says מילון נתונים and the route's own metadata calls it the table
             dictionary, so the title now agrees with both. */}
         <h1 className="nx-h1">טבלאות SAP</h1>
         <p className="nx-lede">
-          {nf.format(t.tables)} טבלאות SAP מתיעוד המקור של PM ו-PP-PI, עם {nf.format(t.fields)} שדות מתועדים,
+          {nf.format(t.tables)} טבלאות SAP מתיעוד PM ו-PP-PI: {nf.format(t.fields)} שדות,
           {" "}{nf.format(t.rels)} קשרי ER ו-{nf.format(t.tcodes)} טרנזקציות.
           {" "}
           {t.linked === t.tables
-            ? <>לכל אחת מ-{nf.format(t.linked)} הטבלאות עמוד פרטים משלה: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, תצוגות CDS והמעבר ל-S/4HANA.</>
-            : <>ל-{nf.format(t.linked)} מהן עמוד פרטים משלהן: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, תצוגות CDS והמעבר ל-S/4HANA. השאר מוצגות כרשומה בלבד.</>}
+            ? <>לכל טבלה עמוד פרטים עם שדות, קשרים, טרנזקציות, CDS והמעבר ל-S/4HANA.</>
+            : <>ל-{nf.format(t.linked)} מהן עמוד פרטים עם שדות, קשרים, טרנזקציות, CDS והמעבר ל-S/4HANA. השאר מוצגות כרשומה בלבד.</>}
         </p>
       </header>
 
@@ -513,7 +513,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
 
       {rows.length === 0 ? (
         <div className="nx-card nxd-none nm-rise nm-once">
-          <p><b>לא נמצאו טבלאות מתאימות. נסה חיפוש אחר או נקה מסננים.</b></p>
+          <p><b>לא נמצאו טבלאות מתאימות. אפשר לשנות את החיפוש או לנקות את המסננים.</b></p>
           <p className="nx-muted">
             החיפוש מכסה {nf.format(t.tables)} טבלאות SAP מתיעוד המקור: שם, תיאור, נושא, טרנזקציה ותצוגת CDS.
           </p>

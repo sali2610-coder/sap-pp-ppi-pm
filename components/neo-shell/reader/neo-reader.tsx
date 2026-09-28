@@ -887,7 +887,7 @@ export function NeoReader({ book }: { book: NRBook }) {
             </button>
           </span>
           <span className="nr-resume-n">
-            המיקום נשמר ברמת פרק ותת-פרק, לא ברמת מיקום הגלילה.
+            בקורא של Project NEO המיקום נשמר ברמת פרק ותת-פרק, לא ברמת מיקום הגלילה.
           </span>
         </div>
       )}
@@ -1011,7 +1011,7 @@ export function NeoReader({ book }: { book: NRBook }) {
 
             <footer className="nr-foot">
               <p>
-                התוכן נקרא ממאגר הספרים של Project NEO. הספר זמין גם בקורא של הספרייה הדיגיטלית:
+                התוכן מתוך מאגר הספרים של Project NEO. הספר זמין גם בקורא של הספרייה הדיגיטלית:
                 {" "}
                 <Link className="nu-link" href={book.libraryHref} prefetch={false}>{book.libraryHref}</Link>
               </p>

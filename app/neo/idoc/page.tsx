@@ -16,7 +16,7 @@ import { IdocReferenceBlock } from "@/components/neo-shell/reference/idoc-refere
 import { idocDir, idocReference } from "@/components/neo-shell/reference/idoc-data";
 
 export const metadata = {
-  title: "IDocs · Project NEO",
+  title: "קטלוג IDoc · Project NEO",
   description:
     "קטלוג IDoc של Project NEO: סוגי הודעת IDoc מתועדים, מבנה ה-IDoc, קודי הסטטוס וטרנזקציות הניטור.",
   robots: { index: false, follow: false },

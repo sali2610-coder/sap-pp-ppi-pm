@@ -33,7 +33,7 @@ export function WorkspaceHero({ d }: { d: WsData }) {
   // because the dictionary genuinely holds two different counts.
   const stats: { n: number; l: string; sub?: string }[] = [
     { n: d.counts.topics, l: "נושאים" },
-    { n: d.counts.rows, l: "רשומות תיעוד", sub: `${nf.format(d.counts.tables)} טבלאות ייחודיות` },
+    { n: d.counts.rows, l: "רשומות תיעוד", sub: `${nf.format(d.counts.tables)} טבלאות שונות` },
     { n: d.counts.fields, l: "שדות מתועדים", sub: `${nf.format(d.counts.pk)} PK · ${nf.format(d.counts.fk)} FK` },
     {
       n: d.counts.funcEntries,
@@ -44,7 +44,7 @@ export function WorkspaceHero({ d }: { d: WsData }) {
       sub: [
         d.counts.funcObjects === d.counts.funcEntries
           ? null
-          : `${nf.format(d.counts.funcObjects)} אובייקטים אחרי נרמול`,
+          : `${nf.format(d.counts.funcObjects)} אובייקטים שונים`,
         d.counts.bapis ? `${nf.format(d.counts.bapis)} BAPI` : null,
         d.counts.fms ? `${nf.format(d.counts.fms)} FM` : null,
         d.counts.idocs ? `${nf.format(d.counts.idocs)} IDoc` : null,
@@ -54,15 +54,13 @@ export function WorkspaceHero({ d }: { d: WsData }) {
     },
     { n: d.counts.tcodes, l: "טרנזקציות" },
     { n: d.counts.edges, l: "קשרים ממודלים" },
-    { n: d.counts.cds, l: "CDS Views" },
+    { n: d.counts.cds, l: "תצוגות CDS" },
     { n: d.counts.fiori, l: "יישומי Fiori" },
   ];
 
   return (
     <header className="nw-hero">
       <p className="nw-eye nm-fade">
-        CBC ISRAEL · PROJECT NEO
-        <i aria-hidden="true" />
         סביבת עבודה · מודול
       </p>
 

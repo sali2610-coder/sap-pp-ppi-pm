@@ -4,6 +4,7 @@ import "@/app/neo/learn.css";
 import { notFound } from "next/navigation";
 import { IncidentView } from "@/components/neo-shell/learn/incident-view";
 import { incidentDetail, incidentSlugs } from "@/components/neo-shell/learn/incidents-data";
+import { excerpt } from "@/lib/seo";
 
 // Static export: every catalogued incident becomes a real file, and
 // `dynamicParams = false` makes anything outside that list a build-time 404.
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     // Assembled from record fields only. Nothing is written here that is not
     // already on the page.
     title: `${r.he} · ${r.module} · Project NEO`,
-    description: [r.he, r.module, r.symptom].filter(Boolean).join(" · ").slice(0, 180),
+    description: excerpt([r.he, r.module, r.symptom].filter(Boolean).join(" · "), 180),
     robots: { index: false, follow: false },
   };
 }

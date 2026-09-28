@@ -11,7 +11,7 @@
    app/neo/best-practices.css adds placement only.
 
    ABSENCE IS RENDERED, NOT HIDDEN. A practice whose record leaves a list empty
-   gets «לא קיים תיעוד מאומת במאגר» in that list's own place.
+   gets «אין תיעוד מאומת במאגר» in that list's own place.
    ========================================================================== */
 
 import Link from "next/link";
@@ -25,7 +25,7 @@ import { modVar } from "../mod-var";
 import type { BpDetail, BpLineV, BpRow, BpXrefV } from "./bp-data";
 
 const nf = new Intl.NumberFormat("he-IL");
-const NONE = "לא קיים תיעוד מאומת במאגר";
+const NONE = "אין תיעוד מאומת במאגר";
 
 /* ------------------------------------------------------------ primitives */
 
@@ -133,9 +133,8 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
           {" "}כל שיטה מפרטת צעדי עבודה, דפוסים שגויים ובדיקות, וכל הפניה נפתחת כקישור רק כאשר קיים
           לה עמוד בפרויקט.
           {processes > 0
-            ? ` ${nf.format(processes)} מהן הן רשומות תהליך מלאות (מטרה, טריגר, תנאים מוקדמים, נתוני אב, תפקידים, שלבים, טרנזקציות, טבלאות, אינטגרציה, תוצרים, חריגים, בקרות, מדדים, שינויי ECC ל-S/4HANA, הגירה, הפניה רשמית וקישורים צולבים); שדה שהמאגר אינו מתעד מוצג כפער ולא מושלם מהדמיון.`
+            ? ` ${nf.format(processes)} מהן הן רשומות תהליך מלאות (מטרה, טריגר, תנאים מוקדמים, נתוני אב, תפקידים, שלבים, טרנזקציות, טבלאות, אינטגרציה, תוצרים, חריגים, בקרות, מדדים, שינויי ECC ל-S/4HANA, הגירה, הפניה רשמית וקישורים צולבים); שדה שלא תועד מוצג כפער.`
             : ""}
-          {" "}הקטלוג מורחב בהדרגה לפי משפחות, וכל שיטה תצורף למקורות SAP רשמיים בשלב האיסוף.
         </p>
         <div className="nxt-meta">
           <span className="nu-chip">
@@ -173,11 +172,11 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
 
       <footer className="nxt-foot">
         <p>
-          רמת האימות והעומק של כל שיטה נמדדות באותו מנגנון ראיות המשמש את קטלוגי העיון
-          (lib/evidence): סטטוס, רמת אימות, מקורות ועומק תיעוד.
+          רמת האימות והעומק של כל שיטה נמדדות באותו מנגנון ראיות המשמש את קטלוגי העיון:
+          סטטוס, רמת אימות, מקורות ועומק תיעוד.
         </p>
         <p>
-          מקור: <span className="nx-sap">data/best-practices</span>: רשומות שנבנו מהפניות מפורשות
+          מקור: קטלוג שיטות העבודה של הפרויקט: רשומות שנבנו מהפניות מפורשות
           לרשומות המאגר. נדרש אימות במערכת SAP לפני יישום.
         </p>
       </footer>
@@ -262,7 +261,7 @@ function ProcessProfile({ p }: { p: NonNullable<BpDetail["process"]> }) {
           </p>
         ) : (
           <p className="nxt-absent">
-            טרם אותרה ואומתה הפניה רשמית של SAP לתהליך זה; היא תתווסף בשלב האיסוף ולא מושלמת מהזיכרון.
+            טרם נמצאה הפניה רשמית של SAP לתהליך זה.
           </p>
         )}
       </div>
@@ -293,7 +292,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
     <article className="nxt" data-surface="best-practice" style={{ "--m": m } as React.CSSProperties}>
       <SmartReturn
         fallback={{ href: "/neo/best-practices/", label: "שיטות עבודה מומלצות" }}
-        hint="לא נשמר מסלול הגעה בביקור הזה"
+        hint="אין עמוד קודם בביקור הזה"
       />
 
       {/* ------------------------------------------------------ 1. IDENTITY */}
@@ -406,9 +405,6 @@ export function BpDetailView({ d }: { d: BpDetail }) {
         />
         {d.xrefs.length ? (
           <>
-            <p className="nx-muted">
-              הפניה שקיים לה עמוד בקטלוגי הפרויקט נפתחת כקישור. הפניה אחרת מוצגת כערך ללא קישור.
-            </p>
             <ul className="nxt-codes nxr-codes" aria-label="רשומות מקושרות">
               {d.xrefs.map((r) => <Ref key={r.id} r={r} />)}
             </ul>
@@ -459,7 +455,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
           בפרויקט; השאר מוצגות כערך.
         </p>
         <p>
-          מקור: <span className="nx-sap">data/best-practices</span> · סוקר: {d.reviewer}.
+          מקור: קטלוג שיטות העבודה של הפרויקט · סוקר: {d.reviewer}.
           {" "}נדרש אימות במערכת SAP לפני יישום.
         </p>
       </footer>
