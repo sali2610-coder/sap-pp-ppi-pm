@@ -84,7 +84,18 @@
    record's own evidence row); VA11 carries the SAP Note number of its item row in
    prose only; the rows of the generated records that the audited records do not
    cite are carried verbatim as context rows (VA02 3, VA05 5, VA11 4, VA12 4, VA13
-   4) with their 2026-09-24 access date; no reviewer field. */
+   4) with their 2026-09-24 access date; no reviewer field.
+   Batch 11 (research + adversarial audit 2026-09-25, written 2026-09-28, access
+   date stamped 2026-09-25): 8 audited records for the SD quotation and contract
+   codes, the rebate agreement code, the customer master data sheet and the SD
+   customer master codes (VA23, VA41, VA42, VA43, VBO1, VC/2, VD01, VD02); tx:QM13,
+   refuted in batch 8, re-drafted, re-audited 2026-09-28, refuted again and queued.
+   Seven taken from verdict.fixedRecord, VA23 re-derived from the draft with the
+   three listed downgrades. Every status source is a shared const (the record's
+   own evidence row; VD02 stays verification_required with no source); the rows of
+   the generated records that the audited records do not cite are carried verbatim
+   as context rows (VA23 5, VA42 5, VA43 5, VD01 1, VD02 4) with their 2026-09-24
+   access date; no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -1590,6 +1601,162 @@ const VA22_SIMPL2025: Evidence = {
     "הפניה ל-SAP note 2319234; את לשונית Configuration ניתן לקבוע כלשונית הכניסה במסך הסקירה דרך Fcode " +
     "'UECO' בהגדרת 'Define Sales Document types' (VOV8). הפריט אינו נוקב במחליף ל-VA22 ואינו קובע שהטרנזקציה " +
     "הוסרה; הוא מתאר שינוי במסך שלה.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 11 status sources (research + audit 2026-09-25, written 2026-09-28): one evidence row per
+   record, shared by evidence[] and status.source (VA23, VA41, VA42, VA43, VBO1, VC/2, VD01; VD02 has
+   no status source) */
+
+const VA23_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.12.7 " +
+    "S4TWL - Fast entry of characteristic values in sales document",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "הפריט 'S4TWL - Fast entry of characteristic values in sales document' (רשימת 2025 FPS01, פריט 13.12.7) " +
+    "קובע: 'As of SAP S/4HANA 1610, the fast entry of characteristic values functionality from tab page " +
+    "'Fast data entry' is merged into tab page ‘Configuration’ in sales document transactions like VA01, " +
+    "VA02, and VA03.' לפי הפריט הוא 'possibly relevant' כש-Business Function DIMP_SDUD פעילה, ו-'relevant' " +
+    "כשמשתמשים בלשונית 'Fast data entry' באחת הטרנזקציות המנויות, כולל VA23: 'The simplification item is " +
+    "relevant if you are using ‘Fast data entry’ tab page in one or more of the transactions VA01, VA02, " +
+    "VA03, VA11, VA12, VA13, VA21, VA22, VA23, VA41, VA42, VA43'. הפריט אינו נוקב במחליף ל-VA23.",
+  verificationLevel: "sap_official_verified",
+};
+
+const VA41_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.12.7 " +
+    "S4TWL - Fast entry of characteristic values in sales document",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט 'S4TWL - Fast entry of characteristic values in sales document' (רכיב IS-MP-SD, SAP Note 2381843; " +
+    "באותה כותרת ברשימת 2023 FPS03 כפריט 52.7) נקרא במלואו. הציטוט: 'As of SAP S/4HANA 1610, the fast entry " +
+    "of characteristic values functionality from tab page 'Fast data entry' is merged into tab page " +
+    "'Configuration' in sales document transactions like VA01, VA02, and VA03.' הפריט 'possibly relevant' " +
+    "כש-Business Function DIMP_SDUD (Discrete Indus. - Mill Products) פעילה, ו-'relevant if you are using " +
+    "'Fast data entry' tab page in one or more of the transactions VA01, VA02, VA03, VA11, VA12, VA13, VA21, " +
+    "VA22, VA23, VA41, VA42, VA43'. הפעולה הנדרשת: הגדרות Customizing לקונפיגורציית פריט תעודת מכירה לפי SAP " +
+    "note 2319234, עם אפשרות להגדיר את לשונית Configuration כברירת מחדל דרך Fcode 'UECO' ב-'Define Sales " +
+    "Document types' (VOV8). הפריט אינו נוקב במחליף ל-VA41; זהו שינוי מסך בתוך אותה טרנזקציה, מותנה בשימוש " +
+    "קודם בלשונית 'Fast data entry'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const VA42_HELP2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Change Sales Contracts - VA42",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/6865b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "רשומת עזרה רשמית שכותרתה 'Change Sales Contracts - VA42' (App ID: VA42) קובעת: 'With this app, you can " +
+    "make changes to the detailed data contained in a sales contract', ומפנה אל 'Display Sales Contracts - " +
+    "VA43' להצגת החוזה שעודכן ואל 'Create Sales Orders - VA01' ליצירת הזמנות המשך. הרשומה מופיעה בתיעוד " +
+    "S/4HANA On-Premise 2025 FPS01 (versionId 2025.001).",
+  verificationLevel: "sap_official_verified",
+};
+
+const VA43_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.12.7 " +
+    "S4TWL - Fast entry of characteristic values in sales document",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט 'S4TWL - Fast entry of characteristic values in sales document' (רכיב IS-MP-SD, עמ' 1206; באותה " +
+    "כותרת ברשימת 2023 FPS03 כפריט 52.7) נקרא במלואו. הציטוט: 'As of SAP S/4HANA 1610, the fast entry of " +
+    "characteristic values functionality from tab page 'Fast data entry' is merged into tab page " +
+    "'Configuration' in sales document transactions like VA01, VA02, and VA03.' לפי הפריט הוא 'possibly " +
+    "relevant' כש-Business Function DIMP_SDUD (Discrete Indus. - Mill Products) פעילה, ו-'relevant' " +
+    "כשמשתמשים בלשונית 'Fast data entry' ב-VA01, VA02, VA03, VA11, VA12, VA13, VA21, VA22, VA23, VA41, VA42 " +
+    "או VA43, כך ש-VA43 נמנית במפורש. הפעולה הנדרשת: הגדרות Customizing לקונפיגורציית פריט תעודת מכירה, עם " +
+    "הפניה ל-SAP note 2319234; את לשונית Configuration ניתן לקבוע כלשונית הכניסה במסך הסקירה דרך Fcode " +
+    "'UECO' בהגדרת 'Define Sales Document types' (VOV8). הפריט אינו נוקב במחליף ל-VA43 ואינו קובע שהטרנזקציה " +
+    "הוסרה; הוא מתאר שינוי במסך שלה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const VBO1_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+    "2025 - Feature Pack Stack 1 (Document Version 1.36) · item 11.1.14 S4TWL - SD Rebate Processing " +
+    "replaced by Settlement Management, pp. 1015-1016",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 11.1.14 'S4TWL - SD Rebate Processing replaced by Settlement Management' (Application Component: " +
+    "SD-BIL-RB; Related Note 0002267377 'SD Rebate Processing Replaced by Settlement Management', Business " +
+    "Impact) חוזר על נוסח הפריט המקביל ברשימת 2023 FPS03: תחת Description 'In general, SD Rebate Processing " +
+    "is not available within SAP S/4HANA. The functional equivalent of SD Rebate Processing in SAP S/4HANA " +
+    "is Settlement Management', עם חריג ל-CRM TPM customers (note 2267344). תחת Business Process-Related " +
+    "Information: 'New agreements can only be created based on condition contracts. Therefore, the " +
+    "corresponding transaction codes VBO1 resp. VB(D for the creation of rebate agreements is not available " +
+    "anymore', ואחריו טבלה 'Transaction not available in SAP S/4HANA' עם VBO1 'Create Rebate Agreement' " +
+    "ו-VB(D 'Extend Rebate Agreements'. תחת How to Determine Relevancy: 'Use SE16 to check table KONA: If " +
+    "table KONA contains records with ABTYP = ‘A’ then SD Rebate Processing is used'. תחת Custom " +
+    "code-related information: SAP Note 2226380. הפריט אינו נוקב בטרנזקציה או באפליקציית Fiori יורשת " +
+    "ספציפית. עמודים 1015-1016.",
+  verificationLevel: "sap_official_verified",
+};
+
+const VC2_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "S4TWL - Sales Activities (Simplification List for SAP S/4HANA 2025 FPS01, document version 1.36, item " +
+    "11.2.1)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "הפריט קובע שתמיכת מכירות ב-Computer-Aided Selling (SD-CAS) אינה זמינה ב-S/4HANA כי אינה חלק מארכיטקטורת " +
+    "היעד ('not the target architecture'), ומפרט תחת הכותרת 'Transactions not supported in SAP S/4HANA' " +
+    "רשימת טרנזקציות; השורה של VC/2 קובעת במפורש: 'VC/2 Customer Master Data Sheet (as of Release 1610) - " +
+    "Use Fiori App \"Customer 360 Object Page\" instead.' הפריט נקרא במלואו (לא רק כותרת), " +
+    "scratchpad/official/SIMPL_OP2025.pdf.txt שורה 59323.",
+  verificationLevel: "sap_official_verified",
+};
+
+const VD01_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+    "S4TWL - Business Partner Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (עמ' 136-138, רכיב LO-MD-BP, Business Impact Note 2265093) קובע: 'The user interface for SAP " +
+    "S/4HANA is transaction BP. There is no specific user interface for customer/vendor like known from SAP " +
+    "Business Suite (the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or " +
+    "MK01, MK02, MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.)'. " +
+    "בטבלה 'Transactions not available in SAP S/4HANA on-premise edition' מופיע VD01 תחת 'Transactions that " +
+    "get redirected to transaction BP', ולא בקבוצה 'Transactions that are obsolete' (MK12, MK18, MK19, XD07, " +
+    "XK07, V+21, V+22, V+23).",
   verificationLevel: "sap_official_verified",
 };
 
@@ -10153,5 +10320,1274 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "פריט הפישוט 13.12.7. היסטוריה (Old → New): הרשומה הגנרית ב-transactions-auto.ts (2026-09-24, ללא הכרעת " +
       "מעמד; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'changed' ברמת repository_verified) → רשומת " +
       "המחקר הזו (2026-09-25) קוראת בפועל את הפריט וקובעת status 'changed'. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:VA23",
+    evidence: [
+      VA23_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Fast entry of characteristic values in sales document (Simplification List for SAP S/4HANA 2023 " +
+          "- Feature Pack Stack 3, document version 1.35, item 52.7)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט ברשימת 2023 FPS03 (פריט 52.7): מיזוג לשונית 'Fast data entry' ללשונית 'Configuration' " +
+          "בטרנזקציות תעודות מכירה החל מ-SAP S/4HANA 1610. הפריט 'possibly relevant' כש-Business Function " +
+          "DIMP_SDUD פעילה, ו-'relevant' כשמשתמשים בלשונית 'Fast data entry' באחת הטרנזקציות המנויות, כולל VA23. " +
+          "הפריט אינו נוקב במחליף ל-VA23.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Display Sales Quotations - VA23 | Sales",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/e664b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Sales, versionId 2025.001, loio e664b65334e6b54ce10000000a174cb4) מדפיסה בסניפט: " +
+          "'Display Sales Quotations - VA23 App ID: VA23 With this app, you can display detailed information about " +
+          "sales quotations.' בסניפט אין אזכור להחלפה או להסרה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App VA23 'Display Sales Quotations - VA23' (SAP GUI), release S32OP (S/4HANA 2025 " +
+          "FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('VA23')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית Fiori רושמת את VA23 כאפליקציית SAP GUI בשם 'Display Sales Quotations - VA23', רכיב SD-SLS, " +
+          "בסטטוס Published, עם טרנזקציית GUI מובילה VA23, intent SalesQuotation-display, תפקיד " +
+          "SAP_BR_INTERNAL_SALES_REP (בין היתר) וקטלוג עסקי SAP_SD_BC_QUOT_DISPL. רשימת ה-releases המתועדת מתחילה " +
+          "ב-S6OP (1610) ומגיעה עד S32OP (2025 FPS01). predecessors ו-successors מודפסים כ-'-'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F1871 'Sales Quotation (S/4HANA)' (SAP Fiori elements, Fact sheet), release " +
+          "S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1871')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית Fiori רושמת במהדורת 2025 FPS01 (S32OP) את F1871 'Sales Quotation (S/4HANA)', מסוג Fact sheet / " +
+          "SAP Fiori elements, בסטטוס Published, רכיב SD-SLS-QUT, עם טרנזקציית GUI מובילה VA23, קטלוג עסקי " +
+          "SAP_SD_BC_QUOT_DISPL ושירות OData SD_F1871_QUOT_FS_SRV. predecessors ו-successors מודפסים כ-'-'; F1871 " +
+          "אינה מוגדרת שם כ-successor של VA23.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Display Quotation | Business Package for Transportation Planner 1.4",
+        url: "https://help.sap.com/docs/SAP_ERP/765817361487423ba4a95d7df68c77dd/742c20c4b04b4f79ba37d7cbc10df263.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית בצד ה-ECC (SAP ERP 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "742c20c4b04b4f79ba37d7cbc10df263) מדפיסה בסניפט: 'Data Source or Data Store Transaction: VA23' ו-'The " +
+          "transaction VA23 in the ERP system is called when you access this iView.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#VA23",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את VA23 כ'מכירות - הצעות מחיר', מודול SD.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VA23",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VA23",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-VA23 את הכותרת האנגלית 'Display Quotation'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VA23",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Display Sales Documents | Sales",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/06e8585a1cf04cacb5cd2cc5a38c8d0c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Sales, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "06e8585a1cf04cacb5cd2cc5a38c8d0c) נוקבת בקוד VA23 בסניפט: 'Display Sales Documents App IDs: VA23, VA43, " +
+          "VA33, VA03 With this app, you can display a specific type of sales document. ... Related ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Retail",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/028f6754e90d8c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Retail, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "028f6754e90d8c4ce10000000a4450e5) נוקבת בקוד VA23 בסניפט: ') VBAP Sales Inquiry (VA11, VA12, VA13) VBAP " +
+          "Sales Quotation (VA21, VA22, VA23) VBAP Sales Contract (VA41, VA42, VA43) VBAP Outbound Delivery " +
+          "(VL01N, VL02N, VL03N) LIPS ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Master Data",
+        url: "https://help.sap.com/docs/SAP_ERP/82265744ff764efb8b48ef431235214c/028f6754e90d8c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Master Data, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "028f6754e90d8c4ce10000000a4450e5) נוקבת בקוד VA23 בסניפט: ') VBAP Sales Inquiry (VA11, VA12, VA13) VBAP " +
+          "Sales Quotation (VA21, VA22, VA23) VBAP Sales Contract (VA41, VA42, VA43) VBAP Outbound Delivery " +
+          "(VL01N, VL02N, VL03N) LIPS ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "פריט הפישוט 'S4TWL - Fast entry of characteristic values in sales document' (רשימת 2025 FPS01 פריט " +
+        "13.12.7; רשימת 2023 FPS03 פריט 52.7) קובע שהחל מ-SAP S/4HANA 1610 ההזנה המהירה של ערכי מאפיינים מלשונית " +
+        "'Fast data entry' מוזגה ללשונית 'Configuration' בטרנזקציות תעודות מכירה, ומונה את VA23 בין הטרנזקציות " +
+        "שבהן הפריט רלוונטי. הפריט אינו נוקב במחליף ל-VA23; ספריית Fiori רושמת את VA23 כאפליקציית SAP GUI בסטטוס " +
+        "Published ב-S32OP, ללא successor. בנוסף רשומה בספרייה אפליקציית Fact sheet (SAP Fiori elements) בשם " +
+        "F1871 'Sales Quotation (S/4HANA)' ש-VA23 היא טרנזקציית ה-GUI המובילה שלה; F1871 אינה רשומה כ-successor " +
+        "של VA23.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: VA23_SIMPL2025,
+      recommendedAction:
+        "לבדוק אם נעשה שימוש בלשונית 'Fast data entry' ב-VA23 (או בשאר הטרנזקציות שהפריט מונה), ואם Business " +
+        "Function DIMP_SDUD פעילה במערכת; אם כן, לתכנן את המעבר ללשונית 'Configuration' לפי פריט הפישוט 'S4TWL - " +
+        "Fast entry of characteristic values in sales document' (רשימת 2025 FPS01, פריט 13.12.7). VA23 נשארת " +
+        "רשומה בספריית Fiori כאפליקציית SAP GUI בסטטוס Published ב-S32OP. לתצוגה בלאנצ'פד ניתן לבחון גם את F1871 " +
+        "'Sales Quotation (S/4HANA)', אפליקציית Fact sheet (SAP Fiori elements) שבה VA23 רשומה כטרנזקציית GUI " +
+        "מובילה. לאמת ב-SE93 במערכת היעד את קיום VA23 ואת מסך ה-Configuration בפועל.",
+    },
+    xrefs: ["tx:VA21", "tx:VA22", "table:VBAK", "table:VBAP"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) רשימות הפישוט: פריט 13.12.7 ברשימת 2025 FPS01 ופריט 52.7 ברשימת 2023 FPS03 נקראו; שניהם " +
+      "מונים את VA23 בשורת ה-'relevant'. status 'changed' מוגבל לשינוי שהפריט קובע (מיזוג לשונית 'Fast data " +
+      "entry' ללשונית 'Configuration') ואינו קובע מחליף ל-VA23; status.source הוא שורת פריט 13.12.7. (2) " +
+      "help.sap.com: 'VA23 Display Quotation' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות, מצוטטת רשומת 'Display " +
+      "Sales Quotations - VA23'), ו-'VA23 Display Quotation' בסקופ SAP_ERP (21 רשומות, מצוטטת רשומת 'Display " +
+      "Quotation', Business Package for Transportation Planner 1.4; הסניפט (6.18.latest) מדפיס 'Data Source or " +
+      "Data Store Transaction: VA23' ו-'The transaction VA23 in the ERP system is called when you access this " +
+      "iView'). (3) ספריית Fiori: fal-app.mjs VA23 --release S32OP (אפליקציית SAP GUI, Published, SD-SLS, " +
+      "successors '-', releases מ-S6OP עד S32OP) ו-fal-app.mjs F1871 --release S32OP (Fact sheet / SAP Fiori " +
+      "elements, Published, SD-SLS-QUT, טרנזקציית GUI מובילה VA23, predecessors ו-successors '-'). F1871 אינה " +
+      "ב-data/fiori/apps.ts ולכן אינה ב-xrefs. היסטוריה (Old → New): הרשומה הגנרית " +
+      "ב-data/verification/transactions-auto.ts (2026-09-24, ללא הכרעת מעמד; לפני הכתיבה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'changed' ברמת repository_verified) מוחלפת ברשומת מחקר זו עם " +
+      "status 'changed'. חמש שורות ההקשר שלה שאינן מצוטטות כאן (רשומות המאגר tx-intel.ts#VA23 " +
+      "ו-tcode-catalog.ts#VA23, 'Display Sales Documents' בצד S/4HANA (2025.001, loio " +
+      "06e8585a1cf04cacb5cd2cc5a38c8d0c), ושתי רשומות 'Characteristic Values in Application Documents', Retail " +
+      "בצד S/4HANA ו-Master Data בצד ה-ECC) הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות. לא בוצעה " +
+      "בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:VA41",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#VA41",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את VA41 כ'מכירות - חוזים' (יצירת חוזה מכירה: quantity contract / value contract), " +
+          "מודול SD.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VA41",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VA41",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-VA41 את הכותרת האנגלית 'Create Contract', מודול SD, תחום 'הסכמים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VA41",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Enabling of File Attachments During Sales Document Creation | What's New in SAP Enhancement Package 8 " +
+          "for ERP 6.0",
+        url: "https://help.sap.com/docs/SAP_ERP/39615c43587c4405aba2de8ebf33cd66/0327cc8207fa41cca4ef188edfcad8d3.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (SAP ERP, versionId 6.18.latest, loio 0327cc8207fa41cca4ef188edfcad8d3) נוקבת בקוד " +
+          "VA41 בסניפט: '(Create Sales Order) VA11 (Create Inquiry) VA21 (Create Quotation) VA31 (Create " +
+          "Scheduling Agreement) VA41 (Create Contract) Effects on Customizing You can enable file attachments " +
+          "during ...'. הסניפט מציג את VA41 כטרנזקציית 'Create Contract' בצד ה-ECC, ללא אזכור החלפה או הסרה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create Sales Documents | Sales",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/04b81d8f3787485f99b8600b35ac8d06.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Sales, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "04b81d8f3787485f99b8600b35ac8d06) נוקבת בקוד VA41 בסניפט: 'Related Information Create Sales Quotations " +
+          "- VA21 Create Sales Contracts - VA41 Create Sales Scheduling Agreements - VA31 Create Sales Orders - " +
+          "VA01 ...', וכן 'App IDs: VA21, VA41, VA31, VA01 This app comes with different tiles or functions that " +
+          "are embedded in other apps.'. הסניפט מונה את VA41 בין ה-App IDs של נושא 'Create Sales Documents' " +
+          "ב-S/4HANA 2025 FPS01 On-Premise, ואינו מזכיר החלפה או הסרה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Retail",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/028f6754e90d8c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Retail, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "028f6754e90d8c4ce10000000a4450e5) נוקבת בקוד VA41 בסניפט: '... Sales Inquiry (VA11, VA12, VA13) VBAP " +
+          "Sales Quotation (VA21, VA22, VA23) VBAP Sales Contract (VA41, VA42, VA43) VBAP Outbound Delivery " +
+          "(VL01N, VL02N, VL03N) LIPS Inbound ... , VA02, VA03, VA11, ...'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Master Data",
+        url: "https://help.sap.com/docs/SAP_ERP/82265744ff764efb8b48ef431235214c/028f6754e90d8c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Master Data, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "028f6754e90d8c4ce10000000a4450e5) נוקבת בקוד VA41 בסניפט: '... Sales Inquiry (VA11, VA12, VA13) VBAP " +
+          "Sales Quotation (VA21, VA22, VA23) VBAP Sales Contract (VA41, VA42, VA43) VBAP Outbound Delivery " +
+          "(VL01N, VL02N, VL03N) LIPS Inbound ... , VA02, VA03, VA11, ...'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App VA41 'Create Contract, Create Sales Contracts' (SAP GUI), release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('VA41')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את VA41 כאפליקציית SAP GUI בשם 'Create Contract, Create Sales " +
+          "Contracts' במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'; fal-app.mjs --tcode VA41 מדפיס עבור " +
+          "רשומה זו successors 0 (אין אפליקציית יורש רשומה).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Sales Contracts - Version 2 | What's New in SAP S/4HANA 2022",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/7403eb76beb946278252e81dd558e335.html?locale=en-US&state=PRODUCTION&version=2022.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2022.000",
+        accessedAt: DATE25,
+        claim:
+          "גוף הנושא (נקרא דרך sap-help-body.mjs) מתאר את האפליקציה החדשה 'Manage Sales Contracts - Version 2' " +
+          "(Scope Item I9I, רכיב SD-SLS-OA-CCO, Valid as Of SAP S/4HANA 2022), המאפשרת ליצור, לשנות ולהציג חוזי " +
+          "מכירה בתוך האפליקציה, וקובע: 'The individual apps for creating, changing, and displaying sales " +
+          "contracts have been renamed.' טבלת השמות מציגה 'Create Sales Contracts - VA41' (שם חדש) מול 'Create " +
+          "Sales Contracts' (שם ישן). הנושא אינו קובע ש-VA41 הוחלפה או הוסרה.",
+        verificationLevel: "sap_official_verified",
+      },
+      VA41_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 52.7 " +
+          "S4TWL - Fast entry of characteristic values in sales document",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט 'S4TWL - Fast entry of characteristic values in sales document' (רכיב IS-MP-SD, SAP Note 2381843) " +
+          "ברשימת 2023 FPS03 נקרא במלואו, בנוסח זהה לפריט 13.12.7 ברשימת 2025 FPS01: מיזוג לשונית 'Fast data " +
+          "entry' ללשונית 'Configuration' בטרנזקציות תעודות מכירה, כש-VA41 מופיעה ברשימת הטרנזקציות שבהן הפריט " +
+          "רלוונטי ('VA41, VA42, VA43. You are likely using the 'Fast data entry' tab page if there are own ...'). " +
+          "הפריט אינו נוקב במחליף ל-VA41.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "פריט הפישוט 'S4TWL - Fast entry of characteristic values in sales document' (רשימת 2025 FPS01 פריט " +
+        "13.12.7; ברשימת 2023 FPS03 פריט 52.7) קובע שהחל מ-SAP S/4HANA 1610 ההזנה המהירה של ערכי מאפיינים " +
+        "מלשונית 'Fast data entry' מוזגה ללשונית 'Configuration', וזה חל גם על VA41 אם נעשה בו שימוש בלשונית זו. " +
+        "הפריט אינו נוקב במחליף ל-VA41; הטרנזקציה עצמה רשומה בספריית ה-Fiori כאפליקציית SAP GUI בסטטוס Published " +
+        "במהדורת S/4HANA 2025 FPS01, ללא אפליקציית יורש רשומה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: VA41_SIMPL2025,
+      recommendedAction:
+        "לבדוק אם נעשה שימוש בלשונית 'Fast data entry' ב-VA41; הפריט רלוונטי ככל הנראה כש-Business Function " +
+        "DIMP_SDUD (Discrete Indus. - Mill Products) פעילה (בדיקה ב-SFW_BROWSER תחת DIMP). אם כן, לבצע את הגדרות " +
+        "ה-Customizing לקונפיגורציית פריט תעודת מכירה לפי SAP Note 2319234, ולשקול הגדרת Fcode 'UECO' כלשונית " +
+        "הכניסה במסך הסקירה דרך 'Define Sales Document types' (VOV8). לאמת ב-SE93 במערכת היעד את קיום VA41 ואת " +
+        "מעמדו המדויק.",
+    },
+    xrefs: ["table:VBAK", "table:VBAP", "tx:VA42", "tx:VA31", "tx:VOV8"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) המאגר: data/tx-intel.ts#VA41 (מכירות-חוזים, quantity/value contract), " +
+      "data/tcode-catalog.ts#VA41 (Create Contract, תחום הסכמים). (2) sap-help-search.mjs: 'VA41 Create " +
+      "Contract' בסקופ SAP_S4HANA_ON-PREMISE (21 תוצאות) ובסקופ SAP_ERP (21 תוצאות, מצוטטת רשומת EHP8 " +
+      "'Enabling of File Attachments...'), 'VA41 Manage Contracts Fiori' בסקופ SAP_S4HANA_ON-PREMISE (21 " +
+      "תוצאות). (3) sap-help-body.mjs על הנושא 'Manage Sales Contracts - Version 2' (loio " +
+      "7403eb76beb946278252e81dd558e335, What's New 2022): האפליקציות הנפרדות ליצירה, שינוי ותצוגה של חוזי " +
+      "מכירה שונו בשמן, ו-'Create Sales Contracts' נקראת מעתה 'Create Sales Contracts - VA41'; הנושא אינו קובע " +
+      "החלפה או הסרה של VA41. (4) fal-app.mjs --tcode VA41 במהדורה S32OP: VA41 רשומה כאפליקציית SAP GUI " +
+      "'Create Contract, Create Sales Contracts', successors 0; לא אותרה אפליקציית Fiori elements נפרדת עם " +
+      "VA41 כקוד מוביל. (5) פריטי הפישוט 52.7 (2023 FPS03) ו-13.12.7 (2025 FPS01) נקראו במלואם מהטקסט המחולץ: " +
+      "נוסח זהה, עוסק במיזוג לשונית 'Fast data entry' ל-'Configuration' בטרנזקציות תעודות מכירה (כולל VA41 " +
+      "ברשימת הרלוונטיות), מותנה ב-Business Function DIMP_SDUD ובשימוש קודם בלשונית. הפריט אינו קובע החלפה, " +
+      "הסרה או מחליף לטרנזקציה כולה; status 'changed' מוגבל לשינוי המסך הזה בלבד, כמו ב-tx:VA01/VA02/VA03 " +
+      "(אותו פריט, אותה מגבלה). היסטוריה (Old → New): הרשומה הגנרית ב-transactions-auto.ts (2026-09-24, ללא " +
+      "הכרעת מעמד; פריטי הפישוט סומנו 'טרם נקרא במחקר'; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר " +
+      "'unchanged' ברמת repository_verified) → רשומה מחקרית עם status 'changed' (2026-09-25); שורות ה-evidence " +
+      "הרשמיות של הרשומה הגנרית נשמרו. לא בוצעה בדיקה במערכת SAP חיה. הרשומה אינה נושאת שדה reviewer, כמוסכמת " +
+      "הקטלוג.",
+  },
+  {
+    id: "tx:VA42",
+    evidence: [
+      VA42_HELP2025,
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App VA42 'Change Contract - VA42' (SAP GUI), release S32OP (SAP S/4HANA 2025 " +
+          "FPS01, On-Premise)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('VA42')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות של Fiori (fal-app.mjs VA42 --release S32OP) רושמת את VA42 כאפליקציית SAP GUI בשם " +
+          "'Change Contract - VA42', בסטטוס 'Published', רכיב SD-SLS, עם intent 'SalesContract-change' ו-'GUI " +
+          "transactions: leading VA42'. הסקריפט מדפיס 'predecessors: -; successors: -', כלומר הספרייה אינה רושמת " +
+          "מחליף במהדורת 2025 FPS01. רשימת המהדורות שהספרייה מדפיסה נעה מ-S6OP (1610) עד S32OP (2025 FPS01).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.12.7 " +
+          "S4TWL - Fast entry of characteristic values in sales document",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (ברשימת 2023 FPS03 פריט 52.7) קובע: 'As of SAP S/4HANA 1610, the fast entry of characteristic " +
+          "values functionality from tab page Fast data entry is merged into tab page Configuration in sales " +
+          "document transactions like VA01, VA02, and VA03'. לפי הפריט הוא 'possibly relevant if the Business " +
+          "Function DIMP_SDUD (Discrete Indus. - Mill Products) is active', והוא רלוונטי 'if you are using Fast " +
+          "data entry tab page in one or more of the transactions VA01, VA02, VA03, VA11, VA12, VA13, VA21, VA22, " +
+          "VA23, VA41, VA42, VA43'. הפריט מתאר שינוי בלשונית תצורה בתרחיש DIMP_SDUD ואינו קובע החלפה או הסרה של " +
+          "VA42.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.15.34 " +
+          "S4TWL - Fashion Contract Disablement",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (ברשימת 2023 FPS03 פריט 60.43) חל על המרה לגרסת S/4HANA שלפני 1709 FPS02 כאשר משתמשים ב-Fashion " +
+          "Contracts ב-SAP Fashion Management, וקובע: 'Fashion contracts are not available prior to SAP S/4HANA " +
+          "1709 FPS02'. בין הפעולות הנדרשות: 'You must close the existing open fashion contract documents (e.g. " +
+          "transaction VA42)'. הרלוונטיות נבדקת ב-SE16N על VBAK עם VBTYP = 'G' ו-FSH_CQ_CHECK = 'X'. VA42 מוזכרת " +
+          "כדוגמת טרנזקציה לסגירת חוזי Fashion פתוחים; הפריט אינו קובע מעמד ל-VA42.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#VA42",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את VA42 כ'מכירות - חוזים', מודול SD.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VA42",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VA42",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-VA42 את הכותרת האנגלית 'Change Contract'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VA42",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Change Sales Documents | Sales",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/26f84fadc88e4242bb75b0ad86cc9e80.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Sales, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "26f84fadc88e4242bb75b0ad86cc9e80) נוקבת בקוד VA42 בסניפט: 'Change Sales Documents App IDs: VA22, VA42, " +
+          "VA32, VA02 With this app, you can change a specific type of sales document. ... Related Information " +
+          "...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Retail",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/028f6754e90d8c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Retail, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "028f6754e90d8c4ce10000000a4450e5) נוקבת בקוד VA42 בסניפט: '... Inquiry (VA11, VA12, VA13) VBAP Sales " +
+          "Quotation (VA21, VA22, VA23) VBAP Sales Contract (VA41, VA42, VA43) VBAP Outbound Delivery (VL01N, " +
+          "VL02N, VL03N) LIPS Inbound Delivery ... , VA03, VA11, ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Master Data",
+        url: "https://help.sap.com/docs/SAP_ERP/82265744ff764efb8b48ef431235214c/028f6754e90d8c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Master Data, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "028f6754e90d8c4ce10000000a4450e5) נוקבת בקוד VA42 בסניפט: ', VA03, VA11, VA12, VA13, VA21, VA22, VA23, " +
+          "VA41, VA42, VA43) Stock/Requirements List for Fashion (FSH_MD04) Bin Stock per Material (LS24) Total " +
+          "...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "עמוד העזרה הרשמי מתעד את VA42 (App ID: VA42, Change Sales Contracts) ב-S/4HANA On-Premise 2025 FPS01, " +
+        "וספריית ה-Fiori אינה רושמת לה מחליף במהדורה זו. פריט הפישוט 'S4TWL - Fast entry of characteristic " +
+        "values in sales document' משנה את לשונית ה-Fast data entry במערכות עם DIMP_SDUD, ואינו משנה את מעמד " +
+        "הטרנזקציה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: VA42_HELP2025,
+      recommendedAction:
+        "להמשיך לעבד חוזי מכירה ב-VA42. במערכות עם Business Function DIMP_SDUD (Mill Products) לבדוק את הגדרות " +
+        "לשונית ה-Configuration לפי 'S4TWL - Fast entry of characteristic values in sales document'. במערכות SAP " +
+        "Fashion Management עם חוזי Fashion פתוחים (VBAK, VBTYP = 'G', FSH_CQ_CHECK = 'X') לבדוק את 'S4TWL - " +
+        "Fashion Contract Disablement' לפני המרה לגרסה שלפני 1709 FPS02. לא בוצעה בדיקה במערכת SAP חיה.",
+    },
+    xrefs: ["tx:VA41", "tx:VA43"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מחקר ל-tx:VA42: (1) רשומות במאגר: data/tx-intel.ts#VA42 (מודול SD, 'שינוי חוזה מכירה'), " +
+      "data/tcode-catalog.ts#VA42 ('Change Contract'), ורשומה דטרמיניסטית קודמת " +
+      "ב-data/verification/transactions-auto.ts (הקשר בלבד, ללא הכרעת מעמד, 2026-09-24). (2) חיפושים: 'VA42 " +
+      "Change Contract' בסקופ SAP_S4HANA_ON-PREMISE (21 תוצאות; צוטטו 'Change Sales Contracts - VA42', " +
+      "'Display Sales Contracts - VA43', 'Manage Sales Contracts - Version 2'); 'VA42' בסקופ SAP_ERP (21 " +
+      "תוצאות, אזכורים ברשימות טרנזקציות משותפות בלבד, ללא עמוד ECC ייעודי ל-VA42). לא נקרא גוף עמוד עם " +
+      "sap-help-body.mjs; הטענות מבוססות על הכותרת וה-snippet. (3) fal-app.mjs VA42 --release S32OP (2025 " +
+      "FPS01): אפליקציית SAP GUI 'Change Contract - VA42', 'successors: -'. (4) פריטי ה-Simplification List " +
+      "שאותרו ב-audit/master-completion/simpl-tcode-index.json (2023 FPS03: 52.7, 60.43; 2025 FPS01: 13.12.7, " +
+      "13.15.34) נקראו מ-scratchpad/official/SIMPL_OP2023.pdf.txt ו-SIMPL_OP2025.pdf.txt. פער: אין מקור רשמי " +
+      "נפרד לצד ECC של VA42. היסטוריה (Old → New): הרשומה הגנרית tx:VA42 ב-transactions-auto.ts (2026-09-24, " +
+      "ללא הכרעת מעמד; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת " +
+      "repository_verified) → רשומה מחקרית זו עם status 'unchanged' (2026-09-25). חמש שורות ההקשר שלה שאינן " +
+      "מצוטטות כאן (רשומות המאגר tx-intel.ts#VA42 ו-tcode-catalog.ts#VA42, 'Change Sales Documents' בצד " +
+      "S/4HANA (2025.001, loio 26f84fadc88e4242bb75b0ad86cc9e80), ושתי רשומות 'Characteristic Values in " +
+      "Application Documents', Retail בצד S/4HANA ו-Master Data בצד ה-ECC) הועתקו כלשונן כשורות context, שאינן " +
+      "נספרות ברמת האימות; שורת ההקשר של פריט 52.7 ברשימת 2023 FPS03 לא הועתקה: הפריט נקרא ונזכר בשורת פריט " +
+      "13.12.7. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:VA43",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VA43",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "המאגר המקומי רושם את VA43 במודול SD, אזור 'הסכמים', עם השם העברי 'הצגת חוזה' והשם האנגלי 'Display " +
+          "Contract'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VA43",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Display Sales Contracts - VA43",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/6b65b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Sales, versionId 2025.001, loio 6b65b65334e6b54ce10000000a174cb4) מתארת בסניפט את " +
+          "'Display Sales Contracts - VA43' (App ID: VA43) כאפליקציה שבה 'you can display detailed information " +
+          "about sales contracts', ומפנה מ-VA43 אל 'Change Sales Contracts - VA42' לשינוי החוזה המוצג ואל 'Create " +
+          "Sales Orders - VA01' ליצירת הזמנות המשך.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App VA43 'Display Contract - VA43' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('VA43')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את VA43 כאפליקציה 'Display Contract - VA43' מסוג SAP GUI, רכיב " +
+          "SD-SLS, בסטטוס 'Published' במהדורת S/4HANA 2025 FPS01 (S32OP), עם תפקידים כגון " +
+          "SAP_BR_INTERNAL_SALES_REP ו-SAP_BR_SALES_MANAGER וקטלוגים עסקיים SAP_SD_BC_CONTR_DISPL " +
+          "ו-SAP_SD_BC_CONTR_PROC_OP. רשימת ה-releases שמודפסת כוללת את S6OP (1610) ועד S32OP (2025 FPS01) " +
+          "ל-On-Premise, וכוללת גם גרסאות PCE ואת S36 (2602) ו-S37 (2608); predecessors ו-successors לא הודפסו " +
+          "('-').",
+        verificationLevel: "sap_official_verified",
+      },
+      VA43_SIMPL2025,
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#VA43",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את VA43 כ'מכירות - חוזים', מודול SD.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VA43",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Display Sales Documents | Sales",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/06e8585a1cf04cacb5cd2cc5a38c8d0c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Sales, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "06e8585a1cf04cacb5cd2cc5a38c8d0c) נוקבת בקוד VA43 בסניפט: 'Display Sales Documents App IDs: VA23, VA43, " +
+          "VA33, VA03 With this app, you can display a specific type of sales document. ... Related ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Retail",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/028f6754e90d8c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Retail, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "028f6754e90d8c4ce10000000a4450e5) נוקבת בקוד VA43 בסניפט: '... (VA11, VA12, VA13) VBAP Sales Quotation " +
+          "(VA21, VA22, VA23) VBAP Sales Contract (VA41, VA42, VA43) VBAP Outbound Delivery (VL01N, VL02N, VL03N) " +
+          "LIPS Inbound Delivery ... , VA11, VA12, VA13, ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Master Data",
+        url: "https://help.sap.com/docs/SAP_ERP/82265744ff764efb8b48ef431235214c/028f6754e90d8c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Master Data, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "028f6754e90d8c4ce10000000a4450e5) נוקבת בקוד VA43 בסניפט: '... (VA11, VA12, VA13) VBAP Sales Quotation " +
+          "(VA21, VA22, VA23) VBAP Sales Contract (VA41, VA42, VA43) VBAP Outbound Delivery (VL01N, VL02N, VL03N) " +
+          "LIPS Inbound Delivery ... , VA11, VA12, VA13, ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F2026 'Sales Contract (S/4HANA)' (SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2026')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F2026 'Sales " +
+          "Contract (S/4HANA)' (SAP Fiori elements, 'Published') עם קוד הטרנזקציה המוביל VA43.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "פריט הפישוט 'S4TWL - Fast entry of characteristic values in sales document' (רשימת 2025 FPS01 פריט " +
+        "13.12.7; ברשימת 2023 FPS03 פריט 52.7) קובע שהחל מ-SAP S/4HANA 1610 ההזנה המהירה של ערכי מאפיינים " +
+        "מלשונית 'Fast data entry' מוזגה ללשונית 'Configuration' בטרנזקציות תעודות מכירה, ומונה את VA43 בין " +
+        "הטרנזקציות שבהן הפריט רלוונטי. הפריט אינו נוקב במחליף ל-VA43; ספריית ה-Fiori רושמת את VA43 כאפליקציית " +
+        "SAP GUI בסטטוס 'Published' ב-S32OP, ללא predecessor או successor מודפסים.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: VA43_SIMPL2025,
+      recommendedAction:
+        "לבדוק אם נעשה שימוש בלשונית 'Fast data entry' ב-VA43 (או ב-VA01-03, VA11-13, VA21-23, VA41, VA42 שהפריט " +
+        "מונה); הפריט רלוונטי ככל הנראה כש-Business Function DIMP_SDUD (Discrete Indus. - Mill Products) פעילה " +
+        "(בדיקה ב-SFW_BROWSER תחת DIMP). אם כן, לבצע את הגדרות ה-Customizing לקונפיגורציית פריט תעודת מכירה לפי " +
+        "SAP Note 2319234, ולשקול הגדרת Fcode 'UECO' כלשונית הכניסה במסך הסקירה דרך 'Define Sales Document " +
+        "types' (VOV8). לאמת ב-SE93 במערכת היעד את קיום VA43 ואת מסך ה-Configuration בפועל.",
+    },
+    xrefs: ["table:VBAK", "table:VBAP", "tx:VA41", "tx:VA42", "tx:VOV8"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) המאגר: data/tcode-catalog.ts#VA43 (SD, 'הסכמים', 'הצגת חוזה'/'Display Contract'); גם " +
+      "data/tx-intel.ts#VA43 מכיל רשומה (SD, 'מכירות - חוזים') שלא צוטטה כאן, ו-VA43 רשומה " +
+      "ב-ROUTE_MANIFEST.tcodes. (2) help.sap.com, חיפוש 'VA43 Display Contract' בסקופ SAP_S4HANA_ON-PREMISE: " +
+      "21 תוצאות; צוטט 'Display Sales Contracts - VA43' (עמוד האפליקציה הייעודי, loio " +
+      "6b65b65334e6b54ce10000000a174cb4). 'Manage Sales Contracts - Version 2' (שינויי שם האפליקציה, 2022) " +
+      "נבדק כרקע בלבד ולא צוטט לסטטוס. (3) ספריית Fiori, fal-app.mjs VA43 --release S32OP: אפליקציית SAP GUI " +
+      "'Display Contract - VA43', רכיב SD-SLS, predecessors ו-successors לא הודפסו. (4) רשימת הפישוט 2025 " +
+      "FPS01 (מסמך 1.36) פריט 13.12.7 נקראה במלואה, והפריט מונה את VA43 במפורש בסעיף 'How to Determine " +
+      "Relevancy'. status 'changed' מוגבל לשינוי המסך שהפריט קובע (מיזוג לשוניות) ואינו קובע מחליף ל-VA43. " +
+      "היסטוריה (Old → New): הרשומה הגנרית tx:VA43 ב-transactions-auto.ts (2026-09-24, ללא הכרעת מעמד; לפני " +
+      "הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified) → רשומה מחקרית " +
+      "זו עם status 'changed' (2026-09-25). חמש שורות ההקשר שלה שאינן מצוטטות כאן (רשומת המאגר " +
+      "tx-intel.ts#VA43, 'Display Sales Documents' בצד S/4HANA (2025.001, loio " +
+      "06e8585a1cf04cacb5cd2cc5a38c8d0c), שתי רשומות 'Characteristic Values in Application Documents', Retail " +
+      "בצד S/4HANA ו-Master Data בצד ה-ECC, ורשומת ספריית ה-Fiori של F2026 'Sales Contract (S/4HANA)') הועתקו " +
+      "כלשונן כשורות context, שאינן נספרות ברמת האימות; שורת ההקשר של פריט 52.7 ברשימת 2023 FPS03 לא הועתקה: " +
+      "הפריט, באותה כותרת, נזכר בשורת פריט 13.12.7. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:VBO1",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VBO1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את VBO1 כ'יצירת הסכם הנחות בדיעבד' (Create Rebate Agreement), מודול SD, תחום 'הנחות " +
+          "בדיעבד'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VBO1",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 - Feature Pack Stack 3 (Document Version 1.35) · item 39.5 S4TWL - SD Rebate Processing replaced " +
+          "by Settlement Management, pp. 987-988",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 39.5 'S4TWL - SD Rebate Processing replaced by Settlement Management' (Application Components: " +
+          "SD-BIL-RB; Related Note 2267377, Business Impact). תחת Description: 'In general, SD Rebate Processing " +
+          "is not available within SAP S/4HANA. The functional equivalent of SD Rebate Processing in SAP S/4HANA " +
+          "is Settlement Management', עם חריג: 'CRM TPM customers can still use SD Rebate Processing for their " +
+          "business process, but have to adapt to an SAP S/4HANA-optimized solution' (note 2267344). תחת Business " +
+          "Process-Related Information: 'existing rebate agreements can only be processed up until the end of the " +
+          "validity date of the agreement and must then be closed by a final settlement. New agreements can only " +
+          "be created based on condition contracts. Therefore, the corresponding transaction codes VBO1 resp. VB(D " +
+          "for the creation of rebate agreements is not available anymore.' מיד אחרי כן טבלה תחת הכותרת " +
+          "'Transaction not available in SAP S/4HANA': VBO1 'Create Rebate Agreement', VB(D 'Extend Rebate " +
+          "Agreements'. תחת How to Determine Relevancy: 'Use SE16 to check table KONA: If table KONA contains " +
+          "records with ABTYP = ‘A’ then SD Rebate Processing is used.' תחת Custom code-related information: SAP " +
+          "Note 2226380. הפריט אינו נוקב בטרנזקציה או באפליקציית Fiori יורשת ספציפית; Settlement Management " +
+          "ו-Condition Contract Management מובאים כתחום פונקציונלי. עמודים 987-988.",
+        verificationLevel: "sap_official_verified",
+      },
+      VBO1_SIMPL2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintain Contract - Condition Contracts",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/b917bfcacbca432fafd321185366504d/64d74958146d9244e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת חיפוש help.sap.com (שאילתה 'Create Rebate Agreement', היקף SAP_S4HANA_ON-PREMISE, deliverable " +
+          "'Purchasing Rebate Management', loio 64d74958146d9244e10000000a4450e5, versionId 2025.001). הסניפט: " +
+          "'Maintain Contract - Condition Contracts App ID: WCOCO With this app, you can create and change sales " +
+          "rebate agreements, purchasing rebate agreements, external commission agreements, internal " +
+          "commission...'. גוף העמוד לא נקרא, רק הכותרת והסניפט. הרשומה מובאת כהקשר לתחום שהפריטים מכנים condition " +
+          "contracts, ואינה קובעת תחליף ל-VBO1.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "restricted",
+      he:
+        "פריט הפישוט 'S4TWL - SD Rebate Processing replaced by Settlement Management' קובע בלשונו ש-'the " +
+        "corresponding transaction codes VBO1 resp. VB(D for the creation of rebate agreements is not available " +
+        "anymore', ומדפיס את VBO1 בטבלה 'Transaction not available in SAP S/4HANA' (2023 FPS03 ו-2025 FPS01, " +
+        "אותו נוסח). התווית 'מוגבל' נרשמה משום שסטטוס not_available מחייב יורש ביקום הפרויקט, והפריט אינו נוקב " +
+        "בטרנזקציה או באפליקציה יורשת; אין לקרוא בה זמינות חלקית של VBO1. החריג היחיד שהפריט מתעד, ללקוחות CRM " +
+        "TPM, חל על SD Rebate Processing כתחום ולא על VBO1 בשמה, ו-note 2267344 לא נקרא.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: VBO1_SIMPL2025,
+      recommendedAction:
+        "אין לבסס תהליכי הנחות בדיעבד חדשים ב-S/4HANA On-Premise על VBO1; לפי הפריט, הסכמים חדשים נוצרים על בסיס " +
+        "condition contracts (Settlement Management), ויש לבחון את התחום מול הצוות המתאים. במערכת קונברסיה יש " +
+        "לבדוק ב-SE16 את טבלה KONA לרשומות עם ABTYP = 'A', ולוודא ב-SE93 במערכת היעד את מצב הקוד VBO1. לקוחות " +
+        "CRM TPM יבדקו את note 2267344 לפני החלטה.",
+    },
+    xrefs: ["tx:VBO2", "tx:VBO3"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה שאומת: (1) שני פריטי הפישוט (2023 FPS03 §39.5 עמ' 987-988, 2025 FPS01 §11.1.14 עמ' 1015-1016), באותו " +
+      "נוסח, קובעים ש-VBO1 'is not available anymore' ומדפיסים אותה בטבלת 'Transaction not available in SAP " +
+      "S/4HANA'; הטקסט נקרא מחילוצי pdftotext בפרויקט (scratchpad/official/SIMPL_OP2023.pdf.txt, " +
+      "SIMPL_OP2025.pdf.txt). (2) חיפוש help.sap.com אחר 'Create Rebate Agreement' (היקף " +
+      "SAP_S4HANA_ON-PREMISE, 21 רשומות) החזיר את 'Maintain Contract - Condition Contracts' (WCOCO); גוף העמוד " +
+      "לא נקרא, רק הסניפט. (3) פלט scripts/fal-app.mjs WCOCO --release S32OP: 'Maintain Contract - Condition " +
+      "Contracts | SAP GUI / SAP GUI | Published', 'GUI transactions: leading WCOCO'; WCOCO אינה " +
+      "ב-data/fiori/apps.ts ואינה ב-lib/route-manifest.generated.ts, ולכן אינה נרשמת כ-successor או כ-xref. " +
+      "(4) חיפוש help.sap.com אחר VBO1 בהיקף SAP_S4HANA_ON-PREMISE (21 רשומות) ובהיקף SAP_ERP (21 רשומות בהרצה " +
+      "של 2026-09-25; ב-2026-09-24 נרשמו 19, הספירה משתנה בין הרצות) לא החזיר רשומה שמדפיסה את הקוד בכותרת או " +
+      "בסניפט; זה ממצא שלילי מתועד ולא הכרעה. (5) ספריית Fiori: fal-app.mjs --tcode VBO1 --release S32OP הדפיס " +
+      "'leading app(s): none; GUI app entry: none'. היסטוריה (Old → New): הרשומה שנוצרה ב-transactions-auto.ts " +
+      "(2026-09-24): חיפוש VBO1 בהיקף SAP_S4HANA_ON-PREMISE 21 רשומות, בהיקף SAP_ERP 19 רשומות, 0 מצוטטות; " +
+      "ספריית Fiori S32OP: הקוד אינו רשום כאפליקציה, 0 אפליקציות עם קוד מוביל VBO1 (אומת שוב ב-fal-app.mjs " +
+      "--tcode VBO1 --release S32OP); טקסט פריטי הפישוט הובא שם כהקשר ללא הכרעה → כאן נקרא וסוכם, ונרשם סטטוס " +
+      "(ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה; חדש: restricted). לא בוצעה " +
+      "בדיקה במערכת SAP חיה; notes 2267377, 2267344 ו-2226380 לא נקראו.",
+  },
+  {
+    id: "tx:VC/2",
+    evidence: [
+      VC2_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Sales Activities (Simplification List for SAP S/4HANA 2023 FPS03, document version 1.35, item " +
+          "39.3)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט (S4TWL - Sales Activities) מופיע גם במהדורת 2023 FPS03 עם אותה שורה מדויקת עבור VC/2: 'VC/2 " +
+          "Customer Master Data Sheet (as of Release 1610) - Use Fiori App \"Customer 360 Object Page\" instead.' " +
+          "הקביעה עקבית בשתי מהדורות רשמיות רצופות. נקרא במלואו, scratchpad/official/SIMPL_OP2023.pdf.txt שורה " +
+          "51790.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F2187 'Customer - 360° View' (SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2187')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית (node scripts/fal-app.mjs F2187 --release S32OP) רושמת את F2187 'Customer - " +
+          "360° View' עם קוד טרנזקציה מוביל (leading GUI transaction) VC/2, זמין החל ממהדורה S6OP (1610) ועד S32OP " +
+          "(2025 FPS01), שם היישום מסומן 'Deprecated' עם ממשיך F2187A 'Customer 360° View – Version 2'. זהו קישור " +
+          "טכני בין VC/2 לאפליקציה, אך שם היישום כאן ('Customer - 360° View') אינו זהה מילולית לשם שבפריט הפישוט " +
+          "('Customer 360 Object Page'); לא נמצא מקור המצהיר שאלו שני שמות של יישום אחד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VC/2",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את VC/2 כ'מערכת מידע לנתוני אב לקוח', מודול SD, תחום 'דיווח'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VC/2",
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "פריט S4TWL - Sales Activities (רשימות הפישוט הרשמיות של 2023 FPS03 ו-2025 FPS01) קובע ש-VC/2 שייכת " +
+        "לקבוצת טרנזקציות תמיכת המכירות (SD-CAS) שאינה חלק מארכיטקטורת היעד של S/4HANA, ומונה אותה תחת הכותרת " +
+        "'Transactions not supported in SAP S/4HANA', עם הפניה לאפליקציית Fiori שהוא מכנה 'Customer 360 Object " +
+        "Page'. ספריית ה-Fiori הרשמית מקשרת טכנית בין VC/2 לאפליקציה F2187 'Customer - 360° View', אך אין מקור " +
+        "רשמי שמאשר שזה אותו יישום, ולכן ההחלפה מסומנת כאלטרנטיבת Fiori ולא כמעבר מאושר לקוד קנוני יחיד.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: VC2_SIMPL2025,
+      recommendedAction:
+        "לעבור לאפליקציית ה-Fiori שהפריט מכנה 'Customer 360 Object Page' במקום VC/2. ספריית האפליקציות רושמת את " +
+        "VC/2 כטרנזקציית ה-GUI המובילה של F2187 'Customer - 360° View', שעצמה מסומנת 'Deprecated' במהדורת 2025 " +
+        "FPS01 לטובת F2187A 'Customer 360° View – Version 2'. יש לאמת מול Fiori Launchpad של מערכת היעד איזו " +
+        "אפליקציה פעילה שם ומאיזו מהדורה, לפני קביעת קוד ממשיך יחיד.",
+    },
+    lastVerifiedAt: DATE25,
+    notes:
+      "המחקר קרא את גוף רשימת הפישוט המלא בשתי המהדורות (לא רק כותרת/סניפט): " +
+      "scratchpad/official/SIMPL_OP2025.pdf.txt שורה 59323 ו-SIMPL_OP2023.pdf.txt שורה 51790, שם מופיעה שורת " +
+      "VC/2 בתוך רשימת 'Transactions not supported in SAP S/4HANA' תחת S4TWL - Sales Activities (SD-CAS). node " +
+      "scripts/fal-app.mjs F2187 --release S32OP אישר קישור GUI-transaction (leading VC/2) לאפליקציה F2187, " +
+      "זמינה מ-S6OP (1610). node scripts/sap-help-search.mjs \"Customer 360 Object Page\" --size 8 --json " +
+      "(2026-09-25): 21 רשומות, אחת רלוונטית: 'Customer - 360 Degree View' (What's New in SAP S/4HANA, " +
+      "versionId 100, loio f3b3b08d3ee74029af95a35b4918a3eb), שהסניפט שלה מתאר את האפליקציה 'Customer - 360° " +
+      "View' ומזכיר ניווט 'from the object page'; הסניפט אינו קובע במפורש ש-'Customer 360 Object Page' הוא שם " +
+      "של F2187, ולכן פער השם נשאר פתוח. לא נקבע successor מובנה: fiori:F2187 אינו קיים כרגע " +
+      "ב-data/fiori/apps.ts (יקום הפרויקט לפי HOUSE-RULES §1), כך שהפניה מבנית אליו (ב-status.successor או " +
+      "ב-xrefs) תיכשל בבדיקת dangling-xref; יש להוסיף ולאמת את F2187 בקטלוג ה-Fiori לפני שניתן לקבוע successor " +
+      "פורמלי או xref. שם היישום שבפריט הפישוט ('Customer 360 Object Page') אינו זהה מילולית לשם בספריית " +
+      "ה-Fiori ('Customer - 360° View'); ייתכן שם ישן או מקביל לאותו יישום, אך לא אושר במקור רשמי, ולכן לא " +
+      "נקבע status החלטי כמו replaced או not_available. היסטוריה (Old → New): הרשומה הגנרית tx:VC/2 " +
+      "ב-transactions-auto.ts (2026-09-24, ללא הכרעת מעמד; ישן: verification_required לפי report-coverage.mjs " +
+      "--ids, נמדד לפני הכתיבה) → רשומה מחקרית זו עם status 'fiori_alternative_available' (2026-09-25); ארבע " +
+      "שורות ה-evidence של הרשומה הגנרית מצוטטות כאן. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:VD01",
+    evidence: [
+      VD01_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 3.19 " +
+          "S4TWL - Business Partner Approach",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (עמ' 153-155, Business Impact Note 2265093) קובע: 'the specific transactions like XD01, XD02, " +
+          "XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03 etc. are not available in SAP S/4HANA " +
+          "on-premise'; המשפט 'These will be redirected to transaction BP' אינו מופיע בנוסח 2023, אך הטבלה מציגה " +
+          "את VD01 תחת 'Transactions that get redirected to transaction BP'. הפריט קובע גם שמערכת שבה " +
+          "ה-customer/vendor integration (CVI) אינו קיים תידחה במעבר.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Related Notes (Installation Guide for SAP S/4HANA 1709)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f3626c729f7d41599bfb80beed1b69ef/94017f586d809344e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=1709.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1709.latest",
+        accessedAt: DATE24,
+        claim:
+          "סניפט רשומת החיפוש מונה את '2265093 - S4TWL - Business Partner Approach' ברשימת ההערות הקשורות למדריך " +
+          "ההתקנה של 1709; מספר ההערה זהה לזה המודפס בכותרות שני פריטי הפישוט. גוף ההערה עצמה לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Sales Documents with SEPA Mandate",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/3f0760a8c2b244e1afc1571bd27e054f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "דף תפעולי תחת SAP_S4HANA_ON-PREMISE, versionId 2025.001, כותב בסניפט: 'You have connected at least one " +
+          "term of payment with a SEPA-relevant payment method in the customer master data (transaction " +
+          "VD01/VD02)'. הדבר עומד בסתירה לפריט הפישוט הקובע ש-VD01 אינה זמינה ומנותבת ל-BP; ככל הנראה סחף תיעוד, " +
+          "ופריט הפישוט נשאר המקור הקובע לסטטוס. מה שיכריע: הפעלת VD01 במערכת SAP S/4HANA On-Premise חיה ובדיקה " +
+          "האם היא מנותבת ל-BP.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+              "S4TWL - Business Partner Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE25,
+            claim:
+              "'the specific transactions like ... or VD01, VD02, VD03 ... are not available in SAP S/4HANA. These " +
+              "will be redirected to transaction BP'.",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Service Notifications in the Internet (CS-CM-SN)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7f05ca069f8744759f48892c6d307fab/077dc1536ca9b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "דף תפעולי תחת SAP_S4HANA_ON-PREMISE, versionId 2025.001 (Notifications CS-CM-SN/PM-WOC-MN), כותב " +
+          "בסניפט: 'Before you create an Internet user, you must specify a contact person for the customer in the " +
+          "Sales component using transaction VD01 or VD02'. הדבר עומד בסתירה לפריט הפישוט; שני המקורות רשמיים " +
+          "ונשמרים כסתירה. מה שיכריע: בדיקה במערכת S/4HANA On-Premise חיה.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+              "S4TWL - Business Partner Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE25,
+            claim:
+              "'the specific transactions like ... or VD01, VD02, VD03 ... are not available in SAP S/4HANA. These " +
+              "will be redirected to transaction BP'.",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#VD01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "שדה s4 ברשומה: 'מוחלף ב-S/4HANA: ניהול לקוח דרך Business Partner (BP). VD01 לרוב מנותב/חסום; השתמש " +
+          "ב-BP'. עקבי עם פריט הפישוט; זהו ניסוח פנימי של המאגר ולא ציטוט ממקור SAP.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VD01",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VD01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "הקטלוג מגדיר את VD01 כ-'Create Customer (Sales)', מודול SD, תחום 'נתוני אב לקוח'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VD01",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Data in FI Outgoing Invoices and SD Billing Documents | Portugal",
+        url: "https://help.sap.com/docs/SAP_ERP/00036c20095c4adc8d3e3c605b1dfab7/097c3c55e5efa849e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Portugal, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "097c3c55e5efa849e10000000a4450e5) נוקבת בקוד VD01 בסניפט: '... customer/vendor data (transactions XK01, " +
+          "XK02, XD01, XD02, FK01, FK02, FD01, FD02, MK01, MK02, VD01, VD02) because it may lead to " +
+          "inconsistencies ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "בשני פריטי הפישוט S4TWL - Business Partner Approach (2023 FPS03, 2025 FPS01) VD01 מנויה תחת הטרנזקציות " +
+        "ש'מנותבות ל-transaction BP' ב-SAP S/4HANA On-Premise; ממשק המשתמש לתחזוקת לקוח הוא טרנזקציה BP.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: VD01_SIMPL2025,
+      recommendedAction:
+        "ב-S/4HANA יש להשתמש בטרנזקציה BP במקום VD01 ליצירת לקוח, ולוודא שה-CVI (Customer/Vendor Integration) " +
+        "הופעל והושלם לפני המרה ל-S/4HANA.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:XD01", "tx:VD02", "tx:VD03"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: פריט הפישוט S4TWL - Business Partner Approach נקרא במלואו בשתי המהדורות, " +
+      "מ-scratchpad/official/SIMPL_OP2025.pdf.txt (פריט 5.1.27, עמ' 136-138) ומ-SIMPL_OP2023.pdf.txt (פריט " +
+      "3.19, עמ' 153-155). בשתיהן VD01 מופיעה תחת 'Transactions that get redirected to transaction BP' ולא " +
+      "בקבוצת ה-obsolete, ולכן status=replaced עם successor tx:BP. חיפושי sap-help-search.mjs בסקופ " +
+      "SAP_S4HANA_ON-PREMISE: 'VD01' (21 רשומות, 2 מצוטטות כסתירה: SEPA Mandate ו-Service Notifications, שתיהן " +
+      "2025.001 ומנחות להשתמש ב-VD01/VD02); 'VD01 create customer sales' (21 רשומות, Maintaining Customer Tax " +
+      "Indicator מזכירה VD02/XD02 ולא VD01); 'S4TWL Business Partner Approach' (21 רשומות, מצוטטת Related " +
+      "Notes 1709). fal-app.mjs --tcode VD01 במהדורה S32OP החזיר 'leading app(s): none; GUI app entry: none'; " +
+      "זו תוצאת חיפוש מתועדת, לא קביעה שאין אפליקציה. SAP Note 2265093 לא נקראה (דורשת me.sap.com); מספרה מובא " +
+      "כפי שהוא מודפס בפריטים ובסניפט. היסטוריה: ישן → חדש, הרשומה שנוצרה אוטומטית (transactions-auto.ts) " +
+      "הביאה את הפריטים כהקשר בלבד ללא הכרעת מעמד (לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר " +
+      "'unchanged' ברמת repository_verified); כעת replaced לפי הפריט שנקרא, ושורות ה-SEPA וה-Service " +
+      "Notifications נשמרות כ-conflicting_sources. שורת ההקשר שלה שאינה מצוטטת כאן ('Master Data in FI " +
+      "Outgoing Invoices and SD Billing Documents', Portugal, בצד ה-ECC, 6.18.latest) הועתקה כלשונה כשורת " +
+      "context, שאינה נספרת ברמת האימות. ביקורת אדברסרית 2026-09-25: שדה sapNote הוסר (אינו עובר את כלל " +
+      "sap-note-format על כתובת help.sap.com), טווחי העמודים תוקנו, כותרת Related Notes הוחזרה לנוסח הרשומה, " +
+      "שורת המאגר פוצלה לשתי רשומות. tx:VD02 ו-tx:VD03 דורשות רשומות נפרדות. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:VD02",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+          "S4TWL - Business Partner Approach",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (עמ' 136-137) קובע: 'The user interface for SAP S/4HANA is transaction BP. There is no specific " +
+          "user interface for customer/vendor like known from SAP Business Suite (the specific transactions like " +
+          "XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03, etc. are not available in " +
+          "SAP S/4HANA. These will be redirected to transaction BP.)'. בטבלה 'Transactions not available in SAP " +
+          "S/4HANA on-premise edition', תחת 'Transactions that get redirected to transaction BP', מופיעה הרשימה " +
+          "'FD01, FD02, FD03, FD05, FD06, VD01, VD02, VD03, VD05, VD06, XD01, XD02, XD03, XD05, XD06, FK01, FK02, " +
+          "FK03, FK05, FK06, MK01, MK02, MK03, MK05, MK06, XK01, XK02, XK03, XK05, XK06, ...'; VD02 נוקבת בה בשמה. " +
+          "הרשימה 'Transactions that are obsolete: MK12, MK18, MK19, XD07, XK07, V+21, V+22, V+23' אינה כוללת את " +
+          "VD02.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 3.19 " +
+          "S4TWL - Business Partner Approach",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "גרסת 2023 FPS03 של אותו פריט (עמ' 153-155) קובעת: 'the specific transactions like XD01, XD02, XD03 or " +
+          "VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03 etc. are not available in SAP S/4HANA " +
+          "on-premise'. בטבלה 'Transactions not available in SAP S/4HANA on-premise edition', תחת 'Transactions " +
+          "that get redirected to transaction BP', מופיעה VD02 לצד FD01, FD02, FD03, FK01, FK02, FK03, MK01, MK02, " +
+          "MK03, XD01, XD02, XD03 ועוד. סעיף Symptom: המרת מערכת (system conversion) לאחת המהדורות 1511, 1610, " +
+          "1709, 1809, 1909, 2020, 2021, 2022.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintaining Customer Tax Indicator",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8999cee59b7c44fdb53fbbb4d703f8e6/746bd0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "גוף העמוד (deliverable United States, נקרא דרך scripts/sap-help-body.mjs) בתיעוד SAP S/4HANA On-Premise " +
+          "2025 FPS01 מנחה: 'You can also use transactions V-03/V-09 to create a customer ( Complete ) or " +
+          "VD02/XD02 to change a customer ( Complete )'. העמוד מציג את VD02 כדרך לשינוי לקוח באותה מהדורה שבה פריט " +
+          "הפישוט מונה אותה כמנותבת לטרנזקציה BP; העמוד אינו מתייחס לניתוב.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+              "S4TWL - Business Partner Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE25,
+            claim:
+              "הפריט מונה את VD02 בטבלת הטרנזקציות שאינן זמינות ב-SAP S/4HANA on-premise edition ומנותבות לטרנזקציה BP " +
+              "(ראו evidence[0]).",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Sales Documents with SEPA Mandate",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7b24a64d9d0941bda1afa753263d9e39/3f0760a8c2b244e1afc1571bd27e054f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "הסניפט של העמוד (deliverable Sales, SAP S/4HANA 2025 FPS01) מדפיס: 'You have connected at least one " +
+          "term of payment with a SEPA-relevant payment method in the customer master data (transaction " +
+          "VD01/VD02)'. העמוד מפנה ל-VD02 לתחזוקת נתוני אב לקוח באותה מהדורה שבה פריט הפישוט מונה אותה כמנותבת " +
+          "ל-BP.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+              "S4TWL - Business Partner Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE25,
+            claim:
+              "הפריט מונה את VD02 בטבלת הטרנזקציות שאינן זמינות ב-SAP S/4HANA on-premise edition ומנותבות לטרנזקציה BP " +
+              "(ראו evidence[0]).",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#VD02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את VD02 כ'נתוני אב לקוח - שינוי (Change Customer - Sales View)', מודול SD.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VD02",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VD02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-VD02 את הכותרת האנגלית 'Change Customer (Sales)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VD02",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Service Notifications in the Internet (CS-CM-SN) | Notifications (CS-CM-SN/PM-WOC-MN)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7f05ca069f8744759f48892c6d307fab/077dc1536ca9b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Notifications (CS-CM-SN/PM-WOC-MN), 2025 FPS01 (Feb 2026), versionId 2025.001, " +
+          "loio 077dc1536ca9b54ce10000000a174cb4) נוקבת בקוד VD02 בסניפט: '... specify a contact person for the " +
+          "customer in the Sales component using transaction VD01 or VD02. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Data in FI Outgoing Invoices and SD Billing Documents | Portugal",
+        url: "https://help.sap.com/docs/SAP_ERP/00036c20095c4adc8d3e3c605b1dfab7/097c3c55e5efa849e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Portugal, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "097c3c55e5efa849e10000000a4450e5) נוקבת בקוד VD02 בסניפט: '... customer/vendor data (transactions XK01, " +
+          "XK02, XD01, XD02, FK01, FK02, FD01, FD02, MK01, MK02, VD01, VD02) because it may lead to " +
+          "inconsistencies ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "קיימת אי-התאמה בין מקורות רשמיים של SAP לגבי VD02 ב-SAP S/4HANA On-Premise 2025 FPS01. פריט הפישוט " +
+        "'S4TWL - Business Partner Approach' (2025 FPS01 וגם 2023 FPS03) מונה את VD02 בין הטרנזקציות שאינן " +
+        "זמינות ב-On-Premise ומנותבות לטרנזקציה BP. מנגד, שני עמודי תיעוד מאותה מהדורה ('Maintaining Customer " +
+        "Tax Indicator', 'Sales Documents with SEPA Mandate') עדיין מפנים ל-VD02 לתחזוקת נתוני לקוח. פריט הפישוט " +
+        "חל על המרת מערכת (system conversion) ל-SAP S/4HANA; רשומה זו אינה קובעת דבר לגבי ECC.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לבדוק ב-SE93 במערכת S/4HANA היעד (2025 FPS01 ומעלה) אם הפעלת VD02 פותחת את המסך הקלאסי או מנתבת " +
+        "לטרנזקציה BP. אם VD02 מנותבת: לעדכן ל-status replaced עם successor tx:BP ו-source מפריט הפישוט, כמו " +
+        "ברשומות tx:MK01, tx:MK02 ו-tx:XK01. אם המסך הקלאסי נפתח: לתעד זאת כחריגה מפריט הפישוט. עד לבדיקה אין " +
+        "להציג ב-UI קביעה של 'הוחלף' או 'ללא שינוי' עבור VD02 ב-On-Premise.",
+    },
+    xrefs: ["tx:VD01", "tx:VD03", "tx:BP", "table:KNA1"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) המאגר: data/tx-intel.ts#VD02 ('נתוני אב לקוח - שינוי (Change Customer - Sales View)', " +
+      "מודול SD), data/tcode-catalog.ts#VD02 ('Change Customer (Sales)'), lib/route-manifest.generated.ts " +
+      "(VD02 רשום ברשימות tcodes ו-apps). (2) data/verification/transactions-auto.ts#tx:VD02: רשומה אוטומטית " +
+      "(2026-09-24, ללא הכרעת מעמד) שאיתרה את שני פריטי הפישוט ואת העמודים 'Service Notifications in the " +
+      "Internet (CS-CM-SN)' ו-'Master Data in FI Outgoing Invoices and SD Billing Documents' כהקשר; רשומה זו " +
+      "מחליפה אותה (Old: הקשר בלבד, ולפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת " +
+      "repository_verified → New: קריאה מלאה של שני הפריטים ותיעוד אי-התאמה). ארבע שורות ההקשר שלה (רשומות " +
+      "המאגר tx-intel.ts#VD02 ו-tcode-catalog.ts#VD02 ושני העמודים האלה) הועתקו כלשונן כשורות context, שאינן " +
+      "נספרות ברמת האימות. (3) scripts/sap-help-search.mjs \"VD02\" --product SAP_S4HANA_ON-PREMISE: 21 תוצאות. " +
+      "נמצאו 'Maintaining Customer Tax Indicator' ו-'Sales Documents with SEPA Mandate' (שניהם 2025.001), וגם " +
+      "'Maintaining Customer Master Jurisdiction Code' (2025.001) עם אותו ניסוח VD02/XD02. באותה חזרה נמצא גם " +
+      "'Re-direction to Business Partner (BP) Transaction' (What's New in SAP S/4HANA 2022, 2022.000, loio " +
+      "220bd05aa56c49318c4fae0173cc10d4); הסניפט שלו נוקב רק ב-XD06, XK06, MK06, FK06, FD06, VD06 כ-deprecated " +
+      "ואינו נוקב ב-VD02, ולכן לא צוטט כראיה. (4) scripts/sap-help-body.mjs על 'Maintaining Customer Tax " +
+      "Indicator' (loio 746bd0531d8b4208e10000000a174cb4): הגוף נקרא ומאשר את הציטוט. (5) הטקסט של שני פריטי " +
+      "הפישוט נקרא מ-scratchpad/official/SIMPL_OP2025.pdf.txt (סביב שורה 7045) ומ-SIMPL_OP2023.pdf.txt (סביב " +
+      "שורה 9104). fal-app.mjs לא הופעל: אין מזהה Fiori מועמד עבור VD02. ההכרעה: לפי כלל 4 שני סוגי המקורות " +
+      "נשמרים כ-conflicting_sources, וה-status נשאר verification_required. הרשומות tx:MK01, tx:MK02 ו-tx:XK01 " +
+      "הכריעו דפוס זהה כ-replaced עם successor tx:BP; אם בדיקת SE93 תאשר ניתוב, יש ליישר קו איתן. לא בוצעה " +
+      "בדיקה במערכת SAP חיה.",
   },
 ];
