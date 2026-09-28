@@ -643,3 +643,93 @@ procure-to-pay-for-maintenance), and no other rule; both `tsc` gates clean; `npm
   F2462 now resolve in `data/fiori/apps.ts` and are linked beside the old ids since the
   2026-09-28 backfill. What would settle it: a decision in `data/fiori/apps.ts` to retire or
   alias F3577 and F1576 (not a best-practices file, not edited here).
+- `bp:maintenance-order-process`, the IDoc type that carries a released maintenance order to an
+  MES, official against official (disclosed in `process.interfaces[7]` and notes, no
+  `conflicting_sources` row; written in the 2026-09-28 backfill of
+  `data/best-practices/pm-processes-2.ts`): 'Maintenance Order | Production Planning and Control'
+  (S/4HANA 2025.001 and SAP ERP 6.18.latest, loio 34a22e04c4f34e8bb92f842486066b70, bodies read
+  2026-09-28) prints 'IDoc IORDER_01', while 'Setting Up DRF Integration for MES Processes'
+  (2025.001, loio 667aa2e1747d49aeab7a8c36402d6163) lists 'Maintenance order 468_1 468_1
+  IORDER01'. Neither spelling is in `IDOC_BASIC_TYPES`, so the record names both in prose. What
+  would settle it: WE30 in the target system (the DRF page's own advice for the latest IDoc
+  version), then an `idoc:basic:` entry in `data/verification/idocs.ts` (not a best-practices
+  file, not edited here).
+- `bp:maintenance-order-process`, the input table of BAPI_ALM_CONF_CREATE, repository against
+  repository (restated in `process.interfaces[1]` and in the function-intel and bapi-enrichment
+  evidence rows of the 2026-09-28 backfill; the same conflict is listed above under
+  `bp:confirmation-process`): CONFIRMATIONS in `data/function-intel.ts#BAPI_ALM_CONF_CREATE`,
+  TIMETICKETS (BAPI_ALM_TIMECONFIRMATION) in `data/bapi-enrichment.pm.ts#BAPI_ALM_CONF_CREATE`. The
+  record writes no signature and asks for the BAPI signature to be checked in the target system.
+  What would settle it: SE37 in the target system, then a correction of the losing repository
+  record (not a best-practices file, not edited here).
+- `bp:maintenance-order-process`, the Fiori id of Manage Maintenance Orders, repository against
+  official (disclosed in `process.transactions[4]` and notes since 2026-09-22; the 2026-09-28
+  backfill links F5241 beside F2731 and keeps the old finding in notes): `data/fiori/apps.ts`
+  pairs 'Manage Maintenance Orders' with F2731, which the overlay `fiori:F2731` marks for further
+  verification, while 'Creating a Maintenance Order' (2025.001) and the Fiori Apps Library row of
+  F5241 at S32OP (copied from `obj:maintenance-order`) print F5241 for that name. What would settle
+  it: a decision in `data/fiori/apps.ts` to retire or alias F2731 (not a best-practices file, not
+  edited here).
+- `bp:preventive-maintenance-process`, BAPI_MAINTENANCEPLAN_CREATE, repository against repository
+  (disclosed in `steps[10]`, `process.interfaces[6]` and notes; written in the 2026-09-28 backfill
+  of `data/best-practices/pm-processes-2.ts`, no `conflicting_sources` row in the record): the
+  overlay `fm:BAPI_MAINTENANCEPLAN_CREATE` stays verification_required and records (in a
+  `conflicting_sources` row) that `data/bapi-enrichment.pm.ts` and the academy lesson
+  `data/academy/lessons/pm-generated.ts` say the name does not exist (pointing to MPLAN_CREATE)
+  while `data/function-intel.ts`, `data/domain-detail.ts`, `data/transactions.ts` and
+  `data/sapData.pm.ts` present it as existing; no official page read names it. Officially, 'PM - Maintenance plan |
+  Data Migration' (2025.001) prints MPLAN_CREATE for the step 'Create Maintenance Plan', and the
+  OData service API_MAINTENANCEPLAN creates plans. What would settle it: SE37 in the target system,
+  then a correction of the losing repository layers (not best-practices files, not edited here).
+- `bp:preventive-maintenance-process`, the CDS view of the maintenance plan, repository against
+  official (disclosed since the 2026-09-28 backfill in `process.tables[3]`, `process.eccToS4[4]`
+  and a repository evidence row citing `data/verification/cds.ts#cds:I_MaintenancePlan`;
+  `steps[9]` and the record-level xrefs still link cds:I_MaintenancePlan): the repository
+  presents I_MaintenancePlan as the plan's CDS view, while What's New 2021 FPS01 lists it among
+  the views deprecated as of S/4HANA 2021 (to be deleted as of 2023), successor
+  I_MaintenancePlanBasic; the overlay stays verification_required because the successor id is not
+  in the project universe. What would settle it: adding cds:I_MaintenancePlanBasic to
+  `data/cds-map.ts` and the route manifest (the overlay's recommended action), then re-pointing
+  the three lines in a later edit.
+- `bp:plant-maintenance-end-to-end`, the technical name of the maintenance order OData API
+  successor, official against official (disclosed in the 'Maintenance Order (Deprecated)'
+  evidence row, `process.interfaces[1]` and notes; written in the 2026-09-28 backfill of
+  `data/best-practices/pm-processes-2.ts`): 'Maintenance Order (Version 2)' (2025.001, loio
+  c1457e0e539740a29932fbdcf36fea3c, body read 2026-09-28) names API_MAINTENANCEORDER_0002, while
+  'Maintenance Order (Deprecated)' (2025.001, loio d3f02cfccf00407ab9776ea2ec2030d3, body read
+  2026-09-28) recommends 'Maintenance Order (Version 2) ( API_MaintenanceOrder_002 )'. The record
+  writes the Version 2 page's name. What would settle it: the API's entry on SAP Business
+  Accelerator Hub (a JavaScript shell for the scripted channels) or the service catalog of the
+  target system.
+- `bp:plant-maintenance-end-to-end` and `bp:maintenance-order-process`, API_MAINTENANCEORDER as
+  the current OData service, repository against official (disclosed in `process.interfaces[1]` of
+  the end-to-end record; written in the 2026-09-28 backfill): `data/processes.ts#maintenance-management`
+  names API_MAINTENANCEORDER at the order step and `data/function-intel.ts#BAPI_ALM_ORDER_MAINTAIN`
+  gives 'OData API_MAINTENANCEORDER' as the S/4HANA alternative, while 'Maintenance Order
+  (Deprecated)' (2025.001) prints 'Technical name: API_MAINTENANCEORDER' and 'This API was
+  deprecated with SAP S/4HANA 2023'. What would settle it: nothing further on the SAP side; the
+  open action is a correction of `data/processes.ts` and `data/function-intel.ts` (not
+  best-practices files, not edited here).
+- `bp:technical-objects-process`, the Fiori id of Manage Technical Objects, repository against
+  official (disclosed in `process.transactions[4]` and notes; the overlay `fiori:F2730A` records
+  the conflict): `data/fiori/apps.ts` carries F2730A for 'Manage Technical Objects', which no
+  official source read prints; the apps the 2025 FPS01 documentation names for technical objects
+  are F2072, W0029, W0028 and F8669, in the catalog since 2026-09-24 and linked in the record since
+  the 2026-09-28 backfill. What would settle it: a decision in `data/fiori/apps.ts` to retire or
+  alias F2730A (not a best-practices file, not edited here).
+- `bp:technical-objects-process`, the spelling of the read BAPIs for equipment and functional
+  location, official against repository (disclosed in the simplification-list evidence row since
+  2026-09-22, no `conflicting_sources` row): 'S4TWL - Batch Input for Enterprise Asset Management
+  (EAM)' (SIMPL_OP2025, Document Version 1.36) prints BAPI_EQUI_GET_DETAIL and
+  BAPI_FUNCLOC_GET_DETAIL, while the repository, the overlays and the record's interfaces lines
+  spell BAPI_EQUI_GETDETAIL and BAPI_FUNCLOC_GETDETAIL. What would settle it: SE37 in the target
+  system; if the list's spelling is a typo, nothing changes in the repository.
+- `bp:technical-objects-process`, BAPI_EQMT_INSTALL and the install/dismantle BAPI names,
+  repository against repository (disclosed in `process.interfaces[2]` since the 2026-09-28
+  backfill): `data/bapi-enrichment.pm.ts` marks BAPI_EQMT_INSTALL invalid-name and points to
+  BAPI_EQUI_INSTALL (pair BAPI_EQUI_DISMANTLE), while the overlay `fm:BAPI_EQMT_INSTALL` stays
+  verification_required with contradicting repository layers; no official record read names
+  BAPI_EQUI_INSTALL, BAPI_EQUI_DISMANTLE or BAPI_EQMT_INSTALL (the official channel for install
+  and dismantle is API_EQUIPMENT with InstallEquipment and DismantleEquipment). What would settle
+  it: SE37 in the target system, then a correction of the losing repository layer (not a
+  best-practices file, not edited here).
