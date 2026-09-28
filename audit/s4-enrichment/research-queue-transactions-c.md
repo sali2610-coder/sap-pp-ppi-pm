@@ -141,6 +141,43 @@ diff of the two `--ids` runs shows no other id changed in that window. An earlie
 12:35 one by concurrent work in other shards after the 12:10 relaunch (not attributed per id; the
 writer's before/after pair is the 12:35 and 12:40 readings).
 
+Batch 6 written 2026-09-28 (access date stamped 2026-09-25, as the chain's args set it; research and
+audit ran on 2026-09-28): 8 drafts audited, 8 written, none refuted. The eight are the BASIS
+archiving, client-administration, scheduling, transport-setup, data-browser, area-menu and
+modification-browser codes: `tx:SARA` (`unchanged`, 'S4TWL - Specific PS archiving transactions',
+which names SARA the designated central-archiving alternative to the PS-specific archiving
+transactions), `tx:SCMA` (`compatibility_scope`, 'S4TWL - Schedule Manager'; no successor, since
+SAP Advanced Financial Closing has no canonical id), `tx:SE43` (`unchanged`, the 2025 FPS01 help
+topic 'Accessing the Chain-Liability Area Menu'; the item 'S4TWL - Handling Oil & Gas obsolete
+t-codes Oil' names SE43 the successor of O300), `tx:SE95` (`unchanged`, 'ABAPTWL - SSCR license key
+procedure is no longer supported'), `tx:SCC5` (authored `verification_required`), and `tx:SCC4`,
+`tx:SE06` and `tx:SE16` (no status block: no source read decides one; every SE06 row is a context
+row). All eight were taken from `verdict.fixedRecord`; the SE43 notes, which its fixedRecord left as
+'(unchanged from draft)', come from the draft. The audited JSON was parsed from the writer's task
+prompt as the session transcript records it, not retyped: every writer change was applied as an
+exact-once substring replacement (a miss aborts the run), every row of the eight generated records
+was checked to be either cited by the audited record (same URL or repoRef, plus the item number for
+Simplification List rows) or carried, each carried row was compared with its generated twin (only
+the edits listed below differ), and the written module was deep-compared against the expected
+objects, with `status.source` checked for identity with its evidence row and the 39 batch-1 to
+batch-5 records checked unchanged.
+
+Depth (`report-coverage.mjs --ids`, before and after): seven moved from L1 `verification_required`
+to L1 `sap_official_verified`: `tx:SARA`, `tx:SE43` and `tx:SE95` with the authored `unchanged`,
+`tx:SCMA` with the authored `compatibility_scope`, `tx:SCC5` with the authored
+`verification_required`, and `tx:SCC4` and `tx:SE16` with the derived `verification_required`.
+`tx:SE06` stays L1 `verification_required` (all four of its rows are context rows). All eight stay
+at depth L1: none has a tx-intel / tx-detail record, so the page structure (3 authored facts needed
+for L2) is missing. `tx:SCC4` and `tx:SE16` now count in the report's edition column, because each
+cites a row from the 'SAP S/4HANA Cloud Private Edition 2023 FP2' administration guide marked
+`private-cloud` (the report counts a record whose sources include a cloud edition; the status
+edition stays on-premise). Batch effect on the catalog totals
+(`npm run report:coverage -- --catalog transactions`): verified +7, verification_required -7,
+s4-appl +4, edition +2, depth bands and conflict unchanged. Measured totals: 13:04 L1 1279, L2 2, L3
+414, L4 3, L5 120, verified 654, verif.req 1149, conflict 15, s4-appl 657, edition 3; 13:17 L1 1279,
+L2 2, L3 414, L4 3, L5 120, verified 661, verif.req 1142, conflict 15, s4-appl 661, edition 5. A
+per-id diff of the two `--ids` runs shows no other id changed in that window.
+
 ## refuted
 
 - `tx:KSV5` (batch 1, 2026-09-25): refuted at the adversarial gate, not written; the generated
@@ -474,6 +511,39 @@ writer's before/after pair is the 12:35 and 12:40 readings).
   support is the Fiori Apps Library listing (Published, S32OP). The CJ9D ruling asked for an
   explicit perpetual-scope sentence before such wording. Written as audited; the same family
   ruling applies.
+- `tx:SARA` / `tx:SCC4` / `tx:SCC5` / `tx:SCMA` / `tx:SE06` / `tx:SE43` / `tx:SE95` · cross-edition
+  sentences inside a one-edition row (batch 6, continues the batch-5 entry): the SARA rows for
+  'S4TWL - Specific PS archiving transactions', 'S4TWL - PS&S SARA Reports' and 'S4TWL - SRM
+  Product Master' (2025 url) say the 2023 FPS03 list prints the same item; the SCC4 rows for items
+  8.1.1 and 8.1.3 (2025 url) say they repeat the 2023 items 2.10 and 2.33; the SCC5 row for item
+  2.33, the SE95 row for item 2.10 and the SE43 row for item 56.7 (2023 url) compare the wording
+  with 2025 FPS01, and the SE43 row for item 13.13.24 (2025 url) reads its table against the 2023
+  one; the SCMA row for item 8.10 (2023 url) compares it with item 6.1.29; the SE06 row for item
+  2.10 names the 2025 item 8.1.1. Written as audited. In every record but SARA the other
+  edition's item also has its own row; the SARA auditor checked the 2023 items 32.13, 33.1 and 3.2
+  in the extracted text, but they have no row. What settles it: the family ruling the batch-5
+  entry asks for.
+- `tx:SCC4` / `tx:SE16` · one source, two levels and two product strings (batch 6, audit
+  inconsistency): the search record 'Transaction List | Administration Guide to Implementation of
+  SAP S/4HANA Cloud Private Edition 2023 FP2 with SAP Best Practices' (loio
+  c82002ffc780463abb71074e63b03736, versionId 2023) is a snippet-only row in both records and marked
+  `private-cloud` in both, but it is cited at `supported_secondary_source` with the product 'SAP
+  S/4HANA Cloud Private Edition' in SCC4 and at `sap_official_verified` with the product 'SAP
+  S/4HANA' in SE16. Written as audited. No status impact (neither record has a status block). What
+  settles it: one ruling on the level of a snippet-only row from this guide, then one product string.
+- `tx:SCC4` / `tx:SE06` / `tx:SE16` against `tx:SCC5` · status shape, audit inconsistency (batch 6):
+  the SCC5 auditor added an authored `verification_required` status block (source null, the searches
+  in its text), citing the tx:OKKP shape; the SCC4, SE06 and SE16 auditors left their records without
+  a status block, as tx:CJ30 in batch 3, so their pages show the derived `verification_required`.
+  Both shapes pass the schema. Written as audited. What settles it: one ruling on whether a
+  researched record with no deciding status source carries an authored `verification_required`
+  block that lists its searches.
+- `tx:SCMA` · repository vs official label (batch 6, found by the writer, not raised by the
+  auditor): `data/tcode-catalog.ts#SCMA` (line 1351) files SCMA under module BASIS, while the item
+  'S4TWL - Schedule Manager' prints the application component CA-GTF-SCM (with FI-GL-GL-G in the
+  2023 FPS03 list) and the Fiori Apps Library row gives CA-GTF-SCM (Schedule Manager). Label
+  variance, no status conflict. What settles it: a repository fix of the tcode-catalog module,
+  outside this writer's files.
 
 ## writer deviations (batch 1, 2026-09-25)
 
@@ -760,4 +830,70 @@ writer's before/after pair is the 12:35 and 12:40 readings).
 11. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call, and no Simplification
     List reading beyond the local line checks in items 5 and 7.
 12. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
+    test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 6, 2026-09-28)
+
+1. Where the audited JSON came from. All eight entries carry a `verdict.fixedRecord`; the JSON was
+   parsed from the writer's task prompt as the session transcript records it (8 ids, none refuted),
+   so nothing was retyped. The SE43 fixedRecord marks its notes '(unchanged from draft)' and gives
+   its status source the claim '(same object as evidence[1]; bind by const reference in the TS
+   file)'; the draft notes and the evidence[1] row were used, as its verdict says.
+2. Status sources. Shared consts SARA_SIMPL2025, SCMA_SIMPL2025, SE43_HELP2025 and SE95_SIMPL2025,
+   each the record's own row, used by identity in evidence[] and in status.source. They replace the
+   SARA re-typed copy (same title and URL as the 'S4TWL - Specific PS archiving transactions' row,
+   with a shortened claim), the SCMA pointer string ('evidence[1]'), the SE43 placeholder object, and
+   the SE95 copy (deep-equal to its 'ABAPTWL - SSCR license key procedure is no longer supported'
+   row). SCC5 keeps `source: null` with its authored `verification_required`.
+3. SE43 notes, line spans (local check of the extracted text, no research lookup; the batch-5 CN22
+   precedent). The draft gave 'S4TWL - SAP Travel Management in SAP S/4HANA Suite' as 'שורות
+   כ-21955-22328' (2025 FPS01) and 'שורות כ-14048-14342' (2023 FPS03) while saying the item was read
+   in full. In `scratchpad/official/SIMPL_OP2025.pdf.txt` item 6.7.10 runs from line 21955 to 22327
+   (6.7.11 starts at 22328); in `SIMPL_OP2023.pdf.txt` item 8.4 runs from line 14048 to 14484 (8.5
+   starts at 14485; SE43 is at line 14337). The spans became '21955-22327' and '14048-14484'. The
+   Oil & Gas spans (71095-71260 and 65021-65160) run a few lines past their items (71247 and 65157)
+   and were left as audited.
+4. SE16: the empty `aliases: []` dropped (the batch-3 CJ48 precedent), and one notes clause
+   re-worded: "ו---tcode SE16 החזיר" (the Hebrew prefix glued to the flag) became "והרצה עם --tcode
+   SE16 החזירה". No fact changed.
+5. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the item
+   number for Simplification List rows) the audited record does not cite were carried over
+   (`context: true`, access date 2026-09-24): SE16 (the search records 'Configure URLs in Emails
+   When Frontend and Backend Are Separate' at 2025.latest, 'Replication of Notes | Claim' at
+   2025.001 and 'Performing an SQL Trace | Quality Management (QM)' at SAP_ERP 6.18.latest, and the
+   rows for items 5.1.14 and 6.4.33; now evidence[5]-[9]); SE43 (the search records 'Accounting
+   Logics in Financial Products Subledger' at 2025.latest, 'Customer-Specific Enhancements | Sales'
+   at 2025.001 and 'Foreclosures | Israel' at SAP_ERP 6.18.latest, and the rows for 'S4TWL - SAP
+   Travel Management in SAP S/4HANA Suite', items 6.7.10 and 8.4; evidence[5]-[9]). Both notes say
+   so; the SE16 notes also got the supersession line. The SARA, SCC4 and SCMA fixedRecords already
+   carry their generated rows (SARA and SCMA re-confirmed by their auditors and stamped 2026-09-25;
+   the three SCC4 rows at 2026-09-24 equal their generated twins); the SCC5, SE06 and SE95
+   generated records are fully covered.
+6. Frame sentences. In the four carried item rows the generator's sentence 'הפריט מובא כאן כהקשר
+   בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר.' was replaced by
+   what holds for each row. SE16 items 5.1.14 and 6.4.33 are not among the 14 items the researcher
+   read: 'הפריט אינו בין 14 הפריטים שנקראו לרשומה זו: מה שהוא קובע לגבי הקוד טרם נקרא, והוא מובא
+   כהקשר ולא כמקור למעמד.' SE43 items 6.7.10 and 8.4 were read (draft notes, passed by the auditor):
+   'הפריט נקרא במחקר (שורות 21955-22327 / 14048-14484 ...): SE43 מופיע בטבלת קודי טרנזקציה של הפריט
+   שחולצה מה-PDF בסדר עמודות, ולא שוחזר לאיזה קוד מקור שורת SE43 משויכת; לכן הפריט אינו משמש מקור
+   למעמד ברשומה זו.' The column-order extraction was checked at both SE43 lines (22219 and 14337).
+7. SE16 item 5.1.14 title. The generator cut the title at the PDF line break ('S4TWL -
+   Differentiation Category Dependent FS Datasets Not Available in'); it was completed to '... Not
+   Available in S/4HANA' in the sourceTitle and in the claim, as `SIMPL_OP2025.pdf.txt` prints it
+   (lines 5694-5695, and the table of contents at line 178).
+8. Kept as audited, not normalized: status.he of three sentences in SCMA and SE95 (house precedent:
+   KSV1, CJV1, CN22, CN24N); release notation ('2025.001' on the SCMA and SE95 item rows, '2025 FPS01'
+   elsewhere; the SARA status.release '2025.001' against its source row's '2025 FPS01', which its
+   auditor called non-blocking); the 'רק' / 'בלבד' wording the auditors passed (SE06 notes, SE43
+   evidence[3], the SCC5 and SE95 notes on the generated record); the SCMA empty `xrefs` list; the
+   verbatim English quotes that contain 'always' (SCC5 evidence[1], SE16 evidence[2]: the certainty
+   rule applies to low-tier records, and both records are `sap_official_verified`); the SCC4
+   'Transaction List' row's 'לצד SCC3 ו-SCC1', framed as the snippet (the SCC5 audit confirms from
+   the page body that the page lists SCC1 and SCC3). No record carries `reviewer`, a personal name or
+   an e-mail address.
+9. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call, and no Simplification
+   List reading beyond the local line checks in items 3, 6 and 7 and the SCC5 backup sentence ('To be
+   on the safe side, keep a system backup from before deleting the data.', `SIMPL_OP2025.pdf.txt`
+   lines 28558-28559), which the SCC5 recommendedAction paraphrases.
+10. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
     test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
