@@ -2,7 +2,7 @@
   "cat2": {
     "rows": 30,
     "maxChips": 2,
-    "avgChips": 1.6,
+    "avgChips": 1.5,
     "statusPills": 30,
     "popChip": false,
     "ok": true
@@ -20,7 +20,7 @@
     "first": {
       "lead": "ניטור כיסוי חומרים — מקטעי נטו",
       "code": "F0247A",
-      "body": "תפקיד: SAP_BR_MRP_CONTROLLER",
+      "body": "תפקיד: SAP_BR_MATL_PLNR_EXT_PROC, SAP_BR_PRODN_PLNR",
       "href": "/neo/fiori-apps/monitor-material-coverage-net-segments/"
     },
     "detail": {

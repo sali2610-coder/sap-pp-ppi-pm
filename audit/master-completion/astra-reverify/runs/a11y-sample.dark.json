@@ -1,7 +1,7 @@
 {
   "theme": "dark",
   "viewport": "1363x936",
-  "measuredAt": "2026-09-24T06:23:54.574Z",
+  "measuredAt": "2026-09-28T16:33:46.527Z",
   "results": [
     {
       "url": "/neo/",
@@ -148,7 +148,7 @@
     },
     {
       "url": "/neo/best-practices/maintenance-order-process/",
-      "checked": 742,
+      "checked": 893,
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,
@@ -159,7 +159,7 @@
     },
     {
       "url": "/neo/transactions/",
-      "checked": 1263,
+      "checked": 1250,
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,
@@ -214,7 +214,7 @@
     },
     {
       "url": "/neo/fiori-apps/",
-      "checked": 509,
+      "checked": 496,
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,
@@ -354,7 +354,7 @@
     },
     {
       "url": "/neo/best-practices/",
-      "checked": 281,
+      "checked": 411,
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,
@@ -365,7 +365,7 @@
     },
     {
       "url": "/exits/CMOD-SMOD/",
-      "checked": 34,
+      "checked": 38,
       "unresolved": 1,
       "contrast": [],
       "contrastCount": 0,
@@ -420,7 +420,7 @@
     },
     {
       "url": "/exits/Implicit-Enhancement/",
-      "checked": 34,
+      "checked": 38,
       "unresolved": 1,
       "contrast": [],
       "contrastCount": 0,
@@ -475,7 +475,7 @@
     },
     {
       "url": "/neo/best-practices/maintenance-notification-process/",
-      "checked": 453,
+      "checked": 566,
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,
@@ -486,7 +486,7 @@
     },
     {
       "url": "/neo/best-practices/production-order-process/",
-      "checked": 743,
+      "checked": 862,
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,
@@ -497,7 +497,7 @@
     },
     {
       "url": "/neo/best-practices/ecc-to-s4hana-migration-process/",
-      "checked": 545,
+      "checked": 712,
       "unresolved": 0,
       "contrast": [],
       "contrastCount": 0,

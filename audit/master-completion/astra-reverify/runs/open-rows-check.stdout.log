@@ -350,7 +350,7 @@
       "chips": [
         "משמעות עסקית",
         "יועץ זוטר",
-        "PLMK"
+        "AFKO"
       ]
     },
     "runnerNoQuery": "setup",
@@ -378,9 +378,9 @@
       "phase": "run",
       "count": "1/10",
       "chips": [
-        "פתרון תקלות",
+        "JOIN / SQL",
         "יועץ בכיר",
-        "AFRU"
+        "AUFK"
       ]
     },
     "runnerNoQuery": "setup",

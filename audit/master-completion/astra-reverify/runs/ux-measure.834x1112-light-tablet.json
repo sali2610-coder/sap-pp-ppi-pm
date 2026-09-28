@@ -1,7 +1,7 @@
 {
   "viewport": "1363x936",
   "base": "http://localhost:4196",
-  "measuredAt": "2026-09-28T16:18:46.612Z",
+  "measuredAt": "2026-09-28T16:18:02.484Z",
   "results": [
     {
       "id": "home",
@@ -11,30 +11,30 @@
       "h1": "מפת הידעל-SAP S/4HANA",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 2997,
+      "canvasW": 834,
+      "contentH": 3058,
       "offenders": [
         {
-          "over": 69,
-          "w": 1281,
+          "over": 50,
+          "w": 934,
           "tag": "div",
           "cls": "nh-mid.nm-par"
         },
         {
-          "over": 69,
-          "w": 1281,
+          "over": 50,
+          "w": 934,
           "tag": "svg",
           "cls": ""
         },
         {
-          "over": 13,
-          "w": 1164,
+          "over": 10,
+          "w": 849,
           "tag": "g",
           "cls": ""
         },
         {
-          "over": 13,
-          "w": 14,
+          "over": 10,
+          "w": 10,
           "tag": "g",
           "cls": ""
         }
@@ -52,32 +52,32 @@
       "h1": "תחזוקת מפעלPM",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 11122,
+      "canvasW": 834,
+      "contentH": 18911,
       "offenders": [
         {
-          "over": 224,
-          "w": 544,
-          "tag": "i",
-          "cls": "nw-light-b"
-        },
-        {
-          "over": 192,
-          "w": 736,
-          "tag": "i",
-          "cls": "nw-light-a"
-        },
-        {
-          "over": 162,
-          "w": 110,
+          "over": 536,
+          "w": 118,
           "tag": "a",
           "cls": "nxs-i.nm-sel"
         },
         {
-          "over": 149,
+          "over": 519,
           "w": 62,
           "tag": "span",
           "cls": "nxs-t"
+        },
+        {
+          "over": 449,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 409,
+          "w": 149,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
         }
       ],
       "dimVisible": 0,
@@ -93,32 +93,32 @@
       "h1": "תעשיות תהליכיותPP-PI",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 10199,
+      "canvasW": 834,
+      "contentH": 18266,
       "offenders": [
         {
-          "over": 224,
-          "w": 544,
-          "tag": "i",
-          "cls": "nw-light-b"
-        },
-        {
-          "over": 192,
-          "w": 736,
-          "tag": "i",
-          "cls": "nw-light-a"
-        },
-        {
-          "over": 162,
-          "w": 110,
+          "over": 536,
+          "w": 118,
           "tag": "a",
           "cls": "nxs-i.nm-sel"
         },
         {
-          "over": 149,
+          "over": 519,
           "w": 62,
           "tag": "span",
           "cls": "nxs-t"
+        },
+        {
+          "over": 449,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 409,
+          "w": 149,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
         }
       ],
       "dimVisible": 0,
@@ -134,8 +134,8 @@
       "h1": "התחומים העסקיים של PM ו-PP-PI",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 4469,
+      "canvasW": 834,
+      "contentH": 6467,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -150,30 +150,30 @@
       "h1": "מיקומים פונקציונליים",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 4660,
+      "canvasW": 834,
+      "contentH": 4857,
       "offenders": [
         {
-          "over": 539,
-          "w": 127,
+          "over": 914,
+          "w": 135,
           "tag": "a",
           "cls": "nxs-i.nm-sel"
         },
         {
-          "over": 526,
+          "over": 897,
           "w": 79,
           "tag": "span",
           "cls": "nxs-t"
         },
         {
-          "over": 439,
+          "over": 810,
           "w": 14,
           "tag": "em",
           "cls": "nxs-n"
         },
         {
-          "over": 404,
-          "w": 161,
+          "over": 771,
+          "w": 169,
           "tag": "a",
           "cls": "nxs-i.nm-sel"
         }
@@ -191,9 +191,34 @@
       "h1": "השינויים במעבר מ-ECC ל-S/4HANA",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 8613,
-      "offenders": [],
+      "canvasW": 834,
+      "contentH": 10551,
+      "offenders": [
+        {
+          "over": 161,
+          "w": 90,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 144,
+          "w": 33,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 103,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 63,
+          "w": 106,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
       "dimSample": "",
@@ -207,8 +232,8 @@
       "h1": "כיסוי תיעוד למעבר ל-S/4HANA לפי מודול",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 7939,
+      "canvasW": 834,
+      "contentH": 8638,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -223,9 +248,34 @@
       "h1": "אובייקטי המעבר ורצף הטעינה",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 7299,
-      "offenders": [],
+      "canvasW": 834,
+      "contentH": 8759,
+      "offenders": [
+        {
+          "over": 275,
+          "w": 125,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 258,
+          "w": 68,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 182,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 143,
+          "w": 144,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
       "dimSample": "",
@@ -239,13 +289,13 @@
       "h1": "מודל הנתונים · כל המודולים",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 848,
+      "canvasW": 834,
+      "contentH": 1941,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
       "dimSample": "",
-      "zoom": "67%"
+      "zoom": "66%"
     },
     {
       "id": "studio",
@@ -255,13 +305,13 @@
       "h1": "Architecture Studio",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 960,
+      "canvasW": 834,
+      "contentH": 959,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
       "dimSample": "",
-      "zoom": "123%"
+      "zoom": "111%"
     },
     {
       "id": "tables",
@@ -271,8 +321,8 @@
       "h1": "טבלאות SAP",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 12094,
+      "canvasW": 834,
+      "contentH": 22842,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -287,30 +337,30 @@
       "h1": "AFKO",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 6547,
+      "canvasW": 834,
+      "contentH": 8226,
       "offenders": [
         {
-          "over": 191,
-          "w": 126,
+          "over": 565,
+          "w": 134,
           "tag": "a",
           "cls": "nxs-i.nm-sel"
         },
         {
-          "over": 178,
+          "over": 548,
           "w": 77,
           "tag": "span",
           "cls": "nxs-t"
         },
         {
-          "over": 92,
+          "over": 462,
           "w": 14,
           "tag": "em",
           "cls": "nxs-n"
         },
         {
-          "over": 57,
-          "w": 153,
+          "over": 423,
+          "w": 161,
           "tag": "a",
           "cls": "nxs-i.nm-sel"
         }
@@ -328,30 +378,30 @@
       "h1": "MARA",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 9089,
+      "canvasW": 834,
+      "contentH": 9034,
       "offenders": [
         {
-          "over": 407,
-          "w": 82,
+          "over": 805,
+          "w": 90,
           "tag": "a",
           "cls": "nxs-i.nm-sel"
         },
         {
-          "over": 394,
+          "over": 788,
           "w": 34,
           "tag": "span",
           "cls": "nxs-t"
         },
         {
-          "over": 352,
+          "over": 746,
           "w": 14,
           "tag": "em",
           "cls": "nxs-n"
         },
         {
-          "over": 316,
-          "w": 83,
+          "over": 706,
+          "w": 91,
           "tag": "a",
           "cls": "nxs-i.nm-sel"
         }
@@ -369,9 +419,34 @@
       "h1": "פקודת תחזוקה: מיצירה ושחרור, דרך ביצוע ואישור, ועד סגירה טכנ",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 17778,
-      "offenders": [],
+      "canvasW": 834,
+      "contentH": 20201,
+      "offenders": [
+        {
+          "over": 190,
+          "w": 133,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        },
+        {
+          "over": 173,
+          "w": 77,
+          "tag": "span",
+          "cls": "nxs-t"
+        },
+        {
+          "over": 88,
+          "w": 14,
+          "tag": "em",
+          "cls": "nxs-n"
+        },
+        {
+          "over": 49,
+          "w": 147,
+          "tag": "a",
+          "cls": "nxs-i.nm-sel"
+        }
+      ],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
       "dimSample": "",
@@ -385,8 +460,8 @@
       "h1": "טרנזקציות SAP",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 11867,
+      "canvasW": 834,
+      "contentH": 23460,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -401,8 +476,8 @@
       "h1": "BAPIs ומודולי פונקציה",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 13448,
+      "canvasW": 834,
+      "contentH": 20128,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -417,8 +492,8 @@
       "h1": "BAPI_ALM_CONF_CREATE",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 3000,
+      "canvasW": 834,
+      "contentH": 3489,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -433,8 +508,8 @@
       "h1": "IDocs",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 2343,
+      "canvasW": 834,
+      "contentH": 3465,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -449,8 +524,8 @@
       "h1": "CDS Views",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 4422,
+      "canvasW": 834,
+      "contentH": 9011,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -465,8 +540,8 @@
       "h1": "יישומי SAP Fiori",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 4583,
+      "canvasW": 834,
+      "contentH": 8139,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -481,9 +556,34 @@
       "h1": "טכניקות הרחבה",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 1991,
-      "offenders": [],
+      "canvasW": 834,
+      "contentH": 3525,
+      "offenders": [
+        {
+          "over": 103,
+          "w": 896,
+          "tag": "table",
+          "cls": "nxr-compare-t"
+        },
+        {
+          "over": 103,
+          "w": 896,
+          "tag": "thead",
+          "cls": ""
+        },
+        {
+          "over": 103,
+          "w": 896,
+          "tag": "tr",
+          "cls": ""
+        },
+        {
+          "over": 103,
+          "w": 97,
+          "tag": "th",
+          "cls": ""
+        }
+      ],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
       "dimSample": "",
@@ -497,8 +597,8 @@
       "h1": "ספריית SAP11 ספרים",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 5928,
+      "canvasW": 834,
+      "contentH": 6640,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -513,8 +613,8 @@
       "h1": "פרק 1Introduction to Production Planning in SAP S/4HANA",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 29313,
+      "canvasW": 834,
+      "contentH": 30098,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -529,8 +629,8 @@
       "h1": "שאל את הספרייה",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 1392,
+      "canvasW": 834,
+      "contentH": 1357,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -545,8 +645,8 @@
       "h1": "שיחה כללית על SAP",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 1295,
+      "canvasW": 834,
+      "contentH": 1291,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -561,8 +661,8 @@
       "h1": "מרכז הידע",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 5221,
+      "canvasW": 834,
+      "contentH": 8302,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -577,8 +677,8 @@
       "h1": "SAP Academy",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 1714,
+      "canvasW": 834,
+      "contentH": 2094,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -593,8 +693,8 @@
       "h1": "תרגול ובדיקת ידע",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 941,
+      "canvasW": 834,
+      "contentH": 961,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -609,8 +709,8 @@
       "h1": "תקלות ופתרון בעיות",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 6030,
+      "canvasW": 834,
+      "contentH": 8836,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -625,8 +725,8 @@
       "h1": "תנועות Backflush תקועות ב-COGI",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 1690,
+      "canvasW": 834,
+      "contentH": 1772,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -641,8 +741,8 @@
       "h1": "מרכזי הידע של הפרויקט",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 2355,
+      "canvasW": 834,
+      "contentH": 2304,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -657,8 +757,8 @@
       "h1": "שיטות עבודה מומלצות ל-SAP S/4HANA",
       "pageOverflow": 0,
       "canvasOverflow": 0,
-      "canvasW": 1144,
-      "contentH": 7599,
+      "canvasW": 834,
+      "contentH": 8932,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,

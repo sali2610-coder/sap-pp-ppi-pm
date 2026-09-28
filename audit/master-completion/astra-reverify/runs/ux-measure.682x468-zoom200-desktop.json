@@ -1,7 +1,7 @@
 {
   "viewport": "1363x936",
   "base": "http://localhost:4196",
-  "measuredAt": "2026-09-24T06:07:30.416Z",
+  "measuredAt": "2026-09-28T16:15:51.469Z",
   "results": [
     {
       "id": "home",
@@ -420,7 +420,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 402,
-      "contentH": 19321,
+      "contentH": 33095,
       "offenders": [
         {
           "over": 561,
@@ -461,7 +461,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 402,
-      "contentH": 32095,
+      "contentH": 31989,
       "offenders": [
         {
           "over": 161,
@@ -566,7 +566,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 402,
-      "contentH": 10620,
+      "contentH": 11462,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,
@@ -834,7 +834,7 @@
       "pageOverflow": 0,
       "canvasOverflow": 0,
       "canvasW": 402,
-      "contentH": 9638,
+      "contentH": 15635,
       "offenders": [],
       "dimVisible": 0,
       "minVisibleOpacity": 1,

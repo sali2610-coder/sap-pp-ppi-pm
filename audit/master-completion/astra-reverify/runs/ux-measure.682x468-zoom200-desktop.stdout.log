@@ -11,13 +11,13 @@ studio: http=200 pageOv=0 canvasOv=0 canvasW=402 h=722 dim=0(min 1) zoom=55% err
 tables: http=200 pageOv=0 canvasOv=0 canvasW=402 h=27827 dim=0(min 1) zoom=- errs=0
 table-afko: http=200 pageOv=0 canvasOv=0 canvasW=402 h=12083 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +921
 object-mara: http=200 pageOv=0 canvasOv=0 canvasW=402 h=17015 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +1137
-bp-record: http=200 pageOv=0 canvasOv=0 canvasW=402 h=19321 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +561
-transactions: http=200 pageOv=0 canvasOv=0 canvasW=402 h=32095 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +161
+bp-record: http=200 pageOv=0 canvasOv=0 canvasW=402 h=33095 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +561
+transactions: http=200 pageOv=0 canvasOv=0 canvasW=402 h=31989 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +161
 bapis: http=200 pageOv=0 canvasOv=0 canvasW=402 h=30207 dim=0(min 1) zoom=- errs=0
 bapi-alm-conf: http=200 pageOv=0 canvasOv=0 canvasW=402 h=5287 dim=0(min 1) zoom=- errs=0
 idocs: http=200 pageOv=0 canvasOv=0 canvasW=402 h=3923 dim=0(min 1) zoom=- errs=0
 cds: http=200 pageOv=0 canvasOv=0 canvasW=402 h=11635 dim=0(min 1) zoom=- errs=0
-fiori: http=200 pageOv=0 canvasOv=0 canvasW=402 h=10620 dim=0(min 1) zoom=- errs=0
+fiori: http=200 pageOv=0 canvasOv=0 canvasW=402 h=11462 dim=0(min 1) zoom=- errs=0
 enhancements: http=200 pageOv=0 canvasOv=0 canvasW=402 h=4548 dim=0(min 1) zoom=- errs=0 :: table.nxr-compare-t +535
 books: http=200 pageOv=0 canvasOv=0 canvasW=402 h=6883 dim=0(min 1) zoom=- errs=0
 reader: http=200 pageOv=0 canvasOv=0 canvasW=402 h=54079 dim=0(min 1) zoom=- errs=0
@@ -29,4 +29,4 @@ certification: http=200 pageOv=0 canvasOv=0 canvasW=402 h=1236 dim=0(min 1) zoom
 incidents: http=200 pageOv=0 canvasOv=0 canvasW=402 h=10710 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +89
 incident-cogi: http=200 pageOv=0 canvasOv=0 canvasW=402 h=2009 dim=0(min 1) zoom=- errs=0
 centers: http=200 pageOv=0 canvasOv=0 canvasW=402 h=2545 dim=0(min 1) zoom=- errs=0
-best-practices: http=200 pageOv=0 canvasOv=0 canvasW=402 h=9638 dim=0(min 1) zoom=- errs=0
+best-practices: http=200 pageOv=0 canvasOv=0 canvasW=402 h=15635 dim=0(min 1) zoom=- errs=0

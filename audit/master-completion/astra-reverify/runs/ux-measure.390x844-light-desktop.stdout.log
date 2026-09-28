@@ -11,13 +11,13 @@ studio: http=200 pageOv=0 canvasOv=0 canvasW=390 h=956 dim=0(min 1) zoom=55% err
 tables: http=200 pageOv=0 canvasOv=0 canvasW=390 h=28673 dim=0(min 1) zoom=- errs=0
 table-afko: http=200 pageOv=0 canvasOv=0 canvasW=390 h=12273 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +933
 object-mara: http=200 pageOv=0 canvasOv=0 canvasW=390 h=17173 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +1149
-bp-record: http=200 pageOv=0 canvasOv=0 canvasW=390 h=19898 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +573
-transactions: http=200 pageOv=0 canvasOv=0 canvasW=390 h=32550 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +173
+bp-record: http=200 pageOv=0 canvasOv=0 canvasW=390 h=34023 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +573
+transactions: http=200 pageOv=0 canvasOv=0 canvasW=390 h=32424 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +173
 bapis: http=200 pageOv=0 canvasOv=0 canvasW=390 h=30852 dim=0(min 1) zoom=- errs=0
 bapi-alm-conf: http=200 pageOv=0 canvasOv=0 canvasW=390 h=5364 dim=0(min 1) zoom=- errs=0
 idocs: http=200 pageOv=0 canvasOv=0 canvasW=390 h=4054 dim=0(min 1) zoom=- errs=0
 cds: http=200 pageOv=0 canvasOv=0 canvasW=390 h=11686 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +12
-fiori: http=200 pageOv=0 canvasOv=0 canvasW=390 h=10708 dim=0(min 1) zoom=- errs=0
+fiori: http=200 pageOv=0 canvasOv=0 canvasW=390 h=11500 dim=0(min 1) zoom=- errs=0
 enhancements: http=200 pageOv=0 canvasOv=0 canvasW=390 h=4597 dim=0(min 1) zoom=- errs=0 :: table.nxr-compare-t +547
 books: http=200 pageOv=0 canvasOv=0 canvasW=390 h=9402 dim=0(min 1) zoom=- errs=0
 reader: http=200 pageOv=0 canvasOv=0 canvasW=390 h=56296 dim=0(min 1) zoom=- errs=0
@@ -25,8 +25,8 @@ ask-library: http=200 pageOv=0 canvasOv=0 canvasW=390 h=1626 dim=0(min 1) zoom=-
 chat: http=200 pageOv=0 canvasOv=0 canvasW=390 h=1914 dim=0(min 1) zoom=- errs=0
 knowledge: http=200 pageOv=0 canvasOv=0 canvasW=390 h=9203 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +72
 academy: http=200 pageOv=0 canvasOv=0 canvasW=390 h=3421 dim=0(min 1) zoom=- errs=0
-certification: http=200 pageOv=0 canvasOv=0 canvasW=390 h=1262 dim=0(min 1) zoom=- errs=0
+certification: http=200 pageOv=0 canvasOv=0 canvasW=390 h=1236 dim=0(min 1) zoom=- errs=0
 incidents: http=200 pageOv=0 canvasOv=0 canvasW=390 h=10948 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +101
 incident-cogi: http=200 pageOv=0 canvasOv=0 canvasW=390 h=2109 dim=0(min 1) zoom=- errs=0
 centers: http=200 pageOv=0 canvasOv=0 canvasW=390 h=2545 dim=0(min 1) zoom=- errs=0
-best-practices: http=200 pageOv=0 canvasOv=0 canvasW=390 h=10021 dim=0(min 1) zoom=- errs=0
+best-practices: http=200 pageOv=0 canvasOv=0 canvasW=390 h=16398 dim=0(min 1) zoom=- errs=0

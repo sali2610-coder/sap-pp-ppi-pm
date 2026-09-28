@@ -9,7 +9,7 @@
    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-light-desktop"
   },
   "exit": 0,
-  "seconds": 44.2,
+  "seconds": 44.5,
   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
  },
  {
@@ -23,7 +23,7 @@
    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-dark-desktop"
   },
   "exit": 0,
-  "seconds": 43.6,
+  "seconds": 44.1,
   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-dark-desktop.json"
  },
  {
@@ -37,7 +37,7 @@
    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-light-reduce-desktop"
   },
   "exit": 0,
-  "seconds": 43.8,
+  "seconds": 44.1,
   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-reduce-desktop.json"
  },
  {
@@ -51,7 +51,7 @@
    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.390x844-light-phone"
   },
   "exit": 0,
-  "seconds": 45,
+  "seconds": 44.2,
   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-phone.json"
  },
  {
@@ -93,7 +93,7 @@
    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.682x468-zoom200-desktop"
   },
   "exit": 0,
-  "seconds": 43.4,
+  "seconds": 43.3,
   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.682x468-zoom200-desktop.json"
  },
  {
@@ -106,7 +106,7 @@
    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.390x844-light-desktop"
   },
   "exit": 0,
-  "seconds": 42.9,
+  "seconds": 43.2,
   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-desktop.json"
  },
  {
@@ -119,8 +119,22 @@
    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.320x568-light-desktop"
   },
   "exit": 0,
-  "seconds": 42.6,
+  "seconds": 43.2,
   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.320x568-light-desktop.json"
+ },
+ {
+  "id": "ux-measure.834x1112-light-tablet",
+  "script": "node scripts/qa/ux-measure.mjs",
+  "env": {
+   "VW": "834",
+   "VH": "1112",
+   "UA": "tablet",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.834x1112-light-tablet.json",
+   "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.834x1112-light-tablet"
+  },
+  "exit": 0,
+  "seconds": 44.7,
+  "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.834x1112-light-tablet.json"
  },
  {
   "id": "ux-measure.1440x900-light-desktop",
@@ -132,7 +146,7 @@
    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1440x900-light-desktop"
   },
   "exit": 0,
-  "seconds": 44.7,
+  "seconds": 44.1,
   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1440x900-light-desktop.json"
  },
  {
@@ -145,7 +159,7 @@
    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1920x1080-light-desktop"
   },
   "exit": 0,
-  "seconds": 45.5,
+  "seconds": 44.8,
   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1920x1080-light-desktop.json"
  },
  {
@@ -156,7 +170,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.1363x936-light-desktop.json"
   },
   "exit": 0,
-  "seconds": 39.8,
+  "seconds": 40.2,
   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.1363x936-light-desktop.json"
  },
  {
@@ -168,7 +182,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.1363x936-dark-desktop.json"
   },
   "exit": 0,
-  "seconds": 40.4,
+  "seconds": 39.9,
   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.1363x936-dark-desktop.json"
  },
  {
@@ -180,7 +194,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-light-phone.json"
   },
   "exit": 0,
-  "seconds": 39.6,
+  "seconds": 39.8,
   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-light-phone.json"
  },
  {
@@ -193,7 +207,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-dark-phone.json"
   },
   "exit": 0,
-  "seconds": 39.7,
+  "seconds": 39.8,
   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-dark-phone.json"
  },
  {
@@ -216,7 +230,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.682x468-zoom200-desktop.json"
   },
   "exit": 0,
-  "seconds": 39.7,
+  "seconds": 40.3,
   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.682x468-zoom200-desktop.json"
  },
  {
@@ -227,7 +241,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-light-desktop.json"
   },
   "exit": 0,
-  "seconds": 40,
+  "seconds": 40.6,
   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-light-desktop.json"
  },
  {
@@ -238,8 +252,20 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.320x568-light-desktop.json"
   },
   "exit": 0,
-  "seconds": 39.9,
+  "seconds": 40.2,
   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.320x568-light-desktop.json"
+ },
+ {
+  "id": "clip-check.834x1112-light-tablet",
+  "script": "node scripts/qa/clip-check.mjs",
+  "env": {
+   "VW": "834",
+   "UA": "tablet",
+   "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.834x1112-light-tablet.json"
+  },
+  "exit": 0,
+  "seconds": 39,
+  "outFile": "audit/master-completion/astra-reverify/runs/clip-check.834x1112-light-tablet.json"
  },
  {
   "id": "axe-sweep.1363-light",
@@ -249,7 +275,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.1363-light.json"
   },
   "exit": 0,
-  "seconds": 47.4,
+  "seconds": 47.6,
   "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.1363-light.json"
  },
  {
@@ -261,7 +287,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.1363-dark.json"
   },
   "exit": 0,
-  "seconds": 47.3,
+  "seconds": 47.2,
   "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.1363-dark.json"
  },
  {
@@ -284,7 +310,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.390-dark.json"
   },
   "exit": 0,
-  "seconds": 47,
+  "seconds": 47.2,
   "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.390-dark.json"
  },
  {
@@ -295,7 +321,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/keyboard-check.1363.json"
   },
   "exit": 0,
-  "seconds": 103.4,
+  "seconds": 107.8,
   "outFile": "audit/master-completion/astra-reverify/runs/keyboard-check.1363.json"
  },
  {
@@ -306,7 +332,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/keyboard-check.390.json"
   },
   "exit": 0,
-  "seconds": 105.5,
+  "seconds": 108.5,
   "outFile": "audit/master-completion/astra-reverify/runs/keyboard-check.390.json"
  },
  {
@@ -317,7 +343,7 @@
    "ROUTES_FROM": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
   },
   "exit": 0,
-  "seconds": 46,
+  "seconds": 45.9,
   "outFile": "audit/master-completion/astra-reverify/runs/a11y-sample.light.json"
  },
  {
@@ -329,7 +355,7 @@
    "ROUTES_FROM": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
   },
   "exit": 0,
-  "seconds": 46.2,
+  "seconds": 44.5,
   "outFile": "audit/master-completion/astra-reverify/runs/a11y-sample.dark.json"
  },
  {
@@ -349,7 +375,7 @@
    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/bidi-scan.json"
   },
   "exit": 0,
-  "seconds": 32.4,
+  "seconds": 32.8,
   "outFile": "audit/master-completion/astra-reverify/runs/bidi-scan.json"
  },
  {
@@ -357,7 +383,7 @@
   "script": "node scripts/qa/shelf-check.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 6.8,
+  "seconds": 3.2,
   "outFile": "audit/master-completion/astra-reverify/runs/shelf-check.stdout.log"
  },
  {
@@ -373,7 +399,7 @@
   "script": "node scripts/qa/module-colour-check.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 15,
+  "seconds": 15.1,
   "outFile": "audit/master-completion/astra-reverify/runs/module-colour-check.stdout.log"
  },
  {
@@ -381,7 +407,7 @@
   "script": "node scripts/qa/status-consistency.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 34.9,
+  "seconds": 35.4,
   "outFile": "audit/master-completion/astra-reverify/runs/status-consistency.stdout.log"
  },
  {
@@ -401,7 +427,7 @@
    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/open-rows-check"
   },
   "exit": 0,
-  "seconds": 37,
+  "seconds": 36.9,
   "outFile": "audit/master-completion/astra-reverify/runs/open-rows-check.stdout.log"
  },
  {
@@ -417,7 +443,7 @@
   "script": "node scripts/qa/r3-check.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 5.5,
+  "seconds": 5.3,
   "outFile": "audit/master-completion/astra-reverify/runs/r3-check.stdout.log"
  },
  {
@@ -433,7 +459,7 @@
   "script": "node scripts/qa/r3c-check.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 7.9,
+  "seconds": 8,
   "outFile": "audit/master-completion/astra-reverify/runs/r3c-check.stdout.log"
  },
  {
@@ -441,15 +467,23 @@
   "script": "node scripts/qa/r3d-check.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 8.1,
+  "seconds": 7.9,
   "outFile": "audit/master-completion/astra-reverify/runs/r3d-check.stdout.log"
+ },
+ {
+  "id": "astra-extra-check",
+  "script": "node scripts/qa/astra-extra-check.mjs",
+  "env": {},
+  "exit": 0,
+  "seconds": 45.3,
+  "outFile": "audit/master-completion/astra-reverify/runs/astra-extra-check.stdout.log"
  },
  {
   "id": "round6-misc-check",
   "script": "node scripts/qa/round6-misc-check.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 13.4,
+  "seconds": 13.7,
   "outFile": "audit/master-completion/astra-reverify/runs/round6-misc-check.stdout.log"
  },
  {
@@ -457,7 +491,7 @@
   "script": "node scripts/qa/catalog-cards-check.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 9.6,
+  "seconds": 9.7,
   "outFile": "audit/master-completion/astra-reverify/runs/catalog-cards-check.stdout.log"
  },
  {
@@ -465,7 +499,7 @@
   "script": "node scripts/qa/erd-selection-check.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 8.2,
+  "seconds": 8.1,
   "outFile": "audit/master-completion/astra-reverify/runs/erd-selection-check.stdout.log"
  },
  {
@@ -473,7 +507,7 @@
   "script": "node scripts/qa/ai-states-check.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 71.9,
+  "seconds": 72.2,
   "outFile": "audit/master-completion/astra-reverify/runs/ai-states-check.stdout.log"
  },
  {
@@ -481,7 +515,7 @@
   "script": "node scripts/crawl-dead-links.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 8.4,
+  "seconds": 8.3,
   "outFile": "audit/master-completion/astra-reverify/runs/crawl-dead-links.stdout.log"
  },
  {
@@ -489,7 +523,7 @@
   "script": "node --experimental-strip-types --no-warnings scripts/verify-reader.mjs",
   "env": {},
   "exit": 0,
-  "seconds": 96.6,
+  "seconds": 94.9,
   "outFile": "audit/master-completion/astra-reverify/runs/verify-reader.stdout.log"
  },
  {

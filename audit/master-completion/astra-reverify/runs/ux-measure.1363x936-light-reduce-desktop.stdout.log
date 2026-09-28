@@ -11,13 +11,13 @@ studio: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=988 dim=0(min 1) zoom=116% e
 tables: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=16558 dim=0(min 1) zoom=- errs=0
 table-afko: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=6584 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +244
 object-mara: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=9035 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +460
-bp-record: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=10302 dim=0(min 1) zoom=- errs=0
-transactions: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=16959 dim=0(min 1) zoom=- errs=0
+bp-record: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=17951 dim=0(min 1) zoom=- errs=0
+transactions: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=16825 dim=0(min 1) zoom=- errs=0
 bapis: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=16637 dim=0(min 1) zoom=- errs=0
 bapi-alm-conf: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=2992 dim=0(min 1) zoom=- errs=0
 idocs: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=2490 dim=0(min 1) zoom=- errs=0
 cds: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=6449 dim=0(min 1) zoom=- errs=0
-fiori: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=5560 dim=0(min 1) zoom=- errs=0
+fiori: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=5942 dim=0(min 1) zoom=- errs=0
 enhancements: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=2665 dim=0(min 1) zoom=- errs=0
 books: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=5226 dim=0(min 1) zoom=- errs=0
 reader: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=31438 dim=0(min 1) zoom=- errs=0
@@ -29,4 +29,4 @@ certification: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=933 dim=0(min 1) zoom
 incidents: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=6082 dim=0(min 1) zoom=- errs=0
 incident-cogi: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=1682 dim=0(min 1) zoom=- errs=0
 centers: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=2347 dim=0(min 1) zoom=- errs=0
-best-practices: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=4814 dim=0(min 1) zoom=- errs=0
+best-practices: http=200 pageOv=0 canvasOv=0 canvasW=1083 h=7671 dim=0(min 1) zoom=- errs=0

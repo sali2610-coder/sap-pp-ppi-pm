@@ -1,5 +1,5 @@
 {
- "ranAt": "2026-09-24T15:27:54.563Z",
+ "ranAt": "2026-09-28T16:43:16.149Z",
  "base": "http://localhost:4196",
  "matrix": "audit/ux-2026-09/COVERAGE-MATRIX.md",
  "layouts": {
@@ -45,6 +45,11 @@
    "VW": 320,
    "VH": 568
   },
+  "834x1112-light-tablet": {
+   "VW": 834,
+   "VH": 1112,
+   "UA": "tablet"
+  },
   "1440x900-light-desktop": {
    "VW": 1440,
    "VH": 900
@@ -55,11 +60,11 @@
   }
  },
  "counts": {
-  "PASS": 85,
+  "PASS": 115,
   "FAIL": 0,
-  "NOT_MEASURABLE": 55
+  "NOT_MEASURABLE": 25
  },
- "totalSeconds": 74.16,
+ "totalSeconds": 1952.62,
  "rows": [
   {
    "id": "INS-1",
@@ -123,39 +128,51 @@
   },
   {
    "id": "KEEP-1",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "preserve row, nothing to measure"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"brand\":\"#d62027\",\"canvas\":[239,231,218],\"card\":[231,243,245],\"warm\":21,\"canvasLum\":0.909,\"cardLum\":0.944}"
   },
   {
    "id": "KEEP-2",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "preserve row, nothing to measure"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"h1\":\"AFKO\",\"hebrewInHeader\":true}"
   },
   {
    "id": "KEEP-3",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "preserve row, nothing to measure"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"linksPerSection\":{\"rel\":9,\"tx\":8,\"if\":3,\"books\":7},\"docRecordChars\":557}"
   },
   {
    "id": "KEEP-4",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "preserve row, nothing to measure"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"lanes\":3,\"nodes\":11,\"unstatedCards\":10}"
   },
   {
    "id": "KEEP-5",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "preserve row, nothing to measure"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"block\":true,\"status\":\"לא אסטרטגי ב-S/4HANA\",\"sources\":6,\"needsFlag\":null}"
   },
   {
    "id": "KEEP-6",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "preserve row, nothing to measure"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"covers\":11,\"depth\":22,\"consoleErrors\":0}"
   },
   {
    "id": "PRIO-1",
@@ -236,7 +253,7 @@
     "type-profile"
    ],
    "result": "PASS",
-   "evidence": "h1 gate=86.64px (86.6) work=36/36/36/36/36/36/36px (28–36; module heroes pm/pp-pi 56.316/56.316px as in round 6) detail=39.882/39.882/39.882/40/40/40/40px (≤40); prose<13px tables=9%(≤9) transactions=22%(≤22) bapi=0%(≤0) cds=4%(≤4) fiori-apps=3%(≤5) academy=17%(≤17)"
+   "evidence": "h1 gate=86.64px (86.6) work=36/36/36/36/36/36/36px (28–36; module heroes pm/pp-pi 56.316/56.316px as in round 6) detail=39.882/39.882/39.882/40/40/40/40px (≤40); prose<13px tables=9%(≤9) transactions=21%(≤22) bapi=0%(≤0) cds=4%(≤4) fiori-apps=2%(≤5) academy=17%(≤17)"
   },
   {
    "id": "S4-2",
@@ -253,7 +270,7 @@
     "bidi-scan"
    ],
    "result": "PASS",
-   "evidence": "32 routes: latin=3789 nonIsolated=0 orderSensitive=0"
+   "evidence": "32 routes: latin=3802 nonIsolated=0 orderSensitive=0"
   },
   {
    "id": "S5-1",
@@ -330,9 +347,11 @@
   },
   {
    "id": "S7-HOME-3",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "one-sentence opener is editorial; no QA script"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"lede\":\"פלטפורמת ידע מקצועית למודולי PM ו-PP-PI: אובייקטים עסקיים, טבלאות, טרנזקציות, קשרי נתונים והמעבר מ-ECC ל-S/4HANA. זמינה במלואה גם ללא חיבור לרשת.\",\"sentences\":2,\"structureWordsInOpener\":[],\"secondarySections\":3}"
   },
   {
    "id": "S7-HOME-4",
@@ -469,7 +488,7 @@
     "catalog-cards-check"
    ],
    "result": "PASS",
-   "evidence": "30 tx rows, chips max 2 avg 1.6, refs chip=false, 30/30 canonical pills"
+   "evidence": "30 tx rows, chips max 2 avg 1.5, refs chip=false, 30/30 canonical pills"
   },
   {
    "id": "S7-CAT-3",
@@ -481,9 +500,11 @@
   },
   {
    "id": "S7-CAT-4",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "shared ref-surface order across 7 catalogs not scripted"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"blockOrder\":[\"h1\",\"tools\",\"filters\",\"count\",\"list\"],\"identicalAcross7\":true,\"perCatalog\":{\"/neo/tables/\":\"h1>tools>filters>count>list\",\"/neo/transactions/\":\"h1>tools>filters>count>list\",\"/neo/bapi/\":\"h1>tools>filters>count>list\",\"/neo/idoc/\":\"h1>tools>filters>count>list\",\"/neo/cds/\":\"h1>tools>filters>count>list\",\"/neo/fiori-apps/\":\"h1>tools>filters>count>list\",\"/neo/enhancements/\":\"h1>tools>filt"
   },
   {
    "id": "S7-CAT-5",
@@ -511,9 +532,11 @@
   },
   {
    "id": "S7-CAT-8",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "same toolbar order across 7 catalogs not scripted"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"toolbarOrder\":[\"search\",\"view\",\"sort\"],\"identicalAcross7\":true,\"perCatalog\":{\"/neo/tables/\":\"search>view>sort\",\"/neo/transactions/\":\"search>view>sort\",\"/neo/bapi/\":\"search>view>sort\",\"/neo/idoc/\":\"search>view>sort\",\"/neo/cds/\":\"search>view>sort\",\"/neo/fiori-apps/\":\"search>view>sort\",\"/neo/enhancements/\":\"search>view>sort\"}}"
   },
   {
    "id": "S7-TBL-1",
@@ -533,9 +556,11 @@
   },
   {
    "id": "S7-TBL-3",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "source-code UI-string scan (→ S9-1), not a served-export measurement"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "→ S9-1: {\"neoSourceHits\":[],\"legacyOpeners\":{\"/sap-notes/\":{\"status\":200,\"lede\":\"23 נושאי פתרון ל-PM/PP/PP-PI לפי רכיב SAP (Application Component) ומילות חיפוש מאומתות ל-O\",\"builtNote\":false},\"/knowledge/\":{\"status\":200,\"lede\":\"שכבת הידע המקצועית של NEO — מאורגנת לפי מה שאתה צריך לעשות, לא לפי סוג טכני. התחל בחיפוש, \",\"builtNote\":false}}}"
   },
   {
    "id": "S7-TBL-4",
@@ -556,9 +581,11 @@
   },
   {
    "id": "S7-ERD-2",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "resize → refit was a round-1 ad-hoc interaction run; no script in scripts/qa"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"at1363\":{\"zoom\":\"61%\",\"nodes\":15,\"outside\":0},\"at1100\":{\"zoom\":\"65%\",\"nodes\":15,\"outside\":0},\"backTo1363\":{\"zoom\":\"61%\",\"nodes\":15,\"outside\":0},\"consoleErrors\":0}"
   },
   {
    "id": "S7-ERD-3",
@@ -608,9 +635,11 @@
   },
   {
    "id": "S7-LIB-1",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "preserve row (frozen Library surface)"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"covers\":11,\"depth\":22}"
   },
   {
    "id": "S7-LIB-2",
@@ -622,9 +651,11 @@
   },
   {
    "id": "S7-LIB-3",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "conditional UI on a saved reading position; no QA script"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"freshProfile\":0,\"afterReadingBook2\":[{\"text\":\"המשך קריאה בתת-הפרק\",\"primary\":true}],\"consoleErrors\":0}"
   },
   {
    "id": "S7-LIB-4",
@@ -679,9 +710,11 @@
   },
   {
    "id": "S7-AI-3",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "limits column / advisory presence not scripted"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"/neo/ai/\":{\"limitsHeading\":false,\"advisory\":\"התשובות נכתבות מתוך ספרי SAP שבספרייה: הסבר, סיכום, השוואה, תרשים והפניה למקור המדויק\"},\"/neo/chat/\":{\"limitsHeading\":true,\"advisory\":\"התשובות מבוססות על ידע כללי ויש לאמת מזהים ומספרי Note מול מקור רשמי\"}}"
   },
   {
    "id": "S7-AI-4",
@@ -811,9 +844,11 @@
   },
   {
    "id": "S9-1",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "source-code UI-string scan, not a served-export measurement"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"neoSourceHits\":[],\"legacyOpeners\":{\"/sap-notes/\":{\"status\":200,\"lede\":\"23 נושאי פתרון ל-PM/PP/PP-PI לפי רכיב SAP (Application Component) ומילות חיפוש מאומתות ל-O\",\"builtNote\":false},\"/knowledge/\":{\"status\":200,\"lede\":\"שכבת הידע המקצועית של NEO — מאורגנת לפי מה שאתה צריך לעשות, לא לפי סוג טכני. התחל בחיפוש, \",\"builtNote\":false}}}"
   },
   {
    "id": "S9-2",
@@ -862,15 +897,16 @@
     "a11y-sample.dark"
    ],
    "result": "PASS",
-   "evidence": "light: 37 routes, 15,262 text nodes, 0 contrast failures; dark: 37 routes, 15,262 text nodes, 0 contrast failures"
+   "evidence": "light: 37 routes, 15,924 text nodes, 0 contrast failures; dark: 37 routes, 15,924 text nodes, 0 contrast failures"
   },
   {
    "id": "S10-2",
    "scripts": [
-    "ux-measure.390x844-light-phone"
+    "ux-measure.390x844-light-phone",
+    "ux-measure.834x1112-light-tablet"
    ],
    "result": "PASS",
-   "evidence": "390×844 iPhone UA: 32/32 routes 0 overflow; 0 routes with console errors"
+   "evidence": "390×844 iPhone UA: 32/32 routes 0 overflow; 0 routes with console errors; 834×1112 iPad UA: 834x1112-light-tablet: 32/32 routes 0 overflow; 32/32 routes 0 dim; 0 routes with console errors"
   },
   {
    "id": "S10-3",
@@ -910,33 +946,43 @@
   },
   {
    "id": "S11-1",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "round-1 ad-hoc interaction run (tables search); no script in scripts/qa"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"count\":\"1 מתוך 105 טבלאות · ניקוי הסינון\",\"rows\":1}"
   },
   {
    "id": "S11-2",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "round-1 ad-hoc interaction run (empty state); no script in scripts/qa"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"empty\":true,\"buttons\":[\"הצגת כל הטבלאות\",\"ניקוי החיפוש בלבד\"],\"afterShowAll\":{\"count\":\"105 מתוך 105 טבלאות\",\"query\":\"\"},\"consoleErrors\":0}"
   },
   {
    "id": "S11-3",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "round-1 ad-hoc interaction run (section chip); no script in scripts/qa"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"chip\":\"01שדות ומפתחות\",\"top\":118,\"active\":\"true\",\"consoleErrors\":0}"
   },
   {
    "id": "S11-4",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "round-1 ad-hoc interaction run (object lanes); no script in scripts/qa"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"lanesNodes\":11,\"round1\":21,\"consoleErrors\":0}"
   },
   {
    "id": "S11-5",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "round-1 ad-hoc interaction run (key 0 fit); no script in scripts/qa"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"afterKey0\":{\"zoom\":\"61%\",\"nodes\":15,\"outside\":0}}"
   },
   {
    "id": "S12-R1",
@@ -1002,9 +1048,11 @@
   },
   {
    "id": "ACC-6",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "product decision (legacy shell kept on purpose); partial by design"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"desktop first-visit welcome dialog\":true,\"desktop /library/\":{\"href\":\"/neo/\",\"w\":127,\"h\":36},\"desktop /knowledge/\":{\"href\":\"/neo/\",\"w\":127,\"h\":36},\"desktop /tables/\":{\"href\":\"/neo/\",\"w\":127,\"h\":36},\"desktop /sap-notes/\":{\"href\":\"/neo/\",\"w\":127,\"h\":36},\"desktop click\":{\"landed\":\"/neo/\",\"consoleErrors\":0},\"phone first-visit welcome dialog\":true,\"phone /library/\":{\"href\":\"/neo/\",\"w\":38,\"h\":36},\"pho"
   },
   {
    "id": "S12-REC",
@@ -1039,57 +1087,75 @@
   },
   {
    "id": "APPX-4",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "opening-vs-fit state was a round-1 ad-hoc interaction run; no script"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"opening\":{\"zoom\":\"61%\",\"nodes\":15,\"outside\":0},\"fit\":{\"zoom\":\"61%\",\"nodes\":15,\"outside\":0}}"
   },
   {
    "id": "SAP-1",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"status\":200,\"simplification\":true,\"ristra20\":true,\"successorIP30H\":true}"
   },
   {
    "id": "SAP-2",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"status\":[200,200],\"taskShowsQMSM\":true,\"activityShowsQMMA\":true,\"oldMixedClaim\":false}"
   },
   {
    "id": "SAP-3",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"status\":200,\"QA08\":true,\"MM01\":true}"
   },
   {
    "id": "SAP-4",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"status\":200,\"TXTSH\":true,\"TXTMD\":true}"
   },
   {
    "id": "SAP-5",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"status\":{\"bapi\":200,\"idocBOMMAT\":200,\"idoc\":200},\"bapiStats\":[\"142 אובייקטי פונקציה\",\"59 BAPIs\",\"83 מודולי פונקציה (FM)\",\"130 מתועדים לעומק\",\"57 רשומות מאומתות\",\"23 חוצי מודולים\",\"3 משתנים ב-S/4HANA\",\"23 עם תצוגת CDS מקבילה\"],\"idocStats\":[\"3 סוגי הודעה במאגר\",\"3 רשומות פיזיות\",\"7 קודי סטטוס מתועדים\",\"4 טרנזקציות ניטור\",\"1 מודולים\"]}"
   },
   {
    "id": "SAP-6",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"status\":[200,200],\"customerExitNamesCMOD\":true,\"legacyCMODpointsToNeo\":true,\"legacyImplicitPointsToNeo\":true}"
   },
   {
    "id": "SAP-7",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"status\":200,\"missing\":[]}"
   },
   {
    "id": "SAP-8",
-   "scripts": [],
-   "result": "NOT_MEASURABLE",
-   "evidence": "SAP fact row; verified by curl/screenshot assertions whose strings are not recorded as a script (SAP-FIXES.md)"
+   "scripts": [
+    "astra-extra-check"
+   ],
+   "result": "PASS",
+   "evidence": "{\"status\":[200,200],\"getlistShowsCOR6N_CORK\":true,\"batchShowsBUS1001002\":true,\"oldNamesOutsideEvidence\":{}}"
   }
  ],
  "runs": [
@@ -1103,7 +1169,7 @@
     "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-light-desktop"
    },
    "exit": 0,
-   "seconds": 44.2,
+   "seconds": 44.5,
    "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
   },
   {
@@ -1117,7 +1183,7 @@
     "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-dark-desktop"
    },
    "exit": 0,
-   "seconds": 43.6,
+   "seconds": 44.1,
    "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-dark-desktop.json"
   },
   {
@@ -1131,7 +1197,7 @@
     "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1363x936-light-reduce-desktop"
    },
    "exit": 0,
-   "seconds": 43.8,
+   "seconds": 44.1,
    "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-reduce-desktop.json"
   },
   {
@@ -1145,7 +1211,7 @@
     "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.390x844-light-phone"
    },
    "exit": 0,
-   "seconds": 45,
+   "seconds": 44.2,
    "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-phone.json"
   },
   {
@@ -1187,7 +1253,7 @@
     "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.682x468-zoom200-desktop"
    },
    "exit": 0,
-   "seconds": 43.4,
+   "seconds": 43.3,
    "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.682x468-zoom200-desktop.json"
   },
   {
@@ -1200,7 +1266,7 @@
     "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.390x844-light-desktop"
    },
    "exit": 0,
-   "seconds": 42.9,
+   "seconds": 43.2,
    "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.390x844-light-desktop.json"
   },
   {
@@ -1213,8 +1279,22 @@
     "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.320x568-light-desktop"
    },
    "exit": 0,
-   "seconds": 42.6,
+   "seconds": 43.2,
    "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.320x568-light-desktop.json"
+  },
+  {
+   "id": "ux-measure.834x1112-light-tablet",
+   "script": "node scripts/qa/ux-measure.mjs",
+   "env": {
+    "VW": "834",
+    "VH": "1112",
+    "UA": "tablet",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.834x1112-light-tablet.json",
+    "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.834x1112-light-tablet"
+   },
+   "exit": 0,
+   "seconds": 44.7,
+   "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.834x1112-light-tablet.json"
   },
   {
    "id": "ux-measure.1440x900-light-desktop",
@@ -1226,7 +1306,7 @@
     "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1440x900-light-desktop"
    },
    "exit": 0,
-   "seconds": 44.7,
+   "seconds": 44.1,
    "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1440x900-light-desktop.json"
   },
   {
@@ -1239,7 +1319,7 @@
     "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/ux-measure.1920x1080-light-desktop"
    },
    "exit": 0,
-   "seconds": 45.5,
+   "seconds": 44.8,
    "outFile": "audit/master-completion/astra-reverify/runs/ux-measure.1920x1080-light-desktop.json"
   },
   {
@@ -1250,7 +1330,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.1363x936-light-desktop.json"
    },
    "exit": 0,
-   "seconds": 39.8,
+   "seconds": 40.2,
    "outFile": "audit/master-completion/astra-reverify/runs/clip-check.1363x936-light-desktop.json"
   },
   {
@@ -1262,7 +1342,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.1363x936-dark-desktop.json"
    },
    "exit": 0,
-   "seconds": 40.4,
+   "seconds": 39.9,
    "outFile": "audit/master-completion/astra-reverify/runs/clip-check.1363x936-dark-desktop.json"
   },
   {
@@ -1274,7 +1354,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-light-phone.json"
    },
    "exit": 0,
-   "seconds": 39.6,
+   "seconds": 39.8,
    "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-light-phone.json"
   },
   {
@@ -1287,7 +1367,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-dark-phone.json"
    },
    "exit": 0,
-   "seconds": 39.7,
+   "seconds": 39.8,
    "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-dark-phone.json"
   },
   {
@@ -1310,7 +1390,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.682x468-zoom200-desktop.json"
    },
    "exit": 0,
-   "seconds": 39.7,
+   "seconds": 40.3,
    "outFile": "audit/master-completion/astra-reverify/runs/clip-check.682x468-zoom200-desktop.json"
   },
   {
@@ -1321,7 +1401,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.390x844-light-desktop.json"
    },
    "exit": 0,
-   "seconds": 40,
+   "seconds": 40.6,
    "outFile": "audit/master-completion/astra-reverify/runs/clip-check.390x844-light-desktop.json"
   },
   {
@@ -1332,8 +1412,20 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.320x568-light-desktop.json"
    },
    "exit": 0,
-   "seconds": 39.9,
+   "seconds": 40.2,
    "outFile": "audit/master-completion/astra-reverify/runs/clip-check.320x568-light-desktop.json"
+  },
+  {
+   "id": "clip-check.834x1112-light-tablet",
+   "script": "node scripts/qa/clip-check.mjs",
+   "env": {
+    "VW": "834",
+    "UA": "tablet",
+    "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/clip-check.834x1112-light-tablet.json"
+   },
+   "exit": 0,
+   "seconds": 39,
+   "outFile": "audit/master-completion/astra-reverify/runs/clip-check.834x1112-light-tablet.json"
   },
   {
    "id": "axe-sweep.1363-light",
@@ -1343,7 +1435,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.1363-light.json"
    },
    "exit": 0,
-   "seconds": 47.4,
+   "seconds": 47.6,
    "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.1363-light.json"
   },
   {
@@ -1355,7 +1447,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.1363-dark.json"
    },
    "exit": 0,
-   "seconds": 47.3,
+   "seconds": 47.2,
    "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.1363-dark.json"
   },
   {
@@ -1378,7 +1470,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/axe-sweep.390-dark.json"
    },
    "exit": 0,
-   "seconds": 47,
+   "seconds": 47.2,
    "outFile": "audit/master-completion/astra-reverify/runs/axe-sweep.390-dark.json"
   },
   {
@@ -1389,7 +1481,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/keyboard-check.1363.json"
    },
    "exit": 0,
-   "seconds": 103.4,
+   "seconds": 107.8,
    "outFile": "audit/master-completion/astra-reverify/runs/keyboard-check.1363.json"
   },
   {
@@ -1400,7 +1492,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/keyboard-check.390.json"
    },
    "exit": 0,
-   "seconds": 105.5,
+   "seconds": 108.5,
    "outFile": "audit/master-completion/astra-reverify/runs/keyboard-check.390.json"
   },
   {
@@ -1411,7 +1503,7 @@
     "ROUTES_FROM": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
    },
    "exit": 0,
-   "seconds": 46,
+   "seconds": 45.9,
    "outFile": "audit/master-completion/astra-reverify/runs/a11y-sample.light.json"
   },
   {
@@ -1423,7 +1515,7 @@
     "ROUTES_FROM": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/ux-measure.1363x936-light-desktop.json"
    },
    "exit": 0,
-   "seconds": 46.2,
+   "seconds": 44.5,
    "outFile": "audit/master-completion/astra-reverify/runs/a11y-sample.dark.json"
   },
   {
@@ -1443,7 +1535,7 @@
     "OUT": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/runs/bidi-scan.json"
    },
    "exit": 0,
-   "seconds": 32.4,
+   "seconds": 32.8,
    "outFile": "audit/master-completion/astra-reverify/runs/bidi-scan.json"
   },
   {
@@ -1451,7 +1543,7 @@
    "script": "node scripts/qa/shelf-check.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 6.8,
+   "seconds": 3.2,
    "outFile": "audit/master-completion/astra-reverify/runs/shelf-check.stdout.log"
   },
   {
@@ -1467,7 +1559,7 @@
    "script": "node scripts/qa/module-colour-check.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 15,
+   "seconds": 15.1,
    "outFile": "audit/master-completion/astra-reverify/runs/module-colour-check.stdout.log"
   },
   {
@@ -1475,7 +1567,7 @@
    "script": "node scripts/qa/status-consistency.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 34.9,
+   "seconds": 35.4,
    "outFile": "audit/master-completion/astra-reverify/runs/status-consistency.stdout.log"
   },
   {
@@ -1495,7 +1587,7 @@
     "SHOTS": "/Users/salihalif/Desktop/My-Projects/sap-kb3/audit/master-completion/astra-reverify/shots/open-rows-check"
    },
    "exit": 0,
-   "seconds": 37,
+   "seconds": 36.9,
    "outFile": "audit/master-completion/astra-reverify/runs/open-rows-check.stdout.log"
   },
   {
@@ -1511,7 +1603,7 @@
    "script": "node scripts/qa/r3-check.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 5.5,
+   "seconds": 5.3,
    "outFile": "audit/master-completion/astra-reverify/runs/r3-check.stdout.log"
   },
   {
@@ -1527,7 +1619,7 @@
    "script": "node scripts/qa/r3c-check.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 7.9,
+   "seconds": 8,
    "outFile": "audit/master-completion/astra-reverify/runs/r3c-check.stdout.log"
   },
   {
@@ -1535,15 +1627,23 @@
    "script": "node scripts/qa/r3d-check.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 8.1,
+   "seconds": 7.9,
    "outFile": "audit/master-completion/astra-reverify/runs/r3d-check.stdout.log"
+  },
+  {
+   "id": "astra-extra-check",
+   "script": "node scripts/qa/astra-extra-check.mjs",
+   "env": {},
+   "exit": 0,
+   "seconds": 45.3,
+   "outFile": "audit/master-completion/astra-reverify/runs/astra-extra-check.stdout.log"
   },
   {
    "id": "round6-misc-check",
    "script": "node scripts/qa/round6-misc-check.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 13.4,
+   "seconds": 13.7,
    "outFile": "audit/master-completion/astra-reverify/runs/round6-misc-check.stdout.log"
   },
   {
@@ -1551,7 +1651,7 @@
    "script": "node scripts/qa/catalog-cards-check.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 9.6,
+   "seconds": 9.7,
    "outFile": "audit/master-completion/astra-reverify/runs/catalog-cards-check.stdout.log"
   },
   {
@@ -1559,7 +1659,7 @@
    "script": "node scripts/qa/erd-selection-check.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 8.2,
+   "seconds": 8.1,
    "outFile": "audit/master-completion/astra-reverify/runs/erd-selection-check.stdout.log"
   },
   {
@@ -1567,7 +1667,7 @@
    "script": "node scripts/qa/ai-states-check.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 71.9,
+   "seconds": 72.2,
    "outFile": "audit/master-completion/astra-reverify/runs/ai-states-check.stdout.log"
   },
   {
@@ -1575,7 +1675,7 @@
    "script": "node scripts/crawl-dead-links.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 8.4,
+   "seconds": 8.3,
    "outFile": "audit/master-completion/astra-reverify/runs/crawl-dead-links.stdout.log"
   },
   {
@@ -1583,7 +1683,7 @@
    "script": "node --experimental-strip-types --no-warnings scripts/verify-reader.mjs",
    "env": {},
    "exit": 0,
-   "seconds": 96.6,
+   "seconds": 94.9,
    "outFile": "audit/master-completion/astra-reverify/runs/verify-reader.stdout.log"
   },
   {

@@ -3,7 +3,7 @@ PLATFORM READER — RENDER VERIFICATION
 ────────────────────────────────────────────────────────────────────────
   ok   desktop/book1: shell resolved to desktop
   ok   desktop/book1: main fills the viewport  (1168px of 1440px)
-  ok   desktop/book1: chapter nav rendered  (tree 18, on-page 32)
+  ok   desktop/book1: chapter nav rendered  (tree 21, on-page 32)
   ok   desktop/book1: sections rendered  (14 sections)
   ok   desktop/book1: CONTENT painted (not just headings)  (118977 chars)
   ok   desktop/book1: nothing in view is invisible
@@ -13,7 +13,7 @@ PLATFORM READER — RENDER VERIFICATION
   ok   desktop/book1: a bogus quote highlights nothing
   ok   desktop/book8: shell resolved to desktop
   ok   desktop/book8: main fills the viewport  (1168px of 1440px)
-  ok   desktop/book8: chapter nav rendered  (tree 18, on-page 20)
+  ok   desktop/book8: chapter nav rendered  (tree 21, on-page 20)
   ok   desktop/book8: sections rendered  (13 sections)
   ok   desktop/book8: CONTENT painted (not just headings)  (3880 chars in the first section)
   ok   desktop/book8: academy facets rendered  (2 facet heads, e.g. מהי תחזוקת-מפעל (Plant Maintenance) במשפט אחד? · מדוע 'רעיונ)
@@ -39,9 +39,9 @@ PLATFORM READER — RENDER VERIFICATION
   ok   desktop: no uncaught page errors
   ok   tablet/book1: shell resolved to tablet
   ok   tablet/book1: main fills the viewport  (834px of 834px)
-  ok   tablet/book1: chapter nav rendered  (tree 18, on-page 32)
-  ok   tablet/book1: sections rendered  (35 sections)
-  ok   tablet/book1: CONTENT painted (not just headings)  (81268 chars)
+  ok   tablet/book1: chapter nav rendered  (tree 21, on-page 18)
+  ok   tablet/book1: sections rendered  (14 sections)
+  ok   tablet/book1: CONTENT painted (not just headings)  (33646 chars)
   ok   tablet/book1: nothing in view is invisible
   ok   tablet/book1: no horizontal overflow
   ok   tablet/book1: a citation link exposes a readable query
@@ -49,7 +49,7 @@ PLATFORM READER — RENDER VERIFICATION
   ok   tablet/book1: a bogus quote highlights nothing
   ok   tablet/book8: shell resolved to tablet
   ok   tablet/book8: main fills the viewport  (834px of 834px)
-  ok   tablet/book8: chapter nav rendered  (tree 18, on-page 20)
+  ok   tablet/book8: chapter nav rendered  (tree 21, on-page 20)
   ok   tablet/book8: sections rendered  (13 sections)
   ok   tablet/book8: CONTENT painted (not just headings)  (3880 chars in the first section)
   ok   tablet/book8: academy facets rendered  (2 facet heads, e.g. מהי תחזוקת-מפעל (Plant Maintenance) במשפט אחד? · מדוע 'רעיונ)
@@ -75,9 +75,9 @@ PLATFORM READER — RENDER VERIFICATION
   ok   tablet: no uncaught page errors
   ok   mobile/book1: shell resolved to phone
   ok   mobile/book1: main fills the viewport  (390px of 390px)
-  ok   mobile/book1: chapter nav rendered  (tree 18, on-page 32)
-  ok   mobile/book1: sections rendered  (22 sections)
-  ok   mobile/book1: CONTENT painted (not just headings)  (52826 chars)
+  ok   mobile/book1: chapter nav rendered  (tree 21, on-page 18)
+  ok   mobile/book1: sections rendered  (14 sections)
+  ok   mobile/book1: CONTENT painted (not just headings)  (33584 chars)
   ok   mobile/book1: nothing in view is invisible
   ok   mobile/book1: no horizontal overflow
   ok   mobile/book1: a citation link exposes a readable query
@@ -85,7 +85,7 @@ PLATFORM READER — RENDER VERIFICATION
   ok   mobile/book1: a bogus quote highlights nothing
   ok   mobile/book8: shell resolved to phone
   ok   mobile/book8: main fills the viewport  (390px of 390px)
-  ok   mobile/book8: chapter nav rendered  (tree 18, on-page 20)
+  ok   mobile/book8: chapter nav rendered  (tree 21, on-page 20)
   ok   mobile/book8: sections rendered  (13 sections)
   ok   mobile/book8: CONTENT painted (not just headings)  (3880 chars in the first section)
   ok   mobile/book8: academy facets rendered  (2 facet heads, e.g. מהי תחזוקת-מפעל (Plant Maintenance) במשפט אחד? · מדוע 'רעיונ)

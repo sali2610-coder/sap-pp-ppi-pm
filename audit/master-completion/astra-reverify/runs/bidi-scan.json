@@ -1,6 +1,6 @@
 {
   "base": "http://localhost:4196",
-  "scannedAt": "2026-09-24T06:24:55.583Z",
+  "scannedAt": "2026-09-28T16:34:48.482Z",
   "report": [
     {
       "url": "/neo/",
@@ -121,7 +121,7 @@
     },
     {
       "url": "/neo/transactions/",
-      "candidates": 428,
+      "candidates": 427,
       "nonIsolated": 0,
       "hits": 0,
       "byCls": {},
@@ -175,7 +175,7 @@
     },
     {
       "url": "/neo/fiori-apps/",
-      "candidates": 104,
+      "candidates": 111,
       "nonIsolated": 0,
       "hits": 0,
       "byCls": {},
@@ -283,7 +283,7 @@
     },
     {
       "url": "/neo/best-practices/",
-      "candidates": 20,
+      "candidates": 27,
       "nonIsolated": 0,
       "hits": 0,
       "byCls": {},

@@ -11,13 +11,13 @@ studio: http=200 pageOv=0 canvasOv=0 canvasW=320 h=776 dim=0(min 1) zoom=55% err
 tables: http=200 pageOv=0 canvasOv=0 canvasW=320 h=29757 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +23
 table-afko: http=200 pageOv=0 canvasOv=0 canvasW=320 h=13355 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +1067
 object-mara: http=200 pageOv=0 canvasOv=0 canvasW=320 h=18259 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +1307
-bp-record: http=200 pageOv=0 canvasOv=0 canvasW=320 h=22786 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +691
-transactions: http=200 pageOv=0 canvasOv=0 canvasW=320 h=35318 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +235
+bp-record: http=200 pageOv=0 canvasOv=0 canvasW=320 h=39383 dim=0(min 1) zoom=- errs=0 :: a.nxs-i.nm-sel +691
+transactions: http=200 pageOv=0 canvasOv=0 canvasW=320 h=35147 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +235
 bapis: http=200 pageOv=0 canvasOv=0 canvasW=320 h=32187 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +12
 bapi-alm-conf: http=200 pageOv=0 canvasOv=0 canvasW=320 h=5506 dim=0(min 1) zoom=- errs=0
 idocs: http=200 pageOv=0 canvasOv=0 canvasW=320 h=4463 dim=0(min 1) zoom=- errs=0
 cds: http=200 pageOv=0 canvasOv=0 canvasW=320 h=12649 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +74
-fiori: http=200 pageOv=0 canvasOv=0 canvasW=320 h=11528 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +5
+fiori: http=200 pageOv=0 canvasOv=0 canvasW=320 h=12397 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +5
 enhancements: http=200 pageOv=0 canvasOv=0 canvasW=320 h=4999 dim=0(min 1) zoom=- errs=0 :: table.nxr-compare-t +609
 books: http=200 pageOv=0 canvasOv=0 canvasW=320 h=8593 dim=0(min 1) zoom=- errs=0
 reader: http=200 pageOv=0 canvasOv=0 canvasW=320 h=69529 dim=0(min 1) zoom=- errs=0
@@ -29,4 +29,4 @@ certification: http=200 pageOv=0 canvasOv=0 canvasW=320 h=1332 dim=0(min 1) zoom
 incidents: http=200 pageOv=0 canvasOv=0 canvasW=320 h=11772 dim=0(min 1) zoom=- errs=0 :: button.nu-tab +163
 incident-cogi: http=200 pageOv=0 canvasOv=0 canvasW=320 h=2059 dim=0(min 1) zoom=- errs=0
 centers: http=200 pageOv=0 canvasOv=0 canvasW=320 h=2624 dim=0(min 1) zoom=- errs=0
-best-practices: http=200 pageOv=0 canvasOv=0 canvasW=320 h=11869 dim=0(min 1) zoom=- errs=0
+best-practices: http=200 pageOv=0 canvasOv=0 canvasW=320 h=19400 dim=0(min 1) zoom=- errs=0
