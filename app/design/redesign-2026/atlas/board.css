@@ -1,0 +1,1020 @@
+/* ==========================================================================================
+   KNOWLEDGE ATLAS (אטלס הידע) · direction board · every selector is scoped to .rb-atlas
+   ------------------------------------------------------------------------------------------
+   CONTRAST, computed with the WCAG 2.x relative-luminance formula (script: sRGB -> linear,
+   L = .2126R + .7152G + .0722B, ratio = (L1 + .05) / (L2 + .05)). Text needs 4.5, UI 3.0.
+
+  LIGHT                 canvas  surface  sunken  paper   need
+  --ink-1              15.48   16.80   14.58  14.98   4.5 text
+  --ink-2               6.68    7.26    6.30   6.47   4.5 text
+  --ink-3               5.64    6.13    5.32   5.46   4.5 text
+  --code               12.06   13.10   11.37  11.68   4.5 text
+  --link                7.04    7.65    6.64   6.82   4.5 text
+  --action              5.17    5.61    4.87   5.00   4.5 text
+  --keep                6.20    6.73    5.84   6.00   4.5 text
+  --change              5.83    6.33    5.49   5.64   4.5 text
+  --replace             6.40    6.95    6.03   6.20   4.5 text
+  --removed             7.09    7.70    6.68   6.86   4.5 text
+  --verify              5.64    6.13    5.32   5.46   4.5 text
+  --line-2 / --edge     3.62    3.93    3.41   3.50   3.0 UI
+  --focus               15.48   16.80   14.58  14.98   3.0 UI
+  --route               15.48   16.80   14.58  14.98   3.0 UI
+  --action-ink on --action           5.61   4.5 text (button label)
+  --action-ink on --action-hover     7.33   4.5 text
+  --ink-1 / --ink-2 on --action-tint 14.55 / 6.29   4.5 text (selected row)
+  --surface on --route (stop badge, checked route option) 16.80
+  module colours (marks, bands, swatches), lowest over all four surfaces: MM 4.13, PP 4.30,
+  CS 4.36 ... all >= 3.0 UI
+
+  DARK                  canvas  surface  sunken  paper   need
+  --ink-1              15.46   14.26   14.84  14.58   4.5 text
+  --ink-2               8.30    7.66    7.97   7.83   4.5 text
+  --ink-3               7.28    6.72    6.99   6.87   4.5 text
+  --code               13.72   12.66   13.17  12.94   4.5 text
+  --link                9.59    8.85    9.21   9.05   4.5 text
+  --action              6.39    5.90    6.14   6.03   4.5 text
+  --keep                9.28    8.56    8.91   8.76   4.5 text
+  --change              8.84    8.16    8.49   8.34   4.5 text
+  --replace             8.78    8.10    8.43   8.28   4.5 text
+  --removed             7.85    7.24    7.54   7.40   4.5 text
+  --verify              7.28    6.72    6.99   6.87   4.5 text
+  --line-2 / --edge     4.40    4.06    4.23   4.15   3.0 UI
+  --focus               15.46   14.26   14.84  14.58   3.0 UI
+  --route               15.46   14.26   14.84  14.58   3.0 UI
+  --action-ink on --action           6.39   4.5 text (button label)
+  --action-ink on --action-hover     8.29   4.5 text
+  --ink-1 / --ink-2 on --action-tint 12.65 / 6.79   4.5 text (selected row)
+  --surface on --route (stop badge, checked route option) 14.26
+  module colours, lowest over all four surfaces: HR 7.12, PP-PI 7.13, CO 7.45 ... all >= 3.0
+
+  BOOK CLOTH (same in both modes: a cover is an object) --cloth-ink #F3F6F4 on the twelve
+  cloths: 8.59 9.81 9.31 7.13 9.47 7.98 6.55 11.00 9.45 9.19 8.51 9.19 (lowest 6.55).
+  Cover chip: --cover-chip-ink #11201F on --cover-chip-bg #F3F6F4 = 15.5.
+
+  --line-1, --grid, --pages and the cover texture are decorative separators, not boundaries.
+  No colour anywhere sits in the 240-330 hue band at 20% saturation or more (checked by script).
+   ========================================================================================== */
+
+/* ---------------------------------------------------------------------------- tokens */
+
+.rb-atlas[data-mode="light"],
+.rb-atlas [data-palette="light"] {
+  color-scheme: light;
+  --canvas: #F4F6F5;
+  --surface: #FFFFFF;
+  --sunken: #EBF0EE;
+  --paper: #EEF3F1;
+  --grid: #DFE7E4;
+  --ink-1: #11201F;
+  --ink-2: #4A5A58;
+  --ink-3: #556563;
+  --code: #1B3533;
+  --line-1: #D5DEDB;
+  --line-2: #738481;
+  --edge: #738481;
+  --focus: #11201F;
+  --route: #11201F;
+  --action: #C8242B;
+  --action-hover: #A81D23;
+  --action-ink: #FFFFFF;
+  --action-tint: #FBEBEC;
+  --link: #0A5A78;
+  --keep: #17693C;
+  --change: #8A5300;
+  --replace: #1D5AA0;
+  --removed: #9A2A22;
+  --verify: #556563;
+  --m-pm: #0E7A69;
+  --m-pppi: #1F63B6;
+  --m-pp: #5B7A12;
+  --m-mm: #B45A0E;
+  --m-qm: #2F7D34;
+  --m-sd: #1F7A55;
+  --m-fi: #3A5580;
+  --m-co: #8B5128;
+  --m-cs: #8C6A00;
+  --m-batch: #7A6436;
+  --m-class: #0B7590;
+  --m-idoc: #4B6A7D;
+  --m-pipo: #2E6C70;
+  --m-hr: #A04E2E;
+  --m-bw: #56697A;
+  --m-ppds: #1B6F8C;
+  --m-ewm: #9C5F1A;
+  --m-sop: #7E6B12;
+  --m-fiori: #46637A;
+  --m-s4: #3F5654;
+  --pages: #ECE7DA;
+  --pages-line: #D3CCBA;
+  --elev-1: 0 1px 2px rgb(17 32 31 / 0.08), 0 2px 8px rgb(17 32 31 / 0.06);
+  --elev-2: 0 16px 40px rgb(17 32 31 / 0.14), 0 2px 6px rgb(17 32 31 / 0.06);
+  --elev-book: 0 1px 0 rgb(17 32 31 / 0.14), 0 6px 14px rgb(17 32 31 / 0.14);
+}
+
+.rb-atlas[data-mode="dark"],
+.rb-atlas [data-palette="dark"] {
+  color-scheme: dark;
+  --canvas: #0B1316;
+  --surface: #121C20;
+  --sunken: #0E181B;
+  --paper: #0F1A1D;
+  --grid: #17252A;
+  --ink-1: #E2EBE9;
+  --ink-2: #9FB0AD;
+  --ink-3: #93A5A2;
+  --code: #CFE0DC;
+  --line-1: #23323A;
+  --line-2: #6A7E83;
+  --edge: #6A7E83;
+  --focus: #E2EBE9;
+  --route: #E2EBE9;
+  --action: #FF6166;
+  --action-hover: #FF8A8D;
+  --action-ink: #0B1316;
+  --action-tint: #3A1C20;
+  --link: #79C3E3;
+  --keep: #5DCB8C;
+  --change: #E3A74A;
+  --replace: #86B4F2;
+  --removed: #F28B80;
+  --verify: #93A5A2;
+  --m-pm: #40C1A7;
+  --m-pppi: #74A9EE;
+  --m-pp: #AAC45A;
+  --m-mm: #E9A064;
+  --m-qm: #79C27D;
+  --m-sd: #5FC79A;
+  --m-fi: #9AB0D6;
+  --m-co: #D49F78;
+  --m-cs: #D8B64E;
+  --m-batch: #CDB88A;
+  --m-class: #5BC2DC;
+  --m-idoc: #9DB7C8;
+  --m-pipo: #80C0C3;
+  --m-hr: #E4917A;
+  --m-bw: #A9B8C4;
+  --m-ppds: #66B9D6;
+  --m-ewm: #E0A868;
+  --m-sop: #CFBE62;
+  --m-fiori: #A1B8CA;
+  --m-s4: #A6BAB7;
+  --pages: #BDB6A6;
+  --pages-line: #9C9585;
+  --elev-1: 0 1px 2px rgb(0 0 0 / 0.4), 0 2px 8px rgb(0 0 0 / 0.3);
+  --elev-2: 0 16px 40px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.35);
+  --elev-book: 0 1px 0 rgb(0 0 0 / 0.5), 0 6px 14px rgb(0 0 0 / 0.45);
+}
+
+/* Mode-independent: covers are objects, motion and type are the same in both themes. */
+.rb-atlas {
+  --cloth-0: #1F4E4A;
+  --cloth-1: #2B3F5C;
+  --cloth-2: #5B3A21;
+  --cloth-3: #3F5A2A;
+  --cloth-4: #6A2E2A;
+  --cloth-5: #2F4F63;
+  --cloth-6: #6B5520;
+  --cloth-7: #243B36;
+  --cloth-8: #4A3F2E;
+  --cloth-9: #1E4660;
+  --cloth-10: #52462A;
+  --cloth-11: #3A4448;
+  --cloth-ink: #F3F6F4;
+  --cover-chip-bg: #F3F6F4;
+  --cover-chip-ink: #11201F;
+  --cover-grid: rgb(255 255 255 / 0.07);
+  --spine-shade: rgb(0 0 0 / 0.22);
+
+  --f-ui: var(--f-assistant-he), var(--f-assistant-lat), "Segoe UI", system-ui, sans-serif;
+  --f-mono: var(--f-jb-mono), ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.3, 1.35, 0.5, 1);
+  --dur-micro: 100ms;
+  --dur-state: 160ms;
+  --dur-transition: 240ms;
+  --dur-complex: 400ms;
+
+  font-family: var(--f-ui);
+  font-size: 16px;
+  line-height: 1.65;
+  font-weight: 400;
+  color: var(--ink-1);
+  background-color: var(--canvas);
+  border-radius: 8px;
+  padding: 0 clamp(12px, 3vw, 32px) 40px;
+  min-width: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ------------------------------------------------------------------------------ base */
+
+.rb-atlas :where(h1, h2, h3, h4, p, ul, ol, dl, dd, figure, fieldset) { margin: 0; }
+.rb-atlas :where(h1, h2, h3, h4) { letter-spacing: normal; text-wrap: balance; font-weight: 600; }
+.rb-atlas :where(ul, ol) { list-style: none; padding: 0; }
+.rb-atlas a { color: inherit; text-decoration: none; }
+.rb-atlas :where(button, input) { font: inherit; color: inherit; }
+.rb-atlas :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.rb-atlas bdi { unicode-bidi: isolate; }
+.rb-atlas .at-code {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 0.94em;
+  color: var(--code);
+  direction: ltr;
+  unicode-bidi: isolate;
+  overflow-wrap: anywhere;
+}
+.rb-atlas .at-num { font-variant-numeric: tabular-nums; }
+.rb-atlas [lang="en"] { unicode-bidi: isolate; }
+.rb-atlas .at-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+.rb-atlas .at-meta { font-size: 13px; line-height: 1.45; font-weight: 500; color: var(--ink-2); }
+.rb-atlas .at-note { font-size: 14px; line-height: 1.55; color: var(--ink-2); margin-block-start: 12px; max-width: 78ch; }
+.rb-atlas .at-missing { color: var(--ink-2); border-block-end: 1px dotted var(--line-2); }
+.rb-atlas .at-h3 { font-size: 20px; line-height: 1.35; font-weight: 600; margin-block-end: 12px; }
+.rb-atlas .at-h4 { font-size: 16px; line-height: 1.4; font-weight: 700; margin-block: 20px 8px; }
+.rb-atlas .at-read { font-size: 17px; line-height: 1.75; max-width: 70ch; }
+.rb-atlas kbd {
+  display: inline-flex; align-items: center; justify-content: center; gap: 2px;
+  min-width: 24px; padding: 1px 6px;
+  font-family: var(--f-mono); font-size: 12px; line-height: 1.5; font-weight: 600;
+  color: var(--ink-1); background: var(--surface);
+  border: 1px solid var(--line-2); border-block-end-width: 2px; border-radius: 4px;
+}
+.rb-atlas .at-kbds { display: inline-flex; gap: 4px; }
+
+/* ----------------------------------------------------------------------------- board */
+
+.rb-atlas .at-top { max-width: 1240px; margin-inline: auto; padding-block: 24px 8px; }
+.rb-atlas .at-top-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.rb-atlas .at-top-id { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 18px; font-weight: 700; }
+.rb-atlas .at-top-id svg { color: var(--action); }
+.rb-atlas .at-top-sub { font-size: 14px; font-weight: 500; color: var(--ink-2); }
+
+.rb-atlas .at-mode { display: inline-flex; border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden; }
+.rb-atlas .at-mode button {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 14px;
+  border: 0; background: var(--surface); color: var(--ink-2); font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.rb-atlas .at-mode button + button { border-inline-start: 1px solid var(--line-2); }
+.rb-atlas .at-mode button[aria-pressed="true"] { background: var(--ink-1); color: var(--surface); }
+
+/* the board's own table of contents, drawn as a line with stations */
+.rb-atlas .at-toc { margin-block-start: 20px; }
+.rb-atlas .at-toc ol { display: flex; flex-wrap: wrap; row-gap: 14px; }
+.rb-atlas .at-toc li { position: relative; border-block-start: 2px solid var(--line-2); padding-block-start: 10px; }
+.rb-atlas .at-toc li::before {
+  content: ""; position: absolute; inset-block-start: -6px; inset-inline-start: 0;
+  width: 10px; height: 10px; border-radius: 2px; background: var(--surface); border: 2px solid var(--ink-2);
+}
+.rb-atlas .at-toc a { display: inline-flex; align-items: baseline; gap: 6px; padding-block: 2px; padding-inline: 18px 14px; font-size: 14px; font-weight: 500; color: var(--ink-1); border-radius: 4px; }
+.rb-atlas .at-toc a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.rb-atlas .at-toc-n { font-family: var(--f-mono); font-size: 13px; color: var(--ink-2); }
+
+.rb-atlas .at-sec { max-width: 1240px; margin-inline: auto; padding-block: 56px 8px; border-block-start: 1px solid var(--line-1); margin-block-start: 40px; scroll-margin-block-start: 72px; }
+.rb-atlas .at-sec-h { display: flex; align-items: flex-start; gap: 16px; margin-block-end: 28px; }
+.rb-atlas .at-sec-n {
+  flex: none; margin-block-start: 4px; padding: 1px 8px;
+  font-family: var(--f-mono); font-size: 14px; font-weight: 600; color: var(--ink-2);
+  border: 1px solid var(--line-2); border-radius: 4px; background: var(--surface);
+}
+.rb-atlas .at-sec h2 { font-size: 26px; line-height: 1.3; font-weight: 700; }
+.rb-atlas .at-cap { font-size: 16px; line-height: 1.6; color: var(--ink-2); margin-block-start: 4px; max-width: 72ch; }
+.rb-atlas .at-foot { max-width: 1240px; margin: 56px auto 0; padding-block-start: 20px; border-block-start: 1px solid var(--line-1); font-size: 14px; color: var(--ink-2); display: grid; gap: 4px; }
+
+/* ------------------------------------------------------------------------- controls */
+
+.rb-atlas .at-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 40px; padding: 8px 16px; border-radius: 6px; border: 1px solid transparent;
+  font-size: 15px; font-weight: 600; line-height: 1.2; cursor: pointer; white-space: nowrap;
+}
+.rb-atlas .at-btn--primary { background: var(--action); color: var(--action-ink); }
+.rb-atlas .at-btn--primary:hover { background: var(--action-hover); }
+.rb-atlas .at-btn--quiet { background: var(--surface); color: var(--ink-1); border-color: var(--line-2); }
+.rb-atlas .at-btn--quiet:hover { background: var(--sunken); }
+.rb-atlas .at-btn--text { background: none; color: var(--link); text-decoration: underline; text-underline-offset: 3px; padding-inline: 6px; min-height: 36px; }
+.rb-atlas .at-iconbtn {
+  display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;
+  border: 1px solid transparent; border-radius: 6px; background: none; color: var(--ink-2); cursor: pointer;
+}
+.rb-atlas .at-iconbtn:hover { background: var(--sunken); color: var(--ink-1); }
+.rb-atlas .at-copy { display: inline-flex; align-items: center; }
+
+.rb-atlas .at-mod {
+  display: inline-flex; align-items: center; gap: 6px; padding: 1px 8px; min-height: 26px;
+  font-size: 14px; font-weight: 500; line-height: 1.4;
+  background: var(--surface); border: 1px solid var(--line-1); border-radius: 4px; white-space: nowrap;
+}
+.rb-atlas .at-mod .at-code { color: var(--ink-1); font-weight: 600; }
+.rb-atlas .at-mod-sw { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--m, var(--ink-2)); }
+.rb-atlas .at-mod-he { color: var(--ink-2); }
+.rb-atlas .at-mods { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+
+.rb-atlas .at-st {
+  --s: var(--verify);
+  display: inline-flex; align-items: center; gap: 6px; padding: 1px 8px; min-height: 26px;
+  font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--s);
+  background: var(--surface); border: 1px solid var(--s); border-radius: 4px;
+}
+.rb-atlas .at-st svg { flex: none; }
+.rb-atlas .at-st--keep, .rb-atlas .at-st--new { --s: var(--keep); }
+.rb-atlas .at-st--change { --s: var(--change); }
+.rb-atlas .at-st--replace { --s: var(--replace); }
+.rb-atlas .at-st--removed { --s: var(--removed); }
+.rb-atlas .at-st--verify, .rb-atlas .at-st--past { --s: var(--verify); }
+.rb-atlas .at-st--verify, .rb-atlas .at-st--none { border-style: dashed; }
+.rb-atlas .at-st--none { --s: var(--ink-2); font-weight: 500; }
+
+.rb-atlas .at-lv { --l: var(--verify); --ls: dotted; display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; font-size: 14px; line-height: 1.4; }
+.rb-atlas .at-lv svg { flex: none; color: var(--l); }
+.rb-atlas .at-lv-w { font-weight: 700; text-decoration: underline var(--ls) var(--l); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.rb-atlas .at-lv-d { color: var(--ink-2); font-size: 13px; }
+.rb-atlas .at-lv--verified { --l: var(--keep); --ls: solid; }
+.rb-atlas .at-lv--partial { --l: var(--change); --ls: dashed; }
+.rb-atlas .at-lv--requires { --l: var(--verify); --ls: dotted; }
+.rb-atlas .at-lv--conflict { --l: var(--removed); --ls: double; }
+.rb-atlas .at-lv--conflict .at-lv-w { text-decoration-thickness: 4px; }
+
+.rb-atlas .at-tag, .rb-atlas .at-chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; min-height: 28px;
+  font-size: 14px; font-weight: 500; color: var(--ink-1);
+  background: var(--surface); border: 1px solid var(--line-2); border-radius: 4px;
+}
+.rb-atlas a.at-tag:hover { background: var(--sunken); }
+.rb-atlas .at-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.rb-atlas .at-chip-x { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin-inline-end: -6px; border: 0; border-radius: 4px; background: none; color: var(--ink-2); cursor: pointer; }
+.rb-atlas .at-chip-x:hover { background: var(--sunken); color: var(--ink-1); }
+.rb-atlas .at-tchip { display: inline-block; padding: 0 6px; border: 1px solid var(--line-1); border-radius: 4px; background: var(--surface); font-size: 14px; }
+
+/* ------------------------------------------------------------------- path (crumbs) */
+
+.rb-atlas .at-path ol { display: flex; flex-wrap: wrap; align-items: center; row-gap: 6px; }
+.rb-atlas .at-path li { display: flex; align-items: center; font-size: 14px; color: var(--ink-2); }
+.rb-atlas .at-path li + li::before { content: ""; flex: none; width: 26px; height: 2px; margin-inline: 4px; background: var(--line-2); }
+.rb-atlas .at-path a { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px; border-radius: 4px; }
+.rb-atlas .at-path a:hover { background: var(--sunken); color: var(--ink-1); }
+.rb-atlas .at-path-mk { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--surface); border: 2px solid var(--m, var(--ink-2)); }
+.rb-atlas .at-path li.is-mod .at-path-mk,
+.rb-atlas .at-path-fork .at-path-mk { background: var(--m); border-color: var(--m); }
+.rb-atlas .at-path-sub { color: var(--ink-2); }
+.rb-atlas .at-path-fork { flex-direction: column; align-items: flex-start !important; gap: 2px; padding-inline-start: 8px; border-inline-start: 2px solid var(--line-2); }
+.rb-atlas .at-path li.at-path-fork::before { display: none; }
+.rb-atlas .at-path-fork a { padding-block: 2px; }
+.rb-atlas .at-path li + li.at-path-fork { margin-inline-start: 30px; position: relative; }
+.rb-atlas .at-path li + li.at-path-fork::after { content: ""; position: absolute; inset-inline-start: -32px; inset-block-start: 50%; width: 30px; height: 2px; background: var(--line-2); }
+.rb-atlas .at-path-here { gap: 6px; color: var(--ink-1); font-weight: 700; }
+.rb-atlas .at-path-here svg { flex: none; color: var(--action); }
+.rb-atlas .at-path-tag { font-size: 12px; font-weight: 600; color: var(--action); border: 1px solid var(--action); border-radius: 3px; padding: 0 6px; line-height: 1.5; }
+
+/* ------------------------------------------------------------- relation strip */
+
+.rb-atlas .at-strip {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.25fr); column-gap: 48px; align-items: stretch;
+  margin-block: 16px 24px; padding: 20px;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  border: 1px solid var(--line-1); border-radius: 8px;
+}
+.rb-atlas .at-strip-col { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; }
+.rb-atlas .at-strip-h { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.rb-atlas .at-strip-none { font-size: 14px; color: var(--ink-2); padding: 10px 12px; border: 1px dashed var(--line-2); border-radius: 6px; background: var(--surface); }
+.rb-atlas .at-strip ul { position: relative; display: flex; flex-direction: column; gap: 8px; }
+.rb-atlas .at-strip li { position: relative; }
+.rb-atlas .at-rel {
+  display: grid; gap: 2px; padding: 8px 12px; min-height: 56px;
+  background: var(--surface); border: 1px solid var(--line-2); border-radius: 6px; box-shadow: var(--elev-1);
+  border-inline-start: 4px solid var(--m, var(--line-2));
+}
+.rb-atlas .at-rel:hover { background: var(--sunken); }
+.rb-atlas .at-rel-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 10px; }
+.rb-atlas .at-rel-code { font-size: 16px; font-weight: 600; color: var(--ink-1); }
+.rb-atlas .at-rel-card { font-size: 13px; color: var(--ink-2); }
+.rb-atlas .at-rel-he { font-size: 14px; color: var(--ink-2); line-height: 1.4; }
+/* stubs and rails: up items branch toward the object on their inline-end side, down items on
+   their inline-start side; a dashed stub is a relation whose cardinality the data leaves blank */
+.rb-atlas .at-strip-up li::after,
+.rb-atlas .at-strip-down li::before {
+  content: ""; position: absolute; inset-block-start: 50%; width: 24px; border-block-start: 2px solid var(--edge);
+}
+.rb-atlas .at-strip-up li::after { inset-inline-end: -24px; }
+.rb-atlas .at-strip-down li::before { inset-inline-start: -24px; }
+.rb-atlas .at-strip li.is-dashed::after,
+.rb-atlas .at-strip li.is-dashed::before { border-block-start-style: dashed; }
+.rb-atlas .at-strip-up ul::after,
+.rb-atlas .at-strip-down ul::before {
+  content: ""; position: absolute; inset-block: 28px; width: 0; border-inline-start: 2px solid var(--edge);
+}
+.rb-atlas .at-strip-up ul::after { inset-inline-end: -25px; }
+.rb-atlas .at-strip-down ul::before { inset-inline-start: -25px; }
+.rb-atlas .at-strip-up ul:has(> li:only-child)::after,
+.rb-atlas .at-strip-down ul:has(> li:only-child)::before { display: none; }
+.rb-atlas .at-strip-self { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.rb-atlas .at-strip-arrow { display: none; color: var(--edge); }
+.rb-atlas .at-self {
+  position: relative; display: grid; justify-items: center; gap: 2px; text-align: center; max-width: 260px;
+  padding: 12px 18px; background: var(--surface); border: 2px solid var(--action); border-radius: 6px; box-shadow: var(--elev-1);
+}
+.rb-atlas .at-self .at-code { font-size: 22px; font-weight: 700; color: var(--ink-1); }
+.rb-atlas .at-self > span:last-child { font-size: 14px; color: var(--ink-2); line-height: 1.4; }
+.rb-atlas .at-self::before,
+.rb-atlas .at-self::after { content: ""; position: absolute; inset-block-start: 50%; width: 24px; border-block-start: 2px solid var(--edge); }
+.rb-atlas .at-self::before { inset-inline-start: -26px; }
+.rb-atlas .at-self::after { inset-inline-end: -26px; }
+
+/* ---------------------------------------------------------------- 0 · direction */
+
+.rb-atlas .at-dir { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 32px; align-items: start; }
+.rb-atlas .at-dir-title { font-size: 44px; line-height: 1.1; font-weight: 700; }
+.rb-atlas .at-dir-lat { font-size: 18px; color: var(--ink-2); font-weight: 500; margin-block-start: 6px; }
+.rb-atlas .at-dir-note { margin-block-start: 16px; font-size: 17px; line-height: 1.7; max-width: 44ch; }
+.rb-atlas .at-statement { display: grid; gap: 0; border-block-start: 1px solid var(--line-1); }
+.rb-atlas .at-statement > div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; padding-block: 12px; border-block-end: 1px solid var(--line-1); }
+.rb-atlas .at-statement dt { font-size: 14px; font-weight: 700; color: var(--ink-2); padding-block-start: 2px; }
+.rb-atlas .at-statement dd { font-size: 16px; line-height: 1.65; }
+
+.rb-atlas .at-pals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-block-start: 32px; }
+.rb-atlas .at-pal { background: var(--surface); color: var(--ink-1); border: 1px solid var(--line-1); border-radius: 8px; padding: 20px; }
+.rb-atlas .at-pal-g + .at-pal-g { margin-block-start: 16px; }
+.rb-atlas .at-pal-gh { font-size: 13px; font-weight: 700; color: var(--ink-2); margin-block-end: 8px; }
+.rb-atlas .at-sws { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 16px; }
+.rb-atlas .at-sws--mods { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.rb-atlas .at-sw .at-code { overflow-wrap: normal; white-space: nowrap; }
+.rb-atlas .at-sw { display: flex; align-items: center; gap: 10px; min-width: 0; font-size: 13px; }
+.rb-atlas .at-sw-c { flex: none; width: 28px; height: 28px; border-radius: 4px; background: var(--sw); border: 1px solid var(--line-2); }
+.rb-atlas .at-sw-t { display: grid; min-width: 0; }
+.rb-atlas .at-sw-t .at-code { color: var(--ink-1); font-size: 13px; }
+.rb-atlas .at-sw-he { color: var(--ink-2); }
+.rb-atlas .at-sw-hex { margin-inline-start: auto; font-size: 13px; color: var(--ink-2); }
+
+.rb-atlas .at-type { margin-block-start: 32px; }
+.rb-atlas .at-type li { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 16px; align-items: baseline; padding-block: 12px; border-block-end: 1px solid var(--line-1); }
+.rb-atlas .at-type-spec { display: grid; gap: 2px; font-size: 13px; color: var(--ink-2); }
+.rb-atlas .at-t-display { font-size: 40px; line-height: 1.15; font-weight: 700; }
+.rb-atlas .at-t-h1 { font-size: 32px; line-height: 1.2; font-weight: 700; }
+.rb-atlas .at-t-h2 { font-size: 24px; line-height: 1.3; font-weight: 600; }
+.rb-atlas .at-t-h3 { font-size: 20px; line-height: 1.35; font-weight: 600; }
+.rb-atlas .at-t-read { font-size: 18px; line-height: 1.75; max-width: 68ch; }
+.rb-atlas .at-t-body { font-size: 16px; line-height: 1.65; }
+.rb-atlas .at-t-ui { font-size: 15px; line-height: 1.45; font-weight: 500; }
+.rb-atlas .at-t-meta { font-size: 13px; line-height: 1.4; font-weight: 500; color: var(--ink-2); }
+.rb-atlas .at-t-micro { font-size: 12px; line-height: 1.35; font-weight: 500; color: var(--ink-2); }
+.rb-atlas .at-t-mono { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 15px; line-height: 1.4; }
+.rb-atlas .at-t-mono .at-code { font-size: 15px; color: var(--ink-1); }
+
+/* -------------------------------------------------------------------- 1 · shell */
+
+.rb-atlas .at-frames { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 390px); gap: 24px; align-items: start; }
+.rb-atlas .at-desk { background: var(--surface); border: 1px solid var(--line-2); border-radius: 8px; overflow: hidden; box-shadow: var(--elev-1); }
+.rb-atlas .at-desk-bar, .rb-atlas .at-phone-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 16px;
+  border-block-end: 1px solid var(--line-1); background: var(--surface);
+}
+.rb-atlas .at-brand { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; white-space: nowrap; }
+.rb-atlas .at-brand svg { color: var(--action); }
+.rb-atlas .at-searchbtn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 6px 12px; flex: 1; max-width: 460px;
+  background: var(--sunken); color: var(--ink-2); border: 1px solid var(--line-2); border-radius: 6px; font-size: 15px; cursor: pointer; text-align: start;
+}
+.rb-atlas .at-searchbtn span:not(.at-kbds) { flex: 1; }
+.rb-atlas .at-searchbtn--full { width: 100%; max-width: none; }
+.rb-atlas .at-desk-body { display: grid; grid-template-columns: 270px minmax(0, 1fr); min-height: 440px; }
+.rb-atlas .at-rail { background: var(--canvas); border-inline-end: 1px solid var(--line-1); padding: 16px 10px; }
+.rb-atlas .at-rail-h { font-size: 13px; font-weight: 700; color: var(--ink-2); padding-inline: 8px; margin-block-end: 8px; }
+.rb-atlas .at-rail ol { position: relative; display: grid; gap: 2px; }
+.rb-atlas .at-rail ol::before { content: ""; position: absolute; inset-inline-start: 13px; inset-block: 16px; width: 2px; background: var(--line-2); }
+.rb-atlas .at-rail a {
+  position: relative; display: grid; grid-template-columns: 14px 16px minmax(0, 1fr) auto; align-items: center; gap: 8px;
+  padding: 7px 8px; border-radius: 6px; font-size: 14px; color: var(--ink-1);
+}
+.rb-atlas .at-rail a:hover { background: var(--sunken); }
+.rb-atlas .at-rail-st { width: 12px; height: 12px; border-radius: 2px; background: var(--surface); border: 2px solid var(--m, var(--ink-2)); z-index: 1; }
+.rb-atlas .at-rail li[style] .at-rail-st { background: var(--m); }
+.rb-atlas .at-rail svg { color: var(--ink-2); }
+.rb-atlas .at-rail-l { min-width: 0; }
+.rb-atlas .at-rail-c { font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+.rb-atlas .at-rail .is-here a { background: var(--action-tint); font-weight: 700; }
+.rb-atlas .at-rail .is-here .at-rail-st { background: var(--action); border-color: var(--action); }
+.rb-atlas .at-desk-main { padding: 20px 24px; display: grid; align-content: start; gap: 10px; }
+.rb-atlas .at-desk-title { font-size: 26px; font-weight: 700; line-height: 1.25; }
+.rb-atlas .at-desk-sub { font-size: 15px; color: var(--ink-2); }
+.rb-atlas .at-desk-rows { display: grid; margin-block-start: 8px; border-block-start: 1px solid var(--line-1); }
+.rb-atlas .at-desk-rows li { display: grid; grid-template-columns: 90px minmax(0, 1fr) auto; gap: 12px; align-items: baseline; padding-block: 10px; border-block-end: 1px solid var(--line-1); font-size: 15px; }
+.rb-atlas .at-desk-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 10px 16px; border-block-start: 1px solid var(--line-1); font-size: 13px; color: var(--ink-2); }
+.rb-atlas .at-legal-links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; }
+.rb-atlas .at-legal-links a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+
+.rb-atlas .at-phone { width: 100%; max-width: 390px; justify-self: center; background: var(--canvas); border: 1px solid var(--line-2); border-radius: 8px; overflow: hidden; box-shadow: var(--elev-1); display: flex; flex-direction: column; }
+.rb-atlas .at-phone-bar { padding-block: 8px; padding-inline: 16px 8px; }
+.rb-atlas .at-phone-body { display: grid; gap: 14px; padding: 16px; flex: 1; }
+.rb-atlas .at-phone-id { font-size: 17px; line-height: 1.55; font-weight: 500; }
+.rb-atlas .at-phone-rows { display: grid; background: var(--surface); border: 1px solid var(--line-1); border-radius: 6px; }
+.rb-atlas .at-phone-rows li { display: flex; align-items: center; gap: 8px; min-height: 48px; padding-inline: 12px; font-size: 15px; }
+.rb-atlas .at-phone-rows li + li { border-block-start: 1px solid var(--line-1); }
+.rb-atlas .at-phone-rows .at-meta { margin-inline-start: auto; }
+.rb-atlas .at-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); background: var(--surface); border-block-start: 1px solid var(--line-1); }
+.rb-atlas .at-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 60px; font-size: 14px; font-weight: 500; color: var(--ink-2); border-radius: 0; }
+.rb-atlas .at-tab:hover { background: var(--sunken); color: var(--ink-1); }
+.rb-atlas .at-tab[aria-current="page"] { color: var(--ink-1); font-weight: 700; box-shadow: inset 0 3px 0 var(--action); }
+.rb-atlas .at-tab[aria-current="page"] svg { color: var(--action); }
+
+/* --------------------------------------------------------------------- 2 · home */
+
+.rb-atlas .at-home { display: grid; gap: 20px; container-type: inline-size; }
+.rb-atlas .at-identity { font-size: 22px; line-height: 1.6; font-weight: 500; max-width: 62ch; }
+.rb-atlas .at-hsearch {
+  display: flex; align-items: center; gap: 12px; min-height: 60px; padding-block: 6px; padding-inline: 18px 6px;
+  background: var(--surface); border: 2px solid var(--ink-1); border-radius: 8px; max-width: 880px;
+}
+.rb-atlas .at-hsearch:focus-within { outline: 2px solid var(--focus); outline-offset: 3px; }
+.rb-atlas .at-hsearch > svg { flex: none; color: var(--ink-2); }
+.rb-atlas .at-hsearch input { flex: 1; min-width: 0; border: 0; background: none; font-size: 18px; padding-block: 8px; outline: none; }
+.rb-atlas .at-hsearch input::placeholder { color: var(--ink-2); opacity: 1; }
+.rb-atlas .at-continue {
+  display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; max-width: 880px;
+  border: 1px dashed var(--line-2); border-radius: 6px; color: var(--ink-2);
+}
+.rb-atlas .at-continue svg { flex: none; margin-block-start: 3px; }
+.rb-atlas .at-continue-h { font-size: 15px; font-weight: 700; color: var(--ink-1); }
+.rb-atlas .at-continue-t { font-size: 14px; }
+.rb-atlas .at-entries { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+@container (min-width: 860px) { .rb-atlas .at-entries { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.rb-atlas .at-entry {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px 10px; height: 100%;
+  padding: 14px 16px; background: var(--surface); border: 1px solid var(--line-1); border-radius: 6px;
+}
+.rb-atlas .at-entry:hover { border-color: var(--line-2); }
+.rb-atlas .at-entry svg { color: var(--ink-2); }
+.rb-atlas .at-entry-he { font-size: 15px; font-weight: 700; }
+.rb-atlas .at-entry-v { grid-column: 1 / -1; font-size: 30px; line-height: 1.15; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rb-atlas .at-entry-sub { grid-column: 1 / -1; font-size: 13px; line-height: 1.45; color: var(--ink-2); }
+.rb-atlas .at-maphead { display: grid; gap: 2px; margin-block-start: 12px; }
+.rb-atlas .at-maphead .at-h3 { margin: 0; }
+
+/* ------------------------------------------------------------------ 3 · search */
+
+.rb-atlas .at-cmd { max-width: 1020px; background: var(--surface); border: 1px solid var(--line-2); border-radius: 8px; box-shadow: var(--elev-2); overflow: hidden; }
+.rb-atlas .at-cmd-in { display: flex; align-items: center; gap: 12px; padding-block: 8px; padding-inline: 18px 8px; border-block-end: 1px solid var(--line-1); }
+.rb-atlas .at-cmd-in > svg { color: var(--ink-2); flex: none; }
+.rb-atlas .at-cmd-q { flex: 1; min-width: 0; min-height: 48px; border: 0; background: none; outline: none; font-family: var(--f-mono); font-size: 20px; font-weight: 600; text-align: start; }
+.rb-atlas .at-cmd-count { font-size: 14px; color: var(--ink-2); white-space: nowrap; }
+.rb-atlas .at-cmd-body { display: grid; grid-template-columns: minmax(0, 1fr) 280px; }
+.rb-atlas .at-cmd-results { padding: 8px; display: grid; gap: 4px; }
+.rb-atlas .at-cmd-g + .at-cmd-g { border-block-start: 1px solid var(--line-1); padding-block-start: 6px; }
+.rb-atlas .at-cmd-gh { display: flex; align-items: center; gap: 8px; padding: 6px 10px; font-size: 14px; font-weight: 700; color: var(--ink-2); }
+.rb-atlas .at-cmd-gh .at-meta { margin-inline-start: auto; }
+.rb-atlas .at-cmd-row { position: relative; display: grid; gap: 4px; padding: 10px 12px; border-radius: 6px; }
+.rb-atlas .at-cmd-row:hover { background: var(--sunken); }
+.rb-atlas .at-cmd-row[aria-current="true"] { background: var(--action-tint); }
+.rb-atlas .at-cmd-row[aria-current="true"]::before { content: ""; position: absolute; inset-inline-start: 0; inset-block: 8px; width: 3px; border-radius: 2px; background: var(--action); }
+.rb-atlas .at-cmd-r1 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.rb-atlas .at-cmd-code { font-size: 16px; font-weight: 700; color: var(--ink-1); margin-inline-end: 4px; }
+.rb-atlas .at-cmd-r2 { font-size: 14px; line-height: 1.45; color: var(--ink-1); }
+.rb-atlas .at-cmd-note { color: var(--ink-2); }
+.rb-atlas .at-cmd-peek { display: grid; align-content: start; gap: 8px; padding: 16px; background: var(--paper); border-inline-start: 1px solid var(--line-1); font-size: 14px; }
+.rb-atlas .at-cmd-peek-t .at-code { font-size: 24px; font-weight: 700; color: var(--ink-1); }
+.rb-atlas .at-mini-chain { display: grid; gap: 0; margin-block: 6px; }
+.rb-atlas .at-mini-chain li { position: relative; display: flex; align-items: baseline; gap: 8px; padding: 6px 10px; margin-inline-start: 12px; border-inline-start: 2px solid var(--edge); }
+.rb-atlas .at-mini-chain li::before { content: ""; position: absolute; inset-inline-start: -7px; inset-block-start: 12px; width: 12px; height: 12px; border-radius: 2px; background: var(--surface); border: 2px solid var(--edge); }
+.rb-atlas .at-mini-chain li.is-self::before { background: var(--action); border-color: var(--action); }
+.rb-atlas .at-mini-chain li.is-self .at-code { font-weight: 700; color: var(--ink-1); }
+.rb-atlas .at-cmd-keys { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 10px 16px; border-block-start: 1px solid var(--line-1); font-size: 13px; color: var(--ink-2); background: var(--surface); }
+.rb-atlas .at-cmd-keys > span { display: inline-flex; align-items: center; gap: 6px; }
+
+/* ----------------------------------------------------------------- 4 · catalog */
+
+.rb-atlas .at-cat-tools { display: grid; gap: 12px; margin-block-end: 12px; }
+.rb-atlas .at-field { display: flex; align-items: center; gap: 10px; max-width: 520px; min-height: 44px; padding-inline: 12px; background: var(--surface); border: 1px solid var(--line-2); border-radius: 6px; }
+.rb-atlas .at-field:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.rb-atlas .at-field svg { color: var(--ink-2); flex: none; }
+.rb-atlas .at-field input { flex: 1; min-width: 0; border: 0; background: none; font-size: 16px; outline: none; }
+.rb-atlas .at-field input::placeholder { color: var(--ink-2); opacity: 1; }
+.rb-atlas .at-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.rb-atlas .at-cat-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+.rb-atlas .at-count { font-size: 15px; }
+.rb-atlas .at-table { width: 100%; border-collapse: collapse; font-size: 15px; background: var(--surface); border: 1px solid var(--line-1); border-radius: 8px; }
+.rb-atlas .at-table th { text-align: start; font-size: 13px; font-weight: 700; color: var(--ink-2); padding: 10px 12px; background: var(--sunken); border-block-end: 1px solid var(--line-2); white-space: nowrap; }
+.rb-atlas .at-table td { padding: 12px; border-block-end: 1px solid var(--line-1); vertical-align: top; }
+.rb-atlas .at-table tbody tr:last-child td { border-block-end: 0; }
+.rb-atlas .at-table tbody tr:hover { background: var(--paper); }
+.rb-atlas .at-cat-code { font-size: 16px; font-weight: 700; color: var(--ink-1); }
+.rb-atlas .at-table a:hover .at-cat-code { text-decoration: underline; text-underline-offset: 3px; }
+.rb-atlas .at-cat-he { display: block; }
+.rb-atlas .at-cat-en { display: block; font-size: 13px; color: var(--ink-2); }
+.rb-atlas .at-rels { display: inline-flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; color: var(--ink-2); }
+.rb-atlas .at-rels > span { display: inline-flex; align-items: center; gap: 4px; }
+.rb-atlas .at-scroll-x { overflow-x: auto; }
+.rb-atlas .at-table--fields { min-width: 680px; }
+.rb-atlas .at-keys { display: inline-flex; gap: 4px; }
+.rb-atlas .at-key { font-family: var(--f-mono); font-size: 13px; font-weight: 700; padding: 0 6px; border-radius: 3px; border: 1px solid var(--ink-1); color: var(--ink-1); }
+.rb-atlas .at-key--fk { border-style: dashed; }
+
+/* ------------------------------------------------------------------ 5 · record */
+
+.rb-atlas .at-rec { padding: 24px; background: var(--surface); border: 1px solid var(--line-1); border-radius: 8px; }
+.rb-atlas .at-rec + .at-rec { margin-block-start: 24px; }
+.rb-atlas .at-rec-h { display: grid; gap: 8px; padding-block-end: 16px; border-block-end: 1px solid var(--line-1); }
+.rb-atlas .at-rec-kind { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--ink-2); }
+.rb-atlas .at-rec-code { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.rb-atlas .at-rec-code h3 { line-height: 1.1; }
+.rb-atlas .at-rec-code h3 .at-code { font-size: 40px; font-weight: 700; color: var(--ink-1); }
+.rb-atlas .at-rec-he { font-size: 22px; line-height: 1.4; font-weight: 600; }
+.rb-atlas .at-rec-en { font-size: 16px; font-weight: 500; color: var(--ink-2); }
+.rb-atlas .at-rec-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.rb-atlas .at-rec-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px 40px; }
+.rb-atlas .at-steps-line { display: grid; gap: 0; }
+.rb-atlas .at-steps-line li { position: relative; display: flex; align-items: flex-start; gap: 12px; padding-block: 6px; font-size: 16px; line-height: 26px; }
+.rb-atlas .at-steps-line li:not(:last-child)::after { content: ""; position: absolute; inset-inline-start: 12px; inset-block: 32px -6px; width: 2px; background: var(--edge); }
+.rb-atlas .at-step-n {
+  flex: none; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px;
+  font-family: var(--f-mono); font-size: 13px; font-weight: 700; color: var(--ink-1);
+  background: var(--surface); border: 2px solid var(--ink-1); border-radius: 4px;
+}
+.rb-atlas .at-mini-rows { display: grid; border-block-start: 1px solid var(--line-1); }
+.rb-atlas .at-mini-rows li { display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 2px 12px; padding-block: 8px; border-block-end: 1px solid var(--line-1); font-size: 15px; }
+.rb-atlas .at-mini-rows li .at-code { font-weight: 700; color: var(--ink-1); }
+.rb-atlas .at-mini-rows li .at-meta { grid-column: 2; }
+.rb-atlas .at-plain { display: grid; gap: 4px; font-size: 15px; }
+.rb-atlas .at-plain li::before { content: "– "; color: var(--ink-2); }
+
+/* ------------------------------------------------------------ 6 · best practice */
+
+.rb-atlas .at-bp { padding: 24px; background: var(--surface); border: 1px solid var(--line-1); border-radius: 8px; }
+.rb-atlas .at-bp-t { font-size: 24px; line-height: 1.35; font-weight: 700; margin-block-start: 6px; max-width: 48ch; }
+.rb-atlas .at-bp-en { font-size: 15px; color: var(--ink-2); margin-block-start: 4px; }
+.rb-atlas .at-route-strip { display: flex; flex-wrap: wrap; align-items: center; margin-block-start: 14px; }
+.rb-atlas .at-route-strip li { display: inline-flex; align-items: center; gap: 6px; padding-block: 4px; padding-inline: 12px 10px; border: 2px solid var(--m); border-radius: 6px; background: var(--surface); font-weight: 700; }
+.rb-atlas .at-route-strip li .at-code { color: var(--ink-1); font-size: 15px; }
+.rb-atlas .at-route-strip li + li { margin-inline-start: 36px; position: relative; }
+.rb-atlas .at-route-strip li + li::before { content: ""; position: absolute; inset-inline-end: calc(100% + 2px); inset-block-start: 50%; width: 36px; height: 4px; margin-block-start: -2px; background: var(--route); }
+.rb-atlas .at-route-n { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 4px; background: var(--route); color: var(--surface); font-family: var(--f-mono); font-size: 13px; }
+.rb-atlas .at-bp-steps { display: grid; gap: 0; }
+.rb-atlas .at-bp-steps > li { position: relative; display: flex; align-items: flex-start; gap: 14px; padding-block: 10px; }
+.rb-atlas .at-bp-steps > li:not(:last-child)::after { content: ""; position: absolute; inset-inline-start: 12px; inset-block: 36px -10px; width: 2px; background: var(--edge); }
+.rb-atlas .at-bp-steps p { font-size: 16px; line-height: 1.65; max-width: 76ch; }
+.rb-atlas .at-refs { display: flex; flex-wrap: wrap; gap: 6px; margin-block-start: 8px; }
+.rb-atlas .at-ref { display: inline-flex; align-items: center; gap: 6px; padding: 1px 8px; border: 1px solid var(--line-2); border-radius: 4px; background: var(--paper); font-size: 13px; }
+.rb-atlas .at-ref-k { color: var(--ink-2); }
+.rb-atlas .at-ref .at-code { font-size: 14px; color: var(--ink-1); font-weight: 600; }
+
+/* ---------------------------------------------------------------------- 7 · ERD */
+
+.rb-atlas .at-erd-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; margin-block-end: 12px; }
+.rb-atlas .at-modes { display: inline-flex; border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden; }
+.rb-atlas .at-modes span { padding: 6px 16px; font-size: 14px; font-weight: 600; color: var(--ink-2); background: var(--surface); }
+.rb-atlas .at-modes span + span { border-inline-start: 1px solid var(--line-2); }
+.rb-atlas .at-modes .is-on { background: var(--ink-1); color: var(--surface); }
+.rb-atlas .at-erd-mode { font-size: 15px; }
+.rb-atlas .at-erd-scroll { border: 1px solid var(--line-1); border-radius: 8px; background: var(--paper); }
+.rb-atlas .erd-svg { display: block; width: 100%; min-width: 840px; max-width: 1040px; height: auto; margin-inline: auto; }
+.rb-atlas .erd-paper { fill: var(--paper); }
+.rb-atlas .erd-box { fill: var(--surface); stroke: var(--line-2); stroke-width: 1; }
+.rb-atlas .erd-band { fill: var(--m); }
+.rb-atlas .erd-sel { fill: none; stroke: var(--action); stroke-width: 2.5; }
+.rb-atlas .erd-name { font-family: var(--f-mono); font-size: 14px; font-weight: 600; fill: var(--ink-1); }
+.rb-atlas .erd-name--self { font-size: 19px; font-weight: 700; }
+.rb-atlas .erd-he, .rb-atlas .erd-card { font-family: var(--f-ui); font-size: 13px; fill: var(--ink-2); }
+.rb-atlas .erd-card { font-weight: 600; }
+.rb-atlas .erd-mod { font-family: var(--f-mono); font-size: 13px; fill: var(--ink-2); }
+.rb-atlas .erd-edge { fill: none; stroke: var(--edge); stroke-width: 2; }
+.rb-atlas .erd-edge.is-dashed { stroke-dasharray: 6 5; }
+.rb-atlas .erd-arrow { fill: var(--edge); }
+.rb-atlas .at-erd-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-block-start: 12px; font-size: 14px; }
+.rb-atlas .at-erd-legend li { display: inline-flex; align-items: center; gap: 8px; }
+.rb-atlas .at-erd-legend svg { width: 48px; height: 16px; flex: none; }
+
+/* ---------------------------------------------------------- 8 · library, reader */
+
+.rb-atlas .at-shelf { display: grid; gap: 16px; }
+.rb-atlas .at-shelf-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 36px 40px; padding: 24px 20px 0; background: var(--paper); border: 1px solid var(--line-1); border-block-end: 6px solid var(--line-2); border-radius: 8px 8px 2px 2px; }
+.rb-atlas .at-shelf-g { display: grid; gap: 10px; padding-block-end: 16px; }
+.rb-atlas .at-shelf-h { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; padding-block-end: 6px; border-block-end: 3px solid var(--m); }
+.rb-atlas .at-shelf-h .at-code { color: var(--ink-1); }
+.rb-atlas .at-shelf-h { white-space: nowrap; }
+.rb-atlas .at-shelf-hint { display: none; font-size: 13px; color: var(--ink-2); }
+.rb-atlas .at-books { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 20px; }
+.rb-atlas .at-books > li { width: 150px; margin-inline-end: calc(4px + var(--thick) * 12px); }
+.rb-atlas .at-book {
+  position: relative; display: flex; flex-direction: column; gap: 10px; aspect-ratio: 2 / 3; padding-block: 14px 12px; padding-inline: 20px 12px;
+  color: var(--cloth-ink);
+  background-color: var(--cloth);
+  background-image: linear-gradient(var(--cover-grid) 1px, transparent 1px), linear-gradient(90deg, var(--cover-grid) 1px, transparent 1px);
+  background-size: 18px 18px;
+  box-shadow: var(--elev-book);
+}
+.rb-atlas .at-book { border-start-start-radius: 3px; border-end-start-radius: 3px; border-start-end-radius: 6px; border-end-end-radius: 6px; }
+/* spine band on the start edge, page block on the end edge: thickness is the book's own page count */
+.rb-atlas .at-book::before { content: ""; position: absolute; inset-block: 0; inset-inline-start: 0; width: 8px; background: var(--spine-shade); border-start-start-radius: 3px; border-end-start-radius: 3px; }
+.rb-atlas .at-book::after {
+  content: ""; position: absolute; inset-block: 4px 3px; inset-inline-end: calc(-1 * (4px + var(--thick) * 12px)); width: calc(4px + var(--thick) * 12px);
+  background: repeating-linear-gradient(90deg, var(--pages) 0 2px, var(--pages-line) 2px 3px);
+  border-start-end-radius: 3px; border-end-end-radius: 3px; z-index: -1;
+}
+.rb-atlas .at-book { isolation: isolate; }
+.rb-atlas .at-book-mod { align-self: flex-start; padding: 0 6px; border-radius: 3px; background: var(--cover-chip-bg); }
+.rb-atlas .at-book-mod .at-code { color: var(--cover-chip-ink); font-size: 13px; font-weight: 700; }
+.rb-atlas .at-book-t { font-size: 15px; line-height: 1.35; font-weight: 700; overflow-wrap: anywhere; }
+.rb-atlas .at-book-m { margin-block-start: auto; display: grid; gap: 2px; font-size: 12px; line-height: 1.4; font-weight: 500; }
+
+.rb-atlas .at-reader { margin-block-start: 32px; padding: 28px clamp(16px, 4vw, 48px); background: var(--surface); border: 1px solid var(--line-1); border-radius: 8px; display: grid; gap: 12px; }
+.rb-atlas .at-reader header { display: grid; gap: 6px; }
+.rb-atlas .at-reader header .at-meta { display: inline-flex; align-items: center; gap: 6px; }
+.rb-atlas .at-reader-ch { font-size: 15px; font-weight: 600; color: var(--ink-2); }
+.rb-atlas .at-reader-h { font-size: 26px; line-height: 1.3; font-weight: 700; max-width: 36ch; }
+.rb-atlas .at-bookmap { display: flex; gap: 3px; height: 14px; max-width: 68ch; }
+.rb-atlas .at-bookmap span { flex: var(--g) 1 0px; min-width: 3px; background: var(--sunken); border: 1px solid var(--line-2); border-radius: 2px; }
+.rb-atlas .at-bookmap .is-here { background: var(--action); border-color: var(--action); }
+.rb-atlas .at-reading { font-size: 18px; line-height: 1.8; max-width: 68ch; margin-block-start: 8px; }
+.rb-atlas .at-reader-f { display: flex; justify-content: flex-end; max-width: 68ch; }
+
+/* ------------------------------------------------------------------- 9 · academy */
+
+.rb-atlas .at-lesson { padding: 24px; background: var(--surface); border: 1px solid var(--line-1); border-radius: 8px; display: grid; gap: 16px; }
+.rb-atlas .at-lesson-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px 40px; }
+.rb-atlas .at-lesson-t { font-size: 28px; line-height: 1.25; font-weight: 700; margin-block-end: 10px; }
+.rb-atlas .at-lesson-go { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-block-start: 16px; }
+.rb-atlas .at-lesson-go .at-note { margin: 0; }
+.rb-atlas .at-ticks { display: grid; grid-template-columns: repeat(auto-fit, minmax(8px, 1fr)); gap: 3px; max-width: 460px; height: 16px; }
+.rb-atlas .at-ticks span { background: var(--sunken); border: 1px solid var(--line-2); border-radius: 2px; }
+.rb-atlas .at-ticks .is-before { background: var(--ink-2); border-color: var(--ink-2); }
+.rb-atlas .at-ticks .is-here { background: var(--action); border-color: var(--action); }
+.rb-atlas .at-chain li .at-code { flex: none; min-width: 52px; font-weight: 700; color: var(--ink-1); }
+.rb-atlas .at-lesson-nav { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-block-start: 16px; font-size: 15px; }
+.rb-atlas .at-lesson-nav a, .rb-atlas .at-ltoc a:hover { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+.rb-atlas .at-ltoc { align-self: start; padding: 16px; background: var(--paper); border: 1px solid var(--line-1); border-radius: 8px; }
+.rb-atlas .at-ltoc ol { position: relative; display: grid; gap: 2px; margin-block-start: 8px; }
+.rb-atlas .at-ltoc ol::before { content: ""; position: absolute; inset-inline-start: 12px; inset-block: 14px; width: 2px; background: var(--line-2); }
+.rb-atlas .at-ltoc a { position: relative; display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 14px; }
+.rb-atlas .at-ltoc .at-step-n { width: 26px; height: 24px; font-size: 12px; border-width: 1px; border-color: var(--line-2); z-index: 1; }
+
+/* ------------------------------------------------------------- 10 · status system */
+
+.rb-atlas .at-stsys { display: grid; gap: 12px; container-type: inline-size; }
+@container (min-width: 860px) { .rb-atlas .at-st-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.rb-atlas .at-gray { display: inline-flex; align-items: center; gap: 10px; justify-self: start; min-height: 40px; padding: 6px 12px; border: 1px solid var(--line-2); border-radius: 6px; background: var(--surface); font-size: 15px; cursor: pointer; }
+.rb-atlas .at-gray input { width: 18px; height: 18px; accent-color: var(--ink-1); }
+.rb-atlas .at-stsys:has(.at-gray input:checked) :is(.at-st-grid, .at-lv-grid, .at-note) { filter: grayscale(1); }
+.rb-atlas .at-st-grid, .rb-atlas .at-lv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-block-end: 12px; }
+.rb-atlas .at-extra { display: grid; gap: 8px; }
+.rb-atlas .at-extra li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: 15px; }
+.rb-atlas .at-st-tile, .rb-atlas .at-lv-tile {
+  display: grid; align-content: start; gap: 6px; padding: 16px; background: var(--surface);
+  border: 1px solid var(--line-1); border-block-start: 4px solid var(--s, var(--l)); border-radius: 6px;
+}
+.rb-atlas .at-st-tile svg { color: var(--s); }
+.rb-atlas .at-lv-tile svg { color: var(--l); }
+.rb-atlas .at-st-tile.at-st--verify { border-block-start-style: dashed; }
+.rb-atlas .at-st-word { font-size: 18px; font-weight: 700; line-height: 1.3; }
+.rb-atlas .at-st-def { font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+.rb-atlas .at-lv-tile { --l: var(--verify); }
+.rb-atlas .at-lv-tile.at-lv--verified { --l: var(--keep); }
+.rb-atlas .at-lv-tile.at-lv--partial { --l: var(--change); }
+.rb-atlas .at-lv-tile.at-lv--conflict { --l: var(--removed); }
+.rb-atlas .at-lv-line { display: block; height: 0; margin-block: 4px; border-block-start: 4px solid var(--l); }
+.rb-atlas .at-lv--partial .at-lv-line { border-block-start-style: dashed; }
+.rb-atlas .at-lv--requires .at-lv-line { border-block-start-style: dotted; }
+.rb-atlas .at-lv--conflict .at-lv-line { border-block-start: 6px double var(--l); }
+
+/* --------------------------------------------------------------------- 11 · legal */
+
+.rb-atlas .at-legal { padding: 24px; background: var(--surface); border: 1px solid var(--line-1); border-radius: 8px; display: grid; gap: 16px; }
+.rb-atlas .at-legal-t { display: inline-flex; align-items: center; gap: 10px; font-size: 28px; font-weight: 700; }
+.rb-atlas .at-legal-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 24px 40px; }
+.rb-atlas .at-legal-body .at-h4:first-child { margin-block-start: 0; }
+.rb-atlas .at-ph {
+  display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 2px 8px; vertical-align: middle;
+  background: var(--sunken); border: 1px dashed var(--change); border-radius: 4px; font-size: 14px;
+}
+.rb-atlas .at-ph .at-code { font-size: 13px; font-weight: 700; color: var(--change); }
+.rb-atlas .at-ph-w { color: var(--ink-2); }
+.rb-atlas .at-contact { display: grid; gap: 0; max-width: 640px; border-block-start: 1px solid var(--line-1); }
+.rb-atlas .at-contact > div { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 12px; padding-block: 10px; border-block-end: 1px solid var(--line-1); }
+.rb-atlas .at-contact dt { font-size: 14px; font-weight: 700; color: var(--ink-2); }
+
+/* -------------------------------------------------------------- 12 · empty, error */
+
+.rb-atlas .at-states { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.rb-atlas .at-state {
+  display: grid; justify-items: start; align-content: start; gap: 10px; padding: 28px 24px;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  border: 1px dashed var(--line-2); border-radius: 8px;
+}
+.rb-atlas .at-state > svg { color: var(--ink-2); }
+.rb-atlas .at-state-h { font-size: 18px; line-height: 1.45; font-weight: 700; max-width: 40ch; }
+.rb-atlas .at-state p:not(.at-state-h) { font-size: 15px; color: var(--ink-2); max-width: 46ch; }
+.rb-atlas .at-state--err { border-style: solid; border-color: var(--removed); background-image: none; background-color: var(--surface); }
+.rb-atlas .at-state--err > svg { color: var(--removed); }
+
+/* ----------------------------------------------------------------------- the map */
+
+.rb-atlas .at-rm { display: flex; align-items: flex-start; gap: 8px; font-size: 15px; color: var(--ink-2); margin-block-end: 16px; max-width: 80ch; }
+.rb-atlas .at-rm svg { flex: none; margin-block-start: 4px; }
+.rb-atlas .am { display: grid; gap: 12px; }
+.rb-atlas .am-play { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.rb-atlas .am-phases { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 14px; color: var(--ink-2); }
+.rb-atlas .am-phases li { display: inline-flex; align-items: center; gap: 6px; }
+.rb-atlas .am-phases b { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 4px; background: var(--route); color: var(--surface); font-family: var(--f-mono); font-size: 13px; }
+.rb-atlas .am-phases bdi { font-family: var(--f-mono); font-size: 13px; }
+.rb-atlas .am-routes { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; border: 0; padding: 0; }
+.rb-atlas .am-routes legend { float: inline-start; width: 100%; font-size: 14px; font-weight: 700; color: var(--ink-2); margin-block-end: 6px; }
+.rb-atlas .am-route-opt {
+  position: relative; display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px;
+  background: var(--surface); color: var(--ink-1); border: 1px solid var(--line-2); border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer;
+}
+.rb-atlas .am-route-opt:hover { background: var(--sunken); }
+.rb-atlas .am-route-opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.rb-atlas .am-route-opt:has(input:checked) { background: var(--route); color: var(--surface); border-color: var(--route); }
+.rb-atlas .am-route-opt:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.rb-atlas .am-scroll {
+  overflow-x: auto; border: 1px solid var(--line-1); border-radius: 8px;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+.rb-atlas .am-svg { display: block; width: 100%; min-width: 860px; height: auto; }
+.rb-atlas .am-hint { display: none; font-size: 13px; color: var(--ink-2); margin-block-start: 6px; }
+.rb-atlas .am-link { fill: none; stroke: var(--edge); stroke-width: var(--w); stroke-linecap: round; }
+.rb-atlas .am-link.is-extra { opacity: 0; }
+.rb-atlas .am-link.is-near { opacity: 1; stroke: var(--ink-1); }
+.rb-atlas .am-leg-case { stroke: var(--paper); stroke-width: 10; }
+.rb-atlas .am-leg { stroke: var(--route); stroke-width: 4.5; }
+.rb-atlas .am-node { cursor: pointer; outline: none; }
+.rb-atlas .am-ring { fill: none; stroke: none; }
+.rb-atlas .am-node:focus-visible .am-ring { stroke: var(--focus); stroke-width: 2; stroke-dasharray: none; }
+.rb-atlas .am-box { fill: var(--surface); stroke: var(--line-2); stroke-width: 1; }
+.rb-atlas .am-node:hover .am-box { stroke: var(--ink-1); }
+.rb-atlas .am-node.is-near .am-box { stroke: var(--ink-1); stroke-width: 2; }
+.rb-atlas .am-node.is-active .am-box { stroke: var(--action); stroke-width: 2.5; }
+.rb-atlas .am-band { fill: var(--m); }
+.rb-atlas .am-code { font-family: var(--f-mono); font-size: 15px; font-weight: 700; fill: var(--ink-1); }
+.rb-atlas .am-count { font-family: var(--f-ui); font-size: 13px; font-weight: 600; fill: var(--ink-2); }
+.rb-atlas .am-name { font-family: var(--f-ui); font-size: 13px; font-weight: 500; fill: var(--ink-2); }
+.rb-atlas .am-mark { fill: none; stroke: var(--m); stroke-width: 1.25; }
+.rb-atlas .am-mark.is-on { fill: var(--m); }
+.rb-atlas .am-stop rect { fill: var(--route); }
+.rb-atlas .am-stop text { font-family: var(--f-mono); font-size: 13px; font-weight: 700; fill: var(--surface); }
+.rb-atlas .am-labs rect { fill: var(--surface); stroke: var(--ink-1); stroke-width: 1; }
+.rb-atlas .am-labs text { font-family: var(--f-mono); font-size: 13px; font-weight: 700; fill: var(--ink-1); }
+
+.rb-atlas .am-below { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px 32px; margin-block-start: 4px; }
+.rb-atlas .am-h { font-size: 17px; font-weight: 700; }
+.rb-atlas .am-sub { font-size: 14px; color: var(--ink-2); margin-block: 2px 10px; }
+.rb-atlas .am-stations { display: grid; gap: 0; }
+.rb-atlas .am-stations li { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 4px 12px; padding-block: 8px; }
+.rb-atlas .am-stations li:not(:last-child)::after { content: ""; position: absolute; inset-inline-start: 12px; inset-block: 36px -8px; width: 4px; background: var(--route); }
+.rb-atlas .am-st-n { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 4px; background: var(--route); color: var(--surface); font-family: var(--f-mono); font-size: 14px; font-weight: 700; }
+.rb-atlas .am-st-mod { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; font-size: 15px; font-weight: 600; padding-block-start: 2px; border-block-end: 3px solid var(--m); justify-self: start; }
+.rb-atlas .am-st-mod .at-code { color: var(--ink-1); font-weight: 700; }
+.rb-atlas .am-st-t { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px; }
+.rb-atlas .am-none { font-size: 14px; color: var(--ink-2); }
+.rb-atlas .am-side { display: grid; align-content: start; gap: 12px; }
+.rb-atlas .am-live { min-height: 88px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line-1); border-inline-start: 4px solid var(--action); border-radius: 6px; font-size: 15px; line-height: 1.6; }
+.rb-atlas .am-legend { display: grid; gap: 8px; font-size: 14px; }
+.rb-atlas .am-legend li { display: flex; align-items: center; gap: 10px; }
+.rb-atlas .am-legend svg { flex: none; width: 44px; height: 28px; }
+.rb-atlas .lg-box { fill: var(--surface); stroke: var(--line-2); stroke-width: 1; }
+.rb-atlas .lg-mark { fill: none; stroke: var(--m-pm); stroke-width: 1.25; }
+.rb-atlas .lg-line { stroke: var(--edge); stroke-width: var(--w); stroke-linecap: round; }
+.rb-atlas .lg-case { stroke: var(--paper); stroke-width: 10; }
+.rb-atlas .lg-route { stroke: var(--route); stroke-width: 4.5; }
+.rb-atlas .lg-sel { stroke: var(--action); stroke-width: 2.5; }
+
+/* -------------------------------------------------------------------------- motion
+   Transform and opacity only. Everything below runs only for readers who have not asked
+   for reduced motion; with reduced motion the map is drawn complete from the first frame
+   and focus is shown with outlines and the text line alone. Fill mode is `backwards`, so a
+   finished animation hands the element back to the cascade (focus dimming keeps working).
+   Nothing loops. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .rb-atlas .am-node-in,
+  .rb-atlas .am-link,
+  .rb-atlas .am-legs,
+  .rb-atlas .am-stops { transition: opacity var(--dur-state) var(--ease-out); }
+  .rb-atlas .am-node-in { transform-box: fill-box; transform-origin: center; }
+  .rb-atlas .am[data-focus] .am-node:not(.is-active):not(.is-near) .am-node-in { opacity: 0.3; }
+  .rb-atlas .am[data-focus] .am-link:not(.is-near) { opacity: 0.14; }
+  .rb-atlas .am[data-focus] .am-link.is-extra:not(.is-near) { opacity: 0; }
+  .rb-atlas .am[data-focus] .am-legs,
+  .rb-atlas .am[data-focus] .am-stops { opacity: 0.35; }
+
+  .rb-atlas .am[data-play] .am-node-in { animation: am-in 200ms var(--ease-out) var(--d) backwards; }
+  .rb-atlas .am[data-play] .am-link.is-bb { animation: am-fade 200ms var(--ease-out) 120ms backwards; }
+  .rb-atlas .am[data-play] .am-leg,
+  .rb-atlas .am[data-play] .am-leg-case,
+  .rb-atlas .am[data-anim] .am-leg,
+  .rb-atlas .am[data-anim] .am-leg-case {
+    transform-box: fill-box; transform-origin: 0 50%;
+    animation: am-draw var(--t) var(--ease-in-out) var(--d) backwards;
+  }
+  .rb-atlas .am[data-play] .am-stop,
+  .rb-atlas .am[data-anim] .am-stop,
+  .rb-atlas .am[data-play] .am-mark.is-on,
+  .rb-atlas .am[data-anim] .am-mark.is-on {
+    transform-box: fill-box; transform-origin: center;
+    animation: am-pop 160ms var(--ease-spring) var(--d) backwards;
+  }
+
+  .rb-atlas .at-entry, .rb-atlas .at-book { transition: transform var(--dur-state) var(--ease-out); }
+  .rb-atlas .at-entry:hover { transform: translateY(-2px); }
+  .rb-atlas .at-book:hover { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-atlas .am-play .at-btn { display: none; }
+}
+
+@keyframes am-in { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
+@keyframes am-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes am-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes am-pop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+
+/* ---------------------------------------------------------------------- responsive */
+
+@media (max-width: 1100px) {
+  .rb-atlas .at-frames { grid-template-columns: minmax(0, 1fr); }
+  .rb-atlas .at-dir { grid-template-columns: minmax(0, 1fr); }
+  .rb-atlas .at-lesson-grid { grid-template-columns: minmax(0, 1fr); }
+  .rb-atlas .am-below { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .rb-atlas .at-pals { grid-template-columns: minmax(0, 1fr); }
+  .rb-atlas .at-rec-grid { grid-template-columns: minmax(0, 1fr); }
+  .rb-atlas .at-cmd-body { grid-template-columns: minmax(0, 1fr); }
+  .rb-atlas .at-cmd-peek { border-inline-start: 0; border-block-start: 1px solid var(--line-1); }
+  .rb-atlas .at-legal-grid { grid-template-columns: minmax(0, 1fr); }
+  .rb-atlas .at-states { grid-template-columns: minmax(0, 1fr); }
+  .rb-atlas .am-hint { display: block; }
+}
+
+@media (max-width: 720px) {
+  .rb-atlas .at-sec { padding-block-start: 40px; margin-block-start: 24px; }
+  .rb-atlas .at-sec h2 { font-size: 22px; }
+  .rb-atlas .at-sec-h { gap: 10px; }
+  .rb-atlas .at-dir-title { font-size: 36px; }
+  .rb-atlas .at-statement > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .rb-atlas .at-type li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .rb-atlas .at-t-display { font-size: 34px; }
+  .rb-atlas .at-t-h1 { font-size: 28px; }
+  .rb-atlas .at-desk-body { grid-template-columns: minmax(0, 1fr); }
+  .rb-atlas .at-rail { border-inline-end: 0; border-block-end: 1px solid var(--line-1); }
+  .rb-atlas .at-desk-rows li { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .rb-atlas .at-desk-bar .at-kbds { display: none; }
+  .rb-atlas .at-identity { font-size: 19px; }
+  .rb-atlas .at-hsearch { flex-wrap: wrap; padding-block: 8px; padding-inline: 12px; }
+  .rb-atlas .at-hsearch .at-kbds { display: none; }
+  .rb-atlas .at-hsearch input { flex-basis: 60%; }
+  .rb-atlas .at-hsearch .at-btn { width: 100%; }
+  .rb-atlas .at-entries { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rb-atlas .at-entry-v { font-size: 26px; }
+  .rb-atlas .at-rec, .rb-atlas .at-bp, .rb-atlas .at-lesson, .rb-atlas .at-legal { padding: 16px; }
+  .rb-atlas .at-rec-code h3 .at-code { font-size: 34px; }
+  .rb-atlas .at-rec-he { font-size: 20px; }
+  .rb-atlas .at-contact > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+
+  /* relation strip turns into a vertical chain */
+  .rb-atlas .at-strip { grid-template-columns: minmax(0, 1fr); row-gap: 8px; padding: 14px; }
+  .rb-atlas .at-strip-up li::after, .rb-atlas .at-strip-down li::before,
+  .rb-atlas .at-strip-up ul::after, .rb-atlas .at-strip-down ul::before,
+  .rb-atlas .at-self::before, .rb-atlas .at-self::after { display: none; }
+  .rb-atlas .at-strip-arrow { display: block; }
+  .rb-atlas .at-self { max-width: none; width: 100%; }
+
+  /* the catalogue table becomes a list of rows */
+  .rb-atlas .at-table:not(.at-table--fields) thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .rb-atlas .at-table:not(.at-table--fields), .rb-atlas .at-table:not(.at-table--fields) tbody,
+  .rb-atlas .at-table:not(.at-table--fields) tr, .rb-atlas .at-table:not(.at-table--fields) td { display: block; }
+  .rb-atlas .at-table:not(.at-table--fields) tbody { display: grid; }
+  .rb-atlas .at-table:not(.at-table--fields) tr {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 10px; align-items: center;
+    grid-template-areas: "code mod" "name name" "st rels";
+    padding: 12px; border-block-end: 1px solid var(--line-1);
+  }
+  .rb-atlas .at-table:not(.at-table--fields) td { padding: 0; border: 0; min-width: 0; }
+  .rb-atlas .at-table:not(.at-table--fields) td:nth-child(1) { grid-area: code; }
+  .rb-atlas .at-table:not(.at-table--fields) td:nth-child(2) { grid-area: name; }
+  .rb-atlas .at-table:not(.at-table--fields) td:nth-child(3) { grid-area: mod; }
+  .rb-atlas .at-table:not(.at-table--fields) td:nth-child(4) { grid-area: st; }
+  .rb-atlas .at-table:not(.at-table--fields) td:nth-child(5) { grid-area: rels; }
+  .rb-atlas .at-table:not(.at-table--fields) .at-rels { flex-wrap: nowrap; }
+
+  .rb-atlas .at-shelf-row { flex-wrap: nowrap; overflow-x: auto; padding: 16px 12px 0; gap: 24px; }
+  .rb-atlas .at-shelf-g { flex: none; }
+  .rb-atlas .at-books { flex-wrap: nowrap; }
+  .rb-atlas .at-books > li { width: 132px; }
+  .rb-atlas .at-shelf-hint { display: block; }
+  .rb-atlas .at-reader-h { font-size: 22px; }
+  .rb-atlas .at-reading { font-size: 17px; }
+  .rb-atlas .at-lesson-t { font-size: 24px; }
+  .rb-atlas .at-route-strip li + li { margin-inline-start: 24px; }
+  .rb-atlas .at-route-strip li + li::before { width: 24px; }
+}
