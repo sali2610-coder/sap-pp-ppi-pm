@@ -294,7 +294,32 @@
    its claim cites (the MD02 / MDAB form); MD50 carries its generated record's
    S32OP Fiori Apps Library row and its SAP ERP 6.18 search row 'Sales Orders
    with Delay Times' verbatim as context rows (the batch-12 / 16 / 18
-   precedent), and its notes say so. */
+   precedent), and its notes say so.
+   Batch 20 (research + adversarial audit, written 2026-09-28; access date
+   stamped 2026-09-25): 6 audited records (ME23, COR6N, CO11N, COR1, COR2,
+   CO01), each superseding its own record in place; tx:ME22 refuted again at
+   the gate and queued (its 2026-09-02 record stays as written). ME23, COR6N,
+   CO11N and CO01 from verdict.fixedRecord (COR6N, CO11N and CO01 as merge
+   instructions: the existing rows, status and notes kept as the file had them,
+   U+200F marks included, the new rows and notes sentences appended); COR1 and
+   COR2 from the drafts with their auditors' downgrades applied (the COR2
+   verdict listed none). ME23 moves from replaced to simplified on item 'S4TWL
+   - Classic MM-PUR GUI Transactions replacement' (the tx:ME21 form); its
+   status source is the new shared ME23_SIMPL2025 const (ME21_SIMPL2025 spread
+   with its own claim) instead of the 'evidence[5]' marker string the verdict
+   carried. The other five keep their status and status source and gain
+   Simplification List context rows. Writer corrections: the optional COR1
+   downgrade applied (its new tx:COR4 xref is anchored by the verbatim 'Use
+   Customizing T-codes COR4 and OPL8 ...' sentence its auditor located in the
+   2025 FPS01 text), the item name added next to the bare 12.10 / 6.5.13 in
+   the COR1 status.he and recommendedAction (HOUSE-RULES §3.5), and 'מתוכננת'
+   added to that recommendedAction, since ACDOCP is the planning table the
+   item names; 'רק' dropped from the two new COR2 claims and the COR2 notes
+   sentence (HOUSE-RULES §3.2, written 'בשמה'), and the COR2 notes name the
+   Solution-section range 'CO01-3, COR1-3 and KKBC_ORD' that the tx:COR1 and
+   tx:CO01 audits verified word for word, since the range covers COR2; every
+   new accessedAt / lastVerifiedAt is a DATE constant (DATE25; CO11N keeps
+   DATE3, as its auditor asked). */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-01";
@@ -2563,6 +2588,28 @@ const MD50_SIMPL_ITEM_2025: Evidence = {
   verificationLevel: "sap_official_verified",
 };
 
+/* batch 20 (2026-09-25 access date): the tx:ME23 status source; same document, item, fields and date as
+   ME21_SIMPL2025, its own claim */
+
+const ME23_SIMPL2025: Evidence = {
+  ...ME21_SIMPL2025,
+  claim:
+    "פריט 14.2.8 ברשימת הפישוט הרשמית של SAP S/4HANA 2025 FPS01 (רכיב יישום MM-PUR-GF; SIMPL_OP2025.pdf.txt שורות " +
+    "80431-80482) מונה את ME23 בטבלה שכותרתה 'Transactions are NO longer supported in SAP S/4HANA on-premise " +
+    "edition', לצד ME21, ME22, ME24, ME25, ME27, ME28, ME51, ME52, ME53, ME54, ME59, MR01 ו-MR1M, ובטבלה הסמוכה " +
+    "'BAPIs are NO longer supported in SAP S/4HANA on-premise edition' את BAPI_PO_CREATE, BAPI_REQUISITION_CREATE " +
+    "ו-BAPI_PO_GETDETAIL. תיאור הפריט בלשונו: 'Classic SAP ERP Materials Management (MM) transactions and BAPIs for " +
+    "the business objects Purchase Order, Purchase Requisition, and Supplier Invoice have been replaced by the " +
+    "corresponding transactions and BAPIs made available with SAP R/3 Enterprise 4.70. With SAP S/4HANA, " +
+    "on-premise, these classic MM transactions and BAPIs are NO longer supported. The replacements that are " +
+    "available since SAP R/3 Enterprise 4.70 shall be used.'; תחת Business Process related information: 'No " +
+    "influence on business processes expected.'; ותחת Required and Recommended Action(s): 'See SAP notes: 1803189: " +
+    "FAQ: End of Support of ME21, ME51, and BAPI_PO_CREATE etc.' ו-'144081: Replacing MR01 / Functions of MR1M " +
+    "(Release 4.6)'. מספר ה-Note של הפריט מודפס בגוף הפריט עצמו (Note Number 0002267449, בתיאור 'Classic MM-PUR " +
+    "GUI Transactions replacement'). הפריט אינו נוקב בטרנזקציה עוקבת ספציפית ל-ME23: ההחלפה מנוסחת למשפחה כולה, " +
+    "ומחליפתה הספציפית (ME23N) נקובה בנפרד בעמוד Enjoy Purchase Order.",
+};
+
 export const TX_VERIFICATION: VerificationRecord[] = [
   /* ----------------------------------------------------- tx:MIGO */
   {
@@ -4103,7 +4150,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         accessedAt: DATE2,
         claim:
           "תיעוד ה-Retail של S/4HANA 2025 עדיין נוקב ב-ME23 וב-ME23N ‏(Display Purchase Order) כטרנזקציות " +
-          "להזמנות רכש קיבוציות — ‏ME23 מתועדת כשמישה ב-2025.001.",
+          "לטיפול בהזמנות רכש קיבוציות לאחר יצירתן; ME23 עדיין מופיעה בתיעוד 2025.001.",
         verificationLevel: "sap_official_verified",
       },
       {
@@ -4115,75 +4162,119 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         url: INFOUPDATE_URL,
         accessedAt: DATE2,
         claim:
-          "ME21/ME22/ME23 מכונות טרנזקציות 'the conventional purchase order', עם התנהגות InfoUpdate ‏(ארבעה " +
-          "ערכים) שונה מזו של ME21N/ME22N/ME23N חד-המסך (שני ערכים), ועדיין מתועדות ב-2025.001.",
+          "ME21/ME22/ME23 מכונות טרנזקציות 'the conventional purchase order', שבהן לסימון InfoUpdate ארבעה ערכים " +
+          "אפשריים, לעומת שני ערכים בטרנזקציות חד-המסך ME21N/ME22N/ME23N; הנושא עדיין מתועד ב-2025.001.",
+        verificationLevel: "sap_official_verified",
+      },
+      ME23_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (Document Version 1.35) · item 38.2 S4TWL - Classic MM-PUR GUI Transactions replacement (MM-PUR-GF), pp. 941-942",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט מופיע כבר ברשימת הפישוט של SAP S/4HANA 2023 FPS03 כפריט 38.2 (SIMPL_OP2023.pdf.txt שורות " +
+          "49376-49436), באותה טבלה 'Transactions are NO longer supported in SAP S/4HANA on-premise edition' עם ME23 " +
+          "(השלישית ברשימה, לצד ME21, ME22, ME24, ME25, ME27, ME28, ME51-ME54, ME59, MR01, MR1M) ובאותו נוסח תיאור " +
+          "מילה במילה כמו פריט 14.2.8 של 2025 FPS01, כולל הפניה ל-SAP Note 1803189 ומספר ה-Note 2267449 המודפס בגוף " +
+          "הפריט. כלומר מעמדה של ME23 כטרנזקציה קלאסית שאינה נתמכת ב-S/4HANA On-Premise נשמר ללא שינוי בין מהדורת " +
+          "2023 FPS03 למהדורת 2025 FPS01.",
         verificationLevel: "sap_official_verified",
       },
       {
         sourceType: "repository",
-        sourceTitle: "שכבת מחזור החיים של הפרויקט — רשומת ME23",
+        sourceTitle: "שכבת מחזור החיים של הפרויקט, רשומת ME23",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE2,
+        accessedAt: DATE25,
         claim:
-          "רשומת המאגר מסמנת את ME23 כ-Obsolete‏, s4:false, חלופה ME23N, טקסט הגירה 'הוסר'. טענת ההסרה " +
-          "(s4:false) סותרת את המקורות הרשמיים של 2025.001 לעיל ואינה נתמכת באף מקור רשמי שנמצא; טענת היורשת " +
-          "(ME23N) תואמת אותם.",
+          "נוסח נוכחי (לאחר FIX-24, 2026-09-25): רשומת המאגר מסמנת את ME23 כ-Deprecated, ‏ecc:true, ‏s4:false, " +
+          "חלופה ME23N, וטקסט ההגירה מפנה לפריט הפישוט 'S4TWL - Classic MM-PUR GUI Transactions replacement' (2025 " +
+          "FPS01 14.2.8) ולנוסח 'are NO longer supported'. נוסח קודם (Old): Obsolete עם טקסט הגירה 'הוסר'. הדגל " +
+          "s4:false חד יותר מלשון הפריט, שאינה קובעת שקוד הטרנזקציה נמחק. טענת היורשת (ME23N) תואמת את המקורות " +
+          "הרשמיים.",
         verificationLevel: "repository_verified",
         repoRef: "data/lifecycle.ts#ME23",
       },
       {
         sourceType: "repository",
-        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL) — רשומת ME23N",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (TX_INTEL), רשומת ME23N",
         product: "SAP S/4HANA",
         edition: "on-premise",
-        accessedAt: DATE2,
+        accessedAt: DATE25,
         claim:
-          "רשומת ME23N מונה את ME23 ב-obsolete:[\"ME23\"] וקובעת 'ME23 deprecated', ונוקבת ב-ME23N כטרנזקציית " +
-          "התצוגה המודרנית (Fiori‏: 'Display Purchase Order — F0843' לפי הרשומה — ייחוס Tier-2 בלבד).",
+          "רשומת ME23N מונה את ME23 ב-obsolete:[\"ME23\"], קובעת 'ME23 deprecated', ונוקבת בשדה ה-Fiori ב-'Purchase " +
+          "Order (Version 2) (F0348A)'. זה ייחוס Tier-2 בלבד, שלא אומת מול Fiori Apps Library ברשומה זו. נוסח קודם " +
+          "(Old): 'Display Purchase Order' עם F0843; המזהה F0843 רשום ב-data/fiori/apps.ts כ-Post Goods Movement, " +
+          "והייחוס הוסר מהמאגר בתיקון FIX-20.",
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#ME23N",
       },
       {
         sourceType: "repository",
-        sourceTitle: "מסמך התיקון הפתוח: סתירות מחזור חיים, קבוצה A — שורת ME23",
+        sourceTitle: "מסמך התיקון הפתוח: סתירות מחזור חיים, קבוצה A, שורת ME23",
         product: "SAP S/4HANA",
         edition: "on-premise",
         accessedAt: DATE2,
         claim:
-          "ME23 היא אחת מ-12 סתירות מחזור החיים של קבוצה A‏: lifecycle.ts אומרת 'Obsolete, s4:false' בעוד " +
-          "tx-intel של NEO אומרת 'superseded' (רמת אמון verified); שני הצדדים נוקבים ב-ME23N כיורשת.",
+          "ME23 היא אחת מ-12 סתירות מחזור החיים של קבוצה A: ‏lifecycle.ts אמרה 'Obsolete, s4:false' בעוד tx-intel " +
+          "של NEO אמרה 'superseded' (רמת אמון verified); שני הצדדים נוקבים ב-ME23N כיורשת. המסמך משקף את המצב " +
+          "שלפני FIX-24; רשומת lifecycle.ts עודכנה מאז ל-Deprecated.",
         verificationLevel: "repository_verified",
         repoRef: "audit/repair/LIFECYCLE_EVIDENCE_REQUIRED.md",
       },
     ],
     status: {
-      status: "replaced",
+      status: "simplified",
       successor: "tx:ME23N",
       edition: "on-premise",
-      release: "2025.001",
-      source: ME23_ENJOY,
+      release: "2025 FPS01",
+      source: ME23_SIMPL2025,
       he:
-        "הטרנזקציה הקלאסית ME23 (הצגת הזמנת רכש) הוחלפה בטרנזקציית ה-Enjoy‏ ME23N, לפי דף SAP Help‏ Enjoy " +
-        "Purchase Order. עם זאת, בתיעוד S/4HANA 2025 FPS01 ‏ME23 עדיין מתועדת כניתנת לשימוש (לדוגמה להצגת " +
-        "הזמנות רכש קיבוציות ב-Retail) ומסווגת כטרנזקציה קונבנציונלית שאינה משויכת לתפקידים הסטנדרטיים; פעילות " +
-        "התצוגה בתפקידים היא ME23N. כלומר: הוחלפה, אך לא הוסרה.",
+        "ME23 (Display purchase order, הצגת הזמנת רכש קלאסית) מכוסה בפריט הפישוט הרשמי S4TWL - Classic MM-PUR GUI " +
+        "Transactions replacement (14.2.8 ברשימת 2025 FPS01, 38.2 ברשימת 2023 FPS03): הטרנזקציות הקלאסיות של " +
+        "MM-PUR, וביניהן ME23 בשמה, 'are NO longer supported' ב-SAP S/4HANA On-Premise (Note 2267449). בנפרד, עמוד " +
+        "Enjoy Purchase Order הרשמי נוקב ב-ME23N כמחליפתה הישירה ('replaces the previous purchase order'). תיעוד " +
+        "Non-Assigned Purchasing Functions, ‏SLS: Constraints (Retail) ונושא InfoUpdate במהדורת 2025 FPS01 עדיין " +
+        "מונים את ME23, וזו גרירת תיעוד ולא הצהרת תמיכה. עמוד Enjoy Purchase Order באותה מהדורה עדיין קובע 'you " +
+        "can still use transactions ME21, ME22 and ME23, and there are no functional limitations'. זמינות קוד " +
+        "הטרנזקציה ותמיכת SAP הן שתי שאלות נפרדות, ויש לאמת במערכת חיה.",
       recommendedAction:
-        "לתקן את data/lifecycle.ts (רשומת ME23): לשנות מ'Obsolete / s4:false / הוסר' לסטטוס הוחלפה " +
-        "(superseded) — הוחלפה ב-ME23N אך עדיין קיימת לתאימות לאחור — בהתאם לדף Enjoy Purchase Order בגרסה " +
-        "2025.001. לקבל את אותה החלטה יחד עם tx:ME21 ו-tx:ME22, שלושתן אותו דפוס בדיוק.",
+        "לא לבסס תהליכי הצגה, הקלטות batch input או קוד לקוח חדשים על ME23 ב-S/4HANA On-Premise, ולהתייחס אליה " +
+        "כטרנזקציה שאינה נתמכת לפי פריט הפישוט. להציג הזמנות רכש ב-ME23N או באפליקציית ה-Fiori המתאימה. בהמרה: " +
+        "לקרוא את פריט הפישוט S4TWL - Classic MM-PUR GUI Transactions replacement ואת SAP Note 1803189 בגישת " +
+        "S-user, ולסרוק קוד לקוח ווריאנטים של batch input שקוראים ל-ME23. רשומת data/lifecycle.ts#ME23 כבר עודכנה " +
+        "ל-Deprecated עם הפניה לפריט הפישוט (FIX-24). הדגל s4:false שבה עדיין חד מלשון הפריט, ויש לבחון אותו יחד " +
+        "עם ME21 ו-ME22.",
     },
     xrefs: ["tx:ME21", "tx:ME22", "tx:ME21N", "tx:ME23N"],
-    lastVerifiedAt: DATE2,
+    lastVerifiedAt: DATE25,
     notes:
-      "הסטטוס 'הוחלף' עם היורשת ME23N מעוגן בעמוד Enjoy Purchase Order הרשמי (2025 FPS01, ‏versionId ‏2025.001), " +
-      "שהסניפט שלו קובע שה-Enjoy‏ ME21N/ME22N/ME23N מחליפות את ME21/ME22/ME23. לא 'לא זמין': שלושה דפי 2025.001 " +
-      "נפרדים עדיין מתעדים את ME23 כקיימת ושמישה, ולכן אין להדהד את טענת ההסרה של lifecycle.ts. לא נרשמו מזהה " +
-      "SAP Note או פריט פישוט: הערוצים האלה חסומים ב-S-user לפי audit/s4-enrichment/MANIFEST.md (שורות 25-27), " +
-      "ואף מספר אינו מופיע בנתוני המאגר המאומתים או בסניפט רשמי פומבי — דבר לא הומצא. טענת אפליקציית ה-Fiori " +
-      "היורשת (F0843 לפי tx-intel) נשארת Tier-2 בלבד ואינה נטענת כרשמית. החיפוש רץ מול SAP_S4HANA_ON-PREMISE; " +
-      "וריאנט הענן לא נדרש. ‏accessedAt = 2026-09-02 — המועד שהדפיס כלי החיפוש בזמן הריצה בפועל. טבלאות " +
-      "EKKO/EKPO/EKBE אינן מזהים בני-פענוח בדאטהסט ולכן אינן ב-xrefs.",
+      "ממצא קודם (Old), לפני 2026-09-25: הסטטוס 'הוחלף' עם היורשת ME23N היה מעוגן בעמוד Enjoy Purchase Order " +
+      "הרשמי (2025 FPS01, versionId 2025.001), שהסניפט שלו קובע שה-Enjoy ME21N/ME22N/ME23N מחליפות את " +
+      "ME21/ME22/ME23. שלושה דפי 2025.001 נפרדים (Non-Assigned Purchasing Functions, SLS: Constraints, InfoUpdate) " +
+      "עדיין תיעדו את ME23. לא נרשמו אז מזהה SAP Note או פריט פישוט: הערוצים האלה סומנו כחסומים ב-S-user לפי " +
+      "audit/s4-enrichment/MANIFEST.md, ואף מספר לא הופיע בנתוני המאגר המאומתים או בסניפט רשמי פומבי שנמצא באותו " +
+      "סבב. accessedAt המקורי (2026-09-02) משקף את מועד הגישה בפועל של שירות החיפוש. 2026-09-25 Old → New: " +
+      "הממצא הקודם בוטל בחלקו: פריט הפישוט S4TWL - Classic MM-PUR GUI Transactions replacement נמצא בשתי " +
+      "המהדורות (14.2.8 ב-2025 FPS01, SIMPL_OP2025.pdf.txt שורות 80431-80482; 38.2 ב-2023 FPS03, " +
+      "SIMPL_OP2023.pdf.txt שורות 49376-49436), מונה את ME23 בשמה בטבלת 'NO longer supported', מפנה ל-SAP Note " +
+      "1803189 ומדפיס את מספר ה-Note 2267449 בגוף הפריט. הסטטוס עודכן מ-'replaced' ל-'simplified' בהתאם לנוסח " +
+      "הפריט ולעקביות עם tx:ME21, שכבר קיבל את אותו טיפול לאותו פריט פישוט בדיוק בקובץ זה. ה-successor tx:ME23N " +
+      "נשמר כי הוא נתמך ישירות (לא בהיסק) על ידי עמוד Enjoy Purchase Order. שדה sapNote לא הוזן במכוון: המספרים " +
+      "1803189 ו-2267449 מודפסים בגוף הפריט עצמו, אך תוכן ה-Notes לא נקרא (דורש גישת S-user, כמתועד " +
+      "ב-MANIFEST.md). הקריאה של שורות Non-Assigned Purchasing Functions, ‏SLS: Constraints ו-InfoUpdate תוקנה: " +
+      "אלה גרירת תיעוד תפקיד או תהליך, לא הצהרת תמיכה, ואינן סותרות את פריט הפישוט; המשפט הקודם שטען שאף פריט " +
+      "פישוט אינו נוקב בקוד הוסר מהטענה הפעילה ונשמר כאן כהיסטוריה בלבד. 2026-09-25, ביקורת: שורות המאגר עודכנו " +
+      "למצב הנוכחי. data/lifecycle.ts#ME23 עברה מ-Obsolete עם 'הוסר' ל-Deprecated עם הפניה לפריט הפישוט " +
+      "(FIX-24), וההמלצה לתקן אותה הוסרה. ‏data/tx-intel.ts#ME23N כבר אינה מייחסת ל-ME23N את F0843 (FIX-20; " +
+      "‏F0843 הוא Post Goods Movement ב-data/fiori/apps.ts), ושדה ה-Fiori שלה נוקב כעת ב-F0348A, ייחוס Tier-2 " +
+      "שלא אומת. מסמך הסתירה audit/repair/LIFECYCLE_EVIDENCE_REQUIRED.md משקף את המצב שלפני FIX-24. לא בוצעה " +
+      "בדיקת מערכת SAP חיה; ‏EKKO/EKPO/EKBE אינן מזהים בני-פענוח בדאטהסט ולכן אינן ב-xrefs.",
   },
 
   /* ------------------------------------------------------------ tx:IW31 */
@@ -4549,6 +4640,52 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#COR1",
       },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3, item 12.10 S4TWL - Profit and Loss " +
+          "Planning and Profit Center Planning (Business Impact note 2270407)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "בפרק 'Reason and Prerequisites' הפריט קובע: 'Production/process order planning is used if planned cost " +
+          "calculation is active for the combination of plant and order type and is carried out automatically when " +
+          "the production order (CO01 or CO02) or the process order (COR1 or COR2) is created, changed or released.' " +
+          "בהמשך, בפרק Solution, הפריט קובע: 'The information shown in the SAPGUI transactions (CO01-3, COR1-3 and " +
+          "KKBC_ORD) is based on the old tables so you will not see costs by work center or operation in these " +
+          "transactions even though the additional detail is stored in the ACDOCP table.' COR1 מוזכרת כאן בשני " +
+          "הקשרים: (א) כפעולה שמפעילה חישוב עלות מתוכננת אוטומטי כאשר תכנון כזה מוגדר; (ב) כטרנזקציית SAPGUI שבה לא " +
+          "מוצגת עלות לפי מרכז עבודה/פעולה (המידע קיים ב-ACDOCP אך גלוי רק באפליקציות Fiori כגון Production Cost " +
+          "Analysis). הפריט אינו קובע שינוי, החלפה או הסרה של COR1 עצמה, ועוסק בטבלאות התכנון GLPCP/COEJ ובטרנזקציות " +
+          "התכנון הקלאסיות FSE5N, FSE6N, FAGLPLSET, GP12N, GP12NA.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1, item 6.5.13 S4TWL - Profit and Loss " +
+          "Planning and Profit Center Planning (Business Impact note 0002270407)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "אותו ניסוח חוזר בפריט המקביל ברשימת 2025 FPS01: 'Production/process order planning is used if planned " +
+          "cost calculation is active for the combination of plant and order type and is carried out automatically " +
+          "when the production order (CO01 or CO02) or the process order (COR1 or COR2) is created, changed or " +
+          "released.' ובהמשך אותו סעיף: 'Use Customizing T-codes COR4 and OPL8 to check whether plan costs are " +
+          "determined for production order and process orders.' ובפרק Solution: 'The information shown in the SAPGUI " +
+          "transactions (CO01-3, COR1-3 and KKBC_ORD) is based on the old tables so you will not see costs by work " +
+          "center or operation in these transactions even though the additional detail is stored in the ACDOCP " +
+          "table.' אותו תפקיד הקשרי כמו בפריט 2023: COR1 היא אחת מטרנזקציות ההזמנה שמפעילות תכנון עלות אוטומטי, " +
+          "ואחת מטרנזקציות ה-SAPGUI שאינה מציגה עלות לפי מרכז עבודה/פעולה. הפריט אינו קובע את מעמד COR1 עצמה; הוא " +
+          "עוסק בתכנון CO-OM, תכנון P&L ותכנון מרכזי רווח, ומפנה לתכנון ב-SAP Analytics Cloud.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     status: {
       status: "unchanged",
@@ -4560,17 +4697,23 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "טרנזקציה COR1 (יצירת הזמנת תהליך) זמינה ב-SAP S/4HANA On-Premise, כולל 2025 FPS01: התיעוד הרשמי מציין " +
         "במפורש שניתן להשתמש ב-COR1 ליצירת הזמנת תהליך. הזמנת תהליך (PP-PI, תעשיות תהליכיות) נשמרת כאובייקט " +
         "נפרד מהזמנת ייצור (CO01) גם ב-S/4HANA. חלופת ה-Fiori לפי דף השוואת היכולות של SAP‏: Manage Process " +
-        "Orders ‏(F4587) ו-Manage Process Order Operations ‏(F5323).",
+        "Orders ‏(F4587) ו-Manage Process Order Operations ‏(F5323)." +
+        " שני פריטי S4TWL - Profit and Loss Planning and Profit Center Planning (2023 FPS03 פריט 12.10, 2025 FPS01 " +
+        "פריט 6.5.13) מזכירים את COR1 כהקשר בלבד: כטריגר לתכנון עלות אוטומטי וכטרנזקציה שאינה מציגה עלות לפי " +
+        "מרכז עבודה; הם אינם משנים את הזמינות שלה.",
       recommendedAction:
         "להשאיר את COR1 כנתיב יצירת הזמנות התהליך ב-S/4HANA On-Premise; להציג את Manage Process Orders ‏(F4587) " +
         "ואת Manage Process Order Operations ‏(F5323) כחלופת ה-Fiori לפי דף ההשוואה הרשמי. לתקן את " +
-        "data/tx-intel.ts ‏(s4Delta של COR1), המצטט F3577 במקום F4587 המתועד רשמית.",
+        "data/tx-intel.ts ‏(s4Delta של COR1), המצטט F3577 במקום F4587 המתועד רשמית." +
+        " כאשר נדרש ניתוח עלות מתוכננת לפי מרכז עבודה/פעולה עבור הזמנת תהליך שנוצרה ב-COR1, להפנות לאפליקציות " +
+        "Fiori (למשל Production Cost Analysis) על סמך ACDOCP, ולא לתצוגת SAPGUI, לפי פריט הפישוט S4TWL - Profit " +
+        "and Loss Planning and Profit Center Planning (2025 FPS01, פריט 6.5.13).",
     },
     xrefs: [
       "tx:CO01", "tx:COR2", "tx:COR3", "tx:COR8", "tx:COR6N", "tx:CORK", "tx:C201",
-      "tx:COOISPI", "tx:COHVPI",
+      "tx:COOISPI", "tx:COHVPI", "tx:COR4",
     ],
-    lastVerifiedAt: DATE2,
+    lastVerifiedAt: DATE25,
     notes:
       "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs ‏('COR1 create process order', " +
       "'Manage Process Orders Fiori app'), חיפוש רשת מוגבל-דומיין על fioriappslibrary/fal.cloud.sap, ורובד " +
@@ -4580,7 +4723,17 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "לפי סניפט ההשוואה הרשמי; דף ספרייה ישיר ל-F4587 לא נשלף ללא התחברות, ולכן F4587 נשען על סניפט help.sap.com " +
       "— מספיק לפי ה-MANIFEST. ‏F4587 ו-F5323 אינם קיימים ב-data/fiori/apps.ts ולכן אינם ב-xrefs ‏(COOISPI " +
       "ו-COHVPI נרשמו כ-tx). סתירת F3577 נרשמה בקובץ התור. אף מקור רשמי אינו מסמן את COR1 כמוצאת משימוש או " +
-      "מוחלפת — לכן 'ללא שינוי' בלי יורש. ‏accessedAt = 2026-09-02 — מועד הגישה שהדפיס הכלי בפועל.",
+      "מוחלפת — לכן 'ללא שינוי' בלי יורש. ‏accessedAt = 2026-09-02 — מועד הגישה שהדפיס הכלי בפועל." +
+      " תוספת (2026-09-25, EVIDENCE RE-DRAFT): נקראו scratchpad/official/SIMPL_OP2023.pdf.txt (שורות ~19501, " +
+      "~19627) ו-SIMPL_OP2025.pdf.txt (שורות ~19576, ~19715): פריט 'S4TWL - Profit and Loss Planning and Profit " +
+      "Center Planning' (2023 FPS03 פריט 12.10; 2025 FPS01 פריט 6.5.13). באותו אופן שבו tx:COR4 קורא פריט זה " +
+      "כהקשר Customizing (COR4 + OPL8 לבדיקת רלוונטיות), COR1 מופיעה בו פעמיים כהקשר בלבד: כפעולת " +
+      "יצירה/שינוי/שחרור שמפעילה חישוב עלות מתוכננת אוטומטי, וכטרנזקציית SAPGUI (במסגרת 'CO01-3, COR1-3 and " +
+      "KKBC_ORD') שלא מציגה עלות לפי מרכז עבודה/פעולה מהטבלה החדשה ACDOCP; יש לפנות לאפליקציות Fiori לכך. הפריט " +
+      "אינו קובע מעמד ל-COR1 עצמה ואינו סותר את ה-status הקיים; לכן ה-status נותר 'unchanged' ללא שינוי מקור. " +
+      "tx:COR4 נוסף ל-xrefs, והמשפט 'Use Customizing T-codes COR4 and OPL8 ...' מצוטט בשורת 2025 FPS01 כעוגן לקישור. " +
+      "לא הורצו חיפושי sap-help-search/fal-app נוספים בסבב זה (משימת READ-ONLY ממוקדת בשני קבצי הטקסט שסופקו). " +
+      "לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* ----------------------------------------------------------- tx:COR6N */
@@ -4679,6 +4832,70 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "repository_verified",
         repoRef: "data/table-enrichment.ts#AFRU",
       },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 · item 30.18 S4TWL - Process Messages (PP-PI-PMA-MSG)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE25,
+        claim:
+          "הפריט קובע ששימוש ב-process messages בשילוב PI Sheets מבוססי-דפדפן (PP-PI) והוראות עבודה (PP-SFC) הוא " +
+          "חלק מה-compatibility scope וניתן להמשיך בו עד תום רישיון חבילת התאימות; 'Immediate action is not " +
+          "required'. תחת Business Process related information: 'It is also possible to use the built-in features of " +
+          "SAP S/4HANA for production execution, that is: Transactions CORK, COR6N, CORZ; Apps for the production " +
+          "operator role SAP_BR_PRODN_OPTR_PROC'. הפריט מציג את COR6N כיכולת ביצוע ייצור מובנית של S/4HANA ואינו " +
+          "מסמן אותה כמוחלפת או כיוצאת משימוש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 · item 30.19 S4TWL - Control Recipes/Instructions (PP-PI-PMA-RCP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE25,
+        claim:
+          "הפריט המקביל על control recipes/instructions חוזר על אותו נוסח: 'It is also possible to use the built-in " +
+          "features of SAP S/4HANA for production execution, that is: Transactions CORK, COR6N, CORZ; Apps for the " +
+          "production operator role SAP_BR_PRODN_OPTR_PROC'; גם בו COR6N מוצגת כיכולת מובנית, ללא סימון כמוחלפת.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 · item 9.3.16 S4TWL - Process Messages (PP-PI-PMA-MSG)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE25,
+        claim:
+          "ברשימת 2025 FPS01 הנוסח זהה במהותו: 'It is also possible to use the built-in features of SAP S/4HANA for " +
+          "production execution, that is: Transactions CORK, COR6N, CORZ; Apps for the production operator role " +
+          "SAP_BR_PRODN_OPTR_PROC; And so on'. נכון ל-2025 FPS01 הפריט מונה את COR6N בין יכולות ביצוע הייצור המובנות " +
+          "של S/4HANA, כאפשרות לצד השימוש ב-process messages שבהיקף התאימות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 · item 9.3.17 S4TWL - Control Recipes/Instructions (PP-PI-PMA-RCP)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE25,
+        claim:
+          "הפריט המקביל ב-2025 FPS01 חוזר על אותה רשימה: 'Transactions CORK, COR6N, CORZ; Apps for the production " +
+          "operator role SAP_BR_PRODN_OPTR_PROC' תחת 'built-in features of SAP S/4HANA for production execution'; " +
+          "הפריט אינו מסמן שינוי, החלפה או יציאה משימוש של COR6N.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     status: {
       status: "unchanged",
@@ -4690,14 +4907,17 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "FPS01 עבור תעשיות תהליכיות (PP-PI). בענן הציבורי (2608) היא ניתנת גם כאפליקציה בשם Confirm Process " +
         "Order Phase עם App ID: COR6N בספריית האפליקציות של Fiori. חלופת Fiori מודרנית: האפליקציות Manage " +
         "Process Orders ‏(F4587) ו-Manage Process Order Operations ‏(F5323), הכוללות לפי ההשוואה הרשמית של SAP " +
-        "את פעולת האישור Confirm Process Order Operation.",
+        "את פעולת האישור Confirm Process Order Operation." +
+        " שני זוגות פריטי Simplification (2023 FPS03 30.18/30.19; 2025 FPS01 9.3.16/9.3.17: S4TWL - Process " +
+        "Messages, S4TWL - Control Recipes/Instructions) מונים את COR6N, לצד CORK ו-CORZ, בין יכולות ביצוע הייצור " +
+        "המובנות של S/4HANA, ואינם מסמנים אותה כמוחלפת או כיוצאת משימוש.",
       recommendedAction:
         "להשאיר; לתקן את מזהה חלופת ה-Fiori במאגר: להחליף את F3364 הלא-מאושש בחלופות המתועדות — פעולת Confirm " +
         "Process Order Operation באפליקציות F4587/F5323 ‏(On-Premise, לפי דף ההשוואה), והאפליקציה 'Confirm " +
         "Process Order Phase' ‏(App ID: COR6N) המתועדת ל-S/4HANA Cloud Public Edition 2608.",
     },
     xrefs: ["tx:CO11N", "tx:COR6", "tx:CORK", "tx:CORS", "tx:CORZ", "table:AFRU"],
-    lastVerifiedAt: DATE2,
+    lastVerifiedAt: DATE25,
     notes:
       "הזמינות ב-On-Premise ‏2025 FPS01 נשענת על שלוש רשומות Help של 2025.001 הנוקבות ב-COR6N ‏(דיווח משמרות; " +
       "קבלת תוצרי-לוואי; דף ההשוואה) ועוד רשומה המתעדת את נתיב הדיווח ב-Fiori; אף מקור רשמי שנמצא אינו מסמן " +
@@ -4709,7 +4929,13 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "(CORK)' עם App ID: CORK). פרטי BAPI/user-exit נשארים Tier-2 בלבד (בדיקות מערכת חיה לא זמינות בסשן: " +
       "ה-MCP‏ sc4sap לא התחבר). ‏F4587/F5323 אינם קיימים ב-data/fiori/apps.ts ולכן אינם ב-xrefs. ‏accessedAt = " +
       "2026-09-02 — מועד הגישה בפועל." +
-      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-19 (audit/ux-2026-09/SAP-FIXES.md, 66004e8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-19 (audit/ux-2026-09/SAP-FIXES.md, 66004e8c); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New)." +
+      " 2026-09-25 (evidence re-draft): נוספו ארבע ראיות מפריטי Simplification (2023 FPS03 30.18/30.19; 2025 FPS01 " +
+      "9.3.16/9.3.17: S4TWL - Process Messages, S4TWL - Control Recipes/Instructions), שנקראו כטקסט מלא " +
+      "מ-scratchpad/official/SIMPL_OP2023.pdf.txt ו-SIMPL_OP2025.pdf.txt (שורות 40548/40691 ו-34554/34728 " +
+      "בהתאמה). ארבעתם מצטטים אותה שורה: 'Transactions CORK, COR6N, CORZ' תחת 'built-in features of SAP S/4HANA " +
+      "for production execution'; זהו מידע הקשר התומך בסטטוס הקיים 'ללא שינוי' ואינו משנה אותו. שני קובצי " +
+      "ה-PDF החזירו HTTP 200 ב-2026-09-25. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* ----------------------------------------------------- tx:IW21 */
@@ -5945,6 +6171,44 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#COR2",
       },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 12.10 S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "פריט S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING ברשימת הפישוט ל-2023 FPS03 (פריט 12.10, " +
+          "נקרא מקומית מ-PDF המסמך הרשמי) עוסק בתכנון רווח והפסד, תכנון מרכז רווח, תכנון מרכז עלות, תכנון הזמנה " +
+          "ותכנון פרויקט. תחת Reason and Prerequisites הוא מונה בין תנאי הרלוונטיות שלו: 'Production/process order " +
+          "planning is used if planned cost calculation is active for the combination of plant and order type and is " +
+          "carried out automatically when the production order (CO01 or CO02) or the process order (COR1 or COR2) is " +
+          "created, changed or released.' COR2 מוזכרת בשמה בתוך תנאי רלוונטיות של הפריט, לצד COR1, כקוד שבו נוצרת, " +
+          "משתנה או משתחררת הזמנת תהליך. הפריט אינו קובע לגבי COR2 סטטוס פישוט, החלפה או הפסקה.",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.13 S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        verificationLevel: "sap_official_verified",
+        claim:
+          "פריט S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING ברשימת הפישוט ל-2025 FPS01 (פריט 6.5.13, " +
+          "נקרא מקומית מ-PDF המסמך הרשמי) חוזר, תחת 'This Simplification Item is relevant if:', על אותו תנאי " +
+          "רלוונטיות: 'Production/process order planning is used if planned cost calculation is active for the " +
+          "combination of plant and order type and is carried out automatically when the production order (CO01 or " +
+          "CO02) or the process order (COR1 or COR2) is created, changed or released.' גם כאן COR2 מוזכרת בשמה בתוך " +
+          "תנאי רלוונטיות של הפריט, לצד COR1, כקוד שבו נוצרת, משתנה או משתחררת הזמנת תהליך. הפריט אינו קובע שינוי " +
+          "סטטוס, החלפה או הפסקה עבור COR2.",
+      },
     ],
     status: {
       status: "unchanged",
@@ -5969,7 +6233,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "יחזור ל-'זמינה' במקום 'משתנה'.",
     },
     xrefs: ["tx:COR1", "tx:COR3", "tx:CO02", "tx:COHVPI", "tx:COOISPI", "tx:COR5", "tx:COR7", "tx:COR8", "tx:CORO", "tx:COR6N", "tx:CORK", "tx:CO53", "fm:BAPI_PROCORD_RELEASE", "fm:BAPI_PROCORD_COMPLETE_TECH", "table:AUFK", "table:AFKO", "table:AFPO", "table:AFVC", "table:RESB", "table:JEST", "enh:exit:PPCO0001", "enh:exit:PPCO0007", "enh:exit:PPCO0021", "enh:badi:WORKORDER_UPDATE", "fiori:F3577"],
-    lastVerifiedAt: DATE3,
+    lastVerifiedAt: DATE25,
     notes:
       "שיטה: חיפוש ה-JSON של help.sap.com דרך scripts/sap-help-search.mjs ('COR2 change process order', " +
       "'Changing a Process Order', 'process order Manage Process Orders Fiori', 'process order PP-PI " +
@@ -5998,7 +6262,16 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "הרשאה נשארים Tier-2 בלבד: בדיקת מערכת חיה לא הייתה זמינה (ה-MCP sc4sap לא התחבר), " +
       "ו-BAPI_PROCORD_CHANGE אינו ביקום המזהים ולכן אינו ב-xrefs. PPCO0021 מגיע מ-data/exits.ts (tcodes " +
       "CO02/COR2, מסומן inferred: true) ולא מרשומת tx-intel. תאריך הגישה שהוטבע הוא תאריך האצווה " +
-      "(2026-09-07); הכלי הדפיס accessedAt 2026-09-08 בריצה בפועל.",
+      "(2026-09-07); הכלי הדפיס accessedAt 2026-09-08 בריצה בפועל." +
+      " עדכון 2026-09-25: נבדקו שני פריטי S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING שמזכירים את " +
+      "COR2 בשמה (2023 FPS03 פריט 12.10 ו-2025 FPS01 פריט 6.5.13, נקראו מקומית מ-PDF המסמך הרשמי). שני הפריטים " +
+      "עוסקים בתכנון רווח והפסד, מרכז רווח, מרכז עלות, הזמנה ופרויקט, ומזכירים את COR2 בשמה בתוך תנאי רלוונטיות, " +
+      "לצד COR1 ('the process order (COR1 or COR2) is created, changed or released'). בפרק Solution של אותו פריט " +
+      "מודפס גם הטווח 'CO01-3, COR1-3 and KKBC_ORD' ('The information shown in the SAPGUI transactions (CO01-3, " +
+      "COR1-3 and KKBC_ORD) is based on the old tables so you will not see costs by work center or operation in " +
+      "these transactions'; הציטוט המלא ברשומות tx:COR1 ו-tx:CO01), שכתיב הטווח שלו כולל את COR2. אין בהם קביעה " +
+      "על מעמד COR2 עצמה (לא פישוט, לא החלפה, לא הפסקה), ולכן הסטטוס נשאר 'unchanged' כפי שהיה. לא בוצעה בדיקה " +
+      "במערכת SAP חיה.",
   },
 
   /* ----------------------------------------------------- tx:COR3 */
@@ -6219,6 +6492,72 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#CO01",
       },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 12.10 S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING, pp. 353-358",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        accessedAt: DATE25,
+        claim:
+          "פריט 12.10 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING' (Business Impact note 2270407) " +
+          "מונה בין תנאי הרלוונטיות: 'Production/process order planning is used if planned cost calculation is " +
+          "active for the combination of plant and order type and is carried out automatically when the production " +
+          "order (CO01 or CO02) or the process order (COR1 or COR2) is created, changed or released.' ובפרק " +
+          "הפעולות: 'If you currently calculate planned costs for production orders, no business process changes are " +
+          "required, but be aware that the information in the new planning table is only visible in Fiori apps, such " +
+          "as Production Cost Analysis and Analyze Costs by Work Center/Operation. The information shown in the " +
+          "SAPGUI transactions (CO01-3, COR1-3 and KKBC_ORD) is based on the old tables so you will not see costs by " +
+          "work center or operation in these transactions even though the additional detail is stored in the ACDOCP " +
+          "table.' הפריט נוקב ב-CO01 בהקשר תכנון עלויות ההזמנה ואינו מסמן אותה כמוצאת משימוש, מוגבלת או מוחלפת; " +
+          "פירוט העלויות המתוכננות לפי מרכז עבודה או פעולה נשמר ב-ACDOCP ומוצג באפליקציות ה-Fiori שבציטוט, ולא " +
+          "ב-CO01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.5.9 S4TWL - Reporting/Analytics in Controlling, pp. 339-342",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE25,
+        claim:
+          "פריט 6.5.9 'S4TWL - Reporting/Analytics in Controlling' מנחה: 'Please ensure that the transactions such as " +
+          "CK11N (create standard cost estimate), CO01-CO03 (create/change/display production order) and CR01-CR03 " +
+          "(create/change/display process order) are calling ABAP List Views rather than the old Report Writer " +
+          "reports. To do this, choose transaction OKN0, select the tab \"Report Selection\" and ensure that the " +
+          "flags \"Flexible itemization\", \"Flexible cost component report\" and \"Flexible cost display\" are " +
+          "active.' הפריט אינו מסמן את CO01 כמוצאת משימוש; הוא מנחה לוודא ב-OKN0 שדוחות העלות הנקראים מ-CO01 עד " +
+          "CO03 הם ABAP List Views ולא דוחות Report Writer ישנים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.5.13 S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING, pp. 357-361",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE25,
+        claim:
+          "פריט 6.5.13 (גרסת 2025 FPS01 של הפריט שמופיע ברשימת 2023 FPS03 כפריט 12.10) חוזר על תנאי הרלוונטיות: " +
+          "'Production/process order planning is used if planned cost calculation is active for the combination of " +
+          "plant and order type and is carried out automatically when the production order (CO01 or CO02) or the " +
+          "process order (COR1 or COR2) is created, changed or released.' ועל ההנחיה: 'If you currently calculate " +
+          "planned costs for production orders, no business process changes are required, but be aware that the " +
+          "information in the new planning table is only visible in Fiori apps, such as Production Cost Analysis and " +
+          "Analyze Costs by Work Center/Operation. The information shown in the SAPGUI transactions (CO01-3, COR1-3 " +
+          "and KKBC_ORD) is based on the old tables so you will not see costs by work center or operation in these " +
+          "transactions even though the additional detail is stored in the ACDOCP table.' הנוסח זהה לזה של 2023 " +
+          "FPS03; גם כאן הפריט נוקב ב-CO01 בהקשר תכנון עלויות ההזמנה ואינו מסמן אותה כמוצאת משימוש, מוגבלת או " +
+          "מוחלפת.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     status: {
       status: "unchanged",
@@ -6244,7 +6583,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         "Fiori.",
     },
     xrefs: ["tx:CO02", "tx:CO03", "tx:COOIS", "tx:COHV", "tx:CO40", "tx:CO41", "tx:CO05N", "tx:COR1", "tx:CO11N", "tx:C223", "table:AUFK", "table:AFKO", "table:AFPO", "table:AFVC", "table:RESB", "cds:I_ProductionOrder", "fiori:F2336", "enh:badi:WORKORDER_UPDATE", "enh:exit:PPCO0001"],
-    lastVerifiedAt: DATE3,
+    lastVerifiedAt: DATE25,
     notes:
       "שיטה: scripts/sap-help-search.mjs בשבע שאילתות On-Premise ('CO01 create production order', 'Manage " +
       "Production Orders F2336', 'Feature Comparison for Production Orders', 'Hide Pricing Information for " +
@@ -6273,7 +6612,15 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "2026-09-08; החותמת 2026-09-07 היא מועד האצווה שהוגדר. ביקורת אדברסרית 2026-09-14: חמש הכתובות " +
       "מחזירות HTTP 200, ה-loio וה-versionId אומתו מחדש מול פלט הכלי, כל הציטוטים באנגלית נמצאו כלשונם " +
       "בסניפטים, וכל 19 ה-xrefs נפתרים ביקום." +
-      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-21 (audit/ux-2026-09/SAP-FIXES.md, 225fc0e7); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-21 (audit/ux-2026-09/SAP-FIXES.md, 225fc0e7); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New)." +
+      " 2026-09-25: נוספו שלושה פריטי פישוט מתוך המסמכים המחולצים scratchpad/official/SIMPL_OP2023.pdf.txt (פריט " +
+      "12.10) ו-SIMPL_OP2025.pdf.txt (פריטים 6.5.9 ו-6.5.13), בציטוט מילה במילה; שני קובצי ה-PDF הרשמיים החזירו " +
+      "HTTP 200 בתאריך זה. הפריטים נוקבים ב-CO01 בהקשר תכנון ודיווח של CO: פירוט העלויות המתוכננות לפי מרכז " +
+      "עבודה או פעולה נשמר ב-ACDOCP ומוצג באפליקציות Fiori (Production Cost Analysis, Analyze Costs by Work " +
+      "Center/Operation), בעוד ש-CO01-3 מבוססות על הטבלאות הישנות; ופריט 6.5.9 מנחה לוודא ב-OKN0 ש-CO01 עד CO03 " +
+      "קוראות ל-ABAP List Views. אין אלה פריטי פישוט של CO01 עצמה: אף אחד מהם אינו מסמן אותה כמוצאת משימוש, " +
+      "מוגבלת או מוחלפת, ולכן הסטטוס 'unchanged' (מקור CO01_STATUS_SRC) נשמר. KKBC_ORD, OKN0 ו-ACDOCP מוזכרים " +
+      "בפרוזה בלבד משום שאינם מזהים ביקום. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* ---------------------------------------------------- tx:CO11N */
@@ -6350,6 +6697,30 @@ export const TX_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "repository_verified",
         repoRef: "data/tx-intel.ts#CO11N",
       },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 · item 13.12.4 S4TWL - Process batch (IS-MP-PP), pp. 1203-1204 (same text: 2023 – Feature Pack Stack 3, item 52.4, pp. 1181-1182)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE25,
+        claim:
+          "פריט הפישוט 'S4TWL - Process batch' (רכיב יישום IS-MP-PP; בטבלת Related Notes מודפסת הערת Business " +
+          "Impact 0002270412 'Process Batch') ברשימת הפישוט של SAP S/4HANA 2025 FPS01 (פריט 13.12.4, עמ' 1203-1204), " +
+          "ובנוסח זהה ברשימת 2023 FPS03 (פריט 52.4, עמ' 1181-1182). תחת Solution Description: 'The Mill specific " +
+          "Process Batch functionality (see SAP Help for Mill Products -> Enhancements in Production Planning and " +
+          "Control (PP) -> Process Batch) is not available in SAP S/4HANA as the successor core solution WIP Batch " +
+          "(Work in Process Batch) is already available.' תחת How to Determine Relevancy: ייתכן שהפריט רלוונטי " +
+          "כאשר פונקציית העסק DIMP_SDUD פעילה, הוא רלוונטי כאשר קיימות רשומות בטבלה MILL_PBWU, ובנוסף: 'The item " +
+          "is also relevant to you if you have been using Goods Movements via Mill GI/GR detail screens in " +
+          "transaction CO11N. (see SAP Help for Mill Products -> Enhancements in Production Planning and Control " +
+          "(PP) -> Goods Movements in the Confirmation Transaction).' כלומר CO11N נזכרת בפריט כקריטריון רלוונטיות " +
+          "בהקשר Mill Products (IS-MP); קביעת חוסר הזמינות מנוסחת לגבי פונקציונליות ה-Process Batch של Mill, " +
+          "והפריט אינו מתייחס ל-CO11N מחוץ לסעיף הרלוונטיות.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     status: {
       status: "unchanged",
@@ -6404,7 +6775,14 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "זמינות (ה-MCP‏ sc4sap לא התחבר) ודפי ה-Business Accelerator Hub הם יישומי JS. רשומות מהדורת " +
       "public-cloud מתויגות בנפרד. accessedAt נחתם 2026-09-07 לפי מועד האצווה; החיפושים בוצעו ב-2026-09-08 " +
       "ואומתו שוב בביקורת ב-2026-09-14." +
-      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-21 (audit/ux-2026-09/SAP-FIXES.md, 225fc0e7); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-21 (audit/ux-2026-09/SAP-FIXES.md, 225fc0e7); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New)." +
+      " 2026-09-25: נוסף מקור פישוט (Old → New: בסבב הקודם חיפוש 'simplification' לא העלה פריט פישוט הנוקב " +
+      "ב-CO11N). הפריט 'S4TWL - Process batch' (IS-MP-PP) ברשימות הפישוט 2025 FPS01 (פריט 13.12.4) ו-2023 FPS03 " +
+      "(פריט 52.4) נוקב ב-CO11N בסעיף How to Determine Relevancy, בהקשר מסכי Mill GI/GR של Mill Products (IS-MP); " +
+      "קביעת חוסר הזמינות בפריט נוגעת לפונקציונליות ה-Process Batch של Mill, עם WIP Batch כפתרון היורש. זו שורת " +
+      "הקשר, והסטטוס 'ללא שינוי' נשאר עבור השימוש הכללי ב-CO11N. הציטוט נקרא מהטקסט המחולץ של קובצי ה-PDF " +
+      "הרשמיים (scratchpad/official/); לא הורצו חיפושים נוספים ב-sap-help-search.mjs בסבב זה. לא בוצעה בדיקה " +
+      "במערכת SAP חיה.",
   },
 
   /* ----------------------------------------------------- tx:MD01 */
