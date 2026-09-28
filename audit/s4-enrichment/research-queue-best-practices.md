@@ -545,3 +545,30 @@ procure-to-pay-for-maintenance), and no other rule; both `tsc` gates clean; `npm
   Neither page describes the chain through settlement. What would settle it: the 2023 BJ5
   search record added as an evidence row (url, loio and versionId verbatim), and the SAP Best
   Practices Explorer fact sheets of BJ5 and 7UV for S/4HANA 2025 (not read).
+- `bp:maintenance-notification-process`, the English title of IW24, official against repository
+  (disclosed in the `tx:IW24` evidence row, no `conflicting_sources` row; written in the
+  2026-09-28 backfill of `data/best-practices/pm-processes.ts`): the Fiori Apps Library row at
+  S32OP, copied into the overlay `data/verification/transactions-auto.ts#tx:IW24`, lists IW24 as
+  'Create PM Malfunction Report' (SAP GUI, Published); `data/tcode-catalog.ts#IW24` and
+  `data/tx-intel.ts#IW24` give 'Create Malfunction Report'. `process.transactions[1]` uses the
+  library title. What would settle it: the transaction text of IW24 in SE93 of the target system,
+  then an alignment of `data/tcode-catalog.ts` (not a best-practices file, not edited here).
+- `bp:maintenance-notification-process`, BAPI_ALM_NOTIF_TASK_ADD and BAPI_ALM_NOTIF_LIST_FILTER,
+  repository against repository (disclosed in `process.interfaces[3]` and its evidence row, no xref,
+  no `conflicting_sources` row): `data/bapi-enrichment.pm.ts` marks both names invalid-name (tasks
+  are added through BAPI_ALM_NOTIF_DATA_ADD with table NOTIFTASK; the LIST family is split by
+  criterion), while `data/function-intel.ts` lists both as existing; the overlays
+  `fm:BAPI_ALM_NOTIF_TASK_ADD` and `fm:BAPI_ALM_NOTIF_LIST_FILTER` are verification_required. What
+  would settle it: SE37 in the target system, then a correction of `data/function-intel.ts` (not a
+  best-practices file, not edited here).
+- `bp:maintenance-notification-process`, the OData service name, repository against official (not
+  carried by the record, which names only the official API_MAINTNOTIFICATION; raised in the
+  researcher's conflict list): `data/function-intel.ts#BAPI_ALM_NOTIF_CREATE` still names the
+  S/4HANA alternative 'OData API_MAINTENANCENOTIFICATION', while the official pages 'Operations for
+  Maintenance Notifications' (2025.001) and 'Maintenance Notification Function Import'
+  (2023.latest) print API_MAINTNOTIFICATION; the overlays `fm:BAPI_ALM_NOTIF_CREATE` and
+  `fm:BAPI_ALM_NOTIF_GET_DETAIL` record the mismatch. The researcher attributed the long name to
+  `data/fiori/apps.ts#F1511`; that record now carries odata EAM_NTF_CREATE, so the remaining
+  occurrence is in function-intel.ts. What would settle it: nothing further on the SAP side; the
+  open action is a correction of `data/function-intel.ts` (not a best-practices file, not edited
+  here).
