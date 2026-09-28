@@ -24,7 +24,10 @@ const ORIGIN = (process.argv[2] || "https://sapbysali.app").replace(/\/$/, "");
  * crawl, but a missing sitemap or header degrades quietly.
  */
 const CHECKS = [
-  { path: "/", expect: 200, must: /<h1/i, why: "homepage renders a heading" },
+  // Since the root cutover (50b542f5, vercel.json) "/" is a temporary redirect into
+  // Project NEO; the page that must render is /neo/.
+  { path: "/", expect: 307, location: "/neo/", why: "root enters Project NEO" },
+  { path: "/neo/", expect: 200, must: /<h1/i, why: "NEO home renders a heading" },
   { path: "/sitemap.xml", expect: 200, must: /<urlset/, why: "robots.txt advertises this file" },
   { path: "/robots.txt", expect: 200, must: /Sitemap:/, why: "crawler entry point" },
   { path: "/manifest.webmanifest", expect: 200, why: "PWA install" },
@@ -62,6 +65,13 @@ for (const c of CHECKS) {
     fail(`${c.path} — expected ${c.expect}, got ${res.status}  (${c.why})`);
     continue;
   }
+  if (c.location) {
+    const loc = new URL(res.headers.get("location") || "", ORIGIN).pathname;
+    if (loc !== c.location) {
+      fail(`${c.path} — redirects to ${loc || "(no location)"}, expected ${c.location}  (${c.why})`);
+      continue;
+    }
+  }
   if (c.must) {
     const body = await res.text();
     if (!c.must.test(body)) {
@@ -72,9 +82,10 @@ for (const c of CHECKS) {
   console.log(`  ok    ${c.path}`);
 }
 
-// Headers are checked once, on the homepage — they are applied to /(.*).
+// Headers are checked once, on the page "/" leads to. vercel.json applies them to
+// /(.*) but Vercel does not add them to the redirect response itself.
 try {
-  const res = await fetch(ORIGIN + "/", { redirect: "manual" });
+  const res = await fetch(ORIGIN + "/neo/", { redirect: "manual" });
   for (const h of HEADERS) {
     if (!res.headers.get(h)) fail(`missing response header: ${h}`);
   }

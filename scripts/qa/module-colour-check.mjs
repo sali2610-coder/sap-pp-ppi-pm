@@ -7,7 +7,11 @@
 //   NEO_BASE=http://localhost:4195 node scripts/qa/module-colour-check.mjs
 import { chromium } from "playwright-core";
 const base = process.env.NEO_BASE || "http://localhost:4195";
-const ROUTES = ["/neo/", "/neo/erd/", "/neo/pm/", "/neo/pp-pi/", "/neo/tables/", "/neo/studio/", "/neo/books/", "/neo/domain/"];
+// /neo/domain-model/ is the domain hub. The list used to name /neo/domain/, which was
+// never a page: production answered with the 404 page (light tokens under a dark
+// theme, a false FAIL) and serve-out.py with a directory listing (no tokens, a false
+// PASS). Every route must now answer 200 or the check fails.
+const ROUTES = ["/neo/", "/neo/erd/", "/neo/pm/", "/neo/pp-pi/", "/neo/tables/", "/neo/studio/", "/neo/books/", "/neo/domain-model/"];
 const MODS = ["pm", "pppi", "pp", "mm", "qm", "sd", "fi", "co", "wm", "ewm", "ps", "hcm", "bw", "cs", "basis"];
 const STATUS = ["done", "in-analysis", "in-conversion", "removed", "not-started", "tested", "blocked"];
 const browser = await chromium.launch({ executablePath: process.env.CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" });
@@ -18,8 +22,10 @@ for (const theme of ["light", "dark"]) {
   if (theme === "dark") await ctx.addInitScript(() => { try { localStorage.setItem("neo:theme", "dark"); } catch {} });
   const page = await ctx.newPage();
   const perRoute = {};
+  const notPages = [];
   for (const url of ROUTES) {
-    await page.goto(base + url, { waitUntil: "networkidle" }); await page.waitForTimeout(300);
+    const res = await page.goto(base + url, { waitUntil: "networkidle" }); await page.waitForTimeout(300);
+    if (!res || res.status() !== 200) notPages.push(`${url} (${res ? res.status() : "no response"})`);
     perRoute[url] = await page.evaluate(({ MODS, STATUS }) => {
       const cs = getComputedStyle(document.documentElement);
       const read = (names, prefix) => Object.fromEntries(names.map((n) => [n, cs.getPropertyValue(`--${prefix}${n}`).trim()]).filter(([, v]) => v));
@@ -44,10 +50,10 @@ for (const theme of ["light", "dark"]) {
     if (norm(c) === norm(first.brand)) collisions.push({ module: m, with: "brand (selection)", colour: c });
     for (const [s, sc] of Object.entries(first.status)) if (norm(c) === norm(sc)) collisions.push({ module: m, with: `status-${s}`, colour: c });
   }
-  const ok = inconsistent.length === 0 && collisions.length === 0;
+  const ok = inconsistent.length === 0 && collisions.length === 0 && notPages.length === 0;
   if (!ok) fail++;
-  out.themes[theme] = { dataTheme: first.theme, modules: first.mods, brand: first.brand, status: first.status, inconsistent, collisions, ok };
-  console.log(`${ok ? "OK  " : "FAIL"} ${theme}: ${Object.keys(first.mods).length} module tokens, ${inconsistent.length} inconsistent across ${ROUTES.length} routes, ${collisions.length} collisions with selection/status`);
+  out.themes[theme] = { dataTheme: first.theme, modules: first.mods, brand: first.brand, status: first.status, inconsistent, collisions, notPages, ok };
+  console.log(`${ok ? "OK  " : "FAIL"} ${theme}: ${Object.keys(first.mods).length} module tokens, ${inconsistent.length} inconsistent across ${ROUTES.length} routes, ${collisions.length} collisions with selection/status${notPages.length ? `, not a page: ${notPages.join(", ")}` : ""}`);
   await ctx.close();
 }
 // the same module keeps its colour token between themes? (the value may differ per theme by design; report only)
