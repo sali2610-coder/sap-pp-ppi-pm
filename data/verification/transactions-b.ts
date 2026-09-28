@@ -95,7 +95,20 @@
    own evidence row; VD02 stays verification_required with no source); the rows of
    the generated records that the audited records do not cite are carried verbatim
    as context rows (VA23 5, VA42 5, VA43 5, VD01 1, VD02 4) with their 2026-09-24
-   access date; no reviewer field. */
+   access date; no reviewer field.
+   Batch 12 (research + adversarial audit 2026-09-28, written the same day, access
+   date stamped 2026-09-25): 8 audited records for the inbound-delivery monitor,
+   goods-issue reversal and inbound-delivery change codes, the SD requirements /
+   formulas and sales-document-type customizing codes and the XD central customer
+   family (VL06I, VL09, VL32N, VOFM, VOV8, XD01, XD02, XD03); no record refuted.
+   Six taken from verdict.fixedRecord, VOV8 and XD02 re-derived from the draft with
+   the listed downgrades. Every status source is a shared const (the record's own
+   evidence row); VL09 is written `unchanged`, not the audited `s4_native` (that
+   token renders 'new in S/4HANA', which no cited source states, and its ECC
+   context row names VL09 in SAP ERP 6.0 EHP8); the rows of the generated records
+   that the audited records do not cite are carried verbatim as context rows (VL09
+   4, VL32N 3, VOFM 2, XD01 2, XD02 3, XD03 5) with their 2026-09-24 access date;
+   no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -1757,6 +1770,184 @@ const VD01_SIMPL2025: Evidence = {
     "בטבלה 'Transactions not available in SAP S/4HANA on-premise edition' מופיע VD01 תחת 'Transactions that " +
     "get redirected to transaction BP', ולא בקבוצה 'Transactions that are obsolete' (MK12, MK18, MK19, XD07, " +
     "XK07, V+21, V+22, V+23).",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 12 status sources (research + audit 2026-09-28, written the same day): one evidence row per
+   record, shared by evidence[] and status.source (VL06I, VL09, VL32N, VOFM, VOV8, XD01, XD02, XD03) */
+
+const VL06I_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App VL06I 'My Inbound Delivery Monitor' (SAP GUI), release S32OP (S/4HANA 2025 " +
+    "FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('VL06I')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "ספריית האפליקציות הרשמית של Fiori רושמת את VL06I כאפליקציה 'My Inbound Delivery Monitor' (SAP GUI/SAP " +
+    "GUI), בסטטוס Published, ברכיב LE-SHP-GF, עם טרנזקציית GUI מובילה VL06I; זמינה ברציפות מ-S6OP (S/4HANA " +
+    "1610) ועד S32OP (S/4HANA 2025 FPS01), ללא predecessor וללא successor רשומים.",
+  verificationLevel: "sap_official_verified",
+};
+
+const VL09_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App VL09 'Reverse GI - Outbound Delivery, Reverse Goods Receipt for Inbound " +
+    "Delivery' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('VL09')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "ספריית האפליקציות הרשמית של Fiori רושמת את VL09 כאפליקציית SAP GUI בסטטוס 'Published' עבור מהדורת " +
+    "S/4HANA 2025 FPS01 (S32OP), ברשימת מהדורות שמתחילה ב-1610 (S6OP) וממשיכה ברצף On-Premise עד 2025 FPS01 " +
+    "(S32OP, ו-S32PCE ל-Private Cloud), עם רשימת predecessors וגם successors ריקה ('-'), ללא כל אפליקציית " +
+    "Fiori ייעודית או טרנזקציה חלופית המוזכרות.",
+  verificationLevel: "sap_official_verified",
+};
+
+const VL32N_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App VL32N 'Change Inbound Delivery' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('VL32N')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "פלט הכלי scripts/fal-app.mjs רושם את VL32N כאפליקציית Fiori מסוג SAP GUI בשם 'Change Inbound Delivery', " +
+    "בסטטוס Published, ברכיב LE-SHP-GF, עם טרנזקציית ה-GUI המובילה VL32N. שדות predecessors ו-successors " +
+    "ריקים (אין קודם ואין יורש רשום). רשימת המהדורות כוללת את כל מהדורות ה-On-Premise מ-S6OP (1610) ועד " +
+    "S32OP (2025 FPS01), וכן את הרשומות S36 (2602) ו-S37 (2608).",
+  verificationLevel: "sap_official_verified",
+};
+
+const VOFM_HELP2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Settings for Calculating Tax Perception | Peru",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/fccf2ded571b4269ba14877b195df45a/117b4a5861a50846e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "רשומת החיפוש הרשמית של help.sap.com לנושא 'Settings for Calculating Tax Perception' (Peru, SAP S/4HANA " +
+    "2025 FPS01, versionId 2025.001, loio 117b4a5861a50846e10000000a441470, תאריך 2026-09-25) מביאה בסניפט: " +
+    "'Add the 311 requirement formula to the pricing procedure in transaction VOFM. For more information, " +
+    "see SAP Note 2400670.' גוף העמוד לא נקרא (מעטפת JavaScript).",
+  verificationLevel: "sap_official_verified",
+};
+
+const VOV8_HELP2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Differential Billing with CPE via Billing Due List",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8308e6d301d54584a33cd04a9861bc52/51478b61e8a643b6a9c3bd9d5b181664.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "רשומת החיפוש הרשמית (SAP S/4HANA 2025 FPS01, versionId 2025.001, loio 51478b61e8a643b6a9c3bd9d5b181664) " +
+    "נוקבת ב-VOV8 בסניפט: 'Else, the system uses a default billing type as defined in Customizing activity " +
+    "Maintain Sales Order Types (VOV8)'; כלומר בתיעוד S/4HANA On-Premise 2025 FPS01 הקוד VOV8 מופיע " +
+    "כ-Customizing activity בשם 'Maintain Sales Order Types', שבה מוגדר סוג החיוב ברירת המחדל.",
+  verificationLevel: "sap_official_verified",
+};
+
+const XD01_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+    "Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (עמ' 136-137) קובע: 'the specific transactions like XD01, ... are not available in SAP S/4HANA. " +
+    "These will be redirected to transaction BP.' בטבלה 'Transactions not available in SAP S/4HANA " +
+    "on-premise edition' תחת הכותרת 'Transactions that get redirected to transaction BP' מודפס 'XD01, XD02, " +
+    "XD03, XD05, XD06, FK01, ...'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const XD02_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+    "2025 - Feature Pack Stack 1 (Document Version 1.36) · item 5.1.27 S4TWL - Business Partner Approach " +
+    "(SAP Note 0002265093), pp. 136-138",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (נקרא מקובץ ה-PDF הרשמי, scratchpad/official/SIMPL_OP2025.pdf.txt) קובע כלשונו: 'The user " +
+    "interface for SAP S/4HANA is transaction BP. There is no specific user interface for customer/vendor " +
+    "like known from SAP Business Suite (the specific transactions like XD01, XD02, XD03 or VD01, VD02, " +
+    "VD03/XK01, XK02, XK03 or MK01, MK02, MK03, etc. are not available in SAP S/4HANA. These will be " +
+    "redirected to transaction BP.)'. בטבלה 'Transactions not available in SAP S/4HANA on-premise edition', " +
+    "תחת 'Transactions that get redirected to transaction BP', מודפס XD02 (יחד עם FD01-FD03, VD01-VD03, " +
+    "XD01, XD03, FK01-FK03, MK01-MK03, XK01-XK03 ועוד); XD02 אינו מופיע בשורה 'Transactions that are " +
+    "obsolete' של אותה טבלה.",
+  verificationLevel: "sap_official_verified",
+  conflictingEvidence: [
+    {
+      sourceType: "sap_help",
+      sourceTitle: "Partners | Service",
+      url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c9b5e9de6e674fb99fff88d72c352291/bfd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+      product: "SAP S/4HANA",
+      edition: "on-premise",
+      release: "2025.001",
+      accessedAt: DATE25,
+      claim:
+        "גוף הנושא (Warranty Claim Processing, S/4HANA 2025 FPS01, loio bfd8c353b677b44ce10000000a174cb4, נקרא " +
+        "ב-sap-help-body.mjs) מנחה תחת Activities: 'Choose transactions XD01, XD02, XD03 to create, change and " +
+        "display customers/debtors'. הניסוח עומד בסתירה לפריט הפישוט, שקובע שהטרנזקציות אינן זמינות ומנותבות " +
+        "ל-BP; ייתכן שזהו טקסט תיעוד שלא עודכן, ויש לאמת במערכת (SE93/הרצה) אם XD02 מנותבת ל-BP.",
+      verificationLevel: "sap_official_verified",
+    },
+    {
+      sourceType: "sap_help",
+      sourceTitle: "Transactions | Logistics - General (LO)",
+      url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/bcd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+      product: "SAP S/4HANA",
+      edition: "on-premise",
+      release: "2025.001",
+      accessedAt: DATE25,
+      claim:
+        "גוף הנושא (טבלת הטרנזקציות של Warranty Processing, S/4HANA 2025 FPS01, loio " +
+        "bcd8c353b677b44ce10000000a174cb4, נקרא ב-sap-help-body.mjs) מונה תחת Master Data, Business Partner: " +
+        "'XD01, XD02, XD03 Create, change and display customer (debtor) centrally'. גם נושא זה עומד בסתירה לפריט " +
+        "הפישוט; מה שיכריע: הרצת XD02 במערכת SAP S/4HANA On-Premise ובדיקה אם היא מנותבת ל-BP.",
+      verificationLevel: "sap_official_verified",
+    },
+  ],
+};
+
+const XD03_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+    "S4TWL - Business Partner Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 5.1.27 'S4TWL - Business Partner Approach' ברשימת הפישוט הרשמית (2025 FPS01, גרסת מסמך 1.36) מונה " +
+    "את XD03 תחת 'Transactions not available in SAP S/4HANA on-premise edition' וברשימת 'Transactions that " +
+    "get redirected to transaction BP: FD01, FD02, FD03, ..., XD01, XD02, XD03, ...'. בלשון הפריט: 'The user " +
+    "interface for SAP S/4HANA is transaction BP' ו-'These will be redirected to transaction BP'.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -11589,5 +11780,1186 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "נשמרים כ-conflicting_sources, וה-status נשאר verification_required. הרשומות tx:MK01, tx:MK02 ו-tx:XK01 " +
       "הכריעו דפוס זהה כ-replaced עם successor tx:BP; אם בדיקת SE93 תאשר ניתוב, יש ליישר קו איתן. לא בוצעה " +
       "בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:VL06I",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Apps in Delivery Management (SAP S/4HANA 2025 FPS01, On-Premise)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c7894a248ca14f74aca67f97528e5ad7/0f5d8a56aeefd11fe10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "עמוד העזרה הרשמי 'Apps in Delivery Management' (S/4HANA 2025 FPS01, On-Premise) רושם את האפליקציה 'My " +
+          "Inbound Delivery Monitor' עם טרנזקציה VL06I ומזהה אפליקציה VL06I, בנתיב Logistics > Logistics Execution " +
+          "> Inbound Process > Goods Receipt for Inbound Delivery > Inbound Delivery > Lists > Inbound Delivery " +
+          "Monitor, עם קישור לספריית האפליקציות של Fiori.",
+        verificationLevel: "sap_official_verified",
+      },
+      VL06I_FAL_S32OP,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Generic Article Selection in Reports (SAP ERP 6.0 EHP8 Latest)",
+        url: "https://help.sap.com/docs/SAP_ERP/f48e74ad3b3740bc8c9eaade394a3c1e/f6e3e557f828ef32e10000000a441470.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "עמוד עזרה רשמי בתיעוד Fashion Management של SAP ERP (6.0 EHP8 Latest, פונקציה עסקית FASHION_04) מונה את " +
+          "'Vl06I Inbound Delivery Monitor' בין דוחות מסמכי המכירה שתומכים בבחירת מוצר כללי (Generic Article); " +
+          "העמוד אינו עוסק בפונקציונליות VL06I עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · items 15.3.6 " +
+          "and 15.3.12 S4TWL - Document Flow Consistency for Goods Receipt to Inbound Delivery",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "שני הפריטים (15.3.6 ו-15.3.12, טקסט זהה) נוקבים בקוד VL06I בתרחישי אי-עקביות בין מסמכי קבלת סחורה " +
+          "לאספקה נכנסת (הודעות VLA 311, 314 ו-322); הציטוט: 'The inbound delivery needs to be posted via delivery " +
+          "processing by using transactions VL32N, VL06I or VL60.'. הפריטים אינם קובעים את מעמד VL06I עצמו: הם " +
+          "מציגים אותו כאחת משלוש טרנזקציות לעיבוד האספקה הנכנסת בתרחישים אלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 27.3 " +
+          "S4TWL - Document Flow Consistency for Goods Receipt to Inbound Delivery",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim:
+          "פריט 27.3 ברשימת הפישוט הרשמית (2023 FPS03, גרסת מסמך 1.35) נוקב בקוד VL06I באותו הקשר ובאותו נוסח כמו " +
+          "פריטי 2025 FPS01: 'The inbound delivery needs to be posted via delivery processing by using " +
+          "transactions VL32N, VL06I or VL60.'. הפריט אינו קובע את מעמד VL06I עצמו.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VL06I",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את VL06I כ'מוניטור אספקות נכנסות', מודול SD, תחום 'אספקות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VL06I",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "VL06I (מוניטור אספקות נכנסות, My Inbound Delivery Monitor) רשום כזמין ומפורסם (Published) ב-S/4HANA " +
+        "On-Premise ברציפות מ-S/4HANA 1610 (S6OP) עד 2025 FPS01 (S32OP), ללא successor רשום בספריית האפליקציות; " +
+        "עמוד העזרה לניהול אספקות ב-2025 FPS01 מפרט אותו תחת קוד הטרנזקציה VL06I ובנתיב התפריט של אספקות נכנסות.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: VL06I_FAL_S32OP,
+      recommendedAction:
+        "להמשיך להשתמש ב-VL06I כמוניטור אספקות נכנסות; בתרחישי אי-עקביות בין קבלת סחורה לאספקה נכנסת (הודעות VLA " +
+        "311, 314 ו-322) פריטי הפישוט 'S4TWL - Document Flow Consistency for Goods Receipt to Inbound Delivery' " +
+        "מורים לעבד את האספקה דרך VL32N, VL06I או VL60.",
+    },
+    xrefs: ["tx:VL32N", "tx:VL60", "tx:VL06O"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) המאגר: data/tcode-catalog.ts#VL06I ('מוניטור אספקות נכנסות', מודול SD, תחום 'אספקות'); " +
+      "lib/route-manifest.generated.ts רושם את VL06I. ב-data/tx-intel.ts אין רשומת VL06I. (2) " +
+      "sap-help-search.mjs 'VL06I' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות) ובסקופ SAP_ERP (21 רשומות); צוטטו " +
+      "'Apps in Delivery Management' (2025.001) ו-'Generic Article Selection in Reports' (6.18.latest). (3) " +
+      "sap-help-body.mjs: שני הגופים נקראו; שורת VL06I בעמוד ניהול האספקות כוללת App, Transaction, App ID " +
+      "ונתיב. (4) fal-app.mjs VL06I --release S32OP: Published, S6OP עד S32OP, אפס predecessors/successors. " +
+      "(5) רשימות הפישוט נקראו מ-scratchpad/official/SIMPL_OP2025.pdf.txt (סביב שורות 83744 ו-85149) " +
+      "ו-SIMPL_OP2023.pdf.txt (סביב שורה 33689): בשתי המהדורות נוסח המשפט זהה ('by using transactions VL32N, " +
+      "VL06I or VL60.'); הציטוט 'VL06I or VL60.' ברשומה הדטרמיניסטית נבע משבירת שורה בחילוץ הטקסט. הפריטים " +
+      "עוסקים בעקביות תזרים המסמכים בקבלת סחורה ולא במעמד VL06I. Old → New: רשומה דטרמיניסטית " +
+      "ב-transactions-auto.ts (2026-09-24, שורות הקשר בלבד, ללא status; ישן: verification_required לפי " +
+      "report-coverage.mjs --ids, נמדד לפני הכתיבה) → status unchanged על בסיס ספריית האפליקציות ועמוד העזרה; " +
+      "שורת המאגר ושורת פריט 27.3 הועברו מהרשומה הקודמת כדי שלא יאבד מקור. לא בוצעה בדיקה במערכת SAP חיה (SE93 " +
+      "במערכת היעד); ה-unchanged מבוסס על מקורות תיעודיים רשמיים.",
+  },
+  {
+    id: "tx:VL09",
+    evidence: [
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Canceling Inventory Management Documents | Sourcing and Procurement",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/2b5cc5c0efb742eba1bfac986a394c13.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Sourcing and Procurement, S/4HANA 2025 FPS01, versionId 2025.001) קובעת בסניפט " +
+          "שביטול ניפוק סחורה של אספקה יוצאת מתבצע באמצעות טרנזקציה VL09, וכי גם קבלת סחורה של אספקה נכנסת בהעברת " +
+          "מלאי ניתנת לביטול באמצעות אותה טרנזקציה VL09: 'Goods issues from outbound deliveries can be canceled " +
+          "using transaction VL09 ... Similarly, Goods Receipt associated with the inbound delivery for stock " +
+          "transfer can also be cancelled using transaction VL09.'",
+        verificationLevel: "sap_official_verified",
+      },
+      VL09_FAL_S32OP,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.13.28 " +
+          "S4TWL - Optimization in Oil&Gas - Inter company sales - Cross border excise duty",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (רכיב יישום IS-OIL-DS, SAP Note 0002347421) מוגבל במפורש ללקוחות IS-OIL עם ה-BC set " +
+          "'Cross-Company/Cross-Border Sales and Stock Transfers' מופעל; הוא אינו קובע שינוי מעמד ל-VL09 עצמה, אלא " +
+          "מתאר תקלה תפעולית: כאשר מבצעים ביטול תנועת חומר בין-חברתי (Inter-company) דרך VL09 בתרחיש Cross Border " +
+          "Excise Duty, בדיקת הזמינות (availability check) נכשלת עם שגיאת גירעון מלאי במפעל הנוציונלי (notional " +
+          "plant), בגוף הטקסט: 'when we perform mateial movement (inter company) cancellation (through VL09), the " +
+          "availability check will occur at every line item and throws error (deficit of stock) at notional " +
+          "plant.' הפתרון המתואר הוא יישום BAdI 'BADI_NSDM_READ_STOCK' שמפעיל עיבוד מערך (array processing) כדי " +
+          "לעקוף את התקלה, לא החלפה או הסרה של VL09.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 56.17 " +
+          "S4TWL - Optimization in Oil&Gas - Inter company sales - Cross border excise duty",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט S4TWL (IS-OIL-DS, SAP Note 2347421) מופיע כבר במהדורת 2023 FPS03 עם אותו תיאור: תקלת בדיקת " +
+          "זמינות בעת ביטול תנועת חומר בין-חברתית דרך VL09 בתרחיש Cross Border Excise Duty, עם אותו פתרון BAdI " +
+          "'BADI_NSDM_READ_STOCK'; אין בפריט קביעה על שינוי מעמד VL09 עצמה, וההיקף מוגבל ללקוחות IS-OIL.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#VL09",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את VL09 כ'לוגיסטיקה - אספקה יוצאת', מודול SD.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VL09",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VL09",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-VL09 את הכותרת האנגלית 'Cancel Goods Issue for Delivery Note'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VL09",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reverse Goods Receipt - Inbound Delivery | Delivery Management (LE-SHP)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c7894a248ca14f74aca67f97528e5ad7/684057bef05e4964a3dc483fa568607e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Delivery Management (LE-SHP), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "684057bef05e4964a3dc483fa568607e) נוקבת בקוד VL09 בסניפט: 'This app corresponds to the transaction " +
+          "VL09. Access it in the SAP GUI under: Logistics Logistics Execution Inbound Process Goods Receipt ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Subcontracting Scenarios | Plant Maintenance (PM)",
+        url: "https://help.sap.com/docs/SAP_ERP/61f8c51bfee94fa78c8835db685249eb/915c976d55064bbe95f44f91b3885584.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Plant Maintenance (PM), 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "915c976d55064bbe95f44f91b3885584) נוקבת בקוד VL09 בסניפט: '... function (transaction code MB1B) or " +
+          "using the Reverse Goods Movement function (transaction code VL09 ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "VL09 רשומה בספריית האפליקציות של Fiori כטרנזקציית SAP GUI בסטטוס Published ב-S/4HANA On-Premise, כולל " +
+        "מהדורת 2025 FPS01 (S32OP), לביטול ניפוק סחורה של אספקה יוצאת וביטול קבלת סחורה של אספקה נכנסת. לא נמצא " +
+        "מקור רשמי הקובע החלפה, הסרה או אפליקציית Fiori ייעודית חלופית עבורה; פריט הפישוט 'S4TWL - Optimization " +
+        "in Oil&Gas - Inter company sales - Cross border excise duty' (2025 FPS01 13.13.28, 2023 FPS03 56.17), " +
+        "שמזכיר אותה, מתאר תקלה תפעולית ממוקדת ללקוחות IS-OIL בתרחיש מכירות בין-חברתיות חוצות גבול, עם פתרון " +
+        "BAdI, לא שינוי מעמד של הקוד.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: VL09_FAL_S32OP,
+      recommendedAction:
+        "להמשיך להשתמש ב-VL09 לביטול ניפוק סחורה ולביטול קבלת סחורה של אספקות; ללקוחות IS-OIL עם תרחיש מכירות " +
+        "בין-חברתיות חוצות גבול (Cross Border Excise Duty) בלבד, לבדוק את SAP Note 0002347421 ואת יישום ה-BAdI " +
+        "BADI_NSDM_READ_STOCK מול הצוות הטכני לפני ביטול תנועות מלאי דרך VL09 בתרחיש הזה.",
+    },
+    lastVerifiedAt: DATE25,
+    notes:
+      "היסטוריה (Old → New): הרשומה הגנרית שנוצרה דטרמיניסטית ב-transactions-auto.ts " +
+      "(scripts/qa/gen-tx-evidence.mts, 2026-09-24, ללא הכרעת מעמד; לפני הכתיבה הציג report-coverage.mjs --ids " +
+      "סטטוס נגזר 'unchanged' ברמת repository_verified) מוחלפת ברשומת מחקר זו עם status 'unchanged'. ארבע " +
+      "שורות ההקשר שלה שאינן מצוטטות כאן (רשומות המאגר tx-intel.ts#VL09 ו-tcode-catalog.ts#VL09, 'Reverse " +
+      "Goods Receipt - Inbound Delivery' בצד S/4HANA (2025.001, loio 684057bef05e4964a3dc483fa568607e) " +
+      "ו-'Subcontracting Scenarios' בצד ה-ECC (Plant Maintenance, 6.18.latest)) הועתקו כלשונן כשורות context, " +
+      "שאינן נספרות ברמת האימות. המעמד unchanged ולא s4_native ('חדש ב-S/4HANA'): אף מקור שנקרא אינו קובע " +
+      "ש-VL09 חדשה ב-S/4HANA, ושורת ההקשר בצד ה-ECC נוקבת בה בתיעוד SAP ERP 6.0 EHP8. חיפושים שהורצו: 'VL09 " +
+      "reverse goods issue' (SAP_S4HANA_ON-PREMISE, 21 תוצאות, 3 צוטטו/נבדקו), 'VL09 simplification S/4HANA' " +
+      "(SAP_S4HANA_ON-PREMISE, 8 תוצאות נסרקו, אף אחת לא הוסיפה מידע על החלפה או מעמד); node " +
+      "scripts/fal-app.mjs VL09 --release S32OP (אפליקציית SAP GUI מפורסמת, predecessors/successors ריקים). " +
+      "שני פריטי הפישוט הרשמיים שמאזכרים VL09 (2025 FPS01 13.13.28, 2023 FPS03 56.17) נקראו במלואם משמורת " +
+      "scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt; שניהם אותו S4TWL (SAP Note 0002347421 " +
+      "ב-2025, 2347421 ב-2023), ספציפי ל-IS-OIL, מתאר תקלת בדיקת זמינות מלאי בביטול VL09 בתרחיש בין-חברתי חוצה " +
+      "גבול, לא שינוי מעמד VL09 עצמה. audit/master-completion/simpl-tcode-index.json אושר: אלו שני הפריטים " +
+      "היחידים ברשימות הפישוט הרשמיות (2023, 2025) שמאזכרים VL09. לא בוצעה בדיקה במערכת SAP חיה (SE93 או הרצה " +
+      "בפועל).",
+  },
+  {
+    id: "tx:VL32N",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VL32N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את VL32N כ'שינוי אספקה נכנסת', מודול SD, תחום 'אספקות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VL32N",
+      },
+      VL32N_FAL_S32OP,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Apps in Delivery Management | Delivery Management (LE-SHP)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c7894a248ca14f74aca67f97528e5ad7/0f5d8a56aeefd11fe10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Delivery Management (LE-SHP), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "0f5d8a56aeefd11fe10000000a44147b) מציגה את VL32N ברשימת האפליקציות תחת הנתיב Logistics Execution > " +
+          "Inbound Process, בכותרת 'Change Inbound Delivery' וקישור לספריית ה-Fiori.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 15.3.6 " +
+          "S4TWL - Document Flow Consistency for Goods Receipt to Inbound Delivery",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט נקרא במלואו (scratchpad/official/SIMPL_OP2025.pdf.txt) ועוסק בהתנהגות MIGO מול אספקה נכנסת (אכיפת " +
+          "עדכון document flow בקבלת טובין, ביטולה או תעודת החזרה). הוא אינו קובע מעמד לקוד VL32N עצמו: VL32N " +
+          "מוזכר שוב ושוב כטרנזקציית תחזוקת האספקה שדרכה יש לתקן כמות, מחסן, אצווה או מספר סידורי לפני רישום קבלת " +
+          "טובין, או לרשום את האספקה דרך עיבוד האספקה במקרי WM ואריזה. למשל: 'The adaptation of delivery quantity " +
+          "or putaway quantity needs to be done via delivery maintenance by using transactions VL32N or VL60' " +
+          "ו-'Before posting goods movement, the respective batch number of the delivery item needs to be " +
+          "specified or changed via delivery maintenance by using transaction VL32N'. זו התייחסות תפקודית שוטפת, " +
+          "לא קביעת החלפה, הסרה או שינוי של VL32N.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Goods Movement (GOODS_MOVEMENT_POSTING) | Inventory Management and Inventory (MM-IM)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/47845e7df8f14ecfaf34079d229f031f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Inventory Management and Inventory (MM-IM), 2025 FPS01 (Feb 2026), versionId " +
+          "2025.001, loio 47845e7df8f14ecfaf34079d229f031f) נוקבת בקוד VL32N בסניפט: '... how you customize the " +
+          "output type and form template to get a printout with the transactions VL32N (Change Inbound ... Output " +
+          "Determination: Output Type (Variant 2) Transaction Code Inventory ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Retail",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/028f6754e90d8c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Retail, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "028f6754e90d8c4ce10000000a4450e5) נוקבת בקוד VL32N בסניפט: ', VL03N) LIPS Inbound Delivery (VL31N, " +
+          "VL32N, VL33N) LIPS Purchase Requisition (ME51N, ME52N, ME53N) EBAN Purchase Order or Stock Transfer " +
+          "...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Values in Application Documents | Master Data",
+        url: "https://help.sap.com/docs/SAP_ERP/82265744ff764efb8b48ef431235214c/028f6754e90d8c4ce10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Master Data, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "028f6754e90d8c4ce10000000a4450e5) נוקבת בקוד VL32N בסניפט: ', VL03N) LIPS Inbound Delivery (VL31N, " +
+          "VL32N, VL33N) LIPS Purchase Requisition (ME51N, ME52N, ME53N) EBAN Purchase Order or Stock Transfer " +
+          "...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "VL32N ('שינוי אספקה נכנסת') רשומה בספריית האפליקציות הרשמית של Fiori כאפליקציית SAP GUI בסטטוס " +
+        "Published, בכל מהדורות S/4HANA On-Premise מ-1610 ועד 2025 FPS01, בלי קודם ובלי יורש רשום. פריט הפישוט " +
+        "'S4TWL - Document Flow Consistency for Goods Receipt to Inbound Delivery' (2025 FPS01) אינו נוגע במעמד " +
+        "הקוד עצמו; הוא מוסיף בדיקות עקביות לקבלת טובין דרך MIGO ומפנה שוב ושוב ל-VL32N כטרנזקציית התחזוקה " +
+        "לתיקון כמות, מחסן, אצווה או מספר סידורי לפני רישום קבלת הטובין, ולרישום אספקות הרלוונטיות ל-WM או " +
+        "לאריזה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: VL32N_FAL_S32OP,
+      recommendedAction:
+        "להמשיך להשתמש ב-VL32N לתחזוקת אספקה נכנסת. בהמרה מ-SAP ERP לקחת בחשבון את פריט הפישוט 'S4TWL - Document " +
+        "Flow Consistency for Goods Receipt to Inbound Delivery': ב-SAP ERP האינדיקטור \"Document flow update for " +
+        "stock postings and return delivery\" ב-Global Shipping Data היה אופציונלי, וב-S/4HANA עדכון האספקה " +
+        "הנכנסת בקבלת טובין דרך MIGO נאכף. לכן ייתכן שיהיה צורך לתקן כמות, מחסן, אצווה או מספר סידורי באספקה דרך " +
+        "VL32N (כמות ומחסן גם דרך VL60) לפני רישום, ולרשום אספקות הרלוונטיות ל-WM או לאריזה דרך VL32N, VL06I או " +
+        "VL60.",
+    },
+    xrefs: ["tx:VL31N", "tx:VL33N", "tx:MIGO", "tx:VL06I", "tx:VL60"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "קיימת רשומה שנוצרה באופן דטרמיניסטי עבור tx:VL32N ב-data/verification/transactions-auto.ts " +
+      "(scripts/qa/gen-tx-evidence.mts, 2026-09-24). היא אספה ראיות (מאגר, שלוש רשומות חיפוש, שתיים בצד " +
+      "S/4HANA ואחת בצד ה-ECC, ספריית Fiori ושלושה פריטי פישוט: 15.3.6 ו-15.3.12 ברשימת 2025 FPS01 ו-27.3 " +
+      "ברשימת 2023 FPS03) אך לא קבעה מעמד ('טרם נקרא במחקר'; ישן: verification_required לפי " +
+      "report-coverage.mjs --ids, נמדד לפני הכתיבה). מחקר זה קרא במלואם את פריטי ה-S4TWL 'Document Flow " +
+      "Consistency for Goods Receipt to Inbound Delivery': 2025 FPS01 פריטים 15.3.6 ו-15.3.12, שתוכנם זהה, " +
+      "ו-2023 FPS03 פריט 27.3, שגם תוכנו זהה. המסקנה: הפריטים עוסקים בהתנהגות MIGO מול אספקה נכנסת ולא במעמד " +
+      "VL32N עצמו, ו-VL32N מופיע בהם כטרנזקציית התחזוקה. פריט 15.3.12 (כפילות בתוך אותו מסמך) ופריט 27.3 לא " +
+      "קיבלו שורת ראיה נפרדת. שאילתות שהורצו: scripts/fal-app.mjs VL32N --release S32OP, שפלטו הוא הבסיס " +
+      "לראיית ה-status; scripts/sap-help-search.mjs \"VL32N successor Fiori app\" --size 8 --json, שהחזיר 21 " +
+      "תוצאות, בלי רשומת 'successor' או 'deprecated' הנוגעת ל-VL32N. אחת התוצאות, 'Apps in Delivery " +
+      "Management', משמשת כראיה. לא בוצע חיפוש נפרד בהיקף SAP_ERP. רשומת החיפוש מצד ה-ECC (versionId " +
+      "6.18.latest, 'Characteristic Values in Application Documents | Master Data') קיימת ברשומה המיוצרת " +
+      "ב-transactions-auto.ts; היא לא צוטטה כאן כראיה כי לא נקראה ישירות במחקר זה. פערים: אין בדיקת SE93 " +
+      "במערכת חיה (קיום הקוד, התוכנית והמסך), ולא נבדק אם SAP_BR_RECEIVING_SPECIALIST ושאר התפקידים ברשומת " +
+      "ה-Fiori רלוונטיים לתהליכי PM/PP-PI. היסטוריה (Old → New): הרשומה הגנרית → רשומת מחקר זו עם status " +
+      "'unchanged' (2026-09-25). שלוש שורות ההקשר שלה שאינן מצוטטות כאן ('Goods Movement " +
+      "(GOODS_MOVEMENT_POSTING)' בצד S/4HANA, 2025.001, ושתי רשומות 'Characteristic Values in Application " +
+      "Documents', Retail בצד S/4HANA ו-Master Data בצד ה-ECC) הועתקו כלשונן כשורות context, שאינן נספרות ברמת " +
+      "האימות; שורת ההקשר של פריט 27.3 ברשימת 2023 FPS03 לא הועתקה: הפריט נקרא ונזכר בהערות אלה. לא בוצעה " +
+      "בדיקה במערכת SAP חיה. לא זוהתה סתירה בין המקורות.",
+  },
+  {
+    id: "tx:VOFM",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VOFM",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את VOFM כ'תחזוקת דרישות ונוסחאות', מודול SD, תחום 'קונפיגורציה'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VOFM",
+      },
+      VOFM_HELP2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settings for Calculating Tax Perception | Peru",
+        url: "https://help.sap.com/docs/SAP_ERP/58439eb1ca8948098aed7dfc9815a57f/117b4a5861a50846e10000000a441470.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש במוצר SAP_ERP לאותו loio (117b4a5861a50846e10000000a441470), בגרסה 6.18.latest, מביאה " +
+          "סניפט זהה: 'Add the 311 requirement formula to the pricing procedure in transaction VOFM. For more " +
+          "information, see SAP Note 2400670.' זהו אותו נושא (אותו loio) הנושא אותו נוסח לפחות בחלק שהסניפט מציג, " +
+          "גם תחת SAP ERP 6.0 EHP8 Latest. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 13.13.19 S4TWL - OGSD - Classic " +
+          "OGSD Interfaces",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פריט 13.13.19 (עמ' 1237, רכיב יישום IS-OIL-DS-OGSD, Note 0002489544 'OGSD - Classic Interfaces') מתאר " +
+          "את ה-Add-on OGSD 'Classic Interfaces' ומנמק בסעיף Reason and Prerequisites: 'You are using the OGSD " +
+          "application \"Classic Interfaces\" to process (mostly inbound) IDocs using VOFM-style customer " +
+          "enhancements via form routines.' הפריט מפנה את מי שממשיך להשתמש בממשקים ל-'New Interfaces', המבוססים על " +
+          "method framework במקום form routines. זו נקיבה תיאורית ב-VOFM כמנגנון ההרחבה של ה-Add-on, ולא הכרעת " +
+          "מעמד לטרנזקציה VOFM עצמה: הפריט אינו קובע שהיא הוחלפה, הוסרה או שונתה. הטקסט נקרא מהקובץ המחולץ " +
+          "scratchpad/official/SIMPL_OP2025.pdf.txt.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 57.2 S4TWL - OGSD - Classic OGSD " +
+          "Interfaces",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 57.2 (עמ' 1323-1324, רכיב יישום IS-OIL-DS-OGSD, Note 2489544 'S4TWL - OGSD - Classic Interfaces') " +
+          "נושא ניסוח כמעט זהה בסעיף Reason and Prerequisites: 'You are using the OGSD application \"Classic " +
+          "Interfaces\" to process (mostly inbound) IDocs using VOFM-style customer enhancements via form " +
+          "routines.' כמו ברשומת 2025 FPS01, זו נקיבה תיאורית ב-VOFM כמנגנון ולא הכרעת מעמד לטרנזקציה עצמה. הטקסט " +
+          "נקרא מהקובץ המחולץ scratchpad/official/SIMPL_OP2023.pdf.txt.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Fields Used in Pricing Enhancements | Service",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c9b5e9de6e674fb99fff88d72c352291/8402608dfbe34b7abfede95d315a076e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Service, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "8402608dfbe34b7abfede95d315a076e) נוקבת בקוד VOFM בסניפט: 'You can use pricing routines (for example " +
+          "transaction VOFM) and user exits to enhance the pricing functionality. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Credit and Debit Memo Requests | SAP Catch Weight Management",
+        url: "https://help.sap.com/docs/SAP_ERP/4e5299fdbcc34b2eb3c877efcc995105/4ea7eaf3b3e94f56e10000000a42189e.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (SAP Catch Weight Management, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "4ea7eaf3b3e94f56e10000000a42189e) נוקבת בקוד VOFM בסניפט: 'To do this, call transaction VOFM and choose " +
+          "Requirements Output Control. You can use requirement 62 (with include LV61B062) ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "בתיעוד הרשמי של SAP S/4HANA On-Premise 2025 FPS01 הטרנזקציה VOFM עדיין מתועדת: בנושא 'Settings for " +
+        "Calculating Tax Perception' (פרו) הסניפט מנחה 'Add the 311 requirement formula to the pricing procedure " +
+        "in transaction VOFM', ואותו נושא, באותו loio, מביא סניפט זהה גם תחת SAP ERP 6.0 EHP8 Latest. פריט " +
+        "הפישוט 'S4TWL - OGSD - Classic OGSD Interfaces' (2023 FPS03 ו-2025 FPS01) נוקב ב-VOFM במשפט אחד, בתיאור " +
+        "מנגנון ההרחבה של ה-Add-on OGSD 'Classic Interfaces', ואינו קובע דבר על מעמד הטרנזקציה VOFM עצמה. נושאי " +
+        "תיעוד נוספים של VOFM (תמחור, מוצרי חינם, בדיקת אשראי) מרוכזים ברשומת טכניקת ההרחבה VOFM.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: VOFM_HELP2025,
+      recommendedAction:
+        "לפני ההסבה: לרשום במערכת המקור את שגרות הדרישה והנוסחה שהלקוח יצר ב-VOFM ואת נוהלי התמחור שאליהם הן " +
+        "משויכות. אם ב-CBC מותקן ה-Add-on OGSD ונעשה שימוש ב-'Classic Interfaces' (IS-OIL-DS-OGSD), יש לקרוא את " +
+        "פריט הפישוט 'S4TWL - OGSD - Classic OGSD Interfaces' ולתכנן את המעבר ל-'New Interfaces' שהפריט נוקב בו; " +
+        "פריט זה עוסק בתוסף OGSD ולא בטרנזקציה VOFM הכללית. לאמת ב-SE93 במערכת היעד את התוכנית והמסך של VOFM מול " +
+        "ECC.",
+    },
+    xrefs: ["enh:technique:vofm"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) המאגר: data/tcode-catalog.ts#VOFM ('תחזוקת דרישות ונוסחאות', SD, קונפיגורציה); היסטוריה " +
+      "(Old → New): רשומה אוטומטית קיימת ב-data/verification/transactions-auto.ts#tx:VOFM (2026-09-24, שורות " +
+      "context, ללא הכרעת מעמד; ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה), " +
+      "שכוללת את 'Fields Used in Pricing Enhancements' ו-'Settings for Calculating Tax Perception' ב-2025.001, " +
+      "את 'Credit and Debit Memo Requests' (SAP Catch Weight Management) בצד ה-ECC (6.18.latest) ואת שני פריטי " +
+      "הפישוט כהקשר; הרשומה הנוכחית מוסיפה את הצד ECC של נושא Tax Perception (loio זהה), קוראת את שני פריטי " +
+      "הפישוט וקובעת מעמד unchanged. שתי שורות ההקשר שאינן מצוטטות כאן ('Fields Used in Pricing Enhancements' " +
+      "בצד S/4HANA ו-'Credit and Debit Memo Requests' בצד ה-ECC) הועתקו כלשונן כשורות context, שאינן נספרות " +
+      "ברמת האימות. (2) node scripts/sap-help-search.mjs \"VOFM\" --product SAP_S4HANA_ON-PREMISE: 21 תוצאות; " +
+      "VOFM מופיע בסניפטים של נושאי תמחור (Service, Retail-OPP), מוצרי חינם, בדיקת אשראי (Exceptions No Check) " +
+      "וחישוב Tax Perception (Peru). (3) אותה שאילתה --product SAP_ERP: 21 תוצאות, כולל את אותו loio של " +
+      "'Settings for Calculating Tax Perception' תחת SAP ERP 6.0 EHP8 Latest, עם סניפט זהה עד למקום שבו הוא " +
+      "נקטע. שני הצדדים לא נקראו כגוף עמוד (מעטפת JavaScript). (4) שני פריטי הפישוט 'S4TWL - OGSD - Classic " +
+      "OGSD Interfaces' (2023 FPS03 פריט 57.2, 2025 FPS01 פריט 13.13.19) נקראו " +
+      "מ-scratchpad/official/SIMPL_OP2023.pdf.txt ו-SIMPL_OP2025.pdf.txt: שניהם מתארים את ממשקי ה-Classic " +
+      "Interfaces של ה-Add-on OGSD (IS-OIL-DS-OGSD), שהפריט מפנה ממנו ל-'New Interfaces', ונוקבים ב-VOFM במשפט " +
+      "אחד, כתיאור מנגנון ('VOFM-style customer enhancements via form routines') של אותו תוסף. בכל קובץ זהו " +
+      "המופע היחיד של המחרוזת VOFM. אין בשני הפריטים אמירה על מעמד הטרנזקציה VOFM עצמה. fal-app.mjs לא הופעל: " +
+      "אין מזהה Fiori מועמד ל-VOFM, ואין צורך ביורש כי ה-status הוא unchanged. הרשומה enh:technique:vofm " +
+      "(data/verification/enhancements.ts) הגיעה למסקנה זהה (unchanged, release 2025.001) על סמך הנושא " +
+      "'Maintaining Free Goods Master Data' באותה שיטה; שתי הרשומות עקביות. Old → New (ביקורת): בטיוטה נרשם " +
+      "בטעות 'New Data Collation' כיעד המעבר; פריט Classic Interfaces נוקב ב-'New Interfaces', ו-'New Data " +
+      "Collation' שייך לפריט Classic Data Collation הסמוך. דרישת ה-Access Key והפניית OVA8 הוסרו מההמלצה משום " +
+      "שאינן מודפסות בראיות רשומה זו. Public Cloud לא נבדק. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:VOV8",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#VOV8",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת VOV8 כ'Customizing, מכירות (Sales Document Control)' (פיסוק מותאם), מודול SD: " +
+          "קסטומיזציה של סוגי מסמכי מכירה (Sales Document Types) דרך View V_TVAK, ומציינת בשדה s4: 'זמין וללא " +
+          "שינוי מהותי ב-S/4HANA, בקרת מסמכי מכירה נשמרת, עדיין מתבצע דרך SPRO/VOV8, אין החלפה' (פיסוק מותאם).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#VOV8",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#VOV8",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-VOV8 את הכותרת האנגלית 'Maintain Sales Document Types', מודול SD, אזור " +
+          "קונפיגורציה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#VOV8",
+      },
+      VOV8_HELP2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Display Reference Document Information in Detailed Data of Sales Document Items | What's New in SAP " +
+          "Enhancement Package 8 for ERP 6.0",
+        url: "https://help.sap.com/docs/SAP_ERP/39615c43587c4405aba2de8ebf33cd66/ce42a77308ef40818e1256de7a90fe07.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (What's New in SAP Enhancement Package 8 for ERP 6.0, versionId 6.18.latest) נוקבת " +
+          "ב-VOV8 בסניפט: 'Select the Display Preceding Documents checkbox in the maintenance view of your desired " +
+          "sales order type using transaction VOV8 or Customizing activity Define Sales Document Types'; כלומר " +
+          "בתיעוד ECC EHP8 הקוד VOV8 מופיע כטרנזקציה לתחזוקת תצוגת התחזוקה של סוג הזמנת המכירה, לצד ה-Customizing " +
+          "activity 'Define Sales Document Types'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.12.7 " +
+          "S4TWL - Fast entry of characteristic values in sales document",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פריט 13.12.7 (2025 FPS01) נקרא במלואו: הוא קובע שהחל מ-S/4HANA 1610 הפונקציונליות 'Fast data entry' של " +
+          "מאפייני קונפיגורציה מוזגה ללשונית 'Configuration' במסמכי מכירה (VA01/VA02/VA03), ומציין: 'The Fcode for " +
+          "the overview screen can be maintained in the \"Define Sales Document types\" Customizing settings " +
+          "(Transaction VOV8)'. הפריט אינו קובע דבר לגבי VOV8 עצמו (לא הוחלף, לא הוסר, לא שונה): VOV8 מוזכר כמקום " +
+          "שבו קובעים Fcode ברירת מחדל ללשונית התצוגה (UECO) עבור מסמכי המכירה. הפעולה הנדרשת: לקוחות שהשתמשו " +
+          "ב-Fast data entry לפני 1610 צריכים להתאים קונפיגורציה, ראה SAP note 2319234. הפריט שייך לרכיב IS-MP-SD; " +
+          "ייתכן שהוא רלוונטי כש-Business Function DIMP_SDUD פעילה, והוא רלוונטי כשנעשה שימוש בלשונית 'Fast data " +
+          "entry'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 52.7 " +
+          "S4TWL - Fast entry of characteristic values in sales document",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 52.7 (2023 FPS03) זהה בתוכנו לפריט המקביל ב-2025 FPS01: מזג את 'Fast data entry' ללשונית " +
+          "'Configuration' במסמכי מכירה, ומזכיר VOV8 באותו משפט: 'The Fcode for the overview screen can be " +
+          "maintained in the \"Define Sales Document types\" Customizing settings (Transaction VOV8)'. גם כאן הפריט " +
+          "אינו קובע דבר לגבי VOV8 עצמו; הוא מזכיר אותו כמיקום הגדרת ה-Fcode. הפריט שייך לרכיב IS-MP-SD; ייתכן " +
+          "שהוא רלוונטי כש-Business Function DIMP_SDUD פעילה, והוא רלוונטי כשנעשה שימוש בלשונית 'Fast data entry'.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "VOV8 (בקרת סוגי מסמכי מכירה) מתועדת ב-S/4HANA On-Premise 2025 FPS01 (versionId 2025.001) כ-Customizing " +
+        "activity 'Maintain Sales Order Types', שבה מוגדר סוג החיוב ברירת המחדל, ובתיעוד ECC EHP8 כטרנזקציה " +
+        "לתחזוקת סוג הזמנת המכירה; אותו קוד טרנזקציה בשני הצדדים. פריט הפישוט 'S4TWL - Fast entry of " +
+        "characteristic values in sales document' (2025 FPS01 13.12.7, 2023 FPS03 52.7) מזכיר את VOV8 כמקום " +
+        "להגדרת Fcode לשונית ברירת מחדל, ואינו קובע החלפה או הסרה של הטרנזקציה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: VOV8_HELP2025,
+      recommendedAction:
+        "להמשיך לתחזק את סוגי מסמכי המכירה ב-VOV8 כמו ב-ECC. אם Business Function DIMP_SDUD (Discrete Indus. - " +
+        "Mill Products) פעילה ונעשה שימוש בלשונית 'Fast data entry' לפני S/4HANA 1610, לבצע את הגדרות " +
+        "ה-Customizing לתצורת פריט מסמך המכירה לפי SAP note 2319234, ולשקול הגדרת Fcode 'UECO' כלשונית ברירת " +
+        "המחדל דרך 'Define Sales Document types' (VOV8).",
+    },
+    xrefs: ["tx:VOV4", "tx:VOV6", "tx:VOV7", "tx:VA01", "table:VBAK", "table:VBAP"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) המאגר: data/tx-intel.ts#VOV8 (תיאור מלא, כולל שדה s4), data/tcode-catalog.ts#VOV8, " +
+      "data/tcode-directory.ts#VOV8; lib/route-manifest.generated.ts מכיל VOV8 גם ברשימת ה-tcodes וגם ברשימת " +
+      "ה-apps (רשימת ה-apps של המאגר; fal-app לא מצא אפליקציה מובילה). (2) help.sap.com דרך " +
+      "scripts/sap-help-search.mjs: 'VOV8 Maintain Sales Document Types' בסקופ SAP_S4HANA_ON-PREMISE (21 " +
+      "רשומות, 1 מצוטטת: Differential Billing with CPE via Billing Due List, 2025.001), 'Sales Document Types " +
+      "Customizing VOV8' בסקופ SAP_ERP (21 רשומות, 1 מצוטטת: Display Reference Document Information..., " +
+      "6.18.latest), 'Define Sales Document Types VOV8' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות, ללא ציטוט נוסף " +
+      "מעבר לשתי הרשומות שכבר צוטטו). (3) scripts/fal-app.mjs --tcode VOV8 במהדורה S32OP (2025 FPS01): " +
+      "'leading app(s): none; GUI app entry: none'; זו תוצאת חיפוש מתועדת, לא קביעה שאין אפליקציה, ולכן לא " +
+      "נוסף xref ל-fiori. (4) שני פריטי הפישוט הרשמיים שמזכירים את הקוד נקראו במלואם דרך " +
+      "scratchpad/official/SIMPL_OP2025.pdf.txt (סביב שורה 69239, פריט 13.12.7) " +
+      "ו-scratchpad/official/SIMPL_OP2023.pdf.txt (סביב שורה 61102, פריט 52.7): שניהם עוסקים במיזוג " +
+      "הפונקציונליות 'Fast data entry' ללשונית 'Configuration' במסמכי מכירה, ומזכירים VOV8 כמיקום להגדרת Fcode " +
+      "'UECO'; אין בהם קביעה לגבי מעמד VOV8 עצמו. מעמד 'unchanged' נשען על שתי רשומות help.sap.com הרשמיות " +
+      "(ECC ו-S/4HANA 2025 FPS01) שמנחות שימוש ב-VOV8 באותו שם טכני, לא על פריטי הפישוט. היסטוריה (Old → New): " +
+      "הרשומה הגנרית tx:VOV8 ב-transactions-auto.ts (2026-09-24, ללא הכרעת מעמד; לפני הכתיבה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified) → רשומה מחקרית זו עם status " +
+      "'unchanged' (2026-09-25); חמש שורות ה-evidence של הרשומה הגנרית מצוטטות כאן. לא בוצעה בדיקה במערכת SAP " +
+      "חיה.",
+  },
+  {
+    id: "tx:XD01",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.19 S4TWL - Business Partner " +
+          "Approach",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (עמ' 153-155) קובע כי ב-SAP S/4HANA ממשק המשתמש לשותפים עסקיים, לקוחות וספקים הוא טרנזקציית BP: " +
+          "'the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, " +
+          "MK03 etc. are not available in SAP S/4HANA on-premise'. בטבלה 'Transactions not available in SAP " +
+          "S/4HANA on-premise edition' תחת הכותרת 'Transactions that get redirected to transaction BP' מודפס " +
+          "במפורש 'XD01, XD02, XD03'.",
+        verificationLevel: "sap_official_verified",
+      },
+      XD01_SIMPL2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Partners",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c9b5e9de6e674fb99fff88d72c352291/bfd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "דף תפעולי תחת אותו מוצר ומהדורה בדיוק (SAP_S4HANA_ON-PREMISE, versionId 2025.001) מנחה: 'Choose " +
+          "transactions XD01, XD02, XD03 to create, change and display customers/debtors.' המשפט מופיע בסניפט " +
+          "רשומת החיפוש, בסתירה ישירה לפריט הפישוט S4TWL - Business Partner Approach מאותה מהדורה. שני המקורות " +
+          "רשמיים ונשמרים כסתירה; הסבר אפשרי הוא סחף תיעוד בדף התפעולי (אותו דפוס שתועד ב-tx:XK01 ו-tx:VD02 בשרשרת " +
+          "זו), ופריט הפישוט S4TWL נשאר המקור הקובע לסטטוס. מה שיכריע: הפעלת XD01 במערכת SAP S/4HANA On-Premise " +
+          "חיה ובדיקה האם היא מנותבת ל-BP.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+              "Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE25,
+            claim:
+              "'the specific transactions like XD01, XD02, XD03 ... are not available in SAP S/4HANA. These will be " +
+              "redirected to transaction BP.'",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transactions",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/bcd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "דף תפעולי נוסף באותה מהדורה בדיוק (deliverable Logistics - General (LO), versionId 2025.001) מציג טבלת " +
+          "קודי טרנזקציה הכוללת 'XD01, XD02, XD03 Create, change and display customer (debtor) centrally' לצד " +
+          "XK01/XK02/XK03 לספק. המשפט מופיע בסניפט רשומת החיפוש, בסתירה לאותו פריט פישוט. נשמר כראיה נפרדת מסוג " +
+          "conflicting_sources; לא הוכרע מבלי הפעלה במערכת חיה.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+              "Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE25,
+            claim:
+              "'the specific transactions like XD01, XD02, XD03 ... are not available in SAP S/4HANA. These will be " +
+              "redirected to transaction BP.'",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#XD01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "שדה s4 ברשומה הקיימת: 'Obsolete בלוגיקה הקלאסית. ב-S/4HANA יצירת לקוח נעשית דרך Business Partner (BP) " +
+          "עם תפקיד FLCU00 (general) ו-FLCU01 (customer/company code). XD01 עדיין נפתח אך לא מומלץ; CVI מסנכרן " +
+          "BP↔KNA1.' ההפניה ל-BP עקבית עם פריטי הפישוט שנקראו; המשפט 'XD01 עדיין נפתח' אינו נתמך בהם, שכן הפריטים " +
+          "קובעים שהטרנזקציה אינה זמינה ומנותבת ל-BP. אלה טענות המאגר, לא מקור רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#XD01",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#XD01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-XD01 את הכותרת האנגלית 'Create Customer (Centrally)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#XD01",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Data in FI Outgoing Invoices and SD Billing Documents | Portugal",
+        url: "https://help.sap.com/docs/SAP_ERP/00036c20095c4adc8d3e3c605b1dfab7/097c3c55e5efa849e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Portugal, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "097c3c55e5efa849e10000000a4450e5) נוקבת בקוד XD01 בסניפט: '... transactions related to creating or " +
+          "changing customer/vendor data (transactions XK01, XK02, XD01, XD02, FK01, FK02, FD01, FD02, MK01, MK02, " +
+          "VD01, VD02) because it may lead to inconsistencies ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "XD01 אינה זמינה ב-SAP S/4HANA, מהדורת On-Premise; קריאה לטרנזקציה מנותבת למסך Business Partner " +
+        "(טרנזקציה BP), הן לפי פריט הפישוט 2023 FPS03 (3.19) והן לפי 2025 FPS01 (5.1.27) - שניהם נוקבים ב-XD01 " +
+        "במפורש בטבלת הטרנזקציות המנותבות ל-BP. שני דפי תיעוד תפעוליים מאותה מהדורה (2025.001) עדיין ממליצים על " +
+        "XD01 לתחזוקת לקוח; הסתירה לא הוכרעה ומתועדת בשורות conflicting_sources. התפקיד FLCU01 ('Business " +
+        "Partner Customer (FI part)') נקוב בפריט הפישוט 'S4TWL - Specific fields on Business Partner' (2025 " +
+        "FPS01) בהקשר שדות US Federal Financials; התפקיד FLCU00 מקורו ברשומת המאגר tx-intel.ts#XD01.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: XD01_SIMPL2025,
+      recommendedAction:
+        "יש להשתמש בטרנזקציה BP (התפקידים FLCU00/FLCU01 לפי רשומת המאגר; FLCU01 נקוב גם בפריט 'S4TWL - Specific " +
+        "fields on Business Partner') במקום XD01 ליצירת לקוח מרכזית, ולוודא שה-Customer/Vendor Integration (CVI) " +
+        "הופעל והושלם לפני המרה ל-S/4HANA בגישת Conversion. יש לאמת בפועל ב-SE93 במערכת היעד את הניתוב בפועל, " +
+        "לאור דפי התיעוד התפעוליים הסותרים; לא בוצעה בדיקה במערכת SAP חיה.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:XD02", "tx:XD03", "table:KNA1"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) המאגר: data/tx-intel.ts#XD01 (מודול SD, אזור 'נתוני אב לקוחות (משולב SD+FI)', שדה s4 כבר " +
+      "קבע Obsolete/BP), data/tcode-catalog.ts#XD01 ('Create Customer (Centrally)'), data/lifecycle.ts#XD01 " +
+      "(status: Obsolete, alt: BP, simplification: Business Partner Approach - הקשר תומך, לא צוטט כראיה " +
+      "נפרדת), lib/route-manifest.generated.ts (XD01 רשום ב-tcodes וב-apps). אף אחת מאלה אינה רשומת overlay " +
+      "קיימת; אין רשומת tx:XD01 קודמת בקובץ זה. (2) scripts/sap-help-search.mjs \"S4TWL - Business Partner " +
+      "Approach\" ו-\"XD01\" (--product SAP_S4HANA_ON-PREMISE, size 8): שני חיפושים, 21 תוצאות כל אחד. אותרו שני " +
+      "דפים תפעוליים מאותה מהדורה (2025.001) שממשיכים לנקוב ב-XD01 - 'Partners' (deliverable Service) " +
+      "ו-'Transactions' (deliverable Logistics - General); המשפטים מופיעים בסניפט רשומת החיפוש עצמה (לא הופעל " +
+      "sap-help-body.mjs על הדפים, ולכן הטענות מוגבלות לסניפט); זהו אותו דפוס תיעוד שתועד " +
+      "ב-tx:XK01/tx:MK01/tx:VD02 בשרשרת זו. (3) פריטי הפישוט 2023 FPS03 (3.19) ו-2025 FPS01 (5.1.27) נקראו " +
+      "במלואם מ-scratchpad/official/SIMPL_OP2023.pdf.txt (סביב שורה 9035-9130) ו-SIMPL_OP2025.pdf.txt (סביב " +
+      "שורה 6975-7080); שתיהן נוקבות ב-XD01 בטבלת הטרנזקציות שאינן זמינות ומנותבות ל-BP. (4) נקראו גם 59.7 " +
+      "S4TWL - Specific fields on Business Partner (2023 FPS03, עמ' 1355-1356, Application Component PSM-FG) " +
+      "ו-13.14.1 S4TWL - Specific fields on Business Partner (2025 FPS01, עמ' 1274); שניהם עוסקים בשדות " +
+      "ספציפיים ל-US Federal Financials, מכילים טבלת 'Transaction not available in SAP S/4HANA' שבה מופיע " +
+      "XD01, ובנוסף נוקבים בתפקידים 'Business Partner Vendor (FI part)' (FLVN01) ו-'Business Partner Customer " +
+      "(FI part)' (FLCU01) לתחזוקת שדות USFG; לא צוטטו כראיה נפרדת כדי למנוע כפילות. כן נקרא 5.1.30 S4TWL - " +
+      "Business Partner Approach for SAP MDG (2025 FPS01, עמ' 143) שמזכיר XD01 כדוגמה לטרנזקציה ERP-קלאסית " +
+      "ש-'are replaced by transaction BP' בהקשר MDG - לא צוטט כראיה נפרדת, תומך באותה מסקנה. (5) לא הופעל " +
+      "fal-app.mjs: אף מקור רשמי שנקרא לא נקב Fiori app ייעודי ל-XD01 או לתפקיד Customer ב-BP, אלא את " +
+      "טרנזקציית BP עצמה - לכן אין successor מסוג fiori. (6) היסטוריה (Old → New): הרשומה הגנרית tx:XD01 " +
+      "ב-transactions-auto.ts (2026-09-24, ללא הכרעת מעמד; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס " +
+      "נגזר 'replaced' ברמת repository_verified) → רשומה מחקרית זו עם status 'replaced' ו-successor tx:BP " +
+      "(2026-09-25). שתי שורות ההקשר שלה שאינן מצוטטות כאן (רשומת המאגר tcode-catalog.ts#XD01 ו-'Master Data " +
+      "in FI Outgoing Invoices and SD Billing Documents' בצד ה-ECC, Portugal, 6.18.latest) הועתקו כלשונן " +
+      "כשורות context, שאינן נספרות ברמת האימות; שורות ההקשר של פריטי 5.1.30 ו-13.14.1 לא הועתקו: הפריטים " +
+      "נקראו ונזכרים בסעיף (4). לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:XD02",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#XD02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר משייכת את XD02 לתחום 'נתוני אב לקוחות (משולב SD+FI)', מודול SD; שדה s4: 'Obsolete בקלאסי. " +
+          "ב-S/4HANA עדכון לקוח נעשה ב-BP. XD02 עדיין זמין אך אינו הדרך המומלצת; שינויים מסונכרנים ל-BP דרך CVI.' " +
+          "הקביעה 'עדיין זמין' סותרת את פריט הפישוט הרשמי (הטרנזקציה אינה זמינה ומנותבת ל-BP); זהו ניסוח פנימי של " +
+          "המאגר ולא ציטוט ממקור SAP.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#XD02",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#XD02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "הקטלוג מגדיר את XD02 כ-'Change Customer (Centrally)' ('שינוי לקוח (מרכזי)'), מודול SD, תחום 'נתוני אב " +
+          "לקוח'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#XD02",
+      },
+      XD02_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 - Feature Pack Stack 3 · item 3.19 S4TWL - Business Partner Approach (SAP Note 2265093), pp. " +
+          "153-155",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט ברשימת 2023 FPS03 (נקרא מקובץ ה-PDF הרשמי, scratchpad/official/SIMPL_OP2023.pdf.txt) קובע: " +
+          "'the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, " +
+          "MK03 etc. are not available in SAP S/4HANA on-premise', ובטבלת הטרנזקציות, תחת 'Transactions that get " +
+          "redirected to transaction BP', מודפס XD02: 'FD01,FD02,FD03, FK01,FK02,FK03,MAP1,MAP2,MAP3, MK01, MK02, " +
+          "MK03, V-03,V-04,V-05,V-06,V-07,V-08,V-09, V-11, VAP1, VAP2, VAP3, VD01, VD02,VD03, XD01, XD02, XD03, " +
+          "XK01, XK06, XK07, XK02, XK03'. הסיווג עקבי מ-2023 FPS03 ועד 2025 FPS01, ו-XD02 אינו מסווג ברשימת " +
+          "ה-obsolete הנפרדת של הפריט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 13.14.1 " +
+          "S4TWL - Specific fields on Business Partner (Application Component PSM-FG, SAP Note 0002270420), p. 1274",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (נקרא מקובץ ה-PDF הרשמי) קובע: 'With the introduction of Business Partner and Customer/Vendor " +
+          "Integration (CVI) as mandatory aspects of SAP S/4HANA, customer and vendor master record creation, " +
+          "maintenance and display is only possible via the Business Partner functionality', וכן: 'Business " +
+          "Partner transaction 'BP' is now used to create, change or display customer or vendor data'. בטבלה " +
+          "'Transaction not available in SAP S/4HANA' מודפס XD02 (יחד עם FK01-FK03, XK01-XK03, FD01-FD03, XD01, " +
+          "XD03). הקשר הפריט צר (שדות US Federal Financials, PSM-FG), אך הוא מונה את XD02 כלא זמינה ב-S/4HANA ואת " +
+          "BP כממשק המשתמש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Partners | Service",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c9b5e9de6e674fb99fff88d72c352291/bfd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Service, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "bfd8c353b677b44ce10000000a174cb4) נוקבת בקוד XD02 בסניפט: 'Choose transactions XD01, XD02, XD03 to " +
+          "create, change and display customers/debtors. ... Activities Choose transactions ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transactions | Logistics - General (LO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/bcd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Logistics - General (LO), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "bcd8c353b677b44ce10000000a174cb4) נוקבת בקוד XD02 בסניפט: ', XK03 Create, change and display supplier " +
+          "(creditor) centrally XD01, XD02, XD03 Create, change and display customer (debtor) centrally Warranty " +
+          "Objects IE01, IE02, ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Data in FI Outgoing Invoices and SD Billing Documents | Portugal",
+        url: "https://help.sap.com/docs/SAP_ERP/00036c20095c4adc8d3e3c605b1dfab7/097c3c55e5efa849e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Portugal, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "097c3c55e5efa849e10000000a4450e5) נוקבת בקוד XD02 בסניפט: '... transactions related to creating or " +
+          "changing customer/vendor data (transactions XK01, XK02, XD01, XD02, FK01, FK02, FD01, FD02, MK01, MK02, " +
+          "VD01, VD02) because it may lead to inconsistencies ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "לפי פריט הפישוט S4TWL - Business Partner Approach, XD02 אינה זמינה ב-S/4HANA on-premise ומודפסת בטבלה " +
+        "'Transactions that get redirected to transaction BP', יחד עם טרנזקציות נוספות מהמשפחות XD, VD, FD, FK, " +
+        "XK ו-MK; ממשק המשתמש לתחזוקת לקוח הוא טרנזקציית BP. שני נושאי תיעוד ב-S/4HANA 2025 (Partners | Service " +
+        "ו-Transactions | Logistics - General (LO)) עדיין מפנים ל-XD02; יש לאמת במערכת שהקריאה מנותבת ל-BP.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: XD02_SIMPL2025,
+      recommendedAction:
+        "לעדכן תהליכי עבודה ומדריכים כך ששינוי נתוני לקוח יתבצע דרך טרנזקציית BP (Business Partner) לאחר " +
+        "Customer Vendor Integration, ולא דרך XD02; לוודא ש-CVI מוגדר ותקין לפני המרה ל-S/4HANA, ולבדוק במערכת " +
+        "(SE93/הרצה) שקריאה ל-XD02 מנותבת ל-BP, לאור נושאי התיעוד שעדיין מפנים אליה.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:XD01", "tx:XD03", "tx:VD02"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "רשומה זו מחליפה את רשומת הטיוטה הדטרמיניסטית של tx:XD02 ב-data/verification/transactions-auto.ts. Old → " +
+      "New: הרשומה הישנה היא טיוטת הקשר בלבד ללא status (שורות context: tx-intel.ts#XD02, " +
+      "tcode-catalog.ts#XD02, 'Partners | Service', 'Transactions | Logistics - General (LO)', 'Master Data in " +
+      "FI Outgoing Invoices and SD Billing Documents | Portugal' ב-SAP_ERP 6.18.latest, ופריטי הפישוט 5.1.27, " +
+      "5.1.30 ו-13.14.1; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'replaced' ברמת " +
+      "repository_verified); הסטטוס החדש: replaced, successor BP, release 2025 FPS01, מקור פריט 5.1.27. שלוש " +
+      "שורות ההקשר שלה שאינן שורות עליונות ברשומה זו ('Partners | Service' ו-'Transactions | Logistics - " +
+      "General (LO)' בצד S/4HANA, שמצוטטות כאן בתוך conflictingEvidence של שורת פריט 5.1.27, ו-'Master Data in " +
+      "FI Outgoing Invoices and SD Billing Documents | Portugal' בצד ה-ECC) הועתקו כלשונן כשורות context, " +
+      "שאינן נספרות ברמת האימות; שורת ההקשר של פריט 5.1.30 מאותה רשימה לא הועתקה (הפריט נזכר בסעיף (2)), ופריט " +
+      "13.14.1 מצוטט כאן כשורת ראיה. מה נבדק: (1) scripts/sap-help-search.mjs \"XD02\" --product " +
+      "SAP_S4HANA_ON-PREMISE: 21 תוצאות, כולן 2025.001. שני נושאים, 'Partners | Service' (loio " +
+      "bfd8c353b677b44ce10000000a174cb4) ו-'Transactions | Logistics - General (LO)' (loio " +
+      "bcd8c353b677b44ce10000000a174cb4), עדיין נוקבים ב-XD02 כטרנזקציה פעילה ('Choose transactions XD01, " +
+      "XD02, XD03 ...'; 'XD01, XD02, XD03 Create, change and display customer (debtor) centrally'); גופיהם " +
+      "נקראו ב-scripts/sap-help-body.mjs. זו סתירה לפריט הפישוט, ולכן הם מוצגים כ-conflictingEvidence לצד פריט " +
+      "5.1.27; פריט הפישוט נשאר המקור הקובע למעבר. שאר התוצאות הן נושאי תפקידי Master Data Governance for " +
+      "Customer/Supplier (Specialist/Requester), שהסניפט שלהם מונה את 'Change Customer (Centrally)' בין " +
+      "הטרנזקציות שנוספו ידנית לתפקיד לצורך יישום CVI, ו-'Decentralized Master Data Governance for Customer', " +
+      "שמתאר תחזוקת לקוח במערכת ERP דרך XD01 או XD02; אלה לא צוטטו כראיה. (2) טקסט פריטי הפישוט נקרא " +
+      "מ-scratchpad/official/SIMPL_OP2025.pdf.txt (5.1.27 סביב שורה 7045; 13.14.1 סביב שורה 72900) " +
+      "ומ-SIMPL_OP2023.pdf.txt (3.19). אותו נוסח של 13.14.1 מודפס גם בפריט 59.7 באותו שם ברשימת 2023 FPS03 " +
+      "(Application Component PSM-FG, SAP Note 2270420), עמ' 1355; לא צוטט כשורה נפרדת. פריט 5.1.30 (S4TWL - " +
+      "Business Partner Approach for SAP MDG) לא צוטט כראיה. (3) fal-app.mjs לא הופעל: אף מקור אינו נוקב במזהה " +
+      "אפליקציית Fiori עבור XD02. שדה s4 במאגר (tx-intel.ts#XD02) טוען ש-XD02 'עדיין זמין', בניגוד לפריט " +
+      "הפישוט; הניסוח מוצג בשורת המאגר ומסומן כפנימי. לא בוצעה בדיקה במערכת SAP חיה; ניתוב XD02 ל-BP לא אומת " +
+      "ב-SE93.",
+  },
+  {
+    id: "tx:XD03",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#XD03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר מגדיר את XD03 כ-'Display Customer (Centrally)' (בעברית 'הצגת לקוח (מרכזי)'), " +
+          "מודול SD, תחום 'נתוני אב לקוח'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#XD03",
+      },
+      XD03_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.14.1 " +
+          "S4TWL - Specific fields on Business Partner",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פריט 13.14.1 'S4TWL - Specific fields on Business Partner' ברשימת הפישוט הרשמית (2025 FPS01, גרסת מסמך " +
+          "1.36) מונה את XD03, יחד עם FK01-FK03, XK01-XK03, FD01-FD03, XD01 ו-XD02, תחת 'Transaction not available " +
+          "in SAP S/4HANA', וקובע: 'Business Partner transaction BP is now used to create, change or display " +
+          "customer or vendor data'. סעיף Required and Recommended Action(s) בפריט: 'None', ובלשון הפריט: 'only a " +
+          "different transaction needs to be used'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 3.19 " +
+          "S4TWL - Business Partner Approach",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 3.19 באותה רשימה במהדורת 2023 FPS03 (גרסת מסמך 1.35) מונה כבר ב-2023 את XD03 תחת 'Transactions not " +
+          "available in SAP S/4HANA on-premise edition' וברשימת 'Transactions that get redirected to transaction " +
+          "BP', לצד XD01, XD02, VD01-VD03, XK01-XK03 ואחרים. בלשון הפריט: 'The user interface for SAP S/4HANA is " +
+          "transaction BP'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#XD03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את XD03 כ'נתוני אב לקוחות (משולב SD+FI)', מודול SD.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#XD03",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Partners | Maintenance Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/bfd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Maintenance Management, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "bfd8c353b677b44ce10000000a174cb4) נוקבת בקוד XD03 בסניפט: 'Choose transactions XD01, XD02, XD03 to " +
+          "create, change and display customers/debtors. ... Activities Choose transactions XK01, ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transactions | Logistics - General (LO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/25a41481f62e469ba0e61015a0d39d20/bcd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Logistics - General (LO), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "bcd8c353b677b44ce10000000a174cb4) נוקבת בקוד XD03 בסניפט: 'Create, change and display supplier " +
+          "(creditor) centrally XD01, XD02, XD03 Create, change and display customer (debtor) centrally Warranty " +
+          "Objects IE01, IE02, IE03 Create, ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Partners | Plant Maintenance (PM)",
+        url: "https://help.sap.com/docs/SAP_ERP/61f8c51bfee94fa78c8835db685249eb/bfd8c353b677b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Plant Maintenance (PM), 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "bfd8c353b677b44ce10000000a174cb4) נוקבת בקוד XD03 בסניפט: 'Choose transactions XD01, XD02, XD03 to " +
+          "create, change and display customers/debtors. ... Activities Choose transactions XK01, ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F0046A 'Customer Master FactSheets' (SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0046A')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F0046A " +
+          "'Customer Master FactSheets' (SAP Fiori elements, 'Published') עם קוד הטרנזקציה המוביל XD03.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "פריט הפישוט 'S4TWL - Business Partner Approach' (2023 FPS03 ו-2025 FPS01) מונה את XD03 בין הטרנזקציות " +
+        "שאינן זמינות ב-SAP S/4HANA On-Premise ומנותבות לטרנזקציה BP; פריט 'S4TWL - Specific fields on Business " +
+        "Partner' (2025 FPS01) קובע שהצגת נתוני לקוח נעשית בטרנזקציה BP.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: XD03_SIMPL2025,
+      recommendedAction:
+        "ב-S/4HANA יש להציג נתוני לקוח בטרנזקציה BP במקום XD03, ולוודא שה-CVI (Customer/Vendor Integration) " +
+        "הופעל והושלם לפני ההמרה ל-S/4HANA.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:XD01", "tx:XD02", "tx:VD03"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: המאגר (tcode-catalog.ts#XD03) נקרא לזיהוי הקוד; רשומת ה-context שנוצרה אוטומטית " +
+      "ב-transactions-auto.ts#XD03 (scripts/qa/gen-tx-evidence.mts) נקראה כדי לזהות ש-4 פריטי פישוט נוקבים " +
+      "בקוד בלי הכרעת מעמד. שני פריטי הפישוט (S4TWL - Business Partner Approach, S4TWL - Specific fields on " +
+      "Business Partner) נקראו משני קבצי הטקסט שחולצו ב-scratchpad/official/ (SIMPL_OP2025.pdf.txt סביב שורות " +
+      "7020-7075 ו-72900-72935; SIMPL_OP2023.pdf.txt סביב שורות 9085-9125 ו-68350-68390), בשתי המהדורות. " +
+      "בשתיהן XD03 מופיע תחת 'Transactions that get redirected to transaction BP' (לא ברשימת ה-obsolete), ולכן " +
+      "status=replaced עם successor tx:BP, באותה תבנית כמו tx:VD01 (transactions-b.ts) ו-tx:VD03 " +
+      "(transactions-d.ts); tx:XD01 ו-tx:XD02 מתועדות ברשומות מחקר נפרדות באותה תבנית (replaced, successor " +
+      "tx:BP). ספריית Fiori (fal-app.mjs --tcode XD03, S32OP) מציגה את F0046A 'Customer Master FactSheets' " +
+      "(SAP Fiori elements) כאפליקציה המובילה עם XD03, בלי רשומת GUI app; ממצא זה נישא כשורת context מהרשומה " +
+      "הגנרית ואינו נספר ברמת האימות. חיפושי sap-help-search.mjs לא הורצו מחדש מעבר לרשומות שבשורת ה-context. " +
+      "לא בוצעה בדיקה במערכת SAP חיה. רשומה זו מחליפה, לפי מוסכמת index.ts, את רשומת ה-context הגנרית עבור " +
+      "tx:XD03 שב-transactions-auto.ts (Old context-only; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס " +
+      "נגזר 'replaced' ברמת repository_verified → New researched replaced). חמש שורות ההקשר שלה שאינן מצוטטות " +
+      "כאן (רשומת המאגר tx-intel.ts#XD03, 'Partners | Maintenance Management' ו-'Transactions | Logistics - " +
+      "General (LO)' בצד S/4HANA (2025.001), 'Partners | Plant Maintenance (PM)' בצד ה-ECC (6.18.latest) " +
+      "ו-F0046A בספריית ה-Fiori) הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות. שני עמודי ה-S/4HANA " +
+      "מדפיסים את XD03 לצד XD01 ו-XD02 כטרנזקציות ליצירה, שינוי והצגה של לקוח; ברשומות tx:XD01 ו-tx:XD02 אותם " +
+      "עמודים מסומנים כסתירה לפריט הפישוט, וכאן הם נישאים כשורות context. מה שיכריע: הפעלת XD03 במערכת S/4HANA " +
+      "On-Premise חיה ובדיקה אם היא מנותבת ל-BP.",
   },
 ];
