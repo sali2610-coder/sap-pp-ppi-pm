@@ -241,6 +241,67 @@ in progress (`transactions-b.ts`, uncommitted at 14:50; FD02, FD03 and FK02 from
 FI02, FI03 and FI12 from `verification_required` to `sap_official_verified`). The gates above ran
 on the tree with both.
 
+Batch 5 written 2026-09-28 (research and adversarial audit the same day; access and verification
+dates stamped 2026-09-25, as the chain arguments set them): 8 drafts audited, 8 written, none
+refuted. The secondary cost element and the CO manual posting codes: `tx:KA06` carries no
+authored status ('S4TWL - COST ELEMENTS', 2025 FPS01 item 6.5.5 and 2023 FPS03 item 12.15, lists
+it under 'Transaction not available in SAP S/4HANA on-premise edition 1511' with KA01, KA02 and
+KA03 and names no successor code; the 2025.001 app page 'Manage G/L Account Master Data', App ID
+F0731A, lists it among its related back-end transactions, and F0731A is not in
+`data/fiori/apps.ts`: the `tx:AB01` shape); `tx:KB13N` is `unchanged` from the 2025.001 help
+record 'Reposting Costs and Revenues Manually'; `tx:KB14N` and `tx:KB31N` are `unchanged` from
+'S4TWL - ACTIVITY-BASED COSTING' (2025 FPS01 item 6.5.2: the NP codes are covered by the N codes,
+no change on version 0, an error message on a delta version); `tx:KB11N` is
+`fiori_alternative_available` from the same help record (F2009 'Reassign Costs and Revenues'
+covers the same functionalities); `tx:KB15N`, `tx:KB21N` and `tx:KB23N` are
+`fiori_alternative_available` from the What's New 2025 page 'Deletion of Allocation Apps' (their
+launchpad apps deleted, successor apps F2009 and F3697; the KB15N and KB23N records note that the
+pages speak of the launchpad apps, not of the SAP GUI codes). Six were taken from `verdict.fixedRecord`
+(`tx:KA06`, `tx:KB13N`, `tx:KB14N`, `tx:KB15N`, `tx:KB23N`, `tx:KB31N`) and two were re-derived
+from the repaired draft with the re-verify downgrades (`tx:KB11N`, four; `tx:KB21N`, two). Both
+went through a repair round first: the first `tx:KB11N` draft was refuted for absence claims ('not
+replaced, deprecated or removed', 'no technical obligation'), a delta-version rule it did not
+quote, an ECC note resting on a snippet that does not print the code, a gloss the item does not
+make and an 'available since S18OP' reading of the release list; the first `tx:KB21N` draft
+(`unchanged`) was refuted for leaving out its own first search hit, the What's New 2025 page
+'Deletion of Allocation Apps', and for an invented quote, an overstated recommendedAction, the
+dangling xref `tx:KB24N`, a null `status.source`, three dropped rows of the generated record and a
+successor app fal-app prints (F3697A) left out. Both repaired drafts passed re-verification.
+
+Same generation discipline as batch 4: the drafts and verdicts were read from this run's workflow
+journal and generated from there; every downgrade and writer change was applied as an exact-count
+substring replacement (a miss aborts the run); every row of the eight generated records was
+checked to be either cited by the audited record (same URL or repoRef, plus the item number for
+Simplification List rows) or carried; the new module was gated in the scratchpad before it
+touched the repository: the rule engine (`validateRecords` with the test's own record
+composition, shard D swapped for the new module) reported 0 problems, the eight records were
+deep-compared with the generated objects, `status.source` checked for identity with its evidence
+row and for an equal release and edition, the 32 batch 1 to 4 records checked deep-equal to HEAD,
+and an isolated `tsc` run on the new module passed. In place, `tsc --noEmit` (app and test
+configs) and `npm test` (211 of 211) pass.
+
+Depth (`report-coverage.mjs --ids`, before 15:19 and after 15:31):
+
+| id | before | after |
+|---|---|---|
+| `tx:KB21N` | L3 `repository_verified`, derived 'unchanged' | L5 `sap_official_verified`, authored `fiori_alternative_available` |
+| `tx:KB31N` | L3 `repository_verified`, derived 'unchanged' | L5 `sap_official_verified`, authored `unchanged` |
+| `tx:KA06` | L3 `repository_verified`, derived 'unchanged' | L4 `sap_official_verified`, still derived 'unchanged' (see conflicts) |
+| `tx:KB11N` | L1 `verification_required` | L1 `sap_official_verified`, authored `fiori_alternative_available` |
+| `tx:KB13N` | L1 `verification_required` | L1 `sap_official_verified`, authored `unchanged` |
+| `tx:KB14N` | L1 `verification_required` | L1 `sap_official_verified`, authored `unchanged` |
+| `tx:KB15N` | L1 `verification_required` | L1 `sap_official_verified`, authored `fiori_alternative_available` |
+| `tx:KB23N` | L1 `verification_required` | L1 `sap_official_verified`, authored `fiori_alternative_available` |
+
+KB11N, KB13N, KB14N, KB15N and KB23N stay at L1 for the batch 1 reason: none has an entry in
+`data/tx-intel.ts` (checked), so the page structure (3 authored facts needed for L2) is missing;
+KA06, KB21N and KB31N have one. Batch effect on the catalog totals (`npm run report:coverage --
+--catalog transactions`): L3 -3, L4 +1, L5 +2, verified +5, verification_required -5, s4-appl +5.
+Measured totals: 15:19 L1 1279, L2 2, L3 396, L4 4, L5 137, verified 723, verif.req 1074, conflict
+21, legacy 5, s4-appl 716, edition 5; 15:31 L1 1279, L2 2, L3 393, L4 5, L5 139, verified 728,
+verif.req 1069, conflict 21, legacy 5, s4-appl 721, edition 5. A per-id diff of the two `--ids`
+runs shows no other transaction id changed between them, so the whole difference is this batch.
+
 ## refuted
 
 - Batch 1 (2026-09-28): none refuted. All nine audited drafts (`tx:VA21`, `tx:VD03`, `tx:VD05`,
@@ -285,6 +346,9 @@ on the tree with both.
 - Batch 4 (2026-09-28): none refuted. All eight audited drafts (`tx:FK03`, `tx:FV50`, `tx:FV60`,
   `tx:FV70`, `tx:OAAQ`, `tx:OB22`, `tx:OBYC`, `tx:CJ20N`) were written; `tx:OB22` after a repair
   round (the research draft's `unchanged` was refuted; see the batch 4 summary above).
+- Batch 5 (2026-09-28): none refuted. All eight audited drafts (`tx:KA06`, `tx:KB11N`, `tx:KB13N`,
+  `tx:KB14N`, `tx:KB15N`, `tx:KB21N`, `tx:KB23N`, `tx:KB31N`) were written; `tx:KB11N` and
+  `tx:KB21N` after a repair round (both first drafts were refuted; see the batch 5 summary above).
 
 ## conflicts
 
@@ -563,6 +627,82 @@ on the tree with both.
   run): none has an entry in `data/tx-intel.ts`, so all six stay at L1 although five now carry an
   authored status from an official source (the batch 1 reason, as for FB50L in batch 3). Not
   fixed (outside this writer's files). What settles it: a `tx-intel.ts` entry for each code.
+- `tx:KA06` · derived status shown beside an official tier, successor outside the id universe
+  (batch 5; the successor gap recorded by the researcher and the auditor, the derived status
+  found by the writer in the coverage run): 'S4TWL - COST ELEMENTS' (2025 FPS01 item 6.5.5,
+  document version 1.36; 2023 FPS03 item 12.15, document version 1.35) lists 'KA06 - Create
+  secondary cost element' under 'Transaction not available in SAP S/4HANA on-premise edition
+  1511' with KA01, KA02 and KA03, and says cost elements are maintained in the G/L account master
+  data with no separate cost element master data maintenance; it names no successor code. The
+  2025.001 app page 'Manage G/L Account Master Data' (App ID F0731A, body read and re-fetched by
+  the auditor) lists KA06 under 'Related Back-End Transactions' next to FS00, and fal-app F0731A
+  (S32OP) lists it among the related GUI transactions; F0731A is not in `data/fiori/apps.ts`, so
+  the audit left the status empty rather than author `not_available` without a resolvable
+  successor. With no authored status, the page shows the mapper's claim from the repository
+  transaction record (derived 'unchanged'), whose s4 field in `data/tx-intel.ts#KA06` reads 'ב-S/4HANA
+  secondary cost elements הם GL accounts type 'Secondary Costs' (FS00). KA06 קיימת אך הניהול עבר
+  ל-FS00.', now at `sap_official_verified` (L4, was L3 `repository_verified`), beside official rows
+  that list the code as not available. Same shape as `tx:AB01` (batch 2) and `tx:VKM3` (batch 1).
+  Two SAP Note numbers in the researcher's gaps list were dropped at the auditor's request (in
+  both lists they belong to the E-Recruiting business function, not to cost elements); the only
+  note the cost-elements item prints is 0002270419. What settles it: a catalog entry for F0731A and a family
+  ruling on a Fiori app as the successor of `not_available`, or an official source that names a
+  successor transaction; alternatively a FIX pass on the s4 field of `data/tx-intel.ts#KA06`
+  against the item.
+- `tx:KB21N` · repository vs official (batch 5, recorded by the repairer, confirmed by the
+  re-verifier): `data/tx-intel.ts#KB21N` says in its s4 field 'זמין ב-S/4HANA. Activity allocation
+  עדיין מרכזי; קיימות אפליקציות Fiori לחיובים פנימיים.', while the What's New 2025 page 'Deletion
+  of Allocation Apps' (loio 1bf724fcecd74b1da46ffca9c93caafc, 2025.000, body read) lists the app
+  'Enter Activity Allocation (KB21N)' as deleted and no longer available by default on the SAP
+  Fiori launchpad, replaced by Manage Direct Activity Allocation (F3697). The page speaks of the
+  launchpad app, the repository field of the transaction; the record authors
+  `fiori_alternative_available`, so the derived claim no longer shows, and it documents the
+  mismatch in its notes. Not fixed (outside this writer's files). What settles it: a FIX pass on
+  the s4 field that separates the launchpad app from the SAP GUI code, and SE93 in the target
+  system for the code itself.
+- Allocation and posting apps · official names outside the id universe (batch 5, researchers
+  and auditors): F2009 'Reassign Costs and Revenues' (fal-app S32OP: leading KB11N, related KB15N
+  and KB41N; successor F2009A; the successor app of the deleted KB15N launchpad app), F3697
+  'Manage Direct Activity Allocation' (leading KB21N, related KB23N, KB24N, KB65, KB66, KB67;
+  successor F3697A; the successor app of the deleted KB21N, KB23N and KB24N launchpad apps), F3915
+  'Manage Statistical Key Figure Values' (leading KB31N, related KB33N and KB34N; successor F3915A)
+  and F0731A 'Manage G/L Account Master Data' (KA06 among its related back-end transactions) are
+  not in `data/fiori/apps.ts`; KB24N and KB34N are not in `lib/route-manifest.generated.ts`. The
+  records name them in prose, with no xref and no successor. Not fixed. What settles it: adding
+  the four apps to the Fiori catalog and the two codes to the transaction catalog; then KB15N,
+  KB21N and KB23N can be re-audited for a Fiori successor (the What's New pages say 'replaced by'
+  of the launchpad apps, not of the SAP GUI codes).
+- 'S4TWL - ACTIVITY-BASED COSTING' family · status token (batch 5, found by the writer from the
+  audits): seven records rest on the same item, and their tokens follow the page each record
+  cites, not the item. KB13N, KB14N and KB31N are `unchanged`; KB11N is
+  `fiori_alternative_available` from 'Reposting Costs and Revenues Manually' (2025.001); KB15N,
+  KB21N and KB23N are `fiori_alternative_available` from 'Deletion of Allocation Apps'. The KB11N
+  auditor read the body of the same help page (the plain-loio record
+  19d6d05275820226e10000000a4450e5, 2025.001) and quotes it: 'As an alternative to the following
+  classic SAP GUI apps you can use the Fiori app Reassign Costs and Revenues ( F2009 ), which
+  covers the same functionalities: Enter Manual Cost Repostings ( KB11N ) Display Manual Cost
+  Repostings ( KB13N ) Reverse Manual Costs Repostings ( KB14N ) ...'. So the page KB13N cites as
+  its status source names F2009 as the alternative for KB13N and KB14N as well, while both are
+  `unchanged` (their researchers read snippets that do not print that sentence). KB31N is
+  `unchanged` while F3915 leads with KB31N in the Fiori Apps Library; batch 4 has the same split
+  (`tx:OBYC` `fiori_alternative_available` from F1273 leading with OBYC, `tx:CJ20N` `unchanged`
+  with F0286A, F0295 and F0539 leading with CJ20N). Written as audited. What
+  settles it: one family ruling on when a Fiori app that covers a code makes it
+  `fiori_alternative_available`, then a re-audit of KB13N and KB14N against the page body and of
+  KB31N against the ruling.
+- `tx:KB11N` · query-dependent snippets (batch 5, auditor and writer): the snippet of 'Controlling
+  and Project System | Public Sector Management' (loio a4e7cc53a8b77214e10000000a174cb4) did not
+  print KB11N in the researcher's SAP_ERP queries, while the generated record's query 'KB11N'
+  (2026-09-24) printed '... Manual reposting of costs (transactions KB11N ...' in both scopes;
+  those two rows are carried as context, and notes (5) says both. The 'Information Sheet for the
+  Transfer of Primary Cost Repostings' snippet likewise prints 'Transactions Create KB11N' in the
+  query 'KB11N' and cuts off before it in 'KB11N Enter Reposting of Primary Costs'. The same help
+  record's F2009 sentence and its KB11N / KB13N / KB14N line come from two queries; the claim now
+  says which. Nothing to settle; recorded so a later reader does not re-open it.
+- KB11N, KB13N, KB14N, KB15N, KB23N · repository gap (batch 5, found by the writer from the depth
+  run): none has an entry in `data/tx-intel.ts`, so all five stay at L1 although each now carries
+  an authored status from an official source (the batch 1 and batch 4 reason). Not fixed
+  (outside this writer's files). What settles it: a `tx-intel.ts` entry for each code.
 
 ## writer deviations (batch 1, 2026-09-28)
 
@@ -870,3 +1010,94 @@ on the tree with both.
     control) before one copy into `data/verification/transactions-d.ts`; both
     `report-coverage.mjs --ids` runs wrote to the scratchpad through `IDS_OUT`. Nothing was
     written to the repository root.
+
+## writer deviations (batch 5, 2026-09-28)
+
+1. Source of the audited JSON. The drafts and verdicts were read from this run's workflow journal
+   (`wf_c86a851f-0da`: the research results for KA06, KB13N, KB14N, KB15N, KB23N and KB31N and the
+   repair results for KB11N and KB21N; the verify results, and the re-verify results for KB11N
+   and KB21N), the objects the writer task relays, and matched against the relayed text before
+   generating (problems / downgrades per id: KA06 8/7, KB11N 5/4, KB13N 13/7, KB14N 6/7, KB15N
+   6/7, KB21N 3/2, KB23N 4/3, KB31N 11/9; the six ids with `fixedRecord`; the KB23N pointer string
+   in `status.source` and its notes pointer '(unchanged from the draft)').
+2. Status sources. Shared consts KB11N_HELP2025, KB13N_HELP2025, KB14N_SIMPL2025,
+   KB15N_WHATSNEW2025, KB21N_WHATSNEW2025, KB23N_WHATSNEW2025 and KB31N_SIMPL2025, each the
+   record's own row, used by identity in evidence[] and in status.source. The KB13N, KB14N, KB21N
+   and KB31N copies were deep-equal to their rows. The KB11N and KB15N copies were shorter
+   versions of their rows (same title, URL, product, edition, release, date and level; after
+   downgrade 1 the KB11N copy is, up to its final full stop, a prefix of evidence[1].claim, and the
+   KB15N copy is a one-sentence summary of evidence[1]); both now point at the row itself. KB23N: the string '__EVIDENCE_1__ (the
+   'Deletion of Allocation Apps' sap_help row above; ...)' became the const for evidence[1]. Each
+   status.release and status.edition equals its source row's. KA06 has no status.
+3. Dates. Every date was "2026-09-25" or "2026-09-24" and was written as DATE25 or DATE24; the
+   three context rows the KB21N repair carried keep DATE24, as the re-verify asked.
+4. KB11N: downgrades 1 and 3 applied as exact replacements (downgrade 1 in evidence[1].claim and in
+   the draft's status.source copy, which the const replaced). Downgrade 2 offered two paths; the
+   first (name the query behind each snippet) was taken, and the 'Better' path (a new
+   sap-help-body run and a repointed URL) was not, because the writer task forbids new lookups and
+   the first path is sufficient. The auditor's own reading of the plain-loio body is recorded in
+   notes (2) as the audit's reading; the claims stay bounded by the snippets, and the notes still
+   say the research did not read the body. Downgrade 4 rewrote a gaps line (gaps never ship with
+   records); its content went into notes (5) without 'בלבד' (rule 3.2) and without 'לא כשורת
+   ראיה', because the carried rows now put an ECC context row in the record, and notes (5) now
+   reconciles the draft's 'the Controlling and Project System snippet does not print KB11N' with
+   the carried rows that print it (query-dependent, see conflicts).
+5. KB21N: downgrade 1 targets a gaps line, which does not ship; the notes' own sentence on the
+   What's New page carries no 'only'. Downgrade 2 applied (const, DATE25 and DATE24). One gap the
+   notes lacked (SAP Note 3126356, named in recommendedAction, not read) was added to the notes;
+   the other five gaps were already there.
+6. KB23N (writer corrections): the notes are the research draft's, as the fixedRecord said, minus
+   the process text 'תפקיד קריאה-בלבד (לא נערך אף קובץ במאגר)' (the KB13N and KB14N audits removed
+   the same kind of text from publicly rendered notes). Its Simplification List claim said 'הפריט
+   אינו קובע שינוי, הסרה או החלפה של KB23N עצמה' and called KB23NP the variant 'שהוסר'; the KB13N,
+   KB14N, KB21N and KB31N audits of the same item (2025 FPS01 item 6.5.2) verified the sentence
+   'Where version 0 is used, there will be no change. Where a delta version is used, the system
+   will issue an error message.' and struck the equivalent wording in their drafts, so the claim
+   now reads 'אינו קובע הסרה או החלפה' plus that sentence, and 'שהוסר' is gone. No new lookup was
+   made. The local path in that claim ('scratchpad/official/SIMPL_OP2025.pdf.txt') is left as
+   audited (the batch 4 practice; the KB13N auditor replaced the same kind of path in its own
+   fixedRecord).
+7. KB14N: the fixedRecord key `gaps` (3 lines) is not a `VerificationRecord` field and was dropped;
+   its three lines (SAP Note 2270408 not read, RIN notes 3493254 and 3671888 not read, no SE93)
+   are in the notes. `aliases: []` kept as audited on KB14N and KB15N (an empty list changes
+   nothing).
+8. KA06: the fixedRecord as audited, plus an Old → New sentence and the coverage-run sentence on
+   the derived status (the `tx:AB01` wording). The two RIN note numbers the auditor struck from the
+   researcher's gaps list are written nowhere.
+9. Content preservation. Rows of the generated records whose source the audited record does not
+   cite were carried over verbatim (`context: true`, access date 2026-09-24), 13 rows: KA06 1
+   (`tcode-catalog.ts#KA06`); KB11N 5 ('Controlling and Project System | Public Sector Management'
+   at S/4HANA 2025.001 and SAP_ERP 6.18.latest, 'Information Sheet for the Transfer of Primary
+   Cost Repostings' at 2025.001, the Fiori Apps Library row of the SAP GUI app KB11N, and the 2023
+   FPS03 item 12.11 row); KB13N 1 (the 2023 FPS03 item 12.11 row, which its 2025 row names in
+   prose); KB23N 3 (the two 'Controlling and Project System' rows and the 2023 FPS03 item 12.11
+   row); KB31N 3 (`tx-intel.ts#KB31N`, `tcode-catalog.ts#KB31N`, and 'Information Sheet for the
+   Transfer of Actual Statistical Key Figures' at SAP_ERP 6.18.latest). In the three
+   Simplification List rows only the generator's frame sentence ('... טרם נקרא במחקר') was
+   replaced, by 'הפריט מובא כאן כהקשר ולא שימש מקור למעמד ברשומה זו.' (the batch 1 and 4
+   sentence), because each record documents that the item was read. The three rows the KB21N
+   repair carried are deep-equal to their generated twins. Every other generated row shares its
+   URL or repoRef (and item number) with an audited row; KB14N and KB15N had nothing to carry.
+10. Old → New lines (HOUSE-RULES rule 3.8). KA06 and KB23N lacked one; they now name the old and
+    new state and the carried rows. KB11N (which named the replacement only), KB13N and KB31N got
+    one sentence on the carried rows (KB11N also the measured before-state). KB14N, KB15N and
+    KB21N carry theirs as audited ('היסטוריה (ישן → חדש)' on KB15N, 'ישן → חדש' on KB21N, '->' on
+    KB31N, kept).
+11. 'Only' words (rule 3.2). None left that describes what a source says. The ones left describe
+    the research or the record's own use of a name or row: KB11N and KB21N 'בפרוזה בלבד', KB14N
+    'שורות הקשר בלבד', KB15N 'כהקשר בלבד', and the carried-row sentences ('הוחלף רק משפט המסגרת').
+12. Taken as audited, not normalized: release notation ('2025.001' on the KA06, KB13N, KB14N and
+    KB21N Simplification List rows, '2025 FPS01' on KB11N, KB15N, KB23N and KB31N, '2023.003' and
+    '2023 FPS03' for the 2023 rows); status.he length (KB11N four sentences, KB15N and KB31N
+    three); SE93 named in
+    recommendedAction (KB13N, KB15N, KB23N) and SU24 (KB23N), names no cited record prints, as in
+    batches 3 and 4; scratchpad paths and line or page ranges inside notes and the KB23N claim;
+    note-number padding (the records write 2270408 on KB11N, KB13N and KB14N, which the 2025
+    FPS01 item header prints as 0002270408; the KA06 item's 0002270419 is in no record field). No
+    record carries `reviewer`, a personal name or an e-mail address.
+13. No foundation-guard change: `transactions-d.ts` is in the graduated repoRef test in
+    `test/evidence-schema.test.ts`, and the FOUNDATION_RECORDS guard no longer exists.
+14. The module was generated into the scratchpad and gated there (rule engine, deep compare,
+    source identity, the earlier 32 records deep-equal to HEAD, isolated tsc) before one copy into
+    `data/verification/transactions-d.ts`; both `report-coverage.mjs --ids` runs wrote to the
+    scratchpad through `IDS_OUT`. Nothing was written to the repository root.
