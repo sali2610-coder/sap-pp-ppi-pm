@@ -141,11 +141,29 @@
    shared const (the record's own evidence row; KA01 stays verification_required
    with no source); the rows of the generated records that the audited records do
    not cite are carried verbatim as context rows (CJ40 6, CKM3 3, CKM3N 3, CKMLCP 3,
-   CKMLCPAVR 3) with their 2026-09-24 access date; no reviewer field. */
+   CKMLCPAVR 3) with their 2026-09-24 access date; no reviewer field.
+   Batch 16 (research 2026-09-25 and 2026-09-28, adversarial audit completed
+   2026-09-28, written the same day; access dates as audited: 2026-09-25, and
+   2026-09-28 for the rows re-read that day): 10 audited records for the QM
+   notification task worklist, the FI-AA fiscal year change, the CO statistical
+   key figure display, the CO-PA line item, report and planning codes, the CO-PC
+   variance calculation, the cost center planning code and the activity price
+   and assessment cycle codes (QM13, AJRW, KB33N, KE24, KE30, KEPM, KKS1, KP06,
+   KSII, KSU1); no record refuted. tx:QM13 (refuted in batches 8 and 11) and
+   tx:AJRW (refuted in batch 13) were re-drafted and re-audited. Eight taken from
+   verdict.fixedRecord (KSU1's notes are its draft's with the verdict's two edits),
+   QM13 and KSII as drafted (their verdicts list no downgrade). Writer correction:
+   QM13's 2023 FPS03 item row carries the house URL of that PDF, the fix the
+   batch-11 audit named for its non-resolving doc id. Every status source is a
+   shared const (the record's own evidence row); the rows of the generated records
+   that the audited records do not cite are carried verbatim as context rows
+   (KE30 6, KEPM 2, KKS1 1, KP06 3, KSII 3, KSU1 1) with their 2026-09-24 access
+   date; no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
 const DATE25 = "2026-09-25";
+const DATE28 = "2026-09-28";
 
 /* ------------------------------------------------------------- shared docs */
 
@@ -2459,6 +2477,223 @@ const KA03_SIMPL2025: Evidence = {
       verificationLevel: "sap_official_verified",
     },
   ],
+};
+
+/* batch 16 status sources (audit completed 2026-09-28, written the same day): one evidence row per
+   record, shared by evidence[] and status.source (QM13, AJRW, KB33N, KE24, KE30, KEPM, KKS1, KP06, KSII,
+   KSU1) */
+
+const QM13_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App QM13 'Display Quality Notification Tasks - Worklist' (SAP GUI), component " +
+    "QM-QN, release S32OP (S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('QM13')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE28,
+  claim:
+    "ספריית האפליקציות הרשמית של Fiori רושמת את QM13 כאפליקציה מסוג SAP GUI בשם 'Display Quality " +
+    "Notification Tasks - Worklist', רכיב QM-QN (Quality Notifications), בסטטוס Published; טרנזקציית ה-GUI " +
+    "המובילה והקשורה: QM13; intent: QualityNotificationTask-displayWorklist. תפקידים: " +
+    "SAP_BR_QUALITY_ENGINEER, SAP_BR_QUALITY_MANAGER, SAP_BR_QUALITY_TECHNICIAN; קטלוגים עסקיים: " +
+    "SAP_QM_BC_NOTIF_DSP ('QM - Notifications Display') ו-SAP_QM_BC_NOTIF_TASK ('QM - Quality Tasks'). " +
+    "הרשומה מפרטת זמינות On-Premise מ-S6OP (1610) ועד S32OP (2025 FPS01), כאשר S15OP ו-S16OP אינם מופיעים " +
+    "ברשימת המהדורות, וכן במהדורות Private Cloud (S29PCE עד S32PCE); ללא predecessor וללא successor רשומים.",
+  verificationLevel: "sap_official_verified",
+};
+
+const AJRW_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.1.9 " +
+    "S4TWL - ASSET ACCOUNTING",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 6.1.9 'S4TWL - ASSET ACCOUNTING' (2025 FPS01, גרסת מסמך 1.36), תת-הסעיף 'Fiscal Year " +
+    "Change/Balance Carryforward': ה-balance carryforward של Asset Accounting משולב עם ה-balance " +
+    "carryforward של Financial Accounting ב-universal journal entry, והמערכת מפעילה אוטומטית חישוב מחדש של " +
+    "ערכי כל הנכסים הקבועים בשנה החדשה. באותו תת-סעיף: 'The program Fixed Assets-Fiscal Year Change " +
+    "(RAJAWE00, transaction AJRW) is no longer necessary and no longer has to be performed at fiscal year " +
+    "change.' באותו פריט, תחת 'Transactions', רשימת 'The following transactions are no longer available' " +
+    "כוללת את AJRW, ותחת 'Programs' רשימת 'The following programs are no longer available' כוללת את " +
+    "RAJAWE00. לא מצוינת טרנזקציה יורשת ל-AJRW.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KB33N_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+    "2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.2 S4TWL - ACTIVITY-BASED COSTING, p. " +
+    "320-323",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (רכיב CO-OM-ABC) קובע ש-Activity-Based Costing מבוסס גרסאות דלתא (Parallel Activity Based " +
+    "Costing) אינו זמין ב-S/4HANA, וש-'Activity-Based Costing using version 0 (Integrated Activity Based " +
+    "Costing in the controlling area settings) is still supported.' לגבי קודי הטרנזקציה: 'Transaction codes " +
+    "do not distinguish parallel and operative activity based costing. Where version 0 is used, there will " +
+    "be no change. Where a delta version is used, the system will issue an error message.' בתא 'Transaction " +
+    "not available in SAP S/4HANA on-premise edition 1511' נכתב: 'Transactions KB31NP, KB33NP and KB34NP are " +
+    "covered by transactions KB31N, KB33N and KB34N.' כלומר KB33N מופיעה בתא זה כטרנזקציה המכסה את KB33NP, " +
+    "ולא כקוד שהוסר. לבדיקת הרלוונטיות הפריט מפנה ל-SE16 על TKA00-COABC (ערך 1 או 2) ועל TKA09-REFVS, " +
+    "וממליץ, אם אפשר לעבוד בלי גרסאות דלתא, למחוק את נתוניהן במערכת ECC לפי note 3126356, או לחלופין לדלג על " +
+    "הודעת השגיאה בבדיקת ההמרה ולא למפות אותן ל-ledger.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KE24_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+    "2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.9 S4TWL - Reporting/Analytics in " +
+    "Controlling",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט 'S4TWL - Reporting/Analytics in Controlling' (2025 FPS01, סעיף 6.5.9) קובע במפורש לגבי KE24: " +
+    "'Traditional drill-down reports, built using transaction KE30, and the line item report (KE24) will " +
+    "continue to work, but will only show revenues and costs where the account assignment is a CO-PA " +
+    "characteristic (ie values are assigned to object type EO). To see CO-PA characteristics that were " +
+    "derived from the account assignments in Controlling use transaction KE24N. Costing-based CO-PA " +
+    "continues to be supported.' כלומר: KE24 ממשיכה לפעול ב-S/4HANA On-Premise, אך היקף הנתונים המוצגים בה " +
+    "מוגבל לשורות עם הקצאת חשבון שהיא מאפיין CO-PA (object type EO); הפריט אינו קובע ש-KE24 הוסרה או הוחלפה, " +
+    "אלא מפנה למגבלת תצוגה ולטרנזקציה KE24N כדרך להשלים את המידע החסר.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KE30_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (document version 1.36) · item 6.5.9 " +
+    "S4TWL - Reporting/Analytics in Controlling",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "הפריט 6.5.9 'S4TWL - Reporting/Analytics in Controlling' (2025 FPS01, גרסת מסמך 1.36) קובע לגבי KE30: " +
+    "'Traditional drill-down reports, built using transaction KE30, and the line item report (KE24) will " +
+    "continue to work, but will only show revenues and costs where the account assignment is a CO-PA " +
+    "characteristic (ie values are assigned to object type EO)'. כלומר הטרנזקציה ממשיכה לפעול ב-S/4HANA, אך " +
+    "היקף הנתונים שהיא מציגה מוגבל.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KEPM_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.13 " +
+    "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "גוף הפריט (עמ' 357-360, KEPM בעמ' 359) נקרא במלואו: 'Transaction KEPM (Profitability Planning) supports " +
+    "both account-based CO-PA within the universal journal and costing-based CO-PA and is still in the menu " +
+    "... As an alternative to transaction KEPM, you can now use the new planning applications in SAP BPC for " +
+    "market segment planning ..., sales planning ... and product cost simulation'. הפריט (Application " +
+    "Component: CO-OM) מונה טרנזקציות שהוסרו מהתפריט או שהן חלק מסקופ התאימות, כגון GP12N, KP06/KP07, " +
+    "7KE1-6; KEPM אינו ברשימה זו, ומצוין כתומך ב-CO-PA מבוסס-חשבונות ומבוסס-עלויות וכקיים בתפריט, עם יישומי " +
+    "תכנון ב-SAP BPC כחלופה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KKS1_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle: "KKS1 Run Variance Calculation - Orders - By Lot (SAP GUI) · SAP Fiori Apps Reference Library · S32OP",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('KKS1')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פלט scripts/fal-app.mjs KKS1 --release S32OP: 'KKS1 @ S32OP (S/4HANA 2025 FPS01): Run Variance " +
+    "Calculation - Orders - By Lot | SAP GUI / SAP GUI | Published | component CO-PC-OBJ-PER (Product Cost " +
+    "by Period)'; 'GUI transactions: leading KKS1; related KKS1'; רשימת המהדורות כוללת מהדורות on-premise " +
+    "מ-S6OP=1610 ועד S32OP=2025 FPS01 (לצד מהדורות Private Cloud ו-S36=2602, S37=2608 שאינן on-premise); " +
+    "'predecessors: -; successors: -'; 'OData: -'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KP06_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING (SAP S/4HANA 2025 FPS01 Simplification " +
+    "List, item 6.5.13)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "פריט 6.5.13 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING' ברשימת הפישוט הרשמית (2025 " +
+    "FPS01, גרסת מסמך 1.36) נוקב ב-KP06 בטבלה שכותרתה 'Transactions which have been removed from the menu in " +
+    "SAP S/4HANA on-premise edition 1511', בשורה: 'CJ40/CJ42 (overall planning on projects) KP06/KP07 (cost " +
+    "centre planning), CJR2/CJR3 (project planning) and KPF6/KPF7 (order planning) - femoved from menu but " +
+    "can still be used.'. כלומר לפי הפריט KP06 הוסרה מהתפריט ב-SAP S/4HANA on-premise 1511 אך עדיין ניתנת " +
+    "לשימוש ('can still be used'); הפריט אינו מציין טרנזקציה יורשת ל-KP06 (השגיאה 'femoved' במקור). אותו " +
+    "נוסח מופיע גם בפריט 12.10 ברשימת הפישוט של 2023 FPS03 (גרסת מסמך 1.35, " +
+    "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf).",
+  verificationLevel: "sap_official_verified",
+};
+
+const KSII_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.5.2 S4TWL - ACTIVITY-BASED " +
+    "COSTING",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "אותו נוסח חוזר בפריט 6.5.2 של מהדורת 2025 FPS01: '... transaction CPV5 has been replaced by KSV5 " +
+    "(distribution), transaction CPP5 by KSU5 (assessment), transaction CPC5 by KSC5 (indirect activity " +
+    "allocation), and CPII by KSII (activity price calculation).' וכן: 'Activity-Based Costing using version " +
+    "0 (Integrated Activity Based Costing in the controlling area settings) is still supported.' גם כאן CPII " +
+    "הוא הקוד שמוחלף, ו-KSII נזכר כקוד ההחלפה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KSU1_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 6.5.2 S4TWL - ACTIVITY-BASED " +
+    "COSTING",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 'S4TWL - ACTIVITY-BASED COSTING' (6.5.2, עמ' 320-323) קובע כי Activity-Based Costing עם Delta " +
+    "Versions אינו זמין ב-SAP S/4HANA, ותחת Business Process related information מפרט את מיפוי הקודים " +
+    "(כלשונו): 'The same applies to the transactions to maintain cycles so CPV1-3 are covered by KSV1-3, " +
+    "CPP1-3 by KSU1-3 and CPC1-3 by KSC1-3.' לגבי KSU1: הפריט קובע שקבוצת KSU1-3 (תחזוקת מחזורים) מכסה את מה " +
+    "שבוצע בעבר בקבוצת CPP1-3 (Activity-Based Costing); הפריט אינו מתאר את KSU1 עצמה כמוחלפת, מוסרת או " +
+    "משתנה, אלא כקוד הממשיך לשמש גם לתרחיש שבעבר שירתו אותו טרנזקציות ה-CPP1-3 הנפרדות. לגבי הקודים עצמם " +
+    "קובע הפריט: 'Transaction codes do not distinguish parallel and operative activity based costing. Where " +
+    "version 0 is used, there will be no change. Where a delta version is used, the system will issue an " +
+    "error message.' הפעולה הנדרשת לפי הפריט: 'Activate Operational Activity Based Costing. Check existing " +
+    "roles and adjust assigned transactions if necessary.'",
+  verificationLevel: "sap_official_verified",
 };
 
 export const TX_VERIFICATION_B: VerificationRecord[] = [
@@ -16987,5 +17222,1393 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "ב-transactions-auto.ts (ישן: ללא הכרעת מעמד; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס " +
       "verification_required; 'מה הוא קובע לגבי הקוד ... טרם נקרא במחקר'; חדש: restricted עם סתירה מתועדת). לא " +
       "בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:QM13",
+    evidence: [
+      QM13_FAL_S32OP,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Selecting and Evaluating Quality Notifications | Quality Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/5747ba53422bb54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "הנושא (loio 5747ba53422bb54ce10000000a174cb4, גרסה 2025.001) הוא דף התיעוד שאליו מפנה רשומת ה-Fiori " +
+          "Apps Library של QM13 (docs link, אותו loio באותיות רישיות). גוף הנושא, שנקרא דרך sap-help-body.mjs, " +
+          "מתאר את הפונקציונליות של רשימות הודעות, משימות, פריטים ופעולות: 'You can create a single-level list for " +
+          "the following objects using the worklist functions for quality notifications: Notifications Items Tasks " +
+          "Activities', ומציין שמרשימה חד-רמתית אפשר לעבור להצגה או לשינוי של הודעת איכות. התקציר והגוף אינם " +
+          "נוקבים במפורש בקוד QM13.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 9.6.4 " +
+          "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE28,
+        claim:
+          "הפריט (רכיב יישום QM, Symptom: 'You are doing a system conversion to SAP S/4HANA, on-premise edition') " +
+          "קובע: 'SAP Internet Transaction Server (ITS) and mySAP Workplace are not available within SAP S/4HANA. " +
+          "Therefore the MiniApps that are based on these techniques are not available within SAP S/4HANA.' " +
+          "וב-Business Process related information: 'As alternatives, you could use the corresponding QM " +
+          "transactions in SAP GUI for HTML or the corresponding Web Dynpro applications'. תחת 'Transaction not " +
+          "available in SAP S/4HANA on-premise edition 1511' הפריט מפרט כלא זמינים בין היתר את QM13WP ('QM13 - " +
+          "Call from Workplace/MiniApp'), WAO_QM13WP ('QM13 - Call from Workplace/MiniApp'), QPQM13 ('QM MiniApp " +
+          "Selection Variant') ו-WAO_QPQM13 ('QM iView Selection Variant Task'). הפריט מפנה ל-'corresponding QM " +
+          "transactions' בלי לנקוב ב-QM13, ואינו מפרט את QM13 עצמה ברשימת הטרנזקציות שאינן זמינות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 34.7 " +
+          "S4TWL - QM WEB Workplace (MiniApps) based on ITS Services",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE28,
+        claim:
+          "אותו פריט (34.7 ברשימת הפישוט של 2023 FPS03) חוזר על אותה קביעה: הפריט מפרט כלא זמינים בין היתר את " +
+          "QM13WP ו-WAO_QM13WP ('QM13 - Call from Workplace/MiniApp'), QPQM13 ('QM MiniApp Selection Variant') " +
+          "ו-WAO_QPQM13 ('QM iView Selection Variant Task'), ומפנה ל-'corresponding QM transactions' בלי לנקוב " +
+          "ב-QM13.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#QM13",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-QM13 מודול QM ואזור 'הודעות איכות', עם כותרת אנגלית 'Display Quality " +
+          "Notification Items List'. כותרת זו סותרת את שם הרשומה הרשמית ב-Fiori Apps Library ('Display Quality " +
+          "Notification Tasks - Worklist') ומסומנת לתיקון; אין לחזור עליה כשם הטרנזקציה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#QM13",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#QM13",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת tx-intel של QM13 נותנת את השם 'Display Quality Notification Tasks - Worklist', תואם לרשומת " +
+          "ה-Fiori Apps Library, ומתארת רשימת עבודה לתצוגה של משימות הודעה, עם הטבלאות QMSM ו-QMEL וטרנזקציות " +
+          "דומות QM10, QM11, QM12; הרשומה מסומנת needs-verification.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#QM13",
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "QM13 (Display Quality Notification Tasks - Worklist) רשומה בספריית האפליקציות הרשמית של Fiori " +
+        "כאפליקציית SAP GUI בסטטוס Published במהדורות On-Premise מ-1610 ועד 2025 FPS01 (הקודים S15OP ו-S16OP " +
+        "אינם מופיעים ברשימה), ללא predecessor וללא successor. פריט הפישוט 'S4TWL - QM WEB Workplace (MiniApps) " +
+        "based on ITS Services' (2023 FPS03 ו-2025 FPS01) מפרט, בין שאר אובייקטי ה-ITS/MiniApp שאינם זמינים, את " +
+        "QM13WP, WAO_QM13WP, QPQM13 ו-WAO_QPQM13; שני הפריטים מפנים כחלופה ל-'the corresponding QM transactions " +
+        "in SAP GUI for HTML' בלי לנקוב בשם QM13.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: QM13_FAL_S32OP,
+      recommendedAction:
+        "להמשיך להשתמש ב-QM13 להצגת רשימת העבודה של משימות הודעות איכות ב-S/4HANA On-Premise. אם הייתה גישה דרך " +
+        "ITS/mySAP Workplace MiniApp (QM13WP), לעבור לטרנזקציות ה-QM ב-SAP GUI for HTML או ליישומי Web Dynpro " +
+        "המתאימים, כמצוין בפריט הפישוט. לוודא הקצאת תפקיד (PFCG) לפי הצורך; ספריית ה-Fiori משייכת את האפליקציה " +
+        "לתפקידים SAP_BR_QUALITY_ENGINEER, SAP_BR_QUALITY_MANAGER ו-SAP_BR_QUALITY_TECHNICIAN.",
+    },
+    xrefs: ["tx:QM10", "tx:QM11", "tx:QM12", "table:QMSM"],
+    lastVerifiedAt: DATE28,
+    notes:
+      "מחקר: fal-app.mjs QM13 --release S32OP הורץ מחדש ב-2026-09-28 (SAP GUI, Published, QM-QN; מהדורות " +
+      "On-Premise S6OP=1610 עד S32OP=2025 FPS01, כאשר S15OP ו-S16OP אינם מופיעים ברשימה, Private Cloud S29PCE " +
+      "עד S32PCE, וגם S36=2602 ו-S37=2608; ללא predecessor/successor). sap-help-search.mjs 'Selecting and " +
+      "Evaluating Quality Notifications' ב-SAP_S4HANA_ON-PREMISE (21 תוצאות; הרשומה הראשונה היא ה-loio שאליו " +
+      "מפנה ה-docs link של FAL), וגוף הנושא נקרא ב-sap-help-body.mjs; הגוף אינו נוקב ב-QM13. חיפושים קודמים: " +
+      "'QM13 Display Quality Notification Items List' ו-'QM WEB Workplace MiniApps ITS Services' " +
+      "ב-SAP_S4HANA_ON-PREMISE (21 תוצאות כל אחד), 'QM13' ב-SAP_ERP (21 תוצאות, אף רשומה אינה נוקבת ב-QM13). " +
+      "פריטי הפישוט 'S4TWL - QM WEB Workplace (MiniApps) based on ITS Services' (2023 FPS03 פריט 34.7, 2025 " +
+      "FPS01 פריט 9.6.4) נקראו מ-scratchpad/official/; הם מפרטים כלא זמינים, בין שאר אובייקטי ה-ITS/MiniApp, " +
+      "את QM13WP, WAO_QM13WP, QPQM13 (QM MiniApp Selection Variant) ו-WAO_QPQM13 (QM iView Selection Variant " +
+      "Task), ומפנים ל-'corresponding QM transactions' בלי לנקוב ב-QM13. סתירת מאגר: tcode-catalog.ts#QM13 " +
+      "נותן 'Display Quality Notification Items List', בעוד tx-intel.ts#QM13 ורשומת FAL נותנים 'Display " +
+      "Quality Notification Tasks - Worklist'; יש לתקן את כותרת הקטלוג. מעמד ECC לא נקבע ממקור רשמי. היסטוריה " +
+      "(Old → New): הרשומה הדטרמיניסטית tx:QM13 ב-data/verification/transactions-auto.ts " +
+      "(scripts/qa/gen-tx-evidence.mts, 2026-09-24, שורות הקשר בלבד וללא הכרעת מעמד; לפני הכתיבה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified) מוחלפת ברשומה זו עם status " +
+      "'unchanged'; כל חמש שורות ההקשר שלה מצוטטות כאן. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:AJRW",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#AJRW",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר מגדיר את AJRW כ'שינוי שנת כספים (נכסים)' (Fiscal Year Change), מודול FI, תחום " +
+          "'חשבונאות נכסים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#AJRW",
+      },
+      AJRW_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.1.16 " +
+          "S4TWL - ASSET ACCOUNTING",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פריט 6.1.16, גם הוא בכותרת 'S4TWL - ASSET ACCOUNTING' (2025 FPS01, גרסת מסמך 1.36), מדפיס אותו משפט על " +
+          "RAJAWE00/AJRW בתת-הסעיף 'Fiscal Year Change/Balance Carryforward'. תחת 'Transactions' הוא מונה את AJRW " +
+          "ברשימת 'The following transactions are no longer available', יחד עם ABST/ABST2/ABSTL, ABAWN, ABUB, " +
+          "AW01_AFAR, ABF1/ABF1L, OASV, AB02, ASKB/ASKBN, ABMW ו-ABCO. תחת 'Programs' מופיעה RAJAWE00 ברשימת 'The " +
+          "following programs are no longer available'. לא מצוין יורש ל-AJRW, בשונה מ-AJAB, שהפריט מפנה ממנה " +
+          "ל-FAA_CLOSE_FISC_YEARS, ומ-ABSO_OLD, שהוחלפה ב-AB01L.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 10.2 " +
+          "S4TWL - ASSET ACCOUNTING (sub-sections 10.2.25 Fiscal Year Change/Balance Carryforward and 10.2.34 User " +
+          "Interface)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 10.2 'S4TWL - ASSET ACCOUNTING' (2023 FPS03, גרסת מסמך 1.35): תת-הסעיף 10.2.25 'Fiscal Year " +
+          "Change/Balance Carryforward' מדפיס את אותו משפט, 'The program Fixed Assets-Fiscal Year Change " +
+          "(RAJAWE00, transaction AJRW) is no longer necessary and no longer has to be performed at fiscal year " +
+          "change.' תת-הסעיף 10.2.34 'User Interface' מונה את AJRW ברשימת 'The following transactions are no " +
+          "longer available' ואת RAJAWE00 ברשימת 'The following programs are no longer available', בלי יורש נקוב. " +
+          "כלומר הקביעה מופיעה כבר ב-2023 FPS03.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Fiscal Year Change in Asset Accounting: FAQ",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/67e323b7117e4c91869c258933f47182/290e97c27ba3416cb7254cabe4d5dec4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "טופיק ה-FAQ (Asset Accounting (FI-AA), 2025 FPS01) נקרא במלואו עם sap-help-body.mjs. לפיו, בתקופה " +
+          "האחרונה של שנת הכספים 'you must schedule a job to perform the balance carryforward for all " +
+          "representative ledgers and thus open the new fiscal year', והנתיב שהוא מציג הוא Fixed Assets > Periodic " +
+          "Processing > Fiscal Year Change > Balance Carryforward - Central FI (Transaction FAGLGVTR), או " +
+          "האפליקציה Schedule General Ledger Jobs עם תבנית ה-job Balance Carryforward. הטופיק אינו מזכיר את AJRW " +
+          "ואת RAJAWE00.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reorganization of Fixed Assets",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/56781bd9564b4b3198781e8b702a3552.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE28,
+        claim:
+          "טופיק General Ledger Accounting (FI-GL) בגרסה 2023.latest, נקרא עם sap-help-body.mjs. תחת " +
+          "Prerequisites, בסעיף 'Before the transfer posting', הוא קובע: 'For the fixed assets to be reorganized, " +
+          "all period-end closing activities need to have been performed completely and closed for the prior " +
+          "period before that prior period can be closed (programs Asset Fiscal Year Change ( RAJAWE00 ) and " +
+          "Year-End Closing: Asset Accounting ( RAJABS00 )).' הטופיק מזכיר את התוכנית RAJAWE00 ולא את קוד " +
+          "הטרנזקציה AJRW, והוא אינו קובע אם התוכנית זמינה. המשפט עומד במתח מול פריט הפישוט S4TWL - ASSET " +
+          "ACCOUNTING, שמונה את RAJAWE00 ברשימת התוכניות שאינן זמינות עוד. בדיקה ב-SE38 במערכת היעד תכריע.",
+        verificationLevel: "conflicting_sources",
+      },
+    ],
+    status: {
+      status: "legacy_ecc_only",
+      he:
+        "פריט הפישוט 'S4TWL - ASSET ACCOUNTING' מופיע ב-2023 FPS03 וחוזר ב-2025 FPS01. לפיו AJRW (התוכנית " +
+        "RAJAWE00) אינה נחוצה עוד בשינוי שנת כספים ואין צורך להריץ אותה, כי ה-balance carryforward של Asset " +
+        "Accounting משולב עם ה-balance carryforward של Financial Accounting ב-Universal Journal. אותו פריט מונה " +
+        "את AJRW ברשימת הטרנזקציות שאינן זמינות עוד ואת RAJAWE00 ברשימת התוכניות שאינן זמינות עוד, ואינו נוקב " +
+        "בטרנזקציה יורשת.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: AJRW_SIMPL2025,
+      recommendedAction:
+        "אין לכלול את AJRW בתהליך שינוי שנת הכספים ב-S/4HANA. לפי פריט הפישוט, ה-balance carryforward של נכסים " +
+        "קבועים משולב עם ה-balance carryforward של Financial Accounting. לפי טופיק ה-FAQ 'Fiscal Year Change in " +
+        "Asset Accounting: FAQ', בתקופה האחרונה של השנה מתזמנים job לביצוע ה-balance carryforward לכל " +
+        "ה-representative ledgers, דרך Balance Carryforward - Central FI (FAGLGVTR) או דרך האפליקציה Schedule " +
+        "General Ledger Jobs. לא בוצעה בדיקה במערכת חיה, ולכן יש לוודא במערכת S/4HANA On-Premise היעד (למשל " +
+        "ב-SE93 וב-SE38) שהקוד AJRW והתוכנית RAJAWE00 אינם זמינים, במיוחד אם מתוכנן reorganization של נכסים " +
+        "קבועים (ראו שורת הראיה Reorganization of Fixed Assets).",
+    },
+    xrefs: ["tx:AJAB", "tx:FAGLGVTR"],
+    lastVerifiedAt: DATE28,
+    notes:
+      "מה נבדק: (1) קטלוג הטרנזקציות של המאגר (tcode-catalog.ts#AJRW) לזיהוי הקוד. (2) חיפושי " +
+      "sap-help-search.mjs: \"AJRW\" בסקופ SAP_S4HANA_ON-PREMISE החזיר 4 תוצאות ללא קשר לקוד. \"AJRW\" בסקופ " +
+      "SAP_ERP החזיר 12 תוצאות לא רלוונטיות. \"RAJAWE00\" בסקופ SAP_S4HANA_ON-PREMISE החזיר בריצה של 2026-09-28 " +
+      "עשר תוצאות (בריצת ביקורת קודמת: 11; מספר התוצאות משתנה בין ריצות, 10, 11 ו-13 באותו יום): שלושה טופיקים " +
+      "של reorganization בגרסה 2023.latest (Object Type: Fixed Asset, Segment Reorganization of Fixed Assets, " +
+      "Reorganization of Fixed Assets), שני טופיקים של year-end closing (2020.000, 1909.000) שעוסקים ב-AJAB " +
+      "וב-RAJABS00, וחמש תוצאות לא רלוונטיות. גוף הטופיק Reorganization of Fixed Assets (2023.latest, loio " +
+      "56781bd9564b4b3198781e8b702a3552) נקרא עם sap-help-body.mjs: הוא מציין כתנאי מקדים ל-reorganization " +
+      "שפעולות סגירת התקופה הקודמת בוצעו, ומזכיר בסוגריים את התוכניות Asset Fiscal Year Change (RAJAWE00) " +
+      "ו-Year-End Closing: Asset Accounting (RAJABS00). שורת הראיה מסומנת conflicting_sources. \"Fiscal Year " +
+      "Change Asset Accounting\" בסקופ SAP_S4HANA_ON-PREMISE החזיר 21 תוצאות. התוצאה הראשונה, 'Fiscal Year " +
+      "Change in Asset Accounting: FAQ' (versionId 2025.001, loio 290e97c27ba3416cb7254cabe4d5dec4), נקראה " +
+      "במלואה עם sap-help-body.mjs. היא מציגה את FAGLGVTR כנתיב ה-balance carryforward ואינה מזכירה את AJRW " +
+      "ואת RAJAWE00. (3) פריט הפישוט 'S4TWL - ASSET ACCOUNTING' נקרא ב-2025 FPS01 (גרסת מסמך 1.36): פריט 6.1.9 " +
+      "סביב השורות 10092, 10420 ו-10442, ופריט 6.1.16 סביב השורות 12094, 12418 ו-12448 בקובץ " +
+      "scratchpad/official/SIMPL_OP2025.pdf.txt. ב-2023 FPS03 (גרסת מסמך 1.35) נקרא פריט 10.2 (שורה 15239) עם " +
+      "תתי-הסעיפים 10.2.25 (שורה 15733) ו-10.2.34 (השורות 16009 ו-16029) בקובץ " +
+      "scratchpad/official/SIMPL_OP2023.pdf.txt. בשתי המהדורות AJRW מופיעה ברשימת הטרנזקציות שאינן זמינות עוד " +
+      "ו-RAJAWE00 ברשימת התוכניות שאינן זמינות עוד, בלי יורש, בשונה מ-AJAB (FAA_CLOSE_FISC_YEARS) ומ-ABSO_OLD " +
+      "(AB01L). FAA_CLOSE_FISC_YEARS ו-AB01L אינם נמצאים ב-ROUTE_MANIFEST.tcodes, ולכן לא נוספו כ-xref. (4) " +
+      "fal-app.mjs לא הורץ, כי אף מקור שנקרא אינו נוקב באפליקציית Fiori שמובילה עם AJRW. היסטוריה: רשומה זו " +
+      "מחליפה את רשומת ההקשר הדטרמיניסטית tx:AJRW בקובץ data/verification/transactions-auto.ts " +
+      "(scripts/qa/gen-tx-evidence.mts). Old → New: הרשומה הישנה הציגה את פריטי הפישוט כשורות context בלבד, " +
+      "בלי הכרעת מעמד (לפני הכתיבה הציג report-coverage.mjs --ids סטטוס verification_required); שורות ההקשר " +
+      "שלה מצוטטות כאן, למעט שורת תת-הסעיף 10.2.25 ברשימת 2023 FPS03, שלא הועתקה: תת-הסעיף נקרא ומצוטט בשורת " +
+      "פריט 10.2. הטיוטה הראשונה קבעה status=simplified. תיקון ביקורת ראשון: הסטטוס שונה מ-simplified " +
+      "ל-legacy_ecc_only לפי התקדים tx:ABST2 (אותה רשימה, בלי יורש). נוספה שורת ראיה ל-FAQ, והיא מבססת את " +
+      "ה-xref ל-tx:FAGLGVTR. הוסר הניסוח שה-carryforward 'מתבצע אוטומטית' והניסוח 'אין להריץ'. שורת 2023 מצטטת " +
+      "עכשיו את פריט 10.2 בשמו. תיקון ביקורת שני: תוקן דיווח חיפוש RAJAWE00, נוספה שורת ראיה לטופיק " +
+      "Reorganization of Fixed Assets, והמתח מול פריט הפישוט סומן בשורה כ-conflicting_sources. שורות הראיה " +
+      "המקוריות נחתמו ב-2026-09-25, ושורת ה-reorganization נחתמה ב-2026-09-28. לא בוצעה בדיקה במערכת SAP חיה, " +
+      "ו-SE93/SE38 לא הורצו.",
+  },
+  {
+    id: "tx:KB33N",
+    evidence: [
+      KB33N_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 - Feature Pack Stack 3 (document version 1.35) · item 12.11 S4TWL - ACTIVITY-BASED COSTING",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט ברשימת 2023 FPS03 חוזר על אותו נוסח: 'Activity-Based Costing using version 0 (Integrated " +
+          "Activity Based Costing in the controlling area settings) is still supported.', 'Where version 0 is " +
+          "used, there will be no change.' ו-'Transactions KB31NP, KB33NP and KB34NP are covered by transactions " +
+          "KB31N, KB33N and KB34N.'",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App KB33N 'Display Statistical Key Figures' (SAP GUI), release S32OP (S/4HANA 2025 " +
+          "FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('KB33N')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות של Fiori (scripts/fal-app.mjs KB33N --release S32OP) רושמת את KB33N כאפליקציה " +
+          "'Display Statistical Key Figures' מסוג SAP GUI בסטטוס 'Published', רכיב CO (Controlling), תפקיד " +
+          "SAP_BR_OVERHEAD_ACCOUNTANT, טרנזקציה מובילה וקשורה KB33N, ללא predecessor וללא successor " +
+          "('predecessors: -; successors: -'). רשימת המהדורות נפתחת ב-S6OP (1610) ומגיעה עד S32OP (2025 FPS01), " +
+          "כולל מהדורות Private Cloud מקבילות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Information Sheet for the Transfer of Actual Statistical Key Figures | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/8042de531ed3424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Controlling (CO), versionId 2025.001, loio 8042de531ed3424de10000000a174cb4) נוקבת " +
+          "ב-KB33N בסניפט: 'Display KB33N Delete KB34N Additional Programs Reports for displaying and evaluating " +
+          "transferred data ... Number assignment Internal Transactions Create KB31N'. בגיליון המידע להעברת ערכי " +
+          "מפתח סטטיסטיים בפועל, KB33N מופיעה כפעולת ה-Display לצד KB31N (Create) ו-KB34N (Delete).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Information Sheet for the Transfer of Actual Statistical Key Figures | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_ERP/8cf202ad62c04521b934c06b4a898efd/8042de531ed3424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית בצד SAP ERP (Controlling (CO), versionId 6.18.latest, אותו loio) נוקבת באותו סניפט " +
+          "'Display KB33N Delete KB34N ... Create KB31N', כך שאותה חלוקת תפקידים מתועדת גם עבור ECC.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#KB33N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "רשומת המאגר מתארת את KB33N כ'חשבונאות עלויות פנימית (CO-OM)', מודול CO, ורושמת בשדה s4: 'קיים וזמין " +
+          "ב-S/4HANA'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KB33N",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KB33N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-KB33N את הכותרת העברית 'הצגת ערכי מפתח סטטיסטיים' ואת הכותרת האנגלית " +
+          "'Display Statistical Key Figures', מודול CO, תחום 'רישומי בקרה'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KB33N",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "כשה-Controlling Area עובד בגרסה 0 (Integrated Activity-Based Costing), KB33N נשארת ללא שינוי ב-S/4HANA " +
+        "On-Premise. פריט הפישוט 'S4TWL - ACTIVITY-BASED COSTING' (2023 FPS03 ו-2025 FPS01) קובע 'Where version " +
+        "0 is used, there will be no change' ומציין את KB33N כטרנזקציה המכסה את KB33NP. בעבודה עם גרסת דלתא " +
+        "המערכת תוציא הודעת שגיאה, כי Parallel Activity-Based Costing אינו זמין ב-S/4HANA. ספריית Fiori רושמת את " +
+        "KB33N כאפליקציית SAP GUI בסטטוס 'Published' עד 2025 FPS01, ללא successor.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: KB33N_SIMPL2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-KB33N להצגת ערכי מפתח סטטיסטיים כשה-Controlling Area עובד בגרסה 0. לפני ההמרה לבדוק " +
+        "ב-SE16 את TKA00-COABC (ערך 1 או 2 מציין Parallel Calculation) ואת TKA09-REFVS (גרסאות דלתא). אם קיימות " +
+        "גרסאות דלתא, הפריט ממליץ למחוק את נתוניהן במערכת ECC לפי note 3126356 לפני בדיקת ההמרה, או לחלופין לדלג " +
+        "על הודעת השגיאה ולא למפות אותן ל-ledger.",
+    },
+    xrefs: ["tx:KB31N"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "רשומה קודמת ב-data/verification/transactions-auto.ts (רשומה דטרמיניסטית מ-2026-09-24, ללא הכרעת מעמד, " +
+      "עם שורות פריט פישוט שטרם נקראו). היסטוריה (Old → New): ללא הכרעת מעמד (לפני הכתיבה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified) → unchanged, בתנאי שעובדים " +
+      "בגרסה 0; כל חמש שורות ההקשר שלה מצוטטות כאן. שלבים: (1) נבדקו data/tcode-catalog.ts#KB33N " +
+      "ו-data/tx-intel.ts#KB33N (מודול CO, שדה s4 'קיים וזמין ב-S/4HANA'), שתיהן נשמרו כשורות הקשר עם תאריך " +
+      "הגישה המקורי 2026-09-24; (2) node scripts/sap-help-search.mjs \"KB33N\" בסקופ SAP_S4HANA_ON-PREMISE החזיר " +
+      "21 רשומות, ובסקופ SAP_ERP 20 רשומות. בשתיהן הרשומה המובילה היא 'Information Sheet for the Transfer of " +
+      "Actual Statistical Key Figures' עם הסניפט 'Display KB33N Delete KB34N'; (3) node scripts/fal-app.mjs " +
+      "KB33N --release S32OP: SAP GUI, Published, ללא predecessor או successor, RIN notes 3493254 ו-3671888 " +
+      "(לא נקראו); (4) נקרא הפריט 'S4TWL - ACTIVITY-BASED COSTING' ברשימות 2025 FPS01 (פריט 6.5.2, מסמך 1.36) " +
+      "ו-2023 FPS03 (פריט 12.11, מסמך 1.35) מתוך scratchpad/official/. F3915 'Manage Statistical Key Figure " +
+      "Values' (רשומת tx:KB31N מתעדת אותו עם KB33N כטרנזקציה קשורה) אינו ב-data/fiori/apps.ts ולכן אינו xref. " +
+      "tx:KB34N מוזכר במקורות אך אינו ביקום ה-xref. לא נקראו SAP Note 3126356 ו-SAP Note 2270408 מעבר לציטוט " +
+      "בפריט. לא נבדק אם ה-Controlling Area של הלקוח משתמש בגרסאות דלתא (TKA00-COABC, TKA09-REFVS). לא בוצעה " +
+      "בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:KE24",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#KE24",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את KE24 כ'רווחיות (CO-PA Profitability Analysis)', מודול CO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KE24",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KE24",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-KE24 את הכותרת האנגלית 'Display Line Items - Actual', תחום 'ניתוח " +
+          "רווחיות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KE24",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving of CO-PA Transaction Data | Data Archiving in Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a87b965528884868b4404902123c6004/ce0bd353c6244308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Data Archiving in Controlling (CO), 2025 FPS01, versionId 2025.001, loio " +
+          "ce0bd353c6244308e10000000a174cb4) מציינת ש-KE24, KE25 ו-KE30 משמשות להצגת פריטי שורה, בסניפט: 'KE24, " +
+          "KE25 und KE30 (for line-item-based reports) for displaying line items ... To display archived data from " +
+          "line items ... you can and should use transactions ...'. רשומה זו מובאת כהקשר בלבד: היא עוסקת בארכוב, " +
+          "לא בסטטוס מיגרציה של KE24.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App KE24 'Display Actual Line Items - Profitability Analysis' (SAP GUI), release " +
+          "S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('KE24')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "פלט scripts/fal-app.mjs KE24 --release S32OP: הטרנזקציה KE24 רשומה בספריית האפליקציות הרשמית של Fiori " +
+          "כאפליקציית SAP GUI בסטטוס Published, רכיב CO-PA (Profitability Analysis), עם היסטוריית מהדורות מ-S6OP " +
+          "(1610) ועד S32OP (2025 FPS01) ברציפות; השדות 'predecessors' ו-'successors' ריקים ('-'), כלומר ספריית " +
+          "Fiori אינה מציגה עבורה טרנזקציה או אפליקציה מחליפה.",
+        verificationLevel: "sap_official_verified",
+      },
+      KE24_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+          "2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.11 S4TWL - Profitability Analysis",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט 'S4TWL - Profitability Analysis' (2025 FPS01, סעיף 6.5.11) קובע: 'Existing reporting " +
+          "transactions, such as KE30 and KE24, will continue to work, but also investigate possible usage of the " +
+          "Fiori apps to display information by market segment, including additional currencies and data from the " +
+          "extension ledgers.' הפריט אינו נוקב באפליקציית Fiori ספציפית בשם או במזהה כתחליף ל-KE24, אלא ממליץ " +
+          "לבחון שימוש באפליקציות Fiori לדיווח לפי מקטע שוק לצד המשך השימוש ב-KE24.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 - Feature Pack Stack 3 (document version 1.35) · item 12.16 S4TWL - Reporting/Analytics in " +
+          "Controlling",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט 'S4TWL - Reporting/Analytics in Controlling' (2023 FPS03, סעיף 12.16) נושא את אותו נוסח: " +
+          "'Traditional drill-down reports, built using transaction KE30, and the line item report (KE24) will " +
+          "continue to work, but will only show revenues and costs where the account assignment is a CO-PA " +
+          "characteristic (ie values are assigned to object type EO). To see CO-PA characteristics that were " +
+          "derived from the account assignments in Controlling use transaction KE24N. Costing-based CO-PA " +
+          "continues to be supported.' זהה במהות לפריט 6.5.9 של 2025 FPS01: הגבלת תצוגה, לא החלפה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 - Feature Pack Stack 3 (document version 1.35) · item 12.17 S4TWL - Profitability Analysis",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט 'S4TWL - Profitability Analysis' (2023 FPS03, סעיף 12.17) נושא את אותו נוסח כמו הפריט המקביל " +
+          "ב-2025 FPS01: 'Existing reporting transactions, such as KE30 and KE24, will continue to work, but also' " +
+          "(בחינת אפליקציות Fiori לדיווח לפי מקטע שוק). אין נקיבה באפליקציית Fiori ספציפית כתחליף ל-KE24.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "restricted",
+      he:
+        "פריט הפישוט 'S4TWL - Reporting/Analytics in Controlling' (2025 FPS01, 2023 FPS03) קובע ש-KE24 ממשיכה " +
+        "לפעול, אך מציגה רק הכנסות ועלויות שבהן הקצאת החשבון היא מאפיין CO-PA (object type EO), ומפנה ל-KE24N " +
+        "להצגת מאפייני CO-PA שנגזרו מהקצאות ב-Controlling. פריט 'S4TWL - Profitability Analysis' מוסיף שדוחות " +
+        "קיימים כמו KE24 ממשיכים לעבוד וממליץ לבחון גם אפליקציות Fiori לדיווח לפי מקטע שוק, בלי לנקוב באפליקציה " +
+        "מחליפה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: KE24_SIMPL2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-KE24 להצגת פריטי שורה בפועל, בהתחשב במגבלה שהתצוגה כוללת רק שורות שבהן הקצאת החשבון היא " +
+        "מאפיין CO-PA (object type EO); לבדוק את KE24N כאשר נדרשים מאפייני CO-PA שנגזרו מהקצאות ב-Controlling; " +
+        "לבחון בנפרד את אפליקציות ה-Fiori לדיווח לפי מקטע שוק (Margin Analysis), כפי שממליצים פריטי הפישוט, מול " +
+        "הדרישה העסקית בפועל.",
+    },
+    xrefs: ["tx:KE30", "tx:KE25", "tx:KE21N"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) חיפוש (grep) במאגר: KE24 מוגדרת ב-data/tcode-catalog.ts וב-data/tcode-directory.ts כ'הצגת " +
+      "פריטי שורה - בפועל' / 'פריטי CO-PA', מודול CO. ברשומה האוטומטית הקודמת " +
+      "data/verification/transactions-auto.ts#tx:KE24 (scripts/qa/gen-tx-evidence.mts, 2026-09-24), שלושה " +
+      "מארבעת פריטי הפישוט (6.5.9 ו-6.5.11 ברשימת 2025 FPS01, 12.16 ברשימת 2023 FPS03) הופיעו כשורות context " +
+      "בלבד עם ההערה המפורשת 'מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר', וללא " +
+      "הכרעת מעמד (לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת " +
+      "repository_verified); כל שבע שורות ההקשר שלה מצוטטות כאן. ישן → חדש: הרשומה הזו קוראת את ארבעת הפריטים " +
+      "בפועל וקובעת סטטוס restricted. (2) node scripts/fal-app.mjs KE24 --release S32OP: אישר קיום רציף " +
+      "כאפליקציית SAP GUI מ-1610 ועד 2025 FPS01, ללא predecessor/successor. (3) node " +
+      "scripts/sap-help-search.mjs \"KE24N Margin Analysis line items\" בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות): " +
+      "מתוך 21 הרשומות רק הראשונה (Archiving of CO-PA Transaction Data) נוקבת ב-KE24, בהקשר ארכוב. רשומה אחת " +
+      "(What's New in SAP S/4HANA 2020, 2020.000) מתארת אפליקציית Fiori נפרדת בשם 'Display Line Items - Margin " +
+      "Analysis' לפריטי שורה ביומן, אך אינה מציינת אותה כמחליפה של KE24, ולא נמצא לה מזהה Fiori " +
+      "ב-data/fiori/apps.ts. שאר הרשומות עוסקות בנושאים אחרים של Margin Analysis ודיווח מכירות. לכן לא הוגדרו " +
+      "xref או successor. (4) הטקסט המלא של ארבעת פריטי הפישוט נקרא מ-scratchpad/official/SIMPL_OP2025.pdf.txt " +
+      "(סעיפים 6.5.9, 6.5.11) ומ-scratchpad/official/SIMPL_OP2023.pdf.txt (סעיפים 12.16, 12.17); התוכן זהה " +
+      "במהות בין שתי המהדורות, ואין סתירה. KE24N מוזכרת בפריטים כטרנזקציה משלימה, אך אינה קיימת " +
+      "ב-lib/route-manifest.generated.ts, ולכן אינה xref ואינה successor; היא מוזכרת בפרוזה בלבד. מה שיכריע " +
+      "סופית: הרצת KE24 ו-KE24N במערכת S/4HANA On-Premise היעד (SE93 ובדיקה חיה) לאישור ההתנהגות בתצורת הלקוח " +
+      "(Margin Analysis מול Costing-based CO-PA). לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:KE30",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KE30",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-KE30 את הכותרת האנגלית 'Execute Profitability Report', מודול CO, תחום " +
+          "'ניתוח רווחיות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KE30",
+        context: true,
+      },
+      KE30_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 (document version 1.35) · item 12.16 " +
+          "S4TWL - Reporting/Analytics in Controlling",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט 12.16 'S4TWL - Reporting/Analytics in Controlling' (2023 FPS03, גרסת מסמך 1.35) חוזר על אותה " +
+          "קביעה לגבי KE30: 'Traditional drill-down reports, built using transaction KE30, and the line item " +
+          "report (KE24) will continue to work, but will only show revenues and costs where the account assignment " +
+          "is a CO-PA characteristic (ie values are assigned to object type EO)... Costing-based CO-PA continues " +
+          "to be supported'. הנוסח זהה ב-2023 FPS03 וב-2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App KE30 'Run Profitability Report - Profitability Analysis' (SAP GUI), release " +
+          "S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('KE30')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית Fiori Apps Library רושמת את KE30 כאפליקציה 'Run Profitability Report - Profitability Analysis' " +
+          "מסוג SAP GUI במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'. שדות האפליקציות הקודמות והיורשות " +
+          "ברשומה ריקים.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#KE30",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את KE30 כ'רווחיות (CO-PA Profitability Analysis)', מודול CO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KE30",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving of CO-PA Transaction Data | Data Archiving in Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a87b965528884868b4404902123c6004/ce0bd353c6244308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Data Archiving in Controlling (CO), 2025 FPS01 (Feb 2026), versionId 2025.001, " +
+          "loio ce0bd353c6244308e10000000a174cb4) נוקבת בקוד KE30 בסניפט: '... view), COEJ, COBK for margin " +
+          "analysis), you can and should use transactions KE24, KE25 und KE30 ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Archiving CO-PA Transaction Data | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_ERP/0c14fb2ee0f445d292f81a2a77e91bf4/ce0bd353c6244308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Controlling (CO), 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "ce0bd353c6244308e10000000a174cb4) נוקבת בקוד KE30 בסניפט: '... Analysis), you can and should use the " +
+          "transactions for displaying line items: KE24, KE25, and KE30 ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F0925 'Market Segments - Plan/Actual' (Web Dynpro), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0925')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F0925 'Market " +
+          "Segments - Plan/Actual' (Web Dynpro, 'Deprecated') עם קוד הטרנזקציה המוביל KE30.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F0931 'Market Segments - Plan/Actual YTD' (Web Dynpro), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0931')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F0931 'Market " +
+          "Segments - Plan/Actual YTD' (Web Dynpro, 'Deprecated') עם קוד הטרנזקציה המוביל KE30.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F0937 'Market Segments - Plan/Actual with Currency Translation' (Web Dynpro), " +
+          "release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0937')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F0937 'Market " +
+          "Segments - Plan/Actual with Currency Translation' (Web Dynpro, 'Deprecated') עם קוד הטרנזקציה המוביל " +
+          "KE30.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "restricted",
+      he:
+        "שני פריטי הפישוט 'S4TWL - Reporting/Analytics in Controlling' (2025 FPS01 פריט 6.5.9, 2023 FPS03 פריט " +
+        "12.16) קובעים ש-KE30 ממשיכה לפעול ב-S/4HANA On-Premise, אך מציגה רק הכנסות ועלויות שבהן שיוך החשבון הוא " +
+        "מאפיין CO-PA (object type EO); CO-PA מבוסס-עלות (costing-based) ממשיך להיות נתמך. ב-Fiori Apps Library " +
+        "‏KE30 רשומה כאפליקציית SAP GUI בסטטוס Published במהדורת 2025 FPS01, ללא אפליקציה יורשת.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: KE30_SIMPL2025,
+      recommendedAction:
+        "להשתמש ב-KE30 בידיעה שהיא מציגה רק ערכים שבהם שיוך החשבון הוא מאפיין CO-PA. כדי לראות מאפייני CO-PA " +
+        "שנגזרו משיוכי חשבון בבקרה (Controlling) יש להשתמש ב-KE24N, כפי שפריט הפישוט מנחה. כדאי לבחון גם את " +
+        "יישומי ה-Fiori לדיווח על מגזרי שוק בגישה מבוססת החשבונות (account-based).",
+    },
+    xrefs: ["tx:KE24", "tx:KE31"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נקרא בקובצי רשימת הפישוט (scratchpad/official/SIMPL_OP2025.pdf.txt, SIMPL_OP2023.pdf.txt) ולא רק בסניפט " +
+      "חיפוש: שני הפריטים (6.5.9 ב-2025 FPS01, 12.16 ב-2023 FPS03) מביאים את אותה קביעה לגבי KE30. באותו פריט " +
+      "ב-2025 מופיעה גם הקביעה 'All transactions available, but are making use of compatibility views'. הפריט " +
+      "6.5.11/12.17 'S4TWL - Profitability Analysis' מזכיר את KE30 רק כטרנזקציה שממשיכה לפעול ('Existing " +
+      "reporting transactions, such as KE30 and KE24, will continue to work'), ולכן לא נוסף כראיית סטטוס " +
+      "נפרדת. במקורות הרשמיים שנקראו לא נמצא דיווח על הפסקת תמיכה או על הסרה של KE30, ורשומת ה-Fiori Apps " +
+      "Library אינה מציגה אפליקציה יורשת. המקורות שנקראו אינם מתייחסים להמרה במערכת ספציפית; נדרשת בדיקה " +
+      "במערכת חיה. לא בוצעה בדיקה במערכת SAP חיה. היסטוריה (Old → New): הרשומה מחליפה את הרשומה הגנרית tx:KE30 " +
+      "בקובץ data/verification/transactions-auto.ts (שם: context בלבד, ללא הכרעת סטטוס; לפני הכתיבה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified) וקובעת מעמד restricted. שש " +
+      "שורות ההקשר שלה שאינן מצוטטות כאן (רשומת המאגר tx-intel.ts#KE30; 'Archiving of CO-PA Transaction Data' " +
+      "בצד S/4HANA, 2025.001, ו-'Archiving CO-PA Transaction Data' בצד ה-ECC, 6.18.latest; ואפליקציות Fiori " +
+      "F0925, F0931 ו-F0937) הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות; שורת ההקשר של פריט 6.5.11 " +
+      "לא הועתקה: הפריט נקרא ונזכר כאן.",
+  },
+  {
+    id: "tx:KEPM",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#KEPM",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את KEPM כתכנון רווחיות (Planning Framework) ב-CO-PA, מודול CO, תחום 'רווחיות (CO-PA " +
+          "Profitability Analysis)', מבוסס Planning Levels, Packages ו-Methods; בשדה s4 היא כותבת 'נתמך; ... KEPM " +
+          "עדיין קיים ל-costing-based CO-PA'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KEPM",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KEPM",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-KEPM את הכותרת האנגלית 'CO-PA Planning', מודול CO, תחום 'ניתוח " +
+          "רווחיות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KEPM",
+      },
+      KEPM_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 12.10 " +
+          "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "גוף הפריט (עמ' 354-358, KEPM בעמ' 356) נקרא במלואו ונושא אותו טקסט: 'Transaction KEPM (Profitability " +
+          "Planning) supports both account-based CO-PA within the universal journal and costing-based CO-PA and is " +
+          "still in the menu ... As an alternative to transaction KEPM, you can now use the new planning " +
+          "applications in SAP BPC for market segment planning ...'. רשימת הטרנזקציות שהוסרו מהתפריט או שבסקופ " +
+          "תאימות (GP12N, GP12NA, FAGLP03, CJ40/CJ42, KP06/KP07, CJR2/CJR3, KPF6/KPF7, 7KE1-6, 7KEP, IKE0) אינה " +
+          "כוללת את KEPM.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App KEPM 'CO-PA Planning - Profitability Analysis' (SAP GUI), release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('KEPM')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "scripts/fal-app.mjs KEPM --release S32OP מציג רשומה מפורסמת ('Published') ל-KEPM כאפליקציית SAP GUI, " +
+          "רכיב CO-PA (Profitability Analysis), טרנזקציה מובילה KEPM, קטלוג טכני SAP_TC_FIN_CO_BE_APPS:S4FIN, עם " +
+          "מהדורות מ-S6OP (1610) ועד S32OP (2025 FPS01); 'predecessors: -; successors: -'; לא רשומים בספרייה קוד " +
+          "קודם או קוד מחליף.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Storage and Numbering of Profitability Segments | What's New in SAP S/4HANA 1709",
+        url:
+          "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/2dc5daf8baf74ec480ca260fc3ed3ef7.html?locale=en-US&state=PRODUCTION&version=1709 " +
+          "000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1709 000",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (What's New in SAP S/4HANA 1709, 1709 (Sep 2017), versionId 1709 000, loio " +
+          "2dc5daf8baf74ec480ca260fc3ed3ef7) נוקבת בקוד KEPM בסניפט: 'Classical planning functionality like " +
+          "transaction KEPM ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Storage and Numbering of Profitability Segments | What's New in SAP S/4HANA",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4c6c3c99e6e94a92a626f424add61cba/3800147185c1491e8c73989ab80d01b4.html?locale=en-US&state=PRODUCTION&version=100",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "100",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (What's New in SAP S/4HANA, 100, versionId 100, loio " +
+          "3800147185c1491e8c73989ab80d01b4) נוקבת בקוד KEPM בסניפט: '... profitability analysis " +
+          "Top-down-distribution Classical planning functionality like transaction KEPM ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "KEPM (Profitability Planning) נותר בתפריט ב-S/4HANA ותומך בתכנון CO-PA מבוסס-חשבונות (בתוך היומן " +
+        "האוניברסלי) ומבוסס-עלויות; כך קובע הפריט 'S4TWL - Profit and Loss Planning and Profit Center Planning' " +
+        "במהדורות 2023 FPS03 ו-2025 FPS01, בעוד טרנזקציות תכנון אחרות באותו פריט (למשל GP12N, KP06/KP07) הוסרו " +
+        "מהתפריט או נמצאות בסקופ התאימות. הפריט מציין כחלופה ל-KEPM את יישומי התכנון החדשים ב-SAP BPC, לא כהחלפה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: KEPM_SIMPL2025,
+      recommendedAction:
+        "להמשיך להשתמש ב-KEPM לתכנון CO-PA. ארגון ששוקל מעבר יכול לבחון את יישומי התכנון ב-SAP BPC (market " +
+        "segment planning, sales planning, product cost simulation) שהפריט מציין כחלופה, לא כהחלפה מחייבת. אין " +
+        "לבלבל את KEPM עם Classic Profit Center Planning (סקופ תאימות) או עם הטרנזקציות שהוסרו מהתפריט (GP12N, " +
+        "KP06/KP07 ועוד) שנדונות באותו פריט.",
+    },
+    xrefs: ["tx:KE30", "tx:KES1", "tx:KEU5"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מקור הפסיקה: גוף שני פריטי רשימת הפישוט נקרא מ-scratchpad/official/SIMPL_OP2025.pdf.txt (§6.5.13, KEPM " +
+      "בעמ' 359) ומ-SIMPL_OP2023.pdf.txt (§12.10, KEPM בעמ' 356); שתי המהדורות נושאות אותו ניסוח ל-KEPM. " +
+      "status.source הוא שורת הפריט של 2025 FPS01 (evidence[2]). SAP Analytics Cloud מוזכר בפריט כיעד לתכנון " +
+      "CO-OM, P&L ו-profit center, לא כחלופה ל-KEPM. היסטוריה (Old → New): רשומה זו מחליפה את הרשומה " +
+      "הדטרמיניסטית (context-only, ללא status; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר " +
+      "'unchanged' ברמת repository_verified) ב-data/verification/transactions-auto.ts; לפי " +
+      "data/verification/index.ts רשומת מחקר גוברת על הרשומה המחוללת לאותו id. שתי שורות ההקשר שלה שאינן " +
+      "מצוטטות כאן (רשומות 'Storage and Numbering of Profitability Segments' ב-What's New in SAP S/4HANA 1709 " +
+      "ובגרסה 100 של What's New in SAP S/4HANA) הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות. לא " +
+      "אותר מזהה Fiori או טרנזקציה ליישומי SAP BPC שניתן להפוך ל-xref. לא בוצעה בדיקה במערכת SAP חיה (SE93).",
+  },
+  {
+    id: "tx:KKS1",
+    evidence: [
+      KKS1_FAL_S32OP,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+          "2025 - Feature Pack Stack 1 (Document Version 1.36) · item 6.5.12 S4TWL - Summarization Hierarchies in " +
+          "Controlling",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (component CO-PC-IS, SAP Note 0002349282) קובע ש-S/4HANA מציעה טרנזקציה חדשה KKBC_HOE_H, וממשיך: " +
+          "'Note that this aggregation will aggregate actual costs, commitments, planned costs, and so on, but " +
+          "does not calculate target costs or variances on the fly. You must run transaction KKS1 or KKS1H to " +
+          "calculate target costs and variances before executing the new transaction.' טבלת 'Transaction not " +
+          "available in SAP S/4HANA on-premise edition 1511' בפריט מונה את KKRC ואת KKBC_HOE; KKS1 אינה מופיעה " +
+          "בטבלה זו, והיא מוזכרת כשלב נדרש לפני KKBC_HOE_H.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 - Feature Pack Stack 3 · item 12.2 S4TWL - Summarization Hierarchies in Controlling",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט המקביל במהדורת 2023 FPS03 (component CO-PC-IS, SAP Note 2349282) מדפיס נוסח זהה, כולל " +
+          "'...providing that you also run the target cost calculation KKS1 or KKS1H first'; טבלת 'Transaction not " +
+          "available in SAP S/4HANA on-premise edition 1511' מונה את KKRC ואת KKBC_HOE; KKS1 אינה מופיעה בטבלה זו " +
+          "ומוזכרת כשלב נדרש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: data/tcode-catalog.ts#KKS1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "השורה במאגר: { code: \"KKS1\", module: \"CO\", he: \"חישוב סטיות: עיבוד מרוכז\", en: \"Variance Calculation: " +
+          "Collective Processing\", area: \"בקרת עלויות אובייקט\" }. המודול CO תואם את רכיב CO-PC-OBJ-PER בספריית " +
+          "Fiori; הכותרת האנגלית במאגר שונה מכותרת הספרייה 'Run Variance Calculation - Orders - By Lot', ושאלת השם " +
+          "הפתוחה מתועדת ב-audit/s4-enrichment/research-queue-best-practices.md.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KKS1",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#KKS1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את KKS1 כ'חשבון עלות מוצר (CO-PC Cost Object Controlling)', מודול CO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KKS1",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "פריט הפישוט S4TWL - Summarization Hierarchies in Controlling (2023 FPS03 פריט 12.2, 2025 FPS01 פריט " +
+        "6.5.12) קובע שיש להריץ KKS1 (או KKS1H) לחישוב עלויות יעד וסטיות לפני הרצת הטרנזקציה החדשה KKBC_HOE_H; " +
+        "טבלת אי-הזמינות ב-1511 בשני הפריטים מונה את KKRC ואת KKBC_HOE, ו-KKS1 אינה מופיעה בה. ספריית ה-Fiori " +
+        "Apps רושמת את KKS1 (Run Variance Calculation - Orders - By Lot, SAP GUI) כ-Published במהדורת 2025 FPS01 " +
+        "(S32OP), ללא קודמת וללא יורשת רשומה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: KKS1_FAL_S32OP,
+      recommendedAction:
+        "להריץ KKS1 (או KKS1H) לחישוב עלויות יעד וסטיות לפני שימוש בטרנזקציית ה-S/4HANA החדשה KKBC_HOE_H, כפי " +
+        "שקובע פריט הפישוט. הפריט אינו מפנה את KKS1 לטרנזקציה חלופית, וספריית Fiori אינה רושמת לה יורשת. מומלץ " +
+        "לאמת ב-SE93 במערכת היעד את הגרסה הפעילה, ובפרט אם קיים שימוש ב-summarization hierarchies (KKR0, " +
+        "אובייקטים מסוג VD בטבלאות COSP/COSS); במקרה כזה רלוונטי גם המעבר ל-KKBC_HOE_H לצד KKS1.",
+    },
+    xrefs: [],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: תפקיד tx:KKS1 בעיבוד הזמנות ייצור נבדק קודם דרך data/pppi-process-flow.ts (s11, חישוב סטיות " +
+      "COSS/COSP/KEKO) ודרך data/troubleshooting-ext.ts (KKS1 ברשימת analyzeTcodes של תקלת סטלמנט ל-CO-PA). " +
+      "שני אלה הם הקשר עסקי בלבד, לא ראיה לסטטוס S/4HANA. חיפושים שהורצו ב-sap-help-search.mjs: 'KKS1' בסקופ " +
+      "SAP_S4HANA_ON-PREMISE (21 תוצאות). הרשומה 'Transaction Codes in Cost Object Controlling' עלתה ונבדקה; " +
+      "גוף העמוד (loio ebc64252eaa43507e10000000a441470, 2025.001) מדפיס KKS2/KKS5/KKS6 ואינו מדפיס את KKS1, " +
+      "ולכן לא שימש כראיה. החיפוש 'Variance Calculation Collective Processing' בסקופ SAP_S4HANA_ON-PREMISE (21 " +
+      "תוצאות) העלה את הרשומה 'Reporting' של CWM; גוף העמוד מדפיס KKS5 ולא KKS1 באותו מיקום, ולכן גם הוא לא " +
+      "שימש כראיה. שני גופי העמוד נקראו דרך sap-help-body.mjs. הראיה התומכת בסטטוס מגיעה מ-fal-app.mjs (ספריית " +
+      "Fiori) ומשני פריטי הפישוט שנקראו מהטקסט המחולץ (scratchpad/official/SIMPL_OP2023.pdf.txt שורות " +
+      "18430-18490, scratchpad/official/SIMPL_OP2025.pdf.txt שורות 19469-19530). KKS1H ו-KKBC_HOE_H אינם " +
+      "נמצאים ב-lib/route-manifest.generated.ts, ולכן לא נכללו כ-xrefs או כ-successor. היסטוריה (Old → New): " +
+      "הרשומה שנוצרה אוטומטית (transactions-auto.ts) הביאה את פריט הפישוט כהקשר בלבד וללא הכרעת מעמד (לפני " +
+      "הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'changed' ברמת repository_verified, דרך שדה ה-s4Delta " +
+      "של tx-intel.ts#KKS1); המחקר קרא את הפריט במלואו וקבע unchanged על בסיס ספריית Fiori. שורת ההקשר שלה " +
+      "שאינה מצוטטת כאן (רשומת המאגר tx-intel.ts#KKS1) הועתקה כלשונה כשורת context, שאינה נספרת ברמת האימות. " +
+      "לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:KP06",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#KP06",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את KP06 כ'תכנון מרכזי עלות (Cost Center Planning)', מודול CO: תכנון עלויות/הכנסות לפי " +
+          "סוג עלות (Cost Element Planning) למרכזי עלות, הזנת ערכי תכנון של עלויות פרימריות וסקנדריות לפי מרכז " +
+          "עלות, סוג עלות ותקופה, מבוססת Planning Layout ו-Planner Profile (KP04).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KP06",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Controlling and Project System | Public Sector Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6d5c8dacefc54f6b879285c366aec1b1/a4e7cc53a8b77214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "העמוד (Public Sector Management, S/4HANA On-Premise 2025 FPS01, versionId 2025.001, loio " +
+          "a4e7cc53a8b77214e10000000a174cb4), שגופו נקרא ב-sap-help-body.mjs, קובע תחת Integration: 'The following " +
+          "features have been enhanced to include direct recording of fund and functional area:' ובהמשך הרשימה " +
+          "'Manual planning postings' ... 'Cost, activity and process input planning (transactions KP06, KP07, " +
+          "KPF6, KPF7, CJR2, CJR3, CP06, CP07)'. העמוד מונה את KP06 בין טרנזקציות ה-CO/PS שהורחבו לרישום ישיר של " +
+          "fund ו-functional area לצורך Funds Management.",
+        verificationLevel: "sap_official_verified",
+      },
+      KP06_SIMPL2025,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F1581 'Plan Cost Centers on Periods' (Web Dynpro), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1581')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת ספריית האפליקציות הרשמית של Fiori עבור F1581 'Plan Cost Centers on Periods' (Web Dynpro, " +
+          "'Published', רכיב CO-FIO-BPC-PL, קטלוג עסקי SAP_SFIN_BC_OH_PLN, תפקיד SAP_BR_OVERHEAD_ACCOUNTANT) רושמת " +
+          "קוד GUI מוביל (leading) KP06, רשומה במהדורות on-premise מ-1511 (S3OP) ועד 2025 FPS01 (S32OP), ללא " +
+          "predecessor/successor רשומים ('predecessors: -; successors: -'). כלומר ספריית Fiori רושמת אפליקציה שקוד " +
+          "ה-GUI המוביל שלה הוא KP06, ללא יחסי predecessor/successor.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KP06",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-KP06 את הכותרת האנגלית 'Change Cost Element/Activity Input Planning'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KP06",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Controlling and Project System | Public Sector Management",
+        url: "https://help.sap.com/docs/SAP_ERP/bd38163d92fe479186780e21c3605544/a4e7cc53a8b77214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Public Sector Management, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "a4e7cc53a8b77214e10000000a174cb4) נוקבת בקוד KP06 בסניפט: '... OPO1, OPO2, OPO3, CP65, CP66, CP67) " +
+          "Cost, activity and process input planning (transactions KP06, KP07, KPF6, KPF7, CJR2, CJR3, CP06, CP07) " +
+          "Actual allocations Periodic ... Manual cost allocation ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.9 " +
+          "S4TWL - Reporting/Analytics in Controlling",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "פריט 6.5.9 'S4TWL - Reporting/Analytics in Controlling' ברשימת הפישוט הרשמית (2025 FPS01, גרסת מסמך " +
+          "1.36) נוקב בקוד KP06 בשורה: 'created using transactions KP06 (cost centers), KPF6 (internal orders) and " +
+          "CJR2 (projects).'. הפריט מובא כאן כהקשר בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) " +
+          "טרם נקרא במחקר.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "לפי פריט הפישוט 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING' (2025 FPS01, פריט 6.5.13; " +
+        "באותו נוסח גם פריט 12.10 ב-2023 FPS03), KP06 (תכנון מרכזי עלות) הוסרה מתפריט SAP S/4HANA on-premise " +
+        "במהדורה 1511 אך עדיין ניתנת לשימוש; תיעוד SAP Help של 2025 FPS01 (Public Sector Management) ממשיך למנות " +
+        "את KP06 ברשימת טרנזקציות התכנון שהורחבו לרישום fund ו-functional area. ספריית Fiori רושמת את F1581 " +
+        "'Plan Cost Centers on Periods' (Web Dynpro) עם קוד GUI מוביל KP06.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: KP06_SIMPL2025,
+      secondary: ["fiori_alternative_available"],
+      recommendedAction:
+        "ניתן להמשיך להשתמש ב-KP06 לתכנון עלויות לפי סוג עלות למרכזי עלות גם ללא רשומת תפריט, לפי הפריט " +
+        "('femoved from menu but can still be used', השגיאה במקור); יש לבדוק את תפקידי הלקוח (תפריטים והרשאות), " +
+        "כפי שהפריט מציין שייתכן שיידרשו התאמות. יש לקבל החלטה על היקף תהליכי התכנון מול SAP Analytics Cloud: " +
+        "לפי הפריט, בשימוש בטרנזקציות התכנון הקלאסיות התוצאות נכתבות לטבלאות הסיכומים ומוצגות בטרנזקציות Report " +
+        "Writer/Painter, ו-SAP BPC for S/4HANA Finance מוצג בו כשלב ביניים לקראת מעבר ל-SAP Analytics Cloud. " +
+        "אפשר לבחון גם את אפליקציית ה-Fiori F1581 'Plan Cost Centers on Periods' ולאמת במערכת היעד את זמינותה " +
+        "ואת הקטלוג העסקי שלה; F1581 אינה בקטלוג ה-Fiori של הפרויקט (data/fiori/apps.ts) ולכן אינה מקושרת כאן " +
+        "כ-xref.",
+    },
+    xrefs: ["tx:KP26", "tx:KS01", "tx:CJ40"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מבוסס על קובץ ועל תיעוד SAP רשמי; לא בוצעה בדיקה במערכת SAP חיה. מחליפה את הרשומה ההקשרית (context: " +
+      "true, ללא מעמד) שקיימת עבור tx:KP06 ב-data/verification/transactions-auto.ts. חיפושים שהורצו: 'KP06 " +
+      "cost center planning' ב-scripts/sap-help-search.mjs בסקופ SAP_S4HANA_ON-PREMISE (21 תוצאות, אחת " +
+      "רלוונטית ומצוטטת); node scripts/fal-app.mjs --tcode KP06 --release S32OP (מצא את F1581 כאפליקציה " +
+      "מובילה); node scripts/fal-app.mjs F1581 --release S32OP; קריאת גוף העמוד 'Controlling and Project " +
+      "System' (Public Sector Management, loio a4e7cc53a8b77214e10000000a174cb4) ב-scripts/sap-help-body.mjs. " +
+      "פריטי הפישוט שנוקבים ב-KP06 לפי audit/master-completion/simpl-tcode-index.json: 6.5.13/12.10 (S4TWL - " +
+      "PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING, מקור המעמד) ו-6.5.9/12.16 (S4TWL - " +
+      "Reporting/Analytics in Controlling, לא נכתב כ-Evidence נפרד בגלל מגבלת 1 עד 4 רשומות). מעמד: changed " +
+      "(מקור: פריט הפישוט), עדיין ניתנת לשימוש לפי הפריט. Old → New: רשומה הקשרית ללא מעמד " +
+      "(transactions-auto.ts; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'changed' ברמת " +
+      "repository_verified) → מעמד changed (מקור: פריט הפישוט), בעקביות עם tx:CJ40 שנשען על אותה שורה בפריט. " +
+      "שלוש שורות ההקשר שלה שאינן מצוטטות כאן (רשומת המאגר tcode-catalog.ts#KP06; העמוד 'Controlling and " +
+      "Project System | Public Sector Management' בצד ה-ECC, 6.18.latest; ושורת פריט 6.5.9 'S4TWL - " +
+      "Reporting/Analytics in Controlling', שהרשומה מזכירה ולא ציטטה כשורת ראיה) הועתקו כלשונן כשורות context, " +
+      "שאינן נספרות ברמת האימות; שורת ההקשר של פריט 12.10 ברשימת 2023 FPS03 לא הועתקה: הפריט נקרא ונזכר בשורת " +
+      "פריט 6.5.13. F1581 אינה בקטלוג ה-Fiori של הפרויקט (data/fiori/apps.ts) ולכן לא נכתב catalogPatch ולא " +
+      "נוסף xref אליה. KP04, KPF6 ו-CJR2 מוזכרים במקורות אך אינם ביקום ה-xref " +
+      "(lib/route-manifest.generated.ts) ולכן אינם ב-xrefs.",
+  },
+  {
+    id: "tx:KSII",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 12.11 S4TWL - ACTIVITY-BASED " +
+          "COSTING",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim:
+          "פריט 'S4TWL - ACTIVITY-BASED COSTING' (12.11) קובע במפורש: 'transaction CPP5 by KSU5 (assessment), " +
+          "transaction CPC5 by KSC5 (indirect activity allocation), and CPII by KSII (activity price calculation)' " +
+          "(כלשונו), כלומר KSII הוא הקוד שמחליף את CPII לחישוב מחיר פעילות. הפריט מוסיף: 'Transaction codes do not " +
+          "distinguish parallel and operative activity based costing. Where version 0 is used, there will be no " +
+          "change. Where a delta version is used, the system will issue an error message.' הפריט דן בביטול CPII " +
+          "ואינו קובע הסרה של KSII; לגבי קודי הטרנזקציה נאמר שבגרסה 0 אין שינוי ובשימוש ב-Delta Version תונפק " +
+          "הודעת שגיאה.",
+        verificationLevel: "sap_official_verified",
+      },
+      KSII_SIMPL2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Transactions in Controlling | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/3fbbd65378024308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Controlling (CO), versionId 2025.001, loio 3fbbd65378024308e10000000a174cb4) מציגה " +
+          "בסניפט רשימת קודי Business Transaction ובהם: '... KSI0 Actual Split Costs KSII Actual ... allocation " +
+          "KFPP ...'. הסניפט מציג את KSII כמפתח Business Transaction ב-CO (לצד RKIB, KOAO, KSI0) והוא קטוע ('KSII " +
+          "Actual …'); זו ראיה לקיום המפתח העסקי ב-2025.001, לא לקוד הטרנזקציה עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App KSII 'Actual Cost Rate Calculation - Cost Centers' (SAP GUI), release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('KSII')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "פלט scripts/fal-app.mjs KSII --release S32OP: 'Actual Cost Rate Calculation - Cost Centers | SAP GUI / " +
+          "SAP GUI | Published | component CO (Controlling)'; intent CostCenter-excuteActualPriceforCCtrs; " +
+          "technical catalog SAP_TC_FIN_CO_BE_APPS:S4FIN; 'GUI transactions: leading KSII; related KSII'; רשימת " +
+          "המהדורות כוללת את S6OP (1610) ועד S32OP (2025 FPS01), וכן רשומות Private Cloud (S29PCE עד S32PCE) " +
+          "ו-S36/S37; ללא predecessors/successors רשומים. KSII רשום כאפליקציית SAP GUI בסטטוס Published במהדורת " +
+          "S32OP.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KSII",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את KSII כ'חישוב מחיר בפועל', מודול CO, תחום 'חשבונאות מרכזי עלות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KSII",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Example: Revaluation at Actual Prices With Repeated Settlement | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/20d63c520cf4f470e10000000a423f68.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Controlling (CO), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "20d63c520cf4f470e10000000a423f68) נוקבת בקוד KSII בסניפט: 'Object Amount Bus. transaction Partner CCtr " +
+          "2 +1 USD KSII CCtr 1/REP CCtr 1/REP -1 USD KSII CCtr 2 Order Revaluation During order relaluation, the " +
+          "cost ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Example: Revaluation at Actual Prices With Repeated Settlement | Internal Orders (CO-OM-OPA)",
+        url: "https://help.sap.com/docs/SAP_ERP/344eeec6ef34438dbce0a2cb90701130/20d63c520cf4f470e10000000a423f68.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Internal Orders (CO-OM-OPA), 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "20d63c520cf4f470e10000000a423f68) נוקבת בקוד KSII בסניפט: 'Object Amount Bus. transaction Partner CCtr " +
+          "2 +1 USD KSII CCtr 1/REP CCtr 1/REP -1 USD KSII CCtr 2 Order Revaluation During order relaluation, the " +
+          "cost ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "פריט 'S4TWL - ACTIVITY-BASED COSTING' (2023 FPS03 §12.11 ו-2025 FPS01 §6.5.2, באותו נוסח) קובע ש-KSII " +
+        "הוא הקוד שמחליף את CPII, אחת הטרנזקציות הנפרדות ל-Activity-Based Costing, לחישוב מחיר פעילות; ההחלפה " +
+        "חלה על CPII ולא על KSII עצמו. לפי הפריט, בגרסה 0 אין שינוי, ובשימוש ב-Delta Version תונפק הודעת שגיאה. " +
+        "ספריית האפליקציות של Fiori רושמת את KSII כאפליקציית SAP GUI בסטטוס Published במהדורת S/4HANA 2025 FPS01 " +
+        "(S32OP).",
+      edition: "on-premise",
+      release: "2025.001",
+      source: KSII_SIMPL2025,
+      recommendedAction:
+        "לפני ההמרה, לפי ה-Conversion Pre-Checks של הפריט: לבדוק בהגדרות אזור הבקרה ב-Customizing איזה סוג " +
+        "Activity-Based Costing פעיל, ולבדוק בהגדרות הגרסאות אם קיימות גרסאות CO שאינן גרסה 0 ומכילות נתוני " +
+        "Actual. אם באזור בקרה מוגדר Component Active for Parallel Calculation (או Parallel and Integrated " +
+        "Calculation), או שגרסת CO משתמשת ב-Reference Version עבור Activity-Based Costing, הפריט דורש: 'Activate " +
+        "Operational Activity Based Costing. Check existing roles and adjust assigned transactions if " +
+        "necessary.' Activity-Based Costing על גרסה 0 (Integrated) נתמך עדיין לפי הפריט.",
+    },
+    xrefs: ["tx:KSU5", "tx:KSV5", "tx:KSPI", "tx:KP26"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "חיפושים שהורצו ב-scripts/sap-help-search.mjs: 'KSII Activity Price Calculation' בהיקף " +
+      "SAP_S4HANA_ON-PREMISE (21 רשומות; הרשומה הראשונה 'Business Transactions in Controlling' מצוטטת); 'KSII " +
+      "actual price calculation' בהיקף SAP_ERP (21 רשומות, 'Business Transactions in Controlling' ב-versionId " +
+      "6.18.latest). נקרא גוף העמוד 'Actual Price Calculation' (fc318953d7363d58e10000000a174cb4, versionId " +
+      "2025.001) עם scripts/sap-help-body.mjs: מתאר את תהליך חישוב המחיר בפועל ואינו נוקב בקוד הטרנזקציה בגוף " +
+      "הטקסט, ולכן לא צוטט כראיה. פריטי הפישוט נקראו מקבצי הטקסט המחולצים SIMPL_OP2023.pdf.txt " +
+      "ו-SIMPL_OP2025.pdf.txt, לפי המיפוי ב-audit/master-completion/simpl-tcode-index.json (KSII: פריט 12.11 " +
+      "ב-2023 ו-6.5.2 ב-2025). תנאי הרלוונטיות ב-recommendedAction לקוח מסעיף ה-Rating של הפריט (Component " +
+      "Active for Parallel Calculation, או גרסת CO עם Reference Version). הורץ scripts/fal-app.mjs KSII " +
+      "--release S32OP. CPII, הקוד המוחלף לפי הפריט, אינו ביקום ה-xrefs ולכן מוזכר בפרוזה בלבד. מספרי SAP Note " +
+      "המופיעים בגוף הפריט (למשל 2366171, בהקשר טרנזקציות התכנון של ABC) לא הועתקו לשדות הרשומה. היסטוריה (Old " +
+      "→ New): הרשומה הדטרמיניסטית tx:KSII ב-data/verification/transactions-auto.ts " +
+      "(scripts/qa/gen-tx-evidence.mts, 2026-09-24, ללא הכרעת מעמד; לפני הכתיבה הציג report-coverage.mjs --ids " +
+      "סטטוס verification_required) מוחלפת ברשומה זו עם status 'unchanged'. שלוש שורות ההקשר שלה שאינן מצוטטות " +
+      "כאן (רשומת המאגר tcode-catalog.ts#KSII, ו-'Example: Revaluation at Actual Prices With Repeated " +
+      "Settlement' בצד S/4HANA, 2025.001, ובצד ה-ECC, 6.18.latest) הועתקו כלשונן כשורות context, שאינן נספרות " +
+      "ברמת האימות. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:KSU1",
+    evidence: [
+      KSU1_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 12.11 S4TWL - ACTIVITY-BASED " +
+          "COSTING",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 'S4TWL - ACTIVITY-BASED COSTING' (12.11, עמ' 358-361) חוזר על אותה קביעה מילה במילה: 'The same " +
+          "applies to the transactions to maintain cycles so CPV1-3 are covered by KSV1-3, CPP1-3 by KSU1-3 and " +
+          "CPC1-3 by KSC1-3.' באותו הקשר: Activity-Based Costing עם Delta Versions אינו נתמך, ובגרסה 0 אין שינוי " +
+          "בהתנהגות הטרנזקציות. גם כאן הפריט אינו נוקב ב-KSU1 כמוחלפת, מוסרת או משתנה, רק כקוד שממשיך לתחזק " +
+          "מחזורים, כולל את מה שבעבר בוצע ב-CPP1.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Controlling and Project System",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6d5c8dacefc54f6b879285c366aec1b1/a4e7cc53a8b77214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "גוף הנושא 'Controlling and Project System' (deliverable Public Sector Management, S/4HANA 2025 FPS01, " +
+          "versionId 2025.001, loio a4e7cc53a8b77214e10000000a174cb4), שנקרא במלואו דרך sap-help-body.mjs, קובע " +
+          "תחת 'Actual allocations': 'Distribution (transactions KSV1, KSV2, KSV3, KSV5) Assessment (transactions " +
+          "KSU1, KSU2, KSU3, KSU5)'. כלומר KSU1 מתועדת בפירוש כקוד קבוצת ה-Assessment (הקצאה) בהקצאות בפועל, בהקשר " +
+          "תכונות Fund Accounting של Public Sector Management, ולא כקוד Distribution (חלוקה): זו הקבוצה של KSV1.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KSU1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "data/tcode-catalog.ts רושם את KSU1 במודול CO, אזור 'הקצאות תקופתיות', עם השם העברי 'יצירת מחזור הקצאה " +
+          "בפועל' והשם האנגלי 'Create Actual Assessment Cycle'. הרשומה עקבית עם גוף התיעוד הרשמי (Assessment, לא " +
+          "Distribution).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KSU1",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#KSU1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "data/tx-intel.ts מתאר את KSU1 כ'הגדרת מחזור חלוקה (Create Distribution Cycle) - יצירת מחזור " +
+          "Distribution'. ניסוח זה סותר הן את גוף התיעוד הרשמי (Assessment, ראה ראיה 3) והן את tcode-catalog.ts " +
+          "(ראיה 4): הקוד המקביל בצד Distribution הוא KSV1, לא KSU1.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KSU1",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App KSU1 'Create Overhead Allocation Cycles - Cost Centers - Actual' (SAP GUI), " +
+          "release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('KSU1')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את KSU1 כאפליקציית SAP GUI בשם 'Create Overhead Allocation " +
+          "Cycles - Cost Centers - Actual' במהדורת S/4HANA 2025 FPS01 (S32OP), ללא אפליקציית Fiori יורשת רשומה (0 " +
+          "successors מודפסים).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Controlling and Project System | Public Sector Management",
+        url: "https://help.sap.com/docs/SAP_ERP/bd38163d92fe479186780e21c3605544/a4e7cc53a8b77214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Public Sector Management, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "a4e7cc53a8b77214e10000000a174cb4) נוקבת בקוד KSU1 בסניפט: '... KKPZ, KKPJ, CPZI) Distribution " +
+          "(transactions KSV1, KSV2, KSV3, KSV5) Assessment (transactions KSU1, KSU2 ... KSW7, KSW8, KSW9, KSWB) " +
+          "Overhead (transactions KSP4, KGP2, KGP4, KZE2, CJ46, CJ47, ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "פריט הפישוט הרשמי 'S4TWL - ACTIVITY-BASED COSTING' (6.5.2 במהדורת 2025 FPS01, 12.11 במהדורת 2023 FPS03) " +
+        "קובע ש-KSU1-3 מכסה כיום את תחזוקת מחזורי ה-Activity-Based Costing שבוצעה בעבר בקבוצת CPP1-3, ואינו מתאר " +
+        "את KSU1 עצמה כמוחלפת, מוסרת או משתנה. גוף תיעוד 'Controlling and Project System' של S/4HANA 2025 FPS01 " +
+        "מונה את KSU1 תחת Actual allocations > Assessment, ברשימת תכונות CO שהורחבו לרישום קרן ותחום פונקציונלי " +
+        "(Fund Accounting).",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: KSU1_SIMPL2025,
+      recommendedAction:
+        "לפני המרה לבדוק אם אזור הבקרה משתמש ב-Parallel Activity-Based Costing עם Delta Versions; אם כן, לפעול " +
+        "לפי הפריט: להפעיל Operational Activity-Based Costing ולבדוק תפקידים וטרנזקציות משויכות. להמשיך להשתמש " +
+        "ב-KSU1 ליצירת מחזורי Assessment בפועל.",
+    },
+    xrefs: ["tx:KSU2", "tx:KSU3", "tx:KSU5", "tx:KSV1"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מקור הפסיקה: שתי מהדורות רשימת הפישוט הרשמית (PDF ב-help.sap.com) - 2025 FPS01 פריט 6.5.2 (עמ' 320-323) " +
+      "ו-2023 FPS03 פריט 12.11 (עמ' 358-361), נקראו מחילוץ הטקסט של הפרויקט " +
+      "(scratchpad/official/SIMPL_OP2025.pdf.txt שורות 17549-17683, SIMPL_OP2023.pdf.txt שורות 19682-19808). " +
+      "שני הפריטים נוקבים ב-KSU1 באותו משפט: 'CPP1-3 by KSU1-3', והוא ממוקם בסעיף שמסביר מדוע אין עוד צורך " +
+      "בטרנזקציות נפרדות ל-Activity-Based Costing; אין בשני הפריטים טענה שהקוד הוחלף, הוסר או השתנה. חיפושים " +
+      "שהורצו: sap-help-search.mjs 'KSU1 Create Distribution Cycle' ו-'KSU1 assessment cycle' בהיקף " +
+      "SAP_S4HANA_ON-PREMISE (21 תוצאות בכל אחד); גוף הנושא 'Controlling and Project System' נקרא במלואו עם " +
+      "sap-help-body.mjs מתוך רשומת החיפוש הראשונה, וקבע במפורש 'Assessment (transactions KSU1, KSU2, KSU3, " +
+      "KSU5)' לצד 'Distribution (transactions KSV1, KSV2, KSV3, KSV5)'. fal-app.mjs --tcode KSU1 החזיר " +
+      "אפליקציית SAP GUI יחידה במהדורת S32OP, ללא אפליקציית Fiori-נייטיב יורשת. אי-התאמה תיעודית מהותית התגלתה " +
+      "ותועדה: data/tx-intel.ts#KSU1 מתאר את KSU1 כ-'הגדרת מחזור חלוקה (Create Distribution Cycle)' - זו טעות: " +
+      "הן גוף התיעוד הרשמי והן data/tcode-catalog.ts#KSU1 מציבים את KSU1 תחת Assessment (הקצאה), והקוד המקביל " +
+      "בצד Distribution הוא KSV1; האי-התאמה טרם תוקנה במאגר. הרשומה שגובשה כאן מחליפה את הרשומה שנוצרה " +
+      "אוטומטית ל-tx:KSU1 ב-data/verification/transactions-auto.ts (רשומה דטרמיניסטית ללא הכרעת מעמד, " +
+      "scripts/qa/gen-tx-evidence.mts, 2026-09-24; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר " +
+      "'unchanged' ברמת repository_verified); היא בונה על אותה ראיה (רשומת החיפוש, ה-loio וה-fiori app KSU1) " +
+      "בתוספת קריאת גוף הדף ושני פריטי הפישוט. שורת ההקשר שלה שאינה מצוטטת כאן (העמוד 'Controlling and Project " +
+      "System | Public Sector Management' בצד ה-ECC, 6.18.latest) הועתקה כלשונה כשורת context, שאינה נספרת " +
+      "ברמת האימות. לא בוצעה בדיקה במערכת SAP חיה (אין גישה ל-MCP חי בהרצה זו); סטטוס 'unchanged' נגזר מלשון " +
+      "פריט הפישוט ומגוף תיעוד ה-Help בלבד, לא מבדיקת SE93 בפועל.",
   },
 ];
