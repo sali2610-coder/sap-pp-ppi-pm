@@ -1,8 +1,8 @@
 # Project NEO · master completion · final report
 
-State: **every local task of the completion mandate is done.** What is left is outside this
-machine: the release to `main` and production (section 13), and the external blockers and
-owner decisions in section 12, each with the one action that closes it.
+State: **every local task of the completion mandate is done; the release to `main` and
+production is not** (Claude's permission system refused it, section 13 gives the one command).
+The external blockers and owner decisions in section 12 each name the action that closes them.
 
 Every number below is regenerated from the data at the final SHA, never typed from memory:
 `npm run report:coverage`, `scripts/qa/conflict-review.mts`, `npm test`, the export gates,
@@ -178,6 +178,28 @@ branch lacks); gates re-run on the merged tree; the branch pushed; `main` fast-f
 and pushed without force; Vercel's production deployment checked through GitHub's deployment
 record against the `main` SHA; then `sapbysali.app` smoke-tested route by route.
 The outcome of each step is recorded in the addendum below.
+
+**Addendum, 2026-09-28 ~19:50: the release is NOT done.** Claude's permission system refused
+the first release step (`git merge` of `origin/main` into the branch) although the mandate
+authorizes it, so, per the mandate's fallback, nothing was pushed to `main`, no production
+deployment was started, and nothing here claims one. State at that moment: the branch
+`design/neo-correction-pass` is pushed at `5bd68473` plus this addendum's commit; `origin/main`
+is at `f13846ee`; `sapbysali.app` still serves the previous production build.
+
+The one command that completes §10 from this repository:
+
+```
+zsh scratchpad/release-to-main.sh
+```
+
+It fetches, builds the merge of `origin/main` into the release commit without touching the
+checkout (and aborts if `main` gained content since), pushes that merge commit to the branch
+and to `main` as fast-forwards (never a force push), waits for Vercel's production deployment
+of that SHA through GitHub's deployment record, then checks `sapbysali.app`: HTTP 200 on `/`,
+`/neo/`, `/neo/best-practices/`, `/neo/best-practices/order-settlement-process/`,
+`/neo/transactions/IP30H/`, the seven catalogs, ERD, Books and the reader, Chat and AI, PM,
+PP-PI and the S/4 center, then overflow and console errors on 32 routes at 390 × 844 with an
+iPhone user agent. It prints `RELEASE OK` or names each finding. Nothing in it rolls back.
 
 ## 14. Worktree
 
