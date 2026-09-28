@@ -130,7 +130,18 @@
    no status (no source read prints an app id for 'Manage Banks'); the rows of the
    generated records that the audited records do not cite are carried verbatim as
    context rows (FD02 4, FD03 1, FI01 3, FI02 1, FI03 2, FI12 1, FK01 3, FK02 3) with
-   their 2026-09-24 access date; no reviewer field. */
+   their 2026-09-24 access date; no reviewer field.
+   Batch 15 (research + adversarial audit completed 2026-09-28, written the same
+   day, access date stamped 2026-09-25): 8 audited records for the PS overall
+   planning code, the Material Ledger price analysis and costing run codes and the
+   CO cost element codes (CJ40, CKM3, CKM3N, CKMLCP, CKMLCPAVR, KA01, KA02, KA03);
+   no record refuted. Five taken from verdict.fixedRecord, CJ40, CKM3 and KA01
+   re-derived from the draft with the listed downgrades (KA01's optional
+   de-duplication of its conflict rows not applied). Every status source is a
+   shared const (the record's own evidence row; KA01 stays verification_required
+   with no source); the rows of the generated records that the audited records do
+   not cite are carried verbatim as context rows (CJ40 6, CKM3 3, CKM3N 3, CKMLCP 3,
+   CKMLCPAVR 3) with their 2026-09-24 access date; no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -2265,6 +2276,189 @@ const FK02_SIMPL2025: Evidence = {
     "Suite (the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, " +
     "MK02, MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.)'.",
   verificationLevel: "sap_official_verified",
+};
+
+/* batch 15 status sources (research + audit completed 2026-09-28, written the same day): one evidence
+   row per record, shared by evidence[] and status.source (CJ40, CKM3, CKM3N, CKMLCP, CKMLCPAVR, KA02,
+   KA03; KA01 stays verification_required with no source) */
+
+const CJ40_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING (SAP S/4HANA 2025 FPS01 Simplification " +
+    "List, item 6.5.13)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "פריט הפישוט (2025 FPS01, גרסת מסמך 1.36, עמ' 360) נוקב ב-CJ40 בטבלה שכותרתה 'Transactions which have " +
+    "been removed from the menu in SAP S/4HANA on-premise edition 1511', בשורה: 'CJ40/CJ42 (overall planning " +
+    "on projects) KP06/KP07 (cost centre planning), CJR2/CJR3 (project planning) and KPF6/KPF7 (order " +
+    "planning) - femoved from menu but can still be used.' (השגיאה 'femoved' במקור). בסעיף Description הפריט " +
+    "מונה גם 'Project Planning Overall - no longer in menu but can be used in SAP S/4 HANA', וקובע: 'If you " +
+    "do not want to use SAP Analytics Cloud with S/4HANA On-Premise, but classic FI-GL and CO-OM planning " +
+    "functions instead, you can continue to use the classic planning transactions.'; במקרה זה 'the planning " +
+    "results are written to the totals tables' ו-'the planned data will only be visible in Report " +
+    "Writer/Painter transactions.'. בין ההשלכות: 'Customer roles (menus and authorizations) may need to be " +
+    "adapted.'. ב-Related Notes של הפריט מודפס 0002270407 ('Profit and Loss Planning, profit center " +
+    "planning, cost center planning, order planning, and project planning').",
+  verificationLevel: "sap_official_verified",
+};
+
+const CKM3_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.6 " +
+    "S4TWL - Technical Changes in Material Ledger",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 6.5.6 (2025 FPS01) חוזר על אותה קביעה בדיוק כמו פריט 18.2 של 2023 FPS03, תחת אותה כותרת 'Material " +
+    "Price Analysis (transaction CKM3 / CKM3N)': 'The transaction CKM3/CKM3N was refactored and now provides " +
+    "a simplified and improved view of materials in plants with active Actual Costing. It replaces the " +
+    "former CKM3 view Price Determination Structure ... All other views formerly offered by CKM3/CKM3N are " +
+    "no longer available.' מאשר שהמצב עדיין תקף במהדורה 2025 FPS01: שכתוב תצוגה, לא הסרה של הקוד.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CKM3N_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.6 " +
+    "S4TWL - Technical Changes in Material Ledger",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "פריט 6.5.6 'S4TWL - Technical Changes in Material Ledger' (רכיב CO-PC-ACT, הערה 2332591) קובע לגבי " +
+    "CKM3N, בקטע Material Price Analysis (transaction CKM3 / CKM3N): 'The transaction CKM3/CKM3N was " +
+    "refactored and now provides a simplified and improved view of materials in plants with active Actual " +
+    "Costing. It replaces the former CKM3 view Price Determination Structure. The former CKM3 Price History " +
+    "view is still available via transaction CKM3PH for all materials (independent of price determination " +
+    "control and active Actual Costing). All other views formerly offered by CKM3/CKM3N are no longer " +
+    "available.' כלומר הטרנזקציה נשארת קיימת, אך עברה refactoring: תצוגת Price History זמינה דרך CKM3PH, " +
+    "ושאר התצוגות הישנות הוסרו.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CKMLCP_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, item 6.5.10 S4TWL - Technical Changes " +
+    "in Material Ledger with Actual Costing (זהה בתוכן לפריט 12.4 ברשימת 2023 FPS03; SAP Note 2354768)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט נקרא במלואו (scratchpad/official/SIMPL_OP2025.pdf.txt, שורות 18698-18820; מקביל לפריט 12.4 " +
+    "ב-scratchpad/official/SIMPL_OP2023.pdf.txt, שורות 18543-18650, אותה SAP Note 2354768). הפריט אינו מציין " +
+    "תחליף ל-CKMLCP: הוא מפרט 'Other Terms' הכוללים CKM3, CKMLCP, CKMLCPAVR, MLDOC, MLAST, T001W, ומחייב " +
+    "לסיים ריצות תמחיר לפני ההמרה: 'Before system conversion is started, all Material Ledger costing runs, " +
+    "no matter if actual costing (transaction CKMLCP) or alternative valuation run (transaction CKMLCPAVR) " +
+    "need to be finished ... You can create new costing runs for previous periods or for the current period, " +
+    "after data conversion in the new system'. תחת 'Solution Description' הפריט קובע (בתרגום): עם S/4HANA " +
+    "מודל הנתונים של Material Ledger השתנה משמעותית, במיוחד כש-Actual Costing פעיל; ומפרט שינוי בתהליך: 4 " +
+    "שלבי תהליך נפרדים ('Single-Level Price Determination', 'Multilevel Price Determination', 'Revaluation " +
+    "of Consumption', 'WIP Revaluation') מוזגו לשלב תהליך אחד ('Settlement') ב-Material Ledger Costing " +
+    "Cockpit, לוגיקת חלוקה דו-ממדית חדשה, ו-customizing מטבעות נפרד ל-Material Ledger (OMX2/OMX3) הפך לחובה, " +
+    "ללא ML Type ברירת מחדל '0000'. הפריט מתאר שינוי במודל הנתונים ובתהליך שמאחורי הטרנזקציה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const CKMLCPAVR_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 Feature Pack Stack 1 (document version 1.36), item 6.5.10 " +
+    "S4TWL - Technical Changes in Material Ledger with Actual Costing (component CO-PC-ACT, SAP Note " +
+    "0002354768)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט קובע במפורש לגבי CKMLCPAVR, תוך התייחסות משותפת עם CKMLCP: 'In the transactions CKMLCP and " +
+    "CKMLCPAVR, there is an additional parameter Application. This means that the application can be chosen " +
+    "so that it is possible to process Alternative Valuation Runs via the transaction CKMLCP and Actual " +
+    "Costing Runs via the transaction CKMLCPAVR. In the toolbar of the transactions CKMLCP and CKMLCPAVR, " +
+    "there is a new button... to switch the application from Costing Run to Run Reference and back'. הפריט " +
+    "מוסיף דרישת סגירה לפני המרת מערכת: 'Before system conversion is started, all Material Ledger costing " +
+    "runs, no matter if actual costing (transaction CKMLCP) or alternative valuation run (transaction " +
+    "CKMLCPAVR) need to be finished (e.g. step post closing successfully executed, no error, no materials " +
+    "with status open)'. הפריט אינו קובע שהטרנזקציה הוחלפה, הוסרה, או שיש לה מחליף: מדובר בשינויים " +
+    "טכניים/תפקודיים בתוך אותה טרנזקציה (פרמטר Application חדש, כפתור מעבר ל-Run Reference, שינוי בתוכניות " +
+    "השלבים) ובדרישת סגירת ריצות פתוחות לפני המרה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KA02_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.5 " +
+    "S4TWL - COST ELEMENTS",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 'S4TWL - COST ELEMENTS' ברשימת הפישוט הרשמית (2025 FPS01, גרסת מסמך 1.36, סעיף 6.5.5) קובע: 'Cost " +
+    "elements become part of the chart of accounts. They are maintained in GL account master data. There is " +
+    "no separate cost element master data maintenance.' תחת הכותרת 'Transaction not available in SAP S/4HANA " +
+    "on-premise edition 1511' מודפס: 'KA01 - Create primary cost element KA02 Change cost element KA03 - " +
+    "Display cost element KA06 - Create secondary cost element'. הפריט עדיין מופיע ברשימת 2025 FPS01.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KA03_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.5 " +
+    "S4TWL - COST ELEMENTS",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (2025 FPS01, גרסת מסמך 1.36, נקרא במלואו מ-scratchpad/official/SIMPL_OP2025.pdf.txt) מדפיס תחת " +
+    "הכותרת 'Transaction not available in SAP S/4HANA on-premise edition 1511' את השורה: 'KA01 - Create " +
+    "primary cost element KA02 Change cost element KA03 - Display cost element KA06 - Create secondary cost " +
+    "element ... Fiori Application F0125 Cost Element (Fact Sheet) Fiori Application F0126 - Cost Element " +
+    "Group (Fact Sheet)'. בתיאור הפריט: 'Cost elements become part of the chart of accounts. They are " +
+    "maintained in GL account master data. There is no separate cost element master data maintenance.' " +
+    "ו-'Account master record includes new field for cost element category'. מנגד, ספריית Fiori ועמוד העזרה " +
+    "של אותה מהדורה (2025 FPS01) מונים את KA03 כטרנזקציה קשורה של Manage G/L Account Master Data (F0731A); " +
+    "שני המקורות רשמיים ונשמרים כסתירה. מה שיכריע: SE93 והרצת ניסיון של KA03 במערכת היעד S/4HANA 2025 " +
+    "On-Premise.",
+  verificationLevel: "conflicting_sources",
+  conflictingEvidence: [
+    {
+      sourceType: "fiori_library",
+      sourceTitle: "Manage G/L Account Master Data (Version 2) (F0731A) · SAP Fiori Apps Reference Library · S32OP",
+      url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0731A')/S32OP",
+      product: "SAP S/4HANA",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      accessedAt: DATE25,
+      claim:
+        "פלט scripts/fal-app.mjs F0731A --release S32OP: 'Manage G/L Account Master Data (Version 2) | " +
+        "Transactional / SAP Fiori (SAPUI5) | Published | component FI-FIO-GL-MD'; intent GLAccount-manage; " +
+        "OData FAC_MANAGE_GLACCOUNT_SRV 0002 (S4CORE 109); 'GUI transactions: leading FS00; related FSP0, FSS0, " +
+        "KA01, KA02, KA03, KA04, KA05, KA06, OB_GLACC11, OB_GLACC12, OB_GLACC13'. KA03 מודפסת כטרנזקציה קשורה " +
+        "(related) ולא כמובילה.",
+      verificationLevel: "sap_official_verified",
+    },
+  ],
 };
 
 export const TX_VERIFICATION_B: VerificationRecord[] = [
@@ -15433,5 +15627,1365 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "checkbox via transaction FK02'); ברשומה tx:FK01 אותו loio של דף ההגדרות (deliverable Invoicing) מסומן " +
       "כסתירה לפריט הפישוט (conflicting_sources), וכאן הם נישאים כשורות context, בלי הכרעה. לא בוצעה בדיקה " +
       "במערכת SAP חיה: קיום התוכנית והתנהגות הניתוב בפועל דורשים אימות ב-SE93 במערכת S/4HANA On-Premise.",
+  },
+  {
+    id: "tx:CJ40",
+    evidence: [
+      CJ40_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING (SAP S/4HANA 2023 FPS03 Simplification " +
+          "List, item 12.10)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט ברשימת 2023 FPS03 (גרסת מסמך 1.35, עמ' 357) נוקב ב-CJ40 תחת הכותרת 'Transactions which have " +
+          "been removed from the menu in SAP S/4HANA on-premise edition 1511' באותו נוסח: 'CJ40/CJ42 (overall " +
+          "planning on projects) KP06/KP07 (cost centre planning), CJR2/CJR3 (project planning) and KPF6/KPF7 " +
+          "(order planning) - femoved from menu but can still be used.'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Overall CO Planning for Projects | Single and Composite Roles (PFCG)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/f305b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (2025 FPS01 (Feb 2026), versionId 2025.001, loio f305b753128eb44ce10000000a174cb4) " +
+          "נוקבת ב-CJ40 בסניפט: 'Activities in the Project System Transaction Function CJ40 Change Overall Costs " +
+          "in the WBS CJ41 Display Overall Costs in the WBS CJ42 Change Revenues in the WBS CJ43 Display ...'. גוף " +
+          "העמוד, שנקרא ב-sap-help-body.mjs, מציין את השם הטכני SAP_PS_OVERALL_CO_PLAN_PROJ וקובע: 'You can use " +
+          "the transactions for this role to manually plan costs and revenues in the work breakdown structure.'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Revenue Accounting Integration with Cost Object Controlling | Revenue and Cost Accounting",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f63dd39a28bb4b90adbf9e608aff58ea/ca9033af2fa749e69e8966f9c9d2c79b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (2025 FPS01, versionId 2025.001, loio ca9033af2fa749e69e8966f9c9d2c79b) נוקבת " +
+          "בסניפט: 'Plan Overall Revenues and Costs Plan overall revenues and costs using programs Change Project " +
+          "Plan (CJ40) and Change Project Revenues (CJ42) respectively on the WBS billing elements.'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "S4TWL - Hierarchy Graphics in Project Systems (SAP S/4HANA 2025 FPS01 Simplification List, item 10.1.61)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (2025 FPS01, גרסת מסמך 1.36, עמ' 905 עד 906) נוקב ב-CJ40 וקובע: 'The transactions CJ20N, CJ30, " +
+          "CJ40, CJ01 in the simplification item are only used as an indicator for usage of the hierarchy graphic. " +
+          "These transactions are themselves are not part of this simplification item.' (הנוסח כלשונו במקור). " +
+          "הפריט קובע ש-'Hierarchy Graphic in Project System is part of the SAP S/4HANA compatibility scope, which " +
+          "comes with limited usage rights' ומפנה ל-SAP note 2269324, שבמטריצת התאימות שלו גרפיקת ההיררכיה מופיעה " +
+          "תחת ID 465.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#CJ40",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את CJ40 כ'מערכת פרויקטים (PS Project System) / CO', מודול CO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CJ40",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CJ40",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-CJ40 את הכותרת האנגלית 'Change Project Plan'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CJ40",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Overall CO Planning for Projects | Single and Composite Roles (PFCG)",
+        url: "https://help.sap.com/docs/SAP_ERP/666b7ae6edfe4c05a90ac0150637f964/f305b753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Single and Composite Roles (PFCG), 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "f305b753128eb44ce10000000a174cb4) נוקבת בקוד CJ40 בסניפט: 'Activities in the Project System Transaction " +
+          "Function CJ40 Change Overall Costs in the WBS CJ41 Display Overall Costs in the WBS CJ42 Change " +
+          "Revenues ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F3396 'Copy Financial Plan Data' (SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3396')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F3396 'Copy " +
+          "Financial Plan Data' (SAP Fiori elements, 'Published') עם קוד הטרנזקציה המוביל CJ40.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F4074 'Delete Financial Plan Data - with Timestamp' (SAP Fiori elements), " +
+          "release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4074')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F4074 'Delete " +
+          "Financial Plan Data - with Timestamp' (SAP Fiori elements, 'Published') עם קוד הטרנזקציה המוביל CJ40.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F4850 'Set Financial Plan Data to Zero' (SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4850')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F4850 'Set " +
+          "Financial Plan Data to Zero' (SAP Fiori elements, 'Published') עם קוד הטרנזקציה המוביל CJ40.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "לפי פריט הפישוט 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING' (2025 FPS01), CJ40 (תכנון " +
+        "כולל בפרויקטים) הוסרה מהתפריט ב-SAP S/4HANA on-premise במהדורה 1511 אך עדיין ניתנת לשימוש; תיעוד SAP " +
+        "Help של 2025 FPS01 ממשיך למנות אותה בתפקיד 'Overall CO Planning for Projects' ובדף 'Revenue Accounting " +
+        "Integration with Cost Object Controlling'.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CJ40_SIMPL2025,
+      recommendedAction:
+        "ניתן להמשיך להשתמש ב-CJ40 לתכנון עלויות כולל ב-WBS גם ללא רשומת תפריט, לפי הפריט ('femoved from menu " +
+        "but can still be used', השגיאה במקור); יש לבדוק את תפקידי הלקוח (תפריטים והרשאות), כפי שהפריט מציין " +
+        "שייתכן שיידרשו התאמות. יש לקבל החלטה על היקף תהליכי התכנון מול SAP Analytics Cloud: לפי הפריט, בשימוש " +
+        "בטרנזקציות התכנון הקלאסיות התוצאות נכתבות לטבלאות הסיכומים ומוצגות בטרנזקציות Report Writer/Painter. " +
+        "בנפרד, גרפיקת ההיררכיה של Project System נמצאת ב-compatibility scope לפי פריט 'S4TWL - Hierarchy " +
+        "Graphics in Project Systems' (SAP Note 2269324); זה אינו משנה את מעמד CJ40 עצמה.",
+    },
+    xrefs: ["tx:CJ20N", "tx:CJ30", "tx:CJ42"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מבוסס על קובץ ועל תיעוד SAP רשמי; לא בוצעה בדיקה במערכת SAP חיה. חיפושים ב-scripts/sap-help-search.mjs " +
+      "בסקופ SAP_S4HANA_ON-PREMISE: 'CJ40' (21 רשומות; שתיים נוקבות ב-CJ40 ומצוטטות, Overall CO Planning for " +
+      "Projects ו-Revenue Accounting Integration with Cost Object Controlling; שאר הסניפטים נוקבים בקודים " +
+      "אחרים כגון C040, CJ48 ו-CJ30) ו-'Change Project Plan CJ40' (21 רשומות, אותן שתי רשומות נוקבות ב-CJ40). " +
+      "גוף העמוד Overall CO Planning for Projects נקרא ב-sap-help-body.mjs (deliverable 40374639). fal-app.mjs " +
+      "--tcode CJ40 --release S32OP החזיר: 'leading app(s): F3396 Copy Financial Plan Data; F4074 Delete " +
+      "Financial Plan Data - with Timestamp; F4850 Set Financial Plan Data to Zero; F4851 Delete Financial " +
+      "Plan Data; GUI app entry: none'. הספרייה אינה מדפיסה קשר יורש בין האפליקציות לבין CJ40, ולכן הן אינן " +
+      "מצוטטות כ-successor ולא נכתב יורש. פריטי הפישוט אותרו לפי " +
+      "audit/master-completion/simpl-tcode-index.json (CJ40: 2023 FPS03 12.10; 2025 FPS01 6.5.13 ו-10.1.61) " +
+      "ונקראו ב-scratchpad/official/SIMPL_OP2025.pdf.txt וב-SIMPL_OP2023.pdf.txt. תיקון קריאה: טיוטה קודמת של " +
+      "הרשומה קבעה בטעות שהפריט 'S4TWL - PROFIT AND LOSS PLANNING AND PROFIT CENTER PLANNING' אינו נוקב " +
+      "ב-CJ40; הקריאה תוקנה, הפריט נוקב בה בטבלת 'Transactions which have been removed from the menu in SAP " +
+      "S/4HANA on-premise edition 1511' (עמ' 360 ב-2025, עמ' 357 ב-2023), והמעמד נקבע ממנו כ-changed (הסרה " +
+      "מהתפריט, השימוש נמשך). Old → New: Old: רשומה דטרמיניסטית ב-data/verification/transactions-auto.ts " +
+      "(scripts/qa/gen-tx-evidence.mts) עם שורות הקשר בלבד (tx-intel.ts#CJ40, tcode-catalog.ts#CJ40 עם הכותרת " +
+      "'Change Project Plan', רשומות החיפוש של Overall CO Planning for Projects ב-2025.001 וב-SAP_ERP " +
+      "6.18.latest, ואפליקציות Fiori F3396, F4074 ו-F4850, ושורות הקשר של שלושת פריטי הפישוט) וללא הכרעת מעמד " +
+      "(לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'changed' ברמת repository_verified); New: מעמד " +
+      "changed מבוסס על פריט 6.5.13 ברשימת 2025 FPS01, עם אישוש מאותו פריט ברשימת 2023 FPS03 ומשני עמודי SAP " +
+      "Help של 2025 FPS01. שש שורות ההקשר שלה שאינן מצוטטות כאן (רשומות המאגר tx-intel.ts#CJ40 " +
+      "ו-tcode-catalog.ts#CJ40, רשומת Overall CO Planning for Projects בצד SAP_ERP (6.18.latest), ואפליקציות " +
+      "Fiori F3396, F4074 ו-F4850) הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות; שורות ההקשר של " +
+      "שלושת פריטי הפישוט לא הועתקו: הפריטים נקראו ומצוטטים כאן. ברשומת tx-intel.ts#CJ40 קיים שדה s4Delta על " +
+      "ACDOCA/COSP/COSS שלא אומת כאן ולא הועתק. דורש אימות במערכת SAP: קיום הטרנזקציה והתוכנית ב-SE93 במערכת " +
+      "היעד, היעדרה מתפריט SAP Easy Access, ותוקף ה-compatibility scope של Hierarchy Graphic מול SAP Note " +
+      "2269324 העדכני.",
+  },
+  {
+    id: "tx:CKM3",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CKM3",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את CKM3 כ'ניתוח מחיר חומר', מודול CO, תחום 'חשבונאות מחיר ממוצע'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CKM3",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "EA-FIN: Product Cost Controlling",
+        url: "https://help.sap.com/docs/SAP_ERP/d99f293899c64e8aa5c5f57aa1bbf8f7/0a4fd353c6244308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Enterprise Extensions: Business Functions, 6.0 EHP8 Latest, versionId 6.18.latest) " +
+          "נוקבת בקוד CKM3 בסניפט: 'Actual Costing/Material Ledger Information System Detail Reports CKM3 - " +
+          "Material Price Analysis ... New Material Price Analysis (CKM3N) Once you have activated the business " +
+          "function, the new material price analysis (transaction CKM3N) is called under Accounting Controlling " +
+          "Product Cost Controlling ...'. לפי הסניפט, ב-ECC הקוד מופיע בנתיב Actual Costing/Material Ledger > " +
+          "Information System > Detail Reports, ולאחר הפעלת ה-business function נקראת טרנזקציה CKM3N בנתיב " +
+          "Accounting > Controlling > Product Cost Controlling.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App CKM3 'Material Price Analysis' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CKM3')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את CKM3 כאפליקציית SAP GUI בשם 'Material Price Analysis' בסטטוס " +
+          "'Published', רכיב CO-PC-ACT, ברשימת מהדורות רציפה מ-S9OP (1709) ועד S32OP (2025 FPS01) ללא הפסקה. שדות " +
+          "predecessors ו-successors בספרייה ריקים (מקף); אין מחליפה רשומה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 18.2 " +
+          "S4TWL - Technical Changes in Material Ledger",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 18.2 (2023 FPS03) קורא במפורש תחת הכותרת 'Material Price Analysis (transaction CKM3 / CKM3N)': " +
+          "'The transaction CKM3/CKM3N was refactored and now provides a simplified and improved view of materials " +
+          "in plants with active Actual Costing. It replaces the former CKM3 view Price Determination Structure. " +
+          "The former CKM3 Price History view is still available via transaction CKM3PH ... All other views " +
+          "formerly offered by CKM3/CKM3N are no longer available.' כלומר: הפריט לא קובע החלפה/הסרה של הטרנזקציה " +
+          "CKM3 עצמה, אלא שכתוב פנימי (refactor) שלה: תצוגה אחת (Price Determination Structure) הוחלפה בתצוגה " +
+          "החדשה, ותצוגות אחרות בוטלו.",
+        verificationLevel: "sap_official_verified",
+      },
+      CKM3_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.10 " +
+          "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פריט 6.5.10 (2025 FPS01, זהה בניסוחו לפריט 12.4 של 2023 FPS03) בסעיף 'Functional changes/improvements', " +
+          "תחת 'Material Price Analysis (Transaction CKM3)' מפרט שינויים פונקציונליים קונקרטיים: 'No separate view " +
+          "for Cost Components, but integrated in main screen ... Display of WIP Reduction for material ... " +
+          "Plan/Actual Comparison is removed in new CKM3. Technically, data is retrieved from table MLDOC, " +
+          "MLDOCCCS and MLDOC_EXTRACT and MLDOCCCS_EXTRACT.' כלומר: מבחינה טכנית CKM3 שולפת את הנתונים מהטבלאות " +
+          "MLDOC, MLDOCCCS, MLDOC_EXTRACT ו-MLDOCCCS_EXTRACT, תצוגת Cost Components שולבה במסך הראשי, והשוואת " +
+          "Plan/Actual הוסרה; שינויים בתוך אותה טרנזקציה, לא החלפתה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 15.3.10 " +
+          "S4TWL - Material Valuation - Statistical moving average price",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פריט 15.3.10 (2025 FPS01, זהה בניסוחו לפריט 27.8 של 2023 FPS03) קובע: 'In table MBEW, EBEW, OBEW, QBEW " +
+          "the fields SALKV and VERPR are not updated anymore for materials with price control \"Standard\" ... the " +
+          "\"statistical\" moving average price ... [is] no longer available on the user interface. This concerns " +
+          "the following transaction codes: MM01, MM02, MM03, CKM3 and MR21.' כלומר: כאשר לקוח בוחר באופציה להגברת " +
+          "תפוקת רישום תנועות מלאי, השדה הסטטיסטי (מחיר ממוצע נע סטטיסטי) מפסיק להיות מוצג במסכי CKM3 עצמה; שינוי " +
+          "תצוגה ולא הסרת הטרנזקציה, ותלוי בבחירת לקוח (ניתן להימנע ממנה).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 12.4 " +
+          "S4TWL - Technical Changes in Material Ledger with Actual Costing",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 12.4 (2023 FPS03) נוקב באותו ניסוח כמו פריט 6.5.10 של 2025 FPS01 בסעיף 'Functional " +
+          "changes/improvements', תחת 'Material Price Analysis (Transaction CKM3)': שילוב תצוגת Cost Components " +
+          "במסך הראשי, הצגת WIP Reduction, הסרת Plan/Actual Comparison, ושליפת נתונים טכנית מהטבלאות " +
+          "MLDOC/MLDOCCCS. מאשר שהשינוי הפונקציוני כבר תועד ב-2023 FPS03 ונשאר ללא שינוי נוסף ב-2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 27.8 " +
+          "S4TWL - Material Valuation - Statistical moving average price",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 27.8 (2023 FPS03) נוקב באותו ניסוח כמו פריט 15.3.10 של 2025 FPS01: כאשר לקוח בוחר באופציית הגברת " +
+          "תפוקת התנועות, השדות SALKV/VERPR מפסיקים להתעדכן עבור חומרים עם Price Control 'S', והמחיר הסטטיסטי " +
+          "הממוצע הנע חדל להיות מוצג ב-CKM3 ובקודים נוספים (MM01, MM02, MM03, MR21). מאשר שההשפעה כבר תועדה ב-2023 " +
+          "FPS03.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Feature Comparison for Material Valuations and Price Changes | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/1703f29f66e94ab8a23e016f9f7f2b89.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Controlling (CO), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "1703f29f66e94ab8a23e016f9f7f2b89) נוקבת בקוד CKM3 בסניפט: '... out about the differences between the " +
+          "app Manage Material Valuations and transactions MM03, CKM3, MR21, MR22, CKME and CKMPRPN. ... Manage " +
+          "Material Valuations Display Material Material Price ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material Ledger Drilldown Reporting | Sourcing and Procurement",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/81d0b25af8b34db18d88dbb953dc2224.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Sourcing and Procurement, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "81d0b25af8b34db18d88dbb953dc2224) נוקבת בקוד CKM3 בסניפט: 'Unlike with single material reporting such " +
+          "as that used in transaction CKM3 and CKM3N, aggregated reports that extend beyond groups of materials " +
+          "can also be displayed ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Controlling | Accounting",
+        url: "https://help.sap.com/docs/SAP_ERP/07f61ff078e344d59d6406d7b66baed8/ef36d7531a4d444de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Accounting, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "ef36d7531a4d444de10000000a174cb4) נוקבת בקוד CKM3 בסניפט: '... K_ML_VA with activity 3 840917 SU24/SU22 " +
+          "- Missing entries for S_ALR* transactions 854083 CKM3 ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "CKM3 (ניתוח מחיר חומר) ממשיכה להתקיים כטרנזקציית SAP GUI ב-S/4HANA On-Premise ורשומה בספריית Fiori עד " +
+        "2025 FPS01 (S32OP) ללא מחליפה רשומה. לפי 'S4TWL - Technical Changes in Material Ledger' הטרנזקציה עברה " +
+        "שכתוב: תצוגת Price Determination Structure הוחלפה בתצוגה מפושטת ותצוגות אחרות בוטלו; פריטים נלווים " +
+        "מבטלים את Plan/Actual Comparison ואת הצגת המחיר הממוצע הנע הסטטיסטי כאשר נבחרת אופציית התפוקה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CKM3_SIMPL2025,
+      recommendedAction:
+        "לפני המרת המערכת יש לבדוק מול שלושת פריטי ה-S4TWL הרלוונטיים (Technical Changes in Material Ledger; " +
+        "Technical Changes in Material Ledger with Actual Costing; Material Valuation - Statistical moving " +
+        "average price) אילו תצוגות ושדות בשימוש בתהליך העסקי (Plan/Actual Comparison, מחיר ממוצע נע סטטיסטי, " +
+        "Cost Components), ולאמת ב-SE93 במערכת היעד ובהרצה חיה של CKM3 שההתנהגות החדשה תואמת לצורך העסקי לפני " +
+        "סגירת התקופה הראשונה לאחר ההמרה.",
+    },
+    xrefs: ["tx:CKM3N", "tx:CKMLCP", "tx:MR21", "tx:MM03", "table:MBEW"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מחקר ידני (לא דטרמיניסטי) שמחליף את הרשומה האוטומטית tx:CKM3 שכבר קיימת " +
+      "ב-data/verification/transactions-auto.ts (batch 2026-09-24, ללא הכרעת מעמד; לפני הכתיבה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'replaced' ברמת repository_verified, דרך שדה ה-obsolete של " +
+      "tx-intel.ts#CKM3N). היסטוריה (Old → New): 'replaced' הנגזר מוחלף ב-'changed', לפי פריטי הפישוט שמתארים " +
+      "את CKM3/CKM3N כטרנזקציה שעברה refactoring. שלוש שורות ההקשר שלה שאינן מצוטטות כאן ('Feature Comparison " +
+      "for Material Valuations and Price Changes | Controlling (CO)' ו-'Material Ledger Drilldown Reporting | " +
+      "Sourcing and Procurement' בצד S/4HANA, 2025.001, ו-'Controlling | Accounting' בצד ה-ECC, 6.18.latest) " +
+      "הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות; שורות ההקשר של שלושת פריטי 2025 FPS01 לא " +
+      "הועתקו: הפריטים נקראו ומצוטטים כאן. חיפושים שהורצו: 'CKM3 Material Price Analysis' בסקופ " +
+      "SAP_S4HANA_ON-PREMISE (21 רשומות, נקראו 3), 'CKM3' בסקופ SAP_ERP (21 רשומות, נקראה 1 חדשה - EA-FIN: " +
+      "Product Cost Controlling); fal-app.mjs CKM3 --release S32OP (אפליקציית SAP GUI מפורסמת ברציפות " +
+      "S9OP–S32OP, ללא predecessor/successor). שישה פריטי S4TWL נקראו במלואם מהטקסט המחולץ " +
+      "(scratchpad/official/SIMPL_OP2023.pdf.txt, SIMPL_OP2025.pdf.txt) לפי שורות simpl-tcode-index.json: 2023 " +
+      "FPS03 12.4/18.2/27.8, 2025 FPS01 6.5.6/6.5.10/15.3.10: כל שישתם עוסקים בשכתוב/שינוי פונקציונלי של CKM3, " +
+      "אף אחד מהם לא קובע הסרה, החלפה או ביטול של הקוד עצמו. לא נמצא מקור רשמי הקובע טרנזקציית/אפליקציית " +
+      "מחליפה (successor) ל-CKM3; עמוד 'Feature Comparison for Material Valuations and Price Changes' מזכיר את " +
+      "האפליקציה 'Manage Material Valuations' לצד CKM3 כאלטרנטיבה להשוואה, לא כמחליפה רשמית; לכן לא נכתב " +
+      "successor. לא בוצעה בדיקה במערכת SAP חיה (SE93/הרצה בפועל).",
+  },
+  {
+    id: "tx:CKM3N",
+    evidence: [
+      CKM3N_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 18.2 " +
+          "S4TWL - Technical Changes in Material Ledger",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim:
+          "פריט 18.2 באותו שם ברשימת הפישוט 2023 FPS03 (גרסת מסמך 1.35) מביא את אותה פסקה מילה במילה לגבי " +
+          "CKM3/CKM3N: הטרנזקציה עברה refactoring ומחליפה את תצוגת Price Determination Structure של CKM3; תצוגת " +
+          "Price History זמינה דרך CKM3PH; כל שאר התצוגות של CKM3/CKM3N אינן זמינות עוד. אף אחד משני הפריטים לא " +
+          "מציין את ה-release שבו חל השינוי לראשונה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App CKM3N 'Material Price Analysis' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CKM3N')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות של Fiori רושמת את CKM3N כאפליקציה 'Material Price Analysis' מסוג SAP GUI, בסטטוס " +
+          "Published, ברכיב CO-PC-ACT. היא רשומה בכל מהדורות On-Premise מ-S6OP (S/4HANA 1610) עד S32OP (2025 " +
+          "FPS01), ושדות ה-predecessor/successor בה ריקים ('-').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "EA-FIN: Product Cost Controlling | Enterprise Extensions: Business Functions",
+        url: "https://help.sap.com/docs/SAP_ERP/d99f293899c64e8aa5c5f57aa1bbf8f7/0a4fd353c6244308e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש בסקופ SAP ERP (Enterprise Extensions: Business Functions, versionId 6.18.latest) נוקבת " +
+          "ב-CKM3N בסניפט: 'New Material Price Analysis (CKM3N) Once you have activated the business function, the " +
+          "new material price analysis (transaction CKM3N) is called under Accounting Controlling Product Cost " +
+          "Controlling ... Actual Costing/Material Ledger ...'. כלומר בצד ECC, לפי הסניפט, לאחר הפעלת ה-business " +
+          "function נקראת ה-new material price analysis (CKM3N) תחת נתיב Actual Costing/Material Ledger במערכת " +
+          "המידע.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#CKM3N",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את CKM3N כ'חשבון עלות מוצר (CO-PC Material Ledger / Actual Costing)', מודול CO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#CKM3N",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material Ledger Drilldown Reporting | Sourcing and Procurement",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/81d0b25af8b34db18d88dbb953dc2224.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Sourcing and Procurement, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "81d0b25af8b34db18d88dbb953dc2224) נוקבת בקוד CKM3N בסניפט: 'Unlike with single material reporting such " +
+          "as that used in transaction CKM3 and CKM3N, aggregated reports that extend beyond groups of materials " +
+          "can also be displayed in drilldown ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F4095 'Display Material Value Chain' (SAP Fiori (SAPUI5)), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4095')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F4095 'Display " +
+          "Material Value Chain' (SAP Fiori (SAPUI5), 'Published') עם קוד הטרנזקציה המוביל CKM3N.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "CKM3N (ניתוח מחיר חומר, Material Price Analysis) ממשיכה להתקיים כטרנזקציה ב-SAP S/4HANA, מהדורת " +
+        "On-Premise. ספריית האפליקציות של Fiori רושמת אותה כאפליקציית SAP GUI בסטטוס Published מ-S/4HANA 1610 עד " +
+        "2025 FPS01, ושדה ה-successor בספרייה ריק. לפי פריט הפישוט S4TWL - Technical Changes in Material Ledger " +
+        "(אותו טקסט ב-2023 FPS03 וב-2025 FPS01), הטרנזקציה עברה refactoring: היא מציגה תצוגה מפושטת למפעלים עם " +
+        "Actual Costing פעיל ומחליפה את תצוגת Price Determination Structure של CKM3. תצוגת Price History זמינה " +
+        "דרך CKM3PH, ושאר התצוגות הישנות הוסרו.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: CKM3N_SIMPL2025,
+      recommendedAction:
+        "קוד הטרנזקציה עצמו לא דורש פעולת מעבר: CKM3N ממשיכה לפעול ללא שינוי שם. בזמן ה-conversion יש לבדוק אילו " +
+        "תצוגות של CKM3/CKM3N הישנה שימשו בתהליכי העבודה. תצוגת Price Determination Structure הוחלפה בתצוגה " +
+        "המפושטת, ותצוגת Price History זמינה דרך CKM3PH. יש לעדכן הוראות עבודה והדרכות שמפנות לתצוגות שהוסרו, " +
+        "ולאמת במערכת S/4HANA היעד (SE93 או הרצת CKM3N) אילו תצוגות זמינות בגרסה הנוכחית.",
+    },
+    xrefs: ["tx:CKM3", "tx:CKMLCP"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נבדק מבוסס על קובץ: פריט הפישוט S4TWL - Technical Changes in Material Ledger נקרא במלואו בשתי המהדורות " +
+      "(2023 FPS03 פריט 18.2, 2025 FPS01 פריט 6.5.6) מתוך scratchpad/official/SIMPL_OP2023.pdf.txt " +
+      "ו-SIMPL_OP2025.pdf.txt. שני הפריטים מביאים את אותו טקסט מילה במילה לגבי CKM3N, ולכן הפריט העדכני (2025 " +
+      "FPS01) נבחר כמקור הסטטוס. חיפושים ב-sap-help-search.mjs: 'CKM3N Material Price Analysis' בסקופ " +
+      "SAP_S4HANA_ON-PREMISE (21 רשומות) ו-'CKM3N' בסקופ SAP_ERP (11 רשומות, אחת מצוטטת כ-evidence[3]). " +
+      "fal-app.mjs CKM3N --release S32OP: אפליקציית SAP GUI בסטטוס Published, שדות predecessor/successor " +
+      "ריקים. הרשומה המחקרית גוברת על הרשומה הדטרמיניסטית tx:CKM3N ב-transactions-auto.ts " +
+      "(scripts/qa/gen-tx-evidence.mts, 2026-09-24), שכללה שורות הקשר ללא הכרעת סטטוס (לפני הכתיבה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'changed' ברמת repository_verified). שלוש שורות ההקשר שלה שאינן " +
+      "מצוטטות כאן (רשומת המאגר tx-intel.ts#CKM3N, 'Material Ledger Drilldown Reporting | Sourcing and " +
+      "Procurement' בצד S/4HANA (2025.001) ואפליקציית Fiori F4095 'Display Material Value Chain') הועתקו " +
+      "כלשונן כשורות context, שאינן נספרות ברמת האימות; שורות ההקשר של שני פריטי הפישוט לא הועתקו: הפריטים " +
+      "נקראו ומצוטטים כאן. F4095 ('Display Material Value Chain') לא נכלל כ-xref כי אינו קיים " +
+      "ב-data/fiori/apps.ts. CKM3PH ו-CKM3A אינן קיימות ב-lib/route-manifest.generated.ts ולכן מוזכרות בטקסט " +
+      "בלבד. לא בוצעה בדיקה במערכת SAP S/4HANA חיה: יש לאמת ב-SE93 או בהרצה חיה אילו תצוגות זמינות בפועל ואיך " +
+      "מנווטים ל-CKM3PH.",
+  },
+  {
+    id: "tx:CKMLCP",
+    evidence: [
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library: Edit Actual Costing Runs (CKMLCP), S/4HANA 2025 FPS01",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CKMLCP')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת הספרייה ל-CKMLCP על S32OP (2025 FPS01), שנקראה דרך ערוץ ה-OData הרשמי (scripts/fal-app.mjs, לא " +
+          "ה-JS shell): 'Edit Actual Costing Runs', SAP GUI / SAP GUI, Published, רכיב יישום CO-PC-ACT (Actual " +
+          "Costing). תפקיד מוביל SAP_BR_INVENTORY_ACCOUNTANT (R0245-66, Cost Accountant - Inventory); קטלוגים " +
+          "עסקיים SAP_SFIN_BC_IA_AC_PER_ACT ו-SAP_SFIN_BC_IA_AC_PER_NPA, קטלוג טכני SAP_TC_FIN_ACC_BE_APPS:S4FIN; " +
+          "intent ActualCostingRun-createEdit; אין שירות OData ברשומה; GUI transaction מובילה ומקושרת: CKMLCP. " +
+          "גרסאות On-Premise רשומות מ-S6OP (1610) עד S32OP (2025 FPS01), בנוסף Private Cloud (S29PCE עד S32PCE) " +
+          "ו-S36=2602, S37=2608. predecessors ו-successors ריקים ברשומה: אין אפליקציה קודמת או מחליפה רשומה " +
+          "בספרייה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Creating a Costing Run",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/d0f1d353ca9f4408e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Sourcing and Procurement, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "d0f1d353ca9f4408e10000000a174cb4) בכותרת 'Creating a Costing Run' נוקבת בסניפט: 'Procedure Choose " +
+          "Accounting → Controlling → Product Cost Controlling → Actual Costing/Material Ledger → Actual Costing → " +
+          "Edit Costing Run, then Costing Run → Create or open the app Edit Actual Costing Runs (CKMLCP...'. " +
+          "הרשומה מתעדת את CKMLCP כאפליקציית Edit Actual Costing Runs בנתיב התפריט Accounting → Controlling → " +
+          "Product Cost Controlling ב-S/4HANA On-Premise 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      CKMLCP_SIMPL2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material Ledger Drilldown Reporting",
+        url: "https://help.sap.com/docs/SAP_ERP/56f7319a9048445eb86221af73cab72b/81d0b25af8b34db18d88dbb953dc2224.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית בסקופ SAP_ERP (6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "81d0b25af8b34db18d88dbb953dc2224) נוקבת בסניפט: 'Monthly schedule of process to prepare the reporting: " +
+          "You must perform the period-end closing process independently in the costing cockpit (transaction " +
+          "CKMLCP).'. ב-SAP ERP 6.0 (ECC) CKMLCP מתועדת כ-costing cockpit לתהליך סגירת התקופה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CKMLCP",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-CKMLCP מודול CO, כותרת עברית 'עריכת ריצת תמחיר (פנקס חומרים)', כותרת " +
+          "אנגלית 'Edit Costing Run (Material Ledger)', תחום 'חשבונאות מחיר ממוצע'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CKMLCP",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Customizing for Calculating the Cost of Goods Manufactured and Closing Entries | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/263dae13e856478ea3782974339b4be8.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Controlling (CO), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "263dae13e856478ea3782974339b4be8) נוקבת בקוד CKMLCP בסניפט: '... update = 2), and that the cost centers " +
+          "are credited using the periodic costing run (transaction CKMLCP ... Here you have defined, for example, " +
+          "that the prices of the leading version are included ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Customizing for Calculating the Cost of Goods Manufactured and Closing Entries | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/263dae13e856478ea3782974339b4be8-1776.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Controlling (CO), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "263dae13e856478ea3782974339b4be8-1776) נוקבת בקוד CKMLCP בסניפט: '... update = 2), and that the cost " +
+          "centers are credited using the periodic costing run (transaction CKMLCP ... Here you have defined, for " +
+          "example, that the prices of the leading version are included ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Customizing for Calculating the Cost of Goods Manufactured and Closing Entries | Actual " +
+          "Costing/Material Ledger (CO-PC-ACT)",
+        url: "https://help.sap.com/docs/SAP_ERP/56f7319a9048445eb86221af73cab72b/263dae13e856478ea3782974339b4be8.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Actual Costing/Material Ledger (CO-PC-ACT), 6.0 EHP8 Latest, versionId " +
+          "6.18.latest, loio 263dae13e856478ea3782974339b4be8) נוקבת בקוד CKMLCP בסניפט: '... account, and that " +
+          "the cost centers are credited using the periodic costing run (transaction CKMLCP ... Here you have " +
+          "defined, for example, that the prices of the leading version are included ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "CKMLCP (עריכת ריצת תמחיר, פנקס חומרים) רשומה בספריית ה-Fiori כאפליקציית SAP GUI 'Edit Actual Costing " +
+        "Runs' ב-SAP S/4HANA On-Premise, מ-1610 ועד S32OP (2025 FPS01). פריט הפישוט 'S4TWL - Technical Changes " +
+        "in Material Ledger with Actual Costing' (SAP Note 2354768) קובע שמודל הנתונים של Material Ledger השתנה " +
+        "משמעותית כש-Actual Costing פעיל: ארבעת שלבי התהליך (Single-Level Price Determination, Multilevel Price " +
+        "Determination, Revaluation of Consumption, WIP Revaluation) מוזגו לשלב Settlement אחד, ו-customizing " +
+        "מטבעות נפרד (OMX2/OMX3) הפך לחובה; הפריט אינו מציין תחליף ל-CKMLCP, ורשומת הספרייה אינה מציגה אפליקציה " +
+        "מחליפה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CKMLCP_SIMPL2025,
+      recommendedAction:
+        "לפני תחילת המרת המערכת לסיים את כל ריצות התמחיר בפנקס החומרים, הן ב-CKMLCP והן ב-CKMLCPAVR (שלב post " +
+        "closing הורץ בהצלחה, ללא שגיאות וללא חומרים בסטטוס open), ולא לפתוח במערכת הישנה ריצה לתקופה הפתוחה שבה " +
+        "מתבצעת ההמרה; את ריצת התקופה הזו יוצרים לאחר ההמרה במערכת החדשה. לאזורי הערכה חדשים שנוצרים אחרי ההמרה: " +
+        "לשייך ב-OMX2 את סוגי המטבע וההערכה הרלוונטיים ל-Material Ledger, ואחר כך לשייך את ה-ML Type לאזור " +
+        "ההערכה ב-OMX3; אין עוד ML Type ברירת מחדל '0000'. להכין את המשתמשים לשלב Settlement המאוחד במקום ארבעת " +
+        "השלבים הנפרדים.",
+    },
+    xrefs: ["tx:CKM3N", "tx:CKM3", "tx:CKMLCPAVR", "tx:CO88", "table:MBEW"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מבוסס על קובץ ועל מקורות רשמיים: פריט הפישוט 'S4TWL - Technical Changes in Material Ledger with Actual " +
+      "Costing' נקרא במלואו משני קבצי scratchpad (2023 FPS03 פריט 12.4, 2025 FPS01 פריט 6.5.10, זהים בתוכן, " +
+      "SAP Note 2354768). הפריט אינו מציין תחליף לטרנזקציית CKMLCP: הוא מתעד שינוי במודל הנתונים ובלוגיקת " +
+      "התהליך, ולכן הסטטוס 'changed' ולא 'replaced' או 'deprecated'. fal-app.mjs --tcode CKMLCP ו-fal-app.mjs " +
+      "CKMLCP --release S32OP (2025 FPS01) מציגים את CKMLCP כאפליקציית SAP GUI ('Edit Actual Costing Runs') עם " +
+      "0 predecessors ו-0 successors. חיפושים ב-sap-help-search.mjs: 'CKMLCP' בסקופ SAP_S4HANA_ON-PREMISE (21 " +
+      "רשומות; נבדקה 'Creating a Costing Run', 2025.001) ו-'CKMLCP' בסקופ SAP_ERP (21 רשומות; נבדקה 'Material " +
+      "Ledger Drilldown Reporting', 6.18.latest). טענות רשומות החיפוש תחומות בכותרת ובסניפט; גוף העמודים לא " +
+      "נקרא. status.source מצביע על שורת פריט הפישוט S4TWL מרשימת 2025 FPS01. היסטוריה (Old → New): הרשומה " +
+      "הדטרמיניסטית tx:CKMLCP ב-transactions-auto.ts (2026-09-24, ללא הכרעת מעמד; ישן: verification_required " +
+      "לפי report-coverage.mjs --ids, נמדד לפני הכתיבה) מוחלפת ברשומה זו עם status 'changed'. שלוש שורות ההקשר " +
+      "שלה שאינן מצוטטות כאן (שתי רשומות 'Customizing for Calculating the Cost of Goods Manufactured and " +
+      "Closing Entries | Controlling (CO)' בצד S/4HANA, 2025.001, ואותו נושא בצד ה-ECC, Actual " +
+      "Costing/Material Ledger (CO-PC-ACT), 6.18.latest) הועתקו כלשונן כשורות context, שאינן נספרות ברמת " +
+      "האימות; שורת ההקשר של פריט 12.4 ברשימת 2023 FPS03 לא הועתקה: הפריט נקרא ונזכר בשורת פריט 6.5.10. לא " +
+      "בוצעה בדיקה במערכת SAP חיה: התנהגות שלב ה-Settlement המאוחד וה-customizing ב-OMX2/OMX3 דורשים אימות " +
+      "במערכת S/4HANA On-Premise חיה. אזכורי CKMLCP בפריטי פישוט אחרים (למשל Archiving Objects in the Material " +
+      "Ledger) לא נבדקו.",
+  },
+  {
+    id: "tx:CKMLCPAVR",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#CKMLCPAVR",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את CKMLCPAVR כ'ריצת הערכה חלופית', מודול CO, תחום 'חשבונאות מחיר ממוצע'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#CKMLCPAVR",
+      },
+      CKMLCPAVR_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 Feature Pack Stack 3 (document version 1.35), item 12.4 S4TWL " +
+          "- Technical Changes in Material Ledger with Actual Costing (components FIN-MIG-ML, CO-PC-ACT, SAP Note " +
+          "2354768)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט (12.4, אותו SAP Note 2354768, אותה כותרת) מופיע כבר במהדורת 2023 FPS03 עם אותו תוכן עקרוני " +
+          "לגבי CKMLCPAVR: נדרש לסיים ('post closing' ללא שגיאות, ללא חומרים בסטטוס 'open') כל ריצת CKMLCP או " +
+          "CKMLCPAVR לפני תחילת המרת המערכת. אין קביעה על החלפה, הסרה או מחליף לטרנזקציה; זו הופעה חוזרת של אותו " +
+          "פריט טכני מ-2023 ועד 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library, App CKMLCPAVR 'Edit Alternative Valuation Runs' (SAP GUI), release S32OP (S/4HANA " +
+          "2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('CKMLCPAVR')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את CKMLCPAVR כאפליקציית SAP GUI 'Edit Alternative Valuation " +
+          "Runs' (רכיב CO-PC-ACT-AVR), בסטטוס 'Published', עם טרנזקציית GUI מובילה CKMLCPAVR, וזמינה ברציפות " +
+          "מ-S6OP (מהדורה 1610) ועד S32OP (2025 FPS01), המהדורה העל-חצרית האחרונה בספרייה. שדות predecessors " +
+          "ו-successors ריקים: לא נרשם מחליף ולא נרשמת אפליקציה קודמת.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Customizing for Calculating the Cost of Goods Manufactured and Closing Entries | Sourcing and " +
+          "Procurement",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/263dae13e856478ea3782974339b4be8.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Sourcing and Procurement, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "263dae13e856478ea3782974339b4be8) נוקבת בקוד CKMLCPAVR בסניפט: '... prices of the additional versions " +
+          "are included in the alternative valuation run (transaction CKMLCPAVR ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Customizing for Calculating the Cost of Goods Manufactured and Closing Entries | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/263dae13e856478ea3782974339b4be8-1776.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Controlling (CO), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "263dae13e856478ea3782974339b4be8-1776) נוקבת בקוד CKMLCPAVR בסניפט: '... prices of the additional " +
+          "versions are included in the alternative valuation run (transaction CKMLCPAVR ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Customizing for Calculating the Cost of Goods Manufactured and Closing Entries | Actual " +
+          "Costing/Material Ledger (CO-PC-ACT)",
+        url: "https://help.sap.com/docs/SAP_ERP/56f7319a9048445eb86221af73cab72b/263dae13e856478ea3782974339b4be8.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Actual Costing/Material Ledger (CO-PC-ACT), 6.0 EHP8 Latest, versionId " +
+          "6.18.latest, loio 263dae13e856478ea3782974339b4be8) נוקבת בקוד CKMLCPAVR בסניפט: '... prices of the " +
+          "additional versions are included in the alternative valuation run (transaction CKMLCPAVR ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "הטרנזקציה CKMLCPAVR (ריצת הערכה חלופית) קיימת וזמינה ב-SAP S/4HANA On-Premise ברציפות מ-1610 ועד 2025 " +
+        "FPS01, ללא מחליף רשום. פריט הפישוט S4TWL - Technical Changes in Material Ledger with Actual Costing " +
+        "(רשימת הפישוט 2025 FPS01, ובנוסח מקביל ברשימת 2023 FPS03) מתעד שינויים טכניים בתוך אותה טרנזקציה: פרמטר " +
+        "Application חדש, אפשרות מעבר ל-Run Reference, ושלבי ריצה ותוכניות שהשתנו, וכן דורש שכל ריצת " +
+        "CKMLCP/CKMLCPAVR פתוחה תסתיים לפני המרת המערכת.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: CKMLCPAVR_SIMPL2025,
+      recommendedAction:
+        "לפני המרת מערכת ל-S/4HANA יש לוודא שכל ריצות CKMLCP ו-CKMLCPAVR הפתוחות הושלמו (post closing ללא " +
+        "שגיאות, ללא חומרים בסטטוס open); לא לפתוח ריצות חדשות באמצע תקופה סמוך למועד ההמרה. לאחר ההמרה יש לבדוק " +
+        "את פרמטר Application החדש ואת אפשרות Run Reference בטרנזקציה, ולוודא שהתהליך העסקי מותאם לשלבים " +
+        "המעודכנים.",
+    },
+    xrefs: ["tx:CKMLCP"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נבדק ידנית (לא הרצת gen-tx-evidence.mts): נקראו תוכן פריטי הפישוט 6.5.10 (2025 FPS01) ו-12.4 (2023 " +
+      "FPS03), שניהם עם אותו SAP Note (2354768/0002354768) ואותה כותרת 'S4TWL - Technical Changes in Material " +
+      "Ledger with Actual Costing', מתוך scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt. שני " +
+      "הפריטים דנים בשינויים טכניים בתוך CKMLCP/CKMLCPAVR (פרמטר Application, Run Reference, תוכניות שלבים) " +
+      "ובדרישת סגירת ריצות לפני המרה; אף אחד מהם לא קובע החלפה/הסרה של הטרנזקציה. אומת גם מול fal-app.mjs " +
+      "CKMLCPAVR --release S32OP: predecessors/successors ריקים, זמינות רציפה 1610 עד 2025 FPS01. רשומה קודמת " +
+      "דטרמיניסטית קיימת ב-data/verification/transactions-auto.ts (שורה 9228 ואילך, ללא קביעת מעמד; ישן: " +
+      "verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה); רשומה זו מחליפה אותה עם קביעת " +
+      "מעמד מבוססת ('changed'). שלוש שורות ההקשר שלה שאינן מצוטטות כאן ('Customizing for Calculating the Cost " +
+      "of Goods Manufactured and Closing Entries' בצד S/4HANA, בדליברבלים Sourcing and Procurement " +
+      "ו-Controlling (CO), 2025.001, ובצד ה-ECC, Actual Costing/Material Ledger (CO-PC-ACT), 6.18.latest) " +
+      "הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות. לא בוצעה בדיקה במערכת SAP חיה; SE93 במערכת יעד " +
+      "נותר האימות הסופי לקיום הטרנזקציה, התוכנית והמסך.",
+  },
+  {
+    id: "tx:KA01",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 - Feature Pack Stack 3 (document version 1.35) · item 12.15 S4TWL - COST ELEMENTS",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט 'S4TWL - COST ELEMENTS' (2023 FPS03, סעיף 12.15) קובע: 'Cost elements become part of the chart of " +
+          "accounts. They are maintained in GL account master data. There is no separate cost element master data " +
+          "maintenance.' בטבלת הטרנזקציות של הפריט, תחת הכותרת 'Transaction not available in SAP S/4HANA " +
+          "on-premise edition 1511', מודפסת השורה 'KA01 - Create primary cost element' לצד KA02, KA03 ו-KA06, " +
+          "ובאותו תא: 'Default account assignments (cost center, order) will be transferred from cost element " +
+          "masters to table TKA3A (view using transaction OKB9)'. הכותרת מתייחסת במפורש למהדורה 1511; הפריט אינו " +
+          "נוקב בטרנזקציה מחליפה ל-KA01. תיעוד 2025 FPS01 מציג את KA01 כטרנזקציית אימות ב-Back-End (ראו " +
+          "conflictingEvidence).",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "sap_help",
+            sourceTitle: "FI - G/L account | Data Migration",
+            url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/e46095f3fb044369a9de814262c59ac8.html?locale=en-US&state=PRODUCTION&version=2025.001",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025.001",
+            accessedAt: DATE25,
+            claim:
+              "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+              "e46095f3fb044369a9de814262c59ac8) נוקבת ב-KA01 בסניפט: 'validating your data in the back end using the " +
+              "following transaction: Transaction: Create Cost Element (KA01) Create Secondary Cost Element (KA06)'. " +
+              "תיעוד 2025 FPS01 מציג אפוא את KA01 כטרנזקציית אימות ב-Back-End, בניגוד לכותרת 'Transaction not " +
+              "available in SAP S/4HANA on-premise edition 1511' בפריט הפישוט.",
+            verificationLevel: "sap_official_verified",
+          },
+          {
+            sourceType: "sap_help",
+            sourceTitle: "FI - G/L account - extend existing record by new org levels | Data Migration",
+            url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/47c3197be2884c5caa71379f90d655ac.html?locale=en-US&state=PRODUCTION&version=2025.001",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025.001",
+            accessedAt: DATE25,
+            claim:
+              "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+              "47c3197be2884c5caa71379f90d655ac) נוקבת ב-KA01 באותו סניפט: 'validating your data in the back end using " +
+              "the following transaction: Transaction: Create Cost Element (KA01) Create Secondary Cost Element " +
+              "(KA06)'. גם כאן KA01 מוצגת כטרנזקציית אימות ב-Back-End בתיעוד 2025 FPS01, בניגוד לכותרת בפריט הפישוט.",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+          "2025 - Feature Pack Stack 1 (document version 1.36) · item 6.5.5 S4TWL - COST ELEMENTS",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט 'S4TWL - COST ELEMENTS' (2025 FPS01, סעיף 6.5.5) חוזר על הנוסח 'Cost elements become part of the " +
+          "chart of accounts. They are maintained in GL account master data. There is no separate cost element " +
+          "master data maintenance.' ועל אותה כותרת, 'Transaction not available in SAP S/4HANA on-premise edition " +
+          "1511', שתחתיה מודפס: 'KA01 - Create primary cost element KA02 Change cost element KA03 - Display cost " +
+          "element KA06 - Create secondary cost element Default account assignments (cost center, order) will be " +
+          "transferred from cost element masters to table TKA3A (view using transaction OKB9). Fiori Application " +
+          "F0125 Cost Element (Fact Sheet) Fiori Application F0126 - Cost Element Group (Fact Sheet)'. לפי הפריט, " +
+          "קטגוריית אלמנט העלות היא נתון באזור ה-Controlling של רשומת האב ('Controlling-area-specific area ... " +
+          "such as the cost element category'), ואזור זה נדרש רק לחשבונות מסוג Primary Costs or Revenue " +
+          "ו-Secondary Costs. הכותרת מתייחסת במפורש למהדורה 1511, והפריט אינו נוקב בטרנזקציה מחליפה ל-KA01.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "sap_help",
+            sourceTitle: "FI - G/L account | Data Migration",
+            url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/e46095f3fb044369a9de814262c59ac8.html?locale=en-US&state=PRODUCTION&version=2025.001",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025.001",
+            accessedAt: DATE25,
+            claim:
+              "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+              "e46095f3fb044369a9de814262c59ac8) נוקבת ב-KA01 בסניפט: 'validating your data in the back end using the " +
+              "following transaction: Transaction: Create Cost Element (KA01) Create Secondary Cost Element (KA06)'. " +
+              "תיעוד 2025 FPS01 מציג אפוא את KA01 כטרנזקציית אימות ב-Back-End, בניגוד לכותרת 'Transaction not " +
+              "available in SAP S/4HANA on-premise edition 1511' בפריט הפישוט.",
+            verificationLevel: "sap_official_verified",
+          },
+          {
+            sourceType: "sap_help",
+            sourceTitle: "FI - G/L account - extend existing record by new org levels | Data Migration",
+            url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/47c3197be2884c5caa71379f90d655ac.html?locale=en-US&state=PRODUCTION&version=2025.001",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025.001",
+            accessedAt: DATE25,
+            claim:
+              "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+              "47c3197be2884c5caa71379f90d655ac) נוקבת ב-KA01 באותו סניפט: 'validating your data in the back end using " +
+              "the following transaction: Transaction: Create Cost Element (KA01) Create Secondary Cost Element " +
+              "(KA06)'. גם כאן KA01 מוצגת כטרנזקציית אימות ב-Back-End בתיעוד 2025 FPS01, בניגוד לכותרת בפריט הפישוט.",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage G/L Account Master Data",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/34428754dccbe85ee10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "גוף עמוד התיעוד 'Manage G/L Account Master Data' (App ID F0731A, General Ledger Accounting (FI-GL), " +
+          "versionId 2025.001, loio 34428754dccbe85ee10000000a44176d), שנקרא דרך sap-help-body.mjs, קובע ש-'With " +
+          "the Manage G/L Account Master Data app, you can display, create and edit the master data of G/L " +
+          "accounts' ומציג תחת 'Related Back-End Transactions': 'FS00 (Edit G/L Account Centrally) FSP0 (Edit G/L " +
+          "Account Chart of Accounts Data) FSS0 (Edit G/L Account Company Code Data) FSP4 (Display Changes in " +
+          "Chart of Accounts) FSS4 (Display Changes in Company Code) KA01 (Create Cost Element) KA02 (Change Cost " +
+          "Element) KA03 (Display Cost Element) KA06 (Create Secondary Cost Element)'. KA01 מופיעה ברשימה זו לצד " +
+          "FS00 כטרנזקציית Back-End קשורה לאפליקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F0731A 'Manage G/L Account Master Data (Version 2)', release S32OP (S/4HANA " +
+          "2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0731A')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "פלט scripts/fal-app.mjs F0731A --release S32OP: אפליקציה טרנזקציונלית (SAP Fiori (SAPUI5)) בשם 'Manage " +
+          "G/L Account Master Data (Version 2)', בסטטוס Published, רכיב FI-FIO-GL-MD, intent GLAccount-manage, " +
+          "'GUI transactions: leading FS00; related FSP0, FSS0, KA01, KA02, KA03, KA04, KA05, KA06, OB_GLACC11, " +
+          "OB_GLACC12, OB_GLACC13'. רשימת המהדורות כוללת On-Premise מ-S6OP (1610) ועד S32OP (2025 FPS01); " +
+          "predecessors: F0731, F1727; successor: F0731B 'Manage Operating G/L Accounts'. KA01 רשומה כטרנזקציית " +
+          "GUI קשורה ו-FS00 כטרנזקציה המובילה של האפליקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Information Sheets for the Transfer of Cost Elements | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/5642de531ed3424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Controlling (CO), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "5642de531ed3424de10000000a174cb4) נוקבת בקוד KA01 בסניפט: 'Does not exist Transactions Create KA01 " +
+          "(primary); KA06 (secondary) Tables/Databases Relevant tables CSKA, CSKB, CSKU C. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Information Sheets for the Transfer of Cost Elements | Controlling (CO)",
+        url: "https://help.sap.com/docs/SAP_ERP/8cf202ad62c04521b934c06b4a898efd/5642de531ed3424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Controlling (CO), 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "5642de531ed3424de10000000a174cb4) נוקבת בקוד KA01 בסניפט: 'Does not exist Transactions Create KA01 " +
+          "(primary); KA06 (secondary) Tables/Databases Relevant tables CSKA, CSKB, CSKU C. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Configuration of Units of Measure, Reconciliation, and Controlling | Contract Accounting",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9442486404b54071b4ebeab6a16628e7/bc639bd0d8844795992e113f99279900.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Contract Accounting, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "bc639bd0d8844795992e113f99279900) נוקבת בקוד KA01 בסניפט: 'To do this, choose transactions KA01 and " +
+          "KA02 (see SAP Easy Access screen, under Accounting Controlling Profitability Analysis ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#KA01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את KA01 כ'נתוני אב סוגי עלות (Cost Element Master)', מודול CO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KA01",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KA01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-KA01 את הכותרת האנגלית 'Create Primary Cost Element'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KA01",
+        context: true,
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he:
+        "פריט הפישוט 'S4TWL - COST ELEMENTS' (2023 FPS03 סעיף 12.15, 2025 FPS01 סעיף 6.5.5) מונה את KA01 תחת " +
+        "הכותרת 'Transaction not available in SAP S/4HANA on-premise edition 1511', וקובע שאלמנטי עלות מתוחזקים " +
+        "ברשומת אב G/L. מנגד, עמודי תיעוד רשמיים של 2025 FPS01 (Manage G/L Account Master Data, FI - G/L " +
+        "account) וספריית Fiori במהדורה S32OP מציגים את KA01 כטרנזקציית Back-End קשורה או כטרנזקציית אימות. " +
+        "ההכרעה דורשת בדיקת SE93 במערכת היעד.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction:
+        "לתחזק אלמנטי עלות ראשיים ברשומת אב G/L (אפליקציית F0731A Manage G/L Account Master Data או טרנזקציות " +
+        "ה-Back-End הקשורות לה), עם סוג החשבון Primary Costs or Revenue והשלמת נתוני אזור ה-Controlling " +
+        "(קטגוריית אלמנט עלות); הקצאות ברירת מחדל דרך OKB9; הרשאה נדרשת גם לחשבונות G/L וגם לאלמנטי עלות, כנדרש " +
+        "בפריט. לבדוק ב-SE93 במערכת היעד את התנהגות KA01.",
+    },
+    xrefs: ["tx:FS00", "tx:KA02", "tx:KA03", "tx:KA06", "tx:OKB9"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "ישן → חדש: הרשומה האוטומטית tx:KA01 ב-data/verification/transactions-auto.ts " +
+      "(scripts/qa/gen-tx-evidence.mts, 2026-09-24) נשאה שורות הקשר בלבד, ללא הכרעת מעמד (לפני הכתיבה הציג " +
+      "report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified), ושתי שורות פריטי הפישוט בה " +
+      "סומנו 'טרם נקרא במחקר'; הרשומה המחקרית קוראת את שני הפריטים, מתעדת את הסתירה מול תיעוד 2025 FPS01 " +
+      "ונשארת verification_required. שורות ההקשר של הרשומה האוטומטית (tx-intel.ts#KA01, tcode-catalog.ts#KA01, " +
+      "Contract Accounting loio bc639bd0d8844795992e113f99279900, ושתי רשומות Information Sheets for the " +
+      "Transfer of Cost Elements בצד S/4HANA 2025.001 ובצד SAP_ERP 6.18.latest) הועתקו כלשונן עם תאריך הגישה " +
+      "המקורי 2026-09-24; שתי שורות פריטי הפישוט שלה הוחלפו ב-evidence[0] ו-evidence[1]. מה נבדק: (1) הטקסט " +
+      "המחולץ של שני פריטי 'S4TWL - COST ELEMENTS' נקרא מ-scratchpad/official/SIMPL_OP2023.pdf.txt (סעיף " +
+      "12.15) ומ-scratchpad/official/SIMPL_OP2025.pdf.txt (סעיף 6.5.5); בשניהם KA01, KA02, KA03 ו-KA06 מודפסות " +
+      "תחת 'Transaction not available in SAP S/4HANA on-premise edition 1511', והפריט אינו נוקב בטרנזקציה " +
+      "מחליפה ל-KA01, ולכן לא נקבע successor. (2) node scripts/sap-help-search.mjs \"KA01 create primary cost " +
+      "element\" --size 10 --json בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות): הרשומה הראשונה 'Manage G/L Account " +
+      "Master Data' (2025.001, loio 34428754dccbe85ee10000000a44176d) נקראה במלואה דרך sap-help-body.mjs; " +
+      "הרשומות 'FI - G/L account' (loio e46095f3fb044369a9de814262c59ac8) ו-'FI - G/L account - extend " +
+      "existing record by new org levels' (loio 47c3197be2884c5caa71379f90d655ac), שתיהן 2025.001, נוקבות " +
+      "ב-KA01 כטרנזקציית אימות ב-Back-End ונרשמו כ-conflictingEvidence על שני פריטי הפישוט (גופן לא נקרא, " +
+      "הטענה מוגבלת לסניפט). רשומת 'Information Sheets for the Transfer of Cost Elements' (2025.001) מציגה " +
+      "בסניפט 'Transactions Create KA01 (primary); KA06 (secondary)'; המילים 'Does not exist' שלפניה הן תשובה " +
+      "לשדה קודם בטבלת גיליון המידע (הסניפט מקוטע) ואינן מתייחסות ל-KA01. (3) node scripts/fal-app.mjs F0731A " +
+      "--release S32OP: FS00 היא הטרנזקציה המובילה, ו-KA01 עד KA06 ברשימת הטרנזקציות הקשורות. אף מקור שנקרא " +
+      "אינו קובע ש-FS00 מחליפה את KA01; FS00 נשארת xref כטרנזקציה קשורה בלבד. fiori:F0731A אינה " +
+      "ב-data/fiori/apps.ts ולכן אינה xref. מה שיכריע: SE93 והרצת KA01 במערכת S/4HANA On-Premise היעד. לא " +
+      "בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:KA02",
+    evidence: [
+      KA02_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 12.15 " +
+          "S4TWL - COST ELEMENTS",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 'S4TWL - COST ELEMENTS' ברשימת הפישוט הרשמית (2023 FPS03, גרסת מסמך 1.35, סעיף 12.15) מדפיס תחת " +
+          "הכותרת 'Transaction not available in SAP S/4HANA on-premise edition 1511' את השורה 'KA02 - Change cost " +
+          "element', לצד KA01, KA03 ו-KA06.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage G/L Account Master Data",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/34428754dccbe85ee10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "דף העזרה הרשמי (App ID: F0731A, versionId 2025.001, loio 34428754dccbe85ee10000000a44176d) מפרט תחת " +
+          "'Related Back-End Transactions' את FS00 (Edit G/L Account Centrally), FSP0, FSS0, FSP4, FSS4, KA01, " +
+          "KA02 (Change Cost Element), KA03 ו-KA06.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "F0731A - Manage G/L Account Master Data (SAP Fiori Apps Reference Library, S32OP)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0731A')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת ספריית ה-Fiori ל-F0731A במהדורת S32OP (SAP S/4HANA 2025 FPS01) מציגה סטטוס Published, טרנזקציית " +
+          "GUI מובילה FS00, וטרנזקציות קשורות FSP0, FSS0, KA01, KA02, KA03, KA04, KA05, KA06, OB_GLACC11, " +
+          "OB_GLACC12 ו-OB_GLACC13; תפקידים SAP_BR_GL_ACCOUNTANT ו-SAP_BR_PROJ_FIN_CONTROLLER.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KA02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את KA02 כ'שינוי אלמנט עלות', מודול CO, תחום 'נתוני אב CO'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KA02",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Configuration of Units of Measure, Reconciliation, and Controlling | Contract Accounting",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9442486404b54071b4ebeab6a16628e7/bc639bd0d8844795992e113f99279900.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Contract Accounting, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "bc639bd0d8844795992e113f99279900) נוקבת בקוד KA02 בסניפט: 'To do this, choose transactions KA01 and " +
+          "KA02 (see SAP Easy Access screen, under Accounting Controlling Profitability Analysis Master Data ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "not_available",
+      he:
+        "KA02 (שינוי אלמנט עלות) מודפסת תחת הכותרת 'Transaction not available in SAP S/4HANA on-premise edition " +
+        "1511' בפריט 'S4TWL - COST ELEMENTS' (רשימת 2025 FPS01 סעיף 6.5.5; רשימת 2023 FPS03 סעיף 12.15). לפי " +
+        "הפריט, אלמנטי העלות מתוחזקים בנתוני האב של חשבון ה-G/L; FS00 מוצגת כטרנזקציית ה-GUI המובילה של " +
+        "אפליקציית Fiori F0731A, ו-KA02 רשומה תחתיה כטרנזקציה קשורה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: KA02_SIMPL2025,
+      recommendedAction:
+        "בהמרה ל-S/4HANA יש להפסיק את השימוש ב-KA02 ולתחזק את נתוני אלמנט העלות בחשבון ה-G/L: SAP GUI FS00 (Edit " +
+        "G/L Account Centrally) או אפליקציית Fiori F0731A - Manage G/L Account Master Data, בכפוף להקצאת תפקיד " +
+        "עסקי מתאים (לדוגמה SAP_BR_GL_ACCOUNTANT).",
+      successor: "tx:FS00",
+    },
+    xrefs: ["tx:KA01", "tx:KA03", "tx:KA06", "tx:FS00"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נבדק על בסיס מסמכים בלבד; לא בוצעה בדיקה במערכת SAP חיה. חיפושים דרך scripts/sap-help-search.mjs: 'KA02 " +
+      "Change Cost Element', 'S4TWL COST ELEMENTS', 'S4TWL - COST ELEMENTS Transaction not available', " +
+      "'Simplification List SAP S/4HANA cost elements KA02', '\"S4TWL - COST ELEMENTS\"'. נקראו " +
+      "scratchpad/official/SIMPL_OP2025.pdf.txt (סעיף 6.5.5, סביב שורה 17969; מודפס 'KA02 Change cost element' " +
+      "בלי מקף) ו-SIMPL_OP2023.pdf.txt (סעיף 12.15, שורה 20235; מודפס 'KA02 - Change cost element'), וגוף דף " +
+      "העזרה של F0731A דרך scripts/sap-help-body.mjs. scripts/fal-app.mjs --tcode KA02 החזיר 'none' (אין " +
+      "אפליקציה שמובילה עם KA02); F0731A נבדקה בנפרד ומופיעה כ-Published ב-S32OP, ו-FAL מציג את F0731B Manage " +
+      "Operating G/L Accounts כאפליקציה עוקבת שלה. F0731A ו-F0731B אינן בקטלוג data/fiori/apps.ts, ולכן אינן " +
+      "xref. F0125 ו-F0126 מוזכרות בפריט, אך fal-app.mjs על F0125 החזיר תוצאה ריקה ב-S30OP וב-S32OP, ולכן לא " +
+      "שימשו מקור. tx:FS00 נבחרה כ-successor על סמך ציון FS00 כטרנזקציית ה-GUI המובילה של האפליקציה שמכסה את " +
+      "KA02. ישן לעומת חדש: הרשומה שנוצרה אוטומטית ב-transactions-auto.ts כללה את שורות הפריט כהקשר בלבד ('טרם " +
+      "נקרא במחקר'), ללא הכרעת מעמד (ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני " +
+      "הכתיבה); חדש: 'not_available' לפי הפריט. שורת המאגר tcode-catalog.ts#KA02 ושורת Contract Accounting " +
+      "הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות, עם תאריך הגישה המקורי 2026-09-24.",
+  },
+  {
+    id: "tx:KA03",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KA03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את KA03 כ'הצגת אלמנט עלות', מודול CO, תחום 'נתוני אב CO'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KA03",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage G/L Account Master Data | General Ledger Accounting (FI-GL)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/34428754dccbe85ee10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "גוף העמוד (נקרא דרך scripts/sap-help-body.mjs, versionId 2025.001, loio " +
+          "34428754dccbe85ee10000000a44176d) מתאר את האפליקציה Manage G/L Account Master Data, 'App ID: F0731A', " +
+          "ומדפיס: 'Related Back-End Transactions The app is related to the following back-end transaction(s): " +
+          "FS00 (Edit G/L Account Centrally) FSP0 (Edit G/L Account Chart of Accounts Data) FSS0 (Edit G/L Account " +
+          "Company Code Data) FSP4 (Display Changes in Chart of Accounts) FSS4 (Display Changes in Company Code) " +
+          "KA01 (Create Cost Element) KA02 (Change Cost Element) KA03 (Display Cost Element) KA06 (Create " +
+          "Secondary Cost Element)'. העמוד אינו קובע את מעמד הזמינות של KA03.",
+        verificationLevel: "sap_official_verified",
+      },
+      KA03_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 12.15 " +
+          "S4TWL - COST ELEMENTS",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (2023 FPS03, גרסת מסמך 1.35, נקרא במלואו מ-scratchpad/official/SIMPL_OP2023.pdf.txt) מדפיס תחת " +
+          "אותה כותרת 'Transaction not available in SAP S/4HANA on-premise edition 1511' את השורה: 'KA01 - Create " +
+          "primary cost element KA02 - Change cost element ... KA03 - Display cost element KA06 - Create secondary " +
+          "cost element ... Fiori Application F0125 - Cost Element (Fact Sheet) Fiori Application F0126 - Cost " +
+          "Element Group (Fact Sheet)'. הנוסח זהה בעיקרו לפריט המקביל ברשימת 2025 FPS01: נתוני אב אלמנט עלות " +
+          "מתוחזקים ברשומת ה-G/L account, ו-KA03 מופיעה ברשימת הטרנזקציות שאינן זמינות.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Roles for Transactions Utilized by Financial Shared Services | SAP ERP Central Component Security Guide",
+        url: "https://help.sap.com/docs/SAP_ERP/ee765675af8d443d8c17437bb3c4a612/f236d7531a4d444de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "הסניפט (SAP ERP Central Component Security Guide, versionId 6.18.latest, loio " +
+          "f236d7531a4d444de10000000a174cb4) מדפיס: 'Display Cost Element Maintain Primary Cost Elements ( SAP " +
+          "_CO_OM_OBJECT_OM_COSTEL_PRI) KA02 Change Cost Element ...' ובהמשך 'G/L Accounts & Cost Elements FS02 " +
+          "G/L Account Maintenance of G/L Account Master Data ( SAP _FI_GL_ACCT_MASTER_ DATA ) KA03 ...'. הסניפט " +
+          "חתוך ואינו מצמיד את KA03 לתיאור מסוים; הוא מראה שהקוד נקוב במדריך האבטחה של ECC בהקשר Financial Shared " +
+          "Services. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage G/L Account Master Data (Version 2) (F0731A) · SAP Fiori Apps Reference Library · S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0731A')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פלט scripts/fal-app.mjs F0731A --release S32OP: 'Manage G/L Account Master Data (Version 2) | " +
+          "Transactional / SAP Fiori (SAPUI5) | Published | component FI-FIO-GL-MD'; intent GLAccount-manage; " +
+          "OData FAC_MANAGE_GLACCOUNT_SRV 0002 (S4CORE 109); 'GUI transactions: leading FS00; related FSP0, FSS0, " +
+          "KA01, KA02, KA03, KA04, KA05, KA06, OB_GLACC11, OB_GLACC12, OB_GLACC13'. KA03 מודפסת כטרנזקציה קשורה " +
+          "(related) ולא כמובילה; fal-app.mjs --tcode KA03 --release S32OP מחזיר 'leading app(s): none'. F0731A " +
+          "אינה רשומה ב-data/fiori/apps.ts ולכן אינה מופיעה ב-xrefs.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "restricted",
+      he:
+        "פריט הפישוט S4TWL - COST ELEMENTS (2023 FPS03 ו-2025 FPS01) מונה את KA03 תחת 'Transaction not available " +
+        "in SAP S/4HANA on-premise edition 1511' וקובע שנתוני אב אלמנט עלות מתוחזקים ברשומת ה-G/L account, ללא " +
+        "תחזוקה נפרדת. מנגד, ספריית Fiori ועמוד העזרה של 2025 FPS01 מונים את KA03 כטרנזקציה קשורה של Manage G/L " +
+        "Account Master Data (F0731A), שהטרנזקציה המובילה שלה היא FS00; F0125 ו-F0126 שהפריט מזכיר אינן בספריית " +
+        "Fiori במהדורות S32OP ו-S30OP.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: KA03_SIMPL2025,
+      recommendedAction:
+        "לתחזק נתוני אלמנט עלות דרך רשומת ה-G/L account (FS00 או האפליקציה Manage G/L Account Master Data, " +
+        "F0731A); לפי פריט הפישוט, cost element category נמצא באזור ה-Controlling area של רשומת החשבון. לאמת " +
+        "ב-SE93 במערכת היעד מה KA03 מבצעת בפועל, לאור הפער בין רשימת הפישוט לבין ספריית Fiori.",
+    },
+    xrefs: ["tx:KA01", "tx:KA02", "tx:KA06"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: שני פריטי הפישוט 'S4TWL - COST ELEMENTS' (2023 FPS03 פריט 12.15, 2025 FPS01 פריט 6.5.5) נקראו " +
+      "במלואם מהטקסט המחולץ של הרשימות הרשמיות, ושניהם מונים את KA03 תחת 'Transaction not available in SAP " +
+      "S/4HANA on-premise edition 1511'. גוף עמוד העזרה Manage G/L Account Master Data (versionId 2025.001) " +
+      "נקרא דרך sap-help-body.mjs ומונה את KA03 (Display Cost Element) בין הטרנזקציות הקשורות לאפליקציה " +
+      "F0731A. fal-app.mjs F0731A --release S32OP מונה את KA03 כטרנזקציה קשורה (related) והטרנזקציה המובילה " +
+      "היא FS00; fal-app.mjs --tcode KA03 --release S32OP החזיר 'leading app(s): none'. F0125 ו-F0126, שהפריט " +
+      "מזכיר, החזירו תוצאה ריקה ב-fal-app.mjs במהדורות S32OP ו-S30OP, ואינן ב-data/fiori/apps.ts; F0731A גם " +
+      "היא אינה ב-data/fiori/apps.ts ולכן אינה ב-xrefs. סתירה: רשימת הפישוט מונה את KA03 כלא זמינה, בעוד " +
+      "ספריית Fiori ועמוד העזרה של 2025 FPS01 מונים אותה כטרנזקציה קשורה של אפליקציה פעילה; שתי השורות נשמרות, " +
+      "ושורת 2025 FPS01 מסומנת conflicting_sources. מה שיכריע: SE93 והרצת ניסיון של KA03 במערכת היעד. הסטטוס " +
+      "'restricted' ולא 'not_available' כי שני מקורות רשמיים סותרים זה את זה, ופריט הפישוט אינו נוקב בטרנזקציה " +
+      "מחליפה ל-KA03; FS00 מופיעה רק כטרנזקציה המובילה של F0731A ולא כיורש. חיפושים שהורצו " +
+      "ב-sap-help-search.mjs: 'KA03' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות, אחת שימשה ראיה), 'Display Cost " +
+      "Element' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות; אחת מהן רשומת MiniApp הנוקבת 'RKE_KA03 Display Cost " +
+      "Element', קוד אחר שלא נכלל), 'KA03' בסקופ SAP_ERP (21 רשומות, אחת שימשה ראיה), 'Cost Element Fact " +
+      "Sheet' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות, אף אחת לא נקבה F0125 או F0126). גוף עמוד מדריך האבטחה של " +
+      "ECC לא נקרא מעבר לסניפט. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:KA03 " +
+      "ב-transactions-auto.ts (ישן: ללא הכרעת מעמד; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס " +
+      "verification_required; 'מה הוא קובע לגבי הקוד ... טרם נקרא במחקר'; חדש: restricted עם סתירה מתועדת). לא " +
+      "בוצעה בדיקה במערכת SAP חיה.",
   },
 ];
