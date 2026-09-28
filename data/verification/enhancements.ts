@@ -117,7 +117,16 @@
    derived one. MB_MIGO_BADI records the Public Cloud search negative in status, recommendedAction and
    notes. No successor or repository row changed; rows not re-read keep their original DATE; nothing
    was refuted. Writer deviations (search scope of the SAPLV01Z "no product filter" runs, bounded
-   absence wording) are listed in the queue file. */
+   absence wording) are listed in the queue file.
+   Batch 11 (written 2026-09-25, access-stamped 2026-09-24, const DATE24): the two deepenings refuted
+   at earlier gates, QQMA0001 (batch 7) and PPCO0001 (batch 9), passed on resubmission. Both are the
+   audited draft as submitted: neither verdict carried a fixedRecord or a downgrade. QQMA0001 gains the
+   SAP S/4HANA Cloud Public Edition row 'Extensibility: Maintenance Notification API' (2608.500, body
+   read), the xref enh:technique:key-user-extensibility and the 2026-09-24 search pass in notes; it
+   still carries no authored status and has no reviewer field. PPCO0001 gains the 2026-09-24
+   SAP_S4HANA_CLOUD search pass in notes and one bounded "not verified" Public/Private Cloud sentence
+   each in status.he and recommendedAction; its status token, evidence rows (DATE14) and xrefs are
+   unchanged. Both records keep their live text as an exact prefix; nothing was refuted. */
 import type { VerificationRecord } from "@/lib/evidence/types";
 
 const DATE = "2026-09-02";
@@ -442,10 +451,22 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         verificationLevel: "repository_verified",
         repoRef: "data/sapData.pm.ts#QQMA0001",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Extensibility: Maintenance Notification API | APIs for Maintenance Management",
+        product: "SAP S/4HANA Cloud Public Edition",
+        edition: "public-cloud",
+        release: "2608.500",
+        url: "https://help.sap.com/docs/SAP_S4HANA_CLOUD/f9ba73d1b8c543c2bd2ba1666271af86/211d0924bec64fdc89388d4aa82e66ca.html?locale=en-US&state=PRODUCTION&version=2608.500",
+        accessedAt: DATE24,
+        claim: "קטע החיפוש ותוכן העמוד (2608.500, SAP S/4HANA Cloud Public Edition): 'As a key user, you can extend the OData Service API_MAINTNOTIFICATION according to your business needs'; העמוד מפרט הוספת שדות מותאמים לישות A_MAINTENANCENOTIFICATION בהקשר העסקי Maintenance Notification (EAMS_NTF) דרך האפליקציה Custom Fields and Logic. העמוד אינו מזכיר את QQMA0001, אינו מזכיר SMOD/CMOD ואינו נוקב במחליף.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
     xrefs: [
       "enh:technique:customer-exit",
       "enh:technique:classic-badi",
+      "enh:technique:key-user-extensibility",
       "enh:exit:QQMA0014",
       "enh:badi:NOTIF_EVENT_SAVE",
       "tx:IW21",
@@ -455,8 +476,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "tx:SMOD",
       "table:QMEL",
     ],
-    lastVerifiedAt: DATE,
-    notes: "מקורות סותרים ברמת התיאור: ספריית SAP 4.6C (עמוד רשמי שנקרא במלואו) מגדירה את QQMA0001 כ-'User subscreen for notification header', בעוד data/exits.ts מתאר בדיקת נתונים בשמירה (ההרחבה הרשמית לבדיקות לפני שמירה היא QQMA0014) ו-data/domain-detail.ts מייחס ל-QQMA0014 'ברירות מחדל' (בעמוד הרשמי: QQMA0025). data/workbenches-ext.ts תואם לעמוד הרשמי (PBO/PAI על מסכי IW21/IW22, 'verify SE37'). ההכרעה דורשת בדיקה חיה ב-SMOD/CMOD (ה-MCP של sc4sap לא התחבר במושב זה). לא נמצא עמוד S/4HANA On-Premise או SAP ERP ב-help.sap.com המזכיר את QQMA0001 (שירות החיפוש: 'QQMA0001', 'EXIT_SAPLIQS0_001', 'customer exits maintenance notification QQMA', 'customer exits notifications QQMA0014 QQMA0025', 'QQMA' בשני המוצרים; WebSearch מוגבל לדומיינים הרשמיים), ולכן לא נכתב סטטוס: מעמד ההרחבה ב-S/4HANA, שם מודול הפונקציה EXIT_SAPLIQS0_001 והמלצת המעבר ל-BAdI NOTIF_EVENT_SAVE נשארים ברמת המאגר. הסטטוס המוצג ('משתנה ב-S/4HANA') נגזר מבלוק ה-ECC מול S/4HANA ברשומת exits.ts.",
+    lastVerifiedAt: DATE24,
+    notes: "מקורות סותרים ברמת התיאור: ספריית SAP 4.6C (עמוד רשמי שנקרא במלואו) מגדירה את QQMA0001 כ-'User subscreen for notification header', בעוד data/exits.ts מתאר בדיקת נתונים בשמירה (ההרחבה הרשמית לבדיקות לפני שמירה היא QQMA0014) ו-data/domain-detail.ts מייחס ל-QQMA0014 'ברירות מחדל' (בעמוד הרשמי: QQMA0025). data/workbenches-ext.ts תואם לעמוד הרשמי (PBO/PAI על מסכי IW21/IW22, 'verify SE37'). ההכרעה דורשת בדיקה חיה ב-SMOD/CMOD (ה-MCP של sc4sap לא התחבר במושב זה). לא נמצא עמוד S/4HANA On-Premise או SAP ERP ב-help.sap.com המזכיר את QQMA0001 (שירות החיפוש: 'QQMA0001', 'EXIT_SAPLIQS0_001', 'customer exits maintenance notification QQMA', 'customer exits notifications QQMA0014 QQMA0025', 'QQMA' בשני המוצרים; WebSearch מוגבל לדומיינים הרשמיים), ולכן לא נכתב סטטוס: מעמד ההרחבה ב-S/4HANA, שם מודול הפונקציה EXIT_SAPLIQS0_001 והמלצת המעבר ל-BAdI NOTIF_EVENT_SAVE נשארים ברמת המאגר. הסטטוס המוצג ('משתנה ב-S/4HANA') נגזר מבלוק ה-ECC מול S/4HANA ברשומת exits.ts. מעבר נוסף, 2026-09-24 (שירות החיפוש; מספר הרשומות בסוגריים, בשתי הרצות): 'QQMA0001' ללא --product, כלומר בהיקף ברירת המחדל SAP_S4HANA_ON-PREMISE (10 עד 11); 'QQMA0001' עם --product SAP_S4HANA_ON-PREMISE (10); 'EXIT_SAPLIQS0_001' (10 עד 13); 'NOTIF_EVENT_SAVE BAdI' (21); 'customer exit maintenance notification enhancement' עם --product SAP_ERP (21); 'maintenance notification key user extensibility' עם --product SAP_S4HANA_CLOUD (21). אף כותרת או קטע ברשומות אלה אינם נוקבים ב-QQMA0001, ב-EXIT_SAPLIQS0_001 או ב-NOTIF_EVENT_SAVE. החיפוש ב-Public Cloud החזיר את העמוד 'Extensibility: Maintenance Notification API' (2608.500, loio 211d0924bec64fdc89388d4aa82e66ca), שגופו נקרא דרך sap-help-body.mjs: הוא מתעד הרחבת API_MAINTNOTIFICATION בשדות מותאמים לישות A_MAINTENANCENOTIFICATION בהקשר EAMS_NTF דרך Custom Fields and Logic, ומפנה ל-Key User Extensibility ול-Custom Fields App and Custom Logic App; העמוד אינו מזכיר SMOD/CMOD ואינו נוקב ב-QQMA0001, ולכן אינו מבסס סטטוס 'replaced' או 'not_available' ולא נוסף successor. עמוד Public Cloud נוסף מאותו חיפוש ('App Extensibility: Create Maintenance Request', loio e316a5e269a942b6b937c26e3bbaea42, תבניות טקסט ארוך) לא צוטט, כי אינו עוסק בכותרת ההודעה. עבור On-Premise, טכניקת SMOD/CMOD מתוארת בתיעוד 2025 FPS01 (הראיה השנייה והשלישית); לא נמצא מקור רשמי הקובע את מעמד QQMA0001 עצמה ב-S/4HANA. הרשומה נשארת ללא סטטוס. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   {
     id: "enh:exit:QQMA0014",
@@ -1474,7 +1495,7 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
     aliases: ["EXIT_SAPLCOBT_001"],
     status: {
       status: "unchanged",
-      he: "Customer Exit של הזמנות ייצור (PP-SFC) המתועד בתיעוד SAP S/4HANA 2025 FPS01 On-Premise כהרחבה זמינה לתכנות ולהפעלה: תרחיש ה-Workflow 'Production Order Changes (PP-SFC)' מורה לתכנת ולהפעיל את מודול הפונקציה EXIT_SAPLCOBT_001 (הרחבת לקוח PPCO0001) כדי להפעיל את המשימה הסטנדרטית TS20000623 (יידוע בקר ה-MRP על שינוי בהזמנה); לפי אותו עמוד הטבלאות הפנימיות של ה-Exit מכילות מידע על כותרות ההזמנה, הפריטים והפעולות במצב הישן והחדש. לא נמצא בחיפוש הרשמי פריט פישוט, הערת הסרה או יורש מוצהר להרחבה זו. שם מודול הפונקציה שברשומת המאגר (EXIT_SAPLCOZF_001) אינו מופיע באף מקור רשמי שנמצא, ולכן רמת הרשומה היא מקורות סותרים.",
+      he: "Customer Exit של הזמנות ייצור (PP-SFC) המתועד בתיעוד SAP S/4HANA 2025 FPS01 On-Premise כהרחבה זמינה לתכנות ולהפעלה: תרחיש ה-Workflow 'Production Order Changes (PP-SFC)' מורה לתכנת ולהפעיל את מודול הפונקציה EXIT_SAPLCOBT_001 (הרחבת לקוח PPCO0001) כדי להפעיל את המשימה הסטנדרטית TS20000623 (יידוע בקר ה-MRP על שינוי בהזמנה); לפי אותו עמוד הטבלאות הפנימיות של ה-Exit מכילות מידע על כותרות ההזמנה, הפריטים והפעולות במצב הישן והחדש. לא נמצא בחיפוש הרשמי פריט פישוט, הערת הסרה או יורש מוצהר להרחבה זו. שם מודול הפונקציה שברשומת המאגר (EXIT_SAPLCOZF_001) אינו מופיע באף מקור רשמי שנמצא, ולכן רמת הרשומה היא מקורות סותרים. מעמד ההרחבה ב-Public Cloud וב-Private Cloud לא אומת.",
       edition: "on-premise",
       release: "2025.001",
       source: {
@@ -1488,7 +1509,7 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
         claim: "רשומת החיפוש הרשמית (title 'Preparation and Customizing', deliverable 'Workflow', loio c66cb6531de6b64ce10000000a174cb4, גרסה 2025 FPS01) נושאת בסניפט את כותרת המשנה 'Function Module Exit EXIT_SAPLCOBT_001 (Customer Enhancement PPCO0001)' ואת המשפטים: 'To start the standard task TS20000623, you have to program and activate the function module exit EXIT_SAPLCOBT_001 (customer enhancement PPCO0001)'; 'The various internal tables in the function module exit EXIT_SAPLCOBT_001 ... contain information on the old and new order headers, order items, and operations'; 'An example of how to start the standard task TS20000623 ... is provided in the include PPCOX001'. במשפט על הטבלאות הפנימיות המקור עצמו כותב PPCO001 בחמש ספרות, ככל הנראה שגיאת דפוס בתיעוד SAP, ולכן הציטוט מקוצר ב-... . גוף העמוד לא נקרא (מעטפת JS); הציטוטים מסניפטים של שירות החיפוש בלבד.",
         verificationLevel: "sap_official_verified",
       },
-      recommendedAction: "להמשיך להשתמש ב-PPCO0001 (EXIT_SAPLCOBT_001) בתרחישי GUI של הזמנות ייצור ב-S/4HANA On-Premise, ולהפעיל את ה-Exit דרך פרויקט CMOD פעיל. לפיתוח חדש ולנתיב Clean Core להעדיף את ה-BAdI WORKORDER_UPDATE (המתודה BEFORE_UPDATE מספקת לפי הערות השחרור של R/3 Enterprise 4.70 את נתוני ההזמנה בצורת טבלאות 'as is the existing customer exit PPCO0001', להפעלת תהליכי המשך ולא לשינוי הנתונים). לאמת במערכת S/4HANA חיה ב-SMOD/SE37 אילו מודולי EXIT_ מכילה ההרחבה PPCO0001, את פרמטרי ה-Exit ואת הפעלתו גם בשמירת הזמנות תהליך (COR1/COR2), שאינה מתועדת בסניפטים הרשמיים שנמצאו.",
+      recommendedAction: "להמשיך להשתמש ב-PPCO0001 (EXIT_SAPLCOBT_001) בתרחישי GUI של הזמנות ייצור ב-S/4HANA On-Premise, ולהפעיל את ה-Exit דרך פרויקט CMOD פעיל. לפיתוח חדש ולנתיב Clean Core להעדיף את ה-BAdI WORKORDER_UPDATE (המתודה BEFORE_UPDATE מספקת לפי הערות השחרור של R/3 Enterprise 4.70 את נתוני ההזמנה בצורת טבלאות 'as is the existing customer exit PPCO0001', להפעלת תהליכי המשך ולא לשינוי הנתונים). לאמת במערכת S/4HANA חיה ב-SMOD/SE37 אילו מודולי EXIT_ מכילה ההרחבה PPCO0001, את פרמטרי ה-Exit ואת הפעלתו גם בשמירת הזמנות תהליך (COR1/COR2), שאינה מתועדת בסניפטים הרשמיים שנמצאו. מעמד ההרחבה ב-Private Cloud וב-Public Cloud דורש אימות נפרד.",
     },
     evidence: [
       {
@@ -1574,8 +1595,8 @@ export const ENH_VERIFICATION: VerificationRecord[] = [
       "table:AFKO",
       "table:AFPO"
     ],
-    lastVerifiedAt: DATE14,
-    notes: "המקור הרשמי היחיד ב-S/4HANA שמזכיר את PPCO0001 בסניפט הוא תרחיש ה-Workflow 'Production Order Changes (PP-SFC)' בשלושת עמודיו (Purpose, Technical Implementation, Preparation and Customizing; 2025 FPS01). לפיו ה-Exit הוא EXIT_SAPLCOBT_001, הטבלאות הפנימיות שלו מכילות מידע על כותרת ההזמנה, הפריטים והפעולות במצב ישן וחדש, וההקשר הוא הזמנות ייצור (אובייקט BUS2005). מכאן שלוש הסתייגויות לרשומת המאגר: (1) שם מודול הפונקציה ברשומת המאגר, EXIT_SAPLCOZF_001, אינו מופיע באף עמוד רשמי שנמצא; התיעוד הרשמי אינו מונה את כלל מודולי הפונקציה שמכילה ההרחבה PPCO0001, ולכן אי אפשר לקבוע מהתיעוד בלבד שהשם שגוי. לפני עדכון data/exits.ts (שדות object ו-debugging) יש לאמת ב-SMOD/SE37 אילו מודולי EXIT_ שייכים להרחבה. (2) התיאור 'בדיקות/ולידציה בשמירה' אינו מופיע במקור הרשמי, שמתאר את ה-Exit כנקודה שבה נתוני ההזמנה זמינים להפעלת תהליכי המשך (Workflow); הערות השחרור של R/3 Enterprise 4.70 מתארות את WORKORDER_UPDATE BEFORE_UPDATE כמקבילה שבה 'Modifications to this data can no longer be made', ולכן שימוש ב-PPCO0001 לחסימת שמירה או לשינוי נתונים דורש אימות בתיעוד ה-Exit ב-SMOD. (3) תחולת הזמנות תהליך (COR1/COR2) אינה נזכרת באף סניפט רשמי; כותרת סעיף הערות השחרור 'for Production Orders and Process Orders' מתייחסת ל-BAdIs ולא בהכרח ל-Exit. הסטטוס 'ללא שינוי ב-S/4HANA' נשען על כך שתיעוד 2025 FPS01 עדיין מורה לתכנת ולהפעיל את ה-Exit, ולא נמצא פריט פישוט או הערת הסרה; הוא אינו אומר שהתנהגות ה-Exit או פרמטריו אומתו במערכת חיה. עמודי help.sap.com לגרסת S/4HANA הם מעטפת JS, כך שכל הציטוטים מהם הם מכותרות ומסניפטים של שירות החיפוש; מסמך ה-PDF של הערות השחרור נקרא בפועל (סעיף 19.2.1). עמוד תוכן התמיכה 'User exists and BADIs of production order' (help.sap.com/docs/SUPPORT_CONTENT/prodord/3138698565.html) מחזיר 200 אך גופו לא נקרא (מעטפת JS) ולכן לא צוטט. ה-PDF של הערות השחרור ל-EHP6 (PP) הורד ונבדק ואינו מזכיר את PPCO0001 כלל. What's New 2023 (loio e59b1d858a57444a8f928dead0f11263, 'BAdI for Further Processing Changes to Orders') מתעד הרחבה של WORKORDER_UPDATE אך אינו קובע שהוא מחליף את PPCO0001, ולכן לא הוגדר יורש. חיבור ה-SAP MCP החי לא היה זמין; בדיקת SMOD/CMOD/SE37 לא בוצעה.",
+    lastVerifiedAt: DATE24,
+    notes: "המקור הרשמי היחיד ב-S/4HANA שמזכיר את PPCO0001 בסניפט הוא תרחיש ה-Workflow 'Production Order Changes (PP-SFC)' בשלושת עמודיו (Purpose, Technical Implementation, Preparation and Customizing; 2025 FPS01). לפיו ה-Exit הוא EXIT_SAPLCOBT_001, הטבלאות הפנימיות שלו מכילות מידע על כותרת ההזמנה, הפריטים והפעולות במצב ישן וחדש, וההקשר הוא הזמנות ייצור (אובייקט BUS2005). מכאן שלוש הסתייגויות לרשומת המאגר: (1) שם מודול הפונקציה ברשומת המאגר, EXIT_SAPLCOZF_001, אינו מופיע באף עמוד רשמי שנמצא; התיעוד הרשמי אינו מונה את כלל מודולי הפונקציה שמכילה ההרחבה PPCO0001, ולכן אי אפשר לקבוע מהתיעוד בלבד שהשם שגוי. לפני עדכון data/exits.ts (שדות object ו-debugging) יש לאמת ב-SMOD/SE37 אילו מודולי EXIT_ שייכים להרחבה. (2) התיאור 'בדיקות/ולידציה בשמירה' אינו מופיע במקור הרשמי, שמתאר את ה-Exit כנקודה שבה נתוני ההזמנה זמינים להפעלת תהליכי המשך (Workflow); הערות השחרור של R/3 Enterprise 4.70 מתארות את WORKORDER_UPDATE BEFORE_UPDATE כמקבילה שבה 'Modifications to this data can no longer be made', ולכן שימוש ב-PPCO0001 לחסימת שמירה או לשינוי נתונים דורש אימות בתיעוד ה-Exit ב-SMOD. (3) תחולת הזמנות תהליך (COR1/COR2) אינה נזכרת באף סניפט רשמי; כותרת סעיף הערות השחרור 'for Production Orders and Process Orders' מתייחסת ל-BAdIs ולא בהכרח ל-Exit. הסטטוס 'ללא שינוי ב-S/4HANA' נשען על כך שתיעוד 2025 FPS01 עדיין מורה לתכנת ולהפעיל את ה-Exit, ולא נמצא פריט פישוט או הערת הסרה; הוא אינו אומר שהתנהגות ה-Exit או פרמטריו אומתו במערכת חיה. עמודי help.sap.com לגרסת S/4HANA הם מעטפת JS, כך שכל הציטוטים מהם הם מכותרות ומסניפטים של שירות החיפוש; מסמך ה-PDF של הערות השחרור נקרא בפועל (סעיף 19.2.1). עמוד תוכן התמיכה 'User exists and BADIs of production order' (help.sap.com/docs/SUPPORT_CONTENT/prodord/3138698565.html) מחזיר 200 אך גופו לא נקרא (מעטפת JS) ולכן לא צוטט. ה-PDF של הערות השחרור ל-EHP6 (PP) הורד ונבדק ואינו מזכיר את PPCO0001 כלל. What's New 2023 (loio e59b1d858a57444a8f928dead0f11263, 'BAdI for Further Processing Changes to Orders') מתעד הרחבה של WORKORDER_UPDATE אך אינו קובע שהוא מחליף את PPCO0001, ולכן לא הוגדר יורש. חיבור ה-SAP MCP החי לא היה זמין; בדיקת SMOD/CMOD/SE37 לא בוצעה. עדכון 2026-09-24: הורצו ב-scripts/sap-help-search.mjs שלוש שאילתות תחת --product SAP_S4HANA_CLOUD (Public Cloud). (א) 'EXIT_SAPLCOZF_001': מספר קטן ומשתנה של תוצאות (4 עד 8 בהרצות שונות), כולן עמודי API של Public Cloud (למשל Create Resource Assignment, Create Handling Units), ואף אחת אינה מזכירה את השם; אותה שאילתה תחת ברירת המחדל של הסקריפט (--product SAP_S4HANA_ON-PREMISE) מחזירה 16 עד 19 תוצאות בהרצות שונות, ואף אחת מהן אינה מזכירה את EXIT_SAPLCOZF_001. (ב) 'PPCO0001 customer exit production order': 21 תוצאות, בעיקר עמודי PP, עלויות ייצור ו-Production Accounting של Public Cloud (למשל Strategies for Make-to-Order, Searching for a Production Order, Display Posting Rules - Event-Based). (ג) 'WORKORDER_UPDATE BAdI released extensibility': 21 תוצאות, בהן העמוד הכללי 'Extensibility' של Public Cloud שהסניפט שלו מונה Key User, Developer ו-Side-by-Side, ללא אזכור של WORKORDER_UPDATE או PPCO0001; העמוד לא צוטט ברשומה כי אינו עוסק בהרחבה זו. שלוש השאילתות תחת SAP_S4HANA_CLOUD לא החזירו רשומה שמזכירה את PPCO0001, את EXIT_SAPLCOBT_001 או את WORKORDER_UPDATE. זו שלילה מתועדת של חיפוש ולא קביעה על זמינות ההרחבה ב-Public Cloud, ולכן לא נכתב סטטוס ל-Public Cloud. Private Cloud לא נבדק בנפרד.",
   },
   {
     id: "enh:exit:PPCO0007",

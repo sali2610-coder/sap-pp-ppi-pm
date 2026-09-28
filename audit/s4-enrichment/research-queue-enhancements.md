@@ -1125,3 +1125,8 @@ guard, so no test change.
   - WORKORDER_CONFIRM, PCSD0002 and SAPLV01Z now count as edition-specific (their new Public Cloud
     rows). No other record changed depth, level or status.
 - No live SAP check was performed.
+
+## Batch 11 (retry of QQMA0001 and PPCO0001, written 2026-09-25, recorded 2026-09-28)
+
+- `enh:exit:QQMA0001` and `enh:exit:PPCO0001` passed on resubmission (repair + re-audit in run `wf_a4bd07c4-91f`; neither verdict carried a fixedRecord or a downgrade). The writer applied both records and the file header, then stopped on the account's weekly usage limit before its gates and this queue entry. Recorded by the orchestrator on 2026-09-28: both records in `data/verification/enhancements.ts` equal the audited drafts field for field (date constants resolved, key order aside); no `reviewer` field; `tsc` 0 (app and test projects), `npm test` 211/211.
+- `## refuted`: none. Both earlier refusals (QQMA0001: a personal address in a `reviewer` field; PPCO0001: batch 9 problems) are closed by this write.
