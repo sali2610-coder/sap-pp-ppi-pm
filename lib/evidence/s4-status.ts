@@ -98,18 +98,27 @@ export function fromS4Trust(trust: "verified" | "partial" | "needs"): Verificati
   return unmapped("fromS4Trust", trust);
 }
 
+/** A record's ECC line that says the object did not exist in ECC ("לא קיים ב-ECC.",
+ *  "לא קיים."). Anchored: only the line's own opening words count. */
+const NOT_IN_ECC = /^\s*לא\s+קיים(?=[\s,;.:\-–(]|$)/;
+
 /** data/s4-objects. `release` is a structured field there ("S/4 1511") and is
- *  the one derived value allowed to carry a release. */
+ *  the one derived value allowed to carry a release. `ecc` is the record's own
+ *  "before" line: MATDOC and ACDOCA sit in the catalogue's "stays" bucket, yet
+ *  their ECC line says they did not exist in ECC, so they are new in S/4HANA,
+ *  not objects that stayed (content review, finding 5). */
 export function fromS4Object(
   status: "stays" | "changed" | "replaced" | "removed",
   release?: string,
   trust?: "curated" | "needs-verification",
+  ecc?: string,
 ): S4StatusClaim {
   const map: Record<string, S4Status> = { stays: "unchanged", changed: "changed", replaced: "replaced", removed: "not_available" };
-  const s = map[status];
-  if (!s) return unmapped("fromS4Object", status);
+  if (!map[status]) return unmapped("fromS4Object", status);
+  const s = NOT_IN_ECC.test(ecc || "") ? "s4_native" : map[status];
   const rel = (release || "").trim() || null;
-  const he = `לפי קטלוג אובייקטי ה-S/4HANA של הפרויקט: ${status}${rel ? ` (${rel})` : ""}`;
+  const he = `לפי קטלוג אובייקטי ה-S/4HANA של הפרויקט: ${status}${rel ? ` (${rel})` : ""}` +
+    (s === "s4_native" ? `; שורת ה-ECC ברשומה: ${(ecc || "").trim()}` : "");
   return claim(s, "s4-objects", he, { release: rel, inferred: trust === "needs-verification" || undefined });
 }
 

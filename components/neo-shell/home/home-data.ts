@@ -198,8 +198,9 @@ export interface HomeData {
   /** Largest table count over all topics — the density scale reference. */
   maxTopicTables: number;
   flows: FlowChain[];
-  /** Counts of the MARKED verdicts only, labelled by lib/s4-class S4_HE:
-   *  1 = מותאם, 2 = הוחלף, 3 = הוסר. The 0 bucket is deliberately absent — it
+  /** Counts of the MARKED blueprint verdicts only (lib/s4-class 1 = מותאם,
+   *  2 = הוחלף, 3 = הוסר), worded on the page by the S/4HANA status dictionary
+   *  (משתנה, מוחלף, הוסר). The 0 bucket is deliberately absent — it
    *  mixes "ללא שינוי" with tables whose note states no verdict, and a count
    *  that cannot tell those apart must not be labelled "kept". */
   migration: { adapted: number; replaced: number; removed: number };

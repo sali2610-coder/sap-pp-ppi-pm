@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { RISK_HE } from "@/lib/s4";
+import { S4_STATUS_WORD } from "@/lib/evidence/types";
 import { S4Catalog } from "./s4-catalog";
 import {
   APPROACHES, ARCH, ARCH_STATUS, CUSTOM_CODE, CUSTOM_CODE_NOTE, CUTOVER, EXEC_NARRATIVE,
@@ -150,8 +151,8 @@ export function S4HanaCenter() {
         }
         stats={[
           [t.total, "אובייקטים"],
-          [t.byStatus.replaced || 0, "הוחלפו"],
-          [t.byStatus.removed || 0, "בוטלו"],
+          [t.byKey.replaced || 0, S4_STATUS_WORD.replaced],
+          [t.byKey.not_available || 0, S4_STATUS_WORD.not_available],
           [t.byRisk.high || 0, "בסיכון גבוה"],
           [t.abapNotes, "הערות ABAP"],
           [t.checklistItems, "פריטי בדיקה"],
@@ -174,7 +175,7 @@ export function S4HanaCenter() {
         icon={<Database size={15} strokeWidth={1.75} />}
         eyebrow="קטלוג"
         title="קטלוג האובייקטים"
-        lede="מסודר לפי חומרת השינוי: תחילה מה שבוטל, בסוף מה שנשאר."
+        lede="מסודר לפי חומרת השינוי: תחילה מה שהוסר, בסוף מה שנשמר."
       >
         <S4Catalog objs={objs} />
       </Sec>
@@ -338,14 +339,14 @@ export function S4ReadinessCenter() {
         title="כיסוי תיעוד למעבר ל-S/4HANA לפי מודול"
         lede={
           r.available
-            ? <>ציון כיסוי תיעוד לכל מודול, מחושב מ-{nf.format(r.tables)} טבלאות SAP מתועדות: כיסוי Fiori, כיסוי CDS, שיעור הטבלאות המסומנות כמוחלפות ואומדן עבודת הקוד המותאם. בנוסף {tt.total} נושאי שינוי ECC → S/4HANA, כל אחד עם סטטוס והשפעת מעבר.</>
+            ? <>ציון כיסוי תיעוד לכל מודול, מחושב מ-{nf.format(r.tables)} טבלאות SAP מתועדות. בנוסף {tt.total} נושאי שינוי ECC → S/4HANA, כל אחד עם סטטוס והשפעת מעבר.</>
             : <>ציון כיסוי התיעוד אינו זמין, מכיוון שקטלוג טבלאות SAP לא נטען. {tt.total} נושאי השינוי מוצגים במלואם.</>
         }
         stats={
           r.available
             ? [
                 [`${r.overall}%`, `כיסוי תיעוד למעבר · מדגם ${nf.format(r.tables)} טבלאות`],
-                [r.mods.length, "מודולים"],
+                [r.mods.length, "מודולים עם ציון"],
                 [r.tables, "טבלאות SAP"],
                 [r.highRisk, "מודולים בסיכון גבוה"],
                 [tt.total, "נושאי שינוי"],
@@ -354,7 +355,7 @@ export function S4ReadinessCenter() {
             : [[tt.total, "נושאי שינוי"], [tt.withSimplification, "עם פריט Simplification"]]
         }
         note={
-          <>הציון נגזר מהתיעוד: Fiori, CDS, סטטוס S/4HANA ומספר הקשרים לכל טבלה. הוא מודד כיסוי תיעוד בלבד ואינו מחליף SAP Readiness Check.</>
+          <>הציון משקלל את שיעור הטבלאות עם יישום Fiori (30%), עם תצוגת CDS (30%) ועם הערת S/4HANA (25%), ואת שיעור הטבלאות שאינן מסומנות כמוחלפות או כמוסרות (15%). הוא מודד כיסוי תיעוד בלבד ואינו מחליף SAP Readiness Check.</>
         }
       />
 
@@ -374,7 +375,6 @@ export function S4ReadinessCenter() {
                 <header>
                   <b>{m.he}</b>
                   <span className="ns4-mod-code nx-sap" dir="ltr">{m.mod}</span>
-                  <span className="ns4-band">{m.band}</span>
                   <Risk r={m.risk} />
                   <span className="ns4-score nx-sap" dir="ltr">{m.score}%</span>
                 </header>
@@ -386,11 +386,22 @@ export function S4ReadinessCenter() {
                   <div><dt>Fiori</dt><dd className="nx-sap">{m.fioriPct}%</dd></div>
                   <div><dt>CDS</dt><dd className="nx-sap">{m.cdsPct}%</dd></div>
                   <div><dt>מסומן S/4HANA</dt><dd className="nx-sap">{m.s4Pct}%</dd></div>
-                  <div><dt>מוחלף/הוסר</dt><dd className="nx-sap">{m.deprecatedPct}%</dd></div>
+                  <div><dt>מוחלף או הוסר</dt><dd className="nx-sap">{m.deprecatedPct}%</dd></div>
                   <div><dt>מורכבות</dt><dd className="nx-sap">{m.complexity}</dd></div>
                   <div><dt>אומדן (לא תוכנית מאומתת)</dt><dd>{m.effort}</dd></div>
                   <div><dt>קוד מותאם</dt><dd className="nx-sap">{nf.format(m.customCodeImpact)}</dd></div>
                 </dl>
+              </li>
+            ))}
+            {/* A module the list names but the dataset holds no table for: no
+                basis, so no score, no bar and no band. The gap is the answer. */}
+            {r.unmeasured.map((m) => (
+              <li key={m.mod} style={{ "--s": "var(--status-not-started)" } as React.CSSProperties}>
+                <header>
+                  <b>{m.he}</b>
+                  <span className="ns4-mod-code nx-sap" dir="ltr">{m.mod}</span>
+                </header>
+                <p className="ns4-silent">לא מתועד במאגר: אין בו טבלאות של המודול, ולכן לא מחושב לו ציון.</p>
               </li>
             ))}
           </ul>

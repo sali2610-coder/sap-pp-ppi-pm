@@ -9,6 +9,7 @@ import { homeData, type HomeData } from "@/components/neo-shell/home/home-data";
 import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-scene";
 import { HomeNet } from "@/components/neo-shell/home/home-net";
 import { CmdKey } from "@/components/neo-shell/cmd-key";
+import { S4_STATUS_WORD } from "@/lib/evidence/types";
 
 // ROOT CUTOVER. `/` 307s here, so this page is the site's public landing page
 // and MUST be indexable. The other noindex declarations under app/neo/ stay
@@ -106,12 +107,14 @@ export default function NeoHome() {
     [marked, "מסומנות לשינוי במעבר", "/neo/s4hana/"],
   ];
 
-  // The verdict labels are lib/s4-class S4_HE, verbatim — the blueprint's own
-  // vocabulary. Tables whose note states no verdict are simply not counted.
+  // The counts are the blueprint's own verdicts (lib/s4-class: 1 מותאם, 2
+  // הוחלף, 3 הוסר); the words are the S/4HANA status dictionary's
+  // (lib/evidence S4_STATUS_WORD), the same words every other surface prints.
+  // Tables whose note states no verdict are simply not counted.
   const impact: { he: string; n: number; k: "adapted" | "replaced" | "removed" }[] = [
-    { he: "מותאם", n: d.migration.adapted, k: "adapted" },
-    { he: "הוחלף", n: d.migration.replaced, k: "replaced" },
-    { he: "הוסר", n: d.migration.removed, k: "removed" },
+    { he: S4_STATUS_WORD.changed, n: d.migration.adapted, k: "adapted" },
+    { he: S4_STATUS_WORD.replaced, n: d.migration.replaced, k: "replaced" },
+    { he: S4_STATUS_WORD.not_available, n: d.migration.removed, k: "removed" },
   ];
 
   return (

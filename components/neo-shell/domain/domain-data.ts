@@ -29,6 +29,7 @@
 import { DOMAINS, type Domain } from "@/data/domains";
 import { DOMAIN_DETAIL, type DomainDetail } from "@/data/domain-detail";
 import type { EccS4 } from "@/components/ecc-s4-block";
+import { S4_STATUS_HE, S4_STATUS_WORD } from "@/lib/evidence/types";
 import { bapiHref, objectHref, txHref } from "../reference/ref-links";
 import type { ModuleKey } from "../types";
 
@@ -107,16 +108,19 @@ const clean = (s?: string) => (s || "").trim();
 
 /** The eight ECC↔S/4 fields, in the order a migration reader wants them: what
  *  survives, what moves, what is replaced, what is gone, then the new surfaces
- *  and the plan. The labels are the ones components/ecc-s4-block already uses,
- *  so the two renderings of the same dataset say the same words. */
+ *  and the plan. The headings of the status fields come from the S/4HANA
+ *  status dictionary (lib/evidence/types). These are headings over PROSE, not
+ *  a verdict per record: the "deprecated" field holds text about both removed
+ *  and not-strategic objects, so its heading keeps both words and is never
+ *  merged into "הוסר" (content review, row 91). */
 const S4_ROWS: { key: keyof EccS4; he: string; tone: DomS4Row["tone"] }[] = [
-  { key: "unchanged", he: "ללא שינוי", tone: "stays" },
-  { key: "changed", he: "משתנה ב-S/4HANA", tone: "changes" },
-  { key: "replaced", he: "מוחלף", tone: "replaced" },
-  { key: "deprecated", he: "הוסר או אינו אסטרטגי", tone: "gone" },
+  { key: "unchanged", he: S4_STATUS_WORD.unchanged, tone: "stays" },
+  { key: "changed", he: S4_STATUS_HE.changed, tone: "changes" },
+  { key: "replaced", he: S4_STATUS_WORD.replaced, tone: "replaced" },
+  { key: "deprecated", he: `${S4_STATUS_WORD.not_available} או ${S4_STATUS_WORD.deprecated}`, tone: "gone" },
   { key: "fiori", he: "יישום Fiori", tone: "new" },
   { key: "cds", he: "תצוגת CDS", tone: "new" },
-  { key: "simplification", he: "פריט Simplification", tone: "plan" },
+  { key: "simplification", he: S4_STATUS_HE.simplified, tone: "plan" },
   { key: "migration", he: "השפעת המעבר ובדיקות", tone: "plan" },
 ];
 

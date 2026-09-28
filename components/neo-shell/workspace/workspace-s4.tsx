@@ -316,7 +316,7 @@ function Move({ r }: { r: WsS4Row }) {
         ) : null}
         {r.fiori ? (
           <div>
-            <dt>יישום Fiori עוקב</dt>
+            <dt>יישום Fiori קשור</dt>
             <dd className="nw-sap">{r.fiori}</dd>
           </div>
         ) : null}

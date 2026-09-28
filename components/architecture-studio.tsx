@@ -10,7 +10,9 @@ import {
   BookOpen, MapPin, ArrowLeftRight, Info, Play, Pause, ChevronLeft, ChevronRight, Film,
   Factory, Activity, ShieldCheck, Settings, Truck, Layers,
 } from "lucide-react";
-import { buildHetero, layoutSubset, layoutZoned, FLOWS, MODES, KIND_META, S4_COLOR, ZONES, zoneOf, type SHetero, type SKind, type ZoneBand, type Zone } from "@/lib/studio-graph";
+import { buildHetero, layoutSubset, layoutZoned, FLOWS, MODES, KIND_META, S4_COLOR, ZONES, zoneOf, type BlueprintS4, type SHetero, type SKind, type ZoneBand, type Zone } from "@/lib/studio-graph";
+import { S4_STATUS_HE, S4_STATUS_WORD } from "@/lib/evidence/types";
+import { S4_UNDECIDED_HE } from "@/lib/s4-class";
 import { lookupEntity } from "@/lib/entity-lookup";
 import { tableByName } from "@/lib/knowledge-graph";
 import { setActiveEntity } from "@/lib/workspace";
@@ -499,7 +501,7 @@ export function ArchitectureStudio() {
                   <button onClick={() => setEdgesOn((v) => !v)} title="הצג/הסתר קווי קשר" className={`${btn} rounded-lg px-2 py-1 text-[11px] font-bold ${edgesOn ? "bg-slate-700 text-white" : "bg-surface-2 text-ink-3"}`}>קשתות</button>
                   <button onClick={() => setLifeOnly((v) => !v)} title="הדגש רק את זרימת התהליך העסקי" className={`${btn} rounded-lg px-2.5 py-1 text-[11px] font-bold ${lifeOnly ? "text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`} style={lifeOnly ? { background: forWhiteText(accent) } : undefined}>מחזור חיים</button>
                   {mode.behavior === "expand" && <button onClick={() => { const f = DEFAULT_FOCUS[module]; setRevealed(new Set([f, ...scopeNbrs(f)])); setSel(null); }} title="אפס לתצוגת ההתחלה" className={`${btn} flex items-center gap-1 rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-3 hover:bg-hairline`}><RotateCcw className="size-3" />אפס</button>}
-                  {mode.colorBy === "s4" && <span className="ms-auto flex items-center gap-2 text-[10px] font-bold">{[["kept", "נשמר"], ["replaced", "הוחלף"], ["removed", "הוסר"]].map(([k, l]) => <span key={k} className="flex items-center gap-1"><span className="size-2 rounded-full" style={{ background: S4_COLOR[k as keyof typeof S4_COLOR] }} />{l}</span>)}</span>}
+                  {mode.colorBy === "s4" && <span className="ms-auto flex items-center gap-2 text-[10px] font-bold">{(Object.keys(S4_COLOR) as BlueprintS4[]).map((k) => <span key={k} className="flex items-center gap-1"><span className="size-2 rounded-full" style={{ background: S4_COLOR[k] }} />{S4_STATUS_WORD[k]}</span>)}</span>}
                 </div>
               </div>
             </motion.div>
@@ -530,7 +532,7 @@ export function ArchitectureStudio() {
             const sN = h.nodes.get(step.code);
             const pct = ((demoStep + 1) / demoFlow.length) * 100;
             const zone = sN?.kind === "table" ? (ZONE_HE[zoneOf(step.code)] || "") : "";
-            const s4he = sN?.s4 ? ({ kept: "נשמר ב-S/4", replaced: "הוחלף ב-S/4", removed: "הוסר ב-S/4" } as Record<string, string>)[sN.s4] : null;
+            const s4he = sN?.s4 ? S4_STATUS_HE[sN.s4] : null;
             // §23 verified ECC↔S/4 delta — straight from the blueprint dataset (no fabrication)
             const trow = tableByName(step.code);
             const capText = tip?.he || sN?.he || `${step.label} — ${step.code}`;
@@ -578,7 +580,7 @@ export function ArchitectureStudio() {
                             </div>
                             <div className="rounded-xl border p-2.5" style={{ borderColor: (sN?.s4 ? S4_COLOR[sN.s4] : "#16a34a") + "44", background: (sN?.s4 ? S4_COLOR[sN.s4] : "#16a34a") + "0c" }}>
                               <div className="mb-1 text-[10px] font-extrabold uppercase tracking-wide" style={{ color: sN?.s4 ? S4_COLOR[sN.s4] : "#16a34a" }}>S/4HANA</div>
-                              <div className="font-bold text-ink-1">{s4he || "נשמר"}</div>
+                              <div className="font-bold text-ink-1">{s4he || S4_UNDECIDED_HE}</div>
                               {trow.s4AltTable && <div className="mt-0.5 text-ink-2" dir="ltr">→ {trow.s4AltTable}</div>}
                               {trow.s4AltTcode && <div className="text-ink-2" dir="ltr">→ {trow.s4AltTcode}</div>}
                               {trow.fioriApp && <div className="mt-0.5 truncate text-amber-700" title={trow.fioriApp}>Fiori · {trow.fioriApp}</div>}
@@ -745,7 +747,7 @@ export function ArchitectureStudio() {
                     {[
                       { v: degAll(active!), l: "קשרים" },
                       { v: selNbrs.length, l: "מוצגים" },
-                      { v: tipNode!.kind === "table" && tipNode!.s4 ? ({ kept: "נשמר", replaced: "הוחלף", removed: "הוסר" } as Record<string, string>)[tipNode!.s4] : "—", l: "S/4" },
+                      { v: tipNode!.kind === "table" && tipNode!.s4 ? S4_STATUS_WORD[tipNode!.s4] : "—", l: "S/4" },
                     ].map((s) => (
                       <div key={s.l} className="rounded-xl border border-hairline bg-surface-2/60 p-2 text-center">
                         <div className="text-base font-extrabold tabular-nums text-ink-1">{s.v}</div>
@@ -761,7 +763,7 @@ export function ArchitectureStudio() {
                     const fi = flow.findIndex((s) => s.code === tipNode!.label);
                     const prev = fi > 0 ? flow[fi - 1] : null;
                     const next = fi >= 0 && fi < flow.length - 1 ? flow[fi + 1] : null;
-                    const s4he = tipNode!.kind === "table" && tipNode!.s4 ? ({ kept: "נשמר ב-S/4HANA", replaced: "הוחלף / טבלה חלופית ב-S/4", removed: "הוסר / בוטל ב-S/4" } as Record<string, string>)[tipNode!.s4] : null;
+                    const s4he = tipNode!.kind === "table" && tipNode!.s4 ? `${S4_STATUS_HE[tipNode!.s4]} · לפי עמודת S/4HANA בתיעוד המקור: ${tipNode!.s4Src}` : null;
                     const what = tip?.he || tipNode!.he;
                     const rows: { icon: typeof BookOpen; c: string; l: string; body: React.ReactNode }[] = [];
                     if (what) rows.push({ icon: BookOpen, c: "#0891b2", l: "מה זה", body: what });

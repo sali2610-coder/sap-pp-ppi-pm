@@ -25,6 +25,7 @@ import { evidenceBlock, fromBlueprintClass } from "@/lib/evidence";
 import { s4ClassOf } from "@/lib/s4-class";
 import { ZONES, zoneOf } from "@/lib/studio-graph";
 import { objVarFor } from "../nav-data";
+import { capMatch } from "./table-caps";
 import { tableDetailNames, tableHref } from "./tables-detail";
 import type { NeoFacet, NeoRelRef, NeoTableRow, NeoTablesData } from "./types";
 
@@ -196,7 +197,7 @@ export function tablesData(): NeoTablesData {
       rels: rows.reduce((a, r) => a + r.rels.length, 0),
       tcodes: uniq(rows.flatMap((r) => r.tcodes)).length,
       shared: count((r) => r.mods.length > 1),
-      s4: count((r) => !!r.s4Alt),
+      s4: count((r) => capMatch(r, "s4")),
       cds: count((r) => r.cds.length > 0),
       fiori: count((r) => !!r.fiori),
     },

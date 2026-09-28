@@ -8,7 +8,7 @@ import { txStatusMap } from "@/components/neo-shell/data/tx-detail";
 
 export const metadata = {
   title: "טרנזקציות SAP · Project NEO",
-  description: "קטלוג הטרנזקציות של Project NEO: מודול, נושא, אובייקט עסקי, יישום Fiori עוקב ועומק התיעוד.",
+  description: "קטלוג הטרנזקציות של Project NEO: מודול, נושא, אובייקט עסקי, יישום Fiori קשור ועומק התיעוד.",
   robots: { index: false, follow: false },
 };
 

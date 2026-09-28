@@ -51,7 +51,9 @@ import {
   APPROACHES, MIG_CHECKLIST, MIG_ERRORS, MIG_LOAD_LAYERS, MIG_OBJECTS, QUALITY_DIMS, READINESS,
   type MigObj,
 } from "@/data/migration-cockpit";
-import { computeReadiness, overallReadiness, type ModuleReadiness, type RTbl } from "@/lib/s4-readiness";
+import { computeReadiness, overallReadiness, unmeasuredModules, type ModuleReadiness, type RTbl } from "@/lib/s4-readiness";
+import { fromChangeStatus, fromS4Object } from "@/lib/evidence/s4-status";
+import { S4_STATUS_WORD, type S4Status as S4Key } from "@/lib/evidence/types";
 import { objectHref, txHref } from "../reference/ref-links";
 
 export type { ArchComp, EccS4Topic, MigObj, ModuleReadiness, S4Obj, S4Status };
@@ -73,6 +75,10 @@ const link = (t: string): S4Link => ({ t, href: objectHref(t) });
 /* --------------------------------------------------- the object catalogue */
 
 export interface S4ObjView extends S4Obj {
+  /** The canonical status (lib/evidence fromS4Object), which also reads the
+   *  record's own ECC line: MATDOC and ACDOCA are new in S/4HANA, not "stays". */
+  key: S4Key;
+  /** The dictionary's short word for `key`. */
   statusHe: string;
   statusColor: string;
   /** Related names, each a destination only when the project generates a page. */
@@ -83,14 +89,18 @@ export interface S4ObjView extends S4Obj {
 }
 
 export const s4Objects = memo((): S4ObjView[] =>
-  S4_OBJECTS.map((o) => ({
-    ...o,
-    statusHe: S4STATUS_META[o.status].he,
-    statusColor: S4STATUS_META[o.status].c,
-    relatedLinks: (o.related || []).map(link),
-    replacesLinks: (o.replaces || []).map(link),
-    href: objectHref(o.name),
-  })),
+  S4_OBJECTS.map((o) => {
+    const key = fromS4Object(o.status, o.release, o.trust, o.ecc).status;
+    return {
+      ...o,
+      key,
+      statusHe: S4_STATUS_WORD[key],
+      statusColor: S4STATUS_META[o.status].c,
+      relatedLinks: (o.related || []).map(link),
+      replacesLinks: (o.replaces || []).map(link),
+      href: objectHref(o.name),
+    };
+  }),
 );
 
 export const s4ObjectTotals = memo(() => {
@@ -99,7 +109,7 @@ export const s4ObjectTotals = memo(() => {
     list.reduce<Record<string, number>>((a, o) => (a[f(o)] = (a[f(o)] || 0) + 1, a), {});
   return {
     total: list.length,
-    byStatus: by((o) => o.status),
+    byKey: by((o) => o.key),
     byRisk: by((o) => o.risk),
     byKind: by((o) => o.kind),
     curated: list.filter((o) => o.trust === "curated").length,
@@ -118,8 +128,17 @@ export interface TopicView extends EccS4Topic {
   statusColor: string;
 }
 
+/** The topic's status in the dictionary's words. "Deprecated" is NOT mapped to
+ *  one key: in data/ecc-s4 it holds two different facts (WM, not strategic,
+ *  and Foreign Trade, removed), so it keeps the two words side by side until
+ *  the data itself is split (content review, finding 12). */
+const topicWord = (s: EccS4Topic["status"]): string =>
+  s === "Deprecated"
+    ? `${S4_STATUS_WORD.not_available} או ${S4_STATUS_WORD.deprecated}`
+    : S4_STATUS_WORD[fromChangeStatus(s).status];
+
 export const s4Topics = memo((): TopicView[] =>
-  ECC_S4_TOPICS.map((t) => ({ ...t, statusHe: STATUS_HE[t.status], statusColor: STATUS_COLOR[t.status] })),
+  ECC_S4_TOPICS.map((t) => ({ ...t, statusHe: topicWord(t.status), statusColor: STATUS_COLOR[t.status] })),
 );
 
 export const s4TopicTotals = memo(() => {
@@ -158,8 +177,9 @@ export const s4Readiness = memo(() => {
     available: tables.length > 0,
     tables: tables.length,
     mods,
+    /** Listed modules with no table in the dataset: shown without a score. */
+    unmeasured: unmeasuredModules(tables),
     overall: overallReadiness(mods),
-    bands: mods.reduce<Record<string, number>>((a, m) => (a[m.band] = (a[m.band] || 0) + 1, a), {}),
     highRisk: mods.filter((m) => m.risk === "high").length,
   };
 });

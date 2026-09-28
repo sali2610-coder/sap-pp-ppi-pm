@@ -43,10 +43,11 @@ function moduleScore(tables: RTbl[], mod: string): ModuleReadiness {
   const fioriPct = pct(withFiori, n), cdsPct = pct(withCds, n), s4Pct = pct(withS4, n), deprecatedPct = pct(deprecated, n);
   const cloudPct = pct(cloudLand, n);
 
-  // weighted readiness — modern surface (Fiori+CDS) + S/4 signal, penalised by deprecated mass
-  let score = Math.round(fioriPct * 0.3 + cdsPct * 0.3 + s4Pct * 0.25 + Math.max(0, 100 - deprecatedPct) * 0.15);
-  if (cloudPct >= 50) score = Math.max(score, 80); // cloud-native modules (HR/SF, BW/SAC) are inherently ahead
-  score = Math.min(100, score);
+  // A documentation-coverage score, and nothing else: the share of the module's
+  // tables with a Fiori app (30%), with a CDS view (30%) and with an S/4HANA
+  // note (25%), plus the share NOT marked replaced or removed (15%). No floor:
+  // a fixed minimum for cloud-landscape modules was a number no table stated.
+  const score = Math.min(100, Math.round(fioriPct * 0.3 + cdsPct * 0.3 + s4Pct * 0.25 + Math.max(0, 100 - deprecatedPct) * 0.15));
 
   // band
   let band: Band;
@@ -65,21 +66,25 @@ function moduleScore(tables: RTbl[], mod: string): ModuleReadiness {
   return { mod, he: MOD_HE[mod] || mod, tables: n, fioriPct, cdsPct, s4Pct, deprecatedPct, migrationObjs, simplification, score, band, color: bandColor(score), risk, complexity, effort, customCodeImpact, dataModelImpact };
 }
 
+/** Only modules with at least one table in the dataset get a score. A module
+ *  with none has no measured basis: it is listed by unmeasuredModules() and the
+ *  page says so, instead of a number (PI/PO used to carry a hand-set 45). */
 export function computeReadiness(allTables: RTbl[]): ModuleReadiness[] {
   const byMod: Record<string, RTbl[]> = {};
   for (const t of allTables) (byMod[t.mod] ||= []).push(t);
   const out: ModuleReadiness[] = [];
   for (const mod of ALL_MODS) {
     const tables = byMod[mod] || [];
-    if (tables.length === 0) {
-      // module with no tables in the dataset (e.g. PI/PO) — derive from architecture intent
-      if (mod === "PIPO") { out.push({ mod, he: MOD_HE[mod], tables: 0, fioriPct: 0, cdsPct: 0, s4Pct: 0, deprecatedPct: 0, migrationObjs: 0, simplification: 1, score: 45, band: "Hybrid", color: bandColor(45), risk: "medium", complexity: "M", effort: "3-6 שבועות", customCodeImpact: 0, dataModelImpact: 0 }); }
-      continue;
-    }
-    out.push(moduleScore(tables, mod));
+    if (tables.length) out.push(moduleScore(tables, mod));
   }
   return out.sort((a, b) => b.score - a.score);
 }
+
+/** The listed modules the dataset holds no table for: no score, a visible gap. */
+export const unmeasuredModules = (allTables: RTbl[]): { mod: string; he: string }[] => {
+  const has = new Set(allTables.map((t) => t.mod));
+  return ALL_MODS.filter((m) => !has.has(m)).map((mod) => ({ mod, he: MOD_HE[mod] || mod }));
+};
 
 export const overallReadiness = (mods: ModuleReadiness[]) => {
   const withTables = mods.filter((m) => m.tables > 0);

@@ -112,11 +112,23 @@ export const OVERLAY_ONLY_STATUSES: readonly S4Status[] = [
   "compatibility_scope", "simplified", "released_api_available",
 ] as const;
 
+/* THE S/4HANA STATUS DICTIONARY (content review 2026-09-29, row 91, dictionary 1).
+   ONE source for every surface: a surface maps its own data to a canonical key
+   and prints the word from here, it never keeps a word list of its own.
+     S4_STATUS_HE      the full label (the StatusPill text)
+     S4_STATUS_WORD    the short word (tags, legends, filters, breakdowns, the
+                       pill tooltip), masculine as the neutral form, because
+                       the pill also marks BAPIs, function modules and apps
+     S4_STATUS_READING the reading group, which picks the pill's glyph
+   Meanings the review keeps apart: "לא אסטרטגי" is not "הוסר", "קיימת חלופת
+   Fiori" is not "מוחלף", "מוגבל" is not "משתנה", "לא רלוונטי" is not "נדרש
+   אימות", "ECC בלבד" is not "הוסר". Where a source writes "ללא שינוי", its own
+   words stay in the explanation line under the word "נשמר". */
 export const S4_STATUS_HE: Record<S4Status, string> = {
   s4_native: "חדש ב-S/4HANA",
-  unchanged: "ללא שינוי ב-S/4HANA",
+  unchanged: "נשמר ב-S/4HANA",
   changed: "משתנה ב-S/4HANA",
-  simplified: "פריט פישוט (Simplification Item)",
+  simplified: "Simplification Item",
   replaced: "הוחלף ב-S/4HANA",
   restricted: "מוגבל ב-S/4HANA",
   deprecated: "לא אסטרטגי ב-S/4HANA",
@@ -129,8 +141,27 @@ export const S4_STATUS_HE: Record<S4Status, string> = {
   not_applicable: "לא רלוונטי",
 };
 
+export const S4_STATUS_WORD: Record<S4Status, string> = {
+  s4_native: "חדש ב-S/4HANA",
+  unchanged: "נשמר",
+  released_api_available: "נשמר",
+  fiori_alternative_available: "נשמר",
+  changed: "משתנה",
+  simplified: "משתנה",
+  restricted: "מוגבל",
+  replaced: "מוחלף",
+  deprecated: "לא אסטרטגי",
+  compatibility_scope: "לא אסטרטגי",
+  not_available: "הוסר",
+  legacy_ecc_only: "ECC בלבד",
+  verification_required: "נדרש אימות",
+  not_applicable: "לא רלוונטי",
+};
+
 /** Same reading as lib/s4-class: green stays, amber changes, blue moves, red
- *  is gone, grey is "no verdict". Purple marks the ECC-only past. */
+ *  is gone, grey is "no verdict". Purple marks the ECC-only past. The two
+ *  not-strategic statuses are amber too: they still exist in S/4HANA, so they
+ *  are never painted "gone"; their glyph tells them from "changes". */
 export const S4_STATUS_DOT: Record<S4Status, string> = {
   s4_native: "var(--status-done)",
   unchanged: "var(--status-done)",
@@ -138,10 +169,10 @@ export const S4_STATUS_DOT: Record<S4Status, string> = {
   simplified: "var(--status-in-analysis)",
   replaced: "var(--status-in-conversion)",
   restricted: "var(--status-in-analysis)",
-  deprecated: "var(--status-removed)",
+  deprecated: "var(--status-in-analysis)",
   not_available: "var(--status-removed)",
   compatibility_scope: "var(--status-in-analysis)",
-  fiori_alternative_available: "var(--status-in-conversion)",
+  fiori_alternative_available: "var(--status-done)",
   released_api_available: "var(--status-done)",
   legacy_ecc_only: "var(--status-tested)",
   verification_required: "var(--status-not-started)",
@@ -149,28 +180,44 @@ export const S4_STATUS_DOT: Record<S4Status, string> = {
 };
 
 /** THE SHAPE BESIDE THE COLOUR (design audit S5-3: "symbol and text, never
- *  colour alone"). Fourteen statuses read as seven groups — new / keeps /
- *  changes / moves / gone / past / open — and the shell draws one glyph per
- *  group next to the dot and the word. Pure data: the glyph itself is chosen
- *  in components/neo-shell/evidence/status-pill.tsx. */
+ *  colour alone"). Fourteen statuses read as eight groups (dictionary 1): new,
+ *  keeps, changes, moves, notStrategic, gone, past, open. The shell draws one
+ *  glyph per group next to the dot and the word. Pure data: the glyph itself
+ *  is chosen in components/neo-shell/evidence/status-pill.tsx. */
 export type S4StatusGroup = "new" | "keeps" | "changes" | "moves" | "gone" | "past" | "open";
+export type S4Reading = S4StatusGroup | "notStrategic";
 
-export const S4_STATUS_GROUP: Record<S4Status, S4StatusGroup> = {
+export const S4_STATUS_READING: Record<S4Status, S4Reading> = {
   s4_native: "new",
   unchanged: "keeps",
   released_api_available: "keeps",
+  // The SAP GUI screen keeps working beside its Fiori alternative.
+  fiori_alternative_available: "keeps",
   changed: "changes",
   simplified: "changes",
+  // Its own word ("מוגבל"); the "changes" glyph only.
   restricted: "changes",
-  compatibility_scope: "changes",
   replaced: "moves",
-  fiori_alternative_available: "moves",
-  deprecated: "gone",
+  // Both still exist in S/4HANA; neither is removed and neither is a change.
+  deprecated: "notStrategic",
+  compatibility_scope: "notStrategic",
   not_available: "gone",
   legacy_ecc_only: "past",
   verification_required: "open",
+  // Its own word ("לא רלוונטי"); the "open" glyph only.
   not_applicable: "open",
 };
+
+/** The same reading on the seven families that typed consumers already switch
+ *  over (the redesign boards under app/design keep a Record per family).
+ *  "notStrategic" folds into "changes", never into "gone": not strategic is
+ *  not removed. Derived, so it can never drift from the dictionary. */
+export const S4_STATUS_GROUP = Object.fromEntries(
+  S4_STATUSES.map((s) => {
+    const g = S4_STATUS_READING[s];
+    return [s, g === "notStrategic" ? "changes" : g];
+  }),
+) as Record<S4Status, S4StatusGroup>;
 
 export type DerivedSource =
   | "blueprint" | "s4-impact" | "s4-objects" | "lifecycle" | "ecc-s4"

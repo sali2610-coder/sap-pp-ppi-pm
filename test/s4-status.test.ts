@@ -13,7 +13,7 @@ import { conflictCount } from "../lib/evidence/s4-status.ts";
 import { isValidId, makeId, normalizeAlias, parseId } from "../lib/evidence/canonical.ts";
 import { validId } from "../lib/evidence/validate.ts";
 import {
-  S4_STATUSES, S4_STATUS_DOT, S4_STATUS_HE, VERIFICATION_DOT, VERIFICATION_HE, VERIFICATION_LEVELS,
+  S4_STATUSES, S4_STATUS_DOT, S4_STATUS_HE, S4_STATUS_WORD, VERIFICATION_DOT, VERIFICATION_HE, VERIFICATION_LEVELS,
   type Evidence, type S4StatusClaim, type VerificationLevel,
 } from "../lib/evidence/types.ts";
 import { S4_HE, S4_UNDECIDED_HE } from "../lib/s4-class.ts";
@@ -261,7 +261,7 @@ test("validate.ts validId agrees with canonical.ts isValidId; RANK agrees with d
 /* ------------------------------------------------------ Hebrew hygiene */
 
 test("vocabulary Hebrew is complete, em-dash-free, and dots use --status-* tokens", () => {
-  const maps: Record<string, string>[] = [S4_STATUS_HE, VERIFICATION_HE, ACTION_HE, DEPTH_HE as unknown as Record<string, string>];
+  const maps: Record<string, string>[] = [S4_STATUS_HE, S4_STATUS_WORD, VERIFICATION_HE, ACTION_HE, DEPTH_HE as unknown as Record<string, string>];
   for (const m of maps) {
     for (const [k, v] of Object.entries(m)) {
       assert.ok(v && v.trim().length > 0, `empty label for ${k}`);

@@ -100,9 +100,11 @@ export interface TxS4 {
   note: string;
   /** The ECC6 → S/4HANA delta, when the record carries one. */
   delta: string;
-  /** Codes THIS transaction replaced, as the dataset declares them. */
+  /** Codes THIS transaction replaced, as the dataset declares them, where this
+   *  record's own note agrees (replacesOk). */
   replaces: string[];
-  /** Codes that declare THIS one obsolete — a reverse read of the same field. */
+  /** Codes that declare THIS one obsolete, a reverse read of the same field, on
+   *  the same check. */
   supersededBy: string[];
   /** Fiori successor exactly as written in the dataset. "" when unnamed. */
   fiori: string;
@@ -189,9 +191,42 @@ const uniq = <T,>(a: T[]) => [...new Set(a)];
 
 /* --------------------------------------------------- reverse obsolete map
    `obsolete: ["CJ01", …]` on CJ20N means CJ20N is what those codes became. Read
-   the other way round it is the single most decision-relevant S/4 fact a code
-   can carry: this transaction has a successor. It is a real dataset relation,
-   not an inference. */
+   the other way round it says CJ01 has a successor. The field is authored and
+   is NOT always written in that direction (content review, finding 3): VD01 and
+   VD02 list BP although their own notes say BP replaces them; XK01 (vendor,
+   blocked in S/4HANA) lists XD01 (customer); MB1A, MB1B, MB1C and MB31 list
+   MB01 although each is itself replaced by MIGO; VF05 lists VF05N although its
+   own note recommends VF05N. Read blindly, BP was published as replaced by
+   VD01, at "verified". So the relation is honoured only where the would-be
+   successor's OWN record agrees, and it stays "partial" until the field is
+   corrected at its source. */
+
+/** A record's OWN leading S/4HANA verdict that says the code itself is out:
+ *  replaced, blocked, unsupported, unavailable, obsolete. Anchored like
+ *  lib/s4-class. A loose search over the prose reads "ME22 הישן deprecated"
+ *  in ME22N's note as a verdict on ME22N, and published five successors
+ *  (ME22N, ME23N, ME31K, ME52N, ME53N) as replaced. */
+const SELF_OUT = new RegExp(
+  "^\\s*(?:מסומנ(?:ת)?\\s+כ-)?(?:" +
+    [
+      "הוחלף", "הוחלפה", "מוחלף", "מוחלפת", "חסום", "חסומה", "לא זמין", "לא זמינה", "אינו זמין", "אינה זמינה",
+      "אינו נתמך", "אינה נתמכת", "אינו קיים", "אינה קיימת", "הוסר", "הוסרה", "בוטל", "בוטלה",
+      "obsolete", "deprecated", "removed", "replaced", "no longer",
+    ].join("|") +
+    ")(?=[\\s,;.:\\-–(]|$)",
+  "i",
+);
+
+const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** `rec.obsolete` names `old`: is `rec` what `old` became? Only when rec's own
+ *  record allows it: not itself (XD01, XD02, VD03 list themselves), a note that
+ *  says it exists in S/4HANA, and a note that does not recommend `old`. */
+function replacesOk(rec: (typeof TX_INTEL)[string], old: string): boolean {
+  const note = clean(rec.s4);
+  if (!old || old === rec.code.toUpperCase() || !note || SELF_OUT.test(note)) return false;
+  return !new RegExp(`(?:^|[^A-Z0-9_/])${esc(old)}\\s+(?:(?:הוא|היא)\\s+)?ה?(?:מומלץ|מומלצת)`).test(note);
+}
 
 let _superseded: Map<string, string[]> | null = null;
 function supersededIndex(): Map<string, string[]> {
@@ -200,12 +235,7 @@ function supersededIndex(): Map<string, string[]> {
   for (const t of Object.values(TX_INTEL)) {
     for (const old of t.obsolete || []) {
       const k = clean(old).toUpperCase();
-      // Some records list themselves in `obsolete` (XD01/XD02/XD03 and others
-      // that were folded into Business Partner). Read literally that would make
-      // a transaction its own successor, which is not a fact — it is a data
-      // quirk. Those codes still land on "superseded" through their own S/4
-      // note, at partial trust, which is the honest reading.
-      if (!k || k === t.code) continue;
+      if (!replacesOk(t, k)) continue;
       const cur = m.get(k) || [];
       if (!cur.includes(t.code)) cur.push(t.code);
       m.set(k, cur);
@@ -218,10 +248,9 @@ function supersededIndex(): Map<string, string[]> {
 /* --------------------------------------------------------- the S/4 block */
 
 // Conservative, and deliberately shaped like lib/s4.ts's own derivation: a
-// disposition is raised only on an explicit signal in the dataset's own words,
-// and the trust level says out loud whether it came from a declared relation
-// ("verified") or from reading a note ("partial").
-const OBSOLETE_RE = /\bobsolete\b|deprecat|לא זמינה|אינה זמינה|אינה קיימת|הוסרה|בוטלה|removed|no longer/i;
+// disposition is raised only on an explicit signal in the dataset's own words.
+// "superseded" comes from the checked reverse relation or from the record's
+// own leading verdict (SELF_OUT), both at "partial".
 const CHANGED_RE = /שונת|שינוי|שינויים|החליפ|הוחלפ|מוחלפת|replaced|changed|העדף|ממליצה|מומלצת/i;
 // Data-model deltas quote the Simplification List ("not anymore in MKPF and
 // MSEG", VBUK/VBUP "בוטלו … עברו ל-VBAK/VBAP"): change words for a delta only.
@@ -238,7 +267,8 @@ function buildS4(code: string, intel: (typeof TX_INTEL)[string] | undefined, aut
   const note = clean(intel?.s4) || clean(authored?.eccS4?.changed);
   const delta = clean(intel?.s4Delta) || clean(authored?.eccS4?.migration);
   const fiori = clean(intel?.fiori) || clean(authored?.fiori) || clean(authored?.eccS4?.fiori);
-  const replaces = list(intel?.obsolete).map((x) => x.toUpperCase());
+  // The same relation from this side, on the same check.
+  const replaces = intel ? uniq(list(intel.obsolete).map((x) => x.toUpperCase()).filter((x) => replacesOk(intel, x))) : [];
   const supersededBy = supersededIndex().get(code) || [];
   const unchanged = clean(authored?.eccS4?.unchanged);
   const cds = clean(authored?.eccS4?.cds);
@@ -248,9 +278,10 @@ function buildS4(code: string, intel: (typeof TX_INTEL)[string] | undefined, aut
   let trust: TxS4["trust"];
 
   if (supersededBy.length) {
-    // A declared relation, not a reading of prose.
-    disposition = "superseded"; risk = "high"; trust = "verified";
-  } else if (note && OBSOLETE_RE.test(note)) {
+    // A relation read back from the successor's record and checked against it
+    // (replacesOk). "partial": the field is known to be wrong in places.
+    disposition = "superseded"; risk = "high"; trust = "partial";
+  } else if (note && SELF_OUT.test(note)) {
     disposition = "superseded"; risk = "high"; trust = "partial";
   } else if ((delta && !(KEPT_RE.test(delta) && !DELTA_CHANGED_RE.test(unNegated(delta)))) || (note && CHANGED_RE.test(unNegated(note)))) {
     disposition = "changed"; risk = "medium"; trust = intel?.verified === "verified" ? "verified" : "partial";

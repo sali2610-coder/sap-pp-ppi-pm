@@ -46,13 +46,12 @@ import {
 } from "lucide-react";
 import {
   KIND_META, MODES, S4_COLOR, ZONES, buildHetero, layoutSubset, layoutZoned,
-  nodeTier, zoneOf, type LEdge, type LNode, type SKind, type SNode,
+  nodeTier, zoneOf, type BlueprintS4, type LEdge, type LNode, type SKind, type SNode,
 } from "@/lib/studio-graph";
+import { S4_STATUS_WORD } from "@/lib/evidence/types";
 
 type Mod = "PM" | "PP-PI";
 const MODULES: Mod[] = ["PM", "PP-PI"];
-
-const S4_HE: Record<string, string> = { kept: "ללא החלפה מתועדת", replaced: "הוחלפה", removed: "הוסרה" };
 
 /** The first layer of a module: the first zone (in ZONES order) that has at
  *  least one table in the module's graph. The studio opens on it (design
@@ -490,10 +489,15 @@ export function StudioView() {
             <p className="nst-ctx-he">{selNode.he}</p>
 
             {selNode.s4 ? (
-              <p className="nst-ctx-s4" style={{ "--s4": S4_COLOR[selNode.s4] } as React.CSSProperties}>
-                <i aria-hidden="true" />
-                <b>S/4HANA</b> {S4_HE[selNode.s4]}
-              </p>
+              <>
+                <p className="nst-ctx-s4" style={{ "--s4": S4_COLOR[selNode.s4] } as React.CSSProperties}>
+                  <i aria-hidden="true" />
+                  <b>S/4HANA</b> {S4_STATUS_WORD[selNode.s4]}
+                </p>
+                {/* The blueprint's own verdict word stays visible under the
+                    dictionary word: "ללא שינוי" says more than "נשמר". */}
+                <p className="nst-ctx-none">לפי עמודת S/4HANA בתיעוד המקור: {selNode.s4Src}</p>
+              </>
             ) : (
               <p className="nst-ctx-none">לאובייקט זה לא קיימת הכרעת מעבר מתועדת.</p>
             )}
@@ -517,8 +521,11 @@ export function StudioView() {
 
       {/* legend — colours mean something, so they are stated */}
       <footer className="nst-legend">
+        {mode.colorBy === "s4" ? <span>לפי עמודת S/4HANA בתיעוד המקור:</span> : null}
         {(mode.colorBy === "s4"
-          ? Object.entries(S4_COLOR).map(([k, c]) => ({ c, he: S4_HE[k] }))
+          ? (Object.keys(S4_COLOR) as BlueprintS4[])
+              .filter((k) => laid.nodes.some((n) => n.s4 === k))
+              .map((k) => ({ c: S4_COLOR[k], he: S4_STATUS_WORD[k] }))
           : [...new Set(laid.nodes.map((n) => n.kind))].map((k) => ({ c: KIND_META[k as SKind].c, he: KIND_META[k as SKind].he }))
         ).map((x) => (
           <span key={x.he}><i style={{ background: x.c }} aria-hidden="true" />{x.he}</span>

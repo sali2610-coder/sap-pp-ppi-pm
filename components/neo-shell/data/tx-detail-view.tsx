@@ -224,7 +224,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           <Fact label="הערת המאגר">{t.s4.note || NONE}</Fact>
           {t.s4.delta ? <Fact label="ECC → S/4HANA · מה השתנה">{t.s4.delta}</Fact> : null}
           {t.s4.unchanged ? <Fact label="מה לא השתנה">{t.s4.unchanged}</Fact> : null}
-          <Fact label="יישום Fiori עוקב">
+          <Fact label="יישום Fiori קשור">
             {t.s4.fiori ? <span className="nxt-fiori"><AppWindow size={13} strokeWidth={1.75} aria-hidden="true" />{t.s4.fiori}</span> : NONE}
           </Fact>
           {t.s4.replaces.length ? (

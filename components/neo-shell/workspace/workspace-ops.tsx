@@ -78,7 +78,7 @@ export function WorkspaceOps({ d, meta }: { d: WsData; meta: ChapterMeta }) {
           id={`${meta.id}-dir`}
           icon={<ScrollText size={13} strokeWidth={1.75} />}
           title={dir.title}
-          note={`${nf.format(dir.rows.length)} רשומות מתיעוד המודול. לכל קוד: ההסבר הפונקציונלי, השינוי ב-S/4HANA והיישום העוקב ב-Fiori.`}
+          note={`${nf.format(dir.rows.length)} רשומות מתיעוד המודול. לכל קוד: ההסבר הפונקציונלי, השינוי ב-S/4HANA ויישום ה-Fiori הקשור.`}
         >
           <WorkspaceSheet
             sheet={dir}

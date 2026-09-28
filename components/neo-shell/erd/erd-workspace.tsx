@@ -59,6 +59,7 @@ import {
   type RelKind,
 } from "./erd-types";
 import { RISK_HE } from "@/lib/s4";
+import { S4_STATUS_READING, S4_STATUS_WORD, type S4Status } from "@/lib/evidence/types";
 import { useShellFocus } from "../focus";
 import {
   SmartReturn, consumeReturn, rememberOrigin, useReturnPacket,
@@ -186,18 +187,19 @@ interface Saved {
   mode?: Analysis;
 }
 
-/* The node badge word for a canonical S/4HANA status (design audit §5). The
-   five words the audit asked for, plus "חדשה" for objects that only exist in
-   S/4HANA. "unchanged" gets no badge; a derived "verification_required" gets
-   none either (it would badge most of the map), an AUTHORED one does. */
-const S4_WORD: Record<string, string> = {
-  changed: "משתנה", simplified: "משתנה", restricted: "משתנה", compatibility_scope: "משתנה",
-  fiori_alternative_available: "משתנה", released_api_available: "משתנה", deprecated: "משתנה",
-  replaced: "מוחלפת", not_available: "הוסרה", legacy_ecc_only: "הוסרה", s4_native: "חדשה",
-};
+/* The node badge word for a canonical S/4HANA status (design audit §5): the
+   short word of the S/4HANA status dictionary (lib/evidence S4_STATUS_WORD),
+   the word every other surface prints, with the one form the dictionary allows
+   on a node, "חדש" for an object that only exists in S/4HANA. Every status
+   that reads "נשמר" is the quiet default and gets no badge; a derived
+   "verification_required" gets none either (it would badge most of the map),
+   an AUTHORED one does. */
 function s4Word(k: ErdS4K): string | null {
-  if (k.k === "verification_required") return k.a ? "נדרש אימות" : null;
-  return S4_WORD[k.k] || null;
+  const key = k.k as S4Status;
+  if (!Object.hasOwn(S4_STATUS_WORD, key) || S4_STATUS_READING[key] === "keeps") return null;
+  if (key === "verification_required" && !k.a) return null;
+  if (key === "s4_native") return "חדש";
+  return S4_STATUS_WORD[key];
 }
 const s4BadgeW = (k: ErdS4K): number => 10 + (s4Word(k) || "").length * 6.4;
 
@@ -2730,10 +2732,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                   and nothing else, and it carries the risk
                                   colour rather than one flat amber. */}
                               {/* Design audit §5 (2026-09-21): the badge is a WORD from the
-                                  canonical vocabulary (משתנה / מוחלפת / הוסרה / נדרש אימות /
-                                  חדשה), the same status the table page and the catalog show,
-                                  not a colour alone. "נשמרת" is the quiet default and gets
-                                  no badge, so the map stays readable. */}
+                                  S/4HANA status dictionary (s4Word above), the same status
+                                  the table page and the catalog show, not a colour alone.
+                                  "נשמר" is the quiet default and gets no badge, so the map
+                                  stays readable. */}
                               {s4Word(t.s4k) ? (
                                 <g
                                   className="ne-node-s4"

@@ -7,10 +7,23 @@ import dagre from "dagre";
 import { ALL_TABLES } from "@/data/sapData";
 import { cdsForTable } from "@/data/cds-map";
 import { classifyFunc, cleanFunc } from "@/lib/object-intel";
+import { fromBlueprintClass } from "@/lib/evidence/s4-status";
+import { s4ClassOf, s4He } from "@/lib/s4-class";
 import type { Module } from "@/lib/types";
 
 export type SKind = "table" | "tcode" | "bapi" | "fm" | "idoc" | "cds" | "fiori";
-export interface SNode { id: string; kind: SKind; label: string; he: string; s4?: "kept" | "replaced" | "removed"; href?: string }
+/** The five canonical statuses the blueprint's S/4HANA verdict can produce
+ *  (lib/evidence fromBlueprintClass): 0 ללא שינוי, 1 מותאם, 2 הוחלף, 3 הוסר, and
+ *  "לא הוכרע במקור". */
+export type BlueprintS4 = "unchanged" | "changed" | "replaced" | "not_available" | "verification_required";
+export interface SNode {
+  id: string; kind: SKind; label: string; he: string;
+  /** Canonical S/4HANA status of a blueprint table, from the verdict column. */
+  s4?: BlueprintS4;
+  /** The blueprint's own verdict word, kept for the explanation line. */
+  s4Src?: string;
+  href?: string;
+}
 export interface SHetero { nodes: Map<string, SNode>; adj: Map<string, Set<string>>; tables: string[]; master: Set<string> }
 
 export const KIND_META: Record<SKind, { he: string; c: string }> = {
@@ -36,8 +49,14 @@ export function buildHetero(module: Module): SHetero {
   const tset = new Set(tables.map((t) => t.tableName));
 
   for (const t of tables) {
-    const s4: SNode["s4"] = t.s4AltTable ? "replaced" : /הוסר|בוטל|removed|deprecat/i.test(t.s4Note || "") ? "removed" : "kept";
-    add({ id: t.tableName, kind: "table", label: t.tableName, he: t.descriptionHe || t.descriptionEn || "", s4, href: `/object/${encodeURIComponent(t.tableName)}/` });
+    // The blueprint's verdict column (lib/s4-class), the one every other
+    // surface reads. It used to be "s4AltTable filled => replaced": the PM
+    // blueprint fills that column on all its tables ("IFLOT (זהה)"), so all 56
+    // PM tables read "replaced" while the verdict column marks 43 unchanged;
+    // PP-PI fills it on none, so BUT000 (הוחלף) read "kept".
+    const k = s4ClassOf(t);
+    const s4 = fromBlueprintClass(k).status as BlueprintS4;
+    add({ id: t.tableName, kind: "table", label: t.tableName, he: t.descriptionHe || t.descriptionEn || "", s4, s4Src: s4He(k), href: `/object/${encodeURIComponent(t.tableName)}/` });
   }
   for (const t of tables) {
     // table ↔ table
@@ -215,4 +234,8 @@ export const MODES: StudioMode[] = [
   { id: "fiori", he: "Fiori Apps", kinds: ["table", "fiori"], behavior: "expand", colorBy: "kind" },
 ];
 
-export const S4_COLOR: Record<NonNullable<SNode["s4"]>, string> = { kept: "#16a34a", replaced: "#d97706", removed: "#dc2626" };
+/** Hex twins of the S4_STATUS_DOT tokens (lib/evidence/types) for the same
+ *  keys: the legacy studio appends alpha to these strings, so they stay hex. */
+export const S4_COLOR: Record<BlueprintS4, string> = {
+  unchanged: "#10b981", changed: "#f59e0b", replaced: "#3b82f6", not_available: "#dc2626", verification_required: "#94a3b8",
+};

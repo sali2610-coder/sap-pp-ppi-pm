@@ -35,6 +35,7 @@ import {
   OriginLink, SmartReturn, consumeReturn, restoreScroll, scrollOffset, useReturnPacket,
 } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
+import { CAPS, capMatch, type Cap } from "./table-caps";
 import type { NeoTableRow, NeoTablesData } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -64,7 +65,6 @@ type TablesListState = {
 
 type View = "list" | "topic" | "zone";
 type Sort = "name" | "fields" | "rels" | "tcodes";
-type Cap = "s4" | "cds" | "fiori" | "hub" | "shared";
 
 const VIEWS: { v: View; he: string }[] = [
   { v: "list", he: "רשימה" },
@@ -77,14 +77,6 @@ const SORTS: { s: Sort; he: string }[] = [
   { s: "fields", he: "מספר שדות" },
   { s: "rels", he: "מספר קשרים" },
   { s: "tcodes", he: "מספר טרנזקציות" },
-];
-
-const CAPS: { id: Cap; he: string }[] = [
-  { id: "s4", he: "הוחלף ב-S/4HANA" },
-  { id: "cds", he: "עם תצוגת CDS" },
-  { id: "fiori", he: "עם יישום Fiori" },
-  { id: "hub", he: "צומת קשרים (6 ומעלה)" },
-  { id: "shared", he: "משותפת לשני המודולים" },
 ];
 
 /** The S/4 status of a table: the canonical status the row was built with in
@@ -244,13 +236,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
     let out = data.rows.filter((r) => {
       if (mods.length && !mods.some((m) => r.mods.includes(m))) return false;
       if (zones.length && !zones.includes(r.zone)) return false;
-      for (const c of caps) {
-        if (c === "s4" && !r.s4Alt) return false;
-        if (c === "cds" && !r.cds.length) return false;
-        if (c === "fiori" && !r.fiori) return false;
-        if (c === "hub" && r.rels.length < 6) return false;
-        if (c === "shared" && r.mods.length < 2) return false;
-      }
+      if (!caps.every((c) => capMatch(r, c))) return false;
       return !needle || r.hay.includes(needle);
     });
     out = [...out].sort((a, b) => {

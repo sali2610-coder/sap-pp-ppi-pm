@@ -187,7 +187,7 @@ function Row({ t, fav, onOpen, landed, st }: { t: RegistryTx; fav: boolean; onOp
               meaning, where it is used and its S/4 standing. The Fiori
               successor stays because it is a door; the topic says "when";
               the reference count and the second facet moved to the page. */}
-          {fiori ? <span className="nu-chip"><AppWindow size={11} strokeWidth={1.75} /><span className="nx-sr">יישום Fiori עוקב </span>{fiori}</span> : null}
+          {fiori ? <span className="nu-chip"><AppWindow size={11} strokeWidth={1.75} /><span className="nx-sr">יישום Fiori קשור </span>{fiori}</span> : null}
           {f.topics[0] ? <span className="nu-chip">{f.topics[0]}</span> : null}
         </span>
 
@@ -287,7 +287,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
       mod,
       topic,
       obj,
-      fiori ? "עם יישום Fiori עוקב" : "",
+      fiori ? "עם יישום Fiori קשור" : "",
       q.trim() ? `חיפוש "${q.trim()}"` : "",
       view === "all" ? "" : VIEWS.find((v) => v.v === view)?.he || "",
     ].filter(Boolean);
@@ -458,7 +458,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
             aria-pressed={fiori}
             onClick={() => { setFiori((f) => !f); setLimit(PAGE); }}
           >
-            <AppWindow size={13} strokeWidth={1.75} />עם יישום Fiori עוקב
+            <AppWindow size={13} strokeWidth={1.75} />עם יישום Fiori קשור
           </button>
           <button
             type="button"

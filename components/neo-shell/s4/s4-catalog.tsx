@@ -2,7 +2,7 @@
 
 // The S/4HANA object catalogue with a local filter and an action on every
 // change (design audit §7, 2026-09-21). The cards are the same S4ObjView
-// records the server page built; nothing is re-authored. The four severity
+// records the server page built; nothing is re-authored. The five status
 // groups are <details>: the two that demand action (removed, replaced) open,
 // the rest on demand, so the page stops being 5,000px of blue field.
 
@@ -10,17 +10,24 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ClipboardList, Code2, Search, X } from "lucide-react";
 import { RISK_HE } from "@/lib/s4";
+import { S4_STATUS_WORD, type S4Status } from "@/lib/evidence/types";
 import type { S4Link, S4ObjView } from "./s4-data";
 
 const nf = new Intl.NumberFormat("he-IL");
 const RISK_C: Record<string, string> = { high: "var(--status-blocked, #dc2626)", medium: "var(--status-in-analysis, #d97706)", low: "var(--status-done, #16a34a)" };
 const TRUST_HE: Record<string, string> = { curated: "תיעוד מאומת", "needs-verification": "נדרש אימות נוסף" };
-const ORDER: { k: string; he: string; open: boolean }[] = [
-  { k: "removed", he: "בוטל", open: true },
-  { k: "replaced", he: "הוחלף", open: true },
-  { k: "changed", he: "השתנה", open: false },
-  { k: "stays", he: "נשאר", open: false },
-];
+/** Groups by the canonical key (s4-data: fromS4Object), worded by the status
+ *  dictionary. "חדש ב-S/4HANA" (MATDOC, ACDOCA) is its own group: an object
+ *  that did not exist in ECC did not "stay". */
+const ORDER: { k: S4Status; he: string; open: boolean }[] = (
+  [
+    ["not_available", true],
+    ["replaced", true],
+    ["changed", false],
+    ["s4_native", false],
+    ["unchanged", false],
+  ] as const
+).map(([k, open]) => ({ k, he: S4_STATUS_WORD[k], open }));
 
 const Trust = ({ t }: { t?: string }) => (!t ? null : <span className="ns4-trust" data-t={t}>{TRUST_HE[t] || t}</span>);
 const Risk = ({ r }: { r?: string }) => (!r ? null : <span className="ns4-risk" style={{ "--r": RISK_C[r] } as React.CSSProperties}>{RISK_HE[r] || r}</span>);
@@ -48,7 +55,7 @@ export function S4Catalog({ objs }: { objs: S4ObjView[] }) {
     const needle = q.trim().toLowerCase();
     return objs.filter((o) =>
       (!mod || o.modules.includes(mod)) &&
-      (!status || o.status === status) &&
+      (!status || o.key === status) &&
       (!needle || [o.name, o.he, o.kind, o.ecc, o.s4, o.why || ""].join(" ").toLowerCase().includes(needle)));
   }, [objs, q, mod, status]);
   const active = !!q.trim() || !!mod || !!status;
@@ -71,7 +78,7 @@ export function S4Catalog({ objs }: { objs: S4ObjView[] }) {
         </label>
         <div className="ns4-chipsrow" role="group" aria-label="סינון לפי סוג השינוי">
           {ORDER.map((g) => {
-            const n = objs.filter((o) => o.status === g.k).length;
+            const n = objs.filter((o) => o.key === g.k).length;
             return (
               <button key={g.k} type="button" className="nu-tab" aria-pressed={status === g.k} disabled={!n} onClick={() => setStatus((c) => (c === g.k ? null : g.k))}>
                 {g.he}<em className="nx-sap">{nf.format(n)}</em>
@@ -103,7 +110,7 @@ export function S4Catalog({ objs }: { objs: S4ObjView[] }) {
       ) : null}
 
       {ORDER.map(({ k, he, open }) => {
-        const list = shown.filter((o) => o.status === k);
+        const list = shown.filter((o) => o.key === k);
         if (!list.length) return null;
         return (
           <details key={k} className="ns4-group ns4-group-d" open={open || active}>
