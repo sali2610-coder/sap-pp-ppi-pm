@@ -254,6 +254,41 @@ chain D's batch 3 (FB03 to FD01, committed 14:20) also landed in the window. The
 file was removed from the shared scratchpad before the second run, so the other ids were not
 diffed one by one; the eight batch ids were read from the baseline before it went.
 
+Batch 9 written 2026-09-28 (access date stamped 2026-09-25, as the chain's args set it; research and
+audit ran on 2026-09-28): 8 drafts audited, 7 written, 1 refuted (`tx:PA40`). The seven are the
+user-administration, authorization-default-value, company-address, time-sheet and HR master-data
+codes: `tx:SU01` (`changed`, 'S4TWL - Business User Management': the business user is an SU01 user
+with a one-to-one relation to its business partner, and transaction BP can no longer assign users to
+business partners), `tx:SUCOMP` (`unchanged`, the same item: the company address is maintained
+through User Management and is not part of TBZ_V_EEWA_SRC), `tx:SU22` and `tx:SU25` (`unchanged`,
+the 2025 help topic 'Default Authorization Values and PFCG Roles', 2025.000), `tx:CAT2`
+(`unchanged`, 'S4TWL - CATSXT': CAT2 and CATSDB related transactions continue to be supported),
+`tx:PA48` (`unchanged`, 'S4TWL - HCM Obsolete Packages': PA48 stays available, an explicit exception
+to the obsolete packages), and `tx:PA30` (no status block: the items that name it describe it as a
+maintenance path and name no status). All seven were taken from `verdict.fixedRecord`. The audited
+JSON was parsed from the writer's task prompt as the session transcript records it, not retyped:
+every writer change was applied as an exact-once substring replacement or a checked structural edit
+(a miss aborts the run), every row of the seven generated records was checked to be either cited by
+the audited record (same URL or repoRef, plus the item number for Simplification List rows) or
+carried, each carried row was compared with its generated twin (only the edits listed below differ),
+and the written module was deep-compared against the expected objects, with `status.source` checked
+for identity with its evidence row and the 63 batch-1 to batch-8 records checked unchanged against
+the pre-batch file (equal to HEAD).
+
+Depth (`report-coverage.mjs --ids`, before and after): all seven moved from L1
+`verification_required` to L1 `sap_official_verified`: `tx:SU01` with the authored `changed`,
+`tx:SU22`, `tx:SU25`, `tx:SUCOMP`, `tx:CAT2` and `tx:PA48` with the authored `unchanged`, and
+`tx:PA30` with the derived `verification_required`. `tx:PA40` stays L1 `verification_required` (its
+generated record stays live). All seven stay at depth L1: none has a tx-intel / tx-detail record, so
+the page structure (3 authored facts needed for L2) is missing. Batch effect on the catalog totals
+(`npm run report:coverage -- --catalog transactions`): verified +7, verification_required -7,
+s4-appl +6 (PA30 has no decided status); depth bands, conflict and edition unchanged. Measured
+totals: 15:09 L1 1279, L2 2, L3 396, L4 4, L5 137, verified 716, verif.req 1081, conflict 21,
+s4-appl 710, edition 5; 15:17 L1 1279, L2 2, L3 396, L4 4, L5 137, verified 723, verif.req 1074,
+conflict 21, s4-appl 716, edition 5. A per-id diff of the two `--ids` runs shows exactly the seven
+batch ids changed in that window. The `--ids` files were written to the session scratchpad
+(`IDS_OUT`), not to the repository root.
+
 ## refuted
 
 - `tx:KSV5` (batch 1, 2026-09-25): refuted at the adversarial gate, not written; the generated
@@ -371,6 +406,56 @@ diffed one by one; the eight batch ids were read from the baseline before it wen
   as downgrades.
 - Batch 8 (2026-09-28): none refuted. All eight audited drafts (`tx:SAS`, `tx:SCI`, `tx:SD11`,
   `tx:SE11`, `tx:SE16N`, `tx:SE24`, `tx:SE38`, `tx:SE71`) were written.
+- `tx:PA40` (batch 9, 2026-09-28): refuted at the adversarial gate, not written; the generated
+  record in `transactions-auto.ts` stays live (L1 `verification_required`). The draft is not on disk
+  in this repository; the verdict below is the one handed to the writer. Auditor problems, verbatim:
+  1. The draft breaks the build. Four simplification_item rows carry a sapNote field: 7.1.11 and
+     19.20 ('2340095'), 8.1.6 and 2.32 ('2570961'). Each of these rows has a help.sap.com PDF url and
+     no repoRef. lib/evidence/validate.ts lines 221-225 raise 'sap-note-format' whenever a sapNote has
+     neither a me.sap.com/notes url nor a repoRef, and test/evidence-schema.test.ts fails the build on
+     any hit. House precedent agrees: transactions-c.ts has 0 sapNote fields, and transactions-b.ts
+     line 5228 and the FB65 notes in transactions-d.ts explain that note numbers go only in claim text
+     and titles. The numbers are already printed in the claims, so the field is redundant.
+  2. recommendedAction links two separate statements in item 7.1.31 as if they were one. It asks the
+     reader to check the Compatibility Scope matrix (SAP Note 2269324) to decide whether PA40 use is
+     SAP ERP HCM or 'HR mini master maintenance for non-HR processes'. Item 7.1.31 treats the non-HR
+     infotype usage separately: it says that usage 'is independent from the compatibility scope' and
+     refers to SAP Note 3369920, not 2269324. The item never uses the words 'HR mini master' (that term
+     comes from 8.1.6 and 2.32). The action therefore points to the wrong note for half of its question
+     and joins two items into a claim that neither item makes.
+  3. Minor, not blocking. The fiori_library row records a negative result (an empty result for one
+     release, and 'leading app(s): none' from the --tcode lookup) at sap_official_verified. Its
+     sourceTitle 'Fiori Apps Library · PA40 @ S32OP' is not a record title, because no record exists.
+     The house precedent for FB65 in transactions-d.ts records the same kind of empty --tcode result in
+     notes and not as an evidence row. The claim itself is worded correctly as a documented negative.
+  4. Resolved from round 1, re-verified: status is now verification_required with release and source
+     both null, which is allowed. Item 7.1.31 appears as a context row, and its three quotes are
+     verbatim at SIMPL_OP2025.pdf.txt lines 27873-27920 (Application Component PA-BC; SAP Note 2269324
+     is printed there). The 8.1.6 component is CA-GTF-BUM (line 28733). The 19.20 components are PY-XX,
+     PA-BC (2023 line 25895). The 2.32 components are BC-SEC-USR-ADM, CA-HR-S4 (2023 line 5665). The
+     PA40 quotes in 7.1.11, 8.1.6, 19.20 and 2.32 are verbatim. The simpl-tcode-index lists only these
+     four items for PA40. The ERP row now quotes the two snippet fragments exactly as the re-run search
+     record prints them (loio 98744653bcd8e447e10000000a441470, 6.18.latest). The Object Manager row
+     matches loio cc38e153a217424de10000000a174cb4 / 2023.latest, and its snippet quote is verbatim.
+     Both searches return total 21, and the notes report 21/21. The fal-app output 'PA40 @ S32OP: not
+     in this release (empty Results)' and '--tcode PA40' output 'leading app(s): none; GUI app entry:
+     none' are reproduced exactly. FAL release is 2025.001. All accessedAt values are 2026-09-25.
+     'אינפוטיפ 0000', the 'active' claim, the extra field and the Fiori verdict are gone. The
+     repository row matches data/tcode-catalog.ts line 1096. xref tx:PA30 is in ROUTE_MANIFEST.tcodes.
+     The only dash is an en dash inside the verbatim 7.1.31 quote; no em dashes. No certainty-language
+     hits. No personal names or reviewer field.
+  Re-draft (second round): keep the content the auditor passed (problem 4: the status
+  `verification_required` with release and source null, item 7.1.31 as a context row, the quotes
+  from 7.1.11, 8.1.6, 19.20 and 2.32, the ERP and Object Manager rows, the repository row and the
+  xref tx:PA30). Drop the four `sapNote` fields and leave the numbers in the claim text as the items
+  print them (problem 1, the batch-1 CJ02 and batch-5 CNMM precedent). Bound recommendedAction by
+  item 7.1.31's own two statements: the Compatibility Scope matrix (SAP Note 2269324) for SAP ERP
+  HCM use, and the non-HR infotype usage, which the item says 'is independent from the compatibility
+  scope' and refers to SAP Note 3369920; keep 'HR mini master' attributed to 'S4TWL - Business User
+  Management' (problem 2). Move the empty Fiori Apps Library result into notes as a documented
+  negative (the transactions-d FB65 precedent) instead of an evidence row (problem 3). A writer can
+  apply these mechanically if the orchestrator hands over the draft with a verdict that lists them
+  as downgrades.
 
 ## conflicts
 
@@ -652,6 +737,37 @@ diffed one by one; the eight batch ids were read from the baseline before it wen
   application component LO-SCI), which the writer made a context row; SCI's level does not change.
   What settles it: one ruling on whether a row that names the code only as a tool counts toward
   the record's level, then one pass over SCI, SE16, SE38 and the SPAU / SCC4 / SE06 precedent.
+- `tx:SU25` · search-record deliverable (batch 9, found by the writer): the audited ECC row carried
+  the title 'Transporting Check Indicators and Field Values | User and Role Administration of
+  Application Server ABAP' with the SAP_ERP URL (deliverable path 142f8559883b4c11966ebfb99dd61164,
+  versionId 6.05.latest, loio 2061fe49eb94604890f0dba774c77ab9). The generated records copy the search
+  record's deliverable title verbatim (scripts/qa/gen-tx-evidence.mts, line 259), and every generated
+  row under that deliverable path (the generated tx:SU25 row for this URL, 'Trace for Authorization
+  Checks', 'Transporting Authorization Components' and others) prints 'Claims Management'; the name
+  'User and Role Administration of Application Server ABAP' belongs to the S/4HANA 1709.latest record
+  of the same loio (deliverable path c6e6d078ab99452db94ed7b3b7bbcccf, seen in this batch's research
+  log). The writer aligned the title to 'Claims Management' and dropped the claim's clause 'באותה סדרת
+  תיעוד של ניהול משתמשים ותפקידים', which rested on the other name. No status impact. What settles it:
+  nothing further; the label is the one SAP's search service prints.
+- `tx:CAT2` · Fiori app id (batch 9, found by the writer): the item 'S4TWL - CATSXT' prints the App
+  ID F307A for 'My Timesheet' version 4 (as the audited record quotes it and its auditor checked in
+  the extracted text), while the Fiori Apps Library rows carried from the generated record list F3074A
+  'My Timesheet (S/4HANA / Version 4)' with the leading transaction CAT2 (S32OP). Whether F307A is
+  F3074A was not checked; the CAT2 notes say so, and neither id is cited as successor or xref. What
+  settles it: `node scripts/fal-app.mjs F307A --release S32OP` (an empty result would point to a
+  misprint in the item).
+- `tx:SU22` / `tx:SU25` · bracketed completion of one snippet (batch 9, audit inconsistency): the
+  SU22 auditor ruled the completion 'transfer the defa[ult values]' invented text and ended the quote
+  at 'transfer the defa'; the SU25 auditor passed the same completion of the same search record
+  ('Default Authorization Values and PFCG Roles', loio 2376dddba97e4bcf91f900e9a0097504). The writer
+  ended the SU25 quote at 'transfer the defa' too, so both records quote the snippet as it prints. No
+  status impact.
+- `tx:SU01` against `tx:SUCOMP` · 'not replaced' paraphrase (batch 9, audit inconsistency): the
+  SUCOMP auditor struck 'SUCOMP אינה מוחלפת, מוסרת או משתנה' as an inference from silence; the SU01
+  auditor passed 'SU01 אינה מוחלפת או מבוטלת', which rests on the item's sentence 'Business users can
+  still be managed using transaction SU01, Central User Administration or identity management
+  systems.' Written as audited: the SU01 paraphrase has a positive sentence of the item behind it.
+  What settles it: nothing, unless a family ruling bans 'not replaced' paraphrases outright.
 
 ## writer deviations (batch 1, 2026-09-25)
 
@@ -1159,3 +1275,78 @@ diffed one by one; the eight batch ids were read from the baseline before it wen
    `data/tcode-catalog.ts`.
 10. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef
     test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 9, 2026-09-28)
+
+1. Where the audited JSON came from. All seven entries carry a `verdict.fixedRecord`; the JSON was
+   parsed from the writer's task prompt as the session transcript records it (7 audited ids and 1
+   refuted, `tx:PA40`), so nothing was retyped.
+2. Status sources. Shared consts SU01_SIMPL2025, SU22_HELP2025, SU25_HELP2025, SUCOMP_SIMPL2025,
+   CAT2_SIMPL2025 and PA48_SIMPL2025, each the record's own row, used by identity in evidence[] and in
+   status.source. They replace the SU01 and SU22 pointer strings ('evidence[2]', 'evidence[1]'; the
+   rows checked to carry the status release and edition), the SUCOMP and CAT2 placeholder objects
+   (claims 'SAME CONST AS evidence[5] (SUCOMP_SIMPL2025): the writer uses the object reference, not a
+   copy' and '(same object as evidence[1]; the writer uses a shared const)'; every other field checked
+   equal to its row) and the SU25 and PA48 copies (each checked deep-equal to its row before the swap).
+   PA30 has no status.
+3. PA48 `sapNote` fields dropped. The fixedRecord kept `sapNote: "3224319"` on both item rows and on
+   the status-source copy. Each row has a help.sap.com PDF url and no repoRef, so `sap-note-format`
+   (lib/evidence/validate.ts, the rule the PA40 refutation of this batch names) would fail the build.
+   The number stays in the claim text as the items print it ('הערה רלוונטית 0003224319', '3224319'),
+   the batch-1 CJ02 and batch-5 CNMM precedent. Its empty `xrefs: []` was dropped too (the batch-7
+   ST03N precedent).
+4. SU25 ECC row title aligned to its search record: 'Transporting Check Indicators and Field Values
+   | Claims Management' instead of '... | User and Role Administration of Application Server ABAP', and
+   the claim's closing clause 'באותה סדרת תיעוד של ניהול משתמשים ותפקידים' dropped; the rest of the
+   claim, the URL, loio and versionId are unchanged. The check was local: the generated tx:SU25 row for
+   the same URL and the other generated rows under that deliverable path. No lookup was re-run. Logged
+   under conflicts; the SU25 notes gained one sentence that records the alignment.
+5. SU25 status-source quote. 'and transfer the defa[ult values]' became 'and transfer the defa', as
+   the snippet prints it and as the SU22 fixedRecord quotes the same search record (its auditor ruled
+   the bracketed completion invented text). Since the status source is the evidence row by identity,
+   the one edit covers both. Logged under conflicts.
+6. Content preservation. Rows of the generated records whose source (URL or repoRef, plus the item
+   number for Simplification List rows) the audited record does not cite were carried over (`context:
+   true`, access date 2026-09-24), nine in all: SU22 (the search records 'Roles and Authorizations',
+   Enterprise Content Management, and 'Label Reviewer', Recipe Development, both 2025.001); SU25 (the
+   search records 'Follow-on Activities after SAP Fiori Upgrade' and 'Adjust the Upgraded SAP Fiori
+   Apps', SAP Fiori Overview, 2025.001, and the 2023 FPS03 row for item 34.4 'S4TWL - Authorization
+   Objects in QM', which the audited 2025 row names only in its title); CAT2 (the search records
+   'Enhancements for Lean Staffing and Forecasting', Professional Services 2025.001 and SAP for
+   Professional Services 6.18.latest, and the Fiori Apps Library rows F3074 'My Timesheet (Version 3)'
+   and F3074A 'My Timesheet (S/4HANA / Version 4)', both with the leading transaction CAT2 at S32OP).
+   The SU01, SUCOMP and PA30 fixedRecords already carried every generated row, and the PA48 fixedRecord
+   cites all three. Frame sentence: in the carried SU25 34.4 row the generator's 'not yet read'
+   sentence was replaced by what holds, bounded by audited text of this batch (the SU25 fixedRecord:
+   'אותו נוסח מופיע בפריט 34.4', the item decides nothing about SU25's status; its auditor checked that
+   item 34.4 contains the SU25 sentence). Each record's notes say which rows were carried.
+7. CAT2 notes. The audited notes say fal-app.mjs was not run in the research; the carried Fiori Apps
+   Library rows come from the generated record's run. One sentence records them, and one more says that
+   the item prints F307A for 'My Timesheet' version 4 and that whether it is F3074A was not checked.
+   Logged under conflicts.
+8. History lines. Old → New lines added to the SU25, SUCOMP, CAT2 and PA48 notes (HOUSE-RULES §3.8),
+   in the batch-8 wording; SU01, SU22 and PA30 already had one ('ישן → חדש', 'ישן ← חדש', 'Old → New'),
+   kept as written.
+9. Kept as audited, not normalized: the release notation ('2025 FPS01' / '2023 FPS03' on the SU01,
+   SU22, SU25, SUCOMP and PA30 item rows, '2025.001' / '2023.003' on the CAT2 and PA48 item rows); the
+   page ranges and parenthetical notes in item-row titles ('pp. 527-528', '(זהה ב-2023 FPS03 כפריט
+   34.4)', 'עמ' 490-492'); the 'רק' / 'בלבד' wording the auditors passed (translations of the items'
+   'only', and the generator's frame sentence in the two PA30 context rows, which its auditor kept on
+   purpose); the title-only sourceTitle of the two CAT2 search rows ('Data Transfer to cProjects',
+   'Valuation Date for Overhead Rates and Activity Allocation'); the scratchpad paths and line numbers
+   in notes and claims, as in earlier batches; SE93 in the SUCOMP notes (the generated-record wording).
+   No record carries `reviewer`, a personal name or an e-mail address; 'Label Reviewer' in the SU22
+   context row is a SAP page title.
+10. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call and no Simplification
+    List reading. Two local reads settled values: the SU25 deliverable (item 4, from the generated
+    records) and the SU22 ECC snippet 'For production use, we strongly recommend that you build brand
+    new roles using the authorization default values from transaction SU22' (the SU22 audit log of this batch),
+    which confirms the audited quote. The xrefs (tx:SU02, tx:BP, tx:SU24, tx:SU25, tx:SU22_COMPARE,
+    tx:PFCG, tx:SU01, tx:SCUM, tx:CAT3, tx:PA20, tx:PA40) were checked against
+    `lib/route-manifest.generated.ts` and the schema test resolves them; the repoRefs
+    (tcode-directory.ts#SU01 and #SU25, tcode-catalog.ts#SU01, #SU22, #SU25, #SUCOMP, #CAT2, #PA30,
+    #PA48) were checked against the repository rows their claims quote.
+11. No foundation-guard change: `transactions-c.ts` is already covered by the graduated repoRef test
+    in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry. Gates: `tsc --noEmit` exit 0,
+    `tsc --noEmit -p tsconfig.test.json` exit 0, `npm test` 211 pass / 0 fail (the five evidence-schema
+    tests included).
