@@ -119,7 +119,18 @@
    copy the verdicts carried; the rows of the generated records that the audited
    records do not cite are carried verbatim as context rows (AJAB 1, AS91 3, F110 4,
    F111 1, FAGLL03 5; the FAGLB03 fixedRecord already carries its 8) with their
-   2026-09-24 access date; no reviewer field. */
+   2026-09-24 access date; no reviewer field.
+   Batch 14 (research + adversarial audit completed 2026-09-28, written the same
+   day, access date stamped 2026-09-25): 8 audited records for the FI-AR and FI-AP
+   accounting customer and vendor master codes and the bank master and house bank
+   codes (FD02, FD03, FI01, FI02, FI03, FI12, FK01, FK02); no record refuted. Five
+   taken from verdict.fixedRecord, FI01 and FK02 as drafted (their verdicts list no
+   downgrade), FD03 re-derived from the draft with its listed downgrades. Every
+   status source is a shared const (the record's own evidence row); FI03 carries
+   no status (no source read prints an app id for 'Manage Banks'); the rows of the
+   generated records that the audited records do not cite are carried verbatim as
+   context rows (FD02 4, FD03 1, FI01 3, FI02 1, FI03 2, FI12 1, FK01 3, FK02 3) with
+   their 2026-09-24 access date; no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -2105,6 +2116,154 @@ const FAGLL03_SIMPL2025: Evidence = {
     "FAGLB03, FAGLL03H ואפליקציות Fiori (Display G/L Account Line Items, Journal Entry Analyzer, Audit " +
     "Journal, Display Financial Statement). הפריט אינו קובע ש-FAGLL03 הוחלפה או הוצאה משימוש; הוא מפרט אותה " +
     "כאחת מדרכי התצוגה של מטבעות ה-Universal Journal ב-on-premise.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 14 status sources (research + audit completed 2026-09-28, written the same day): one evidence
+   row per record, shared by evidence[] and status.source (FD02, FD03, FI01, FI02, FI12, FK01, FK02;
+   FI03 carries no status) */
+
+const FD02_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+    "S4TWL - Business Partner Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (עמ' 136-138) קובע: 'The user interface for SAP S/4HANA is transaction BP', וכן ש-'the specific " +
+    "transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03, etc. are " +
+    "not available in SAP S/4HANA. These will be redirected to transaction BP.' בטבלה שאחרי הפסקה, תחת " +
+    "הכותרת 'Transactions that get redirected to transaction BP', מופיע FD02 (לצד FD01, FD03, FD05, FD06, " +
+    "VD01, VD02, VD03, XD01, XD02, XD03 ועוד). הפריט מוסיף: 'check whether the Customer Vendor Integration " +
+    "(CVI) is completely introduced. A system where the CVI is not in place will be declined for the " +
+    "transition.'",
+  verificationLevel: "sap_official_verified",
+};
+
+const FD03_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+    "S4TWL - Business Partner Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (עמ' 136-138; הציטוט בעמ' 138) קובע: 'The user interface for SAP S/4HANA is transaction BP ... " +
+    "(the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, " +
+    "MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.)'. בטבלה תחת " +
+    "'Transactions that get redirected to transaction BP' מודפס במפורש: 'FD01, FD02, FD03, FD05, FD06, VD01, " +
+    "VD02, VD03, VD05, VD06, XD01, XD02, XD03, XD05, XD06, FK01, FK02, FK03, FK05, FK06, MK01, MK02, MK03, " +
+    "MK05, MK06, XK01, XK02, XK03, XK05, XK06, MAP1, MAP2,MAP3, ...'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const FI01_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.11.16 " +
+    "S4TWL - CASH MANAGEMENT - Bank Accounts",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "בטבלת 'Comparison of Functional Scope' של הפריט S4TWL - CASH MANAGEMENT - Bank Accounts, המשווה בין " +
+    "Classic Cash and Liquidity Management לבין SAP Cash Management שסופק עם SAP S/4HANA 1511, נכתב: 'The " +
+    "following transaction codes are replaced by the new Fiori app Manage Banks, which can be accessed from " +
+    "the Fiori Launchpad. Create Bank: FI01 Change Bank: FI02 Display Bank: FI03'. קביעה באותו נושא מופיעה " +
+    "גם בפריט 11.3 של רשימת הפישוט 2023 FPS03 (גרסת מסמך 1.35, " +
+    "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf).",
+  verificationLevel: "sap_official_verified",
+};
+
+const FI02_F6437_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App F6437 'Manage Banks - Master Data' (SAP Fiori, SAPUI5), release S32OP (S/4HANA " +
+    "2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F6437')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "ספריית ה-Fiori רושמת את F6437 'Manage Banks - Master Data' עם טרנזקציית GUI מובילה FI01 ועם טרנזקציות " +
+    "GUI קשורות (related) FI02, FI03, FIPAYTSYST, FIPS, FISEPA ו-FITE. ה-predecessor הרשום הוא F1574 'Manage " +
+    "Banks'. F6437 אינה רשומה כ-successor של FI02, כי שדה ה-successors של FI02 ריק.",
+  verificationLevel: "sap_official_verified",
+};
+
+const FI12_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.11.16 " +
+    "S4TWL - CASH MANAGEMENT - Bank Accounts",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "הפריט מתחיל בעמ' 441 והקטעים על FI12 מופיעים בעמ' 442-445, בטבלת Comparison of Functional Scope. בעמודה " +
+    "הקלאסית מופיע 'House Bank / House Bank Account: FI12'. בעמודת 'SAP Cash Management, delivered with SAP " +
+    "S/4HANA 1511' (עבור BAM ועבור BAM Lite): 'The transaction FI12 House Bank / House Bank Account is not " +
+    "available', ובמקומה Manage Banks לבנקי בית ו-Manage Bank Accounts לחשבונות בנק בית; באותה עמודה FI01, " +
+    "FI02 ו-FI03 מוחלפות באפליקציית Manage Banks. בעמודת הדלתא 'delivered with SAP S/4HANA 1809 (Delta to " +
+    "1709)', עבור BAM: 'The transaction FI12 has been reactivated. You can now use this transaction to " +
+    "manage house banks and house bank accounts'; השימוש ב-FI12 לחשבונות בנק תלוי בהגדרת bank account " +
+    "activation mode: עם 'Activate Directly' ניתן לנהל ב-FI12 גם חשבונות בנק, ועם workflow או dual control " +
+    "מגדירים חשבונות בנק ב-Manage Bank Accounts או דרך טרנזקציית NWBC שפותחת יישום HTML. עבור BAM Lite: 'The " +
+    "transaction FI12 has been reactivated. You can now use this transaction to manage house banks, house " +
+    "bank accounts, and bank accounts.'",
+  verificationLevel: "sap_official_verified",
+};
+
+const FK01_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+    "Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (עמ' 136-138; הציטוט והטבלה בעמ' 138) קובע: 'The user interface for SAP S/4HANA is transaction " +
+    "BP... the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, " +
+    "MK02, MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.' בטבלת " +
+    "'Transactions that get redirected to transaction BP' מופיע במפורש FK01 (יחד עם FK02, FK03, FK05, FK06).",
+  verificationLevel: "sap_official_verified",
+};
+
+const FK02_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 5.1.27 " +
+    "S4TWL - Business Partner Approach",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "הפריט נקרא במלואו (scratchpad/official/SIMPL_OP2025.pdf.txt, שורות 7040-7058). תחת הכותרת 'Transactions " +
+    "not available in SAP S/4HANA on-premise edition', ברשימה 'Transactions that get redirected to " +
+    "transaction BP' נקוב במפורש FK02 (בתוך הרצף: 'FD01, FD02, FD03, FD05, FD06, VD01, VD02, VD03, VD05, " +
+    "VD06, XD01, XD02, XD03, XD05, XD06, FK01, FK02, FK03, FK05, FK06, MK01, MK02, MK03, MK05, MK06, XK01, " +
+    "XK02, XK03, XK05, XK06, ...'); FK02 אינו מופיע ברשימה הנפרדת 'Transactions that are obsolete: MK12, " +
+    "MK18, MK19, XD07, XK07, V+21, V+22, V+23'. הפריט קובע: 'The user interface for SAP S/4HANA is " +
+    "transaction BP. There is no specific user interface for customer/vendor like known from SAP Business " +
+    "Suite (the specific transactions like XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, " +
+    "MK02, MK03, etc. are not available in SAP S/4HANA. These will be redirected to transaction BP.)'.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -14117,5 +14276,1162 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "אינה ב-data/fiori/apps.ts, ולכן אינה xref. FAGLL03H אינה ברשימת ה-tcodes " +
       "ב-lib/route-manifest.generated.ts ולכן אינה xref. שתי רשומות help.sap.com מצוטטות מהסניפט בלבד; גוף " +
       "העמוד לא נקרא. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:FD02",
+    evidence: [
+      FD02_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.14.1 " +
+          "S4TWL - Specific fields on Business Partner",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (עמ' 1274-1275) קובע: 'Business Partner transaction 'BP' is now used to create, change or display " +
+          "customer or vendor data. This also applies to the specific fields required in US Financials. Use the " +
+          "role for 'Business Partner Vendor (FI part)' (FLVN01) and 'Business Partner Customer (FI part)' " +
+          "(FLCU01)' and the tabs 'Customer - USFG Fields' and 'Vendor - USFG Fields' to display and maintain the " +
+          "specific fields. The business process is not affected, only a different transaction needs to be used'. " +
+          "תחת הכותרת 'Transaction not available in SAP S/4HANA' מופיעה הרשימה 'FK01 FK02 FK03 XK01 XK02 XK03 FD01 " +
+          "FD02 FD03 XD01 XD02 XD03', הכוללת את FD02.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 and SAP S/4HANA Cloud Private Edition " +
+          "2023 – Feature Pack Stack 3 (document version 1.35) · item 3.19 S4TWL - Business Partner Approach",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (עמ' 153-155) קובע: 'The user interface for SAP S/4HANA is transaction BP. There is no specific " +
+          "user interface for customer/vendor like known from SAP Business Suite (the specific transactions like " +
+          "XD01, XD02, XD03 or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03 etc. are not available in SAP " +
+          "S/4HANA on-premise)'. בטבלה שאחריו, תחת הכותרת 'Transactions that get redirected to transaction BP', " +
+          "מופיע: 'FD01,FD02,FD03, FK01,FK02,FK03,MAP1,MAP2,MAP3, MK01, MK02, MK03, ... VD01, VD02,VD03, XD01, " +
+          "XD02, XD03, XK01, XK06, XK07, XK02, XK03'. FD02 אינו נמנה ברשימה הנפרדת 'Transactions that are " +
+          "obsolete' (FD06, FK06, MK06, MK12, MK18, MK19, VD06, XD06, V+21, V+22, V+23).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#FD02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "שדה s4 ברשומה הקיימת: 'לא זמינה ב-S/4HANA, מוחלפת ב-Business Partner (BP)' (פיסוק מותאם), עקבי עם פריטי " +
+          "הפישוט הרשמיים.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#FD02",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FD02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-FD02 את הכותרת האנגלית 'Change Customer (Accounting)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FD02",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settings in Customer/Vendor Master Data | Invoicing",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ed84b70c199d4470ae2e5ccb93b2e45b/e1d2a810235c4f1dbd215011729d4d48.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Invoicing, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "e1d2a810235c4f1dbd215011729d4d48) נוקבת בקוד FD02 בסניפט: '... Financial Accounting Accounts Receivable " +
+          "Master Records Create/Change (transaction code FD01 or FD02) ... To access the vendor master data, on " +
+          "the SAP Easy Access screen, choose Accounting Financial ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Data in FI Outgoing Invoices and SD Billing Documents | Portugal",
+        url: "https://help.sap.com/docs/SAP_ERP/00036c20095c4adc8d3e3c605b1dfab7/097c3c55e5efa849e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Portugal, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "097c3c55e5efa849e10000000a4450e5) נוקבת בקוד FD02 בסניפט: '... creating or changing customer/vendor " +
+          "data (transactions XK01, XK02, XD01, XD02, FK01, FK02, FD01, FD02, MK01, MK02, VD01, VD02) because it " +
+          "may lead to inconsistencies ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.11.17 " +
+          "S4TWL - CASH MANAGEMENT - GENERAL",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "פריט 6.11.17 'S4TWL - CASH MANAGEMENT - GENERAL' ברשימת הפישוט הרשמית (2025 FPS01, גרסת מסמך 1.36) נוקב " +
+          "בקוד FD02 בשורה: 'FD02 and FK02.'. הפריט מובא כאן כהקשר בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה " +
+          "או רק מוזכר) טרם נקרא במחקר.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "FD02 (שינוי לקוח בתחום החשבונאי) אינה זמינה ב-SAP S/4HANA, מהדורת On-Premise; קריאה לטרנזקציה מנותבת " +
+        "לטרנזקציה BP (Business Partner). לפי הפריט 'S4TWL - Specific fields on Business Partner', התהליך העסקי " +
+        "אינו משתנה, רק הטרנזקציה המשמשת.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: FD02_SIMPL2025,
+      recommendedAction:
+        "יש להשתמש בטרנזקציה BP במקום FD02 לשינוי נתוני אב לקוח, ולוודא לפני ההמרה ל-S/4HANA שה-Customer/Vendor " +
+        "Integration (CVI) הוטמע והושלם. לשדות US Federal Financials הייעודיים הפריט מפנה לתפקיד Business " +
+        "Partner Customer (FI part), FLCU01, ולכרטיסייה Customer - USFG Fields.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:FD01", "tx:FD03"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נבדק מבוסס על קובץ: ארבעה פריטי פישוט רשמיים נקראו במלואם מקובצי הטקסט של רשימות הפישוט (2025 FPS01 " +
+      "§5.1.27 ו-§13.14.1; 2023 FPS03 §3.19 ו-§59.7; האחרון לא צוטט כראיה נפרדת, ותוכנו זהה ל-§13.14.1: אותה " +
+      "רשימה 'Transaction not available in SAP S/4HANA' כוללת FD02). כל הארבעה מונים את FD02 בין הטרנזקציות " +
+      "שאינן זמינות ב-SAP S/4HANA; פריטי Business Partner Approach מוסיפים שהיא מנותבת לטרנזקציה BP, ו-FD02 " +
+      "אינו ברשימת 'obsolete' של 2023 FPS03. חיפוש sap-help-search.mjs 'FD02 Business Partner redirect' " +
+      "(--product SAP_S4HANA_ON-PREMISE, 21 תוצאות) העלה את הדף 'Re-direction to Business Partner (BP) " +
+      "Transaction' (What's New 2022, loio 220bd05aa56c49318c4fae0173cc10d4); גופו נקרא דרך sap-help-body.mjs " +
+      "והוא עוסק במשפחת ה-*06 (FD06/FK06/MK06/XK06/VD06/XD06) ואינו מזכיר את FD02, ולכן לא צוטט. לא הורץ " +
+      "fal-app.mjs: אף מקור שנקרא לא נקב אפליקציית Fiori עבור FD02. קודם: רשומה אוטומטית " +
+      "(scripts/qa/gen-tx-evidence.mts, 2026-09-24, tx:FD02 ב-transactions-auto.ts) עם רשומות הקשר בלבד וללא " +
+      "הכרעת מעמד (לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'replaced' ברמת repository_verified) " +
+      "→ עכשיו: מעמד replaced מגובה בפריטי הפישוט. ארבע שורות ההקשר שלה שאינן מצוטטות כאן (רשומת המאגר " +
+      "tcode-catalog.ts#FD02, 'Settings in Customer/Vendor Master Data | Invoicing' בצד S/4HANA (2025.001), " +
+      "'Master Data in FI Outgoing Invoices and SD Billing Documents | Portugal' בצד ה-ECC (6.18.latest) ופריט " +
+      "'S4TWL - CASH MANAGEMENT - GENERAL' ברשימת 2025 FPS01, שלא נקרא במחקר זה) הועתקו כלשונן כשורות context, " +
+      "שאינן נספרות ברמת האימות. הדף 'Settings in Customer/Vendor Master Data' מדפיס בסניפט את FD02 כטרנזקציה " +
+      "ליצירה ולשינוי של נתוני אב לקוח ('Create/Change (transaction code FD01 or FD02)'); ברשומות tx:FD01 " +
+      "(transactions-d.ts) ו-tx:FK01 (קובץ זה) אותו loio מסומן כסתירה לפריט הפישוט (conflicting_sources), וכאן " +
+      "הוא נישא כשורת context, בלי הכרעה. מה שיכריע: הפעלת FD02 במערכת S/4HANA On-Premise חיה ובדיקה אם היא " +
+      "מנותבת ל-BP. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:FD03",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 3.19 " +
+          "S4TWL - Business Partner Approach",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (עמ' 154-155) קובע: 'The user interface for SAP S/4HANA is transaction BP. There is no specific " +
+          "user interface for customer/vendor like known from SAP Business Suite'. בטבלה 'Transactions not " +
+          "available in SAP S/4HANA on-premise edition' תחת הכותרת 'Transactions that get redirected to " +
+          "transaction BP' מודפס במפורש: 'FD01,FD02,FD03, FK01,FK02,FK03,MAP1,MAP2,MAP3, MK01, MK02, MK03, ... " +
+          "VD01, VD02,VD03, XD01, XD02, XD03, XK01, XK06, XK07, XK02, XK03'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 59.7 " +
+          "S4TWL - Specific fields on Business Partner",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (עמ' 1355-1356, Application Component PSM-FG) קובע: 'Business Partner transaction 'BP' is now " +
+          "used to create, change or display customer or vendor data ... Use the role for ... 'Business Partner " +
+          "Customer (FI part)' (FLCU01)' and the tabs 'Customer - USFG Fields' ... to display and maintain the " +
+          "specific fields.' תחת הכותרת 'Transaction not available in SAP S/4HANA' מודפסת רשימה הכוללת: 'FK01 FK02 " +
+          "FK03 XK01 XK02 XK03 FD01 FD02 FD03 XD01 XD02 XD03'. סעיף Required and Recommended Action(s): 'None'.",
+        verificationLevel: "sap_official_verified",
+      },
+      FD03_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 13.14.1 " +
+          "S4TWL - Specific fields on Business Partner",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "הפריט (עמ' 1274-1275) קובע: 'Business Partner transaction 'BP' is now used to create, change or display " +
+          "customer or vendor data. This also applies to the specific fields required in US Financials. Use the " +
+          "role for ... 'Business Partner Customer (FI part)' (FLCU01)' ...'. תחת הכותרת 'Transaction not " +
+          "available in SAP S/4HANA' מודפסת רשימה: 'FK01 FK02 FK03 XK01 XK02 XK03 FD01 FD02 FD03 XD01 XD02 XD03'. " +
+          "תחת Business Process related information: 'The business process is not affected, only a different " +
+          "transaction needs to be used'; סעיף Required and Recommended Action(s): 'None'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Roles for Transactions Utilized by Financial Shared Services | SAP ERP Central Component Security Guide",
+        url: "https://help.sap.com/docs/SAP_ERP/ee765675af8d443d8c17437bb3c4a612/f236d7531a4d444de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (SAP ERP Central Component Security Guide, 6.0 EHP8 Latest, versionId 6.18.latest, " +
+          "loio f236d7531a4d444de10000000a174cb4) נוקבת בקוד FD03 בסניפט: 'FD01 Create Customer Maintenance of " +
+          "Accounts Receivable Master Data (SAP_FI_AR_MASTER_DATA) FD02 Change Customer Maintenance of Accounts " +
+          "Receivable Master Data (SAP_FI_AR_MASTER_DATA) FD03 Display Customer Master Maintenance of Accounts " +
+          "Receivable Master Data (SAP_FI_AR_MASTER_DATA)'. בצד ה-ECC הסניפט ממקם את FD03 כטרנזקציית הצגה תחת " +
+          "התפקיד SAP_FI_AR_MASTER_DATA.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#FD03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את FD03 כהצגת רשומת אב לקוח (קריאה בלבד): נתונים כלליים, נתוני חברה ופרטי בנק; מודול " +
+          "FI, אזור 'נתוני אב לקוחות (AR)'. שדה s4 ברשומה: לא זמינה ב-S/4HANA, דרך BP במצב הצגה. אלה טענות המאגר, " +
+          "לא מקור רשמי, אך עקביות עם פריטי הפישוט שנקראו.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#FD03",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FD03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "קטלוג הטרנזקציות של המאגר נותן ל-FD03 את הכותרת האנגלית 'Display Customer (Accounting)', מודול FI, אזור " +
+          "'חשבונות חייבים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FD03",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Getting Started with Side Panel Configurations | SAP ERP Cross-Application Functions",
+        url: "https://help.sap.com/docs/SAP_ERP/c5a8d544836649a1af6eaef358d08e3f/1802428ea2704dd091291d549e054426.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (SAP ERP Cross-Application Functions, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "1802428ea2704dd091291d549e054426) נוקבת בקוד FD03 בסניפט: 'Run transaction FD03. Specify a customer and " +
+          "a valid company code using the search help (F4), and then choose Continue. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "פריט הפישוט 'S4TWL - Business Partner Approach' (2023 FPS03 סעיף 3.19 ו-2025 FPS01 סעיף 5.1.27) מונה את " +
+        "FD03 במפורש בין הטרנזקציות שאינן זמינות ב-SAP S/4HANA, מהדורת On-Premise, ומנותבות לטרנזקציית BP; פריט " +
+        "'S4TWL - Specific fields on Business Partner' (59.7 ב-2023 FPS03, 13.14.1 ב-2025 FPS01, Application " +
+        "Component PSM-FG) קובע כי BP משמשת ליצירה, שינוי והצגה של נתוני לקוח וספק, כולל השדות הייעודיים ל-US " +
+        "Federal Financials (תפקיד FLCU01 והלשונית 'Customer - USFG Fields'), ומונה את FD03 תחת 'Transaction not " +
+        "available in SAP S/4HANA'. שני הפריטים ושתי המהדורות עקביים ואינם סותרים; לא אותרו דפי תיעוד תפעוליים " +
+        "חדשים שממליצים במפורש על FD03 עצמה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: FD03_SIMPL2025,
+      recommendedAction:
+        "יש להציג נתוני לקוח בתחום החשבונאי בטרנזקציה BP (ובמערכות עם שדות US Federal Financials: תפקיד FLCU01 " +
+        "והלשונית 'Customer - USFG Fields', לפי פריט 'S4TWL - Specific fields on Business Partner') במקום FD03, " +
+        "ולוודא שה-Customer/Vendor Integration (CVI) הופעל והושלם לפני המרה ל-S/4HANA בגישת Conversion. יש לאמת " +
+        "בפועל ב-SE93 במערכת היעד את הניתוב בפועל; לא בוצעה בדיקה במערכת SAP חיה.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:FD01", "tx:FD02", "table:KNA1"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: (1) המאגר: data/tx-intel.ts#FD03 (מודול FI, אזור 'נתוני אב לקוחות (AR)', שדה s4 כבר קבע BP " +
+      "במצב הצגה), data/tcode-catalog.ts#FD03 ('Display Customer (Accounting)'). אין רשומת מחקר קודמת עבור " +
+      "tx:FD03; קיימת רשומה מחוללת ב-data/verification/transactions-auto.ts (2026-09-24, ללא הכרעת מעמד, ציטטה " +
+      "את רשומת ECC 'Getting Started with Side Panel Configurations | SAP ERP Cross-Application Functions', " +
+      "6.18.latest), ורשומה זו מחליפה אותה. היסטוריה (Old → New): לפני הכתיבה הציג report-coverage.mjs --ids " +
+      "סטטוס נגזר 'replaced' ברמת repository_verified; עכשיו replaced מגובה בפריטי הפישוט. שורת ה-ECC הזו " +
+      "הועתקה כלשונה כשורת context, שאינה נספרת ברמת האימות. (2) scripts/sap-help-search.mjs: 'FD03' " +
+      "(--product SAP_S4HANA_ON-PREMISE, 21 רשומות) ו-'customer master FD01 FD02 FD03' (--product SAP_ERP, 21 " +
+      "רשומות). רוב התוצאות היו התאמות מטושטשות (fuzzy, ל-FB03/XD03 ולא FD03 עצמה); נמצא מקור רשמי אחד רלוונטי " +
+      "בצד ה-ECC: 'Roles for Transactions Utilized by Financial Shared Services' (SAP ERP Central Component " +
+      "Security Guide, 6.18.latest) שנוקב במפורש ב-FD03 'Display Customer Master' תחת SAP_FI_AR_MASTER_DATA. " +
+      "לא הופעל sap-help-body.mjs: הסניפטים ופריטי הפישוט המלאים הספיקו. (3) node scripts/fal-app.mjs --tcode " +
+      "FD03 (S32OP): 'leading app(s): none; GUI app entry: none'; אין אפליקציית Fiori שמובילה ב-FD03, ולכן אין " +
+      "successor מסוג fiori, רק tx:BP הקלאסית. (4) שני פריטי הפישוט נקראו במלואם: SIMPL_OP2023.pdf.txt (3.19 " +
+      "סביב שורות 9080-9130; 59.7 סביב שורות 68340-68395) ו-SIMPL_OP2025.pdf.txt (5.1.27 סביב שורות 6975-7075 " +
+      "(הציטוט בעמ' 138); 13.14.1 סביב שורות 72890-72940). בשני המקורות FD03 מופיע במפורש בטבלת הטרנזקציות " +
+      "המנותבות ל-BP/לא זמינות, בשתי המהדורות ובשני הפריטים: עדות עקבית וחזקה יותר משורה בודדת. (5) לא בוצעה " +
+      "בדיקה בפועל במערכת SAP S/4HANA On-Premise חיה. tx:FD01 מאומת כבר ב-data/verification/transactions-d.ts " +
+      "(researched); tx:FD02 מתועד ברשומת מחקר נפרדת בקובץ זה (אותה אצווה); שני ה-id-ים פותרים דרך " +
+      "lib/route-manifest.generated.ts (tcodes: FD01, FD02, FD03) ללא תלות בסטטוס המחקר שלהם.",
+  },
+  {
+    id: "tx:FI01",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FI01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את FI01 כ'יצירת בנק' (Create Bank), מודול FI, תחום 'בנקאות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FI01",
+      },
+      FI01_SIMPL2025,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App FI01 'Create Banks' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('FI01')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות רושמת את FI01 'Create Banks' כאפליקציית SAP GUI בסטטוס Deprecated ב-S/4HANA 2025 " +
+          "FPS01, רכיב CA-BK-BNK, ללא predecessor או successor בשדות אלה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F1574 'Manage Banks' (SAP Fiori (SAPUI5)), release S27OP (S/4HANA 2023)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1574')/S27OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות רושמת את F1574 בשם 'Manage Banks' (קוד טרנזקציה מוביל FI01, קשורות " +
+          "FI02/FI03/FI06/FI12_HBANK) בסטטוס Deprecated במהדורת 2023, עם שתי יורשות: F1574A 'Manage Banks - Cash " +
+          "Management' ו-F6437 'Manage Banks - Master Data'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F6437 'Manage Banks - Master Data' (SAP Fiori (SAPUI5)), release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F6437')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות רושמת את F6437 'Manage Banks - Master Data' (Transactional, SAP Fiori (SAPUI5)) " +
+          "בסטטוס Published ב-S/4HANA 2025 FPS01, עם קוד טרנזקציה מוביל FI01 (קשורות: FI02, FI03, FIPAYTSYST, " +
+          "FIPS, FISEPA, FITE), תפקידים SAP_BR_CASH_SPECIALIST / SAP_BR_MD_SPECIALIST_BNK, קטלוג עסקי " +
+          "SAP_CA_BC_BNK ושירות OData V4 בקבוצה UI_BANK_MANAGE; predecessor: F1574 'Manage Banks'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Defining Banks | Cash and Liquidity Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ac319d8fa4ea4624b40a58d23e3c4627/cc1a1178e15f44b1beb20fe35d00ee7e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Cash and Liquidity Management, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "cc1a1178e15f44b1beb20fe35d00ee7e) נוקבת בקוד FI01 בסניפט: 'Alternatively, you can use SAP GUI " +
+          "transaction FI01 to define banks. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Defining Banks, House Banks, Bank Accounts, House Bank Accounts | Cash and Liquidity Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ac319d8fa4ea4624b40a58d23e3c4627/3e21f0812797487ba9448539f5afa16d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Cash and Liquidity Management, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "3e21f0812797487ba9448539f5afa16d) נוקבת בקוד FI01 בסניפט: 'Alternatively, you can use SAP GUI " +
+          "transaction FI01 to define banks and FI12_HBANK to define house banks. Defining house bank accounts and " +
+          "bank ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F1760 'Bank (S/4HANA)' (SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1760')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F1760 'Bank " +
+          "(S/4HANA)' (SAP Fiori elements, 'Published') עם קוד הטרנזקציה המוביל FI01.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "הפריט S4TWL - CASH MANAGEMENT - Bank Accounts (2025 FPS01 פריט 6.11.16; 2023 FPS03 פריט 11.3) קובע " +
+        "שקודי הטרנזקציה של ניהול בנקים, ובהם FI01 (Create Bank), מוחלפים באפליקציית ה-Fiori 'Manage Banks' " +
+        "הנגישה מה-Fiori Launchpad. ספריית ה-Fiori רושמת ל-F1574 'Manage Banks' (Deprecated) שתי יורשות, F1574A " +
+        "'Manage Banks - Cash Management' ו-F6437 'Manage Banks - Master Data'; F6437 היא זו שרושמת את FI01 כקוד " +
+        "טרנזקציה מוביל, והיא Published ב-S/4HANA 2025 FPS01. F6437 אינה בקטלוג ה-Fiori של הפרויקט ולכן אינה " +
+        "מקושרת כאן; רשומת ה-SAP GUI של FI01 עצמה מסומנת Deprecated בספרייה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: FI01_SIMPL2025,
+      recommendedAction:
+        "להשתמש באפליקציית Fiori F6437 'Manage Banks - Master Data' ליצירת בנקים; רשומת ה-SAP GUI של FI01 מסומנת " +
+        "Deprecated בספריית ה-Fiori. לפני המעבר, לוודא הקצאת Business Catalog SAP_CA_BC_BNK ואת התפקידים " +
+        "SAP_BR_CASH_SPECIALIST / SAP_BR_MD_SPECIALIST_BNK.",
+    },
+    xrefs: ["tx:FI02", "tx:FI03", "tx:FI12"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מקור לפני מחקר זה: רשומה דטרמיניסטית ב-data/verification/transactions-auto.ts (2026-09-24) ללא הכרעת " +
+      "מעמד (ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה). מחקר זה קרא את גוף " +
+      "רשימות הפישוט (scratchpad/official/SIMPL_OP2025.pdf.txt פריט 6.11.16; SIMPL_OP2023.pdf.txt פריט 11.3) " +
+      "ואת הרשומות ב-scripts/fal-app.mjs עבור FI01 ו-F6437 (S32OP) ועבור F1574 (S27OP). טיוטה קודמת עם status " +
+      "replaced ו-successor fiori:F6437 נדחתה משום ש-F6437 חסרה ב-data/fiori/apps.ts: replaced → " +
+      "fiori_alternative_available, successor הוסר. כאשר F6437 תתווסף לקטלוג ה-Fiori, אפשר לשקול מחדש status " +
+      "replaced עם successor fiori:F6437 ו-xref מתאים. fal-app.mjs --tcode FI01 ב-S32OP מציג גם את F1760 'Bank " +
+      "(S/4HANA)' כאפליקציה המובילה עם FI01; היא לא נבחנה כאן. שלוש שורות ההקשר של הרשומה המחוללת שאינן " +
+      "מצוטטות כאן ('Defining Banks' ו-'Defining Banks, House Banks, Bank Accounts, House Bank Accounts' " +
+      "ב-Cash and Liquidity Management, 2025.001, שמדפיסים 'Alternatively, you can use SAP GUI transaction " +
+      "FI01 to define banks', ו-F1760 בספריית ה-Fiori) הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות; " +
+      "שורת ההקשר של פריט 11.3 ברשימת 2023 FPS03 לא הועתקה: הפריט נקרא ונזכר בשורת פריט 6.11.16. לא בוצעה " +
+      "בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:FI02",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FI02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר (data/tcode-catalog.ts) רושמת את FI02 במודול FI, תחום 'בנקאות', שם עברי 'שינוי בנק', שם " +
+          "אנגלי 'Change Bank'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FI02",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App FI02 'Change Banks' (SAP GUI), release S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('FI02')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות של Fiori רושמת את FI02 כאפליקציית SAP GUI בשם 'Change Banks' במהדורת S/4HANA 2025 " +
+          "FPS01 (S32OP), בסטטוס 'Deprecated', ברכיב CA-BK-BNK (Bank Master Data) וב-intent 'Bank-change'. שדה " +
+          "ה-successors ריק, כלומר הספרייה אינה רושמת successor לאפליקציה זו.",
+        verificationLevel: "sap_official_verified",
+      },
+      FI02_F6437_FAL_S32OP,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 FPS01 (document version 1.36) · item 6.11.16 'S4TWL - CASH " +
+          "MANAGEMENT - Bank Accounts' (SAP Note 2870766, מקביל ל-2023 FPS03 item 11.3)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "בטבלת 'Comparison of Functional Scope' שבפריט, הטור 'SAP Cash Management, delivered with SAP S/4HANA " +
+          "1511' מביא את הנוסח: 'The following transaction codes are replaced by the new Fiori app Manage Banks, " +
+          "which can be accessed from the Fiori Launchpad. Create Bank: FI01 Change Bank: FI02 Display Bank: " +
+          "FI03'. מולו עומד טור Classic Cash and Liquidity Management, שמונה את FI01, FI02, FI03, FI12 ו-BP. הטבלה " +
+          "משווה בין מהדורות (1511, 1610, 1709, 1809) ואינה קביעה נפרדת למהדורת 2025 FPS01. אין בפריט קביעה מפורשת " +
+          "שהקוד הוסר מהמערכת. אותו פריט מופיע ברשימת 2023 FPS03, אבל חילוץ הטקסט של הטבלה שם משובש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Bank (Data Migration, SAP S/4HANA 2025 FPS01)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/df70cf078c6647628ccdd1333c213ee9.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "הנושא מתאר את אובייקט המיגרציה S4_AFS_CA_BANKMASTER, העברה ישירה של נתוני בנק ממערכת AFS. תחת 'How to " +
+          "Validate your Data in the System' הוא מביא טבלת 'Activity Transaction Code' עם Change FI02 ו-Display " +
+          "FI03, ומציין שהקודים משמשים לתחזוקת האובייקט וכוללים יכולות בדיקה מובנות. באותו נושא, Manage Banks - " +
+          "Master Data (app ID F6437) רשומה כאפליקציית הניווט של שלב Create Bank.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Bank | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/dbbb08efc6ce4d4d911c132e00ff0650.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "dbbb08efc6ce4d4d911c132e00ff0650) נוקבת בקוד FI02 בסניפט: 'Activity Transaction Code Change FI02 " +
+          "Display FI03 ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "fiori_alternative_available",
+      he:
+        "ספריית ה-Fiori מציגה את FI02 (שינוי בנק) כטרנזקציית GUI קשורה של אפליקציית F6437 'Manage Banks - Master " +
+        "Data' ב-S/4HANA On-Premise 2025 FPS01, ובאותה מהדורה מסמנת את FI02 עצמה כ-'Deprecated' בלי successor " +
+        "רשום. פריט הפישוט 'S4TWL - CASH MANAGEMENT - Bank Accounts' מתעד בטור SAP S/4HANA 1511 את החלפת FI01, " +
+        "FI02 ו-FI03 באפליקציית Manage Banks, אך אינו קובע שהקוד הוסר, ונושא המיגרציה 'Bank' (2025 FPS01) עדיין " +
+        "מפרט את FI02 כקוד ה-Change לאימות נתונים.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: FI02_F6437_FAL_S32OP,
+      recommendedAction:
+        "לתחזוקת נתוני בנק ב-S/4HANA On-Premise מומלץ לבחון את אפליקציית ה-Fiori F6437 'Manage Banks - Master " +
+        "Data'. FI02 מסומנת Deprecated בספריית ה-Fiori אך עדיין מופיעה כקוד Change באימות נתוני מיגרציה, ולכן יש " +
+        "לבדוק את זמינותה ואת ההרשאות לה בסביבת היעד (SE93, PFCG) לפני שקובעים נוהל עבודה.",
+    },
+    xrefs: ["tx:FI01", "tx:FI03", "tx:FI12"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "קודם: הרשומה האוטומטית ב-transactions-auto.ts (scripts/qa/gen-tx-evidence.mts, 2026-09-24) הביאה 6 " +
+      "שורות הקשר (מאגר, שתי רשומות Data Migration 'Bank', ספריית Fiori ל-FI02 עצמה, שני פריטי הפישוט " +
+      "2025/2023) בלי הכרעת מעמד (ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה). " +
+      "עכשיו: רשומה מחקרית שקראה את פריט הפישוט, את ספריית ה-Fiori עבור FI02 ועבור F6437 ואת גוף נושא המיגרציה " +
+      "'Bank', וכותבת מעמד fiori_alternative_available. תיקון ביקורת: Old: הנוסח 'replaced by the new Fiori " +
+      "app Manage Banks' יוחס לטור 1610 (Delta to 1511). New: הנוסח נמצא בטור 'SAP Cash Management, delivered " +
+      "with SAP S/4HANA 1511'; טור 1610 עוסק ב-Centralized bank account management. חיפושים שרצו: 'Manage " +
+      "Banks Fiori app' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות): העלה את F6437 ואת השימושים בה. 'FI02 Change " +
+      "Bank' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות): העלה את שני נושאי ה-Data Migration 'Bank' (loio " +
+      "df70cf078c6647628ccdd1333c213ee9 ו-216ce7ce1cad45a68e2486ca4203da69) המזכירים את FI02, FI03 ו-F6437. " +
+      "'FI02 Change Bank' ו-'FI02' בסקופ SAP_ERP (21 רשומות בכל חיפוש): אף רשומה אינה מצטטת את 'FI02' בסניפט. " +
+      "זו שלילה מתועדת בלבד ולא קביעה על אי-קיום ב-ECC; רשומת המאגר משייכת את FI02 למודול FI. גופי עמוד שנקראו " +
+      "דרך sap-help-body.mjs: loio df70cf078c6647628ccdd1333c213ee9 ('Bank' | Data Migration, 2025.001, " +
+      "אובייקט S4_AFS_CA_BANKMASTER, העברה ישירה ממערכת AFS): הטבלה 'Activity Transaction Code / Change / FI02 " +
+      "/ Display / FI03' תחת 'How to Validate your Data in the System'. loio 216ce7ce1cad45a68e2486ca4203da69 " +
+      "('Bank' | Data Migration, 2025.001): 'App: Manage Banks – Master Data (F6437) ... Display Bank (FI03)' " +
+      "תחת אימות הנתונים אחרי המיגרציה. fal-app.mjs FI02 (S32OP): Deprecated, אין successor רשום. fal-app.mjs " +
+      "F6437 (S32OP): טרנזקציה מובילה FI01, טרנזקציות קשורות FI02/FI03/FIPAYTSYST/FIPS/FISEPA/FITE, " +
+      "predecessor F1574. fal-app.mjs --tcode FI02 (S32OP, S30OP): מחזיר רק את FI02 כאפליקציית GUI, בלי " +
+      "successor. פריט הפישוט אותר דרך audit/master-completion/simpl-tcode-index.json (FI02: 2023 §11.3 שורות " +
+      "17343 עד 17358, 2025 §6.11.16 שורות 24083 עד 24107) ונקרא ב-scratchpad/official/SIMPL_OP2025.pdf.txt; " +
+      "טבלת 2023 חולצה בטורים משובשים. F6437 אינה ב-data/fiori/apps.ts ולכן אינה xref עד שתיכנס לקטלוג. שורת " +
+      "ההקשר של נושא ה-Data Migration 'Bank' עם loio dbbb08efc6ce4d4d911c132e00ff0650 (2025.001, סניפט " +
+      "'Activity Transaction Code Change FI02 Display FI03') הועתקה כלשונה כשורת context, שאינה נספרת ברמת " +
+      "האימות; שורת ההקשר של פריט 11.3 ברשימת 2023 FPS03 לא הועתקה: הפריט נבדק ונזכר בשורת פריט 6.11.16 (חילוץ " +
+      "הטבלה שלו משובש). לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:FI03",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FI03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את FI03 כ'הצגת בנק' (Display Bank), מודול FI, תחום 'בנקאות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FI03",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.11.16 " +
+          "S4TWL - CASH MANAGEMENT - Bank Accounts",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "בטבלת ההשוואה של פריט 'S4TWL - CASH MANAGEMENT - Bank Accounts' נכתב: 'The following transaction codes " +
+          "are replaced by the new Fiori app Manage Banks, which can be accessed from the Fiori Launchpad. Create " +
+          "Bank: FI01 Change Bank: FI02 Display Bank: FI03'. בעמודת 'Classic Cash and Liquidity Management' " +
+          "(הפתרון הקלאסי) מופיעים אותם קודי טרנזקציה: 'Create Bank: FI01 Change Bank: FI02 Display Bank: FI03'. " +
+          "הפריט מזכיר את האפליקציה בשמה בלבד ואינו מציין מזהה אפליקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 11.3 " +
+          "S4TWL - CASH MANAGEMENT - Bank Accounts",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "בפריט 'S4TWL - CASH MANAGEMENT - Bank Accounts' מופיע אותו ניסוח. הטקסט שחולץ מה-PDF מפוצל בין עמודות, " +
+          "ולכן הציטוט הורכב מתאי הטבלה: 'The following transaction codes are replaced by the new Fiori app Manage " +
+          "Banks, which can be accessed from the Fiori Launchpad', ומיד אחריו 'Create Bank: FI01', 'Change Bank: " +
+          "FI02' ו-'Display Bank: FI03'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Bank | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/216ce7ce1cad45a68e2486ca4203da69.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01, loio 216ce7ce1cad45a68e2486ca4203da69) מציינת את FI03 " +
+          "כטרנזקציה לאימות הנתונים ב-back end. הסניפט: 'You also have the option of validating your data in the " +
+          "back end using the following transaction: Transaction: Display Bank (FI03) ... App: Manage Banks – " +
+          "Master Data (F6437) Manage Banks – Cash Management (F1574A)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "SAP Fiori Apps Reference Library: F6437 Manage Banks - Master Data (S/4HANA 2025 FPS01, viewer S32OP)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F6437')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "רשומת ספריית Fiori עבור F6437 'Manage Banks - Master Data': קטלוג עסקי SAP_CA_BC_BNK 'Bank - " +
+          "Maintenance', שירות OData V4 UI_BANK_MANAGE, קוד טרנזקציה מוביל FI01, קודים קשורים FI02, FI03, " +
+          "FIPAYTSYST, FIPS, FISEPA, FITE. האפליקציה הקודמת לפי הרשומה: F1574 'Manage Banks'. לא רשומה אפליקציה " +
+          "עוקבת.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Bank | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/dbbb08efc6ce4d4d911c132e00ff0650.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "dbbb08efc6ce4d4d911c132e00ff0650) נוקבת בקוד FI03 בסניפט: 'Activity Transaction Code Change FI02 " +
+          "Display FI03 ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Bank | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/df70cf078c6647628ccdd1333c213ee9.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "df70cf078c6647628ccdd1333c213ee9) נוקבת בקוד FI03 בסניפט: 'Activity Transaction Code Change FI02 " +
+          "Display FI03 ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    xrefs: ["tx:FI01", "tx:FI02", "tx:FI12"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "לא נכתבה הכרעת status. שני פריטי רשימת הפישוט ('S4TWL - CASH MANAGEMENT - Bank Accounts', 2025 FPS01 " +
+      "ו-2023 FPS03) קובעים שהקודים FI01, FI02 ו-FI03 הוחלפו באפליקציית Fiori בשם 'Manage Banks', אבל אינם " +
+      "מציינים מזהה אפליקציה. בספריית Fiori, 'Manage Banks' הוא שמה של F1574, שאינה קיימת במהדורה S32OP, " +
+      "ו-F6437 'Manage Banks - Master Data' רושמת את F1574 כאפליקציה הקודמת לה וכוללת את FI03 בין קודי " +
+      "הטרנזקציה הקשורים. זיהוי המחליף בצורה של fiori:ID עדיין פתוח, ו-F6437 ו-F1574 אינן מופיעות " +
+      "ב-data/fiori/apps.ts. רשומת Data Migration ב-2025 FPS01 (loio 216ce7ce1cad45a68e2486ca4203da69) עדיין " +
+      "מציינת את FI03 כטרנזקציה לאימות נתונים ב-back end, ולכן status של replaced צריך להתחשב בכך. חיפושים: " +
+      "'FI03' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות); fal-app.mjs --tcode FI03 ב-S32OP: אין אפליקציה שהקוד " +
+      "מוביל בה. ישן → חדש: הרשומה הדטרמיניסטית הקודמת ציטטה את רשומות Data Migration עם loio " +
+      "dbbb08efc6ce4d4d911c132e00ff0650 ו-df70cf078c6647628ccdd1333c213ee9 ('Change FI02 Display FI03'), " +
+      "והשאירה את מה שהפריטים קובעים כשאלה פתוחה. רשומה זו קוראת את הפריטים ואינה כותבת status (ישן: " +
+      "verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה). שתי רשומות ה-Data Migration " +
+      "האלה הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:FI12",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FI12",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתארת את FI12 כ'שינוי בנקי בית/חשבונות בנק' (Change House Banks/Bank Accounts), מודול FI, " +
+          "תחום 'בנקאות'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FI12",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Defining House Bank Accounts | Cash and Liquidity Management",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ac319d8fa4ea4624b40a58d23e3c4627/579e2d551c03bc06e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Cash and Liquidity Management, SAP S/4HANA 2025 FPS01, versionId 2025.001, loio " +
+          "579e2d551c03bc06e10000000a441470): הסניפט מציין שניתן ליצור חשבונות בנק בית גם באמצעות FI12 " +
+          "('Alternatively, you can create house bank accounts using transaction FI12'), ומפנה ל-Manage Bank " +
+          "Accounts כמידע קשור ('Related Information Manage Bank Accounts').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Change House Banks (FI12) | Roles in SAP Business Client",
+        url: "https://help.sap.com/docs/SAP_ERP/5cea947f5ec44813bdb75bc2d5115450/8490f3b578e24dcbb5a7a31a1d4f5263.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית בצד ה-ECC (Roles in SAP Business Client, SAP ERP 6.0 EHP8 Latest, versionId " +
+          "6.18.latest, loio 8490f3b578e24dcbb5a7a31a1d4f5263) נושאת את הכותרת 'Change House Banks (FI12)', " +
+          "והסניפט מדפיס נתונים טכניים: Package of Transaction FHBANK, Software Component SAP_APPL, Support " +
+          "FIN-FSCM-BNK.",
+        verificationLevel: "sap_official_verified",
+      },
+      FI12_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 11.3 " +
+          "S4TWL - CASH MANAGEMENT - Bank Accounts",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט מתחיל בעמ' 310 והקטעים על FI12 מופיעים בעמ' 312-315, באותה טבלה ובאותו נוסח כמו פריט 2025 FPS01: " +
+          "בעמודת SAP S/4HANA 1511 (BAM ו-BAM Lite) 'The transaction FI12 House Bank / House Bank Account is not " +
+          "available', עם הפניה ל-Manage Banks ול-Manage Bank Accounts, ו-FI01, FI02 ו-FI03 מוחלפות באפליקציית " +
+          "Manage Banks. בעמודת הדלתא של 1809: 'FI12 has been reactivated' עבור BAM (שימוש לחשבונות בנק תלוי " +
+          "ב-bank account activation mode: 'Activate Directly' מול workflow או dual control) ועבור BAM Lite " +
+          "('manage house banks, house bank accounts, and bank accounts').",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F1758 'House Bank (S/4HANA)' (Fact sheet / SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1758')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת SAP S/4HANA 2025 FPS01 (S32OP) את F1758 'House Bank " +
+          "(S/4HANA)' (Fact sheet, SAP Fiori elements, Published, רכיב FIN-FSCM-CLM-BAM) עם FI12 כטרנזקציית GUI " +
+          "מובילה. F1758 אינה ב-data/fiori/apps.ts ולכן מוזכרת בפרוזה בלבד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F1759 'House Bank Account (S/4HANA)' (Fact sheet / SAP Fiori elements), " +
+          "release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1759')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת SAP S/4HANA 2025 FPS01 (S32OP) את F1759 'House Bank " +
+          "Account (S/4HANA)' (Fact sheet, SAP Fiori elements, Published, רכיב FIN-FSCM-CLM-BAM) עם FI12 " +
+          "כטרנזקציית GUI מובילה. F1759 אינה ב-data/fiori/apps.ts ולכן מוזכרת בפרוזה בלבד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Customizing for Printing Invoices with Create Correspondence App | Ukraine",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/0d0bed912ebd477fa72a08a9441fd7ea/b35c69dc972349ebb926bd1dcd82ec6d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Ukraine, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "b35c69dc972349ebb926bd1dcd82ec6d) נוקבת בקוד FI12 בסניפט: '... information from the corresponding " +
+          "fields in the Manage Bank Accounts app or in transaction FI12. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "לפי הפריט 'S4TWL - CASH MANAGEMENT - Bank Accounts', FI12 לא הייתה זמינה ב-SAP S/4HANA 1511 והופעלה " +
+        "מחדש בדלתא של 1809 לניהול בנקי בית וחשבונות בנק בית, הן ב-BAM והן ב-BAM Lite. ב-BAM השימוש בה לתחזוקת " +
+        "חשבונות בנק תלוי ב-bank account activation mode: עם 'Activate Directly' ניתן להשתמש ב-FI12, ועם " +
+        "workflow או dual control מגדירים חשבונות בנק ב-Manage Bank Accounts או דרך NWBC.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: FI12_SIMPL2025,
+      recommendedAction:
+        "יש לבדוק במערכת היעד את ה-bank account activation mode. תחת 'Activate Directly' ניתן לתחזק ב-FI12 גם " +
+        "חשבונות בנק. תחת workflow או dual control, לפי הפריט, ניתן להגדיר חשבונות בנק ב-Manage Bank Accounts או " +
+        "דרך טרנזקציית NWBC, ולהמשיך להשתמש ב-FI12 לבנקי בית ולחשבונות בנק בית.",
+    },
+    xrefs: ["tx:FI01", "tx:FI02", "tx:FI03", "tx:FBZP"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נקרא הפריט 'S4TWL - CASH MANAGEMENT - Bank Accounts' בשתי רשימות הפישוט (2025 FPS01 גרסת מסמך 1.36: " +
+      "הפריט מתחיל בעמ' 441, קטעי FI12 בעמ' 442-445; 2023 FPS03 גרסת מסמך 1.35: הפריט מתחיל בעמ' 310, קטעי " +
+      "FI12 בעמ' 312-315), מתוך הטקסט שחולץ ב-scratchpad/official/. תיקון (ישן → חדש): הטיוטה הקודמת קראה את " +
+      "משפט ה-'not available' מעמודת 1511 כהתנהגות נוכחית תחת BAM Lite ותחת workflow/dual control, וכתבה " +
+      "שבדלתא 1709 FI12 נמנתה עם FI01-FI03 כמוחלפת; בפועל עמודת הדלתא של 1809 מפעילה מחדש את FI12 הן ב-BAM והן " +
+      "ב-BAM Lite, עמודת 1511 מונה את FI01, FI02 ו-FI03 כמוחלפות ב-Manage Banks, והתנאי של workflow/dual " +
+      "control מתייחס לתחזוקת חשבונות בנק בלבד. הסטטוס שונה מ-restricted ל-changed, בלי successor. F1758 " +
+      "ו-F1759 אותרו ב-fal-app.mjs (S32OP) עם FI12 כטרנזקציה מובילה, אך אינן ב-data/fiori/apps.ts ולכן אינן " +
+      "xref. היסטוריה (Old → New): הרשומה הדטרמיניסטית tx:FI12 ב-transactions-auto.ts (2026-09-24, ללא הכרעת " +
+      "מעמד; ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה) מוחלפת ברשומה זו עם " +
+      "status 'changed'. שורת ההקשר שלה 'Customizing for Printing Invoices with Create Correspondence App | " +
+      "Ukraine' (2025.001, סניפט: 'the Manage Bank Accounts app or in transaction FI12') הועתקה כלשונה כשורת " +
+      "context, שאינה נספרת ברמת האימות. שורת ההקשר שכותרתה 'item 6.0 EhP6+.' ברשימת 2023 FPS03 לא הועתקה: " +
+      "השורות שהיא מצטטת (SIMPL_OP2023.pdf.txt סביב שורות 17398-17539) נמצאות בתוך פריט 11.3, שנקרא כאן, " +
+      "ו-'6.0 EhP6+.' הוא תא טבלה ('SAP ERP 6.0 EhP6+.') שאינדקס הקודים קרא ככותרת פריט. לא בוצעה בדיקה במערכת " +
+      "SAP חיה.",
+  },
+  {
+    id: "tx:FK01",
+    evidence: [
+      FK01_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 3.19 S4TWL - Business Partner " +
+          "Approach",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט המקביל ברשימת 2023 FPS03 (עמ' 154-155) קובע אותו עיקרון, וברשימת 'Transactions that get " +
+          "redirected to transaction BP: FD01,FD02,FD03, FK01,FK02,FK03,MAP1,MAP2,MAP3, MK01, MK02, MK03, ...' " +
+          "מופיע במפורש FK01, בהתאם לפריט 2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settings in Customer/Vendor Master Data",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ed84b70c199d4470ae2e5ccb93b2e45b/e1d2a810235c4f1dbd215011729d4d48.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "דף בדליברבל Invoicing, תחת אותו מוצר ואותה מהדורה (SAP_S4HANA_ON-PREMISE, versionId 2025.001), כותב " +
+          "ב-snippet של רשומת החיפוש (sap-help-search.mjs 'Create Vendor Accounting FK01' --product " +
+          "SAP_S4HANA_ON-PREMISE, 21 תוצאות): 'To access the vendor master data, on the SAP Easy Access screen, " +
+          "choose Accounting > Financial Accounting > Accounts Payable > Master Records > Create/Change " +
+          "(transaction code FK01 or FK02)', בסתירה לפריט הפישוט. שני המקורות רשמיים, ולכן שניהם נשמרים כסתירה. " +
+          "הסבר אפשרי הוא סחף תיעוד בדף (אותו דפוס תועד ב-tx:MK01, tx:MK02 ו-tx:XK01), ופריט הפישוט S4TWL נשאר " +
+          "המקור לסטטוס. מה שיכריע: הפעלת FK01 במערכת SAP S/4HANA On-Premise חיה ובדיקה אם היא מנותבת ל-BP.",
+        verificationLevel: "conflicting_sources",
+        conflictingEvidence: [
+          {
+            sourceType: "simplification_item",
+            sourceTitle:
+              "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 5.1.27 S4TWL - Business Partner " +
+              "Approach",
+            url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+            product: "SAP S/4HANA",
+            edition: "on-premise",
+            release: "2025 FPS01",
+            accessedAt: DATE25,
+            claim:
+              "'the specific transactions like ... or MK01, MK02, MK03, etc. are not available in SAP S/4HANA. These " +
+              "will be redirected to transaction BP'; FK01 מופיע בטבלת ה-redirect.",
+            verificationLevel: "sap_official_verified",
+          },
+        ],
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#FK01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "שדה s4 ברשומה הקיימת: 'לא זמינה לשימוש ב-S/4HANA, מוחלפת ב-Business Partner (BP) דרך Customer/Vendor " +
+          "Integration (CVI)' (פיסוק מותאם). הקביעה עקבית עם פריטי הפישוט שנקראו כעת.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#FK01",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FK01",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-FK01 את הכותרת האנגלית 'Create Vendor (Accounting)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FK01",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Submitting Invoices in XML Format as a Buyer | Greece",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/bf397e5f8d4d49c7b4e660f0ab982334/31d9f8e777a7449c915eb79ba1a92e5c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Greece, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "31d9f8e777a7449c915eb79ba1a92e5c) נוקבת בקוד FK01 בסניפט: '... ways: You can enable the Natural Person " +
+          "checkbox when you create a new vendor via transaction FK01 ... If there's an existing vendor, you can " +
+          "enable the Natural Person checkbox via transaction ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Data in FI Outgoing Invoices and SD Billing Documents | Portugal",
+        url: "https://help.sap.com/docs/SAP_ERP/00036c20095c4adc8d3e3c605b1dfab7/097c3c55e5efa849e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Portugal, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "097c3c55e5efa849e10000000a4450e5) נוקבת בקוד FK01 בסניפט: '... related to creating or changing " +
+          "customer/vendor data (transactions XK01, XK02, XD01, XD02, FK01, FK02, FD01, FD02, MK01, MK02, VD01, " +
+          "VD02) because it may lead to inconsistencies ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "FK01 אינה זמינה ב-SAP S/4HANA, מהדורת On-Premise. שני פריטי הפישוט 'S4TWL - Business Partner Approach' " +
+        "(2023 FPS03 ו-2025 FPS01) מונים אותה ברשימת הטרנזקציות המנותבות לטרנזקציה BP. תחזוקת נתוני הספק מתבצעת " +
+        "ב-BP, ותנאי להמרה הוא ש-Customer/Vendor Integration (CVI) הוטמע.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: FK01_SIMPL2025,
+      recommendedAction:
+        "יש להשתמש בטרנזקציה BP במקום FK01 ליצירה ולתחזוקה של נתוני ספק, ולוודא שה-CVI (Customer/Vendor " +
+        "Integration) הוטמע לפני המרה ל-S/4HANA. את תפקיד ה-BP המתאים לחלק החשבונאי של הספק יש לאמת במערכת. " +
+        "התפקיד 'Business Partner Vendor (FI part)' (FLVN01) נקוב, במקורות שנקראו, בפריט Public Sector (PSM-FG) " +
+        "'S4TWL - Specific fields on Business Partner', ורק בהקשר של שדות US Federal Financials.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:FK02", "tx:FK03", "tx:XK01", "tx:MK01"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מבוסס על קובץ: פריט הפישוט 'S4TWL - Business Partner Approach' נקרא במלואו בשתי המהדורות " +
+      "מ-scratchpad/official/SIMPL_OP2023.pdf.txt ו-SIMPL_OP2025.pdf.txt (2023 FPS03 פריט 3.19, עמ' 154-155; " +
+      "2025 FPS01 פריט 5.1.27, עמ' 136-138). בשתיהן FK01 נמנית בטבלת הטרנזקציות המנותבות ל-BP. גם הפריט 'S4TWL " +
+      "- Specific fields on Business Partner' (2023 FPS03 פריט 59.7, עמ' 1355-1356; 2025 FPS01 פריט 13.14.1, " +
+      "עמ' 1274-1275) מונה את FK01 בטבלת 'Transaction not available in SAP S/4HANA'. זהו פריט Public Sector " +
+      "(PSM-FG) העוסק בשדות US Federal Financials, והוא מזכיר את התפקיד FLVN01 רק בהקשר זה. הפריט לא צוטט " +
+      "כראיה, ולכן אינו משמש בסיס לסטטוס. חיפוש sap-help-search.mjs על 'Create Vendor Accounting FK01' " +
+      "(--product SAP_S4HANA_ON-PREMISE, 21 תוצאות) העלה דף בדליברבל Invoicing (2025.001) שעדיין מפנה " +
+      "ל-FK01/FK02. ייתכן שמדובר בסחף תיעוד, אך הסתירה לא הוכרעה והיא מתועדת בשורת conflicting_sources. " +
+      "fal-app.mjs לא הורץ, משום שאף מקור רשמי שנקרא לא נקב באפליקציית Fiori ייעודית, ולכן ה-successor הוא " +
+      "tx:BP בלבד. היסטוריה (Old → New): הרשומה הדטרמיניסטית tx:FK01 ב-transactions-auto.ts (2026-09-24, ללא " +
+      "הכרעת מעמד; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'replaced' ברמת repository_verified) " +
+      "מוחלפת ברשומה זו עם status 'replaced' ו-successor tx:BP. שלוש שורות ההקשר שלה שאינן מצוטטות כאן (רשומת " +
+      "המאגר tcode-catalog.ts#FK01, 'Submitting Invoices in XML Format as a Buyer | Greece' בצד S/4HANA " +
+      "(2025.001) ו-'Master Data in FI Outgoing Invoices and SD Billing Documents | Portugal' בצד ה-ECC " +
+      "(6.18.latest)) הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות; שורת ההקשר של פריט 13.14.1 לא " +
+      "הועתקה: הפריט נקרא ונזכר בהערות אלה. הדף Greece מדפיס בסניפט את FK01 ליצירת ספק ('when you create a new " +
+      "vendor via transaction FK01'), באותו דפוס כמו דף Invoicing שבשורת ה-conflicting_sources; כאן הוא נישא " +
+      "כשורת context, בלי הכרעה. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:FK02",
+    evidence: [
+      FK02_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 3.19 " +
+          "S4TWL - Business Partner Approach",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "הפריט נקרא במלואו (scratchpad/official/SIMPL_OP2023.pdf.txt, שורות 9090-9115). תחת אותה כותרת, ברשימה " +
+          "'Transactions that get redirected to transaction BP' נקוב במפורש: 'FD01,FD02,FD03, " +
+          "FK01,FK02,FK03,MAP1,MAP2,MAP3, MK01, MK02, MK03, V-03,V-04,V-05,V-06,V-07,V-08,V-09, V-11, VAP1, VAP2, " +
+          "VAP3, VD01, VD02,VD03, XD01, XD02, XD03, XK01, XK06, XK07, XK02, XK03'; FK02 אינו ברשימה הנפרדת " +
+          "'Transactions that are obsolete: FD06, FK06, MK06, MK12, MK18, MK19, VD06, XD06, V+21, V+22, V+23'. " +
+          "הפריט קובע: 'The user interface for SAP S/4HANA is transaction BP. There is no specific user interface " +
+          "for customer/vendor like known from SAP Business Suite (the specific transactions like XD01, XD02, XD03 " +
+          "or VD01, VD02, VD03/XK01, XK02, XK03 or MK01, MK02, MK03 etc. are not available in SAP S/4HANA " +
+          "on-premise)'. הממצא עקבי עם פריט 5.1.27 של רשימת 2025 FPS01: שני הפריטים ממקמים את FK02 תחת ניתוב ל-BP, " +
+          "לא תחת obsolete.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Data in FI Outgoing Invoices and SD Billing Documents | Portugal",
+        url: "https://help.sap.com/docs/SAP_ERP/00036c20095c4adc8d3e3c605b1dfab7/097c3c55e5efa849e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Portugal, SAP ERP 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "097c3c55e5efa849e10000000a4450e5) נוקבת בקוד FK02 בסניפט: '... related to creating or changing " +
+          "customer/vendor data (transactions XK01, XK02, XD01, XD02, FK01, FK02, FD01, FD02, MK01, MK02, VD01, " +
+          "VD02) because it may lead to inconsistencies ...'. הרשומה שייכת למרחב המוצר SAP_ERP (ECC) ומונה את FK02 " +
+          "בין הטרנזקציות ליצירה או לשינוי של נתוני לקוח וספק, בהקשר של אזהרה בלוקליזציה של פורטוגל; הרשומה אינה " +
+          "מתארת את הטרנזקציה מעבר לכך.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#FK02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר הקיימת מתארת את FK02 כ'שינוי רשומת אב של ספק - עדכון תנאי תשלום, פרטי בנק, חסימות תשלום " +
+          "ונתונים חשבונאיים' (פיסוק מותאם), מודול FI, תחום 'נתוני אב ספקים (AP)'; שדה s4 ברשומה קובע 'לא זמינה " +
+          "לשימוש ב-S/4HANA - מוחלפת ב-Business Partner (BP)' (פיסוק מותאם), עקבי עם קביעת פריטי הפישוט.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#FK02",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FK02",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-FK02 את הכותרת האנגלית 'Change Vendor (Accounting)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FK02",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Settings in Customer/Vendor Master Data | Hungary",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/d266c51af49d463abcc0b6603fddd13c/e1d2a810235c4f1dbd215011729d4d48.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Hungary, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "e1d2a810235c4f1dbd215011729d4d48) נוקבת בקוד FK02 בסניפט: '... Financial Accounting Accounts Payable " +
+          "Master Records Create/Change (transaction code FK01 or FK02) ... Activities To access the customer " +
+          "master data, on the SAP Easy Access screen, choose ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Submitting Invoices in XML Format as a Buyer | Greece",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/bf397e5f8d4d49c7b4e660f0ab982334/31d9f8e777a7449c915eb79ba1a92e5c.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Greece, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "31d9f8e777a7449c915eb79ba1a92e5c) נוקבת בקוד FK02 בסניפט: 'If there's an existing vendor, you can " +
+          "enable the Natural Person checkbox via transaction FK02. After you've enabled this checkbox, buyers " +
+          "must submit invoice data to myDATA. ... determine ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "replaced",
+      he:
+        "FK02 (שינוי רשומת אב של ספק, FI) אינה זמינה כטרנזקציה עצמאית ב-SAP S/4HANA, מהדורת On-Premise. פריט " +
+        "הפישוט S4TWL - Business Partner Approach נוקב בה במפורש ברשימת הטרנזקציות המנותבות לטרנזקציית Business " +
+        "Partner (BP), עקבי בין רשימת 2023 FPS03 (פריט 3.19) לרשימת 2025 FPS01 (פריט 5.1.27); בשתי הרשימות FK02 " +
+        "מופיעה תחת קטגוריית הניתוב ל-BP, לא תחת קטגוריית ה-obsolete. שינוי נתוני אב ספק מתבצע ב-S/4HANA דרך " +
+        "טרנזקציית BP, לאחר הפעלת Customer/Vendor Integration (CVI).",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: FK02_SIMPL2025,
+      recommendedAction:
+        "יש להשתמש בטרנזקציה BP (עריכה) לעדכון נתוני אב ספק ב-SAP S/4HANA במקום FK02, ולוודא שה-Customer/Vendor " +
+        "Integration (CVI) הושלם לפני ההמרה למערכת. תפקיד ה-Business Partner ומספר המסך המדויק אינם נקובים בפריט " +
+        "ודורשים אימות מול תצורת המערכת בפועל.",
+      successor: "tx:BP",
+    },
+    xrefs: ["tx:BP", "tx:FK01", "tx:FK03", "tx:XK02"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נבדק מבוסס על קובץ: פריט הפישוט S4TWL - Business Partner Approach בשתי המהדורות הרשמיות (2023 FPS03 " +
+      "פריט 3.19, 2025 FPS01 פריט 5.1.27) נקרא במלואו מקבצי scratchpad/official/SIMPL_OP2023.pdf.txt " +
+      "ו-SIMPL_OP2025.pdf.txt; שתיהן נוקבות FK02 במפורש ברשימת 'Transactions that get redirected to " +
+      "transaction BP'. שני פריטי פישוט נוספים ברשימת 2025 FPS01 נקראו גם הם וקוראים באותו כיוון, אך לא נכללו " +
+      "כשורות evidence נפרדות (לא נדרשים להכרעת הסטטוס): פריט 6.11.17 'S4TWL - CASH MANAGEMENT - GENERAL' " +
+      "מזכיר ש-FD02 ו-FK02 הם 'redirects' בהקשר של ניהול מזומנים, ומפנה בעצמו ל-SAP Note 2270420 ('Please " +
+      "refer to note 2270420 because they are redirects to FD02 and FK02'); פריט 13.14.1 'S4TWL - Specific " +
+      "fields on Business Partner' (רכיב PSM-FG) מציג טבלה 'Transaction not available in SAP S/4HANA: FK01 " +
+      "FK02 FK03 XK01 XK02 XK03 FD01 FD02 FD03 XD01 XD02 XD03', בהקשר מצומצם לשדות ספציפיים ל-US Federal " +
+      "Financials, וגם הוא מפנה ל-SAP Note 2270420. מספר ההערה מיוחס כאן לשני פריטים אלה בלבד, והוא לא נפתח " +
+      "ישירות. חיפושים שהורצו ב-sap-help-search.mjs: 'FK02' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות, 2 נבדקו - " +
+      "Hungary/Greece - ולא צוטטו כמקור לסטטוס כי אינן עוסקות בזמינות הטרנזקציה) ו-'FK02' בסקופ SAP_ERP (21 " +
+      "רשומות, רשומת Portugal צוטטה לעיל כהקשר ECC בלבד). fal-app.mjs --tcode FK02 במהדורה S32OP לא החזיר " +
+      "אפליקציית Fiori עם קוד מוביל FK02; אף מקור רשמי שנקרא לא נקב אפליקציית Fiori כתחליף, רק את טרנזקציית " +
+      "BP. Old → New: הרשומה הדטרמיניסטית tx:FK02 ב-transactions-auto.ts (שורות הקשר בלבד, ללא הכרעת מעמד " +
+      "מחוברת; לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'replaced' ברמת repository_verified) " +
+      "מוחלפת ברשומה מחקרית זו ('replaced' עם successor tx:BP, מחובר לפריט 5.1.27). שלוש שורות ההקשר שלה שאינן " +
+      "מצוטטות כאן (רשומת המאגר tcode-catalog.ts#FK02, ו-'Settings in Customer/Vendor Master Data | Hungary' " +
+      "ו-'Submitting Invoices in XML Format as a Buyer | Greece' בצד S/4HANA, 2025.001) הועתקו כלשונן כשורות " +
+      "context, שאינן נספרות ברמת האימות; שורות ההקשר של פריטים 6.11.17 ו-13.14.1 לא הועתקו: שניהם נקראו " +
+      "ונזכרים בהערות אלה. שני דפי ה-S/4HANA הם שתי הרשומות שנבדקו בחיפוש 'FK02', והם מדפיסים בסניפט את FK02 " +
+      "כטרנזקציה פעילה ('Create/Change (transaction code FK01 or FK02)'; 'you can enable the Natural Person " +
+      "checkbox via transaction FK02'); ברשומה tx:FK01 אותו loio של דף ההגדרות (deliverable Invoicing) מסומן " +
+      "כסתירה לפריט הפישוט (conflicting_sources), וכאן הם נישאים כשורות context, בלי הכרעה. לא בוצעה בדיקה " +
+      "במערכת SAP חיה: קיום התוכנית והתנהגות הניתוב בפועל דורשים אימות ב-SE93 במערכת S/4HANA On-Premise.",
   },
 ];
