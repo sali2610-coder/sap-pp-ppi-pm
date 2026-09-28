@@ -3109,7 +3109,8 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "זו) נשמרו במלואן ולא נמחקו. 2026-09-25: הרשומה data/lifecycle.ts#MB03 תוקנה ב-a13460fa (2026-09-24): שם " +
       "האפליקציה F1077 הוא כעת Material Documents Overview, ו-s4:false והנוסח 'הוסר' נותרו בה; שורת ה-repository " +
       "בראיות מתארת את הנוסח שלפני התיקון (Old → New), ולכן ההנחיה לתקן שם את שם האפליקציה לא נכללה " +
-      "ב-recommendedAction. לא בוצעה בדיקה במערכת SAP חיה.",
+      "ב-recommendedAction. לא בוצעה בדיקה במערכת SAP חיה." +
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-24 (audit/ux-2026-09/SAP-FIXES.md, 3c91f40b); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
 
   /* ------------------------------------------------------------ tx:MB11 */
@@ -3486,7 +3487,8 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "ב-MIGO/BAPI_GOODSMVT_CREATE. Old → New: הרשומה עוברת מ'לא נכתב סטטוס' (ללא מקור רשמי הנוקב ב-MB1B) לסטטוס " +
       "replaced עם יורש tx:MIGO, מבוסס על שני פריטי הפישוט הללו. סתירת מקורות המאגר (data/tx-intel.ts מול " +
       "data/lifecycle.ts) ומחלוקת מזהה ה-Fiori (F1061 מול F0843) נותרות פתוחות ואינן מיושבות בעדכון זה, והן עדיין " +
-      "דורשות החלטת ניסוח UI נפרדת.",
+      "דורשות החלטת ניסוח UI נפרדת." +
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-20, FIX-24 (audit/ux-2026-09/SAP-FIXES.md, 3ca3418d, 3c91f40b); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
 
   /* ------------------------------------------------------------ tx:MB1C */
@@ -4106,7 +4108,8 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "edited using transactions ME22 and ME22N') ועל סניפט Further Details — לא על עצם קיום נוהל בתיעוד. נותר " +
       "לא מאומת: פריט הפישוט / ה-SAP Note הפורמליים שמסווגים את מעמד ME22 ‏(SIC ו-me.sap.com/notes דורשים " +
       "התחברות S-user לפי audit/s4-enrichment/MANIFEST.md) — לא צוטט מספר מסיבה זו. ‏accessedAt רוענן ל-2026-09-02, " +
-      "מועד ההרצה בפועל.",
+      "מועד ההרצה בפועל." +
+      " 2026-09-25: הרשומות במאגר (data/lifecycle.ts) תוקנו לפי FIX-24 (audit/ux-2026-09/SAP-FIXES.md, e7427842); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
 
   /* ------------------------------------------------------------ tx:ME23 */
@@ -15113,7 +15116,8 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "s4 שלה מועבר לערוץ הכתיבה של המאגר. הרשומה שנוצרה אוטומטית ל-MSC2 ב-data/verification/transactions-auto.ts " +
       "מוחלפת ברשומה זו (ישן: ללא הכרעת מעמד; חדש: replaced, successor MSC2N); רשומת החיפוש שלה 'Consistency Check " +
       "for Changes | Batch Management (LO-BM)' (SAP_ERP, 6.18.latest) הועברה כשורת הקשר, ושתי רשומות החיפוש " +
-      "'Scholarship (Military Sector) | HCM Local Version for Saudi Arabia' (סוגי שכר, לא טרנזקציה) לא הועברו.",
+      "'Scholarship (Military Sector) | HCM Local Version for Saudi Arabia' (סוגי שכר, לא טרנזקציה) לא הועברו." +
+      " 2026-09-25: הרשומות במאגר (data/tx-intel.ts) תוקנו לפי FIX-24 (audit/ux-2026-09/SAP-FIXES.md, 3c91f40b); שורות ה-repository בראיות מתארות את הנוסח שלפני התיקון (Old → New).",
   },
   {
     id: "tx:MSC3",
