@@ -572,3 +572,32 @@ procure-to-pay-for-maintenance), and no other rule; both `tsc` gates clean; `npm
   occurrence is in function-intel.ts. What would settle it: nothing further on the SAP side; the
   open action is a correction of `data/function-intel.ts` (not a best-practices file, not edited
   here).
+- `bp:ecc-to-s4hana-migration-process`, the class of the maintenance plan migration object,
+  repository against official (disclosed in notes and as a pointer at the end of
+  `process.masterData[2]` and `process.migration[2]`, no `conflicting_sources` row; written in
+  the 2026-09-28 backfill of `data/best-practices/cross-processes.ts`): the page 'PM -
+  Maintenance plan | Data Migration' (2025.001, loio 60a36b24c79d4629b04fa59c409154f5, body read
+  2026-09-28) prints 'Business Object Type Master data' and 'Migration Approach Direct Transfer -
+  ERP', with MPLAN_CREATE in the Function Module column of the step 'Create Maintenance Plan';
+  `data/migration-cockpit.ts#maintplan` has `cat: "Transactional"` and `trust:
+  "needs-verification"`. What would settle it: a correction of `data/migration-cockpit.ts` (not a
+  best-practices file, not edited here); the record's pointer and notes paragraph can then go.
+- `bp:confirmation-process`, the input table of BAPI_ALM_CONF_CREATE and the parameter names of
+  BAPI_PROCORDCONF_CREATE_TT, repository against repository (disclosed in
+  `process.interfaces[0]`, `process.migration[2]` and the function-intel and bapi-enrichment
+  evidence rows, no `conflicting_sources` row; restated in the 2026-09-28 backfill of
+  `data/best-practices/cross-processes.ts`): `data/function-intel.ts#BAPI_ALM_CONF_CREATE` names
+  the input table CONFIRMATIONS, `data/bapi-enrichment.pm.ts` names TIMETICKETS
+  (BAPI_ALM_TIMECONFIRMATION); the overlay `fm:BAPI_PROCORDCONF_CREATE_TT` records that the
+  repository layers disagree on that BAPI's parameter names. No official record read so far
+  prints either signature. What would settle it: SE37 in the target system, then a correction of
+  the repository record that loses (not a best-practices file, not edited here).
+- `bp:confirmation-process`, the Fiori ids F2730 and F3364, repository against official
+  (disclosed in notes since 2026-09-22 and in `process.eccToS4[2]` and `[3]`; the 2026-09-28
+  backfill added the Fiori Apps Library row of F5104A at S32OP, which lists W0020 Confirm Jobs as
+  a predecessor): `data/fiori/apps.ts` gives 'Confirm Jobs' as F2730 and 'Confirm Process Order'
+  as F3364, while 'Deletion of Confirm Jobs App' (2023.000) names the deleted Confirm Jobs app
+  W0020, and 'Feature Comparison for Process Orders' (2025.001) places Confirm Process Order
+  Operation (COR6N) in F4587 and F5323. What would settle it: `node scripts/fal-app.mjs F2730` and
+  `F3364` at S32OP, then a correction of `data/fiori/apps.ts` (not a best-practices file, not
+  edited here).
