@@ -289,6 +289,39 @@ conflict 21, s4-appl 716, edition 5. A per-id diff of the two `--ids` runs shows
 batch ids changed in that window. The `--ids` files were written to the session scratchpad
 (`IDS_OUT`), not to the repository root.
 
+Batch 10 written 2026-09-28 (research and audit ran on 2026-09-28; the rows keep the access dates the
+audited drafts give them: 2026-09-25 for the KSV5 research rows, 2026-09-24 for its three carried
+context rows, 2026-09-28 for PA40): 2 drafts audited, 2 written, none refuted. They are the two ids
+refuted at earlier gates: `tx:KSV5` (third round; refuted in batches 1 and 5) and `tx:PA40` (second
+round; refuted in batch 9). `tx:KSV5` is `restricted` from 'S4TWL - ACTIVITY-BASED COSTING' (2025
+FPS01: no change where version 0 is used, an error message where a delta version is used, allocations
+in parallel Activity-Based Costing no longer supported, CPV5 replaced by KSV5); `tx:PA40` carries an
+authored `verification_required` ('S4TWL - Conversion of Employees to Business Partners' and 'S4TWL -
+Business User Management' name it as an example of local HR data maintenance; 'S4TWL - General HCM
+Approach within SAP S/4HANA' places SAP ERP HCM in the compatibility scope without naming PA40).
+Neither verdict carried a `fixedRecord`; both records were re-derived from the draft with the listed
+downgrades. The audited JSON was parsed from the writer's task prompt as the session transcript
+records it, not retyped: every downgrade and writer change was applied as an exact-once substring
+replacement or a checked structural edit (a miss aborts the run), every row of the two generated
+records was checked to be either cited by the audited record (same URL or repoRef, plus the item
+number for Simplification List rows) or carried, the carried rows were checked deep-equal to their
+generated twins, and the written module was deep-compared against the expected objects, with
+`status.source` checked for identity with its evidence row and the 70 batch-1 to batch-9 records
+checked unchanged against the pre-batch file (equal to HEAD).
+
+Depth (`report-coverage.mjs --ids`, before and after): `tx:KSV5` moved from L3 `repository_verified`
+with the derived 'changed' (generated record) to L5 `sap_official_verified` with the authored
+`restricted`; `tx:PA40` moved from L1 `verification_required` to L1 `sap_official_verified` with the
+authored `verification_required`. PA40 stays at depth L1: it has no tx-intel / tx-detail record, so
+the page structure (3 authored facts needed for L2) is missing. Batch effect on the catalog totals
+(`npm run report:coverage -- --catalog transactions`): L3 -1, L5 +1, verified +1,
+verification_required -1; s4-appl, conflict, legacy and edition unchanged. Measured totals: 17:48 L1
+1279, L2 3, L3 382, L4 5, L5 149, verified 739, verif.req 1055, conflict 24, legacy 6, s4-appl 732,
+edition 5; 17:54 L1 1279, L2 3, L3 381, L4 5, L5 150, verified 740, verif.req 1054, conflict 24,
+legacy 6, s4-appl 732, edition 5. A per-id diff of the two `--ids` runs shows exactly the two batch
+ids changed in that window. The `--ids` files were written to the session scratchpad (`IDS_OUT`), not
+to the repository root.
+
 ## refuted
 
 - `tx:KSV5` (batch 1, 2026-09-25): refuted at the adversarial gate, not written; the generated
@@ -456,6 +489,12 @@ batch ids changed in that window. The `--ids` files were written to the session 
   negative (the transactions-d FB65 precedent) instead of an evidence row (problem 3). A writer can
   apply these mechanically if the orchestrator hands over the draft with a verdict that lists them
   as downgrades.
+- Batch 10 (2026-09-28): none refuted. Both audited drafts were written: `tx:KSV5` (third round) and
+  `tx:PA40` (second round). This closes the `tx:KSV5` entries of batches 1 and 5 and the `tx:PA40`
+  entry of batch 9 above: the re-drafts carry what those entries asked for (KSV5: the three context
+  rows, the Old → New line for the generated record and the item's condition before the two options;
+  PA40: no `sapNote` field, recommendedAction bounded by item 7.1.31's two statements, the empty Fiori
+  Apps Library result in notes), and their auditors passed them.
 
 ## conflicts
 
@@ -768,6 +807,14 @@ batch ids changed in that window. The `--ids` files were written to the session 
   still be managed using transaction SU01, Central User Administration or identity management
   systems.' Written as audited: the SU01 paraphrase has a positive sentence of the item behind it.
   What settles it: nothing, unless a family ruling bans 'not replaced' paraphrases outright.
+- `tx:KSU5` / `tx:KSV1` / `tx:KSV5` · status token (batch 10, continues the batch-1 and batch-5
+  entries): `tx:KSV5` is now written with `restricted`, and its third-round auditor raised the
+  siblings again as a note for the orchestrator: tx:KSV1 and tx:KSU5 cite the same version-0 /
+  delta-version sentence of 'S4TWL - ACTIVITY-BASED COSTING' with `unchanged`. KSU5 and KSV1 were not
+  re-pointed in this batch: the writer does not change audited records outside the batch. The pages
+  now show the same item wording under two tokens. What settles it: re-audit KSU5 and KSV1 against the
+  KSV5 ruling; if it holds, re-point both to `restricted` (status token and status text only, the
+  evidence stands), otherwise record in their notes why they differ.
 
 ## writer deviations (batch 1, 2026-09-25)
 
@@ -1350,3 +1397,55 @@ batch ids changed in that window. The `--ids` files were written to the session 
     in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry. Gates: `tsc --noEmit` exit 0,
     `tsc --noEmit -p tsconfig.test.json` exit 0, `npm test` 211 pass / 0 fail (the five evidence-schema
     tests included).
+
+## writer deviations (batch 10, 2026-09-28)
+
+1. Where the audited JSON came from. Neither entry carries a `verdict.fixedRecord`; the JSON was parsed
+   from the writer's task prompt as the session transcript records it (2 audited ids, none refuted), so
+   nothing was retyped. Both records are the researcher's draft with the verdict's downgrades.
+2. KSV5 downgrades. `const DATE28 = "2026-09-28"` added next to DATE24 and DATE25, and lastVerifiedAt
+   written as DATE28; the accessedAt values written through the file's constants as the draft dates
+   them (DATE25 for the four research rows, DATE24 for the three carried context rows). The third
+   downgrade (drop the last gap, 'ה-validator לא הורץ על הרשומה המתוקנת...', once the gates run green)
+   needed no edit: the draft handed to the writer has no gaps field and its notes do not carry that
+   sentence. The gates ran green on the written record (item 8).
+3. KSV5 status source. Shared const KSV5_SIMPL2025, the record's own 2025 FPS01 item row (evidence[2]),
+   used by identity in evidence[] and in status.source; the draft's status.source was checked
+   deep-equal to that row before the swap.
+4. PA40 downgrade. The verdict's first option, word for word: the last sentence of recommendedAction
+   reads 'כאשר HCM Integration פעיל, לתזמן את /SHCM/RH_SYNC_BUPA_FROM_EMPL כעבודת רקע קבועה לפי
+   הפריט S4TWL - Business User Management.' instead of attributing the conditional scheduling to both
+   items. The second option (adding the 7.1.11 scheduling quote to that row's claim) was not taken: it
+   would add a quote this writer did not read.
+5. PA40 content preservation. The two rows of the generated record whose URL the audited record does
+   not cite were carried over verbatim (`context: true`, access date 2026-09-24): the search records
+   'Relation Between Preliminary Registration and Employee Hiring' (loio
+   ceaae956ac2a0950e10000000a44147b) and 'Working with Event Employee Hiring - Preliminary
+   Registration' (loio 3cb851562ab9de21e10000000a4450e5), both HCM Local Version for Brazil, 2025.001.
+   The other five generated rows (tcode-catalog.ts#PA40, the ECC What's New search record, items
+   7.1.11, 8.1.6 and 2.32) are cited by the audited rows. KSV5 needed no carrying: its draft cites four
+   generated rows and carries the other three verbatim (checked deep-equal).
+6. PA40 history line. The draft's Old → New line covers its own first draft only. One notes passage,
+   inserted before the closing 'לא בוצעה בדיקה במערכת SAP חיה.', records the superseded generated
+   record (HOUSE-RULES §3.8, in the KSV5 draft's wording: 'ישן: ללא הכרעת מעמד, שורות הקשר בלבד; חדש:
+   verification_required מחובר...'), the two carried rows and the rows the audited record covers. This
+   is the gap the batch-5 KSV5 auditor ruled blocking for KSV5; the PA40 auditor did not raise it.
+7. Kept as audited, not normalized: the generator's frame sentence in the carried KSV5 row for the 2023
+   FPS03 item 12.11 ('מה הוא קובע לגבי הקוד ... טרם נקרא במחקר'), which the batch-5 re-draft note asked
+   to replace; the third-round draft carried the row verbatim and its auditor checked it word for word
+   (the batch-9 PA30 precedent: a frame sentence the auditor kept stays), and the status rests on the
+   2025 item 6.5.2, which the record quotes. The PA40 row for item 7.1.31 without `context: true` (the
+   batch-9 verdict called it a context row; the second-round draft and its auditor keep it as a counted
+   row; the record's level is `sap_official_verified` either way). The release notation ('2025 FPS01' /
+   '2023 FPS03' on the item rows, versionIds on the search rows); the bare item numbers in the KSV5
+   notes (its status text names the item); the 'בלבד' / 'רק' wording the auditors passed; the scratchpad
+   paths in notes. No record carries `reviewer`, a personal name or an e-mail address ('PA40 @ S32OP'
+   in the PA40 notes is the fal-app output).
+8. No lookup was re-run: no sap-help-search, sap-help-body or fal-app call and no Simplification List
+   reading. Local checks only: the xrefs (tx:KSV1, tx:PA30) resolve in `lib/route-manifest.generated.ts`
+   and CPV5 is absent from it (the KSV5 notes name CPV5 in prose for that reason); the repoRefs
+   (tcode-catalog.ts#KSV5 line 707, tx-intel.ts#KSV5 line 300, tcode-catalog.ts#PA40 line 1096) match
+   the rows that quote them. No foundation-guard change: `transactions-c.ts` is already covered by the
+   graduated repoRef test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry. Gates:
+   `tsc --noEmit` exit 0, `tsc --noEmit -p tsconfig.test.json` exit 0, `npm test` 211 pass / 0 fail (the
+   evidence-schema tests included), `npm run report:coverage -- --catalog transactions` exit 0.

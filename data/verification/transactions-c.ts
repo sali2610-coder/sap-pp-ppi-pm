@@ -267,11 +267,38 @@
    replaced; CAT2: both 'Enhancements for Lean Staffing and Forecasting'
    search records and the Fiori Apps Library rows F3074 and F3074A). The
    generated records for the seven ids in transactions-auto.ts are
-   superseded. */
+   superseded.
+   Batch 10 (research + adversarial audit 2026-09-28, written the same day):
+   the two ids refuted at earlier gates, re-drafted and audited again,
+   tx:KSV5 (third round) and tx:PA40 (second round); none refuted. Access
+   dates are the ones the audited rows carry: 2026-09-25 for the KSV5
+   research rows, 2026-09-24 for its three carried context rows, 2026-09-28
+   for PA40 (DATE28 added for it and for both lastVerifiedAt values). KSV5
+   is 'restricted' from the item 'S4TWL - ACTIVITY-BASED COSTING' (2025
+   FPS01): no change where version 0 is used, an error message where a
+   delta version is used, allocations in parallel Activity-Based Costing
+   no longer supported, and CPV5 replaced by KSV5. PA40 carries an authored
+   verification_required: 'S4TWL - Conversion of Employees to Business
+   Partners' and 'S4TWL - Business User Management' name it as an example
+   of local HR data maintenance, and 'S4TWL - General HCM Approach within
+   SAP S/4HANA' places SAP ERP HCM in the compatibility scope without
+   naming PA40. Both re-derived from the draft with the listed downgrades
+   (no fixedRecord); the PA40 scheduling sentence is attributed to 'S4TWL -
+   Business User Management' only. The KSV5 status source is a shared
+   const (its own item row) instead of the copy the draft carried. Writer
+   corrections: an Old → New line for the superseded generated record added
+   to the PA40 notes, and the two rows of its generated record that the
+   audited record left out (both 'HCM Local Version for Brazil' search
+   records) carried over as context rows with their 2026-09-24 access
+   date; the KSV5 draft already carried its three. KSU5 and KSV1 keep
+   'unchanged' for the same item wording (logged under conflicts in the
+   research queue). The generated records for both ids in
+   transactions-auto.ts are superseded. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
 const DATE25 = "2026-09-25";
+const DATE28 = "2026-09-28";
 
 /* status sources shared between evidence[] and status.source */
 
@@ -956,6 +983,18 @@ const PA48_SIMPL2025: Evidence = {
   release: "2025.001",
   accessedAt: DATE25,
   claim: "הפריט (רכיב יישום PA-PA-XX, הערה רלוונטית 0003224319) קובע שהחבילות PDEL, PZ1R, PBAS_BPO זמינות רק ב-SAP ERP HCM, ושלאחר הפעלת SAP HCM for SAP S/4HANA אסור להשתמש בפונקציונליות מחבילות אלה. עם זאת הוא מציין חריגה מפורשת: 'Please note that transaction PA48 (Hiring from External System) and required objects for this functionality will still be available in the future. The functionality is currently assigned to package PZ1R but will be moved to another package in the near future. This is a technical activity from SAP side and does not require any action from customer side.' כלומר PA48 עצמו נשאר זמין, גם אם שאר הפונקציונליות בחבילת PZ1R מוגבלת.",
+  verificationLevel: "sap_official_verified",
+};
+
+const KSV5_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "S4TWL - ACTIVITY-BASED COSTING (Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1, document version 1.36, item 6.5.2, pp. 320-323)",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  accessedAt: DATE25,
+  claim: "הפריט 'S4TWL - ACTIVITY-BASED COSTING' (רכיב CO-OM-ABC, עמ' 322) קובע: 'Allocations performed in parallel activity based costing are no longer supported.' ובהמשך: 'Transaction codes do not distinguish parallel and operative activity based costing. Where version 0 is used, there will be no change. Where a delta version is used, the system will issue an error message.' וכן: 'For this reason transaction CPV5 has been replaced by KSV5 (distribution)'. כלומר KSV5 ממשיכה לפעול ללא שינוי בגרסה 0, ומחזירה הודעת שגיאה בגרסת דלתא. בנוהל הבדיקה (עמ' 321) הפריט מפנה לטבלה TKA00, שדה TKA00-COABC בערך 1 או 2 ('Component Active for Parallel Calculation' או 'Component Active for Parallel Calculation and Integrated Calcluation'), לזיהוי Activity-Based Costing מקבילי, ולטבלה TKA09: גרסת CO שהשדה TKA09-REFVS שלה מפנה לגרסת ייחוס היא גרסת דלתא, ואם TKA09-REFVS ריק, גרסאות דלתא אינן בשימוש.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -6207,5 +6246,216 @@ export const TX_VERIFICATION_C: VerificationRecord[] = [
     ],
     lastVerifiedAt: DATE25,
     notes: "בוצע מחקר על פריט הפישוט הרשמי שתועד קודם כ'הקשר בלבד' ברשומה הדטרמיניסטית ב-data/verification/transactions-auto.ts#PA48. הפריט נקרא במלואו (scratchpad/official/SIMPL_OP2025.pdf.txt שורה 27361, SIMPL_OP2023.pdf.txt שורה 25130), והוא קובע במפורש ש-PA48 נשאר זמין, בניגוד לשאר הפונקציונליות בחבילות PDEL/PZ1R/PBAS_BPO. חיפושים נוספים שרצו ב-2026-09-25: 'PA48 Hiring from External System' בסקופ SAP_S4HANA_ON-PREMISE (21 תוצאות, אף אחת אינה פריט הפישוט עצמו; קובץ ה-PDF אינו מאונדקס כרשומת חיפוש בודדת), 'HCM Obsolete Packages S4TWL PZ1R' (21 תוצאות, ללא רשומה ייעודית ל-PA48), 'S4TWL HCM Obsolete Packages' (21 תוצאות, אותה תוצאה). ספריית Fiori (scripts/fal-app.mjs --tcode PA48, מהדורה S32OP): leading app(s): none; GUI app entry: none. אף מקור רשמי שנקרא אינו נוקב ביורש (טרנזקציה או אפליקציית Fiori), ולכן לא נכתב שדה successor. מסמך הפישוט חל גם על SAP S/4HANA On-Premise וגם על SAP S/4HANA Cloud Private Edition באותה מהדורה (הכותרת מציינת את שתיהן); ה-edition סומן on-premise לפי הכלל המנחה. Old → New: רשומה זו מחליפה את הרשומה הדטרמיניסטית ל-tx:PA48 ב-data/verification/transactions-auto.ts (scripts/qa/gen-tx-evidence.mts, 2026-09-24), שלא קבעה מעמד וציטטה את שני הפריטים כהקשר שטרם נקרא; כעת המעמד unchanged נקבע על פי הפריט 'S4TWL - HCM Obsolete Packages', ושלוש שורות הרשומה הקודמת מצוטטות כולן ברשומה זו. לא בוצעה בדיקה במערכת SAP חיה; הפריט אינו נוקב בתוכנית או במסך של הטרנזקציה.",
+  },
+  {
+    id: "tx:KSV5",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#KSV5",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "data/tcode-catalog.ts רושם את KSV5 במודול CO, אזור 'הקצאות תקופתיות', עם השם העברי 'ביצוע חלוקה בפועל' והשם האנגלי 'Execute Actual Distribution'. זו רשומת קטלוג של המאגר, לא מקור רשמי של SAP.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#KSV5",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Controlling and Project System",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/6d5c8dacefc54f6b879285c366aec1b1/a4e7cc53a8b77214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE25,
+        claim: "רשומת החיפוש ב-help.sap.com (deliverable 'Public Sector Management', S/4HANA 2025 FPS01, versionId 2025.001, loio a4e7cc53a8b77214e10000000a174cb4) מציגה את הסניפט: 'Distribution (transactions KSV1, KSV2, KSV3, KSV5) Assessment (transactions KSU1, KSU2, KSU3, KSU5)'. KSV5 מודפס כאן בקבוצת טרנזקציות ה-Distribution. גוף הנושא לא נקרא; הטענה תחומה לכותרת ולסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      KSV5_SIMPL2025,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Run Cost Distribution - Cost Centers - Actual (KSV5)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01 (S32OP)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('KSV5')/S32OP",
+        accessedAt: DATE25,
+        claim: "רשומת Fiori Apps Library ל-KSV5 ב-S32OP (S/4HANA 2025 FPS01) מציגה אפליקציית SAP GUI בשם 'Run Cost Distribution - Cost Centers - Actual' בסטטוס Published, רכיב CO-OM-CCA, קטלוג טכני SAP_TC_FIN_CO_BE_APPS:S4FIN ו-intent CostCenter-executeActlDistribution. שדות האפליקציה הקודמת והאפליקציה המחליפה ריקים ברשומה זו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#KSV5",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את KSV5 כ'חלוקת עלויות (Distribution)', מודול CO.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#KSV5",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Controlling and Project System | Public Sector Management",
+        url: "https://help.sap.com/docs/SAP_ERP/bd38163d92fe479186780e21c3605544/a4e7cc53a8b77214e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim: "רשומת החיפוש הרשמית (Public Sector Management, 6.0 EHP8 Latest, versionId 6.18.latest, loio a4e7cc53a8b77214e10000000a174cb4) נוקבת בקוד KSV5 בסניפט: '... CJ44, CJ45, CO42, CO43, VA44, KKPZ, KKPJ, CPZI) Distribution (transactions KSV1, KSV2, KSV3, KSV5) Assessment (transactions KSU1, KSU2, KSU3, KSU5) ... , KSW9, KSWB) Overhead (transactions ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 12.11 S4TWL - ACTIVITY-BASED COSTING",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE24,
+        claim: "פריט 12.11 'S4TWL - ACTIVITY-BASED COSTING' ברשימת הפישוט הרשמית (2023 FPS03, גרסת מסמך 1.35) נוקב בקוד KSV5 בשורה: 'transaction CPV5 has been replaced by KSV5 (distribution),'. הפריט מובא כאן כהקשר בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "restricted",
+      he: "לפי הפריט 'S4TWL - ACTIVITY-BASED COSTING' ב-S/4HANA 2025 FPS01, KSV5 פועלת ללא שינוי כשמשתמשים בגרסה 0 ומחזירה הודעת שגיאה כשמשתמשים בגרסת דלתא; הקצאות ב-Activity-Based Costing מקבילי אינן נתמכות עוד, ו-CPV5 הוחלפה ב-KSV5.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: KSV5_SIMPL2025,
+      recommendedAction: "לבדוק במערכת ה-ECC של CBC, לפי נוהל הבדיקה בפריט, אם בטבלה TKA00 השדה TKA00-COABC מכיל 1 או 2 (Activity-Based Costing פעיל לחישוב מקבילי), ואם בטבלה TKA09 יש גרסת CO שהשדה TKA09-REFVS שלה מפנה לגרסת ייחוס, כלומר גרסת דלתא. אם כן, ואם אפשר לעבוד בלי גרסאות דלתא אחרי ההסבה, לבחור אחת משתי הדרכים שהפריט מציג: למחוק במערכת ה-ECC את נתוני גרסאות הדלתא לפי ה-SAP Note שהפריט מפנה אליה למחיקת נתוני גרסאות דלתא, או לדלג על הודעת השגיאה בבדיקת ההסבה ולא למפות את גרסאות הדלתא ל-ledger. הפריט מורה גם להפעיל Operational Activity Based Costing ולבדוק את הטרנזקציות המשויכות לתפקידים. לאמת את KSV5 במערכת S/4HANA חיה (SE93 והרצת מחזור חלוקה בגרסה 0).",
+    },
+    xrefs: ["tx:KSV1"],
+    lastVerifiedAt: DATE28,
+    notes: "לא בוצעה בדיקה במערכת SAP חיה. ב-2026-09-28 הורץ שוב sap-help-search.mjs על 'KSV5' והחזיר את אותו URL של 'Controlling and Project System' (versionId 2025.001), ונוסח הפריט 6.5.2 נקרא שוב מ-SIMPL_OP2025.pdf.txt (כולל התנאי 'If you can work without delta versions after the S/4 conversion' ושתי הדרכים שאחריו). רשומת החיפוש בצד ECC (SAP_ERP, 6.18.latest, אותו loio) מופיעה כשורת הקשר ב-evidence. הנוסח המקביל ברשימת הפישוט של 2023 FPS03 (פריט 12.11) מופיע כשורת הקשר ב-evidence, כפי שהועתק מהרשומה האוטומטית. CPV5 אינה ב-ROUTE_MANIFEST ולכן מוזכרת בטקסט חופשי ולא כ-xref. היסטוריה (Old → New): רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:KSV5 ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, שורות הקשר בלבד; חדש: restricted מחובר מפריט הפישוט 6.5.2). שלוש שורות הקשר מאותה רשומה (tx-intel.ts#KSV5, רשומת החיפוש בצד ECC ב-6.18.latest, ופריט 12.11 ברשימת 2023 FPS03) הועתקו כלשונן, עם תאריך הגישה המקורי 2026-09-24, כדי שלא יאבד תוכן; הן אינן משפיעות על רמת האימות. שאר שורות הרשומה האוטומטית (tcode-catalog.ts#KSV5, רשומת החיפוש ב-2025.001, ספריית Fiori ופריט 6.5.2) מכוסות בשורות המחקריות שלמעלה. הטיוטה המחקרית הראשונה טענה ש-KSV5 סופגת את החלוקה המקבילית של CPV5 וש-KSV5 אינה משתנה; לפי נוסח הפריט, הקצאות ב-Activity-Based Costing מקבילי אינן נתמכות, וגרסת דלתא מחזירה שגיאה ב-KSV5. מקור הסטטוס הועבר מרשומת ה-sap_help לפריט הפישוט. סטטוס unchanged → restricted: בגרסה 0 אין שינוי, בגרסת דלתא KSV5 מחזירה שגיאה.",
+  },
+  {
+    id: "tx:PA40",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#PA40",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim: "רשומת המאגר מתארת את PA40 כ'פעולות כוח אדם' (Personnel Actions), מודול HR, תחום 'ניהול כוח אדם (PA)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#PA40",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Working with the Object Manager | Human Resources",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c6c3ffd90792427a9fee1a19df5b0925/cc38e153a217424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE28,
+        claim: "רשומת החיפוש הרשמית (Human Resources, SAP S/4HANA 2023 Latest, loio cc38e153a217424de10000000a174cb4) מציגה בסניפט: 'The object manager is connected to the following transactions: Display HR Master Data (PA20) Maintain HR Master Data (PA30) Personnel Actions (PA40)'. כלומר PA40 נקוב כאחת הטרנזקציות שה-Object Manager מחובר אליהן בתיעוד Human Resources של S/4HANA 2023 (כותרת וסניפט בלבד; גוף העמוד לא נקרא).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "HR Professional: Dynamic Processing Rules | What's New in SAP Enhancement Package 8 for ERP 6.0",
+        url: "https://help.sap.com/docs/SAP_ERP/39615c43587c4405aba2de8ebf33cd66/98744653bcd8e447e10000000a441470.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE28,
+        claim: "צד ECC: רשומת החיפוש הרשמית (What's New in SAP Enhancement Package 8 for ERP 6.0, loio 98744653bcd8e447e10000000a441470) מציגה סניפט קטוע ובו המקטעים 'for SAP GUI applications for the transactions PA40 and PA30' ו-'DPRs are similar to the dynamic processing actions available'. הסניפט קטוע וגוף העמוד לא נקרא; הרשומה מאשרת רק ש-PA40 נקוב בתיעוד SAP ERP 6.0 EHP8.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 7.1.11 S4TWL - Conversion of Employees to Business Partners",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE28,
+        claim: "הפריט 'S4TWL - Conversion of Employees to Business Partners' (רכיב יישום CA-HR-S4, SAP Note 2340095) קובע: 'With the conversion to SAP S/4HANA the implementation of the employee business partner is mandatory if HR data (HR infotype based PERNR data model including the PA-Tables) is needed. The HR data can be locally maintained (for example via transaction PA30 or PA40) or via integration scenarios with SAP HCM as hub implementation, SAP SuccessFactors Employee Central or an external (third party) HCM system.' הפריט נוקב ב-PA40 כדוגמה לתחזוקה מקומית של נתוני HR; הוא אינו קובע דבר על מעמד הטרנזקציה עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 8.1.6 S4TWL - Business User Management",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE28,
+        claim: "הפריט 'S4TWL - Business User Management' (רכיב יישום CA-GTF-BUM, SAP Note 2570961) קובע תחת 'HCM Integration active or inactive': 'This HR mini master can be locally maintained (for example via transaction PA30 or PA40) or via real integration scenarios with SAP SuccessFactors Employee Central or an external (third party) HCM system.' ובהמשך: 'If the HCM integration is active, it is mandatory to schedule the sync report /SHCM/RH_SYNC_BUPA_FROM_EMPL regularly as a background job so that the business users are automatically synchronized with the PA-Tables.' ו-'You can maintain business users via' עם הסעיפים 'Transaction PA30 or PA40' ו-'HCM integration.' הפריט אינו קובע דבר על מעמד PA40 עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 7.1.31 S4TWL - General HCM Approach within SAP S/4HANA",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE28,
+        claim: "הפריט 'S4TWL - General HCM Approach within SAP S/4HANA' (רכיב יישום PA-BC) קובע: 'SAP ERP HCM is part of the SAP S/4HANA compatibility scope, which comes with limited usage rights' ומפנה ל-'SAP Note 2269324 – Compatibility Scope Matrix for SAP S/4HANA on-premise'. עוד נקבע: 'Please note that the usage of certain HR infotypes in SAP S/4HANA for non-HR processes is independent from the compatibility scope. For more information, refer to SAP Note 3369920.' וכן: 'Before expiry of the compatibility pack license, customers are required to migrate from SAP HCM Compatibility Pack in SAP S/4HANA to the designated alternative functionalities SAP SuccessFactors or SAP Human Capital Management for SAP S/4HANA (SAP HCM for SAP S/4HANA).' הפריט אינו נוקב ב-PA40, ולכן אינו מכריע אם PA40 נכלל ב-compatibility scope.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 19.20 S4TWL - Conversion of Employees to Business Partners",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE28,
+        claim: "הפריט 'S4TWL - Conversion of Employees to Business Partners' (רכיבי יישום PY-XX, PA-BC, SAP Note 2340095) קובע: 'The HR data can be locally maintained (for example via transaction PA30 or PA40) or via integration scenarios with SAP HCM as hub implementation, SAP SuccessFactors Employee Central or an external (third party) HCM system.' תוכן זהה לפריט המקביל ברשימת 2025 FPS01; אין בו קביעה על מעמד PA40 עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 2.32 S4TWL - Business User Management",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE28,
+        claim: "הפריט 'S4TWL - Business User Management' (רכיבי יישום BC-SEC-USR-ADM, CA-HR-S4, SAP Note 2570961) קובע: 'This HR mini master can be locally maintained (for example via transaction PA30 or PA40) or via real integration scenarios with SAP SuccessFactors Employee Central or an external (third party) HCM system.' ובהמשך 'You can maintain business users via' עם הסעיפים 'Transaction PA30 or PA40' ו-'HCM integration.' אין בו קביעה על מעמד PA40 עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Relation Between Preliminary Registration and Employee Hiring | HCM Local Version for Brazil",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a18b97029bb546469e287ad859a65ac9/ceaae956ac2a0950e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim: "רשומת החיפוש הרשמית (HCM Local Version for Brazil, 2025 FPS01 (Feb 2026), versionId 2025.001, loio ceaae956ac2a0950e10000000a44147b) נוקבת בקוד PA40 בסניפט: 'ZHRPAO_BR_HIRING process When you create the entries in transaction PA30 or PA40, keep the same start date as the Employee hiring - preliminary registration, then hire your ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Working with Event Employee Hiring - Preliminary Registration | HCM Local Version for Brazil",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a18b97029bb546469e287ad859a65ac9/3cb851562ab9de21e10000000a4450e5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim: "רשומת החיפוש הרשמית (HCM Local Version for Brazil, 2025 FPS01 (Feb 2026), versionId 2025.001, loio 3cb851562ab9de21e10000000a4450e5) נוקבת בקוד PA40 בסניפט: '... Defining the Reason for the Personnel Action Making the Personnel Action Available on Transaction PA40 ... Action Modifying an Infotype Screen (optional step) Setting the Personnel Action as New ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: "PA40 נקוב ברשימות הפישוט 2023 FPS03 ו-2025 FPS01 כדוגמה לתחזוקה מקומית של נתוני HR (פריטי S4TWL - Conversion of Employees to Business Partners ו-S4TWL - Business User Management) ומתועד ב-Human Resources של S/4HANA 2023; אף מקור רשמי אינו מכריע את מעמד הטרנזקציה עצמה, ופריט S4TWL - General HCM Approach within SAP S/4HANA קובע ש-SAP ERP HCM הוא חלק מ-compatibility scope בלי לנקוב ב-PA40.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: "לאמת מול מטריצת ה-Compatibility Scope ‏(SAP Note 2269324, כפי שנקובה בפריט S4TWL - General HCM Approach within SAP S/4HANA) אם השימוש ב-PA40 במערכת הוא חלק מ-SAP ERP HCM; הפריט מפנה ל-SAP Note 3369920 לגבי שימוש באינפוטיפים של HR בתהליכים שאינם HR, שאינו תלוי ב-compatibility scope. כאשר HCM Integration פעיל, לתזמן את /SHCM/RH_SYNC_BUPA_FROM_EMPL כעבודת רקע קבועה לפי הפריט S4TWL - Business User Management.",
+    },
+    xrefs: ["tx:PA30"],
+    lastVerifiedAt: DATE28,
+    notes: "חיפושים שבוצעו (הורצו מחדש ב-2026-09-28): 'PA40 Personnel Actions' ב-help.sap.com בסקופ SAP_S4HANA_ON-PREMISE (21 תוצאות) ובסקופ SAP_ERP (21 תוצאות). Fiori Apps Library: scripts/fal-app.mjs PA40 --release S32OP החזיר 'PA40 @ S32OP: not in this release (empty Results)', ו---tcode PA40 --release S32OP החזיר 'leading app(s): none; GUI app entry: none'. זהו ממצא שלילי של שתי שאילתות במהדורה אחת, לא הכרעה, ולכן אינו מופיע כשורת ראיה. ברשימות הפישוט 2025 FPS01 ו-2023 FPS03 PA40 מופיע רק בפריטי Conversion of Employees to Business Partners ו-Business User Management, כדוגמה לתחזוקה מקומית של נתוני HR. פריט 7.1.31 S4TWL - General HCM Approach within SAP S/4HANA נקרא: הוא קובע ש-SAP ERP HCM הוא חלק מ-compatibility scope ומחייב מעבר לפני תום רישיון ה-compatibility pack, ומפנה ל-SAP Note 3369920 לגבי אינפוטיפים של HR בתהליכים שאינם HR, אך אינו נוקב ב-PA40. לכן הסטטוס נותר verification_required. גוף העמודים ב-help.sap.com לא נקרא (כותרת וסניפט בלבד); מספרי ה-SAP Notes מופיעים רק בטקסט הטענות כפי שהם מודפסים ברשימות הפישוט, וה-Notes עצמם לא נקראו. Old → New: טיוטה קודמת הציעה unchanged על סמך היעדר קביעה נגדית; הוחלף ב-verification_required. רשומה מחקרית זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:PA40 ב-transactions-auto.ts (ישן: ללא הכרעת מעמד, שורות הקשר בלבד; חדש: verification_required מחובר, אחרי שהפריטים נקראו ואף אחד מהם אינו מכריע את מעמד הטרנזקציה). שתי שורות הקשר מאותה רשומה (רשומות החיפוש 'Relation Between Preliminary Registration and Employee Hiring' ו-'Working with Event Employee Hiring - Preliminary Registration', HCM Local Version for Brazil, 2025.001, מהחיפוש 'PA40' בסקופ SAP_S4HANA_ON-PREMISE) הועתקו כלשונן, עם תאריך הגישה המקורי 2026-09-24, כדי שלא יאבד תוכן; הן אינן משפיעות על רמת האימות. שאר שורות הרשומה האוטומטית (tcode-catalog.ts#PA40, רשומת What's New בצד ECC ב-6.18.latest והפריטים 7.1.11, 8.1.6 ו-2.32) מכוסות בשורות המחקריות שלמעלה. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 ];
