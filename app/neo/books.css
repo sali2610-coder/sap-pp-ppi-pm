@@ -437,7 +437,7 @@ html[data-theme="dark"] .nb-shelf::after {
   pointer-events: none;
   transition: opacity 260ms var(--ease-out-expo), transform 260ms var(--ease-out-expo);
 }
-.nb-peek b { font-weight: 650; color: var(--ink-1); }
+.nb-peek b { font-weight: 600; color: var(--ink-1); }
 .nb-peek i { font-style: normal; font-family: var(--font-mono); direction: ltr; color: var(--ink-3); }
 @media (hover: hover) and (pointer: fine) {
   .nb-slab:hover ~ .nb-peek { opacity: 1; transform: none; }
@@ -894,7 +894,7 @@ html[data-theme="dark"] .nb-slot::after {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   font-size: clamp(5px, 1.9cqi, 9px);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: .01em;
   color: rgba(255,255,255,.82);
   overflow: hidden;
@@ -1098,7 +1098,7 @@ html[data-theme="dark"] .nb-slot::after {
   /* Sized by code length: see the note in book-cover.tsx. A seven-glyph code
      at the two-glyph size spans the whole board and fights the title. */
   font-size: clamp(30px, 30cqi, 108px);
-  font-weight: 800;
+  font-weight: 700;
   line-height: .82;
   letter-spacing: -.04em;
   pointer-events: none;
@@ -1135,7 +1135,7 @@ html[data-theme="dark"] .nb-slot::after {
    which is what buys the scale: "PP/DS" is two syllables and gets to be huge,
    where the old rule sized it against the full 44-character title. */
 .nb-cov-subj {
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.04;
   letter-spacing: -.03em;
   text-wrap: balance;
@@ -1574,7 +1574,7 @@ html[data-theme="dark"] .nb-slot::after {
   font-size: var(--t-micro); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);
 }
 .nb-resume-h svg { color: var(--m); flex: none; }
-.nb-resume-l { font-size: var(--t-sm); font-weight: 650; line-height: 1.5; color: var(--ink-1); }
+.nb-resume-l { font-size: var(--t-sm); font-weight: 600; line-height: 1.5; color: var(--ink-1); }
 .nb-resume-none { padding-block: var(--sp-2); }
 
 .nb-h3 {
@@ -1714,7 +1714,7 @@ html[data-theme="dark"] .nb-slot::after {
 .nb-sec[aria-current="true"] {
   background: color-mix(in srgb, var(--m) 12%, transparent);
   color: var(--ink-1);
-  font-weight: 650;
+  font-weight: 600;
 }
 .nb-sec-id { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .nb-sec-t { font-size: var(--t-xs); line-height: 1.5; }

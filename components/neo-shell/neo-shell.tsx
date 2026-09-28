@@ -21,13 +21,19 @@
    ========================================================================== */
 
 import "@/app/neo/rail.css";
+import { plexHe, plexLat, plexMono } from "@/app/fonts/plex";
+import { frankHe, frankLat } from "@/app/fonts/frank";
 import { NeoShellClient } from "./search/shell-client";
 import { commandIndex } from "./search/command-index";
 import type { ShellData } from "./types";
 
+// The self-hosted families of the 2026 system (app/neo/system.css reads the variables).
+// Declared here, inside the NEO tree, so only NEO routes preload them.
+const FONT_CLASS = [plexHe, plexLat, plexMono, frankHe, frankLat].map((f) => f.variable).join(" ");
+
 export function NeoShell({ data, children }: { data: ShellData; children: React.ReactNode }) {
   return (
-    <NeoShellClient data={data} cmd={commandIndex()}>
+    <NeoShellClient data={data} cmd={commandIndex()} fontClass={FONT_CLASS}>
       {children}
     </NeoShellClient>
   );

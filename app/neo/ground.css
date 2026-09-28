@@ -321,17 +321,8 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
   --scene-hair: rgba(5, 50, 46, .22);
 }
 
-/* PP-PI. Periwinkle field, deep indigo type. Unmistakably a different world
-   from PM at a glance, which is the whole job of module colour. 10.9:1 */
-[data-scene="pppi-full"] {
-  --scene-ground: #ccd3fb;
-  --scene-raised: #f4f6ff;
-  --scene-ink: #1b1c5e;
-  --scene-ink-2: #2f3186;
-  --scene-ink-3: #4b4ea8;
-  --scene-accent: #1b1c5e;
-  --scene-hair: rgba(27, 28, 94, .20);
-}
+/* PP-PI's periwinkle field with indigo type was removed in the 2026 system (no
+   violet); every scene takes the ordinary ground, see app/neo/system.css. */
 
 /* DATA. A bright cyan-blue field — the coverage story, and the scene that
    stops Home opening with two dark rooms in a row. Light on purpose: the

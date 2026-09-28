@@ -189,7 +189,7 @@
   font-size: var(--t-micro); color: var(--ink-3);
   font-variant-numeric: tabular-nums;
 }
-.nxq-corpus b { font-weight: 750; color: var(--ink-2); }
+.nxq-corpus b { font-weight: 700; color: var(--ink-2); }
 
 .nxq-hero-acts {
   grid-column: 1 / -1;
@@ -207,7 +207,7 @@
 
 .nxq-h1 {
   font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
-  font-weight: 800; color: var(--ink-1); margin: 0;
+  font-weight: 700; color: var(--ink-1); margin: 0;
 }
 
 .nxq-lede {
@@ -290,7 +290,7 @@
    which is what lucide's ChevronLeft already draws, so it is not flipped. */
 .nxq-ctx-sep { flex: none; color: var(--ink-3); opacity: 0.65; }
 
-.nxq-ctx-k { flex: none; font-size: var(--t-micro); font-weight: 650; color: var(--ink-3); }
+.nxq-ctx-k { flex: none; font-size: var(--t-micro); font-weight: 600; color: var(--ink-3); }
 
 .nxq-ctx-v {
   font-weight: 700; color: var(--ink-1);
@@ -324,7 +324,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   padding: 0.2rem 0.5rem;
   border-radius: var(--r-sm);
   border: 1px solid var(--hairline);
-  font-size: var(--t-micro); font-weight: 650; color: var(--ink-2);
+  font-size: var(--t-micro); font-weight: 600; color: var(--ink-2);
 }
 .nxq-ctx-b[data-w="tight"] {
   color: var(--brand);
@@ -341,7 +341,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   display: inline-flex; align-items: center; gap: 0.3rem; flex-wrap: wrap;
   font-size: var(--t-micro); line-height: 1.5; color: var(--ink-3);
 }
-.nxq-turn-scope b { font-weight: 650; color: var(--ink-2); }
+.nxq-turn-scope b { font-weight: 600; color: var(--ink-2); }
 .nxq-turn-scope svg { flex: none; }
 
 /* The drill affordance on a scope row. */
@@ -416,7 +416,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   border-start-end-radius: var(--r-xs);
   background: var(--brand);
   color: var(--brand-foreground);
-  font-size: 0.9375rem; line-height: 1.65; font-weight: 550;
+  font-size: 0.9375rem; line-height: 1.65; font-weight: 500;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   box-shadow: var(--elev-2);
@@ -515,7 +515,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   min-block-size: 1.35rem;
 }
 .nxq-who-n {
-  font-size: var(--t-micro); font-weight: 750; letter-spacing: 0.04em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0.04em;
   color: var(--ink-2);
 }
 
@@ -528,7 +528,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   font-variant-numeric: tabular-nums;
 }
 .nxq-elapsed svg { flex: none; }
-.nxq-elapsed-live { color: var(--brand); font-weight: 650; }
+.nxq-elapsed-live { color: var(--brand); font-weight: 600; }
 
 .nxq-answer {
   display: grid; gap: var(--sp-4);
@@ -612,7 +612,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   color: var(--brand);
 }
 .nxq-fail-body { display: grid; gap: 0.3rem; min-inline-size: 0; }
-.nxq-fail-t { font-size: var(--t-sm); font-weight: 750; color: var(--ink-1); }
+.nxq-fail-t { font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
 .nxq-fail-m { font-size: var(--t-xs); line-height: var(--lh-he); color: var(--ink-2); }
 .nxq-fail-s { font-size: var(--t-micro); line-height: 1.7; color: var(--ink-3); }
 
@@ -715,7 +715,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   border-radius: var(--r-xs);
   background: var(--brand);
   color: var(--brand-foreground);
-  font-size: var(--t-micro); font-weight: 800;
+  font-size: var(--t-micro); font-weight: 700;
   font-variant-numeric: tabular-nums;
   box-shadow: 0 1px 2px color-mix(in srgb, var(--brand) 34%, transparent);
 }
@@ -787,7 +787,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   0%   { transform: translateX(-140%); }
   100% { transform: translateX(320%); }
 }
-.nxq-live-label { font-size: var(--t-xs); font-weight: 650; color: var(--ink-2); }
+.nxq-live-label { font-size: var(--t-xs); font-weight: 600; color: var(--ink-2); }
 .nxq-live-chip { font-variant-numeric: tabular-nums; }
 
 /* THINKING and TYPING are two states and are drawn as two shapes.
@@ -1015,7 +1015,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 }
 .nxq-welcome-mark { color: var(--ink-2); }
 .nxq-welcome-say { display: grid; gap: var(--sp-3); justify-items: start; min-inline-size: 0; }
-.nxq-welcome-h { margin: 0; font-size: var(--t-h2); font-weight: 800; color: var(--ink-1); }
+.nxq-welcome-h { margin: 0; font-size: var(--t-h2); font-weight: 700; color: var(--ink-1); }
 .nxq-welcome-p {
   margin: 0; max-inline-size: 62ch;
   font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2);
@@ -1044,11 +1044,11 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   border-radius: var(--r-xs);
   background: color-mix(in srgb, var(--brand) 12%, transparent);
   color: var(--brand);
-  font-size: var(--t-micro); font-weight: 800;
+  font-size: var(--t-micro); font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 .nxq-step-i { display: inline-flex; color: var(--ink-3); }
-.nxq-step-t { font-size: var(--t-xs); font-weight: 750; color: var(--ink-1); }
+.nxq-step-t { font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); }
 .nxq-step-d {
   grid-column: 1 / -1;
   font-size: var(--t-micro); line-height: 1.65; color: var(--ink-3);
@@ -1070,7 +1070,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 }
 .nxq-scope-cta-v {
   min-inline-size: 0; flex: 1 1 10rem;
-  font-size: var(--t-xs); font-weight: 750; color: var(--ink-1);
+  font-size: var(--t-xs); font-weight: 700; color: var(--ink-1);
   overflow-wrap: anywhere;
 }
 .nxq-scope-cta-b { flex: none; font-size: var(--t-micro); }
@@ -1190,7 +1190,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   gap: var(--sp-4); align-items: start;
 }
 .nxg-intro-mark { color: var(--ink-2); }
-.nxg-intro-h { margin: 0 0 var(--sp-2); font-size: var(--t-h2); font-weight: 800; color: var(--ink-1); }
+.nxg-intro-h { margin: 0 0 var(--sp-2); font-size: var(--t-h2); font-weight: 700; color: var(--ink-1); }
 .nxg-intro-p {
   margin: 0; max-inline-size: 64ch;
   font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2);
@@ -1210,7 +1210,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 .nxg-col[data-tone="not"] { border-style: dashed; }
 .nxg-col-h {
   margin: 0;
-  font-size: var(--t-micro); font-weight: 800; letter-spacing: 0.06em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0.06em;
   text-transform: uppercase; color: var(--ink-3);
 }
 .nxg-col-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
@@ -1259,7 +1259,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 }
 .nxq-sheet-t {
   margin: 0; min-inline-size: 0; flex: 1 1 auto;
-  font-size: var(--t-sm); font-weight: 800; color: var(--ink-1);
+  font-size: var(--t-sm); font-weight: 700; color: var(--ink-1);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .nxq-sheet-back { font-size: var(--t-micro); flex: none; }
@@ -1494,7 +1494,7 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
   gap: clamp(1rem, 3vw, 2rem);
   align-items: center;
   padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1rem, 3vw, 2rem);
-  border-radius: 1.5rem;
+  border-radius: var(--r-xl);
   background:
     radial-gradient(120% 130% at 88% 8%,
       color-mix(in oklab, var(--scene-cool) 12%, transparent), transparent 60%),
@@ -1538,7 +1538,7 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
   width: 100%;
   margin: 1rem 0 0;
   padding: .8rem 1rem;
-  border-radius: 1rem;
+  border-radius: var(--r-xl);
   text-align: start;
   font: inherit;
   cursor: pointer;
@@ -1591,7 +1591,7 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
   display: inline-flex; align-items: center; gap: .45rem;
   min-height: 44px;                   /* touch target, coarse pointers too */
   padding: .5rem .9rem;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   font: inherit; font-size: .875rem; font-weight: 600;
   cursor: pointer;
   color: var(--scene-ink);
@@ -1620,7 +1620,7 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
 .nxq[data-surface="library"] .nxq-qa-more {
   display: inline-flex; align-items: center; gap: .35rem;
   min-height: 44px; padding: .5rem .85rem;
-  border-radius: 999px; font: inherit; font-size: .85rem; font-weight: 600;
+  border-radius: var(--r-pill); font: inherit; font-size: .85rem; font-weight: 600;
   cursor: pointer; color: var(--scene-ink-3);
   background: transparent; border: 1px dashed var(--scene-hair);
   transition: color .16s ease, border-color .16s ease;
@@ -1652,7 +1652,7 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
    floating sheet: paper, one ring, and the send button as the only saturated
    thing in view. */
 .nxq[data-surface="library"] .nxq-box {
-  border-radius: 1.15rem;
+  border-radius: var(--r-xl);
   box-shadow: var(--nq-lift-2);
   transition: border-color .18s ease, box-shadow .18s ease;
 }

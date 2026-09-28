@@ -321,7 +321,7 @@
 /* When the query lands somewhere real, the modules it landed in brighten and
    everything else steps back. Opacity only — nothing is hidden or unmounted. */
 .nx-app .nx-navitem[data-dim="1"] { opacity: .34; }
-.nx-app .nx-navitem[data-hit="1"] { color: var(--m, var(--ink-1)); font-weight: 650; }
+.nx-app .nx-navitem[data-hit="1"] { color: var(--m, var(--ink-1)); font-weight: 600; }
 .nx-app .nx-navitem[data-hit="1"]::before {
   opacity: 1; transform: scaleX(1);
   background: linear-gradient(
@@ -374,7 +374,7 @@
 
 /* ------------------------------------------------------ 9. COMPACT STATE */
 
-.nx-app[data-nav="compact"] .nx-navitem-i { inline-size: 2.25rem; block-size: 2.25rem; border-radius: 12px; }
+.nx-app[data-nav="compact"] .nx-navitem-i { inline-size: 2.25rem; block-size: 2.25rem; border-radius: var(--r-xl); }
 .nx-app[data-nav="compact"] .nx-navitem-i::before { opacity: .75; transform: scale(.96); }
 .nx-app[data-nav="compact"] .nx-navitem[aria-current] .nx-navitem-i::before {
   background: color-mix(in srgb, var(--m, var(--ink-2)) 24%, transparent);
@@ -481,7 +481,7 @@
   transition: transform 200ms var(--c-spring), color var(--dur-fast), border-color var(--dur-fast), background-color var(--dur-fast);
 }
 .nx-app .nxc-chip b {
-  font-family: var(--font-mono); font-size: 10px; direction: ltr; unicode-bidi: isolate;
+  font-family: var(--font-mono); font-size: var(--t-micro); direction: ltr; unicode-bidi: isolate;
   padding-inline-start: 4px; color: var(--ink-3);
 }
 .nx-app .nxc-chip:hover { transform: translateY(-1px); color: var(--ink-1); border-color: var(--ink-3); }
@@ -507,7 +507,7 @@
 .nx-app .nxc-results::-webkit-scrollbar-track { background: transparent; }
 .nx-app .nxc-results::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--ink-3) 30%, transparent);
-  border: 3px solid transparent; background-clip: padding-box; border-radius: 99px;
+  border: 3px solid transparent; background-clip: padding-box; border-radius: var(--r-xl);
 }
 
 .nx-app .nxc-sec { padding-block-end: var(--sp-2); }
@@ -576,7 +576,7 @@
 }
 .nx-app .nxc-row-t > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nx-app .nxc-row-kind {
-  flex: none; font-size: 10px; color: var(--ink-3);
+  flex: none; font-size: var(--t-micro); color: var(--ink-3);
   padding: 1px 5px; border-radius: var(--r-xs);
   background: color-mix(in srgb, var(--ink-3) 9%, transparent);
 }
@@ -588,21 +588,21 @@
 .nx-app .nxc-mod {
   display: inline-flex; align-items: center; gap: 4px;
   padding: 2px var(--sp-2); border-radius: var(--r-pill);
-  font-size: 10px; color: var(--m, var(--ink-3));
+  font-size: var(--t-micro); color: var(--m, var(--ink-3));
   background: color-mix(in srgb, var(--m, var(--ink-3)) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 26%, transparent);
   white-space: nowrap;
 }
 .nx-app .nxc-rel {
   display: inline-flex; align-items: center; gap: 4px;
-  font-size: 10px; color: var(--ink-3); max-inline-size: 15rem;
+  font-size: var(--t-micro); color: var(--ink-3); max-inline-size: 15rem;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .nx-app .nxc-rel > svg { flex: none; }
 /* OBJECT hue — the one visualisation encoding allowed in the result list. */
 .nx-app .nxc-cls {
   display: inline-flex; align-items: center; gap: 4px; flex: none;
-  font-size: 10px; color: var(--ink-3);
+  font-size: var(--t-micro); color: var(--ink-3);
 }
 .nx-app .nxc-cls i {
   inline-size: 6px; block-size: 6px; border-radius: 50%;
@@ -612,7 +612,7 @@
   display: inline-flex; align-items: center; gap: 4px; flex: none;
   min-block-size: 1.75rem; padding-inline: var(--sp-2);
   border: 1px solid var(--c-hair); border-radius: var(--r-xs);
-  background: var(--surface); color: var(--ink-2); font-size: 10px;
+  background: var(--surface); color: var(--ink-2); font-size: var(--t-micro);
   opacity: 0; transform: translateY(2px);
   transition: opacity 160ms, transform 200ms var(--ease-out-expo), border-color var(--dur-fast), color var(--dur-fast);
 }
@@ -679,7 +679,7 @@
 .nx-app .nxc-d-kind {
   display: inline-flex; align-items: center; gap: 5px; justify-self: start;
   padding: 2px var(--sp-2); border-radius: var(--r-pill);
-  font-size: 10px; color: var(--m, var(--ink-3));
+  font-size: var(--t-micro); color: var(--m, var(--ink-3));
   background: color-mix(in srgb, var(--m, var(--ink-3)) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 24%, transparent);
 }
@@ -687,15 +687,15 @@
 .nx-app .nxc-d-s { font-size: var(--t-micro); color: var(--ink-2); line-height: var(--lh-he); }
 .nx-app .nxc-d-facts { display: grid; gap: 6px; padding-block: var(--sp-2); border-block: 1px solid var(--c-hair); }
 .nx-app .nxc-d-fact { display: grid; gap: 2px; font-size: var(--t-micro); color: var(--ink-2); }
-.nx-app .nxc-d-fact em { font-style: normal; font-size: 10px; color: var(--ink-3); letter-spacing: .05em; }
+.nx-app .nxc-d-fact em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); letter-spacing: .05em; }
 .nx-app .nxc-d-fact > .nxc-mod { justify-self: start; }
 .nx-app .nxc-d-sec { display: grid; gap: 5px; }
-.nx-app .nxc-d-sec h4 { font-size: 10px; font-weight: 700; letter-spacing: .06em; color: var(--ink-3); }
+.nx-app .nxc-d-sec h4 { font-size: var(--t-micro); font-weight: 700; letter-spacing: .06em; color: var(--ink-3); }
 .nx-app .nxc-d-codes { display: flex; flex-wrap: wrap; gap: 4px; }
 .nx-app .nxc-d-codes span {
   padding: 2px var(--sp-2); border-radius: var(--r-xs);
   border: 1px solid var(--c-hair); background: var(--surface);
-  font-size: 10px; color: var(--ink-2);
+  font-size: var(--t-micro); color: var(--ink-2);
 }
 .nx-app .nxc-d-rels { display: grid; gap: 4px; }
 .nx-app .nxc-d-rels li {
@@ -704,8 +704,8 @@
   border-inline-start: 2px solid color-mix(in srgb, var(--m, var(--ink-3)) 45%, transparent);
   font-size: var(--t-micro); color: var(--ink-1);
 }
-.nx-app .nxc-d-rels em { font-style: normal; font-size: 10px; color: var(--ink-3); }
-.nx-app .nxc-d-f { font-size: 10px; color: var(--ink-3); }
+.nx-app .nxc-d-rels em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+.nx-app .nxc-d-f { font-size: var(--t-micro); color: var(--ink-3); }
 
 /* --- footer ------------------------------------------------------------- */
 .nx-app .nxc-foot {
@@ -713,12 +713,12 @@
   padding: var(--sp-2) var(--sp-4);
   border-block-start: 1px solid var(--c-hair);
   background: var(--surface-2);
-  font-size: 10px; color: var(--ink-3);
+  font-size: var(--t-micro); color: var(--ink-3);
 }
 .nx-app .nxc-keys { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); }
 .nx-app .nxc-keys > span { display: inline-flex; align-items: center; gap: 4px; }
 .nx-app .nxc-foot kbd {
-  font-family: var(--font-mono); font-size: 10px; direction: ltr; unicode-bidi: isolate;
+  font-family: var(--font-mono); font-size: var(--t-micro); direction: ltr; unicode-bidi: isolate;
   padding: 1px 5px; border: 1px solid var(--c-hair); border-radius: 4px;
   background: var(--surface); color: var(--ink-2);
 }
@@ -893,11 +893,11 @@ html[data-device="tablet"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-
   background: transparent; border: 0; cursor: pointer;
 }
 .nx-app .nx-shelf-empty:hover { color: var(--ink-1); }
-.nx-app .nx-shelf-empty-a { color: var(--ink-2); font-weight: 650; white-space: nowrap; }
+.nx-app .nx-shelf-empty-a { color: var(--ink-2); font-weight: 600; white-space: nowrap; }
 
 /* a11y sample 2026-09-21: group labels and counts in the rail measured 3.8:1
    at 10–11px; one step larger and one ink darker clears 4.5:1. */
 .nx-app .nx-group-btn .nx-t { font-size: 0.75rem; color: var(--ink-2); }
-.nx-app .nx-navitem-n { font-size: 0.6875rem; color: var(--ink-1); }
+.nx-app .nx-navitem-n { font-size: var(--t-micro); color: var(--ink-1); }
 .nx-app .nx-srch-input { block-size: 1.75rem; min-block-size: 1.75rem; } /* the rail field sits under a 0.9 scale; 28px renders as 25px */
 .nx-app .nx-srch-meta { color: var(--ink-2); }

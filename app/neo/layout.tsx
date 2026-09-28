@@ -12,6 +12,9 @@ import "./dock.css";
 // after it because its selectors consume the scene tokens the ground defines.
 import "./ground.css";
 import "./motion.css";
+// The 2026 design system re-values the tokens every NEO stylesheet reads; it has to
+// come after the ground and motion layers so its values win.
+import "./system.css";
 
 // noindex is not optional here. scripts/gen-sitemap.mjs derives the sitemap from
 // out/ rather than from a list, and its ONLY exclusion mechanism is a page

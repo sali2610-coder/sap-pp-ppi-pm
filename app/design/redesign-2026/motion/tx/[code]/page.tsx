@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { ArrowRight } from "lucide-react";
 import { txDetail } from "@/components/neo-shell/data/tx-detail";
-import { plexHe, plexLat, plexMono } from "@/app/fonts/fonts";
+import { plexHe, plexLat, plexMono } from "@/app/fonts/plex";
 import { LAB_CODES } from "../../codes";
 import { ModeToggle } from "../../mode-toggle";
 import "../../motion.css";

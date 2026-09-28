@@ -58,31 +58,15 @@ html .nx-app .nx-canvas:has(> .ne) {
   container-name: ne;
   background: var(--background);
 
-  /* --- THE EIGHT MISSING MODULE TOKENS ------------------------------------
-     app/globals.css declares ten --mod-* values, five of which this route uses
-     (pm · pppi · pp · mm · qm). The real data model has thirteen business
-     modules, so the remaining eight are declared HERE, scoped to .ne, and
-     globals is not touched. Same discipline as the tokens above them: a module
-     hue is never brand red, never a status hue's form, and every value clears
-     4.5:1 against --surface in this theme. Hues are spread around the wheel so
-     that no two modules that share a picture sit within 15 degrees. */
-  --mod-sd: #c2410c;      /* orange 21°  */
-  --mod-batch: #a16207;   /* yellow 41°  */
-  --mod-cs: #15803d;      /* green 142°  */
-  --mod-class: #0369a1;   /* sky 202°    */
-  --mod-pipo: #4338ca;    /* indigo 244° */
-  --mod-fi: #6d28d9;      /* violet 263° */
-  --mod-co: #86198f;      /* fuchsia 295°*/
-  /* Neutral — the integration layer carries no hue. It was zinc-600 (#52525b),
-     a BLUE-leaning grey picked against the old neutral canvas; beside twelve
-     saturated hues on the warm #F7F5F2 ground that grey is the one value that
-     reads as cold, which makes IDoc look like a different product. Stone-600 is
-     the same value on the warm axis — computed 7.51:1 on --surface against the
-     7.60:1 it replaces — so it is still the quietest hue in the ramp, still
-     clears AA by a wide margin, and is now the same temperature as the ground
-     under it. Its dark twin below moves zinc-300 to stone-300 for the same
-     reason and measures 12.5:1, which keeps the >= 10:1 the ramp promises. */
-  --mod-idoc: #57534e;
+  /* --- MODULE HUES ----------------------------------------------------------
+     Every module the graph shows takes the product's own --mod-* value from
+     app/neo/system.css, so a module is one colour on a card, in a table and on
+     the map. Only HR and BW are declared here, because the ERD is the one
+     surface that shows them. Both were chosen by measured OKLab distance from
+     the other thirteen (neo-redesign-evidence/tools/erd-extra-hues.mjs), keep
+     one hue in both themes, and clear 4.5:1 on every surface. */
+  --mod-hr: #005350;      /* deep teal, OKLCH hue 190 */
+  --mod-bw: #684a00;      /* ochre, OKLCH hue 82 */
 
   /* --- KEY ROLE ------------------------------------------------------------
      The brief asks in as many words for the primary and the foreign key to be
@@ -166,18 +150,11 @@ html .ne:-webkit-full-screen {
   html .ne:-webkit-full-screen { block-size: 100%; overflow-y: auto; grid-template-rows: auto auto auto auto; }
 }
 
-/* Dark is not the light ramp lightened: on a near-black ground a mid-tone hue
-   goes muddy, so each rises to its bright end. All >= 10:1 against --surface,
-   and none collides with the dark values globals gives pm/pppi/pp/mm/qm. */
+/* Night: HR and BW keep their hues and rise to the bright end, 7.5:1 and 7.0:1
+   on the darkest surface. */
 html[data-theme="dark"] .ne {
-  --mod-sd: #fdba74;
-  --mod-batch: #fcd34d;
-  --mod-cs: #86efac;
-  --mod-class: #38bdf8;
-  --mod-pipo: #a5b4fc;
-  --mod-fi: #d8b4fe;
-  --mod-co: #f5d0fe;
-  --mod-idoc: #d6d3d1;   /* stone-300 — the warm twin of zinc-300 above */
+  --mod-hr: #0dcbc3;
+  --mod-bw: #daa843;
   --ne-pk: #fcd34d;
   --ne-fk: #93c5fd;
   --ne-r-high: #fca5a5;
@@ -1652,45 +1629,17 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 }
 
 /* ==========================================================================
-   MODULE PALETTE — THE OLD ERD'S, VERBATIM
+   THE CROSS-MODULE JOIN
    --------------------------------------------------------------------------
-   Read out of public/sap-infrastructure/dataset.json, which is the palette the
-   production Architecture Studio itself consumes. Not guessed, not re-derived,
-   not "inspired by". A reader who knows the old graph recognises PM as orange
-   and PP-PI as violet, and that recognition is the entire purpose of module
-   colour on a technical graph.
-
-   Scoped to the ERD. Home and the module workspaces keep the art-directed
-   --mod-* palette; only this surface reverts to production identity.
+   Every other edge carries its module's colour (erd-types.ts MOD_VAR reads the
+   product's --mod-* values; the production graph's own palette painted PP
+   violet and FI and CO red, and the 2026 system has no violet and keeps red
+   for the brand and the "removed" state). So the join between two modules is
+   marked by value rather than by one more hue: the strongest ink is the one
+   stroke that cannot be read as a module.
    ========================================================================== */
 .ne {
-  --erd-mod-mm:    #2f81f7;
-  --erd-mod-pp:    #9b5de5;
-  /* 2026-09-21 (design audit §5): PM and PP-PI take the product's own module
-     hues so a module reads the same on a card, in a table and on the map.
-     Literal in both themes: they are fills under white text here. */
-  --erd-mod-pppi:  #1d4ed8;
-  --erd-mod-pm:    #0f766e;
-  --erd-mod-cs:    #14b8a6;
-  --erd-mod-sd:    #22c55e;
-  --erd-mod-fi:    #ef4444;
-  --erd-mod-co:    #991b1b;
-  --erd-mod-qm:    #eab308;
-  --erd-mod-idoc:  #94a3b8;
-  --erd-mod-batch: #a16207;
-  --erd-mod-class: #0891b2;
-  --erd-mod-pipo:  #7dd3fc;
-  --erd-mod-hr:    #0d9488;
-  --erd-mod-bw:    #4f46e5;
-  /* The cross-module join, verbatim from the production graph. */
-  --erd-cross:     #7c3aed;
-}
-/* On the warm dark ground the production hues are tuned for white; lift the
-   darkest two so CO and FI keep their identity instead of going to mud. */
-html[data-theme="dark"] .ne {
-  --erd-mod-co: #dc4c4c;
-  --erd-mod-fi: #f87171;
-  --erd-mod-batch: #d09a3c;
+  --erd-cross: var(--ink-1);
 }
 
 /* THE TOP ACCENT — the production ERD's module band.

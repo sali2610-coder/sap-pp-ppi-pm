@@ -24,7 +24,8 @@ import { cdsDir } from "@/components/neo-shell/reference/cds-data";
 import { bapiDir } from "@/components/neo-shell/reference/bapi-data";
 import { BLOCK_META, orderedBlocks } from "@/lib/academy/lesson-types";
 import type { SectionBody } from "@/lib/library/book";
-import { frankHe, frankLat, plexHe, plexLat, plexMono } from "@/app/fonts/fonts";
+import { frankHe, frankLat } from "@/app/fonts/frank";
+import { plexHe, plexLat, plexMono } from "@/app/fonts/plex";
 import {
   S5_HE, S5_MEMBERS, S5_NOTE, S5_ORDER, V4_HE, V4_LINE, V4_MEMBERS, V4_ORDER,
   boardTokens, contrast, fmt, s4Label, s5Of, stack, v4Of, v4OfHe,

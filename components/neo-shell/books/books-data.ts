@@ -89,10 +89,10 @@ const CLOTH = [
   "#1f3a5f", // navy
   "#2f5d4e", // forest
   "#6b4a23", // russet leather
-  "#3d3b56", // slate violet
+  "#2c3108", // moss (was slate violet; the 2026 system has no violet)
   "#14524f", // teal
   "#7a4a12", // ochre
-  "#4a2c5a", // plum
+  "#5b3b3b", // cordovan (was plum)
   "#24384a", // steel
   "#5a2030", // claret
   "#2d4a2c", // olive

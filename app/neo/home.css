@@ -173,7 +173,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: var(--sp-2);
   flex: 0 0 auto;
   padding: var(--sp-2) var(--sp-3);
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   text-decoration: none;
   color: var(--scene-ink-2, var(--ink-2));
   font-size: var(--t-micro);
@@ -222,7 +222,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   color: var(--scene-ink, var(--ink-1));
   background: color-mix(in oklab, var(--scene-ink, var(--ink-1)) 9%, transparent);
   border-color: color-mix(in oklab, var(--scene-ink, var(--ink-1)) 18%, transparent);
-  font-weight: 750;
+  font-weight: 700;
 }
 .nh-index > div:hover a[aria-current="true"] .nh-index-f,
 .nh-index > div:focus-within a[aria-current="true"] .nh-index-f { opacity: .7; block-size: auto; }
@@ -273,7 +273,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   align-items: center;
   gap: .55rem;
   margin: 0 0 1rem;
-  font-size: .74rem;
+  font-size: var(--t-micro);
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -293,7 +293,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   font-size: clamp(2.5rem, 8cqi, 6rem);
   line-height: 1.02;
   letter-spacing: -.025em;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--scene-ink, var(--ink-1));
   text-wrap: balance;
 }
@@ -304,7 +304,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   font-size: clamp(1.75rem, 4.4cqi, 3.1rem);
   line-height: 1.08;
   letter-spacing: -.02em;
-  font-weight: 780;
+  font-weight: 700;
   color: var(--scene-ink, var(--ink-1));
   text-wrap: balance;
 }
@@ -313,7 +313,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: .3rem;
   margin: 0 0 1.1rem;
   font-size: 1.05rem;
-  font-weight: 750;
+  font-weight: 700;
   color: var(--scene-ink, var(--ink-1));
 }
 .nh-h3 > em {
@@ -347,7 +347,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-bar {
   display: block;
   block-size: 6px;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   background: color-mix(in oklab, var(--scene-ink, var(--ink-1)) 9%, transparent);
   overflow: clip;
 }
@@ -390,8 +390,8 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nh-next > svg { color: var(--scene-accent, var(--brand)); flex: none; }
 .nh-next-to {
-  font-size: .7rem;
-  font-weight: 750;
+  font-size: var(--t-micro);
+  font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--scene-ink-2, var(--ink-2));
@@ -473,7 +473,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   margin-block: clamp(2rem, 4cqi, 3rem) clamp(1.75rem, 3cqi, 2.5rem);
   background: var(--scene-hair, var(--hairline));
   border: 1px solid var(--scene-hair, var(--hairline));
-  border-radius: .75rem;
+  border-radius: var(--r-xl);
   overflow: clip;
 }
 .nh-stat {
@@ -491,13 +491,13 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-stat:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
 .nh-stat > b {
   font-size: clamp(1.15rem, 2.4cqi, 1.7rem);
-  font-weight: 780;
+  font-weight: 700;
   color: var(--scene-ink, var(--ink-1));
   line-height: 1.1;
 }
 .nh-stat > em {
   font-style: normal;
-  font-size: .72rem;
+  font-size: var(--t-micro);
   color: var(--scene-ink-3, var(--ink-3));
   overflow-wrap: anywhere;
 }
@@ -516,7 +516,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: .74rem;
+  font-size: var(--t-micro);
   color: var(--scene-ink-3, var(--ink-3));
 }
 .nh-legend > li { display: flex; align-items: center; gap: .38rem; }
@@ -577,7 +577,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   list-style: none;
   background: var(--scene-hair, var(--hairline));
   border: 1px solid var(--scene-hair, var(--hairline));
-  border-radius: .85rem;
+  border-radius: var(--r-xl);
   overflow: clip;
 }
 .nh-cov > li {
@@ -589,8 +589,8 @@ html .nx-app .nx-canvas:has(> .nh) {
   background: var(--scene-raised, var(--surface));
   min-inline-size: 0;
 }
-.nh-cov-l { font-weight: 650; color: var(--scene-ink, var(--ink-1)); font-size: .92rem; }
-.nh-cov-n { font-size: .92rem; font-weight: 750; color: var(--scene-ink, var(--ink-1)); white-space: nowrap; }
+.nh-cov-l { font-weight: 600; color: var(--scene-ink, var(--ink-1)); font-size: .92rem; }
+.nh-cov-n { font-size: .92rem; font-weight: 700; color: var(--scene-ink, var(--ink-1)); white-space: nowrap; }
 .nh-cov-n > em { font-style: normal; font-weight: 500; opacity: .55; }
 .nh-cov-s {
   grid-column: 1 / -1;
@@ -645,7 +645,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: 4px;
   inline-size: 100%;
   min-block-size: clamp(4.5rem, 9cqi, 7rem);
-  border-radius: .85rem;
+  border-radius: var(--r-xl);
   overflow: hidden;
 }
 .nh-mem-seg {
@@ -684,7 +684,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-mem-n {
   position: relative;
   font-size: clamp(1.1rem, 3.1cqi, 2rem);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--scene-ink, var(--ink-1));
   letter-spacing: -.02em;
 }
@@ -706,8 +706,8 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-mem-k[data-b="0"] { --bm: var(--mod-pm); }
 .nh-mem-k[data-b="1"] { --bm: color-mix(in oklab, var(--mod-pm), var(--mod-pppi)); }
 .nh-mem-k[data-b="2"] { --bm: var(--mod-pppi); }
-.nh-mem-k > b { font-size: var(--t-body); font-weight: 800; color: var(--scene-ink, var(--ink-1)); }
-.nh-mem-k > span { font-size: var(--t-sm); font-weight: 650; color: var(--scene-ink, var(--ink-1)); }
+.nh-mem-k > b { font-size: var(--t-body); font-weight: 700; color: var(--scene-ink, var(--ink-1)); }
+.nh-mem-k > span { font-size: var(--t-sm); font-weight: 600; color: var(--scene-ink, var(--ink-1)); }
 .nh-mem-k > em {
   grid-column: 3; font-style: normal; font-size: var(--t-xs);
   color: var(--scene-ink-3, var(--ink-3)); line-height: 1.5;
@@ -723,7 +723,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   display: grid;
   gap: .55rem;
   padding: .85rem .95rem;
-  border-radius: .8rem;
+  border-radius: var(--r-xl);
   /* Module colour as SURFACE TINT and EDGE, never as a dot. The shared band
      takes a real mix of the two hues, which is exactly what it means. */
   background: color-mix(in oklab, var(--bm) 7%, transparent);
@@ -755,7 +755,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   font-size: .76rem;
   color: var(--scene-ink-2, var(--ink-2));
 }
-.nh-lat-t > b { font-size: 1.05rem; font-weight: 780; color: var(--scene-ink, var(--ink-1)); }
+.nh-lat-t > b { font-size: 1.05rem; font-weight: 700; color: var(--scene-ink, var(--ink-1)); }
 .nh-lat-k {
   margin: 0;
   font-size: .76rem;
@@ -803,7 +803,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-panel-n {
   display: block;
   font-size: clamp(2.4rem, 6cqi, 4.5rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -.03em;
   color: var(--scene-ink, var(--ink-1));
@@ -811,7 +811,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-panel-t {
   margin: .5rem 0 .4rem;
   font-size: 1.15rem;
-  font-weight: 750;
+  font-weight: 700;
   color: var(--scene-ink, var(--ink-1));
 }
 .nh-panel-s { margin: 0 0 .8rem; font-size: .92rem; color: var(--scene-ink-2, var(--ink-2)); }
@@ -836,20 +836,20 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: .5rem;
   padding: .85rem .95rem;
   border: 1px solid var(--scene-hair, var(--hairline));
-  border-radius: .75rem;
+  border-radius: var(--r-xl);
   background: var(--scene-raised, var(--surface));
   min-inline-size: 0;
 }
 .nh-scard > header { display: flex; align-items: center; gap: .45rem; min-inline-size: 0; }
 .nh-scard > header > b {
   font-size: .95rem;
-  font-weight: 750;
+  font-weight: 700;
   color: var(--scene-ink, var(--ink-1));
   overflow-wrap: anywhere;
 }
 .nh-scard-f {
   margin-inline-start: auto;
-  font-size: .72rem;
+  font-size: var(--t-micro);
   color: var(--scene-ink-3, var(--ink-3));
   flex: none;
 }
@@ -868,7 +868,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   align-items: baseline;
   padding-inline-start: .45rem;
   border-inline-start: 2px solid var(--m);
-  font-size: .72rem;
+  font-size: var(--t-micro);
 }
 .nh-scard-ctx dt { color: var(--scene-ink-3, var(--ink-3)); font-weight: 700; }
 .nh-scard-ctx dd { margin: 0; color: var(--scene-ink-2, var(--ink-2)); overflow-wrap: anywhere; }
@@ -884,7 +884,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: 1rem;
   padding: clamp(1rem, 2.4cqi, 1.6rem);
   border: 1px solid color-mix(in oklab, var(--m) 34%, var(--scene-hair, var(--hairline)));
-  border-radius: 1rem;
+  border-radius: var(--r-xl);
   background: color-mix(in oklab, var(--m) 6%, var(--scene-raised, var(--surface)));
   color: inherit;
   text-decoration: none;
@@ -894,7 +894,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-mod-top { display: flex; align-items: center; gap: .65rem; }
 .nh-mod-top > b {
   font-size: clamp(1.5rem, 3.4cqi, 2.4rem);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -.02em;
   color: var(--scene-ink, var(--ink-1));
 }
@@ -906,10 +906,10 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: .75rem 1rem;
 }
 .nh-mod-nums > span { display: grid; gap: .1rem; min-inline-size: 0; }
-.nh-mod-nums b { font-size: 1.15rem; font-weight: 780; color: var(--scene-ink, var(--ink-1)); }
+.nh-mod-nums b { font-size: 1.15rem; font-weight: 700; color: var(--scene-ink, var(--ink-1)); }
 .nh-mod-nums em {
   font-style: normal;
-  font-size: .72rem;
+  font-size: var(--t-micro);
   color: var(--scene-ink-3, var(--ink-3));
   overflow-wrap: anywhere;
 }
@@ -921,7 +921,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   font-size: .76rem;
   color: var(--scene-ink-3, var(--ink-3));
 }
-.nh-mod-share > em { font-style: normal; font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+.nh-mod-share > em { font-style: normal; font-weight: 700; color: var(--scene-ink, var(--ink-1)); }
 
 .nh-two {
   display: grid;
@@ -939,7 +939,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   list-style: none;
   background: var(--scene-hair, var(--hairline));
   border: 1px solid var(--scene-hair, var(--hairline));
-  border-radius: .75rem;
+  border-radius: var(--r-xl);
   overflow: clip;
 }
 .nh-topics > li {
@@ -951,14 +951,14 @@ html .nx-app .nx-canvas:has(> .nh) {
   background: var(--scene-raised, var(--surface));
   font-size: .82rem;
 }
-.nh-topics-i { color: var(--scene-ink-3, var(--ink-3)); font-size: .72rem; }
+.nh-topics-i { color: var(--scene-ink-3, var(--ink-3)); font-size: var(--t-micro); }
 .nh-topics-t {
   color: var(--scene-ink, var(--ink-1));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.nh-topics-n { font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+.nh-topics-n { font-weight: 700; color: var(--scene-ink, var(--ink-1)); }
 .nh-topics .nh-bar { block-size: 5px; }
 
 .nh-chain { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
@@ -973,11 +973,11 @@ html .nx-app .nx-canvas:has(> .nh) {
   border-radius: .6rem;
   background: var(--scene-raised, var(--surface));
 }
-.nh-node > b { font-size: .88rem; font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+.nh-node > b { font-size: .88rem; font-weight: 700; color: var(--scene-ink, var(--ink-1)); }
 .nh-node-he { font-size: .8rem; color: var(--scene-ink-2, var(--ink-2)); overflow-wrap: anywhere; }
 .nh-node-n {
   grid-column: 1 / -1;
-  font-size: .7rem;
+  font-size: var(--t-micro);
   color: var(--scene-ink-3, var(--ink-3));
 }
 .nh-node[data-missing="1"] { border-style: dashed; background: transparent; }
@@ -991,13 +991,13 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: .45rem;
   padding-block: .35rem;
   margin-inline-start: 1.1rem;
-  font-size: .7rem;
+  font-size: var(--t-micro);
   color: var(--scene-ink-3, var(--ink-3));
 }
 .nh-link-line {
   inline-size: 2px;
   block-size: 1.5rem;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   background: var(--scene-hair, var(--hairline));
 }
 .nh-link[data-kind="direct"] .nh-link-line { background: var(--m); }
@@ -1010,7 +1010,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nh-link[data-kind="gap"] .nh-link-t { color: var(--scene-accent, var(--brand)); }
 .nh-link > code {
-  font-size: .66rem;
+  font-size: var(--t-micro);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1034,7 +1034,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: .45rem;
   padding: 1rem 1.1rem;
   border: 1px solid var(--scene-hair, var(--hairline));
-  border-radius: .85rem;
+  border-radius: var(--r-xl);
   background: color-mix(in oklab, var(--scene-raised) 70%, transparent);
 }
 .nh-impcol[data-empty="1"] { opacity: .62; }
@@ -1056,7 +1056,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-impcol[data-k="adapted"] .nh-impcol-k > i { background: var(--status-in-analysis); }
 .nh-impcol[data-k="replaced"] .nh-impcol-k > i { background: var(--status-in-conversion); }
 .nh-impcol[data-k="removed"] .nh-impcol-k > i { background: var(--status-removed); }
-.nh-impcol > b { font-size: clamp(1.6rem, 3.2cqi, 2.4rem); font-weight: 800; line-height: 1; color: var(--scene-ink, var(--ink-1)); }
+.nh-impcol > b { font-size: clamp(1.6rem, 3.2cqi, 2.4rem); font-weight: 700; line-height: 1; color: var(--scene-ink, var(--ink-1)); }
 .nh-impcol-p { font-size: .76rem; color: var(--scene-ink-3, var(--ink-3)); }
 
 .nh-hot { display: grid; gap: .5rem; margin: 0 0 1.4rem; padding: 0; list-style: none; }
@@ -1067,12 +1067,12 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: .45rem .6rem;
   padding: .75rem .9rem;
   border: 1px solid var(--scene-hair, var(--hairline));
-  border-radius: .7rem;
+  border-radius: var(--r-xl);
   background: color-mix(in oklab, var(--scene-raised) 70%, transparent);
   font-size: .82rem;
 }
-.nh-hot > li > b { font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
-.nh-hot-k { display: flex; align-items: center; gap: .35rem; font-size: .7rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-hot > li > b { font-weight: 700; color: var(--scene-ink, var(--ink-1)); }
+.nh-hot-k { display: flex; align-items: center; gap: .35rem; font-size: var(--t-micro); color: var(--scene-ink-2, var(--ink-2)); }
 .nh-hot-k > i { inline-size: .45rem; block-size: .45rem; border-radius: 50%; flex: none; }
 .nh-hot-k[data-k="replaced"] > i { background: var(--status-in-conversion); }
 .nh-hot-k[data-k="removed"] > i { background: var(--status-removed); }
@@ -1083,12 +1083,12 @@ html .nx-app .nx-canvas:has(> .nh) {
   line-height: 1.6;
   color: var(--scene-ink-3, var(--ink-3));
 }
-.nh-hot-alt { grid-column: 1 / -1; font-size: .74rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-hot-alt { grid-column: 1 / -1; font-size: var(--t-micro); color: var(--scene-ink-2, var(--ink-2)); }
 .nh-hot-alt > em { font-style: normal; color: var(--scene-ink-3, var(--ink-3)); }
 .nh-hot-mods { display: flex; gap: .3rem; }
 .nh-hot-mods > em {
   font-style: normal;
-  font-size: .66rem;
+  font-size: var(--t-micro);
   padding: .1rem .4rem;
   border-radius: .3rem;
   border: 1px solid color-mix(in oklab, var(--m) 45%, transparent);
@@ -1101,7 +1101,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: 1.1rem;
   padding: clamp(1.1rem, 2.6cqi, 1.8rem);
   border: 1px solid var(--scene-hair, var(--hairline));
-  border-radius: 1rem;
+  border-radius: var(--r-xl);
   background: color-mix(in oklab, var(--scene-raised) 62%, transparent);
   margin-block-start: 1.5rem;
 }
@@ -1229,7 +1229,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 
 .nhn-t {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: var(--t-micro);
   font-weight: 700;
   letter-spacing: .02em;
   fill: var(--scene-ink-2, var(--ink-2));
@@ -1286,7 +1286,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nhn-key b {
   display: inline-block; vertical-align: middle;
-  font-size: clamp(1.6rem, 3.4cqi, 2.4rem); font-weight: 800;
+  font-size: clamp(1.6rem, 3.4cqi, 2.4rem); font-weight: 700;
   color: var(--scene-ink, var(--ink-1)); letter-spacing: -.03em; line-height: 1;
 }
 .nhn-key span {
@@ -1372,10 +1372,10 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-spines li:nth-child(2)  { --sp-c: #1f3a5f; }
 .nh-spines li:nth-child(3)  { --sp-c: #2f5d4e; }
 .nh-spines li:nth-child(4)  { --sp-c: #6b4a23; }
-.nh-spines li:nth-child(5)  { --sp-c: #3d3b56; }
+.nh-spines li:nth-child(5)  { --sp-c: #2c3108; }
 .nh-spines li:nth-child(6)  { --sp-c: #14524f; }
 .nh-spines li:nth-child(7)  { --sp-c: #7a4a12; }
-.nh-spines li:nth-child(8)  { --sp-c: #4a2c5a; }
+.nh-spines li:nth-child(8)  { --sp-c: #5b3b3b; }
 .nh-spines li:nth-child(9)  { --sp-c: #24384a; }
 .nh-spines li:nth-child(10) { --sp-c: #5a2030; }
 .nh-spines li:nth-child(11) { --sp-c: #2d4a2c; }
@@ -1416,7 +1416,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   align-content: start;
   gap: var(--sp-3);
   padding: var(--sp-5);
-  border-radius: 1.25rem;
+  border-radius: var(--r-xl);
   /* THE ZONE IS A FIELD. Each population gets its OWN hue, so "PM / shared /
      PP-PI" is answered by colour before a single word is read — module teal,
      brand red for the core that belongs to both, module indigo. A neutral tint
@@ -1426,7 +1426,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nz-zone[data-band="0"] { --zc: var(--mod-pm, #0d7a6b); }
 .nz-zone[data-band="1"] { --zc: var(--brand, #c8102e); }
-.nz-zone[data-band="2"] { --zc: var(--mod-pppi, #3b3fb6); }
+.nz-zone[data-band="2"] { --zc: var(--mod-pppi, #1d4ed8); }
 /* The count wears its zone's hue, so the three numbers are three colours. */
 /* The zone total takes SCENE INK, not the zone hue. A 72% mix of --zc measured
    1.75:1 at 58px in dark; the hue keeps the card edge, which is where the
@@ -1445,7 +1445,7 @@ html .nx-app .nx-canvas:has(> .nh) {
    it, which is the whole point of the redraw. */
 .nz-count {
   font-size: clamp(2.4rem, 4.4vw, 3.6rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: .9;
   letter-spacing: -.03em;
   color: var(--scene-ink);
@@ -1554,7 +1554,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 
 [data-scene="s4"] .nh-impcol {
   padding: var(--sp-4) var(--sp-5);
-  border-radius: 1rem;
+  border-radius: var(--r-xl);
   background: color-mix(in oklab, var(--vc) 18%, var(--scene-ground));
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--vc) 42%, transparent);
 }
@@ -1577,7 +1577,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 [data-scene="s4"] .nh-hot > li {
   background: color-mix(in oklab, var(--scene-hot, #ff6f57) 12%, var(--scene-raised));
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--scene-hot, #ff6f57) 34%, transparent);
-  border-radius: .8rem;
+  border-radius: var(--r-xl);
 }
 [data-scene="s4"] .nh-hot-k[data-k="replaced"] { color: var(--scene-hot, #ff6f57); }
 [data-scene="s4"] .nh-hot-k[data-k="replaced"] i { background: var(--scene-hot, #ff6f57); }
@@ -1654,7 +1654,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   display: grid;
   gap: 2px;
   padding: var(--sp-4);
-  border-radius: .9rem;
+  border-radius: var(--r-xl);
   background: color-mix(in oklab, var(--cc) 14%, var(--scene-raised));
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--cc) 38%, transparent);
 }
@@ -1665,7 +1665,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-corpus-i[data-k="r"] { --cc: var(--scene-accent, #4d8dff); }
 .nh-corpus-i b {
   font-size: clamp(1.6rem, 2.6vw, 2.3rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -.02em;
   color: color-mix(in oklab, var(--cc) 58%, var(--scene-ink));
@@ -1686,63 +1686,9 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 @media (max-width: 720px) { .nh-brand { margin-bottom: .8rem; } }
 
-/* ============================================================================
-   THE MID-PAGE DEEP BEAT
-   ----------------------------------------------------------------------------
-   Flipping S/4HANA to bright fixed the ending (dark run 3 -> 2) and created the
-   mirror problem: nh-2 through nh-6 measured 0.756 / 0.902 / 0.749 / 0.664 /
-   0.805 — five light scenes in a row. The hues differ, which IS the Partake
-   lesson, but the luminance band is flat, and flat is what fatigue feels like
-   whichever end of the range it sits at.
-
-   The requested rhythm puts a DEEP scene immediately before the bright S/4HANA,
-   and nh-5 is where it lands. PP-PI's identity is violet, so this is not a new
-   colour: it is the module's own hue taken to full depth, which reads as the
-   same module with the lights turned down.
-
-   SCOPED TO #nh-5, DELIBERATELY.
-   [data-scene="pppi-full"] is also worn by /neo/pp-pi/, which is a WORKSPACE —
-   long field tables, long reading, where the light ground is the correct
-   choice. Re-grounding the scene globally would have paid for eight seconds of
-   scroll rhythm with every minute somebody spends working in that module. The
-   Home section is a narrative beat and gets narrative treatment; the workspace
-   keeps what workspaces need.
-
-   Ink is re-derived, not inherited: #ede9ff on #241a4d measures 12.6:1. */
-/* DAY: soft lavender with deep indigo type. Night keeps the violet field.
-   The deep beat was added to break a run of pale scenes, and it did — but it
-   applied in BOTH themes, so in Day Mode it became one of four dark full
-   viewports. A mid-page beat can be a COLOUR change rather than a darkness
-   change: that is the Partake lesson rather than the ORYZO one. */
-#nh-5[data-scene="pppi-full"] {
-  --scene-ground: #e5e2f7;
-  --scene-raised: #fbfaff;
-  --scene-ink: #1e1a44;
-  --scene-ink-2: #3d3672;
-  --scene-ink-3: #4a4380;   /* #5d5596 measured 4.27:1 at 11px on the lavender */
-  --scene-accent: #4c31c4;
-  --scene-hair: rgba(30, 26, 68, .16);
-}
-
-/* Night keeps every value the beat had, elevation inversion included. */
-html[data-theme="dark"] #nh-5[data-scene="pppi-full"] {
-  --scene-ground: #241a4d;
-  --scene-raised: #322659;
-  --scene-ink: #ede9ff;
-  --scene-ink-2: #d5cdf5;
-  /* ink-3 measured 2.28:1 on the card and 4.29:1 on the ground at #948ac2.
-     Both are AA failures for 11-12px text, and they are exactly the tier the
-     zone cards use for their Hebrew descriptions — the densest text in the
-     section. Lightened until the WORST pair clears 4.5, not the best one. */
-  --scene-ink-3: #b3a9de;
-  --scene-accent: #b79dff;
-  --scene-hair: rgba(237, 233, 255, .22);
-  /* Elevation inverts with the ground: on a dark scene a shadow cannot be seen,
-     so lift becomes a hairline of light on the top edge. */
-  --elev-1: 0 1px 0 0 rgba(237, 233, 255, .06);
-  --elev-2: 0 1px 0 0 rgba(237, 233, 255, .07), 0 6px 18px -8px rgba(0, 0, 0, .6);
-  --elev-3: 0 1px 0 0 rgba(237, 233, 255, .08), 0 14px 30px -12px rgba(0, 0, 0, .7);
-}
+/* THE MID-PAGE DEEP BEAT (#nh-5 in a full-depth violet field) was removed in the
+   2026 system: it has no violet, and the home scenes take the ordinary ground
+   (app/neo/system.css). */
 
 /* THE ZONE COUNT IS A NUMBER, NOT A MODULE MARKER.
    --------------------------------------------------------------------------

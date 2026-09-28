@@ -203,7 +203,7 @@
   background: var(--m, var(--ink-3));
 }
 .nx-app .nxc--r .nxc-modchip > b {
-  font-family: var(--font-mono); font-size: 10px; color: var(--ink-3);
+  font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-3);
   direction: ltr; unicode-bidi: isolate; padding-inline-start: 3px;
 }
 .nx-app .nxc--r .nxc-modchip[aria-pressed="true"] {
@@ -253,7 +253,7 @@
   background: var(--m, var(--ink-3));
 }
 .nx-app .nxc--r .nxc-sec-mod {
-  font-size: 10px; font-weight: 600; letter-spacing: 0;
+  font-size: var(--t-micro); font-weight: 600; letter-spacing: 0;
   padding: 1px 6px; border-radius: var(--r-pill);
   color: var(--m, var(--ink-3));
   border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 34%, transparent);
@@ -261,7 +261,7 @@
   white-space: nowrap;
 }
 .nx-app .nxc--r .nxc-sec-h em {
-  font-family: var(--font-mono); font-size: 10px;
+  font-family: var(--font-mono); font-size: var(--t-micro);
   direction: ltr; unicode-bidi: isolate;
 }
 
@@ -344,7 +344,7 @@
   border-start-end-radius: 13px; border-end-end-radius: 13px;
 }
 
-.nx-app .nxc--r .nxc-row-t { font-size: var(--t-sm); font-weight: 550; }
+.nx-app .nxc--r .nxc-row-t { font-size: var(--t-sm); font-weight: 500; }
 .nx-app .nxc--r .nxc-row-kind {
   background: color-mix(in srgb, var(--ink-3) 11%, transparent);
   color: var(--ink-3); font-weight: 500;
@@ -699,7 +699,7 @@ html[data-device="tablet"] .nx-app .nxc--r::after { display: none; }
   border: 1px solid transparent;
   border-radius: var(--r-xs);
   background: color-mix(in srgb, var(--ink-3) 9%, transparent);
-  font-size: 10px; color: var(--ink-3);
+  font-size: var(--t-micro); color: var(--ink-3);
 }
 .nx-app .nxc--r .nxc-dest > svg { flex: none; }
 .nx-app .nxc--r .nxc-dest > span {

@@ -1,0 +1,295 @@
+/* ============================================================================
+   PROJECT NEO · DESIGN SYSTEM 2026
+   ----------------------------------------------------------------------------
+   Direction: Knowledge Workbench as the base, with the warm paper day and warm
+   charcoal night of the Editorial direction (docs/redesign-2026-09/BAKEOFF.md).
+   Values, contrast tables and rules: docs/redesign-2026-09/TOKENS.md.
+
+   HOW IT APPLIES
+   Loaded last among the NEO globals (app/neo/layout.tsx) and scoped to .nx-app,
+   so it re-values the token names every NEO stylesheet already reads, without
+   touching the legacy Library canvas at :root. No new token is needed where an
+   old name carries the same role; new names exist only for new roles.
+
+   RULES THAT KEEP IT HONEST
+   - No colour in the 240° to 330° band (no violet, indigo or magenta).
+   - Text on every surface at least 4.5:1, boundaries at least 3:1 (computed).
+   - Brand red means action and selection. Modules are identity. Status is status.
+   - Radius 2 to 8px; circles only for dots and marks, never for buttons.
+   - Shadow only on things that float (menus, palette, dialogs).
+   ========================================================================== */
+
+.nx-app {
+  /* ---- ground ------------------------------------------------------------ */
+  --background: #f3f0ea;          /* paper: the canvas */
+  --background-2: #ece7df;
+  --surface: #fbf9f5;             /* panels and cards, off-white, never glaring */
+  --surface-2: #ece7df;           /* recessed: table heads, code wells */
+  --surface-raised: #fffefb;      /* floating layers */
+  --surface-sunken: #ece7df;
+  --hairline: #e1dbd1;            /* dividers */
+  --line-1: #e1dbd1;
+  --line-strong: #867e72;         /* input and control boundaries, 3.26:1 */
+  --ink-1: #1c1915;
+  --ink-2: #4a443c;
+  --ink-3: #655e54;               /* 5.20:1 at worst */
+  --foreground: var(--ink-1);
+  --card: var(--surface);
+  --card-foreground: var(--ink-1);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--ink-3);
+  --border: var(--hairline);
+  --input: var(--line-strong);
+
+  /* the immutable ground aliases the scene system derives from (ground.css) */
+  --g-ground: #f3f0ea;
+  --g-raised: #fbf9f5;
+  --g-ink-1: #1c1915;
+  --g-ink-2: #4a443c;
+  --g-ink-3: #655e54;
+  --g-hair: #e1dbd1;
+
+  /* ---- action, link, focus, selection ----------------------------------- */
+  --brand: #d62027;               /* marks and fills; 4.51:1 on paper */
+  --brand-ink: #b5202a;           /* brand as text, 5.32:1 at worst */
+  --brand-dark: #a3171c;
+  --brand-foreground: #ffffff;    /* on brand fill, 5.13:1 */
+  --brand-soft: #fbe9e6;
+  --link: #1d5486;                /* 6.40:1 at worst; underlined in running text */
+  --focus: #1f5fbf;               /* focus is blue so it never reads as selection */
+  --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus);
+  --sel-bg: #fbe9e6;
+  --sel-bar: var(--brand);
+
+  /* ---- feedback ----------------------------------------------------------- */
+  --info: #1f5fbf;    --info-bg: #e9f0fb;
+  --success: #1a7045; --success-bg: #e6f2eb;
+  --warning: #7f5400; --warning-bg: #f7eedb;
+  --danger: #b5202a;  --danger-bg: #fbe9e6;
+
+  /* ---- S/4HANA status families (always with an icon and a word) ---------- */
+  --s4-keep: #1a7045;
+  --s4-change: #7f5400;
+  --s4-replace: #0d6771;
+  --s4-not-strategic: #8f4a00;
+  --s4-removed: #8a3b22;          /* brick, never the brand red of selection */
+  --s4-new: #0a638f;
+  --s4-ecc-only: #556170;
+  --s4-verify: #5d574f;
+
+  /* the legacy migration-status tokens, re-valued without violet */
+  --status-done: #1a7045;
+  --status-in-analysis: #7f5400;
+  --status-in-conversion: #0a638f;
+  --status-tested: #0d6771;
+  --status-not-started: #655e54;
+  --status-removed: #8a3b22;
+
+  /* ---- modules: identity only, each always carries its code in text ------ */
+  --mod-pm: #0d6c64;
+  --mod-pppi: #1d4ed8;
+  --mod-pp: #436c0d;
+  --mod-ppds: #8a5a12;
+  --mod-mm: #0c6a84;
+  --mod-qm: #a0233f;
+  --mod-ewm: #046c4e;
+  --mod-fiori: #3b5b7a;
+  --mod-sop: #155e75;
+  --mod-sd: #a93a0b;
+  --mod-batch: #8b5606;
+  --mod-cs: #137035;
+  --mod-class: #0369a1;
+  --mod-pipo: #475569;
+  --mod-fi: #1e3a8a;
+  --mod-co: #375116;     /* moss; the first bronze sat 0.031 OKLab from BATCH */
+  --mod-idoc: #57534e;
+  --mod-s4: #44403c;
+
+  /* ---- object classes (globals.css): movement and status were violet ----- */
+  --obj-movement: #444e05;
+  --obj-status: #0b5b5e;
+
+  /* ---- section tints: the rail and the reference surfaces read them as --m,
+     so they are text colours too and clear 4.5:1 on every surface ---------- */
+  --sec-erd: var(--sec-studio);        /* was violet: the data model and the studio are one instrument */
+  --sec-bapi: var(--mod-pipo);         /* was violet: an interface takes the integration slate */
+  --sec-fiori: var(--mod-fiori);       /* was blue-violet: the Fiori module's own slate */
+  --sec-academy: var(--sec-knowledge); /* was indigo: learning shares the knowledge blue, as the centers do */
+  --sec-centers: var(--sec-knowledge);
+  --sec-tables: #975600;
+  --sec-idoc: #a35005;
+  --sec-cds: #0e717c;
+  --sec-enh: #2a7539;
+  --sec-knowledge: #1969b2;
+  --sec-incidents: #b83b04;
+  --sec-cert: #82620a;
+  --sec-neo: var(--brand-ink);
+
+  /* ---- type --------------------------------------------------------------- */
+  --font-sans: var(--f-plex-he), var(--f-plex-lat), "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --font-mono: var(--f-plex-mono), "Cascadia Code", Consolas, "SF Mono", ui-monospace, monospace;
+  --font-display: var(--f-frank-he), var(--f-frank-lat), var(--font-sans);
+  --t-micro: 0.75rem;     /* 12px, the floor */
+  --t-xs: 0.8125rem;      /* 13px */
+  --t-sm: 0.875rem;       /* 14px, dense UI */
+  --t-ui: 0.9375rem;      /* 15px, UI body */
+  --t-body: 1rem;         /* 16px, reading */
+  --t-body-lh: 1.7;
+  --t-lead: 1.125rem;
+  --t-h2: 1.25rem;
+  --t-h2-lh: 1.35;
+  --t-h2-tr: 0;           /* no tracking on Hebrew */
+  --t-h1: 1.75rem;
+  --t-h1-lh: 1.25;
+  --t-h1-tr: 0;
+  --t-display: 2.5rem;
+  --t-display-lh: 1.15;
+  --t-display-tr: 0;
+
+  /* ---- shape -------------------------------------------------------------- */
+  --radius: 4px;
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r-md: 4px;
+  --r-lg: 6px;
+  --r-xl: 8px;
+  --r-2xl: 8px;
+  --r-pill: 4px;          /* the old pill token becomes a rectangle; true circles use 50% */
+
+  /* ---- depth: flat by default, shadows only for what floats --------------- */
+  --elev-1: none;
+  --elev-2: none;
+  --elev-3: 0 1px 0 rgba(46, 34, 20, .06), 0 10px 28px -14px rgba(46, 34, 20, .30);
+  --elev-4: 0 1px 0 rgba(46, 34, 20, .08), 0 20px 48px -20px rgba(46, 34, 20, .36);
+  --shadow-card: none;
+  --shadow-lift: var(--elev-3);
+  --glass-bg: var(--surface-raised);
+  --glass-border: var(--hairline);
+
+  /* ---- motion ------------------------------------------------------------- */
+  --dur-micro: 100ms;     /* press, toggle */
+  --dur-fast: 160ms;      /* small state change */
+  --dur-base: 240ms;      /* ordinary transition */
+  --dur-panel: 280ms;
+  --dur-slow: 400ms;      /* complex transition */
+  --dur-route: 400ms;
+  --dur-signature: 900ms; /* one signature moment per screen at most */
+  --ease-out: cubic-bezier(.2, .75, .2, 1);
+  --ease-emphasis: cubic-bezier(.2, .9, .1, 1);
+  --ease-emphasized: cubic-bezier(.2, .9, .1, 1);
+  --ease-accel: cubic-bezier(.4, 0, 1, 1);
+  --ease-spring: cubic-bezier(.3, 1.25, .6, 1);   /* a small overshoot, never a bounce */
+
+  font-family: var(--font-sans);
+  color: var(--ink-1);
+  background: var(--background);
+}
+
+html[data-theme="dark"] .nx-app {
+  --background: #171512;          /* warm charcoal, not black */
+  --background-2: #13110e;
+  --surface: #1f1c18;
+  --surface-2: #13110e;           /* recessed is darker at night */
+  --surface-raised: #29251f;
+  --surface-sunken: #13110e;
+  --hairline: #35302a;
+  --line-1: #35302a;
+  --line-strong: #7a7266;         /* 3.21:1 at worst */
+  --ink-1: #eee8de;
+  --ink-2: #c7bfb3;
+  --ink-3: #a39a8d;               /* 5.49:1 at worst */
+
+  --g-ground: #171512;
+  --g-raised: #1f1c18;
+  --g-ink-1: #eee8de;
+  --g-ink-2: #c7bfb3;
+  --g-ink-3: #a39a8d;
+  --g-hair: #35302a;
+
+  --brand: #f06a6b;               /* coral at night; dark text on it */
+  --brand-ink: #f58a8a;
+  --brand-dark: #d8474b;
+  --brand-foreground: #1a0b0c;    /* 6.36:1 on the coral fill */
+  --brand-soft: #3a1d1b;
+  --link: #8fbbe3;
+  --focus: #7fb2ff;
+  --sel-bg: #3a1d1b;
+
+  --info: #7fb2ff;    --info-bg: #182536;
+  --success: #79d39f; --success-bg: #15281d;
+  --warning: #e4b95f; --warning-bg: #2c2412;
+  --danger: #f58a8a;  --danger-bg: #3a1d1b;
+
+  --s4-keep: #79d39f;
+  --s4-change: #e4b95f;
+  --s4-replace: #6fcfd6;
+  --s4-not-strategic: #f2a863;
+  --s4-removed: #eb9a80;
+  --s4-new: #78c6f0;
+  --s4-ecc-only: #aab4c0;
+  --s4-verify: #b9b0a3;
+
+  --status-done: #79d39f;
+  --status-in-analysis: #e4b95f;
+  --status-in-conversion: #78c6f0;
+  --status-tested: #6fcfd6;
+  --status-not-started: #a39a8d;
+  --status-removed: #eb9a80;
+
+  --mod-pm: #5eead4;
+  --mod-pppi: #7dd3fc;
+  --mod-pp: #bef264;
+  --mod-ppds: #f2c96b;
+  --mod-mm: #67e8f9;
+  --mod-qm: #f4a5b5;
+  --mod-ewm: #6ee7b7;
+  --mod-fiori: #9dbbd8;
+  --mod-sop: #8fd3e6;
+  --mod-sd: #fdba74;
+  --mod-batch: #fcd34d;
+  --mod-cs: #86efac;
+  --mod-class: #38bdf8;
+  --mod-pipo: #aab6c8;
+  --mod-fi: #93b4f5;
+  --mod-co: #96c166;
+  --mod-idoc: #d6d3d1;
+  --mod-s4: #d6d3d1;
+
+  --obj-movement: #c3d670;
+  --obj-status: #3fe4e9;
+
+  /* globals.css states the night section tints at this same specificity */
+  --sec-erd: var(--sec-studio);
+  --sec-bapi: var(--mod-pipo);
+  --sec-fiori: var(--mod-fiori);
+  --sec-academy: var(--sec-knowledge);
+  --sec-centers: var(--sec-knowledge);
+  --sec-neo: var(--brand-ink);
+
+  /* at night a shadow is invisible; floating layers get a lighter edge and a deep drop */
+  --elev-3: 0 1px 0 rgba(255, 240, 220, .06), 0 14px 32px -14px rgba(0, 0, 0, .7);
+  --elev-4: 0 1px 0 rgba(255, 240, 220, .08), 0 24px 56px -20px rgba(0, 0, 0, .8);
+}
+
+/* The section "scenes" of ground.css tinted whole sections (a blue S/4 centre, a
+   module wash on PM and PP-PI). The September audit asked for calm reading
+   surfaces with colour concentrated in headings and status, so every scene now
+   takes the ordinary ground. Same selectors weight as the dark scene rules, and
+   this file loads later. */
+html .nx-app [data-scene],
+html .nx-app[data-scene] {
+  --scene-ground: var(--g-ground);
+  --scene-raised: var(--g-raised);
+  --scene-ink: var(--g-ink-1);
+  --scene-ink-2: var(--g-ink-2);
+  --scene-ink-3: var(--g-ink-3);
+  --scene-hair: var(--g-hair);
+  /* the accent is text, links and focus on these surfaces: the module's own
+     colour where one is in scope, otherwise the brand as text */
+  --scene-accent: var(--m, var(--brand-ink));
+}
+
+.nx-app ::selection { background: color-mix(in srgb, var(--brand) 24%, transparent); color: inherit; }
+
+/* Display face: gateway and reading titles only; work screens never request it. */
+.nx-app .nx-display { font-family: var(--font-display); font-weight: 600; letter-spacing: 0; }

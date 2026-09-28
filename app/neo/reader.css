@@ -240,8 +240,8 @@ html[data-theme="dark"] .nr[data-paper="1"] {
   min-block-size: 2rem;
   padding-inline: 0.55rem;
   border-radius: var(--r-pill);
-  font-size: 0.6875rem;
-  font-weight: 650;
+  font-size: var(--t-micro);
+  font-weight: 600;
   white-space: nowrap;
 }
 .nr-lang[data-on="1"] {
@@ -261,7 +261,7 @@ html[data-theme="dark"] .nr[data-paper="1"] {
   border-radius: var(--r-pill);
   background: color-mix(in srgb, var(--m) 16%, transparent);
   color: var(--ink-2);
-  font-size: 0.5625rem;
+  font-size: var(--t-micro);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -309,8 +309,8 @@ html[data-theme="dark"] .nr[data-paper="1"] {
   gap: var(--sp-2);
   flex: 1 1 9rem;
   min-inline-size: 0;
-  font-size: 0.6875rem;
-  font-weight: 650;
+  font-size: var(--t-micro);
+  font-weight: 600;
   color: var(--ink-3);
 }
 .nr-strip-seg b { font-weight: 700; color: var(--ink-2); flex: none; }
@@ -357,7 +357,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 .nr-resume-t { font-size: 0.8125rem; color: var(--ink-2); }
 .nr-resume-t b { color: var(--ink-1); font-weight: 700; }
 .nr-resume-a { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
-.nr-resume-n { font-size: 0.6875rem; line-height: 1.65; color: var(--ink-3); }
+.nr-resume-n { font-size: var(--t-micro); line-height: 1.65; color: var(--ink-3); }
 
 /* ============================================================ 3. THE BODY */
 
@@ -449,7 +449,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   display: grid;
   gap: var(--sp-2);
   font-size: clamp(1.35rem, 1.05rem + 1.1vw, 2rem);
-  font-weight: 750;
+  font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.01em;
   color: var(--nr-ink);
@@ -458,7 +458,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 }
 .nr-ch-n {
   justify-self: start;
-  font-size: 0.6875rem;
+  font-size: var(--t-micro);
   font-weight: 700;
   letter-spacing: .04em;
   color: var(--m);
@@ -491,7 +491,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 }
 .nr-figline > svg { flex: none; color: var(--m); }
 .nr-figline > span { flex: 1 1 14rem; min-inline-size: 0; }
-.nr-figline-b { flex: none; font-size: 0.6875rem; font-weight: 650; }
+.nr-figline-b { flex: none; font-size: var(--t-micro); font-weight: 600; }
 
 /* One scan, where the text it belongs to is. Sized against the reading column,
    never wider than the source itself — an upscaled 500px scan is a blur. */
@@ -517,7 +517,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 .nr-infig-b:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--nr-paper), 0 0 0 4px var(--brand); }
 .nr-infig-c {
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2);
-  font-size: 0.6875rem; line-height: 1.6; color: var(--ink-3);
+  font-size: var(--t-micro); line-height: 1.6; color: var(--ink-3);
 }
 .nr-infig-n {
   display: inline-flex; align-items: center; gap: 4px;
@@ -618,13 +618,13 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   background: var(--surface-2);
 }
 .nr-refs-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1); }
-.nr-refs-l { font-size: 0.6875rem; font-weight: 650; color: var(--ink-3); margin-inline-end: var(--sp-1); }
+.nr-refs-l { font-size: var(--t-micro); font-weight: 600; color: var(--ink-3); margin-inline-end: var(--sp-1); }
 
 .nr-orig { margin-block-start: var(--sp-4); }
 .nr-orig > summary {
   cursor: pointer; list-style: none;
   display: inline-flex; align-items: center; gap: var(--sp-2);
-  font-size: 0.75rem; font-weight: 650; color: var(--ink-3);
+  font-size: 0.75rem; font-weight: 600; color: var(--ink-3);
   padding: var(--sp-2) 0;
   min-block-size: 2.5rem;
 }
@@ -678,7 +678,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 .nr-bi-tag {
   display: inline-block;
   margin-block-end: var(--sp-1);
-  font-size: 0.625rem;
+  font-size: var(--t-micro);
   font-weight: 700;
   letter-spacing: .04em;
   color: var(--ink-3);
@@ -734,7 +734,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 /* Said in words when a subchapter genuinely holds only one of the two texts. */
 .nr-langnote {
   margin-block-start: var(--sp-3);
-  font-size: 0.6875rem;
+  font-size: var(--t-micro);
   line-height: 1.7;
   color: var(--ink-3);
 }
@@ -771,11 +771,11 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 }
 .nr-end-k {
   display: inline-flex; align-items: center; gap: var(--sp-1);
-  font-size: 0.6875rem; font-weight: 700; color: var(--m);
+  font-size: var(--t-micro); font-weight: 700; color: var(--m);
 }
 .nr-end--next { text-align: end; }
 .nr-end--next .nr-end-k { justify-content: flex-end; }
-.nr-end-t { font-size: 0.8125rem; font-weight: 650; color: var(--ink-2); line-height: 1.5; }
+.nr-end-t { font-size: 0.8125rem; font-weight: 600; color: var(--ink-2); line-height: 1.5; }
 .nr-end--none {
   display: grid; align-content: center;
   padding: var(--sp-3) var(--sp-4);
@@ -788,7 +788,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   margin-block-start: var(--sp-6);
   padding-block-start: var(--sp-4);
   border-block-start: 1px solid var(--hairline);
-  font-size: 0.6875rem; line-height: 1.8; color: var(--ink-3);
+  font-size: var(--t-micro); line-height: 1.8; color: var(--ink-3);
 }
 .nr-foot .nu-link { font-size: inherit; }
 
@@ -895,7 +895,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   color: var(--ink-2);
   transition: background-color var(--dur-fast) var(--ease-out-expo), color var(--dur-fast) var(--ease-out-expo);
 }
-.nr-rtoc-t { font-size: 0.8125rem; font-weight: 650; }
+.nr-rtoc-t { font-size: 0.8125rem; font-weight: 600; }
 .nr-rtoc-t:hover, .nr-rtoc-sec:hover { background: var(--surface-2); color: var(--ink-1); }
 .nr-rtoc-t:focus-visible, .nr-rtoc-sec:focus-visible, .nr-rtoc-fold:focus-visible {
   outline: none;
@@ -906,7 +906,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   min-inline-size: 1.35rem;
   font-family: var(--font-mono);
   direction: ltr;
-  font-size: 0.625rem;
+  font-size: var(--t-micro);
   font-weight: 700;
   color: var(--ink-3);
 }
@@ -960,7 +960,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   flex: none;
   font-family: var(--font-mono);
   direction: ltr;
-  font-size: 0.5625rem;
+  font-size: var(--t-micro);
   color: var(--ink-3);
   max-inline-size: 4.5rem;
   overflow: hidden;
@@ -993,7 +993,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 .nr-rtoc-none {
   margin-inline-start: calc(1.5rem + 2px);
   padding: 2px var(--sp-2) var(--sp-1);
-  font-size: 0.625rem;
+  font-size: var(--t-micro);
   line-height: 1.6;
   color: var(--ink-3);
 }
@@ -1006,11 +1006,11 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 
 .nr-rail-head { display: grid; justify-items: center; gap: 2px; }
 .nr-rail-pct {
-  font-size: 1.35rem; font-weight: 750; line-height: 1;
+  font-size: 1.35rem; font-weight: 700; line-height: 1;
   font-variant-numeric: tabular-nums; color: var(--ink-1);
 }
-.nr-rail-pct i { font-style: normal; font-size: 0.7rem; font-weight: 650; color: var(--ink-3); margin-inline-start: 1px; }
-.nr-rail-cap { font-size: 0.625rem; font-weight: 650; color: var(--ink-3); }
+.nr-rail-pct i { font-style: normal; font-size: var(--t-micro); font-weight: 600; color: var(--ink-3); margin-inline-start: 1px; }
+.nr-rail-cap { font-size: var(--t-micro); font-weight: 600; color: var(--ink-3); }
 
 /* --- the track ------------------------------------------------------------ */
 .nr-track {
@@ -1123,8 +1123,8 @@ html[dir="ltr"] .nr-tick[data-mark="1"]::after { inset-inline-end: auto; inset-i
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  font-size: 0.625rem;
-  font-weight: 650;
+  font-size: var(--t-micro);
+  font-weight: 600;
   color: var(--ink-3);
   font-variant-numeric: tabular-nums;
 }
@@ -1146,7 +1146,7 @@ html[dir="ltr"] .nr-tick[data-mark="1"]::after { inset-inline-end: auto; inset-i
   pointer-events: none;
   z-index: 6;
 }
-.nr-tip b { font-size: 0.6875rem; font-weight: 700; color: var(--m); }
+.nr-tip b { font-size: var(--t-micro); font-weight: 700; color: var(--m); }
 .nr-tip i { font-style: normal; font-size: 0.75rem; color: var(--ink-2); line-height: 1.45; }
 
 /* --- the three meters ----------------------------------------------------- */
@@ -1154,7 +1154,7 @@ html[dir="ltr"] .nr-tick[data-mark="1"]::after { inset-inline-end: auto; inset-i
 .nr-meter { display: grid; gap: 3px; justify-items: center; }
 .nr-meter-t {
   display: inline-flex; align-items: center; gap: 3px;
-  font-size: 0.5625rem; font-weight: 650; color: var(--ink-3);
+  font-size: var(--t-micro); font-weight: 600; color: var(--ink-3);
 }
 .nr-meter-bar {
   position: relative;
@@ -1172,7 +1172,7 @@ html[dir="ltr"] .nr-tick[data-mark="1"]::after { inset-inline-end: auto; inset-i
   transform-origin: var(--nr-origin, right);
   transition: transform var(--dur-base) var(--ease-out-expo);
 }
-.nr-meter-n { font-size: 0.625rem; font-weight: 650; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.nr-meter-n { font-size: var(--t-micro); font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 
 /* ============================================================ 5. THE DOCK */
 
@@ -1205,10 +1205,10 @@ html[dir="ltr"] .nr-tick[data-mark="1"]::after { inset-inline-end: auto; inset-i
   text-align: start;
 }
 .nr-dock-b--next .nr-dock-s { text-align: end; }
-.nr-dock-k { font-size: 0.6875rem; font-weight: 700; }
+.nr-dock-k { font-size: var(--t-micro); font-weight: 700; }
 .nr-dock-t {
-  font-size: 0.625rem;
-  font-weight: 550;
+  font-size: var(--t-micro);
+  font-weight: 500;
   color: var(--ink-3);
   white-space: nowrap;
   overflow: hidden;
@@ -1352,8 +1352,8 @@ html[dir="ltr"] .nr-tick[data-mark="1"]::after { inset-inline-end: auto; inset-i
 }
 .nr-find:focus-within { border-color: var(--m); }
 
-.nr-note { font-size: 0.6875rem; line-height: 1.7; color: var(--ink-3); }
-.nr-note-hits { font-weight: 650; color: var(--ink-2); }
+.nr-note { font-size: var(--t-micro); line-height: 1.7; color: var(--ink-3); }
+.nr-note-hits { font-weight: 600; color: var(--ink-2); }
 .nr-note-sub { padding-inline-start: var(--sp-5); padding-block: var(--sp-2); }
 
 .nr-toc, .nr-toc-sub, .nr-chmap { display: grid; gap: 2px; }
@@ -1380,10 +1380,10 @@ html[dir="ltr"] .nr-toc-row[data-on="1"] { box-shadow: inset -2px 0 0 0 var(--m)
 .nr-toc-id {
   flex: none; min-inline-size: 2.25rem;
   font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
-  font-size: 0.625rem; font-weight: 650; color: var(--ink-3);
+  font-size: var(--t-micro); font-weight: 600; color: var(--ink-3);
 }
 .nr-toc-t { flex: 1 1 auto; min-inline-size: 0; line-height: 1.45; overflow-wrap: break-word; }
-.nr-toc-n, .nr-toc-in { flex: none; font-size: 0.625rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nr-toc-n, .nr-toc-in { flex: none; font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .nr-toc-read { flex: none; display: inline-grid; place-items: center; color: var(--ink-2); }
 /* Bookmarked wears the module hue; read wears ink. Two signs, two meanings, and
    a row that is both stays readable because they never share a colour. */
@@ -1412,10 +1412,10 @@ html[dir="ltr"] .nr-toc-row[data-on="1"] { box-shadow: inset -2px 0 0 0 var(--m)
 .nr-bm-id {
   flex: none; min-inline-size: 2.25rem;
   font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
-  font-size: 0.625rem; font-weight: 650; color: var(--ink-3);
+  font-size: var(--t-micro); font-weight: 600; color: var(--ink-3);
 }
 .nr-bm-t { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nr-bm-in { flex: none; font-size: 0.625rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nr-bm-in { flex: none; font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .nr-bm-x { flex: none; min-inline-size: 2.75rem; min-block-size: 2.75rem; }
 
 .nr-map { display: grid; gap: var(--sp-2); }
@@ -1427,8 +1427,8 @@ html[dir="ltr"] .nr-toc-row[data-on="1"] { box-shadow: inset -2px 0 0 0 var(--m)
 }
 .nr-map dt { flex: none; min-inline-size: 6rem; font-size: 0.75rem; font-weight: 700; color: var(--ink-2); }
 .nr-map dd { display: grid; gap: 2px; min-inline-size: 0; }
-.nr-map dd b { font-size: 1rem; font-weight: 750; color: var(--ink-1); font-variant-numeric: tabular-nums; }
-.nr-map dd span { font-size: 0.6875rem; line-height: 1.6; color: var(--ink-3); }
+.nr-map dd b { font-size: 1rem; font-weight: 700; color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nr-map dd span { font-size: var(--t-micro); line-height: 1.6; color: var(--ink-3); }
 
 .nr-chmap-row {
   display: flex; align-items: center; gap: var(--sp-2);

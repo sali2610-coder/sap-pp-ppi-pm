@@ -98,10 +98,12 @@ type SearchBack = { q: string; only: string | null; mod: string | null };
 const isActive = (path: string, href: string) => path === href || path.startsWith(href);
 
 export function NeoShellClient({
-  data, cmd, children,
+  data, cmd, fontClass = "", children,
 }: {
   data: ShellData;
   cmd: CommandExtra;
+  /** next/font variable classes, computed on the server (components/neo-shell/neo-shell.tsx). */
+  fontClass?: string;
   children: React.ReactNode;
 }) {
   const path = usePathname() || "/neo/";
@@ -667,7 +669,7 @@ export function NeoShellClient({
   return (
     <div
       ref={appRef}
-      className="nx-app"
+      className={fontClass ? `nx-app ${fontClass}` : "nx-app"}
       data-neo-shell=""
       data-nav={mode}
       data-searching={searching ? "1" : "0"}

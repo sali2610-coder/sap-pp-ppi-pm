@@ -8,7 +8,7 @@ import {
   ArrowUpLeft, BookOpen, ChevronLeft, CircleAlert, Clock, GitBranch, GraduationCap, History, House, Library,
   ListChecks, Pin, Plug, RotateCw, Search, SearchX, Table2, Terminal, Workflow,
 } from "lucide-react";
-import { plexHe, plexLat, plexMono } from "@/app/fonts/fonts";
+import { plexHe, plexLat, plexMono } from "@/app/fonts/plex";
 import { boardData, type BoardData } from "./data";
 import {
   Bidi, Code, FAM_HE, FamGlyph, Kbd, LevelChip, LVL_HE, LvlGlyph, Md, ModChip, modClass, Num, StatusChip,

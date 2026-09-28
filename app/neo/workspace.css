@@ -241,7 +241,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
   font-size: clamp(1rem, 2.2cqi, 1.65rem);
   line-height: 1;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -.02em;
   color: color-mix(in srgb, var(--m) 78%, var(--ink-1));
   -webkit-text-stroke: 0;
@@ -300,7 +300,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   letter-spacing: -.03em;
   color: var(--ink-1);
 }
-.nw-fig em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nw-fig em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 
 /* ==========================================================================
    THE CHAPTER INDEX — the first thing under the hero, and the page's answer to
@@ -330,7 +330,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-idx-h { display: grid; gap: var(--sp-2); max-inline-size: 72ch; }
 .nw-idx-k {
   font-size: var(--t-micro);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -360,7 +360,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   /* MODULE as a tint on a numeral — a surface value, never a dot. */
   color: color-mix(in srgb, var(--m) 78%, var(--ink-3));
 }
-.nw-idx-t { font-size: var(--t-sm); font-weight: 650; color: var(--ink-1); line-height: 1.35; }
+.nw-idx-t { font-size: var(--t-sm); font-weight: 600; color: var(--ink-1); line-height: 1.35; }
 /* THE CHAPTER THIS PAGE IS FOR. The index is a flat list of eight equal tiles,
    which is honest about the structure and silent about the priority — so the one
    chapter the product exists to deliver takes a module EDGE, a tint and a
@@ -371,11 +371,11 @@ html .nx-app .nx-canvas:has(> .nw) {
   border-inline-start-color: var(--m);
   background: color-mix(in srgb, var(--m) 7%, var(--surface));
 }
-.nw-idx-i[data-key="1"] .nw-idx-t { font-weight: 750; }
+.nw-idx-i[data-key="1"] .nw-idx-t { font-weight: 700; }
 .nw-idx-i[data-key="1"] .nw-idx-n { color: var(--m); }
 .nw-idx-c { display: flex; align-items: baseline; gap: 5px; }
 .nw-idx-c b { font-size: var(--t-xs); color: var(--ink-2); font-variant-numeric: tabular-nums; }
-.nw-idx-c em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nw-idx-c em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 
 /* ==========================================================================
    THE CHAPTER — the single container the whole page below the hero is built
@@ -440,7 +440,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   align-items: center;
   gap: var(--sp-2);
   font-size: var(--t-micro);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -498,7 +498,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-tabs .nu-tab { font-size: var(--t-sm); padding-block: .8rem; }
 .nw-tabs .nu-tab em {
   font-style: normal;
-  font-size: 11px;
+  font-size: var(--t-micro);
   color: var(--ink-3);
   margin-inline-start: 6px;
   font-variant-numeric: tabular-nums;
@@ -554,7 +554,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 
 .nw-rankrow { grid-template-columns: 2rem minmax(0, 1fr) minmax(3rem, 9rem) auto; }
 .nw-rankrow--obj { grid-template-columns: auto minmax(0, 1fr) minmax(3rem, 9rem) auto; }
-.nw-rank-i { font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nw-rank-i { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .nw-rank-t {
   font-size: var(--t-sm);
   color: var(--ink-1);
@@ -572,7 +572,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   color: var(--ink-1);
   font-variant-numeric: tabular-nums;
 }
-.nw-rank-n em { font-style: normal; font-size: 10px; color: var(--ink-3); white-space: nowrap; }
+.nw-rank-n em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
 
 /* The proportion bar. MODULE hue as a LINE — the sanctioned form. It scales
    on transform, so the only thing that ever animates is a transform. */
@@ -650,7 +650,7 @@ html .nx-app .nx-canvas:has(> .nw) {
    says why in words rather than showing a zero. */
 .nw-steprow--gap {
   border: 1px dashed color-mix(in srgb, var(--ink-3) 40%, transparent);
-  border-radius: 1rem;
+  border-radius: var(--r-xl);
   background: transparent;
   opacity: .78;
 }
@@ -755,7 +755,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: var(--t-xs);
   color: var(--ink-2);
 }
-.nw-frow em { font-style: normal; font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nw-frow em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 /* .nu-status is deliberately not interactive and carries cursor:default. Inside
    a control it is the control that owns the cursor, not its label. */
 .nw-frow .nu-status { cursor: inherit; }
@@ -847,7 +847,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-c-n .nu-chip { margin-inline-start: var(--sp-2); }
 .nw-c-he span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nw-c-tp { color: var(--ink-3); }
-.nw-c-tp .nw-sap { font-size: 10px; }
+.nw-c-tp .nw-sap { font-size: var(--t-micro); }
 .nw-tp-t {
   display: inline-block;
   max-inline-size: 6.5rem;
@@ -859,11 +859,11 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: var(--t-xs);
 }
 .nw-c-f b, .nw-c-fn b, .nw-c-rel b { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
-.nw-c-f em { font-style: normal; font-size: 10px; color: var(--ink-3); margin-inline-start: 5px; }
+.nw-c-f em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: 5px; }
 .nw-c-tc .nu-chip { margin-inline-end: 3px; }
-.nw-c-tc em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nw-c-tc em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 .nw-c-cv .nw-sap { font-variant-numeric: tabular-nums; color: var(--ink-1); }
-.nw-c-cv em { font-style: normal; font-size: 10px; color: var(--ink-3); margin-inline-start: 5px; }
+.nw-c-cv em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: 5px; }
 .nw-none { color: var(--ink-3); }
 
 .nw-x {
@@ -905,7 +905,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   color: var(--ink-2);
 }
 .nw-kb {
-  font-size: 9px;
+  font-size: var(--t-micro);
   font-weight: 700;
   text-align: center;
   padding: 1px 0;
@@ -915,14 +915,14 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-kb[data-k="pk"] { color: var(--ink-1); }
 .nw-keys b { color: var(--ink-1); font-size: var(--t-xs); }
-.nw-keys em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nw-keys em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 
 .nw-joins li { display: grid; gap: 2px; font-size: var(--t-micro); color: var(--ink-2); justify-items: start; }
 .nw-joins b { font-size: var(--t-xs); color: var(--ink-1); }
 .nw-joins .nu-link { padding-block: 0; }
-.nw-out { font-size: 10px; color: var(--ink-3); }
+.nw-out { font-size: var(--t-micro); color: var(--ink-3); }
 .nw-join-d { color: var(--ink-2); }
-.nw-joins code { font-size: 10px; color: var(--ink-3); overflow-wrap: anywhere; }
+.nw-joins code { font-size: var(--t-micro); color: var(--ink-3); overflow-wrap: anywhere; }
 
 .nw-fns li {
   display: grid;
@@ -932,7 +932,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   color: var(--ink-2);
 }
 .nw-kind {
-  font-size: 9px;
+  font-size: var(--t-micro);
   color: var(--ink-3);
   padding: 1px 4px;
   border-radius: var(--r-xs);
@@ -975,12 +975,12 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-tcrow b { color: var(--ink-1); }
 .nw-tcrow em { font-style: normal; font-size: var(--t-xs); color: var(--ink-1); font-variant-numeric: tabular-nums; }
-.nw-tcrow em span { font-size: 10px; color: var(--ink-3); margin-inline-start: 4px; }
+.nw-tcrow em span { font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: 4px; }
 
 .nw-hubrow { grid-template-columns: auto 6rem minmax(3rem, 1fr) auto auto; }
 .nw-hubrow b { color: var(--ink-1); font-size: var(--t-sm); }
 .nw-hubrow em { font-style: normal; font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
-.nw-hubrow em span { font-size: 10px; color: var(--ink-3); margin-inline-start: 4px; }
+.nw-hubrow em span { font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: 4px; }
 
 .nw-relline { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.75; }
 .nw-relline b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
@@ -1061,7 +1061,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   color: var(--ink-1);
   font-variant-numeric: tabular-nums;
 }
-.nw-s4big span { font-size: 1.0625rem; font-weight: 650; color: var(--ink-1); }
+.nw-s4big span { font-size: 1.0625rem; font-weight: 600; color: var(--ink-1); }
 .nw-s4big em { font-style: normal; font-size: var(--t-sm); color: var(--ink-2); }
 
 .nw-s4mix { display: grid; gap: var(--sp-3); max-inline-size: 40rem; }
@@ -1131,7 +1131,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-move-kv dt {
   font-size: var(--t-xs);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -1186,7 +1186,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   align-items: baseline;
   gap: var(--sp-3);
   font-size: 1rem;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.45;
   color: var(--ink-1);
   overflow-wrap: anywhere;
@@ -1201,7 +1201,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-sheet-kv dt {
   font-size: var(--t-xs);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: .05em;
   color: var(--ink-3);
 }
@@ -1231,7 +1231,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-fnlist b, .nw-cdslist b, .nw-applist b { font-size: var(--t-sm); color: var(--ink-1); overflow-wrap: anywhere; }
 .nw-fn-he { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.6; }
 .nw-fnlist em, .nw-cdslist em { font-style: normal; font-size: var(--t-xs); color: var(--ink-1); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.nw-fnlist em span { font-size: 10px; color: var(--ink-3); margin-inline-start: 4px; }
+.nw-fnlist em span { font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: 4px; }
 
 .nw-cdslist li, .nw-applist li {
   display: grid;
@@ -1274,12 +1274,12 @@ html .nx-app .nx-canvas:has(> .nw) {
 
 .nw-courserow { grid-template-columns: minmax(0, 1fr) auto auto; }
 .nw-courserow b { font-size: var(--t-xs); color: var(--ink-1); line-height: 1.5; }
-.nw-courserow em { font-style: normal; font-size: 10px; color: var(--ink-3); white-space: nowrap; }
+.nw-courserow em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
 
 .nw-rcrow { grid-template-columns: auto auto minmax(0, 1fr) auto auto; }
 .nw-rcrow b { font-size: var(--t-sm); color: var(--ink-1); }
 .nw-rc-he { font-size: var(--t-xs); color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nw-rcrow em { font-style: normal; font-size: 10px; color: var(--ink-3); white-space: nowrap; }
+.nw-rcrow em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
 
 .nw-credit {
   margin: var(--sp-8) var(--nw-gut) 0;
@@ -1431,7 +1431,7 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   }
   .nw-tbl .nw-row > :is(.nw-c-tp, .nw-c-f, .nw-c-tc, .nw-c-fn, .nw-c-rel, .nw-c-cv, .nw-c-s4)::before {
     content: attr(data-l);
-    font-size: 9px;
+    font-size: var(--t-micro);
     letter-spacing: .06em;
     text-transform: uppercase;
     color: var(--ink-3);
@@ -1582,7 +1582,7 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
 .nw-ch-d > summary:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--m); border-radius: var(--r-sm); }
 .nw-ch-toggle {
   display: inline-flex; align-items: center; gap: 4px; margin-block-start: var(--sp-3);
-  font-size: var(--t-micro); font-weight: 650; color: var(--m);
+  font-size: var(--t-micro); font-weight: 600; color: var(--m);
 }
 .nw-ch-toggle::after { content: "▾"; }
 .nw-ch[data-collapsed="open"] .nw-ch-toggle::after { content: "▴"; }

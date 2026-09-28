@@ -162,7 +162,7 @@
   border-block-end: 1px solid var(--c-hair);
 }
 .nx-app .nxd-tabs .nu-tab b {
-  font-family: var(--font-mono); font-size: 10px; direction: ltr;
+  font-family: var(--font-mono); font-size: var(--t-micro); direction: ltr;
   unicode-bidi: isolate; color: var(--ink-3); padding-inline-start: 4px;
 }
 
@@ -192,7 +192,7 @@
    never competes with the label for weight. */
 .nx-app .nxd-facet .nu-filter b,
 .nx-app .nxd-more b {
-  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 600;
   direction: ltr; unicode-bidi: isolate;
   color: var(--ink-3); padding-inline-start: 5px;
 }
@@ -238,7 +238,7 @@
 }
 .nx-app .nxd-group-h em {
   margin-inline-start: auto;
-  font-style: normal; font-family: var(--font-mono); font-size: 10px;
+  font-style: normal; font-family: var(--font-mono); font-size: var(--t-micro);
   direction: ltr; unicode-bidi: isolate; color: var(--ink-3);
 }
 
@@ -408,7 +408,7 @@
 
 .nx-app .nxd-page { display: flex; justify-content: center; }
 .nx-app .nxd-page-n {
-  font-family: var(--font-mono); font-size: 10px; direction: ltr;
+  font-family: var(--font-mono); font-size: var(--t-micro); direction: ltr;
   unicode-bidi: isolate; color: var(--ink-3); padding-inline-start: 5px;
 }
 
@@ -632,7 +632,7 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
   margin: 0;
 }
 .nx-app .nxt-names { display: grid; gap: 2px; min-inline-size: 0; }
-.nx-app .nxt-he { font-size: var(--t-h2); font-weight: 650; color: var(--ink-1); line-height: 1.4; }
+.nx-app .nxt-he { font-size: var(--t-h2); font-weight: 600; color: var(--ink-1); line-height: 1.4; }
 .nx-app .nxt-en {
   font-size: var(--t-sm); color: var(--ink-3);
   direction: ltr; unicode-bidi: isolate; text-align: start;
@@ -698,7 +698,7 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
 .nx-app .nxt-s4-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
 .nx-app .nxt-s4-h {
   font-size: clamp(1.6rem, 1.25rem + 1.15vw, 2.2rem); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
-  font-weight: 750; color: var(--ink-1); margin: 0;
+  font-weight: 700; color: var(--ink-1); margin: 0;
   /* the verdict can carry a service name (API_MAINTENANCENOTIFICATION) at h1
      scale; it breaks rather than overrunning the plate at 320px */
   overflow-wrap: anywhere;
@@ -739,7 +739,7 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 .nx-app .nxt-sec-h {
   display: flex; align-items: center; gap: var(--sp-2);
   font-size: clamp(1.25rem, 1.08rem + .65vw, 1.6rem);
-  font-weight: 750; line-height: 1.25; letter-spacing: -.012em;
+  font-weight: 700; line-height: 1.25; letter-spacing: -.012em;
   color: var(--ink-1);
   padding-block-end: var(--sp-2);
   border-block-end: 1px solid var(--c-hair);
@@ -933,7 +933,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   cursor: default;
   background: var(--surface-2);
   border: 1px dashed var(--hairline);
-  border-radius: 1rem;
+  border-radius: var(--r-xl);
 }
 .nxt-tbl-r.is-flat:hover { transform: none; box-shadow: none; border-color: var(--hairline); }
 
@@ -1044,7 +1044,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 /* The canonical status line in the header (design audit S7-TBL-4). */
 .nx-app .nxb-stand-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); margin: var(--sp-2) 0 0; }
 .nx-app .nxb-stand-h .nu-link { font-size: var(--t-xs); }
-.nx-app .nxb-he { font-size: var(--t-h2); font-weight: 650; color: var(--ink-1); line-height: var(--lh-he); }
+.nx-app .nxb-he { font-size: var(--t-h2); font-weight: 600; color: var(--ink-1); line-height: var(--lh-he); }
 .nx-app .nxb-en {
   font-size: var(--t-sm); color: var(--ink-3);
   direction: ltr; unicode-bidi: isolate; text-align: start;
@@ -1068,7 +1068,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   inline-size: 3px; block-size: 1rem; border-radius: 2px; flex: none;
   background: var(--m);
 }
-.nx-app .nxb-mods b { color: var(--ink-1); font-weight: 750; }
+.nx-app .nxb-mods b { color: var(--ink-1); font-weight: 700; }
 .nx-app .nxb-mods em { color: var(--ink-2); font-style: normal; }
 .nx-app .nxb-mod-n { color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .nx-app .nxb-mods-cls {
@@ -1107,7 +1107,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 .nx-app .nxb-keyline > div[data-k="PK"] { --k: var(--obj-master); }
 .nx-app .nxb-keyline > div[data-k="FK"] { --k: var(--rel-n-1); }
 .nx-app .nxb-keyline dt {
-  font-size: var(--t-micro); letter-spacing: .06em; font-weight: 750;
+  font-size: var(--t-micro); letter-spacing: .06em; font-weight: 700;
   color: var(--ink-3);
 }
 .nx-app .nxb-keyline dd {
@@ -1133,7 +1133,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   font-size: var(--t-sm);
   line-height: var(--lh-he);
 }
-.nx-app .nxb-s4flag b { color: var(--ink-1); font-weight: 750; }
+.nx-app .nxb-s4flag b { color: var(--ink-1); font-weight: 700; }
 .nx-app .nxb-s4flag > span:not(.nu-status) { color: var(--ink-2); min-inline-size: 0; }
 .nx-app .nxb-s4flag .nu-link { --m: var(--brand); margin-inline-start: auto; }
 
@@ -1149,7 +1149,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 }
 .nx-app .nxb-stat { display: grid; gap: 2px; }
 .nx-app .nxb-stat b {
-  font-size: var(--t-h1); font-weight: 750; color: var(--ink-1);
+  font-size: var(--t-h1); font-weight: 700; color: var(--ink-1);
   font-variant-numeric: tabular-nums; line-height: 1.1;
 }
 .nx-app .nxb-stat em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
@@ -1183,7 +1183,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 }
 .nx-app .nxb-sec-n {
   grid-row: span 3;
-  font-family: var(--font-mono); font-size: var(--t-h2); font-weight: 750;
+  font-family: var(--font-mono); font-size: var(--t-h2); font-weight: 700;
   color: color-mix(in srgb, var(--m) 70%, var(--ink-3));
   font-variant-numeric: tabular-nums;
   padding-inline-end: var(--sp-3);
@@ -1192,7 +1192,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 }
 .nx-app .nxb-sec-k {
   display: inline-flex; align-items: center; gap: var(--sp-2);
-  font-size: var(--t-micro); letter-spacing: .06em; font-weight: 750;
+  font-size: var(--t-micro); letter-spacing: .06em; font-weight: 700;
   color: var(--ink-3);
 }
 .nx-app .nxb-sec-i {
@@ -1204,7 +1204,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   flex: none;
 }
 .nx-app .nxb-h2 {
-  font-size: clamp(1.35rem, 1.15rem + .75vw, 1.75rem); font-weight: 750; color: var(--ink-1);
+  font-size: clamp(1.35rem, 1.15rem + .75vw, 1.75rem); font-weight: 700; color: var(--ink-1);
   line-height: 1.25; letter-spacing: -.012em; margin: 0;
 }
 .nx-app .nxb-sec-s { font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 78ch; }
@@ -1213,7 +1213,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 
 .nx-app .nxb-h3 {
   display: inline-flex; align-items: center; gap: var(--sp-2);
-  font-size: var(--t-sm); font-weight: 750; color: var(--ink-1); margin: 0;
+  font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); margin: 0;
 }
 .nx-app .nxb-h3 > svg { color: var(--ink-3); flex: none; }
 
@@ -1229,7 +1229,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   border-radius: var(--r-lg);
   background: var(--surface-2);
 }
-.nx-app .nxb-missing b { font-size: var(--t-sm); font-weight: 750; color: var(--ink-2); }
+.nx-app .nxb-missing b { font-size: var(--t-sm); font-weight: 700; color: var(--ink-2); }
 .nx-app .nxb-missing span { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); }
 
 .nx-app .nxb-warn {
@@ -1259,7 +1259,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 /* --- a module tag, wherever a row needs to say who documented it ---------- */
 .nx-app .nxb-modtag { display: inline-flex; flex-wrap: wrap; gap: var(--sp-1); }
 .nx-app .nxb-modtag b {
-  font-size: var(--t-micro); font-weight: 750; color: var(--m);
+  font-size: var(--t-micro); font-weight: 700; color: var(--m);
   padding: 1px var(--sp-2);
   border-radius: var(--r-sm);
   border: 1px solid color-mix(in srgb, var(--m) 30%, transparent);
@@ -1284,7 +1284,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 }
 .nx-app .nxb-stand-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
 .nx-app .nxb-stand-w {
-  font-size: var(--t-h2); font-weight: 650; color: var(--ink-1);
+  font-size: var(--t-h2); font-weight: 600; color: var(--ink-1);
   line-height: var(--lh-he); max-inline-size: 70ch;
 }
 .nx-app .nxb-stand-none { font-weight: 600; color: var(--ink-2); }
@@ -1313,7 +1313,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   font-size: var(--t-xs);
 }
 .nx-app .nxb-row-bar { inline-size: 3px; block-size: 1rem; border-radius: 2px; background: var(--m); flex: none; }
-.nx-app .nxb-s4rows b, .nx-app .nxb-row b { color: var(--ink-1); font-weight: 750; }
+.nx-app .nxb-s4rows b, .nx-app .nxb-row b { color: var(--ink-1); font-weight: 700; }
 .nx-app .nxb-s4rows em, .nx-app .nxb-row em { font-style: normal; color: var(--ink-3); }
 .nx-app .nxb-quote {
   font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he);
@@ -1340,7 +1340,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   display: inline-flex; align-items: center; justify-content: center;
   min-inline-size: 2.9rem; padding: 2px var(--sp-2);
   border-radius: var(--r-sm);
-  font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 750;
+  font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 700;
   direction: ltr; unicode-bidi: isolate;
   border: 1px solid color-mix(in srgb, var(--k, var(--ink-3)) 32%, transparent);
   background: color-mix(in srgb, var(--k, var(--ink-3)) 12%, transparent);
@@ -1365,7 +1365,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 .nx-app .nxb-tbl thead th {
   position: sticky; inset-block-start: 0; z-index: 1;
   text-align: start; font-size: var(--t-micro); letter-spacing: .05em;
-  color: var(--ink-3); font-weight: 750;
+  color: var(--ink-3); font-weight: 700;
   padding: var(--sp-3);
   background: var(--surface-2);
   border-block-end: 1px solid var(--hairline);
@@ -1390,7 +1390,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   color: var(--ink-2); font-weight: 400;
 }
 .nx-app .nxb-ftech {
-  font-weight: 750; color: var(--ink-1); white-space: nowrap;
+  font-weight: 700; color: var(--ink-1); white-space: nowrap;
   direction: ltr; unicode-bidi: isolate;
 }
 .nx-app .nxb-fen { display: block; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
@@ -1411,7 +1411,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   background: var(--surface);
 }
 .nx-app .nxb-rel-dir {
-  font-size: var(--t-micro); font-weight: 750;
+  font-size: var(--t-micro); font-weight: 700;
   padding: 2px var(--sp-2); border-radius: var(--r-sm);
   border: 1px solid color-mix(in srgb, var(--r) 34%, transparent);
   background: color-mix(in srgb, var(--r) 12%, transparent);
@@ -1454,7 +1454,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   min-block-size: var(--c-tap);
   border-radius: var(--r-md);
 }
-.nx-app .nxb-txcard b { font-family: var(--font-mono); font-weight: 750; color: var(--ink-1); direction: ltr; unicode-bidi: isolate; }
+.nx-app .nxb-txcard b { font-family: var(--font-mono); font-weight: 700; color: var(--ink-1); direction: ltr; unicode-bidi: isolate; }
 .nx-app .nxb-txarw { margin-inline-start: auto; color: var(--ink-3); flex: none; }
 /* A code with no page in the registry: same information, deliberately inert. */
 .nx-app .nxb-txflat {
@@ -1477,7 +1477,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   background: var(--surface);
   font-size: var(--t-xs);
 }
-.nx-app .nxb-cds b, .nx-app .nxb-funcs b { color: var(--ink-1); font-weight: 750; overflow-wrap: anywhere; }
+.nx-app .nxb-cds b, .nx-app .nxb-funcs b { color: var(--ink-1); font-weight: 700; overflow-wrap: anywhere; }
 .nx-app .nxb-cds em, .nx-app .nxb-funcs em { font-style: normal; color: var(--ink-2); min-inline-size: 0; }
 .nx-app .nxb-cds > li > span { font-size: var(--t-micro); color: var(--ink-3); }
 
@@ -1496,7 +1496,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   font-size: var(--t-xs);
 }
 .nx-app .nxb-sibflat { border: 1px dashed var(--hairline); background: var(--surface-2); cursor: default; }
-.nx-app .nxb-sibcard b { font-family: var(--font-mono); color: var(--ink-1); font-weight: 750; direction: ltr; unicode-bidi: isolate; }
+.nx-app .nxb-sibcard b { font-family: var(--font-mono); color: var(--ink-1); font-weight: 700; direction: ltr; unicode-bidi: isolate; }
 .nx-app .nxb-sibcard em, .nx-app .nxb-sibflat em { font-style: normal; color: var(--ink-2); min-inline-size: 0; }
 .nx-app .nxb-sibcard span, .nx-app .nxb-sibflat span:not(.nu-chip) { font-size: var(--t-micro); color: var(--ink-3); }
 
@@ -1507,7 +1507,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   position: relative;
 }
 .nx-app .nxb-bookflat { border: 1px dashed var(--hairline); background: var(--surface-2); }
-.nx-app .nxb-bookcard b, .nx-app .nxb-bookflat b { font-size: var(--t-sm); font-weight: 750; color: var(--ink-1); }
+.nx-app .nxb-bookcard b, .nx-app .nxb-bookflat b { font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
 .nx-app .nxb-bookcard em, .nx-app .nxb-bookflat em {
   font-style: normal; font-size: var(--t-micro); color: var(--ink-2);
   direction: ltr; unicode-bidi: isolate; text-align: start;
@@ -1524,7 +1524,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 }
 .nx-app .nxb-foot p { display: flex; align-items: flex-start; gap: var(--sp-2); }
 .nx-app .nxb-foot svg { flex: none; margin-block-start: 2px; }
-.nx-app .nxb-credit { color: var(--ink-2); font-weight: 650; }
+.nx-app .nxb-credit { color: var(--ink-2); font-weight: 600; }
 
 /* --------------------------------------------------- 13.9 RESPONSIVE 390→ */
 

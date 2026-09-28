@@ -195,7 +195,7 @@ html[data-theme="dark"] .nx-app .nxr-pre {
   background: color-mix(in srgb, var(--m) 14%, transparent);
   color: var(--m);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--t-micro);
   font-weight: 700;
 }
 
@@ -261,7 +261,7 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
   .nx-app .nxr-ref { gap: var(--sp-5); }
   .nx-app .nxr-flow > li { min-block-size: 2rem; }
   .nx-app .nxr-codelink { min-block-size: var(--c-tap); }
-  .nx-app .nxr-pre { font-size: 10px; }
+  .nx-app .nxr-pre { font-size: var(--t-micro); }
 }
 
 @media (min-width: 2200px) {
@@ -287,7 +287,7 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 .nx-app .nxt-lead {
   margin: 0;
   font-size: clamp(1.6rem, 1.15rem + 1.4vw, 2.25rem);
-  font-weight: 800; line-height: 1.15; letter-spacing: -.015em; color: var(--ink-1);
+  font-weight: 700; line-height: 1.15; letter-spacing: -.015em; color: var(--ink-1);
   text-wrap: balance;
 }
 .nx-app .nxt-code--sub {

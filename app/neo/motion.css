@@ -333,7 +333,7 @@
   inset-inline-start: 0;
   inset-block: 12%;
   inline-size: 3px;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   background: var(--scene-accent, var(--brand));
 }
 

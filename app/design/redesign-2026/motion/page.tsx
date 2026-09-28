@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ViewTransition } from "react";
 import { homeData } from "@/components/neo-shell/home/home-data";
 import { txDetail } from "@/components/neo-shell/data/tx-detail";
-import { plexHe, plexLat, plexMono } from "@/app/fonts/fonts";
+import { plexHe, plexLat, plexMono } from "@/app/fonts/plex";
 import { LAB_CODES } from "./codes";
 import { FlowMap, type LabChain } from "./flow-map";
 import { ModeToggle } from "./mode-toggle";

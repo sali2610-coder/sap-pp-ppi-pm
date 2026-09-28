@@ -29,7 +29,7 @@
 .ndm-eye {
   display: flex; align-items: center; gap: .5rem;
   margin: 0 0 .6rem;
-  font-size: .74rem; font-weight: 700; letter-spacing: .09em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .09em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
@@ -68,7 +68,7 @@
   font-family: var(--font-mono); font-size: 1.45rem; direction: ltr;
   font-variant-numeric: tabular-nums; color: var(--ink-1);
 }
-.ndm-stat em { font-size: .72rem; color: var(--ink-3); font-style: normal; }
+.ndm-stat em { font-size: var(--t-micro); color: var(--ink-3); font-style: normal; }
 
 /* THE COVERAGE STATEMENT. Not a warning box — a quiet line in the reading
    colour, because a stated gap is information, not an error. */
@@ -81,7 +81,7 @@
 
 .ndm-hero-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-block-start: .9rem; }
 .ndm-tag {
-  font-size: .68rem; font-weight: 700; letter-spacing: .03em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .03em;
   padding: .16rem .45rem; border-radius: 6px;
   color: var(--ink-2); background: var(--surface-2);
   border: 1px solid var(--hairline); white-space: nowrap; unicode-bidi: isolate;
@@ -91,7 +91,7 @@
 /* DEPTH BADGE — the honest distinction between a full record and a base one. */
 .ndm-depth {
   font-size: .75rem; font-weight: 700; letter-spacing: .04em;
-  padding: .14rem .42rem; border-radius: 999px; white-space: nowrap;
+  padding: .14rem .42rem; border-radius: var(--r-pill); white-space: nowrap;
 }
 .ndm-depth[data-deep="1"] {
   color: color-mix(in srgb, var(--status-done) 62%, var(--ink-1));
@@ -116,7 +116,7 @@
 .ndm-mod-h svg { color: var(--m); }
 .ndm-mod-n {
   margin-inline-start: auto;
-  font-size: .74rem; font-weight: 600; color: var(--ink-3);
+  font-size: var(--t-micro); font-weight: 600; color: var(--ink-3);
 }
 
 .ndm-grid {
@@ -128,7 +128,7 @@
 .ndm-card {
   display: flex; flex-direction: column; gap: .3rem;
   padding: 1.05rem 1.1rem 1rem;
-  border-radius: 1rem;
+  border-radius: var(--r-xl);
   text-decoration: none; color: inherit;
   background: var(--surface);
   border: 1px solid var(--hairline);
@@ -143,7 +143,7 @@
 }
 .ndm-card:active { transform: translateY(0); }
 .ndm-card-top { display: flex; align-items: center; gap: .5rem; }
-.ndm-card-mod { font-size: .68rem; font-weight: 700; letter-spacing: .05em; color: var(--m); }
+.ndm-card-mod { font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em; color: var(--m); }
 .ndm-card-top .ndm-depth { margin-inline-start: auto; }
 .ndm-card-he { font-size: 1.02rem; font-weight: 700; line-height: 1.3; }
 .ndm-card-en { font-size: .76rem; font-weight: 600; color: var(--ink-3); unicode-bidi: isolate; }
@@ -153,7 +153,7 @@
   -webkit-box-orient: vertical; overflow: hidden;
 }
 .ndm-card-nums { display: flex; flex-wrap: wrap; gap: .55rem; margin-block-start: .6rem; }
-.ndm-card-nums em { font-style: normal; font-size: .72rem; color: var(--ink-3); }
+.ndm-card-nums em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 .ndm-card-nums em b {
   font-family: var(--font-mono); color: var(--ink-1); direction: ltr;
   font-variant-numeric: tabular-nums;
@@ -174,7 +174,7 @@
 .ndm-sec {
   margin-block-start: 1.6rem;
   padding: 1.15rem 1.25rem 1.25rem;
-  border-radius: 1rem;
+  border-radius: var(--r-xl);
   background: var(--surface);
   border: 1px solid var(--hairline);
   box-shadow: var(--elev-1);
@@ -187,7 +187,7 @@
 }
 .ndm-sec-k {
   display: flex; align-items: center; gap: .45rem; margin: 0;
-  font-size: .68rem; font-weight: 700; letter-spacing: .08em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .08em;
   text-transform: uppercase; color: var(--ink-3);
 }
 .ndm-sec-ico {
@@ -209,7 +209,7 @@
 .ndm-p { margin: 0; font-size: .92rem; line-height: 1.72; color: var(--ink-2); }
 .ndm-quote {
   margin: 0; padding: .9rem 1rem;
-  border-radius: .8rem;
+  border-radius: var(--r-xl);
   font-size: .9rem; line-height: 1.72; color: var(--ink-2);
   background: color-mix(in srgb, var(--m) 5%, var(--surface-2));
   border-inline-start: 3px solid color-mix(in srgb, var(--m) 45%, transparent);
@@ -236,7 +236,7 @@
   display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .55rem; align-items: start;
   min-inline-size: 0; min-block-size: 3.4rem;
   padding: .6rem .7rem;
-  border-radius: .75rem;
+  border-radius: var(--r-xl);
   color: var(--ink-2);
   background: var(--surface-2);
   border: 1px solid var(--hairline);
@@ -245,7 +245,7 @@
 .ndm-step-n {
   inline-size: 1.55rem; block-size: 1.55rem; border-radius: .55rem;
   display: grid; place-items: center;
-  font-family: var(--font-mono); font-size: .72rem; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 700;
   color: var(--m);
   background: color-mix(in srgb, var(--m) 12%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 28%, transparent);
@@ -280,7 +280,7 @@
 }
 .ndm-chain li::after {
   content: "←"; position: absolute; inset-inline-start: -.42rem; inset-block-start: 50%;
-  transform: translateY(-50%); color: var(--ink-3); font-size: .7rem; opacity: .55;
+  transform: translateY(-50%); color: var(--ink-3); font-size: var(--t-micro); opacity: .55;
 }
 .ndm-chain li:first-child::after { content: none; }
 
@@ -325,7 +325,7 @@
 .ndm-trb li {
   display: grid; gap: 2px;
   padding: .65rem .8rem;
-  border-radius: .7rem;
+  border-radius: var(--r-xl);
   background: var(--surface-2);
   border: 1px solid var(--hairline);
   border-inline-start: 3px solid color-mix(in srgb, var(--status-in-analysis) 60%, transparent);
@@ -358,7 +358,7 @@ html[data-theme="dark"] .ndm-s4 li b { color: color-mix(in srgb, var(--t, var(--
 }
 .ndm-sib a:hover { background: var(--surface-2); border-color: color-mix(in srgb, var(--m) 40%, var(--hairline)); }
 .ndm-sib a b { font-size: .84rem; font-weight: 600; }
-.ndm-sib a em { margin-inline-start: auto; font-style: normal; font-size: .72rem; color: var(--ink-3); }
+.ndm-sib a em { margin-inline-start: auto; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 
 .ndm-credit {
   display: flex; align-items: center; gap: .4rem;
@@ -376,7 +376,7 @@ html[data-theme="dark"] .ndm-s4 li b { color: color-mix(in srgb, var(--t, var(--
 .ndm-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .9rem; margin-block-start: 1.1rem; }
 .ndm-find {
   display: flex; align-items: center; gap: .5rem; flex: 1 1 18rem; min-inline-size: 0;
-  padding: .45rem .7rem; border: 1px solid var(--hairline); border-radius: .7rem; background: var(--surface);
+  padding: .45rem .7rem; border: 1px solid var(--hairline); border-radius: var(--r-xl); background: var(--surface);
   color: var(--ink-3);
 }
 .ndm-find:focus-within { border-color: var(--m, var(--brand)); color: var(--ink-1); }

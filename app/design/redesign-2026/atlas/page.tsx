@@ -7,7 +7,8 @@ import {
   SquarePlus, Table2, Terminal, TriangleAlert, Waypoints, Workflow, X, Check, ArrowDownWideNarrow,
   type LucideIcon,
 } from "lucide-react";
-import { assistantHe, assistantLat, jbMono } from "@/app/fonts/fonts";
+import { assistantHe, assistantLat } from "@/app/fonts/assistant";
+import { jbMono } from "@/app/fonts/jetbrains";
 import { atlasBoard, modVar, type Board, type Crumb, type Five, type Lv, type Lvl, type RelNode, type St } from "./atlas-data";
 import { AtlasMap } from "./atlas-map";
 import { ModeRoot, ModeToggle } from "./mode";
