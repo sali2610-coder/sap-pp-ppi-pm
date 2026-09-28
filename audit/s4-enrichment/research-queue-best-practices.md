@@ -601,3 +601,45 @@ procure-to-pay-for-maintenance), and no other rule; both `tsc` gates clean; `npm
   Operation (COR6N) in F4587 and F5323. What would settle it: `node scripts/fal-app.mjs F2730` and
   `F3364` at S32OP, then a correction of `data/fiori/apps.ts` (not a best-practices file, not
   edited here).
+- `bp:process-order-process` and `bp:process-industries-plan-to-produce`, what LOIPRO carries,
+  repository against official (written in the 2026-09-28 backfill of
+  `data/best-practices/pppi-processes.ts`; no `conflicting_sources` row): the learning line of
+  `data/domains.ts#pppi-mes-integration` reads 'LOIPRO = IDoc העברת מסלול/מתכון למערכת חיצונית',
+  while the SAP Digital Manufacturing Integration Guide (2502) lists 'LOIPRO05 (production and
+  process orders)' and 'POI IDocs' (SAP ERP 6.18) gives LOIPRO as the message type of
+  'Production/Process orders'; the overlay `idoc:msg:LOIPRO` records the same conflict. The
+  plan-to-produce line now follows the official sources and names the domain record as
+  contradicted; the process-order line keeps its attributed wording and its notes disclose it.
+  What would settle it: a correction of `data/domains.ts` (not a best-practices file, not edited
+  here), after which `process-order-process` `process.integrationPoints[0]` can be re-worded.
+- `bp:process-industries-plan-to-produce`, the PI-PCS BAPI names, repository against official
+  (disclosed in `process.interfaces[7]`): `data/domains.ts#pppi-mes-integration` names
+  BAPI_CONTROL_RECIPE_GETLIST and BAPI_PROCESS_MESSAGE_CREATEMULT; the page 'Technical
+  Communication | Production Planning and Control' (2025.001, loio
+  0672b6535fe6b74ce10000000a174cb4, body read 2026-09-28) prints BAPI_CONTROL_RECIPE_GET_LIST and
+  BAPI_PROCESS_MESSAGE_CREATE; the search for BAPI_PROCESS_MESSAGE_CREATEMULT (21 records) prints
+  the name in no title or snippet, and the search for BAPI_CONTROL_RECIPE_GETLIST (9 records)
+  returns that page with the GET_LIST spelling. What would settle it: SE37 in the target system,
+  then a correction of `data/domains.ts` (not edited here).
+- `bp:master-recipe-process`, BAPI_PRODVERS_CREATE_REPLACE, repository against repository
+  (disclosed in `process.interfaces[1]` and, after the 2026-09-28 verdict, in `steps[8]`):
+  `data/bapi-enrichment.sweep.ts` marks the name invalid and points to C223 or
+  CM_FV_PROD_VERS_MAINTAIN, `data/function-intel.ts` describes an existing module; the overlay
+  `fm:BAPI_PRODVERS_CREATE_REPLACE` stays `verification_required`. Officially, 'PP - Production
+  version | Data Migration' (2025 FPS01) prints FV_PROD_VERS_MAINTAIN_MULTI for 'Create Production
+  Version', and the OData V4 service API_PRODUCTION_VERSION is documented as new in 2022. What
+  would settle it: SE37 in the target system, then a correction of the repository record that
+  loses (not a best-practices file, not edited here).
+- `bp:batch-management-process`, whether BAPI_BATCH_CREATE classifies the batch, repository
+  against repository (disclosed in `process.interfaces[0]`): `data/bapi-enrichment.pppi.ts`
+  says 'סיווג נעשה בנפרד', `data/bapi-enrichment.sweep.ts` says 'כולל סיווג (Class Type 023)';
+  no official record read names the module (overlay `fm:BAPI_BATCH_CREATE`). What would settle
+  it: SE37 in the target system, then a correction of the losing repository record.
+- `bp:process-order-process`, `bp:batch-management-process` and
+  `bp:process-industries-plan-to-produce`, the repository Fiori ids F3577 and F1576, repository
+  against official (disclosed in each record's notes and eccToS4 line): the overlays record
+  that the official sources name Manage Process Orders F4587 (with F5323 for the operations) and
+  Manage Batches F2462, and that F3577 and F1576 appear in no official record. F4587, F5323 and
+  F2462 now resolve in `data/fiori/apps.ts` and are linked beside the old ids since the
+  2026-09-28 backfill. What would settle it: a decision in `data/fiori/apps.ts` to retire or
+  alias F3577 and F1576 (not a best-practices file, not edited here).

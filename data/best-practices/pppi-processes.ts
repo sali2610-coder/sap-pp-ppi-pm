@@ -10,7 +10,17 @@
    repository records (repoRef) or from an official SAP page that an existing
    overlay already verified (same URL, same claim). A field the repository
    does not document is left out on purpose: the page renders the gap by
-   name. Nothing here asserts a new SAP fact. */
+   name. Nothing here asserts a new SAP fact.
+
+   Backfill 2026-09-28 (researcher, adversarial auditor, writer): process.interfaces
+   on all four records, process.roles on master-recipe-process, process.kpis on
+   batch-management-process and process.reference on process-industries-plan-to-produce.
+   Each new official row was either read through the scripted channels (help.sap.com
+   search record or page body, Fiori Apps Library; stamped DATE28, the day it was
+   read) or copied verbatim from the overlay entry it names (that entry's accessedAt,
+   see the constants below). Earlier lines and rows are kept verbatim; where the audit
+   corrected a sentence, the record's notes carry it (Old → New) and the batch report
+   lists it. */
 import type { BestPracticeLike } from "@/lib/evidence/types";
 
 const DATE = "2026-09-22";
@@ -24,6 +34,17 @@ const DATE_MKAL = "2026-09-01";
 const DATE_BATCH = "2026-09-15";
 /** accessedAt of the official pages reused from the fm:BAPI_PROCORDCONF_CREATE_TT / fm:BAPI_BATCH_CREATE overlays. */
 const DATE_FM = "2026-09-21";
+/** accessedAt values of the overlay rows the 2026-09-28 backfill copied verbatim (DATE_FM above covers
+ *  the data/verification/functions.ts DATE21 copies). */
+const DATE_FM_14 = "2026-09-14"; // data/verification/functions.ts DATE14
+const DATE_FM_22 = "2026-09-22"; // data/verification/functions.ts DATE22
+const DATE_FM_23 = "2026-09-23"; // data/verification/functions.ts DATE23
+const DATE_FM_24 = "2026-09-24"; // data/verification/functions.ts DATE24
+const DATE_OBJ_24 = "2026-09-24"; // data/verification/objects.ts DATE24
+const DATE_IDOC_02 = "2026-09-02"; // data/verification/idocs.ts DATE2
+/** accessedAt of the rows the 2026-09-28 backfill read itself (page bodies, search records, Fiori Apps
+ *  Library, repository records) and lastVerifiedAt of the four backfilled records. */
+const DATE28 = "2026-09-28";
 
 export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
   /* ========================================================= process order */
@@ -133,7 +154,7 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "דיווח: COR6N (Time Ticket לשלב), CORK ברמת הפקודה, CORS ביטול, CORT ו-CORR תצוגה ועיבוד; COGI ו-MF47 לתנועות שנכשלו.", xrefs: ["tx:COR6N", "tx:CORK", "tx:CORS", "tx:CORT", "tx:CORR", "tx:COGI", "tx:MF47"] },
         { he: "ניהול תהליך: CO53 מרשמי בקרה, CO60 גיליונות PI, CO54 הודעות תהליך.", xrefs: ["tx:CO53", "tx:CO60", "tx:CO54"] },
         { he: "רשימות ועיבוד המוני: COID, COOIS ו-COOISPI, COHV ו-COHVPI.", xrefs: ["tx:COID", "tx:COOIS", "tx:COOISPI", "tx:COHV", "tx:COHVPI"] },
-        { he: "Fiori לפי רשומות המאגר: Manage Process Orders ו-Confirm Process Order. התיעוד הרשמי של 2025 FPS01 מייחס את השם Manage Process Orders למזהה F4587 ואת פעולת האישור לאפליקציות F4587 / F5323, ושני המזהים אינם במילון הפרויקט.", xrefs: ["fiori:F3577", "fiori:F3364"] },
+        { he: "Fiori לפי רשומות המאגר: Manage Process Orders ו-Confirm Process Order. התיעוד הרשמי של 2025 FPS01 מייחס את השם Manage Process Orders למזהה F4587 ואת פעולת האישור לאפליקציות F4587 / F5323.", xrefs: ["fiori:F3577", "fiori:F3364", "fiori:F4587", "fiori:F5323"] },
       ],
       tables: [
         { he: "AUFK כותרת ההזמנה; AFKO כותרת הייצור; AFPO פריט; AFVC פעולות ושלבים; AFFL רצף; RESB רכיבים ורזרבציות.", xrefs: ["table:AUFK", "table:AFKO", "table:AFPO", "table:AFVC", "table:AFFL", "table:RESB"] },
@@ -148,6 +169,19 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "אצוות: קבלת התוצר יוצרת אצווה עם סיווג ותוקף, וקביעת אצווה בוחרת רכיבים בצריכה.", xrefs: ["bp:batch-management-process", "table:MCH1"] },
         { he: "ממשק תוכניתי: BAPI_PROCORD_CREATE, GET_DETAIL, GET_LIST, RELEASE, COMPLETE_TECH ו-BAPI_PROCORDCONF_CREATE_TT; בצד ה-OData השירותים API_PROCESS_ORDER_2_SRV ו-API_PROC_ORDER_CONFIRMATION_2_SRV.", xrefs: ["fm:BAPI_PROCORD_CREATE", "fm:BAPI_PROCORD_GET_DETAIL", "fm:BAPI_PROCORD_GET_LIST", "fm:BAPI_PROCORD_COMPLETE_TECH", "fm:BAPI_PROCORDCONF_CREATE_TT"] },
         { he: "הרחבות לפי פירוט התחום: Customer Exits PPCO0001 (בדיקות פקודה), PPCO0007 (סטטוס) ו-PPCO0021 (רכיבים), ו-BAdIs WORKORDER_UPDATE, WORKORDER_CONFIRM ו-WORKORDER_GOODSMVT.", xrefs: ["enh:exit:PPCO0001", "enh:exit:PPCO0007", "enh:exit:PPCO0021", "enh:badi:WORKORDER_UPDATE", "enh:badi:WORKORDER_CONFIRM", "enh:badi:WORKORDER_GOODSMVT"] },
+      ],
+      interfaces: [
+        { he: "לפי רשומת ההעשרה של המאגר (סימוני הזמינות ב-ECC וב-S/4HANA On-Premise שם הם ברירות מחדל של הקובץ ולא נתון שנאסף לכל BAPI): הכתיבה לפקודה עוברת במשפחת ה-BAPI של פקודת התהליך, BAPI_PROCORD_CREATE ליצירה (מחזיר ORDER_NUMBER ו-RETURN), BAPI_PROCORD_RELEASE לשחרור ו-BAPI_PROCORD_COMPLETE_TECH לסגירה טכנית (TECO), שניהם עם טבלת ORDERS ו-DETAIL_RETURN ו-RETURN. שלושתם כותבים ומחייבים BAPI_TRANSACTION_COMMIT על אותו LUW, ובשגיאה BAPI_TRANSACTION_ROLLBACK. אובייקט הייחוס של פקודת התהליך הוא BUS0001 לפי עמוד Reference Objects הרשמי (2025.001). tx-intel מונה ל-COR1 גם את BAPI_PROCORD_CREATE_FROM_PLORD להמרת הזמנה מתוכננת (אינו במילון הפרויקט).", xrefs: ["obj:process-order", "fm:BAPI_PROCORD_CREATE", "fm:BAPI_PROCORD_RELEASE", "fm:BAPI_PROCORD_COMPLETE_TECH", "fm:BAPI_TRANSACTION_COMMIT", "fm:BAPI_TRANSACTION_ROLLBACK", "tx:COR1", "bp:bapi-commit-discipline"] },
+        { he: "מעמד השמות BAPI_PROCORD_RELEASE ו-BAPI_PROCORD_COMPLETE_TECH: רשומות האימות שלהם במאגר נשארות verification_required, כי אף כותרת, סניפט או גוף עמוד רשמי שנבדק אינו נוקב בשמם, וחוזה הפרמטרים נשען על מראת SE37 שאינה מקור SAP. שחרור וסגירה טכנית מתועדים ב-S/4HANA On-Premise 2025 FPS01 כפונקציות ReleaseOrder ו-TechlyCmpltOrder של API_PROCESS_ORDER_2_SRV, בלי אמירה שהן מחליפות את ה-BAPI. לפני בניית ממשק על ה-BAPI לאמת ב-SE37 במערכת היעד.", xrefs: ["fm:BAPI_PROCORD_RELEASE", "fm:BAPI_PROCORD_COMPLETE_TECH", "tx:SE37", "tx:COR2"] },
+        { he: "קריאה, לפי רשומת ההעשרה: BAPI_PROCORD_GET_DETAIL (פרטי פקודה לפי NUMBER) ו-BAPI_PROCORD_GET_LIST (רשימת כותרות לפי בחירה) הם קריאה בלבד ללא SAVE או COMMIT; BAPI_PROCORDCONF_GETLIST מחזיר רשימת אישורים לפקודות תהליך (השם נכתב GETLIST, בלי קו תחתון לפני LIST).", xrefs: ["fm:BAPI_PROCORD_GET_DETAIL", "fm:BAPI_PROCORD_GET_LIST", "fm:BAPI_PROCORDCONF_GETLIST", "table:AFKO", "table:AFRU"] },
+        { he: "אישור, לפי רשומת ההעשרה: BAPI_PROCORDCONF_CREATE_TT רושם אישור Time Ticket (אובייקט BUS2016, אישור פקודת תהליך) עם הטבלאות TIMETICKETS, GOODSMOVEMENTS ו-LINK_CONF_GOODSMOV לתנועות הנלוות, ו-BAPI_PROCORDCONF_CANCEL מבטל אישור; שניהם כותבים ומחייבים COMMIT. ב-S/4HANA On-Premise 2025 FPS01 עמוד האינטגרציה של EWM מונה את BAPI_PROCORDCONF_CREATE_HDR, BAPI_PROCORDCONF_CREATE_TT ו-BAPI_PROCORDCONF_CANCEL לצד API_PROC_ORDER_CONFIRMATION_2_SRV בין ממשקי PP שתנועות סחורה סינכרוניות אפשריות דרכם (BAPI_PROCORDCONF_CREATE_HDR אינו במילון הפרויקט).", xrefs: ["fm:BAPI_PROCORDCONF_CREATE_TT", "fm:BAPI_PROCORDCONF_CANCEL", "table:AFRU", "tx:CORK", "tx:CORS"] },
+        { he: "תנועות מלאי, לפי רשומת המאגר: BAPI_GOODSMVT_CREATE (אובייקט BUS2017, בלי COMMIT פנימי) לניפוק 261 לפקודה ולקבלת תוצר 101. ב-S/4HANA On-Premise 2025 FPS01 הוא מתועד כממשק פעיל לרישום תנועות סחורה בניהול המלאי, ולצדו שירות ה-OData‏ Material Documents - Read, Create (נתיב API_MATERIAL_DOCUMENT_SRV) ליצירה, קריאה וביטול של מסמכי חומר; אף מקור שנקרא אינו מציג את ה-API כמחליף של ה-BAPI.", xrefs: ["fm:BAPI_GOODSMVT_CREATE", "fm:BAPI_TRANSACTION_COMMIT", "obj:material-document", "tx:MIGO"] },
+        { he: "S/4HANA On-Premise 2025 FPS01: שירות ה-OData‏ Process Order (Version 2), ‏API_PROCESS_ORDER_2_SRV, מונה בעמוד הפעולות שלו קריאה, יצירה ועדכון של הפקודה (A_ProcessOrder_2), המרת הזמנה מתוכננת (ConvertPlannedOrder), קריאה ועדכון של רכיבים (A_ProcessOrderComponent_2), קריאת פריטים, פעולות וסטטוסים, ואת הפונקציות ReleaseOrder, ReleaseOperation, TechlyCmpltOrder, CloseOrder, DeletionFlagOrder, DeletionIndOrder, DeliveryCompletedOrder, OrderReleasedByMES ו-DiscardOrder. בשחרור ובסגירה הטכנית נדרש ETag בכותרת if-match, ובכישלון שחרור הסטטוס עובר ל-RELR. השירות מתועד כחדש ב-What's New של S/4HANA 2020, ואף מקור שנקרא אינו מציג אותו כמחליף של משפחת ה-BAPI.", xrefs: ["obj:process-order", "fm:BAPI_PROCORD_CREATE", "fm:BAPI_PROCORD_GET_DETAIL", "fm:BAPI_PROCORD_GET_LIST", "fm:BAPI_PROCORD_RELEASE", "fm:BAPI_PROCORD_COMPLETE_TECH"] },
+        { he: "S/4HANA On-Premise 2025 FPS01: שירות ה-OData‏ Process Order Confirmation, ‏API_PROC_ORDER_CONFIRMATION_2_SRV, על הישות ProcOrdConf2: יצירת אישור Time Ticket, הבאת הצעות לתנועות סחורה (GetGdsMvtProposal) וביטול דרך CancelProcOrdConf, שלפי העמוד הופך גם את תנועות הסחורה הקשורות. מסמך החומר נרשם דרך הישות ProcOrdConfMatlDocItm ורק יחד עם אישור; כשממלאים אותה לא נקבעות תנועות אוטומטיות (Backflush או קבלת תוצר אוטומטית), ולכן העמוד ממליץ להביא קודם את הצעת ה-Backflush ולהזין ידנית את קבלת התוצר. מסמך שנכשל בהיעדר אתר אחסון מעובד מחדש ב-COGI.", xrefs: ["fm:BAPI_PROCORDCONF_CREATE_TT", "fm:BAPI_PROCORDCONF_CANCEL", "tx:COGI", "obj:material-document", "table:AFRU"] },
+        { he: "אירועים עסקיים, S/4HANA On-Premise 2025 FPS01: האובייקט Process Order מפעיל את האירועים Created ו-Changed (Changed עם כל שינוי בפקודה, עד וכולל סימון מחיקה בארכוב), עם המטען ManufacturingOrder, ProcessOrder, ProcessOrderType ו-ProductionPlant; האירועים מתפרסמים ב-SAP Business Accelerator Hub וה-API הקשור הוא Process Order (Version 2). ה-What's New של S/4HANA 2023 מתעד הרחבה של אירועי האובייקט.", xrefs: ["obj:process-order"] },
+        { he: "MES ו-IDoc: לפי מדריך SAP Digital Manufacturing (2502) הסוג הבסיסי LOIPRO05 מכסה פקודות ייצור ותהליך ומסומן כנתמך ב-SAP ERP וב-S/4HANA, ובתרחיש פקודת התהליך השחרור מעביר את הפקודה דרך DRF ב-LOIPRO05; לפי אותו מדריך POIT תומכת רק בסוג הבסיסי LOIPRO01 (תרחיש SAP ERP 6.00 עד 6.04). ב-SAP ERP 6.18 (LO-SCI, ממשק POI) סוג ההודעה LOIPRO מתועד ל-Production/Process orders. רשומת האימות idoc:msg:LOIPRO ממליצה לאמת במערכת שה-DRF מפיץ פקודות תהליך, כי עמודי PP-MES של On-Premise שנסרקו מתעדים במפורש רק פקודת ייצור, לקבוע את הגרסה הזמינה ב-WE30 עם LOIPRO* ולבדוק את מיפוי הסגמנטים ב-WE02 (LOIPRO05 ו-POIT אינם במילון הפרויקט).", xrefs: ["idoc:msg:LOIPRO", "idoc:basic:LOIPRO01", "tx:WE30", "tx:WE02", "tx:COR2"] },
+        { he: "מערכות בקרת תהליך, S/4HANA On-Premise 2025 FPS01: ממשק PI-PCS מוריד מרשמי בקרה למערכת הבקרה ומעלה נתוני תהליך כהודעות תהליך; ההודעות מדווחות סטטוס פקודות, צריכה וייצור של חומרים, סטטוס משאבים ואירועי תהליך, ומשמשות לרשומות אצווה אלקטרוניות ולעדכון הפקודה והמלאי. לפי העמוד, אישור נתונים תלויי פקודה דרך PI-PCS מחליף אישורים תלויי פקודה דרך PP-PDC. בצד המאגר: CO53 למרשמי הבקרה ו-CO54 להודעות, ותקריות process-message-not-processed-co54 ו-process-message-not-sent כשיעד ההודעה או המאפיינים שגויים.", xrefs: ["tx:CO53", "tx:CO54", "table:AFRU", "table:AFKO"] },
+        { he: "שירותי ה-OData של יישומי ה-Fiori (ספריית ה-Fiori, S32OP = 2025 FPS01): Manage Process Orders (F4587) ו-Manage Process Order Operations (F5323) רצים על PP_PROCESS_ORDER_MANAGE_SRV ו-PP_MPE_AOR ועל קבוצת ה-V4‏ PP_MPE_AOR_SRV; לפי רשומת האימות obj:process-order אלה שירותי היישום, נפרדים מה-API המשוחרר API_PROCESS_ORDER_2_SRV.", xrefs: ["fiori:F4587", "fiori:F5323", "obj:process-order"] },
       ],
       outputs: [
         { he: "פקודת תהליך ממוספרת עם שלבים, רכיבים, רזרבציות ועלות מתוכננת.", xrefs: ["table:AFKO", "table:RESB"] },
@@ -180,7 +214,7 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "ב-S/4HANA נוספים שירותי OData ואפליקציות Fiori, ומשולבים PP-DS ו-aATP; פקודת התהליך נשארת אובייקט נפרד מהזמנת הייצור הדיסקרטית (COR1 מול CO01) לפי התיעוד הרשמי של 2025 FPS01.", xrefs: ["tx:COR1", "tx:CO01"] },
         { he: "תנועות החומר עוברות ב-S/4HANA מ-MKPF ו-MSEG לטבלת MATDOC המאוחדת, וקריאה ישירה צריכה לעבור דרך תצוגות תאימות (ראו שיטת הקריאה דרך תאימות MATDOC).", xrefs: ["bp:matdoc-read-through-compatibility", "table:MKPF", "table:MSEG", "cds:I_MaterialDocumentItem"] },
         { he: "מגרסת S/4HANA 2022 אובייקט ההרשאה C_AFKO_REL מפריד בין הרשאת השינוי להרשאת השחרור של הזמנות הייצור והתהליך, לפי ה-What's New הרשמי.", xrefs: ["tx:COR2"] },
-        { he: "מזהי ה-Fiori שבמאגר לפקודת תהליך שנויים במחלוקת: רשומות האימות קובעות שהתיעוד הרשמי נוקב ב-F4587 (Manage Process Orders) ובפעולת Confirm Process Order Operation בתוך F4587 / F5323, ואילו F3577 ו-F3364 לא נמצאו במקור רשמי.", xrefs: ["fiori:F3577", "fiori:F3364"] },
+        { he: "מזהי ה-Fiori שבמאגר לפקודת תהליך שנויים במחלוקת: רשומות האימות קובעות שהתיעוד הרשמי נוקב ב-F4587 (Manage Process Orders) ובפעולת Confirm Process Order Operation בתוך F4587 / F5323, ואילו F3577 ו-F3364 לא נמצאו במקור רשמי.", xrefs: ["fiori:F3577", "fiori:F3364", "fiori:F4587", "fiori:F5323"] },
       ],
       migration: [
         { he: "אובייקט ההגירה 'PP - Process order (only open PO)' בתיעוד 2025 FPS01 מהגר פקודות תהליך בסטטוס Created או Released, ולאחר ההגירה כולן בסטטוס Created; האימות בגב המערכת דרך COR3.", xrefs: ["tx:COR3"] },
@@ -203,6 +237,7 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
       "fiori:F3577", "fiori:F3364", "table:MKAL", "table:MCH1",
       "bp:master-recipe-process", "bp:batch-management-process", "bp:process-industries-plan-to-produce",
       "bp:bapi-commit-discipline", "bp:matdoc-read-through-compatibility",
+      "fiori:F4587", "fiori:F5323",
     ],
     evidence: [
       {
@@ -434,17 +469,481 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book2.json#7.6",
       },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של הפרויקט (PP-PI enrichment): BAPI_PROCORDCONF_CREATE_TT ומשפחת האישור",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "BAPI_PROCORDCONF_CREATE_TT: פעולה Confirm, אובייקט BUS2016, פרמטרים 'IMP POST_WRONG_ENTRIES · TAB " +
+          "TIMETICKETS, GOODSMOVEMENTS, LINK_CONF_GOODSMOV, DETAIL_RETURN, RETURN', טרנזקציות CORK ו-CORR, טבלאות " +
+          "AFRU ו-AFVC; הערת QA: תנועות סחורה נלוות דרך GOODSMOVEMENTS, חובה COMMIT, ביטול דרך " +
+          "BAPI_PROCORDCONF_CANCEL. באותו קובץ: BAPI_PROCORDCONF_GETLIST קריאה בלבד ('שם: GETLIST, ללא קו תחתון " +
+          "לפני LIST'), BAPI_PROCORDCONF_CANCEL פעולה Change עם 'TAB CONFIRMATIONS, DETAIL_RETURN, RETURN', " +
+          "BAPI_PROCORD_GET_DETAIL קריאה עם 'IMP NUMBER', BAPI_PROCORD_RELEASE ו-BAPI_PROCORD_COMPLETE_TECH עם 'TAB " +
+          "ORDERS, DETAIL_RETURN, RETURN', ו-BAPI_PROCORD_CREATE עם 'EXP RETURN, ORDER_NUMBER'. ברירת המחדל לכל " +
+          "רישום כותב: 'בשגיאה BAPI_TRANSACTION_ROLLBACK'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pppi.ts#BAPI_PROCORDCONF_CREATE_TT",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מודיעין הטרנזקציות של הפרויקט (tx-intel): COR1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "רשומת COR1 מונה ב-bapis את BAPI_PROCORD_CREATE ואת BAPI_PROCORD_CREATE_FROM_PLORD, וב-techExample: " +
+          "'BAPI_PROCORD_CREATE; המבנה זהה להזמנת ייצור (AUFK/AFKO/AFPO/AFVC) אך מבוסס מתכון'. גם COR7 ו-COR8 מונות " +
+          "את BAPI_PROCORD_CREATE_FROM_PLORD.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#COR1",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות האימות fm:BAPI_PROCORD_RELEASE ו-fm:BAPI_PROCORD_COMPLETE_TECH",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "שתי הרשומות נושאות status verification_required: השמות BAPI_PROCORD_RELEASE ו-BAPI_PROCORD_COMPLETE_TECH " +
+          "אינם נקובים באף רשומה רשמית שנבדקה (סקופים SAP_S4HANA_ON-PREMISE, SAP_ERP ו-SAP_S4HANA_CLOUD וגופי " +
+          "עמודים שנקראו), מקור הפרמטרים הוא se80.co.uk (SE37) שאינו מקור SAP, ושחרור וסגירה טכנית מתועדים ב-2025 " +
+          "FPS01 כפעולות ReleaseOrder ו-TechlyCmpltOrder של API_PROCESS_ORDER_2_SRV בלי אמירה שהן מחליפות את " +
+          "ה-BAPI. ההמלצה: לאמת ב-SE37 במערכת היעד, לבדוק RETURN ו-DETAIL_RETURN ולקרוא ל-BAPI_TRANSACTION_COMMIT.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verification/functions.ts#fm:BAPI_PROCORD_RELEASE",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת קטלוג הפונקציות של הפרויקט: BAPI_GOODSMVT_CREATE",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "יצירת תנועת מלאי לפי סוג תנועה; קלט GOODSMVT_HEADER, GOODSMVT_CODE ('03=GI order') ו-GOODSMVT_ITEM " +
+          "(חומר, כמות, סוג תנועה 261/101), פלט MATERIALDOCUMENT; 'זמין ב-ECC', 'זמין ב-S/4HANA. חלופה: OData " +
+          "API_MATERIAL_DOCUMENT'; תרחיש בדיקה: 'בצע GI 261 לפק\"ע, ודא MATERIALDOCUMENT + COMMIT'. הרישום המועשר " +
+          "(data/bapi-enrichment.pppi.ts#BAPI_GOODSMVT_CREATE) מוסיף: פעולה Post, אובייקט BUS2017, ו-'אין COMMIT " +
+          "פנימי', הקורא חייב COMMIT; רשומת האימות fm:BAPI_GOODSMVT_CREATE מצטטת זאת.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#BAPI_GOODSMVT_CREATE; data/verification/functions.ts#fm:BAPI_GOODSMVT_CREATE; data/bapi-enrichment.pppi.ts#BAPI_GOODSMVT_CREATE",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת האימות idoc:msg:LOIPRO",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "הרשומה נושאת status unchanged (2025.001): LOIPRO ממשיך לשמש ב-S/4HANA להפצת פקודת ייצור ל-MES דרך DRF, " +
+          "וההבדל מ-SAP ERP 6.18 הוא גרסת הסוג הבסיסי הנקובה (LOIPRO02 / LOIPRO03 מול LOIPRO05). ההמלצה: להריץ WE30 " +
+          "עם LOIPRO*, לבדוק מיפוי סגמנטים ב-WE02/WE05, ולפקודות תהליך (PP-PI) 'לאמת במערכת ש-DRF מפיץ אותן " +
+          "ב-LOIPRO05 כפי שמתועד במדריך Digital Manufacturing, כי עמודי PP-MES של On-Premise שנסרקו מתעדים במפורש " +
+          "רק את פקודת הייצור'. ההערות רושמות סתירה ברובד המאגר: data/domains.ts ורשומות נוספות מתארות את LOIPRO " +
+          "כ-IDoc של מתכון או מסלול, בעוד לפי התיעוד הרשמי מסלולים מופצים ב-LOIROU ו-LOIPRO מיועד לפקודת ייצור או " +
+          "תהליך.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verification/idocs.ts#idoc:msg:LOIPRO",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "מרכז התקלות של הפרויקט: process-message-not-processed-co54 ו-process-message-not-sent",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "הודעת תהליך לא מעובדת ותקועה ב-CO54: נתוני תהליך מ-PI Sheet או מ-PCS לא מתעדכנים בפקודה; סיבות: יעד " +
+          "הודעה לא תקין לקטגוריה, מאפיין חסר או לא תואם, FM היעד נכשל (Backflush או אישור), הודעה שנשלחה לפני " +
+          "שחרור הפקודה; תיקון: לתקן יעד או קטגוריה ולעבד מחדש ב-CO54, לטפל ב-COGI / AFFW. התקרית " +
+          "process-message-not-sent (data/troubleshooting-ext2.ts) מוסיפה יעד הודעה שלא הוגדר ועיבוד מחדש ב-CO54.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext.ts#process-message-not-processed-co54",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reference Objects | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/62d3b65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_OBJ_24,
+        claim:
+          "עמוד Reference Objects של Production Planning and Control (S/4HANA 2025 FPS01) מונה את אובייקטי הייחוס, " +
+          "והסניפט מדפיס: 'BUS2004 Planned Order BUS2005 Production Order BUS0001 Process Order BUS2116 Production " +
+          "Order Confirmation BUS2016 Process Order Confirmation'. לפי הרשימה, BUS0001 הוא אובייקט הייחוס של הזמנת " +
+          "התהליך, BUS2016 של אישור הזמנת התהליך, ו-BUS2116 של אישור הזמנת הייצור. (אומת ברשומת obj:process-order)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Release Process Order | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/17e8246798e548d48163131c3c9b9a0f.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_24,
+        claim:
+          "עמוד Release Process Order במדריך APIs for Manufacturing (2025 FPS01, loio " +
+          "17e8246798e548d48163131c3c9b9a0f) מתעד את השחרור כפעולת OData: 'To release a process order, you use the " +
+          "HTTP method POST to call the ReleaseOrder function import.' ו-'The success message states that the " +
+          "status Released (REL) is activated for the process order.' הסניפט אינו נוקב ב-BAPI ואינו מציג את ה-OData " +
+          "כיורש שלו. גוף העמוד (נקרא ב-2026-09-24 דרך scripts/sap-help-body.mjs) מוסיף שהפרמטר ManufacturingOrder " +
+          "הוא חובה ב-URL של הבקשה ('ManufacturingOrder Mandatory'), שיש לספק ETag בכותרת if-match מתוך המאפיין " +
+          "LastChangeDateTime או מכותרת התשובה של קריאה קודמת, ושבמקרה כישלון הסטטוס משתנה בכל זאת ל-Release " +
+          "Rejected (RELR) וה-ETag משתנה עמו. הגוף אינו נוקב בשם BAPI. (אומת ברשומת fm:BAPI_PROCORD_RELEASE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technically Complete Process Order | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/c5a7a32424d04e578991f74a8880b6d6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_24,
+        claim:
+          "עמוד 'Technically Complete Process Order' (2025 FPS01, loio c5a7a32424d04e578991f74a8880b6d6), שגופו " +
+          "נקרא ב-2026-09-24 דרך scripts/sap-help-body.mjs, מתעד את חוזה הפעולה: 'To technically complete a process " +
+          "order, you use the HTTP method POST to call the TechlyCmpltOrder function'; הנכס ManufacturingOrder " +
+          "מסומן Mandatory ב-URL של הבקשה; ה-ETag נמסר בכותרת if-match; בהצלחה חוזר 200 OK והודעה שהסטטוס " +
+          "Technically Completed (TECO) הופעל. הדף אינו נוקב ב-BAPI ואינו מציג את הפעולה כיורשת שלו. (אומת ברשומת " +
+          "fm:BAPI_PROCORD_COMPLETE_TECH)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Process Order (Version 2) | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/fe301c889827445095bd5e66e6c0a3ee.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio fe301c889827445095bd5e66e6c0a3ee, נקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs) מונה " +
+          "את פעולות השירות API_PROCESS_ORDER_2_SRV: 'Read Process Order GET', 'Create Process Order POST', " +
+          "'Convert Planned Order into Process Order POST ... /ConvertPlannedOrder?PlannedOrder=', 'Update Process " +
+          "Order PATCH', 'Read Process Order Component GET' ו-'Update Process Order Component PATCH' על " +
+          "A_ProcessOrderComponent_2, קריאת פריט, פעולה וסטטוס, ואת 'Release Process Order POST ... /ReleaseOrder', " +
+          "'Release Operation of Process Order POST', 'Technically Complete Process Order POST ... " +
+          "/TechlyCmpltOrder', 'Close Process Order POST ... /CloseOrder', 'Set Deletion Flag', 'Set Deletion " +
+          "Indicator', 'Set Delivery Completed Indicator', 'Set Released by MES POST ... /OrderReleasedByMES', " +
+          "'Discard Process Order POST ... /DiscardOrder' ו-'Schedule Process Order Operations POST'. העמוד אינו " +
+          "נוקב בשם BAPI.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "OData API: Process Order (Version 2) | What's New in SAP S/4HANA 2020",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/ad8865210f7d4afd89c3be3650f4289e.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        accessedAt: DATE_FM,
+        claim:
+          "‏הסניפט: 'With the new OData API Process Order (Version 2) (API_PROCESS_ORDER_2_SRV), you can read " +
+          "process orders with their details, create process orders from scratch or by converting planned orders, " +
+          "and update specific properties of existing process orders.' קריאת פקודות תהליך על פרטיהן דרך שירות OData " +
+          "מתועדת כבר ב-What's New של SAP S/4HANA 2020, והשם הטכני של השירות הוא API_PROCESS_ORDER_2_SRV. (אומת " +
+          "ברשומת fm:BAPI_PROCORD_GET_LIST)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Time Ticket Confirmation | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/347e141637354ad4acf603c8cdeeb07d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM,
+        claim:
+          "עמוד הפעולות לדיווח Time Ticket במדריך APIs for Manufacturing לגרסת On-Premise 2025 FPS01 פותח בסניפט " +
+          "ב-'Time Ticket Confirmation For time ticket confirmations, the Process Order Confirmation API offers the " +
+          "operations listed in the following table', ומציג בטבלה את 'Create Time Ticket Confirmation POST POST " +
+          "<host>/sap/opu/odata/SAP/API_PROC_ORDER_CONFIRMATION_2_SRV/ProcOrdConf2' לצד 'Fetch Proposals for " +
+          "Quantities, Activities, Dates and Times, Personnel Data POST', 'Cancel Confirmation POST POST " +
+          "<host>/sap/opu/odata/SAP/API_PROC_ORDER_CONFIRMATION_2_SRV/CancelProcOrdConf' ו-'Fetch Proposals for " +
+          "Goods Movements POST POST <host>/sap/opu/odata/SAP/API_PROC_ORDER_CONFIRMATION_2_SRV/GetGdsMvtProposal'. " +
+          "זו חלופת OData מתועדת ליצירת דיווח Time Ticket לפקודת תהליך, כלומר לאותו תרחיש עסקי של ה-BAPI. יש להבחין " +
+          "בין עמוד זה לבין עמוד באותו שם במדריך המתאר את שירות פקודות הייצור הדיסקרטי " +
+          "(API_PROD_ORDER_CONFIRMATION_2_SRV, loio a1f8c8c3e63d4dac90c198d1d0506676). העמוד אינו נוקב בשם ה-BAPI. " +
+          "(אומת ברשומת fm:BAPI_PROCORDCONF_CREATE_TT)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Cancel Confirmation | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/5779eea65d7f4c32a036ea23b7a9812e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_24,
+        claim:
+          "עמוד Cancel Confirmation במדריך APIs for Manufacturing למהדורת S/4HANA On-Premise 2025 FPS01 (loio " +
+          "5779eea65d7f4c32a036ea23b7a9812e, תאריך 2026-02-24; הגוף נקרא ב-2026-09-24 דרך שירות התוכן של הפורטל, " +
+          "deliverable 40374287, buildNo 1779) מתעד את ביטול הדיווח בשירות ה-OData: 'To cancel a confirmation, you " +
+          "use the HTTP method POST on the ProcOrdConf2 entity', 'function import CancelProcOrdConf', 'When you " +
+          "cancel a confirmation, any associated goods movements get reversed'. הפרמטרים ConfirmationGroup " +
+          "ו-ConfirmationCount מסומנים Mandatory; ExternalSystemConfirmation, ConfirmationText ו-PostingDate " +
+          "מסומנים Optional; ביטול כמה דיווחים לאותה פקודה נשלח 'in reverse order of creation'. הנתיב המודפס: " +
+          "/sap/opu/odata/SAP/API_PROC_ORDER_CONFIRMATION_2_SRV/CancelProcOrdConf. העמוד אינו נוקב בשם " +
+          "BAPI_PROCORDCONF_CANCEL ואינו מציג את השירות כיורש שלו. (אומת ברשומת fm:BAPI_PROCORDCONF_CANCEL)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material Movements for Confirmation | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/2d1ff17e662245e78b0b794116c0b5d5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio 2d1ff17e662245e78b0b794116c0b5d5, נקרא ב-2026-09-28): 'Technical name: " +
+          "ProcOrdConfMatlDocItm Entity that contains the properties for the material document items for goods " +
+          "movements of time ticket confirmations and of confirmations on order level'; 'As soon as you provide the " +
+          "values for the properties of the ProcOrdConfMatlDocItm entity to create a confirmation with material " +
+          "document, no automatic goods movements are determined anymore, for example backflush for components or " +
+          "automatic goods receipts'; ההמלצה להביא קודם הצעה דרך 'the GetGdsMvtProposal function'; 'you still need " +
+          "to manually enter the data for the header material to be posted as a goods receipt, even if the " +
+          "Automatic Goods Receipt indicator is selected'; 'Material documents cannot be created on their own, only " +
+          "together with a confirmation'; ולגבי StorageLocation: 'If you do not provide a storage location, the " +
+          "creation of the material document fails. You can reprocess the incomplete document in the Reprocess " +
+          "Goods Movements app ( COGI )'. עמוד באותו שם (loio c488fb63d1b44807ac805dc580fae1af) מתאר את הישות " +
+          "ProdnOrdConfMatlDocItm של פקודות הייצור ואינו מצוטט כאן.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Integration of Extended Warehouse Management into PP With Synchronous Goods Movements | Extended " +
+          "Warehouse Management Integration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2d95c3180a974e0aad07556ee4d28e94/b9cc83277e5645d780aba27800777163.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_23,
+        claim:
+          "עמוד Integration of Extended Warehouse Management into PP With Synchronous Goods Movements במדריך " +
+          "Extended Warehouse Management Integration למהדורת S/4HANA On-Premise 2025 FPS01 (loio " +
+          "b9cc83277e5645d780aba27800777163, תאריך 2026-02-24) מונה את ה-BAPI בין ממשקי PP שתנועות הסחורה " +
+          "הסינכרוניות אפשריות דרכם: 'The synchronous goods movements are also possible when using the following PP " +
+          "BAPIs and PP APIs' ו-'BAPI_PROCORDCONF_CREATE_HDR BAPI_PROCORDCONF_CREATE_TT BAPI_PROCORDCONF_CANCEL " +
+          "API_PROD_ORDER_CONFIRMATION_2_SRV API_PROC_ORDER_CONFIRMATION_2_SRV'. כלומר ב-2025 FPS01 ה-BAPI מתועד " +
+          "כממשק שמיש לצד שירות ה-OData לדיווחי פקודות תהליך. הסניפט אינו קובע מעמד שחרור ואינו מציג את ה-OData " +
+          "כיורש. (אומת ברשומת fm:BAPI_PROCORDCONF_CANCEL)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Communication of Goods Movements from Inventory Management to EWM | Extended Warehouse Management (EWM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/8a532e4e6aaf4f4b97fd2f014f9837e0.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_14,
+        claim:
+          "הסניפט לגרסת On-Premise 2025 FPS01 קובע: 'You can also post and cancel goods movements using the " +
+          "following Inventory Management BAPIs: BAPI_GOODSMVT_CREATE BAPI_GOODSMVT_CANCEL'. כלומר ה-BAPI מתועד " +
+          "כממשק פעיל לרישום תנועות סחורה בניהול מלאי בגרסה 2025 FPS01. רשומות נוספות מאותו חיפוש ואותה גרסה: " +
+          "'Extensibility for Goods Movements' ב-What's New 2025 FPS01 ‏(loio d4538b721f6d47d9a1fa076b82c1bf77): " +
+          "'The default implementation of the BAdI calls Business Application Programming Interface (BAPI) " +
+          "BAPI_GOODSMVT_CREATE'; 'Integration of a Decentralized WMS' ‏(loio b7706754e90d8c4ce10000000a4450e5): " +
+          "ה-WMS המבוזר משכפל שינויים למערכת S/4HANA דרך BAPI_GOODSMVT_CREATE; ורשומת 'BAPIs and APIs used in " +
+          "Synchronous Goods Movements' ב-What's New 2020 ‏(loio 73cf65e8275d4b279973c9a368890896, 2020.000) מונה " +
+          "תחת Inventory Management BAPIs את BAPI_GOODSMVT_CREATE ו-BAPI_GOODSMVT_CANCEL עם התהליכים הנתמכים 'Goods " +
+          "receipt and goods issue, Stock transfer postings, Goods receipt for orders'. (אומת ברשומת " +
+          "fm:BAPI_GOODSMVT_CREATE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material Documents - Read, Create | APIs for Inventory",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/eb2a39dd0c124fed8252f684002d55e1/d4c919581bc30a02e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_14,
+        claim:
+          "שירות ה-OData‏ Material Documents - Read, Create מתועד למהדורת On-Premise 2025 FPS01 במדריך APIs for " +
+          "Inventory: 'Technical name: API_MATERIAL_DOCUMENT ... This service enables the following operations for " +
+          "material documents: Retrieve material documents, Create material documents, Cancel material documents at " +
+          "header level, Cancel material documents at [item level]'. רשומת 'Operations for Material Document API' " +
+          "באותו מדריך (loio 1aef4e402acd4c8b8ec2ea2bfda7715b, 2025.001) מציגה את נתיב היצירה POST " +
+          "‎<host>/sap/opu/odata/sap/API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentHeader ואת פעולות הביטול ברמת " +
+          "כותרת ופריט. רשומות What's New מתעדות הרחבות שוטפות של השירות: 2023 ‏(loio " +
+          "71c0f9113d2a47cca1de911185cb89af, 'enhanced with additional properties', רכיב MM-IM-GF) ו-2025 FPS01 " +
+          "‏(loio bfe185a3e1ea4fe0a39b12d0683853ff, 'enhanced with Warehouse Handling Unit field'). אף אחת מהרשומות " +
+          "אינה מציגה את ה-API כמחליף של BAPI_GOODSMVT_CREATE; הן מתעדות אותו כשירות OData לרישום מסמכי חומר לצד " +
+          "ה-BAPI. (אומת ברשומת fm:BAPI_GOODSMVT_CREATE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Order Events | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/1c075f4ed36c4fe894690092f221e7ef.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio 1c075f4ed36c4fe894690092f221e7ef, נקרא ב-2026-09-28): 'The Process Order business object " +
+          "triggers the following events': 'Changed This event is raised when a process order is changed; the " +
+          "changed event is raised with every change of the order, up to and including setting the deletion " +
+          "indicator during archiving of the order' ו-'Created This event is raised when a process order is " +
+          "created', עם המטען 'ManufacturingOrder', 'ProcessOrder', 'ProcessOrderType' ו-'ProductionPlant'; " +
+          "'Business events are published on the SAP Business Accelerator Hub'; 'Related APIs Process Order " +
+          "(Version 2)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Order Events | What's New in SAP S/4HANA 2023",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f296651f454c4284ade361292c633d69/f54d2ac61af942e890af0d6d785a069d.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE28,
+        claim:
+          "סניפט רשומת What's New לגרסת 2023 (loio f54d2ac61af942e890af0d6d785a069d): 'The events for the Process " +
+          "Order business object have been enhanced', ומונה עבור האירועים Changed ו-Created את 'ProcessOrder: ID of " +
+          "the process order ProcessOrderType: ID of the process order type ProductionPlant: ID of the production " +
+          "plant'. הגוף לא נקרא; הטענה תחומה לסניפט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "SAP Digital Manufacturing Integration Guide (Document Version 2502, 2025-02-16, PDF)",
+        product: "SAP Digital Manufacturing",
+        edition: "on-premise",
+        release: "2502 (2025-02-16)",
+        url: "https://help.sap.com/doc/f6b2ab2222794bebad4c0dcd33138e71/latest/en-US/SAP_DMC_Integration_Guide_enUS.pdf",
+        accessedAt: DATE_IDOC_02,
+        claim:
+          "מסמך PDF רשמי שנקרא ישירות: טבלת Supported IDocs (עמ' 12, עמודות SAP ERP ו-SAP S/4HANA) מונה 'LOIPRO05 " +
+          "(production and process orders)' עם Yes בשתי העמודות; בהגדרת ה-Partner Profile (עמ' 44) נרשם Message " +
+          "Type LOIPRO עם Basic Type 'LOIPRO05 (production order and process order)'; ב-Distribution Model (עמ' 46) " +
+          "התיאור של LOIPRO הוא 'Production / process order'; ובתרחיש פקודת תהליך (עמ' 199) שחרור הפקודה מעביר אותה " +
+          "דרך DRF 'using IDoc LOIPRO05 according to the filter criteria you set in the DRF'. בעמ' 176, תחת התרחיש " +
+          "'If you're using SAP ERP 6.00 – 6.04 (configuration type A), you transfer the production order using the " +
+          "transaction POIT', נכתב: 'The POIT transaction supports only the IDoc base types LOIPRO01. Additional " +
+          "fields and segments of the IDoc types LOIPRO02, LOIPRO03, and LOIPRO04 aren't supplied when distributing " +
+          "using the POIT transaction'. (אומת ברשומת idoc:msg:LOIPRO)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "POI IDocs | Supply Chain Planning Interfaces (LO-SCI)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/e1d2edc3460848fdb57a2323fc931758/b81ebf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE_IDOC_02,
+        claim:
+          "עמוד POI IDocs במדריך Supply Chain Planning Interfaces (LO-SCI) של SAP ERP 6.18 מונה, בטבלת 'From SAP " +
+          "System To External Optimization System', את LOIPRO כסוג ההודעה של 'Production/Process orders', לצד " +
+          "LOIPLO (Planned orders) ו-LOISTD (Stock/requirements lists); כלומר LOIPRO הוא סוג הודעה של ממשק ה-POI " +
+          "ומכסה גם פקודות תהליך. (אומת ברשומת idoc:msg:LOIPRO)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP - PI-PCS Interface: Linking of Process Control Systems | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/66c0bf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio 66c0bf53f106b44ce10000000a174cb4, נקרא ב-2026-09-28): 'The PI-PCS interface enables the " +
+          "download of control recipes to the lower-level control system and the upload of process-related data in " +
+          "the form of process messages'; 'Confirmation of order-related data via the PI-PCS interface replaces " +
+          "order-related confirmations via PP-PDC'; 'Process messages supply information on the following: Status " +
+          "of process orders Consumption and production of materials Status of resources Selected process events " +
+          "They are used for creating electronic batch records and production records, and for updating the process " +
+          "order and material stocks'. העמוד אינו נוקב ב-BAPI או בשם של מודול פונקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library, Manage Process Orders (F4587)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4587')/S32OP",
+        accessedAt: DATE_OBJ_24,
+        claim:
+          "רשומת הספרייה (fal-app.mjs F4587, S32OP = 2025 FPS01): 'Manage Process Orders', Transactional / SAP " +
+          "Fiori elements, Published, רכיב PP-FIO-PI (Fiori UI for Process Order); תפקיד " +
+          "SAP_BR_PRODN_SUPERVISOR_PROC (Production Supervisor - Process Manufacturing); קטלוג עסקי " +
+          "SAP_SCM_BC_PROC_ORD_MGMT; intent ProcessOrder-manage; שירותי OData: PP_MPE_AOR, " +
+          "PP_PROCESS_ORDER_MANAGE_SRV, וקבוצת שירות V4 PP_MPE_AOR_SRV (S4CORE 109). גרסאות: מ-S18OP (2020) ועד S37 " +
+          "(2608). (אומת ברשומת obj:process-order)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "SAP Fiori Apps Reference Library, Manage Process Order Operations (F5323)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5323')/S32OP",
+        accessedAt: DATE_OBJ_24,
+        claim:
+          "רשומת הספרייה (fal-app.mjs F5323, S32OP = 2025 FPS01): 'Manage Process Order Operations', Transactional " +
+          "/ SAP Fiori elements, Published, רכיב PP-FIO-PI; תפקיד SAP_BR_PRODN_SUPERVISOR_PROC; קטלוג עסקי " +
+          "SAP_SCM_BC_PROC_ORD_MGMT; intent ProcessOrderOperation-manage; שירותי OData: PP_MPE_AOR, " +
+          "PP_PROCESS_ORDER_MANAGE_SRV, וקבוצת V4 PP_MPE_AOR_SRV. גרסאות: מ-S21OP (2021) ועד S37 (2608). (אומת " +
+          "ברשומת obj:process-order)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת האובייקט העסקי obj:process-order בשכבת האימות של הפרויקט",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "הרשומה נושאת status fiori_alternative_available (2025.001): הזמנת התהליך (אובייקט ייחוס BUS0001; אישור " +
+          "BUS2016) מנוהלת גם באפליקציות Manage Process Orders (F4587) ו-Manage Process Order Operations (F5323), " +
+          "רכיב PP-FIO-PI. ה-recommendedAction שלה: 'לתפעול ב-Fiori להפנות ל-F4587, שלפי הספרייה משתמש " +
+          "ב-PP_PROCESS_ORDER_MANAGE_SRV וב-PP_MPE_AOR. זה נפרד מה-API המשוחרר API_PROCESS_ORDER_2_SRV שמתועד " +
+          "ברשומה fiori:F3577'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verification/objects.ts#obj:process-order",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Design-audit continuation §11 (process catalog)",
+    lastVerifiedAt: DATE28,
+    reviewer: "Design-audit continuation §11 (process catalog); Project NEO research pipeline (researcher + adversarial auditor), 2026-09-28",
     notes:
       "רשומת תהליך: כל שדה בפרופיל נגזר מרשומות המאגר הנקובות או מעמוד רשמי שכבר אומת ברשומות tx:COR1, tx:COR3, " +
       "tx:COR6N, fm:BAPI_PROCORD_GET_DETAIL ו-fm:BAPI_PROCORDCONF_CREATE_TT. פריט SAP Best Practices (Scope Item) " +
       "לתהליך לא אותר ולכן ההפניה הרשמית היא עמוד התהליך. מזהי ה-Fiori F3577 ו-F3364 נשמרים כמזהי המאגר בלבד: " +
-      "רשומות האימות מציינות שהתיעוד הרשמי נוקב ב-F4587, ב-F5323 וב-App ID CORK, ושלושתם אינם במילון הפרויקט. " +
-      "הטבלאות MATDOC, AFFW, PLAF, MDKP, CKMLPP ו-KEKO, ותצוגת ה-CDS I_ManufacturingOrder, מופיעות ברשומות המאגר " +
-      "אך אינן במילון המזהים, ולכן הן נזכרות בטקסט בלבד. אובייקט ה-BOR BUS2116 הגיע משכבת ההעשרה של המאגר; ב-2026-09-24 תוקן ל-BUS0001 לפי עמוד " +
-      "Reference Objects הרשמי (2025.001, loio 62d3b65334e6b54ce10000000a174cb4), שמציב את BUS2116 לאישור פקודת ייצור. לא בוצעה בדיקה במערכת SAP חיה.",
+      "רשומות האימות מציינות שהתיעוד הרשמי נוקב ב-F4587, ב-F5323 וב-App ID CORK, ומתוכם CORK אינו במילון הפרויקט " +
+      "(F4587 ו-F5323 נוספו ל-data/fiori/apps.ts לאחר מכן). הטבלאות MATDOC, AFFW, PLAF, MDKP, CKMLPP ו-KEKO, ותצוגת " +
+      "ה-CDS I_ManufacturingOrder, מופיעות ברשומות המאגר אך אינן במילון המזהים, ולכן הן נזכרות בטקסט בלבד. אובייקט " +
+      "ה-BOR BUS2116 הגיע משכבת ההעשרה של המאגר; ב-2026-09-24 תוקן ל-BUS0001 לפי עמוד Reference Objects הרשמי " +
+      "(2025.001, loio 62d3b65334e6b54ce10000000a174cb4), שמציב את BUS2116 לאישור פקודת ייצור. לא בוצעה בדיקה " +
+      "במערכת SAP חיה. השלמה ב-2026-09-28 (backfill, researcher): נוסף process.interfaces (11 שורות) ו-24 שורות " +
+      "ראיה (6 מאגר, 16 sap_help, 2 fiori_library); כל השדות הקודמים הועתקו כלשונם, מלבד התיקון לפי הביקורת המתואר " +
+      "להלן (Old → New). שבע שאילתות ב-scripts/sap-help-search.mjs (עם --size 12): 'Process Order (Version 2) " +
+      "API_PROCESS_ORDER_2_SRV', 'process order business events', 'process messages external system process order " +
+      "PI-PCS', 'LOIPRO05 process order distribution MES', 'Material Documents API_MATERIAL_DOCUMENT_SRV goods " +
+      "issue production order', 'Process Order Confirmation API_PROC_ORDER_CONFIRMATION_2_SRV' " +
+      "ו-'ProcOrdConfMatlDocItm material document process order confirmation'; גופי חמישה עמודים נקראו דרך " +
+      "scripts/sap-help-body.mjs (Operations for Process Order (Version 2), Process Order Events, PP - PI-PCS " +
+      "Interface, ושני עמודי Material Movements for Confirmation, שמהם רק עמוד ProcOrdConfMatlDocItm של פקודת " +
+      "התהליך מצוטט). BAPI_PROCORD_CREATE_FROM_PLORD, BAPI_PROCORDCONF_CREATE_HDR, LOIPRO05, POIT ושמות שירותי " +
+      "ה-OData נזכרים בטקסט בלבד כי אינם במילון המזהים. סתירה שנרשמה ולא תוקנה בשדות הקיימים: שורת האינטגרציה " +
+      "הראשונה מתארת את LOIPRO כ-IDoc 'להעברת מסלול או מתכון' לפי רשומת התחום, ואילו רשומת האימות idoc:msg:LOIPRO " +
+      "והתיעוד הרשמי מייחסים אותו לפקודות ייצור ותהליך. Old → New (2026-09-28, לפי הביקורת): שורת ה-Fiori " +
+      "שב-transactions הסתיימה ב-', ושני המזהים אינם במילון הפרויקט.' וההערות קבעו על F4587, F5323 ו-CORK 'ושלושתם " +
+      "אינם במילון הפרויקט'; F4587 ו-F5323 קיימים כעת ב-data/fiori/apps.ts, ולכן המשפט הוסר מהשורה, ההערה תוקנה, " +
+      "ושני המזהים קושרו בשורות transactions ו-eccToS4 וברשימת ה-xrefs של הרשומה. בשלב הכתיבה נוספה שורת ראיה " +
+      "מהמאגר (data/verification/objects.ts#obj:process-order) לייחוס שבשורה האחרונה של interfaces, ומקור השורה של " +
+      "BAPI_GOODSMVT_CREATE הורחב לרשומת האימות ולרישום המועשר. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* ========================================== master recipe + prod version */
@@ -497,8 +996,8 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         xrefs: ["tx:CS03", "tx:CA51", "table:MKAL"],
       },
       {
-        he: "לתחזק שינויים דרך C202 ו-C223 ולא בעדכון ישיר של PLKO או PLPO; לקריאה תוכניתית קיימים CP_RECIPE_READ ו-CP_DI_OPERATION_READ, וליצירת גרסה BAPI_PRODVERS_CREATE_REPLACE.",
-        xrefs: ["fm:CP_RECIPE_READ", "fm:CP_DI_OPERATION_READ", "fm:BAPI_PRODVERS_CREATE_REPLACE", "fm:CM_FV_PROD_VERS_READ"],
+        he: "לתחזק שינויים דרך C202 ו-C223 ולא בעדכון ישיר של PLKO או PLPO. המאגר מונה לקריאה תוכניתית את CP_RECIPE_READ ו-CP_DI_OPERATION_READ, ולגרסת ייצור את BAPI_PRODVERS_CREATE_REPLACE ו-CM_FV_PROD_VERS_READ; רשומות האימות של ארבעת השמות נמצאות ב-verification_required והמאגר חלוק לגבי BAPI_PRODVERS_CREATE_REPLACE, ולכן יש לבדוק ב-SE37 במערכת היעד לפני שימוש. ב-S/4HANA (מגרסה 2022) התיעוד הרשמי מתעד ליצירה ולעדכון של גרסת ייצור את שירות ה-OData V4 API_PRODUCTION_VERSION.",
+        xrefs: ["tx:C202", "tx:C223", "table:PLKO", "table:PLPO", "fm:CP_RECIPE_READ", "fm:CP_DI_OPERATION_READ", "fm:BAPI_PRODVERS_CREATE_REPLACE", "fm:CM_FV_PROD_VERS_READ", "tx:SE37"],
       },
     ],
     antiPatterns: [
@@ -533,6 +1032,12 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "מתכון אב: סוג מתכון, משאב לכל שלב, ערכי תקן, מפתח בקרה והוראות תהליך.", xrefs: ["table:PLKO", "table:PLPO"] },
         { he: "גרסת ייצור: עץ מוצר וחלופה, מתכון, תוקף (Valid-from/to), טווח כמות ומפעל.", xrefs: ["table:MKAL", "tx:C223"] },
       ],
+      roles: [
+        { he: "מהנדס ייצור לתעשייה תהליכית (SAP_BR_PRODN_ENG_PROC, ‏R0184-11), לפי ספריית ה-Fiori ב-S/4HANA 2025 FPS01 (S32OP): התפקיד המשויך לאפליקציה Manage Master Recipes (F5426) ולאפליקציות ה-GUI Create Master Recipe (C201) ו-Change Master Recipe (C202), דרך הקטלוג העסקי SAP_SCM_BC_PPROC_ENG 'Production (Process) - Process Engineering'.", xrefs: ["tx:C201", "tx:C202", "obj:master-recipe"] },
+        { he: "גרסאות ייצור, לפי ספריית ה-Fiori (S32OP): Manage Production Versions (F2568, טרנזקציית GUI מובילה C223) ו-Process Production Versions (F6400) משויכות גם ל-SAP_BR_PRODN_ENG_PROC וגם למהנדס ייצור לתעשייה בדידה (SAP_BR_PRODN_ENG_DISC, ‏R0184-01), דרך הקטלוגים SAP_SCM_BC_PPROC_ENG ו-SAP_SCM_BC_PROC_ENG.", xrefs: ["tx:C223", "table:MKAL"] },
+        { he: "תצוגה: אפליקציית ה-GUI Display Master Recipe (C203) משויכת בספריית ה-Fiori (S32OP) לשבעה תפקידים: מהנדסי הייצור (SAP_BR_PRODN_ENG_PROC, ‏SAP_BR_PRODN_ENG_DISC), מפעילי הייצור (SAP_BR_PRODN_OPTR_PROC, ‏SAP_BR_PRODN_OPTR_DISC), מתכנן הייצור (SAP_BR_PRODN_PLNR) ומפקחי הייצור (SAP_BR_PRODN_SUPERVISOR_PROC, ‏SAP_BR_PRODN_SUPERVISOR_DISC), בין השאר דרך הקטלוגים 'Manufacturing - Master Data Display' ו-'Production - Master Data Display'.", xrefs: ["tx:C203"] },
+        { he: "רובד המאגר: ספריית הטרנזקציות של הפרויקט מייחסת את C201 ל'מהנדס תהליך' ואת C223 ל'מהנדס/מתכנן ייצור'; זה תיאור המאגר ולא שם תפקיד עסקי של SAP.", xrefs: ["tx:C201", "tx:C223"] },
+      ],
       transactions: [
         { he: "C201 יצירה, C202 שינוי, C203 תצוגה; C251 הדפסה ו-C298 מחיקה לפי רשומת התחום.", xrefs: ["tx:C201", "tx:C202", "tx:C203", "tx:C251", "tx:C298"] },
         { he: "C223 לתחזוקת גרסאות הייצור; CS01 עד CS03 לעץ המוצר; CA01 עד CA03 ו-CA51 למסלול הייצור הדיסקרטי המקביל.", xrefs: ["tx:C223", "tx:CS01", "tx:CS02", "tx:CS03", "tx:CA01", "tx:CA02", "tx:CA03", "tx:CA51"] },
@@ -550,6 +1055,15 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "QM: מאפייני בדיקה במתכון (PLMK) מייצרים בדיקה תוך כדי ייצור.", xrefs: ["table:PLMK"] },
         { he: "תמחיר: המתכון והמשאבים הם הבסיס לחישוב עלות התקן לפני שחרורה.", xrefs: ["tx:CK11N", "tx:CK24"] },
         { he: "ניהול שינויים: CC01 ו-CS08 לניהול שינוי הנדסי על רשימות המשימות לפי רשומות המאגר.", xrefs: ["tx:CC01", "tx:CS08"] },
+      ],
+      interfaces: [
+        { he: "ECC ו-S/4HANA, לפי רשומות המאגר: קריאה תוכניתית של המתכון ב-CP_RECIPE_READ (קלט PLNTY/PLNNR, טבלאות PLKO ו-PLPO) ושל הפעולות והשלבים ב-CP_DI_OPERATION_READ (PLPO, קלט PLNNR/PLNAL). רשומות האימות של שני השמות מתעדות שאף מקור רשמי שנבדק אינו נוקב בהם, ולכן קיומם, הפרמטרים ומצב השחרור דורשים בדיקה ב-SE37 במערכת היעד לפני שימוש.", xrefs: ["fm:CP_RECIPE_READ", "fm:CP_DI_OPERATION_READ", "table:PLKO", "table:PLPO", "tx:SE37"] },
+        { he: "גרסת ייצור, לפי המאגר: BAPI_PRODVERS_CREATE_REPLACE ליצירה או להחלפה ו-CM_FV_PROD_VERS_READ לקריאת MKAL. המאגר חלוק לגבי BAPI_PRODVERS_CREATE_REPLACE: סריקת האימות מסמנת אותו invalid-name ומפנה ל-C223 או ל-CM_FV_PROD_VERS_MAINTAIN, וקטלוג הפונקציות מתאר מודול קיים; רשומות האימות של BAPI_PRODVERS_CREATE_REPLACE ושל CM_FV_PROD_VERS_READ נשארות verification_required. לפי אותה רשומת אימות, בעמוד אובייקט ההגירה הרשמי 'PP - Production version' (2025 FPS01) מודפס לשלב 'Create Production Version' מודול הפונקציה FV_PROD_VERS_MAINTAIN_MULTI, והעמוד אינו מציג אותו כמחליף של אף שם.", xrefs: ["fm:BAPI_PRODVERS_CREATE_REPLACE", "fm:CM_FV_PROD_VERS_READ", "table:MKAL", "tx:C223"] },
+        { he: "S/4HANA (On-Premise 2025 FPS01): שירות ה-OData הסינכרוני הנכנס API_MASTER_RECIPE מאפשר צפייה, יצירה ועדכון של המתכון על הישויות MasterRecipeHeader, ‏MasterRecipeMatlAssgmt, ‏MasterRecipeOperation, ‏MasterRecipePhase, הקצאות הרכיבים, המשאבים המשניים, קשרי השלבים ומאפייני הבדיקה. לפי סעיף ה-Constraints אין בו מחיקת מתכון, ואין בו יצירה או עדכון כשלפרופיל המתכון משויך כלל שינוי (Change Rule). What's New מציג אותו כחדש ב-S/4HANA 2020, ובגרסת 2025 FPS01 כמורחב לשיוך מאפייני בדיקה לפעולה או לשלב.", xrefs: ["obj:master-recipe", "table:PLKO", "table:PLPO"] },
+        { he: "S/4HANA (On-Premise 2025 FPS01): שירות ה-OData V4‏ API_PRODUCTION_VERSION לקריאה (GET), ליצירה (POST) ולעדכון (PATCH) של גרסת הייצור; ביצירה Material, ‏Plant, ‏ProductionVersion ו-ProductionVersionText הם שדות חובה, וכל פעולת שינוי מחייבת כותרת If-Match; פעולת מחיקה אינה מופיעה בטבלת הפעולות. רשומת What's New של 2022 מסווגת אותו כחדש (Valid as Of SAP S/4HANA 2022, רכיב PP-PI-MD-PRV).", xrefs: ["table:MKAL", "tx:C223"] },
+        { he: "S/4HANA, יציאה ל-MES: שירות ה-SOAP האסינכרוני היוצא Master Recipe - Replicate (ManufacturingMasterRecipeInfomation_Out) משכפל מתכוני אב ל-Manufacturing Execution System דרך Data Replication Framework (DRF), עם ניטור ב-Application Interface Framework (AIF), במצבי Initialize, ‏Change ו-Manual ובקבוצת השירות PPINT_SOA_MFG_MASTER_DATA; ההודעה כוללת כותרת, הקצאת חומר, גרסת ייצור, פעולות, שלבים, משאבים משניים, הקצאות רכיבים וקשרים. רשומת What's New של S/4HANA 2021 מציגה את SOAP API: Master Recipe (Version 2) (CO_PPINT_MFG_MASTER_RECIPE_V2) כחדש לאותה העברה ל-MES ומפנה ל-\"Master Recipe - Replicate (Version 2)\"; העמודים אינם מקשרים במפורש בין שם ה-proxy לשם הטכני ManufacturingMasterRecipeInfomation_Out.", xrefs: ["obj:master-recipe", "table:MKAL"] },
+        { he: "S/4HANA (תיעוד 2025 FPS01): האובייקט העסקי Master Recipe מפעיל את האירועים Created, ‏Changed ו-Deleted, עם המטען MASTERRECIPEGROUP, ‏MASTERRECIPE ו-MASTERRECIPEINTERNALVERSION; מחיקה מפעילה אירוע לכל פרוסת זמן (Time Slice) של המתכון, והאירועים מתפרסמים ב-SAP Business Accelerator Hub.", xrefs: ["obj:master-recipe"] },
+        { he: "שירותי ה-OData של האפליקציות לפי ספריית ה-Fiori (S32OP): Manage Master Recipes (F5426) על קבוצת ה-V4‏ UI_MASTERRECIPE, ולפי עמוד העזרה שלה על תצוגת ה-CDS‏ C_MASTERRECIPE; Manage Production Versions (F2568) על MPE_MANAGE_PRODVER_SRV ו-MPE_MATERIAL_POVER; Process Production Versions (F6400) על UI_PRODUCTIONVERSION. שלושת מזהי האפליקציות אינם במילון הפרויקט ולכן אינם מקושרים.", xrefs: ["obj:master-recipe", "tx:C223"] },
       ],
       outputs: [
         { he: "מתכון אב משוחרר עם פעולות, שלבים, משאבים, רכיבים והוראות תהליך.", xrefs: ["table:PLKO", "table:PLPO"] },
@@ -786,18 +1300,292 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book2.json#7.2.5",
       },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Master Recipes - SAP Fiori Apps Reference Library",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F5426')/S32OP",
+        accessedAt: DATE28,
+        claim:
+          "רשומת F5426 בספריית Fiori Apps (S32OP, S/4HANA 2025 FPS01) מציגה את 'Manage Master Recipes' כאפליקציה " +
+          "טרנזקציונלית (SAP Fiori elements, רכיב PP-PI-MD-MRC), עם התפקיד SAP_BR_PRODN_ENG_PROC (R0184-11, " +
+          "Production Engineer - Process Manufacturing), הקטלוג העסקי SAP_SCM_BC_PPROC_ENG, קבוצת ה-OData V4‏ " +
+          "UI_MASTERRECIPE (S4CORE 109), בלי טרנזקציית GUI מובילה, וזמינות מ-S21OP (2021) ועד S32OP.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Create Master Recipe - SAP Fiori Apps Reference Library",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('C201')/S32OP",
+        accessedAt: DATE28,
+        claim:
+          "רשומת C201 בספריית Fiori Apps (S32OP) מציגה את אפליקציית ה-GUI 'Create Master Recipe' (רכיב " +
+          "PP-PI-MD-MRC) עם התפקיד SAP_BR_PRODN_ENG_PROC (R0184-11, Production Engineer - Process Manufacturing) " +
+          "והקטלוג העסקי SAP_SCM_BC_PPROC_ENG 'Production (Process) - Process Engineering'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Change Master Recipe - SAP Fiori Apps Reference Library",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('C202')/S32OP",
+        accessedAt: DATE28,
+        claim:
+          "רשומת C202 בספריית Fiori Apps (S32OP) מציגה את אפליקציית ה-GUI 'Change Master Recipe' (רכיב " +
+          "PP-PI-MD-MRC) עם התפקיד SAP_BR_PRODN_ENG_PROC והקטלוג העסקי SAP_SCM_BC_PPROC_ENG.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Display Master Recipe - SAP Fiori Apps Reference Library",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('C203')/S32OP",
+        accessedAt: DATE28,
+        claim:
+          "רשומת C203 בספריית Fiori Apps (S32OP) מציגה את אפליקציית ה-GUI 'Display Master Recipe' עם התפקידים " +
+          "SAP_BR_PRODN_ENG_DISC, ‏SAP_BR_PRODN_ENG_PROC, ‏SAP_BR_PRODN_OPTR_DISC, ‏SAP_BR_PRODN_OPTR_PROC, " +
+          "‏SAP_BR_PRODN_PLNR, ‏SAP_BR_PRODN_SUPERVISOR_DISC ו-SAP_BR_PRODN_SUPERVISOR_PROC, ועם הקטלוגים " +
+          "SAP_SCM_BC_MFG_MD_OBJ_PGS 'Manufacturing - Master Data Display', ‏SAP_SCM_BC_PPROC_ENG " +
+          "ו-SAP_SCM_BC_PRODN_MD_DSP 'Production - Master Data Display'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Production Versions - SAP Fiori Apps Reference Library",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2568')/S32OP",
+        accessedAt: DATE28,
+        claim:
+          "רשומת F2568 בספריית Fiori Apps (S32OP) מציגה את 'Manage Production Versions' (SAP Fiori elements, רכיב " +
+          "PP-PEO) עם התפקידים SAP_BR_PRODN_ENG_DISC (R0184-01) ו-SAP_BR_PRODN_ENG_PROC (R0184-11), הקטלוגים " +
+          "SAP_SCM_BC_PPROC_ENG ו-SAP_SCM_BC_PROC_ENG, שירותי ה-OData‏ MPE_MANAGE_PRODVER_SRV ו-MPE_MATERIAL_POVER, " +
+          "טרנזקציית GUI מובילה C223 וקשורה C223_D, וזמינות מ-S9OP (1709).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Process Production Versions - SAP Fiori Apps Reference Library",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F6400')/S32OP",
+        accessedAt: DATE28,
+        claim:
+          "רשומת F6400 בספריית Fiori Apps (S32OP) מציגה את 'Process Production Versions' (SAP Fiori (SAPUI5), רכיב " +
+          "PP-PI-MD-PRV) עם התפקידים SAP_BR_PRODN_ENG_DISC ו-SAP_BR_PRODN_ENG_PROC, הקטלוגים SAP_SCM_BC_PPROC_ENG " +
+          "ו-SAP_SCM_BC_PROC_ENG, שירות ה-OData‏ UI_PRODUCTIONVERSION, וזמינות מ-S24OP (2022).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manage Master Recipes | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/044193180a83415f93949c9939015206.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio 044193180a83415f93949c9939015206, נקרא דרך שירות התוכן) קובע שהאפליקציה מאפשרת חיפוש " +
+          "במתכוני אב קיימים וניווט ל-Create, ‏Change ו-Display Master Recipe, עם תאריך מפתח (Key Date) כשדה חובה, " +
+          "הדפסת המתכון כ-PDF, ו-'This app uses the C_MASTERRECIPE CDS view'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Process Production Versions | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/907b678f57d24d3bbaa03f99e5506d21.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (App ID: F6400, נקרא דרך שירות התוכן) מתעד הצעות ליצירת גרסת ייצור 'if a new BOM or task list " +
+          "is created or if a production version does not exist for a BOM or task list combination', קבלה ודחייה " +
+          "(גם המונית) של הצעות, שמירת ההצעות שנדחו 180 יום, נעילה ושחרור המוניים, 'Overall Check Status that " +
+          "displays the result of the latest consistency check', 'Check summary of the various inconsistencies of " +
+          "existing production versions', ותמיכה בסוגי רשימת המשימות Production routing, ‏reference operation set " +
+          "ו-master recipes; בדיקות העקביות שמוגדרות ב-Customizing חלות על האפליקציה ולא על C223.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Recipe | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/4d9ed891a8c547c493e70dbfdcbea7bb.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio 4d9ed891a8c547c493e70dbfdcbea7bb, נקרא דרך שירות התוכן) קובע 'Technical name: " +
+          "API_MASTER_RECIPE This synchronous inbound service enables you to view, create and update all details of " +
+          "a master recipe and its relationships', מונה את הישויות MasterRecipeHeader, ‏MasterRecipeMatlAssgmt, " +
+          "‏MasterRecipeOperation, ‏MasterRecipePhase, ‏MasterRecipeOpCompAlloc, ‏MasterRecipePhseCompAlloc, " +
+          "‏MasterRecipeOpSecdryRsce, ‏MasterRecipePhseSecdryRsce, ‏MasterRecipePhseRelshp " +
+          "ו-MasterRecipeInspCharcsAssgmt, ובסעיף Constraints: אין מחיקת מתכון, אין עדכון של הקצאת רכיבים והקצאת " +
+          "חומר, ואין יצירה או עדכון 'if a change rule is assigned to the recipe profile'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Recipe - Replicate | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/278dbcffd19441c58a66ef3aaf53b423.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio 278dbcffd19441c58a66ef3aaf53b423, נקרא דרך שירות התוכן) קובע 'Technical name: " +
+          "ManufacturingMasterRecipeInfomation_Out This asynchronous outbound service enables you to replicate " +
+          "production planning master recipes from S/4 HANA system to Manufacturing Execution System(MES)', מבוסס " +
+          "SOAP עם ניטור ב-AIF ושליחה דרך DRF, במצבים Initialize, ‏Change ו-Manual, עם קבוצת השירות " +
+          "PPINT_SOA_MFG_MASTER_DATA, וצמתים לכותרת, להקצאת חומר, לגרסת ייצור, לפעולות, לשלבים ולמשאבים משניים, " +
+          "להקצאות רכיבים ולקשרים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Master Recipe Events | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/328210543630425aac8cf34b82670be1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio 328210543630425aac8cf34b82670be1, נקרא דרך שירות התוכן) קובע 'The Master Recipe business " +
+          "object triggers the following events' ומונה Changed, ‏Created ו-Deleted עם המטען MASTERRECIPEGROUP, " +
+          "‏MASTERRECIPE ו-MASTERRECIPEINTERNALVERSION; מחיקה מוחקת את כל פרוסות הזמן ומפעילה אירוע לכל אחת, " +
+          "והאירועים 'are published on the SAP Business Accelerator Hub'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "SOAP API: Master Recipe (Version 2) | What's New in SAP S/4HANA 2021",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2021.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/40db488c8900438aba28a81196c50b79.html?locale=en-US&state=PRODUCTION&version=2021.000",
+        accessedAt: DATE28,
+        claim:
+          "גוף הרשומה (loio 40db488c8900438aba28a81196c50b79, נקרא דרך שירות התוכן) קובע 'With the SOAP API Master " +
+          "Recipe (Version 2) ( CO_PPINT_MFG_MASTER_RECIPE_V2 ), you can replicate production planning master " +
+          "recipes from S/4 HANA system to Manufacturing Execution System(MES)' עם ניטור ב-AIF, סוג New, רכיב " +
+          "PP-PI-MD-MRC ו-'Valid as Of SAP S/4HANA 2021'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Version | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/ccf476b09f65420ba36eda390fc758a6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_23,
+        claim:
+          "גוף הנושא 'Production Version' במדריך APIs for Manufacturing של S/4HANA On-Premise 2025 FPS01 (loio " +
+          "ccf476b09f65420ba36eda390fc758a6, deliverable_id 40374287, buildNo 1779) נקרא במלואו דרך שירות התוכן של " +
+          "הפורטל. הוא פותח ב-'A production version determines which alternative BOM is used together with which " +
+          "task list/master recipe to produce a material or create a master production schedule', וקובע 'Service " +
+          "name: API_PRODUCTION_VERSION', 'This service enables you to read, create, and update the specified " +
+          "details of a production version', 'This is an OData version 4 service' ו-'This service is published on " +
+          "the SAP Business Accelerator Hub', ומציין את קבוצת השירות API_PRODUCTION_VERSION במאגר SRVD_A2X בגרסה " +
+          "0001. עמוד 'Operations for Production Versions' באותו מדריך (loio 2c77bb00efd94470ae7014a5582712f5, אותו " +
+          "deliverable ואותו build, נקרא במלואו) מונה שלוש פעולות: 'Read Production Version Header' ב-GET, 'Create " +
+          "Production Version Header' ב-POST על הישות ProductionVersion ו-'Update Production Version Header' " +
+          "ב-PATCH, וקובע 'You can combine several operations in a batch call' ו-'For this API, the If-Match header " +
+          "must be set for all change operations'. עמוד 'Create Production Version Header' (loio " +
+          "df8cd12e04f64f46952b0a70183deb92, נקרא במלואו) מסמן את Material, Plant, ProductionVersion " +
+          "ו-ProductionVersionText כ-Mandatory ואת שאר מאפייני הבקשה כ-Optional. רשומת What's New של S/4HANA 2022 " +
+          "בשם 'OData API: Production Version' (loio acb53fb65aaa48d49827a6c3efe7f2d9, גרסה 2022.000, נקראה במלואה) " +
+          "מסווגת את השירות 'Type New' עם רכיב היישום PP-PI-MD-PRV, פריטי ההיקף BJ5 ו-BJ8 ו-'Valid as Of SAP " +
+          "S/4HANA 2022'. אף אחד מהעמודים אינו נוקב בשם BAPI_PRODVERS_CREATE_REPLACE ואינו מציג את השירות כמחליף של " +
+          "מודול פונקציה. (אומת ברשומת fm:BAPI_PRODVERS_CREATE_REPLACE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "רשומות האימות של הפרויקט לממשקי המתכון וגרסת הייצור: fm:CP_RECIPE_READ, ‏fm:CP_DI_OPERATION_READ, " +
+          "‏fm:BAPI_PRODVERS_CREATE_REPLACE, ‏fm:CM_FV_PROD_VERS_READ",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "רשומת fm:CP_RECIPE_READ מתעדת שהשם לא נמצא באף מקור רשמי שנבדק ומשאירה את קיומו ברמת " +
+          "verification_required; רשומת fm:CP_DI_OPERATION_READ מצמידה לו את עמוד API_MASTER_RECIPE ואת רשומות " +
+          "What's New 'OData API: Master Recipe' (2020, תכונה חדשה; 2025 FPS01, הרחבה לשיוך מאפייני בדיקה לפעולה או " +
+          "לשלב), ומציינת שהעמודים אינם מזכירים את המודול; רשומת fm:BAPI_PRODVERS_CREATE_REPLACE נושאת סטטוס " +
+          "verification_required, מתעדת שהמאגר חלוק (סריקת האימות מסמנת invalid-name, קטלוג הפונקציות מתאר מודול " +
+          "קיים), ומצטטת מעמוד ההגירה 'PP - Production version' את מודול הפונקציה FV_PROD_VERS_MAINTAIN_MULTI לשלב " +
+          "'Create Production Version'; רשומת fm:CM_FV_PROD_VERS_READ נושאת סטטוס verification_required.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verification/functions.ts#fm:CP_RECIPE_READ; data/verification/functions.ts#fm:CP_DI_OPERATION_READ; data/verification/functions.ts#fm:BAPI_PRODVERS_CREATE_REPLACE; data/verification/functions.ts#fm:CM_FV_PROD_VERS_READ",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות המאגר לפונקציות ולטרנזקציות: סריקת האימות, קטלוג הפונקציות וספריית הטרנזקציות",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "סריקת האימות מסמנת את BAPI_PRODVERS_CREATE_REPLACE כ-invalid עם התיאור 'אין BAPI משוחרר ליצירת גרסת " +
+          "ייצור. השתמש בטרנזקציה C223, או ב-FM הפנימי CM_FV_PROD_VERS_MAINTAIN.'; קטלוג הפונקציות מתאר את " +
+          "CP_RECIPE_READ לקריאת מתכון אב (פעולות, שלבים, הוראות תהליך), את CP_DI_OPERATION_READ לקריאת פעולות " +
+          "PLPO, את CM_FV_PROD_VERS_READ לקריאת גרסאות ייצור מ-MKAL, ואת BAPI_PRODVERS_CREATE_REPLACE ליצירה או " +
+          "להחלפה של גרסת ייצור; ספריית הטרנזקציות מייחסת את C201 ל'מהנדס תהליך' ואת C223 ל'מהנדס/מתכנן ייצור'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.sweep.ts#BAPI_PRODVERS_CREATE_REPLACE; data/function-intel.ts#CP_RECIPE_READ; data/function-intel.ts#CP_DI_OPERATION_READ; data/function-intel.ts#CM_FV_PROD_VERS_READ; data/function-intel.ts#BAPI_PRODVERS_CREATE_REPLACE; data/transactions.ts#C201; data/transactions.ts#C223",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת האובייקט העסקי obj:master-recipe בשכבת האימות של הפרויקט",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "הרשומה מאגדת את PLKO, ‏PLPO, ‏PLAS, ‏PLMZ, ‏MAPL ואת C201, ‏C202 ו-C203 תחת האובייקט מתכון אב, ונושאת " +
+          "סטטוס unchanged ל-S/4HANA 2025 FPS01 על בסיס עמוד אובייקט ההגירה, עם שורת ספריית Fiori ל-F5426 (תפקיד " +
+          "SAP_BR_PRODN_ENG_PROC, קבוצת ה-OData V4‏ UI_MASTERRECIPE).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verification/objects.ts#obj:master-recipe",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Design-audit continuation §11 (process catalog)",
+    lastVerifiedAt: DATE28,
+    reviewer: "Design-audit continuation §11 (process catalog); Project NEO research pipeline (researcher + adversarial auditor), 2026-09-28",
     notes:
-      "רשומת תהליך: כל שדה בפרופיל נגזר מרשומות המאגר הנקובות או מעמוד רשמי שכבר אומת ברשומות tx:C201, " +
-      "table:PLKO, table:PLPO, table:PLMK ו-table:MKAL. שני שדות בפרופיל הושמטו במכוון מפני שהמאגר אינו מתעד " +
-      "אותם לתהליך הזה: roles (אין תפקיד עסקי של SAP הרשום לתחזוקת מתכון אב או גרסת ייצור באף רשומת Fiori של " +
-      "הפרויקט) ו-kpis (אין מדדים מתועדים לתהליך נתוני האב). מזהי האפליקציות F5426 (Manage Master Recipes) " +
-      "ו-Manage Production Versions אינם קיימים ב-data/fiori/apps.ts ולכן אינם מקושרים. הטבלאות PLFH, PLMW, " +
-      "PLAB, PLFT, KALT ו-KALC מופיעות בעמוד הארכוב הרשמי אך אינן במילון הפרויקט, ולכן הן נזכרות בטקסט בלבד. " +
-      "טענת ה-CDS (I_Routing ו-I_RoutingOperation כשכבת ה-VDM של המתכון) מגיעה מרשומת המאגר ולא אוששה במקור " +
-      "רשמי, כפי שנרשם ברשומת tx:C201. לא בוצעה בדיקה במערכת SAP חיה.",
+      "ממצא 2026-09-22 (Old): רשומת תהליך: כל שדה בפרופיל נגזר מרשומות המאגר הנקובות או מעמוד רשמי שכבר אומת " +
+      "ברשומות tx:C201, table:PLKO, table:PLPO, table:PLMK ו-table:MKAL. שני שדות בפרופיל הושמטו במכוון מפני שהמאגר " +
+      "אינו מתעד אותם לתהליך הזה: roles (אין תפקיד עסקי של SAP הרשום לתחזוקת מתכון אב או גרסת ייצור באף רשומת Fiori " +
+      "של הפרויקט) ו-kpis (אין מדדים מתועדים לתהליך נתוני האב). מזהי האפליקציות F5426 (Manage Master Recipes) " +
+      "ו-Manage Production Versions אינם קיימים ב-data/fiori/apps.ts ולכן אינם מקושרים. הטבלאות PLFH, PLMW, PLAB, " +
+      "PLFT, KALT ו-KALC מופיעות בעמוד הארכוב הרשמי אך אינן במילון הפרויקט, ולכן הן נזכרות בטקסט בלבד. טענת ה-CDS " +
+      "(I_Routing ו-I_RoutingOperation כשכבת ה-VDM של המתכון) מגיעה מרשומת המאגר ולא אוששה במקור רשמי, כפי שנרשם " +
+      "ברשומת tx:C201. לא בוצעה בדיקה במערכת SAP חיה. השלמה 2026-09-28 (Old → New): נוספו roles ו-interfaces. " +
+      "roles: קודם הושמט כי אף רשומת Fiori של הפרויקט לא נקבה בתפקיד; עכשיו מבוסס על ספריית ה-Fiori (S32OP) לרשומות " +
+      "F5426, ‏C201, ‏C202, ‏C203, ‏F2568 ו-F6400. kpis: נשאר מושמט. עמוד העזרה של Process Production Versions " +
+      "(F6400) מתעד את Overall Check Status, את סיכום חוסרי העקביות ואת רשימת הצעות גרסת הייצור כתכונות של אפליקציה " +
+      "טרנזקציונלית ולא כמדדים; בחיפושים 'production version KPI analytical' ו-'master recipe KPI' (21 רשומות כל " +
+      "אחד, 2026-09-28) אף כותרת אינה נוקבת באפליקציה אנליטית או ב-KPI למתכון אב או לגרסת ייצור. זה ממצא תחום " +
+      "לחיפוש. interfaces: API_MASTER_RECIPE, ‏API_PRODUCTION_VERSION, ‏Master Recipe - Replicate (SOAP) ו-SOAP " +
+      "API: Master Recipe (Version 2) (‏CO_PPINT_MFG_MASTER_RECIPE_V2), אירועי Master Recipe ושירותי ה-OData של " +
+      "האפליקציות מעמודים רשמיים; שמות המודולים CP_RECIPE_READ, ‏CP_DI_OPERATION_READ, " +
+      "‏BAPI_PRODVERS_CREATE_REPLACE ו-CM_FV_PROD_VERS_READ נשארים ברובד המאגר ורשומות האימות שלהם " +
+      "verification_required. השלב התשיעי (Old): \"לקריאה תוכניתית קיימים CP_RECIPE_READ ו-CP_DI_OPERATION_READ, " +
+      "וליצירת גרסה BAPI_PRODVERS_CREATE_REPLACE\" (New): מנוסח ברובד המאגר עם סטטוס האימות, לפי ה-recommendedAction " +
+      "של רשומת fm:BAPI_PRODVERS_CREATE_REPLACE, ומפנה ל-API_PRODUCTION_VERSION. IDoc: לא אותר סוג הודעה או סוג " +
+      "בסיסי של IDoc למתכון אב או לגרסת ייצור ביקום המזהים של הפרויקט, והחיפוש הרשמי 'master recipe IDoc' (21 " +
+      "רשומות) לא החזיר כותרת שנוקבת באחד; זה ממצא תחום לחיפוש. מזהי F5426, ‏F2568 ו-F6400 ותצוגת ה-CDS‏ " +
+      "C_MASTERRECIPE אינם במילון הפרויקט ולכן אינם מקושרים. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 
   /* ====================================================== batch management */
@@ -896,7 +1684,7 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "MSC1N יצירה, MSC2N שינוי, MSC3N תצוגה, MSC4N מסמכי שינוי.", xrefs: ["tx:MSC1N", "tx:MSC2N", "tx:MSC3N", "tx:MSC4N"] },
         { he: "סיווג ובחירה: CL20N, CL24N ו-CL30N. CL6O (Plus-Minus Object Display) אינה זמינה ב-S/4HANA מאז 1511, לפי פריט הפישוט 'S4TWL - Classification'.", xrefs: ["tx:CL20N", "tx:CL24N", "tx:CL30N", "tx:CL6O"] },
         { he: "מעקב ותנועות: MB56 למעקב שימוש, MB51 לרשימת תנועות, MMBE ו-MB52 למצב מלאי.", xrefs: ["tx:MB56", "tx:MB51", "tx:MMBE", "tx:MB52"] },
-        { he: "Fiori לפי רשומת המאגר: Manage Batches. רשומת האימות מציינת שהתיעוד הרשמי של 2025 FPS01 נוקב באפליקציה בשם זה עם App ID F2462, מזהה שאינו במילון הפרויקט.", xrefs: ["fiori:F1576"] },
+        { he: "Fiori לפי רשומת המאגר: Manage Batches. רשומת האימות מציינת שהתיעוד הרשמי של 2025 FPS01 נוקב באפליקציה בשם זה עם App ID F2462, הרשום כעת גם בקטלוג ה-Fiori של הפרויקט.", xrefs: ["fiori:F1576", "fiori:F2462"] },
       ],
       tables: [
         { he: "MCH1 אב האצווה ברמת חומר או לקוח; MCHA אב האצווה ברמת מפעל.", xrefs: ["table:MCH1", "table:MCHA"] },
@@ -910,6 +1698,17 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "QM: אצווה שנפסלה בהחלטת שימוש נחסמת ואינה נבחרת בקביעה, לפי תרחיש המאגר." },
         { he: "ממשק תוכניתי: BAPI_BATCH_CREATE ו-BAPI_BATCH_GET_DETAIL, ובצד ה-OData שירות Batch Master Record (API_BATCH_SRV) עם POST ליצירה ו-PATCH עם כותרת If-Match לשינוי.", xrefs: ["fm:BAPI_BATCH_CREATE", "fm:BAPI_BATCH_GET_DETAIL", "fm:BAPI_OBJCL_CREATE"] },
         { he: "הרחבות: לפי רשומת האימות של ההרחבות, ה-BAdI שהתיעוד הרשמי נוקב בו לקביעת אצווה הוא VB_BD_SELECTION, ולהצעת כמות LOBM_BATCH_DET_QTY_PROPOSAL; ההרחבה שבקטלוג המאגר רשומה כ-SAPLV01Z, והתיעוד נוקב ב-SAPLV1ZN עם רכיב ה-Exit EXIT_SAPLV01Z_014 לסיווג אצווה בקבלת טובין.", xrefs: ["enh:exit:SAPLV01Z"] },
+      ],
+      interfaces: [
+        { he: "ECC ו-S/4HANA, לפי רשומות המאגר: יצירת אב אצווה דרך BAPI_BATCH_CREATE של האובייקט העסקי BUS1001002 (קלט MATERIAL, PLANT, BATCH, BATCHATTRIBUTES; פלט BATCH ו-RETURN), ואחריו BAPI_TRANSACTION_COMMIT. רשומות המאגר חלוקות בשאלה אם הסיווג מתבצע בתוך הקריאה; רשומת האימות fm:BAPI_BATCH_CREATE מציינת שאף רשומת help.sap.com שנבדקה אינה נוקבת בשם המודול, ולכן קיומו ופרמטריו נשארים לאימות ב-SE37.", xrefs: ["fm:BAPI_BATCH_CREATE", "fm:BAPI_TRANSACTION_COMMIT", "obj:batch", "tx:SE37", "bp:bapi-commit-discipline"] },
+        { he: "ECC ו-S/4HANA, קריאה לפי רשומות המאגר: BAPI_BATCH_GET_DETAIL לקריאה בלבד (קלט MATERIAL, BATCH, PLANT; פלט BATCHATTRIBUTES ו-RETURN) ללא COMMIT; VB_BATCH_DETAIL_GET לשליפת פרטי אצווה ו-VB_BATCH_VERIFY לבדיקת קיום אצווה לחומר ולמפעל. רשומות האימות של שני מודולי ה-VB מסומנות verification_required: אף מקור רשמי שנבדק אינו נוקב בשמם.", xrefs: ["fm:BAPI_BATCH_GET_DETAIL", "fm:VB_BATCH_DETAIL_GET", "fm:VB_BATCH_VERIFY", "table:MCH1", "table:MCHA"] },
+        { he: "סיווג האצווה בערוץ נפרד: BAPI_OBJCL_CREATE משייך אובייקט למחלקה וממלא ערכי מאפיינים ודורש COMMIT לפי רשומת המאגר (מקבילת API ל-CL20N ול-CL24N). ב-S/4HANA 2025 FPS01 אובייקט ההגירה 'Object classification (general template)' נוקב בשם BAPI_OBJCL_CREATE ומעביר נתוני סיווג באמצעות BAPIs.", xrefs: ["fm:BAPI_OBJCL_CREATE", "tx:CL20N", "tx:CL24N", "fm:BAPI_TRANSACTION_COMMIT"] },
+        { he: "S/4HANA (On-Premise 2025 FPS01): שירות ה-OData‏ Batch Master Record, שם טכני API_BATCH_SRV, קורא, יוצר ומעדכן אצוות ונתוני סיווג דרך הישויות Batch, BatchPlant, BatchText, BatchClass, BatchCharc ו-BatchCharcValue; לפי התיעוד השירות אינו מאפשר מחיקת אצוות. הפעולות: Retrieve Batch ו-Query Batch ב-GET (כולל סינון לפי ShelfLifeExpirationDate), Create Batch ב-POST ו-Change Batch ב-PATCH על Batch ועל BatchPlant, עם כותרת If-Match בכל פעולת שינוי. לפי What's New של S/4HANA 2020 השירות חדש במהדורה זו (LO-BM-INT). העמודים שנקראו אינם מציגים אותו כמחליף של ה-BAPI.", xrefs: ["obj:batch", "fm:BAPI_BATCH_CREATE", "fm:BAPI_BATCH_GET_DETAIL", "table:MCH1", "table:MCHA"] },
+        { he: "S/4HANA: אירועים עסקיים לאב האצווה. עמוד Batch Master Record (2025 FPS01) מונה את BO/Batch/Created ו-BO/Batch/Changed, ועמוד What's New של S/4HANA 2020 מתאר 'Business Events for Batch Master Record' דרך enterprise event enablement framework, כך שמנויים מקבלים הודעה ביצירה או בשינוי של אב אצווה.", xrefs: ["obj:batch"] },
+        { he: "S/4HANA (2025 FPS01), IDoc: סוג ההודעה BATMAS משמש להעברת נתוני אב אצווה ב-IDoc לפי העמודים הבאים. עמודי 2025 FPS01 מתארים שינוי אצווה דרך MSC2N, דרך BAPI_BATCH_CHANGE או דרך IDoc מסוג BATMAS (Retail); תזמון RBDMIDOC עם סוג ההודעה BATMAS ליצירת IDocs לכל שינויי האצווה, והעתקת אצוות ל-PEO ב-IDoc BATMAS וב-BD21 (PEO); ומדריך ה-PEO קובע BATMAS01 כגרסת IDoc מינימלית, לאיתור דרך WE30. BATMAS, BATMAS01, BAPI_BATCH_CHANGE, RBDMIDOC ו-BD21 אינם במילון הפרויקט ולכן אינם מקושרים.", xrefs: ["tx:MSC2N", "tx:WE30"] },
+        { he: "Fiori: לפי ספריית ה-Fiori (S32OP, S/4HANA 2025 FPS01) Manage Batches (F2462) רץ על שירות ה-OData‏ LO_BM_BATCH_SRV, עם טרנזקציה מובילה MSC1N וטרנזקציות קשורות MSC2N ו-MSC3N. רשומת המאגר F1576 נוקבת ב-API_BATCH כשירות, בלי מקור רשמי.", xrefs: ["fiori:F2462", "fiori:F1576", "tx:MSC1N", "tx:MSC2N", "tx:MSC3N"] },
+        { he: "קריאה אנליטית ב-S/4HANA: תצוגת ה-CDS‏ I_Batch מתועדת במדריך ה-VDM (2023) כ-Composite בסטטוס Released.", xrefs: ["cds:I_Batch", "table:MCH1", "table:MCHA"] },
+        { he: "הגירה (S/4HANA 2025 FPS01): אובייקט ההגירה 'Batch unique at plant level' משתמש לפי התיעוד ב-BAPIs סטנדרטיים או במודולי פונקציה אחרים ונוקב ב-Manage Batches (F2462); אובייקט ההגירה 'Batch unique at material and client level' שולף מ-MCH1. התקצירים שנבדקו אינם נוקבים בשם מודול ספציפי.", xrefs: ["fiori:F2462", "table:MCH1", "table:MCHA"] },
       ],
       outputs: [
         { he: "אב אצווה ממוספר עם מאפיינים, תוקף וסטטוס.", xrefs: ["table:MCH1", "table:MCHA"] },
@@ -929,12 +1728,16 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "בירור רמת האצווה בהגדרות לפני כל ממשק או הסבה: היא קובעת את טבלת האב ואת סוג מחלקת הסיווג.", xrefs: ["table:MCH1", "table:MCHA"] },
         { he: "בכתיבה תוכניתית: בדיקת RETURN ו-COMMIT מפורש, וסיווג בערוץ נפרד.", xrefs: ["bp:bapi-commit-discipline", "fm:BAPI_TRANSACTION_COMMIT"] },
       ],
+      kpis: [
+        { he: "S/4HANA: הכרטיס 'Monitor Batches by Earliest Expiration Date' ב-Inventory Analysis Overview (App ID F3366, 2025 FPS01) מציג אצוות ממוינות לפי קרבה לתאריך התפוגה ולפי כמות; העדיפות לפי תאריך התפוגה (shelf life expiration date) ולפי ערך, ותאריך שחלף מסומן באדום. F3366 אינו בקטלוג ה-Fiori של הפרויקט.", xrefs: ["obj:batch"] },
+        { he: "S/4HANA: הכרטיס 'Monitor Batches by Longest Time in Storage' באותו דף סקירה מציג אצוות ממוינות לפי משך האחסון הארוך ביותר (על בסיס תאריך הייצור) ולפי כמות וערך. שני הכרטיסים מובילים ל-Stock - Multiple Materials, ולפי What's New של 1909 נוסף להם ניווט משופר מכותרת הכרטיס.", xrefs: ["obj:batch"] },
+      ],
       eccToS4: [
         { he: "מודל MCH1 ו-MCHA והסיווג זהים ב-ECC וב-S/4HANA לפי נושא המעבר של המאגר, שמסמן את ניהול האצוות כ'ללא שינוי'; חוויית המשתמש עוברת ל-Fiori ו-Batch Information Cockpit משופר.", xrefs: ["table:MCH1", "table:MCHA"] },
         { he: "רשימת הפישוט של S/4HANA 2025 FPS1 מציינת בפריט 'S4TWL - Logistics Batch Management' (רכיב LO-BM-MD) שהטרנזקציות MSC1, MSC2, MSC3 ו-MSC4 אינן זמינות ב-S/4HANA, ושיש להשתמש במקומן ב-MSC1N, MSC2N, MSC3N ו-MSC4N; ההשפעה העסקית שנרשמה שם היא 'No influence on the business process'.", xrefs: ["tx:MSC1N", "tx:MSC2N", "tx:MSC3N", "tx:MSC4N"] },
         { he: "בצד ה-API: שירות ה-OData Batch Master Record (API_BATCH_SRV) מתועד ב-2025 FPS01 לקריאה, יצירה ועדכון של אצוות ושל נתוני הסיווג; אף עמוד רשמי שנסרק ברשומת האימות אינו נוקב בשם BAPI_BATCH_CREATE.", xrefs: ["fm:BAPI_BATCH_CREATE"] },
         { he: "תנועות החומר הנושאות את האצווה עוברות ב-S/4HANA ל-MATDOC, וקריאה ישירה צריכה לעבור דרך תצוגות תאימות.", xrefs: ["bp:matdoc-read-through-compatibility", "cds:I_MaterialDocumentItem"] },
-        { he: "מזהה ה-Fiori שבמאגר לאפליקציית Manage Batches (F1576) סותר את התיעוד הרשמי, שבו האפליקציה נושאת App ID F2462.", xrefs: ["fiori:F1576"] },
+        { he: "מזהה ה-Fiori שבמאגר לאפליקציית Manage Batches (F1576) סותר את התיעוד הרשמי, שבו האפליקציה נושאת App ID F2462.", xrefs: ["fiori:F1576", "fiori:F2462"] },
       ],
       migration: [
         { he: "אובייקט ההגירה הרשמי 'Batch unique at material and client level' שולף את נתוני האצווה מטבלת MCH1 ומעביר אותם למערכת היעד.", xrefs: ["table:MCH1"] },
@@ -946,8 +1749,10 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/4eb099dbc8a6435c9b36a854a7e05522/b6fdb753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
         verificationLevel: "sap_official_verified",
         note:
-          "עמוד ההגדרה היסודית של תהליך ניהול האצוות: רמת האצווה ובחירתה בהגדרות (אומת ברשומת table:MCH1). " +
-          "פריט SAP Best Practices (Scope Item) לתהליך לא אותר ואינו נרשם.",
+          "עמוד ההגדרה היסודית של תהליך ניהול האצוות: רמת האצווה ובחירתה בהגדרות (אומת ברשומת table:MCH1). תוספת " +
+          "2026-09-28: עמוד What's New של S/4HANA 2020 'Business Events for Batch Master Record' מדפיס בפרטים " +
+          "הטכניים 'Scope Item BLF ( Batch Management )'; זה המקור הרשמי שנמצא בחיפושים הנוקב במזהה Scope Item " +
+          "לתהליך, ועמוד ההפניה עצמו לא הוחלף.",
       },
     },
     xrefs: [
@@ -958,6 +1763,7 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
       "fiori:F1576", "cds:I_Batch", "enh:exit:SAPLV01Z",
       "bp:process-order-process", "bp:process-industries-plan-to-produce",
       "bp:bapi-commit-discipline", "bp:matdoc-read-through-compatibility",
+      "fiori:F2462", "fm:VB_BATCH_VERIFY", "tx:SE37", "tx:WE30",
     ],
     evidence: [
       {
@@ -1180,17 +1986,334 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book5.json#9.5",
       },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של PP-PI ושל הסריקה (BAPI_BATCH_CREATE, BAPI_BATCH_GET_DETAIL)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "data/bapi-enrichment.pppi.ts רושם את BAPI_BATCH_CREATE כיצירת אצווה עם BOR‏ BUS1001002, סיכום פרמטרים " +
+          "'IMP MATERIAL, PLANT, BATCH, BATCHATTRIBUTES · TAB RETURN · EXP BATCH', טרנזקציה MSC1N, טבלאות MCH1, " +
+          "MCHA, MCHB וקשר ל-BAPI_TRANSACTION_COMMIT, בתיאור 'סיווג נעשה בנפרד'; את BAPI_BATCH_GET_DETAIL כקריאה " +
+          "בלבד עם 'IMP MATERIAL, BATCH, PLANT · EXP BATCHATTRIBUTES · TAB RETURN' וטרנזקציה MSC3N, ורשומת הסריקה " +
+          "מסמנת אותו כקריאה בלבד ב-RFC ללא COMMIT. data/bapi-enrichment.sweep.ts מתאר את BAPI_BATCH_CREATE 'כולל " +
+          "סיווג (Class Type 023)' ודורש COMMIT; הסתירה נרשמת ברשומת האימות fm:BAPI_BATCH_CREATE ואינה מוכרעת.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pppi.ts#BAPI_BATCH_CREATE",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומות הקטלוג הפונקציונלי VB_BATCH_DETAIL_GET ו-VB_BATCH_VERIFY",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "data/function-intel.ts מתאר את VB_BATCH_DETAIL_GET כשליפת פרטי אצווה (MCH1/MCHA, מאפיינים, תוקף) ואת " +
+          "VB_BATCH_VERIFY כבדיקת קיום ותקינות אצווה לחומר ולמפעל, שניהם עם קלט MATNR/CHARG/WERKS, במודול PP-PI " +
+          "ובתחום ניהול אצוות. רשומות האימות fm:VB_BATCH_DETAIL_GET ו-fm:VB_BATCH_VERIFY קובעות שאף רשומה רשמית " +
+          "שנבדקה אינה נוקבת בשמות אלה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/function-intel.ts#VB_BATCH_VERIFY",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רישום ה-BAPI המועשר של הסריקה (BAPI_OBJCL_CREATE)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "רשומת הסריקה מתארת את BAPI_OBJCL_CREATE כשיוך אובייקט למחלקת סיווג ומילוי ערכי מאפיינים (AUSP), דורש " +
+          "COMMIT, מקבילת API ל-CL20N ול-CL24N; data/bapi-enrichment.pm.ts רושם לצידו את BAPI_OBJCL_CHANGE ואת " +
+          "BAPI_TRANSACTION_COMMIT.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.sweep.ts#BAPI_OBJCL_CREATE",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Batch Master Record | APIs for Logistics Cross Topics",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e1841426f60f4e50913ec9a64aba8332/48b3c2ac60154137bb1d6411c7047e16.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (נקרא ב-2026-09-28 דרך שירות התוכן של הפורטל, deliverable 40374248) קובע: 'Technical name: " +
+          "API_BATCH_SRV This service enables you to retrieve batches and their classification data. In addition, " +
+          "batches and classification data can be created and updated'; הישויות Batch, BatchPlant, BatchText, " +
+          "BatchClass, BatchCharc ו-BatchCharcValue; תחת Constraints: 'With this service, it is not possible to: " +
+          "Delete batches'; ותחת Business Events: 'BO/Batch/Created Batch master record is created. " +
+          "BO/Batch/Changed Batch master record is changed.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Batch API | APIs for Logistics Cross Topics",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e1841426f60f4e50913ec9a64aba8332/3d366e68d53345b4bad055ec8fe85d6e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM,
+        claim:
+          "‏העמוד מונה את פעולות שירות ה-OData‏ Batch API למהדורת On-Premise 2025 FPS01. כלשון התקציר: 'The Batch " +
+          "API offers the following operations: Operation HTTP Method Sample URL Retrieve Batch GET GET " +
+          "<host>/sap/opu/odata/SAP/API_BATCH_SRV/Batch(Material='TG21',BatchIdentifyingPlant', ולצידה 'Query Batch " +
+          "GET GET <host>/sap/opu/odata/SAP/API_BATCH_SRV/Batch? ... $filter=ShelfLifeExpirationDate ge " +
+          "datetime'2019-05-01T00:00:00''. התקציר מוסיף: 'For this service, the If-Match header must be set for all " +
+          "change operations'. קיימות אפוא שתי פעולות קריאה רשמיות לנתוני אצווה בשיטת GET תחת השירות API_BATCH_SRV. " +
+          "סניפט שורת ה-Retrieve נחתך אחרי BatchIdentifyingPlant, ולכן מבנה המפתח המלא אינו נטען כאן; רשימת הפעולות " +
+          "המלאה, הפרמטרים ומבנה התשובה אינם מופיעים בתקציר. (אומת ברשומת fm:BAPI_BATCH_GET_DETAIL)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Change Batch | APIs for Logistics Cross Topics",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e1841426f60f4e50913ec9a64aba8332/318d52d13b234c9096bfaf30a926fa78.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "תקציר רשומת החיפוש (2026-09-28): 'You can use http method PATCH for entity Batch and BatchPlant to " +
+          "change a batch. The changed data of the batch has to be provided in the body', עם דוגמה 'Change a Batch " +
+          "by setting it to restricted use and adjusting the expiration date' על API_BATCH_SRV. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "OData API for Batch Master Record | What's New in SAP S/4HANA 2020",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/3b9d2b151cfb42358961c1ef7f752c02.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        accessedAt: DATE_FM,
+        claim:
+          "נושא ה-What's New של S/4HANA 2020 ‏(loio 3b9d2b151cfb42358961c1ef7f752c02) קובע בתקציר: 'The OData " +
+          "service Batch Master Record (API_BATCH_SRV) enables you to retrieve batches and their classification in " +
+          "an API call', ומוסיף 'In addition, batches can be created and updated'. התקציר מסווג את הרשומה 'API New " +
+          "BLF LO-BM-INT SAP S/4HANA 2020'. כלומר: השירות API_BATCH_SRV מתועד כחדש במהדורת 2020 של S/4HANA‏ " +
+          "On-Premise לרכיב ניהול אצוות, וכולל קריאת אצוות ונתוני הסיווג שלהן. רשימת הישויות, השדות והמגבלות אינה " +
+          "מופיעה בתקציר. (אומת ברשומת fm:BAPI_BATCH_GET_DETAIL)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Business Events for Batch Master Record | What's New in SAP S/4HANA 2020",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/757763c4898346f489dfc8bcfee941a4.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (נקרא ב-2026-09-28, deliverable 23180956) קובע: 'With this feature, subscribers can now " +
+          "consume business events for batch master records. The enterprise event enablement framework enables the " +
+          "exchange of events across different platform', ו-'Subscribers of Batch Events can now be notified " +
+          "whenever batch master records are created or changed'. הפרטים הטכניים: 'Type New', 'Scope Item BLF ( " +
+          "Batch Management )', 'Application Component LO-BM ( Batch Management )', 'Available As Of SAP S/4HANA " +
+          "2020'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Object classification (general template) | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/1b202b73dc524be2a406e5981790c296.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_22,
+        claim:
+          "עמוד אובייקט המיגרציה Object classification (general template) במדריך Data Migration לגרסת On-Premise " +
+          "2025 FPS01 נוקב בשם הטכני כלשונו בתקציר: 'Not relevant Not relevant BAPI_OBJCL_CREATE'. אותו עמוד מתאר " +
+          "את מטרתו 'This migration object enables you to migrate object classification data from the source ERP " +
+          "system to the target system', קובע 'This migration technique transfers data to the target system using " +
+          "Business Application Programming Interfaces (BAPIs)' ומציין 'Related Business Object: Classification' עם " +
+          "נתיב התפריט 'Cross Application Components > Classification System > Assignment > Assign Object to " +
+          "Classes'. כותרות העמודות שלצד השם אינן נראות בתקציר, ולכן העמוד מראה שהשם רשום באובייקט המיגרציה של " +
+          "הסיווג בגרסה זו, ואינו מציג מעמד שחרור, פרמטרים או דרישת COMMIT. (אומת ברשומת fm:BAPI_OBJCL_CREATE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Batch Management for Materials with Segmentation | Retail",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9905622a5c1f49ba84e9076fc83a9c2c/8bf9e452a5130175e10000000a44538d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "תקציר רשומת החיפוש (שאילתה 'BATMAS batch master IDoc distribution ALE', 2026-09-28): 'This is possible " +
+          "using transaction MSC2N or BAPI_BATCH_CHANGE or through IDoc (MessageType BATMAS). The system checks " +
+          "whether stocks or documents exist for the batch'. העמוד שייך לתיעוד Retail (חומרים עם סגמנטציה); גוף " +
+          "העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Define Technical Settings for Data Replication (ERP to PEO) | Production Engineering and Operations for " +
+          "Complex Assembly",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/b0e6f732c9a94860ad39881fbfd235ae.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "תקציר רשומת החיפוש (2026-09-28): 'Schedule a job to run report RBDMIDOC and message type BATMAS " +
+          "periodically to create IDocs for all batch changes since the previous IDoc generation', וכן 'You can use " +
+          "transaction BD21 or report RBDMIDOC'. ההקשר הוא שכפול נתונים מ-ERP ל-PEO; גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Configure Batch Number Ranges (ERP and PEO) | Production Engineering and Operations for Complex Assembly",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/0751f73138894ce9be7eeab100589ae6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "תקציר רשומת החיפוש (2026-09-28): 'You can then replicate batches to the PEO system using the BATMAS IDoc " +
+          "and transaction BD21. The PEO system copies the batch and adopts the batch number from the ERP system', " +
+          "ו-'Batches are initially created in the ERP system using a number from the internal batch number range'. " +
+          "גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Generate Partner Profile in PEO for Distribution Model (ERP to PEO) | Production Engineering and " +
+          "Operations for Complex Assembly",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9c4986bda35f4840ae438960ffbef64d/6e3a83da1cf54bc39e454f0929e230e8.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_IDOC_02,
+        claim:
+          "מדריך PEO לגרסת 2025 FPS01 קובע שלהפעלת PEO לצד מערכת ERP נדרשות גרסאות IDoc מינימליות: חומר MATMAS05, " +
+          "מרכז עבודה LOIWCS03, הזמנת ייצור LOIPRO05, אצוות BATMAS01; לאיתור גרסת ה-IDoc העדכנית במערכת מפעילים את " +
+          "WE30 עם כוכבית במקום סיומת הגרסה בת שתי הספרות. (אומת ברשומת idoc:basic:MATMAS05)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Manage Batches - SAP Fiori Apps Reference Library",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2462')/S32OP",
+        accessedAt: DATE28,
+        claim:
+          "רשומת F2462 בספריית Fiori Apps (S32OP, S/4HANA 2025 FPS01, נקראה ב-2026-09-28 דרך scripts/fal-app.mjs) " +
+          "מציגה את היישום 'Manage Batches' (Transactional, SAP Fiori elements, רכיב LO-BM-FIO) עם שירות ה-OData‏ " +
+          "LO_BM_BATCH_SRV 0001, טרנזקציה מובילה MSC1N וטרנזקציות קשורות MSC2N ו-MSC3N, תפקידים ובהם " +
+          "SAP_BR_BATCH_MASTER_SPCLST ו-SAP_BR_PRODN_OPTR_PROC, וקטלוגים עסקיים ובהם SAP_SCM_BC_BATCH_MGMT; ללא " +
+          "יישום קודם או יורש.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Batch | Virtual Data Model and CDS Views",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ee6ff9b281d8448f96b4fe6c89f2bdc8/ef1cd6cd9fb6418bb311b2b8e37b6b1e.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        accessedAt: DATE_FM_24,
+        claim:
+          "תקציר רשומת החיפוש (שאילתה 'I_Batch CDS view batch' בסקופ SAP_S4HANA_ON-PREMISE, 2026-09-24) מדפיס: " +
+          "'Batch Technical Name I_Batch View Type Composite Release Status Released'. תצוגת CDS משוחררת לנתוני " +
+          "אצווה במהדורת 2023, כהקשר ל-xref cds:I_Batch; התקציר אינו נוקב ב-VB_BATCH_DETAIL_GET ואינו מוצג כיורש " +
+          "שלו. גוף העמוד לא נקרא. (אומת ברשומת fm:VB_BATCH_DETAIL_GET)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Batch unique at plant level | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/663bb82dae5e4a148384f6b73f93e5d0.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_24,
+        claim:
+          "עמוד אובייקט ההגירה Batch unique at plant level במדריך Data Migration (2025 FPS01) נוקב ב-'Material " +
+          "Number Plant Batch Number Manage Batches (app ID F2462)' וב-'This function module uses standard BAPIs or " +
+          "other function modules to complete the migration scope'. הסניפט אינו נוקב בשם VB_BATCH_VERIFY או בשם " +
+          "מודול פונקציה ספציפי. (אומת ברשומת fm:VB_BATCH_VERIFY)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Inventory Analysis Overview | Inventory Management and Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/2deffbe9d21f4b5fb1f998e9834019d1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (נקרא ב-2026-09-28 דרך שירות התוכן של הפורטל) נוקב ב-'App ID: F3366' ומונה את הכרטיסים, ובהם " +
+          "'Monitor Batches by Longest Time in Storage Shows you the batches sorted according to the longest " +
+          "storage period and quantity. Priority is sorted according to the longest storage period (based on the " +
+          "production date) and value' ו-'Monitor Batches by Earliest Expiration Date Shows you the batches sorted " +
+          "according to the closest to expiration date and quantity. Priority is sorted according to the earliest " +
+          "expiration date (based on the shelf life expiration date) and value'. תאריך תפוגה שחלף מסומן באדום; ערך " +
+          "המלאי מחושב מכמות בתאריך הדיווח כפול מחיר החומר הנוכחי; נדרשים SAP_BCR_MM_IM_ANALYSIS_OVP " +
+          "ו-SAP_MM_BC_IM_ANALYSIS_OVP.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Inventory Analysis Overview | What's New in SAP S/4HANA 1909",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1909.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/000a5d69c6944a1c9787138577d8c60e.html?locale=en-US&state=PRODUCTION&version=1909.000",
+        accessedAt: DATE28,
+        claim:
+          "תקציר רשומת החיפוש (2026-09-28): 'You can use the two list cards Monitor Batches by Longest Time in " +
+          "Storage and Monitor Batches by Earliest Expiration Date with an optimized navigation feature: You can " +
+          "navigate from the list card header'. גוף העמוד לא נקרא.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "קטלוג יישומי ה-Fiori של הפרויקט (F2462)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "הרשומה F2462 (Manage Batches, trust verified-docs, lastReviewed 2026-09-24) רושמת את שירות ה-OData‏ " +
+          "LO_BM_BATCH_SRV, את התפקיד SAP_BR_INVENTORY_MANAGER ואת הקטלוגים SAP_SCM_BC_BATCH_MGMT ואחרים, ומציינת " +
+          "שהרשומה F1576 נושאת את אותה כותרת בלי מקור רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/fiori/apps.ts#F2462",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Design-audit continuation §11 (process catalog)",
+    lastVerifiedAt: DATE28,
+    reviewer: "Design-audit continuation §11 (process catalog); Project NEO research pipeline (researcher + adversarial auditor), 2026-09-28",
     notes:
       "רשומת תהליך: כל שדה בפרופיל נגזר מרשומות המאגר הנקובות או מעמוד רשמי שכבר אומת ברשומות table:MCH1, " +
-      "fm:BAPI_BATCH_CREATE ו-fiori:F1576. שדה kpis הושמט במכוון: המאגר אינו מתעד מדדים לתהליך ניהול האצוות. " +
-      "מזהה ה-Fiori F1576 נשמר כמזהה המאגר בלבד; רשומת האימות קובעת שהתיעוד הרשמי נוקב ב-F2462. הטבלאות MCHB, " +
-      "AUSP, INOB, KSSK, KLAH, CABN ו-CHVW והטרנזקציות COB1, CU70 ו-BMBC מופיעות ברשומות המאגר אך אינן במילון " +
-      "הפרויקט, ולכן הן נזכרות בטקסט בלבד. ה-BAdI VB_BD_BATCH_DETERMINATION שבמאגר לא נמצא במקור רשמי ואינו " +
-      "מקושר; ה-BAdI שהתיעוד נוקב בו הוא VB_BD_SELECTION ואינו במילון הפרויקט. קיום מודול BAPI_BATCH_CREATE " +
-      "ופרמטריו נשארים לאימות ב-SE37 לפי רשומת האימות. לא בוצעה בדיקה במערכת SAP חיה.",
+      "fm:BAPI_BATCH_CREATE ו-fiori:F1576. שדה kpis הושמט במכוון: המאגר אינו מתעד מדדים לתהליך ניהול האצוות. מזהה " +
+      "ה-Fiori F1576 נשמר כמזהה המאגר בלבד; רשומת האימות קובעת שהתיעוד הרשמי נוקב ב-F2462. הטבלאות MCHB, AUSP, " +
+      "INOB, KSSK, KLAH, CABN ו-CHVW והטרנזקציות COB1, CU70 ו-BMBC מופיעות ברשומות המאגר אך אינן במילון הפרויקט, " +
+      "ולכן הן נזכרות בטקסט בלבד. ה-BAdI VB_BD_BATCH_DETERMINATION שבמאגר לא נמצא במקור רשמי ואינו מקושר; ה-BAdI " +
+      "שהתיעוד נוקב בו הוא VB_BD_SELECTION ואינו במילון הפרויקט. קיום מודול BAPI_BATCH_CREATE ופרמטריו נשארים " +
+      "לאימות ב-SE37 לפי רשומת האימות. לא בוצעה בדיקה במערכת SAP חיה. תוספת 2026-09-28 (שדות interfaces ו-kpis): " +
+      "המשפט על kpis לעיל מתאר את מצב 2026-09-22 (Old: 'שדה kpis הושמט במכוון: המאגר אינו מתעד מדדים'; New: השדה " +
+      "נכתב משני כרטיסי אצווה בדף Inventory Analysis Overview, F3366, שגוף עמודו נקרא ב-2026-09-28). הערת ההפניה " +
+      "הרשמית הורחבה (Old: 'פריט SAP Best Practices (Scope Item) לתהליך לא אותר ואינו נרשם'; New: עמוד What's New " +
+      "2020 מדפיס Scope Item BLF, Batch Management). F2462 נמצא כעת בקטלוג ה-Fiori של הפרויקט ומקושר בשדה " +
+      "interfaces, בשורת ה-Fiori שב-transactions ובשורה החמישית של eccToS4. Old → New לפי הביקורת: שורת ה-Fiori " +
+      "שב-transactions הסתיימה ב-'עם App ID F2462, מזהה שאינו במילון הפרויקט.' וכעת ב-'עם App ID F2462, הרשום כעת " +
+      "גם בקטלוג ה-Fiori של הפרויקט.'; שאר שדות הפרופיל הקודמים לא נערכו. שמות שאינם במילון הפרויקט ולכן אינם " +
+      "מקושרים: BATMAS ו-BATMAS01 (IDoc), BAPI_BATCH_CHANGE, RBDMIDOC, BD21, F3366 ו-Stock - Multiple Materials. " +
+      "הכרטיסים הם כרטיסי רשימה בדף סקירה ולא אריחי KPI עם יעד; לא נמצא מקור רשמי המגדיר יעד או נוסחת מדד לתהליך. " +
+      "הגבלת הכרטיסים לפי עמוד Inventory Analysis Overview (F3366), שהועברה מ-kpis לפי הביקורת: ערך המלאי בכרטיסים " +
+      "מחושב מכמות המלאי בתאריך הדיווח כפול מחיר החומר הנוכחי, והשימוש בדף דורש את תפקיד הקטלוג " +
+      "SAP_BCR_MM_IM_ANALYSIS_OVP ואת הקטלוג העסקי SAP_MM_BC_IM_ANALYSIS_OVP. גופי העמודים Batch Master Record, " +
+      "Business Events for Batch Master Record ו-Inventory Analysis Overview (2025.001) נקראו; שאר השורות החדשות " +
+      "תחומות בתקציר רשומת החיפוש או הועתקו מרשומת האימות הנקובה. BAPI_BATCH_CREATE, BAPI_BATCH_GET_DETAIL, " +
+      "VB_BATCH_DETAIL_GET ו-VB_BATCH_VERIFY אינם נקובים באף עמוד רשמי שנבדק ונשארים לאימות ב-SE37. לא בוצעה בדיקה " +
+      "במערכת SAP חיה.",
   },
 
   /* ============================== process industries, end to end (P2P PI) */
@@ -1306,11 +2429,24 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "האובייקטים העסקיים שהתהליך נוגע בהם.", xrefs: ["obj:process-order", "obj:batch", "obj:material-document"] },
       ],
       integrationPoints: [
-        { he: "PP-PI אל MES: מרשם בקרה וגיליון PI החוצה, הודעות תהליך חזרה; IDoc LOIPRO להעברת מסלול או מתכון למערכת חיצונית.", xrefs: ["tx:CO53", "tx:CO54", "idoc:msg:LOIPRO"] },
+        { he: "PP-PI אל MES: מרשם בקרה וגיליון PI החוצה, הודעות תהליך חזרה; סוג ההודעה LOIPRO מפיץ פקודות ייצור ותהליך לפי מדריך Digital Manufacturing 2502 ועמוד POI IDocs של SAP ERP 6.18; רשומת התחום pppi-mes-integration מתארת אותו כ-IDoc של מסלול או מתכון, בסתירה לתיעוד הרשמי.", xrefs: ["tx:CO53", "tx:CO54", "idoc:msg:LOIPRO"] },
         { he: "PP-PI אל MM: ניפוק רכיבים וקבלת תוצר במסמכי חומר, ודרישות רכש לחומרים נרכשים מתוך ריצת ה-MRP.", xrefs: ["obj:material-document", "fm:BAPI_GOODSMVT_CREATE"] },
         { he: "PP-PI אל QM: מאפייני בדיקה במתכון מייצרים בדיקה תוך כדי ייצור, והחלטת שימוש חוסמת או משחררת את האצווה.", xrefs: ["table:PLMK"] },
         { he: "PP-PI אל CO ו-FI: חישוב סטיות והתחשבנות אל ACDOCA, עם Material Ledger.", xrefs: ["tx:CO88", "table:ACDOCA"] },
         { he: "ממשקים תוכניתיים: משפחת BAPI של פקודת התהליך והדיווח, תנועות הסחורה, והאצוות.", xrefs: ["fm:BAPI_PROCORD_CREATE", "fm:BAPI_PROCORDCONF_CREATE_TT", "fm:BAPI_GOODSMVT_CREATE", "fm:BAPI_BATCH_CREATE", "fm:BAPI_TRANSACTION_COMMIT"] },
+      ],
+      interfaces: [
+        { he: "תכנון ביקוש, S/4HANA (On-Premise 2025 FPS01): שירות ה-OData‏ API_PLND_INDEP_RQMT_SRV קורא, יוצר ומעדכן דרישות עצמאיות מתוכננות (PlannedIndepRqmt ו-PlannedIndepRqmtItem), עם ETag בכל שינוי; השדה PlndIndepRqmtIsActive קובע אם ה-PIR נשקל ב-MRP, ואי אפשר לשייך דרכו גרסת ייצור לפריט. אובייקט ההגירה 'PP - Planned independent requirement' יוצר PIR דרך BAPI_REQUIREMENTS_CREATE; רשומת התחום pppi-pir מונה לצדו את BAPI_REQUIREMENTS_GETDETAIL. שני שמות ה-BAPI אינם במילון הפרויקט.", xrefs: ["tx:MD61", "tx:MD62", "tx:MD63"] },
+        { he: "הזמנות מתוכננות, לפי רשומת ההעשרה: BAPI_PLANNEDORDER_CREATE (PLAF, MD11) ו-BAPI_PLANNEDORDER_GET_DETAIL, שניהם בסטטוס verification_required ברשומות האימות. ב-S/4HANA 2025 FPS01 מתועד שירות ה-OData‏ API_PLANNED_ORDERS לקריאה, יצירה, שינוי ומחיקה של הזמנות מתוכננות ורכיביהן; הרשומה הרשמית שנבדקה אינה נוקבת ב-BAPI ואינה מציגה את השירות כיורש שלו.", xrefs: ["fm:BAPI_PLANNEDORDER_CREATE", "fm:BAPI_PLANNEDORDER_GET_DETAIL", "obj:planned-order", "tx:MD11"] },
+        { he: "פקודת תהליך, לפי רשומת ההעשרה: הרצף BAPI_PROCORD_CREATE (אובייקט BUS0001), BAPI_PROCORD_RELEASE, BAPI_PROCORDCONF_CREATE_TT, BAPI_GOODSMVT_CREATE לפי הצורך ו-BAPI_TRANSACTION_COMMIT; סגירה טכנית ב-BAPI_PROCORD_COMPLETE_TECH, קריאה ב-BAPI_PROCORD_GET_DETAIL וב-BAPI_PROCORD_GET_LIST. ברשומות האימות BAPI_PROCORD_RELEASE ו-BAPI_PROCORD_COMPLETE_TECH בסטטוס verification_required: שמם לא נמצא ברשומה רשמית שנבדקה.", xrefs: ["fm:BAPI_PROCORD_CREATE", "fm:BAPI_PROCORD_RELEASE", "fm:BAPI_PROCORD_COMPLETE_TECH", "fm:BAPI_PROCORD_GET_DETAIL", "fm:BAPI_PROCORD_GET_LIST", "fm:BAPI_TRANSACTION_COMMIT", "obj:process-order", "tx:COR1", "tx:COR2"] },
+        { he: "פקודת תהליך, S/4HANA (On-Premise 2025 FPS01): שירות ה-OData‏ Process Order (Version 2)‏ API_PROCESS_ORDER_2_SRV מציע קריאה, יצירה ועדכון של הפקודה, קריאת רכיבים והמרת הזמנה מתוכננת לפקודת תהליך (ConvertPlannedOrder); הסגירה הטכנית היא פעולת TechlyCmpltOrder (POST, ‏ManufacturingOrder ב-URL, ‏ETag בכותרת if-match), והשחרור הוא פעולת ReleaseOrder לפי רשומת האימות. אף מקור שנבדק אינו מציג את השירות כיורש של ה-BAPI.", xrefs: ["obj:process-order", "tx:COR8", "tx:COR2", "fm:BAPI_PROCORD_CREATE", "fm:BAPI_PROCORD_COMPLETE_TECH"] },
+        { he: "דיווח ביצוע: BAPI_PROCORDCONF_CREATE_TT (אובייקט BUS2016 ותנועות נלוות בטבלת GOODSMOVEMENTS לפי רשומת ההעשרה), ביטול ב-BAPI_PROCORDCONF_CANCEL ורשימה ב-BAPI_PROCORDCONF_GETLIST; שלושתם released_api_available ברשומות האימות. ב-S/4HANA 2025 FPS01 שירות ה-OData‏ API_PROC_ORDER_CONFIRMATION_2_SRV מעבד דיווחי Time Ticket ו-Time Event לפקודות תהליך, ורשומת What's New 2023 משייכת אותו לפריט ההיקף BJ8.", xrefs: ["fm:BAPI_PROCORDCONF_CREATE_TT", "fm:BAPI_PROCORDCONF_CANCEL", "fm:BAPI_PROCORDCONF_GETLIST", "tx:COR6N", "table:AFRU"] },
+        { he: "ניפוק 261 וקבלת תוצר 101: BAPI_GOODSMVT_CREATE (אובייקט BUS2017, בלי COMMIT פנימי לפי רשומת ההעשרה), ולקריאה BAPI_GOODSMVT_GETDETAIL ו-BAPI_GOODSMVT_GETITEMS לפי רשומת התחום pppi-gi-gr. ב-S/4HANA 2025 FPS01 ה-BAPI מתועד כממשק פעיל לרישום ולביטול תנועות סחורה, ולצדו שירות ה-OData‏ API_MATERIAL_DOCUMENT (נתיב API_MATERIAL_DOCUMENT_SRV) ליצירה, קריאה וביטול של מסמכי חומר; אף רשומה רשמית שנבדקה אינה מציגה אותו כמחליף. תקרית duplicate-goods-receipt: קבלה כפולה מממשק בלי מפתח ייחודי.", xrefs: ["fm:BAPI_GOODSMVT_CREATE", "fm:BAPI_GOODSMVT_GETDETAIL", "fm:BAPI_GOODSMVT_GETITEMS", "obj:material-document", "tx:MIGO"] },
+        { he: "אצוות: BAPI_BATCH_CREATE ו-BAPI_BATCH_GET_DETAIL לפי רשומת ההעשרה; ב-S/4HANA 2025 FPS01 שירות ה-OData‏ Batch Master Record‏ (API_BATCH_SRV) קורא, יוצר ומעדכן אצוות ונתוני סיווג, עם האירוע העסקי BO/Batch/Created. לפי רשומת האימות fm:BAPI_BATCH_CREATE שם ה-BAPI עצמו לא אותר ברשומה רשמית, ולכן יש לאמת אותו ב-SE37 לפני שימוש.", xrefs: ["fm:BAPI_BATCH_CREATE", "fm:BAPI_BATCH_GET_DETAIL", "obj:batch", "tx:MSC1N", "tx:SE37"] },
+        { he: "PP-PI אל מערכת בקרת תהליך, S/4HANA (On-Premise 2025 FPS01): ממשק PI-PCS מוריד מרשמי בקרה ומעלה הודעות תהליך דרך RFC. עמוד Technical Communication נוקב ב-BAPI‏ BAPI_PROCESS_MESSAGE_CREATE, ‏BAPI_PROCESS_MESSAGE_CHK_EXIST, ‏BAPI_PROC_CHAR_GET_LIST, ‏BAPI_PROC_CHAR_GET_HELPVALUES, ‏BAPI_CONTROL_RECIPE_GET_LIST ו-BAPI_CONTROL_RECIPE_REQUEST, שמערכת הבקרה יוזמת, ובמודולי ה-tRFC‏ CONTROL_RECIPE_DOWNLOAD, ‏PROCESS_MESS_UPLOAD ו-PROCESS_MESS_DOWNLOAD. רשומת התחום pppi-mes-integration נוקבת ב-BAPI_CONTROL_RECIPE_GETLIST וב-BAPI_PROCESS_MESSAGE_CREATEMULT, שאינם השמות שבעמוד הרשמי; אף אחד מהשמות אינו במילון הפרויקט. תקרית process-message-not-sent: יעד הודעה חסר, עיבוד מחדש ב-CO54.", xrefs: ["tx:CO53", "tx:CO54", "tx:CO60"] },
+        { he: "IDoc: סוג ההודעה LOIPRO מפיץ פקודות ייצור ותהליך. SAP ERP 6.18: עמוד POI IDocs מונה את LOIPRO כסוג ההודעה של Production/Process orders. S/4HANA: מדריך Digital Manufacturing 2502 מונה את LOIPRO05 (production and process orders) כנתמך ב-SAP ERP וב-S/4HANA ומתאר הפצה בשחרור פקודת תהליך דרך DRF. רשומת האימות idoc:msg:LOIPRO מסמנת 'unchanged' ומנחה לאמת ב-WE30 את הגרסה הזמינה ולאמת במערכת את ההפצה של פקודות תהליך; LOIPRO05 אינו במילון הפרויקט.", xrefs: ["idoc:msg:LOIPRO", "tx:WE30", "tx:WE02", "tx:WE20"] },
+        { he: "התחשבנות: רשומת התחום pppi-settlement מונה את K_ORDER_SETTLEMENT, ‏K_SETTLEMENT_RULE_READ ו-K_COSTS_READ; רשומת האימות fm:K_ORDER_SETTLEMENT בסטטוס verification_required, ועמוד Settlement Methods (2025 FPS01) שהיא מצטטת מתעד להתחשבנות פקודות את F4568 ואת KO88, ולהתחשבנות מרוכזת את F3767 ואת KO8GH, בלי לנקוב במודול פונקציה.", xrefs: ["fm:K_ORDER_SETTLEMENT", "fm:K_SETTLEMENT_RULE_READ", "fm:K_COSTS_READ", "tx:CO88", "tx:KO88"] },
+        { he: "משמעת כתיבה: בכל BAPI כותב בדיקת RETURN ו-BAPI_TRANSACTION_COMMIT על אותו LUW, ובשגיאה BAPI_TRANSACTION_ROLLBACK (הנחיית ה-QA של רשומת ההעשרה); בשירותי ה-OData של PIR ושל הסגירה הטכנית נדרש ETag בפעולות השינוי לפי עמודי השירות.", xrefs: ["fm:BAPI_TRANSACTION_COMMIT", "fm:BAPI_TRANSACTION_ROLLBACK", "bp:bapi-commit-discipline"] },
       ],
       outputs: [
         { he: "תכנית היצע: הזמנות מתוכננות לייצור ודרישות רכש.", xrefs: ["tx:MD04"] },
@@ -1343,7 +2479,7 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "השינויים שהמאגר מונה: MRP Live בתכנון, aATP בשחרור, שירותי OData ואפליקציות Fiori, והעלויות אל ACDOCA עם Material Ledger.", xrefs: ["table:ACDOCA"] },
         { he: "גרסת הייצור: לפי התיעוד הרשמי היא מקור האספקה היחיד לחומרים המיוצרים ב-S/4HANA.", xrefs: ["table:MKAL"] },
         { he: "תנועות החומר: MKPF ו-MSEG מאוחדות ל-MATDOC, והקריאה עוברת דרך תצוגות תאימות (ראו שיטת הקריאה דרך תאימות MATDOC); פריט הפישוט הנקוב במאגר הוא מודל הנתונים של ניהול המלאי (MM-IM).", xrefs: ["bp:matdoc-read-through-compatibility", "table:MKPF", "table:MSEG", "cds:I_MaterialDocumentItem"] },
-        { he: "מזהי ה-Fiori שבמאגר לשלוש החוליות (F3577, F3364, F1576) סותרים את התיעוד הרשמי לפי רשומות האימות; המזהים המתועדים (F4587, F5323, CORK, F2462) אינם במילון הפרויקט.", xrefs: ["fiori:F3577", "fiori:F3364", "fiori:F1576"] },
+        { he: "מזהי ה-Fiori שבמאגר לשלוש החוליות (F3577, F3364, F1576) סותרים את התיעוד הרשמי לפי רשומות האימות; רשומות האימות נוקבות במזהים F4587, F5323 ו-F2462 וב-App ID CORK.", xrefs: ["fiori:F3577", "fiori:F3364", "fiori:F1576", "fiori:F4587", "fiori:F5323", "fiori:F2462"] },
       ],
       migration: [
         { he: "אובייקטי ההגירה הרשמיים לאורך התהליך: Master recipe (PP_MSTRRCP), PP - Production version, PP - Process order (only open PO) ו-Batch unique at material and client level.", xrefs: ["tx:C203", "tx:COR3", "table:MKAL", "table:MCH1"] },
@@ -1351,7 +2487,18 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         { he: "נקודות הכשל שהמאגר מסמן להמרה: גרסאות ייצור חסרות, יעדי מרשם בקרה שאינם מוגדרים, קוד שקורא ישירות את MSEG, ו-Material Ledger שאינו פעיל או שלא נסגר.", xrefs: ["table:MSEG", "bp:matdoc-read-through-compatibility"] },
         { he: "אזהרת המרה למתכונים: יעדי מרשם בקרה מסוג 1 מוחלפים בסוג X או בסוג 4 לפי פריט הפישוט 'S4TWL - ABAP-List-Based PI-Sheets'.", xrefs: ["bp:master-recipe-process"] },
       ],
-      reference: null,
+      reference: {
+        title: "Make-to-Stock - Process Manufacturing Based on Process Order (BJ8) | What's New in SAP S/4HANA 1909",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/e944e5ff3dc24156b8bc4369dec4efd0.html?locale=en-US&state=PRODUCTION&version=1909.000",
+        verificationLevel: "sap_official_verified",
+        note:
+          "רשומת What's New רשמית הנוקבת בפריט ההיקף BJ8 (Make-to-Stock - Process Manufacturing Based on Process " +
+          "Order), 'Available As Of SAP S/4HANA 1909', רכיב PP; רשומת 2020 מוסיפה לפריט את Manage Process Order, " +
+          "ורשומת What's New 2023 משייכת לו את API_PROC_ORDER_CONFIRMATION_2_SRV. זו רשומת What's New ולא דף " +
+          "העובדות של SAP Best Practices Explorer, שלא נקרא; העמוד אינו מפרט את שלבי התהליך, ולכן השלבים ברשומה " +
+          "נשענים על רשומות המאגר. ההתאמה לרשומה: ייצור למלאי על בסיס פקודת תהליך, כמו מדריך התהליך " +
+          "pppi-mts-process-order של המאגר.",
+      },
     },
     xrefs: [
       "obj:process-order", "obj:batch", "obj:material-document",
@@ -1537,17 +2684,414 @@ export const PPPI_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book2.json#7.1",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Make-to-Stock - Process Manufacturing Based on Process Order (BJ8) | What's New in SAP S/4HANA 1909",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1909.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/e944e5ff3dc24156b8bc4369dec4efd0.html?locale=en-US&state=PRODUCTION&version=1909.000",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio e944e5ff3dc24156b8bc4369dec4efd0), שנקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs, " +
+          "קובע: 'This scope item provides a platform for process manufacturing, supporting processes in " +
+          "manufacturing for the chemical, pharmaceutical, and food and beverage industries, as well as the " +
+          "batch-oriented electronics industry', ובפרטים הטכניים: 'Type New', 'Scope Item BJ8 ( Make-to-Stock - " +
+          "Process Manufacturing Based on Process Order )', 'Available As Of SAP S/4HANA 1909', 'Application " +
+          "Component PP'; הוא מפנה לדף העובדות ב-SAP Best Practices Explorer, שלא נקרא. העמוד אינו מפרט את שלבי " +
+          "התהליך.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Make-to-Stock - Process Manufacturing Based on Process Order (BJ8) | What's New in SAP S/4HANA 2020",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2020.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/d2bde76f8e7b43a08d587fb51f26aba0.html?locale=en-US&state=PRODUCTION&version=2020.000",
+        accessedAt: DATE28,
+        claim:
+          "סניפט רשומת החיפוש (loio d2bde76f8e7b43a08d587fb51f26aba0): 'The scope item now includes the native SAP " +
+          "Fiori app Manage Process Order.' עם 'Type Changed' ו-'Scope Item BJ8'. הסניפט אינו נוקב במזהה האפליקציה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "OData API: Process Order Confirmation | What's New in SAP S/4HANA 2023",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.000",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f5d3e1005efd4e86acf9a65abf428082/b36db5f76f0a4883bdc8bd75a59008af.html?locale=en-US&state=PRODUCTION&version=2023.000",
+        accessedAt: DATE28,
+        claim:
+          "סניפט רשומת החיפוש (loio b36db5f76f0a4883bdc8bd75a59008af): 'Scope Item BJ8 (Make-to-Stock - Process " +
+          "Manufacturing Based on Process Order) Application Component PP-SFC-ES' ו-'With the OData API Process " +
+          "Order Confirmation (API_PROC_ORDER_CONFIRMATION_2_SRV), you can process confirmations for process " +
+          "orders.' כלומר ה-API של הדיווח משויך בתיעוד לפריט ההיקף BJ8.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Planned Independent Requirements | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/c81d1718b16147b5811acce3f1888054.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio c81d1718b16147b5811acce3f1888054), שנקרא ב-2026-09-28: 'Technical name: " +
+          "API_PLND_INDEP_RQMT_SRV This service enables you to read and update planned independent requirements " +
+          "(PIRs)'; הישויות PlannedIndepRqmt ו-PlannedIndepRqmtItem ('you can read, create, and update'); " +
+          "'PlannedIndepRqmt Contains the key fields and the attribute PlndIndepRqmtIsActive which determines " +
+          "whether a PIR is active. This means that it is considered during MRP and forecast consumption'; מגבלות: " +
+          "תקופות מסוג יום, שבוע או חודש בלבד, ו-'you cannot assign a production version to a certain PIR item'; " +
+          "'This service requires to use an ETag'. העמוד מפנה ל-2689136 לאילוצים נוספים (לא נקרא, ולא נרשם כשדה " +
+          "sapNote).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP - Planned independent requirement | Data Migration",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/4d424bb63dfc4fa190d3385f1bbe1a32.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio 4d424bb63dfc4fa190d3385f1bbe1a32), שנקרא ב-2026-09-28: אובייקט ההגירה " +
+          "S4_PP_PLANNED_IND_REQMNTS ('Component: PP-MRP', 'Migration Approach Direct Transfer - ERP') בוחר חומרים " +
+          "מ-MARC ודרישות מ-PBIM, ו-'This migration technique transfers data to the target system using Business " +
+          "Application Programming Interfaces (BAPIs)'; שלב ההעברה 'Create Planned Independent Requirement' נוקב " +
+          "ב-'Maintain PIRs (app ID F3445) BAPI_REQUIREMENTS_CREATE'; הרשאה C_PPBD; אימות ב-MD62 (Change) וב-MD63 " +
+          "(Display).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Operations for Process Order (Version 2) | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/fe301c889827445095bd5e66e6c0a3ee.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM,
+        claim:
+          "‏עמוד הפעולות של שירות ה-OData‏ Process Order (Version 2) במדריך APIs for Manufacturing למהדורת " +
+          "On-Premise‏ 2025 FPS01 פותח ב-'Operations for Process Order (Version 2) The OData API Process Order " +
+          "(Version 2) offers the following operations' ומונה בטבלת הפעולות את 'Operation HTTP Method Sample URL " +
+          "Read Process Order GET GET " +
+          "<host>/sap/opu/odata/sap/API_PROCESS_ORDER_2_SRV/A_ProcessOrder_2('1234567')', את 'Create Process Order " +
+          "POST' על ‎/API_PROCESS_ORDER_2_SRV/A_ProcessOrder_2, את 'Update Process Order PATCH' על אותה ישות, את " +
+          "'Read Process Order Component GET' ואת 'Convert Planned Order into Process Order POST ... " +
+          "/ConvertPlannedOrder?'. התקציר מוסיף הערה החלה על כלל פעולות הקריאה: 'Note For all Read operations (HTTP " +
+          "method GET), you can use the standard OData system query options like $top, $skip, $filter, $orderby, or " +
+          "$expand.' קיימת אפוא דרך מתועדת לשלוף אוסף של פקודות תהליך לפי תנאי סינון ומיון. העמוד אינו נוקב בשם " +
+          "BAPI_PROCORD_GET_LIST. (אומת ברשומת fm:BAPI_PROCORD_RELEASE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technically Complete Process Order | APIs for Manufacturing",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/c5a7a32424d04e578991f74a8880b6d6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_24,
+        claim:
+          "עמוד 'Technically Complete Process Order' (2025 FPS01, loio c5a7a32424d04e578991f74a8880b6d6), שגופו " +
+          "נקרא ב-2026-09-24 דרך scripts/sap-help-body.mjs, מתעד את חוזה הפעולה: 'To technically complete a process " +
+          "order, you use the HTTP method POST to call the TechlyCmpltOrder function'; הנכס ManufacturingOrder " +
+          "מסומן Mandatory ב-URL של הבקשה; ה-ETag נמסר בכותרת if-match; בהצלחה חוזר 200 OK והודעה שהסטטוס " +
+          "Technically Completed (TECO) הופעל. הדף אינו נוקב ב-BAPI ואינו מציג את הפעולה כיורשת שלו. (אומת ברשומת " +
+          "fm:BAPI_PROCORD_COMPLETE_TECH)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Planned Order (OData V2)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/a6f0333202384ba2b48a841a4a6deb1b/43ae2e5876b4a107e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_24,
+        claim:
+          "עמוד 'Planned Order (OData V2)' בתיעוד S/4HANA 2025 FPS01 קובע: 'Technical name: API_PLANNED_ORDERS This " +
+          "service enables you to read, create, change, and delete planned orders as well as components belonging " +
+          "to planned orders.' הסניפט אינו נוקב ב-BAPI. (אומת ברשומת fm:BAPI_PLANNEDORDER_CREATE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Communication of Goods Movements from Inventory Management to EWM | Extended Warehouse Management (EWM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9832125c23154a179bfa1784cdc9577a/8a532e4e6aaf4f4b97fd2f014f9837e0.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_14,
+        claim:
+          "הסניפט לגרסת On-Premise 2025 FPS01 קובע: 'You can also post and cancel goods movements using the " +
+          "following Inventory Management BAPIs: BAPI_GOODSMVT_CREATE BAPI_GOODSMVT_CANCEL'. כלומר ה-BAPI מתועד " +
+          "כממשק פעיל לרישום תנועות סחורה בניהול מלאי בגרסה 2025 FPS01. רשומות נוספות מאותו חיפוש ואותה גרסה: " +
+          "'Extensibility for Goods Movements' ב-What's New 2025 FPS01 ‏(loio d4538b721f6d47d9a1fa076b82c1bf77): " +
+          "'The default implementation of the BAdI calls Business Application Programming Interface (BAPI) " +
+          "BAPI_GOODSMVT_CREATE'; 'Integration of a Decentralized WMS' ‏(loio b7706754e90d8c4ce10000000a4450e5): " +
+          "ה-WMS המבוזר משכפל שינויים למערכת S/4HANA דרך BAPI_GOODSMVT_CREATE; ורשומת 'BAPIs and APIs used in " +
+          "Synchronous Goods Movements' ב-What's New 2020 ‏(loio 73cf65e8275d4b279973c9a368890896, 2020.000) מונה " +
+          "תחת Inventory Management BAPIs את BAPI_GOODSMVT_CREATE ו-BAPI_GOODSMVT_CANCEL עם התהליכים הנתמכים 'Goods " +
+          "receipt and goods issue, Stock transfer postings, Goods receipt for orders'. (אומת ברשומת " +
+          "fm:BAPI_GOODSMVT_CREATE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material Documents - Read, Create | APIs for Inventory",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/eb2a39dd0c124fed8252f684002d55e1/d4c919581bc30a02e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM_14,
+        claim:
+          "שירות ה-OData‏ Material Documents - Read, Create מתועד למהדורת On-Premise 2025 FPS01 במדריך APIs for " +
+          "Inventory: 'Technical name: API_MATERIAL_DOCUMENT ... This service enables the following operations for " +
+          "material documents: Retrieve material documents, Create material documents, Cancel material documents at " +
+          "header level, Cancel material documents at [item level]'. רשומת 'Operations for Material Document API' " +
+          "באותו מדריך (loio 1aef4e402acd4c8b8ec2ea2bfda7715b, 2025.001) מציגה את נתיב היצירה POST " +
+          "‎<host>/sap/opu/odata/sap/API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentHeader ואת פעולות הביטול ברמת " +
+          "כותרת ופריט. רשומות What's New מתעדות הרחבות שוטפות של השירות: 2023 ‏(loio " +
+          "71c0f9113d2a47cca1de911185cb89af, 'enhanced with additional properties', רכיב MM-IM-GF) ו-2025 FPS01 " +
+          "‏(loio bfe185a3e1ea4fe0a39b12d0683853ff, 'enhanced with Warehouse Handling Unit field'). אף אחת מהרשומות " +
+          "אינה מציגה את ה-API כמחליף של BAPI_GOODSMVT_CREATE; הן מתעדות אותו כשירות OData לרישום מסמכי חומר לצד " +
+          "ה-BAPI. (אומת ברשומת fm:BAPI_GOODSMVT_CREATE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Batch Master Record | APIs for Logistics Cross Topics",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e1841426f60f4e50913ec9a64aba8332/48b3c2ac60154137bb1d6411c7047e16.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE_FM,
+        claim:
+          "עמוד השירות Batch Master Record במדריך APIs for Logistics Cross Topics לגרסת On-Premise 2025 FPS01 נוקב " +
+          "בשם הטכני כלשונו: 'Batch Master Record Technical name: API_BATCH_SRV This service enables you to " +
+          "retrieve batches and their classification data', ומוסיף 'In addition, batches and classification data " +
+          "can be created and updated. The service is based on the OData protocol, and can be consumed by external " +
+          "systems and user interfaces'. שאילתה נוספת על אותו loio מחזירה מאותו עמוד גם את מבנה השירות: 'Service " +
+          "Structure The batch itself is modelled in the entity Batches (Batch), Plant-specific Batch Information " +
+          "(BatchPlant), and Batch Texts (BatchText)', ואת האירוע העסקי 'Topic Topic Description BO/Batch/Created " +
+          "Batch master record is created'. הסניפטים אינם נוקבים בשם מודול פונקציה כלשהו ואינם מציגים את השירות " +
+          "כמחליף של BAPI. (אומת ברשומת fm:BAPI_BATCH_CREATE)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Technical Communication | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/0672b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "גוף העמוד (loio 0672b6535fe6b74ce10000000a174cb4), שנקרא ב-2026-09-28: להעברת נתונים בין PP-PI למערכת " +
+          "הבקרה 'the SAP system provides the following alternative technologies: Function modules' ו-BAPIs, ובשני " +
+          "המקרים 'the Remote Function Call (RFC) is used'; 'tRCFs are used for function modules for uploading and " +
+          "downloading messages and for downloading control recipes. However, it is not used for the corresponding " +
+          "BAPIs'. טבלת ה-BAPI: 'Create process messages ProcessMessagePI Create BAPI_PROCESS_MESSAGE_CREATE', " +
+          "'ExistenceCheck BAPI_PROCESS_MESSAGE_CHK_EXIST', 'BAPI_PROC_CHAR_GET_LIST', " +
+          "'BAPI_PROC_CHAR_GET_HELPVALUES', 'Read control recipe list ControlRecipe GetList " +
+          "BAPI_CONTROL_RECIPE_GET_LIST', 'Request and receive control recipes ControlRecipe Request " +
+          "BAPI_CONTROL_RECIPE_REQUEST', 'Update changes BapiService TransactionCommit'. טבלת מודולי הפונקציה: " +
+          "CONTROL_RECIPE_DOWNLOAD, CONTROL_RECIPE_AVAILABLE, CONTROL_RECIPE_PULL, CONTROL_RECIPE_PULL_SINGLE, " +
+          "PROCESS_MESS_UPLOAD, PROCESS_MESS_GET_RETURN_CODE, PROCESS_MESS_DOWNLOAD, PROC_CHAR_GET_LIST_WITH_DETAIL " +
+          "ו-PROC_CHAR_HELPVALUES_GET.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "PP - PI-PCS Interface: Linking of Process Control Systems | Production Planning and Control",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21aead0c98bd4755abdacd91c99e3393/66c0bf53f106b44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim:
+          "סניפט רשומת החיפוש (loio 66c0bf53f106b44ce10000000a174cb4): 'The PI-PCS interface enables the download " +
+          "of control recipes to the lower-level control system and the upload of process-related data in the form " +
+          "of process messages' ו-'Confirmation of order-related data via the PI-PCS interface replaces " +
+          "order-related confirmations via PP-PDC.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "SAP Digital Manufacturing Integration Guide (Document Version 2502, 2025-02-16, PDF)",
+        product: "SAP Digital Manufacturing",
+        edition: "on-premise",
+        release: "2502 (2025-02-16)",
+        url: "https://help.sap.com/doc/f6b2ab2222794bebad4c0dcd33138e71/latest/en-US/SAP_DMC_Integration_Guide_enUS.pdf",
+        accessedAt: DATE_IDOC_02,
+        claim:
+          "מסמך PDF רשמי שנקרא ישירות: טבלת Supported IDocs (עמ' 12, עמודות SAP ERP ו-SAP S/4HANA) מונה 'LOIPRO05 " +
+          "(production and process orders)' עם Yes בשתי העמודות; בהגדרת ה-Partner Profile (עמ' 44) נרשם Message " +
+          "Type LOIPRO עם Basic Type 'LOIPRO05 (production order and process order)'; ב-Distribution Model (עמ' 46) " +
+          "התיאור של LOIPRO הוא 'Production / process order'; ובתרחיש פקודת תהליך (עמ' 199) שחרור הפקודה מעביר אותה " +
+          "דרך DRF 'using IDoc LOIPRO05 according to the filter criteria you set in the DRF'. בעמ' 176, תחת התרחיש " +
+          "'If you're using SAP ERP 6.00 – 6.04 (configuration type A), you transfer the production order using the " +
+          "transaction POIT', נכתב: 'The POIT transaction supports only the IDoc base types LOIPRO01. Additional " +
+          "fields and segments of the IDoc types LOIPRO02, LOIPRO03, and LOIPRO04 aren't supplied when distributing " +
+          "using the POIT transaction'. (אומת ברשומת idoc:msg:LOIPRO)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "POI IDocs | Supply Chain Planning Interfaces (LO-SCI)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/e1d2edc3460848fdb57a2323fc931758/b81ebf53d25ab64ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE_IDOC_02,
+        claim:
+          "עמוד POI IDocs במדריך Supply Chain Planning Interfaces (LO-SCI) של SAP ERP 6.18 מונה, בטבלת 'From SAP " +
+          "System To External Optimization System', את LOIPRO כסוג ההודעה של 'Production/Process orders', לצד " +
+          "LOIPLO (Planned orders) ו-LOISTD (Stock/requirements lists); כלומר LOIPRO הוא סוג הודעה של ממשק ה-POI " +
+          "ומכסה גם פקודות תהליך. (אומת ברשומת idoc:msg:LOIPRO)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "רישומי ה-BAPI המועשרים של PP-PI בפרויקט (bapi-enrichment.pppi.ts): פקודת תהליך, דיווח, תנועות סחורה, " +
+          "אצוות והזמנות מתוכננות",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "רצף פקודת התהליך במאגר (PO_SEQ): BAPI_PROCORD_CREATE, BAPI_PROCORD_RELEASE, BAPI_PROCORDCONF_CREATE_TT, " +
+          "BAPI_GOODSMVT_CREATE (אם נדרש), BAPI_TRANSACTION_COMMIT. BAPI_PROCORD_CREATE עם אובייקט BUS0001 " +
+          "וטרנזקציות COR1, COR2, COR3 ו-COR5; BAPI_PROCORD_COMPLETE_TECH לסגירה טכנית; BAPI_PROCORD_GET_DETAIL " +
+          "ו-BAPI_PROCORD_GET_LIST לקריאה; BAPI_PROCORDCONF_CREATE_TT עם אובייקט BUS2016 ותנועות נלוות דרך " +
+          "GOODSMOVEMENTS, ביטול ב-BAPI_PROCORDCONF_CANCEL; BAPI_GOODSMVT_CREATE עם אובייקט BUS2017 ו-'אין COMMIT " +
+          "פנימי'; BAPI_BATCH_CREATE ו-BAPI_BATCH_GET_DETAIL; BAPI_PLANNEDORDER_CREATE (PLAF, MD11) " +
+          "ו-BAPI_PLANNEDORDER_GET_DETAIL. הנחיית ה-QA לכל BAPI כותב: בדיקת RETURN, BAPI_TRANSACTION_COMMIT על אותו " +
+          "LUW ו-BAPI_TRANSACTION_ROLLBACK בשגיאה. מקורות האימות של חלק מהרישומים הם אתרי מראה של SE37 ולא מקור SAP " +
+          "רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/bapi-enrichment.pppi.ts#BAPI_PROCORD_CREATE",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "רשומות התחומים של PP-PI בפרויקט: pppi-pir, pppi-gi-gr, pppi-mes-integration ו-pppi-settlement (שדה " +
+          "bapis)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "pppi-pir מונה את BAPI_REQUIREMENTS_CREATE ו-BAPI_REQUIREMENTS_GETDETAIL; pppi-gi-gr את " +
+          "BAPI_GOODSMVT_CREATE, BAPI_GOODSMVT_GETDETAIL ו-BAPI_GOODSMVT_GETITEMS; pppi-mes-integration את " +
+          "BAPI_CONTROL_RECIPE_GETLIST ו-BAPI_PROCESS_MESSAGE_CREATEMULT, עם מרשם בקרה (CO53), יעד (C2A1), גיליון " +
+          "PI (CO60) והודעות תהליך (CO54); pppi-settlement את K_ORDER_SETTLEMENT, K_SETTLEMENT_RULE_READ " +
+          "ו-K_COSTS_READ עם CO88 ו-KO88.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/domains.ts#pppi-mes-integration",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "רשומות האימות של הפרויקט לממשקי התהליך: fm:BAPI_PROCORD_RELEASE, fm:BAPI_PROCORD_COMPLETE_TECH, " +
+          "fm:BAPI_PLANNEDORDER_CREATE, fm:BAPI_BATCH_CREATE, fm:K_ORDER_SETTLEMENT, idoc:msg:LOIPRO, " +
+          "fm:BAPI_PROCORDCONF_CREATE_TT, fm:BAPI_PROCORDCONF_CANCEL, fm:BAPI_PROCORDCONF_GETLIST, " +
+          "fm:BAPI_PLANNEDORDER_GET_DETAIL",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "סטטוס verification_required ל-BAPI_PROCORD_RELEASE ול-BAPI_PROCORD_COMPLETE_TECH: השמות לא נמצאו ברשומה " +
+          "רשמית, והשחרור והסגירה הטכנית מתועדים ב-2025 FPS01 כפעולות ReleaseOrder ו-TechlyCmpltOrder של " +
+          "API_PROCESS_ORDER_2_SRV, בלי אמירה שהן מחליפות את ה-BAPI. BAPI_PLANNEDORDER_CREATE: " +
+          "verification_required. BAPI_BATCH_CREATE: released_api_available על בסיס API_BATCH_SRV, בעוד שם ה-BAPI " +
+          "עצמו לא אותר ברשומה רשמית. K_ORDER_SETTLEMENT: verification_required (תשע הרצות חיפוש בלי אזכור); עמוד " +
+          "Settlement Methods (2025 FPS01) שהרשומה מצטטת מתעד להתחשבנות פקודות את Run Settlement - Actual (F4568) " +
+          "ואת KO88, ולהתחשבנות מרוכזת את Schedule Overhead Accounting Jobs (F3767) ואת KO8GH, בלי לנקוב במודול " +
+          "פונקציה. idoc:msg:LOIPRO: 'unchanged', עם ההנחיה לאמת ב-WE30 את גרסת ה-IDoc ולאמת במערכת שה-DRF מפיץ " +
+          "פקודות תהליך ב-LOIPRO05, כי עמודי PP-MES של On-Premise שנסרקו מתעדים במפורש רק את פקודת הייצור. " +
+          "BAPI_PLANNEDORDER_GET_DETAIL: verification_required. BAPI_PROCORDCONF_CREATE_TT, BAPI_PROCORDCONF_CANCEL " +
+          "ו-BAPI_PROCORDCONF_GETLIST: released_api_available.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verification/functions.ts#fm:BAPI_PROCORD_RELEASE (+fm:BAPI_PROCORD_COMPLETE_TECH, fm:BAPI_PLANNEDORDER_CREATE, fm:BAPI_BATCH_CREATE, fm:K_ORDER_SETTLEMENT, fm:BAPI_PROCORDCONF_CREATE_TT, fm:BAPI_PROCORDCONF_CANCEL, fm:BAPI_PROCORDCONF_GETLIST, fm:BAPI_PLANNEDORDER_GET_DETAIL; data/verification/idocs.ts#idoc:msg:LOIPRO)",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "מרכז התקלות של הפרויקט לממשקים: process-message-not-sent (troubleshooting-ext2.ts) " +
+          "ו-duplicate-goods-receipt (troubleshooting-ext3.ts)",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "process-message-not-sent (PP-PI): הודעות תהליך מצטברות ולא מעובדות ו-CO54 מציג שגיאה; סיבות: יעד הודעת " +
+          "תהליך לא מוגדר, מאפיין חסר, סוג הודעה לא משויך או כשל ב-FM היעד; תיקון: הגדרת יעד (O13C), מילוי מאפייני " +
+          "חובה ועיבוד מחדש ב-CO54. duplicate-goods-receipt (Cross): קבלת טובין שנרשמה פעמיים מממשק ללא " +
+          "idempotency, עם BAPI_GOODSMVT_CREATE ברשימת הפונקציות; תיקון: ביטול התנועה הכפולה והוספת מפתח ייחודי " +
+          "בממשק.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/troubleshooting-ext2.ts#process-message-not-sent (+data/troubleshooting-ext3.ts#duplicate-goods-receipt)",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle:
+          "רשומות האימות והמאגר לשמות שבפרופיל: tx:COR2, tx:C201, tx:COR3, obj:master-recipe, table:MCH1, " +
+          "table:MKAL, Fiori F3577/F1576, tx-intel MB26",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim:
+          "tx:COR2: 'מגרסת 2022 אובייקט ההרשאה C_AFKO_REL מפריד בין הרשאת שינוי ההזמנה להרשאת השחרור', וה-What's " +
+          "New מציין שהתפקידים הקיימים אינם מתעדכנים אוטומטית. tx:C201 ו-obj:master-recipe: אובייקט ההגירה 'Master " +
+          "recipe' (Object Alias PP_MSTRRCP, רכיב PP-PI) ופריט הפישוט 'S4TWL - ABAP-List-Based PI-Sheets', שלפיו " +
+          "יעדי מרשם בקרה מסוג 1 מוחלפים ביעדים מסוג X או מסוג 4. tx:COR3: אובייקט ההגירה 'PP - Process order (only " +
+          "open PO)'. table:MCH1: אובייקט ההגירה 'Batch unique at material and client level', השולף את נתוני האצווה " +
+          "מ-MCH1. table:MKAL: אובייקט ההגירה 'PP - Production version', הבוחר את גרסאות הייצור מ-MKAL. " +
+          "data/fiori/apps.ts: F3577 (Manage Process Orders) ו-F3364 (Confirm Process Order) עם התפקיד " +
+          "SAP_BR_PRODN_OPERATOR_PROC, ו-F1576 (Manage Batches) ו-F0843 (Post Goods Movement) עם התפקיד " +
+          "SAP_BR_WAREHOUSE_CLERK. data/tx-intel.ts: MB26 היא רשימת picking של reservations הזמינים לאיסוף לצורך " +
+          "פליטת סחורה (טבלאות RKPF, RESB ו-MARD).",
+        verificationLevel: "repository_verified",
+        repoRef: "data/verification/transactions.ts#tx:COR2 (+tx:C201, tx:COR3; data/verification/objects.ts#obj:master-recipe; data/verification/tables.ts#table:MCH1 (+table:MKAL); data/fiori/apps.ts#F3577 (+F3364, F1576, F0843); data/tx-intel.ts#MB26)",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Design-audit continuation §11 (process catalog)",
+    lastVerifiedAt: DATE28,
+    reviewer: "Design-audit continuation §11 (process catalog); Project NEO research pipeline (researcher + adversarial auditor), 2026-09-28",
     notes:
-      "רשומת תהליך מקצה לקצה: היא מחברת את שלוש רשומות התהליך האחרות של הקובץ ואינה חוזרת על פרטיהן. כל שדה " +
-      "בפרופיל נגזר מרשומות המאגר הנקובות או מעמוד רשמי שכבר אומת ברשומות tx:COR1, table:MKAL, table:MCH1 " +
-      "ו-fm:BAPI_PROCORDCONF_CREATE_TT. שדה reference נכתב כ-null במכוון: לא אותר באף רשומת אימות של הפרויקט " +
-      "עמוד SAP רשמי המתאר את התהליך התעשייתי מקצה לקצה כיחידה אחת, ופריט SAP Best Practices (Scope Item) לא " +
-      "אותר ואומת. הטבלאות PBIM, PBED, MDKP, MDVM, PLAF, MATDOC, AFFW, CKMLPP ו-KEKO והטרנזקציות MB31 ו-CO11N " +
-      "נזכרות ברשומות המאגר; מתוכן רק חלק נמצא במילון המזהים, והשאר מופיע בטקסט בלבד. מזהי ה-Fiori F3577, " +
-      "F3364 ו-F1576 הם מזהי המאגר, ורשומות האימות מציינות שהתיעוד הרשמי נוקב ב-F4587, ב-F5323, ב-App ID CORK " +
-      "וב-F2462, שאינם במילון הפרויקט. לא בוצעה בדיקה במערכת SAP חיה.",
+      "רשומת תהליך מקצה לקצה: היא מחברת את שלוש רשומות התהליך האחרות של הקובץ ואינה חוזרת על פרטיהן. כל שדה בפרופיל " +
+      "נגזר מרשומות המאגר הנקובות או מעמוד רשמי שכבר אומת ברשומות tx:COR1, table:MKAL, table:MCH1 " +
+      "ו-fm:BAPI_PROCORDCONF_CREATE_TT. שדה reference נכתב כ-null במכוון: לא אותר באף רשומת אימות של הפרויקט עמוד " +
+      "SAP רשמי המתאר את התהליך התעשייתי מקצה לקצה כיחידה אחת, ופריט SAP Best Practices (Scope Item) לא אותר ואומת. " +
+      "הטבלאות PBIM, PBED, MDKP, MDVM, PLAF, MATDOC, AFFW, CKMLPP ו-KEKO והטרנזקציות MB31 ו-CO11N נזכרות ברשומות " +
+      "המאגר; מתוכן רק חלק נמצא במילון המזהים, והשאר מופיע בטקסט בלבד. מזהי ה-Fiori F3577, F3364 ו-F1576 הם מזהי " +
+      "המאגר, ורשומות האימות מציינות שהתיעוד הרשמי נוקב ב-F4587, ב-F5323, ב-App ID CORK וב-F2462, שאינם במילון " +
+      "הפרויקט. לא בוצעה בדיקה במערכת SAP חיה. תוספת 2026-09-28 (שדות interfaces ו-reference): המשפטים הקודמים " +
+      "מתארים את הרשומה כפי שנכתבה ב-2026-09-22. השדה interfaces נשען על רישומי ה-BAPI המועשרים, על רשומות התחומים " +
+      "pppi-pir, pppi-gi-gr, pppi-mes-integration ו-pppi-settlement, על רשומות האימות fm:BAPI_PROCORD_RELEASE, " +
+      "fm:BAPI_PROCORD_COMPLETE_TECH, fm:BAPI_PLANNEDORDER_CREATE, fm:BAPI_GOODSMVT_CREATE, fm:BAPI_BATCH_CREATE, " +
+      "fm:K_ORDER_SETTLEMENT ו-idoc:msg:LOIPRO (שורות רשמיות הועתקו מהן כלשונן עם תאריך הגישה שלהן), ועל חמישה " +
+      "עמודים שנקראו ב-2026-09-28 בערוצים המתוסרטים: Technical Communication (2025.001, גוף), PP - PI-PCS Interface " +
+      "(סניפט), Planned Independent Requirements (API, גוף), PP - Planned independent requirement (הגירה, גוף) " +
+      "ו-What's New BJ8 (1909, גוף). חיפושים שהורצו ב-help.sap.com בסקופ SAP_S4HANA_ON-PREMISE (2026-09-28): " +
+      "'Production Planning for Process Industries process flow' (21), 'planned independent requirements API' (21), " +
+      "'process messages PI-PCS process order' (21), 'process manufacturing make-to-stock process order' (21), " +
+      "'BAPI_PROCESS_MESSAGE_CREATEMULT' (21, אף כותרת או סניפט אינם נוקבים בשם), 'BAPI_CONTROL_RECIPE_GETLIST' (9, " +
+      "העמוד Technical Communication נוקב ב-BAPI_CONTROL_RECIPE_GET_LIST ולא בשם המאגר), 'PI-PCS interface BAPIs " +
+      "control recipe process message' (21) ו-'BAPI_REQUIREMENTS_CREATE' (18). Old → New (2026-09-28): reference " +
+      "היה null עם ההערה שפריט Scope Item לא אותר; כעת נרשמת רשומת What's New הרשמית של BJ8, שהיא הרשומה הרשמית " +
+      "שנמצאה בחיפושים הנוקבת בפריט היקף לתהליך. שמות ה-BAPI של PI-PCS, ‏BAPI_REQUIREMENTS_CREATE, " +
+      "‏API_PLND_INDEP_RQMT_SRV ו-LOIPRO05 אינם במילון המזהים ומופיעים בטקסט בלבד. Old → New (2026-09-28): " +
+      "integrationPoints[0] תיאר את LOIPRO כ-IDoc להעברת מסלול או מתכון (לפי domains.ts); כעת לפי התיעוד הרשמי " +
+      "שבראיות, והסתירה ברובד המאגר מתועדת ברשומת האימות idoc:msg:LOIPRO. Old → New (2026-09-28): F4587, F5323 " +
+      "ו-F2462 נפתרים כעת ב-data/fiori/apps.ts; המשפט הקודם שלפיו אינם במילון הפרויקט אינו תקף עוד. בשלב הכתיבה " +
+      "נוספה שורת ראיה מהמאגר לשמות שבפרופיל (C_AFKO_REL, PP_MSTRRCP, 'S4TWL - ABAP-List-Based PI-Sheets', אובייקטי " +
+      "ההגירה, התפקידים ו-MB26), לפי הביקורת. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 ];
