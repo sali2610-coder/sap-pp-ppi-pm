@@ -108,7 +108,18 @@
    context row names VL09 in SAP ERP 6.0 EHP8); the rows of the generated records
    that the audited records do not cite are carried verbatim as context rows (VL09
    4, VL32N 3, VOFM 2, XD01 2, XD02 3, XD03 5) with their 2026-09-24 access date;
-   no reviewer field. */
+   no reviewer field.
+   Batch 13 (research + adversarial audit 2026-09-28, written the same day, access
+   date stamped 2026-09-25): 7 audited records for the FI-AA year-end closing and
+   legacy asset transfer codes, the payment program codes and the new G/L balance
+   display, totals table and line item codes (AJAB, AS91, F110, F111, FAGLB03,
+   FAGLFLEXT, FAGLL03); tx:AJRW refuted and queued. All seven taken from
+   verdict.fixedRecord. Every status source is a shared const (the record's own
+   evidence row) instead of the pointer strings, placeholder copies and shortened
+   copy the verdicts carried; the rows of the generated records that the audited
+   records do not cite are carried verbatim as context rows (AJAB 1, AS91 3, F110 4,
+   F111 1, FAGLL03 5; the FAGLB03 fixedRecord already carries its 8) with their
+   2026-09-24 access date; no reviewer field. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
@@ -1948,6 +1959,152 @@ const XD03_SIMPL2025: Evidence = {
     "את XD03 תחת 'Transactions not available in SAP S/4HANA on-premise edition' וברשימת 'Transactions that " +
     "get redirected to transaction BP: FD01, FD02, FD03, ..., XD01, XD02, XD03, ...'. בלשון הפריט: 'The user " +
     "interface for SAP S/4HANA is transaction BP' ו-'These will be redirected to transaction BP'.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 13 status sources (research + audit 2026-09-28, written the same day): one evidence row per
+   record, shared by evidence[] and status.source (AJAB, AS91, F110, F111, FAGLB03, FAGLFLEXT, FAGLL03) */
+
+const AJAB_WHATSNEW2020: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Year-End Closing Asset Accounting (Cross-Company Code and Ledger) | What's New in SAP S/4HANA 2020",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/b7346ab2a39f4c889aad6f8641d0810a.html?locale=en-US&state=PRODUCTION&version=2020.000",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2020.000",
+  accessedAt: DATE25,
+  claim:
+    "התיעוד הרשמי (What's New in SAP S/4HANA 2020, versionId 2020.000, loio " +
+    "b7346ab2a39f4c889aad6f8641d0810a) קובע בפרק Transactions and Programs, גוף העמוד המלא שנקרא: 'As of " +
+    "release SAP S/4HANA 2020, the previous transactions and programs are handled as follows: Transaction " +
+    "AJAB (program RAJABS00) - Year-End Closing Asset Accounting Is redirected to transaction " +
+    "FAA_CLOSE_FISC_YEARS - Year-End Closing Asset Accounting (Cross-Company Code and Ledger)'. כלומר החל " +
+    "מ-2020, AJAB מנותבת (redirected) לטרנזקציה FAA_CLOSE_FISC_YEARS (תוכנית FAA_CLOSE_FISCAL_YEARS); המקור " +
+    "מתאר ניתוב ואינו נוקב בהסרה של הקוד.",
+  verificationLevel: "sap_official_verified",
+};
+
+const AS91_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (Document Version 1.36) · item 6.1.9 " +
+    "S4TWL - ASSET ACCOUNTING",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 6.1.9 'S4TWL - ASSET ACCOUNTING' (מתחיל בעמ' 173, Document Version 1.36) קובע תחת הכותרת 'Legacy " +
+    "Data Transfer' (עמ' 185): 'The legacy data transfer had to be adjusted in Asset Accounting due to the " +
+    "introduction of the universal journal entry.' ומפרט את שלבי ה-Manual Legacy Data Transfer: 'You create " +
+    "asset master records for the legacy data transfer using transaction AS91. You post the transfer values " +
+    "using transaction ABLDT; In doing so, a universal journal entry is posted for the fixed asset.' ובהמשך: " +
+    "'Any type of batch input on the transactions AS91, AS92, AT91, AT92, AS81, AS82, AT81 and AT82 only " +
+    "allows the creation and change of master data. Values cannot be transferred this way. You must rather " +
+    "use transaction ABLDT; however, this is not mass-compatible.' אותו מלל מופיע גם בפריט 6.1.16 של אותה " +
+    "רשימה (מתחיל בעמ' 207), ובסעיף 10.2.29 Legacy Data Transfer של פריט 10.2 S4TWL - ASSET ACCOUNTING " +
+    "ברשימת הפישוט של 2023 FPS3 (עמ' 285, Document Version 1.35).",
+  verificationLevel: "sap_official_verified",
+};
+
+const F110_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.11.17 " +
+    "S4TWL - CASH MANAGEMENT - GENERAL",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "בטבלת 'Comparison of Functional Scope' של פריט 6.11.17, המשווה בין classic Cash and Liquidity " +
+    "Management לבין SAP Cash Management, השורה 'Payment (F110, F111)' נושאת את הטקסט: 'F110 and F111 are " +
+    "supported as before.' הפריט אינו קובע החלפה, הסרה או הגבלה של F110.",
+  verificationLevel: "sap_official_verified",
+};
+
+const F111_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.11.17 " +
+    "S4TWL - CASH MANAGEMENT - GENERAL",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "פריט 6.11.17 'S4TWL - CASH MANAGEMENT - GENERAL' (רשימת הפישוט הרשמית, 2025 FPS01, גרסת מסמך 1.36) כולל " +
+    "טבלת השוואת יכולות ובה שורה 'Payment (F110, F111)' עם הקביעה: 'F110 and F111 are supported as before.' " +
+    "כלומר לפי הפריט F111 (יחד עם F110) נתמכת ב-S/4HANA 'as before'.",
+  verificationLevel: "sap_official_verified",
+};
+
+const FAGLB03_FAL_S32OP: Evidence = {
+  sourceType: "fiori_library",
+  sourceTitle:
+    "Fiori Apps Library · App FAGLB03 'Display G/L Account Balances - For Ledger' (SAP GUI), release S32OP " +
+    "(S/4HANA 2025 FPS01)",
+  url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('FAGLB03')/S32OP",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "ספריית האפליקציות הרשמית של Fiori רושמת את FAGLB03 כאפליקציה מסוג SAP GUI בסטטוס 'Published', ברכיב " +
+    "FI-GL-GL-D, עם קוד GUI מוביל FAGLB03, בכל מהדורות ה-on-premise מ-S6OP (1610) ועד S32OP (2025 FPS01). " +
+    "שדות ה-predecessor וה-successor ברשומה ריקים.",
+  verificationLevel: "sap_official_verified",
+};
+
+const FAGLFLEXT_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.1.4 " +
+    "S4TWL - DATA MODEL CHANGES IN FIN",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim:
+    "נקרא הפריט במלואו (scratchpad/official/SIMPL_OP2025.pdf.txt). הפריט קובע שטבלאות totals ו-index הוסרו " +
+    "והוחלפו בתצוגות DDL SQL בשם זהה (compatibility views); טבלת המיפוי הראשונה של הפריט רושמת עבור " +
+    "FAGLFLEXT: Original Table=FAGLFLEXT, Compatibility View=FAGLFLEXT, DDL Source=V_FAGLFLEXT_DDL, Backup " +
+    "Table=FAGLFLEXT_BCK. המשפט החל על טבלה זו: 'The compatibility views ensure database SELECTs work as " +
+    "before. However, write access (INSERT, UPDATE, DELETE, MODIFY) was removed from SAP standard, or has to " +
+    "be removed from custom code – refer to SAP note 1976487.' הפריט ממליץ גם: 'You should also consider " +
+    "adapting your reporting strategy to use the new Fiori reports that are designed specifically to handle " +
+    "the many fields in the universal journal, rather than continuing to work with the classic reports that " +
+    "aggregate on the fly according to the fields in the old totals fields.' פריט 'S4TWL - GENERAL LEDGER' " +
+    "(6.1.23, אותו מסמך) מוסיף: 'reports in Financial Accounting will show only the fields formerly " +
+    "available in FAGLFLEXT', וממליץ לעבוד עם דוחות Fiori החדשים כדי לראות את הנתונים המשולבים. טבלת המיפוי " +
+    "ומשפט ה-GENERAL LEDGER חוזרים זהים בפריטים המקבילים ברשימת הפישוט 2023 FPS03 (מסמך גרסה 1.35, פריטים " +
+    "8.2 ו-15.2). הפריטים 'S4TWL - Plan data is not migrated to SAP S/4HANA' (6.1.3/8.5) ו-'S4TWL - " +
+    "Reporting/Analytics in Controlling' (6.5.9/12.16) מזכירים את FAGLFLEXT בהקשר, ואינם קובעים לגביה מעמד " +
+    "נוסף.",
+  verificationLevel: "sap_official_verified",
+};
+
+const FAGLL03_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle:
+    "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 and SAP S/4HANA Cloud Private Edition " +
+    "2025 - Feature Pack Stack 1 · item 6.1.12 S4TWL - Currencies in Universal Journal",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim:
+    "הפריט (כותרת הטבלה 'Overview on supported reporting for currency fields' בעמ' 196, שורת FAGLL03 בעמ' " +
+    "197) קובע: 'With S/4H 1610 and later releases the currencies that are not stored in BSEG can be " +
+    "displayed in following UIs', ומונה בהם את 'Display G/L Account Line Items / FAGLL03', לצד FB03, FB03L, " +
+    "FAGLB03, FAGLL03H ואפליקציות Fiori (Display G/L Account Line Items, Journal Entry Analyzer, Audit " +
+    "Journal, Display Financial Statement). הפריט אינו קובע ש-FAGLL03 הוחלפה או הוצאה משימוש; הוא מפרט אותה " +
+    "כאחת מדרכי התצוגה של מטבעות ה-Universal Journal ב-on-premise.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -12961,5 +13118,1004 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       "מדפיסים את XD03 לצד XD01 ו-XD02 כטרנזקציות ליצירה, שינוי והצגה של לקוח; ברשומות tx:XD01 ו-tx:XD02 אותם " +
       "עמודים מסומנים כסתירה לפריט הפישוט, וכאן הם נישאים כשורות context. מה שיכריע: הפעלת XD03 במערכת S/4HANA " +
       "On-Premise חיה ובדיקה אם היא מנותבת ל-BP.",
+  },
+  {
+    id: "tx:AJAB",
+    evidence: [
+      AJAB_WHATSNEW2020,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Execute/Undo Year-End Closing | What's New in SAP S/4HANA 1909",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e296651f454c4284ade361292c633d69/d17437b1620f4b778856431ec7dfa3bb.html?locale=en-US&state=PRODUCTION&version=1909.000",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "1909.000",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (What's New in SAP S/4HANA 1909, versionId 1909.000, loio " +
+          "d17437b1620f4b778856431ec7dfa3bb) נוקבת בסניפט: 'Transaction AJAB (program RAJABS00) - Year-End Closing " +
+          "Asset Accounting Can still be called (for reasons of compatibility)'. כלומר ב-1909, AJAB מתוארת כניתנת " +
+          "לקריאה מטעמי תאימות; ב-2020 (ראו evidence[0]) היא מתוארת כמנותבת ל-FAA_CLOSE_FISC_YEARS.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.1.9 " +
+          "S4TWL - ASSET ACCOUNTING",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim:
+          "פריט 6.1.9 'S4TWL - ASSET ACCOUNTING' ברשימת הפישוט הרשמית ל-SAP S/4HANA 2025 FPS01 (גרסת מסמך 1.36) " +
+          "נושא, תחת פסקת Transactions, נוסח ניתוב התואם את evidence[0]: 'As of release SAP S/4HANA 2020, " +
+          "transaction AJAB (program RAJABS00) is redirected to transaction FAA_CLOSE_FISC_YEARS'. הפריט מוסיף גם: " +
+          "'Despite these adjustments, program RAJABS00 (transaction AJAB) is still available in the SAP Easy " +
+          "Access menu (only until release SAP S/4HANA 1909)'. כלומר גם במהדורת 2025 FPS01 של רשימת הפישוט נשמר " +
+          "נוסח הניתוב ל-FAA_CLOSE_FISC_YEARS; שורת Easy Access מתייחסת לרשומת התפריט עד 1909.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#AJAB",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת המאגר מתעדת את AJAB כ'סגירת שנה בחשבונאות נכסים' (Year-End Closing Asset Accounting), מודול FI, " +
+          "תחום 'חשבונאות נכסים'; הזיהוי תואם את שם הטרנזקציה במקורות הרשמיים לעיל.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#AJAB",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 6.1.16 " +
+          "S4TWL - ASSET ACCOUNTING",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE24,
+        claim:
+          "פריט 6.1.16 'S4TWL - ASSET ACCOUNTING' ברשימת הפישוט הרשמית (2025 FPS01, גרסת מסמך 1.36) נוקב בקוד AJAB " +
+          "בשורה: 'Despite these adjustments, program RAJABS00 (transaction AJAB) is still available in the SAP'. " +
+          "הפריט מובא כאן כהקשר בלבד: מה הוא קובע לגבי הקוד (הוחלף, הוסר, השתנה או רק מוזכר) טרם נקרא במחקר.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "החל מ-SAP S/4HANA 2020, הטרנזקציה AJAB (תוכנית RAJABS00) מנותבת (redirected) לטרנזקציה " +
+        "FAA_CLOSE_FISC_YEARS (Year-End Closing Asset Accounting, Cross-Company Code and Ledger); נוסח הניתוב " +
+        "מופיע גם ברשימת הפישוט של 2025 FPS01. ב-1909 AJAB תוארה כניתנת לקריאה מטעמי תאימות.",
+      edition: "on-premise",
+      release: "2020.000",
+      source: AJAB_WHATSNEW2020,
+      recommendedAction:
+        "בתהליכי סגירת שנה ב-S/4HANA (2020 ואילך) יש לתעד ולהשתמש בטרנזקציה FAA_CLOSE_FISC_YEARS לסגירה חוצת " +
+        "חברות/ledger, או ב-FAA_CMP לסגירה ברמת ledger בודד; קריאה ל-AJAB מתוארת במקור כמנותבת " +
+        "ל-FAA_CLOSE_FISC_YEARS, ואין להציג אותה כפעולה עצמאית נפרדת בתיעוד ללקוח. FAA_CLOSE_FISC_YEARS אינה חלק " +
+        "ממאגר הטרנזקציות המאומת של הפרויקט כרגע, ולכן לא ניתן להצביע עליה כ-xref פנימי; היא מוזכרת כאן בשם " +
+        "בלבד, כפי שמופיע במקור הרשמי.",
+    },
+    xrefs: ["tx:AJRW"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "נבדק: tcode-catalog.ts (מודול FI, 'חשבונאות נכסים'); חיפוש sap-help-search.mjs ('AJAB Year-End Closing " +
+      "Asset Accounting' בסקופ SAP_S4HANA_ON-PREMISE, 21 תוצאות), קריאת גוף מלא דרך sap-help-body.mjs (loio " +
+      "b7346ab2a39f4c889aad6f8641d0810a, What's New 2020) שאישרה את ציטוט הניתוב במלואו; גוף העמוד של 1909 " +
+      "(loio d17437b1620f4b778856431ec7dfa3bb) נקרא בביקורת דרך sap-help-body.mjs ואישר שורת AJAB 'Can still " +
+      "be called (for reasons of compatibility)'; אותו גוף מדפיס גם את הניתוב של OAAR ו-OAAQ לטרנזקציה " +
+      "FAA_CMP. קריאת הטקסט המחולץ מראש של שתי רשימות הפישוט (scratchpad/official/SIMPL_OP2023.pdf.txt שורה " +
+      "15740 ואילך, פריט 10.2.26 ו-10.2.34; scratchpad/official/SIMPL_OP2025.pdf.txt שורה 10103 ואילך, פריט " +
+      "6.1.9) הראתה את נוסח הניתוב בשתי המהדורות. fal-app.mjs --tcode AJAB במהדורת S32OP (2025 FPS01) החזיר " +
+      "'none': אין אפליקציית Fiori רשמית שמובילה עם קוד AJAB, ולכן לא נטען Fiori alternative. היסטוריה (Old → " +
+      "New): הרשומה שנוצרה דטרמיניסטית ב-transactions-auto.ts#tx:AJAB (evidence מסומן context, ללא הכרעת מעמד; " +
+      "ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה) מוחלפת אוטומטית ברשומה זו, " +
+      "עם status 'changed', דרך RESEARCHED_TX ב-data/verification/index.ts. שורת ההקשר שלה לפריט 6.1.16 'S4TWL " +
+      "- ASSET ACCOUNTING' ברשימת 2025 FPS01, שלא נקרא במחקר זה, הועתקה כלשונה כשורת context, שאינה נספרת ברמת " +
+      "האימות; שורת ההקשר של סעיף 10.2.26 ברשימת 2023 FPS03 לא הועתקה: הסעיף נקרא ונזכר בהערות אלה. לא בוצעה " +
+      "בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:AS91",
+    evidence: [
+      AS91_SIMPL2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Manual Legacy Data Transfer | Asset Accounting (FI-AA)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/67e323b7117e4c91869c258933f47182/aeff248b537848bc838f5a4c17c0cbc5.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Asset Accounting (FI-AA), versionId 2025.001, loio " +
+          "aeff248b537848bc838f5a4c17c0cbc5) נוקבת בסניפט: 'Customizing activity: Asset Accounting Asset Data " +
+          "Transfer Manual Data Transfer Legacy Fixed Asset Create Master Data for Legacy Asset (transaction AS91) " +
+          "Post the transfer values.'. לפי הסניפט, AS91 היא פעולת יצירת נתוני האב לנכס legacy בתהליך ההעברה הידני, " +
+          "ורישום ערכי ההעברה הוא שלב נפרד, בהתאמה לפריט הפישוט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transfer of Legacy Assets to the SAP System | Asset Accounting (FI-AA) (New)",
+        url: "https://help.sap.com/docs/SAP_ERP/b350210eef6443b6bb3a155840ff905c/ee36d7537c98424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Asset Accounting (FI-AA) (New), SAP ERP 6.0 EHP8, versionId 6.18.latest, loio " +
+          "ee36d7537c98424de10000000a174cb4) נוקבת בסניפט: 'Transactions Create AS91, AS94, AS81, AS84 Change " +
+          "AS92, AS82 Display AS93, AS83 Delete AS06 ... Transfer of Legacy Assets to the SAP System A.'. בצד " +
+          "ה-ECC, AS91 מופיעה ראשונה ברשימת טרנזקציות היצירה בתהליך העברת נכסי legacy.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#AS91",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "הרשומה מתעדת את AS91 כ'ניהול נכסים קבועים, נתוני פתיחה (FI-AA Legacy Data Transfer)', מודול FI. התהליך " +
+          "המתועד בה: הכנת נתוני פתיחה, קביעת takeover date, AS91 קליטת נכס וערכים, OASV התאמת יתרות GL, תיאום " +
+          "AW01N, סגירת legacy. בשדה s4 היא קובעת: 'קיים ב-S/4HANA אך לטעינת נתוני legacy מומלץ SAP S/4HANA " +
+          "Migration Cockpit (LTMC/LTMOM) במקום AS91 הקלאסי. AS91 עדיין נתמך ל-manual takeover בודד.'. הרשומה " +
+          "מתארת את AS91 כקולטת ערכים יחד עם רשומת האב, כלומר את תהליך ה-ECC. ב-S/4HANA פריט הפישוט מעביר את שלב " +
+          "הערכים ל-ABLDT, ולכן ההתאמה בין הרשומה לפריט חלקית בלבד.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#AS91",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Example 4: Transfer at End of Fiscal Year for AUC with Line Item Management | Asset Accounting (FI-AA)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/67e323b7117e4c91869c258933f47182/0a2204573e28fd7de10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Asset Accounting (FI-AA), 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "0a2204573e28fd7de10000000a441470) נוקבת בקוד AS91 בסניפט: '... Transfer Manual Data Transfer Legacy " +
+          "Fixed Asset Create Master Data for Legacy Asset, transaction AS91) You enter the line items for this " +
+          "legacy asset ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App AS91 'Create Asset Master Record - For Legacy Asset' (SAP GUI), release S32OP " +
+          "(S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('AS91')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את AS91 כאפליקציה 'Create Asset Master Record - For Legacy " +
+          "Asset' מסוג SAP GUI (SAP GUI) במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F7280 'Manage Legacy Assets' (SAP Fiori app variant), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F7280')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F7280 'Manage " +
+          "Legacy Assets' (SAP Fiori app variant, 'Published') עם קוד הטרנזקציה המוביל AS91.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "changed",
+      he:
+        "פריט הפישוט הרשמי 'S4TWL - ASSET ACCOUNTING' (רשימת הפישוט ל-S/4HANA 2025 FPS1, תת-הפרק Legacy Data " +
+        "Transfer) קובע שתהליך העברת נתוני הפתיחה ב-FI-AA הותאם בעקבות הכנסת רישום היומן האוניברסלי. AS91 יוצרת " +
+        "את רשומת אב הנכס עבור נכס legacy, ואת ערכי ההעברה רושמים בטרנזקציה ABLDT, שמפיקה רישום יומן אוניברסלי " +
+        "לנכס. קלט אצווה (batch input) על AS91 מאפשר רק יצירה או שינוי של נתוני אב, ולא ניתן להעביר בו ערכים. " +
+        "אותו נוסח מופיע בפריט 6.1.16 של אותה רשימה ובסעיף 10.2.29 של פריט 10.2 ברשימת 2023 FPS3.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: AS91_SIMPL2025,
+      recommendedAction:
+        "ליצור את רשומת אב הנכס עבור נכס legacy באמצעות AS91, ולרשום את ערכי ההעברה בנפרד באמצעות ABLDT, שמייצרת " +
+        "רישום יומן אוניברסלי. בהעברה במהלך השנה, לרשום ב-AB01 את התנועות שבין תחילת שנת הכספים לתאריך ההעברה. " +
+        "לנכס בהקמה עם ניהול פריטים בודדים, לרשום את הפריטים הפתוחים ב-ABLDT_OI. אין להזין ערכים דרך batch input " +
+        "על AS91, כי לפי הפריט הרשמי הוא מאפשר רק נתוני אב. רשומת המאגר מציינת את SAP S/4HANA Migration Cockpit " +
+        "ככלי מומלץ להעברה המונית, אבל אף מקור רשמי שנקרא לא מגדיר אותו כמחליף של AS91.",
+    },
+    xrefs: ["tx:AB01", "tx:AS01", "bp:ecc-to-s4hana-migration-process"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "Old → New: הרשומה שנוצרה אוטומטית ב-data/verification/transactions-auto.ts תחת tx:AS91 כללה שורות ראיה " +
+      "מסומנות context בלבד, ללא סטטוס מוסמך (לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר " +
+      "'unchanged' ברמת repository_verified). הרשומה הזו מחליפה אותה, עם סטטוס changed ברמת " +
+      "sap_official_verified על בסיס קריאת פריט הפישוט 'S4TWL - ASSET ACCOUNTING' מקובצי ה-PDF של רשימות " +
+      "הפישוט 2025 FPS01 (Document Version 1.36) ו-2023 FPS03 (Document Version 1.35). שדה accessedAt הוא " +
+      "2026-09-25 לפי קבוע הקובץ. חיפושי help.sap.com (scripts/sap-help-search.mjs, סקופים " +
+      "SAP_S4HANA_ON-PREMISE ו-SAP_ERP) הורצו שוב ב-2026-09-28 כדי לאמת את הכותרות, ה-loio וה-versionId. " +
+      "הרשומה האוטומטית כללה גם שתי שורות fiori_library: AS91 כאפליקציית SAP GUI 'Create Asset Master Record - " +
+      "For Legacy Asset', ו-F7280 'Manage Legacy Assets' עם AS91 כקוד מוביל, שתיהן ב-S32OP. " +
+      "scripts/fal-app.mjs לא הורץ שוב בסבב הזה, ולכן השורות האלה לא צוטטו כראיה; הן, יחד עם שורת ההקשר של " +
+      "הנושא 'Example 4: Transfer at End of Fiscal Year for AUC with Line Item Management' (Asset Accounting, " +
+      "2025.001, loio 0a2204573e28fd7de10000000a441470), הועתקו כלשונן כשורות context, שאינן נספרות ברמת " +
+      "האימות. שורות ההקשר של פריט 6.1.16 ושל סעיף 10.2.29 לא הועתקו: שניהם נקראו ונזכרים בשורת פריט 6.1.9. " +
+      "F7280 אינו ב-data/fiori/apps.ts ולכן אינו ב-xrefs. AS92, AS93, AS94, AS81 עד AS84, AS100, ABLDT " +
+      "ו-ABLDT_OI מופיעים במקורות הרשמיים אך לא ברישום הקנוני, ולכן מוזכרים בפרוזה בלבד. אף מקור רשמי שנקרא לא " +
+      "מגדיר את SAP S/4HANA Migration Cockpit כמחליף של AS91, ולכן לא נרשם successor. לא בוצעה בדיקה במערכת " +
+      "SAP חיה.",
+  },
+  {
+    id: "tx:F110",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#F110",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את F110 כ'תשלומים אוטומטיים (APP)', מודול FI, ומציינת מקבילה ידנית F-53/F-58.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#F110",
+      },
+      F110_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 11.2 " +
+          "S4TWL - CASH MANAGEMENT - GENERAL",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "אותה שורה ('Payment (F110, F111)') מופיעה בטבלת 'Comparison of Functional Scope' של פריט 11.2 במהדורת " +
+          "2023 FPS03, עם אותו נוסח: 'F110 and F111 are supported as before.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reservation for Cross-Payment Run Payment Media | Payments and Bank Communication",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e200555127f24878bed8d1481c9d5a0b/5d7ad0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Payments and Bank Communication, 2025 FPS01, versionId 2025.001, loio " +
+          "5d7ad0531d8b4208e10000000a174cb4) נוקבת בקוד F110 בסניפט: '... from the payment program for Accounts " +
+          "Receivable/Accounts Payable Accounting (transaction F110) Payments from the payment program ...'; תיעוד " +
+          "On-Premise במהדורה 2025.001 מפנה ל-F110 כטרנזקציית תוכנית התשלומים.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F110 'Schedule Automatic Payments' (SAP GUI), release S32OP (S/4HANA 2025 " +
+          "FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F110')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות של Fiori רושמת את F110 כאפליקציה 'Schedule Automatic Payments' מסוג SAP GUI במהדורת " +
+          "S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'; לא רשומות לה אפליקציות predecessor או successor.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#F110",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-F110 את הכותרת האנגלית 'Parameters for Automatic Payment'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#F110",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Change Orbian as House Bank (Enhance with Instruction Key) | Financial Operations",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/6789d0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Financial Operations, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "6789d0531d8b4208e10000000a174cb4) נוקבת בקוד F110 בסניפט: 'If you have not entered an instruction key " +
+          "with transaction F110, the system uses the key entered here. Save your entries. ... If you have entered " +
+          "an instruction ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Reservation for Cross-Payment Run Payment Media | SAP Financial Supply Chain Management (FIN-FSCM)",
+        url: "https://help.sap.com/docs/SAP_ERP/3eb91abaa20c4dc696ab706d9d50cb74/5d7ad0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (SAP Financial Supply Chain Management (FIN-FSCM), 6.0 EHP8 Latest, versionId " +
+          "6.18.latest, loio 5d7ad0531d8b4208e10000000a174cb4) נוקבת בקוד F110 בסניפט: '... from the payment " +
+          "program for Accounts Receivable/Accounts Payable Accounting (transaction F110) Payments from the " +
+          "payment program ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F0771 'Revise Payment Proposals' (SAP Fiori (SAPUI5)), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0771')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F0771 'Revise " +
+          "Payment Proposals' (SAP Fiori (SAPUI5), 'Published') עם קוד הטרנזקציה המוביל F110.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "פריט הפישוט S4TWL - CASH MANAGEMENT - GENERAL קובע, בשתי מהדורותיו (2023 FPS03 ו-2025 FPS01), ש-F110 " +
+        "ו-F111 'supported as before', בטבלת השוואת ההיקף הפונקציונלי בין Cash and Liquidity Management הקלאסי " +
+        "לבין SAP Cash Management. הפריט אינו קובע החלפה, הגבלה או הסרה של תוכנית התשלומים האוטומטית; תיעוד " +
+        "ה-Help ורשומת ספריית Fiori מציגים את F110 כטרנזקציית SAP GUI במהדורה 2025 FPS01.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: F110_SIMPL2025,
+      recommendedAction:
+        "להמשיך להריץ את תוכנית התשלומים האוטומטית דרך F110; לא נדרש מעבר לטרנזקציה חלופית עבור הפונקציונליות " +
+        "הזו. הקביעה בפריט מתייחסת לתוכנית התשלומים בהשוואה ל-SAP Cash Management; מומלץ לוודא הגדרות FBZP " +
+        "ופורמטי אמצעי תשלום במערכת היעד.",
+    },
+    xrefs: ["tx:F111"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "המחקר קרא את גוף שני הפריטים (S4TWL - CASH MANAGEMENT - GENERAL, 2023 FPS03 פריט 11.2 ו-2025 FPS01 פריט " +
+      "6.11.17) מתוך scratchpad/official/SIMPL_OP2023.pdf.txt (שורות 16840-16920) ו-SIMPL_OP2025.pdf.txt " +
+      "(שורות 24850-24940); שני הקטעים מציגים את טבלת Comparison of Functional Scope (classic Cash and " +
+      "Liquidity Management מול SAP Cash Management) ובה שורה 'Payment (F110, F111)' עם הקביעה 'F110 and F111 " +
+      "are supported as before'. זהו הבסיס לסטטוס unchanged. חיפושי sap-help-search.mjs נוספים ('F110', " +
+      "'Automatic Payment Program', 'Payment Program F110 S/4HANA') לא העלו פריט S4TWL נפרד עבור F110. " +
+      "אפליקציית Fiori F0771 'Revise Payment Proposals' (SAPUI5, מובילה עם F110 לפי fal-app.mjs --tcode F110) " +
+      "לא נכללה ב-xrefs: fiori:F0771 אינו רשום ב-data/fiori/apps.ts. היסטוריה (Old → New): הרשומה הדטרמיניסטית " +
+      "tx:F110 ב-transactions-auto.ts (2026-09-24, ללא הכרעת מעמד; לפני הכתיבה הציג report-coverage.mjs --ids " +
+      "סטטוס נגזר 'changed' ברמת repository_verified) מוסתרת אוטומטית (RESEARCHED_TX " +
+      "ב-data/verification/index.ts) ומוחלפת ברשומה זו עם status 'unchanged'; אין לערוך את הקובץ המחולל. ארבע " +
+      "שורות ההקשר שלה שאינן מצוטטות כאן (רשומת המאגר tcode-catalog.ts#F110, 'Change Orbian as House Bank " +
+      "(Enhance with Instruction Key)' בצד S/4HANA (Financial Operations, 2025.001), 'Reservation for " +
+      "Cross-Payment Run Payment Media' בצד ה-ECC (FIN-FSCM, 6.18.latest) ו-F0771 'Revise Payment Proposals' " +
+      "בספריית ה-Fiori) הועתקו כלשונן כשורות context, שאינן נספרות ברמת האימות. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:F111",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#F111",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את F111 כ'פרמטרים לתשלום בקשות תשלום', מודול FI, תחום 'תוכנית תשלומים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#F111",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reservation for Cross-Payment Run Payment Media | Payments and Bank Communication",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e200555127f24878bed8d1481c9d5a0b/5d7ad0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (Payments and Bank Communication, S/4HANA 2025 FPS01, versionId 2025.001, loio " +
+          "5d7ad0531d8b4208e10000000a174cb4) נוקבת בקוד F111 בסניפט: 'for payment orders (transaction F111), in " +
+          "particular online payments and payments with repetitive code. ... You can use this function ...'; " +
+          "הסניפט מקשר את F111 ל-payment orders.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Reservation for Cross-Payment Run Payment Media | SAP Financial Supply Chain Management (FIN-FSCM)",
+        url: "https://help.sap.com/docs/SAP_ERP/3eb91abaa20c4dc696ab706d9d50cb74/5d7ad0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (SAP Financial Supply Chain Management FIN-FSCM, ECC 6.0 EHP8 Latest, versionId " +
+          "6.18.latest, loio זהה) נוקבת באותו סניפט בקוד F111; כלומר תיעוד ה-ECC באותו נושא נוקב בקוד F111.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F111 'Automatic Payment Transactions for Payment Requests' (SAP GUI), release " +
+          "S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F111')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת את F111 כאפליקציה 'Automatic Payment Transactions for Payment " +
+          "Requests' מסוג SAP GUI במהדורת S/4HANA 2025 FPS01 (S32OP), בסטטוס 'Published'; הרשומה אינה מציינת " +
+          "אפליקציה קודמת או יורשת (predecessors/successors ריקים).",
+        verificationLevel: "sap_official_verified",
+      },
+      F111_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 11.2 " +
+          "S4TWL - CASH MANAGEMENT - GENERAL",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "פריט 11.2 'S4TWL - CASH MANAGEMENT - GENERAL' (רשימת הפישוט הרשמית, 2023 FPS03, גרסת מסמך 1.35) מציג את " +
+          "אותה שורת השוואה 'Payment (F110, F111)' עם אותה קביעה: 'F110 and F111 are supported as before.', כך " +
+          "שהמסקנה עקבית בשתי מהדורות רשימת הפישוט שהקוד מוזכר בהן.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Integration with the Payment Run in SAP S/⁠4HANA | SAP GRC Business Integrity Screening for SAP HANA",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9bb249dda6dc4d1aa34587f3db41f2f3/b54fcc55ca7d1e02e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (SAP GRC Business Integrity Screening for SAP HANA, 2025 Latest, versionId " +
+          "2025.latest, loio b54fcc55ca7d1e02e10000000a441470) נוקבת בקוד F111 בסניפט: '... creditor and debitor " +
+          "payment proposal as well as the payment request (transactions F110 and F111). ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "שני פריטי רשימת הפישוט הרשמית ('S4TWL - CASH MANAGEMENT - GENERAL', במהדורות 2023 FPS03 ו-2025 FPS01) " +
+        "קובעים במפורש, בטבלת השוואת יכולות תחת השורה 'Payment (F110, F111)', ש-F110 ו-F111 נתמכות ב-S/4HANA 'as " +
+        "before'. ספריית ה-Fiori רושמת את F111 כאפליקציית SAP GUI (Automatic Payment Transactions for Payment " +
+        "Requests) במהדורת 2025 FPS01.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: F111_SIMPL2025,
+      recommendedAction:
+        "אין צורך בפעולת החלפה: יש להמשיך להפעיל את F111 ב-S/4HANA On-Premise להפקת תשלומים מבקשות תשלום " +
+        "(payment requests), בהתאם לקביעת רשימת הפישוט (supported as before); ניתן לחשוף אותה ב-Fiori launchpad " +
+        "כאריח SAP GUI (App F111 בספריית ה-Fiori). מומלץ לאמת ב-SE93 במערכת היעד.",
+    },
+    xrefs: ["tx:F110"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "מה נבדק: המאגר (tcode-catalog.ts#F111) ורשומת ה-context הגנרית ב-transactions-auto.ts#F111 " +
+      "(scripts/qa/gen-tx-evidence.mts) נקראו תחילה לזיהוי הקוד ולאיסוף רשומות החיפוש ו-fal-app שכבר נאספו שם. " +
+      "לא הורצו חיפושי sap-help-search.mjs נוספים, כי הרשומות הקיימות (Payments and Bank Communication " +
+      "2025.001, FIN-FSCM ECC 6.18.latest, GRC Business Integrity 2025.latest) כבר נוקבות ב-F111 בשני הצדדים. " +
+      "שני פריטי הפישוט (S4TWL - CASH MANAGEMENT - GENERAL, 2023 FPS03 ו-2025 FPS01) נקראו " +
+      "מ-scratchpad/official/SIMPL_OP2023.pdf.txt (סביב שורה 16884) ו-SIMPL_OP2025.pdf.txt (סביב שורה 24887): " +
+      "שתי הרשימות מציגות טבלת השוואת יכולות של Cash Management ובה שורה נפרדת 'Payment (F110, F111)' עם " +
+      "הקביעה 'F110 and F111 are supported as before'. לכן status=unchanged ולא replaced או deprecated; " +
+      "ה-source הוא פריט 2025 FPS01, המהדורה המאוחרת מבין השתיים. ספריית ה-Fiori (fal-app.mjs, App F111, " +
+      "S32OP) רושמת את האפליקציה ב-2025 FPS01 מסוג SAP GUI, בלי אפליקציה קודמת או יורשת ברשומה. לא נמצא " +
+      "successor: אף פריט לא מצביע על טרנזקציה או אפליקציה מחליפה. היסטוריה (Old → New): רשומת ה-context " +
+      "הגנרית (2026-09-24, ללא הכרעת מעמד; ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני " +
+      "הכתיבה) → רשומה מחקרית זו עם status 'unchanged'. שורת ההקשר שלה שאינה מצוטטת כאן ('Integration with the " +
+      "Payment Run in SAP S/4HANA', SAP GRC Business Integrity Screening for SAP HANA, 2025.latest) הועתקה " +
+      "כלשונה כשורת context, שאינה נספרת ברמת האימות. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:FAGLB03",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2025 – Feature Pack Stack 1 (document version 1.36) · item 6.1.12 " +
+          "S4TWL - Currencies in Universal Journal",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "הפריט קובע (עמ' 197): 'With S/4H 1610 and later releases the currencies that are not stored in BSEG can " +
+          "be displayed in following UIs', ובטבלה שלאחריו מופיעה השורה 'Display G/L Account Balances / Transaction " +
+          "Code FAGLB03'. הפריט אינו קובע ל-FAGLB03 החלפה או הסרה; הוא מונה אותה בין ממשקי ההצגה שמציגים את כל " +
+          "מטבעות ה-Universal Journal, לצד FB03, FB03L, FAGLL03, FAGLL03H ואפליקציות Fiori.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 – Feature Pack Stack 3 (document version 1.35) · item 15.5 " +
+          "S4TWL - Currencies in Universal Journal",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim:
+          "הפריט מנוסח כמו בגרסת 2025: 'With S/4H 1610 and later releases the currencies that are not stored in " +
+          "BSEG can be displayed in following UIs', עם אותה שורת טבלה 'Display G/L Account Balances / Transaction " +
+          "Code FAGLB03'. גם כאן אין לגבי FAGLB03 קביעת החלפה או הסרה; הקוד מופיע בין ממשקי ההצגה שמציגים את כל " +
+          "מטבעות ה-Universal Journal.",
+        verificationLevel: "sap_official_verified",
+      },
+      FAGLB03_FAL_S32OP,
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Roles for Transactions Utilized by Financial Shared Services (SAP ERP Central Component Security Guide)",
+        url: "https://help.sap.com/docs/SAP_ERP/ee765675af8d443d8c17437bb3c4a612/f236d7531a4d444de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית (SAP ERP Central Component Security Guide, 6.0 EHP8 Latest, versionId 6.18.latest, " +
+          "loio f236d7531a4d444de10000000a174cb4) נוקבת בקוד FAGLB03 בסניפט, לצד FBL3N ו-FS10N וסמוך לתפקיד " +
+          "SAP_FI_GL_DISPLAY_ACCT_BALANCE (Display G/L Account Balances and Items): '... FS10N G/L Account " +
+          "Analysis Display G/L Account Balances and Items ( SAP _FI_GL_DISPLAY_ACCT_BALANCE) FAGLB03 ...'. כלומר " +
+          "הקוד מתועד גם בצד ה-ECC.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#FAGLB03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "רשומת המאגר מתארת את FAGLB03 כ'ספר חשבונות ראשי New GL (G/L)', מודול FI.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#FAGLB03",
+        context: true,
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FAGLB03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-FAGLB03 את הכותרת האנגלית 'Display Balances (New)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FAGLB03",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reconciliation | Contract Accounting",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9442486404b54071b4ebeab6a16628e7/ede9c5536a51204be10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Contract Accounting, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "ede9c5536a51204be10000000a174cb4) נוקבת בקוד FAGLB03 בסניפט: '... Easy Access screen, Financial " +
+          "Accounting General Ledger Account Display Balances (transaction FAGLB03), call transaction G/L Account " +
+          "Balance Display. ... To check, in the SAP Easy Access screen, ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "FI - G/L Account balance (w/o tax account) (Customer-specific) | Data Migration",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/29193bf0ebdd4583930b2176cb993268/9c4b8ca596604ba6a6af1db324c19bcd.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Data Migration, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "9c4b8ca596604ba6a6af1db324c19bcd) נוקבת בקוד FAGLB03 בסניפט: 'Activity Transaction Code Display FAGLB03 " +
+          "Further Information ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Check on Migration Results | General Ledger Accounting (FI-GL) (New)",
+        url: "https://help.sap.com/docs/SAP_ERP/17ec785ed2294431b933daf9a926af80/0178d0531d8b4208e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (General Ledger Accounting (FI-GL) (New), 6.0 EHP8 Latest, versionId 6.18.latest, " +
+          "loio 0178d0531d8b4208e10000000a174cb4) נוקבת בקוד FAGLB03 בסניפט: '... Item Display: G/L Accounts (New) " +
+          "X (switches to FBL3N) FS10N G/L Account Balance Display X FAGLB03 G/L Account Balance Display (New) X " +
+          "(switches to FS10N) S_PL0_86000028 ... Transaction Description ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F0996 'Trial Balance' (Web Dynpro), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F0996')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F0996 'Trial " +
+          "Balance' (Web Dynpro, 'Published') עם קוד הטרנזקציה המוביל FAGLB03.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App W0097 'Trial Balance Comparison' (Web Dynpro), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('W0097')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה W0097 'Trial " +
+          "Balance Comparison' (Web Dynpro, 'Published') עם קוד הטרנזקציה המוביל FAGLB03.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App W0161 'Balance Sheet / Income Statement - Multidimensional' (Web Dynpro), " +
+          "release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('W0161')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה W0161 'Balance " +
+          "Sheet / Income Statement - Multidimensional' (Web Dynpro, 'Published') עם קוד הטרנזקציה המוביל FAGLB03.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "FAGLB03 (הצגת יתרות חשבון ראשי) מתועדת ב-SAP ERP 6.0 EHP8, וספריית Fiori רושמת אותה כאפליקציית SAP GUI " +
+        "בסטטוס Published בכל מהדורות ה-on-premise מ-1610 (S6OP) ועד 2025 FPS01 (S32OP), ללא predecessor או " +
+        "successor. פריט הפישוט 'S4TWL - Currencies in Universal Journal' (2023 FPS03 15.5, 2025 FPS01 6.1.12) " +
+        "מונה אותה בין ממשקי ההצגה שמ-S/4H 1610 ואילך מציגים גם מטבעות שאינם נשמרים ב-BSEG, ואינו קובע לגביה " +
+        "הסרה או החלפה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: FAGLB03_FAL_S32OP,
+      recommendedAction:
+        "אפשר להמשיך להשתמש ב-FAGLB03 להצגת יתרות חשבון ראשי לפי לדג'ר ב-S/4HANA. יש לאמת ב-SE93 במערכת היעד את " +
+        "התוכנית והמסך, ולבחון את אפליקציות ה-Fiori שספריית Fiori רושמת עם קוד מוביל FAGLB03 (F0996, W0097, " +
+        "W0161, W0177). שיוך התפקיד SAP_FI_GL_DISPLAY_ACCT_BALANCE מתועד במדריך האבטחה של ECC ודורש אימות במערכת " +
+        "היעד.",
+    },
+    xrefs: ["tx:FAGLL03", "tx:FS10N", "tx:FB03"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "קודם: רשומה אוטומטית (scripts/qa/gen-tx-evidence.mts, 2026-09-24) ללא הכרעת מעמד, ששני פריטי הפישוט בה " +
+      "טרם נקראו (לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'changed' ברמת repository_verified). " +
+      "עכשיו: רשומה מחקרית שקוראת את שני הפריטים, מכריעה unchanged על סמך רשומת ספריית Fiori, ושומרת את שורות " +
+      "הרשומה האוטומטית כשורות הקשר. חיפושים: 'FAGLB03 display G/L account balances' בסקופ " +
+      "SAP_S4HANA_ON-PREMISE (21 תוצאות, 2 מצוטטות), 'FAGLB03' בסקופ SAP_ERP (21 תוצאות, 1 מצוטטת), ו-'S4TWL " +
+      "Currencies in Universal Journal', שלא הניב רשומת help.sap.com ייעודית לפריט; טקסט הפריטים נקרא " +
+      "מ-scratchpad/official/SIMPL_OP2025.pdf.txt (עמ' 197) ומ-SIMPL_OP2023.pdf.txt. scripts/fal-app.mjs " +
+      "FAGLB03 --release S32OP נבדק; scripts/fal-app.mjs --tcode FAGLB03 --release S32OP החזיר 5 אפליקציות עם " +
+      "קוד מוביל FAGLB03 (F0996, FAGLB03, W0097, W0161, W0177) ורשומת GUI עם 0 successors. לא נקרא גוף עמוד " +
+      "מעבר לפריטי הפישוט. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:FAGLFLEXT",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FAGLFLEXT",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את FAGLFLEXT כ'טבלת סיכומי ספר ראשי', מודול FI, תחום 'חשבונאות ראשית'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FAGLFLEXT",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "MCA Transaction Figures (new GL) | Accounting",
+        url: "https://help.sap.com/docs/SAP_ERP/29e1b7170a344430b27643ca050d4247/6a5eb35f6e98423a8c3d055d52191621.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית בסקופ SAP ERP (Accounting, 6.0 EHP8 Latest, versionId 6.18.latest, loio " +
+          "6a5eb35f6e98423a8c3d055d52191621) נוקבת בקוד FAGLFLEXT מספר פעמים בסניפט, לצד שמות שדות כגון RACCT, " +
+          "RBUKRS, RCNTR, PRCTR, RFAREA, SEGMENT, RYEAR ו-POPER, ומבססת את קיום הטבלה במסמכי SAP ERP 6.0 EHP8.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Universal Journal: FAQ | Financial Operations",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/8b8e5695c4dc4749a706f9fa2f6bda92.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "גוף הדף נקרא (sap-help-body.mjs, S/4HANA 2025 FPS01, versionId 2025.001, loio " +
+          "8b8e5695c4dc4749a706f9fa2f6bda92) וקובע: 'The entries of the following tables are now completely " +
+          "contained in table ACDOCA: The tables making up New General Ledger Accounting known in classical ERP: " +
+          "FAGLFLEXA, FAGLFLEXT, JVGLFLEXA, JVGLFLEXT, FMGLFLEXA, and FMGLFLEXT'. כלומר רשומות FAGLFLEXT מוכלות " +
+          "כעת בטבלת היומן האוניברסלי (נקראת כאן בפרוזה, table:ACDOCA אינו חלק מהיקום הממוסמך).",
+        verificationLevel: "sap_official_verified",
+      },
+      FAGLFLEXT_SIMPL2025,
+    ],
+    status: {
+      status: "compatibility_scope",
+      he:
+        "טבלת FAGLFLEXT (טבלת סיכומי הספר הראשי) הוסרה כטבלה פיזית, ורשימת הפישוט רושמת עבורה תצוגת תאימות בשם " +
+        "זהה (FAGLFLEXT, מקור DDL בשם V_FAGLFLEXT_DDL, טבלת גיבוי FAGLFLEXT_BCK) שדרכה פעולות SELECT ממשיכות " +
+        "לעבוד כבעבר. גישת כתיבה (INSERT/UPDATE/DELETE/MODIFY) הוסרה מהסטנדרט ויש להסירה מקוד מותאם.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: FAGLFLEXT_SIMPL2025,
+      recommendedAction:
+        "יש לסרוק קוד Z שניגש ל-FAGLFLEXT: פעולות SELECT ממשיכות לעבוד דרך תצוגת התאימות, ואילו גישת כתיבה " +
+        "(INSERT/UPDATE/DELETE/MODIFY) יש להסיר מקוד מותאם לפי SAP Note 1976487. לדיווח, רשימת הפישוט ממליצה " +
+        "לשקול מעבר לדוחות Fiori החדשים המציגים את כל שדות היומן האוניברסלי.",
+    },
+    xrefs: ["table:COSP", "table:COSS"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "המחקר קרא את גוף העמוד הרשמי 'Universal Journal: FAQ' (S/4HANA 2025 FPS01) דרך " +
+      "scripts/sap-help-body.mjs, ואת פריטי רשימת הפישוט 2025 FPS01 (6.1.3, 6.1.4, 6.1.23, 6.5.9) והמקבילים " +
+      "ב-2023 FPS03 (8.5, 8.2, 15.2, 12.16) מתוך scratchpad/official/SIMPL_OP2025.pdf.txt " +
+      "ו-SIMPL_OP2023.pdf.txt. בפריט 6.1.4, FAGLFLEXT נמצאת בטבלת המיפוי הראשונה (תצוגות תאימות בשם זהה), " +
+      "שעליה חל המשפט 'write access ... was removed from SAP standard'. חיפוש נוסף: 'FAGLFLEXT table S/4HANA' " +
+      "בסקופ SAP_S4HANA_ON-PREMISE (21 תוצאות, 1 צוטטה: עמוד ה-FAQ). ישן → חדש: הרשומה הדטרמיניסטית " +
+      "(data/verification/transactions-auto.ts#tx:FAGLFLEXT) נכתבה ללא קריאת גוף הפריטים ונותרה ללא הכרעת מעמד " +
+      "(ישן: verification_required לפי report-coverage.mjs --ids, נמדד לפני הכתיבה); רשומה זו מכריעה " +
+      "compatibility_scope. שורות ההקשר שלה לפריטים 'S4TWL - Plan data is not migrated to SAP S/4HANA' (6.1.3) " +
+      "ו-'S4TWL - GENERAL LEDGER' (6.1.23) לא הועתקו: שני הפריטים נקראו ונזכרים בשורת פריט 6.1.4. לא נמצא מקור " +
+      "רשמי הנוקב בטרנזקציה או באפליקציית Fiori ספציפית כמחליף ל-FAGLFLEXT, ולכן לא נכתב successor. " +
+      "table:ACDOCA מוזכר בפרוזה בלבד לפי כלל הבית. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:FAGLL03",
+    evidence: [
+      FAGLL03_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle:
+          "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 15.5 S4TWL - Currencies in " +
+          "Universal Journal",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim:
+          "אותו פריט בגרסת 2023 FPS03 (כותרת הטבלה בעמ' 395, שורת FAGLL03 בעמ' 396) מביא את אותה טבלה: FAGLL03 " +
+          "נמנית תחת 'Display G/L Account Line Items' בין דרכי התצוגה של מטבעות Universal Journal שאינם ב-BSEG, " +
+          "לצד FB03, FB03L, FAGLB03, FAGLL03H ואפליקציות Fiori. אין בפריט קביעה על החלפה או הוצאה משימוש של " +
+          "FAGLL03; הרישום עקבי בין 2023 FPS03 ל-2025 FPS01.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transfer Postings During Processing | Financial Operations",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/e3631a511c24406499741439154bdcac.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "הסניפט של רשומת החיפוש הרשמית (Financial Operations, 2025 FPS01, versionId 2025.001, loio " +
+          "e3631a511c24406499741439154bdcac): 'Note Transaction FAGLL03 can't display transfer postings on " +
+          "reconciliation accounts for customers and suppliers. … You can use either transaction FAGLL03H or the " +
+          "Display Line Items in General Ledger app.' זו מגבלת תצוגה בתרחיש של רישומי העברה בחשבונות התאמה של " +
+          "לקוחות וספקים; הסניפט אינו קובע החלפה של FAGLL03.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Roles for Transactions Utilized by Financial Shared Services | SAP ERP Central Component Security Guide",
+        url: "https://help.sap.com/docs/SAP_ERP/ee765675af8d443d8c17437bb3c4a612/f236d7531a4d444de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim:
+          "רשומת החיפוש הרשמית בצד ECC (SAP ERP Central Component Security Guide, 6.0 EHP8 Latest, versionId " +
+          "6.18.latest, loio f236d7531a4d444de10000000a174cb4) מביאה בסניפט את FAGLL03 תחת 'G/L Accounts' בטבלת " +
+          "התפקידים לטרנזקציות של Financial Shared Services, לצד 'FBL3N G/L Account Line Item Display' ו-FAGLB03. " +
+          "הסניפט מראה שהקוד מתועד ב-SAP ERP 6.0 EHP8; הוא אינו קובע מעמד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App FAGLL03 'Display G/L Accounts Line Items - For Ledger' (SAP GUI), release " +
+          "S32OP (S/4HANA 2025 FPS01)",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('FAGLL03')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות של Fiori רושמת במהדורת S32OP (S/4HANA 2025 FPS01) את FAGLL03 כרשומת SAP GUI בשם " +
+          "'Display G/L Accounts Line Items - For Ledger', ללא אפליקציית המשך (0 successors).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F2217 'Display Line Items in General Ledger' (SAP Fiori (SAPUI5)), release " +
+          "S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2217')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim:
+          "ספריית האפליקציות של Fiori רושמת במהדורת S32OP את F2217 'Display Line Items in General Ledger' (SAP " +
+          "Fiori (SAPUI5)) כאפליקציה שקוד הטרנזקציה המוביל שלה FAGLL03; זו האפליקציה שהתיעוד מפנה אליה בתרחיש " +
+          "רישומי ההעברה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#FAGLL03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim:
+          "רשומת tx-intel.ts מתארת את FAGLL03 כמקבילת FBL3N בסביבת New GL, שקוראת מ-FAGLFLEXA (ECC) ומ-ACDOCA " +
+          "(S/4HANA), ומציינת שב-S/4 משתמשים לרוב ב-FAGLL03H או ב-Fiori, וש-FAGLL03H מתאימה לנפחים גדולים. אלה " +
+          "נתוני מאגר ולא קביעה של מקור רשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#FAGLL03",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#FAGLL03",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE24,
+        claim: "קטלוג הטרנזקציות של המאגר נותן ל-FAGLL03 את הכותרת האנגלית 'G/L Line Item Display (New)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#FAGLL03",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Reporting for Organizational Changes | Accounting and Financial Close",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8fbeed5f2046489696a50ac7fd76f9c6/64a8630551764991a95a270c261ffe7e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (Accounting and Financial Close, 2025 FPS01 (Feb 2026), versionId 2025.001, loio " +
+          "64a8630551764991a95a270c261ffe7e) נוקבת בקוד FAGLL03 בסניפט: 'Note Transaction FAGLL03 can't display " +
+          "transfer postings on reconciliation accounts for customers and suppliers. ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle:
+          "Report: Actual/Actual Comparison Between Different Ledgers | General Ledger Accounting (FI-GL) (New)",
+        url: "https://help.sap.com/docs/SAP_ERP/17ec785ed2294431b933daf9a926af80/c2dae348c1bb41488d691df994d9f909.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim:
+          "רשומת החיפוש הרשמית (General Ledger Accounting (FI-GL) (New), 6.0 EHP8 Latest, versionId 6.18.latest, " +
+          "loio c2dae348c1bb41488d691df994d9f909) נוקבת בקוד FAGLL03 בסניפט: '... Document Status layout for the " +
+          "G/L Account Line Item Display G/L View report (transaction FAGLL03). ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F2218 'Display Line Item Entry' (SAP Fiori elements), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F2218')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F2218 'Display " +
+          "Line Item Entry' (SAP Fiori elements, 'Published') עם קוד הטרנזקציה המוביל FAGLL03.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle:
+          "Fiori Apps Library · App F4023 'Display Line Items - Cost Accounting' (SAP Fiori app variant), release " +
+          "S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4023')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim:
+          "ספריית האפליקציות הרשמית של Fiori רושמת במהדורת S/4HANA 2025 FPS01 (S32OP) את האפליקציה F4023 'Display " +
+          "Line Items - Cost Accounting' (SAP Fiori app variant, 'Published') עם קוד הטרנזקציה המוביל FAGLL03.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he:
+        "FAGLL03 (הצגת פריטי חשבון ראשי, New GL) ממשיכה להיות מתועדת ב-S/4HANA On-Premise (2023 FPS03 ו-2025 " +
+        "FPS01): פריט הפישוט 'S4TWL - Currencies in Universal Journal' מונה אותה בין דרכי התצוגה של שדות המטבע " +
+        "ב-Universal Journal ואינו קובע החלפה או הוצאה משימוש. לתרחיש אחד (הצגת רישומי העברה בחשבונות התאמה של " +
+        "לקוחות וספקים) התיעוד מפנה ל-FAGLL03H או לאפליקציה 'Display Line Items in General Ledger'.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: FAGLL03_SIMPL2025,
+      recommendedAction:
+        "המשך שימוש ב-FAGLL03 להצגת פריטי חשבון ראשי ב-S/4HANA On-Premise. להצגת רישומי העברה בחשבונות התאמה של " +
+        "לקוחות וספקים יש לעבור ל-FAGLL03H או לאפליקציה F2217 'Display Line Items in General Ledger' (המזהה " +
+        "מספריית Fiori; אינו ב-data/fiori/apps.ts ולכן אינו xref).",
+    },
+    xrefs: ["tx:FB03", "tx:FAGLB03", "tx:FBL3N"],
+    lastVerifiedAt: DATE25,
+    notes:
+      "קודם: רשומה אוטומטית (scripts/qa/gen-tx-evidence.mts, 2026-09-24) עם רשומות הקשר בלבד וללא הכרעת מעמד " +
+      "(לפני הכתיבה הציג report-coverage.mjs --ids סטטוס נגזר 'unchanged' ברמת repository_verified) → עכשיו: " +
+      "רשומה מחקרית שקוראת את שני פריטי הפישוט וכותבת מעמד unchanged. חמש שורות ההקשר שלה שאינן מצוטטות כאן " +
+      "(רשומת המאגר tcode-catalog.ts#FAGLL03, 'Reporting for Organizational Changes' בצד S/4HANA (Accounting " +
+      "and Financial Close, 2025.001), 'Report: Actual/Actual Comparison Between Different Ledgers' בצד ה-ECC " +
+      "(General Ledger Accounting (FI-GL) (New), 6.18.latest), F2218 ו-F4023 בספריית ה-Fiori) הועתקו כלשונן " +
+      "כשורות context, שאינן נספרות ברמת האימות. חיפושים: 'FAGLL03' בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות) " +
+      "ובסקופ SAP_ERP (21 רשומות); הנושא 'Reporting for Organizational Changes' (loio " +
+      "64a8630551764991a95a270c261ffe7e) מביא את אותה הערה על רישומי העברה. פריטי הפישוט אותרו דרך " +
+      "scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt לפי " +
+      "audit/master-completion/simpl-tcode-index.json (2023 FPS03 §15.5, 2025 FPS01 §6.1.12); שניהם בעלי אותה " +
+      "טבלה ואינם קובעים החלפה או הוצאה משימוש ל-FAGLL03. fal-app.mjs --tcode FAGLL03 (S32OP): אפליקציות " +
+      "מובילות F2217, F2218, F4023 ורשומת SAP GUI של FAGLL03 ללא אפליקציית המשך. F2217 אומתה בספריית Fiori אך " +
+      "אינה ב-data/fiori/apps.ts, ולכן אינה xref. FAGLL03H אינה ברשימת ה-tcodes " +
+      "ב-lib/route-manifest.generated.ts ולכן אינה xref. שתי רשומות help.sap.com מצוטטות מהסניפט בלבד; גוף " +
+      "העמוד לא נקרא. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 ];
