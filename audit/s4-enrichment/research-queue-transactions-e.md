@@ -385,6 +385,50 @@ per-id diff of the two `--ids` runs, is concurrent work in another shard (CJ40 a
 KA01 to `conflicting_sources` with the status `verification_required`, L3 to L2; KA03 to
 `conflicting_sources`; CKM3, CKMLCP, CKMLCPAVR and KA02 to `sap_official_verified`).
 
+Batch 7 written 2026-09-28 (the batch 2 refusal retried: repair and third-round audit 2026-09-28,
+access date stamped 2026-09-28): 1 draft audited, 1 written, none refuted. `tx:SOAMANAGER` is
+`unchanged` from the S/4HANA 2025.001 search record 'Configuring Web Services in SOA Manager' (APIs
+for Group Reporting, loio 3bf2452ec091434cae1384bdfce14ddd: create an inbound service in
+SOAMANAGER); the ERP 6.18.latest record 'Configure the Consumer Proxy Logical Port' prints it on
+the ECC side, and the items 'S4TWL - Business User Management' and 'S4TWL - DFPS eSOA services'
+name it as a setup and check tool without setting a status for it. The audit found the four
+second-round problems closed: the port advice now rests on the S/4HANA row loio
+50cd7e6767074b1a99680bf58c9e5527 ('attached to a port'), not on the ECC logical-port row; that row
+is carried verbatim as a context row with its 2026-09-24 access date; the 2023 FPS03 'S4TWL -
+Business User Management' row is kept as a context row, rewritten from SIMPL_OP2023.pdf.txt lines
+6164-6165 without 'בלבד' or 'רק'; the old ERP snippet is kept in the Old → New note. Written from
+the draft (no fixedRecord) with the audit's one downgrade, which it marked optional: the notes now
+keep the history of the 2023 FPS03 item 'S4TWL - DFPS eSOA services' (47.1, SIMPL_OP2023.pdf.txt
+lines 57037-57038), a mention the generated record's notes listed and the second draft had dropped.
+The record was generated from the audited JSON, not retyped: the transcribed draft was first
+checked against the generated record (the carried row deep-equal to its source row; every url,
+title and repoRef matched; each of the seven generated rows cited by a written row with the same
+url and item number, or the same repoRef), each writer change applied as an exact-once replacement
+(a miss aborts), the written module deep-compared with the expected object, and `status.source`
+checked for identity with its row. The diff against the audited record is exactly the writer
+changes below; no status token, edition, release, xref or evidence row changed.
+
+Writer changes (also named in the file header): the `status.source` copy replaced by the shared
+const `SOAMANAGER_GRP2025` (the record's own evidence[1], which the copy equalled); in the
+downgrade sentence the matching 2025 FPS01 item is named as 'the item of the same name (13.5.4)'
+instead of the verdict's bare 'פריט 13.5.4' (HOUSE-RULES §3.5), and the quote is set in single
+quotes like the rest of the notes; `lastVerifiedAt` set to 2026-09-28, the access-date stamp of
+this run and the date of the repair and re-verification (the notes record a 2026-09-28 re-run of
+the 'SOAMANAGER' search that returned both 'Configuring Web Services in SOA Manager' records with
+the same url and snippet), with `DATE28` added to the file; the evidence rows keep the access dates
+the audited rows carry (2026-09-25 for the research rows, 2026-09-24 for the carried row), as
+batch 10 of transactions-c did for KSV5. Kept as audited: `xrefs: []` (the audit proposed none);
+the combined 2025 FPS01 row that names both items with their numbers in its title. No record
+carries a `reviewer` field, a `sapNote` field, a personal name or an e-mail address, and none has
+an em dash.
+
+Depth (`report-coverage.mjs --ids`, before 18:28 and after 18:34): `tx:SOAMANAGER` moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified` with the status
+`unchanged`; it stays at L1 (no tx-intel / tx-detail page structure). Catalog totals (`npm run
+report:coverage -- --catalog transactions`): verified 740 → 741, verification_required 1054 →
+1053, s4-appl 732 → 733; depth bands (L1 1279, L2 3, L3 380, L4 5, L5 151), conflict 24, legacy 6
+and edition 5 unchanged. The per-id diff of the two runs shows no other change in that window.
+
 ## refuted
 
 - Batch 1 (audit 2026-09-25, written 2026-09-28): none refuted. All eight audited drafts
@@ -411,6 +455,9 @@ KA01 to `conflicting_sources` with the status `verification_required`, L3 to L2;
   (or rests it on the S/4HANA row loio 50cd7e67, whose snippet prints 'attached to a port'),
   carries the two dropped rows as context rows, and keeps the old ERP snippet in Old → New.
   Until then the generated record in transactions-auto.ts stays in effect (no authored status).
+  Closed in batch 7 (third round, audit 2026-09-28): the redraft met all three conditions and
+  the minor wording point, and was written (see batch 7 above); the generated record is
+  superseded.
 - Batch 3 (audit 2026-09-28, written 2026-09-28): none refuted. All eight audited drafts
   (`tx:SICF`, `tx:SLG1`, `tx:SM01`, `tx:SM31`, `tx:SM36`, `tx:SM37`, `tx:SNOTE`, `tx:SNRO`)
   were written.
@@ -423,6 +470,8 @@ KA01 to `conflicting_sources` with the status `verification_required`, L3 to L2;
 - Batch 6 (audit 2026-09-28, written 2026-09-28): none refuted. All eight audited drafts
   (`tx:PB10`, `tx:PB20`, `tx:PB30`, `tx:PB40`, `tx:PB50`, `tx:PEST`, `tx:PSV1`, `tx:PSV2`) were
   written.
+- Batch 7 (audit 2026-09-28, third round for `tx:SOAMANAGER`, written 2026-09-28): none
+  refuted. The one audited draft (`tx:SOAMANAGER`) was written.
 
 ## conflicts
 

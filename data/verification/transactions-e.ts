@@ -167,11 +167,34 @@
    Old → New lines added (PB20) or labelled (PB40). No row of the eight
    generated records was left out (the PEST draft already carried its two
    2026-09-24 context rows, verbatim). The generated
-   records for the eight ids in transactions-auto.ts are superseded. */
+   records for the eight ids in transactions-auto.ts are superseded.
+   Batch 7 (the batch 2 refusal retried: repair and third-round audit
+   2026-09-28, written the same day, access date stamped 2026-09-28): 1
+   audited record, SOAMANAGER, none refuted. SOAMANAGER is 'unchanged' from
+   the 2025.001 search record 'Configuring Web Services in SOA Manager' (APIs
+   for Group Reporting: create an inbound service in SOAMANAGER); the ERP
+   6.18.latest record 'Configure the Consumer Proxy Logical Port' prints it on
+   the ECC side, and the items 'S4TWL - Business User Management' and 'S4TWL -
+   DFPS eSOA services' name it as a setup and check tool without setting a
+   status for it. The port advice in recommendedAction rests on the S/4HANA
+   row that prints 'attached to a port', not on the ECC logical-port row.
+   Written from the draft with the audit's one downgrade (no fixedRecord): the
+   optional history sentence for the 2023 FPS03 item 'S4TWL - DFPS eSOA
+   services' (47.1) added to the notes, naming the matching 2025 FPS01 item
+   by its name instead of the bare number the verdict wrote (HOUSE-RULES
+   §3.5). The status source is a shared const (the record's own row) instead
+   of the copy the draft carried. Access dates are the ones the audited rows
+   carry (2026-09-25 for the research rows, 2026-09-24 for the carried
+   'Configuring Web Services in SOA Manager' row, loio 50cd7e67); lastVerifiedAt
+   is 2026-09-28, the date of the repair and re-verification (DATE28 added for
+   it). No row of the generated record was left out: the draft carries the
+   two rows the second audit found missing. The generated record for
+   SOAMANAGER in transactions-auto.ts is superseded. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
 const DATE25 = "2026-09-25";
+const DATE28 = "2026-09-28";
 
 /* status sources shared between evidence[] and status.source */
 
@@ -686,6 +709,20 @@ const PSV2_SIMPL2025: Evidence = {
   release: "2025 FPS01",
   accessedAt: DATE25,
   claim: "הפריט (מקטע 'How to Determine Relevancy') קובע: 'This Simplification Item is relevant if transactions PSV1, PSV2, PSV3 or PVCT are executed. That indicates that you are using Training and Event Management.' הפריט אינו קובע ל-PSV2 עצמה 'הוחלף' או 'הוסר'; PSV2 מובאת כאחד מארבעת הקודים המצביעים על שימוש בפונקציונליות. לפי הפריט, Training and Event Management זמינה רק ב-SAP ERP HCM וב-SAP HCM in Compatibility Pack ב-SAP S/4HANA, עם זכויות שימוש מוגבלות (Compatibility Scope Matrix Item ID 135 & 136, SAP Note 2269324), ולאחר הפעלת SAP HCM for SAP S/4HANA 'it will technically not be possible to use the Training and Event Management functionality anymore' (SAP Note 3091160). בפריט מופיעה גם ההערה שהחל מ-SAP S/4HANA 2025 הפונקציה העסקית H4S4_1 מופעלת באופן קבוע (ר' SAP Note 3443536). הפתרון המוצע: 'a similar function is provided with SAP Learning Solution (PE-LSO) in SAP HCM for SAP S/4HANA or SAP SuccessFactors Learning which needs to be implemented'; זוהי חלופה פונקציונלית כללית, לא קוד עוקב או אפליקציית Fiori ספציפיים ל-PSV2.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 7 status source */
+
+const SOAMANAGER_GRP2025: Evidence = {
+  sourceType: "sap_help",
+  sourceTitle: "Configuring Web Services in SOA Manager | APIs for Group Reporting",
+  url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/44ec04bc8de24103b400d261fde99462/3bf2452ec091434cae1384bdfce14ddd.html?locale=en-US&state=PRODUCTION&version=2025.001",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim: "רשומת החיפוש הרשמית (APIs for Group Reporting, גרסה 2025 FPS01, versionId 2025.001, loio 3bf2452ec091434cae1384bdfce14ddd) מתעדת עבודה בטרנזקציה SOAMANAGER ב-S/4HANA On-Premise; הסניפט: 'Perform the following steps in transaction SOAMANAGER in the central system: Create Inbound Service Go to transaction SOAMANAGER. Choose Web Service Configuration.'",
   verificationLevel: "sap_official_verified",
 };
 
@@ -4527,5 +4564,78 @@ export const TX_VERIFICATION_E: VerificationRecord[] = [
     xrefs: ["tx:PSV1"],
     lastVerifiedAt: DATE25,
     notes: "מחליפה את הרשומה שנוצרה אוטומטית ל-tx:PSV2 ב-data/verification/transactions-auto.ts (scripts/qa/gen-tx-evidence.mts, 2026-09-24), שם שתי שורות הפריטים סומנו 'context' בלבד ולא נקראו. Old → New: ללא הכרעת מעמד (שורות הקשר בלבד) → compatibility_scope. במחקר זה נקראו שני הפריטים במלואם (scratchpad/official/SIMPL_OP2025.pdf.txt סביב שורה 28020 פריט 7.1.33; scratchpad/official/SIMPL_OP2023.pdf.txt סביב שורה 25505 פריט 19.14, לפי audit/master-completion/simpl-tcode-index.json). חיפושים: node scripts/sap-help-search.mjs \"PSV2\" בסקופ SAP_S4HANA_ON-PREMISE (21 תוצאות, כולן תוצאות חיוביות שגויות על מחרוזת המשנה 'PSV': Product Collection Version, Product Structure/Costing PS02, ולא הקוד PSV2); אותו חיפוש בסקופ SAP_ERP (21 תוצאות, אותה תבנית שלילית); \"Dynamic Business Event Menu\" (21 תוצאות; ללא כותרת תואמת מדויקת; שני ממצאים קרובים בנושא, 'Dynamic Information Menu' ו-'The Dynamic Planning Menu', שניהם 2023.latest, נקראו עם scripts/sap-help-body.mjs וללא אזכור PSV2 או כל קוד תעתיק, ולכן לא צוטטו כראיה); \"SAP Learning Solution PE-LSO business event menu\" (21 תוצאות, ללא ממצא חדש לגבי PSV2 עצמה). node scripts/fal-app.mjs --tcode PSV2 --release S32OP החזיר 'leading app(s): none; GUI app entry: none': ממצא שלילי מתועד, לא נכלל כשורת ראיה ולא נרשם successor. PSV3 ו-PVCT מוזכרים באותם פריטים לצד PSV2 אך אינם ברשימת lib/route-manifest.generated.ts (רק PSV1 נמצא בה); לכן לא נכללו כ-xrefs. הקשר בין הפונקציה העסקית H4S4_1 לבין הפעלת SAP HCM for SAP S/4HANA אינו מפורש בפריט ולכן לא הוסקה ממנו מסקנה. לא בוצעה בדיקה במערכת SAP חיה; קיום הקוד, התוכנית והמסך טעונים אימות ב-SE93 במערכת היעד.",
+  },
+  {
+    id: "tx:SOAMANAGER",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-directory.ts#SOAMANAGER",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את SOAMANAGER כ-'Web services admin', מודול INTEGRATION, תחום 'SOAP/web service config.'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-directory.ts#SOAMANAGER",
+      },
+      SOAMANAGER_GRP2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Configuring Web Services in SOA Manager | APIs for Group Reporting",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/44ec04bc8de24103b400d261fde99462/50cd7e6767074b1a99680bf58c9e5527.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim: "רשומת החיפוש הרשמית (APIs for Group Reporting, 2025 FPS01 (Feb 2026), versionId 2025.001, loio 50cd7e6767074b1a99680bf58c9e5527) נוקבת בקוד SOAMANAGER בסניפט: 'The inbound/outbound service must be attached to a port and configured using transaction SOAMANAGER. Create Outbound Service Go to transaction SOAMANAGER. ... Configuring Web Services in SOA ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Configure the Consumer Proxy Logical Port | Electronic Document Processing",
+        url: "https://help.sap.com/docs/SAP_ERP/64134b103beb4b97b4f0bde288cb9dd9/f39cf89678f04649bc9cb40c577778c9.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE25,
+        claim: "רשומת החיפוש הרשמית (Electronic Document Processing, גרסה 6.0 EHP8 Latest, versionId 6.18.latest, loio f39cf89678f04649bc9cb40c577778c9) מתעדת את SOAMANAGER בצד ECC ליצירת logical port; הסניפט: 'Configure the logical port for each client individually. Step Example 1. In transaction SOAMANAGER, create a logical port.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · items S4TWL - Business User Management (8.1.6) ו-S4TWL - DFPS eSOA services (13.5.4)",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim: "שני פריטים ברשימת הפישוט נוקבים ב-SOAMANAGER. הפריט 'S4TWL - Business User Management' (רכיב CA-GTF-BUM): 'SOAP Service ManageBusinessUserIn - can be set up via SOA Manager (Transaction SOAMANAGER).' הפריט 'S4TWL - DFPS eSOA services' (רכיב IS-DFS-OF), תחת 'How to Determine Relevancy': 'If Enterprise Extension EA-DFP is active in the SAP Business Suite system, you can check via transactions WSADMIN or SOAMANAGER for activated DFPS eSOA services.' אף אחד מהפריטים אינו קובע מעמד ל-SOAMANAGER עצמה; הטרנזקציה מוזכרת בהם ככלי הגדרה ובדיקה בהקשר הפריט.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 2.32 S4TWL - Business User Management",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim: "פריט 2.32 'S4TWL - Business User Management' ברשימת הפישוט הרשמית (2023 FPS03, גרסת מסמך 1.35) נוקב ב-SOAMANAGER בנוסח: 'SOAP Service ManageBusinessUserIn - can be set up via SOA Manager (Transaction SOAMANAGER).' הפריט אינו קובע מעמד ל-SOAMANAGER עצמה; הטרנזקציה מוזכרת בו ככלי הגדרה לשירות ה-SOAP.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+    ],
+    status: {
+      status: "unchanged",
+      he: "SOAMANAGER מתועדת ב-help.sap.com הן ל-SAP ERP 6.0 EHP8 (יצירת logical port) והן ל-SAP S/4HANA 2025 FPS01 On-Premise (הגדרת Web Service ויצירת Inbound Service), ולכן נרשמה כטרנזקציה שלא השתנתה. בדיקת ספריית Fiori (fal-app.mjs, מהדורה S32OP) לא החזירה אפליקציית Fiori מובילה עבור SOAMANAGER.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: SOAMANAGER_GRP2025,
+      recommendedAction: "להמשיך להגדיר ב-SOAMANAGER שירותי Web נכנסים ויוצאים ב-S/4HANA On-Premise, כולל שיוך השירות ל-port, לפי מדריכי ה-API הרלוונטיים. כאשר Enterprise Extension EA-DFP פעילה במערכת המקור, יש לבדוק ב-SOAMANAGER אילו שירותי eSOA של DFPS מופעלים, משום שהפריט 'S4TWL - DFPS eSOA services' קובע שהשירותים האלה אינם זמינים ב-SAP S/4HANA.",
+    },
+    xrefs: [],
+    lastVerifiedAt: DATE28,
+    notes: "נקראו מ-scratchpad/official/SIMPL_OP2025.pdf.txt הפריטים 'S4TWL - Business User Management' (שורות 28732-29260, האזכור בשורה 29248-29249) ו-'S4TWL - DFPS eSOA services' (שורות 63423-63474, האזכור בשורה 63471-63472); ב-scratchpad/official/SIMPL_OP2023.pdf.txt הפריט 2.32 'S4TWL - Business User Management' נוקב ב-SOAMANAGER בשורות 6164-6165 באותו נוסח. באותו קובץ, פריט 47.1 ('S4TWL - DFPS eSOA services', 2023 FPS03) נוקב ב-SOAMANAGER בשורות 57037-57038 בנוסח זהה לפריט באותו שם ברשימת 2025 FPS01 (13.5.4): 'check via transactions WSADMIN or SOAMANAGER for activated DFPS eSOA services.' חיפושים שהורצו: sap-help-search.mjs \"Configuring Web Services in SOA Manager\" (סקופ SAP_S4HANA_ON-PREMISE, 21 תוצאות, כולל רשומת APIs for Group Reporting המצוטטת); sap-help-search.mjs \"SOAMANAGER\" (סקופ SAP_S4HANA_ON-PREMISE, 21 תוצאות; בהרצה חוזרת ב-2026-09-28 הוחזרו שוב שתי רשומות APIs for Group Reporting, loio 3bf2452ec091434cae1384bdfce14ddd ו-loio 50cd7e6767074b1a99680bf58c9e5527, באותם url וסניפטים); sap-help-search.mjs \"Configure the Consumer Proxy Logical Port\" --product SAP_ERP (21 תוצאות, כולל רשומת Electronic Document Processing המצוטטת); sap-help-search.mjs \"SOA Manager web service administration What's New\" (סקופ SAP_S4HANA_ON-PREMISE, 21 תוצאות; החזיר עמודי הגדרה ב-SOA Manager בחבילות APIs for Sales, APIs for Sourcing and Procurement ו-APIs for Integration, שלא צוטטו כראיה); sap-help-search.mjs \"SOAMANAGER Communication Management successor\" (21 תוצאות, אף רשומה אינה נוקבת ביורש לקוד). fal-app.mjs SOAMANAGER --tcode SOAMANAGER --release S32OP: 'leading app(s): none; GUI app entry: none', ממצא שלילי מתועד ולא הכרעה. לא הורץ sap-help-body.mjs; הטענות מוגבלות לכותרות ולסניפטים. Old → New: הרשומה הדטרמיניסטית tx:SOAMANAGER ב-data/verification/transactions-auto.ts (scripts/qa/gen-tx-evidence.mts, 2026-09-24) הציגה את רשומות החיפוש ואת אזכורי פריטי הפישוט כהקשר ללא מעמד; כעת מעמד 'unchanged' מבוסס על רשומת S/4HANA 2025.001 ועל רשומת ERP 6.18.latest. הסניפט הישן של רשומת ERP (loio f39cf89678f04649bc9cb40c577778c9) היה: 'Configure the client Web Service using transaction SOAMANAGER, and create the logical ports that are then bound to the corresponding end points.'; בחיפוש החוזר הוחזר לאותה רשומה הסניפט המצוטט כעת. שורת ה-sap_help עם loio 50cd7e6767074b1a99680bf58c9e5527 הועתקה כלשונה מהרשומה הקודמת כשורת הקשר עם תאריך הגישה המקורי 2026-09-24, ושורת פריט 2.32 ברשימת הפישוט 2023 FPS03 נשמרה כשורת הקשר (נוסחה נכתב מחדש לפי הטקסט שנקרא בקובץ), כדי שלא יאבד תוכן. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 ];
