@@ -263,6 +263,56 @@ the earlier batches; 15 from the new records: confirmation-process, maintenance-
 order-settlement-process, preventive-maintenance-process, goods-movement-process,
 procure-to-pay-for-maintenance), and no other rule; both `tsc` gates clean; `npm test` 211/211.
 
+Backfill 2026-09-28, catalog run 1 of 2 (access date stamped 2026-09-28, new constant `DATE28`): 5
+audited re-drafts, 5 replaced in place at their positions (`calibration-process`,
+`refurbishment-process`, `quality-in-procurement-process`, `period-end-closing-process`,
+`logistics-to-finance-postings-process`), none refuted, so nothing was added under refuted. Added
+fields, as the item briefs named them: `process.kpis` on all five (5, 1, 7, 6 and 5 lines) and
+`process.migration` on refurbishment (4 lines from items 15.3.9, 15.3.1, 15.3.2, 15.3.3 and 15.3.10
+of the 2025 FPS01 list); evidence 18 → 28, 14 → 20, 16 → 24, 40 → 49 and 32 → 40. The audited
+drafts were taken verbatim from the writer's task and compared field by field with the file before
+the edit, which inserted only: a load of the module afterwards shows every old field, step, process
+line, xref and evidence row unchanged, and the eight other records unchanged in value. One removal,
+ordered by its verdict with a reason: the period-end notes sentence 'פערים גלויים: kpis הושמט, אין
+מקור שמגדיר מדדים; ...' now reads 'פערים גלויים: אין תצוגת CDS מאומתת לסגירת תקופה במילון הפרויקט;
+אף מקור אינו מגדיר יעד מספרי או מדד לזמן סגירת התקופה עצמה.', because it contradicted the new kpis;
+the 2026-09-24 omission stays in that record's Old → New section. Downgrades applied, each
+replacement matched once: calibration kpis[0] and kpis[4] say that filtering on inspection type 14
+or lot origin 14 is an inference, kpis[3] says the page documents no way to isolate calibration
+characteristics, kpis[0] also links bp:quality-inspection-in-production, the notes say that record
+holds the fal-app output of F3239, and the PFCG role 'Calibration Information'
+(SAP_QM_IT_CALIB_INFO) has its own sap_help row (2025.001, loio d40db753128eb44ce10000000a174cb4);
+refurbishment kpis[0] opens with 'מדד מעקב ברמת הפקודה (לא KPI ניהולי)'; quality in procurement
+kpis[5] names the business role Purchaser (SAP_BR_PURCHASER) with the catalog
+SAP_BCR_MM_PUR_STRATEGY, and the Supplier Evaluation by Quality (Inspection Lot) row quotes the page
+for it (the verdict's optional edit, taken); the period-end F4603 claim lists both catalogs and the
+F3567 claim both roles and both catalogs; logistics took the verdict's fixedRecord (kpis 6 → 5
+lines: F1422 and MB5L merged, the Deferred Summarization context, the F3749 ratio wording, 'LO-LIS'
+instead of 'Inventory Controlling') and its notes replacement. Writer deviations beyond the
+verdicts: (1) quality in procurement notes: the draft rewrote the old sentence 'שדה ה-kpis הושמט:
+לא אותר במאגר או בחיפושים הרשמיים מדד מוגדר לתהליך זה.' in place; the writer kept the old notes
+verbatim and appended the update as 'עדכון 2026-09-28 (Old → New)'; (2) reviewer on all five: the
+old string is kept and '; backfill (researcher + adversarial auditor), 2026-09-28' appended, instead
+of the drafts' replacement that dropped '+ repairer' (the refurbishment verdict asked to keep the
+history); (3) calibration: one repository row added,
+`data/best-practices/cross-processes-2.ts#quality-inspection-in-production`, so that F3239, which
+the verdict's notes sentence names, is carried by a cited record, and the notes sentence on the PFCG
+role names its new row; (4) logistics notes: '(F1956)' dropped from the sentence on apps seen in
+search but not read, because no cited record prints that id; (5) file header: the kpis sentence
+names the five records, a backfill paragraph was added, and `DATE28` dates the new rows and
+`lastVerifiedAt`. The writer ran no search, page-body or fal-app call. Open gaps the records keep: no
+calibration-specific KPI (ten searches); no Fiori analytical app or KPI tile for refurbishment (its
+one line is an order-level status display); no target value for any measure; quality in procurement
+leaves out the 'Goal Type Minimizing' that its Key Figures and Mean Quality Score configuration pages
+print; the SAP Note numbers printed inside the simplification items were not written. Gates:
+`scratchpad/validate-bp-file.mjs` prints 96 `dangling-xref` hits, all bp slugs registered in files
+its reduced universe does not load (the 95 from before plus bp:quality-inspection-in-production on
+calibration kpis[0]), and no other rule; the validator on the full registered universe prints 0
+problems (35 practices); both `tsc` gates clean; `npm test` 211/211;
+`scratchpad/check-bp-repoRef.mjs` 520 repoRefs, none missing; no em dash. Coverage
+(`report:coverage --catalog best-practices`): unchanged, total 35, L2 33, L5 2, verified 32, conflict
+3, s4-appl 2, edition 4 (the five records carry no authored status, so they stay at L2).
+
 ## refuted
 
 - `bp:breakdown-maintenance-process` (batch 1, 2026-09-24): refuted at the gate, not
@@ -780,3 +830,43 @@ procure-to-pay-for-maintenance), and no other rule; both `tsc` gates clean; `npm
   KO8GH (or F3767) and of CO88 and KO8G on PM orders in the target system, then a correction of
   `data/domains.ts#pm-settlement` and `data/tx-intel.ts#KO8G` (not best-practices files, not edited
   here); the two official rows can also serve the breakdown entry above on its next audit.
+- `bp:refurbishment-process`, MB11 availability, update of the entry above (2026-09-28 backfill of
+  `data/best-practices/catalog-2026-09.ts`): the backfill added the 2025 FPS01 row of 'S4TWL -
+  AVAILABILITY OF TRANSACTIONS IN MM-IM' (item 15.3.9, printed page 1486, read from
+  `scratchpad/official/SIMPL_OP2025.pdf.txt`), as the entry above suggested, and the new
+  `process.migration[0]` repeats the conflict. Both sides are now on the same release: 'Additional
+  Movement Types' (2025.001) names MB11 as the standard refurbishment goods-issue transaction, while
+  item 15.3.9 lists MB11 among the MB transactions replaced by MIGO or BAPI_GOODSMVT_CREATE (menu call
+  raises an error) and tells custom code that calls MB11 to use BAPI_GOODSMVT_CREATE. The item does
+  not name refurbishment. Still disclosed in notes and in the lines, no `conflicting_sources` row.
+  What would settle it: unchanged, a check in the target system of MB11 and IW8W with movement types
+  313/315 on a refurbishment order.
+- `bp:quality-in-procurement-process`, app id of Supplier Evaluation by Quality (Inspection Lot),
+  official against official (reported by the 2026-09-28 backfill researcher, not re-read by the
+  writer; the record names the app without an id): the search snippets of the What's New pages
+  'Deprecation of Analytics Apps' (2021.000, loio 64ffe073dc364a0fa45cb213218695d7; 2022.000, loio
+  21699bbeaed14f12ae302b38a6a97777) give F2309 as the deprecated app and F2309A as its successor,
+  while 'App Implementation: Supplier Evaluation by Quality' (2025.001, loio
+  907b5258b46f0c46e10000000a441470) links to the Fiori Apps Library with appId=F2309. The app page the
+  record cites (loio a4a44a58ef4fa107e10000000a441470) prints no id and calls the app the successor
+  of 'Supplier Evaluation by Quality (Inspection Lot) (Deprecated)'. What would settle it:
+  `node scripts/fal-app.mjs F2309A --release S32OP` and `F2309`; the id can then go into the kpis
+  line, and into a fiori: xref once it is in `data/fiori/apps.ts`.
+- `bp:logistics-to-finance-postings-process`, inventory turnover defined differently by three
+  official sources (written in the 2026-09-28 backfill; each definition sits on its own kpis line
+  with its source, none is preferred, no `conflicting_sources` row): 'KPI: Inventory Turnover'
+  (FI-GL, 2025.001, loio 4457bf783d874e2e935e73293afe8ea9) divides the recognized revenue by the
+  average inventory; 'Inventory KPI Analysis' (F3749, MM-IM, 2025.001, loio
+  e130f15007c94eae9d65f8af9d541d00) bases Inventory Turnover Changes on the relationship between
+  consumption quantity and average stock quantity; 'Inventory Turnover' (LO-LIS, SAP ERP 6.18.latest,
+  loio 8810c453f57eb44ce10000000a174cb4) calls it the ratio of cumulative usage to average stock
+  level. The record's kpis also keep, as a difference of calculation method, that F3749 values stock
+  at the current material price while F1422 reports values for a key date. Nothing to settle in SAP:
+  a report has to name the definition it uses.
+- `bp:period-end-closing-process`, app name of F3567, official against official (disclosed in the
+  F3567 evidence row of the 2026-09-28 backfill, no `conflicting_sources` row): the Fiori Apps Library
+  at S32OP names F3567 'Actual Maintenance Cost Analysis', while its documentation topic (loio
+  9a423967879e4b99bf8a55b0719370b9) is titled 'Actual Cost Analysis' in the official search, and
+  'Analyzing Maintenance Order Costs' (2025.001, loio 2ba9ba8c384a42bb9c243f5bd58b330a) speaks of the
+  Actual Cost Analysis app. The researcher and the auditor treat it as a name difference; the record
+  prints both names.

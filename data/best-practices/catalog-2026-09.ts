@@ -11,14 +11,35 @@
    through scripts/sap-help-body.mjs. Official sources that disagree stay side
    by side as conflicting_sources. A field no source documents is left out on
    purpose (kpis in every record below except order-to-cash-process, whose kpis
-   come from the official Order-to-Cash Performance page, and
+   come from the official Order-to-Cash Performance page,
    embedded-analytics-process and breakdown-maintenance-process, whose kpis come
-   from the repository's domain records): the page renders the gap by name. Two
+   from the repository's domain records, and the five records of the
+   2026-09-28 backfill named below): the page renders the gap by name. Two
    records carry an authored status (embedded-analytics-process,
    ibp-ppds-integration-process); its source is the same object as the official
    evidence row it names (EA_STATUS_SOURCE, PPDS_STATUS_SOURCE below).
    Drafts the auditor refuted are queued in
-   audit/s4-enrichment/research-queue-best-practices.md, not written. */
+   audit/s4-enrichment/research-queue-best-practices.md, not written.
+
+   Backfill 2026-09-28 (researcher, adversarial auditor, writer; each record
+   replaced in place): calibration-process, refurbishment-process,
+   quality-in-procurement-process, period-end-closing-process and
+   logistics-to-finance-postings-process gain process.kpis, and
+   refurbishment-process also process.migration (items of the 2025 FPS01
+   Simplification List). The kpis lines record what official pages print
+   (calibration and quality in procurement: the QM inspection lot analytics
+   pages, plus the supplier evaluation pages for procurement; refurbishment:
+   the 'Refurbishment Order' page, 2025 FPS01, an order-level status display
+   and not a management KPI; period-end closing: the key figures of Product
+   Cost by Order and Cost Object Controlling and the cost analysis apps;
+   logistics to finance: the inventory value and inventory turnover pages)
+   and add no target value; where a line applies a general measure to the
+   process, for example by filtering on inspection type or lot origin, it says
+   that this is an inference. New rows were read through the scripted channels
+   and are stamped DATE28, the day they were read. Earlier lines and rows are
+   kept verbatim, except one notes sentence of period-end-closing-process that
+   its verdict replaced; each record's notes carry the history (Old → New) and
+   its reviewer keeps the earlier string before the backfill's. */
 import type { BestPracticeLike } from "@/lib/evidence/types";
 
 const DATE = "2026-09-24";
@@ -42,6 +63,10 @@ const DATE_TX_07 = "2026-09-07"; // data/verification/transactions.ts DATE3 (Mat
 // batch 5: Goods Movement (MM-IM), tx:MIGO)
 const DATE_FI_23 = "2026-09-23"; // data/verification/fiori.ts DATE23 (Advanced Scheduling Board, fiori:F5460;
 // batch 5: fiori:F1511A, fiori:F5241 and fiori:W0020)
+/** accessedAt of the rows the 2026-09-28 backfill read itself (page bodies, search records, Fiori Apps
+ *  Library, the extracted Simplification List text, repository records) and lastVerifiedAt of the
+ *  five backfilled records. */
+const DATE28 = "2026-09-28";
 
 /** Authored status sources: each is the same object as the official evidence row it names. */
 const EA_STATUS_SOURCE: BestPracticeLike["evidence"][number] = {
@@ -382,6 +407,46 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         },
         { he: "היסטוריית כיול נשמרת לציוד לביקורת (domain-detail.ts#pm-calibration, תרחיש QA Regression)." },
       ],
+      kpis: [
+        {
+          he: "Inspection Lot Analytics (אריח KPI של SAP Smart Business, מזהה KPI " +
+            "‏.SAP.QM.INSPECTION.ANALYTICS.INSPLOT, תיעוד S/4HANA 2025 FPS01), הערכת Key Figures: על מנות בדיקה " +
+            "שנקבעה להן החלטת שימוש ב-365 הימים האחרונים, No. of Accepted Lots, ‏No. of Rejected Lots, ‏Lots Skipped " +
+            "ו-Rejection Rate, בתצוגה 'Accepted and Rejected Lots by Inspection Type'. לפי עמוד האפליקציה שיעור " +
+            "הדחייה מחושב על מנות שהתקבלו או נדחו, ומנות Skip אינן נכללות. העמודים אינם מזכירים כיול: היישום לתהליך " +
+            "הוא סינון לסוג הבדיקה של מנות הכיול (בסטנדרט 14, לפי עמוד 'Creation of a Calibration Order'), וזו הסקה " +
+            "ולא נוסח העמודים.",
+          xrefs: ["tx:QA11", "tx:QA32", "bp:quality-inspection-in-production"],
+        },
+        {
+          he: "Inspection Lot Analytics, הערכות Mean Quality Score ו-Frequencies (תיעוד 2025 FPS01): ציון האיכות " +
+            "הממוצע (Mean Quality Score) וזמן העיבוד הממוצע (Mean Processing Time) של מנות עם החלטת שימוש, כל אחד " +
+            "בתצוגה לפי Inspection Type ובתצוגות לפי זמן, חומר ומפעל.",
+          xrefs: ["tx:QA11"],
+        },
+        {
+          he: "Inspection Lot Detailed Analytics Last 365 Days (אפליקציית APF על תצוגת ה-CDS " +
+            "‏C_QltyMgmtInfoSystInspLot, שאינה במילון הפרויקט; תיעוד 2025 FPS01): מנות שהתקבלו ונדחו, Rejection " +
+            "Rate, ‏Skip Rate, מספר המנות הכולל ו-Mean Processing Time, לפי זמן, סוג בדיקה, חומר, מפעל, ספק ולקוח.",
+          xrefs: ["tx:QA11", "tx:QA32"],
+        },
+        {
+          he: "Characteristic Detailed Analytics Last 365 Days (APF על ‏C_QltyMgmtInfoSystCharcs, אינה במילון " +
+            "הפרויקט; תיעוד 2025 FPS01): לכל מאפיין שנרשמו לו תוצאות, בדיקות שהתקבלו ונדחו, Rejection Rate, ‏Skip " +
+            "Rate, ‏Mean Value, ‏Standard Deviation ומדדי Cp ו-Cpk, לפי מאפיין בדיקה, מאפיין בדיקה ראשי, מרכז עבודה, " +
+            "מפעל, חומר, ספק ולקוח. העמוד אינו מזכיר כיול ואינו מונה ממד סוג בדיקה או מקור מנה, ולכן בידוד מאפייני " +
+            "הכיול (PLMK ברשומות המאגר) דרכו אינו מתועד; ממדי מאפיין הבדיקה הראשי ומרכז העבודה הם הסקה בלבד.",
+          xrefs: ["tx:QE51N", "table:PLMK"],
+        },
+        {
+          he: "Quality Engineer Overview (דף סקירה, תיעוד 2025 FPS01): הכרטיס Inspection Lots Without Usage Decision " +
+            "(מספר המנות ללא החלטת שימוש, בחלוקה לפי סטטוס רישום התוצאות) והכרטיס Inspection Lots Ready for Usage " +
+            "Decision (מנות שרישום התוצאות שלהן הושלם וללא סטיות, מתוך סך המנות). לפי העמוד אפשר לסנן את כל הכרטיסים " +
+            "לפי מפעל או לפי מקור מנת הבדיקה (inspection lot origin); מנות הכיול נוצרות למקור 14 (Plant Maintenance) " +
+            "לפי עמוד 'Creation of a Calibration Order'; הסינון למקור 14 כמדד כיול הוא הסקה ולא נוסח העמוד.",
+          xrefs: ["tx:QA11", "tx:QA32", "tx:QE51N"],
+        },
+      ],
       eccToS4: [
         { he: "אינטגרציית PM-QM לכיול זהה ב-ECC וב-S/4HANA לפי domain-detail.ts#pm-calibration (eccS4.unchanged)." },
         {
@@ -715,9 +780,157 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book9.json#5.4",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Configuration Settings: Inspection Lot Analytics | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/ce81cf56aeb649b8950aee82b86d6ed6.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio ce81cf56aeb649b8950aee82b86d6ed6; גוף העמוד (נקרא דרך scripts/sap-help-body.mjs ב-2026-09-28): " +
+          "'KPI: Inspection Lot Analytics KPI ID: .SAP.QM.INSPECTION.ANALYTICS.INSPLOT'; ההערכות המשויכות: Key " +
+          "Figures, ‏Mean Quality Score ו-Frequencies; לפני השימוש יש להגדיר את האפליקציה ב-SAP Smart Business " +
+          "Modeler, ואפשר לערוך בהערכה שסופקה פרמטרים, מסננים וספים (Thresholds). העמוד אינו מזכיר כיול.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Key Figures | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/c756fd59db024a3f98a46ac155527acf.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio c756fd59db024a3f98a46ac155527acf; גוף העמוד (נקרא ב-2026-09-28), הערכה " +
+          ".SAP.QM.INSPECTION.ANALYTICS.INSPLOTE1 של אפליקציית Inspection Lot Analytics: Goal Type 'Minimizing'; " +
+          "פרמטר P_DateFunction עם הערך PREVIOUS365DAYS ('analyze those inspection lots for which usage decisions " +
+          "have been made'); תצוגה .102 'Accepted and Rejected Lots by Inspection Type' עם הממד InspectionType " +
+          "והמדדים No. of Accepted Lots, ‏No. of Rejected Lots, ‏Lots Skipped, ‏Rejection Rate; תצוגה .105 'Lots " +
+          "Skipped and Not Skipped by Inspection Type' עם Lots Skipped, ‏Lots Not Skipped, ‏Skip Rate. העמוד אינו " +
+          "מזכיר כיול.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Mean Quality Score | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/6da048ff277845729c9d1dbc9e61a732.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio 6da048ff277845729c9d1dbc9e61a732; גוף העמוד (נקרא ב-2026-09-28), הערכה " +
+          ".SAP.QM.INSPECTION.ANALYTICS.INSPLOTE3 של Inspection Lot Analytics: המדד Mean Quality Score על מנות " +
+          "שנקבעה להן החלטת שימוש (PREVIOUS365DAYS), עם תצוגה .302 'Mean Quality Score by Inspection Type' ותצוגות " +
+          "לפי זמן, חומר ומפעל, ספק ולקוח. העמוד אינו מזכיר כיול.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Frequencies | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/b19e5b240f254f1f837b5b388f0992c3.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio b19e5b240f254f1f837b5b388f0992c3; גוף העמוד (נקרא ב-2026-09-28), הערכה " +
+          ".SAP.QM.INSPECTION.ANALYTICS.INSPLOTE4 של Inspection Lot Analytics: Goal Type 'Minimizing'; המדד Mean " +
+          "Processing Time על מנות שנקבעה להן החלטת שימוש (PREVIOUS365DAYS), עם תצוגה .402 'Mean Processing Time by " +
+          "Inspection Type' ותצוגות לפי זמן ולפי חומר ומפעל. העמוד אינו מזכיר כיול.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Inspection Lot Analytics Last 365 Days | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/424ea9570a4b4ae9a0207534cb2e02ce.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio 424ea9570a4b4ae9a0207534cb2e02ce; גוף העמוד (נקרא ב-2026-09-28): 'With this app, the number of " +
+          "inspection lots for which usage decisions have been made in the last 365 days is calculated'; הניתוח " +
+          "'based on time, inspection type, material and plant'; 'Only accepted and rejected lots are considered for " +
+          "calculation of rejection rate. Skip lots are not considered'; ניווט ל-Inspection Lot Detailed Analytics " +
+          "ול-Manage Inspection Lots, ושמירת תצוגה מסוננת כאריח (Save as Tile).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Inspection Lot Detailed Analytics Last 365 Days | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/9215466bd81143dab8ad22a8929459d1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio 9215466bd81143dab8ad22a8929459d1; גוף העמוד (נקרא ב-2026-09-28): ניתוח מנות שנקבעה להן החלטת " +
+          "שימוש 'for categories such as accepted and rejected lots, rejection rate, skip rate, total number of " +
+          "lots, skip lots, and mean processing time based on time, inspection type, material, plant, supplier, and " +
+          "customer'; 'This app uses the C_QltyMgmtInfoSystInspLot CDS view'; האפליקציה בנויה על Analysis Path " +
+          "Framework (APF).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Characteristic Detailed Analytics Last 365 Days | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/392e7b7e5cc8480586aef05bcf02d1f9.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio 392e7b7e5cc8480586aef05bcf02d1f9; גוף העמוד (נקרא ב-2026-09-28): ניתוח מאפייני בדיקה שנרשמו להם " +
+          "תוצאות 'for categories such as accepted and rejected inspections, rejection rate, skip rate, mean value, " +
+          "standard deviation, Cp and Cpk index and so on based on time, inspection characteristics, master " +
+          "inspection characteristics, work center, plant, material, supplier, and customer'; 'This app uses the " +
+          "C_QltyMgmtInfoSystCharcs CDS view' (APF). העמוד אינו מזכיר כיול ואינו מונה ממד סוג בדיקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Quality Engineer Overview | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/a9fbe2574096f432e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio a9fbe2574096f432e10000000a441470; גוף העמוד (נקרא ב-2026-09-28): הכרטיס Inspection Lots Without " +
+          "Usage Decision 'Shows you the total number of inspection lots without a usage decision' עם תרשים דונאט " +
+          "לפי סטטוס רישום התוצאות; הכרטיס Inspection Lots Ready for Usage Decision מציג 'the number of inspection " +
+          "lots that are ready for usage decision, that is, inspection lots with results recording status completed " +
+          "and those with no deviations, out of the total number of inspection lots'; 'you can filter the content of " +
+          "all cards per plant or inspection lot origin'. העמוד אינו מזכיר כיול.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Calibration Information | Single and Composite Roles (PFCG)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/69c3a05bb8d44f02bdd2abe5e822da8e/d40db753128eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "loio d40db753128eb44ce10000000a174cb4; גוף העמוד (נקרא דרך scripts/sap-help-body.mjs ב-2026-09-28): " +
+          "'Technical name: SAP_QM_IT_CALIB_INFO'; 'The single role Calibration Information covers functions for " +
+          "evaluating data from calibration inspections'; בין המידע שהתפקיד כולל: 'Maintenance or calibration " +
+          "deadlines' ו-'Results for test equipment (equipment)'. תחום הערכה ולא מדד, ולכן אינו נרשם ב-kpis.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת Best Practice של הפרויקט: quality-inspection-in-production",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim: "הרשומה נושאת שורת fiori_library לפלט scripts/fal-app.mjs F3239 --release S32OP: 'Inspection Lot " +
+          "Analytics', רכיב QM-QC-IS, תפקידים SAP_BR_QUALITY_ENGINEER ו-SAP_BR_QUALITY_MANAGER, ‏OData " +
+          "QM_INSPLOTDEF_ANALYZE_SRV; קישור התיעוד מפנה ל-topic 424ea9570a4b4ae9a0207534cb2e02ce (Inspection Lot " +
+          "Analytics Last 365 Days). בשורת ה-kpis שלה: 'המדד אינו ייעודי לייצור: המיקוד בבדיקה בייצור נעשה בסינון " +
+          "לפי סוג בדיקה, וזו הסקה ולא נוסח העמוד'; F3239 אינו בקטלוג ה-Fiori של הפרויקט ולכן בפרוזה.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/best-practices/cross-processes-2.ts#quality-inspection-in-production",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Project NEO research pipeline (researcher + adversarial auditor + repairer), 2026-09-24",
+    lastVerifiedAt: DATE28,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor + repairer), 2026-09-24; backfill (researcher + adversarial auditor), 2026-09-28",
     notes: "רשומת תהליך: הזרימה (תוכנית/הזמנה → מנת בדיקה → תוצאות → החלטת שימוש → סטטוס מכשיר) נגזרת מרשומות המאגר " +
       "הנקובות ב-evidence; ערכי הסטנדרט PM05, equipment category Q וסוג בדיקה 14, מקור הבדיקה 14 (Plant " +
       "Maintenance) ופעולות ההמשך האוטומטיות נגזרים מעמודי help.sap.com הרשמיים שנקראו ב-2026-09-24 " +
@@ -732,7 +945,24 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "כיול באיחור אינו מתועד כ-KPI; התקרית qm-calibration-overdue מתעדת סיכון בלבד, ולכן השדה kpis הושמט. " +
       "תפקידים: תיאורים מתוך שדה users ברשומות tx-intel, ללא קוד תפקיד עסקי של SAP. לא אותר פריט SAP Best " +
       "Practices (Scope Item) ייעודי לכיול; ההפניה הרשמית היא עמוד תיעוד הרכיב Test Equipment Management. לא " +
-      "בוצעה בדיקה במערכת SAP חיה.",
+      "בוצעה בדיקה במערכת SAP חיה." +
+      " New (2026-09-28): נוסף process.kpis (5 שורות) מעמודי help.sap.com רשמיים (2025.001) שגופם נקרא דרך " +
+      "scripts/sap-help-body.mjs: Configuration Settings: Inspection Lot Analytics, ‏Key Figures, ‏Mean Quality " +
+      "Score, ‏Frequencies, ‏Inspection Lot Analytics Last 365 Days, ‏Inspection Lot Detailed Analytics Last 365 " +
+      "Days, ‏Characteristic Detailed Analytics Last 365 Days ו-Quality Engineer Overview; המשפט 'ולכן השדה kpis " +
+      "הושמט' נכון לנוסח 2026-09-24. אף אחד מהעמודים אינו מזכיר כיול: המדדים הם מדדי מנות בדיקה כלליים של QM, " +
+      "והקישור לכיול נשען על ממד סוג הבדיקה (בסטנדרט 14) או על מסנן מקור המנה (14) שהעמודים מדפיסים, ועל עמוד " +
+      "'Creation of a Calibration Order'. מדד ייעודי לכיול (כיולים באיחור, שיעור ציות לכיול) לא אותר בעשרה חיפושים " +
+      "ב-scripts/sap-help-search.mjs (SAP_S4HANA_ON-PREMISE, 21 רשומות לכל שאילתה): 'calibration inspection', " +
+      "'calibration inspection KPI', 'test equipment analytics', 'inspection lot analysis', 'overdue calibration " +
+      "test equipment', 'quality engineer overview', 'usage decision analysis', 'defects analysis inspection lot " +
+      "KPI', 'Inspection Lot Analytics app ID', 'evaluations test equipment calibration results history'. התפקיד " +
+      "Calibration Information ‏(SAP_QM_IT_CALIB_INFO; עמוד 'Calibration Information | Single and Composite Roles " +
+      "(PFCG)', 2025.001, בשורת evidence משלה) מונה בין המידע 'Maintenance or calibration deadlines', אך זה תחום " +
+      "הערכה ולא מדד, ולכן לא נרשם כ-KPI. מזהי ה-App ID לא הודפסו בגופי העמודים שנקראו; ל-Inspection Lot Analytics " +
+      "רשומת bp:quality-inspection-in-production נושאת פלט scripts/fal-app.mjs‏ F3239 (release S32OP), אך F3239 אינו " +
+      "ב-data/fiori/apps.ts ולכן אין xref fiori:; תצוגות ה-CDS ‏C_QltyMgmtInfoSystInspLot ו-C_QltyMgmtInfoSystCharcs " +
+      "אינן במילון הפרויקט ונשארו בפרוזה. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   /* =========================================================== refurbishment */
   {
@@ -1010,6 +1240,54 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
           xrefs: ["table:MSEG", "bp:matdoc-read-through-compatibility"],
         },
       ],
+      kpis: [
+        {
+          he: "מדד מעקב ברמת הפקודה (לא KPI ניהולי), מצב השיפוץ בפקודה: לפי העמוד הרשמי 'Refurbishment Order' " +
+            "(Orders (CS-SE/PM-WOC-MO), 2025 FPS01), פקודת השיפוץ מציגה את מצב השיפוץ, כלומר מספר האובייקטים שכבר " +
+            "שופצו ('number of objects already refurbished'), ואת תאריכי השיפוץ. זהו מדד מעקב ברמת הפקודה; יישום " +
+            "Fiori אנליטי או אריח KPI ייעודי לשיפוץ לא אותר בחיפושים.",
+          xrefs: ["obj:maintenance-order"],
+        },
+      ],
+      migration: [
+        {
+          he: "המרה, ניפוק לפקודה: פריט הפישוט 'S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM' (רשימת 2025 FPS01, " +
+            "סעיף 15.3.9) מונה את MB11 בין טרנזקציות ה-MB שהוחלפו ב-MIGO או ב-BAPI_GOODSMVT_CREATE, ומורה להחליף קוד " +
+            "מותאם שמפעיל את MB11 (למשל CALL TRANSACTION) ב-BAPI_GOODSMVT_CREATE; לפי הפריט הטרנזקציות הישנות עובדות " +
+            "במנגנון הנעילה הישן, ורישום מקביל דרכן ודרך MIGO או ה-BAPI עלול ליצור חוסר עקביות במלאי. הפריט אינו " +
+            "נוקב בשיפוץ, ועמוד 'Additional Movement Types' (2025 FPS01) עדיין מציין את MB11 לניפוק לפקודת שיפוץ; " +
+            "הסתירה נשארת פתוחה.",
+          xrefs: ["tx:MB11", "tx:MIGO", "fm:BAPI_GOODSMVT_CREATE"],
+        },
+        {
+          he: "המרה, מסמכי החומר: פריט הפישוט 'S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)' (2025 FPS01, סעיף " +
+            "15.3.1) קובע שב-S/4HANA מסמך החומר נשמר ב-MATDOC בלבד ולא ב-MKPF וב-MSEG, שקריאה מהן מנותבת לתצוגות " +
+            "CDS, ושפעולות כתיבה על MKPF ו-MSEG בקוד מותאם אינן משפיעות ויש להסירן. בתהליך השיפוץ זה חל על קוד מותאם " +
+            "סביב מסמכי הניפוק והקבלה של הפקודה.",
+          xrefs: ["table:MSEG", "table:MKPF", "bp:matdoc-read-through-compatibility"],
+        },
+        {
+          he: "המרה, הערכת החומר: פריט הפישוט 'S4TWL - Material Ledger Obligatory for Material Valuation' (2025 " +
+            "FPS01, סעיף 15.3.2) קובע ש-Material Ledger נדרש בכל מערכת S/4HANA ושיש להגר אותו אחרי הגירת SUM הטכנית: " +
+            "הגירת הקסטומיזציה (Migrate Material Ledger Customizing) והגירת הנתונים (Start and Monitor Data " +
+            "Migration) תחת Migration to SAP S/4HANA Finance, גם כש-Material Ledger כבר פעיל במערכת המקור. לפי הפריט " +
+            "השדות LBKUM, SALK3 ו-SALKV של MBEW נשלפים מה-Material Ledger ומטבלת היומן האוניברסלי, קריאה מנותבת " +
+            "לתצוגת CDS, וכתיבה שנוגעת בשדות אלה דורשת התאמה. הפריט אינו נוקב בשיפוץ; הקשר לתהליך הוא הערכת החלף " +
+            "ב-MBEW ועדכון המחיר הממוצע הנע בהתחשבנות, לפי העמוד הרשמי של התהליך.",
+          xrefs: ["table:MBEW"],
+        },
+        {
+          he: "המרה, נעילה בתנועות סחורה: פריט הפישוט 'S4TWL - Material Valuation - Statistical moving average " +
+            "price' (2025 FPS01, סעיף 15.3.10) מתאר בחירה אופציונלית במערכת מומרת (מ-1709 דרך פעולת ה-IMG 'Set " +
+            "Material Lock for Goods Movements') שלא ניתן לבטלה: לחומר בבקרת מחיר 'V' נעילה בלעדית רק במצבים " +
+            "ייעודיים, ולחומר בבקרת מחיר 'S' המחיר הממוצע הנע הסטטיסטי מושבת והשדות SALKV ו-VERPR ב-MBEW אינם " +
+            "מתעדכנים (ההשפעה על הממשק כוללת את MM03). פריט 'S4TWL - Goods movements without exclusive locking by " +
+            "material valuation' (סעיף 15.3.3) מציין שנעילה בלעדית עדיין נדרשת כשתנועת סחורה יוצרת נתון אב, למשל " +
+            "ב-split valuation עם אצווה חדשה, וכשהיא משנה את המחיר הממוצע הנע. אף פריט אינו נוקב בשיפוץ; ההחלטה " +
+            "נוגעת לחלף ב-split valuation שהתחשבנותו מעדכנת מחיר ממוצע נע, ולבדיקה במערכת היעד.",
+          xrefs: ["table:MBEW", "tx:MM03"],
+        },
+      ],
       reference: {
         title: "Order Processing: Refurbishment of Repairable Spares | Orders (CS-SE/PM-WOC-MO), SAP S/4HANA On-Premise " +
           "2025 FPS01",
@@ -1209,9 +1487,109 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book9.json#6.4",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Refurbishment Order | Orders (CS-SE/PM-WOC-MO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/efc7922405fd4d56b7571930c5eaa798/3ecab65334e6b54ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "העמוד (2025 FPS01, loio 3ecab65334e6b54ce10000000a174cb4, הגוף נקרא דרך scripts/sap-help-body.mjs) " +
+          "מגדיר את פקודת השיפוץ כ-'A special order, which you use for the refurbishment of repairable spares', " +
+          "שמבנה הפקודה 'corresponds in essence to the structure of the maintenance order', ושהפקודה מספקת בין השאר " +
+          "'A display of the status of the refurbishment (number of objects already refurbished)' ו-'A display of " +
+          "the dates for refurbishment'; המצבים ההתחלתי והסופי מובחנים 'using batches or different valuation types'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item " +
+          "15.3.9 S4TWL - AVAILABILITY OF TRANSACTIONS IN MM-IM",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הפריט (Application Component MM-IM-GF, עמ' 1486) מונה את MB11 בין טרנזקציות ה-MB ש-'have been " +
+          "replaced by the single-screen generalized transaction MIGO or the BAPI's BAPI_GOODSMVT_CREATE and " +
+          "BAPI_GOODSMVT_CANCEL', קובע שקודי הטרנזקציה קיימים אך קריאה מהתפריט מעלה הודעת שגיאה, שהטרנזקציות הישנות " +
+          "'still using the old lock concept' ורישום מקביל עלול ליצור חוסר עקביות במלאי, ומורה 'Replace customer " +
+          "coding using the transaction codes ... MB11 ... by make use of function module BAPI_GOODSMVT_CREATE'. " +
+          "הפריט אינו נוקב בשיפוץ. (נקרא מהטקסט המחולץ של הרשימה ב-scratchpad/official; הכתובת הועתקה מרשומות " +
+          "data/verification/transactions-auto.ts.)",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item " +
+          "15.3.1 S4TWL - DATA MODEL IN INVENTORY MANAGEMENT (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הפריט (Application Component MM-IM-GF-MIG, עמ' 1459 ואילך) קובע 'Material document data will be " +
+          "stored in MATDOC only and not anymore in MKPF and MSEG', שקריאה מהטבלאות הישנות מנותבת לתצוגות CDS ('each " +
+          "read access ... will get redirected'), ובפרק ההתאמות לקוד: 'write operations on MKPF, MSEG as well as the " +
+          "fields representing actual stock quantities ... shall be removed from customer coding'. הפריט אינו נוקב " +
+          "בשיפוץ.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item " +
+          "15.3.2 S4TWL - Material Ledger Obligatory for Material Valuation",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הפריט (Application Component MM-IM-GF-VAL, עמ' 1467-1468) קובע 'This simplification makes it " +
+          "mandatory to use the Material Ledger (ML) in all SAP S/4HANA systems. After the technical SUM migration, " +
+          "the Material Ledger needs to be migrated', מונה את פעולות ה-IMG 'Migrate Material Ledger Customizing' " +
+          "ו-'Start and Monitor Data Migration' (תחת Migration to SAP S/4HANA Finance, ליעד 1610 ומעלה), קובע שיש " +
+          "להגר גם כשה-ML כבר בשימוש במערכת המקור, ושהשדות LBKUM, SALK3 ו-SALKV של טבלאות xBEW(H), ובהן MBEW, נשלפים " +
+          "מה-Material Ledger ומטבלת היומן האוניברסלי; 'Write accesses to those tables have to be adjusted if " +
+          "transactional fields are affected'. הפריט אינו נוקב בשיפוץ.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item " +
+          "15.3.3 S4TWL - Goods movements without exclusive locking by material valuation",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הפריט (Application Component MM-IM-GF-LOCK, עמ' 1470-1471) מתאר את האפשרות להגדלת קצב התנועות בלי " +
+          "נעילה בלעדית, וקובע 'exclusive locking is still required if material master data is created or changed by " +
+          "a goods movement. Material master data is created by a goods movement if split valuation is used and a " +
+          "new batch has to be created', ושכאשר תנועה משנה את היחס בין SALK3 ל-LBKUM 'the moving average price must " +
+          "be adjusted accordingly, which ultimately requires an exclusive lock'. הפריט אינו נוקב בשיפוץ.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item " +
+          "15.3.10 S4TWL - Material Valuation - Statistical moving average price",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        accessedAt: DATE28,
+        claim: "הפריט (Application Component MM-IM-GF-VAL, עמ' 1487-1489) מתאר בחירה במערכת מומרת: לחומר בבקרת מחיר " +
+          "'V' החל מ-1610 'exclusive lock during goods movements only in dedicated situations', לחומר בבקרת מחיר 'S' " +
+          "המחיר הממוצע הנע הסטטיסטי מושבת, ו-'In table MBEW, EBEW, OBEW, QBEW the fields SALKV and VERPR are not " +
+          "updated anymore for materials with price control Standard', עם השפעה על MM01, MM02, MM03, CKM3 ו-MR21; " +
+          "'selecting this option can not be un-done'; מ-1709 הבחירה נעשית בפעולת ה-IMG 'Set Material Lock for Goods " +
+          "Movements', והיא 'optional for converted systems'. הפריט אינו נוקב בשיפוץ.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Project NEO research pipeline (researcher + adversarial auditor + repairer), 2026-09-24",
+    lastVerifiedAt: DATE28,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor + repairer), 2026-09-24; backfill (researcher + adversarial auditor), 2026-09-28",
     notes: "רשומת תהליך: שדות ה-process נשענים על העמוד הרשמי 'Order Processing: Refurbishment of Repairable Spares' " +
       "(2025 FPS01), ועל העמודים 'Processing of Refurbishment Order', 'Additional Movement Types' ו-'Enterprise " +
       "Asset Management Part 4', שכולם נקראו מחדש ב-2026-09-24 דרך scripts/sap-help-body.mjs. פריט הפישוט S4TWL " +
@@ -1220,7 +1598,23 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "מתועדת כשמישה לפי שני המקורות; הזמינות של MB11 שנויה במחלוקת בין המקורות, וההשפעה המעשית מתרכזת במסלול " +
       "313/315, שבו העמוד מפנה לטרנזקציות השיפוץ; לבדיקה במערכת היעד. הקוד OMWC נזכר רק כלשונו בתקרית " +
       "refurbishment-order ואינו ב-lib/route-manifest.generated.ts, ולכן אינו xref; MATDOC אינה במילון הפרויקט " +
-      "ולכן מוזכרת רק בפרוזה. kpis ו-migration הושמטו כי אין להם מקור. לא בוצעה בדיקה במערכת SAP חיה.",
+      "ולכן מוזכרת רק בפרוזה. kpis ו-migration הושמטו כי אין להם מקור. לא בוצעה בדיקה במערכת SAP חיה." +
+      " עדכון 2026-09-28 (השלמת שדות במחקר חוזר; שאר הרשומה נשמר כלשונו): הקביעה הקודמת 'kpis ו-migration הושמטו כי " +
+      "אין להם מקור' הוחלפה. kpis: שורה אחת, מצב השיפוץ (מספר האובייקטים שכבר שופצו) מעמוד 'Refurbishment Order' " +
+      "(2025 FPS01, loio 3ecab65334e6b54ce10000000a174cb4, הגוף נקרא ב-2026-09-28 דרך scripts/sap-help-body.mjs); " +
+      "זהו מדד מעקב ברמת הפקודה ולא KPI אנליטי. יישום Fiori אנליטי או אריח KPI לשיפוץ לא אותר: scripts/fal-app.mjs " +
+      "--tcode IW81 (S32OP) החזיר רק את אפליקציית ה-GUI 'Create Refurbishment Order', --tcode IW8W החזיר אפס " +
+      "אפליקציות, והשאילתות 'refurbishment order', 'refurbishment KPI analytics', 'refurbishment order Fiori app', " +
+      "'What's New refurbishment', 'number of objects already refurbished' ו-'conversion refurbishment order " +
+      "simplification' (סקופ SAP_S4HANA_ON-PREMISE, 21 רשומות לכל שאילתה) לא החזירו עמוד מדדים לשיפוץ. migration: " +
+      "ארבע שורות מחמישה פריטים של רשימת הפישוט 2025 FPS01 (15.3.9, 15.3.1, 15.3.2, 15.3.3, 15.3.10), שנקראו מהטקסט " +
+      "המחולץ ב-scratchpad/official; כתובת הרשימה הועתקה מרשומות data/verification/transactions-auto.ts. המחרוזת " +
+      "refurbish מופיעה אפס פעמים ברשימות 2025 FPS01 ו-2023 FPS03, כלומר אף פריט פישוט שנסרק אינו נוקב בשיפוץ, " +
+      "והשורות מתארות את צעדי ההמרה של האובייקטים שהתהליך נוגע בהם (MB11, MKPF/MSEG, MBEW, מחיר ממוצע נע, split " +
+      "valuation); מדריך המרה רשמי ייעודי לפקודות שיפוץ לא אותר. רשומות What's New שאותרו ('Refurbishment Order: " +
+      "Automatic Settlement', 2023 FPS02; 'Support for Refurbishment Orders in Universal Parallel Accounting', 2025 " +
+      "FPS01) הן חידושי פונקציונליות ולא צעדי המרה, ולכן לא נרשמו ב-migration. מספרי ה-SAP Notes שהפריטים מדפיסים לא " +
+      "נרשמו. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   /* ================================================== quality in procurement */
   {
@@ -1502,6 +1896,51 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
           xrefs: ["tx:QA32"],
         },
       ],
+      kpis: [
+        {
+          he: "מספר מנות הבדיקה שנרשמה להן החלטת שימוש ב-365 הימים האחרונים, בפילוח לפי זמן, סוג בדיקה, חומר ומפעל, " +
+            "באפליקציה Inspection Lot Analytics Last 365 Days; לפי העמוד, שיעור הדחייה (rejection rate) מחושב על " +
+            "מנות שהתקבלו ומנות שנדחו, ומנות skip אינן נכללות בחישוב (S/4HANA 2025 FPS01).",
+          xrefs: ["tx:QA11"],
+        },
+        {
+          he: "הערכת Key Figures של Inspection Lot Analytics: No. of Accepted Lots, ‏No. of Rejected Lots, ‏Lots " +
+            "Skipped ו-Rejection Rate, ולצדם Lots Skipped, ‏Lots Not Skipped ו-Skip Rate, בפילוח לפי זמן, סוג בדיקה, " +
+            "וחומר ומפעל, לפי עמוד התצורה 'Key Figures' (S/4HANA 2025 FPS01).",
+        },
+        {
+          he: "מנות שהתקבלו ונדחו, שיעור דחייה, שיעור skip, סך המנות, מנות skip וזמן עיבוד ממוצע (mean processing " +
+            "time), בפילוח לפי זמן, סוג בדיקה, חומר, מפעל, ספק ולקוח, באפליקציה Inspection Lot Detailed Analytics " +
+            "Last 365 Days, שלפי העמוד מבוססת על תצוגת ה-CDS C_QltyMgmtInfoSystInspLot (S/4HANA 2025 FPS01).",
+        },
+        {
+          he: "ציון איכות ממוצע (Mean Quality Score) של מנות שנרשמה להן החלטת שימוש, בפילוח לפי זמן, סוג בדיקה, חומר " +
+            "ומפעל, ספק ולקוח, לפי עמוד התצורה 'Mean Quality Score' של Inspection Lot Analytics (S/4HANA 2025 FPS01).",
+          xrefs: ["tx:QA11"],
+        },
+        {
+          he: "ציון האיכות (quality score) של מנת בדיקה: לפי העמוד 'Quality Scores for Inspection Lots', בהחלטת " +
+            "שימוש למנת בדיקה שנוצרה לקבלת טובין נקבע גם ציון איכות, ערך סטטיסטי שמתאר את איכות המנה, שמוזן ישירות " +
+            "או מחושב בפרוצדורה שהוגדרה לסוג הבדיקה ברשומת אב החומר; העמוד מזהיר שציון שחושב בפרוצדורה אינו נדרס " +
+            "בבחירת קוד ההחלטה, כך שמנה שנדחתה יכולה לשאת ציון 100.",
+          xrefs: ["tx:QA11", "table:QMAT"],
+        },
+        {
+          he: "ציון הספק לפי איכות מנות הבדיקה: KPI מסוג Maximizing שמחושב מציוני הבדיקה לכל מסמך רכש ופריט מסמך " +
+            "רכש, מהשנה הקודמת ועד היום, עם Number of Purchasing Documents ו-Number of Purchasing Document Items, " +
+            "בתצוגות לפי ספק, קבוצת רכש, ארגון רכש, קבוצת חומר, מפעל, מסמך ומגמה; באפליקציה Supplier Evaluation by " +
+            "Quality (Inspection Lot) בתפקיד העסקי Purchaser (SAP_BR_PURCHASER), שכולל את קטלוג " +
+            "SAP_BCR_MM_PUR_STRATEGY, עם תצוגת ה-CDS C_SUPLREVALBYQUALITYQRY, לפי העמודים 'Supplier Evaluation by " +
+            "Quality (Inspection Lot)' ו-'KPI: Supplier Evaluation by Quality' (S/4HANA 2025 FPS01).",
+          xrefs: ["tx:ME21N"],
+        },
+        {
+          he: "ציון הספק לפי הודעות איכות, באפליקציה Supplier Evaluation by Quality Notifications: Number of Quality " +
+            "Notifications, ‏Quality Notification Score, ‏Number of PO Items, ‏Number of POs ו-Rel. Quality Score, " +
+            "שלפי העמוד מחושב כמספר הודעות האיכות חלקי מספר הזמנות הרכש עם קבלת טובין (S/4HANA 2025 FPS01).",
+          xrefs: ["tx:QM01", "table:QMEL"],
+        },
+      ],
       eccToS4: [
         {
           he: "לפי רשומות TX_INTEL של QI01, MIGO, QA32 ו-QA11: הטרנזקציות זמינות ב-S/4HANA (QI01: ה-tcode הקלאסי " +
@@ -1767,9 +2206,144 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book5.json#4.1.2",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Inspection Lot Analytics Last 365 Days | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/424ea9570a4b4ae9a0207534cb2e02ce.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 424ea9570a4b4ae9a0207534cb2e02ce, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs) קובע: 'With this app, the number of inspection lots for which usage decisions " +
+          "have been made in the last 365 days is calculated. You can use this app to analyze your inspection lots " +
+          "for which usage decisions have already been made based on time, inspection type, material and plant.' " +
+          "ו-'Only accepted and rejected lots are considered for calculation of rejection rate. Skip lots are not " +
+          "considered.' האפליקציה מנווטת ל-Inspection Lot Detailed Analytics ול-Manage Inspection Lots.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Key Figures | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/c756fd59db024a3f98a46ac155527acf.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio c756fd59db024a3f98a46ac155527acf, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs) הוא עמוד תצורה של האפליקציה Inspection Lot Analytics (Evaluation ID " +
+          ".SAP.QM.INSPECTION.ANALYTICS.INSPLOTE1, 'Key Figures', פרמטר P_DateFunction ‏PREVIOUS365DAYS). התצוגות " +
+          "'Accepted and Rejected Lots' לפי Time Series, ‏Inspection Type ו-Material and Plant מציגות את המדדים 'No. " +
+          "of Accepted Lots No. of Rejected Lots Lots Skipped Rejection Rate'; התצוגות 'Lots Skipped and Not " +
+          "Skipped' לפי אותם פילוחים מציגות 'Lots Skipped Lots Not Skipped Skip Rate'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Inspection Lot Detailed Analytics Last 365 Days | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/9215466bd81143dab8ad22a8929459d1.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 9215466bd81143dab8ad22a8929459d1, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs) קובע: 'With this app, you analyze your inspection lots for which usage " +
+          "decisions have already been made for categories such as accepted and rejected lots, rejection rate, skip " +
+          "rate, total number of lots, skip lots, and mean processing time based on time, inspection type, material, " +
+          "plant, supplier, and customer.' ו-'This app uses the C_QltyMgmtInfoSystInspLot CDS view. This app was " +
+          "built using Analysis Path Framework (APF).'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Mean Quality Score | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/6da048ff277845729c9d1dbc9e61a732.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 6da048ff277845729c9d1dbc9e61a732, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs) הוא עמוד תצורה של האפליקציה Inspection Lot Analytics (Evaluation ID " +
+          ".SAP.QM.INSPECTION.ANALYTICS.INSPLOTE3, 'Mean Quality Score', פרמטר P_DateFunction ‏PREVIOUS365DAYS למנות " +
+          "שנרשמה להן החלטת שימוש), עם תצוגות המדד Mean Quality Score לפי Time Series, ‏Inspection Type, ‏Material " +
+          "and Plant, ‏Supplier ו-Customer.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Quality Scores for Inspection Lots | Quality Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/2bc3ee8d1c83404e8cf62418640004f2/ba79b6535fe6b74ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio ba79b6535fe6b74ce10000000a174cb4, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs) קובע: 'When you make a usage decision for an inspection lot created for goods " +
+          "receipt, the quality score must also be determined for the lot. A quality score is a statistical value " +
+          "that describes the quality of an inspection lot. A quality score can be entered directly or can be " +
+          "calculated by a predefined procedure. A procedure for calculating a quality score can be defined for an " +
+          "inspection type in the material master.' העמוד מונה גזירה מהחלטת השימוש, משיעור הפגמים במנה, משיעור " +
+          "הפגמים במאפיינים ומציון האיכות של המאפיינים, ומזהיר: 'you could end up with a quality score of 100 from " +
+          "the usage decision although the inspection lot has been rejected.'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Supplier Evaluation by Quality (Inspection Lot) | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/a4a44a58ef4fa107e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio a4a44a58ef4fa107e10000000a441470, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs) קובע: 'With the Supplier Evaluation by Quality app, you can determine the " +
+          "overall quality score of a supplier based on inspection results. Each inspection lot is recorded, and the " +
+          "purchasing document and purchasing document items are used to track the supplier. The score is determined " +
+          "from the previous year to date.' ו-'The KPI calculates the score based on inspection scores assigned for " +
+          "each purchasing document and purchasing document item', עם Number of Purchasing Documents ו-Number of " +
+          "Purchasing Document Items, ‏'KPI type : Maximizing', תצוגות By Supplier, ‏By Purchasing Group, ‏By " +
+          "Purchasing Organization, ‏By Material Group, ‏By Plant, ‏Document, ‏Trend; תפקיד Purchaser " +
+          "(SAP_BR_PURCHASER), ובלשון העמוד: 'The catalog role Materials Management - Purchasing Strategy " +
+          "(SAP_BCR_MM_PUR_STRATEGY) is required to access the app ... included in the business role Purchaser ( " +
+          "SAP_BR_PURCHASER )'; תצוגת CDS C_SUPLREVALBYQUALITYQRY. העמוד מציין שהאפליקציה היא היורשת של 'Supplier " +
+          "Evaluation by Quality (Inspection Lot) (Deprecated)', שתוסר מה-Fiori launchpad עם SAP S/4HANA 2022.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "KPI: Supplier Evaluation by Quality | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/7c805258316a0846e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 7c805258316a0846e10000000a441470, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs) קובע: 'This KPI helps to determine the evaluation scores for the given " +
+          "suppliers based on quality. Each inspection lot is recorded, and the purchase order (PO) and PO item is " +
+          "used to track the supplier. The score is determined over the previous year to date.' ו-'The KPI " +
+          "calculates the score based on inspection scores assigned for each purchase order and purchase order " +
+          "item', עם Number of POs ו-Number of PO Items ו-'KPI type : Maximizing'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Supplier Evaluation by Quality Notifications | Sourcing and Procurement",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/af9ef57f504840d2b81be8667206d485/2d61cd309f7a46e2bf2d358d40322102.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 2d61cd309f7a46e2bf2d358d40322102, versionId 2025.001, נקרא דרך " +
+          "scripts/sap-help-body.mjs) קובע: 'With this app, you can evaluate suppliers based on score that is " +
+          "calculated on the basis of quality complaints received.' כללי החישוב: Number of Quality Notifications, " +
+          "‏Quality Notification Score (ניקוד דרך האפליקציה Supplier Evaluation Weighting and Scoring), ‏Number of " +
+          "PO Items, ‏Number of POs ו-'Rel. Quality Score : Displays the relative quality score. This value if " +
+          "calculated by dividing Number of Quality Notifications by number of purchase orders with goods receipt.'",
+        verificationLevel: "sap_official_verified",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Project NEO research pipeline (researcher + adversarial auditor + repairer), 2026-09-24",
+    lastVerifiedAt: DATE28,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor + repairer), 2026-09-24; backfill (researcher + adversarial auditor), 2026-09-28",
     notes: "רשומת המידע האיכותי (Quality Info Record) והטבלאות QINF, QALS, QAVE, QAMR, EKKO ו-EKPO אינן במילון " +
       "הפרויקט (dangling-xref) ולכן מוזכרות בפרוזה בלבד. QI06 מוזכר בתקרית qm-procurement-blocks-gr-or-invoice " +
       "בלי כותרת מתועדת ואינו במילון הטרנזקציות (dangling-xref), ולכן מוזכר בפרוזה בלבד. BAPI_INSPLOT_GETLIST, " +
@@ -1778,7 +2352,14 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "הפרויקט ולכן מוזכרות בשמן בלבד. עמוד ה-reference הוא רשומת What's New של SAP S/4HANA 1709 שמדפיסה את " +
       "פריט ההיקף 1FM, ולא עמוד תהליך מלא. החזרה לספק מתועדת בעמוד 1FM; רשומת QA11 מתעדת unrestricted, חסום " +
       "וגריטה. שדה ה-kpis הושמט: לא אותר במאגר או בחיפושים הרשמיים מדד מוגדר לתהליך זה. לא בוצעה בדיקה במערכת " +
-      "SAP חיה.",
+      "SAP חיה." +
+      " עדכון 2026-09-28 (Old → New): המשפט 'שדה ה-kpis הושמט' לעיל נכון לנוסח 2026-09-24; עכשיו (2026-09-28) שדה " +
+      "ה-kpis מולא משמונה עמודי help.sap.com לגרסת 2025 FPS01 שגופם נקרא דרך scripts/sap-help-body.mjs. אפליקציות " +
+      "האנליטיקה Inspection Lot Analytics Last 365 Days, ‏Inspection Lot Detailed Analytics Last 365 Days, ‏Supplier " +
+      "Evaluation by Quality (Inspection Lot) ו-Supplier Evaluation by Quality Notifications אינן בקטלוג ה-Fiori של " +
+      "הפרויקט ולכן מוזכרות בשמן בלי מזהה אפליקציה, שלא אומת דרך fal-app.mjs בסבב זה; תצוגות ה-CDS " +
+      "C_QltyMgmtInfoSystInspLot ו-C_SUPLREVALBYQUALITYQRY אינן במפת ה-CDS של הפרויקט ולכן מוזכרות בפרוזה בלבד. לא " +
+      "נמצא מקור רשמי שמגדיר ערכי יעד למדדים אלה. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   /* =========================================================== order to cash */
   {
@@ -3368,6 +3949,44 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
           "‏BF7 'Period-End Closing - Maintenance Orders'; עמוד פריט ה-Scope עצמו ב-SAP Best Practices Explorer " +
           "לא נקרא.",
       },
+      kpis: [
+        {
+          he: "Product Cost by Order, ב-ECC וב-S/4HANA: ערכי תכנון (עלות מתוכננת כוללת, קבועה ומשתנה, ו-Planned " +
+            "Yield) מול ערכים מרישומים בפועל (עלות בפועל כוללת, קבועה ומשתנה, ו-Actual Yield) והסטייה ביניהם, לפי " +
+            "עמוד 'Key Figures in Product Cost by Order' (SAP ERP 6.18 ו-S/4HANA 2025 FPS01).",
+          xrefs: ["obj:production-order", "obj:process-order"],
+        },
+        {
+          he: "WIP לפקודה לפי אותו עמוד: בעלות בפועל כשסוג ההתחשבנות FUL, ובעלות יעד כשסוג ההתחשבנות PER; לפקודת " +
+            "ייצור ללא מבנה כמותי ה-WIP נקבע בעלות בפועל.",
+          xrefs: ["obj:production-order", "obj:process-order"],
+        },
+        {
+          he: "נתוני חישוב הסטיות לפי אותו עמוד: Target Costs, ‏Control Costs, קטגוריות סטייה בודדות, וסטיות מוחלטות " +
+            "ובאחוזים; לסיכום בר השוואה העמוד ממליץ לבחור רק פקודות בסטטוס VCAL.",
+          xrefs: ["table:JEST"],
+        },
+        {
+          he: "סטיית תכנון מול בפועל לפקודות ייצור ולהזמנות תהליך, וסטיית יעד מול בפועל לפקודות ולאוספי עלויות; " +
+            "לאוספי עלויות לא מתעדכנות עלויות מתוכננות, לפי עמוד 'Key Figures in Cost Object Controlling' (S/4HANA " +
+            "2025 FPS01).",
+          xrefs: ["obj:production-order", "obj:process-order"],
+        },
+        {
+          he: "S/4HANA: היישום האנליטי F1780 Production Cost Analysis (תפקיד SAP_BR_PRODN_ACCOUNTANT) משווה עלות " +
+            "תכנון או יעד מול עלות בפועל ברמת הפקודה, עוקב אחר סטיות, מסמן פקודות חריגות לפי סף ומציג עלות יעד בעת " +
+            "קבלת הטובין; לפי עמוד היישום הוא אינו מציג פקודות בגישה מבוססת האירועים (עמוד היישום וספריית ה-Fiori, " +
+            "2025 FPS01; אינו בקטלוג ה-Fiori של הפרויקט).",
+        },
+        {
+          he: "S/4HANA, תחזוקה: היישום האנליטי F4603 Maintenance Order Costs (תפקידים SAP_BR_MAINTENANCE_PLANNER " +
+            "ו-SAP_BR_MAINT_SUPERVISOR) מציג עלות משוערת, עלות Baseline, עלות מתוכננת ועלות בפועל של פקודות התחזוקה " +
+            "לפי סוג פקודה, מרכז עלות אחראי, מרכז עבודה ראשי וסוג פעילות תחזוקה; לפי עמוד 'Analyzing Maintenance " +
+            "Order Costs' גם F3567 מחשב סכומים על פני פקודות (עמודי היישום וספריית ה-Fiori, 2025 FPS01; אינם בקטלוג " +
+            "ה-Fiori של הפרויקט).",
+          xrefs: ["obj:maintenance-order"],
+        },
+      ],
     },
     xrefs: [
       "tx:OB52", "tx:MMRV", "tx:MMPV", "tx:CON2", "tx:KGI2", "tx:KKAX", "tx:KKAO", "tx:KKAS", "tx:KKS1", "tx:KKS2",
@@ -3934,16 +4553,152 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book9.json#6.8.6",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Key Figures in Product Cost by Order | Controlling (CO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/12682d535defe747e10000000a441470.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 12682d535defe747e10000000a441470, ‏2025.001, נקרא דרך sap-help-body) מונה את מדדי " +
+          "Product Cost by Order: 'Planned values (such as total planned costs, planned fixed costs, planned " +
+          "variable costs, and planned yield)', ערכים מרישומים בפועל כולל 'the actual yield', 'Variances between " +
+          "planned and actual values', ‏WIP בעלות בפועל לסוג התחשבנות FUL ובעלות יעד לסוג PER, ונתוני חישוב הסטיות: " +
+          "'Target Costs Control Costs Individual variance categories Absolute and percentage variances'. העמוד קובע " +
+          "שחישוב סטיות מציב את הסטטוס VCAL וממליץ לסכם רק פקודות שבהן VCAL פעיל.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Key Figures in Product Cost by Order | Cost Object Controlling (CO-PC-OBJ)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/6fe2dad9dab7486fb4469d13552824f2/12682d535defe747e10000000a441470.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE28,
+        claim: "גוף העמוד בסקופ SAP_ERP (6.0 EHP8, loio 12682d535defe747e10000000a441470, נקרא דרך sap-help-body) " +
+          "מונה את אותם מדדים כמו גרסת S/4HANA 2025 FPS01: ערכי תכנון, ערכים בפועל, סטיות תכנון מול בפועל, WIP בעלות " +
+          "בפועל (FUL) או בעלות יעד (PER), ו-'Target Costs Control Costs Individual variance categories Absolute and " +
+          "percentage variances', עם אותה המלצה לסכם רק פקודות בסטטוס VCAL.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Key Figures in Cost Object Controlling | Controlling (CO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/ca441453e4029c06e10000000a44176d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio ca441453e4029c06e10000000a44176d, ‏2025.001, נקרא דרך sap-help-body) מונה את המדדים " +
+          "Planned Costs, ‏Actual Costs, ‏Work in Process ו-Variances; קובע ש-'No planned costs are updated for " +
+          "product cost collectors', שסטיות תכנון מול בפועל מוצגות לפקודות ייצור ולהזמנות תהליך ואינן מוצגות לאוספי " +
+          "עלויות, ושסטיות יעד מול בפועל 'can be calculated for product cost collectors and manufacturing orders' " +
+          "ומחושבות בסגירת התקופה של Product Cost by Period ו-Product Cost by Order.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Production Cost Analysis | Controlling (CO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/36537c575ac28a1be10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 36537c575ac28a1be10000000a44147b, ‏2025.001, נקרא דרך sap-help-body) מתאר יישום " +
+          "להצגת עלויות ייצור כוללות ומפורטות לפקודות ייצור ולאוספי עלויות שאינם מבוססי אירועים: 'Provides a cost " +
+          "comparison based on budgeted costs (plan or target) and actual costs at order level', 'Supports the " +
+          "tracking of variances', 'Distinguishes and highlights exceptional orders according to defined criteria' " +
+          "ו-'Views target cost at time of goods receipt'; העמוד קובע שהיישום 'doesn't show orders using the " +
+          "event-based approach' ומשתמש במבנה רכיבי העלות YP.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F1780 'Production Cost Analysis', release S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1780')/S32OP",
+        accessedAt: DATE28,
+        claim: "ספריית ה-Fiori (fal-app) רושמת את F1780 'Production Cost Analysis', ‏Analytical / SAP Fiori " +
+          "(SAPUI5), רכיב CO-FIO-OBJ-IS, תפקיד SAP_BR_PRODN_ACCOUNTANT ‏(Cost Accountant - Production), קטלוג " +
+          "SAP_SFIN_BC_PRD_PB_REP, ‏OData FCO_PRODUCTION_COST_ANALYSIS_SRV, טרנזקציה מובילה KKBC_ORD, יורש F4059 " +
+          "'Analyze Production Costs - Event-Based'; קישור התיעוד מפנה ל-topic 36537C575AC28A1BE10000000A44147B.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Maintenance Order Costs | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/aad91f8ba39247538ba1117b7de89347.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio aad91f8ba39247538ba1117b7de89347, ‏2025.001, נקרא דרך sap-help-body) קובע: 'With " +
+          "this app you can monitor and evaluate estimated costs, baseline costs, planned costs and actual costs " +
+          "resulting from current maintenance orders', מאפשר להשוות עלות מתוכננת או Baseline מול עלות בפועל לפי סוג " +
+          "פקודה ותקופה, ומסנן לפי 'the order type, the responsible cost center, the main work center or the " +
+          "maintenance activity type'; העלויות מוצגות לפי נתוני כותרת הפקודה.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Analyzing Maintenance Order Costs | Maintenance Management",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/2ba9ba8c384a42bb9c243f5bd58b330a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 2ba9ba8c384a42bb9c243f5bd58b330a, ‏2025.001, נקרא דרך sap-help-body) קובע שניתוח " +
+          "עלויות לפקודת תחזוקה בודדת נעשה בתצוגה Detailed Cost Analysis של היישום Display Maintenance Order, וניתוח " +
+          "על פני פקודות 'in the Maintenance Order Costs app or in the Actual Cost Analysis app. In these apps the " +
+          "system calculates totals on-the-fly'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F4603 'Maintenance Order Costs', release S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F4603')/S32OP",
+        accessedAt: DATE28,
+        claim: "ספריית ה-Fiori (fal-app) רושמת את F4603 'Maintenance Order Costs', ‏Analytical / SAP Fiori elements, " +
+          "רכיב PM-FIO, תפקידים SAP_BR_MAINTENANCE_PLANNER ו-SAP_BR_MAINT_SUPERVISOR, קטלוגים SAP_EAM_BC_MP_ORD_DSP " +
+          "(EAM - Maintenance Orders Display) ו-SAP_EAM_BC_ORD_DSP (EAM - Maintenance Orders Cost Display), ‏OData " +
+          "UI_MAINTORD_PLNACTCOST, זמין מ-S21OP ‏(2021) עד S32OP; קישור התיעוד מפנה ל-topic " +
+          "aad91f8ba39247538ba1117b7de89347.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F3567 'Actual Maintenance Cost Analysis', release S32OP (S/4HANA 2025 " +
+          "FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3567')/S32OP",
+        accessedAt: DATE28,
+        claim: "ספריית ה-Fiori (fal-app) רושמת את F3567 'Actual Maintenance Cost Analysis', ‏Transactional / SAP " +
+          "Fiori elements, רכיב PM-FIO, תפקידים SAP_BR_MAINTENANCE_PLANNER ו-SAP_BR_MAINT_TECH_OFFICER, קטלוגים " +
+          "SAP_EAM_BC_ORD (EAM - Order) ו-SAP_DFS_BC_MAINTENANCE (MAINT - Defense Maintenance), ‏OData " +
+          "EAM_ORDER_ACTUALCOST_MONITOR, זמין מ-S15OP ‏(1909) עד S32OP; קישור התיעוד מפנה ל-topic " +
+          "9a423967879e4b99bf8a55b0719370b9, שכותרתו בחיפוש הרשמי 'Actual Cost Analysis'.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    lastVerifiedAt: DATE28,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24; backfill (researcher + adversarial auditor), 2026-09-28",
     notes: "רשומת תהליך חוצת מודולים (PP, PP-PI, PM מול CO). מקשרת אל bp:order-settlement-process ואינה משכפלת את " +
       "פירוט כלל ההתחשבנות. חיפושים רשמיים (help.sap.com, 2026-09-24): 'Period-End Closing Product Cost by " +
       "Order', 'Work in Process product cost by order', 'Variance Calculation product cost by order', 'Overhead " +
       "calculation orders period-end closing', 'Settlement production order period-end', 'period-end closing " +
       "maintenance orders', 'Period-End Closing Maintenance Orders BF7' (21 רשומות כל אחד), ו-'Period-End " +
-      "Closing in Product Cost by Order' בסקופ SAP_ERP (21 רשומות). פערים גלויים: kpis הושמט, אין מקור שמגדיר " +
-      "מדדים; אין תצוגת CDS מאומתת לסגירת תקופה במילון הפרויקט. סתירות: הרשימה הרשמית מדפיסה 'KKA0' גם ל-Cutoff " +
+      "Closing in Product Cost by Order' בסקופ SAP_ERP (21 רשומות). פערים גלויים: אין תצוגת CDS מאומתת לסגירת תקופה " +
+      "במילון הפרויקט; אף מקור אינו מגדיר יעד מספרי או מדד לזמן סגירת התקופה עצמה. סתירות: הרשימה הרשמית מדפיסה " +
+      "'KKA0' גם ל-Cutoff " +
       "Period וגם ל-WIP מרוכז, בעוד המאגר וספריית ה-Fiori משייכים את ה-WIP המרוכז ל-KKAO; ההכרעה ב-SE93 במערכת " +
       "היעד. הרשימה הרשמית מונה KKS5 לסטיות מרוכזות ואינה מונה את KKS1, שהמאגר מתאר כחישוב מרוכז וספריית " +
       "ה-Fiori קוראת לו 'Run Variance Calculation - Orders - By Lot'. היסטוריה (Old → New): קטלוג הטרנזקציות של " +
@@ -3953,7 +4708,17 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "Product Cost Collectors', והסתירה הזו נסגרה. הטרנזקציות CO42, ‏CO43, ‏KKA0, ‏KKS5, ‏KKS6, ‏CO88H, " +
       "‏KKS1H, ‏KKBC_HOE_H, ‏CPTD, ‏CPTA, ‏MFN1 ו-OMX1 ויישומי ה-Fiori F4568, ‏F4857, ‏F4597 ו-F3683 אינם " +
       "במילון הפרויקט ומופיעים בפרוזה בלבד. פריטי ה-Scope BF7, ‏BJ2 ו-BH1 נוקבים בעמודי What's New ישנים (1610, " +
-      "2020); עמוד SAP Best Practices Explorer לא נקרא. לא בוצעה בדיקה במערכת SAP חיה.",
+      "2020); עמוד SAP Best Practices Explorer לא נקרא. לא בוצעה בדיקה במערכת SAP חיה." +
+      " עדכון 2026-09-28 (Old → New): kpis הושמט ב-2026-09-24 מחוסר מקור; כעת process.kpis מבוסס על העמודים הרשמיים " +
+      "'Key Figures in Product Cost by Order' (S/4HANA 2025.001 ו-SAP ERP 6.18.latest), 'Key Figures in Cost Object " +
+      "Controlling' (2025.001), 'Production Cost Analysis', ‏'Maintenance Order Costs' ו-'Analyzing Maintenance " +
+      "Order Costs' (2025.001), שגופם נקרא דרך sap-help-body, ועל ספריית ה-Fiori (F1780, ‏F4603, ‏F3567, ‏S32OP). " +
+      "חיפושים (help.sap.com, 2026-09-28, 21 רשומות כל אחד): 'Production Cost Analysis', 'Analyze Costs by Work " +
+      "Center/Operation', 'Maintenance Order Costs', 'Product Profitability with Production Variances', 'Actual Cost " +
+      "Analysis maintenance orders', 'work in process analysis production orders app', 'Key Figures in Cost Object " +
+      "Controlling', ו-'Key Figures in Product Cost by Order' בסקופ SAP_ERP. אלה מדדי ניתוח עלויות שהמסמכים מגדירים; " +
+      "אף מקור לא מגדיר יעד מספרי או מדד לזמן סגירת התקופה עצמה. F1780, ‏F4603 ו-F3567 אינם בקטלוג ה-Fiori של " +
+      "הפרויקט ומופיעים בפרוזה בלבד.",
   },
   /* ==================================================== logistics to finance */
   {
@@ -4266,6 +5031,43 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         {
           he: "סדר סגירה: התחשבנות לפני סגירת ה-Material Ledger.",
           xrefs: ["tx:CO88", "tx:CKMLCP"],
+        },
+      ],
+      kpis: [
+        {
+          he: "ערך המלאי בספרים ליום מפתח: כמות וערך המלאי לפי קוד חברה, חשבון G/L, קבוצת חומר, מרכז רווח וסגמנט, עם " +
+            "פירוט לפי מפעל, אזור הערכה וחומר, ביישום Material Inventory Values - Balance Summary ‏(F1422), לפי עמוד " +
+            "היישום בתיעוד CO של S/4HANA 2025 FPS01. בצד SAP GUI, עמוד Feature Comparison for Material Inventory " +
+            "Value Reports מציב מול F1422 את MB5L ‏(Display List of Stock Values), עם בחירה לתקופה הנוכחית, לתקופה " +
+            "הקודמת או לשנה הקודמת, וספריית ה-Fiori רושמת את MB5L כקוד הטרנזקציה המוביל של F1422. לפי עמוד Deferred " +
+            "Summarization of Inventory Postings, כשמופעל סיכום דחוי של רישומי מלאי (המיועד לנפחי נתונים חריגים), " +
+            "היישום מציג את הנתונים המצרפיים של רישומי המלאי שנשארים ביומן האוניברסלי (ACDOCA).",
+          xrefs: ["table:ACDOCA", "tx:MB5L"],
+        },
+        {
+          he: "Inventory KPI Analysis ‏(F3749), לפי עמוד היישום בתיעוד MM-IM של S/4HANA 2025 FPS01: חמישה מדדים לכל " +
+            "מלאי חומר בהשוואה בין שתי תקופות עוקבות: Stock Changes (שינוי ערך המלאי במטבע קוד החברה), ‏Consumption " +
+            "Changes, ‏Inventory Aging Changes, ‏Inventory Turnover Changes (היחס בין כמות הצריכה לכמות המלאי " +
+            "הממוצעת) ו-Range of Coverage Changes (כיסוי בימים). מסמכי חומר בארכיון אינם נכללים בניתוח, וכשמסננים " +
+            "לפי קבוצת הצריכה (Inventory Consumption Group) נחשבים לצריכה רק מסמכי חומר שסוגי התנועה שלהם שייכים " +
+            "לקבוצה.",
+          xrefs: ["obj:material-document"],
+        },
+        {
+          he: "הבחנה בשיטת החישוב: לפי עמוד F3749, ערך המלאי ביישום הוא כמות המלאי ביום הדיווח כפול מחיר החומר " +
+            "הנוכחי, ללא תלות ביום הדיווח, וזו שיטת החישוב של יישומי Fiori ב-Inventory Management; לכן השוואה בינו " +
+            "לבין ערך המלאי ליום מפתח ב-F1422 מחייבת להביא בחשבון את שיטת החישוב.",
+          xrefs: ["table:MBEW"],
+        },
+        {
+          he: "S/4HANA, מדד פיננסי: לפי עמוד KPI: Inventory Turnover בתיעוד FI-GL של S/4HANA 2025 FPS01, מחזור המלאי " +
+            "הוא ההכנסה המוכרת חלקי המלאי הממוצע (יתרת פתיחה ויתרת סוף תקופת הכספים חלקי שתיים), והמדד " +
+            "InvtryTurnoverRatioGlobCrcy מוגדר בשאילתת CDS עם תגיות סמנטיות (RECO_REV, ‏Inventory).",
+        },
+        {
+          he: "ECC: לפי עמוד Inventory Turnover בתיעוד LO-LIS של SAP ERP 6.0 EHP8, מדד מחזור המלאי ב-LO-LIS הוא 'the " +
+            "ratio of cumulative usage to average stock level', משמש לזיהוי slow-moving items ולהערכת השימוש בהון " +
+            "הקבוע.",
         },
       ],
       eccToS4: [
@@ -4795,9 +5597,127 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
         verificationLevel: "supported_secondary_source",
         repoRef: "data/books/book9.json#7.1.6",
       },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Material Inventory Values - Balance Summary | Controlling (CO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/ed83861d4d8c4813b95a726a5303c401.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio ed83861d4d8c4813b95a726a5303c401, נקרא דרך scripts/sap-help-body.mjs): 'App ID: " +
+          "F1422'; 'You use this app to analyze the quantities and values of your material inventories for a key " +
+          "date'; 'See the inventory quantity and value by company code, G/L account, material group, profit center, " +
+          "and segment (standard layout)'; פירוט לפי מפעל, אזור הערכה וחומר, ו-'The measures are a compilation of " +
+          "central characteristics including inventory quantity and amounts'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Feature Comparison for Material Inventory Value Reports | Controlling (CO)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/5e23dc8fe9be4fd496f8ab556667ea05/6c1f050e52914a3bb46717ef4f807e86.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 6c1f050e52914a3bb46717ef4f807e86) משווה בין Material Inventory Values - Balance " +
+          "Summary ‏(F1422) לטרנזקציה MB5L ‏'Display List of Stock Values', בין F1423 ל-MR51 ובין F1440 ל-MR23; לפי " +
+          "הטבלה MB5L מציגה כמות וערך מלאי לפי קוד חברה, חשבון G/L, קבוצת חומר, מרכז רווח וסגמנט ותומכת ב-'Selection " +
+          "for current and previous period or previous year', בעוד F1422 מאפשר בחירה לפי כל יום מפתח.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Deferred Summarization of Inventory Postings | Financial Operations",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/20a27f027e3b4b82bc1e0f2e86e3cf6e.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 20a27f027e3b4b82bc1e0f2e86e3cf6e) נקרא: 'In the following apps, you can view the " +
+          "aggregated data for inventory postings, which remains in the Universal Journal ( ACDOCA ): Material " +
+          "Inventory Values - Balance Summary, Trial Balance, Trial Balance Comparison, Display Line Items in " +
+          "General Ledger'; ו-Material Inventory Values - Line Items מציג גם את הפירוט שהועבר לטבלת הפירוט ACDOCD. " +
+          "העמוד מגדיר את הסיכום הדחוי כמיועד לנפחי נתונים חריגים בלבד.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Inventory KPI Analysis | Inventory Management and Inventory (MM-IM)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/e130f15007c94eae9d65f8af9d541d00.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio e130f15007c94eae9d65f8af9d541d00) נקרא: 'App ID: F3749'; 'The app supports 5 KPIs " +
+          "and calculates them based on each material stock'; המדדים Stock Changes, ‏Consumption Changes, ‏Inventory " +
+          "Aging Changes, ‏Inventory Turnover Changes ('a relationship between consumption quantity and average " +
+          "stock quantity') ו-Range of Coverage Changes (כיסוי בימים); 'Archived material documents are not " +
+          "considered during analysis'; ערך המלאי מחושב 'based on the stock quantity of the selected reporting date " +
+          "multiplied by the current material price', ושיטה זו 'is common to all Fiori apps in Inventory Management'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F3749 'Inventory KPI Analysis' (Analytical, SAP Fiori (SAPUI5)), " +
+          "release S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F3749')/S32OP",
+        accessedAt: DATE28,
+        claim: "scripts/fal-app.mjs F3749: יישום Analytical מפורסם ב-S32OP (ומ-1909 ואילך), רכיב SAP-FIO-IM-SGM, " +
+          "בתפקידים SAP_BR_INVENTORY_ANALYST ו-SAP_BR_INVENTORY_MANAGER, קטלוג עסקי SAP_MM_BC_IM_CNTRL_ANLYTS, " +
+          "‏intent Material-analyzeInventoryKPIsTimeseries, שירות OData‏ MMIM_STKKPITIMESERIESCOMPRN_SRV; ללא קוד " +
+          "טרנזקציה מוביל.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F1422 'Material Inventory Values - Balance Summary' (Web Dynpro), " +
+          "release S32OP (S/4HANA 2025 FPS01)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1422')/S32OP",
+        accessedAt: DATE28,
+        claim: "scripts/fal-app.mjs F1422: יישום Web Dynpro מפורסם ב-S32OP (ומ-1511 ואילך), רכיב CO-FIO-ML (Material " +
+          "Ledger), בתפקידים SAP_BR_INVENTORY_ACCOUNTANT, ‏SAP_BR_INVENTORY_MANAGER ו-SAP_BR_INVENTORY_MGR_RFM, " +
+          "קטלוגים עסקיים ובהם SAP_SFIN_BC_IA_REP_VAL 'Inventory Accounting - Reporting', ‏intent " +
+          "MaterialInventory-analyzeBalanceSummary, קוד טרנזקציה מוביל MB5L.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "KPI: Inventory Turnover | General Ledger Accounting (FI-GL)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/4457bf783d874e2e935e73293afe8ea9.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        accessedAt: DATE28,
+        claim: "גוף העמוד (loio 4457bf783d874e2e935e73293afe8ea9) נקרא: 'The inventory turnover is the recognized " +
+          "revenue divided by the average inventory'; המלאי הממוצע הוא יתרת הפתיחה ועוד יתרת הסוף של תקופת הכספים " +
+          "חלקי שתיים; שם השדה של המדד בשאילתת ה-CDS הוא InvtryTurnoverRatioGlobCrcy, עם RecognizedRevnAmtInGlobCrcy " +
+          "(תגית RECO_REV), ‏StrtgInventoryAmtInGlobCrcy ו-InventoryAmtInGlobCrcy (תגית Inventory).",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Inventory Turnover | Logistics Information System (LO-LIS)",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        url: "https://help.sap.com/docs/SAP_ERP/88cad3a0306d43fd9346bf5210fd04b9/8810c453f57eb44ce10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        accessedAt: DATE28,
+        claim: "בצד ECC (SAP ERP 6.0 EHP8, גוף העמוד נקרא, loio 8810c453f57eb44ce10000000a174cb4): 'The key figure " +
+          "\"inventory turnover\" specifies how often average stock has been consumed. Inventory turnover is " +
+          "calculated as the ratio of cumulative usage to average stock level'; הניתוח מזהה 'slow-moving items' " +
+          "ומשמש בסיס להערכת 'how effectively fixed capital has been used'.",
+        verificationLevel: "sap_official_verified",
+      },
     ],
-    lastVerifiedAt: DATE,
-    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24",
+    lastVerifiedAt: DATE28,
+    reviewer: "Project NEO research pipeline (researcher + adversarial auditor), 2026-09-24; backfill (researcher + adversarial auditor), 2026-09-28",
     notes: "רשומת תהליך חוצת מודולים. חיפושים שרצו (scripts/sap-help-search.mjs, כל אחד החזיר 21 רשומות): " +
       "'Universal Journal'; 'goods movement accounting document automatic account determination'; 'Automatic " +
       "Postings for Inventory Management valuation class transaction key'; 'Document Concept inventory " +
@@ -4818,7 +5738,21 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       "את data/s4-impact.ts#BSEG וסותר את הניסוח 'BSEG כ-Compatibility' ב-data/verified-objects.ts#BSEG, שדורש " +
       "תיקון ברשומת המאגר (לא בוצע כאן). מקורות DDL ‏NSDM_DDL_MSEG / NSDM_DDL_MKPF מודפסים בפריט הפישוט, ושמות " +
       "התצוגות NSDM_V_MSEG / NSDM_V_MKPF מופיעים ברשומת המאגר; הקשר ביניהם לא אומת. לא בוצעה בדיקה במערכת SAP " +
-      "חיה.",
+      "חיה." +
+      " השלמה 2026-09-28 (backfill): נוסף שדה kpis בלבד; שאר השדות, השלבים, השורות ושורות הראיה הקודמות הועתקו כפי " +
+      "שהם. Old → New: ההערה לעיל 'שדה kpis הושמט' מתייחסת לטיוטת 2026-09-24; כעת kpis כולל חמש שורות, כל אחת מעמוד " +
+      "רשמי שנקרא. שורת F1422 מסתמכת על עמוד Deferred Summarization רק בהקשר של סיכום דחוי; העמוד אינו מתאר את מקור " +
+      "הנתונים של היישום באופן כללי. reviewer קודם: 'Project NEO research pipeline (researcher + adversarial " +
+      "auditor), 2026-09-24'. חיפושים שרצו ב-2026-09-28 (scripts/sap-help-search.mjs, 21 רשומות כל אחד): 'Inventory " +
+      "Turnover Analysis'; 'Monitoring Financial Inventory Values'; 'Material Inventory Values Balance Summary'; " +
+      "'Deferred Summarization of Inventory Postings'; 'Inventory Turnover inventory controlling' בסקופ SAP_ERP. " +
+      "גופי העמודים Material Inventory Values - Balance Summary, ‏Feature Comparison for Material Inventory Value " +
+      "Reports, ‏Deferred Summarization of Inventory Postings, ‏Inventory KPI Analysis, ‏KPI: Inventory Turnover " +
+      "ו-Inventory Turnover (LO-LIS, ERP 6.18.latest) נקראו דרך scripts/sap-help-body.mjs; ספריית ה-Fiori נקראה " +
+      "ל-F3749 ול-F1422 (scripts/fal-app.mjs). F1422, ‏F3749, ‏ACDOCD ושמות שדות ה-CDS של המדד הפיננסי אינם במילון " +
+      "הפרויקט ומופיעים בפרוזה; MB5L נמצא במילון (tx:MB5L). לא נמצאו ערכי יעד (target) למדדים באף מקור, ולכן לא " +
+      "נרשמו. Inventory Turnover Analysis, ‏Dead Stock Analysis ו-Slow or Non-Moving Materials הופיעו בחיפוש אך לא " +
+      "נקראו ואינם נרשמים. לא בוצעה בדיקה במערכת SAP חיה.",
   },
   /* ========================================================== project system */
   {
