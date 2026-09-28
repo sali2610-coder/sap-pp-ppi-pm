@@ -177,6 +177,70 @@ FAGLB03 and FAGLL03 from L3 `repository_verified` to L5; AJAB, F111 and FAGLFLEX
 `verification_required` to `sap_official_verified`). After the batch 3 write, `tsc --noEmit`
 (both configs) and `npm test` (211 of 211) were re-run on the tree with that commit and pass.
 
+Batch 4 written 2026-09-28 (research and adversarial audit the same day; access and verification
+dates stamped 2026-09-25, as the chain arguments set them): 8 drafts audited, 8 written, none
+refuted. Vendor-master, parked-document, asset year-end, currency, account-determination and
+project-system codes: `tx:FK03` is `replaced` (successor `tx:BP`) from 'S4TWL - Business Partner
+Approach', with 'S4TWL - Specific fields on Business Partner' as context and the 2025.001 page
+'Settings in Customer/Vendor Master Data' kept as context (its body names FK01/FK02 on the vendor
+side and does not name FK03); `tx:FV50`, `tx:FV60` and `tx:FV70` are `changed` from 'S4TWL -
+Removal of D/C Indicator from Editing Options', like the batch 3 FB50 family; `tx:OAAQ` is
+`changed` from the What's New 1909 page 'Execute/Undo Year-End Closing' (OAAQ is redirected to
+FAA_CMP), which 'S4TWL - ASSET ACCOUNTING' repeats in both lists; `tx:OB22` is
+`verification_required` (a Revenue and Cost Accounting page names it as a prerequisite, 'S4TWL -
+Currencies in Universal Journal' describes it as the ECC situation, and neither decides its
+status); `tx:OBYC` is `fiori_alternative_available` from its Fiori Apps Library row (F1273
+'Account Determination' leads with OBYC at S32OP); `tx:CJ20N` is `unchanged` from 'S4TWL -
+Navigation to Project Builder instead of special maintenance functions'. Six were taken from
+`verdict.fixedRecord` (`tx:FV50`, `tx:FV60`, `tx:FV70`, `tx:OAAQ`, `tx:OBYC`, `tx:CJ20N`) and two
+were re-derived from the draft with the listed downgrades (`tx:FK03`, seven; `tx:OB22`, one).
+`tx:OB22` went through a repair round first: the research draft authored `unchanged` from the
+Revenue and Cost Accounting page and was refuted (the token goes beyond what the sources
+support); the repaired draft (`verification_required`, both sides quoted, the 2023 FPS03 item row
+added) passed re-verification with one minor downgrade.
+
+Same generation discipline as batches 1 to 3, with one addition: the new module was generated
+and gated in the scratchpad before it touched the repository. The drafts and verdicts were read
+from this run's workflow journal and generated from there; every downgrade and writer change was
+applied as an exact-count substring replacement (a miss aborts the run); every row of the eight
+generated records was checked to be either cited by the audited record (same URL or repoRef,
+plus the item number for Simplification List rows) or carried; the rule engine
+(`validateRecords`, with the test's own record composition and shard D swapped for the new
+module) reported 0 problems; the eight records were deep-compared with the generated objects,
+`status.source` checked for identity with its evidence row and for an equal release, and the 24
+batch 1 to 3 records checked deep-equal to HEAD; an isolated `tsc` run on the new module passed
+(a negative control with a numeric release failed as expected). In place, `tsc --noEmit` (app and
+test configs) and `npm test` (211 of 211) pass.
+
+Depth (`report-coverage.mjs --ids`, before 14:34 and after 14:50):
+
+| id | before | after |
+|---|---|---|
+| `tx:FK03` | L3 `repository_verified`, derived 'replaced' | L5 `sap_official_verified`, authored `replaced` |
+| `tx:CJ20N` | L3 `repository_verified`, derived 'unchanged' | L5 `sap_official_verified`, authored `unchanged` |
+| `tx:FV50` | L1 `verification_required` | L1 `sap_official_verified`, authored `changed` |
+| `tx:FV60` | L1 `verification_required` | L1 `sap_official_verified`, authored `changed` |
+| `tx:FV70` | L1 `verification_required` | L1 `sap_official_verified`, authored `changed` |
+| `tx:OAAQ` | L1 `verification_required` | L1 `sap_official_verified`, authored `changed` |
+| `tx:OBYC` | L1 `verification_required` | L1 `sap_official_verified`, authored `fiori_alternative_available` |
+| `tx:OB22` | L1 `verification_required` | L1 `sap_official_verified`, status `verification_required` |
+
+FV50, FV60, FV70, OAAQ, OB22 and OBYC stay at L1 for the batch 1 reason: none has an entry in
+`data/tx-intel.ts` (checked: FV50 appears inside the FBV0 entry, FV60 inside FBV0 and MIR7), so the
+page structure (3 authored facts needed for L2) is missing; FK03 and CJ20N have one. Batch effect
+on the catalog totals (`npm run report:coverage -- --catalog transactions`): L3 -2, L5 +2,
+verified +6, verification_required -6, s4-appl +5. Measured totals: 14:34 L1 1279, L2 2, L3 401,
+L4 4, L5 132, verified 693, verif.req 1105, conflict 20, legacy 5, s4-appl 691, edition 5; 14:50
+L1 1279, L2 2, L3 396, L4 4, L5 137, verified 708, verif.req 1089, conflict 21, legacy 5, s4-appl
+703, edition 5. The remainder (L3 -3, L5 +3, verified +9, verification_required -10, conflict +1,
+s4-appl +7), attributed by a per-id diff of the two `--ids` runs, is concurrent work in other
+shards: chain C batch 8 (`transactions-c.ts`, committed as bbcd5884 at 14:44; SCI, SD11, SE11,
+SE16N, SE24 and SE71 from `verification_required` to `sap_official_verified`) and a chain B batch
+in progress (`transactions-b.ts`, uncommitted at 14:50; FD02, FD03 and FK02 from L3
+`repository_verified` to L5, FK01 from L3 `repository_verified` to L3 `conflicting_sources`, FI01,
+FI02, FI03 and FI12 from `verification_required` to `sap_official_verified`). The gates above ran
+on the tree with both.
+
 ## refuted
 
 - Batch 1 (2026-09-28): none refuted. All nine audited drafts (`tx:VA21`, `tx:VD03`, `tx:VD05`,
@@ -218,6 +282,9 @@ FAGLB03 and FAGLL03 from L3 `repository_verified` to L5; AJAB, F111 and FAGLFLEX
 - Batch 3 (2026-09-28): none refuted. All eight audited drafts (`tx:FB03`, `tx:FB50`, `tx:FB50L`,
   `tx:FB60`, `tx:FB65`, `tx:FB70`, `tx:FB75`, `tx:FD01`) were written; `tx:FB60` and `tx:FB65`
   after a repair round (see the batch 3 summary above).
+- Batch 4 (2026-09-28): none refuted. All eight audited drafts (`tx:FK03`, `tx:FV50`, `tx:FV60`,
+  `tx:FV70`, `tx:OAAQ`, `tx:OB22`, `tx:OBYC`, `tx:CJ20N`) were written; `tx:OB22` after a repair
+  round (the research draft's `unchanged` was refuted; see the batch 4 summary above).
 
 ## conflicts
 
@@ -450,6 +517,52 @@ FAGLB03 and FAGLL03 from L3 `repository_verified` to L5; AJAB, F111 and FAGLFLEX
   2025 row; FB60 writes 'SAP Note 0002865285' in its 2025 row and '2865285' in recommendedAction.
   Each auditor accepted its form. Written as audited; no record sets `sapNote`. What settles it:
   one convention (the number as the cited source prints it) at the next audit of the family.
+- `tx:OB22` · official sources on different aspects (batch 4, recorded by the repairer; the
+  re-verifier: not an official disagreement under HOUSE-RULES rule 4, so no `conflicting_sources`
+  row): the 2025.001 page 'Supporting Multiple Currencies' (Revenue and Cost Accounting, loio
+  1432a2ce6e594ecdbe8ff13cc8a050ec, body read) says the second and third local currencies 'are
+  defined in the additional local currency data of the company code using transaction code OB22'
+  and lists that as a prerequisite, while 'S4TWL - Currencies in Universal Journal' (2025 FPS01
+  item 6.1.12, 2023 FPS03 item 15.5) names 'table T001A / tx OB22' as the situation in ECC and the
+  view cluster FINSC_LEDGER as the central currency configuration in S/4HANA. The record stays
+  `verification_required`, as `tx:OKKP` (`transactions-c.ts`), which rests on the same item. What
+  settles it: SE93 and a run of OB22 on an S/4HANA On-Premise system next to FINSC_LEDGER, or an
+  official source that decides OB22's status; one ruling for OB22 and OKKP.
+- D/C-indicator family, continued (batch 4): `tx:FV50`, `tx:FV60` and `tx:FV70` rest on the same
+  item 'S4TWL - Removal of D/C Indicator from Editing Options'; their audits did not raise the
+  2025.001 page 'Editing Options – Single-Screen Transaction', so they stay
+  `sap_official_verified`. The family now has nine records (FB50, FB50L, FB60, FB65, FB70, FB75,
+  FV50, FV60, FV70), and `tx:FB65` is still the only one carrying that page as
+  `conflictingEvidence`. Note-number padding in the new records: FV50 writes 0002865285 (2025 row
+  and status.he); FV60 writes 'SAP Note 0002865285' in its 2025 row and '2865285' in
+  recommendedAction; FV70 writes 0002865285 on the 2025 row and 2865285 on the 2023 row (as each
+  list prints it). Written as audited. What settles it: as the batch 3 entries above, one ruling
+  for the nine records.
+- `tx:FK03` and the page 'Settings in Customer/Vendor Master Data' (batch 4, researcher and
+  auditor): the 2025.001 page (loio e1d2a810235c4f1dbd215011729d4d48, deliverable Invoicing, body
+  read and re-fetched by the auditor) names FD01/FD02 for the customer side and FK01/FK02 for the
+  vendor side through SAP Easy Access, and not FK03. `tx:FD01` (batch 3) keeps the page as a
+  `conflicting_sources` row; `tx:FK03` keeps it as context, because the body does not name the
+  code. Chain B's batch in progress marks `tx:FK01` conflicting on the same page (working tree at
+  14:50, uncommitted). What settles it: the one Business Partner family rule the `tx:VD03` entry
+  asks for; it would also say how a page that names a sibling code, and not this one, is carried.
+- `tx:OAAQ` · official name outside the id universe (batch 4, researcher and auditor): the
+  redirect target FAA_CMP is printed by the What's New 1909 and 2020 pages, by 'S4TWL - ASSET
+  ACCOUNTING' in both lists, and by the Fiori Apps Library (S32OP: 'FAA_CMP Execute/Undo Year-End
+  Closing, Make Company Code Settings (Old Version) - Asset Accounting-Specific', SAP GUI). It is
+  not in `lib/route-manifest.generated.ts`, so the record names it in prose, carries no successor
+  and is `changed`, not `replaced`, as `tx:AJAB` (`transactions-b.ts`) does with
+  FAA_CLOSE_FISC_YEARS. Not fixed (outside this writer's files). What settles it: adding FAA_CMP
+  to the transaction catalog, then a successor or an xref.
+- `tx:OBYC` · official app outside the Fiori catalog (batch 4, researcher and auditor): F1273
+  'Account Determination' (Fiori Apps Library S32OP, leading transaction OBYC; What's New page
+  loio d23c04422172498382d5c0b352755542) is not in `data/fiori/apps.ts`, so the record carries no
+  `fiori:F1273` xref and names the app in prose. Not fixed. What settles it: adding F1273 to the
+  Fiori catalog.
+- FV50, FV60, FV70, OAAQ, OB22, OBYC · repository gap (batch 4, found by the writer from the depth
+  run): none has an entry in `data/tx-intel.ts`, so all six stay at L1 although five now carry an
+  authored status from an official source (the batch 1 reason, as for FB50L in batch 3). Not
+  fixed (outside this writer's files). What settles it: a `tx-intel.ts` entry for each code.
 
 ## writer deviations (batch 1, 2026-09-28)
 
@@ -678,4 +791,82 @@ FAGLB03 and FAGLL03 from L3 `repository_verified` to L5; AJAB, F111 and FAGLFLEX
 11. No foundation-guard change: `transactions-d.ts` is in the graduated repoRef test in
     `test/evidence-schema.test.ts`, and the FOUNDATION_RECORDS guard no longer exists.
 12. Both `report-coverage.mjs --ids` runs wrote to the scratchpad through `IDS_OUT`; nothing was
+    written to the repository root.
+
+## writer deviations (batch 4, 2026-09-28)
+
+1. Source of the audited JSON. The drafts and verdicts were read from this run's workflow journal
+   (the research results for FK03, FV50, FV60, FV70, OAAQ, OBYC and CJ20N and the repair result
+   for OB22; the verify results, and the re-verify result for OB22), the objects the writer task
+   relays, and matched against the relayed text before generating (problems / downgrades per id:
+   FK03 10/7, FV50 5/5, FV60 6/9, FV70 6/7, OAAQ 7/6, OB22 2/1, OBYC 6/5, CJ20N 8/8; the six ids
+   with `fixedRecord`; the pointer strings in `status.source`).
+2. Status sources. Shared consts FK03_SIMPL2025, FV50_SIMPL2025, FV60_SIMPL2025, FV70_SIMPL2025,
+   OAAQ_WHATSNEW1909, OBYC_FAL_S32OP and CJ20N_SIMPL2025, each the record's own row, used by
+   identity in evidence[] and in status.source. They replace 'evidence[1] (item 5.1.27 S4TWL -
+   Business Partner Approach, 2025 FPS01)' (FK03, downgrade 7), the writer instruction
+   'FV50_SIMPL2025 (the same object as evidence[3]; ...)' (FV50), 'evidence[1] (simplification_item,
+   item 6.1.13 S4TWL - Removal of D/C Indicator from Editing Options)' (FV60), '__WIRE_TO_CONST__
+   FV70_SIMPL2025 = evidence[2] ...' (FV70), 'evidence[2]' (OBYC) and 'evidence[3]' (CJ20N), and
+   the OAAQ copy, which was deep-equal to its evidence[1]. Each status.release equals its source
+   row's release. OB22 keeps `source: null` (`verification_required`).
+3. Dates. The FV60 fixedRecord wrote accessedAt and lastVerifiedAt as the strings "DATE25" and
+   "DATE24" (the constant names); written as the constants. Every other date was "2026-09-25" or
+   "2026-09-24" and was written as DATE25 or DATE24; no other date occurs.
+4. OB22 `successor: null` removed (writer correction). `S4StatusClaim.successor` is optional and
+   not nullable (`successor?: CanonicalId`), so tsc rejects null; a missing successor reads the
+   same to the rule engine and the page.
+5. FK03: downgrades 1 to 5 applied as exact replacements, the key `catalogPatch_note` dropped
+   (downgrade 6), the source wired (downgrade 7); the summary half of downgrade 4 is not a record
+   field.
+6. 'Only' words (writer correction, HOUSE-RULES rule 3.2, as batch 3 did). Three sentences that
+   describe what an item says carried one the audits did not flag: the FV50 notes (', רק שינוי UI
+   (' became '; הוא מתאר שינוי UI ('), the FV70 status.he ('בתוך הטרנזקציה בלבד;' became 'בתוך
+   הטרנזקציה;') and the OBYC status.he ('ככלי תצורה בלבד.' became 'ככלי תצורה.'). Left as
+   written: the CJ20N status.he 'בלבד', because the item itself says 'only used as an indicator',
+   and the words that describe the research or the record's own use of a row (FK03 'כהקשר בלבד',
+   FV60 '(tx:FV60 בלבד)', FV70 'כתצפית מחקר בלבד', OB22 'בפרוזה בלבד', the carried-row sentences).
+7. FV50 notes (writer correction): '(evidence שלא נכלל ברשומה הסופית מטעמי צמצום ל-4 ראיות)'
+   became '(evidence שהמחקר לא כלל ברשומה מטעמי צמצום)', because the written record has six rows
+   once the carried rows are in.
+8. Content preservation. Rows of the generated records whose source the audited record does not
+   cite were carried over verbatim (`context: true`, access date 2026-09-24), 6 rows: FV50 2 (the
+   search record 'Screen Variant | General Ledger Accounting (FI-GL)' at SAP S/4HANA 2025.001,
+   the same loio the audited SAP_ERP row cites, and the 2023 FPS03 item 15.8 row); OAAQ 1 (item
+   6.1.16 'S4TWL - ASSET ACCOUNTING', 2025 FPS01, which the audited 6.1.9 row names in prose);
+   OB22 1 (the second 'Supporting Multiple Currencies | Revenue and Cost Accounting' record, loio
+   ba45b553c45e831ce10000000a423f68, same snippet); OBYC 2 ('Maintain Revaluation Reasons |
+   Sourcing and Procurement', 2025.001, and the 2023 FPS03 item 12.4 'S4TWL - Technical Changes in
+   Material Ledger with Actual Costing' row: the auditor moved the 2023 wording out of the 2025
+   row's claim and named 'its own row with the 2023 URL' as the right place). In the three
+   Simplification List rows only the generator's frame sentence ('... טרם נקרא במחקר') was
+   replaced, by 'הפריט מובא כאן כהקשר ולא שימש מקור למעמד ברשומה זו.' (the batch 1 sentence),
+   because each record documents that the item text was read or checked. The rows the FV60 (2)
+   and CJ20N (7) fixedRecords carried are deep-equal to their generated twins apart from the
+   auditor's replacement of the frame sentence in their two Simplification List rows. Every other
+   generated row shares its URL or repoRef (and item number) with an audited row; FK03 and FV70
+   had nothing to carry.
+9. Old → New lines and history (HOUSE-RULES rule 3.8). FV50 lacked one; it now names the measured
+   before-state (L1, `verification_required`), the new status and the carried rows. OAAQ, OB22
+   and OBYC had theirs and got one sentence on the carried rows. FK03, FV60, FV70 and CJ20N carry
+   theirs as audited; the OBYC line reads 'ישן → חדש' (the auditor's Hebrew), kept.
+10. Taken as audited, not normalized: release notation ('2025.001' for the FV60 and OBYC status,
+    '2025 FPS01' for FK03, FV50, FV70 and CJ20N, '1909.000' for OAAQ); note-number padding (see
+    conflicts); the 2026-09-25 access and verification dates, although the research ran on
+    2026-09-28 (several notes say so); recommendedAction firmness ('להמשיך להשתמש' in FV60 and
+    CJ20N, 'ניתן להמשיך להשתמש' in OBYC; see the batch 3 FB03 vs FB60 entry); SE93 named in the
+    FK03, FV50 and OB22 recommendedAction, a name no cited record prints (the batch 3 FB70 auditor
+    removed it, others left it); the FK03 repository row quotes the `tx-intel.ts` s4 field with a
+    comma where the repository text has an em dash (downgrade 1 chose rule 3.7 over a verbatim
+    quote); FAA_CLOSE_FISC_YEARS named in the OAAQ recommendedAction, as the `tx:AJAB` precedent
+    does; scratchpad paths and line ranges inside notes and some claims; en dashes inside SAP
+    document titles (FV50, FV60); the F4670 mention in the FV50 notes (a Feature Comparison row,
+    not a successor, as the notes say). No record carries `reviewer`, a personal name or an e-mail
+    address.
+11. No foundation-guard change: `transactions-d.ts` is in the graduated repoRef test in
+    `test/evidence-schema.test.ts`, and the FOUNDATION_RECORDS guard no longer exists.
+12. The module was generated into the scratchpad and gated there (rule engine, deep compare,
+    source identity, the earlier 24 records deep-equal to HEAD, isolated tsc with a negative
+    control) before one copy into `data/verification/transactions-d.ts`; both
+    `report-coverage.mjs --ids` runs wrote to the scratchpad through `IDS_OUT`. Nothing was
     written to the repository root.
