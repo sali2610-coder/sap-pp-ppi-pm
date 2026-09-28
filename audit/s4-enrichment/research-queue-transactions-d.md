@@ -63,10 +63,100 @@ verification_required -10, conflict +2, s4-appl +9), attributed by a per-id diff
 and a chain C batch in `transactions-c.ts` (CN22, CN23, CN24, CN24N, CN41, CN60, CN65, CNMM,
 each from `verification_required` to `sap_official_verified`).
 
+Batch 2 written 2026-09-28 (research and adversarial audit the same day; access and verification
+dates stamped 2026-09-25, as the chain arguments set them): 8 drafts audited, 7 written, 1
+refuted (`tx:AFAB`, see `## refuted`). Customer-master codes from 'S4TWL - Business Partner
+Approach': `tx:XD05` is `replaced` (successor `tx:BP`); it is named only in the redirect list of
+the 2025 FPS01 item, and the 2023 FPS03 item does not name it (a documented absence, not a
+conflict). `tx:XD06` is `replaced` (successor `tx:BP`) on the What's New 2022 page 'Re-direction
+to Business Partner (BP) Transaction' and the 2025 item, with the 2023 FPS03 item, which lists
+XD06 as obsolete, kept as a `conflicting_sources` row (the VD06 shape). `tx:XD07` is
+`legacy_ecc_only` (listed under 'Transactions that are obsolete', no successor).
+Asset-accounting codes from 'S4TWL - ASSET ACCOUNTING': `tx:AB08` is `changed` (the Constraints
+sentence on derived depreciation areas at reversal); `tx:ABST2` is `legacy_ecc_only` ('The
+following transactions are no longer available: ABST, ABST2, ABSTL', no successor, the VKM5
+precedent); `tx:AFAR` is `changed` (Depreciation Posting Run: calculation and posting at
+different points in time, and the What's New 2025 change under 'Technical Object Name
+Transaction AFAR'); `tx:AB01` carries no authored status (the item replaces it by AB01L, which
+is not in the id universe; see conflicts). Five were taken from `verdict.fixedRecord`
+(`tx:XD05`, `tx:XD07`, `tx:AB01`, `tx:AB08`, `tx:ABST2`) and two were re-derived from the draft
+with the listed downgrades (`tx:XD06`, `tx:AFAR`).
+
+Same generation discipline as batch 1: the audited objects were transcribed once from the writer
+task into a scratch JSON and generated from there; every downgrade and writer change was applied
+as an exact-once substring replacement (a miss aborts the run); every row of the seven generated
+records was classified as cited (same URL or repoRef, plus the item number for Simplification
+List rows), carried (deep-equal apart from the frame sentence) or superseded by a corrected row
+with the same URL; the written module was deep-compared with the generated objects,
+`status.source` checked for identity with its evidence row, and the nine batch 1 records checked
+unchanged. `tsc --noEmit` (app and test configs) and `npm test` (211 of 211) pass.
+
+Depth (`report-coverage.mjs --ids`, before 13:12 and after 13:26):
+
+| id | before | after |
+|---|---|---|
+| `tx:AB01` | L3 `repository_verified`, derived 'unchanged' | L4 `sap_official_verified`, still derived 'unchanged' (see conflicts) |
+| `tx:XD05` | L1 `verification_required` | L1 `sap_official_verified`, authored `replaced` |
+| `tx:XD06` | L1 `verification_required` | L1 `conflicting_sources`, authored `replaced` |
+| `tx:XD07` | L1 `verification_required` | L1 `sap_official_verified`, authored `legacy_ecc_only` |
+| `tx:AB08` | L1 `verification_required` | L1 `sap_official_verified`, authored `changed` |
+| `tx:ABST2` | L1 `verification_required` | L1 `sap_official_verified`, authored `legacy_ecc_only` |
+| `tx:AFAR` | L1 `verification_required` | L1 `sap_official_verified`, authored `changed` |
+| `tx:AFAB` (refuted) | L3 `repository_verified`, derived 'unchanged' | no change (the generated record stays) |
+
+The six L1 records stay at depth L1 for the batch 1 reason: none has an entry in
+`data/tx-intel.ts`, so the page structure (3 authored facts needed for L2) is missing. Batch
+effect on the catalog totals (`npm run report:coverage -- --catalog transactions`): L3 -1, L4
++1, verified +5, verification_required -6, conflict +1, legacy +2, s4-appl +4. Measured totals:
+13:12 L1 1279, L2 2, L3 414, L4 3, L5 120, verified 654, verif.req 1149, conflict 15, legacy 3,
+s4-appl 657, edition 3; 13:26 L1 1279, L2 2, L3 410, L4 4, L5 123, verified 667, verif.req 1133,
+conflict 18, legacy 5, s4-appl 668, edition 5. The remainder (L3 -3, L5 +3, verified +8,
+verification_required -10, conflict +2, s4-appl +7, edition +2), attributed by a per-id diff of
+the two `--ids` runs, is concurrent work in other shards: chain C batch 6 (commit a4b452bb,
+`transactions-c.ts`: SARA, SCC4, SCC5, SCMA, SE16, SE43, SE95 from `verification_required` to
+`sap_official_verified`; SCC4 and SE16 are the two new edition-specific rows) and chain B work
+in progress in `transactions-b.ts` (XD01 and XD02 from L3 `repository_verified` to
+`conflicting_sources`; XD03, VL09 and VOV8 from L3 to L5; VL06I, VL32N and VOFM from
+`verification_required` to `sap_official_verified`).
+
 ## refuted
 
 - Batch 1 (2026-09-28): none refuted. All nine audited drafts (`tx:VA21`, `tx:VD03`, `tx:VD05`,
   `tx:VD06`, `tx:VK11`, `tx:VKM1`, `tx:VKM3`, `tx:VKM4`, `tx:VKM5`) were written.
+- `tx:AFAB` (batch 2, 2026-09-28; refuted at re-verification after a repair round). The
+  auditor's problems: (1) Unsourced softening added by the repair: evidence[2].claim says
+  'העיבוד המקבילי מופעל כברירת מחדל של התוכנית' and status.recommendedAction 'עיבוד מקבילי
+  כברירת מחדל של התוכנית', while the item (2023 FPS03 sub-section 10.2.20; 2025 FPS01 lines 9848
+  and 11855) prints 'The program always carries out parallel processing.' and the help body 'the
+  program always performs parallel processing.'; a default implies it can be switched off, which
+  no source says, and the only related option the item prints is a server group ('If you specify
+  a server group, the system behaves as it has until now'; otherwise parallel processing runs
+  'on all available servers'). Removing 'תמיד' swapped a certainty-language hit for a change of
+  meaning. (2) History rule 8 and content loss: the draft replaces the generated record
+  (`transactions-auto.ts` line 1608) but drops three of its official sap_help rows without a
+  trace: 'Calculate Initial Depreciation | General Ledger Accounting (FI-GL)' (loio
+  8a69fb5789641070e10000000a44147b, 2025.001), 'Repost Asset Accounting Documents to the New
+  Accounting Principle | General Ledger Accounting (FI-GL)' (loio
+  4768fb5789641070e10000000a44147b, 2025.001) and 'Carry Out Asset Impairment | Russia'
+  (SAP_ERP, loio 1fdf4e422cff4504adb183b2500cb773, 6.18.latest, edition ecc); the notes carry no
+  Old → New line (old: no status decision; new: `changed`). House practice carries such rows
+  verbatim with their 2026-09-24 date. (3) The evidence[5] (fiori_library) claim ends with
+  internal meta no source prints ('F1914 אינו ביקום ה-xrefs ולכן אינו מצוטט כ-successor.'); it
+  belongs in notes. The rest of the claim matches fal-app ('AFAB @ S32OP: leading app(s): F1914
+  Schedule Asset Accounting Jobs [SAP Fiori: Generic Job Scheduling Framework]; GUI app entry:
+  none'). (4) status.recommendedAction still frames F1914 as a background-scheduling tool for
+  AFAB runs; fal-app prints only that AFAB is the leading GUI transaction of F1914 ('GUI
+  transactions: leading AFAB; related AFABN, AFAR, AJAB, S_ALR_87012026'). Verified and reusable
+  in the next draft, per the auditor: items 6.1.9 and 6.1.16 'S4TWL - ASSET ACCOUNTING' (2025
+  FPS01, document version 1.36) print the AFAB sentence and the BSEG / 1809 / SAP Note 2383115
+  sentence under 'Depreciation Posting Run', with smoothing, the three statuses and the
+  1000-asset test-run limit located; status.source equal to the item row; the 2023 row named
+  'S4TWL - ASSET ACCOUNTING (item 10.2)'; the repository rows split (`tx-intel.ts` AFAB;
+  `tcode-catalog.ts` line 51); the 'Post Depreciation' body (loio
+  970ed25320cd4608e10000000a174cb4, 2025.001); F1914 exists at S32OP and is not in
+  `data/fiori/apps.ts`, so the xrefs are `tx:AFAR` and `table:BSEG` only. Until a re-draft
+  passes, AFAB keeps its generated record (L3 `repository_verified`, derived 'unchanged' from
+  `data/tx-intel.ts`).
 
 ## conflicts
 
@@ -150,6 +240,87 @@ each from `verification_required` to `sap_official_verified`).
   point to VD02 for maintaining customer data), so both rulings can hold. What settles it: one
   rule for the Business Partner family on when a help page that names a redirected code counts
   as a conflicting source.
+- `tx:XD06` · official vs official (batch 2, recorded by the researcher, confirmed by the
+  auditor): the split recorded for `tx:VD06` in batch 1. The item 'S4TWL - Business Partner
+  Approach' in the 2023 FPS03 list (item 3.19, document version 1.35) prints XD06 under
+  'Transactions that are obsolete: FD06, FK06, MK06, MK12, MK18, MK19, VD06, XD06, V+21, V+22,
+  V+23'; the same item in the 2025 FPS01 list (item 5.1.27, document version 1.36) prints it
+  under 'Transactions that get redirected to transaction BP', and the What's New 2022 page
+  'Re-direction to Business Partner (BP) Transaction' (loio 220bd05aa56c49318c4fae0173cc10d4)
+  lists 'XD06 Mark customer for deletion (centr.)' among the classical codes that are deprecated
+  and redirect to BP. The 2023 row is kept as `conflicting_sources`; the status (`replaced`,
+  successor `tx:BP`) rests on the What's New page and the 2025 item. What settles it: the VD06
+  check (run XD06 or SE93 on an SAP S/4HANA 2023 On-Premise system, or an official correction of
+  the 2023 FPS03 document); one check settles VD06, XD06 and MK06 (`transactions-b.ts`).
+- `tx:AB01` · derived status shown beside an official tier, successor outside the id universe
+  (batch 2; the successor gap recorded by the researcher and the auditor, the derived status
+  found by the writer in the coverage run): the item 'S4TWL - ASSET ACCOUNTING' (2025 FPS01
+  items 6.1.9 and 6.1.16; 2023 FPS03 item 10.2, sub-section 10.2.34 User Interface) prints 'The
+  previous transaction AB01 (Create Asset Transactions) is replaced by the new transaction
+  AB01L.' and 'If you enter the transaction familiar from classic Asset Accounting (that does
+  not end in L), you are automatically transferred to the new transaction (that ends in L).'
+  AB01L is not in `lib/route-manifest.generated.ts`, and fal-app shows no app for it at S32OP,
+  so the audit left the status empty rather than author `replaced` without a resolvable
+  successor. With no authored status, the page shows the mapper's claim from the repository
+  transaction record (derived 'unchanged', text 'לפי רשומת הטרנזקציה במאגר (tx-intel); רמת אמון:
+  חלקי: זמינה ב-S/4HANA', from the s4 field of `data/tx-intel.ts#AB01`: 'זמינה ב-S/4HANA עם New
+  Asset Accounting; לרוב מומלצות טרנזקציות/Fiori ייעודיות לכל תהליך.'), now at
+  `sap_official_verified` (L4, was L3 `repository_verified`), beside official rows that say the
+  code is replaced and redirected. Same shape as `tx:VKM3` in batch 1. What settles it: a
+  catalog entry for AB01L, after which `replaced` with successor `tx:AB01L` goes to audit; or a
+  FIX pass on the s4 field of `data/tx-intel.ts#AB01` against the item.
+- `tx:XD07` · official help page vs item (batch 2, recorded by the auditor): the item lists XD07
+  under 'Transactions that are obsolete' (both lists sit under 'Transactions not available in
+  SAP S/4HANA on-premise edition'), while the 2025 FPS01 Sales guide page 'Changing an Account
+  Group' (loio b1dfbe532789b44ce10000000a174cb4, 2025.001) still describes changing the account
+  group through the SD master data menu and the screen 'Change Account Group Customer: Initial
+  Screen', without naming a transaction code. Kept as a context row
+  (`supported_secondary_source`, `context: true`); status `legacy_ecc_only`. What settles it:
+  SE93 in the target system (whether XD07 exists, and which program and screen it calls).
+- `tx:XD07` / `tx:ABST2` · status token family (batch 2, continues the `tx:VKM3` / `tx:VKM5`
+  entry above): both are listed by their items as not available ('Transactions that are
+  obsolete'; 'The following transactions are no longer available') with no successor, and both
+  were audited as `legacy_ecc_only`, the VKM5 ruling, while VKM3 keeps no status. Three records
+  now use `legacy_ecc_only` for "not available, no successor". What settles it: the one family
+  ruling asked for above; `not_available` needs a resolvable successor
+  (`replacement-no-successor`).
+- Generated records · 2023 FPS03 sub-sections cited as items (batch 2, found by the auditors,
+  counted by the writer): `transactions-auto.ts` cites sub-sections of item 10.2 'S4TWL - ASSET
+  ACCOUNTING' as items ('item 10.2.29 Legacy Data Transfer', 'item 10.2.34 User Interface',
+  'item 10.2.20 Depreciation Posting Run', 'item 10.2.26 Year-End Closing', 'item 10.2.25 Fiscal
+  Year Change/Balance Carryforward'), against HOUSE-RULES §3.5; for AB08 the sub-section was
+  also wrong (its sentence sits under 10.2.31 Constraints, not 10.2.29). The nine rows belonged
+  to AB01, AB08, ABST2, AFAB, AFAR, AJAB, AJRW, AS91 and OAAQ; this batch supersedes the AB01,
+  AB08, ABST2 and AFAR rows with rows that name item 10.2 and the sub-section; the AFAB, AJAB,
+  AJRW, AS91 and OAAQ rows remain. Origin: the item mapping in
+  `audit/master-completion/simpl-tcode-index.json` that `scripts/qa/gen-tx-evidence.mts` reads.
+  Not fixed (outside this writer's files). What settles it: map sub-section headings to their
+  S4TWL item in the index and regenerate, or correct each row when its code is researched.
+- `tx:VD06` (batch 1 record) · quote normalization (batch 2, raised by the XD06 auditor): the
+  2025 FPS01 redirect-list quote ('... MAP1, MAP2, MAP3, V-03,V-04, ...') is normalized; the
+  extracted text reads 'MAP1, MAP2,MAP3, V03,V-04' (a hyphen most likely lost at a line break).
+  The XD06 row now carries 'לאחר נרמול רווחים ומקפים מהטקסט שחולץ' after the quote; the VD06 row
+  carries the same quote without it and was not touched (an existing record outside this batch).
+  What settles it: the same words added to the VD06 2025 FPS01 row at its next audit.
+- `tx:XD07` vs `tx:XD05` · code ranges, audit inconsistency (batch 2, found by the writer): the
+  XD05 auditor refused 'FD01-FD06' and 'XK01-XK06' in the item paraphrase because the item
+  prints no FD04 or XK04; the XD07 fixedRecord kept 'FD01-FD06, VD01-VD06, ..., FK01-FK06,
+  MK01-MK06 ו-XK01-XK06'. The writer replaced the ranges with the list as printed, the one the
+  XD06 auditor confirmed (FD01, FD02, FD03, FD05, FD06, VD01, VD02, VD03, VD05, VD06, ..., FK01,
+  FK02, FK03, FK05, FK06, MK01, MK02, MK03, MK05, MK06, XK01, XK02, XK03, XK05, XK06). No lookup
+  was repeated. What settles it: the next XD07 audit confirms the row.
+- `tx:AFAR` vs `tx:AFAB` · repository meta inside a claim, audit inconsistency (batch 2, found
+  by the writer): the AFAB auditor ruled that a sentence about the id universe inside a claim
+  ('F1914 אינו ביקום ה-xrefs ...') belongs in notes; the AFAR FAQ row carried the same kind of
+  sentence ('לאפליקציה זו אין מזהה Fiori רשום ב-data/fiori/apps.ts, ולכן לא ניתן להצביע עליה
+  כ-xref.') and passed. The writer moved it to the AFAR notes; the claim now stops at what the
+  page prints.
+- `tx:XD07` · screen name in the notes (batch 2, found by the writer): the fixedRecord claim of
+  the context row names the screen 'Change Account Group Customer: Initial Screen' (the auditor
+  re-fetched the body: 'body matches the claim'), while the notes the auditor wrote named it
+  'Change Customer Account Group: Initial Screen'. The writer aligned the notes with the claim.
+  What settles it: a re-read of the page body at the next XD07 audit, if the word order is in
+  doubt.
 
 ## writer deviations (batch 1, 2026-09-28)
 
@@ -216,3 +387,75 @@ each from `verification_required` to `sap_official_verified`).
     name or an e-mail address.
 11. No foundation-guard change: `transactions-d.ts` is already imported by the graduated repoRef
     test in `test/evidence-schema.test.ts` and has no FOUNDATION_RECORDS entry.
+
+## writer deviations (batch 2, 2026-09-28)
+
+1. Source of the audited JSON. No workflow journal for this run was found on disk, so the seven
+   audited objects (`verdict.fixedRecord` for XD05, XD07, AB01, AB08 and ABST2; the draft for
+   XD06 and AFAR) were transcribed once from the writer task into a scratch JSON and generated
+   from there. Transcription cross-checks: the XD05 and AFAR `status.source` objects, typed
+   separately, are deep-equal to their evidence rows; the XD07 placeholder source matches its
+   row in every field but the claim; every downgrade anchor in the XD06 and AFAR drafts matched
+   exactly once.
+2. Status sources. Shared consts XD05_SIMPL2025, XD06_WHATSNEW2022, XD07_SIMPL2025,
+   AB08_SIMPL2025, ABST2_SIMPL2025 and AFAR_SIMPL2023, each the record's own row, used by
+   identity in evidence[] and in status.source. They replace the pointer strings 'evidence[1]'
+   (XD06), 'evidence[2]' (AB08) and 'evidence[1] (item 6.1.9 S4TWL - ASSET ACCOUNTING, 2025
+   FPS01)' (ABST2), the XD07 placeholder object (claim '(same object as evidence[1]; in the TS
+   file use the shared const)'), and the XD05 and AFAR copies. Each status.release equals its
+   source row's release. AB01 has no status.
+3. Downgrades applied. XD06: the What's New const; 'לאחר נרמול רווחים ומקפים מהטקסט שחולץ' after
+   the 2025 FPS01 list quote (the second option the auditor offered, so no text was re-read);
+   the 2023 FPS03 line range 9103-9115; DATE25 in every row, the nested conflicting row
+   included. AFAR: the recommendedAction sentence with both What's New conditions. The
+   fixedRecords already carried their downgrades.
+4. XD07 item row (writer correction, see conflicts): the code ranges replaced by the list as
+   printed.
+5. XD07 notes (writer correction, see conflicts): the screen name aligned with the audited
+   claim.
+6. XD06 notes (writer correction): the description of the generated record said it had three
+   context rows, all with the frame sentence ('כולן עם משפט מסגרת'); the generated record has
+   four (tcode-catalog.ts#XD06, the What's New 2022 page, items 5.1.27 and 3.19) and the frame
+   sentence only on the two item rows. Now '(שורות הקשר בלבד: tcode-catalog.ts#XD06, עמוד What's
+   New 2022, פריט 2025 FPS01 5.1.27 ופריט 2023 FPS03 3.19; בשתי שורות הפריטים משפט המסגרת 'טרם
+   נקרא במחקר')'. All four rows are covered by the record's own rows.
+7. AFAR FAQ row (writer correction, see conflicts): the sentence about `data/fiori/apps.ts`
+   moved from the claim to the notes.
+8. Content preservation. Rows of the generated records whose source the audited record does not
+   cite were carried over verbatim (`context: true`, access date 2026-09-24), 7 rows: AB01
+   (`tx-intel.ts#AB01`; the search records 'Subsequently Post Periodic Depreciation/Input Tax on
+   Assets | Treasury and Risk Management', 2023.latest, and 'Defining Transaction Types for
+   Depreciation Write-Back | United Kingdom', SAP_ERP 6.18.latest); AB08 (item 6.1.16); AFAR
+   ('Preparation | Asset Accounting (FI-AA)', loio 137fc054afc1aa09e10000000a423f68; items 6.1.9
+   and 6.1.16). In the three Simplification List rows only the generator's frame sentence was
+   replaced: AB08 6.1.16 by the batch 1 sentence 'הפריט מובא כאן כהקשר ולא שימש מקור למעמד
+   ברשומה זו.' (the AB08 notes say its sentence is identical in all three occurrences); AFAR
+   6.1.9 and 6.1.16 by 'הפריט מובא כאן כהקשר; הקטע 'Depreciation Posting Run' שבו מצוטט בשורת
+   רשימת 2025 FPS01 ברשומה זו.', because the same 2025 item is a deciding row of the AFAR record
+   (evidence[1], not the status source) and the batch 1 sentence could read as a contradiction.
+   Not carried, superseded by a corrected row with the same URL: the generated 2023 FPS03 rows
+   labelled 'item 10.2.29 Legacy Data Transfer' (AB01; AB08, whose sentence sits under 10.2.31
+   Constraints), 'item 10.2.34 User Interface' (ABST2) and 'item 10.2.20 Depreciation Posting
+   Run' (AFAR). XD05, XD06, XD07 and ABST2 were fully covered by their audited rows.
+9. Old → New lines and history (HOUSE-RULES §3.8). AB01: the derived status measured before the
+   write ('unchanged', `repository_verified`, from tx-intel), a sentence on the carried rows and
+   one on the covered rows. AB08: a sentence on the carried 6.1.16 row, and 'כשורת ראיה נפרדת'
+   became 'כשורת ראיה נספרת', since the occurrence now appears as an uncounted context row.
+   AFAR: the generated record's finding (context rows only, frame sentence, no status) and the
+   carried and superseded rows. XD05, XD06, XD07 and ABST2 already carried their history.
+10. Taken as audited, not normalized: release notation ('2025.001' for the XD05 and AB01 item
+    rows, '2025 FPS01' elsewhere); the 2026-09-25 access and verification dates although the
+    research ran on 2026-09-28 (the XD06, ABST2 and AFAR notes say so); scratchpad paths and
+    line ranges inside the XD06 item claims (the XD06 downgrade edits one of them, the VD06
+    record keeps the same shape, while the AFAB auditor asked for them out of claims); the
+    What's New 2022 URL in XD06 (deliverable e296651f454c4284ade361292c633d69, the URL of the
+    'XD06' search record the auditor re-ran), which differs from the VD06 const (deliverable
+    f5d3e1005efd4e86acf9a65abf428082) for the same loio and version; the XD07 aliases; the AFAR
+    Old → New sentence about its pre-audit draft. No record carries `reviewer`, a personal name
+    or an e-mail address.
+11. No foundation-guard change: `transactions-d.ts` is in the graduated repoRef test in
+    `test/evidence-schema.test.ts`, and the FOUNDATION_RECORDS guard no longer exists (removed
+    when the objects catalog graduated on 2026-09-24).
+12. The first `report-coverage.mjs --ids` run wrote `coverage-ids.json` to the repository root
+    (the script's default path); it was moved to the scratchpad, and the later run used
+    `IDS_OUT`.
