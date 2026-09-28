@@ -138,7 +138,7 @@ function ownership(): { fn: CommandExtra["fn"]; tx: CommandExtra["tx"] } {
 function modules(): CmdModuleRecord[] {
   return ([
     ["PM", "PM · תחזוקת מפעל", PM_DATA, "/neo/pm/"],
-    ["PP-PI", "PP-PI · תעשיות תהליכיות", PPPI_DATA, "/neo/pp-pi/"],
+    ["PP-PI", "PP-PI · ייצור תהליכי", PPPI_DATA, "/neo/pp-pi/"],
   ] as [string, string, SAPModuleData, string][]).map(([key, label, data, href]) => {
     const st = overviewStats(data);
     return {

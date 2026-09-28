@@ -102,6 +102,17 @@ const intelOf = (id: string): FunctionIntel | undefined => FUNCTION_INTEL[id];
 const CONCEPT_KIND = "מושג תהליכי";
 const isConcept = (id: string): boolean => intelOf(id)?.kind === "concept";
 
+/** The number of BAPI and FM rows the catalog counts (process concepts excluded).
+ *  The rail reads this same number, so the two never disagree. */
+export const bapiFnCount = (): number => objects().filter((o) => !isConcept(o.id)).length;
+
+/** The record's type in words, for a page title: BAPI, מודול פונקציה, or the concept label. */
+export const bapiKindHe = (id: string): string => {
+  const o = bapiObject(id);
+  if (!o) return "";
+  return isConcept(o.id) ? CONCEPT_KIND : o.objectType === "FM" ? "מודול פונקציה" : o.objectType;
+};
+
 /** The blueprint rows that list this object in their function column, and the
  *  transactions those rows carry. This is what the registry derives `tables` and
  *  `transactions` from when no enrichment file curates them. The PP-PI blueprint
@@ -266,13 +277,13 @@ export function bapiDir(): RefDir {
     title: "BAPI ומודולי פונקציה",
     icon: "plug",
     lede:
-      `${nf.format(fnRows.length)} אובייקטי פונקציה (BAPI ו-FM) מקטלוג הפרויקט: כל אחד מהם מתועד על טבלת SAP ` +
-      `בתחזוקת מפעל (PM) או בתעשיות תהליכיות (PP-PI), או נוסף כרשומה מאומתת. לכל אובייקט מוצגים המודול, ` +
+      `${nf.format(fnRows.length)} BAPI ומודולי פונקציה מקטלוג הפרויקט: כל אחד מהם מתועד על טבלת SAP ` +
+      `בתחזוקת מפעל (PM) או בייצור תהליכי (PP-PI), או נוסף כרשומה מאומתת. לכל אובייקט מוצגים המודול, ` +
       `המשמעות, הטבלאות והטרנזקציות המקושרות ומעמדו ב-S/4HANA לפי התיעוד.` +
       (concepts ? ` בנוסף מוצגים ${nf.format(concepts)} מושגים תהליכיים מעמודת הפונקציות בבלופרינט, שאינם נספרים כפונקציות.` : ""),
     stats: [
-      { v: fnRows.length, l: "אובייקטי פונקציה", i: "plug" },
-      { v: byKind.get("BAPI") || 0, l: "BAPIs", i: "shieldCheck" },
+      { v: fnRows.length, l: "BAPI ו-FM", i: "plug" },
+      { v: byKind.get("BAPI") || 0, l: "BAPI", i: "shieldCheck" },
       { v: byKind.get("FM") || 0, l: "מודולי פונקציה (FM)", i: "fileCode" },
       { v: count((r) => r.caps.includes("deep")), l: "מתועדים לעומק", i: "bookOpen" },
       { v: count((r) => r.caps.includes("verified")), l: "רשומות מאומתות", i: "shieldCheck" },
@@ -349,7 +360,7 @@ export function bapiDetail(id: string): RefDetail | null {
   if (isConcept(o.id)) {
     what.push({
       label: "סוג הרשומה",
-      text: "מושג תהליכי שהבלופרינט מונה בעמודת הפונקציות של הטבלאות — לא מודול פונקציה ולא BAPI. אין לו מזהה fm: והוא אינו נספר בקטלוג הפונקציות; התוכן נשמר כמידע תהליכי.",
+      text: "מושג תהליכי מעמודת הפונקציות בבלופרינט. אינו מודול פונקציה ואינו BAPI, ולכן אינו נספר בקטלוג הפונקציות.",
     });
   }
   if (intel?.what) what.push({ label: "תפקיד האובייקט", text: intel.what });

@@ -27,7 +27,7 @@ export const modVar = (m?: string): string => (m && MOD_VAR[m]) || "var(--ink-3)
 
 export const MOD_HE: Record<string, string> = {
   PM: "תחזוקת מפעל",
-  "PP-PI": "תעשיות תהליכיות",
+  "PP-PI": "ייצור תהליכי",
   PP: "תכנון ייצור",
 };
 

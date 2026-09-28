@@ -54,7 +54,7 @@ const nf = new Intl.NumberFormat("he-IL");
 const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--mod-pppi)" };
 
 const TRUST_WHY: Record<string, string> = {
-  verified: "מבוסס על ידע Simplification List המתוחזק בפרויקט",
+  verified: "מבוסס על שכבת ה-S/4HANA שנערכה בפרויקט",
   partial: "נגזר מעמודת ה-S/4HANA בתיעוד המקור. נדרש אימות במערכת SAP",
   needs: "לא קיימת הכרעה מאומתת לטבלה זו במאגר",
 };
@@ -264,7 +264,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             [s.pk, "שדות מפתח ראשי"],
             [s.fk, "שדות מפתח זר"],
             [s.rels, "קשרים ממודלים"],
-            [s.joins, "ניסוחי JOIN"],
+            [s.joins, "תנאי JOIN"],
             [s.tx, "טרנזקציות"],
             [s.cds, "תצוגות CDS"],
             [s.funcs, "BAPI · FM · IDoc"],
@@ -391,7 +391,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         n={num["nxb-rel"]}
         icon={<GitBranch size={16} strokeWidth={1.75} />}
         eyebrow="קשרים ו-JOIN"
-        title={`${nf.format(s.rels)} קשרים ממודלים · ${nf.format(s.joins)} ניסוחי JOIN`}
+        title={`${nf.format(s.rels)} קשרים ממודלים · ${nf.format(s.joins)} תנאי JOIN`}
         lede={
           <>
             כיוון הקשר לפי תיעוד המקור: <b>בן</b> הוא טבלה הנושאת מפתח זר אל {t.name}, ו<b>אב</b> הוא
@@ -442,7 +442,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                     {r.joins.map((j, i) =>
                       j.join
                         ? <code className="nxb-join" key={`${j.mod}-${i}`} dir="ltr">{j.join}</code>
-                        : <span className="nxb-none" key={`${j.mod}-${i}`}>{j.mod}: לא קיים ניסוח JOIN במאגר</span>,
+                        : <span className="nxb-none" key={`${j.mod}-${i}`}>{j.mod}: לא קיים תנאי JOIN במאגר</span>,
                     )}
                   </span>
                 </li>

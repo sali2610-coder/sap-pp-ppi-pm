@@ -50,14 +50,14 @@ export type CourseReturn = { id: string; y: number };
 /** Hebrew module names, as they are already written across the product. */
 export const LEARN_MOD_HE: Record<string, string> = {
   PM: "תחזוקת מפעל",
-  "PM-User": "תחזוקת מפעל · משתמש",
+  "PM-User": "תחזוקת מפעל · משתמש עסקי",
   PP: "תכנון ייצור",
-  "PP-PI": "תעשיות תהליכיות",
-  "PP-DS": "תכנון ותזמון מפורט",
+  "PP-PI": "ייצור תהליכי",
+  "PP-DS": "תכנון ייצור ותזמון מפורט",
   QM: "ניהול איכות",
   MM: "ניהול חומרים",
   WM: "ניהול מחסן",
   EWM: "ניהול מחסן מורחב",
   SOP: "תכנון מכירות ותפעול",
-  Cross: "חוצה-מודולים",
+  Cross: "חוצה מודולים",
 };

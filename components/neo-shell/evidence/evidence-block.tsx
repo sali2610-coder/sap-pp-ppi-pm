@@ -28,7 +28,7 @@ const SOURCE_HE: Record<SourceType, string> = {
   fiori_library: "SAP Fiori Apps Library",
   sap_note: "SAP Note",
   kba: "SAP KBA",
-  simplification_item: "פריט פישוט (Simplification Item)",
+  simplification_item: "Simplification Item",
   sap_press_book: "ספרות מקצועית",
   repository: "נתוני הפרויקט",
   sap_community: "SAP Community",

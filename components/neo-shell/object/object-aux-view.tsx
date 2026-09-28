@@ -252,7 +252,7 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
           icon={<GitBranch size={15} strokeWidth={1.75} />}
           eyebrow="קשרים"
           title="קשרים מתועדים"
-          lede="הקשרים כפי שנרשמו בקטלוג. הקטלוג אינו כולל ניסוחי JOIN."
+          lede="הקשרים כפי שנרשמו בקטלוג. הקטלוג אינו כולל תנאי JOIN."
         >
           <ul className="no-rels">
             {v.relations.map((r) => (

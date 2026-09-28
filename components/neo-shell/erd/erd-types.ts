@@ -209,12 +209,6 @@ export interface ErdS4 {
   fl: string[];
 }
 
-export const S4_RISK_HE: Record<ErdS4["r"], string> = {
-  high: "סיכון גבוה",
-  medium: "סיכון בינוני",
-  low: "יציב",
-};
-
 export const S4_TRUST_HE: Record<ErdS4["t"], string> = {
   verified: "מאומת בפרויקט",
   partial: "חלקי · נדרש אימות SAP",

@@ -607,7 +607,7 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
                   {j.join ? (
                     <code className="no-join">{j.join}</code>
                   ) : (
-                    <span className="no-none">התיעוד אינו מחזיק ניסוח JOIN לקשר הזה</span>
+                    <span className="no-none">התיעוד אינו מחזיק תנאי JOIN לקשר הזה</span>
                   )}
                   {j.desc ? <span className="no-read-desc">{j.desc}</span> : null}
                   {j.pk || j.fk ? (
@@ -630,7 +630,7 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
           </>
         ) : (
           <p className="no-read-idle">
-            בחירת טבלה במפה מציגה את ניסוח ה-JOIN כפי שנרשם בתיעוד.
+            בחירת טבלה במפה מציגה את תנאי ה-JOIN כפי שנרשם בתיעוד.
             {name} מדורגת {rank} מתוך {total} טבלאות לפי מספר הקשרים הממודלים.
           </p>
         )}

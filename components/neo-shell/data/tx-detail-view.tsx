@@ -212,7 +212,10 @@ export function TxDetailView({ t }: { t: TxDetail }) {
               ))}
             </ul>
             <p className="nxt-s4-why">
-              רשומת הטרנזקציה העוקבת מצהירה על <span className="nx-sap">{t.code}</span> כטרנזקציה שהוחלפה. הקשר מוצהר במאגר.
+              {t.s4.supersededBy.length > 1
+                ? "רשומות הטרנזקציות העוקבות במאגר מציינות את "
+                : "רשומת הטרנזקציה העוקבת במאגר מציינת את "}
+              <span className="nx-sap">{t.code}</span> כטרנזקציה שהוחלפה.
             </p>
           </div>
         ) : null}

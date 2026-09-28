@@ -95,9 +95,9 @@ export interface IncidentsData {
 const MODULE_HE: Record<string, string> = {
   PM: "תחזוקת מפעל",
   PP: "תכנון ייצור",
-  "PP-PI": "תעשיות תהליכיות",
+  "PP-PI": "ייצור תהליכי",
   QM: "ניהול איכות",
-  Cross: "חוצה-מודולים",
+  Cross: "חוצה מודולים",
 };
 
 /** The source's placeholder for "there is none". Never rendered as a value. */

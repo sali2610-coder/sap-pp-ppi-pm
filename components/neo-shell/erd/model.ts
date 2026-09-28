@@ -182,7 +182,7 @@ export const MOD_VAR: Record<ModuleKey, string> = {
 
 export const MOD_HE: Record<ModuleKey, string> = {
   PM: "תחזוקת מפעל",
-  "PP-PI": "תעשיות תהליכיות",
+  "PP-PI": "ייצור תהליכי",
 };
 
 /* ------------------------------------------------------------- the reading */

@@ -135,7 +135,7 @@ export function fioriDir(): RefDir {
     icon: "layoutGrid",
     lede:
       `${nf.format(FIORI_APPS.length)} יישומי SAP Fiori המתועדים בפרויקט: מזהה יישום, תפקיד עסקי, קטלוג, ` +
-      `שירות OData, תצוגת CDS והטרנזקציות ב-SAP GUI הקשורות לכל יישום (מובילה או קשורה, כפי שספריית ה-Fiori מציינת). זהו הצד של S/4HANA מול ` +
+      `שירות OData, תצוגת CDS וטרנזקציות SAP GUI קשורות. זהו הצד של S/4HANA מול ` +
       `מסכי ה-ECC שבתיעוד הטכני.`,
     stats: [
       { v: FIORI_APPS.length, l: "יישומים", i: "layoutGrid" },

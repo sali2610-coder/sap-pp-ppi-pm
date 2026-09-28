@@ -13,7 +13,7 @@ export function generateMetadata() {
   const t = s4TopicTotals();
   return {
     title: "כיסוי תיעוד למעבר ל-S/4HANA · Project NEO",
-    description: `ציון מוכנות לכל מודול ו-${t.total} נושאי שינוי ECC → S/4HANA, עם סטטוס, Fiori, CDS והשפעת המעבר.`,
+    description: `ציון כיסוי תיעוד לכל מודול ו-${t.total} נושאי שינוי במעבר מ-ECC ל-S/4HANA: סטטוס, Fiori, CDS והשפעת המעבר.`,
     robots: { index: false, follow: false },
   };
 }

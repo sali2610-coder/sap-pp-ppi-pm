@@ -11,7 +11,7 @@ import { fioriDir } from "@/components/neo-shell/reference/fiori-data";
 export const metadata = {
   title: "יישומי SAP Fiori · Project NEO",
   description:
-    "יישומי SAP Fiori המתועדים בפרויקט: מזהה יישום, תפקיד עסקי, קטלוג, שירות OData, תצוגת CDS והטרנזקציות ב-SAP GUI שכל יישום מחליף.",
+    "יישומי SAP Fiori המתועדים בפרויקט: מזהה יישום, תפקיד עסקי, קטלוג, שירות OData, תצוגת CDS והטרנזקציות ב-SAP GUI הקשורות לכל יישום.",
   robots: { index: false, follow: false },
 };
 

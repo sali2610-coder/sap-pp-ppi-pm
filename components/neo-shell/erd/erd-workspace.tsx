@@ -54,10 +54,11 @@ import {
   Search, Share2, SlidersHorizontal, Target, Workflow, X,
 } from "lucide-react";
 import {
-  ANALYSIS, LEVEL_HE, MODULE_ORDER, REL_HE, REL_ORDER, S4_RISK_HE, S4_TRUST_HE, ZONE_HE, modVar,
+  ANALYSIS, LEVEL_HE, MODULE_ORDER, REL_HE, REL_ORDER, S4_TRUST_HE, ZONE_HE, modVar,
   type Analysis, type ErdCatalog, type ErdEdgeOut, type ErdS4K, type ErdTable, type Level, type ModCode,
   type RelKind,
 } from "./erd-types";
+import { RISK_HE } from "@/lib/s4";
 import { useShellFocus } from "../focus";
 import {
   SmartReturn, consumeReturn, rememberOrigin, useReturnPacket,
@@ -2247,7 +2248,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                       className="nu-filter"
                       aria-pressed={strong}
                       onClick={() => setStrong((v) => !v)}
-                      title="רק קשרים שבתיעוד נרשם להם ניסוח JOIN"
+                      title="רק קשרים שבתיעוד נרשם להם תנאי JOIN"
                     >
                       <Filter size={12} strokeWidth={1.9} aria-hidden="true" />
                       קשרים עם JOIN
@@ -2790,7 +2791,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                 <g className="ne-open-s4" data-risk={s4.r} data-trust={s4.t}>
                                   <circle className="ne-open-s4-d" cx={px - 4} cy={ruleY + 12} r={4} />
                                   <text className="ne-open-s4-h" x={px - 14} y={ruleY + 16} textAnchor="start">
-                                    S/4HANA · {S4_RISK_HE[s4.r]} · {S4_TRUST_HE[s4.t]}
+                                    S/4HANA · {RISK_HE[s4.r]} · {S4_TRUST_HE[s4.t]}
                                   </text>
                                   <text className="ne-open-s4-b" x={px} y={ruleY + 32} textAnchor="start">
                                     {cut(s4.ch, 40)}
@@ -2991,7 +2992,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 <span className="ne-lg-card" aria-hidden="true">
                   N:1
                 </span>
-                תג הקרדינליות על הקו מוצג כלשונו מהמאגר: 1:1 · 1:N · N:1 · N:N. מקף על
+                תג הקרדינליות על הקו מוצג כלשונו מהמאגר: <bdi dir="ltr">1:1</bdi> · <bdi dir="ltr">1:N</bdi> ·{" "}
+                <bdi dir="ltr">N:1</bdi> · <bdi dir="ltr">N:N</bdi>. מקף על
                 מסגרת מקווקוות מציין שלא נרשמה קרדינליות.
               </li>
             </ul>

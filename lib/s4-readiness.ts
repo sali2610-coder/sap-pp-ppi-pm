@@ -21,9 +21,9 @@ export interface ModuleReadiness {
 }
 
 export const MOD_HE: Record<string, string> = {
-  PM: "תחזוקת מפעל", PP: "תכנון ייצור", "PP-PI": "תעשיות תהליכיות", MM: "ניהול חומרים", SD: "מכירות והפצה",
-  FI: "הנהלת חשבונות", CO: "בקרת עלויות", QM: "ניהול איכות", CS: "שירות לקוחות", BW: "Business Warehouse",
-  HR: "משאבי אנוש", IDOC: "IDOC / ALE", PIPO: "ממשקי PI/PO", CLASS: "מערכת סיווג", BATCH: "ניהול אצוות",
+  PM: "תחזוקת מפעל", PP: "תכנון ייצור", "PP-PI": "ייצור תהליכי", MM: "ניהול חומרים", SD: "מכירות והפצה",
+  FI: "חשבונאות פיננסית", CO: "בקרה", QM: "ניהול איכות", CS: "שירות לקוחות", BW: "Business Warehouse",
+  HR: "משאבי אנוש", IDOC: "IDoc / ALE", PIPO: "ממשקי PI/PO", CLASS: "מערכת סיווג", BATCH: "ניהול אצוות",
 };
 const ALL_MODS = ["PM", "PP", "PP-PI", "MM", "SD", "FI", "CO", "QM", "CS", "BW", "HR", "IDOC", "PIPO", "CLASS", "BATCH"];
 

@@ -26,6 +26,7 @@ import {
   Sparkles, Truck, Waypoints,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { RISK_HE } from "@/lib/s4";
 import { S4Catalog } from "./s4-catalog";
 import {
   APPROACHES, ARCH, ARCH_STATUS, CUSTOM_CODE, CUSTOM_CODE_NOTE, CUTOVER, EXEC_NARRATIVE,
@@ -36,7 +37,6 @@ import {
 
 const nf = new Intl.NumberFormat("he-IL");
 
-const RISK_HE: Record<string, string> = { high: "סיכון גבוה", medium: "סיכון בינוני", low: "סיכון נמוך" };
 const RISK_C: Record<string, string> = {
   high: "var(--status-blocked, #dc2626)",
   medium: "var(--status-in-analysis, #d97706)",
@@ -326,7 +326,7 @@ export function S4ReadinessCenter() {
   };
 
   const nav: [string, string][] = [
-    ["ns4-score", "מוכנות לפי מודול"],
+    ["ns4-score", "כיסוי תיעוד לפי מודול"],
     ["ns4-topics", "נושאי השינוי"],
   ];
 
@@ -339,7 +339,7 @@ export function S4ReadinessCenter() {
         lede={
           r.available
             ? <>ציון כיסוי תיעוד לכל מודול, מחושב מ-{nf.format(r.tables)} טבלאות SAP מתועדות: כיסוי Fiori, כיסוי CDS, שיעור הטבלאות המסומנות כמוחלפות ואומדן עבודת הקוד המותאם. בנוסף {tt.total} נושאי שינוי ECC → S/4HANA, כל אחד עם סטטוס והשפעת מעבר.</>
-            : <>ציון המוכנות אינו זמין, מכיוון שקטלוג טבלאות SAP לא נטען. {tt.total} נושאי השינוי מוצגים במלואם.</>
+            : <>ציון כיסוי התיעוד אינו זמין, מכיוון שקטלוג טבלאות SAP לא נטען. {tt.total} נושאי השינוי מוצגים במלואם.</>
         }
         stats={
           r.available
@@ -364,7 +364,7 @@ export function S4ReadinessCenter() {
         id="ns4-score" n={1}
         icon={<Gauge size={15} strokeWidth={1.75} />}
         eyebrow="ציון"
-        title="מוכנות לפי מודול"
+        title="כיסוי תיעוד לפי מודול"
         lede={r.available ? "מסודר לפי ציון, מהגבוה לנמוך." : undefined}
       >
         {r.available ? (
@@ -378,7 +378,7 @@ export function S4ReadinessCenter() {
                   <Risk r={m.risk} />
                   <span className="ns4-score nx-sap" dir="ltr">{m.score}%</span>
                 </header>
-                <div className="ns4-bar" role="img" aria-label={`ציון מוכנות ${m.score} אחוז`}>
+                <div className="ns4-bar" role="img" aria-label={`ציון כיסוי תיעוד ${m.score} אחוז`}>
                   <span style={{ inlineSize: `${m.score}%` }} />
                 </div>
                 <dl className="ns4-mod-kv">
@@ -396,7 +396,7 @@ export function S4ReadinessCenter() {
           </ul>
         ) : (
           <p className="ns4-silent">
-            ציון המוכנות אינו זמין: קטלוג טבלאות SAP לא נטען.
+            ציון כיסוי התיעוד אינו זמין: קטלוג טבלאות SAP לא נטען.
           </p>
         )}
       </Sec>
@@ -465,7 +465,7 @@ export function MigrationCockpit() {
         lede={
           <>
             {t.objects} אובייקטי מעבר ב-Migration Cockpit, עם {nf.format(t.eccRefs)} הפניות
-            ל-{nf.format(t.eccTables)} טבלאות מקור נבדלות ב-ECC. רצף הטעינה מחושב מהתלויות בין האובייקטים.
+            ל-{nf.format(t.eccTables)} טבלאות מקור שונות ב-ECC. רצף הטעינה מחושב מהתלויות בין האובייקטים.
           </>
         }
         stats={[

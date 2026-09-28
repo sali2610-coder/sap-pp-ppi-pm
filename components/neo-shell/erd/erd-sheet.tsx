@@ -236,8 +236,7 @@ function RelList({
     <>
     {list.some((e) => !e.cd) ? (
       <p className="ne-note ne-cnv-note">
-        קשר המסומן <span className="nx-sap">CARDINALITY_NOT_VERIFIED</span> נרשם במילון הפרויקט בלי יחס כמותי; ‏PK/FK או
-        Association לא אומתו מול מקור SAP רשמי. הקו מצויר מקווקו כתלות מתועדת ולא כיחס מחייב.
+        בקשר שמסומן «קרדינליות לא צוינה», תיעוד הפרויקט רושם אב, בן ושדות JOIN כשהם קיימים, אבל לא את הקרדינליות, ו-PK/FK או Association לא אומתו מול מקור SAP רשמי. הקו המקווקו מסמן תלות מתועדת, לא יחס מחייב.
       </p>
     ) : null}
     <ul className="ne-joins">
@@ -251,7 +250,6 @@ function RelList({
                 {other}
               </button>
               <span className="ne-card nx-sap">{e.cd || REL_HE[e.k as RelKind]}</span>
-              {!e.cd ? <code className="ne-cnv" aria-hidden="true">CARDINALITY_NOT_VERIFIED</code> : null}
               {o ? <span className="nu-chip">{o.m}</span> : null}
             </div>
             {!e.cd ? <p className="ne-join-say">קרדינליות לא צוינה בתיעוד.</p> : null}

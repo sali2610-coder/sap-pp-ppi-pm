@@ -35,11 +35,11 @@ import { objectSummary, relVar, sharedTableCount, type ObjectView } from "./obje
 const nf = new Intl.NumberFormat("he-IL");
 
 const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--mod-pppi)" };
-const MOD_HE: Record<string, string> = { PM: "תחזוקת מפעל · PM", "PP-PI": "תעשיות תהליכיות · PP-PI" };
+const MOD_HE: Record<string, string> = { PM: "PM · תחזוקת מפעל", "PP-PI": "PP-PI · ייצור תהליכי" };
 const REL_HE: Record<string, string> = { "1-1": "1:1", "n-1": "N:1", unstated: "לא מצוין" };
 
 const TRUST_WHY: Record<string, string> = {
-  verified: "מבוסס על Simplification List המתוחזק בפרויקט",
+  verified: "מבוסס על שכבת ה-S/4HANA שנערכה בפרויקט",
   partial: "נגזר מעמודת S/4HANA בתיעוד; נדרש אימות נוסף מול SAP",
   needs: "לא קיימת הכרעה בתיעוד לטבלה זו",
 };
@@ -103,7 +103,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
   const stats: [string, string][] = [
     [nf.format(v.fields.length), "שדות מתועדים"],
     [nf.format(s.neighbours), "טבלאות מקושרות"],
-    [nf.format(s.joins), "ניסוחי JOIN"],
+    [nf.format(s.joins), "תנאי JOIN"],
     [nf.format(new Set(v.tcodes.flatMap((t) => t.codes)).size), "טרנזקציות"],
     [nf.format(v.funcs.length), "BAPI · FM · IDoc"],
     [nf.format(v.cds.length), "תצוגות CDS"],
@@ -349,7 +349,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         n={num["no-rel"]}
         icon={<GitBranch size={16} strokeWidth={1.75} />}
         eyebrow="קשרים ו-JOIN"
-        title={`${s.neighbours} קשרים ממודלים · ${s.joins} ניסוחי JOIN`}
+        title={`${s.neighbours} קשרים ממודלים · ${s.joins} תנאי JOIN`}
         lede={
           v.neighbours.length ? (
             <>
@@ -398,7 +398,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                       j.join ? (
                         <code className="no-join" key={i}>{j.join}</code>
                       ) : (
-                        <span className="no-none" key={i}>{j.mod}: אין ניסוח JOIN בתיעוד</span>
+                        <span className="no-none" key={i}>{j.mod}: אין תנאי JOIN בתיעוד</span>
                       ),
                     )}
                   </span>

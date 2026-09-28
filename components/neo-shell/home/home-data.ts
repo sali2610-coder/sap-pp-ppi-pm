@@ -274,7 +274,7 @@ function moduleOf(m: SAPModuleData, key: ModuleKey, mergedTotal: number): HomeMo
   return {
     key,
     code: key,
-    he: key === "PM" ? "תחזוקת מפעל" : "תעשיות תהליכיות",
+    he: key === "PM" ? "תחזוקת מפעל" : "ייצור תהליכי",
     en: key === "PM" ? "Plant Maintenance" : "Production Planning · Process Industries",
     href: key === "PM" ? "/neo/pm/" : "/neo/pp-pi/",
     m: MOD_VAR[key],
@@ -337,7 +337,7 @@ function chainOf(m: SAPModuleData, key: ModuleKey): FlowChain {
   });
   return {
     key,
-    he: key === "PM" ? "תחזוקת מפעל" : "תעשיות תהליכיות",
+    he: key === "PM" ? "תחזוקת מפעל" : "ייצור תהליכי",
     m: MOD_VAR[key],
     steps: out,
     direct: out.filter((s) => s.link && !s.link.via).length,

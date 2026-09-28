@@ -141,8 +141,8 @@ export function enhDir(): RefDir {
     icon: "puzzle",
     lede:
       `${nf.format(ENHANCEMENTS.length)} טכניקות הרחבה של SAP, מ-User Exit ועד הרחבת Key-User ב-S/4HANA. ` +
-      `לכל טכניקה מתועדים מעמדה ב-ECC ומעמדה ב-S/4HANA, ו-${nf.format(EXITS.length)} הרחבות בשם מקטלוג ` +
-      `PM ו-PP-PI משויכות לטכניקות בעלות אותו שם מנגנון.`,
+      `לכל טכניקה מתועדים מעמדה ב-ECC ומעמדה ב-S/4HANA, ו-${nf.format(EXITS.length)} הרחבות ספציפיות מקטלוג ` +
+      `ההרחבות של הפרויקט (PM, PP וחוצות מודולים) משויכות לטכניקה לפי סוג המנגנון שלהן.`,
     stats: [
       { v: ENHANCEMENTS.length, l: "טכניקות", i: "puzzle" },
       { v: byKind.get(KIND_HE.Exit) || 0, l: "Exits קלאסיים", i: "fileCode" },
@@ -223,7 +223,7 @@ export function enhDetail(slug: string): RefDetail | null {
     title: "דוגמאות מהמודולים",
     facts: [
       { label: "PM · תחזוקת מפעל", text: e.pmExample === "—" ? "" : e.pmExample, absent: "לא צוינה דוגמת PM ברשומה." },
-      { label: "PP / PP-PI · תכנון ייצור ותעשיות תהליכיות", text: e.ppExample === "—" ? "" : e.ppExample, absent: "לא צוינה דוגמת PP או PP-PI ברשומה." },
+      { label: "PP / PP-PI · תכנון ייצור וייצור תהליכי", text: e.ppExample === "—" ? "" : e.ppExample, absent: "לא צוינה דוגמת PP או PP-PI ברשומה." },
       { label: "תרחיש עסקי", text: e.scenario },
     ],
   });

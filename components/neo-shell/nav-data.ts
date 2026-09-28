@@ -41,7 +41,7 @@ import { BEST_PRACTICES } from "@/data/best-practices";
 import { modelStats } from "./erd/model";
 import { tablesData } from "./data/tables-data";
 import { txStatusMap } from "./data/tx-detail";
-import { bapiDir } from "./reference/bapi-data";
+import { bapiDir, bapiFnCount } from "./reference/bapi-data";
 import { cdsDir } from "./reference/cds-data";
 import { fioriDir } from "./reference/fiori-data";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
@@ -69,7 +69,7 @@ export const MOD_VAR: Record<string, string> = {
 export const modVar = (m?: string) => (m && MOD_VAR[m]) || "var(--ink-3)";
 
 /** Hebrew module names, as they are already written across the product. */
-export const MOD_HE: Record<string, string> = { PM: "תחזוקת מפעל", "PP-PI": "תעשיות תהליכיות", PP: "תכנון ייצור" };
+export const MOD_HE: Record<string, string> = { PM: "תחזוקת מפעל", "PP-PI": "ייצור תהליכי", PP: "תכנון ייצור" };
 
 // Object-class hue. Visualisation surfaces ONLY (the preview class dots, the
 // table lists) — it is a second encoding and must never compete with the module
@@ -143,7 +143,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       label: "מודולים",
       items: [
         { id: "pm", label: "PM · תחזוקת מפעל", icon: "Wrench", count: pm.tables, countLabel: "טבלאות", mod: "PM" },
-        { id: "pp-pi", label: "PP-PI · תעשיות תהליכיות", icon: "FlaskConical", count: pp.tables, countLabel: "טבלאות", mod: "PP-PI" },
+        { id: "pp-pi", label: "PP-PI · ייצור תהליכי", icon: "FlaskConical", count: pp.tables, countLabel: "טבלאות", mod: "PP-PI" },
         /* THE COUNT AND THE DESTINATION NOW AGREE.
            This item has always counted DOMAINS — 39 business domains — while
            pointing at /neo/erd/, which lists tables. A reader who clicked
@@ -160,7 +160,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       label: "המעבר ל-S/4HANA",
       items: [
         { id: "s4hana", href: "/neo/s4hana/", label: "מרכז S/4HANA", icon: "Rocket", count: S4_OBJECTS.length, countLabel: "אובייקטים" },
-        { id: "s4-readiness", href: "/neo/s4-readiness/", label: "מוכנות ל-S/4HANA", icon: "Gauge", count: ECC_S4_TOPICS.length, countLabel: "נושאי שינוי" },
+        { id: "s4-readiness", href: "/neo/s4-readiness/", label: "כיסוי תיעוד למעבר", icon: "Gauge", count: ECC_S4_TOPICS.length, countLabel: "נושאי שינוי" },
         { id: "migration-cockpit", href: "/neo/migration-cockpit/", label: "קוקפיט המעבר", icon: "Truck", count: MIG_OBJECTS.length, countLabel: "אובייקטי מיגרציה" },
       ],
     },
@@ -171,7 +171,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
         { id: "tables", label: "טבלאות SAP", icon: "Table", count: ALL_TABLES.length, countLabel: "טבלאות" },
         { id: "erd", href: "/neo/erd/", label: "מודל הנתונים · ERD", icon: "GitBranch", count: modelStats().edges, countLabel: "קשרים" },
         { id: "transactions", label: "טרנזקציות", icon: "Terminal", count: registryStats().total, countLabel: "טרנזקציות" },
-        { id: "bapi", label: "BAPI ו-FM", icon: "Plug", count: funcRegistry().length, countLabel: "אובייקטי פונקציה" },
+        { id: "bapi", label: "BAPI ו-FM", icon: "Plug", count: bapiFnCount(), countLabel: "BAPI ו-FM" },
         { id: "idoc", label: "IDoc", icon: "Cable", count: idocMessageTypes().length, countLabel: "סוגי הודעה" },
         { id: "cds", label: "תצוגות CDS", icon: "Sigma", count: CDS_VIEWS.length, countLabel: "תצוגות CDS" },
         { id: "fiori-apps", label: "יישומי Fiori", icon: "LayoutGrid", count: FIORI_APPS.length, countLabel: "יישומים" },
@@ -280,7 +280,7 @@ function modulePreview(mod: ModuleKey): Preview {
   const bk = booksFor(mod);
   return {
     kind: "module",
-    label: mod === "PM" ? "PM · תחזוקת מפעל" : "PP-PI · תעשיות תהליכיות",
+    label: mod === "PM" ? "PM · תחזוקת מפעל" : "PP-PI · ייצור תהליכי",
     he: MOD_HE[mod],
     mod,
     nums: [
@@ -426,7 +426,7 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
         const nm = (raw || "").trim();
         if (!nm || seenFn.has(nm)) continue;
         seenFn.add(nm);
-        out.push({ k: "func", t: nm, s: he || "אובייקט פונקציה", m: true, href: "/neo/bapi/", st: fStatus.get(nm.toUpperCase()) });
+        out.push({ k: "func", t: nm, s: he || "BAPI או FM", m: true, href: "/neo/bapi/", st: fStatus.get(nm.toUpperCase()) });
       }
     }
   }
@@ -485,7 +485,7 @@ export function hubContent(id: string): HubContent {
       lede:
         meta.mod === "PM"
           ? "תחזוקת מפעל: ציוד, מיקומים פונקציונליים, הודעות תחזוקה והזמנות תחזוקה. כל מספר בעמוד נגזר מהתיעוד הטכני של הפרויקט."
-          : "תעשיות תהליכיות: מתכוני אב, משאבים, הזמנות תהליך ואישורים. כל מספר בעמוד נגזר מהתיעוד הטכני של הפרויקט.",
+          : "ייצור תהליכי: מתכוני אב, משאבים, הזמנות תהליך ואישורים. כל מספר בעמוד נגזר מהתיעוד הטכני של הפרויקט.",
       stats: [
         { value: st.tables, label: "טבלאות ייחודיות" },
         { value: st.fields, label: "שדות מתועדים" },
@@ -721,7 +721,7 @@ export function landingContent(): LandingContent {
       },
       {
         mod: "PP-PI",
-        label: "PP-PI · תעשיות תהליכיות",
+        label: "PP-PI · ייצור תהליכי",
         he: MOD_HE["PP-PI"],
         href: "/neo/pp-pi/",
         stats: [

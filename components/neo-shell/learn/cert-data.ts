@@ -58,7 +58,7 @@ export interface CertData {
 
 const MODULES: { id: CertModule; he: string; from: string }[] = [
   { id: "PM", he: "תחזוקת מפעל", from: "כל טבלאות ה-PM בקטלוג הטבלאות של הפרויקט" },
-  { id: "PP-PI", he: "תעשיות תהליכיות", from: "כל טבלאות ה-PP-PI בקטלוג הטבלאות של הפרויקט" },
+  { id: "PP-PI", he: "ייצור תהליכי", from: "כל טבלאות ה-PP-PI בקטלוג הטבלאות של הפרויקט" },
   { id: "PP", he: "תכנון ייצור", from: "תת-קבוצה של טבלאות הליבה של PP מתוך טבלאות ה-PP-PI" },
 ];
 

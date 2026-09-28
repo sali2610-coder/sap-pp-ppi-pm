@@ -33,19 +33,19 @@ const nf = new Intl.NumberFormat("he-IL");
 const ABOUT: Record<WsSheet["key"], { icon: React.ReactNode; lede: string }> = {
   config: {
     icon: <Settings2 size={13} strokeWidth={1.75} />,
-    lede: "לכל אובייקט קונפיגורציה: הטרנזקציה, נתיב ה-SPRO, ההסבר הפונקציונלי ורשימת המונחים, כפי שנכתבו בגיליון.",
+    lede: "לכל אובייקט קונפיגורציה: הטרנזקציה, ההסבר הפונקציונלי ותרגום המונחים.",
   },
   customCode: {
     icon: <Blocks size={13} strokeWidth={1.75} />,
-    lede: "בדיקת הקוד המותאם: User Exits ו-BAdIs, עם סטטוס הבדיקה וההמלצה למעבר ל-S/4HANA כפי שנרשמו בגיליון.",
+    lede: "בדיקת הקוד המותאם: User Exits ו-BAdIs, עם סטטוס הבדיקה וההמלצה למעבר ל-S/4HANA.",
   },
   tools: {
     icon: <Wrench size={13} strokeWidth={1.75} />,
-    lede: "ערכת הכלים של המיישם ושל Basis: תפקיד כל כלי, מצבו ב-S/4HANA והיישום העוקב ב-Fiori Launchpad, כפי שנרשמו בגיליון.",
+    lede: "ערכת הכלים של המיישם ושל Basis: תפקיד כל כלי, מצבו ב-S/4HANA ויישום ה-Fiori הקשור ב-Launchpad.",
   },
   ppvs: {
     icon: <GitCompareArrows size={13} strokeWidth={1.75} />,
-    lede: "השוואה מתיעוד הפרויקט בין ייצור בדיד (PP) לתעשיות תהליכיות (PP-PI), עם הנימוק לבחירה ב-PP-PI למודול זה.",
+    lede: "השוואה מתיעוד הפרויקט בין ייצור בדיד (PP) לייצור תהליכי (PP-PI), עם הנימוק לבחירה ב-PP-PI למודול זה.",
   },
   simplification: { icon: null, lede: "" },
   tcodesDir: { icon: null, lede: "" },

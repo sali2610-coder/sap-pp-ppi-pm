@@ -9,10 +9,10 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ClipboardList, Code2, Search, X } from "lucide-react";
+import { RISK_HE } from "@/lib/s4";
 import type { S4Link, S4ObjView } from "./s4-data";
 
 const nf = new Intl.NumberFormat("he-IL");
-const RISK_HE: Record<string, string> = { high: "סיכון גבוה", medium: "סיכון בינוני", low: "סיכון נמוך" };
 const RISK_C: Record<string, string> = { high: "var(--status-blocked, #dc2626)", medium: "var(--status-in-analysis, #d97706)", low: "var(--status-done, #16a34a)" };
 const TRUST_HE: Record<string, string> = { curated: "תיעוד מאומת", "needs-verification": "נדרש אימות נוסף" };
 const ORDER: { k: string; he: string; open: boolean }[] = [

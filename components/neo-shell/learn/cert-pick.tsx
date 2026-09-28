@@ -19,7 +19,7 @@ import type { CertModule, Level } from "@/lib/cert/generate";
 
 export const MODULES: { id: CertModule; he: string }[] = [
   { id: "PM", he: "תחזוקת מפעל" },
-  { id: "PP-PI", he: "תעשיות תהליכיות" },
+  { id: "PP-PI", he: "ייצור תהליכי" },
   { id: "PP", he: "תכנון ייצור" },
 ];
 export const LEVELS: Level[] = [1, 2, 3, 4];

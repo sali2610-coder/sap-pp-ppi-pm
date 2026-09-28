@@ -38,7 +38,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, BadgeCheck, FileText, Layers, TriangleAlert } from "lucide-react";
 import { OriginLink } from "@/components/neo-shell/nav-context";
-import { RISK_COLOR } from "@/lib/s4";
+import { RISK_COLOR, RISK_HE } from "@/lib/s4";
 import { pushRecentObject } from "../store";
 import type { S4Class, WsData, WsS4Row } from "./workspace-data";
 import { Chapter, Sub, type ChapterMeta } from "./workspace-chapter";
@@ -54,7 +54,7 @@ const FIRST = 4;
  *  worded line — a VALUE — because that is what it is: a statement about the
  *  provenance of the sentence next to it. */
 const TRUST_WHY: Record<string, string> = {
-  verified: "מבוסס על Simplification List המתוחזק בפרויקט",
+  verified: "מבוסס על שכבת ה-S/4HANA שנערכה בפרויקט",
   partial: "נגזר מעמודת S/4HANA בתיעוד; נדרש אימות נוסף מול SAP",
   needs: "לא קיימת הכרעה בתיעוד לטבלה זו",
 };
@@ -92,10 +92,10 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
 
   const riskRows = (
     [
-      { k: "high", he: "סיכון גבוה", n: d.s4x.risk.high },
-      { k: "medium", he: "סיכון בינוני", n: d.s4x.risk.medium },
-      { k: "low", he: "יציב", n: d.s4x.risk.low },
-      { k: "none", he: "לא ידוע", n: d.s4x.risk.none },
+      { k: "high", he: RISK_HE.high, n: d.s4x.risk.high },
+      { k: "medium", he: RISK_HE.medium, n: d.s4x.risk.medium },
+      { k: "low", he: RISK_HE.low, n: d.s4x.risk.low },
+      { k: "none", he: RISK_HE.none, n: d.s4x.risk.none },
     ] as { k: "high" | "medium" | "low" | "none"; he: string; n: number }[]
   ).filter((r) => r.n > 0);
 
@@ -105,9 +105,8 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       icon={<TriangleAlert size={17} strokeWidth={1.75} />}
       lede={
         <>
-          מתוך <b className="nw-sap">{nf.format(d.counts.tables)}</b> הטבלאות השונות של המודול,{" "}
-          <b className="nw-sap">{nf.format(changed.length)}</b> מסומנות כמשתנות מהותית במעבר ל-S/4HANA.
-          כל אחת מהן מוצגת כאן במלואה, עם מקור ההכרעה.
+          <b className="nw-sap">{nf.format(changed.length)}</b> מתוך <b className="nw-sap">{nf.format(d.counts.tables)}</b> טבלאות
+          המודול מסומנות בסיכון גבוה או בינוני במעבר ל-S/4HANA. לכל אחת מוצג מקור ההכרעה.
         </>
       }
       lead={
@@ -241,7 +240,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
           id={`${meta.id}-notes`}
           icon={<FileText size={13} strokeWidth={1.75} />}
           title="הפניות SAP Note בפרויקט"
-          note="המזהים שנרשמו ב-Simplification List של הפרויקט עבור טבלאות המודול. הרשימה כוללת רק מזהים שקיימים בתיעוד הפרויקט."
+          note="הפניות SAP Note ו-Simplification שנרשמו בשכבת ה-S/4HANA של הפרויקט עבור טבלאות המודול."
         >
           <ul className="nw-notes">
             {d.s4x.notes.map((n) => (

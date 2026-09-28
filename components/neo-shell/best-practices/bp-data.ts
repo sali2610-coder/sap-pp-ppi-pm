@@ -42,7 +42,7 @@ export { bpSlugs } from "@/data/best-practices";
 const KIND_HE: Record<CanonicalKind, string> = {
   table: "טבלה",
   tx: "טרנזקציה",
-  fm: "אובייקט פונקציה",
+  fm: "BAPI או FM",
   "idoc:msg": "סוג הודעת IDoc",
   "idoc:basic": "IDoc Basic Type",
   cds: "תצוגת CDS",

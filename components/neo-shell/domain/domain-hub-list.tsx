@@ -12,7 +12,7 @@ import type { DomainCard } from "./domain-data";
 
 const nf = new Intl.NumberFormat("he-IL");
 const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--mod-pppi)" };
-const MOD_HE: Record<string, string> = { PM: "תחזוקת מפעל · PM", "PP-PI": "תעשיות תהליכיות · PP-PI" };
+const MOD_HE: Record<string, string> = { PM: "PM · תחזוקת מפעל", "PP-PI": "PP-PI · ייצור תהליכי" };
 
 export function Card({ c, i }: { c: DomainCard; i: number }) {
   return (

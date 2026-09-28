@@ -223,11 +223,11 @@ export default function NeoHome() {
               href="/neo/s4-readiness/"
               prefetch={false}
               className="nh-mod nm-rise nm-lift"
-              aria-label="מוכנות למעבר S/4HANA: סיווג המעבר כפי שהתיעוד מציין"
+              aria-label="תמונת המעבר ל-S/4HANA לפי תיעוד הפרויקט: פתיחת עמוד כיסוי התיעוד"
             >
               <span className="nh-mod-top">
                 <b className="nh-sap">S/4HANA</b>
-                <span className="nh-mod-he">מוכנות למעבר</span>
+                <span className="nh-mod-he">תמונת המעבר</span>
                 <ArrowUpLeft size={17} strokeWidth={1.75} aria-hidden="true" />
               </span>
               <span className="nh-mod-nums">
@@ -270,9 +270,8 @@ export default function NeoHome() {
               <span><span className="nh-accent">{nf.format(marked)} מסומנות לשינוי במעבר</span></span>
             </h2>
             <p className="nh-lede nm-rise">
-              לכל טבלה מוצמדת הערת ה-<span className="nh-sap">S/4HANA</span> מתיעוד הפרויקט, כולל
-              טבלה או טרנזקציה חלופית במקום שבו התיעוד מציין אחת. טבלה ללא סיווג בתיעוד
-              נשארת ללא תווית.
+              לכל טבלה יש בתיעוד הפרויקט הערת <span className="nh-sap">S/4HANA</span>, ולחלקן גם טבלה או טרנזקציה
+              חלופית. טבלה שהתיעוד לא סיווג נשארת בלי תווית.
             </p>
           </div>
 

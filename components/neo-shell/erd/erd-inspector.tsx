@@ -275,9 +275,7 @@ export function ErdInspector({
               </h3>
               {activeEdges.some((e) => !e.cd) ? (
                 <p className="ne-note ne-cnv-note">
-                  קשר המסומן <span className="nx-sap">CARDINALITY_NOT_VERIFIED</span> נרשם במילון הפרויקט עם הורה, ילד ושדות
-                  ה-JOIN כשהם קיימים, בלי יחס כמותי; ‏PK/FK או Association לא אומתו מול מקור SAP רשמי. הקו מצויר מקווקו כתלות
-                  מתועדת ולא כיחס מחייב.
+                  בקשר שמסומן «קרדינליות לא צוינה», תיעוד הפרויקט רושם אב, בן ושדות JOIN כשהם קיימים, אבל לא את הקרדינליות, ו-PK/FK או Association לא אומתו מול מקור SAP רשמי. הקו המקווקו מסמן תלות מתועדת, לא יחס מחייב.
                 </p>
               ) : null}
               {activeEdges.length ? (
@@ -293,9 +291,6 @@ export function ErdInspector({
                             {other}
                           </button>
                           <span className="ne-card nx-sap">{e.cd || REL_HE[e.k as RelKind]}</span>
-                          {!e.cd ? (
-                            <code className="ne-cnv" aria-hidden="true">CARDINALITY_NOT_VERIFIED</code>
-                          ) : null}
                           {e.x ? <span className="ne-ct">חוצה מודול</span> : null}
                         </div>
                         {/* IN WORDS (design audit S7-ERD-5): which side is the
@@ -460,7 +455,7 @@ export function ErdInspector({
                 <dd className="nx-sap">{nf.format(data.stats.shared)}</dd>
               </div>
               <div>
-                <dt>קשרים עם ניסוח JOIN</dt>
+                <dt>קשרים עם תנאי JOIN</dt>
                 <dd className="nx-sap">{nf.format(data.stats.withJoin)}</dd>
               </div>
               <div>

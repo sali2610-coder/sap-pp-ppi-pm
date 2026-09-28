@@ -323,3 +323,123 @@
 - lib/seo.ts
 
 ובנוסף המסמך הזה, `docs/redesign-2026-09/COPY-AUDIT.md`.
+
+## סבב שני: שורות SAP
+
+**תאריך:** 2026-09-29 · **בסיס:** HEAD `e5963a1b` (הסבב הראשון נכנס ב-`b4f87193`) · **קלט:** `docs/redesign-2026-09/reviews/content-review-copy-sap.md` (neo-sap-content-quality-reviewer). הוחל הנוסח שבעמודת "נוסח מאושר", מילה במילה, כולל המיקומים הנוספים שהעמודה עצמה מונה (למשל fallbacks.ts בשורה 11, object-orbit.tsx:633 בשורה 78, סעיף 3 בשורות 10 ו-110). **לא בוצע commit.**
+
+**היקף:** 24 שורות: 10, 11, 12, 39, 40, 41, 53, 56, 58, 63, 66, 73, 78, 82, 85, 86, 90, 105, 106, 110, 115, 121, 123, 126. שורה 91 (מילון מעמד S/4HANA) לא בסבב הזה: היא נכנסת יחד עם תיקוני הגזירה (חוסמים 1, 2, 3 ו-5 בסקירה), כי היא מתייגת מחדש את אותו קוד. בסבב הזה לא שונתה אף תווית של מעמד S/4HANA.
+
+**ספירה:** 24 מתוך 24 הוחלו. מתוך 25 השורות שחיכו לבודק התוכן בסבב הראשון נשארה פתוחה רק שורה 91.
+
+**מספרים:** אף מספר לא הוקלד ביד. בשורה 12 המונה בסרגל נגזר עכשיו מהרשימה של הקטלוג עצמו (`bapiFnCount()` ב-bapi-data.ts): 142 בסרגל ו-142 בקטלוג. לפני כן הסרגל ספר את כל ה-registry: ‏147, כולל 3 סוגי הודעות IDoc ו-2 מושגים תהליכיים.
+
+### אימות (סבב שני)
+
+| בדיקה | תוצאה |
+|---|---|
+| `./node_modules/.bin/tsc --noEmit --incremental false` | יציאה 0, אפס שגיאות |
+| `eslint` על 42 קובצי הקוד שנערכו | 0 שגיאות, 2 אזהרות קיימות (תלות חסרה `fitOnEnter` ב-erd-workspace.tsx, השורות זזו באחת) |
+| `npm test` | 211 מתוך 211 עברו; אף בדיקה לא עודכנה |
+| `node .../books-hash-check.mjs` | `ZERO_CONTENT_LOSS 574/574` |
+| נתיבים מוגנים ונתיבים שהוחרגו (app/design, cns/legal, app/fonts, types, PROGRESS.md) | לא נגעו |
+| `public/sap-infrastructure/dataset.json` | JSON תקין, 12 מודולים; השתנו רק 5 אובייקטי מודול (PP, PP-PI, FI, CO, IDOC) |
+| מדידה בסקריפט | bapiFnCount ‏142 = מונה הקטלוג 142; bapiKindHe: ‏83 מודול פונקציה, 59 BAPI, 2 מושג תהליכי; EXITS: ‏27 (PM 13, PP 12, Cross 2), תואם לשורה 85 |
+| דפדפן (`next dev`, Chromium ללא ממשק, 1440 על 900) | 16 מסלולי NEO החזירו 200 בלי שגיאות קונסול, והנוסח החדש נמצא בכולם בטקסט המוצג (בלי תוכן script). הסרגל מציג "BAPI ו-FM 142" ו"כיסוי תיעוד למעבר 18". במקרא ה-ERD ארבעת הערכים בתוך `bdi` עם direction ltr (נבדק בצילום). ב-`/neo/erd/#AFKO` מוצגת הערת הקשר החדשה ואין אלמנט CARDINALITY_NOT_VERIFIED. הערת הטרנזקציה העוקבת מוצגת ביחיד ב-COR6 וברבים ב-BP |
+
+### שורות שהוחלו (סבב שני)
+
+| # | קבצים | לפני | אחרי | סיבה | מקור עובדתי | בודק תוכן | סטטוס |
+|---|---|---|---|---|---|---|---|
+| 10 | cns/mod-var.ts; cns/nav-data.ts (MOD_HE, פריט הסרגל, תצוגה מקדימה, כרטיס המודול, lede שאינו מוצג); cns/nav-context/fallbacks.ts; cns/search/command-index.ts; cns/home/home-data.ts (2); cns/home/home-zones.tsx; cns/learn/mod.ts; cns/learn/incidents-data.ts; cns/learn/cert-pick.tsx; cns/learn/cert-data.ts; cns/workspace/workspace-data.ts; cns/books/books-data.ts; cns/erd/model.ts; cns/data/tx-detail.ts; cns/object/object-view.tsx, cns/domain/domain-hub-list.tsx, cns/domain/domain-data.ts; lib/s4-readiness.ts; public/sap-infrastructure/dataset.json; בפרוזה: cns/workspace/workspace-build.tsx, cns/books/books-data.ts, cns/reference/bapi-data.ts, cns/reference/enh-data.ts | "PP-PI · תעשיות תהליכיות"; "תעשיות תהליכיות · PP-PI" (השם קודם); ב-ERD "ייצור (מקף בינוני) תעשיית תהליך" ו-"Production (מקף בינוני) Process Industry"; בפרוזה "תעשיות תהליכיות (PP-PI)" | "PP-PI · ייצור תהליכי"; בשלוש המפות "PP-PI · ייצור תהליכי" ו-"PM · תחזוקת מפעל" (הקוד קודם); ב-ERD "ייצור תהליכי" ו-"Production Planning for Process Industries"; בפרוזה "ייצור תהליכי (PP-PI)", ובתווית ההרחבות "PP / PP-PI · תכנון ייצור וייצור תהליכי" | "תעשיות תהליכיות" הוא שם הענפים, לא שם המודול | גיליון ppvs בבלופרינט של PP-PI: "SAP PP-PI - ייצור תהליכי (Process)" (סעיף 4 בסקירה) | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל. השם המלא "תכנון ייצור לתעשיות תהליכיות" לא נוסף, כי סעיף 3 קובע "ייצור תהליכי" גם בפרוזה |
+| 11 | cns/nav-data.ts; cns/nav-context/fallbacks.ts | "מוכנות ל-S/4HANA" | בסרגל "כיסוי תיעוד למעבר"; ב-fallbacks "כיסוי תיעוד למעבר ל-S/4HANA". כותרת העמוד ו-s4-view.tsx כבר "כיסוי תיעוד למעבר ל-S/4HANA" | "מוכנות" מרמזת על SAP Readiness Check | העמוד מצהיר שהציון מודד כיסוי תיעוד בלבד (s4-view.tsx) | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 12 | cns/nav-data.ts (מונה הסרגל, תווית תוצאת func); app/neo/bapi/page.tsx; app/neo/bapi/[name]/page.tsx; cns/reference/bapi-data.ts (lede, שתי תוויות מונים, שני עזרים); cns/domain/domain-view.tsx (4); cns/best-practices/bp-data.ts | "147 אובייקטי פונקציה" בסרגל; "BAPIs ומודולי פונקציה"; "אובייקט פונקציה"; "אובייקטי פונקציה (BAPI ו-FM)"; "BAPIs" | בסרגל "142 BAPI ו-FM", המספר מ-bapiFnCount(); title "BAPI ומודולי פונקציה · Project NEO"; בעמוד רשומה בלי שם עברי: סוג הרשומה (BAPI, מודול פונקציה, מושג תהליכי) דרך bapiKindHe(); "BAPI ו-FM" בתוויות קצרות, "BAPI ומודולי פונקציה" בכותרות וב-lede, "BAPI" במקום "BAPIs", "BAPI או FM" כשהסוג לא ידוע. build.ts נשאר "מודול פונקציה" | BAPI ו-FM הם המונחים של SAP; המספר תואם עכשיו למונח | registry ‏147 (FM 85, BAPI 59, IDoc 3); בלי IDoc ‏144; בלי המושגים Control Recipe ו-PPCC1 ‏142, המספר שהקטלוג מציג | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל; התנאי מתקיים (142 = 142) |
+| 39 | app/neo/s4-readiness/page.tsx (description) | "ציון מוכנות לכל מודול ו-N נושאי שינוי ECC → S/4HANA, עם סטטוס, Fiori, CDS והשפעת המעבר." | "ציון כיסוי תיעוד לכל מודול ו-N נושאי שינוי במעבר מ-ECC ל-S/4HANA: סטטוס, Fiori, CDS והשפעת המעבר." | תואם לכותרת העמוד | data/ecc-s4.ts | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 40 | app/neo/fiori-apps/page.tsx (description) | "…והטרנזקציות ב-SAP GUI שכל יישום מחליף." | "…והטרנזקציות ב-SAP GUI הקשורות לכל יישום." | "מחליף" מחזק את העובדה | lib/fiori/types.ts:37 (backend transactions); data/fiori/apps.ts | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 41 | app/neo/erd/page.tsx (description) | "…קרדינליות וניסוחי JOIN כפי שנרשמו בתיעוד." | "…קרדינליות ותנאי JOIN מתיעוד הפרויקט." | המונח המקצועי | lib/types.ts:35 (השדה join הוא תנאי ה-ON) | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 53 | app/neo/page.tsx | "לכל טבלה מוצמדת הערת ה-S/4HANA מתיעוד הפרויקט, כולל טבלה או טרנזקציה חלופית במקום שבו התיעוד מציין אחת. טבלה ללא סיווג בתיעוד נשארת ללא תווית." | "לכל טבלה יש בתיעוד הפרויקט הערת S/4HANA, ולחלקן גם טבלה או טרנזקציה חלופית. טבלה שהתיעוד לא סיווג נשארת בלי תווית." | עמוד הבית לא מציג את ההערות עצמן | נמדד בסקירה: 105 מתוך 105 עם הערה, 56 עם חלופה | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 56 | app/neo/page.tsx (כרטיס ו-aria-label); cns/s4/s4-view.tsx (ניווט הפרקים, 342, כותרת, aria-label, 399) | "מוכנות למעבר"; "מוכנות לפי מודול"; "ציון מוכנות N אחוז"; "ציון המוכנות אינו זמין" | "תמונת המעבר"; aria-label "תמונת המעבר ל-S/4HANA לפי תיעוד הפרויקט: פתיחת עמוד כיסוי התיעוד"; "כיסוי תיעוד לפי מודול"; "ציון כיסוי תיעוד N אחוז"; "ציון כיסוי התיעוד אינו זמין, מכיוון שקטלוג טבלאות SAP לא נטען. N נושאי השינוי מוצגים במלואם."; "ציון כיסוי התיעוד אינו זמין: קטלוג טבלאות SAP לא נטען." | הכרטיס בבית מציג הכרעות, לא ציון כיסוי | "קריטריוני מוכנות" בקוקפיט המעבר הם מושג אחר ונשארו | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 58 | cns/workspace/workspace-data.ts | PM ו-PP-PI: "…כפי שהם מתועדים בתיעוד הטכני של הפרויקט. כל מספר בעמוד נגזר מהתיעוד."; ב-PP-PI "הזמנות תהליך" | PM: "ציוד, מיקומים פונקציונליים, הודעות תחזוקה והזמנות תחזוקה, לפי התיעוד הטכני של הפרויקט." PP-PI: "מתכוני אב, משאבים, פקודות תהליך ואישורי ביצוע, לפי התיעוד הטכני של הפרויקט." | "פקודת תהליך" היא הצורה הרווחת | הבלופרינט: "פקודת ייצור תהליכית (Process Order)" | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 63 | cns/workspace/workspace-build.tsx (3) | "…הטרנזקציה, נתיב ה-SPRO, ההסבר הפונקציונלי ורשימת המונחים, כפי שנכתבו בגיליון." / "…וההמלצה למעבר ל-S/4HANA כפי שנרשמו בגיליון." / "…והיישום העוקב ב-Fiori Launchpad, כפי שנרשמו בגיליון." | "לכל אובייקט קונפיגורציה: הטרנזקציה, ההסבר הפונקציונלי ותרגום המונחים." / "בדיקת הקוד המותאם: User Exits ו-BAdIs, עם סטטוס הבדיקה וההמלצה למעבר ל-S/4HANA." / "ערכת הכלים של המיישם ושל Basis: תפקיד כל כלי, מצבו ב-S/4HANA ויישום ה-Fiori הקשור ב-Launchpad." | הסיומת כפולה; שני פרטים לא תאמו לגיליונות | גיליון config: "טרנזקציה (SPRO/T-code)", "תרגום מונחים (HE = EN)"; גיליון tools: "Fiori App + ID" | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל (סוגר גם את ממצאים 13 ו-18) |
+| 66 | cns/workspace/workspace-s4.tsx | אחרי הסבב הראשון: "מתוך N הטבלאות השונות של המודול, N מסומנות כמשתנות מהותית במעבר ל-S/4HANA. כל אחת מהן מוצגת כאן במלואה, עם מקור ההכרעה." | "N מתוך N טבלאות המודול מסומנות בסיכון גבוה או בינוני במעבר ל-S/4HANA. לכל אחת מוצג מקור ההכרעה." | תיאום מול הנוסח המאושר; "השונות" מהסבב הראשון יצא | d.s4x.changed: טבלאות בסיכון high או medium (workspace-data.ts) | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 73 | cns/data/tables-detail-view.tsx; cns/object/object-view.tsx; cns/workspace/workspace-s4.tsx (TRUST_WHY.verified) | "מבוסס על ידע Simplification List המתוחזק בפרויקט" / "מבוסס על Simplification List המתוחזק בפרויקט" | "מבוסס על שכבת ה-S/4HANA שנערכה בפרויקט" | ה-Simplification List הוא מסמך של SAP | lib/s4.ts ו-data/s4-impact.ts (S4_IMPACT, S4_STABLE) | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 78 | cns/data/tables-detail-view.tsx (3); cns/object/object-view.tsx (3); cns/object/object-aux-view.tsx; cns/object/object-orbit.tsx (2); cns/erd/erd-inspector.tsx; cns/erd/erd-workspace.tsx | "ניסוח JOIN" / "ניסוחי JOIN" / "ניסוח ה-JOIN" | "תנאי JOIN" / "תנאי ה-JOIN" | המונח המקצועי | lib/types.ts:35 | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל; לא נשאר "ניסוח JOIN" ב-NEO |
+| 82 | cns/reference/bapi-data.ts | "מושג תהליכי שהבלופרינט מונה בעמודת הפונקציות של הטבלאות (מקף ארוך) לא מודול פונקציה ולא BAPI. אין לו מזהה fm: והוא אינו נספר בקטלוג הפונקציות; התוכן נשמר כמידע תהליכי." | "מושג תהליכי מעמודת הפונקציות בבלופרינט. אינו מודול פונקציה ואינו BAPI, ולכן אינו נספר בקטלוג הפונקציות." | מזהה פנימי ומקף ארוך | data/function-intel.ts (Control Recipe, PPCC1) | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 85 | cns/reference/enh-data.ts | "…ו-N הרחבות בשם מקטלוג PM ו-PP-PI משויכות לטכניקות בעלות אותו שם מנגנון." | "…ו-N הרחבות ספציפיות מקטלוג ההרחבות של הפרויקט (PM, PP וחוצות מודולים) משויכות לטכניקה לפי סוג המנגנון שלהן." | אין הרחבה מתויגת PP-PI | data/exits.ts: ‏27 הרחבות, PM 13, PP 12, Cross 2 (נמדד שוב בסבב הזה) | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל; רשימת המודולים היא טקסט קבוע כמו בנוסח המאושר |
+| 86 | cns/reference/fiori-data.ts | "…והטרנזקציות ב-SAP GUI הקשורות לכל יישום (מובילה או קשורה, כפי שספריית ה-Fiori מציינת)." | "…תצוגת CDS וטרנזקציות SAP GUI קשורות. זהו הצד של S/4HANA מול מסכי ה-ECC שבתיעוד הטכני." | בחלק מהרשומות guiTx נערך ידנית | data/fiori/apps.ts | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 90 | cns/s4/s4-view.tsx | "…טבלאות מקור נבדלות ב-ECC." | "…טבלאות מקור שונות ב-ECC." | ניסוח טבעי | cns/s4/s4-data.ts (אותה ספירה) | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 105 | cns/erd/erd-inspector.tsx; cns/erd/erd-sheet.tsx | "קשר המסומן CARDINALITY_NOT_VERIFIED נרשם במילון הפרויקט עם הורה, ילד ושדות ה-JOIN…"; ושבב קוד CARDINALITY_NOT_VERIFIED ליד כל קשר | "בקשר שמסומן «קרדינליות לא צוינה», תיעוד הפרויקט רושם אב, בן ושדות JOIN כשהם קיימים, אבל לא את הקרדינליות, ו-PK/FK או Association לא אומתו מול מקור SAP רשמי. הקו המקווקו מסמן תלות מתועדת, לא יחס מחייב." שבב הקוד הוסר; השבב "קרדינליות לא צוינה" נשאר | המקור אינו רושם קרדינליות, ולא "קרדינליות שלא אומתה" | erd-catalog.ts: kindOf מחזיר unstated כשהשדה card ריק | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל; לא נוספה מילת "מאומת" לגבי הקרדינליות |
+| 106 | cns/erd/erd-workspace.tsx (מקרא) | "1:1 · 1:N · N:1 · N:N" כטקסט רגיל בפסקה RTL | כל ערך בתוך `<bdi dir="ltr">` | בפסקה RTL הרצף 1:N נראה N:1 | ערכי הנתונים לא השתנו | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל; נבדק בצילום |
+| 110 | cns/books/books-data.ts; cns/learn/mod.ts; cns/data/tx-detail.ts; cns/learn/incidents-data.ts; lib/s4-readiness.ts; public/sap-infrastructure/dataset.json | PP/DS "תכנון מתקדם", "תכנון ותזמון מפורט"; MM "רכש ואספקה", "חומרים"; QM "איכות"; EWM "ניהול מחסן"; SD "מכירות"; FI "כספים", "הנהלת חשבונות"; CO "בקרת עלויות", "בקרה ועלויות"; PS "פרויקטים"; LE "לוגיסטיקה"; BASIS "בסיס"; IDOC "IDOC / ALE", "מסגרת IDOC"; PP "תכנון ייצור (דיסקרטי)"; Cross "חוצה-מודולים"; PM-User "תחזוקת מפעל · משתמש" | "תכנון ייצור ותזמון מפורט"; "ניהול חומרים"; "ניהול איכות"; "ניהול מחסן מורחב"; "מכירות והפצה"; "חשבונאות פיננסית"; "בקרה"; "מערכת פרויקטים"; "ביצוע לוגיסטי"; "Basis"; "IDoc / ALE"; "תכנון ייצור"; "חוצה מודולים"; "תחזוקת מפעל · משתמש עסקי" | מילון 2: שם אחד לכל קוד | סעיף 3 בסקירה | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל. קודי SAP ומפתחות המפות לא השתנו (למשל PP-DS, SOP, BASIS) |
+| 115 | cns/workspace/workspace-s4.tsx:244 | אחרי הסבב הראשון: "המזהים שנרשמו ב-Simplification List של הפרויקט עבור טבלאות המודול. הרשימה כוללת רק מזהים שקיימים בתיעוד הפרויקט." | "הפניות SAP Note ו-Simplification שנרשמו בשכבת ה-S/4HANA של הפרויקט עבור טבלאות המודול." | מתקן את הנוסח שנדחה בשורה 73 ומוריד את המשפט השני | workspace-data.ts: st.impact.note מתוך S4_IMPACT | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+| 121 | cns/data/tx-detail-view.tsx | "רשומת הטרנזקציה העוקבת מצהירה על X כטרנזקציה שהוחלפה. הקשר מוצהר במאגר." | עוקבת אחת: "רשומת הטרנזקציה העוקבת במאגר מציינת את X כטרנזקציה שהוחלפה." יותר מאחת: "רשומות הטרנזקציות העוקבות במאגר מציינות את X כטרנזקציה שהוחלפה." | שומר את הייחוס לרשומה, בלי חיזוק | data/tx-intel.ts (שדה obsolete); נבדק: COR6 ביחיד, BP ברבים | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל; הגזירה עצמה (חוסם 3) לא תוקנה בסבב הזה |
+| 123 | cns/evidence/evidence-block.tsx | "פריט פישוט (Simplification Item)" | "Simplification Item" | המונח של SAP | רשימת סוגי המקור (SAP Help Portal, SAP Note, SAP KBA) | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל; שאר הצורות (ממצא 23) לא בסבב הזה |
+| 126 | cns/s4/s4-catalog.tsx; cns/s4/s4-view.tsx; cns/erd/erd-types.ts; cns/erd/erd-workspace.tsx; cns/workspace/workspace-s4.tsx | ארבעה עותקים מקומיים; low "יציב" ב-ERD ובסביבת העבודה; none "לא ידוע" | מקור אחד: RISK_HE מ-lib/s4.ts ("סיכון גבוה", "סיכון בינוני", "סיכון נמוך", "ללא הערכת סיכון"); S4_RISK_HE נמחק מ-erd-types | "יציב" נקרא כמעמד S/4HANA | lib/s4.ts:26-32 | neo-sap-content-quality-reviewer · reviews/content-review-copy-sap.md | הוחל |
+
+### לא הוחל בסבב השני
+
+| פריט | סיבה |
+|---|---|
+| שורה 91 (מילון מעמד S/4HANA) | לפי ההנחיה נכנסת עם תיקוני הגזירה (חוסמים 1, 2, 3 ו-5); אף תווית מעמד לא שונתה |
+| lib/primary-module.ts:32-34 ו-lib/ai-context.ts:22 | הסקירה מסמנת אותם "במעטפת הישנה בלבד, לא NEO"; ai-context הוא תווית פרסונה של העוזר הישן |
+| exports/sap-infrastructure-data.json | עותק נפרד, לפי הסקירה |
+| מפה אחת מיוצאת לשמות המודולים (הערת ביצוע בסעיף 3) | הוחלו ערכי המילון בכל אחת מהמפות הקיימות; האיחוד לקובץ אחד הוא שינוי קוד נפרד |
+| ממצאים שאינם חלק משורה: 4, 7, 8, 9, 10, 11, 12, 14, 15, 17, 19, 20, 21, 22, 23 (שאר הצורות), 24, 26 | לא בעמודת "נוסח מאושר" של השורות בסבב. 14 ו-15 הם נוסח בלבד ("הטרנזקציות המוחלפות" ב-fiori-data.ts:170, "יישום Fiori עוקב" ב-tx-detail-view.tsx:224), ו-19 הוא "N מודולי SAP" באותה שורה של שורה 41. ממצאים 6, 13, 16, 18 ו-25 נסגרו דרך שורות 12, 63, 66/115 ו-10 |
+| home-data.ts:278, השם האנגלי "Production Planning · Process Industries" | לא ברשימת הסקירה; שם SAP הוא "Production Planning for Process Industries" (workspace-data.ts), כדאי ליישר |
+
+### הערות לסבב השני
+
+1. `public/sap-infrastructure/dataset.json` נקרא גם במעטפת הישנה (`components/global-graph.tsx`, `components/s4-readiness.tsx`, `app/sap-infrastructure/`), ולכן שמות המודולים החדשים יופיעו גם שם. `scripts/build-dataset.mjs` אינו נוגע ב-modules[], כך שהתיקון נשמר בבנייה מחדש של הקובץ.
+2. אחרי שורה 105 הכלל `.ne-cnv` ב-`app/neo/erd.css` כבר לא בשימוש. הוא נשאר לסבב העיצוב.
+3. בעמוד התחומים העסקיים המונה "BAPI ו-FM" סופר את `DOMAINS[].bapis`: ‏62 ערכים, מתוכם 22 שמות FM (לכן "BAPI ו-FM" ולא "BAPI") וערך ריק אחד (מקף ארוך בנתונים) שנספר כפריט. זו בעיית נתונים, לא נוסח.
+4. שורה 12 הוסיפה שני עזרים קטנים ב-`cns/reference/bapi-data.ts`: `bapiFnCount()` (אותה ספירה שהקטלוג מציג, בלי מושגים תהליכיים ובלי IDoc) ו-`bapiKindHe()` (סוג הרשומה במילים). היום לאף רשומה אין שם עברי ריק, כך שסוג הרשומה בכותרת הוא גיבוי.
+
+### קבצים שנערכו (סבב שני)
+
+43 קבצים: 42 קובצי קוד וקובץ נתוני תצוגה אחד.
+
+- app/neo/bapi/[name]/page.tsx
+- app/neo/bapi/page.tsx
+- app/neo/erd/page.tsx
+- app/neo/fiori-apps/page.tsx
+- app/neo/page.tsx
+- app/neo/s4-readiness/page.tsx
+- components/neo-shell/best-practices/bp-data.ts
+- components/neo-shell/books/books-data.ts
+- components/neo-shell/data/tables-detail-view.tsx
+- components/neo-shell/data/tx-detail-view.tsx
+- components/neo-shell/data/tx-detail.ts
+- components/neo-shell/domain/domain-data.ts
+- components/neo-shell/domain/domain-hub-list.tsx
+- components/neo-shell/domain/domain-view.tsx
+- components/neo-shell/erd/erd-inspector.tsx
+- components/neo-shell/erd/erd-sheet.tsx
+- components/neo-shell/erd/erd-types.ts
+- components/neo-shell/erd/erd-workspace.tsx
+- components/neo-shell/erd/model.ts
+- components/neo-shell/evidence/evidence-block.tsx
+- components/neo-shell/home/home-data.ts
+- components/neo-shell/home/home-zones.tsx
+- components/neo-shell/learn/cert-data.ts
+- components/neo-shell/learn/cert-pick.tsx
+- components/neo-shell/learn/incidents-data.ts
+- components/neo-shell/learn/mod.ts
+- components/neo-shell/mod-var.ts
+- components/neo-shell/nav-context/fallbacks.ts
+- components/neo-shell/nav-data.ts
+- components/neo-shell/object/object-aux-view.tsx
+- components/neo-shell/object/object-orbit.tsx
+- components/neo-shell/object/object-view.tsx
+- components/neo-shell/reference/bapi-data.ts
+- components/neo-shell/reference/enh-data.ts
+- components/neo-shell/reference/fiori-data.ts
+- components/neo-shell/s4/s4-catalog.tsx
+- components/neo-shell/s4/s4-view.tsx
+- components/neo-shell/search/command-index.ts
+- components/neo-shell/workspace/workspace-build.tsx
+- components/neo-shell/workspace/workspace-data.ts
+- components/neo-shell/workspace/workspace-s4.tsx
+- lib/s4-readiness.ts
+- public/sap-infrastructure/dataset.json
+
+ובנוסף הסעיף הזה ב-`docs/redesign-2026-09/COPY-AUDIT.md`.

@@ -71,7 +71,7 @@ export function DomainsHub() {
             [t.steps, "שלבי תהליך"],
             [t.tables, "טבלאות SAP"],
             [t.tcodes, "טרנזקציות"],
-            [t.bapis, "BAPIs"],
+            [t.bapis, "BAPI ו-FM"],
             [t.trouble, "תקלות מתועדות"],
           ] as [number, string][]).map(([n, l]) => (
             <span key={l} className="ndm-stat">
@@ -148,7 +148,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
   const nFlow = push("ndm-flow", "הזרימה העסקית");
   const nPurpose = v.purpose || v.masterData.length ? push("ndm-purpose", "הגדרה ומטרה") : 0;
   const nData = push("ndm-data", "טבלאות וטרנזקציות");
-  const nApi = v.bapis.length || v.funcs.length ? push("ndm-api", "BAPIs ומודולי פונקציה") : 0;
+  const nApi = v.bapis.length || v.funcs.length ? push("ndm-api", "BAPI ומודולי פונקציה") : 0;
   const nExt = v.exits.length || v.badis.length ? push("ndm-ext", "הרחבות") : 0;
   const nLearn = push("ndm-learn", "נקודות למידה");
   const nQa = v.qa.length ? push("ndm-qa", "תרחישי בדיקה") : 0;
@@ -183,7 +183,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         {!v.deep ? (
           <p className="ndm-gap">
             <ShieldQuestion size={14} strokeWidth={1.75} aria-hidden="true" />
-            {" "}לתחום זה קיימת במאגר רשומת בסיס: זרימה, טבלאות, טרנזקציות, BAPIs, נקודות למידה ותקלות.
+            {" "}לתחום זה קיימת במאגר רשומת בסיס: זרימה, טבלאות, טרנזקציות, BAPI ו-FM, נקודות למידה ותקלות.
             לרשומה המלאה (נתוני אב, User Exits ו-BAdIs, תרחישי בדיקה, תרחיש מהמפעל והכרעת מעבר)
             אין תיעוד מאומת במאגר.
           </p>
@@ -274,7 +274,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           id="ndm-api" n={nApi}
           icon={<Plug size={15} strokeWidth={1.75} />}
           eyebrow="ממשקים"
-          title="BAPIs ומודולי פונקציה"
+          title="BAPI ומודולי פונקציה"
         >
           {v.bapis.length ? <Chips items={v.bapis} /> : null}
           {v.funcs.length ? (

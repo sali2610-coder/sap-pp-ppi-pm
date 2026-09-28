@@ -101,7 +101,7 @@ export interface DomainCard {
 
 /* ---------------------------------------------------------------- helpers */
 
-const MOD_HE: Record<string, string> = { PM: "תחזוקת מפעל · PM", "PP-PI": "תעשיות תהליכיות · PP-PI" };
+const MOD_HE: Record<string, string> = { PM: "PM · תחזוקת מפעל", "PP-PI": "PP-PI · ייצור תהליכי" };
 
 const clean = (s?: string) => (s || "").trim();
 
