@@ -315,6 +315,76 @@ status (SE80 `changed`; SE93, SFP, SM34, SWO1, PFCG and SCUM `unchanged`), SM30 
 `verification_required`); depth bands (L1 1279, L2 2, L3 396, L4 4, L5 137), conflict 21, legacy 5
 and edition 5 unchanged. No other per-id change in that window.
 
+Batch 6 written 2026-09-28 (research and adversarial audit 2026-09-28, access date stamped
+2026-09-25): 8 drafts audited, 8 written, none refuted. `tx:PB10`, `tx:PB20`, `tx:PB30`,
+`tx:PB40` and `tx:PB50` are `compatibility_scope` from 'S4TWL - Recruiting' (2025 FPS01 and 2023
+FPS03 lists: SAP Recruiting (PA-RC) is available in SAP ERP HCM and in SAP HCM in the
+Compatibility Pack with limited usage rights, Compatibility Scope Matrix item ID 421, and cannot be
+used after SAP HCM for SAP S/4HANA is activated; the five codes are named under Other Terms, the
+relevancy criterion prints the wildcard PB*, and no successor code or app is named); `tx:PSV1` and
+`tx:PSV2` are `compatibility_scope` from 'S4TWL - Training and Event Management' (the same
+pattern, Matrix items 135 and 136; its relevancy criterion names PSV1, PSV2, PSV3 and PVCT);
+`tx:PEST` carries the authored status `verification_required` ('Transaction Codes for Payroll',
+Payroll Basics (PY-XX-BS), 2025.001, body read: 'PEST Maintenance of Process Model'; both 'S4TWL -
+Obsolete Payroll Reports' items name PEST and PUST as the alternative to RPCS0000/RPCSC000 and set
+no status for PEST; no ECC-side record names it). Five were taken from `verdict.fixedRecord`;
+`tx:PB40`, `tx:PEST` and `tx:PSV1` were written from the draft with the audit's downgrades applied
+(they had no fixedRecord), including the optional PSV1 one (SAP Learning Solution (PE-LSO) is not
+available for RISE with SAP S/4HANA Cloud, private edition). The records were generated from the
+audited JSON as in batches 1 to 5: every downgrade and writer change applied as an exact-once
+replacement (a miss aborts), every row of the eight generated records checked to be cited by the
+written record (none had to be carried: the PEST draft already carried its two 2026-09-24 rows,
+checked verbatim), the written module deep-compared with the expected objects, the 39 batch 1 to 5
+records checked unchanged, and `status.source` checked for identity with its row and for the same
+release. No status token, edition, xref or evidence row of an audited record was added or removed;
+the one release change is the PB40 downgrade ('2025.001' to '2025 FPS01', the release of its
+source row).
+
+Writer changes (also named in the file header): the `status.source` pointers ('evidence[3]',
+'evidence[2]', 'evidence[1]' twice), the PB20 and PB30 copies with a placeholder claim and the PB10
+full copy replaced by shared consts, each the record's own 2025 FPS01 row of 'S4TWL - Recruiting'
+or 'S4TWL - Training and Event Management'; in the PB40 status.he, beyond the audit's downgrades,
+the parenthetical that presented the business function H4S4_1 as the activation of SAP HCM for SAP
+S/4HANA was replaced by a separate attributed clause ('לפי הפריטים, פונקציית העסק H4S4_1 מופעלת
+מ-Release 2025 ("is always activated"), והם אינם מפרטים את הקשר בינה לבין הפעלה זו'), because the
+PB10 and PSV2 audits ruled that the items do not make that link; the one-release Fiori Apps Library
+negative worded as such (HOUSE-RULES §3.3: the PB10 status.he now says 'במהדורה S32OP'; the PSV1
+recommendedAction 'אין יורש Fiori מתועד ל-PSV1 עצמו' became 'זו תוצאת חיפוש במהדורה אחת ולא
+קביעה על היעדר יורש', as the PB30 audit ruled for PB30); 'only' wording that describes what a
+source says removed (§3.2: the PB30 item-row claim 'רק בפתרונות פונקציונליים כלליים' and the PSV1
+2023 FPS03 item-row claim 'רק הפניה כללית' became 'אלא ...'; the PB40 notes 'ל-PB40 בלבד'); the PB20
+notes no longer say that the items name PB20 under 'How to Determine Relevancy' (the criterion
+prints the wildcard PB*, as the PB40 audit found for the same items); an Old → New line added to
+PB20 (its notes did not mention the generated record; the line keeps the generated record's two
+'PB20' searches and its Fiori Apps Library negative) and the PB40 history sentence labelled Old →
+New. No record carries a `reviewer` field, a `sapNote` field, a personal name or an e-mail address,
+and none has an em dash. Kept as audited: the rendering of the items' own 'only available in'
+('זמין רק ב-', 'זמינה רק ב-', attributed to the item; SAP's wording, not the writer's, as the PSV1
+audit ruled); the literal 'only' statements that describe a search result, research scope, a row's
+use or the old generated record (PB10 notes 'רק בקודים אחיים', 'ממצא שלילי מתועד בלבד', 'בטקסט
+הפריט בלבד', PB10 Fiori Apps Library row 'ממצא שלילי מתועד בלבד'; PB20 notes 'טקסט הפישוט המחולץ
+בלבד'; PB30 notes 'כהקשר בלבד', 'במהדורה S32OP בלבד'; PB40 notes 'שכללה רק שורות הקשר', 'נכללת
+כהקשר בלבד'; PSV1 notes 'כשורות הקשר בלבד', '(לא רק כותרת/סניפט)'; PSV2 notes "סומנו 'context'
+בלבד", '(רק PSV1 נמצא בה)'); the quoted English 'is always activated' in the PB10 notes, the PB20
+2025 FPS01 item row and, as the PB40 audit offered, the PB40 item row and status.he (SAP's wording
+inside a quote; each record's level is `sap_official_verified`, so the certainty rule does not
+apply, as for SM37 in batch 3); the PB10 Fiori Apps Library row at `verification_required` without
+a url (a documented negative, as the SE80 'S4TWL - JOB SCHEDULING' row of batch 5); the PB20
+`xrefs: []`.
+
+Depth (`report-coverage.mjs --ids`, before 15:33 and after 15:45): all eight moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified`; seven with the decided
+status `compatibility_scope`, PEST with the authored `verification_required`. They stay at L1 (no
+tx-intel / tx-detail page structure). Batch effect on the catalog totals (`npm run report:coverage
+-- --catalog transactions`): verified +8, verification_required -8, s4-appl +7 (PEST is not
+applicable while its status is `verification_required`); depth bands and conflict unchanged by this
+batch. Measured totals: 15:33 L1 1279, L2 2, L3 393, L4 5, L5 139, verified 728, verif.req 1069,
+conflict 21, legacy 5, s4-appl 721, edition 5; 15:45 L1 1279, L2 3, L3 390, L4 5, L5 141, verified
+738, verif.req 1057, conflict 23, legacy 5, s4-appl 731, edition 5. The remainder, attributed by a
+per-id diff of the two `--ids` runs, is concurrent work in another shard (CJ40 and CKM3N L3 to L5;
+KA01 to `conflicting_sources` with the status `verification_required`, L3 to L2; KA03 to
+`conflicting_sources`; CKM3, CKMLCP, CKMLCPAVR and KA02 to `sap_official_verified`).
+
 ## refuted
 
 - Batch 1 (audit 2026-09-25, written 2026-09-28): none refuted. All eight audited drafts
@@ -349,6 +419,9 @@ and edition 5 unchanged. No other per-id change in that window.
   were written.
 - Batch 5 (audit 2026-09-28, written 2026-09-28): none refuted. All eight audited drafts
   (`tx:SE80`, `tx:SE93`, `tx:SFP`, `tx:SM30`, `tx:SM34`, `tx:SWO1`, `tx:PFCG`, `tx:SCUM`) were
+  written.
+- Batch 6 (audit 2026-09-28, written 2026-09-28): none refuted. All eight audited drafts
+  (`tx:PB10`, `tx:PB20`, `tx:PB30`, `tx:PB40`, `tx:PB50`, `tx:PEST`, `tx:PSV1`, `tx:PSV2`) were
   written.
 
 ## conflicts
@@ -496,3 +569,53 @@ and edition 5 unchanged. No other per-id change in that window.
   the SM30 audit moved its item list out of status.he, while the PFCG and SM34 fixedRecords kept
   bare item numbers there. The writer applied the batch 2 split and the SM30 ruling (listed under
   the batch 5 writer changes). What settles it: the rulings asked for in batches 2 and 3.
+- `tx:PB50` · repository vs official (batch 6, raised by the audit): `data/tcode-catalog.ts#PB50`
+  (line 1113) labels PB50 'Display Applicant Actions' ('הצגת פעולות מועמד'), while the search
+  record 'Working with the Object Manager' (Human Resources, 2023.latest, loio
+  169be0535e56424de10000000a174cb4) prints 'Applicant Actions (PB40) Display Applicant Activities
+  ... (PB50)', so the catalog label collides with the official name of PB40. The audit dropped the
+  label from the status sentence; the record's repository row quotes the catalog, as a quote must.
+  Not fixed here (tcode-catalog.ts is outside this writer's files). What settles it: the
+  transaction text in SE93 on a target system, then a catalog fix.
+- `tx:PEST` · repository vs official (batch 6, recorded by the researcher, passed by the audit):
+  `data/tcode-catalog.ts#PEST` (line 1127) labels PEST 'Process Employee Self-Service / Workflow'
+  ('עיבוד שירות עצמי לעובד', area 'שירות עצמי'), while 'Transaction Codes for Payroll' (Payroll
+  Basics (PY-XX-BS), 2025.001, body read) prints 'PEST Maintenance of Process Model', 'Create and
+  Execute a Process in the HR Process Workbench (RPUPMEX0)' prints 'Maintenance of Process Models
+  (transaction PEST)', and the Slovenia record 'Payroll process' prints 'customizing in PEST
+  transaction'. No official record that was checked describes PEST as an employee self-service
+  screen. The record's repository row says so; `conflicting_sources` was not set, because the
+  disagreement is between the repository and the official records, not between official records.
+  Not fixed here. What settles it: SE93 on a target system, then a catalog fix of the label and area.
+- Audit inconsistency on the H4S4_1 note (batch 6): both 'S4TWL - Recruiting' and 'S4TWL - Training
+  and Event Management' print a comment that the business function H4S4_1 is activated as of SAP
+  S/4HANA 2025 (see SAP Note 3443536). The PB10 audit asked for the line verbatim in the notes and
+  ruled that no link to the activation of SAP HCM for SAP S/4HANA may be inferred; the PSV2 audit
+  called its absence from a status pinned to 2025 FPS01 a material omission and asked for a Hebrew
+  paraphrase without 'always'/'תמיד'; the PB20 fixedRecord quotes it verbatim in its 2025 FPS01 row;
+  the PB40 audit asked for attributed wording ('"is always activated"'), and its draft had put H4S4_1
+  in a parenthetical as that activation, which the writer replaced (see the batch 6 writer changes).
+  The PB30, PB50 and PSV1 records rest on the same items, are pinned to 2025.001, and do not mention
+  it; their audits did not ask. The writer did not add it there (content no audit approved for those
+  records). What settles it: one ruling on how the note is carried (verbatim quote or Hebrew
+  paraphrase; notes or status), applied to all seven records in a correction batch, and a read of
+  SAP Note 3443536 (me.sap.com, login required) for what H4S4_1 covers.
+- Audit inconsistency on 'Compatibility Scope' against 'Compatibility Pack' (batch 6): the PSV2 audit
+  ruled that 'S4TWL - Training and Event Management' says the functionality is 'only available in
+  SAP ERP HCM and SAP HCM in Compatibility Pack', that 'Compatibility Scope' appears only under Other
+  Terms and in 'Compatibility Scope Matrix', and replaced 'נמצאת ב-Compatibility Scope' by the
+  source's wording. The PSV1 draft, passed by its audit, keeps 'עוברת ל-Compatibility Scope' in its
+  2025 FPS01 row, and the PB10 ('נמצאת בתחום התאימות') and PB20 ('שנמצאות תחת Compatibility Scope')
+  records render the Recruiting items the same way. The status token `compatibility_scope` is not in
+  question (the items cite the Compatibility Scope Matrix). The writer kept each audited wording.
+  What settles it: one ruling on the rendering, applied in a correction batch (wording only).
+- En dash in item names (batch 6, observation): the PB50 audit normalized 'S4TWL – Recruiting' to
+  'S4TWL - Recruiting' for consistency, while the PB20 fixedRecord (titles, claims, status.he,
+  notes), the PB30 fixedRecord (titles, status.he), the PB10 claims and status.he and the PSV2
+  status.he keep the en dash, as do earlier titles in this shard. No rule covers the en dash (HOUSE-RULES §3.7 bans the em dash). The writer
+  kept each audited string. What settles it: a normalization pass in a correction batch, if wanted.
+- Audit inconsistency on the release stamp of item rows (batch 6, continues batch 4 point 3 and
+  batch 5): the same two Simplification List PDF rows carry '2025 FPS01' / '2023 FPS03' (PB10, PB40,
+  PSV2), '2025.001' / '2023.003' (PB30, PSV1) and '2025.001' / '2023 FPS03' (PB20, PB50) in this
+  batch; each status release equals the release of its source row. What settles it: the ruling
+  asked for in batch 4.

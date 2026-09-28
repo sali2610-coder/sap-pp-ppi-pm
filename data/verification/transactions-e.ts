@@ -136,6 +136,37 @@
    replaced), and the notes reworded to match; the SWO1 generated row titled
    'item 6.0 ...', a body line of 'S4TWL - CWM in SAP S/4HANA' that the code
    index read as a heading, is not carried (named in its notes). The generated
+   records for the eight ids in transactions-auto.ts are superseded.
+   Batch 6 (research and adversarial audit 2026-09-28, written 2026-09-28, access
+   date stamped 2026-09-25): 8 audited records for the recruitment codes PB10,
+   PB20, PB30, PB40 and PB50, the payroll process-model code PEST and the training
+   and event codes PSV1 and PSV2; none refuted. The five PB codes are
+   'compatibility_scope' from 'S4TWL - Recruiting' (SAP Recruiting (PA-RC) is
+   available in SAP ERP HCM and in SAP HCM in the Compatibility Pack with limited
+   usage rights, and cannot be used after SAP HCM for SAP S/4HANA is activated;
+   the codes are named under Other Terms; no successor code or app is named);
+   PSV1 and PSV2 are 'compatibility_scope' from 'S4TWL - Training and Event
+   Management' (the same pattern; its relevancy criterion names both codes); PEST
+   carries the authored status verification_required ('Transaction Codes for
+   Payroll', 2025.001, lists it as 'Maintenance of Process Model'; both 'S4TWL -
+   Obsolete Payroll Reports' items name it with PUST as the alternative to
+   RPCS0000/RPCSC000 and set no status for it; no ECC-side record was found).
+   Five taken from verdict.fixedRecord; PB40, PEST and PSV1 written from the
+   draft with the audit's downgrades (they had no fixedRecord), including the
+   optional PSV1 caveat that SAP Learning Solution (PE-LSO) is not available for
+   RISE with SAP S/4HANA Cloud, private edition. Each status source is a shared
+   const (the record's own 2025 FPS01 item row). Writer corrections: the PB40
+   status.he no longer presents H4S4_1 as the activation of SAP HCM for SAP
+   S/4HANA (the PB10 and PSV2 audits ruled that the items do not make that
+   link); the one-release Fiori Apps Library negative worded as such (PB10
+   status.he, PSV1 recommendedAction; HOUSE-RULES §3.3); 'only' wording that
+   describes what a source says removed (PB30 and PSV1 item-row claims, PB40
+   notes; §3.2), while the rendering of the items' own 'only available in' is
+   kept; the PB20 notes no longer say that the relevancy criterion names PB20
+   (it prints the wildcard PB*, as the PB40 audit found for the same items);
+   Old → New lines added (PB20) or labelled (PB40). No row of the eight
+   generated records was left out (the PEST draft already carried its two
+   2026-09-24 context rows, verbatim). The generated
    records for the eight ids in transactions-auto.ts are superseded. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
@@ -569,6 +600,92 @@ const SCUM_FIELDDIST2025: Evidence = {
   release: "2025.001",
   accessedAt: DATE25,
   claim: "רשומת החיפוש הרשמית (Set Up Field Distribution Parameters, Library of ALE Business Processes, S/4HANA On-Premise 2025 FPS01 (Feb 2026), versionId 2025.001, loio 6ab1b13bb3acd607e10000000a11402f) נוקבת בסניפט: 'If you are using Central User Administration (CUA), you can use the distribution parameters in transaction SCUM to determine where individual parts of a user...'. התיעוד של 2025 FPS01 מתאר את SCUM ככלי להגדרת פרמטרי חלוקת השדות ב-CUA.",
+  verificationLevel: "sap_official_verified",
+};
+
+/* batch 6 status sources */
+
+const PB10_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 7.1.28 S4TWL - Recruiting",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim: "פריט 7.1.28 'S4TWL – Recruiting' (רכיב יישום PA-RC, SAP Note 3224353) קובע: 'SAP Recruiting (PA-RC) functionality is only available in SAP ERP HCM and SAP HCM in the Compatibility Pack in SAP S/4HANA, which comes with limited usage rights', ומוסיף שבמסמך Compatibility Scope Matrix המצורף ל-SAP Note 2269324 הנושא רשום תחת מזהה 421; לאחר הפעלת SAP HCM for SAP S/4HANA 'it will technically not be possible to use the SAP Recruiting functionality anymore' (ר' SAP Note 3091160). תחת 'How to Determine Relevancy' הפריט קובע שהוא רלוונטי אם קיימות רשומות בטבלה PB4000 או 'recruiting transactions starting with PB* are executed', ותחת 'Other Terms' נמנה במפורש 'PB4000, PB00, PB10, PB20, PB30, PB40, PB50'. הפריט אינו קובע 'replaced' או 'removed' לקוד PB10 עצמו ואינו נוקב בקוד טרנזקציה או במזהה אפליקציית Fiori מחליפים; כפתרון חלופי הוא מציין 'a similar function is provided with SAP E-Recruiting in SAP HCM for SAP S/4HANA or SAP SuccessFactors Recruiting Management' בלי מזהה קוד או אפליקציה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const PB20_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 · item 7.1.28 S4TWL – Recruiting (PA-RC, Business Impact Note 0003224353)",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim: "הפריט 7.1.28 'S4TWL – Recruiting' (עמ' 504-505 בקובץ scratchpad/official/SIMPL_OP2025.pdf.txt) חוזר על אותו ניסוח עבור S/4HANA 2025 FPS01: 'SAP Recruiting (PA-RC) functionality is only available in SAP ERP HCM and SAP HCM in the Compatibility Pack in SAP S/4HANA, which comes with limited usage rights... this topic is listed under the Compatibility Scope Matrix Item ID 421', וכן, כמו בפריט 2023 FPS03: 'As of SAP S/4HANA Release 2025, the business function H4S4_1 is always activated'. תחת 'Other Terms' מופיעה שוב הרשימה 'SAP Recruiting, PA-RC, Compatibility Scope, Compatibility Pack, SAP HCM for SAP S/4HANA, PB4000, PB00, PB10, PB20, PB30, PB40, PB50', ותחת 'How to Determine Relevancy': 'This simplification item is relevant if you have entries in the table PB4000 or recruiting transactions starting with PB* are executed'. הפתרון המוצע זהה: SAP E-Recruiting או SAP SuccessFactors Recruiting Management כתחליף פונקציונלי, או המשך שימוש עד תאריך תפוגת ה-Compatibility Pack. הפריט אינו נוקב בקוד יורש ישיר או ב-Fiori app ספציפי ל-PB20.",
+  verificationLevel: "sap_official_verified",
+};
+
+const PB30_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 7.1.28 S4TWL – Recruiting",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim: "הפריט (Application Component PA-RC) נקרא במלואו: תחת 'Other Terms' הוא נוקב במפורש ב-PB30 ('SAP Recruiting, PA-RC, Compatibility Scope, Compatibility Pack, SAP HCM for SAP S/4HANA, PB4000, PB00, PB10, PB20, PB30, PB40, PB50'), ותחת 'How to Determine Relevancy' קובע שהרלוונטיות נקבעת לפי רשומות בטבלה PB4000 או הרצת טרנזקציות המתחילות ב-PB*. הפריט קובע (Reason and Prerequisites): 'SAP Recruiting (PA-RC) functionality is only available in SAP ERP HCM and SAP HCM in the Compatibility Pack in SAP S/4HANA, which comes with limited usage rights', ולאחר הפעלת SAP HCM for SAP S/4HANA (Business Process related information): 'After the activation of SAP HCM for SAP S/4HANA it will technically not be possible to use the SAP Recruiting functionality anymore'. הפתרון (Solution) המוצע: מעבר ל-SAP E-Recruiting בתוך SAP HCM for SAP S/4HANA או ל-SAP SuccessFactors Recruiting Management, או המשך שימוש ב-SAP ERP HCM / SAP HCM ב-Compatibility Pack עד לתום תוקפו. הפריט אינו נוקב בקוד טרנזקציה או מזהה אפליקציית Fiori חלופיים ספציפיים ל-PB30 עצמו, אלא בפתרונות פונקציונליים כלליים.",
+  verificationLevel: "sap_official_verified",
+};
+
+const PB40_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 7.1.28 S4TWL - Recruiting",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim: "פריט 7.1.28 'S4TWL - Recruiting' (רכיב יישום PA-RC) נקרא במלואו. הפריט קובע: תפקוד SAP Recruiting (PA-RC) זמין רק ב-SAP ERP HCM וב-SAP HCM ב-Compatibility Pack של S/4HANA, בזכויות שימוש מוגבלות (Compatibility Scope Matrix Item ID 421, SAP Note 2269324); לאחר הפעלת SAP HCM for SAP S/4HANA לא ניתן יהיה טכנית להשתמש עוד בתפקוד SAP Recruiting (SAP Note 3091160), ולפי הפריט, פונקציית העסק H4S4_1 מופעלת מ-Release 2025 (\"is always activated\"). קריטריון הרלוונטיות של הפריט: קיום רשומות בטבלה PB4000 או הרצת 'recruiting transactions starting with PB*'. רשימת ה-Other Terms של הפריט נוקבת במפורש בקוד PB40 לצד PB4000, PB00, PB10, PB20, PB30, PB50; הפריט אינו מפרט הכרעה נפרדת לכל קוד PB* בנפרד אלא חל על תפקוד SAP Recruiting כמכלול. פתרון: אם התפקוד בשימוש ונדרש, פונקציה דומה מסופקת ב-SAP E-Recruiting (SAP HCM for SAP S/4HANA) או ב-SAP SuccessFactors Recruiting Management, שיש להטמיע; לחלופין ניתן להישאר ב-SAP ERP HCM או ב-Compatibility Pack עד תאריך התפוגה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const PB50_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 7.1.28 S4TWL - Recruiting",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim: "הפריט 7.1.28 'S4TWL - Recruiting' (Application Component PA-RC) נוקב ב-PB50 ברשימת ה-Other Terms ('PB4000, PB00, PB10, PB20, PB30, PB40, PB50'), וקובע לגבי פונקציונליות SAP Recruiting (PA-RC): 'SAP Recruiting (PA-RC) functionality is only available in SAP ERP HCM and SAP HCM in the Compatibility Pack in SAP S/4HANA, which comes with limited usage rights' וכן 'After the activation of SAP HCM for SAP S/4HANA it will technically not be possible to use the SAP Recruiting functionality anymore'. סעיף הרלוונטיות: 'This simplification item is relevant if you have entries in the table PB4000 or recruiting transactions starting with PB* are executed'. בסעיף Solution: '...a similar function is provided with SAP E-Recruiting in SAP HCM for SAP S/4HANA or SAP SuccessFactors Recruiting Management which needs to be implemented', ולצידו האפשרות להישאר ב-SAP ERP HCM או ב-Compatibility Pack עד תאריך התפוגה; לא מצוינת טרנזקציה או אפליקציית Fiori מחליפה ל-PB50 עצמה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const PSV1_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 7.1.33 S4TWL - Training and Event Management",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025.001",
+  accessedAt: DATE25,
+  claim: "פריט 7.1.33 נקרא במלואו במחקר זה (Application Component: PE-IN, Related Note 0003224320). תחת 'Other Terms' הוא נוקב במפורש בקוד: 'Training and Event Management, Compatibility Scope, Compatibility Package, SAP HCM for SAP S/4HANA, PSV1, PSV2, PSV3, PVCT'. תחת 'Reason and Prerequisites' הפריט קובע: 'Training and Event Management functionality is only available in SAP ERP HCM and SAP HCM in Compatibility Pack in SAP S/4HANA, which comes with limited usage rights', ותחת 'Business Process related information': 'After the activation of SAP HCM for SAP S/4HANA it will technically not be possible to use the Training and Event Management functionality anymore.' תחת 'How to Determine Relevancy' נכתב במפורש: 'This Simplification Item is relevant if transactions PSV1, PSV2, PSV3 or PVCT are executed. That indicates that you are using Training and Event Management.' הפריט אינו קובע ל-PSV1 עצמו סטטוס נפרד של 'הוחלף' או 'הוסר'; הוא קובע שהפונקציונליות הכללית של Training and Event Management (שלה PSV1 הוא טרנזקציית סימון שימוש) עוברת ל-Compatibility Scope עם זכויות שימוש מוגבלות, ותחת 'Solution' מפנה, אם הפונקציונליות עדיין נדרשת, ל-SAP Learning Solution (PE-LSO) ב-SAP HCM for SAP S/4HANA או ל-SAP SuccessFactors Learning; אין נקודה בפריט הנוקבת ביורש טכני ספציפי (T-code/Fiori app) לטרנזקציית PSV1 עצמה.",
+  verificationLevel: "sap_official_verified",
+};
+
+const PSV2_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 7.1.33 S4TWL - Training and Event Management",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE25,
+  claim: "הפריט (מקטע 'How to Determine Relevancy') קובע: 'This Simplification Item is relevant if transactions PSV1, PSV2, PSV3 or PVCT are executed. That indicates that you are using Training and Event Management.' הפריט אינו קובע ל-PSV2 עצמה 'הוחלף' או 'הוסר'; PSV2 מובאת כאחד מארבעת הקודים המצביעים על שימוש בפונקציונליות. לפי הפריט, Training and Event Management זמינה רק ב-SAP ERP HCM וב-SAP HCM in Compatibility Pack ב-SAP S/4HANA, עם זכויות שימוש מוגבלות (Compatibility Scope Matrix Item ID 135 & 136, SAP Note 2269324), ולאחר הפעלת SAP HCM for SAP S/4HANA 'it will technically not be possible to use the Training and Event Management functionality anymore' (SAP Note 3091160). בפריט מופיעה גם ההערה שהחל מ-SAP S/4HANA 2025 הפונקציה העסקית H4S4_1 מופעלת באופן קבוע (ר' SAP Note 3443536). הפתרון המוצע: 'a similar function is provided with SAP Learning Solution (PE-LSO) in SAP HCM for SAP S/4HANA or SAP SuccessFactors Learning which needs to be implemented'; זוהי חלופה פונקציונלית כללית, לא קוד עוקב או אפליקציית Fiori ספציפיים ל-PSV2.",
   verificationLevel: "sap_official_verified",
 };
 
@@ -3995,5 +4112,420 @@ export const TX_VERIFICATION_E: VerificationRecord[] = [
     xrefs: ["tx:SCUA", "tx:SCUG", "tx:SCUL", "tx:SU01"],
     lastVerifiedAt: DATE25,
     notes: "רשומה זו מחליפה את הרשומה שנוצרה אוטומטית ל-tx:SCUM ב-data/verification/transactions-auto.ts (scripts/qa/gen-tx-evidence.mts, 2026-09-24). Old → New: ללא הכרעת מעמד (שורות הקשר בלבד) → unchanged. חיפושים ב-scripts/sap-help-search.mjs: 'SCUM' בסקופ SAP_S4HANA_ON-PREMISE (21 תוצאות; מצוטטות 'Set Up Field Distribution Parameters' ו-'Child System', שתיהן 2025.001); 'SCUM' בסקופ SAP_ERP (21 תוצאות; מצוטטת 'Set Up Field Distribution Parameters' בגרסה 6.18.latest, עם אותו loio); 'SCUM Central User Administration' (21 תוצאות, ללא ממצא חדש לגבי מעמד); 'Central User Administration Field Distribution successor Fiori' (21 תוצאות; הסניפט המצוטט של 'Set Up Field Distribution Parameters' 2025.001 מופיע כאן, ואף תוצאה אינה נוקבת ביורש ל-SCUM). node scripts/fal-app.mjs --tcode SCUM --release S32OP החזיר 'leading app(s): none; GUI app entry: none'. זה ממצא שלילי מתועד: הוא לא נכלל כשורת ראיה ולא נרשם successor. שני פריטי S4TWL - Business User Management (2025 FPS01 8.1.6, 2023 FPS03 2.32) נקראו מהטקסט שחולץ (scratchpad/official/SIMPL_OP2025.pdf.txt שורה 29282, SIMPL_OP2023.pdf.txt שורה 6190, לפי audit/master-completion/simpl-tcode-index.json). בשניהם SCUM מופיע בחלק 'Maintenance of the Business User Workplace Address', ברשימת האילוצים של תצוגת התצורה, ולא בסעיפי ה-Limitations של הפריט. אף אחד מהם אינו קובע ש-SCUM הוחלף, הוסר או השתנה. המעמד 'unchanged' נשען על התיעוד הרשמי: אותו נושא (loio 6ab1b13bb3acd607e10000000a11402f) קיים גם ב-SAP ERP 6.0 EHP8 וגם ב-S/4HANA On-Premise 2025 FPS01, ובשניהם הוא נוקב ב-SCUM. הוא לא נשען על קביעה מפורשת בפריט S4TWL. שורה אחת של הרשומה הקודמת שהרשומה המבוקרת לא כללה, רשומת החיפוש 'Child System' בצד ה-ERP (Library of ALE Business Processes, SAP ERP 6.18.latest), הועתקה כלשונה כשורת הקשר עם תאריך הגישה המקורי 2026-09-24, כדי שלא יאבד תוכן. לא בוצעה בדיקה במערכת SAP חיה; קיום הקוד, התוכנית והמסך טעונים אימות ב-SE93 במערכת היעד.",
+  },
+  {
+    id: "tx:PB10",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#PB10",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את PB10 כ'הזנה ראשונית של נתוני אב של מועמד' (Initial Entry of Applicant Master Data), מודול HR, תחום 'גיוס עובדים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#PB10",
+      },
+      PB10_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 19.11 S4TWL - Recruiting",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim: "פריט 19.11 'S4TWL – Recruiting' (2023 FPS03) זהה בתוכן לפריט 7.1.28 של 2025 FPS01: אותה קביעה על Compatibility Pack עם זכויות שימוש מוגבלות (Compatibility Scope Matrix, מזהה 421, SAP Note 2269324), אותו קריטריון רלוונטיות לפי טבלה PB4000 או טרנזקציות PB*, ואותה רשימת 'Other Terms' הכוללת את PB10 לצד PB00, PB20, PB30, PB40, PB50, PB4000.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library search by leading transaction PB10 (release S32OP = SAP S/4HANA 2025 FPS01 on-premise)",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim: "חיפוש בספריית אפליקציות ה-Fiori לפי קוד טרנזקציה מוביל PB10 במהדורה S32OP (2025 FPS01) לא החזיר אף אפליקציה ואף רשומת SAP GUI: 'PB10 @ S32OP: leading app(s): none; GUI app entry: none'. היעדרות מהרישום היא ממצא שלילי מתועד בלבד ואינה קובעת שאין אפליקציית Fiori מקבילה.",
+        verificationLevel: "verification_required",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he: "PB10 (הזנה ראשונית של נתוני אב של מועמד) הוא אחד מקודי PB* שפריט הפישוט הרשמי 'S4TWL – Recruiting' (7.1.28 ב-2025 FPS01, 19.11 ב-2023 FPS03) נוקב בהם במפורש כדוגמאות לפונקציונליות SAP Recruiting (PA-RC). לפי הפריט, פונקציונליות זו נמצאת בתחום התאימות (Compatibility Scope Matrix, מזהה 421, SAP Note 2269324) וזמינה רק ב-SAP ERP HCM או ב-SAP HCM in Compatibility Pack עם זכויות שימוש מוגבלות עד תאריך תפוגה; לאחר הפעלת SAP HCM for SAP S/4HANA לא ניתן יהיה עוד להשתמש בפונקציונליות. הפריט אינו קובע 'הוחלף' או 'הוסר' לקוד PB10 עצמו ואינו נוקב בקוד טרנזקציה או במזהה אפליקציית Fiori מחליפים; ספריית ה-Fiori אינה מציגה במהדורה S32OP אפליקציה עם PB10 כקוד מוביל.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: PB10_SIMPL2025,
+      recommendedAction: "לבדוק אם קיימות רשומות בטבלה PB4000 או שימוש בטרנזקציות PB* (כולל PB10) לפני המרה ל-SAP HCM for SAP S/4HANA; אם נמצא שימוש, לתכנן מעבר ל-SAP E-Recruiting ב-SAP HCM for SAP S/4HANA או ל-SAP SuccessFactors Recruiting Management, ולבדוק את SAP Note 2269324 (Compatibility Scope Matrix, מזהה 421) לתאריך התפוגה המדויק של תחום התאימות; לאמת מול מקור רשמי קוד טרנזקציה או מזהה אפליקציית Fiori מחליף לפני שהוא נקבע כ-successor.",
+    },
+    xrefs: ["tx:PB20"],
+    lastVerifiedAt: DATE25,
+    notes: "Old → New: רשומה דטרמיניסטית ללא הכרעת מעמד (transactions-auto.ts, scripts/qa/gen-tx-evidence.mts, 2026-09-24; שני פריטי S4TWL - Recruiting הובאו כהקשר בלבד וטרם נקראו) → הכרעת מעמד compatibility_scope לאחר קריאת טקסט שני הפריטים המלאים (7.1.28 ב-2025 FPS01 ו-19.11 ב-2023 FPS03) מתוך scratchpad/official/SIMPL_OP2025.pdf.txt ו-SIMPL_OP2023.pdf.txt; שני הפריטים זהים בתוכן. שני הפריטים מוסיפים את ההערה: 'COMMENT: As of SAP S/4HANA Release 2025, the business function H4S4_1 is always activated' (ר' SAP Note 3443536); הפריט אינו מפרט את הקשר בין H4S4_1 להפעלת SAP HCM for SAP S/4HANA, והשלכתה על זמינות PB10 ב-2025 FPS01 דורשת אימות. חיפושים שהורצו: node scripts/fal-app.mjs --tcode PB10 (release S32OP; החזיר 'leading app(s): none; GUI app entry: none'); node scripts/sap-help-search.mjs \"PB10 Initial Entry of Applicant Master Data\" (SAP_S4HANA_ON-PREMISE, 21 רשומות; אף סניפט לא נוקב מילולית ב-'PB10', רק בקודים אחיים PB20/PB30/PB40/PB50/PB60 בנושא 'Working with the Object Manager' ו-'Store for Subsequent Entry (PA-RC)'); node scripts/sap-help-search.mjs \"PB10\" בסקופ SAP_S4HANA_ON-PREMISE (21 רשומות; 4 סניפטים מדפיסים 'Development class: PB10' בנושאי PA-PA-US, כלומר חבילת פיתוח ולא קוד הטרנזקציה) ובסקופ SAP_ERP (21 רשומות; 6 סניפטים מדפיסים 'United States PB10' בטבלאות שירותי ESS לפי מדינה, לא כקוד טרנזקציה); אף סניפט אינו נוקב ב-PB10 כקוד טרנזקציה, וזהו ממצא שלילי מתועד בלבד. SAP Note 2269324, 3091160, 3224353 ו-3443536 לא נקראו ישירות (me.sap.com); מספריהם מובאים כפי שהם מופיעים בטקסט הפריט בלבד, ללא שדה sapNote. לא אותר קוד טרנזקציה או מזהה אפליקציית Fiori מחליף רשמי, ולכן אין successor. לא בוצעה בדיקה במערכת SAP חיה (SE93/SU24).",
+  },
+  {
+    id: "tx:PB20",
+    evidence: [
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 · item 19.11 S4TWL – Recruiting (PA-RC, Business Impact Note 3224353)",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim: "הפריט 19.11 'S4TWL – Recruiting' (רכיב יישום PA-RC, נקרא מקובץ ה-PDF, scratchpad/official/SIMPL_OP2023.pdf.txt) קובע: 'SAP Recruiting (PA-RC) functionality is only available in SAP ERP HCM and SAP HCM in Compatibility Pack in SAP S/4HANA, which comes with limited usage rights... this topic is listed under the Compatibility Scope Matrix Item ID 421'; ובהמשך: 'After the activation of SAP HCM for SAP S/4HANA it will technically not be possible to use the SAP Recruiting functionality anymore'. תחת 'How to Determine Relevancy' נכתב: 'This simplification item is relevant if you have entries in the table PB4000 or recruiting transactions starting with PB* are executed', ותחת 'Other Terms' מופיעה במפורש הרשימה: 'SAP Recruiting, PA-RC, Compatibility Scope, Compatibility Pack, SAP HCM for SAP S/4HANA, PB4000, PB00, PB10, PB20, PB30, PB40, PB50'. כלומר PB20 נמנית בשמה בין הטרנזקציות שהפריט תוחם תחת Compatibility Scope; הפריט אינו קובע לגבי PB20 עצמה הסרה, מחיקה או Fiori app יורש. ה-Solution המוצע הוא בדיקת שימוש, ואם נדרש: SAP E-Recruiting או SAP SuccessFactors Recruiting Management, או המשך שימוש עד תאריך התפוגה של ה-Compatibility Pack.",
+        verificationLevel: "sap_official_verified",
+      },
+      PB20_SIMPL2025,
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Working with the Object Manager | Human Resources",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c6c3ffd90792427a9fee1a19df5b0925/169be0535e56424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE25,
+        claim: "רשומת החיפוש הרשמית (deliverable Human Resources, versionId 2023.latest, loio 169be0535e56424de10000000a174cb4) מביאה את הסניפט: 'The object manager is connected to the following transactions: Display Applicant Master Data (PB20) Maintain Applicant Master Data (PB30) Applicant Actions (PB40) Display Applicant Activities...', ובהמשכו: 'In Recruitment, you use the object manager to find applicants whose data you want to display or edit'. כלומר תיעוד Human Resources של SAP S/4HANA (On-Premise, 2023 Latest) מציג את PB20 בשמה 'Display Applicant Master Data' כטרנזקציה המחוברת ל-object manager ב-Recruitment.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#PB20",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת קטלוג הטרנזקציות של הפרויקט (data/tcode-catalog.ts, שורה 1110) מסווגת את PB20 במודול HR, תחום 'גיוס עובדים', עם השם האנגלי 'Display Applicant Master Data' והשם העברי 'הצגת נתוני אב של מועמד', תואם את הכינוי שמופיע בתיעוד ה-SAP הרשמי.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#PB20",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he: "PB20 (הצגת נתוני אב של מועמד) נמנית בשמה בפריט הפישוט הרשמי 'S4TWL – Recruiting' (PA-RC) כאחת מטרנזקציות ה-PB* של SAP Recruiting, שנמצאות תחת Compatibility Scope עם זכויות שימוש מוגבלות (מזהה 421 במסמך Compatibility Scope Matrix המצורף להערה 2269324). לאחר הפעלת SAP HCM for SAP S/4HANA לא ניתן יהיה להשתמש בפונקציונליות זו עוד. הפריט אינו קובע לגבי PB20 עצמה החלפה, הסרה או Fiori app יורש ספציפי.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: PB20_SIMPL2025,
+      recommendedAction: "לפני המרה או שדרוג ל-SAP HCM for SAP S/4HANA: לבדוק אם קיימות רשומות בטבלה PB4000 או שמופעלות טרנזקציות המתחילות ב-PB (ובכלל זה PB20); אם לא, אין צורך בפעולה. אם כן נדרש שימוש בפונקציונליות, לשקול מעבר ל-SAP E-Recruiting או SAP SuccessFactors Recruiting Management, או להישאר על SAP ERP HCM / SAP HCM ב-Compatibility Pack עד תאריך התפוגה שלו (ראו הערה 2269324).",
+    },
+    xrefs: [],
+    lastVerifiedAt: DATE25,
+    notes: "נבדק: שני פריטי S4TWL – Recruiting (2023 FPS03 פריט 19.11 ו-2025 FPS01 פריט 7.1.28) קוראים ל-PB20 בשמה תחת 'Other Terms'; קריטריון 'How to Determine Relevancy' שלהם מתייחס ל-PB4000 ולטרנזקציות PB* ואינו נוקב ב-PB20 בשמה. הפריטים מאששים Compatibility Scope כללי לכל קבוצת PB* מבלי לקבוע דין ייחודי ל-PB20 עצמה. עמוד עזרה נוסף (Working with the Object Manager, S/4HANA 2023 Latest) מציג את PB20 בשמה בתיעוד Human Resources. חיפושים שרצו: 'PB20 Display Applicant Master Data', 'S4TWL Recruiting SAP HCM', 'S4TWL Recruiting' (כולם דרך scripts/sap-help-search.mjs, scope S/4HANA On-Premise); לא נמצאה רשומת חיפוש עם קישור help.sap.com תואם ישירות לפריט הפישוט עצמו (הפריט נקרא מקובץ ה-PDF שב-scratchpad/official), ולכן ה-URL שצוין הוא כתובת מסמך ה-PDF הרשמי, בהתאם לתקדים הקיים בקובץ זה (CJV4-CN21). Old → New: רשומה זו מחליפה את הרשומה הדטרמיניסטית ל-tx:PB20 ב-transactions-auto.ts (scripts/qa/gen-tx-evidence.mts, 2026-09-24; ישן: ללא הכרעת מעמד, שני פריטי S4TWL - Recruiting (2025 FPS01 ו-2023 FPS03) כהקשר שטרם נקרא, חיפושי 'PB20' בסקופ SAP_S4HANA_ON-PREMISE ו-SAP_ERP (21 רשומות כל אחד, 0 מצוטטות) וספריית Fiori במהדורה S32OP ללא אפליקציה עם קוד מוביל PB20; חדש: compatibility_scope לפי 'S4TWL - Recruiting' ברשימת 2025 FPS01). לא בוצעה בדיקה במערכת SAP חיה. לא הורץ sap-help-body.mjs: התביעות מבוססות על הסניפט ועל טקסט הפישוט המחולץ בלבד.",
+  },
+  {
+    id: "tx:PB30",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#PB30",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את PB30 כ'תחזוקת נתוני אב של מועמד' (Maintain Applicant Master Data), מודול HR, תחום 'גיוס עובדים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#PB30",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Working with the Object Manager | Human Resources",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c6c3ffd90792427a9fee1a19df5b0925/169be0535e56424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE25,
+        claim: "רשומת החיפוש הרשמית (Human Resources, 2023 Latest, versionId 2023.latest, loio 169be0535e56424de10000000a174cb4) מונה את PB30 בסניפט כטרנזקציית 'Maintain Applicant Master Data' בתוך רשימת הטרנזקציות המחוברות ל-Object Manager: 'Display Applicant Master Data (PB20) Maintain Applicant Master Data (PB30) Applicant Actions (PB40) Display Applicant Activities … (PB50)'.",
+        verificationLevel: "sap_official_verified",
+      },
+      PB30_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 19.11 S4TWL – Recruiting",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim: "הפריט המקביל (2023 FPS03) נקרא במלואו וזהה בתוכן לפריט 7.1.28 של 2025 FPS01: אותו טקסט תחת 'Other Terms' הנוקב ב-PB30, אותה קביעה ש-SAP Recruiting (PA-RC) זמין רק ב-SAP ERP HCM וב-SAP HCM ב-Compatibility Pack עם זכויות שימוש מוגבלות, ואותה קביעה שלאחר הפעלת SAP HCM for SAP S/4HANA לא ניתן יהיה עוד להשתמש בפונקציונליות מבחינה טכנית. גם כאן אין נקיבה בקוד טרנזקציה חלופי ספציפי ל-PB30.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he: "PB30 (תחזוקת נתוני אב של מועמד, SAP Recruiting/PA-RC) נקוב בפריט הפישוט S4TWL – Recruiting, שלפיו הפונקציונליות זמינה רק ב-SAP ERP HCM וב-SAP HCM ב-Compatibility Pack עם זכויות שימוש מוגבלות; לפי הפריט, לאחר הפעלת SAP HCM for SAP S/4HANA לא ניתן יהיה עוד מבחינה טכנית להשתמש בפונקציונליות SAP Recruiting שאליה משתייך PB30. פריט הפישוט אינו נוקב בטרנזקציה או באפליקציית Fiori חלופית ספציפית לקוד עצמו.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: PB30_SIMPL2025,
+      recommendedAction: "לבדוק שימוש בפועל (רשומות בטבלה PB4000 או הרצת טרנזקציות PB*), ולפני הפעלת SAP HCM for SAP S/4HANA לתכנן מעבר ל-SAP E-Recruiting בתוך SAP HCM for SAP S/4HANA או ל-SAP SuccessFactors Recruiting Management, או להישאר על SAP ERP HCM / Compatibility Pack עד לתום תוקפו.",
+    },
+    xrefs: ["tx:PB20", "tx:PB40"],
+    lastVerifiedAt: DATE25,
+    notes: "Old → New: הרשומה הדטרמיניסטית הקודמת (transactions-auto.ts, scripts/qa/gen-tx-evidence.mts, 2026-09-24) הביאה את שני פריטי הפישוט (7.1.28 ו-19.11) כהקשר בלבד, ללא הכרעת מעמד ('מה הוא קובע לגבי הקוד … טרם נקרא במחקר'). המחקר הנוכחי קרא את שני הפריטים במלואם מתוך scratchpad/official/SIMPL_OP2025.pdf.txt (שורות 27706 ואילך) ו-SIMPL_OP2023.pdf.txt (שורות 25227 ואילך); שניהם זהים בתוכן ונוקבים ב-PB30 בפירוש תחת 'Other Terms'. נכתבה הכרעת מעמד compatibility_scope, ללא successor: הפריט מציע פתרונות פונקציונליים כלליים (SAP E-Recruiting, SAP SuccessFactors Recruiting Management) ולא טרנזקציה או Fiori ID ספציפיים המחליפים את PB30 עצמו. חיפושים שהורצו: 'PB30' (SAP_S4HANA_ON-PREMISE, 21 רשומות, 2 רלוונטיות: 'Working with the Object Manager' ו-'Store for Subsequent Entry (PA-RC)' שאינה כלולה כאן כי מיותרת מול הראשונה); 'PB30' (SAP_ERP, 21 רשומות, 0 מצוטטות: אף סניפט אינו נוקב ב-PB30 כקוד טרנזקציה; התוצאות הן קודי מדינה PBxx של HR, סוג תנאי PB00, קודי אירוע וסוגי רשומה לא קשורים); 'SAP Recruiting compatibility scope' (SAP_S4HANA_ON-PREMISE, 21 רשומות, 0 מצוטטות נוספות מעבר לפריטי הפישוט). fal-app.mjs --tcode PB30 --release S32OP: הפלט leading app(s): none; GUI app entry: none במהדורה S32OP בלבד; זהו ממצא שלילי מתועד, לא קביעת היעדר. לא בוצעה בדיקה במערכת SAP חיה (SE93/SU24).",
+  },
+  {
+    id: "tx:PB40",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#PB40",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את PB40 כ'פעולות מועמד', מודול HR, תחום 'גיוס עובדים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#PB40",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Working with the Object Manager | Human Resources",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c6c3ffd90792427a9fee1a19df5b0925/169be0535e56424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE25,
+        claim: "רשומת החיפוש הרשמית (Human Resources, 2023 Latest, versionId 2023.latest, loio 169be0535e56424de10000000a174cb4) נוקבת בקוד PB40 בסניפט: 'The object manager is connected to the following transactions: Display Applicant Master Data (PB20) Maintain Applicant Master Data (PB30) Applicant Actions (PB40) Display Applicant Activities ... (PB50) Maintaining Applicant Activities (PB60)'. הנושא מתעד את PB40 כחלק מקבוצת טרנזקציות ה-Object Manager בתיעוד S/4HANA On-Premise, ואינו קובע לגביו מעמד.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Applicant Actions (Infotype 4000) | HR Infotypes",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e9aa251b81eb4842bff926f04a251916/6c99e0535e56424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim: "רשומת החיפוש הרשמית 'Applicant Actions (Infotype 4000)' (HR Infotypes, S/4HANA On-Premise 2025 FPS01, versionId 2025.001, loio 6c99e0535e56424de10000000a174cb4) קיימת בתיעוד S/4HANA On-Premise ועוסקת באינפוטייפ 4000 בסניפט: 'The Applicant Actions infotype (4000) serves as a record of all applicant actions carried out for an applicant. ... In the standard SAP system, a new record is created in the Applicant Actions infotype (4000) for every applicant action type performed for an applicant.'. הסניפט אינו נוקב בקוד PB40 עצמו; הקישור בין שם הטרנזקציה במאגר לשם האינפוטייפ אינו קביעה רשמית שמדובר באותו אובייקט.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      PB40_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 19.11 S4TWL - Recruiting",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim: "פריט 19.11 'S4TWL - Recruiting' (2023 FPS03) נקרא במלואו ותוכנו זהה לפריט 7.1.28 של 2025 FPS01: אותה קביעה על SAP Recruiting (PA-RC) כזמין רק ב-SAP ERP HCM וב-Compatibility Pack בזכויות שימוש מוגבלות (Item ID 421), אותו קריטריון רלוונטיות (טבלה PB4000 או הרצת PB*), ואותה רשימת Other Terms הנוקבת במפורש בקוד PB40 לצד PB4000, PB00, PB10, PB20, PB30, PB50. אינו קובע הכרעה נפרדת ל-PB40 בנפרד מיתר קודי ה-PB*.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he: "פריט 7.1.28 'S4TWL - Recruiting' (2025 FPS01) ופריט 19.11 באותו שם (2023 FPS03) קובעים שתפקוד SAP Recruiting (PA-RC), שהפריטים מקשרים אליו את PB40 ברשימת ה-Other Terms, זמין רק ב-SAP ERP HCM וב-SAP HCM ב-Compatibility Pack של S/4HANA, בזכויות שימוש מוגבלות (Compatibility Scope Matrix Item ID 421); לאחר הפעלת SAP HCM for SAP S/4HANA לא ניתן יהיה עוד להשתמש בו טכנית; לפי הפריטים, פונקציית העסק H4S4_1 מופעלת מ-Release 2025 (\"is always activated\"), והם אינם מפרטים את הקשר בינה לבין הפעלה זו. הקוד PB40 נוקב במפורש ברשימת ה-Other Terms של שני הפריטים. הפריטים אינם קובעים מעמד ייעודי ל-PB40 בנפרד מיתר טרנזקציות ה-PB*, אלא מתייחסים לתפקוד SAP Recruiting כמכלול.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: PB40_SIMPL2025,
+      recommendedAction: "לפני המרה או שדרוג ל-SAP HCM for SAP S/4HANA 2022 ואילך, לבדוק אם יש רשומות בטבלה PB4000 או הרצה של טרנזקציות PB*, כולל PB40; אם התפקוד בשימוש ונדרש, להטמיע פונקציה מקבילה ב-SAP E-Recruiting (SAP HCM for SAP S/4HANA) או ב-SAP SuccessFactors Recruiting Management, או להישאר זמנית ב-SAP ERP HCM / Compatibility Pack עד תאריך התפוגה (SAP Note 2269324). חיפוש ב-Fiori Apps Library (מהדורת S32OP) לפי קוד מוביל PB40 החזיר leading app(s): none, GUI app entry: none; לכן לא נרשם successor ייעודי.",
+    },
+    xrefs: ["tx:PB10", "tx:PB20", "tx:PB30", "tx:PB50"],
+    lastVerifiedAt: DATE25,
+    notes: "Old → New: מחקר זה מחליף את רשומת ההקשר שנוצרה אוטומטית ל-tx:PB40 ב-data/verification/transactions-auto.ts (scripts/qa/gen-tx-evidence.mts, 2026-09-24), שכללה רק שורות הקשר ללא הכרעת מעמד, ובה שני פריטי S4TWL - Recruiting כהקשר שטרם נקרא; כעת compatibility_scope לפי שני הפריטים, שנקראו במלואם. חיפושים שהורצו (scripts/sap-help-search.mjs): 'PB40 Applicant Actions' בסקופ SAP_S4HANA_ON-PREMISE (21 תוצאות; מצוטטות 'Working with the Object Manager' ו-'Applicant Actions (Infotype 4000)'); 'PB40' בסקופ SAP_ERP (21 תוצאות, ללא רשומה הנוקבת בקוד PB40 עצמו; ההתאמות הן קודי מדינה PBxx בשירותי ESS, סוג תנאי PB00 וקודים דומים (OB40, P40, B40)). node scripts/fal-app.mjs --tcode PB40 --release S32OP החזיר 'leading app(s): none; GUI app entry: none', ממצא שלילי מתועד שלא נכלל כשורת ראיה ולא נרשם ממנו successor. שני פריטי S4TWL - Recruiting (2025 FPS01 7.1.28, 2023 FPS03 19.11) נקראו במלואם מהטקסט שחולץ (scratchpad/official/SIMPL_OP2025.pdf.txt סביב שורה 27713, SIMPL_OP2023.pdf.txt סביב שורה 25260, לפי audit/master-completion/simpl-tcode-index.json). שני הפריטים נוקבים בקוד PB40 במפורש ברשימת ה-Other Terms; קריטריון הרלוונטיות מתייחס ל-PB4000 ול-'recruiting transactions starting with PB*' ואינו נוקב ב-PB40 בשמו. הפריטים אינם מפרטים הכרעה נפרדת לכל קוד PB* בנפרד; הם מתייחסים לתפקוד SAP Recruiting (PA-RC) כמכלול, ולכן המעמד 'compatibility_scope' נשען על הקביעה הזו ולא על הכרעה ספציפית ל-PB40. שורת ה-sap_help 'Applicant Actions (Infotype 4000)' נכללת כהקשר בלבד: הסניפט עוסק באינפוטייפ 4000 ואינו נוקב בקוד PB40 עצמו. לא נמצא Fiori app או תוכנית יורשת רשמית ספציפית ל-PB40; שדה successor לא נרשם. לא בוצעה בדיקה במערכת SAP חיה; קיום הקוד, התוכנית והמסך טעונים אימות ב-SE93 במערכת היעד.",
+  },
+  {
+    id: "tx:PB50",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#PB50",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את PB50 כ'הצגת פעולות מועמד', מודול HR, תחום 'גיוס עובדים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#PB50",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Working with the Object Manager | Human Resources",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/c6c3ffd90792427a9fee1a19df5b0925/169be0535e56424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2023.latest",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.latest",
+        accessedAt: DATE25,
+        claim: "רשומת החיפוש הרשמית (Human Resources, 2023 Latest, versionId 2023.latest, loio 169be0535e56424de10000000a174cb4) נוקבת בקוד PB50 בסניפט: '... Maintain Applicant Master Data (PB30) Applicant Actions (PB40) Display Applicant Activities ... (PB50) Maintaining Applicant Activities (PB60) The user interface for these transactions is divided ...'.",
+        verificationLevel: "sap_official_verified",
+      },
+      PB50_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 19.11 S4TWL - Recruiting",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim: "הפריט 19.11 'S4TWL - Recruiting' (מהדורת 2023 FPS03) מדפיס את אותו נוסח כמו פריט 7.1.28 של 2025 FPS01: PB50 נקובה ב-Other Terms ('PB4000, PB00, PB10, PB20, PB30, PB40, PB50'); לפי הפריט, הפונקציונליות זמינה רק ב-SAP ERP HCM וב-Compatibility Pack, ולאחר הפעלת SAP HCM for SAP S/4HANA לא יהיה אפשר מבחינה טכנית להשתמש בה. בסעיף Solution מוזכרות SAP E-Recruiting ו-SAP SuccessFactors Recruiting Management כפונקציה דומה, ללא טרנזקציה מחליפה ל-PB50.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he: "PB50 נקובה ב-Other Terms של פריט הפישוט S4TWL - Recruiting (PA-RC). לפי הפריט, פונקציונליות SAP Recruiting זמינה רק ב-SAP ERP HCM וב-SAP HCM ב-Compatibility Pack בתוך SAP S/4HANA, עם זכויות שימוש מוגבלות ועד תאריך התפוגה של החבילה; לאחר הפעלת SAP HCM for SAP S/4HANA לא יהיה אפשר מבחינה טכנית להשתמש בה.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: PB50_SIMPL2025,
+      recommendedAction: "לפני המרה או שדרוג ל-SAP HCM for SAP S/4HANA 2022 ואילך, לבדוק אם הפונקציונליות בשימוש (לפי הפריט: רשומות בטבלה PB4000 או הרצת טרנזקציות גיוס שמתחילות ב-PB). אם היא בשימוש ועדיין נדרשת, הפריט מציין שפונקציה דומה קיימת ב-SAP E-Recruiting בתוך SAP HCM for SAP S/4HANA או ב-SAP SuccessFactors Recruiting Management, ושתיהן דורשות יישום; לחלופין אפשר להישאר ב-SAP ERP HCM או ב-Compatibility Pack עד תאריך התפוגה. המקור אינו מציין טרנזקציה או אפליקציית Fiori מחליפה ל-PB50 עצמה.",
+    },
+    lastVerifiedAt: DATE25,
+    notes: "פריטי S4TWL - Recruiting בשתי המהדורות (2025 FPS01 פריט 7.1.28, גרסת מסמך 1.36; 2023 FPS03 פריט 19.11, גרסת מסמך 1.35) נקראו במלואם מ-scratchpad/official. הם קובעים מעמד Compatibility Scope ל-SAP Recruiting (PA-RC) כולה, ו-PB50 נקובה ברשימת ה-Other Terms שלהם. לא נכתב מעמד replaced או deprecated, כי המקור מפנה באופן כללי ל-SAP E-Recruiting או ל-SAP SuccessFactors Recruiting Management ולא לקוד מחליף שיש לו canonical id. fal-app.mjs --tcode PB50 --release S32OP החזיר: אין אפליקציה מובילה ואין רשומת אפליקציית GUI במהדורה זו (תוצאה שלילית מתועדת, לא הכרעה על אי-קיום). Old → New: הרשומה הדטרמיניסטית ב-data/verification/transactions-auto.ts#PB50 הביאה את פריטי S4TWL - Recruiting כהקשר ללא הכרעת מעמד; כעת compatibility_scope לפי הפריטים שנקראו. לא בוצעה בדיקה במערכת SAP חיה; SE93 במערכת היעד תאשר את קיום הקוד.",
+  },
+  {
+    id: "tx:PEST",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#PEST",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את PEST כ'עיבוד שירות עצמי לעובד', מודול HR, תחום 'שירות עצמי'. לתשומת הלב: התיאור שונה מהתיאור שבמקורות הרשמיים שנקראו ('Maintenance of Process Model' ב-Transaction Codes for Payroll), ואף מקור רשמי שנבדק אינו מתאר את הקוד כמסך שירות עצמי לעובד.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#PEST",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Transaction Codes for Payroll | Payroll Basics (PY-XX-BS)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/ff854a903cbf4c10910a5825d787693f/fe4ddd538636424de10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE25,
+        claim: "גוף הנושא נקרא דרך scripts/sap-help-body.mjs (versionId 2025.001, loio fe4ddd538636424de10000000a174cb4). רשימת קודי הטרנזקציה של Payroll כוללת את השורה: 'PEST Maintenance of Process Model PUST Access HR Process Workbench'. בשורה זו PEST מתואר כ-Maintenance of Process Model, ו-PUST שלצדו כ-Access HR Process Workbench.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Create and Execute a Process in the HR Process Workbench (RPUPMEX0) | HR Process Workbench",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/80f949b786c64aa6864b4dfff46d95bd/b4fe039e749341cd882b3510b4b08586.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim: "רשומת החיפוש הרשמית (HR Process Workbench, 2025 FPS01 (Feb 2026), versionId 2025.001, loio b4fe039e749341cd882b3510b4b08586) נוקבת בקוד PEST בסניפט: 'Prerequisites You have created a process model in Maintenance of Process Models (transaction PEST) and assigned a variant to the selection program of that process model. ... Once the process ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Payroll process | HCM Local Version for Slovenia",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f807e3bf83994cbf9e864be4c771d345/6d0a1654c7da2264e10000000a44538d.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim: "רשומת החיפוש הרשמית (HCM Local Version for Slovenia, 2025 FPS01 (Feb 2026), versionId 2025.001, loio 6d0a1654c7da2264e10000000a44538d) נוקבת בקוד PEST בסניפט: 'Payroll process model The Process manager (SAP transaction PUST, customizing in PEST transaction) can be used now for Slovenian payroll reports. ... Retroactive accounting for ...'.",
+        verificationLevel: "sap_official_verified",
+        context: true,
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · item 7.1.23 S4TWL - Obsolete Payroll Reports",
+        url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025 FPS01",
+        accessedAt: DATE25,
+        claim: "הפריט 'S4TWL - Obsolete Payroll Reports' ברשימת הפישוט (2025 FPS01, גרסת מסמך 1.36) נקרא במלואו. בטבלת הדוחות המיושנים, מול השורה 'RPCS0000 RPCSC000' בעמודת 'Old Report', עמודת 'Alternative' רושמת: 'Process model(s) using the process workbench (transactions PEST and PUST)'. הפריט נוקב ב-PEST כחלק מהחלופה לדוחות RPCS0000/RPCSC000 ואינו קובע מעמד לקוד PEST עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 19.12 S4TWL - Obsolete Payroll Reports",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim: "הפריט 'S4TWL - Obsolete Payroll Reports' ברשימת הפישוט (2023 FPS03, גרסת מסמך 1.35) נקרא במלואו. באותה טבלה, מול השורה 'RPCS0000 RPCSC000', עמודת 'Alternative' רושמת: 'Process model(s) using the process workbench (transactions PEST and PUST)', בניסוח זהה לפריט המקביל ברשימת 2025 FPS01. הפריט אינו קובע מעמד לקוד PEST עצמו.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "verification_required",
+      he: "התיעוד הרשמי של S/4HANA On-Premise 2025 FPS01 (Transaction Codes for Payroll, Payroll Basics PY-XX-BS) מפרט את PEST ברשימת קודי הטרנזקציה של Payroll בתיאור 'Maintenance of Process Model'. לא אותר מקור רשמי בצד ECC (SAP_ERP) הנוקב בקוד, ולכן לא ניתן לקבוע השוואה ECC מול S/4HANA; שני פריטי S4TWL - Obsolete Payroll Reports מזכירים את PEST ו-PUST כחלופה לדוחות RPCS0000/RPCSC000 ואינם קובעים מעמד לקוד עצמו.",
+      edition: "on-premise",
+      release: null,
+      source: null,
+      recommendedAction: "לאמת ב-SE93 במערכת היעד את קיום הקוד, התוכנית והמסך, ולהשוות מול מערכת ECC המקור. חיפוש לפי קוד מוביל PEST בספריית Fiori (מהדורת S32OP, S/4HANA 2025 FPS01) החזיר leading app(s): none, GUI app entry: none; זו תוצאת חיפוש במהדורה אחת ולא קביעה רשמית, ולכן לא נרשם successor. לא בוצעה בדיקה במערכת SAP חיה.",
+    },
+    lastVerifiedAt: DATE25,
+    notes: "המחקר נפתח בבדיקת המאגר: data/tcode-catalog.ts#PEST (מודול HR, תחום 'שירות עצמי', כותרת אנגלית 'Process Employee Self-Service / Workflow') והרשומה הדטרמיניסטית ב-transactions-auto.ts#tx:PEST. נמצא פער בין תיאור המאגר ('עיבוד שירות עצמי לעובד') לבין המקורות הרשמיים: ב-Transaction Codes for Payroll הקוד מתואר כ-'Maintenance of Process Model'; ב-RPUPMEX0 (Create and Execute a Process in the HR Process Workbench) כ-'Maintenance of Process Models (transaction PEST)', וגוף הנושא נקרא דרך sap-help-body.mjs ומדפיס ניסוח זה; ברשומת Slovenia כ-'customizing in PEST transaction'. הפער מדווח בשורת המאגר ולא תוקן במאגר. חיפושים ב-scripts/sap-help-search.mjs: 'PEST process workbench payroll' בסקופ S/4HANA On-Premise (21 תוצאות; המצוטטת Transaction Codes for Payroll 2025.001); 'PEST maintenance process model' בסקופ SAP_ERP (21 תוצאות, ללא התאמה ל-PEST, רעש ממודול PM); 'HR Process Workbench transaction codes payroll' בסקופ SAP_ERP (21 תוצאות, ללא נושא הכולל את PEST); 'PEST', 'Maintenance of Process Models' ו-'process model HR Process Workbench PUST' בסקופ SAP_ERP (21 רשומות כל אחד) לא החזירו רשומה הנוקבת ב-PEST. זהו ממצא שלילי מתועד, לא קביעה שהקוד חסר ב-ECC. node scripts/fal-app.mjs --tcode PEST --release S32OP החזיר 'leading app(s): none; GUI app entry: none'; לא נרשם successor. שני פריטי S4TWL - Obsolete Payroll Reports (רשימות 2025 FPS01 ו-2023 FPS03) נקראו מהטקסטים המחולצים ב-scratchpad/official/ (SIMPL_OP2025.pdf.txt סביב שורה 27439, SIMPL_OP2023.pdf.txt סביב שורה 25371); שניהם מזכירים את PEST ו-PUST כחלופה לדוחות RPCS0000/RPCSC000 ואינם קובעים מעמד לקוד. tx:PUST לא נרשם ב-xrefs כי אינו ביקום ה-xref. Old → New: רשומה זו מחליפה את הרשומה הדטרמיניסטית ב-transactions-auto.ts (2026-09-24; ישן: ללא הכרעת מעמד, שני פריטי S4TWL כ\"טרם נקרא\"; חדש: verification_required, הפריטים נקראו ואינם קובעים מעמד לקוד). שורות RPUPMEX0 ו-Slovenia הועברו מהרשומה הדטרמיניסטית כשורות הקשר עם תאריך הגישה המקורי. לא בוצעה בדיקה במערכת SAP חיה; קיום הקוד, התוכנית והמסך במערכת היעד טעונים אימות ב-SE93.",
+  },
+  {
+    id: "tx:PSV1",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#PSV1",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את PSV1 כ'תפריט נוכחות דינמי' (Dynamic Attendance Menu), מודול HR, תחום 'הדרכה ואירועים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#PSV1",
+      },
+      PSV1_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 19.14 S4TWL - Training and Event Management",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023.003",
+        accessedAt: DATE25,
+        claim: "פריט 19.14 נקרא במלואו במחקר זה; תוכנו זהה במהותו לפריט 7.1.33 (2025 FPS01): אותם 'Other Terms' הנוקבים ב-PSV1, PSV2, PSV3, PVCT, אותה קביעה ש-Training and Event Management עובר ל-Compatibility Pack עם זכויות שימוש מוגבלות, ואותו משפט 'How to Determine Relevancy': 'This Simplification Item is relevant if transactions PSV1, PSV2, PSV3 or PVCT are executed. That indicates that you are using Training and Event Management.' גם כאן אין קביעת יורש טכני ספציפי לטרנזקציית PSV1 עצמה, אלא הפניה כללית ל-SAP Learning Solution (PE-LSO) או SAP SuccessFactors Learning כתחליף פונקציונלי לתחום כולו.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he: "שני פריטי S4TWL - Training and Event Management (2025 FPS01 7.1.33, 2023 FPS03 19.14) קובעים ש-PSV1, כטרנזקציה של תחום Training and Event Management, נכללת בתחום שהפונקציונליות שלו זמינה רק ב-SAP ERP HCM וב-SAP HCM in Compatibility Pack ב-S/4HANA (זכויות שימוש מוגבלות), ולאחר הפעלת SAP HCM for SAP S/4HANA לא ניתן יותר להשתמש בפונקציונליות מבחינה טכנית. הפריטים אינם קובעים ש-PSV1 עצמו הוחלף או הוסר בשם קוד יורש ספציפי.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: PSV1_SIMPL2025,
+      recommendedAction: "לפני הפעלת SAP HCM for SAP S/4HANA, לבדוק אם PSV1/Training and Event Management בשימוש בפועל. אם כן ועדיין נדרש, לתכנן מעבר ל-SAP Learning Solution (PE-LSO) ב-SAP HCM for SAP S/4HANA או ל-SAP SuccessFactors Learning, או להישאר על SAP ERP HCM/Compatibility Pack עד תאריך התפוגה (ראו SAP Note 2269324, Compatibility Scope Matrix Item ID 135 & 136, ו-SAP Note 3091160). לפי הפריט, SAP Learning Solution (PE-LSO) אינו זמין ללקוחות RISE with SAP S/4HANA Cloud, private edition (SAP Note 3091160). חיפוש בספריית Fiori (fal-app.mjs, קוד מוביל PSV1, מהדורת S32OP) החזיר 'leading app(s): none; GUI app entry: none': זו תוצאת חיפוש במהדורה אחת ולא קביעה על היעדר יורש, ולכן לא נרשם successor ברמת הרשומה. קיום הקוד והמסך בפועל טעון אימות ב-SE93 במערכת היעד; לא בוצעה בדיקה במערכת SAP חיה.",
+    },
+    xrefs: ["tx:PSV2"],
+    lastVerifiedAt: DATE25,
+    notes: "רשומה זו מחליפה את הרשומה הדטרמיניסטית ל-tx:PSV1 ב-data/verification/transactions-auto.ts (scripts/qa/gen-tx-evidence.mts, 2026-09-24), שכללה את שני פריטי S4TWL כשורות הקשר בלבד ללא הכרעת מעמד. Old → New: ללא הכרעת מעמד (שורות הקשר בלבד, 'טרם נקרא במחקר') → compatibility_scope, מבוסס על קריאה מלאה של שני פריטי S4TWL - Training and Event Management (לא רק כותרת/סניפט). חיפושים שרצו במחקר זה: node scripts/sap-help-search.mjs 'PSV1 Training and Event Management' --product SAP_S4HANA_ON-PREMISE (21 תוצאות; אף אחת אינה נוקבת ב-PSV1 עצמו, כולן עוסקות בתחום TEM הכללי - Knowledge Link, Cost Transfer Posting, Material Order); node scripts/sap-help-search.mjs 'Training and Event Management S/4HANA' --product SAP_S4HANA_ON-PREMISE (21 תוצאות; My Team Calendar, Manage Course Participation, My Learning - אפליקציות Fiori כלליות של PA-FIO לתחום HR/Learning, אף אחת אינה נוקבת ב-PSV1 כיורש טכני); node scripts/fal-app.mjs PSV1 --tcode PSV1 --release S32OP → 'leading app(s): none; GUI app entry: none' (ממצא שלילי מתועד, לא נרשם successor). נוסף על החיפושים, שני פריטי S4TWL נקראו במלואם ישירות מהטקסט המחולץ (scratchpad/official/SIMPL_OP2025.pdf.txt שורות 28017-28066, SIMPL_OP2023.pdf.txt שורות 25451-25510), עליהם מבוססות הטענות המצוטטות בראיות. פערים שנותרו: מזהה יורש טכני ספציפי (T-code/Fiori app) ל-PSV1 עצמו לא אותר במקור רשמי; PSV2 קיים במרחב הקנוני (lib/route-manifest.generated.ts) ולכן צורף כ-xref, אך PSV3 ו-PVCT (גם הם נקובים באותם פריטים) אינם קיימים במרחב הקנוני הנוכחי ולכן לא נכללו כ-xref. לא בוצעה בדיקה במערכת SAP חיה; SE93 במערכת היעד נדרש לאימות קיום הקוד, התוכנית והמסך.",
+  },
+  {
+    id: "tx:PSV2",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#PSV2",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE25,
+        claim: "רשומת המאגר מתארת את PSV2 כ'תפריט אירועים דינמי' (Dynamic Business Event Menu), מודול HR, תחום 'הדרכה ואירועים'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#PSV2",
+      },
+      PSV2_SIMPL2025,
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · item 19.14 S4TWL - Training and Event Management",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE25,
+        claim: "אותו פריט (מספור שונה, אותו תוכן) מופיע גם ב-2023 FPS03: 'This Simplification Item is relevant if transactions PSV1, PSV2, PSV3 or PVCT are executed. That indicates that you are using Training and Event Management.' גם כאן הפונקציונליות זמינה רק ב-SAP ERP HCM וב-SAP HCM in Compatibility Pack עם זכויות שימוש מוגבלות (Item ID 135 & 136), אין אפשרות טכנית להשתמש בה לאחר הפעלת SAP HCM for SAP S/4HANA, והחלופה הכללית היא SAP Learning Solution (PE-LSO) או SAP SuccessFactors Learning; אין ציון קוד עוקב ל-PSV2 עצמה.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "compatibility_scope",
+      he: "שני פריטי S4TWL – Training and Event Management (2025 FPS01 7.1.33, 2023 FPS03 19.14) קובעים ש-PSV2 היא אחד מארבעת הקודים (PSV1, PSV2, PSV3, PVCT) שהרצתם מצביעה על שימוש ב-Training and Event Management. הפונקציונליות זמינה רק ב-SAP ERP HCM וב-SAP HCM in Compatibility Pack עם זכויות שימוש מוגבלות, ולאחר הפעלת SAP HCM for SAP S/4HANA לא ניתן יהיה טכנית להשתמש בה עוד; הפריט מציין גם שהחל מ-SAP S/4HANA 2025 הפונקציה העסקית H4S4_1 מופעלת באופן קבוע (SAP Note 3443536). הפריט אינו קובע ל-PSV2 עצמה קוד עוקב או אפליקציית Fiori; החלופה שהוא מציין (SAP Learning Solution / SAP SuccessFactors Learning) היא פונקציונלית וכללית, לא זהות טרנזקציה.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: PSV2_SIMPL2025,
+      recommendedAction: "לבדוק אם PSV2 (ו-Training and Event Management בכלל) עדיין בשימוש בארגון; אם לא, אין פעולה נדרשת. אם כן, לתעד שהפונקציונליות זמינה רק ב-Compatibility Pack עם זכויות שימוש מוגבלות ותאריך תפוגה (ר' SAP Note 2269324), ולבחור בין מעבר לפונקציונליות מקבילה ב-SAP Learning Solution (PE-LSO) בתוך SAP HCM for SAP S/4HANA או ב-SAP SuccessFactors Learning, לבין הישארות ב-SAP ERP HCM או ב-SAP HCM in Compatibility Pack עד מועדי התפוגה, כפי שהפריט מציין.",
+    },
+    xrefs: ["tx:PSV1"],
+    lastVerifiedAt: DATE25,
+    notes: "מחליפה את הרשומה שנוצרה אוטומטית ל-tx:PSV2 ב-data/verification/transactions-auto.ts (scripts/qa/gen-tx-evidence.mts, 2026-09-24), שם שתי שורות הפריטים סומנו 'context' בלבד ולא נקראו. Old → New: ללא הכרעת מעמד (שורות הקשר בלבד) → compatibility_scope. במחקר זה נקראו שני הפריטים במלואם (scratchpad/official/SIMPL_OP2025.pdf.txt סביב שורה 28020 פריט 7.1.33; scratchpad/official/SIMPL_OP2023.pdf.txt סביב שורה 25505 פריט 19.14, לפי audit/master-completion/simpl-tcode-index.json). חיפושים: node scripts/sap-help-search.mjs \"PSV2\" בסקופ SAP_S4HANA_ON-PREMISE (21 תוצאות, כולן תוצאות חיוביות שגויות על מחרוזת המשנה 'PSV': Product Collection Version, Product Structure/Costing PS02, ולא הקוד PSV2); אותו חיפוש בסקופ SAP_ERP (21 תוצאות, אותה תבנית שלילית); \"Dynamic Business Event Menu\" (21 תוצאות; ללא כותרת תואמת מדויקת; שני ממצאים קרובים בנושא, 'Dynamic Information Menu' ו-'The Dynamic Planning Menu', שניהם 2023.latest, נקראו עם scripts/sap-help-body.mjs וללא אזכור PSV2 או כל קוד תעתיק, ולכן לא צוטטו כראיה); \"SAP Learning Solution PE-LSO business event menu\" (21 תוצאות, ללא ממצא חדש לגבי PSV2 עצמה). node scripts/fal-app.mjs --tcode PSV2 --release S32OP החזיר 'leading app(s): none; GUI app entry: none': ממצא שלילי מתועד, לא נכלל כשורת ראיה ולא נרשם successor. PSV3 ו-PVCT מוזכרים באותם פריטים לצד PSV2 אך אינם ברשימת lib/route-manifest.generated.ts (רק PSV1 נמצא בה); לכן לא נכללו כ-xrefs. הקשר בין הפונקציה העסקית H4S4_1 לבין הפעלת SAP HCM for SAP S/4HANA אינו מפורש בפריט ולכן לא הוסקה ממנו מסקנה. לא בוצעה בדיקה במערכת SAP חיה; קיום הקוד, התוכנית והמסך טעונים אימות ב-SE93 במערכת היעד.",
   },
 ];
