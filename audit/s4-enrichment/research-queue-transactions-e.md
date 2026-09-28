@@ -229,6 +229,92 @@ verified 685 → 693, verification_required 1113 → 1105, s4-appl 683 → 691; 
 L2 2, L3 401, L4 4, L5 132), conflict 20, legacy 5 and edition 5 unchanged. No other per-id change
 in that window.
 
+Batch 5 written 2026-09-28 (research and adversarial audit 2026-09-28, access date stamped
+2026-09-25): 8 drafts audited, 8 written, none refuted. `tx:SE93`, `tx:SFP`, `tx:SM34`,
+`tx:SWO1`, `tx:PFCG` and `tx:SCUM` are `unchanged`, each from a current S/4HANA 2025.001
+on-premise page that names the code (SE93: 'Definition of Variants', Production Orders (PP-SFC);
+SFP: 'Using Customer-Specific Data in Adobe Forms', Payroll for German Public Sector; SM34:
+'Customizing for Pro Rata VAT Adjustments due to Pro Rata Coefficient Calculation', Austria; SWO1:
+'Transaction Codes and Other Technical Information', PP/DS; PFCG: 'Frontend Authorization for
+Predictive Scenarios', Analytics; SCUM: 'Set Up Field Distribution Parameters', Library of ALE
+Business Processes); the simplification items that print these codes use them as tools or access
+paths and set no status for them. `tx:SE80` is `changed` from 'Custom Code Adaptation'
+(Conversion Guide for SAP S/4HANA 1709, body read: SE80 no longer supports all development objects
+needed in S/4HANA, such as CDS views, and ABAP Development Tools for Eclipse is recommended for
+custom code adaptation; no removal, no successor). `tx:SM30` carries the authored status
+`verification_required`: 18 items of the 2025 FPS01 and 2023 FPS03 lists name it as an access path
+to a customizing view or table, and none rules on it. Seven were taken from `verdict.fixedRecord`;
+`tx:SWO1` was written from the draft with the audit's downgrades applied (it had no fixedRecord),
+including the optional one (its two item-row releases in versionId form, '2025.001' and
+'2023.003'). The records were generated from the audited JSON as in batches 1 to 4: every
+downgrade and writer change applied as an exact-once replacement (a miss aborts), every row of the
+eight generated records checked to be cited by the written record or carried (one declared
+exclusion, below), the written module deep-compared with the expected objects, the 31 batch 1 to 4
+records checked unchanged, and `status.source` checked for identity with its row. Apart from the
+SFP token (see conflicts), no status token, edition, release, recommendedAction or xref of an
+audited record changed.
+
+Writer changes (also named in the file header): the `status.source` pointers ('evidence[2]',
+'evidence[1]', 'evidence[3] (Customizing for Pro Rata VAT Adjustments ...)'), the SE80 full copy
+and the SCUM copy with a placeholder claim replaced by shared consts, each the record's own row;
+the SFP token `s4_native` replaced by `unchanged` (the project defines `s4_native` as new in
+S/4HANA without a direct ECC counterpart, and the record's repository row and the carried SAP ERP
+6.18.latest row print SFP on the ECC side; the SFP notes say so; see conflicts); 'only' wording
+that describes what a source means removed (HOUSE-RULES §3.2: the SE80 item-row claim 'רק אגב
+אורחא' and notes 'רק אגב'; the SE93 item-row claim 'אלא רק מזכיר' and notes 'הם רק אזכור/הנחיה';
+the SM34 item-row claim 'מוזכר רק כאמצעי גישה' and 'אלא רק כתחנת עבודה', its status.he 'רק ככלי'
+and notes 'רק ככלי גישה/בדיקה'; the SWO1 notes 'רק כהוראת שימוש', next to the status.he and item
+row its audit fixed; the SCUM status.he 'בסוגריים בלבד'); bare item numbers in status copy
+replaced (HOUSE-RULES §3.5: the SM34 status.he names 'S4TWL - Plan data is not migrated to SAP
+S/4HANA' and 'S4TWL - Functionality Average Daily Balance-based Distribution' instead of
+'6.1.3/8.5 ו-13.14.11/59.12' and says 'הפריט השני' instead of 'פריט 13.14.11'; the PFCG status.he
+keeps the count of 17 items and drops the list of numbers, which stays in its notes, as the SM30
+audit did for SM30) and item names added next to the numbers in the SFP, SM30 and SM34 notes; the
+SWO1 status.he opens with 'SWO1' instead of the canonical id 'tx:SWO1'; the SM34 notes count of
+generated item rows corrected ('4 שורות פישוט' became 3 item rows out of the 4 items the generated
+notes list); the empty SE80 `aliases` and the SM30 `successor: null` dropped; Old → New lines
+added to SE80, SFP, SWO1 and PFCG (the other four had one); 27 rows of the generated records that
+the audited records left out carried over as context rows with their 2026-09-24 access date (SE80:
+the `data/tcode-catalog.ts#SE80` repository row, 'Configure HTTP Connections to SAP AI Core
+Service' (Extensibility Guide for SAP Audit Management, 2025.latest), 'Test Your Application' (HCM
+Roles in SAP Business Client, 2025.001) and the 'S4TWL - JOB SCHEDULING' rows of both lists; SFP:
+the `data/tcode-catalog.ts#SFP` row, 'Create Customer-Specific Adobe Interface', 'Creating a
+Customer-Specific Adobe Form' (both 2025.001) and the ERP 6.18.latest row 'Adapting of Invoice
+Previews (SD-BIL)'; SM30: both 'Customizing for Self-Billing Invoices' rows (Slovakia 2025.001,
+ERP 6.18.latest) and the 2025 FPS01 item rows 5.1.14 and 6.1.3; SM34: both 'Customizing for
+Self-Billing Invoices' rows, 'Setting Up the Payment Practices and Performance Report' (United
+Kingdom, 2025.001) and the 2023 FPS03 row of 'S4TWL - Plan data is not migrated to SAP S/4HANA';
+SWO1: 'Processes with Workflow Management', 'Workflow for Follow-Up After Creation of Business
+Partner Contact and Outage Message' (both 2025.001) and 'Redefining a BAPI' (ERP 6.18.latest);
+PFCG: the `data/tcode-catalog.ts#PFCG` row, 'Working with PFCG Roles', 'Configure Organization
+Groups' (both 2025.latest), the ERP 'Roles and Authorizations' row and the 2025 FPS01 rows of
+'S4TWL - QM WEB Workplace (MiniApps) based on ITS Services' and 'S4TWL - Results Recording'; SCUM:
+the ERP 'Child System' row). In the seven carried item rows the 'not yet read' frame sentence was
+replaced by one bounded by the audited record (the research read those items; the sentence says
+what the audited claim or notes say about the code there). The SE93 fixedRecord already carried
+its '-431' row, checked verbatim. Not carried: the SWO1 generated row titled 'item 6.0 This 'new
+architecture' is harmonized with the SAP ERP standard and removes the', which the code index built
+from line 84545 of the 2025 extract; the audit located that line under the heading of 'S4TWL - CWM
+in SAP S/4HANA' (15.3.11, line 84328), and its quoted sentence is in the audited 15.3.11 row (named
+in the SWO1 notes, as SM31's 'item 6.0' fragment was in batch 3). The notes of SE80, SFP, SM30,
+SM34, SWO1, PFCG and SCUM gained a carried-row sentence. No record carries a `reviewer` field, a
+`sapNote` field, a personal name or an e-mail address, and none has an em dash. Kept as audited:
+the literal 'only' statements that describe a location, research scope, search results or the old
+generated record (SM34 item row 'SM34 מופיע רק תחת 'How to determine relevancy''; SFP item row
+'(לא רק הכותרת)'; SM30 notes 'עמודי תיעוד נקודתיים בלבד' and 'כל השורות כהקשר בלבד ... ורק
+שלושה'; SE93 notes 'שסומנו context בלבד' and 'ציטוט השורה עם SE93 בלבד'; SCUM notes '(שורות הקשר
+בלבד)'); the scan lists of item numbers in the PFCG and SM30 notes (scan lists, not citations, as
+in the BAPI notes of batch 4).
+
+Depth (`report-coverage.mjs --ids`, before 14:51 and after 15:08): all eight moved from L1
+`verification_required` (no authored status) to L1 `sap_official_verified`; seven with a decided
+status (SE80 `changed`; SE93, SFP, SM34, SWO1, PFCG and SCUM `unchanged`), SM30 with the authored
+`verification_required`. They stay at L1 (no tx-intel / tx-detail page structure). Catalog totals
+(`npm run report:coverage -- --catalog transactions`): verified 708 → 716, verification_required
+1089 → 1081, s4-appl 703 → 710 (SM30 is not applicable while its status is
+`verification_required`); depth bands (L1 1279, L2 2, L3 396, L4 4, L5 137), conflict 21, legacy 5
+and edition 5 unchanged. No other per-id change in that window.
+
 ## refuted
 
 - Batch 1 (audit 2026-09-25, written 2026-09-28): none refuted. All eight audited drafts
@@ -261,6 +347,9 @@ in that window.
 - Batch 4 (audit 2026-09-28, written 2026-09-28): none refuted. All eight audited drafts
   (`tx:SWEL`, `tx:SWI1`, `tx:SWI5`, `tx:SWIA`, `tx:SWU2`, `tx:SWU3`, `tx:SWUD`, `tx:BAPI`)
   were written.
+- Batch 5 (audit 2026-09-28, written 2026-09-28): none refuted. All eight audited drafts
+  (`tx:SE80`, `tx:SE93`, `tx:SFP`, `tx:SM30`, `tx:SM34`, `tx:SWO1`, `tx:PFCG`, `tx:SCUM`) were
+  written.
 
 ## conflicts
 
@@ -363,3 +452,47 @@ in that window.
   audited evidence claims and notes as approved. What settles it: one ruling on each point,
   applied in a later correction batch (wording and release format only; the tokens and the
   evidence stand).
+- `tx:SFP` · status token corrected by the writer (batch 5; not raised by the audit, which checked
+  the token for membership in the union only): the draft and the fixedRecord carried `s4_native`,
+  which the project defines as new in S/4HANA ('חדש ב-S/4HANA', `lib/evidence/types.ts`) and as an
+  S/4HANA object without a direct ECC counterpart (`lib/evidence/s4-status.ts`); the other tx
+  records that carry it are codes S/4HANA introduced (IP30H, MD01N, MSC2N). The SFP repository row
+  reads 'SAP ECC / SAP S/4HANA', and the carried search record 'Adapting of Invoice Previews
+  (SD-BIL)' (Logistics, SAP ERP 6.18.latest) prints 'In the transaction SFP, enter the name of the
+  copied form'. The writer wrote `unchanged`, the token the sibling audits of this batch approved
+  for the same evidence pattern (a 2025.001 page names the code; the items use it as a tool); the
+  status.he, recommendedAction, edition, release and source are the audited ones, and the SFP notes
+  say why. What settles it: a reviewer's confirmation of the token, or a ruling that `s4_native`
+  may also mean 'available in S/4HANA' (which would contradict the type labels).
+- `tx:SE80` · the same item in two rows (batch 5, found by the writer): the audited row 'S4TWL - JOB
+  SCHEDULING (Simplification List for SAP S/4HANA 2025 FPS01, item 8.1.4)' has no url (the audit
+  removed the draft's generic portal url https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE and kept
+  the row at `verification_required`, context), while the carried generated row for the same item
+  carries the Simplification List PDF url and `sap_official_verified` (context). Both are context
+  rows; neither is a status source. What settles it: a correction batch that keeps one row for the
+  item with the 2025 FPS01 PDF url, the url every other item row of this shard uses.
+- `tx:SWO1` · code-index heading error (batch 5, located by the audit's line check):
+  `audit/master-completion/simpl-tcode-index.json` files SWO1's 2025 FPS01 hit (line 84545) under
+  'item 6.0 This 'new architecture' is harmonized with the SAP ERP standard and removes the', while
+  the audit found line 84545 under the heading of 'S4TWL - CWM in SAP S/4HANA' (15.3.11, line
+  84328). The same parser failure produced the SM31 'item 6.0' fragment in batch 3. The generated
+  row was not carried. What settles it: a fix of the heading parser (scripts/qa/simpl-tcode-index.mjs)
+  and a regeneration of the index and of transactions-auto.ts (outside this writer's files).
+- Audit inconsistency on the tcode-directory field labels (batch 5): the SM30 audit corrected its
+  `data/tcode-directory.ts` claim to the row's real fields (`d(code, domain, he, purpose)`: 'תחום
+  ABAP, מטרה ...'), while the SE80, SE93, SFP, SM34 and PFCG fixedRecords keep the frame of the
+  generated records ('מודול <domain>, תחום '<purpose>''), as does every generated record
+  (scripts/qa/gen-tx-evidence.mts). The writer kept each audited claim. What settles it: one ruling
+  on the wording, applied to the researched records in a correction batch and to the generator's
+  frame.
+- Audit inconsistency on the release stamp of item rows (batch 5, continues batch 4 point 3): the
+  SM34 audit required the versionId form ('2025.001') and the SWO1 audit offered it as optional
+  (applied: '2025.001', '2023.003'); the SE80 fixedRecord item row uses '2025.001'; the SE93, SFP,
+  SM30, PFCG and SCUM audits accepted '2025 FPS01' / '2023 FPS03' as house precedent. What settles
+  it: the ruling asked for in batch 4.
+- Audit inconsistency on 'only' wording and bare item numbers (batch 5, continues batches 2 to 4):
+  the SWO1 audit removed 'רק' from its status.he and item row and the PFCG audit removed 'אך ורק',
+  while the SE93, SM34 and SCUM fixedRecords kept 'only' wording that describes what a source means;
+  the SM30 audit moved its item list out of status.he, while the PFCG and SM34 fixedRecords kept
+  bare item numbers there. The writer applied the batch 2 split and the SM30 ruling (listed under
+  the batch 5 writer changes). What settles it: the rulings asked for in batches 2 and 3.
