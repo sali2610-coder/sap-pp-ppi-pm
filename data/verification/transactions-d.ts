@@ -144,11 +144,30 @@
    that the audited records left out carried over as context rows with their
    2026-09-24 access date (KA06 1, KB11N 5, KB13N 1, KB23N 3, KB31N 3; the KB21N
    draft already carried its 3). The generated records for the eight ids are
-   superseded. */
+   superseded.
+   Batch 6 (the batch 2 refusal retried: repair and re-verification 2026-09-28,
+   written the same day, access date stamped 2026-09-28): 1 audited record,
+   AFAB, none refuted. AFAB is 'changed' from 'S4TWL - ASSET ACCOUNTING' (2025
+   FPS01 items 6.1.9 and 6.1.16, section Depreciation Posting Run, the same text
+   as 2023 FPS03 item 10.2): the new posting program runs parallel processing
+   in every run, the run has three statuses, the smoothing method is no longer
+   supported, and as of SAP S/4HANA 1809 the depreciation run no longer updates
+   BSEG; the help page 'Post Depreciation' (2025.001) describes the same run.
+   F1914 'Schedule Asset Accounting Jobs', which leads with AFAB in the Fiori
+   Apps Library (S32OP), is not in data/fiori/apps.ts, so no xref. Written from
+   the repaired draft (no fixedRecord, no downgrades); the status source is a
+   shared const (the record's own row). Writer corrections: the measured
+   before-state and two research gaps (SAP Note 2383115 not read; the three
+   carried help rows rest on their 2026-09-24 snippets) added to the notes. The
+   generated record's three sap_help rows are carried verbatim as deciding rows
+   with their 2026-09-24 access date, as the repair chose (the VA21 shape);
+   every other generated row is superseded by an audited row with the same
+   source. The generated record for AFAB is superseded. */
 import type { Evidence, VerificationRecord } from "@/lib/evidence/types";
 
 const DATE24 = "2026-09-24";
 const DATE25 = "2026-09-25";
+const DATE28 = "2026-09-28";
 
 /* status sources shared between evidence[] and status.source */
 
@@ -583,6 +602,18 @@ const KB31N_SIMPL2025: Evidence = {
   accessedAt: DATE25,
   verificationLevel: "sap_official_verified",
   claim: "הפריט (רכיב CO-OM-ABC) קובע ש-Activity-Based Costing מבוסס גרסאות דלתא (Parallel Activity Based Costing) אינו זמין ב-S/4HANA, וש-'Activity-Based Costing using version 0 (Integrated Activity Based Costing in the controlling area settings) is still supported.' לגבי קודי הטרנזקציה: 'Transaction codes do not distinguish parallel and operative activity based costing. Where version 0 is used, there will be no change. Where a delta version is used, the system will issue an error message.' בתא 'Transaction not available in SAP S/4HANA on-premise edition 1511' נכתב: 'Transactions KB31NP, KB33NP and KB34NP are covered by transactions KB31N, KB33N and KB34N.' כלומר KB31N מופיע בתא זה כטרנזקציה המכסה את KB31NP, ולא כקוד שהוסר. לבדיקת הרלוונטיות הפריט מפנה ל-SE16 על TKA00-COABC (ערך 1 או 2) ועל TKA09-REFVS, וממליץ, אם אפשר לעבוד בלי גרסאות דלתא, למחוק את נתוניהן במערכת ECC לפי note 3126356, או לחלופין לדלג על הודעת השגיאה בבדיקת ההמרה ולא למפות אותן ל-ledger.",
+};
+
+const AFAB_SIMPL2025: Evidence = {
+  sourceType: "simplification_item",
+  sourceTitle: "Simplification List for SAP S/4HANA 2025 - Feature Pack Stack 1 (document version 1.36) · S4TWL - ASSET ACCOUNTING (items 6.1.9 / 6.1.16), section Depreciation Posting Run",
+  url: "https://help.sap.com/doc/0df2ffddebab40cf9338488b2f18dc41/2025.latest/en-US/SIMPL_OP2025.pdf",
+  product: "SAP S/4HANA",
+  edition: "on-premise",
+  release: "2025 FPS01",
+  accessedAt: DATE28,
+  claim: "הפריט S4TWL - ASSET ACCOUNTING ברשימת הפישוט 2025 FPS01 חוזר על סעיף Depreciation Posting Run: 'Post depreciation (transaction AFAB): The depreciation run adopts the planned asset values and posts them in Financial Accounting.' וכן 'As of release SAP S/4HANA 1809, the BSEG table will no longer be updated with the depreciation run (transaction AFAB, AFABN). (See also SAP Note 2383115.)' הסעיף מתאר גם כאן את מאפייני תוכנית ריצת הפחת החדשה: עיבוד מקבילי בכל ריצה (ניתן עדיין לציין קבוצת שרתים), שלושה סטטוסים לריצה, וביטול התמיכה בשיטת ה-smoothing.",
+  verificationLevel: "sap_official_verified",
 };
 
 export const TX_VERIFICATION_D: VerificationRecord[] = [
@@ -3990,5 +4021,108 @@ export const TX_VERIFICATION_D: VerificationRecord[] = [
     xrefs: ["tx:KB33N"],
     lastVerifiedAt: DATE25,
     notes: "רשומה קודמת ב-data/verification/transactions-auto.ts (רשומה דטרמיניסטית מ-2026-09-24, ללא הכרעת מעמד, עם שורת fiori_library ל-F3915). היסטוריה: ללא מעמד -> unchanged, בתנאי שעובדים בגרסה 0. שלבים: (1) נבדקו data/tcode-catalog.ts (מודול CO, 'Enter Statistical Key Figures') ו-data/tx-intel.ts; (2) node scripts/sap-help-search.mjs \"KB31N\" בסקופ SAP_S4HANA_ON-PREMISE החזיר 21 רשומות, ובהן 'Information Sheet for the Transfer of Actual Statistical Key Figures' (2025.001); (3) node scripts/fal-app.mjs KB31N --release S32OP: Published, ללא predecessor או successor; (4) node scripts/fal-app.mjs F3915 --release S32OP: טרנזקציה מובילה KB31N, successor F3915A. F3915 אינו ב-data/fiori/apps.ts ולכן אינו xref; (5) נקרא הפריט 'S4TWL - ACTIVITY-BASED COSTING' ברשימות 2023 FPS03 ו-2025 FPS01 מתוך scratchpad/official/. tx:KB34N מוזכר במקורות אך אינו ביקום ה-xref ולכן לא נכלל. לא נבדק אם ה-Controlling Area של הלקוח משתמש בגרסאות דלתא (TKA00-COABC, TKA09-REFVS); לשם כך נדרשת גישה למערכת חיה. RIN notes 3493254 ו-3671888 (מספריית Fiori) לא נקראו. שלוש שורות מהרשומה האוטומטית שהרשומה המבוקרת לא ציטטה הועתקו כלשונן כשורות הקשר עם תאריך הגישה המקורי 2026-09-24: tx-intel.ts#KB31N, tcode-catalog.ts#KB31N ורשומת החיפוש 'Information Sheet for the Transfer of Actual Statistical Key Figures | Controlling (CO)' בצד SAP_ERP (6.18.latest). לא בוצעה בדיקה במערכת SAP חיה.",
+  },
+  {
+    id: "tx:AFAB",
+    evidence: [
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tx-intel.ts#AFAB",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim: "רשומת המאגר משייכת את AFAB למודול FI ולתחום 'ניהול נכסים קבועים (FI-AA)'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tx-intel.ts#AFAB",
+      },
+      {
+        sourceType: "repository",
+        sourceTitle: "רשומת המאגר: tcode-catalog.ts#AFAB",
+        product: "SAP ECC / SAP S/4HANA",
+        edition: "on-premise",
+        accessedAt: DATE28,
+        claim: "קטלוג הטרנזקציות במאגר נותן ל-AFAB את הכותרת האנגלית 'Depreciation Posting Run' ואת הכותרת העברית 'הרצת רישום פחת'.",
+        verificationLevel: "repository_verified",
+        repoRef: "data/tcode-catalog.ts#AFAB",
+      },
+      {
+        sourceType: "simplification_item",
+        sourceTitle: "Simplification List for SAP S/4HANA 2023 - Feature Pack Stack 3 (document version 1.35) · S4TWL - ASSET ACCOUNTING (item 10.2), section 10.2.20 Depreciation Posting Run",
+        url: "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2023 FPS03",
+        accessedAt: DATE28,
+        claim: "סעיף Depreciation Posting Run בפריט S4TWL - ASSET ACCOUNTING קובע: 'Post depreciation (transaction AFAB): The depreciation run adopts the planned asset values and posts them in Financial Accounting.' הסעיף מתאר תוכנית חדשה לרישום פחת: התוכנית מבצעת עיבוד מקבילי בכל ריצה; אם לא צוינה קבוצת שרתים, הריצה מתבצעת על כל השרתים הזמינים, ואם צוינה, המערכת מתנהגת כפי שהתנהגה עד כה. קיימים שלושה סטטוסים בלבד לריצה ('Errors occurred', 'Documents posted successfully', 'No documents to post'), ושיטת ה-smoothing אינה נתמכת עוד. עוד נאמר: 'As of release SAP S/4HANA 1809, the BSEG table will no longer be updated with the depreciation run (transaction AFAB, AFABN). (See also SAP Note 2383115.)'",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Post Depreciation | Asset Accounting (FI-AA)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/67e323b7117e4c91869c258933f47182/970ed25320cd4608e10000000a174cb4.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE28,
+        claim: "דף העזרה הרשמי 'Post Depreciation' (loio 970ed25320cd4608e10000000a174cb4) מתאר את רישום הפחת בטרנזקציה AFAB, עיבוד מקבילי שהתוכנית מבצעת בכל ריצה, שלושת הסטטוסים של ריצת הפחת ומגבלה של 1000 נכסים בהרצת בדיקה.",
+        verificationLevel: "sap_official_verified",
+      },
+      AFAB_SIMPL2025,
+      {
+        sourceType: "fiori_library",
+        sourceTitle: "Fiori Apps Library · App F1914 'Schedule Asset Accounting Jobs' (SAP Fiori: Generic Job Scheduling Framework), release S32OP",
+        url: "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/index.html#/detail/Apps('F1914')/S32OP",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE28,
+        claim: "ספריית Fiori רושמת במהדורת 2025 FPS01 (S32OP) את AFAB כטרנזקציה המובילה של אפליקציה F1914 'Schedule Asset Accounting Jobs' (SAP Fiori: Generic Job Scheduling Framework); אין GUI app entry עבור AFAB.",
+        verificationLevel: "supported_secondary_source",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Calculate Initial Depreciation | General Ledger Accounting (FI-GL)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/8a69fb5789641070e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim: "רשומת החיפוש הרשמית (General Ledger Accounting (FI-GL), 2025 FPS01 (Feb 2026), versionId 2025.001, loio 8a69fb5789641070e10000000a44147b) נוקבת בקוד AFAB בסניפט: 'Immediately after the cockpit you must post the depreciation using transaction Post Depreciation (AFAB). ...'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Repost Asset Accounting Documents to the New Accounting Principle | General Ledger Accounting (FI-GL)",
+        url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/4768fb5789641070e10000000a44147b.html?locale=en-US&state=PRODUCTION&version=2025.001",
+        product: "SAP S/4HANA",
+        edition: "on-premise",
+        release: "2025.001",
+        accessedAt: DATE24,
+        claim: "רשומת החיפוש הרשמית (General Ledger Accounting (FI-GL), 2025 FPS01 (Feb 2026), versionId 2025.001, loio 4768fb5789641070e10000000a44147b) נוקבת בקוד AFAB בסניפט: '... automatically in the cockpit; you must then repost to the cockpit using transaction Post Depreciation (AFAB). ...'.",
+        verificationLevel: "sap_official_verified",
+      },
+      {
+        sourceType: "sap_help",
+        sourceTitle: "Carry Out Asset Impairment | Russia",
+        url: "https://help.sap.com/docs/SAP_ERP/293e92f54872474fbed03a40a3262ccb/1fdf4e422cff4504adb183b2500cb773.html?locale=en-US&state=PRODUCTION&version=6.18.latest",
+        product: "SAP ERP",
+        edition: "ecc",
+        release: "6.18.latest",
+        accessedAt: DATE24,
+        claim: "רשומת החיפוש הרשמית (Russia, 6.0 EHP8 Latest, versionId 6.18.latest, loio 1fdf4e422cff4504adb183b2500cb773) נוקבת בקוד AFAB בסניפט: 'Post periodic depreciation and revaluation G/L postings using transaction AFAB. Task overview: Fixed Asset Impairment Next task: Carry Out Asset Impairment Restore ...'.",
+        verificationLevel: "sap_official_verified",
+      },
+    ],
+    status: {
+      status: "changed",
+      he: "AFAB (Post Depreciation) מופיעה ברשימת הפישוט 2025 FPS01 כטרנזקציה לרישום פחת, אך תוכנית ריצת הפחת שמאחוריה השתנתה לפי סעיף Depreciation Posting Run בפריט S4TWL - ASSET ACCOUNTING: עיבוד מקבילי בכל ריצה, שלושה סטטוסים לריצה, ביטול שיטת ה-smoothing, והחל מ-SAP S/4HANA 1809 הטבלה BSEG אינה מתעדכנת עוד בריצת הפחת.",
+      edition: "on-premise",
+      release: "2025 FPS01",
+      source: AFAB_SIMPL2025,
+      recommendedAction: "להמשיך לרשום פחת ב-AFAB, ולהכיר את התנהגות התוכנית החדשה: עיבוד מקבילי בכל ריצה (ניתן עדיין לציין קבוצת שרתים), מגבלת 1000 נכסים בהרצת בדיקה ושלושה סטטוסים בלבד לריצה. אין להסתמך על שיטת ה-smoothing או על עדכון BSEG בריצת הפחת. ספריית Fiori רושמת את AFAB כטרנזקציה המובילה של אפליקציה F1914 'Schedule Asset Accounting Jobs'.",
+    },
+    xrefs: ["tx:AFAR", "table:BSEG"],
+    lastVerifiedAt: DATE28,
+    notes: "Old → New: הרשומה הדטרמיניסטית tx:AFAB ב-data/verification/transactions-auto.ts (2026-09-24, ללא הכרעת מעמד; שורות המאגר tx-intel.ts#AFAB ו-tcode-catalog.ts#AFAB, שלוש רשומות חיפוש של help.sap.com (שתיים בסקופ SAP_S4HANA_ON-PREMISE ואחת בסקופ SAP_ERP), רשומת Fiori F1914 במהדורה S32OP ופריטי הפישוט 2025 FPS01 6.1.9 ו-6.1.16 ו-2023 FPS03 10.2.20 כהקשר שטרם נקרא) מוחלפת ברשומה מחקרית זו; שלוש שורות ה-sap_help הועתקו כלשונן עם תאריך הגישה המקורי. המעמד עבר מהיעדר הכרעה ל-changed. בדוח report-coverage.mjs --ids לפני הכתיבה הוצג ל-AFAB מעמד נגזר 'unchanged' מרשומת הטרנזקציה במאגר (tx-intel), ברמת repository_verified ובעומק L3. מקורות שנקראו: רשימת הפישוט 2023 FPS03, פריט 10.2 S4TWL - ASSET ACCOUNTING, סעיף 10.2.20 Depreciation Posting Run (עותק טקסט מקומי SIMPL_OP2023.pdf.txt, שורות 15239 ו-15505-15589; משפט AFAB בשורה 15513, עיבוד מקבילי וקבוצת שרתים בשורות 15536-15543, משפט BSEG/1809 בשורה 15589); רשימת הפישוט 2025 FPS01, פריטים 6.1.9 ו-6.1.16 S4TWL - ASSET ACCOUNTING (עותק טקסט מקומי SIMPL_OP2025.pdf.txt; משפטי AFAB בשורות 9817, 9912, 11824, 11919; עיבוד מקבילי בשורות 9848-9855 ו-11855-11859). הנוסח 'The program always carries out parallel processing' מלווה במשפט 'You can still specify a server group', ולכן נוסח העיבוד המקבילי ברשומה אינו מציג אותו כברירת מחדל שניתן לכבות. פריט 2025 FPS01 מאשר את אותו נוסח Depreciation Posting Run כמו 2023 FPS03, ולכן הוא מקור הסטטוס. גוף הדף 'Post Depreciation' נקרא דרך scripts/sap-help-body.mjs (deliverable 40374804, versionId 2025.001, נקרא שוב ב-2026-09-28); החיפוש 'AFAB depreciation posting run' בסקופ SAP_S4HANA_ON-PREMISE מחזיר את הדף. ספריית Fiori נבדקה דרך scripts/fal-app.mjs --tcode AFAB --release S32OP, והפלט: 'leading app(s): F1914 Schedule Asset Accounting Jobs [SAP Fiori: Generic Job Scheduling Framework]; GUI app entry: none'. F1914 אינו קיים ב-data/fiori/apps.ts ולכן אינו מקושר ב-xrefs ואינו מוצג כ-successor. SAP Note 2383115 לא נקרא בערוץ רשמי; הוא מובא כפי שפריטי הפישוט של 2023 FPS03 ו-2025 FPS01 מדפיסים אותו. שלוש שורות ה-sap_help שהועתקו נשענות על הסניפט של רשומות החיפוש מ-2026-09-24, וגוף הדפים שלהן לא נקרא. לא בוצעה בדיקה במערכת SAP חיה.",
   },
 ];

@@ -302,6 +302,52 @@ Measured totals: 15:19 L1 1279, L2 2, L3 396, L4 4, L5 137, verified 723, verif.
 verif.req 1069, conflict 21, legacy 5, s4-appl 721, edition 5. A per-id diff of the two `--ids`
 runs shows no other transaction id changed between them, so the whole difference is this batch.
 
+Batch 6 written 2026-09-28 (the batch 2 refusal retried: repair and re-verification the same day;
+access and verification dates stamped 2026-09-28, as this chain's arguments set them): 1 draft
+audited, 1 written, none refuted. `tx:AFAB`, refuted in batch 2 (see `## refuted`), is `changed`
+from 'S4TWL - ASSET ACCOUNTING' (2025 FPS01 items 6.1.9 and 6.1.16, section Depreciation Posting
+Run, the same text as the 2023 FPS03 item 10.2, section 10.2.20): 'Post depreciation (transaction
+AFAB): The depreciation run adopts the planned asset values and posts them in Financial
+Accounting.'; a new posting program that runs parallel processing in every run (a server group
+can still be specified), three run statuses, no smoothing method; and 'As of release SAP S/4HANA
+1809, the BSEG table will no longer be updated with the depreciation run (transaction AFAB,
+AFABN).' The help page 'Post Depreciation' (2025.001, body read) and the Fiori Apps Library row
+(F1914 'Schedule Asset Accounting Jobs' leads with AFAB at S32OP; F1914 is not in
+`data/fiori/apps.ts`, so no xref) complete it; the xrefs are `tx:AFAR` and `table:BSEG`. The
+repaired draft answers the four batch 2 problems: the parallel-processing wording follows the item
+and the page body ('in every run', with the server-group sentence) instead of 'by default'; the
+three sap_help rows of the generated record are back, verbatim with their 2026-09-24 date, and the
+notes carry an Old → New line; the F1914 id-universe sentence moved from the claim to the notes;
+recommendedAction states what fal-app prints about F1914 and nothing more. Written from the
+repaired draft (no `fixedRecord`, no downgrades).
+
+Same generation discipline as batches 4 and 5: the draft and verdict relayed by the writer task
+were transcribed once into a scratch JSON and checked deep-equal to this run's workflow journal
+(the repair and re-verify results); the two writer additions to the notes were applied as
+exact-once substring replacements (a miss aborts the run); every row of the generated record was
+checked to be either cited by the audited record (same URL or repoRef, plus the item number for
+Simplification List rows) or carried; the new module was gated in the scratchpad before it touched
+the repository: the rule engine (`validateRecords` with the test's own record composition, shard D
+swapped for the new module) reported 0 problems, the record was deep-compared with the generated
+object, `status.source` checked for identity with its evidence row and for an equal release and
+edition, the 40 batch 1 to 5 records checked deep-equal to HEAD, and an isolated `tsc` run on the
+new module passed (a negative control with a numeric date failed as expected). In place, `tsc
+--noEmit` (app and test configs) and `npm test` (211 of 211) pass.
+
+Depth (`report-coverage.mjs --ids`, before 18:10 and after 18:18):
+
+| id | before | after |
+|---|---|---|
+| `tx:AFAB` | L3 `repository_verified`, derived 'unchanged' | L5 `sap_official_verified`, authored `changed` |
+
+Batch effect on the catalog totals (`npm run report:coverage -- --catalog transactions`): L3 -1,
+L5 +1; verified, verification_required, conflict, legacy, s4-appl and edition unchanged. Measured
+totals: 18:10 L1 1279, L2 3, L3 381, L4 5, L5 150, verified 740, verif.req 1054, conflict 24,
+legacy 6, s4-appl 732, edition 5; 18:18 L1 1279, L2 3, L3 380, L4 5, L5 151, verified 740,
+verif.req 1054, conflict 24, legacy 6, s4-appl 732, edition 5. A per-id diff of the two `--ids`
+runs shows no other transaction id changed between them, so the whole difference is this batch.
+With AFAB written, shard D has no open refusal.
+
 ## refuted
 
 - Batch 1 (2026-09-28): none refuted. All nine audited drafts (`tx:VA21`, `tx:VD03`, `tx:VD05`,
@@ -339,7 +385,9 @@ runs shows no other transaction id changed between them, so the whole difference
   970ed25320cd4608e10000000a174cb4, 2025.001); F1914 exists at S32OP and is not in
   `data/fiori/apps.ts`, so the xrefs are `tx:AFAR` and `table:BSEG` only. Until a re-draft
   passes, AFAB keeps its generated record (L3 `repository_verified`, derived 'unchanged' from
-  `data/tx-intel.ts`).
+  `data/tx-intel.ts`). Closed in batch 6 (2026-09-28): the repaired draft answers the four
+  problems and passed re-verification with no problems and no downgrades; the record is written
+  (see the batch 6 summary above).
 - Batch 3 (2026-09-28): none refuted. All eight audited drafts (`tx:FB03`, `tx:FB50`, `tx:FB50L`,
   `tx:FB60`, `tx:FB65`, `tx:FB70`, `tx:FB75`, `tx:FD01`) were written; `tx:FB60` and `tx:FB65`
   after a repair round (see the batch 3 summary above).
@@ -349,6 +397,8 @@ runs shows no other transaction id changed between them, so the whole difference
 - Batch 5 (2026-09-28): none refuted. All eight audited drafts (`tx:KA06`, `tx:KB11N`, `tx:KB13N`,
   `tx:KB14N`, `tx:KB15N`, `tx:KB21N`, `tx:KB23N`, `tx:KB31N`) were written; `tx:KB11N` and
   `tx:KB21N` after a repair round (both first drafts were refuted; see the batch 5 summary above).
+- Batch 6 (2026-09-28): none refuted. The one audited draft (`tx:AFAB`, the batch 2 refusal after
+  its repair round) was written; the batch 2 entry above is closed.
 
 ## conflicts
 
@@ -703,6 +753,20 @@ runs shows no other transaction id changed between them, so the whole difference
   run): none has an entry in `data/tx-intel.ts`, so all five stay at L1 although each now carries
   an authored status from an official source (the batch 1 and batch 4 reason). Not fixed
   (outside this writer's files). What settles it: a `tx-intel.ts` entry for each code.
+- `tx:AFAB` · repository wording not confirmed (batch 6, found by the writer): the consultant field
+  of `data/tx-intel.ts#AFAB` (line 66) says 'ב-S/4 קיימת Fiori 'Post Depreciation''. No source read
+  in this chain names a Fiori app of that name: 'Post Depreciation' (loio
+  970ed25320cd4608e10000000a174cb4, 2025.001) is a help topic, and `fal-app.mjs --tcode AFAB
+  --release S32OP` prints F1914 'Schedule Asset Accounting Jobs' as the app that leads with AFAB
+  and no GUI app entry. The record does not repeat the repository sentence (its tx-intel row states
+  the module and the area). A documented gap, not a finding that no such app exists. Not fixed
+  (outside this writer's files). What settles it: a Fiori Apps Library search for the name, or a
+  FIX pass on the tx-intel.ts AFAB entry.
+- Generated records · 2023 FPS03 sub-sections cited as items, continued (batch 6): the AFAB row
+  labelled 'item 10.2.20 Depreciation Posting Run' is superseded by a row that names item 10.2
+  'S4TWL - ASSET ACCOUNTING' and section 10.2.20 (the AFAR shape). The `tx:AFAR` vs `tx:AFAB`
+  entry above (repository meta inside a claim) is settled for AFAB: the F1914 id-universe sentence
+  sits in the notes. The index origin is unchanged.
 
 ## writer deviations (batch 1, 2026-09-28)
 
@@ -1101,3 +1165,57 @@ runs shows no other transaction id changed between them, so the whole difference
     source identity, the earlier 32 records deep-equal to HEAD, isolated tsc) before one copy into
     `data/verification/transactions-d.ts`; both `report-coverage.mjs --ids` runs wrote to the
     scratchpad through `IDS_OUT`. Nothing was written to the repository root.
+
+## writer deviations (batch 6, 2026-09-28)
+
+1. Source of the audited JSON. The draft and verdict the writer task relays were transcribed once
+   into a scratch JSON and checked deep-equal to this run's workflow journal (`wf_f4734b47-009`:
+   the repair result for AFAB and its re-verify result, `refuted: false`, no problems, no
+   downgrades). The repair result's `summary`, `gaps` (4 lines) and `conflicts` (empty) are not
+   record fields and do not ship.
+2. Status source. Shared const AFAB_SIMPL2025, the record's own evidence[4] row, used by identity
+   in evidence[] and in status.source; the draft's copy was deep-equal to the row, and
+   status.release and status.edition equal the row's ('2025 FPS01', on-premise).
+3. Dates. `DATE28 = "2026-09-28"` added beside DATE24 and DATE25: this chain stamps the research
+   date, where batches 1 to 5 stamped 2026-09-25 as their chain arguments set it. The six rows the
+   repair read or re-read carry DATE28, the three carried rows DATE24, and lastVerifiedAt DATE28.
+   No other date occurs.
+4. Notes (writer additions, applied as exact-once replacements): (a) after the Old → New line, the
+   before-state `report-coverage.mjs --ids` measured (derived 'unchanged' from tx-intel,
+   `repository_verified`, L3), the practice of batches 1, 3 and 5; (b) the two repair gaps the
+   notes lacked: SAP Note 2383115 was not read in an official channel and is quoted as the items
+   print it; the three carried sap_help rows rest on their 2026-09-24 search snippets, and their
+   page bodies were not read. The other two gaps (no live system check; F1914 not in
+   `data/fiori/apps.ts`) were already in the notes.
+5. Carried rows. The three sap_help rows of the generated record ('Calculate Initial Depreciation
+   | General Ledger Accounting (FI-GL)', 'Repost Asset Accounting Documents to the New Accounting
+   Principle | General Ledger Accounting (FI-GL)', 'Carry Out Asset Impairment | Russia') are
+   deep-equal to their generated twins apart from `context: true`. The repair wrote them as
+   deciding rows on purpose (its summary: without the context flag, as in `tx:VA21`) and the
+   re-verification accepted it, so they are written as audited. They lift nothing (the level is
+   `sap_official_verified` from the item rows either way); the Russia row is an ECC row (edition
+   `ecc`), as VA21's 'Characteristic Values in Application Documents | Master Data' is. Every other
+   generated row is superseded by an audited row with the same repoRef or URL (and item number for
+   the item rows): `tx-intel.ts#AFAB`, `tcode-catalog.ts#AFAB`, the F1914 library row, items 6.1.9
+   and 6.1.16 (one audited row names both), and the 2023 FPS03 row labelled 'item 10.2.20
+   Depreciation Posting Run' (the audited row names item 10.2 and the section).
+6. 'Only' words (rule 3.2). 'בלבד' in the three-statuses sentences (evidence[2].claim and
+   recommendedAction) is left as written: the item prints 'Only the following statuses exist now
+   for the depreciation run' (read in the re-verify transcript; no new lookup), the `tx:CJ20N`
+   precedent. The English 'always' in the notes is the item's own sentence quoted verbatim ('The
+   program always carries out parallel processing'), the meaning the batch 2 auditor required
+   kept; the certainty rule applies to records at a low tier, and this one is
+   `sap_official_verified`.
+7. Taken as audited, not normalized: release notation ('2025 FPS01' and '2023 FPS03' on the item
+   rows and the status, '2025.001' on the help and library rows); the Fiori Apps Library row at
+   `supported_secondary_source`, where the other library rows of this shard are
+   `sap_official_verified`; local text-copy file names and line numbers in the notes; 'להמשיך
+   לרשום פחת ב-AFAB' in recommendedAction (see the batch 3 FB03 vs FB60 wording entry). No record
+   carries `reviewer`, a personal name or an e-mail address.
+8. No foundation-guard change: `transactions-d.ts` is in the graduated repoRef test in
+   `test/evidence-schema.test.ts`, and the FOUNDATION_RECORDS guard no longer exists.
+9. The module was generated into the scratchpad and gated there (rule engine 0 problems, deep
+   compare, source identity, the carried rows against their generated twins, the earlier 40
+   records deep-equal to HEAD, isolated tsc with a negative control) before one copy into
+   `data/verification/transactions-d.ts`; both `report-coverage.mjs --ids` runs wrote to the
+   scratchpad through `IDS_OUT`. Nothing was written to the repository root.
