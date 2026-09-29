@@ -53,7 +53,7 @@ import {
 } from "@/data/migration-cockpit";
 import { computeReadiness, overallReadiness, unmeasuredModules, type ModuleReadiness, type RTbl } from "@/lib/s4-readiness";
 import { fromChangeStatus, fromS4Object } from "@/lib/evidence/s4-status";
-import { S4_STATUS_WORD, type S4Status as S4Key } from "@/lib/evidence/types";
+import { S4_STATUS_DOT, S4_STATUS_WORD, type S4Status as S4Key } from "@/lib/evidence/types";
 import { objectHref, txHref } from "../reference/ref-links";
 
 export type { ArchComp, EccS4Topic, MigObj, ModuleReadiness, S4Obj, S4Status };
@@ -80,6 +80,8 @@ export interface S4ObjView extends S4Obj {
   key: S4Key;
   /** The dictionary's short word for `key`. */
   statusHe: string;
+  /** The family colour of `key` (S4_STATUS_DOT, the --s4-* tokens), not the
+   *  dataset's own Tailwind hex (gate 3, major 6). */
   statusColor: string;
   /** Related names, each a destination only when the project generates a page. */
   relatedLinks: S4Link[];
@@ -95,7 +97,7 @@ export const s4Objects = memo((): S4ObjView[] =>
       ...o,
       key,
       statusHe: S4_STATUS_WORD[key],
-      statusColor: S4STATUS_META[o.status].c,
+      statusColor: S4_STATUS_DOT[key],
       relatedLinks: (o.related || []).map(link),
       replacesLinks: (o.replaces || []).map(link),
       href: objectHref(o.name),
@@ -137,8 +139,12 @@ const topicWord = (s: EccS4Topic["status"]): string =>
     ? `${S4_STATUS_WORD.not_available} או ${S4_STATUS_WORD.deprecated}`
     : S4_STATUS_WORD[fromChangeStatus(s).status];
 
+/* The colour follows the canonical key, like every other S/4 surface: the
+   data's STATUS_COLOR is the old palette (gate 3, major 6). "Deprecated" maps
+   to not strategic, never to removed: its two facts share one colour until the
+   data is split, and a not-strategic item still exists in S/4HANA. */
 export const s4Topics = memo((): TopicView[] =>
-  ECC_S4_TOPICS.map((t) => ({ ...t, statusHe: topicWord(t.status), statusColor: STATUS_COLOR[t.status] })),
+  ECC_S4_TOPICS.map((t) => ({ ...t, statusHe: topicWord(t.status), statusColor: S4_STATUS_DOT[fromChangeStatus(t.status).status] })),
 );
 
 export const s4TopicTotals = memo(() => {
