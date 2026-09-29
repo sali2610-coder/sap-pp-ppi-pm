@@ -42,10 +42,10 @@ for (const url of ROUTES) {
       // on ::before), so their look counts too.
       const pseudo = (ps) => { const c = getComputedStyle(e, ps); return [c.content, c.opacity, c.boxShadow, c.outlineStyle, c.backgroundColor].join("|"); };
       // …and so may the wrapper (a search input rings its field box through
-      // :focus-within), the first child (the home search button rings its field
-      // box) or an SVG node's first rect (the object graph's nodes).
+      // :focus-within), a direct child (the home search button rings its field
+      // box, its second child) or an SVG node's first rect (the object graph's nodes).
       const box = (el) => { if (!el) return ""; const c = getComputedStyle(el); return [c.outlineStyle, c.boxShadow, c.borderColor, c.stroke, c.strokeWidth].join("|"); };
-      const look = () => { const c = getComputedStyle(e); return [c.outlineStyle, c.outlineWidth, c.outlineColor, c.boxShadow, c.backgroundColor, c.borderColor, c.textDecorationLine, c.color, pseudo("::before"), pseudo("::after"), box(e.parentElement), box(e.firstElementChild), box(e.querySelector("rect"))].join("|"); };
+      const look = () => { const c = getComputedStyle(e); return [c.outlineStyle, c.outlineWidth, c.outlineColor, c.boxShadow, c.backgroundColor, c.borderColor, c.textDecorationLine, c.color, pseudo("::before"), pseudo("::after"), box(e.parentElement), ...[...e.children].slice(0, 6).map(box), box(e.querySelector("rect"))].join("|"); };
       const focused = look(); e.blur(); const blurred = look(); e.focus({ preventScroll: true });
       const ring = focused !== blurred;
       const label = (e.getAttribute("aria-label") || e.textContent || e.tagName).trim().replace(/\s+/g, " ").slice(0, 40);

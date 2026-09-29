@@ -197,7 +197,10 @@
    field needs no dimming: it is inert while the surface is open. */
 .nx-app .nx-navitem[data-dim="1"] { color: var(--ink-3); }
 .nx-app .nx-navitem[data-hit="1"] { color: var(--ink-1); font-weight: 600; }
-.nx-app .nx-navitem[data-hit="1"]::before { opacity: 1; background: var(--surface-2); box-shadow: none; }
+/* :not(:focus-visible): the hit wash must not erase the focus ring that the
+   same ::before carries when the item has keyboard focus. */
+.nx-app .nx-navitem[data-hit="1"]:not(:focus-visible)::before { opacity: 1; background: var(--surface-2); box-shadow: none; }
+.nx-app .nx-navitem[data-hit="1"]:focus-visible::before { background: var(--surface-2); }
 .nx-app .nx-cmdbar { transition: border-color var(--dur-fast), color var(--dur-fast); }
 
 /* -------------------------------------------------------- 8. THE SHELF */
